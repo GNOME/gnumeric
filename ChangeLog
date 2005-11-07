@@ -1,3 +1,7 @@
+2005-11-06  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml.in : Include menu item for R1C1
+
 2005-11-05  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c : Delete the original DOM based export.  The pseudo-sax

@@ -147,7 +147,7 @@ sog_datas_set_sheet (SheetObjectGraph *sog, Sheet *sheet)
 }
 
 static void
-sheet_object_graph_finalize (GObject *obj)
+gnm_sog_finalize (GObject *obj)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (obj);
 
@@ -164,7 +164,7 @@ sheet_object_graph_finalize (GObject *obj)
 }
 
 static SheetObjectView *
-sheet_object_graph_new_view (SheetObject *so, SheetObjectViewContainer *container)
+gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
@@ -176,7 +176,7 @@ sheet_object_graph_new_view (SheetObject *so, SheetObjectViewContainer *containe
 }
 
 static GtkTargetList *
-sheet_object_graph_get_target_list (SheetObject const *so)
+gnm_sog_get_target_list (SheetObject const *so)
 {
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	char *mime_str = go_image_format_to_mime ("svg");
@@ -200,7 +200,7 @@ sheet_object_graph_get_target_list (SheetObject const *so)
 }
 
 static GtkTargetList *
-sheet_object_graph_get_object_target_list (SheetObject const *so)
+gnm_sog_get_object_target_list (SheetObject const *so)
 {
 	GtkTargetList *tl, *tl2;
 	GtkTargetPair *pair;
@@ -237,7 +237,7 @@ sog_gsf_gdk_pixbuf_save (const gchar *buf,
 }
 
 static void
-sheet_object_graph_write_image (SheetObject const *so, const char *format,
+gnm_sog_write_image (SheetObject const *so, const char *format,
 				GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
@@ -279,7 +279,7 @@ sheet_object_graph_write_image (SheetObject const *so, const char *format,
 }
 
 static void
-sheet_object_graph_write_object (SheetObject const *so, const char *format,
+gnm_sog_write_object (SheetObject const *so, const char *format,
 				 GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
@@ -363,7 +363,7 @@ out:
 }
 
 static void
-sheet_object_graph_populate_menu (SheetObject *so, GPtrArray *actions)
+gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const sog_action =
 		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, sog_cb_save_as };
@@ -372,7 +372,7 @@ sheet_object_graph_populate_menu (SheetObject *so, GPtrArray *actions)
 }
 
 static gboolean
-sheet_object_graph_read_xml_dom (SheetObject *so, char const *typename,
+gnm_sog_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child = e_xml_get_child_by_name (tree, "GogObject");
@@ -386,7 +386,7 @@ sheet_object_graph_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 static void
-sheet_object_graph_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+gnm_sog_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (so);
 	gog_object_write_xml_sax (GOG_OBJECT (sog->graph), output);
@@ -399,17 +399,15 @@ sog_xml_finish (GogObject *graph, SheetObject *so)
 	g_object_unref (graph);
 }
 
-static gboolean
-sheet_object_graph_prep_xml_sax (SheetObject const *so,
-				 GsfXMLIn *xin, xmlChar const **attrs)
+static void
+gnm_sog_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	gog_object_sax_push_parser (xin, attrs,
 		(GogObjectSaxHandler) sog_xml_finish, so);
-	return FALSE;
 }
 
 static void
-sheet_object_graph_copy (SheetObject *dst, SheetObject const *src)
+gnm_sog_copy (SheetObject *dst, SheetObject const *src)
 {
 	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (src);
 	GogGraph *graph   = gog_graph_dup (sog->graph);
@@ -418,7 +416,7 @@ sheet_object_graph_copy (SheetObject *dst, SheetObject const *src)
 }
 
 static void
-sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
+gnm_sog_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double width, double height)
 {
 	gog_graph_print_to_gnome_print (
@@ -428,10 +426,10 @@ sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 typedef struct {
 	SheetObject *so;
 	WorkbookControl *wbc;
-} sheet_object_graph_user_config_t;
+} gnm_sog_user_config_t;
 
 static void
-sheet_object_graph_user_config_free_data (gpointer data,
+gnm_sog_user_config_free_data (gpointer data,
 					  GClosure *closure)
 {
 	g_free (data);
@@ -439,18 +437,18 @@ sheet_object_graph_user_config_free_data (gpointer data,
 }
 
 static void
-cb_update_graph (GogGraph *graph, sheet_object_graph_user_config_t *data)
+cb_update_graph (GogGraph *graph, gnm_sog_user_config_t *data)
 {
 	cmd_so_graph_config (data->wbc, data->so, G_OBJECT (graph), 
 			     G_OBJECT (SHEET_OBJECT_GRAPH (data->so)->graph));
 }
 
 static void
-sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
+gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	WorkbookControlGUI *wbcg;
-	sheet_object_graph_user_config_t *data;
+	gnm_sog_user_config_t *data;
 	GClosure *closure;
 
 	g_return_if_fail (sog != NULL);
@@ -458,19 +456,19 @@ sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	
-	data = g_new0 (sheet_object_graph_user_config_t, 1);
+	data = g_new0 (gnm_sog_user_config_t, 1);
 	data->so = so;
 	data->wbc = WORKBOOK_CONTROL (wbcg);
  
 	closure = g_cclosure_new (G_CALLBACK (cb_update_graph), data,
-		(GClosureNotify) sheet_object_graph_user_config_free_data);
+		(GClosureNotify) gnm_sog_user_config_free_data);
 	
  	sheet_object_graph_guru (wbcg, sog->graph, closure);
 	g_closure_sink (closure);
 }
 
 static gboolean
-sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
+gnm_sog_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	if (sog->graph != NULL)
@@ -479,7 +477,7 @@ sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 }
 
 static gboolean
-sheet_object_graph_remove_from_sheet (SheetObject *so)
+gnm_sog_remove_from_sheet (SheetObject *so)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	if (sog->graph != NULL)
@@ -488,14 +486,14 @@ sheet_object_graph_remove_from_sheet (SheetObject *so)
 }
 
 static void
-sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
+gnm_sog_default_size (SheetObject const *so, double *w, double *h)
 {
 	*w = GO_CM_TO_PT ((double)12);
 	*h = GO_CM_TO_PT ((double)8);
 }
 
 static void
-sheet_object_graph_bounds_changed (SheetObject *so)
+gnm_sog_bounds_changed (SheetObject *so)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
@@ -509,34 +507,34 @@ sheet_object_graph_bounds_changed (SheetObject *so)
 }
 
 static void
-sheet_object_graph_class_init (GObjectClass *klass)
+gnm_sog_class_init (GObjectClass *klass)
 {
 	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (klass);
 
 	parent_klass = g_type_class_peek_parent (klass);
 
 	/* Object class method overrides */
-	klass->finalize = sheet_object_graph_finalize;
+	klass->finalize = gnm_sog_finalize;
 
 	/* SheetObject class method overrides */
-	so_class->new_view	     = sheet_object_graph_new_view;
-	so_class->bounds_changed     = sheet_object_graph_bounds_changed;
-	so_class->populate_menu	     = sheet_object_graph_populate_menu;
-	so_class->read_xml_dom	     = sheet_object_graph_read_xml_dom;
-	so_class->write_xml_sax	     = sheet_object_graph_write_xml_sax;
-	so_class->prep_xml_sax	     = sheet_object_graph_prep_xml_sax;
-	so_class->copy               = sheet_object_graph_copy;
-	so_class->user_config        = sheet_object_graph_user_config;
-	so_class->assign_to_sheet    = sheet_object_graph_set_sheet;
-	so_class->remove_from_sheet  = sheet_object_graph_remove_from_sheet;
-	so_class->print		     = sheet_object_graph_print;
-	so_class->default_size	     = sheet_object_graph_default_size;
+	so_class->new_view		= gnm_sog_new_view;
+	so_class->bounds_changed	= gnm_sog_bounds_changed;
+	so_class->populate_menu		= gnm_sog_populate_menu;
+	so_class->read_xml_dom		= gnm_sog_read_xml_dom;
+	so_class->write_xml_sax		= gnm_sog_write_xml_sax;
+	so_class->prep_sax_parser	= gnm_sog_prep_sax_parser;
+	so_class->copy			= gnm_sog_copy;
+	so_class->user_config		= gnm_sog_user_config;
+	so_class->assign_to_sheet	= gnm_sog_set_sheet;
+	so_class->remove_from_sheet	= gnm_sog_remove_from_sheet;
+	so_class->print			= gnm_sog_print;
+	so_class->default_size		= gnm_sog_default_size;
 
 	so_class->rubber_band_directly = FALSE;
 }
 
 static void
-sheet_object_graph_init (GObject *obj)
+gnm_sog_init (GObject *obj)
 {
 	SheetObject *so = SHEET_OBJECT (obj);
 	so->anchor.direction = SO_DIR_DOWN_RIGHT;
@@ -545,20 +543,20 @@ sheet_object_graph_init (GObject *obj)
 static void
 sog_imageable_init (SheetObjectImageableIface *soi_iface)
 {
-	soi_iface->get_target_list = sheet_object_graph_get_target_list;
-	soi_iface->write_image	   = sheet_object_graph_write_image;
+	soi_iface->get_target_list = gnm_sog_get_target_list;
+	soi_iface->write_image	   = gnm_sog_write_image;
 }
 
 static void
 sog_exportable_init (SheetObjectExportableIface *soe_iface)
 {
-	soe_iface->get_target_list = sheet_object_graph_get_object_target_list;
-	soe_iface->write_object	   = sheet_object_graph_write_object;
+	soe_iface->get_target_list = gnm_sog_get_object_target_list;
+	soe_iface->write_object	   = gnm_sog_write_object;
 }
 
 GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
-		NULL, NULL, sheet_object_graph_class_init,NULL,
-		sheet_object_graph_init, SHEET_OBJECT_TYPE, 0,
+		NULL, NULL, gnm_sog_class_init,NULL,
+		gnm_sog_init, SHEET_OBJECT_TYPE, 0,
 		GSF_INTERFACE (sog_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE) \
 		GSF_INTERFACE (sog_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE));
 

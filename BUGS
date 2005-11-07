@@ -21,11 +21,11 @@ Release Critical
     - Conditional formats
 	: draw & print long spans
     - Save as ps/pdf
+    - back port python fixes ?
 
 Pending Patches
 ---------------
     http://bugzilla.gnome.org/show_bug.cgi?id=310354
-    - Patch for non-gconf gnm-config	{bugzilla}
     - autopackage patches		{rob}
     - Patches for Maemo			{partially in}
     - Meta Data

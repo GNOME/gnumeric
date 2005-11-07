@@ -54,6 +54,7 @@
 #include "gnm-so-filled.h"
 #include "sheet-object-graph.h"
 #include "application.h"
+#include "xml-io.h"
 
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
@@ -76,8 +77,8 @@ GNM_PLUGIN_MODULE_HEADER;
 
 /*****************************************************************************/
 
-static gboolean
-xml_sax_attr_double (xmlChar const * const *attrs, char const *name, double * res)
+gboolean
+gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * res)
 {
 	char *end;
 	double tmp;
@@ -298,6 +299,13 @@ typedef struct {
 	SheetObject *so;
 } XMLSaxParseState;
 
+SheetObject *
+gnm_xml_in_cur_obj (GsfXMLIn const *xin)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	return state->so;
+}
+
 /****************************************************************************/
 
 static void
@@ -403,7 +411,7 @@ xml_sax_calculation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			workbook_iteration_enabled (state->wb, b);
 		else if (xml_sax_attr_int  (attrs, "MaxIterations", &i))
 			workbook_iteration_max_number (state->wb, i);
-		else if (xml_sax_attr_double (attrs, "IterationTolerance", &d))
+		else if (gnm_xml_attr_double (attrs, "IterationTolerance", &d))
 			workbook_iteration_tolerance (state->wb, d);
 		else
 			unknown_attr (gsf_state, attrs);
@@ -568,7 +576,7 @@ xml_sax_print_margins_get_double (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_double (attrs, "Points", &points))
+		if (gnm_xml_attr_double (attrs, "Points", &points))
 			return points;
 		else if (strcmp (attrs[0], "PrefUnit"))
 			unknown_attr (gsf_state, attrs);
@@ -581,7 +589,7 @@ xml_sax_print_margins_unit (GsfXMLIn *gsf_state, xmlChar const **attrs, PrintUni
 {
 	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_double (attrs, "Points", &points))
+		if (gnm_xml_attr_double (attrs, "Points", &points))
 			pu->points = points;
 		else if (!strcmp (attrs[0], "PrefUnit")) {
 			pu->desired_display = unit_name_to_unit (attrs[1]);
@@ -645,7 +653,7 @@ xml_sax_print_scale (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		if (!strcmp (attrs[0], "type"))
 			pi->scaling.type = strcmp (attrs[1], "percentage")
 				? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE;
-		else if (xml_sax_attr_double (attrs, "percentage", &percentage))
+		else if (gnm_xml_attr_double (attrs, "percentage", &percentage))
 			pi->scaling.percentage.x = pi->scaling.percentage.y = percentage;
 		else if (xml_sax_attr_int (attrs, "cols", &cols))
 			pi->scaling.dim.cols = cols;
@@ -749,7 +757,7 @@ xml_sax_cols_rows (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->sheet != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_double (attrs, "DefaultSizePts", &def_size)) {
+		if (gnm_xml_attr_double (attrs, "DefaultSizePts", &def_size)) {
 			if (is_col)
 				sheet_col_set_default_size_pts (state->sheet, def_size);
 			else
@@ -780,7 +788,7 @@ xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		} else {
 			g_return_if_fail (cri != NULL);
 
-			if (xml_sax_attr_double (attrs, "Unit", &size)) ;
+			if (gnm_xml_attr_double (attrs, "Unit", &size)) ;
 			else if (xml_sax_attr_int (attrs, "Count", &count)) ;
 			else if (xml_sax_attr_int (attrs, "MarginA", &dummy))
 				cri->margin_a = dummy;
@@ -914,7 +922,7 @@ xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_double (attrs, "Unit", &size_pts))
+		if (gnm_xml_attr_double (attrs, "Unit", &size_pts))
 			gnm_style_set_font_size (state->style, size_pts);
 		else if (xml_sax_attr_int (attrs, "Bold", &val))
 			gnm_style_set_font_bold (state->style, val);
@@ -1452,7 +1460,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
 	char const *type_name = gsf_state->node->name;
-	int tmp_int;
+	int tmp_int, i;
 	SheetObject *so;
 	SheetObjectClass *klass;
 
@@ -1503,31 +1511,32 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	state->so = so;
 
 	so->anchor.direction = SO_DIR_UNKNOWN;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "ObjectBound")) {
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2) {
+		if (!strcmp (attrs[i], "ObjectBound")) {
 			GnmRange r;
-			if (parse_range (attrs[1], &r))
+			if (parse_range (attrs[i+1], &r))
 				so->anchor.cell_bound = r;
-		} else if (!strcmp (attrs[0], "ObjectOffset")) {
-			sscanf (attrs[1], "%g %g %g %g",
+		} else if (!strcmp (attrs[i], "ObjectOffset")) {
+			sscanf (attrs[i+1], "%g %g %g %g",
 				so->anchor.offset +0, so->anchor.offset +1,
 				so->anchor.offset +2, so->anchor.offset +3);
-		} else if (!strcmp (attrs[0], "ObjectAnchorType")) {
-			int i[4], count;
-			sscanf (attrs[1], "%d %d %d %d", i+0, i+1, i+2, i+3);
+		} else if (!strcmp (attrs[i], "ObjectAnchorType")) {
+			int n[4], count;
+			sscanf (attrs[i+1], "%d %d %d %d", n+0, n+1, n+2, n+3);
 
 			for (count = 4; count-- > 0 ; )
-				so->anchor.type[count] = i[count];
-		} else if (xml_sax_attr_int (attrs, "Direction", &tmp_int))
+				so->anchor.type[count] = n[count];
+		} else if (xml_sax_attr_int (attrs+i, "Direction", &tmp_int))
 			so->anchor.direction = tmp_int;
+#if 0 /* There may be extra attributes that are handled by the objects */
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (gsf_state, attrs+i);
+#endif
 	}
 
 	klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
-	if (klass->prep_xml_sax &&
-	    (klass->prep_xml_sax) (so, gsf_state, attrs))
-		g_object_unref (G_OBJECT (so));
+	if (klass->prep_sax_parser)
+		(klass->prep_sax_parser) (so, gsf_state, attrs);
 }
 
 static void
@@ -1780,7 +1789,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", FALSE, &xml_sax_sheet_freezepanes, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", FALSE, NULL, NULL),
-#warning TODO : add Solver import
+      GSF_XML_IN_NODE (SHEET, SHEET_SCENARIOS, GNM, "Scenarios", FALSE, NULL, NULL),
+        GSF_XML_IN_NODE (SHEET_SCENARIOS, SHEET_SCENARIO, GNM, "Scenario", FALSE, NULL, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_OBJECTS, GNM, "Objects", FALSE, NULL, NULL),
         /* Old crufty IO */
@@ -1797,6 +1807,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_FILLED, GNM, "SheetObjectFilled", FALSE, &xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_TEXT, GNM, "SheetObjectText", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_GRAPH, GNM, "SheetObjectGraph", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_IMAGE, GNM, "SheetObjectImage", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
 
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", FALSE, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", FALSE, &xml_sax_wb_view, NULL),

@@ -16,6 +16,7 @@
 #include "gnumeric-pane.h"
 #include "gui-file.h"
 #include "application.h"
+#include "xml-io.h"
 
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-libxml-extras.h>
@@ -114,7 +115,7 @@ typedef struct {
 	SheetObjectClass parent_class;
 } SheetObjectImageClass;
 
-static SheetObjectClass *sheet_object_image_parent_class;
+static SheetObjectClass *gnm_soi_parent_class;
 
 enum {
 	PROP_0,
@@ -163,7 +164,7 @@ sheet_object_image_set_crop (SheetObjectImage *soi,
 }
 
 static void
-sheet_object_image_finalize (GObject *object)
+gnm_soi_finalize (GObject *object)
 {
 	SheetObjectImage *soi;
 
@@ -172,7 +173,7 @@ sheet_object_image_finalize (GObject *object)
 	g_free (soi->type);
 	soi->bytes.data = NULL;
 
-	G_OBJECT_CLASS (sheet_object_image_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gnm_soi_parent_class)->finalize (object);
 }
 
 static GdkPixbuf *
@@ -300,7 +301,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 }
 
 static SheetObjectView *
-sheet_object_image_new_view (SheetObject *so, SheetObjectViewContainer *container)
+gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
@@ -416,7 +417,7 @@ soi_free_image_fmt (gpointer data)
 }
 
 static GtkTargetList *
-sheet_object_image_get_target_list (SheetObject const *so)
+gnm_soi_get_target_list (SheetObject const *so)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
@@ -445,7 +446,7 @@ sheet_object_image_get_target_list (SheetObject const *so)
 }
 
 static void
-sheet_object_image_write_image (SheetObject const *so, const char *format,
+gnm_soi_write_image (SheetObject const *so, const char *format,
 				GsfOutput *output, GError **err)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
@@ -529,24 +530,21 @@ out:
 }
 
 static void
-sheet_object_image_populate_menu (SheetObject *so, GPtrArray *actions)
+gnm_soi_populate_menu (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const soi_action =
 		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, soi_cb_save_as };
-	sheet_object_image_parent_class->populate_menu (so, actions);
+	gnm_soi_parent_class->populate_menu (so, actions);
 	go_ptr_array_insert (actions, (gpointer) &soi_action, 1);
 }
 
 static gboolean
-sheet_object_image_read_xml_dom (SheetObject *so, char const *typename,
+gnm_soi_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	SheetObjectImage *soi;
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	xmlNodePtr child;
 	xmlChar    *type, *content;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), TRUE);
-	soi = SHEET_OBJECT_IMAGE (so);
 
 	child = e_xml_get_child_by_name (tree, "Content");
 	type  = xmlGetProp (child, CC2XML ("image-type"));
@@ -567,7 +565,53 @@ sheet_object_image_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 static void
-sheet_object_image_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+content_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetObject *so = gnm_xml_in_cur_obj (xin);
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	xmlChar const *image_type = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "image-type"))
+			image_type = attrs[1];
+
+	soi->type = g_strdup (image_type);
+}
+static void
+content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
+{
+	SheetObject *so = gnm_xml_in_cur_obj (xin);
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+
+	soi->bytes.len  = gsf_base64_decode_simple (
+		xin->content->str, xin->content->len);
+	soi->bytes.data = g_memdup (xin->content->str, soi->bytes.len);
+}
+
+static void
+gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (CONTENT, CONTENT, -1, "Content",	GSF_XML_CONTENT, &content_start, &content_end),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc = NULL;
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+
+	if (NULL == doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_double (attrs, "crop-top", &soi->crop_top)) ;
+		else if (gnm_xml_attr_double (attrs, "crop-bottom", &soi->crop_bottom)) ;
+		else if (gnm_xml_attr_double (attrs, "crop-left", &soi->crop_left)) ;
+		else if (gnm_xml_attr_double (attrs, "crop-right", &soi->crop_right)) ;
+	}
+}
+
+static void
+gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	SheetObjectImage *soi;
 
@@ -587,7 +631,7 @@ sheet_object_image_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static void
-sheet_object_image_copy (SheetObject *dst, SheetObject const *src)
+gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 {
 	SheetObjectImage const *soi = SHEET_OBJECT_IMAGE (src);
 	SheetObjectImage   *new_soi = SHEET_OBJECT_IMAGE (dst);
@@ -602,7 +646,7 @@ sheet_object_image_copy (SheetObject *dst, SheetObject const *src)
 }
 
 static void
-sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
+gnm_soi_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double width, double height)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
@@ -629,7 +673,7 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 static void
-sheet_object_image_default_size (SheetObject const *so, double *w, double *h)
+gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 {
 	GdkPixbuf *buf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
 	*w = gdk_pixbuf_get_width  (buf);
@@ -638,10 +682,10 @@ sheet_object_image_default_size (SheetObject const *so, double *w, double *h)
 }
 
 static void
-sheet_object_image_get_property (GObject     *object,
-				 guint        property_id,
-				 GValue      *value,
-				 GParamSpec  *pspec)
+gnm_soi_get_property (GObject     *object,
+		      guint        property_id,
+		      GValue      *value,
+		      GParamSpec  *pspec)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (object);
 	GdkPixbuf *pixbuf;
@@ -664,45 +708,40 @@ sheet_object_image_get_property (GObject     *object,
 }
 
 static void
-sheet_object_image_class_init (GObjectClass *object_class)
+gnm_soi_class_init (GObjectClass *object_class)
 {
-	SheetObjectClass *sheet_object_class;
+	SheetObjectClass *so_class;
 
-	sheet_object_image_parent_class = g_type_class_peek_parent (object_class);
+	gnm_soi_parent_class = g_type_class_peek_parent (object_class);
 
 	/* Object class method overrides */
-	object_class->finalize = sheet_object_image_finalize;
-	object_class->get_property = sheet_object_image_get_property;
+	object_class->finalize	   = gnm_soi_finalize;
+	object_class->get_property = gnm_soi_get_property;
 
 	/* SheetObject class method overrides */
-	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_class->new_view	  	= sheet_object_image_new_view;
-	sheet_object_class->populate_menu	= sheet_object_image_populate_menu;
-	sheet_object_class->read_xml_dom	= sheet_object_image_read_xml_dom;
-	sheet_object_class->write_xml_sax	= sheet_object_image_write_xml_sax;
-	sheet_object_class->copy		= sheet_object_image_copy;
-	sheet_object_class->user_config		= NULL;
-	sheet_object_class->print		= sheet_object_image_print;
-	sheet_object_class->default_size	= sheet_object_image_default_size;
-	sheet_object_class->rubber_band_directly = TRUE;
+	so_class = SHEET_OBJECT_CLASS (object_class);
+	so_class->new_view		= gnm_soi_new_view;
+	so_class->populate_menu		= gnm_soi_populate_menu;
+	so_class->read_xml_dom		= gnm_soi_read_xml_dom;
+	so_class->write_xml_sax		= gnm_soi_write_xml_sax;
+	so_class->prep_sax_parser	= gnm_soi_prep_sax_parser;
+	so_class->copy			= gnm_soi_copy;
+	so_class->user_config		= NULL;
+	so_class->print			= gnm_soi_print;
+	so_class->default_size		= gnm_soi_default_size;
+	so_class->rubber_band_directly	= TRUE;
 
 	/* The property strings don't need translation */
-	g_object_class_install_property 
-		(object_class,
-		 PROP_IMAGE_TYPE,
+	g_object_class_install_property (object_class, PROP_IMAGE_TYPE,
 		 g_param_spec_string ("image-type", "Image type",
 				      "Type of image",
 				      NULL,
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
-	g_object_class_install_property 
-		(object_class,
-		 PROP_IMAGE_DATA,
+	g_object_class_install_property (object_class, PROP_IMAGE_DATA,
 		 g_param_spec_pointer ("image-data", "Image data",
 				       "Image data",
 				       GSF_PARAM_STATIC | G_PARAM_READABLE));
-	g_object_class_install_property 
-		(object_class,
-		 PROP_PIXBUF,
+	g_object_class_install_property (object_class, PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf", "Pixbuf",
 				       "Pixbuf",
 				       GDK_TYPE_PIXBUF,
@@ -710,7 +749,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 }
 
 static void
-sheet_object_image_init (GObject *obj)
+gnm_soi_init (GObject *obj)
 {
 	SheetObjectImage *soi;
 	SheetObject *so;
@@ -727,11 +766,11 @@ sheet_object_image_init (GObject *obj)
 static void
 soi_imageable_init (SheetObjectImageableIface *soi_iface)
 {
-	soi_iface->get_target_list = sheet_object_image_get_target_list;
-	soi_iface->write_image	   = sheet_object_image_write_image;
+	soi_iface->get_target_list = gnm_soi_get_target_list;
+	soi_iface->write_image	   = gnm_soi_write_image;
 }
 
 GSF_CLASS_FULL (SheetObjectImage, sheet_object_image,
-	   NULL, NULL, sheet_object_image_class_init, NULL,
-	   sheet_object_image_init, SHEET_OBJECT_TYPE, 0,
+	   NULL, NULL, gnm_soi_class_init, NULL,
+	   gnm_soi_init, SHEET_OBJECT_TYPE, 0,
 	   GSF_INTERFACE (soi_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE));

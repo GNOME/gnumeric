@@ -9,6 +9,7 @@ Jody:
 	* Some R1C1 fixes
 	* More SpreadsheetML from MS Office XP.
 	* Some OpenDoc import extensions.
+	* Minor fixes for auto-fill
 	* Enable a chart importer in the experimental xml sax importer.
 
 Lukasz Stelmach:
