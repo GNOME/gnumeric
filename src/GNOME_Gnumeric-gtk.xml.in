@@ -132,6 +132,7 @@
         <menuitem action="SheetChangeName"/>
         <separator/>
         <menuitem action="SheetDisplayFormulas"/>
+        <menuitem action="SheetUseR1C1"/>
         <menuitem action="SheetHideZeros"/>
         <menuitem action="SheetHideGridlines"/>
         <menuitem action="SheetHideColHeader"/>
