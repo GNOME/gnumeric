@@ -741,7 +741,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 
 	switch (state->cur_style_type) {
-	case OO_STYLE_CELL :
+	case OO_STYLE_CELL:
 		style = (parent_name != NULL)
 			? g_hash_table_lookup (state->cell_styles, parent_name)
 			: NULL;
@@ -752,8 +752,9 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_format (state->cur_style.cell, fmt);
 
 		if (name != NULL)
-		g_hash_table_replace (state->cell_styles,
-			g_strdup (name), state->cur_style.cell);
+			g_hash_table_replace (state->cell_styles,
+					      g_strdup (name),
+					      state->cur_style.cell);
 		else if (0 == strcmp (xin->node->id, "DEFAULT_STYLE")) {
 			 if (state->default_style_cell)
 				 gnm_style_unref (state->default_style_cell);
@@ -761,14 +762,16 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		break;
 
-	case OO_STYLE_COL :
-	case OO_STYLE_ROW :
+	case OO_STYLE_COL:
+	case OO_STYLE_ROW:
 		state->cur_style.col_row = g_new0 (double, 1);
-		g_hash_table_replace (state->col_row_styles,
-			g_strdup (name), state->cur_style.col_row);
+		if (name)
+			g_hash_table_replace (state->col_row_styles,
+					      g_strdup (name),
+					      state->cur_style.col_row);
 		break;
 
-	default :
+	default:
 		break;
 	}
 }

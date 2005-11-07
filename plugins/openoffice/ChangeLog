@@ -1,3 +1,7 @@
+2005-11-06  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_style): Attempt a fix for 320818.
+
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.0

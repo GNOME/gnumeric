@@ -20,6 +20,7 @@ Morten:
 	* Import column widths and row heights from Lotus 1-2-3 files.
 	* Read basic info from wk4 files.
 	* Fix issues with new function docs method.
+	* Fix OO import crash.  [#320818.]
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.0
