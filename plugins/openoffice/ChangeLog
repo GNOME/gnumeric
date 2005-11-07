@@ -1,3 +1,9 @@
+2005-11-06  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=316234
+	Patch from Luciano Miguel Wolf <luciano.wolf@indt.org.br>
+	* openoffice-read.c : Some initial work on ods import.
+
 2005-11-06  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_style): Attempt a fix for 320818.

@@ -3,7 +3,7 @@
 /*
  * openoffice-read.c : import open/star calc files
  *
- * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -38,6 +38,7 @@
 #include <style-color.h>
 #include <sheet-style.h>
 #include <mstyle.h>
+#include <style-border.h>
 #include <gnm-format.h>
 #include <command-context.h>
 #include <goffice/app/io-context.h>
@@ -49,12 +50,27 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-opendoc-utils.h>
+#include <gsf/gsf-doc-meta-data.h>
 #include <glib/gi18n.h>
 
 #include <string.h>
 #include <locale.h>
 
 GNM_PLUGIN_MODULE_HEADER;
+
+/* Filter Type */
+#define mime_openofficeorg1	"application/vnd.sun.xml.calc"
+#define mime_opendocument	"application/vnd.oasis.opendocument.spreadsheet"
+
+typedef enum {
+	OOO_VER_UNKNOW	= -1,
+	OOO_VER_1	=  0,
+	OOO_VER_OPENDOC	=  1
+} OOVer;
+
+#define OD_BORDER_THIN		1
+#define OD_BORDER_MEDIUM	2.5
+#define OD_BORDER_THICK		5
 
 typedef enum {
 	OO_STYLE_UNKNOWN,
@@ -70,6 +86,7 @@ typedef enum {
 typedef struct {
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
+	OOVer		 ver;
 
 	GnmParsePos 	pos;
 
@@ -225,6 +242,11 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 
 	g_return_val_if_fail (str != NULL, NULL);
 
+	if (0 == strncmp (end, "none", 2)) {
+		*pts = 0;
+		return end;
+	}
+
 	num = strtod (str, &end);
 	if (str != (xmlChar const *)end) {
 		if (0 == strncmp (end, "mm", 2)) {
@@ -249,6 +271,9 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 			end += 2;
 		} else if (0 == strncmp (end, "mi", 2)) {
 			num = GO_IN_TO_PT (num*63360.);
+			end += 2;
+		} else if (0 == strncmp (end, "in", 2)) {
+			num = GO_IN_TO_PT (num);
 			end += 2;
 		} else if (0 == strncmp (end, "inch", 4)) {
 			num = GO_IN_TO_PT (num);
@@ -488,6 +513,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int array_cols = -1, array_rows = -1;
 	int merge_cols = -1, merge_rows = -1;
 	GnmStyle *style = NULL;
+	char const *expr_string;
 
 	state->col_inc = 1;
 	state->error_content = FALSE;
@@ -495,13 +521,21 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "formula")) {
-			char const *expr_string;
-
 			if (attrs[1] == NULL) {
 				oo_warning (xin, _("Missing expression"));
 				continue;
 			}
-			expr_string = gnm_expr_char_start_p (attrs[1]);
+
+			expr_string = attrs[1];
+			if (state->ver == OOO_VER_OPENDOC) {
+				if (strncmp (expr_string, "oooc:", 5)) {
+					oo_warning (xin, _("Missing expression namespace"));
+					continue;
+				}
+				expr_string += 5;
+			}
+
+			expr_string = gnm_expr_char_start_p (expr_string);
 			if (expr_string == NULL)
 				oo_warning (xin, _("Expression '%s' does not start with a recognized character"), attrs[1]);
 			else if (*expr_string == '\0')
@@ -523,7 +557,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "date-value")) {
+		else if (gsf_xml_in_namecmp (xin, attrs[0],
+			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+			"date-value")) {
 			unsigned y, m, d, h, mi;
 			float s;
 			unsigned n = sscanf (attrs[1], "%u-%u-%uT%u:%u:%g",
@@ -548,7 +584,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				val = value_new_float (h + ((double)m / 60.) + ((double)s / 3600.));
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "string-value"))
 			val = value_new_string (attrs[1]);
-		else if (oo_attr_float (xin, attrs, OO_NS_TABLE, "value", &float_val))
+		else if (oo_attr_float (xin, attrs,
+			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+			"value", &float_val))
 			val = value_new_float (float_val);
 		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-matrix-columns-spanned", &array_cols))
 			;
@@ -969,9 +1007,44 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 {
 	double pts;
 	char const *end = oo_parse_distance (xin, str, "border", &pts);
+	GnmBorder *border = NULL;
+	GnmColor *color = NULL;
+	char *border_color = NULL;
+	char *border_type = NULL;
+	size_t pos = 0;
+	StyleBorderType border_style;
+	
 	if (end == NULL || end == str)
 		return;
 /* "0.035cm solid #000000" */
+	border_color = strchr (end, '#');
+	if (border_color) {
+		pos = strlen (end) - strlen (border_color);
+		border_type = (char *)malloc(pos);
+		memset (border_type, '\0', pos);
+		strncpy (border_type, end, pos-1);
+		color = oo_parse_color (xin, border_color, "color");
+
+		if (!strcmp("solid", border_type))
+			if (pts <= OD_BORDER_THIN)
+				border_style = STYLE_BORDER_THIN;
+			else if (pts <= OD_BORDER_MEDIUM)
+				border_style = STYLE_BORDER_MEDIUM;
+			else
+				border_style = STYLE_BORDER_THICK;
+		else
+			border_style = STYLE_BORDER_DOUBLE;
+	
+		if ((location == MSTYLE_BORDER_BOTTOM) || (location == MSTYLE_BORDER_TOP))
+			border = style_border_fetch (border_style, color, STYLE_BORDER_HORIZONTAL);
+		else if ((location == MSTYLE_BORDER_LEFT) || (location == MSTYLE_BORDER_RIGHT))
+			border = style_border_fetch (border_style, color, STYLE_BORDER_VERTICAL);	
+		else
+			border = style_border_fetch (border_style, color, STYLE_BORDER_DIAGONAL);
+		border->width = pts;
+		gnm_style_set_border (style, location, border);
+		free (border_type);
+	}
 }
 
 static void
@@ -1025,6 +1098,12 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-top"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border")) {
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_BOTTOM);
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_LEFT);
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
+		}
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "font-name"))
 			gnm_style_set_font_name (style, attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-size")) {
@@ -1142,7 +1221,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
-static GsfXMLInNode opencalc_styles_dtd[] = {
+static GsfXMLInNode const opencalc_styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-decls", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-decl", FALSE, NULL, NULL),
@@ -1210,7 +1289,7 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", FALSE, NULL, NULL
   { NULL }
 };
 
-static GsfXMLInNode opencalc_content_dtd[] = {
+static GsfXMLInNode const ooo_v1_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE, SCRIPT, OO_NS_OFFICE, "script", FALSE, NULL, NULL),
@@ -1316,7 +1395,7 @@ oo_config_item_set ()
 }
 #endif
 
-static GsfXMLInNode opencalc_settings_dtd [] = {
+static GsfXMLInNode const opencalc_settings_dtd [] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-settings", FALSE, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE, SETTINGS, OO_NS_OFFICE, "settings", FALSE, NULL, NULL),
@@ -1330,6 +1409,100 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-settings", FALSE, NULL, 
       GSF_XML_IN_NODE (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_INDEXED, OO_NS_CONFIG, "config-item-map-indexed", FALSE, NULL, NULL),
 	GSF_XML_IN_NODE (CONFIG_ITEM_MAP_INDEXED, CONFIG_ITEM_MAP_ENTRY, OO_NS_CONFIG, "config-item-map-entry", FALSE, NULL, NULL),	/* 2nd def */
   { NULL }
+};
+
+/****************************************************************************/
+/* Generated based on:
+ * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */
+static GsfXMLInNode const opendoc_content_dtd [] = {
+	GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
+	GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, NULL),
+	  GSF_XML_IN_NODE (OFFICE, SCRIPT, OO_NS_OFFICE, "scripts", FALSE, NULL, NULL),
+	  GSF_XML_IN_NODE (OFFICE, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_FONTS, FONT_FACE, OO_NS_STYLE, "font-face", FALSE, NULL, NULL),
+	  GSF_XML_IN_NODE (OFFICE, OFFICE_STYLES, OO_NS_OFFICE, "automatic-styles", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", FALSE, &oo_style, &oo_style_end),
+	      GSF_XML_IN_NODE (STYLE, TABLE_CELL_PROPS, OO_NS_STYLE, "table-cell-properties", FALSE, &oo_style_prop, NULL),
+	      GSF_XML_IN_NODE (STYLE, TABLE_COL_PROPS, OO_NS_STYLE, "table-column-properties", FALSE, &oo_style_prop, NULL),
+	      GSF_XML_IN_NODE (STYLE, TABLE_ROW_PROPS, OO_NS_STYLE, "table-row-properties", FALSE, &oo_style_prop, NULL),
+	      GSF_XML_IN_NODE (STYLE, TEXT_PROPS, OO_NS_STYLE, "text-properties", FALSE, &oo_style_prop, NULL),
+	      GSF_XML_IN_NODE (STYLE, TABLE_PROPS, OO_NS_STYLE, "table-properties", FALSE, &oo_style_prop, NULL),
+	      GSF_XML_IN_NODE (STYLE, PARAGRAPH_PROPS, OO_NS_STYLE, "paragraph-properties", FALSE, &oo_style_prop, NULL),
+	      GSF_XML_IN_NODE (STYLE, GRAPHIC_PROPS, OO_NS_STYLE, "graphic-properties", FALSE, &oo_style_prop, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_STYLE,	  "properties", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		  "map", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", FALSE, &oo_date_style, &oo_date_style_end),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER,		"day", FALSE,	&oo_date_day, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_MONTH, OO_NS_NUMBER,		"month", FALSE,	&oo_date_month, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_YEAR, OO_NS_NUMBER,		"year", FALSE,	&oo_date_year, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_ERA, OO_NS_NUMBER,		"era", FALSE,	&oo_date_era, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY_OF_WEEK, OO_NS_NUMBER,	"day-of-week", FALSE, &oo_date_day_of_week, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_WEEK_OF_YEAR, OO_NS_NUMBER,	"week-of-year", FALSE, &oo_date_week_of_year, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_QUARTER, OO_NS_NUMBER,		"quarter", FALSE, &oo_date_quarter, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_HOURS, OO_NS_NUMBER,		"hours", FALSE,	&oo_date_hours, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_MINUTES, OO_NS_NUMBER,		"minutes", FALSE, &oo_date_minutes, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_SECONDS, OO_NS_NUMBER,		"seconds", FALSE, &oo_date_seconds, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_AM_PM, OO_NS_NUMBER,		"am-pm", FALSE,	&oo_date_am_pm, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", TRUE,	NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, TIME_STYLE, OO_NS_NUMBER, 	"time-style", FALSE, &oo_date_style, &oo_date_style_end),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_HOURS, OO_NS_NUMBER,	"hours", FALSE,	&oo_date_hours, NULL),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,	"minutes", FALSE, &oo_date_minutes, NULL),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,	"seconds", FALSE, &oo_date_seconds, NULL),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,	"am-pm", FALSE,	&oo_date_am_pm, NULL),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER, 	"text", TRUE,	NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,	"text-properties", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,	"map", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_BOOL, OO_NS_NUMBER,	"boolean-style", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_BOOL, BOOL_PROP, OO_NS_NUMBER,	"boolean", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_CURRENCY, OO_NS_NUMBER,	 "currency-style", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE, OO_NS_NUMBER,	 "number", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, OO_NS_STYLE, "properties", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_MAP, OO_NS_STYLE,	 "map", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER,	 "currency-symbol", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER,	 "text", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER,		"percentage-style", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER,	"number", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER,		"text", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER,		"text-style", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_CONTENT, OO_NS_NUMBER,	"text-content", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,	"text", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
+
+	GSF_XML_IN_NODE (OFFICE, OFFICE_BODY, OO_NS_OFFICE, "body", FALSE, NULL, NULL),
+	  GSF_XML_IN_NODE (OFFICE_BODY, TABLE_SETTINGS, OO_NS_OFFICE, "spreadsheet", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (TABLE_SETTINGS, TABLE, OO_NS_TABLE, "table", FALSE, &oo_table_start, NULL),
+	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", FALSE, &oo_col_start, NULL),
+	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", FALSE, &oo_row_start, NULL),
+		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", FALSE, &oo_cell_start, &oo_cell_end),
+		GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", FALSE, &oo_covered_cell_start, &oo_covered_cell_end),
+		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", TRUE, NULL, &oo_cell_content_end),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", FALSE, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &oo_cell_content_span_start, &oo_cell_content_span_end),
+		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", FALSE, NULL, NULL),		/* ignore for now */
+		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", FALSE, NULL, NULL),		/* ignore for now */
+		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", FALSE, NULL, NULL),		/* 2nd def */
+		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", FALSE, NULL, NULL),	/* 2nd def */
+	      GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", FALSE, NULL, NULL),
+		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", FALSE, NULL, NULL),
+		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", FALSE, NULL, NULL), /* 2nd def */
+	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, OO_NS_TABLE, "table-row-group", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (TABLE, TABLE_ROW_GROUP,	      OO_NS_TABLE, "table-row-group", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", FALSE, NULL, NULL), /* 2nd def */
+	GSF_XML_IN_NODE (OFFICE_BODY, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", FALSE, NULL, NULL),
+	  GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", FALSE, &oo_named_expr, NULL),
+	GSF_XML_IN_NODE (OFFICE_BODY, DB_RANGES, OO_NS_TABLE, "database-ranges", FALSE, NULL, NULL),
+	  GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", FALSE, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", FALSE, NULL, NULL),
+	{ NULL }
 };
 
 /****************************************************************************/
@@ -1389,16 +1562,17 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
 	GsfXMLInDoc	*doc;
-	OOParseState	 state;
 	GsfInput	*content = NULL;
 	GsfInput	*styles = NULL;
-	GError		*err = NULL;
+	GsfInput	*mimetype = NULL;
+	GsfInput	*meta_file = NULL;
+	GsfDocMetaData	*meta_data;
 	GsfInfile	*zip;
+	OOParseState	 state;
+	GError		*err = NULL;
 	char *old_num_locale, *old_monetary_locale;
+	guint8 const *header = NULL;
 	int i;
-
-	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
-	g_return_if_fail (GSF_IS_INPUT (input));
 
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
@@ -1409,6 +1583,26 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
+	mimetype = gsf_infile_child_by_name (zip, "mimetype");
+	if (mimetype == NULL) {
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+			_("No stream named mimetype found."));
+		g_object_unref (G_OBJECT (zip));
+		return;
+	}
+
+	header = gsf_input_read (mimetype, gsf_input_size (mimetype), NULL);
+	if (!strncmp (mime_openofficeorg1, header, gsf_input_size (mimetype)))
+		state.ver = OOO_VER_1;
+	else if (!strncmp (mime_opendocument, header, gsf_input_size (mimetype)))
+		state.ver = OOO_VER_OPENDOC;
+	else {
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+			_("Unknown mimetype for openoffice file."));
+		g_object_unref (G_OBJECT (zip));
+		return;
+	}
+
 	content = gsf_infile_child_by_name (zip, "content.xml");
 	if (content == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
@@ -1416,13 +1610,17 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		g_object_unref (G_OBJECT (zip));
 		return;
 	}
-	styles = gsf_infile_child_by_name (zip, "styles.xml");
-	if (styles == NULL) {
-		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
-			 _("No stream named styles.xml found."));
-		g_object_unref (G_OBJECT (zip));
-		return;
+	if (state.ver == OOO_VER_1) {
+		styles = gsf_infile_child_by_name (zip, "styles.xml");
+		if (styles == NULL) {
+			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+				 _("No stream named styles.xml found."));
+			g_object_unref (G_OBJECT (zip));
+			return;
+		}
 	}
+	if (state.ver == OOO_VER_OPENDOC)
+		meta_file = gsf_infile_child_by_name (zip, "meta.xml");
 
 	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
 	go_setlocale (LC_NUMERIC, "C");
@@ -1453,6 +1651,13 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.exprconv = oo_conventions ();
 	state.accum_fmt = NULL;
 
+	if (meta_file != NULL) {
+		meta_data = gsf_doc_meta_data_new ();
+		err = gsf_opendoc_metadata_read (meta_file, meta_data);
+		g_object_set_data (G_OBJECT(state.pos.wb), "GsfDocMetaData", meta_data);
+		g_object_unref (meta_file);
+	}
+
 	if (styles != NULL) {
 		GsfXMLInDoc *doc = gsf_xml_in_doc_new (opencalc_styles_dtd, gsf_ooo_ns);
 		gsf_xml_in_doc_parse (doc, styles, &state);
@@ -1460,7 +1665,9 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		g_object_unref (styles);
 	}
 
-	doc  = gsf_xml_in_doc_new (opencalc_content_dtd, gsf_ooo_ns);
+	doc  = gsf_xml_in_doc_new (
+		(state.ver == OOO_VER_1) ? ooo_v1_dtd : opendoc_content_dtd,
+		gsf_ooo_ns);
 	if (gsf_xml_in_doc_parse (doc, content, &state)) {
 		GsfInput *settings;
 
@@ -1471,13 +1678,14 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		g_slist_free (state.sheet_order);
 
 		/* look for the view settings */
-		settings = gsf_infile_child_by_name (zip, "settings.xml");
-		if (settings != NULL) {
-			GsfXMLInDoc *sdoc = gsf_xml_in_doc_new (opencalc_settings_dtd, gsf_ooo_ns);
-			gsf_xml_in_doc_parse (sdoc, settings, &state);
-			gsf_xml_in_doc_free (sdoc);
-			g_object_unref (G_OBJECT (settings));
-
+		if (state.ver == OOO_VER_1) {
+			settings = gsf_infile_child_by_name (zip, "settings.xml");
+			if (settings != NULL) {
+				GsfXMLInDoc *sdoc = gsf_xml_in_doc_new (opencalc_settings_dtd, gsf_ooo_ns);
+				gsf_xml_in_doc_parse (sdoc, settings, &state);
+				gsf_xml_in_doc_free (sdoc);
+				g_object_unref (G_OBJECT (settings));
+			}
 		}
 	} else
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
