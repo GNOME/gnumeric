@@ -59,7 +59,7 @@ typedef struct {
 				      char const *type_name,	/* for versioning */
 				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
-	gboolean     (*prep_xml_sax) (SheetObject const *so,
+	void      (*prep_sax_parser) (SheetObject *so,
 				      GsfXMLIn *xin, xmlChar const **attrs);
 	void        (*write_xml_sax) (SheetObject const *so, GsfXMLOut *output);
 

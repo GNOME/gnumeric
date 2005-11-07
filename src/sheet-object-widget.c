@@ -166,19 +166,6 @@ sax_write_dep (GsfXMLOut *output, GnmDependent const *dep, char const *id)
 }
 
 static void
-dom_write_dep (xmlNodePtr tree, GnmDependent const *dep, char const *id)
-{
-	if (dep->expression != NULL) {
-		GnmParsePos pos;
-		char *val = gnm_expr_as_string (dep->expression,
-			parse_pos_init_sheet (&pos, dep->sheet),
-			gnm_expr_conventions_default);
-		xml_node_set_cstr (tree, id, val);
-		g_free (val);
-	}
-}
-
-static void
 read_dep (GnmDependent *dep, char const *name,
 	  xmlNodePtr tree, XmlParseContext const *context)
 {
