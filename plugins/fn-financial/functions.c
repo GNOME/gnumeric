@@ -240,20 +240,23 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
        gnm_float redemption, GnmCouponConvention const *conv)
 {
 	gnm_float a, d, e, sum, den, basem1, exponent, first_term, last_term;
-	gint       k, n;
+	int       n;
 
 	a = coupdaybs (settlement, maturity, conv);
 	d = coupdaysnc (settlement, maturity, conv);
 	e = coupdays (settlement, maturity, conv);
 	n = coupnum (settlement, maturity, conv);
 
-	sum = 0.0;
 	den = 100.0 * rate / conv->freq;
 	basem1 = yield / conv->freq;
 	exponent = d / e;
-	/* FIXME: Eliminate loop.  */
-	for (k = 0; k < n; k++)
-	        sum += den / pow1p (basem1, exponent + k);
+
+	if (n == 1)
+		return (redemption + den) / (1 + exponent * basem1) -
+			a / e * den;
+
+	sum = den * pow1p (basem1, 1 - n - exponent) *
+		pow1pm1 (basem1, n) / basem1;
 
 	first_term = redemption / pow1p (basem1, (n - 1.0 + d / e));
 	last_term = a / e * den;

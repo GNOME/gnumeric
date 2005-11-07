@@ -1,3 +1,10 @@
+2005-11-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (price): Special-case n==1 as per HP's calculator
+	manuals.  Seems to agree with Excel's undocumented behaviour.
+	(Discovered by Philippe Lelong.)  Avoid potentially expensive
+	loop.
+
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.0

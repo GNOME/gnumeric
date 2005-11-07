@@ -23,6 +23,9 @@ Morten:
 	* Fix issues with new function docs method.
 	* Fix OO import crash.  [#320818.]
 
+Philippe Lelong:
+	* Fix issue with PRICE (and probably related functions).
+
 --------------------------------------------------------------------------
 Gnumeric 1.6.0
 
