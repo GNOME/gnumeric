@@ -1,3 +1,8 @@
+2005-11-08  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (blipinf_new): Don't crash if blip->type ends
+	up NULL.  Fixes crash from #321009.
+
 2005-11-05  Jody Goldberg <jody@gnome.org>
 
 	* excel-xml-read.c : Support DateTime values
