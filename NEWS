@@ -23,6 +23,7 @@ Morten:
 	* Fix issues with new function docs method.
 	* Fix OO import crash.  [#320818]
 	* Fix Excel save crash.  [#321009]
+	* Plug minor leak.
 
 Philippe Lelong:
 	* Fix issue with PRICE (and probably related functions).
