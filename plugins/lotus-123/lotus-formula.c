@@ -20,6 +20,7 @@
 #include "lotus-formula.h"
 
 #include <expr.h>
+#include <expr-impl.h>
 #include <parse-util.h>
 #include <value.h>
 #include <gutils.h>
@@ -47,10 +48,7 @@ static int wk1_nper_func   (GnmExprList **stack, LFuncInfo const *func, guint8 c
 static int wk1_year_func   (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
 /* find - 1 */
 static int wk1_find_func   (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
-/* a,b,c -> b,c,-a */
-static int wk1_fv_pv_pmt_func (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
-/* a,b -> b,a */
-static int wk1_irr_func    (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
+static int wk1_fin_func    (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
 static int wk1_rate_func   (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
 
 static const LFuncInfo functions[] = {
@@ -79,9 +77,9 @@ static const LFuncInfo functions[] = {
 	{  0,  0x35, "RAND",	     "RAND",	     wk1_std_func },
 	{  3,  0x36, "DATE",	     "DATE",	     wk1_std_func },
 	{  0,  0x37, "TODAY",	     "TODAY",	     wk1_std_func },
-	{  3,  0x38, "PMT",	     "PMT",	     wk1_fv_pv_pmt_func },
-	{  3,  0x39, "PV",	     "PV",	     wk1_fv_pv_pmt_func },
-	{  3,  0x3A, "FV",	     "FV",	     wk1_fv_pv_pmt_func },
+	{  3,  0x38, "PMT",	     "PMT",	     wk1_fin_func },
+	{  3,  0x39, "PV",	     "PV",	     wk1_fin_func },
+	{  3,  0x3A, "FV",	     "FV",	     wk1_fin_func },
 	{  3,  0x3B, "IF",	     "IF",	     wk1_std_func },
 	{  1,  0x3C, "DAY",	     "DAY",	     wk1_std_func },
 	{  1,  0x3D, "MONTH",	     "MONTH",	     wk1_std_func },
@@ -112,7 +110,7 @@ static const LFuncInfo functions[] = {
 	{  2,  0x56, "NPV",	     "NPV",	     wk1_std_func },
 	{ -1,  0x57, "VAR",	     "VARPA",	     wk1_std_func },
 	{ -1,  0x58, "STD",	     "STDEVPA",	     wk1_std_func },
-	{  2,  0x59, "IRR",	     "IRR",	     wk1_irr_func },
+	{  2,  0x59, "IRR",	     "IRR",	     wk1_fin_func },
 	{  3,  0x5A, "HLOOKUP",	     "HLOOKUP",	     wk1_std_func },
 	{ -2,  0x5B, "DSUM",	     "DSUM",	     wk1_std_func },
 	{ -2,  0x5C, "DAVG",	     "DAVERAGE",     wk1_std_func },
@@ -281,6 +279,22 @@ lotus_placeholder (const char *lname)
 	return func;
 }
 
+static const GnmExpr *
+lotus_negate (const GnmExpr *e)
+{
+	const GnmExpr *res;
+
+	if (e->any.oper == GNM_EXPR_OP_UNARY_NEG) {
+		res = e->unary.value;
+		gnm_expr_ref (res);
+		gnm_expr_unref (e);
+	} else {
+		res = gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, e);
+		gnm_expr_unref (e);
+	}
+
+	return res;
+}
 
 static int
 wk1_std_func (GnmExprList **stack, LFuncInfo const *f,
@@ -332,19 +346,11 @@ wk1_find_func (GnmExprList **stack, LFuncInfo const *func,
 }
 
 static int
-wk1_fv_pv_pmt_func (GnmExprList **stack, LFuncInfo const *func,
-		     guint8 const *data, const GnmParsePos *orig)
-{
-	/* a,b,c -> b,c,-a */
-	return wk1_std_func (stack, func, data, orig);
-}
-
-static int
-wk1_irr_func (GnmExprList **stack, LFuncInfo const *f,
+wk1_fin_func (GnmExprList **stack, LFuncInfo const *f,
 	      guint8 const *data, const GnmParsePos *orig)
 {
 	GnmFunc *func;
-	GnmExprList *largs;
+	GnmExprList *largs, *gargs;
 	const GnmExpr *expr;
 
 	g_assert (f->gnumeric_name != NULL);
@@ -355,8 +361,23 @@ wk1_irr_func (GnmExprList **stack, LFuncInfo const *f,
 		func = lotus_placeholder (f->lotus_name);
 
 	largs = parse_list_last_n (stack, f->args, orig);
-	/* a,b -> b,a */
-	expr = gnm_expr_new_funcall (func, g_slist_reverse (largs));
+	switch (f->ordinal) {
+	case 0x38: case 0x39: case 0x3A: {
+		/* FV/PV/PMT: a,b,c -> b,c,-a */
+		largs->data = (gpointer)lotus_negate (largs->data);
+		gargs = largs->next;
+		largs->next = NULL;
+		gargs->next->next = largs;
+		break;
+	}
+	case 0x59:
+		/* IRR: a,b -> b,a */
+		gargs = g_slist_reverse (largs);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	expr = gnm_expr_new_funcall (func, gargs);
 
 	parse_list_push_expr (stack, expr);
 	return 1;

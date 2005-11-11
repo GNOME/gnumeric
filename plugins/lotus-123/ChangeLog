@@ -1,3 +1,8 @@
+2005-11-11  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (wk1_fin_func): Renamed form wk1_irr_func and
+	extended to handle pv/fv/pmt too.  Docs or samples would be good!
+
 2005-11-10  Morten Welinder  <terra@gnome.org>
 
 	* lotus-formula.c (wk1_irr_func): Implement.
