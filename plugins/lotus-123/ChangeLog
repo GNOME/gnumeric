@@ -1,3 +1,15 @@
+2005-11-10  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (wk1_irr_func): Implement.
+	(lotus_parse_formula_old): Handle operators in the switch as the
+	ordinals differ from the new ones.
+	(lotus_parse_formula_new): Correctly map from the names that Lotus
+	1-2-3 uses to the ones we do.
+	(lotus_formula_init, lotus_formula_shutdown): New functions.
+	(make_function): Use a table instead of a stupid linear search.
+
+	* boot.c (go_plugin_init, go_plugin_shutdown): New functions.
+
 2005-11-01  Morten Welinder  <terra@gnome.org>
 
 	* boot.c (lotus_file_probe): Add another magic number.

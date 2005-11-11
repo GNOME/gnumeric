@@ -10,6 +10,7 @@
 #include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "lotus.h"
+#include "lotus-formula.h"
 #include "lotus-types.h"
 
 #include <goffice/app/file.h>
@@ -82,4 +83,20 @@ lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
 	if (!lotus_read (&state))
 		gnumeric_io_error_string (io_context,
 			_("Error while reading lotus workbook."));
+}
+
+
+
+G_MODULE_EXPORT void
+go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin,
+		G_GNUC_UNUSED GOCmdContext *cc)
+{
+	lotus_formula_init ();
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin,
+		    G_GNUC_UNUSED GOCmdContext *cc)
+{
+	lotus_formula_shutdown ();
 }

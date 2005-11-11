@@ -41,4 +41,7 @@
 GnmExpr const *lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 				    guint8 const *data, guint32 len);
 
+void lotus_formula_init (void);
+void lotus_formula_shutdown (void);
+
 #endif
