@@ -1,3 +1,10 @@
+2005-11-10  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_col_start) : add full column style support.
+	(oo_parse_border) : handle the space between the distance and the type.
+	(oo_style_prop_cell) : diagonal borders, opendoc alignments, opendoc
+			       font info.
+
 2005-11-06  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=316234
