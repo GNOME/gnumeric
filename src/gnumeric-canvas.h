@@ -43,6 +43,7 @@ struct _GnmCanvas {
 	guint      preedit_length;
 	GtkIMContext  *im_context;
 	PangoAttrList *preedit_attrs;
+	gboolean insert_decimal;
 };
 
 GType gnm_canvas_get_type (void);

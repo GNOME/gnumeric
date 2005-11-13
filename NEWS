@@ -3,6 +3,9 @@ Gnumeric 1.6.1
 Allin Cottrell:
 	* Save configuration in non-gnome case.  [#310354]
 
+Jean Brefort:
+	* Use localized decimal separator. [#80139]
+
 Jody:
 	* Unfreeze panes if the drag handles are pulled outwards.
 	* Adjust ctrl-~ vs ctrl-!

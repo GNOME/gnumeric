@@ -341,6 +341,20 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		return TRUE;
 	}
 
+	case GDK_KP_Separator:
+	case GDK_KP_Decimal: {
+		GtkEditable *editable = GTK_EDITABLE (entry);
+		gint start, end, l;
+		GString const* s = format_get_decimal ();
+		gchar const* decimal = s->str;
+		l = s->len;
+		gtk_editable_get_selection_bounds (editable, &start, &end);
+		gtk_editable_delete_text (editable, start, end);
+		gtk_editable_insert_text (editable, decimal, l, &start);
+		gtk_editable_set_position (editable, start);
+		return TRUE;
+	}
+
 	default:
 		break;
 	}

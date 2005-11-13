@@ -445,6 +445,8 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 			return TRUE;
 
 		gcanvas->mask_state = event->state;
+		gcanvas->insert_decimal = event->keyval == GDK_KP_Decimal ||
+						event->keyval == GDK_KP_Separator;
 		if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
 			return TRUE;
 		switch (event->keyval) {
@@ -595,11 +597,18 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 {
 	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
 	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
-	gint tmp_pos;
+	gint tmp_pos, length;
 
 	if (!wbcg_is_editing (wbcg) &&
 	    !wbcg_edit_start (wbcg, TRUE, TRUE))
 		return;
+
+	if (gcanvas->insert_decimal) {
+		GString const *s = format_get_decimal ();
+		str = s->str;
+		length = s->len;
+	} else
+		length = strlen (str);
 
 	if (gtk_editable_get_selection_bounds (editable, NULL, NULL))
 		gtk_editable_delete_selection (editable);
@@ -610,7 +619,7 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 	}
 
 	tmp_pos = gtk_editable_get_position (editable);
-	gtk_editable_insert_text (editable, str, strlen (str), &tmp_pos);
+	gtk_editable_insert_text (editable, str, length, &tmp_pos);
 	gtk_editable_set_position (editable, tmp_pos);
 }
 

@@ -1,3 +1,10 @@
+2005-11-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnumeric-canvas.c: (gnm_canvas_key_press),
+	(gnm_canvas_commit_cb): use localized decimal separator [#80139].
+	* src/gnumeric-canvas.h:
+	* src/widgets/gnumeric-expr-entry.c: (cb_gee_key_press_event): ditto.
+
 2005-11-10  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnumeric_application_finalize): Free
