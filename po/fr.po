@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.5.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-05 17:41+0200\n"
-"PO-Revision-Date: 2005-10-05 18:43+0200\n"
+"PO-Revision-Date: 2005-11-13 08:37+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -7940,7 +7940,7 @@ msgstr "   <span weight=\"bold\">Limites</span>"
 
 #: ../src/dialogs/simulation.glade.h:4
 msgid "<b>Simulation summary:</b>"
-msgstr "<b>Résumé de la simulation : </>"
+msgstr "<b>Résumé de la simulation :</b>"
 
 #: ../src/dialogs/simulation.glade.h:5
 msgid "<b>Summary of results:</b>"
