@@ -1,3 +1,7 @@
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
 2005-11-11  Morten Welinder  <terra@gnome.org>
 
 	* lotus-formula.c (wk1_fin_func): Renamed form wk1_irr_func and

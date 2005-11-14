@@ -1,3 +1,7 @@
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
 2005-11-10  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_col_start) : add full column style support.

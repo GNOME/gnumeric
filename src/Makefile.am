@@ -392,21 +392,22 @@ uninstall-hook:
 # what the build
 EXTRA_DIST = main-component.c			\
 	    $(GNUMERIC_GNOME) README.gnm_float	\
-	    gnumeric.rc gnm-i18n.h
+	    gnumeric.rc gnm-i18n.h		\
+	    GNOME_Gnumeric-gtk.xml.in		\
+	    HILDON_Gnumeric-gtk.xml.in
+
 gtkactiondir=$(gnumeric_datadir)
 
 if USE_HILDON
-gtkaction_DATA = GNOME_Gnumeric-gtk.xml
-GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
-	sed -e 's/ _name *=/ name=/' <$<  >$@
-EXTRA_DIST += GNOME_Gnumeric-gtk.xml.in
-DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
-else
 gtkaction_DATA = HILDON_Gnumeric-gtk.xml
 HILDON_Gnumeric-gtk.xml: HILDON_Gnumeric-gtk.xml.in
 	sed -e 's/ _name *=/ name=/' <$<  >$@
-EXTRA_DIST += HILDON_Gnumeric-gtk.xml.in
 DISTCLEANFILES = HILDON_Gnumeric-gtk.xml
+else
+gtkaction_DATA = GNOME_Gnumeric-gtk.xml
+GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
+	sed -e 's/ _name *=/ name=/' <$<  >$@
+DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 endif
 
 ##check_PROGRAMS += number-match

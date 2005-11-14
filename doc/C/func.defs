@@ -1934,17 +1934,6 @@ AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
-@FUNCTION=atl_last
-@SYNTAX=ATL_LAST (tag)
-@DESCRIPTION=ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.
-
-* This is not intended to be generally enabled and is OFF by default.
-
-@EXAMPLES=
-ATL_LAST("IBM")
-@SEEALSO=
-
-@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])
 @DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.
