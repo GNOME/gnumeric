@@ -13,7 +13,10 @@
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;
 
-	GtkWindow   *toplevel;
+	GtkWidget   *toplevel;
+#ifdef USE_HILDON
+	GtkWidget   *hildon_app;
+#endif
 	GtkNotebook *notebook;
 	GtkWidget   *progress_bar;
 
@@ -100,12 +103,17 @@ typedef struct {
 
 #define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUIClass))
 
+#define GNM_RESPONSE_SAVE_ALL -1000
+#define GNM_RESPONSE_DISCARD_ALL -1001
+
 /* Protected functions */
 void	 wbcg_set_toplevel	      (WorkbookControlGUI *wbcg, GtkWidget *w);
 gboolean wbcg_scroll_wheel_support_cb (GtkWidget *ignored,
 				       GdkEventScroll *event,
 				       WorkbookControlGUI *wbcg);
 gboolean wbcg_close_control	      (WorkbookControlGUI *wbcg);
+int 	 wbcg_show_save_dialog	      (WorkbookControlGUI *wbcg, 
+				       Workbook * wb, gboolean exiting);
 int	 wbcg_close_if_user_permits   (WorkbookControlGUI *wbcg,
 				       WorkbookView *wb_view, gboolean close_clean,
 				       gboolean exiting, gboolean ask_user);

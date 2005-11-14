@@ -34,8 +34,9 @@ typedef enum {
 } StyleBorderType;
 
 /* The order corresponds to the border_buttons name list
- * in dialog_cell_format_impl */
-typedef enum _StyleBorderLocation {
+ * in dialog_cell_format_impl
+ * STYLE_BORDER_TOP must be 0 */
+typedef enum {
 	STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
 	STYLE_BORDER_LEFT,	STYLE_BORDER_RIGHT,
 	STYLE_BORDER_REV_DIAG,	STYLE_BORDER_DIAG,
@@ -61,12 +62,12 @@ struct _GnmBorder {
 	gint	        ref_count;
 };
 
-void	      style_border_unref (GnmBorder *border);
+void	    style_border_unref (GnmBorder *border);
 GnmBorder  *style_border_ref   (GnmBorder *border);
 
 #define	style_border_is_blank(b) ((b) == NULL || (b)->line_type == STYLE_BORDER_NONE)
 GnmBorder  *style_border_none  (void);
-void          style_border_none_set_color (GnmColor *color);
+void        style_border_none_set_color (GnmColor *color);
 
 GnmBorder  *style_border_fetch (StyleBorderType const	 line_type,
 				  GnmColor 			*color,

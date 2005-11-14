@@ -6,6 +6,10 @@
  *    Jon K Hellan (hellan@acm.org)
  *    Zbigniew Chyla (cyba@gnome.pl)
  *    Andreas J. Guelzow (aguelzow@taliesin.ca)
+ *
+ * Port to Maemo:
+ * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ * 	Renato Araujo (renato.filho@indt.org.br) 
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -39,6 +43,12 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+
+#ifdef USE_HILDON
+	#include <hildon-lgpl/hildon-widgets/hildon-app.h>
+	#include <hildon-lgpl/hildon-widgets/hildon-appview.h>
+	#include <hildon-fm/hildon-widgets/hildon-file-chooser-dialog.h>
+#endif
 
 typedef struct {
 	GOCharmapSel *go_charmap_sel;
@@ -95,6 +105,30 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 	WorkbookControlGUI *new_wbcg = NULL;
 	Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
+#ifdef USE_HILDON
+	if (workbook_is_dirty (tmp_wb)) {
+		switch (wbcg_show_save_dialog (wbcg, tmp_wb, FALSE)) {
+
+			case GTK_RESPONSE_YES:
+			case GNM_RESPONSE_SAVE_ALL:
+				gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+				break;
+
+			case GTK_RESPONSE_NO:
+			case GNM_RESPONSE_DISCARD_ALL:
+				/* Do nothing */
+				break;
+			
+			default:  /* CANCEL */
+				return;
+		}
+	}
+
+	g_object_ref (wbcg);
+	g_object_unref (tmp_wb);
+	wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
+	wb_control_init_state (WORKBOOK_CONTROL (wbcg));
+#else
 	if (workbook_is_pristine (tmp_wb)) {
 		g_object_ref (wbcg);
 		g_object_unref (tmp_wb);
@@ -109,6 +143,7 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 
 		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 	}
+#endif
 
 	sheet_update (wb_view_cur_sheet	(wbv));
 }
@@ -214,6 +249,9 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	gtk_widget_set_sensitive (GTK_WIDGET (format_combo), opener_default == 0);
 	file_format_changed_cb (format_combo, &data);
 
+#ifdef USE_HILDON
+	fsel = GTK_FILE_CHOOSER (hildon_file_chooser_dialog_new (wbcg_toplevel (wbcg), GTK_FILE_CHOOSER_ACTION_OPEN));
+#else
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -224,6 +262,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 				NULL);
+#endif
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
 	/* Add Templates bookmark */
@@ -357,6 +396,9 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	}
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
+#ifdef USE_HILDON
+	fsel = GTK_FILE_CHOOSER (hildon_file_chooser_dialog_new (wbcg_toplevel (wbcg), GTK_FILE_CHOOSER_ACTION_SAVE));
+#else
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -367,6 +409,8 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 				NULL);
+#endif
+
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
 	/* Filters */

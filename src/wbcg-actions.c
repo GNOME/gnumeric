@@ -18,6 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
+ *
+ * Port to Maemo:
+ * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ * 	Renato Araujo (renato.filho@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -77,14 +81,51 @@
 #include <gsf/gsf-input.h>
 #include <string.h>
 
+#ifdef USE_HILDON
+#include <wbc-gtk.h>
+#include <hildon-lgpl/hildon-widgets/hildon-appview.h>
+#include <hildon-widgets/hildon-color-selector.h>
+#include <hildon-widgets/hildon-font-selection-dialog.h>
+#endif
+
 static GNM_ACTION_DEF (cb_file_new)
 {
 	GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
 	Workbook *wb = workbook_new_with_sheets
 		(gnm_app_prefs->initial_sheet_number);
+
+#ifdef USE_HILDON
+	WorkbookControl * wbc = (WorkbookControl *) wbcg;
+	Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+
+	if (workbook_is_dirty (tmp_wb)) {
+		switch (wbcg_show_save_dialog (wbcg, tmp_wb, FALSE)) {
+
+			case GTK_RESPONSE_YES:
+			case GNM_RESPONSE_SAVE_ALL:
+				gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+				break;
+
+			case GTK_RESPONSE_NO:
+			case GNM_RESPONSE_DISCARD_ALL:
+				/* Do nothing */
+				break;
+			
+			default:  /* CANCEL */
+				return;
+		}
+	}
+
+	g_object_ref (wbcg);
+	g_object_unref (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+	wb_control_set_view (wbc, NULL, wb);
+	wb_control_init_state (wbc);
+	sheet_update (wb_view_cur_sheet (wb_control_view (wbc)));
+#else
 	WorkbookControl *new_wbc = workbook_control_gui_new (NULL, wb, screen);
 	WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
 	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);	
+#endif
 }
 
 static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, NULL); }
@@ -316,6 +357,11 @@ static GNM_ACTION_DEF (cb_edit_duplicate_sheet)
 	cmd_clone_sheet (wbc, old_sheet);
 }
 
+#ifdef USE_HILDON
+static GNM_ACTION_DEF (cb_edit_undo) { command_undo (WORKBOOK_CONTROL (wbcg)); }
+static GNM_ACTION_DEF (cb_edit_redo) { command_redo (WORKBOOK_CONTROL (wbcg)); }
+#endif
+
 static void
 common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
@@ -522,10 +568,20 @@ static GNM_ACTION_DEF (cb_view_zoom_in)
 
 static GNM_ACTION_DEF (cb_view_fullscreen)
 {
+#ifdef USE_HILDON
+	if (wbcg->is_fullscreen || hildon_appview_get_fullscreen (HILDON_APPVIEW (wbcg->toplevel))) {
+		wbcg->is_fullscreen = FALSE;
+		hildon_appview_set_fullscreen (HILDON_APPVIEW (wbcg->toplevel), FALSE);
+	} else {
+		wbcg->is_fullscreen = TRUE;
+		hildon_appview_set_fullscreen (HILDON_APPVIEW (wbcg->toplevel), TRUE);
+	}
+#else
 	if (wbcg->is_fullscreen)
 		gtk_window_unfullscreen (wbcg_toplevel (wbcg));
 	else
 		gtk_window_fullscreen (wbcg_toplevel (wbcg));
+#endif
 }
 
 static GNM_ACTION_DEF (cb_view_zoom)	{ dialog_zoom (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -1479,6 +1535,14 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "EditPaste", GTK_STOCK_PASTE, NULL,
 		NULL, N_("Paste the clipboard"),
 		G_CALLBACK (cb_edit_paste) },
+#ifdef USE_HILDON
+	{ "UndoHildon", GTK_STOCK_UNDO, N_("_Undo"), 
+		NULL, N_("Undo the last action"), 
+		G_CALLBACK (cb_edit_undo) },
+	{ "RedoHildon", GTK_STOCK_REDO, N_("_Redo"),
+		NULL, N_("Redo the undone action"), 
+		G_CALLBACK (cb_edit_redo) },
+#endif		
 
 	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),
 		"F1", N_("Open a viewer for Gnumeric's documentation"),

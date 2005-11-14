@@ -591,8 +591,8 @@ static void
 cb_hscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
 {
 	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
-	if (range->adjustment->upper < SHEET_MAX_COLS && new_value > limit) {
-		range->adjustment->upper = new_value + range->adjustment->page_size;
+	if (range->adjustment->upper < SHEET_MAX_COLS && new_value >= limit) {
+		range->adjustment->upper = new_value + range->adjustment->page_size + 1;
 		if (range->adjustment->upper > SHEET_MAX_COLS)
 			range->adjustment->upper = SHEET_MAX_COLS;
 		gtk_adjustment_changed (range->adjustment);
@@ -602,8 +602,8 @@ static void
 cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
 {
 	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
-	if (range->adjustment->upper < SHEET_MAX_ROWS && new_value > limit) {
-		range->adjustment->upper = new_value + range->adjustment->page_size;
+	if (range->adjustment->upper < SHEET_MAX_ROWS && new_value >= limit) {
+		range->adjustment->upper = new_value + range->adjustment->page_size + 1;
 		if (range->adjustment->upper > SHEET_MAX_ROWS)
 			range->adjustment->upper = SHEET_MAX_ROWS;
 		gtk_adjustment_changed (range->adjustment);

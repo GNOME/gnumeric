@@ -1927,6 +1927,27 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 static void
 cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 {
+#if 0
+	static StyleBorderLocation const bmap_ltr[] = {
+		STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
+		STYLE_BORDER_LEFT,	STYLE_BORDER_RIGHT,
+		STYLE_BORDER_REV_DIAG,	STYLE_BORDER_DIAG,
+		STYLE_BORDER_HORIZ,	STYLE_BORDER_VERT
+	};
+	static StyleBorderLocation const bmap_rtl[] = {
+		STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
+		/* reverse */
+		STYLE_BORDER_RIGHT,	STYLE_BORDER_LEFT,
+		/* reverse */
+		STYLE_BORDER_DIAG,	STYLE_BORDER_REV_DIAG,
+		STYLE_BORDER_HORIZ,	STYLE_BORDER_VERT
+	};
+	StyleBorderLocation const *bmap = bmap_ltr;
+
+	if (NULL != state->sheet && state->sheet->text_is_rtl)
+		bmap = bmap_rtl;
+#endif
+
 	if (btn == state->apply_button || btn == state->ok_button) {
 		GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
 		int i;
@@ -1965,7 +1986,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			borders[i] = border_get_mstyle (state, i);
 
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg),
-			    state->result, borders, NULL);
+			state->result, borders, NULL);
 
 		gnm_style_unref (state->result);
 		sheet_update (state->sheet);

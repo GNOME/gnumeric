@@ -390,28 +390,32 @@ uninstall-hook:
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
-	    main-component.c					\
-	    $(GNUMERIC_GNOME) README.gnm_float			\
+EXTRA_DIST = main-component.c			\
+	    $(GNUMERIC_GNOME) README.gnm_float	\
 	    gnumeric.rc gnm-i18n.h
+gtkactiondir=$(gnumeric_datadir)
 
+if USE_HILDON
+gtkaction_DATA = GNOME_Gnumeric-gtk.xml
+GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
+	sed -e 's/ _name *=/ name=/' <$<  >$@
+EXTRA_DIST += GNOME_Gnumeric-gtk.xml.in
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
+else
+gtkaction_DATA = HILDON_Gnumeric-gtk.xml
+HILDON_Gnumeric-gtk.xml: HILDON_Gnumeric-gtk.xml.in
+	sed -e 's/ _name *=/ name=/' <$<  >$@
+EXTRA_DIST += HILDON_Gnumeric-gtk.xml.in
+DISTCLEANFILES = HILDON_Gnumeric-gtk.xml
+endif
 
 ##check_PROGRAMS += number-match
-
 ##number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
-
 ##number_match_LDADD = 			\
 ##	$(GNOME_LIBDIR) 		\
 ##	$(GNOMEUI_LIBS)			\
 ##	$(GNOME_XML_LIB) 		\
 ##	$(INTLLIBS)
-
-gtkactiondir=$(gnumeric_datadir)
-gtkaction_DATA = GNOME_Gnumeric-gtk.xml
-
-GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
-	sed -e 's/ _name *=/ name=/' <$<  >$@
 
 ## Bonobo requires things to be in a subdir of this form
 ##bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui

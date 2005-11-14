@@ -7,6 +7,10 @@
  * Authors:
  *     Miguel de Icaza (miguel@kernel.org)
  *     Jody Goldberg (jody@gnome.org)
+ *
+ * Port to Maemo:
+ * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ * 	Renato Araujo (renato.filho@indt.org.br)
  */
 
 #include <gnumeric-config.h>
@@ -892,8 +896,12 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 				      NULL);
 
 			if ((ig->last_click_time + double_click_time) > event->time &&
-			    wbcg_edit_start (scg->wbcg, FALSE, FALSE))
+			    wbcg_edit_start (scg->wbcg, FALSE, FALSE)) {
+#ifdef USE_HILDON
+				gtk_im_context_focus_in (GNM_CANVAS (canvas)->im_context);
+#endif
 				break;
+			}
 		}
 
 		ig->last_click_time = event->time;

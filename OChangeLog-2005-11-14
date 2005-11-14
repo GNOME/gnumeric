@@ -1,3 +1,30 @@
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	The rest of the Maemo port.
+	From eduardo.lima@indt.org.br
+	http://bugzilla.gnome.org/show_bug.cgi?id=321073
+	* src/Makefile.am
+	* src/gnumeric-canvas.c
+	* src/gui-file.c
+	* src/item-grid.c
+	* src/sheet-control-gui.c
+	* src/wbc-gtk.c
+	* src/wbcg-actions.c
+	* src/workbook-control-gui-priv.h
+	* src/workbook-control-gui.c : Merge the remaining Maemo/Hildon patches.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump goffice req to 0.1.2 to get morten's fix.
+	  Add a < 0.2.0 to avoid problems when we branch.
+	  Disable the DEPRECATED warnings in the stable release.
+
+2005-11-13  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (cb_hscrollbar_adjust_bounds) : we weren't
+	  extending while at the very top.
+	(cb_vscrollbar_adjust_bounds) : ditto.
+
 2005-11-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnumeric-canvas.c: (gnm_canvas_key_press),

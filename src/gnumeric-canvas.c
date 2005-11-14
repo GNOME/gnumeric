@@ -5,6 +5,10 @@
  * Author:
  *     Miguel de Icaza (miguel@kernel.org)
  *     Jody Goldberg (jody@gnome.org)
+ *
+ * Port to Maemo:
+ * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ * 	Renato Araujo (renato.filho@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -505,7 +509,9 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
+#ifndef USE_HILDON
 	gtk_im_context_focus_in (GNM_CANVAS (widget)->im_context);
+#endif
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
 

@@ -18,6 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
+ *
+ * Port to Maemo:
+ * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ * 	Renato Araujo (renato.filho@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -59,6 +63,14 @@
 #include <glib/gi18n.h>
 #include <errno.h>
 #include <string.h>
+
+#ifdef USE_HILDON
+	#include <gtk/gtktable.h>
+	#include <gtk/gtktoolbutton.h>
+	#include <goffice/gtk/go-combo-text.h>
+	#include <hildon-lgpl/hildon-widgets/hildon-app.h>
+	#include <hildon-lgpl/hildon-widgets/hildon-appview.h>
+#endif
 
 #define CHECK_MENU_UNDERLINES
 
@@ -171,7 +183,11 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 				  "name", "Zoom",
 				  "label", _("_Zoom"),
 				  NULL);
+#ifdef USE_HILDON
+	go_action_combo_text_set_width (gtk->zoom,  "100000000%");
+#else
 	go_action_combo_text_set_width (gtk->zoom,  "10000%");
+#endif
 	for (i = 0; preset_zoom[i] != NULL ; ++i)
 		go_action_combo_text_add_item (gtk->zoom, preset_zoom[i]);
 
@@ -423,8 +439,13 @@ create_undo_redo (WBCgtk *gtk, char const *name, char const *tooltip,
 		"stock-id",	stock_id,
 		"sensitive",	FALSE,
 		NULL);
+	
+#ifdef USE_HILDON
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (res));
+#else
 	gtk_action_group_add_action_with_accel (gtk->actions,
 		GTK_ACTION (res), accel);
+#endif
 	return res;
 }
 
@@ -803,11 +824,38 @@ wbc_gtk_set_action_label (WorkbookControlGUI const *wbcg,
 		gboolean  sensitive = TRUE;
 
 		if (suffix == NULL) {
+#ifndef USE_HILDON
 			suffix = _("Nothing");
+#endif
 			sensitive = FALSE;
 		}
 
+#ifdef USE_HILDON
+		text = g_strdup (prefix);
+
+		{
+			/* Set hildon toolbuttons (in)sensitive */
+			GtkToolbar * toolbar = hildon_appview_get_toolbar (HILDON_APPVIEW (wbcg->toplevel));
+			GList * l;
+			
+			for (l = gtk_container_get_children (GTK_CONTAINER (toolbar)); l; l = l->next) {
+				if (GTK_IS_TOOL_BUTTON (l->data)) {
+					gchar * label;
+					g_object_get (l->data, "label", &label, NULL);
+					
+					if (strstr (label, action) != NULL) {
+						g_object_set (G_OBJECT (l->data), "sensitive", sensitive, NULL);
+						g_free(label);
+						break;
+					}
+
+					g_free(label);
+				}
+			}
+		}
+#else
 		text = g_strdup_printf ("%s : %s", prefix, suffix);
+#endif
 		g_object_set (G_OBJECT (a),
 			      "label",	   text,
 			      "sensitive", sensitive,
@@ -1209,9 +1257,18 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 {
 	if (GTK_IS_TOOLBAR (w)) {
 		WorkbookControlGUI *wbcg = (WorkbookControlGUI *)gtk;
+		char const *name = gtk_widget_get_name (w);
+#ifdef USE_HILDON
+		if (0 == strcmp (name, "HildonToolbar")) {
+			hildon_appview_set_toolbar (HILDON_APPVIEW (wbcg->toplevel), GTK_TOOLBAR (w));
+			gtk_widget_show_all (w);
+		} else if (0 == strcmp (name, "HildonTopToolbar")) {
+			gtk_table_attach (GTK_TABLE (wbcg->table), w, 1, 2, 0, 1,
+					  GTK_FILL | GTK_EXPAND , 0, 0, 0);
+		}
+#else
 		GtkWidget *box = gtk_handle_box_new ();
 		GtkToggleActionEntry entry;
-		char const *name = gtk_widget_get_name (w);
 		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
 		gboolean visible = gnm_gconf_get_toolbar_visible (name);
@@ -1256,6 +1313,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 
 		g_free (tooltip);
 		g_free (toggle_name);
+#endif
 	} else {
 		gtk_box_pack_start (GTK_BOX (gtk->menu_zone), w, FALSE, TRUE, 0);
 		gtk_widget_show_all (w);
@@ -1378,20 +1436,31 @@ wbc_gtk_init (GObject *obj)
 	unsigned	    i;
 	GError *error = NULL;
 
-	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
-	g_signal_connect (wbcg->toplevel, "window_state_event",
-			  G_CALLBACK (cb_wbcg_window_state_event),
-			  wbcg);
-	gtk_window_set_title (wbcg->toplevel, "Gnumeric");
-	gtk_window_set_wmclass (wbcg->toplevel, "Gnumeric", "Gnumeric");
 	gtk->menu_zone = gtk_vbox_new (TRUE, 0);
 	gtk->toolbar_zone = gtk_vbox_new (FALSE, 0);
 	gtk->everything = gtk_vbox_new (FALSE, 0);
 
+#ifdef USE_HILDON
+	{ GtkWidget *appview = hildon_appview_new ("Gnumeric");
+	wbcg->hildon_app = hildon_app_new_with_appview (HILDON_APPVIEW (appview));
+	wbcg_set_toplevel (wbcg, appview); }
+#else
+	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
+	g_signal_connect (wbcg_toplevel (wbcg), "window_state_event",
+			  G_CALLBACK (cb_wbcg_window_state_event),
+			  wbcg);
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
 		gtk->menu_zone, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
 		gtk->toolbar_zone, FALSE, TRUE, 0);
+#endif
+
+	gtk_window_set_title (wbcg_toplevel (wbcg), "Gnumeric");
+	gtk_window_set_wmclass (wbcg_toplevel (wbcg), "Gnumeric", "Gnumeric");
+
+#ifdef USE_HILDON
+	gtk_widget_show_all (GTK_WIDGET (wbcg_toplevel (wbcg)));
+#endif
 #if 0
 	bonobo_dock_set_client_area (BONOBO_DOCK (gtk->dock), wbcg->table);
 #endif
@@ -1435,10 +1504,14 @@ wbc_gtk_init (GObject *obj)
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->permanent_actions, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->font_actions, 0);
-
-	gtk_window_add_accel_group (wbcg->toplevel, 
+	gtk_window_add_accel_group (wbcg_toplevel (wbcg), 
 		gtk_ui_manager_get_accel_group (gtk->ui));
+
+#ifdef USE_HILDON	
+	uifile = g_build_filename (gnm_sys_data_dir (), "HILDON_Gnumeric-gtk.xml", NULL);
+#else
 	uifile = g_build_filename (gnm_sys_data_dir (), "GNOME_Gnumeric-gtk.xml", NULL);
+#endif
 	if (!gtk_ui_manager_add_ui_from_file (gtk->ui, uifile, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
@@ -1469,6 +1542,20 @@ wbc_gtk_init (GObject *obj)
 		NULL);
 
 	gtk_ui_manager_ensure_update (gtk->ui);
+
+#ifdef USE_HILDON
+	{
+		GtkWidget *hildonMenu = GTK_WIDGET (hildon_appview_get_menu (HILDON_APPVIEW (wbcg->toplevel)));
+		GList *list = gtk_container_get_children (GTK_CONTAINER (gtk->menu_zone));
+		
+		for (list = gtk_container_get_children (GTK_CONTAINER (list->data)); list; list = list->next) {
+			gtk_widget_reparent (GTK_WIDGET (list->data), hildonMenu);
+		}
+
+		gtk_widget_show_all (GTK_WIDGET (hildonMenu));
+	}
+#endif
+
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
 
 #ifdef CHECK_MENU_UNDERLINES

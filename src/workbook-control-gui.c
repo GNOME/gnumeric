@@ -18,6 +18,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
+ *
+ * Port to Maemo:
+ * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ * 	Renato Araujo (renato.filho@indt.org.br)
  */
 
 #include <gnumeric-config.h>
@@ -94,8 +98,10 @@
 #include <string.h>
 #include <errno.h>
 
-#define GNM_RESPONSE_SAVE_ALL -1000
-#define GNM_RESPONSE_DISCARD_ALL -1001
+#ifdef USE_HILDON
+	#include <hildon-widgets/hildon-app.h>
+	#include <hildon-widgets/hildon-appview.h>
+#endif
 
 #define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
@@ -111,6 +117,12 @@ void wbcg_ ## func arglist				\
 }
 #define WBCG_VIRTUAL(func, arglist, call) \
         WBCG_VIRTUAL_FULL(func, func, arglist, call)
+
+#ifdef USE_HILDON
+#define TABLE_COLUMNS  2
+#else
+#define TABLE_COLUMNS  1	
+#endif
 
 enum {
 	TARGET_URI_LIST,
@@ -206,7 +218,11 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
-	return wbcg->toplevel;
+#ifdef USE_HILDON
+	return GTK_WINDOW (gtk_widget_get_parent (wbcg->toplevel));
+#else
+	return GTK_WINDOW (wbcg->toplevel);
+#endif
 }
 
 void
@@ -1205,6 +1221,64 @@ wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
 		wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)), error);
 }
 
+int
+wbcg_show_save_dialog (WorkbookControlGUI *wbcg, 
+		       Workbook * wb, gboolean exiting)
+{
+	GtkWidget *d;
+	char *msg;
+	const char *wb_uri = workbook_get_uri (wb);
+	int ret = 0;
+
+	if (wb_uri) {
+		char *base = go_basename_from_uri (wb_uri);
+		msg = g_strdup_printf (
+			_("Save changes to workbook '%s' before closing?"),
+			base);
+		g_free (base);
+	} else {
+		msg = g_strdup (_("Save changes to workbook before closing?"));
+	}
+
+	d = gnumeric_message_dialog_new (wbcg_toplevel (wbcg),
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_WARNING,
+					 msg,
+					 _("If you close without saving, changes will be discarded."));
+	atk_object_set_role (gtk_widget_get_accessible (d), ATK_ROLE_ALERT);
+
+	if (exiting) {
+		int n_of_wb = g_list_length (gnm_app_workbook_list ());
+		if (n_of_wb > 1) {
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
+				GTK_STOCK_DELETE, GNM_RESPONSE_DISCARD_ALL);
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+				GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Save all"), 
+				GTK_STOCK_SAVE, GNM_RESPONSE_SAVE_ALL);
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		} else {
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
+				GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		}
+	} else {
+		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+					    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
+		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"), 
+					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+	}
+
+	gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
+	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
+	ret = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
+	g_free (msg);
+
+	return ret;
+}
+
 /**
  * wbcg_close_if_user_permits : If the workbook is dirty the user is
  *  		prompted to see if they should exit.
@@ -1245,56 +1319,8 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 		}
 	}
 	while (workbook_is_dirty (wb) && !done) {
-		GtkWidget *d;
-		char *msg;
-		char const *wb_uri = workbook_get_uri (wb);
-
 		iteration++;
-
-		if (wb_uri) {
-			char *base = go_basename_from_uri (wb_uri);
-			msg = g_strdup_printf (
-				_("Save changes to workbook '%s' before closing?"),
-				base);
-			g_free (base);
-		} else
-			msg = g_strdup (_("Save changes to workbook before closing?"));
-
-		d = gnumeric_message_dialog_new (wbcg_toplevel (wbcg),
-						 GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_WARNING,
-						 msg,
-						 _("If you close without saving, changes will be discarded."));
-		atk_object_set_role (gtk_widget_get_accessible (d), ATK_ROLE_ALERT);
-
-		if (exiting) {
-			int n_of_wb = g_list_length (gnm_app_workbook_list ());
-			if (n_of_wb > 1) {
-				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
-					GTK_STOCK_DELETE, GNM_RESPONSE_DISCARD_ALL);
-				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
-					GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Save all"), 
-					GTK_STOCK_SAVE, GNM_RESPONSE_SAVE_ALL);
-				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
-					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-			} else {
-				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
-					GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
-					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-			}
-		} else {
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
-						    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"), 
-						    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-		}
-
-		gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
-		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
-		button = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
-		g_free (msg);
+		button = wbcg_show_save_dialog(wbcg, wb, exiting); 
 
 		switch (button) {
 		case GTK_RESPONSE_YES:
@@ -1614,7 +1640,7 @@ wbcg_finalize (GObject *obj)
 
 	wbcg_auto_complete_destroy (wbcg);
 
-	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
+	gtk_window_set_focus (wbcg_toplevel (wbcg), NULL);
 
 	if (wbcg->toplevel != NULL) {
 		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
@@ -1634,6 +1660,10 @@ wbcg_finalize (GObject *obj)
 	g_hash_table_destroy (wbcg->visibility_widgets);
 	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
 
+#ifdef USE_HILDON	
+	if (wbcg->hildon_app != NULL)
+		gtk_object_destroy (GTK_OBJECT (wbcg->app));
+#endif	
 	(*parent_class->finalize) (obj);
 }
 
@@ -1738,12 +1768,17 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_notebook_switch_page), wbcg);
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
-			  0, 1, 1, 2,
+			  0, TABLE_COLUMNS, 1, 2,
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
 
 	gtk_widget_show (GTK_WIDGET (wbcg->notebook));
+
+#ifdef USE_HILDON	
+	gtk_notebook_set_show_border (wbcg->notebook, FALSE);
+	gtk_notebook_set_show_tabs (wbcg->notebook, FALSE);
+#endif
 }
 
 void
@@ -1987,22 +2022,23 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WorkbookControlGU
 static int
 show_gui (WorkbookControlGUI *wbcg)
 {
+	SheetControlGUI *scg;
+#ifndef USE_HILDON
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	int sx, sy;
 	gdouble fx, fy;
 	GdkRectangle rect;
-	SheetControlGUI *scg;
 
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
-	gdk_screen_get_monitor_geometry (wbcg->toplevel->screen, 0, &rect);
+	gdk_screen_get_monitor_geometry (wbcg_toplevel (wbcg)->screen, 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
 
 	fx = gnm_app_prefs->horizontal_window_fraction;
 	fy = gnm_app_prefs->vertical_window_fraction;
 	if (x_geometry && wbcg->toplevel &&
-	    gtk_window_parse_geometry (wbcg->toplevel, x_geometry)) {
+	    gtk_window_parse_geometry (wbcg_toplevel (wbcg), x_geometry)) {
 		/* Successfully parsed geometry string
 		   and urged WM to comply */
 	} else if (wbcg->notebook != NULL &&
@@ -2038,14 +2074,15 @@ show_gui (WorkbookControlGUI *wbcg)
 		}
 	} else {
 		/* Use default */
-		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
+		gtk_window_set_default_size (wbcg_toplevel (wbcg), sx * fx, sy * fy);
 	}
+#endif /* ifndef  USE_HILDON */ 
 
 	if (NULL != (scg = wbcg_cur_scg (wbcg)))
 		cb_direction_change (NULL, NULL, scg);
 
 	x_geometry = NULL;
-	gtk_widget_show (GTK_WIDGET (wbcg->toplevel));
+	gtk_widget_show (GTK_WIDGET (wbcg_toplevel (wbcg)));
 
 	/* rehide headers if necessary */
 	if (NULL != scg && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
@@ -2190,7 +2227,7 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
 		GTK_WIDGET (entry)->style->font_desc,
 		cell_coord_name (SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1));
 	/*
@@ -2292,7 +2329,9 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		tmp->style->font_desc, "W") * 15, -1);
 
+#ifndef USE_HILDON
 	wbcg_class->create_status_area (wbcg, wbcg->progress_bar, wbcg->status_text, frame);
+#endif
 }
 
 void
@@ -2305,10 +2344,12 @@ wbcg_set_toplevel (WorkbookControlGUI *wbcg, GtkWidget *w)
 	};
 
 	g_return_if_fail (wbcg->toplevel == NULL);
+
+	wbcg->toplevel = w;
+	w = GTK_WIDGET (wbcg_toplevel (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (w));
 
-	wbcg->toplevel = GTK_WINDOW (w);
-	g_object_set (G_OBJECT (wbcg->toplevel),
+	g_object_set (G_OBJECT (w),
 		"allow-grow", TRUE,
 		"allow-shrink", TRUE,
 		NULL);
@@ -2697,7 +2738,8 @@ wbcg_create (WorkbookControlGUI *wbcg,
 		G_CALLBACK (wbcg_sheet_order_changed), wbcg, G_CONNECT_SWAPPED);
 
 	if (optional_screen)
-		gtk_window_set_screen (wbcg->toplevel, optional_screen);
+		gtk_window_set_screen (wbcg_toplevel (wbcg), optional_screen);
+
 	/* Postpone showing the GUI, so that we may resize it freely. */
 	g_idle_add ((GSourceFunc) show_gui, wbcg);
 }
