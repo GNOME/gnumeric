@@ -194,7 +194,7 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	state = g_new0 (PasteSpecialState, 1);
 	state->wbcg   = wbcg;
 	state->dialog = GTK_DIALOG (tmp);
-	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_CANCEL);
+	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
 
 	f1  = gtk_frame_new (_("Paste type"));
 	f1v = gtk_vbox_new (TRUE, 0);

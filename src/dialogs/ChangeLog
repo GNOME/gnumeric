@@ -1,3 +1,9 @@
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=321013
+	* dialog-paste-special.c (dialog_paste_special) : default should be OK
+	  not cancel.
+
 2005-10-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.0
