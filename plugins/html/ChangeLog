@@ -1,3 +1,7 @@
+2005-11-15  Jon K Hellan  <hellan@acm.org>
+
+	* latex.c (latex2e_write_table_header): Fix off by one.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
