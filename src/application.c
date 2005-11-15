@@ -128,10 +128,10 @@ add_icon (GtkIconFactory *factory,
 }
 
 /**
- * gnm_app_workbook_list_remove :
+ * gnm_app_workbook_list_add :
  * @wb :
  *
- * Remove @wb from the application's list of workbooks.
+ * Add @wb to the application's list of workbooks.
  **/
 void
 gnm_app_workbook_list_add (Workbook *wb)

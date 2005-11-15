@@ -1,3 +1,7 @@
+2005-11-15  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/application.c (gnm_app_workbook_list_add): Fix the comment.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump
