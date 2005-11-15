@@ -1,6 +1,10 @@
+2005-11-15  Stepan Kasal  <kasal@ucw.cz>
+
+	* README: Fix the goffice requirement.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
-	* configure.in : Post BRANCH releas bump
+	* configure.in : Post BRANCH bump
 	  re-enable the disable_deprecated flags
 
 2005-11-14  Jody Goldberg <jody@gnome.org>
