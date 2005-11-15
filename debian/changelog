@@ -1,3 +1,18 @@
+gnumeric (1.6.1-1) unstable; urgency=medium
+
+  * New upstream release. Changes include:
+    * Builds with current goffice. (Closes: #338669)
+    * [po/it.po] Fixed a conflict between accelerators. (Closes: #334103)
+  * [debian/control] Bumped goffice build dependency per configure.in; bumped
+    pxlib build dependency to ensure single libgsf runtime dependency.
+  * [debian/rules] The old way of inhibiting scrollkeeper from running during
+    "make install" no longer worked; have it run, then remove the files it
+    generates.
+  * [debian/docs] Removed "TODO" as it has been removed upstream.
+  * [debian/watch] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 15 Nov 2005 08:06:02 +0100
+
 gnumeric (1.6.0-2) unstable; urgency=low
 
   * Upload to unstable.
