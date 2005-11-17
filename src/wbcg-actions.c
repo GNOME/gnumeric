@@ -923,7 +923,7 @@ static GNM_ACTION_DEF (cb_help_docs)
 
 static GNM_ACTION_DEF (cb_help_web)
 {
-	GError *err = go_url_show ("http://www.gnumeric.org/");
+	GError *err = go_url_show ("http://www.gnome.org/projects/gnumeric/");
 	if (err != NULL) {
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);

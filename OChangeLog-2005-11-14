@@ -1,3 +1,10 @@
+2005-11-16  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml.in : Disable the IRC link it does not
+	  work on most systems.
+	* src/wbcg-actions.c (cb_help_web) : www.gnumeric.org is currently
+	  broken.  Fall back to the primary url.
+
 2005-11-15  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/application.c (gnm_app_workbook_list_add): Fix the comment.

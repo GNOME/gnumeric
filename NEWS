@@ -1,3 +1,11 @@
+Gnumeric 1.6.2
+
+Jody:
+	* Disable the IRC link in the help menu.
+	* Use the cannonical web page in case of problems.
+	* Silence some warnings in the ODS importer.
+
+--------------------------------------------------------------------------
 Gnumeric 1.6.1
 
 Allin Cottrell:
