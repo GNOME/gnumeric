@@ -996,6 +996,12 @@ BC_R(gelframe) (XLChartHandler const *handle,
 	guint32 preset = ms_obj_attr_get_uint (attrs,
 		MS_OBJ_ATTR_FILL_PRESET, 0);
 
+	/* plot types we do not support that have gradients */
+	if (NULL == s->style) {
+		ms_obj_attr_bag_destroy (attrs);
+		return FALSE;
+	}
+		
 	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	s->style->fill.pattern.fore =
 		ms_chart_map_color (s, fill_color, fill_alpha);
@@ -2737,7 +2743,7 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 	GogRegCurve *rc;
 	XLChartSeries *parent = g_ptr_array_index (state->series, series->reg_parent);
 
-	if (NULL == parent)
+	if (NULL == parent || NULL == parent->series)
 		return;
 
 	switch (series->reg_type) {

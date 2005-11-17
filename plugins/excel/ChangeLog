@@ -1,3 +1,13 @@
+2005-11-16  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=321678
+	* ms-chart.c (xl_chart_import_reg_curve) : if the parent has no series
+	  there is not much we can do.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=321677
+	* ms-chart.c (BC_R(gelframe)) : don't crash when faced with an
+	  unsupported plot type that has a gradient.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
