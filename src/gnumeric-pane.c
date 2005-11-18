@@ -1120,7 +1120,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		 * the semantics of the col,row args in the callback.  However,
 		 * that is more work than I want to do right now.
 		 */
-		if (idx == 8 &&  !pane->drag.created_objects)
+		if (idx == 8) 
 			gnm_pane_drag_begin (pane, so, event);
 		else if (gnm_canvas_handle_motion (GNM_CANVAS (ctrl_pt->canvas),
 						   ctrl_pt->canvas, &event->motion,

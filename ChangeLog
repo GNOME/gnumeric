@@ -1,5 +1,10 @@
 2005-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* scr/gnumeric-pane.c (cb_control_point_event): begin drag mode even
+	for created object.
+
+2005-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* src/sheet-object-graph.c (gnm_sog_write_image): don't use pixbuf
 	directly, but use helpers function from goffice/graph/gog-renderer.c,
 	in order to ease testing of goffice cairo renderer.
