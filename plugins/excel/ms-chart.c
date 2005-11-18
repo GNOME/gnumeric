@@ -3093,7 +3093,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			GnmExpr const *expr;
 			GOData	      *data;
 
-			if (series->chart_group < 0) {
+			if (series->chart_group < 0 && BC_R(ver)(&state) >= MS_BIFF_V5) {
 				/* might be a error bar series or a regression curve */
 				if (series->err_type == 0)
 					xl_chart_import_reg_curve (&state, series);
