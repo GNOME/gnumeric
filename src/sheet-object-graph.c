@@ -44,7 +44,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
-#include <goffice/graph/gog-renderer-pixbuf.h>
+#include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/utils/go-file.h>
@@ -113,7 +113,7 @@ static GSF_CLASS_FULL (SOGraphFooView, so_graph_foo_view,
 typedef struct {
 	SheetObject  base;
 	GogGraph	*graph;
-	GObject		*renderer;
+	GogRenderer	*renderer;
 	gulong		 add_sig, remove_sig;
 } SheetObjectGraph;
 typedef SheetObjectClass SheetObjectGraphClass;
@@ -261,12 +261,11 @@ gnm_sog_write_image (SheetObject const *so, const char *format,
 	if (strcmp (format, "svg") == 0) {
 		res = gog_graph_export_to_svg (sog->graph, output, w, h, 1.0);
 	} else {
-		GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (sog->renderer);
-		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (prend);
+		GdkPixbuf *pixbuf = gog_renderer_get_pixbuf (sog->renderer);
 
 		if (!pixbuf) {
-			gog_renderer_pixbuf_update (prend, w, h, 1.);
-			pixbuf = gog_renderer_pixbuf_get (prend);
+			gog_renderer_update (sog->renderer, w, h, 1.);
+			pixbuf = gog_renderer_get_pixbuf (sog->renderer);
 		}
 		res = gdk_pixbuf_save_to_callback (pixbuf,
 						   sog_gsf_gdk_pixbuf_save,
@@ -627,9 +626,7 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 	if (sog->renderer != NULL)
 		g_object_set (sog->renderer, "model", graph, NULL);
 	else
-		sog->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
-					      "model", sog->graph,
-					      NULL);
+		sog->renderer = gog_renderer_new_for_pixbuf (sog->graph);
 }
 
 static void

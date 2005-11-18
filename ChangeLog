@@ -1,3 +1,10 @@
+2005-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/sheet-object-graph.c (gnm_sog_write_image): don't use pixbuf
+	directly, but use helpers function from goffice/graph/gog-renderer.c,
+	in order to ease testing of goffice cairo renderer.
+	(sheet_object_graph_set_gog): ditto.
+
 2005-11-15  Stepan Kasal  <kasal@ucw.cz>
 
 	* README: Fix the goffice requirement.
