@@ -1234,8 +1234,13 @@ cb_countblank (Sheet *sheet, int col, int row,
 	       GnmCell *cell, void *user_data)
 {
 	cell_eval (cell);
-	if (!cell_is_empty (cell))
-		*((int *)user_data) -= 1;
+	if (!cell_is_empty (cell)) {
+		const GnmValue *v = cell->value;
+		if (VALUE_IS_STRING (v) && value_peek_string (v)[0] == 0)
+			; /* Nothing -- the empty string is blank.  */
+		else
+			*((int *)user_data) -= 1;
+	}
 	return NULL;
 }
 

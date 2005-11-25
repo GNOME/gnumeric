@@ -1,3 +1,8 @@
+2005-11-25  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (cb_countblank): Empty strings should be considered
+	blank.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
