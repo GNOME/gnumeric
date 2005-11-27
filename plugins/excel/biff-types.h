@@ -335,4 +335,6 @@
 #define BIFF_CHART_gelframe		0x1066
 #define BIFF_CHART_boppopcustom		0x1067
 
+/* BIFF types specific to gnumeric */
+#define BIFF_CHART_trendlimits	0x10C0
 #endif /* GNM_EXCEL_BIFF_TYPES_H */

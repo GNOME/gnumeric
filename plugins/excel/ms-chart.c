@@ -82,8 +82,11 @@ typedef struct {
 	int err_parent; /* also used for parent in reg curves */
 	double err_val; /* also used for intercept in reg curves */
 	double reg_backcast, reg_forecast;
+	double reg_min, reg_max;
+	GOData *reg_dims[2];
 	gboolean err_teetop; /* also used for show R-squared in reg curves */
 	gboolean reg_show_eq;
+	gboolean reg_skip_invalid;
 	GogMSDimType extra_dim;
 	int chart_group;
 	gboolean  has_legend;
@@ -284,6 +287,21 @@ BC_R(ai)(XLChartHandler const *handle,
 	/* ignore these for now */
 	if (top_state == BIFF_CHART_text)
 		return FALSE;
+	else if (top_state == BIFF_CHART_trendlimits) {
+		GnmExpr const *expr = ms_container_parse_expr (&s->container,
+			q->data+8, length);
+		g_return_val_if_fail (ref_type == 2, FALSE);
+		if (expr != NULL) {
+			Sheet *sheet = ms_container_sheet (s->container.parent);
+
+			g_return_val_if_fail (sheet != NULL, FALSE);
+			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
+
+			s->currentSeries->reg_dims[purpose] = 
+				gnm_go_data_scalar_new_expr (sheet, expr);
+		}
+		return FALSE;
+	}
 
 	/* Rest are 0 */
 	if (flags&0x01) {
@@ -1659,6 +1677,8 @@ BC_R(serauxtrend)(XLChartHandler const *handle,
 	s->currentSeries->reg_backcast = backcast;
 	s->currentSeries->reg_forecast = forecast;
 	s->currentSeries->reg_parent = s->parent_index;
+	s->currentSeries->reg_skip_invalid = TRUE; /* excel does that, more or less */
+	s->currentSeries->reg_min = s->currentSeries->reg_max = go_nan;
 	return FALSE;
 }
 
@@ -1668,6 +1688,27 @@ static gboolean
 BC_R(serfmt)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
+	return FALSE;
+}
+
+
+/****************************************************************************/
+
+static gboolean
+BC_R(trendlimits)(XLChartHandler const *handle,
+		  XLChartReadState *s, BiffQuery *q)
+{
+	double const min = GSF_LE_GET_DOUBLE (q->data);
+	double const max = GSF_LE_GET_DOUBLE (q->data+8);
+	guint8 const skip_invalid = GSF_LE_GET_GUINT8  (q->data+16);
+	d (1, {
+		fprintf (stderr, "skip invalid data: %s\n", (skip_invalid)? "yes": "no");
+		fprintf (stderr, "min: %g\n", min);
+		fprintf (stderr, "max: %g\n", max);
+	});
+	s->currentSeries->reg_min = min;
+	s->currentSeries->reg_max = max;
+	s->currentSeries->reg_skip_invalid = skip_invalid;
 	return FALSE;
 }
 
@@ -2600,7 +2641,7 @@ not_a_matrix:
 
 /****************************************************************************/
 
-static XLChartHandler const *chart_biff_handler[128];
+static XLChartHandler const *chart_biff_handler[256];
 
 static void
 BC(register_handler)(XLChartHandler const *const handle);
@@ -2687,6 +2728,8 @@ BC(register_handlers)(void)
 	BIFF_CHART(tick, 26);
 	BIFF_CHART(units, 2);
 	BIFF_CHART(valuerange, 42);
+	/* gnumeric specific */
+	BIFF_CHART(trendlimits, 17);
 }
 
 /*
@@ -2741,6 +2784,7 @@ static void
 xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 {
 	GogRegCurve *rc;
+	Sheet *sheet;
 	XLChartSeries *parent = g_ptr_array_index (state->series, series->reg_parent);
 
 	if (NULL == parent || NULL == parent->series)
@@ -2769,10 +2813,31 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 		break;
 	}
 	if (rc) {
-		if (series->reg_intercept == 0.)
-			g_object_set (G_OBJECT (rc),
-				"affine", FALSE,
-				NULL);
+		sheet = ms_container_sheet (state->container.parent);
+		g_object_set (G_OBJECT (rc),
+			"affine", series->reg_intercept != 0.,
+			"skip-invalid", series->reg_skip_invalid,
+			NULL);
+		if (sheet) {
+			if (series->reg_dims[0]){
+				gog_dataset_set_dim (GOG_DATASET (rc), 0, series->reg_dims[0], NULL);
+				series->reg_dims[0] = NULL;
+			} else if (go_finite (series->reg_min)) {
+				GnmValue *value = value_new_float (series->reg_min);
+				GnmExpr const *expr = gnm_expr_new_constant (value);
+				GOData *data = gnm_go_data_scalar_new_expr (sheet, expr);
+				gog_dataset_set_dim (GOG_DATASET (rc), 0, data, NULL);
+			}
+			if (series->reg_dims[1]){
+				gog_dataset_set_dim (GOG_DATASET (rc), 1, series->reg_dims[1], NULL);
+				series->reg_dims[1] = NULL;
+			} else if (go_finite (series->reg_max)) {
+				GnmValue *value = value_new_float (series->reg_max);
+				GnmExpr const *expr = gnm_expr_new_constant (value);
+				GOData *data = gnm_go_data_scalar_new_expr (sheet, expr);
+				gog_dataset_set_dim (GOG_DATASET (rc), 1, data, NULL);
+			}
+		}
 		gog_object_add_by_name (GOG_OBJECT (parent->series),
 			"Regression curve", GOG_OBJECT (rc));
 		if (series->reg_show_eq || series->reg_show_R2) {
@@ -2783,6 +2848,8 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 				"show_r2", series->reg_show_R2,
 				NULL);
 		}
+		if (series->style)
+			gog_styled_object_set_style (GOG_STYLED_OBJECT (rc), series->style);
 	}
 }
 
@@ -3187,6 +3254,7 @@ typedef struct {
 
 	unsigned	 nest_level;
 	unsigned cur_series;
+	unsigned cur_vis_index;
 	unsigned cur_set;
 	GSList *pending_series;
 	GSList *extra_objects;
@@ -3632,7 +3700,8 @@ static gboolean
 style_is_completely_auto (GogStyle const *style)
 {
 	if ((style->interesting_fields & GOG_STYLE_OUTLINE) &&
-	    !style->outline.auto_color)
+	    (!style->outline.auto_color || !style->outline.auto_dash ||
+		(style->outline.width != 0.)))
 		return FALSE;
 	if ((style->interesting_fields & GOG_STYLE_FILL)) {
 		if (style->fill.type != GOG_FILL_STYLE_PATTERN ||
@@ -3640,7 +3709,8 @@ style_is_completely_auto (GogStyle const *style)
 			return FALSE;
 	}
 	if ((style->interesting_fields & GOG_STYLE_LINE) &&
-	    !style->line.auto_color)
+	    (!style->line.auto_color || !style->line.auto_dash ||
+		(style->line.width != 0.)))
 		return FALSE;
 	if ((style->interesting_fields & GOG_STYLE_MARKER)) {
 		if (!style->marker.auto_shape ||
@@ -3653,9 +3723,9 @@ style_is_completely_auto (GogStyle const *style)
 
 static void
 chart_write_style (XLChartWriteState *s, GogStyle const *style,
-		   guint16 indx, unsigned n, float separation)
+		   guint16 indx, unsigned n, unsigned v, float separation)
 {
-	chart_write_DATAFORMAT (s, indx, n, n);
+	chart_write_DATAFORMAT (s, indx, n, v);
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
 	if (!style_is_completely_auto (style)) {
@@ -3670,11 +3740,149 @@ chart_write_style (XLChartWriteState *s, GogStyle const *style,
 	chart_write_END (s);
 }
 
-static void
+#if 0
+static int
+chart_write_error_bar (XLChartWriteState *s, GogErrorBar *bar, unsigned n)
+{
+	return 0;
+}
+#endif
+
+/* the data below are invalid, many other invalid code might be used,
+but this is the one xl uses */
+static unsigned char invalid_data[8] = {0xff, 0xff, 0xff, 0xff, 0, 1, 0xff, 0xff};
+
+static gboolean
+chart_write_reg_curve (XLChartWriteState *s, GogRegCurve *rc, unsigned n, unsigned parent)
+{
+	guint8 *data, type;
+	unsigned order = 0, nb = 96;
+	gboolean affine, skip_invalid, show_eq = FALSE, show_R2 = FALSE;
+	int i, imax = (s->bp->version >= MS_BIFF_V8) ?
+					GOG_MS_DIM_BUBBLES: GOG_MS_DIM_CATEGORIES;
+	GogObject *eqn;
+	double min, max;
+
+	if (0 == strcmp (G_OBJECT_TYPE_NAME (rc), "GogLinRegCurve")) {
+		type = 0;
+		order = 1;
+		nb = 2;
+	} else if (0 == strcmp (G_OBJECT_TYPE_NAME (rc), "GogPolynomRegCurve")) {
+		type = 0;
+		g_object_get (G_OBJECT (rc), "dims", &order, NULL);
+	} else if (0 == strcmp (G_OBJECT_TYPE_NAME (rc), "GogExpRegCurve"))
+		type = 1;
+	else if (0 == strcmp (G_OBJECT_TYPE_NAME (rc), "GogLogRegCurve"))
+		type = 2;
+	else
+		return FALSE;
+	s->cur_series = n;
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_series,
+		(s->bp->version >= MS_BIFF_V8) ? 12: 8);
+	GSF_LE_SET_GUINT16 (data+0, 1);
+	GSF_LE_SET_GUINT16 (data+4, nb);
+	GSF_LE_SET_GUINT16 (data+2, 1);
+	GSF_LE_SET_GUINT16 (data+6, nb);
+	if (s->bp->version >= MS_BIFF_V8) {
+		GSF_LE_SET_GUINT16 (data+8, 1);
+		GSF_LE_SET_GUINT16 (data+10, 0);
+	}
+	ms_biff_put_commit (s->bp);
+
+	chart_write_BEGIN (s);
+	for (i = GOG_MS_DIM_LABELS; i <= imax; i++) {
+		data = ms_biff_put_len_next (s->bp, BIFF_CHART_ai, 8);
+		GSF_LE_SET_GUINT8  (data+0, i);
+		GSF_LE_SET_GUINT8  (data+1, 1);
+	
+		GSF_LE_SET_GUINT16 (data+2, 0);
+		GSF_LE_SET_GUINT16 (data+4, 0);
+	
+		GSF_LE_SET_GUINT16 (data+6, 0);
+		ms_biff_put_commit (s->bp);
+	}
+	chart_write_style (s, GOG_STYLED_OBJECT (rc)->style,
+		0xffff, n, 0, 0.);
+
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_serparent, 2);
+	GSF_LE_SET_GUINT16  (data, parent + 1);
+	ms_biff_put_commit (s->bp);
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_serauxtrend, 28);
+	GSF_LE_SET_GUINT8  (data+0, type);
+	GSF_LE_SET_GUINT8  (data+1, (guint8) order);
+	g_object_get (G_OBJECT (rc), "affine", &affine,
+			"skip-invalid", &skip_invalid, NULL);
+	if (affine)
+		memcpy (data+2, invalid_data, 8);
+	else
+		GSF_LE_SET_DOUBLE (data+2, 0.);
+	eqn = gog_object_get_child_by_role (GOG_OBJECT (rc),
+			gog_object_find_role_by_name (GOG_OBJECT (rc), "Equation"));
+	if (eqn)
+		g_object_get (G_OBJECT (eqn), "show-eq", &show_eq, "show-r2", &show_R2, NULL);
+	GSF_LE_SET_GUINT8 (data+10, show_eq);
+	GSF_LE_SET_GUINT8 (data+11, show_R2);
+	GSF_LE_SET_DOUBLE (data+12, 0.);
+	GSF_LE_SET_DOUBLE (data+20, 0.);
+	ms_biff_put_commit (s->bp);
+
+	/* now write our stuff */
+	/*
+		data+0 == min, #NA if not set
+		data+8 == max, #NA if not set
+		data+16 == flags (1 if skip invalid)
+	*/
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_trendlimits, 17);
+	gog_reg_curve_get_bounds (rc, &min, &max);
+	if (min > - DBL_MAX)
+		GSF_LE_SET_DOUBLE (data+0, min);
+	else
+		memcpy (data+0, invalid_data, 8);
+	if (max < DBL_MAX)
+		GSF_LE_SET_DOUBLE (data+8, max);
+	else
+		memcpy (data+8, invalid_data, 8);
+	GSF_LE_SET_GUINT8 (data+16, skip_invalid);
+	ms_biff_put_commit (s->bp);
+	{
+		GOData *dat0 = gog_dataset_get_dim (GOG_DATASET (rc), 0),
+			*dat1 = gog_dataset_get_dim (GOG_DATASET (rc), 1);
+		gboolean range0, range1;
+		GnmExpr const *expr;
+		GnmValue *val0, *val1;
+		if (dat0) {
+			expr = gnm_go_data_get_expr (dat0);
+			range0 = ((val0 = gnm_expr_get_range (expr)) != NULL);
+		} else
+			range0 = FALSE;
+		if (dat1) {
+			expr = gnm_go_data_get_expr (dat1);
+			range1 = ((val1 = gnm_expr_get_range (expr)) != NULL);
+		} else
+			range1 = FALSE;
+		if (range0 || range1) {
+			chart_write_BEGIN (s);
+			if (range0) {
+				value_release (val0);
+				chart_write_AI (s, dat0, 0, 2);
+			}
+			if  (range1) {
+				value_release (val1);
+				chart_write_AI (s, dat1, 1, 2);
+			}
+			chart_write_END (s);
+		}
+	}
+
+	chart_write_END (s);
+	return TRUE;
+}
+
+static int
 chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 {
 	static guint8 const default_ref_type[] = { 1, 2, 0, 1 };
-	int i, msdim;
+	int i, msdim, saved = 1;
 	guint8 *data;
 	GOData *dat;
 	unsigned num_elements = gog_series_num_elements (series);
@@ -3704,7 +3912,8 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 		chart_write_AI (s, dat, i, default_ref_type[i]);
 	}
 
-	chart_write_style (s, GOG_STYLED_OBJECT (series)->style, 0xffff, n, 0.);
+	chart_write_style (s, GOG_STYLED_OBJECT (series)->style,
+		0xffff, s->cur_series, s->cur_vis_index, 0.);
 	for (ptr = gog_series_get_overrides (series); ptr != NULL ; ptr = ptr->next) {
 		float sep = 0;
 		if (g_object_class_find_property (
@@ -3712,11 +3921,28 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 			g_object_get (G_OBJECT (ptr->data), "separation", &sep, NULL);
 
 		chart_write_style (s, GOG_STYLED_OBJECT (ptr->data)->style,
-			GOG_SERIES_ELEMENT (ptr->data)->index, n, sep);
+			GOG_SERIES_ELEMENT (ptr->data)->index, s->cur_series,
+			s->cur_vis_index, sep);
 	}
+	s->cur_vis_index++;
 
 	ms_biff_put_2byte (s->bp, BIFF_CHART_sertocrt, s->cur_set);
 	chart_write_END (s);
+	/* now write error bars and regression curves */
+	/* Regression curves */
+	{
+		GSList *cur, *l = gog_object_get_children (GOG_OBJECT (series),
+			gog_object_find_role_by_name (GOG_OBJECT (series), "Regression curve"));
+		cur = l;
+		while (cur) {
+			if (chart_write_reg_curve (s, GOG_REG_CURVE (cur->data),
+				s->cur_series + saved, s->cur_series))
+				saved++;
+			cur = cur->next;
+		}
+		g_slist_free (l);
+	}
+	return saved;
 }
 
 static void
@@ -4309,6 +4535,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	state.has_hilow = FALSE;
 	state.cur_set = 0;
 	state.is_stock = FALSE;
+	state.cur_vis_index = 0;
 
 	g_return_if_fail (state.graph != NULL);
 
@@ -4580,7 +4807,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		for (plots = ((XLAxisSet *)ptr->data)->plots ; plots != NULL ; plots = plots->next) {
 			if (0 != strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogContourPlot")) {
 				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
-					chart_write_series (&state, series->data, num_series++);
+					num_series += chart_write_series (&state, series->data, num_series);
 			} else {
 				/* we should have only one series there */
 				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
@@ -4695,7 +4922,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					if (s_is_rc)
 						value_release ((GnmValue*) sval);
 					for (series = gog_plot_get_series (plotbuf) ; series != NULL ; series = series->next)
-						chart_write_series (&state, series->data, num_series++);
+						num_series += chart_write_series (&state, series->data, num_series);
 					state.extra_objects = g_slist_append (state.extra_objects, plotbuf);
 				}
 			}

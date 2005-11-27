@@ -1,3 +1,13 @@
+2005-11-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* biff-types.h: add new custom biff code for goffice regression curves.
+	* ms-chart.c: (ai), (serauxtrend), (trendlimits),
+	(register_handlers), (xl_chart_import_reg_curve),
+	(style_is_completely_auto), (chart_write_style),
+	(chart_write_error_bar), (chart_write_reg_curve),
+	(chart_write_series), (ms_excel_chart_write): export regression
+	curves and enhance import.
+
 2005-11-18  Jean Brefort  <jean.brefort@normalesup.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=321678
