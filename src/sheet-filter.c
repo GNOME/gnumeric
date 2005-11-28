@@ -39,6 +39,7 @@
 #include "dialogs.h"
 #include "style-color.h"
 #include "gutils.h"
+#include "gnm-format.h"
 
 #include <goffice/utils/regutf8.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
@@ -287,14 +288,24 @@ cb_collect_unique (Sheet *sheet, int col, int row, GnmCell *cell,
 	if (cell_is_blank (cell))
 		uc->has_blank = TRUE;
 	else
-		g_hash_table_replace (uc->hash, cell->value, cell->value);
+		g_hash_table_replace (uc->hash, cell->value, cell);
 
 	return NULL;
 }
+
 static void
-cb_copy_hash_to_array (GnmValue *key, gpointer value, gpointer sorted)
+cb_hash_range (GnmValue *key, gpointer value, gpointer accum)
 {
-	g_ptr_array_add (sorted, key);
+	GnmCell *cell = value;
+	g_ptr_array_add (accum, cell);
+}
+
+static int
+cell_value_cmp (void const *ptr_a, void const *ptr_b)
+{
+	const GnmCell **a = ptr_a;
+	const GnmCell **b = ptr_b;
+	return value_cmp (&(*a)->value, &(*b)->value);
 }
 
 static GtkListStore *
@@ -310,6 +321,8 @@ collect_unique_elements (GnmFilterField *field,
 	GnmRange	 r = field->filter->r;
 	GnmValue const *check = NULL;
 	GnmValue	    *check_num = NULL; /* XL stores numbers as string @$^!@$ */
+	GODateConventions const *date_conv = 
+		workbook_date_conv (field->filter->sheet->workbook);
 
 	if (field->cond != NULL &&
 	    field->cond->op[0] == GNM_FILTER_OP_EQUAL &&
@@ -344,25 +357,28 @@ collect_unique_elements (GnmFilterField *field,
 	/* r.end.row =  XL actually extend to the first non-empty element in the list */
 	r.end.col = r.start.col += filter_field_index (field);
 	uc.has_blank = FALSE;
-	uc.hash = g_hash_table_new (
-			(GHashFunc) value_hash, (GEqualFunc) value_equal);
+	uc.hash = g_hash_table_new ((GHashFunc)value_hash,
+				    (GEqualFunc)value_equal);
 	sheet_foreach_cell_in_range (field->filter->sheet,
 		CELL_ITER_ALL,
 		r.start.col, r.start.row, r.end.col, r.end.row,
 		(CellIterFunc)&cb_collect_unique, &uc);
 
-	g_hash_table_foreach (uc.hash,
-		(GHFunc) cb_copy_hash_to_array, sorted);
+	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_range, sorted);
 	qsort (&g_ptr_array_index (sorted, 0),
-	       sorted->len, sizeof (GnmValue *), value_cmp);
+	       sorted->len, sizeof (GnmCell *), cell_value_cmp);
 	for (i = 0; i < sorted->len ; i++) {
-		GnmValue const *v = g_ptr_array_index (sorted, i);
+		const GnmCell *cell = g_ptr_array_index (sorted, i);
+		const GOFormat *format = cell_get_format (cell);			
+		GnmValue const *v = cell->value;
+		char *str = format_value (format, v, NULL, -1, date_conv);
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter,
-			0, value_peek_string (v),
+			0, str,
 			1, v,
 			2, 0,
 			-1);
+		g_free (str);
 		if (i == 10)
 			*clip = gtk_tree_model_get_path (GTK_TREE_MODEL (model),
 							 &iter);
