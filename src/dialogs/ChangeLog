@@ -1,3 +1,11 @@
+2005-11-30  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* dialog-doc-metadata.c
+	(dialog_doc_metadata_init): Assign destroy signal to the dialog.
+	(populate_page_2): Assign signals for click on 'Help' and 'Close' buttons.
+	(cb_dialog_doc_metadata_close_clicked): new.
+	(cb_dialog_doc_metadata_destroy): new.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

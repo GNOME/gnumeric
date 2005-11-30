@@ -153,6 +153,9 @@ static void cb_dialog_doc_metadata_group_write_clicked (GtkWidget *w, DialogDocM
 static void cb_dialog_doc_metadata_others_read_clicked (GtkWidget *w, DialogDocMetaData *state);
 static void cb_dialog_doc_metadata_others_write_clicked (GtkWidget *w, DialogDocMetaData *state);
 
+static void cb_dialog_doc_metadata_close_clicked (GtkWidget *w, DialogDocMetaData *state);
+static gboolean cb_dialog_doc_metadata_destroy (GtkObject *w, DialogDocMetaData *state);
+
 static void
 dialog_doc_metadata_free (DialogDocMetaData *state) 
 {
@@ -261,6 +264,9 @@ dialog_doc_metadata_init (DialogDocMetaData *state, WorkbookControlGUI *wbcg)
 
 	dialog_doc_metadata_init_widgets (state);
 
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (cb_dialog_doc_metadata_destroy), state);
 	/*We populate the signal handlers*/
 	/*We populate initial values.
 	 *This has been split into pages, for easier maintenance.
@@ -269,8 +275,6 @@ dialog_doc_metadata_init (DialogDocMetaData *state, WorkbookControlGUI *wbcg)
 	populate_page_2 (state);
 	populate_page_3 (state);
 	populate_page_4 (state);
-
-	gnumeric_init_help_button (GTK_WIDGET (state->help_button), GNUMERIC_HELP_LINK_DEFINE_NAMES);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -364,6 +368,28 @@ cb_dialog_doc_metadata_others_write_clicked (GtkWidget *w, DialogDocMetaData *st
 {
 }
 
+static void 
+cb_dialog_doc_metadata_close_clicked (GtkWidget *w, DialogDocMetaData *state)
+{
+	gtk_widget_destroy (state->dialog);
+}
+
+static gboolean
+cb_dialog_doc_metadata_destroy (GtkObject *w, DialogDocMetaData *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+	
+	state->dialog = NULL;
+
+	return FALSE;
+}
+
 /*Populators!*/
 /*NOTE: populate_page_1 also sets handlers for the cancel and OK buttons*/
 void populate_page_1 (DialogDocMetaData *state)
@@ -399,6 +425,10 @@ void populate_page_1 (DialogDocMetaData *state)
 
 	g_signal_connect (G_OBJECT (state->others_read), "clicked", G_CALLBACK (cb_dialog_doc_metadata_others_read_clicked), state);
 	g_signal_connect (G_OBJECT (state->others_write), "clicked", G_CALLBACK (cb_dialog_doc_metadata_others_write_clicked), state);
+
+	/* Help and Close buttons */
+	gnumeric_init_help_button (GTK_WIDGET (state->help_button), GNUMERIC_HELP_LINK_SUMMARY);
+	g_signal_connect (G_OBJECT (state->close_button), "clicked", G_CALLBACK (cb_dialog_doc_metadata_close_clicked), state);
 }
 
 void populate_page_2(DialogDocMetaData *state)
