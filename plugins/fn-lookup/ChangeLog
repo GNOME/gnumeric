@@ -1,3 +1,9 @@
+2005-11-30  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_address) : rework to handle the special case
+	  of relative refs in R1C1 mode actually being relative, where as in
+	  A1 mode the col/row are treated as absolute.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

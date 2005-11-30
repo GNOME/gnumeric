@@ -242,7 +242,7 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 	g_free (sheet->name_unquoted_collate_key);
 	g_free (sheet->name_case_insensitive);
 	sheet->name_unquoted = new_name_unquoted;
-	sheet->name_quoted = sheet_name_quote (new_name_unquoted);
+	sheet->name_quoted = g_string_free (sheet_name_quote (new_name_unquoted), FALSE);
 	sheet->name_unquoted_collate_key = g_utf8_collate_key (new_name_unquoted, -1);
 	sheet->name_case_insensitive = g_utf8_casefold (new_name_unquoted, -1);
 
@@ -727,7 +727,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	sheet->index_in_wb = -1;
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
-	sheet->name_quoted = sheet_name_quote (name);
+	sheet->name_quoted = g_string_free (sheet_name_quote (name), FALSE);
 	sheet->name_unquoted_collate_key =
 		g_utf8_collate_key (sheet->name_unquoted, -1);
 	sheet->name_case_insensitive =
@@ -3357,7 +3357,7 @@ sheet_clear_region (Sheet *sheet,
  *
  * Return value: a safe sheet name, caller is responsible for the string.
  **/
-char *
+GString *
 sheet_name_quote (char const *name_unquoted)
 {
 	char const *ptr;
@@ -3378,23 +3378,18 @@ sheet_name_quote (char const *name_unquoted)
 	}
 
 	if (needs_quotes) {
-		int  len_quoted = strlen (name_unquoted) + quotes_embedded + 3;
-		char  *ret = g_malloc (len_quoted);
-		char const *src;
-		char  *dst;
-
-		*ret = '\'';
-		for (src = name_unquoted, dst = ret + 1; *src; src++, dst++) {
-			if (*src == '\'' || *src == '\\')
-				*dst++ = '\\';
-			*dst = *src;
+		GString *res = g_string_sized_new ((ptr - name_unquoted) + quotes_embedded + 3);
+		g_string_append_c (res, '\'');
+		for (ptr = name_unquoted; *ptr; ptr = g_utf8_next_char (ptr)) {
+			gunichar c = g_utf8_get_char (ptr);
+			if (c == '\'' || c == '\\')
+				g_string_append_c (res, '\\');
+			g_string_append_unichar (res, c);
 		}
-		*dst++ = '\'';
-		*dst = '\0';
-
-		return ret;
+		g_string_append_c (res, '\'');
+		return res;
 	} else
-		return g_strdup (name_unquoted);
+		return g_string_new_len (name_unquoted, (ptr - name_unquoted));
 }
 
 void

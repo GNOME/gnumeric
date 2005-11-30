@@ -363,68 +363,60 @@ static GnmFuncHelp const help_address[] = {
 static GnmValue *
 gnumeric_address (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-        int   row, col, abs_num, a1;
-	gchar *sheet_name, *buf;
-	char const *sheet_quote;
+	GnmExprConventions const *conv = gnm_expr_conventions_default;
+	GString		*res;
+	GnmCellRef	 ref;
+	GnmParsePos	 pp;
+	gboolean	 err;
+	int		 col, row;
 
-	row = value_get_as_int (args[0]);
-	col = value_get_as_int (args[1]);
+	switch (args[2] ? value_get_as_int (args[2]) : 1) {
+	case 1: case 5: ref.col_relative = ref.row_relative = FALSE; break;
+	case 2: case 6:
+		ref.col_relative = TRUE;
+		ref.row_relative = FALSE;
+		break;
+	case 3: case 7:
+		ref.col_relative = FALSE;
+		ref.row_relative = TRUE;
+		break;
+	case 4: case 8: ref.col_relative = ref.row_relative = TRUE; break;
 
-	if (row < 1 || SHEET_MAX_ROWS <= row ||
-	    col < 1 || SHEET_MAX_COLS <= col)
-	        return value_new_error_VALUE (ei->pos);
+	default :
+		return value_new_error_VALUE (ei->pos);
+	}
 
-	abs_num = args[2] ? value_get_as_int (args[2]) : 1;
-
-	if (args[3] == NULL)
-	        a1 = 1;
-	else {
-		gboolean err;
-	        a1 = value_get_as_bool (args[3], &err);
+	ref.sheet = NULL;
+	row = ref.row = value_get_as_int (args[0]) - 1;
+	col = ref.col = value_get_as_int (args[1]) - 1;
+	parse_pos_init_evalpos (&pp, ei->pos);
+	if (NULL != args[3]) {
+		/* MS Excel is ridiculous.  This is a special case */
+		if (!value_get_as_bool (args[3], &err)) {
+			conv = gnm_expr_conventions_r1c1;
+			if (ref.col_relative)
+				col = ei->pos->eval.col + (++ref.col);
+			if (ref.row_relative)
+				row = ei->pos->eval.row + (++ref.row);
+		}
 		if (err)
 		        return value_new_error_VALUE (ei->pos);
 	}
-
-	sheet_name = (args[4] != NULL)
-		? sheet_name_quote (value_peek_string (args[4]))
-		: g_strdup ("");
-	sheet_quote = *sheet_name ? "!" : "";
-
-	buf = g_new (gchar, strlen (sheet_name) + 1 + 50);
-	switch (abs_num) {
-	case 1: case 5:
-	        if (a1)
-		        sprintf (buf, "%s%s$%s$%d", sheet_name, sheet_quote, col_name (col - 1),
-				 row);
-		else
-		        sprintf (buf, "%s%sR%dC%d", sheet_name, sheet_quote, row, col);
-		break;
-	case 2: case 6:
-	        if (a1)
-		        sprintf (buf, "%s%s%s$%d", sheet_name, sheet_quote, col_name (col - 1), row);
-		else
-		        sprintf (buf, "%s%sR%dC[%d]", sheet_name, sheet_quote, row, col);
-		break;
-	case 3: case 7:
-	        if (a1)
-		        sprintf (buf, "%s%s$%s%d", sheet_name, sheet_quote, col_name (col - 1), row);
-		else
-		        sprintf (buf, "%s%sR[%d]C%d", sheet_name, sheet_quote, row, col);
-		break;
-	case 4: case 8:
-	        if (a1)
-		        sprintf (buf, "%s%s%s%d", sheet_name, sheet_quote, col_name (col - 1), row);
-		else
-		        sprintf (buf, "%s%sR[%d]C[%d]", sheet_name, sheet_quote, row, col);
-		break;
-	default:
-	        g_free (sheet_name);
-	        g_free (buf);
+	if (col < 0 || col >= SHEET_MAX_COLS)
 		return value_new_error_VALUE (ei->pos);
-	}
-	g_free (sheet_name);
+	if (row < 0 || row >= SHEET_MAX_ROWS)
+		return value_new_error_VALUE (ei->pos);
 
-	return value_new_string_nocopy (buf);
+	if (NULL != args[4]) {
+		res = sheet_name_quote (value_peek_string (args[4]));
+		g_string_append_c (res, '!');
+	} else
+		res = g_string_new (NULL);
+	if (conv != gnm_expr_conventions_r1c1)
+		pp.eval.col = pp.eval.row = 0;
+	cellref_as_string (res, conv, &ref, &pp, TRUE);
+
+	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
 
 /***************************************************************************/
@@ -1265,7 +1257,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 GnmFuncDescriptor const lookup_functions[] = {
-	{ "address",   "ff|ffs", N_("row_num,col_num,abs_num,a1,text"),
+	{ "address",   "ff|fbs", N_("row_num,col_num,abs_num,a1,text"),
 	  help_address,  gnumeric_address, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "areas", NULL,	N_("reference"),
