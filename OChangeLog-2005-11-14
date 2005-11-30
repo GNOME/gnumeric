@@ -1,3 +1,8 @@
+2005-11-30 Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* src/workbook-control-gui.c (wbcg_finalize:1665): Fixed compile
+	error in Maemo Platform.
+
 2005-11-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-filter.c (cb_collect_unique): Map value to cells.

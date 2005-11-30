@@ -1662,7 +1662,7 @@ wbcg_finalize (GObject *obj)
 
 #ifdef USE_HILDON	
 	if (wbcg->hildon_app != NULL)
-		gtk_object_destroy (GTK_OBJECT (wbcg->app));
+		gtk_object_destroy (GTK_OBJECT (wbcg->hildon_app));
 #endif	
 	(*parent_class->finalize) (obj);
 }
