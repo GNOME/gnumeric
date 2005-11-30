@@ -4,6 +4,7 @@ Morten:
 	* Fix COUNTBLANK.
 	* Fix auto-filter formatting issue.  [#322392]
 	* Fix ATAN2(0,0).
+	* Make AND, OR, and XOR ignore strings as claimed.
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.1
