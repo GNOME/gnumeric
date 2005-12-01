@@ -542,7 +542,7 @@ static GNM_ACTION_DEF (cb_direction)
 		wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
 }
 
-static GNM_ACTION_DEF (cb_view_zoom_out)
+static GNM_ACTION_DEF (cb_view_zoom_in)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
@@ -553,7 +553,7 @@ static GNM_ACTION_DEF (cb_view_zoom_out)
 		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
 			  (double) (zoom + 10) / 100);
 }
-static GNM_ACTION_DEF (cb_view_zoom_in)
+static GNM_ACTION_DEF (cb_view_zoom_out)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;

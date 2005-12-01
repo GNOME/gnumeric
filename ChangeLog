@@ -1,3 +1,8 @@
+2005-12-01 Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* wbcg-actions.c (cb_view_zoom_in): Changed name to cb_view_zoom_out.
+	(cb_view_zoom_out): Changed name to cb_view_zoom_in.
+
 2005-11-30 Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* src/workbook-control-gui.c (wbcg_finalize:1665): Fixed compile
