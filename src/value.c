@@ -427,6 +427,31 @@ value_new_array_empty (guint cols, guint rows)
 	return (GnmValue *)v;
 }
 
+/*
+ * Returns TRUE, FALSE, or -1.
+ */
+static int
+value_parse_boolean (const char *str, gboolean translated)
+{
+	if (translated) {
+		/* FIXME: ascii???  */
+		if (0 == g_ascii_strcasecmp (str, format_boolean (TRUE)))
+			return TRUE;
+		else if (0 == g_ascii_strcasecmp (str, format_boolean (FALSE)))
+			return FALSE;
+		else
+			return -1;
+	} else {
+		if (0 == g_ascii_strcasecmp (str, "TRUE"))
+			return TRUE;
+		else if (0 == g_ascii_strcasecmp (str, "FALSE"))
+			return FALSE;
+		else
+			return -1;
+	}
+}
+
+
 GnmValue *
 value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		       gboolean translated)
@@ -437,20 +462,12 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		res = value_new_empty ();
 		break;
 
-	case VALUE_BOOLEAN:
-		if (translated) {
-			/* FIXME: ascii???  */
-			if (0 == g_ascii_strcasecmp (str, format_boolean (TRUE)))
-				res = value_new_bool (TRUE);
-			else if (0 == g_ascii_strcasecmp (str, format_boolean (FALSE)))
-				res = value_new_bool (FALSE);
-		} else {
-			if (0 == g_ascii_strcasecmp (str, "TRUE"))
-				res = value_new_bool (TRUE);
-			else if (0 == g_ascii_strcasecmp (str, "FALSE"))
-				res = value_new_bool (FALSE);
-		}
+	case VALUE_BOOLEAN: {
+		int i = value_parse_boolean (str, translated);
+		if (i != -1)
+			res = value_new_bool ((gboolean)i);
 		break;
+	}
 
 	case VALUE_INTEGER: {
 		char *end;
@@ -804,8 +821,15 @@ value_get_as_bool (GnmValue const *v, gboolean *err)
 	case VALUE_BOOLEAN:
 		return v->v_bool.val;
 
-	case VALUE_STRING:
-		return v->v_str.val->str[0] != '\0';
+	case VALUE_STRING: {
+		int i = value_parse_boolean (value_peek_string (v), FALSE);
+		if (i == -1) {
+			if (err)
+				*err = TRUE;
+			return FALSE;
+		}
+		return (gboolean)i;
+	}
 
 	case VALUE_INTEGER:
 		return v->v_int.val != 0;
@@ -814,7 +838,7 @@ value_get_as_bool (GnmValue const *v, gboolean *err)
 		return v->v_float.val != 0.0;
 
 	default:
-		g_warning ("Unhandled value in value_get_boolean.");
+		g_warning ("Unhandled value in value_get_as_bool.");
 
 	case VALUE_CELLRANGE:
 	case VALUE_ARRAY:

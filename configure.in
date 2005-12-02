@@ -651,6 +651,14 @@ AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codese
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
+SAVE_CFLAGS=$CFLAGS
+SAVE_LIBS=$LIBS
+CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
+LIBS="$GNUMERIC_LIBS $LIBS"
+AC_CHECK_FUNCS(g_date_set_time_t)
+CFLAGS=$SAVE_CFLAGS
+LIBS=$SAVE_LIBS
+
 dnl We supply our own lgamma and lgamma_r when missing.
 AC_CHECK_FUNCS(lgamma_r)
 if test $ac_cv_func_lgamma_r = no; then

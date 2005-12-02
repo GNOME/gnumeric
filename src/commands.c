@@ -920,8 +920,10 @@ cmd_set_text (WorkbookControl *wbc,
 	} else
 		same_text = same_markup = FALSE;
 
-	if (same_text && same_markup)
+	if (same_text && same_markup) {
+		g_free (corrected_text);
 		return TRUE;
+	}
 
 	me = g_object_new (CMD_SET_TEXT_TYPE, NULL);
 

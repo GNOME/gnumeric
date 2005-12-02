@@ -42,6 +42,7 @@
 #include "sheet-object-cell-comment.h"
 #include "style-color.h"
 
+#include <glib.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <time.h>
@@ -58,7 +59,7 @@
 
 data_analysis_output_t *
 dao_init (data_analysis_output_t *dao, 
-				  data_analysis_output_type_t type)
+	  data_analysis_output_type_t type)
 {
 	if (dao == NULL)
 		dao = g_new (data_analysis_output_t, 1);
@@ -871,16 +872,23 @@ void
 dao_append_date (GString *buf)
 {
 	GDate     date;
-	GTimeVal  t;
 	struct tm tm_s;
 	gchar     *tmp;
+	time_t    now;
 
+#ifdef HAVE_G_DATE_SET_TIME_T
+	now = time (NULL);
+	g_date_set_time_t (&date, now);
+#else
+	GTimeVal  t;
 	g_get_current_time (&t);
-	g_date_set_time (&date, t.tv_sec);
+	now = t.tv_sec;
+ 	g_date_set_time (&date, t.tv_sec);
+#endif
 	g_date_to_struct_tm (&date, &tm_s);
-	tm_s.tm_sec  = t.tv_sec % 60;
-	tm_s.tm_min  = (t.tv_sec / 60) % 60;
-	tm_s.tm_hour = (t.tv_sec / 3600) % 24;
+	tm_s.tm_sec  = now % 60;
+	tm_s.tm_min  = (now / 60) % 60;
+	tm_s.tm_hour = (now / 3600) % 24;
 	tmp = asctime (&tm_s);
 	g_string_append (buf, tmp);
 }

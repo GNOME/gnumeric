@@ -1128,6 +1128,18 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		/* All of these argument types must be scalars */
 		switch (arg_type) {
 		case 'b':
+			if (tmp->type == VALUE_STRING) {
+				gboolean err;
+				gboolean b = value_get_as_bool (value_peek_string (tmp), &err);
+				if (err) {
+					free_values (args, i + 1);
+					return value_new_error_VALUE (ei->pos);
+				}
+				value_release (args[i]);
+				tmp = args[i] = value_new_bool (b);
+				break;
+			}
+			/* Fall through.  */
 		case 'f':
 			if (tmp->type == VALUE_STRING) {
 				tmp = format_match_number (value_peek_string (tmp), NULL,

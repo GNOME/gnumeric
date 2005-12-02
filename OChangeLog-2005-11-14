@@ -1,3 +1,17 @@
+2005-11-30  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_call_with_list): Fix handling of strings
+	for 'b' argument types.  We only want TRUE/FALSE, not dates and
+	numbers in strings.
+
+	* src/commands.c (cmd_set_text): Plug leak.
+
+	* src/value.c (value_new_from_string): Factor out boolean parsing
+	into value_parse_boolean.
+	(value_get_as_bool): Use value_parse_boolean.  This changes
+	semantics in only "TRUE" and "FALSE" (ignoring case) are value
+	values.
+
 2005-12-01 Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* wbcg-actions.c (cb_view_zoom_in): Changed name to cb_view_zoom_out.
