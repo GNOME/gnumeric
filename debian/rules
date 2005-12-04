@@ -230,7 +230,7 @@ install: build
 binary-indep: build install
 	dh_testdir -i
 	dh_testroot -i
-#	dh_installdebconf -i
+	dh_installdebconf -i
 	dh_installdocs -i
 
 	dh_installexamples -i
@@ -262,7 +262,7 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
-#	dh_installdebconf -a
+	dh_installdebconf -a
 	dh_installdocs -a --noscripts
 	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
 	dh_installexamples -a

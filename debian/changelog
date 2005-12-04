@@ -1,3 +1,24 @@
+gnumeric (1.6.1-2) unstable; urgency=medium
+
+  * [debian/gnumeric.templates, debian/gnumeric.preinst] New. Make a
+    reasonable effort attempt to give the administrator the option of aborting
+    an installation when there are running gnumeric processes (as those 
+    processes may not be able to function properly (in particular, save their 
+    data) when gnumeric is upgraded). (Closes: #286563, #290508)
+  * [debian/rules] Added dh_installdebconf calls.
+  * [debian/control] Added Suggests: debconf.
+  * [debian/control] Dropped gnumeric-common Depends: gnumeric as it causes a
+    circular dependency which is problematic in some upgrade scenarios.
+    (Closes: #339925)
+  * [debian/control] Added gnumeric-doc Suggests: docbook-xsl for the
+    (navigation) images in the documentation. Made this a Suggests: rather
+    than a Recommends: dependency as Recommends: dependencies are difficult to
+    avoid in many package management frontends and the Recommends: of
+    docbook-xsl itself (in particular: httpd) are not desirable on many
+    systems. (Closes: #341572)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  4 Dec 2005 10:50:17 +0100
+
 gnumeric (1.6.1-1) unstable; urgency=medium
 
   * New upstream release. Changes include:

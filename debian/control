@@ -22,7 +22,7 @@ Standards-Version: 3.6.1
 Package: gnumeric
 Architecture: any
 Depends: ${shlibs:Depends}, gsfonts, gnumeric-common (= ${Source-Version}), ${misc:Depends}
-Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra
+Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra, debconf
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
 Description: GNOME spreadsheet application
@@ -60,7 +60,6 @@ Description: GNOME spreadsheet application
 Package: gnumeric-common
 Architecture: all
 Replaces: gnumeric (<= 1.2.6-1)
-Depends: gnumeric
 Description: common files for Gnumeric, the GNOME spreadsheet application
  This package contains architecture-independent data files needed by the
  "gnumeric" package.
@@ -71,7 +70,7 @@ Section: doc
 Recommends: yelp (>= 2.6.0), gnome-desktop-data
 Suggests: gnumeric (>= ${Upstream-Version})
 Conflicts: gnumeric1.0-doc
-Replaces: gnumeric (<< 1.1.17-2), gnumeric1.0-doc
+Replaces: gnumeric (<< 1.1.17-2), gnumeric1.0-doc, docbook-xsl
 Description: documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (DocBook XML) format.
 
