@@ -1,3 +1,7 @@
+2005-12-04  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_type): Don't crash for empty values.
+
 2005-11-25  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (cb_countblank): Empty strings should be considered

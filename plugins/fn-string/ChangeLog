@@ -1,3 +1,7 @@
+2005-12-04  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_trim): Fix bogosity.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

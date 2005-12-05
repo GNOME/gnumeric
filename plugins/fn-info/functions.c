@@ -1823,12 +1823,11 @@ static GnmFuncHelp const help_type[] = {
 static GnmValue *
 gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	switch (argv[0]->type) {
-	/* case VALUE_EMPTY : not possible, S arguments convert this to int(0)
-	 * This is XL compatible, although I don't really agree with it
-	 */
+	const GnmValue *v = argv[0];
+	switch (v ? VALUE_TYPE (v) : VALUE_EMPTY) {
 	case VALUE_BOOLEAN:
 		return value_new_int (4);
+	case VALUE_EMPTY:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 		return value_new_int (1);
@@ -1836,8 +1835,8 @@ gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_int (16);
 	case VALUE_STRING:
 		return value_new_int (2);
-	/* case VALUE_CELLRANGE: S argument handles this */
-#warning FIXME : S arguments will filter arrays
+	case VALUE_CELLRANGE:
+		g_warning ("Check this.");
 	case VALUE_ARRAY:
 		return value_new_int (64);
 	default:

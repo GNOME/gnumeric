@@ -918,7 +918,7 @@ gnumeric_trim (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	char const *s;
 	GString  *res   = g_string_new (NULL);
 	gboolean  space = TRUE;
-	int       len;
+	size_t    last_len = 0;
 
 	s = value_peek_string (argv[0]);
 	while (*s) {
@@ -930,6 +930,7 @@ gnumeric_trim (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		 */
 		if (g_unichar_isspace (uc)) {
 			if (!space) {
+				last_len = res->len;
 				g_string_append_unichar (res, uc);
 				space = TRUE;
 			}
@@ -941,10 +942,8 @@ gnumeric_trim (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		s = g_utf8_next_char (s);
 	}
 
-	g_warning ("FIXME: this looks bogus.");
-	len = g_utf8_strlen (res->str, -1);
-	if (space && len > 0)
-		g_string_truncate (res, len - 1);
+	if (space)
+		res->len = last_len;
 
 	return value_new_string_nocopy (g_string_free (res, FALSE));
 }
