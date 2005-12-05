@@ -1,3 +1,15 @@
+2005-12-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (axislineformat): do not set style before setting parent,
+	(object_swap_children): new helper function,
+	(end): also swap axis children for bar charts and do not access
+	directly GOMarker fields (now a private structure),
+	(xl_chart_import_error_bar): fixed some import issues,
+	(chart_write_error_bar): implement error bars export,
+	(chart_write_reg_curve): fix an indexation bug,
+	(chart_write_series): export error bars,
+	(ms_excel_chart_write): use go_marker_set_shape.
+
 2005-11-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* biff-types.h: add new custom biff code for goffice regression curves.
