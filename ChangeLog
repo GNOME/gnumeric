@@ -9,7 +9,7 @@
 	* src/value.c (value_new_from_string): Factor out boolean parsing
 	into value_parse_boolean.
 	(value_get_as_bool): Use value_parse_boolean.  This changes
-	semantics in only "TRUE" and "FALSE" (ignoring case) are value
+	semantics so that only "TRUE" and "FALSE" (ignoring case) are valid
 	values.
 
 2005-12-01 Eduardo Lima <eduardo.lima@indt.org.br>
@@ -32,7 +32,7 @@
 
 2005-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
-	* scr/gnumeric-pane.c (cb_control_point_event): begin drag mode even
+	* src/gnumeric-pane.c (cb_control_point_event): begin drag mode even
 	for created object.
 
 2005-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
