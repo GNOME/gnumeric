@@ -1,3 +1,7 @@
+2005-12-07  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (cb_number_format_changed): Plug leak.
+
 2005-11-30  Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* dialog-doc-metadata.c

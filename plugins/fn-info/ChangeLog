@@ -1,3 +1,7 @@
+2005-12-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_type): Fix value returned for ranges.
+
 2005-12-04  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_type): Don't crash for empty values.

@@ -1831,12 +1831,11 @@ gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 		return value_new_int (1);
+	case VALUE_CELLRANGE:
 	case VALUE_ERROR:
 		return value_new_int (16);
 	case VALUE_STRING:
 		return value_new_int (2);
-	case VALUE_CELLRANGE:
-		g_warning ("Check this.");
 	case VALUE_ARRAY:
 		return value_new_int (64);
 	default:

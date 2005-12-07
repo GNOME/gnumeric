@@ -438,7 +438,7 @@ init_button_image (GladeXML *gui, char const *name)
 
 static void
 cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
-			  char *fmt,
+			  const char *fmt,
 			  FormatState *state)
 {
 	gboolean changed = FALSE;
@@ -447,9 +447,8 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 	if (!state->enable_edit)
 		return;
 
-	if (fmt)
-	{
-	  	gnm_style_set_format_text (state->result, g_strdup (fmt));
+	if (fmt) {
+	  	gnm_style_set_format_text (state->result, fmt);
 		changed =  TRUE;
 	}
 
