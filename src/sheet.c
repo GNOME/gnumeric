@@ -3246,7 +3246,7 @@ sheet_finalize (GObject *obj)
  *     removes/clear all of the cells in the specified region.
  *     Does NOT queue a redraw.
  *
- * WARNING : This does NOT regenerate spans that were interupted by
+ * WARNING : This does NOT regenerate spans that were interrupted by
  * this cell and can now continue.
  */
 static GnmValue *
