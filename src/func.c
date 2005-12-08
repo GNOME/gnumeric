@@ -939,12 +939,13 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
 	case 'A':
 		return _("Area");
 	case 'B':
-		return _("Scalar or Blank");
+		return _("Scalar, Blank, or Error");
 	case 'E':
 		return _("Scalar or Error");
 	case 'S':
 		return _("Scalar");
 	case '?':
+		/* Missing values will be NULL.  */
 		return _("Any");
 
 	default:
@@ -1112,7 +1113,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				}
 			} else {
 				if (iter_count < 0) {
-					g_warning ("Damn I though this was impossible");
+					g_warning ("Damn I thought this was impossible");
 					iter_count = 0;
 				}
 				iter_item = g_alloca (sizeof (int) * argc);
@@ -1130,7 +1131,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		case 'b':
 			if (tmp->type == VALUE_STRING) {
 				gboolean err;
-				gboolean b = value_get_as_bool (value_peek_string (tmp), &err);
+				gboolean b = value_get_as_bool (tmp, &err);
 				if (err) {
 					free_values (args, i + 1);
 					return value_new_error_VALUE (ei->pos);

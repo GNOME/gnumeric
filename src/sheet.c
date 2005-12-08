@@ -3360,36 +3360,31 @@ sheet_clear_region (Sheet *sheet,
 GString *
 sheet_name_quote (char const *name_unquoted)
 {
-	char const *ptr;
-	int quotes_embedded = 0;
-	gboolean needs_quotes;
+	GString *res;
+	gboolean have_quotes = FALSE;
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 	g_return_val_if_fail (name_unquoted[0] != 0, NULL);
 
-	/* count number of embedded quotes and see if we need to quote */
-	needs_quotes = !g_unichar_isalpha (g_utf8_get_char (name_unquoted));
-	for (ptr = name_unquoted; *ptr; ptr = g_utf8_next_char (ptr)) {
-		gunichar c = g_utf8_get_char (ptr);
-		if (!g_unichar_isalnum (c))
-			needs_quotes = TRUE;
-		if (c == '\'' || c == '\\')
-			quotes_embedded++;
-	}
+	res = g_string_sized_new (20);
+	while (*name_unquoted) {
+		gunichar uc = g_utf8_get_char (name_unquoted);
+		name_unquoted = g_utf8_next_char (name_unquoted);
 
-	if (needs_quotes) {
-		GString *res = g_string_sized_new ((ptr - name_unquoted) + quotes_embedded + 3);
-		g_string_append_c (res, '\'');
-		for (ptr = name_unquoted; *ptr; ptr = g_utf8_next_char (ptr)) {
-			gunichar c = g_utf8_get_char (ptr);
-			if (c == '\'' || c == '\\')
-				g_string_append_c (res, '\\');
-			g_string_append_unichar (res, c);
+		if (!have_quotes &&
+		    !g_unichar_isalnum (uc) &&
+		    (uc != '.' || res->len == 0)) {
+			g_string_prepend_c (res, '\'');
+			have_quotes = TRUE;
 		}
+		if (uc == '\'' || uc == '\\')
+			g_string_append_c (res, '\\');
+		g_string_append_unichar (res, uc);
+	}
+	if (have_quotes)
 		g_string_append_c (res, '\'');
-		return res;
-	} else
-		return g_string_new_len (name_unquoted, (ptr - name_unquoted));
+
+	return res;
 }
 
 void

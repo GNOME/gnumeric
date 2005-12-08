@@ -849,10 +849,47 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 			return start;
 		}
 	} else {
-		for (end = start;
-		     g_unichar_isalnum (g_utf8_get_char (end));
-		     end = g_utf8_next_char (end))
-			; /* Nothing */
+		gboolean only_digits = TRUE;
+		end = start;
+
+		/*
+		 * Valid: Normal!a1
+		 * Valid: x.y!a1
+		 * Invalid: .y!a1
+		 *
+		 * Some names starting with digits are actually valid, but
+		 * unparse quoted. Things are quite tricky: most sheet names
+		 * starting with a digit are ok, but not those starting with
+		 * "[0-9]*\." or "[0-9]+[eE]".
+		 * 
+		 * Valid: 42!a1
+		 * Valid: 4x!a1
+		 * Invalid: 1.!a1
+		 * Invalid: 1e!a1
+		 */
+
+		while (1) {
+			gunichar uc = g_utf8_get_char (end);
+			if (g_unichar_isalpha (uc)) {
+				if (only_digits && end != start &&
+				    (uc == 'e' || uc == 'E')) {
+					end = start;
+					break;
+				}
+				only_digits = FALSE;
+				end = g_utf8_next_char (end);
+			} else if (g_unichar_isdigit (uc)) {
+				end = g_utf8_next_char (end);
+			} else if (uc == '.') {
+				/* Valid, except after only digits.  */
+				if (only_digits) {
+					end = start;
+					break;
+				}
+				end++;
+			} else 
+				break;
+		}
 
 		if (*end != '!' && (!allow_3d || *end != ':'))
 			return start;

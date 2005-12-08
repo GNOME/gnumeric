@@ -1,3 +1,15 @@
+2005-12-08  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_def_get_arg_type_string): Note, that 'B'
+	accepts errors too.
+	(function_call_with_list): Fix last fix.
+
+	* src/parse-util.c (sheetref_parse): Handle sheet names starting
+	with digits.
+
+	* src/sheet.c (sheet_name_quote): Simplify and handle non-initial
+	dot.
+
 2005-11-30  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (function_call_with_list): Fix handling of strings

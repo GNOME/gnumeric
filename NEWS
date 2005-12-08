@@ -8,6 +8,7 @@ Morten:
 	* Fix TRIM for non-ASCII case with spaces at end.
 	* Fix TYPE crash.  [#323128]
 	* Plug leak.
+	* Fix sheet quoting problem.  [#323546]
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.1
