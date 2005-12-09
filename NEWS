@@ -10,6 +10,9 @@ Morten:
 	* Plug leak.
 	* Fix sheet quoting problem.  [#323546]
 
+Philo Vivero:
+	* New loan template.  [#317201]
+
 --------------------------------------------------------------------------
 Gnumeric 1.6.1
 
