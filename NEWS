@@ -10,6 +10,9 @@ Morten:
 	* Plug leak.
 	* Fix sheet quoting problem.  [#323546]
 
+Nick Lamb:
+	* Fix CONVERT crash.  [#323678]
+
 Philo Vivero:
 	* New loan template.  [#317201]
 

@@ -856,7 +856,7 @@ get_constant_of_unit(const eng_convert_unit_t units[],
 
 /* See also http://physics.nist.gov/cuu/Units/prefixes.html */
 
-static GnmValue *
+static gboolean
 convert (const eng_convert_unit_t units[],
 	 const eng_convert_unit_t prefixes[],
 	 char const *from_unit, char const *to_unit,
@@ -869,17 +869,16 @@ convert (const eng_convert_unit_t units[],
 
 	        if (!get_constant_of_unit (units, prefixes,
 					   to_unit, &to_c, &to_prefix))
-			return value_new_error_NUM (ep);
-
-	        if (from_c == 0 || to_prefix == 0)
-	                return value_new_error_NUM (ep);
-
-		*v = value_new_float (((n * from_prefix) / from_c) *
-				 to_c / to_prefix);
-		return *v;
+			*v = value_new_error_NUM (ep);
+	        else if (from_c == 0 || to_prefix == 0)
+	                *v = value_new_error_NUM (ep);
+		else
+			*v = value_new_float (((n * from_prefix) / from_c) *
+					      to_c / to_prefix);
+		return TRUE;
 	}
 
-	return NULL;
+	return FALSE;
 }
 
 static GnmValue *

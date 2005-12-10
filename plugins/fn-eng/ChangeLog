@@ -1,3 +1,9 @@
+2005-12-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (convert): Return a gboolean, not a pointer.  Also
+	make sure to always assign the result to the right place.  Fixes
+	#323678.  Thanks to Nuick Lamb.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
