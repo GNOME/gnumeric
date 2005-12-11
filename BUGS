@@ -36,6 +36,7 @@ Worries
 -------
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
+    : undo of cut across clipboard of cell range
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
 
