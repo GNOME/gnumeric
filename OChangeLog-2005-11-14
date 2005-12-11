@@ -1,3 +1,25 @@
+2005-12-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.[ch] (x_store_clipboard_if_needed): New
+	function. Hand clipboard off to clipboard manager if this is the
+	last remaining wbcg.
+
+	* src/gui-clipboard.c (table_cellregion_write): Replace wbc
+	parameter with a command context.
+	(image_write, graph_write): Remove sheet parameter.
+	(x_clipboard_get_cb): We're no longer passed a wbcg. Instead,
+	create a temporary command context. Test output from
+	gnm_cellregion_to_xml before using. Use workbook_date_conv from
+	workbook of clipboard's origin_sheet.
+	(x_clipboard_clear_cb): Simplify.
+	(x_claim_clipboard): Register x_clipboard_clear_cb only for
+	CLIPBOARD, not for PRIMARY. Call gtk_clipboard_set_can_store,
+	indicating that we can hand clipboard off to clipboard manager
+	when exiting.
+
+	* src/workbook-control-gui.c (wbcg_finalize): Call
+	x_store_clipboard_if_needed.
+
 2005-12-09  Morten Welinder  <terra@gnome.org>
 
 	* templates/english/loan.gnumeric: Replace BOLT.  (Boring Old Loan

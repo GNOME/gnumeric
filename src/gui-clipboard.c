@@ -12,9 +12,11 @@
 
 #include "gui-util.h"
 #include "clipboard.h"
+#include "command-context-stderr.h"
 #include "selection.h"
 #include "application.h"
 #include "workbook-control-gui-priv.h"
+#include "workbook-priv.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "ranges.h"
@@ -447,7 +449,7 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 
 /* Cheezy implementation: paste into a temporary workbook, save that. */
 static guchar *
-table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
+table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 			char * saver_id, int *size)
 {
 	guchar *ret = NULL;
@@ -465,7 +467,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 		return NULL;
 
 	output = gsf_output_memory_new ();
-	ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbc));
+	ioc = gnumeric_io_context_new (ctx);
 	wb = workbook_new_with_sheets (1);
 	wb_view = workbook_view_new (wb);
 
@@ -475,7 +477,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 	r.end.row = cr->rows - 1;
 	
 	paste_target_init (&pt, sheet, &r, PASTE_ALL_TYPES);
-	if (clipboard_paste_region (cr, &pt, GO_CMD_CONTEXT (wbc)) == FALSE) {
+	if (clipboard_paste_region (cr, &pt, ctx) == FALSE) {
 		go_file_saver_save (saver, ioc, wb_view, output);
 		if (!gnumeric_io_error_occurred (ioc)) {
 			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
@@ -502,8 +504,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 }
 
 static guchar *
-image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
-	     int *size)
+image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 {
 	guchar *ret = NULL;
 	SheetObject *so = NULL;
@@ -558,8 +559,7 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 }
 
 static guchar *
-graph_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
-	     int *size)
+graph_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 {
 	guchar *ret = NULL;
 	SheetObject *so = NULL;
@@ -663,63 +663,59 @@ cellregion_to_string (GnmCellRegion const *cr,
  */
 static void
 x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
-		    guint info, WorkbookControlGUI *wbcg)
+		    guint info, GObject *obj)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	GnmCellRegion *clipboard = gnm_app_clipboard_contents_get ();
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	GnmRange const *a = gnm_app_clipboard_area_get ();
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	gchar *target_name;
+	GOCmdContext *ctx = cmd_context_stderr_new ();
+	gchar *target_name = gdk_atom_name (selection_data->target);
 
 	/*
-	 * Not sure how to handle this, not sure what purpose this has has
-	 * (sheet being NULL). I think it is here to indicate that the selection
-	 * just has been cut.
+	 * There are 4 cases. What variables are valid depends on case:
+	 * source is
+	 *   a cut: clipboard NULL, sheet, area non NULL.
+         *   a copy: clipboard, sheet, area all non NULL.
+	 *   a cut, source closed: clipboard, sheet, area all NULL.
+	 *   a copy, source closed: clipboard non NULL, sheet, area non NULL.
+	 *
+	 * If the source is a cut, we copy it for pasting.  We
+	 * postpone clearing it until after the selection has been
+	 * rendered to the requested format.
 	 */
-	if (!sheet)
-		return;
-
-	/*
-	 * If the content was marked for a cut we need to copy it for pasting
-	 * we clear it later on, because if the other application (the one that
-	 * requested we render the data) is another instance of gnumeric
-	 * we need the selection to remain "intact" (not cleared) so we can
-	 * render it to the Gnumeric XML clipboard format
-	 */
-	if (clipboard == NULL) {
+	if (clipboard == NULL && sheet != NULL) {
 		content_needs_free = TRUE;
 		clipboard = clipboard_copy_range (sheet, a);
 	}
 
-	g_return_if_fail (clipboard != NULL);
+	if (clipboard == NULL)
+		goto out;
 
-	target_name = gdk_atom_name (selection_data->target);
-	/*
-	 * Check whether the other application wants gnumeric XML format
-	 * in fact we only have to check the 'info' variable, however
-	 * to be absolutely sure I check if the atom checks out too
-	 */
+	/* What format does the other application want? */
 	if (selection_data->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
 		GsfOutputMemory *output  = gnm_cellregion_to_xml (clipboard);
-		gtk_selection_data_set (selection_data, selection_data->target, 8,
-			gsf_output_memory_get_bytes (output),
-			gsf_output_size (GSF_OUTPUT (output)));
-		g_object_unref (output);
-		to_gnumeric = TRUE;
+		if (output) {
+			gtk_selection_data_set 
+				(selection_data, selection_data->target, 8,
+				 gsf_output_memory_get_bytes (output),
+				 gsf_output_size (GSF_OUTPUT (output)));
+			g_object_unref (output);
+			to_gnumeric = TRUE;
+		}
 	} else if (selection_data->target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
 		char *saver_id = (char *) "Gnumeric_html:xhtml_range";
 		int buffer_size;
-		guchar *buffer = table_cellregion_write (wbc, clipboard,
-							   saver_id,
-							   &buffer_size);
+		guchar *buffer = table_cellregion_write (ctx, clipboard,
+							 saver_id,
+							 &buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
 	} else if (strcmp (target_name, "application/x-goffice-graph") == 0) {
 		int buffer_size;
-		guchar *buffer = graph_write (clipboard, sheet, target_name,
+		guchar *buffer = graph_write (clipboard, target_name,
 					      &buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
@@ -727,15 +723,16 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		g_free (buffer);
 	} else if (strncmp (target_name, "image/", 6) == 0) {
 		int buffer_size;
-		guchar *buffer = image_write (clipboard, sheet, target_name,
+		guchar *buffer = image_write (clipboard, target_name,
 					      &buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
 	} else {
+		Workbook *wb = clipboard->origin_sheet->workbook;
 		GString *res = cellregion_to_string (clipboard,
-			workbook_date_conv (sheet->workbook));
+			workbook_date_conv (wb));
 		if (res != NULL) {
 			gtk_selection_data_set_text (selection_data, 
 				res->str, res->len);
@@ -743,7 +740,6 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		} else
 			gtk_selection_data_set_text (selection_data, "", 0);
 	}
-	g_free (target_name);
 
 	/*
 	 * If this was a CUT operation we need to clear the content that was pasted
@@ -757,12 +753,15 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 				a->start.col, a->start.row,
 				a->end.col,   a->end.row,
 				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS,
-				GO_CMD_CONTEXT (wbc));
+				ctx);
 			gnm_app_clipboard_clear (TRUE);
 		}
 
 		cellregion_unref (clipboard);
 	}
+ out:
+	g_free (target_name);
+	g_object_unref (ctx);
 }
 
 /**
@@ -772,13 +771,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
  */
 static gint
 x_clipboard_clear_cb (GtkClipboard *clipboard,
-		      WorkbookControlGUI *wbcg)
+		      GObject *obj)
 {
-	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
-
-	if (clipboard == 
-	    gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD))
-		gnm_app_clipboard_clear (FALSE);
+	gnm_app_clipboard_clear (FALSE);
 
 	return TRUE;
 }
@@ -886,20 +881,28 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 		targets = (GtkTargetEntry *) table_targets;
 		n_targets = G_N_ELEMENTS (table_targets);
 	}
+	/* Register a x_clipboard_clear_cb only for CLIPBOARD, not for
+	 * PRIMARY */ 
 	ret =
 	gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
 		targets, n_targets,
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
-		G_OBJECT (wbcg)) &&
-	gtk_clipboard_set_with_owner (
-		gtk_clipboard_get_for_display (display, GDK_SELECTION_PRIMARY),
-		targets, n_targets,
-		(GtkClipboardGetFunc) x_clipboard_get_cb,
-		(GtkClipboardClearFunc) x_clipboard_clear_cb,
-		G_OBJECT (wbcg));
-
+		gnm_app_get_app ());
+	if (ret) {
+		gtk_clipboard_set_can_store (
+			gtk_clipboard_get_for_display (
+				display, GDK_SELECTION_CLIPBOARD),
+			        targets, n_targets);
+		ret = gtk_clipboard_set_with_owner (
+		        gtk_clipboard_get_for_display (display, 
+						       GDK_SELECTION_PRIMARY),
+			targets, n_targets,
+			(GtkClipboardGetFunc) x_clipboard_get_cb,
+			NULL,
+			gnm_app_get_app ());
+	}
 	if (exportable || imageable) {
 		for (i = 0; i < n_targets; i++)
 			g_free (targets[i].target);
@@ -907,4 +910,32 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 	}
 
 	return ret;
+}
+
+/* Hand clipboard off to clipboard manager if this is the last
+ * remaining wbcg. We get called when it is being finalized */
+void 
+x_store_clipboard_if_needed (WorkbookControlGUI *wbcg)
+{
+	GList *workbooks = gnm_app_workbook_list ();
+	int num_wbcg = 0;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	
+	for (; workbooks; workbooks = workbooks->next) {
+		Workbook *wb = WORKBOOK (workbooks->data);
+		WORKBOOK_FOREACH_CONTROL (wb, view, control, {
+			if (IS_WORKBOOK_CONTROL_GUI (control))
+				num_wbcg++;
+			});
+	}
+
+	/* Test for 0, we are already linked out of the data structures */
+	if (num_wbcg == 0) {
+		gtk_clipboard_store
+			(gtk_clipboard_get_for_display
+			 (gtk_widget_get_display 
+			  (GTK_WIDGET (wbcg_toplevel (wbcg))),
+			  GDK_SELECTION_CLIPBOARD));
+	}
 }

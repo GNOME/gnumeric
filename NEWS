@@ -10,6 +10,9 @@ Morten:
 	* Plug leak.
 	* Fix sheet quoting problem.  [#323546]
 
+Jon Kåre:
+        * Hand clipboard off to clipboard manager when exiting.
+
 Nick Lamb:
 	* Fix CONVERT crash.  [#323678]
 
