@@ -13,7 +13,7 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=317662
     * Double borders in rtl
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
-    - use 2.6 clipboard handling
+    - use 2.6 clipboard handling              DONE
 	: gtk_clipboard_set_can_store
 	: gtk_clipboard_store
     - Finish Data -> Table 
@@ -36,7 +36,7 @@ Worries
 -------
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
-    : undo of cut across clipboard of cell range
+    : undo of cell range cut over clipboard
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
 
