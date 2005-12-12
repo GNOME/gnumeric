@@ -221,24 +221,9 @@ gnm_sog_get_object_target_list (SheetObject const *so)
 	return tl;
 }
 
-static gboolean
-sog_gsf_gdk_pixbuf_save (const gchar *buf,
-			 gsize count,
-			 GError **error,
-			 gpointer data)
-{
-	GsfOutput *output = GSF_OUTPUT (data);
-	gboolean ok = gsf_output_write (output, count, buf);
-
-	if (!ok && error)
-		*error = g_error_copy (gsf_output_error (output));
-
-	return ok;
-}
-
 static void
 gnm_sog_write_image (SheetObject const *so, const char *format,
-				GsfOutput *output, GError **err)
+		     GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	gboolean res = FALSE;
@@ -258,20 +243,10 @@ gnm_sog_write_image (SheetObject const *so, const char *format,
 
 	g_return_if_fail (w > 0 && h > 0);
 
-	if (strcmp (format, "svg") == 0) {
-		res = gog_graph_export_to_svg (sog->graph, output, w, h, 1.0);
-	} else {
-		GdkPixbuf *pixbuf = gog_renderer_get_pixbuf (sog->renderer);
-
-		if (!pixbuf) {
-			gog_renderer_update (sog->renderer, w, h, 1.);
-			pixbuf = gog_renderer_get_pixbuf (sog->renderer);
-		}
-		res = gdk_pixbuf_save_to_callback (pixbuf,
-						   sog_gsf_gdk_pixbuf_save,
-						   output, format,
-						   err, NULL);
-	}
+	/* FIXME Add a dpi editor. Default dpi to 150 for now */
+	res = gog_graph_export_image (sog->graph, go_image_get_format_from_name (format),
+				      output, 150.0, 150.0);
+	
 	if (!res && err && *err == NULL)
 		*err = g_error_new (gsf_output_error_id (), 0,
 				    _("Unknown failure while saving image"));
@@ -308,49 +283,34 @@ gnm_sog_write_object (SheetObject const *so, const char *format,
 	g_free (old_num_locale);
 }
 
-/* 
- * The following are useful formats to save in:
- *  png
- *  svg
- *  eps
- *
- * TODO: Possibly add an eps renderer.  We may also use a new instance of
- * pixbufrenderer to save as png. This would allow the user to specify size of
- * the saved image, if that's wanted.
- */
 static void
 sog_cb_save_as (SheetObject *so, SheetControl *sc)
 {
-	static GOImageType const fmts[] = {
-		{(char *) "svg",  (char *) N_("SVG (vector graphics)"), (char *) "svg", FALSE},
-		{(char *) "png",  (char *) N_("PNG (raster graphics)"), (char *) "png", TRUE},
-		{(char *) "jpeg", (char *) N_("JPEG (photograph)"),     (char *) "jpg", TRUE}
-	};
-
 	WorkbookControlGUI *wbcg;
 	char *uri;
 	GError *err = NULL;
 	GsfOutput *output;
-	GSList *l = NULL;
-	GOImageType const *sel_fmt = &fmts[0];
-	guint i;
+	GSList *l;
+	GOImageFormat selected_format;
+	GOImageFormatInfo const *format_info;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
 	g_return_if_fail (sog != NULL);
 
-	for (i = 0; i < G_N_ELEMENTS (fmts); i++)
-		l = g_slist_prepend (l, (gpointer) (fmts + i));
-	l = g_slist_reverse (l);
+	l = gog_graph_get_supported_image_formats ();
+	g_return_if_fail (l != NULL);
+	selected_format = GPOINTER_TO_UINT (l->data);
 
 #warning "This violates model gui barrier"
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
-	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt);
+	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format);
 	if (!uri)
 		goto out;
 	output = go_file_create (uri, &err);
 	if (!output)
 		goto out;
-	sheet_object_write_image (so, sel_fmt->name, output, &err);
+	format_info = go_image_get_format_info (selected_format);
+	sheet_object_write_image (so, format_info->name, output, &err);
 	g_object_unref (output);
 		
 	if (err != NULL)

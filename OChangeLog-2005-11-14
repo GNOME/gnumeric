@@ -1,3 +1,14 @@
+2005-12-12  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/sheet-object-graph.c (sog_gsf_gdk_pixbuf_save): removed.
+	(gnm_sog_write_image): use gog_graph_export_image API.
+	(sog_cb_save_as): use gog_graph_get_supported_image_formats API.
+	Format is an enum now.
+	* src/sheet-object-image.c (soi_get_image_fmt): removed. It's in
+	goffice now. 
+	(soi_free_image_fmt): removed.
+	(gnm_soi_write_image): use go_image_get_formats_with_pixbuf_saver API.
+
 2005-12-12  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_node_get_value): Add protections against file
