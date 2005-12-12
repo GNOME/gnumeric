@@ -1,3 +1,8 @@
+2005-12-11  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (val_to_base): Handle numeric values better.  Fixes
+	parts of #323787.
+
 2005-12-09  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (convert): Return a gboolean, not a pointer.  Also

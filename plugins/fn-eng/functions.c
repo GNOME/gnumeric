@@ -41,6 +41,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -55,11 +56,12 @@ val_to_base (FunctionEvalInfo *ei,
 {
 	GnmValue const *value;
 	int digit, max, places;
+	const char *str;
 	char *err;
-	char const *str;
-	gnm_float v, b10;
 	gboolean ok, had_hex_prefix = FALSE;
+	gnm_float fplaces, v, b10;
 	GString *buffer;
+	char smallbuf[GNM_MANT_DIG + 4 * sizeof (int)];
 
 	g_return_val_if_fail (src_base > 1 && src_base <= 36,
 			      value_new_error_VALUE (ei->pos));
@@ -67,14 +69,39 @@ val_to_base (FunctionEvalInfo *ei,
 			      value_new_error_VALUE (ei->pos));
 
 	value = argv[0];
-	if (VALUE_IS_EMPTY (value))
+	switch (VALUE_TYPE (value)) {
+	default:
 		return value_new_error_NUM (ei->pos);
-	else if (VALUE_IS_EMPTY_OR_ERROR (value))
-		return value_dup (value);
 
-	places = (num_argv >= 2 && argv[1]) ? value_get_as_int (argv[1]) : 0;
+	case VALUE_BOOLEAN:
+		return value_new_error_VALUE (ei->pos);
 
-	str = value_peek_string (value);
+	case VALUE_INTEGER:
+		str = smallbuf;
+		sprintf (smallbuf, "%d", value_get_as_int (value));
+		break;
+
+	case VALUE_FLOAT: {
+		gnm_float fval = value_get_as_float (value);
+
+		/* We could lift the limit up to the largest integers that
+		   a gnm_float can handle, but this seems to be what Excel
+		   does. */
+		if (fval < INT_MIN || fval > INT_MAX)
+			return value_new_error_NUM (ei->pos);
+
+		str = smallbuf;
+		g_ascii_formatd (smallbuf, sizeof (smallbuf) - 1,
+				 "%.0" GNM_FORMAT_f,
+				 fval);
+		break;
+	}
+
+	case VALUE_STRING:
+		str = value_peek_string (value);
+		break;
+	}
+
 	if (relaxed) {
 		while (*str == ' ' || *str == '\t')
 			str++;
@@ -85,9 +112,10 @@ val_to_base (FunctionEvalInfo *ei,
 			had_hex_prefix = TRUE;
 		}
 	}
+	errno = 0;
 	v = strtol (str, &err, src_base);
 
-	ok = (err != str && *err == 0);
+	ok = (err != str && *err == 0 && errno != ERANGE);
 	if (!ok && relaxed && err != str) {
 		if (src_base == 16 &&
 		    !had_hex_prefix &&
@@ -98,6 +126,13 @@ val_to_base (FunctionEvalInfo *ei,
 
 	if (!ok)
 		return value_new_error_NUM (ei->pos);
+
+	fplaces = (num_argv >= 2 && argv[1])
+		? value_get_as_float (argv[1])
+		: 0.0;
+	if (fplaces < 0 || fplaces > INT_MAX)
+		return value_new_error_NUM (ei->pos);
+	places = (int)fplaces;
 
 	b10 = gnm_pow (src_base, 10);
 	if (v >= b10 / 2) /* N's complement */
