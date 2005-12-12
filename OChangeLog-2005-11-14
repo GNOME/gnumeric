@@ -1,3 +1,8 @@
+2005-12-12  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_node_get_value): Add protections against file
+	corruption.  Fixes crash from #323888.
+
 2005-12-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.[ch] (x_store_clipboard_if_needed): New

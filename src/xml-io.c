@@ -185,8 +185,17 @@ xml_node_get_value (xmlNodePtr node, char const *name)
 	gchar     *vstr;
 
 	str  = xml_node_get_cstr (node, name);
+	if (!str) {
+		g_warning ("File corruption [%s]", name);
+		return value_new_error_NA (NULL);
+	}
 	type = (GnmValueType) atoi (str);
+
 	vstr = g_strrstr (str, ":") + 1;
+	if (!vstr) {
+		g_warning ("File corruption [%s] [%s]", name, str);
+		return value_new_error_NA (NULL);
+	}
 
 	value = value_new_from_string (type, vstr, NULL, FALSE);
 	xmlFree (str);
