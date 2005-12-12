@@ -10,7 +10,7 @@ Morten:
 	* Plug leak.
 	* Fix sheet quoting problem.  [#323546]
 	* Improve Excel compatibility of BIN2DEC, BIN2HEX, and
-	  BIN2OCT.  (Parts of #323787]
+	  BIN2OCT.  [#323787]
 	* Fix crash on xml load.  [#323888]
 
 Jon Kåre:
