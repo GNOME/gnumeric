@@ -1595,6 +1595,8 @@ gnumeric_betadist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+/* Note: Excel's BETAINV returns #NUM! for various values where it
+   simply gives up computing the result.  */
 static GnmFuncHelp const help_betainv[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=BETAINV\n"
