@@ -951,12 +951,7 @@ xml_write_solver (GnmOutputXML *state)
 static void
 xml_write_scenarios (GnmOutputXML *state)
 {
-	scenario_t const *s;
 	GList   *ptr;
-#if 0
-	GString  *name;
-	int       i, cols, rows;
-#endif
 
 	if (state->sheet->scenarios == NULL)
 		return;
@@ -964,7 +959,10 @@ xml_write_scenarios (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "Scenarios");
 
 	for (ptr = state->sheet->scenarios ; ptr != NULL ; ptr = ptr->next) {
-	        s = (scenario_t const *)ptr->data;
+	        scenario_t const *s = (scenario_t const *)ptr->data;
+#if 0
+		int       i, cols, rows;
+#endif
 
 		gsf_xml_out_start_element (state->output, GNM "Scenario");
 		gsf_xml_out_add_cstr (state->output, "Name", s->name);
@@ -980,13 +978,15 @@ xml_write_scenarios (GnmOutputXML *state)
 		rows = range_height (&s->range);
 		cols = range_width (&s->range);
 		for (i = 0; i < cols * rows; i++) {
-			name = g_string_new (NULL);
+			GString  *name = g_string_new (NULL);
 			g_string_append_printf (name, "V%d", i);
 			xml_node_set_value (scen, name->str,
 					    s->changing_cells [i]);
-			g_string_free (name, FALSE);
+			g_string_free (name, TRUE);
 		}
 #endif
+
+		gsf_xml_out_end_element (state->output); /* </gnm:Scenario> */
 	}
 
 	gsf_xml_out_end_element (state->output); /* </gnm:Scenarios> */

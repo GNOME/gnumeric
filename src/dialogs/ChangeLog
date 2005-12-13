@@ -1,3 +1,10 @@
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (check_int_constraints): Plug leak.
+	(solver_add_scenario): Plug leaks.  Constify.
+	(cb_dialog_solve_clicked): Use solver_constraint_destroy.
+	(cb_destroy): Remove.
+
 2005-12-07  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (cb_number_format_changed): Plug leak.

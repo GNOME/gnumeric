@@ -527,20 +527,31 @@ check_int_constraints (GnmValue *input_range, SolverState *state)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	const constraint_t *a_constraint;
-	const gchar *text;
 
 	store = gtk_tree_view_get_model (state->constraint_list);
 	if (gtk_tree_model_get_iter_first (store, &iter))
 		do {
+			const constraint_t *a_constraint;
+			gchar *text;
+
 			gtk_tree_model_get (store, &iter, 0, &text, 1, &a_constraint, -1);
-			if (a_constraint == NULL)
+			if (a_constraint == NULL) {
+				g_free (text);
 				break;
+			}
+
 			if ((a_constraint->type != SolverINT) &&
-				(a_constraint->type != SolverBOOL))
+			    (a_constraint->type != SolverBOOL)) {
+				g_free (text);
 				continue;
-			if (!global_range_contained (state->sheet, a_constraint->lhs_value, input_range))
+			}
+
+			if (!global_range_contained (state->sheet,
+						     a_constraint->lhs_value,
+						     input_range))
 				return text;
+
+			g_free (text);
 		} while (gtk_tree_model_iter_next (store, &iter));
 	return NULL;
 }
@@ -665,19 +676,6 @@ save_original_values (GSList *input_cells)
 	return ov;
 }
 
-/**
- * cb_destroy:
- * @data:
- * @user_data:
- *
- *
- **/
-static void
-cb_destroy (gpointer data, G_GNUC_UNUSED gpointer user_data)
-{
-	g_free (data);
-}
-
 
 /* Returns FALSE if the reports deleted the current sheet
  * and forced the dialog to die */
@@ -790,18 +788,18 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 }
 
 static void
-solver_add_scenario (SolverState *state, SolverResults *res, gchar *name)
+solver_add_scenario (SolverState *state, SolverResults *res, const gchar *name)
 {
 	SolverParameters *param = res->param;
-	GnmValue            *input_range;
+	GnmValue         *input_range;
 	const gchar      *comment = _("Optimal solution created by solver.\n");
 	scenario_t       *scenario;
 
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						     state->sheet);
 
-	scenario_add_new (name, input_range, g_strdup (param->input_entry_str),
-			  g_strdup (comment), state->sheet, &scenario);
+	scenario_add_new (name, input_range, param->input_entry_str,
+			  comment, state->sheet, &scenario);
 	scenario_add (state->sheet, scenario);
 	if (input_range != NULL)
 		value_release (input_range);
@@ -956,11 +954,10 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	conv.sheet     = state->sheet;
 	conv.c_listing = state->constraint_list;
 	convert_constraint_format (&conv);
-	if (param->constraints != NULL) {
-		g_slist_foreach	(param->constraints, cb_destroy, NULL);
-		g_slist_free (param->constraints);
-		param->constraints = NULL;
-	}
+	g_slist_foreach	(param->constraints,
+			 (GFunc)solver_constraint_destroy,
+			 NULL);
+	g_slist_free (param->constraints);
 	param->constraints = conv.c_list;
 	if (param->constraints == NULL) {
 		go_gtk_notice_nonmodal_dialog

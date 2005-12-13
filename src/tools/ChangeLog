@@ -1,3 +1,8 @@
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* scenarios.c (scenario_add_new): Constify.
+	(collect_values): Initialize changing_cells with NULL.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

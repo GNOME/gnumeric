@@ -1,3 +1,9 @@
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_param_destroy): Destroy and free the list of
+	constaints.  Free the list of input cells.
+	(solver_constraint_destroy): New function.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

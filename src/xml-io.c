@@ -186,7 +186,8 @@ xml_node_get_value (xmlNodePtr node, char const *name)
 
 	str  = xml_node_get_cstr (node, name);
 	if (!str) {
-		g_warning ("File corruption [%s]", name);
+		/* This happens because the sax writer as-of 1.6.1 does
+		   not write these fields.  */
 		return value_new_error_NA (NULL);
 	}
 	type = (GnmValueType) atoi (str);
@@ -1624,7 +1625,7 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 			g_string_append_printf (name, "V%d", i);
 			s->changing_cells [i] = xml_node_get_value (child,
 								    name->str);
-			g_string_free (name, FALSE);
+			g_string_free (name, TRUE);
 		}
 
 		sheet->scenarios = g_list_append (sheet->scenarios, s);
