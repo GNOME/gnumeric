@@ -15,6 +15,7 @@ Morten:
 	* Fix file corruption on saving scenarios.  [#323927]
 	* Fix a pile of leaks in solver and scenario saving and loading.
 	* Fix leaks in solver dialog.
+	* Fix parser leak.  [#301127]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
