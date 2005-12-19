@@ -1,3 +1,8 @@
+2005-12-19  Morten Welinder  <terra@gnome.org>
+
+	* import-lpsolve: Replace ftime call with g_get_current_time call.
+	Fixes #324358.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

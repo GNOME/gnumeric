@@ -16,6 +16,7 @@ Morten:
 	* Fix a pile of leaks in solver and scenario saving and loading.
 	* Fix leaks in solver dialog.
 	* Fix parser leak.  [#301127]
+	* Fix NetBSD compilation.  [#324358]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

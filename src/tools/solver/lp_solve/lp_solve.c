@@ -15891,10 +15891,9 @@ static double timeNow(void)
 #elif defined CLOCKTIME
   return((double)clock()/CLOCKS_PER_SEC /* CLK_TCK */);
 #else
-  struct timeb buf;
-
-  ftime(&buf);
-  return((double)buf.time+((double) buf.millitm)/1000.0);
+  GTimeVal tim;
+  g_get_current_time (&tim);
+  return tim.tv_sec + tim.tv_usec / 1e6;
 #endif
 }
 

@@ -157,6 +157,13 @@ foreach my $file (@files) {
 	s/\b(realloc)\b/g_realloc/g;
 	s/\b(isspace|tolower|toupper)\b/g_ascii_$1/g;
 
+	if (/\bstruct\s+timeb\b/ ... /return/) {
+	    next unless /return/;
+	    $_ = ("  GTimeVal tim;\n" .
+		  "  g_get_current_time (\&tim);\n" .
+		  "  return tim.tv_sec + tim.tv_usec / 1e6;\n");
+	}
+
 	s/\(([^()]+)\*\s*\)\s*calloc\s*\(([^,]+),\s*sizeof\s*\([^()]*(\([^()]*\))?\)\s*\)/g_new0 ($1, $2)/;
 
 	s/\bchar\s+\*format\b/const char *format/;
