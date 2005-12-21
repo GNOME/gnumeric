@@ -938,10 +938,8 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
 		return _("Cell Range");
 	case 'A':
 		return _("Area");
-	case 'B':
-		return _("Scalar, Blank, or Error");
 	case 'E':
-		return _("Scalar or Error");
+		return _("Scalar, Blank, or Error");
 	case 'S':
 		return _("Scalar");
 	case '?':
@@ -1175,7 +1173,6 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			}
 			break;
 
-		case 'B': /* nothing necessary */
 		case 'E': /* nothing necessary */
 			break;
 

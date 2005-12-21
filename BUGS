@@ -23,7 +23,6 @@ Release Critical
     - Save as ps/pdf
     - back port python fixes ?
 
-    - 'B' and 'E' function arg types are identical.  Kill 'B'.
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
 

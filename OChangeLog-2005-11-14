@@ -1,3 +1,9 @@
+2005-12-21  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_call_with_list): Eliminate 'B'.  It was
+	identical to 'E'.
+	(function_def_get_arg_type_string): Ditto.
+
 2005-12-13  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (build_set): Make this function unregister argument
