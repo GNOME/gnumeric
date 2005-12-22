@@ -1,6 +1,10 @@
+
 2005-12-22  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/sheet-filter.c (cell_value_cmp): Fix "const" warning.
+
+	* src/workbook.c (workbook_cells): Use WORKBOOK_FOREACH_SHEET, not
+	workbook_sheets.
 
 2005-12-21  Morten Welinder  <terra@gnome.org>
 

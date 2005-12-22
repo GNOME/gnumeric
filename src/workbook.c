@@ -646,9 +646,7 @@ workbook_cells (Workbook *wb, gboolean comments)
 
 	g_return_val_if_fail (wb != NULL, cells);
 
-	sheets = workbook_sheets (wb);
-	for (tmp = sheets; tmp; tmp = tmp->next) {
-		Sheet *sheet = tmp->data;
+	WORKBOOK_FOREACH_SHEET (wb, sheet, {
 		int oldlen = cells->len;
 		GPtrArray *scells =
 			sheet_cells (sheet,
@@ -661,8 +659,7 @@ workbook_cells (Workbook *wb, gboolean comments)
 			scells->len * sizeof (GnmEvalPos *));
 
 		g_ptr_array_free (scells, TRUE);
-	}
-	g_list_free (sheets);
+	});
 
 	return cells;
 }
