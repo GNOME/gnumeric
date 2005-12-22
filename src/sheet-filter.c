@@ -303,8 +303,8 @@ cb_hash_range (GnmValue *key, gpointer value, gpointer accum)
 static int
 cell_value_cmp (void const *ptr_a, void const *ptr_b)
 {
-	const GnmCell **a = ptr_a;
-	const GnmCell **b = ptr_b;
+	GnmCell const * const * a = ptr_a;
+	GnmCell const * const * b = ptr_b;
 	return value_cmp (&(*a)->value, &(*b)->value);
 }
 
