@@ -641,7 +641,6 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
 GPtrArray *
 workbook_cells (Workbook *wb, gboolean comments)
 {
-	GList *tmp, *sheets;
 	GPtrArray *cells = g_ptr_array_new ();
 
 	g_return_val_if_fail (wb != NULL, cells);
