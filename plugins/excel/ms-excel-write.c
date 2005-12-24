@@ -448,7 +448,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
 	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x3a };
-	static guint8 const magic_self[]  = { 0x01, 0x4 };
+	static guint8 const magic_self[]  = { 0x01, 0x04 };
 	unsigned i, num_sheets = ewb->sheets->len;
 	GnmFunc *func;
 
@@ -511,7 +511,7 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
 	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x00, 0x01, 0x3a };
-	static guint8 const magic_self[]  = { 0x03, 0x00, 0x01, 0x4 };
+	static guint8 const magic_self[]  = { 0x01, 0x04 };
 	unsigned i;
 	guint8 data [8];
 	GnmFunc *func;
@@ -538,6 +538,8 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 		ewb->supbook_idx = 0;
 
 	ms_biff_put_var_next (ewb->bp, BIFF_SUPBOOK);
+	GSF_LE_SET_GUINT16 (data, ewb->sheets->len);
+	ms_biff_put_var_write (ewb->bp, data, 2);
 	ms_biff_put_var_write (ewb->bp, magic_self, sizeof (magic_self));
 	ms_biff_put_commit (ewb->bp);
 

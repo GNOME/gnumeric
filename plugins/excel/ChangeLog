@@ -1,3 +1,12 @@
+2005-12-22  Stepan Kasal  <kasal@ucw.cz>
+
+	* ms-excel-write.c (excel_write_externsheets_v8): Use the actual
+	  number of sheets in the magic self referential SUPBOOK record.
+	* ms-excel-read.c (supbook_get_sheet): Use EXCEL_SUP_BOOK_SELFREF
+	  to recognize the self referential SUPBOOK record.
+	(excel_read_EXTERNSHEET_v8): Simplify the read of sup_index.
+	* ms-excel-read.h (ExcelExternSheetV8): Remove the unused member wb.
+
 2005-12-05  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (axislineformat): do not set style before setting parent,

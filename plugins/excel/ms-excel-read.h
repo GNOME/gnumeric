@@ -21,7 +21,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 typedef struct {
-	Workbook  *wb;
 	Sheet 	  *first, *last;
 	unsigned   supbook;
 } ExcelExternSheetV8;

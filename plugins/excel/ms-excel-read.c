@@ -5177,7 +5177,7 @@ supbook_get_sheet (GnmXLImporter *importer, gint16 sup_index, unsigned i)
 	g_return_val_if_fail ((unsigned)sup_index < importer->v8.supbook->len, NULL);
 
 	/* supbook was self referential */
-	if (g_array_index (importer->v8.supbook, ExcelSupBook, sup_index).wb == NULL) {
+	if (g_array_index (importer->v8.supbook, ExcelSupBook, sup_index).type == EXCEL_SUP_BOOK_SELFREF) {
 		g_return_val_if_fail (i < importer->boundsheet_sheet_by_index->len, NULL);
 		sheet = g_ptr_array_index (importer->boundsheet_sheet_by_index, i);
 		g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -5206,7 +5206,7 @@ excel_read_EXTERNSHEET_v8 (BiffQuery const *q, GnmXLImporter *importer)
 		g_array_new (FALSE, FALSE, sizeof (ExcelExternSheetV8)), num);
 
 	for (i = 0; i < num; i++) {
-		sup_index = (gint16)GSF_LE_GET_GUINT16 (q->data + 2 + i * 6 + 0);
+		sup_index = GSF_LE_GET_GINT16 (q->data + 2 + i * 6 + 0);
 		first	  = GSF_LE_GET_GUINT16 (q->data + 2 + i * 6 + 2);
 		last	  = GSF_LE_GET_GUINT16 (q->data + 2 + i * 6 + 4);
 
