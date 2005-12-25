@@ -72,6 +72,12 @@
 	* templates/english/loan.gnumeric: Replace BOLT.  (Boring Old Loan
 	Template.)  Supplied by Philo Vivero.  #317201.
 
+2005-12-08  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (gnm_expr_conventions_new) : assign a std set of
+	  ascii characters that do not require quoting.
+	(gnm_expr_conv_quote) : renamed from
+
 2005-12-08  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (function_def_get_arg_type_string): Note, that 'B'

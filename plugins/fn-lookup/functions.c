@@ -408,7 +408,8 @@ gnumeric_address (FunctionEvalInfo *ei, GnmValue const * const *args)
 		return value_new_error_VALUE (ei->pos);
 
 	if (NULL != args[4]) {
-		res = sheet_name_quote (value_peek_string (args[4]));
+		res = gnm_expr_conv_quote (gnm_expr_conventions_default,
+			value_peek_string (args[4]));
 		g_string_append_c (res, '!');
 	} else
 		res = g_string_new (NULL);
@@ -454,6 +455,8 @@ gnumeric_areas (FunctionEvalInfo *ei, GnmExprList const *l)
 restart :
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_CONSTANT:
+		if (expr->constant.value->type == VALUE_ERROR)
+			return value_dup (expr->constant.value);
 		if (expr->constant.value->type != VALUE_CELLRANGE)
 			break;
 

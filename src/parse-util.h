@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_PARSE_UTIL_H
-# define GNUMERIC_PARSE_UTIL_H
+#ifndef GNM_PARSE_UTIL_H
+# define GNM_PARSE_UTIL_H
 
 #include "gnumeric.h"
 
@@ -122,8 +122,9 @@ struct _GnmExprConventions {
 	gboolean sheet_sep_exclamation;  /* Sheet!... */
 	gboolean sheet_sep_colon; /* Sheet:... */
 
-	/* Is ERROR.TYPE allowed?  */
-	gboolean dots_in_names;
+	/* Other than underscore and dollar what characters can appear in a
+	 * string without quotes. (an array 0..127 of bools) */
+	unsigned char const *unquoted_ascii_name_chars;
 
 	/* Formerly USE_APPLIX_CONVENTIONS.  */
 	gboolean ignore_whitespace;
@@ -209,4 +210,8 @@ void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      GOFormat *current_format,
 				      GODateConventions const *date_conv);
 
-#endif /* GNUMERIC_PARSE_UTIL_H */
+GString	*gnm_expr_conv_quote (GnmExprConventions const *conv, char const *str);
+#define gnm_expr_conv_is_unquoted_char(convs, c)	\
+    ((c < 0x80) ? convs->unquoted_ascii_name_chars [c] : g_unichar_isalnum (c))
+
+#endif /* GNM_PARSE_UTIL_H */

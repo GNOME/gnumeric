@@ -907,11 +907,10 @@ ignore_space_after (gunichar c)
 	}
 }
 
-
 static int
 yylex (void)
 {
-	gunichar c;
+	gunichar c, tmp;
 	char const *start, *end;
 	GnmRangeRef ref;
 	gboolean is_number = FALSE;
@@ -922,10 +921,9 @@ yylex (void)
                 state->ptr = g_utf8_next_char (state->ptr);
 		is_space = TRUE;
 	}
-	if (is_space && !state->convs->ignore_whitespace) {
-		if (!ignore_space_before (g_utf8_get_char (state->ptr)))
-			return ' ';
-	}
+	if (is_space && !state->convs->ignore_whitespace &&
+	    !ignore_space_before (g_utf8_get_char (state->ptr)))
+		return ' ';
 
 	start = state->ptr;
 	c = g_utf8_get_char (start);
@@ -1194,8 +1192,6 @@ yylex (void)
 	switch (c) {
 	case '#':
 		if (state->ptr[0] != '"') {
-			gunichar tmp;
-
 			while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
 			       !g_unichar_isspace (tmp)) {
 				state->ptr = g_utf8_next_char (state->ptr);
@@ -1250,12 +1246,9 @@ yylex (void)
 	}
 	}
 
-	if (g_unichar_isalpha (c) || c == '_' || c == '$'){
-		gunichar tmp;
-
-		while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
-		       (g_unichar_isalnum (tmp) || tmp == '_' || tmp == '$' ||
-		       (tmp == '.' && state->convs->dots_in_names)))
+	if (gnm_expr_conv_is_unquoted_char (state->convs, c)) {
+		while ((c = g_utf8_get_char (state->ptr)) != 0 &&
+		       gnm_expr_conv_is_unquoted_char (state->convs, c))
 			state->ptr = g_utf8_next_char (state->ptr);
 
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (

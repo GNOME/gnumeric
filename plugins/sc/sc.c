@@ -511,7 +511,6 @@ sc_conventions (void)
 	convs->ref_parser = sc_rangeref_parse;
 	convs->range_sep_colon = TRUE;
 	convs->sheet_sep_exclamation	= TRUE;
-	convs->dots_in_names		= TRUE;
 	convs->unknown_function_handler = gnm_func_placeholder_factory;
 	convs->function_rewriter_hash =
 		g_hash_table_new (go_ascii_strcase_hash, 

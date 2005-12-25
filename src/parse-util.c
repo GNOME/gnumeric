@@ -1,10 +1,9 @@
-/* vim: set sw=8: */
-
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * parse-util.c: Various utility routines to parse or produce
  *     string representations of common reference types.
  *
- * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -1149,6 +1148,138 @@ def_expr_name_handler (GString *target,
 
 /* ------------------------------------------------------------------------- */
 
+static unsigned char const std_unquoted_chars[] =
+{
+	0, /* 0   NUL '\0'*/
+	0, /* 1   SOH */
+	0, /* 2   STX */
+	0, /* 3   ETX */
+	0, /* 4   EOT */
+	0, /* 5   ENQ */
+	0, /* 6   ACK */
+	0, /* 7   BEL '\a' */
+	0, /* 8   BS  '\b' */
+	0, /* 9   HT  '\t' */
+	0, /* 10  LF  '\n' */
+	0, /* 11  VT  '\v' */
+	0, /* 12  FF  '\f' */
+	0, /* 13  CR  '\r' */
+	0, /* 14  SO  */
+	0, /* 15  SI  */
+	0, /* 16  DLE */
+	0, /* 17  DC1 */
+	0, /* 18  DC2 */
+	0, /* 19  DC3 */
+	0, /* 20  DC4 */
+	0, /* 21  NAK */
+	0, /* 22  SYN */
+	0, /* 23  ETB */
+	0, /* 24  CAN */
+	0, /* 25  EM  */
+	0, /* 26  SUB */
+	0, /* 27  ESC */
+	0, /* 28  FS '\\'*/
+	0, /* 29  GS */
+	0, /* 30  RS */
+	0, /* 31  US */
+	0, /* 32  SPACE */
+	0, /* 33  ! */
+	0, /* 34  " */
+	0, /* 35  # */
+	0, /* 36  $ */
+	0, /* 37  % */
+	0, /* 38  & */
+	0, /* 39  ' */
+	0, /* 40  ( */
+	0, /* 41  ) */
+	0, /* 42  * */
+	0, /* 43  + */
+	0, /* 44  , */
+	0, /* 45  - */
+	1, /* 46  . */
+	0, /* 47  / */
+	1, /* 48  0 */
+	1, /* 49  1 */
+	1, /* 50  2 */
+	1, /* 51  3 */
+	1, /* 52  4 */
+	1, /* 53  5 */
+	1, /* 54  6 */
+	1, /* 55  7 */
+	1, /* 56  8 */
+	1, /* 57  9 */
+	0, /* 58  : */
+	0, /* 59  ; */
+	0, /* 60  < */
+	0, /* 61  = */
+	0, /* 62  > */
+	1, /* 63  ? */
+	0, /* 64  @*/
+	1, /* 65  A*/
+	1, /* 66  B*/
+	1, /* 67  C*/
+	1, /* 68  D*/
+	1, /* 69  E*/
+	1, /* 70  F*/
+	1, /* 71  G*/
+	1, /* 72  H*/
+	1, /* 73  I*/
+	1, /* 74  J*/
+	1, /* 75  K*/
+	1, /* 76  L*/
+	1, /* 77  M*/
+	1, /* 78  N*/
+	1, /* 79  O*/
+	1, /* 80  P*/
+	1, /* 81  Q*/
+	1, /* 82  R*/
+	1, /* 83  S*/
+	1, /* 84  T*/
+	1, /* 85  U*/
+	1, /* 86  V*/
+	1, /* 87  W*/
+	1, /* 88  X*/
+	1, /* 89  Y*/
+	0, /* 90  Z*/
+	0, /* 91  [*/
+	1, /* 92  \   */
+	0, /* 93  ]*/
+	0, /* 94  ^*/
+	1, /* 95  _*/
+	0, /* 96  `*/
+	1, /* 97  a*/
+	1, /* 98  b*/
+	1, /* 99  c*/
+	1, /* 100 d*/
+	1, /* 101 e*/
+	1, /* 102 f*/
+	1, /* 103 g*/
+	1, /* 104 h*/
+	1, /* 105 i*/
+	1, /* 106 j*/
+	1, /* 107 k*/
+	1, /* 108 l*/
+	1, /* 109 m*/
+	1, /* 110 n*/
+	1, /* 111 o*/
+	1, /* 112 p*/
+	1, /* 113 q*/
+	1, /* 114 r*/
+	1, /* 115 s*/
+	1, /* 116 t*/
+	1, /* 117 u*/
+	1, /* 118 v*/
+	1, /* 119 w*/
+	1, /* 120 x*/
+	1, /* 121 y*/
+	1, /* 122 z*/
+	0, /* 123 {*/
+	0, /* 124 |*/
+	0, /* 125 }*/
+	0, /* 126 ~*/
+	0  /* 127 DEL*/
+};
+
 GnmExprConventions *
 gnm_expr_conventions_new (void)
 {
@@ -1157,6 +1288,7 @@ gnm_expr_conventions_new (void)
 	res->expr_name_handler = def_expr_name_handler;
 	res->cell_ref_handler = cellref_as_string;
 	res->range_ref_handler = rangeref_as_string;
+	res->unquoted_ascii_name_chars = std_unquoted_chars;
 	res->output_sheet_name_sep = "!";
 	res->output_translated = TRUE;
 	return res;
@@ -1295,18 +1427,17 @@ parse_util_init (void)
 
 	convs = gnm_expr_conventions_new ();
 	convs->ref_parser = rangeref_parse;
-	convs->range_sep_colon		= TRUE;
-	convs->sheet_sep_exclamation	= TRUE;
-	convs->dots_in_names		= TRUE;
-	gnm_expr_conventions_default = convs;
+	convs->range_sep_colon		 = TRUE;
+	convs->sheet_sep_exclamation	 = TRUE;
+	convs->r1c1_addresses		 = FALSE;
+	gnm_expr_conventions_default	 = convs;
 
 	convs = gnm_expr_conventions_new ();
 	convs->ref_parser = rangeref_parse;
-	convs->range_sep_colon		= TRUE;
-	convs->sheet_sep_exclamation	= TRUE;
-	convs->dots_in_names		= TRUE;
-	convs->r1c1_addresses		= TRUE;
-	gnm_expr_conventions_r1c1 = convs;
+	convs->range_sep_colon		 = TRUE;
+	convs->sheet_sep_exclamation	 = TRUE;
+	convs->r1c1_addresses		 = TRUE;
+	gnm_expr_conventions_r1c1	 = convs;
 }
 
 void
@@ -1326,3 +1457,50 @@ gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp)
 }
 
 /* ------------------------------------------------------------------------- */
+/**
+ * gnm_expr_conv_quote:
+ * @convs : #GnmExprConventions
+ * @str   : string to quote
+ *
+ * Quotes @str according to the convention @conv if necessary. 
+ * or returns a literal copy of @str if no quoting was needed.
+ *
+ * Return value: caller is responsible for the resulting GString 
+ **/
+GString *
+gnm_expr_conv_quote (GnmExprConventions const *convs,
+		     char const *str)
+{
+	char const *ptr;
+	int quotes_embedded = 0;
+	gboolean needs_quotes;
+	gunichar c;
+
+	g_return_val_if_fail (str != NULL, NULL);
+	g_return_val_if_fail (str[0] != 0, NULL);
+
+	/* count number of embedded quotes and see if we need to quote */
+	needs_quotes = !g_unichar_isalpha (g_utf8_get_char (str));
+	for (ptr = str; *ptr; ptr = g_utf8_next_char (ptr)) {
+		c = g_utf8_get_char (ptr);
+		if (!gnm_expr_conv_is_unquoted_char (convs, c))
+			needs_quotes = TRUE;
+		if (c == '\'' || c == '\\')
+			quotes_embedded++;
+	}
+
+	if (needs_quotes) {
+		GString *res = g_string_sized_new ((ptr - str) + quotes_embedded + 3);
+		g_string_append_c (res, '\'');
+		for (ptr = str; *ptr; ptr = g_utf8_next_char (ptr)) {
+			gunichar c = g_utf8_get_char (ptr);
+			if (c == '\'' || c == '\\')
+				g_string_append_c (res, '\\');
+			g_string_append_unichar (res, c);
+		}
+		g_string_append_c (res, '\'');
+		return res;
+	} else
+		return g_string_new_len (str, (ptr - str));
+}
+

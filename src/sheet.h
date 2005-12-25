@@ -252,8 +252,6 @@ gboolean sheet_is_pristine	(Sheet const *sheet);
 GnmRange    sheet_get_extent	(Sheet const *sheet,
 				 gboolean spans_and_merges_extend);
 
-GString	*sheet_name_quote	(char const *unquoted_name);
-
 /*
  * Utilities to set cell contents, queueing recalcs,
  * redraws and rendering as required.  Does NOT check for

@@ -1,3 +1,8 @@
+2005-12-08  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_address) : Use the new gnm_expr_conv_quote.
+	(gnumeric_areas) : better error handling.
+
 2005-11-30  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_address) : rework to handle the special case

@@ -8,8 +8,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-2.6 TODO before we branch
--------------------------
+http://bugzilla.gnome.org/show_bug.cgi?id=322096
+- mis-export of array expr
+
     http://bugzilla.gnome.org/show_bug.cgi?id=317662
     * Double borders in rtl
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
@@ -21,7 +22,6 @@ Release Critical
     - Conditional formats
 	: draw & print long spans
     - Save as ps/pdf
-    - back port python fixes ?
 
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
@@ -30,7 +30,6 @@ Pending Patches
 ---------------
     http://bugzilla.gnome.org/show_bug.cgi?id=310354
     - autopackage patches		{rob}
-    - Patches for Maemo			{partially in}
     - Meta Data
 	: Patches for metadata dialog	{etrunko}
 	: Patches to use GsfDocMetaData	{jody}
@@ -59,9 +58,10 @@ Architecture Changes
 - ssconvert for non-gnome					(DONE)
 - Merge wb_control_init_state and wb_control_set_view
 
-- Check format accelerators
+- accelerators
      : Looks like ctrl-~ is General not number
      : Can not replicate ctrl-! as accounting with 2k or xp, check 2003
+     : Make ctrl-space and shift-space work for range selection
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog

@@ -1601,7 +1601,6 @@ oo_conventions (void)
 	res->decimal_sep_dot = TRUE;
 	res->argument_sep_semicolon = TRUE;
 	res->array_col_sep_comma = TRUE;
-	res->dots_in_names = TRUE; /* things like com.sun.star.sheet.addin.Analysis.getErf */
 	res->output_argument_sep = ";";
 	res->output_array_col_sep = ",";
 	res->unknown_function_handler = oo_unknown_hander;

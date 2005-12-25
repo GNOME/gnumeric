@@ -1147,7 +1147,6 @@ xml_io_conventions (void)
 	res->range_ref_handler = gnm_1_0_rangeref_as_string;
 	res->range_sep_colon = TRUE;
 	res->sheet_sep_exclamation = TRUE;
-	res->dots_in_names = TRUE;
 	res->output_sheet_name_sep = "!";
 	res->output_argument_sep  = ",";
 	res->output_array_col_sep = ",";
