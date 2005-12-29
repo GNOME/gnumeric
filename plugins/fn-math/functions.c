@@ -753,15 +753,11 @@ gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[1] == NULL)
 	        s = (number >= 0) ? 1.0 : -1.0;
-	else {
+	else
 	        s = value_get_as_float (argv[1]);
-	}
 
-	if (number == 0)
+	if (number == 0 || s == 0)
 		return value_new_int (0);
-
-	if (s == 0)
-		return value_new_error_DIV0 (ei->pos);
 
 	if (number / s < 0)
 		return value_new_error_NUM (ei->pos);
