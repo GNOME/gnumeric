@@ -32,6 +32,9 @@
 #include <mathfunc.h>
 #include <collect.h>
 #include <gnm-i18n.h>
+#include <number-match.h>
+#include <workbook.h>
+#include <sheet.h>
 
 #include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
@@ -41,63 +44,135 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 GNM_PLUGIN_MODULE_HEADER;
+
+
+typedef enum {
+	V2B_STRINGS_GENERAL = 1,        /* Allow "1/1/2000" as number.  */
+	V2B_STRINGS_0XH = 2,            /* Allow "4444h" and "0xABCD".  */
+	V2B_STRINGS_MAXLEN = 4,         /* Impose 10 character input length.  */
+	V2B_STRINGS_BLANK_ZERO = 8,     /* Treat "" as "0".  */
+	V2B_KILLME
+} Val2BaseFlags;
+
+
 
 /**
  * FIXME: In the long term this needs optimising.
  **/
 static GnmValue *
 val_to_base (FunctionEvalInfo *ei,
-	     GnmValue const * const *argv, int num_argv,
+	     const GnmValue *value,
+	     const GnmValue *aplaces,
 	     int src_base, int dest_base,
-	     gboolean relaxed)
+	     gnm_float min_value, gnm_float max_value,
+	     Val2BaseFlags flags)
 {
-	GnmValue const *value;
-	int digit, max, places;
-	char *err;
-	char const *str;
+	int digit, min, max, places;
 	gnm_float v, b10;
-	gboolean ok, had_hex_prefix = FALSE;
 	GString *buffer;
+	GnmValue *vstring = NULL;
 
 	g_return_val_if_fail (src_base > 1 && src_base <= 36,
 			      value_new_error_VALUE (ei->pos));
 	g_return_val_if_fail (dest_base > 1 && dest_base <= 36,
 			      value_new_error_VALUE (ei->pos));
 
-	value = argv[0];
-	if (VALUE_IS_EMPTY (value))
+	/* func.c ought to take care of this.  */
+	if (VALUE_TYPE (value) == VALUE_BOOLEAN)
+		return value_new_error_VALUE (ei->pos);
+	if (aplaces && VALUE_TYPE (aplaces) == VALUE_BOOLEAN)
+		return value_new_error_VALUE (ei->pos);
+
+	switch (VALUE_TYPE (value)) {
+	default:
 		return value_new_error_NUM (ei->pos);
-	else if (VALUE_IS_EMPTY_OR_ERROR (value))
-		return value_dup (value);
 
-	places = (num_argv >= 2 && argv[1]) ? value_get_as_int (argv[1]) : 0;
+	case VALUE_INTEGER: {
+		int val = value_get_as_int (value);
+		char buf[4 * sizeof (int)];
+		char *err;
 
-	str = value_peek_string (value);
-	if (relaxed) {
-		while (*str == ' ' || *str == '\t')
-			str++;
-		if (src_base == 16 &&
-		    str[0] == '0' &&
-		    (str[1] == 'x' || str[1] == 'X')) {
-			str += 2;
-			had_hex_prefix = TRUE;
+		if (val < min_value || val > max_value)
+			value_new_error_NUM (ei->pos);
+
+		sprintf (buf, "%d", val);
+		v = strtol (buf, &err, src_base);
+		if (*err != 0)
+			return value_new_error_NUM (ei->pos);
+
+		break;
+	}
+
+	case VALUE_STRING:
+		if (flags & V2B_STRINGS_GENERAL) {
+			vstring = format_match_number
+				(value_peek_string (value), NULL,
+				 workbook_date_conv (ei->pos->sheet->workbook));
+			if (!vstring ||
+			    VALUE_TYPE (vstring) == VALUE_BOOLEAN ||
+			    !VALUE_IS_NUMBER (vstring)) {
+				if (vstring)
+					value_release (vstring);
+				return value_new_error_VALUE (ei->pos);
+			}
+		} else {
+			const char *str = value_peek_string (value);
+			size_t len;
+			gboolean hsuffix = FALSE;
+			char *err;
+
+			if ((flags & V2B_STRINGS_BLANK_ZERO) && *str == 0)
+				str = "0";
+
+			/* This prevents leading spaces, signs, etc, and "".  */
+			if (!g_ascii_isalnum (*str))
+				return value_new_error_NUM (ei->pos);
+
+			len = strlen (str);
+			/* We check length in bytes.  Since we are going to
+			   require nothing but digits, that is fine.  */
+			if ((flags & V2B_STRINGS_MAXLEN) && len > 10)
+				return value_new_error_NUM (ei->pos);
+
+			if (flags & V2B_STRINGS_0XH) {
+				if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+					str += 2;
+				else if (str[len - 1] == 'h' || str[len - 1] == 'H')
+					hsuffix = TRUE;
+			}
+
+			v = strtol (str, &err, src_base);
+			if (err == str || err[hsuffix] != 0)
+				return value_new_error_NUM (ei->pos);
+
+			break;
 		}
-	}
-	v = strtol (str, &err, src_base);
+		/* Fall through.  */
 
-	ok = (err != str && *err == 0);
-	if (!ok && relaxed && err != str) {
-		if (src_base == 16 &&
-		    !had_hex_prefix &&
-		    (err[0] == 'h' || err[0] == 'H') &&
-		    err[1] == 0)
-			ok = TRUE;
-	}
+	case VALUE_FLOAT: {
+		gnm_float val = gnm_fake_trunc (value_get_as_float (vstring ? vstring : value));
+		char buf[GNM_MANT_DIG + 10];
+		char *err;
 
-	if (!ok)
-		return value_new_error_NUM (ei->pos);
+		if (vstring)
+			value_release (vstring);
+
+		if (val < min_value || val > max_value)
+			return value_new_error_NUM (ei->pos);
+
+		g_ascii_formatd (buf, sizeof (buf) - 1,
+				 "%.0" GNM_FORMAT_f,
+				 val);
+
+		v = strtol (buf, &err, src_base);
+		if (*err != 0)
+			return value_new_error_NUM (ei->pos);
+		break;
+	}
+	}
 
 	b10 = gnm_pow (src_base, 10);
 	if (v >= b10 / 2) /* N's complement */
@@ -107,18 +182,25 @@ val_to_base (FunctionEvalInfo *ei,
 		return value_new_int (v);
 
 	if (v < 0) {
+		min = 1;
 		max = 10;
 		v += gnm_pow (dest_base, max);
 	} else {
 		if (v == 0)
-			max = 1;
+			min = max = 1;
 		else
-			max = (int)(gnm_log (v + 0.5) /
-				    gnm_log (dest_base)) + 1;
+			min = max = (int)(gnm_log (v + 0.5) /
+					  gnm_log (dest_base)) + 1;
 	}
 
-	if (places > max)
-		max = places;
+	if (aplaces) {
+		places = value_get_as_int (aplaces);
+		if (places < min || places > 10)
+			return value_new_error_NUM (ei->pos);
+		if (v >= 0 && places > max)
+			max = places;
+	} else
+		places = 1;
 
 	buffer = g_string_sized_new (max);
 	g_string_set_size (buffer, max);
@@ -160,15 +242,15 @@ static GnmFuncHelp const help_base[] = {
 static GnmValue *
 gnumeric_base (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmValue const *argv2[2];
+	static const gnm_float max = 1 / GNM_EPSILON;
 	int base = value_get_as_int (argv[1]);
 
 	if (base < 2 || base > 36)
 		return value_new_error_NUM (ei->pos);
 
-	argv2[0] = argv[0];
-	argv2[1] = argv[2];
-	return val_to_base (ei, argv2, 2, 10, base, FALSE);
+	return val_to_base (ei, argv[0], argv[2], 10, base,
+			    -max, +max,
+			    V2B_STRINGS_GENERAL | V2B_STRINGS_0XH);
 }
 
 /***************************************************************************/
@@ -194,7 +276,10 @@ static GnmFuncHelp const help_bin2dec[] = {
 static GnmValue *
 gnumeric_bin2dec (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 1, 2, 10, FALSE);
+	return val_to_base (ei, argv[0], NULL,
+			    2, 10,
+			    0, GNM_const(1111111111.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -223,7 +308,10 @@ static GnmFuncHelp const help_bin2oct[] = {
 static GnmValue *
 gnumeric_bin2oct (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 2, 8, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    2, 8,
+			    0, GNM_const(1111111111.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -252,7 +340,10 @@ static GnmFuncHelp const help_bin2hex[] = {
 static GnmValue *
 gnumeric_bin2hex (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 2, 16, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    2, 16,
+			    0, GNM_const(1111111111.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -281,7 +372,10 @@ static GnmFuncHelp const help_dec2bin[] = {
 static GnmValue *
 gnumeric_dec2bin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 10, 2, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    10, 2,
+			    -512, 511,
+			    V2B_STRINGS_GENERAL);
 }
 
 /***************************************************************************/
@@ -310,7 +404,10 @@ static GnmFuncHelp const help_dec2oct[] = {
 static GnmValue *
 gnumeric_dec2oct (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 10, 8, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    10, 8,
+			    -536870912, 536870911,
+			    V2B_STRINGS_GENERAL);
 }
 
 /***************************************************************************/
@@ -339,7 +436,10 @@ static GnmFuncHelp const help_dec2hex[] = {
 static GnmValue *
 gnumeric_dec2hex (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 10, 16, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    10, 16,
+			    GNM_const(-549755813888.0), GNM_const(549755813887.0),
+			    V2B_STRINGS_GENERAL);
 }
 
 /***************************************************************************/
@@ -397,7 +497,10 @@ static GnmFuncHelp const help_oct2dec[] = {
 static GnmValue *
 gnumeric_oct2dec (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 1, 8, 10, FALSE);
+	return val_to_base (ei, argv[0], NULL,
+			    8, 10,
+			    0, GNM_const(7777777777.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -426,7 +529,10 @@ static GnmFuncHelp const help_oct2bin[] = {
 static GnmValue *
 gnumeric_oct2bin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 8, 2, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    8, 2,
+			    0, GNM_const(7777777777.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -455,7 +561,10 @@ static GnmFuncHelp const help_oct2hex[] = {
 static GnmValue *
 gnumeric_oct2hex (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 8, 16, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    8, 16,
+			    0, GNM_const(7777777777.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -484,7 +593,10 @@ static GnmFuncHelp const help_hex2bin[] = {
 static GnmValue *
 gnumeric_hex2bin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 16, 2, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    16, 2,
+			    0, GNM_const(9999999999.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -513,7 +625,10 @@ static GnmFuncHelp const help_hex2oct[] = {
 static GnmValue *
 gnumeric_hex2oct (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 2, 16, 8, FALSE);
+	return val_to_base (ei, argv[0], argv[1],
+			    16, 8,
+			    0, GNM_const(9999999999.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -539,7 +654,10 @@ static GnmFuncHelp const help_hex2dec[] = {
 static GnmValue *
 gnumeric_hex2dec (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return val_to_base (ei, argv, 1, 16, 10, FALSE);
+	return val_to_base (ei, argv[0], NULL,
+			    16, 10,
+			    0, GNM_const(9999999999.0),
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
 }
 
 /***************************************************************************/
@@ -856,7 +974,7 @@ get_constant_of_unit(const eng_convert_unit_t units[],
 
 /* See also http://physics.nist.gov/cuu/Units/prefixes.html */
 
-static GnmValue *
+static gboolean
 convert (const eng_convert_unit_t units[],
 	 const eng_convert_unit_t prefixes[],
 	 char const *from_unit, char const *to_unit,
@@ -869,17 +987,16 @@ convert (const eng_convert_unit_t units[],
 
 	        if (!get_constant_of_unit (units, prefixes,
 					   to_unit, &to_c, &to_prefix))
-			return value_new_error_NUM (ep);
-
-	        if (from_c == 0 || to_prefix == 0)
-	                return value_new_error_NUM (ep);
-
-		*v = value_new_float (((n * from_prefix) / from_c) *
-				 to_c / to_prefix);
-		return *v;
+			*v = value_new_error_NUM (ep);
+	        else if (from_c == 0 || to_prefix == 0)
+	                *v = value_new_error_NUM (ep);
+		else
+			*v = value_new_float (((n * from_prefix) / from_c) *
+					      to_c / to_prefix);
+		return TRUE;
 	}
 
-	return NULL;
+	return FALSE;
 }
 
 static GnmValue *

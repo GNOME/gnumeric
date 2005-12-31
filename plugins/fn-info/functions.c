@@ -1234,8 +1234,13 @@ cb_countblank (Sheet *sheet, int col, int row,
 	       GnmCell *cell, void *user_data)
 {
 	cell_eval (cell);
-	if (!cell_is_empty (cell))
-		*((int *)user_data) -= 1;
+	if (!cell_is_empty (cell)) {
+		const GnmValue *v = cell->value;
+		if (VALUE_IS_STRING (v) && value_peek_string (v)[0] == 0)
+			; /* Nothing -- the empty string is blank.  */
+		else
+			*((int *)user_data) -= 1;
+	}
 	return NULL;
 }
 
@@ -1818,21 +1823,19 @@ static GnmFuncHelp const help_type[] = {
 static GnmValue *
 gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	switch (argv[0]->type) {
-	/* case VALUE_EMPTY : not possible, S arguments convert this to int(0)
-	 * This is XL compatible, although I don't really agree with it
-	 */
+	const GnmValue *v = argv[0];
+	switch (v ? VALUE_TYPE (v) : VALUE_EMPTY) {
 	case VALUE_BOOLEAN:
 		return value_new_int (4);
+	case VALUE_EMPTY:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 		return value_new_int (1);
+	case VALUE_CELLRANGE:
 	case VALUE_ERROR:
 		return value_new_int (16);
 	case VALUE_STRING:
 		return value_new_int (2);
-	/* case VALUE_CELLRANGE: S argument handles this */
-#warning FIXME : S arguments will filter arrays
 	case VALUE_ARRAY:
 		return value_new_int (64);
 	default:
@@ -1906,7 +1909,7 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "isnontext",	"E", N_("value"), help_isnontext,
 	  gnumeric_isnontext, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isnumber",	"B", N_("value"), help_isnumber,
+	{ "isnumber",	"E", N_("value"), help_isnumber,
 	  gnumeric_isnumber, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "isodd",	"S", N_("value"), help_isodd,

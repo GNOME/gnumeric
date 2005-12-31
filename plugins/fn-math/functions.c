@@ -484,8 +484,13 @@ static GnmFuncHelp const help_atan2[] = {
 static GnmValue *
 gnumeric_atan2 (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_atan2 (value_get_as_float (argv [1]),
-					   value_get_as_float (argv [0])));
+	gnm_float x = value_get_as_float (argv [0]);
+	gnm_float y = value_get_as_float (argv [1]);
+
+	if (x == 0 && y == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	return value_new_float (gnm_atan2 (y, x));
 }
 
 /***************************************************************************/
@@ -748,15 +753,11 @@ gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[1] == NULL)
 	        s = (number >= 0) ? 1.0 : -1.0;
-	else {
+	else
 	        s = value_get_as_float (argv[1]);
-	}
 
-	if (number == 0)
+	if (number == 0 || s == 0)
 		return value_new_int (0);
-
-	if (s == 0)
-		return value_new_error_DIV0 (ei->pos);
 
 	if (number / s < 0)
 		return value_new_error_NUM (ei->pos);

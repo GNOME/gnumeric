@@ -1,3 +1,20 @@
+2005-12-21  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Make isnumber use B arg type, not E.
+
+2005-12-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_type): Fix value returned for ranges.
+
+2005-12-04  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_type): Don't crash for empty values.
+
+2005-11-25  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (cb_countblank): Empty strings should be considered
+	blank.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

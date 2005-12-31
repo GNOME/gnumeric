@@ -1,3 +1,8 @@
+2005-11-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (callback_function_and, callback_function_or,
+	callback_function_xor): Ignore strings as advertised.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

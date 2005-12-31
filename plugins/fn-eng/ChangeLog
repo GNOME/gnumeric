@@ -1,3 +1,19 @@
+2005-12-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (val_to_base): Handle lots of peculiarities of
+	{BIN,OCT,DEC,HEX} conversion functions.
+
+2005-12-11  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (val_to_base): Handle numeric values better.  Fixes
+	parts of #323787.
+
+2005-12-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (convert): Return a gboolean, not a pointer.  Also
+	make sure to always assign the result to the right place.  Fixes
+	#323678.  Thanks to Nick Lamb.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

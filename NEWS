@@ -5,6 +5,17 @@ Jody:
 	* Use the cannonical web page in case of problems.
 	* Silence some warnings in the ODS importer.
 
+Morten:
+	* Fix COUNTBLANK.
+	* Fix ATAN2(0,0).
+	* Make AND, OR, and XOR ignore strings as claimed.
+	* Fix TRIM for non-ASCII case with spaces at end.
+	* Improve Excel compatibility of BIN2DEC, BIN2HEX, and
+	  BIN2OCT.  [#323787]
+
+Nick Lamb:
+	* Fix CONVERT crash.  [#323678]
+
 --------------------------------------------------------------------------
 Gnumeric 1.6.1
 

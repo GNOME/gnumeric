@@ -1,3 +1,12 @@
+2005-12-28  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_ceiling) : (n,0) = 0 not div/0
+
+2005-11-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_atan2): Fix (0,0) case as reported by
+	Nick Lamb.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
