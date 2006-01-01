@@ -1,0 +1,10 @@
+#! /bin/sh                                                                     
+set -e
+
+if test -L /usr/share/doc/gnumeric-common ; then
+        rm -f /usr/share/doc/gnumeric-common
+fi
+
+#DEBHELPER#
+
+exit 0

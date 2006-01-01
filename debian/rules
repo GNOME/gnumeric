@@ -172,11 +172,11 @@ install: build
 	dh_installdirs
 
 	cd build && env GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
-		RPM_BUILD_ROOT=fake_so_scrollkeeper-update_wont_be_called \
 		$(MAKE) install \
 		DESTDIR=`pwd`/../debian/tmp/ \
 		localstatedir=`pwd`/../debian/tmp/var/lib \
-		libexecdir=`pwd`/../debian/tmp/usr/bin
+		libexecdir=`pwd`/../debian/tmp/usr/bin \
+		scrollkeeper_localstate_dir=/var/lib/scrollkeeper
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
@@ -230,7 +230,7 @@ install: build
 binary-indep: build install
 	dh_testdir -i
 	dh_testroot -i
-#	dh_installdebconf -i
+	dh_installdebconf -i
 	dh_installdocs -i
 
 	dh_installexamples -i
@@ -262,7 +262,7 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
-#	dh_installdebconf -a
+	dh_installdebconf -a
 	dh_installdocs -a --noscripts
 	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
 	dh_installexamples -a
