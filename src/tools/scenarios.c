@@ -166,7 +166,7 @@ collect_values (Sheet *sheet, scenario_t *s, GnmValueRange *range)
 
 	rows = s->range.end.row - s->range.start.row + 1;
 	cols = s->range.end.col - s->range.start.col + 1;
-	s->changing_cells = g_new (GnmValue *, rows * cols);
+	s->changing_cells = g_new0 (GnmValue *, rows * cols);
 
 	cb.expr_flag = FALSE;
 	cb.sheet     = sheet;
@@ -177,10 +177,10 @@ collect_values (Sheet *sheet, scenario_t *s, GnmValueRange *range)
 
 /* Doesn't actually add the new scenario into the sheet's scenario list. */
 gboolean
-scenario_add_new (gchar *name,
+scenario_add_new (const gchar *name,
 		  GnmValue *changing_cells,
-		  gchar *cell_sel_str,
-		  gchar *comment,
+		  const gchar *cell_sel_str,
+		  const gchar *comment,
 		  Sheet *sheet,
 		  scenario_t **new_scenario)
 {

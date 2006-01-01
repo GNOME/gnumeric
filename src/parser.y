@@ -379,6 +379,7 @@ build_set (GnmExprList *list)
 			return NULL;
 		}
 
+	unregister_allocation (list);
 	return register_expr_allocation (gnm_expr_new_set (list));
 }
 
@@ -563,8 +564,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 				state->ptr-2, 2);
 			YYERROR;
 		} else {
-			unregister_allocation ($2);
 			if ($2->next == NULL) {
+				unregister_allocation ($2);
 				$$ = register_expr_allocation ($2->data);
 				/* NOTE : free list not content */
 				gnm_expr_list_free ($2);
@@ -724,7 +725,7 @@ cellref:  RANGEREF { $$ = $1; }
 
 arg_list: exp {
 		unregister_allocation ($1);
-		$$ = g_slist_prepend (NULL, $1);
+		$$ = gnm_expr_list_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
 	| exp SEPARATOR arg_list {
@@ -735,7 +736,7 @@ arg_list: exp {
 		if (tmp == NULL)
 			tmp = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_empty ()));
 
-		$$ = g_slist_prepend (tmp, $1);
+		$$ = gnm_expr_list_prepend (tmp, $1);
 		register_expr_list_allocation ($$);
 	}
 	| SEPARATOR arg_list {

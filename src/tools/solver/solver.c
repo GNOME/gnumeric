@@ -74,6 +74,11 @@ solver_param_new (void)
 void
 solver_param_destroy (SolverParameters *sp)
 {
+	g_slist_foreach	(sp->constraints,
+			 (GFunc)solver_constraint_destroy,
+			 NULL);
+	g_slist_free (sp->constraints);
+	g_list_free (sp->input_cells);
 	g_free (sp->input_entry_str);
 	g_free (sp->options.scenario_name);
 	g_free (sp);
@@ -167,6 +172,13 @@ SolverConstraint*
 solver_get_constraint (SolverResults *res, int n)
 {
         return res->constraints_array[n];
+}
+
+void
+solver_constraint_destroy (SolverConstraint *c)
+{
+	g_free (c->str);
+	g_free (c);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -563,7 +575,7 @@ check_program_definition_failures (Sheet            *sheet,
 	param->n_bool_constraints = 0;
 	i = 0;
  	for (c = param->constraints; c ; c = c->next) {
-	        SolverConstraint *sc = (SolverConstraint *) c->data;
+	        SolverConstraint *sc = c->data;
 
 		if (sc->type == SolverINT)
 		        param->n_int_constraints +=
@@ -580,7 +592,7 @@ check_program_definition_failures (Sheet            *sheet,
 				   param->n_total_constraints);
 	i = 0;
  	for (c = param->constraints; c ; c = c->next) {
-	        SolverConstraint *sc = (SolverConstraint *) c->data;
+	        SolverConstraint *sc = c->data;
 
 		if (sc->rows == 1 && sc->cols == 1)
 		        constraints_array[i++] = sc;
@@ -947,5 +959,3 @@ solver_delete_cols (Sheet *sheet, int col, int count)
 					       c->type, c->cols, c->rows);
 	}
 }
-
-

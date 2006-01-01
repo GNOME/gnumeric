@@ -12,6 +12,11 @@ Morten:
 	* Fix TRIM for non-ASCII case with spaces at end.
 	* Improve Excel compatibility of BIN2DEC, BIN2HEX, and
 	  BIN2OCT.  [#323787]
+	* Fix crash on xml load.  [#323888]
+	* Fix file corruption on saving scenarios.  [#323927]
+	* Fix a pile of leaks in solver and scenario saving and loading.
+	* Fix leaks in solver dialog.
+	* Fix parser leak.  [#301127]
 
 Nick Lamb:
 	* Fix CONVERT crash.  [#323678]

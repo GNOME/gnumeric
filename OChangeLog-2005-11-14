@@ -1,3 +1,21 @@
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (build_set): Make this function unregister argument
+	on success like all the other build_* functions.  Fix caller to
+	not leak in error case.  Fixes #301127.
+
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_read_scenarios): Plug leak.
+
+	* src/xml-sax-write.c (xml_write_scenarios): Add missing
+	gsf_xml_out_end_element corrupting files.
+
+2005-12-12  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_node_get_value): Add protections against file
+	corruption.  Fixes crash from #323888.
+
 2005-12-01 Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* wbcg-actions.c (cb_view_zoom_in): Changed name to cb_view_zoom_out.
