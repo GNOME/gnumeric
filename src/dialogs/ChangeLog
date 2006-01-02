@@ -1,3 +1,7 @@
+2006-01-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* dialog-cell-format.c: #include <string.h> for strcmp()
+
 2006-01-01  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (dialog_set_sec_button_sensitivity): Return a

@@ -27,7 +27,6 @@
 #include "dialogs.h"
 #include "help.h"
 
-#include <math.h>
 #include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-merge.h>
@@ -81,6 +80,9 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkicontheme.h>
 #include <gtk/gtkbox.h>
+
+#include <math.h>
+#include <string.h>
 
 static struct {
 	char const *Cname;
