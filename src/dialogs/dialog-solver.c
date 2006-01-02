@@ -177,7 +177,7 @@ is_hom_row_or_col_ref (GnmExprEntry *entry_1, GnmExprEntry *entry_2,
 	return res;
 }
 
-static void
+static gboolean
 dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   SolverState *state)
 {
@@ -197,6 +197,9 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gtk_widget_set_sensitive (state->add_button, ready);
 	gtk_widget_set_sensitive (state->change_button, select_ready && ready);
 	gtk_widget_set_sensitive (state->delete_button, select_ready);
+
+	/* Return TRUE iff the current constraint is valid.  */
+	return ready;
 }
 
 static void
@@ -318,10 +321,13 @@ constraint_fill_row (SolverState *state, GtkListStore *store, GtkTreeIter *iter)
 static void
 cb_dialog_add_clicked (SolverState *state)
 {
-	GtkTreeIter   iter;
-	GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (state->constraint_list));
-	gtk_list_store_append (store, &iter);
-	constraint_fill_row (state, store, &iter);
+	if (dialog_set_sec_button_sensitivity (NULL, state)) {
+		GtkTreeIter   iter;
+		GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (state->constraint_list));
+
+		gtk_list_store_append (store, &iter);
+		constraint_fill_row (state, store, &iter);
+	}
 }
 
 static void
