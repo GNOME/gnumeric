@@ -1,3 +1,10 @@
+2006-01-01  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (dialog_set_sec_button_sensitivity): Return a
+	value indicating whether the current entry is valid.
+	(cb_dialog_add_clicked): If entry is not valid, do nothing.  Fixes
+	#324585.
+
 2005-12-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (check_int_constraints): Plug leak.

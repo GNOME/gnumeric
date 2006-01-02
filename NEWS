@@ -17,6 +17,7 @@ Morten:
 	* Fix a pile of leaks in solver and scenario saving and loading.
 	* Fix leaks in solver dialog.
 	* Fix parser leak.  [#301127]
+	* Fix solver dialog crash.  [#324585]
 
 Nick Lamb:
 	* Fix CONVERT crash.  [#323678]
