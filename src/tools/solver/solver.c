@@ -78,7 +78,7 @@ solver_param_destroy (SolverParameters *sp)
 			 (GFunc)solver_constraint_destroy,
 			 NULL);
 	g_slist_free (sp->constraints);
-	g_list_free (sp->input_cells);
+	g_slist_free (sp->input_cells);
 	g_free (sp->input_entry_str);
 	g_free (sp->options.scenario_name);
 	g_free (sp);
