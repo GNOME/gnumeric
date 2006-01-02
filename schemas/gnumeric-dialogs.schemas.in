@@ -276,7 +276,7 @@
 	<default>FALSE</default>
         <locale name="C">
         <short>Allow Unfocused Range Selections</short>
-        <long>Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even the entry does not have keyboard focus.</long>
+        <long>Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus.</long>
         </locale>
       </schema>
       <schema>
