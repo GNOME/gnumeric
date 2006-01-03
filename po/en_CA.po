@@ -1,14 +1,14 @@
 # English/Canada translation of gnumeric.
-# Copyright (C) 2004-2005 Adam Weinberger and the GNOME Foundation
+# Copyright (C) 2004-2006 Adam Weinberger and the GNOME Foundation
 # This file is distributed under the same licence as the gnumeric package.
 # Andreas J. Guelzow <aguelzow@italiesin.ca>, 2003.
-# Adam Weinberger <adamw@gnome.org>, 2004, 2005.
+# Adam Weinberger <adamw@gnome.org>, 2004, 2005, 2006.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-26 02:13-0500\n"
+"POT-Creation-Date: 2006-01-02 22:09-0500\n"
 "PO-Revision-Date: 2005-08-27 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -697,9 +697,9 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #: ../plugins/fn-info/functions.c:1344
-#: ../src/dialogs/dialog-cell-format.c:2207
-#: ../src/dialogs/dialog-cell-format.c:2211
-#: ../src/dialogs/dialog-cell-format.c:2219 ../src/wbc-gtk.c:556
+#: ../src/dialogs/dialog-cell-format.c:2209
+#: ../src/dialogs/dialog-cell-format.c:2213
+#: ../src/dialogs/dialog-cell-format.c:2221 ../src/wbc-gtk.c:556
 msgid "Automatic"
 msgstr "Automatic"
 
@@ -777,7 +777,7 @@ msgid "Type Mismatch"
 msgstr "Type Mismatch"
 
 #: ../plugins/fn-logical/functions.c:360 ../plugins/fn-logical/functions.c:364
-#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3456
+#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3452
 #: ../plugins/fn-stat/functions.c:5910 ../plugins/fn-stat/functions.c:5914
 #: ../plugins/fn-stat/functions.c:5918 ../plugins/fn-stat/functions.c:5956
 #: ../plugins/fn-stat/functions.c:5959 ../plugins/fn-stat/functions.c:5968
@@ -796,24 +796,24 @@ msgid "number,number,"
 msgstr "number,number,"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3288
-#: ../plugins/fn-math/functions.c:3292 ../plugins/fn-math/functions.c:3295
-#: ../plugins/fn-math/functions.c:3298 ../plugins/fn-math/functions.c:3301
-#: ../plugins/fn-math/functions.c:3304 ../plugins/fn-math/functions.c:3307
-#: ../plugins/fn-math/functions.c:3313 ../plugins/fn-math/functions.c:3322
-#: ../plugins/fn-math/functions.c:3331 ../plugins/fn-math/functions.c:3339
-#: ../plugins/fn-math/functions.c:3342 ../plugins/fn-math/functions.c:3345
-#: ../plugins/fn-math/functions.c:3348 ../plugins/fn-math/functions.c:3351
-#: ../plugins/fn-math/functions.c:3356 ../plugins/fn-math/functions.c:3360
-#: ../plugins/fn-math/functions.c:3366 ../plugins/fn-math/functions.c:3376
-#: ../plugins/fn-math/functions.c:3383 ../plugins/fn-math/functions.c:3386
-#: ../plugins/fn-math/functions.c:3392 ../plugins/fn-math/functions.c:3395
-#: ../plugins/fn-math/functions.c:3408 ../plugins/fn-math/functions.c:3414
-#: ../plugins/fn-math/functions.c:3420 ../plugins/fn-math/functions.c:3441
-#: ../plugins/fn-math/functions.c:3444 ../plugins/fn-math/functions.c:3447
-#: ../plugins/fn-math/functions.c:3450 ../plugins/fn-math/functions.c:3453
-#: ../plugins/fn-math/functions.c:3466 ../plugins/fn-math/functions.c:3478
-#: ../plugins/fn-math/functions.c:3481 ../plugins/fn-stat/functions.c:5980
+#: ../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3284
+#: ../plugins/fn-math/functions.c:3288 ../plugins/fn-math/functions.c:3291
+#: ../plugins/fn-math/functions.c:3294 ../plugins/fn-math/functions.c:3297
+#: ../plugins/fn-math/functions.c:3300 ../plugins/fn-math/functions.c:3303
+#: ../plugins/fn-math/functions.c:3309 ../plugins/fn-math/functions.c:3318
+#: ../plugins/fn-math/functions.c:3327 ../plugins/fn-math/functions.c:3335
+#: ../plugins/fn-math/functions.c:3338 ../plugins/fn-math/functions.c:3341
+#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3347
+#: ../plugins/fn-math/functions.c:3352 ../plugins/fn-math/functions.c:3356
+#: ../plugins/fn-math/functions.c:3362 ../plugins/fn-math/functions.c:3372
+#: ../plugins/fn-math/functions.c:3379 ../plugins/fn-math/functions.c:3382
+#: ../plugins/fn-math/functions.c:3388 ../plugins/fn-math/functions.c:3391
+#: ../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3416 ../plugins/fn-math/functions.c:3437
+#: ../plugins/fn-math/functions.c:3440 ../plugins/fn-math/functions.c:3443
+#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3449
+#: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3474
+#: ../plugins/fn-math/functions.c:3477 ../plugins/fn-stat/functions.c:5980
 #: ../plugins/fn-stat/functions.c:5983 ../plugins/fn-stat/functions.c:6001
 #: ../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1229
 #: ../plugins/fn-string/functions.c:1232
@@ -885,7 +885,7 @@ msgstr "val,range,approx"
 msgid "ref,row,col,height,width"
 msgstr "ref,row,col,height,width"
 
-#: ../plugins/fn-lookup/functions.c:1308 ../plugins/fn-math/functions.c:3494
+#: ../plugins/fn-lookup/functions.c:1308 ../plugins/fn-math/functions.c:3490
 msgid "array"
 msgstr "array"
 
@@ -901,18 +901,18 @@ msgstr "Lookup"
 msgid "Lookup Functions"
 msgstr "Lookup Functions"
 
-#: ../plugins/fn-math/functions.c:2548 ../plugins/fn-math/functions.c:2568
-#: ../plugins/fn-math/functions.c:2664 ../plugins/fn-math/functions.c:2684
-#: ../plugins/fn-math/functions.c:2778 ../plugins/fn-math/functions.c:2798
+#: ../plugins/fn-math/functions.c:2544 ../plugins/fn-math/functions.c:2564
+#: ../plugins/fn-math/functions.c:2660 ../plugins/fn-math/functions.c:2680
+#: ../plugins/fn-math/functions.c:2774 ../plugins/fn-math/functions.c:2794
 #: ../plugins/fn-stat/functions.c:3109 ../plugins/fn-stat/functions.c:3139
 msgid "Array version not implemented!"
 msgstr "Array version not implemented!"
 
-#: ../plugins/fn-math/functions.c:3310
+#: ../plugins/fn-math/functions.c:3306
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-#: ../plugins/fn-math/functions.c:3316 ../plugins/fn-math/functions.c:3319
+#: ../plugins/fn-math/functions.c:3312 ../plugins/fn-math/functions.c:3315
 #: ../plugins/fn-random/functions.c:1196 ../plugins/fn-random/functions.c:1217
 #: ../plugins/fn-random/functions.c:1223 ../plugins/fn-random/functions.c:1262
 #: ../plugins/fn-random/functions.c:1277 ../plugins/fn-random/functions.c:1280
@@ -920,67 +920,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3327
+#: ../plugins/fn-math/functions.c:3323
 msgid "range,criteria"
 msgstr "range,criteria"
 
-#: ../plugins/fn-math/functions.c:3335
+#: ../plugins/fn-math/functions.c:3331
 msgid "number,significance"
 msgstr "number,significance"
 
-#: ../plugins/fn-math/functions.c:3363 ../plugins/fn-stat/functions.c:6094
+#: ../plugins/fn-math/functions.c:3359 ../plugins/fn-stat/functions.c:6094
 msgid "n,k"
 msgstr "n,k"
 
-#: ../plugins/fn-math/functions.c:3370
+#: ../plugins/fn-math/functions.c:3366
 msgid "number,number"
 msgstr "number,number"
 
-#: ../plugins/fn-math/functions.c:3389
+#: ../plugins/fn-math/functions.c:3385
 msgid "number,base"
 msgstr "number,base"
 
-#: ../plugins/fn-math/functions.c:3398 ../plugins/fn-math/functions.c:3417
+#: ../plugins/fn-math/functions.c:3394 ../plugins/fn-math/functions.c:3413
 msgid "numerator,denominator"
 msgstr "numerator,denominator"
 
-#: ../plugins/fn-math/functions.c:3401
+#: ../plugins/fn-math/functions.c:3397
 msgid "number,multiple"
 msgstr "number,multiple"
 
-#: ../plugins/fn-math/functions.c:3411
+#: ../plugins/fn-math/functions.c:3407
 msgid "base,exponent"
 msgstr "base,exponent"
 
-#: ../plugins/fn-math/functions.c:3423
+#: ../plugins/fn-math/functions.c:3419
 msgid "number,type"
 msgstr "number,type"
 
-#: ../plugins/fn-math/functions.c:3426 ../plugins/fn-math/functions.c:3430
-#: ../plugins/fn-math/functions.c:3434 ../plugins/fn-math/functions.c:3484
+#: ../plugins/fn-math/functions.c:3422 ../plugins/fn-math/functions.c:3426
+#: ../plugins/fn-math/functions.c:3430 ../plugins/fn-math/functions.c:3480
 msgid "number,digits"
 msgstr "number,digits"
 
-#: ../plugins/fn-math/functions.c:3438
+#: ../plugins/fn-math/functions.c:3434
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coefficients"
 
-#: ../plugins/fn-math/functions.c:3460
+#: ../plugins/fn-math/functions.c:3456
 msgid "range,criteria,actual_range"
 msgstr "range,criteria,actual_range"
 
-#: ../plugins/fn-math/functions.c:3463
+#: ../plugins/fn-math/functions.c:3459
 msgid "range,range,"
 msgstr "range,range,"
 
-#: ../plugins/fn-math/functions.c:3469 ../plugins/fn-math/functions.c:3472
-#: ../plugins/fn-math/functions.c:3475 ../plugins/fn-math/functions.c:3491
+#: ../plugins/fn-math/functions.c:3465 ../plugins/fn-math/functions.c:3468
+#: ../plugins/fn-math/functions.c:3471 ../plugins/fn-math/functions.c:3487
 #: ../plugins/fn-stat/functions.c:5953 ../plugins/fn-stat/functions.c:5962
 #: ../plugins/fn-stat/functions.c:6085 ../plugins/fn-stat/functions.c:6141
 msgid "array1,array2"
 msgstr "array1,array2"
 
-#: ../plugins/fn-math/functions.c:3497 ../plugins/fn-math/functions.c:3501
+#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-math/functions.c:3497
 msgid "array,matrix_type,bandsize"
 msgstr "array,matrix_type,bandsize"
 
@@ -2277,11 +2277,11 @@ msgstr "Sans"
 msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
-"entry even the entry does not have keyboard focus."
+"entry even if the entry does not have keyboard focus."
 msgstr ""
-"Some dialogues contain only a single entry field that allows range "
-"selections in the workbook. Setting this variable to TRUE directs selections "
-"to this entry even the entry does not have keyboard focus."
+"Some dialogues contain only a single entry field that allows range selections "
+"in the workbook. Setting this variable to TRUE directs selections to this "
+"entry even if the entry does not have keyboard focus."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:45
 msgid "System Directory for Autoformats"
@@ -3448,13 +3448,13 @@ msgstr ""
 "Custom"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:607
+#: ../src/dialogs/dialog-cell-format.c:2217 ../src/wbc-gtk.c:607
 #: ../src/wbc-gtk.c:608 ../src/wbc-gtk.c:615
 msgid "Background"
 msgstr "Background"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2207
+#: ../src/dialogs/dialog-cell-format.c:2209
 msgid "Border"
 msgstr "Border"
 
@@ -3508,7 +3508,7 @@ msgid "Foreground Solid"
 msgstr "Foreground Solid"
 
 #: ../src/dialogs/cell-format.glade.h:47
-#: ../src/dialogs/dialog-cell-format.c:2144
+#: ../src/dialogs/dialog-cell-format.c:2146
 msgid "Format Cells"
 msgstr "Format Cells"
 
@@ -3561,7 +3561,7 @@ msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Locking cells or hiding formulas only affects protected worksheets."
 
 #: ../src/dialogs/cell-format.glade.h:60
-#: ../src/dialogs/dialog-cell-format.c:89
+#: ../src/dialogs/dialog-cell-format.c:91
 #: ../src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "None"
@@ -4756,72 +4756,72 @@ msgstr "Do you want to save the workbook %s ?"
 msgid "Could not create the autosave dialog."
 msgstr "Could not create the autosave dialogue."
 
-#: ../src/dialogs/dialog-cell-format.c:90
+#: ../src/dialogs/dialog-cell-format.c:92
 msgid "Single"
 msgstr "Single"
 
-#: ../src/dialogs/dialog-cell-format.c:91
+#: ../src/dialogs/dialog-cell-format.c:93
 msgid "Double"
 msgstr "Double"
 
-#: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:158
+#: ../src/dialogs/dialog-cell-format.c:471 ../src/dialogs/dialog-search.c:158
 #: ../src/func.c:932 ../src/wbcg-actions.c:2049
 msgid "Number"
 msgstr "Number"
 
-#: ../src/dialogs/dialog-cell-format.c:1635
+#: ../src/dialogs/dialog-cell-format.c:1637
 msgid "Source"
 msgstr "Source"
 
-#: ../src/dialogs/dialog-cell-format.c:1636
+#: ../src/dialogs/dialog-cell-format.c:1638
 msgid "Criteria"
 msgstr "Criteria"
 
-#: ../src/dialogs/dialog-cell-format.c:1648
-#: ../src/dialogs/dialog-cell-format.c:1655
+#: ../src/dialogs/dialog-cell-format.c:1650
+#: ../src/dialogs/dialog-cell-format.c:1657
 msgid "Min :"
 msgstr "Min :"
 
-#: ../src/dialogs/dialog-cell-format.c:1649
-#: ../src/dialogs/dialog-cell-format.c:1658
+#: ../src/dialogs/dialog-cell-format.c:1651
+#: ../src/dialogs/dialog-cell-format.c:1660
 msgid "Max :"
 msgstr "Max :"
 
-#: ../src/dialogs/dialog-cell-format.c:1652
+#: ../src/dialogs/dialog-cell-format.c:1654
 msgid "Value :"
 msgstr "Value :"
 
-#: ../src/dialogs/dialog-cell-format.c:1742
+#: ../src/dialogs/dialog-cell-format.c:1744
 msgid "None          (silently accept invalid input)"
 msgstr "None          (silently accept invalid input)"
 
-#: ../src/dialogs/dialog-cell-format.c:1750
+#: ../src/dialogs/dialog-cell-format.c:1752
 msgid "Stop            (never allow invalid input)"
 msgstr "Stop            (never allow invalid input)"
 
-#: ../src/dialogs/dialog-cell-format.c:1758
+#: ../src/dialogs/dialog-cell-format.c:1760
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Warning     (accept/discard invalid input)"
 
-#: ../src/dialogs/dialog-cell-format.c:1766
+#: ../src/dialogs/dialog-cell-format.c:1768
 msgid "Information (allow invalid input)"
 msgstr "Information (allow invalid input)"
 
-#: ../src/dialogs/dialog-cell-format.c:1961
+#: ../src/dialogs/dialog-cell-format.c:1963
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "The validation criteria are unusable. Disable validation?"
 
-#: ../src/dialogs/dialog-cell-format.c:2211 ../src/wbc-gtk.c:195
+#: ../src/dialogs/dialog-cell-format.c:2213 ../src/wbc-gtk.c:195
 #: ../src/wbc-gtk.c:328 ../src/wbc-gtk.c:558 ../src/wbc-gtk.c:559
 #: ../src/wbc-gtk.c:568 ../src/wbc-gtk.c:668 ../src/wbc-gtk.c:722
 msgid "Foreground"
 msgstr "Foreground"
 
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:605
+#: ../src/dialogs/dialog-cell-format.c:2217 ../src/wbc-gtk.c:605
 msgid "Clear Background"
 msgstr "Clear Background"
 
-#: ../src/dialogs/dialog-cell-format.c:2219
+#: ../src/dialogs/dialog-cell-format.c:2221
 msgid "Pattern"
 msgstr "Pattern"
 
@@ -5814,7 +5814,7 @@ msgstr "Revised Simplex (GLPK 4.5)"
 msgid "< Not available >"
 msgstr "< Not available >"
 
-#: ../src/dialogs/dialog-solver.c:391
+#: ../src/dialogs/dialog-solver.c:397
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -5822,7 +5822,7 @@ msgstr ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 
-#: ../src/dialogs/dialog-solver.c:695
+#: ../src/dialogs/dialog-solver.c:701
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -5830,7 +5830,7 @@ msgstr ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 
-#: ../src/dialogs/dialog-solver.c:704
+#: ../src/dialogs/dialog-solver.c:710
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -5838,13 +5838,13 @@ msgstr ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
 
-#: ../src/dialogs/dialog-solver.c:722
+#: ../src/dialogs/dialog-solver.c:728
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 
-#: ../src/dialogs/dialog-solver.c:736
+#: ../src/dialogs/dialog-solver.c:742
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -5852,7 +5852,7 @@ msgstr ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 
-#: ../src/dialogs/dialog-solver.c:751
+#: ../src/dialogs/dialog-solver.c:757
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -5860,36 +5860,36 @@ msgstr ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 
-#: ../src/dialogs/dialog-solver.c:795
+#: ../src/dialogs/dialog-solver.c:801
 msgid "Optimal solution created by solver.\n"
 msgstr "Optimal solution created by solver.\n"
 
-#: ../src/dialogs/dialog-solver.c:829
+#: ../src/dialogs/dialog-solver.c:835
 msgid "Unknown error."
 msgstr "Unknown error."
 
-#: ../src/dialogs/dialog-solver.c:848
+#: ../src/dialogs/dialog-solver.c:854
 msgid "You have not specified a problem to be solved"
 msgstr "You have not specified a problem to be solved"
 
-#: ../src/dialogs/dialog-solver.c:867 ../src/tools/solver/solver.c:391
+#: ../src/dialogs/dialog-solver.c:873 ../src/tools/solver/solver.c:391
 msgid "Target cell should contain a formula."
 msgstr "Target cell should contain a formula."
 
-#: ../src/dialogs/dialog-solver.c:945
+#: ../src/dialogs/dialog-solver.c:951
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Constraint `%s' is for a cell that is not an input cell."
 
-#: ../src/dialogs/dialog-solver.c:966
+#: ../src/dialogs/dialog-solver.c:972
 msgid "No constraints defined for the problem."
 msgstr "No constraints defined for the problem."
 
-#: ../src/dialogs/dialog-solver.c:1230
+#: ../src/dialogs/dialog-solver.c:1236
 msgid "Subject to the Constraints:"
 msgstr "Subject to the Constraints:"
 
-#: ../src/dialogs/dialog-solver.c:1346
+#: ../src/dialogs/dialog-solver.c:1352
 msgid "Could not create the Solver dialog."
 msgstr "Could not create the Solver dialogue."
 
