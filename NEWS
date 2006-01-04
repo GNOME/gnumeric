@@ -26,6 +26,7 @@ Morten:
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
+	* Handle non breaking space in html input.
 
 Nick Lamb:
 	* Fix CONVERT crash.  [#323678]
