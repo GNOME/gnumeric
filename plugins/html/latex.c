@@ -524,7 +524,7 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
 
 	gsf_output_printf (output, "%%\t\\multicolumn{%d}{c}{The First Header} \\\\ \\hline \n", num_cols);
 	gsf_output_printf (output, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
-	for (col = 1 ; col < num_cols; col++)
+	for (col = 2 ; col < num_cols; col++)
 		gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
 	gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
 	gsf_output_printf (output, "%%\t\\endfirsthead\n\n");
@@ -533,7 +533,7 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
 	gsf_output_printf (output, "%%\t\\hline\n");
 	gsf_output_printf (output, "%%\t\\multicolumn{%d}{l}{\\ldots\\small\\slshape continued} \\\\ \\hline\n", num_cols);
 	gsf_output_printf (output, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
-	for (col = 1 ; col < num_cols; col++)
+	for (col = 2 ; col < num_cols; col++)
 				gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
 	gsf_output_printf (output, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
 	gsf_output_printf (output, "%%\t\\endhead\n\n");

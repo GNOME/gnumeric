@@ -83,10 +83,12 @@ html_append_text (GString *buf, const xmlChar *text)
 	const xmlChar *p;
 	
 	while (*text) {
-		while (g_ascii_isspace (*text))
-			text++;
+		while (g_unichar_isspace (g_utf8_get_char (text)))
+			text = g_utf8_next_char (text);
 		if (*text) {
-			for (p = text; *p && !g_ascii_isspace (*p); p++)
+			for (p = text; 
+			     *p && !g_unichar_isspace (g_utf8_get_char (p)); 
+			     p =  g_utf8_next_char (p))
 				;
 			if (buf->len > 0)
 				g_string_append_c (buf, ' ');
