@@ -19,6 +19,9 @@ Morten:
 	* Fix parser leak.  [#301127]
 	* Fix solver dialog crash.  [#324585]
 
+Jon Kåre:
+        * Hand clipboard off to clipboard manager when exiting.
+
 Nick Lamb:
 	* Fix CONVERT crash.  [#323678]
 
