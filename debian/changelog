@@ -1,6 +1,10 @@
 gnumeric (1.6.2-0) UNRELEASED; urgency=low
 
   * New upstream bugfix release.
+  * [debian/gnumeric.templates] Updated to work with po-debconf.
+  * [debian/control] Added build dependency on po-debconf.
+  * [debian/po/de.po] Added, courtesy of Johannes Starosta
+    <feedback-an-johannes@arcor.de>. (Closes: #345774)
   * [debian/gnumeric-common.links] Dropped so as not to symlink
     /usr/share/doc/gnumeric-common to /usr/share/doc/gnumeric ; instead, let
     debhelper create a /usr/share/doc/gnumeric-common documentation directory.
