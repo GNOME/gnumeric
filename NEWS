@@ -24,6 +24,7 @@ Morten:
 	* Fix out-of-memory problem in REPT.
 	* Fix lots of little XL compatibility problems in string
 	  functions.
+	* Fix error on Search-and-replace.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
