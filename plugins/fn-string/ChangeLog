@@ -1,3 +1,20 @@
+2006-01-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_char): Plug leak.  Handle crazy input
+	values.
+	(gnumeric_unichar): Handle crazy input values.
+	(gnumeric_left, gnumeric_right, gnumeric_mid): Handle crazy values
+	for length.
+	(gnumeric_rept): Handle crazy values for count.  Speed up.  Handle
+	out-of-memory gracefully.
+	(gnumeric_find): Handle crazy values for start.
+	(gnumeric_replace, gnumeric_search): Make UTF-8 safe and fix a
+	pile of other bugs.
+	(gnumeric_fixed): Fix division-by-zero problem.  Handle crazy
+	decimals count.
+	(gnumeric_substitute): Don't access freed memory.  Always make
+	sure to return a string result.  Handle crazy values for num.
+
 2005-12-04  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_trim): Fix bogosity.

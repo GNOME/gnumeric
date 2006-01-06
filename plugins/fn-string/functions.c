@@ -73,15 +73,15 @@ static GnmFuncHelp const help_char[] = {
 static GnmValue *
 gnumeric_char (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int c = value_get_as_int (argv[0]);
+	gnm_float c = value_get_as_float (argv[0]);
 
-	if (c > 0 && c <= 127) {
+	if (c >= 1 && c < 128) {
 		char result[2];
-		result[0] = c;
+		result[0] = (char)c;
 		result[1] = 0;
 		return value_new_string (result);
-	} else if (c >= 128 && c <= 255) {
-		char c2 = c;
+	} else if (c >= 128 && c < 256) {
+		char c2 = (char)c;
 		char *str = g_convert_with_iconv (&c2, 1, CHAR_iconv,
 						  NULL, NULL, NULL);
 		if (str) {
@@ -89,9 +89,10 @@ gnumeric_char (FunctionEvalInfo *ei, GnmValue const * const *argv)
 			if (len == 1)
 				return value_new_string_nocopy (str);
 			g_warning ("iconv for CHAR(%d) produced a string of length %d",
-				   c, len);
+				   c2, len);
+			g_free (str);
 		} else
-			g_warning ("iconv failed for CHAR(%d)", c);
+			g_warning ("iconv failed for CHAR(%d)", c2);
 	}
 
 	return value_new_error_VALUE (ei->pos);
@@ -119,11 +120,11 @@ static GnmFuncHelp const help_unichar[] = {
 static GnmValue *
 gnumeric_unichar (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int c = value_get_as_int (argv[0]);
+	gnm_float c = value_get_as_float (argv[0]);
 
-	if (g_unichar_validate (c)) {
+	if (c >= 0 && c <= INT_MAX && g_unichar_validate ((gunichar)c)) {
 		char utf8[8];
-		int len = g_unichar_to_utf8 (c, utf8);
+		int len = g_unichar_to_utf8 ((gunichar)c, utf8);
 		utf8[len] = 0;
 		return value_new_string (utf8);
 	} else
@@ -309,19 +310,17 @@ static GnmFuncHelp const help_left[] = {
 static GnmValue *
 gnumeric_left (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *peek;
-	int         count, newlen;
-
-	count = argv[1] ? value_get_as_int (argv[1]) : 1;
+	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	int icount, newlen;
 
 	if (count < 0)
 		return value_new_error_VALUE (ei->pos);
+	icount = (int)MIN ((gnm_float)INT_MAX, count);
 
-	peek = value_peek_string (argv[0]);
-	if (count >= g_utf8_strlen (peek, -1))
-		return value_new_string (peek);
+	for (newlen = 0; peek[newlen] != 0 && icount > 0; icount--)
+		newlen += g_utf8_skip[peek[newlen]];
 
-	newlen = g_utf8_offset_to_pointer (peek, count) - peek;
 	return value_new_string_nocopy (g_strndup (peek, newlen));
 }
 
@@ -373,27 +372,21 @@ static GnmFuncHelp const help_mid[] = {
 static GnmValue *
 gnumeric_mid (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	char       *upos;
-	char const *source;
-	int         pos, len, ulen, slen;
+	const char *source = value_peek_string (argv[0]);
+	gnm_float pos = value_get_as_float (argv[1]);
+	gnm_float len = value_get_as_float (argv[2]);
+	size_t slen = g_utf8_strlen (source, -1);
+	const char *upos;
+	size_t ilen, ipos, ulen;
 
-	pos = value_get_as_int (argv[1]);
-	len = value_get_as_int (argv[2]);
-
-	if (len < 0 || pos <= 0)
+	if (len < 0 || pos < 1 || pos >= slen + 1)
 		return value_new_error_VALUE (ei->pos);
+	/* Make ipos zero-based.  */
+	ipos = (size_t)(pos - 1);
+	ilen  = (size_t)MIN (len, (gnm_float)(slen - ipos));
 
-	source = value_peek_string (argv[0]);
-	slen   = g_utf8_strlen (source, -1);
-
-	if (pos > slen)
-		return value_new_error_VALUE (ei->pos);
-
-	pos--;  /* Make pos zero-based.  */
-
-	len  = MIN (len, slen - pos);
-	upos = g_utf8_offset_to_pointer (source, pos);
-	ulen = g_utf8_offset_to_pointer (upos, len) - upos;
+	upos = g_utf8_offset_to_pointer (source, ipos);
+	ulen = g_utf8_offset_to_pointer (upos, ilen) - upos;
 
 	return value_new_string_nocopy (g_strndup (upos, ulen));
 }
@@ -422,27 +415,22 @@ static GnmFuncHelp const help_right[] = {
 static GnmValue *
 gnumeric_right (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int count, slen;
-	char const *os;
-	char *s;
-
-	count = argv[1] ? value_get_as_int (argv[1]) : 1;
+	char const *os = value_peek_string (argv[0]);
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	int icount, slen;
 
 	if (count < 0)
 		return value_new_error_VALUE (ei->pos);
+	icount = (int)MIN ((gnm_float)INT_MAX, count);
 
-	os   = value_peek_string (argv[0]);
 	slen = g_utf8_strlen (os, -1);
 
-	if (count < slen)
-		s = g_strdup (g_utf8_offset_to_pointer (os, slen - count));
-	else {
+	if (icount < slen)
+		return value_new_string (g_utf8_offset_to_pointer (os, slen - icount));
+	else
 		/* We could just duplicate the arg, but that would not ensure
 		   that the result was a string.  */
-		s = g_strdup (os);
-	}
-
-	return value_new_string_nocopy (s);
+		return value_new_string (os);
 }
 
 /***************************************************************************/
@@ -519,32 +507,33 @@ static GnmFuncHelp const help_rept[] = {
 static GnmValue *
 gnumeric_rept (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	GString    *res;
-	char const *source;
-	int         num;
-	int         len;
-	int         i;
+	char const *source = value_peek_string (argv[0]);
+	gnm_float num = value_get_as_float (argv[1]);
+	size_t len = strlen (source);
+	char *res;
+	size_t i, inum;
 
-	num = value_get_as_int (argv[1]);
 	if (num < 0)
 		return value_new_error_VALUE (ei->pos);
 
-	source = value_peek_string (argv[0]);
-	len    = strlen (source);
-
 	/* Fast special case.  =REPT ("",2^30) should not take long.  */
-	if (len == 0 || num == 0)
+	if (len == 0 || num < 1)
 		return value_new_string ("");
 
 	/* Check if the length would overflow.  */
 	if (num >= INT_MAX / len)
 		return value_new_error_VALUE (ei->pos);
 
-	res = g_string_sized_new (len * num);
-	for (i = 0; i < num; i++)
-		g_string_append (res, source);
+	inum = (size_t)num;
+	res = g_try_malloc (len * inum + 1);
+	if (!res)
+		return value_new_error_VALUE (ei->pos);
 
-	return value_new_string_nocopy (g_string_free (res, FALSE));
+	for (i = 0; inum-- > 0; i += len)
+		memcpy (res + i, source, len);
+	res[i] = 0;
+
+	return value_new_string_nocopy (res);
 }
 
 /***************************************************************************/
@@ -606,42 +595,25 @@ static GnmFuncHelp const help_find[] = {
 static GnmValue *
 gnumeric_find (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int count, haystacksize;
-	char const *haystack, *needle;
+	const char *needle   = value_peek_string (argv[0]);
+	const char *haystack = value_peek_string (argv[1]);
+	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	size_t haystacksize = g_utf8_strlen (haystack, -1);
+	size_t icount;
+	const char *p;
 
-	/*
-	 * FIXME: My gut feeling is that we should return arguments
-	 * invalid when g_utf8_strlen (needle, -1) is 0 (i.e. needle is "")
-	 * Currently we return "1" which seems nonsensical.
-	 */
-	needle   = value_peek_string (argv[0]);
-	haystack = value_peek_string (argv[1]);
-	count    = argv[2] ? value_get_as_int (argv[2]) : 1;
-
-	haystacksize = g_utf8_strlen (haystack, -1);
-
-	/*
-	 * NOTE: It seems that the implementation of g_strstr will
-	 * even work for UTF-8 string, even though there is no special
-	 * UTF-8 version for it, this is why we use "strlen (haystart)"
-	 * and not g_utf8_strlen below
-	 */
-	if (count <= 0 || count > haystacksize) {
+	if (count < 1 || count >= haystacksize + 1)
 		return value_new_error_VALUE (ei->pos);
-	} else {
-		char const *haystart = g_utf8_offset_to_pointer (haystack,
-								 count - 1);
-		char const *p        = g_strstr_len (haystart,
-						     strlen (haystart), needle);
+	icount = (size_t)count;
 
-		if (p)
-			/* One-based */
-			return value_new_int
-				(g_utf8_pointer_to_offset (haystack, p) + 1);
-		else
-			/* Really?  */
-			return value_new_error_VALUE (ei->pos);
-	}
+	haystack = g_utf8_offset_to_pointer (haystack, icount - 1);
+
+	p = g_strstr_len (haystack, strlen (haystack), needle);
+	if (p)
+		return value_new_int
+			(g_utf8_pointer_to_offset (haystack, p) + icount);
+	else
+		return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -667,14 +639,12 @@ static GnmFuncHelp const help_fixed[] = {
 static GnmValue *
 gnumeric_fixed (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int decimals;
-	gnm_float num;
+	gnm_float num = value_get_as_float (argv[0]);
+	gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
 	gboolean commas = TRUE;
 	GONumberFormat fmt;
 	GString *str;
 
-	num = value_get_as_float (argv[0]);
-	decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
 	if (argv[2] != NULL) {
 		gboolean err;
 		commas = !value_get_as_bool (argv[2], &err);
@@ -682,16 +652,20 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue const * const *argv)
 			return value_new_error_VALUE (ei->pos);
 	}
 
-	if (decimals >= 127) /* else buffer overflow */
+	decimals = gnm_fake_trunc (decimals);
+	if (decimals >= 128)
 		return value_new_error_VALUE (ei->pos);
 
-	if (decimals <= 0) {
+	if (decimals < 0) {
 		/* no decimal point : just round and pad 0's */
 		gnm_float mult = gnm_pow10 (decimals);
-		num = (gnm_fake_round (num * mult) / mult);
+		if (mult == 0)
+			num = 0;  /* Underflow */
+		else
+			num = gnm_fake_round (num * mult) / mult;
 		fmt.right_req = fmt.right_allowed = 0;
 	} else /* decimal point format */
-		fmt.right_req = fmt.right_allowed = decimals;
+		fmt.right_req = fmt.right_allowed = (int)decimals;
 
 	fmt.right_optional	   = 0;
 	fmt.right_spaces	   = 0;
@@ -789,33 +763,37 @@ static GnmFuncHelp const help_replace[] = {
 static GnmValue *
 gnumeric_replace (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	GString *res;
-	gint start, num, oldlen;
-	char const *old;
-	char const *new;
+	const char *old = value_peek_string (argv[0]);
+	gnm_float start = value_get_as_float (argv[1]);
+	gnm_float num = value_get_as_float (argv[2]);
+	const char *new = value_peek_string (argv[3]);
+	size_t istart, inum, oldlen, precutlen, postcutlen, newlen;
+	const char *p, *q;
+	char *res;
 
-	start  = value_get_as_int (argv[1]);
-	num    = value_get_as_int (argv[2]);
-	old    = value_peek_string (argv[0]);
-	oldlen = g_utf8_strlen (old, -1);
-
-	if (start <= 0 || num <= 0)
+	if (start < 1 || num < 0)
 		return value_new_error_VALUE (ei->pos);
-	if (start > oldlen)
-		return value_new_error (ei->pos, _ ("Arguments out of range"));
 
-	start--;  /* Make this zero-based.  */
+	oldlen = g_utf8_strlen (old, -1);
+	/* Make istart zero-based.  */
+	istart = (int)MIN ((gnm_float)oldlen, start - 1);
+	inum = (int)MIN((gnm_float)(oldlen - istart), num);
 
-	if (start + num > oldlen)
-		num = oldlen - start;
+	/* |<----precut----><cut><---postcut--->| */
+	/*  ^old            ^p   ^q               */
 
-	new = value_peek_string (argv[3]);
+	p = g_utf8_offset_to_pointer (old, istart);
+	q = g_utf8_offset_to_pointer (p, inum);
 
-	res = g_string_new (old);
-	g_string_erase (res, start, num);
-	g_string_insert (res, start, new);
+	precutlen = p - old;
+	postcutlen = strlen (q);
+	newlen = strlen (new);
 
-	return value_new_string_nocopy (g_string_free (res, FALSE));
+	res = g_malloc (precutlen + newlen + postcutlen + 1);
+	memcpy (res, old, precutlen);
+	memcpy (res + precutlen, new, newlen);
+	memcpy (res + precutlen + newlen, q, postcutlen + 1);
+	return value_new_string_nocopy (res);
 }
 
 /***************************************************************************/
@@ -1017,24 +995,33 @@ static GnmFuncHelp const help_substitute[] = {
 static GnmValue *
 gnumeric_substitute (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
+	/*
+	 * Careful: value_peek_string handle only two live
+	 * pointers at a time.
+	 */
+	char *textcopy = VALUE_IS_STRING (argv[0]) ? NULL : value_get_as_string (argv[0]);
+	char const *text = textcopy ? textcopy : value_peek_string (argv[0]);
+	char const *old  = value_peek_string (argv[1]);
+	char const *new  = value_peek_string (argv[2]);
 	char const *p;
 	int oldlen, newlen, len, inst;
 	GString *s;
-
-	char const *text = value_peek_string (argv[0]);
-	char const *old  = value_peek_string (argv[1]);
-	char const *new  = value_peek_string (argv[2]);
 	int num = 0;
 
 	if (argv[3]) {
-		num = value_get_as_int (argv[3]);
-		if (num <= 0)
+		gnm_float fnum = value_get_as_float (argv[3]);
+		if (fnum <= 0) {
+			g_free (textcopy);
 			return value_new_error_VALUE (ei->pos);
+		}
+		num = (int)MIN((gnm_float)INT_MAX, fnum);
 	}
 
 	oldlen = strlen (old);
 	if (oldlen == 0)
-		return value_dup (argv[0]);
+		return textcopy
+			? value_new_string_nocopy (textcopy)
+			: value_dup (argv[0]);
 
 	newlen = strlen (new);
 	len = strlen (text);
@@ -1090,11 +1077,12 @@ gnumeric_dollar (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *v;
 	char *s, *end;
         gnm_float number = value_get_as_float (argv[0]);
-        int decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
+        gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
 
 	/* This is what Excel appears to do.  */
 	if (decimals >= 128)
 		return value_new_error_VALUE (ei->pos);
+	decimals = gnm_fake_trunc (decimals);
 
 	/* Since decimals can be negative, round the number.  */
 	p10 = gnm_pow10 (decimals);
@@ -1104,7 +1092,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		number = gnm_fake_round (number * p10) / p10;
 
 	info = go_format_default_money ()->family_info;
-	info.num_decimals = MAX (decimals, 0);
+	info.num_decimals = (int)MAX (decimals, 0);
 	info.negative_fmt = 2;
 
 	sf = go_format_new (GO_FORMAT_CURRENCY, &info);
@@ -1161,39 +1149,41 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *needle = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
-	int start = argv[2] ? value_get_as_int (argv[2]) : 1;
+	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1.0;
+	size_t i, istart;
 	char const *hay2;
 	GORegexp r;
-	GORegmatch rm;
-	GnmValue *res = NULL;
-	int i;
 
-	start--;
-	if (start < 0)
+	if (start < 1 || start >= INT_MAX)
 		return value_new_error_VALUE (ei->pos);
-	for (i = start, hay2 = haystack; i > 0; i--) {
+	// Make istart zero-based.  */
+	istart = (int)(start - 1);
+
+	for (i = istart, hay2 = haystack; i > 0; i--) {
 		if (*hay2 == 0)
 			return value_new_error_VALUE (ei->pos);
 		hay2 = g_utf8_next_char (hay2);
 	}
 
 	if (gnm_regcomp_XL (&r, needle, REG_ICASE) == REG_OK) {
+		GORegmatch rm;
+
 		switch (go_regexec (&r, hay2, 1, &rm, 0)) {
-		case REG_NOMATCH: break;
-		case REG_OK:
-			res = value_new_int (1 + start + rm.rm_so);
+		case REG_NOMATCH:
 			break;
+		case REG_OK:
+			return value_new_int
+				(1 + istart +
+				 g_utf8_pointer_to_offset (hay2, hay2 + rm.rm_so));
 		default:
-			g_warning ("Unexpected regexec result");
+			g_warning ("Unexpected go_regexec result");
 		}
 		go_regfree (&r);
 	} else {
 		g_warning ("Unexpected regcomp result");
 	}
 
-	if (res == NULL)
-		res = value_new_error_VALUE (ei->pos);
-	return res;
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/

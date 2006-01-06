@@ -18,6 +18,12 @@ Morten:
 	* Fix leaks in solver dialog.
 	* Fix parser leak.  [#301127]
 	* Fix solver dialog crash.  [#324585]
+	* Fix FMR in SUBSTITUTE.
+	* Fix REPLACE and SEARCH for non-ASCII strings.
+	* Fix division-by-zero in FIXED.
+	* Fix out-of-memory problem in REPT.
+	* Fix lots of little XL compatibility problems in string
+	  functions.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
