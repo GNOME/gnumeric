@@ -3791,7 +3791,8 @@ typedef struct {
 
 
 static void
-cmd_search_replace_update_after_action (CmdSearchReplace *me)
+cmd_search_replace_update_after_action (CmdSearchReplace *me,
+					WorkbookControl *wbc)
 {
 	GList *tmp;
 	Sheet *last_sheet = NULL;
@@ -3800,7 +3801,7 @@ cmd_search_replace_update_after_action (CmdSearchReplace *me)
 		SearchReplaceItem *sri = tmp->data;
 		if (sri->pos.sheet != last_sheet) {
 			last_sheet = sri->pos.sheet;
-			update_after_action (last_sheet, NULL);
+			update_after_action (last_sheet, wbc);
 		}
 	}
 }
@@ -3808,7 +3809,7 @@ cmd_search_replace_update_after_action (CmdSearchReplace *me)
 
 static gboolean
 cmd_search_replace_undo (GnmCommand *cmd,
-			 G_GNUC_UNUSED WorkbookControl *wbc)
+			 WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
@@ -3839,14 +3840,14 @@ cmd_search_replace_undo (GnmCommand *cmd,
 		break;
 		}
 	}
-	cmd_search_replace_update_after_action (me);
+	cmd_search_replace_update_after_action (me, wbc);
 
 	return FALSE;
 }
 
 static gboolean
 cmd_search_replace_redo (GnmCommand *cmd,
-			 G_GNUC_UNUSED WorkbookControl *wbc)
+			 WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
@@ -3877,7 +3878,7 @@ cmd_search_replace_redo (GnmCommand *cmd,
 		break;
 		}
 	}
-	cmd_search_replace_update_after_action (me);
+	cmd_search_replace_update_after_action (me, wbc);
 
 	return FALSE;
 }
@@ -4020,7 +4021,8 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 
 static gboolean
-cmd_search_replace_do (CmdSearchReplace *me, gboolean test_run)
+cmd_search_replace_do (CmdSearchReplace *me, gboolean test_run,
+		       WorkbookControl *wbc)
 {
 	GnmSearchReplace *sr = me->sr;
 	GPtrArray *cells;
@@ -4058,7 +4060,7 @@ cmd_search_replace_do (CmdSearchReplace *me, gboolean test_run)
 		/* Cells were added in the wrong order.  Correct.  */
 		me->cells = g_list_reverse (me->cells);
 
-		cmd_search_replace_update_after_action (me);
+		cmd_search_replace_update_after_action (me, wbc);
 	}
 
 	return result;
@@ -4113,13 +4115,13 @@ cmd_search_replace (WorkbookControl *wbc, GnmSearchReplace *sr)
 	me->cmd.size = 1;  /* Corrected below. */
 	me->cmd.cmd_descriptor = g_strdup (_("Search and Replace"));
 
-	if (cmd_search_replace_do (me, TRUE)) {
+	if (cmd_search_replace_do (me, TRUE, wbc)) {
 		/* There was an error and nothing was done.  */
 		g_object_unref (me);
 		return TRUE;
 	}
 
-	cmd_search_replace_do (me, FALSE);
+	cmd_search_replace_do (me, FALSE, wbc);
 	me->cmd.size += g_list_length (me->cells);
 
 	command_register_undo (wbc, G_OBJECT (me));
