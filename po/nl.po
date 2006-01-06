@@ -2,7 +2,7 @@
 # Copyright (C) 1999-2002 Free Software Foundation, Inc.
 # M.Meij <M.Meij@wbmt.tudelft.nl>
 # Almer S. Tigelaar <almer1@dds.nl>, 2001
-# Tino Meinen <a.t.meinen@chello.nl>, 2001, 2002, 2003, 2004, 2005.
+# Tino Meinen <a.t.meinen@chello.nl>, 2001, 2002, 2003, 2004, 2005, 2006.
 # Reinout van Schouwen <reinout@cs.vu.nl>, 2004 (kleine verbeteringen)
 #
 # TODO:
@@ -122,13 +122,12 @@
 #
 # locked		beveiligd-geblokkeerd? (excel gebruikt beveiligd)
 #
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-19 19:23+0100\n"
-"PO-Revision-Date: 2005-12-19 20:46+0100\n"
+"POT-Creation-Date: 2006-01-06 03:21+0100\n"
+"PO-Revision-Date: 2006-01-06 09:04+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -363,7 +362,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
 #: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6009
-#: ../plugins/mps/mps.c:544 ../src/xml-io.c:2639
+#: ../plugins/mps/mps.c:544 ../src/xml-io.c:2638
 msgid "Reading file..."
 msgstr "Bezig met lezen bestand..."
 
@@ -454,7 +453,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Onverwacht attribuut %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:991
-#: ../plugins/openoffice/openoffice-read.c:1751 ../src/xml-sax-read.c:1966
+#: ../plugins/openoffice/openoffice-read.c:1750 ../src/xml-sax-read.c:1966
 msgid "XML document not well formed!"
 msgstr "Onjuist gemaakt XML document!"
 
@@ -529,7 +528,7 @@ msgstr ""
 "We hebben reeds een lengte weggeschreven voor een tekenreeks die wordt "
 "afgekapt vanwege tekensetproblemen."
 
-#: ../plugins/excel/ms-excel-write.c:4576
+#: ../plugins/excel/ms-excel-write.c:4578
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -539,7 +538,7 @@ msgstr ""
 "(tm) 95 bestand. Excel (tm) 95 ondersteunt slechts %d rijen, en dit werkboek "
 "heeft er %d"
 
-#: ../plugins/excel/ms-excel-write.c:4583
+#: ../plugins/excel/ms-excel-write.c:4585
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -549,11 +548,11 @@ msgstr ""
 "(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
 "%d"
 
-#: ../plugins/excel/ms-excel-write.c:5356
+#: ../plugins/excel/ms-excel-write.c:5358
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: ../plugins/excel/ms-excel-write.c:5376
+#: ../plugins/excel/ms-excel-write.c:5378
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
@@ -838,9 +837,9 @@ msgid "%s version %s"
 msgstr "%s versie %s "
 
 #: ../plugins/fn-info/functions.c:1344
-#: ../src/dialogs/dialog-cell-format.c:2207
-#: ../src/dialogs/dialog-cell-format.c:2211
-#: ../src/dialogs/dialog-cell-format.c:2219 ../src/wbc-gtk.c:556
+#: ../src/dialogs/dialog-cell-format.c:2209
+#: ../src/dialogs/dialog-cell-format.c:2213
+#: ../src/dialogs/dialog-cell-format.c:2221 ../src/wbc-gtk.c:556
 msgid "Automatic"
 msgstr "Automatisch"
 
@@ -856,7 +855,7 @@ msgstr "Onbekend systeem"
 msgid "Unknown info_type"
 msgstr "Onbekend info_type"
 
-#: ../plugins/fn-info/functions.c:1721 ../src/func.c:1051
+#: ../plugins/fn-info/functions.c:1721 ../src/func.c:1049
 msgid "Invalid number of arguments"
 msgstr "Ongeldig aantal argumenten"
 
@@ -918,7 +917,7 @@ msgid "Type Mismatch"
 msgstr "Typen komen niet overeen"
 
 #: ../plugins/fn-logical/functions.c:360 ../plugins/fn-logical/functions.c:364
-#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3456
+#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3452
 #: ../plugins/fn-stat/functions.c:5910 ../plugins/fn-stat/functions.c:5914
 #: ../plugins/fn-stat/functions.c:5918 ../plugins/fn-stat/functions.c:5956
 #: ../plugins/fn-stat/functions.c:5959 ../plugins/fn-stat/functions.c:5968
@@ -937,24 +936,24 @@ msgid "number,number,"
 msgstr "getal;getal;"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3288
-#: ../plugins/fn-math/functions.c:3292 ../plugins/fn-math/functions.c:3295
-#: ../plugins/fn-math/functions.c:3298 ../plugins/fn-math/functions.c:3301
-#: ../plugins/fn-math/functions.c:3304 ../plugins/fn-math/functions.c:3307
-#: ../plugins/fn-math/functions.c:3313 ../plugins/fn-math/functions.c:3322
-#: ../plugins/fn-math/functions.c:3331 ../plugins/fn-math/functions.c:3339
-#: ../plugins/fn-math/functions.c:3342 ../plugins/fn-math/functions.c:3345
-#: ../plugins/fn-math/functions.c:3348 ../plugins/fn-math/functions.c:3351
-#: ../plugins/fn-math/functions.c:3356 ../plugins/fn-math/functions.c:3360
-#: ../plugins/fn-math/functions.c:3366 ../plugins/fn-math/functions.c:3376
-#: ../plugins/fn-math/functions.c:3383 ../plugins/fn-math/functions.c:3386
-#: ../plugins/fn-math/functions.c:3392 ../plugins/fn-math/functions.c:3395
-#: ../plugins/fn-math/functions.c:3408 ../plugins/fn-math/functions.c:3414
-#: ../plugins/fn-math/functions.c:3420 ../plugins/fn-math/functions.c:3441
-#: ../plugins/fn-math/functions.c:3444 ../plugins/fn-math/functions.c:3447
-#: ../plugins/fn-math/functions.c:3450 ../plugins/fn-math/functions.c:3453
-#: ../plugins/fn-math/functions.c:3466 ../plugins/fn-math/functions.c:3478
-#: ../plugins/fn-math/functions.c:3481 ../plugins/fn-stat/functions.c:5980
+#: ../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3284
+#: ../plugins/fn-math/functions.c:3288 ../plugins/fn-math/functions.c:3291
+#: ../plugins/fn-math/functions.c:3294 ../plugins/fn-math/functions.c:3297
+#: ../plugins/fn-math/functions.c:3300 ../plugins/fn-math/functions.c:3303
+#: ../plugins/fn-math/functions.c:3309 ../plugins/fn-math/functions.c:3318
+#: ../plugins/fn-math/functions.c:3327 ../plugins/fn-math/functions.c:3335
+#: ../plugins/fn-math/functions.c:3338 ../plugins/fn-math/functions.c:3341
+#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3347
+#: ../plugins/fn-math/functions.c:3352 ../plugins/fn-math/functions.c:3356
+#: ../plugins/fn-math/functions.c:3362 ../plugins/fn-math/functions.c:3372
+#: ../plugins/fn-math/functions.c:3379 ../plugins/fn-math/functions.c:3382
+#: ../plugins/fn-math/functions.c:3388 ../plugins/fn-math/functions.c:3391
+#: ../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3416 ../plugins/fn-math/functions.c:3437
+#: ../plugins/fn-math/functions.c:3440 ../plugins/fn-math/functions.c:3443
+#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3449
+#: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3474
+#: ../plugins/fn-math/functions.c:3477 ../plugins/fn-stat/functions.c:5980
 #: ../plugins/fn-stat/functions.c:5983 ../plugins/fn-stat/functions.c:6001
 #: ../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1229
 #: ../plugins/fn-string/functions.c:1232
@@ -977,58 +976,58 @@ msgstr "Logica"
 msgid "Logic Functions"
 msgstr "Logische functies"
 
-#: ../plugins/fn-lookup/functions.c:1260
+#: ../plugins/fn-lookup/functions.c:1263
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "rij_num;kol_num;abs_num;a1;tekst"
 
-#: ../plugins/fn-lookup/functions.c:1263
+#: ../plugins/fn-lookup/functions.c:1266
 msgid "reference"
 msgstr "verwijzing"
 
-#: ../plugins/fn-lookup/functions.c:1266
+#: ../plugins/fn-lookup/functions.c:1269
 msgid "index,value,"
 msgstr "index;waarde;"
 
-#: ../plugins/fn-lookup/functions.c:1269 ../plugins/fn-lookup/functions.c:1275
-#: ../plugins/fn-lookup/functions.c:1299 ../plugins/fn-lookup/functions.c:1302
+#: ../plugins/fn-lookup/functions.c:1272 ../plugins/fn-lookup/functions.c:1278
+#: ../plugins/fn-lookup/functions.c:1302 ../plugins/fn-lookup/functions.c:1305
 msgid "ref"
 msgstr "verw"
 
 # afkorting?
-#: ../plugins/fn-lookup/functions.c:1272
+#: ../plugins/fn-lookup/functions.c:1275
 msgid "colname"
 msgstr "kolnaam"
 
-#: ../plugins/fn-lookup/functions.c:1278 ../plugins/fn-lookup/functions.c:1308
+#: ../plugins/fn-lookup/functions.c:1281 ../plugins/fn-lookup/functions.c:1311
 msgid "val,range,col_idx,approx,as_index"
 msgstr "waarde;bereik;kol_indx;benaderen;als_index"
 
-#: ../plugins/fn-lookup/functions.c:1281
+#: ../plugins/fn-lookup/functions.c:1284
 msgid "link_location, label"
 msgstr "link_locatie; label"
 
-#: ../plugins/fn-lookup/functions.c:1284
+#: ../plugins/fn-lookup/functions.c:1287
 msgid "ref_string,format"
 msgstr "verw_tekenreeks;formaat"
 
-#: ../plugins/fn-lookup/functions.c:1287
+#: ../plugins/fn-lookup/functions.c:1290
 msgid "reference,row,col,area"
 msgstr "verwijzing;rij;kol;gebied"
 
-#: ../plugins/fn-lookup/functions.c:1290
+#: ../plugins/fn-lookup/functions.c:1293
 msgid "val,range,range"
 msgstr "waarde;bereik;bereik"
 
-#: ../plugins/fn-lookup/functions.c:1293
+#: ../plugins/fn-lookup/functions.c:1296
 msgid "val,range,approx"
 msgstr "waarde;bereik;benader"
 
-#: ../plugins/fn-lookup/functions.c:1296
+#: ../plugins/fn-lookup/functions.c:1299
 msgid "ref,row,col,height,width"
 msgstr "ref;rij;kol;hoogte;breedte"
 
 # matrix/array/reeks
-#: ../plugins/fn-lookup/functions.c:1305 ../plugins/fn-math/functions.c:3494
+#: ../plugins/fn-lookup/functions.c:1308 ../plugins/fn-math/functions.c:3490
 msgid "array"
 msgstr "reeks"
 
@@ -1044,18 +1043,18 @@ msgstr "Opzoeken"
 msgid "Lookup Functions"
 msgstr "Opzoekfuncties"
 
-#: ../plugins/fn-math/functions.c:2548 ../plugins/fn-math/functions.c:2568
-#: ../plugins/fn-math/functions.c:2664 ../plugins/fn-math/functions.c:2684
-#: ../plugins/fn-math/functions.c:2778 ../plugins/fn-math/functions.c:2798
+#: ../plugins/fn-math/functions.c:2544 ../plugins/fn-math/functions.c:2564
+#: ../plugins/fn-math/functions.c:2660 ../plugins/fn-math/functions.c:2680
+#: ../plugins/fn-math/functions.c:2774 ../plugins/fn-math/functions.c:2794
 #: ../plugins/fn-stat/functions.c:3109 ../plugins/fn-stat/functions.c:3139
 msgid "Array version not implemented!"
 msgstr "Array-versie niet geïmplementeerd!"
 
-#: ../plugins/fn-math/functions.c:3310
+#: ../plugins/fn-math/functions.c:3306
 msgid "xnum,ynum"
 msgstr "xnum;ynum"
 
-#: ../plugins/fn-math/functions.c:3316 ../plugins/fn-math/functions.c:3319
+#: ../plugins/fn-math/functions.c:3312 ../plugins/fn-math/functions.c:3315
 #: ../plugins/fn-random/functions.c:1196 ../plugins/fn-random/functions.c:1217
 #: ../plugins/fn-random/functions.c:1223 ../plugins/fn-random/functions.c:1262
 #: ../plugins/fn-random/functions.c:1277 ../plugins/fn-random/functions.c:1280
@@ -1063,67 +1062,67 @@ msgid "a,b"
 msgstr "a;b"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3327
+#: ../plugins/fn-math/functions.c:3323
 msgid "range,criteria"
 msgstr "bereik;criteria"
 
-#: ../plugins/fn-math/functions.c:3335
+#: ../plugins/fn-math/functions.c:3331
 msgid "number,significance"
 msgstr "getal;significantie"
 
-#: ../plugins/fn-math/functions.c:3363 ../plugins/fn-stat/functions.c:6094
+#: ../plugins/fn-math/functions.c:3359 ../plugins/fn-stat/functions.c:6094
 msgid "n,k"
 msgstr "n;k"
 
-#: ../plugins/fn-math/functions.c:3370
+#: ../plugins/fn-math/functions.c:3366
 msgid "number,number"
 msgstr "getal;getal"
 
-#: ../plugins/fn-math/functions.c:3389
+#: ../plugins/fn-math/functions.c:3385
 msgid "number,base"
 msgstr "getal;basis"
 
-#: ../plugins/fn-math/functions.c:3398 ../plugins/fn-math/functions.c:3417
+#: ../plugins/fn-math/functions.c:3394 ../plugins/fn-math/functions.c:3413
 msgid "numerator,denominator"
 msgstr "teller;noemer"
 
-#: ../plugins/fn-math/functions.c:3401
+#: ../plugins/fn-math/functions.c:3397
 msgid "number,multiple"
 msgstr "getal;multiple"
 
-#: ../plugins/fn-math/functions.c:3411
+#: ../plugins/fn-math/functions.c:3407
 msgid "base,exponent"
 msgstr "basis;exponent"
 
-#: ../plugins/fn-math/functions.c:3423
+#: ../plugins/fn-math/functions.c:3419
 msgid "number,type"
 msgstr "getal;type"
 
-#: ../plugins/fn-math/functions.c:3426 ../plugins/fn-math/functions.c:3430
-#: ../plugins/fn-math/functions.c:3434 ../plugins/fn-math/functions.c:3484
+#: ../plugins/fn-math/functions.c:3422 ../plugins/fn-math/functions.c:3426
+#: ../plugins/fn-math/functions.c:3430 ../plugins/fn-math/functions.c:3480
 msgid "number,digits"
 msgstr "getal;cijfers"
 
-#: ../plugins/fn-math/functions.c:3438
+#: ../plugins/fn-math/functions.c:3434
 msgid "x,n,m,coefficients"
 msgstr "x;n;m;coëfficiënten"
 
-#: ../plugins/fn-math/functions.c:3460
+#: ../plugins/fn-math/functions.c:3456
 msgid "range,criteria,actual_range"
 msgstr "bereik;criteria;feitelijk_bereik"
 
-#: ../plugins/fn-math/functions.c:3463
+#: ../plugins/fn-math/functions.c:3459
 msgid "range,range,"
 msgstr "bereik;bereik;"
 
-#: ../plugins/fn-math/functions.c:3469 ../plugins/fn-math/functions.c:3472
-#: ../plugins/fn-math/functions.c:3475 ../plugins/fn-math/functions.c:3491
+#: ../plugins/fn-math/functions.c:3465 ../plugins/fn-math/functions.c:3468
+#: ../plugins/fn-math/functions.c:3471 ../plugins/fn-math/functions.c:3487
 #: ../plugins/fn-stat/functions.c:5953 ../plugins/fn-stat/functions.c:5962
 #: ../plugins/fn-stat/functions.c:6085 ../plugins/fn-stat/functions.c:6141
 msgid "array1,array2"
 msgstr "array1;array2"
 
-#: ../plugins/fn-math/functions.c:3497 ../plugins/fn-math/functions.c:3501
+#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-math/functions.c:3497
 msgid "array,matrix_type,bandsize"
 msgstr "array;matrix_type;bandbreedte"
 
@@ -1546,7 +1545,7 @@ msgstr ""
 "Het biedt ondersteuning voor het opslaan van Gnome woordenlijsten in .po "
 "bestanden."
 
-#: ../plugins/html/html_read.c:542
+#: ../plugins/html/html_read.c:544
 msgid "Unable to parse the html."
 msgstr "Onmogelijk de html te verwerken."
 
@@ -1642,7 +1641,7 @@ msgstr "Voorwaarden:"
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
 #: ../src/tools/solver/reports-write.c:668 ../src/commands.c:5516
-#: ../src/format-template.c:251 ../src/sheet.c:528
+#: ../src/format-template.c:251 ../src/sheet.c:531
 msgid "Name"
 msgstr "Naam"
 
@@ -1785,19 +1784,19 @@ msgstr ""
 "Niet in staat om de positie van uitdrukking '%s' met waarde '%s' te "
 "verwerken vanwege '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1651
+#: ../plugins/openoffice/openoffice-read.c:1650
 msgid "No stream named mimetype found."
 msgstr "Geen stroom genaamd mimetype gevonden."
 
-#: ../plugins/openoffice/openoffice-read.c:1663
+#: ../plugins/openoffice/openoffice-read.c:1662
 msgid "Unknown mimetype for openoffice file."
 msgstr "Onbekend mimetype voor openoffice-bestand."
 
-#: ../plugins/openoffice/openoffice-read.c:1671
+#: ../plugins/openoffice/openoffice-read.c:1670
 msgid "No stream named content.xml found."
 msgstr "Geen stroom genaamd content.xml gevonden."
 
-#: ../plugins/openoffice/openoffice-read.c:1678
+#: ../plugins/openoffice/openoffice-read.c:1677
 msgid "No stream named styles.xml found."
 msgstr "Geen stroom genaamd styles.xml gevonden."
 
@@ -2218,7 +2217,7 @@ msgstr "Fout bij het openen van xbase bestand"
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:461
 #: ../src/dialogs/print.glade.h:23 ../src/print-info.c:400
-#: ../src/workbook.c:1016 ../src/xml-io.c:2239
+#: ../src/workbook.c:1012 ../src/xml-io.c:2238
 msgid "Sheet"
 msgstr "Blad"
 
@@ -2446,13 +2445,10 @@ msgstr "Sans"
 msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
-"entry even the entry does not have keyboard focus."
-msgstr ""
-"Sommige dialoogvensters bevatten slechts een enkel invoerveld voor bereik-"
-"selecties in het werkboek. Als deze variabele op TRUE (WAAR) wordt gezet, "
-"gaan selecties rechtstreeks naar dit invoerveld, zelfs al heeft dit "
-"invoerveld geen toetsenbord-aandacht."
+"entry even if the entry does not have keyboard focus."
+msgstr "Sommige dialoogvensters bevatten slechts een enkel invoerveld voor bereik-selecties in het werkboek. Als deze variabele op TRUE (WAAR) wordt gezet, zal een bereik-selectie rechtstreeks in dit invoerveld worden gezet, zelfs al heeft dit invoerveld geen toetsenbord-aandacht."
 
+# automatische opmaak
 #: ../schemas/gnumeric-dialogs.schemas.in.h:45
 msgid "System Directory for Autoformats"
 msgstr "Systeemmap voor autoformaten"
@@ -2461,17 +2457,13 @@ msgstr "Systeemmap voor autoformaten"
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
-msgstr ""
-"Autocorrectie corrigeert niet de eerste letter van woorden die in deze lijst "
-"staan."
+msgstr "Autocorrectie corrigeert niet de eerste letter voor woorden die in deze lijst staan."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
-msgstr ""
-"Autocorrectie corrigeert niet een begin-hoofdletter van woorden die in deze "
-"lijst staan."
+msgstr "Autocorrectie corrigeert niet een begin-hoofdletter voor woorden die in deze lijst staan."
 
 # bewerken/veranderen
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
@@ -3653,13 +3645,13 @@ msgstr ""
 "Aangepast"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:607
+#: ../src/dialogs/dialog-cell-format.c:2217 ../src/wbc-gtk.c:607
 #: ../src/wbc-gtk.c:608 ../src/wbc-gtk.c:615
 msgid "Background"
 msgstr "Achtergrond"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2207
+#: ../src/dialogs/dialog-cell-format.c:2209
 msgid "Border"
 msgstr "Rand"
 
@@ -3714,7 +3706,7 @@ msgstr "Voorgrond egaal"
 
 # verbindingsstreepje?
 #: ../src/dialogs/cell-format.glade.h:47
-#: ../src/dialogs/dialog-cell-format.c:2144
+#: ../src/dialogs/dialog-cell-format.c:2146
 msgid "Format Cells"
 msgstr "Cel eigenschappen"
 
@@ -3772,7 +3764,7 @@ msgstr ""
 "U het blad ook beveiligt."
 
 #: ../src/dialogs/cell-format.glade.h:60
-#: ../src/dialogs/dialog-cell-format.c:89
+#: ../src/dialogs/dialog-cell-format.c:91
 #: ../src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "Geen"
@@ -4986,73 +4978,73 @@ msgstr "Wilt u de werkmap %s opslaan?"
 msgid "Could not create the autosave dialog."
 msgstr "Kon het autosave dialoogvenster niet maken."
 
-#: ../src/dialogs/dialog-cell-format.c:90
+#: ../src/dialogs/dialog-cell-format.c:92
 msgid "Single"
 msgstr "Enkel"
 
-#: ../src/dialogs/dialog-cell-format.c:91
+#: ../src/dialogs/dialog-cell-format.c:93
 msgid "Double"
 msgstr "Dubbel"
 
-#: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:158
+#: ../src/dialogs/dialog-cell-format.c:471 ../src/dialogs/dialog-search.c:158
 #: ../src/func.c:932 ../src/wbcg-actions.c:2049
 msgid "Number"
 msgstr "Getal"
 
-#: ../src/dialogs/dialog-cell-format.c:1635
+#: ../src/dialogs/dialog-cell-format.c:1637
 msgid "Source"
 msgstr "Bron"
 
-#: ../src/dialogs/dialog-cell-format.c:1636
+#: ../src/dialogs/dialog-cell-format.c:1638
 msgid "Criteria"
 msgstr "Criteria"
 
-#: ../src/dialogs/dialog-cell-format.c:1648
-#: ../src/dialogs/dialog-cell-format.c:1655
+#: ../src/dialogs/dialog-cell-format.c:1650
+#: ../src/dialogs/dialog-cell-format.c:1657
 msgid "Min :"
 msgstr "Min :"
 
-#: ../src/dialogs/dialog-cell-format.c:1649
-#: ../src/dialogs/dialog-cell-format.c:1658
+#: ../src/dialogs/dialog-cell-format.c:1651
+#: ../src/dialogs/dialog-cell-format.c:1660
 msgid "Max :"
 msgstr "Max :"
 
-#: ../src/dialogs/dialog-cell-format.c:1652
+#: ../src/dialogs/dialog-cell-format.c:1654
 msgid "Value :"
 msgstr "Waarde :"
 
-#: ../src/dialogs/dialog-cell-format.c:1742
+#: ../src/dialogs/dialog-cell-format.c:1744
 msgid "None          (silently accept invalid input)"
 msgstr "Geen     (zwijgend incorrecte invoer accepteren)"
 
-#: ../src/dialogs/dialog-cell-format.c:1750
+#: ../src/dialogs/dialog-cell-format.c:1752
 msgid "Stop            (never allow invalid input)"
 msgstr "Stoppen  (nooit incorrecte invoer accepteren)"
 
-#: ../src/dialogs/dialog-cell-format.c:1758
+#: ../src/dialogs/dialog-cell-format.c:1760
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Waarschuwing  (accepteren/afwijzen incorrecte invoer)"
 
-#: ../src/dialogs/dialog-cell-format.c:1766
+#: ../src/dialogs/dialog-cell-format.c:1768
 msgid "Information (allow invalid input)"
 msgstr "Informatie (incorrecte invoer toestaan)"
 
-#: ../src/dialogs/dialog-cell-format.c:1961
+#: ../src/dialogs/dialog-cell-format.c:1963
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 "De criteria voor invoercontrole zijn onbruikbaar. Invoercontrole uitzetten?"
 
-#: ../src/dialogs/dialog-cell-format.c:2211 ../src/wbc-gtk.c:195
+#: ../src/dialogs/dialog-cell-format.c:2213 ../src/wbc-gtk.c:195
 #: ../src/wbc-gtk.c:328 ../src/wbc-gtk.c:558 ../src/wbc-gtk.c:559
 #: ../src/wbc-gtk.c:568 ../src/wbc-gtk.c:668 ../src/wbc-gtk.c:722
 msgid "Foreground"
 msgstr "Voorgrond"
 
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:605
+#: ../src/dialogs/dialog-cell-format.c:2217 ../src/wbc-gtk.c:605
 msgid "Clear Background"
 msgstr "Achtergrond verwijderen"
 
-#: ../src/dialogs/dialog-cell-format.c:2219
+#: ../src/dialogs/dialog-cell-format.c:2221
 msgid "Pattern"
 msgstr "Patroon"
 
@@ -6068,7 +6060,7 @@ msgstr "Gereviseerde Simplex (GLPK 4.5)"
 msgid "< Not available >"
 msgstr "< Niet beschikbaar >"
 
-#: ../src/dialogs/dialog-solver.c:391
+#: ../src/dialogs/dialog-solver.c:397
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -6076,7 +6068,7 @@ msgstr ""
 "Nog op zoek naar een onderwerp voor uw scriptie? Misschien wilt u een QP-"
 "oplosser schrijven voor Gnumeric?"
 
-#: ../src/dialogs/dialog-solver.c:695
+#: ../src/dialogs/dialog-solver.c:701
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -6085,7 +6077,7 @@ msgstr ""
 "optimaliserings voorwaarden is voldaan.\n"
 
 # Getallen-voorwaarden?
-#: ../src/dialogs/dialog-solver.c:704
+#: ../src/dialogs/dialog-solver.c:710
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -6094,12 +6086,12 @@ msgstr ""
 "\"integer constraints\" heeft. Deze rapporten zullen dus niet worden "
 "gegenereerd."
 
-#: ../src/dialogs/dialog-solver.c:722
+#: ../src/dialogs/dialog-solver.c:728
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "De Doelcel-waarde convergeert niet! Het programma is onbegrenst."
 
-#: ../src/dialogs/dialog-solver.c:736
+#: ../src/dialogs/dialog-solver.c:742
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -6107,7 +6099,7 @@ msgstr ""
 "Een geschikte oplossing kon niet worden gevonden. Er kan niet gelijktijdig "
 "aan alle opgegeven voorwaarden worden voldaan."
 
-#: ../src/dialogs/dialog-solver.c:751
+#: ../src/dialogs/dialog-solver.c:757
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -6115,36 +6107,36 @@ msgstr ""
 "Het maximale aantal iteraties is verlopen. De optimale waarde kon niet "
 "worden gevonden."
 
-#: ../src/dialogs/dialog-solver.c:795
+#: ../src/dialogs/dialog-solver.c:801
 msgid "Optimal solution created by solver.\n"
 msgstr "Optimale oplossing gevonden door de oplosser.\n"
 
-#: ../src/dialogs/dialog-solver.c:829
+#: ../src/dialogs/dialog-solver.c:835
 msgid "Unknown error."
 msgstr "Onbekende fout."
 
-#: ../src/dialogs/dialog-solver.c:848
+#: ../src/dialogs/dialog-solver.c:854
 msgid "You have not specified a problem to be solved"
 msgstr "U heeft geen probleem opgegeven om op te lossen"
 
-#: ../src/dialogs/dialog-solver.c:867 ../src/tools/solver/solver.c:391
+#: ../src/dialogs/dialog-solver.c:873 ../src/tools/solver/solver.c:391
 msgid "Target cell should contain a formula."
 msgstr "Doelcel moet een formule bevatten."
 
-#: ../src/dialogs/dialog-solver.c:945
+#: ../src/dialogs/dialog-solver.c:951
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Voorwaarde `%s' is voor een cel dat geen invoercel is."
 
-#: ../src/dialogs/dialog-solver.c:966
+#: ../src/dialogs/dialog-solver.c:972
 msgid "No constraints defined for the problem."
 msgstr "Geen randvoorwaarden voor het probleem gedefinieerd."
 
-#: ../src/dialogs/dialog-solver.c:1230
+#: ../src/dialogs/dialog-solver.c:1236
 msgid "Subject to the Constraints:"
 msgstr "Onderhevig aan de Voorwaarden:"
 
-#: ../src/dialogs/dialog-solver.c:1346
+#: ../src/dialogs/dialog-solver.c:1352
 msgid "Could not create the Solver dialog."
 msgstr "Kon het Oplosser dialoogvenster niet maken."
 
@@ -9765,11 +9757,11 @@ msgstr "Typen van \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Kolom/Rij inv/verw"
 
-#: ../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3688
+#: ../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3654
 msgid "Delete Columns"
 msgstr "Kolommen verwijderen"
 
-#: ../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3812
+#: ../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3778
 msgid "Delete Rows"
 msgstr "Rijen verwijderen"
 
@@ -9814,7 +9806,7 @@ msgid "Deleting row %s"
 msgstr "Verwijderen rij %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1565 ../src/commands.c:1569 ../src/sheet.c:3299
+#: ../src/commands.c:1565 ../src/commands.c:1569 ../src/sheet.c:3303
 msgid "Clear"
 msgstr "Wissen"
 
@@ -10340,19 +10332,15 @@ msgid "Scalar, Blank, or Error"
 msgstr "Scalair, leeg of fout"
 
 #: ../src/func.c:944
-msgid "Scalar or Error"
-msgstr "Scalair of fout"
-
-#: ../src/func.c:946
 msgid "Scalar"
 msgstr "Scalair"
 
 #. Missing values will be NULL.
-#: ../src/func.c:949
+#: ../src/func.c:947
 msgid "Any"
 msgstr "Willekeurig"
 
-#: ../src/func.c:1280
+#: ../src/func.c:1277
 msgid "Function does not exist"
 msgstr "Functie bestaat niet"
 
@@ -10863,39 +10851,39 @@ msgstr "Naam '%s' bestaat niet op werkblad '%s'"
 msgid "Unknown workbook '%s'"
 msgstr "Onbekend werkblad '%s'"
 
-#: ../src/parser.y:983 ../src/parser.y:1233
+#: ../src/parser.y:981 ../src/parser.y:1229
 msgid "Could not find matching closing quote"
 msgstr "Kon geen corresponderende aanhalingstekens vinden."
 
-#: ../src/parser.y:1092
+#: ../src/parser.y:1090
 msgid "Sheet name is required"
 msgstr "Bladnaam is vereist."
 
-#: ../src/parser.y:1145 ../src/parser.y:1154 ../src/parser.y:1179
+#: ../src/parser.y:1143 ../src/parser.y:1152 ../src/parser.y:1177
 msgid "The number is out of range"
 msgstr "Het getal valt buiten het bereik"
 
-#: ../src/parser.y:1215
+#: ../src/parser.y:1211
 msgid "Improperly formatted error token"
 msgstr "Onjuist geformatteerde fout-markering"
 
-#: ../src/parser.y:1392
+#: ../src/parser.y:1385
 msgid "Multiple expressions are not supported in this context"
 msgstr "In deze context worden meervoudige uitdrukkingen niet ondersteund."
 
-#: ../src/parser.y:1415
+#: ../src/parser.y:1408
 msgid "Could not find matching opening parenthesis"
 msgstr "Kon geen corresponderende openings haakjes vinden."
 
-#: ../src/parser.y:1419
+#: ../src/parser.y:1412
 msgid "Could not find matching closing parenthesis"
 msgstr "Kon geen corresponderende afsluitende haakjes vinden."
 
-#: ../src/parser.y:1423
+#: ../src/parser.y:1416
 msgid "Invalid expression"
 msgstr "Ongeldige uitdrukking"
 
-#: ../src/parser.y:1427
+#: ../src/parser.y:1420
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Onverwacht teken %c"
@@ -11093,157 +11081,157 @@ msgstr "Niet opslaan"
 msgid "Do not log out"
 msgstr "Niet uitloggen"
 
-#: ../src/sheet.c:529
+#: ../src/sheet.c:532
 msgid "The name of the sheet."
 msgstr "De naam van het werkblad."
 
-#: ../src/sheet.c:537
+#: ../src/sheet.c:540
 msgid "text-is-rtl"
 msgstr "tekst-is-rnl"
 
-#: ../src/sheet.c:538
+#: ../src/sheet.c:541
 msgid "Text goes from right to left."
 msgstr "Tekst loopt van rechts naar links."
 
-#: ../src/sheet.c:546
+#: ../src/sheet.c:549
 msgid "Visibility"
 msgstr "Zichtbaarheid"
 
-#: ../src/sheet.c:547
+#: ../src/sheet.c:550
 msgid "How visible the sheet is."
 msgstr "Hoe zichtbaar het werkblad is."
 
-#: ../src/sheet.c:556
+#: ../src/sheet.c:559
 msgid "Protected"
 msgstr "Beveiligd"
 
-#: ../src/sheet.c:557
+#: ../src/sheet.c:560
 msgid "Sheet is protected."
 msgstr "Werkblad is beveiligd."
 
 # tonen/weergeven
-#: ../src/sheet.c:565
+#: ../src/sheet.c:568
 msgid "Display Formulas"
 msgstr "Formules tonen"
 
-#: ../src/sheet.c:566
+#: ../src/sheet.c:569
 msgid "Control whether formulas are shown instead of values."
 msgstr ""
 "Hiermee stelt u in of formules worden getoond of de resultaten daarvan."
 
 # tonen/weergeven
-#: ../src/sheet.c:574
+#: ../src/sheet.c:577
 msgid "Display Zeros"
 msgstr "Nullen tonen"
 
-#: ../src/sheet.c:575
+#: ../src/sheet.c:578
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Hiermee stelt u in of nullen worden getoond of een lege cel."
 
 # tonen/weergeven
-#: ../src/sheet.c:583
+#: ../src/sheet.c:586
 msgid "Display Grid"
 msgstr "Raster tonen:"
 
-#: ../src/sheet.c:584
+#: ../src/sheet.c:587
 msgid "Control whether the grid is shown."
 msgstr "Hiermee stelt u in of het raster wordt getoond."
 
 # tonen/weergeven
-#: ../src/sheet.c:592
+#: ../src/sheet.c:595
 msgid "Display Column Headers"
 msgstr "Kolomkoppen tonen"
 
-#: ../src/sheet.c:593
+#: ../src/sheet.c:596
 msgid "Control whether column headers are shown."
 msgstr "Hiermee stelt u in of kolomkoppen worden getoond."
 
-#: ../src/sheet.c:601
+#: ../src/sheet.c:604
 msgid "Display Row Headers"
 msgstr "Rijkoppen tonen"
 
-#: ../src/sheet.c:602
+#: ../src/sheet.c:605
 msgid "Control whether row headers are shown."
 msgstr "Hiermee stelt u in of rijkoppen worden getoond."
 
-#: ../src/sheet.c:610
+#: ../src/sheet.c:613
 msgid "Display Outlines"
 msgstr "Outlines tonen"
 
-#: ../src/sheet.c:611
+#: ../src/sheet.c:614
 msgid "Control whether outlines are shown."
 msgstr "Hiermee stelt u in of outlines worden getoond."
 
-#: ../src/sheet.c:619
+#: ../src/sheet.c:622
 msgid "Display Outlines Below"
 msgstr "Outlines onder weergeven"
 
 # betere vertaling voor outline symbols?
-#: ../src/sheet.c:620
+#: ../src/sheet.c:623
 msgid "Control whether outline symbols are shown below."
 msgstr "Hiermee stelt u in of outlines-symbolen worden getoond."
 
-#: ../src/sheet.c:628
+#: ../src/sheet.c:631
 msgid "Display Outlines Right"
 msgstr "Outlines rechts weergeven"
 
-#: ../src/sheet.c:629
+#: ../src/sheet.c:632
 msgid "Control whether outline symbols are shown to the right."
 msgstr ""
 "Hiermee stelt u in of outlines-symbolen getoond worden aan de rechterkant."
 
-#: ../src/sheet.c:637
+#: ../src/sheet.c:640
 msgid "Use R1C1 notation rather than A1"
 msgstr "R1K1-notatie gebruiken in plaats van A1"
 
-#: ../src/sheet.c:638
+#: ../src/sheet.c:641
 msgid ""
 "Display cell addresses using R1C1 notion rather than the more common A1."
 msgstr ""
 "Cel-adressen weergeven in R1K1-notatie in plaats van de meer gebruikelijke "
 "A1-notatie."
 
-#: ../src/sheet.c:646
+#: ../src/sheet.c:649
 msgid "Tab Foreground"
 msgstr "Tab-voorgrond"
 
-#: ../src/sheet.c:647
+#: ../src/sheet.c:650
 msgid "The foreground color of the tab."
 msgstr "De voorgrondkleur van de tab."
 
-#: ../src/sheet.c:655
+#: ../src/sheet.c:658
 msgid "Tab Background"
 msgstr "Tab-achtergrond"
 
-#: ../src/sheet.c:656
+#: ../src/sheet.c:659
 msgid "The background color of the tab."
 msgstr "De achtergrondkleur van de tab."
 
-#: ../src/sheet.c:665
+#: ../src/sheet.c:668
 msgid "Zoom Factor"
 msgstr "Zoomfactor"
 
-#: ../src/sheet.c:666
+#: ../src/sheet.c:669
 msgid "The level of zoom used for this sheet."
 msgstr "De zoomfactor voor dit blad."
 
-#: ../src/sheet.c:2435
+#: ../src/sheet.c:2439
 msgid "Target region contains merged cells"
 msgstr "Doelgebied bevat samengevoegde cellen"
 
-#: ../src/sheet.c:2496
+#: ../src/sheet.c:2500
 msgid "cannot operate on merged cells"
 msgstr "kan niet toepassen op samengevoegde cellen"
 
-#: ../src/sheet.c:2506
+#: ../src/sheet.c:2510
 msgid "cannot operate on array formulae"
 msgstr "kan niet worden toegepast op array formules"
 
-#: ../src/sheet.c:3625
+#: ../src/sheet.c:3591
 msgid "Insert Columns"
 msgstr "Kolommen Invoegen"
 
-#: ../src/sheet.c:3749
+#: ../src/sheet.c:3715
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
@@ -13548,55 +13536,55 @@ msgstr "Knoppenbalk %s tonen/verbergen"
 msgid "Book%d.%s"
 msgstr "Boek%d.%s"
 
-#: ../src/workbook.c:1486
+#: ../src/workbook.c:1482
 msgid "Renaming sheet"
 msgstr "Werkblad hernoemen"
 
-#: ../src/workbook.c:1487
+#: ../src/workbook.c:1483
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "%d werkbladen hernoemen"
 
-#: ../src/workbook.c:1490
+#: ../src/workbook.c:1486
 msgid "Adding sheet"
 msgstr "Werkblad toevoegen"
 
-#: ../src/workbook.c:1491
+#: ../src/workbook.c:1487
 #, c-format
 msgid "Adding %d sheets"
 msgstr "%d werkbladen toevoegen"
 
-#: ../src/workbook.c:1498
+#: ../src/workbook.c:1494
 msgid "Inserting sheet"
 msgstr "Werkblad invoegen"
 
-#: ../src/workbook.c:1499
+#: ../src/workbook.c:1495
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "%d werkbladen invoegen"
 
-#: ../src/workbook.c:1501
+#: ../src/workbook.c:1497
 msgid "Changing sheet tab colors"
 msgstr "Kleur van tabs wijzigen"
 
-#: ../src/workbook.c:1503
+#: ../src/workbook.c:1499
 msgid "Changing sheet properties"
 msgstr "Bladeigenschappen wijzigen"
 
-#: ../src/workbook.c:1511
+#: ../src/workbook.c:1507
 msgid "Deleting sheet"
 msgstr "Werkblad verwijderen"
 
-#: ../src/workbook.c:1512
+#: ../src/workbook.c:1508
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "%d werkbladen verwijderen"
 
-#: ../src/workbook.c:1514
+#: ../src/workbook.c:1510
 msgid "Changing sheet order"
 msgstr "Volgorde bladen wijzigen"
 
-#: ../src/workbook.c:1516
+#: ../src/workbook.c:1512
 msgid "Reorganizing Sheets"
 msgstr "Bladen Herordenen"
 
@@ -13774,32 +13762,32 @@ msgstr "Niet ondersteund bestandsformaat."
 msgid "An unexplained error happened while opening %s"
 msgstr "Er trad een onverklaarbare fout op bij het openen van %s"
 
-#: ../src/xml-io.c:1674 ../src/xml-sax-read.c:1499
+#: ../src/xml-io.c:1673 ../src/xml-sax-read.c:1499
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Niet ondersteund objecttype '%s'"
 
-#: ../src/xml-io.c:2121
+#: ../src/xml-io.c:2120
 msgid "Unparsable xml in clipboard"
 msgstr "Niet te verwerken xml in klembord"
 
-#: ../src/xml-io.c:2128
+#: ../src/xml-io.c:2127
 msgid "Clipboard is in unknown format"
 msgstr "Klembord is in onbekend formaat"
 
-#: ../src/xml-io.c:2348
+#: ../src/xml-io.c:2347
 msgid "Processing file..."
 msgstr "Bezig met verwerken bestand..."
 
-#: ../src/xml-io.c:2687
+#: ../src/xml-io.c:2686
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Het bestand is geen Gnumeric Werkmapbestand"
 
-#: ../src/xml-io.c:2714 ../src/xml-io.c:2725
+#: ../src/xml-io.c:2713 ../src/xml-io.c:2724
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-io.c:2720
+#: ../src/xml-io.c:2719
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "EXPERIMENTAL SAX gebaseerde Gnumeric (*.gnumeric)"
 
@@ -14004,6 +13992,9 @@ msgstr "Lila lijst"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Een eenvoudige lijst"
+
+#~ msgid "Scalar or Error"
+#~ msgstr "Scalair of fout"
 
 #~ msgid "Scalar or Blank"
 #~ msgstr "Scalair of blanco"
