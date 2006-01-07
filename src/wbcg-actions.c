@@ -2068,7 +2068,7 @@ static GtkActionEntry const actions[] = {
 		"<control>at", N_("Format the selection as time"),
 		G_CALLBACK (cb_format_as_time) },
 	{ "FormatAddBorders", NULL, N_("AddBorders"),
-		"<control>ampersand", N_("Add a border the the selection"),
+		"<control>ampersand", N_("Add a border around the selection"),
 		G_CALLBACK (cb_format_add_borders) },
 	{ "FormatClearBorders", NULL, N_("ClearBorders"),
 		"<control>underscore", N_("Clear the border around the selection"),
