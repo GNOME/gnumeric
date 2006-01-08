@@ -1,6 +1,8 @@
 gnumeric (1.6.2-0) UNRELEASED; urgency=low
 
-  * New upstream bugfix release.
+  * New upstream bugfix release. Changes include:
+    * Corrected German translation of automatic/always/never in configurable
+      text export. (Closes: #346422)
   * [debian/gnumeric.templates] Updated to work with po-debconf.
   * [debian/control] Added build dependency on po-debconf.
   * [debian/po/de.po] Added, courtesy of Johannes Starosta
@@ -13,7 +15,7 @@ gnumeric (1.6.2-0) UNRELEASED; urgency=low
   * [debian/control] Removed Suggests: debconf as a Depends: is already
     created for it.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  1 Jan 2006 15:12:29 +0100
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  8 Jan 2006 15:19:10 +0100
 
 gnumeric (1.6.1-2) unstable; urgency=medium
 
