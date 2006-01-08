@@ -5985,7 +5985,8 @@ msgid ""
 "Always\n"
 "Never"
 msgstr ""
-"Automatisch (wenn nötig, Anführungszeichen setzen)Immer\n"
+"Automatisch (wenn nötig, Anführungszeichen setzen)\n"
+"Immer\n"
 "Nie"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:206
