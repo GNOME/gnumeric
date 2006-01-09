@@ -126,8 +126,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-06 03:21+0100\n"
-"PO-Revision-Date: 2006-01-06 09:04+0100\n"
+"POT-Creation-Date: 2006-01-08 11:11+0100\n"
+"PO-Revision-Date: 2006-01-08 17:11+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -870,7 +870,7 @@ msgstr "info_type; cel"
 #: ../plugins/fn-info/functions.c:1912 ../plugins/fn-info/functions.c:1915
 #: ../plugins/fn-info/functions.c:1918 ../plugins/fn-info/functions.c:1921
 #: ../plugins/fn-info/functions.c:1924 ../plugins/fn-info/functions.c:1930
-#: ../plugins/fn-string/functions.c:1292
+#: ../plugins/fn-string/functions.c:1282
 msgid "value"
 msgstr "waarde"
 
@@ -883,12 +883,12 @@ msgstr "info_type"
 msgid "range"
 msgstr "bereik"
 
-#: ../plugins/fn-info/functions.c:1939 ../plugins/fn-string/functions.c:1235
-#: ../plugins/fn-string/functions.c:1238 ../plugins/fn-string/functions.c:1241
-#: ../plugins/fn-string/functions.c:1262 ../plugins/fn-string/functions.c:1265
-#: ../plugins/fn-string/functions.c:1268 ../plugins/fn-string/functions.c:1274
-#: ../plugins/fn-string/functions.c:1298 ../plugins/fn-string/functions.c:1301
-#: ../plugins/fn-string/functions.c:1304
+#: ../plugins/fn-info/functions.c:1939 ../plugins/fn-string/functions.c:1225
+#: ../plugins/fn-string/functions.c:1228 ../plugins/fn-string/functions.c:1231
+#: ../plugins/fn-string/functions.c:1252 ../plugins/fn-string/functions.c:1255
+#: ../plugins/fn-string/functions.c:1258 ../plugins/fn-string/functions.c:1264
+#: ../plugins/fn-string/functions.c:1288 ../plugins/fn-string/functions.c:1291
+#: ../plugins/fn-string/functions.c:1294
 msgid "text"
 msgstr "tekst"
 
@@ -896,7 +896,7 @@ msgstr "tekst"
 msgid "cell"
 msgstr "cel"
 
-#: ../plugins/fn-info/functions.c:1945 ../plugins/fn-string/functions.c:1226
+#: ../plugins/fn-info/functions.c:1945 ../plugins/fn-string/functions.c:1216
 msgid "string"
 msgstr "tekenreeks"
 
@@ -955,8 +955,8 @@ msgstr "getal;getal;"
 #: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3474
 #: ../plugins/fn-math/functions.c:3477 ../plugins/fn-stat/functions.c:5980
 #: ../plugins/fn-stat/functions.c:5983 ../plugins/fn-stat/functions.c:6001
-#: ../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1229
-#: ../plugins/fn-string/functions.c:1232
+#: ../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1219
+#: ../plugins/fn-string/functions.c:1222
 msgid "number"
 msgstr "getal"
 
@@ -1423,55 +1423,51 @@ msgstr "functie_nbr;verw;verw;"
 msgid "ref,ref,"
 msgstr "verw;verw;"
 
-#: ../plugins/fn-string/functions.c:805
-msgid "Arguments out of range"
-msgstr "Argumenten vallen buiten het bereik"
-
-#: ../plugins/fn-string/functions.c:1244
+#: ../plugins/fn-string/functions.c:1234
 msgid "text,text,"
 msgstr "tekst;tekst"
 
-#: ../plugins/fn-string/functions.c:1247
+#: ../plugins/fn-string/functions.c:1237
 msgid "num,decimals"
 msgstr "get;decimalen"
 
-#: ../plugins/fn-string/functions.c:1250
+#: ../plugins/fn-string/functions.c:1240
 msgid "text1,text2"
 msgstr "tekst1;tekst2"
 
-#: ../plugins/fn-string/functions.c:1253
+#: ../plugins/fn-string/functions.c:1243
 msgid "text1,text2,num"
 msgstr "tekst1;tekst2;get"
 
-#: ../plugins/fn-string/functions.c:1256
+#: ../plugins/fn-string/functions.c:1246
 msgid "num,decs,no_commas"
 msgstr "get;decim;geen_commas"
 
-#: ../plugins/fn-string/functions.c:1259 ../plugins/fn-string/functions.c:1283
+#: ../plugins/fn-string/functions.c:1249 ../plugins/fn-string/functions.c:1273
 msgid "text,num_chars"
 msgstr "tekst;get_tekens"
 
-#: ../plugins/fn-string/functions.c:1271
+#: ../plugins/fn-string/functions.c:1261
 msgid "text,pos,num"
 msgstr "tekst;pos;get"
 
-#: ../plugins/fn-string/functions.c:1277
+#: ../plugins/fn-string/functions.c:1267
 msgid "old,start,num,new"
 msgstr "oud;begin;get;nieuw"
 
-#: ../plugins/fn-string/functions.c:1280
+#: ../plugins/fn-string/functions.c:1270
 msgid "text,num"
 msgstr "tekst;get"
 
-#: ../plugins/fn-string/functions.c:1286
+#: ../plugins/fn-string/functions.c:1276
 msgid "search_string,text,start_num"
 msgstr "zoekterm;tekst;begin_getal"
 
-#: ../plugins/fn-string/functions.c:1289
+#: ../plugins/fn-string/functions.c:1279
 msgid "text,old,new,num"
 msgstr "tekst;oud;nieuw;get"
 
-#: ../plugins/fn-string/functions.c:1295
+#: ../plugins/fn-string/functions.c:1285
 msgid "value,format_text"
 msgstr "waarde;format_tekst"
 
@@ -1640,7 +1636,7 @@ msgstr "Voorwaarden:"
 #: ../src/tools/solver/reports-write.c:281
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
-#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:5516
+#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:5518
 #: ../src/format-template.c:251 ../src/sheet.c:531
 msgid "Name"
 msgstr "Naam"
@@ -2446,7 +2442,11 @@ msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
-msgstr "Sommige dialoogvensters bevatten slechts een enkel invoerveld voor bereik-selecties in het werkboek. Als deze variabele op TRUE (WAAR) wordt gezet, zal een bereik-selectie rechtstreeks in dit invoerveld worden gezet, zelfs al heeft dit invoerveld geen toetsenbord-aandacht."
+msgstr ""
+"Sommige dialoogvensters bevatten slechts een enkel invoerveld voor bereik-"
+"selecties in het werkboek. Als deze variabele op TRUE (WAAR) wordt gezet, "
+"zal een bereik-selectie rechtstreeks in dit invoerveld worden gezet, zelfs "
+"al heeft dit invoerveld geen toetsenbord-aandacht."
 
 # automatische opmaak
 #: ../schemas/gnumeric-dialogs.schemas.in.h:45
@@ -2457,13 +2457,17 @@ msgstr "Systeemmap voor autoformaten"
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
-msgstr "Autocorrectie corrigeert niet de eerste letter voor woorden die in deze lijst staan."
+msgstr ""
+"Autocorrectie corrigeert niet de eerste letter voor woorden die in deze "
+"lijst staan."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
-msgstr "Autocorrectie corrigeert niet een begin-hoofdletter voor woorden die in deze lijst staan."
+msgstr ""
+"Autocorrectie corrigeert niet een begin-hoofdletter voor woorden die in deze "
+"lijst staan."
 
 # bewerken/veranderen
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
@@ -8040,7 +8044,7 @@ msgid "Search"
 msgstr "Zoeken"
 
 #. Corrected below.
-#: ../src/dialogs/search-replace.glade.h:24 ../src/commands.c:4114
+#: ../src/dialogs/search-replace.glade.h:24 ../src/commands.c:4116
 msgid "Search and Replace"
 msgstr "Zoek en Vervang"
 
@@ -8307,7 +8311,7 @@ msgstr "Oplossen"
 #: ../src/tools/solver/reports-write.c:484
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
-#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6044
+#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6046
 msgid "Solver"
 msgstr "Oplosser"
 
@@ -10036,130 +10040,130 @@ msgstr "Samenvoegen en centreren %s"
 msgid "Merging %s"
 msgstr "Samenvoegen cellen %s"
 
-#: ../src/commands.c:4207
+#: ../src/commands.c:4209
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Instellen breedte van kolommen op %.2fpts"
 
-#: ../src/commands.c:4208
+#: ../src/commands.c:4210
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Instellen hoogte van rijen op %.2fpts"
 
-#: ../src/commands.c:4317
+#: ../src/commands.c:4319
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s tot %.0f%%"
 
-#: ../src/commands.c:4413
+#: ../src/commands.c:4415
 msgid "Delete Object"
 msgstr "Object verwijderen"
 
-#: ../src/commands.c:4570
+#: ../src/commands.c:4572
 msgid "Format Object"
 msgstr "Object opmaken"
 
-#: ../src/commands.c:4770
+#: ../src/commands.c:4772
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Commentaar van %s wissen"
 
-#: ../src/commands.c:4771
+#: ../src/commands.c:4773
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Commentaar van %s instellen"
 
-#: ../src/commands.c:5147
+#: ../src/commands.c:5149
 #, c-format
 msgid "Merging data into %s"
 msgstr "Samenvoegen gegevens naar %s"
 
-#: ../src/commands.c:5247
+#: ../src/commands.c:5249
 msgid "Changing summary info"
 msgstr "Wijzigen samevatting"
 
 # naar boven/onderen
 # naar voren/achteren
-#: ../src/commands.c:5334
+#: ../src/commands.c:5336
 msgid "Pull Object to the Front"
 msgstr "Object naar voren halen"
 
-#: ../src/commands.c:5337
+#: ../src/commands.c:5339
 msgid "Pull Object Forward"
 msgstr "Object naar voren"
 
-#: ../src/commands.c:5340
+#: ../src/commands.c:5342
 msgid "Push Object Backward"
 msgstr "Object naar achteren"
 
-#: ../src/commands.c:5343
+#: ../src/commands.c:5345
 msgid "Push Object to the Back"
 msgstr "Object naar achteren duwen"
 
-#: ../src/commands.c:5456
+#: ../src/commands.c:5458
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Paginainstellingen voor %s"
 
-#: ../src/commands.c:5458
+#: ../src/commands.c:5460
 msgid "Page Setup For All Sheets"
 msgstr "Paginainstellingen voor alle werkbladen"
 
-#: ../src/commands.c:5572
+#: ../src/commands.c:5574
 msgid "has a circular reference"
 msgstr "bevat een kringverwijzing"
 
-#: ../src/commands.c:5594
+#: ../src/commands.c:5596
 #, c-format
 msgid "Define Name %s"
 msgstr "Naam %s definiëren"
 
-#: ../src/commands.c:5597
+#: ../src/commands.c:5599
 #, c-format
 msgid "Update Name %s"
 msgstr "Naam %s bijwerken"
 
-#: ../src/commands.c:5659
+#: ../src/commands.c:5661
 msgid "Add scenario"
 msgstr "Scenario toevoegen"
 
-#: ../src/commands.c:5732
+#: ../src/commands.c:5734
 msgid "Scenario Show"
 msgstr "Scenario tonen"
 
-#: ../src/commands.c:5794
+#: ../src/commands.c:5796
 msgid "Shuffle Data"
 msgstr "Data husselen"
 
 #. FIXME?
-#: ../src/commands.c:5902
+#: ../src/commands.c:5904
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) naar kolommen (%s)"
 
-#: ../src/commands.c:6126
+#: ../src/commands.c:6128
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Doelzoeken (%s)"
 
-#: ../src/commands.c:6268
+#: ../src/commands.c:6270
 #, c-format
 msgid "Duplicating %s"
 msgstr "%s dupliceren"
 
-#: ../src/commands.c:6359
+#: ../src/commands.c:6361
 msgid "Tabulating Dependencies"
 msgstr "Afhankelijkhedeb tabuleren"
 
-#: ../src/commands.c:6433
+#: ../src/commands.c:6435
 msgid "Reconfigure Graph"
 msgstr "Diagram opnieuw configureren"
 
-#: ../src/commands.c:6477
+#: ../src/commands.c:6479
 msgid "Left to Right"
 msgstr "Links naar rechts"
 
-#: ../src/commands.c:6477
+#: ../src/commands.c:6479
 msgid "Right to Left"
 msgstr "Rechts naar links"
 
@@ -13153,10 +13157,9 @@ msgstr "De selectie opmaken als tijd"
 msgid "AddBorders"
 msgstr "RandenToevoegen"
 
-# een rand om de selectie zetten
 #: ../src/wbcg-actions.c:2071
-msgid "Add a border the the selection"
-msgstr "Een rand aan de selectie toevoegen"
+msgid "Add a border around the selection"
+msgstr "Een rand om de selectie zetten"
 
 #: ../src/wbcg-actions.c:2073
 msgid "ClearBorders"
@@ -13168,7 +13171,7 @@ msgstr "De rand om de selectie verwijderen"
 
 #: ../src/wbcg-actions.c:2077
 msgid "Thousands Separator"
-msgstr "Scheidingsteken voor Duizendtallen"
+msgstr "Scheidingsteken voor duizendtallen"
 
 # Was eerst:
 # De geselecteerde cellen gebruiken een scheidingsteken voor duizendtallen
@@ -13176,9 +13179,10 @@ msgstr "Scheidingsteken voor Duizendtallen"
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Duizendtallen scheiden"
 
+# nauwkeurigheid verhogen/aantal decimalen vergroten/meer decimalen
 #: ../src/wbcg-actions.c:2080
 msgid "Increase Precision"
-msgstr "Precisie Verhogen"
+msgstr "Precisie verhogen"
 
 #: ../src/wbcg-actions.c:2081
 msgid "Increase the number of decimals displayed"
@@ -13210,7 +13214,7 @@ msgstr "Zet de weergave van outline-groepen aan of uit"
 
 #: ../src/wbcg-actions.c:2124
 msgid "Outlines _Below"
-msgstr "Outlines onder"
+msgstr "Outlines _onder"
 
 #: ../src/wbcg-actions.c:2125
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -13992,6 +13996,9 @@ msgstr "Lila lijst"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Een eenvoudige lijst"
+
+#~ msgid "Arguments out of range"
+#~ msgstr "Argumenten vallen buiten het bereik"
 
 #~ msgid "Scalar or Error"
 #~ msgstr "Scalair of fout"
