@@ -1,3 +1,8 @@
+2006-01-08  Morten Welinder  <terra@gnome.org>
+
+	* generate: Mark boolean args as such.  Use
+	value_get_as_checked_bool, not value_get_as_int, for such args.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

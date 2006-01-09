@@ -32,7 +32,7 @@ gnumeric_r_dnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
 	gnm_float sigma = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dnorm (x, mu, sigma, give_log));
 }
@@ -58,8 +58,8 @@ gnumeric_r_pnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
 	gnm_float sigma = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pnorm (x, mu, sigma, lower_tail, log_p));
 }
@@ -85,8 +85,8 @@ gnumeric_r_qnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
 	gnm_float sigma = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qnorm (p, mu, sigma, lower_tail, log_p));
 }
@@ -111,7 +111,7 @@ gnumeric_r_dlnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
 	gnm_float logsd = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dlnorm (x, logmean, logsd, give_log));
 }
@@ -137,8 +137,8 @@ gnumeric_r_plnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
 	gnm_float logsd = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (plnorm (x, logmean, logsd, lower_tail, log_p));
 }
@@ -164,8 +164,8 @@ gnumeric_r_qlnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
 	gnm_float logsd = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qlnorm (x, logmean, logsd, lower_tail, log_p));
 }
@@ -190,7 +190,7 @@ gnumeric_r_dgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dgamma (x, shape, scale, give_log));
 }
@@ -216,8 +216,8 @@ gnumeric_r_pgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pgamma (x, shape, scale, lower_tail, log_p));
 }
@@ -243,8 +243,8 @@ gnumeric_r_qgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qgamma (p, shape, scale, lower_tail, log_p));
 }
@@ -269,7 +269,7 @@ gnumeric_r_dbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dbeta (x, a, b, give_log));
 }
@@ -295,8 +295,8 @@ gnumeric_r_pbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pbeta (x, a, b, lower_tail, log_p));
 }
@@ -322,8 +322,8 @@ gnumeric_r_qbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qbeta (p, a, b, lower_tail, log_p));
 }
@@ -346,7 +346,7 @@ gnumeric_r_dt (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
-	gboolean give_log = args[2] ? !!value_get_as_int (args[2]) : FALSE;
+	gboolean give_log = args[2] ? value_get_as_checked_bool (args[2]) : FALSE;
 
 	return value_new_float (dt (x, n, give_log));
 }
@@ -370,8 +370,8 @@ gnumeric_r_pt (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (pt (x, n, lower_tail, log_p));
 }
@@ -395,8 +395,8 @@ gnumeric_r_qt (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (qt (p, n, lower_tail, log_p));
 }
@@ -421,7 +421,7 @@ gnumeric_r_df (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
 	gnm_float n2 = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (df (x, n1, n2, give_log));
 }
@@ -447,8 +447,8 @@ gnumeric_r_pf (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
 	gnm_float n2 = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pf (x, n1, n2, lower_tail, log_p));
 }
@@ -474,8 +474,8 @@ gnumeric_r_qf (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
 	gnm_float n2 = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qf (x, n1, n2, lower_tail, log_p));
 }
@@ -498,7 +498,7 @@ gnumeric_r_dchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
-	gboolean give_log = args[2] ? !!value_get_as_int (args[2]) : FALSE;
+	gboolean give_log = args[2] ? value_get_as_checked_bool (args[2]) : FALSE;
 
 	return value_new_float (dchisq (x, df, give_log));
 }
@@ -522,8 +522,8 @@ gnumeric_r_pchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (pchisq (x, df, lower_tail, log_p));
 }
@@ -547,8 +547,8 @@ gnumeric_r_qchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (qchisq (p, df, lower_tail, log_p));
 }
@@ -573,7 +573,7 @@ gnumeric_r_dweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dweibull (x, shape, scale, give_log));
 }
@@ -599,8 +599,8 @@ gnumeric_r_pweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pweibull (x, shape, scale, lower_tail, log_p));
 }
@@ -626,8 +626,8 @@ gnumeric_r_qweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qweibull (p, shape, scale, lower_tail, log_p));
 }
@@ -650,7 +650,7 @@ gnumeric_r_dpois (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
-	gboolean give_log = args[2] ? !!value_get_as_int (args[2]) : FALSE;
+	gboolean give_log = args[2] ? value_get_as_checked_bool (args[2]) : FALSE;
 
 	return value_new_float (dpois (x, lambda, give_log));
 }
@@ -674,8 +674,8 @@ gnumeric_r_ppois (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (ppois (x, lambda, lower_tail, log_p));
 }
@@ -699,8 +699,8 @@ gnumeric_r_qpois (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (qpois (p, lambda, lower_tail, log_p));
 }
@@ -723,7 +723,7 @@ gnumeric_r_dexp (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
-	gboolean give_log = args[2] ? !!value_get_as_int (args[2]) : FALSE;
+	gboolean give_log = args[2] ? value_get_as_checked_bool (args[2]) : FALSE;
 
 	return value_new_float (dexp (x, scale, give_log));
 }
@@ -747,8 +747,8 @@ gnumeric_r_pexp (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (pexp (x, scale, lower_tail, log_p));
 }
@@ -772,8 +772,8 @@ gnumeric_r_qexp (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (qexp (p, scale, lower_tail, log_p));
 }
@@ -798,7 +798,7 @@ gnumeric_r_dbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
 	gnm_float psuc = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dbinom (x, n, psuc, give_log));
 }
@@ -824,8 +824,8 @@ gnumeric_r_pbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
 	gnm_float psuc = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pbinom (x, n, psuc, lower_tail, log_p));
 }
@@ -851,8 +851,8 @@ gnumeric_r_qbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
 	gnm_float psuc = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qbinom (x, n, psuc, lower_tail, log_p));
 }
@@ -877,7 +877,7 @@ gnumeric_r_dnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
 	gnm_float psuc = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dnbinom (x, n, psuc, give_log));
 }
@@ -903,8 +903,8 @@ gnumeric_r_pnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
 	gnm_float psuc = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pnbinom (x, n, psuc, lower_tail, log_p));
 }
@@ -930,8 +930,8 @@ gnumeric_r_qnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
 	gnm_float psuc = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qnbinom (p, n, psuc, lower_tail, log_p));
 }
@@ -958,7 +958,7 @@ gnumeric_r_dhyper (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float r = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
 	gnm_float n = value_get_as_float (args[3]);
-	gboolean give_log = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean give_log = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (dhyper (x, r, b, n, give_log));
 }
@@ -986,8 +986,8 @@ gnumeric_r_phyper (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float r = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
 	gnm_float n = value_get_as_float (args[3]);
-	gboolean lower_tail = args[4] ? !!value_get_as_int (args[4]) : TRUE;
-	gboolean log_p = args[5] ? !!value_get_as_int (args[5]) : FALSE;
+	gboolean lower_tail = args[4] ? value_get_as_checked_bool (args[4]) : TRUE;
+	gboolean log_p = args[5] ? value_get_as_checked_bool (args[5]) : FALSE;
 
 	return value_new_float (phyper (x, r, b, n, lower_tail, log_p));
 }
@@ -1015,8 +1015,8 @@ gnumeric_r_qhyper (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float r = value_get_as_float (args[1]);
 	gnm_float b = value_get_as_float (args[2]);
 	gnm_float n = value_get_as_float (args[3]);
-	gboolean lower_tail = args[4] ? !!value_get_as_int (args[4]) : TRUE;
-	gboolean log_p = args[5] ? !!value_get_as_int (args[5]) : FALSE;
+	gboolean lower_tail = args[4] ? value_get_as_checked_bool (args[4]) : TRUE;
+	gboolean log_p = args[5] ? value_get_as_checked_bool (args[5]) : FALSE;
 
 	return value_new_float (qhyper (p, r, b, n, lower_tail, log_p));
 }
@@ -1039,7 +1039,7 @@ gnumeric_r_dgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
-	gboolean give_log = args[2] ? !!value_get_as_int (args[2]) : FALSE;
+	gboolean give_log = args[2] ? value_get_as_checked_bool (args[2]) : FALSE;
 
 	return value_new_float (dgeom (x, psuc, give_log));
 }
@@ -1063,8 +1063,8 @@ gnumeric_r_pgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (pgeom (x, psuc, lower_tail, log_p));
 }
@@ -1088,8 +1088,8 @@ gnumeric_r_qgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
-	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
-	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean lower_tail = args[2] ? value_get_as_checked_bool (args[2]) : TRUE;
+	gboolean log_p = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (qgeom (p, psuc, lower_tail, log_p));
 }
@@ -1114,7 +1114,7 @@ gnumeric_r_dcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+	gboolean give_log = args[3] ? value_get_as_checked_bool (args[3]) : FALSE;
 
 	return value_new_float (dcauchy (x, location, scale, give_log));
 }
@@ -1140,8 +1140,8 @@ gnumeric_r_pcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (pcauchy (x, location, scale, lower_tail, log_p));
 }
@@ -1167,8 +1167,8 @@ gnumeric_r_qcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);
 	gnm_float scale = value_get_as_float (args[2]);
-	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
-	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+	gboolean lower_tail = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
+	gboolean log_p = args[4] ? value_get_as_checked_bool (args[4]) : FALSE;
 
 	return value_new_float (qcauchy (p, location, scale, lower_tail, log_p));
 }
@@ -1190,7 +1190,7 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dnorm",
-		"fff|f",
+		"fff|b",
 		F_("x,mu,sigma,give_log"),
 		help_r_dnorm,
 		gnumeric_r_dnorm, NULL, NULL, NULL, NULL,
@@ -1198,7 +1198,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pnorm",
-		"fff|ff",
+		"fff|bb",
 		F_("x,mu,sigma,lower_tail,log_p"),
 		help_r_pnorm,
 		gnumeric_r_pnorm, NULL, NULL, NULL, NULL,
@@ -1206,7 +1206,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qnorm",
-		"fff|ff",
+		"fff|bb",
 		F_("p,mu,sigma,lower_tail,log_p"),
 		help_r_qnorm,
 		gnumeric_r_qnorm, NULL, NULL, NULL, NULL,
@@ -1214,7 +1214,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dlnorm",
-		"fff|f",
+		"fff|b",
 		F_("x,logmean,logsd,give_log"),
 		help_r_dlnorm,
 		gnumeric_r_dlnorm, NULL, NULL, NULL, NULL,
@@ -1222,7 +1222,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.plnorm",
-		"fff|ff",
+		"fff|bb",
 		F_("x,logmean,logsd,lower_tail,log_p"),
 		help_r_plnorm,
 		gnumeric_r_plnorm, NULL, NULL, NULL, NULL,
@@ -1230,7 +1230,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qlnorm",
-		"fff|ff",
+		"fff|bb",
 		F_("x,logmean,logsd,lower_tail,log_p"),
 		help_r_qlnorm,
 		gnumeric_r_qlnorm, NULL, NULL, NULL, NULL,
@@ -1238,7 +1238,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dgamma",
-		"fff|f",
+		"fff|b",
 		F_("x,shape,scale,give_log"),
 		help_r_dgamma,
 		gnumeric_r_dgamma, NULL, NULL, NULL, NULL,
@@ -1246,7 +1246,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pgamma",
-		"fff|ff",
+		"fff|bb",
 		F_("x,shape,scale,lower_tail,log_p"),
 		help_r_pgamma,
 		gnumeric_r_pgamma, NULL, NULL, NULL, NULL,
@@ -1254,7 +1254,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qgamma",
-		"fff|ff",
+		"fff|bb",
 		F_("p,shape,scale,lower_tail,log_p"),
 		help_r_qgamma,
 		gnumeric_r_qgamma, NULL, NULL, NULL, NULL,
@@ -1262,7 +1262,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dbeta",
-		"fff|f",
+		"fff|b",
 		F_("x,a,b,give_log"),
 		help_r_dbeta,
 		gnumeric_r_dbeta, NULL, NULL, NULL, NULL,
@@ -1270,7 +1270,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pbeta",
-		"fff|ff",
+		"fff|bb",
 		F_("x,a,b,lower_tail,log_p"),
 		help_r_pbeta,
 		gnumeric_r_pbeta, NULL, NULL, NULL, NULL,
@@ -1278,7 +1278,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qbeta",
-		"fff|ff",
+		"fff|bb",
 		F_("p,a,b,lower_tail,log_p"),
 		help_r_qbeta,
 		gnumeric_r_qbeta, NULL, NULL, NULL, NULL,
@@ -1286,7 +1286,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dt",
-		"ff|f",
+		"ff|b",
 		F_("x,n,give_log"),
 		help_r_dt,
 		gnumeric_r_dt, NULL, NULL, NULL, NULL,
@@ -1294,7 +1294,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pt",
-		"ff|ff",
+		"ff|bb",
 		F_("x,n,lower_tail,log_p"),
 		help_r_pt,
 		gnumeric_r_pt, NULL, NULL, NULL, NULL,
@@ -1302,7 +1302,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qt",
-		"ff|ff",
+		"ff|bb",
 		F_("p,n,lower_tail,log_p"),
 		help_r_qt,
 		gnumeric_r_qt, NULL, NULL, NULL, NULL,
@@ -1310,7 +1310,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.df",
-		"fff|f",
+		"fff|b",
 		F_("x,n1,n2,give_log"),
 		help_r_df,
 		gnumeric_r_df, NULL, NULL, NULL, NULL,
@@ -1318,7 +1318,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pf",
-		"fff|ff",
+		"fff|bb",
 		F_("x,n1,n2,lower_tail,log_p"),
 		help_r_pf,
 		gnumeric_r_pf, NULL, NULL, NULL, NULL,
@@ -1326,7 +1326,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qf",
-		"fff|ff",
+		"fff|bb",
 		F_("x,n1,n2,lower_tail,log_p"),
 		help_r_qf,
 		gnumeric_r_qf, NULL, NULL, NULL, NULL,
@@ -1334,7 +1334,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dchisq",
-		"ff|f",
+		"ff|b",
 		F_("x,df,give_log"),
 		help_r_dchisq,
 		gnumeric_r_dchisq, NULL, NULL, NULL, NULL,
@@ -1342,7 +1342,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pchisq",
-		"ff|ff",
+		"ff|bb",
 		F_("x,df,lower_tail,log_p"),
 		help_r_pchisq,
 		gnumeric_r_pchisq, NULL, NULL, NULL, NULL,
@@ -1350,7 +1350,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qchisq",
-		"ff|ff",
+		"ff|bb",
 		F_("p,df,lower_tail,log_p"),
 		help_r_qchisq,
 		gnumeric_r_qchisq, NULL, NULL, NULL, NULL,
@@ -1358,7 +1358,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dweibull",
-		"fff|f",
+		"fff|b",
 		F_("x,shape,scale,give_log"),
 		help_r_dweibull,
 		gnumeric_r_dweibull, NULL, NULL, NULL, NULL,
@@ -1366,7 +1366,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pweibull",
-		"fff|ff",
+		"fff|bb",
 		F_("x,shape,scale,lower_tail,log_p"),
 		help_r_pweibull,
 		gnumeric_r_pweibull, NULL, NULL, NULL, NULL,
@@ -1374,7 +1374,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qweibull",
-		"fff|ff",
+		"fff|bb",
 		F_("p,shape,scale,lower_tail,log_p"),
 		help_r_qweibull,
 		gnumeric_r_qweibull, NULL, NULL, NULL, NULL,
@@ -1382,7 +1382,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dpois",
-		"ff|f",
+		"ff|b",
 		F_("x,lambda,give_log"),
 		help_r_dpois,
 		gnumeric_r_dpois, NULL, NULL, NULL, NULL,
@@ -1390,7 +1390,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.ppois",
-		"ff|ff",
+		"ff|bb",
 		F_("x,lambda,lower_tail,log_p"),
 		help_r_ppois,
 		gnumeric_r_ppois, NULL, NULL, NULL, NULL,
@@ -1398,7 +1398,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qpois",
-		"ff|ff",
+		"ff|bb",
 		F_("p,lambda,lower_tail,log_p"),
 		help_r_qpois,
 		gnumeric_r_qpois, NULL, NULL, NULL, NULL,
@@ -1406,7 +1406,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dexp",
-		"ff|f",
+		"ff|b",
 		F_("x,scale,give_log"),
 		help_r_dexp,
 		gnumeric_r_dexp, NULL, NULL, NULL, NULL,
@@ -1414,7 +1414,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pexp",
-		"ff|ff",
+		"ff|bb",
 		F_("x,scale,lower_tail,log_p"),
 		help_r_pexp,
 		gnumeric_r_pexp, NULL, NULL, NULL, NULL,
@@ -1422,7 +1422,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qexp",
-		"ff|ff",
+		"ff|bb",
 		F_("p,scale,lower_tail,log_p"),
 		help_r_qexp,
 		gnumeric_r_qexp, NULL, NULL, NULL, NULL,
@@ -1430,7 +1430,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dbinom",
-		"fff|f",
+		"fff|b",
 		F_("x,n,psuc,give_log"),
 		help_r_dbinom,
 		gnumeric_r_dbinom, NULL, NULL, NULL, NULL,
@@ -1438,7 +1438,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pbinom",
-		"fff|ff",
+		"fff|bb",
 		F_("x,n,psuc,lower_tail,log_p"),
 		help_r_pbinom,
 		gnumeric_r_pbinom, NULL, NULL, NULL, NULL,
@@ -1446,7 +1446,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qbinom",
-		"fff|ff",
+		"fff|bb",
 		F_("x,n,psuc,lower_tail,log_p"),
 		help_r_qbinom,
 		gnumeric_r_qbinom, NULL, NULL, NULL, NULL,
@@ -1454,7 +1454,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dnbinom",
-		"fff|f",
+		"fff|b",
 		F_("x,n,psuc,give_log"),
 		help_r_dnbinom,
 		gnumeric_r_dnbinom, NULL, NULL, NULL, NULL,
@@ -1462,7 +1462,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pnbinom",
-		"fff|ff",
+		"fff|bb",
 		F_("x,n,psuc,lower_tail,log_p"),
 		help_r_pnbinom,
 		gnumeric_r_pnbinom, NULL, NULL, NULL, NULL,
@@ -1470,7 +1470,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qnbinom",
-		"fff|ff",
+		"fff|bb",
 		F_("p,n,psuc,lower_tail,log_p"),
 		help_r_qnbinom,
 		gnumeric_r_qnbinom, NULL, NULL, NULL, NULL,
@@ -1478,7 +1478,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dhyper",
-		"ffff|f",
+		"ffff|b",
 		F_("x,r,b,n,give_log"),
 		help_r_dhyper,
 		gnumeric_r_dhyper, NULL, NULL, NULL, NULL,
@@ -1486,7 +1486,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.phyper",
-		"ffff|ff",
+		"ffff|bb",
 		F_("x,r,b,n,lower_tail,log_p"),
 		help_r_phyper,
 		gnumeric_r_phyper, NULL, NULL, NULL, NULL,
@@ -1494,7 +1494,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qhyper",
-		"ffff|ff",
+		"ffff|bb",
 		F_("p,r,b,n,lower_tail,log_p"),
 		help_r_qhyper,
 		gnumeric_r_qhyper, NULL, NULL, NULL, NULL,
@@ -1502,7 +1502,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dgeom",
-		"ff|f",
+		"ff|b",
 		F_("x,psuc,give_log"),
 		help_r_dgeom,
 		gnumeric_r_dgeom, NULL, NULL, NULL, NULL,
@@ -1510,7 +1510,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pgeom",
-		"ff|ff",
+		"ff|bb",
 		F_("x,psuc,lower_tail,log_p"),
 		help_r_pgeom,
 		gnumeric_r_pgeom, NULL, NULL, NULL, NULL,
@@ -1518,7 +1518,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qgeom",
-		"ff|ff",
+		"ff|bb",
 		F_("p,psuc,lower_tail,log_p"),
 		help_r_qgeom,
 		gnumeric_r_qgeom, NULL, NULL, NULL, NULL,
@@ -1526,7 +1526,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.dcauchy",
-		"fff|f",
+		"fff|b",
 		F_("x,location,scale,give_log"),
 		help_r_dcauchy,
 		gnumeric_r_dcauchy, NULL, NULL, NULL, NULL,
@@ -1534,7 +1534,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.pcauchy",
-		"fff|ff",
+		"fff|bb",
 		F_("x,location,scale,lower_tail,log_p"),
 		help_r_pcauchy,
 		gnumeric_r_pcauchy, NULL, NULL, NULL, NULL,
@@ -1542,7 +1542,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	},
 	{
 		"r.qcauchy",
-		"fff|ff",
+		"fff|bb",
 		F_("p,location,scale,lower_tail,log_p"),
 		help_r_qcauchy,
 		gnumeric_r_qcauchy, NULL, NULL, NULL, NULL,

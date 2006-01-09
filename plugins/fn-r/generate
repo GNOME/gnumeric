@@ -146,12 +146,12 @@ my %argoverride = ();
 
 my %type_getter =
     ('gnm_float' => 'value_get_as_float',
-     'gboolean' => '!!value_get_as_int', # Sorry
+     'gboolean' => 'value_get_as_checked_bool',
      );
 
 my %type_spec =
     ('gnm_float' => 'f',
-     'gboolean' => 'f', # ???
+     'gboolean' => 'b',
      );
 
 my %type_setter =
