@@ -30,6 +30,7 @@ Morten:
 	* Fix lots of little XL compatibility problems in string
 	  functions.
 	* Fix error on Search-and-replace.
+	* Improve handling of boolean args for "R" functions.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
