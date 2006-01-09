@@ -1,3 +1,10 @@
+2006-01-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_trunc, gnumeric_rounddown, gnumeric_round,
+	gnumeric_roundup): Handle underflow.
+	(gnumeric_factdouble): Sane implementation.  Prevents
+	near-infinite loop.
+
 2005-12-28  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_ceiling) : (n,0) = 0 not div/0

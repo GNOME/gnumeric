@@ -25,7 +25,6 @@ http://bugzilla.gnome.org/show_bug.cgi?id=322096
 
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
-    - Fix FACTDOUBLE(1e9).
 
 Pending Patches
 ---------------
@@ -42,11 +41,6 @@ Worries
     : undo of cell range cut over clipboard
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
-    : Check value of =TRUNC(1.2,-1000)
-    : Check value of =ROUNDDOWN(1.2,-1000)
-    : Check value of =ROUND(1.2,-1000)
-    : Check value of =ROUNDUP(1.2,-1000)
-    : Check value of =DATE(2006,1,8.5)
     : value_diff can return a negative number.  (When seeing -2^31 and 0
       as ints.)
 

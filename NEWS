@@ -25,12 +25,14 @@ Morten:
 	* Fix solver dialog crash.  [#324585]
 	* Fix FMR in SUBSTITUTE.
 	* Fix REPLACE and SEARCH for non-ASCII strings.
-	* Fix division-by-zero in FIXED.
+	* Fix division-by-zero problems in FIXED, ROUND, ROUNDUP,
+	  ROUNDDOWN, TRUNC.
 	* Fix out-of-memory problem in REPT.
 	* Fix lots of little XL compatibility problems in string
 	  functions.
 	* Fix error on Search-and-replace.
 	* Improve handling of boolean args for "R" functions.
+	* Fix near-infinite loop in FACTDOUBLE.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

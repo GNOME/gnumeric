@@ -1727,6 +1727,9 @@ gnumeric_trunc (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gnm_pow10 (digits);
+	if (p10 == 0)
+		return value_new_int (0);
+
 	return value_new_float (gnm_fake_trunc (number * p10) / p10);
 }
 
@@ -1841,18 +1844,24 @@ static GnmValue *
 gnumeric_factdouble (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 {
-        int number;
-	int n;
-	gnm_float product = 1;
+	gnm_float number = value_get_as_float (argv[0]);
+	int inumber, n;
+	gnm_float res;
 
-	number = value_get_as_int (argv[0]);
 	if (number < 0)
 		return value_new_error_NUM (ei->pos);
 
-	for (n = number; n > 0; n -= 2)
-	        product *= n;
+	inumber = (int)MIN (number, (gnm_float)INT_MAX);
+	n = (inumber + 1) / 2;
 
-	return value_new_float (product);
+	if (inumber & 1) {
+		gnm_float lres = gnm_lgamma (n + 0.5) + n * M_LN2gnum;
+		/* Round as the result ought to be integer.  */
+		res = gnm_floor (0.5 + gnm_exp (lres) / gnm_sqrt (M_PIgnum));
+	} else
+		res = fact (n) * gnm_pow2 (n);
+
+	return value_new_float (res);
 }
 
 /***************************************************************************/
@@ -2054,6 +2063,9 @@ gnumeric_rounddown (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gnm_pow10 (digits);
+	if (p10 == 0)
+		return value_new_int (0);
+
 	return value_new_float 
 		((number < 0.) ? gnm_fake_ceil (number * p10) / p10 
 		               : gnm_fake_floor (number * p10) / p10);
@@ -2100,6 +2112,9 @@ gnumeric_round (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	digits = argv[1] ? value_get_as_int (argv[1]) : 0;
 
 	p10 = gnm_pow10 (digits);
+	if (p10 == 0)
+		return value_new_int (0);
+
 	return value_new_float (gnm_fake_round (number * p10) / p10);
 }
 
@@ -2148,6 +2163,9 @@ gnumeric_roundup (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gnm_pow10 (digits);
+	if (p10 == 0)
+		return value_new_int (0);
+
 	return value_new_float 
 		((number < 0.) ? gnm_fake_floor (number * p10) / p10
 		 	       : gnm_fake_ceil (number * p10) / p10);
