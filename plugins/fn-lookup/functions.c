@@ -840,7 +840,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, GnmValue const * const *args)
 	char const *text = value_peek_string (args[0]);
 	GnmExprConventions const *convs = gnm_expr_conventions_default;
 
-	if (args[1] && !value_get_as_bool (args[1], NULL))
+	if (args[1] && !value_get_as_checked_bool (args[1]))
 		convs = gnm_expr_conventions_r1c1;
 
 	expr = gnm_expr_parse_str (text,

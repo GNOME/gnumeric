@@ -1,3 +1,13 @@
+2006-01-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_expondist): Simplify.
+	(gnumeric_binomdist): Ditto.
+	(gnumeric_cauchy): Ditto.
+	(gnumeric_weibull): Ditto.
+	(gnumeric_normdist): Ditto.
+	(gnumeric_hypgeomdist): Fix "cum" option parsing.
+	(gnumeric_gammadist): Ditto.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

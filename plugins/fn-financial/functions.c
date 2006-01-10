@@ -278,15 +278,13 @@ func_coup (FunctionEvalInfo *ei, GnmValue const * const *argv,
 {
         GDate   settlement, maturity;
 	GnmCouponConvention conv;
-	gboolean err = FALSE;
 
         conv.freq  = value_get_as_int (argv[2]);
 	conv.basis = argv[3] ? value_get_as_int (argv[3]) : BASIS_MSRB_30_360;
-	conv.eom   = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
+	conv.eom   = argv[4] ? value_get_as_checked_bool (argv[4]) : TRUE;
 	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
-        if (err ||
-	    !datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
+        if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv))
 		return value_new_error_VALUE (ei->pos);
 
