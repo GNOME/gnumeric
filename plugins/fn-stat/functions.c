@@ -529,12 +529,9 @@ static GnmFuncHelp const help_negbinomdist[] = {
 static GnmValue *
 gnumeric_negbinomdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int x, r;
-	gnm_float p;
-
-	x = value_get_as_int (argv[0]);
-	r = value_get_as_int (argv[1]);
-	p = value_get_as_float (argv[2]);
+	int x = value_get_as_int (argv[0]);
+	int r = value_get_as_int (argv[1]);
+	gnm_float p = value_get_as_float (argv[2]);
 
 	if ((x + r - 1) <= 0 || p < 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
@@ -1145,19 +1142,12 @@ static GnmFuncHelp const help_expondist[] = {
 static GnmValue *
 gnumeric_expondist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x, y;
-	int cuml;
-	gboolean err;
-
-	x = value_get_as_float (argv[0]);
-	y = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = value_get_as_float (argv[1]);
+	gboolean cuml = value_get_as_checked_bool (argv[2]);
 
 	if (x < 0.0 || y <= 0.0)
 		return value_new_error_NUM (ei->pos);
-
-	cuml = value_get_as_bool (argv[2], &err);
-	if (err)
-		return value_new_error_VALUE (ei->pos);
 
 	if (cuml)
 		return value_new_float (pexp (x, 1 / y, TRUE, FALSE));
@@ -1277,17 +1267,14 @@ static GnmFuncHelp const help_gammadist[] = {
 static GnmValue *
 gnumeric_gammadist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x, alpha, beta;
-	int     cum;
-
-	x = value_get_as_float (argv[0]);
-	alpha = value_get_as_float (argv[1]);
-	beta = value_get_as_float (argv[2]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float alpha = value_get_as_float (argv[1]);
+	gnm_float beta = value_get_as_float (argv[2]);
+	gboolean cum = value_get_as_checked_bool (argv[3]);
 
 	if (x < 0 || alpha <= 0 || beta <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	cum = value_get_as_int (argv[3]);
 	if (cum)
 	        return value_new_float (pgamma (x, alpha, beta, TRUE, FALSE));
 	else
@@ -1359,11 +1346,8 @@ static GnmFuncHelp const help_chidist[] = {
 static GnmValue *
 gnumeric_chidist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x;
-	int     dof;
-
-	x = value_get_as_float (argv[0]);
-	dof = value_get_as_int (argv[1]);
+	gnm_float x = value_get_as_float (argv[0]);
+	int dof = value_get_as_int (argv[1]);
 
 	if (dof < 1)
 		return value_new_error_NUM (ei->pos);
@@ -1396,11 +1380,8 @@ static GnmFuncHelp const help_chiinv[] = {
 static GnmValue *
 gnumeric_chiinv (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p;
-	int dof;
-
-        p = value_get_as_float (argv[0]);
-	dof = value_get_as_int (argv[1]);
+        gnm_float p = value_get_as_float (argv[0]);
+	int dof = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error_NUM (ei->pos);
@@ -1669,12 +1650,9 @@ static GnmFuncHelp const help_tdist[] = {
 static GnmValue *
 gnumeric_tdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x;
-	int     dof, tails;
-
-	x = value_get_as_float (argv[0]);
-	dof = value_get_as_int (argv[1]);
-	tails = value_get_as_int (argv[2]);
+	gnm_float x = value_get_as_float (argv[0]);
+	int dof = value_get_as_int (argv[1]);
+	int tails = value_get_as_int (argv[2]);
 
 	if (dof < 1 || (tails != 1 && tails != 2))
 		return value_new_error_NUM (ei->pos);
@@ -1708,11 +1686,8 @@ static GnmFuncHelp const help_tinv[] = {
 static GnmValue *
 gnumeric_tinv (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p;
-	int dof;
-
-        p = value_get_as_float (argv[0]);
-	dof = value_get_as_int (argv[1]);
+        gnm_float p = value_get_as_float (argv[0]);
+	int dof = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error_NUM (ei->pos);
@@ -1747,12 +1722,9 @@ static GnmFuncHelp const help_fdist[] = {
 static GnmValue *
 gnumeric_fdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x;
-	int     dof1, dof2;
-
-	x = value_get_as_float (argv[0]);
-	dof1 = value_get_as_int (argv[1]);
-	dof2 = value_get_as_int (argv[2]);
+	gnm_float x = value_get_as_float (argv[0]);
+	int dof1 = value_get_as_int (argv[1]);
+	int dof2 = value_get_as_int (argv[2]);
 
 	if (x < 0 || dof1 < 1 || dof2 < 1)
 		return value_new_error_NUM (ei->pos);
@@ -1931,12 +1903,9 @@ static GnmFuncHelp const help_finv[] = {
 static GnmValue *
 gnumeric_finv (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p;
-	int dof1, dof2;
-
-        p = value_get_as_float (argv[0]);
-	dof1 = value_get_as_int (argv[1]);
-	dof2 = value_get_as_int (argv[2]);
+        gnm_float p = value_get_as_float (argv[0]);
+	int dof1 = value_get_as_int (argv[1]);
+	int dof2 = value_get_as_int (argv[2]);
 
 	if (p < 0 || p > 1 || dof1 < 1 || dof2 < 1)
 		return value_new_error_NUM (ei->pos);
@@ -1975,16 +1944,12 @@ static GnmFuncHelp const help_binomdist[] = {
 static GnmValue *
 gnumeric_binomdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int n, trials, cuml;
-	gboolean err;
-	gnm_float p;
+	int n = value_get_as_int (argv[0]);
+	int trials = value_get_as_int (argv[1]);
+	gnm_float p = value_get_as_float (argv[2]);
+	gboolean cuml = value_get_as_checked_bool (argv[3]);
 
-	n = value_get_as_int (argv[0]);
-	trials = value_get_as_int (argv[1]);
-	p = value_get_as_float (argv[2]);
-	cuml = value_get_as_bool (argv[3], &err);
-
-	if (n < 0 || trials < 0 || p < 0 || p > 1 || n > trials || err)
+	if (n < 0 || trials < 0 || p < 0 || p > 1 || n > trials)
 		return value_new_error_NUM (ei->pos);
 
 	if (cuml)
@@ -2020,15 +1985,10 @@ gnumeric_cauchy (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float a = value_get_as_float (argv[1]);
-	int        cuml;
-	gboolean   err;
+	gboolean cuml = value_get_as_checked_bool (argv[2]);
 
 	if (a < 0)
 		return value_new_error_NUM (ei->pos);
-
-	cuml = value_get_as_bool (argv[2], &err);
-	if (err)
-		return value_new_error_VALUE (ei->pos);
 
 	if (cuml)
 		return value_new_float (pcauchy (x, 0, a, FALSE, FALSE));
@@ -2066,12 +2026,9 @@ static GnmFuncHelp const help_critbinom[] = {
 static GnmValue *
 gnumeric_critbinom (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        int trials;
-        gnm_float p, alpha;
-
-        trials = value_get_as_int (argv[0]);
-        p = value_get_as_float (argv[1]);
-        alpha = value_get_as_float (argv[2]);
+        int trials = value_get_as_int (argv[0]);
+        gnm_float p = value_get_as_float (argv[1]);
+        gnm_float alpha = value_get_as_float (argv[2]);
 
         if (trials < 0 || p < 0 || p > 1 || alpha < 0 || alpha > 1)
 	        return value_new_error_NUM (ei->pos);
@@ -2106,10 +2063,8 @@ static GnmFuncHelp const help_permut[] = {
 static GnmValue *
 gnumeric_permut (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int n, k;
-
-	n = value_get_as_int (argv[0]);
-	k = value_get_as_int (argv[1]);
+	int n = value_get_as_int (argv[0]);
+	int k = value_get_as_int (argv[1]);
 
 	if (0 <= k && k <= n)
 		return value_new_float (permut (n, k));
@@ -2153,7 +2108,7 @@ gnumeric_hypgeomdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	int n = value_get_as_int (argv[1]);
 	int M = value_get_as_int (argv[2]);
 	int N = value_get_as_int (argv[3]);
-	gboolean cum = argv[4] ? value_get_as_int (argv[4]) : FALSE;
+	gboolean cum = argv[4] ? value_get_as_checked_bool (argv[4]) : FALSE;
 
 	if (x < 0 || n < 0 || M < 0 || N < 0 || x > M || n > N)
 		return value_new_error_NUM (ei->pos);
@@ -2267,20 +2222,13 @@ static GnmFuncHelp const help_weibull[] = {
 static GnmValue *
 gnumeric_weibull (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float x, alpha, beta;
-        int cuml;
-	gboolean err;
-
-        x = value_get_as_float (argv[0]);
-        alpha = value_get_as_float (argv[1]);
-        beta = value_get_as_float (argv[2]);
+        gnm_float x = value_get_as_float (argv[0]);
+        gnm_float alpha = value_get_as_float (argv[1]);
+        gnm_float beta = value_get_as_float (argv[2]);
+	gboolean cuml = value_get_as_checked_bool (argv[3]);
 
         if (x < 0 || alpha <= 0 || beta <= 0)
                 return value_new_error_NUM (ei->pos);
-
-        cuml = value_get_as_bool (argv[3], &err);
-        if (err)
-                return value_new_error_VALUE (ei->pos);
 
         if (cuml)
                 return value_new_float (pweibull (x, alpha, beta, TRUE, FALSE));
@@ -2320,20 +2268,13 @@ static GnmFuncHelp const help_normdist[] = {
 static GnmValue *
 gnumeric_normdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float x, mean, stddev;
-        int cuml;
-	gboolean err;
-
-        x = value_get_as_float (argv[0]);
-        mean = value_get_as_float (argv[1]);
-        stddev = value_get_as_float (argv[2]);
+        gnm_float x = value_get_as_float (argv[0]);
+        gnm_float mean = value_get_as_float (argv[1]);
+        gnm_float stddev = value_get_as_float (argv[2]);
+	gboolean cuml = value_get_as_checked_bool (argv[3]);
 
         if (stddev <= 0)
                 return value_new_error_NUM (ei->pos);
-
-        cuml = value_get_as_bool (argv[3], &err);
-        if (err)
-                return value_new_error_VALUE (ei->pos);
 
         if (cuml)
 		return value_new_float (pnorm (x, mean, stddev, TRUE, FALSE));
@@ -2369,11 +2310,9 @@ static GnmFuncHelp const help_norminv[] = {
 static GnmValue *
 gnumeric_norminv (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float p, mean, stddev;
-
-        p = value_get_as_float (argv[0]);
-	mean = value_get_as_float (argv[1]);
-	stddev = value_get_as_float (argv[2]);
+        gnm_float p = value_get_as_float (argv[0]);
+	gnm_float mean = value_get_as_float (argv[1]);
+	gnm_float stddev = value_get_as_float (argv[2]);
 
 	if (p < 0 || p > 1 || stddev <= 0)
 		return value_new_error_NUM (ei->pos);
@@ -2597,15 +2536,11 @@ static GnmFuncHelp const help_poisson[] = {
 static GnmValue *
 gnumeric_poisson (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float mean;
-	int x, cuml;
-	gboolean err;
+	gnm_float x = value_get_as_int (argv[0]);
+	gnm_float mean = value_get_as_float (argv[1]);
+	gboolean cuml = value_get_as_checked_bool (argv[2]);
 
-	x = value_get_as_int (argv[0]);
-	mean = value_get_as_float (argv[1]);
-	cuml = value_get_as_bool (argv[2], &err);
-
-	if (x < 0 || mean <= 0 || err)
+	if (x < 0 || mean <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	if (cuml)
@@ -5652,9 +5587,9 @@ static GnmFuncHelp const help_geomdist[] = {
 static GnmValue *
 gnumeric_geomdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int        k   = value_get_as_int (argv[0]);
+	int       k   = value_get_as_int (argv[0]);
 	gnm_float p   = value_get_as_float (argv[1]);
-	gboolean   cum = value_get_as_int (argv[2]);
+	gboolean  cum = value_get_as_checked_bool (argv[2]);
 
 	if (p < 0 || p > 1 || k < 0 || (cum != TRUE && cum != FALSE))
 		return value_new_error_NUM (ei->pos);
@@ -5934,7 +5869,7 @@ const GnmFuncDescriptor stat_functions[] = {
 	  help_binomdist, gnumeric_binomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "cauchy", "fff", N_("x,a,cum"),   help_cauchy,
+        { "cauchy", "ffb", N_("x,a,cum"),   help_cauchy,
 	  gnumeric_cauchy, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 

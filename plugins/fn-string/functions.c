@@ -641,16 +641,9 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float num = value_get_as_float (argv[0]);
 	gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
-	gboolean commas = TRUE;
+	gboolean commas = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
 	GONumberFormat fmt;
 	GString *str;
-
-	if (argv[2] != NULL) {
-		gboolean err;
-		commas = !value_get_as_bool (argv[2], &err);
-		if (err)
-			return value_new_error_VALUE (ei->pos);
-	}
 
 	decimals = gnm_fake_trunc (decimals);
 	if (decimals >= 128)
