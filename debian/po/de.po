@@ -14,9 +14,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric_1.6.1-2\n"
-"Report-Msgid-Bugs-To: jdassen@debian.org\n"
-"POT-Creation-Date: 2006-01-04 21:26+0100\n"
-"PO-Revision-Date: 2005-12-29 18:43+0100\n"
+"Report-Msgid-Bugs-To: <gnumeric@packages.debian.org>\n"
+"POT-Creation-Date: 2005-12-28 00:07+0100\n"
+"PO-Revision-Date: 2006-01-10 21:15+0100\n"
 "Last-Translator: Johannes Starosta <feedback-an-johannes@arcor.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,28 +24,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: boolean
-#. Description
-#: ../gnumeric.templates:4
+#. description
+#: ../gnumeric_1.6.1-2_debian_gnumeric.templates:3
 msgid "Are you sure you want to upgrade gnumeric right now?"
 msgstr "Wollen Sie gnumeric wirklich jetzt aktualisieren?"
 
 #. Type: boolean
-#. Description
-#: ../gnumeric.templates:4
+#. description
+#: ../gnumeric_1.6.1-2_debian_gnumeric.templates:3
 msgid ""
 "It appears there is an instance of gnumeric running currently. If you "
 "upgrade gnumeric now, that instance may not be able to save its data anymore."
 msgstr ""
-"Es scheint gerade eine Instanz von gnumeric zu laufen. Falls Sie gnumeric "
-"jetzt aktualisieren, kann es sein, dass diese Instanz die gerade offenen "
-"Dokumente nicht mehr sichern kann."
+"Es scheint gerade eine Instanz von gnumeric zu laufen. "
+"Falls Sie gnumeric jetzt aktualisieren, kann es sein, "
+"dass diese Instanz die gerade offenen Dokumente nicht "
+"mehr sichern kann."
 
 #. Type: boolean
-#. Description
-#: ../gnumeric.templates:4
+#. description
+#: ../gnumeric_1.6.1-2_debian_gnumeric.templates:3
 msgid ""
 "You are strongly recommended to close the running instances of gnumeric "
 "prior to upgrading this package."
 msgstr ""
-"Es wird Ihnen dringend empfohlen, alle laufenden Instanzen von gnumeric vor "
-"der Aktualisierung dieses Paketes zu schlieﬂen."
+"Es wird Ihnen dringend empfohlen, alle laufenden "
+"Instanzen von gnumeric vor der Aktualisierung dieses "
+"Paketes zu schlieﬂen."
+   
