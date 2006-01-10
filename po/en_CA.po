@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-02 22:09-0500\n"
+"POT-Creation-Date: 2006-01-09 22:27-0500\n"
 "PO-Revision-Date: 2005-08-27 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -730,7 +730,7 @@ msgstr "info_type, cell"
 #: ../plugins/fn-info/functions.c:1912 ../plugins/fn-info/functions.c:1915
 #: ../plugins/fn-info/functions.c:1918 ../plugins/fn-info/functions.c:1921
 #: ../plugins/fn-info/functions.c:1924 ../plugins/fn-info/functions.c:1930
-#: ../plugins/fn-string/functions.c:1292
+#: ../plugins/fn-string/functions.c:1282
 msgid "value"
 msgstr "value"
 
@@ -743,12 +743,12 @@ msgstr "info_type"
 msgid "range"
 msgstr "range"
 
-#: ../plugins/fn-info/functions.c:1939 ../plugins/fn-string/functions.c:1235
-#: ../plugins/fn-string/functions.c:1238 ../plugins/fn-string/functions.c:1241
-#: ../plugins/fn-string/functions.c:1262 ../plugins/fn-string/functions.c:1265
-#: ../plugins/fn-string/functions.c:1268 ../plugins/fn-string/functions.c:1274
-#: ../plugins/fn-string/functions.c:1298 ../plugins/fn-string/functions.c:1301
-#: ../plugins/fn-string/functions.c:1304
+#: ../plugins/fn-info/functions.c:1939 ../plugins/fn-string/functions.c:1225
+#: ../plugins/fn-string/functions.c:1228 ../plugins/fn-string/functions.c:1231
+#: ../plugins/fn-string/functions.c:1252 ../plugins/fn-string/functions.c:1255
+#: ../plugins/fn-string/functions.c:1258 ../plugins/fn-string/functions.c:1264
+#: ../plugins/fn-string/functions.c:1288 ../plugins/fn-string/functions.c:1291
+#: ../plugins/fn-string/functions.c:1294
 msgid "text"
 msgstr "text"
 
@@ -756,7 +756,7 @@ msgstr "text"
 msgid "cell"
 msgstr "cell"
 
-#: ../plugins/fn-info/functions.c:1945 ../plugins/fn-string/functions.c:1226
+#: ../plugins/fn-info/functions.c:1945 ../plugins/fn-string/functions.c:1216
 msgid "string"
 msgstr "string"
 
@@ -777,7 +777,7 @@ msgid "Type Mismatch"
 msgstr "Type Mismatch"
 
 #: ../plugins/fn-logical/functions.c:360 ../plugins/fn-logical/functions.c:364
-#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3452
+#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3470
 #: ../plugins/fn-stat/functions.c:5910 ../plugins/fn-stat/functions.c:5914
 #: ../plugins/fn-stat/functions.c:5918 ../plugins/fn-stat/functions.c:5956
 #: ../plugins/fn-stat/functions.c:5959 ../plugins/fn-stat/functions.c:5968
@@ -796,27 +796,27 @@ msgid "number,number,"
 msgstr "number,number,"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3284
-#: ../plugins/fn-math/functions.c:3288 ../plugins/fn-math/functions.c:3291
-#: ../plugins/fn-math/functions.c:3294 ../plugins/fn-math/functions.c:3297
-#: ../plugins/fn-math/functions.c:3300 ../plugins/fn-math/functions.c:3303
-#: ../plugins/fn-math/functions.c:3309 ../plugins/fn-math/functions.c:3318
-#: ../plugins/fn-math/functions.c:3327 ../plugins/fn-math/functions.c:3335
-#: ../plugins/fn-math/functions.c:3338 ../plugins/fn-math/functions.c:3341
-#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3347
-#: ../plugins/fn-math/functions.c:3352 ../plugins/fn-math/functions.c:3356
-#: ../plugins/fn-math/functions.c:3362 ../plugins/fn-math/functions.c:3372
-#: ../plugins/fn-math/functions.c:3379 ../plugins/fn-math/functions.c:3382
-#: ../plugins/fn-math/functions.c:3388 ../plugins/fn-math/functions.c:3391
-#: ../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3410
-#: ../plugins/fn-math/functions.c:3416 ../plugins/fn-math/functions.c:3437
-#: ../plugins/fn-math/functions.c:3440 ../plugins/fn-math/functions.c:3443
-#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3449
-#: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3474
-#: ../plugins/fn-math/functions.c:3477 ../plugins/fn-stat/functions.c:5980
+#: ../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3302
+#: ../plugins/fn-math/functions.c:3306 ../plugins/fn-math/functions.c:3309
+#: ../plugins/fn-math/functions.c:3312 ../plugins/fn-math/functions.c:3315
+#: ../plugins/fn-math/functions.c:3318 ../plugins/fn-math/functions.c:3321
+#: ../plugins/fn-math/functions.c:3327 ../plugins/fn-math/functions.c:3336
+#: ../plugins/fn-math/functions.c:3345 ../plugins/fn-math/functions.c:3353
+#: ../plugins/fn-math/functions.c:3356 ../plugins/fn-math/functions.c:3359
+#: ../plugins/fn-math/functions.c:3362 ../plugins/fn-math/functions.c:3365
+#: ../plugins/fn-math/functions.c:3370 ../plugins/fn-math/functions.c:3374
+#: ../plugins/fn-math/functions.c:3380 ../plugins/fn-math/functions.c:3390
+#: ../plugins/fn-math/functions.c:3397 ../plugins/fn-math/functions.c:3400
+#: ../plugins/fn-math/functions.c:3406 ../plugins/fn-math/functions.c:3409
+#: ../plugins/fn-math/functions.c:3422 ../plugins/fn-math/functions.c:3428
+#: ../plugins/fn-math/functions.c:3434 ../plugins/fn-math/functions.c:3455
+#: ../plugins/fn-math/functions.c:3458 ../plugins/fn-math/functions.c:3461
+#: ../plugins/fn-math/functions.c:3464 ../plugins/fn-math/functions.c:3467
+#: ../plugins/fn-math/functions.c:3480 ../plugins/fn-math/functions.c:3492
+#: ../plugins/fn-math/functions.c:3495 ../plugins/fn-stat/functions.c:5980
 #: ../plugins/fn-stat/functions.c:5983 ../plugins/fn-stat/functions.c:6001
-#: ../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1229
-#: ../plugins/fn-string/functions.c:1232
+#: ../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1219
+#: ../plugins/fn-string/functions.c:1222
 msgid "number"
 msgstr "number"
 
@@ -885,7 +885,7 @@ msgstr "val,range,approx"
 msgid "ref,row,col,height,width"
 msgstr "ref,row,col,height,width"
 
-#: ../plugins/fn-lookup/functions.c:1308 ../plugins/fn-math/functions.c:3490
+#: ../plugins/fn-lookup/functions.c:1308 ../plugins/fn-math/functions.c:3508
 msgid "array"
 msgstr "array"
 
@@ -901,18 +901,18 @@ msgstr "Lookup"
 msgid "Lookup Functions"
 msgstr "Lookup Functions"
 
-#: ../plugins/fn-math/functions.c:2544 ../plugins/fn-math/functions.c:2564
-#: ../plugins/fn-math/functions.c:2660 ../plugins/fn-math/functions.c:2680
-#: ../plugins/fn-math/functions.c:2774 ../plugins/fn-math/functions.c:2794
+#: ../plugins/fn-math/functions.c:2562 ../plugins/fn-math/functions.c:2582
+#: ../plugins/fn-math/functions.c:2678 ../plugins/fn-math/functions.c:2698
+#: ../plugins/fn-math/functions.c:2792 ../plugins/fn-math/functions.c:2812
 #: ../plugins/fn-stat/functions.c:3109 ../plugins/fn-stat/functions.c:3139
 msgid "Array version not implemented!"
 msgstr "Array version not implemented!"
 
-#: ../plugins/fn-math/functions.c:3306
+#: ../plugins/fn-math/functions.c:3324
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-#: ../plugins/fn-math/functions.c:3312 ../plugins/fn-math/functions.c:3315
+#: ../plugins/fn-math/functions.c:3330 ../plugins/fn-math/functions.c:3333
 #: ../plugins/fn-random/functions.c:1196 ../plugins/fn-random/functions.c:1217
 #: ../plugins/fn-random/functions.c:1223 ../plugins/fn-random/functions.c:1262
 #: ../plugins/fn-random/functions.c:1277 ../plugins/fn-random/functions.c:1280
@@ -920,67 +920,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3323
+#: ../plugins/fn-math/functions.c:3341
 msgid "range,criteria"
 msgstr "range,criteria"
 
-#: ../plugins/fn-math/functions.c:3331
+#: ../plugins/fn-math/functions.c:3349
 msgid "number,significance"
 msgstr "number,significance"
 
-#: ../plugins/fn-math/functions.c:3359 ../plugins/fn-stat/functions.c:6094
+#: ../plugins/fn-math/functions.c:3377 ../plugins/fn-stat/functions.c:6094
 msgid "n,k"
 msgstr "n,k"
 
-#: ../plugins/fn-math/functions.c:3366
+#: ../plugins/fn-math/functions.c:3384
 msgid "number,number"
 msgstr "number,number"
 
-#: ../plugins/fn-math/functions.c:3385
+#: ../plugins/fn-math/functions.c:3403
 msgid "number,base"
 msgstr "number,base"
 
-#: ../plugins/fn-math/functions.c:3394 ../plugins/fn-math/functions.c:3413
+#: ../plugins/fn-math/functions.c:3412 ../plugins/fn-math/functions.c:3431
 msgid "numerator,denominator"
 msgstr "numerator,denominator"
 
-#: ../plugins/fn-math/functions.c:3397
+#: ../plugins/fn-math/functions.c:3415
 msgid "number,multiple"
 msgstr "number,multiple"
 
-#: ../plugins/fn-math/functions.c:3407
+#: ../plugins/fn-math/functions.c:3425
 msgid "base,exponent"
 msgstr "base,exponent"
 
-#: ../plugins/fn-math/functions.c:3419
+#: ../plugins/fn-math/functions.c:3437
 msgid "number,type"
 msgstr "number,type"
 
-#: ../plugins/fn-math/functions.c:3422 ../plugins/fn-math/functions.c:3426
-#: ../plugins/fn-math/functions.c:3430 ../plugins/fn-math/functions.c:3480
+#: ../plugins/fn-math/functions.c:3440 ../plugins/fn-math/functions.c:3444
+#: ../plugins/fn-math/functions.c:3448 ../plugins/fn-math/functions.c:3498
 msgid "number,digits"
 msgstr "number,digits"
 
-#: ../plugins/fn-math/functions.c:3434
+#: ../plugins/fn-math/functions.c:3452
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coefficients"
 
-#: ../plugins/fn-math/functions.c:3456
+#: ../plugins/fn-math/functions.c:3474
 msgid "range,criteria,actual_range"
 msgstr "range,criteria,actual_range"
 
-#: ../plugins/fn-math/functions.c:3459
+#: ../plugins/fn-math/functions.c:3477
 msgid "range,range,"
 msgstr "range,range,"
 
-#: ../plugins/fn-math/functions.c:3465 ../plugins/fn-math/functions.c:3468
-#: ../plugins/fn-math/functions.c:3471 ../plugins/fn-math/functions.c:3487
+#: ../plugins/fn-math/functions.c:3483 ../plugins/fn-math/functions.c:3486
+#: ../plugins/fn-math/functions.c:3489 ../plugins/fn-math/functions.c:3505
 #: ../plugins/fn-stat/functions.c:5953 ../plugins/fn-stat/functions.c:5962
 #: ../plugins/fn-stat/functions.c:6085 ../plugins/fn-stat/functions.c:6141
 msgid "array1,array2"
 msgstr "array1,array2"
 
-#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-math/functions.c:3497
+#: ../plugins/fn-math/functions.c:3511 ../plugins/fn-math/functions.c:3515
 msgid "array,matrix_type,bandsize"
 msgstr "array,matrix_type,bandsize"
 
@@ -1278,55 +1278,51 @@ msgstr "function_nbr,ref,ref,"
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
-#: ../plugins/fn-string/functions.c:805
-msgid "Arguments out of range"
-msgstr "Arguments out of range"
-
-#: ../plugins/fn-string/functions.c:1244
+#: ../plugins/fn-string/functions.c:1234
 msgid "text,text,"
 msgstr "text,text,"
 
-#: ../plugins/fn-string/functions.c:1247
+#: ../plugins/fn-string/functions.c:1237
 msgid "num,decimals"
 msgstr "num,decimals"
 
-#: ../plugins/fn-string/functions.c:1250
+#: ../plugins/fn-string/functions.c:1240
 msgid "text1,text2"
 msgstr "text1,text2"
 
-#: ../plugins/fn-string/functions.c:1253
+#: ../plugins/fn-string/functions.c:1243
 msgid "text1,text2,num"
 msgstr "text1,text2,num"
 
-#: ../plugins/fn-string/functions.c:1256
+#: ../plugins/fn-string/functions.c:1246
 msgid "num,decs,no_commas"
 msgstr "num,decs,no_commas"
 
-#: ../plugins/fn-string/functions.c:1259 ../plugins/fn-string/functions.c:1283
+#: ../plugins/fn-string/functions.c:1249 ../plugins/fn-string/functions.c:1273
 msgid "text,num_chars"
 msgstr "text,num_chars"
 
-#: ../plugins/fn-string/functions.c:1271
+#: ../plugins/fn-string/functions.c:1261
 msgid "text,pos,num"
 msgstr "text,pos,num"
 
-#: ../plugins/fn-string/functions.c:1277
+#: ../plugins/fn-string/functions.c:1267
 msgid "old,start,num,new"
 msgstr "old,start,num,new"
 
-#: ../plugins/fn-string/functions.c:1280
+#: ../plugins/fn-string/functions.c:1270
 msgid "text,num"
 msgstr "text,num"
 
-#: ../plugins/fn-string/functions.c:1286
+#: ../plugins/fn-string/functions.c:1276
 msgid "search_string,text,start_num"
 msgstr "search_string,text,start_num"
 
-#: ../plugins/fn-string/functions.c:1289
+#: ../plugins/fn-string/functions.c:1279
 msgid "text,old,new,num"
 msgstr "text,old,new,num"
 
-#: ../plugins/fn-string/functions.c:1295
+#: ../plugins/fn-string/functions.c:1285
 msgid "value,format_text"
 msgstr "value,format_text"
 
@@ -1396,7 +1392,7 @@ msgstr "Gnome Glossary PO file format"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "It provides support for saving Gnome Glossary in .po files."
 
-#: ../plugins/html/html_read.c:542
+#: ../plugins/html/html_read.c:544
 msgid "Unable to parse the html."
 msgstr "Unable to parse the html."
 
@@ -1491,7 +1487,7 @@ msgstr "Constraints:"
 #: ../src/tools/solver/reports-write.c:281
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
-#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:5516
+#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:5518
 #: ../src/format-template.c:251 ../src/sheet.c:531
 msgid "Name"
 msgstr "Name"
@@ -2279,9 +2275,9 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
 msgstr ""
-"Some dialogues contain only a single entry field that allows range selections "
-"in the workbook. Setting this variable to TRUE directs selections to this "
-"entry even if the entry does not have keyboard focus."
+"Some dialogues contain only a single entry field that allows range "
+"selections in the workbook. Setting this variable to TRUE directs selections "
+"to this entry even if the entry does not have keyboard focus."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:45
 msgid "System Directory for Autoformats"
@@ -7758,7 +7754,7 @@ msgid "Search"
 msgstr "Search"
 
 #. Corrected below.
-#: ../src/dialogs/search-replace.glade.h:24 ../src/commands.c:4114
+#: ../src/dialogs/search-replace.glade.h:24 ../src/commands.c:4116
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
@@ -8016,7 +8012,7 @@ msgstr "Solve"
 #: ../src/tools/solver/reports-write.c:484
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
-#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6044
+#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6046
 msgid "Solver"
 msgstr "Solver"
 
@@ -9709,128 +9705,128 @@ msgstr "Merge and Centre %s"
 msgid "Merging %s"
 msgstr "Merging %s"
 
-#: ../src/commands.c:4207
+#: ../src/commands.c:4209
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: ../src/commands.c:4208
+#: ../src/commands.c:4210
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: ../src/commands.c:4317
+#: ../src/commands.c:4319
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: ../src/commands.c:4413
+#: ../src/commands.c:4415
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: ../src/commands.c:4570
+#: ../src/commands.c:4572
 msgid "Format Object"
 msgstr "Format Object"
 
-#: ../src/commands.c:4770
+#: ../src/commands.c:4772
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: ../src/commands.c:4771
+#: ../src/commands.c:4773
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: ../src/commands.c:5147
+#: ../src/commands.c:5149
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: ../src/commands.c:5247
+#: ../src/commands.c:5249
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: ../src/commands.c:5334
+#: ../src/commands.c:5336
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: ../src/commands.c:5337
+#: ../src/commands.c:5339
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: ../src/commands.c:5340
+#: ../src/commands.c:5342
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: ../src/commands.c:5343
+#: ../src/commands.c:5345
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: ../src/commands.c:5456
+#: ../src/commands.c:5458
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: ../src/commands.c:5458
+#: ../src/commands.c:5460
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: ../src/commands.c:5572
+#: ../src/commands.c:5574
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: ../src/commands.c:5594
+#: ../src/commands.c:5596
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: ../src/commands.c:5597
+#: ../src/commands.c:5599
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: ../src/commands.c:5659
+#: ../src/commands.c:5661
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: ../src/commands.c:5732
+#: ../src/commands.c:5734
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: ../src/commands.c:5794
+#: ../src/commands.c:5796
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: ../src/commands.c:5902
+#: ../src/commands.c:5904
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
 
-#: ../src/commands.c:6126
+#: ../src/commands.c:6128
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: ../src/commands.c:6268
+#: ../src/commands.c:6270
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: ../src/commands.c:6359
+#: ../src/commands.c:6361
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: ../src/commands.c:6433
+#: ../src/commands.c:6435
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
-#: ../src/commands.c:6477
+#: ../src/commands.c:6479
 msgid "Left to Right"
 msgstr "Left to Right"
 
-#: ../src/commands.c:6477
+#: ../src/commands.c:6479
 msgid "Right to Left"
 msgstr "Right to Left"
 
@@ -12745,8 +12741,8 @@ msgid "AddBorders"
 msgstr "AddBorders"
 
 #: ../src/wbcg-actions.c:2071
-msgid "Add a border the the selection"
-msgstr "Add a border the the selection"
+msgid "Add a border around the selection"
+msgstr "Add a border around the selection"
 
 #: ../src/wbcg-actions.c:2073
 msgid "ClearBorders"
