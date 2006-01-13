@@ -28,6 +28,7 @@ Morten:
 	* Fix error on Search-and-replace.
 	* Fix near-infinite loop in FACTDOUBLE.
 	* Fix text-to-columns crash probably affecting stf import too.
+	* Fix font preference crash.  [#326830]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
