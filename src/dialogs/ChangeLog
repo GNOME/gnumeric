@@ -1,3 +1,8 @@
+2006-01-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (cb_dialog_delete_clicked): Defensive coding.
+	(cb_dialog_change_clicked): Ditto.
+
 2006-01-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* dialog-cell-format.c: #include <string.h> for strcmp()
