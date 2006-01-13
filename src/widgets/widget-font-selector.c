@@ -165,19 +165,20 @@ static void
 font_selected (GtkTreeSelection *selection,
 	       FontSelector *fs)
 {
-	gchar *text;
-	GnmStyle *change;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
-	gtk_tree_selection_get_selected (selection, &model, &iter);
-	gtk_tree_model_get (model, &iter, 0, &text, -1);
-	gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		GnmStyle *change = gnm_style_new ();
+		gchar *text;
 
-	change = gnm_style_new ();
-	gnm_style_set_font_name (change, text);
-	g_free (text);
-	fs_modify_style (fs, change);
+		gtk_tree_model_get (model, &iter, 0, &text, -1);
+		gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
+
+		gnm_style_set_font_name (change, text);
+		g_free (text);
+		fs_modify_style (fs, change);
+	}
 }
 
 static void
@@ -216,39 +217,37 @@ static void
 style_selected (GtkTreeSelection *selection,
 		FontSelector *fs)
 {
-	GnmStyle *change = gnm_style_new ();
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	GtkTreePath *path;
-	int row;
 
-	gtk_tree_selection_get_selected (selection, &model, &iter);
-	path = gtk_tree_model_get_path (model, &iter);
-	row = *gtk_tree_path_get_indices (path);
-	gtk_tree_path_free (path);
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		GnmStyle *change = gnm_style_new ();
+		GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+		int row = *gtk_tree_path_get_indices (path);
+		gtk_tree_path_free (path);
 
-	switch (row) {
-	case 0:
-		gnm_style_set_font_bold (change, FALSE);
-		gnm_style_set_font_italic (change, FALSE);
-		break;
-	case 1:
-		gnm_style_set_font_bold (change, TRUE);
-		gnm_style_set_font_italic (change, FALSE);
-		break;
+		switch (row) {
+		case 0:
+			gnm_style_set_font_bold (change, FALSE);
+			gnm_style_set_font_italic (change, FALSE);
+			break;
+		case 1:
+			gnm_style_set_font_bold (change, TRUE);
+			gnm_style_set_font_italic (change, FALSE);
+			break;
+		case 2:
+			gnm_style_set_font_bold (change, TRUE);
+			gnm_style_set_font_italic (change, TRUE);
+			break;
+		case 3:
+			gnm_style_set_font_bold (change, FALSE);
+			gnm_style_set_font_italic (change, TRUE);
+			break;
+		}
 
-	case 2:
-		gnm_style_set_font_bold (change, TRUE);
-		gnm_style_set_font_italic (change, TRUE);
-		break;
-	case 3:
-		gnm_style_set_font_bold (change, FALSE);
-		gnm_style_set_font_italic (change, TRUE);
-		break;
+		gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles[row]));
+		fs_modify_style (fs, change);
 	}
-
-	gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles[row]));
-	fs_modify_style (fs, change);
 }
 
 static void
@@ -290,17 +289,19 @@ static void
 size_selected (GtkTreeSelection *selection,
 	       FontSelector *fs)
 {
-	GnmStyle *change = gnm_style_new ();
-	gchar *text;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
-	gtk_tree_selection_get_selected (selection, &model, &iter);
-	gtk_tree_model_get (model, &iter, 0, &text, -1);
-	gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
-	gnm_style_set_font_size (change, atof (text));
-	g_free (text);
-	fs_modify_style (fs, change);
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		GnmStyle *change = gnm_style_new ();
+		gchar *text;
+
+		gtk_tree_model_get (model, &iter, 0, &text, -1);
+		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
+		gnm_style_set_font_size (change, atof (text));
+		g_free (text);
+		fs_modify_style (fs, change);
+	}
 }
 
 static void

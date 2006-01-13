@@ -1,3 +1,9 @@
+2006-01-13  Morten Welinder  <terra@gnome.org>
+
+	* widget-font-selector.c (font_selected): Prevent crash.
+	(size_selected): Ditto.
+	(style_selected): Ditto.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
