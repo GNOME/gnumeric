@@ -1,3 +1,10 @@
+2006-01-13  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_general): Drop maxline argument.  All
+	callers changed.
+
+	* src/commands.c (cmd_text_to_columns): Plug leaks.
+
 2006-01-06  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_search_replace_update_after_action): Add wbc

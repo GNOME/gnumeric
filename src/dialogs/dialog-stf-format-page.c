@@ -409,8 +409,7 @@ format_page_update_preview (StfDialogData *pagedata)
 			       stf_parse_general (pagedata->parseoptions,
 						  lines_chunk,
 						  pagedata->cur,
-						  pagedata->cur_end,
-						  LINE_DISPLAY_LIMIT));
+						  pagedata->cur_end));
 
 	col_import_array_len_old = pagedata->format.col_import_array_len;
 	pagedata->format.col_import_array_len = renderdata->colcount;
