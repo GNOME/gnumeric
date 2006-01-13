@@ -5894,16 +5894,20 @@ cmd_text_to_columns (WorkbookControl *wbc,
 		     GnmCellRegion *content)
 {
 	CmdTextToColumns *me;
+	char *src_range_name, *target_range_name;
 
 	g_return_val_if_fail (content != NULL, TRUE);
+
+	src_range_name = undo_range_name (src_sheet, src);
+	target_range_name = undo_range_name (target_sheet, target);
 
 	me = g_object_new (CMD_TEXT_TO_COLUMNS_TYPE, NULL);
 
 	me->cmd.sheet = (src_sheet == target_sheet ? src_sheet : NULL);
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Text (%s) to Columns (%s)"),
-						  undo_range_name (src_sheet, src),
-						  undo_range_name (target_sheet, target));
+						  src_range_name,
+						  target_range_name);
 	me->dst.range = *target;
 	me->dst.sheet = target_sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
@@ -5911,6 +5915,9 @@ cmd_text_to_columns (WorkbookControl *wbc,
 	me->src_sheet = src_sheet;
 	me->content = content;
 	me->saved_sizes = NULL;
+
+	g_free (src_range_name);
+	g_free (target_range_name);
 
 	/* Check array subdivision & merged regions */
 	if (sheet_range_splits_region (target_sheet, &me->dst.range,

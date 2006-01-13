@@ -33,6 +33,7 @@ Morten:
 	* Fix error on Search-and-replace.
 	* Improve handling of boolean args for "R" functions.
 	* Fix near-infinite loop in FACTDOUBLE.
+	* Fix text-to-columns crash probably affecting stf import too.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
