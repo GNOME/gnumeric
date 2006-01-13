@@ -34,7 +34,7 @@ Morten:
 	* Improve handling of boolean args for "R" functions.
 	* Fix near-infinite loop in FACTDOUBLE.
 	* Fix text-to-columns crash probably affecting stf import too.
-	* Fix font preference crash.
+	* Fix font preference crash.  [#326830]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
