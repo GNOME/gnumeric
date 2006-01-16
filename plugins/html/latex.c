@@ -227,7 +227,7 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 
 	encoded_text = g_convert_with_fallback
 		(text, strlen (text),
-		 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+		 "ISO-8859-1", "UTF-8", (gchar *)"-", 
 		 &bytes_read, &bytes_written, &error);
 	if (error != NULL)
 	{
@@ -284,7 +284,7 @@ latex_math_fputs_latin (char const *text, GsfOutput *output)
 
 	encoded_text = g_convert_with_fallback
 		(text, strlen (text),
-		 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+		 "ISO-8859-1", "UTF-8", (gchar *)"-", 
 		 &bytes_read, &bytes_written, &error);
 	if (error != NULL)
 	{
@@ -854,8 +854,10 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 
 		cell_format_family = cell_get_format (cell)->family;
-		if (cell_format_family == GO_FORMAT_NUMBER || cell_format_family == GO_FORMAT_CURRENCY ||
-		    cell_format_family == GO_FORMAT_PERCENTAGE || cell_format_family == GO_FORMAT_FRACTION ||
+		if (cell_format_family == GO_FORMAT_NUMBER ||
+		    cell_format_family == GO_FORMAT_CURRENCY ||
+		    cell_format_family == GO_FORMAT_PERCENTAGE ||
+		    cell_format_family == GO_FORMAT_FRACTION ||
 		    cell_format_family == GO_FORMAT_SCIENTIFIC){
 			gsf_output_printf (output, "$");
 		        if (gnm_style_get_font_italic(mstyle))

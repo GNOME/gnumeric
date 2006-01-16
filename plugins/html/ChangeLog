@@ -1,3 +1,9 @@
+2006-01-14   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=325656
+	* latex.c (latex_fputs_latin) use "-" as replacement for unicode
+	(latex_math_fputs_latin): ditto
+	
 2006-01-04  Jon K Hellan  <hellan@acm.org>
 
 	* html_read.c (html_append_text): Handle whitespace in a unicode

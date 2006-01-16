@@ -1,5 +1,8 @@
 Gnumeric 1.7.0
 
+Andreas:
+	* Fix lost minus signs in latex output. [#325656]
+
 Jody:
 	* Handle the special case of ADDRESS (r1c1) actually relative.
 	* Make sheet name quoting modular.
