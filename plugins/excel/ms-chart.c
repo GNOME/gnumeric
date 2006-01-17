@@ -3551,7 +3551,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		ms_biff_put_var_write (s->bp, lendat, 2);
 	} else if (ref_type == 1 && value) {
 		if (n) {
-			XLValue *xlval = (XLValue*) g_new0 (XLValue*, 1);
+			XLValue *xlval = g_new0 (XLValue, 1);
 			xlval->series = s->cur_series;
 			xlval->value = value;
 			g_ptr_array_add (s->values[n - 1], xlval);
