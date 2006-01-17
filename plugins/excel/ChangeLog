@@ -1,3 +1,7 @@
+2006-01-17  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (chart_write_AI): Allocate right amount of memory.
+
 2005-12-22  Stepan Kasal  <kasal@ucw.cz>
 
 	* ms-excel-write.c (excel_write_externsheets_v8): Use the actual
