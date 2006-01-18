@@ -1,3 +1,13 @@
+2006-01-19  Ivan, Wong Yat Cheung  <ivanwong@gnome.org>
+
+	* src/Makefile.am: Build as non-console Win32 application by default.
+
+	* src/main-application.c (main): Attach to an existing console (only 
+	if there is one)
+
+	* src/item-cursor.c (item_cursor_draw): Use GDK_XOR which is more
+	common than GDK_EQUIV for drawing item cursor. Fixes #314210.
+
 2006-01-13  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_general): Drop maxline argument.  All

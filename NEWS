@@ -3,6 +3,12 @@ Gnumeric 1.7.0
 Andreas:
 	* Fix lost minus signs in latex output. [#325656]
 
+Ivan, Y.C. Wong:
+	* Fix Gdk-WARNING when cutting or copying cells. [#314210]
+	* No more debug command prompt.
+	* Error/warning messages will go to an existing command
+	  prompt (if any).
+
 Jody:
 	* Handle the special case of ADDRESS (r1c1) actually relative.
 	* Make sheet name quoting modular.
