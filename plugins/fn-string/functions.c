@@ -379,8 +379,11 @@ gnumeric_mid (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	const char *upos;
 	size_t ilen, ipos, ulen;
 
-	if (len < 0 || pos < 1 || pos >= slen + 1)
+	if (len < 0 || pos < 1)
 		return value_new_error_VALUE (ei->pos);
+	if (pos >= slen + 1)
+		return value_new_string ("");
+
 	/* Make ipos zero-based.  */
 	ipos = (size_t)(pos - 1);
 	ilen  = (size_t)MIN (len, (gnm_float)(slen - ipos));
@@ -914,7 +917,7 @@ gnumeric_trim (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	if (space)
-		res->len = last_len;
+		g_string_truncate (res, last_len);
 
 	return value_new_string_nocopy (g_string_free (res, FALSE));
 }

@@ -46,6 +46,7 @@ Morten:
 	* Fix font preference crash.  [#326830]
 	* Fix memory allocation problem for writing charts.
 	* Fix loading of boolean constants from ods files.
+	* Fix MID for out-of-bounds values.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
