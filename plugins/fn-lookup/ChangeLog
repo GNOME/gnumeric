@@ -1,3 +1,7 @@
+2006-01-20  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Fix left-over uses of argument type B.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
