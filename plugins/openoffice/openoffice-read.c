@@ -566,12 +566,16 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				expr = oo_expr_parse_str (expr_string,
 					&state->pos, 0, &perr);
 				if (expr == NULL) {
+					g_print ("s=[%s]\n", expr_string);
+					g_print ("e=[%s]\n", perr.err->message);
 					oo_warning (xin, _("Unable to parse\n\t'%s'\nbecause '%s'"),
 						    attrs[1], perr.err->message);
 					parse_error_free (&perr);
 				}
 			}
-		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "boolean-value", &bool_val))
+		} else if (oo_attr_bool (xin, attrs,
+					 (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+					 "boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
 		else if (gsf_xml_in_namecmp (xin, attrs[0],
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,

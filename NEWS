@@ -45,6 +45,7 @@ Morten:
 	* Fix text-to-columns crash probably affecting stf import too.
 	* Fix font preference crash.  [#326830]
 	* Fix memory allocation problem for writing charts.
+	* Fix loading of boolean constants from ods files.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
