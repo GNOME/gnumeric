@@ -1,3 +1,9 @@
+2006-01-20  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_mid): Fix handling of out-of-bounds
+	segments.
+	(gnumeric_trim): Fix the fix.
+
 2006-01-09  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_fixed): Use value_get_as_checked_bool.
