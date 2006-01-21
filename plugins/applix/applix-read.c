@@ -447,7 +447,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				default :
 					(void) applix_parse_error (state, "Unknown horizontal alignment '%c'", *sep);
 					return NULL;
-				};
+				}
 				gnm_style_set_align_h (style, a);
 				++sep;
 			} else if (*sep == 'V') {
@@ -459,7 +459,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				default :
 					(void) applix_parse_error (state, "Unknown vertical alignment '%c'", *sep);
 					return NULL;
-				};
+				}
 				gnm_style_set_align_v (style, a);
 				sep += 2;
 				break;
@@ -514,7 +514,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					default :
 						(void) applix_parse_error (state, "Unknown time format '%c'", sep[1]);
 						return NULL;
-					};
+					}
 					sep += 2;
 					break;
 				}
@@ -583,7 +583,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				default :
 					(void) applix_parse_error (state, "Unknown format '%c'", *sep);
 					return NULL;
-				};
+				}
 				if (format)
 					gnm_style_set_format_text (style, format);
 			}
@@ -615,7 +615,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					/* TODO : what is this ?? */
 					sep += 2;
 					break;
-				};
+				}
 				(void) applix_parse_error (state, "Unknown font modifier 'f%c'", sep[1]);
 				return NULL;
 
@@ -671,7 +671,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 			default :
 				(void) applix_parse_error (state, "Unknown font modifier");
 				return NULL;
-			};
+			}
 
 			if (*sep == ',')
 				++sep;
@@ -1157,7 +1157,7 @@ applix_read_cells (ApplixReadState *state)
 
 		default :
 			g_warning ("Unknown cell type '%c'", content_type);
-		};
+		}
 	}
 
 	return 0;
