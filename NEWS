@@ -48,6 +48,7 @@ Morten:
 	* Fix loading of boolean constants from ods files.
 	* Fix MID for out-of-bounds values.
 	* Fix constructed-range parsing for OO.
+	* Improve .desktop file.  [#328015]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

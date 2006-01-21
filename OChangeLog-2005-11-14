@@ -1,3 +1,7 @@
+2006-01-21  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric.desktop.in (Categories): Add Math, Science, GNOME. GTK.
+
 2006-01-21  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : adjust to new goffice versioning
