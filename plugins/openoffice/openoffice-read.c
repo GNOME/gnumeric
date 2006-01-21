@@ -1605,6 +1605,7 @@ oo_conventions (void)
 	res->decimal_sep_dot = TRUE;
 	res->argument_sep_semicolon = TRUE;
 	res->array_col_sep_comma = TRUE;
+	res->range_sep_colon = TRUE;
 	res->output_argument_sep = ";";
 	res->output_array_col_sep = ",";
 	res->unknown_function_handler = oo_unknown_hander;

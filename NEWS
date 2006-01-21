@@ -47,6 +47,7 @@ Morten:
 	* Fix memory allocation problem for writing charts.
 	* Fix loading of boolean constants from ods files.
 	* Fix MID for out-of-bounds values.
+	* Fix constructed-range parsing for OO.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

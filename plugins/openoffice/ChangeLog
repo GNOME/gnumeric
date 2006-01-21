@@ -1,3 +1,7 @@
+2006-01-21  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_conventions): Set range_sep_colon.
+
 2006-01-20  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_cell_start): Fix loading of boolean
