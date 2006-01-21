@@ -375,7 +375,7 @@ ms_biff_query_copy_decrypt (BiffQuery *dst, BiffQuery const *src)
 		break;
 	case MS_BIFF_CRYPTO_RC4 :
 		break;
-	};
+	}
 }
 
 BiffQuery *

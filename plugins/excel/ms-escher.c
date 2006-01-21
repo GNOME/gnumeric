@@ -341,7 +341,7 @@ ms_escher_read_BSE (MSEscherState *state, MSEscherHeader *h)
 		case 0: printf ("Default usage;\n"); break;
 		case 1: printf ("Is texture;\n"); break;
 		default:printf ("UNKNOWN USAGE : %d;\n", is_texture);
-		};
+		}
 
 		printf ("Checksum = 0x");
 		for (i = 0; i < 16; ++i)
@@ -2064,7 +2064,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		case EshRecord(Selection);
 		case EshRecord(UserDefined);
 		default : fbt_name = NULL;
-		};
+		}
 #undef EshRecord
 
 		if (Blip_START <= h.fbt && h.fbt <= Blip_END) {

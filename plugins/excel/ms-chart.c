@@ -218,7 +218,7 @@ BC_R(3dbarshape)(XLChartHandler const *handle,
 		case 257 : fputs ("cone", stderr); break;
 		default :
 			   fprintf (stderr, "unknown 3dshape %d\n", type);
-		};
+		}
 	});
 
 	return FALSE;
@@ -328,7 +328,7 @@ BC_R(ai)(XLChartHandler const *handle,
 	case GOG_MS_DIM_BUBBLES :    fputs ("Bubbles;\n", stderr); break;
 	default :
 		fprintf (stderr, "UKNOWN : purpose (%x)\n", purpose);
-	};
+	}
 	switch (ref_type) {
 	case 0 : fputs ("Use default categories;\n", stderr); break;
 	case 1 : fputs ("Text/Value entered directly;\n", stderr); fprintf (stderr, "data length = %d\n",length); break;
@@ -336,7 +336,7 @@ BC_R(ai)(XLChartHandler const *handle,
 	case 4 : fputs ("'Error reported' what the heck is this ??;\n", stderr); break;
 	default :
 		 fprintf (stderr, "UKNOWN : reference type (%x)\n", ref_type);
-	};
+	}
 	});
 
 	/* (2) == linked to container */
@@ -572,7 +572,7 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 	/* TODO TODO : floor vs wall */
 	case 3 : fputs ("a floor/wall along the axis.\n", stderr); break;
 	default : fprintf (stderr, "an ERROR.  unkown type (%x).\n", type);
-	};
+	}
 	});
 
 	if (!ms_biff_query_peek_next (q, &opcode) || opcode != BIFF_CHART_lineformat) {
@@ -1161,7 +1161,7 @@ BC_R(legend)(XLChartHandler const *handle,
 	case 4: pos = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER; break;
 	case 7: /* treat floating legends as being on east */
 		pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
-	};
+	}
 
 	s->legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
 	gog_object_set_position_flags (s->legend, pos, GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
@@ -1399,7 +1399,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	case 7 : fprintf (stderr, "TEXT is Z axis title\n"); break;
 	default :
 		 fprintf (stderr, "ERROR : TEXT is linked to undocumented object\n");
-	};});
+	}});
 	if (NULL != label && NULL != s->style)
 		gog_styled_object_set_style (GOG_STYLED_OBJECT (label), s->style);
 	return FALSE;
