@@ -55,14 +55,14 @@ struct _GnmExprCellRef {
 struct _GnmExprArrayCorner {
 	GnmExprOp oper;
 	int       ref_count;
-	int	  cols, rows;
+	guint32	  cols, rows;
 	GnmValue *value;	/* Last array result */
 	GnmExpr const *expr;	/* Real Expression */
 };
 struct _GnmExprArrayElem {
 	GnmExprOp oper;
 	int       ref_count;
-	int	  x, y;
+	guint32	  x, y;
 };
 
 struct _GnmExprSet {
