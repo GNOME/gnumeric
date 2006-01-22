@@ -263,9 +263,7 @@ gnm_expr_array_hash (GnmExprArray const *expr)
 #endif
 
 /**
- * gnm_expr_new_array :
- * @x :
- * @y :
+ * gnm_expr_new_array_corner :
  * @cols :
  * @rows :
  * @expr : optionally NULL.
@@ -273,22 +271,36 @@ gnm_expr_array_hash (GnmExprArray const *expr)
  * Absorb a referernce to @expr if it is non NULL.
  **/
 GnmExpr const *
-gnm_expr_new_array (int x, int y, int cols, int rows, GnmExpr const *expr)
+gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 {
-	GnmExprArray *ans;
+	GnmExprArrayCorner *ans;
 
-	ans = CHUNK_ALLOC (GnmExprArray, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprArrayCorner, expression_pool);
 	if (ans == NULL)
 		return NULL;
 
 	ans->ref_count = 1;
-	ans->oper = GNM_EXPR_OP_ARRAY;
-	ans->x = x;
-	ans->y = y;
+	ans->oper = GNM_EXPR_OP_ARRAY_CORNER;
 	ans->rows = rows;
 	ans->cols = cols;
-	ans->corner.value = NULL;
-	ans->corner.expr = expr;
+	ans->value = NULL;
+	ans->expr = expr;
+	return (GnmExpr *)ans;
+}
+
+GnmExpr const *
+gnm_expr_new_array_elem  (int x, int y)
+{
+	GnmExprArrayElem *ans;
+
+	ans = CHUNK_ALLOC (GnmExprArrayElem, expression_pool);
+	if (ans == NULL)
+		return NULL;
+
+	ans->ref_count = 1;
+	ans->oper = GNM_EXPR_OP_ARRAY_ELEM;
+	ans->x = x;
+	ans->y = y;
 	return (GnmExpr *)ans;
 }
 
@@ -371,12 +383,13 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		do_gnm_expr_unref (expr->unary.value);
 		break;
 
-	case GNM_EXPR_OP_ARRAY:
-		if (expr->array.x == 0 && expr->array.y == 0) {
-			if (expr->array.corner.value)
-				value_release (expr->array.corner.value);
-			do_gnm_expr_unref (expr->array.corner.expr);
-		}
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		if (expr->array_corner.value)
+			value_release (expr->array_corner.value);
+		do_gnm_expr_unref (expr->array_corner.expr);
+		break;
+
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		break;
 
 	case GNM_EXPR_OP_SET:
@@ -466,15 +479,18 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 	case GNM_EXPR_OP_CONSTANT:
 		return value_equal (a->constant.value, b->constant.value);
 
-	case GNM_EXPR_OP_ARRAY: {
-		GnmExprArray const *aa = &a->array;
-		GnmExprArray const *ab = &b->array;
+	case GNM_EXPR_OP_ARRAY_CORNER: {
+		GnmExprArrayCorner const *aa = &a->array_corner;
+		GnmExprArrayCorner const *ab = &b->array_corner;
 
 		return	aa->cols == ab->cols &&
 			aa->rows == ab->rows &&
-			aa->x == ab->x &&
-			aa->y == ab->y &&
-			gnm_expr_equal (aa->corner.expr, ab->corner.expr);
+			gnm_expr_equal (aa->expr, ab->expr);
+	}
+	case GNM_EXPR_OP_ARRAY_ELEM: {
+		GnmExprArrayElem const *aa = &a->array_elem;
+		GnmExprArrayElem const *ab = &b->array_elem;
+		return	aa->x == ab->x && aa->y == ab->y;
 	}
 
 	case GNM_EXPR_OP_SET:
@@ -485,19 +501,17 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 }
 
 static GnmCell *
-expr_array_corner (GnmExpr const *expr,
-		   Sheet const *sheet, GnmCellPos const *pos)
+array_elem_get_corner (GnmExprArrayElem const *elem,
+		       Sheet const *sheet, GnmCellPos const *pos)
 {
 	GnmCell *corner = sheet_cell_get (sheet,
-		pos->col - expr->array.x, pos->row - expr->array.y);
+		pos->col - elem->x, pos->row - elem->y);
 
 	/* Sanity check incase the corner gets removed for some reason */
 	g_return_val_if_fail (corner != NULL, NULL);
 	g_return_val_if_fail (cell_has_expr (corner), NULL);
 	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (corner->base.expression->any.oper == GNM_EXPR_OP_ARRAY, NULL);
-	g_return_val_if_fail (corner->base.expression->array.x == 0, NULL);
-	g_return_val_if_fail (corner->base.expression->array.y == 0, NULL);
+	g_return_val_if_fail (corner->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER, NULL);
 
 	return corner;
 }
@@ -1311,39 +1325,45 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 		return handle_empty (res, flags);
 
-	case GNM_EXPR_OP_ARRAY: {
-		/* The upper left corner manages the recalc of the expr */
-		int x = expr->array.x;
-		int y = expr->array.y;
-		if (x == 0 && y == 0) {
-			GnmEvalPos range_pos = *pos;
-			range_pos.cols = expr->array.cols;
-			range_pos.rows = expr->array.rows;
+	case GNM_EXPR_OP_ARRAY_CORNER: {
+		GnmEvalPos range_pos = *pos;
+		range_pos.cols = expr->array_corner.cols;
+		range_pos.rows = expr->array_corner.rows;
 
-			/* Release old value if necessary */
-			a = expr->array.corner.value;
-			if (a != NULL)
-				value_release (a);
-
-			a = gnm_expr_eval (expr->array.corner.expr, &range_pos,
-				flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-
-			/* Store real result (cast away const)*/
-			*((GnmValue **)&(expr->array.corner.value)) = a;
-		} else {
-			GnmCell *corner = expr_array_corner (expr,
-				pos->sheet, &pos->eval);
-			if (corner != NULL) {
-				cell_eval (corner);
-				a = corner->base.expression->array.corner.value;
-			} else
-				a = NULL;
-		}
+		/* Release old value if necessary */
+		a = expr->array_corner.value;
+		if (a != NULL)
+			value_release (a);
+		a = gnm_expr_eval (expr->array_corner.expr, &range_pos,
+			flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+		/* Store real result (cast away const)*/
+		*((GnmValue **)&(expr->array_corner.value)) = a;
 
 		if (a != NULL &&
 		    (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
+			if (value_area_get_width (a, pos) <= 0 ||
+			    value_area_get_height (a, pos) <= 0)
+				return value_new_error_NA (pos);
+			a = (GnmValue *)value_area_get_x_y (a, 0, 0, pos);
+		}
+		return handle_empty ((a != NULL) ? value_dup (a) : NULL, flags);
+	}
+
+	case GNM_EXPR_OP_ARRAY_ELEM: {
+		/* The upper left corner manages the recalc of the expr */
+		GnmCell *corner = array_elem_get_corner (&expr->array_elem,
+			pos->sheet, &pos->eval);
+		if (corner == NULL)
+			return handle_empty (NULL, flags);
+
+		cell_eval (corner);
+		a = corner->base.expression->array_corner.value;
+
+		if ((a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
 			int const num_x = value_area_get_width (a, pos);
 			int const num_y = value_area_get_height (a, pos);
+			int x = expr->array_elem.x;
+			int y = expr->array_elem.y;
 
 			/* Evaluate relative to the upper left corner */
 			GnmEvalPos tmp_ep = *pos;
@@ -1416,8 +1436,9 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		{ "-",  7, 0, 0, 1 }, /* Unary -  */
 		{ "+",  7, 0, 0, 1 }, /* Unary +  */
 		{ "%",  6, 0, 0, 0 }, /* Percentage (NOT MODULO) */
-		{ "",   0, 0, 0, 0 }, /* Array    */
-		{ "",   0, 0, 0, 0 }, /* Set      */
+		{ "",   0, 0, 0, 0 }, /* ArrayCorner    */
+		{ "",   0, 0, 0, 0 }, /* ArrayElem */
+		{ "",   0, 0, 0, 0 }, /* Set       */
 		{ ":",  9, 1, 0, 0 }, /* Range Ctor   */
 		{ " ",  8, 1, 0, 0 }  /* Intersection */
 	};
@@ -1514,36 +1535,31 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		return;
 	}
 
-	case GNM_EXPR_OP_ARRAY: {
-		int const x = expr->array.x;
-		int const y = expr->array.y;
-		if (x != 0 || y != 0) {
-			GnmCell *corner = expr_array_corner (expr,
-				pp->sheet, &pp->eval);
-			if (corner) {
-				GnmParsePos tmp_pos = *pp;
-				tmp_pos.eval.col -= x;
-				tmp_pos.eval.row -= y;
-				do_expr_as_string (
-					target,
-					corner->base.expression->array.corner.expr,
-					&tmp_pos, 0, conv);
-			} else
-				break;
-		} else
-			do_expr_as_string (
-				target,
-				expr->array.corner.expr, pp, 0, conv);
+	case GNM_EXPR_OP_ARRAY_CORNER: 
+		do_expr_as_string ( target,
+			expr->array_corner.expr, pp, 0, conv);
 		return;
-        }
 
-	case GNM_EXPR_OP_SET: {
+	case GNM_EXPR_OP_ARRAY_ELEM: {
+		GnmCell const *corner = array_elem_get_corner (&expr->array_elem,
+			pp->sheet, &pp->eval);
+		if (NULL != corner) {
+			GnmParsePos tmp_pos = *pp;
+			tmp_pos.eval.col -= expr->array_elem.x;
+			tmp_pos.eval.row -= expr->array_elem.y;
+			do_expr_as_string (target,
+				corner->base.expression->array_corner.expr,
+				&tmp_pos, 0, conv);
+			return;
+		}
+		break;
+	}
+
+	case GNM_EXPR_OP_SET:
 		gnm_expr_list_as_string (target, expr->set.set, pp, conv);
 		return;
 	}
-	};
 
-	g_assert_not_reached ();
 	g_string_append (target, "<ERROR>");
 }
 
@@ -2014,16 +2030,18 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		return NULL;
 	}
 
-	case GNM_EXPR_OP_ARRAY: {
-		GnmExprArray const *a = &expr->array;
-		if (a->x == 0 && a->y == 0) {
-			GnmExpr const *func = gnm_expr_rewrite (a->corner.expr, rwinfo);
-			if (func != NULL)
-				return gnm_expr_new_array (0, 0, a->cols, a->rows, func);
-		}
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		return NULL;
+
+	case GNM_EXPR_OP_ARRAY_CORNER: {
+		GnmExpr const *func = gnm_expr_rewrite (expr->array_corner.expr, rwinfo);
+		if (func == NULL)
+			return NULL;
+		return gnm_expr_new_array_corner (
+			expr->array_corner.cols, expr->array_corner.rows,
+			func);
 	}
-	};
+	}
 
 	g_assert_not_reached ();
 	return NULL;
@@ -2065,6 +2083,7 @@ gnm_expr_first_func (GnmExpr const *expr)
 	case GNM_EXPR_OP_NAME:
 	case GNM_EXPR_OP_CELLREF:
 	case GNM_EXPR_OP_CONSTANT:
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		return NULL;
 
 	case GNM_EXPR_OP_FUNCALL:
@@ -2081,8 +2100,8 @@ gnm_expr_first_func (GnmExpr const *expr)
 	case GNM_EXPR_OP_ANY_UNARY:
 		return gnm_expr_first_func (expr->unary.value);
 
-	case GNM_EXPR_OP_ARRAY:
-		return gnm_expr_first_func (expr->array.corner.expr);
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		return gnm_expr_first_func (expr->array_corner.expr);
 	}
 
 	g_assert_not_reached ();
@@ -2169,10 +2188,13 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 			v->v_range.cell.b.sheet);
 	}
 
-	/* constant arrays can only contain simple values, no references */
-	case GNM_EXPR_OP_ARRAY:
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		return do_referenced_sheets (expr->array_corner.expr, sheets);
+
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		break;
 	}
+
 	return sheets;
 }
 
@@ -2230,9 +2252,12 @@ gnm_expr_containts_subtotal (GnmExpr const *expr)
 		if (expr->name.name->active)
 			return gnm_expr_containts_subtotal (expr->name.name->expr);
 
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		return gnm_expr_containts_subtotal (expr->array_corner.expr);
+
 	case GNM_EXPR_OP_CELLREF:
 	case GNM_EXPR_OP_CONSTANT:
-	case GNM_EXPR_OP_ARRAY:
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		;
 	}
 	return FALSE;
@@ -2243,7 +2268,7 @@ gnm_expr_containts_subtotal (GnmExpr const *expr)
  *
  * Returns the range of cells in which the expression can be used without going
  * out of bounds.
- */
+ **/
 void
 gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 {
@@ -2293,12 +2318,13 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 		break;
 	}
 
-	case GNM_EXPR_OP_ARRAY: {
-		GnmExprArray const *a = &expr->array;
-		if (a->x == 0 && a->y == 0)
-			gnm_expr_get_boundingbox (a->corner.expr, bound);
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		gnm_expr_get_boundingbox (expr->array_corner.expr, bound);
 		break;
-	}
+
+	case GNM_EXPR_OP_ARRAY_ELEM:
+		/* Think about this */
+		break;
 	}
 }
 
@@ -2442,16 +2468,11 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 			return gnm_expr_is_rangeref (expr->name.name->expr);
 		return FALSE;
 
-	case GNM_EXPR_OP_ARRAY: /* I don't think this is possible */
+	case GNM_EXPR_OP_ARRAY_CORNER: /* I don't think this is possible */
+	case GNM_EXPR_OP_ARRAY_ELEM:
 	default :
 		return FALSE;
-	};
-}
-
-GnmExprArray const *
-gnm_expr_is_array (GnmExpr const *expr)
-{
-	return (expr->any.oper == GNM_EXPR_OP_ARRAY) ? &expr->array : NULL;
+	}
 }
 
 gboolean
@@ -2599,8 +2620,13 @@ ets_hash (gconstpointer key)
 	case GNM_EXPR_OP_CELLREF:
 		return gnm_cellref_hash (&expr->cellref.ref);
 
-	case GNM_EXPR_OP_ARRAY:
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		return ((GPOINTER_TO_UINT (expr->array_corner.expr) * 7) ^
+			h);
 		break;
+	case GNM_EXPR_OP_ARRAY_ELEM:
+		return ((expr->array_elem.x * 7) ^
+			(expr->array_elem.y * 3));
 	}
 	return h;
 }
@@ -2720,7 +2746,8 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 		break;
 	}
 
-	case GNM_EXPR_OP_ARRAY:
+	case GNM_EXPR_OP_ARRAY_CORNER:
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		/*
 		 * I don't want to deal with the complications of arrays
 		 * right here.  Non-corners must point to the corner.

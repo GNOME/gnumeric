@@ -1,3 +1,10 @@
+2006-01-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_FORMULA) : adjust to new
+	  GNM_EXPR_OP_ARRAY handling
+	* ms-formula-write.c (excel_write_prep_expr) : ditto.
+	(write_node) : ditto.
+
 2006-01-17  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (chart_write_AI): Allocate right amount of memory.

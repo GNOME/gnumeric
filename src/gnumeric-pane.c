@@ -47,17 +47,15 @@
  * For now, application/x-gnumeric is disabled. It handles neither
  * images nor graphs correctly.
  */
-static const GtkTargetEntry drag_types_in[] =
-	{
-		{(char *) "GNUMERIC_SAME_PROC", GTK_TARGET_SAME_APP, 0},
- 		/* {(char *) "application/x-gnumeric", 0, 0}, */
-	};
+static GtkTargetEntry const drag_types_in[] = {
+	{(char *) "GNUMERIC_SAME_PROC", GTK_TARGET_SAME_APP, 0},
+	/* {(char *) "application/x-gnumeric", 0, 0}, */
+};
 
-static const GtkTargetEntry drag_types_out[] =
-	{
-		{(char *) "GNUMERIC_SAME_PROC", GTK_TARGET_SAME_APP, 0},
-		{(char *) "application/x-gnumeric", 0, 0},
-	};
+static GtkTargetEntry const drag_types_out[] = {
+	{(char *) "GNUMERIC_SAME_PROC", GTK_TARGET_SAME_APP, 0},
+	{(char *) "application/x-gnumeric", 0, 0},
+};
 
 static void
 gnm_pane_header_realized (GtkWidget *widget)

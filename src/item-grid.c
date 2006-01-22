@@ -1022,7 +1022,7 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 
 		default:
 			g_assert_not_reached ();
-		};
+		}
 
 		ig->selecting = ITEM_GRID_NO_SELECTION;
 		gnm_simple_canvas_ungrab (item, event->button.time);
@@ -1066,7 +1066,7 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 			break;
 		default:
 			g_assert_not_reached ();
-		};
+		}
 
 		gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
 			GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y |

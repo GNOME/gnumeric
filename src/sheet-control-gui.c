@@ -1701,7 +1701,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	}
 	default :
 		break;
-	};
+	}
 	return TRUE;
 }
 

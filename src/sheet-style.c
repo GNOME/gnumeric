@@ -327,7 +327,7 @@ cell_tile_style_new (GnmStyle *style, CellTileType t)
 			   break;
 	default : g_return_val_if_fail (FALSE, NULL);
 		return NULL;
-	};
+	}
 #endif
 
 	*((CellTileType *)&(res->type)) = t;
@@ -391,7 +391,7 @@ cell_tile_ptr_matrix_new (CellTile *t)
 		break;
 	}
 	default : ;
-	};
+	}
 
 	return (CellTile *)res;
 }
@@ -435,7 +435,7 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 	case TILE_MATRIX :
 	default :
 		break;
-	};
+	}
 
 	if (t->type != TILE_MATRIX)
 		cell_tile_dtor (t);
@@ -1147,7 +1147,7 @@ tail_recursion :
 
 	default :
 		break;
-	};
+	}
 
 	g_warning ("Adaptive Quad Tree corruption !");
 	return NULL;

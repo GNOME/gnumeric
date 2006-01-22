@@ -110,7 +110,7 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 
 	if (item->locus == SRL_commment) {
 		cell = NULL;
-		comment = cell_has_comment_pos (item->ep.sheet, &item->ep.eval);
+		comment = sheet_get_comment (item->ep.sheet, &item->ep.eval);
 	} else {
 		cell = sheet_cell_get (item->ep.sheet,
 				       item->ep.eval.col,

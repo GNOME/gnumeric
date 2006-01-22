@@ -30,7 +30,8 @@ typedef enum {
 	GNM_EXPR_OP_UNARY_NEG,	/* Sign inversion */
 	GNM_EXPR_OP_UNARY_PLUS,	/* Mark as positive */
 	GNM_EXPR_OP_PERCENTAGE,	/* Percentage (value/100) */
-	GNM_EXPR_OP_ARRAY,	/* Array access */
+	GNM_EXPR_OP_ARRAY_CORNER,/* Top Corner of an array */
+	GNM_EXPR_OP_ARRAY_ELEM,	/* General Array element */
 	GNM_EXPR_OP_SET,	/* A set of expressions */
 	GNM_EXPR_OP_RANGE_CTOR,	/* A constructed range eg A1:index(1,2) */
 	GNM_EXPR_OP_INTERSECT	/* The intersection of multiple ranges */
@@ -52,8 +53,8 @@ GnmExpr const *gnm_expr_new_funcall	(GnmFunc *func,
 GnmExpr const *gnm_expr_new_name	(GnmNamedExpr *name,
 					 Sheet *sheet_scope, Workbook *wb_scope);
 GnmExpr const *gnm_expr_new_cellref	(GnmCellRef const *cr);
-GnmExpr const *gnm_expr_new_array	(int x, int y, int cols, int rows,
-					 GnmExpr const *expr);
+GnmExpr const *gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr);
+GnmExpr const *gnm_expr_new_array_elem  (int x, int y);
 GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
@@ -67,8 +68,8 @@ void	  gnm_expr_ref		     (GnmExpr const *expr);
 void	  gnm_expr_unref	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_shared 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
-GnmExprArray const *
-	  gnm_expr_is_array 	     (GnmExpr const *expr);
+GnmExprArrayCorner const *
+	  gnm_expr_is_array_corner   (GnmExpr const *expr);
 gboolean  gnm_expr_is_err 	     (GnmExpr const *expr, GnmStdError e);
 gboolean  gnm_expr_is_data_table     (GnmExpr const *expr,
 				      GnmCellPos *c_in, GnmCellPos *r_in);

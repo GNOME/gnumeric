@@ -667,7 +667,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->pos.eval.col, state->pos.eval.row);
 
 		/* has cell previously been initialized as part of an array */
-		if (cell_is_partial_array (cell))
+		if (cell_is_nonsingleton_array (cell))
 			cell_assign_value (cell, val);
 		else
 			cell_set_value (cell, val);

@@ -136,6 +136,9 @@ gboolean    sheet_is_cell_empty 	      (Sheet *sheet, int col, int row);
 gboolean    sheet_col_is_hidden		   (Sheet const *sheet, int col);
 gboolean    sheet_row_is_hidden		   (Sheet const *sheet, int row);
 
+GnmComment *sheet_get_comment		   (Sheet const *sheet,
+					    GnmCellPos const *pos);
+
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new                  (Sheet *sheet);
 ColRowInfo *sheet_row_new                  (Sheet *sheet);

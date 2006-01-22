@@ -813,7 +813,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 				default :
 					g_assert_not_reached ();
-				};
+				}
 				break;
 
 			case 3 : /* overlap left */
@@ -858,7 +858,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 				default :
 					g_assert_not_reached ();
-				};
+				}
 				break;
 
 			case 2 : /* b contains a */
@@ -895,7 +895,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 				default :
 					g_assert_not_reached ();
-				};
+				}
 				break;
 
 			case 1 : /* overlap right */
@@ -930,10 +930,9 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 				default :
 					g_assert_not_reached ();
-				};
+				}
 				break;
-
-			};
+			}
 
 			/* WARNING : * Be careful putting code here.
 			 * Some of the cases skips this */

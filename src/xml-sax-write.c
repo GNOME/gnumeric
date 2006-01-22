@@ -681,13 +681,12 @@ xml_write_cell_and_position (GnmOutputXML *state,
 			     GnmExpr const *expr, GnmValue const *val,
 			     GnmParsePos const *pp)
 {
-	GnmExprArray const *ar = NULL;
 	gboolean write_contents = TRUE;
 	gboolean const is_shared_expr = (expr != NULL) &&
 		gnm_expr_is_shared (expr);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (expr && NULL != (ar = gnm_expr_is_array (expr)) && (ar->y != 0 || ar->x != 0))
+	if (NULL != expr && expr->any.oper == GNM_EXPR_OP_ARRAY_ELEM)
 		return; /* DOM version would write <Cell Col= Row=/> */
 
 	gsf_xml_out_start_element (state->output, GNM "Cell");
@@ -709,9 +708,10 @@ xml_write_cell_and_position (GnmOutputXML *state,
 
 	/* As of version 0.53 we save the size of the array as attributes */
 	/* As of version 0.57 the attributes are in the Cell not the Content */
-	if (ar != NULL) {
-	        gsf_xml_out_add_int (state->output, "Rows", ar->rows);
-	        gsf_xml_out_add_int (state->output, "Cols", ar->cols);
+	if (NULL != expr &&
+	    expr->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
+	        gsf_xml_out_add_int (state->output, "Rows", expr->array_corner.rows);
+	        gsf_xml_out_add_int (state->output, "Cols", expr->array_corner.cols);
 	}
 
 	if (write_contents) {

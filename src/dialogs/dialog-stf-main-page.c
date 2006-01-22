@@ -292,7 +292,7 @@ main_page_parseoptions_to_gui (StfDialogData *pagedata)
 		break;
 	default:
 		break;
-	};
+	}
 
 	{
 		gboolean lb_unix = FALSE, lb_windows = FALSE, lb_mac = FALSE;

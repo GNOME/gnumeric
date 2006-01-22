@@ -467,7 +467,8 @@ restart :
 		break;
 	case GNM_EXPR_OP_ANY_BINARY:
 	case GNM_EXPR_OP_ANY_UNARY:
-	case GNM_EXPR_OP_ARRAY:
+	case GNM_EXPR_OP_ARRAY_CORNER:
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		break;
 
 	case GNM_EXPR_OP_FUNCALL: {
@@ -492,7 +493,7 @@ restart :
 
 	default:
 		g_warning ("unknown expr type.");
-	};
+	}
 
 	if (res > 0)
 		return value_new_int (res);

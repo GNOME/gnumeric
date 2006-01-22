@@ -107,7 +107,7 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 	default :
 		g_warning ("huh?");
 		return NULL;
-	};
+	}
 
 	if (v == NULL) {
 		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
@@ -200,7 +200,7 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	case GNM_FILTER_OP_NOT_EQUAL:	i = 2; break;
 	default :
 		return;
-	};
+	}
 
 	if (v != NULL && v->type == VALUE_STRING && (i == 1 || i == 2)) {
 		unsigned const len = strlen (str);

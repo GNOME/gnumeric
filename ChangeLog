@@ -4,6 +4,41 @@
 
 2006-01-21  Jody Goldberg <jody@gnome.org>
 
+	* src/auto-format.c (do_af_suggest) : handle new GNM_EXPR_OP_ARRAY
+	  mechanisms.
+	* src/clipboard.c (cb_clipboard_prepend_cell) : ditto.
+	* src/cmd-edit.c (sv_select_cur_array) : ditto.
+	* src/dependent.c (link_expr_dep) : ditto.
+	(unlink_expr_dep) : ditto.
+	* src/expr-name.c (expr_name_check_for_loop) : ditto.
+	* src/expr.c (gnm_expr_new_array_corner) : new,
+	(gnm_expr_new_array_elem) : new.
+	(gnm_expr_new_array) : delete.
+	(do_gnm_expr_unref) : handle new mechanism.
+	(gnm_expr_eval) : ditto.
+	(gnm_expr_equal) : ditto.
+	(do_expr_as_string) : ditto.
+	(gnm_expr_rewrite) : ditto.
+	(gnm_expr_first_func) : ditto.
+	(do_referenced_sheets) : ditto.
+	(gnm_expr_containts_subtotal) : ditto.
+	(gnm_expr_get_boundingbox) : ditto.
+	(gnm_expr_is_rangeref) : ditto.
+	(ets_hash) : ditto.
+	(expr_tree_sharer_share) : ditto.
+	(gnm_expr_is_array) : delete.
+	(array_elem_get_corner) : new.
+
+	* src/cell.c (cell_is_array) : ditto.
+	(cell_array_bound) : new.
+	(cell_is_array_corner) : new.
+	(cell_is_nonsingleton_array) : renamed from cell_is_partial_array.
+	(cell_has_comment) : delete.
+
+	* src/sheet.c (sheet_get_comment) : renamed from cell_has_comment_pos
+
+2006-01-21  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : adjust to new goffice versioning
 
 2006-01-19  Ivan, Wong Yat Cheung  <ivanwong@gnome.org>

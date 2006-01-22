@@ -200,7 +200,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 				}
 				ptr = old_ptr;
 				break;
-			};
+			}
 		}
 	}
 
@@ -1261,7 +1261,7 @@ toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
 	case MSTYLE_FONT_UNDERLINE:	gnm_style_set_font_uline (new_style, val); break;
 	case MSTYLE_FONT_STRIKETHROUGH: gnm_style_set_font_strike (new_style, val); break;
 	case MSTYLE_FONT_SCRIPT:	gnm_style_set_font_script (new_style, val); break;
-	};
+	}
 
 	cmd_selection_format (wbc, new_style, NULL, _("Set Font Style"));
 }

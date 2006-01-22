@@ -453,7 +453,7 @@ xml_sax_attr_elem (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	default :
 		g_assert_not_reached ();
-	};
+	}
 }
 
 static void

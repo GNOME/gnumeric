@@ -259,7 +259,7 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 
 	if (!sr->search_comments) return FALSE;
 
-	res->comment = cell_has_comment_pos (ep->sheet, &ep->eval);
+	res->comment = sheet_get_comment (ep->sheet, &ep->eval);
 	if (!res->comment) return FALSE;
 
 	res->old_text = cell_comment_text_get (res->comment);

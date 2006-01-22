@@ -87,32 +87,22 @@ sv_select_cur_col (SheetView *sv)
  * sv_select_cur_array :
  * @sv: The sheet
  *
- * if the current cell is part of an array select
- * the entire array.
- */
+ * If the editpos is part of an array clear the selection and select the array.
+ **/
 void
 sv_select_cur_array (SheetView *sv)
 {
-	GnmExprArray const *array;
-	int col, row;
+	GnmRange a;
+	int const c = sv->edit_pos.col;
+	int const r = sv->edit_pos.row;
 
-	col = sv->edit_pos.col;
-	row = sv->edit_pos.row;
-	array = cell_is_array (sheet_cell_get (sv->sheet, col, row));
-
-	if (array == NULL)
+	if (!cell_array_bound (sheet_cell_get (sv->sheet, c, r), &a))
 		return;
 
+	/* leave the edit pos where it is, select the entire array. */
 	sv_selection_reset (sv);
-	/*
-	 * leave the edit cell where it is,
-	 * select the entire array.
-	 */
-	sv_selection_add_range (sv, col, row,
-				   col - array->x, row - array->y,
-				   col - array->x + array->cols - 1,
-				   row - array->y + array->rows - 1);
-
+	sv_selection_add_range (sv, c, r,
+		a.start.col, a.start.row, a.end.col, a.end.row);
 	sheet_update (sv->sheet);
 }
 

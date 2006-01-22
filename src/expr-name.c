@@ -366,7 +366,8 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 	}
 	case GNM_EXPR_OP_CONSTANT:
 	case GNM_EXPR_OP_CELLREF:
-	case GNM_EXPR_OP_ARRAY:
+	case GNM_EXPR_OP_ARRAY_CORNER:
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		break;
 	case GNM_EXPR_OP_SET: {
 		GnmExprList *l = expr->set.set;

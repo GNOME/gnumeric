@@ -896,7 +896,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 	/* Ensure that we are not splitting up an array */
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
-	if (cell_is_partial_array (cell)) {
+	if (cell_is_nonsingleton_array (cell)) {
 		gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
 			_("Set Text"), NULL);
 		return TRUE;
@@ -3829,7 +3829,7 @@ cmd_search_replace_undo (GnmCommand *cmd,
 		case SRI_comment:
 		{
 			GnmComment *comment =
-				cell_has_comment_pos (sri->pos.sheet,
+				sheet_get_comment (sri->pos.sheet,
 						      &sri->pos.eval);
 			if (comment) {
 				cell_comment_text_set (comment, sri->old.comment);
@@ -3867,7 +3867,7 @@ cmd_search_replace_redo (GnmCommand *cmd,
 		case SRI_comment:
 		{
 			GnmComment *comment =
-				cell_has_comment_pos (sri->pos.sheet,
+				sheet_get_comment (sri->pos.sheet,
 						      &sri->pos.eval);
 			if (comment) {
 				cell_comment_text_set (comment, sri->new.comment);
@@ -4697,7 +4697,7 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text)
 {
 	GnmComment   *comment;
 
-	comment = cell_has_comment_pos (sheet, pos);
+	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
 		if (text)
 			cell_comment_text_set (comment, text);
@@ -4776,7 +4776,7 @@ cmd_set_comment (WorkbookControl *wbc,
 	me->old_text    = NULL;
 	me->pos         = *pos;
 	me->sheet       = sheet;
-	comment = cell_has_comment_pos (sheet, pos);
+	comment = sheet_get_comment (sheet, pos);
 	if (comment)
 		me->old_text = g_strdup (cell_comment_text_get (comment));
 

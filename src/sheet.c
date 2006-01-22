@@ -1809,7 +1809,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
-	g_return_if_fail (!cell_is_partial_array (cell));
+	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
 		text, &val, &expr,
@@ -2225,109 +2225,77 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 	return new_row;
 }
 
-static GnmExprArray const *
-sheet_is_cell_array (Sheet const *sheet, int const col, int const row)
-{
-	return cell_is_array (sheet_cell_get (sheet, col, row));
-}
-
 typedef enum {
 	CHECK_AND_LOAD_START = 1,
 	CHECK_END = 2,
 	LOAD_END  = 4
 } ArrayCheckFlags;
 
-typedef struct _ArrayCheckData {
+typedef struct {
 	Sheet const *sheet;
 	int flags;
 	int start, end;
 	GnmRange const *ignore;
 
-	GnmRange error;
+	GnmRange	error;
 } ArrayCheckData;
 
 static gboolean
-cb_check_array_horizontal (ColRowInfo *col, void *user)
+cb_check_array_horizontal (ColRowInfo *col, ArrayCheckData *data)
 {
-	ArrayCheckData *data = user;
-	GnmExprArray const *a = NULL;
-	int e;
+	gboolean is_array = FALSE;
 
-	if (data->flags & CHECK_AND_LOAD_START) {
-		if ((a = sheet_is_cell_array (data->sheet, col->pos, data->start)) != NULL)
-			if (a->y != 0) {	/* Top */
-				range_init (&data->error,
-					    col->pos - a->x,
-					    data->start - a->y,
-					    col->pos - a->x + a->cols -1,
-					    data->start - a->y + a->rows -1);
-				if (data->ignore == NULL ||
-				    !range_contained (&data->error, data->ignore))
-					return TRUE;
-			}
-	}
+	if (data->flags & CHECK_AND_LOAD_START  &&	/* Top */
+	    (is_array = cell_array_bound (
+			sheet_cell_get (data->sheet, col->pos, data->start),
+			&data->error)) &&
+	    data->error.start.row < data->start &&
+	    (data->ignore == NULL ||
+	     !range_contained (&data->error, data->ignore)))
+	    return TRUE;
+
 	if (data->flags & LOAD_END)
-		a = sheet_is_cell_array (data->sheet, col->pos, e = data->end);
-	else
-		e = data->start;
+		is_array = cell_array_bound (
+			sheet_cell_get (data->sheet, col->pos, data->end),
+			&data->error);
 
-	if (data->flags & CHECK_END)
-		if (a != NULL && a->y != (a->rows-1)) {	/* Bottom */
-			range_init (&data->error,
-				    col->pos - a->x,
-				    e - a->y,
-				    col->pos - a->x + a->cols -1,
-				    e - a->y + a->rows -1);
-			if (data->ignore == NULL ||
-			    !range_contained (&data->error, data->ignore))
-				return TRUE;
-		}
-	return FALSE;
+	return (data->flags & CHECK_END &&
+		is_array &&
+		data->error.end.row > data->end &&	/* Bottom */
+		(data->ignore == NULL ||
+		 !range_contained (&data->error, data->ignore)));
 }
 
 static gboolean
-cb_check_array_vertical (ColRowInfo *row, void *user)
+cb_check_array_vertical (ColRowInfo *row, ArrayCheckData *data)
 {
-	ArrayCheckData *data = user;
-	GnmExprArray const *a = NULL;
-	int e;
+	gboolean is_array = FALSE;
 
-	if (data->flags & CHECK_AND_LOAD_START) {
-		if ((a = sheet_is_cell_array (data->sheet, data->start, row->pos)) != NULL)
-			if (a->x != 0) {		/* Left */
-				range_init (&data->error,
-					    data->start - a->x,
-					    row->pos - a->y,
-					    data->start - a->x + a->cols -1,
-					    row->pos - a->y + a->rows -1);
-				if (data->ignore == NULL ||
-				    !range_contained (&data->error, data->ignore))
-					return TRUE;
-			}
-	}
+	if (data->flags & CHECK_AND_LOAD_START &&	/* Left */
+	    (is_array = cell_array_bound (
+			sheet_cell_get (data->sheet, data->start, row->pos),
+			&data->error)) &&
+	    data->error.start.col < data->start &&
+	    (data->ignore == NULL ||
+	     !range_contained (&data->error, data->ignore)))
+	    return TRUE;
+
 	if (data->flags & LOAD_END)
-		a = sheet_is_cell_array (data->sheet, e = data->end, row->pos);
-	else
-		e = data->start;
+		is_array = cell_array_bound (
+			sheet_cell_get (data->sheet, data->end, row->pos),
+			&data->error);
 
-	if (data->flags & CHECK_END)
-		if (a != NULL && a->x != (a->cols-1)) {	/* Right */
-			range_init (&data->error,
-				    e - a->x,
-				    row->pos - a->y,
-				    e - a->x + a->cols -1,
-				    row->pos - a->y + a->rows -1);
-			if (data->ignore == NULL ||
-			    !range_contained (&data->error, data->ignore))
-				return TRUE;
-		}
-	return FALSE;
+	return (data->flags & CHECK_END &&
+		is_array &&
+		data->error.end.col > data->end &&	/* Right */
+		(data->ignore == NULL ||
+		 !range_contained (&data->error, data->ignore)));
 }
 
 /**
  * sheet_range_splits_array :
  * @sheet : The sheet.
- * @r     : The range to chaeck
+ * @r     : The range to check
  * @ignore: an optionally NULL range in which it is ok to have an array.
  * @cc   : an optional place to report an error.
  * @cmd   : an optional cmd name used with @cc.
@@ -2336,8 +2304,8 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
  * within it then the entire array is within the range.  @ignore is useful when
  * src & dest ranges may overlap.
  *
- * returns TRUE is an array would be split.
- */
+ * returns TRUE if an array would be split.
+ **/
 gboolean
 sheet_range_splits_array (Sheet const *sheet,
 			  GnmRange const *r, GnmRange const *ignore,
@@ -2366,7 +2334,7 @@ sheet_range_splits_array (Sheet const *sheet,
 
 	if (closure.flags &&
 	    colrow_foreach (&sheet->cols, r->start.col, r->end.col,
-			    &cb_check_array_horizontal, &closure)) {
+			    (ColRowHandler) cb_check_array_horizontal, &closure)) {
 		if (cc)
 			gnm_cmd_context_error_splits_array (cc,
 				cmd, &closure.error);
@@ -2388,7 +2356,7 @@ sheet_range_splits_array (Sheet const *sheet,
 
 	if (closure.flags &&
 	    colrow_foreach (&sheet->rows, r->start.row, r->end.row,
-			    &cb_check_array_vertical, &closure)) {
+			    (ColRowHandler) cb_check_array_vertical, &closure)) {
 		if (cc)
 			gnm_cmd_context_error_splits_array (cc,
 				cmd, &closure.error);
@@ -2471,7 +2439,10 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 static GnmValue *
 cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
-	return cell_is_array (cell) ? VALUE_TERMINATE : NULL;
+	return (cell != NULL && cell_has_expr (cell) &&
+	    (cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER ||
+	     cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_ELEM))
+		? VALUE_TERMINATE : NULL;
 }
 
 /**
@@ -2484,7 +2455,7 @@ cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data
  *
  * Check to see if the target region @sheet!@r contains any merged regions or
  * arrays.  Report an error to the @cc if it is supplied.
- */
+ **/
 gboolean
 sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 			     GOCmdContext *cc, char const *cmd)
@@ -2502,7 +2473,7 @@ sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 		return TRUE;
 	}
 
-	if (sheet_foreach_cell_in_range ((Sheet *)sheet, CELL_ITER_IGNORE_BLANK,
+	if (sheet_foreach_cell_in_range ((Sheet *)sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		r->start.col, r->start.row, r->end.col, r->end.row,
 		cb_cell_is_array, NULL)) {
 		if (cc != NULL)
@@ -4369,34 +4340,30 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	g_return_if_fail (dst != NULL);
 	g_return_if_fail (cell != NULL);
 
-	is_expr = cell_has_expr (cell);
-	if (is_expr) {
-		GnmExprArray const* array = cell_is_array (cell);
-		if (array != NULL) {
-			if (array->x == 0 && array->y == 0) {
-				int i, j;
-				GnmExpr const *expr = array->corner.expr;
-				gnm_expr_ref (expr);
-				cell_set_array_formula (dst,
-					cell->pos.col, cell->pos.row,
-					cell->pos.col + array->cols-1,
-					cell->pos.row + array->rows-1,
-					expr);
-				for (i = 0; i < array->cols ; i++)
-					for (j = 0; j < array->rows ; j++)
-						if (i != 0 || j != 0) {
-							GnmCell const *in = sheet_cell_fetch (cell->base.sheet,
-								cell->pos.col + i,
-								cell->pos.row + j);
-							GnmCell *out = sheet_cell_fetch (dst,
-								cell->pos.col + i,
-								cell->pos.row + j);
-							cell_set_value (out, in->value);
-						}
-			}
+	if ((is_expr = cell_has_expr (cell)) &&
+	    cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
+		int i, j;
+		GnmExprArrayCorner const *array = &cell->base.expression->array_corner;
+		GnmExpr const *expr = array->expr;
+		gnm_expr_ref (expr);
+		cell_set_array_formula (dst,
+			cell->pos.col, cell->pos.row,
+			cell->pos.col + array->cols-1,
+			cell->pos.row + array->rows-1,
+			expr);
+		for (i = 0; i < array->cols ; i++)
+			for (j = 0; j < array->rows ; j++)
+				if (i != 0 || j != 0) {
+					GnmCell const *in = sheet_cell_fetch (cell->base.sheet,
+						cell->pos.col + i,
+						cell->pos.row + j);
+					GnmCell *out = sheet_cell_fetch (dst,
+						cell->pos.col + i,
+						cell->pos.row + j);
+					cell_set_value (out, in->value);
+				}
 			/* only copy the corner */
 			return;
-		}
 	}
 
 	new_cell = sheet_cell_new (dst, cell->pos.col, cell->pos.row);
@@ -4528,4 +4495,31 @@ sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
 {
 	colrow_foreach (&sheet->rows, start_row, end_row,
 		cb_queue_respan, NULL);
+}
+
+/**
+ * sheet_get_comment :
+ * @sheet : #Sheet const *
+ * @pos   : #GnmCellPos const *
+ *
+ * If there is a cell comment at @pos in @sheet return it.
+ *
+ * Caller does get a reference to the object if it exists.
+ **/
+GnmComment *
+sheet_get_comment (Sheet const *sheet, GnmCellPos const *pos)
+{
+	GnmRange r;
+	GSList *comments;
+	GnmComment *res;
+
+	r.start = r.end = *pos;
+	comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
+	if (!comments)
+		return NULL;
+
+	/* This assumes just one comment per cell.  */
+	res = comments->data;
+	g_slist_free (comments);
+	return res;
 }

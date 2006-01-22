@@ -135,9 +135,10 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		g_hash_table_insert (ewb->function_map, func, ef);
 		break;
 	}
-	case GNM_EXPR_OP_ARRAY:
-		if (expr->array.x == 0 && expr->array.y == 0)
-			excel_write_prep_expr (ewb, expr->array.corner.expr);
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		excel_write_prep_expr (ewb, expr->array_corner.expr);
+		break;
+	case GNM_EXPR_OP_ARRAY_ELEM:
 		break;
 
 	case GNM_EXPR_OP_SET: {
@@ -669,12 +670,12 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		{ FORMULA_PTG_RANGE,	 9, 1, 0 },
 		{ FORMULA_PTG_INTERSECT, 8, 1, 0 }
 	};
-	int op;
+	unsigned op;
+
 	g_return_if_fail (pd);
 	g_return_if_fail (expr);
 
-	op = expr->any.oper;
-	switch (op) {
+	switch ((op = expr->any.oper)) {
 	case GNM_EXPR_OP_ANY_BINARY :
 		if (target_type != XL_ARRAY)
 			target_type = XL_VAL;
@@ -811,21 +812,29 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 			excel_formula_write_NAME_v7 (pd, expr, target_type);
 		break;
 
-	case GNM_EXPR_OP_ARRAY : {
-		GnmExprArray const *array = &expr->array;
-		guint8 data[5], ptg = FORMULA_PTG_EXPR;
+	case GNM_EXPR_OP_ARRAY_CORNER :
+	case GNM_EXPR_OP_ARRAY_ELEM : {
+		guint8 data[5];
+		int x, y, ptg;
 
+		if (GNM_EXPR_OP_ARRAY_ELEM == op) {
+			x = expr->array_elem.x;
+			y = expr->array_elem.y;
+		} else
+			x = y = 0;
+
+		op = FORMULA_PTG_EXPR;
 		if (pd->sheet != NULL) {
-			GnmExprArray const *corner = cell_is_array (sheet_cell_get (
-				pd->sheet, pd->col - array->x, pd->row - array->y));
+			GnmExprArrayCorner const *corner = cell_is_array_corner (
+				sheet_cell_get (pd->sheet, pd->col - x, pd->row - y));
 			if (NULL != corner &&
-			    gnm_expr_is_data_table (corner->corner.expr, NULL, NULL))
+			    gnm_expr_is_data_table (corner->expr, NULL, NULL))
 				ptg = FORMULA_PTG_TBL;
 		}
 
-		GSF_LE_SET_GUINT8 (data, ptg);
-		GSF_LE_SET_GUINT16 (data+1, pd->row - array->y);
-		GSF_LE_SET_GUINT16 (data+3, pd->col - array->x);
+		GSF_LE_SET_GUINT8 (data, op);
+		GSF_LE_SET_GUINT16 (data+1, pd->row - y);
+		GSF_LE_SET_GUINT16 (data+3, pd->col - x);
 		ms_biff_put_var_write (pd->ewb->bp, data, 5);
 
 		/* Be anal */

@@ -1,9 +1,9 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * cell.c: Cell content and simple management.
  *
  * Author:
- *    Jody Goldberg 2000, 2001 (jody@gnome.org)
+ *    Jody Goldberg 2000-2005 (jody@gnome.org)
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include <gnumeric-config.h>
@@ -19,6 +19,7 @@
 #include "value.h"
 #include "str.h"
 #include "style.h"
+#include "ranges.h"
 #include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-style.h"
@@ -215,7 +216,7 @@ cell_set_text (GnmCell *cell, char const *text)
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
-	g_return_if_fail (!cell_is_partial_array (cell));
+	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
 		text, &val, &expr, gnm_style_get_format (cell_get_mstyle (cell)),
@@ -274,7 +275,7 @@ cell_set_value (GnmCell *cell, GnmValue *v)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (v != NULL);
-	g_return_if_fail (!cell_is_partial_array (cell));
+	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	cell_cleanout (cell);
 	cell->value = v;
@@ -299,7 +300,7 @@ cell_set_expr_and_value (GnmCell *cell, GnmExpr const *expr, GnmValue *v,
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
-	g_return_if_fail (!cell_is_partial_array (cell));
+	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	/* Repeat after me.  Ref before unref. */
 	gnm_expr_ref (expr);
@@ -376,7 +377,7 @@ cell_set_expr_unsafe (GnmCell *cell, GnmExpr const *expr)
 void
 cell_set_expr (GnmCell *cell, GnmExpr const *expr)
 {
-	g_return_if_fail (!cell_is_partial_array (cell));
+	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
 
@@ -424,7 +425,7 @@ cell_set_array_formula (Sheet *sheet,
 	g_return_if_fail (col_a <= col_b);
 	g_return_if_fail (row_a <= row_b);
 
-	wrapper = gnm_expr_new_array (0, 0, num_cols, num_rows, expr);
+	wrapper = gnm_expr_new_array_corner (num_cols, num_rows, expr);
 	cell_set_expr_internal (corner, wrapper);
 	gnm_expr_unref (wrapper);
 
@@ -436,7 +437,7 @@ cell_set_array_formula (Sheet *sheet,
 				continue;
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
-			wrapper = gnm_expr_new_array (x, y, num_cols, num_rows, NULL);
+			wrapper = gnm_expr_new_array_elem (x, y);
 			cell_set_expr_internal (cell, wrapper);
 			dependent_link (CELL_TO_DEP (cell));
 			gnm_expr_unref (wrapper);
@@ -514,20 +515,88 @@ cell_is_zero (GnmCell const *cell)
 	}
 }
 
-GnmExprArray const *
-cell_is_array (GnmCell const *cell)
+gboolean
+cell_array_bound (GnmCell const *cell, GnmRange *res)
+{
+	GnmExpr const *expr;
+
+	if (NULL == cell || !cell_has_expr (cell))
+		return FALSE;
+
+	g_return_val_if_fail (res != NULL, FALSE);
+
+	expr = cell->base.expression;
+	if (expr->any.oper == GNM_EXPR_OP_ARRAY_ELEM) {
+		cell = sheet_cell_get (cell->base.sheet,
+			cell->pos.col - expr->array_elem.x,
+			cell->pos.row - expr->array_elem.y);
+
+		g_return_val_if_fail (cell != NULL, FALSE);
+		g_return_val_if_fail (cell_has_expr (cell), FALSE);
+
+		expr = cell->base.expression;
+	}
+
+	if (expr->any.oper != GNM_EXPR_OP_ARRAY_CORNER)
+		return FALSE;
+
+	range_init (res, cell->pos.col, cell->pos.row,
+		cell->pos.col + expr->array_corner.cols - 1,
+		cell->pos.row + expr->array_corner.rows - 1);
+	return TRUE;
+}
+
+GnmExprArrayCorner const *
+cell_is_array_corner (GnmCell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&
-	    cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY)
-		return &cell->base.expression->array;
+	    cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER)
+		return &cell->base.expression->array_corner;
 	return NULL;
 }
 
+/**
+ * cell_is_array :
+ * @cell : #GnmCell const *
+ *
+ * Return TRUE is @cell is part of an array
+ **/
 gboolean
-cell_is_partial_array (GnmCell const *cell)
+cell_is_array (GnmCell const *cell)
 {
-	GnmExprArray const *ref = cell_is_array (cell);
-	return ref != NULL && (ref->cols > 1 || ref->rows > 1);
+	if (cell != NULL && cell_has_expr (cell))
+		switch (cell->base.expression->any.oper) {
+		case GNM_EXPR_OP_ARRAY_CORNER :
+		case GNM_EXPR_OP_ARRAY_ELEM :
+			return TRUE;
+		default :
+			break;
+		}
+	return FALSE;
+}
+
+/**
+ * cell_is_nonsingleton_array :
+ * @cell : #GnmCell const *
+ *
+ * Return TRUE is @cell is part of an array larger than 1x1
+ **/
+gboolean
+cell_is_nonsingleton_array (GnmCell const *cell)
+{
+	if (cell != NULL && cell_has_expr (cell))
+		switch (cell->base.expression->any.oper) {
+		case GNM_EXPR_OP_ARRAY_CORNER : {
+			GnmExprArrayCorner const *corner = &cell->base.expression->array_corner;
+			return corner->cols > 1 || corner->rows > 1;
+		}
+
+		case GNM_EXPR_OP_ARRAY_ELEM :
+			return TRUE;
+		default :
+			break;
+		}
+	return FALSE;
 }
 
 /***************************************************************************/
@@ -666,31 +735,6 @@ cell_convert_expr_to_value (GnmCell *cell)
 	cell->base.expression = NULL;
 
 	cell_dirty (cell);
-}
-
-GnmComment *
-cell_has_comment_pos (Sheet const *sheet, GnmCellPos const *pos)
-{
-	GnmRange r;
-	GSList *comments;
-	GnmComment *res;
-
-	r.start = r.end = *pos;
-	comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
-	if (!comments)
-		return NULL;
-
-	/* This assumes just one comment per cell.  */
-	res = comments->data;
-	g_slist_free (comments);
-	return res;
-}
-
-
-GnmComment *
-cell_has_comment (GnmCell const *cell)
-{
-	return cell_has_comment_pos (cell->base.sheet, &cell->pos);
 }
 
 /****************************************************************************/

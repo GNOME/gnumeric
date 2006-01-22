@@ -109,8 +109,8 @@ struct _BlipType {
 	guint8 type;
 	guint8 blip_tag[2];
 	void (*handler) (ExcelWriteState *ewb, 
-				BlipInf *blip,
-				BlipType *bt);
+			 BlipInf *blip,
+			 BlipType *bt);
 };
 
 static guint
@@ -1081,7 +1081,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		case VALIDATION_TYPE_CUSTOM:		options = 7; break;
 		default : g_warning ("EXCEL : Unknown constraint type %d",
 				     vip->v->type);
-		};
+		}
 
 		switch (vip->v->style) {
 		case VALIDATION_STYLE_NONE: break;
@@ -1090,7 +1090,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		case VALIDATION_STYLE_INFO:	options |= (2 << 4); break;
 		default : g_warning ("EXCEL : Unknown validation style %d",
 				     vip->v->style);
-		};
+		}
 
 		switch (vip->v->op) {
 		case VALIDATION_OP_NONE:
@@ -1104,7 +1104,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 		case VALIDATION_OP_LTE:		options |= (7 << 20); break;
 		default : g_warning ("EXCEL : Unknown constraint operator %d",
 				     vip->v->op);
-		};
+		}
 		if (vip->v->allow_blank)
 			options |= 0x100;
 		/* XL suppesses the dropdown rather than vice versa */
@@ -2975,16 +2975,15 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	ms_biff_put_commit (ewb->bp);
 
-	if (expr->any.oper == GNM_EXPR_OP_ARRAY &&
-	    expr->array.x == 0 && expr->array.y == 0) {
+	if (expr->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
 		GnmCellPos c_in, r_in;
-		if (gnm_expr_is_data_table (expr->array.corner.expr, &c_in, &r_in)) {
+		if (gnm_expr_is_data_table (expr->array_corner.expr, &c_in, &r_in)) {
 			guint16 flags = 0;
 			guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_TABLE_v2, 16);
 			GSF_LE_SET_GUINT16 (data + 0, cell->pos.row);
-			GSF_LE_SET_GUINT16 (data + 2, cell->pos.row + expr->array.rows-1);
+			GSF_LE_SET_GUINT16 (data + 2, cell->pos.row + expr->array_corner.rows-1);
 			GSF_LE_SET_GUINT16 (data + 4, cell->pos.col);
-			GSF_LE_SET_GUINT16 (data + 5, cell->pos.col + expr->array.cols-1);
+			GSF_LE_SET_GUINT16 (data + 5, cell->pos.col + expr->array_corner.cols-1);
 
 			if ((c_in.col != 0 || c_in.row != 0) &&
 			    (r_in.col != 0 || r_in.row != 0)) {
@@ -3014,14 +3013,14 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 		} else {
 			ms_biff_put_var_next (ewb->bp, BIFF_ARRAY_v2);
 			GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
-			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array.rows-1);
+			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array_corner.rows-1);
 			GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
-			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + expr->array.cols-1);
+			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + expr->array_corner.cols-1);
 			GSF_LE_SET_GUINT16 (data+6, 0x0); /* alwaysCalc & calcOnLoad */
 			GSF_LE_SET_GUINT32 (data+8, 0);
 			GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
 			ms_biff_put_var_write (ewb->bp, data, 14);
-			len = excel_write_formula (ewb, expr->array.corner.expr,
+			len = excel_write_formula (ewb, expr->array_corner.expr,
 					esheet->gnum_sheet, col, row, EXCEL_CALLED_FROM_ARRAY);
 
 			ms_biff_put_var_seekto (ewb->bp, 12);
@@ -3434,7 +3433,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 	default :
 		/* ignore arrays, ranges, empties */
 		break;
-	};
+	}
 
 	switch (cond->op[0]) {
 	case GNM_FILTER_OP_EQUAL:	buf[1] = 2; break;
@@ -3445,7 +3444,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 	case GNM_FILTER_OP_NOT_EQUAL:	buf[1] = 5; break;
 	default :
 		g_warning ("how did this happen");
-	};
+	}
 
 	return str;
 }
@@ -3511,7 +3510,7 @@ excel_write_AUTOFILTERINFO (BiffPut *bp, ExcelWriteSheet *esheet)
 			str0 = excel_write_DOPER (cond, 0, buf + 4);
 			str1 = excel_write_DOPER (cond, 1, buf + 14);
 			GSF_LE_SET_GUINT16 (buf+2, cond->is_and ? 1 : 0);
-		};
+		}
 
 		GSF_LE_SET_GUINT16 (buf, i);
 		ms_biff_put_var_write (bp, buf, sizeof buf);

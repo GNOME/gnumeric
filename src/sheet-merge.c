@@ -132,7 +132,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 			sv_set_edit_pos (sv, &r->start);
 	});
 
-	comment = cell_has_comment_pos (sheet, &r->start);
+	comment = sheet_get_comment (sheet, &r->start);
 	if (comment != NULL)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
@@ -180,7 +180,7 @@ sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 	if (cell != NULL)
 		cell->base.flags &= ~CELL_IS_MERGED;
 
-	comment = cell_has_comment_pos (sheet, &r->start);
+	comment = sheet_get_comment (sheet, &r->start);
 	if (comment != NULL)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 

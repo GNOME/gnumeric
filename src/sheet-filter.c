@@ -246,7 +246,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		default :
 			set_condition = FALSE;
 			g_warning ("Unknown type %d", type);
-		};
+		}
 
 		g_free (label);
 
@@ -719,7 +719,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 	default :
 		g_warning ("Huh?");
 		return FALSE;
-	};
+	}
 }
 
 static GnmValue *

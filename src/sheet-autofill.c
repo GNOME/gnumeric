@@ -4,6 +4,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org), 1998
+ *   Jody Goldberg (jody@gnome.org), 1999-2006
  *
  * This is more complex than it would look at first sight,
  * as we have to support autofilling of mixed data and
@@ -600,11 +601,9 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		return;
 
 	case FILL_EXPR: {
-		GnmExprRewriteInfo   rwinfo;
-		GnmExprRelocateInfo *rinfo;
 		GnmExpr const *func;
-
-		rinfo = &rwinfo.u.relocate;
+		GnmExprRewriteInfo   rwinfo;
+		GnmExprRelocateInfo *rinfo = &rwinfo.u.relocate;
 
 		/* FIXME : Find out how to handle this */
 		rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
@@ -616,30 +615,27 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		func = gnm_expr_rewrite (fi->v.expr, &rwinfo);
 
 		/* clip arrays that are only partially copied */
-		if (fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY) {
-			GnmExprArray const *array = &fi->v.expr->array;
+		if (fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
+			GnmExprArrayCorner const *array = &fi->v.expr->array_corner;
 			if (array->cols > limit_x) {
 				if (func != NULL)
-					((GnmExpr*)func)->array.cols = limit_x;
+					((GnmExpr*)func)->array_corner.cols = limit_x;
 				else
-					func = gnm_expr_new_array (
-						array->x, array->y,
+					func = gnm_expr_new_array_corner (
 						limit_x, array->rows, NULL);
 			}
 			if (array->rows > limit_y) {
 				if (func != NULL)
-					((GnmExpr*)func)->array.rows = limit_y;
+					((GnmExpr*)func)->array_corner.rows = limit_y;
 				else
-					func = gnm_expr_new_array (
-						array->x, array->y,
+					func = gnm_expr_new_array_corner (
 						array->cols, limit_y, NULL);
 			}
 
 			if (func != NULL &&
-			    func->array.x == 0 && func->array.y == 0 &&
-			    func->array.corner.expr == NULL) {
-				gnm_expr_ref (array->corner.expr);
-				((GnmExpr*)func)->array.corner.expr = array->corner.expr;
+			    func->array_corner.expr == NULL) {
+				gnm_expr_ref (array->expr);
+				((GnmExpr*)func)->array_corner.expr = array->expr;
 			}
 		}
 		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func);
@@ -787,13 +783,12 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 			 * corner.  autofill_cell handles the dimension clipping.
 			 */
 			if (fi->type == FILL_EXPR &&
-			    fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY) {
-				GnmExprArray const *array = &fi->v.expr->array;
+			    fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
 				int n = 0, remain = count_max - count - 1;
 				if (col_inc < 0)
-					n = array->x - remain;
+					n = - remain;
 				else if (row_inc < 0)
-					n = array->y - remain;
+					n = - remain;
 
 				while (n-- > 0) {
 					minor = minor->next;

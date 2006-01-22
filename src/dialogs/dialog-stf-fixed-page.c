@@ -221,7 +221,7 @@ fixed_context_menu_handler (GnumericPopupMenuElement const *element,
 		break;
 	default:
 		; /* Nothing */
-	};
+	}
 	return TRUE;
 }
 

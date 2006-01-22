@@ -52,17 +52,17 @@ struct _GnmExprCellRef {
 	GnmCellRef ref;
 };
 
-struct _GnmExprArray {
+struct _GnmExprArrayCorner {
 	GnmExprOp oper;
 	int       ref_count;
-
-	int x, y;
-	int cols, rows;
-	struct {
-		/* Upper left corner */
-		GnmValue *value;	/* Last array result */
-		GnmExpr const *expr;	/* Real Expression */
-	} corner;
+	int	  cols, rows;
+	GnmValue *value;	/* Last array result */
+	GnmExpr const *expr;	/* Real Expression */
+};
+struct _GnmExprArrayElem {
+	GnmExprOp oper;
+	int       ref_count;
+	int	  x, y;
 };
 
 struct _GnmExprSet {
@@ -84,7 +84,8 @@ union _GnmExpr {
 	GnmExprBinary		binary;
 	GnmExprName		name;
 	GnmExprCellRef		cellref;
-	GnmExprArray		array;
+	GnmExprArrayCorner	array_corner;
+	GnmExprArrayElem	array_elem;
 	GnmExprSet		set;
 };
 

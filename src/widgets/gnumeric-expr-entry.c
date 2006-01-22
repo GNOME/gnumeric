@@ -904,7 +904,7 @@ gnm_expr_entry_thaw (GnmExprEntry *gee)
 				break;
 		case GTK_UPDATE_CONTINUOUS:
 			g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0, FALSE);
-		};
+		}
 	}
 }
 

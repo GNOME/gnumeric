@@ -120,7 +120,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *p
 	g_return_if_fail (textview != NULL);
 	state->text = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
 
-	comment = cell_has_comment_pos (sheet, pos);
+	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
 		GtkTextIter start;
 

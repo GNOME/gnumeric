@@ -1,3 +1,8 @@
+2006-01-20  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_areas) : handle new GNM_EXPR_OP_ARRAY
+	  mechanism
+
 2006-01-20  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Fix left-over uses of argument type B.

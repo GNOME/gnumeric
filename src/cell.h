@@ -45,15 +45,17 @@ void	  cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo);
 #define	    cell_has_expr(cell)		((cell)->base.expression != NULL)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
 #define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)
-GnmComment *cell_has_comment_pos  (Sheet const *sheet, GnmCellPos const *pos);
-GnmComment *cell_has_comment	  (GnmCell const *cell);
 gboolean    cell_is_empty	  (GnmCell const *cell);
 gboolean    cell_is_blank	  (GnmCell const *cell); /* empty, or "" */
 GnmValue   *cell_is_error	  (GnmCell const *cell);
 gboolean    cell_is_number	  (GnmCell const *cell);
 gboolean    cell_is_zero	  (GnmCell const *cell);
-gboolean    cell_is_partial_array (GnmCell const *cell);
-GnmExprArray const *cell_is_array (GnmCell const *cell);
+
+gboolean    cell_is_array	  (GnmCell const *cell);
+gboolean    cell_is_nonsingleton_array (GnmCell const *cell);
+GnmExprArrayCorner const *
+	    cell_is_array_corner  (GnmCell const *cell);
+gboolean    cell_array_bound	  (GnmCell const *cell, GnmRange *res);
 
 #define cell_eval(cell)							\
 {									\

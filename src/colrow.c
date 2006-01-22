@@ -146,7 +146,7 @@ colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
  * Iterates through the existing rows or columns within the range supplied.
  * Currently only support left -> right iteration.  If a callback returns
  * TRUE iteration stops.
- */
+ **/
 gboolean
 colrow_foreach (ColRowCollection const *infos, int first, int last,
 		ColRowHandler callback, void *user_data)

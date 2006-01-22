@@ -315,31 +315,48 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
-		GnmCell *cell;
 		char    *text;
-		GnmExprArray const *ar;
+		GnmCell const *cell = sheet_cell_get (sv->sheet,
+			sv->edit_pos.col, sv->edit_pos.row);
 
-		cell = sheet_cell_get (sv->sheet,
-				       sv->edit_pos.col,
-				       sv->edit_pos.row);
-
-		if (cell) {
+		if (NULL != cell) {
 			text = cell_get_entered_text (cell);
-			/* If this is part of an array we add '{' '}' and size
-			 * information to the display.  That is not actually
-			 * part of the parsable expression, but it is a useful
-			 * extension to the simple '{' '}' that MS excel(tm)
-			 * uses.
-			 */
-			if (NULL != (ar = cell_is_array(cell))) {
-				/* No need to worry about locale for the comma
-				 * this syntax is not parsed
-				 */
-				char *tmp = g_strdup_printf (
-					"{%s}(%d,%d)[%d][%d]", text,
-					ar->rows, ar->cols, ar->y, ar->x);
-				g_free (text);
-				text = tmp;
+
+			if (cell_has_expr (cell)) {
+				GnmExpr const *expr = cell->base.expression;
+				GnmCell const *corner;
+				int x = 0, y = 0;
+				char *tmp;
+
+				/* If this is part of an array we add '{' '}'
+				 * and size information to the display.  That
+				 * is not actually part of the parsable
+				 * expression, but it is a useful extension to
+				 * the simple '{' '}' that MS excel(tm) uses. */
+				switch (cell->base.expression->any.oper) {
+				case GNM_EXPR_OP_ARRAY_ELEM :
+					corner = sheet_cell_get (cell->base.sheet,
+						cell->pos.col - (x = expr->array_elem.x),
+						cell->pos.row - (y = expr->array_elem.y));
+
+					g_return_if_fail (corner != NULL);
+					g_return_if_fail (cell_has_expr (corner));
+
+					expr = corner->base.expression;
+
+				case GNM_EXPR_OP_ARRAY_CORNER :
+					tmp = g_strdup_printf ("{%s}(%d%c%d)[%d][%d]", text,
+						expr->array_corner.cols,
+						format_get_arg_sep (),
+						expr->array_corner.rows,
+						y, x);
+					g_free (text);
+					text = tmp;
+					break;
+
+				default :
+					break;
+				}
 			}
 		} else
 			text = g_strdup ("");

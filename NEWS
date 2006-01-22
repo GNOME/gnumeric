@@ -13,6 +13,7 @@ Jody:
 	* Handle the special case of ADDRESS (r1c1) actually relative.
 	* Make sheet name quoting modular.
 	* AREAS handles error conditions better.
+	* Make Array formulas use less memory
 
 Morten:
 	* Fix COUNTBLANK.

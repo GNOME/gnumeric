@@ -759,29 +759,30 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 			return link_expr_dep (ep, tree->name.name->expr) | DEPENDENT_USES_NAME;
 		return DEPENDENT_USES_NAME;
 
-	case GNM_EXPR_OP_ARRAY:
-		if (tree->array.x != 0 || tree->array.y != 0) {
-			/* Non-corner cells depend on the corner */
-			GnmCellRef a;
-			GnmCellPos const *pos = dependent_pos (ep->dep);
-			/* We cannot support array expressions unless
-			 * we have a position.
-			 */
-			g_return_val_if_fail (pos != NULL, DEPENDENT_NO_FLAG);
+	case GNM_EXPR_OP_ARRAY_ELEM: {
+		/* Non-corner cells depend on the corner */
+		GnmCellRef a;
+		GnmCellPos const *pos = dependent_pos (ep->dep);
+		/* We cannot support array expressions unless
+		 * we have a position.
+		 */
+		g_return_val_if_fail (pos != NULL, DEPENDENT_NO_FLAG);
 
-			a.col_relative = a.row_relative = FALSE;
-			a.sheet = ep->dep->sheet;
-			a.col   = pos->col - tree->array.x;
-			a.row   = pos->row - tree->array.y;
+		a.col_relative = a.row_relative = FALSE;
+		a.sheet = ep->dep->sheet;
+		a.col   = pos->col - tree->array_elem.x;
+		a.row   = pos->row - tree->array_elem.y;
 
-			return link_single_dep (ep->dep, pos, &a);
-		} else {
-			GnmEvalPos pos = *ep;
-			pos.cols = tree->array.cols;
-			pos.rows = tree->array.rows;
-			/* Corner cell depends on the contents of the expr */
-			return link_expr_dep (&pos, tree->array.corner.expr);
-		}
+		return link_single_dep (ep->dep, pos, &a);
+	}
+
+	case GNM_EXPR_OP_ARRAY_CORNER: {
+		GnmEvalPos pos = *ep;
+		pos.cols = tree->array_corner.cols;
+		pos.rows = tree->array_corner.rows;
+		/* Corner cell depends on the contents of the expr */
+		return link_expr_dep (&pos, tree->array_corner.expr);
+	}
 
 	case GNM_EXPR_OP_SET: {
 		GnmExprList *l;
@@ -850,26 +851,25 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 			unlink_expr_dep (dep, tree->name.name->expr);
 		return;
 
-	case GNM_EXPR_OP_ARRAY:
-		if (tree->array.x != 0 || tree->array.y != 0) {
-			/* Non-corner cells depend on the corner */
-			GnmCellRef a;
-			GnmCellPos const *pos = dependent_pos (dep);
+	case GNM_EXPR_OP_ARRAY_ELEM: {
+		GnmCellRef a;
+		GnmCellPos const *pos = dependent_pos (dep);
 
-			/* We cannot support array expressions unless
-			 * we have a position.
-			 */
-			g_return_if_fail (pos != NULL);
+		g_return_if_fail (pos != NULL);
 
-			a.col_relative = a.row_relative = FALSE;
-			a.sheet = dep->sheet;
-			a.col   = pos->col - tree->array.x;
-			a.row   = pos->row - tree->array.y;
+		/* Non-corner cells depend on the corner */
+		a.col_relative = a.row_relative = FALSE;
+		a.sheet = dep->sheet;
+		a.col   = pos->col - tree->array_elem.x;
+		a.row   = pos->row - tree->array_elem.y;
 
-			unlink_single_dep (dep, pos, &a);
-		} else
-			/* Corner cell depends on the contents of the expr */
-			unlink_expr_dep (dep, tree->array.corner.expr);
+		unlink_single_dep (dep, pos, &a);
+		return;
+	}
+
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		/* Corner depends on the contents of the expr */
+		unlink_expr_dep (dep, tree->array_corner.expr);
 		return;
 
 	case GNM_EXPR_OP_SET: {

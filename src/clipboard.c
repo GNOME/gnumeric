@@ -463,28 +463,25 @@ static GnmValue *
 cb_clipboard_prepend_cell (Sheet *sheet, int col, int row,
 			   GnmCell const *cell, GnmCellRegion *cr)
 {
-	GnmExprArray const *a;
+	GnmRange     a;
 	GnmCellCopy *copy = gnm_cell_copy_new (
 		col - cr->base.col, row - cr->base.row);
 	copy->val = value_dup (cell->value);
-	if (cell_has_expr (cell))
+
+	if (cell_has_expr (cell)) {
 		gnm_expr_ref (copy->expr = cell->base.expression);
-	else
+
+		/* Check for array division */
+		if (!cr->not_as_content &&
+		    cell_array_bound (cell, &a) &&
+		    (a.start.col < cr->base.col ||
+		     a.start.row < cr->base.row ||
+		     a.end.col >= (cr->base.col + cr->cols) ||
+		     a.end.row >= (cr->base.row + cr->rows)))
+			cr->not_as_content = TRUE;
+	} else
 		copy->expr = NULL;
 	cr->content = g_slist_prepend (cr->content, copy);
-
-	/* Check for array division */
-	if (!cr->not_as_content && NULL != (a = cell_is_array (cell))) {
-		int base = copy->col_offset - a->x;
-		if (base < 0 || (base + a->cols) > cr->cols)
-			cr->not_as_content = TRUE;
-		else {
-			base = copy->row_offset - a->y;
-			if (base < 0 || (base + a->rows) > cr->rows)
-				cr->not_as_content = TRUE;
-		}
-	}
-
 	return NULL;
 }
 

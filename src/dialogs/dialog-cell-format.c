@@ -582,25 +582,25 @@ fmt_dialog_init_align_page (FormatState *state)
 		char const *const	name;
 		GnmHAlign	align;
 	} const h_buttons[] = {
-	    { "halign_left",	HALIGN_LEFT },
-	    { "halign_center",	HALIGN_CENTER },
-	    { "halign_right",	HALIGN_RIGHT },
-	    { "halign_general",	HALIGN_GENERAL },
-	    { "halign_justify",	HALIGN_JUSTIFY },
-	    { "halign_fill",	HALIGN_FILL },
-	    { "halign_center_across_selection",	HALIGN_CENTER_ACROSS_SELECTION },
-	    { NULL }
+		{ "halign_left",	HALIGN_LEFT },
+		{ "halign_center",	HALIGN_CENTER },
+		{ "halign_right",	HALIGN_RIGHT },
+		{ "halign_general",	HALIGN_GENERAL },
+		{ "halign_justify",	HALIGN_JUSTIFY },
+		{ "halign_fill",	HALIGN_FILL },
+		{ "halign_center_across_selection",	HALIGN_CENTER_ACROSS_SELECTION },
+		{ NULL }
 	};
 	static struct {
 		char const *const	name;
 		GnmVAlign	align;
 	} const v_buttons[] = {
-	    { "valign_top", VALIGN_TOP },
-	    { "valign_center", VALIGN_CENTER },
-	    { "valign_bottom", VALIGN_BOTTOM },
-	    { "valign_justify", VALIGN_JUSTIFY },
-	    { "valign_distributed", VALIGN_DISTRIBUTED },
-	    { NULL }
+		{ "valign_top", VALIGN_TOP },
+		{ "valign_center", VALIGN_CENTER },
+		{ "valign_bottom", VALIGN_BOTTOM },
+		{ "valign_justify", VALIGN_JUSTIFY },
+		{ "valign_distributed", VALIGN_DISTRIBUTED },
+		{ NULL }
 	};
 
 	GtkWidget *w;
