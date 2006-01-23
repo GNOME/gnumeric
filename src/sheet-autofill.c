@@ -615,7 +615,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		func = gnm_expr_rewrite (fi->v.expr, &rwinfo);
 
 		/* clip arrays that are only partially copied */
-		if (fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
+		if (GNM_EXPR_GET_OPER (fi->v.expr) == GNM_EXPR_OP_ARRAY_CORNER) {
 			GnmExprArrayCorner const *array = &fi->v.expr->array_corner;
 			if (array->cols > limit_x) {
 				if (func != NULL)
@@ -783,7 +783,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 			 * corner.  autofill_cell handles the dimension clipping.
 			 */
 			if (fi->type == FILL_EXPR &&
-			    fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
+			    GNM_EXPR_GET_OPER (fi->v.expr) == GNM_EXPR_OP_ARRAY_CORNER) {
 				int n = 0, remain = count_max - count - 1;
 				if (col_inc < 0)
 					n = - remain;

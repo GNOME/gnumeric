@@ -640,10 +640,10 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		char const *f_name = NULL;
 
 		if (tmp != NULL) {
-			if (tmp->any.oper == GNM_EXPR_OP_CONSTANT &&
+			if (GNM_EXPR_GET_OPER (tmp) == GNM_EXPR_OP_CONSTANT &&
 			    tmp->constant.value->type == VALUE_STRING)
 				f_name = tmp->constant.value->v_str.val->str;
-			else if (tmp->any.oper == GNM_EXPR_OP_NAME)
+			else if (GNM_EXPR_GET_OPER (tmp) == GNM_EXPR_OP_NAME)
 				f_name = tmp->name.name->name->str;
 		}
 
@@ -985,7 +985,7 @@ excel_parse_formula (MSContainer const *container,
 			/* not exactly legal, but should be reasonable
 			 * XL has union operator we have sets.
 			 */
-			if (l->any.oper != GNM_EXPR_OP_SET) {
+			if (GNM_EXPR_GET_OPER (l) != GNM_EXPR_OP_SET) {
 				GnmExprList *args = gnm_expr_list_prepend (NULL, r);
 				args = gnm_expr_list_prepend (args, l);
 				parse_list_push (&stack, gnm_expr_new_set (args));

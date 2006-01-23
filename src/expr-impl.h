@@ -5,79 +5,61 @@
 #include "numbers.h"
 #include "parse-util.h"
 
-struct _GnmExprConstant {
-	GnmExprOp oper;
-	int       ref_count;
 
+
+struct _GnmExprConstant {
+	guint32 oper_and_refcount;
 	GnmValue const *value;
 };
 
 struct _GnmExprFunction {
-	GnmExprOp oper;
-	int       ref_count;
-
-	GnmFunc     *func;
+	guint32 oper_and_refcount;
+	GnmFunc *func;
 	GnmExprList *arg_list;
 };
 
 struct _GnmExprUnary {
-	GnmExprOp oper;
-	int       ref_count;
-
+	guint32 oper_and_refcount;
 	GnmExpr const *value;
 };
 
 struct _GnmExprBinary {
-	GnmExprOp oper;
-	int       ref_count;
-
+	guint32 oper_and_refcount;
 	GnmExpr const *value_a;
 	GnmExpr const *value_b;
 };
 
 /* We could break this out into multiple types to be more space efficient */
 struct _GnmExprName {
-	GnmExprOp oper;
-	int       ref_count;
-
-	Sheet	     *optional_scope;
-	Workbook     *optional_wb_scope;
+	guint32 oper_and_refcount;
+	Sheet *optional_scope;
+	Workbook *optional_wb_scope;
 	GnmNamedExpr *name;
 };
 
 struct _GnmExprCellRef {
-	GnmExprOp oper;
-	int       ref_count;
-
+	guint32 oper_and_refcount;
 	GnmCellRef ref;
 };
 
 struct _GnmExprArrayCorner {
-	GnmExprOp oper;
-	int       ref_count;
-	guint32	  cols, rows;
+	guint32 oper_and_refcount;
+	guint32 cols, rows;
 	GnmValue *value;	/* Last array result */
 	GnmExpr const *expr;	/* Real Expression */
 };
 struct _GnmExprArrayElem {
-	GnmExprOp oper;
-	int       ref_count;
-	guint32	  x, y;
+	guint32 oper_and_refcount;
+	guint32 x, y;
 };
 
 struct _GnmExprSet {
-	GnmExprOp oper;
-	int       ref_count;
-
+	guint32 oper_and_refcount;
 	GnmExprList *set;
 };
 
 union _GnmExpr {
-	struct {
-		GnmExprOp oper;
-		int       ref_count;
-	} any;
-
+	guint32                 oper_and_refcount;
 	GnmExprConstant		constant;
 	GnmExprFunction		func;
 	GnmExprUnary		unary;
@@ -89,11 +71,14 @@ union _GnmExpr {
 	GnmExprSet		set;
 };
 
-#define gnm_expr_constant_init(expr, val)	\
-do {						\
-	(expr)->ref_count = 1;			\
-	(expr)->oper = GNM_EXPR_OP_CONSTANT;		\
-	(expr)->value = val;			\
+#define GNM_EXPR_GET_REFCOUNT(e) ((e)->oper_and_refcount & ((1 << 27) - 1))
+#define GNM_EXPR_GET_OPER(e) ((GnmExprOp)((e)->oper_and_refcount >> 27))
+#define GNM_EXPR_SET_OPER_REF1(e,o) ((e)->oper_and_refcount = (((o) << 27) | 1))
+
+#define gnm_expr_constant_init(expr, val)			\
+do {								\
+	GNM_EXPR_SET_OPER_REF1(expr, GNM_EXPR_OP_CONSTANT);	\
+	(expr)->value = val;					\
 } while (0)
 
 #endif /* GNUMERIC_EXPR_IMPL_H */

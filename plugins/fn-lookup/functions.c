@@ -452,8 +452,8 @@ gnumeric_areas (FunctionEvalInfo *ei, GnmExprList const *l)
 		return value_new_error_VALUE (ei->pos);
 	expr = l->data;
 
-restart :
-	switch (expr->any.oper) {
+ restart:
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_CONSTANT:
 		if (expr->constant.value->type == VALUE_ERROR)
 			return value_dup (expr->constant.value);
@@ -899,7 +899,7 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList const *l)
 		value_release (v);
 	}
 
-	if (source->any.oper == GNM_EXPR_OP_SET) {
+	if (GNM_EXPR_GET_OPER (source) == GNM_EXPR_OP_SET) {
 		source = gnm_expr_list_nth (source->set.set, elem[2]);
 		if (elem[2] < 0 || source == NULL)
 			return value_new_error_REF (ei->pos);

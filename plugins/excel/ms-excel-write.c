@@ -2975,7 +2975,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	ms_biff_put_commit (ewb->bp);
 
-	if (expr->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_CORNER) {
 		GnmCellPos c_in, r_in;
 		if (gnm_expr_is_data_table (expr->array_corner.expr, &c_in, &r_in)) {
 			guint16 flags = 0;

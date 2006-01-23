@@ -126,11 +126,10 @@ paste_cell_with_operation (Sheet *dst_sheet,
 	} else {
 		GnmEvalPos pos;
 		GnmExpr	   expr, arg_a, arg_b;
-		arg_a.constant.oper = GNM_EXPR_OP_CONSTANT;
-		arg_a.constant.value = dst->value;
-		arg_b.constant.oper = GNM_EXPR_OP_CONSTANT;
-		arg_b.constant.value = src->val;
-		expr.binary.oper = op;
+
+		gnm_expr_constant_init (&arg_a.constant, dst->value);
+		gnm_expr_constant_init (&arg_b.constant, src->val);
+		GNM_EXPR_SET_OPER_REF1 (&expr, op);
 		expr.binary.value_a = &arg_a;
 		expr.binary.value_b = &arg_b;
 

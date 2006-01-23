@@ -333,7 +333,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 				 * is not actually part of the parsable
 				 * expression, but it is a useful extension to
 				 * the simple '{' '}' that MS excel(tm) uses. */
-				switch (cell->base.expression->any.oper) {
+				switch (GNM_EXPR_GET_OPER (cell->base.expression)) {
 				case GNM_EXPR_OP_ARRAY_ELEM :
 					corner = sheet_cell_get (cell->base.sheet,
 						cell->pos.col - (x = expr->array_elem.x),

@@ -526,7 +526,7 @@ cell_array_bound (GnmCell const *cell, GnmRange *res)
 	g_return_val_if_fail (res != NULL, FALSE);
 
 	expr = cell->base.expression;
-	if (expr->any.oper == GNM_EXPR_OP_ARRAY_ELEM) {
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_ELEM) {
 		cell = sheet_cell_get (cell->base.sheet,
 			cell->pos.col - expr->array_elem.x,
 			cell->pos.row - expr->array_elem.y);
@@ -537,7 +537,7 @@ cell_array_bound (GnmCell const *cell, GnmRange *res)
 		expr = cell->base.expression;
 	}
 
-	if (expr->any.oper != GNM_EXPR_OP_ARRAY_CORNER)
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_ARRAY_CORNER)
 		return FALSE;
 
 	range_init (res, cell->pos.col, cell->pos.row,
@@ -550,7 +550,7 @@ GnmExprArrayCorner const *
 cell_is_array_corner (GnmCell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&
-	    cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER)
+	    GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_CORNER)
 		return &cell->base.expression->array_corner;
 	return NULL;
 }
@@ -565,7 +565,7 @@ gboolean
 cell_is_array (GnmCell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell))
-		switch (cell->base.expression->any.oper) {
+		switch (GNM_EXPR_GET_OPER (cell->base.expression)) {
 		case GNM_EXPR_OP_ARRAY_CORNER :
 		case GNM_EXPR_OP_ARRAY_ELEM :
 			return TRUE;
@@ -585,7 +585,7 @@ gboolean
 cell_is_nonsingleton_array (GnmCell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell))
-		switch (cell->base.expression->any.oper) {
+		switch (GNM_EXPR_GET_OPER (cell->base.expression)) {
 		case GNM_EXPR_OP_ARRAY_CORNER : {
 			GnmExprArrayCorner const *corner = &cell->base.expression->array_corner;
 			return corner->cols > 1 || corner->rows > 1;

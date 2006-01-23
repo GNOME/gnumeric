@@ -716,7 +716,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 {
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
-	switch (tree->any.oper) {
+	switch (GNM_EXPR_GET_OPER (tree)) {
 	case GNM_EXPR_OP_ANY_BINARY:
 		return  link_expr_dep (ep, tree->binary.value_a) |
 			link_expr_dep (ep, tree->binary.value_b);
@@ -807,7 +807,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 static void
 unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 {
-	switch (tree->any.oper) {
+	switch (GNM_EXPR_GET_OPER (tree)) {
 	case GNM_EXPR_OP_ANY_BINARY:
 		unlink_expr_dep (dep, tree->binary.value_a);
 		unlink_expr_dep (dep, tree->binary.value_b);

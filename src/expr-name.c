@@ -341,7 +341,7 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, TRUE);
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:

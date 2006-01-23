@@ -5470,7 +5470,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 
 	*type_mismatch = NULL;
 
-	if (t->any.oper == GNM_EXPR_OP_CELLREF)
+	if (GNM_EXPR_GET_OPER (t) == GNM_EXPR_OP_CELLREF)
 		v = value_new_cellrange (&t->cellref.ref, &t->cellref.ref,
 					 ei->pos->eval.col,
 					 ei->pos->eval.row);

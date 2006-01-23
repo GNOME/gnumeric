@@ -231,7 +231,7 @@ report_err (ParserState *state, GError *err,
 static GnmExpr *
 fold_negative (GnmExpr *expr)
 {
-	if (expr->any.oper == GNM_EXPR_OP_CONSTANT) {
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
 		GnmValue const *v = expr->constant.value;
 
 		if (v->type == VALUE_INTEGER)
@@ -318,7 +318,7 @@ build_array (GSList *cols)
 			GnmExpr    *expr = row->data;
 			GnmValue const *v = expr->constant.value;
 
-			g_assert (expr->any.oper == GNM_EXPR_OP_CONSTANT);
+			g_assert (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT);
 
 			value_array_set (array, x, y, value_dup (v));
 
@@ -344,7 +344,7 @@ static GnmExpr *
 build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 {
 	if (validate != NULL) {
-		if (validate->any.oper != GNM_EXPR_OP_CELLREF ||
+		if (GNM_EXPR_GET_OPER (validate) != GNM_EXPR_OP_CELLREF ||
 		    validate->cellref.ref.sheet != NULL) {
 			report_err (state, g_error_new (1, PERR_UNEXPECTED_TOKEN,
 				_("Constructed ranges use simple references")),

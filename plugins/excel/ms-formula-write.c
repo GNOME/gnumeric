@@ -84,7 +84,7 @@ excel_write_prep_sheet (ExcelWriteState *ewb, Sheet const *sheet)
 void
 excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 {
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
@@ -675,7 +675,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 	g_return_if_fail (pd);
 	g_return_if_fail (expr);
 
-	switch ((op = expr->any.oper)) {
+	switch ((op = GNM_EXPR_GET_OPER (expr))) {
 	case GNM_EXPR_OP_ANY_BINARY :
 		if (target_type != XL_ARRAY)
 			target_type = XL_VAL;
@@ -844,10 +844,10 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 
 	default : {
 		gchar *err = g_strdup_printf ("Unknown Operator %d",
-					      expr->any.oper);
+					      GNM_EXPR_GET_OPER (expr));
 		write_string (pd, err);
 		g_free (err);
-		g_warning ("Unhandled expr type %d", expr->any.oper);
+		g_warning ("Unhandled expr type %d", GNM_EXPR_GET_OPER (expr));
 		break;
 	}
 	}

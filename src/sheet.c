@@ -2440,8 +2440,8 @@ static GnmValue *
 cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	return (cell != NULL && cell_has_expr (cell) &&
-	    (cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER ||
-	     cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_ELEM))
+	    (GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_CORNER ||
+	     GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_ELEM))
 		? VALUE_TERMINATE : NULL;
 }
 
@@ -4341,7 +4341,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	g_return_if_fail (cell != NULL);
 
 	if ((is_expr = cell_has_expr (cell)) &&
-	    cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER) {
+	    GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_CORNER) {
 		int i, j;
 		GnmExprArrayCorner const *array = &cell->base.expression->array_corner;
 		GnmExpr const *expr = array->expr;

@@ -102,7 +102,7 @@ do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
 	}
 #endif
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_EQUAL:
 	case GNM_EXPR_OP_GT:
 	case GNM_EXPR_OP_LT:

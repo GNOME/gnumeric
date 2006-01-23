@@ -103,7 +103,7 @@ gnm_expr_new_constant (GnmValue *v)
 static guint
 gnm_expr_function_hash (GnmExprFunction const *expr)
 {
-	guint h = expr->oper;
+	guint h = GNM_EXPR_GET_OPER (expr);
 	GnmExprList *l;
 	for (l = expr->arg_list; l; l = l->next)
 		h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
@@ -126,8 +126,7 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 	if (!ans)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = GNM_EXPR_OP_FUNCALL;
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
 	gnm_func_ref (func);
 	ans->func = func;
 	ans->arg_list = arg_list;
@@ -142,13 +141,14 @@ static guint
 gnm_expr_unary_hash (GnmExprUnary const *expr)
 {
 	return  (GPOINTER_TO_INT (expr->value) * 7) ^
-		(guint)(expr->oper);
+		(guint)GNM_EXPR_GET_OPER (expr);
 }
 static gboolean
 gnm_expr_unary_eq (GnmExprUnary const *a,
 		   GnmExprUnary const *b)
 {
-	return  a->oper == b->oper && a->value == b->value;
+	return GNM_EXPR_GET_OPER (a) == GNM_EXPR_GET_OPER (b) &&
+		a->value == b->value;
 }
 #endif
 
@@ -161,8 +161,7 @@ gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 	if (!ans)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = op;
+	GNM_EXPR_SET_OPER_REF1 (ans, op);
 	ans->value = e;
 
 	return (GnmExpr *)ans;
@@ -176,7 +175,7 @@ gnm_expr_binary_hash (GnmExprBinary const *expr)
 {
 	return  (GPOINTER_TO_INT (expr->value_a) * 7) ^
 		(GPOINTER_TO_INT (expr->value_b) * 3) ^
-		(guint)(expr->oper);
+		(guint)(GNM_EXPR_GET_OPER (expr));
 }
 #endif
 
@@ -189,8 +188,7 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 	if (!ans)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = op;
+	GNM_EXPR_SET_OPER_REF1 (ans, op);
 	ans->value_a = l;
 	ans->value_b = r;
 
@@ -217,8 +215,7 @@ gnm_expr_new_name (GnmNamedExpr *name,
 	if (!ans)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = GNM_EXPR_OP_NAME;
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_NAME);
 	ans->name = name;
 	expr_name_ref (name);
 
@@ -246,8 +243,7 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
 	if (!ans)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = GNM_EXPR_OP_CELLREF;
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_CELLREF);
 	ans->ref = *cr;
 
 	return (GnmExpr *)ans;
@@ -279,8 +275,7 @@ gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 	if (ans == NULL)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = GNM_EXPR_OP_ARRAY_CORNER;
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_ARRAY_CORNER);
 	ans->rows = rows;
 	ans->cols = cols;
 	ans->value = NULL;
@@ -297,8 +292,7 @@ gnm_expr_new_array_elem  (int x, int y)
 	if (ans == NULL)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = GNM_EXPR_OP_ARRAY_ELEM;
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_ARRAY_ELEM);
 	ans->x = x;
 	ans->y = y;
 	return (GnmExpr *)ans;
@@ -310,7 +304,7 @@ gnm_expr_new_array_elem  (int x, int y)
 static guint
 gnm_expr_set_hash (GnmExprSet const *expr)
 {
-	guint h = expr->oper;
+	guint h = GNM_EXPR_GET_OPER (expr);
 	GnmExprList *l;
 	for (l = expr->set; l; l = l->next)
 		h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
@@ -327,8 +321,7 @@ gnm_expr_new_set (GnmExprList *set)
 	if (!ans)
 		return NULL;
 
-	ans->ref_count = 1;
-	ans->oper = GNM_EXPR_OP_SET;
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_SET);
 	ans->set = set;
 
 	return (GnmExpr *)ans;
@@ -344,18 +337,22 @@ void
 gnm_expr_ref (GnmExpr const *expr)
 {
 	g_return_if_fail (expr != NULL);
-	g_return_if_fail (expr->any.ref_count > 0);
+	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) > 0);
 
-	((GnmExpr *)expr)->any.ref_count++;
+	/* We're screwed if the refcount overflows.  */
+	((GnmExpr *)expr)->oper_and_refcount++;
 }
 
 static void
 do_gnm_expr_unref (GnmExpr const *expr)
 {
-	if (--((GnmExpr *)expr)->any.ref_count > 0)
+	/* We're screwed if the refcount underflows.  */
+	((GnmExpr *)expr)->oper_and_refcount--;
+
+	if (GNM_EXPR_GET_REFCOUNT (expr) > 0)
 		return;
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -416,12 +413,12 @@ void
 gnm_expr_unref (GnmExpr const *expr)
 {
 	g_return_if_fail (expr != NULL);
-	g_return_if_fail (expr->any.ref_count > 0);
+	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) > 0);
 
-	if (expr->any.ref_count == 1)
+	if (GNM_EXPR_GET_REFCOUNT (expr) == 1)
 		do_gnm_expr_unref (expr);
 	else
-		((GnmExpr *)expr)->any.ref_count--;
+		((GnmExpr *)expr)->oper_and_refcount--;
 }
 
 /**
@@ -433,7 +430,7 @@ gnm_expr_is_shared (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, FALSE);
 
-	return (expr->any.ref_count > 1);
+	return (GNM_EXPR_GET_REFCOUNT (expr) > 1);
 }
 
 /**
@@ -451,10 +448,10 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 
-	if (a->any.oper != b->any.oper)
+	if (GNM_EXPR_GET_OPER (a) != GNM_EXPR_GET_OPER (b))
 		return FALSE;
 
-	switch (a->any.oper) {
+	switch (GNM_EXPR_GET_OPER (a)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -511,7 +508,7 @@ array_elem_get_corner (GnmExprArrayElem const *elem,
 	g_return_val_if_fail (corner != NULL, NULL);
 	g_return_val_if_fail (cell_has_expr (corner), NULL);
 	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (corner->base.expression->any.oper == GNM_EXPR_OP_ARRAY_CORNER, NULL);
+	g_return_val_if_fail (GNM_EXPR_GET_OPER (corner->base.expression) == GNM_EXPR_OP_ARRAY_CORNER, NULL);
 
 	return corner;
 }
@@ -520,7 +517,7 @@ static gboolean
 gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 		      GnmEvalPos const *pos, GnmExprEvalFlags flags)
 {
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_FUNCALL : {
 		gboolean failed = TRUE;
 		GnmValue *v;
@@ -660,7 +657,7 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 
 		/* FIXME: we could use simple (cheap) heuristics to
 		   catch most cases where overflow will not happen.  */
-		switch (expr->any.oper){
+		switch (GNM_EXPR_GET_OPER (expr)){
 		case GNM_EXPR_OP_ADD:
 			dres = (gnm_float)ia + (gnm_float)ib;
 			break;
@@ -700,7 +697,7 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 		gnm_float const va = value_get_as_float (a);
 		gnm_float const vb = value_get_as_float (b);
 
-		switch (expr->any.oper){
+		switch (GNM_EXPR_GET_OPER (expr)){
 		case GNM_EXPR_OP_ADD:
 			return value_new_float (va + vb);
 
@@ -774,7 +771,7 @@ cb_bin_cmp (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 		return value_dup (a);
 	if (b != NULL && b->type == VALUE_ERROR)
 		return value_dup (b);
-	return bin_cmp (expr->any.oper, value_compare (a, b, FALSE), ep);
+	return bin_cmp (GNM_EXPR_GET_OPER (expr), value_compare (a, b, FALSE), ep);
 }
 
 static GnmValue *
@@ -1024,7 +1021,7 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 	gnm_rangeref_normalize (&a_ref, ep, &a_start, &a_end, &a_range);
 	gnm_rangeref_normalize (&b_ref, ep, &b_start, &b_end, &b_range);
 
-	if (expr->any.oper != GNM_EXPR_OP_INTERSECT)
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_INTERSECT)
 		res_range = range_union (&a_range, &b_range);
 	else if (!range_intersection  (&res_range, &a_range, &b_range))
 		return value_new_error_NULL (ep);
@@ -1058,7 +1055,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	g_return_val_if_fail (expr != NULL, handle_empty (NULL, flags));
 	g_return_val_if_fail (pos != NULL, handle_empty (NULL, flags));
 
-	switch (expr->any.oper){
+	switch (GNM_EXPR_GET_OPER (expr)){
 	case GNM_EXPR_OP_EQUAL:
 	case GNM_EXPR_OP_NOT_EQUAL:
 	case GNM_EXPR_OP_GT:
@@ -1091,7 +1088,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 					(gpointer) expr);
 		}
 
-		res = bin_cmp (expr->any.oper, value_compare (a, b, FALSE), pos);
+		res = bin_cmp (GNM_EXPR_GET_OPER (expr), value_compare (a, b, FALSE), pos);
 		if (a != NULL)
 			value_release (a);
 		if (b != NULL)
@@ -1187,7 +1184,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		a = gnm_expr_eval (expr->unary.value, pos, flags);
 		if (a->type == VALUE_ERROR)
 			return a;
-		if (expr->any.oper == GNM_EXPR_OP_UNARY_PLUS)
+		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_PLUS)
 			return a;
 
 		/* 2) #!VALUE error if A is not a number */
@@ -1204,7 +1201,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				value_area_get_width  (a, pos),
 				value_area_get_height (a, pos));
 			value_area_foreach (a, pos, CELL_ITER_ALL,
-				(ValueAreaFunc) ((expr->any.oper == GNM_EXPR_OP_UNARY_NEG) 
+				(ValueAreaFunc) ((GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_NEG) 
 					? cb_iter_unary_neg : cb_iter_percentage),
 				res);
 			value_release (a);
@@ -1212,7 +1209,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 		if (!VALUE_IS_NUMBER (a))
 			res = value_new_error_VALUE (pos);
-		else if (expr->any.oper == GNM_EXPR_OP_UNARY_NEG)
+		else if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_NEG)
 			res = negate_value (a);
 		else {
 			res = value_new_float (value_get_as_float (a) / 100);
@@ -1442,7 +1439,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		{ ":",  9, 1, 0, 0 }, /* Range Ctor   */
 		{ " ",  8, 1, 0, 0 }  /* Intersection */
 	};
-	int const op = expr->any.oper;
+	GnmExprOp const op = GNM_EXPR_GET_OPER (expr);
 
 	switch (op) {
 	case GNM_EXPR_OP_RANGE_CTOR:
@@ -1828,7 +1825,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY: {
@@ -1843,14 +1840,14 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		else if (b == NULL)
 			gnm_expr_ref ((b = expr->binary.value_b));
 
-		return gnm_expr_new_binary (a, expr->any.oper, b);
+		return gnm_expr_new_binary (a, GNM_EXPR_GET_OPER (expr), b);
 	}
 
 	case GNM_EXPR_OP_ANY_UNARY: {
 		GnmExpr const *a = gnm_expr_rewrite (expr->unary.value, rwinfo);
 		if (a == NULL)
 			return NULL;
-		return gnm_expr_new_unary (expr->any.oper, a);
+		return gnm_expr_new_unary (GNM_EXPR_GET_OPER (expr), a);
 	}
 
 	case GNM_EXPR_OP_FUNCALL: {
@@ -2051,7 +2048,7 @@ GnmFunc *
 gnm_expr_get_func_def (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
-	g_return_val_if_fail (expr->any.oper == GNM_EXPR_OP_FUNCALL, NULL);
+	g_return_val_if_fail (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL, NULL);
 
 	return expr->func.func;
 }
@@ -2060,7 +2057,7 @@ int
 gnm_expr_get_func_argcount (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, 0);
-	g_return_val_if_fail (expr->any.oper == GNM_EXPR_OP_FUNCALL, 0);
+	g_return_val_if_fail (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL, 0);
 
 	return g_slist_length (expr->func.arg_list);
 }
@@ -2078,7 +2075,7 @@ gnm_expr_first_func (GnmExpr const *expr)
 
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	default :
 	case GNM_EXPR_OP_NAME:
 	case GNM_EXPR_OP_CELLREF:
@@ -2146,7 +2143,7 @@ g_slist_insert_unique (GSList *list, gpointer data)
 static GSList *
 do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 {
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -2222,7 +2219,7 @@ gnm_expr_referenced_sheets (GnmExpr const *expr)
 gboolean
 gnm_expr_containts_subtotal (GnmExpr const *expr)
 {
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -2274,7 +2271,7 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 {
 	g_return_if_fail (expr != NULL);
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -2340,7 +2337,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_CELLREF :
 		return value_new_cellrange_unsafe (
 			&expr->cellref.ref, &expr->cellref.ref);
@@ -2364,7 +2361,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 static GSList *
 do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
 {
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -2427,7 +2424,7 @@ gnm_expr_get_constant (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	if (expr->any.oper != GNM_EXPR_OP_CONSTANT)
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CONSTANT)
 		return NULL;
 
 	return expr->constant.value;
@@ -2446,7 +2443,7 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, FALSE);
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	/* would be better if we could differential which functions can return refs */
 	case GNM_EXPR_OP_FUNCALL:
 
@@ -2481,7 +2478,7 @@ gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
 	GnmStdError err2;
 	g_return_val_if_fail (expr != NULL, FALSE);
 
-	if (expr->any.oper != GNM_EXPR_OP_CONSTANT)
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CONSTANT)
 		return FALSE;
 
 	err2 = value_error_classify (expr->constant.value);
@@ -2491,12 +2488,12 @@ gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
 gboolean
 gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 {
-	if (expr->any.oper == GNM_EXPR_OP_FUNCALL) {
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL) {
 		char const *name = gnm_func_get_name (expr->func.func);
 		if (name && 0 == strcmp (name, "table")) {
 			if (NULL != r_in) {
 				GnmExpr const *r = gnm_expr_list_nth (expr->func.arg_list, 0);
-				if (r != NULL && r->any.oper == GNM_EXPR_OP_CELLREF) {
+				if (r != NULL && GNM_EXPR_GET_OPER (r) == GNM_EXPR_OP_CELLREF) {
 					r_in->col = r->cellref.ref.col;
 					r_in->row = r->cellref.ref.row;
 				} else
@@ -2504,7 +2501,7 @@ gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 			}
 			if (NULL != c_in) {
 				GnmExpr const *c = gnm_expr_list_nth (expr->func.arg_list, 1);
-				if (c != NULL && c->any.oper == GNM_EXPR_OP_CELLREF) {
+				if (c != NULL && GNM_EXPR_GET_OPER (c) == GNM_EXPR_OP_CELLREF) {
 					c_in->col = c->cellref.ref.col;
 					c_in->row = c->cellref.ref.row;
 				} else
@@ -2580,9 +2577,9 @@ static guint
 ets_hash (gconstpointer key)
 {
 	GnmExpr const *expr = (GnmExpr const *)key;
-	guint h = (guint)(expr->any.oper);
+	guint h = (guint)(GNM_EXPR_GET_OPER (expr));
 
-	switch (expr->any.oper){
+	switch (GNM_EXPR_GET_OPER (expr)){
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -2641,10 +2638,10 @@ ets_equal (gconstpointer _a, gconstpointer _b)
 	GnmExpr const *ea = _a;
 	GnmExpr const *eb = _b;
 
-	if (ea->any.oper != eb->any.oper)
+	if (GNM_EXPR_GET_OPER (ea) != GNM_EXPR_GET_OPER (eb))
 		return FALSE;
 
-	switch (ea->any.oper){
+	switch (GNM_EXPR_GET_OPER (ea)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -2703,7 +2700,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 	g_return_val_if_fail (es != NULL, NULL);
 	g_return_val_if_fail (e != NULL, NULL);
 
-	wasshared = (e->any.ref_count > 1);
+	wasshared = gnm_expr_is_shared (e);
 	if (wasshared) {
 		e2 = g_hash_table_lookup (es->ptrs, e);
 		if (e2 != NULL) {
@@ -2716,7 +2713,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 	es->nodes_in++;
 
 	/* First share all sub-expressions.  */
-	switch (e->any.oper) {
+	switch (GNM_EXPR_GET_OPER (e)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
 		((GnmExpr*)e)->binary.value_a =
@@ -2822,6 +2819,19 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 void
 expr_init (void)
 {
+#if 0
+	GnmExpr e;
+
+	g_print ("sizeof(e.constant) = %d\n", (int)sizeof (e.constant));
+	g_print ("sizeof(e.func) = %d\n", (int)sizeof (e.func));
+	g_print ("sizeof(e.unary) = %d\n", (int)sizeof (e.unary));
+	g_print ("sizeof(e.binary) = %d\n", (int)sizeof (e.binary));
+	g_print ("sizeof(e.name) = %d\n", (int)sizeof (e.name));
+	g_print ("sizeof(e.cellref) = %d\n", (int)sizeof (e.cellref));
+	g_print ("sizeof(e.array_corner) = %d\n", (int)sizeof (e.array_corner));
+	g_print ("sizeof(e.array_elem) = %d\n", (int)sizeof (e.array_elem));
+	g_print ("sizeof(e.set) = %d\n", (int)sizeof (e.set));
+#endif
 #if USE_EXPR_POOLS
 	expression_pool =
 		go_mem_chunk_new ("expression pool",

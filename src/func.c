@@ -1058,7 +1058,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		expr = l->data; 
 
 		if (arg_type == 'A' || arg_type == 'r') {
-			if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
+			if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
 				GnmCellRef r;
 				gnm_cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
 				args[i] = value_new_cellrange_unsafe (&r, &r);
@@ -1305,10 +1305,7 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
 		if (argc) {
 			expr = g_alloca (argc * sizeof (GnmExprConstant));
 			for (i = 0; i < argc; i++) {
-				expr [i].oper = GNM_EXPR_OP_CONSTANT;
-				expr [i].value = values [i];
-				expr [i].ref_count = 1;
-
+				gnm_expr_constant_init (expr + i, values[i]);
 				l = gnm_expr_list_append (l, expr + i);
 			}
 		}
@@ -1478,7 +1475,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 
 		/* need to drill down into names to handle things like
 		 * sum(name)  with name := (A:A,B:B) */
-		while (expr->any.oper == GNM_EXPR_OP_NAME) {
+		while (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_NAME) {
 			expr = expr->name.name->expr;
 			if (expr == NULL) {
 				if (strict)
@@ -1488,7 +1485,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		}
 
 		/* Handle sets as a special case */
-		if (expr->any.oper == GNM_EXPR_OP_SET) {
+		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_SET) {
 			result = function_iterate_argument_values (ep, callback,
 				callback_closure, expr->set.set, strict, iter_flags);
 			continue;

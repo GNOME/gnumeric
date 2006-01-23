@@ -458,7 +458,7 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 		gtk_tree_path_append_index (path, child_num);
 	}
 
-	switch (expr->any.oper) {
+	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_FUNCALL:
 		dialog_formula_guru_load_fd (path, expr->func.func, state);
 		for (args = expr->func.arg_list, i = 0; args; args = args->next, i++)

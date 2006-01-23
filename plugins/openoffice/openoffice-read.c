@@ -1240,7 +1240,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			&perr);
 		g_free (tmp);
 
-		if (expr == NULL || expr->any.oper != GNM_EXPR_OP_CELLREF) {
+		if (expr == NULL || GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CELLREF) {
 			oo_warning (xin, _("Unable to parse position for expression '%s' @ '%s' because '%s'"),
 				    name, base_str, perr.err->message);
 			parse_error_free (&perr);

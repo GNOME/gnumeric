@@ -1724,7 +1724,7 @@ gnumeric_isref (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
 	if (!t)
 		return NULL;
 
-	return value_new_bool (t->any.oper == GNM_EXPR_OP_CELLREF);
+	return value_new_bool (GNM_EXPR_GET_OPER (t) == GNM_EXPR_OP_CELLREF);
 }
 
 /***************************************************************************/
