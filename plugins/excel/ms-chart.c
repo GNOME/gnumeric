@@ -371,9 +371,9 @@ BC_R(alruns)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
 #if 0
-	gint16 length = GSF_LE_GET_GUINT16 (q->data);
+	int length = GSF_LE_GET_GUINT16 (q->data);
 	guint8 const *in = (q->data + 2);
-	char *conans = (char *) g_new (char, length + 2);
+	char *conans = g_new (char, length + 2);
 	char *out = ans;
 
 	for (; --length >= 0 ; in+=4, ++out) {
