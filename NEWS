@@ -1,5 +1,10 @@
 Gnumeric 1.6.2
 
+Ivan, Y.C. Wong:
+	* Fix Gdk-WARNING when cutting or copying cells. [#314210]
+	* No more debug command prompt. Error/warning messages will
+	  go to an existing command prompt (if any).
+
 Jody:
 	* Disable the IRC link in the help menu.
 	* Use the cannonical web page in case of problems.

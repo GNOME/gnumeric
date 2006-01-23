@@ -14,8 +14,10 @@
 #include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
-#ifdef WIN32
+#ifdef G_OS_WIN32
 #define POPT_STATIC
+#define _WIN32_WINNT 0x0501
+#include <windows.h>
 #endif
 #include <popt.h>
 
@@ -337,6 +339,25 @@ main (int argc, char const *argv [])
 	GSList *wbcgs_to_kill = NULL;
 	poptContext ctx;
 	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
+#ifdef G_OS_WIN32
+	gboolean has_console = FALSE;
+	{
+		typedef BOOL (CALLBACK* LPFNATTACHCONSOLE)(DWORD);
+		LPFNATTACHCONSOLE MyAttachConsole = NULL;
+		HMODULE hmod;
+
+		if ((hmod = GetModuleHandle("kernel32.dll"))) {
+			MyAttachConsole = (LPFNATTACHCONSOLE) GetProcAddress(hmod, "AttachConsole");
+			if (MyAttachConsole(ATTACH_PARENT_PROCESS)) {
+				freopen("CONOUT$", "w", stdout);
+				freopen("CONOUT$", "w", stderr);
+				dup2(fileno(stdout), 1);
+				dup2(fileno(stderr), 2);
+				has_console = TRUE;
+			}
+		}
+	}
+#endif
 
 	gnm_pre_parse_init (args[0]);
 
@@ -475,6 +496,12 @@ main (int argc, char const *argv [])
 
 #ifdef WITH_GNOME
 	bonobo_ui_debug_shutdown ();
+#elif defined(G_OS_WIN32)
+	if (has_console) {
+		close(1);
+		close(2);
+		FreeConsole();
+	}
 #endif
 	go_shell_argv_to_glib_encoding_free ();
 
