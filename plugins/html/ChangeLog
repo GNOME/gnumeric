@@ -1,3 +1,10 @@
+2006-01-23   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=325656
+	* latex.c (latex_convert_latin_to_utf): new
+	(latex_fputs_latin) use latex_convert_latin_to_utf
+	(latex_math_fputs_latin): ditto
+
 2006-01-14   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=325656

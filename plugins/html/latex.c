@@ -208,6 +208,53 @@ latex_math_fputs_utf (char const *p, GsfOutput *output)
 }
 
 /**
+ * latex_convert_latin_to_utf
+ *
+ * @text: string to convert
+ *
+ * return value needs to be freed with g_free
+ *
+ * call g_convert_with_fallback and also handle utf minus.
+ *
+ */
+static char *
+latex_convert_latin_to_utf (char const *text)
+{
+	char * encoded_text = NULL;
+
+	gsize bytes_read;
+	gsize bytes_written;
+
+	if (g_utf8_strchr (text,-1, 0x2212) == NULL) {
+		encoded_text = g_convert_with_fallback
+			(text, strlen (text),
+			 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+			 &bytes_read, &bytes_written, NULL);
+	} else {
+		gunichar* ucs_string = NULL;
+		gunichar* this_unichar;
+		char *new_text;
+		glong items_read;
+		glong items_written;
+
+		ucs_string = g_utf8_to_ucs4_fast (text, -1, &items_written);
+		for (this_unichar = ucs_string; *this_unichar != '\0'; this_unichar++) {
+			if (*this_unichar == 0x2212)
+				*this_unichar = 0x002d;
+		}
+		new_text = g_ucs4_to_utf8 (ucs_string, -1, &items_read, &items_written, NULL);
+		g_free (ucs_string);
+		encoded_text = g_convert_with_fallback
+			(new_text, strlen (new_text),
+			 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+			 &bytes_read, &bytes_written, NULL);
+		g_free (new_text);
+	}
+
+	return encoded_text;
+}
+
+/**
  * latex_fputs_latin :
  *
  * @p :      a pointer to a char, start of the string to be processed.
@@ -221,19 +268,8 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
 	char * p;
-	gsize bytes_read;
-	gsize bytes_written;
-	GError * error = NULL;
 
-	encoded_text = g_convert_with_fallback
-		(text, strlen (text),
-		 "ISO-8859-1", "UTF-8", (gchar *)"-", 
-		 &bytes_read, &bytes_written, &error);
-	if (error != NULL)
-	{
-		g_warning ("UTF-8 to Latin1 conversion failed for:\n%s", text);
-		g_error_free (error);
-	}
+	encoded_text = latex_convert_latin_to_utf (text);
 
 	for (p = encoded_text; *p; p++) {
 		switch (*p) {
@@ -278,19 +314,8 @@ latex_math_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
 	char * p;
-	gsize bytes_read;
-	gsize bytes_written;
-	GError * error = NULL;
 
-	encoded_text = g_convert_with_fallback
-		(text, strlen (text),
-		 "ISO-8859-1", "UTF-8", (gchar *)"-", 
-		 &bytes_read, &bytes_written, &error);
-	if (error != NULL)
-	{
-		g_warning ("UTF-8 to Latin1 conversion failed for:\n%s", text);
-		g_error_free (error);
-	}
+	encoded_text = latex_convert_latin_to_utf (text);
 
 	for (p = encoded_text; *p; p++) {
 		switch (*p) {
