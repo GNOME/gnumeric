@@ -55,8 +55,8 @@
 #endif
 
 #if USE_EXPR_POOLS
-/* Memory pool for expressions.  */
-static GOMemChunk *expression_pool;
+/* Memory pools for expressions.  */
+static GOMemChunk *expression_pool_small, *expression_pool_big;
 #define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
@@ -89,7 +89,7 @@ gnm_expr_new_constant (GnmValue *v)
 {
 	GnmExprConstant *ans;
 
-	ans = CHUNK_ALLOC (GnmExprConstant, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprConstant, expression_pool_small);
 	if (!ans)
 		return NULL;
 	gnm_expr_constant_init (ans, v);
@@ -122,7 +122,7 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 	GnmExprFunction *ans;
 	g_return_val_if_fail (func, NULL);
 
-	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
 	if (!ans)
 		return NULL;
 
@@ -157,7 +157,7 @@ gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 {
 	GnmExprUnary *ans;
 
-	ans = CHUNK_ALLOC (GnmExprUnary, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprUnary, expression_pool_small);
 	if (!ans)
 		return NULL;
 
@@ -184,7 +184,7 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 {
 	GnmExprBinary *ans;
 
-	ans = CHUNK_ALLOC (GnmExprBinary, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprBinary, expression_pool_small);
 	if (!ans)
 		return NULL;
 
@@ -211,7 +211,7 @@ gnm_expr_new_name (GnmNamedExpr *name,
 {
 	GnmExprName *ans;
 
-	ans = CHUNK_ALLOC (GnmExprName, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprName, expression_pool_big);
 	if (!ans)
 		return NULL;
 
@@ -239,7 +239,7 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
 {
 	GnmExprCellRef *ans;
 
-	ans = CHUNK_ALLOC (GnmExprCellRef, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprCellRef, expression_pool_big);
 	if (!ans)
 		return NULL;
 
@@ -271,7 +271,7 @@ gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 {
 	GnmExprArrayCorner *ans;
 
-	ans = CHUNK_ALLOC (GnmExprArrayCorner, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprArrayCorner, expression_pool_big);
 	if (ans == NULL)
 		return NULL;
 
@@ -288,7 +288,7 @@ gnm_expr_new_array_elem  (int x, int y)
 {
 	GnmExprArrayElem *ans;
 
-	ans = CHUNK_ALLOC (GnmExprArrayElem, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprArrayElem, expression_pool_small);
 	if (ans == NULL)
 		return NULL;
 
@@ -317,7 +317,7 @@ gnm_expr_new_set (GnmExprList *set)
 {
 	GnmExprSet *ans;
 
-	ans = CHUNK_ALLOC (GnmExprSet, expression_pool);
+	ans = CHUNK_ALLOC (GnmExprSet, expression_pool_small);
 	if (!ans)
 		return NULL;
 
@@ -358,39 +358,48 @@ do_gnm_expr_unref (GnmExpr const *expr)
 	case GNM_EXPR_OP_ANY_BINARY:
 		do_gnm_expr_unref (expr->binary.value_a);
 		do_gnm_expr_unref (expr->binary.value_b);
+		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_FUNCALL:
 		gnm_expr_list_unref (expr->func.arg_list);
 		gnm_func_unref (expr->func.func);
+		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_NAME:
 		expr_name_unref (expr->name.name);
+		CHUNK_FREE (expression_pool_big, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_CONSTANT:
 		value_release ((GnmValue *)expr->constant.value);
+		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_CELLREF:
+		CHUNK_FREE (expression_pool_big, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_ANY_UNARY:
 		do_gnm_expr_unref (expr->unary.value);
+		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
 		if (expr->array_corner.value)
 			value_release (expr->array_corner.value);
 		do_gnm_expr_unref (expr->array_corner.expr);
+		CHUNK_FREE (expression_pool_big, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_ARRAY_ELEM:
+		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_SET:
 		gnm_expr_list_unref (expr->set.set);
+		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
 #ifndef DEBUG_SWITCH_ENUM
@@ -399,8 +408,6 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		break;
 #endif
 	}
-
-	CHUNK_FREE (expression_pool, (gpointer)expr);
 }
 
 /*
@@ -2816,13 +2823,35 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 
 /***************************************************************************/
 
+#if USE_EXPR_POOLS
+typedef union {
+	guint32                 oper_and_refcount;
+	GnmExprConstant		constant;
+	GnmExprFunction		func;
+	GnmExprUnary		unary;
+	GnmExprBinary		binary;
+	GnmExprArrayElem	array_elem;
+	GnmExprSet		set;
+} GnmExprSmall;
+typedef union {
+	guint32                 oper_and_refcount;
+	GnmExprName		name;
+	GnmExprCellRef		cellref;
+	GnmExprArrayCorner	array_corner;
+} GnmExprBig;
+#endif
+
 void
 expr_init (void)
 {
 #if 0
 	GnmExpr e;
 
-	g_print ("sizeof(e.constant) = %d\n", (int)sizeof (e.constant));
+#if USE_EXPR_POOLS
+	/* 12 is an excellent size for a pool.  */
+	g_print ("sizeof(GnmExprSmall) = %d\n", (int)sizeof (GnmExprSmall));
+	g_print ("sizeof(GnmExprBig) = %d\n", (int)sizeof (GnmExprBig));
+#endif
 	g_print ("sizeof(e.func) = %d\n", (int)sizeof (e.func));
 	g_print ("sizeof(e.unary) = %d\n", (int)sizeof (e.unary));
 	g_print ("sizeof(e.binary) = %d\n", (int)sizeof (e.binary));
@@ -2833,9 +2862,13 @@ expr_init (void)
 	g_print ("sizeof(e.set) = %d\n", (int)sizeof (e.set));
 #endif
 #if USE_EXPR_POOLS
-	expression_pool =
-		go_mem_chunk_new ("expression pool",
-				   sizeof (GnmExpr),
+	expression_pool_small =
+		go_mem_chunk_new ("expression pool for small nodes",
+				   sizeof (GnmExprSmall),
+				   16 * 1024 - 128);
+	expression_pool_big =
+		go_mem_chunk_new ("expression pool for big nodes",
+				   sizeof (GnmExprBig),
 				   16 * 1024 - 128);
 #endif
 }
@@ -2862,9 +2895,13 @@ void
 expr_shutdown (void)
 {
 #if USE_EXPR_POOLS
-	go_mem_chunk_foreach_leak (expression_pool, cb_expression_pool_leak, NULL);
-	go_mem_chunk_destroy (expression_pool, FALSE);
-	expression_pool = NULL;
+	go_mem_chunk_foreach_leak (expression_pool_small, cb_expression_pool_leak, NULL);
+	go_mem_chunk_destroy (expression_pool_small, FALSE);
+	expression_pool_small = NULL;
+
+	go_mem_chunk_foreach_leak (expression_pool_big, cb_expression_pool_leak, NULL);
+	go_mem_chunk_destroy (expression_pool_big, FALSE);
+	expression_pool_big = NULL;
 #endif
 }
 

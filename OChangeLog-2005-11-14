@@ -1,5 +1,8 @@
 2006-01-23  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (expr_init): Create two pools: one for small and one
+	for large nodes.
+
 	* src/expr-impl.h (GnmExpr): Merge oper and ref_count fields into
 	one oper_and_refcount field.  Define accessors GNM_EXPR_GET_OPER
 	and GNM_EXPR_GET_REFCOUNT.  All users changed.

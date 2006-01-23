@@ -50,7 +50,10 @@ Morten:
 	* Fix MID for out-of-bounds values.
 	* Fix constructed-range parsing for OO.
 	* Improve .desktop file.  [#328015]
-	* Make expressions use less memory.
+	* Make expressions use less memory by merging ref_count
+	  and operator fields.
+	* Split expression memory pool into one for large and one for
+	  small nodes.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
