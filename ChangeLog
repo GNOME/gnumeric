@@ -1,5 +1,11 @@
 2006-01-24  Morten Welinder  <terra@gnome.org>
 
+	* src/item-cursor.c (item_cursor_draw): Revert previous change.
+	It breaks my system by making the dragging-the-little-square
+	operation blind.
+
+2006-01-24  Morten Welinder  <terra@gnome.org>
+
 	* src/gnm-datetime.c (datetime_value_to_seconds): Kill.
 
 2006-01-24  Ivan, Wong Yat Cheung  <ivanwong@gnome.org>

@@ -335,9 +335,9 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 	gdk_gc_set_line_attributes (ic->gc, 1,
 		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
-	gdk_gc_set_rgb_fg_color (ic->gc, &gs_white);
+	gdk_gc_set_rgb_fg_color (ic->gc, &gs_black);
 	gdk_gc_set_rgb_bg_color (ic->gc, &gs_white);
-	values.function = GDK_XOR;
+	values.function = GDK_EQUIV;
 	gdk_gc_set_values (ic->gc, &values, GDK_GC_FUNCTION);
 
 	if (draw_external) {
