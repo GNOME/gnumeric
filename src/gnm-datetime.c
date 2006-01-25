@@ -74,16 +74,6 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
 
 /* ------------------------------------------------------------------------- */
 
-int
-datetime_value_to_seconds (GnmValue const *v)
-{
-	/* we just want the seconds, actual date does not matter. So we can ignore
-	 * the date convention (1900 vs 1904) */
-	return datetime_serial_raw_to_seconds (datetime_value_to_serial_raw (v, NULL));
-}
-
-/* ------------------------------------------------------------------------- */
-
 /*
  * Returns the number of days in the year for the given date accoring to
  * the day counting system specified by 'basis' argument.  Basis may have

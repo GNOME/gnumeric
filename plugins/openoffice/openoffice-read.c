@@ -1210,6 +1210,7 @@ oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 		break;
 	}
 }
+
 static void
 oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -1263,6 +1264,12 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 	}
+}
+
+static void
+oo_named_range (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	g_warning ("Unimplemented");
 }
 
 static GsfXMLInNode const styles_dtd[] = {
@@ -1562,8 +1569,9 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (TABLE, TABLE_ROW_GROUP,	      OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	GSF_XML_IN_NODE (OFFICE_BODY, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
+	  GSF_XML_IN_NODE (TABLE_SETTINGS, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
+	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_range, NULL),
 	GSF_XML_IN_NODE (OFFICE_BODY, DB_RANGES, OO_NS_TABLE, "database-ranges", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1602,6 +1610,7 @@ oo_conventions (void)
 	GnmExprConventions *res = gnm_expr_conventions_new ();
 
 	res->decode_ampersands = TRUE;
+	res->intersection_char = '!';
 	res->decimal_sep_dot = TRUE;
 	res->argument_sep_semicolon = TRUE;
 	res->array_col_sep_comma = TRUE;

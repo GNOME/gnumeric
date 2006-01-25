@@ -1,3 +1,7 @@
+2006-01-24  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-datetime.c (datetime_value_to_seconds): Kill.
+
 2006-01-23  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (expr_init): Create two pools: one for small and one
@@ -9,12 +13,26 @@
 
 2006-01-22  Jody Goldberg <jody@gnome.org>
 
-	* src/expr-impl.h : arrays can not be larger than 2^32 even on 64 bit
+	* src/expr-impl.h : arrays cannot be larger than 2^32 even on 64 bit
 	  architectures.
 
 2006-01-21  Morten Welinder  <terra@gnome.org>
 
-	* gnumeric.desktop.in (Categories): Add Math, Science, GNOME. GTK.
+	* src/parse-util.h (struct _GnmExprConventions): Replace
+	ignore_spaces by new intersection_char member.  All users fixed.
+
+	* src/parser.y (yylex): Handle RANGE_INTERSECTION as symbolic
+	token by translating space or whatever to that.
+
+	* src/parse-util.c (gnm_expr_conventions_new): Default
+	intersection char is space.
+
+	* src/expr.c (do_expr_as_string): Append the right intersection
+	operator.
+
+2006-01-21  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric.desktop.in (Categories): Add Math, Science, GNOME, GTK.
 
 2006-01-21  Jody Goldberg <jody@gnome.org>
 

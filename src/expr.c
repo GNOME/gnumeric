@@ -1473,7 +1473,13 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 			g_string_append_c (target, ')');
 		}
 
-		g_string_append (target, opname);
+		/* Instead of this we ought to move the whole operations
+		   table into the conventions.  */
+		if (op == GNM_EXPR_OP_INTERSECT)
+			g_string_append_unichar (target, conv->intersection_char);
+		else
+			g_string_append (target, opname);
+
 		do_expr_as_string (target, expr->binary.value_b, pp,
 				   prec - operations[op].assoc_right, conv);
 		if (need_par) g_string_append_c (target, ')');

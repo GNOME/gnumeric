@@ -1497,7 +1497,7 @@ applix_conventions (void)
 {
 	GnmExprConventions *res = gnm_expr_conventions_new ();
 
-	res->ignore_whitespace = TRUE;
+	res->intersection_char = 0;
 	res->accept_hash_logicals = TRUE;
 	res->allow_absolute_sheet_references = TRUE;
 	res->range_sep_dotdot = TRUE;

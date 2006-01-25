@@ -499,7 +499,7 @@ int yyparse (void);
 %nonassoc NEG PLUS NOT
 %left AND OR
 %left ','
-%left ' '
+%left RANGE_INTERSECT
 %left RANGE_SEP
 
 %%
@@ -544,7 +544,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp LTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LTE,	$3); }
 	| exp AND exp	{ $$ = build_logical ($1, TRUE,	$3); }
 	| exp OR  exp	{ $$ = build_logical ($1, FALSE, $3); }
-	| exp ' ' exp	{
+	| exp RANGE_INTERSECT exp {
 		$$ = build_intersect ($1, $3);
 		if ($$ == NULL) { YYERROR; }
 	}
@@ -917,19 +917,29 @@ yylex (void)
 	gboolean is_space = FALSE;
 	gboolean error_token = FALSE;
 
+	/*
+	 * Some special logic to handle space as intersection char.
+	 * Any number of white space characters are treated as one
+	 * intersecton.
+	 *
+	 * Also, if we are not using space for that, drop spaces.
+	 */
         while (g_unichar_isspace (g_utf8_get_char (state->ptr))) {
                 state->ptr = g_utf8_next_char (state->ptr);
 		is_space = TRUE;
 	}
-	if (is_space && !state->convs->ignore_whitespace &&
+	if (is_space && state->convs->intersection_char == ' ' &&
 	    !ignore_space_before (g_utf8_get_char (state->ptr)))
-		return ' ';
+		return RANGE_INTERSECT;
 
 	start = state->ptr;
 	c = g_utf8_get_char (start);
 	if (c == 0)
 		return 0;
 	state->ptr = g_utf8_next_char (state->ptr);
+
+	if (c == state->convs->intersection_char)
+		return RANGE_INTERSECT;
 
 	if (c == '&' && state->convs->decode_ampersands) {
 		if (!strncmp (state->ptr, "amp;", 4)) {

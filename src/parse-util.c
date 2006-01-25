@@ -1289,6 +1289,7 @@ gnm_expr_conventions_new (void)
 	res->cell_ref_handler = cellref_as_string;
 	res->range_ref_handler = rangeref_as_string;
 	res->unquoted_ascii_name_chars = std_unquoted_chars;
+	res->intersection_char = ' ';
 	res->output_sheet_name_sep = "!";
 	res->output_translated = TRUE;
 	return res;

@@ -359,7 +359,7 @@ oleo_conventions (void)
 	res->ref_parser = rangeref_parse;
 	res->range_sep_colon = TRUE;
 	res->sheet_sep_exclamation = TRUE;
-	res->ignore_whitespace = TRUE;
+	res->intersection_char = 0;
 	res->unknown_function_handler = gnm_func_placeholder_factory;
 
 	return res;

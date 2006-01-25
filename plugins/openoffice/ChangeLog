@@ -1,3 +1,11 @@
+2006-01-22  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c: Stub for table:named-range.
+
+2006-01-21  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_conventions): Intersection character is '!'.
+
 2006-01-21  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_conventions): Set range_sep_colon.

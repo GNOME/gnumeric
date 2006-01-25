@@ -54,6 +54,7 @@ Morten:
 	  and operator fields.
 	* Split expression memory pool into one for large and one for
 	  small nodes.
+	* Fix SECOND, MINUTE, HOUR compatibility problems.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

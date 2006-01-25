@@ -55,6 +55,29 @@ make_date (GnmValue *res)
 	return res;
 }
 
+static int
+float_to_secs (gnm_float d)
+{
+	int secs;
+
+	/* Ok, we have a positive number.  Add epsilon before we scale
+	   and translate because otherwise it will not be enough.  */
+	d = gnm_add_epsilon (d);
+
+	/* Get the number down between 0 and 1 before we scale.  */
+	d -= gnm_floor (d);
+
+	/* Scale and round.  */
+	secs = (int)(gnm_add_epsilon (d) * DAY_SECONDS + 0.5);
+
+	/* We rounded, so we might have gone too far.  */
+	if (secs >= DAY_SECONDS)
+		secs -= DAY_SECONDS;
+
+	return secs;
+}
+
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_date[] = {
@@ -579,9 +602,14 @@ static GnmFuncHelp const help_hour[] = {
 static GnmValue *
 gnumeric_hour (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int secs;
-	secs = datetime_value_to_seconds (argv[0]);
-	return value_new_int (secs / 3600);
+	gnm_float d = value_get_as_float (argv[0]);
+
+	if (d < 0)
+		return value_new_error_VALUE (ei->pos);
+	else {
+		int secs = float_to_secs (d);
+		return value_new_int (secs / 3600);
+	}
 }
 
 /***************************************************************************/
@@ -611,10 +639,14 @@ static GnmFuncHelp const help_minute[] = {
 static GnmValue *
 gnumeric_minute (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int secs;
+	gnm_float d = value_get_as_float (argv[0]);
 
-	secs = datetime_value_to_seconds (argv[0]);
-	return value_new_int ((secs / 60) % 60);
+	if (d < 0)
+		return value_new_error_VALUE (ei->pos);
+	else {
+		int secs = float_to_secs (d);
+		return value_new_int (secs / 60 % 60);
+	}
 }
 
 /***************************************************************************/
@@ -644,10 +676,14 @@ static GnmFuncHelp const help_second[] = {
 static GnmValue *
 gnumeric_second (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int secs;
+	gnm_float d = value_get_as_float (argv[0]);
 
-	secs = datetime_value_to_seconds (argv[0]);
-	return value_new_int (secs % 60);
+	if (d < 0)
+		return value_new_error_VALUE (ei->pos);
+	else {
+		int secs = float_to_secs (d);
+		return value_new_int (secs % 60);
+	}
 }
 
 /***************************************************************************/

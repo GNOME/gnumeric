@@ -114,6 +114,9 @@ struct _GnmExprConventions {
 #endif
 	gboolean r1c1_addresses;
 
+	/* What character denotes range intersection?  */
+	gunichar intersection_char;
+
 	/* What characters are range separators?  */
 	gboolean range_sep_colon;  /* A1:B2 */
 	gboolean range_sep_dotdot; /* A1..B2 */
