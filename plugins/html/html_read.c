@@ -554,8 +554,9 @@ html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	gsf_off_t size = 200;
 	guint8 const* buf = gsf_input_read (input, size, NULL);
-	gchar *ustr, *ulstr;
+	gchar *ulstr = NULL;
 	gboolean res = FALSE;
+	int try;
 
 	/* Avoid seeking in large streams - try to read, fall back if 
 	 * stream is too short.  (Actually, currently _size does not
@@ -567,11 +568,20 @@ html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 			return res;
 	}
 
-	(void) go_guess_encoding (buf, size, NULL, &ustr);
-	if (!ustr)
-		return res;
-	ulstr = g_utf8_strdown (ustr, -1);
-	g_free (ustr);
+	/*
+	 * It is conceivable that encoding guessing could fail
+	 * if our truncated buffer had partial characters.  We
+	 * really need go_guess_encoding_truncated, but for now
+	 * let's just try cutting a byte away at a time.
+	 */
+	for (try = 0; try < MIN (size, 6); try++) {
+		char *ustr;
+		if (go_guess_encoding (buf, size - try, NULL, &ustr)) {
+			ulstr = g_utf8_strdown (ustr, -1);
+			g_free (ustr);
+			break;
+		}
+	}
 	if (!ulstr)
 		return res;
 

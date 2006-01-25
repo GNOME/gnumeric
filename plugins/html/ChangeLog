@@ -1,6 +1,8 @@
 2006-01-25  Morten Welinder  <terra@gnome.org>
 
-	* html_read.c (html_file_probe): Get rid of casts.
+	* html_read.c (html_file_probe): Get rid of casts.  Fix probing in
+	the face of truncated characters and don't rely on
+	go_guess_encoding resetting the utf8 buffer on failure.
 
 2006-01-25  Jon K Hellan  <hellan@acm.org>
 
