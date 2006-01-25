@@ -605,7 +605,7 @@ gnumeric_hour (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float d = value_get_as_float (argv[0]);
 
 	if (d < 0)
-		return value_new_error_VALUE (ei->pos);
+		return value_new_error_NUM (ei->pos);
 	else {
 		int secs = float_to_secs (d);
 		return value_new_int (secs / 3600);
@@ -642,7 +642,7 @@ gnumeric_minute (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float d = value_get_as_float (argv[0]);
 
 	if (d < 0)
-		return value_new_error_VALUE (ei->pos);
+		return value_new_error_NUM (ei->pos);
 	else {
 		int secs = float_to_secs (d);
 		return value_new_int (secs / 60 % 60);
@@ -679,7 +679,7 @@ gnumeric_second (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float d = value_get_as_float (argv[0]);
 
 	if (d < 0)
-		return value_new_error_VALUE (ei->pos);
+		return value_new_error_NUM (ei->pos);
 	else {
 		int secs = float_to_secs (d);
 		return value_new_int (secs % 60);
