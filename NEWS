@@ -59,6 +59,7 @@ Morten:
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
 	* Handle non breaking space in html input.
+	* Handle .xls containing html fragment [#311879]
 
 Nick Lamb:
 	* Fix CONVERT crash.  [#323678]

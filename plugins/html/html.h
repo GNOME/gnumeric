@@ -39,6 +39,10 @@ void xhtml_range_file_save (GOFileSaver const *fs, IOContext *io_context,
 void html_file_open (GOFileOpener const *fo, IOContext *io_context, 
 		     WorkbookView *wb_view, GsfInput *input);
 
+gboolean html_file_probe (GOFileOpener const *fo, GsfInput *input, 
+			  FileProbeLevel pl);
+
+
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"
 
 #endif

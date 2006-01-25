@@ -1,3 +1,10 @@
+2006-01-25  Jon K Hellan  <hellan@acm.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=311879
+	* plugin.xml.in: probe=TRUE for html importer.
+	* html_read.[ch] (html_file_probe): New. Probe for html and Excel
+	quasi html.
+
 2006-01-23   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=325656

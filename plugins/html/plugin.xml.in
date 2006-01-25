@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="html"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="html" priority="100" probe="FALSE">
+		<service type="file_opener" id="html" priority="100" probe="TRUE">
 			<information>
 				<_description>HTML (*.html, *.htm)</_description>
 			</information>

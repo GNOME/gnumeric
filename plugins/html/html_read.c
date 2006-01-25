@@ -46,6 +46,7 @@
 #include <ranges.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-input.h>
 #include <libxml/HTMLparser.h>
@@ -476,6 +477,9 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	g_return_if_fail (input != NULL);
 
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return;
+
 	size = gsf_input_size (input);
 	if (size >= 4) {
 		size -= 4;
@@ -543,3 +547,50 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 		gnumeric_io_error_info_set (io_context,
 			error_info_new_str (_("Unable to parse the html.")));
 }
+
+/* Quick and dirty html probe. */
+gboolean 
+html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+{
+	gsf_off_t size = 200;
+	guint8 const* buf = gsf_input_read (input, size, NULL);
+	gchar *ustr, *ulstr;
+	gboolean res = FALSE;
+	const gchar *magic;
+
+	/* Avoid seeking in large streams - try to read, fall back if 
+	 * stream is too short */
+	if (!buf) {
+		size = gsf_input_size (input);
+		buf = gsf_input_read (input, size, NULL);
+		if (!buf)
+			return res;
+	}
+
+	(void) go_guess_encoding (buf, size, NULL, &ustr);
+	if (!ustr)
+		return res;
+	ulstr = g_utf8_strdown (ustr, -1);
+	g_free (ustr);
+	if (!ulstr)
+		return res;
+
+	magic = (const gchar *) "<table";
+	if (g_strstr_len ((const gchar *) ulstr, -1, magic) != NULL) {
+		res = TRUE;
+	} else  {
+		magic = (const gchar *) "<html";
+		if (g_strstr_len ((const gchar *) ulstr, -1, magic) != NULL) {
+			res = TRUE;
+		} else {
+			magic = (const gchar *) "<!doctype html";
+			if (g_strstr_len ((const gchar *) ulstr, -1, magic) != NULL) {
+				res = TRUE;
+			}
+		}
+	}
+	g_free (ulstr);
+
+	return res;
+}
+
