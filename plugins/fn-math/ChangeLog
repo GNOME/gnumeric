@@ -1,3 +1,10 @@
+2006-01-25  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_trunc, gnumeric_round, gnumeric_roundup):
+	Fix precision in the negative-digits case.  Handle extreme digits
+	requests.
+	(gnumeric_rounddown): Alias to gnumeric_trunc.
+
 2006-01-09  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_trunc, gnumeric_rounddown, gnumeric_round,
