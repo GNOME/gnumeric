@@ -38,6 +38,7 @@ Morten:
 	* Fix loading of boolean constants from ods files.
 	* Fix MID for out-of-bounds values.
 	* Fix constructed-range parsing for OO.
+	* Fix SECOND, MINUTE, HOUR compatibility problems.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

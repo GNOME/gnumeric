@@ -1,3 +1,7 @@
+2006-01-24  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-datetime.c (datetime_value_to_seconds): Kill.
+
 2006-01-24  Ivan, Wong Yat Cheung  <ivanwong@gnome.org>
 
 	* src/Makefile.am: Build as non-console Win32 application by default.
