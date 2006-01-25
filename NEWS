@@ -27,6 +27,7 @@ Morten:
 	* Fix REPLACE and SEARCH for non-ASCII strings.
 	* Fix division-by-zero problems in FIXED, ROUND, ROUNDUP,
 	  ROUNDDOWN, TRUNC.
+	* Fix accuracy of ROUND, ROUNDUP, ROUNDDOWN, TRUNC.
 	* Fix out-of-memory problem in REPT.
 	* Fix lots of little XL compatibility problems in string
 	  functions.
