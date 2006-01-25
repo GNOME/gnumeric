@@ -556,10 +556,10 @@ html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	guint8 const* buf = gsf_input_read (input, size, NULL);
 	gchar *ustr, *ulstr;
 	gboolean res = FALSE;
-	const gchar *magic;
 
 	/* Avoid seeking in large streams - try to read, fall back if 
-	 * stream is too short */
+	 * stream is too short.  (Actually, currently _size does not
+	 * involve any syscalls -- MW).  */
 	if (!buf) {
 		size = gsf_input_size (input);
 		buf = gsf_input_read (input, size, NULL);
@@ -575,22 +575,11 @@ html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	if (!ulstr)
 		return res;
 
-	magic = (const gchar *) "<table";
-	if (g_strstr_len ((const gchar *) ulstr, -1, magic) != NULL) {
-		res = TRUE;
-	} else  {
-		magic = (const gchar *) "<html";
-		if (g_strstr_len ((const gchar *) ulstr, -1, magic) != NULL) {
-			res = TRUE;
-		} else {
-			magic = (const gchar *) "<!doctype html";
-			if (g_strstr_len ((const gchar *) ulstr, -1, magic) != NULL) {
-				res = TRUE;
-			}
-		}
-	}
+	res = (strstr (ulstr, "<table") != NULL ||
+	       strstr (ulstr, "<html") != NULL ||
+	       strstr (ulstr, "<!doctype html") != NULL);
+
 	g_free (ulstr);
 
 	return res;
 }
-

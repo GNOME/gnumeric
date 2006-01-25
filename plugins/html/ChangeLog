@@ -1,3 +1,7 @@
+2006-01-25  Morten Welinder  <terra@gnome.org>
+
+	* html_read.c (html_file_probe): Get rid of casts.
+
 2006-01-25  Jon K Hellan  <hellan@acm.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=311879
