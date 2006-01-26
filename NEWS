@@ -56,6 +56,7 @@ Morten:
 	* Split expression memory pool into one for large and one for
 	  small nodes.
 	* Fix SECOND, MINUTE, HOUR compatibility problems.
+	* Fix DATE compatibility for bizarre input.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
