@@ -1,3 +1,7 @@
+2006-01-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_date): Improve Excel compatibility.
+
 2006-01-24  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_second, gnumeric_minute, gnumeric_hour):
