@@ -1,3 +1,16 @@
+2006-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=327278
+	* src/gnumeric-gconf-priv.h (GNM_CONF_SORT_DEFAULT_HAS_HEADER): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_sort_has_header): new
+	(gnm_conf_init_extras): initialize prefs.sort_default_has_header
+	* src/gnumeric-gconf.h (gnm_gconf_set_sort_has_header): new
+	(GnmAppPrefs): add sort_default_has_header field
+	* src/wbcg-actions.c (sort_by_rows): skip header if the preferences
+	  indicate that
+	* schemas/gnumeric-general.schemas.in: add sort/default/has-header
+	  schema
+
 2006-01-24  Morten Welinder  <terra@gnome.org>
 
 	* src/item-cursor.c (item_cursor_draw): Revert previous change.

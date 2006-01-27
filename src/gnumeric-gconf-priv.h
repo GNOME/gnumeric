@@ -104,6 +104,7 @@
 #define GNM_CONF_XML_COMPRESSION	"core/xml/compression-level"
 
 #define GNM_CONF_SORT_DIR			"core/sort"
+#define GNM_CONF_SORT_DEFAULT_HAS_HEADER       	"default/has-header"
 #define GNM_CONF_SORT_DEFAULT_BY_CASE		"default/by-case"
 #define GNM_CONF_SORT_DEFAULT_RETAIN_FORM	"default/retain-formats"
 #define GNM_CONF_SORT_DEFAULT_ASCENDING		"default/ascending"

@@ -1,3 +1,11 @@
+2006-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=327278
+	* dialog-preferences.c (pref_sort_page_initializer): add 
+	  "has-header" checkbox
+	* dialog-cell-sort.c (dialog_init): initialize "has-header" 
+	  checkbox
+
 2006-01-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (cb_dialog_delete_clicked): Defensive coding.

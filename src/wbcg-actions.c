@@ -1022,6 +1022,12 @@ sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
 	sel = range_dup (tmp);
 	range_clip_to_finite (sel, sv_sheet (sv));
 
+	if (gnm_app_prefs->sort_default_has_header) {
+		sel->start.row++;
+		if (sel->start.row > sel->end.row)
+			return;
+	}
+
 	numclause = range_width (sel);
 	clause = g_new0 (GnmSortClause, numclause);
 	for (i=0; i < numclause; i++) {

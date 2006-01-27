@@ -1092,6 +1092,8 @@ dialog_init (SortFlowState *state)
 
 	state->cell_sort_header_check = glade_xml_get_widget (state->gui,
 							      "cell_sort_header_check");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->cell_sort_header_check),
+				      gnm_app_prefs->sort_default_has_header);
 	g_signal_connect_swapped (G_OBJECT (state->cell_sort_header_check),
 		"toggled",
 		G_CALLBACK (cb_sort_header_check), state);
