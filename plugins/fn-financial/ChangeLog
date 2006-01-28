@@ -1,3 +1,12 @@
+2006-01-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (value_get_basis): New function to properly handle
+	basis fields.  All basis-taking functions changed.
+	(value_get_freq): New function to properly handle frequency
+	fields.  All frequency-taking functions changed.
+	(value_get_paytype): New function to properly handle front-or-back
+	payment flag.
+
 2006-01-09  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (func_coup): Simplify using

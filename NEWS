@@ -58,6 +58,7 @@ Morten:
 	  small nodes.
 	* Fix SECOND, MINUTE, HOUR compatibility problems.
 	* Fix DATE compatibility for bizarre input.
+	* Cleanup parameter handling in financial functions.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
