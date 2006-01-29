@@ -8,15 +8,15 @@ msgid ""
 ""
 msgstr "Project-Id-Version: gnumeric 1.5.9.0 HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-09 03:20+0100\n"
-"PO-Revision-Date: 2006-01-09 16:41+1030\n"
+"POT-Creation-Date: 2006-01-29 03:38+0100\n"
+"PO-Revision-Date: 2006-01-29 16:10+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: LocFactoryEditor 1.6b23\n"
+"X-Generator: LocFactoryEditor 1.6b34\n"
 
 #:../GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -31,7 +31,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Bộ tạo bộ xem Sách làm việc Gnumeric"
 
 #.Keep in sync with .desktop file
-#:../gnumeric.desktop.in.h:1 ../src/main-application.c:380
+#:../gnumeric.desktop.in.h:1 ../src/main-application.c:401
 msgid "Gnumeric Spreadsheet"
 msgstr "Bảng tính Gnumeric"
 
@@ -305,7 +305,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Gặp thuộc tính bất ngờ %s::%s == « %s »."
 
 #:../plugins/excel/excel-xml-read.c:991
-#:../plugins/openoffice/openoffice-read.c:1750 ../src/xml-sax-read.c:1966
+#:../plugins/openoffice/openoffice-read.c:1764 ../src/xml-sax-read.c:1966
 msgid "XML document not well formed!"
 msgstr "Tập tin XML sai dạng thức."
 
@@ -374,7 +374,7 @@ msgid ""
 "encoding problems."
 msgstr "Chúng ta đã viết một độ dài cho một chuỗi đang bị cắt xén vì gặp lỗi mã hóa."
 
-#:../plugins/excel/ms-excel-write.c:4578
+#:../plugins/excel/ms-excel-write.c:4577
 #,c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -382,7 +382,7 @@ msgid ""
 msgstr "Một phần nội dung sẽ bị mất khi lưu dạng MS Excel™ 95. Nó hỗ trợ chỉ %d "
 "hàng, còn sách làm việc này có %d hàng."
 
-#:../plugins/excel/ms-excel-write.c:4585
+#:../plugins/excel/ms-excel-write.c:4584
 #,c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -390,11 +390,11 @@ msgid ""
 msgstr "Một phần nội dung sẽ bị mất khi lưu dạng MS Excel™. Nó hỗ trợ chỉ %d hàng, "
 "còn sách làm việc này có %d hàng."
 
-#:../plugins/excel/ms-excel-write.c:5358
+#:../plugins/excel/ms-excel-write.c:5357
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Không mở được dòng « Book » (sách) để ghi.\n"
 
-#:../plugins/excel/ms-excel-write.c:5378
+#:../plugins/excel/ms-excel-write.c:5377
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Không mở được dòng « Workbook » (sách làm việc) để ghi.\n"
 
@@ -402,7 +402,7 @@ msgstr "Không mở được dòng « Workbook » (sách làm việc) để ghi.
 msgid "Broken function"
 msgstr "Hàm bị hỏng."
 
-#:../plugins/excel/ms-formula-write.c:530
+#:../plugins/excel/ms-formula-write.c:531
 #,c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -538,69 +538,69 @@ msgstr "Hàm tra cứu giá trị trong cơ sở dữ liệu"
 #.* reference of the top and leftmost cell visible in the
 #.* window, based on the current scrolling position.
 #.
-#:../plugins/fn-date/functions.c:959 ../plugins/fn-info/functions.c:1303
+#:../plugins/fn-date/functions.c:1002 ../plugins/fn-info/functions.c:1303
 #:../plugins/fn-info/functions.c:1319
 msgid "Unimplemented"
 msgstr "Chưa làm"
 
-#:../plugins/fn-date/functions.c:1291
+#:../plugins/fn-date/functions.c:1334
 msgid "year,month,day"
 msgstr "năm,tháng,ngày"
 
-#:../plugins/fn-date/functions.c:1295
+#:../plugins/fn-date/functions.c:1338
 msgid "date_str"
 msgstr "chuỗi_ngày"
 
-#:../plugins/fn-date/functions.c:1299
+#:../plugins/fn-date/functions.c:1342
 msgid "date1,date2,interval"
 msgstr "ngày1,ngày2,khoảng"
 
-#:../plugins/fn-date/functions.c:1303 ../plugins/fn-date/functions.c:1327
-#:../plugins/fn-date/functions.c:1355 ../plugins/fn-date/functions.c:1359
-#:../plugins/fn-date/functions.c:1367 ../plugins/fn-date/functions.c:1371
-#:../plugins/fn-date/functions.c:1384 ../plugins/fn-date/functions.c:1388
+#:../plugins/fn-date/functions.c:1346 ../plugins/fn-date/functions.c:1370
+#:../plugins/fn-date/functions.c:1398 ../plugins/fn-date/functions.c:1402
+#:../plugins/fn-date/functions.c:1410 ../plugins/fn-date/functions.c:1414
+#:../plugins/fn-date/functions.c:1427 ../plugins/fn-date/functions.c:1431
 #:../src/print-info.c:481
 msgid "date"
 msgstr "ngày"
 
-#:../plugins/fn-date/functions.c:1307
+#:../plugins/fn-date/functions.c:1350
 msgid "date1,date2,method"
 msgstr "ngày1,ngày2,phương_pháp"
 
-#:../plugins/fn-date/functions.c:1311
+#:../plugins/fn-date/functions.c:1354
 msgid "date,months"
 msgstr "ngày,tháng"
 
-#:../plugins/fn-date/functions.c:1315
+#:../plugins/fn-date/functions.c:1358
 msgid "start_date,months"
 msgstr "ngày_đầu,tháng"
 
-#:../plugins/fn-date/functions.c:1319 ../plugins/fn-date/functions.c:1323
-#:../plugins/fn-date/functions.c:1339 ../src/print-info.c:482
+#:../plugins/fn-date/functions.c:1362 ../plugins/fn-date/functions.c:1366
+#:../plugins/fn-date/functions.c:1382 ../src/print-info.c:482
 msgid "time"
 msgstr "giờ"
 
-#:../plugins/fn-date/functions.c:1331
+#:../plugins/fn-date/functions.c:1374
 msgid "start_date,end_date,holidays"
 msgstr "ngày_đầu,ngày_cuối_cùng,ngày_nghỉ"
 
-#:../plugins/fn-date/functions.c:1343
+#:../plugins/fn-date/functions.c:1386
 msgid "hours,minutes,seconds"
 msgstr "giờ,phút,giây"
 
-#:../plugins/fn-date/functions.c:1347
+#:../plugins/fn-date/functions.c:1390
 msgid "timetext"
 msgstr "chuỗi_giờ"
 
-#:../plugins/fn-date/functions.c:1363
+#:../plugins/fn-date/functions.c:1406
 msgid "date,days,holidays"
 msgstr "ngày,ngày,ngày_nghỉ"
 
-#:../plugins/fn-date/functions.c:1376
+#:../plugins/fn-date/functions.c:1419
 msgid "unixtime"
 msgstr "giờ_unix"
 
-#:../plugins/fn-date/functions.c:1380
+#:../plugins/fn-date/functions.c:1423
 msgid "serial"
 msgstr "nối_tiếp"
 
@@ -707,7 +707,7 @@ msgstr "kiểu_thông_tin, ô"
 #:../plugins/fn-info/functions.c:1912 ../plugins/fn-info/functions.c:1915
 #:../plugins/fn-info/functions.c:1918 ../plugins/fn-info/functions.c:1921
 #:../plugins/fn-info/functions.c:1924 ../plugins/fn-info/functions.c:1930
-#:../plugins/fn-string/functions.c:1282
+#:../plugins/fn-string/functions.c:1278
 msgid "value"
 msgstr "giá_trị"
 
@@ -720,12 +720,12 @@ msgstr "kiểu_thông_tin"
 msgid "range"
 msgstr "phạm_vị"
 
-#:../plugins/fn-info/functions.c:1939 ../plugins/fn-string/functions.c:1225
-#:../plugins/fn-string/functions.c:1228 ../plugins/fn-string/functions.c:1231
-#:../plugins/fn-string/functions.c:1252 ../plugins/fn-string/functions.c:1255
-#:../plugins/fn-string/functions.c:1258 ../plugins/fn-string/functions.c:1264
-#:../plugins/fn-string/functions.c:1288 ../plugins/fn-string/functions.c:1291
-#:../plugins/fn-string/functions.c:1294
+#:../plugins/fn-info/functions.c:1939 ../plugins/fn-string/functions.c:1221
+#:../plugins/fn-string/functions.c:1224 ../plugins/fn-string/functions.c:1227
+#:../plugins/fn-string/functions.c:1248 ../plugins/fn-string/functions.c:1251
+#:../plugins/fn-string/functions.c:1254 ../plugins/fn-string/functions.c:1260
+#:../plugins/fn-string/functions.c:1284 ../plugins/fn-string/functions.c:1287
+#:../plugins/fn-string/functions.c:1290
 msgid "text"
 msgstr "chữ"
 
@@ -733,7 +733,7 @@ msgstr "chữ"
 msgid "cell"
 msgstr "ô"
 
-#:../plugins/fn-info/functions.c:1945 ../plugins/fn-string/functions.c:1216
+#:../plugins/fn-info/functions.c:1945 ../plugins/fn-string/functions.c:1212
 msgid "string"
 msgstr "chuỗi"
 
@@ -754,46 +754,46 @@ msgid "Type Mismatch"
 msgstr "Kiểu không khớp"
 
 #:../plugins/fn-logical/functions.c:360 ../plugins/fn-logical/functions.c:364
-#:../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3452
-#:../plugins/fn-stat/functions.c:5910 ../plugins/fn-stat/functions.c:5914
-#:../plugins/fn-stat/functions.c:5918 ../plugins/fn-stat/functions.c:5956
-#:../plugins/fn-stat/functions.c:5959 ../plugins/fn-stat/functions.c:5968
-#:../plugins/fn-stat/functions.c:6004 ../plugins/fn-stat/functions.c:6018
-#:../plugins/fn-stat/functions.c:6021 ../plugins/fn-stat/functions.c:6024
-#:../plugins/fn-stat/functions.c:6046 ../plugins/fn-stat/functions.c:6050
-#:../plugins/fn-stat/functions.c:6054 ../plugins/fn-stat/functions.c:6058
-#:../plugins/fn-stat/functions.c:6062 ../plugins/fn-stat/functions.c:6066
-#:../plugins/fn-stat/functions.c:6112 ../plugins/fn-stat/functions.c:6122
-#:../plugins/fn-stat/functions.c:6126 ../plugins/fn-stat/functions.c:6130
-#:../plugins/fn-stat/functions.c:6134 ../plugins/fn-stat/functions.c:6163
-#:../plugins/fn-stat/functions.c:6166 ../plugins/fn-stat/functions.c:6169
-#:../plugins/fn-stat/functions.c:6172 ../plugins/fn-stat/functions.c:6188
+#:../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3472
+#:../plugins/fn-stat/functions.c:5845 ../plugins/fn-stat/functions.c:5849
+#:../plugins/fn-stat/functions.c:5853 ../plugins/fn-stat/functions.c:5891
+#:../plugins/fn-stat/functions.c:5894 ../plugins/fn-stat/functions.c:5903
+#:../plugins/fn-stat/functions.c:5939 ../plugins/fn-stat/functions.c:5953
+#:../plugins/fn-stat/functions.c:5956 ../plugins/fn-stat/functions.c:5959
+#:../plugins/fn-stat/functions.c:5981 ../plugins/fn-stat/functions.c:5985
+#:../plugins/fn-stat/functions.c:5989 ../plugins/fn-stat/functions.c:5993
+#:../plugins/fn-stat/functions.c:5997 ../plugins/fn-stat/functions.c:6001
+#:../plugins/fn-stat/functions.c:6047 ../plugins/fn-stat/functions.c:6057
+#:../plugins/fn-stat/functions.c:6061 ../plugins/fn-stat/functions.c:6065
+#:../plugins/fn-stat/functions.c:6069 ../plugins/fn-stat/functions.c:6098
+#:../plugins/fn-stat/functions.c:6101 ../plugins/fn-stat/functions.c:6104
+#:../plugins/fn-stat/functions.c:6107 ../plugins/fn-stat/functions.c:6123
 #:../src/func-builtin.c:262 ../src/func-builtin.c:268
 msgid "number,number,"
 msgstr "số,số,"
 
 #.MS Excel puts this in the engineering functions
-#:../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3284
-#:../plugins/fn-math/functions.c:3288 ../plugins/fn-math/functions.c:3291
-#:../plugins/fn-math/functions.c:3294 ../plugins/fn-math/functions.c:3297
-#:../plugins/fn-math/functions.c:3300 ../plugins/fn-math/functions.c:3303
-#:../plugins/fn-math/functions.c:3309 ../plugins/fn-math/functions.c:3318
-#:../plugins/fn-math/functions.c:3327 ../plugins/fn-math/functions.c:3335
-#:../plugins/fn-math/functions.c:3338 ../plugins/fn-math/functions.c:3341
-#:../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3347
-#:../plugins/fn-math/functions.c:3352 ../plugins/fn-math/functions.c:3356
-#:../plugins/fn-math/functions.c:3362 ../plugins/fn-math/functions.c:3372
-#:../plugins/fn-math/functions.c:3379 ../plugins/fn-math/functions.c:3382
-#:../plugins/fn-math/functions.c:3388 ../plugins/fn-math/functions.c:3391
-#:../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3410
-#:../plugins/fn-math/functions.c:3416 ../plugins/fn-math/functions.c:3437
-#:../plugins/fn-math/functions.c:3440 ../plugins/fn-math/functions.c:3443
-#:../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3449
-#:../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3474
-#:../plugins/fn-math/functions.c:3477 ../plugins/fn-stat/functions.c:5980
-#:../plugins/fn-stat/functions.c:5983 ../plugins/fn-stat/functions.c:6001
-#:../plugins/fn-stat/functions.c:6079 ../plugins/fn-string/functions.c:1219
-#:../plugins/fn-string/functions.c:1222
+#:../plugins/fn-logical/functions.c:368 ../plugins/fn-math/functions.c:3304
+#:../plugins/fn-math/functions.c:3308 ../plugins/fn-math/functions.c:3311
+#:../plugins/fn-math/functions.c:3314 ../plugins/fn-math/functions.c:3317
+#:../plugins/fn-math/functions.c:3320 ../plugins/fn-math/functions.c:3323
+#:../plugins/fn-math/functions.c:3329 ../plugins/fn-math/functions.c:3338
+#:../plugins/fn-math/functions.c:3347 ../plugins/fn-math/functions.c:3355
+#:../plugins/fn-math/functions.c:3358 ../plugins/fn-math/functions.c:3361
+#:../plugins/fn-math/functions.c:3364 ../plugins/fn-math/functions.c:3367
+#:../plugins/fn-math/functions.c:3372 ../plugins/fn-math/functions.c:3376
+#:../plugins/fn-math/functions.c:3382 ../plugins/fn-math/functions.c:3392
+#:../plugins/fn-math/functions.c:3399 ../plugins/fn-math/functions.c:3402
+#:../plugins/fn-math/functions.c:3408 ../plugins/fn-math/functions.c:3411
+#:../plugins/fn-math/functions.c:3424 ../plugins/fn-math/functions.c:3430
+#:../plugins/fn-math/functions.c:3436 ../plugins/fn-math/functions.c:3457
+#:../plugins/fn-math/functions.c:3460 ../plugins/fn-math/functions.c:3463
+#:../plugins/fn-math/functions.c:3466 ../plugins/fn-math/functions.c:3469
+#:../plugins/fn-math/functions.c:3482 ../plugins/fn-math/functions.c:3494
+#:../plugins/fn-math/functions.c:3497 ../plugins/fn-stat/functions.c:5915
+#:../plugins/fn-stat/functions.c:5918 ../plugins/fn-stat/functions.c:5936
+#:../plugins/fn-stat/functions.c:6014 ../plugins/fn-string/functions.c:1215
+#:../plugins/fn-string/functions.c:1218
 msgid "number"
 msgstr "số"
 
@@ -813,56 +813,56 @@ msgstr "Hợp lý"
 msgid "Logic Functions"
 msgstr "Hàm hợp lý"
 
-#:../plugins/fn-lookup/functions.c:1263
+#:../plugins/fn-lookup/functions.c:1264
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "số_hàng,số_cột,số_tuyđ,a1,chuỗi"
 
-#:../plugins/fn-lookup/functions.c:1266
+#:../plugins/fn-lookup/functions.c:1267
 msgid "reference"
 msgstr "tham chiếu"
 
-#:../plugins/fn-lookup/functions.c:1269
+#:../plugins/fn-lookup/functions.c:1270
 msgid "index,value,"
 msgstr "chỉ_mục,giá_trị,"
 
-#:../plugins/fn-lookup/functions.c:1272 ../plugins/fn-lookup/functions.c:1278
-#:../plugins/fn-lookup/functions.c:1302 ../plugins/fn-lookup/functions.c:1305
+#:../plugins/fn-lookup/functions.c:1273 ../plugins/fn-lookup/functions.c:1279
+#:../plugins/fn-lookup/functions.c:1303 ../plugins/fn-lookup/functions.c:1306
 msgid "ref"
 msgstr "tch"
 
-#:../plugins/fn-lookup/functions.c:1275
+#:../plugins/fn-lookup/functions.c:1276
 msgid "colname"
 msgstr "tên_cột"
 
-#:../plugins/fn-lookup/functions.c:1281 ../plugins/fn-lookup/functions.c:1311
+#:../plugins/fn-lookup/functions.c:1282 ../plugins/fn-lookup/functions.c:1312
 msgid "val,range,col_idx,approx,as_index"
 msgstr "giá_trị,phạm_vị,chỉ_mục_cột,xấp_xỉ,như_chỉ_mục"
 
-#:../plugins/fn-lookup/functions.c:1284
+#:../plugins/fn-lookup/functions.c:1285
 msgid "link_location, label"
 msgstr "chỗ_liên_kết, nhãn"
 
-#:../plugins/fn-lookup/functions.c:1287
+#:../plugins/fn-lookup/functions.c:1288
 msgid "ref_string,format"
 msgstr "chuỗi_tch,dạng"
 
-#:../plugins/fn-lookup/functions.c:1290
+#:../plugins/fn-lookup/functions.c:1291
 msgid "reference,row,col,area"
 msgstr "tham_chiếu,hàng,cột,vùng"
 
-#:../plugins/fn-lookup/functions.c:1293
+#:../plugins/fn-lookup/functions.c:1294
 msgid "val,range,range"
 msgstr "giá_trị,phạm_vị,phạm_vị"
 
-#:../plugins/fn-lookup/functions.c:1296
+#:../plugins/fn-lookup/functions.c:1297
 msgid "val,range,approx"
 msgstr "giá_trị,phạm_vị,xấp_xỉ"
 
-#:../plugins/fn-lookup/functions.c:1299
+#:../plugins/fn-lookup/functions.c:1300
 msgid "ref,row,col,height,width"
 msgstr "tch,hàng,cột,cao,rộng"
 
-#:../plugins/fn-lookup/functions.c:1308 ../plugins/fn-math/functions.c:3490
+#:../plugins/fn-lookup/functions.c:1309 ../plugins/fn-math/functions.c:3510
 msgid "array"
 msgstr "mảng"
 
@@ -878,18 +878,18 @@ msgstr "Tra_cứu"
 msgid "Lookup Functions"
 msgstr "Hàm tra cứu"
 
-#:../plugins/fn-math/functions.c:2544 ../plugins/fn-math/functions.c:2564
-#:../plugins/fn-math/functions.c:2660 ../plugins/fn-math/functions.c:2680
-#:../plugins/fn-math/functions.c:2774 ../plugins/fn-math/functions.c:2794
-#:../plugins/fn-stat/functions.c:3109 ../plugins/fn-stat/functions.c:3139
+#:../plugins/fn-math/functions.c:2564 ../plugins/fn-math/functions.c:2584
+#:../plugins/fn-math/functions.c:2680 ../plugins/fn-math/functions.c:2700
+#:../plugins/fn-math/functions.c:2794 ../plugins/fn-math/functions.c:2814
+#:../plugins/fn-stat/functions.c:3044 ../plugins/fn-stat/functions.c:3074
 msgid "Array version not implemented!"
 msgstr "Phiên bản mảng chưa được làm."
 
-#:../plugins/fn-math/functions.c:3306
+#:../plugins/fn-math/functions.c:3326
 msgid "xnum,ynum"
 msgstr "sốx,sốy"
 
-#:../plugins/fn-math/functions.c:3312 ../plugins/fn-math/functions.c:3315
+#:../plugins/fn-math/functions.c:3332 ../plugins/fn-math/functions.c:3335
 #:../plugins/fn-random/functions.c:1196 ../plugins/fn-random/functions.c:1217
 #:../plugins/fn-random/functions.c:1223 ../plugins/fn-random/functions.c:1262
 #:../plugins/fn-random/functions.c:1277 ../plugins/fn-random/functions.c:1280
@@ -897,67 +897,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #.MS Excel puts this in statistical
-#:../plugins/fn-math/functions.c:3323
+#:../plugins/fn-math/functions.c:3343
 msgid "range,criteria"
 msgstr "phạm_vị,tiêu_chuẩn"
 
-#:../plugins/fn-math/functions.c:3331
+#:../plugins/fn-math/functions.c:3351
 msgid "number,significance"
 msgstr "số,độ_quan_trọng"
 
-#:../plugins/fn-math/functions.c:3359 ../plugins/fn-stat/functions.c:6094
+#:../plugins/fn-math/functions.c:3379 ../plugins/fn-stat/functions.c:6029
 msgid "n,k"
 msgstr "n,k"
 
-#:../plugins/fn-math/functions.c:3366
+#:../plugins/fn-math/functions.c:3386
 msgid "number,number"
 msgstr "số,số"
 
-#:../plugins/fn-math/functions.c:3385
+#:../plugins/fn-math/functions.c:3405
 msgid "number,base"
 msgstr "số,cơ_số"
 
-#:../plugins/fn-math/functions.c:3394 ../plugins/fn-math/functions.c:3413
+#:../plugins/fn-math/functions.c:3414 ../plugins/fn-math/functions.c:3433
 msgid "numerator,denominator"
 msgstr "tử_số,mẫu_số"
 
-#:../plugins/fn-math/functions.c:3397
+#:../plugins/fn-math/functions.c:3417
 msgid "number,multiple"
 msgstr "số,bội"
 
-#:../plugins/fn-math/functions.c:3407
+#:../plugins/fn-math/functions.c:3427
 msgid "base,exponent"
 msgstr "cơ_số,mũ"
 
-#:../plugins/fn-math/functions.c:3419
+#:../plugins/fn-math/functions.c:3439
 msgid "number,type"
 msgstr "số,kiểu"
 
-#:../plugins/fn-math/functions.c:3422 ../plugins/fn-math/functions.c:3426
-#:../plugins/fn-math/functions.c:3430 ../plugins/fn-math/functions.c:3480
+#:../plugins/fn-math/functions.c:3442 ../plugins/fn-math/functions.c:3446
+#:../plugins/fn-math/functions.c:3450 ../plugins/fn-math/functions.c:3500
 msgid "number,digits"
 msgstr "số,lần"
 
-#:../plugins/fn-math/functions.c:3434
+#:../plugins/fn-math/functions.c:3454
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,hệ_số"
 
-#:../plugins/fn-math/functions.c:3456
+#:../plugins/fn-math/functions.c:3476
 msgid "range,criteria,actual_range"
 msgstr "phạm_vị,tiêu_chuẩn,phạm_vị_thật"
 
-#:../plugins/fn-math/functions.c:3459
+#:../plugins/fn-math/functions.c:3479
 msgid "range,range,"
 msgstr "phạm_vị,phạm_vị,"
 
-#:../plugins/fn-math/functions.c:3465 ../plugins/fn-math/functions.c:3468
-#:../plugins/fn-math/functions.c:3471 ../plugins/fn-math/functions.c:3487
-#:../plugins/fn-stat/functions.c:5953 ../plugins/fn-stat/functions.c:5962
-#:../plugins/fn-stat/functions.c:6085 ../plugins/fn-stat/functions.c:6141
+#:../plugins/fn-math/functions.c:3485 ../plugins/fn-math/functions.c:3488
+#:../plugins/fn-math/functions.c:3491 ../plugins/fn-math/functions.c:3507
+#:../plugins/fn-stat/functions.c:5888 ../plugins/fn-stat/functions.c:5897
+#:../plugins/fn-stat/functions.c:6020 ../plugins/fn-stat/functions.c:6076
 msgid "array1,array2"
 msgstr "mảng1,mảng2"
 
-#:../plugins/fn-math/functions.c:3493 ../plugins/fn-math/functions.c:3497
+#:../plugins/fn-math/functions.c:3513 ../plugins/fn-math/functions.c:3517
 msgid "array,matrix_type,bandsize"
 msgstr "mảng,kiểu_ma_trận,bandsize"
 
@@ -989,7 +989,7 @@ msgid "Statistics"
 msgstr "Thống kê"
 
 #:../plugins/fn-random/functions.c:1193 ../plugins/fn-random/functions.c:1229
-#:../plugins/fn-random/functions.c:1247 ../plugins/fn-stat/functions.c:6082
+#:../plugins/fn-random/functions.c:1247 ../plugins/fn-stat/functions.c:6017
 msgid "p"
 msgstr "p"
 
@@ -1076,229 +1076,229 @@ msgstr "Hàm số ngẫu nhiên"
 msgid "Random Numbers"
 msgstr "Số ngẫu nhiên"
 
-#:../plugins/fn-stat/functions.c:5923 ../plugins/fn-stat/functions.c:6185
+#:../plugins/fn-stat/functions.c:5858 ../plugins/fn-stat/functions.c:6120
 msgid "k,p"
 msgstr "k,p"
 
-#:../plugins/fn-stat/functions.c:5927
+#:../plugins/fn-stat/functions.c:5862
 msgid "x,alpha,beta,a,b"
 msgstr "x,α,β,a,b"
 
-#:../plugins/fn-stat/functions.c:5930
+#:../plugins/fn-stat/functions.c:5865
 msgid "p,alpha,beta,a,b"
 msgstr "p,α,β,a,b"
 
-#:../plugins/fn-stat/functions.c:5933
+#:../plugins/fn-stat/functions.c:5868
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#:../plugins/fn-stat/functions.c:5937
+#:../plugins/fn-stat/functions.c:5872
 msgid "x,a,cum"
 msgstr "x,a,lũy_tích"
 
-#:../plugins/fn-stat/functions.c:5941
+#:../plugins/fn-stat/functions.c:5876
 msgid "x,dof"
 msgstr "x,btd"
 
-#:../plugins/fn-stat/functions.c:5944 ../plugins/fn-stat/functions.c:6150
+#:../plugins/fn-stat/functions.c:5879 ../plugins/fn-stat/functions.c:6085
 msgid "p,dof"
 msgstr "p,btd"
 
-#:../plugins/fn-stat/functions.c:5947
+#:../plugins/fn-stat/functions.c:5882
 msgid "act_range,theo_range"
 msgstr "phạm_vị_thật,phạm_vị_lý_thuyết"
 
-#:../plugins/fn-stat/functions.c:5950
+#:../plugins/fn-stat/functions.c:5885
 msgid "x,stddev,size"
 msgstr "x,lệch_ch,cỡ"
 
-#:../plugins/fn-stat/functions.c:5965
+#:../plugins/fn-stat/functions.c:5900
 msgid "trials,p,alpha"
 msgstr "phép_thử,p,α"
 
-#:../plugins/fn-stat/functions.c:5971
+#:../plugins/fn-stat/functions.c:5906
 msgid "x,y,cumulative"
 msgstr "x,y,lũy_tích"
 
-#:../plugins/fn-stat/functions.c:5974
+#:../plugins/fn-stat/functions.c:5909
 msgid "x,dof of num,dof of denom"
 msgstr "x,btd của mẫu số,btd của tử số"
 
-#:../plugins/fn-stat/functions.c:5977
+#:../plugins/fn-stat/functions.c:5912
 msgid "p,dof of num,dof of denom"
 msgstr "p,btd của mẫu số,btd của tử số"
 
-#:../plugins/fn-stat/functions.c:5986
+#:../plugins/fn-stat/functions.c:5921
 msgid "x,known y's,known x's"
 msgstr "x,các y đã biết,các x đã biết"
 
-#:../plugins/fn-stat/functions.c:5989
+#:../plugins/fn-stat/functions.c:5924
 msgid "data_array,bins_array"
 msgstr "mảng_dữ_liệu,bins_array"
 
-#:../plugins/fn-stat/functions.c:5992
+#:../plugins/fn-stat/functions.c:5927
 msgid "arr1,arr2"
 msgstr "mảng1,mảng2"
 
-#:../plugins/fn-stat/functions.c:5995
+#:../plugins/fn-stat/functions.c:5930
 msgid "number,alpha,beta,cum"
 msgstr "số,α,β,lũy_tích"
 
-#:../plugins/fn-stat/functions.c:5998
+#:../plugins/fn-stat/functions.c:5933
 msgid "number,alpha,beta"
 msgstr "số,α,β"
 
-#:../plugins/fn-stat/functions.c:6008 ../plugins/fn-stat/functions.c:6153
+#:../plugins/fn-stat/functions.c:5943 ../plugins/fn-stat/functions.c:6088
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "các_y_đã_biết,các_x_đã_biết,các_x_mới,hằng"
 
-#:../plugins/fn-stat/functions.c:6015
+#:../plugins/fn-stat/functions.c:5950
 msgid "x,n,M,N,cumulative"
 msgstr "x,n,M,N,lũy_tích"
 
-#:../plugins/fn-stat/functions.c:6028 ../plugins/fn-stat/functions.c:6031
-#:../plugins/fn-stat/functions.c:6043
+#:../plugins/fn-stat/functions.c:5963 ../plugins/fn-stat/functions.c:5966
+#:../plugins/fn-stat/functions.c:5978
 msgid "known_y's,known_x's,const,stat"
 msgstr "các_y_đã_biết,các_x_đã_biết,hằng,thống_kê"
 
-#:../plugins/fn-stat/functions.c:6034 ../plugins/fn-stat/functions.c:6109
-#:../plugins/fn-stat/functions.c:6138
+#:../plugins/fn-stat/functions.c:5969 ../plugins/fn-stat/functions.c:6044
+#:../plugins/fn-stat/functions.c:6073
 msgid "known_y's,known_x's"
 msgstr "các_y_đã_biết,các_x_đã_biết,"
 
-#:../plugins/fn-stat/functions.c:6037 ../plugins/fn-stat/functions.c:6076
+#:../plugins/fn-stat/functions.c:5972 ../plugins/fn-stat/functions.c:6011
 msgid "p,mean,stddev"
 msgstr "p,trung_bình,lệch_ch"
 
-#:../plugins/fn-stat/functions.c:6040 ../plugins/fn-stat/functions.c:6116
+#:../plugins/fn-stat/functions.c:5975 ../plugins/fn-stat/functions.c:6051
 msgid "x,mean,stddev"
 msgstr "x,trung_bình,lệch_ch"
 
-#:../plugins/fn-stat/functions.c:6070
+#:../plugins/fn-stat/functions.c:6005
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#:../plugins/fn-stat/functions.c:6073
+#:../plugins/fn-stat/functions.c:6008
 msgid "x,mean,stddev,cumulative"
 msgstr "x,trung_bình,lệch_ch,lũy_tích"
 
-#:../plugins/fn-stat/functions.c:6088
+#:../plugins/fn-stat/functions.c:6023
 msgid "array,k"
 msgstr "mảng,k"
 
-#:../plugins/fn-stat/functions.c:6091
+#:../plugins/fn-stat/functions.c:6026
 msgid "array,x,significance"
 msgstr "mảng,x,độ_quan_trọng"
 
-#:../plugins/fn-stat/functions.c:6097
+#:../plugins/fn-stat/functions.c:6032
 msgid "x,mean,cumulative"
 msgstr "x,mean,lũy_tích"
 
-#:../plugins/fn-stat/functions.c:6100
+#:../plugins/fn-stat/functions.c:6035
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "phạm_vị_x,phạm_vị_xác_suất,giới_hạn_dưới,giới_hạn_trên"
 
-#:../plugins/fn-stat/functions.c:6103
+#:../plugins/fn-stat/functions.c:6038
 msgid "array,quart"
 msgstr "mảng,ph4"
 
-#:../plugins/fn-stat/functions.c:6119
+#:../plugins/fn-stat/functions.c:6054
 msgid "array,interval"
 msgstr "mảng, khoảng"
 
-#:../plugins/fn-stat/functions.c:6147
+#:../plugins/fn-stat/functions.c:6082
 msgid "x,dof,tails"
 msgstr "x,btd,đuôi"
 
-#:../plugins/fn-stat/functions.c:6156
+#:../plugins/fn-stat/functions.c:6091
 msgid "ref,fraction"
 msgstr "tch,phân_số"
 
-#:../plugins/fn-stat/functions.c:6160
+#:../plugins/fn-stat/functions.c:6095
 msgid "array1,array2,tails,type"
 msgstr "mảng1,mảng2,đuôi,kiểu"
 
-#:../plugins/fn-stat/functions.c:6175
+#:../plugins/fn-stat/functions.c:6110
 msgid "x.alpha,beta,cumulative"
 msgstr "x.α,β,lũy_tích"
 
-#:../plugins/fn-stat/functions.c:6178
+#:../plugins/fn-stat/functions.c:6113
 msgid "ref,x"
 msgstr "tch,x"
 
-#:../plugins/fn-stat/functions.c:6182 ../plugins/fn-stat/functions.c:6200
+#:../plugins/fn-stat/functions.c:6117 ../plugins/fn-stat/functions.c:6135
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#:../plugins/fn-stat/functions.c:6191
+#:../plugins/fn-stat/functions.c:6126
 msgid "x"
 msgstr "x"
 
-#:../plugins/fn-stat/functions.c:6194 ../plugins/fn-stat/functions.c:6197
+#:../plugins/fn-stat/functions.c:6129 ../plugins/fn-stat/functions.c:6132
 msgid "x,a"
 msgstr "x,a"
 
-#:../plugins/fn-stat/functions.c:6203
+#:../plugins/fn-stat/functions.c:6138
 msgid "x,sigma"
 msgstr "x,Σ"
 
-#:../plugins/fn-stat/functions.c:6206
+#:../plugins/fn-stat/functions.c:6141
 msgid "x,a,sigma"
 msgstr "x,a,Σ"
 
-#:../plugins/fn-stat/functions.c:6212
+#:../plugins/fn-stat/functions.c:6147
 msgid "function_nbr,ref,ref,"
 msgstr "số_hàm,tch,tch,"
 
-#:../plugins/fn-stat/functions.c:6215
+#:../plugins/fn-stat/functions.c:6150
 msgid "ref,ref,"
 msgstr "tch,tch,"
 
-#:../plugins/fn-string/functions.c:1234
+#:../plugins/fn-string/functions.c:1230
 msgid "text,text,"
 msgstr "chuỗi,chuỗi,"
 
-#:../plugins/fn-string/functions.c:1237
+#:../plugins/fn-string/functions.c:1233
 msgid "num,decimals"
 msgstr "số,thập_phân"
 
-#:../plugins/fn-string/functions.c:1240
+#:../plugins/fn-string/functions.c:1236
 msgid "text1,text2"
 msgstr "chuỗi1,chuỗi2"
 
-#:../plugins/fn-string/functions.c:1243
+#:../plugins/fn-string/functions.c:1239
 msgid "text1,text2,num"
 msgstr "chuỗi1,chuỗi2,số"
 
-#:../plugins/fn-string/functions.c:1246
+#:../plugins/fn-string/functions.c:1242
 msgid "num,decs,no_commas"
 msgstr "số,thập_phân,không_phẩy"
 
-#:../plugins/fn-string/functions.c:1249 ../plugins/fn-string/functions.c:1273
+#:../plugins/fn-string/functions.c:1245 ../plugins/fn-string/functions.c:1269
 msgid "text,num_chars"
 msgstr "chuỗi,số_ký_tự"
 
-#:../plugins/fn-string/functions.c:1261
+#:../plugins/fn-string/functions.c:1257
 msgid "text,pos,num"
 msgstr "chuỗi,thứ_tự,số"
 
-#:../plugins/fn-string/functions.c:1267
+#:../plugins/fn-string/functions.c:1263
 msgid "old,start,num,new"
 msgstr "cũ,đầu,số,mới"
 
-#:../plugins/fn-string/functions.c:1270
+#:../plugins/fn-string/functions.c:1266
 msgid "text,num"
 msgstr "chuỗi,số"
 
-#:../plugins/fn-string/functions.c:1276
+#:../plugins/fn-string/functions.c:1272
 msgid "search_string,text,start_num"
 msgstr "chuỗi_tìm_kiếm,chuỗi,số_đầu"
 
-#:../plugins/fn-string/functions.c:1279
+#:../plugins/fn-string/functions.c:1275
 msgid "text,old,new,num"
 msgstr "chuỗi,cũ,mới,số"
 
-#:../plugins/fn-string/functions.c:1285
+#:../plugins/fn-string/functions.c:1281
 msgid "value,format_text"
 msgstr "giá_trị,dạng_chuỗi"
 
@@ -1368,7 +1368,7 @@ msgstr "Thuật ngữ Gnome dạng thức PO"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Hỗ trợ lưu Thuật ngữ Gnome trong các tập tin dạng .po"
 
-#:../plugins/html/html_read.c:544
+#:../plugins/html/html_read.c:548
 msgid "Unable to parse the html."
 msgstr "Không thể phân tách mã HTML."
 
@@ -1572,7 +1572,7 @@ msgstr "Thiếu miền tên biểu thức"
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Biểu thức « %s » không bắt đầu bằng một trong những ký tự được công nhận"
 
-#:../plugins/openoffice/openoffice-read.c:569
+#:../plugins/openoffice/openoffice-read.c:571
 #,c-format
 msgid ""
 "Unable to parse\n"
@@ -1582,38 +1582,38 @@ msgstr "Không thể phân tách\n"
 "\t« %s »\n"
 "vì « %s »"
 
-#:../plugins/openoffice/openoffice-read.c:642
+#:../plugins/openoffice/openoffice-read.c:646
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Biểu thức mảng không hợp lệ do không xác định số cột."
 
-#:../plugins/openoffice/openoffice-read.c:645
+#:../plugins/openoffice/openoffice-read.c:649
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Biểu thức mảng không hợp lệ do không xác định số hàng."
 
-#:../plugins/openoffice/openoffice-read.c:1240
+#:../plugins/openoffice/openoffice-read.c:1245
 #,c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Không thể phân tách vị trí cho biểu thức « %s » @ « %s » vì « %s »."
 
-#:../plugins/openoffice/openoffice-read.c:1253
+#:../plugins/openoffice/openoffice-read.c:1258
 #,c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Không thể phân tách vị trí cho biểu thức « %s » với giá trị « %s » vì « %s »."
 
-#:../plugins/openoffice/openoffice-read.c:1650
+#:../plugins/openoffice/openoffice-read.c:1664
 msgid "No stream named mimetype found."
 msgstr "Không có dòng tên « mimetype » (kiểu mime)."
 
-#:../plugins/openoffice/openoffice-read.c:1662
+#:../plugins/openoffice/openoffice-read.c:1676
 msgid "Unknown mimetype for openoffice file."
 msgstr "Kiểu MIME lạ cho tập tin OpenOffice."
 
-#:../plugins/openoffice/openoffice-read.c:1670
+#:../plugins/openoffice/openoffice-read.c:1684
 msgid "No stream named content.xml found."
 msgstr "Không thấy có dòng tên « content.xml » (nội dung)."
 
-#:../plugins/openoffice/openoffice-read.c:1677
+#:../plugins/openoffice/openoffice-read.c:1691
 msgid "No stream named styles.xml found."
 msgstr "Không thấy có dòng tên « styles.xml » (kiểu dạng)."
 
@@ -2074,7 +2074,7 @@ msgid "Activate New Plugins"
 msgstr "Kích hoạt các bộ cầm phít mới"
 
 #:../schemas/gnumeric-dialogs.schemas.in.h:4
-#:../src/dialogs/dialog-preferences.c:734
+#:../src/dialogs/dialog-preferences.c:738
 msgid "Allow Unfocused Range Selections"
 msgstr "Cho phép việc chọn phạm vị không có tiêu điểm"
 
@@ -2211,7 +2211,7 @@ msgid "List of recently used functions."
 msgstr "Danh sách các hàm được dùng gần đây."
 
 #:../schemas/gnumeric-dialogs.schemas.in.h:38
-#:../src/dialogs/dialog-preferences.c:723
+#:../src/dialogs/dialog-preferences.c:727
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Độ dài tối đa của danh sách các hàm được dùng gần đây"
 
@@ -2242,8 +2242,8 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
 msgstr "Một số hộp thoại chứa chỉ một mục nhập riêng lẻ mà cho phép lựa chọn phạm vị "
-"trong sách làm việc. Lập biến này là TRUE (đúng) thì chuyển tiếp lựa chọn vào mục "
-"nhập này, thậm chí nếu mục nhập này không có tiêu điểm bàn phím."
+"trong sách làm việc. Lập biến này là TRUE (đúng) thì chuyển tiếp lựa chọn "
+"vào mục nhập này, thậm chí nếu mục nhập này không có tiêu điểm bàn phím."
 
 #:../schemas/gnumeric-dialogs.schemas.in.h:45
 msgid "System Directory for Autoformats"
@@ -2483,7 +2483,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Sự trễ tính lại biểu thức tự động"
 
 #:../schemas/gnumeric-general.schemas.in.h:2
-#:../src/dialogs/dialog-preferences.c:729
+#:../src/dialogs/dialog-preferences.c:733
 msgid "Autocomplete"
 msgstr "Tự động hoàn chỉnh"
 
@@ -2497,7 +2497,7 @@ msgstr "Trước khi ghi đè lên tập tin đã có, trình gnumeric sẽ mở
 "mặc định."
 
 #:../schemas/gnumeric-general.schemas.in.h:4
-#:../src/dialogs/dialog-preferences.c:634
+#:../src/dialogs/dialog-preferences.c:638
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Độ nén mặc định cho tập tin Gnumeric"
 
@@ -2506,27 +2506,27 @@ msgid "Default Font Size"
 msgstr "Cỡ phông chữ mặc định"
 
 #:../schemas/gnumeric-general.schemas.in.h:6
-#:../src/dialogs/dialog-preferences.c:579
+#:../src/dialogs/dialog-preferences.c:583
 msgid "Default Horizontal Window Size"
 msgstr "Chiều rộng cửa sổ mặc định"
 
 #:../schemas/gnumeric-general.schemas.in.h:7
-#:../src/dialogs/dialog-preferences.c:587
+#:../src/dialogs/dialog-preferences.c:591
 msgid "Default Number of Sheets"
 msgstr "Số tờ mặc định"
 
 #:../schemas/gnumeric-general.schemas.in.h:8
-#:../src/dialogs/dialog-preferences.c:639
+#:../src/dialogs/dialog-preferences.c:643
 msgid "Default To Overwriting Files"
 msgstr "Mặc định là ghi đè lên tập tin"
 
 #:../schemas/gnumeric-general.schemas.in.h:9
-#:../src/dialogs/dialog-preferences.c:575
+#:../src/dialogs/dialog-preferences.c:579
 msgid "Default Vertical Window Size"
 msgstr "Chiều cao cửa sổ mặc định"
 
 #:../schemas/gnumeric-general.schemas.in.h:10
-#:../src/dialogs/dialog-preferences.c:583
+#:../src/dialogs/dialog-preferences.c:587
 msgid "Default Zoom Factor"
 msgstr "Hệ số phóng mặc định"
 
@@ -2539,7 +2539,7 @@ msgid "Format toolbar visible"
 msgstr "Hiện thanh định dạng"
 
 #:../schemas/gnumeric-general.schemas.in.h:13
-#:../src/dialogs/dialog-preferences.c:684
+#:../src/dialogs/dialog-preferences.c:688
 msgid "Horizontal DPI"
 msgstr "Điểm trong mỗi insơ bình phương theo chiều ngang"
 
@@ -2561,7 +2561,7 @@ msgstr "Nếu giá trị « sự trễ » là số không thì trình gnumeric t
 "trễ| mili-giây im thôi."
 
 #:../schemas/gnumeric-general.schemas.in.h:15
-#:../src/dialogs/dialog-preferences.c:630
+#:../src/dialogs/dialog-preferences.c:634
 msgid "Length of File History"
 msgstr "Độ dài lược sử tập tin"
 
@@ -2574,7 +2574,7 @@ msgid "List of recently used files"
 msgstr "Danh sách các tập tin gần đây"
 
 #:../schemas/gnumeric-general.schemas.in.h:18
-#:../src/dialogs/dialog-preferences.c:595
+#:../src/dialogs/dialog-preferences.c:599
 msgid "Live Scrolling"
 msgstr "Cuộn mượt"
 
@@ -2598,7 +2598,7 @@ msgid "Object toolbar visible"
 msgstr "Hiện thanh công cụ đối tượng"
 
 #:../schemas/gnumeric-general.schemas.in.h:23
-#:../src/dialogs/dialog-preferences.c:768
+#:../src/dialogs/dialog-preferences.c:772
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Thích KHAY hơn lựa chọn CHÍNH"
 
@@ -2612,6 +2612,13 @@ msgstr "Độ phân giải màn hình theo chiều dọc."
 
 #:../schemas/gnumeric-general.schemas.in.h:27
 msgid ""
+"Setting this option will cause the sort buttons on the toolbar to assume "
+"that the area to be sorted has a header and determine the initial state of "
+"the has-header checkbox in the sort dialog."
+msgstr "Lập tùy chọn này sẽ gây ra các cái nút sắp xếp trên thanh công cụ thì giả sử vùng cần sắp xếp có phần đầu và quyết định tính trạng đầu tiên cũa hộp kiểm tra Có Phần Đầu trong hộp thoại sắp xếp."
+
+#:../schemas/gnumeric-general.schemas.in.h:28
+msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
@@ -2619,7 +2626,7 @@ msgstr "Lập tùy chọn này sẽ gây ra các cái nút sắp xếp trên tha
 "hiện việc sắp xếp phân biệt chữ hoa/thường, và xác định tính trạng đầu tiên "
 "của hộp chọn phân biệt chữ hoa/thường trong hộp thoại sắp xếp."
 
-#:../schemas/gnumeric-general.schemas.in.h:28
+#:../schemas/gnumeric-general.schemas.in.h:29
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
@@ -2628,12 +2635,12 @@ msgstr "Lập tùy chọn này sẽ gây ra các cái nút sắp xếp trên tha
 "quản dạng thức ô trong khi sắp xếp và xác định tính trạng ban đầu của hộp "
 "chọn bảo quản dạng thức trong hộp thoại sắp xếp."
 
-#:../schemas/gnumeric-general.schemas.in.h:29
+#:../schemas/gnumeric-general.schemas.in.h:30
 #:../src/dialogs/dialog-preferences.c:491
 msgid "Show Sheet Name in Undo List"
 msgstr "Hiện tên tờ trong danh sách hoàn lại"
 
-#:../schemas/gnumeric-general.schemas.in.h:30
+#:../schemas/gnumeric-general.schemas.in.h:31
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
@@ -2642,59 +2649,63 @@ msgstr "Vài dạng thức tập tin chỉ có thể chứa một tờ đơn th�
 "nên cảnh báo người dùng khi lưu chỉ một tờ riêng lẻ trong sách làm việc đa "
 "tờ hay không."
 
-#:../schemas/gnumeric-general.schemas.in.h:31
-#:../src/dialogs/dialog-preferences.c:539 ../src/wbcg-actions.c:1987
+#:../schemas/gnumeric-general.schemas.in.h:32
+msgid "Sort Area Has Header"
+msgstr "Vùng sắp xếp có phần đầu"
+
+#:../schemas/gnumeric-general.schemas.in.h:33
+#:../src/dialogs/dialog-preferences.c:539 ../src/wbcg-actions.c:1993
 msgid "Sort Ascending"
 msgstr "Sắp tăng dần"
 
-#:../schemas/gnumeric-general.schemas.in.h:32
+#:../schemas/gnumeric-general.schemas.in.h:34
 msgid "Sort is Case-Sensitive"
 msgstr "Sắp xếp phân biệt hoa/thường"
 
-#:../schemas/gnumeric-general.schemas.in.h:33
+#:../schemas/gnumeric-general.schemas.in.h:35
 #:../src/dialogs/dialog-preferences.c:531
 msgid "Sorting Preserves Formats"
 msgstr "Sắp xếp bảo quản dạng thức"
 
-#:../schemas/gnumeric-general.schemas.in.h:34
+#:../schemas/gnumeric-general.schemas.in.h:36
 msgid "Standard toolbar visible"
 msgstr "Hiện thanh công cụ chuẩn"
 
-#:../schemas/gnumeric-general.schemas.in.h:35
+#:../schemas/gnumeric-general.schemas.in.h:37
 msgid "The default font is bold."
 msgstr "Phông chữ mặc định là đậm."
 
-#:../schemas/gnumeric-general.schemas.in.h:36
+#:../schemas/gnumeric-general.schemas.in.h:38
 msgid "The default font is italic."
 msgstr "Phông chữ mặc định là nghiêng."
 
-#:../schemas/gnumeric-general.schemas.in.h:37
+#:../schemas/gnumeric-general.schemas.in.h:39
 msgid "The default font name for new workbooks."
 msgstr "Tên phông chữ mặc định cho sách làm việc mới."
 
-#:../schemas/gnumeric-general.schemas.in.h:38
+#:../schemas/gnumeric-general.schemas.in.h:40
 msgid "The default font size for new workbooks."
 msgstr "Cỡ phông chữ mặc định cho sách làm việc mới."
 
-#:../schemas/gnumeric-general.schemas.in.h:39
+#:../schemas/gnumeric-general.schemas.in.h:41
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr "Trình đơn Tập tin hiện danh sách các hàm được dùng gần đây. Đây là danh sách "
 "đó."
 
-#:../schemas/gnumeric-general.schemas.in.h:40
+#:../schemas/gnumeric-general.schemas.in.h:42
 msgid "The initial zoom factor for new workbooks."
 msgstr "Hệ số phóng ban đầu của sách làm việc mới."
 
-#:../schemas/gnumeric-general.schemas.in.h:41
+#:../schemas/gnumeric-general.schemas.in.h:43
 msgid "The number of files kept in the `recent' section of the file menu."
 msgstr "Số tập tin trong phần « gần đây » trong trình đơn Tập tin."
 
-#:../schemas/gnumeric-general.schemas.in.h:42
+#:../schemas/gnumeric-general.schemas.in.h:44
 msgid "The number of sheets initially created in a new workbook."
 msgstr "Số tờ được tạo ban đầu khi tạo sách làm việc mới."
 
-#:../schemas/gnumeric-general.schemas.in.h:43
+#:../schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This integer (between 0 and 9) specifies the amount of compression performed "
 "by Gnumeric when saving files in the default file format. 0 is minimal "
@@ -2702,28 +2713,28 @@ msgid ""
 msgstr "Số nguyên này (từ 0 đến 9) xác định độ nén do Gnumeric thực hiện khi lưu tập "
 "tin với dạng thức mặc định. 0 là không nén còn 9 là nén tối đa."
 
-#:../schemas/gnumeric-general.schemas.in.h:44
+#:../schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
 msgstr "Số này (từ 0.25 đến 1.00) lập tỷ lệ của màn hình bị che bởi cửa sổ mặc định "
 "tính theo chiều ngang."
 
-#:../schemas/gnumeric-general.schemas.in.h:45
+#:../schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
 msgstr "Số này (từ 0.25 đến 1.00) cho biết tỷ lệ của màn hình bị che bởi cửa sổ mặc "
 "định tính theo chiều dọc."
 
-#:../schemas/gnumeric-general.schemas.in.h:46
+#:../schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
 msgstr "Tùy chọn này xác định tính trạng ban đầu của cái nút Thứ tự Sắp xếp trong "
 "hộp thoại Sắp xếp."
 
-#:../schemas/gnumeric-general.schemas.in.h:47
+#:../schemas/gnumeric-general.schemas.in.h:49
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
 "a size associate with it, to compare it with the memory requirements of a "
@@ -2734,93 +2745,93 @@ msgstr "Giá trị này xác định độ dài của dây hoàn lại. Mỗi h�
 "chỉnh chỉ một ô (kích thước 1). Danh sách hoàn lại sẽ bị cắt xén khi tổng "
 "kích thước vượt quá giá trị có thể cấu hình này."
 
-#:../schemas/gnumeric-general.schemas.in.h:48
+#:../schemas/gnumeric-general.schemas.in.h:50
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr "Giá trị này xác định số mục hoàn lại/làm lại tối đa."
 
-#:../schemas/gnumeric-general.schemas.in.h:49
+#:../schemas/gnumeric-general.schemas.in.h:51
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
 msgstr "Giá trị này xác định phông chữ mặc định cho sách làm việc mới có đậm hay "
 "không."
 
-#:../schemas/gnumeric-general.schemas.in.h:50
+#:../schemas/gnumeric-general.schemas.in.h:52
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
 msgstr "Giá trị này xác định phông chữ mặc định cho sách làm việc mới có nghiêng hay "
 "không."
 
-#:../schemas/gnumeric-general.schemas.in.h:51
+#:../schemas/gnumeric-general.schemas.in.h:53
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr "Giá trị này xác định có hiện tên tờ trong danh sách hoàn lại/làm lại hay "
 "không."
 
-#:../schemas/gnumeric-general.schemas.in.h:52
+#:../schemas/gnumeric-general.schemas.in.h:54
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr "Giá trị này ngụ ý độ dài tối đa của mô tả lệnh trong dây hoàn lại và làm lại."
 
-#:../schemas/gnumeric-general.schemas.in.h:53
+#:../schemas/gnumeric-general.schemas.in.h:55
 msgid "This variable determines whether autocompletion is set on."
 msgstr "Biến này xác định có bật chức năng tự động hoàn thành không."
 
-#:../schemas/gnumeric-general.schemas.in.h:54
+#:../schemas/gnumeric-general.schemas.in.h:56
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr "Biến này xác định có cuộn mượt hay không (so với cuộn trễ)."
 
-#:../schemas/gnumeric-general.schemas.in.h:55
+#:../schemas/gnumeric-general.schemas.in.h:57
 msgid ""
 "This variable determines whether the format toolbar should be visible "
 "initially."
 msgstr "Biến này xác định có hiển thị thanh công cụ định dạng ban đầu không."
 
-#:../schemas/gnumeric-general.schemas.in.h:56
+#:../schemas/gnumeric-general.schemas.in.h:58
 msgid ""
 "This variable determines whether the object toolbar should be visible "
 "initially."
 msgstr "Biến này xác định có hiển thị thanh công cụ đối tượng ban đầu không."
 
-#:../schemas/gnumeric-general.schemas.in.h:57
+#:../schemas/gnumeric-general.schemas.in.h:59
 msgid ""
 "This variable determines whether the standard toolbar should be visible "
 "initially."
 msgstr "Biến này xác định có hiển thị thanh công cụ chuẩn ban đầu không."
 
-#:../schemas/gnumeric-general.schemas.in.h:58
+#:../schemas/gnumeric-general.schemas.in.h:60
 msgid "This variable determines whether transition keys are set on."
 msgstr "Biến này xác định có bật phím chuyển đổi không."
 
-#:../schemas/gnumeric-general.schemas.in.h:59
+#:../schemas/gnumeric-general.schemas.in.h:61
 msgid "Toolbar Style"
 msgstr "Kiểu dạng thanh công cụ"
 
-#:../schemas/gnumeric-general.schemas.in.h:60
+#:../schemas/gnumeric-general.schemas.in.h:62
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr "Kiểu dạng thanh công cụ. Giá trị hợp lệ là « cả hai », « cả hai ngang », « "
 "ảnh » và « chữ »."
 
-#:../schemas/gnumeric-general.schemas.in.h:61
-#:../src/dialogs/dialog-preferences.c:591
+#:../schemas/gnumeric-general.schemas.in.h:63
+#:../src/dialogs/dialog-preferences.c:595
 msgid "Transition Keys"
 msgstr "Phím chuyển đổi"
 
-#:../schemas/gnumeric-general.schemas.in.h:62
-#:../src/dialogs/dialog-preferences.c:688
+#:../schemas/gnumeric-general.schemas.in.h:64
+#:../src/dialogs/dialog-preferences.c:692
 msgid "Vertical DPI"
 msgstr "Điểm tromg mỗi insơ bình phương dọc"
 
-#:../schemas/gnumeric-general.schemas.in.h:63
-#:../src/dialogs/dialog-preferences.c:643
+#:../schemas/gnumeric-general.schemas.in.h:65
+#:../src/dialogs/dialog-preferences.c:647
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Cảnh báo khi xuất ra dạng thức tờ đơn"
 
-#:../schemas/gnumeric-general.schemas.in.h:64
+#:../schemas/gnumeric-general.schemas.in.h:66
 msgid ""
 "When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the "
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
@@ -2829,7 +2840,7 @@ msgstr "Khi ĐÚNG (true) thì trình Gnumeric sẽ thích lựa chon KHAY mới
 "CHÍNH thừa tự. Lập là SAI (false) nếu bạn cần quản lý ứng dụng cũ hơn, như "
 "Xterm hay Emacs, mà lập chỉ lựa chọn CHÍNH thôi."
 
-#:../schemas/gnumeric-general.schemas.in.h:65
+#:../schemas/gnumeric-general.schemas.in.h:67
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
@@ -2847,7 +2858,7 @@ msgstr "Thiết lập này xác định có nên tập tin LaTeX đã tạo thì
 "cài đặt gói « ucs LaTeX »."
 
 #:../schemas/gnumeric-plugins.schemas.in.h:2
-#:../src/dialogs/dialog-preferences.c:649
+#:../src/dialogs/dialog-preferences.c:653
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Dùng UTF-8 trong LaTeX Export (xuất)"
 
@@ -2937,8 +2948,8 @@ msgstr "_Vùng"
 #:../src/dialogs/fourier-analysis.glade.h:6
 #:../src/dialogs/histogram.glade.h:16 ../src/dialogs/rank.glade.h:9
 #:../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:11
-#:../src/dialogs/shuffle.glade.h:5 ../src/wbcg-actions.c:1626
-#:../src/wbcg-actions.c:1745
+#:../src/dialogs/shuffle.glade.h:5 ../src/wbcg-actions.c:1632
+#:../src/wbcg-actions.c:1751
 msgid "_Columns"
 msgstr "_Cột"
 
@@ -2972,8 +2983,8 @@ msgstr "_Nhãn"
 #:../src/dialogs/histogram.glade.h:23
 #:../src/dialogs/moving-averages.glade.h:12 ../src/dialogs/rank.glade.h:12
 #:../src/dialogs/regression.glade.h:13 ../src/dialogs/sampling.glade.h:18
-#:../src/dialogs/shuffle.glade.h:6 ../src/wbcg-actions.c:1623
-#:../src/wbcg-actions.c:1748
+#:../src/dialogs/shuffle.glade.h:6 ../src/wbcg-actions.c:1629
+#:../src/wbcg-actions.c:1754
 msgid "_Rows"
 msgstr "_Hàng"
 
@@ -3050,7 +3061,7 @@ msgstr "_Không sửa:"
 msgid "First Letter"
 msgstr "Ký tự đầu tiên"
 
-#:../src/dialogs/autocorrect.glade.h:8 ../src/wbcg-actions.c:2046
+#:../src/dialogs/autocorrect.glade.h:8 ../src/wbcg-actions.c:2052
 msgid "General"
 msgstr "Chung"
 
@@ -3404,7 +3415,7 @@ msgid "Diagonal Stripe"
 msgstr "Sọc chéo"
 
 #:../src/dialogs/cell-format.glade.h:45
-#:../src/dialogs/dialog-preferences.c:790
+#:../src/dialogs/dialog-preferences.c:794
 msgid "Font"
 msgstr "Phông chữ"
 
@@ -3801,7 +3812,7 @@ msgid "Correlation"
 msgstr "Tương quan"
 
 #:../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:1008
-#:../src/tools/analysis-tools.c:1011 ../src/wbcg-actions.c:1903
+#:../src/tools/analysis-tools.c:1011 ../src/wbcg-actions.c:1909
 msgid "Covariance"
 msgstr "Hiệp phương sai"
 
@@ -4652,7 +4663,7 @@ msgid "Double"
 msgstr "Đôi"
 
 #:../src/dialogs/dialog-cell-format.c:471 ../src/dialogs/dialog-search.c:158
-#:../src/func.c:932 ../src/wbcg-actions.c:2049
+#:../src/func.c:932 ../src/wbcg-actions.c:2055
 msgid "Number"
 msgstr "Số"
 
@@ -4756,7 +4767,7 @@ msgstr "Phân biệt hoa/thường"
 msgid "By Value"
 msgstr "Theo giá trị"
 
-#:../src/dialogs/dialog-cell-sort.c:1205
+#:../src/dialogs/dialog-cell-sort.c:1207
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Không tạo được hộp thoại Sắp xếp Ô."
 
@@ -5002,7 +5013,7 @@ msgstr "Mật khẩu:"
 #.* 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #.* 	try to keep them from conflicting
 #.Edit -> Clear
-#:../src/dialogs/dialog-paste-special.c:67 ../src/wbcg-actions.c:1609
+#:../src/dialogs/dialog-paste-special.c:67 ../src/wbcg-actions.c:1615
 msgid "_All"
 msgstr "Tất _cả"
 
@@ -5014,11 +5025,11 @@ msgstr "_Nội dung"
 msgid "As _Value"
 msgstr "Như là _giá trị"
 
-#:../src/dialogs/dialog-paste-special.c:70 ../src/wbcg-actions.c:1612
+#:../src/dialogs/dialog-paste-special.c:70 ../src/wbcg-actions.c:1618
 msgid "_Formats"
 msgstr "Định _dạng"
 
-#:../src/dialogs/dialog-paste-special.c:71 ../src/wbcg-actions.c:1615
+#:../src/dialogs/dialog-paste-special.c:71 ../src/wbcg-actions.c:1621
 msgid "Co_mments"
 msgstr "G_hi chú"
 
@@ -5161,58 +5172,62 @@ msgstr "Những mục trong trang này tủy chỉnh thiết lập ban đầu c�
 msgid "Sorting is Case-Sensitive"
 msgstr "Sắp xếp phân biệt hoa/thường"
 
-#:../src/dialogs/dialog-preferences.c:557
+#:../src/dialogs/dialog-preferences.c:543
+msgid "Sort Area Has a HEADER"
+msgstr "Vùng sắp xếp có PHẦN ĐẦU"
+
+#:../src/dialogs/dialog-preferences.c:561
 msgid "The items on this page customize the new default workbook."
 msgstr "Những mục trong trang này tủy chỉnh sách làm việc mặc định mới."
 
-#:../src/dialogs/dialog-preferences.c:612
+#:../src/dialogs/dialog-preferences.c:616
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Những mục trong trang này liên quan đến lưu và mở tập tin."
 
-#:../src/dialogs/dialog-preferences.c:666
+#:../src/dialogs/dialog-preferences.c:670
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr "Những mục trong trang này liên quan đến bố trí màn hình và độ phân giải."
 
-#:../src/dialogs/dialog-preferences.c:705
+#:../src/dialogs/dialog-preferences.c:709
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr "Những mục trong trang này và các trang con nó liên quan đến nhiều công cụ "
 "Gnumeric khác nhau."
 
-#:../src/dialogs/dialog-preferences.c:750
+#:../src/dialogs/dialog-preferences.c:754
 msgid "The items on this page are related to copy, cut and paste."
 msgstr "Những mục trong trang này liên quan đến thao tác Cắt, Chép và Dán."
 
-#:../src/dialogs/dialog-preferences.c:791
+#:../src/dialogs/dialog-preferences.c:795
 msgid "Copy and Paste"
 msgstr "Chép và Dán"
 
-#:../src/dialogs/dialog-preferences.c:792
+#:../src/dialogs/dialog-preferences.c:796
 msgid "Files"
 msgstr "Tập tin"
 
-#:../src/dialogs/dialog-preferences.c:793
+#:../src/dialogs/dialog-preferences.c:797
 msgid "Tools"
 msgstr "Công cụ"
 
-#:../src/dialogs/dialog-preferences.c:794 ../src/wbc-gtk.c:492
+#:../src/dialogs/dialog-preferences.c:798 ../src/wbc-gtk.c:492
 msgid "Undo"
 msgstr "Hoàn lại"
 
-#:../src/dialogs/dialog-preferences.c:795
+#:../src/dialogs/dialog-preferences.c:799
 msgid "Windows"
 msgstr "Cửa sổ"
 
-#:../src/dialogs/dialog-preferences.c:796
+#:../src/dialogs/dialog-preferences.c:800
 msgid "Header/Footer"
 msgstr "Phần đầu/chân"
 
-#:../src/dialogs/dialog-preferences.c:797 ../src/commands.c:2079
+#:../src/dialogs/dialog-preferences.c:801 ../src/commands.c:2079
 msgid "Sorting"
 msgstr "Sắp xếp"
 
-#:../src/dialogs/dialog-preferences.c:798
+#:../src/dialogs/dialog-preferences.c:802
 msgid "Screen"
 msgstr "Màn hình"
 
@@ -5252,7 +5267,7 @@ msgstr "Số nguyên đồng dạng"
 
 #:../src/dialogs/dialog-random-generator.c:116
 #:../src/dialogs/search.glade.h:13 ../src/dialogs/search-replace.glade.h:14
-#:../src/widgets/widget-font-selector.c:208
+#:../src/widgets/widget-font-selector.c:209
 msgid "Normal"
 msgstr "Bình thường"
 
@@ -5688,75 +5703,75 @@ msgstr "Revised Simplex (GLPK 4.5)"
 msgid "< Not available >"
 msgstr "< Không sẵn sàng >"
 
-#:../src/dialogs/dialog-solver.c:397
+#:../src/dialogs/dialog-solver.c:399
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 msgstr "Bạn có muốn tìm chủ đề cho luận án phải không? Bạn chọn viết công cụ giải QP "
 "cho trình Gnumeric nhé. ;)"
 
-#:../src/dialogs/dialog-solver.c:701
+#:../src/dialogs/dialog-solver.c:703
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr "Bộ giải đã tìm lời giải tối ưu, đã thỏa mọi ràng buộc và điều kiện tối ưu "
 "rồi.\n"
 
-#:../src/dialogs/dialog-solver.c:710
+#:../src/dialogs/dialog-solver.c:712
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
 msgstr "Không có nghĩa trong báo cáo nhạy cảm hoặc giới hạn nếu chương trình có ràng "
 "buộc số nguyên. Sẽ không tạo những báo cáo này."
 
-#:../src/dialogs/dialog-solver.c:728
+#:../src/dialogs/dialog-solver.c:730
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Giá trị Ô Đích xác định không hội tụ. Chương trình vô hạn."
 
-#:../src/dialogs/dialog-solver.c:742
+#:../src/dialogs/dialog-solver.c:744
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 msgstr "Không thể tìm lời giải có thể thực hiện được. Không thể thỏa mọi ràng buộc "
 "xác định đồng thời."
 
-#:../src/dialogs/dialog-solver.c:757
+#:../src/dialogs/dialog-solver.c:759
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr "Vượt quá số lần lặp tối đa. Không thể tìm giá trị tối ưu."
 
-#:../src/dialogs/dialog-solver.c:801
+#:../src/dialogs/dialog-solver.c:803
 msgid "Optimal solution created by solver.\n"
 msgstr "Bộ giải đã tạo lời giải pháp tối ưu.\n"
 
-#:../src/dialogs/dialog-solver.c:835
+#:../src/dialogs/dialog-solver.c:837
 msgid "Unknown error."
 msgstr "Lỗi lạ."
 
-#:../src/dialogs/dialog-solver.c:854
+#:../src/dialogs/dialog-solver.c:856
 msgid "You have not specified a problem to be solved"
 msgstr "Bạn chưa xác định vấn đề cần giải."
 
-#:../src/dialogs/dialog-solver.c:873 ../src/tools/solver/solver.c:391
+#:../src/dialogs/dialog-solver.c:875 ../src/tools/solver/solver.c:391
 msgid "Target cell should contain a formula."
 msgstr "Ô đính nên chứa công thức."
 
-#:../src/dialogs/dialog-solver.c:951
+#:../src/dialogs/dialog-solver.c:953
 #,c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Ràng buộc « %s » là cho ô không phải là ô gõ."
 
-#:../src/dialogs/dialog-solver.c:972
+#:../src/dialogs/dialog-solver.c:974
 msgid "No constraints defined for the problem."
 msgstr "Chưa định nghĩa ràng buộc cho vấn đề."
 
-#:../src/dialogs/dialog-solver.c:1236
+#:../src/dialogs/dialog-solver.c:1238
 msgid "Subject to the Constraints:"
 msgstr "Với ràng buộc:"
 
-#:../src/dialogs/dialog-solver.c:1352
+#:../src/dialogs/dialog-solver.c:1354
 msgid "Could not create the Solver dialog."
 msgstr "Không tạo được hộp thoại Bộ giải."
 
@@ -5866,7 +5881,7 @@ msgid "Select N_one"
 msgstr "_Không chọn gì"
 
 #.Edit -> Select
-#:../src/dialogs/dialog-stf-export.glade.h:23 ../src/wbcg-actions.c:1635
+#:../src/dialogs/dialog-stf-export.glade.h:23 ../src/wbcg-actions.c:1641
 msgid "Select _All"
 msgstr "Chọn tất _cả"
 
@@ -5964,7 +5979,7 @@ msgid "Importing %i columns and ignoring %i."
 msgstr "Đang nhập %i cột, bỏ qua %i cột."
 
 #:../src/dialogs/dialog-stf-format-page.c:158
-#:../src/dialogs/dialog-stf-format-page.c:441
+#:../src/dialogs/dialog-stf-format-page.c:440
 #,c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Có thể nhập %d cột tối đa."
@@ -5989,12 +6004,12 @@ msgstr "Nhập mọi cột bên trái."
 msgid "Copy format to right"
 msgstr "Chép định dạng phía phải."
 
-#:../src/dialogs/dialog-stf-format-page.c:471
+#:../src/dialogs/dialog-stf-format-page.c:470
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr "Nếu chọn hộp thì sẽ nhập cột này vào Gnumeric."
 
-#:../src/dialogs/dialog-stf-format-page.c:625
+#:../src/dialogs/dialog-stf-format-page.c:624
 #:../src/dialogs/dialog-stf-preview.h:26
 #,c-format
 msgid "Column %d"
@@ -6268,7 +6283,7 @@ msgstr "%d trên %d dòng cần nhập"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Dữ liệu này không hợp lệ bằng bộ ký tứ %s nên hãy chọn mã hóa khác."
 
-#:../src/dialogs/dialog-stf-main-page.c:381 ../src/wbcg-actions.c:2019
+#:../src/dialogs/dialog-stf-main-page.c:381 ../src/wbcg-actions.c:2025
 msgid "Line"
 msgstr "Đường"
 
@@ -6619,7 +6634,7 @@ msgid "_Month"
 msgstr "_Tháng"
 
 #:../src/dialogs/fill-series.glade.h:17 ../src/dialogs/pivottable.glade.h:13
-#:../src/wbcg-actions.c:1508
+#:../src/wbcg-actions.c:1514
 msgid "_Row"
 msgstr "_Hàng"
 
@@ -6655,7 +6670,7 @@ msgstr "Nhập là hàm mảng"
 msgid "Formula Guru"
 msgstr "Thủ thuật Công thức"
 
-#:../src/dialogs/fourier-analysis.glade.h:1 ../src/wbcg-actions.c:1909
+#:../src/dialogs/fourier-analysis.glade.h:1 ../src/wbcg-actions.c:1915
 msgid "Fourier Analysis"
 msgstr "Phân tích Fourier"
 
@@ -6667,7 +6682,7 @@ msgstr "_Đảo"
 msgid "Category"
 msgstr "Phân loại"
 
-#:../src/dialogs/function-select.glade.h:3 ../src/wbcg-actions.c:1983
+#:../src/dialogs/function-select.glade.h:3 ../src/wbcg-actions.c:1989
 msgid "Function"
 msgstr "Hàm"
 
@@ -6679,8 +6694,8 @@ msgstr "Bộ chọn hàm"
 msgid "Select a function to insert:"
 msgstr "Chọn hàm cần chèn:"
 
-#:../src/dialogs/function-select.glade.h:6 ../src/wbcg-actions.c:1503
-#:../src/wbcg-actions.c:1678
+#:../src/dialogs/function-select.glade.h:6 ../src/wbcg-actions.c:1509
+#:../src/wbcg-actions.c:1684
 msgid "_Insert"
 msgstr "_Chèn"
 
@@ -7006,7 +7021,7 @@ msgstr "Tổng phụ bằng cách"
 msgid "_Add:"
 msgstr "Th_êm:"
 
-#:../src/dialogs/pivottable.glade.h:8 ../src/wbcg-actions.c:1516
+#:../src/dialogs/pivottable.glade.h:8 ../src/wbcg-actions.c:1522
 msgid "_Data"
 msgstr "_Dữ liệu"
 
@@ -7022,7 +7037,7 @@ msgstr "Định _dạng"
 msgid "_Page"
 msgstr "T_rang"
 
-#:../src/dialogs/pivottable.glade.h:12 ../src/wbcg-actions.c:1691
+#:../src/dialogs/pivottable.glade.h:12 ../src/wbcg-actions.c:1697
 msgid "_Remove"
 msgstr "_Gỡ bỏ"
 
@@ -7676,7 +7691,7 @@ msgstr "_Tìm kiếm"
 msgid "Manage Sheets..."
 msgstr "Quản lý tờ..."
 
-#:../src/dialogs/sheet-order.glade.h:2 ../src/wbcg-actions.c:1688
+#:../src/dialogs/sheet-order.glade.h:2 ../src/wbcg-actions.c:1694
 msgid "_Duplicate"
 msgstr "Tạo bản sao"
 
@@ -7857,7 +7872,7 @@ msgstr "Giải"
 #:../src/tools/solver/reports-write.c:484
 #:../src/tools/solver/reports-write.c:743
 #:../src/tools/solver/reports-write.c:907
-#:../src/tools/solver/reports-write.c:958 ../src/commands.c:6046
+#:../src/tools/solver/reports-write.c:958 ../src/commands.c:6053
 msgid "Solver"
 msgstr "Bộ giải"
 
@@ -9111,16 +9126,16 @@ msgid "Expecting a single range"
 msgstr "Ngờ một phạm vị đơn"
 
 #.ALSO "<control>2"
-#:../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2193
+#:../src/widgets/widget-font-selector.c:210 ../src/wbcg-actions.c:2199
 msgid "Bold"
 msgstr "Đậm"
 
-#:../src/widgets/widget-font-selector.c:210
+#:../src/widgets/widget-font-selector.c:211
 msgid "Bold italic"
 msgstr "Nghiêng đậm"
 
 #.ALSO "<control>3"
-#:../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2196
+#:../src/widgets/widget-font-selector.c:212 ../src/wbcg-actions.c:2202
 msgid "Italic"
 msgstr "Nghiêng"
 
@@ -9128,16 +9143,16 @@ msgstr "Nghiêng"
 msgid "Cut Object"
 msgstr "Cắt đối tượng"
 
-#:../src/clipboard.c:299 ../src/clipboard.c:311 ../src/clipboard.c:322
-#:../src/clipboard.c:330
+#:../src/clipboard.c:298 ../src/clipboard.c:310 ../src/clipboard.c:321
+#:../src/clipboard.c:329
 msgid "Unable to paste"
 msgstr "Không thể dán"
 
-#:../src/clipboard.c:300
+#:../src/clipboard.c:299
 msgid "Content can only be pasted by value or by link."
 msgstr "Nội dung chỉ có thể được dán theo giá trị hoặc bằng liên kết"
 
-#:../src/clipboard.c:308
+#:../src/clipboard.c:307
 #,c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -9147,7 +9162,7 @@ msgstr "số lượng cột nguồn ở đích không phải là một số ch�
 "\n"
 "Hãy thử chọn một ô đơn hoặc một vùng có cùng hình dạng và kích thước."
 
-#:../src/clipboard.c:319
+#:../src/clipboard.c:318
 #,c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -9157,11 +9172,11 @@ msgstr "số lượng hàng nguồn ở đích không phải là một số ch�
 "\n"
 "Hãy thử chọn ô đơn hoặc vùng có cùng hình dạng và kích thước."
 
-#:../src/clipboard.c:331
+#:../src/clipboard.c:330
 msgid "result passes the sheet boundary"
 msgstr "kết quả vượt ngoài phạm vi bảng"
 
-#:../src/cmd-edit.c:335
+#:../src/cmd-edit.c:325
 #,c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -9171,30 +9186,30 @@ msgstr "đích có hình dạng khác (%dRx%dC) so với điều gốc (%dRx%dC)
 "\n"
 "Hãy thử chọn một ô đơn hoặc một vùng có cùng hình dạng và kích thước."
 
-#:../src/cmd-edit.c:341
+#:../src/cmd-edit.c:331
 msgid "Unable to paste into selection"
 msgstr "Không thể dán vào vùng chọn"
 
-#:../src/cmd-edit.c:379
+#:../src/cmd-edit.c:369
 msgid "Paste"
 msgstr "Dán"
 
-#:../src/cmd-edit.c:423
+#:../src/cmd-edit.c:413
 #,c-format
 msgid "Shift rows %s"
 msgstr "Dịch hàng %s"
 
-#:../src/cmd-edit.c:424
+#:../src/cmd-edit.c:414
 #,c-format
 msgid "Shift row %s"
 msgstr "Dịch hàng %s"
 
-#:../src/cmd-edit.c:462
+#:../src/cmd-edit.c:452
 #,c-format
 msgid "Shift columns %s"
 msgstr "Dịch cột %s"
 
-#:../src/cmd-edit.c:463
+#:../src/cmd-edit.c:453
 #,c-format
 msgid "Shift column %s"
 msgstr "Dịch cột %s"
@@ -9241,11 +9256,11 @@ msgstr "Đang gõ « %s%s »"
 msgid "Ins/Del Column/Row"
 msgstr "Chèn/Xóa/Cột/Hàng"
 
-#:../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3654
+#:../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3625
 msgid "Delete Columns"
 msgstr "Xóa bỏ cột"
 
-#:../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3778
+#:../src/commands.c:1292 ../src/commands.c:1297 ../src/sheet.c:3749
 msgid "Delete Rows"
 msgstr "Xoá bỏ hàng"
 
@@ -9290,7 +9305,7 @@ msgid "Deleting row %s"
 msgstr "Đang xóa bỏ hàng %s"
 
 #.Check for locked cells
-#:../src/commands.c:1565 ../src/commands.c:1569 ../src/sheet.c:3303
+#:../src/commands.c:1565 ../src/commands.c:1569 ../src/sheet.c:3274
 msgid "Clear"
 msgstr "Xóa"
 
@@ -9612,34 +9627,34 @@ msgid "Shuffle Data"
 msgstr "Xáo trộn dữ liệu"
 
 #.FIXME?
-#:../src/commands.c:5904
+#:../src/commands.c:5908
 #,c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Chữ (%s) sang Cột (%s)"
 
-#:../src/commands.c:6128
+#:../src/commands.c:6135
 #,c-format
 msgid "Goal Seek (%s)"
 msgstr "Tìm đích (%s)"
 
-#:../src/commands.c:6270
+#:../src/commands.c:6277
 #,c-format
 msgid "Duplicating %s"
 msgstr "Đang tạo bản sao %s"
 
-#:../src/commands.c:6361
+#:../src/commands.c:6368
 msgid "Tabulating Dependencies"
 msgstr "Đang xếp lệ thuộc thành bảng"
 
-#:../src/commands.c:6435
+#:../src/commands.c:6442
 msgid "Reconfigure Graph"
 msgstr "Cấu hình lại đồ thị"
 
-#:../src/commands.c:6479
+#:../src/commands.c:6486
 msgid "Left to Right"
 msgstr "Trái qua phải"
 
-#:../src/commands.c:6479
+#:../src/commands.c:6486
 msgid "Right to Left"
 msgstr "Phải qua trái"
 
@@ -9648,29 +9663,29 @@ msgstr "Phải qua trái"
 msgid "Consolidating to (%s)"
 msgstr "Đang củng cố đến (%s)"
 
-#:../src/expr.c:720
+#:../src/expr.c:738
 msgid "Unknown operator"
 msgstr "Toán tử lạ"
 
-#:../src/expr.c:752
+#:../src/expr.c:770
 msgid "Internal type error"
 msgstr "Lỗi kiểu nội bộ"
 
-#:../src/expr.c:1374
+#:../src/expr.c:1398
 msgid "Unknown evaluation error"
 msgstr "Lỗi định giá lạ"
 
-#:../src/expr-name.c:418
+#:../src/expr-name.c:419
 #,c-format
 msgid "'%s' has a circular reference"
 msgstr "« %s » có tham chiếu vòng"
 
-#:../src/expr-name.c:441 ../src/expr-name.c:628
+#:../src/expr-name.c:442 ../src/expr-name.c:629
 #,c-format
 msgid "'%s' is already defined in sheet"
 msgstr "« %s » đã định nghĩa trong tờ"
 
-#:../src/expr-name.c:442 ../src/expr-name.c:629
+#:../src/expr-name.c:443 ../src/expr-name.c:630
 #,c-format
 msgid "'%s' is already defined in workbook"
 msgstr "« %s » đã định nghĩa trong sách làm việc"
@@ -9898,7 +9913,7 @@ msgstr "Thanh công cụ đối tượng"
 msgid "StandardToolbar"
 msgstr "Thanh công cụ chuẩn"
 
-#:../src/gnumeric-pane.c:143
+#:../src/gnumeric-pane.c:141
 #,c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10036,75 +10051,75 @@ msgstr "Dịch p_hải và di chuyển"
 msgid "C_ancel"
 msgstr "Hủ_y bỏ"
 
-#:../src/main-application.c:65 ../src/ssconvert.c:45 ../src/ssindex.c:53
+#:../src/main-application.c:67 ../src/ssconvert.c:45 ../src/ssindex.c:53
 msgid "Display Gnumeric's version"
 msgstr "Hiện phiên bản Gnumeric"
 
-#:../src/main-application.c:67 ../src/ssconvert.c:48 ../src/ssindex.c:56
+#:../src/main-application.c:69 ../src/ssconvert.c:48 ../src/ssindex.c:56
 #:../src/test-pango.c:34
 msgid "Set the root library directory"
 msgstr "Đặt thư mục thư viện gốc"
 
-#:../src/main-application.c:69 ../src/ssconvert.c:50 ../src/ssindex.c:58
+#:../src/main-application.c:71 ../src/ssconvert.c:50 ../src/ssindex.c:58
 #:../src/test-pango.c:36
 msgid "Adjust the root data directory"
 msgstr "Chỉnh thư mục dữ liệu gốc"
 
-#:../src/main-application.c:72 ../src/main-application.c:74
+#:../src/main-application.c:74 ../src/main-application.c:76
 msgid "Dumps the function definitions"
 msgstr "Đổ các định nghĩa hàm"
 
-#:../src/main-application.c:72 ../src/main-application.c:74
+#:../src/main-application.c:74 ../src/main-application.c:76
 msgid "FILE"
 msgstr "TẬP TIN"
 
-#:../src/main-application.c:76
+#:../src/main-application.c:78
 msgid "Generate new help and po files"
 msgstr "Tạo ra tập tin trợ giúp và .po mới"
 
-#:../src/main-application.c:79 ../src/test-pango.c:38
+#:../src/main-application.c:81 ../src/test-pango.c:38
 msgid "Enables some debugging functions"
 msgstr "Bật một số hàm gỡ lỗi"
 
-#:../src/main-application.c:79 ../src/main-application.c:82
-#:../src/main-application.c:84 ../src/main-application.c:86
+#:../src/main-application.c:81 ../src/main-application.c:84
+#:../src/main-application.c:86 ../src/main-application.c:88
 #:../src/test-pango.c:38
 msgid "LEVEL"
 msgstr "CẤP ĐỘ"
 
-#:../src/main-application.c:82
+#:../src/main-application.c:84
 msgid "Enables some dependency related debugging functions"
 msgstr "Bật một số hàm gỡ lỗi liên quan đến lệ thuộc"
 
-#:../src/main-application.c:84
+#:../src/main-application.c:86
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Bật các hàm gỡ lỗi có thể chia sẽ biểu thức"
 
-#:../src/main-application.c:86
+#:../src/main-application.c:88
 msgid "Enables some print debugging behavior"
 msgstr "Bật một phần hành vi gỡ lỗi khi in"
 
-#:../src/main-application.c:89 ../src/test-pango.c:40
+#:../src/main-application.c:91 ../src/test-pango.c:40
 msgid "Specify the size and location of the initial window"
 msgstr "Xác định kích thước và vị trí cửa sổ ban đầu"
 
-#:../src/main-application.c:89 ../src/test-pango.c:40
+#:../src/main-application.c:91 ../src/test-pango.c:40
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "RỘNGxCAO+TOẠĐỘ_X+TỌAĐỘ_Y"
 
-#:../src/main-application.c:93
+#:../src/main-application.c:95
 msgid "Don't show splash screen"
 msgstr "Không hiện màn hình giật gân"
 
-#:../src/main-application.c:95
+#:../src/main-application.c:97
 msgid "Don't display warning dialogs when importing"
 msgstr "Đừng hiển thị hộp thoại cảnh báo trong khi nhập."
 
-#:../src/main-application.c:98
+#:../src/main-application.c:100
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Thoát ngay lập tức sau khi tải các sách đã chọn (hữu dụng khi kiểm tra)."
 
-#:../src/main-application.c:137
+#:../src/main-application.c:139
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -10129,84 +10144,84 @@ msgstr "Xin cám ơn đã sử dụng Gnumeric!\n"
 "\n"
 " • Nhóm phát triển Gnumeric."
 
-#:../src/main-application.c:212
+#:../src/main-application.c:214
 msgid "Gdk debugging flags to set"
 msgstr "Cờ gỡ lỗi GDK cần lập"
 
-#:../src/main-application.c:212 ../src/main-application.c:214
-#:../src/main-application.c:226 ../src/main-application.c:228
+#:../src/main-application.c:214 ../src/main-application.c:216
+#:../src/main-application.c:228 ../src/main-application.c:230
 msgid "FLAGS"
 msgstr "CỜ"
 
-#:../src/main-application.c:214
+#:../src/main-application.c:216
 msgid "Gdk debugging flags to unset"
 msgstr "Cờ gỡ lỗi GDK cần bỏ lập"
 
-#:../src/main-application.c:216
+#:../src/main-application.c:218
 msgid "X display to use"
 msgstr "Bộ trình bày X cần dùng"
 
-#:../src/main-application.c:216
+#:../src/main-application.c:218
 msgid "DISPLAY"
 msgstr "BỘ TRÌNH BÀY"
 
-#:../src/main-application.c:218
+#:../src/main-application.c:220
 msgid "X screen to use"
 msgstr "Màn hình X cần dùng"
 
-#:../src/main-application.c:218
+#:../src/main-application.c:220
 msgid "SCREEN"
 msgstr "MÀN HÌNH"
 
-#:../src/main-application.c:220
+#:../src/main-application.c:222
 msgid "Make X calls synchronous"
 msgstr "Lập mọi việc gọi X đồng thời"
 
-#:../src/main-application.c:222
+#:../src/main-application.c:224
 msgid "Program name as used by the window manager"
 msgstr "Tên chương trình mà trình quản lý cửa sổ dùng"
 
-#:../src/main-application.c:222
+#:../src/main-application.c:224
 msgid "NAME"
 msgstr "TÊN"
 
-#:../src/main-application.c:224
+#:../src/main-application.c:226
 msgid "Program class as used by the window manager"
 msgstr "Hạng chương trình mà trình quản lý cửa sổ dùng"
 
-#:../src/main-application.c:224
+#:../src/main-application.c:226
 msgid "CLASS"
 msgstr "HẠNG"
 
-#:../src/main-application.c:226
+#:../src/main-application.c:228
 msgid "Gtk+ debugging flags to set"
 msgstr "Cờ gỡ lỗi GTK+ cần lập"
 
-#:../src/main-application.c:228
+#:../src/main-application.c:230
 msgid "Gtk+ debugging flags to unset"
 msgstr "Cờ gỡ lỗi GTK+ cần bỏ lập"
 
-#:../src/main-application.c:230
+#:../src/main-application.c:232
 msgid "Make all warnings fatal"
 msgstr "Lập mọi cảnh báo là nghiêm trọng"
 
-#:../src/main-application.c:232
+#:../src/main-application.c:234
 msgid "Load an additional Gtk module"
 msgstr "Tải một mô-đun GTK thêm"
 
-#:../src/main-application.c:232
+#:../src/main-application.c:234
 msgid "MODULE"
 msgstr "MÔ-ĐUN"
 
-#:../src/main-application.c:238
+#:../src/main-application.c:240
 msgid "Gnumeric options"
 msgstr "Tùy chọn Gnumeric"
 
-#:../src/main-application.c:240
+#:../src/main-application.c:242
 msgid "GTK+ options"
 msgstr "Tùy chọn GTK+"
 
-#:../src/main-application.c:323
+#:../src/main-application.c:325
 msgid ""
 "The Pango library present on your system is buggy, see\n"
 "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
@@ -10218,7 +10233,7 @@ msgstr "Thư viên Pango có trong hệ thống bạn có lỗi: xem\n"
 "cho đúng. Hãy kiểm tra nếu bản phát hành của bạn\n"
 "có thư viên Pango đã sửa hay không."
 
-#:../src/main-application.c:347
+#:../src/main-application.c:368
 #,c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -10302,39 +10317,39 @@ msgstr "Tên « %s » không tồn tại trong tờ « %s »."
 msgid "Unknown workbook '%s'"
 msgstr "Sách làm việc lạ « %s »."
 
-#:../src/parser.y:981 ../src/parser.y:1229
+#:../src/parser.y:991 ../src/parser.y:1239
 msgid "Could not find matching closing quote"
 msgstr "Không thể tìm thấy dấu đóng trích dẫn tương ứng."
 
-#:../src/parser.y:1090
+#:../src/parser.y:1100
 msgid "Sheet name is required"
 msgstr "Yêu cầu tên tờ"
 
-#:../src/parser.y:1143 ../src/parser.y:1152 ../src/parser.y:1177
+#:../src/parser.y:1153 ../src/parser.y:1162 ../src/parser.y:1187
 msgid "The number is out of range"
 msgstr "Số này ở ngoại phạm vị."
 
-#:../src/parser.y:1211
+#:../src/parser.y:1221
 msgid "Improperly formatted error token"
 msgstr "Hiệu bài lỗi dạng sai."
 
-#:../src/parser.y:1385
+#:../src/parser.y:1395
 msgid "Multiple expressions are not supported in this context"
 msgstr "Không hỗ trợ đa biểu thức trong ngữ cảnh này."
 
-#:../src/parser.y:1408
+#:../src/parser.y:1418
 msgid "Could not find matching opening parenthesis"
 msgstr "Không thể tìm thấy dấu mở ngoặc tương ứng."
 
-#:../src/parser.y:1412
+#:../src/parser.y:1422
 msgid "Could not find matching closing parenthesis"
 msgstr "Không thể tìm thấy dấu đóng ngoặc tương ứng."
 
-#:../src/parser.y:1416
+#:../src/parser.y:1426
 msgid "Invalid expression"
 msgstr "Biểu thức không hợp lệ"
 
-#:../src/parser.y:1420
+#:../src/parser.y:1430
 #,c-format
 msgid "Unexpected token %c"
 msgstr "Hiệu bài bất ngờ %c"
@@ -10348,7 +10363,7 @@ msgstr "&[TRANG]"
 msgid "Print Region"
 msgstr "In vùng"
 
-#:../src/print.c:1233 ../src/wbcg-actions.c:1591
+#:../src/print.c:1233 ../src/wbcg-actions.c:1597
 msgid "Print preview"
 msgstr "Xem thử in"
 
@@ -10652,23 +10667,23 @@ msgstr "Hệ số phóng"
 msgid "The level of zoom used for this sheet."
 msgstr "Mức độ phóng được dùng trong tờ này."
 
-#:../src/sheet.c:2439
+#:../src/sheet.c:2407
 msgid "Target region contains merged cells"
 msgstr "Vùng đích chứa ô đã trộn."
 
-#:../src/sheet.c:2500
+#:../src/sheet.c:2471
 msgid "cannot operate on merged cells"
 msgstr "không thể thực hiện trên các ô đã trộn."
 
-#:../src/sheet.c:2510
+#:../src/sheet.c:2481
 msgid "cannot operate on array formulae"
 msgstr "không thể thực hiện trên công thức mảng."
 
-#:../src/sheet.c:3591
+#:../src/sheet.c:3562
 msgid "Insert Columns"
 msgstr "Chèn cột"
 
-#:../src/sheet.c:3715
+#:../src/sheet.c:3686
 msgid "Insert Rows"
 msgstr "Chèn hàng"
 
@@ -10733,12 +10748,12 @@ msgid "Column _Width..."
 msgstr "Bề _rộng cột..."
 
 #:../src/sheet-control-gui.c:1774 ../src/sheet-control-gui.c:1782
-#:../src/wbcg-actions.c:1809 ../src/wbcg-actions.c:1826
+#:../src/wbcg-actions.c:1815 ../src/wbcg-actions.c:1832
 msgid "_Hide"
 msgstr "Ẩ_n"
 
 #:../src/sheet-control-gui.c:1776 ../src/sheet-control-gui.c:1784
-#:../src/wbcg-actions.c:1812 ../src/wbcg-actions.c:1829
+#:../src/wbcg-actions.c:1818 ../src/wbcg-actions.c:1835
 msgid "_Unhide"
 msgstr "_Hiện"
 
@@ -10797,7 +10812,7 @@ msgid "(Non Blanks...)"
 msgstr "(Không trống...)"
 
 #.Format toolbar
-#:../src/sheet-merge.c:73 ../src/wbcg-actions.c:2039
+#:../src/sheet-merge.c:73 ../src/wbcg-actions.c:2045
 msgid "Merge"
 msgstr "Trộn"
 
@@ -10847,11 +10862,11 @@ msgstr "Gặp lỗi lạ khi lưu ản."
 msgid "_Save as image"
 msgstr "_Lưu là ảnh"
 
-#:../src/sheet-object-widget.c:248 ../src/wbcg-actions.c:1998
+#:../src/sheet-object-widget.c:248 ../src/wbcg-actions.c:2004
 msgid "Frame"
 msgstr "Khung"
 
-#:../src/sheet-object-widget.c:474 ../src/wbcg-actions.c:2031
+#:../src/sheet-object-widget.c:474 ../src/wbcg-actions.c:2037
 #:../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Nút"
@@ -10861,7 +10876,7 @@ msgstr "Nút"
 msgid "CheckBox %d"
 msgstr "Hộp chọn %d"
 
-#:../src/sheet-object-widget.c:1752 ../src/wbcg-actions.c:2034
+#:../src/sheet-object-widget.c:1752 ../src/wbcg-actions.c:2040
 msgid "RadioButton"
 msgstr "Nút chọn một"
 
@@ -10997,7 +11012,8 @@ msgstr "Chữ sang cột"
 #:../src/stf.c:276
 #,c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
-msgstr "Có thể phân tách chỉ 1 cột dữ liệu <b>gõ</b> trong một lần thôi, không phải %d."
+msgstr "Có thể phân tách chỉ 1 cột dữ liệu <b>gõ</b> trong một lần thôi, không phải %"
+"d."
 
 #:../src/stf.c:302
 msgid "There is no data to convert"
@@ -11065,12 +11081,7 @@ msgstr "Cách xử lý ký tự không thể hiển thị."
 msgid "How should cells be formatted?"
 msgstr "Định dạng ô như thế nào?"
 
-#:../src/stf-parse.c:59
-#,c-format
-msgid "Too many rows in data to parse: %d"
-msgstr "Quá nhiều hàng trong dữ liệu khi phân tích: %d"
-
-#:../src/stf-parse.c:1179
+#:../src/stf-parse.c:1170
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -11230,815 +11241,815 @@ msgstr "Tách nhóm"
 msgid "Sort"
 msgstr "Sắp xếp"
 
-#:../src/wbcg-actions.c:1139
+#:../src/wbcg-actions.c:1145
 msgid "Set Horizontal Alignment"
 msgstr "Đặt canh hàng ngang"
 
-#:../src/wbcg-actions.c:1173
+#:../src/wbcg-actions.c:1179
 msgid "Set Vertical Alignment"
 msgstr "Đặt canh hàng dọc"
 
-#:../src/wbcg-actions.c:1266
+#:../src/wbcg-actions.c:1272
 msgid "Set Font Style"
 msgstr "Chọn kiểu phông chữ"
 
-#:../src/wbcg-actions.c:1296
+#:../src/wbcg-actions.c:1302
 msgid "Format as General"
 msgstr "Định dạng là Chung"
 
-#:../src/wbcg-actions.c:1301
+#:../src/wbcg-actions.c:1307
 msgid "Format as Number"
 msgstr "Định dạng số"
 
-#:../src/wbcg-actions.c:1306
+#:../src/wbcg-actions.c:1312
 msgid "Format as Currency"
 msgstr "Định dạng tiền tệ"
 
-#:../src/wbcg-actions.c:1311
+#:../src/wbcg-actions.c:1317
 msgid "Format as Accounting"
 msgstr "Định dạng kế toán"
 
-#:../src/wbcg-actions.c:1317
+#:../src/wbcg-actions.c:1323
 msgid "Format as Percentage"
 msgstr "Định dạng phần trăm"
 
-#:../src/wbcg-actions.c:1322
+#:../src/wbcg-actions.c:1328
 msgid "Format as Scientific"
 msgstr "Định dạng số khoa học"
 
-#:../src/wbcg-actions.c:1327
+#:../src/wbcg-actions.c:1333
 msgid "Format as Date"
 msgstr "Định dạng ngày tháng"
 
-#:../src/wbcg-actions.c:1332
+#:../src/wbcg-actions.c:1338
 msgid "Format as Time"
 msgstr "Định dạng thời gian"
 
-#:../src/wbcg-actions.c:1356
+#:../src/wbcg-actions.c:1362
 msgid "Add Borders"
 msgstr "Thêm viền"
 
-#:../src/wbcg-actions.c:1356
+#:../src/wbcg-actions.c:1362
 msgid "Remove borders"
 msgstr "Bỏ viền"
 
-#:../src/wbcg-actions.c:1385
+#:../src/wbcg-actions.c:1391
 msgid "Increase precision"
 msgstr "Tăng độ chính xác"
 
-#:../src/wbcg-actions.c:1387
+#:../src/wbcg-actions.c:1393
 msgid "Decrease precision"
 msgstr "Giảm độ chính xác"
 
-#:../src/wbcg-actions.c:1389
+#:../src/wbcg-actions.c:1395
 msgid "Toggle thousands separator"
 msgstr "Hiện/Ẩn dấu ngăn cách 1000"
 
-#:../src/wbcg-actions.c:1409
+#:../src/wbcg-actions.c:1415
 msgid "Increase Indent"
 msgstr "Tăng thụt lề"
 
-#:../src/wbcg-actions.c:1429
+#:../src/wbcg-actions.c:1435
 msgid "Decrease Indent"
 msgstr "Giảm thụt lề"
 
-#:../src/wbcg-actions.c:1436
+#:../src/wbcg-actions.c:1442
 msgid "Copy down"
 msgstr "Chép xuống"
 
-#:../src/wbcg-actions.c:1442
+#:../src/wbcg-actions.c:1448
 msgid "Copy right"
 msgstr "Chép phải"
 
-#:../src/wbcg-actions.c:1493
+#:../src/wbcg-actions.c:1499
 msgid "_File"
 msgstr "_Tập tin"
 
-#:../src/wbcg-actions.c:1494
+#:../src/wbcg-actions.c:1500
 msgid "_Edit"
 msgstr "_Hiệu chỉnh"
 
-#:../src/wbcg-actions.c:1495
+#:../src/wbcg-actions.c:1501
 msgid "C_lear"
 msgstr "_Xóa"
 
-#:../src/wbcg-actions.c:1496
+#:../src/wbcg-actions.c:1502
 msgid "_Delete"
 msgstr "_Xóa bỏ"
 
-#:../src/wbcg-actions.c:1497
+#:../src/wbcg-actions.c:1503
 msgid "S_heet"
 msgstr "_Tờ"
 
-#:../src/wbcg-actions.c:1498
+#:../src/wbcg-actions.c:1504
 msgid "_Select"
 msgstr "_Chọn"
 
-#:../src/wbcg-actions.c:1499
+#:../src/wbcg-actions.c:1505
 msgid "F_ill"
 msgstr "_Điền đầy"
 
-#:../src/wbcg-actions.c:1500
+#:../src/wbcg-actions.c:1506
 msgid "_View"
 msgstr "_Xem"
 
-#:../src/wbcg-actions.c:1501
+#:../src/wbcg-actions.c:1507
 msgid "_Windows"
 msgstr "_Cửa sổ"
 
-#:../src/wbcg-actions.c:1502
+#:../src/wbcg-actions.c:1508
 msgid "_Toolbars"
 msgstr "_Thanh công cụ"
 
-#:../src/wbcg-actions.c:1504
+#:../src/wbcg-actions.c:1510
 msgid "_Names"
 msgstr "_Tên"
 
-#:../src/wbcg-actions.c:1505
+#:../src/wbcg-actions.c:1511
 msgid "S_pecial"
 msgstr "Đặc _biệt"
 
-#:../src/wbcg-actions.c:1506
+#:../src/wbcg-actions.c:1512
 msgid "F_ormat"
 msgstr "Định _dạng"
 
-#:../src/wbcg-actions.c:1507
+#:../src/wbcg-actions.c:1513
 msgid "C_olumn"
 msgstr "_Cột"
 
 #.ICK A DUPLICATE : we have no way to override a label on one proxy
-#:../src/wbcg-actions.c:1509 ../src/wbcg-actions.c:1682
+#:../src/wbcg-actions.c:1515 ../src/wbcg-actions.c:1688
 msgid "_Sheet"
 msgstr "_Tờ"
 
-#:../src/wbcg-actions.c:1510
+#:../src/wbcg-actions.c:1516
 msgid "_Tools"
 msgstr "_Công cụ"
 
-#:../src/wbcg-actions.c:1511
+#:../src/wbcg-actions.c:1517
 msgid "Sce_narios"
 msgstr "_Kịch bản"
 
-#:../src/wbcg-actions.c:1512
+#:../src/wbcg-actions.c:1518
 msgid "Statistical Anal_ysis"
 msgstr "Phân tích thống _kê"
 
-#:../src/wbcg-actions.c:1513
+#:../src/wbcg-actions.c:1519
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#:../src/wbcg-actions.c:1514
+#:../src/wbcg-actions.c:1520
 msgid "F_orecast"
 msgstr "_Dự đoán"
 
-#:../src/wbcg-actions.c:1515
+#:../src/wbcg-actions.c:1521
 msgid "Two _Means"
 msgstr "Hai trung _bình"
 
-#:../src/wbcg-actions.c:1517
+#:../src/wbcg-actions.c:1523
 msgid "_Filter"
 msgstr "_Bộ lọc"
 
-#:../src/wbcg-actions.c:1518
+#:../src/wbcg-actions.c:1524
 msgid "_Group and Outline"
 msgstr "Nhóm và phác thảo"
 
-#:../src/wbcg-actions.c:1519
+#:../src/wbcg-actions.c:1525
 msgid "Get _External Data"
 msgstr "Lấy dữ liệu _bên ngoài"
 
-#:../src/wbcg-actions.c:1520
+#:../src/wbcg-actions.c:1526
 msgid "_Help"
 msgstr "Trợ _giúp"
 
-#:../src/wbcg-actions.c:1523
+#:../src/wbcg-actions.c:1529
 msgid "Close the current file"
 msgstr "Đóng tập tin hiện thời"
 
-#:../src/wbcg-actions.c:1526
+#:../src/wbcg-actions.c:1532
 msgid "Quit the application"
 msgstr "Thoát khỏi ứng dụng"
 
-#:../src/wbcg-actions.c:1530
+#:../src/wbcg-actions.c:1536
 msgid "Cut the selection"
 msgstr "Cắt vùng chọn"
 
-#:../src/wbcg-actions.c:1533
+#:../src/wbcg-actions.c:1539
 msgid "Copy the selection"
 msgstr "Sao chép vùng chọn"
 
-#:../src/wbcg-actions.c:1536
+#:../src/wbcg-actions.c:1542
 msgid "Paste the clipboard"
 msgstr "Dán từ khay"
 
-#:../src/wbcg-actions.c:1539 ../src/workbook-control-gui.c:1186
+#:../src/wbcg-actions.c:1545 ../src/workbook-control-gui.c:1186
 msgid "_Undo"
 msgstr "_Hoàn lại"
 
-#:../src/wbcg-actions.c:1540 ../src/wbc-gtk.c:493
+#:../src/wbcg-actions.c:1546 ../src/wbc-gtk.c:493
 msgid "Undo the last action"
 msgstr "Hoàn lại hành động cuối cùng"
 
-#:../src/wbcg-actions.c:1542 ../src/workbook-control-gui.c:1187
+#:../src/wbcg-actions.c:1548 ../src/workbook-control-gui.c:1187
 msgid "_Redo"
 msgstr "_Làm lại"
 
-#:../src/wbcg-actions.c:1543 ../src/wbc-gtk.c:503
+#:../src/wbcg-actions.c:1549 ../src/wbc-gtk.c:503
 msgid "Redo the undone action"
 msgstr "Làm lại hành động mới hoàn tác."
 
-#:../src/wbcg-actions.c:1547 ../src/wbcg-actions.c:1618
+#:../src/wbcg-actions.c:1553 ../src/wbcg-actions.c:1624
 msgid "_Contents"
 msgstr "_Nội dung"
 
-#:../src/wbcg-actions.c:1548
+#:../src/wbcg-actions.c:1554
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Mở bộ xem cho tài liệu Gnumeric."
 
-#:../src/wbcg-actions.c:1550
+#:../src/wbcg-actions.c:1556
 msgid "Gnumeric on the _Web"
 msgstr "Trang chủ Gnumeric trên Mạng"
 
-#:../src/wbcg-actions.c:1551
+#:../src/wbcg-actions.c:1557
 msgid "Browse to Gnumeric's website"
 msgstr "Duyệt tới trang chủ Mạng Gnumeric."
 
-#:../src/wbcg-actions.c:1553
+#:../src/wbcg-actions.c:1559
 msgid "_Live Assistance"
 msgstr "Trợ giúp _động"
 
-#:../src/wbcg-actions.c:1554
+#:../src/wbcg-actions.c:1560
 msgid "See if anyone is available to answer questions"
 msgstr "Kiểm tra có người nào sẵn sàng trả lời câu hỏi của bạn."
 
-#:../src/wbcg-actions.c:1556
+#:../src/wbcg-actions.c:1562
 msgid "Report a _Problem"
 msgstr "Thông báo _lỗi."
 
-#:../src/wbcg-actions.c:1557
+#:../src/wbcg-actions.c:1563
 msgid "Report problem "
 msgstr "Thông báo lỗi: "
 
-#:../src/wbcg-actions.c:1559
+#:../src/wbcg-actions.c:1565
 msgid "_About"
 msgstr "_Giới thiệu"
 
-#:../src/wbcg-actions.c:1560
+#:../src/wbcg-actions.c:1566
 msgid "About this application"
 msgstr "Giới thiệu ứng dụng này"
 
 #.Special.  The sensitivity is chained to redo we do not want to
 #.* toggle it directly so we put it in here
-#:../src/wbcg-actions.c:1565
+#:../src/wbcg-actions.c:1571
 msgid "Repeat"
 msgstr "Lặp lại"
 
-#:../src/wbcg-actions.c:1566
+#:../src/wbcg-actions.c:1572
 msgid "Repeat the previous action"
 msgstr "Làm lại thao tác trước"
 
-#:../src/wbcg-actions.c:1573
+#:../src/wbcg-actions.c:1579
 msgid "Create a new workbook"
 msgstr "Tạo sách làm việc mới"
 
-#:../src/wbcg-actions.c:1576
+#:../src/wbcg-actions.c:1582
 msgid "Open a file"
 msgstr "Mở tập tin"
 
-#:../src/wbcg-actions.c:1579
+#:../src/wbcg-actions.c:1585
 msgid "Save the current workbook"
 msgstr "Lưu sách làm việc hiện thời"
 
-#:../src/wbcg-actions.c:1582
+#:../src/wbcg-actions.c:1588
 msgid "Save the current workbook with a different name"
 msgstr "Lưu sách làm việc hiện thời với tên khác"
 
-#:../src/wbcg-actions.c:1584
+#:../src/wbcg-actions.c:1590
 msgid "Sen_d To..."
 msgstr "_Gởi cho..."
 
-#:../src/wbcg-actions.c:1585
+#:../src/wbcg-actions.c:1591
 msgid "Send the current file via email"
 msgstr "Gửi tập tin hiện thời bằng thư"
 
-#:../src/wbcg-actions.c:1587
+#:../src/wbcg-actions.c:1593
 msgid "Page Set_up..."
 msgstr "Thiết lập t_rang in..."
 
-#:../src/wbcg-actions.c:1588
+#:../src/wbcg-actions.c:1594
 msgid "Setup the page settings for your current printer"
 msgstr "Cài đặt thiết lập trang cho máy in hiện thời"
 
-#:../src/wbcg-actions.c:1594
+#:../src/wbcg-actions.c:1600
 msgid "Print the current file"
 msgstr "In tập tin hiện thời"
 
-#:../src/wbcg-actions.c:1596
+#:../src/wbcg-actions.c:1602
 msgid "Proper_ties..."
 msgstr "_Thuộc tính..."
 
-#:../src/wbcg-actions.c:1597 ../src/wbcg-actions.c:1605
+#:../src/wbcg-actions.c:1603 ../src/wbcg-actions.c:1611
 msgid "Edit descriptive information"
 msgstr "Sửa thông tin mô tả"
 
-#:../src/wbcg-actions.c:1599
+#:../src/wbcg-actions.c:1605
 msgid "Pre_ferences..."
 msgstr "Sở thích..."
 
-#:../src/wbcg-actions.c:1600
+#:../src/wbcg-actions.c:1606
 msgid "Change Gnumeric Preferences"
 msgstr "Đổi sở thích Gnumeric"
 
 #.new hook put here to avoid patch conflict
-#:../src/wbcg-actions.c:1604
+#:../src/wbcg-actions.c:1610
 msgid "NEW Proper_ties..."
 msgstr "_Thuộc tính MỚI..."
 
-#:../src/wbcg-actions.c:1610
+#:../src/wbcg-actions.c:1616
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Xoá dạng thức, nội dung, ghi chú trong các ô được chọn"
 
-#:../src/wbcg-actions.c:1613
+#:../src/wbcg-actions.c:1619
 msgid "Clear the selected cells' formats"
 msgstr "Xoá dạng thức trong các ô được chọn"
 
-#:../src/wbcg-actions.c:1616
+#:../src/wbcg-actions.c:1622
 msgid "Clear the selected cells' comments"
 msgstr "Xóa ghi chú trong các ô được chọn"
 
-#:../src/wbcg-actions.c:1619
+#:../src/wbcg-actions.c:1625
 msgid "Clear the selected cells' contents"
 msgstr "Xoá nội dung trong các ô được chọn"
 
-#:../src/wbcg-actions.c:1624
+#:../src/wbcg-actions.c:1630
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Xóa bỏ những hàng chứa các ô được chọn"
 
-#:../src/wbcg-actions.c:1627
+#:../src/wbcg-actions.c:1633
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Xóa bỏ những cột chứa các ô được chọn"
 
 #.Insert
-#:../src/wbcg-actions.c:1629 ../src/wbcg-actions.c:1742
+#:../src/wbcg-actions.c:1635 ../src/wbcg-actions.c:1748
 msgid "C_ells..."
 msgstr "_Ô..."
 
-#:../src/wbcg-actions.c:1630
+#:../src/wbcg-actions.c:1636
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Xóa bỏ các ô được chọn, chuyển các ô khác sang vị trí chúng."
 
-#:../src/wbcg-actions.c:1636
+#:../src/wbcg-actions.c:1642
 msgid "Select all cells in the spreadsheet"
 msgstr "Chọn mọi ô trong bảng tính"
 
-#:../src/wbcg-actions.c:1638
+#:../src/wbcg-actions.c:1644
 msgid "Select _Column"
 msgstr "Chọn _cột"
 
-#:../src/wbcg-actions.c:1639
+#:../src/wbcg-actions.c:1645
 msgid "Select an entire column"
 msgstr "Chọn nguyên cột"
 
-#:../src/wbcg-actions.c:1641
+#:../src/wbcg-actions.c:1647
 msgid "Select _Row"
 msgstr "Chọn _hàng"
 
-#:../src/wbcg-actions.c:1642
+#:../src/wbcg-actions.c:1648
 msgid "Select an entire row"
 msgstr "Chọn nguyên hàng"
 
-#:../src/wbcg-actions.c:1644
+#:../src/wbcg-actions.c:1650
 msgid "Select Arra_y"
 msgstr "Tìm _mảng"
 
-#:../src/wbcg-actions.c:1645
+#:../src/wbcg-actions.c:1651
 msgid "Select an array of cells"
 msgstr "Chọn một mảng ô"
 
-#:../src/wbcg-actions.c:1647
+#:../src/wbcg-actions.c:1653
 msgid "Select _Depends"
 msgstr "Chọn _lệ thuộc"
 
-#:../src/wbcg-actions.c:1648
+#:../src/wbcg-actions.c:1654
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Chọn mọi ô phụ thuộc vào ô hiệu chỉnh hiện thời"
 
-#:../src/wbcg-actions.c:1650
+#:../src/wbcg-actions.c:1656
 msgid "Select _Inputs"
 msgstr "Chọn Điều _gõ"
 
-#:../src/wbcg-actions.c:1651
+#:../src/wbcg-actions.c:1657
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Chọn mọi ô được dùng bởi ô hiệu chỉnh hiện thời"
 
-#:../src/wbcg-actions.c:1653
+#:../src/wbcg-actions.c:1659
 msgid "Edit Metadata"
 msgstr "Sửa siêu dữ liệu"
 
-#:../src/wbcg-actions.c:1654
+#:../src/wbcg-actions.c:1660
 msgid "Edit the document's extra information (metadata)"
 msgstr "Hiệu chỉnh thông tin thêm (siêu dữ liệu) của tài liệu."
 
 #.Edit -> Fill
-#:../src/wbcg-actions.c:1658
+#:../src/wbcg-actions.c:1664
 msgid "Auto_fill"
 msgstr "Tự động đ_iền"
 
-#:../src/wbcg-actions.c:1659
+#:../src/wbcg-actions.c:1665
 msgid "Automatically fill the current selection"
 msgstr "Tự động điền vào vùng được chọn"
 
-#:../src/wbcg-actions.c:1661
+#:../src/wbcg-actions.c:1667
 msgid "_Merge..."
 msgstr "T_rộn..."
 
-#:../src/wbcg-actions.c:1662
+#:../src/wbcg-actions.c:1668
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr "Trộn dữ liệu bằng cột vào tờ, tạo tờ trùng cho mỗi hàng."
 
-#:../src/wbcg-actions.c:1664
+#:../src/wbcg-actions.c:1670
 msgid "_Tabulate Dependency..."
 msgstr "Xếp lệ thuộc thành _bảng..."
 
-#:../src/wbcg-actions.c:1665
+#:../src/wbcg-actions.c:1671
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Tạo bảng của giá trị ô là chức năng của các ô khác."
 
-#:../src/wbcg-actions.c:1667
+#:../src/wbcg-actions.c:1673
 msgid "_Series..."
 msgstr "_Cấp số..."
 
-#:../src/wbcg-actions.c:1668
+#:../src/wbcg-actions.c:1674
 msgid "Fill according to a linear or exponential series"
 msgstr "Điền vào tùy theo cấp số tuyến hay lũy thừa."
 
-#:../src/wbcg-actions.c:1670
+#:../src/wbcg-actions.c:1676
 msgid "_Random Generator..."
 msgstr "Bộ phát sinh số _ngẫu nhiên..."
 
-#:../src/wbcg-actions.c:1671
+#:../src/wbcg-actions.c:1677
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Phát sinh số ngẫu nhiên dựa vào một số phân phối được chọn"
 
 #.Edit -> Sheet
-#:../src/wbcg-actions.c:1675
+#:../src/wbcg-actions.c:1681
 msgid "_Manage Sheets..."
 msgstr "_Quản lý tờ..."
 
-#:../src/wbcg-actions.c:1676
+#:../src/wbcg-actions.c:1682
 msgid "Manage the sheets in this workbook"
 msgstr "Quản lý các tờ trong sách làm việc này"
 
-#:../src/wbcg-actions.c:1679 ../src/wbcg-actions.c:1683
+#:../src/wbcg-actions.c:1685 ../src/wbcg-actions.c:1689
 msgid "Insert a new sheet"
 msgstr "Chèn tờ mới"
 
-#:../src/wbcg-actions.c:1685
+#:../src/wbcg-actions.c:1691
 msgid "_Append"
 msgstr "_Phụ thêm"
 
-#:../src/wbcg-actions.c:1686
+#:../src/wbcg-actions.c:1692
 msgid "Append a new sheet"
 msgstr "Phụ thêm tờ mới"
 
-#:../src/wbcg-actions.c:1689
+#:../src/wbcg-actions.c:1695
 msgid "Make a copy of the current sheet"
 msgstr "Tạo bản sao tờ hiện thời"
 
-#:../src/wbcg-actions.c:1692
+#:../src/wbcg-actions.c:1698
 msgid "Irrevocably remove an entire sheet"
 msgstr "Xóa bỏ vĩnh viễn một toàn tờ."
 
-#:../src/wbcg-actions.c:1694
+#:../src/wbcg-actions.c:1700
 msgid "Re_name"
 msgstr "_Đổi tên"
 
-#:../src/wbcg-actions.c:1695
+#:../src/wbcg-actions.c:1701
 msgid "Rename the current sheet"
 msgstr "Thay đổi tên của tờ hiện thời."
 
 #.Edit
-#:../src/wbcg-actions.c:1699
+#:../src/wbcg-actions.c:1705
 msgid "P_aste special..."
 msgstr "Dán đặc _biệt..."
 
-#:../src/wbcg-actions.c:1700
+#:../src/wbcg-actions.c:1706
 msgid "Paste with optional filters and transformations"
 msgstr "Dán kèm theo bộ lọc và chuyển đổi tùy chọn."
 
-#:../src/wbcg-actions.c:1703
+#:../src/wbcg-actions.c:1709
 msgid "Co_mment..."
 msgstr "_Ghi chú..."
 
-#:../src/wbcg-actions.c:1704
+#:../src/wbcg-actions.c:1710
 msgid "Edit the selected cell's comment"
 msgstr "Sửa ghi chú của ô được chọn."
 
-#:../src/wbcg-actions.c:1707
+#:../src/wbcg-actions.c:1713
 msgid "_Find..."
 msgstr "_Tìm..."
 
-#:../src/wbcg-actions.c:1708
+#:../src/wbcg-actions.c:1714
 msgid "Search for something"
 msgstr "Tìm kiếm gì"
 
-#:../src/wbcg-actions.c:1710
+#:../src/wbcg-actions.c:1716
 msgid "R_eplace..."
 msgstr "Th_ay thế..."
 
-#:../src/wbcg-actions.c:1711
+#:../src/wbcg-actions.c:1717
 msgid "Search for something and replace it with something else"
 msgstr "Tìm kiếm gỉ và thay thế nó bằng điều khác."
 
-#:../src/wbcg-actions.c:1713
+#:../src/wbcg-actions.c:1719
 msgid "_Goto cell..."
 msgstr "_Đi tới ô..."
 
-#:../src/wbcg-actions.c:1714
+#:../src/wbcg-actions.c:1720
 msgid "Jump to a specified cell"
 msgstr "Nhảy tới ô xác định"
 
-#:../src/wbcg-actions.c:1717
+#:../src/wbcg-actions.c:1723
 msgid "Recalculate"
 msgstr "Tính lại"
 
-#:../src/wbcg-actions.c:1718
+#:../src/wbcg-actions.c:1724
 msgid "Recalculate the spreadsheet"
 msgstr "Tính lại bảng tính"
 
 #.View
-#:../src/wbcg-actions.c:1722
+#:../src/wbcg-actions.c:1728
 msgid "_New View..."
 msgstr "Khung _xem mới..."
 
-#:../src/wbcg-actions.c:1723
+#:../src/wbcg-actions.c:1729
 msgid "Create a new view of the workbook"
 msgstr "Tạo khung xem mới của sách làm việc."
 
-#:../src/wbcg-actions.c:1725 ../src/workbook-control-gui.c:1161
+#:../src/wbcg-actions.c:1731 ../src/workbook-control-gui.c:1161
 msgid "_Freeze Panes"
 msgstr "Đông cứng ngăn cửa sổ"
 
-#:../src/wbcg-actions.c:1726 ../src/workbook-control-gui.c:1164
+#:../src/wbcg-actions.c:1732 ../src/workbook-control-gui.c:1164
 msgid "Freeze the top left of the sheet"
 msgstr "Đông cứng trên trái tờ."
 
-#:../src/wbcg-actions.c:1728
+#:../src/wbcg-actions.c:1734
 msgid "_Zoom..."
 msgstr "_Phóng to/thu nhỏ..."
 
-#:../src/wbcg-actions.c:1729
+#:../src/wbcg-actions.c:1735
 msgid "Zoom the spreadsheet in or out"
 msgstr "Phóng to/thu nhỏ bảng tính"
 
-#:../src/wbcg-actions.c:1731
+#:../src/wbcg-actions.c:1737
 msgid "Zoom _In"
 msgstr "Phóng _to"
 
-#:../src/wbcg-actions.c:1732
+#:../src/wbcg-actions.c:1738
 msgid "Increase the zoom to make things larger"
 msgstr "Tăng phóng thì điều lớn hơn"
 
-#:../src/wbcg-actions.c:1734
+#:../src/wbcg-actions.c:1740
 msgid "Zoom _Out"
 msgstr "Thu _nhỏ"
 
-#:../src/wbcg-actions.c:1735
+#:../src/wbcg-actions.c:1741
 msgid "Decrease the zoom to make things smaller"
 msgstr "Giảm phóng thì làm điều nhỏ hơn"
 
-#:../src/wbcg-actions.c:1737
+#:../src/wbcg-actions.c:1743
 msgid "Direction"
 msgstr "Hướng"
 
-#:../src/wbcg-actions.c:1738
+#:../src/wbcg-actions.c:1744
 msgid "Toggle sheet direction, left to right vs right to left"
 msgstr "Bật/tắt hướng tờ, trái qua phải hoặc phải qua trái"
 
-#:../src/wbcg-actions.c:1743
+#:../src/wbcg-actions.c:1749
 msgid "Insert new cells"
 msgstr "Chèn ô mới"
 
-#:../src/wbcg-actions.c:1746
+#:../src/wbcg-actions.c:1752
 msgid "Insert new columns"
 msgstr "Chèn cột mới"
 
-#:../src/wbcg-actions.c:1749
+#:../src/wbcg-actions.c:1755
 msgid "Insert new rows"
 msgstr "Chèn hàng mới"
 
-#:../src/wbcg-actions.c:1752
+#:../src/wbcg-actions.c:1758
 msgid "C_hart..."
 msgstr "_Đồ thị..."
 
-#:../src/wbcg-actions.c:1753
+#:../src/wbcg-actions.c:1759
 msgid "Insert a Chart"
 msgstr "Chèn đồ thị"
 
-#:../src/wbcg-actions.c:1755
+#:../src/wbcg-actions.c:1761
 msgid "_Image..."
 msgstr "Ả_nh..."
 
-#:../src/wbcg-actions.c:1756
+#:../src/wbcg-actions.c:1762
 msgid "Insert an image"
 msgstr "Chèn ảnh"
 
-#:../src/wbcg-actions.c:1759
+#:../src/wbcg-actions.c:1765
 msgid "Hyper_link..."
 msgstr "_Siêu liên kết..."
 
-#:../src/wbcg-actions.c:1760
+#:../src/wbcg-actions.c:1766
 msgid "Insert a Hyperlink"
 msgstr "Chèn siêu liên kết"
 
 #.Insert -> Special
-#:../src/wbcg-actions.c:1763
+#:../src/wbcg-actions.c:1769
 msgid "Current _date"
 msgstr "_Ngày hiện thời"
 
-#:../src/wbcg-actions.c:1764
+#:../src/wbcg-actions.c:1770
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Chèn ngày hiện thời vào ô được chọn."
 
-#:../src/wbcg-actions.c:1767
+#:../src/wbcg-actions.c:1773
 msgid "Current _time"
 msgstr "_Giờ hiện thời"
 
-#:../src/wbcg-actions.c:1768
+#:../src/wbcg-actions.c:1774
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Chèn giờ hiện thời vào ô được chọn."
 
-#:../src/wbcg-actions.c:1771
+#:../src/wbcg-actions.c:1777
 msgid "Current d_ate and time"
 msgstr "_Giờ ngày hiện thời"
 
-#:../src/wbcg-actions.c:1772
+#:../src/wbcg-actions.c:1778
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Chèn giờ ngày hiện thời vào ô được chọn."
 
 #.Insert -> Name
-#:../src/wbcg-actions.c:1776
+#:../src/wbcg-actions.c:1782
 msgid "_Define..."
 msgstr "Định _nghĩa..."
 
-#:../src/wbcg-actions.c:1777
+#:../src/wbcg-actions.c:1783
 msgid "Edit sheet and workbook names"
 msgstr "Sửa tên tờ và sách làm việc"
 
-#:../src/wbcg-actions.c:1780
+#:../src/wbcg-actions.c:1786
 msgid "Paste the definition of a name or names"
 msgstr "Dán lời định nghĩa (những) tên"
 
-#:../src/wbcg-actions.c:1783
+#:../src/wbcg-actions.c:1789
 msgid "_Auto generate names..."
 msgstr "_Tự động phát sinh tên..."
 
-#:../src/wbcg-actions.c:1784
+#:../src/wbcg-actions.c:1790
 msgid "Use the current selection to create names"
 msgstr "Dùng vùng chọn hiện thời để tạo tên"
 
 #.Format
-#:../src/wbcg-actions.c:1789
+#:../src/wbcg-actions.c:1795
 msgid "_Cells..."
 msgstr "_Ô..."
 
-#:../src/wbcg-actions.c:1790
+#:../src/wbcg-actions.c:1796
 msgid "Modify the formatting of the selected cells"
 msgstr "Đổi định dạng ô được chọn"
 
-#:../src/wbcg-actions.c:1792
+#:../src/wbcg-actions.c:1798
 msgid "_Workbook..."
 msgstr "_Sách làm việc..."
 
-#:../src/wbcg-actions.c:1793
+#:../src/wbcg-actions.c:1799
 msgid "Modify the workbook attributes"
 msgstr "Đổi thuộc tính sách làm việc"
 
-#:../src/wbcg-actions.c:1795
+#:../src/wbcg-actions.c:1801
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#:../src/wbcg-actions.c:1796
+#:../src/wbcg-actions.c:1802
 msgid "Edit the Gnumeric Preferences"
 msgstr "Sửa sở thích Gnumeric"
 
-#:../src/wbcg-actions.c:1798
+#:../src/wbcg-actions.c:1804
 msgid "_Autoformat..."
 msgstr "_Tự động định dạng..."
 
-#:../src/wbcg-actions.c:1799
+#:../src/wbcg-actions.c:1805
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Định dạng vùng ô dựa vào mẫu cho sẵn."
 
 #.Format -> Col
-#:../src/wbcg-actions.c:1803
+#:../src/wbcg-actions.c:1809
 msgid "_Width..."
 msgstr "_Rộng..."
 
-#:../src/wbcg-actions.c:1804
+#:../src/wbcg-actions.c:1810
 msgid "Change width of the selected columns"
 msgstr "Đổi độ rộng các cột được chọn."
 
-#:../src/wbcg-actions.c:1806 ../src/wbcg-actions.c:1823
+#:../src/wbcg-actions.c:1812 ../src/wbcg-actions.c:1829
 msgid "_Auto fit selection"
 msgstr "Tự động _khít vùng chọn"
 
-#:../src/wbcg-actions.c:1807
+#:../src/wbcg-actions.c:1813
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Chắc chắn cột đúng đủ rộng để hiển thị nội dung."
 
-#:../src/wbcg-actions.c:1810
+#:../src/wbcg-actions.c:1816
 msgid "Hide the selected columns"
 msgstr "Ẩn các cột được chọn"
 
-#:../src/wbcg-actions.c:1813
+#:../src/wbcg-actions.c:1819
 msgid "Make any hidden columns in the selection visible"
 msgstr "Hiện các cột ẩn trong vùng chọn."
 
-#:../src/wbcg-actions.c:1815
+#:../src/wbcg-actions.c:1821
 msgid "_Standard Width"
 msgstr "Chiều _rộng chuẩn"
 
-#:../src/wbcg-actions.c:1816
+#:../src/wbcg-actions.c:1822
 msgid "Change the default column width"
 msgstr "Đổi chiều rộng cột mặc định"
 
 #.Format -> Row
-#:../src/wbcg-actions.c:1820
+#:../src/wbcg-actions.c:1826
 msgid "H_eight..."
 msgstr "_Cao..."
 
-#:../src/wbcg-actions.c:1821
+#:../src/wbcg-actions.c:1827
 msgid "Change height of the selected rows"
 msgstr "Đổi chiều cao các hàng được chọn"
 
-#:../src/wbcg-actions.c:1824
+#:../src/wbcg-actions.c:1830
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Chắc chắn hàng đúng đủ cao để hiển thị nội dung."
 
-#:../src/wbcg-actions.c:1827
+#:../src/wbcg-actions.c:1833
 msgid "Hide the selected rows"
 msgstr "Ẩn các hàng được chọn."
 
-#:../src/wbcg-actions.c:1830
+#:../src/wbcg-actions.c:1836
 msgid "Make any hidden rows in the selection visible"
 msgstr "Hiện các cột ẩn trong vùng chọn."
 
-#:../src/wbcg-actions.c:1832
+#:../src/wbcg-actions.c:1838
 msgid "_Standard Height"
 msgstr "Chiều _cao chuẩn"
 
-#:../src/wbcg-actions.c:1833
+#:../src/wbcg-actions.c:1839
 msgid "Change the default row height"
 msgstr "Đổi chiều cao hàng mặc định."
 
 #.Tools
-#:../src/wbcg-actions.c:1837
+#:../src/wbcg-actions.c:1843
 msgid "_Plug-ins..."
 msgstr "_Bộ cầm phít.."
 
-#:../src/wbcg-actions.c:1838
+#:../src/wbcg-actions.c:1844
 msgid "Manage available plugin modules"
 msgstr "Quản lý các mô đun bộ cầm phít hiện có"
 
-#:../src/wbcg-actions.c:1840
+#:../src/wbcg-actions.c:1846
 msgid "Auto _Correct..."
 msgstr "Tự động _sửa..."
 
-#:../src/wbcg-actions.c:1841
+#:../src/wbcg-actions.c:1847
 msgid "Automatically perform simple spell checking"
 msgstr "Tự động thực hiện kiểm tra chính tả đơn giản."
 
-#:../src/wbcg-actions.c:1843
+#:../src/wbcg-actions.c:1849
 msgid "_Auto Save..."
 msgstr "Tự động _lưu..."
 
-#:../src/wbcg-actions.c:1844
+#:../src/wbcg-actions.c:1850
 msgid "Automatically save the current document at regular intervals"
 msgstr "Tự động lưu tài liệu hiện thời sau mỗi khoảng thời gian."
 
-#:../src/wbcg-actions.c:1846
+#:../src/wbcg-actions.c:1852
 msgid "_Goal Seek..."
 msgstr "_Tìm đích..."
 
-#:../src/wbcg-actions.c:1847
+#:../src/wbcg-actions.c:1853
 msgid "Iteratively recalculate to find a target value"
 msgstr "Tính lại nhiều lần để tìm giá trị đích."
 
-#:../src/wbcg-actions.c:1849
+#:../src/wbcg-actions.c:1855
 msgid "_Solver..."
 msgstr "Bộ _giải..."
 
-#:../src/wbcg-actions.c:1850
+#:../src/wbcg-actions.c:1856
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Tính lại nhiều lần với ràng buộc để đến gần giá trị đích."
 
-#:../src/wbcg-actions.c:1852
+#:../src/wbcg-actions.c:1858
 msgid "Si_mulation..."
 msgstr "Mô _phỏng..."
 
-#:../src/wbcg-actions.c:1853
+#:../src/wbcg-actions.c:1859
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -12046,723 +12057,723 @@ msgstr "Sự quyết định chữ thay thế bằng cách dùng mô phỏng Mon
 "xuất rất có thể và rủi ro liên quan đến chúng."
 
 #.Tools -> Scenarios
-#:../src/wbcg-actions.c:1858
+#:../src/wbcg-actions.c:1864
 msgid "_View..."
 msgstr "_Xem..."
 
-#:../src/wbcg-actions.c:1859
+#:../src/wbcg-actions.c:1865
 msgid "View, delete and report different scenarios"
 msgstr "Xem, xóa bỏ và thông báo kịch bản khác nhau"
 
-#:../src/wbcg-actions.c:1861
+#:../src/wbcg-actions.c:1867
 msgid "_Add..."
 msgstr "Th_êm"
 
-#:../src/wbcg-actions.c:1862
+#:../src/wbcg-actions.c:1868
 msgid "Add a new scenario"
 msgstr "Thêm kịch bản mới"
 
 #.Tools -> ANOVA
-#:../src/wbcg-actions.c:1866
+#:../src/wbcg-actions.c:1872
 msgid "_One Factor..."
 msgstr "_Hệ số đơn..."
 
-#:../src/wbcg-actions.c:1867
+#:../src/wbcg-actions.c:1873
 msgid "One Factor Analysis of Variance..."
 msgstr "Phân tích phương sai loại hệ số đơn..."
 
-#:../src/wbcg-actions.c:1869
+#:../src/wbcg-actions.c:1875
 msgid "_Two Factor..."
 msgstr "Hệ số _đôi..."
 
-#:../src/wbcg-actions.c:1870
+#:../src/wbcg-actions.c:1876
 msgid "Two Factor Analysis of Variance..."
 msgstr "Phân tích phương sai loại hệ số đôi..."
 
 #.Tools -> Forecasting
-#:../src/wbcg-actions.c:1874
+#:../src/wbcg-actions.c:1880
 msgid "_Exponential Smoothing..."
 msgstr "Làm mịn _lũy thừa..."
 
-#:../src/wbcg-actions.c:1875
+#:../src/wbcg-actions.c:1881
 msgid "Exponential smoothing..."
 msgstr "Làm mịn lũy thừa..."
 
-#:../src/wbcg-actions.c:1877
+#:../src/wbcg-actions.c:1883
 msgid "_Moving Average..."
 msgstr "Tring bình _động..."
 
-#:../src/wbcg-actions.c:1878
+#:../src/wbcg-actions.c:1884
 msgid "Moving average..."
 msgstr "Tring bình động..."
 
 #.Tools -> Two Means
-#:../src/wbcg-actions.c:1882
+#:../src/wbcg-actions.c:1888
 msgid "_Paired Samples: T-Test..."
 msgstr "Mẫu _cặp: phép thử T..."
 
-#:../src/wbcg-actions.c:1883
+#:../src/wbcg-actions.c:1889
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr "So sánh hai trung bình dân số cho hai mẫu cặp: phép thử T..."
 
-#:../src/wbcg-actions.c:1886
+#:../src/wbcg-actions.c:1892
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Mẫu không cặp, Phương sai bằng: phép thử T..."
 
-#:../src/wbcg-actions.c:1887
+#:../src/wbcg-actions.c:1893
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 msgstr "So sánh hai trung bình dân số cho hai mẫu không cặp từ dân số có phương sai "
 "bằng nhau: phép thử T..."
 
-#:../src/wbcg-actions.c:1890
+#:../src/wbcg-actions.c:1896
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Mẫu không cặp, Phương sai _không bằng, phép thử T..."
 
-#:../src/wbcg-actions.c:1891
+#:../src/wbcg-actions.c:1897
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 msgstr "So sánh hai trung bình dân số cho hai mẫu không cặp từ dân số có phương sai "
 "không bằng nhau: phép thử T..."
 
-#:../src/wbcg-actions.c:1894
+#:../src/wbcg-actions.c:1900
 msgid "_Known Variances: Z-Test..."
 msgstr "Phương sai đã _biết: phép thử Z..."
 
-#:../src/wbcg-actions.c:1895
+#:../src/wbcg-actions.c:1901
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
 msgstr "So sánh hai trung bình dân số từ dân số có phương sai đã biết: phép thử Z..."
 
 #.Tools -> Analysis
-#:../src/wbcg-actions.c:1899
+#:../src/wbcg-actions.c:1905
 msgid "_Correlation..."
 msgstr "Tương _quan..."
 
-#:../src/wbcg-actions.c:1900
+#:../src/wbcg-actions.c:1906
 msgid "Pearson Correlation"
 msgstr "Tương quan Pearson"
 
-#:../src/wbcg-actions.c:1902
+#:../src/wbcg-actions.c:1908
 msgid "Co_variance..."
 msgstr "_Hiệp phương sai..."
 
-#:../src/wbcg-actions.c:1905
+#:../src/wbcg-actions.c:1911
 msgid "_Descriptive Statistics..."
 msgstr "Thống kê _mô tả..."
 
-#:../src/wbcg-actions.c:1906
+#:../src/wbcg-actions.c:1912
 msgid "Various summary statistics"
 msgstr "Thông kê tóm tắt khác biệt"
 
-#:../src/wbcg-actions.c:1908
+#:../src/wbcg-actions.c:1914
 msgid "_Fourier Analysis..."
 msgstr "Phân tích _Fourier..."
 
-#:../src/wbcg-actions.c:1911
+#:../src/wbcg-actions.c:1917
 msgid "_Histogram..."
 msgstr "Biểu đồ tần _xuất..."
 
-#:../src/wbcg-actions.c:1912
+#:../src/wbcg-actions.c:1918
 msgid "Various frequency tables"
 msgstr "Bảng tần số khác biệt"
 
-#:../src/wbcg-actions.c:1914
+#:../src/wbcg-actions.c:1920
 msgid "Ranks And _Percentiles..."
 msgstr "Hạng và _tỷ lệ phần trăm..."
 
-#:../src/wbcg-actions.c:1915
+#:../src/wbcg-actions.c:1921
 msgid "Ranks, placements and percentiles"
 msgstr "Hạng, vị trí và tỷ lệ phần trăm"
 
-#:../src/wbcg-actions.c:1917
+#:../src/wbcg-actions.c:1923
 msgid "_Regression..."
 msgstr "_Hồi quy..."
 
-#:../src/wbcg-actions.c:1918
+#:../src/wbcg-actions.c:1924
 msgid "Regression Analysis"
 msgstr "Phân tích hồi quy"
 
-#:../src/wbcg-actions.c:1920
+#:../src/wbcg-actions.c:1926
 msgid "_Sampling..."
 msgstr "Lấ_y mẫu..."
 
-#:../src/wbcg-actions.c:1921
+#:../src/wbcg-actions.c:1927
 msgid "Periodic and random samples"
 msgstr "Mẫu ngẫu nhiên và định kỳ"
 
-#:../src/wbcg-actions.c:1923
+#:../src/wbcg-actions.c:1929
 msgid "_Two Variances: FTest..."
 msgstr "_Hai phương sai: phép thử F..."
 
-#:../src/wbcg-actions.c:1924
+#:../src/wbcg-actions.c:1930
 msgid "Comparing two population variances"
 msgstr "So sánh hai phương sai dân số"
 
 #.Data
-#:../src/wbcg-actions.c:1928
+#:../src/wbcg-actions.c:1934
 msgid "_Sort..."
 msgstr "_Sắp xếp..."
 
-#:../src/wbcg-actions.c:1929
+#:../src/wbcg-actions.c:1935
 msgid "Sort the selected region"
 msgstr "Sắp xếp vùng chọn"
 
-#:../src/wbcg-actions.c:1931
+#:../src/wbcg-actions.c:1937
 msgid "Sh_uffle..."
 msgstr "_Xáo trộn..."
 
-#:../src/wbcg-actions.c:1932
+#:../src/wbcg-actions.c:1938
 msgid "Shuffle cells, rows or columns"
 msgstr "Xáo trộn ô, hàng hoặc cột"
 
-#:../src/wbcg-actions.c:1934
+#:../src/wbcg-actions.c:1940
 msgid "_Validate..."
 msgstr "Hợp lệ hóa..."
 
-#:../src/wbcg-actions.c:1935
+#:../src/wbcg-actions.c:1941
 msgid "Validate input with preset criteria"
 msgstr "Hợp lệ hóa dữ liệu gõ với tiêu chuẩn định sẵn."
 
-#:../src/wbcg-actions.c:1937
+#:../src/wbcg-actions.c:1943
 msgid "_Text to Columns..."
 msgstr "_Chữ sang cột..."
 
-#:../src/wbcg-actions.c:1938
+#:../src/wbcg-actions.c:1944
 msgid "Parse the text in the selection into data"
 msgstr "Phân tích các chữ trong vùng chọn vào dữ liệu."
 
-#:../src/wbcg-actions.c:1940
+#:../src/wbcg-actions.c:1946
 msgid "_Consolidate..."
 msgstr "_Củng cố..."
 
-#:../src/wbcg-actions.c:1941
+#:../src/wbcg-actions.c:1947
 msgid "Consolidate regions using a function"
 msgstr "Củng cố các vùng dùng một hàm nào đó."
 
-#:../src/wbcg-actions.c:1945
+#:../src/wbcg-actions.c:1951
 msgid "_PivotTable..."
 msgstr "Bảng Trụ _xoay..."
 
-#:../src/wbcg-actions.c:1946
+#:../src/wbcg-actions.c:1952
 msgid "Create a pivot table"
 msgstr "Tạo bảng trụ xoay"
 
 #.Data -> Outline
-#:../src/wbcg-actions.c:1951
+#:../src/wbcg-actions.c:1957
 msgid "_Hide Detail"
 msgstr "Ẩn _chi tiết"
 
-#:../src/wbcg-actions.c:1952
+#:../src/wbcg-actions.c:1958
 msgid "Collapse an outline group"
 msgstr "Co nhóm phác thảo"
 
-#:../src/wbcg-actions.c:1954
+#:../src/wbcg-actions.c:1960
 msgid "_Show Detail"
 msgstr "_Hiện chi tiết"
 
-#:../src/wbcg-actions.c:1955
+#:../src/wbcg-actions.c:1961
 msgid "Uncollapse an outline group"
 msgstr "Bung nhóm phác thảo"
 
-#:../src/wbcg-actions.c:1957
+#:../src/wbcg-actions.c:1963
 msgid "_Group..."
 msgstr "_Nhóm..."
 
-#:../src/wbcg-actions.c:1958
+#:../src/wbcg-actions.c:1964
 msgid "Add an outline group"
 msgstr "Thêm nhóm phác thảo"
 
-#:../src/wbcg-actions.c:1960
+#:../src/wbcg-actions.c:1966
 msgid "_Ungroup..."
 msgstr "_Tách nhóm..."
 
-#:../src/wbcg-actions.c:1961
+#:../src/wbcg-actions.c:1967
 msgid "Remove an outline group"
 msgstr "Loại bỏ nhóm phác thảo"
 
 #.Data -> Filter
-#:../src/wbcg-actions.c:1965 ../src/workbook-control-gui.c:1172
+#:../src/wbcg-actions.c:1971 ../src/workbook-control-gui.c:1172
 msgid "Add _Auto Filter"
 msgstr "Thêm _Bộ lọc Tự động"
 
-#:../src/wbcg-actions.c:1966
+#:../src/wbcg-actions.c:1972
 msgid "Add or remove a filter"
 msgstr "Thêm hoặc loại bỏ bộ lọc"
 
-#:../src/wbcg-actions.c:1968
+#:../src/wbcg-actions.c:1974
 msgid "_Show All"
 msgstr "Hiện tất _cả"
 
-#:../src/wbcg-actions.c:1969
+#:../src/wbcg-actions.c:1975
 msgid "Show all filtered and hidden rows"
 msgstr "Hiển thị mọi hàng bị lọc và bị ẩn."
 
-#:../src/wbcg-actions.c:1971
+#:../src/wbcg-actions.c:1977
 msgid "Advanced _Filter..."
 msgstr "_Bộ lọc nâng cao..."
 
-#:../src/wbcg-actions.c:1972
+#:../src/wbcg-actions.c:1978
 msgid "Filter data with given criteria"
 msgstr "Lọc dữ liệu dựa vào tiêu chuẩn được cho."
 
 #.Data -> External
-#:../src/wbcg-actions.c:1975
+#:../src/wbcg-actions.c:1981
 msgid "Import _Text File..."
 msgstr "Nhập tập tin _văn bản..."
 
-#:../src/wbcg-actions.c:1976
+#:../src/wbcg-actions.c:1982
 msgid "Import the text from a file"
 msgstr "Nhập các chữ từ một tập tin"
 
 #.Standard Toolbar
-#:../src/wbcg-actions.c:1980 ../src/workbook-control-gui.c:1960
-#:../src/workbook-view.c:589
+#:../src/wbcg-actions.c:1986 ../src/workbook-control-gui.c:1960
+#:../src/workbook-view.c:606
 msgid "Sum"
 msgstr "Tổng"
 
-#:../src/wbcg-actions.c:1981
+#:../src/wbcg-actions.c:1987
 msgid "Sum into the current cell"
 msgstr "Tính tổng, kết quả lưu vào ô hiện thời."
 
-#:../src/wbcg-actions.c:1984
+#:../src/wbcg-actions.c:1990
 msgid "Edit a function in the current cell"
 msgstr "Sửa hàm trong ô hiện tạ.i"
 
-#:../src/wbcg-actions.c:1988
+#:../src/wbcg-actions.c:1994
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "Sắp xếp vùng chọn tăng dần dựa trên cột đầu tiên đã chọn."
 
-#:../src/wbcg-actions.c:1990
+#:../src/wbcg-actions.c:1996
 msgid "Sort Descending"
 msgstr "Sắp xếp giảm dần"
 
-#:../src/wbcg-actions.c:1991
+#:../src/wbcg-actions.c:1997
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr "Sắp xếp vùng chọn giảm dần dựa trên cột đầu tiên đã chọn."
 
 #.Object Toolbar
-#:../src/wbcg-actions.c:1995
+#:../src/wbcg-actions.c:2001
 msgid "Label"
 msgstr "Nhãn"
 
-#:../src/wbcg-actions.c:1996
+#:../src/wbcg-actions.c:2002
 msgid "Create a label"
 msgstr "Tạo nhãn"
 
-#:../src/wbcg-actions.c:1999
+#:../src/wbcg-actions.c:2005
 msgid "Create a frame"
 msgstr "Tạo khung"
 
-#:../src/wbcg-actions.c:2001
+#:../src/wbcg-actions.c:2007
 msgid "Checkbox"
 msgstr "Hộp chọn"
 
-#:../src/wbcg-actions.c:2002
+#:../src/wbcg-actions.c:2008
 msgid "Create a checkbox"
 msgstr "Tạo hộp chọn"
 
-#:../src/wbcg-actions.c:2004
+#:../src/wbcg-actions.c:2010
 msgid "Scrollbar"
 msgstr "Thanh cuộn"
 
-#:../src/wbcg-actions.c:2005
+#:../src/wbcg-actions.c:2011
 msgid "Create a scrollbar"
 msgstr "Tạo thanh cuộn"
 
-#:../src/wbcg-actions.c:2007
+#:../src/wbcg-actions.c:2013
 msgid "Slider"
 msgstr "Con trượt"
 
-#:../src/wbcg-actions.c:2008
+#:../src/wbcg-actions.c:2014
 msgid "Create a slider"
 msgstr "Tạo con trượt"
 
-#:../src/wbcg-actions.c:2010
+#:../src/wbcg-actions.c:2016
 msgid "SpinButton"
 msgstr "Nút xoay"
 
-#:../src/wbcg-actions.c:2011
+#:../src/wbcg-actions.c:2017
 msgid "Create a spin button"
 msgstr "Tạo nút xoay"
 
-#:../src/wbcg-actions.c:2013
+#:../src/wbcg-actions.c:2019
 #:../templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Danh sách"
 
-#:../src/wbcg-actions.c:2014
+#:../src/wbcg-actions.c:2020
 msgid "Create a list"
 msgstr "Tạo danh sách"
 
-#:../src/wbcg-actions.c:2016
+#:../src/wbcg-actions.c:2022
 msgid "Combo Box"
 msgstr "Hộp tổ hợp"
 
-#:../src/wbcg-actions.c:2017
+#:../src/wbcg-actions.c:2023
 msgid "Create a combo box"
 msgstr "Tạo hộp tổ hợp"
 
-#:../src/wbcg-actions.c:2020
+#:../src/wbcg-actions.c:2026
 msgid "Create a line object"
 msgstr "Tạo đối tượng đường thẳng"
 
-#:../src/wbcg-actions.c:2022
+#:../src/wbcg-actions.c:2028
 msgid "Arrow"
 msgstr "Mũi tên"
 
-#:../src/wbcg-actions.c:2023
+#:../src/wbcg-actions.c:2029
 msgid "Create an arrow object"
 msgstr "Tạo đối tượng mũi tên"
 
-#:../src/wbcg-actions.c:2025
+#:../src/wbcg-actions.c:2031
 msgid "Rectangle"
 msgstr "Hình chữ nhật"
 
-#:../src/wbcg-actions.c:2026
+#:../src/wbcg-actions.c:2032
 msgid "Create a rectangle object"
 msgstr "Tạo đối tượng hình chữ nhật"
 
-#:../src/wbcg-actions.c:2028
+#:../src/wbcg-actions.c:2034
 msgid "Ellipse"
 msgstr "Hình bầu dục"
 
-#:../src/wbcg-actions.c:2029
+#:../src/wbcg-actions.c:2035
 msgid "Create an ellipse object"
 msgstr "Tạo đối tượng hình bầu dục"
 
-#:../src/wbcg-actions.c:2032
+#:../src/wbcg-actions.c:2038
 msgid "Create a button"
 msgstr "Tạo nút"
 
-#:../src/wbcg-actions.c:2035
+#:../src/wbcg-actions.c:2041
 msgid "Create a radio button"
 msgstr "Tạo nút chọn một"
 
-#:../src/wbcg-actions.c:2040
+#:../src/wbcg-actions.c:2046
 msgid "Merge a range of cells"
 msgstr "Trộn các ô trong phạm vị đã chọn"
 
-#:../src/wbcg-actions.c:2042
+#:../src/wbcg-actions.c:2048
 msgid "Split"
 msgstr "Chia tách"
 
-#:../src/wbcg-actions.c:2043
+#:../src/wbcg-actions.c:2049
 msgid "Split merged ranges of cells"
 msgstr "Tách các phạm vị ô đã được trộn"
 
-#:../src/wbcg-actions.c:2047
+#:../src/wbcg-actions.c:2053
 msgid "Format the selection as General"
 msgstr "Định dạng vùng chọn là Chung"
 
-#:../src/wbcg-actions.c:2050
+#:../src/wbcg-actions.c:2056
 msgid "Format the selection as numbers"
 msgstr "Định dạng vùng chọn dạng số"
 
-#:../src/wbcg-actions.c:2052
+#:../src/wbcg-actions.c:2058
 msgid "Currency"
 msgstr "Tiền tệ"
 
-#:../src/wbcg-actions.c:2053
+#:../src/wbcg-actions.c:2059
 msgid "Format the selection as currency"
 msgstr "Định dạng vùng chọn dạng tiền tệ"
 
-#:../src/wbcg-actions.c:2055
+#:../src/wbcg-actions.c:2061
 msgid "Accounting"
 msgstr "Kế toán"
 
-#:../src/wbcg-actions.c:2056
+#:../src/wbcg-actions.c:2062
 msgid "Format the selection as accounting"
 msgstr "Định dạng vùng chọn dạng kế toán."
 
-#:../src/wbcg-actions.c:2058
+#:../src/wbcg-actions.c:2064
 msgid "Percentage"
 msgstr "Phần trăm"
 
-#:../src/wbcg-actions.c:2059
+#:../src/wbcg-actions.c:2065
 msgid "Format the selection as percentage"
 msgstr "Định dạng vùng chọn dạng phần trăm"
 
-#:../src/wbcg-actions.c:2061
+#:../src/wbcg-actions.c:2067
 msgid "Scientific"
 msgstr "Khoa học"
 
-#:../src/wbcg-actions.c:2062
+#:../src/wbcg-actions.c:2068
 msgid "Format the selection as scientific"
 msgstr "Định dạng vùng chọn dạng khoa học"
 
-#:../src/wbcg-actions.c:2064
+#:../src/wbcg-actions.c:2070
 msgid "Date"
 msgstr "Ngày"
 
-#:../src/wbcg-actions.c:2065
+#:../src/wbcg-actions.c:2071
 msgid "Format the selection as date"
 msgstr "Định dạng vùng chọn dạng ngày."
 
-#:../src/wbcg-actions.c:2067
+#:../src/wbcg-actions.c:2073
 msgid "Time"
 msgstr "Thời gian"
 
-#:../src/wbcg-actions.c:2068
+#:../src/wbcg-actions.c:2074
 msgid "Format the selection as time"
 msgstr "Định dạng vùng chọn dạng thời gian."
 
-#:../src/wbcg-actions.c:2070
+#:../src/wbcg-actions.c:2076
 msgid "AddBorders"
 msgstr "Thêm viền"
 
-#:../src/wbcg-actions.c:2071
+#:../src/wbcg-actions.c:2077
 msgid "Add a border around the selection"
 msgstr "Thêm viền chung quanh vùng chọn"
 
-#:../src/wbcg-actions.c:2073
+#:../src/wbcg-actions.c:2079
 msgid "ClearBorders"
 msgstr "Xóa viền"
 
-#:../src/wbcg-actions.c:2074
+#:../src/wbcg-actions.c:2080
 msgid "Clear the border around the selection"
 msgstr "Xóa viền quanh vùng chọn."
 
-#:../src/wbcg-actions.c:2077
+#:../src/wbcg-actions.c:2083
 msgid "Thousands Separator"
 msgstr "Dấu ngăn cách 1000"
 
-#:../src/wbcg-actions.c:2078
+#:../src/wbcg-actions.c:2084
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Đặt định dạng các ô đã chọn để bao gồm dấu cách 1000."
 
-#:../src/wbcg-actions.c:2080
+#:../src/wbcg-actions.c:2086
 msgid "Increase Precision"
 msgstr "Tăng độ chính xác"
 
-#:../src/wbcg-actions.c:2081
+#:../src/wbcg-actions.c:2087
 msgid "Increase the number of decimals displayed"
 msgstr "Tăng số số thập phân được hiển thị"
 
-#:../src/wbcg-actions.c:2083
+#:../src/wbcg-actions.c:2089
 msgid "Decrease Precision"
 msgstr "Giảm độ chính xác"
 
-#:../src/wbcg-actions.c:2084
+#:../src/wbcg-actions.c:2090
 msgid "Decrease the number of decimals displayed"
 msgstr "Giảm số số thập phân được hiển thị"
 
-#:../src/wbcg-actions.c:2087
+#:../src/wbcg-actions.c:2093
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Giảm thụt lề, và canh lề nội dung bên trái."
 
-#:../src/wbcg-actions.c:2090
+#:../src/wbcg-actions.c:2096
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Tăng thụt lề, và canh lề nội dung bên trái."
 
-#:../src/wbcg-actions.c:2121
+#:../src/wbcg-actions.c:2127
 msgid "Display _Outlines"
 msgstr "Hiện _phác thảo"
 
-#:../src/wbcg-actions.c:2122
+#:../src/wbcg-actions.c:2128
 msgid "Toggle whether or not to display outline groups"
 msgstr "Bật tắt hiển thị nhóm phác thảo hay không."
 
-#:../src/wbcg-actions.c:2124
+#:../src/wbcg-actions.c:2130
 msgid "Outlines _Below"
 msgstr "Phác thảo _dướị"
 
-#:../src/wbcg-actions.c:2125
+#:../src/wbcg-actions.c:2131
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Bật tắt hiển thị phác thảo hàng bên trên hay bên dưới"
 
-#:../src/wbcg-actions.c:2127
+#:../src/wbcg-actions.c:2133
 msgid "Outlines _Right"
 msgstr "Phác thảo bên _phải"
 
-#:../src/wbcg-actions.c:2128
+#:../src/wbcg-actions.c:2134
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Bật tắt hiển thị phát thảo cột bên trái hay bên phải."
 
-#:../src/wbcg-actions.c:2130
+#:../src/wbcg-actions.c:2136
 msgid "Display _Formulas"
 msgstr "Hiện _công thức"
 
-#:../src/wbcg-actions.c:2131
+#:../src/wbcg-actions.c:2137
 msgid "Display the value of a formula or the formula itself"
 msgstr "Hiện giá trị của công thức hoặc chính công thức đó."
 
-#:../src/wbcg-actions.c:2133
+#:../src/wbcg-actions.c:2139
 msgid "Hide _Zeros"
 msgstr "Ẩn số _không"
 
-#:../src/wbcg-actions.c:2134
+#:../src/wbcg-actions.c:2140
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Bật/Tắt hiển thị số không là ký tự trắng."
 
-#:../src/wbcg-actions.c:2136
+#:../src/wbcg-actions.c:2142
 msgid "Hide _Gridlines"
 msgstr "Ẩn đường _lưới"
 
-#:../src/wbcg-actions.c:2137
+#:../src/wbcg-actions.c:2143
 msgid "Toggle whether or not to display gridlines"
 msgstr "Bật/Tắt hiển thị đường lưới."
 
-#:../src/wbcg-actions.c:2139
+#:../src/wbcg-actions.c:2145
 msgid "Hide _Column Headers"
 msgstr "Ẩn tiêu đề _cột"
 
-#:../src/wbcg-actions.c:2140
+#:../src/wbcg-actions.c:2146
 msgid "Toggle whether or not to display column headers"
 msgstr "Bật/Tắt hiển thị tiêu đề cột."
 
-#:../src/wbcg-actions.c:2142
+#:../src/wbcg-actions.c:2148
 msgid "Hide _Row Headers"
 msgstr "Ẩn tiêu đề _hàng"
 
-#:../src/wbcg-actions.c:2143
+#:../src/wbcg-actions.c:2149
 msgid "Toggle whether or not to display row headers"
 msgstr "Bật/Tắt hiển thị tiêu đề hàng."
 
-#:../src/wbcg-actions.c:2145
+#:../src/wbcg-actions.c:2151
 msgid "Use R1C1 N_otation "
 msgstr "Dùng ký _hiệu R1C1 "
 
-#:../src/wbcg-actions.c:2146
+#:../src/wbcg-actions.c:2152
 msgid "Display addresses as R1C1 or A1"
 msgstr "Hiển thị địa chỉ dạng R1C1 hoặc A1."
 
-#:../src/wbcg-actions.c:2150
+#:../src/wbcg-actions.c:2156
 msgid "_Left Align"
 msgstr "Canh _trái"
 
-#:../src/wbcg-actions.c:2151 ../src/wbc-gtk.c:340
+#:../src/wbcg-actions.c:2157 ../src/wbc-gtk.c:340
 msgid "Align left"
 msgstr "Canh trái"
 
-#:../src/wbcg-actions.c:2153
+#:../src/wbcg-actions.c:2159
 msgid "_Center"
 msgstr "_Giữa"
 
-#:../src/wbcg-actions.c:2154 ../src/wbc-gtk.c:341
+#:../src/wbcg-actions.c:2160 ../src/wbc-gtk.c:341
 msgid "Center horizontally"
 msgstr "Canh giữa gang"
 
-#:../src/wbcg-actions.c:2156
+#:../src/wbcg-actions.c:2162
 msgid "_Right Align"
 msgstr "Canh _phải"
 
-#:../src/wbcg-actions.c:2157 ../src/wbc-gtk.c:342
+#:../src/wbcg-actions.c:2163 ../src/wbc-gtk.c:342
 msgid "Align right"
 msgstr "Canh phải"
 
-#:../src/wbcg-actions.c:2159
+#:../src/wbcg-actions.c:2165
 msgid "_Center Across Selection"
 msgstr "Canh _giữa qua vùng chọn"
 
-#:../src/wbcg-actions.c:2160 ../src/wbc-gtk.c:345
+#:../src/wbcg-actions.c:2166 ../src/wbc-gtk.c:345
 msgid "Center horizontally across the selection"
 msgstr "Canh giữa ngang qua vùng chọn."
 
-#:../src/wbcg-actions.c:2163
+#:../src/wbcg-actions.c:2169
 msgid "_Merge and Center"
 msgstr "T_rộn và canh giữa"
 
-#:../src/wbcg-actions.c:2164
+#:../src/wbcg-actions.c:2170
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Trộn vùng chọn vào một ô, rồi canh giữa ngang."
 
-#:../src/wbcg-actions.c:2171
+#:../src/wbcg-actions.c:2177
 msgid "Align _Top"
 msgstr "Canh _đỉnh"
 
-#:../src/wbcg-actions.c:2172 ../src/wbc-gtk.c:352
+#:../src/wbcg-actions.c:2178 ../src/wbc-gtk.c:352
 msgid "Align Top"
 msgstr "Canh đỉnh"
 
-#:../src/wbcg-actions.c:2174
+#:../src/wbcg-actions.c:2180
 msgid "_Vertically Center"
 msgstr "Canh giữa _dọc"
 
-#:../src/wbcg-actions.c:2175
+#:../src/wbcg-actions.c:2181
 msgid "Vertically Center"
 msgstr "Canh giữa dọc"
 
-#:../src/wbcg-actions.c:2177
+#:../src/wbcg-actions.c:2183
 msgid "Align _Bottom"
 msgstr "Canh _đáy"
 
-#:../src/wbcg-actions.c:2178 ../src/wbc-gtk.c:354
+#:../src/wbcg-actions.c:2184 ../src/wbc-gtk.c:354
 msgid "Align Bottom"
 msgstr "Canh đáy"
 
-#:../src/wbcg-actions.c:2181
+#:../src/wbcg-actions.c:2187
 msgid "View _Statusbar"
 msgstr "Xem thanh _trạng thái"
 
-#:../src/wbcg-actions.c:2182
+#:../src/wbcg-actions.c:2188
 msgid "Toggle visibility of statusbar"
 msgstr "Hiện/Ẩn thanh trạng thái"
 
-#:../src/wbcg-actions.c:2186
+#:../src/wbcg-actions.c:2192
 msgid "F_ull Screen"
 msgstr "_Toàn màn hình"
 
-#:../src/wbcg-actions.c:2187
+#:../src/wbcg-actions.c:2193
 msgid "in or out"
 msgstr "Đến hoặc ra"
 
-#:../src/wbcg-actions.c:2192
+#:../src/wbcg-actions.c:2198
 msgid "_Bold"
 msgstr "_Đậm"
 
-#:../src/wbcg-actions.c:2195
+#:../src/wbcg-actions.c:2201
 msgid "_Italic"
 msgstr "_Nghiêng"
 
-#:../src/wbcg-actions.c:2198
+#:../src/wbcg-actions.c:2204
 msgid "_Underline"
 msgstr "Gạch _chân"
 
 #.ALSO "<control>4"
-#:../src/wbcg-actions.c:2199
+#:../src/wbcg-actions.c:2205
 msgid "Underline"
 msgstr "Gạch chân"
 
-#:../src/wbcg-actions.c:2201
+#:../src/wbcg-actions.c:2207
 msgid "_Strike Through"
 msgstr "_Gạch đè"
 
-#:../src/wbcg-actions.c:2202
+#:../src/wbcg-actions.c:2208
 msgid "Strike Through"
 msgstr "_Gạch đè"
 
 #.from icon theme
-#:../src/wbcg-actions.c:2204
+#:../src/wbcg-actions.c:2210
 msgid "_Double Underline"
 msgstr "Gạch chân _đôi"
 
-#:../src/wbcg-actions.c:2205
+#:../src/wbcg-actions.c:2211
 msgid "Double Underline"
 msgstr "Gạch chân đôi"
 
 #.from icon theme
-#:../src/wbcg-actions.c:2207
+#:../src/wbcg-actions.c:2213
 msgid "Su_perscript"
 msgstr "Chữ _trên"
 
-#:../src/wbcg-actions.c:2208
+#:../src/wbcg-actions.c:2214
 msgid "Superscript"
 msgstr "Chữ trên"
 
 #.from icon theme
-#:../src/wbcg-actions.c:2210
+#:../src/wbcg-actions.c:2216
 msgid "Subscrip_t"
 msgstr "Chữ _dưới"
 
-#:../src/wbcg-actions.c:2211
+#:../src/wbcg-actions.c:2217
 msgid "Subscript"
 msgstr "Chữ dưới"
 
@@ -13086,33 +13097,33 @@ msgstr "%dR"
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#:../src/workbook-view.c:467
+#:../src/workbook-view.c:484
 msgid "Internal ERROR"
 msgstr "LỖI nội bộ"
 
-#:../src/workbook-view.c:615
+#:../src/workbook-view.c:632
 #,c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Không mở được « %s » để ghi: %s"
 
-#:../src/workbook-view.c:642
+#:../src/workbook-view.c:659
 #,c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Gặp lỗi chưa giải thích khi lưu %s."
 
-#:../src/workbook-view.c:728 ../src/workbook-view.c:901
+#:../src/workbook-view.c:745 ../src/workbook-view.c:918
 msgid "Default file saver is not available."
 msgstr "Bộ lưu tập tin mặc định không sẵn sàng."
 
-#:../src/workbook-view.c:842
+#:../src/workbook-view.c:859
 msgid "Failed to create temporary file for sending."
 msgstr "Không tạo được tập tin tạm để gởi."
 
-#:../src/workbook-view.c:993
+#:../src/workbook-view.c:1010
 msgid "Unsupported file format."
 msgstr "Dạng thức tập tin không được hỗ trợ."
 
-#:../src/workbook-view.c:1041
+#:../src/workbook-view.c:1058
 #,c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Gặp lỗi chưa giải thích khi mở %s."
