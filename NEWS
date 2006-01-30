@@ -3,6 +3,7 @@ Gnumeric 1.7.0
 Andreas:
 	* Fix lost minus signs in latex output. [#325656]
 	* Add has-header preference to the sort preferences. [#327278]
+	* FIx sort dialog crash. [329236]
 
 Ivan, Y.C. Wong:
 	* Fix Gdk-WARNING when cutting or copying cells. [#314210]

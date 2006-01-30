@@ -764,23 +764,25 @@ build_sort_field_base_menu (SortFlowState *state)
 	gint index;
 
 	GtkWidget *menu = gtk_menu_new ();
-	GList* items;
+	GList* items = NULL;
 
-	if (state->is_cols) {
-		start = state->sel->v_range.cell.a.col;
-		end  = state->sel->v_range.cell.b.col;
-		index = state->sel->v_range.cell.a.row;
-	} else {
-		start = state->sel->v_range.cell.a.row;
-		end  = state->sel->v_range.cell.b.row;
-		index = state->sel->v_range.cell.a.col;
-	}
-
-	build_sort_field_menu (start, end, index, menu, state, 
+	if (state->sel != NULL) {
+	  if (state->is_cols) {
+	    start = state->sel->v_range.cell.a.col;
+	    end  = state->sel->v_range.cell.b.col;
+	    index = state->sel->v_range.cell.a.row;
+	  } else {
+	    start = state->sel->v_range.cell.a.row;
+	    end  = state->sel->v_range.cell.b.row;
+	    index = state->sel->v_range.cell.a.col;
+	  }
+	  
+	  build_sort_field_menu (start, end, index, menu, state, 
 			       state->sort_items);
-
-	items = gtk_container_get_children (GTK_CONTAINER (menu));
-
+	  
+	  items = gtk_container_get_children (GTK_CONTAINER (menu));
+	}
+	
 	if (items == NULL) {
 		GtkWidget *item;
 		item = (GtkWidget *) gtk_menu_item_new_with_label(state->is_cols ? 
