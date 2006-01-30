@@ -1,3 +1,7 @@
+2006-01-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.2
+
 2005-12-21  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Make isnumber use B arg type, not E.

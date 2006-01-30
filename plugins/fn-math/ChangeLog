@@ -1,3 +1,7 @@
+2006-01-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.2
+
 2006-01-25  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_trunc, gnumeric_round, gnumeric_roundup):

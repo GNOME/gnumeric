@@ -1,3 +1,7 @@
+2006-01-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.2
+
 2006-01-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-solver.c (cb_dialog_delete_clicked): Defensive coding.
