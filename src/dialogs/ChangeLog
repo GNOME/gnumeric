@@ -1,5 +1,9 @@
 2006-01-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-cell-sort.c (translate_range): remove some dead code.
+
+2006-01-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=329236
 	* dialog-cell-sort.c (build_sort_field_base_menu): state->sel
 	  may be NULL

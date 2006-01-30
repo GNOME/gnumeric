@@ -396,23 +396,9 @@ translate_range (GnmValue *range, SortFlowState *state)
 	state->header = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 
-	if (state->sel == NULL) {
-		state->sel = range;
-		load_model_data(state);
-		return;
-	}
-	
-	if (state->sel->v_range.cell.a.sheet != range->v_range.cell.a.sheet ||
-	    state->sel->v_range.cell.a.col != range->v_range.cell.a.col ||
-	    state->sel->v_range.cell.a.row != range->v_range.cell.a.row ||
-	    state->sel->v_range.cell.b.col != range->v_range.cell.b.col ||
-	    state->sel->v_range.cell.b.row != range->v_range.cell.b.row) {
-		value_release (state->sel);
-		state->sel = range;
-	} else {
-		value_release (state->sel);
-		state->sel = range;
-	}
+	if (state->sel != NULL)
+	  	value_release (state->sel);
+	state->sel = range;
 	load_model_data(state);
 }
 
