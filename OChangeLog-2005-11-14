@@ -1,5 +1,9 @@
 2006-01-30  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+
+2006-01-30  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.6.2
 
 2006-01-24  Morten Welinder  <terra@gnome.org>
