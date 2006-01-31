@@ -1,3 +1,9 @@
+2006-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=329250
+	* dialog-cell-sort.c (dialog_init): use the "changed" signal rather
+	  than the "update" signal to watch the range entry.
+
 2006-01-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c (translate_range): remove some dead code.

@@ -982,7 +982,7 @@ dialog_init (SortFlowState *state)
 	gnm_expr_entry_set_update_policy (state->range_entry, GTK_UPDATE_DISCONTINUOUS);
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
 	g_signal_connect_swapped (G_OBJECT (state->range_entry),
-		"update",
+		"changed",
 		G_CALLBACK (cb_update_sensitivity), state);
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_spec_table"));
