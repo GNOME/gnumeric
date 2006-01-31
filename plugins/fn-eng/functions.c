@@ -1286,6 +1286,7 @@ gnumeric_erf (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	ans = gnm_erf (lower);
 
 	if (argv[1]) {
+		/* FIXME: This is suboptimal.  */
 		upper = value_get_as_float (argv[1]);
 		ans = gnm_erf (upper) - ans;
 	}
@@ -1319,9 +1320,7 @@ static GnmFuncHelp const help_erfc[] = {
 static GnmValue *
 gnumeric_erfc (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x;
-
-	x = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[0]);
 
 	return value_new_float (gnm_erfc (x));
 }
@@ -1352,36 +1351,10 @@ static GnmFuncHelp const help_delta[] = {
 static GnmValue *
 gnumeric_delta (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmValue *err = NULL;
-	gboolean ans = FALSE;
-	GnmValue const *vx, *vy;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = argv[1] ? value_get_as_float (argv[1]) : 0;
 
-	vx = argv[0];
-	if (argv[1])
-		vy = argv[1];
-	else
-		vy = value_new_int (0);
-
-	/* Promote to the largest value */
-	switch ((vx->type > vy->type) ? vx->type : vy->type) {
-	case VALUE_BOOLEAN:
-		/* Only happens when both are bool */
-		ans = vx->v_bool.val == vy->v_bool.val;
-		break;
-	case VALUE_EMPTY:
-	case VALUE_INTEGER:
-		ans = value_get_as_int (vx) == value_get_as_int (vy);
-		break;
-	case VALUE_FLOAT:
-		ans = value_get_as_float (vx) == value_get_as_float (vy);
-		break;
-	default:
-		err = value_new_error (ei->pos, _("Impossible"));
-	}
-	if (!argv[1])
-		value_release ((GnmValue *)vy);
-
-	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
+	return value_new_int (x == y);
 }
 
 /***************************************************************************/
@@ -1409,36 +1382,10 @@ static GnmFuncHelp const help_gestep[] = {
 static GnmValue *
 gnumeric_gestep (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	GnmValue *err = NULL;
-	gboolean ans = FALSE;
-	GnmValue const *vx, *vy;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = argv[1] ? value_get_as_float (argv[1]) : 0;
 
-	vx = argv[0];
-	if (argv[1])
-		vy = argv[1];
-	else
-		vy = value_new_int (0);
-
-	/* Promote to the largest value */
-	switch ((vx->type > vy->type) ? vx->type : vy->type) {
-	case VALUE_BOOLEAN:
-		/* Only happens when both are bool */
-		ans = vx->v_bool.val >= vy->v_bool.val;
-		break;
-	case VALUE_EMPTY:
-	case VALUE_INTEGER:
-		ans = value_get_as_int (vx) >= value_get_as_int (vy);
-		break;
-	case VALUE_FLOAT:
-		ans = value_get_as_float (vx) >= value_get_as_float (vy);
-		break;
-	default:
-		err = value_new_error (ei->pos, _("Impossible"));
-	}
-
-	if (!argv[1])
-		value_release ((GnmValue *)vy);
-	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
+	return value_new_int (x >= y);
 }
 
 /***************************************************************************/

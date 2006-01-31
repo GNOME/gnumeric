@@ -1,3 +1,8 @@
+2006-01-31  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (range_lcm, range_gcd): Make these work for all
+	arguments up to the max size that can be represented accurately.
+
 2006-01-25  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_trunc, gnumeric_round, gnumeric_roundup):

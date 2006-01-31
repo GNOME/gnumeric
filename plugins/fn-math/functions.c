@@ -108,19 +108,35 @@ static GnmFuncHelp const help_gcd[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static const double gnm_gcd_max = 1 / GNM_EPSILON;
+
+static gnm_float
+gnm_gcd (gnm_float a, gnm_float b)
+{
+	g_return_val_if_fail (a > 0 && a <= gnm_gcd_max, -1);
+	g_return_val_if_fail (b > 0 && b <= gnm_gcd_max, -1);
+
+	while (gnm_abs (b) > 0.5) {
+		gnm_float r = gnm_fmod (a, b);
+		a = b;
+		b = r;
+	}
+	return a;
+}
+
 static int
 range_gcd (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
 		int i;
-		int gcd_so_far = 0;
+		gnm_float gcd_so_far = xs[0];
 
 		for (i = 0; i < n; i++) {
 			gnm_float thisx = gnm_fake_floor (xs[i]);
-			if (thisx <= 0 || thisx > INT_MAX)
+			if (thisx <= 0 || thisx > gnm_gcd_max)
 				return 1;
 			else
-				gcd_so_far = gcd ((int)thisx, gcd_so_far);
+				gcd_so_far = gnm_gcd (thisx, gcd_so_far);
 		}
 		*res = gcd_so_far;
 		return 0;
@@ -167,21 +183,31 @@ static GnmFuncHelp const help_lcm[] = {
 static int
 range_lcm (gnm_float const *xs, int n, gnm_float *res)
 {
-	if (n > 0) {
-		int i;
-		int lcm_so_far = 1;
+	/* This function violates the "const".  */
+	gnm_float *xsuc = (gnm_float *)xs;
 
-		for (i = 0; i < n; i++) {
-			gnm_float x = gnm_fake_floor (xs[i]);
-			if (x <= 0 || x > INT_MAX)
+	if (n > 0) {
+		int i, j;
+		gnm_float gcd_so_far = 1;
+
+		for (i = j = 0; i < n; i++) {
+			int k;
+			gnm_float thisx = gnm_fake_floor (xsuc[i]);
+
+			if (thisx < 1 || thisx > gnm_gcd_max)
 				return 1;
-			else {
-				int xi = (int) x;
-				lcm_so_far /= gcd (lcm_so_far, xi);
-				lcm_so_far *= xi;
-			}
+
+			for (k = 0; k < j; k++)
+				thisx /= gnm_gcd (thisx, xsuc[k]);
+
+			if (thisx == 1)
+				continue;
+
+			xsuc[j++] = thisx;
+			gcd_so_far *= thisx;
 		}
-		*res = lcm_so_far;
+
+		*res = gcd_so_far;
 		return 0;
 	} else
 		return 1;
@@ -285,10 +311,9 @@ static GnmFuncHelp const help_acos[] = {
 static GnmValue *
 gnumeric_acos (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t;
+	gnm_float t = value_get_as_float (argv [0]);
 
-	t = value_get_as_float (argv [0]);
-	if ((t < -1.0) || (t > 1.0))
+	if (t < -1.0 || t > 1.0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_acos (t));
@@ -321,9 +346,8 @@ static GnmFuncHelp const help_acosh[] = {
 static GnmValue *
 gnumeric_acosh (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t;
+	gnm_float t = value_get_as_float (argv [0]);
 
-	t = value_get_as_float (argv [0]);
 	if (t < 1.0)
 		return value_new_error_NUM (ei->pos);
 
@@ -357,10 +381,9 @@ static GnmFuncHelp const help_asin[] = {
 static GnmValue *
 gnumeric_asin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t;
+	gnm_float t = value_get_as_float (argv [0]);
 
-	t = value_get_as_float (argv [0]);
-	if ((t < -1.0) || (t > 1.0))
+	if (t < -1.0 || t > 1.0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_asin (t));
@@ -448,10 +471,9 @@ static GnmFuncHelp const help_atanh[] = {
 static GnmValue *
 gnumeric_atanh (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t;
+	gnm_float t = value_get_as_float (argv [0]);
 
-	t = value_get_as_float (argv [0]);
-	if ((t <= -1.0) || (t >= 1.0))
+	if (t <= -1.0 || t >= 1.0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_atanh (value_get_as_float (argv [0])));
@@ -748,21 +770,16 @@ static GnmFuncHelp const help_ceiling[] = {
 static GnmValue *
 gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float number = value_get_as_float (argv[0]);
-        gnm_float s;
+	gnm_float x = value_get_as_float (argv[0]);
+        gnm_float s = argv[1] ? value_get_as_float (argv[1]) : (x > 0 ? 1 : -1);
 
-	if (argv[1] == NULL)
-	        s = (number >= 0) ? 1.0 : -1.0;
-	else
-	        s = value_get_as_float (argv[1]);
-
-	if (number == 0 || s == 0)
+	if (x == 0 || s == 0)
 		return value_new_int (0);
 
-	if (number / s < 0)
+	if (x / s < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_fake_ceil (number / s) * s);
+	return value_new_float (gnm_fake_ceil (x / s) * s);
 }
 
 /***************************************************************************/
@@ -1065,24 +1082,19 @@ static GnmFuncHelp const help_floor[] = {
 static GnmValue *
 gnumeric_floor (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float number, s;
+	gnm_float x = value_get_as_float (argv[0]);
+        gnm_float s = argv[1] ? value_get_as_float (argv[1]) : (x > 0 ? 1 : -1);
 
-	number = value_get_as_float (argv[0]);
-	if (argv[1] == NULL)
-	        s = (number >= 0) ? 1.0 : -1.0;
-	else
-	        s = value_get_as_float (argv[1]);
-
-	if (number == 0)
+	if (x == 0)
 		return value_new_int (0);
 
 	if (s == 0)
 		return value_new_error_DIV0 (ei->pos);
 
-	if (number / s < 0)
+	if (x / s < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_fake_floor (number / s) * s);
+	return value_new_float (gnm_fake_floor (x / s) * s);
 }
 
 /***************************************************************************/
@@ -1276,6 +1288,7 @@ static GnmValue *
 gnumeric_log2 (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float t = value_get_as_float (argv [0]);
+
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
@@ -1305,9 +1318,8 @@ static GnmFuncHelp const help_log10[] = {
 static GnmValue *
 gnumeric_log10 (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t;
+	gnm_float t = value_get_as_float (argv [0]);
 
-	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
@@ -1348,10 +1360,9 @@ static GnmFuncHelp const help_mod[] = {
 static GnmValue *
 gnumeric_mod (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float a, b, babs, r;
-
-	a = value_get_as_float (argv[0]);
-	b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
+	gnm_float babs, r;
 
 	if (b == 0)
 		return value_new_error_DIV0 (ei->pos);
@@ -1772,11 +1783,13 @@ gnumeric_even (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	ceiled = gnm_ceil (number);
 	if (gnm_fmod (ceiled, 2) == 0)
 	        if (number > ceiled)
-		        return value_new_int ((int) (sign * (ceiled + 2)));
+		        number = sign * (ceiled + 2);
 		else
-		        return value_new_int ((int) (sign * ceiled));
+		        number = sign * ceiled;
 	else
-	        return value_new_int ((int) (sign * (ceiled + 1)));
+	        number = sign * (ceiled + 1);
+
+	return value_new_float (number);
 }
 
 /***************************************************************************/
@@ -1814,11 +1827,13 @@ gnumeric_odd (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	ceiled = gnm_ceil (number);
 	if (gnm_fmod (ceiled, 2) == 1)
 	        if (number > ceiled)
-		        return value_new_int ((int) (sign * (ceiled + 2)));
+		        number = sign * (ceiled + 2);
 		else
-		        return value_new_int ((int) (sign * ceiled));
+		        number = sign * ceiled;
 	else
-	        return value_new_int ((int) (sign * (ceiled + 1)));
+		number = sign * (ceiled + 1);
+
+	return value_new_float (number);
 }
 
 /***************************************************************************/
@@ -1949,7 +1964,7 @@ gnumeric_quotient (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (den == 0)
 	        return value_new_error_DIV0 (ei->pos);
 	else
-	        return value_new_int ((int) (num / den));
+	        return value_new_float (gnm_trunc (num / den));
 }
 
 /***************************************************************************/
@@ -1977,9 +1992,7 @@ static GnmFuncHelp const help_sign[] = {
 static GnmValue *
 gnumeric_sign (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float n;
-
-	n = value_get_as_float (argv[0]);
+        gnm_float n = value_get_as_float (argv[0]);
 
 	if (n > 0)
 	      return value_new_int (1);
@@ -2012,9 +2025,8 @@ static GnmFuncHelp const help_sqrtpi[] = {
 static GnmValue *
 gnumeric_sqrtpi (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float n;
+        gnm_float n = value_get_as_float (argv[0]);
 
-	n = value_get_as_float (argv[0]);
 	if (n < 0)
 		return value_new_error_NUM (ei->pos);
 

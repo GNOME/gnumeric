@@ -61,6 +61,7 @@ Morten:
 	* Fix DATE compatibility for bizarre input.
 	* Cleanup parameter handling in financial functions.
 	* Fix parsing problem with underscores in sheet names.  [#329236]
+	* Fix LCM and GCD for large arguments.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
