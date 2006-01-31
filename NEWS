@@ -60,6 +60,7 @@ Morten:
 	* Fix SECOND, MINUTE, HOUR compatibility problems.
 	* Fix DATE compatibility for bizarre input.
 	* Cleanup parameter handling in financial functions.
+	* Fix parsing problem with underscores in sheet names.  [#329236]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

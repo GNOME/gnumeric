@@ -869,7 +869,7 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 
 		while (1) {
 			gunichar uc = g_utf8_get_char (end);
-			if (g_unichar_isalpha (uc)) {
+			if (g_unichar_isalpha (uc) || uc == '_') {
 				if (only_digits && end != start &&
 				    (uc == 'e' || uc == 'E')) {
 					end = start;
