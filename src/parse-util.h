@@ -80,6 +80,8 @@ typedef char const *(*GnmRangeRefParse) (GnmRangeRef *res, char const *in,
 					 GnmParsePos const *pp,
 					 GnmExprConventions const *convs);
 					 /* GError **err); */
+typedef char const *(*GnmNameParse) (const char *in,
+				     GnmExprConventions const *convs);
 
 /*
  * On success, this functions should return a non-NULL value and
@@ -105,6 +107,9 @@ typedef void (*GnmParseRangeRefHandler) (GString *target,
 					 GnmRangeRef const *cell_ref,
 					 GnmParsePos const *pp);
 
+typedef GString * (*GnmSheetNameQuoteHandler) (GnmExprConventions const *convs,
+					       const char *name);
+
 struct _GnmExprConventions {
 #if 0
 	/* Not yet.  */
@@ -124,10 +129,6 @@ struct _GnmExprConventions {
 	/* What characters are sheet separators?  */
 	gboolean sheet_sep_exclamation;  /* Sheet!... */
 	gboolean sheet_sep_colon; /* Sheet:... */
-
-	/* Other than underscore and dollar what characters can appear in a
-	 * string without quotes. (an array 0..127 of bools) */
-	unsigned char const *unquoted_ascii_name_chars;
 
 	/* Formerly USE_APPLIX_CONVENTIONS.  */
 	gboolean ignore_whitespace;
@@ -153,6 +154,10 @@ struct _GnmExprConventions {
 	/* Called a lot for anything that might be a reference.  */
 	GnmRangeRefParse ref_parser;
 
+	/* Called a lot for anything that might be a function name or defined
+	   name.  */
+	GnmNameParse name_parser;
+
 	/*
 	 * Optional name->GnmParseFunctionHandler hash.  When a name is
 	 * present in this hash, unknown_function_handler will not be
@@ -173,6 +178,9 @@ struct _GnmExprConventions {
 
 	/* Called to make strings of range refs.  */
 	GnmParseRangeRefHandler range_ref_handler;
+
+	/* Called to optionally quote a sheet name.  */
+	GnmSheetNameQuoteHandler sheet_name_quote;
 
 	/* Used to separate sheet from name when both are needed.  */
 	char const *output_sheet_name_sep;
@@ -214,7 +222,5 @@ void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      GODateConventions const *date_conv);
 
 GString	*gnm_expr_conv_quote (GnmExprConventions const *conv, char const *str);
-#define gnm_expr_conv_is_unquoted_char(convs, c)	\
-    ((c < 0x80) ? convs->unquoted_ascii_name_chars [c] : g_unichar_isalnum (c))
 
 #endif /* GNM_PARSE_UTIL_H */

@@ -1256,11 +1256,8 @@ yylex (void)
 	}
 	}
 
-	if (gnm_expr_conv_is_unquoted_char (state->convs, c)) {
-		while ((c = g_utf8_get_char (state->ptr)) != 0 &&
-		       gnm_expr_conv_is_unquoted_char (state->convs, c))
-			state->ptr = g_utf8_next_char (state->ptr);
-
+	if ((end = state->convs->name_parser (start, state->convs))) {
+		state->ptr = end;
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
 			value_new_string_nocopy (g_strndup (start, state->ptr - start))));
 		return STRING;
