@@ -31,9 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern int gnumeric_no_splash;
-extern int gnumeric_no_warnings;
-
 #define ICG_POPUP_DELAY 3.0
 
 #define IO_CONTEXT_GTK_CLASS(klass) \

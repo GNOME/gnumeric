@@ -64,6 +64,7 @@ Morten:
 	* Cleanup parameter handling in financial functions.
 	* Fix parsing problem with underscores in sheet names.  [#329236]
 	* Fix LCM and GCD for large arguments.
+	* Switch option handling to GOption.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

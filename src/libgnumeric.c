@@ -53,9 +53,10 @@
 int gnumeric_debugging = 0;
 int dependency_debugging = 0;
 int expression_sharing_debugging = 0;
-int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
+gboolean gnumeric_no_splash = FALSE;
+gboolean  gnumeric_no_warnings = FALSE;
 char *x_geometry;
 
 /**

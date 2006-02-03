@@ -1,3 +1,8 @@
+2006-02-03  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (gnumeric_arg_parse): Switch to GOption
+	infrastructure.
+
 2006-02-01  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (std_sheet_name_quote, std_name_parser): New

@@ -6,9 +6,10 @@
 extern int	 gnumeric_debugging;
 extern int	 dependency_debugging;
 extern int	 expression_sharing_debugging;
-extern int	 immediate_exit_flag;
 extern int	 print_debugging;
 extern gboolean	 initial_workbook_open_complete;
+extern gboolean  gnumeric_no_splash;
+extern gboolean  gnumeric_no_warnings;
 extern char	*x_geometry;
 
 void gnm_pre_parse_init (char const* gnumeric_binary);

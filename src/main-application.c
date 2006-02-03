@@ -15,11 +15,9 @@
 #include "gnumeric.h"
 #include "libgnumeric.h"
 #ifdef G_OS_WIN32
-#define POPT_STATIC
 #define _WIN32_WINNT 0x0501
 #include <windows.h>
 #endif
-#include <popt.h>
 
 #include "command-context.h"
 #include <goffice/app/io-context.h>
@@ -51,57 +49,112 @@
 #ifdef WITH_GNOME
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-ui-main.h>
+#include <libgnome/gnome-program.h>
+#include <libgnome/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
+#include <libgnomeui/gnome-authentication-manager.h>
+#include <libgnomevfs/gnome-vfs-init.h>
 #endif
 
-static int gnumeric_show_version = FALSE;
-static int split_funcdocs = FALSE;
+static gboolean gnumeric_show_version = FALSE;
+static gboolean split_funcdocs = FALSE;
 static char *func_def_file = NULL;
 static char *func_state_file = NULL;
+static gboolean immediate_exit_flag = FALSE;
 
-int gnumeric_no_splash = FALSE;
-int gnumeric_no_warnings = FALSE;
+static gchar **startup_files;
 
-static struct poptOption
-gnumeric_popt_options[] = {
-	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
-	  N_("Display Gnumeric's version"), NULL  },
-	{ "lib-dir", 'L', POPT_ARG_STRING, &gnumeric_lib_dir, 0,
-	  N_("Set the root library directory"), NULL  },
-	{ "data-dir", 'D', POPT_ARG_STRING, &gnumeric_data_dir, 0,
-	  N_("Adjust the root data directory"), NULL  },
-
-	{ "dump-func-defs", '\0', POPT_ARG_STRING, &func_def_file, 0,
-	  N_("Dumps the function definitions"),   N_("FILE") },
-	{ "dump-func-state", '\0', POPT_ARG_STRING, &func_state_file, 0,
-	  N_("Dumps the function definitions"),   N_("FILE") },
-	{ "split-func", '\0', POPT_ARG_NONE, &split_funcdocs, 0,
-	  N_("Generate new help and po files"),   NULL },
-
-	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
-	  N_("Enables some debugging functions"), N_("LEVEL") },
-
-	{ "debug-deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
-	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
-	{ "debug-share", '\0', POPT_ARG_INT, &expression_sharing_debugging, 0,
-	  N_("Enables some debugging functions for expression sharing"), N_("LEVEL") },
-	{ "debug-print", '\0', POPT_ARG_INT, &print_debugging, 0,
-	  N_("Enables some print debugging behavior"), N_("LEVEL") },
-
-	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
-	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")
+static const GOptionEntry gnumeric_options [] = { 
+	{
+		"version", 'v',
+		0, G_OPTION_ARG_NONE, &gnumeric_show_version,
+		N_("Display Gnumeric's version"),
+		NULL
+	},
+	{
+		"lib-dir", 'L',
+		0, G_OPTION_ARG_FILENAME, &gnumeric_lib_dir,
+		N_("Set the root library directory"),
+		N_("DIR")
+	},
+	{
+		"data-dir", 'D',
+		0, G_OPTION_ARG_FILENAME, &gnumeric_data_dir,
+		N_("Adjust the root data directory"),
+		N_("DIR")
+	},
+	{
+		"geometry", 'g',
+		0, G_OPTION_ARG_STRING, &x_geometry,
+		N_("Specify the size and location of the initial window"),
+		N_("WIDTHxHEIGHT+XOFF+YOFF")
+	},
+	{
+		"no-splash", 0,
+		0, G_OPTION_ARG_NONE, &gnumeric_no_splash,
+		N_("Don't show splash screen"),
+		NULL
+	},
+	{
+		"no-warnings", 0,
+		0, G_OPTION_ARG_NONE, &gnumeric_no_warnings,
+		N_("Don't display warning dialogs when importing"),
+		NULL
 	},
 
-	{ "no-splash", '\0', POPT_ARG_NONE, &gnumeric_no_splash, 0,
-	  N_("Don't show splash screen"), NULL },
-	{ "no-warnings", '\0', POPT_ARG_NONE, &gnumeric_no_warnings, 0,
-	  N_("Don't display warning dialogs when importing"), NULL },
+	{
+		"debug-deps", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &dependency_debugging,
+		N_("Enables some dependency related debugging functions"),
+		N_("LEVEL")
+	},
+	{
+		"debug-share", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &expression_sharing_debugging,
+		N_("Enables some debugging functions for expression sharing"),
+		N_("LEVEL")
+	},
+	{
+		"debug-print", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &print_debugging,
+		N_("Enables some print debugging behavior"),
+		N_("LEVEL")
+	},
 
-	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
-	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
-
-	POPT_AUTOHELP
-	POPT_TABLEEND
+	{
+		"dump-func-defs", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_def_file,
+		N_("Dumps the function definitions"),
+		N_("FILE")
+	},
+	{
+		"dump-func-state", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_state_file,
+		N_("Dumps the function definitions"),
+		N_("FILE")
+	},
+	{
+		"split-func", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &split_funcdocs,
+		N_("Generate new help and po files"),
+		NULL
+	},
+	{
+		"debug", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &gnumeric_debugging,
+		N_("Enables some debugging functions"),
+		N_("LEVEL")
+	},
+	{
+		"quit", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &immediate_exit_flag,
+		N_("Exit immediately after loading the selected books"),
+		NULL
+	},
+	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &startup_files, NULL, NULL },
+	{ NULL } 
 };
+
 
 static void
 handle_paint_events (void)
@@ -111,7 +164,6 @@ handle_paint_events (void)
 	while (gtk_events_pending () && !initial_workbook_open_complete)
 		gtk_main_iteration_do (FALSE);
 }
-
 
 static void
 warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
@@ -149,130 +201,90 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 	}
 }
 
-#ifdef WITH_GNOME
-#include <libgnome/gnome-program.h>
-#include <libgnome/gnome-init.h>
-#include <libgnomeui/gnome-ui-init.h>
-#include <libgnomeui/gnome-authentication-manager.h>
-#include <libgnomevfs/gnome-vfs-init.h>
-
-static GnomeProgram *program;
+static GObject *program = NULL;
 
 static void
 gnumeric_arg_shutdown (void)
 {
-	g_object_unref (program);
-	program = NULL;
+	if (program) {
+		g_object_unref (program);
+		program = NULL;
+	}
 }
 
-static poptContext
-gnumeric_arg_parse (int argc, char const *argv [])
+static void
+gnumeric_arg_parse (int argc, char **argv)
 {
-	poptContext ctx = NULL;
+	GOptionContext *ocontext;
 	int i;
+	gboolean funcdump = FALSE;
+	GError *error = NULL;	
 
 	/* no need to init gtk when dumping function info */
-	for (i = 0 ; i < argc ; i++)
-		if (argv[i] && 0 == strncmp ("--dump-func", argv[i], 11))
+	for (i = 0 ; argv[i] ; i++)
+		if (0 == strncmp ("--dump-func", argv[i], 11)) {
+			funcdump = TRUE;
 			break;
+		}
 
-	program = gnome_program_init (PACKAGE, VERSION,
-		(i < argc) ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
-		argc, (char **)argv,
-		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
-		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
-		GNOME_PARAM_APP_DATADIR,	gnm_sys_data_dir (),
-		GNOME_PARAM_APP_LIBDIR,		gnm_sys_lib_dir (),
-		GNOME_PARAM_POPT_TABLE,		gnumeric_popt_options,
-		NULL);
-	if (i == argc) {		/* Has gui */
-		gnome_vfs_init ();
-		gnome_authentication_manager_init ();
+	ocontext = g_option_context_new ("[FILE ...]");
+	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
+
+#ifdef WITH_GNOME
+#ifndef GNOME_PARAM_GOPTION_CONTEXT
+	/*
+	 * Bummer.  We cannot make gnome_program_init handle out args so
+	 * we do it ourselves.  That, in turn, means we don't handle
+	 * libgnome[ui]'s args.
+	 *
+	 * Upgrade to libgnome 2.13 or better to solve this.
+	 */
+	if (!funcdump)
+		g_option_context_add_group (ocontext, gtk_get_option_group (TRUE));
+	g_option_context_parse (ocontext, &argc, &argv, &error);
+#endif
+
+	if (error)
+		g_option_context_free (ocontext);
+	else
+		program = (GObject *)
+			gnome_program_init (PACKAGE, VERSION,
+					    funcdump ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
+					    argc, argv,
+					    GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
+					    GNOME_PARAM_APP_SYSCONFDIR,		GNUMERIC_SYSCONFDIR,
+					    GNOME_PARAM_APP_DATADIR,		gnm_sys_data_dir (),
+					    GNOME_PARAM_APP_LIBDIR,		gnm_sys_lib_dir (),
+#ifdef GNOME_PARAM_GOPTION_CONTEXT
+					    GNOME_PARAM_GOPTION_CONTEXT,	ocontext,
+#endif
+					    NULL);
+
+#else /* therefore not gnome */
+	if (!funcdump)
+		g_option_context_add_group (ocontext, gtk_get_option_group (TRUE));
+	g_option_context_parse (ocontext, &argc, &argv, &error);
+	g_option_context_free (ocontext);
+#endif
+
+	if (error) {
+		g_printerr(_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
+			   error->message, argv[0]);
+		g_error_free (error);
+		exit (1);
 	}
 
-	g_object_get (G_OBJECT (program),
-		GNOME_PARAM_POPT_CONTEXT,	&ctx,
-		NULL);
-	return ctx;
-}
-#else
-#include <gtk/gtkmain.h>
-
-static poptContext arg_context;
-
-static void
-gnumeric_arg_shutdown (void)
-{
-	poptFreeContext (arg_context);
-}
-
-static poptContext
-gnumeric_arg_parse (int argc, char const *argv [])
-{
-	static struct poptOption const gtk_options [] = {
-		{ "gdk-debug", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("Gdk debugging flags to set"), N_("FLAGS")},
-		{ "gdk-no-debug", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("Gdk debugging flags to unset"), N_("FLAGS")},
-		{ "display", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("X display to use"), N_("DISPLAY")},
-		{ "screen", '\0', POPT_ARG_INT, NULL, 0,
-		  N_("X screen to use"), N_("SCREEN")},
-		{ "sync", '\0', POPT_ARG_NONE, NULL, 0,
-		  N_("Make X calls synchronous"), NULL},
-		{ "name", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("Program name as used by the window manager"), N_("NAME")},
-		{ "class", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("Program class as used by the window manager"), N_("CLASS")},
-		{ "gtk-debug", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("Gtk+ debugging flags to set"), N_("FLAGS")},
-		{ "gtk-no-debug", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("Gtk+ debugging flags to unset"), N_("FLAGS")},
-		{ "g-fatal-warnings", '\0', POPT_ARG_NONE, NULL, 0,
-		  N_("Make all warnings fatal"), NULL},
-		{ "gtk-module", '\0', POPT_ARG_STRING, NULL, 0,
-		  N_("Load an additional Gtk module"), N_("MODULE")},
-		POPT_TABLEEND
-	};
-	static struct poptOption const options [] = {
-		{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },
-		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, (poptOption *)gnumeric_popt_options, 0,
-		  N_("Gnumeric options"), NULL },
-		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, (poptOption *)gtk_options, 0,
-		  N_("GTK+ options"), NULL },
-		POPT_TABLEEND
-	};
-
-	int i;
-
-#ifdef G_OS_WIN32
-	gnumeric_popt_options[1].arg = &gnumeric_lib_dir;
-	gnumeric_popt_options[2].arg = &gnumeric_data_dir;
-	gnumeric_popt_options[5].arg = &gnumeric_debugging;
-	gnumeric_popt_options[6].arg = &dependency_debugging;
-	gnumeric_popt_options[7].arg = &expression_sharing_debugging;
-	gnumeric_popt_options[8].arg = &print_debugging;
-	gnumeric_popt_options[9].arg = &x_geometry;
-	gnumeric_popt_options[10].arg = &gnumeric_no_splash;
-	gnumeric_popt_options[11].arg = &gnumeric_no_warnings;
-	gnumeric_popt_options[12].arg = &immediate_exit_flag;
+#ifdef WITH_GNOME
+	gnome_vfs_init ();
 #endif
 
-	/* no need to init gtk when dumping function info */
-	for (i = 0 ; i < argc ; i++)
-		if (argv[i] && 0 == strncmp ("--dump-func", argv[i], 11))
-			break;
-	if (i >= argc)
-		gtk_init (&argc, (char ***)&argv);
-	else
-		g_type_init ();
-
-	arg_context = poptGetContext (PACKAGE, argc, argv, options, 0);
-	while (poptGetNextOpt (arg_context) > 0)
-		;
-	return arg_context;
-}
+	if (!funcdump) {
+		gtk_init (&argc, &argv);
+#ifdef WITH_GNOME
+		gnome_authentication_manager_init ();
 #endif
+	}
+}
 
 /*
  * WARNING WARNING WARNING
@@ -329,16 +341,13 @@ check_pango_attr_list_splice_bug (void)
 }
 
 int
-main (int argc, char const *argv [])
+main (int argc, char **argv)
 {
-	char const **startup_files;
 	gboolean opened_workbook = FALSE;
 	gboolean with_gui;
 	IOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
-	poptContext ctx;
-	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
 #ifdef G_OS_WIN32
 	gboolean has_console = FALSE;
 	{
@@ -359,9 +368,9 @@ main (int argc, char const *argv [])
 	}
 #endif
 
-	gnm_pre_parse_init (args[0]);
+	gnm_pre_parse_init (argv[0]);
 
-	ctx = gnumeric_arg_parse (argc, args);
+	gnumeric_arg_parse (argc, argv);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	if (gnumeric_show_version) {
@@ -374,7 +383,7 @@ main (int argc, char const *argv [])
 
 	if (with_gui) {
 		check_pango_attr_list_splice_bug ();
-		gnm_session_init (args[0]);
+		gnm_session_init (argv[0]);
 	}
 
 	/* TODO: Use the ioc.  Do this before calling handle_paint_events */
@@ -400,12 +409,6 @@ main (int argc, char const *argv [])
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
  	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
-
-	/* Load selected files */
-	if (ctx)
-		startup_files = poptGetArgs (ctx);
-	else
-		startup_files = NULL;
 
 #ifdef WITH_GNOME
 	bonobo_activate ();
