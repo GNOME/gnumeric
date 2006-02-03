@@ -9,7 +9,7 @@
       <menuitem action="FileSaveAs"/>
       <separator name="file-sep2"/>
       <menuitem action="FilePageSetup"/>
-      <menuitem action="FilePrint"/>
+      <!-- menuitem action="FilePrint"/ -->
       <separator name="file-sep3"/>
       <menuitem action="FileSend"/>
       <menuitem action="FileSummary"/>
@@ -61,7 +61,9 @@
     </menu>
     <menu name="View" action="MenuView">
       <menuitem action="ViewFullScreen"/>
-      <menuitem action="ViewZoom"/>
+      <!-- menuitem action="ViewZoom"/ -->
+      <menuitem action="ViewZoomIn"/>
+      <menuitem action="ViewZoomOut"/>
     </menu>
     <menu name="Insert" action="MenuInsert">
       <menuitem action="InsertCells"/>

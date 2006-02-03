@@ -1573,6 +1573,16 @@ static GtkActionEntry const permanent_actions[] = {
 		G_CALLBACK (cb_repeat) }
 };
 
+#ifdef USE_HILDON
+#define FULLSCREEN_ACCEL "F6"
+#define ZOOM_IN_ACCEL "F7"
+#define ZOOM_OUT_ACCEL "F8"
+#else
+#define FULLSCREEN_ACCEL "F11"
+#define ZOOM_IN_ACCEL NULL
+#define ZOOM_OUT_ACCEL NULL
+#endif
+
 static GtkActionEntry const actions[] = {
 /* File */
 	{ "FileNew", GTK_STOCK_NEW, NULL,
@@ -1735,10 +1745,10 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Zoom the spreadsheet in or out"),
 		G_CALLBACK (cb_view_zoom) },
 	{ "ViewZoomIn", GTK_STOCK_ZOOM_IN, N_("Zoom _In"),
-		NULL, N_("Increase the zoom to make things larger"),
+		ZOOM_IN_ACCEL, N_("Increase the zoom to make things larger"),
 		G_CALLBACK (cb_view_zoom_in) },
 	{ "ViewZoomOut", GTK_STOCK_ZOOM_OUT, N_("Zoom _Out"),
-		NULL, N_("Decrease the zoom to make things smaller"),
+		ZOOM_OUT_ACCEL, N_("Decrease the zoom to make things smaller"),
 		G_CALLBACK (cb_view_zoom_out) },
 	{ "Direction", GTK_STOCK_GO_FORWARD, N_("Direction"),
 		NULL, N_("Toggle sheet direction, left to right vs right to left"),
@@ -2189,7 +2199,7 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	        G_CALLBACK (cb_view_statusbar), TRUE },
 
 	{ "ViewFullScreen", GTK_STOCK_ZOOM_FIT,
-		N_("F_ull Screen"), "F11",
+		N_("F_ull Screen"), FULLSCREEN_ACCEL,
 		N_("in or out"), G_CALLBACK (cb_view_fullscreen), FALSE }
 };
 

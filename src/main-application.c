@@ -56,6 +56,10 @@
 #include <libgnomevfs/gnome-vfs-init.h>
 #endif
 
+#ifdef USE_HILDON
+#include <libosso.h>
+#endif
+
 static gboolean gnumeric_show_version = FALSE;
 static gboolean split_funcdocs = FALSE;
 static char *func_def_file = NULL;
@@ -274,7 +278,7 @@ gnumeric_arg_parse (int argc, char **argv)
 		exit (1);
 	}
 
-#ifdef WITH_GNOME
+#if defined (WITH_GNOME) || defined (USE_HILDON)
 	gnome_vfs_init ();
 #endif
 
@@ -348,6 +352,10 @@ main (int argc, char **argv)
 	IOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
+#ifdef USE_HILDON
+	osso_context_t * osso_context = osso_initialize ("gnumeric", "1.6.2", TRUE, NULL);
+#endif
+
 #ifdef G_OS_WIN32
 	gboolean has_console = FALSE;
 	{
@@ -491,6 +499,10 @@ main (int argc, char **argv)
 		g_object_unref (ioc);
 		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
 	}
+
+#ifdef USE_HILDON
+	osso_deinitialize (osso_context);
+#endif
 
 	g_slist_free (wbcgs_to_kill);
 	gnumeric_arg_shutdown ();

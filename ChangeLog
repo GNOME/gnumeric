@@ -1,3 +1,16 @@
+2006-02-03  Eduardo Lima  <eduardo.lima@indt.org.br>
+
+	* src/main-application.c (gnumeric_arg_parse): Call gnome_vfs_init()
+	if defined USE_HILDON.
+	(main): Call osso_initialize() and osso_deinitialize()
+	* src/wbcg-actions.c (actions): 
+	Inserted macros for "ViewFullScreen", "ViewZoomIn" and "ViewZoomOut"
+	accelerators. 
+	* src/HILDON_Gnumeric-gtk.xml.in: Removed File->Print.
+	Removed View->Zoom.
+	Inserted View->Zoom In.
+	Inserted View->Zoom Out.
+
 2006-02-03  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (gnumeric_arg_parse): Switch to GOption
