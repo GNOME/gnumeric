@@ -645,7 +645,7 @@ Short Term Goals
 30) Cleanup importers/exporters
     30.1) multiple extensions for exporters, with a default
     30.2) flag/virtual for an imp/exp to flag viability with current context
-    30.3) support command line flags via goption (glib-2.5)
+    30.3) support command line flags via goption (glib-2.5)		(DONE)
     30.4) remove bogosity of function pointers that are unused
     	in the base instance.
     30.5) Allow import of multiple views			{jody}
