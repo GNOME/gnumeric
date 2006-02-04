@@ -470,7 +470,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		g_get_current_time (&cur_time);
 		if (cur_time.tv_sec - start.tv_sec >
 		    param->options.max_time_sec) {
-			*errmsg = solver_max_time_err;
+			*errmsg = SOLVER_MAX_TIME_ERR;
 			solver_results_free (res);
 			return NULL;
 		}
