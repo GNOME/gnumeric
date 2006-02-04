@@ -1,3 +1,7 @@
+2006-02-04  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (gnumeric_arg_parse): Plug leak.
+
 2006-02-03  Eduardo Lima  <eduardo.lima@indt.org.br>
 
 	* src/main-application.c (gnumeric_arg_parse): Call gnome_vfs_init()

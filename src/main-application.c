@@ -248,9 +248,7 @@ gnumeric_arg_parse (int argc, char **argv)
 	g_option_context_parse (ocontext, &argc, &argv, &error);
 #endif
 
-	if (error)
-		g_option_context_free (ocontext);
-	else
+	if (!error) {
 		program = (GObject *)
 			gnome_program_init (PACKAGE, VERSION,
 					    funcdump ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
@@ -263,13 +261,19 @@ gnumeric_arg_parse (int argc, char **argv)
 					    GNOME_PARAM_GOPTION_CONTEXT,	ocontext,
 #endif
 					    NULL);
+#ifdef GNOME_PARAM_GOPTION_CONTEXT
+		ocontext = NULL;
+#endif
+	}
 
 #else /* therefore not gnome */
 	if (!funcdump)
 		g_option_context_add_group (ocontext, gtk_get_option_group (TRUE));
 	g_option_context_parse (ocontext, &argc, &argv, &error);
-	g_option_context_free (ocontext);
 #endif
+
+	if (ocontext)
+		g_option_context_free (ocontext);
 
 	if (error) {
 		g_printerr(_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
