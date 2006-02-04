@@ -28,6 +28,9 @@
 #include "numbers.h"
 
 
+#define SOLVER_MAX_TIME_ERR _("The maximum time exceeded. The optimal value could not be found in given time.")
+
+
 typedef enum {
 	SolverLPModel, SolverQPModel, SolverNLPModel
 } SolverModelType;

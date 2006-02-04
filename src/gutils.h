@@ -3,8 +3,6 @@
 
 #include <goffice/utils/regutf8.h>
 
-extern const gchar *solver_max_time_err;
-
 void gutils_init (void);
 void gutils_shutdown (void);
 

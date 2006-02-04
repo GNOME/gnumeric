@@ -770,7 +770,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_ERROR,
-			 solver_max_time_err);
+			 SOLVER_MAX_TIME_ERR);
 		err = solver_reports (WORKBOOK_CONTROL(state->wbcg),
 				      state->sheet, res,
 				      FALSE, FALSE, FALSE,

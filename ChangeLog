@@ -1,5 +1,9 @@
 2006-02-04  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gutils_init): Solver messages have no business
+	here.
+	* src/solver.h (SOLVER_MAX_TIME_ERR): Define here.
+
 	* src/main-application.c (gnumeric_arg_parse): Plug leak.
 
 2006-02-03  Eduardo Lima  <eduardo.lima@indt.org.br>
