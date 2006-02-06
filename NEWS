@@ -66,6 +66,7 @@ Morten:
 	* Fix LCM and GCD for large arguments.
 	* Switch gnumeric option handling to GOption.
 	* Switch ssconvert option handling to GOption.  [#154395]
+	* Switch ssindex option handling to GOption.  [#154395]
 	* Fix problem with solver error message translation.
 
 Jon Kåre:

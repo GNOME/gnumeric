@@ -1,6 +1,7 @@
 2006-02-05  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (main): Convert to GOption.
+	* src/ssindex.c (main): Convert to GOption.
 
 2006-02-04  Morten Welinder  <terra@gnome.org>
 

@@ -33,7 +33,7 @@ static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
 static char *ssconvert_export_id = NULL;
 
-static const GOptionEntry gnumeric_options [] = { 
+static const GOptionEntry ssconvert_options [] = { 
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &ssconvert_show_version,
@@ -233,7 +233,7 @@ main (int argc, char **argv)
 	gnm_pre_parse_init (argv[0]);
 
 	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
-	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
+	g_option_context_add_main_entries (ocontext, ssconvert_options, GETTEXT_PACKAGE);
 	g_option_context_parse (ocontext, &argc, &argv, &error);
 	g_option_context_free (ocontext);
 

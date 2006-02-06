@@ -35,38 +35,64 @@
 #include <gsf/gsf-output-stdio.h>
 #include <string.h>
 #include <stdio.h>
-#ifdef WIN32
-#define POPT_STATIC
-#endif
-#include <popt.h>
 
 static gboolean ssindex_show_version = FALSE;
 static gboolean ssindex_list_mime_types = FALSE;
-static gboolean ssindex_run_indexer	= FALSE;
-static char const *ssindex_import_encoding = NULL;
+static gboolean ssindex_run_indexer = FALSE;
+static char *ssindex_import_encoding = NULL;
 
-const struct poptOption
-ssindex_popt_options[] = {
-	{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },
+static const GOptionEntry ssindex_options [] = { 
+	{
+		"version", 'v',
+		0, G_OPTION_ARG_NONE, &ssindex_show_version,
+		N_("Display program version"),
+		NULL
+	},
 
-	{ "version", 'v', POPT_ARG_NONE, &ssindex_show_version, 0,
-	  N_("Display Gnumeric's version"), NULL  },
+	/* ---------------------------------------- */
 
-	{ "lib-dir", 'L', POPT_ARG_STRING, &gnumeric_lib_dir, 0,
-	  N_("Set the root library directory"), NULL  },
-	{ "data-dir", 'D', POPT_ARG_STRING, &gnumeric_data_dir, 0,
-	  N_("Adjust the root data directory"), NULL  },
+	{
+		"lib-dir", 'L',
+		0, G_OPTION_ARG_FILENAME, &gnumeric_lib_dir,
+		N_("Set the root library directory"),
+		N_("DIR")
+	},
 
-	{ "list-mime-types",	'm', POPT_ARG_NONE, &ssindex_list_mime_types, 0,
-	  N_("List MIME types which ssindex is able to read"), NULL },
-	{ "index",		'i', POPT_ARG_NONE, &ssindex_run_indexer, 0,
-	  N_("Index the given files"), NULL },
-	{ "import-encoding", 'E', POPT_ARG_STRING, &ssindex_import_encoding, 0,
-	  N_("Optionally specify an encoding for imported content"), N_("ENCODING")  },
+	{
+		"data-dir", 'D',
+		0, G_OPTION_ARG_FILENAME, &gnumeric_data_dir,
+		N_("Adjust the root data directory"),
+		N_("DIR")
+	},
 
-	POPT_AUTOHELP
-	POPT_TABLEEND
+	/* ---------------------------------------- */
+
+	{
+		"list-mime-types", 'm',
+		0, G_OPTION_ARG_NONE, &ssindex_list_mime_types,
+		N_("List MIME types which ssindex is able to read"),
+		NULL
+	},
+
+	{
+		"index", 'i',
+		0, G_OPTION_ARG_NONE, &ssindex_run_indexer,
+		N_("Index the given files"),
+		NULL
+	},
+
+	{
+		"encoding", 'E',
+		0, G_OPTION_ARG_NONE, &ssindex_import_encoding,
+		N_("Optionally specify an encoding for imported content"),
+		N_("ENCODING")
+	},
+
+	/* ---------------------------------------- */
+
+	{ NULL } 
 };
+
 
 typedef struct {
 	IOContext 	   *context;
@@ -181,27 +207,36 @@ ssindex (char const *file, IOContext *ioc)
 }
 
 int
-main (int argc, char const *argv [])
+main (int argc, char **argv)
 {
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
 	GOCmdContext	*cc;
-	poptContext ctx;
-	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
+	GOptionContext *ocontext;
+	GError *error = NULL;	
 
-	gnm_pre_parse_init (args[0]);
+	gnm_pre_parse_init (argv[0]);
 
-	ctx = poptGetContext (NULL, argc, args, ssindex_popt_options, 0);
-	while (poptGetNextOpt (ctx) > 0)
-		;
+	ocontext = g_option_context_new (_("INFILE..."));
+	g_option_context_add_main_entries (ocontext, ssindex_options, GETTEXT_PACKAGE);
+	g_option_context_parse (ocontext, &argc, &argv, &error);
+	g_option_context_free (ocontext);
+
+	if (error) {
+		g_printerr (_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
+			    error->message, argv[0]);
+		g_error_free (error);
+		return 1;
+	}
 
 	if (ssindex_show_version) {
-		printf (_("ssindex version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
-		poptFreeContext (ctx);
+		g_print (_("ssindex version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
+			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	} else if (!ssindex_run_indexer && !ssindex_list_mime_types) {
-		poptPrintUsage(ctx, stderr, 0);
+		g_printerr (_("Usage: %s [OPTION...] %s\n"),
+			    g_get_prgname (),
+			    _("INFILE..."));
 		return 1;
 	}
 
@@ -214,33 +249,28 @@ main (int argc, char const *argv [])
 
 	if (ssindex_run_indexer) {
 		IOContext *ioc = gnumeric_io_context_new (cc);
-		char const **args = poptGetArgs (ctx);
-		int argc = 0;
+		int i;
 
-		if (args != NULL)
-			while (args[argc] != NULL)
-				argc++;
-		gnm_io_context_set_num_files (ioc, argc);
+		gnm_io_context_set_num_files (ioc, argc - 1);
 
-		for (; args != NULL && *args ; args++) {
-			gnm_io_context_processing_file (ioc, *args);
-			printf ("-> %s\n", *args);
-			res |= ssindex (*args, ioc);
+		for (i = 1; i < argc; i++) {
+			const char *file = argv[i];
+			gnm_io_context_processing_file (ioc, file);
+			g_print ("-> %s\n", file);
+			res |= ssindex (file, ioc);
 		}
 		g_object_unref (ioc);
 	} else if (ssindex_list_mime_types) {
-		GList  *o;
+		GList *o;
 		for (o = get_file_openers (); o != NULL ; o = o->next) {
 			GSList const *mime = go_file_opener_get_mimes (o->data);
 			for (; mime != NULL ; mime = mime->next)
-				printf ("%s\n", (char const *)mime->data);
+				g_print ("%s\n", (char const *)mime->data);
 		}
 	}
 
-	poptFreeContext (ctx);
 	g_object_unref (cc);
 	gnm_shutdown ();
-	go_shell_argv_to_glib_encoding_free ();
 
 	return res;
 }
