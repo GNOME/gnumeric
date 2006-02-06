@@ -1,3 +1,12 @@
+2006-02-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_randbetween): Fix Excel compatibility for
+	not-integer arguments.
+	(gnumeric_randnegbinom, gnumeric_randhyperg, gnumeric_randgumbel):
+	Take arguments larger than ints.
+	(gnumeric_randgeom, gnumeric_randlog): Handle results larger than
+	int.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

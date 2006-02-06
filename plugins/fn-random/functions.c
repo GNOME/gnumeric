@@ -318,12 +318,12 @@ static GnmValue *
 gnumeric_randbinom (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p      = value_get_as_float (argv[0]);
-	int        trials = value_get_as_int (argv[1]);
+	gnm_float trials = value_get_as_float (argv[1]);
 
 	if (p < 0 || p > 1 || trials < 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_binomial (p, trials));
+        return value_new_float (random_binomial (p, gnm_floor (trials)));
 }
 
 /***************************************************************************/
@@ -337,7 +337,8 @@ static GnmFuncHelp const help_randbetween[] = {
 	   "RANDBETWEEN function returns a random integer number "
 	   "between and including @bottom and @top.\n"
            "\n"
-	   "* If @bottom or @top is non-integer, they are truncated.\n"
+	   "* If @bottom is non-integer, it is rounded up.\n"
+	   "* If @top is non-integer, it is rounded down.\n"
 	   "* If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
@@ -352,16 +353,17 @@ static GnmFuncHelp const help_randbetween[] = {
 static GnmValue *
 gnumeric_randbetween (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        int bottom, top;
-	gnm_float r;
+	gnm_float bottom = value_get_as_float (argv[0]);
+	gnm_float top = value_get_as_float (argv[1]);
 
-	bottom = value_get_as_int (argv[0]);
-	top    = value_get_as_int (argv[1]);
 	if (bottom > top)
 		return value_new_error_NUM (ei->pos);
 
-	r = bottom + gnm_floor ((top + 1.0 - bottom) * random_01 ());
-	return value_new_int ((int)r);
+	/* Bottom is ceiled, top floored.  Neither is truncated.  */
+	bottom = gnm_ceil (bottom);
+	top = gnm_floor (top);
+
+	return value_new_float (bottom + gnm_floor ((top + 1.0 - bottom) * random_01 ()));
 }
 
 /***************************************************************************/
@@ -390,12 +392,12 @@ static GnmValue *
 gnumeric_randnegbinom (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p = value_get_as_float (argv[0]);
-	int failures = value_get_as_int (argv[1]);
+	gnm_float failures = value_get_as_float (argv[1]);
 
-	if (p < 0 || p > 1 || failures < 0)
+	if (p < 0 || p > 1 || failures < 1)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_negbinom (p, failures));
+        return value_new_float (random_negbinom (p, gnm_floor (failures)));
 }
 
 /***************************************************************************/
@@ -806,7 +808,7 @@ gnumeric_randgeom (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (p < 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_int (random_geometric (p));
+        return value_new_float (random_geometric (p));
 }
 
 /***************************************************************************/
@@ -835,11 +837,13 @@ static GnmFuncHelp const help_randhyperg[] = {
 static GnmValue *
 gnumeric_randhyperg (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	unsigned int n1 = value_get_as_int (argv[0]);
-	unsigned int n2 = value_get_as_int (argv[1]);
-	unsigned int t = value_get_as_int (argv[2]);
+	gnm_float n1 = value_get_as_float (argv[0]);
+	gnm_float n2 = value_get_as_float (argv[1]);
+	gnm_float t = value_get_as_float (argv[2]);
 
-        return value_new_int (random_hypergeometric (n1, n2, t));
+        return value_new_float (random_hypergeometric (gnm_floor (n1),
+						       gnm_floor (n2),
+						       gnm_floor (t)));
 }
 
 /***************************************************************************/
@@ -870,7 +874,7 @@ gnumeric_randlog (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (p < 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_int (random_logarithmic (p));
+        return value_new_float (random_logarithmic (p));
 }
 
 /***************************************************************************/
@@ -953,15 +957,14 @@ gnumeric_randgumbel (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
-	int type     = (argv[2] == NULL) ? 1 : value_get_as_int (argv[2]);
-
-	if (type != 1 && type != 2)
-		return value_new_error_NUM (ei->pos);
+	gnm_float type = argv[2] ? value_get_as_float (argv[2]) : 1;
 
 	if (type == 1)
 		return value_new_float (random_gumbel1 (a, b));
-	else
+	else if (type == 2)
 		return value_new_float (random_gumbel2 (a, b));
+	else
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/

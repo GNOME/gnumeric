@@ -6608,7 +6608,7 @@ random_poisson (gnm_float lambda)
  * Generate a binomial distributed number.
  */
 gnm_float
-random_binomial (gnm_float p, int trials)
+random_binomial (gnm_float p, gnm_float trials)
 {
 	return qbinom (random_01 (), trials, p, TRUE, FALSE);
 }
@@ -6617,7 +6617,7 @@ random_binomial (gnm_float p, int trials)
  * Generate a negative binomial distributed number.
  */
 gnm_float
-random_negbinom (gnm_float p, int f)
+random_negbinom (gnm_float p, gnm_float f)
 {
 	return qnbinom (random_01 (), f, p, TRUE, FALSE);
 }
@@ -6938,7 +6938,7 @@ random_geometric (gnm_float p)
 }
 
 gnm_float
-random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
+random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t)
 {
 	return qhyper (random_01 (), n1, n2, t, TRUE, FALSE);
 }

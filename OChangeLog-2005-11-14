@@ -1,3 +1,9 @@
+2006-02-06  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (random_binomial): Make trial argument a
+	gnm_float for increased range.
+	(random_negbinom, random_hypergeometric): Similarly.
+
 2006-02-05  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (main): Convert to GOption.

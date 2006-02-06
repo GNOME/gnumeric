@@ -118,8 +118,8 @@ gnm_float pcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean lo
 /* Random number generation. */
 gnm_float random_01             (void);
 gnm_float random_poisson        (gnm_float lambda);
-gnm_float random_binomial       (gnm_float p, int trials);
-gnm_float random_negbinom       (gnm_float p, int f);
+gnm_float random_binomial       (gnm_float p, gnm_float trials);
+gnm_float random_negbinom       (gnm_float p, gnm_float f);
 gnm_float random_exponential    (gnm_float b);
 gnm_float random_bernoulli      (gnm_float p);
 gnm_float random_normal         (void);
@@ -135,8 +135,7 @@ gnm_float random_fdist          (gnm_float nu1, gnm_float nu2);
 gnm_float random_beta           (gnm_float a, gnm_float b);
 gnm_float random_logistic       (gnm_float a);
 gnm_float random_geometric      (gnm_float p);
-gnm_float random_hypergeometric (unsigned int n1, unsigned int n2,
-				 unsigned int t);
+gnm_float random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t);
 gnm_float random_logarithmic    (gnm_float p);
 gnm_float random_chisq          (gnm_float nu);
 gnm_float random_tdist          (gnm_float nu);
