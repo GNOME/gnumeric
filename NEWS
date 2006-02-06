@@ -65,7 +65,7 @@ Morten:
 	* Fix parsing problem with underscores in sheet names.  [#329236]
 	* Fix LCM and GCD for large arguments.
 	* Switch gnumeric option handling to GOption.
-	* Switch sscobvert option handling to GOption.  [#154395]
+	* Switch ssconvert option handling to GOption.  [#154395]
 	* Fix problem with solver error message translation.
 
 Jon Kåre:
