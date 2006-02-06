@@ -1,3 +1,8 @@
+2006-02-06  Morten Welinder  <terra@gnome.org>
+
+	* numtheory.c (func_bitor, func_bitxor, func_bitand,
+	func_bitlshift, func_bitrshift): Handle large arguments sanely.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

@@ -37,6 +37,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 #define OUT_OF_BOUNDS "#LIMIT!"
 
+static const double bit_max = MIN (1 / GNM_EPSILON, (gnm_float)G_MAXUINT64);
 
 /* ------------------------------------------------------------------------- */
 
@@ -519,8 +520,13 @@ static GnmFuncHelp const help_bitor[] = {
 static GnmValue *
 func_bitor (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        return value_new_int (value_get_as_int (argv [0]) |
-			      value_get_as_int (argv [1]));
+	gnm_float l = value_get_as_float (argv[0]);
+	gnm_float r = value_get_as_float (argv[1]);
+
+	if (l < 0 || l > bit_max || r < 0 || r > bit_max)
+		return value_new_error_NUM (ei->pos);
+
+        return value_new_float ((guint64)l | (guint64)r);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -542,8 +548,13 @@ static GnmFuncHelp const help_bitxor[] = {
 static GnmValue *
 func_bitxor (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        return value_new_int (value_get_as_int (argv [0]) ^
-			      value_get_as_int (argv [1]));
+	gnm_float l = value_get_as_float (argv[0]);
+	gnm_float r = value_get_as_float (argv[1]);
+
+	if (l < 0 || l > bit_max || r < 0 || r > bit_max)
+		return value_new_error_NUM (ei->pos);
+
+        return value_new_float ((guint64)l ^ (guint64)r);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -565,8 +576,13 @@ static GnmFuncHelp const help_bitand[] = {
 static GnmValue *
 func_bitand (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        return value_new_int (value_get_as_int (argv [0]) &
-			      value_get_as_int (argv [1]));
+	gnm_float l = value_get_as_float (argv[0]);
+	gnm_float r = value_get_as_float (argv[1]);
+
+	if (l < 0 || l > bit_max || r < 0 || r > bit_max)
+		return value_new_error_NUM (ei->pos);
+
+        return value_new_float ((guint64)l & (guint64)r);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -588,15 +604,18 @@ static GnmFuncHelp const help_bitlshift[] = {
 static GnmValue *
 func_bitlshift (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int l = value_get_as_int (argv [0]);
-	int r = value_get_as_int (argv [1]);
+	gnm_float l = value_get_as_float (argv[0]);
+	gnm_float r = gnm_floor (value_get_as_float (argv[1]));
+
+	if (l < 0 || l > bit_max)
+		return value_new_error_NUM (ei->pos);
 
 	if (r >= WORD_BIT || r <= -WORD_BIT)
 		return value_new_int (0);  /* All bits shifted away.  */
 	else if (r < 0)
-		return value_new_int (l >> (-r));
+		return value_new_float ((guint64)l >> (-(int)r));
 	else
-		return value_new_int (l << r);
+		return value_new_float ((guint64)l << (int)r);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -618,15 +637,18 @@ static GnmFuncHelp const help_bitrshift[] = {
 static GnmValue *
 func_bitrshift (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int l = value_get_as_int (argv [0]);
-	int r = value_get_as_int (argv [1]);
+	gnm_float l = value_get_as_float (argv[0]);
+	gnm_float r = gnm_floor (value_get_as_float (argv[1]));
+
+	if (l < 0 || l > bit_max)
+		return value_new_error_NUM (ei->pos);
 
 	if (r >= WORD_BIT || r <= -WORD_BIT)
 		return value_new_int (0);  /* All bits shifted away.  */
 	else if (r < 0)
-		return value_new_int (l << (-r));
+		return value_new_float ((guint64)l << (-(int)r));
 	else
-		return value_new_int (l >> r);
+		return value_new_float ((guint64)l >> (int)r);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -69,6 +69,8 @@ Morten:
 	* Switch ssindex option handling to GOption.  [#154395]
 	* Fix problem with solver error message translation.
 	* Expand the range of certain random number functions.
+	* Fix large-argument cases for BITOR, BITAND, BITXOR, BITLSHIFT,
+	  and BITRSHIFT.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
