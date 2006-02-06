@@ -24,46 +24,88 @@
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
-#ifdef WIN32
-#define POPT_STATIC
-#endif
-#include <popt.h>
 
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
-static char const *ssconvert_import_encoding = NULL;
-static char const *ssconvert_import_id = NULL;
-static char const *ssconvert_export_id = NULL;
+static char *ssconvert_import_encoding = NULL;
+static char *ssconvert_import_id = NULL;
+static char *ssconvert_export_id = NULL;
 
-struct poptOption
-ssconvert_popt_options[] = {
-	{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },
+static const GOptionEntry gnumeric_options [] = { 
+	{
+		"version", 'v',
+		0, G_OPTION_ARG_NONE, &ssconvert_show_version,
+		N_("Display program version"),
+		NULL
+	},
 
-	{ "version", 'v', POPT_ARG_NONE, &ssconvert_show_version, 0,
-	  N_("Display Gnumeric's version"), NULL  },
+	/* ---------------------------------------- */
 
-	{ "lib-dir", 'L', POPT_ARG_STRING, &gnumeric_lib_dir, 0,
-	  N_("Set the root library directory"), NULL  },
-	{ "data-dir", 'D', POPT_ARG_STRING, &gnumeric_data_dir, 0,
-	  N_("Adjust the root data directory"), NULL  },
+	{
+		"lib-dir", 'L',
+		0, G_OPTION_ARG_FILENAME, &gnumeric_lib_dir,
+		N_("Set the root library directory"),
+		N_("DIR")
+	},
 
-	{ "import-encoding", 'E', POPT_ARG_STRING, &ssconvert_import_encoding, 0,
-	  N_("Optionally specify an encoding for imported content"), N_("ENCODING")  },
-	{ "import-type", 'I', POPT_ARG_STRING, &ssconvert_import_id, 0,
-	  N_("Optionally specify which importer to use"), "ID"  },
-	{ "export-type", 'T', POPT_ARG_STRING, &ssconvert_export_id, 0,
-	  N_("Optionally specify which exporter to use"), "ID"  },
-	{ "list-exporters", '\0', POPT_ARG_NONE, &ssconvert_list_exporters, 0,
-	  N_("List the available exporters"), NULL },
-	{ "list-importers", '\0', POPT_ARG_NONE, &ssconvert_list_importers, 0,
-	  N_("List the available importers"), NULL },
-	{ "export-file-per-sheet", 'S', POPT_ARG_NONE, &ssconvert_one_file_per_sheet, 0,
-	  N_("Export a file for each sheet if the exporter only supports one sheet at a time."), NULL },
+	{
+		"data-dir", 'D',
+		0, G_OPTION_ARG_FILENAME, &gnumeric_data_dir,
+		N_("Adjust the root data directory"),
+		N_("DIR")
+	},
 
-	POPT_AUTOHELP
-	POPT_TABLEEND
+	/* ---------------------------------------- */
+
+	{
+		"import-encoding", 'E',
+		0, G_OPTION_ARG_STRING, &ssconvert_import_encoding,
+		N_("Optionally specify an encoding for imported content"),
+		N_("ENCODING")
+	},
+
+	{
+		"import-type", 'I',
+		0, G_OPTION_ARG_STRING, &ssconvert_import_id,
+		N_("Optionally specify which importer to use"),
+		N_("ID")
+	},
+
+	{
+		"list-importers", 0,
+		0, G_OPTION_ARG_NONE, &ssconvert_list_importers,
+		N_("List the available importers"),
+		NULL
+	},
+
+	/* ---------------------------------------- */
+
+	{
+		"export-type", 'T',
+		0, G_OPTION_ARG_STRING, &ssconvert_export_id,
+		N_("Optionally specify which exporter to use"),
+		N_("ID")
+	},
+
+	{
+		"list-exporters", 0,
+		0, G_OPTION_ARG_NONE, &ssconvert_list_exporters,
+		N_("List the available exporters"),
+		NULL
+	},
+
+	{
+		"export-file-per-sheet", 'S',
+		0, G_OPTION_ARG_NONE, &ssconvert_one_file_per_sheet,
+		N_("Export a file for each sheet if the exporter only supports one sheet at a time."),
+		NULL
+	},
+
+	/* ---------------------------------------- */
+
+	{ NULL } 
 };
 
 typedef GList *(*get_them_f)(void);
@@ -97,15 +139,14 @@ list_them (get_them_f get_them,
 }
 
 static int
-convert (char const **args, GOCmdContext *cc)
+convert (char const *inarg, char const *outarg,
+	 GOCmdContext *cc)
 {
 	int res = 0;
 	GOFileSaver *fs = NULL;
 	GOFileOpener *fo = NULL;
-	char *outfile = NULL;
-
-	if (args[1] != NULL)
-		outfile = go_shell_arg_to_uri (args[1]);
+	char *infile = go_shell_arg_to_uri (inarg);
+	char *outfile = outarg ? go_shell_arg_to_uri (outarg) : NULL;
 
 	if (ssconvert_export_id != NULL) {
 		fs = go_file_saver_for_id (ssconvert_export_id);
@@ -114,20 +155,15 @@ convert (char const **args, GOCmdContext *cc)
 			g_printerr (_("Unknown exporter '%s'.\n"
 				      "Try --list-exporters to see a list of possibilities.\n"),
 				    ssconvert_export_id);
+			goto out;
 		} else if (outfile == NULL &&
-			   go_file_saver_get_extension	(fs) != NULL) {
-			char *basename = g_path_get_basename (args[0]);
-			if (basename != NULL) {
-				char *t = strrchr (basename, '.');
-				if (t != NULL) {
-					GString *res = g_string_new (NULL);
-					t = strrchr (args[0], '.');
-					g_string_append_len (res, args[0], t - args[0] + 1);
-					g_string_append (res, 
-						go_file_saver_get_extension (fs));
-					outfile = g_string_free (res, FALSE);
-				}
-				g_free (basename);
+			   go_file_saver_get_extension (fs) != NULL) {
+			const char *ext = gsf_extension_pointer (infile);
+			if (*infile) {
+				GString *res = g_string_new (NULL);
+				g_string_append_len (res, infile, ext - infile);
+				g_string_append (res, go_file_saver_get_extension(fs));
+				outfile = g_string_free (res, FALSE);
 			}
 		}
 	} else {
@@ -138,13 +174,18 @@ convert (char const **args, GOCmdContext *cc)
 				g_printerr (_("Unable to guess exporter to use for '%s'.\n"
 					      "Try --list-exporters to see a list of possibilities.\n"),
 					    outfile);
+				goto out;
 			}
 		}
 	}
-	if (outfile == NULL)
+
+	if (outfile == NULL) {
 		g_printerr (_("An output file name or an explicit export type is required.\n"
 			      "Try --list-exporters to see a list of possibilities.\n"));
-	
+		res = 1;
+		goto out;
+	}
+
 	if (ssconvert_import_id != NULL) {
 		fo = go_file_opener_for_id (ssconvert_import_id);
 		if (fo == NULL) {
@@ -152,17 +193,15 @@ convert (char const **args, GOCmdContext *cc)
 			g_printerr (_("Unknown importer '%s'.\n"
 				      "Try --list-importers to see a list of possibilities.\n"),
 				    ssconvert_import_id);
+			goto out;
 		} 
 	}
 
 	if (fs != NULL) {
 		IOContext *io_context = gnumeric_io_context_new (cc);
-		char *uri = go_shell_arg_to_uri (args[0]);
-		WorkbookView *wbv = wb_view_new_from_uri (uri, fo,
+		WorkbookView *wbv = wb_view_new_from_uri (infile, fo,
 			io_context, ssconvert_import_encoding);
-		g_free (uri);
-		if (go_file_saver_get_save_scope (fs) !=
-		    FILE_SAVE_WORKBOOK) {
+		if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK) {
 			if (ssconvert_one_file_per_sheet) {
 				g_warning ("TODO");
 			} else
@@ -174,33 +213,40 @@ convert (char const **args, GOCmdContext *cc)
 		g_object_unref (wb_view_workbook (wbv));
 		g_object_unref (io_context);
 	}
+
+ out:
+	g_free (infile);
+	g_free (outfile);
+
 	return res;
 }
 
 int
-main (int argc, char const *argv [])
+main (int argc, char **argv)
 {
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
 	GOCmdContext	*cc;
-	poptContext ctx;
-	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
+	GOptionContext *ocontext;
+	GError *error = NULL;	
 
-	gnm_pre_parse_init (args[0]);
+	gnm_pre_parse_init (argv[0]);
 
-#ifdef G_OS_WIN32
-	ssconvert_popt_options[2].arg = &gnumeric_lib_dir;
-	ssconvert_popt_options[3].arg = &gnumeric_data_dir;
-#endif
+	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
+	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
+	g_option_context_parse (ocontext, &argc, &argv, &error);
+	g_option_context_free (ocontext);
 
-	ctx = poptGetContext (NULL, argc, args, ssconvert_popt_options, 0);
-	while (poptGetNextOpt (ctx) > 0)
-		;
+	if (error) {
+		g_printerr (_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
+			    error->message, argv[0]);
+		g_error_free (error);
+		return 1;
+	}
 
 	if (ssconvert_show_version) {
-		printf (_("ssconvert version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
-		poptFreeContext (ctx);
+		g_print (_("ssconvert version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
+			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	}
 
@@ -213,26 +259,23 @@ main (int argc, char const *argv [])
 
 	if (ssconvert_list_exporters)
 		list_them (&get_file_savers,
-			(get_desc_f) &go_file_saver_get_id,
-			(get_desc_f) &go_file_saver_get_description);
+			   (get_desc_f) &go_file_saver_get_id,
+			   (get_desc_f) &go_file_saver_get_description);
 	else if (ssconvert_list_importers)
 		list_them (&get_file_openers,
-			(get_desc_f) &go_file_opener_get_id,
-			(get_desc_f) &go_file_opener_get_description);
-	else {
-		char const **args = poptGetArgs (ctx);
-		if (args && args[0])
-			res = convert (args, cc);
-		else {
-			poptPrintUsage(ctx, stderr, 0);
-			res = 1;
-		}
+			   (get_desc_f) &go_file_opener_get_id,
+			   (get_desc_f) &go_file_opener_get_description);
+	else if (argc == 2 || argv == 3) {
+		res = convert (argv[1], argv[2], cc);
+	} else {
+		g_printerr (_("Usage: %s [OPTION...] %s\n"),
+			    g_get_prgname (),
+			    _("INFILE [OUTFILE]"));
+		res = 1;
 	}
 
-	poptFreeContext (ctx);
 	g_object_unref (cc);
 	gnm_shutdown ();
-	go_shell_argv_to_glib_encoding_free ();
 
 	return res;
 }
