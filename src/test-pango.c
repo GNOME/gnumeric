@@ -28,21 +28,6 @@
 
 int gnumeric_no_splash = TRUE;
 
-const struct poptOption
-gnumeric_popt_options[] = {
-	{ "lib-dir", 'L', POPT_ARG_STRING, &gnumeric_lib_dir, 0,
-	  N_("Set the root library directory"), NULL  },
-	{ "data-dir", 'D', POPT_ARG_STRING, &gnumeric_data_dir, 0,
-	  N_("Adjust the root data directory"), NULL  },
-	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
-	  N_("Enables some debugging functions"), N_("LEVEL") },
-	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
-	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")
-	},
-
-	{ NULL, '\0', 0, NULL, 0 }
-};
-
 #define TEST_STEPS	50
 #define STEP_SIZE	40
 
@@ -73,14 +58,14 @@ cb_exercise_pango (gpointer data)
 }
 
 int
-main (int argc, char *argv [])
+main (int argc, char **argv)
 {
 	GOCmdContext *cc;
 	WorkbookControl *wbc;
 	IOContext *ioc;
 
 	gnm_pre_parse_init (argv[0]);
-	gtk_init (&argc, (char ***)&argv);
+	gtk_init (&argc, &argv);
 	gnm_common_init (FALSE);
 
 	cc  = cmd_context_stderr_new ();
