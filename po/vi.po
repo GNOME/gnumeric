@@ -8,8 +8,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: gnumeric 1.5.9.0 HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-04 03:30+0100\n"
-"PO-Revision-Date: 2006-02-04 13:28+1030\n"
+"POT-Creation-Date: 2006-02-06 11:33+0100\n"
+"PO-Revision-Date: 2006-02-08 21:55+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Bộ tạo bộ xem Sách làm việc Gnumeric"
 
 #.Keep in sync with .desktop file
-#:../gnumeric.desktop.in.h:1 ../src/main-application.c:418
+#:../gnumeric.desktop.in.h:1 ../src/main-application.c:422
 msgid "Gnumeric Spreadsheet"
 msgstr "Bảng tính Gnumeric"
 
@@ -5143,7 +5143,8 @@ msgstr "Tên bộ cầm phít"
 msgid "Description"
 msgstr "Mô tả"
 
-#:../src/dialogs/dialog-plugin-manager.c:747
+#:../src/dialogs/dialog-plugin-manager.c:747 ../src/ssconvert.c:73
+#:../src/ssconvert.c:89
 msgid "ID"
 msgstr "ID"
 
@@ -9974,13 +9975,6 @@ msgstr "Nhiều lỗi\n"
 msgid "Unable to open file '%s'"
 msgstr "Không thể mở tập tin « %s »."
 
-#:../src/gutils.c:69
-msgid ""
-"The maximum time exceeded. The optimal value could not be found in given "
-"time."
-msgstr "Vượt quá thời gian tối đa. Không thể tìm giá trị tối ưu trong thời gian cho "
-"trước."
-
 #:../src/hlink.c:170
 msgid "Link target"
 msgstr "Đích liên kết"
@@ -10049,29 +10043,29 @@ msgstr "Dịch p_hải và di chuyển"
 msgid "C_ancel"
 msgstr "Hủ_y bỏ"
 
-#:../src/main-application.c:75 ../src/ssconvert.c:45 ../src/ssindex.c:53
+#:../src/main-application.c:75
 msgid "Display Gnumeric's version"
 msgstr "Hiện phiên bản Gnumeric"
 
-#:../src/main-application.c:81 ../src/ssconvert.c:48 ../src/ssindex.c:56
-#:../src/test-pango.c:34
+#:../src/main-application.c:81 ../src/ssconvert.c:49 ../src/ssindex.c:57
 msgid "Set the root library directory"
 msgstr "Đặt thư mục thư viện gốc"
 
 #:../src/main-application.c:82 ../src/main-application.c:88
+#:../src/ssconvert.c:50 ../src/ssconvert.c:57 ../src/ssindex.c:58
+#:../src/ssindex.c:65
 msgid "DIR"
 msgstr "TMỤC"
 
-#:../src/main-application.c:87 ../src/ssconvert.c:50 ../src/ssindex.c:58
-#:../src/test-pango.c:36
+#:../src/main-application.c:87 ../src/ssconvert.c:56 ../src/ssindex.c:64
 msgid "Adjust the root data directory"
 msgstr "Chỉnh thư mục dữ liệu gốc"
 
-#:../src/main-application.c:93 ../src/test-pango.c:40
+#:../src/main-application.c:93
 msgid "Specify the size and location of the initial window"
 msgstr "Xác định kích thước và vị trí cửa sổ ban đầu"
 
-#:../src/main-application.c:94 ../src/test-pango.c:40
+#:../src/main-application.c:94
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "RỘNGxCAO+TOẠĐỘ_X+TỌAĐỘ_Y"
 
@@ -10089,7 +10083,6 @@ msgstr "Bật một số hàm gỡ lỗi liên quan đến lệ thuộc"
 
 #:../src/main-application.c:113 ../src/main-application.c:119
 #:../src/main-application.c:125 ../src/main-application.c:150
-#:../src/test-pango.c:38
 msgid "LEVEL"
 msgstr "CẤP ĐỘ"
 
@@ -10113,7 +10106,7 @@ msgstr "TẬP TIN"
 msgid "Generate new help and po files"
 msgstr "Tạo ra tập tin trợ giúp và .po mới"
 
-#:../src/main-application.c:149 ../src/test-pango.c:38
+#:../src/main-application.c:149
 msgid "Enables some debugging functions"
 msgstr "Bật một số hàm gỡ lỗi"
 
@@ -10146,7 +10139,7 @@ msgstr "Xin cám ơn đã sử dụng Gnumeric!\n"
 "\n"
 " • Nhóm phát triển Gnumeric."
 
-#:../src/main-application.c:275
+#:../src/main-application.c:279 ../src/ssconvert.c:241 ../src/ssindex.c:226
 #,c-format
 msgid ""
 "%s\n"
@@ -10154,7 +10147,7 @@ msgid ""
 msgstr "%s\n"
 "Hãy chạy lệnh « %s --help » để xem danh sách đầy đủ các tùy chọn dòng lệnh.\n"
 
-#:../src/main-application.c:341
+#:../src/main-application.c:345
 msgid ""
 "The Pango library present on your system is buggy, see\n"
 "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
@@ -10166,7 +10159,7 @@ msgstr "Thư viên Pango có trong hệ thống bạn có lỗi: xem\n"
 "cho đúng. Hãy kiểm tra nếu bản phát hành của bạn\n"
 "có thư viên Pango đã sửa hay không."
 
-#:../src/main-application.c:385
+#:../src/main-application.c:389
 #,c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -10833,37 +10826,41 @@ msgstr "Chép"
 msgid "Cut"
 msgstr "Cắt"
 
-#:../src/ssconvert.c:53 ../src/ssindex.c:65
+#:../src/ssconvert.c:40 ../src/ssindex.c:48
+msgid "Display program version"
+msgstr "Hiện phiên bản chương trình"
+
+#:../src/ssconvert.c:65 ../src/ssindex.c:87
 msgid "Optionally specify an encoding for imported content"
 msgstr "Tùy chọn xác định cách mã hóa nội dung đã nhập"
 
-#:../src/ssconvert.c:53 ../src/ssindex.c:65
+#:../src/ssconvert.c:66 ../src/ssindex.c:88
 msgid "ENCODING"
 msgstr "MÃ HÓA"
 
-#:../src/ssconvert.c:55
+#:../src/ssconvert.c:72
 msgid "Optionally specify which importer to use"
 msgstr "Tùy chọn xác định dùng bộ nhập nào."
 
-#:../src/ssconvert.c:57
-msgid "Optionally specify which exporter to use"
-msgstr "Tùy chọn xác định dùng bộ xuất nào."
-
-#:../src/ssconvert.c:59
-msgid "List the available exporters"
-msgstr "Liệt kê mọi bộ xuất sẵn sàng."
-
-#:../src/ssconvert.c:61
+#:../src/ssconvert.c:79
 msgid "List the available importers"
 msgstr "Liệt kê mọi bộ nhập sẵn sàng."
 
-#:../src/ssconvert.c:63
+#:../src/ssconvert.c:88
+msgid "Optionally specify which exporter to use"
+msgstr "Tùy chọn xác định dùng bộ xuất nào."
+
+#:../src/ssconvert.c:95
+msgid "List the available exporters"
+msgstr "Liệt kê mọi bộ xuất sẵn sàng."
+
+#:../src/ssconvert.c:102
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr "Xuất một tập tin cho mỗi tờ nếu bộ nhập hỗ trợ chỉ một tờ trong mỗi lần."
 
-#:../src/ssconvert.c:114
+#:../src/ssconvert.c:155
 #,c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -10872,7 +10869,7 @@ msgstr "Không biết bộ nhập « %s ».\n"
 "Hãy thử lệnh « --list-exporters» (liệt kê mọi bộ xuất) để xem danh sách điều "
 "có thể.\n"
 
-#:../src/ssconvert.c:138
+#:../src/ssconvert.c:174
 #,c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -10881,7 +10878,7 @@ msgstr "Không thể đoán bộ xuất cần dùng cho « %s ».\n"
 "Hãy thử lệnh « --list-importers» (liệt kê mọi bộ xuất) để xem danh sách điều "
 "có thể.\n"
 
-#:../src/ssconvert.c:145
+#:../src/ssconvert.c:183
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
@@ -10889,7 +10886,7 @@ msgstr "Cần thiết tên tập tin xuất hoặc kiểu xuất dứt khoát.\n
 "Hãy thử lệnh « --list-exporters» (liệt kê mọi bộ xuất) để xem danh sách điều "
 "có thể.\n"
 
-#:../src/ssconvert.c:152
+#:../src/ssconvert.c:193
 #,c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -10898,7 +10895,7 @@ msgstr "Không biết bộ nhập « %s ».\n"
 "Hãy thử lệnh « --list-importers» (liệt kê mọi bộ xuất) để xem danh sách điều "
 "có thể.\n"
 
-#:../src/ssconvert.c:169
+#:../src/ssconvert.c:208
 #,c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -10906,7 +10903,11 @@ msgid ""
 msgstr "Bộ xuất đã chọn (%s) không hỗ trợ lưu nhiều tờ trong cùng một tập tin.\n"
 "Sẽ lưu chỉ tờ hiện có."
 
-#:../src/ssconvert.c:201
+#:../src/ssconvert.c:235 ../src/ssconvert.c:273
+msgid "INFILE [OUTFILE]"
+msgstr "TẬP_TIN_NHẬP ̉[TẬP_TIN_XUẤT]"
+
+#:../src/ssconvert.c:248
 #,c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -10916,15 +10917,24 @@ msgstr "phiên bản ssconvert « %s »\n"
 "thư mục dữ liệu := « %s »\n"
 "thư mục thư viên := « %s »\n"
 
-#:../src/ssindex.c:61
+#:../src/ssconvert.c:271 ../src/ssindex.c:237
+#,c-format
+msgid "Usage: %s [OPTION...] %s\n"
+msgstr "Cách sử dụng: %s [TÙY_CHỌN...] %s\n"
+
+#:../src/ssindex.c:73
 msgid "List MIME types which ssindex is able to read"
 msgstr "Liệt kê các kiểu MIME mà ssindex có đọc được."
 
-#:../src/ssindex.c:63
+#:../src/ssindex.c:80
 msgid "Index the given files"
 msgstr "Chỉ mục các tập tin đã cho"
 
-#:../src/ssindex.c:199
+#:../src/ssindex.c:220 ../src/ssindex.c:239
+msgid "INFILE..."
+msgstr "TẬP_TIN_NHẬP..."
+
+#:../src/ssindex.c:233
 #,c-format
 msgid ""
 "ssindex version '%s'\n"
