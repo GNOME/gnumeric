@@ -1,10 +1,11 @@
-gnumeric (1.6.2-0) UNRELEASED; urgency=low
+gnumeric (1.6.2-1) unstable; urgency=low
 
   * New upstream bugfix release. Changes include:
     * Corrected German translation of automatic/always/never in configurable
       text export. (Closes: #346422)
   * [debian/gnumeric.templates] Updated to work with po-debconf.
-  * [debian/control] Added build dependency on po-debconf.
+  * [debian/control] Added build dependency on po-debconf; tightened goffice
+    build dependency per configure.in.
   * [debian/po/de.po] Added, courtesy of Johannes Starosta
     <feedback-an-johannes@arcor.de>. (Closes: #345774)
   * [debian/gnumeric-common.links] Dropped so as not to symlink
@@ -14,8 +15,9 @@ gnumeric (1.6.2-0) UNRELEASED; urgency=low
     with a directory, remove the symlink to make things work.
   * [debian/control] Removed Suggests: debconf as a Depends: is already
     created for it.
+  * [doc/C/gnumeric.1] Fixed typo. (Closes: #351015)
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  8 Jan 2006 15:19:10 +0100
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 10 Feb 2006 21:29:05 +0100
 
 gnumeric (1.6.1-2) unstable; urgency=medium
 
