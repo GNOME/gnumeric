@@ -71,6 +71,7 @@ Morten:
 	* Expand the range of certain random number functions.
 	* Fix large-argument cases for BITOR, BITAND, BITXOR, BITLSHIFT,
 	  and BITRSHIFT.
+	* Redo string-to-value parsing.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

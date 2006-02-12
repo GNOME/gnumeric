@@ -40,9 +40,6 @@
 #include <time.h>
 #undef DEBUG_NUMBER_MATCH
 
-static GSList *format_match_list = NULL;
-static GSList *builtin_fmts = NULL;
-
 /*
  * value_is_error : Check to see if a string begins with one of the magic
  * error strings.
@@ -61,469 +58,6 @@ value_is_error (char const *str)
 			return value_new_error_std (NULL, e);
 
 	return NULL;
-}
-
-/*
- * Loads the initial formats that we will recognize
- */
-void
-format_match_init (void)
-{
-	int i;
-	GSList		*ptr;
-	GOFormat	*fmt;
-	GOFormatElement	*entry;
-	GHashTable	*unique = g_hash_table_new (g_str_hash, g_str_equal);
-
-	currency_date_format_init ();
-
-	for (i = 0; go_format_builtins[i]; i++) {
-		char const * const *p = go_format_builtins[i];
-
-		for (; *p; p++) {
-			fmt = go_format_new_from_XL (*p, FALSE);
-			builtin_fmts = g_slist_prepend (builtin_fmts, fmt);
-			for (ptr = fmt->entries ; ptr != NULL ; ptr = ptr->next) {
-				entry = ptr->data;
-				/* TODO : * We could keep track of the regexps
-				 * that General would match.  and avoid putting
-				 * them in the list. */
-
-				if (!entry->forces_text &&
-				    NULL != entry->regexp_str &&
-				    NULL == g_hash_table_lookup (unique, entry->regexp_str)) {
-					format_match_list = g_slist_prepend (format_match_list, entry);
-					g_hash_table_insert (unique, entry->regexp_str, entry);
-				}
-			}
-		}
-	}
-	g_hash_table_destroy (unique);
-
-	format_match_list = g_slist_reverse (format_match_list);
-}
-
-void
-format_match_finish (void)
-{
-	go_slist_free_custom (builtin_fmts, (GFreeFunc) go_format_unref);
-	currency_date_format_shutdown ();
-}
-
-/*
- * table_lookup:
- *
- * Looks the string in the table passed
- */
-static int
-table_lookup (char const *str, char const *const *table)
-{
-	char const *const *p = table;
-	int i = 0;
-
-	for (p = table; *p; p++, i++) {
-		char const *v  = *p;
-		char const *iv = _(*p);
-
-		if (*v == '*') {
-			v++;
-			iv++;
-		}
-
-		if (g_ascii_strcasecmp (str, v) == 0)
-			return i;
-
-		if (g_ascii_strcasecmp (str, iv) == 0)
-			return i;
-	}
-
-	return -1;
-}
-
-/*
- * extract_text:
- *
- * Returns a newly allocated string which is a region from
- * STR.   The ranges are defined in the GORegmatch variable MP
- * in the fields rm_so and rm_eo
- */
-static char *
-extract_text (char const *str, const GORegmatch *mp)
-{
-	char *p;
-
-	p = g_malloc (mp->rm_eo - mp->rm_so + 1);
-	strncpy (p, &str[mp->rm_so], mp->rm_eo - mp->rm_so);
-	p[mp->rm_eo - mp->rm_so] = 0;
-
-	return p;
-}
-
-/*
- * Given a number of matches described by MP on S,
- * compute the number based on the information on ARRAY
- *
- * Currently the code cannot mix a MATCH_NUMBER with any
- * of the date/time matching.
- */
-static GnmValue *
-compute_value (char const *s, const GORegmatch *mp,
-	       GByteArray *array, GODateConventions const *date_conv)
-{
-	int const len = array->len;
-	gnm_float number = 0.0;
-	guchar *data = array->data;
-	gboolean percentify = FALSE;
-	gboolean is_number  = FALSE;
-	gboolean is_pm      = FALSE;
-	gboolean is_explicit_am = FALSE;
-	gboolean is_neg = FALSE;
-	gboolean hours_are_cummulative   = FALSE;
-	gboolean minutes_are_cummulative = FALSE;
-	gboolean seconds_are_cummulative = FALSE;
-	gboolean hours_set   = FALSE;
-	gboolean minutes_set = FALSE;
-	gboolean seconds_set = FALSE;
-	int i;
-	int month, day, year, year_short;
-	int hours, minutes;
-	gnm_float seconds;
-	int numerator = 0, denominator = 1;
-
-	GString const *thousands_sep = format_get_thousand ();
-	GString const *decimal = format_get_decimal ();
-
-	month = day = year = year_short = -1;
-	hours = minutes = -1;
-	seconds = -1.;
-
-	for (i = 0; i < len; ) {
-		MatchType type = *(data++);
-		char *str;
-
-		str = extract_text (s, &mp[++i]);
-
-#ifdef DEBUG_NUMBER_MATCH
-		printf ("Item[%d] = \'%s\' is a %d\n", i, str, type);
-#endif
-		switch (type) {
-		case MATCH_MONTH_FULL:
-			month = table_lookup (str, month_long);
-			if (month == -1) {
-				g_free (str);
-				return NULL;
-			}
-			month++;
-			break;
-
-		case MATCH_MONTH_NUMBER:
-			month = atoi (str);
-			break;
-
-		case MATCH_MONTH_SHORT:
-			month = table_lookup (str, month_short);
-			if (month == -1) {
-				g_free (str);
-				return NULL;
-			}
-			month++;
-			break;
-
-		case MATCH_DAY_FULL:
-			/* FIXME: handle weekday */
-			break;
-
-		case MATCH_DAY_NUMBER:
-			day = atoi (str);
-			break;
-
-		case MATCH_NUMERATOR:
-			numerator = atoi (str);
-			break;
-
-		case MATCH_DENOMINATOR:
-			denominator = atoi (str);
-			if (denominator <= 0)
-				return NULL;
-			if (is_neg && numerator < 0)
-				return NULL;
-
-			is_number = TRUE;
-			if (is_neg)
-				number -= numerator / (gnm_float)denominator;
-			else
-				number += numerator / (gnm_float)denominator;
-			break;
-
-		case MATCH_NUMBER:
-			if (*str != '\0') {
-				char *ptr = str;
-
-				switch (*ptr) {
-				case '-':
-					is_neg = TRUE;
-					ptr++;
-					break;
-				case '+':
-					ptr++;
-					/* Fall through.  */
-				default:
-					is_neg = FALSE;
-				}
-
-				number = 0.;
-				/* FIXME: this loop is bogus.  */
-				while (1) {
-					unsigned long thisnumber;
-					if (number > DBL_MAX / 1000.0) {
-						g_free (str);
-						return NULL;
-					}
-
-					number *= 1000.0;
-
-					errno = 0; /* strtol sets errno, but does not clear it.  */
-					thisnumber = strtoul (ptr, &ptr, 10);
-					if (errno == ERANGE) {
-						g_free (str);
-						return NULL;
-					}
-
-					number += thisnumber;
-
-					if (strncmp (ptr, thousands_sep->str, thousands_sep->len) != 0)
-						break;
-
-					ptr += thousands_sep->len;
-				}
-				is_number = TRUE;
-				if (is_neg) number = -number;
-			}
-			break;
-
-		case MATCH_NUMBER_DECIMALS: {
-			char *exppart = NULL;
-			if (strncmp (str, decimal->str, decimal->len) == 0) {
-				char *end;
-				errno = 0; /* gnm_strto sets errno, but does not clear it.  */
-				if (seconds < 0) {
-					gnm_float fraction;
-
-					for (end = str; *end && *end != 'e' && *end != 'E'; )
-						end++;
-					if (*end) {
-						exppart = end + 1;
-						*end = 0;
-					}
-
-					fraction = gnm_strto (str, &end);
-					if (is_neg)
-						number -= fraction;
-					else
-						number += fraction;
-					is_number = TRUE;
-				} else
-					seconds += gnm_strto (str, &end);
-			}
-			if (exppart) {
-				char *end;
-				long exponent;
-
-				errno = 0; /* strtol sets errno, but does not clear it.  */
-				exponent = strtol (exppart, &end, 10);
-				number *= gnm_pow10 (exponent);
-			}
-			break;
-		}
-
-		case MATCH_CUMMULATIVE_HOURS:
-			hours_are_cummulative = TRUE;
-			if (str[0] == '-') is_neg = TRUE;
-		case MATCH_HOUR:
-			hours_set = TRUE;
-			hours = abs (atoi (str));
-			break;
-
-		case MATCH_CUMMULATIVE_MINUTES:
-			minutes_are_cummulative = TRUE;
-			if (str[0] == '-') is_neg = TRUE;
-		case MATCH_MINUTE:
-			minutes_set = TRUE;
-			minutes = abs (atoi (str));
-			break;
-
-		case MATCH_CUMMULATIVE_SECONDS :
-			seconds_are_cummulative = TRUE;
-			if (str[0] == '-') is_neg = TRUE;
-		case MATCH_SECOND:
-			seconds_set = TRUE;
-			seconds = abs (atoi (str));
-			break;
-
-		case MATCH_PERCENT:
-			percentify = TRUE;
-			break;
-
-		case MATCH_YEAR_FULL:
-			year = atoi (str);
-			break;
-
-		case MATCH_YEAR_SHORT:
-			year_short = atoi (str);
-			break;
-
-		case MATCH_AMPM:
-			if (*str == 'p' || *str == 'P')
-				is_pm = TRUE;
-			else
-				is_explicit_am = TRUE;
-			break;
-
-		case MATCH_SKIP:
-			break;
-
-		case MATCH_STRING_CONSTANT:
-			return value_new_string_str (gnm_string_get_nocopy (str));
-
-		default :
-			g_warning ("compute_value: This should not happen.");
-			break;
-		}
-
-		g_free (str);
-	}
-
-	if (is_number) {
-		if (percentify)
-			number *= 0.01;
-		return value_new_float (number);
-	}
-
-	if (!(year == -1 && month == -1 && day == -1)) {
-		time_t t = time (NULL);
-		static time_t lastt;
-		static struct tm tm;
-		GDate *date;
-
-		if (t != lastt) {
-			/*
-			 * Since localtime is moderately expensive, do
-			 * at most one call per second.  One per day
-			 * would be enough but is harder to check for.
-			 */
-			lastt = t;
-			tm = *localtime (&t);
-		}
-
-		if (year == -1) {
-			if (year_short != -1) {
-				/* Window of -75 thru +24 years. */
-				/* (TODO: See what current
-				 * version of MS Excel uses.) */
-				/* Earliest allowable interpretation
-				 * is 75 years ago. */
-				int earliest_ccyy
-					= tm.tm_year + 1900 - 75;
-				int earliest_cc = earliest_ccyy / 100;
-
-				g_return_val_if_fail (year_short >= 0 &&
-						      year_short <= 99,
-						      NULL);
-				year = earliest_cc * 100 + year_short;
-				/*
-				 * Our first guess at year has the same
-				 * cc part as EARLIEST_CCYY, so is
-				 * guaranteed to be in [earliest_ccyy -
-				 * 99, earliest_ccyy + 99].  The yy
-				 * part is of course year_short.
-				 */
-				if (year < earliest_ccyy)
-					year += 100;
-				/*
-				 * year is now guaranteed to be in
-				 * [earliest_ccyy, earliest_ccyy + 99],
-				 * i.e. -75 thru +24 years from current
-				 * year; and year % 100 == short_year.
-				 */
-			} else if (month != -1) {
-				/* Window of -6 thru +5 months. */
-				/* (TODO: See what current
-				 * version of MS Excel uses.) */
-				int earliest_yyymm
-					= (tm.tm_year * 12 +
-					   tm.tm_mon - 6);
-				year = earliest_yyymm / 12;
-				/* First estimate of yyy (i.e. years
-				 * since 1900) is the yyy part of
-				 * earliest_yyymm.  year*12+month-1 is
-				 * guaranteed to be in [earliest_yyymm
-				 * - 11, earliest_yyymm + 11].
-				 */
-				year += (year * 12 + month <=
-					 earliest_yyymm);
-				/* year*12+month-1 is now guaranteed
-				 * to be in [earliest_yyymm,
-				 * earliest_yyymm + 11], i.e.
-				 * representing -6 thru +5 months
-				 * from now.
-				 */
-				year += 1900;
-				/* Finally convert from years since
-				 * 1900 (yyy) to a proper 4-digit
-				 * year.
-				 */
-			} else
-				year = 1900 + tm.tm_year;
-		}
-		if (month == -1)
-			month = tm.tm_mon + 1;
-		if (day == -1)
-			day = tm.tm_mday;
-
-		if (year < 1900 || !g_date_valid_dmy (day, month, year))
-			return NULL;
-
-		date = g_date_new_dmy (day, month, year);
-		number = datetime_g_to_serial (date, date_conv);
-		g_date_free (date);
-	}
-
-	if (!seconds_set && !minutes_set && !hours_set)
-		return value_new_int (number);
-
-	if (!seconds_set)
-		seconds = 0;
-
-	if (!minutes_set)
-		minutes = 0;
-
-	if (!hours_set)
-		hours = 0;
-
-	if (!hours_are_cummulative) {
-		if (is_pm) {
-			if (hours < 12)
-				hours += 12;
-		} else if (is_explicit_am && hours == 12)
-			hours = 0;
-	}
-
-	if ((hours < 0 || hours > 23) && !hours_are_cummulative)
-		return NULL;
-
-	if ((minutes < 0 || minutes > 59) && !minutes_are_cummulative)
-		return NULL;
-
-	if ((seconds < 0 || seconds > 59) && !seconds_are_cummulative)
-		return NULL;
-
-	if (hours == 0 && minutes == 0 && seconds == 0)
-		return value_new_int (number);
-
-	number += (hours * 3600 + minutes * 60 + seconds) / (3600*24.0);
-	if (is_neg) number = -number;
-
-	return value_new_float (number);
 }
 
 /**
@@ -552,42 +86,868 @@ format_match_simple (char const *text)
 			return err;
 	}
 
-	/* Is it an integer?  */
-	{
-		char *end;
-		long l;
-
-		errno = 0; /* strtol sets errno, but does not clear it.  */
-		l = strtol (text, &end, 10);
-		if (text != end && errno != ERANGE && l == (int)l) {
-			/* Allow and ignore spaces at the end.  */
-			while (*end == ' ')
-				end++;
-			if (*end == '\0')
-				return value_new_int ((int)l);
-		}
-	}
-
-	/* Is it a double?  */
+	/* Is it a floating-point number  */
 	{
 		char *end;
 		gnm_float d;
 
 		errno = 0; /* gnm_strto sets errno, but does not clear it.  */
 		d = gnm_strto (text, &end);
-		if (text != end && errno != ERANGE) {
+		if (text != end && errno != ERANGE && gnm_finite (d)) {
 			/* Allow and ignore spaces at the end.  */
-			while (*end == ' ')
+			while (g_ascii_isspace (*end))
 				end++;
-			if (*end == '\0')
+			if (*end == '\0') {
+				if (d >= INT_MIN && d <= INT_MIN) {
+					int i = (int)d;
+					if (i == d)
+						return value_new_int (i);
+				}
 				return value_new_float (d);
+			}
 		}
 	}
 
 	return NULL;
 }
 
-#define NM 40
+struct {
+	char *lc_time;
+	GORegexp re_MMMMddyyyy;
+	GORegexp re_ddMMMMyyyy;
+	GORegexp re_yyyymmdd1;
+	GORegexp re_yyyymmdd2;
+	GORegexp re_mmddyyyy;
+	GORegexp re_hhmmss;
+	GORegexp re_hhmmssds;
+	GORegexp re_hhmmss_ampm;
+} datetime_locale;
+
+
+static void
+datetime_locale_clear (void)
+{
+	g_free (datetime_locale.lc_time);
+	go_regfree (&datetime_locale.re_MMMMddyyyy);
+	go_regfree (&datetime_locale.re_ddMMMMyyyy);
+	go_regfree (&datetime_locale.re_yyyymmdd1);
+	go_regfree (&datetime_locale.re_yyyymmdd2);
+	go_regfree (&datetime_locale.re_mmddyyyy);
+	go_regfree (&datetime_locale.re_hhmmss);
+	go_regfree (&datetime_locale.re_hhmmssds);
+	go_regfree (&datetime_locale.re_hhmmss_ampm);
+	memset (&datetime_locale, 0, sizeof (datetime_locale));
+}
+
+static const char *
+my_regerror (int err, const GORegexp *preg)
+{
+	static char buffer[1024];
+	go_regerror (err, preg, buffer, sizeof (buffer));
+	return buffer;
+}
+
+static void
+datetime_locale_setup1 (GORegexp *rx, const char *pat)
+{
+	int ret = go_regcomp (rx, pat, REG_ICASE);
+	if (ret) {
+		g_warning ("Failed to compile rx \"%s\": %s\n",
+			   pat,
+			   my_regerror (ret, rx));
+	}
+}
+
+
+static void
+datetime_locale_setup (const char *lc_time)
+{
+	GString *p_MMMM = g_string_sized_new (200);
+	GString *p_MMM = g_string_sized_new (200);
+	GString *p_decimal = g_string_sized_new (10);
+	char *s;
+	GDate date;
+	int m;
+
+	datetime_locale.lc_time = g_strdup (lc_time);
+
+	g_date_clear (&date, 1);
+
+	for (m = 1; m <= 12; m++) {
+		char buf[100];
+
+		g_date_set_dmy (&date, 15, m, 2000);
+
+		g_date_strftime (buf, sizeof (buf) - 1, "%B", &date);
+		if (m != 1)
+			g_string_append_c (p_MMMM, '|');
+		g_string_append_c (p_MMMM, '(');
+		go_regexp_quote (p_MMMM, buf);
+		g_string_append_c (p_MMMM, ')');
+
+		g_date_strftime (buf, sizeof (buf) - 1, "%b", &date);
+		if (m != 1)
+			g_string_append_c (p_MMM, '|');
+		g_string_append_c (p_MMM, '(');
+		go_regexp_quote (p_MMM, buf);
+		g_string_append_c (p_MMM, ')');
+	}
+
+	go_regexp_quote (p_decimal, format_get_decimal ()->str);
+
+	/*
+	 * "Dec 1, 2000"
+	 * "Dec/1/04"
+	 * "December 1, 2000"
+	 * "Dec-1-2000"
+	 */
+	s = g_strconcat ("^(",
+			 p_MMMM->str,
+			 "|",
+			 p_MMM->str,
+			 ")(-|/|\\s)(\\d+)(,\\s+|-|/)(\\d+)\\b",
+			 NULL);
+	datetime_locale_setup1 (&datetime_locale.re_MMMMddyyyy, s);
+	g_free (s);
+
+	/*
+	 * "1-Dec-2000"
+	 * "1/Dec/04"
+	 * "1-December-2000"
+	 * "1. december 2000"
+	 */
+	s = g_strconcat ("^(\\d+)(-|/|\\.?\\s+)(",
+			 p_MMMM->str,
+			 "|",
+			 p_MMM->str,
+			 ")(,\\s+|-|/)(\\d+)\\b",
+			 NULL);
+	datetime_locale_setup1 (&datetime_locale.re_ddMMMMyyyy, s);
+	g_free (s);
+
+	/*
+	 * "20001231"
+	 */
+	datetime_locale_setup1 (&datetime_locale.re_yyyymmdd1,
+				"^(\\d\\d\\d\\d)(\\d\\d)(\\d\\d)\\b");
+
+	/*
+	 * "1900/01/01"
+	 * "1900-1-1"
+	 */
+	datetime_locale_setup1 (&datetime_locale.re_yyyymmdd2,
+				"^(\\d\\d\\d\\d)[-/.](\\d+)[-/.](\\d+)\\b");
+
+	/*
+	 * "01/31/2001"    [Jan 31] if month_before_day
+	 * "1/2/88"        [Jan 2]  if month_before_day
+	 * "1/2/88"        [Feb 1]  if !month_before_day
+	 * "31/1/2001"     [Jan 31] if !month_before_day
+	 */
+	datetime_locale_setup1 (&datetime_locale.re_mmddyyyy,
+				"^(\\d+)[-/.](\\d+)[-/.](\\d+)\\b");
+
+	/*
+	 * "15:30:00.3"
+	 * "30:00.3"            [A little more than 30min]
+	 * "115:30:00.3"
+	 */
+	/* ^(((\d+):)?(\d+):)?(\d+.\d*)\s*$ */
+	s = g_strconcat ("^(((\\d+):)?(\\d+):)?(\\d+",
+			 p_decimal->str,
+			 ".\\d*)\\s*$",
+			 NULL);
+	datetime_locale_setup1 (&datetime_locale.re_hhmmssds, s);
+	g_free (s);
+
+	/*
+	 * "15:30:00"
+	 * "15:30"          [15:30:00] if prefer_hour
+	 * "15:30"          [00:15:30] if !prefer_hour
+	 */
+	datetime_locale_setup1 (&datetime_locale.re_hhmmss,
+				"^(\\d+):(\\d+)(:(\\d+))?\\s*$");
+
+	/*
+	 * "12:30:01.3 am"
+	 * "12:30:01 am"
+	 * "12:30 am"
+	 * "12am"
+	 */
+	s = g_strconcat ("^(\\d+)(:(\\d+)(:(\\d+(",
+			 p_decimal->str,
+			 "\\d*)?))?)?\\s*((am)|(pm))\\s*$",
+			 NULL);
+	datetime_locale_setup1 (&datetime_locale.re_hhmmss_ampm, s);
+	g_free (s);
+
+	g_string_free (p_MMMM, TRUE);
+	g_string_free (p_MMM, TRUE);
+	g_string_free (p_decimal, TRUE);
+}
+
+static int
+find_month (const GORegmatch *pm)
+{
+	int m;
+
+	for (m = 1; m <= 12; m++) {
+		if (pm->rm_so != pm->rm_eo)
+			return m;
+		pm++;
+	}
+
+	return -1;
+}
+
+static int
+handle_int (const char *text, const GORegmatch *pm, int min, int max)
+{
+	int i = 0;
+	const char *p = text + pm->rm_so;
+	const char *end = text + pm->rm_eo;
+
+	while (p != end) {
+		gunichar uc = g_utf8_get_char (p);
+		p = g_utf8_next_char (p);
+		i = (10 * i) + g_unichar_digit_value (uc);
+
+		if (i > max)
+			return -1;
+	}
+
+	if (i >= min)
+		return i;
+	else
+		return -1;
+}
+
+static int
+handle_day (const char *text, const GORegmatch *pm)
+{
+	return handle_int (text, pm, 1, 31);
+}
+
+static int
+handle_month (const char *text, const GORegmatch *pm)
+{
+	return handle_int (text, pm, 1, 12);
+}
+
+static int
+handle_year (const char *text, const GORegmatch *pm)
+{
+	int y = handle_int (text, pm, 0, 9999);
+
+	if (y < 0)
+		return -1;
+	else if (y <= 29)
+		return 2000 + y;
+	else if (y <= 99)
+		return 1900 + y;
+	else if (y <= 1899)
+		return -1;
+	else
+		return y;
+}
+
+static gnm_float
+handle_float (const char *text, const GORegmatch *pm)
+{
+	gnm_float val = 0;
+	const char *p = text + pm->rm_so;
+	const char *end = text + pm->rm_eo;
+	gnm_float num = 10;
+
+	/* Empty means zero.  */
+	if (pm->rm_so == pm->rm_eo)
+		return 0;
+
+	p = text + pm->rm_so;
+	end = text + pm->rm_eo;
+	while (p != end) {
+		gunichar uc = g_utf8_get_char (p);
+		int d = g_unichar_digit_value (uc);
+		p = g_utf8_next_char (p);
+		if (d < 0) break;  /* Must be decimal sep.  */
+		val = (10 * val) + d;
+	}
+
+	while (p != end) {
+		gunichar uc = g_utf8_get_char (p);
+		int d = g_unichar_digit_value (uc);
+		p = g_utf8_next_char (p);
+		val += d / num;
+		num *= 10;
+	}
+
+	return val;
+}
+
+static void
+fixup_hour_ampm (gnm_float *hour, const GORegmatch *pm)
+{
+	gboolean is_am = (pm->rm_so != pm->rm_eo);
+
+	if (*hour < 1 || *hour > 12) {
+		*hour = -1;
+		return;
+	}
+	
+	if (*hour == 12)
+		*hour = 0;
+	if (!is_am)
+		*hour += 12;
+}
+
+static gboolean
+valid_hms (gnm_float h, gnm_float m, gnm_float s, gboolean allow_elapsed)
+{
+	return h >= 0 && (allow_elapsed || h < 24) &&
+		m >= 0 && m < 60 &&
+		s >= 0 && s < 60;
+}
+
+
+#define DO_SIGN(sign,uc,action)					\
+	{							\
+		if (uc == '-' || uc == UNICODE_MINUS_SIGN_C) {	\
+			sign = '-';				\
+			action;					\
+		} else if (uc == '+') {				\
+			sign = '+';				\
+			action;					\
+		}						\
+	}
+
+#define SKIP_DIGITS(text) while (g_ascii_isdigit (*(text))) (text)++
+
+#define SKIP_SPACES(text)						\
+	while (*(text) && g_unichar_isspace (g_utf8_get_char (text)))	\
+		(text) = g_utf8_next_char (text)
+
+
+static GnmValue *
+format_match_time (const char *text, gboolean allow_elapsed,
+		   gboolean prefer_hour, gboolean add_format)
+{
+	char sign = 0;
+	gunichar uc;
+	gnm_float hour, minute, second;
+	gnm_float time_val;
+	GORegmatch match[10];
+	const char *time_format = NULL;
+	GnmValue *v;
+
+	SKIP_SPACES (text);
+
+	/* AM/PM means hour is needed.  No sign allowed.     */
+	/* ^(\d+)(:(\d+)(:(\d+(.\d*)?))?)?\s*((am)|(pm))\s*$ */
+	/*  1    2 3    4 5   6              78    9         */
+	if (go_regexec (&datetime_locale.re_hhmmss_ampm, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		hour = handle_float (text, match + 1);
+		fixup_hour_ampm (&hour, match + 8);
+		minute = handle_float (text, match + 3);
+		second = handle_float (text, match + 5);
+		if (valid_hms (hour, minute, second, FALSE)) {
+			time_format = "h:mm:ss AM/PM";
+			goto got_time;
+		}
+	}
+
+	uc = g_utf8_get_char (text);
+	if (allow_elapsed) {
+		DO_SIGN (sign, uc, {
+			text = g_utf8_next_char (text);
+		});
+	}
+
+	/* If fractional seconds are present, we know the layout.  */
+	/* ^(((\d+):)?(\d+):)?(\d+.\d*)\s*$ */
+	/*  123       4       5             */
+	if (go_regexec (&datetime_locale.re_hhmmssds, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		hour = handle_float (text, match + 3);
+		minute = handle_float (text, match + 4);
+		second = handle_float (text, match + 5);
+		if (valid_hms (hour, minute, second, allow_elapsed)) {
+			time_format = "h:mm:ss";
+			goto got_time;
+		}
+	}
+
+	/* ^(\d+):(\d+)(:(\d+))?\s*$ */
+	/*  1     2    3 4           */
+	if (go_regexec (&datetime_locale.re_hhmmss, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		gboolean has_all = (match[4].rm_so != match[4].rm_eo);
+
+		if (prefer_hour || has_all) {
+			hour = handle_float (text, match + 1);
+			minute = handle_float (text, match + 2);
+			second = handle_float (text, match + 4);
+			time_format = has_all ? "h:mm:ss" : "h:mm";
+		} else {
+			hour = 0;
+			minute = handle_float (text, match + 1);
+			second = handle_float (text, match + 2);
+			time_format = "mm:ss";
+		}
+
+		if (valid_hms (hour, minute, second, allow_elapsed))
+			goto got_time;
+	}
+
+	return NULL;
+
+ got_time:
+	time_val = (second + 60 * (minute + 60 * hour)) / (24 * 60 * 60);
+	if (sign == '-')
+		time_val = -time_val;
+	v = value_new_float (time_val);
+
+	if (add_format) {
+		GOFormat *fmt = go_format_new_from_XL (time_format, FALSE);
+		value_set_fmt (v, fmt);
+		go_format_unref (fmt);
+	}
+
+	return v;
+}
+
+static GnmValue *
+format_match_datetime (const char *text,
+		       GODateConventions const *date_conv,
+		       gboolean month_before_day,
+		       gboolean add_format)
+{
+	int day, month, year;
+	GDate date;
+	gnm_float time_val, date_val;
+	const char *lc_time = setlocale (LC_TIME, NULL);
+	GORegmatch match[30];
+	gunichar uc;
+	int dig1;
+	const char *date_format = NULL;
+	GnmValue *v = NULL;
+	char *time_format = NULL;
+
+	if (lc_time != datetime_locale.lc_time &&
+	    (lc_time == NULL ||
+	     datetime_locale.lc_time == NULL ||
+	     strcmp (lc_time, datetime_locale.lc_time))) {
+		datetime_locale_clear ();
+		datetime_locale_setup (lc_time);
+	}
+
+	SKIP_SPACES (text);
+	uc = g_utf8_get_char (text);
+	dig1 = g_unichar_digit_value (uc);
+
+	/* ^(MMMM)(-|/|\s)(\d+)(,\s+|-|/)(\d+)\b */
+	/*  1     26      27   28        29      */
+	if (go_regexec (&datetime_locale.re_MMMMddyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		month = find_month (&match[2]);
+		if (month == -1) month = find_month (&match[2 + 12]);
+		day = handle_day (text, match + 27);
+		year = handle_year (text, match + 29);
+		if (g_date_valid_dmy (day, month, year)) {
+			date_format = "mmm/dd/yyyy";
+			text += match[0].rm_eo;
+			goto got_date;
+		}
+	}
+
+	/* ^(\d+)(-|/|\.?\s+)(MMMM)(,\s+|-|/)(\d+)\b */
+	/*  1    2           3     28        29      */
+	if (dig1 >= 0 &&
+	    go_regexec (&datetime_locale.re_ddMMMMyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		day = handle_day (text, match + 1);
+		month = find_month (&match[4]);
+		if (month == -1) month = find_month (&match[4 + 12]);
+		year = handle_year (text, match + 29);
+		if (g_date_valid_dmy (day, month, year)) {
+			date_format = "d-mmm-yyyy";
+			text += match[0].rm_eo;
+			goto got_date;
+		}
+	}
+
+	/* ^(\d\d\d\d)(\d\d)(\d\d)\b */
+	/*  1         2     3        */
+	if (dig1 > 0 &&  /* Exclude zero.  */
+	    go_regexec (&datetime_locale.re_yyyymmdd1, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		year = handle_year (text, match + 1);
+		month = handle_month (text, match + 2);
+		day = handle_day (text, match + 3);
+		if (g_date_valid_dmy (day, month, year)) {
+			date_format = "yyyy-mmm-dd";
+			text += match[0].rm_eo;
+			goto got_date;
+		}
+	}
+
+	/* ^(\d\d\d\d)[-/.](\d\d)[-/.](\d\d)\b */
+	/*  1              2          3        */
+	if (dig1 > 0 &&  /* Exclude zero.  */
+	    go_regexec (&datetime_locale.re_yyyymmdd2, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		year = handle_year (text, match + 1);
+		month = handle_month (text, match + 2);
+		day = handle_day (text, match + 3);
+		if (g_date_valid_dmy (day, month, year)) {
+			date_format = "yyyy-mmm-dd";
+			text += match[0].rm_eo;
+			goto got_date;
+		}
+	}
+
+	/* ^(\d+)[-/.](\d+)[-/.](\d+)\b */
+	/*  1         2         3       */
+	if (dig1 >= 0 &&
+	    go_regexec (&datetime_locale.re_mmddyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		if (month_before_day) {
+			month = handle_month (text, match + 1);
+			day = handle_day (text, match + 2);
+		} else {
+			month = handle_month (text, match + 2);
+			day = handle_day (text, match + 1);
+		}
+		year = handle_year (text, match + 3);
+		if (g_date_valid_dmy (day, month, year)) {
+			date_format = month_before_day
+				? "m/d/yyyy"
+				: "d/m/yyyy";
+			text += match[0].rm_eo;
+			goto got_date;
+		}
+	}
+	    
+
+	return NULL;
+
+ got_date:
+	g_date_clear (&date, 1);
+	g_date_set_dmy (&date, day, month, year);
+	if (!g_date_valid (&date))
+		return NULL;
+	date_val = datetime_g_to_serial (&date, date_conv);
+
+	SKIP_SPACES (text);
+
+	if (*text) {
+		GnmValue *v = format_match_time (text, FALSE,
+						 TRUE, add_format);
+		GOFormat *fmt;
+		if (!v)
+			return NULL;
+		time_val = value_get_as_float (v);
+		fmt = VALUE_FMT (v);
+		if (fmt)
+			time_format = go_format_as_XL (fmt, FALSE);
+		value_release (v);
+	} else
+		time_val = 0;
+
+	v = value_new_float (date_val + time_val);
+	if (add_format) {
+		GOFormat *fmt;
+		if (time_format) {
+			char *format = g_strconcat (date_format,
+						    " ",
+						    time_format,
+						    NULL);
+			fmt = go_format_new_from_XL (format, FALSE);
+			g_free (format);
+			g_free (time_format);
+		} else
+			fmt = go_format_new_from_XL (date_format, FALSE);
+		value_set_fmt (v, fmt);
+		go_format_unref (fmt);
+	}
+
+	return v;
+}
+
+static gboolean
+hack_month_before_day (const GOFormat *cur_fmt)
+{
+	char *s = go_format_as_XL (cur_fmt, FALSE);
+	char *p;
+	const char *pos_m, *pos_d;
+	gboolean res;
+
+	/* Try to block out minutes.  */
+	p = strchr (s, 'h');
+	if (p) *p = 0;
+
+	pos_m = strchr (s, 'm');
+	pos_d = strchr (s, 'd');
+	if (pos_m && pos_d)
+		res = (pos_m < pos_d);
+	else
+		res = format_month_before_day ();
+
+	g_free (s);
+	return res;
+}
+
+static gboolean
+hack_prefer_hour (const GOFormat *cur_fmt)
+{
+	char *s = go_format_as_XL (cur_fmt, FALSE);
+	gboolean res = (strchr (s, 'h') != NULL);
+	g_free (s);
+	return res;
+}
+
+
+/*
+ * Match "12/23", "-12/23", "1 2/3", "-1 2/3", and even "-123".
+ * Does not match "1/0".
+ *
+ * Spaces are allowed anywhere but between digits and between
+ * sign and digits.
+ *
+ * The number of digits in the denominator is stored in @denlen.
+ */
+static GnmValue *
+format_match_fraction (const char *text, int *denlen)
+{
+	char sign = 0;
+	gnm_float whole, num, den, f;
+	const char *start;
+	gunichar uc;
+
+	SKIP_SPACES (text);
+
+	uc = g_utf8_get_char (text);
+	DO_SIGN (sign, uc, { text = g_utf8_next_char (text); });
+
+	if (*text == 0 || !g_ascii_isdigit (*text))
+		return NULL;
+
+	start = text;
+	SKIP_DIGITS (text);
+	SKIP_SPACES (text);
+
+	if (*text == '/') {
+		whole = 0;
+	} else {
+		errno = 0;
+		whole = gnm_strto (start, NULL);
+		if (errno == ERANGE)
+			return NULL;
+		if (*text == 0) {
+			num = 0;
+			den = 1;
+			*denlen = 0;
+			goto done;
+		} else if (!g_ascii_isdigit (*text))
+			return NULL;
+
+		start = text;
+		SKIP_DIGITS (text);
+		SKIP_SPACES (text);
+
+		if (*text != '/')
+			return NULL;
+	}
+
+	errno = 0;
+	num = gnm_strto (start, NULL);
+	if (errno == ERANGE)
+		return NULL;
+
+	text++;
+	SKIP_SPACES (text);
+	start = text;
+	SKIP_DIGITS (text);
+	*denlen = text - start;
+	SKIP_SPACES (text);
+
+	if (*text != 0)
+		return NULL;
+
+	errno = 0;
+	den = gnm_strto (start, NULL);
+	if (errno == ERANGE)
+		return NULL;
+	if (den == 0)
+		return NULL;
+
+ done:
+	f = whole + num / den;
+	if (sign == '-')
+		f = -f;
+
+	return value_new_float (f);
+}
+
+
+static GnmValue *
+format_match_decimal_number (const char *text, GOFormatFamily *family)
+{
+	gboolean par_open = FALSE;
+	gboolean par_close = FALSE;
+	gboolean has_curr = FALSE;
+	gboolean has_percent = FALSE;
+	char sign = 0;
+	GString *numstr = g_string_sized_new (20);
+	GString const *curr = format_get_currency (NULL, NULL);
+	GString const *thousand = format_get_thousand ();
+	GString const *decimal = format_get_decimal ();
+	gboolean last_was_digit = FALSE;
+	gboolean allow1000 = (thousand->len != 0);
+
+	while (*text) {
+		gunichar uc = g_utf8_get_char (text);
+
+		if (!has_curr && strncmp (curr->str, text, curr->len) == 0) {
+			has_curr = TRUE;
+			text += curr->len;
+			continue;
+		}
+
+		if (g_unichar_isspace (uc)) {
+			text = g_utf8_next_char (text);
+			continue;
+		}
+
+		if (!sign)
+			DO_SIGN (sign, uc, {
+				g_string_append_c (numstr, sign);
+				text = g_utf8_next_char (text);
+				continue;
+			});
+
+		if (!par_open && !sign && uc == '(') {
+			sign = '-';
+			g_string_append_c (numstr, sign);
+			par_open = TRUE;
+			text++;
+			continue;
+		}
+
+		break;
+	}
+
+	while (*text) {
+		char c = *text;
+
+		if (last_was_digit &&
+		    allow1000 &&
+		    strncmp (thousand->str, text, thousand->len) == 0 &&
+		    g_ascii_isdigit (text[thousand->len])) {
+			text += thousand->len;
+			continue;			
+		}
+
+		if (strncmp (decimal->str, text, decimal->len) == 0) {
+			g_string_append_len (numstr, text, decimal->len);
+			text += decimal->len;
+			allow1000 = FALSE;
+			continue;
+		}
+
+		if (g_ascii_isdigit (c)) {
+			g_string_append_c (numstr, c);
+			text++;
+			last_was_digit = TRUE;
+			continue;
+		}
+		last_was_digit = FALSE;
+
+		if (c == 'e' || c == 'E') {
+			char esign = 0;
+			gunichar uc;
+
+			g_string_append_c (numstr, c);
+			text++;
+			allow1000 = FALSE;
+
+			uc = g_utf8_get_char (text);
+			DO_SIGN (esign, uc, {
+				text = g_utf8_next_char (text);
+				g_string_append_c (numstr, esign);
+			});
+
+			continue;
+		}
+
+		break;
+	}
+
+	while (*text) {
+		gunichar uc = g_utf8_get_char (text);
+
+		if (!has_curr && strncmp (curr->str, text, curr->len) == 0) {
+			has_curr = TRUE;
+			text += curr->len;
+			continue;
+		}
+
+		if (g_unichar_isspace (uc)) {
+			text = g_utf8_next_char (text);
+			continue;
+		}
+
+		if (!sign)
+			DO_SIGN (sign, uc, {
+				g_string_prepend_c (numstr, sign);
+				text = g_utf8_next_char (text);
+				continue;
+			});
+
+		if (!par_close && par_open && uc == ')') {
+			par_close = TRUE;
+			text++;
+			continue;
+		}
+
+		if (!has_percent && uc == '%') {
+			has_percent = TRUE;
+			text++;
+			continue;
+		}
+
+		break;
+	}
+
+	if (*text ||
+	    numstr->len == 0 ||
+	    par_open != par_close ||
+	    (has_percent && (par_open || has_curr))) {
+		g_string_free (numstr, TRUE);
+		return NULL;
+	} else {
+		gnm_float f;
+		char *end;
+
+		errno = 0;
+		f = gnm_strto (numstr->str, &end);
+		g_string_free (numstr, TRUE);
+
+		if (*end || errno == ERANGE)
+			return NULL;
+
+		if (par_open)
+			*family = GO_FORMAT_ACCOUNTING;
+		else if (has_curr)
+			*family = GO_FORMAT_CURRENCY;
+		else if (has_percent)
+			*family = GO_FORMAT_PERCENTAGE;
+		else
+			*family = GO_FORMAT_GENERAL;
+
+		if (has_percent)
+			f /= 100;
+
+		return value_new_float (f);
+	}
+}
+
+#undef DO_SIGN
+#undef SKIP_SPACES
+#undef SKIP_DIGITS
+
 
 /**
  * format_match :
@@ -602,10 +962,9 @@ GnmValue *
 format_match (char const *text, GOFormat *cur_fmt,
 	      GODateConventions const *date_conv)
 {
+	GOFormatFamily fam;
 	GnmValue *v;
-	GSList	 *ptr;
-	GOFormatElement const *entry;
-	GORegmatch mp[NM + 1];
+	int denlen;
 
 	if (text[0] == '\0')
 		return value_new_empty ();
@@ -614,39 +973,51 @@ format_match (char const *text, GOFormat *cur_fmt,
 	if (text[0] == '\'')
 		return value_new_string (text + 1);
 
-	if (cur_fmt) {
-		if (cur_fmt->family == GO_FORMAT_TEXT)
+	fam = cur_fmt ? cur_fmt->family : GO_FORMAT_GENERAL;
+	if (cur_fmt != GO_FORMAT_GENERAL) {
+		switch (cur_fmt->family) {
+		case GO_FORMAT_TEXT:
 			return value_new_string (text);
 
-		for (ptr = cur_fmt->entries; ptr != NULL ; ptr = ptr->next) {
-			entry = ptr->data;
-			if (!entry->forces_text &&
-			    entry->regexp_str != NULL &&
-			    go_regexec (&entry->regexp, text, NM, mp, 0) != REG_NOMATCH &&
-			    NULL != (v = compute_value (text, mp, entry->match_tags, date_conv))) {
-#ifdef DEBUG_NUMBER_MATCH
-				int i;
-				g_warning ("matches fmt: '%s' with regex '%s'\n", entry->format, entry->regexp_str);
-				for (i = 0; i < NM; i++) {
-					char *p;
-
-					if (mp[i].rm_so == -1)
-						break;
-
-					p = extract_text (text, &mp[i]);
-					g_print ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
-				}
-#endif
-
+		case GO_FORMAT_NUMBER:
+		case GO_FORMAT_CURRENCY:
+		case GO_FORMAT_ACCOUNTING:
+		case GO_FORMAT_PERCENTAGE:
+		case GO_FORMAT_SCIENTIFIC:
+			v = format_match_decimal_number (text, &fam);
+			if (v)
 				value_set_fmt (v, cur_fmt);
-				return v;
-			} else {
-#ifdef DEBUG_NUMBER_MATCH
-				g_print ("does not match expression: %s %s\n",
-					 entry->format,
-					 entry->regexp_str ? entry->regexp_str : "(null)");
-#endif
-			}
+			return v;
+
+		case GO_FORMAT_DATE:
+		case GO_FORMAT_TIME: {
+			gboolean month_before_day =
+				hack_month_before_day (cur_fmt);
+			gboolean prefer_hour = hack_prefer_hour (cur_fmt);
+
+			v = format_match_datetime (text, date_conv,
+						   month_before_day,
+						   FALSE);
+			if (!v)
+				v = format_match_time (text, TRUE, prefer_hour, FALSE);
+			if (!v)
+				v = format_match_decimal_number (text, &fam);
+			if (v)
+				value_set_fmt (v, cur_fmt);
+			return v;
+		}
+
+		case GO_FORMAT_FRACTION:
+			v = format_match_fraction (text, &denlen);
+			if (!v)
+				v = format_match_decimal_number (text, &fam);
+
+			if (v)
+				value_set_fmt (v, cur_fmt);
+			return v;
+
+		default:
+			; /* Nothing */
 		}
 	}
 
@@ -655,44 +1026,53 @@ format_match (char const *text, GOFormat *cur_fmt,
 	if (v != NULL)
 		return v;
 
-	/* Fall back to checking the set of canned formats */
-	for (ptr = format_match_list; ptr; ptr = ptr->next) {
-		entry = ptr->data;
-#ifdef DEBUG_NUMBER_MATCH
-		printf ("test: %s \'%s\'\n", entry->format, entry->regexp_str);
-#endif
-		if (go_regexec (&entry->regexp, text, NM, mp, 0) == REG_NOMATCH)
-			continue;
-
-#ifdef DEBUG_NUMBER_MATCH
-		{
-			int i;
-			printf ("matches expression: %s %s\n", entry->format, entry->regexp_str);
-			for (i = 0; i < NM; i++) {
-				char *p;
-
-				if (mp[i].rm_so == -1)
-					break;
-
-				p = extract_text (text, &mp[i]);
-				printf ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
-			}
+	v = format_match_decimal_number (text, &fam);
+	if (v) {
+		switch (fam) {
+		case GO_FORMAT_PERCENTAGE:
+			value_set_fmt (v, go_format_default_percentage ());
+			break;
+		case GO_FORMAT_CURRENCY:
+			value_set_fmt (v, go_format_default_money ());
+			break;
+		case GO_FORMAT_ACCOUNTING: {
+			GOFormat *fmt =
+				go_format_new_from_XL
+				(go_format_builtins[fam][2], FALSE);
+			value_set_fmt (v, fmt);
+			go_format_unref (fmt);
+			break;
 		}
-#endif
 
-		v = compute_value (text, mp, entry->match_tags, date_conv);
-
-#ifdef DEBUG_NUMBER_MATCH
-		if (v) {
-			printf ("value = ");
-			value_dump (v);
-		} else
-			printf ("unable to compute value\n");
-#endif
-		if (v != NULL) {
-			value_set_fmt (v, entry->container);
-			return v;
+		default:
+			; /* Nothing */
 		}
+
+		return v;
+	}
+
+	v = format_match_datetime (text, date_conv,
+				   format_month_before_day (),
+				   TRUE);
+	if (v)
+		return v;
+
+	v = format_match_time (text, TRUE, TRUE, TRUE);
+	if (v)
+		return v;
+
+	v = format_match_fraction (text, &denlen);
+	if (v) {
+		char fmtstr[20];
+		const char *qqq = "?????" + 5;
+		GOFormat *fmt;
+
+		denlen = MIN (denlen, 5);
+		sprintf (fmtstr, "# %s/%s", qqq - denlen, qqq - denlen);
+		fmt = go_format_new_from_XL (fmtstr, FALSE);
+		value_set_fmt (v, fmt);
+		go_format_unref (fmt);
+		return v;
 	}
 
 	return NULL;
@@ -723,4 +1103,20 @@ format_match_number (char const *text, GOFormat *cur_fmt,
 		value_release (res);
 	}
 	return NULL;
+}
+
+
+void
+format_match_init (void)
+{
+	/* FIXME: Why should we init parts of goffice?  */
+	currency_date_format_init ();
+}
+
+void
+format_match_finish (void)
+{
+	/* FIXME: Why should we shut down parts of goffice?  */
+	currency_date_format_shutdown ();
+	datetime_locale_clear ();
 }

@@ -1,3 +1,9 @@
+2006-02-12  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_simple): Don't bother parsing
+	as int first.
+	(format_match): Redo.  No longer uses canned formats.
+
 2006-02-06  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (random_binomial): Make trial argument a
