@@ -1,3 +1,10 @@
+gnumeric (1.6.2-2) UNRELEASED; urgency=low
+
+  * [debian/po/da.po] Added, courtesy of Claus Hindsgaul <claus_h@image.dk>.
+    (Closes: #352689)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 10 Feb 2006 21:29:05 +0100
+
 gnumeric (1.6.2-1) unstable; urgency=low
 
   * New upstream bugfix release. Changes include:
