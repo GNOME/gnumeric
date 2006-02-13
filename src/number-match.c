@@ -215,12 +215,13 @@ datetime_locale_setup (const char *lc_time)
 	 * "1/Dec/04"
 	 * "1-December-2000"
 	 * "1. december 2000"
+	 * "1. december, 2000"
 	 */
-	s = g_strconcat ("^(\\d+)(-|/|\\.?\\s+)(",
+	s = g_strconcat ("^(\\d+)(-|/|\\.?\\s*)(",
 			 p_MMMM->str,
 			 "|",
 			 p_MMM->str,
-			 ")(,\\s+|-|/)(\\d+)\\b",
+			 ")(,?\\s*|-|/)(\\d+)\\b",
 			 NULL);
 	datetime_locale_setup1 (&datetime_locale.re_ddMMMMyyyy, s);
 	g_free (s);
@@ -556,8 +557,8 @@ format_match_datetime (const char *text,
 		}
 	}
 
-	/* ^(\d+)(-|/|\.?\s+)(MMMM)(,\s+|-|/)(\d+)\b */
-	/*  1    2           3     28        29      */
+	/* ^(\d+)(-|/|\.?\s*)(MMMM)(,?\s*|-|/)(\d+)\b */
+	/*  1    2           3     28         29      */
 	if (dig1 >= 0 &&
 	    go_regexec (&datetime_locale.re_ddMMMMyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		day = handle_day (text, match + 1);

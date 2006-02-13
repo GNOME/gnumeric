@@ -72,6 +72,7 @@ Morten:
 	* Fix large-argument cases for BITOR, BITAND, BITXOR, BITLSHIFT,
 	  and BITRSHIFT.
 	* Redo string-to-value parsing.
+	* Allow "12Dec2001" for date entry.  [#56168]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
