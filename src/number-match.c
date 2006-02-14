@@ -812,12 +812,13 @@ format_match_decimal_number (const char *text, GOFormatFamily *family)
 			continue;
 		}
 
-		if (!sign)
+		if (!sign) {
 			DO_SIGN (sign, uc, {
 				g_string_append_c (numstr, sign);
 				text = g_utf8_next_char (text);
 				continue;
 			});
+		}
 
 		if (!par_open && !sign && uc == '(') {
 			sign = '-';
@@ -860,9 +861,16 @@ format_match_decimal_number (const char *text, GOFormatFamily *family)
 			char esign = 0;
 			gunichar uc;
 
+			/*
+			 * Pretend to have seen a sign so we don't accept
+			 * a "-" at the end.
+			 */
+			if (!sign)
+				sign = '+';
+			allow1000 = FALSE;
+
 			g_string_append_c (numstr, c);
 			text++;
-			allow1000 = FALSE;
 
 			uc = g_utf8_get_char (text);
 			DO_SIGN (esign, uc, {
@@ -890,12 +898,13 @@ format_match_decimal_number (const char *text, GOFormatFamily *family)
 			continue;
 		}
 
-		if (!sign)
+		if (!sign) {
 			DO_SIGN (sign, uc, {
 				g_string_prepend_c (numstr, sign);
 				text = g_utf8_next_char (text);
 				continue;
 			});
+		}
 
 		if (!par_close && par_open && uc == ')') {
 			par_close = TRUE;
@@ -1110,14 +1119,10 @@ format_match_number (char const *text, GOFormat *cur_fmt,
 void
 format_match_init (void)
 {
-	/* FIXME: Why should we init parts of goffice?  */
-	currency_date_format_init ();
 }
 
 void
 format_match_finish (void)
 {
-	/* FIXME: Why should we shut down parts of goffice?  */
-	currency_date_format_shutdown ();
 	datetime_locale_clear ();
 }
