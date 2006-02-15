@@ -118,7 +118,9 @@ struct {
 	GORegexp re_yyyymmdd1;
 	GORegexp re_yyyymmdd2;
 	GORegexp re_mmddyyyy;
-	GORegexp re_hhmmss;
+	GORegexp re_mmdd;
+	GORegexp re_hhmmss1;
+	GORegexp re_hhmmss2;
 	GORegexp re_hhmmssds;
 	GORegexp re_hhmmss_ampm;
 } datetime_locale;
@@ -133,7 +135,9 @@ datetime_locale_clear (void)
 	go_regfree (&datetime_locale.re_yyyymmdd1);
 	go_regfree (&datetime_locale.re_yyyymmdd2);
 	go_regfree (&datetime_locale.re_mmddyyyy);
-	go_regfree (&datetime_locale.re_hhmmss);
+	go_regfree (&datetime_locale.re_mmdd);
+	go_regfree (&datetime_locale.re_hhmmss1);
+	go_regfree (&datetime_locale.re_hhmmss2);
 	go_regfree (&datetime_locale.re_hhmmssds);
 	go_regfree (&datetime_locale.re_hhmmss_ampm);
 	memset (&datetime_locale, 0, sizeof (datetime_locale));
@@ -200,12 +204,16 @@ datetime_locale_setup (const char *lc_time)
 	 * "Dec/1/04"
 	 * "December 1, 2000"
 	 * "Dec-1-2000"
+	 * "Dec 1"
+	 * "Dec/1"
+	 * "December 1"
+	 * "Dec-1"
 	 */
 	s = g_strconcat ("^(",
 			 p_MMMM->str,
 			 "|",
 			 p_MMM->str,
-			 ")(-|/|\\s)(\\d+)(,\\s+|-|/)(\\d+)\\b",
+			 ")(-|/|\\s)(\\d+)((,\\s+|-|/)(\\d+))?\\b",
 			 NULL);
 	datetime_locale_setup1 (&datetime_locale.re_MMMMddyyyy, s);
 	g_free (s);
@@ -216,21 +224,30 @@ datetime_locale_setup (const char *lc_time)
 	 * "1-December-2000"
 	 * "1. december 2000"
 	 * "1. december, 2000"
+	 * "1-Dec"
+	 * "1/Dec"
+	 * "1-December"
+	 * "1. december"
 	 */
 	s = g_strconcat ("^(\\d+)(-|/|\\.?\\s*)(",
 			 p_MMMM->str,
 			 "|",
 			 p_MMM->str,
-			 ")(,?\\s*|-|/)(\\d+)\\b",
+			 ")((,?\\s*|-|/)(\\d+))?\\b",
 			 NULL);
 	datetime_locale_setup1 (&datetime_locale.re_ddMMMMyyyy, s);
 	g_free (s);
 
 	/*
 	 * "20001231"
+	 * (with special support for 20001231:123456)
 	 */
-	datetime_locale_setup1 (&datetime_locale.re_yyyymmdd1,
-				"^(\\d\\d\\d\\d)(\\d\\d)(\\d\\d)\\b");
+	s = g_strconcat ("^(\\d\\d\\d\\d)(\\d\\d)(\\d\\d)(:\\d\\d\\d\\d\\d\\d(",
+			 p_decimal->str,
+			 "\\d*)?)?\\s*$",
+			 NULL);
+	datetime_locale_setup1 (&datetime_locale.re_yyyymmdd1, s);
+	g_free (s);
 
 	/*
 	 * "1900/01/01"
@@ -247,6 +264,13 @@ datetime_locale_setup (const char *lc_time)
 	 */
 	datetime_locale_setup1 (&datetime_locale.re_mmddyyyy,
 				"^(\\d+)[-/.](\\d+)[-/.](\\d+)\\b");
+
+	/*
+	 * "01/31"    [Jan 31] if month_before_day
+	 * "31/1"     [Jan 31] if !month_before_day
+	 */
+	datetime_locale_setup1 (&datetime_locale.re_mmdd,
+				"^(\\d+)[-/.](\\d+)\\b");
 
 	/*
 	 * "15:30:00.3"
@@ -266,8 +290,19 @@ datetime_locale_setup (const char *lc_time)
 	 * "15:30"          [15:30:00] if prefer_hour
 	 * "15:30"          [00:15:30] if !prefer_hour
 	 */
-	datetime_locale_setup1 (&datetime_locale.re_hhmmss,
+	datetime_locale_setup1 (&datetime_locale.re_hhmmss1,
 				"^(\\d+):(\\d+)(:(\\d+))?\\s*$");
+
+	/*
+	 * "153000"
+	 * "153000.2"
+	 */
+	s = g_strconcat ("^(\\d\\d)(\\d\\d)(\\d\\d)?(",
+			 p_decimal->str,
+			 "\\d*)?\\s*$",
+			 NULL);
+	datetime_locale_setup1 (&datetime_locale.re_hhmmss2, s);
+	g_free (s);
 
 	/*
 	 * "12:30:01.3 am"
@@ -336,9 +371,22 @@ handle_month (const char *text, const GORegmatch *pm)
 }
 
 static int
+current_year (void)
+{
+	time_t now = time (NULL);
+	struct tm *tm = localtime (&now);
+	return 1900 + tm->tm_year;
+}
+
+static int
 handle_year (const char *text, const GORegmatch *pm)
 {
-	int y = handle_int (text, pm, 0, 9999);
+	int y;
+
+	if (pm->rm_so == pm->rm_eo)
+		return current_year ();
+
+	y = handle_int (text, pm, 0, 9999);
 
 	if (y < 0)
 		return -1;
@@ -351,6 +399,7 @@ handle_year (const char *text, const GORegmatch *pm)
 	else
 		return y;
 }
+
 
 static gnm_float
 handle_float (const char *text, const GORegmatch *pm)
@@ -478,7 +527,7 @@ format_match_time (const char *text, gboolean allow_elapsed,
 
 	/* ^(\d+):(\d+)(:(\d+))?\s*$ */
 	/*  1     2    3 4           */
-	if (go_regexec (&datetime_locale.re_hhmmss, text, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (go_regexec (&datetime_locale.re_hhmmss1, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		gboolean has_all = (match[4].rm_so != match[4].rm_eo);
 
 		if (prefer_hour || has_all) {
@@ -490,6 +539,28 @@ format_match_time (const char *text, gboolean allow_elapsed,
 			hour = 0;
 			minute = handle_float (text, match + 1);
 			second = handle_float (text, match + 2);
+			time_format = "mm:ss";
+		}
+
+		if (valid_hms (hour, minute, second, allow_elapsed))
+			goto got_time;
+	}
+
+	/* ^(\d\d)(\d\d)(\d\d)?(\.\d*)?\s*$   */
+	/*  1     2     3      4              */
+	if (go_regexec (&datetime_locale.re_hhmmss2, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		gboolean has3 = (match[3].rm_so != match[3].rm_eo);
+		gboolean hasfrac = (match[4].rm_so != match[4].rm_eo);
+
+		if ((prefer_hour && !hasfrac) || has3) {
+			hour = handle_float (text, match + 1);
+			minute = handle_float (text, match + 2);
+			second = handle_float (text, match + 3) + handle_float (text, match + 4);
+			time_format = "h:mm:ss";
+		} else {
+			hour = 0;
+			minute = handle_float (text, match + 1);
+			second = handle_float (text, match + 2) + handle_float (text, match + 4);
 			time_format = "mm:ss";
 		}
 
@@ -524,7 +595,7 @@ format_match_datetime (const char *text,
 	GDate date;
 	gnm_float time_val, date_val;
 	const char *lc_time = setlocale (LC_TIME, NULL);
-	GORegmatch match[30];
+	GORegmatch match[31];
 	gunichar uc;
 	int dig1;
 	const char *date_format = NULL;
@@ -543,13 +614,15 @@ format_match_datetime (const char *text,
 	uc = g_utf8_get_char (text);
 	dig1 = g_unichar_digit_value (uc);
 
-	/* ^(MMMM)(-|/|\s)(\d+)(,\s+|-|/)(\d+)\b */
-	/*  1     26      27   28        29      */
-	if (go_regexec (&datetime_locale.re_MMMMddyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
+	/* ^(MMMM)(-|/|\s)(\d+)((,\s+|-|/)(\d+))?\b */
+	/*  1     26      27   28         30        */
+	/*                      29                  */
+	if (dig1 < 0 &&
+	    go_regexec (&datetime_locale.re_MMMMddyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		month = find_month (&match[2]);
 		if (month == -1) month = find_month (&match[2 + 12]);
 		day = handle_day (text, match + 27);
-		year = handle_year (text, match + 29);
+		year = handle_year (text, match + 30);
 		if (g_date_valid_dmy (day, month, year)) {
 			date_format = "mmm/dd/yyyy";
 			text += match[0].rm_eo;
@@ -557,14 +630,15 @@ format_match_datetime (const char *text,
 		}
 	}
 
-	/* ^(\d+)(-|/|\.?\s*)(MMMM)(,?\s*|-|/)(\d+)\b */
-	/*  1    2           3     28         29      */
+	/* ^(\d+)(-|/|\.?\s*)(MMMM)((,?\s*|-|/)(\d+))?\b */
+	/*  1    2           3     28          30        */
+	/*                          29                   */
 	if (dig1 >= 0 &&
 	    go_regexec (&datetime_locale.re_ddMMMMyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		day = handle_day (text, match + 1);
 		month = find_month (&match[4]);
 		if (month == -1) month = find_month (&match[4 + 12]);
-		year = handle_year (text, match + 29);
+		year = handle_year (text, match + 30);
 		if (g_date_valid_dmy (day, month, year)) {
 			date_format = "d-mmm-yyyy";
 			text += match[0].rm_eo;
@@ -572,8 +646,8 @@ format_match_datetime (const char *text,
 		}
 	}
 
-	/* ^(\d\d\d\d)(\d\d)(\d\d)\b */
-	/*  1         2     3        */
+	/* ^(\d\d\d\d)(\d\d)(\d\d)(:\d\d\d\d\d\d(\.\d*)?)?\s*$ */
+	/*  1         2     3     4             5              */
 	if (dig1 > 0 &&  /* Exclude zero.  */
 	    go_regexec (&datetime_locale.re_yyyymmdd1, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		year = handle_year (text, match + 1);
@@ -581,7 +655,9 @@ format_match_datetime (const char *text,
 		day = handle_day (text, match + 3);
 		if (g_date_valid_dmy (day, month, year)) {
 			date_format = "yyyy-mmm-dd";
-			text += match[0].rm_eo;
+			text += match[3].rm_eo;
+			if (*text == ':')
+				text++;
 			goto got_date;
 		}
 	}
@@ -621,6 +697,26 @@ format_match_datetime (const char *text,
 		}
 	}
 	    
+	/* ^(\d+)[-/.](\d+)\b */
+	/*  1         2       */
+	if (dig1 >= 0 &&
+	    go_regexec (&datetime_locale.re_mmdd, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		if (month_before_day) {
+			month = handle_month (text, match + 1);
+			day = handle_day (text, match + 2);
+		} else {
+			month = handle_month (text, match + 2);
+			day = handle_day (text, match + 1);
+		}
+		year = current_year ();
+		if (g_date_valid_dmy (day, month, year)) {
+			date_format = month_before_day
+				? "m/d/yyyy"
+				: "d/m/yyyy";
+			text += match[0].rm_eo;
+			goto got_date;
+		}
+	}
 
 	return NULL;
 

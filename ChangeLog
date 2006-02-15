@@ -1,3 +1,11 @@
+2006-02-14  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_time): Handle hhmmss.sss,
+	hhmmss, hhmm, mmss, and mmss.ss.  (All with no separators.)
+	(handle_year): Map missing year to current year.
+	(format_match_datetime): Handle yearless dates.  Handle
+	20041224:121213.
+
 2006-02-12  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (format_match_datetime): Loosen the separator
