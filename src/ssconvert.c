@@ -265,7 +265,7 @@ main (int argc, char **argv)
 		list_them (&get_file_openers,
 			   (get_desc_f) &go_file_opener_get_id,
 			   (get_desc_f) &go_file_opener_get_description);
-	else if (argc == 2 || argv == 3) {
+	else if (argc == 2 || argc == 3) {
 		res = convert (argv[1], argv[2], cc);
 	} else {
 		g_printerr (_("Usage: %s [OPTION...] %s\n"),

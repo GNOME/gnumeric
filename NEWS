@@ -73,6 +73,7 @@ Morten:
 	  and BITRSHIFT.
 	* Redo string-to-value parsing.
 	* Allow "12Dec2001" for date entry.  [#56168]
+	* Fix bogus duplicate-accelerator warnings.  [#324692]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

@@ -727,7 +727,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		 * '{' '}' and the size information from the display.
 		 * That is not actually part of the parsable expression.
 		 */
-		if (NULL != cell_is_array (cell))
+		if (cell_is_array (cell))
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);
 
 		if (cell->value != NULL) {

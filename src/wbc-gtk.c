@@ -1558,6 +1558,14 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
 
+	/*
+	 * The following line updates the menus before the check so we
+	 * avoid problems like #324692.  We could move it inside the
+	 * conditional, but I don't like doing active things like this
+	 * in there.
+	 */
+	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), "", "");
+
 #ifdef CHECK_MENU_UNDERLINES
 	gtk_container_foreach (GTK_CONTAINER (gtk->menu_zone),
 			       (GtkCallback)check_underlines,
