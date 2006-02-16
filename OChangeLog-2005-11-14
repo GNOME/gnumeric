@@ -1,3 +1,9 @@
+2006-02-16  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_init_font_name): Set a stock id to avoid
+	critical on very narrow windows.
+	(wbc_gtk_init_font_size): Ditto, but throw in a label also.
+
 2006-02-15  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init): Update undo/redo labels here

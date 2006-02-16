@@ -651,6 +651,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
 				       "name", "FontName",
 				       "case-sensitive", FALSE,
+				       "stock-id", GTK_STOCK_SELECT_FONT,
 				       NULL);
 
 	context = gtk_widget_get_pango_context
@@ -705,6 +706,8 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 
 	gtk->font_size = g_object_new (go_action_combo_text_get_type (),
 				       "name", "FontSize",
+				       "stock-id", GTK_STOCK_SELECT_FONT,
+				       "label", _("Font Size"),
 				       NULL);
 	font_sizes = go_fonts_list_sizes ();
 	for (ptr = font_sizes; ptr != NULL ; ptr = ptr->next) {

@@ -78,6 +78,7 @@ Morten:
 	* Allow "12Dec2001" for date entry.  [#56168]
 	* Allow "20041231:103355".
 	* Fix bogus duplicate-accelerator warnings.  [#324692]
+	* Fix criticals relating to toolbar combos for very narrow windows.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
