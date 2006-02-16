@@ -19,6 +19,9 @@ Jody:
 	* AREAS handles error conditions better.
 	* Make Array formulas use less memory
 
+Luciano Miguel Wolf:
+	* ODS import improvements.
+
 Morten:
 	* Fix COUNTBLANK.
 	* Fix auto-filter formatting issue.  [#322392]
@@ -73,6 +76,7 @@ Morten:
 	  and BITRSHIFT.
 	* Redo string-to-value parsing.
 	* Allow "12Dec2001" for date entry.  [#56168]
+	* Allow "20041231:103355".
 	* Fix bogus duplicate-accelerator warnings.  [#324692]
 
 Jon Kåre:
