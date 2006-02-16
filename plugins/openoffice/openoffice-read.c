@@ -1310,10 +1310,11 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static ODProps*
-dup_prop(ODProps *pointer) {
-	ODProps *prop_copy = g_new0(ODProps, 1);
+dup_prop (ODProps *pointer)
+{
+	ODProps *prop_copy = g_new0 (ODProps, 1);
 
-	prop_copy->name = strdup (pointer->name);
+	prop_copy->name = g_strdup (pointer->name);
 	prop_copy->value = g_new0 (GValue, 1);
 	prop_copy->value = g_value_init (prop_copy->value, G_VALUE_TYPE(pointer->value));
 	g_value_copy (pointer->value, prop_copy->value);
@@ -1338,39 +1339,39 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		prop->value = g_new0 (GValue, 1);
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "logarithmic")) {
 			if (!strcmp(attrs[1], "true")){
-				prop->name = strdup ("map-name");
+				prop->name = g_strdup ("map-name");
 				prop->value = g_value_init (prop->value, G_TYPE_STRING);
 				g_value_set_string (prop->value, "Log");
 				style->axis = g_slist_append (style->axis, dup_prop(prop));
 			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "vertical")) {
 			if (!strcmp(attrs[1], "true")){
-				prop->name = strdup ("horizontal");
+				prop->name = g_strdup ("horizontal");
 				prop->value = g_value_init (prop->value, G_TYPE_BOOLEAN);
 				g_value_set_boolean (prop->value, TRUE);
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "stacked")) {
 			if (!strcmp(attrs[1], "true")){
-				prop->name = strdup ("type");
+				prop->name = g_strdup ("type");
 				prop->value = g_value_init (prop->value, G_TYPE_STRING);
-				g_value_set_string (prop->value, strdup("stacked"));
+				g_value_set_string (prop->value, "stacked");
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "percentage")) {
 			if (!strcmp(attrs[1], "true")){
-				prop->name = strdup ("type");
+				prop->name = g_strdup ("type");
 				prop->value = g_value_init (prop->value, G_TYPE_STRING);
-				g_value_set_string (prop->value, strdup("as_percentage"));
+				g_value_set_string (prop->value, "as_percentage");
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "overlap")) {
-				prop->name = strdup ("overlap-percentage");
+				prop->name = g_strdup ("overlap-percentage");
 				prop->value = g_value_init (prop->value, G_TYPE_INT);
 				g_value_set_int (prop->value, g_strtod(attrs[1], NULL));
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "gap-width")) {
-				prop->name = strdup ("gap-percentage");
+				prop->name = g_strdup ("gap-percentage");
 				prop->value = g_value_init (prop->value, G_TYPE_INT);
 				g_value_set_int (prop->value, g_strtod(attrs[1], NULL));
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
@@ -1591,9 +1592,10 @@ od_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar const *name = NULL;
 	OOParseState *state = (OOParseState *)xin->user_state;
 	ODGraphProperties *style = NULL;
-	GSList *axis;
+	GogAxis *axis;
+	GSList *axes;
+	GSList *l;
 	guint cont;
-	ODProps *axis_props;
 	GSList *plots;
 	GogPlot *plot;
 
@@ -1610,36 +1612,39 @@ od_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 	style = g_hash_table_lookup (state->cur_frame.graph_styles, name);
-	axis = gog_chart_get_axes (state->cur_frame.chart, state->cur_frame.cur_axis);
-	for (cont = 0; cont < g_slist_length(style->axis); cont ++) {
-		axis_props = g_slist_nth_data(style->axis, cont);
-		g_object_set (axis->data,
-				axis_props->name,
-				g_value_get_string(axis_props->value),
-				NULL);
+	axes = gog_chart_get_axes (state->cur_frame.chart, state->cur_frame.cur_axis);
+	axis = axes ? axes->data : NULL;  /* Why the first axis?  */
+	g_slist_free (axes);
+	for (l = style->axis; l; l = l->next) {
+		ODProps *axis_props = l->data;
+		g_object_set (axis,
+			      axis_props->name,
+			      g_value_get_string(axis_props->value),
+			      NULL);
 	}
+
 	plots = gog_chart_get_plots (state->cur_frame.chart);
 	plot = g_slist_nth_data (plots, 0);
 	for (cont = 0; cont < g_slist_length(style->chart); cont ++) {
-		axis_props = g_slist_nth_data(style->chart, cont);
+		ODProps *axis_props = g_slist_nth_data(style->chart, cont);
 		switch (G_VALUE_TYPE(axis_props->value)) {
 			case G_TYPE_BOOLEAN:
 				g_object_set (plot,
-						strdup(axis_props->name),
-						g_value_get_boolean (axis_props->value),
-						NULL);
+					      strdup(axis_props->name),
+					      g_value_get_boolean (axis_props->value),
+					      NULL);
 				break;
 			case G_TYPE_STRING:
 				g_object_set (plot,
-						strdup(axis_props->name),
-						strdup(g_value_get_string (axis_props->value)),
-						NULL);
+					      strdup(axis_props->name),
+					      strdup(g_value_get_string (axis_props->value)),
+					      NULL);
 				break;
 			case G_TYPE_INT:
 				g_object_set (plot,
-						axis_props->name,
-						g_value_get_int (axis_props->value),
-						NULL);
+					      axis_props->name,
+					      g_value_get_int (axis_props->value),
+					      NULL);
 				break;
 			default: break;
 		}
@@ -1841,21 +1846,25 @@ static void
 od_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GSList *axis = NULL;
 
 	if ((state->cur_frame.cur_axis != UNKNOWN) &&
 	 	(state->cur_frame.chart_type != RING) &&
 	 	(state->cur_frame.chart_type != CIRCLE) &&
 	 	(state->cur_frame.chart_type != RADAR)) {
+		GSList *axes;
+		GogAxis *axis;
 
-		axis = gog_chart_get_axes (state->cur_frame.chart, state->cur_frame.cur_axis);
+		axes = gog_chart_get_axes (state->cur_frame.chart, state->cur_frame.cur_axis);
+		axis = axes ? axes->data : NULL;  /* Why the first axis?  */
+		g_slist_free (axes);
+
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "class"))
 			{
 				if (!strcmp(attrs[1], "major"))
-					gog_object_add_by_name (GOG_OBJECT(axis->data), "MajorGrid", NULL);
+					gog_object_add_by_name (GOG_OBJECT(axis), "MajorGrid", NULL);
 				else if (!strcmp(attrs[1], "minor"))
-					gog_object_add_by_name (GOG_OBJECT(axis->data), "MinorGrid", NULL);
+					gog_object_add_by_name (GOG_OBJECT(axis), "MinorGrid", NULL);
 			}
 	}
 }
@@ -1869,33 +1878,27 @@ od_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-clean_lists(ODGraphProperties *pointer)
+clean_lists (ODGraphProperties *pointer)
 {
-	guint cont;
-	ODProps *pointer_props = NULL;
+	GSList *l;
 
-	if (g_slist_length (pointer->axis) > 0) {
-		for (cont = 0; cont < g_slist_length(pointer->axis); cont ++){
-			pointer_props = (ODProps *)g_slist_nth_data (pointer->axis, cont);
-			g_free (pointer_props->name);
-			if (G_IS_VALUE (pointer_props->value))
-				g_value_unset(pointer_props->value);
-			else
-				g_free (pointer_props->value);
-		}
-		g_slist_free (pointer->axis);
+	for (l = pointer->axis; l; l = l->next) {
+		ODProps *props = l->data;
+		g_free (props->name);
+		if (G_IS_VALUE (props->value))
+			g_value_unset (props->value);
+		g_free (props->value);
 	}
-	if (g_slist_length(pointer->chart) > 0) {
-		for (cont = 0; cont < g_slist_length (pointer->chart); cont ++){
-			pointer_props = (ODProps *)g_slist_nth_data (pointer->chart, cont);
-			g_free(pointer_props->name);
-			if (G_IS_VALUE (pointer_props->value))
-				g_value_unset (pointer_props->value);
-			else
-				g_free (pointer_props->value);
-		}
-		g_slist_free (pointer->chart);
+	g_slist_free (pointer->axis);
+
+	for (l = pointer->chart; l; l = l->next) {
+		ODProps *props = l->data;
+		g_free (props->name);
+		if (G_IS_VALUE (props->value))
+			g_value_unset (props->value);
+		g_free (props->value);
 	}
+	g_slist_free (pointer->chart);
 }
 
 static GsfXMLInNode const styles_dtd[] = {
@@ -2384,7 +2387,9 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		if (meta_file != NULL) {
 			meta_data = gsf_doc_meta_data_new ();
 			err = gsf_opendoc_metadata_read (meta_file, meta_data);
-			g_object_set_data (G_OBJECT(state.pos.wb), "GsfDocMetaData", meta_data);
+			g_object_set_data_full (G_OBJECT(state.pos.wb),
+						"GsfDocMetaData", meta_data,
+						g_object_unref);
 			g_object_unref (meta_file);
 		}
 	}

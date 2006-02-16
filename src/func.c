@@ -1141,6 +1141,15 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			/* Fall through.  */
 		case 'f':
 			if (tmp->type == VALUE_STRING) {
+				GDate d;
+				char buf[1000];
+				g_date_set_parse (&d, value_peek_string (tmp));
+				if (g_date_valid (&d))
+					g_date_strftime (buf, 1000, "%x", &d);
+				else
+					strcpy (buf, "Invalid");
+				g_print ("%s --> %s\n", value_peek_string (tmp), buf);
+
 				tmp = format_match_number (value_peek_string (tmp), NULL,
 					workbook_date_conv (ei->pos->sheet->workbook));
 				if (tmp == NULL) {

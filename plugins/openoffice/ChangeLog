@@ -1,3 +1,12 @@
+2006-02-16  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open): Don't leak the
+	meta_data object.
+	(od_style_prop_chart): Fix leaks.
+	(od_chart_axis): Plug leak.
+	(od_chart_grid): Plug leak.
+	(clean_lists): Speed up and fix a pile of leaks.
+
 2006-02-15  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (openoffice_file_open): Updates from #316234.
