@@ -1,3 +1,13 @@
+2006-02-17  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_init): Initialize three toolbar zones.
+	(cb_add_menus_toolbars): Attach context menus to the toolbars and
+	their handlebox.
+	(set_toolbar_position, cb_set_toolbar_position,
+	toolbar_context_menu, cb_toolbar_button_press,
+	cb_handlebox_button_press): New functions implementing the toolbar
+	context menu.
+
 2006-02-16  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init_font_name): Set a stock id to avoid

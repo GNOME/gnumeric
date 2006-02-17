@@ -59,6 +59,7 @@
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkhandlebox.h>
 #include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkradiomenuitem.h>
 #include "gdk/gdkkeysyms.h"
 #include <glib/gi18n.h>
 #include <errno.h>
@@ -100,7 +101,7 @@ struct _WBCgtk {
 		GtkToggleAction	 *top, *center, *bottom;
 	} v_align;
 
-	GtkWidget *menu_zone, *toolbar_zone, *everything;
+	GtkWidget *menu_zone, *everything, *toolbar_zones[4];
 	GHashTable *custom_uis;
 };
 typedef WorkbookControlGUIClass WBCgtkClass;
@@ -182,6 +183,7 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 	gtk->zoom = g_object_new (go_action_combo_text_get_type (),
 				  "name", "Zoom",
 				  "label", _("_Zoom"),
+				  "visible-vertical", FALSE,
 				  NULL);
 #ifdef USE_HILDON
 	go_action_combo_text_set_width (gtk->zoom,  "100000000%");
@@ -323,7 +325,9 @@ wbc_gtk_init_borders (WBCgtk *gtk)
 	g_object_set (G_OBJECT (gtk->borders),
 		      "label", _("Borders"),
 		      "tooltip", _("Borders"),
+		      "visible-vertical", FALSE,
 		      NULL);
+	/* TODO: Create vertical version.  */
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 	go_combo_pixmaps_select (gtk->borders, 1); /* default to none */
@@ -431,14 +435,18 @@ wbc_gtk_undo_redo_push (WorkbookControl *wbc, gboolean is_undo,
 
 static GOActionComboStack *
 create_undo_redo (WBCgtk *gtk, char const *name, char const *tooltip,
-		  char const *stock_id, char const *accel)
+		  char const *stock_id, char const *accel,
+		  gboolean vertical)
 {
-	GOActionComboStack *res = g_object_new (go_action_combo_stack_get_type (),
-		"name",		name,
-		"tooltip",  	_(tooltip),
-		"stock-id",	stock_id,
-		"sensitive",	FALSE,
-		NULL);
+	GOActionComboStack *res =
+		g_object_new (go_action_combo_stack_get_type (),
+			      "name",		    name,
+			      "tooltip",  	    _(tooltip),
+			      "stock-id",	    stock_id,
+			      "sensitive",	    FALSE,
+			      "visible-horizontal", !vertical,
+			      "visible-vertical",   vertical,
+			      NULL);
 	
 #ifdef USE_HILDON
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (res));
@@ -489,8 +497,11 @@ cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
 static void
 wbc_gtk_init_undo_redo (WBCgtk *gtk)
 {
-	gtk->undo_action = create_undo_redo (gtk, N_("Undo"),
-		N_("Undo the last action"), GTK_STOCK_UNDO, "<control>z");
+	gtk->undo_action =
+		create_undo_redo (gtk, N_("Undo"),
+				  N_("Undo the last action"),
+				  GTK_STOCK_UNDO, "<control>z",
+				  FALSE);
 	g_signal_connect (G_OBJECT (gtk->undo_action),
 		"activate",
 		G_CALLBACK (cb_undo_activated), gtk);
@@ -499,11 +510,16 @@ wbc_gtk_init_undo_redo (WBCgtk *gtk)
 		G_CALLBACK (cb_chain_sensitivity),
 		gtk_action_group_get_action (gtk->permanent_actions, "Repeat"));
 
-	gtk->redo_action = create_undo_redo (gtk, N_("Redo"),
-		N_("Redo the undone action"), GTK_STOCK_REDO, "<control>y");
+	gtk->redo_action =
+		create_undo_redo (gtk, N_("Redo"),
+				  N_("Redo the undone action"),
+				  GTK_STOCK_REDO, "<control>y",
+				  FALSE);
 	g_signal_connect (G_OBJECT (gtk->redo_action),
 		"activate",
 		G_CALLBACK (cb_redo_activated), gtk);
+
+	/* TODO: Create vertical versions of these.  */
 }
 
 /****************************************************************************/
@@ -557,7 +573,9 @@ wbc_gtk_init_color_fore (WBCgtk *gtk)
 	g_object_set (G_OBJECT (gtk->fore_color),
 		      "label", _("Foreground"),
 		      "tooltip", _("Foreground"),
+		      "visible-vertical", FALSE,
 		      NULL);
+	/* TODO: Create vertical version.  */
 	g_signal_connect (G_OBJECT (gtk->fore_color),
 		"activate",
 		G_CALLBACK (cb_fore_color_changed), gtk);
@@ -606,7 +624,9 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 	g_object_set (G_OBJECT (gtk->back_color),
 		      "label", _("Background"),
 		      "tooltip", _("Background"),
+		      "visible-vertical", FALSE,
 		      NULL);
+	/* TODO: Create vertical version.  */
 	g_object_connect (G_OBJECT (gtk->back_color),
 		"signal::activate", G_CALLBACK (cb_back_color_changed), gtk,
 		"signal::display-custom-dialog", G_CALLBACK (cb_custom_color_created), gtk,
@@ -652,7 +672,10 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 				       "name", "FontName",
 				       "case-sensitive", FALSE,
 				       "stock-id", GTK_STOCK_SELECT_FONT,
+				       "visible-vertical", FALSE,
 				       NULL);
+
+	/* TODO: Create vertical version of this.  */
 
 	context = gtk_widget_get_pango_context
 		(GTK_WIDGET (wbcg_toplevel (WORKBOOK_CONTROL_GUI (gtk))));
@@ -707,8 +730,12 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 	gtk->font_size = g_object_new (go_action_combo_text_get_type (),
 				       "name", "FontSize",
 				       "stock-id", GTK_STOCK_SELECT_FONT,
+				       "visible-vertical", FALSE,
 				       "label", _("Font Size"),
 				       NULL);
+
+	/* TODO: Create vertical version of this.  */
+
 	font_sizes = go_fonts_list_sizes ();
 	for (ptr = font_sizes; ptr != NULL ; ptr = ptr->next) {
 		int psize = GPOINTER_TO_INT (ptr->data);
@@ -1236,6 +1263,108 @@ cb_init_extra_ui (GnmAppExtraUI *extra_ui, WBCgtk *gtk)
 /* Toolbar menu */
 
 static void
+set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCgtk *gtk)
+{
+	static const GtkPositionType hdlpos[] = {
+		GTK_POS_TOP, GTK_POS_TOP,
+		GTK_POS_LEFT, GTK_POS_LEFT
+	};
+	static const GtkOrientation orientations[] = {
+		GTK_ORIENTATION_VERTICAL, GTK_ORIENTATION_VERTICAL,
+		GTK_ORIENTATION_HORIZONTAL, GTK_ORIENTATION_HORIZONTAL
+	};
+
+	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
+	GtkWidget *zone = GTK_WIDGET (hdlbox)->parent;
+	GtkWidget *new_zone = gtk->toolbar_zones[pos];
+
+	if (zone == new_zone)
+		return;
+
+	g_object_ref (hdlbox);
+	gtk_container_remove (GTK_CONTAINER (zone), GTK_WIDGET (hdlbox));
+	gtk_toolbar_set_orientation (tb, orientations[pos]);
+	gtk_handle_box_set_handle_position (hdlbox, hdlpos[pos]);
+	gtk_container_add (GTK_CONTAINER (new_zone), GTK_WIDGET (hdlbox));
+	g_object_unref (hdlbox);
+}
+
+static void
+cb_set_toolbar_position (GtkWidget *widget, gpointer data)
+{
+	WBCgtk *gtk = data;
+	GtkToolbar *tb = g_object_get_data (G_OBJECT (widget), "toolbar");
+	GtkPositionType side = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "side"));
+
+	set_toolbar_position (tb, side, gtk);
+}
+
+static void
+toolbar_context_menu (GtkToolbar *tb, WBCgtk *gtk, GdkEventButton *event_button)
+{
+	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
+	GtkWidget *zone = GTK_WIDGET (hdlbox)->parent;
+	GtkWidget *menu = gtk_menu_new ();
+	size_t ui;
+	GSList *group = NULL;
+
+	static const struct {
+		const char *text;
+		GtkPositionType pos;
+	} items[] = {
+		{ N_("Display above sheets"), GTK_POS_TOP },
+		{ N_("Display to the left of sheets"), GTK_POS_LEFT },
+		{ N_("Display to the right of sheets"), GTK_POS_RIGHT }
+	};
+
+	for (ui = 0; ui < G_N_ELEMENTS (items); ui++) {
+		const char *text = _(items[ui].text);
+		GtkPositionType pos = items[ui].pos;
+		GtkWidget *item;
+
+		item = gtk_radio_menu_item_new_with_label (group, text);
+		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
+
+		GTK_CHECK_MENU_ITEM (item)->active =
+			(zone == gtk->toolbar_zones[pos]);
+
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+		g_object_set_data (G_OBJECT (item), "toolbar", tb);
+		g_object_set_data (G_OBJECT (item), "side", GINT_TO_POINTER (pos));
+		g_signal_connect (G_OBJECT (item), "activate",
+				  G_CALLBACK (cb_set_toolbar_position),
+				  gtk);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event_button);
+}
+
+static gboolean
+cb_toolbar_button_press (GtkToolbar *tb, GdkEventButton *event, WBCgtk *gtk)
+{
+	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+		toolbar_context_menu (tb, gtk, event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+cb_handlebox_button_press (GtkHandleBox *hdlbox, GdkEventButton *event, WBCgtk *gtk)
+{
+	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+		GtkToolbar *tb = GTK_TOOLBAR (gtk_bin_get_child (GTK_BIN (hdlbox)));
+		toolbar_context_menu (tb, gtk, event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static void
 cb_toolbar_activate (GtkToggleAction *action, WorkbookControlGUI *wbcg)
 {
 	wbcg_toggle_visibility (wbcg, action);
@@ -1276,13 +1405,22 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
 		gboolean visible = gnm_gconf_get_toolbar_visible (name);
 
+		g_signal_connect (G_OBJECT (w),
+				  "button_press_event",
+				  G_CALLBACK (cb_toolbar_button_press),
+				  gtk);
+		g_signal_connect (G_OBJECT (box),
+				  "button_press_event",
+				  G_CALLBACK (cb_handlebox_button_press),
+				  gtk);
+
 		gtk_container_add (GTK_CONTAINER (box), w);
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_widget_show_all (box);
 		if (!visible)
 			gtk_widget_hide (box);
-		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zones[GTK_POS_TOP]), box, FALSE, FALSE, 0);
 		g_object_connect (box,
 			"signal::notify::visible", G_CALLBACK (cb_handlebox_visible), wbcg,
 			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
@@ -1438,10 +1576,15 @@ wbc_gtk_init (GObject *obj)
 	char		   *uifile;
 	unsigned	    i;
 	GError *error = NULL;
+	GtkWidget *hbox;
 
 	gtk->menu_zone = gtk_vbox_new (TRUE, 0);
-	gtk->toolbar_zone = gtk_vbox_new (FALSE, 0);
 	gtk->everything = gtk_vbox_new (FALSE, 0);
+
+	gtk->toolbar_zones[GTK_POS_TOP] = gtk_vbox_new (FALSE, 0);
+	gtk->toolbar_zones[GTK_POS_BOTTOM] = NULL;
+	gtk->toolbar_zones[GTK_POS_LEFT] = gtk_hbox_new (FALSE, 0);
+	gtk->toolbar_zones[GTK_POS_RIGHT] = gtk_hbox_new (FALSE, 0);
 
 #ifdef USE_HILDON
 	{ GtkWidget *appview = hildon_appview_new ("Gnumeric");
@@ -1455,7 +1598,7 @@ wbc_gtk_init (GObject *obj)
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
 		gtk->menu_zone, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (gtk->everything),
-		gtk->toolbar_zone, FALSE, TRUE, 0);
+		gtk->toolbar_zones[GTK_POS_TOP], FALSE, TRUE, 0);
 #endif
 
 	gtk_window_set_title (wbcg_toplevel (wbcg), "Gnumeric");
@@ -1467,8 +1610,13 @@ wbc_gtk_init (GObject *obj)
 #if 0
 	bonobo_dock_set_client_area (BONOBO_DOCK (gtk->dock), wbcg->table);
 #endif
-	gtk_box_pack_start (GTK_BOX (gtk->everything),
-		wbcg->table, TRUE, TRUE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), gtk->toolbar_zones[GTK_POS_LEFT], FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), wbcg->table, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), gtk->toolbar_zones[GTK_POS_RIGHT], FALSE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (gtk->everything), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (gtk->everything);
 
 #warning "TODO split into smaller chunks"
