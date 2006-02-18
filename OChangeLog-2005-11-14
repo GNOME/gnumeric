@@ -1,5 +1,8 @@
 2006-02-18  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (toolbar_context_menu): Add an entry to hide the
+	toolbar.
+
 	* src/gnumeric-gconf.c (gnm_gconf_get_toolbar_position,
 	gnm_gconf_set_toolbar_position): New functions.
 
