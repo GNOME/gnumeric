@@ -4,6 +4,7 @@
  * wbc-gtk.c: A raw gtk based WorkbookControl
  *
  * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -49,25 +50,13 @@
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-cmd-context-impl.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkactiongroup.h>
-#include <gtk/gtkuimanager.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtkaccellabel.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktoggleaction.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhandlebox.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkradiomenuitem.h>
+#include <gtk/gtk.h>
 #include "gdk/gdkkeysyms.h"
 #include <glib/gi18n.h>
 #include <errno.h>
 #include <string.h>
 
 #ifdef USE_HILDON
-	#include <gtk/gtktable.h>
-	#include <gtk/gtktoolbutton.h>
 	#include <goffice/gtk/go-combo-text.h>
 	#include <hildon-lgpl/hildon-widgets/hildon-app.h>
 	#include <hildon-lgpl/hildon-widgets/hildon-appview.h>
@@ -86,7 +75,8 @@ struct _WBCgtk {
 		guint		  merge_id;
 	} file_history, toolbar, windows;
 
-	GOActionComboStack	*undo_action, *redo_action;
+	GOActionComboStack	*undo_haction, *redo_haction;
+	GtkAction		*undo_vaction, *redo_vaction;
 	GOActionComboColor	*fore_color, *back_color;
 	GOActionComboText	*font_name, *font_size, *zoom;
 	GOActionComboPixmaps	*borders, *halignment, *valignment;
@@ -377,11 +367,11 @@ wbc_gtk_init_alignments (WBCgtk *gtk)
 	gtk->halignment = go_action_combo_pixmaps_new ("HAlignmentSelector",
 						       halignment_combo_info, 3, 1);
 	g_object_set (G_OBJECT (gtk->halignment),
-		      "label", _("Horzontal Alignment"),
-		      "tooltip", _("Horzontal Alignment"),
+		      "label", _("Horizontal Alignment"),
+		      "tooltip", _("Horizontal Alignment"),
 		      NULL);
 #if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horzontal Alignment"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
 	go_combo_pixmaps_select (gtk->halignment, 1); /* default to none */
 #endif
 	g_signal_connect (G_OBJECT (gtk->halignment),
@@ -396,7 +386,7 @@ wbc_gtk_init_alignments (WBCgtk *gtk)
 		      "tooltip", _("Vertical Alignment"),
 		      NULL);
 #if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horzontal Alignment"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
 	go_combo_pixmaps_select (gtk->valignment, 1); /* default to none */
 #endif
 	g_signal_connect (G_OBJECT (gtk->valignment),
@@ -411,7 +401,7 @@ static GOActionComboStack *
 ur_stack (WorkbookControl *wbc, gboolean is_undo)
 {
 	WBCgtk *gtk = (WBCgtk *)wbc;
-	return is_undo ? gtk->undo_action : gtk->redo_action;
+	return is_undo ? gtk->undo_haction : gtk->redo_haction;
 }
 
 static void
@@ -433,28 +423,61 @@ wbc_gtk_undo_redo_push (WorkbookControl *wbc, gboolean is_undo,
 	go_action_combo_stack_push (ur_stack (wbc, is_undo), text, key);
 }
 
-static GOActionComboStack *
-create_undo_redo (WBCgtk *gtk, char const *name, char const *tooltip,
-		  char const *stock_id, char const *accel,
-		  gboolean vertical)
+static void
+cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
+		      GtkAction *action)
 {
-	GOActionComboStack *res =
-		g_object_new (go_action_combo_stack_get_type (),
-			      "name",		    name,
-			      "tooltip",  	    _(tooltip),
-			      "stock-id",	    stock_id,
-			      "sensitive",	    FALSE,
-			      "visible-horizontal", !vertical,
-			      "visible-vertical",   vertical,
-			      NULL);
-	
+	gboolean old_val, new_val = gtk_action_is_sensitive (src);
+
+	g_return_if_fail (action != NULL);
+	g_object_get (action, "sensitive", &old_val, NULL);
+
+	if ((new_val != 0) == (old_val != 0))
+		return;
+	if (new_val)
+		gtk_action_connect_accelerator (action);
+	else
+		gtk_action_disconnect_accelerator (action);
+	g_object_set (action, "sensitive", new_val, NULL);
+}
+
+static void
+create_undo_redo (GOActionComboStack **haction, char const *hname,
+		  GCallback hcb, 
+		  GtkAction **vaction, char const *vname,
+		  GCallback vcb, 
+		  WBCgtk *gtk,
+		  char const *tooltip,
+		  char const *stock_id, char const *accel)
+{
+	*haction = g_object_new
+		(go_action_combo_stack_get_type (),
+		 "name", hname,
+		 "tooltip", tooltip,
+		 "stock-id", stock_id,
+		 "sensitive", FALSE,
+		 "visible-vertical", FALSE,
+		 NULL);
 #ifdef USE_HILDON
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (res));
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (*haction));
 #else
 	gtk_action_group_add_action_with_accel (gtk->actions,
-		GTK_ACTION (res), accel);
+		GTK_ACTION (*haction), accel);
 #endif
-	return res;
+	g_signal_connect (G_OBJECT (*haction), "activate", hcb, gtk);
+
+	*vaction = gtk_action_new (vname, NULL, tooltip, stock_id);
+	g_object_set (G_OBJECT (*vaction),
+		      "sensitive", FALSE,
+		      "visible-horizontal", FALSE,
+		      NULL);
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (*vaction));
+	g_signal_connect_swapped (G_OBJECT (*vaction), "activate", vcb, gtk);
+
+	g_signal_connect (G_OBJECT (*haction),
+			  "notify::sensitive",
+			  G_CALLBACK (cb_chain_sensitivity),
+			  *vaction);
 }
 
 
@@ -477,49 +500,30 @@ cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 }
 
 static void
-cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
-		      GtkAction *action)
-{
-	gboolean old_val, new_val = gtk_action_is_sensitive (src);
-
-	g_return_if_fail (action != NULL);
-	g_object_get (action, "sensitive", &old_val, NULL);
-
-	if ((new_val != 0) == (old_val != 0))
-		return;
-	if (new_val)
-		gtk_action_connect_accelerator (action);
-	else
-		gtk_action_disconnect_accelerator (action);
-	g_object_set (action, "sensitive", new_val, NULL);
-}
-
-static void
 wbc_gtk_init_undo_redo (WBCgtk *gtk)
 {
-	gtk->undo_action =
-		create_undo_redo (gtk, N_("Undo"),
-				  N_("Undo the last action"),
-				  GTK_STOCK_UNDO, "<control>z",
-				  FALSE);
-	g_signal_connect (G_OBJECT (gtk->undo_action),
-		"activate",
-		G_CALLBACK (cb_undo_activated), gtk);
-	g_signal_connect (G_OBJECT (gtk->undo_action),
-		"notify::sensitive",
-		G_CALLBACK (cb_chain_sensitivity),
-		gtk_action_group_get_action (gtk->permanent_actions, "Repeat"));
+	GtkAction *repeat =
+		gtk_action_group_get_action (gtk->permanent_actions, "Repeat");
 
-	gtk->redo_action =
-		create_undo_redo (gtk, N_("Redo"),
-				  N_("Redo the undone action"),
-				  GTK_STOCK_REDO, "<control>y",
-				  FALSE);
-	g_signal_connect (G_OBJECT (gtk->redo_action),
-		"activate",
-		G_CALLBACK (cb_redo_activated), gtk);
+	create_undo_redo (&gtk->undo_haction, "Undo",
+			  G_CALLBACK (cb_undo_activated),
+			  &gtk->undo_vaction, "VUndo",
+			  G_CALLBACK (command_undo),
+			  gtk,
+			  _("Undo the last action"),
+			  GTK_STOCK_UNDO, "<control>z");
+	g_signal_connect (G_OBJECT (gtk->undo_haction),
+			  "notify::sensitive",
+			  G_CALLBACK (cb_chain_sensitivity),
+			  repeat);
 
-	/* TODO: Create vertical versions of these.  */
+	create_undo_redo (&gtk->redo_haction, "Redo",
+			  G_CALLBACK (cb_redo_activated),
+			  &gtk->redo_vaction, "VRedo",
+			  G_CALLBACK (command_redo),
+			  gtk,
+			  _("Redo the undone action"),
+			  GTK_STOCK_REDO, "<control>y");
 }
 
 /****************************************************************************/
