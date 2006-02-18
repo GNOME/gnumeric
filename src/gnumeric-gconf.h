@@ -78,6 +78,7 @@ typedef struct {
 	gboolean	 transition_keys;
 	gboolean	 live_scrolling;
 	GHashTable      *toolbars;
+	GHashTable      *toolbar_positions;
 	gint		 recalc_lag;
 	gboolean	 unfocused_range_selection;
 	gboolean         prefer_clipboard_selection;  /* As opposed to "primary".  */
@@ -157,6 +158,8 @@ void     gnm_gconf_set_gui_resolution_h (gnm_float val);
 void     gnm_gconf_set_gui_resolution_v (gnm_float val);
 gboolean gnm_gconf_get_toolbar_visible (const char *name);
 void     gnm_gconf_set_toolbar_visible (const char *name, gboolean vis);
+int      gnm_gconf_get_toolbar_position (const char *name);
+void     gnm_gconf_set_toolbar_position (const char *name, int pos);
 
 /* default font */
 void     gnm_gconf_set_default_font_size (gnm_float val);

@@ -1,3 +1,12 @@
+2006-02-18  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-gconf.c (gnm_gconf_get_toolbar_position,
+	gnm_gconf_set_toolbar_position): New functions.
+
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Load initial toolbar
+	positions from gconf.
+	(set_toolbar_position): Store toolbar positions in gconf.
+
 2006-02-17  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init): Initialize three toolbar zones.

@@ -1578,6 +1578,10 @@ gnm_conf_init_essential (void)
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify)g_free,
 		 NULL);
+	prefs.toolbar_positions = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 (GDestroyNotify)g_free,
+		 NULL);
 	go_conf_free_node (node);
 
 	/* Unfortunately we need the printing stuff in essentials since the */
@@ -1741,6 +1745,7 @@ gnm_conf_shutdown (void)
 		prefs.printer_decoration_font = NULL;
 	}
 	g_hash_table_destroy (prefs.toolbars);
+	g_hash_table_destroy (prefs.toolbar_positions);
 	go_conf_free_node (root);
 	go_conf_shutdown ();
 }
@@ -2256,6 +2261,53 @@ gnm_gconf_set_toolbar_visible (const char *name, gboolean vis)
 			      g_strdup (name),
 			      GINT_TO_POINTER (vis));
 	go_conf_set_bool (root, key, vis);
+	g_free (key);
+}
+
+/*
+ * Actually returns a GtkPositionType.
+ */
+int
+gnm_gconf_get_toolbar_position (const char *name)
+{
+	gpointer pval;
+	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
+				 name, "-position",
+				 NULL);
+	gboolean found;
+	int pos;
+	static const int TOP = 2;
+
+	found = g_hash_table_lookup_extended (prefs.toolbar_positions,
+					      key,
+					      NULL, &pval);
+	if (found) {
+		pos = GPOINTER_TO_INT (pval);
+	} else {
+		pos = go_conf_load_int (root, key, 0, 3, TOP);
+		g_hash_table_insert (prefs.toolbar_positions,
+				     g_strdup (name),
+				     GINT_TO_POINTER (pos));
+	}
+
+	g_free (key);
+	return pos;
+}
+
+void
+gnm_gconf_set_toolbar_position (const char *name, int pos)
+{
+	char *key;
+
+	g_return_if_fail (pos >= 0 && pos <= 3);
+
+	key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
+				 name, "-position",
+				 NULL);
+	g_hash_table_replace (prefs.toolbar_positions,
+			      g_strdup (name),
+			      GINT_TO_POINTER (pos));
+	go_conf_set_int (root, key, pos);
 	g_free (key);
 }
 

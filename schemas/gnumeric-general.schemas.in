@@ -168,6 +168,17 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/StandardToolbar-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/StandardToolbar-position</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>2</default>
+        <locale name="C">
+        <short>Standard toolbar position</short>
+        <long>This variable determines where the standard toolbar should be shown.  0 is left, 1 is right, 2 is top.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/core/gui/toolbars/FormatToolbar</key>
         <applyto>/apps/gnumeric/core/gui/toolbars/FormatToolbar</applyto>
         <owner>Gnumeric</owner>
@@ -179,6 +190,17 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/FormatToolbar-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/FormatToolbar-position</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>2</default>
+        <locale name="C">
+        <short>Standard toolbar position</short>
+        <long>This variable determines where the format toolbar should be shown.  0 is left, 1 is right, 2 is top.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/core/gui/toolbars/ObjectToolbar</key>
         <applyto>/apps/gnumeric/core/gui/toolbars/ObjectToolbar</applyto>
         <owner>Gnumeric</owner>
@@ -187,6 +209,17 @@
         <locale name="C">
         <short>Object toolbar visible</short>
         <long>This variable determines whether the object toolbar should be visible initially.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>2</default>
+        <locale name="C">
+        <short>Standard toolbar position</short>
+        <long>This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.</long>
         </locale>
       </schema>
       <schema>

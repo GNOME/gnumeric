@@ -1267,8 +1267,10 @@ cb_init_extra_ui (GnmAppExtraUI *extra_ui, WBCgtk *gtk)
 /* Toolbar menu */
 
 static void
-set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCgtk *gtk)
+set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 {
+	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
+
 	static const GtkPositionType hdlpos[] = {
 		GTK_POS_TOP, GTK_POS_TOP,
 		GTK_POS_LEFT, GTK_POS_LEFT
@@ -1278,27 +1280,36 @@ set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCgtk *gtk)
 		GTK_ORIENTATION_HORIZONTAL, GTK_ORIENTATION_HORIZONTAL
 	};
 
-	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
+	gtk_toolbar_set_orientation (tb, orientations[pos]);
+	gtk_handle_box_set_handle_position (hdlbox, hdlpos[pos]);
+}
+
+
+static void
+set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCgtk *gtk)
+{
+	GtkWidget *hdlbox = GTK_WIDGET (tb)->parent;
 	GtkWidget *zone = GTK_WIDGET (hdlbox)->parent;
 	GtkWidget *new_zone = gtk->toolbar_zones[pos];
+	const char *name = g_object_get_data (G_OBJECT (hdlbox), "name");
 
 	if (zone == new_zone)
 		return;
 
 	g_object_ref (hdlbox);
-	gtk_container_remove (GTK_CONTAINER (zone), GTK_WIDGET (hdlbox));
-	gtk_toolbar_set_orientation (tb, orientations[pos]);
-	gtk_handle_box_set_handle_position (hdlbox, hdlpos[pos]);
-	gtk_container_add (GTK_CONTAINER (new_zone), GTK_WIDGET (hdlbox));
+	gtk_container_remove (GTK_CONTAINER (zone), hdlbox);
+	set_toolbar_style_for_position (tb, pos);
+	gtk_container_add (GTK_CONTAINER (new_zone), hdlbox);
 	g_object_unref (hdlbox);
+
+	gnm_gconf_set_toolbar_position (name, pos);
 }
 
 static void
-cb_set_toolbar_position (GtkWidget *widget, gpointer data)
+cb_set_toolbar_position (GtkMenuItem *item, WBCgtk *gtk)
 {
-	WBCgtk *gtk = data;
-	GtkToolbar *tb = g_object_get_data (G_OBJECT (widget), "toolbar");
-	GtkPositionType side = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "side"));
+	GtkToolbar *tb = g_object_get_data (G_OBJECT (item), "toolbar");
+	GtkPositionType side = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "side"));
 
 	set_toolbar_position (tb, side, gtk);
 }
@@ -1430,6 +1441,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
 		gboolean visible = gnm_gconf_get_toolbar_visible (name);
+		GtkPositionType pos = gnm_gconf_get_toolbar_position (name);
 
 		g_signal_connect (G_OBJECT (w),
 				  "button_press_event",
@@ -1446,7 +1458,8 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		gtk_widget_show_all (box);
 		if (!visible)
 			gtk_widget_hide (box);
-		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zones[GTK_POS_TOP]), box, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zones[pos]), box, FALSE, FALSE, 0);
+		set_toolbar_style_for_position (GTK_TOOLBAR (w), pos);
 		g_object_connect (box,
 			"signal::notify::visible", G_CALLBACK (cb_handlebox_visible), wbcg,
 			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
