@@ -1304,41 +1304,63 @@ cb_set_toolbar_position (GtkWidget *widget, gpointer data)
 }
 
 static void
+cb_reattach (GtkWidget *widget, GtkHandleBox *hdlbox)
+{
+	GdkEvent *event = gdk_event_new (GDK_DELETE);
+	event->any.type = GDK_DELETE;
+	event->any.window = g_object_ref (hdlbox->float_window);
+	event->any.send_event = TRUE;
+	gtk_main_do_event (event);
+	gdk_event_free (event);
+}
+
+static void
 toolbar_context_menu (GtkToolbar *tb, WBCgtk *gtk, GdkEventButton *event_button)
 {
 	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
 	GtkWidget *zone = GTK_WIDGET (hdlbox)->parent;
 	GtkWidget *menu = gtk_menu_new ();
-	size_t ui;
-	GSList *group = NULL;
 
 	static const struct {
 		const char *text;
 		GtkPositionType pos;
-	} items[] = {
+	} pos_items[] = {
 		{ N_("Display above sheets"), GTK_POS_TOP },
 		{ N_("Display to the left of sheets"), GTK_POS_LEFT },
 		{ N_("Display to the right of sheets"), GTK_POS_RIGHT }
 	};
 
-	for (ui = 0; ui < G_N_ELEMENTS (items); ui++) {
-		const char *text = _(items[ui].text);
-		GtkPositionType pos = items[ui].pos;
-		GtkWidget *item;
-
-		item = gtk_radio_menu_item_new_with_label (group, text);
-		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
-
-		GTK_CHECK_MENU_ITEM (item)->active =
-			(zone == gtk->toolbar_zones[pos]);
-
+	if (hdlbox->child_detached) {
+		GtkWidget *item =
+			gtk_menu_item_new_with_label (_("Reattach to main window"));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
-		g_object_set_data (G_OBJECT (item), "toolbar", tb);
-		g_object_set_data (G_OBJECT (item), "side", GINT_TO_POINTER (pos));
 		g_signal_connect (G_OBJECT (item), "activate",
-				  G_CALLBACK (cb_set_toolbar_position),
-				  gtk);
+				  G_CALLBACK (cb_reattach),
+				  hdlbox);
+	} else {
+		size_t ui;
+		GSList *group = NULL;
+
+		for (ui = 0; ui < G_N_ELEMENTS (pos_items); ui++) {
+			const char *text = _(pos_items[ui].text);
+			GtkPositionType pos = pos_items[ui].pos;
+			GtkWidget *item;
+
+			item = gtk_radio_menu_item_new_with_label (group, text);
+			group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
+
+			GTK_CHECK_MENU_ITEM (item)->active =
+				(zone == gtk->toolbar_zones[pos]);
+
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			gtk_widget_show (item);
+			g_object_set_data (G_OBJECT (item), "toolbar", tb);
+			g_object_set_data (G_OBJECT (item), "side", GINT_TO_POINTER (pos));
+			g_signal_connect (G_OBJECT (item), "activate",
+					  G_CALLBACK (cb_set_toolbar_position),
+					  gtk);
+		}
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event_button);

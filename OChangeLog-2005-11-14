@@ -8,6 +8,7 @@
 	cb_handlebox_button_press): New functions implementing the toolbar
 	context menu.
 	(create_undo_redo): Create actions for vertical mode too.
+	(toolbar_context_menu): Present a different menu when detached.
 
 2006-02-16  Morten Welinder  <terra@gnome.org>
 
