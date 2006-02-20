@@ -358,9 +358,9 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 		return FALSE;
 	}
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l = expr->func.arg_list;
-		for (; l ; l = l->next)
-			if (expr_name_check_for_loop (name, l->data))
+		int i;
+		for (i = 0; i < expr->func.argc; i++)
+			if (expr_name_check_for_loop (name, expr->func.argv[i]))
 				return TRUE;
 		break;
 	}
@@ -370,9 +370,9 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 	case GNM_EXPR_OP_ARRAY_ELEM:
 		break;
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l = expr->set.set;
-		for (; l ; l = l->next)
-			if (expr_name_check_for_loop (name, l->data))
+		int i;
+		for (i = 0; i < expr->set.argc; i++)
+			if (expr_name_check_for_loop (name, expr->set.argv[i]))
 				return TRUE;
 		break;
 	}

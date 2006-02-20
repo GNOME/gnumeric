@@ -1,3 +1,19 @@
+2006-02-19  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-impl.h (GnmExprFunction, GnmExprSet): Replace
+	expression list by argc/argv members.  All users fixed.
+
+	* src/func.c (function_call_with_exprs): Renamed from
+	function_call_with_list and changed to argc/argv input.  All
+	callers changed.
+
+	* src/auto-format.c (do_af_suggest_list): Changed to argc/argv
+	input.  All callers changed.
+
+	* src/expr.c (gnm_expr_list_equal, gnm_expr_list_eq): Remove.
+
+	* src/mstyle.c (gnm_style_dump): Dump non-localized format.
+
 2006-02-18  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (toolbar_context_menu): Add an entry to hide the

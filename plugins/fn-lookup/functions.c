@@ -488,7 +488,7 @@ gnumeric_areas (FunctionEvalInfo *ei, GnmExprList const *l)
 		break;
 
 	case GNM_EXPR_OP_SET:
-		res = gnm_expr_list_length (expr->set.set);
+		res = expr->set.argc;
 		break;
 
 	default:
@@ -900,8 +900,10 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList const *l)
 	}
 
 	if (GNM_EXPR_GET_OPER (source) == GNM_EXPR_OP_SET) {
-		source = gnm_expr_list_nth (source->set.set, elem[2]);
-		if (elem[2] < 0 || source == NULL)
+		source = (elem[2] >= 0 && elem[2] < source->set.argc)
+			? source->set.argv[elem[2]]
+			: NULL;
+		if (source == NULL)
 			return value_new_error_REF (ei->pos);
 	} else if (elem[2] != 0)
 		return value_new_error_REF (ei->pos);

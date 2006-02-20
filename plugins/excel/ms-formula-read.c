@@ -984,14 +984,20 @@ excel_parse_formula (MSContainer const *container,
 
 			/* not exactly legal, but should be reasonable
 			 * XL has union operator we have sets.
-			 */
+ 			 */
 			if (GNM_EXPR_GET_OPER (l) != GNM_EXPR_OP_SET) {
 				GnmExprList *args = gnm_expr_list_prepend (NULL, r);
 				args = gnm_expr_list_prepend (args, l);
 				parse_list_push (&stack, gnm_expr_new_set (args));
 			} else {
-				gnm_expr_list_append (l->set.set, r);
-				parse_list_push (&stack, l);
+				/* Barf!  -- MW.  */
+				GnmExpr *ll = (GnmExpr *)l;
+				GnmExpr *rr = (GnmExpr *)r;
+				ll->set.argc++;
+				ll->set.argv = g_renew (GnmExpr *,
+							ll->set.argv,
+							ll->set.argc);
+				ll->set.argv[ll->set.argc - 1] = rr;
 			}
 			break;
 		}

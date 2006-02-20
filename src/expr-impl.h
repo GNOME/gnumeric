@@ -14,8 +14,9 @@ struct _GnmExprConstant {
 
 struct _GnmExprFunction {
 	guint32 oper_and_refcount;
+	int argc;
 	GnmFunc *func;
-	GnmExprList *arg_list;
+	GnmExpr **argv;
 };
 
 struct _GnmExprUnary {
@@ -55,7 +56,8 @@ struct _GnmExprArrayElem {
 
 struct _GnmExprSet {
 	guint32 oper_and_refcount;
-	GnmExprList *set;
+	int argc;
+	GnmExpr **argv;
 };
 
 union _GnmExpr {

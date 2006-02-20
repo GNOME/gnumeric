@@ -433,6 +433,9 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	GnmExprList	*selection = NULL;
 	GnmValue	*v;
 	SheetView	*sv;
+	int             i, argc;
+	GnmExpr         **argv;
+	GnmExprList     *l;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
@@ -446,7 +449,12 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	ei.pos = eval_pos_init_sheet (&ep, wbv->current_sheet);
 	ei.func_call = (GnmExprFunction const *)wbv->auto_expr;
 
-	v = function_call_with_list (&ei, selection, 0);
+	argc = gnm_expr_list_length (selection);
+	argv = g_new (GnmExpr *, argc);
+	for (i = 0, l = selection; i < argc; i++, l = l->next)
+		argv[i] = l->data;
+	v = function_call_with_exprs (&ei, argc, argv, 0);
+	g_free (argv);
 
 	g_free (wbv->auto_expr_value_as_string);
 

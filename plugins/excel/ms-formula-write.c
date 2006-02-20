@@ -99,12 +99,11 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmFunc *func = expr->func.func;
-		GnmExprList *l;
 		ExcelFunc *ef = g_hash_table_lookup (ewb->function_map, func);
 		int i;
 
-		for (l = expr->func.arg_list; l; l = l->next)
-			excel_write_prep_expr (ewb, l->data);
+		for (i = 0; i < expr->func.argc; i++)
+			excel_write_prep_expr (ewb, expr->func.argv[i]);
 
 		if (ef != NULL)
 			return;
@@ -142,10 +141,10 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		break;
 
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
+		int i;
 
-		for (l = expr->set.set; l; l = l->next)
-			excel_write_prep_expr (ewb, l->data);
+		for (i = 0; i < expr->set.argc; i++)
+			excel_write_prep_expr (ewb, expr->set.argv[i]);
 		break;
 	}
 
@@ -488,11 +487,10 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 {
 	static guint8 const zeros [12];
 
-	int      num_args = 0;
+	int arg;
 	gboolean prompt   = FALSE;
 	gboolean cmdequiv = FALSE;
 	char const *arg_types = NULL;
-	GnmExprList *ptr;
 	GnmFunc *func = expr->func.func;
 	ExcelFunc *ef = g_hash_table_lookup (pd->ewb->function_map, func);
 	XLOpType arg_type = XL_VAL; /* default */
@@ -525,11 +523,11 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 	} else
 		arg_types = ef->efunc->known_args;
 
-	for (ptr = expr->func.arg_list ; ptr != NULL; ptr = ptr->next, num_args++)
-		if (ef->efunc != NULL && num_args >= ef->efunc->max_args) {
+	for (arg = 0; arg < expr->func.argc; arg++)
+		if (ef->efunc != NULL && arg >= ef->efunc->max_args) {
 			gnm_io_warning (pd->ewb->io_context, 
 				_("Too many arguments for function '%s', MS Excel can only handle %d not %d"),
-				ef->efunc->name, ef->efunc->max_args, num_args);
+				ef->efunc->name, ef->efunc->max_args, arg);
 			break;
 		} else { /* convert the args */
 			if (arg_types != NULL && *arg_types) {
@@ -537,7 +535,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 				if (arg_types[1])
 					arg_types++;
 			}
-			write_node (pd, ptr->data, 0, arg_type);
+			write_node (pd, expr->func.argv[arg], 0, arg_type);
 		}
 
 	if (ef->efunc != NULL) {
@@ -551,12 +549,12 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 
 		/* If XL requires more arguments than we do
 		 * pad the remainder with missing args */
-		for ( ; num_args < ef->efunc->min_args ; num_args++)
+		for ( ; arg < ef->efunc->min_args ; arg++)
 			push_guint8 (pd, FORMULA_PTG_MISSARG);
 
 		if (ef->efunc->min_args != ef->efunc->max_args) {
 			push_guint8  (pd, FORMULA_PTG_FUNC_VAR + op_class);
-			push_guint8  (pd, num_args | (prompt ? 0x80 : 0));
+			push_guint8  (pd, arg | (prompt ? 0x80 : 0));
 			push_guint16 (pd, ef->idx  | (cmdequiv ? 0x8000 : 0));
 		} else {
 			push_guint8  (pd, FORMULA_PTG_FUNC + op_class);
@@ -565,7 +563,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 	} else { /* Undocumented, assume result is XL_VAL */
 		push_guint8  (pd, FORMULA_PTG_FUNC_VAR +
 			xl_get_op_class (pd,  XL_VAL, target_type));
-		push_guint8  (pd, (num_args+1)	| (prompt   ? 0x80 : 0));
+		push_guint8  (pd, (arg + 1)	| (prompt   ? 0x80 : 0));
 		push_guint16 (pd, 0xff  	| (cmdequiv ? 0x8000 : 0));
 	}
 }

@@ -129,7 +129,15 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
 	gnm_func_ref (func);
 	ans->func = func;
-	ans->arg_list = arg_list;
+	ans->argc = gnm_expr_list_length (arg_list);
+	if (arg_list) {
+		int i;
+		ans->argv = g_new (GnmExpr *, ans->argc);
+		for (i = 0; arg_list; i++, arg_list = arg_list->next)
+			ans->argv[i] = arg_list->data;
+		gnm_expr_list_free (arg_list);
+	} else
+		ans->argv = NULL;
 
 	return (GnmExpr *)ans;
 }
@@ -322,7 +330,15 @@ gnm_expr_new_set (GnmExprList *set)
 		return NULL;
 
 	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_SET);
-	ans->set = set;
+	ans->argc = gnm_expr_list_length (set);
+	if (set) {
+		int i;
+		ans->argv = g_new (GnmExpr *, ans->argc);
+		for (i = 0; set; i++, set = set->next)
+			ans->argv[i] = set->data;
+		gnm_expr_list_unref (set);
+	} else
+		ans->argv = NULL;
 
 	return (GnmExpr *)ans;
 }
@@ -361,11 +377,15 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
-	case GNM_EXPR_OP_FUNCALL:
-		gnm_expr_list_unref (expr->func.arg_list);
+	case GNM_EXPR_OP_FUNCALL: {
+		int i;
+
+		for (i = 0; i < expr->func.argc; i++)
+			do_gnm_expr_unref (expr->func.argv[i]);
 		gnm_func_unref (expr->func.func);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
+	}
 
 	case GNM_EXPR_OP_NAME:
 		expr_name_unref (expr->name.name);
@@ -397,10 +417,14 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
-	case GNM_EXPR_OP_SET:
-		gnm_expr_list_unref (expr->set.set);
+	case GNM_EXPR_OP_SET: {
+		int i;
+
+		for (i = 0; i < expr->set.argc; i++)
+			do_gnm_expr_unref (expr->set.argv[i]);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
+	}
 
 #ifndef DEBUG_SWITCH_ENUM
 	default:
@@ -468,9 +492,18 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 	case GNM_EXPR_OP_ANY_UNARY:
 		return gnm_expr_equal (a->unary.value, b->unary.value);
 
-	case GNM_EXPR_OP_FUNCALL:
-		return (a->func.func == b->func.func) &&
-			gnm_expr_list_equal (a->func.arg_list, b->func.arg_list);
+	case GNM_EXPR_OP_FUNCALL: {
+		int i;
+
+		if (a->func.func != b->func.func ||
+		    a->func.argc != b->func.argc)
+			return FALSE;
+
+		for (i = 0; i < a->func.argc; i++)
+			if (!gnm_expr_equal (a->func.argv[i], b->func.argv[i]))
+				return FALSE;
+		return TRUE;
+	}
 
 	case GNM_EXPR_OP_NAME:
 		return	a->name.name == b->name.name &&
@@ -497,8 +530,17 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 		return	aa->x == ab->x && aa->y == ab->y;
 	}
 
-	case GNM_EXPR_OP_SET:
-		return gnm_expr_list_equal (a->set.set, b->set.set);
+	case GNM_EXPR_OP_SET: {
+		int i;
+
+		if (a->set.argc != b->set.argc)
+			return FALSE;
+
+		for (i = 0; i < a->set.argc; i++)
+			if (!gnm_expr_equal (a->set.argv[i], b->set.argv[i]))
+				return FALSE;
+		return TRUE;
+	}
 	}
 
 	return FALSE;
@@ -530,9 +572,12 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 		GnmValue *v;
 		FunctionEvalInfo ei;
 		ei.pos = pos;
-		ei.func_call = (GnmExprFunction const *)expr;
+		ei.func_call = &expr->func;
 
-		v = function_call_with_list (&ei, expr->func.arg_list, flags);
+		v = function_call_with_exprs (&ei,
+					      expr->func.argc,
+					      expr->func.argv,
+					      flags);
 		if (v != NULL) {
 			if (v->type == VALUE_CELLRANGE) {
 				*res = v->v_range.cell;
@@ -1272,8 +1317,11 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_FUNCALL: {
 		FunctionEvalInfo ei;
 		ei.pos = pos;
-		ei.func_call = (GnmExprFunction const *)expr;
-		res = function_call_with_list (&ei, expr->func.arg_list, flags);
+		ei.func_call = &expr->func;
+		res = function_call_with_exprs (&ei,
+						expr->func.argc,
+						expr->func.argv,
+						flags);
 		if (res == NULL)
 			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 			    ? NULL : value_new_int (0);
@@ -1400,7 +1448,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 static void
 gnm_expr_list_as_string (GString *target,
-			 GnmExprList const *list, GnmParsePos const *pp,
+			 int argc, GnmExpr **argv,
+			 GnmParsePos const *pp,
 			 GnmExprConventions const *fmt);
 
 
@@ -1501,12 +1550,13 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 	}
 
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList const * const arg_list = expr->func.arg_list;
-		char const *name = gnm_func_get_name (expr->func.func);
+		const GnmExprFunction *func = &expr->func;
+		char const *name = gnm_func_get_name (func->func);
 
 		g_string_append (target, name);
 		/* FIXME: possibly a space here.  */
-		gnm_expr_list_as_string (target, arg_list, pp, conv);
+		gnm_expr_list_as_string (target, func->argc, func->argv,
+					 pp, conv);
 		return;
 	}
 
@@ -1566,7 +1616,10 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 	}
 
 	case GNM_EXPR_OP_SET:
-		gnm_expr_list_as_string (target, expr->set.set, pp, conv);
+		gnm_expr_list_as_string (target,
+					 expr->set.argc,
+					 expr->set.argv,
+					 pp, conv);
 		return;
 	}
 
@@ -1866,22 +1919,23 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	case GNM_EXPR_OP_FUNCALL: {
 		gboolean rewrite = FALSE;
 		GnmExprList *new_args = NULL;
-		GnmExprList *l;
+		int i;
 
-		for (l = expr->func.arg_list; l; l = l->next) {
-			GnmExpr const *arg = gnm_expr_rewrite (l->data, rwinfo);
+		/* FIXME: Quite inefficient!  */
+		for (i = 0; i < expr->func.argc; i++) {
+			GnmExpr const *arg =
+				gnm_expr_rewrite (expr->func.argv[i], rwinfo);
 			new_args = gnm_expr_list_append (new_args, arg);
 			if (arg != NULL)
 				rewrite = TRUE;
 		}
 
 		if (rewrite) {
-			GnmExprList *m;
+			GnmExprList *m = new_args;
 
-			for (l = expr->func.arg_list, m = new_args; l; l = l->next, m = m->next) {
+			for (i = 0; i < expr->func.argc; i++, m = m->next)
 				if (m->data == NULL)
-					gnm_expr_ref ((m->data = l->data));
-			}
+					gnm_expr_ref ((m->data = expr->func.argv[i]));
 
 			return gnm_expr_new_funcall (expr->func.func, new_args);
 		}
@@ -1891,21 +1945,22 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	case GNM_EXPR_OP_SET: {
 		gboolean rewrite = FALSE;
 		GnmExprList *new_set = NULL;
-		GnmExprList *l;
+		int i;
 
-		for (l = expr->set.set; l; l = l->next) {
-			GnmExpr const *arg = gnm_expr_rewrite (l->data, rwinfo);
+		for (i = 0; i < expr->set.argc; i++) {
+			GnmExpr const *arg =
+				gnm_expr_rewrite (expr->set.argv[i], rwinfo);
 			new_set = gnm_expr_list_append (new_set, arg);
 			if (arg != NULL)
 				rewrite = TRUE;
 		}
 
 		if (rewrite) {
-			GnmExprList *m;
+			GnmExprList *m = new_set;
 
-			for (l = expr->set.set, m = new_set; l; l = l->next, m = m->next) {
+			for (i = 0; i < expr->set.argc; i++, m = m->next) {
 				if (m->data == NULL)
-					gnm_expr_ref ((m->data = l->data));
+					gnm_expr_ref ((m->data = expr->set.argv[i]));
 			}
 
 			return gnm_expr_new_set (new_set);
@@ -2072,7 +2127,7 @@ gnm_expr_get_func_argcount (GnmExpr const *expr)
 	g_return_val_if_fail (expr != NULL, 0);
 	g_return_val_if_fail (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL, 0);
 
-	return g_slist_length (expr->func.arg_list);
+	return expr->func.argc;
 }
 
 
@@ -2170,15 +2225,17 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 		return do_referenced_sheets (expr->unary.value, sheets);
 
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
-		for (l = expr->func.arg_list; l; l = l->next)
-			sheets = do_referenced_sheets (l->data, sheets);
+		int i;
+		for (i = 0; i < expr->func.argc; i++)
+			sheets = do_referenced_sheets (expr->func.argv[i],
+						       sheets);
 		return sheets;
 	}
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
-		for (l = expr->set.set; l; l = l->next)
-			sheets = do_referenced_sheets (l->data, sheets);
+		int i;
+		for (i = 0; i < expr->set.argc; i++)
+			sheets = do_referenced_sheets (expr->set.argv[i],
+						       sheets);
 		return sheets;
 	}
 
@@ -2242,18 +2299,18 @@ gnm_expr_containts_subtotal (GnmExpr const *expr)
 		return gnm_expr_containts_subtotal (expr->unary.value);
 
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
+		int i;
 		if (!strcmp (expr->func.func->name, "subtotal"))
 			return TRUE;
-		for (l = expr->func.arg_list; l; l = l->next)
-			if (gnm_expr_containts_subtotal (l->data))
+		for (i = 0; i < expr->func.argc; i++)
+			if (gnm_expr_containts_subtotal (expr->func.argv[i]))
 				return TRUE;
 		return FALSE;
 	}
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
-		for (l = expr->set.set; l; l = l->next)
-			if (gnm_expr_containts_subtotal (l->data))
+		int i;
+		for (i = 0; i < expr->set.argc; i++)
+			if (gnm_expr_containts_subtotal (expr->set.argv[i]))
 				return TRUE;
 		return FALSE;
 	}
@@ -2297,15 +2354,15 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 		break;
 
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
-		for (l = expr->func.arg_list; l; l = l->next)
-			gnm_expr_get_boundingbox (l->data, bound);
+		int i;
+		for (i = 0; i < expr->func.argc; i++)
+			gnm_expr_get_boundingbox (expr->func.argv[i], bound);
 		break;
 	}
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
-		for (l = expr->set.set; l; l = l->next)
-			gnm_expr_get_boundingbox (l->data, bound);
+		int i;
+		for (i = 0; i < expr->set.argc; i++)
+			gnm_expr_get_boundingbox (expr->set.argv[i], bound);
 		break;
 	}
 
@@ -2386,15 +2443,17 @@ do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
 	case GNM_EXPR_OP_ANY_UNARY:
 		return do_gnm_expr_get_ranges (expr->unary.value, ranges);
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
-		for (l = expr->func.arg_list; l; l = l->next)
-			ranges = do_gnm_expr_get_ranges (l->data, ranges);
+		int i;
+		for (i = 0; i < expr->func.argc; i++)
+			ranges = do_gnm_expr_get_ranges (expr->func.argv[i],
+							 ranges);
 		return ranges;
 	}
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
-		for (l = expr->set.set; l; l = l->next)
-			ranges = do_gnm_expr_get_ranges (l->data, ranges);
+		int i;
+		for (i = 0; i < expr->set.argc; i++)
+			ranges = do_gnm_expr_get_ranges (expr->set.argv[i],
+							 ranges);
 		return ranges;
 	}
 
@@ -2505,7 +2564,10 @@ gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 		char const *name = gnm_func_get_name (expr->func.func);
 		if (name && 0 == strcmp (name, "table")) {
 			if (NULL != r_in) {
-				GnmExpr const *r = gnm_expr_list_nth (expr->func.arg_list, 0);
+				GnmExpr const *r = (expr->func.argc <= 0)
+					? NULL
+					: expr->func.argv[0];
+
 				if (r != NULL && GNM_EXPR_GET_OPER (r) == GNM_EXPR_OP_CELLREF) {
 					r_in->col = r->cellref.ref.col;
 					r_in->row = r->cellref.ref.row;
@@ -2513,7 +2575,10 @@ gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 					r_in->col = r_in->row = 0; /* impossible */
 			}
 			if (NULL != c_in) {
-				GnmExpr const *c = gnm_expr_list_nth (expr->func.arg_list, 1);
+				GnmExpr const *c = (expr->func.argc <= 1)
+					? NULL
+					: expr->func.argv[1];
+
 				if (c != NULL && GNM_EXPR_GET_OPER (c) == GNM_EXPR_OP_CELLREF) {
 					c_in->col = c->cellref.ref.col;
 					c_in->row = c->cellref.ref.row;
@@ -2537,30 +2602,13 @@ gnm_expr_list_unref (GnmExprList *list)
 	gnm_expr_list_free (list);
 }
 
-gboolean
-gnm_expr_list_equal (GnmExprList const *la, GnmExprList const *lb)
-{
-	for (; la != NULL && lb != NULL; la = la->next, lb = lb->next)
-		if (!gnm_expr_equal (la->data, lb->data))
-			return FALSE;
-	return (la == NULL) && (lb == NULL);
-}
-
-/* Same as above, but uses pointer equality.  */
-static gboolean
-gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
-{
-	for (; la != NULL && lb != NULL; la = la->next, lb = lb->next)
-		if (la->data != lb->data)
-			return FALSE;
-	return (la == NULL) && (lb == NULL);
-}
-
 static void
 gnm_expr_list_as_string (GString *target,
-			 GnmExprList const *list, GnmParsePos const *pp,
+			 int argc, GnmExpr **argv,
+			 GnmParsePos const *pp,
 			 GnmExprConventions const *conv)
 {
+	int i;
 	char const *sep;
 	char arg_sep[2];
 	if (conv->output_argument_sep)
@@ -2572,10 +2620,10 @@ gnm_expr_list_as_string (GString *target,
 	}
 
 	g_string_append_c (target, '(');
-	while (list) {
-		do_expr_as_string (target, list->data, pp, 0, conv);
-		if (list->next) g_string_append (target, sep);
-		list = list->next;
+	for (i = 0; i < argc; i++) {
+		if (i != 0)
+			g_string_append (target, sep);
+		do_expr_as_string (target, argv[i], pp, 0, conv);
 	}
 	g_string_append_c (target, ')');
 }
@@ -2605,18 +2653,16 @@ ets_hash (gconstpointer key)
 			h);
 
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
-
-		for (l = expr->func.arg_list; l; l = l->next)
-			h = (h * 3) ^ (GPOINTER_TO_UINT (l->data));
+		int i;
+		for (i = 0; i < expr->func.argc; i++)
+			h = (h * 3) ^ (GPOINTER_TO_UINT (expr->func.argv[i]));
 		return h;
 	}
 
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
-
-		for (l = expr->set.set; l; l = l->next)
-			h = (h * 3) ^ (GPOINTER_TO_UINT (l->data));
+		int i;
+		for (i = 0; i < expr->set.argc; i++)
+			h = (h * 3) ^ (GPOINTER_TO_UINT (expr->set.argv[i]));
 		return h;
 	}
 
@@ -2662,11 +2708,30 @@ ets_equal (gconstpointer _a, gconstpointer _b)
 			ea->binary.value_b == eb->binary.value_b);
 	case GNM_EXPR_OP_ANY_UNARY:
 		return (ea->unary.value == eb->unary.value);
-	case GNM_EXPR_OP_FUNCALL:
-		return (ea->func.func == eb->func.func &&
-			gnm_expr_list_eq (ea->func.arg_list, eb->func.arg_list));
-	case GNM_EXPR_OP_SET:
-		return gnm_expr_list_eq (ea->set.set, eb->set.set);
+	case GNM_EXPR_OP_FUNCALL: {
+		int i;
+
+		if (ea->func.func != eb->func.func ||
+		    ea->func.argc != eb->func.argc)
+			return FALSE;
+
+		for (i = 0; i < ea->func.argc; i++)
+			if (ea->func.argv[i] != eb->func.argv[i])
+				return FALSE;
+		return TRUE;
+	}
+					
+	case GNM_EXPR_OP_SET: {
+		int i;
+
+		if (ea->set.argc != eb->set.argc)
+			return FALSE;
+
+		for (i = 0; i < ea->set.argc; i++)
+			if (ea->set.argv[i] != eb->set.argv[i])
+				return FALSE;
+		return TRUE;
+	}
 
 	default:
 		/* No sub-expressions.  */
@@ -2741,18 +2806,20 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 		break;
 
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
+		int i;
 
-		for (l = e->func.arg_list; l; l = l->next)
-			l->data = (gpointer)expr_tree_sharer_share (es, l->data);
+		for (i = 0; i < e->func.argc; i++)
+			e->func.argv[i] = (gpointer)
+				expr_tree_sharer_share (es, e->func.argv[i]);
 		break;
 	}
 
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
+		int i;
 
-		for (l = e->set.set; l; l = l->next)
-			l->data = (gpointer)expr_tree_sharer_share (es, l->data);
+		for (i = 0; i < e->set.argc; i++)
+			e->set.argv[i] = (gpointer)
+				expr_tree_sharer_share (es, e->set.argv[i]);
 		break;
 	}
 

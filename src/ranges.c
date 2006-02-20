@@ -1233,9 +1233,9 @@ global_range_list_parse (Sheet *sheet, char const *str)
 
 	if (expr != NULL)  {
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_SET) {
-			GnmExprList *l;
-			for (l = expr->set.set; l != NULL; l = l->next) {
-				v = gnm_expr_get_range (l->data);
+			int i;
+			for (i = 0; i < expr->set.argc; i++) {
+				v = gnm_expr_get_range (expr->set.argv[i]);
 				if (v == NULL) {
 					range_list_destroy (ranges);
 					ranges = NULL;

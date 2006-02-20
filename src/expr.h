@@ -129,7 +129,6 @@ GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 #define gnm_expr_list_nth(l,n)	   (GnmExpr const *)g_slist_nth_data ((GSList *)(l), n) /* const cast */
 #define gnm_expr_list_free	   g_slist_free
 void 	 gnm_expr_list_unref	  (GnmExprList *list);
-gboolean gnm_expr_list_equal	  (GnmExprList const *a, GnmExprList const *b);
 
 /*****************************************************************************/
 

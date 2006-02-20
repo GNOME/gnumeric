@@ -737,7 +737,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 
 	/* TODO : Can we use argument types to be smarter here ? */
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
+		int i;
 		DependentFlags flag = DEPENDENT_NO_FLAG;
 		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
 			gnm_func_load_stub (tree->func.func);
@@ -748,8 +748,8 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 			flag = tree->func.func->linker (&fei);
 		}
 		if (!(flag & DEPENDENT_IGNORE_ARGS))
-			for (l = tree->func.arg_list; l; l = l->next)
-				flag |= link_expr_dep (ep, l->data);
+			for (i = 0; i < tree->func.argc; i++)
+				flag |= link_expr_dep (ep, tree->func.argv[i]);
 		return flag;
 	}
 
@@ -785,11 +785,11 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 	}
 
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
+		int i;
 		DependentFlags res = DEPENDENT_NO_FLAG;
 
-		for (l = tree->set.set; l; l = l->next)
-			res |= link_expr_dep (ep, l->data);
+		for (i = 0; i < tree->set.argc; i++)
+			res |= link_expr_dep (ep, tree->set.argv[i]);
 		return res;
 	}
 	case GNM_EXPR_OP_RANGE_CTOR:
@@ -832,7 +832,7 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 	 * more cunning handling of argument type matching.
 	 */
 	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprList *l;
+		int i;
 		if (tree->func.func->unlinker) {
 			GnmEvalPos ep;
 			FunctionEvalInfo fei;
@@ -840,8 +840,8 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 			fei.func_call = &tree->func;
 			tree->func.func->unlinker (&fei);
 		}
-		for (l = tree->func.arg_list; l; l = l->next)
-			unlink_expr_dep (dep, l->data);
+		for (i = 0; i < tree->func.argc; i++)
+			unlink_expr_dep (dep, tree->func.argv[i]);
 		return;
 	}
 
@@ -873,10 +873,10 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 		return;
 
 	case GNM_EXPR_OP_SET: {
-		GnmExprList *l;
+		int i;
 
-		for (l = tree->set.set; l; l = l->next)
-			unlink_expr_dep (dep, l->data);
+		for (i = 0; i < tree->set.argc; i++)
+			unlink_expr_dep (dep, tree->set.argv[i]);
 		return;
 	}
 

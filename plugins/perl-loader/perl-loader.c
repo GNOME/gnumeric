@@ -48,7 +48,7 @@ typedef struct {
 typedef GObjectClass GnmPerlPluginLoaderClass;
 
 static GnmValue*
-call_perl_function_args (FunctionEvalInfo *ei, GnmValue **args)
+call_perl_function_args (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	GnmFunc const *fndef;
 	gint min_n_args, max_n_args, n_args;

@@ -1020,14 +1020,14 @@ free_values (GnmValue **values, int top)
  * Returns the result.
  **/
 GnmValue *
-function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
-			 GnmExprEvalFlags flags)
+function_call_with_exprs (FunctionEvalInfo *ei,
+			  int argc, GnmExpr **argv,
+			  GnmExprEvalFlags flags)
 {
 	GnmFunc const *fn_def;
-	int	  argc, i, iter_count, iter_width = 0, iter_height = 0;
+	int	  i, iter_count, iter_width = 0, iter_height = 0;
 	char	  arg_type;
 	GnmValue	 **args, *tmp = NULL;
-	GnmExpr  *expr;
 	int 	 *iter_item = NULL;
 
 	g_return_val_if_fail (ei != NULL, NULL);
@@ -1038,11 +1038,17 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		gnm_func_load_stub ((GnmFunc *) fn_def);
 
 	/* Functions that deal with ExprNodes */
-	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES)
-		return fn_def->fn.nodes (ei, l);
+	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
+#warning "FIXME: highly inelegant"
+		GnmExprList *l = NULL;
+		for (i = argc - 1; i >= 0; i--)
+			l = gnm_expr_list_prepend (l, argv[i]);
+		tmp = fn_def->fn.nodes (ei, l);
+		gnm_expr_list_free (l);
+		return tmp;
+	}
 
 	/* Functions that take pre-computed Values */
-	argc = gnm_expr_list_length (l);
 	if (argc > fn_def->fn.args.max_args ||
 	    argc < fn_def->fn.args.min_args)
 		return value_new_error (ei->pos,
@@ -1051,11 +1057,11 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 	args = g_alloca (sizeof (GnmValue *) * fn_def->fn.args.max_args);
 	iter_count = (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ? 0 : -1;
 
-	for (i = 0; l; l = l->next, ++i) {
-		arg_type = fn_def->fn.args.arg_types[i];
+	for (i = 0; i < argc; i++) {
+		char arg_type = fn_def->fn.args.arg_types[i];
 		/* expr is always non-null, missing args are encoded as
 		 * const = empty */
-		expr = l->data; 
+		GnmExpr *expr = argv[i];
 
 		if (arg_type == 'A' || arg_type == 'r') {
 			if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
@@ -1495,8 +1501,15 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 
 		/* Handle sets as a special case */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_SET) {
-			result = function_iterate_argument_values (ep, callback,
-				callback_closure, expr->set.set, strict, iter_flags);
+#warning "FIXME: highly inelegant"
+			int i;
+			GnmExprList *l = NULL;
+			for (i = expr->set.argc - 1; i >= 0; i--)
+				l = gnm_expr_list_prepend (l, expr->set.argv[i]);
+			result = function_iterate_argument_values
+				(ep, callback, callback_closure,
+				 l, strict, iter_flags);
+			gnm_expr_list_free (l);
 			continue;
 		}
 
@@ -1542,7 +1555,7 @@ tokenized_help_new (GnmFunc const *func)
 		gboolean seek_at = TRUE;
 		gboolean last_newline = TRUE;
 
-#warning fixme, use the rest of the pieces and get rid of this routine.
+#warning "fixme, use the rest of the pieces and get rid of this routine."
 		tok->help_is_localized = FALSE;
 		tok->help_copy = g_strdup (func->help [0].text);
 		tok->sections = g_ptr_array_new ();

@@ -445,10 +445,6 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 			       GnmExpr const *expr, FormulaGuruState *state)
 {
 	GtkTreePath *path;
-	char *text;
-	GSList *args;
-	GtkTreeIter iter;
-	int i;
 
 	if (parent_path == NULL)
 		path = gtk_tree_path_new_first ();
@@ -459,26 +455,32 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 	}
 
 	switch (GNM_EXPR_GET_OPER (expr)) {
-	case GNM_EXPR_OP_FUNCALL:
+	case GNM_EXPR_OP_FUNCALL: {
+		int i;
+		GtkTreeIter iter;
+
 		dialog_formula_guru_load_fd (path, expr->func.func, state);
-		for (args = expr->func.arg_list, i = 0; args; args = args->next, i++)
+		for (i = 0; i < expr->func.argc; i++)
 			dialog_formula_guru_load_expr (path, i,
-						       (GnmExpr const *) args->data,
+						       expr->func.argv[i],
 						       state);
-		gtk_tree_path_append_index (path, i - 1);
+		gtk_tree_path_append_index (path, MAX (0, i - 1));
 		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
                                              &iter, path))
 			dialog_formula_guru_adjust_varargs (&iter, state);
 
 		break;
+	}
+
 	case GNM_EXPR_OP_ANY_BINARY:
 	case GNM_EXPR_OP_UNARY_NEG:
-	default:
-		text = gnm_expr_as_string (expr, state->pos,
+	default: {
+		char *text = gnm_expr_as_string (expr, state->pos,
 			gnm_expr_conventions_default);
 		dialog_formula_guru_load_string (path, text, state);
 		g_free (text);
 		break;
+	}
 
 	}
 	gtk_tree_path_free (path);

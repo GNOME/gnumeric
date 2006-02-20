@@ -1629,7 +1629,7 @@ gnm_style_dump (GnmStyle const *style)
 	if (elem_is_set (style, MSTYLE_FONT_SIZE))
 		fprintf (stderr, "\tsize %f\n", style->font_detail.size);
 	if (elem_is_set (style, MSTYLE_FORMAT)) {
-		char *fmt = go_format_as_XL (style->format, TRUE);
+		char *fmt = go_format_as_XL (style->format, FALSE);
 		fprintf (stderr, "\tformat '%s'\n", fmt);
 		g_free (fmt);
 	}

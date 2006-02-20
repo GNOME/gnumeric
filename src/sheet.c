@@ -4342,7 +4342,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 
 	if ((is_expr = cell_has_expr (cell)) &&
 	    GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_CORNER) {
-		int i, j;
+		unsigned int i, j;
 		GnmExprArrayCorner const *array = &cell->base.expression->array_corner;
 		GnmExpr const *expr = array->expr;
 		gnm_expr_ref (expr);

@@ -58,7 +58,8 @@
 
 #define AF_EXPLICIT ((GnmFuncFlags)(GNM_FUNC_AUTO_MASK + 1))
 
-static GnmFuncFlags do_af_suggest_list (GnmExprList *list,
+static GnmFuncFlags do_af_suggest_list (int argc,
+					GnmExpr **argv,
 					GnmEvalPos const *epos,
 					GOFormat **explicit);
 
@@ -152,15 +153,14 @@ do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
 
 		switch (typ) {
 		case GNM_FUNC_AUTO_FIRST:
-			return do_af_suggest_list (expr->func.arg_list,
+			return do_af_suggest_list (expr->func.argc,
+						   expr->func.argv,
 						   epos, explicit);
 
-		case GNM_FUNC_AUTO_SECOND: {
-			GnmExprList *l;
-			l = expr->func.arg_list;
-			if (l) l = l->next;
-			return do_af_suggest_list (l, epos, explicit);
-		}
+		case GNM_FUNC_AUTO_SECOND:
+			return do_af_suggest_list (expr->func.argc - 1,
+						   expr->func.argv + 1,
+						   epos, explicit);
 
 		default:
 			return typ;
@@ -236,14 +236,19 @@ do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
 }
 
 static GnmFuncFlags
-do_af_suggest_list (GnmExprList *list, const GnmEvalPos *epos, GOFormat **explicit)
+do_af_suggest_list (int argc, GnmExpr **argv,
+		    const GnmEvalPos *epos, GOFormat **explicit)
 {
-	GnmFuncFlags typ = GNM_FUNC_AUTO_UNKNOWN;
-	while (list && (typ == GNM_FUNC_AUTO_UNKNOWN || typ == GNM_FUNC_AUTO_UNITLESS)) {
-		typ = do_af_suggest (list->data, epos, explicit);
-		list = list->next;
+	int i;
+
+	for (i = 0; i < argc; i++) {
+		GnmFuncFlags typ = do_af_suggest (argv[i], epos, explicit);
+		if (typ != GNM_FUNC_AUTO_UNKNOWN &&
+		    typ != GNM_FUNC_AUTO_UNITLESS)
+			return typ;
 	}
-	return typ;
+
+	return GNM_FUNC_AUTO_UNKNOWN;
 }
 
 /* ------------------------------------------------------------------------- */

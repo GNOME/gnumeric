@@ -1228,7 +1228,8 @@ std_sheet_name_quote (GnmExprConventions const *convs,
 }
 
 static const char *
-std_name_parser (const char *str, G_GNUC_UNUSED GnmExprConventions *convs)
+std_name_parser (const char *str,
+		 G_GNUC_UNUSED GnmExprConventions const *convs)
 {
 	gunichar uc = g_utf8_get_char (str);
 
