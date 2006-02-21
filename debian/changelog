@@ -4,6 +4,8 @@ gnumeric (1.6.2-2) UNRELEASED; urgency=low
     (Closes: #352689)
   * [debian/po/cs.po] Added, courtesy of Miroslav Kure
     <kurem@upcase.inf.upol.cz> (Closes: #353370)
+  * [debian/po/sv.po] Added, courtesy of Daniel Nylander
+    <yeager@lidkoping.net> (Closes: #353786)
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 10 Feb 2006 21:29:05 +0100
 
