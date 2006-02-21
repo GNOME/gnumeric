@@ -1,5 +1,13 @@
 2006-02-19  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_new_funcall1, gnm_expr_new_funcall2,
+	gnm_expr_new_funcall3): New functions.
+
+	* src/parser.y (build_logical): Use gnm_expr_new_funcall2.
+	(build_not): Use gnm_expr_new_funcall1.
+
+2006-02-19  Morten Welinder  <terra@gnome.org>
+
 	* src/expr-impl.h (GnmExprFunction, GnmExprSet): Replace
 	expression list by argc/argv members.  All users fixed.
 

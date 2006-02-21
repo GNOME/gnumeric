@@ -483,17 +483,16 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		case QPRO_OP_OR: {
 			GnmFunc *f = gnm_func_lookup (*fmla == QPRO_OP_OR ? "or" : "and",
 						      NULL);
-			GnmExprList *arglist = NULL;
-			arglist = g_slist_prepend (arglist, (gpointer)expr_stack_pop (&stack));
-			arglist = g_slist_prepend (arglist, (gpointer)expr_stack_pop (&stack));
-			expr = gnm_expr_new_funcall (f, arglist);
+			GnmExpr const *r = expr_stack_pop (&stack);
+			GnmExpr const *l = expr_stack_pop (&stack);
+			expr = gnm_expr_new_funcall2 (f, l, r);
 			break;
 		}
 
 		case QPRO_OP_NOT: {
 			GnmFunc *f = gnm_func_lookup ("NOT", NULL);
-			GnmExprList *arglist = g_slist_prepend (NULL, (gpointer)expr_stack_pop (&stack));
-			expr = gnm_expr_new_funcall (f, arglist);
+			GnmExpr const *a = expr_stack_pop (&stack);
+			expr = gnm_expr_new_funcall1 (f, a);
 			break;
 		}
 

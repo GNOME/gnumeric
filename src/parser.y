@@ -272,8 +272,8 @@ build_logical (GnmExpr *l, gboolean is_and, GnmExpr *r)
 
 	unregister_allocation (r);
 	unregister_allocation (l);
-	return register_expr_allocation (gnm_expr_new_funcall (is_and ? and_func : or_func,
-		    g_slist_prepend (g_slist_prepend (NULL, l), r)));
+	return register_expr_allocation
+		(gnm_expr_new_funcall2 (is_and ? and_func : or_func, l, r));
 }
 
 static GnmExpr *
@@ -283,8 +283,8 @@ build_not (GnmExpr *expr)
 	if (not_func == NULL)
 		not_func = gnm_func_lookup ("NOT", NULL);
 	unregister_allocation (expr);
-	return register_expr_allocation (gnm_expr_new_funcall (not_func,
-		    g_slist_prepend (NULL, expr)));
+	return register_expr_allocation
+		(gnm_expr_new_funcall1 (not_func, expr));
 }
 
 static GnmExpr *

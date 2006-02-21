@@ -123,8 +123,6 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 	g_return_val_if_fail (func, NULL);
 
 	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
-	if (!ans)
-		return NULL;
 
 	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
 	gnm_func_ref (func);
@@ -141,6 +139,64 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 
 	return (GnmExpr *)ans;
 }
+
+GnmExpr const *
+gnm_expr_new_funcall1 (GnmFunc *func,
+		       GnmExpr const *arg0)
+{
+	GnmExprFunction *ans;
+	g_return_val_if_fail (func, NULL);
+
+	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
+	gnm_func_ref (func);
+	ans->func = func;
+	ans->argc = 1;
+	ans->argv = g_new (GnmExpr *, 1);
+	ans->argv[0] = arg0;
+	return ans;
+}
+
+GnmExpr const *
+gnm_expr_new_funcall2 (GnmFunc *func,
+		       GnmExpr const *arg0,
+		       GnmExpr const *arg1)
+{
+	GnmExprFunction *ans;
+	g_return_val_if_fail (func, NULL);
+
+	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
+	gnm_func_ref (func);
+	ans->func = func;
+	ans->argc = 2;
+	ans->argv = g_new (GnmExpr *, 2);
+	ans->argv[0] = arg0;
+	ans->argv[1] = arg1;
+	return ans;
+}
+
+GnmExpr const *
+gnm_expr_new_funcall3 (GnmFunc *func,
+		       GnmExpr const *arg0,
+		       GnmExpr const *arg1,
+		       GnmExpr const *arg2)
+{
+	GnmExprFunction *ans;
+	g_return_val_if_fail (func, NULL);
+
+	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
+	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
+	gnm_func_ref (func);
+	ans->func = func;
+	ans->argc = 3;
+	ans->argv = g_new (GnmExpr *, 3);
+	ans->argv[0] = arg0;
+	ans->argv[1] = arg1;
+	ans->argv[2] = arg2;
+	return ans;
+}
+
 
 /***************************************************************************/
 

@@ -81,6 +81,8 @@ Morten:
 	* Fix criticals relating to toolbar combos for very narrow windows.
 	* Allow vertical toolbars.
 	* Save a bit of memory for function calls.
+	* Fix type confusing in mps importer.
+	* Greatly reduce the use of the type-unsafe GnmExprList.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

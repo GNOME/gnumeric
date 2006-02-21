@@ -1,3 +1,8 @@
+2006-02-19  Morten Welinder  <terra@gnome.org>
+
+	* analysis-tools.c: Use gnm_expr_new_funcall1,
+	gnm_expr_new_funcall2, and gnm_expr_new_funcall3.
+
 2005-12-13  Morten Welinder  <terra@gnome.org>
 
 	* scenarios.c (scenario_add_new): Constify.

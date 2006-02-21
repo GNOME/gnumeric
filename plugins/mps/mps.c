@@ -48,6 +48,7 @@
 #include "func.h"
 #include "expr.h"
 #include <goffice/app/file.h>
+#include <goffice/utils/go-format.h>
 #include <goffice/app/error-info.h>
 #include <glib/gi18n.h>
 #include <sys/types.h>
@@ -188,14 +189,14 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 	if (n_rows_per_fn == 1) {
 		for (i = 0; i < ctxt->n_cols; i++)
 			mps_set_cell (sh, VARIABLE_COL + i, row,
-				      ctxt->col_name_tbl [i]);
+				      ctxt->col_name_tbl[i]);
 	} else {
 		GString *buf;
 		for (i = 0; i < MAX_COL; i++) {
 			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "C[%d]", i + 1);
 			mps_set_cell (sh, VARIABLE_COL + i, row, buf->str);
-			g_string_free (buf, FALSE);
+			g_string_free (buf, TRUE);
 		}
 
 		for (i = 0; i < n_rows_per_fn; i++) {
@@ -203,7 +204,7 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 			g_string_append_printf (buf, "R[%d]", i + 1);
 			mps_set_cell (sh, VARIABLE_COL - 1, row + i + 1,
 				      buf->str);
-			g_string_free (buf, FALSE);
+			g_string_free (buf, TRUE);
 		}
 		mps_set_style (sh, VARIABLE_COL - 1, row,
 			       VARIABLE_COL - 1, row + n_rows_per_fn,
@@ -245,14 +246,14 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 	if (n_rows_per_fn == 1) {
 		for (i = 0; i < ctxt->n_cols; i++)
 			mps_set_cell (sh, CONSTRAINT_COL + i, row,
-				      ctxt->col_name_tbl [i]);
+				      ctxt->col_name_tbl[i]);
 	} else {
 		GString *buf;
 		for (i = 0; i < MAX_COL; i++) {
 			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "C[%d]", i + 1);
 			mps_set_cell (sh, CONSTRAINT_COL + i, row, buf->str);
-			g_string_free (buf, FALSE);
+			g_string_free (buf, TRUE);
 		}
 	}
 	mps_set_style (sh, CONSTRAINT_COL - 1, row,
@@ -280,7 +281,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	GSList  *current;
 	int     i, n, r, ecol, inc2;
 	int     n_rows_per_fn;
-	GString *var_range [2];
+	GString *var_range[2];
 	GnmRange   range, v_range;
 	GnmCell    *cell;
 	GString *buf;
@@ -312,8 +313,8 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	/* Print constraints. */
 	inc2               = 2 * n_rows_per_fn;
 	param->constraints = NULL;
-	var_range [0]      = g_string_new (NULL);
-	var_range [1]      = g_string_new (NULL);
+	var_range[0]      = g_string_new (NULL);
+	var_range[1]      = g_string_new (NULL);
 
 	/* Initialize var_range to contain the range name of the
 	 * objective function variables. */
@@ -322,25 +323,23 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		    VARIABLE_ROW + n_rows_per_fn - 1,
 		    (ctxt->n_cols % MAX_COL),
 		    VARIABLE_ROW + n_rows_per_fn - 1);
-	g_string_append_printf (var_range [i], "%s", range_name (&v_range));
+	g_string_append_printf (var_range[i], "%s", range_name (&v_range));
 
 	i = 0;
 	for (current = ctxt->rows; current != NULL; current = current->next) {
 	          SolverConstraint   *c;
-		  MpsRow             *row;
+		  MpsRow             *row = current->data;
 		  int                col, r;
-		  GnmExpr            *expr;
-		  GnmExprList        *args;
+		  const GnmExpr      *expr;
 		  GnmCellRef          ref1, ref2;
 
-		  static const gchar *type_str[] = {
+		  static const gchar *const type_str[] = {
 			  "=", "<=", ">="
 		  };
 		  static const SolverConstraintType type_map[] = {
 			  SolverEQ, SolverLE, SolverGE
 		  };
 
-		  row = (MpsRow *) current->data;
 		  if (row->type == ObjectiveRow)
 		          continue;
 		  col = CONSTRAINT_COL;
@@ -355,7 +354,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			   * memory, and, in addition, to speed up the loading.
 			   */
 #ifndef MPS_WRITE_ZERO_COEFFICIENTS
-			  if (ctxt->matrix [row->index][n] != 0)
+			  if (ctxt->matrix[row->index][n] != 0)
 #endif
 				  mps_set_cell_float
 					  (sh, col + n % MAX_COL,
@@ -372,34 +371,28 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 		  /* Add LHS field using SUMPRODUCT function. */
 		  range_init (&range, col, r, ctxt->n_cols, r);
-		  args = (GnmExprList *) g_list_append
-			  (NULL, (gpointer) gnm_expr_new_constant
-				 (value_new_cellrange_r (NULL, &v_range)));
-
-		  args = (GnmExprList *) g_list_append
-			  ((GList *) args, (gpointer) gnm_expr_new_constant
-				 (value_new_cellrange_r (NULL, &range)));
-
 		  cell = sheet_cell_fetch (sh, ecol + 1, r);
-		  expr = (GnmExpr *) gnm_expr_new_funcall
-			  (gnm_func_lookup ("SUMPRODUCT", NULL), args);
+		  expr = gnm_expr_new_funcall2
+			  (gnm_func_lookup ("SUMPRODUCT", NULL),
+			   gnm_expr_new_constant
+			   (value_new_cellrange_r (NULL, &v_range)),
+			   gnm_expr_new_constant
+			   (value_new_cellrange_r (NULL, &range)));
 		  cell_set_expr (cell, expr);
 		  cell_queue_recalc (cell);
 
 		  /* Add Slack calculation */
 		  gnm_cellref_init (&ref1, sh, ecol + 1, r, FALSE);
 		  gnm_cellref_init (&ref2, sh, ecol + 3, r, FALSE);
-		  expr = (GnmExpr *) gnm_expr_new_binary
-			  (gnm_expr_new_cellref (&ref1),
-			   GNM_EXPR_OP_SUB,
-			   gnm_expr_new_cellref (&ref2));
-		  args = (GnmExprList *) g_list_append (NULL, (gpointer) expr);
 		  cell = sheet_cell_fetch (sh, ecol + 4, r);
-		  expr = (GnmExpr *) gnm_expr_new_funcall
-			  (gnm_func_lookup ("ABS", NULL), args);
+		  expr = gnm_expr_new_funcall1
+			  (gnm_func_lookup ("ABS", NULL),
+			   gnm_expr_new_binary
+			   (gnm_expr_new_cellref (&ref1),
+			    GNM_EXPR_OP_SUB,
+			    gnm_expr_new_cellref (&ref2)));
 		  cell_set_expr (cell, expr);
 		  cell_queue_recalc (cell);
-
 
 		  /* Add Solver constraint */
 		  c          = g_new (SolverConstraint, 1);
@@ -423,7 +416,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	current = ctxt->rhs;
 	r   = CONSTRAINT_ROW  +  inc2;
 	while (current != NULL) {
-	          MpsRhs *rhs = (MpsRhs *) current->data;
+	          MpsRhs *rhs = current->data;
 
 		  mps_set_cell_float (sh, ecol + 3,
 				      r + rhs->row->index * n_rows_per_fn,
@@ -437,24 +430,22 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		    VARIABLE_ROW + 1 + n_rows_per_fn,
 		    ctxt->n_cols,
 		    VARIABLE_ROW + 1 + n_rows_per_fn);
-	g_string_append_printf (buf, "=SUMPRODUCT(%s,%s)",
-			   var_range[0]->str,
-			   range_name (&range));
+	g_string_append_printf (buf, "=SUMPRODUCT(%s%c%s)",
+				var_range[0]->str,
+				format_get_arg_sep (),
+				range_name (&range));
 
 	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
 	sheet_cell_set_text (cell, buf->str, NULL);
-	g_string_free (buf, FALSE);
+	g_string_free (buf, TRUE);
 
 	/* Store the input cell range for the Solver dialog. */
-	g_string_free (var_range [0], FALSE);
-	var_range [0] = g_string_new (NULL);
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW,
 		    MAX_COL, VARIABLE_ROW + n_rows_per_fn - 1);
-	g_string_append_printf (var_range [0], "%s", range_name (&range));
+	param->input_entry_str = g_strdup (range_name (&range));
 
-	param->input_entry_str = g_strdup (var_range [0]->str);
-	g_string_free (var_range [0], FALSE);
-	g_string_free (var_range [1], FALSE);
+	g_string_free (var_range[0], TRUE);
+	g_string_free (var_range[1], TRUE);
 }
 
 /* Creates the spreadsheet model. */
@@ -485,7 +476,7 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 			mps_set_cell (sh, VARIABLE_COL - 1,
 				      VARIABLE_ROW + 1 + i + n_rows_per_fn,
 				      buf->str);
-			g_string_free (buf, FALSE);
+			g_string_free (buf, TRUE);
 		}
 	}
 

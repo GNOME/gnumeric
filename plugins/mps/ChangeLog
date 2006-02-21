@@ -1,3 +1,10 @@
+2006-02-19  Morten Welinder  <terra@gnome.org>
+
+	* mps.c (mps_write_coefficients): Use gnm_expr_new_funcall1 and
+	gnm_expr_new_funcall2.  Avoid casting between GSList* and GList*
+	in ways that surely never worked.
+	(mps_write_coefficients): Plug leaks.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
