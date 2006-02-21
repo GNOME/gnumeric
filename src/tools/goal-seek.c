@@ -2,7 +2,7 @@
  * goal-seek.c:  A generic root finder.
  *
  * Author:
- *   Morten Welinder (terra@diku.dk)
+ *   Morten Welinder (terra@gnome.org)
  *
  */
 

@@ -3,7 +3,7 @@
  *
  * Author:
  *    Marko R. Riedel (mriedel@neuearbeit.de)    [Functions]
- *    Morten Welinder (terra@diku.dk)            [Plugin framework]
+ *    Morten Welinder (terra@gnome.org)            [Plugin framework]
  *    Brian J. Murrell (brian@interlinx.bc.ca)	 [Bitwise operators]
  *
  * This program is free software; you can redistribute it and/or modify

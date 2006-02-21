@@ -4,7 +4,7 @@
  *
  * Author:
  *   Jon Kåre Hellan <hellan@acm.org>
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  *   Jody Goldberg <jody@gnome.org>
  *
  * Copyright (C) 2002-2003 Jody Goldberg

@@ -5,7 +5,7 @@
  * Authors:
  *   Jukka-Pekka Iivonen (iivonen@iki.fi)
  *   Jody Goldberg (jody@gnome.org)
- *   Morten Welinder (terra@diku.dk)
+ *   Morten Welinder (terra@gnome.org)
  *   Almer S. Tigelaar (almer@gnome.org)
  *   Harlan Grove
  *

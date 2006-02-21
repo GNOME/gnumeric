@@ -5,7 +5,7 @@
  *   Dialog for making tables of function dependcies.
  *
  * Author:
- *   COPYRIGHT (C) Morten Welinder (terra@diku.dk)
+ *   COPYRIGHT (C) Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published

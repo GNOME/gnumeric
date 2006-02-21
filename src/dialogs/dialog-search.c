@@ -3,7 +3,7 @@
  *   Dialog for entering a search query.
  *
  * Author:
- *   Morten Welinder (terra@diku.dk)
+ *   Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

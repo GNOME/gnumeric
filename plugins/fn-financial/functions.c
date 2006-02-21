@@ -4,7 +4,7 @@
  *
  * Authors:
  *   Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
- *   Morten Welinder (terra@diku.dk)
+ *   Morten Welinder (terra@gnome.org)
  *   Vladimir Vuksan (vuksan@veus.hr)
  *   Andreas J. Guelzow (aguelzow@taliesin.ca)
  *

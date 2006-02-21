@@ -2,7 +2,7 @@
  * tabulate.c:
  *
  * Authors:
- *   COPYRIGHT (C) 2003 Morten Welinder (terra@diku.dk)
+ *   COPYRIGHT (C) 2003 Morten Welinder (terra@gnome.org)
  *   COPYRIGHT (C) 2003 Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
  *

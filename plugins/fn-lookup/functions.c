@@ -6,7 +6,7 @@
  *   Michael Meeks <michael@ximian.com>
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  *   JP Rosevear <jpr@arcavia.com>
- *   Morten Welinder (terra@diku.dk)
+ *   Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
