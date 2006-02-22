@@ -59,7 +59,7 @@
 #define AF_EXPLICIT ((GnmFuncFlags)(GNM_FUNC_AUTO_MASK + 1))
 
 static GnmFuncFlags do_af_suggest_list (int argc,
-					GnmExpr **argv,
+					const GnmExprConstPtr *argv,
 					GnmEvalPos const *epos,
 					GOFormat **explicit);
 
@@ -236,7 +236,7 @@ do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
 }
 
 static GnmFuncFlags
-do_af_suggest_list (int argc, GnmExpr **argv,
+do_af_suggest_list (int argc, const GnmExprConstPtr *argv,
 		    const GnmEvalPos *epos, GOFormat **explicit)
 {
 	int i;

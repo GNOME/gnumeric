@@ -1169,7 +1169,7 @@ callback_function_simtable (GnmEvalPos const *ep, GnmValue const *value, void *c
 }
 
 static GnmValue *
-gnumeric_simtable (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_simtable (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	simtable_t p;
 
@@ -1177,8 +1177,8 @@ gnumeric_simtable (FunctionEvalInfo *ei, GnmExprList const *nodes)
 	p.value = NULL;
 
 	function_iterate_argument_values
-		(ei->pos, callback_function_simtable, &p, nodes,
-		 FALSE, CELL_ITER_IGNORE_BLANK);
+		(ei->pos, callback_function_simtable, &p,
+		 argc, argv, FALSE, CELL_ITER_IGNORE_BLANK);
 
 	/* See if there was any value worth using. */
 	if (p.value == NULL)

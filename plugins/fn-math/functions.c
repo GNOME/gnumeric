@@ -145,9 +145,9 @@ range_gcd (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_gcd (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_gcd (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_gcd,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -214,9 +214,9 @@ range_lcm (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_lcm (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_lcm (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_lcm,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -244,9 +244,9 @@ static GnmFuncHelp const help_hypot[] = {
 };
 
 static GnmValue *
-gnumeric_hypot (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_hypot (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_hypot,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -1515,9 +1515,9 @@ static GnmFuncHelp const help_suma[] = {
 };
 
 static GnmValue *
-gnumeric_suma (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_suma (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_sum,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
@@ -1549,9 +1549,9 @@ static GnmFuncHelp const help_sumsq[] = {
 
 
 static GnmValue *
-gnumeric_sumsq (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_sumsq (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_sumsq,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -1581,9 +1581,9 @@ static GnmFuncHelp const help_multinomial[] = {
 
 
 static GnmValue *
-gnumeric_multinomial (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_multinomial (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_multinomial,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -1612,9 +1612,9 @@ static GnmFuncHelp const help_g_product[] = {
 };
 
 static GnmValue *
-gnumeric_g_product (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_g_product (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_product,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -2909,9 +2909,9 @@ range_seriessum (gnm_float const *xs, int n, gnm_float *res)
 
 
 static GnmValue *
-gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_seriessum (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_seriessum,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -3216,24 +3216,22 @@ static GnmFuncHelp const help_sumproduct[] = {
 };
 
 static GnmValue *
-gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList const *args)
+gnumeric_sumproduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	gnm_float **data;
 	GnmValue *result;
-	int i, argc;
-	GnmExprList const *l;
+	int i;
 	gboolean size_error = FALSE;
 	int sizex = -1, sizey = -1;
 
-	if (args == NULL)
+	if (argc == 0)
 		return value_new_error_VALUE (ei->pos);
 
-	argc = gnm_expr_list_length (args);
 	data = g_new0 (gnm_float *, argc);
 
-	for (l = args, i = 0; l; l = l->next, i++) {
+	for (i = 0; i < argc; i++) {
 		int thissizex, thissizey, x, y;
-		GnmExpr const *expr = l->data;
+		GnmExpr const *expr = argv[0];
 		GnmValue    *val = gnm_expr_eval (expr, ei->pos,
 					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 					   GNM_EXPR_EVAL_PERMIT_EMPTY);

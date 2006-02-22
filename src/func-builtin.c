@@ -56,9 +56,9 @@ static GnmFuncHelp const help_sum[] = {
 };
 
 GnmValue *
-gnumeric_sum (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_sum (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_sum,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -97,9 +97,9 @@ range_bogusproduct (const gnm_float *xs, int n, gnm_float *res)
 }
 
 GnmValue *
-gnumeric_product (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_product (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_bogusproduct,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
@@ -158,7 +158,7 @@ gnumeric_table_link (FunctionEvalInfo *ei)
 }
 
 static GnmValue *
-gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
+gnumeric_table (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	GnmExpr const *arg;
 	GnmCell       *in[3], *x_iter, *y_iter;
@@ -169,12 +169,13 @@ gnumeric_table (FunctionEvalInfo *ei, GnmExprList const *args)
 	/* evaluation clears the dynamic deps */
 	gnumeric_table_link (ei);
 
-	if (gnm_expr_list_length (args) != 2 &&
+	/* FIXME: This looks b-o-g-u-s!  */
+	if (argc != 2 &&
 	    ei->pos->eval.col > 0 && ei->pos->eval.row > 0)
 		return value_new_error_REF (ei->pos);
 
 	for (x = 0; x < 2 ; x++) {
-		arg = gnm_expr_list_nth (args, x);
+		arg = (x < argc) ? argv[x] : NULL;
 		val[x] = NULL;
 		if (NULL != arg && GNM_EXPR_GET_OPER (arg) == GNM_EXPR_OP_CELLREF) {
 			gnm_cellpos_init_cellref (&pos,

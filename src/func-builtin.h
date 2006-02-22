@@ -3,8 +3,8 @@
 
 #include <func.h>
 
-GnmValue *gnumeric_sum     (FunctionEvalInfo *ei, GnmExprList const *nodes);
-GnmValue *gnumeric_product (FunctionEvalInfo *ei, GnmExprList const *nodes);
+GnmValue *gnumeric_sum     (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv);
+GnmValue *gnumeric_product (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv);
 
 void func_builtin_init (void);
 void func_builtin_shutdown (void);

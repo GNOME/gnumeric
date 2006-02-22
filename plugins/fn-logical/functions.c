@@ -86,14 +86,14 @@ callback_function_and (GnmEvalPos const *ep, GnmValue const *value, void *closur
 }
 
 static GnmValue *
-gnumeric_and (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_and (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	int result = -1;
 
 	/* Yes, AND is actually strict.  */
-	GnmValue *v = function_iterate_argument_values (ei->pos,
-		callback_function_and, &result, nodes,
-		TRUE, CELL_ITER_IGNORE_BLANK);
+	GnmValue *v = function_iterate_argument_values
+		(ei->pos, callback_function_and, &result,
+		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
 		return v;
 
@@ -181,14 +181,14 @@ callback_function_or (GnmEvalPos const *ep, GnmValue const *value, void *closure
 }
 
 static GnmValue *
-gnumeric_or (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_or (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	int result = -1;
 
 	/* Yes, OR is actually strict.  */
-	GnmValue *v = function_iterate_argument_values (ei->pos,
-		callback_function_or, &result, nodes,
-		TRUE, CELL_ITER_IGNORE_BLANK);
+	GnmValue *v = function_iterate_argument_values
+		(ei->pos, callback_function_or, &result,
+		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
 		return v;
 
@@ -243,14 +243,14 @@ callback_function_xor (GnmEvalPos const *ep, GnmValue const *value, void *closur
 }
 
 static GnmValue *
-gnumeric_xor (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_xor (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	int result = -1;
 
 	/* Yes, XOR is actually strict.  */
-	GnmValue *v = function_iterate_argument_values (ei->pos,
-		callback_function_xor, &result, nodes,
-		TRUE, CELL_ITER_IGNORE_BLANK);
+	GnmValue *v = function_iterate_argument_values
+		(ei->pos, callback_function_xor, &result,
+		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
 	if (v != NULL)
 		return v;
 

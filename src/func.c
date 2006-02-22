@@ -533,7 +533,9 @@ extract_arg_types (GnmFunc *def)
 }
 
 static GnmValue *
-error_function_no_full_info (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
+error_function_no_full_info (FunctionEvalInfo *ei,
+			     int argc,
+			     const GnmExprConstPtr *argv)
 {
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
@@ -705,7 +707,9 @@ gnm_func_add (GnmFuncGroup *fn_group,
 
 /* Handle unknown functions on import without losing their names */
 static GnmValue *
-unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
+unknownFunctionHandler (FunctionEvalInfo *ei,
+			int argc,
+			const GnmExprConstPtr *argv)
 {
 	return value_new_error_NAME (ei->pos);
 }
@@ -1021,7 +1025,7 @@ free_values (GnmValue **values, int top)
  **/
 GnmValue *
 function_call_with_exprs (FunctionEvalInfo *ei,
-			  int argc, GnmExpr **argv,
+			  int argc, const GnmExprConstPtr *argv,
 			  GnmExprEvalFlags flags)
 {
 	GnmFunc const *fn_def;
@@ -1038,15 +1042,8 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 		gnm_func_load_stub ((GnmFunc *) fn_def);
 
 	/* Functions that deal with ExprNodes */
-	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
-#warning "FIXME: highly inelegant"
-		GnmExprList *l = NULL;
-		for (i = argc - 1; i >= 0; i--)
-			l = gnm_expr_list_prepend (l, argv[i]);
-		tmp = fn_def->fn.nodes (ei, l);
-		gnm_expr_list_free (l);
-		return tmp;
-	}
+	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES)
+		return fn_def->fn.nodes (ei, argc, argv);
 
 	/* Functions that take pre-computed Values */
 	if (argc > fn_def->fn.args.max_args ||
@@ -1061,7 +1058,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 		char arg_type = fn_def->fn.args.arg_types[i];
 		/* expr is always non-null, missing args are encoded as
 		 * const = empty */
-		GnmExpr *expr = argv[i];
+		const GnmExpr *expr = argv[i];
 
 		if (arg_type == 'A' || arg_type == 'r') {
 			if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
@@ -1304,22 +1301,17 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
 		 * If function deals with ExprNodes, create some
 		 * temporary ExprNodes with constants.
 		 */
-		GnmExprConstant *expr = NULL;
-		GnmExprList *l = NULL;
+		GnmExprConstant *expr = g_new (GnmExprConstant, argc);
+		GnmExprConstPtr *argv = g_new (GnmExprConstPtr, argc);
 		int i;
 
-		if (argc) {
-			expr = g_alloca (argc * sizeof (GnmExprConstant));
-			for (i = 0; i < argc; i++) {
-				gnm_expr_constant_init (expr + i, values[i]);
-				l = gnm_expr_list_append (l, expr + i);
-			}
+		for (i = 0; i < argc; i++) {
+			gnm_expr_constant_init (expr + i, values[i]);
+			argv[i] = (GnmExprConstPtr)(expr + i);
 		}
-
-		retval = fn_def->fn.nodes (&fs, l);
-
-		if (l != NULL)
-			gnm_expr_list_free (l);
+		retval = fn_def->fn.nodes (&fs, argc, argv);
+		g_free (argv);
+		g_free (expr);
 	} else
 		retval = fn_def->fn.args.func (&fs, values);
 
@@ -1463,17 +1455,17 @@ GnmValue *
 function_iterate_argument_values (GnmEvalPos const	*ep,
 				  FunctionIterateCB	 callback,
 				  void			*callback_closure,
-				  GnmExprList const	*expr_node_list,
+				  int                    argc,
+				  const GnmExprConstPtr *argv,
 				  gboolean		 strict,
 				  CellIterFlags		 iter_flags)
 {
 	GnmValue *result = NULL;
-	GnmExpr const *expr;
-	GnmValue *val;
+	int a;
 
-	for (; result == NULL && expr_node_list;
-	     expr_node_list = expr_node_list->next) {
-		expr = expr_node_list->data;
+	for (a = 0; result == NULL && a < argc; a++) {
+		const GnmExpr *expr = argv[a];
+		GnmValue *val;
 
 		if (iter_flags & CELL_ITER_IGNORE_SUBTOTAL &&
 		    gnm_expr_containts_subtotal (expr))
@@ -1492,15 +1484,10 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 
 		/* Handle sets as a special case */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_SET) {
-#warning "FIXME: highly inelegant"
-			int i;
-			GnmExprList *l = NULL;
-			for (i = expr->set.argc - 1; i >= 0; i--)
-				l = gnm_expr_list_prepend (l, expr->set.argv[i]);
 			result = function_iterate_argument_values
 				(ep, callback, callback_closure,
-				 l, strict, iter_flags);
-			gnm_expr_list_free (l);
+				 expr->set.argc, expr->set.argv,
+				 strict, iter_flags);
 			continue;
 		}
 

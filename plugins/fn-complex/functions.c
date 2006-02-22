@@ -1541,7 +1541,7 @@ callback_function_imoper (GnmEvalPos const *ep, GnmValue const *value, void *clo
 }
 
 static GnmValue *
-gnumeric_improduct (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
+gnumeric_improduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	GnmValue *v;
         eng_imoper_t p;
@@ -1550,9 +1550,11 @@ gnumeric_improduct (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
 	p.imunit = 'j';
 	complex_real (&p.res, 1);
 
-        if ((v = function_iterate_argument_values (ei->pos,
-			callback_function_imoper, &p, expr_node_list,
-			TRUE, CELL_ITER_IGNORE_BLANK)) != NULL)
+	v = function_iterate_argument_values
+		(ei->pos, callback_function_imoper, &p,
+		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
+
+        if (v != NULL)
                 return v;
 
 	return value_new_complex (&p.res, p.imunit);
@@ -1580,7 +1582,7 @@ static GnmFuncHelp const help_imsum[] = {
 };
 
 static GnmValue *
-gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
+gnumeric_imsum (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	GnmValue *v;
         eng_imoper_t p;
@@ -1589,9 +1591,11 @@ gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
 	p.imunit = 'j';
 	complex_real (&p.res, 0);
 
-        if ((v = function_iterate_argument_values (ei->pos,
-			callback_function_imoper, &p, expr_node_list,
-			TRUE, CELL_ITER_IGNORE_BLANK)) != NULL)
+	v = function_iterate_argument_values
+		(ei->pos, callback_function_imoper, &p,
+		 argc, argv, TRUE, CELL_ITER_IGNORE_BLANK);
+
+        if (v != NULL)
                 return v;
 
 	return value_new_complex (&p.res, p.imunit);

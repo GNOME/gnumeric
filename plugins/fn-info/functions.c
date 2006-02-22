@@ -1712,19 +1712,13 @@ static GnmFuncHelp const help_isref[] = {
 };
 
 static GnmValue *
-gnumeric_isref (FunctionEvalInfo *ei, GnmExprList const *expr_node_list)
+gnumeric_isref (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	GnmExpr *t;
-
-	if (gnm_expr_list_length (expr_node_list) != 1)
+	if (argc != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
-	t = expr_node_list->data;
-	if (!t)
-		return NULL;
-
-	return value_new_bool (GNM_EXPR_GET_OPER (t) == GNM_EXPR_OP_CELLREF);
+	return value_new_bool (GNM_EXPR_GET_OPER (argv[0]) == GNM_EXPR_OP_CELLREF);
 }
 
 /***************************************************************************/

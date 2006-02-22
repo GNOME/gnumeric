@@ -130,7 +130,7 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 	ans->argc = gnm_expr_list_length (arg_list);
 	if (arg_list) {
 		int i;
-		ans->argv = g_new (GnmExpr *, ans->argc);
+		ans->argv = g_new (GnmExprConstPtr, ans->argc);
 		for (i = 0; arg_list; i++, arg_list = arg_list->next)
 			ans->argv[i] = arg_list->data;
 		gnm_expr_list_free (arg_list);
@@ -152,9 +152,9 @@ gnm_expr_new_funcall1 (GnmFunc *func,
 	gnm_func_ref (func);
 	ans->func = func;
 	ans->argc = 1;
-	ans->argv = g_new (GnmExpr *, 1);
+	ans->argv = g_new (GnmExprConstPtr, 1);
 	ans->argv[0] = arg0;
-	return ans;
+	return (GnmExpr *)ans;
 }
 
 GnmExpr const *
@@ -170,10 +170,10 @@ gnm_expr_new_funcall2 (GnmFunc *func,
 	gnm_func_ref (func);
 	ans->func = func;
 	ans->argc = 2;
-	ans->argv = g_new (GnmExpr *, 2);
+	ans->argv = g_new (GnmExprConstPtr, 2);
 	ans->argv[0] = arg0;
 	ans->argv[1] = arg1;
-	return ans;
+	return (GnmExpr *)ans;
 }
 
 GnmExpr const *
@@ -190,11 +190,11 @@ gnm_expr_new_funcall3 (GnmFunc *func,
 	gnm_func_ref (func);
 	ans->func = func;
 	ans->argc = 3;
-	ans->argv = g_new (GnmExpr *, 3);
+	ans->argv = g_new (GnmExprConstPtr, 3);
 	ans->argv[0] = arg0;
 	ans->argv[1] = arg1;
 	ans->argv[2] = arg2;
-	return ans;
+	return (GnmExpr *)ans;
 }
 
 
@@ -389,7 +389,7 @@ gnm_expr_new_set (GnmExprList *set)
 	ans->argc = gnm_expr_list_length (set);
 	if (set) {
 		int i;
-		ans->argv = g_new (GnmExpr *, ans->argc);
+		ans->argv = g_new (GnmExprConstPtr, ans->argc);
 		for (i = 0; set; i++, set = set->next)
 			ans->argv[i] = set->data;
 		gnm_expr_list_unref (set);
@@ -1504,7 +1504,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 static void
 gnm_expr_list_as_string (GString *target,
-			 int argc, GnmExpr **argv,
+			 int argc, const GnmExprConstPtr *argv,
 			 GnmParsePos const *pp,
 			 GnmExprConventions const *fmt);
 
@@ -1990,8 +1990,10 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			GnmExprList *m = new_args;
 
 			for (i = 0; i < expr->func.argc; i++, m = m->next)
-				if (m->data == NULL)
-					gnm_expr_ref ((m->data = expr->func.argv[i]));
+				if (m->data == NULL) {
+					m->data = (GnmExpr *)expr->func.argv[i];
+					gnm_expr_ref (m->data);
+				}
 
 			return gnm_expr_new_funcall (expr->func.func, new_args);
 		}
@@ -2015,8 +2017,10 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			GnmExprList *m = new_set;
 
 			for (i = 0; i < expr->set.argc; i++, m = m->next) {
-				if (m->data == NULL)
-					gnm_expr_ref ((m->data = expr->set.argv[i]));
+				if (m->data == NULL) {
+					m->data = (GnmExpr *)expr->set.argv[i];
+					gnm_expr_ref (m->data);
+				}
 			}
 
 			return gnm_expr_new_set (new_set);
@@ -2660,7 +2664,7 @@ gnm_expr_list_unref (GnmExprList *list)
 
 static void
 gnm_expr_list_as_string (GString *target,
-			 int argc, GnmExpr **argv,
+			 int argc, const GnmExprConstPtr *argv,
 			 GnmParsePos const *pp,
 			 GnmExprConventions const *conv)
 {

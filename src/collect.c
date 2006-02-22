@@ -142,7 +142,8 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
  * gnm_float.
  */
 static gnm_float *
-collect_floats (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags flags,
+collect_floats (int argc, const GnmExprConstPtr *argv,
+		GnmEvalPos const *ep, CollectFlags flags,
 		int *n, GnmValue **error, GSList **info)
 {
 	GnmValue * err;
@@ -165,8 +166,10 @@ collect_floats (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags 
 	cl.info = NULL;
 	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
 
-	err = function_iterate_argument_values (ep, &callback_function_collect,
-		&cl, exprlist, TRUE, iter_flags);
+	err = function_iterate_argument_values
+		(ep, &callback_function_collect, &cl,
+		 argc, argv,
+		 TRUE, iter_flags);
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);
@@ -190,16 +193,11 @@ gnm_float *
 collect_floats_value (GnmValue const *val, GnmEvalPos const *ep,
 		      CollectFlags flags, int *n, GnmValue **error)
 {
-	GnmExprList *exprlist;
-	GnmExprConstant expr_val;
-	gnm_float *res;
+	GnmExpr expr_val;
+	GnmExprConstPtr argv[1] = { &expr_val };
 
-	gnm_expr_constant_init (&expr_val, val);
-	exprlist = gnm_expr_list_prepend (NULL, &expr_val);
-	res = collect_floats (exprlist, ep, flags, n, error, NULL);
-	gnm_expr_list_free (exprlist);
-
-	return res;
+	gnm_expr_constant_init (&expr_val.constant, val);
+	return collect_floats (1, argv, ep, flags, n, error, NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -210,14 +208,12 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 				CollectFlags flags, int *n, GSList **info,
 				GnmValue **error)
 {
-	GnmExprList *exprlist;
-	GnmExprConstant expr_val;
+	GnmExpr expr_val;
+	GnmExprConstPtr argv[1] = { &expr_val };
 	gnm_float *res;
 
-	gnm_expr_constant_init (&expr_val, val);
-	exprlist = gnm_expr_list_prepend (NULL, &expr_val);
-	res = collect_floats (exprlist, ep, flags, n, error, info);
-	gnm_expr_list_free (exprlist);
+	gnm_expr_constant_init (&expr_val.constant, val);
+	res = collect_floats (1, argv, ep, flags, n, error, info);
 
 	if (info)
 		*info = g_slist_reverse (*info);
@@ -229,7 +225,8 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 /* ------------------------------------------------------------------------- */
 
 GnmValue *
-float_range_function (GnmExprList const *exprlist, FunctionEvalInfo *ei,
+float_range_function (int argc, const GnmExprConstPtr *argv,
+		      FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
 		      GnmStdError func_error)
@@ -238,7 +235,7 @@ float_range_function (GnmExprList const *exprlist, FunctionEvalInfo *ei,
 	gnm_float *vals, res;
 	int n, err;
 
-	vals = collect_floats (exprlist, ei->pos, flags, &n, &error, NULL);
+	vals = collect_floats (argc, argv, ei->pos, flags, &n, &error, NULL);
 	if (!vals)
 		return (error != VALUE_TERMINATE) ? error : NULL;
 
@@ -354,7 +351,8 @@ strip_missing (GArray * data, GSList **missing)
 
 
 GnmValue *
-float_range_function2 (GnmValue const *val0, GnmValue const *val1, FunctionEvalInfo *ei,
+float_range_function2 (GnmValue const *val0, GnmValue const *val1,
+		       FunctionEvalInfo *ei,
 		       float_range_function2_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)
@@ -435,7 +433,7 @@ callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
 				   void *closure)
 {
 	char *text = NULL;
-	collect_strings_t *cl = (collect_strings_t *)closure;
+	collect_strings_t *cl = closure;
 
 	if (value == NULL) {
 		if (cl->flags & COLLECT_IGNORE_BLANKS)
@@ -462,8 +460,7 @@ callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
 			return value_new_error_VALUE (ep);
 		break;
 	default:
-		text = g_strdup_printf ("Trouble in callback_function_collect. (%d)",
-					value->type);
+		g_assert_not_reached ();
 		break;
 	}
 
@@ -487,7 +484,9 @@ callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
  */
 
 static GSList *
-collect_strings (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags flags, GnmValue **error)
+collect_strings (int argc, const GnmExprConstPtr *argv,
+		 GnmEvalPos const *ep, CollectFlags flags,
+		 GnmValue **error)
 {
 	GnmValue * err;
 	collect_strings_t cl;
@@ -495,8 +494,9 @@ collect_strings (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags
 	cl.data = NULL;
 	cl.flags = flags;
 
-	err = function_iterate_argument_values (ep, &callback_function_collect_strings,
-		&cl, exprlist,
+	err = function_iterate_argument_values
+		(ep, &callback_function_collect_strings, &cl,
+		 argc, argv,
 		TRUE, (flags & COLLECT_IGNORE_BLANKS) ?  CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL);
 
 	if (err) {
@@ -512,7 +512,8 @@ collect_strings (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags
 
 
 GnmValue *
-string_range_function (GnmExprList const *exprlist, FunctionEvalInfo *ei,
+string_range_function (int argc, const GnmExprConstPtr *argv,
+		       FunctionEvalInfo *ei,
 		       string_range_function_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)
@@ -522,7 +523,7 @@ string_range_function (GnmExprList const *exprlist, FunctionEvalInfo *ei,
 	char *res = NULL;
 	int err;
 
-	vals = collect_strings (exprlist, ei->pos, flags, &error);
+	vals = collect_strings (argc, argv, ei->pos, flags, &error);
 	if (!vals)
 		return (error != VALUE_TERMINATE) ? error : NULL;
 

@@ -1,3 +1,12 @@
+2006-02-21  Morten Welinder  <terra@gnome.org>
+
+	* src/func.h (GnmFuncNodes) Switch to argc/argv mode.  All, and I
+	mean all, users changed.
+
+	* src/collect.c (float_range_function, string_range_function):
+	Switch to argc/argv mode.  All callers changed.
+	* src/func.c (function_iterate_argument_values): Ditto.
+
 2006-02-19  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_new_funcall1, gnm_expr_new_funcall2,

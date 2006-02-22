@@ -481,9 +481,9 @@ static GnmFuncHelp const help_concatenate[] = {
 };
 
 static GnmValue *
-gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_concatenate (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return string_range_function (nodes, ei,
+	return string_range_function (argc, argv, ei,
 				      range_concatenate,
 				      COLLECT_IGNORE_BLANKS,
 				      GNM_ERROR_VALUE);

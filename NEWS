@@ -83,6 +83,7 @@ Morten:
 	* Save a bit of memory for function calls.
 	* Fix type confusing in mps importer.
 	* Greatly reduce the use of the type-unsafe GnmExprList.
+	* Use argc/argv form for sheet function taking uneval'd args.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

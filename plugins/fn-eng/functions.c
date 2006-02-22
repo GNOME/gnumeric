@@ -1434,9 +1434,9 @@ range_invsuminv (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_invsuminv (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_invsuminv (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_invsuminv,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |

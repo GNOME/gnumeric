@@ -992,12 +992,11 @@ excel_parse_formula (MSContainer const *container,
 			} else {
 				/* Barf!  -- MW.  */
 				GnmExpr *ll = (GnmExpr *)l;
-				GnmExpr *rr = (GnmExpr *)r;
 				ll->set.argc++;
-				ll->set.argv = g_renew (GnmExpr *,
+				ll->set.argv = g_renew (GnmExprConstPtr,
 							ll->set.argv,
 							ll->set.argc);
-				ll->set.argv[ll->set.argc - 1] = rr;
+				ll->set.argv[ll->set.argc - 1] = r;
 			}
 			break;
 		}

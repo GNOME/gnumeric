@@ -442,15 +442,14 @@ static GnmFuncHelp const help_areas[] = {
 
 /* TODO : we need to rethink EXPR_SET as an operator vs a value type */
 static GnmValue *
-gnumeric_areas (FunctionEvalInfo *ei, GnmExprList const *l)
+gnumeric_areas (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	GnmExpr const *expr;
 	int res = -1;
-	int argc =  gnm_expr_list_length (l);
 
-	if (argc < 1 || l->data == NULL || argc > 1)
+	if (argc != 1 || argv[0] == NULL)
 		return value_new_error_VALUE (ei->pos);
-	expr = l->data;
+	expr = argv[0];
 
  restart:
 	switch (GNM_EXPR_GET_OPER (expr)) {
@@ -524,18 +523,16 @@ static GnmFuncHelp const help_choose[] = {
 };
 
 static GnmValue *
-gnumeric_choose (FunctionEvalInfo *ei, GnmExprList const *l)
+gnumeric_choose (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	int     index;
-	int     argc;
 	GnmValue  *v;
+	int i;
 
-	argc =  gnm_expr_list_length (l);
-
-	if (argc < 1 || !l->data)
+	if (argc < 1)
 		return value_new_error_VALUE (ei->pos);
 
-	v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	v = gnm_expr_eval (argv[0], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!v)
 		return NULL;
 
@@ -546,10 +543,10 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList const *l)
 
 	index = value_get_as_int (v);
 	value_release (v);
-	for (l = l->next; l != NULL ; l = l->next) {
+	for (i = 1; i < argc; i++) {
 		index--;
 		if (!index)
-			return gnm_expr_eval (l->data, ei->pos,
+			return gnm_expr_eval (argv[i], ei->pos,
 					      GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 	}
 	return value_new_error_VALUE (ei->pos);
@@ -876,22 +873,21 @@ static GnmFuncHelp const help_index[] = {
 };
 
 static GnmValue *
-gnumeric_index (FunctionEvalInfo *ei, GnmExprList const *l)
+gnumeric_index (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
 	GnmExpr const *source;
 	int elem[3] = { 0, 0, 0 };
-	unsigned i = 0;
+	int i = 0;
 	gboolean valid;
 	GnmValue *v, *res;
 
-	if (l == NULL)
+	if (argc == 0)
 		return value_new_error_VALUE (ei->pos);
-	source = l->data;
-	l = l->next;
+	source = argv[0];
 
-	for (i = 0; l != NULL && i < G_N_ELEMENTS (elem) ; i++, l = l->next) {
+	for (i = 0; i + 1 < argc && i < (int)G_N_ELEMENTS (elem); i++) {
 		v = value_coerce_to_number (
-			gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY),
+			gnm_expr_eval (argv[i + 1], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY),
 			&valid, ei->pos);
 		if (!valid)
 			return v;

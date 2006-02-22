@@ -1793,9 +1793,9 @@ range_npv (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_npv (FunctionEvalInfo *ei, GnmExprList const *nodes)
+gnumeric_npv (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	return float_range_function (nodes, ei,
+	return float_range_function (argc, argv, ei,
 				     range_npv,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |

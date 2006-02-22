@@ -69,6 +69,8 @@ typedef struct _GnmExprCellRef		GnmExprCellRef;
 typedef struct _GnmExprArrayCorner	GnmExprArrayCorner;
 typedef struct _GnmExprArrayElem	GnmExprArrayElem;
 typedef struct _GnmExprSet		GnmExprSet;
+typedef const GnmExpr *			GnmExprConstPtr;
+
 
 typedef struct _GnmExprRelocateInfo	GnmExprRelocateInfo;
 typedef struct _GnmExprRewriteInfo 	GnmExprRewriteInfo;
