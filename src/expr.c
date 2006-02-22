@@ -392,7 +392,7 @@ gnm_expr_new_set (GnmExprList *set)
 		ans->argv = g_new (GnmExprConstPtr, ans->argc);
 		for (i = 0; set; i++, set = set->next)
 			ans->argv[i] = set->data;
-		gnm_expr_list_unref (set);
+		gnm_expr_list_free (set);
 	} else
 		ans->argv = NULL;
 
