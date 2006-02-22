@@ -129,11 +129,12 @@ gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
 	ans->func = func;
 	ans->argc = gnm_expr_list_length (arg_list);
 	if (arg_list) {
+		GnmExprList *arg_list0 = arg_list;
 		int i;
 		ans->argv = g_new (GnmExprConstPtr, ans->argc);
 		for (i = 0; arg_list; i++, arg_list = arg_list->next)
 			ans->argv[i] = arg_list->data;
-		gnm_expr_list_free (arg_list);
+		gnm_expr_list_free (arg_list0);
 	} else
 		ans->argv = NULL;
 
@@ -379,20 +380,17 @@ gnm_expr_set_hash (GnmExprSet const *expr)
 GnmExpr const *
 gnm_expr_new_set (GnmExprList *set)
 {
-	GnmExprSet *ans;
-
-	ans = CHUNK_ALLOC (GnmExprSet, expression_pool_small);
-	if (!ans)
-		return NULL;
+	GnmExprSet *ans = CHUNK_ALLOC (GnmExprSet, expression_pool_small);
 
 	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_SET);
 	ans->argc = gnm_expr_list_length (set);
 	if (set) {
+		GnmExprList *set0 = set;
 		int i;
 		ans->argv = g_new (GnmExprConstPtr, ans->argc);
 		for (i = 0; set; i++, set = set->next)
 			ans->argv[i] = set->data;
-		gnm_expr_list_free (set);
+		gnm_expr_list_free (set0);
 	} else
 		ans->argv = NULL;
 
