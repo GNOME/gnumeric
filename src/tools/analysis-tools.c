@@ -2913,7 +2913,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		static const GnmCellRef cr_df_num = {NULL, 0, -2, TRUE, TRUE};
 		static const GnmCellRef cr_df_denum = {NULL, 1, -2, TRUE, TRUE};
 		static const GnmCellRef cr_F = {NULL, 0, -1, TRUE, TRUE};
-		GnmFunc *fd_fdist = gnm_func_lookup ("FDIST", NULL);;
+		GnmFunc *fd_fdist = gnm_func_lookup ("FDIST", NULL);
 		const GnmExpr *arg3;
 
 		gnm_func_ref (fd_fdist);
