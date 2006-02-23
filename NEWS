@@ -85,6 +85,7 @@ Morten:
 	* Greatly reduce the use of the type-unsafe GnmExprList.
 	* Use argc/argv form for sheet function taking uneval'd args.
 	* Fix expression creation and leaks in mps importer.
+	* Use toolbuttons for edit-line buttons.  [#331916]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

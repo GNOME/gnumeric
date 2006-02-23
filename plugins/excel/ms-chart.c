@@ -4227,7 +4227,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 						     * 80 == default date settings */
 		ms_biff_put_commit (s->bp);
 	} else {
-		char *const scale;
+		char *scale = NULL;
 		gboolean log_scale = FALSE;
 
 		g_object_get (G_OBJECT (axis),
@@ -4738,6 +4738,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	/* TODO : handle multiple charts */
 	state.chart = charts->data;
 	state.nest_level = 0;
+	g_slist_free (charts);
 
 	/* TODO : create a null renderer class for use in sizing things */
 	renderer  = g_object_new (GOG_RENDERER_TYPE,

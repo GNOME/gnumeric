@@ -1,3 +1,7 @@
+2006-02-21  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_write): Plug minor leak.
+
 2006-01-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_FORMULA) : adjust to new

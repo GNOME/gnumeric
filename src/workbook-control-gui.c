@@ -82,18 +82,7 @@
 #include <gsf/gsf-impl-utils.h>
 
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkprogressbar.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 
 #include <string.h>
 #include <errno.h>
@@ -1525,19 +1514,18 @@ static GtkWidget *
 edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
 		  GCallback func, char const *stock_id)
 {
-	GtkWidget *button = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (button),
-		gtk_image_new_from_stock (stock_id,
-					  GTK_ICON_SIZE_BUTTON));
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-	if (!sensitive)
-		gtk_widget_set_sensitive (button, FALSE);
+	GObject *button =
+		g_object_new (GTK_TYPE_TOOL_BUTTON,
+			      "stock-id", stock_id,
+			      "sensitive", sensitive,
+			      "can-focus", FALSE,
+			      NULL);
 
-	g_signal_connect_swapped (G_OBJECT (button),
+	g_signal_connect_swapped (button,
 		"clicked",
 		G_CALLBACK (func), wbcg);
 
-	return button;
+	return GTK_WIDGET (button);
 }
 
 /*
