@@ -84,6 +84,7 @@ Morten:
 	* Fix type confusing in mps importer.
 	* Greatly reduce the use of the type-unsafe GnmExprList.
 	* Use argc/argv form for sheet function taking uneval'd args.
+	* Fix expression creation and leaks in mps importer.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

@@ -281,10 +281,9 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	GSList  *current;
 	int     i, n, r, ecol, inc2;
 	int     n_rows_per_fn;
-	GString *var_range[2];
 	GnmRange   range, v_range;
 	GnmCell    *cell;
-	GString *buf;
+	const GnmExpr *expr;
 
 	/*
 	 * Add objective function stuff into the sheet.
@@ -313,8 +312,6 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	/* Print constraints. */
 	inc2               = 2 * n_rows_per_fn;
 	param->constraints = NULL;
-	var_range[0]      = g_string_new (NULL);
-	var_range[1]      = g_string_new (NULL);
 
 	/* Initialize var_range to contain the range name of the
 	 * objective function variables. */
@@ -323,7 +320,6 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		    VARIABLE_ROW + n_rows_per_fn - 1,
 		    (ctxt->n_cols % MAX_COL),
 		    VARIABLE_ROW + n_rows_per_fn - 1);
-	g_string_append_printf (var_range[i], "%s", range_name (&v_range));
 
 	i = 0;
 	for (current = ctxt->rows; current != NULL; current = current->next) {
@@ -379,6 +375,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			   gnm_expr_new_constant
 			   (value_new_cellrange_r (NULL, &range)));
 		  cell_set_expr (cell, expr);
+		  gnm_expr_unref (expr);
 		  cell_queue_recalc (cell);
 
 		  /* Add Slack calculation */
@@ -392,6 +389,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			    GNM_EXPR_OP_SUB,
 			    gnm_expr_new_cellref (&ref2)));
 		  cell_set_expr (cell, expr);
+		  gnm_expr_unref (expr);
 		  cell_queue_recalc (cell);
 
 		  /* Add Solver constraint */
@@ -425,27 +423,25 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	}
 
 	/* Write the objective fn. */
-	buf = g_string_new (NULL);
 	range_init (&range, VARIABLE_COL,
 		    VARIABLE_ROW + 1 + n_rows_per_fn,
 		    ctxt->n_cols,
 		    VARIABLE_ROW + 1 + n_rows_per_fn);
-	g_string_append_printf (buf, "=SUMPRODUCT(%s%c%s)",
-				var_range[0]->str,
-				format_get_arg_sep (),
-				range_name (&range));
-
+	expr = gnm_expr_new_funcall2
+		(gnm_func_lookup ("SUMPRODUCT", NULL),
+		 gnm_expr_new_constant
+		 (value_new_cellrange_r (NULL, &v_range)),
+		 gnm_expr_new_constant
+		 (value_new_cellrange_r (NULL, &range)));
 	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
-	sheet_cell_set_text (cell, buf->str, NULL);
-	g_string_free (buf, TRUE);
+	cell_set_expr (cell, expr);
+	gnm_expr_unref (expr);
+	cell_queue_recalc (cell);
 
 	/* Store the input cell range for the Solver dialog. */
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW,
 		    MAX_COL, VARIABLE_ROW + n_rows_per_fn - 1);
 	param->input_entry_str = g_strdup (range_name (&range));
-
-	g_string_free (var_range[0], TRUE);
-	g_string_free (var_range[1], TRUE);
 }
 
 /* Creates the spreadsheet model. */
