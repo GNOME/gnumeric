@@ -1,5 +1,8 @@
 2006-02-23  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (wbcg_edit_start): Go to the end of the
+	text.  Fixes #319311.
+
 	* src/workbook-control-gui.c (edit_area_button): Use tool buttons,
 	not plain buttons.  Fixes #331916.
 

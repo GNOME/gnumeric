@@ -672,6 +672,9 @@ gboolean
 wbcg_edit_start (WorkbookControlGUI *wbcg,
 		 gboolean blankp, gboolean cursorp)
 {
+	/*
+	 * FIXME!  static?  At worst this should sit in wbcg.
+	 */
 	static gboolean inside_editing = FALSE;
 	SheetView *sv;
 	SheetControlGUI *scg;
@@ -796,6 +799,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 
 	inside_editing = FALSE;
+
+	gtk_editable_set_position (GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+
 	return TRUE;
 }
 
