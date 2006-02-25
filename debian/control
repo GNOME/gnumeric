@@ -14,7 +14,6 @@ Build-Depends: debhelper (>= 4.2.21), dh-buildinfo, po-debconf,
  libbonoboui2-dev (>= 2.6.1-1),
  libgnome2-dev (>= 2.4.0-2), libgnomeui-dev (>= 2.4.0-2),
  libgsf-gnome-1-dev (>= 1.13.2),
- libgda2-dev (>= 1.0.4-1), libgnomedb2-dev (>= 1.0.4-7),
  pxlib-dev (>= 0.5.1-2), libperl-dev,
  python2.3-dev, python-gtk2-dev
 Standards-Version: 3.6.1
@@ -90,5 +89,3 @@ Description: additional plugins for the GNOME spreadsheet
   o The Python plugin loader
   o Additional Python functions
   o The Gnome glossary
-  o The gda (Gnome Database Access) plugin
-  o The GNOME-DB plugin

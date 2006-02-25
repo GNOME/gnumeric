@@ -34,6 +34,34 @@ upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's
 
 features:=
 
+# Spreadsheet indexer for beagle
+features+= --enable-ssindex
+
+# Plugins to access databases through the GDA framework and through GnomeDB.
+#
+# The GDA and GnomeDB plugins for gnumeric now require versions of GDA and
+# GnomeDB that are not available as packages yet.
+#	Mon, 10 Oct 2005 20:37:06 +0200
+features+= --without-gda --without-gnomedb
+
+# configure.in: "Gnome Basic is extremely API unstable; it is likely that
+# gnumeric will only build with the single version mentioned in
+# configure.in, if at all. It is possible, but unlikely, that Gnome Basic
+# contains security vulnerabilities."
+
+features+= --without-gb
+
+# Debian's psiconv packages are not recent enough for gnumeric; see
+# http://bugs.debian.org/268576
+#	Tue,  9 Aug 2005 17:36:09 +0200
+features+= --without-psiconv
+
+# Paradox database files plugin
+features+= --with-paradox
+
+# Perl plugin
+features+= --with-perl
+
 # The Python executable
 features+= PYTHON=/usr/bin/python
 
@@ -49,39 +77,6 @@ features+= --with-python
 
 features+= --without-bonobo
 
-# Plugin to access databases through the GDA framework.
-
-features+= --with-gda
-
-# Guile offers an additional way to extension gnumeric, but the guile
-# support is for guile 1.5 or newer, which is not currently available in
-# Debian.
-
-features+= --without-guile
-
-# configure.in: "Gnome Basic is extremely API unstable; it is likely that
-# gnumeric will only build with the single version mentioned in
-# configure.in, if at all. It is possible, but unlikely, that Gnome Basic
-# contains security vulnerabilities."
-
-features+= --without-gb
-
-# The GDA and GnomeDB plugins for gnumeric now require versions of GDA and
-# GnomeDB that are not available as packages yet.
-#	Mon, 10 Oct 2005 20:37:06 +0200
-features+= --without-gda --without-gnomedb
-
-# Debian's psiconv packages are not recent enough for gnumeric; see
-# http://bugs.debian.org/268576
-#	Tue,  9 Aug 2005 17:36:09 +0200
-features+= --without-psiconv
-
-# Paradox database files plugin
-features+= --with-paradox
-
-# Spreadsheet indexer for beagle
-features+= --enable-ssindex
-
 confflags :=	--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
 		--sysconfdir=/etc \
@@ -96,7 +91,7 @@ else
 	confflags += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
 endif
 
-# Make the linker work a bit harder so dynamic loading can be done faster
+# Make the linker work a bit harder so dynamic loading can be done faster.
 #
 # Make the linker only include actual dependencies on libraries, rather than
 # for all libraries specified in the link line.

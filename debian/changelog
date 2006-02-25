@@ -1,11 +1,15 @@
 gnumeric (1.6.2-2) UNRELEASED; urgency=low
 
+  * [debian/control, debian/rules] Don't try to build the gda and gnome-db
+    plugins and dropped dependencies on and references to them - they need
+    newer packages than are available in sid and there are no signs sid will
+    get these any time soon.
   * [debian/po/da.po] Added, courtesy of Claus Hindsgaul <claus_h@image.dk>.
     (Closes: #352689)
   * [debian/po/cs.po] Added, courtesy of Miroslav Kure
-    <kurem@upcase.inf.upol.cz> (Closes: #353370)
+    <kurem@upcase.inf.upol.cz>. (Closes: #353370)
   * [debian/po/sv.po] Added, courtesy of Daniel Nylander
-    <yeager@lidkoping.net> (Closes: #353786)
+    <yeager@lidkoping.net>. (Closes: #353786)
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 10 Feb 2006 21:29:05 +0100
 
