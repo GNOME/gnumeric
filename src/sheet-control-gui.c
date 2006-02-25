@@ -1398,7 +1398,6 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_hscrollbar_adjust_bounds), NULL);
 
 	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
-	g_object_set_data (G_OBJECT (scg->table), SHEET_CONTROL_KEY, scg);
 	gtk_table_attach (scg->table, GTK_WIDGET (scg->inner_table),
 		0, 1, 0, 1,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,

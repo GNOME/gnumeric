@@ -894,7 +894,7 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
 }
 
 /**
- * workbook_sheet_hide_controls :
+ * workbook_sheet_remove_controls :
  * @wb : #Workbook
  * @sheet : #Sheet
  *
@@ -903,7 +903,7 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
  * Returns TRUE if there are any remaining sheets visible
  **/
 static gboolean
-workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
+workbook_sheet_remove_controls (Workbook *wb, Sheet *sheet)
 {
 	Sheet *focus = NULL;
 
@@ -925,23 +925,6 @@ workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 		wb_control_sheet_remove (wbc, sheet););
 
 	return focus != NULL;
-}
-
-static void
-cb_sheet_visibility_change (Sheet *sheet,
-			    G_GNUC_UNUSED GParamSpec *pspec,
-			    G_GNUC_UNUSED gpointer data)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) {
-		SheetView *sv;
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, wbv, wbc, {
-			sv = sheet_get_view (sheet, wbv);
-			if (NULL == sv_get_control (sv, wbc))
-				wb_control_sheet_add (wbc, sv);});
-	} else
-		workbook_sheet_hide_controls (sheet->workbook, sheet);
 }
 
 /**
@@ -972,11 +955,6 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		wb_view_sheet_add (view, new_sheet););
-
-	g_signal_connect (G_OBJECT (new_sheet),
-			  "notify::visibility",
-			  G_CALLBACK (cb_sheet_visibility_change),
-			  NULL);
 
 	/* Do not signal until after adding the views [#314208] */
 	post_sheet_index_change (wb);
@@ -1047,13 +1025,11 @@ workbook_sheet_delete (Sheet *sheet)
 	wb = sheet->workbook;
 	sheet_index = sheet->index_in_wb;
 
-	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, NULL);
-
 	if (!wb->during_destruction) {
 		workbook_focus_other_sheet (wb, sheet);
 		/* During destruction this was already done.  */
 		dependents_invalidate_sheet (sheet, FALSE);
-		still_visible_sheets = workbook_sheet_hide_controls (wb, sheet);
+		still_visible_sheets = workbook_sheet_remove_controls (wb, sheet);
 	}
 
 	/* All is fine, remove the sheet */

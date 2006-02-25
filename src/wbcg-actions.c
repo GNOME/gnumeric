@@ -345,9 +345,9 @@ static GNM_ACTION_DEF (cb_edit_paste_special)
 
 static GNM_ACTION_DEF (cb_sheet_remove)
 {
-	SheetControlGUI *res;
-	if (wbcg_sheet_to_page_index (wbcg, wbcg_cur_sheet (wbcg), &res) >= 0)
-		scg_delete_sheet_if_possible (NULL, res);
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+	if (scg)
+		scg_delete_sheet_if_possible (NULL, scg);
 }
 
 static GNM_ACTION_DEF (cb_edit_duplicate_sheet)

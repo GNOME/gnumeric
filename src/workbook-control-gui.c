@@ -113,6 +113,8 @@ void wbcg_ ## func arglist				\
 #define TABLE_COLUMNS  1	
 #endif
 
+#define	SHEET_CONTROL_KEY	"SheetControl"
+
 enum {
 	TARGET_URI_LIST,
 	TARGET_SHEET
@@ -153,53 +155,18 @@ wbcg_ui_update_end (WorkbookControlGUI *wbcg)
 	wbcg->updating_ui = FALSE;
 }
 
-static Sheet *
-wbcg_page_index_to_sheet (WorkbookControlGUI *wbcg, int page,
-			  SheetControlGUI **res)
+static SheetControlGUI *
+wbcg_get_scg (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GtkWidget *w;
-
-	if (res)
-		*res = NULL;
-
-	w = gtk_notebook_get_nth_page (wbcg->notebook, page);
-	if (w) {
-		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-		if (scg) {
-			if (res) *res = scg;
-			return ((SheetControl *)scg)->sheet;
-		}
-	}
-
-	return NULL;
-}
-
-int
-wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
-			  SheetControlGUI **res)
-{
-	int i = 0;
-	GtkWidget *w;
-
-	if (res)
-		*res = NULL;
 
 	if (sheet == NULL || wbcg->notebook == NULL)
-		return -1;
+		return NULL;
 
-	g_return_val_if_fail (IS_SHEET (sheet), -1);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	for ( ; NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) ; i++) {
-		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-		SheetControl *sc = (SheetControl *) scg;
-
-		if (scg != NULL && sc->sheet == sheet) {
-			if (res)
-				*res = scg;
-			return i;
-		}
-	}
-	return -1;
+	w = gtk_notebook_get_nth_page (wbcg->notebook, sheet->index_in_wb);
+	return g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
 }
 
 GtkWindow *
@@ -262,13 +229,7 @@ wbcg_cur_sheet (WorkbookControlGUI *wbcg)
 SheetControlGUI *
 wbcg_cur_scg (WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg;
-
-	wbcg_sheet_to_page_index (
-		wbcg,
-		wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)), &scg);
-
-	return scg;
+	return wbcg_get_scg (wbcg, wbcg_cur_sheet (wbcg));
 }
 
 /****************************************************************************/
@@ -417,8 +378,8 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 		int i;
 		for (i = 0; i < gtk_notebook_get_n_pages (wbcg->notebook); i++) {
 			GtkWidget *page = gtk_notebook_get_nth_page (wbcg->notebook, i);
-			SheetControlGUI *scg = g_object_get_data (G_OBJECT (page), SHEET_CONTROL_KEY);
-			editable_label_set_editable (EDITABLE_LABEL (scg->label), enable_actions);
+			GtkWidget *label = gtk_notebook_get_tab_label (wbcg->notebook, page);
+			editable_label_set_editable (EDITABLE_LABEL (label), enable_actions);
 		}
 	}
 
@@ -575,21 +536,19 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
  */
 static gboolean
 cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
-			     GtkWidget *child)
+			     SheetControlGUI *scg)
 {
-	GtkWidget *notebook;
+	GtkNotebook *notebook;
 	gint page_number;
-	SheetControlGUI *scg = g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
-
-	g_return_val_if_fail (scg != NULL, FALSE);
+	GtkWidget *table = GTK_WIDGET (scg->table);
 
 	if (event->type != GDK_BUTTON_PRESS)
 		return FALSE;
 
-	notebook = child->parent;
-	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
+	notebook = GTK_NOTEBOOK (table->parent);
+	page_number = gtk_notebook_page_num (notebook, table);
 
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), page_number);
+	gtk_notebook_set_current_page (notebook, page_number);
 
 	if (event->button == 1 || NULL != scg->wbcg->rangesel)
 		return TRUE;
@@ -666,15 +625,15 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	 * the sheets.
 	 */
 	if (p_src >= 0) {
-		Sheet *s_src = wbcg_page_index_to_sheet (wbcg, p_src, NULL);
-		int p_dst =
-			gnm_notebook_page_num_by_label (wbcg->notebook,
-							widget);
-		Sheet *s_dst = wbcg_page_index_to_sheet (wbcg, p_dst, NULL);
+		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Sheet *s_src = workbook_sheet_by_index (wb, p_src);
+		int p_dst = gnm_notebook_page_num_by_label (wbcg->notebook,
+							    widget);
+		Sheet *s_dst = workbook_sheet_by_index (wb, p_dst);
 
 		if (s_src && s_dst && s_src != s_dst) {
-			WorkbookSheetState *old_state = workbook_sheet_state_new (s_src->workbook);
-			workbook_sheet_move (s_src, s_dst->index_in_wb - s_src->index_in_wb);
+			WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
+			workbook_sheet_move (s_src, p_dst - p_src);
 			cmd_reorganize_sheets2 (WORKBOOK_CONTROL (wbcg), old_state);
 		}
 	} else {
@@ -890,22 +849,31 @@ cb_zoom_change (Sheet *sheet,
 }
 
 static void
-disconnect_sheet_signals (WorkbookControlGUI *wbcg, Sheet *sheet)
+cb_sheet_visibility_change (Sheet *sheet,
+			    G_GNUC_UNUSED GParamSpec *pspec,
+			    GtkWidget *w)
 {
-	int i;
-	SheetControlGUI *scg;
+	if (sheet_is_visible (sheet))
+		gtk_widget_show (w);
+	else
+		gtk_widget_hide (w);
+}
 
-	if (!sheet)
-		return;
+static void
+disconnect_sheet_signals (WorkbookControlGUI *wbcg, Sheet *sheet, gboolean focus_signals_only)
+{
+	SheetControlGUI *scg =wbcg_get_scg (wbcg, sheet);
 
-	i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
-	if (i < 0)
-		return;
+	if (scg) {
+		g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
+		g_signal_handlers_disconnect_by_func (sheet, cb_direction_change, scg);
+		g_signal_handlers_disconnect_by_func (sheet, cb_zoom_change, wbcg);
 
-	g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
-	g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
-	g_signal_handlers_disconnect_by_func (sheet, cb_direction_change, scg);
-	g_signal_handlers_disconnect_by_func (sheet, cb_zoom_change, wbcg);
+		if (!focus_signals_only) {
+			g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
+			g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, scg->table);
+		}
+	}
 }
 
 static void
@@ -920,17 +888,18 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	SheetControl	*sc;
 	Sheet		*sheet;
 	GSList		*ptr;
+	gboolean visible;
 
 	g_return_if_fail (wbcg != NULL);
 
 	sheet = sv_sheet (sv);
-	if (sheet->visibility != GNM_SHEET_VISIBILITY_VISIBLE)
-		return;
+	visible = sheet_is_visible (sheet);
 
 	if (wbcg->notebook == NULL)
 		workbook_setup_sheets (wbcg);
 
 	scg = sheet_control_gui_new (sv, wbcg);
+	g_object_set_data (G_OBJECT (scg->table), SHEET_CONTROL_KEY, scg);
 
 	/*
 	 * NB. this is so we can use editable_label_set_text since
@@ -946,7 +915,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	/* do not preempt the editable label handler */
 	g_signal_connect_after (G_OBJECT (scg->label),
 		"button_press_event",
-		G_CALLBACK (cb_sheet_label_button_press), scg->table);
+		G_CALLBACK (cb_sheet_label_button_press), scg);
 
 	/* Drag & Drop */
 	gtk_drag_source_set (scg->label, GDK_BUTTON1_MASK | GDK_BUTTON3_MASK,
@@ -966,6 +935,14 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 
 	gtk_widget_show (scg->label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));
+	if (!visible)
+		gtk_widget_hide (GTK_WIDGET (scg->table));
+	g_object_connect (G_OBJECT (sheet),
+			  "signal::notify::visibility", cb_sheet_visibility_change, scg->table,
+			  "signal::notify::name", cb_sheet_tab_change, scg->label,
+			  "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
+			  "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
+			  NULL);
 
 	if (wbcg_ui_update_begin (wbcg)) {
 		gtk_notebook_insert_page (wbcg->notebook,
@@ -988,18 +965,13 @@ static void
 wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	SheetControlGUI *scg;
-	int i;
 
 	/* During destruction we may have already removed the notebook */
 	if (wbcg->notebook == NULL)
 		return;
 
-	i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
-	g_return_if_fail (i >= 0);
-
-	disconnect_sheet_signals (wbcg, sheet);
-	gtk_notebook_remove_page (wbcg->notebook, i);
+	disconnect_sheet_signals (wbcg, sheet, FALSE);
+	gtk_notebook_remove_page (wbcg->notebook, sheet->index_in_wb);
 
 	wbcg_menu_state_sheet_count (wbcg);
 }
@@ -1008,48 +980,43 @@ static void
 wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	SheetControlGUI *scg;
-	int i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
+	SheetControlGUI *scg = wbcg_get_scg (wbcg, sheet);
 
-	/* A sheet added in another view may not yet have a view */
-	if (i >= 0) {
-		gtk_notebook_set_current_page (wbcg->notebook, i);
-		if (wbcg->rangesel == NULL)
-			gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
+	gtk_notebook_set_current_page (wbcg->notebook, sheet->index_in_wb);
+	if (wbcg->rangesel == NULL)
+		gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
 
-		disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg));
+	disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg), TRUE);
 
-		g_object_connect
-			(G_OBJECT (sheet),
-			 "signal::notify::name", cb_sheet_tab_change, scg->label,
-			 "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
-			 "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
-			 "signal::notify::display-formulas", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::display-zeros", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::display-grid", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::display-column-header", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::display-row-header", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
-			 "signal::notify::text-is-rtl", cb_direction_change, scg,
-			 "signal::notify::zoom-factor", cb_zoom_change, wbcg,
-			 NULL);
-	}
+	g_object_connect
+		(G_OBJECT (sheet),
+		 "signal::notify::display-formulas", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::display-zeros", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::display-grid", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::display-column-header", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::display-row-header", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
+		 "signal::notify::text-is-rtl", cb_direction_change, scg,
+		 "signal::notify::zoom-factor", cb_zoom_change, wbcg,
+		 NULL);
 }
 
 static void
 wbcg_sheet_order_changed (WorkbookControlGUI *wbcg, Workbook const *wb)
 {
-	int i;
-	Sheet const *sheet;
-	SheetControlGUI *scg;
+	GtkNotebook *nb = wbcg->notebook;
+	int i, n = gtk_notebook_get_n_pages (nb);
 
-	for (i = 0 ; i < workbook_sheet_count (wb); i++)
-		if (NULL != (sheet = wbcg_page_index_to_sheet (wbcg, i, &scg)) &&
-		    sheet->index_in_wb != i)
-			gtk_notebook_reorder_child (wbcg->notebook,
-				GTK_WIDGET (scg->table), sheet->index_in_wb);
+	for (i = 0 ; i < n; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page (nb, i);
+		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+		Sheet *sheet = ((SheetControl *)scg)->sheet;
+		gtk_notebook_reorder_child (nb,
+					    GTK_WIDGET (scg->table),
+					    sheet->index_in_wb);
+	}
 }
 
 static void
@@ -1059,16 +1026,20 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 
 	if (wbcg->notebook != NULL) {
 		GtkWidget *tmp = GTK_WIDGET (wbcg->notebook);
-
-		/* Be sure we are no longer editing */
-		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
-
-		disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg));
+		Workbook *wb = wb_control_workbook (wbc);
+		int i;
 
 		/* Clear notebook to disable updates as focus changes for pages
 		 * during destruction */
 		wbcg->notebook = NULL;
-		gtk_container_remove (GTK_CONTAINER (wbcg->table), tmp);
+
+		/* Be sure we are no longer editing */
+		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
+
+		for (i = workbook_sheet_count (wb) - 1; i >= 0; i--)
+			disconnect_sheet_signals (wbcg, workbook_sheet_by_index (wb, i), FALSE);
+
+		gtk_widget_destroy (tmp);
 	}
 }
 

@@ -1,3 +1,35 @@
+2006-02-24  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_remove): Simplify.
+	(wbcg_get_scg): Rename from wbcg_sheet_to_page_index and changed
+	to return the scg only.  Make static.  All callers changed.
+
+	* src/workbook.c (workbook_sheet_remove_controls): Renamed from
+	workbook_sheet_hide_controls.
+	(cb_sheet_visibility_change): Remove.  The workbook doesn't care
+	about sheet visibility.
+
+	* src/workbook-control-gui.c (wbcg_sheet_add): Set
+	SHEET_CONTROL_GUI here.  Do everything here for invisible sheets
+	too, but hide the table widget.  Attach signals for visibility
+	[new] and sheet tabs here, not in wbcg_sheet_focus.
+	(disconnect_sheet_signals): Take an extra argument to control
+	whether to clear all signals or just those for the active sheet.
+	All callers changed.
+	(cb_sheet_label_button_press): Use the scg for data and simplify.
+	(wbcg_sheet_remove_all): Disconnect signals for all sheets.  Use
+	gtk_widget_destroy to get rid of the page.
+	(wbcg_page_index_to_sheet): Remove.  Expand left-over bits to
+	callers.
+	(wbcg_sheet_to_page_index): Simplify now that sheets are 1-1 with
+	tabs.
+
+	* src/sheet-control-gui.c (sheet_control_gui_new): Don't set
+	SHEET_CONTROL_KEY here.
+
+	* src/workbook-control-gui.c (SHEET_CONTROL_KEY): Move to here.
+	* src/sheet-control-gui.h (SHEET_CONTROL_KEY): From here.
+
 2006-02-23  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_start): Go to the end of the

@@ -15,8 +15,6 @@ WorkbookControl *workbook_control_gui_new	(WorkbookView *optional_view,
 						 Workbook *optional_wb,
 						 GdkScreen *optional_screen);
 
-int      wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
-				   SheetControlGUI **res);
 GtkWindow	*wbcg_toplevel	  (WorkbookControlGUI *wbcg);
 void	         wbcg_set_transient (WorkbookControlGUI *wbcg,
 				     GtkWindow *window);

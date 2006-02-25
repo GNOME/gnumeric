@@ -87,6 +87,8 @@ Morten:
 	* Fix expression creation and leaks in mps importer.
 	* Use toolbuttons for edit-line buttons.  [#331916]
 	* Go to end of text on F2.  [#319311]
+	* Let GtkNotebook handle hidden sheets by using hidden tabs.
+	* Fix updates of tab colours.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
