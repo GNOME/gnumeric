@@ -48,7 +48,6 @@ features+= --without-gda --without-gnomedb
 # gnumeric will only build with the single version mentioned in
 # configure.in, if at all. It is possible, but unlikely, that Gnome Basic
 # contains security vulnerabilities."
-
 features+= --without-gb
 
 # Debian's psiconv packages are not recent enough for gnumeric; see
@@ -62,19 +61,14 @@ features+= --with-paradox
 # Perl plugin
 features+= --with-perl
 
-# The Python executable
-features+= PYTHON=/usr/bin/python
-
-# The Python support offers a nice way to extend gnumeric's functionality.
-
-features+= --with-python
+# The Python plugin
+features+= PYTHON=/usr/bin/python --with-python
 
 # Bonobo allows us to use parts of other applications as components via
 # CORBA, and was supposed to allow us to work as a component for other
 # applications. However, that promise hasn't really been realised and
 # according to Morten Welinder "drop bonobo from your build.  it's
 # pointless."
-
 features+= --without-bonobo
 
 confflags :=	--prefix=/usr \
