@@ -43,7 +43,7 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	Workbook	   *wb;
 	GtkWidget          *dialog;
-	gulong              signal_handler_filename_changed;
+	gulong              signal_handler_uri_changed;
 	gulong              signal_handler_summary_changed;
 } SummaryState;
 
@@ -141,7 +141,14 @@ static void
 cb_info_changed (G_GNUC_UNUSED Workbook *wb, SummaryState *state)
 {
 	dialog_summary_put (state);
-	return;
+}
+
+static void
+cb_uri_changed (Workbook *wb,
+		G_GNUC_UNUSED GParamSpec *pspec,
+		SummaryState *state)
+{
+	dialog_summary_put (state);
 }
 
 static void
@@ -164,7 +171,7 @@ cb_dialog_summary_destroy (GtkObject *w, SummaryState *state)
 
 	g_signal_handler_disconnect (
 		G_OBJECT (state->wb),
-		state->signal_handler_filename_changed);
+		state->signal_handler_uri_changed);
 	g_signal_handler_disconnect (
 		G_OBJECT (state->wb),
 		state->signal_handler_summary_changed);
@@ -244,9 +251,9 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	g_object_set_data (G_OBJECT (state->dialog), SUMMARY_DIALOG_KEY_DIALOG,
 			   state);
 
-	state->signal_handler_filename_changed =
-		g_signal_connect (G_OBJECT (state->wb), "filename_changed",
-				  G_CALLBACK (cb_info_changed), state) ;
+	state->signal_handler_uri_changed =
+		g_signal_connect (G_OBJECT (state->wb), "notify::uri",
+				  G_CALLBACK (cb_uri_changed), state) ;
 	state->signal_handler_summary_changed =
 		g_signal_connect (G_OBJECT (state->wb), "summary_changed",
 				  G_CALLBACK (cb_info_changed), state) ;

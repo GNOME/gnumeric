@@ -726,7 +726,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				back ? style_color_new_gdk (back) : NULL;
 
 			if (!this_sheet)
-				this_sheet = workbook_sheet_add (wb, i, FALSE);
+				this_sheet = workbook_sheet_add (wb, i);
 
 			g_object_set (this_sheet,
 				      "protected", is_locked,

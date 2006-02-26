@@ -21,7 +21,7 @@ Sheet      *workbook_sheet_by_index	 (Workbook const *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_name);
 void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet);
 void        workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos);
-Sheet	   *workbook_sheet_add		 (Workbook *wb, int pos, gboolean make_dirty);
+Sheet	   *workbook_sheet_add		 (Workbook *wb, int pos);
 void        workbook_sheet_delete        (Sheet *sheet);
 void        workbook_sheet_move          (Sheet *sheet, int direction);
 char       *workbook_sheet_get_free_name (Workbook *wb,
@@ -50,8 +50,7 @@ GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 gboolean    workbook_is_pristine	(Workbook const *wb);
 void        workbook_set_dirty		(Workbook *wb, gboolean is_dirty);
 gboolean    workbook_is_dirty		(Workbook const *wb);
-void        workbook_set_placeholder	(Workbook *wb, gboolean is_placeholder);
-gboolean    workbook_is_placeholder	(Workbook const *wb);
+void        workbook_mark_not_modified  (Workbook *wb);
 
 void         workbook_add_summary_info    (Workbook *wb, SummaryItem *sit);
 SummaryInfo *workbook_metadata    	  (Workbook const *wb);

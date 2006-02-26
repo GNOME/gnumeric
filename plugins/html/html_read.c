@@ -74,7 +74,7 @@ html_get_sheet (char const *name, Workbook *wb)
 			workbook_sheet_attach (wb, sheet);
 		}
 	} else
-		sheet = workbook_sheet_add (wb, -1, FALSE);
+		sheet = workbook_sheet_add (wb, -1);
 	return sheet;
 }
 

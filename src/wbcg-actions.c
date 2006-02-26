@@ -195,7 +195,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 					old_ptr = ptr;
 					if (wb_control_workbook (wbc) == wba)
 						continue;
-					workbook_set_dirty (wba, FALSE);
+					workbook_mark_not_modified (wba);
 					g_object_unref (wba);
 				}
 				ptr = old_ptr;
@@ -205,7 +205,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 	}
 
 	if (discard_all) {
-		workbook_set_dirty (wb_control_workbook (wbc), FALSE);
+		workbook_mark_not_modified (wb_control_workbook (wbc));
 		g_object_unref (wb_control_workbook (wbc));
 		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next) {
 			g_object_unref (ptr->data);

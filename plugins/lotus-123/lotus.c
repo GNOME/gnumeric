@@ -1591,7 +1591,7 @@ lotus_get_sheet (Workbook *wb, int i)
 	g_return_val_if_fail (i >= 0 && i <= 255, NULL);
 
 	while (i >= workbook_sheet_count (wb))
-		workbook_sheet_add (wb, -1, FALSE);
+		workbook_sheet_add (wb, -1);
 
 	return workbook_sheet_by_index (wb, i);
 }

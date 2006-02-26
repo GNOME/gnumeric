@@ -18,6 +18,7 @@ struct _Workbook {
 	GHashTable *sheet_local_functions;
 
 	gboolean modified;
+	gboolean pristine;
 	gboolean is_placeholder;
 
 	gchar		*uri;

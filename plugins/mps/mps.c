@@ -512,7 +512,7 @@ mps_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
 	ctxt->input	     = (GsfInputTextline *)gsf_input_textline_new (input);
 	ctxt->line_no        = 1;
 	ctxt->line           = NULL;
-	ctxt->sheet          = workbook_sheet_add (wb, -1, FALSE);
+	ctxt->sheet          = workbook_sheet_add (wb, -1);
 
 	ctxt->name           = NULL;
 	ctxt->rows           = NULL;

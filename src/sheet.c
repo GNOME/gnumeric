@@ -126,7 +126,7 @@ sheet_set_visibility (Sheet *sheet, GnmSheetVisibility visibility)
 		return;
 
 	sheet->visibility = visibility;
-	sheet_set_dirty (sheet, TRUE);
+	sheet_mark_dirty (sheet);
 }
 
 static void
@@ -209,12 +209,12 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 	g_return_if_fail (new_name != NULL);
 
 	/* No change whatsoever.  */
-	if (sheet->name_unquoted && strcmp (sheet->name_unquoted, new_name) == 0)
+	if (go_str_compare (sheet->name_unquoted, new_name) == 0)
 		return;
 
 	/* Mark the sheet dirty unless this is the initial name.  */
 	if (sheet->name_unquoted)
-		sheet_set_dirty (sheet, TRUE);
+		sheet_mark_dirty (sheet);
 
 	sucker = wb ? workbook_sheet_by_name (wb, new_name) : NULL;
 	if (sucker && sucker != sheet) {
@@ -488,9 +488,6 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->deps	 = gnm_dep_container_new ();
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 					     (GCompareFunc)&gnm_cellpos_equal);
-
-	sheet->pristine = TRUE;
-	sheet->modified = FALSE;
 
 	/* Init preferences */
 	sheet->r1c1_addresses = FALSE;
@@ -798,7 +795,7 @@ cb_clear_rendered_values (Sheet *sheet, int col, int row, GnmCell *cell,
 void
 sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags)
 {
-	sheet->modified = TRUE;
+	sheet_mark_dirty (sheet);
 	if (flags & SPANCALC_RE_RENDER)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			r->start.col, r->start.row, r->end.col, r->end.row,
@@ -3325,30 +3322,12 @@ sheet_clear_region (Sheet *sheet,
 /*****************************************************************************/
 
 void
-sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
+sheet_mark_dirty (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (sheet->modified)
-		sheet->pristine = FALSE;
-
-	sheet->modified = is_dirty;
-}
-
-/**
- * sheet_is_pristine:
- * @sheet:
- *
- * Sees if the sheet has ever been touched.
- *
- * Return value: TRUE if it is perfectly clean.
- **/
-gboolean
-sheet_is_pristine (Sheet const *sheet)
-{
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-
-	return sheet->pristine && !sheet->modified;
+	if (sheet->workbook)
+		workbook_set_dirty (sheet->workbook, TRUE);
 }
 
 /****************************************************************************/
@@ -3430,7 +3409,7 @@ colrow_move (Sheet *sheet,
 		if (cell_has_expr (cell))
 			dependent_link (CELL_TO_DEP (cell));
 	}
-	sheet_set_dirty (sheet, TRUE);
+	sheet_mark_dirty (sheet);
 }
 
 static void
@@ -4427,7 +4406,7 @@ sheet_dup (Sheet const *src)
 	/* We need a more general property copying solution.  */
 	g_object_set (dst, "zoom-factor", src->last_zoom_factor_used, NULL);
 
-	sheet_set_dirty (dst, TRUE);
+	sheet_mark_dirty (dst);
 	sheet_redraw_all (dst, TRUE);
 
 	return dst;

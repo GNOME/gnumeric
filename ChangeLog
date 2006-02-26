@@ -1,3 +1,46 @@
+2006-02-26  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_create): Attach to notify::uri
+	and notify::dirty in order to control window title.
+
+	* src/workbook-control.c (wb_control_update_title): Remove.
+
+	* src/workbook-control-priv.h (WorkbookControl): Remove
+	"set_title" member.
+
+	* src/commands.c (GnmCommand): Add "workbook_modified_before_do"
+	member.
+	(command_undo): If !workbook_modified_before_do, mark the workbook
+	not modified after undo.
+	(command_push_undo, command_redo): Setup
+	workbook_modified_before_do.
+
+	* src/workbook-priv.h: Add "pristine" member.
+
+	* src/sheet.h (Sheet): Remove "modified" and "pristine" members.
+
+	* src/sheet.c (sheet_mark_dirty): Renamed from sheet_set_dirty.
+	Always mark dirty, so kill last argument.  All callers changed.
+
+	* src/workbook.c (workbook_get_property, workbook_set_property):
+	New functions.
+	(workbook_class_init): Install workbook_get_property and
+	workbook_set_property.  Install new properties "uri" and "dirty".
+	Remove FILENAME_CHANGED signal and fix callers to use notify::uri.
+	(workbook_sheet_add): Drop dirty argument.  Adding a sheet always
+	dirties the workbook.  All callers changed.
+	(workbook_mark_not_modified): New function.
+	(workbook_set_dirty, workbook_is_dirty): Maintain a simply
+	"modified" flag.
+	(workbook_is_pristine): Maintain a simple workbook-level
+	"pristine" flag.
+	(workbook_set_placeholder, workbook_is_placeholder): Remove.
+	(workbook_new_with_sheets): After adding sheets, mark workbook not
+	modified and pristine.
+	(workbook_sheet_attach_at_pos): Mark workbook dirty.
+	(workbook_sheet_delete): Except during workbook destruction, mark
+	workbook dirty.
+
 2006-02-24  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_remove): Simplify.

@@ -64,33 +64,6 @@ wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
 	return NULL;
 }
 
-/**
- * wb_control_update_title :
- * @wbc : #WorkbookControl
- *
- * Set the controls title to @title.  Additionally notify the application that
- * the list of windows should be updated.
- **/
-void
-wb_control_update_title (WorkbookControl *wbc)
-{
-	WorkbookControlClass *wbc_class = WBC_CLASS (wbc);
-
-	g_return_if_fail (wbc_class != NULL);
-
-	if (wbc_class != NULL && wbc_class->set_title != NULL) {
-		Workbook const *wb = wb_control_workbook (wbc);
-		char *basename = go_basename_from_uri (wb->uri);
-		char *title = g_strconcat
-			(workbook_is_dirty (wb) ? "*" : "",
-			 basename ? basename : wb->uri,
-			 NULL);
-		wbc_class->set_title (wbc, title);
-		g_free (title);
-		g_free (basename);
-	}
-}
-
 WBC_VIRTUAL (style_feedback,
 	(WorkbookControl *wbc, GnmStyle const *changes), (wbc, changes))
 WBC_VIRTUAL (edit_line_set,
@@ -334,7 +307,7 @@ GSF_CLASS (WorkbookControl, workbook_control,
 
 void
 wb_control_set_view (WorkbookControl *wbc,
-			   WorkbookView *opt_view, Workbook *opt_wb)
+		     WorkbookView *opt_view, Workbook *opt_wb)
 {
 	WorkbookView *wbv;
 

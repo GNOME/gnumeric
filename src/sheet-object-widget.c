@@ -733,7 +733,6 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 		swa->being_updated = TRUE;
 		sheet_cell_set_value (cell, value_new_int (swa->adjustment->value));
 
-		sheet_set_dirty (ref.sheet, TRUE);
 		workbook_recalc (ref.sheet->workbook);
 		sheet_update (ref.sheet);
 		swa->being_updated = FALSE;
@@ -1368,7 +1367,6 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 		gboolean const new_val = gtk_toggle_button_get_active (button);
 		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		sheet_cell_set_value (cell, value_new_bool (new_val));
-		sheet_set_dirty (ref.sheet, TRUE);
 		workbook_recalc (ref.sheet->workbook);
 		sheet_update (ref.sheet);
 	}

@@ -500,7 +500,6 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 static void
 wb_view_init_control (WorkbookControl *wbc)
 {
-	wb_control_update_title (wbc);
 }
 
 void
@@ -546,7 +545,7 @@ wb_view_finalize (GObject *object)
 			g_object_unref (G_OBJECT (control));
 		});
 		if (wbv->wb_controls != NULL)
-			g_warning ("Unexpected left over controls");
+			g_warning ("Unexpected left-over controls");
 	}
 
 	if (wbv->wb != NULL)
@@ -711,7 +710,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 		if (workbook_set_saveinfo (wb,
 			go_file_saver_get_format_level (fs), fs) &&
 		    workbook_set_uri (wb, uri))
-			workbook_set_dirty (wb, FALSE);
+			workbook_mark_not_modified (wb);
 	}
 	if (has_error || has_warning)
 		gnumeric_io_error_display (io_context);
@@ -759,7 +758,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	has_error   = gnumeric_io_error_occurred (io_context);
 	has_warning = gnumeric_io_warning_occurred (io_context);
 	if (!has_error)
-		workbook_set_dirty (wb, FALSE);
+		workbook_mark_not_modified (wb);
 	if (has_error || has_warning)
 		gnumeric_io_error_display (io_context);
 
@@ -1011,7 +1010,7 @@ wb_view_new_from_input  (GsfInput *input,
 			new_wbv = NULL;			
 		} else {
 			workbook_recalc (new_wb);
-			workbook_set_dirty (new_wb, FALSE);
+			workbook_mark_not_modified (new_wb);
 		}
 	} else
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),

@@ -315,21 +315,6 @@ wbcg_autosave_set (WorkbookControlGUI *wbcg, int minutes, gboolean prompt)
 /****************************************************************************/
 
 static void
-wbcg_set_title (WorkbookControl *wbc, char const *title)
-{
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	char *full_title;
-
-	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (title != NULL);
-
-	full_title = g_strconcat (title, _(" : Gnumeric"), NULL);
-
- 	gtk_window_set_title (wbcg_toplevel (wbcg), full_title);
-	g_free (full_title);
-}
-
-static void
 wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
 	GtkEntry *entry = wbcg_get_entry ((WorkbookControlGUI*)wbc);
@@ -410,7 +395,7 @@ wbcg_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_workbook (wbc);
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
-	workbook_sheet_add (wb, sheet->index_in_wb, FALSE);
+	workbook_sheet_add (wb, sheet->index_in_wb);
 	cmd_reorganize_sheets2 (wbc, old_state);
 }
 
@@ -420,7 +405,7 @@ wbcg_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_workbook (wbc);
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
-	workbook_sheet_add (wb, -1, FALSE);
+	workbook_sheet_add (wb, -1);
 	cmd_reorganize_sheets2 (wbc, old_state);
 }
 
@@ -450,7 +435,6 @@ scg_delete_sheet_if_possible (G_GNUC_UNUSED GtkWidget *ignored,
 		WorkbookControl *wbc = sc->wbc;
 		workbook_sheet_delete (sheet);
 		/* Careful: sc just ceased to be valid.  */
-		workbook_set_dirty (wb, TRUE);
 		cmd_reorganize_sheets2 (wbc, old_state);
 	}
 }
@@ -1004,7 +988,7 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 }
 
 static void
-wbcg_sheet_order_changed (WorkbookControlGUI *wbcg, Workbook const *wb)
+wbcg_sheet_order_changed (WorkbookControlGUI *wbcg)
 {
 	GtkNotebook *nb = wbcg->notebook;
 	int i, n = gtk_notebook_get_n_pages (nb);
@@ -1017,6 +1001,21 @@ wbcg_sheet_order_changed (WorkbookControlGUI *wbcg, Workbook const *wb)
 					    GTK_WIDGET (scg->table),
 					    sheet->index_in_wb);
 	}
+}
+
+static void
+wbcg_update_title (WorkbookControlGUI *wbcg)
+{
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	char *basename = go_basename_from_uri (wb->uri);
+	char *title = g_strconcat
+		(workbook_is_dirty (wb) ? "*" : "",
+		 basename ? basename : wb->uri,
+		 _(" : Gnumeric"),
+		 NULL);
+ 	gtk_window_set_title (wbcg_toplevel (wbcg), title);
+	g_free (title);
+	g_free (basename);
 }
 
 static void
@@ -1293,12 +1292,12 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 
 		case GTK_RESPONSE_NO:
 			done      = TRUE;
-			workbook_set_dirty (wb, FALSE);
+			workbook_mark_not_modified (wb);
 			break;
 
 		case GNM_RESPONSE_DISCARD_ALL:
 			done      = TRUE;
-			workbook_set_dirty (wb, FALSE);
+			workbook_mark_not_modified (wb);
 			break;
 
 		default:  /* CANCEL */
@@ -2595,7 +2594,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = wbcg_finalize;
 
-	wbc_class->set_title		= wbcg_set_title;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
@@ -2697,6 +2695,13 @@ wbcg_create (WorkbookControlGUI *wbcg,
 	g_signal_connect_object (G_OBJECT (wbv->wb),
 		"sheet-order-changed",
 		G_CALLBACK (wbcg_sheet_order_changed), wbcg, G_CONNECT_SWAPPED);
+	g_signal_connect_object (G_OBJECT (wbv->wb),
+		"notify::uri",
+		G_CALLBACK (wbcg_update_title), wbcg, G_CONNECT_SWAPPED);
+	g_signal_connect_object (G_OBJECT (wbv->wb),
+		"notify::dirty",
+		G_CALLBACK (wbcg_update_title), wbcg, G_CONNECT_SWAPPED);
+	wbcg_update_title (wbcg);
 
 	if (optional_screen)
 		gtk_window_set_screen (wbcg_toplevel (wbcg), optional_screen);

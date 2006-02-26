@@ -3,7 +3,8 @@
 /*
  * commands.c: Handlers to undo & redo commands
  *
- * Copyright (C) 1999-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1999-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Morten Welinder (terra@gnome.org)
  *
  * Contributors : Almer S. Tigelaar (almer@gnome.org)
  *                Andreas J. Guelzow (aguelzow@taliesin.ca)
@@ -121,9 +122,18 @@
 
 typedef struct {
 	GObject parent;
-	Sheet *sheet;			/* primary sheet associated with op */
-	int size;                       /* See truncate_undo_info.  */
-	char const *cmd_descriptor;	/* A string to put in the menu */
+
+	/* primary sheet associated with command, or NULL.  */
+	Sheet *sheet;
+
+	/* See truncate_undo_info.  */
+	int size;
+
+	/* A string to put in the menu */
+	char const *cmd_descriptor;
+
+	/* State of workbook before the commands was undo.  */
+	gboolean workbook_modified_before_do;
 } GnmCommand;
 
 typedef gboolean (* UndoCmd)   (GnmCommand *self, WorkbookControl *wbc);
@@ -335,7 +345,7 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 	if (sheet != NULL) {
 		g_return_if_fail (IS_SHEET (sheet));
 
-		sheet_set_dirty (sheet, TRUE);
+		sheet_mark_dirty (sheet);
 		if (workbook_autorecalc (sheet->workbook))
 			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
@@ -412,6 +422,9 @@ command_undo (WorkbookControl *wbc)
 
 		update_after_action (cmd->sheet, wbc);
 
+		if (!cmd->workbook_modified_before_do)
+			workbook_mark_not_modified (wb);
+
 		/*
 		 * A few commands clear the undo queue.  For those, we do not
 		 * want to stuff the cmd object on the redo queue.
@@ -457,6 +470,9 @@ command_redo (WorkbookControl *wbc)
 	g_return_if_fail (klass != NULL);
 
 	g_object_ref (cmd);
+
+	cmd->workbook_modified_before_do =
+		workbook_is_dirty (wb_control_workbook (wbc));
 
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
 	if (!klass->redo_cmd (cmd, wbc)) {
@@ -699,21 +715,20 @@ command_register_undo (WorkbookControl *wbc, GObject *obj)
 static gboolean
 command_push_undo (WorkbookControl *wbc, GObject *obj)
 {
-	gboolean trouble, old_modified;
+	gboolean trouble;
 	GnmCommand *cmd;
 	GnmCommandClass *klass;
-	Workbook *wb;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 
 	cmd = GNM_COMMAND (obj);
+	cmd->workbook_modified_before_do =
+		workbook_is_dirty (wb_control_workbook (wbc));
+
 	g_return_val_if_fail (cmd != NULL, TRUE);
 
 	klass = CMD_CLASS (cmd);
 	g_return_val_if_fail (klass != NULL, TRUE);
-
-	wb = wb_control_workbook (wbc);
-	old_modified = workbook_is_dirty (wb);
 
 	/* TRUE indicates a failure to do the command */
 	trouble = klass->redo_cmd (cmd, wbc);
@@ -724,10 +739,6 @@ command_push_undo (WorkbookControl *wbc, GObject *obj)
 	else
 		g_object_unref (obj);
 
-	if (old_modified ^ workbook_is_dirty (wb)) {
-		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-			wb_control_update_title (control););
-	}
 	return trouble;
 }
 
@@ -1766,7 +1777,7 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_flag_format_update_range (me->cmd.sheet, l->data);
 	}
 	sheet_redraw_all (me->cmd.sheet, FALSE);
-	sheet_set_dirty (me->cmd.sheet, TRUE);
+	sheet_mark_dirty (me->cmd.sheet);
 
 	return FALSE;
 }
@@ -2493,7 +2504,7 @@ cmd_paste_cut_update_origin (GnmExprRelocateInfo const *info,
 {
 	/* Dirty and update both sheets */
 	if (info->origin_sheet != info->target_sheet) {
-		sheet_set_dirty (info->target_sheet, TRUE);
+		sheet_mark_dirty (info->target_sheet);
 
 		/* An if necessary both workbooks */
 		if (IS_SHEET (info->origin_sheet) &&
@@ -4531,7 +4542,7 @@ cmd_object_format_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 		g_object_unref (me->style);
 		me->style = prev;
 	}
-	sheet_set_dirty (me->cmd.sheet, TRUE);
+	sheet_mark_dirty (me->cmd.sheet);
 	return FALSE;
 }
 
@@ -4710,7 +4721,7 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text)
 	} else if (text && (strlen (text) > 0))
 		cell_set_comment (sheet, pos, NULL, text);
 
-	sheet_set_dirty (sheet, TRUE);
+	sheet_mark_dirty (sheet);
 	return FALSE;
 }
 
@@ -4906,7 +4917,7 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	}
 
 	dao_autofit_columns (me->dao);
-	sheet_set_dirty (me->dao->sheet, TRUE);
+	sheet_mark_dirty (me->dao->sheet);
 	workbook_recalc (me->dao->sheet->workbook);
 	sheet_update (me->dao->sheet);
 
@@ -5055,7 +5066,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	for (i = 0; i < me->n; i++) {
 		Sheet *new_sheet;
 
-		new_sheet = workbook_sheet_add (me->sheet->workbook, -1, FALSE);
+		new_sheet = workbook_sheet_add (me->sheet->workbook, -1);
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
@@ -5418,7 +5429,7 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		n = workbook_sheet_count (book);
 		for (i = 0 ; i < n ; i++) {
 			Sheet * sheet = workbook_sheet_by_index (book, i);
-			sheet_set_dirty (sheet, TRUE);
+			sheet_mark_dirty (sheet);
 			if (save_pis)
 				me->old_pi = g_slist_prepend (me->old_pi, sheet->print_info);
 			else
@@ -6249,7 +6260,6 @@ cmd_clone_sheet_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				      me->new_sheet, 
 				      me->cmd.sheet->index_in_wb + 1);
 	g_object_unref (me->new_sheet);
-	workbook_set_dirty (me->new_sheet->workbook, TRUE);
 	wbcg_focus_cur_scg (WORKBOOK_CONTROL_GUI(wbc));
 
 	return FALSE;

@@ -42,7 +42,7 @@ cell_dirty (GnmCell *cell)
 
 	/* Cells from the clipboard do not have a sheet attached */
 	if (sheet)
-		sheet_set_dirty (sheet, TRUE);
+		sheet_mark_dirty (sheet);
 }
 
 /**

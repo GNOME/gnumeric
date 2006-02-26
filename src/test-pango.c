@@ -50,7 +50,7 @@ cb_exercise_pango (gpointer data)
 		SHEET_VIEW_FOREACH_CONTROL(wb_control_cur_sheet_view (wbc),
 			sc, sc_set_top_left (sc, 0, (state-TEST_STEPS)*STEP_SIZE););
 	} else if (state == (TEST_STEPS*2)) {
-		workbook_set_dirty (wb_control_workbook (wbc), FALSE);
+		workbook_mark_not_modified (wb_control_workbook (wbc));
 		g_object_unref (wb_control_workbook (wbc));
 	}
 

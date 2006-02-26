@@ -56,9 +56,6 @@ struct _Sheet {
 	GSList      *sheet_objects;	/* List of objects in this sheet */
 	GnmCellPos   max_object_extent;
 
-	gboolean    pristine;
-	gboolean    modified;
-
 	/* Sheet level preferences */
 	gboolean    r1c1_addresses;
 	gboolean    display_formulas;
@@ -250,8 +247,7 @@ void	 sheet_update_only_grid		(Sheet const *s);
 void     sheet_update                   (Sheet const *s);
 void	 sheet_scrollbar_config		(Sheet const *s);
 
-void     sheet_set_dirty	(Sheet *sheet, gboolean is_dirty);
-gboolean sheet_is_pristine	(Sheet const *sheet);
+void     sheet_mark_dirty	(Sheet *sheet);
 GnmRange    sheet_get_extent	(Sheet const *sheet,
 				 gboolean spans_and_merges_extend);
 

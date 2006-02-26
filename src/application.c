@@ -141,7 +141,7 @@ gnm_app_workbook_list_add (Workbook *wb)
 
 	app->workbook_list = g_list_prepend (app->workbook_list, wb);
 	g_signal_connect (G_OBJECT (wb),
-		"filename_changed",
+		"notify::uri",
 		G_CALLBACK (_gnm_app_flag_windows_changed), NULL);
 	_gnm_app_flag_windows_changed ();
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);

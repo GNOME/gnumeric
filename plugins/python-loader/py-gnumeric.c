@@ -1696,7 +1696,7 @@ py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 	if (!PyArg_ParseTuple (args, (char *) "|zi:sheet_add"))
 		return NULL;
 
-	sheet = workbook_sheet_add (self->wb, insert_before, TRUE);
+	sheet = workbook_sheet_add (self->wb, insert_before);
 	if (sheet != NULL && name != NULL)
 		g_object_set (sheet, "name", name, NULL);
 	return py_new_Sheet_object (sheet);

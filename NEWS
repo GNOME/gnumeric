@@ -89,6 +89,8 @@ Morten:
 	* Go to end of text on F2.  [#319311]
 	* Let GtkNotebook handle hidden sheets by using hidden tabs.
 	* Fix updates of tab colours.
+	* Make Workbook a little more like a proper GObject.
+	* Rework "dirty" handling for sheets and workbooks.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
