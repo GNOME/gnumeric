@@ -1,4 +1,4 @@
-/*
+*
  * py-gnumeric.c - "Gnumeric" module for Python
  *
  * Author: Zbigniew Chyla (cyba@gnome.pl)
@@ -1712,7 +1712,7 @@ py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 		return NULL;
 
 	if (workbook_sheet_count (self->wb) == 0)
-		(void)workbook_sheet_add (self->wb, -1, FALSE);
+		(void)workbook_sheet_add (self->wb, -1);
 	
 	wbc = workbook_control_gui_new (NULL, self->wb, NULL);
 	result = py_new_Gui_object ((WorkbookControlGUI *)wbc);
