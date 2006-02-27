@@ -436,6 +436,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 
 		for (i = 0; i < expr->func.argc; i++)
 			do_gnm_expr_unref (expr->func.argv[i]);
+		g_free (expr->func.argv);
 		gnm_func_unref (expr->func.func);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
@@ -476,6 +477,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 
 		for (i = 0; i < expr->set.argc; i++)
 			do_gnm_expr_unref (expr->set.argv[i]);
+		g_free (expr->set.argv);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 	}
