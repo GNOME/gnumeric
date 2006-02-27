@@ -1,3 +1,8 @@
+2006-01-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* solver.c (solver_param_destroy): Use g_slist_free to destroy the
+	  input_cells GSList.  [Backported Feb 27, MW.]
+
 2006-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.2
