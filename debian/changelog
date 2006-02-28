@@ -1,3 +1,10 @@
+gnumeric (1.6.2-3) UNRELEASED; urgency=low
+
+  * [debian/po/fr.po] Added, courtesy of Severine Lombardo via Thomas Huriaux
+    <thomas.huriaux@gmail.com> (Closes: #354543).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 26 Feb 2006 10:06:18 +0100
+
 gnumeric (1.6.2-2) unstable; urgency=medium
 
   * [debian/control, debian/rules] Don't try to build the gda and gnome-db
