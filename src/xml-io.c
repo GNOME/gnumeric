@@ -2628,7 +2628,7 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	GnumericXMLVersion    version;
 	guint8 const *buf;
 	gsf_off_t size;
-	size_t len;
+	gsf_off_t len;
 
 	g_return_if_fail (input != NULL);
 

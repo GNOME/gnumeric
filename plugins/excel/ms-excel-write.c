@@ -3769,12 +3769,14 @@ blipinf_new (SheetObjectImage *soi)
 		g_object_get (G_OBJECT (soi), "pixbuf", &pixbuf, NULL);
 		
 		if (pixbuf) {
+			gsize len;
 			gdk_pixbuf_save_to_buffer (pixbuf,
 						   &buffer,
-						   &blip->bytes.len,
+						   &len,
 						   "png",
 						   NULL,
 						   NULL);
+			blip->bytes.len = len;
 			g_object_unref (G_OBJECT (pixbuf));
 		}
 		
