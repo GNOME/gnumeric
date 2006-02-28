@@ -1,4 +1,4 @@
-*
+/*
  * py-gnumeric.c - "Gnumeric" module for Python
  *
  * Author: Zbigniew Chyla (cyba@gnome.pl)
