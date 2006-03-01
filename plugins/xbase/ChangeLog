@@ -1,3 +1,10 @@
+2006-03-01  Morten Welinder  <terra@gnome.org>
+
+	* xbase.c (xbase_read_header): Fall back to using ISO-8859-1.
+
+	* boot.c (xbase_field_as_value): Simplify assuming ->char_map is
+	always available.  Handle failing conversion.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

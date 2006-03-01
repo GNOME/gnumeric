@@ -183,8 +183,15 @@ xbase_read_header (XBfile *x, ErrorInfo **ret_error)
 				       codepages[i].name, codepages[i].codepage););
 			break;
 		}
-	if (codepages[i].id != 0)
-		fprintf (stderr, "unknown 0x%hhx\n!\n", hdr[29]);
+	if (x->char_map == (GIConv)-1) {
+#if XBASE_DEBUG > 0
+		fprintf (stderr, "unknown 0x%x\n!\n", hdr[29]);
+#endif
+		g_warning ("File has unknown or missing code page information (%x)",
+			   hdr[29]);
+		/* Got any better idea?  */
+		x->char_map = g_iconv_open ("UTF-8", "ISO-8859-1");
+	}
 }
 
 static XBfield *

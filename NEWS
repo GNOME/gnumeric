@@ -93,6 +93,7 @@ Morten:
 	* Rework "dirty" handling for sheets and workbooks.
 	* Fix 64-bit problem for xls save.
 	* Fix printing issue when sheet is zoomed.  [#332932]
+	* Fix dbf import issue.  [#332878]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
