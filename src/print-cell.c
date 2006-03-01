@@ -103,11 +103,28 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 		 * Simply create a new RenderedValue at zoom 100% for the
 		 * _screen_ context.
 		 */		   
-		cell_rv = cell_rv100 =
+		cell_rv100 =
 			rendered_value_new ((GnmCell *)cell, mstyle,
 					    cell_rv->variable_width,
 					    pango_layout_get_context (cell_rv->layout),
 					    1.0);
+		/*
+		 * Ah, but not so fast!
+		 *
+		 * If the old layout was modified by cell_calc_layout in a
+		 * way that might affect the shape of the layout, we have
+		 * to try that again before we recontext.
+		 */
+		if (pango_layout_get_width (cell_rv->layout) != -1) {
+			gint dummy_x, dummy_y;
+			cell_calc_layout (cell, cell_rv100, -1,
+					  (int)(width * PANGO_SCALE),
+					  (int)(height * PANGO_SCALE),
+					  (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
+					  &fore_color, &dummy_x, &dummy_y);
+		}
+
+		cell_rv = cell_rv100;
 	}
 
 	/* Now pretend it was made for printing.  */

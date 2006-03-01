@@ -1,3 +1,9 @@
+Gnumeric 1.6.3
+
+Morten:
+	* Fix printing issue when sheet is zoomed.  [#332932]
+
+--------------------------------------------------------------------------
 Gnumeric 1.6.2
 
 Ivan, Y.C. Wong:

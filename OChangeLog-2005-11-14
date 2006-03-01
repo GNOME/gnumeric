@@ -1,3 +1,7 @@
+2006-03-01  Morten Welinder  <terra@gnome.org>
+
+	* src/print-cell.c (print_cell): Fix zoom issue #332932.
+
 2006-02-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* README: sync goffice requirement with configure.in. Noted by Nick
