@@ -846,7 +846,7 @@ cb_sheet_visibility_change (Sheet *sheet,
 static void
 disconnect_sheet_signals (WorkbookControlGUI *wbcg, Sheet *sheet, gboolean focus_signals_only)
 {
-	SheetControlGUI *scg =wbcg_get_scg (wbcg, sheet);
+	SheetControlGUI *scg = wbcg_get_scg (wbcg, sheet);
 
 	if (scg) {
 		g_signal_handlers_disconnect_by_func (sheet, cb_toggle_menu_item_changed, wbcg);
@@ -971,6 +971,8 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 		gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
 
 	disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg), TRUE);
+
+	wbcg_update_menu_feedback (wbcg, sheet);
 
 	g_object_connect
 		(G_OBJECT (sheet),

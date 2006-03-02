@@ -94,6 +94,8 @@ Morten:
 	* Fix 64-bit problem for xls save.
 	* Fix printing issue when sheet is zoomed.  [#332932]
 	* Fix dbf import issue.  [#332878]
+	* Fix menu feedback when replacing a pristine workbook
+	  by a file.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

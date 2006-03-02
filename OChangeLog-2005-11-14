@@ -1,3 +1,8 @@
+2006-03-02  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_focus): Update menu
+	feedback here for the case where a pristine workbook is replaced.
+
 2006-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell): Fix zoom issue #332932.
