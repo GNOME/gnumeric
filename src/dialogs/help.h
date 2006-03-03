@@ -159,6 +159,8 @@
 /* dialog-simulation.c */
 #define GNUMERIC_HELP_LINK_SIMULATION "sect-advanced-analysis-simulation"
 
+/* dialog-doc-metadata.c */
+#define GNUMERIC_HELP_LINK_METADATA ""
 
 /**********************************************************************/
 /* The following links are included directly in the source code file: */

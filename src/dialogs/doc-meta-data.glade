@@ -17,6 +17,7 @@
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
   <property name="has_separator">False</property>
 
   <child internal-child="vbox">
@@ -28,7 +29,7 @@
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
 	  <property name="visible">True</property>
-	  <property name="layout_style">GTK_BUTTONBOX_END</property>
+	  <property name="layout_style">GTK_BUTTONBOX_EDGE</property>
 
 	  <child>
 	    <widget class="GtkButton" id="help_button">
@@ -1295,7 +1296,7 @@
 	      <child>
 		<widget class="GtkEntry" id="keywords">
 		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">The document title (not filename)</property>
+		  <property name="tooltip" translatable="yes">The document keywords</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1326,6 +1327,7 @@
 		  <child>
 		    <widget class="GtkTextView" id="comments">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">The document comments</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="overwrite">False</property>
@@ -1411,6 +1413,7 @@
 	      <child>
 		<widget class="GtkEntry" id="category">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">The document category</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1432,6 +1435,7 @@
 	      <child>
 		<widget class="GtkEntry" id="company">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">The document company</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1453,6 +1457,7 @@
 	      <child>
 		<widget class="GtkEntry" id="manager">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">The document manager</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1474,6 +1479,7 @@
 	      <child>
 		<widget class="GtkEntry" id="author">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">The document author</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1495,7 +1501,7 @@
 	      <child>
 		<widget class="GtkEntry" id="subject">
 		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">The document title (not filename)</property>
+		  <property name="tooltip" translatable="yes">The document subject</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
 		  <property name="visibility">True</property>
@@ -1750,7 +1756,7 @@
 		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		  <child>
-		    <widget class="GtkTreeView" id="properties_list">
+		    <widget class="GtkTreeView" id="properties">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="headers_visible">True</property>
@@ -1815,23 +1821,6 @@
 		      <property name="bottom_attach">1</property>
 		      <property name="x_options">fill</property>
 		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkComboBox" id="ppt_name">
-		      <property name="visible">True</property>
-		      <property name="items" translatable="yes"></property>
-		      <property name="add_tearoffs">False</property>
-		      <property name="focus_on_click">True</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">1</property>
-		      <property name="right_attach">2</property>
-		      <property name="top_attach">0</property>
-		      <property name="bottom_attach">1</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options">fill</property>
 		    </packing>
 		  </child>
 
@@ -1931,6 +1920,23 @@
 		      <property name="top_attach">2</property>
 		      <property name="bottom_attach">3</property>
 		      <property name="y_options"></property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkComboBoxEntry" id="ppt_name">
+		      <property name="visible">True</property>
+		      <property name="add_tearoffs">False</property>
+		      <property name="has_frame">True</property>
+		      <property name="focus_on_click">True</property>
+		    </widget>
+		    <packing>
+		      <property name="left_attach">1</property>
+		      <property name="right_attach">2</property>
+		      <property name="top_attach">0</property>
+		      <property name="bottom_attach">1</property>
+		      <property name="x_options">fill</property>
+		      <property name="y_options">fill</property>
 		    </packing>
 		  </child>
 		</widget>
@@ -2055,7 +2061,7 @@
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -2083,7 +2089,7 @@
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -2111,7 +2117,7 @@
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>

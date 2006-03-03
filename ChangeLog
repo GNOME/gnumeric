@@ -1,3 +1,9 @@
+2006-03-03  Eduardo Lima  <eduardo.lima@indt.org.br>
+
+	* src/dialogs/dialog-doc-metadata.c: Code reformulation.
+	* src/dialogs/doc-meta-data.glade: Adjusted some properties.
+	* src/dialogs/help.h: defined GNUMERIC_HELP_LINK_METADATA.
+
 2006-03-02  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_focus): Update menu
