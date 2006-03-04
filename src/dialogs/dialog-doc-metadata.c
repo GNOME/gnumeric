@@ -138,19 +138,11 @@ void populate_page_2 (DialogDocMetaData *state);
 void populate_page_3 (DialogDocMetaData *state);
 void populate_page_4 (DialogDocMetaData *state);
 
-void dialog_doc_metadata_set_label_text_with_gsf_prop_value	(DialogDocMetaData *state,
-								 GtkLabel          *label,
-								 const char        *prop_name);
-
-const GValue * dialog_doc_metadata_get_gsf_prop_value		(GsfDocMetaData *metadata,
-								 const char     *prop_name);
 void dialog_doc_metadata_set_gsf_prop_value			(GsfDocMetaData *metadata,
 								 const char     *prop_name,
 								 GValue         *value);
 
-gchar * dialog_doc_metadata_get_gsf_prop_value_as_str		(GsfDocMetaData *metadata,
-								 const char     *prop_name);
-gchar * dialog_doc_metadata_get_value_as_str 			(const char     *prop_name,
+gchar * dialog_doc_metadata_get_prop_value_as_str		(const char     *prop_name,
 								 GValue         *prop_value);
 
 void dialog_doc_metadata_set_up_file_permissions	 	(DialogDocMetaData *state);
@@ -505,15 +497,8 @@ void populate_page_1 (DialogDocMetaData *state)
 	/* Set up the labels */
 	dialog_doc_metadata_set_label_text (state, state->file_name, NULL, TRUE);
 	dialog_doc_metadata_set_label_text (state, state->location, NULL, TRUE);
-
-	dialog_doc_metadata_set_label_text_with_gsf_prop_value (state,
-								state->created,
-								GSF_META_NAME_DATE_CREATED);
-
-	dialog_doc_metadata_set_label_text_with_gsf_prop_value (state,
-								state->modified,
-								GSF_META_NAME_DATE_MODIFIED);
-	
+	dialog_doc_metadata_set_label_text (state, state->created, NULL, TRUE);
+	dialog_doc_metadata_set_label_text (state, state->modified, NULL, TRUE);
 	dialog_doc_metadata_set_label_text (state, state->accessed, NULL, TRUE);
 	dialog_doc_metadata_set_label_text (state, state->owner, NULL, TRUE);
 	dialog_doc_metadata_set_label_text (state, state->group, NULL, TRUE);
@@ -1026,7 +1011,7 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 	g_return_if_fail (state->metadata != NULL);
 
 	/* Get the prop value as string */
-	str_value = dialog_doc_metadata_get_value_as_str (name, (GValue *) gsf_doc_prop_get_val (prop));
+	str_value = dialog_doc_metadata_get_prop_value_as_str (name, (GValue *) gsf_doc_prop_get_val (prop));
 
 	link_value = (char *) gsf_doc_prop_get_link (prop);
 
@@ -1130,17 +1115,9 @@ void populate_page_4 (DialogDocMetaData *state)
 	g_return_if_fail (state->metadata != NULL);
 
 	/* Set up the labels */
-	dialog_doc_metadata_set_label_text_with_gsf_prop_value (state,
-								state->sheets,
-								GSF_META_NAME_SPREADSHEET_COUNT);
-
-	dialog_doc_metadata_set_label_text_with_gsf_prop_value (state,
-								state->cells,
-								GSF_META_NAME_CELL_COUNT);
-	
-	dialog_doc_metadata_set_label_text_with_gsf_prop_value (state,
-								state->pages,
-								GSF_META_NAME_PAGE_COUNT);
+	dialog_doc_metadata_set_label_text (state, state->sheets, NULL, TRUE);
+	dialog_doc_metadata_set_label_text (state, state->cells, NULL, TRUE);
+	dialog_doc_metadata_set_label_text (state, state->pages, NULL, TRUE);
 }
 
 void 
@@ -1229,33 +1206,6 @@ dialog_doc_metadata_set_label_text (DialogDocMetaData *state,
 		gtk_label_set_text (label, "Unknwon");
 }
 
-void
-dialog_doc_metadata_set_label_text_with_gsf_prop_value (DialogDocMetaData *state,
-							GtkLabel          *label,
-							const char        *prop_name)
-{
-	gchar *str_value = dialog_doc_metadata_get_gsf_prop_value_as_str (state->metadata,
-									  prop_name);
-
-	dialog_doc_metadata_set_label_text (state, label, str_value, TRUE);
-	
-	if (str_value != NULL)
-		g_free (str_value);
-}
-
-const GValue * 
-dialog_doc_metadata_get_gsf_prop_value (GsfDocMetaData *metadata,
-					const char     *prop_name)
-{
-	GsfDocProp * prop = gsf_doc_meta_data_lookup (metadata,
-						      prop_name);
-	
-	if (prop != NULL)
-		return gsf_doc_prop_get_val (prop);
-
-	return NULL;
-}
-
 void 
 dialog_doc_metadata_set_gsf_prop_value (GsfDocMetaData *metadata,
 					const char     *prop_name,
@@ -1268,19 +1218,9 @@ dialog_doc_metadata_set_gsf_prop_value (GsfDocMetaData *metadata,
 	gsf_doc_prop_set_val (prop, value);
 }
 
-gchar *
-dialog_doc_metadata_get_gsf_prop_value_as_str (GsfDocMetaData *metadata,
-					       const char     *prop_name)
-{
-	GValue * value = (GValue *) dialog_doc_metadata_get_gsf_prop_value (metadata,
-									    prop_name);
-
-	return dialog_doc_metadata_get_value_as_str (prop_name, value);
-}
-
 gchar * 
-dialog_doc_metadata_get_value_as_str (const char *prop_name,
-				      GValue     *prop_value)
+dialog_doc_metadata_get_prop_value_as_str (const char *prop_name,
+					   GValue     *prop_value)
 {
 	gchar  *str_value = NULL;
 	

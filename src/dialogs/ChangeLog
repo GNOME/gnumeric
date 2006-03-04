@@ -1,3 +1,12 @@
+2006-03-04  Eduardo Lima  <eduardo.lima@indt.org.br>
+	* dialog-doc-metadata.c:
+	(dialog_doc_metadata_set_label_text_with_gsf_prop_value): delete.
+	All callers changed to dialog_doc_metadata_set_label_text.
+	(dialog_doc_metadata_get_gsf_prop_value): delete.
+	(dialog_doc_metadata_get_gsf_prop_value_as_str): delete.
+	(dialog_doc_metadata_get_value_as_str): renamed to 
+	dialog_doc_metadata_get_prop_value_as_str. All callers changed.
+
 2006-03-03  Eduardo Lima  <eduardo.lima@indt.org.br>
 
 	* dialog-doc-metadata.c: Code reformulation.
