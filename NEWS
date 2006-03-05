@@ -96,6 +96,7 @@ Morten:
 	* Fix dbf import issue.  [#332878]
 	* Fix menu feedback when replacing a pristine workbook
 	  by a file.
+	* Fix stf text import speed regression.  [#333407]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
