@@ -3,6 +3,7 @@ Gnumeric 1.6.3
 Morten:
 	* Fix printing issue when sheet is zoomed.  [#332932]
 	* Fix dbf import issue.  [#332878]
+	* Fix stf text import speed regression.  [#333407]
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.2
