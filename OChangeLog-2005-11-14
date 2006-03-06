@@ -1,3 +1,10 @@
+2006-03-06  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (ALL_LINGUAS): Undo last change -- it breaks the
+	build.  "id" can go back when there is a po-functions translation
+	too.
+	(CFLAGS): Drop -Wmissing-format-attribute.
+
 2006-03-06  Ahmad Riza H Nst  <rizahnst@eriagempita.co.id>
 
 	* po/id.po: Added Indonesian translation, done by Imam Musthaqim <imam@infoflow.co.id>
