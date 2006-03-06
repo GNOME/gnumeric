@@ -1,5 +1,9 @@
 2006-03-06  Morten Welinder  <terra@gnome.org>
 
+	* src/collect.c (callback_function_collect): Rename COLLECT_DATES
+	flags to COLLECT_COERCE_STRINGS and make it make all kinds of
+	strings.  All callers changed.
+
 	* configure.in (ALL_LINGUAS): Undo last change -- it breaks the
 	build.  "id" can go back when there is a po-functions translation
 	too.

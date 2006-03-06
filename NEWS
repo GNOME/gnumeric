@@ -97,6 +97,7 @@ Morten:
 	* Fix menu feedback when replacing a pristine workbook
 	  by a file.
 	* Fix stf text import speed regression.  [#333407]
+	* Fix XIRR issues.  [#333620]  [#333631]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
