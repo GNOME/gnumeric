@@ -1,3 +1,8 @@
+2006-03-06  Ahmad Riza H Nst  <rizahnst@eriagempita.co.id>
+
+	* po/id.po: Added Indonesian translation, done by Imam Musthaqim <imam@infoflow.co.id>
+	* configure.in: Added "id" (Indonesian) to the ALL_LINGUAS line.
+			
 2006-03-03  Eduardo Lima  <eduardo.lima@indt.org.br>
 
 	* src/dialogs/dialog-doc-metadata.c: Code reformulation.
