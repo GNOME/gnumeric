@@ -1,3 +1,9 @@
+2006-03-06  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (callback_function_collect): Rename COLLECT_DATES
+	flags to COLLECT_COERCE_STRINGS and make it make all kinds of
+	strings.  All callers changed.
+
 2006-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell): Fix zoom issue #332932.

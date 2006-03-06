@@ -1,3 +1,9 @@
+2006-03-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_xnpv): Fix handling of bools and strings.
+	(gnumeric_xirr): Fix handling of strings.  [#333620]
+	(gnumeric_xirr): Handle failing Newton search.  [#333631]
+
 2006-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.2

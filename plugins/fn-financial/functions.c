@@ -1837,14 +1837,13 @@ gnumeric_xnpv (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	sum = 0;
 
 	payments = collect_floats_value (argv[1], ei->pos,
-					 COLLECT_IGNORE_STRINGS |
-					 COLLECT_IGNORE_BOOLS,
+					 COLLECT_COERCE_STRINGS,
 					 &p_n, &result);
 	if (result)
 		goto out;
 
 	dates = collect_floats_value (argv[2], ei->pos,
-				      COLLECT_DATES,
+				      COLLECT_COERCE_STRINGS,
 				      &d_n, &result);
 	if (result)
 		goto out;
@@ -1948,7 +1947,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	rate0 = argv[2] ? value_get_as_float (argv[2]) : 0.1;
 
 	p.values = collect_floats_value (argv[0], ei->pos,
-					 COLLECT_IGNORE_STRINGS,
+					 COLLECT_COERCE_STRINGS,
 					 &n, &result);
 	p.dates = NULL;
 
@@ -1956,13 +1955,23 @@ gnumeric_xirr (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 
 	p.dates = collect_floats_value (argv[1], ei->pos,
-					COLLECT_DATES,
+					COLLECT_COERCE_STRINGS,
 					&d_n, &result);
 	if (result != NULL)
 		goto out;
 
 	p.n = n;
 	status = goal_seek_newton (&xirr_npv, NULL, &data, &p, rate0);
+	if (status != GOAL_SEEK_OK) {
+		int i;
+		for (i = 1; i <= 1024; i += i) {
+			(void)goal_seek_point (&xirr_npv, &data, &p, -1 + 10.0 / (i + 9));
+			(void)goal_seek_point (&xirr_npv, &data, &p, i);
+			status = goal_seek_bisection (&xirr_npv, &data, &p);
+			if (status == GOAL_SEEK_OK)
+				break;
+		}
+	}
 
 	if (status == GOAL_SEEK_OK)
 		result = value_new_float (data.root);
