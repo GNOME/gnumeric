@@ -1,3 +1,7 @@
+2006-03-07 Luciano Wolf  <luciano.wolf@indt.org.br>
+
+	* dialog-doc-metadata.c: Fixed compile errors.
+
 2006-03-04  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c (stf_dialog_format_page_init): Don't

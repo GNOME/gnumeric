@@ -54,7 +54,6 @@
 #include <gsf/gsf-docprop-vector.h>
 
 #include <goffice/utils/go-file.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #define DOC_METADATA_KEY "dialog-doc-metadata"
 
@@ -925,7 +924,7 @@ cb_dialog_doc_metadata_combo_property_selected (GtkComboBox       *combo_box,
 		link_value = (gchar *) g_value_get_string (value);
 
 		if (link_value != NULL)
-			gtk_entry_set_text (state->ppt_link, (const gchar *) link);
+			gtk_entry_set_text (state->ppt_link, (const gchar *) link_value);
 
 		/* Update tree view cursor */
 		gtk_tree_view_set_cursor (state->properties, path, NULL, FALSE);
@@ -1018,7 +1017,7 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 	dialog_doc_metadata_append_property (state,
 					     gsf_doc_prop_get_name (prop),
 					     str_value == NULL ? "" : str_value,
-					     link == NULL ? "" : gsf_doc_prop_get_link (prop),
+					     link_value == NULL ? "" : gsf_doc_prop_get_link (prop),
 					     FALSE);
 
 	dialog_doc_metadata_update_property_value (state, gsf_doc_prop_get_name (prop), str_value);
