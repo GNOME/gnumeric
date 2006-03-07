@@ -17,6 +17,7 @@
 #include "gnm-datetime.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "number-match.h"
 
 /* ------------------------------------------------------------------------- */
 
