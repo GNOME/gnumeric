@@ -1,3 +1,9 @@
+2006-03-08  Vivien Malerba <malerba@gnome-db.org>
+
+	* plugin-gda.c: make the open_connection() reuse existing
+	GdaConnection objects when available, and added a call to gda_init() to
+	properly initialize the libgda library.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

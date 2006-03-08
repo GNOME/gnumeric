@@ -1,6 +1,7 @@
 /* Interface Gnumeric to Databases
  * Copyright (C) 1998,1999 Michael Lausch
  * Copyright (C) 2000-2002 Rodrigo Moya
+ * Copyright (C) 2006 Vivien Malerba
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -20,6 +21,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <libgda/libgda.h>
+#include <string.h>
 #ifdef HAVE_LIBGNOMEDB
 #include <libgnomedb/gnome-db-login-dialog.h>
 #include <libgnomedb/gnome-db-login.h>
@@ -35,7 +37,9 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-static GdaClient* connection_pool = NULL;
+static GdaClient  *connection_pool = NULL;
+static gboolean    libgda_init_done = FALSE;
+static GHashTable *cnc_hash = NULL;
 
 static GnmValue *
 display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
@@ -79,10 +83,61 @@ display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
 	return array;
 }
 
+/*
+ * Key structure and hash functions for that structure
+ */
+typedef struct {
+	gchar *dsn;
+	gchar *user;
+	gchar *pass;
+} CncKey;
+
+static guint
+cnc_key_hash_func (CncKey *key)
+{
+	guint retval = 0;
+
+	if (key->dsn)
+		retval = g_str_hash (key->dsn);
+	if (key->user)
+		retval = (retval << 4) + g_str_hash (key->user);
+	if (key->pass)
+		retval = (retval << 4) + g_str_hash (key->pass);
+
+	return retval;
+}
+
+static gboolean
+cnc_key_equal_func (CncKey *key1, CncKey *key2)
+{
+	if ((key1->dsn && !key2->dsn) ||
+	    (!key1->dsn && key2->dsn) ||
+	    (key1->dsn && key2->dsn && strcmp (key1->dsn, key2->dsn)))
+		return FALSE;
+	if ((key1->user && !key2->user) ||
+	    (!key1->user && key2->user) ||
+	    (key1->user && key2->user && strcmp (key1->user, key2->user)))
+		return FALSE;
+	if ((key1->pass && !key2->pass) ||
+	    (!key1->pass && key2->pass) ||
+	    (key1->pass && key2->pass && strcmp (key1->pass, key2->pass)))
+		return FALSE;
+	return TRUE;
+}
+
+static void
+cnc_key_free (CncKey *key)
+{
+	g_free (key->dsn);
+	g_free (key->user);
+	g_free (key->pass);
+	g_free (key);
+}
+
 static GdaConnection *
 open_connection (const gchar *dsn, const gchar *user, const gchar *password, GdaConnectionOptions options)
 {
-	GdaConnection *cnc;
+	GdaConnection *cnc = NULL;
 	gchar *real_dsn, *real_user, *real_password;
 #ifdef HAVE_LIBGNOMEDB
 	GtkWidget *dialog, *login;
@@ -91,44 +146,77 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 
 	/* initialize connection pool if first time */
 	if (!GDA_IS_CLIENT (connection_pool)) {
+		if (!libgda_init_done) {
+			gda_init (NULL, NULL, 0, NULL);
+			libgda_init_done = TRUE;	
+		}
 		connection_pool = gda_client_new ();
 		if (!connection_pool)
 			return NULL;
 	}
 
-#ifdef HAVE_LIBGNOMEDB
-	dialog = gnome_db_login_dialog_new (_("Database Connection"));
-	login = gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
+	/* try to find a cnc object if we already have one */
+	if (!cnc_hash) 
+		cnc_hash = g_hash_table_new_full ((GHashFunc) cnc_key_hash_func,
+						  (GEqualFunc) cnc_key_equal_func,
+						  (GDestroyNotify) cnc_key_free,
+						  (GDestroyNotify) g_object_unref);
+	else {
+		CncKey key;
 
-	gnome_db_login_set_dsn (GNOME_DB_LOGIN (login), dsn);
-	gnome_db_login_set_username (GNOME_DB_LOGIN (login), user);
-	gnome_db_login_set_password (GNOME_DB_LOGIN (login), password);
+		key.dsn = (gchar *) dsn;
+		key.user = (gchar *) user;
+		key.pass = (gchar *) password;
 
-	if (gnome_db_login_dialog_run (GNOME_DB_LOGIN_DIALOG (dialog))) {
-		real_dsn = g_strdup (gnome_db_login_get_dsn (GNOME_DB_LOGIN (login)));
-		real_user = g_strdup (gnome_db_login_get_username (GNOME_DB_LOGIN (login)));
-		real_password = g_strdup (gnome_db_login_get_password (GNOME_DB_LOGIN (login)));
-
-		gtk_widget_destroy (dialog);
-	} else {
-		gtk_widget_destroy (dialog);
-		return NULL;
+		cnc = g_hash_table_lookup (cnc_hash, &key);
 	}
-#else
-	real_dsn = g_strdup (dsn);
-	real_user = g_strdup (user);
-	real_password = g_strdup (password);
-#endif
 
-	cnc = gda_client_open_connection (connection_pool, real_dsn, real_user, real_password, options, &error);
 	if (!cnc) {
-		g_warning ("Libgda error: %s\n", error->message);
-		g_error_free (error);
-	}
+		CncKey *key;
 
-	g_free (real_dsn);
-	g_free (real_user);
-	g_free (real_password);
+#ifdef HAVE_LIBGNOMEDB
+		dialog = gnome_db_login_dialog_new (_("Database Connection"));
+		login = gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
+		
+		gnome_db_login_set_dsn (GNOME_DB_LOGIN (login), dsn);
+		gnome_db_login_set_username (GNOME_DB_LOGIN (login), user);
+		gnome_db_login_set_password (GNOME_DB_LOGIN (login), password);
+		
+		if (gnome_db_login_dialog_run (GNOME_DB_LOGIN_DIALOG (dialog))) {
+			real_dsn = g_strdup (gnome_db_login_get_dsn (GNOME_DB_LOGIN (login)));
+			real_user = g_strdup (gnome_db_login_get_username (GNOME_DB_LOGIN (login)));
+			real_password = g_strdup (gnome_db_login_get_password (GNOME_DB_LOGIN (login)));
+			
+			gtk_widget_destroy (dialog);
+		} else {
+			gtk_widget_destroy (dialog);
+			return NULL;
+		}
+#else
+		real_dsn = g_strdup (dsn);
+		real_user = g_strdup (user);
+		real_password = g_strdup (password);
+#endif
+		
+		cnc = gda_client_open_connection (connection_pool, real_dsn, real_user, real_password, options, &error);
+		if (!cnc) {
+			g_warning ("Libgda error: %s\n", error->message);
+			g_error_free (error);
+		}
+		
+		g_free (real_dsn);
+		g_free (real_user);
+		g_free (real_password);
+
+		key = g_new0 (CncKey, 1);
+		if (dsn)
+			key->dsn = g_strdup (dsn);
+		if (user)
+			key->user = g_strdup (user);
+		if (password)
+			key->pass = g_strdup (password);
+		g_hash_table_insert (cnc_hash, key, cnc);
+	}
 
 	return cnc;
 }
