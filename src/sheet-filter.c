@@ -458,8 +458,8 @@ cb_filter_button_pressed (GtkButton *button, FooCanvasItem *view)
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 
-	range_dump (&so->anchor.cell_bound, "");
 #if 0
+	range_dump (&so->anchor.cell_bound, "");
 	fprintf (stderr, " : so = %p, view = %p\n", so, view);
 #endif
 	if (clip != NULL) {
@@ -688,6 +688,9 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 		  GnmValue *target)
 {
 	GnmValDiff cmp;
+
+	g_print ("src=%s\n", src ? value_peek_string (src) : "(null)");
+	g_print ("target=%s\n", value_peek_string (target));
 
 	if (src == NULL) {
 		char const *str = value_peek_string (target);
