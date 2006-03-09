@@ -211,44 +211,49 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 	if (field != NULL &&
 	    gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list),
 					     NULL, &iter)) {
-		char	*label;
-		GnmValue   *val;
+		char    *strval;
 		int	 type;
 		gboolean set_condition = TRUE;
 
 		gtk_tree_model_get (gtk_tree_view_get_model (list), &iter,
-				    0, &label, 1, &val, 2, &type,
+				    1, &strval, 2, &type,
 				    -1);
 
 		field_num = filter_field_index (field);
 		switch (type) {
-		case  0 : cond = gnm_filter_condition_new_single (
-				  GNM_FILTER_OP_EQUAL, value_dup (val));
+		case  0:
+			cond = gnm_filter_condition_new_single (
+				GNM_FILTER_OP_EQUAL,
+				value_new_string_nocopy (strval));
+			strval = NULL;			
 			break;
-		case  1 : cond = NULL;	break; /* unfilter */
-		case  2 : /* Custom */
+		case  1: /* unfilter */
+			cond = NULL;
+			break;
+		case  2: /* Custom */
 			set_condition = FALSE;
 			dialog_auto_filter (wbcg, field->filter, field_num,
 					    TRUE, field->cond);
 			break;
-		case  3 : cond = gnm_filter_condition_new_single (
-				  GNM_FILTER_OP_BLANKS, NULL);
+		case  3:
+			cond = gnm_filter_condition_new_single (
+				GNM_FILTER_OP_BLANKS, NULL);
 			break;
-		case  4 : cond = gnm_filter_condition_new_single (
-				  GNM_FILTER_OP_NON_BLANKS, NULL);
+		case  4:
+			cond = gnm_filter_condition_new_single (
+				GNM_FILTER_OP_NON_BLANKS, NULL);
 			break;
-		case 10 : /* Top 10 */
+		case 10: /* Top 10 */
 			set_condition = FALSE;
 			dialog_auto_filter (wbcg, field->filter, field_num,
 					    FALSE, field->cond);
 			break;
-
-		default :
+		default:
 			set_condition = FALSE;
 			g_warning ("Unknown type %d", type);
 		}
 
-		g_free (label);
+		g_free (strval);
 
 		if (set_condition) {
 			gnm_filter_set_condition (field->filter, field_num,
@@ -279,6 +284,7 @@ cb_filter_motion_notify_event (GtkWidget *widget, GdkEventMotion *event,
 typedef struct {
 	gboolean has_blank;
 	GHashTable *hash;
+	GODateConventions const *date_conv;
 } UniqueCollection;
 
 static GnmValue *
@@ -287,25 +293,28 @@ cb_collect_unique (Sheet *sheet, int col, int row, GnmCell *cell,
 {
 	if (cell_is_blank (cell))
 		uc->has_blank = TRUE;
-	else
-		g_hash_table_replace (uc->hash, cell->value, cell);
+	else {
+		const GOFormat *format = cell_get_format (cell);			
+		GnmValue const *v = cell->value;
+		char *str = format_value (format, v, NULL, -1, uc->date_conv);
+		g_hash_table_replace (uc->hash, str, cell);
+	}
 
 	return NULL;
 }
 
 static void
-cb_hash_range (GnmValue *key, gpointer value, gpointer accum)
+cb_hash_domain (GnmValue *key, gpointer value, gpointer accum)
 {
-	GnmCell *cell = value;
-	g_ptr_array_add (accum, cell);
+	g_ptr_array_add (accum, key);
 }
 
 static int
-cell_value_cmp (void const *ptr_a, void const *ptr_b)
+order_alphabetically (void const *ptr_a, void const *ptr_b)
 {
-	GnmCell const * const * a = ptr_a;
-	GnmCell const * const * b = ptr_b;
-	return value_cmp (&(*a)->value, &(*b)->value);
+	char const * const *a = ptr_a;
+	char const * const *b = ptr_b;
+	return strcmp (*a, *b);
 }
 
 static GtkListStore *
@@ -320,20 +329,16 @@ collect_unique_elements (GnmFilterField *field,
 	gboolean is_custom = FALSE;
 	GnmRange	 r = field->filter->r;
 	GnmValue const *check = NULL;
-	GnmValue	    *check_num = NULL; /* XL stores numbers as string @$^!@$ */
-	GODateConventions const *date_conv = 
-		workbook_date_conv (field->filter->sheet->workbook);
+	Sheet *sheet = field->filter->sheet;
 
 	if (field->cond != NULL &&
 	    field->cond->op[0] == GNM_FILTER_OP_EQUAL &&
 	    field->cond->op[1] == GNM_FILTER_UNUSED) {
 		check = field->cond->value[0];
-		if (check->type == VALUE_STRING)
-			check_num = format_match_number (check->v_str.val->str, NULL,
-				workbook_date_conv (field->filter->sheet->workbook));
 	}
 
-	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
+	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+
 	gtk_list_store_append (model, &iter);
 	gtk_list_store_set (model, &iter, 0, _("(All)"),	   1, NULL, 2, 1, -1);
 	if (field->cond == NULL || field->cond->op[0] == GNM_FILTER_UNUSED)
@@ -357,34 +362,43 @@ collect_unique_elements (GnmFilterField *field,
 	/* r.end.row =  XL actually extend to the first non-empty element in the list */
 	r.end.col = r.start.col += filter_field_index (field);
 	uc.has_blank = FALSE;
-	uc.hash = g_hash_table_new ((GHashFunc)value_hash,
-				    (GEqualFunc)value_equal);
-	sheet_foreach_cell_in_range (field->filter->sheet,
+	uc.hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+					 (GDestroyNotify)g_free,
+					 NULL);
+	uc.date_conv = workbook_date_conv (sheet->workbook);
+
+	sheet_foreach_cell_in_range (sheet,
 		CELL_ITER_ALL,
 		r.start.col, r.start.row, r.end.col, r.end.row,
 		(CellIterFunc)&cb_collect_unique, &uc);
 
-	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_range, sorted);
+	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_domain, sorted);
 	qsort (&g_ptr_array_index (sorted, 0),
-	       sorted->len, sizeof (GnmCell *), cell_value_cmp);
+	       sorted->len, sizeof (char *),
+	       order_alphabetically);
 	for (i = 0; i < sorted->len ; i++) {
-		const GnmCell *cell = g_ptr_array_index (sorted, i);
-		const GOFormat *format = cell_get_format (cell);			
-		GnmValue const *v = cell->value;
-		char *str = format_value (format, v, NULL, -1, date_conv);
+		const char *str = g_ptr_array_index (sorted, i);
+		char *label = NULL;
+		gsize len = g_utf8_strlen (str, -1);
+		const int max = 50;
+
+		if (len > max + 3) {
+			label = g_strdup (str);
+			strcpy (g_utf8_offset_to_pointer (label, max), "...");
+		}
+
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter,
-			0, str,
-			1, v,
-			2, 0,
-			-1);
-		g_free (str);
+				    0, label ? label : str, /* Menu text */
+				    1, str, /* Actual string selected on.  */
+				    2, 0,
+				    -1);
+		g_free (label);
 		if (i == 10)
 			*clip = gtk_tree_model_get_path (GTK_TREE_MODEL (model),
 							 &iter);
 		if (check != NULL) {
-			if (value_compare (check, v, TRUE) == IS_EQUAL ||
-			    (check_num != NULL && value_compare (check_num, v, TRUE) == IS_EQUAL)) {
+			if (strcmp (value_peek_string (check), str) == 0) {
 				gtk_tree_path_free (*select);
 				*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 			}
@@ -411,9 +425,6 @@ collect_unique_elements (GnmFilterField *field,
 
 	g_hash_table_destroy (uc.hash);
 	g_ptr_array_free (sorted, TRUE);
-
-	if (check_num != NULL)
-		value_release (check_num);
 
 	return model;
 }
@@ -648,7 +659,6 @@ GSF_CLASS (GnmFilterField, filter_field,
 
 typedef struct  {
 	GnmFilterCondition const *cond;
-	GODateConventions const  *date_conv;
 	GnmValue		 *val[2];
 	GORegexp  		  regexp[2];
 } FilterExpr;
@@ -659,16 +669,21 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 		  GnmFilter const *filter)
 {
 	GnmValue *tmp = cond->value[i];
-	fexpr->date_conv = workbook_date_conv (filter->sheet->workbook);
 
 	if (VALUE_IS_STRING (tmp)) {
 		GnmFilterOp op = cond->op[i];
 		char const *str = value_peek_string (tmp);
-		fexpr->val[i] = format_match_number (str, NULL, fexpr->date_conv);
-		if (fexpr->val[i] != NULL)
-			return;
+		GODateConventions const *date_conv =
+			workbook_date_conv (filter->sheet->workbook);
+
 		if ((op == GNM_FILTER_OP_EQUAL || op == GNM_FILTER_OP_NOT_EQUAL) &&
-		    gnm_regcomp_XL (fexpr->regexp + i,  str, REG_ICASE) == REG_OK)
+		    gnm_regcomp_XL (fexpr->regexp + i, str, REG_ICASE) == REG_OK) {
+			fexpr->val[i] = NULL;
+			return;
+		}
+
+		fexpr->val[i] = format_match_number (str, NULL, date_conv);
+		if (fexpr->val[i] != NULL)
 			return;
 	}
 	fexpr->val[i] = value_dup (tmp);
@@ -685,18 +700,22 @@ filter_expr_release (FilterExpr *fexpr, unsigned i)
 
 static gboolean
 filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
-		  GnmValue *target)
+		  GnmCell *cell)
 {
+	GnmValue *target = cell->value;
 	GnmValDiff cmp;
 
-	g_print ("src=%s\n", src ? value_peek_string (src) : "(null)");
-	g_print ("target=%s\n", value_peek_string (target));
-
 	if (src == NULL) {
-		char const *str = value_peek_string (target);
+		const GOFormat *format = cell_get_format (cell);			
+		GODateConventions const *date_conv =
+			workbook_date_conv (cell->base.sheet->workbook);
+		char *str = format_value (format, target, NULL, -1, date_conv);
 		GORegmatch rm;
+		int res = go_regexec (regexp, str, 1, &rm, 0);
 
-		switch (go_regexec (regexp, str, 1, &rm, 0)) {
+		g_free (str);
+
+		switch (res) {
 		case REG_OK:
 			if (rm.rm_so == 0 && strlen (str) == (size_t)rm.rm_eo)
 				return op == GNM_FILTER_OP_EQUAL;
@@ -730,18 +749,26 @@ cb_filter_expr (Sheet *sheet, int col, int row, GnmCell *cell,
 		FilterExpr const *fexpr)
 {
 	if (cell != NULL) {
-		gboolean res = filter_expr_eval (fexpr->cond->op[0],
-			fexpr->val[0], fexpr->regexp + 0, cell->value);
-		if (fexpr->cond->op[1] != GNM_FILTER_UNUSED) {
+		unsigned int ui;
+
+		for (ui = 0; ui < G_N_ELEMENTS (fexpr->cond->op); ui++) {
+			gboolean res;
+
+			if (fexpr->cond->op[ui] == GNM_FILTER_UNUSED)
+				continue;
+
+			res = filter_expr_eval (fexpr->cond->op[ui],
+						fexpr->val[ui],
+						fexpr->regexp + ui,
+						cell);
 			if (fexpr->cond->is_and && !res)
-				goto nope;
+				goto nope;   /* AND(...,FALSE,...) */
 			if (res && !fexpr->cond->is_and)
-				return NULL;
-			res = filter_expr_eval (fexpr->cond->op[1],
-				fexpr->val[1], fexpr->regexp + 1, cell->value);
+				return NULL;   /* OR(...,TRUE,...) */
 		}
-		if (res)
-			return NULL;
+
+		if (fexpr->cond->is_and)
+			return NULL;  /* AND(TRUE,...,TRUE) */
 	}
 
  nope:

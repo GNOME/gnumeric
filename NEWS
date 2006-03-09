@@ -98,6 +98,7 @@ Morten:
 	  by a file.
 	* Fix stf text import speed regression.  [#333407]
 	* Fix XIRR issues.  [#333620]  [#333631]
+	* Fix autofilter for text that looks like numbers.  [#333809]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

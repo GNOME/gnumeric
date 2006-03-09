@@ -1,3 +1,13 @@
+2006-03-09  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (filter_expr_eval): Take GnmCell instead of
+	its value for target.  Use formatted value in !src case.
+	(filter_expr_init): String EQ and NE should not coerce to number.
+	(collect_unique_elements): Limit menu text length.  Change hash
+	key to formatted value instead of value.  Store formatted value,
+	not GnmValue, in model.
+	All this fixes #333809.
+
 2006-03-06  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (callback_function_collect): Rename COLLECT_DATES
