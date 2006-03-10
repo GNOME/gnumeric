@@ -1168,6 +1168,7 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		case REG_NOMATCH:
 			break;
 		case REG_OK:
+			go_regfree (&r);
 			return value_new_int
 				(1 + istart +
 				 g_utf8_pointer_to_offset (hay2, hay2 + rm.rm_so));
