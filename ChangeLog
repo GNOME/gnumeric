@@ -1,3 +1,9 @@
+2006-03-10  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (rendered_value_recontext): Make sure
+	wrap_text is only cleared when we clear the layout's width.
+	Fixes #334144.
+
 2006-03-06  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (callback_function_collect): Rename COLLECT_DATES
