@@ -512,8 +512,8 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 	 * does not support that.
 	 */
 	if (pango_layout_get_line_count (olayout) == 1) {
-		res->wrap_text = FALSE;
 		if (pango_layout_get_line_count (layout) > 1) {
+			res->wrap_text = FALSE;
 			pango_layout_set_width (layout, -1);
 		}
 	}

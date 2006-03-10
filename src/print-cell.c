@@ -81,7 +81,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	    double x1, double y1, double width, double height, double h_center)
 {
 	RenderedValue *rv, *cell_rv = cell->rendered_value, *cell_rv100 = NULL;
-	GOColor fore_color; 
+	GOColor fore_color;
 	gint x, y;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
@@ -102,7 +102,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 		 * We're zoomed and we don't want printing to reflect that.
 		 * Simply create a new RenderedValue at zoom 100% for the
 		 * _screen_ context.
-		 */		   
+		 */
 		cell_rv100 =
 			rendered_value_new ((GnmCell *)cell, mstyle,
 					    cell_rv->variable_width,
@@ -117,11 +117,13 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 		 */
 		if (pango_layout_get_width (cell_rv->layout) != -1) {
 			gint dummy_x, dummy_y;
+			GOColor dummy_fore_color;
+
 			cell_calc_layout (cell, cell_rv100, -1,
 					  (int)(width * PANGO_SCALE),
 					  (int)(height * PANGO_SCALE),
 					  (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
-					  &fore_color, &dummy_x, &dummy_y);
+					  &dummy_fore_color, &dummy_x, &dummy_y);
 		}
 
 		cell_rv = cell_rv100;
@@ -537,7 +539,7 @@ print_cell_range (GnomePrintContext *context,
 						    x, y, -1., -1., -1.);
 
 			/* Only draw spaning cells after all the backgrounds
-			 * that we are goign to draw have been drawn.  No need
+			 * that we are going to draw have been drawn.  No need
 			 * to draw the edit cell, or blanks.
 			 */
 			} else if (col == span->right || col == end_col) {
