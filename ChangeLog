@@ -1,3 +1,7 @@
+2006-03-10  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_sendto) : minor warning suppression.
+
 2006-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.h (GnmExprTop): New type for top-level expressions.

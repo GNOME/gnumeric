@@ -2,7 +2,7 @@
 /*
  * workbook-view.c: View functions for the workbook
  *
- * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -824,7 +824,7 @@ cb_cleanup_sendto (gpointer path)
 gboolean
 wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 {
-	gboolean problem;
+	gboolean problem = FALSE;
 	IOContext	*io_context;
 	Workbook	*wb;
 	GOFileSaver	*fs;
