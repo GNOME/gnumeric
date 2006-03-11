@@ -923,11 +923,7 @@ excel_parse_formula (MSContainer const *container,
 				return NULL;
 			}
 
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 0) {
-				fprintf (stderr, "Parse shared formula\n");
-			}
-#endif
+			d (0, fprintf (stderr, "Parse shared formula\n"););
 			expr = excel_parse_formula (container, esheet, fn_col, fn_row,
 				sf->data, sf->data_len, TRUE, array_element);
 
@@ -997,6 +993,7 @@ excel_parse_formula (MSContainer const *container,
 							ll->set.argv,
 							ll->set.argc);
 				ll->set.argv[ll->set.argc - 1] = r;
+				parse_list_push (&stack, l);
 			}
 			break;
 		}
@@ -1036,49 +1033,36 @@ excel_parse_formula (MSContainer const *container,
 					"bracket a 1x1 array formula.  please send us this file.\n"
 					"Flags = 0x%X\n", w);
 			} else if (grbit & 0x01) {
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 0) {
-					fprintf (stderr, "A volatile function: so what\n");
-				}
-#endif
-			} else if (grbit & 0x02) { /* AttrIf: 'optimised' IF function */
-				/* Who cares if the TRUE expr has a goto at the end */
-				GnmExpr const *tr;
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 2) {
-					fprintf (stderr, "Optimised IF 0x%x 0x%x\n", grbit, w);
-					gsf_mem_dump (mem, length);
-				}
-#endif
-				tr = w ? excel_parse_formula (container, esheet, fn_col, fn_row,
-					   cur+ptg_length, w, shared, NULL)
-					: gnm_expr_new_constant (value_new_string (""));
-				parse_list_push (&stack, tr);
-				ptg_length += w;
-			} else if (grbit & 0x04) { /* Optimized CHOOSE function */
-				/* Ignore the optimzation to specificy which arg to use */
-				ptg_length = 2 + GSF_LE_GET_GUINT8 (cur+1) + 1;
-			} else if (grbit & 0x08) { /* AttrGoto */
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 2) {
-					fprintf (stderr, "Goto %d: cur = 0x%x\n", w,
-						(int)(cur-mem));
-					gsf_mem_dump (mem, length);
-				}
-#endif
-				/* Not right prior to Excel 4.0 ? */
-				if (ver <= MS_BIFF_V3) break;
-				ptg_length = w;
-			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
+				d (2, fprintf (stderr, "A volatile function\n"););
+
+			/* AttrIf: stores jump to FALSE condition */
+			} else if (grbit & 0x02) {
+				/* Ignore cached result */
+				d (2, fprintf (stderr, "ATTR IF\n"););
+
+			/* AttrChoose : stores table of inputs */
+			} else if (grbit & 0x04) {
+				/* Ignore the optimzation to specify which arg to use */
+				d (2, fprintf (stderr, "ATTR CHOOSE\n"););
+				ptg_length = 2 * ((w + 1) /* args */ + 1 /* count */) + 1;
+
+			/* AttrGoto : bytes/words to skip during _evaluation_.
+			 * We still need to parse them */
+			} else if (grbit & 0x08) {
+				d (2, fprintf (stderr, "ATTR GOTO\n"););
+
+			/* AttrSum: 'optimised' SUM function */
+			} else if (grbit & 0x10) {
 				if (!make_function (&stack, 0x04, 1, container->importer->wb)) {
 					error = TRUE;
 					fprintf (stderr, "Error in optimised SUM\n");
 				}
+
 			} else if (grbit & 0x40) { /* AttrSpace */
 				guint8 num_space = GSF_LE_GET_GUINT8(cur+2);
 				guint8 attrs     = GSF_LE_GET_GUINT8(cur+1);
-				if (attrs == 00) /* bitFSpace : ignore it */
-				/* Could perhaps pop top arg & append space ? */;
+				if (attrs == 0) /* bitFSpace : ignore it for now */
+					;
 				else
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 1) {

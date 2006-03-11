@@ -1,3 +1,13 @@
+2006-03-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : back port handling of
+	  AttrChoose and AttrGoto
+
+2006-03-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : don't forget to re-push
+	  the new set with the extra element.
+
 2006-02-27  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (blipinf_new): Fix potential 64-bit issue.
