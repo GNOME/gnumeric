@@ -489,7 +489,7 @@ call_python_function_nodes (FunctionEvalInfo *ei,
 	PyObject *python_fn;
 	GnmFunc const * fndef;
 	GnmValue **values;
-	gint n_args, i;
+	gint i;
 	GnmExprList const *l;
 	GnmValue *ret_value;
 
@@ -503,7 +503,6 @@ call_python_function_nodes (FunctionEvalInfo *ei,
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
 	                                  (gchar *) gnm_func_get_name (fndef));
 
-	n_args = gnm_expr_list_length (expr_tree_list);
 	values = g_new (GnmValue *, argc);
 	for (i = 0; i < argc; i++) {
 		values[i] = gnm_expr_eval (argv[i], ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
