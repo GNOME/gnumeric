@@ -359,12 +359,12 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 	xmlNode *name = e_xml_get_child_by_name (tree, CC2XML ("Names"));
 	xmlChar *name_str;
 	xmlChar *expr_str;
-	GnmExpr const *expr;
 
 	if (name == NULL)
 		return;
 
 	for (name = name->xmlChildrenNode; name ; name = name->next) {
+		GnmExprTop const *texpr;
 		GnmParseError  perr;
 		GnmParsePos    pp;
 
@@ -397,19 +397,21 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		}
 
 		parse_error_init (&perr);
-		expr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
+		texpr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
 					   GNM_EXPR_PARSE_DEFAULT,
 					   ctxt->exprconv, &perr);
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=317427 */
-		if (!expr)
-			expr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
+		if (!texpr)
+			texpr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
 						   GNM_EXPR_PARSE_DEFAULT,
 						   gnm_expr_conventions_default,
 						   NULL);
 
-		if (expr != NULL) {
+		if (texpr != NULL) {
 			char *err = NULL;
-			expr_name_add (&pp, CXML2C (name_str), expr, &err, TRUE, NULL);
+			expr_name_add (&pp, CXML2C (name_str),
+				       texpr,
+				       &err, TRUE, NULL);
 			if (err != NULL) {
 				gnm_io_warning (ctxt->io_context, err);
 				g_free (err);
@@ -913,7 +915,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			ValidationOp op = VALIDATION_OP_NONE;
 			xmlChar *title, *msg;
 			gboolean allow_blank, use_dropdown;
-			GnmExpr const *expr0 = NULL, *expr1 = NULL;
+			GnmExprTop const *texpr0 = NULL;
+			GnmExprTop const *texpr1 = NULL;
 
 			if (xml_node_get_int (child, "Style", &val))
 				vstyle = val;
@@ -933,21 +936,29 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			parse_pos_init_sheet (&pp, ctxt->sheet);
 			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression0"))) &&
 			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
-				expr0 = gnm_expr_parse_str (CXML2C (content), &pp,
-					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				texpr0 = gnm_expr_parse_str
+					(CXML2C (content), &pp,
+					 GNM_EXPR_PARSE_DEFAULT,
+					 ctxt->exprconv, NULL);
 				xmlFree (content);
 			}
 			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression1"))) &&
 			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
-				expr1 = gnm_expr_parse_str (CXML2C (content), &pp,
-					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				texpr1 = gnm_expr_parse_str
+					(CXML2C (content), &pp,
+					 GNM_EXPR_PARSE_DEFAULT,
+					 ctxt->exprconv, NULL);
 				xmlFree (content);
 			}
 
-			gnm_style_set_validation (style,
-				validation_new (vstyle, type, op, CXML2C (title),
-					CXML2C (msg), expr0, expr1, allow_blank,
-					use_dropdown));
+			gnm_style_set_validation
+				(style,
+				 validation_new
+				 (vstyle, type, op,
+				  CXML2C (title), CXML2C (msg),
+				  texpr0,
+				  texpr1,
+				  allow_blank, use_dropdown));
 
 			xmlFree (msg);
 			xmlFree (title);
@@ -973,18 +984,22 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			parse_pos_init_sheet (&pp, ctxt->sheet);
 			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression0"))) &&
 			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
-				cond.expr[0] = gnm_expr_parse_str (CXML2C (content), &pp,
-					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				cond.texpr[0] = gnm_expr_parse_str
+					(CXML2C (content), &pp,
+					 GNM_EXPR_PARSE_DEFAULT,
+					 ctxt->exprconv, NULL);
 				xmlFree (content);
 			} else
-				cond.expr[0] = NULL;
+				cond.texpr[0] = NULL;
 			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression1"))) &&
 			    NULL != (content = xml_node_get_cstr (e_node, NULL))) {
-				cond.expr[1] = gnm_expr_parse_str (CXML2C (content), &pp,
-					GNM_EXPR_PARSE_DEFAULT, ctxt->exprconv, NULL);
+				cond.texpr[1] = gnm_expr_parse_str
+					(CXML2C (content), &pp,
+					 GNM_EXPR_PARSE_DEFAULT,
+					 ctxt->exprconv, NULL);
 				xmlFree (content);
 			} else
-				cond.expr[1] = NULL;
+				cond.texpr[1] = NULL;
 			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Style"))))
 				cond.overlay = xml_read_style (ctxt, e_node);
 			if (NULL == sc)
@@ -1061,17 +1076,17 @@ xml_cell_set_array_expr (XmlParseContext *ctxt,
 			 int const rows, int const cols)
 {
 	GnmParsePos pp;
-	GnmExpr const *expr =
+	GnmExprTop const *texpr =
 		gnm_expr_parse_str (text,
 				    parse_pos_init_cell (&pp, cell),
 				    GNM_EXPR_PARSE_DEFAULT,
 				    ctxt->exprconv, NULL);
 
-	g_return_if_fail (expr != NULL);
+	g_return_if_fail (texpr != NULL);
 	cell_set_array_formula (cell->base.sheet,
 				cell->pos.col, cell->pos.row,
 				cell->pos.col + cols-1, cell->pos.row + rows-1,
-				expr);
+				texpr);
 }
 
 /**
@@ -1276,17 +1291,17 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				 * until after ValueType was added.
 				 */
 				GnmParsePos pos;
-				GnmExpr const *expr = NULL;
+				GnmExprTop const *texpr = NULL;
 				char const *expr_start = gnm_expr_char_start_p (CXML2C (content));
 				if (NULL != expr_start && *expr_start) {
-					expr = gnm_expr_parse_str (expr_start,
-								   parse_pos_init_cell (&pos, cell),
-								   GNM_EXPR_PARSE_DEFAULT,
-								   ctxt->exprconv, NULL);
+					texpr = gnm_expr_parse_str (expr_start,
+								    parse_pos_init_cell (&pos, cell),
+								    GNM_EXPR_PARSE_DEFAULT,
+								    ctxt->exprconv, NULL);
 				}
-				if (expr != NULL) {
-					cell_set_expr (cell, expr);
-					gnm_expr_unref (expr);
+				if (texpr != NULL) {
+					cell_set_expr (cell, texpr);
+					gnm_expr_top_unref (texpr);
 				} else
 					cell_set_text (cell, CXML2C (content));
 			}
@@ -1297,11 +1312,13 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (!cell_has_expr (cell)) {
 					g_warning ("XML-IO: Shared expression with no expession? id = %d\ncontent ='%s'",
 						   shared_expr_index, CXML2C (content));
-					cell_set_expr (cell,
-						gnm_expr_new_constant (value_dup (cell->value)));
+					cell_set_expr
+						(cell,
+						 gnm_expr_top_new_constant
+						 (value_dup (cell->value)));
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
-						 (gpointer) cell->base.expression);
+						 (gpointer)cell->base.texpr);
 			} else {
 				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
 					   shared_expr_index);
@@ -1310,9 +1327,10 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		xmlFree (content);
 	} else if (shared_expr_index > 0) {
 		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
-			GnmExpr *expr = g_ptr_array_index (ctxt->shared_exprs,
-							    shared_expr_index - 1);
-			cell_set_expr (cell, expr);
+			GnmExprTop *texpr =
+				g_ptr_array_index (ctxt->shared_exprs,
+						   shared_expr_index - 1);
+			cell_set_expr (cell, texpr);
 		} else {
 			g_warning ("XML-IO: Missing shared expression");
 		}
@@ -2039,11 +2057,12 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 		if (is_post_52_array) {
 			g_return_if_fail (content[0] == '=');
 
-			cc->expr = gnm_expr_parse_str (CXML2C (content), &pp,
-						   GNM_EXPR_PARSE_DEFAULT,
-						   ctxt->exprconv, NULL);
+			cc->texpr =
+				gnm_expr_parse_str (CXML2C (content), &pp,
+						    GNM_EXPR_PARSE_DEFAULT,
+						    ctxt->exprconv, NULL);
 
-			g_return_if_fail (cc->expr != NULL);
+			g_return_if_fail (cc->texpr != NULL);
 #warning TODO : arrays
 		} else if (is_value)
 			cc->val = value_new_from_string (value_type,
@@ -2052,25 +2071,28 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 			GODateConventions const *date_conv =
 				ctxt->wb ? workbook_date_conv (ctxt->wb) : NULL;
 			parse_text_value_or_expr (&pp, CXML2C (content),
-				&cc->val, &cc->expr, value_fmt, date_conv);
+				&cc->val, &cc->texpr, value_fmt, date_conv);
 		}
 
 		if (shared_expr_index > 0) {
 			if (shared_expr_index == (int)ctxt->shared_exprs->len + 1) {
-				if (NULL == cc->expr) {
+				if (NULL == cc->texpr) {
 					/* The parse failed, but we know it is
 					 * an expression.  this can happen
 					 * until we get proper interworkbook
 					 * linkages.  Force the content into
 					 * being an expression.
 					 */
-					cc->expr = gnm_expr_new_constant (value_new_string (
-						gnm_expr_char_start_p (CXML2C (content))));
+					cc->texpr =
+						gnm_expr_top_new_constant
+						(value_new_string
+						 (gnm_expr_char_start_p
+						  (CXML2C (content))));
 					value_release (cc->val);
 					cc->val = value_new_empty ();
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
-						 (gpointer) cc->expr);
+						 (gpointer)cc->texpr);
 			} else {
 				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
 					   shared_expr_index);
@@ -2079,9 +2101,9 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 		xmlFree (content);
 	} else if (shared_expr_index > 0) {
 		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
-			cc->expr = g_ptr_array_index (ctxt->shared_exprs,
-				shared_expr_index - 1);
-			gnm_expr_ref (cc->expr);
+			cc->texpr = g_ptr_array_index (ctxt->shared_exprs,
+						       shared_expr_index - 1);
+			gnm_expr_top_ref (cc->texpr);
 		} else {
 			g_warning ("XML-IO: Missing shared expression");
 		}

@@ -46,15 +46,15 @@
  *
  * @title : will be copied.
  * @msg   : will be copied.
- * @expr0 : absorb the reference to the expression.
- * @expr1 : absorb the reference to the expression.
+ * @texpr0 : absorb the reference to the expression.
+ * @texpr1 : absorb the reference to the expression.
  */
 GnmValidation *
 validation_new (ValidationStyle style,
 		ValidationType  type,
 		ValidationOp    op,
 		char const *title, char const *msg,
-		GnmExpr const *expr0, GnmExpr const *expr1,
+		GnmExprTop const *texpr0, GnmExprTop const *texpr1,
 		gboolean allow_blank, gboolean use_dropdown)
 {
 	GnmValidation *v;
@@ -70,12 +70,12 @@ validation_new (ValidationStyle style,
 	v->ref_count = 1;
 
 	v->title = title ? gnm_string_get (title) : NULL;
-	v->msg   = msg ? gnm_string_get (msg) : NULL;
-	v->expr[0] = expr0;
-	v->expr[1] = expr1;
-	v->style   = style;
-	v->type    = type;
-	v->op      = op;
+	v->msg = msg ? gnm_string_get (msg) : NULL;
+	v->texpr[0] = texpr0;
+	v->texpr[1] = texpr1;
+	v->style = style;
+	v->type = type;
+	v->op = op;
 	v->allow_blank  = (allow_blank != FALSE);
 	v->use_dropdown = (use_dropdown != FALSE);
 
@@ -108,9 +108,9 @@ validation_unref (GnmValidation *v)
 			v->msg = NULL;
 		}
 		for (i = 0 ; i < 2 ; i++)
-			if (v->expr[i] != NULL) {
-				gnm_expr_unref (v->expr[i]);
-				v->expr[i] = NULL;
+			if (v->texpr[i] != NULL) {
+				gnm_expr_top_unref (v->texpr[i]);
+				v->texpr[i] = NULL;
 			}
 		g_free (v);
 	}
@@ -145,7 +145,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 	if (v == NULL)
 		return VALIDATION_STATUS_VALID;
 
-	if (v->style == VALIDATION_TYPE_ANY)
+	if (v->type == VALIDATION_TYPE_ANY)
 		return VALIDATION_STATUS_VALID;
 
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
@@ -210,9 +210,10 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		}
 
 		case VALIDATION_TYPE_IN_LIST :
-			if (NULL != v->expr[0]) {
+			if (NULL != v->texpr[0]) {
 				GnmEvalPos  ep;
-				GnmValue   *list = gnm_expr_eval (v->expr[0],
+				GnmValue   *list = gnm_expr_top_eval
+					(v->texpr[0],
 					eval_pos_init_cell (&ep, cell),
 					GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 				GnmValue   *res = value_area_foreach (list, &ep,
@@ -221,7 +222,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				value_release (list);
 				if (res == NULL) {
 					GnmParsePos  pp;
-					char *expr_str = gnm_expr_as_string (v->expr[0],
+					char *expr_str = gnm_expr_top_as_string (v->texpr[0],
 						parse_pos_init_evalpos (&pp, &ep),
 						gnm_expr_conventions_default);
 					msg = g_strdup_printf (_("%s does not contain the new value."), expr_str);
@@ -232,21 +233,22 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				return VALIDATION_STATUS_VALID;
 			break;
 
-		case VALIDATION_TYPE_TEXT_LENGTH :
+		case VALIDATION_TYPE_TEXT_LENGTH: {
 			/* XL appears to use a very basic value -> string mapping that
 			 * ignores formatting.
 			 * eg len (12/13/01) == len (37238) = 5
 			 * This seems wrong for
 			 */
-			val_expr = gnm_expr_new_constant (
-				value_new_int (strlen (value_peek_string (val))));
+			const char *s = value_peek_string (val);
+			val_expr = gnm_expr_new_constant
+				(value_new_int (g_utf8_strlen (s, -1)));
 			break;
+		}
 
 		case VALIDATION_TYPE_CUSTOM :
-			expr = v->expr[0];
-			if (expr == NULL)
+			if (v->texpr[0] == NULL)
 				return VALIDATION_STATUS_VALID;
-			gnm_expr_ref (expr);
+			expr = gnm_expr_copy (v->texpr[0]->expr);
 			break;
 		}
 
@@ -269,11 +271,13 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				return VALIDATION_STATUS_VALID;
 			}
 
-			if (v->expr [0] == NULL)
+			if (v->texpr [0] == NULL)
 				return VALIDATION_STATUS_VALID;
 
-			gnm_expr_ref (v->expr[0]);
-			expr = gnm_expr_new_binary (val_expr, op, v->expr[0]);
+			expr = gnm_expr_new_binary
+				(val_expr,
+				 op,
+				 gnm_expr_copy (v->texpr[0]->expr));
 		}
 
 		if (msg == NULL && expr != NULL) {
@@ -295,14 +299,13 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 			if ((v->op == VALIDATION_OP_BETWEEN && valid) ||
 			    v->op == VALIDATION_OP_NOT_BETWEEN) {
-				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
+				g_return_val_if_fail (v->texpr[1] != NULL, VALIDATION_STATUS_VALID);
 
-				gnm_expr_ref (val_expr);
-				gnm_expr_ref (v->expr[1]);
 				gnm_expr_unref (expr);
-				expr = gnm_expr_new_binary (val_expr,
-					(v->op == VALIDATION_OP_BETWEEN) ? GNM_EXPR_OP_LTE : GNM_EXPR_OP_GT,
-					v->expr[1]);
+				expr = gnm_expr_new_binary
+					(val_expr,
+					 (v->op == VALIDATION_OP_BETWEEN) ? GNM_EXPR_OP_LTE : GNM_EXPR_OP_GT,
+					 gnm_expr_copy (v->texpr[1]->expr));
 				val = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 				valid = value_get_as_bool (val, NULL);
 				value_release (val);

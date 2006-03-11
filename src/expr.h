@@ -66,31 +66,17 @@ GnmExpr const *gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr
 GnmExpr const *gnm_expr_new_array_elem  (int x, int y);
 GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
-GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
 GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
-GSList        *gnm_expr_get_ranges   (GnmExpr const *expr);
-GnmValue const*gnm_expr_get_constant (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
-int            gnm_expr_get_func_argcount (GnmExpr const *expr);
 
-void	  gnm_expr_ref		     (GnmExpr const *expr);
 void	  gnm_expr_unref	     (GnmExpr const *expr);
-gboolean  gnm_expr_is_shared 	     (GnmExpr const *expr);
+GnmExpr const *gnm_expr_copy         (GnmExpr const *expr);
 gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
-GnmExprArrayCorner const *
-	  gnm_expr_is_array_corner   (GnmExpr const *expr);
-gboolean  gnm_expr_is_err 	     (GnmExpr const *expr, GnmStdError e);
 gboolean  gnm_expr_is_data_table     (GnmExpr const *expr,
 				      GnmCellPos *c_in, GnmCellPos *r_in);
-gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
 				      GnmExprConventions const *fmt);
-void      gnm_expr_as_gstring	     (GString *target,
-				      GnmExpr const *expr, GnmParsePos const *pp,
-				      GnmExprConventions const *fmt);
-void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, GnmRange *bound);
-GSList	 *gnm_expr_referenced_sheets (GnmExpr const *expr);
-gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);
+gboolean  gnm_expr_contains_subtotal (GnmExpr const *expr);
 
 struct _GnmExprRelocateInfo {
 	GnmEvalPos pos;
@@ -124,9 +110,6 @@ struct _GnmExprRewriteInfo {
 	} u;
 };
 
-GnmExpr const *gnm_expr_rewrite	(GnmExpr const *expr,
-				 GnmExprRewriteInfo const *rwinfo);
-
 GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			 GnmExprEvalFlags flags);
 
@@ -135,9 +118,49 @@ GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 #define gnm_expr_list_append(l,e)  g_slist_append ((l), (gpointer)(e))
 #define gnm_expr_list_prepend(l,e) g_slist_prepend ((l), (gpointer)(e))
 #define gnm_expr_list_length(l)	   g_slist_length((GSList *)(l)) /* const cast */
-#define gnm_expr_list_nth(l,n)	   (GnmExpr const *)g_slist_nth_data ((GSList *)(l), n) /* const cast */
 #define gnm_expr_list_free	   g_slist_free
 void 	 gnm_expr_list_unref	  (GnmExprList *list);
+
+/*****************************************************************************/
+
+#define IS_GNM_EXPR_TOP(et) ((et) && (et)->magic == GNM_EXPR_TOP_MAGIC)
+
+struct _GnmExprTop {
+	guint32 magic;
+	guint32 refcount;
+	GnmExpr const *expr;
+};
+
+GnmExprTop const *gnm_expr_top_new (GnmExpr const *e);
+GnmExprTop const *gnm_expr_top_new_constant (GnmValue *v);
+void gnm_expr_top_ref (GnmExprTop const *texpr);
+void gnm_expr_top_unref (GnmExprTop const *texpr);
+GnmExpr const *gnm_expr_top_unwrap (GnmExprTop const *texpr);
+
+gboolean gnm_expr_top_is_shared (GnmExprTop const *texpr);
+gboolean gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError e);
+gboolean  gnm_expr_top_is_rangeref (GnmExprTop const *texpr);
+GnmValue const*gnm_expr_top_get_constant (GnmExprTop const *texpr);
+gboolean gnm_expr_top_contains_subtotal (GnmExprTop const *texpr);
+GSList *gnm_expr_top_referenced_sheets (GnmExprTop const *texpr);
+GnmExpr const *gnm_expr_top_first_funcall (GnmExprTop const *texpr);
+void gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, GnmRange *bound);
+
+GnmExprTop const *gnm_expr_top_rewrite (GnmExprTop const *texpr,
+					GnmExprRewriteInfo const *rwinfo);
+GSList *gnm_expr_top_get_ranges (GnmExprTop const *texpr);
+gboolean gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2);
+char *gnm_expr_top_as_string (GnmExprTop const *texpr,
+			      GnmParsePos const *pp,
+			      GnmExprConventions const *fmt);
+void gnm_expr_top_as_gstring (GString *target,
+			      GnmExprTop const *texpr,
+			      GnmParsePos const *pp,
+			      GnmExprConventions const *fmt);
+GnmValue *gnm_expr_top_eval (GnmExprTop const *texpr,
+			     GnmEvalPos const *pos,
+			     GnmExprEvalFlags flags);
+GnmValue      *gnm_expr_top_get_range    (GnmExprTop const *texpr);
 
 /*****************************************************************************/
 

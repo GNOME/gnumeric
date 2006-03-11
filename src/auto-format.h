@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 
-GOFormat *auto_style_format_suggest (GnmExpr const *expr, GnmEvalPos const *epos);
+GOFormat *auto_style_format_suggest (GnmExprTop const *texpr,
+				     GnmEvalPos const *epos);
 
 #endif

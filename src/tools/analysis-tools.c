@@ -401,7 +401,7 @@ analysis_tools_write_label (GnmValue *val, data_analysis_output_t *dao,
 		GnmValue *label = value_dup (val);
 
 		label->v_range.cell.b = label->v_range.cell.a;
-		dao_set_cell_expr (dao,  x, y, gnm_expr_new_constant (label));
+		dao_set_cell_expr (dao, x, y, gnm_expr_new_constant (label));
 		analysis_tools_remove_label (val, info);
 	} else {
 		switch (info->group_by) {
@@ -448,7 +448,7 @@ analysis_tools_write_label_ftest (GnmValue *val, data_analysis_output_t *dao,
 		GnmValue *label = value_dup (val);
 
 		label->v_range.cell.b = label->v_range.cell.a;
-		dao_set_cell_expr (dao,  x, y, gnm_expr_new_constant (label));
+		dao_set_cell_expr (dao, x, y, gnm_expr_new_constant (label));
 
 		if ((val->v_range.cell.b.col - val->v_range.cell.a.col) <
 		    (val->v_range.cell.b.row - val->v_range.cell.a.row))
@@ -842,7 +842,7 @@ analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 static void
 cb_inputexpr_free (gpointer expr, G_GNUC_UNUSED gpointer user_data)
 {
-	gnm_expr_unref ((GnmExpr *) expr);
+	gnm_expr_unref (expr);
 }
 
 static gboolean
@@ -879,17 +879,12 @@ analysis_tool_table (data_analysis_output_t *dao,
 
 	for (row = 1, inputdata = info->input; inputdata != NULL;
 	     inputdata = inputdata->next, row++) {
-		GnmValue *val = NULL;
+		GnmValue *val = value_dup (inputdata->data);
 		GSList *colexprlist;
-		GnmExpr const *rowexpr;
-
-		val = value_dup (inputdata->data);
 
 		/* Label */
 		analysis_tools_write_label (val, dao, info,
 					    0, row, row);
-
-		rowexpr = gnm_expr_new_constant (val);
 
 		for (col = 1, colexprlist = inputexpr; colexprlist != NULL;
 		     colexprlist = colexprlist->next, col++) {
@@ -898,14 +893,15 @@ analysis_tool_table (data_analysis_output_t *dao,
 			if (col < row)
 				continue;
 
-			gnm_expr_ref(rowexpr);
-			gnm_expr_ref(colexpr);
-			dao_set_cell_expr (dao, row, col,
-					   gnm_expr_new_funcall2 (fd,
-								  rowexpr,
-								  colexpr));
+			dao_set_cell_expr
+				(dao, row, col,
+				 gnm_expr_new_funcall2
+				 (fd,
+				  gnm_expr_new_constant (value_dup (val)),
+				  gnm_expr_copy (colexpr)));
 		}
-		gnm_expr_unref(rowexpr);
+
+		value_release (val);
 	}
 	dao_set_italic (dao, 0, 0, 0, row);
 
@@ -1118,77 +1114,71 @@ summary_statistics (data_analysis_output_t *dao,
 		expr = gnm_expr_new_funcall1
 			(fd_mean,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		dao_set_cell_expr (dao,  col + 1, 1, expr);
+		dao_set_cell_expr (dao, col + 1, 1, expr);
 
 		/* Standard Deviation */
 		expr = gnm_expr_new_funcall1
 			(fd_stdev,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		dao_set_cell_expr (dao,  col + 1, 5, expr);
+		dao_set_cell_expr (dao, col + 1, 5, expr);
 
 		/* Sample Variance */
-		expr = gnm_expr_new_funcall1
+		expr_var = gnm_expr_new_funcall1
 			(fd_var,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		gnm_expr_ref ((expr_var = expr));
-		dao_set_cell_expr (dao,  col + 1, 6, expr);
+		dao_set_cell_expr (dao, col + 1, 6, gnm_expr_copy (expr_var));
 
 		/* Median */
 		expr = gnm_expr_new_funcall1
 			(fd_median,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		dao_set_cell_expr (dao,  col + 1, 3, expr);
+		dao_set_cell_expr (dao, col + 1, 3, expr);
 
 		/* Mode */
 		expr = gnm_expr_new_funcall1
 			(fd_mode,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		dao_set_cell_expr (dao,  col + 1, 4, expr);
+		dao_set_cell_expr (dao, col + 1, 4, expr);
 
 		/* Kurtosis */
 		expr = gnm_expr_new_funcall1
 			(fd_kurt,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		dao_set_cell_expr (dao,  col + 1, 7, expr);
+		dao_set_cell_expr (dao, col + 1, 7, expr);
 
 		/* Skewness */
 		expr = gnm_expr_new_funcall1
 			(fd_skew,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		dao_set_cell_expr (dao,  col + 1, 8, expr);
+		dao_set_cell_expr (dao, col + 1, 8, expr);
 
 		/* Minimum */
-		expr = gnm_expr_new_funcall1
+		expr_min = gnm_expr_new_funcall1
 			(fd_min,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		gnm_expr_ref ((expr_min = expr));
-		dao_set_cell_expr (dao,  col + 1, 10, expr);
+		dao_set_cell_expr (dao, col + 1, 10, gnm_expr_copy (expr_min));
 
 		/* Maximum */
-		expr = gnm_expr_new_funcall1
+		expr_max = gnm_expr_new_funcall1
 			(fd_max,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		gnm_expr_ref ((expr_max = expr));
-		dao_set_cell_expr (dao,  col + 1, 11, expr);
+		dao_set_cell_expr (dao, col + 1, 11, gnm_expr_copy (expr_max));
 
 		/* Range */
 		expr = gnm_expr_new_binary (expr_max, GNM_EXPR_OP_SUB, expr_min);
-		dao_set_cell_expr (dao,  col + 1, 9, expr);
+		dao_set_cell_expr (dao, col + 1, 9, expr);
 
 		/* Sum */
 		expr = gnm_expr_new_funcall1
 			(fd_sum,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		dao_set_cell_expr (dao,  col + 1, 12, expr);
+		dao_set_cell_expr (dao, col + 1, 12, expr);
 
 		/* Count */
-		expr = gnm_expr_new_funcall1
+		expr_count = gnm_expr_new_funcall1
 			(fd_count,
 			 gnm_expr_new_constant (val_org));
-		gnm_expr_ref ((expr_count = expr));
-		dao_set_cell_expr (dao,  col + 1, 13, expr);
-
-		/* val_org now consumed.  */
+		dao_set_cell_expr (dao, col + 1, 13, gnm_expr_copy (expr_count));
 
 		/* Standard Error */
 		expr = gnm_expr_new_funcall1
@@ -1196,7 +1186,7 @@ summary_statistics (data_analysis_output_t *dao,
 			 gnm_expr_new_binary (expr_var,
 					      GNM_EXPR_OP_DIV,
 					      expr_count));
-		dao_set_cell_expr (dao,  col + 1, 2, expr);
+		dao_set_cell_expr (dao, col + 1, 2, expr);
 	}
 
 	gnm_func_unref (fd_mean);
@@ -1264,7 +1254,6 @@ confidence_level (data_analysis_output_t *dao,
 		expr_mean = gnm_expr_new_funcall1
 			(fd_mean,
 			 gnm_expr_new_constant (value_dup (val_org)));
-		gnm_expr_ref (expr_mean); /* We need it twice */
 
 		expr_var = gnm_expr_new_funcall1
 			(fd_var,
@@ -1273,16 +1262,13 @@ confidence_level (data_analysis_output_t *dao,
 		expr_count = gnm_expr_new_funcall1
 			(fd_count,
 			 gnm_expr_new_constant (val_org));
-		gnm_expr_ref (expr_count); /* We need it twice */
-
-		/* val_org now consumed.  */
 
 		expr = gnm_expr_new_binary
 			(gnm_expr_new_funcall2
 			 (fd_tinv,
 			  gnm_expr_new_constant (value_new_float (1 - info->c_level)),
 			  gnm_expr_new_binary
-			  (expr_count,
+			  (gnm_expr_copy (expr_count),
 			   GNM_EXPR_OP_SUB,
 			   gnm_expr_new_constant (value_new_int (1)))),
 			 GNM_EXPR_OP_MULT,
@@ -1291,13 +1277,13 @@ confidence_level (data_analysis_output_t *dao,
 			  gnm_expr_new_binary (expr_var,
 					       GNM_EXPR_OP_DIV,
 					       expr_count)));
-		gnm_expr_ref (expr); /* We need it twice */
 
-		dao_set_cell_expr (dao,  col + 1, 1,
-				   gnm_expr_new_binary (expr_mean,
-							GNM_EXPR_OP_SUB,
-							expr));
-		dao_set_cell_expr (dao,  col + 1, 2,
+		dao_set_cell_expr (dao, col + 1, 1,
+				   gnm_expr_new_binary
+				   (gnm_expr_copy (expr_mean),
+				    GNM_EXPR_OP_SUB,
+				    gnm_expr_copy (expr)));
+		dao_set_cell_expr (dao, col + 1, 2,
 				   gnm_expr_new_binary (expr_mean,
 							GNM_EXPR_OP_ADD,
 							expr));
@@ -1336,7 +1322,7 @@ kth_smallest_largest (data_analysis_output_t *dao,
 			 gnm_expr_new_constant (val),
 			 gnm_expr_new_constant (value_new_int (k)));
 
-		dao_set_cell_expr (dao,  col + 1, 1, expr);
+		dao_set_cell_expr (dao, col + 1, 1, expr);
 	}
 
 	gnm_func_unref (fd);
@@ -1557,7 +1543,9 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_sqrt;
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
+	GnmExpr const *expr_mean_1;
 	GnmExpr const *expr_mean_2;
+	GnmExpr const *expr_count_1;
 	GnmExpr const *expr_count_2;
 
         dao_set_cell (dao, 0, 0, "");
@@ -1587,11 +1575,9 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 
 	val_1 = value_dup (info->base.range_1);
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
-	gnm_expr_ref (expr_1);
 
 	val_2 = value_dup (info->base.range_2);
 	expr_2 = gnm_expr_new_constant (value_dup (val_2));
-	gnm_expr_ref (expr_2);
 
 	/* Labels */
 	analysis_tools_write_label_ftest (val_1, dao, 1, 0,
@@ -1601,21 +1587,20 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 
 
 	/* Mean */
-	dao_set_cell_expr (dao, 1, 1, gnm_expr_new_funcall1 (fd_mean, expr_1));
-	expr_mean_2 = gnm_expr_new_funcall1 (fd_mean, expr_2);
-	gnm_expr_ref (expr_mean_2);
-	dao_set_cell_expr (dao, 2, 1, expr_mean_2);
+	expr_mean_1 = gnm_expr_new_funcall1 (fd_mean, gnm_expr_copy (expr_1));
+	dao_set_cell_expr (dao, 1, 1, expr_mean_1);
+	expr_mean_2 = gnm_expr_new_funcall1 (fd_mean, gnm_expr_copy (expr_2));
+	dao_set_cell_expr (dao, 2, 1, gnm_expr_copy (expr_mean_2));
 
 	/* Known Variance */
 	dao_set_cell_float (dao, 1, 2, info->var1);
 	dao_set_cell_float (dao, 2, 2, info->var2);
 
 	/* Observations */
-	dao_set_cell_expr (dao, 1, 3,
-			   gnm_expr_new_funcall1 (fd_count, expr_1));
+	expr_count_1 = gnm_expr_new_funcall1 (fd_count, expr_1);
+	dao_set_cell_expr (dao, 1, 3, expr_count_1);
 	expr_count_2 = gnm_expr_new_funcall1 (fd_count, expr_2);
-	gnm_expr_ref (expr_count_2);
-	dao_set_cell_expr (dao, 2, 3, expr_count_2);
+	dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_2));
 
 	/* Hypothesized Mean Difference */
 	dao_set_cell_float (dao, 1, 4, info->mean_diff);
@@ -1873,50 +1858,50 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	/* Mean */
 
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
-	gnm_expr_ref (expr_1);
 	dao_set_cell_expr (dao, 1, 1,
-			   gnm_expr_new_funcall1 (fd_mean, expr_1));
+			   gnm_expr_new_funcall1 (fd_mean,
+						  gnm_expr_copy (expr_1)));
 
 	expr_2 = gnm_expr_new_constant (value_dup (val_2));
-	gnm_expr_ref (expr_2);
 	dao_set_cell_expr (dao, 2, 1,
-			   gnm_expr_new_funcall1 (fd_mean, expr_2));
+			   gnm_expr_new_funcall1 (fd_mean,
+						  gnm_expr_copy (expr_2)));
 
 	/* Variance */
-	gnm_expr_ref (expr_1);
 	dao_set_cell_expr (dao, 1, 2,
-			   gnm_expr_new_funcall1 (fd_var, expr_1));
-	gnm_expr_ref (expr_2);
+			   gnm_expr_new_funcall1 (fd_var,
+						  gnm_expr_copy (expr_1)));
 	dao_set_cell_expr (dao, 2, 2,
-			   gnm_expr_new_funcall1 (fd_var, expr_2));
+			   gnm_expr_new_funcall1 (fd_var,
+						  gnm_expr_copy (expr_2)));
 
 	/* Observations */
-	gnm_expr_ref (expr_1);
 	dao_set_cell_expr (dao, 1, 3,
-			   gnm_expr_new_funcall1 (fd_count, expr_1));
-	gnm_expr_ref (expr_2);
+			   gnm_expr_new_funcall1 (fd_count,
+						  gnm_expr_copy (expr_1)));
 	dao_set_cell_expr (dao, 2, 3,
-			   gnm_expr_new_funcall1 (fd_count, expr_2));
+			   gnm_expr_new_funcall1 (fd_count,
+						  gnm_expr_copy (expr_2)));
 
 	/* Pearson Correlation */
-	gnm_expr_ref (expr_1);
-	gnm_expr_ref (expr_2);
 	dao_set_cell_expr (dao, 1, 4,
-			   gnm_expr_new_funcall2 (fd_correl, expr_1, expr_2));
+			   gnm_expr_new_funcall2 (fd_correl,
+						  gnm_expr_copy (expr_1),
+						  gnm_expr_copy (expr_2)));
 
 	/* Hypothesized Mean Difference */
 	dao_set_cell_float (dao, 1, 5, info->mean_diff);
 
 	/* Observed Mean Difference */
 	expr_diff = gnm_expr_new_binary (expr_1, GNM_EXPR_OP_SUB, expr_2);
-	gnm_expr_ref (expr_diff);
 	dao_set_cell_expr (dao, 1, 6,
-			   gnm_expr_new_funcall1 (fd_mean, expr_diff));
+			   gnm_expr_new_funcall1 (fd_mean,
+						  gnm_expr_copy (expr_diff)));
 
 	/* Variance of the Differences */
-	gnm_expr_ref (expr_diff);
 	dao_set_cell_expr (dao, 1, 7,
-			   gnm_expr_new_funcall1 (fd_var, expr_diff));
+			   gnm_expr_new_funcall1 (fd_var,
+						  gnm_expr_copy (expr_diff)));
 
 	/* df */
 	dao_set_cell_expr (dao, 1, 8,
@@ -2087,8 +2072,11 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_tinv;
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
+	GnmExpr const *expr_mean_1;
 	GnmExpr const *expr_mean_2;
+	GnmExpr const *expr_var_1;
 	GnmExpr const *expr_var_2;
+	GnmExpr const *expr_count_1;
 	GnmExpr const *expr_count_2;
 
         dao_set_cell (dao, 0, 0, "");
@@ -2131,35 +2119,27 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 
 	/* Mean */
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
-	gnm_expr_ref (expr_1);
-	dao_set_cell_expr (dao, 1, 1,
-			   gnm_expr_new_funcall1 (fd_mean, expr_1));
+	expr_mean_1 = gnm_expr_new_funcall1 (fd_mean,
+					     gnm_expr_copy (expr_1));
+	dao_set_cell_expr (dao, 1, 1, expr_mean_1);
 	expr_2 = gnm_expr_new_constant (value_dup (val_2));
-	gnm_expr_ref (expr_2);
-	expr_mean_2 = gnm_expr_new_funcall1 (fd_mean, expr_2);
-	gnm_expr_ref (expr_mean_2);
-	dao_set_cell_expr (dao, 2, 1, expr_mean_2);
+	expr_mean_2 = gnm_expr_new_funcall1 (fd_mean,
+					     gnm_expr_copy (expr_2));
+	dao_set_cell_expr (dao, 2, 1, gnm_expr_copy (expr_mean_2));
 
 	/* Variance */
-	gnm_expr_ref (expr_1);
-	dao_set_cell_expr (dao, 1, 2,
-			   gnm_expr_new_funcall1 (fd_var, expr_1));
-	gnm_expr_ref (expr_2);
-	expr_var_2 = gnm_expr_new_funcall1 (fd_var, expr_2);
-	gnm_expr_ref (expr_var_2);
-	dao_set_cell_expr (dao, 2, 2, expr_var_2);
+	expr_var_1 = gnm_expr_new_funcall1 (fd_var, gnm_expr_copy (expr_1));
+	dao_set_cell_expr (dao, 1, 2, expr_var_1);
+	expr_var_2 = gnm_expr_new_funcall1 (fd_var, gnm_expr_copy (expr_2));
+	dao_set_cell_expr (dao, 2, 2, gnm_expr_copy (expr_var_2));
 
 	/* Observations */
-	dao_set_cell_expr (dao, 1, 3,
-			   gnm_expr_new_funcall1 (fd_count, expr_1));
+	expr_count_1 = gnm_expr_new_funcall1 (fd_count, expr_1);
+	dao_set_cell_expr (dao, 1, 3, expr_count_1);
 	expr_count_2 = gnm_expr_new_funcall1 (fd_count, expr_2);
-	gnm_expr_ref (expr_count_2);
-	gnm_expr_ref (expr_count_2);
-	gnm_expr_ref (expr_count_2);
-       	dao_set_cell_expr (dao, 2, 3, expr_count_2);
+       	dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_2));
 
         /* Pooled Variance */
-
 	{
 		GnmExpr const *expr_var_2_adj = NULL;
 		GnmExpr const *expr_count_2_adj = NULL;
@@ -2182,30 +2162,27 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		if (dao_cell_is_visible (dao, 2,3)) {
 			static const GnmCellRef count_2 =
 				{NULL, 1, -1, TRUE, TRUE};
-			gnm_expr_unref (expr_count_2);
 			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
 		} else
-			expr_count_2_adj = expr_count_2;
-
-		gnm_expr_ref (expr_one);
+			expr_count_2_adj = gnm_expr_copy (expr_count_2);
 
 		expr_count_1_minus_1 = gnm_expr_new_binary
-			(expr_count_1, GNM_EXPR_OP_SUB, expr_one);
-		gnm_expr_ref (expr_count_1_minus_1);
+			(expr_count_1,
+			 GNM_EXPR_OP_SUB,
+			 gnm_expr_copy (expr_one));
 		expr_count_2_minus_1 = gnm_expr_new_binary
 			(expr_count_2_adj, GNM_EXPR_OP_SUB, expr_one);
-		gnm_expr_ref (expr_count_2_minus_1);
 
 		dao_set_cell_expr (dao, 1, 4,
 				   gnm_expr_new_binary
 				   (gnm_expr_new_binary
 				    (gnm_expr_new_binary
-				     (expr_count_1_minus_1,
+				     (gnm_expr_copy (expr_count_1_minus_1),
 				      GNM_EXPR_OP_MULT,
 				      expr_var_1),
 				     GNM_EXPR_OP_ADD,
 				     gnm_expr_new_binary
-				     (expr_count_2_minus_1,
+				     (gnm_expr_copy (expr_count_2_minus_1),
 				      GNM_EXPR_OP_MULT,
 				      expr_var_2_adj)),
 				    GNM_EXPR_OP_DIV,
@@ -2236,7 +2213,6 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* df */
-
 	{
 		static const GnmCellRef count_1 = {NULL, 0, -4, TRUE, TRUE};
 		GnmExpr const *expr_count_1 = gnm_expr_new_cellref (&count_1);
@@ -2246,10 +2222,9 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 
 		if (dao_cell_is_visible (dao, 2,3)) {
 			GnmCellRef count_2 = {NULL, 1, -4, TRUE, TRUE};
-			gnm_expr_unref (expr_count_2);
 			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
 		} else
-			expr_count_2_adj = expr_count_2;
+			expr_count_2_adj = gnm_expr_copy (expr_count_2);
 
 		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_binary
@@ -2262,7 +2237,6 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* t */
-
 	{
 		GnmCellRef mean_diff_hypo = {NULL, 0, -3, TRUE, TRUE};
 		GnmCellRef mean_diff_observed = {NULL, 0, -2, TRUE, TRUE};
@@ -2275,8 +2249,6 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_b;
 		GnmExpr const *expr_count_2_adj;
 
-		gnm_expr_ref (expr_var);
-
 		if (dao_cell_is_visible (dao, 2,3)) {
 			GnmCellRef count_2 = {NULL, 1, -5, TRUE, TRUE};
 			gnm_expr_unref (expr_count_2);
@@ -2284,9 +2256,11 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		} else
 			expr_count_2_adj = expr_count_2;
 
-		expr_a = gnm_expr_new_binary (expr_var, GNM_EXPR_OP_DIV,
+		expr_a = gnm_expr_new_binary (gnm_expr_copy (expr_var),
+					      GNM_EXPR_OP_DIV,
 					      expr_count_1);
-		expr_b = gnm_expr_new_binary (expr_var, GNM_EXPR_OP_DIV,
+		expr_b = gnm_expr_new_binary (expr_var,
+					      GNM_EXPR_OP_DIV,
 					      expr_count_2_adj);
 
 		dao_set_cell_expr (dao, 1, 8,
@@ -2436,8 +2410,11 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_tinv;
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
+	GnmExpr const *expr_mean_1;
 	GnmExpr const *expr_mean_2;
+	GnmExpr const *expr_var_1;
 	GnmExpr const *expr_var_2;
+	GnmExpr const *expr_count_1;
 	GnmExpr const *expr_count_2;
 
         dao_set_cell (dao, 0, 0, "");
@@ -2479,32 +2456,23 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 
 	/* Mean */
 	expr_1 = gnm_expr_new_constant (value_dup (val_1));
-	gnm_expr_ref (expr_1);
-	dao_set_cell_expr (dao, 1, 1,
-			   gnm_expr_new_funcall1 (fd_mean, expr_1));
+	expr_mean_1 = gnm_expr_new_funcall1 (fd_mean, gnm_expr_copy (expr_1));
+	dao_set_cell_expr (dao, 1, 1, expr_mean_1);
 	expr_2 = gnm_expr_new_constant (value_dup (val_2));
-	gnm_expr_ref (expr_2);
-	expr_mean_2 = gnm_expr_new_funcall1 (fd_mean, expr_2);
-	gnm_expr_ref (expr_mean_2);
-	dao_set_cell_expr (dao, 2, 1, expr_mean_2);
+	expr_mean_2 = gnm_expr_new_funcall1 (fd_mean, gnm_expr_copy (expr_2));
+	dao_set_cell_expr (dao, 2, 1, gnm_expr_copy (expr_mean_2));
 
 	/* Variance */
-	gnm_expr_ref (expr_1);
-	dao_set_cell_expr (dao, 1, 2,
-			   gnm_expr_new_funcall1 (fd_var, expr_1));
-	gnm_expr_ref (expr_2);
-	expr_var_2 = gnm_expr_new_funcall1 (fd_var, expr_2);
-	gnm_expr_ref (expr_var_2);
-	gnm_expr_ref (expr_var_2);
-	dao_set_cell_expr (dao, 2, 2, expr_var_2);
+	expr_var_1 = gnm_expr_new_funcall1 (fd_var, gnm_expr_copy (expr_1));
+	dao_set_cell_expr (dao, 1, 2, expr_var_1);
+	expr_var_2 = gnm_expr_new_funcall1 (fd_var, gnm_expr_copy (expr_2));
+	dao_set_cell_expr (dao, 2, 2, gnm_expr_copy (expr_var_2));
 
 	/* Observations */
-	dao_set_cell_expr (dao, 1, 3,
-			   gnm_expr_new_funcall1 (fd_count, expr_1));
+	expr_count_1 = gnm_expr_new_funcall1 (fd_count, expr_1);
+	dao_set_cell_expr (dao, 1, 3, expr_count_1);
 	expr_count_2 = gnm_expr_new_funcall1 (fd_count, expr_2);
-	gnm_expr_ref (expr_count_2);
-	gnm_expr_ref (expr_count_2);
-	dao_set_cell_expr (dao, 2, 3, expr_count_2);
+	dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_2));
 
 	/* Hypothesized Mean Difference */
 	dao_set_cell_float (dao, 1, 4, info->mean_diff);
@@ -2544,52 +2512,45 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 		if (dao_cell_is_visible (dao, 2,2)) {
 			static const GnmCellRef var_2 =
 				{NULL, 1, -4, TRUE, TRUE};
-			gnm_expr_unref (expr_var_2);
 			expr_var_2_adj = gnm_expr_new_cellref (&var_2);
 		} else
-			expr_var_2_adj = expr_var_2;
+			expr_var_2_adj = gnm_expr_copy (expr_var_2);
+
 		if (dao_cell_is_visible (dao, 2,3)) {
 			static const GnmCellRef count_2 =
 				{NULL, 1, -3, TRUE, TRUE};
-			gnm_expr_unref (expr_count_2);
 			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
 		} else
-			expr_count_2_adj = expr_count_2;
+			expr_count_2_adj = gnm_expr_copy (expr_count_2);
 
-		gnm_expr_ref (expr_two);
-		gnm_expr_ref (expr_two);
-		gnm_expr_ref (expr_one);
-		gnm_expr_ref (expr_count_1);
-		gnm_expr_ref (expr_count_2_adj);
-
-		expr_a = gnm_expr_new_binary (expr_var_1, GNM_EXPR_OP_DIV,
-					      expr_count_1);
-		expr_b = gnm_expr_new_binary (expr_var_2_adj, GNM_EXPR_OP_DIV,
-					      expr_count_2_adj);
-		gnm_expr_ref (expr_a);
-		gnm_expr_ref (expr_b);
+		expr_a = gnm_expr_new_binary (expr_var_1,
+					      GNM_EXPR_OP_DIV,
+					      gnm_expr_copy (expr_count_1));
+		expr_b = gnm_expr_new_binary (expr_var_2_adj,
+					      GNM_EXPR_OP_DIV,
+					      gnm_expr_copy (expr_count_2_adj));
 
 		dao_set_cell_expr (dao, 1, 6,
 				   gnm_expr_new_binary (
 					   gnm_expr_new_binary
 					   (gnm_expr_new_binary
-					    (expr_a,
+					    (gnm_expr_copy (expr_a),
 					     GNM_EXPR_OP_ADD,
-					     expr_b),
+					     gnm_expr_copy (expr_b)),
 					    GNM_EXPR_OP_EXP,
-					    expr_two),
+					    gnm_expr_copy (expr_two)),
 					   GNM_EXPR_OP_DIV,
 					   gnm_expr_new_binary
 					   (gnm_expr_new_binary
 					    (gnm_expr_new_binary
 					     (expr_a,
 					      GNM_EXPR_OP_EXP,
-					      expr_two),
+					      gnm_expr_copy (expr_two)),
 					     GNM_EXPR_OP_DIV,
 					     gnm_expr_new_binary
 					     (expr_count_1,
 					      GNM_EXPR_OP_SUB,
-					      expr_one)),
+					      gnm_expr_copy (expr_one))),
 					    GNM_EXPR_OP_ADD,
 					    gnm_expr_new_binary
 					    (gnm_expr_new_binary
@@ -2850,8 +2811,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		expr_var_denum = gnm_expr_new_funcall1
 			(fd_var,
 			 gnm_expr_new_constant (value_dup (val_2)));
-		gnm_expr_ref (expr_var_denum);
-		dao_set_cell_expr (dao, 2, 2, expr_var_denum);
+		dao_set_cell_expr (dao, 2, 2, gnm_expr_copy (expr_var_denum));
 
 		gnm_func_unref (fd_var);
 	}
@@ -2870,8 +2830,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		expr_count_denum = gnm_expr_new_funcall1
 			(fd_count,
 			 gnm_expr_new_constant (value_dup (val_2)));
-		gnm_expr_ref (expr_count_denum);
-		dao_set_cell_expr (dao, 2, 3, expr_count_denum);
+		dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_denum));
 
 		gnm_func_unref (fd_count);
 	}
@@ -2883,8 +2842,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			(gnm_expr_new_cellref (&cr),
 			 GNM_EXPR_OP_SUB,
 			 gnm_expr_new_constant (value_new_int (1)));
-		gnm_expr_ref (expr);
-		dao_set_cell_expr (dao, 1, 4, expr);
+		dao_set_cell_expr (dao, 1, 4, gnm_expr_copy (expr));
 		dao_set_cell_expr (dao, 2, 4, expr);
 	}
 
@@ -2922,12 +2880,11 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			arg3 = gnm_expr_new_cellref (&cr_df_denum);
 			gnm_expr_unref (expr_count_denum);
 		} else {
-			arg3 = gnm_expr_new_binary
+			expr_df_denum = gnm_expr_new_binary
 				(expr_count_denum,
 				 GNM_EXPR_OP_SUB,
 				 gnm_expr_new_constant (value_new_int (1)));
-			expr_df_denum = arg3;
-			gnm_expr_ref (expr_df_denum);
+			arg3 = gnm_expr_copy (expr_df_denum);
 		}
 
 		dao_set_cell_expr
@@ -2950,8 +2907,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		if (expr_df_denum == NULL) {
 			arg3 = gnm_expr_new_cellref (&cr_df_denum);
 		} else {
-			gnm_expr_ref (expr_df_denum);
-			arg3 = expr_df_denum;
+			arg3 = gnm_expr_copy (expr_df_denum);
 		}
 
 		dao_set_cell_expr
@@ -2984,8 +2940,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		if (expr_df_denum == NULL) {
 			arg3 = gnm_expr_new_cellref (&cr_df_denum);
 		} else {
-			gnm_expr_ref (expr_df_denum);
-			arg3 = expr_df_denum;
+			arg3 = gnm_expr_copy (expr_df_denum);
 		}
 
 		dao_set_cell_expr
@@ -3975,20 +3930,18 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				(arg_ss_total,
 				 gnm_expr_new_constant (val_org));
 
-			gnm_expr_ref (expr_one);
 			arg_ss_within = gnm_expr_list_append
 				(arg_ss_within,
 				 gnm_expr_new_funcall1
-				 (fd_devsq, expr_one));
+				 (fd_devsq, gnm_expr_copy (expr_one)));
 
 			expr_count_one =
 				gnm_expr_new_funcall1 (fd_count, expr_one);
 
-			gnm_expr_ref (expr_count_one);
 			sum_wdof_args = gnm_expr_list_append
 				(sum_wdof_args,
 				 gnm_expr_new_binary(
-					 expr_count_one,
+					 gnm_expr_copy (expr_count_one),
 					 GNM_EXPR_OP_SUB,
 					 gnm_expr_new_constant
 					 (value_new_int (1))));
@@ -4015,23 +3968,20 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 					 gnm_expr_new_cellref (&cr_within));
 
 			} else {
-				gnm_expr_ref (expr_ss_total);
-				gnm_expr_ref (expr_ss_within);
 				expr_ss_between = gnm_expr_new_binary
-					(expr_ss_total,
+					(gnm_expr_copy (expr_ss_total),
 					 GNM_EXPR_OP_SUB,
-					 expr_ss_within);
+					 gnm_expr_copy (expr_ss_within));
 			}
-			dao_set_cell_expr (dao,  1, 2, expr_ss_between);
+			dao_set_cell_expr (dao, 1, 2, expr_ss_between);
 		}
 		{
 			/* SS within groups */
-			gnm_expr_ref (expr_ss_within);
-			dao_set_cell_expr (dao,  1, 3, expr_ss_within);
+			dao_set_cell_expr (dao, 1, 3, gnm_expr_copy (expr_ss_within));
 		}
 		{
 			/* SS total groups */
-			dao_set_cell_expr (dao,  1, 4, expr_ss_total);
+			dao_set_cell_expr (dao, 1, 4, expr_ss_total);
 		}
 		{
 			/* Between groups degrees of freedom */
@@ -4041,8 +3991,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		{
 			/* Within groups degrees of freedom */
 			expr_wdof = gnm_expr_new_funcall (fd_sum, sum_wdof_args);
-			gnm_expr_ref (expr_wdof);
-			dao_set_cell_expr (dao, 2, 3, expr_wdof);
+			dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_wdof));
 		}
 		{
 			/* Total degrees of freedom */
@@ -4065,9 +4014,8 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				(gnm_expr_new_cellref (&cr_num),
 				 GNM_EXPR_OP_DIV,
 				 gnm_expr_new_cellref (&cr_denom));
-			gnm_expr_ref (expr_ms);
-			dao_set_cell_expr(dao, 3, 2, expr_ms);
-			dao_set_cell_expr(dao, 3, 3, expr_ms);
+			dao_set_cell_expr (dao, 3, 2, gnm_expr_copy (expr_ms));
+			dao_set_cell_expr (dao, 3, 3, expr_ms);
 		}
 		{
 			/* Observed F */
@@ -4082,11 +4030,10 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				expr_denom = gnm_expr_new_cellref (&cr_denom);
 				gnm_expr_unref (expr_ss_within);
 			} else {
-				gnm_expr_ref (expr_wdof);
 				expr_denom = gnm_expr_new_binary
 					(expr_ss_within,
 					 GNM_EXPR_OP_DIV,
-					 expr_wdof);
+					 gnm_expr_copy (expr_wdof));
 			}
 
 			expr_f = gnm_expr_new_binary
@@ -4111,8 +4058,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				cr.row = 1;
 				arg3 = gnm_expr_new_cellref (&cr);
 			} else {
-				gnm_expr_ref (expr_wdof);
-				arg3 = expr_wdof;
+				arg3 = gnm_expr_copy (expr_wdof);
 			}
 
 			fd_fdist = gnm_func_lookup ("FDIST", NULL);

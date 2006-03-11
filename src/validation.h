@@ -39,23 +39,24 @@ typedef enum {
 } ValidationOp;
 
 struct _GnmValidation {
-	int              ref_count;
+	int               ref_count;
 
-	GnmString       *title;
-	GnmString       *msg;
-	GnmExpr	const   *expr [2];
-	ValidationStyle  style;
-	ValidationType	 type;
-	ValidationOp	 op;
-	gboolean	 allow_blank;
-	gboolean	 use_dropdown;
+	GnmString        *title;
+	GnmString        *msg;
+	GnmExprTop const *texpr[2];
+	ValidationStyle   style;
+	ValidationType	  type;
+	ValidationOp	  op;
+	gboolean	  allow_blank;
+	gboolean	  use_dropdown;
 };
 
 GnmValidation *validation_new   (ValidationStyle style,
-				 ValidationType  type,
-				 ValidationOp    op,
+				 ValidationType type,
+				 ValidationOp op,
 				 char const *title, char const *msg,
-				 GnmExpr const *expr0, GnmExpr const *expr1,
+				 GnmExprTop const *texpr0,
+				 GnmExprTop const *texpr1,
 				 gboolean allow_blank, gboolean use_dropdown);
 
 void        validation_ref    (GnmValidation *v);

@@ -29,6 +29,7 @@
 #include <parse-util.h>
 #include <cell.h>
 #include <expr.h>
+#include <expr-impl.h>
 #include <value.h>
 #include <gnm-i18n.h>
 
@@ -289,14 +290,12 @@ static GnmValue *
 gnumeric_if (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	gboolean err;
-	int argcount;
 	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
 
 	if (args[res])
 		return value_dup (args[res]);
 
-	argcount = gnm_expr_get_func_argcount ((const GnmExpr *)ei->func_call);
-	if (argcount < res + 1)
+	if (ei->func_call->argc < res + 1)
 		/* arg-not-there: default to TRUE/FALSE.  */
 		return value_new_bool (res == 1);
 	else

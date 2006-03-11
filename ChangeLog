@@ -1,5 +1,29 @@
 2006-03-10  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.h (GnmExprTop): New type for top-level expressions.
+	* src/clipboard.h (GnmCellCopy): Use a top-level expression here.
+	Rename it to "texpr" to make sure we catch all users.  All users
+	changed.
+	* src/dependent.h (GnmDependent): Ditto.
+	* src/expr-name.h (GnmNamedExpr): Ditto.
+	* src/style-conditions.h (GnmStyleCond): Ditto.
+	* src/validation.h (GnmValidation): Ditto.
+
+	* src/expr.c (gnm_expr_top_new, gnm_expr_top_new_constant,
+	gnm_expr_top_ref, gnm_expr_top_unref, gnm_expr_top_unwrap,
+	gnm_expr_top_is_shared, gnm_expr_top_is_err,
+	gnm_expr_top_is_rangeref, gnm_expr_top_get_constant,
+	gnm_expr_top_contains_subtotal, gnm_expr_top_referenced_sheets,
+	gnm_expr_top_first_funcall, gnm_expr_top_get_boundingbox,
+	gnm_expr_top_rewrite, gnm_expr_top_get_ranges, gnm_expr_top_equal,
+	gnm_expr_top_as_string, gnm_expr_top_as_gstring,
+	gnm_expr_top_eval, gnm_expr_top_get_ranges): New functions.  Many
+	non-top versions made static.
+	(gnm_expr_copy): New function replacing gnm_expr_ref.  (Still
+	simply refs, but not for long.)
+
+	*/*.c: Massive changes adapting to the above.
+
 	* src/rendered-value.c (rendered_value_recontext): Make sure
 	wrap_text is only cleared when we clear the layout's width.
 	Fixes #334144.

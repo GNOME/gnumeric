@@ -489,9 +489,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	int max_row = SHEET_MAX_ROWS;
 	int i, rcode, rlength;
 	guint8 const *data;
-	GnmCell    *cell;
 	GnmValue   *v;
-	GnmExpr const *expr;
 	GnmStyle  *style;
 	GnmParsePos pp;
 	GnmRange r;
@@ -557,6 +555,8 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 	/* process the CELL information */
 	while (NULL != (data = gsf_input_read (input, 20, NULL))) {
+		GnmExprTop const *texpr = NULL;
+		GnmCell *cell = NULL;
 		unsigned type = GSF_LE_GET_GUINT16 (data + 12);
 		unsigned length = GSF_LE_GET_GUINT16 (data + 18);
 
@@ -576,8 +576,6 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 				pp.eval.col, max_col);
 
 		v = NULL;
-		expr = NULL;
-		cell = NULL;
 		if ((type & 0x7) != 0) {
 			style = pln_get_style (state, data, TRUE);
 			if (style != NULL)
@@ -626,11 +624,11 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 				char *expr_txt = pln_convert_expr (&pp, data);
 
 				if (expr_txt != NULL) {
-					expr = gnm_expr_parse_str (expr_txt, &pp,
+					texpr = gnm_expr_parse_str (expr_txt, &pp,
 								   GNM_EXPR_PARSE_DEFAULT,
 								   gnm_expr_conventions_default,
 								   NULL);
-					if (expr == NULL) {
+					if (texpr == NULL) {
 						if (v != NULL)
 							value_release (v);
 						v = value_new_string_nocopy (expr_txt);
@@ -640,12 +638,12 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 			}
 		}
 
-		if (expr != NULL) {
+		if (texpr != NULL) {
 			if (v != NULL)
-				cell_set_expr_and_value (cell, expr, v, TRUE);
+				cell_set_expr_and_value (cell, texpr, v, TRUE);
 			else
-				cell_set_expr (cell, expr);
-			gnm_expr_unref (expr);
+				cell_set_expr (cell, texpr);
+			gnm_expr_top_unref (texpr);
 		} else if (v != NULL)
 			cell_set_value (cell, v);
 	}

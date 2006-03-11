@@ -108,7 +108,8 @@ gboolean cmd_merge_data		(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_change_summary	(WorkbookControl *wbc, GSList *sin_changes);
 gboolean cmd_print_setup	(WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi);
 gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
-				 GnmParsePos const *pp, GnmExpr const *expr);
+				 GnmParsePos const *pp,
+				 GnmExprTop const *texpr);
 
 typedef enum  {
 	cmd_object_pull_to_front,

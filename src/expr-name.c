@@ -198,7 +198,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 	if (!nexpr->active || nexpr->is_hidden)
 		return;
 
-	v = gnm_expr_get_range (nexpr->expr);
+	v = gnm_expr_top_get_range (nexpr->texpr);
 	if (v != NULL) {
 		if (v->type == VALUE_CELLRANGE) {
 			GnmRangeRef const *ref = &v->v_range.cell;
@@ -241,7 +241,7 @@ gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 /**
  * expr_name_handle_references : register or unregister a name with
  *    all of the sheets it explicitly references.  This is necessary
- *    beacuse names are not dependents, and if they reference a deleted
+ *    because names are not dependents, and if they reference a deleted
  *    sheet we will not notice.
  */
 static void
@@ -249,7 +249,7 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 {
 	GSList *sheets, *ptr;
 
-	sheets = gnm_expr_referenced_sheets (nexpr->expr);
+	sheets = gnm_expr_top_referenced_sheets (nexpr->texpr);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		GnmNamedExpr *found;
@@ -322,7 +322,7 @@ expr_name_new (char const *name, gboolean is_placeholder)
 	nexpr->ref_count	= 1;
 	nexpr->active		= FALSE;
 	nexpr->name		= gnm_string_get (name);
-	nexpr->expr		= NULL;
+	nexpr->texpr		= NULL;
 	nexpr->dependents	= NULL;
 	nexpr->is_placeholder	= is_placeholder;
 	nexpr->is_hidden	= FALSE;
@@ -336,31 +336,29 @@ expr_name_new (char const *name, gboolean is_placeholder)
  * NB. if we already have a circular reference in addition
  * to this one we are checking we will come to serious grief.
  */
-gboolean
-expr_name_check_for_loop (char const *name, GnmExpr const *expr)
+static gboolean
+do_expr_name_loop_check (char const *name, GnmExpr const *expr)
 {
-	g_return_val_if_fail (expr != NULL, TRUE);
-
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return (expr_name_check_for_loop (name, expr->binary.value_a) ||
-			expr_name_check_for_loop (name, expr->binary.value_b));
+		return (do_expr_name_loop_check (name, expr->binary.value_a) ||
+			do_expr_name_loop_check (name, expr->binary.value_b));
 	case GNM_EXPR_OP_ANY_UNARY:
-		return expr_name_check_for_loop (name, expr->unary.value);
+		return do_expr_name_loop_check (name, expr->unary.value);
 	case GNM_EXPR_OP_NAME: {
 		GnmNamedExpr const *nexpr = expr->name.name;
 		if (!strcmp (nexpr->name->str, name))
 			return TRUE;
-		if (nexpr->expr != NULL) /* look inside this name tree too */
-			return expr_name_check_for_loop (name, nexpr->expr);
+		if (nexpr->texpr != NULL) /* look inside this name tree too */
+			return expr_name_check_for_loop (name, nexpr->texpr);
 		return FALSE;
 	}
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
 		for (i = 0; i < expr->func.argc; i++)
-			if (expr_name_check_for_loop (name, expr->func.argv[i]))
+			if (do_expr_name_loop_check (name, expr->func.argv[i]))
 				return TRUE;
 		break;
 	}
@@ -372,7 +370,7 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 	case GNM_EXPR_OP_SET: {
 		int i;
 		for (i = 0; i < expr->set.argc; i++)
-			if (expr_name_check_for_loop (name, expr->set.argv[i]))
+			if (do_expr_name_loop_check (name, expr->set.argv[i]))
 				return TRUE;
 		break;
 	}
@@ -380,15 +378,23 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
 	return FALSE;
 }
 
+gboolean
+expr_name_check_for_loop (char const *name, GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (texpr != NULL, TRUE);
+
+	return do_expr_name_loop_check (name, texpr->expr);
+}
+
 /**
  * expr_name_add:
  * @pp:
  * @name:
- * @expr: if expr == NULL then create a placeholder with value #NAME?
+ * @texpr: if texpr == NULL then create a placeholder with value #NAME?
  * @error_msg:
  * @link_to_container:
  *
- * Absorbs the reference to @expr.
+ * Absorbs the reference to @texpr.
  * If @error_msg is non NULL it may hold a pointer to a translated descriptive
  * string.  NOTE : caller is responsible for freeing the error message.
  *
@@ -401,7 +407,7 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
  **/
 GnmNamedExpr *
 expr_name_add (GnmParsePos const *pp, char const *name,
-	       GnmExpr const *expr, char **error_msg,
+	       GnmExprTop const *texpr, char **error_msg,
 	       gboolean link_to_container,
 	       GnmNamedExpr *stub)
 {
@@ -413,8 +419,8 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (stub == NULL || stub->is_placeholder, NULL);
 
-	if (expr != NULL && expr_name_check_for_loop (name, expr)) {
-		gnm_expr_unref (expr);
+	if (texpr != NULL && expr_name_check_for_loop (name, texpr)) {
+		gnm_expr_top_unref (texpr);
 		if (error_msg)
 			*error_msg = g_strdup_printf (_("'%s' has a circular reference"), name);
 		return NULL;
@@ -425,7 +431,7 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 		/* see if there was a place holder */
 		nexpr = g_hash_table_lookup (scope->placeholders, name);
 		if (nexpr != NULL) {
-			if (expr == NULL) {
+			if (texpr == NULL) {
 				/* there was already a placeholder for this */
 				expr_name_ref (nexpr);
 				return nexpr;
@@ -442,7 +448,7 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 						? g_strdup_printf (_("'%s' is already defined in sheet"), name)
 						: g_strdup_printf (_("'%s' is already defined in workbook"), name);
 
-				gnm_expr_unref (expr);
+				gnm_expr_top_unref (texpr);
 				return NULL;
 			}
 		}
@@ -461,13 +467,14 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 			gnm_string_unref (stub->name);
 			stub->name = gnm_string_get (name);
 		} else
-			nexpr = expr_name_new (name, expr == NULL);
+			nexpr = expr_name_new (name, texpr == NULL);
 	}
 	parse_pos_init (&nexpr->pos,
 		pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
-	if (expr == NULL)
-		expr = gnm_expr_new_constant (value_new_error_NAME (NULL));
-	expr_name_set_expr (nexpr, expr);
+	if (texpr == NULL)
+		texpr = gnm_expr_top_new_constant
+			(value_new_error_NAME (NULL));
+	expr_name_set_expr (nexpr, texpr);
 	if (link_to_container)
 		gnm_named_expr_collection_insert (scope, nexpr);
 
@@ -497,7 +504,7 @@ expr_name_unref (GnmNamedExpr *nexpr)
 		nexpr->name = NULL;
 	}
 
-	if (nexpr->expr != NULL)
+	if (nexpr->texpr != NULL)
 		expr_name_set_expr (nexpr, NULL);
 
 	if (nexpr->dependents != NULL) {
@@ -551,7 +558,7 @@ expr_name_as_string (GnmNamedExpr const *nexpr, GnmParsePos const *pp,
 {
 	if (pp == NULL)
 		pp = &nexpr->pos;
-	return gnm_expr_as_string (nexpr->expr, pp, fmt);
+	return gnm_expr_top_as_string (nexpr->texpr, pp, fmt);
 }
 
 GnmValue *
@@ -563,7 +570,7 @@ expr_name_eval (GnmNamedExpr const *nexpr, GnmEvalPos const *pos,
 	if (!nexpr)
 		return value_new_error_NAME (pos);
 
-	return gnm_expr_eval (nexpr->expr, pos, flags);
+	return gnm_expr_top_eval (nexpr->texpr, pos, flags);
 }
 
 /**
@@ -591,8 +598,9 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 	g_hash_table_steal (scope->names, nexpr->name->str);
 
 	nexpr->is_placeholder = TRUE;
-	expr_name_set_expr (nexpr, 
-		gnm_expr_new_constant (value_new_error_NAME (NULL)));
+	expr_name_set_expr
+		(nexpr,
+		 gnm_expr_top_new_constant (value_new_error_NAME (NULL)));
 	gnm_named_expr_collection_insert (scope, nexpr);
 }
 
@@ -649,20 +657,20 @@ expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
  * Unrefs the current content of @nexpr and absorbs a ref to @new_expr.
  **/
 void
-expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
+expr_name_set_expr (GnmNamedExpr *nexpr, GnmExprTop const *texpr)
 {
 	GSList *good = NULL;
 
 	g_return_if_fail (nexpr != NULL);
 
-	if (new_expr == nexpr->expr)
+	if (texpr == nexpr->texpr)
 		return;
-	if (nexpr->expr != NULL) {
+	if (nexpr->texpr != NULL) {
 		GSList *deps = NULL, *junk = NULL;
 
 		deps = expr_name_unlink_deps (nexpr);
 		expr_name_handle_references (nexpr, FALSE);
-		gnm_expr_unref (nexpr->expr);
+		gnm_expr_top_unref (nexpr->texpr);
 
 		/*
 		 * We do not want to relink deps for sheets that are going
@@ -683,11 +691,11 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 
 		g_slist_free (junk);
 	}
-	nexpr->expr = new_expr;
+	nexpr->texpr = texpr;
 	dependents_link (good);
 	g_slist_free (good);
 
-	if (new_expr != NULL)
+	if (texpr != NULL)
 		expr_name_handle_references (nexpr, TRUE);
 }
 
@@ -719,7 +727,8 @@ gboolean
 expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 {
 	g_return_val_if_fail (nexpr != NULL, FALSE);
-	return gnm_expr_is_err (nexpr->expr, GNM_ERROR_NAME);
+
+	return gnm_expr_top_is_err (nexpr->texpr, GNM_ERROR_NAME);
 }
 
 int

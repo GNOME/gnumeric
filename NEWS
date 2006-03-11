@@ -101,6 +101,7 @@ Morten:
 	* Fix autofilter for text that looks like numbers.  [#333809]
 	* Plug leak in SEARCH.
 	* Fix printing issue with wrapped, right-aligned text.  [#334144]
+	* Introduce top-level expressions.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

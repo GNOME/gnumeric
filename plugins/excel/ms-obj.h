@@ -81,7 +81,7 @@ typedef struct {
 		guint32	  v_int;
 		gpointer  v_ptr;
 		GArray   *v_array;
-		GnmExpr const *v_expr;
+		GnmExprTop const *v_texpr;
 		PangoAttrList *v_markup;
 	} v;
 } MSObjAttr;
@@ -109,8 +109,9 @@ gpointer       ms_obj_attr_get_ptr     (MSObjAttrBag *ab, MSObjAttrID id,
 				       gpointer default_value, gboolean steal);
 GArray	      *ms_obj_attr_get_array  (MSObjAttrBag *ab, MSObjAttrID id,
 				       GArray *default_value, gboolean steal);
-GnmExpr const *ms_obj_attr_get_expr   (MSObjAttrBag *ab, MSObjAttrID id,
-				       GnmExpr const *default_value, gboolean steal);
+GnmExprTop const *ms_obj_attr_get_expr (MSObjAttrBag *ab, MSObjAttrID id,
+					GnmExprTop const *default_value,
+					gboolean steal);
 PangoAttrList *ms_obj_attr_get_markup (MSObjAttrBag *ab, MSObjAttrID id,
 				       PangoAttrList *default_value, gboolean steal);
 

@@ -53,7 +53,7 @@ gboolean  gnm_expr_entry_is_cell_ref	(GnmExprEntry *e,
 char const *gnm_expr_entry_get_text	  (GnmExprEntry const *ee);
 GnmValue   *gnm_expr_entry_parse_as_value (GnmExprEntry *ee, Sheet *sheet);
 GSList	   *gnm_expr_entry_parse_as_list  (GnmExprEntry *ee, Sheet *sheet);
-GnmExpr const  *gnm_expr_entry_parse	  (GnmExprEntry *e,
+GnmExprTop const *gnm_expr_entry_parse	  (GnmExprEntry *e,
 					   GnmParsePos const *pp,
 					   GnmParseError *perr, gboolean start_sel,
 					   GnmExprParseFlags flags);
@@ -62,7 +62,7 @@ void	 gnm_expr_entry_load_from_text	  (GnmExprEntry *e, char const *str);
 void	 gnm_expr_entry_load_from_dep	  (GnmExprEntry *e,
 					   GnmDependent const *dep);
 void	 gnm_expr_entry_load_from_expr	  (GnmExprEntry *e,
-					   GnmExpr const *expr,
+					   GnmExprTop const *texpr,
 					   GnmParsePos const *pp);
 gboolean gnm_expr_entry_load_from_range   (GnmExprEntry *e,
 					   Sheet *sheet, GnmRange const *r);

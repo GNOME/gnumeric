@@ -681,8 +681,8 @@ gnm_expr_char_start_p (char const * c)
  *
  * @pos : If the string looks like an expression parse it at this location.
  * @text: The text to be parsed.
- * @val : Returns a GnmValue * if the text was a value, otherwise NULL.
- * @expr: Returns an GnmExpr * if the text was an expression, otherwise NULL.
+ * @val : Returns a GnmValue* if the text was a value, otherwise NULL.
+ * @texpr: Returns a GnmExprTop* if the text was an expression, otherwise NULL.
  * @cur_fmt : Optional, current number format.
  * @date_conv : Optional, date parse conventions
  *
@@ -691,13 +691,13 @@ gnm_expr_char_start_p (char const * c)
  */
 void
 parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
-			  GnmValue **val, GnmExpr const **expr,
+			  GnmValue **val, GnmExprTop const **texpr,
 			  GOFormat *cur_fmt,
 			  GODateConventions const *date_conv)
 {
 	char const *expr_start;
 
-	*expr = NULL;
+	*texpr = NULL;
 
 	/* Does it match any formats?  */
 	*val = format_match (text, cur_fmt, date_conv);
@@ -707,11 +707,11 @@ parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
 	/* If it does not match known formats, see if it is an expression */
 	expr_start = gnm_expr_char_start_p (text);
 	if (NULL != expr_start && *expr_start) {
-		*expr = gnm_expr_parse_str (expr_start, pos,
-					    GNM_EXPR_PARSE_DEFAULT,
-					    gnm_expr_conventions_default,
-					    NULL);
-		if (*expr != NULL)
+		*texpr = gnm_expr_parse_str (expr_start, pos,
+					     GNM_EXPR_PARSE_DEFAULT,
+					     gnm_expr_conventions_default,
+					     NULL);
+		if (*texpr != NULL)
 			return;
 	}
 
@@ -1420,7 +1420,7 @@ parse_util_shutdown (void)
 	gnm_expr_conventions_r1c1 = NULL;
 }
 
-GnmExpr const *
+GnmExprTop const *
 gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp)
 {
 	return gnm_expr_parse_str (expr, pp, GNM_EXPR_PARSE_DEFAULT,

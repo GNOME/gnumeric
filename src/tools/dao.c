@@ -9,7 +9,7 @@
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  * (C) Copyright 2001, 2002 by Andreas J. Guelzow  <aguelzow@taliesin.ca>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -22,7 +22,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. 
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
 #include <gnumeric-config.h>
@@ -58,7 +58,7 @@
  **/
 
 data_analysis_output_t *
-dao_init (data_analysis_output_t *dao, 
+dao_init (data_analysis_output_t *dao,
 	  data_analysis_output_type_t type)
 {
 	if (dao == NULL)
@@ -86,7 +86,7 @@ dao_load_from_value (data_analysis_output_t *dao,
 		     GnmValue *output_range)
 {
 	g_return_val_if_fail (output_range != NULL, dao);
-	g_return_val_if_fail 
+	g_return_val_if_fail
 		(output_range->type == VALUE_CELLRANGE, dao);
 
 	dao->start_col = output_range->v_range.cell.a.col;
@@ -96,7 +96,7 @@ dao_load_from_value (data_analysis_output_t *dao,
 	dao->rows = output_range->v_range.cell.b.row
 		- output_range->v_range.cell.a.row + 1;
 	dao->sheet = output_range->v_range.cell.a.sheet;
-	
+
 	return dao;
 }
 
@@ -114,7 +114,7 @@ dao_range_name (data_analysis_output_t *dao)
 {
 	GnmRange range;
 	range_init (&range, dao->start_col, dao->start_row,
-		    dao->start_col + dao->cols - 1, 
+		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
 
 	return undo_range_name (dao->sheet, &range);
@@ -188,7 +188,7 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 		if (rows != -1)
 			dao->rows = MIN (rows, dao->rows);
 	}
-	
+
 	if (dao->cols > max_cols)
 		dao->cols = max_cols;
 	if (dao->rows > max_rows)
@@ -199,7 +199,7 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
  * dao_prepare_output:
  * @dao:
  * @name:
- * 
+ *
  * prepares the output by creating a new sheet or workbook as appropriate
  *
  **/
@@ -216,7 +216,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 	if (dao->type == NewSheetOutput) {
 		Workbook *wb = wb_control_workbook (dao->wbc);
 		char *name_with_counter = g_strdup_printf ("%s (1)", name);
-		unique_name = workbook_sheet_get_free_name 
+		unique_name = workbook_sheet_get_free_name
 			(wb, name_with_counter, FALSE, TRUE);
 		g_free (name_with_counter);
 	        dao->sheet = sheet_new (wb, unique_name);
@@ -248,7 +248,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
  * @cmd:
  *
  * format's the output range according to the settings
- * 
+ *
  *
  **/
 gboolean
@@ -258,7 +258,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	GnmRange range;
 
 	range_init (&range, dao->start_col, dao->start_row,
-		    dao->start_col + dao->cols - 1, 
+		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
 
 	if (dao->type == RangeOutput
@@ -305,11 +305,12 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
  *
  */
 
-void 
+void
 dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 		   GnmExpr const *expr)
 {
         GnmCell *cell;
+	GnmExprTop const *texpr;
 
 	col += dao->offset_col;
 	row += dao->offset_row;
@@ -332,8 +333,9 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 	}
 
 	cell = sheet_cell_fetch (dao->sheet, col, row);
-	cell_set_expr (cell, expr);
-	gnm_expr_unref (expr);				
+	texpr = gnm_expr_top_new (expr);
+	cell_set_expr (cell, texpr);
+	gnm_expr_top_unref (texpr);
 }
 
 
@@ -348,7 +350,7 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
  *
  * Note: the rows/cols specification for all dao_set_cell_...
  *       commands are relative to the location of the output
- * 
+ *
  *
  **/
 
@@ -379,7 +381,7 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 
 	cell = sheet_cell_fetch (dao->sheet, col, row);
 
-	sheet_cell_set_value (cell, v);       
+	sheet_cell_set_value (cell, v);
 }
 
 /**
@@ -390,7 +392,7 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
  * @text:
  *
  * set cell to a string
- * 
+ *
  *
  **/
 void
@@ -412,7 +414,7 @@ dao_set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
  * @row:
  * @fmt:
  * @...:
- * 
+ *
  * create format string and set cell.
  *
  **/
@@ -440,7 +442,7 @@ dao_set_cell_printf (data_analysis_output_t *dao, int col, int row,
  * @v:
  *
  * set cell to a float
- * 
+ *
  *
  **/
 void
@@ -458,7 +460,7 @@ dao_set_cell_float (data_analysis_output_t *dao, int col, int row, gnm_float v)
  * @v:
  *
  * set cell to an int
- * 
+ *
  *
  **/
 void
@@ -475,7 +477,7 @@ dao_set_cell_int (data_analysis_output_t *dao, int col, int row, int v)
  * @row:
  *
  * set cell to NA
- * 
+ *
  *
  **/
 void
@@ -493,7 +495,7 @@ dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
  * @is_valid:
  *
  * set cell to a float or NA as appropraite
- * 
+ *
  *
  **/
 void
@@ -513,7 +515,7 @@ dao_set_cell_float_na (data_analysis_output_t *dao, int col, int row,
  * @col:
  * @row:
  * @comment:
- * 
+ *
  * set a cell comment
  *
  **/
@@ -549,7 +551,7 @@ dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
  * @col:
  *
  * fits a column to the content
- * 
+ *
  *
  **/
 static void
@@ -574,7 +576,7 @@ dao_autofit_column (data_analysis_output_t *dao, int col)
  * @to:
  *
  * fits all columns to their content
- * 
+ *
  *
  **/
 void
@@ -595,7 +597,7 @@ dao_autofit_these_columns (data_analysis_output_t *dao, int from, int to)
  * @to:
  *
  * fits all columns to their content
- * 
+ *
  *
  **/
 void
@@ -614,7 +616,7 @@ dao_autofit_columns (data_analysis_output_t *dao)
  * @style:
  *
  * sets the given cell range to bold
- * 
+ *
  *
  **/
 static void
@@ -654,7 +656,7 @@ dao_set_style (data_analysis_output_t *dao, int col1, int row1,
  * @row2:
  *
  * sets the given cell range to bold
- * 
+ *
  *
  **/
 void
@@ -682,7 +684,7 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
  * @row2:
  *
  * sets the given cell range to underlined
- * 
+ *
  *
  **/
 void
@@ -710,7 +712,7 @@ dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
  * @row2:
  *
  * sets the given cell range to italic
- * 
+ *
  *
  **/
 void
@@ -732,7 +734,7 @@ dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
  * @row2:
  *
  * set the given cell range to percent format
- * 
+ *
  *
  **/
 void
@@ -753,7 +755,7 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
  * @row2:
  *
  * set the given cell range to date format
- * 
+ *
  *
  **/
 void
@@ -774,7 +776,7 @@ dao_set_date (data_analysis_output_t *dao, int col1, int row1,
  * @row2:
  *
  * set the given cell range to given background and text colors
- * 
+ *
  *
  **/
 void
@@ -801,7 +803,7 @@ dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
  * @row2:
  *
  * set the given horizontal and vertical alignment to a cell range
- * 
+ *
  *
  **/
 void
@@ -823,7 +825,7 @@ dao_set_align (data_analysis_output_t *dao, int col1, int row1,
  * @dao:
  * @is_cols:
  *
- * 
+ *
  *
  **/
 ColRowStateList *
@@ -853,7 +855,7 @@ dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
  * @is_cols:
  * @list:
  *
- * 
+ *
  *
  **/
 void
@@ -863,8 +865,8 @@ dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols,
 	g_return_if_fail (list);
 
 	if (dao->type == RangeOutput)
-		colrow_set_states (dao->sheet, is_cols, 
-				   is_cols ? dao->start_col : dao->start_row, 
+		colrow_set_states (dao->sheet, is_cols,
+				   is_cols ? dao->start_col : dao->start_row,
 				   list);
 }
 
@@ -900,7 +902,7 @@ dao_append_date (GString *buf)
  * @title:
  * @sheet:
  *
- * 
+ *
  *
  **/
 void
@@ -911,7 +913,7 @@ dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 	const char *uri;
 
 	buf = g_string_new (NULL);
-	g_string_append_printf (buf, "%s %s %s %s", 
+	g_string_append_printf (buf, "%s %s %s %s",
 		_("Gnumeric "), toolname, VERSION, title);
 	dao_set_cell (dao, 0, 0, buf->str);
 	g_string_free (buf, FALSE);
@@ -975,14 +977,14 @@ dao_find_name (Sheet *sheet, int col, int row)
 	return str;
 }
 
-gboolean 
+gboolean
 dao_put_formulas (data_analysis_output_t *dao)
 {
 	g_return_val_if_fail (dao != NULL, FALSE);
 	return dao->put_formulas;
 }
 
-void 
+void
 dao_convert_to_values (data_analysis_output_t *dao)
 {
 	int row, col;
@@ -993,7 +995,7 @@ dao_convert_to_values (data_analysis_output_t *dao)
 	workbook_recalc (dao->sheet->workbook);
 	for (row = 0; row < dao->rows; row++) {
 		for (col = 0; col < dao->cols; col++) {
-			GnmCell *cell = sheet_cell_get (dao->sheet, 
+			GnmCell *cell = sheet_cell_get (dao->sheet,
 				dao->start_col + col, dao->start_row + row);
 			if (cell != NULL && cell_has_expr (cell))
 				cell_convert_expr_to_value (cell);
@@ -1006,12 +1008,12 @@ dao_redraw_respan (data_analysis_output_t *dao)
 {
 	GnmRange r;
 
-	range_init (&r, dao->start_col, dao->start_row, 
-		    dao->start_col + dao->cols - 1, 
+	range_init (&r, dao->start_col, dao->start_row,
+		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
-	sheet_range_calc_spans (dao->sheet, &r, 
+	sheet_range_calc_spans (dao->sheet, &r,
 				SPANCALC_RESIZE | SPANCALC_RENDER);
 	sheet_region_queue_recalc (dao->sheet, &r);
-	dao_convert_to_values (dao);	
+	dao_convert_to_values (dao);
 	sheet_redraw_range (dao->sheet, &r);
 }

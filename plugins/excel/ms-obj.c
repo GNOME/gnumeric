@@ -122,7 +122,7 @@ ms_obj_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
-	res->v.v_expr = expr;
+	res->v.v_texpr = gnm_expr_top_new (expr);
 	return res;
 }
 
@@ -206,12 +206,12 @@ ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id,
 	return res;
 }
 
-GnmExpr const *
+GnmExprTop const *
 ms_obj_attr_get_expr (MSObjAttrBag *attrs, MSObjAttrID id,
-		      GnmExpr const *default_value, gboolean steal)
+		      GnmExprTop const *default_value, gboolean steal)
 {
 	MSObjAttr *attr;
-	GnmExpr const *res;
+	GnmExprTop const *res;
 
 	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_EXPR_MASK, default_value);
@@ -219,9 +219,9 @@ ms_obj_attr_get_expr (MSObjAttrBag *attrs, MSObjAttrID id,
 	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
-	res = attr->v.v_expr;
+	res = attr->v.v_texpr;
 	if (steal)
-		attr->v.v_expr = NULL;
+		attr->v.v_texpr = NULL;
 	return res;
 }
 
@@ -257,9 +257,9 @@ ms_obj_attr_destroy (MSObjAttr *attr)
 			g_array_free (attr->v.v_array, TRUE);
 			attr->v.v_array = NULL;
 		} else if ((attr->id & MS_OBJ_ATTR_IS_EXPR_MASK) &&
-			   attr->v.v_expr != NULL) {
-			gnm_expr_unref (attr->v.v_expr);
-			attr->v.v_expr = NULL;
+			   attr->v.v_texpr != NULL) {
+			gnm_expr_top_unref (attr->v.v_texpr);
+			attr->v.v_texpr = NULL;
 		} else if ((attr->id & MS_OBJ_ATTR_IS_PANGO_ATTR_LIST_MASK) &&
 			   attr->v.v_markup != NULL) {
 			pango_attr_list_unref (attr->v.v_markup);

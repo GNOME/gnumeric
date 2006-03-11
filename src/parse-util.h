@@ -205,19 +205,21 @@ extern GnmExprConventions const *gnm_expr_conventions_r1c1;
 void parse_util_init (void);
 void parse_util_shutdown (void);
 
-GnmExpr const *gnm_expr_parse_str (char const *expr, GnmParsePos const *pp,
-				   GnmExprParseFlags flags,
-				   GnmExprConventions const *convs,
-				   GnmParseError *error);
+GnmExprTop const *gnm_expr_parse_str (char const *expr, GnmParsePos const *pp,
+				      GnmExprParseFlags flags,
+				      GnmExprConventions const *convs,
+				      GnmParseError *error);
 
-GnmExpr const *gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp);
+GnmExprTop const *gnm_expr_parse_str_simple (char const *expr,
+					     GnmParsePos const *pp);
 
 /* Is this string potentially the start of an expression */
 char const *gnm_expr_char_start_p (char const *c);
 
 void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      char const *text,
-				      GnmValue **val, GnmExpr const **expr,
+				      GnmValue **val,
+				      GnmExprTop const **texpr,
 				      GOFormat *current_format,
 				      GODateConventions const *date_conv);
 

@@ -160,8 +160,10 @@ cb_pane_popup_menu (GnmPane *pane)
 		NULL, NULL);
 
 	if (gdk_win != NULL) {
+		gpointer gtk_win_void = NULL;
 		GtkWindow *gtk_win = NULL;
-		gdk_window_get_user_data (gdk_win, (gpointer *) &gtk_win);
+		gdk_window_get_user_data (gdk_win, &gtk_win_void);
+		gtk_win = gtk_win_void;
 		if (gtk_win != NULL) {
 			if (gtk_win == (GtkWindow *)pane->col.canvas)
 				is_col = TRUE;

@@ -48,7 +48,7 @@ enum {
 typedef struct {
 	int col_offset, row_offset; /* Position of the cell */
 	GnmValue *val;
-	GnmExpr  const *expr;
+	GnmExprTop const *texpr;
 } GnmCellCopy;
 
 struct _GnmCellRegion {

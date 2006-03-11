@@ -283,7 +283,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	int     n_rows_per_fn;
 	GnmRange   range, v_range;
 	GnmCell    *cell;
-	const GnmExpr *expr;
+	const GnmExprTop *texpr;
 
 	/*
 	 * Add objective function stuff into the sheet.
@@ -326,7 +326,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	          SolverConstraint   *c;
 		  MpsRow             *row = current->data;
 		  int                col, r;
-		  const GnmExpr      *expr;
+		  const GnmExprTop   *texpr;
 		  GnmCellRef          ref1, ref2;
 
 		  static const gchar *const type_str[] = {
@@ -368,28 +368,30 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  /* Add LHS field using SUMPRODUCT function. */
 		  range_init (&range, col, r, ctxt->n_cols, r);
 		  cell = sheet_cell_fetch (sh, ecol + 1, r);
-		  expr = gnm_expr_new_funcall2
-			  (gnm_func_lookup ("SUMPRODUCT", NULL),
-			   gnm_expr_new_constant
-			   (value_new_cellrange_r (NULL, &v_range)),
-			   gnm_expr_new_constant
-			   (value_new_cellrange_r (NULL, &range)));
-		  cell_set_expr (cell, expr);
-		  gnm_expr_unref (expr);
+		  texpr = gnm_expr_top_new
+			  (gnm_expr_new_funcall2
+			   (gnm_func_lookup ("SUMPRODUCT", NULL),
+			    gnm_expr_new_constant
+			    (value_new_cellrange_r (NULL, &v_range)),
+			    gnm_expr_new_constant
+			    (value_new_cellrange_r (NULL, &range))));
+		  cell_set_expr (cell, texpr);
+		  gnm_expr_top_unref (texpr);
 		  cell_queue_recalc (cell);
 
 		  /* Add Slack calculation */
 		  gnm_cellref_init (&ref1, sh, ecol + 1, r, FALSE);
 		  gnm_cellref_init (&ref2, sh, ecol + 3, r, FALSE);
 		  cell = sheet_cell_fetch (sh, ecol + 4, r);
-		  expr = gnm_expr_new_funcall1
-			  (gnm_func_lookup ("ABS", NULL),
-			   gnm_expr_new_binary
-			   (gnm_expr_new_cellref (&ref1),
-			    GNM_EXPR_OP_SUB,
-			    gnm_expr_new_cellref (&ref2)));
-		  cell_set_expr (cell, expr);
-		  gnm_expr_unref (expr);
+		  texpr = gnm_expr_top_new
+			  (gnm_expr_new_funcall1
+			   (gnm_func_lookup ("ABS", NULL),
+			    gnm_expr_new_binary
+			    (gnm_expr_new_cellref (&ref1),
+			     GNM_EXPR_OP_SUB,
+			     gnm_expr_new_cellref (&ref2))));
+		  cell_set_expr (cell, texpr);
+		  gnm_expr_top_unref (texpr);
 		  cell_queue_recalc (cell);
 
 		  /* Add Solver constraint */
@@ -427,15 +429,16 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		    VARIABLE_ROW + 1 + n_rows_per_fn,
 		    ctxt->n_cols,
 		    VARIABLE_ROW + 1 + n_rows_per_fn);
-	expr = gnm_expr_new_funcall2
-		(gnm_func_lookup ("SUMPRODUCT", NULL),
-		 gnm_expr_new_constant
-		 (value_new_cellrange_r (NULL, &v_range)),
-		 gnm_expr_new_constant
-		 (value_new_cellrange_r (NULL, &range)));
+	texpr = gnm_expr_top_new
+		(gnm_expr_new_funcall2
+		 (gnm_func_lookup ("SUMPRODUCT", NULL),
+		  gnm_expr_new_constant
+		  (value_new_cellrange_r (NULL, &v_range)),
+		  gnm_expr_new_constant
+		  (value_new_cellrange_r (NULL, &range))));
 	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
-	cell_set_expr (cell, expr);
-	gnm_expr_unref (expr);
+	cell_set_expr (cell, texpr);
+	gnm_expr_top_unref (texpr);
 	cell_queue_recalc (cell);
 
 	/* Store the input cell range for the Solver dialog. */

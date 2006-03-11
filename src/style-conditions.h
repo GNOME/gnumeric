@@ -19,9 +19,9 @@ typedef enum {
 } GnmStyleCondOp;
 
 typedef struct {
-	GnmStyle	*overlay;
-	GnmExpr	const   *expr [2];
-	GnmStyleCondOp	 op;
+	GnmStyle	 *overlay;
+	GnmExprTop const *texpr[2];
+	GnmStyleCondOp	  op;
 } GnmStyleCond;
 
 GnmStyleConditions *gnm_style_conditions_new  (void);

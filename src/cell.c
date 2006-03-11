@@ -71,8 +71,8 @@ cell_cleanout (GnmCell *cell)
 		/* Clipboard cells, e.g., are not attached to a sheet.  */
 		if (cell_expr_is_linked (cell))
 			dependent_unlink (CELL_TO_DEP (cell));
-		gnm_expr_unref (cell->base.expression);
-		cell->base.expression = NULL;
+		gnm_expr_top_unref (cell->base.texpr);
+		cell->base.texpr = NULL;
 	}
 
 	if (cell->value != NULL) {
@@ -131,7 +131,7 @@ cell_copy (GnmCell const *cell)
 
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))
-		gnm_expr_ref (new_cell->base.expression);
+		gnm_expr_top_ref (new_cell->base.texpr);
 
 	new_cell->rendered_value = NULL;
 
@@ -175,16 +175,17 @@ cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo)
 
 	/* 2. If the cell contains a expr, relocate it */
 	if (cell_has_expr (cell)) {
-		GnmExpr const *expr = gnm_expr_rewrite (cell->base.expression, rwinfo);
+		GnmExprTop const *texpr =
+			gnm_expr_top_rewrite (cell->base.texpr, rwinfo);
 
 #warning "make this a precondition"
 		if (cell_expr_is_linked (cell))
 			dependent_unlink (CELL_TO_DEP (cell));
 
 		/* bounds check, and adjust local references from the cell */
-		if (expr != NULL) {
-			gnm_expr_unref (cell->base.expression);
-			cell->base.expression = expr;
+		if (texpr != NULL) {
+			gnm_expr_top_unref (cell->base.texpr);
+			cell->base.texpr = texpr;
 		}
 
 		dependent_link (CELL_TO_DEP (cell));
@@ -210,16 +211,16 @@ cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo)
 void
 cell_set_text (GnmCell *cell, char const *text)
 {
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmValue      *val;
-	GnmParsePos       pos;
+	GnmParsePos    pos;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
-		text, &val, &expr, gnm_style_get_format (cell_get_mstyle (cell)),
+		text, &val, &texpr, gnm_style_get_format (cell_get_mstyle (cell)),
 		workbook_date_conv (cell->base.sheet->workbook));
 
 	if (val != NULL) {	/* String was a value */
@@ -227,8 +228,8 @@ cell_set_text (GnmCell *cell, char const *text)
 		cell->value = val;
 		cell_dirty (cell);
 	} else {		/* String was an expression */
-		cell_set_expr (cell, expr);
-		gnm_expr_unref (expr);
+		cell_set_expr (cell, texpr);
+		gnm_expr_top_unref (texpr);
 	}
 }
 
@@ -295,19 +296,19 @@ cell_set_value (GnmCell *cell, GnmValue *v)
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_expr_and_value (GnmCell *cell, GnmExpr const *expr, GnmValue *v,
+cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v,
 			 gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (expr != NULL);
+	g_return_if_fail (texpr != NULL);
 	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	/* Repeat after me.  Ref before unref. */
-	gnm_expr_ref (expr);
+	gnm_expr_top_ref (texpr);
 	cell_cleanout (cell);
 	cell_dirty (cell);
 
-	cell->base.expression = expr;
+	cell->base.texpr = texpr;
 	cell->value = v;
 	if (link_expr)
 		dependent_link (CELL_TO_DEP (cell));
@@ -326,14 +327,14 @@ cell_set_expr_and_value (GnmCell *cell, GnmExpr const *expr, GnmValue *v,
  * 	- link the expression into the master list.
  */
 static void
-cell_set_expr_internal (GnmCell *cell, GnmExpr const *expr)
+cell_set_expr_internal (GnmCell *cell, GnmExprTop const *texpr)
 {
-	gnm_expr_ref (expr);
+	gnm_expr_top_ref (texpr);
 
 	cell_cleanout (cell);
 
 	cell->base.flags |= CELL_HAS_NEW_EXPR;
-	cell->base.expression = expr;
+	cell->base.texpr = texpr;
 
 	/* Until the value is recomputed, we put in this value.
 	 *
@@ -356,12 +357,12 @@ cell_set_expr_internal (GnmCell *cell, GnmExpr const *expr)
  *           using this.
  */
 void
-cell_set_expr_unsafe (GnmCell *cell, GnmExpr const *expr)
+cell_set_expr_unsafe (GnmCell *cell, GnmExprTop const *texpr)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (expr != NULL);
+	g_return_if_fail (texpr != NULL);
 
-	cell_set_expr_internal (cell, expr);
+	cell_set_expr_internal (cell, texpr);
 }
 
 /**
@@ -375,13 +376,13 @@ cell_set_expr_unsafe (GnmCell *cell, GnmExpr const *expr)
  *           Be very careful using this.
  */
 void
-cell_set_expr (GnmCell *cell, GnmExpr const *expr)
+cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 {
 	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (expr != NULL);
+	g_return_if_fail (texpr != NULL);
 
-	cell_set_expr_internal (cell, expr);
+	cell_set_expr_internal (cell, texpr);
 	dependent_link (CELL_TO_DEP (cell));
 }
 
@@ -400,8 +401,8 @@ cell_set_expr (GnmCell *cell, GnmExpr const *expr)
  * upper left corner is handled as a special case and care is taken to
  * put it at the head of the recalc queue if recalcs are requested.
  *
- * NOTE : Does not add a reference to the expression.  It takes over the callers
- *        reference.
+ * NOTE : Does not add a reference to the expression.  It takes over the
+ *        caller's reference.
  *
  * Does not regenerate spans, dimensions or autosize cols/rows.
  *
@@ -410,38 +411,42 @@ cell_set_expr (GnmCell *cell, GnmExpr const *expr)
 void
 cell_set_array_formula (Sheet *sheet,
 			int col_a, int row_a, int col_b, int row_b,
-			GnmExpr const *expr)
+			GnmExprTop const *texpr)
 {
 	int const num_rows = 1 + row_b - row_a;
 	int const num_cols = 1 + col_b - col_a;
 	int x, y;
-	GnmCell * const corner = sheet_cell_fetch (sheet, col_a, row_a);
-	GnmExpr const *wrapper;
+	GnmCell *corner;
+	GnmExprTop const *wrapper;
 
 	g_return_if_fail (num_cols > 0);
 	g_return_if_fail (num_rows > 0);
-	g_return_if_fail (expr != NULL);
-	g_return_if_fail (corner != NULL);
+	g_return_if_fail (texpr != NULL);
 	g_return_if_fail (col_a <= col_b);
 	g_return_if_fail (row_a <= row_b);
 
-	wrapper = gnm_expr_new_array_corner (num_cols, num_rows, expr);
-	cell_set_expr_internal (corner, wrapper);
-	gnm_expr_unref (wrapper);
+	corner = sheet_cell_fetch (sheet, col_a, row_a);
+	g_return_if_fail (corner != NULL);
 
-	for (x = 0; x < num_cols; ++x)
+	wrapper = gnm_expr_top_new (gnm_expr_new_array_corner (num_cols, num_rows, gnm_expr_top_unwrap (texpr)));
+	cell_set_expr_internal (corner, wrapper);
+	gnm_expr_top_unref (wrapper);
+
+	for (x = 0; x < num_cols; ++x) {
 		for (y = 0; y < num_rows; ++y) {
 			GnmCell *cell;
+			GnmExprTop const *te;
 
 			if (x == 0 && y == 0)
 				continue;
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
-			wrapper = gnm_expr_new_array_elem (x, y);
-			cell_set_expr_internal (cell, wrapper);
+			te = gnm_expr_top_new (gnm_expr_new_array_elem (x, y));
+			cell_set_expr_internal (cell, te);
 			dependent_link (CELL_TO_DEP (cell));
-			gnm_expr_unref (wrapper);
+			gnm_expr_top_unref (te);
 		}
+	}
 
 	dependent_link (CELL_TO_DEP (corner));
 }
@@ -525,7 +530,7 @@ cell_array_bound (GnmCell const *cell, GnmRange *res)
 
 	g_return_val_if_fail (res != NULL, FALSE);
 
-	expr = cell->base.expression;
+	expr = cell->base.texpr->expr;
 	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_ELEM) {
 		cell = sheet_cell_get (cell->base.sheet,
 			cell->pos.col - expr->array_elem.x,
@@ -534,7 +539,7 @@ cell_array_bound (GnmCell const *cell, GnmRange *res)
 		g_return_val_if_fail (cell != NULL, FALSE);
 		g_return_val_if_fail (cell_has_expr (cell), FALSE);
 
-		expr = cell->base.expression;
+		expr = cell->base.texpr->expr;
 	}
 
 	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_ARRAY_CORNER)
@@ -550,8 +555,8 @@ GnmExprArrayCorner const *
 cell_is_array_corner (GnmCell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&
-	    GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_CORNER)
-		return &cell->base.expression->array_corner;
+	    GNM_EXPR_GET_OPER (cell->base.texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER)
+		return &cell->base.texpr->expr->array_corner;
 	return NULL;
 }
 
@@ -565,7 +570,7 @@ gboolean
 cell_is_array (GnmCell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell))
-		switch (GNM_EXPR_GET_OPER (cell->base.expression)) {
+		switch (GNM_EXPR_GET_OPER (cell->base.texpr->expr)) {
 		case GNM_EXPR_OP_ARRAY_CORNER :
 		case GNM_EXPR_OP_ARRAY_ELEM :
 			return TRUE;
@@ -584,19 +589,9 @@ cell_is_array (GnmCell const *cell)
 gboolean
 cell_is_nonsingleton_array (GnmCell const *cell)
 {
-	if (cell != NULL && cell_has_expr (cell))
-		switch (GNM_EXPR_GET_OPER (cell->base.expression)) {
-		case GNM_EXPR_OP_ARRAY_CORNER : {
-			GnmExprArrayCorner const *corner = &cell->base.expression->array_corner;
-			return corner->cols > 1 || corner->rows > 1;
-		}
+	GnmExprArrayCorner const *corner = cell_is_array_corner (cell);
 
-		case GNM_EXPR_OP_ARRAY_ELEM :
-			return TRUE;
-		default :
-			break;
-		}
-	return FALSE;
+	return corner && (corner->cols > 1 || corner->rows > 1);
 }
 
 /***************************************************************************/
@@ -725,14 +720,14 @@ void
 cell_convert_expr_to_value (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell_has_expr(cell));
+	g_return_if_fail (cell_has_expr (cell));
 
 	/* Clipboard cells, e.g., are not attached to a sheet.  */
 	if (cell_expr_is_linked (cell))
 		dependent_unlink (CELL_TO_DEP (cell));
 
-	gnm_expr_unref (cell->base.expression);
-	cell->base.expression = NULL;
+	gnm_expr_top_unref (cell->base.texpr);
+	cell->base.texpr = NULL;
 
 	cell_dirty (cell);
 }

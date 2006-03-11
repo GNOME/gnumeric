@@ -285,12 +285,10 @@ lotus_negate (const GnmExpr *e)
 	const GnmExpr *res;
 
 	if (GNM_EXPR_GET_OPER (e) == GNM_EXPR_OP_UNARY_NEG) {
-		res = e->unary.value;
-		gnm_expr_ref (res);
+		res = gnm_expr_copy (e->unary.value);
 		gnm_expr_unref (e);
 	} else {
 		res = gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, e);
-		gnm_expr_unref (e);
 	}
 
 	return res;
@@ -479,7 +477,7 @@ handle_named_func (GnmExprList **stack, const GnmParsePos *orig,
 }
 
 
-static GnmExpr const *
+static GnmExprTop const *
 lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 			 guint8 const *data, guint32 len)
 {
@@ -565,7 +563,7 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 	if (gnm_expr_list_length (stack) != 1)
 		g_warning ("%s: args remain on stack",
 			   cell_coord_name (orig->eval.col, orig->eval.row));
-	return parse_list_pop (&stack, orig);
+	return gnm_expr_top_new (parse_list_pop (&stack, orig));
 }
 
 static void
@@ -585,7 +583,7 @@ get_new_cellref (GnmCellRef *dst, int relbits, const guint8 *data,
 		dst->col -= orig->eval.col;
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 			 guint8 const *data, guint32 len)
 {
@@ -747,21 +745,21 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 	if (gnm_expr_list_length (stack) != 1)
 		g_warning ("%s: args remain on stack",
 			   cell_coord_name (orig->eval.col, orig->eval.row));
-	return parse_list_pop (&stack, orig);
+	return gnm_expr_top_new (parse_list_pop (&stack, orig));
 }
 
 
-GnmExpr const *
+GnmExprTop const *
 lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 		     guint8 const *data, guint32 len)
 {
-	const GnmExpr *result = (state->version >= LOTUS_VERSION_123V4)
+	const GnmExprTop *result = (state->version >= LOTUS_VERSION_123V4)
 		? lotus_parse_formula_new (state, pos, data, len)
 		: lotus_parse_formula_old (state, pos, data, len);
 
 #if FORMULA_DEBUG > 0
 	{
-		char *txt = gnm_expr_as_string (result, pos, gnm_expr_conventions_default);
+		char *txt = gnm_expr_top_as_string (result, pos, gnm_expr_conventions_default);
 		g_print ("Lotus: %s!%s: %s\n",
 			 pos->sheet->name_unquoted,
 			 cell_coord_name (pos->eval.col, pos->eval.row),

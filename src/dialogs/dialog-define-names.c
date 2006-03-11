@@ -328,7 +328,7 @@ name_guru_remove (G_GNUC_UNUSED GtkWidget *ignored,
 static gboolean
 name_guru_add (NameGuruState *state)
 {
-	GnmExpr	const *expr;
+	GnmExprTop const *texpr;
 	GnmParsePos	pp;
 	GnmParseError	perr;
 	char const *name;
@@ -341,9 +341,9 @@ name_guru_add (NameGuruState *state)
 	if (!name || (name[0] == '\0'))
 		return TRUE;
 
-	expr = gnm_expr_entry_parse (state->expr_entry,
+	texpr = gnm_expr_entry_parse (state->expr_entry,
 		&state->pp, parse_error_init (&perr), FALSE, GNM_EXPR_PARSE_DEFAULT);
-	if (expr == NULL) {
+	if (texpr == NULL) {
 		if (perr.err == NULL)
 			return TRUE;
 
@@ -357,11 +357,12 @@ name_guru_add (NameGuruState *state)
 	/* don't allow user to define a nexpr that looks like a placeholder
 	 * because it will be would disappear from the lists.
 	 */
-	if (gnm_expr_is_err (expr, GNM_ERROR_NAME)) {
+	if (gnm_expr_top_is_err (texpr, GNM_ERROR_NAME)) {
 		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
 			_("Why would you want to define a name to be #NAME?"));
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 		parse_error_free (&perr);
+		/* FIXME: Probable leak.  */
 		return FALSE;
 	}
 
@@ -369,7 +370,8 @@ name_guru_add (NameGuruState *state)
 		state->pp.eval.col, state->pp.eval.row);
 	if (!name_guru_scope_is_sheet (state))
 		pp.sheet = NULL;
-	res = !cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name, &pp, expr);
+	res = !cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name, &pp,
+				texpr);
 
 	if (res) {
 		name_guru_populate_list (state);

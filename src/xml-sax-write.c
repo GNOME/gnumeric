@@ -476,13 +476,13 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 			gsf_xml_out_add_cstr (state->output, "Message", v->msg->str);
 
 		parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
-		if (v->expr[0] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[0], &pp, state->exprconv)) != NULL) {
+		if (v->texpr[0] != NULL &&
+		    (tmp = gnm_expr_top_as_string (v->texpr[0], &pp, state->exprconv)) != NULL) {
 			gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
 			g_free (tmp);
 		}
-		if (v->expr[1] != NULL &&
-		    (tmp = gnm_expr_as_string (v->expr[1], &pp, state->exprconv)) != NULL) {
+		if (v->texpr[1] != NULL &&
+		    (tmp = gnm_expr_top_as_string (v->texpr[1], &pp, state->exprconv)) != NULL) {
 			gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
 			g_free (tmp);
 		}
@@ -509,13 +509,13 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 				gsf_xml_out_start_element (state->output, GNM "Condition");
 				gsf_xml_out_add_int (state->output, "Operator", cond->op);
 				parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
-				if (cond->expr[0] != NULL &&
-				    (tmp = gnm_expr_as_string (cond->expr[0], &pp, state->exprconv)) != NULL) {
+				if (cond->texpr[0] != NULL &&
+				    (tmp = gnm_expr_top_as_string (cond->texpr[0], &pp, state->exprconv)) != NULL) {
 					gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
 					g_free (tmp);
 				}
-				if (cond->expr[1] != NULL &&
-				    (tmp = gnm_expr_as_string (cond->expr[1], &pp, state->exprconv)) != NULL) {
+				if (cond->texpr[1] != NULL &&
+				    (tmp = gnm_expr_top_as_string (cond->texpr[1], &pp, state->exprconv)) != NULL) {
 					gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
 					g_free (tmp);
 				}
@@ -678,15 +678,15 @@ xml_write_selection_info (GnmOutputXML *state)
 
 static void
 xml_write_cell_and_position (GnmOutputXML *state,
-			     GnmExpr const *expr, GnmValue const *val,
+			     GnmExprTop const *texpr, GnmValue const *val,
 			     GnmParsePos const *pp)
 {
 	gboolean write_contents = TRUE;
-	gboolean const is_shared_expr = (expr != NULL) &&
-		gnm_expr_is_shared (expr);
+	gboolean const is_shared_expr = (texpr != NULL) &&
+		gnm_expr_top_is_shared (texpr);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (NULL != expr && GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_ELEM)
+	if (texpr && GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_ELEM)
 		return; /* DOM version would write <Cell Col= Row=/> */
 
 	gsf_xml_out_start_element (state->output, GNM "Cell");
@@ -695,11 +695,11 @@ xml_write_cell_and_position (GnmOutputXML *state,
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
-		gpointer id = g_hash_table_lookup (state->expr_map, (gpointer) expr);
+		gpointer id = g_hash_table_lookup (state->expr_map, (gpointer) texpr);
 
 		if (id == NULL) {
 			id = GINT_TO_POINTER (g_hash_table_size (state->expr_map) + 1);
-			g_hash_table_insert (state->expr_map, (gpointer)expr, id);
+			g_hash_table_insert (state->expr_map, (gpointer)texpr, id);
 		} else
 			write_contents = FALSE;
 
@@ -708,16 +708,16 @@ xml_write_cell_and_position (GnmOutputXML *state,
 
 	/* As of version 0.53 we save the size of the array as attributes */
 	/* As of version 0.57 the attributes are in the Cell not the Content */
-	if (NULL != expr &&
-	    GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_CORNER) {
-	        gsf_xml_out_add_int (state->output, "Rows", expr->array_corner.rows);
-	        gsf_xml_out_add_int (state->output, "Cols", expr->array_corner.cols);
+	if (texpr &&
+	    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER) {
+	        gsf_xml_out_add_int (state->output, "Rows", texpr->expr->array_corner.rows);
+	        gsf_xml_out_add_int (state->output, "Cols", texpr->expr->array_corner.cols);
 	}
 
 	if (write_contents) {
 		GString *str = g_string_sized_new (1000);
 
-		if (NULL == expr) {
+		if (texpr) {
 			if (val != NULL) {
 				gsf_xml_out_add_int (state->output, "ValueType", val->type);
 				if (VALUE_FMT (val) != NULL) {
@@ -731,7 +731,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 			}
 		} else {
 			g_string_append_c (str, '=');
-			gnm_expr_as_gstring (str, expr, pp, state->exprconv);
+			gnm_expr_top_as_gstring (str, texpr, pp, state->exprconv);
 		}
 
 		gsf_xml_out_add_cstr (state->output, NULL, str->str);
@@ -744,7 +744,7 @@ static GnmValue *
 cb_write_cell (Sheet *sheet, int col, int row, GnmCell const *cell, GnmOutputXML *state)
 {
 	GnmParsePos pp;
-	xml_write_cell_and_position (state, cell->base.expression, cell->value,
+	xml_write_cell_and_position (state, cell->base.texpr, cell->value,
 		parse_pos_init_cell (&pp, cell));
 	return NULL;
 }
@@ -1301,7 +1301,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 			cc = ptr->data;
 			pp.eval.col = cr->base.col + cc->col_offset,
 			pp.eval.row = cr->base.row + cc->row_offset;
-			xml_write_cell_and_position (&state, cc->expr, cc->val, &pp);
+			xml_write_cell_and_position (&state, cc->texpr, cc->val, &pp);
 		}
 		gsf_xml_out_end_element (state.output); /* </Cells> */
 	}

@@ -481,7 +481,7 @@ gnumeric_areas (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 
 	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active) {
-			expr = expr->name.name->expr;
+			expr = expr->name.name->texpr->expr;
 			goto restart;
 		}
 		break;
@@ -829,20 +829,20 @@ gnumeric_indirect (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	GnmParsePos  pp;
 	GnmValue *res = NULL;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	char const *text = value_peek_string (args[0]);
 	GnmExprConventions const *convs = gnm_expr_conventions_default;
 
 	if (args[1] && !value_get_as_checked_bool (args[1]))
 		convs = gnm_expr_conventions_r1c1;
 
-	expr = gnm_expr_parse_str (text,
+	texpr = gnm_expr_parse_str (text,
 		parse_pos_init_evalpos (&pp, ei->pos),
 		GNM_EXPR_PARSE_DEFAULT, convs, NULL);
 
-	if (expr != NULL) {
-		res = gnm_expr_get_range (expr);
-		gnm_expr_unref (expr);
+	if (texpr != NULL) {
+		res = gnm_expr_top_get_range (texpr);
+		gnm_expr_top_unref (texpr);
 	}
 	return (res != NULL) ? res : value_new_error_REF (ei->pos);
 }

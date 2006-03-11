@@ -222,13 +222,14 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 	size_t byte_len, out_bytes, offset;
 	unsigned char_len = excel_write_string_len (txt, &byte_len);
 	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
-	guint8 *tmp;
 
 	/* before biff8 all lengths were in bytes */
 	if (bp->version < MS_BIFF_V8)
 		flags |= STR_LEN_IN_BYTES;
 
 	if (char_len != byte_len) {
+		char *tmp;
+
 		/* TODO : think about what to do with LEN_IN_BYTES */
 		if ((flags & STR_LENGTH_MASK) == STR_ONE_BYTE_LENGTH) {
 			if (char_len > 0xff)
@@ -248,9 +249,10 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		/* who cares about the extra couple of bytes */
 		out_bytes = bp->buf_len - 3;
 
-		tmp = bp->buf + offset;
-		g_iconv (bp->convert, &in_bytes, &byte_len, (char **)&tmp, &out_bytes);
-		out_bytes = tmp - bp->buf;
+		tmp = (char *)(bp->buf + offset);
+
+		g_iconv (bp->convert, &in_bytes, &byte_len, &tmp, &out_bytes);
+		out_bytes = (guint8 *)tmp - bp->buf;
 
 		switch (flags & STR_LENGTH_MASK) {
 		default:
@@ -280,6 +282,7 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		}
 		ms_biff_put_var_write (bp, bp->buf, out_bytes);
 	} else {
+		guint8 *tmp;
 		/* char_len == byte_len here, so just use char_len */
 		tmp = bp->buf;
 		switch (flags & STR_LENGTH_MASK) {
@@ -960,12 +963,18 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		} else
 			flags |= 0x70000;
 
-		expr0_len = (cond->expr[0] == NULL) ? 0 : excel_write_formula (esheet->ewb,
-			cond->expr[0], esheet->gnum_sheet, 0, 0,
-			EXCEL_CALLED_FROM_CONDITION);
-		expr1_len = (cond->expr[1] == NULL) ? 0 : excel_write_formula (esheet->ewb,
-			cond->expr[1], esheet->gnum_sheet, 0, 0,
-			EXCEL_CALLED_FROM_CONDITION);
+		expr0_len = (cond->texpr[0] == NULL)
+			? 0
+			: excel_write_formula (esheet->ewb,
+					       cond->texpr[0]->expr,
+					       esheet->gnum_sheet, 0, 0,
+					       EXCEL_CALLED_FROM_CONDITION);
+		expr1_len = (cond->texpr[1] == NULL)
+			? 0 
+			: excel_write_formula (esheet->ewb,
+					       cond->texpr[1]->expr,
+					       esheet->gnum_sheet, 0, 0,
+					       EXCEL_CALLED_FROM_CONDITION);
 
 		type = 1;
 		switch (cond->op) {
@@ -1138,10 +1147,11 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	GSF_LE_SET_GUINT16 (data+2, 0); /* Undocumented, use 0 for now */
 	ms_biff_put_var_write (bp, data, 4);
 
-	if (vip->v != NULL && vip->v->expr[0] != NULL) {
+	if (vip->v != NULL && vip->v->texpr[0] != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-				vip->v->expr[0], esheet->gnum_sheet, col, row,
+				vip->v->texpr[0]->expr,
+				esheet->gnum_sheet, col, row,
 				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, pos-4);
@@ -1153,10 +1163,11 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	GSF_LE_SET_GUINT16 (data  , 0); /* bogus len fill in later */
 	GSF_LE_SET_GUINT16 (data+2, 0); /* Undocumented, use 0 for now */
 	ms_biff_put_var_write (bp, data, 4);
-	if (vip->v != NULL && vip->v->expr[1] != NULL) {
+	if (vip->v != NULL && vip->v->texpr[1] != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-				vip->v->expr[1], esheet->gnum_sheet, col, row,
+				vip->v->texpr[1]->expr,
+				esheet->gnum_sheet, col, row,
 				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
 		ms_biff_put_var_seekto (bp, pos-4);
@@ -1252,10 +1263,10 @@ excel_write_prep_conditions (ExcelWriteSheet *esheet)
 			gnm_style_get_conditions (sr->style));
 		for (i = 0 ; i < conds->len ; i++) {
 			cond = &g_array_index (conds, GnmStyleCond, i);
-			if (cond->expr[0] != NULL)
-				excel_write_prep_expr (esheet->ewb, cond->expr [0]);
-			if (cond->expr[1] != NULL)
-				excel_write_prep_expr (esheet->ewb, cond->expr [1]);
+			if (cond->texpr[0] != NULL)
+				excel_write_prep_expr (esheet->ewb, cond->texpr[0]);
+			if (cond->texpr[1] != NULL)
+				excel_write_prep_expr (esheet->ewb, cond->texpr[1]);
 		}
 	}
 }
@@ -1271,10 +1282,10 @@ excel_write_prep_validations (ExcelWriteSheet *esheet)
 	for (; ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
 		v  = gnm_style_get_validation (sr->style);
-		if (v->expr[0] != NULL)
-			excel_write_prep_expr (esheet->ewb, v->expr [0]);
-		if (v->expr [1] != NULL)
-			excel_write_prep_expr (esheet->ewb, v->expr [1]);
+		if (v->texpr[0] != NULL)
+			excel_write_prep_expr (esheet->ewb, v->texpr[0]);
+		if (v->texpr[1] != NULL)
+			excel_write_prep_expr (esheet->ewb, v->texpr[1]);
 	}
 }
 
@@ -1347,8 +1358,10 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 	}
 
 	if (!expr_name_is_placeholder (nexpr)) {
-		guint16 expr_len = excel_write_formula (ewb, nexpr->expr,
-				nexpr->pos.sheet, 0, 0, EXCEL_CALLED_FROM_NAME);
+		guint16 expr_len =
+			excel_write_formula (ewb, nexpr->texpr->expr,
+					     nexpr->pos.sheet, 0, 0,
+					     EXCEL_CALLED_FROM_NAME);
 		ms_biff_put_var_seekto (ewb->bp, 4);
 		GSF_LE_SET_GUINT16 (data, expr_len);
 		ms_biff_put_var_write (ewb->bp, data, 2);
@@ -2917,7 +2930,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	col = cell->pos.col;
 	row = cell->pos.row;
 	v = cell->value;
-	expr = cell->base.expression;
+	expr = cell->base.texpr->expr;
 
 	ms_biff_put_var_next (ewb->bp, BIFF_FORMULA_v0);
 	EX_SETROW (data, row);
@@ -3143,7 +3156,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 		fprintf (stderr, "Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (cell),
 			(cell_has_expr (cell)
-			 ?  gnm_expr_as_string (cell->base.expression,
+			 ?  gnm_expr_top_as_string (cell->base.texpr,
 				parse_pos_init_cell (&tmp, cell),
 				gnm_expr_conventions_default)
 			 : "none"),
@@ -3542,10 +3555,10 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 		if (sheet->filters != NULL) {
 			filter = sheet->filters->data;
 			nexpr.pos.sheet = sheet;
-			nexpr.expr = gnm_expr_new_constant (
-				value_new_cellrange_r (sheet, &filter->r));
+			nexpr.texpr = gnm_expr_top_new_constant
+				(value_new_cellrange_r (sheet, &filter->r));
 			excel_write_NAME (NULL, &nexpr, ewb);
-			gnm_expr_unref (nexpr.expr);
+			gnm_expr_top_unref (nexpr.texpr);
 		}
 	}
 	gnm_string_unref (nexpr.name);
@@ -5385,7 +5398,7 @@ static void
 cb_check_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
 	if (nexpr->active && !nexpr->is_placeholder)
-		excel_write_prep_expr (ewb, nexpr->expr);
+		excel_write_prep_expr (ewb, nexpr->texpr);
 }
 
 static void
@@ -5495,7 +5508,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	/* look for externsheet references in */
 	excel_write_prep_expressions (ewb);			/* dependents */
 	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep,
-		excel_write_prep_expr (ewb, dep->expression););
+		excel_write_prep_expr (ewb, dep->texpr););
 	excel_foreach_name (ewb, (GHFunc) cb_check_names);	/* names */
 
 	for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {

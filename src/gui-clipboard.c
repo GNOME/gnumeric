@@ -124,7 +124,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 			g_free (tmp);
 		else
 			cc->val = value_new_string_nocopy (tmp);
-		cc->expr = NULL;
+		cc->texpr = NULL;
 
 		cr = cellregion_new (NULL);
 		cr->content = g_slist_prepend (cr->content, cc);

@@ -1014,8 +1014,8 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
-	if (dep->expression != NULL) {
-		char *text = gnm_expr_as_string (dep->expression,
+	if (dep->texpr != NULL) {
+		char *text = gnm_expr_top_as_string (dep->texpr,
 			parse_pos_init_dep (&pp, dep), gnm_expr_conventions_default);
 
 		gee_rangesel_reset (gee);
@@ -1029,7 +1029,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 /**
  * gnm_expr_entry_load_from_expr
  * @gee: a #GnmExprEntry
- * @expr: An expression
+ * @texpr: An expression
  * @pp  : The parse position
  *
  * Sets the text of the entry, and removes saved information about earlier
@@ -1037,14 +1037,15 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
  **/
 void
 gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
-			       GnmExpr const *expr, GnmParsePos const *pp)
+			       GnmExprTop const *texpr,
+			       GnmParsePos const *pp)
 {
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
-	if (expr != NULL) {
-		char *text = gnm_expr_as_string (expr, pp,
+	if (texpr != NULL) {
+		char *text = gnm_expr_top_as_string (texpr, pp,
 				gnm_expr_conventions_default);
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
@@ -1228,14 +1229,14 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
  * Attempts to parse the content of the entry line honouring
  * the flags.
  */
-GnmExpr const *
+GnmExprTop const *
 gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 		      GnmParseError *perr, gboolean start_sel,
 		      GnmExprParseFlags flags)
 {
 	char const *text;
 	char *str;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
 
@@ -1251,26 +1252,26 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	expr = gnm_expr_parse_str (text, pp, flags, gnm_expr_conventions_default, perr);
-	if (expr == NULL)
+	texpr = gnm_expr_parse_str (text, pp, flags, gnm_expr_conventions_default, perr);
+	if (texpr == NULL)
 		return NULL;
 
 	if (gee->flags & GNM_EE_SINGLE_RANGE) {
-		GnmValue *range = gnm_expr_get_range (expr) ;
+		GnmValue *range = gnm_expr_top_get_range (texpr);
 		if (range == NULL) {
 			if (perr != NULL) {
 				perr->err = g_error_new (1, PERR_SINGLE_RANGE,
 					_("Expecting a single range"));
 				perr->begin_char = perr->end_char   = 0;
 			}
-			gnm_expr_unref (expr);
+			gnm_expr_top_unref (texpr);
 			return NULL;
 		}
 		value_release (range);
 	}
 
 	/* Reset the entry in case something changed */
-	str = gnm_expr_as_string (expr, pp, gnm_expr_conventions_default);
+	str = gnm_expr_top_as_string (texpr, pp, gnm_expr_conventions_default);
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;
@@ -1283,7 +1284,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	}
 	g_free (str);
 
-	return expr;
+	return texpr;
 }
 
 /**

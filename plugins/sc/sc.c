@@ -327,7 +327,7 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 static gboolean
 sc_parse_let (ScParseState *state, char const *cmd, char const *str, int col, int row)
 {
-	GnmExpr const *tree;
+	GnmExprTop const *texpr;
 	GnmCell *cell;
 	GnmParsePos pos;
 	GnmValue const *v;
@@ -348,28 +348,27 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str, int col, in
 	for (p1 = (char *) str, p2 = str2; *p1; p1++)
 		if (*p1 != '@')
 			*p2++ = *p1;
-	tree = gnm_expr_parse_str (str2,
+	texpr = gnm_expr_parse_str (str2,
 				   parse_pos_init_cell (&pos, cell),
 				   GNM_EXPR_PARSE_DEFAULT,
 				   state->exprconv,
 				   NULL);
 	g_free (str2);
-	if (!tree) {
+	if (!texpr) {
 		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
 			   cmd, str, col, row);
-		goto out;
+		return TRUE;
 	}
 
-	v = gnm_expr_get_constant (tree);
+	v = gnm_expr_top_get_constant (texpr);
 	if (v && VALUE_IS_NUMBER (v)) {
 		cell_set_value (cell, value_dup (v));
 	} else {
-		cell_set_expr (cell, tree);
+		cell_set_expr (cell, texpr);
 		cell_queue_recalc (cell);
 	}
 
-out:
-	if (tree) gnm_expr_unref (tree); 
+	if (texpr) gnm_expr_top_unref (texpr); 
 	return TRUE;
 }
 

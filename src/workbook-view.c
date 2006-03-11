@@ -323,7 +323,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 			text = cell_get_entered_text (cell);
 
 			if (cell_has_expr (cell)) {
-				GnmExpr const *expr = cell->base.expression;
+				GnmExpr const *expr = cell->base.texpr->expr;
 				GnmCell const *corner;
 				int x = 0, y = 0;
 				char *tmp;
@@ -333,7 +333,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 				 * is not actually part of the parsable
 				 * expression, but it is a useful extension to
 				 * the simple '{' '}' that MS excel(tm) uses. */
-				switch (GNM_EXPR_GET_OPER (cell->base.expression)) {
+				switch (GNM_EXPR_GET_OPER (expr)) {
 				case GNM_EXPR_OP_ARRAY_ELEM :
 					corner = sheet_cell_get (cell->base.sheet,
 						cell->pos.col - (x = expr->array_elem.x),
@@ -342,7 +342,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 					g_return_if_fail (corner != NULL);
 					g_return_if_fail (cell_has_expr (corner));
 
-					expr = corner->base.expression;
+					expr = corner->base.texpr->expr;
 
 				case GNM_EXPR_OP_ARRAY_CORNER :
 					tmp = g_strdup_printf ("{%s}(%d%c%d)[%d][%d]", text,
@@ -467,13 +467,14 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 		if (!wbv->auto_expr_use_max_precision) {
 			format = VALUE_FMT (v);
 			if (!format) {
-				const GnmExpr *fcall =
-					gnm_expr_new_funcall (gnm_expr_get_func_def (wbv->auto_expr),
-							      selection);
+				const GnmExprTop *fcall =
+					gnm_expr_top_new
+					(gnm_expr_new_funcall (gnm_expr_get_func_def (wbv->auto_expr),
+							       selection));
 				selection = NULL;
 				format = tmp_format =
 					auto_style_format_suggest (fcall, ei.pos);
-				gnm_expr_unref (fcall);
+				gnm_expr_top_unref (fcall);
 			}
 		}
 

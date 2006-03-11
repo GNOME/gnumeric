@@ -148,7 +148,7 @@ dependent_changed (GnmDependent *dep)
  * NOTE : it does NOT relink dependents in case they are going to move later.
  **/
 void
-dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
+dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 {
 	int const t = dependent_type (dep);
 
@@ -160,20 +160,20 @@ dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 		 * Explicitly do not check for array subdivision, we may be
 		 * replacing the corner of an array.
 		 */
-		cell_set_expr_unsafe (DEP_TO_CELL (dep), new_expr);
+		cell_set_expr_unsafe (DEP_TO_CELL (dep), new_texpr);
 	} else {
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 		g_return_if_fail (klass);
-		if (new_expr != NULL)
-			gnm_expr_ref (new_expr);
-		if (klass->set_expr != NULL)
-			(*klass->set_expr) (dep, new_expr);
+		if (new_texpr)
+			gnm_expr_top_ref (new_texpr);
+		if (klass->set_expr)
+			(*klass->set_expr) (dep, new_texpr);
 
-		if (dep->expression != NULL)
-			gnm_expr_unref (dep->expression);
-		dep->expression = new_expr;
-		if (new_expr != NULL)
+		if (dep->texpr)
+			gnm_expr_top_unref (dep->texpr);
+		dep->texpr = new_texpr;
+		if (new_texpr)
 			dependent_changed (dep);
 	}
 }
@@ -198,7 +198,7 @@ dependent_set_sheet (GnmDependent *dep, Sheet *sheet)
 	g_return_if_fail (!dependent_is_linked (dep));
 
 	dep->sheet = sheet;
-	if (dep->expression != NULL) {
+	if (dep->texpr) {
 		dependent_link (dep);
 		dependent_changed (dep);
 	}
@@ -756,7 +756,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 	case GNM_EXPR_OP_NAME:
 		expr_name_add_dep (tree->name.name, ep->dep);
 		if (tree->name.name->active)
-			return link_expr_dep (ep, tree->name.name->expr) | DEPENDENT_USES_NAME;
+			return link_expr_dep (ep, tree->name.name->texpr->expr) | DEPENDENT_USES_NAME;
 		return DEPENDENT_USES_NAME;
 
 	case GNM_EXPR_OP_ARRAY_ELEM: {
@@ -848,7 +848,7 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 	case GNM_EXPR_OP_NAME:
 		expr_name_remove_dep (tree->name.name, dep);
 		if (tree->name.name->active)
-			unlink_expr_dep (dep, tree->name.name->expr);
+			unlink_expr_dep (dep, tree->name.name->texpr->expr);
 		return;
 
 	case GNM_EXPR_OP_ARRAY_ELEM: {
@@ -963,7 +963,7 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 		dyn = g_new (DynamicDep, 1);
 		dyn->base.flags		= DEPENDENT_DYNAMIC_DEP;
 		dyn->base.sheet		= dep->sheet;
-		dyn->base.expression	= NULL;
+		dyn->base.texpr		= NULL;
 		dyn->container		= dep;
 		dyn->ranges		= NULL;
 		dyn->singles		= NULL;
@@ -1004,7 +1004,7 @@ dependent_link (GnmDependent *dep)
 	GnmEvalPos  ep;
 
 	g_return_if_fail (dep != NULL);
-	g_return_if_fail (dep->expression != NULL);
+	g_return_if_fail (dep->texpr != NULL);
 	g_return_if_fail (!(dep->flags & DEPENDENT_IS_LINKED));
 	g_return_if_fail (IS_SHEET (dep->sheet));
 	g_return_if_fail (dep->sheet->deps != NULL);
@@ -1020,7 +1020,7 @@ dependent_link (GnmDependent *dep)
 		sheet->deps->head = dep; /* first element */
 	sheet->deps->tail = dep;
 	dep->flags |= DEPENDENT_IS_LINKED |
-		link_expr_dep (eval_pos_init_dep (&ep, dep), dep->expression);
+		link_expr_dep (eval_pos_init_dep (&ep, dep), dep->texpr->expr);
 
 	if (dep->flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);
@@ -1040,10 +1040,10 @@ dependent_unlink (GnmDependent *dep)
 
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dependent_is_linked (dep));
-	g_return_if_fail (dep->expression != NULL);
+	g_return_if_fail (dep->texpr != NULL);
 	g_return_if_fail (IS_SHEET (dep->sheet));
 
-	unlink_expr_dep (dep, dep->expression);
+	unlink_expr_dep (dep, dep->texpr->expr);
 	contain = dep->sheet->deps;
 	if (contain != NULL) {
 		if (contain->head == dep)
@@ -1144,8 +1144,8 @@ cell_eval_content (GnmCell *cell)
 	max_iteration = cell->base.sheet->workbook->iteration.max_number;
 
 iterate :
-	v = gnm_expr_eval (cell->base.expression, &pos,
-		GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	v = gnm_expr_top_eval (cell->base.texpr, &pos,
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (v == NULL)
 		v = value_new_error (&pos, "Internal error");
 
@@ -1444,7 +1444,7 @@ typedef struct
 		GnmEvalPos    pos;
 		GnmDependent *dep;
 	} u;
-	GnmExpr const *oldtree;
+	GnmExprTop const *oldtree;
 } ExprRelocateStorage;
 
 /**
@@ -1459,7 +1459,7 @@ dependents_unrelocate_free (GSList *info)
 	GSList *ptr = info;
 	for (; ptr != NULL ; ptr = ptr->next) {
 		ExprRelocateStorage *tmp = ptr->data;
-		gnm_expr_unref (tmp->oldtree);
+		gnm_expr_top_unref (tmp->oldtree);
 		g_free (tmp);
 	}
 	g_slist_free (info);
@@ -1499,7 +1499,7 @@ dependents_unrelocate (GSList *info)
 			dependent_flag_recalc (tmp->u.dep);
 			dependent_link (tmp->u.dep);
 		}
-		gnm_expr_unref (tmp->oldtree);
+		gnm_expr_top_unref (tmp->oldtree);
 		g_free (tmp);
 	}
 	g_slist_free (info);
@@ -1579,11 +1579,9 @@ GSList *
 dependents_relocate (GnmExprRelocateInfo const *info)
 {
 	GnmExprRewriteInfo rwinfo;
-	GnmDependent *dep;
 	GSList    *l, *dependents = NULL, *undo_info = NULL;
 	Sheet	  *sheet;
 	GnmRange const   *r;
-	GnmExpr const *newtree;
 	int i;
 	CollectClosure collect;
 	GHashTable *names;
@@ -1631,7 +1629,9 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	memcpy (&rwinfo.u.relocate, info, sizeof (GnmExprRelocateInfo));
 
 	for (l = dependents; l; l = l->next) {
-		dep = l->data;
+		GnmExprTop const *newtree;
+		GnmDependent *dep = l->data;
+
 		dep->flags &= ~DEPENDENT_FLAGGED;
 		sheet_flag_status_update_range (dep->sheet, NULL);
 
@@ -1639,7 +1639,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 
 		/* it is possible nothing changed for contained deps
 		 * using absolute references */
-		newtree = gnm_expr_rewrite (dep->expression, &rwinfo);
+		newtree = gnm_expr_top_rewrite (dep->texpr, &rwinfo);
 		if (newtree != NULL) {
 			int const t = dependent_type (dep);
 			ExprRelocateStorage *tmp =
@@ -1652,12 +1652,12 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 					tmp->u.pos = rwinfo.u.relocate.pos;
 				else
 					tmp->u.dep = dep;
-				tmp->oldtree = dep->expression;
-				gnm_expr_ref (tmp->oldtree);
+				tmp->oldtree = dep->texpr;
+				gnm_expr_top_ref (tmp->oldtree);
 				undo_info = g_slist_prepend (undo_info, tmp);
 
 				dependent_set_expr (dep, newtree); /* unlinks */
-				gnm_expr_unref (newtree);
+				gnm_expr_top_unref (newtree);
 
 				/* queue the things that depend on the changed dep
 				 * even if it is going to move.
@@ -1757,24 +1757,24 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean de
 	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
 	for (l = deplist; l; l = l->next) {
 		GnmDependent *dep = l->data;
-		GnmExpr *e = (GnmExpr *)dep->expression;
+		GnmExprTop const *te = dep->texpr;
 		/* We are told this dependent depends on this region, hence if
 		 * newtree is null then either
 		 * 1) we did not depend on it (ie., serious breakage )
 		 * 2) we had a duplicate reference and we have already removed it.
 		 * 3) We depended on things via a name which will be
 		 *    invalidated elsewhere */
-		GnmExpr const *newtree = gnm_expr_rewrite (e, &rwinfo);
+		GnmExprTop const *newtree = gnm_expr_top_rewrite (te, &rwinfo);
 		if (newtree != NULL) {
 			if (!destroy) {
-				gnm_expr_ref (e);
-				sheet->revive.dep_exprs =
+				gnm_expr_top_ref (te);
+				sheet->revive.dep_texprs =
 					g_slist_prepend
-					(g_slist_prepend (sheet->revive.dep_exprs, e),
+					(g_slist_prepend (sheet->revive.dep_texprs, (gpointer)te),
 					 dep);
 			}
 			dependent_set_expr (dep, newtree);
-			gnm_expr_unref (newtree);
+			gnm_expr_top_unref (newtree);
 		}
 	}
 	g_slist_free (deplist);
@@ -1813,8 +1813,8 @@ cb_collect_deps_of_names (GnmNamedExpr *nexpr,
 static void
 invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
 {
-	GnmExpr *old_expr = (GnmExpr *)nexpr->expr;
-	GnmExpr const *new_expr = NULL;
+	GnmExprTop const *old_expr = nexpr->texpr;
+	GnmExprTop const *new_expr = NULL;
 	gboolean scope_being_killed =
 		nexpr->pos.sheet
 		? nexpr->pos.sheet->being_invalidated
@@ -1823,7 +1823,7 @@ invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
 	if (!scope_being_killed) {
 		GnmExprRewriteInfo rwinfo;
 		rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
-		new_expr = gnm_expr_rewrite (old_expr, &rwinfo);
+		new_expr = gnm_expr_top_rewrite (old_expr, &rwinfo);
 		g_return_if_fail (new_expr != NULL);
 	}
 
@@ -1831,12 +1831,14 @@ invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
 		g_warning ("Left-over name dependencies:\n");
 
 	if (!destroy) {
-		gnm_expr_ref (old_expr);
-		sheet->revive.name_exprs =
-			g_slist_prepend (sheet->revive.name_exprs, old_expr);
+		gnm_expr_top_ref (old_expr);
+		sheet->revive.name_texprs =
+			g_slist_prepend (sheet->revive.name_texprs,
+					 (gpointer)old_expr);
 		expr_name_ref (nexpr);
-		sheet->revive.name_exprs =
-			g_slist_prepend (sheet->revive.name_exprs, nexpr);
+		sheet->revive.name_texprs =
+			g_slist_prepend (sheet->revive.name_texprs,
+					 nexpr);
 	}
 
 	expr_name_set_expr (nexpr, new_expr);
@@ -1926,24 +1928,24 @@ clear_revive_info (Sheet *sheet)
 {
 	GSList *l;
 
-	for (l = sheet->revive.name_exprs; l; l = l->next->next) {
+	for (l = sheet->revive.name_texprs; l; l = l->next->next) {
 		GnmNamedExpr *nexpr = l->data;
-		GnmExpr *expr = l->next->data;
+		GnmExprTop const *texpr = l->next->data;
 
 		expr_name_unref (nexpr);
-		gnm_expr_unref (expr);
+		gnm_expr_top_unref (texpr);
 	}
-	g_slist_free (sheet->revive.name_exprs);
-	sheet->revive.name_exprs = NULL;
+	g_slist_free (sheet->revive.name_texprs);
+	sheet->revive.name_texprs = NULL;
 
-	for (l = sheet->revive.dep_exprs; l; l = l->next->next) {
+	for (l = sheet->revive.dep_texprs; l; l = l->next->next) {
 		GnmDependent *dep = l->data;
-		GnmExpr *expr = l->next->data;
+		GnmExprTop *texpr = l->next->data;
 		(void)dep;
-		gnm_expr_unref (expr);
+		gnm_expr_top_unref (texpr);
 	}
-	g_slist_free (sheet->revive.dep_exprs);
-	sheet->revive.dep_exprs = NULL;
+	g_slist_free (sheet->revive.dep_texprs);
+	sheet->revive.dep_texprs = NULL;
 
 	g_slist_free (sheet->revive.relink);
 	sheet->revive.relink = NULL;
@@ -2085,19 +2087,19 @@ tweak_3d (Sheet *sheet, gboolean destroy)
 	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
 	for (l = deps; l; l = l->next) {
 		GnmDependent *dep = l->data;
-		GnmExpr *e = (GnmExpr *)dep->expression;
-		GnmExpr const *newtree = gnm_expr_rewrite (e, &rwinfo);
+		GnmExprTop const *te = dep->texpr;
+		GnmExprTop const *newtree = gnm_expr_top_rewrite (te, &rwinfo);
 
 		if (newtree != NULL) {
 			if (!destroy) {
-				gnm_expr_ref (e);
-				sheet->revive.dep_exprs =
+				gnm_expr_top_ref (te);
+				sheet->revive.dep_texprs =
 					g_slist_prepend
-					(g_slist_prepend (sheet->revive.dep_exprs, e),
+					(g_slist_prepend (sheet->revive.dep_texprs, (gpointer)te),
 					 dep);
 			}
 			dependent_set_expr (dep, newtree);
-			gnm_expr_unref (newtree);
+			gnm_expr_top_unref (newtree);
 			dependent_link (dep);
 			dependent_changed (dep);
 		}
@@ -2195,18 +2197,18 @@ dependents_revive_sheet (Sheet *sheet)
 	GSList *l;
 
 	/* Restore the expressions of names that got changed.  */
-	for (l = sheet->revive.name_exprs; l; l = l->next->next) {
+	for (l = sheet->revive.name_texprs; l; l = l->next->next) {
 		GnmNamedExpr *nexpr = l->data;
-		GnmExpr *expr = l->next->data;
-		gnm_expr_ref (expr);
-		expr_name_set_expr (nexpr, expr);
+		GnmExprTop const *texpr = l->next->data;
+		gnm_expr_top_ref (texpr);
+		expr_name_set_expr (nexpr, texpr);
 	}
 
 	/* Restore the expressions of deps that got changed.  */
-	for (l = sheet->revive.dep_exprs; l; l = l->next->next) {
+	for (l = sheet->revive.dep_texprs; l; l = l->next->next) {
 		GnmDependent *dep = l->data;
-		GnmExpr *expr = l->next->data;
-		dependent_set_expr (dep, expr);
+		GnmExprTop const *texpr = l->next->data;
+		dependent_set_expr (dep, texpr);
 		dependent_link (dep);
 		dependent_changed (dep);
 	}

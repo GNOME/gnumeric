@@ -357,7 +357,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	guint16 ref_offset = GSF_LE_GET_GUINT16 (data + 12);
 	GnmValue   *val;
 	GSList  *stack = NULL;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	guint8 const *refs, *fmla;
 	int len;
 
@@ -377,7 +377,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 #endif
 
 	while (fmla < refs && *fmla != QPRO_OP_EOF) {
-		expr = NULL;
+		GnmExpr const *expr = NULL;
 		len = 1;
 #if 0
 		g_print ("Operator %d.\n", *fmla);
@@ -584,7 +584,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		g_return_if_fail (stack->next == NULL);
 	}
 
-	expr = stack->data;
+	texpr = gnm_expr_top_new (stack->data);
 	g_slist_free (stack);
 
 	switch (magic) {
@@ -625,9 +625,10 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		val = value_new_float (gsf_le_get_double (data));
 	}
 
-	cell_set_expr_and_value (sheet_cell_fetch (state->cur_sheet, col, row),
-		expr, val, TRUE);
-	gnm_expr_unref (expr);
+	cell_set_expr_and_value
+		(sheet_cell_fetch (state->cur_sheet, col, row),
+		 texpr, val, TRUE);
+	gnm_expr_top_unref (texpr);
 }
 
 static GnmStyle *

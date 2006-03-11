@@ -76,25 +76,25 @@ excel_write_prep_sheet (ExcelWriteState *ewb, Sheet const *sheet)
 /**
  * excel_write_prep_expr :
  * @ewb :
- * @expr :
+ * @texpr :
  *
  *  Searches for interesting functions, names, or sheets.
  * and builds a database of things to write out later.
  **/
-void
-excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
+static void
+do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 {
 	switch (GNM_EXPR_GET_OPER (expr)) {
 
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		excel_write_prep_expr (ewb, expr->binary.value_a);
-		excel_write_prep_expr (ewb, expr->binary.value_b);
+		do_excel_write_prep_expr (ewb, expr->binary.value_a);
+		do_excel_write_prep_expr (ewb, expr->binary.value_b);
 		break;
 
 	case GNM_EXPR_OP_ANY_UNARY:
-		excel_write_prep_expr (ewb, expr->unary.value);
+		do_excel_write_prep_expr (ewb, expr->unary.value);
 		break;
 
 	case GNM_EXPR_OP_FUNCALL: {
@@ -103,7 +103,7 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		int i;
 
 		for (i = 0; i < expr->func.argc; i++)
-			excel_write_prep_expr (ewb, expr->func.argv[i]);
+			do_excel_write_prep_expr (ewb, expr->func.argv[i]);
 
 		if (ef != NULL)
 			return;
@@ -135,7 +135,7 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		break;
 	}
 	case GNM_EXPR_OP_ARRAY_CORNER:
-		excel_write_prep_expr (ewb, expr->array_corner.expr);
+		do_excel_write_prep_expr (ewb, expr->array_corner.expr);
 		break;
 	case GNM_EXPR_OP_ARRAY_ELEM:
 		break;
@@ -144,7 +144,7 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		int i;
 
 		for (i = 0; i < expr->set.argc; i++)
-			excel_write_prep_expr (ewb, expr->set.argv[i]);
+			do_excel_write_prep_expr (ewb, expr->set.argv[i]);
 		break;
 	}
 
@@ -170,6 +170,12 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 	default:
 		break;
 	}
+}
+
+void
+excel_write_prep_expr (ExcelWriteState *ewb, GnmExprTop const *texpr)
+{
+	do_excel_write_prep_expr (ewb, texpr->expr);
 }
 
 /**

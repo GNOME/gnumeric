@@ -250,7 +250,7 @@ static GnmExpr const *
 xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 		   GnmParsePos const *pp)
 {
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmParseError err;
 	if (*expr_str != '=') {
 		xl_xml_warning (xin, "Invalid formula '%s' does not begin with '='", expr_str);
@@ -263,13 +263,18 @@ xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 	 * optimizations in * xls ? */
 	while (' ' == *(++expr_str))
 		;
-	expr = gnm_expr_parse_str (expr_str, pp,
+	texpr = gnm_expr_parse_str (expr_str, pp,
 		GNM_EXPR_PARSE_DEFAULT, gnm_expr_conventions_r1c1,
 		parse_error_init (&err));
-	if (NULL == expr)
+	if (NULL == texpr)
 		xl_xml_warning (xin, "'%s' %s", expr_str, err.err->message);
 	parse_error_free (&err);
-	return expr;
+
+	/* FIXME: follow through on this.  */
+	if (texpr)
+		return gnm_expr_top_unwrap (texpr);
+	else
+		return NULL;
 }
 
 static void
@@ -484,9 +489,14 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		v = value_new_from_string (state->val_type, xin->content->str, NULL, FALSE);
 	if (NULL != state->expr) {
 		if (NULL != v)
-			cell_set_expr_and_value (cell, state->expr, v, TRUE);
+			cell_set_expr_and_value
+				(cell,
+				 gnm_expr_top_new (state->expr),
+				 v, TRUE);
 		else
-			cell_set_expr (cell, state->expr);
+			cell_set_expr
+				(cell,
+				 gnm_expr_top_new (state->expr));
 		gnm_expr_unref (state->expr);
 		state->expr = NULL;
 	} else if (NULL != v)
@@ -770,7 +780,9 @@ xl_xml_named_range (GsfXMLIn *xin, xmlChar const **attrs)
 			parse_pos_init (&pp, state->wb, NULL, 0, 0));
 		g_warning ("%s = %s", name, expr_str);
 		if (NULL != expr)
-			expr_name_add (&pp, name, expr, NULL, TRUE, NULL);
+			expr_name_add (&pp, name,
+				       gnm_expr_top_new (expr),
+				       NULL, TRUE, NULL);
 	}
 }
 

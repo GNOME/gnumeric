@@ -1029,7 +1029,6 @@ applix_read_cells (ApplixReadState *state)
 		case ';' : /* First of a shared formula */
 		case '.' : { /* instance of a shared formula */
 			GnmParsePos	 pos;
-			GnmExpr	const	*expr;
 			GnmValue		*val = NULL;
 			GnmRange		 r;
 			char *expr_string;
@@ -1053,6 +1052,7 @@ applix_read_cells (ApplixReadState *state)
 #endif
 
 			if (content_type == ';') {
+				GnmExprTop const *texpr;
 				gboolean	is_array = FALSE;
 
 				if (*expr_string == '~') {
@@ -1087,29 +1087,32 @@ applix_read_cells (ApplixReadState *state)
 				if (*expr_string != '=' && *expr_string != '+') {
 					(void) applix_parse_error (state, _("Expression did not start with '=' ? '%s'"),
 								   expr_string);
-					expr = gnm_expr_new_constant (value_new_string (expr_string));
+					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
 				} else
-					expr = gnm_expr_parse_str (expr_string+1,
+					texpr = gnm_expr_parse_str (expr_string+1,
 						parse_pos_init_cell (&pos, cell),
 								   GNM_EXPR_PARSE_DEFAULT,
 								   state->exprconv,
 								   parse_error_init (&perr));
 
-				if (expr == NULL) {
+				if (texpr == NULL) {
 					(void) applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),
 								   cell->base.sheet->name_quoted, cell_name (cell),
 								   expr_string, perr.err->message);
 					parse_error_free (&perr);
-					expr = gnm_expr_new_constant (value_new_string (expr_string));
+					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
 				} else if (is_array) {
-					gnm_expr_ref (expr);
+					gnm_expr_top_ref (texpr);
 					cell_set_array_formula (sheet,
 								r.start.col, r.start.row,
 								r.end.col, r.end.row,
-								expr);
+								texpr);
 					cell_assign_value (cell, val);
-				} else
-					cell_set_expr_and_value (cell, expr, val, TRUE);
+					/* Leak? */
+				} else {
+					cell_set_expr_and_value (cell, texpr, val, TRUE);
+					/* Leak? */
+				}
 
 				if (!applix_get_line (state) ||
 				    a_strncmp (state->buffer, "Formula: ")) {
@@ -1120,17 +1123,19 @@ applix_read_cells (ApplixReadState *state)
 				ptr = state->buffer + 9;
 
 				/* Store the newly parsed expresion along with its descriptor */
-				g_hash_table_insert (state->exprs, g_strdup (ptr),
-						     (gpointer)expr);
+				g_hash_table_insert (state->exprs,
+						     g_strdup (ptr),
+						     (gpointer)texpr);
 			} else {
+				GnmExprTop const *texpr;
 				char const *key = expr_string + strlen (expr_string);
 				while (key > expr_string && !g_ascii_isspace (key[-1]))
 					key--;
 #if 0
 				printf ("Shared '%s'\n", expr_string);
 #endif
-				expr = g_hash_table_lookup (state->exprs, key);
-				cell_set_expr_and_value (cell, expr, val, TRUE);
+				texpr = g_hash_table_lookup (state->exprs, key);
+				cell_set_expr_and_value (cell, texpr, val, TRUE);
 			}
 			break;
 		}
@@ -1249,7 +1254,7 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 	char *end;
 	GnmRangeRef ref;
 	GnmParsePos pp;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 
 	/* .ABCDe. Coordinate: A:B2..A:C4 */
 	/* Spec guarantees that there are no dots in the name */
@@ -1269,8 +1274,9 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 	ref.a.col_relative = ref.b.col_relative =
 		ref.a.row_relative = ref.b.row_relative = FALSE;
 
-	expr = gnm_expr_new_constant (value_new_cellrange_unsafe (&ref.a, &ref.b));
-	expr_name_add (&pp, buffer, expr, NULL, TRUE, NULL);
+	texpr = gnm_expr_top_new_constant
+		(value_new_cellrange_unsafe (&ref.a, &ref.b));
+	expr_name_add (&pp, buffer, texpr, NULL, TRUE, NULL);
 
 	return FALSE;
 }
@@ -1282,7 +1288,7 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 	char *end;
 	GnmRangeRef ref, flag;
 	GnmParsePos pp;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 
 	/* .abcdE. tCol:0 tRow:0 tSheet:0 bCol:1 bRow:2 bSheet: 0 tColAbs:0 tRowAbs:0 tSheetAbs:1 bColAbs:0 bRowAbs:0 bSheetAbs:1 */
 	/* Spec guarantees that there are no dots in the name */
@@ -1305,10 +1311,11 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 	ref.b.row_relative = (flag.b.row == 0);
 
 	ref.a.sheet = ref.b.sheet = NULL;
-	expr = gnm_expr_new_constant (value_new_cellrange_unsafe (&ref.a, &ref.b));
+	texpr = gnm_expr_top_new_constant
+		(value_new_cellrange_unsafe (&ref.a, &ref.b));
 	parse_pos_init (&pp, state->wb, NULL,
 		MAX (-ref.a.col, 0), MAX (-ref.a.row, 0));
-	expr_name_add (&pp, buffer, expr, NULL, TRUE, NULL);
+	expr_name_add (&pp, buffer, texpr, NULL, TRUE, NULL);
 
 	return FALSE;
 }

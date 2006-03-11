@@ -1542,7 +1542,7 @@ lotus_read_old (LotusState *state, record_t *r)
 			int col = GSF_LE_GET_GUINT16 (r->data + 1);
 			int row = GSF_LE_GET_GUINT16 (r->data + 3);
 			int len = GSF_LE_GET_GINT16 (r->data + 13);
-			GnmExpr const *expr;
+			GnmExprTop const *texpr;
 			GnmParsePos pp;
 			GnmValue *v = NULL;
 
@@ -1553,8 +1553,8 @@ lotus_read_old (LotusState *state, record_t *r)
 			pp.eval.row = row;
 			pp.sheet = state->sheet;
 			pp.wb = pp.sheet->workbook;
-			expr = lotus_parse_formula (state, &pp,
-						    r->data + 15, len);
+			texpr = lotus_parse_formula (state, &pp,
+						     r->data + 15, len);
 
 			if (0x7ff0 == (GSF_LE_GET_GUINT16 (r->data + 11) & 0x7ff8)) {
 				/* I cannot find normative definition
@@ -1570,9 +1570,9 @@ lotus_read_old (LotusState *state, record_t *r)
 			} else
 				v = lotus_value (gsf_le_get_double (r->data + 5));
 			cell = sheet_cell_fetch (state->sheet, col, row);
-			cell_set_expr_and_value (cell, expr, v, TRUE);
+			cell_set_expr_and_value (cell, texpr, v, TRUE);
 
-			gnm_expr_unref (expr);
+			gnm_expr_top_unref (texpr);
 			cell_set_format_from_lotus_format (cell, fmt);
 			break;
 		}
@@ -2008,19 +2008,20 @@ lotus_read_new (LotusState *state, record_t *r)
 			int col = r->data[3];
 			GnmValue *curval = lotus_lnumber (r, 4);
 			GnmParsePos pp;
-			const GnmExpr *expr;
+			const GnmExprTop *texpr;
 			GnmCell *cell;
 
 			pp.eval.col = col;
 			pp.eval.row = row;
 			pp.sheet = sheet;
 			pp.wb = sheet->workbook;
-			expr = lotus_parse_formula (state, &pp,
-						    r->data + 12, r->len - 12);
+			texpr = lotus_parse_formula (state, &pp,
+						     r->data + 12,
+						     r->len - 12);
 			cell = sheet_cell_fetch (sheet, col, row);
-			cell_set_expr_and_value (cell, expr, curval, TRUE);
+			cell_set_expr_and_value (cell, texpr, curval, TRUE);
 
-			gnm_expr_unref (expr);
+			gnm_expr_top_unref (texpr);
 			break;
 		}
 
@@ -2030,19 +2031,20 @@ lotus_read_new (LotusState *state, record_t *r)
 			int col = r->data[3];
 			GnmValue *curval = lotus_treal (r, 4);
 			GnmParsePos pp;
-			const GnmExpr *expr;
+			const GnmExprTop *texpr;
 			GnmCell *cell;
 
 			pp.eval.col = col;
 			pp.eval.row = row;
 			pp.sheet = sheet;
 			pp.wb = sheet->workbook;
-			expr = lotus_parse_formula (state, &pp,
-						    r->data + 14, r->len - 14);
+			texpr = lotus_parse_formula (state, &pp,
+						     r->data + 14,
+						     r->len - 14);
 			cell = sheet_cell_fetch (sheet, col, row);
-			cell_set_expr_and_value (cell, expr, curval, TRUE);
+			cell_set_expr_and_value (cell, texpr, curval, TRUE);
 
-			gnm_expr_unref (expr);
+			gnm_expr_top_unref (texpr);
 			break;
 		}
 

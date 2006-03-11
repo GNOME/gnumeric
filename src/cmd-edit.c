@@ -244,7 +244,7 @@ sv_select_cur_inputs (SheetView *sv)
 		sv->edit_pos.col, sv->edit_pos.row);
 	if (cell == NULL || !cell_has_expr (cell))
 		return;
-	ranges = gnm_expr_get_ranges (cell->base.expression);
+	ranges = gnm_expr_top_get_ranges (cell->base.texpr);
 	if (ranges == NULL)
 		return;
 

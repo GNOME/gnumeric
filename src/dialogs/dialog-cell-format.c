@@ -1527,7 +1527,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 /*****************************************************************************/
 
-static GnmExpr const *
+static GnmExprTop const *
 validation_entry_to_expr (Sheet *sheet, GnmExprEntry *gee)
 {
 	GnmParsePos pp;
@@ -1552,21 +1552,23 @@ validation_rebuild_validation (FormatState *state)
 		ValidationOp    op    = gtk_combo_box_get_active (state->validation.op);
 		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
 		char *msg   = gnumeric_textview_get_text (state->validation.error.msg);
-		GnmExpr const *expr0 = validation_entry_to_expr (state->sheet,
-								 state->validation.expr0.entry);
-		GnmExpr const *expr1 = NULL;
+		GnmExprTop const *texpr0 =
+			validation_entry_to_expr (state->sheet,
+						  state->validation.expr0.entry);
+		GnmExprTop const *texpr1 = NULL;
 
-		if (expr0 != NULL) {
+		if (texpr0 != NULL) {
 			if (type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST) {
 				state->validation.valid = 1;
 				op = VALIDATION_OP_NONE;
 			} else if (op == VALIDATION_OP_BETWEEN || op == VALIDATION_OP_NOT_BETWEEN) {
-				expr1 = validation_entry_to_expr (state->sheet, state->validation.expr1.entry);
-				if (expr1 != NULL)
+				texpr1 = validation_entry_to_expr (state->sheet,
+								   state->validation.expr1.entry);
+				if (texpr1 != NULL)
 					state->validation.valid = 2;
 				else {
 					state->validation.valid = -2;
-					gnm_expr_unref (expr0);
+					gnm_expr_top_unref (texpr0);
 				}
 			} else
 				state->validation.valid = 1;
@@ -1574,11 +1576,16 @@ validation_rebuild_validation (FormatState *state)
 			state->validation.valid = -1;
 
 		if (state->validation.valid > 0) {
-			gnm_style_set_validation (state->result,
-					       validation_new (style, type, op, title, msg,
-							       expr0, expr1,
-							       gtk_toggle_button_get_active (state->validation.allow_blank),
-							       gtk_toggle_button_get_active (state->validation.use_dropdown)));
+			gboolean allow_blank = gtk_toggle_button_get_active (state->validation.allow_blank);
+			gboolean use_dropdown = gtk_toggle_button_get_active (state->validation.use_dropdown);
+			gnm_style_set_validation
+				(state->result,
+				 validation_new
+				 (style, type, op, title, msg,
+				  texpr0,
+				  texpr1,
+				  allow_blank,
+				  use_dropdown));
 		}
 
 		g_free (msg);
@@ -1864,9 +1871,9 @@ fmt_dialog_init_validation_page (FormatState *state)
 		parse_pos_init (&pp, state->sheet->workbook, state->sheet,
 			state->sv->edit_pos.col, state->sv->edit_pos.row);
 		gnm_expr_entry_load_from_expr (state->validation.expr0.entry,
-			v->expr[0], &pp);
+			v->texpr[0], &pp);
 		gnm_expr_entry_load_from_expr (state->validation.expr1.entry,
-			v->expr[1], &pp);
+			v->texpr[1], &pp);
 	}
 
 	cb_validation_sensitivity (NULL, state);

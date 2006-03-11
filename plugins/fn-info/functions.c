@@ -1199,9 +1199,10 @@ gnumeric_expression (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 		if (cell && cell_has_expr (cell)) {
 			GnmParsePos pos;
-			char *expr_string = gnm_expr_as_string (cell->base.expression,
-				parse_pos_init_cell (&pos, cell),
-				gnm_expr_conventions_default);
+			char *expr_string = gnm_expr_top_as_string
+				(cell->base.texpr,
+				 parse_pos_init_cell (&pos, cell),
+				 gnm_expr_conventions_default);
 			return value_new_string_nocopy (expr_string);
 		}
 	}

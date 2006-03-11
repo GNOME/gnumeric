@@ -43,10 +43,10 @@ cond_validate (GnmStyleCond const *cond)
 {
 	g_return_val_if_fail (cond != NULL, FALSE);
 	g_return_val_if_fail (cond->overlay != NULL, FALSE);
-	g_return_val_if_fail (cond->expr[0] != NULL, FALSE);
+	g_return_val_if_fail (cond->texpr[0] != NULL, FALSE);
 	g_return_val_if_fail ((cond->op == GNM_STYLE_COND_BETWEEN ||
 			   cond->op == GNM_STYLE_COND_NOT_BETWEEN) ^
-			  (cond->expr[1] == NULL), FALSE);
+			  (cond->texpr[1] == NULL), FALSE);
 
 	return TRUE;
 }
@@ -57,10 +57,10 @@ cond_unref (GnmStyleCond const *cond)
 	/* Be very delicate, this is called for invalid conditions too */
 	if (cond->overlay)
 		gnm_style_unref (cond->overlay);
-	if (cond->expr[0])
-		gnm_expr_unref (cond->expr[0]);
-	if (cond->expr[1])
-		gnm_expr_unref (cond->expr[1]);
+	if (cond->texpr[0])
+		gnm_expr_top_unref (cond->texpr[0]);
+	if (cond->texpr[1])
+		gnm_expr_top_unref (cond->texpr[1]);
 }
 
 static void
@@ -193,7 +193,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 	for (i = 0 ; i < conds->len ; i++) {
 		cond = &g_array_index (conds, GnmStyleCond, i);
 
-		val = gnm_expr_eval (cond->expr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		val = gnm_expr_top_eval (cond->texpr[0], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		if (cond->op == GNM_STYLE_COND_CUSTOM) {
 			use_this = value_get_as_bool (val, NULL);
 #if 0
@@ -215,7 +215,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 				if (diff != IS_LESS)
 					break;
 				value_release (val);
-				val = gnm_expr_eval (cond->expr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+				val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 				diff = value_compare (cv, val, TRUE);
 			case GNM_STYLE_COND_GT:		use_this = (diff == IS_GREATER); break;
 			case GNM_STYLE_COND_LT:		use_this = (diff == IS_LESS); break;
@@ -224,7 +224,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 				if (diff == IS_LESS)
 					break;
 				value_release (val);
-				val = gnm_expr_eval (cond->expr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+				val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 				diff = value_compare (cv, val, TRUE);
 				/* fall through */
 			case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;

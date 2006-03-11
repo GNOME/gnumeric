@@ -84,7 +84,8 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 			if (vc) {
 				x = value_get_as_float (vc);
 				value_release (vc);
-			}
+			} else
+				x = 0;
 
 			if (bad)
 				return value_new_error_VALUE (ep);

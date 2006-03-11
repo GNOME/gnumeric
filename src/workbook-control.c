@@ -228,11 +228,11 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 				else
 					target_range = gnm_expr_new_constant (
 						value_new_cellrange_unsafe (&a, &b));
-				cmd_define_name (wbc, text, &pp, target_range);
+				cmd_define_name (wbc, text, &pp, gnm_expr_top_new (target_range));
 			}
 			return FALSE;
 		} else {
-			target = gnm_expr_get_range (nexpr->expr);
+			target = gnm_expr_top_get_range (nexpr->texpr);
 			if (target == NULL) {
 				go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
 					_("Address"), text);

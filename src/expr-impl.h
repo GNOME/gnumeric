@@ -83,4 +83,7 @@ do {								\
 	(expr)->value = val;					\
 } while (0)
 
+
+#define GNM_EXPR_TOP_MAGIC 0x01123622
+
 #endif /* GNUMERIC_EXPR_IMPL_H */

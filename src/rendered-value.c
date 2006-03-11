@@ -108,9 +108,9 @@ rendered_value_render (GString *str,
 	if (*display_formula) {
 		GnmParsePos pp;
 		g_string_append_c (str, '=');
-		gnm_expr_as_gstring (str, cell->base.expression,
-				     parse_pos_init_cell (&pp, cell),
-				     sheet->convs);
+		gnm_expr_top_as_gstring (str, cell->base.texpr,
+					 parse_pos_init_cell (&pp, cell),
+					 sheet->convs);
 		*go_color = 0;
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
 		*go_color = 0;
@@ -590,9 +590,9 @@ cell_get_entered_text (GnmCell const *cell)
 		GnmParsePos pp;
 		GString *res = g_string_new ("=");
 
-		gnm_expr_as_gstring (res, cell->base.expression,
-				     parse_pos_init_cell (&pp, cell),
-				     cell->base.sheet->convs);
+		gnm_expr_top_as_gstring (res, cell->base.texpr,
+					 parse_pos_init_cell (&pp, cell),
+					 cell->base.sheet->convs);
 		return g_string_free (res, FALSE);
 	}
 

@@ -481,7 +481,8 @@ call_python_function_args (FunctionEvalInfo *ei, GnmValue const * const *args)
 }
 
 static GnmValue *
-call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList const *expr_tree_list)
+call_python_function_nodes (FunctionEvalInfo *ei,
+			    int argc, const GnmExprConstPtr *argv)
 {
 	GOPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
@@ -503,13 +504,13 @@ call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList const *expr_tree_l
 	                                  (gchar *) gnm_func_get_name (fndef));
 
 	n_args = gnm_expr_list_length (expr_tree_list);
-	values = g_new (GnmValue *, n_args);
-	for (i = 0, l = expr_tree_list; l != NULL; i++, l = l->next) {
-		values[i] = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+	values = g_new (GnmValue *, argc);
+	for (i = 0; i < argc; i++) {
+		values[i] = gnm_expr_eval (argv[i], ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 	}
-	ret_value = call_python_function (python_fn, ei->pos, n_args,
+	ret_value = call_python_function (python_fn, ei->pos, argc,
 					  (GnmValue const * const *)values);
-	for (i = 0; i < n_args; i++) {
+	for (i = 0; i < argc; i++) {
 		value_release (values[i]);
 	}
 	g_free (values);

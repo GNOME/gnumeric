@@ -254,14 +254,14 @@ do_af_suggest_list (int argc, const GnmExprConstPtr *argv,
 /* ------------------------------------------------------------------------- */
 
 GOFormat *
-auto_style_format_suggest (GnmExpr const *expr, GnmEvalPos const *epos)
+auto_style_format_suggest (GnmExprTop const *texpr, GnmEvalPos const *epos)
 {
 	GOFormat *explicit = NULL;
 
-	g_return_val_if_fail (expr != NULL, NULL);
+	g_return_val_if_fail (texpr != NULL, NULL);
 	g_return_val_if_fail (epos != NULL, NULL);
 
-	switch (do_af_suggest (expr, epos, &explicit)) {
+	switch (do_af_suggest (texpr->expr, epos, &explicit)) {
 	case AF_EXPLICIT:
 		break;
 

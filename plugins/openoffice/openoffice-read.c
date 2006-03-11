@@ -573,8 +573,8 @@ static void
 oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	GnmExpr const	*expr = NULL;
-	GnmValue		*val = NULL;
+	GnmExprTop const *texpr = NULL;
+	GnmValue	*val = NULL;
 	gboolean	 bool_val;
 	gnm_float	 float_val = 0;
 	int array_cols = -1, array_rows = -1;
@@ -617,9 +617,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			else {
 				GnmParseError  perr;
 				parse_error_init (&perr);
-				expr = oo_expr_parse_str (expr_string,
+				texpr = oo_expr_parse_str (expr_string,
 					&state->pos, GNM_EXPR_PARSE_DEFAULT, &perr);
-				if (expr == NULL) {
+				if (texpr == NULL) {
 					g_print ("s=[%s]\n", expr_string);
 					g_print ("e=[%s]\n", perr.err->message);
 					oo_warning (xin, _("Unable to parse\n\t'%s'\nbecause '%s'"),
@@ -725,7 +725,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	state->simple_content = FALSE;
-	if (expr != NULL) {
+	if (texpr != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
 			state->pos.eval.col, state->pos.eval.row);
 
@@ -741,15 +741,16 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				state->pos.eval.col, state->pos.eval.row,
 				state->pos.eval.col + array_cols-1,
 				state->pos.eval.row + array_rows-1,
-				expr);
+				texpr);
 			if (val != NULL)
 				cell_assign_value (cell, val);
 		} else {
 			if (val != NULL)
-				cell_set_expr_and_value (cell, expr, val, TRUE);
+				cell_set_expr_and_value (cell, texpr, val,
+							 TRUE);
 			else
-				cell_set_expr (cell, expr);
-			gnm_expr_unref (expr);
+				cell_set_expr (cell, texpr);
+			gnm_expr_top_unref (texpr);
 		}
 	} else if (val != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
@@ -1422,37 +1423,39 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 	if (name != NULL && base_str != NULL && expr_str != NULL) {
 		GnmParseError perr;
 		GnmParsePos   pp;
-		GnmExpr const *expr;
+		GnmExprTop const *texpr;
 		char *tmp = g_strconcat ("[", base_str, "]", NULL);
 
 		parse_error_init (&perr);
 		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
 
-		expr = oo_expr_parse_str (tmp, &pp,
+		texpr = oo_expr_parse_str (tmp, &pp,
 			GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 			&perr);
 		g_free (tmp);
 
-		if (expr == NULL || GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CELLREF) {
+		if (texpr == NULL || GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CELLREF) {
 			oo_warning (xin, _("Unable to parse position for expression '%s' @ '%s' because '%s'"),
 				    name, base_str, perr.err->message);
 			parse_error_free (&perr);
-			if (expr != NULL)
-				gnm_expr_unref (expr);
+			if (texpr != NULL)
+				gnm_expr_top_unref (texpr);
 		} else {
-			GnmCellRef const *ref = &expr->cellref.ref;
+			GnmCellRef const *ref = &texpr->expr->cellref.ref;
 			parse_pos_init (&pp, state->pos.wb, ref->sheet,
 					ref->col, ref->row);
 
-			gnm_expr_unref (expr);
-			expr = oo_expr_parse_str (expr_str, &pp, 0, &perr);
-			if (expr == NULL) {
+			gnm_expr_top_unref (texpr);
+			texpr = oo_expr_parse_str (expr_str, &pp, 0, &perr);
+			if (texpr == NULL) {
 				oo_warning (xin, _("Unable to parse position for expression '%s' with value '%s' because '%s'"),
 					    name, expr_str, perr.err->message);
 				parse_error_free (&perr);
 			} else {
 				pp.sheet = NULL;
-				expr_name_add (&pp, name, expr, NULL, TRUE, NULL);
+				expr_name_add (&pp, name,
+					       texpr,
+					       NULL, TRUE, NULL);
 			}
 		}
 	}
@@ -1661,7 +1664,7 @@ od_plot_area(GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange cell_base;
 	GogPlot   *plot;
 	GnmParseError  perr;
-	GnmExpr const	*expr = NULL;
+	GnmExprTop const *texpr = NULL;
 	gint cur_col, dim, flag=0;
 	gint MAX_DIM = 2;
 	gint v_offset = 0, h_offset = 0;
@@ -1751,13 +1754,13 @@ od_plot_area(GsfXMLIn *xin, xmlChar const **attrs)
 
 	gog_object_add_by_name (GOG_OBJECT(state->cur_frame.chart), "Plot", GOG_OBJECT (plot));
 	parse_error_init (&perr);
-	expr = oo_expr_parse_str (graph_range, &state->pos, 0, &perr);
-	if (expr == NULL) {
+	texpr = oo_expr_parse_str (graph_range, &state->pos, 0, &perr);
+	if (texpr == NULL) {
 		oo_warning (xin, _("Unable to parse '%s' because '%s'"),
 				    attrs[1], perr.err->message);
 		parse_error_free (&perr);
 	}
-	actual_range = gnm_expr_get_range (expr);
+	actual_range = gnm_expr_top_get_range (texpr);
 	cur_col = actual_range->v_range.cell.a.col;
 
 	cell_base.start.row = actual_range->v_range.cell.a.row + v_offset;
@@ -1776,7 +1779,7 @@ od_plot_area(GsfXMLIn *xin, xmlChar const **attrs)
 		while (dim < MAX_DIM){
 			gog_series_set_dim (series, dim,
 							gnm_go_data_vector_new_expr (state->pos.sheet,
-							gnm_expr_new_constant (
+							gnm_expr_top_new_constant (
 							value_new_cellrange_r (state->pos.sheet, &cell_base))), NULL);
 			cell_base.start.col = cell_base.end.col = cur_col + 1;
 			dim++;
@@ -1790,7 +1793,7 @@ od_plot_area(GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	value_release (actual_range);
 	g_free (graph_range);
-	gnm_expr_unref (expr);
+	gnm_expr_top_unref (texpr);
 }
 
 static void

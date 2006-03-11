@@ -797,13 +797,14 @@ excel_get_chars (GnmXLImporter const *importer,
 	} else {
 		size_t outbytes = (length + 2) * 8;
 		char *outbuf = g_new (char, outbytes + 1);
+		char *ptr2 = (char *)ptr;
 
 		ans = outbuf;
 		g_iconv (importer->str_iconv,
-			 (char **)&ptr, &length, &outbuf, &outbytes);
+			 &ptr2, &length, &outbuf, &outbytes);
 
 		i = outbuf - ans;
-		ans [i] = 0;
+		ans[i] = 0;
 		ans = g_realloc (ans, i + 1);
 	}
 	return ans;
@@ -2313,8 +2314,9 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		expr = gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), args);
 		cell_set_array_formula (esheet->sheet,
 			r.start.col, r.start.row,
-			r.end.col,   r.end.row, expr);
-		return expr;
+			r.end.col,   r.end.row,
+			gnm_expr_top_new (expr));
+		return NULL;
 	}
 
 	d (2, range_dump (&r, " <-- contains a shared formula\n"););
@@ -2349,11 +2351,13 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	if (is_array)
+	if (is_array) {
 		cell_set_array_formula (esheet->sheet,
 					r.start.col, r.start.row,
 					r.end.col,   r.end.row,
-					expr);
+					gnm_expr_top_new (expr));
+		expr = NULL;
+	}
 	return expr;
 }
 
@@ -2519,17 +2523,13 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		 * recalc), and without a value.  Handle either the first
 		 * instance or the followers.
 		 */
-		if (expr == NULL && !array_elem) {
-			g_warning ("EXCEL: How does cell %s have an array expression?",
-				   cell_name (cell));
-			cell_set_value (cell, val);
-		} else
-			cell_assign_value (cell, val);
+		cell_assign_value (cell, val);
 	} else if (!cell_has_expr (cell)) {
 		/* Just in case things screwed up, at least save the value */
 		if (expr != NULL) {
-			cell_set_expr_and_value (cell, expr, val, TRUE);
-			gnm_expr_unref (expr);
+			GnmExprTop const *texpr = gnm_expr_top_new (expr);
+			cell_set_expr_and_value (cell, texpr, val, TRUE);
+			gnm_expr_top_unref (texpr);
 		} else
 			cell_assign_value (cell, val);
 	} else {
@@ -3023,7 +3023,9 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 	}
 
 	parse_pos_init (&pp, importer->wb, sheet, 0, 0);
-	nexpr = expr_name_add (&pp, name, expr, &err, link_to_container, stub);
+	nexpr = expr_name_add (&pp, name,
+			       gnm_expr_top_new (expr),
+			       &err, link_to_container, stub);
 	g_free (name);
 	if (nexpr == NULL) {
 		gnm_io_warning (importer->context, err);
@@ -3159,7 +3161,7 @@ static void
 excel_prepare_autofilter (GnmXLImporter *importer, GnmNamedExpr *nexpr)
 {
 	if (nexpr->pos.sheet != NULL) {
-		GnmValue *v = gnm_expr_get_range (nexpr->expr);
+		GnmValue *v = gnm_expr_top_get_range (nexpr->texpr);
 		if (v != NULL) {
 			GnmSheetRange r;
 			gboolean valid = gnm_sheet_range_from_value (&r, v);
@@ -4466,14 +4468,18 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 	}
 
 #warning Are we sure the parse is relative to 0,0 ? DV is relative to the first range
-	cond.expr[0] = (expr0_len <= 0) ? NULL
-		: ms_sheet_parse_expr_internal (esheet,
-			q->data + q->length - expr0_len - expr1_len,
-			expr0_len);
-	cond.expr[1] = (expr1_len <= 0) ? NULL
-		: ms_sheet_parse_expr_internal (esheet,
-			q->data + q->length - expr1_len,
-			expr1_len);
+	cond.texpr[0] = (expr0_len <= 0)
+		? NULL
+		: gnm_expr_top_new (ms_sheet_parse_expr_internal
+				    (esheet,
+				     q->data + q->length - expr0_len - expr1_len,
+				     expr0_len));
+	cond.texpr[1] = (expr1_len <= 0)
+		? NULL
+		: gnm_expr_top_new (ms_sheet_parse_expr_internal
+				    (esheet,
+				     q->data + q->length - expr1_len,
+				     expr1_len));
 
 	/* UNDOCUMENTED : the format of the conditional format
 	 * is unspecified.
@@ -4803,9 +4809,12 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 		       style, type, op););
 
 	mstyle = gnm_style_new ();
-	gnm_style_set_validation (mstyle,
-		validation_new (style, type, op, error_title, error_msg,
-			expr1, expr2, options & 0x0100, 0 == (options & 0x0200)));
+	gnm_style_set_validation
+		(mstyle,
+		 validation_new (style, type, op, error_title, error_msg,
+				 gnm_expr_top_new (expr1),
+				 gnm_expr_top_new (expr2),
+				 options & 0x0100, 0 == (options & 0x0200)));
 	if (options & 0x40000)
 		gnm_style_set_input_msg (mstyle,
 			gnm_input_msg_new (input_msg, input_title));

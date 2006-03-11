@@ -61,6 +61,7 @@
 #include "sheet-filter.h"
 #include "pivottable.h"
 #include "scenarios.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
@@ -1669,19 +1670,19 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 
 /****************************************************************************/
 typedef struct {
-	GnmValue      *val;
-	GnmExpr const *expr;
-	GnmRange       expr_bound;
+	GnmValue *val;
+	GnmExprTop const *texpr;
+	GnmRange expr_bound;
 } closure_set_cell_value;
 
 static GnmValue *
 cb_set_cell_content (Sheet *sheet, int col, int row, GnmCell *cell,
 		     closure_set_cell_value *info)
 {
-	GnmExpr const *expr = info->expr;
+	GnmExprTop const *texpr = info->texpr;
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
-	if (expr != NULL) {
+	if (texpr != NULL) {
 		if (!range_contains (&info->expr_bound, col, row)) {
 			GnmExprRewriteInfo rwinfo;
 
@@ -1697,9 +1698,10 @@ cb_set_cell_content (Sheet *sheet, int col, int row, GnmCell *cell,
 			rwinfo.u.relocate.target_sheet = sheet;
 			rwinfo.u.relocate.col_offset =
 			rwinfo.u.relocate.row_offset = 0;
-			expr = gnm_expr_rewrite (expr, &rwinfo);
+			texpr = gnm_expr_top_rewrite (texpr, &rwinfo);
 		}
-		cell_set_expr (cell, expr);
+
+		cell_set_expr (cell, texpr);
 	} else
 		cell_set_value (cell, value_dup (info->val));
 	return NULL;
@@ -1736,12 +1738,12 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 	g_return_if_fail (str != NULL);
 
 	parse_text_value_or_expr (pos, str,
-		&closure.val, &closure.expr,
+		&closure.val, &closure.texpr,
 		NULL /* TODO : Use edit_pos format ?? */,
 		workbook_date_conv (pos->sheet->workbook));
 
-	if (NULL != closure.expr)
-		gnm_expr_get_boundingbox (closure.expr,
+	if (closure.texpr)
+		gnm_expr_top_get_boundingbox (closure.texpr,
 			range_init_full_sheet (&closure.expr_bound));
 
 	/* Store the parsed result creating any cells necessary */
@@ -1763,7 +1765,7 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 	if (closure.val)
 		value_release (closure.val);
 	else
-		gnm_expr_unref (closure.expr);
+		gnm_expr_top_unref (closure.texpr);
 
 	sheet_flag_status_update_range (pos->sheet, r);
 }
@@ -1800,7 +1802,7 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 void
 sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 {
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmValue	      *val;
 	GnmParsePos       pp;
 
@@ -1809,16 +1811,16 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
-		text, &val, &expr,
+		text, &val, &texpr,
 		gnm_style_get_format (cell_get_mstyle (cell)),
 		workbook_date_conv (cell->base.sheet->workbook));
 
 	/* Queue a redraw before incase the span changes */
 	sheet_redraw_cell (cell);
 
-	if (expr != NULL) {
-		cell_set_expr (cell, expr);
-		gnm_expr_unref (expr);
+	if (texpr != NULL) {
+		cell_set_expr (cell, texpr);
+		gnm_expr_top_unref (texpr);
 
 		/* clear spans from _other_ cells */
 		sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
@@ -1848,9 +1850,9 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
  * Queues recalcs
  */
 void
-sheet_cell_set_expr (GnmCell *cell, GnmExpr const *expr)
+sheet_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 {
-	cell_set_expr (cell, expr);
+	cell_set_expr (cell, texpr);
 
 	/* clear spans from _other_ cells */
 	sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
@@ -2436,10 +2438,15 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 static GnmValue *
 cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
-	return (cell != NULL && cell_has_expr (cell) &&
-	    (GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_CORNER ||
-	     GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_ELEM))
-		? VALUE_TERMINATE : NULL;
+	GnmExprOp op;
+
+	if (cell == NULL || !cell_has_expr (cell))
+		return NULL;
+
+	op = GNM_EXPR_GET_OPER (cell->base.texpr->expr);
+	return (op == GNM_EXPR_OP_ARRAY_CORNER || op == GNM_EXPR_OP_ARRAY_ELEM)
+		? VALUE_TERMINATE
+		: NULL;
 }
 
 /**
@@ -4319,17 +4326,17 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	g_return_if_fail (dst != NULL);
 	g_return_if_fail (cell != NULL);
 
-	if ((is_expr = cell_has_expr (cell)) &&
-	    GNM_EXPR_GET_OPER (cell->base.expression) == GNM_EXPR_OP_ARRAY_CORNER) {
+	is_expr = cell_has_expr (cell);
+
+	if (is_expr &&
+	    GNM_EXPR_GET_OPER (cell->base.texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER) {
 		unsigned int i, j;
-		GnmExprArrayCorner const *array = &cell->base.expression->array_corner;
-		GnmExpr const *expr = array->expr;
-		gnm_expr_ref (expr);
+		GnmExprArrayCorner const *array = &cell->base.texpr->expr->array_corner;
 		cell_set_array_formula (dst,
 			cell->pos.col, cell->pos.row,
 			cell->pos.col + array->cols-1,
 			cell->pos.row + array->rows-1,
-			expr);
+			gnm_expr_top_new (gnm_expr_copy (array->expr)));
 		for (i = 0; i < array->cols ; i++)
 			for (j = 0; j < array->rows ; j++)
 				if (i != 0 || j != 0) {
@@ -4348,7 +4355,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	new_cell = sheet_cell_new (dst, cell->pos.col, cell->pos.row);
 	if (is_expr)
 		cell_set_expr_and_value (new_cell,
-			cell->base.expression, value_dup (cell->value), TRUE);
+			cell->base.texpr, value_dup (cell->value), TRUE);
 	else
 		cell_set_value (new_cell, value_dup (cell->value));
 }

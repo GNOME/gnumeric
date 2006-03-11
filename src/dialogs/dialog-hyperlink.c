@@ -132,7 +132,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 			parse_pos_init_sheet (&pp, sheet);
 			nexpr = expr_name_lookup (&pp, target);
 			if (nexpr != NULL)
-				val = gnm_expr_get_range (nexpr->expr);
+				val = gnm_expr_top_get_range (nexpr->texpr);
 		}
 		if (val) {
 			*success = TRUE;

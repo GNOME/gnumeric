@@ -1412,11 +1412,13 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 static GnmValue *
 cb_share_a_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer _es)
 {
+#if 0
 	if (cell && cell_has_expr (cell)) {
 		ExprTreeSharer *es = _es;
 		cell->base.expression =
 			expr_tree_sharer_share (es, cell->base.expression);
 	}
+#endif
 
 	return NULL;
 }
@@ -1936,7 +1938,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WorkbookControlGU
 	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
 		GnmParsePos pp;
 		const char *expr = quick_compute_routines [i].function;
-		const GnmExpr *new_auto_expr;
+		const GnmExprTop *new_auto_expr;
 		GtkWidget *item;
 
 		/* Test the expression...  */
@@ -1944,7 +1946,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WorkbookControlGU
 		new_auto_expr = gnm_expr_parse_str_simple (expr, &pp);
 		if (!new_auto_expr)
 			continue;
-		gnm_expr_unref (new_auto_expr);
+		gnm_expr_top_unref (new_auto_expr);
 
 		item = gtk_menu_item_new_with_label (
 			_(quick_compute_routines [i].displayed_name));
@@ -2452,19 +2454,21 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	if (!gnm_expr_entry_is_blank (editor->entry)) {
 		GnmParsePos pos;
 		GnmParseError  perr;
-		GnmExpr const *expr;
+		GnmExprTop const *texpr;
 
 		parse_error_init (&perr);
-		expr = gnm_expr_entry_parse (editor->entry,
+		texpr = gnm_expr_entry_parse (editor->entry,
 			parse_pos_init_sheet (&pos, sheet),
 			&perr, TRUE, GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 
 		/* TODO : add some error dialogs split out
 		 * the code in workbok_edit to add parens.  */
-		if (expr == NULL) {
+		if (texpr == NULL) {
 			if (editor->data_type == GOG_DATA_SCALAR)
-				expr = gnm_expr_new_constant (value_new_string (
-					gnm_expr_entry_get_text	(editor->entry)));
+				texpr = gnm_expr_top_new_constant
+					(value_new_string
+					 (gnm_expr_entry_get_text
+					  (editor->entry)));
 			else {
 				g_return_if_fail (perr.err != NULL);
 
@@ -2477,13 +2481,13 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 
 		switch (editor->data_type) {
 		case GOG_DATA_SCALAR:
-			data = gnm_go_data_scalar_new_expr (sheet, expr);
+			data = gnm_go_data_scalar_new_expr (sheet, texpr);
 			break;
 		case GOG_DATA_VECTOR:
-			data = gnm_go_data_vector_new_expr (sheet, expr);
+			data = gnm_go_data_vector_new_expr (sheet, texpr);
 			break;
 		case GOG_DATA_MATRIX:
-			data = gnm_go_data_matrix_new_expr (sheet, expr);
+			data = gnm_go_data_matrix_new_expr (sheet, texpr);
 		}
 	}
 

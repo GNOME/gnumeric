@@ -363,21 +363,21 @@ GnmValue *
 value_new_cellrange_str (Sheet *sheet, char const *str)
 {
 	GnmParsePos  pp;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	expr = gnm_expr_parse_str (str,
+	texpr = gnm_expr_parse_str (str,
 		parse_pos_init_sheet (&pp, sheet),
 		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
 		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 		gnm_expr_conventions_default,
 		NULL);
 
-	if (expr != NULL)  {
-		GnmValue *value = gnm_expr_get_range (expr);
-		gnm_expr_unref (expr);
+	if (texpr != NULL)  {
+		GnmValue *value = gnm_expr_top_get_range (texpr);
+		gnm_expr_top_unref (texpr);
 		return value;
 	}
 

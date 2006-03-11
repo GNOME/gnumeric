@@ -163,7 +163,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 			parse_pos_init_sheet (&pp, sheet), lnk->target);
 
 		if (nexpr != NULL)
-			target = gnm_expr_get_range (nexpr->expr);
+			target = gnm_expr_top_get_range (nexpr->texpr);
 	}
 	if (target == NULL) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),

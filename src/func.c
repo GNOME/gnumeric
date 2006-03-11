@@ -1066,7 +1066,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 				gnm_cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
 				args[i] = value_new_cellrange_unsafe (&r, &r);
 				/* TODO decide on the semantics of these argument types */
-#warning do we need to force an eval here ?
+#warning "Do we need to force an eval here?"
 			} else {
 				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 					GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
@@ -1350,7 +1350,7 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
 	}
 
 	if (data->ignore_subtotal && cell_has_expr (cell) &&
-	    gnm_expr_containts_subtotal (cell->base.expression))
+	    gnm_expr_top_contains_subtotal (cell->base.texpr))
 		return NULL;
 
 	cell_eval (cell);
@@ -1468,13 +1468,13 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		GnmValue *val;
 
 		if (iter_flags & CELL_ITER_IGNORE_SUBTOTAL &&
-		    gnm_expr_containts_subtotal (expr))
+		    gnm_expr_contains_subtotal (expr))
 			continue;
 
 		/* need to drill down into names to handle things like
 		 * sum(name)  with name := (A:A,B:B) */
 		while (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_NAME) {
-			expr = expr->name.name->expr;
+			expr = expr->name.name->texpr->expr;
 			if (expr == NULL) {
 				if (strict)
 					return value_new_error_REF (ep);

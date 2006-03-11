@@ -155,9 +155,9 @@ static GType sheet_object_widget_get_type	(void);
 static void
 sax_write_dep (GsfXMLOut *output, GnmDependent const *dep, char const *id)
 {
-	if (dep->expression != NULL) {
+	if (dep->texpr != NULL) {
 		GnmParsePos pos;
-		char *val = gnm_expr_as_string (dep->expression,
+		char *val = gnm_expr_top_as_string (dep->texpr,
 			parse_pos_init_sheet (&pos, dep->sheet),
 			gnm_expr_conventions_default);
 		gsf_xml_out_add_cstr (output, id, val);
@@ -172,12 +172,11 @@ read_dep (GnmDependent *dep, char const *name,
 	char *txt = (gchar *)xmlGetProp (tree, (xmlChar *)name);
 
 	dep->sheet = NULL;
-	dep->expression = NULL;
+	dep->texpr = NULL;
 	if (txt != NULL && *txt != '\0') {
 		GnmParsePos pos;
-		GnmExpr const *expr = gnm_expr_parse_str_simple (txt,
+		dep->texpr = gnm_expr_parse_str_simple (txt,
 			parse_pos_init_sheet (&pos, context->sheet));
-		dep->expression = expr;
 		xmlFree (txt);
 	}
 }
@@ -675,8 +674,8 @@ adjustment_eval (GnmDependent *dep)
 	GnmValue *v;
 	GnmEvalPos pos;
 
-	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
-			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	sheet_widget_adjustment_set_value (DEP_TO_ADJUSTMENT(dep),
 		value_get_as_float (v));
 	value_release (v);
@@ -697,10 +696,10 @@ sheet_widget_adjustment_get_ref (SheetWidgetAdjustment const *swa,
 	GnmValue *target;
 	g_return_val_if_fail (swa != NULL, NULL);
 
-	if (swa->dep.expression == NULL)
+	if (swa->dep.texpr == NULL)
 		return NULL;
 
-	target = gnm_expr_get_range (swa->dep.expression);
+	target = gnm_expr_top_get_range (swa->dep.texpr);
 	if (target == NULL)
 		return NULL;
 
@@ -751,7 +750,9 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, GnmCellRef const 
 	swa->being_updated = FALSE;
 	swa->dep.sheet = NULL;
 	swa->dep.flags = adjustment_get_dep_type ();
-	swa->dep.expression = (ref != NULL) ? gnm_expr_new_cellref (ref) : NULL;
+	swa->dep.texpr = (ref != NULL)
+		? gnm_expr_top_new (gnm_expr_new_cellref (ref))
+		: NULL;
 	g_signal_connect (G_OBJECT (swa->adjustment),
 		"value_changed",
 		G_CALLBACK (cb_adjustment_value_changed), swa);
@@ -828,12 +829,12 @@ cb_adjustment_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	if (state->old_focus != NULL &&
 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
 		GnmParsePos  pp;
-		GnmExpr const *expr = gnm_expr_entry_parse (
+		GnmExprTop const *texpr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init_sheet (&pp, state->sheet),
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-		if (expr != NULL)
-			gnm_expr_unref (expr);
+		if (texpr != NULL)
+			gnm_expr_top_unref (texpr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -859,13 +860,13 @@ cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state
 {
 	SheetObject *so = SHEET_OBJECT (state->swa);
 	GnmParsePos  pp;
-	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
+	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-	if (expr != NULL) {
-		dependent_set_expr (&state->swa->dep, expr);
+	if (texpr != NULL) {
+		dependent_set_expr (&state->swa->dep, texpr);
 		dependent_link (&state->swa->dep);
-		gnm_expr_unref (expr);
+		gnm_expr_top_unref (texpr);
 	}
 
 	state->swa->adjustment->lower = gtk_spin_button_get_value_as_int (
@@ -1032,8 +1033,9 @@ sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 void
-sheet_widget_adjustment_set_details (SheetObject *so, GnmExpr const *link,
-				    int value, int min, int max, int inc, int page)
+sheet_widget_adjustment_set_details (SheetObject *so, GnmExprTop const *tlink,
+				     int value, int min, int max,
+				     int inc, int page)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	g_return_if_fail (swa != NULL);
@@ -1042,9 +1044,9 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExpr const *link,
 	swa->adjustment->upper = max; /* allow scrolling to max */
 	swa->adjustment->step_increment = inc;
 	swa->adjustment->page_increment = page;
-	if (link != NULL) {
+	if (tlink != NULL) {
 		gboolean const linked = dependent_is_linked (&swa->dep);
-		dependent_set_expr (&swa->dep, link);
+		dependent_set_expr (&swa->dep, tlink);
 		if (linked)
 			dependent_link (&swa->dep);
 	} else
@@ -1272,8 +1274,8 @@ checkbox_eval (GnmDependent *dep)
 	GnmEvalPos pos;
 	gboolean err, result;
 
-	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
-			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	result = value_get_as_bool (v, &err);
 	value_release (v);
 	if (!err) {
@@ -1305,7 +1307,9 @@ sheet_widget_checkbox_init_full (SheetWidgetCheckbox *swc,
 	swc->value = FALSE;
 	swc->dep.sheet = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
-	swc->dep.expression = (ref != NULL) ? gnm_expr_new_cellref (ref) : NULL;
+	swc->dep.texpr = (ref != NULL)
+		? gnm_expr_top_new (gnm_expr_new_cellref (ref))
+		: NULL;
 }
 
 static void
@@ -1338,10 +1342,10 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
 	GnmValue *target;
 	g_return_val_if_fail (swc != NULL, NULL);
 
-	if (swc->dep.expression == NULL)
+	if (swc->dep.texpr == NULL)
 		return NULL;
 
-	target = gnm_expr_get_range (swc->dep.expression);
+	target = gnm_expr_top_get_range (swc->dep.texpr);
 	if (target == NULL)
 		return NULL;
 
@@ -1430,12 +1434,12 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	if (state->old_focus != NULL &&
 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
 		GnmParsePos  pp;
-		GnmExpr const *expr = gnm_expr_entry_parse (
+		GnmExprTop const *texpr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init_sheet (&pp, state->sheet),
 			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-		if (expr != NULL)
-			gnm_expr_unref (expr);
+		if (texpr != NULL)
+			gnm_expr_top_unref (texpr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -1463,13 +1467,13 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swc);
 	GnmParsePos  pp;
-	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
+	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-	if (expr != NULL) {
-		dependent_set_expr (&state->swc->dep, expr);
+	if (texpr != NULL) {
+		dependent_set_expr (&state->swc->dep, texpr);
 		dependent_link (&state->swc->dep);
-		gnm_expr_unref (expr);
+		gnm_expr_top_unref (texpr);
 	}
 
 	gtk_widget_destroy (state->dialog);
@@ -1622,14 +1626,14 @@ sheet_widget_checkbox_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 void
-sheet_widget_checkbox_set_link (SheetObject *so, GnmExpr const *expr)
+sheet_widget_checkbox_set_link (SheetObject *so, GnmExprTop const *texpr)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	gboolean const linked = dependent_is_linked (&swc->dep);
 
 	g_return_if_fail (swc != NULL);
 
-	dependent_set_expr (&swc->dep, expr);
+	dependent_set_expr (&swc->dep, texpr);
 	if (linked)
 		dependent_link (&swc->dep);
 }
@@ -1721,8 +1725,8 @@ radio_button_eval (GnmDependent *dep)
 /*	gboolean err; */
 	int result;
 
-	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
-			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	result = value_get_as_int (v);
 	value_release (v);
 #if 0
@@ -1751,7 +1755,7 @@ sheet_widget_radio_button_init (SheetObjectWidget *sow)
 
 	swrb->dep.sheet = NULL;
 	swrb->dep.flags = radio_button_get_dep_type ();
-	swrb->dep.expression = NULL;
+	swrb->dep.texpr = NULL;
 }
 
 static void
@@ -1927,8 +1931,8 @@ list_content_eval (GnmDependent *dep)
 /*	gboolean err;*/
 	int result;
 
-	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
-			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	result = value_get_as_int (v);
 	value_release (v);
 #if 0
@@ -1955,8 +1959,8 @@ list_output_eval (GnmDependent *dep)
 /*	gboolean err;*/
 	int result;
 
-	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
-			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
+			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	result = value_get_as_int (v);
 	value_release (v);
 #if 0
@@ -1985,11 +1989,11 @@ sheet_widget_list_base_init (SheetObjectWidget *sow)
 
 	swc->content_dep.sheet = NULL;
 	swc->content_dep.flags = list_content_get_dep_type ();
-	swc->content_dep.expression = NULL;
+	swc->content_dep.texpr = NULL;
 
 	swc->output_dep.sheet = NULL;
 	swc->output_dep.flags = list_output_get_dep_type ();
-	swc->output_dep.expression = NULL;
+	swc->output_dep.texpr = NULL;
 }
 
 static void

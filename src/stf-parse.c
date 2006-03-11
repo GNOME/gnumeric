@@ -1234,7 +1234,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 					ccopy = gnm_cell_copy_new (targetcol, row);
 					ccopy->val  = v;
-					ccopy->expr = NULL;
+					ccopy->texpr = NULL;
 					content = g_slist_prepend (content, ccopy);
 					targetcol++;
 					if (targetcol > colhigh)

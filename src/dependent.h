@@ -9,7 +9,7 @@ struct _GnmDependent
 {
 	guint	  flags;
 	Sheet	 *sheet;
-	GnmExpr const *expression;
+	GnmExprTop const *texpr;
 
 	/* Double-linked list.  */
 	GnmDependent *next_dep, *prev_dep;
@@ -17,7 +17,7 @@ struct _GnmDependent
 
 typedef struct {
 	void (*eval) (GnmDependent *dep);
-	void (*set_expr) (GnmDependent *dep, GnmExpr const *new_expr);
+	void (*set_expr) (GnmDependent *dep, GnmExprTop const *new_texpr);
 	void (*debug_name) (GnmDependent const *dep, GString *target);
 } DependentClass;
 
@@ -84,7 +84,7 @@ guint32	 dependent_type_register   (DependentClass const *klass);
 void	 dependent_types_init	   (void);
 void	 dependent_types_shutdown  (void);
 
-void	 dependent_set_expr	   (GnmDependent *dep, GnmExpr const *new_expr);
+void	 dependent_set_expr	   (GnmDependent *dep, GnmExprTop const *new_texpr);
 void	 dependent_set_sheet	   (GnmDependent *dep, Sheet *sheet);
 void	 dependent_link		   (GnmDependent *dep);
 void	 dependent_unlink	   (GnmDependent *dep);

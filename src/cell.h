@@ -42,7 +42,7 @@ void	  cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo);
  */
 #define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
 #define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IS_LINKED)
-#define	    cell_has_expr(cell)		((cell)->base.expression != NULL)
+#define	    cell_has_expr(cell)		((cell)->base.texpr != NULL)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
 #define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)
 gboolean    cell_is_empty	  (GnmCell const *cell);
@@ -71,13 +71,14 @@ gboolean    cell_array_bound	  (GnmCell const *cell, GnmRange *res);
 void cell_set_text		(GnmCell *c, char const *text);
 void cell_assign_value		(GnmCell *c, GnmValue *v);
 void cell_set_value		(GnmCell *c, GnmValue *v);
-void cell_set_expr_and_value	(GnmCell *c, GnmExpr const *expr, GnmValue *v,
+void cell_set_expr_and_value	(GnmCell *c,
+				 GnmExprTop const *texpr, GnmValue *v,
 				 gboolean link_expr);
-void cell_set_expr		(GnmCell *c, GnmExpr const *expr);
-void cell_set_expr_unsafe 	(GnmCell *cell, GnmExpr const *expr);
+void cell_set_expr		(GnmCell *c, GnmExprTop const *texpr);
+void cell_set_expr_unsafe 	(GnmCell *cell, GnmExprTop const *texpr);
 void cell_set_array_formula	(Sheet *sheet,
 				 int cola, int rowa, int colb, int rowb,
-				 GnmExpr const *expr);
+				 GnmExprTop const *texpr);
 void cell_convert_expr_to_value	(GnmCell *cell);
 
 /**

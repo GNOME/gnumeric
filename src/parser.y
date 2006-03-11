@@ -371,13 +371,15 @@ build_set (GnmExprList *list)
 {
 	/* verify that every thing is a ref */
 	GnmExprList *ptr;
-	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		if (!gnm_expr_is_rangeref (ptr->data)) {
+	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
+		GnmExpr const *expr = ptr->data;
+		if (!gnm_expr_is_rangeref (expr)) {
 			report_err (state, g_error_new (1, PERR_SET_CONTENT_MUST_BE_RANGE,
 				_("All entries in the set must be references")),
 				state->ptr, 0);
 			return NULL;
 		}
+	}
 
 	unregister_allocation (list);
 	return register_expr_allocation (gnm_expr_new_set (list));
@@ -1325,7 +1327,7 @@ yyerror (char const *s)
  * take responsibility for freeing that struct and its contents.
  * with parse_error_free.
  **/
-GnmExpr const *
+GnmExprTop const *
 gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 		    GnmExprParseFlags flags,
 		    GnmExprConventions const *convs,
@@ -1435,5 +1437,5 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 
 	deallocate_uninit ();
 
-	return expr;
+	return gnm_expr_top_new (expr);
 }

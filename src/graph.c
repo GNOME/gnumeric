@@ -50,15 +50,15 @@ gnm_go_data_dup (GOData const *src)
 	GnmDependent const *src_dep = gnm_go_data_get_dep (src);
 	GnmDependent *dst_dep = gnm_go_data_get_dep (dst);
 
-	dst_dep->expression = src_dep->expression;
+	dst_dep->texpr = src_dep->texpr;
 	if (src_dep->sheet)
 		dependent_set_sheet (dst_dep, src_dep->sheet);
-	if (dst_dep->expression == NULL) {
+	if (dst_dep->texpr == NULL) {
 		char const *str = g_object_get_data (G_OBJECT (src), "from-str");
 		g_object_set_data_full (G_OBJECT (dst),
 			"from-str", g_strdup (str), g_free);
 	} else
-		gnm_expr_ref (dst_dep->expression);
+		gnm_expr_top_ref (dst_dep->texpr);
 
 	return GO_DATA (dst);
 }
@@ -68,7 +68,7 @@ gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
 {
 	GnmDependent const *a = gnm_go_data_get_dep (data_a);
 	GnmDependent const *b = gnm_go_data_get_dep (data_b);
-	if (a->expression == NULL && b->expression == NULL) {
+	if (a->texpr == NULL && b->texpr == NULL) {
 		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
 		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
 
@@ -77,7 +77,7 @@ gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
 		return FALSE;
 	}
 
-	return gnm_expr_equal (a->expression, b->expression);
+	return gnm_expr_top_equal (a->texpr, b->texpr);
 }
 
 static GOFormat *
@@ -85,7 +85,7 @@ gnm_go_data_preferred_fmt (GOData const *dat)
 {
 	GnmEvalPos ep;
 	GnmDependent const *dep = gnm_go_data_get_dep (dat);
-	return auto_style_format_suggest (dep->expression,
+	return auto_style_format_suggest (dep->texpr,
 		eval_pos_init_dep (&ep, dep));
 }
 
@@ -96,7 +96,7 @@ gnm_go_data_as_str (GOData const *dat)
 	GnmDependent const *dep = gnm_go_data_get_dep (dat);
 	if (dep->sheet == NULL)
 		return g_strdup ("No sheet for GnmGOData");
-	return gnm_expr_as_string (dep->expression,
+	return gnm_expr_top_as_string (dep->texpr,
 		parse_pos_init_dep (&pp, dep),
 		gnm_expr_conventions_default);
 }
@@ -104,7 +104,7 @@ gnm_go_data_as_str (GOData const *dat)
 static  gboolean
 gnm_go_data_from_str (GOData *dat, char const *str)
 {
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmParsePos   pp;
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
 
@@ -116,10 +116,10 @@ gnm_go_data_from_str (GOData *dat, char const *str)
 		return TRUE;
 	}
 
-	expr = gnm_expr_parse_str_simple (str, parse_pos_init_dep (&pp, dep));
-	if (expr != NULL) {
-		dependent_set_expr (dep, expr);
-		gnm_expr_unref (expr);
+	texpr = gnm_expr_parse_str_simple (str, parse_pos_init_dep (&pp, dep));
+	if (texpr != NULL) {
+		dependent_set_expr (dep, texpr);
+		gnm_expr_top_unref (texpr);
 		return TRUE;
 	}
 	return FALSE;
@@ -140,7 +140,7 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 	if (sheet != NULL) {
 		/* no expression ?
 		 * Do we need to parse one now that we have more context ? */
-		if (dep->expression == NULL) {
+		if (dep->texpr == NULL) {
 			char const *str = g_object_get_data (G_OBJECT (dat), "from-str");
 			if (str != NULL) { /* bingo */
 				dep->sheet = sheet; /* cheat a bit */
@@ -165,12 +165,12 @@ gnm_go_data_get_sheet (GOData const *dat)
 	return dep->sheet;
 }
 
-GnmExpr const *
+GnmExprTop const *
 gnm_go_data_get_expr (GOData const *dat)
 {
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
 	g_return_val_if_fail (dep != NULL, NULL);
-	return dep->expression;
+	return dep->texpr;
 }
 
 /**************************************************************************/
@@ -197,9 +197,9 @@ scalar_get_val (GnmGODataScalar *scalar)
 		scalar->val_str = NULL;
 	}
 	if (scalar->val == NULL) {
-		if (scalar->dep.expression != NULL) {
+		if (scalar->dep.texpr != NULL) {
 			GnmEvalPos pos;
-			scalar->val = gnm_expr_eval (scalar->dep.expression,
+			scalar->val = gnm_expr_top_eval (scalar->dep.texpr,
 				eval_pos_init_dep (&pos, &scalar->dep),
 				GNM_EXPR_EVAL_PERMIT_EMPTY);
 		} else
@@ -290,10 +290,10 @@ GSF_CLASS (GnmGODataScalar, gnm_go_data_scalar,
 	   GO_DATA_SCALAR_TYPE)
 
 GOData *
-gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExpr const *expr)
+gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 {
 	GnmGODataScalar *res = g_object_new (gnm_go_data_scalar_get_type (), NULL);
-	res->dep.expression = expr;
+	res->dep.texpr = texpr;
 	res->dep.sheet = sheet;
 	return GO_DATA (res);
 }
@@ -353,8 +353,8 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	int old_len = dat->len;
 
 	eval_pos_init_dep (&ep, &vec->dep);
-	if (vec->val == NULL && vec->dep.expression != NULL)
-		vec->val = gnm_expr_eval (vec->dep.expression, &ep,
+	if (vec->val == NULL && vec->dep.texpr != NULL)
+		vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 #if 0
@@ -677,10 +677,10 @@ GSF_CLASS (GnmGODataVector, gnm_go_data_vector,
 	   GO_DATA_VECTOR_TYPE)
 
 GOData *
-gnm_go_data_vector_new_expr (Sheet *sheet, GnmExpr const *expr)
+gnm_go_data_vector_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 {
 	GnmGODataVector *res = g_object_new (gnm_go_data_vector_get_type (), NULL);
-	res->dep.expression = expr;
+	res->dep.texpr = texpr;
 	res->dep.sheet = sheet;
 	return GO_DATA (res);
 }
@@ -740,7 +740,7 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 
 	eval_pos_init_dep (&ep, &mat->dep);
 	if (mat->val == NULL)
-		mat->val = gnm_expr_eval (mat->dep.expression, &ep,
+		mat->val = gnm_expr_top_eval (mat->dep.texpr, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 #if 0
@@ -1078,10 +1078,10 @@ GSF_CLASS (GnmGODataMatrix, gnm_go_data_matrix,
 	   GO_DATA_MATRIX_TYPE)
 
 GOData *
-gnm_go_data_matrix_new_expr (Sheet *sheet, GnmExpr const *expr)
+gnm_go_data_matrix_new_expr (Sheet *sheet, GnmExprTop const *texpr)
 {
 	GnmGODataMatrix *res = g_object_new (gnm_go_data_matrix_get_type (), NULL);
-	res->dep.expression = expr;
+	res->dep.texpr = texpr;
 	res->dep.sheet = sheet;
 	return GO_DATA (res);
 }

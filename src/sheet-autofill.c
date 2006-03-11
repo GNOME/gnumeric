@@ -108,7 +108,7 @@ typedef struct _FillItem {
 	GnmCellPos	     merged_size;
 
 	union {
-		GnmExpr const *expr;
+		GnmExprTop const *texpr;
 		GnmValue     *value;
 		GnmString *str;
 		struct {
@@ -289,7 +289,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 	fi->fmt = NULL;
 	if (cell_has_expr (cell)) {
 		fi->type = FILL_EXPR;
-		fi->v.expr = cell->base.expression;
+		fi->v.texpr = cell->base.texpr;
 
 		return fi;
 	}
@@ -578,7 +578,8 @@ autofill_destroy_fill_items (GList *all_items)
 }
 
 static void
-autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
+autofill_cell (FillItem *fi, GnmCell *cell, int idx,
+	       guint limit_x, guint limit_y)
 {
 	FillItem const *delta = fi->group_last;
 	GnmValue *v;
@@ -601,9 +602,10 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		return;
 
 	case FILL_EXPR: {
-		GnmExpr const *func;
-		GnmExprRewriteInfo   rwinfo;
+		GnmExprRewriteInfo rwinfo;
 		GnmExprRelocateInfo *rinfo = &rwinfo.u.relocate;
+		GnmExprTop const *texpr;
+		GnmExprArrayCorner const *array;
 
 		/* FIXME : Find out how to handle this */
 		rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
@@ -612,38 +614,37 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		rinfo->origin.start = rinfo->origin.end = cell->pos;
 		eval_pos_init_cell (&rinfo->pos, cell);
 
-		func = gnm_expr_rewrite (fi->v.expr, &rwinfo);
+		texpr = gnm_expr_top_rewrite (fi->v.texpr, &rwinfo);
 
 		/* clip arrays that are only partially copied */
-		if (GNM_EXPR_GET_OPER (fi->v.expr) == GNM_EXPR_OP_ARRAY_CORNER) {
-			GnmExprArrayCorner const *array = &fi->v.expr->array_corner;
-			if (array->cols > limit_x) {
-				if (func != NULL)
-					((GnmExpr*)func)->array_corner.cols = limit_x;
-				else
-					func = gnm_expr_new_array_corner (
-						limit_x, array->rows, NULL);
-			}
-			if (array->rows > limit_y) {
-				if (func != NULL)
-					((GnmExpr*)func)->array_corner.rows = limit_y;
-				else
-					func = gnm_expr_new_array_corner (
-						array->cols, limit_y, NULL);
-			}
+		if (GNM_EXPR_GET_OPER (fi->v.texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER &&
+		    (array = &fi->v.texpr->expr->array_corner) && /* assign */
+		    (array->cols > limit_x || array->rows > limit_y)) {
+			GnmExpr const *aexpr;
+			unsigned cols = MIN (limit_x, array->cols);
+			unsigned rows = MIN (limit_y, array->rows);
 
-			if (func != NULL &&
-			    func->array_corner.expr == NULL) {
-				gnm_expr_ref (array->expr);
-				((GnmExpr*)func)->array_corner.expr = array->expr;
-			}
+			if (texpr) {
+				GnmExpr const *e = gnm_expr_top_unwrap (texpr);
+				aexpr = gnm_expr_copy (e->array_corner.expr);
+				gnm_expr_unref (e);
+			} else
+				aexpr = gnm_expr_copy (array->expr);
+
+			texpr = gnm_expr_top_new
+				(gnm_expr_new_array_corner (cols,
+							    rows,
+							    aexpr));
 		}
-		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func);
 
-		if (func)
-			gnm_expr_unref (func);
+		if (!texpr) {
+			gnm_expr_top_ref (fi->v.texpr);
+			texpr = fi->v.texpr;
+		}
+		cell_set_expr (cell, texpr);
+		gnm_expr_top_unref (texpr);
 
-		/* NOTE : _RETURN_ do not fall through to the value asignment */
+		/* NOTE : _RETURN_ do not fall through to the value assignment */
 		return;
 	}
 
@@ -783,7 +784,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 			 * corner.  autofill_cell handles the dimension clipping.
 			 */
 			if (fi->type == FILL_EXPR &&
-			    GNM_EXPR_GET_OPER (fi->v.expr) == GNM_EXPR_OP_ARRAY_CORNER) {
+			    GNM_EXPR_GET_OPER (fi->v.texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER) {
 				int n = 0, remain = count_max - count - 1;
 				if (col_inc < 0)
 					n = - remain;

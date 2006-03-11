@@ -813,17 +813,20 @@ static gboolean
 cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmCell *cell = sheet_cell_fetch (me->pos.sheet,
 				       me->pos.eval.col,
 				       me->pos.eval.row);
 	sheet_cell_set_text (cell, me->text, me->markup);
-	expr = cell->base.expression;
+	texpr = cell->base.texpr;
 
-	if (!me->has_user_format && expr) {
+	if (!me->has_user_format && texpr) {
 		GnmEvalPos ep;
-		GOFormat *sf = auto_style_format_suggest (expr,
-			eval_pos_init_pos (&ep, me->cmd.sheet, &me->pos.eval));
+		GOFormat *sf = auto_style_format_suggest
+			(texpr,
+			 eval_pos_init_pos (&ep,
+					    me->cmd.sheet,
+					    &me->pos.eval));
 		if (sf) {
 			GnmStyle *new_style = gnm_style_new ();
 			GnmRange r;
@@ -1028,7 +1031,7 @@ static gboolean
 cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
-	GnmExpr const *expr = NULL;
+	GnmExprTop const *texpr = NULL;
 	GSList *l;
 	GnmStyle *new_style = NULL;
 	char const *expr_txt;
@@ -1047,16 +1050,16 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	expr_txt = gnm_expr_char_start_p (me->text);
 	if (expr_txt != NULL)
-		expr = gnm_expr_parse_str_simple (expr_txt, &me->pp);
+		texpr = gnm_expr_parse_str_simple (expr_txt, &me->pp);
 	if (me->as_array) {
-		if (expr == NULL)
+		if (texpr == NULL)
 			return TRUE;
-	} else if (expr != NULL) {
+	} else if (texpr != NULL) {
 		GnmEvalPos ep;
-		GOFormat *sf = auto_style_format_suggest (expr,
+		GOFormat *sf = auto_style_format_suggest (texpr,
 			eval_pos_init_pos (&ep, me->cmd.sheet, &me->pp.eval));
-		gnm_expr_unref (expr);
-		expr = NULL;
+		gnm_expr_top_unref (texpr);
+		texpr = NULL;
 		if (sf != NULL) {
 			new_style = gnm_style_new ();
 			gnm_style_set_format (new_style, sf);
@@ -1074,11 +1077,11 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_region_queue_recalc (me->cmd.sheet, r);
 
 		/* If there is an expression then this was an array */
-		if (expr != NULL) {
+		if (texpr != NULL) {
 			cell_set_array_formula (me->cmd.sheet,
 						r->start.col, r->start.row,
 						r->end.col, r->end.row,
-						expr);
+						texpr);
 			sheet_region_queue_recalc (me->cmd.sheet, r);
 		} else {
 			sheet_range_set_text (&me->pp, r, me->text);
@@ -3904,13 +3907,13 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 	SearchReplaceCommentResult comment_res;
 
 	if (gnm_search_replace_cell (sr, ep, TRUE, &cell_res)) {
-		GnmExpr const *expr;
+		GnmExprTop const *texpr;
 		GnmValue *val;
 		gboolean err;
 		GnmParsePos pp;
 
 		parse_pos_init_evalpos (&pp, ep);
-		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
+		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &texpr,
 			gnm_style_get_format (cell_get_mstyle (cell_res.cell)),
 			workbook_date_conv (cell_res.cell->base.sheet->workbook));
 
@@ -3921,7 +3924,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		err = val && gnm_expr_char_start_p (cell_res.new_text);
 
 		if (val) value_release (val);
-		if (expr) gnm_expr_unref (expr);
+		if (texpr) gnm_expr_top_unref (texpr);
 
 		if (err) {
 			if (test_run) {
@@ -5485,7 +5488,7 @@ typedef struct {
 
 	GnmParsePos	 pp;
 	char		*name;
-	GnmExpr const	*expr;
+	GnmExprTop const *texpr;
 	gboolean	 new_name;
 	gboolean	 placeholder;
 } CmdDefineName;
@@ -5498,17 +5501,17 @@ cmd_define_name_undo (GnmCommand *cmd,
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
 	GnmNamedExpr  *nexpr = expr_name_lookup (&(me->pp), me->name);
-	GnmExpr const *expr = nexpr->expr;
+	GnmExprTop const *texpr = nexpr->texpr;
 
-	gnm_expr_ref (expr);
+	gnm_expr_top_ref (texpr);
 	if (me->new_name)
 		expr_name_remove (nexpr);
 	else if (me->placeholder)
 		expr_name_downgrade_to_placeholder (nexpr);
 	else
-		expr_name_set_expr (nexpr, me->expr); /* restore old def */
+		expr_name_set_expr (nexpr, me->texpr); /* restore old def */
 
-	me->expr = expr;
+	me->texpr = texpr;
 	return FALSE;
 }
 
@@ -5524,18 +5527,18 @@ cmd_define_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (me->new_name || me->placeholder) {
 		char *err = NULL;
-		nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE, NULL);
+		nexpr = expr_name_add (&me->pp, me->name, me->texpr, &err, TRUE, NULL);
 		if (nexpr == NULL) {
 			go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Name"), err);
 			g_free (err);
 			return TRUE;
 		}
-		me->expr = NULL;
+		me->texpr = NULL;
 	} else {	/* changing the definition */
-		GnmExpr const *tmp = nexpr->expr;
-		gnm_expr_ref (tmp);
-		expr_name_set_expr (nexpr, me->expr);
-		me->expr = tmp;	/* store the old definition */
+		GnmExprTop const *tmp = nexpr->texpr;
+		gnm_expr_top_ref (tmp);
+		expr_name_set_expr (nexpr, me->texpr);
+		me->texpr = tmp; /* store the old definition */
 	}
 
 	return FALSE;
@@ -5548,9 +5551,9 @@ cmd_define_name_finalize (GObject *cmd)
 
 	g_free (me->name); me->name = NULL;
 
-	if (me->expr != NULL) {
-		gnm_expr_unref (me->expr);
-		me->expr = NULL;
+	if (me->texpr) {
+		gnm_expr_top_unref (me->texpr);
+		me->texpr = NULL;
 	}
 
 	gnm_command_finalize (cmd);
@@ -5561,42 +5564,42 @@ cmd_define_name_finalize (GObject *cmd)
  * @wbc :
  * @name :
  * @pp   :
- * @expr : absorbs a ref to the expr.
+ * @texpr : absorbs a ref to the texpr.
  *
  * If the @name has never been defined in context @pp create a new name
- * If its a placeholder assign @expr to it and make it real
+ * If its a placeholder assign @texpr to it and make it real
  * If it already exists as a real name just assign @expr.
  *
  * Returns TRUE on error
  **/
 gboolean
 cmd_define_name (WorkbookControl *wbc, char const *name,
-		 GnmParsePos const *pp, GnmExpr const *expr)
+		 GnmParsePos const *pp, GnmExprTop const *texpr)
 {
 	CmdDefineName	*me;
 	GnmNamedExpr    *nexpr;
 
 	g_return_val_if_fail (name != NULL, TRUE);
 	g_return_val_if_fail (pp != NULL, TRUE);
-	g_return_val_if_fail (expr != NULL, TRUE);
+	g_return_val_if_fail (texpr != NULL, TRUE);
 
-	if (expr_name_check_for_loop (name, expr)) {
+	if (expr_name_check_for_loop (name, texpr)) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), name,
 					_("has a circular reference"));
-		gnm_expr_unref (expr);
+		gnm_expr_top_unref (texpr);
 		return TRUE;
 	}
 	nexpr = expr_name_lookup (pp, name);
 	if (nexpr != NULL && !expr_name_is_placeholder (nexpr) &&
-	    gnm_expr_equal (expr, nexpr->expr)) {
-		gnm_expr_unref (expr);
+	    gnm_expr_top_equal (texpr, nexpr->texpr)) {
+		gnm_expr_top_unref (texpr);
 		return FALSE; /* expr is not changing, do nothing */
 	}
 
 	me = g_object_new (CMD_DEFINE_NAME_TYPE, NULL);
 	me->name = g_strdup (name);
 	me->pp = *pp;
-	me->expr = expr;
+	me->texpr = texpr;
 
 	me->cmd.sheet = wb_control_cur_sheet (wbc);
 	me->cmd.size = 1;

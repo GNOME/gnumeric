@@ -28,10 +28,10 @@ struct _Sheet {
 	Workbook    *workbook;
 	gboolean    being_invalidated;
 	struct {
-		/* An alternating list of ref'd names and expressions.  */
-		GSList *name_exprs;
-		/* An alternating list of deps and ref'd expressions.  */
-		GSList *dep_exprs;
+		/* An alternating list of ref'd names and texpressions.  */
+		GSList *name_texprs;
+		/* An alternating list of deps and ref'd texpressions.  */
+		GSList *dep_texprs;
 		/* A list of deps to relink.  */
 		GSList *relink;
 	} revive;
@@ -256,7 +256,7 @@ GnmRange    sheet_get_extent	(Sheet const *sheet,
  * redraws and rendering as required.  Does NOT check for
  * division of arrays.
  */
-void	     sheet_cell_set_expr    (GnmCell *cell, GnmExpr const *expr);
+void	     sheet_cell_set_expr    (GnmCell *cell, GnmExprTop const *texpr);
 void	     sheet_cell_set_value   (GnmCell *cell, GnmValue *v);
 void	     sheet_cell_set_text    (GnmCell *cell, char const *str,
 				     PangoAttrList *markup);

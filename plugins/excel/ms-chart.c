@@ -288,17 +288,19 @@ BC_R(ai)(XLChartHandler const *handle,
 	if (top_state == BIFF_CHART_text)
 		return FALSE;
 	else if (top_state == BIFF_CHART_trendlimits) {
-		GnmExpr const *expr = ms_container_parse_expr (&s->container,
-			q->data+8, length);
+		GnmExprTop const *texpr =
+			gnm_expr_top_new
+			(ms_container_parse_expr (&s->container,
+						  q->data+8, length));
 		g_return_val_if_fail (ref_type == 2, FALSE);
-		if (expr != NULL) {
+		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 
 			g_return_val_if_fail (sheet != NULL, FALSE);
 			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
 			s->currentSeries->reg_dims[purpose] = 
-				gnm_go_data_scalar_new_expr (sheet, expr);
+				gnm_go_data_scalar_new_expr (sheet, texpr);
 		}
 		return FALSE;
 	}
@@ -341,17 +343,19 @@ BC_R(ai)(XLChartHandler const *handle,
 
 	/* (2) == linked to container */
 	if (ref_type == 2) {
-		GnmExpr const *expr = ms_container_parse_expr (&s->container,
-			q->data+8, length);
-		if (expr != NULL) {
+		GnmExprTop const *texpr =
+			gnm_expr_top_new
+			(ms_container_parse_expr (&s->container,
+						  q->data+8, length));
+		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 
 			g_return_val_if_fail (sheet != NULL, FALSE);
 			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
 			s->currentSeries->data [purpose].data = (purpose == GOG_MS_DIM_LABELS)
-				? gnm_go_data_scalar_new_expr (sheet, expr)
-				: gnm_go_data_vector_new_expr (sheet, expr);
+				? gnm_go_data_scalar_new_expr (sheet, texpr)
+				: gnm_go_data_vector_new_expr (sheet, texpr);
 		}
 	} else if (ref_type == 1 && purpose != GOG_MS_DIM_LABELS &&
 		   s->currentSeries->data [purpose].num_elements > 0) {
@@ -1784,7 +1788,6 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	int const slen = GSF_LE_GET_GUINT8 (q->data + 2);
 	char *str;
 	GnmValue *value;
-	GnmExpr const *expr;
 
 	g_return_val_if_fail (id == 0, FALSE);
 
@@ -1796,14 +1799,15 @@ BC_R(seriestext)(XLChartHandler const *handle,
 
 	if (s->currentSeries != NULL &&
 	    s->currentSeries->data [GOG_MS_DIM_LABELS].data == NULL) {
+		GnmExprTop const *texpr;
 		Sheet *sheet = ms_container_sheet (s->container.parent);
 		g_return_val_if_fail (sheet != NULL, FALSE);
 		value = value_new_string (str);
 		g_return_val_if_fail (value != NULL, FALSE);
-		expr = gnm_expr_new_constant (value);
-		if (expr)
+		texpr = gnm_expr_top_new_constant (value);
+		if (texpr)
 			s->currentSeries->data [GOG_MS_DIM_LABELS].data =
-				gnm_go_data_scalar_new_expr (sheet, expr);
+				gnm_go_data_scalar_new_expr (sheet, texpr);
 		else
 			value_release (value);
 	} else if (BC_R(top_state) (s, 0) == BIFF_CHART_text) {
@@ -2265,7 +2269,7 @@ BC_R(end)(XLChartHandler const *handle,
 		/* check series now and create 3d plot if necessary */
 		if (s->is_surface) {
 			gboolean is_matrix = TRUE;
-			GnmExpr const *expr, *cat_expr;
+			GnmExprTop const *cat_expr;
 			GnmValue *value;
 			GnmRange vector;
 			gboolean as_col;
@@ -2300,9 +2304,9 @@ BC_R(end)(XLChartHandler const *handle,
 			if (!IS_GO_DATA_VECTOR (eseries->data [GOG_MS_DIM_CATEGORIES].data))
 				goto not_a_matrix;
 			cat_expr = gnm_go_data_get_expr (eseries->data [GOG_MS_DIM_CATEGORIES].data);
-			if (!gnm_expr_is_rangeref (cat_expr))
+			if (!gnm_expr_top_is_rangeref (cat_expr))
 				goto not_a_matrix;
-			value = gnm_expr_get_range (cat_expr);
+			value = gnm_expr_top_get_range (cat_expr);
 			as_col = value->v_range.cell.a.col == value->v_range.cell.b.col;
 			row = row_start = value->v_range.cell.a.row;
 			col = col_start = value->v_range.cell.a.col;
@@ -2324,6 +2328,8 @@ BC_R(end)(XLChartHandler const *handle,
 			/* verify that all series are adjacent, have same categories and
 			same lengths */
 			for (i = 0 ; i < s->series->len; i++ ) {
+				GnmExprTop const *texpr;
+
 				eseries = g_ptr_array_index (s->series, i);
 				if (eseries->chart_group != s->plot_counter)
 					continue;
@@ -2332,10 +2338,10 @@ BC_R(end)(XLChartHandler const *handle,
 					is_matrix = FALSE;
 					break;
 				}
-				expr = gnm_go_data_get_expr (cur);
-				if (!gnm_expr_is_rangeref (expr))
+				texpr = gnm_go_data_get_expr (cur);
+				if (!gnm_expr_top_is_rangeref (texpr))
 					goto not_a_matrix;
-				value = gnm_expr_get_range (expr);
+				value = gnm_expr_top_get_range (texpr);
 				if ((as_col && (value->v_range.cell.a.col != col ||
 						value->v_range.cell.a.row != row_start)) ||
 						(! as_col && (value->v_range.cell.a.col != col_start ||
@@ -2347,7 +2353,7 @@ BC_R(end)(XLChartHandler const *handle,
 				value_release (value);
 				cur = eseries->data [GOG_MS_DIM_CATEGORIES].data;
 				if (!cur ||
-					!gnm_expr_equal (gnm_go_data_get_expr (cur), cat_expr)) {
+				    !gnm_expr_top_equal (gnm_go_data_get_expr (cur), cat_expr)) {
 					is_matrix = FALSE;
 					break;
 				}
@@ -2356,11 +2362,11 @@ BC_R(end)(XLChartHandler const *handle,
 					is_matrix = FALSE;
 					break;
 				}
-				expr = gnm_go_data_get_expr (cur);
-				if (!gnm_expr_is_rangeref (expr))
+				texpr = gnm_go_data_get_expr (cur);
+				if (!gnm_expr_top_is_rangeref (texpr))
 					goto not_a_matrix;
 
-				value = gnm_expr_get_range (expr);
+				value = gnm_expr_top_get_range (texpr);
 				if ((as_col && (value->v_range.cell.a.col != col ||
 						value->v_range.cell.b.col != col ||
 						value->v_range.cell.a.row != row ||
@@ -2400,7 +2406,7 @@ BC_R(end)(XLChartHandler const *handle,
 					vector.end.row = last;
 					gog_series_set_dim (series, 1,
 						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_new_constant (
+							gnm_expr_top_new_constant (
 								value_new_cellrange_r (sheet, &vector))), NULL);
 					col_start++;
 					vector.start.col = col_start;
@@ -2408,7 +2414,7 @@ BC_R(end)(XLChartHandler const *handle,
 					vector.end.col = col;
 					gog_series_set_dim (series, 0,
 						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_new_constant (
+							gnm_expr_top_new_constant (
 								value_new_cellrange_r (sheet, &vector))), NULL);
 
 					row_start++;
@@ -2416,7 +2422,7 @@ BC_R(end)(XLChartHandler const *handle,
 					vector.end.row = last;
 					gog_series_set_dim (series, 2,
 						gnm_go_data_matrix_new_expr (sheet,
-							gnm_expr_new_constant (
+							gnm_expr_top_new_constant (
 								value_new_cellrange_r (sheet, &vector))), NULL);
 				} else {
 					row--;
@@ -2425,7 +2431,7 @@ BC_R(end)(XLChartHandler const *handle,
 					vector.end.col = last;
 					gog_series_set_dim (series, 0,
 						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_new_constant (
+							gnm_expr_top_new_constant (
 								value_new_cellrange_r (sheet, &vector))), NULL);
 					row_start++;
 					vector.start.row = row_start;
@@ -2433,14 +2439,14 @@ BC_R(end)(XLChartHandler const *handle,
 					vector.end.row = row;
 					gog_series_set_dim (series, 1,
 						gnm_go_data_vector_new_expr (sheet,
-							gnm_expr_new_constant (
+							gnm_expr_top_new_constant (
 								value_new_cellrange_r (sheet, &vector))), NULL);
 					col_start++;
 					vector.start.col = col_start;
 					vector.end.col = last;
 					gog_series_set_dim (series, 2,
 						gnm_go_data_matrix_new_expr (sheet,
-							gnm_expr_new_constant (
+							gnm_expr_top_new_constant (
 								value_new_cellrange_r (sheet, &vector))), NULL);
 				}
 			} else {
@@ -2867,8 +2873,8 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 				series->reg_dims[0] = NULL;
 			} else if (go_finite (series->reg_min)) {
 				GnmValue *value = value_new_float (series->reg_min);
-				GnmExpr const *expr = gnm_expr_new_constant (value);
-				GOData *data = gnm_go_data_scalar_new_expr (sheet, expr);
+				GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
+				GOData *data = gnm_go_data_scalar_new_expr (sheet, texpr);
 				gog_dataset_set_dim (GOG_DATASET (rc), 0, data, NULL);
 			}
 			if (series->reg_dims[1]){
@@ -2876,8 +2882,8 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 				series->reg_dims[1] = NULL;
 			} else if (go_finite (series->reg_max)) {
 				GnmValue *value = value_new_float (series->reg_max);
-				GnmExpr const *expr = gnm_expr_new_constant (value);
-				GOData *data = gnm_go_data_scalar_new_expr (sheet, expr);
+				GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
+				GOData *data = gnm_go_data_scalar_new_expr (sheet, texpr);
 				gog_dataset_set_dim (GOG_DATASET (rc), 1, data, NULL);
 			}
 		}
@@ -2924,7 +2930,6 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 
 	sheet = ms_container_sheet (state->container.parent);
 	if (sheet && parent && prop_name) {
-		GnmExpr const *expr;
 		GogErrorBar   *error_bar;
 		GOData	      *data;
 
@@ -2944,22 +2949,26 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 			g_object_unref (error_bar->style);
 		error_bar->style = gog_style_dup (series->style);						
 		switch (series->err_src) {
-		case 1:
+		case 1: {
 			/* percentage */
+			GnmExprTop const *texpr =
+				gnm_expr_top_new_constant (
+					value_new_float (series->err_val));
 			error_bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
-			expr = gnm_expr_new_constant (
-						value_new_float (series->err_val));
-			data = gnm_go_data_vector_new_expr (sheet, expr);
+			data = gnm_go_data_vector_new_expr (sheet, texpr);
 			XL_gog_series_set_dim (parent->series, msdim, data);
 			break;
-		case 2:
+		}
+		case 2: {
 			/* fixed value */
+			GnmExprTop const *texpr =
+				gnm_expr_top_new_constant (
+					value_new_float (series->err_val));
 			error_bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
-			expr = gnm_expr_new_constant (
-						value_new_float (series->err_val));
-			data = gnm_go_data_vector_new_expr (sheet, expr);
+			data = gnm_go_data_vector_new_expr (sheet, texpr);
 			XL_gog_series_set_dim (parent->series, msdim, data);
 			break;
+		}
 		case 3:
 			/* not supported */
 			break;
@@ -2972,10 +2981,11 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 				XL_gog_series_set_dim (parent->series, msdim,
 							series->data[orig_dim].data);
 				series->data[orig_dim].data = NULL;
-			} else if (series->data [orig_dim].value) {
-				expr = gnm_expr_new_constant ((GnmValue *)
-							series->data[orig_dim].value);
-				data = gnm_go_data_vector_new_expr (sheet, expr);
+			} else if (series->data[orig_dim].value) {
+				GnmExprTop const *texpr =
+					gnm_expr_top_new_constant ((GnmValue *)
+								   series->data[orig_dim].value);
+				data = gnm_go_data_vector_new_expr (sheet, texpr);
 				XL_gog_series_set_dim (parent->series, msdim, data);
 			}
 			break;
@@ -3207,7 +3217,6 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 		if (series != NULL) {
 			Sheet *sheet = ms_container_sheet (state.container.parent);
-			GnmExpr const *expr;
 			GOData	      *data;
 
 			if (series->chart_group < 0 && BC_R(ver)(&state) >= MS_BIFF_V5) {
@@ -3218,13 +3227,14 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 					xl_chart_import_error_bar (&state, series);
 			}
 			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ )
-				if (NULL != series->data [j].value &&
-				    NULL != (expr = gnm_expr_new_constant ((GnmValue *)series->data [j].value))) {
+				if (NULL != series->data [j].value) {
+					GnmExprTop const *texpr =
+						gnm_expr_top_new_constant ((GnmValue *)series->data [j].value);
 					if (sheet == NULL || series->series == NULL) {
-						gnm_expr_unref (expr);
+						gnm_expr_top_unref (texpr);
 						continue;
 					}
-					data = gnm_go_data_vector_new_expr (sheet, expr);
+					data = gnm_go_data_vector_new_expr (sheet, texpr);
 					if (series->extra_dim == 0)
 						XL_gog_series_set_dim (series->series, j, data);
 					else if (j == GOG_MS_DIM_VALUES)
@@ -3610,12 +3620,12 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 {
 	guint8 buf[8], lendat[2];
 	unsigned len;
-	GnmExpr const *expr = NULL;
+	GnmExprTop const *texpr = NULL;
 	GnmValue const *value = NULL;
 
 	if (dim != NULL) {
-		expr = gnm_go_data_get_expr (dim);
-		if ((value = gnm_expr_get_range (expr)) != NULL) {
+		texpr = gnm_go_data_get_expr (dim);
+		if ((value = gnm_expr_top_get_range (texpr)) != NULL) {
 			GType const t = G_OBJECT_TYPE (dim);
 			value_release ((GnmValue*) value);
 			value = NULL;
@@ -3623,7 +3633,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 			if (t == GNM_GO_DATA_SCALAR_TYPE ||
 			    t == GNM_GO_DATA_VECTOR_TYPE)
 				ref_type = 2;
-		} else if ((value = gnm_expr_get_constant (expr)) != NULL)
+		} else if ((value = gnm_expr_top_get_constant (texpr)))
 			ref_type = 1;
 	}
 	ms_biff_put_var_next (s->bp, BIFF_CHART_ai);
@@ -3638,7 +3648,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 	ms_biff_put_var_write (s->bp, buf, 8);
 
 	if (ref_type == 2) {
-		len = excel_write_formula (s->ewb, expr,
+		len = excel_write_formula (s->ewb, texpr->expr,
 			gnm_go_data_get_sheet (dim),
 			0, 0, EXCEL_CALLED_FROM_NAME);
 		ms_biff_put_var_seekto (s->bp, 6);
@@ -3989,16 +3999,15 @@ chart_write_reg_curve (XLChartWriteState *s, GogRegCurve *rc, unsigned n, unsign
 		GOData *dat0 = gog_dataset_get_dim (GOG_DATASET (rc), 0),
 			*dat1 = gog_dataset_get_dim (GOG_DATASET (rc), 1);
 		gboolean range0, range1;
-		GnmExpr const *expr;
 		GnmValue *val0 = NULL, *val1 = NULL; /* initialized to make gcc happy */
 		if (dat0) {
-			expr = gnm_go_data_get_expr (dat0);
-			range0 = ((val0 = gnm_expr_get_range (expr)) != NULL);
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat0);
+			range0 = ((val0 = gnm_expr_top_get_range (texpr)) != NULL);
 		} else
 			range0 = FALSE;
 		if (dat1) {
-			expr = gnm_go_data_get_expr (dat1);
-			range1 = ((val1 = gnm_expr_get_range (expr)) != NULL);
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat1);
+			range1 = ((val1 = gnm_expr_top_get_range (texpr)) != NULL);
 		} else
 			range1 = FALSE;
 		if (range0 || range1) {
@@ -5007,7 +5016,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				if (ser != NULL) {
 					gboolean as_col, s_as_col;
 					gboolean s_is_rc, mat_is_rc;
-					GnmExpr const *sexpr, *matexpr;
+					GnmExprTop const *stexpr;
+					GnmExprTop const *mattexpr;
 					GnmValue const *sval, *matval;
 					GnmValue *val;
 					GogSeries *serbuf;
@@ -5018,12 +5028,12 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					GogPlot *plotbuf = (GogPlot*) gog_plot_new_by_name ("XLContourPlot");
 					Sheet *sheet = sheet_object_get_sheet (so);
 					g_object_get (G_OBJECT (plots->data), "transposed", &as_col, NULL);
-					matexpr = gnm_go_data_get_expr (mat);
-					mat_is_rc = gnm_expr_is_rangeref (matexpr);
+					mattexpr = gnm_go_data_get_expr (mat);
+					mat_is_rc = gnm_expr_top_is_rangeref (mattexpr);
 					if (mat_is_rc) {
-						matval = gnm_expr_get_range (matexpr);
+						matval = gnm_expr_top_get_range (mattexpr);
 					} else {
-						matval = gnm_expr_get_constant (matexpr);
+						matval = gnm_expr_top_get_constant (mattexpr);
 					}
 					if (as_col) {
 						c = ser->values[1].data;
@@ -5033,8 +5043,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 						s = ser->values[1].data;
 					}
 					sn = go_data_vector_get_len (GO_DATA_VECTOR (s));
-					sexpr = gnm_go_data_get_expr (s);
-					s_is_rc = gnm_expr_is_rangeref (sexpr);
+					stexpr = gnm_go_data_get_expr (s);
+					s_is_rc = gnm_expr_top_is_rangeref (stexpr);
 					if (mat_is_rc) {
 						if (as_col) {
 							vector.start.row = matval->v_range.cell.a.row;
@@ -5048,7 +5058,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					} else {
 					}
 					if (s_is_rc) {
-						sval = gnm_expr_get_range (sexpr);
+						sval = gnm_expr_top_get_range (stexpr);
 						s_as_col = sval->v_range.cell.a.col == sval->v_range.cell.b.col;
 						if (s_as_col) {
 							svec.start.col = svec.end.col = sval->v_range.cell.a.col;
@@ -5058,7 +5068,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 							scur = sval->v_range.cell.a.col;
 						}
 					} else {
-						sval = gnm_expr_get_constant (sexpr);
+						sval = gnm_expr_top_get_constant (stexpr);
 						s_as_col = sval->v_array.y > sval->v_array.x;
 					}
 					n = (as_col)? size.columns: size.rows;
@@ -5078,14 +5088,14 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 									svec.start.col = svec.end.col = scur++;
 								gog_series_set_dim (serbuf, -1,
 									gnm_go_data_scalar_new_expr (sheet,
-										gnm_expr_new_constant (
+										gnm_expr_top_new_constant (
 											value_new_cellrange_r (sheet, &svec))), NULL);
 							} else {
 								val = value_dup ((s_as_col)? sval->v_array.vals[0][i]:
 											sval->v_array.vals[i][0]);
 								gog_series_set_dim (serbuf, -1,
 									gnm_go_data_scalar_new_expr (sheet,
-										gnm_expr_new_constant ( val)), NULL);
+										gnm_expr_top_new_constant ( val)), NULL);
 							}
 						}
 						if (mat_is_rc) {
@@ -5095,7 +5105,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 								vector.start.row = vector.end.row = cur++;
 							gog_series_set_dim (serbuf, 1,
 								gnm_go_data_vector_new_expr (sheet,
-									gnm_expr_new_constant (
+									gnm_expr_top_new_constant (
 										value_new_cellrange_r (sheet, &vector))), NULL);
 						} else {
 							val = value_new_array (m, 1);
@@ -5106,7 +5116,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 								}
 							gog_series_set_dim (serbuf, 1,
 								gnm_go_data_vector_new_expr (sheet,
-									gnm_expr_new_constant (val)), NULL);
+									gnm_expr_top_new_constant (val)), NULL);
 						}
 					}
 					if (mat_is_rc)

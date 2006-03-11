@@ -1359,7 +1359,7 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 				vector.start.col = vector.end.col = start_col - 1;
 				gog_series_set_dim (series, cur_dim - 1,
 					gnm_go_data_vector_new_expr (sheet,
-						gnm_expr_new_constant (
+						gnm_expr_top_new_constant (
 							value_new_cellrange_r (sheet, &vector))), NULL);
 			}
 			vector.start.row = vector.end.row  = start_row - 1;
@@ -1368,14 +1368,14 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 			/* we assume that there are at most three dims (X, Y and Z) */
 			gog_series_set_dim (series, 0,
 				gnm_go_data_vector_new_expr (sheet,
-					gnm_expr_new_constant (
+					gnm_expr_top_new_constant (
 						value_new_cellrange_r (sheet, &vector))), NULL);
 		}
 		vector.start.row = start_row;
 		vector.end.row = end_row;
 		gog_series_set_dim (series, cur_dim,
 			gnm_go_data_matrix_new_expr (sheet,
-				gnm_expr_new_constant (
+				gnm_expr_top_new_constant (
 					value_new_cellrange_r (sheet, &vector))), NULL);
 		return;
 	}
@@ -1436,7 +1436,7 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 
 			gog_series_set_dim (series, cur_dim,
 				gnm_go_data_vector_new_expr (sheet,
-					gnm_expr_new_constant (
+					gnm_expr_top_new_constant (
 						value_new_cellrange_r (sheet, &vector))), NULL);
 
 			if (has_header && first_value_dim &&
@@ -1444,7 +1444,7 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 				first_value_dim = FALSE;
 				gog_series_set_name (series,
 					GO_DATA_SCALAR (gnm_go_data_scalar_new_expr (sheet,
-						gnm_expr_new_cellref (&header))), NULL);
+						gnm_expr_top_new (gnm_expr_new_cellref (&header)))), NULL);
 			}
 
 			cur_dim++;

@@ -231,7 +231,7 @@ cb_get_content (Sheet *sheet, int col, int row,
 		char *tmp;
 		if (cell_has_expr (cell)) {
 			GnmParsePos pp;
-			tmp = gnm_expr_as_string (cell->base.expression,
+			tmp = gnm_expr_top_as_string (cell->base.texpr,
 				parse_pos_init_cell (&pp, cell),
 				gnm_expr_conventions_default);
 		} else if (VALUE_FMT (cell->value) != NULL)

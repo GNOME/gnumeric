@@ -957,7 +957,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	cell = sheet_cell_get (sv_sheet (sv), sv->edit_pos.col, sv->edit_pos.row);
 	if (cell != NULL && cell_has_expr (cell))
-		expr = gnm_expr_first_func (cell->base.expression);
+		expr = gnm_expr_top_first_funcall (cell->base.texpr);
 
 	if (expr == NULL) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);

@@ -28,7 +28,8 @@ guint32 excel_write_formula    (ExcelWriteState *ewb, GnmExpr const *expr,
 				ExcelFuncContext context);
 
 void excel_write_prep_expressions (ExcelWriteState *ewb);
-void excel_write_prep_expr  	  (ExcelWriteState *ewb, GnmExpr const *expr);
+void excel_write_prep_expr  	  (ExcelWriteState *ewb,
+				   GnmExprTop const *texpr);
 void excel_write_prep_sheet	  (ExcelWriteState *ewb, Sheet const *sheet);
 
 #endif /* GNM_MS_FORMULA_W_H */

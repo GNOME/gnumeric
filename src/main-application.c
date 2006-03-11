@@ -526,3 +526,8 @@ main (int argc, char **argv)
 
 	return 0;
 }
+
+#if 0
+/* A handy way of telling valgrind to produce good leak reports.  */
+gboolean g_module_close (GModule *module) { return FALSE; }
+#endif

@@ -173,12 +173,12 @@ oleo_get_gnumeric_expr (char const *o_expr,
 }
 
 
-static GnmExpr const *
+static GnmExprTop const *
 oleo_parse_formula (OleoParseState *state, char const *text, int col, int row)
 {
 	GnmParsePos pos;
 	GnmParseError error;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	char *gnumeric_text;
 
 	GnmCell const *cell = sheet_cell_fetch (state->sheet,
@@ -187,7 +187,7 @@ oleo_parse_formula (OleoParseState *state, char const *text, int col, int row)
 	parse_pos_init_cell (&pos, cell);
 
 	gnumeric_text = oleo_get_gnumeric_expr (text, &pos);
-	expr = gnm_expr_parse_str (gnumeric_text,
+	texpr = gnm_expr_parse_str (gnumeric_text,
 				   &pos, GNM_EXPR_PARSE_DEFAULT,
 				   state->exprconv, parse_error_init (&error));
 
@@ -199,14 +199,14 @@ oleo_parse_formula (OleoParseState *state, char const *text, int col, int row)
 	g_free (gnumeric_text);
 	parse_error_free (&error);
 
-	return expr;
+	return texpr;
 }
 
 static void
 oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, GnmStyle *style)
 {
 	GnmCell *cell;
-	GnmExpr const *expr = NULL;
+	GnmExprTop const *texpr = NULL;
 	char *ptr = str + 1, *cval = NULL, *formula = NULL;
 
 	while (*ptr) {
@@ -252,7 +252,7 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 		OLEO_TO_GNUMERIC (*ccol), OLEO_TO_GNUMERIC (*crow));
 
 	if (formula != NULL)
-		expr = oleo_parse_formula (state, formula, *ccol, *crow);
+		texpr = oleo_parse_formula (state, formula, *ccol, *crow);
 
 	if (cval != NULL) {
 		GnmValue *val = format_match_simple (cval);
@@ -266,8 +266,8 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 				val = value_new_string (cval);
 		}
 
-		if (expr != NULL)
-			cell_set_expr_and_value (cell, expr, val, TRUE);
+		if (texpr != NULL)
+			cell_set_expr_and_value (cell, texpr, val, TRUE);
 		else
 			cell_set_value (cell, val);
 
@@ -279,11 +279,11 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 		g_warning ("oleo: cval is NULL.");
 #endif
 		/* We can still store the expression, even if the value is missing */
-		if (expr != NULL)
-			cell_set_expr (cell, expr);
+		if (texpr != NULL)
+			cell_set_expr (cell, texpr);
 	}
-	if (expr)
-		gnm_expr_unref (expr);
+	if (texpr)
+		gnm_expr_top_unref (texpr);
 }
 
 

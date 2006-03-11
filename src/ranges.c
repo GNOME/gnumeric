@@ -1216,23 +1216,25 @@ GSList *
 global_range_list_parse (Sheet *sheet, char const *str)
 {
 	GnmParsePos  pp;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GSList   *ranges = NULL;
 	GnmValue	 *v;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	expr = gnm_expr_parse_str (str,
-		parse_pos_init_sheet (&pp, sheet),
-		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
-		GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS |
-		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
-		gnm_expr_conventions_default,
-		NULL);
+	texpr = gnm_expr_parse_str
+		(str,
+		 parse_pos_init_sheet (&pp, sheet),
+		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
+		 GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS |
+		 GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
+		 gnm_expr_conventions_default,
+		 NULL);
 
-	if (expr != NULL)  {
-		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_SET) {
+	if (texpr != NULL)  {
+		if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_SET) {
+			GnmExpr const *expr = texpr->expr;
 			int i;
 			for (i = 0; i < expr->set.argc; i++) {
 				v = gnm_expr_get_range (expr->set.argv[i]);
@@ -1244,11 +1246,11 @@ global_range_list_parse (Sheet *sheet, char const *str)
 					ranges = g_slist_prepend (ranges, v);
 			}
 		} else {
-			v = gnm_expr_get_range (expr);
+			v = gnm_expr_top_get_range (texpr);
 			if (v != NULL)
 				ranges = g_slist_prepend (ranges, v);
 		}
-		gnm_expr_unref (expr);
+		gnm_expr_top_unref (texpr);
 	}
 
 	return g_slist_reverse (ranges);

@@ -263,7 +263,7 @@ typedef struct {
 	struct {
 		char            *title;
 		char            *msg;
-		GnmExpr	const	*expr [2];
+		GnmExprTop const *texpr[2];
 		ValidationStyle  style;
 		ValidationType	 type;
 		ValidationOp	 op;
@@ -1014,8 +1014,8 @@ xml_sax_validation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	g_return_if_fail (state->validation.title == NULL);
 	g_return_if_fail (state->validation.msg == NULL);
-	g_return_if_fail (state->validation.expr[0] == NULL);
-	g_return_if_fail (state->validation.expr[1] == NULL);
+	g_return_if_fail (state->validation.texpr[0] == NULL);
+	g_return_if_fail (state->validation.texpr[1] == NULL);
 
 	state->validation.style = VALIDATION_STYLE_NONE;
 	state->validation.type = VALIDATION_TYPE_ANY;
@@ -1056,8 +1056,8 @@ xml_sax_validation_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 				state->validation.op,
 				state->validation.title,
 				state->validation.msg,
-				state->validation.expr[0],
-				state->validation.expr[1],
+				state->validation.texpr[0],
+				state->validation.texpr[1],
 				state->validation.allow_blank,
 				state->validation.use_dropdown));
 
@@ -1065,7 +1065,7 @@ xml_sax_validation_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->validation.title = NULL;
 	g_free (state->validation.msg);
 	state->validation.msg = NULL;
-	state->validation.expr[0] = state->validation.expr[1] = NULL;
+	state->validation.texpr[0] = state->validation.texpr[1] = NULL;
 }
 
 static void
@@ -1074,17 +1074,17 @@ xml_sax_validation_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
 
 	int const i = gsf_state->node->user_data.v_int;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmParsePos pos;
 
-	g_return_if_fail (state->validation.expr [i] == NULL);
+	g_return_if_fail (state->validation.texpr[i] == NULL);
 
-	expr = gnm_expr_parse_str_simple (gsf_state->content->str,
+	texpr = gnm_expr_parse_str_simple (gsf_state->content->str,
 		parse_pos_init_sheet (&pos, state->sheet));
 
-	g_return_if_fail (expr != NULL);
+	g_return_if_fail (texpr != NULL);
 
-	state->validation.expr [i] = expr;
+	state->validation.texpr[i] = texpr;
 }
 
 static void
@@ -1094,8 +1094,8 @@ xml_sax_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	int dummy;
 
-	g_return_if_fail (state->cond.expr[0] == NULL);
-	g_return_if_fail (state->cond.expr[1] == NULL);
+	g_return_if_fail (state->cond.texpr[0] == NULL);
+	g_return_if_fail (state->cond.texpr[1] == NULL);
 
 	state->cond.op = GNM_STYLE_COND_CUSTOM;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1119,7 +1119,7 @@ xml_sax_condition_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 			(sc = gnm_style_conditions_new ()));
 	gnm_style_conditions_insert (sc, &state->cond, -1);
 
-	state->cond.expr[0] = state->cond.expr[1] = NULL;
+	state->cond.texpr[0] = state->cond.texpr[1] = NULL;
 }
 
 static void
@@ -1128,17 +1128,17 @@ xml_sax_condition_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
 
 	int const i = gsf_state->node->user_data.v_int;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmParsePos pos;
 
-	g_return_if_fail (state->cond.expr [i] == NULL);
+	g_return_if_fail (state->cond.texpr[i] == NULL);
 
-	expr = gnm_expr_parse_str_simple (gsf_state->content->str,
+	texpr = gnm_expr_parse_str_simple (gsf_state->content->str,
 		parse_pos_init_sheet (&pos, state->sheet));
 
-	g_return_if_fail (expr != NULL);
+	g_return_if_fail (texpr != NULL);
 
-	state->cond.expr [i] = expr;
+	state->cond.texpr[i] = texpr;
 }
 
 static void
@@ -1290,14 +1290,14 @@ xml_cell_set_array_expr (GnmCell *cell, char const *text,
 			 int const cols, int const rows)
 {
 	GnmParsePos pp;
-	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
+	GnmExprTop const *texpr = gnm_expr_parse_str_simple (text,
 		parse_pos_init_cell (&pp, cell));
 
-	g_return_if_fail (expr != NULL);
+	g_return_if_fail (texpr != NULL);
 	cell_set_array_formula (cell->base.sheet,
 				cell->pos.col, cell->pos.row,
 				cell->pos.col + cols-1, cell->pos.row + rows-1,
-				expr);
+				texpr);
 }
 
 /**
@@ -1362,8 +1362,6 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const expr_id = state->expr_id;
 	int const value_type = state->value_type;
 	GOFormat *value_fmt = state->value_fmt;
-	gpointer const id = GINT_TO_POINTER (expr_id);
-	gpointer expr = NULL;
 
 	/* Clean out the state before any error checking */
 	state->cell.row = state->cell.col = -1;
@@ -1381,9 +1379,6 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (cell == NULL)
 		return;
-
-	if (expr_id > 0)
-		expr = g_hash_table_lookup (state->expr_map, id);
 
 	is_post_52_array = (array_cols > 0) && (array_rows > 0);
 
@@ -1411,23 +1406,23 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		if (expr_id > 0) {
 			gpointer id = GINT_TO_POINTER (expr_id);
-			gpointer expr =
+			GnmExprTop const *texpr =
 				g_hash_table_lookup (state->expr_map, id);
-			if (expr == NULL) {
+			if (texpr == NULL) {
 				if (cell_has_expr (cell))
 					g_hash_table_insert (state->expr_map, id,
-							     (gpointer)cell->base.expression);
+							     (gpointer)cell->base.texpr);
 				else
-					g_warning ("XML-IO : Shared expression with no expession ??");
+					g_warning ("XML-IO : Shared expression with no expression ??");
 			} else if (!is_post_52_array)
 				g_warning ("XML-IO : Duplicate shared expression");
 		}
 	} else if (expr_id > 0) {
-		gpointer expr = g_hash_table_lookup (state->expr_map,
+		GnmExprTop const *texpr = g_hash_table_lookup (state->expr_map,
 			GINT_TO_POINTER (expr_id));
 
-		if (expr != NULL)
-			cell_set_expr (cell, expr);
+		if (texpr != NULL)
+			cell_set_expr (cell, texpr);
 		else
 			g_warning ("XML-IO : Missing shared expression");
 	} else if (is_new_cell)
@@ -1555,7 +1550,7 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	GnmParseError  perr;
 	GnmParsePos    pos;
-	GnmExpr const	*expr;
+	GnmExprTop const *texpr;
 
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
@@ -1571,21 +1566,26 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 
 	parse_error_init (&perr);
-	expr = gnm_expr_parse_str (state->name.value, &pos,
+	texpr = gnm_expr_parse_str (state->name.value, &pos,
 				   GNM_EXPR_PARSE_DEFAULT,
 				   gnm_expr_conventions_default, &perr);
-	if (expr != NULL) {
+	if (texpr != NULL) {
 		char *err = NULL;
-		expr_name_add (&pos, state->name.name, expr, &err, TRUE, NULL);
+		expr_name_add (&pos, state->name.name,
+			       texpr,
+			       &err, TRUE, NULL);
 		if (err != NULL) {
 			gnm_io_warning (state->context, err);
 			g_free (err);
 		}
 	} else
-		state->delayed_names = g_list_prepend (state->delayed_names,
-			expr_name_add (&pos, state->name.name, 
-				gnm_expr_new_constant (value_new_string (state->name.value)),
-				NULL, TRUE, NULL));
+		state->delayed_names =
+			g_list_prepend (state->delayed_names,
+			expr_name_add (&pos,
+				       state->name.name, 
+				       gnm_expr_top_new_constant
+				       (value_new_string (state->name.value)),
+				       NULL, TRUE, NULL));
 
 	parse_error_free (&perr);
 
@@ -1946,7 +1946,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.value_type = -1;
 	state.value_fmt = NULL;
 	state.validation.title = state.validation.msg = NULL;
-	state.validation.expr[0] = state.validation.expr[1] = NULL;
+	state.validation.texpr[0] = state.validation.texpr[1] = NULL;
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.delayed_names = NULL;
 	state.so = NULL;

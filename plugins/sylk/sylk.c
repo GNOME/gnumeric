@@ -124,7 +124,7 @@ sylk_parse_value (SylkReadState *state, char const *str)
 	return value_new_string_nocopy (sylk_parse_string (str));
 }
 
-static GnmExpr *
+static GnmExprTop *
 sylk_parse_expr (SylkReadState *state, char const *str)
 {
 	g_print ("%s\n", str);
@@ -140,7 +140,7 @@ static gboolean
 sylk_rtd_c_parse (SylkReadState *state, char *str)
 {
 	GnmValue *val = NULL;
-	GnmExpr  *expr = NULL;
+	GnmExprTop const *texpr = NULL;
 	gboolean is_array = FALSE;
 	int r = -1, c = -1;
 	char *next;
@@ -161,22 +161,20 @@ sylk_rtd_c_parse (SylkReadState *state, char *str)
 			break;
 
 		case 'E':
-			if (expr != NULL) {
+			if (texpr != NULL) {
 				g_warning ("Multiple expressions");
-				gnm_expr_unref (expr);
-				expr = NULL;
+				gnm_expr_top_unref (texpr);
 			}
-			expr = sylk_parse_expr (state, str+1);
+			texpr = sylk_parse_expr (state, str+1);
 			break;
 		case 'M' : /* ;M exp: Expression stored with UL corner of matrix (;R ;C defines
 		  the lower right corner).  If the ;M field is supported, the
 		  ;K record is ignored.  Note that no ;E field is written. */
-			if (expr != NULL) {
+			if (texpr != NULL) {
 				g_warning ("Multiple expressions");
-				gnm_expr_unref (expr);
-				expr = NULL;
+				gnm_expr_top_unref (texpr);
 			}
-			expr = sylk_parse_expr (state, str+1);
+			texpr = sylk_parse_expr (state, str+1);
 			is_array = TRUE;
 			break;
 
@@ -218,7 +216,7 @@ sylk_rtd_c_parse (SylkReadState *state, char *str)
 		}
 	}
 
-	if (val != NULL || expr != NULL) {
+	if (val != NULL || texpr != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->sheet,
 			state->col - 1, state->row - 1);
 
@@ -228,12 +226,13 @@ sylk_rtd_c_parse (SylkReadState *state, char *str)
 			value_set_fmt (val, gnm_style_get_format (style));
 		}
 
-		if (expr != NULL) {
+		if (texpr != NULL) {
 			if (val != NULL)
-				cell_set_expr_and_value (cell, expr, val, TRUE);
+				cell_set_expr_and_value
+					(cell, texpr, val, TRUE);
 			else
-				cell_set_expr (cell, expr);
-			gnm_expr_unref (expr);
+				cell_set_expr (cell, texpr);
+			gnm_expr_top_unref (texpr);
 		} else if (is_array)
 			cell_assign_value (cell, val);
 		else

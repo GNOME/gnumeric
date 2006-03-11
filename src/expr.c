@@ -399,18 +399,20 @@ gnm_expr_new_set (GnmExprList *set)
 
 /***************************************************************************/
 
-/**
- * gnm_expr_ref:
- * Increments the ref_count for an expression node.
- */
-void
-gnm_expr_ref (GnmExpr const *expr)
+/* This will become a deep copy when we kill the ref-counting.  */
+GnmExpr const *
+gnm_expr_copy (GnmExpr const *expr)
 {
-	g_return_if_fail (expr != NULL);
-	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) > 0);
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	/* Temporary check which would fail for a texpr.  */
+	g_return_val_if_fail (GNM_EXPR_GET_REFCOUNT (expr) > 0, NULL);
+	g_return_val_if_fail (GNM_EXPR_GET_REFCOUNT (expr) < 10000, NULL);
 
 	/* We're screwed if the refcount overflows.  */
 	((GnmExpr *)expr)->oper_and_refcount++;
+
+	return expr;
 }
 
 static void
@@ -418,6 +420,9 @@ do_gnm_expr_unref (GnmExpr const *expr)
 {
 	/* We're screwed if the refcount underflows.  */
 	((GnmExpr *)expr)->oper_and_refcount--;
+
+	/* Temporary check which would fail for a texpr.  */
+	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) < 10000);
 
 	if (GNM_EXPR_GET_REFCOUNT (expr) > 0)
 		return;
@@ -502,22 +507,13 @@ gnm_expr_unref (GnmExpr const *expr)
 	g_return_if_fail (expr != NULL);
 	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) > 0);
 
+	/* Temporary check which would fail for a texpr.  */
+	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) < 10000);
+
 	if (GNM_EXPR_GET_REFCOUNT (expr) == 1)
 		do_gnm_expr_unref (expr);
 	else
 		((GnmExpr *)expr)->oper_and_refcount--;
-}
-
-/**
- * gnm_expr_is_shared : Returns TRUE if the reference count
- *   for the supplied expression is > 1
- */
-gboolean
-gnm_expr_is_shared (GnmExpr const *expr)
-{
-	g_return_val_if_fail (expr != NULL, FALSE);
-
-	return (GNM_EXPR_GET_REFCOUNT (expr) > 1);
 }
 
 /**
@@ -526,7 +522,7 @@ gnm_expr_is_shared (GnmExpr const *expr)
  *   Named expressions must refer the the same name, having equivalent names is
  *   insufficeient.
  */
-gboolean
+static gboolean
 gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 {
 	if (a == b)
@@ -612,8 +608,8 @@ array_elem_get_corner (GnmExprArrayElem const *elem,
 	/* Sanity check incase the corner gets removed for some reason */
 	g_return_val_if_fail (corner != NULL, NULL);
 	g_return_val_if_fail (cell_has_expr (corner), NULL);
-	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (GNM_EXPR_GET_OPER (corner->base.expression) == GNM_EXPR_OP_ARRAY_CORNER, NULL);
+	g_return_val_if_fail (corner->base.texpr != (void *)0xdeadbeef, NULL);
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (corner->base.texpr), NULL);
 
 	return corner;
 }
@@ -661,7 +657,8 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active)
 			return TRUE;
-		return gnm_expr_extract_ref (res, expr->name.name->expr, pos, flags);
+		return gnm_expr_extract_ref (res, expr->name.name->texpr->expr,
+					     pos, flags);
 	default :
 		break;
 	}
@@ -1465,7 +1462,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			return handle_empty (NULL, flags);
 
 		cell_eval (corner);
-		a = corner->base.expression->array_corner.value;
+		a = corner->base.texpr->expr->array_corner.value;
 
 		if ((a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
 			int const num_x = value_area_get_width (a, pos);
@@ -1664,7 +1661,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 			tmp_pos.eval.col -= expr->array_elem.x;
 			tmp_pos.eval.row -= expr->array_elem.y;
 			do_expr_as_string (target,
-				corner->base.expression->array_corner.expr,
+				corner->base.texpr->expr->array_corner.expr,
 				&tmp_pos, 0, conv);
 			return;
 		}
@@ -1693,16 +1690,6 @@ gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 	res = g_string_new (NULL);
 	do_expr_as_string (res, expr, pp, 0, fmt);
 	return g_string_free (res, FALSE);
-}
-
-void
-gnm_expr_as_gstring (GString *target,
-		     GnmExpr const *expr, GnmParsePos const *pp,
-		     GnmExprConventions const *fmt)
-{
-	g_return_if_fail (expr != NULL);
-	g_return_if_fail (pp != NULL);
-	do_expr_as_string (target, expr, pp, 0, fmt);
 }
 
 typedef enum {
@@ -1942,7 +1929,7 @@ cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
  * references to cells outside the range are adjusted to reference the
  * same cell after the move.
  */
-GnmExpr const *
+static GnmExpr const *
 gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
@@ -1958,9 +1945,9 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			return NULL;
 
 		if (a == NULL)
-			gnm_expr_ref ((a = expr->binary.value_a));
+			a = gnm_expr_copy (expr->binary.value_a);
 		else if (b == NULL)
-			gnm_expr_ref ((b = expr->binary.value_b));
+			b = gnm_expr_copy (expr->binary.value_b);
 
 		return gnm_expr_new_binary (a, GNM_EXPR_GET_OPER (expr), b);
 	}
@@ -1990,10 +1977,8 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			GnmExprList *m = new_args;
 
 			for (i = 0; i < expr->func.argc; i++, m = m->next)
-				if (m->data == NULL) {
-					m->data = (GnmExpr *)expr->func.argv[i];
-					gnm_expr_ref (m->data);
-				}
+				if (m->data == NULL)
+					m->data = (GnmExpr *)gnm_expr_copy (expr->func.argv[i]);
 
 			return gnm_expr_new_funcall (expr->func.func, new_args);
 		}
@@ -2017,10 +2002,8 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			GnmExprList *m = new_set;
 
 			for (i = 0; i < expr->set.argc; i++, m = m->next) {
-				if (m->data == NULL) {
-					m->data = (GnmExpr *)expr->set.argv[i];
-					gnm_expr_ref (m->data);
-				}
+				if (m->data == NULL)
+					m->data = (GnmExpr *)gnm_expr_copy (expr->set.argv[i]);
 			}
 
 			return gnm_expr_new_set (new_set);
@@ -2031,7 +2014,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 
 	case GNM_EXPR_OP_NAME: {
 		GnmNamedExpr *nexpr = expr->name.name;
-		GnmExpr const *tmp;
+		GnmExprTop const *tmp;
 
 		/* we cannot invalidate references to the name that are
 		 * sitting in the undo queue, or the clipboard.  So we just
@@ -2071,9 +2054,9 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		}
 
 		/* Do NOT rewrite the name.  Just invalidate the use of the name */
-		tmp = gnm_expr_rewrite (expr->name.name->expr, rwinfo);
+		tmp = gnm_expr_top_rewrite (expr->name.name->texpr, rwinfo);
 		if (tmp != NULL) {
-			gnm_expr_unref (tmp);
+			gnm_expr_top_unref (tmp);
 			return gnm_expr_new_constant (
 				value_new_error_REF (NULL));
 		}
@@ -2181,28 +2164,10 @@ gnm_expr_get_func_def (GnmExpr const *expr)
 	return expr->func.func;
 }
 
-int
-gnm_expr_get_func_argcount (GnmExpr const *expr)
+
+static GnmExpr const *
+gnm_expr_first_funcall (GnmExpr const *expr)
 {
-	g_return_val_if_fail (expr != NULL, 0);
-	g_return_val_if_fail (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL, 0);
-
-	return expr->func.argc;
-}
-
-
-/**
- * gnm_expr_first_func :
- * @expr :
- *
- */
-GnmExpr const *
-gnm_expr_first_func (GnmExpr const *expr)
-{
-	GnmExpr const *tmp;
-
-	g_return_val_if_fail (expr != NULL, NULL);
-
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	default :
 	case GNM_EXPR_OP_NAME:
@@ -2216,17 +2181,20 @@ gnm_expr_first_func (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		tmp = gnm_expr_first_func (expr->binary.value_a);
-		if (tmp != NULL)
-			return tmp;
-		return gnm_expr_first_func (expr->binary.value_b);
+	case GNM_EXPR_OP_ANY_BINARY: {
+		GnmExpr const *res =
+			gnm_expr_first_funcall (expr->binary.value_a);
+		if (res)
+			return res;
+		else
+			return gnm_expr_first_funcall (expr->binary.value_b);
+	}
 
 	case GNM_EXPR_OP_ANY_UNARY:
-		return gnm_expr_first_func (expr->unary.value);
+		return gnm_expr_first_funcall (expr->unary.value);
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
-		return gnm_expr_first_func (expr->array_corner.expr);
+		return gnm_expr_first_funcall (expr->array_corner.expr);
 	}
 
 	g_assert_not_reached ();
@@ -2326,61 +2294,46 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 }
 
 /**
- * gnm_expr_referenced_sheets :
- * @expr :
- * @sheets : usually NULL.
- *
- * Generates a list of the sheets referenced by the supplied expression.
- * Caller must free the list.
- */
-GSList *
-gnm_expr_referenced_sheets (GnmExpr const *expr)
-{
-	g_return_val_if_fail (expr != NULL, NULL);
-	return do_referenced_sheets (expr, NULL);
-}
-
-/**
  * gnm_expr_containts_subtotal :
  * @expr :
  *
  * return TRUE if the expression calls the SUBTOTAL function
  **/
 gboolean
-gnm_expr_containts_subtotal (GnmExpr const *expr)
+gnm_expr_contains_subtotal (GnmExpr const *expr)
 {
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return gnm_expr_containts_subtotal (expr->binary.value_a) ||
-		       gnm_expr_containts_subtotal (expr->binary.value_b);
+		return gnm_expr_contains_subtotal (expr->binary.value_a) ||
+		       gnm_expr_contains_subtotal (expr->binary.value_b);
 	case GNM_EXPR_OP_ANY_UNARY:
-		return gnm_expr_containts_subtotal (expr->unary.value);
+		return gnm_expr_contains_subtotal (expr->unary.value);
 
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
 		if (!strcmp (expr->func.func->name, "subtotal"))
 			return TRUE;
 		for (i = 0; i < expr->func.argc; i++)
-			if (gnm_expr_containts_subtotal (expr->func.argv[i]))
+			if (gnm_expr_contains_subtotal (expr->func.argv[i]))
 				return TRUE;
 		return FALSE;
 	}
 	case GNM_EXPR_OP_SET: {
 		int i;
 		for (i = 0; i < expr->set.argc; i++)
-			if (gnm_expr_containts_subtotal (expr->set.argv[i]))
+			if (gnm_expr_contains_subtotal (expr->set.argv[i]))
 				return TRUE;
 		return FALSE;
 	}
 
 	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active)
-			return gnm_expr_containts_subtotal (expr->name.name->expr);
+			return gnm_expr_contains_subtotal (expr->name.name->texpr->expr);
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
-		return gnm_expr_containts_subtotal (expr->array_corner.expr);
+		return gnm_expr_contains_subtotal (expr->array_corner.expr);
 
 	case GNM_EXPR_OP_CELLREF:
 	case GNM_EXPR_OP_CONSTANT:
@@ -2390,13 +2343,7 @@ gnm_expr_containts_subtotal (GnmExpr const *expr)
 	return FALSE;
 }
 
-/**
- * gnm_expr_get_boundingbox :
- *
- * Returns the range of cells in which the expression can be used without going
- * out of bounds.
- **/
-void
+static void
 gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 {
 	g_return_if_fail (expr != NULL);
@@ -2480,7 +2427,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active)
 			return NULL;
-		return gnm_expr_get_range (expr->name.name->expr);
+		return gnm_expr_top_get_range (expr->name.name->texpr);
 
 	default:
 		return NULL;
@@ -2531,38 +2478,6 @@ do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
 
 
 /**
- * gnm_expr_get_ranges:
- * @expr :
- *
- * A collect the set of GnmRanges in @expr.
- * Return a list of the unique references Caller is responsible for releasing
- * the list and the content.
- **/
-GSList *
-gnm_expr_get_ranges (GnmExpr const *expr)
-{
-	g_return_val_if_fail (expr != NULL, NULL);
-	return do_gnm_expr_get_ranges (expr, NULL);
-}
-
-/**
- * gnm_expr_get_constant:
- * @expr :
- *
- * If this expression consists of just a constant, return it.
- */
-GnmValue const *
-gnm_expr_get_constant (GnmExpr const *expr)
-{
-	g_return_val_if_fail (expr != NULL, NULL);
-
-	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CONSTANT)
-		return NULL;
-
-	return expr->constant.value;
-}
-
-/**
  * gnm_expr_is_rangeref :
  * @expr :
  *
@@ -2594,7 +2509,7 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active)
-			return gnm_expr_is_rangeref (expr->name.name->expr);
+			return gnm_expr_is_rangeref (expr->name.name->texpr->expr);
 		return FALSE;
 
 	case GNM_EXPR_OP_ARRAY_CORNER: /* I don't think this is possible */
@@ -2602,19 +2517,6 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 	default :
 		return FALSE;
 	}
-}
-
-gboolean
-gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
-{
-	GnmStdError err2;
-	g_return_val_if_fail (expr != NULL, FALSE);
-
-	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CONSTANT)
-		return FALSE;
-
-	err2 = value_error_classify (expr->constant.value);
-	return err == err2;
 }
 
 gboolean
@@ -2832,129 +2734,245 @@ expr_tree_sharer_destroy (ExprTreeSharer *es)
 GnmExpr const *
 expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 {
-	GnmExpr const *e2;
-	gboolean wasshared;
-
-	g_return_val_if_fail (es != NULL, NULL);
-	g_return_val_if_fail (e != NULL, NULL);
-
-	wasshared = gnm_expr_is_shared (e);
-	if (wasshared) {
-		e2 = g_hash_table_lookup (es->ptrs, e);
-		if (e2 != NULL) {
-			gnm_expr_ref (e2);
-			gnm_expr_unref (e);
-			return e2;
-		}
-	}
-
-	es->nodes_in++;
-
-	/* First share all sub-expressions.  */
-	switch (GNM_EXPR_GET_OPER (e)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_ANY_BINARY:
-		((GnmExpr*)e)->binary.value_a =
-			expr_tree_sharer_share (es, e->binary.value_a);
-		((GnmExpr*)e)->binary.value_b =
-			expr_tree_sharer_share (es, e->binary.value_b);
-		break;
-
-	case GNM_EXPR_OP_ANY_UNARY:
-		((GnmExpr*)e)->unary.value =
-			expr_tree_sharer_share (es, e->unary.value);
-		break;
-
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-
-		for (i = 0; i < e->func.argc; i++)
-			e->func.argv[i] = (gpointer)
-				expr_tree_sharer_share (es, e->func.argv[i]);
-		break;
-	}
-
-	case GNM_EXPR_OP_SET: {
-		int i;
-
-		for (i = 0; i < e->set.argc; i++)
-			e->set.argv[i] = (gpointer)
-				expr_tree_sharer_share (es, e->set.argv[i]);
-		break;
-	}
-
-	case GNM_EXPR_OP_ARRAY_CORNER:
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		/*
-		 * I don't want to deal with the complications of arrays
-		 * right here.  Non-corners must point to the corner.
-		 */
-		return e;
-
-	default:
-		break; /* Nothing -- no sub-expressions.  */
-	}
-
-	/* Now look in the hash table.  */
-	e2 = g_hash_table_lookup (es->exprs, e);
-	if (e2 == NULL) {
-#if 0
-		GnmParsePos pp;
-		char *s;
-
-		pp.eval.col = 0;
-		pp.eval.row = 0;
-		pp.sheet = NULL;
-		pp.wb = NULL;
-		s = gnm_expr_as_string (e, &pp, gnm_expr_conventions_default);
-		g_print ("N %p %d -- %u [%s]\n",
-			 e, e->any.ref_count,
-			 ets_hash (e),
-			 s);
-		g_free (s);
-#endif
-
-		/* Not there -- insert it.  */
-		gnm_expr_ref (e);
-		es->nodes_stored++;
-		g_hash_table_insert (es->exprs, (gpointer)e, (gpointer)e);
-		e2 = e;
-	} else {
-#if 0
-		GnmParsePos pp;
-		char *s;
-
-		pp.eval.col = 0;
-		pp.eval.row = 0;
-		pp.sheet = NULL;
-		pp.wb = NULL;
-		s = gnm_expr_as_string (e, &pp, gnm_expr_conventions_default);
-		g_print ("S %p %d -- %u %p %d [%s]\n",
-			 e, e->any.ref_count,
-			 ets_hash (e),
-			 e2, e2->any.ref_count,
-			 s);
-		g_free (s);
-#endif
-
-		/* Found -- share the stored value.  */
-		gnm_expr_ref (e2);
-		gnm_expr_unref (e);
-	}
-
-	/*
-	 * Note: we have to use a variable for this because a non-shared node
-	 * might not exist anymore.
-	 */
-	if (wasshared) {
-		gnm_expr_ref (e);
-		g_hash_table_insert (es->ptrs, (gpointer)e, (gpointer)e2);
-	}
-
-	return e2;
+	return e;
 }
 
 /***************************************************************************/
+
+GnmExprTop const *
+gnm_expr_top_new (GnmExpr const *expr)
+{
+	GnmExprTop *res;
+
+	if (expr == NULL)
+		return NULL;
+
+	res = g_new (GnmExprTop, 1);
+	res->magic = GNM_EXPR_TOP_MAGIC;
+	res->refcount = 1;
+	res->expr = expr;
+	return res;
+}
+
+GnmExprTop const *
+gnm_expr_top_new_constant (GnmValue *v)
+{
+	return gnm_expr_top_new (gnm_expr_new_constant (v));
+}
+
+void
+gnm_expr_top_ref (GnmExprTop const *texpr)
+{
+	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+
+	((GnmExprTop *)texpr)->refcount++;
+}
+
+void
+gnm_expr_top_unref (GnmExprTop const *texpr)
+{
+	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+
+	((GnmExprTop *)texpr)->refcount--;
+	if (texpr->refcount == 0) {
+		gnm_expr_unref (texpr->expr);
+		((GnmExprTop *)texpr)->magic = 0;
+		g_free ((GnmExprTop *)texpr);
+	}
+}
+
+/*
+ * gnm_expr_top_unwrap: undoes the effect of gnm_expr_top_new.
+ *
+ * Note: this will become mildly expensive when subexpressions lose
+ * their refcounting.
+ */
+GnmExpr const *
+gnm_expr_top_unwrap (GnmExprTop const *texpr)
+{
+	GnmExpr const *expr;
+
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	expr = gnm_expr_copy (texpr->expr);
+	gnm_expr_top_unref (texpr);
+	return expr;
+}
+
+gboolean
+gnm_expr_top_is_shared (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+
+	return texpr->refcount > 1;
+}
+
+/**
+ * gnm_expr_top_get_ranges:
+ * @texpr :
+ *
+ * A collect the set of GnmRanges in @expr.
+ * Return a list of the unique references Caller is responsible for releasing
+ * the list and the content.
+ **/
+GSList *
+gnm_expr_top_get_ranges (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+
+	return do_gnm_expr_get_ranges (texpr->expr, NULL);
+}
+
+GnmValue *
+gnm_expr_top_get_range (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+
+	return gnm_expr_get_range (texpr->expr);
+}
+
+char *
+gnm_expr_top_as_string (GnmExprTop const *texpr,
+			GnmParsePos const *pp,
+			GnmExprConventions const *fmt)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+
+	return gnm_expr_as_string (texpr->expr, pp, fmt);
+}
+
+void
+gnm_expr_top_as_gstring (GString *target,
+			 GnmExprTop const *texpr,
+			 GnmParsePos const *pp,
+			 GnmExprConventions const *fmt)
+{
+	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+	g_return_if_fail (pp != NULL);
+
+	do_expr_as_string (target, texpr->expr, pp, 0, fmt);
+}
+
+gboolean
+gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
+{
+	if (te1 == te2)
+		return TRUE;
+
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (te1), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (te2), FALSE);
+
+	return gnm_expr_equal (te1->expr, te2->expr);
+}
+
+GnmExprTop const *
+gnm_expr_top_rewrite (GnmExprTop const *texpr,
+		      GnmExprRewriteInfo const *rwinfo)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+
+	return gnm_expr_top_new (gnm_expr_rewrite (texpr->expr, rwinfo));
+}
+
+gboolean
+gnm_expr_top_contains_subtotal (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+
+	return gnm_expr_contains_subtotal (texpr->expr);
+}
+
+GnmValue *
+gnm_expr_top_eval (GnmExprTop const *texpr,
+		   GnmEvalPos const *pos,
+		   GnmExprEvalFlags flags)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+
+	return gnm_expr_eval (texpr->expr, pos, flags);
+}
+
+/**
+ * gnm_expr_top_referenced_sheets :
+ * @texpr :
+ * @sheets : usually NULL.
+ *
+ * Generates a list of the sheets referenced by the supplied expression.
+ * Caller must free the list.
+ */
+GSList *
+gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+
+	return do_referenced_sheets (texpr->expr, NULL);
+}
+
+gboolean
+gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
+{
+	GnmStdError err2;
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+
+	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CONSTANT)
+		return FALSE;
+
+	err2 = value_error_classify (texpr->expr->constant.value);
+	return err == err2;
+}
+
+/**
+ * gnm_expr_top_get_constant:
+ * @expr :
+ *
+ * If this expression consists of just a constant, return it.
+ */
+GnmValue const *
+gnm_expr_top_get_constant (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+
+	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CONSTANT)
+		return NULL;
+
+	return texpr->expr->constant.value;
+}
+
+/**
+ * gnm_expr_top_first_funcall :
+ * @texpr :
+ *
+ */
+GnmExpr const *
+gnm_expr_top_first_funcall (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+
+	return gnm_expr_first_funcall (texpr->expr);
+}
+
+/**
+ * gnm_expr_top_get_boundingbox :
+ *
+ * Returns the range of cells in which the expression can be used without going
+ * out of bounds.
+ **/
+void
+gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, GnmRange *bound)
+{
+	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
+
+	gnm_expr_get_boundingbox (texpr->expr, bound);
+}
+
+gboolean
+gnm_expr_top_is_rangeref (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+
+	return gnm_expr_is_rangeref (texpr->expr);
+}
+
+/****************************************************************************/
 
 #if USE_EXPR_POOLS
 typedef union {
