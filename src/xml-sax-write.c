@@ -717,7 +717,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 	if (write_contents) {
 		GString *str = g_string_sized_new (1000);
 
-		if (texpr) {
+		if (!texpr) {
 			if (val != NULL) {
 				gsf_xml_out_add_int (state->output, "ValueType", val->type);
 				if (VALUE_FMT (val) != NULL) {

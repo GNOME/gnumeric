@@ -1,3 +1,8 @@
+2006-03-11  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_cell_and_position): Wow.  Botched
+	every single expression and every single value.
+
 2006-03-10  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_sendto) : minor warning suppression.
