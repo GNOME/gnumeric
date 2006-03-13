@@ -226,6 +226,7 @@
                     <xsd:attribute name="OutlineSymbolsBelow" type="xsd:boolean" use="required"/>
                     <xsd:attribute name="OutlineSymbolsRight" type="xsd:boolean" use="required"/>
                     <xsd:attribute name="RTL_Layout"	      type="xsd:boolean" use="optional"/>
+                    <xsd:attribute name="Protected"	      type="xsd:boolean" use="optional"/>
                     <xsd:attribute name="TabColor"	      type="gmr:color"   use="optional"/>
                     <xsd:attribute name="TabTextColor"	      type="gmr:color"   use="optional"/>
                 </xsd:complexType>

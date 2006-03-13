@@ -1,5 +1,8 @@
 Gnumeric 1.6.3
 
+Klokan Pridal:
+	* Implement xml saving/loading of "protected" attribute.  [#334257]
+
 Morten:
 	* Fix printing issue when sheet is zoomed.  [#332932]
 	* Fix dbf import issue.  [#332878]

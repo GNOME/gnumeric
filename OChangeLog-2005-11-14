@@ -1,3 +1,10 @@
+2006-03-13  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_sheet_read): Handle "protected" attribute.
+	* src/xml-sax-read.c (xml_sax_sheet_start): Ditto.
+	* src/xml-sax-write.c (xml_write_sheet): Ditto.
+	Patch from Klokan Petr Pridal.  [#334257]
+
 2006-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (rendered_value_recontext): Make sure
