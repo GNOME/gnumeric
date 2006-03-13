@@ -290,6 +290,7 @@ typedef struct {
 	int outline_symbols_below;
 	int outline_symbols_right;
 	int text_is_rtl;
+	int is_protected;
 	GnmSheetVisibility visibility;
 	GnmColor *tab_color;
 
@@ -466,9 +467,10 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	GnmColor *color = NULL;
 
 	state->hide_col_header = state->hide_row_header =
-	state->display_formulas = state->hide_zero =
-	state->hide_grid = state->display_outlines =
-	state->outline_symbols_below = state->outline_symbols_right = state->text_is_rtl = -1;
+		state->display_formulas = state->hide_zero =
+		state->hide_grid = state->display_outlines =
+		state->outline_symbols_below = state->outline_symbols_right =
+		state->text_is_rtl = state->is_protected = -1;
 	state->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 	state->tab_color = NULL;
 	state->sheet_zoom = 1.; /* default */
@@ -494,6 +496,8 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			state->visibility = tmpi;
 		else if (xml_sax_attr_bool (attrs, "RTL_Layout", &tmp))
 			state->text_is_rtl = tmp;
+		else if (xml_sax_attr_bool (attrs, "Protected", &tmp))
+			state->is_protected = tmp;
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
 		else

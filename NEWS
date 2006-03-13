@@ -19,6 +19,9 @@ Jody:
 	* AREAS handles error conditions better.
 	* Make Array formulas use less memory
 
+Klokan Pridal:
+	* Implement xml saving/loading of "protected" attribute.  [#334257]
+
 Luciano Miguel Wolf:
 	* ODS import improvements.
 

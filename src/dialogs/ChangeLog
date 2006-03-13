@@ -1,3 +1,10 @@
+2006-03-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_init_protection_page): Refer to
+	sheet protection, not workbook protection.
+	(cb_fmt_dialog_dialog_buttons): Ditto.
+	Patch from Klokan Petr Pridal.  [#334257]
+
 2006-03-07 Luciano Wolf  <luciano.wolf@indt.org.br>
 
 	* dialog-doc-metadata.c: Fixed compile errors.

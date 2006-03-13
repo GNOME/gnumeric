@@ -1068,6 +1068,9 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	if (sheet->text_is_rtl)
 		gsf_xml_out_add_bool (state->output,
 			"RTL_Layout", sheet->text_is_rtl);
+	if (sheet->is_protected)
+		gsf_xml_out_add_bool (state->output,
+			"Protected", sheet->is_protected);
 	gsf_xml_out_add_enum (state->output,
 		"Visibility", GNM_SHEET_VISIBILITY_TYPE, sheet->visibility);
 

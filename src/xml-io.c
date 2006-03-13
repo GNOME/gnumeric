@@ -1956,6 +1956,8 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		g_object_set (sheet, "display-outlines-right", tmp, NULL);
 	if (xml_node_get_bool (tree, "RTL_Layout", &tmp))
 		g_object_set (sheet, "text-is-rtl", tmp, NULL);
+	if (xml_node_get_bool (tree, "Protected", &tmp))
+		g_object_set (sheet, "protected", tmp, NULL);
 	if (xml_node_get_enum (tree, "Visibility", GNM_SHEET_VISIBILITY_TYPE, &tmpi))
 		g_object_set (sheet, "visibility", tmpi, NULL);
 	sheet->tab_color = xml_node_get_color (tree, "TabColor");

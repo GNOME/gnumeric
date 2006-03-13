@@ -1516,7 +1516,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 		G_CALLBACK (cb_protection_hidden_toggle), state);
 
 	state->protection.sheet_protected_changed = FALSE;
-	flag = wb_control_view (WORKBOOK_CONTROL (state->wbcg))->is_protected;
+	flag = state->sheet->is_protected; 
 	w = glade_xml_get_widget (state->gui, "protection_sheet_protected");
 	state->protection.sheet_protected = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
@@ -1983,8 +1983,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		}
 
 		if (state->protection.sheet_protected_changed) {
-			WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (state->wbcg));
-			wbv->is_protected = state->protection.sheet_protected_value;
+			state->sheet->is_protected = state->protection.sheet_protected_value;
 			state->protection.sheet_protected_changed = FALSE;
 		}
 
