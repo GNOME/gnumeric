@@ -289,9 +289,8 @@ BC_R(ai)(XLChartHandler const *handle,
 		return FALSE;
 	else if (top_state == BIFF_CHART_trendlimits) {
 		GnmExprTop const *texpr =
-			gnm_expr_top_new
-			(ms_container_parse_expr (&s->container,
-						  q->data+8, length));
+			ms_container_parse_expr (&s->container,
+						 q->data+8, length);
 		g_return_val_if_fail (ref_type == 2, FALSE);
 		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
@@ -344,9 +343,8 @@ BC_R(ai)(XLChartHandler const *handle,
 	/* (2) == linked to container */
 	if (ref_type == 2) {
 		GnmExprTop const *texpr =
-			gnm_expr_top_new
-			(ms_container_parse_expr (&s->container,
-						  q->data+8, length));
+			ms_container_parse_expr (&s->container,
+						 q->data+8, length);
 		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 
@@ -2816,7 +2814,7 @@ chart_create_obj  (MSContainer *container, MSObj *obj)
 	return NULL;
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 {
 	return excel_parse_formula (container, NULL, 0, 0,

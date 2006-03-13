@@ -114,7 +114,7 @@ ms_obj_attr_new_array (MSObjAttrID id, GArray *array)
 }
 
 MSObjAttr *
-ms_obj_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
+ms_obj_attr_new_expr (MSObjAttrID id, GnmExprTop const *texpr)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -122,7 +122,7 @@ ms_obj_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
-	res->v.v_texpr = gnm_expr_top_new (expr);
+	res->v.v_texpr = texpr;
 	return res;
 }
 
@@ -549,7 +549,7 @@ read_pre_biff8_read_expr (BiffQuery *q, MSContainer *c, MSObj *obj,
 {
 	guint8 const *ptr  = *first;
 	guint8 const *last = q->data + q->length;
-	GnmExpr const *ref;
+	GnmExprTop const *ref;
 	unsigned len;
 
 	if (total_len <= 0)
@@ -777,7 +777,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 				GSF_LE_GET_GUINT16 (q->data+56)));
 
 		{
-			GnmExpr const *ref;
+			GnmExprTop const *ref;
 			guint16 len;
 			guint8 const *last = q->data + q->length;
 			guint8 const *ptr = q->data + 64;
@@ -853,7 +853,7 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c, guint8 const *data, gint32 len
 	int key_len = 0;
 	guint8 const *ptr;
 	guint16 expr_len;
-	GnmExpr const *ref;
+	GnmExprTop const *ref;
 
 	if (obj->excel_type != 8 || len <= 27 ||
 	    strncmp ((char *)(data+21), "Forms.", 6))
@@ -1004,7 +1004,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 		case GR_SCROLLBAR_FORMULA : {
 			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
-			GnmExpr const *ref = ms_container_parse_expr (c, data+10, expr_len);
+			GnmExprTop const *ref = ms_container_parse_expr (c, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
 					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));
@@ -1042,7 +1042,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 		case GR_CHECKBOX_FORMULA : {
 			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
-			GnmExpr const *ref = ms_container_parse_expr (c, data+10, expr_len);
+			GnmExprTop const *ref = ms_container_parse_expr (c, data+10, expr_len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
 					ms_obj_attr_new_expr (MS_OBJ_ATTR_LINKED_TO_CELL, ref));

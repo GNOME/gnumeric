@@ -16,7 +16,7 @@
 #include "ms-excel-read.h"
 #include "ms-biff.h"
 
-GnmExpr const *
+GnmExprTop const *
 excel_parse_formula (MSContainer const *container,
 					 ExcelReadSheet const *esheet,
 					 int fn_col, int fn_row,

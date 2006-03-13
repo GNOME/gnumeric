@@ -91,7 +91,7 @@ MSObjAttr    *ms_obj_attr_new_uint  (MSObjAttrID id, guint32 val);
 MSObjAttr    *ms_obj_attr_new_int   (MSObjAttrID id, gint32 val);
 MSObjAttr    *ms_obj_attr_new_ptr   (MSObjAttrID id, gpointer val);
 MSObjAttr    *ms_obj_attr_new_array (MSObjAttrID id, GArray *array);
-MSObjAttr    *ms_obj_attr_new_expr  (MSObjAttrID id, GnmExpr const *expr);
+MSObjAttr    *ms_obj_attr_new_expr  (MSObjAttrID id, GnmExprTop const *texpr);
 MSObjAttr    *ms_obj_attr_new_markup (MSObjAttrID id, PangoAttrList *list);
 
 typedef GHashTable MSObjAttrBag;

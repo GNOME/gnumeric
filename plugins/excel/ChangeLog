@@ -1,3 +1,13 @@
+2006-03-13  Morten Welinder  <terra@gnome.org>
+
+	* ms-container.h (MSContainerClass): Make the parse_expr method
+	return a texpr.  All users changed.
+
+	* ms-formula-read.c (excel_parse_formula): Make this return a
+	texpr.  All users fixed.
+	* ms-container.c (ms_container_parse_expr): Ditto.
+	* ms-obj.c (ms_obj_attr_new_expr): Ditto.
+
 2006-03-10  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula) : back port handling of

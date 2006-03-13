@@ -846,13 +846,13 @@ static char const *ptg_name[] = {
  * Parse that RP Excel formula, see S59E2B.HTM
  * Return a dynamicly allocated GnmExpr containing the formula, or NULL
  **/
-GnmExpr const *
-excel_parse_formula (MSContainer const *container,
-		     ExcelReadSheet const *esheet,
-		     int fn_col, int fn_row,
-		     guint8 const *mem, guint16 length,
-		     gboolean shared,
-		     gboolean *array_element)
+static GnmExpr const *
+excel_parse_formula1 (MSContainer const *container,
+		      ExcelReadSheet const *esheet,
+		      int fn_col, int fn_row,
+		      guint8 const *mem, guint16 length,
+		      gboolean shared,
+		      gboolean *array_element)
 {
 	MsBiffVersion const ver = container->importer->ver;
 
@@ -924,7 +924,7 @@ excel_parse_formula (MSContainer const *container,
 			}
 
 			d (0, fprintf (stderr, "Parse shared formula\n"););
-			expr = excel_parse_formula (container, esheet, fn_col, fn_row,
+			expr = excel_parse_formula1 (container, esheet, fn_col, fn_row,
 				sf->data, sf->data_len, TRUE, array_element);
 
 			parse_list_push (&stack, expr);
@@ -1638,32 +1638,48 @@ excel_parse_formula (MSContainer const *container,
 	}
 
 	if (error) {
-		fprintf (stderr, "formula data : %s\n", (shared?" (shared)":"(NOT shared)"));
+		g_printerr ("formula data : %s\n", (shared?" (shared)":"(NOT shared)"));
 		gsf_mem_dump (mem, length);
 
 		parse_list_free (&stack);
 		return xl_expr_err (esheet, fn_col, fn_row,
-			"Unknown Formula/Array", "#Unknown!");
+				    "Unknown Formula/Array",
+				    "#Unknown!");
 	}
 
 	if (stack == NULL)
 		return xl_expr_err (esheet, fn_col, fn_row,
-			"Stack too short - unusual", "#ShortStack!");
+				    "Stack too short - unusual",
+				    "#ShortStack!");
 	if (gnm_expr_list_length (stack) > 1) {
 		parse_list_free (&stack);
 		return xl_expr_err (esheet, fn_col, fn_row,
-			"Too much data on stack - probable cause: fixed args function is var-arg",
-			"#LongStack!");
+				    "Too much data on stack - probable cause: fixed args function is var-arg",
+				    "#LongStack!");
 	}
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 0 && esheet != NULL) {
 		GnmParsePos pp;
-		GnmExpr const *expr = parse_list_pop (&stack);
+		GnmExpr const *expr = stack->data;
 		parse_pos_init (&pp, NULL, esheet->sheet, fn_col, fn_row);
-		fprintf (stderr, "%s\n",  gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default));
-		return expr;
+		g_printerr ("%s\n",  gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default));
 	}
 #endif
-	return expr_tree_sharer_share (container->importer->expr_sharer, parse_list_pop (&stack));
+	return parse_list_pop (&stack);
+}
+
+GnmExprTop const *
+excel_parse_formula (MSContainer const *container,
+		     ExcelReadSheet const *esheet,
+		     int fn_col, int fn_row,
+		     guint8 const *mem, guint16 length,
+		     gboolean shared,
+		     gboolean *array_element)
+{
+	return gnm_expr_top_new (excel_parse_formula1 (container, esheet,
+						       fn_col, fn_row,
+						       mem, length,
+						       shared,
+						       array_element));
 }

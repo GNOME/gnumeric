@@ -25,7 +25,7 @@ typedef struct _MSObj		MSObj;
 typedef struct {
 	gboolean        (*realize_obj)	(MSContainer *c, MSObj *obj);
 	SheetObject   * (*create_obj)	(MSContainer *c, MSObj *obj);
-	GnmExpr const * (*parse_expr)	(MSContainer *c,
+	GnmExprTop const* (*parse_expr) (MSContainer *c,
 					 guint8 const *expr, int length);
 	Sheet	      * (*sheet)	(MSContainer const *c);
 	GOFormat     * (*get_fmt)	(MSContainer const *c, unsigned indx);
@@ -59,7 +59,7 @@ void	       ms_container_set_blips    (MSContainer *c, GPtrArray *blips);
 void	       ms_container_add_obj	 (MSContainer *c, MSObj *obj);
 MSObj	      *ms_container_get_obj	 (MSContainer *c, int obj_id);
 void	       ms_container_realize_objs (MSContainer *c);
-GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
+GnmExprTop const *ms_container_parse_expr (MSContainer *c,
 					  guint8 const *data, int length);
 
 Sheet		*ms_container_sheet	  (MSContainer const *c);

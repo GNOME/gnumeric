@@ -215,14 +215,14 @@ excel_wb_get_fmt (GnmXLImporter *importer, unsigned idx)
 		return NULL;
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int length)
 {
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 
 	g_return_val_if_fail (length > 0, NULL);
 
-	expr = excel_parse_formula (&esheet->container, esheet, 0, 0,
+	texpr = excel_parse_formula (&esheet->container, esheet, 0, 0,
 		data, length, FALSE, NULL);
 	if (ms_excel_read_debug > 8) {
 		char *tmp;
@@ -230,15 +230,17 @@ ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int le
 		Sheet *sheet = esheet->sheet;
 		Workbook *wb = (sheet == NULL) ? esheet->container.importer->wb : NULL;
 
-		tmp = gnm_expr_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0), gnm_expr_conventions_default);
+		tmp = gnm_expr_top_as_string (texpr,
+					      parse_pos_init (&pp, wb, sheet, 0, 0),
+					      gnm_expr_conventions_default);
 		puts (tmp);
 		g_free (tmp);
 	}
 
-	return expr;
+	return texpr;
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
 {
 	return ms_sheet_parse_expr_internal ((ExcelReadSheet *)container,
@@ -2256,13 +2258,13 @@ biff_xf_data_destroy (BiffXFData *xf)
 	g_free (xf);
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 {
 	guint16 opcode, data_len;
 	GnmRange   r;
 	gboolean is_array;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	guint8 const *data;
 	XLSharedFormula *sf;
 
@@ -2311,11 +2313,11 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 			args = (flags & 4) ? gnm_expr_list_append (args, missing)
 					   : gnm_expr_list_prepend (args, missing);
 		}
-		expr = gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), args);
+		texpr = gnm_expr_top_new (gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), args));
 		cell_set_array_formula (esheet->sheet,
 			r.start.col, r.start.row,
 			r.end.col,   r.end.row,
-			gnm_expr_top_new (expr));
+			texpr);
 		return NULL;
 	}
 
@@ -2330,7 +2332,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 		data = q->data + 10;
 		data_len = GSF_LE_GET_GUINT16 (q->data + 8);
 	}
-	expr = excel_parse_formula (&esheet->container, esheet,
+	texpr = excel_parse_formula (&esheet->container, esheet,
 		r.start.col, r.start.row, data, data_len, !is_array, NULL);
 
 	sf = g_new (XLSharedFormula, 1);
@@ -2349,16 +2351,16 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 	g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
 
-	g_return_val_if_fail (expr != NULL, NULL);
+	g_return_val_if_fail (texpr != NULL, NULL);
 
 	if (is_array) {
 		cell_set_array_formula (esheet->sheet,
 					r.start.col, r.start.row,
 					r.end.col,   r.end.row,
-					gnm_expr_top_new (expr));
-		expr = NULL;
+					texpr);
+		texpr = NULL;
 	}
-	return expr;
+	return texpr;
 }
 
 /*
@@ -2379,7 +2381,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 expr_length;
 	guint offset;
 	guint8 const *val_dat = q->data + 6;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
 	GnmCell	 *cell;
 	GnmValue *val = NULL;
 
@@ -2448,7 +2450,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		}
 	}
 
-	expr = excel_parse_formula (&esheet->container, esheet, col, row,
+	texpr = excel_parse_formula (&esheet->container, esheet, col, row,
 		(q->data + offset), expr_length, FALSE, &array_elem);
 #if 0
 	/* dump the trailing array data */
@@ -2457,8 +2459,8 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 #endif
 
 	/* Error was flaged by parse_formula */
-	if (expr == NULL && !array_elem)
-		expr = excel_formula_shared (q, esheet, cell);
+	if (texpr == NULL && !array_elem)
+		texpr = excel_formula_shared (q, esheet, cell);
 
 	if (is_string) {
 		guint16 opcode;
@@ -2526,8 +2528,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		cell_assign_value (cell, val);
 	} else if (!cell_has_expr (cell)) {
 		/* Just in case things screwed up, at least save the value */
-		if (expr != NULL) {
-			GnmExprTop const *texpr = gnm_expr_top_new (expr);
+		if (texpr != NULL) {
 			cell_set_expr_and_value (cell, texpr, val, TRUE);
 			gnm_expr_top_unref (texpr);
 		} else
@@ -2684,7 +2685,7 @@ excel_sheet_destroy (ExcelReadSheet *esheet)
 	g_free (esheet);
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 {
 	ExcelReadSheet dummy_sheet;
@@ -2998,7 +2999,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 {
 	GnmParsePos pp;
 	GnmNamedExpr *nexpr;
-	GnmExpr const *expr = NULL;
+	GnmExprTop const *texpr = NULL;
 	char *err = NULL;
 
 	g_return_val_if_fail (name != NULL, NULL);
@@ -3006,17 +3007,19 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 	/* expr_len == 0 seems to indicate a placeholder for an unknown name */
 	if (expr_len != 0) {
 
-		expr = excel_parse_formula (&importer->container, NULL, 0, 0,
+		texpr = excel_parse_formula (&importer->container, NULL, 0, 0,
 			expr_data, expr_len, TRUE, NULL);
 
-		if (expr == NULL) {
+		if (texpr == NULL) {
 			gnm_io_warning (importer->context, _("Failure parsing name '%s'"), name);
-			expr = gnm_expr_new_constant (value_new_error_REF (NULL));
+			texpr = gnm_expr_top_new_constant (value_new_error_REF (NULL));
 		} else d (2, {
 			char *tmp;
 			GnmParsePos pp;
 
-			tmp = gnm_expr_as_string (expr, parse_pos_init (&pp, importer->wb, NULL, 0, 0), gnm_expr_conventions_default);
+			tmp = gnm_expr_top_as_string (texpr,
+						      parse_pos_init (&pp, importer->wb, NULL, 0, 0),
+						      gnm_expr_conventions_default);
 			fprintf (stderr, "%s\n", tmp);
 			g_free (tmp);
 		});
@@ -3024,7 +3027,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 
 	parse_pos_init (&pp, importer->wb, sheet, 0, 0);
 	nexpr = expr_name_add (&pp, name,
-			       gnm_expr_top_new (expr),
+			       texpr,
 			       &err, link_to_container, stub);
 	g_free (name);
 	if (nexpr == NULL) {
@@ -4467,19 +4470,19 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		return;
 	}
 
-#warning Are we sure the parse is relative to 0,0 ? DV is relative to the first range
+#warning "Are we sure the parse is relative to 0,0 ? DV is relative to the first range"
 	cond.texpr[0] = (expr0_len <= 0)
 		? NULL
-		: gnm_expr_top_new (ms_sheet_parse_expr_internal
-				    (esheet,
-				     q->data + q->length - expr0_len - expr1_len,
-				     expr0_len));
+		: ms_sheet_parse_expr_internal
+			(esheet,
+			 q->data + q->length - expr0_len - expr1_len,
+			 expr0_len);
 	cond.texpr[1] = (expr1_len <= 0)
 		? NULL
-		: gnm_expr_top_new (ms_sheet_parse_expr_internal
-				    (esheet,
-				     q->data + q->length - expr1_len,
-				     expr1_len));
+		: ms_sheet_parse_expr_internal
+			(esheet,
+			 q->data + q->length - expr1_len,
+			 expr1_len);
 
 	/* UNDOCUMENTED : the format of the conditional format
 	 * is unspecified.
@@ -4676,7 +4679,8 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	GnmExpr const   *expr1 = NULL, *expr2 = NULL;
+	GnmExprTop const *texpr1 = NULL;
+	GnmExprTop const *texpr2 = NULL;
 	int      	 expr1_len,     expr2_len;
 	char *input_msg, *error_msg, *input_title, *error_title;
 	guint32	options, len;
@@ -4796,12 +4800,12 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 		col = row = 0;
 
 	if (expr1_len > 0)
-		expr1 = excel_parse_formula (&esheet->container, esheet,
+		texpr1 = excel_parse_formula (&esheet->container, esheet,
 			col, row,
 			expr1_dat, expr1_len, TRUE, NULL);
 
 	if (expr2_len > 0)
-		expr2 = excel_parse_formula (&esheet->container, esheet,
+		texpr2 = excel_parse_formula (&esheet->container, esheet,
 			col, row,
 			expr2_dat, expr2_len, TRUE, NULL);
 
@@ -4812,8 +4816,8 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	gnm_style_set_validation
 		(mstyle,
 		 validation_new (style, type, op, error_title, error_msg,
-				 gnm_expr_top_new (expr1),
-				 gnm_expr_top_new (expr2),
+				 texpr1,
+				 texpr2,
 				 options & 0x0100, 0 == (options & 0x0200)));
 	if (options & 0x40000)
 		gnm_style_set_input_msg (mstyle,
