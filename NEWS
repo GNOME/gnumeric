@@ -21,6 +21,7 @@ Jody:
 
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]
+	* Implement xls saving/loading of "protected" attribute.  [#330129]
 
 Luciano Miguel Wolf:
 	* ODS import improvements.

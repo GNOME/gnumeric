@@ -1,5 +1,13 @@
 2006-03-13  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-write.c (write_sheet_head): Write protection flags.
+	* ms-excel-read.c (excel_read_sheet_PROTECT): Store falg.
+	(excel_read_workbook_PROTECT): New function.
+	(excel_read_workbook): Read protection flags.
+	Patch from Klokan Petr Pridal.  [#330129]
+
+2006-03-13  Morten Welinder  <terra@gnome.org>
+
 	* ms-container.h (MSContainerClass): Make the parse_expr method
 	return a texpr.  All users changed.
 

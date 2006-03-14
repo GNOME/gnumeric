@@ -4093,6 +4093,12 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 		 * to make our lives easier */
 		excel_write_externsheets_v7 (esheet->ewb);
 	}
+	if (sheet->is_protected) {
+		ms_biff_put_2byte (bp, BIFF_PROTECT, 1 );
+		ms_biff_put_2byte (bp, BIFF_OBJPROTECT, 1);
+		ms_biff_put_2byte (bp, BIFF_SCENPROTECT, 1);
+		ms_biff_put_2byte (bp, BIFF_PASSWORD, 0);
+	}
 	excel_write_DEFCOLWIDTH (bp, esheet);
 	excel_write_colinfos (bp, esheet);
 	excel_write_AUTOFILTERINFO (bp, esheet);
@@ -5207,7 +5213,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 	}
 
 	ms_biff_put_2byte (ewb->bp, BIFF_WINDOWPROTECT, 0);
-	ms_biff_put_2byte (ewb->bp, BIFF_PROTECT, 0);
+	ms_biff_put_2byte (ewb->bp, BIFF_PROTECT, ewb->gnum_wb_view->is_protected ? 1 : 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_PASSWORD, 0);
 
 	if (bp->version >= MS_BIFF_V8) {
