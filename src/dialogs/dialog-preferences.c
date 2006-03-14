@@ -70,7 +70,6 @@ typedef struct {
 	GtkWidget	*dialog;
 	GtkWidget	*notebook;
 	GtkTextView	*description;
-	GSList		*pages;
 	GtkTreeStore    *store;
 	GtkTreeView     *view;
 	Workbook	*wb;
@@ -422,7 +421,7 @@ cb_pref_font_hf_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 
 static gboolean
 cb_pref_font_hf_has_changed (G_GNUC_UNUSED FontSelector *fs,
-			  GnmStyle *mstyle, PrefState *state)
+			     GnmStyle *mstyle, PrefState *state)
 {
 	gnm_gconf_set_hf_font (mstyle);
 	return TRUE;
@@ -663,8 +662,8 @@ pref_file_page_initializer (PrefState *state,
 
 static void
 pref_screen_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
+		       G_GNUC_UNUSED GtkNotebook *notebook,
+		       G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
 				      _("The items on this page are related to "
@@ -673,9 +672,9 @@ pref_screen_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 
 static GtkWidget *
 pref_screen_page_initializer (PrefState *state,
-			    G_GNUC_UNUSED gpointer data,
-			    G_GNUC_UNUSED GtkNotebook *notebook,
-			    G_GNUC_UNUSED gint page_num)
+			      G_GNUC_UNUSED gpointer data,
+			      G_GNUC_UNUSED GtkNotebook *notebook,
+			      G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
@@ -747,8 +746,8 @@ pref_tool_page_initializer (PrefState *state,
 
 static void
 pref_copypaste_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
+			  G_GNUC_UNUSED GtkNotebook *notebook,
+			  G_GNUC_UNUSED gint page_num)
 {
 	dialog_pref_load_description (state,
 				      _("The items on this page are "
@@ -758,9 +757,9 @@ pref_copypaste_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 
 static GtkWidget *
 pref_copypaste_page_initializer (PrefState *state,
-			    G_GNUC_UNUSED gpointer data,
-			    G_GNUC_UNUSED GtkNotebook *notebook,
-			    G_GNUC_UNUSED gint page_num)
+				 G_GNUC_UNUSED gpointer data,
+				 G_GNUC_UNUSED GtkNotebook *notebook,
+				 G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
@@ -844,11 +843,17 @@ cb_preferences_destroy (PrefState *state)
 {
 	go_conf_sync (state->root);
 
+	if (state->store) {
+		g_object_unref (state->store);
+		state->store = NULL;
+	}
+
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 	state->dialog = NULL;
+
 	g_free (state);
 
 	gnm_app_set_pref_dialog (NULL);
@@ -905,7 +910,6 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	state->gui = gui;
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
 	state->notebook   = glade_xml_get_widget (gui, "notebook");
-	state->pages      = NULL;
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
 	state->wb	  = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
@@ -956,8 +960,6 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		GtkWidget *page = this_page->page_initializer (state, this_page->data,
 							       GTK_NOTEBOOK (state->notebook), i);
 		GtkWidget *label = NULL;
-
-		state->pages = g_slist_append (state->pages, page);
 
 		if (this_page->icon_name)
 			label = gtk_image_new_from_stock (this_page->icon_name,

@@ -1,3 +1,13 @@
+2006-03-14  Morten Welinder  <terra@gnome.org>
+
+	* dialog-preferences.c (PrefState): Drop pages member.  It wasn't
+	used apart from being leaked.
+	(cb_preferences_destroy): Unref store too.
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_set_label_text):
+	Adapt to goffice changes, plug leaks, handle non-C locales much
+	better.
+
 2006-03-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_init_protection_page): Refer to

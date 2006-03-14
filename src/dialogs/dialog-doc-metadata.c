@@ -127,15 +127,15 @@ typedef struct {
  * Convenience functions--helpful for breaking up the work into more manageable
  * pieces.
  */
-void fetchfrom_page_1 (DialogDocMetaData *state);
-void fetchfrom_page_2 (DialogDocMetaData *state);
-void fetchfrom_page_3 (DialogDocMetaData *state);
-void fetchfrom_page_4 (DialogDocMetaData *state);
+static void fetchfrom_page_1 (DialogDocMetaData *state);
+static void fetchfrom_page_2 (DialogDocMetaData *state);
+static void fetchfrom_page_3 (DialogDocMetaData *state);
+static void fetchfrom_page_4 (DialogDocMetaData *state);
 
-void populate_page_1 (DialogDocMetaData *state);
-void populate_page_2 (DialogDocMetaData *state);
-void populate_page_3 (DialogDocMetaData *state);
-void populate_page_4 (DialogDocMetaData *state);
+static void populate_page_1 (DialogDocMetaData *state);
+static void populate_page_2 (DialogDocMetaData *state);
+static void populate_page_3 (DialogDocMetaData *state);
+static void populate_page_4 (DialogDocMetaData *state);
 
 void dialog_doc_metadata_set_gsf_prop_value			(GsfDocMetaData *metadata,
 								 const char     *prop_name,
@@ -364,7 +364,8 @@ dialog_doc_metadata_new (WorkbookControlGUI *wbcg)
 	}
 }
 
-void fetchfrom_page_1 (DialogDocMetaData *state)
+static void
+fetchfrom_page_1 (DialogDocMetaData *state)
 {
 	if (state->file_permissions != NULL && 
 	    state->permissions_changed == TRUE)
@@ -372,15 +373,18 @@ void fetchfrom_page_1 (DialogDocMetaData *state)
 				         state->file_permissions);
 }
 
-void fetchfrom_page_2 (DialogDocMetaData *state)
+static void
+fetchfrom_page_2 (DialogDocMetaData *state)
 {
 }
 
-void fetchfrom_page_3 (DialogDocMetaData *state)
+static void
+fetchfrom_page_3 (DialogDocMetaData *state)
 {
 }
 
-void fetchfrom_page_4 (DialogDocMetaData *state)
+static void
+fetchfrom_page_4 (DialogDocMetaData *state)
 {
 }
 
@@ -489,7 +493,8 @@ void dialog_doc_metadata_set_up_file_permissions (DialogDocMetaData *state)
 	gtk_widget_set_sensitive (GTK_WIDGET (state->others_write), FALSE);
 }
 
-void populate_page_1 (DialogDocMetaData *state)
+static void
+populate_page_1 (DialogDocMetaData *state)
 {
 	g_return_if_fail (state->metadata != NULL);
 
@@ -684,7 +689,8 @@ cb_dialog_doc_metadata_keywords_changed (GtkEntry          *entry,
 						  gtk_entry_get_text (entry));
 }
 
-void populate_page_2 (DialogDocMetaData *state)
+static void
+populate_page_2 (DialogDocMetaData *state)
 {
 	g_return_if_fail (state->metadata != NULL);
 
@@ -1027,7 +1033,8 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 
 }
 
-void populate_page_3 (DialogDocMetaData *state)
+static void
+populate_page_3 (DialogDocMetaData *state)
 {
 	g_return_if_fail (state->metadata != NULL);
 	g_return_if_fail (state->properties != NULL);
@@ -1109,7 +1116,8 @@ void populate_page_3 (DialogDocMetaData *state)
 			  state);
 }
 
-void populate_page_4 (DialogDocMetaData *state)
+static void
+populate_page_4 (DialogDocMetaData *state)
 {
 	g_return_if_fail (state->metadata != NULL);
 
@@ -1117,6 +1125,24 @@ void populate_page_4 (DialogDocMetaData *state)
 	dialog_doc_metadata_set_label_text (state, state->sheets, NULL, TRUE);
 	dialog_doc_metadata_set_label_text (state, state->cells, NULL, TRUE);
 	dialog_doc_metadata_set_label_text (state, state->pages, NULL, TRUE);
+}
+
+static char *
+time2str (time_t t)
+{
+	char buffer[4000];
+	gsize len;
+	const char *format = "%c";
+
+	if (t == -1)
+		return NULL;
+
+	
+	len = strftime (buffer, sizeof (buffer), format, localtime (&t));
+	if (len == 0)
+		return NULL;
+
+	return g_locale_to_utf8 (buffer, len, NULL, NULL, NULL);
 }
 
 void 
@@ -1136,12 +1162,12 @@ dialog_doc_metadata_set_label_text (DialogDocMetaData *state,
 	if (str_value == NULL && auto_fill == TRUE) {
 		/* File Name */
 		if (label == state->file_name) {
-			str_value = g_strdup (go_basename_from_uri (workbook_get_uri (wb)));
+			str_value = go_basename_from_uri (workbook_get_uri (wb));
 		}
 
 		/* File Location */
 		else if (label == state->location) {
-			str_value = g_strdup (go_dirname_from_uri (workbook_get_uri (wb), TRUE));
+			str_value = go_dirname_from_uri (workbook_get_uri (wb), TRUE);
 		}
 
 		/* Date Created */
@@ -1151,35 +1177,22 @@ dialog_doc_metadata_set_label_text (DialogDocMetaData *state,
 
 		/* Date Modified */
 		else if (label == state->modified) {
-			str_value = g_strdup (go_file_get_date_modified (workbook_get_uri (wb)));
-
-			if (str_value != NULL)
-				str_value [strlen (str_value) - 1] = 0;
+			str_value = time2str (go_file_get_date_modified (workbook_get_uri (wb)));
 		}
 
 		/* Date Accessed */
 		else if (label == state->accessed) {
-			str_value = g_strdup (go_file_get_date_accessed (workbook_get_uri (wb)));
-
-			if (str_value != NULL)
-				str_value [strlen (str_value) - 1] = 0;
+			str_value = time2str (go_file_get_date_accessed (workbook_get_uri (wb)));
 		}
 
 		/* Owner */
 		else if (label == state->owner) {
-			str_value = g_strdup (go_file_get_owner_name (workbook_get_uri (wb)));
-
-			/* Strip the comma characters at the end of the string */
-			if (str_value != NULL) {
-				int i;
-				for (i = strlen (str_value) - 1; str_value[i] == ','; --i)
-					str_value[i] = 0;
-			}
+			str_value = go_file_get_owner_name (workbook_get_uri (wb));
 		}
 
 		/* Group */
 		else if (label == state->group) {
-			str_value = g_strdup (go_file_get_group_name (workbook_get_uri (wb)));
+			str_value = go_file_get_group_name (workbook_get_uri (wb));
 		}
 
 		/* Number of Sheets */
@@ -1259,4 +1272,3 @@ dialog_doc_metadata_get_prop_value_as_str (const char *prop_name,
 	
 	return str_value;
 }
-
