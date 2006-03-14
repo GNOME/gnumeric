@@ -66,7 +66,7 @@ typedef struct {
 	Sheet		*sheet;		/* The current sheet */
 	GnmCellPos	 pos;
 	GnmValueType	 val_type;
-	GnmExpr const   *expr;
+	GnmExprTop const*texpr;
 	GnmRange	 array_range;
 	char		*style_name;
 	GnmStyle	*style;
@@ -246,7 +246,7 @@ attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 	return parse_color (xin, attrs[1], name);
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 		   GnmParsePos const *pp)
 {
@@ -270,11 +270,7 @@ xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 		xl_xml_warning (xin, "'%s' %s", expr_str, err.err->message);
 	parse_error_free (&err);
 
-	/* FIXME: follow through on this.  */
-	if (texpr)
-		return gnm_expr_top_unwrap (texpr);
-	else
-		return NULL;
+	return texpr;
 }
 
 static void
@@ -389,7 +385,6 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	GnmStyle *style = NULL;
-	GnmExpr const *expr;
 	int across = 0, down = 0, tmp;
 	GnmParsePos pp;
 
@@ -402,11 +397,11 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (tmp > 0)
 				state->pos.col = tmp -1;
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Formula")) {
-			expr = xl_xml_parse_expr (xin, attrs[1], &pp);
-			if (NULL != expr) {
-				if (NULL != state->expr)
-					gnm_expr_unref (state->expr);
-				state->expr = expr;
+			GnmExprTop const *texpr = xl_xml_parse_expr (xin, attrs[1], &pp);
+			if (NULL != texpr) {
+				if (NULL != state->texpr)
+					gnm_expr_top_unref (state->texpr);
+				state->texpr = texpr;
 			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ArrayRange")) {
 			GnmRangeRef rr;
@@ -487,18 +482,13 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			v = value_new_string (xin->content->str);
 	} else
 		v = value_new_from_string (state->val_type, xin->content->str, NULL, FALSE);
-	if (NULL != state->expr) {
+	if (NULL != state->texpr) {
 		if (NULL != v)
-			cell_set_expr_and_value
-				(cell,
-				 gnm_expr_top_new (state->expr),
-				 v, TRUE);
+			cell_set_expr_and_value (cell, state->texpr, v, TRUE);
 		else
-			cell_set_expr
-				(cell,
-				 gnm_expr_top_new (state->expr));
-		gnm_expr_unref (state->expr);
-		state->expr = NULL;
+			cell_set_expr (cell, state->texpr);
+		gnm_expr_top_unref (state->texpr);
+		state->texpr = NULL;
 	} else if (NULL != v)
 		cell_set_value (cell, v);
 	else
@@ -776,13 +766,11 @@ xl_xml_named_range (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL != name && NULL != expr_str) {
 		GnmParsePos pp;
-		GnmExpr const *expr = xl_xml_parse_expr (xin, expr_str,
+		GnmExprTop const *texpr = xl_xml_parse_expr (xin, expr_str,
 			parse_pos_init (&pp, state->wb, NULL, 0, 0));
 		g_warning ("%s = %s", name, expr_str);
-		if (NULL != expr)
-			expr_name_add (&pp, name,
-				       gnm_expr_top_new (expr),
-				       NULL, TRUE, NULL);
+		if (NULL != texpr)
+			expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);
 	}
 }
 
@@ -994,7 +982,7 @@ excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.sheet	= NULL;
 	state.style	= NULL;
 	state.def_style	= NULL;
-	state.expr	= NULL;
+	state.texpr	= NULL;
 	state.style_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) gnm_style_unref);
 

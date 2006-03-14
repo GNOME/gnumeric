@@ -1,3 +1,11 @@
+2006-03-14  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_top_unwrap): Remove.  All callers changed.
+
+	* src/preview-grid.c (preview_grid_destroy): Renamed from
+	preview_grid_finalize and hooked up as destroy handler.  This
+	breaks ref cycles and thus plugs leaks.
+
 2006-03-13  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_sheet_read): Handle "protected" attribute.

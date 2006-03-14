@@ -2781,23 +2781,6 @@ gnm_expr_top_unref (GnmExprTop const *texpr)
 	}
 }
 
-/*
- * gnm_expr_top_unwrap: undoes the effect of gnm_expr_top_new.
- *
- * Note: this will become mildly expensive when subexpressions lose
- * their refcounting.
- */
-GnmExpr const *
-gnm_expr_top_unwrap (GnmExprTop const *texpr)
-{
-	GnmExpr const *expr;
-
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
-	expr = gnm_expr_copy (texpr->expr);
-	gnm_expr_top_unref (texpr);
-	return expr;
-}
-
 gboolean
 gnm_expr_top_is_shared (GnmExprTop const *texpr)
 {

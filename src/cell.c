@@ -428,7 +428,8 @@ cell_set_array_formula (Sheet *sheet,
 	corner = sheet_cell_fetch (sheet, col_a, row_a);
 	g_return_if_fail (corner != NULL);
 
-	wrapper = gnm_expr_top_new (gnm_expr_new_array_corner (num_cols, num_rows, gnm_expr_top_unwrap (texpr)));
+	wrapper = gnm_expr_top_new (gnm_expr_new_array_corner (num_cols, num_rows, gnm_expr_copy (texpr->expr)));
+	gnm_expr_top_unref (texpr);
 	cell_set_expr_internal (corner, wrapper);
 	gnm_expr_top_unref (wrapper);
 

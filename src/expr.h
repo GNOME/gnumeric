@@ -135,7 +135,6 @@ GnmExprTop const *gnm_expr_top_new (GnmExpr const *e);
 GnmExprTop const *gnm_expr_top_new_constant (GnmValue *v);
 void gnm_expr_top_ref (GnmExprTop const *texpr);
 void gnm_expr_top_unref (GnmExprTop const *texpr);
-GnmExpr const *gnm_expr_top_unwrap (GnmExprTop const *texpr);
 
 gboolean gnm_expr_top_is_shared (GnmExprTop const *texpr);
 gboolean gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError e);

@@ -68,10 +68,8 @@ cell_has_expr_or_number_or_blank (GnmCell const * cell)
 static GnmExpr const *
 contents_as_expr (GnmExprTop const *texpr, GnmValue const *val)
 {
-	if (texpr) {
-		gnm_expr_top_ref (texpr);
-		return gnm_expr_top_unwrap (texpr);
-	}
+	if (texpr)
+		return gnm_expr_copy (texpr->expr);
 	if (VALUE_IS_EMPTY (val))
 		return gnm_expr_new_constant (value_new_float (0.0));
 	if (VALUE_IS_NUMBER (val))

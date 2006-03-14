@@ -625,9 +625,8 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx,
 			unsigned rows = MIN (limit_y, array->rows);
 
 			if (texpr) {
-				GnmExpr const *e = gnm_expr_top_unwrap (texpr);
-				aexpr = gnm_expr_copy (e->array_corner.expr);
-				gnm_expr_unref (e);
+				aexpr = gnm_expr_copy (texpr->expr->array_corner.expr);
+				gnm_expr_top_unref (texpr);
 			} else
 				aexpr = gnm_expr_copy (array->expr);
 
