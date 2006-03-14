@@ -1670,7 +1670,7 @@ static GnmFuncHelp const help_tinv[] = {
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "Warning: the parameterization of this function is different from "
-	   "what is used for, e.g., NORMSDIST.  This is a common source of "
+	   "what is used for, e.g., NORMSINV.  This is a common source of "
 	   "mistakes, but necessary for compatibility.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
