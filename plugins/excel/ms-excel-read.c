@@ -4199,19 +4199,35 @@ sheet_container (ExcelReadSheet *esheet)
 }
 
 static gboolean
-excel_read_PROTECT (BiffQuery *q, char const *obj_type)
+excel_read_sheet_PROTECT (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	/* TODO: Use this information when gnumeric supports protection */
 	gboolean is_protected = TRUE;
 
 	/* MS Docs fail to mention that in some stream this
 	 * record can have size zero.  I assume the in that
 	 * case its existence is the flag.
 	 */
-	if (q->length > 0)
+	if (q->length >= 2)
 		is_protected = (1 == GSF_LE_GET_GUINT16 (q->data));
 
-	d (1,if (is_protected) fprintf (stderr,"%s is protected\n", obj_type););
+	esheet->sheet->is_protected = is_protected;
+
+	return is_protected;
+}
+
+static gboolean
+excel_read_workbook_PROTECT (BiffQuery *q, WorkbookView *wb_view)
+{
+	gboolean is_protected = TRUE;
+
+	/* MS Docs fail to mention that in some stream this
+	 * record can have size zero.  I assume the in that
+	 * case its existence is the flag.
+	 */
+	if (q->length >= 2)
+		is_protected = (1 == GSF_LE_GET_GUINT16 (q->data));
+
+	wb_view->is_protected = is_protected;
 
 	return is_protected;
 }
@@ -5547,7 +5563,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_REFMODE:	excel_read_REFMODE (q, esheet); break;
 		case BIFF_DELTA:	excel_read_DELTA (q, importer);	break;
 		case BIFF_ITERATION:	excel_read_ITERATION (q, importer);	break;
-		case BIFF_PROTECT:	excel_read_PROTECT (q, "Sheet"); break;
+		case BIFF_OBJPROTECT:
+		case BIFF_PROTECT:	excel_read_sheet_PROTECT (q, esheet); break;
 
 		case BIFF_PASSWORD:
 			if (q->length == 2) {
@@ -5633,7 +5650,6 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 
 		case BIFF_SAVERECALC:	break;
 		case BIFF_TAB_COLOR:	excel_read_TAB_COLOR (q, esheet);	break;
-		case BIFF_OBJPROTECT:	excel_read_PROTECT (q, "Sheet");	break;
 		case BIFF_COLINFO:	excel_read_COLINFO (q, esheet);		break;
 
 		case BIFF_RK:
@@ -6082,7 +6098,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 
 		case BIFF_OBJPROTECT:
 		case BIFF_PROTECT:
-			excel_read_PROTECT (q, "Workbook");
+			excel_read_workbook_PROTECT (q, wb_view);
 			break;
 
 		case BIFF_PASSWORD:

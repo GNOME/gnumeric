@@ -2,6 +2,7 @@ Gnumeric 1.6.3
 
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]
+	* Implement xls saving/loading of "protected" attribute.  [#330129]
 
 Morten:
 	* Fix printing issue when sheet is zoomed.  [#332932]
