@@ -1,3 +1,7 @@
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.4
+
 2005-08-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (cb_pref_font_set_fonts): Backport fix for

@@ -1,3 +1,7 @@
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.4
+
 2005-07-04  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (excel_read_metadata, excel_file_open, excel_save): 

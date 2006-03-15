@@ -1,3 +1,7 @@
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.4
+
 2005-08-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* graph/gog-object-xml.c: (gog_object_new_from_xml): return NULL

@@ -1,3 +1,7 @@
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.4
+
 2005-04-04  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_sumif) : relax the test for 3d refs.

@@ -1,5 +1,9 @@
 2006-03-14  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.4.4
+
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet.c (sheet_dup) : copy properties.
 
 2005-08-14  Jean Brefort  <jean.brefort@normalesup.org>

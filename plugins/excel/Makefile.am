@@ -11,6 +11,8 @@ excel_la_LIBADD  = $(Z_LIBS)
 excel_la_SOURCES =		\
 	boot.c			\
 	boot.h			\
+	excel-xml-read.c	\
+	excel-xml-read.h	\
 	excel.h			\
 	formula-types.h		\
 	ms-excel-biff.h		\
