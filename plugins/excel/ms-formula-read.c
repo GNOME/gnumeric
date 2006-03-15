@@ -620,7 +620,7 @@ static void
 parse_list_free (GnmExprList **list)
 {
 	while (*list)
-		gnm_expr_unref (parse_list_pop(list));
+		gnm_expr_free (parse_list_pop(list));
 }
 
 static gboolean
@@ -649,7 +649,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 
 		if (f_name == NULL) {
 			if (tmp)
-				gnm_expr_unref (tmp);
+				gnm_expr_free (tmp);
 			parse_list_free (&args);
 			parse_list_push_raw (stack,
 				value_new_error (NULL, _("Broken function")));
@@ -661,7 +661,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		if (name == NULL)
 			name = gnm_func_add_placeholder (wb, f_name, "UNKNOWN", TRUE);
 
-		gnm_expr_unref (tmp);
+		gnm_expr_free (tmp);
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
 		return TRUE;
 	} else if (fn_idx >= 0 && fn_idx < excel_func_desc_size) {
@@ -1226,7 +1226,7 @@ excel_parse_formula1 (MSContainer const *container,
 				break;
 			case 0x10 : ptg_length += 4;	/* eptgElfRadicalLel, No, Err */
 				/* does not seem to put anything on the stack */
-				gnm_expr_unref (
+				gnm_expr_free (
 					xl_expr_err (esheet, fn_col, fn_row,
 						     "undocumented extended ptg 0x10", "#REF!"));
 				break;

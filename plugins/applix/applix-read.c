@@ -1456,7 +1456,7 @@ static gboolean
 cb_remove_expr (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	gnm_expr_unref (value);
+	gnm_expr_free (value);
 	return TRUE;
 }
 static gboolean

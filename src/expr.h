@@ -69,7 +69,7 @@ GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
 
-void	  gnm_expr_unref	     (GnmExpr const *expr);
+void	  gnm_expr_free              (GnmExpr const *expr);
 GnmExpr const *gnm_expr_copy         (GnmExpr const *expr);
 gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_data_table     (GnmExpr const *expr,

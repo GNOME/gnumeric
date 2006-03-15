@@ -106,6 +106,7 @@ Morten:
 	* Plug leak in SEARCH.
 	* Fix printing issue with wrapped, right-aligned text.  [#334144]
 	* Introduce top-level expressions.
+	* Eliminate ref-counting at the sub-expression level.
 	* Plug leaks in preferences dialog.
 	* Make CORREL, COVAR, RSQ, SLOPE, and INTERCEPT really ignore
 	  blanks.  [#334591]

@@ -377,7 +377,7 @@ wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *func_name)
 	if (wbv->auto_expr_desc)
 		g_free (wbv->auto_expr_desc);
 	if (wbv->auto_expr)
-		gnm_expr_unref (wbv->auto_expr);
+		gnm_expr_free (wbv->auto_expr);
 
 	wbv->auto_expr_desc = g_strdup (descr);
 	wbv->auto_expr = gnm_expr_new_funcall (
@@ -553,7 +553,7 @@ wb_view_finalize (GObject *object)
 		workbook_detach_view (wbv);
 
 	if (wbv->auto_expr) {
-		gnm_expr_unref (wbv->auto_expr);
+		gnm_expr_free (wbv->auto_expr);
 		wbv->auto_expr = NULL;
 	}
 	if (wbv->auto_expr_desc) {

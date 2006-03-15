@@ -293,7 +293,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			value_release (val);
 
 			if (valid && v->op != VALIDATION_OP_BETWEEN) {
-				gnm_expr_unref (expr);
+				gnm_expr_free (expr);
 				return VALIDATION_STATUS_VALID;
 			}
 
@@ -301,7 +301,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			    v->op == VALIDATION_OP_NOT_BETWEEN) {
 				g_return_val_if_fail (v->texpr[1] != NULL, VALIDATION_STATUS_VALID);
 
-				gnm_expr_unref (expr);
+				gnm_expr_free (expr);
 				expr = gnm_expr_new_binary
 					(val_expr,
 					 (v->op == VALIDATION_OP_BETWEEN) ? GNM_EXPR_OP_LTE : GNM_EXPR_OP_GT,
@@ -310,7 +310,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				valid = value_get_as_bool (val, NULL);
 				value_release (val);
 				if (valid) {
-					gnm_expr_unref (expr);
+					gnm_expr_free (expr);
 					return VALIDATION_STATUS_VALID;
 				}
 			}
@@ -320,7 +320,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				gnm_expr_conventions_default);
 			msg = g_strdup_printf (_("%s is not true."), expr_str);
 			g_free (expr_str);
-			gnm_expr_unref (expr);
+			gnm_expr_free (expr);
 		}
 	}
 

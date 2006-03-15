@@ -842,7 +842,7 @@ analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 static void
 cb_inputexpr_free (gpointer expr, G_GNUC_UNUSED gpointer user_data)
 {
-	gnm_expr_unref (expr);
+	gnm_expr_free (expr);
 }
 
 static gboolean
@@ -1608,7 +1608,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2, 1)) {
 		static const GnmCellRef mean_2 = {NULL, 1, -4, TRUE, TRUE};
-		gnm_expr_unref (expr_mean_2);
+		gnm_expr_free (expr_mean_2);
 		expr_mean_2 = gnm_expr_new_cellref (&mean_2);
 	}
 
@@ -1649,7 +1649,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 		if (dao_cell_is_visible (dao, 2, 3)) {
 			static const GnmCellRef count_2 =
 				{NULL, 1, -3, TRUE, TRUE};
-			gnm_expr_unref (expr_count_2);
+			gnm_expr_free (expr_count_2);
 			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
 		} else
 			expr_count_2_adj = expr_count_2;
@@ -2155,7 +2155,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		if (dao_cell_is_visible (dao, 2,2)) {
 			static const GnmCellRef var_2 =
 				{NULL, 1, -2, TRUE, TRUE};
-			gnm_expr_unref (expr_var_2);
+			gnm_expr_free (expr_var_2);
 			expr_var_2_adj = gnm_expr_new_cellref (&var_2);
 		} else
 			expr_var_2_adj = expr_var_2;
@@ -2199,7 +2199,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2,1)) {
 		static const GnmCellRef mean_2 = {NULL, 1, -5, TRUE, TRUE};
-		gnm_expr_unref (expr_mean_2);
+		gnm_expr_free (expr_mean_2);
 		expr_mean_2 = gnm_expr_new_cellref (&mean_2);
 	}
 	{
@@ -2251,7 +2251,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 
 		if (dao_cell_is_visible (dao, 2,3)) {
 			GnmCellRef count_2 = {NULL, 1, -5, TRUE, TRUE};
-			gnm_expr_unref (expr_count_2);
+			gnm_expr_free (expr_count_2);
 			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
 		} else
 			expr_count_2_adj = expr_count_2;
@@ -2480,7 +2480,7 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2,1)) {
 		static const GnmCellRef mean_2 = {NULL, 1, -4, TRUE, TRUE};
-		gnm_expr_unref (expr_mean_2);
+		gnm_expr_free (expr_mean_2);
 		expr_mean_2 = gnm_expr_new_cellref (&mean_2);
 	}
 	{
@@ -2584,14 +2584,14 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 		if (dao_cell_is_visible (dao, 2,2)) {
 			static const GnmCellRef var_2 =
 				{NULL, 1, -5, TRUE, TRUE};
-			gnm_expr_unref (expr_var_2);
+			gnm_expr_free (expr_var_2);
 			expr_var_2_adj = gnm_expr_new_cellref (&var_2);
 		} else
 			expr_var_2_adj = expr_var_2;
 		if (dao_cell_is_visible (dao, 2,3)) {
 			static const GnmCellRef count_2 =
 				{NULL, 1, -4, TRUE, TRUE};
-			gnm_expr_unref (expr_count_2);
+			gnm_expr_free (expr_count_2);
 			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
 		} else
 			expr_count_2_adj = expr_count_2;
@@ -2855,7 +2855,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 				gnm_expr_new_cellref (&cr_num),
 				GNM_EXPR_OP_DIV,
 				gnm_expr_new_cellref (&cr_denum));
-			gnm_expr_unref (expr_var_denum);
+			gnm_expr_free (expr_var_denum);
 		} else {
 			expr = gnm_expr_new_binary (
 				gnm_expr_new_cellref (&cr_num),
@@ -2878,7 +2878,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 		if (dao_cell_is_visible (dao, 2, 2)) {
 			arg3 = gnm_expr_new_cellref (&cr_df_denum);
-			gnm_expr_unref (expr_count_denum);
+			gnm_expr_free (expr_count_denum);
 		} else {
 			expr_df_denum = gnm_expr_new_binary
 				(expr_count_denum,
@@ -4028,7 +4028,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 
 			if (dao_cell_is_visible (dao, 3, 3)) {
 				expr_denom = gnm_expr_new_cellref (&cr_denom);
-				gnm_expr_unref (expr_ss_within);
+				gnm_expr_free (expr_ss_within);
 			} else {
 				expr_denom = gnm_expr_new_binary
 					(expr_ss_within,
@@ -4084,7 +4084,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			if (dao_cell_is_visible (dao, 2, 3)) {
 				cr.row = 1;
 				arg3 = gnm_expr_new_cellref (&cr);
-				gnm_expr_unref (expr_wdof);
+				gnm_expr_free (expr_wdof);
 			} else
 				arg3 = expr_wdof;
 

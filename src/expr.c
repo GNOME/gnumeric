@@ -64,20 +64,10 @@ static GOMemChunk *expression_pool_small, *expression_pool_big;
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
 
+#define GNM_EXPR_SET_OPER(e,o) ((e)->oper = (o))
+
 /***************************************************************************/
 
-#if 0
-static guint
-gnm_expr_constant_hash (GnmExprConstant const *expr)
-{
-	return value_hash (expr->value);
-}
-static gboolean
-gnm_expr_constant_eq (GnmExprConstant const *a,
-		      GnmExprConstant const *b)
-{
-}
-#endif
 /**
  * gnm_expr_new_constant :
  * @v :
@@ -99,63 +89,45 @@ gnm_expr_new_constant (GnmValue *v)
 
 /***************************************************************************/
 
-#if 0
-static guint
-gnm_expr_function_hash (GnmExprFunction const *expr)
-{
-	guint h = GNM_EXPR_GET_OPER (expr);
-	GnmExprList *l;
-	for (l = expr->arg_list; l; l = l->next)
-		h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
-	return h;
-}
-static gboolean
-gnm_expr_function_eq (GnmExprFunction const *a,
-		      GnmExprFunction const *b)
-{
-}
-#endif
-
-GnmExpr const *
-gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
+static GnmExpr const *
+gnm_expr_new_funcallv (GnmFunc *func, int argc, GnmExprConstPtr *argv)
 {
 	GnmExprFunction *ans;
 	g_return_val_if_fail (func, NULL);
 
 	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
 
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
+	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_FUNCALL);
 	gnm_func_ref (func);
 	ans->func = func;
-	ans->argc = gnm_expr_list_length (arg_list);
-	if (arg_list) {
-		GnmExprList *arg_list0 = arg_list;
-		int i;
-		ans->argv = g_new (GnmExprConstPtr, ans->argc);
-		for (i = 0; arg_list; i++, arg_list = arg_list->next)
-			ans->argv[i] = arg_list->data;
-		gnm_expr_list_free (arg_list0);
-	} else
-		ans->argv = NULL;
+	ans->argc = argc;
+	ans->argv = argv;
 
 	return (GnmExpr *)ans;
+}
+
+GnmExpr const *
+gnm_expr_new_funcall (GnmFunc *func, GnmExprList *arg_list)
+{
+	GnmExprList *arg_list0 = arg_list;
+	int argc = gnm_expr_list_length (arg_list);
+	GnmExprConstPtr *argv = argc ? g_new (GnmExprConstPtr, argc) : NULL;
+	int i;
+
+	for (i = 0; arg_list; i++, arg_list = arg_list->next)
+		argv[i] = arg_list->data;
+	gnm_expr_list_free (arg_list0);
+
+	return gnm_expr_new_funcallv (func, argc, argv);
 }
 
 GnmExpr const *
 gnm_expr_new_funcall1 (GnmFunc *func,
 		       GnmExpr const *arg0)
 {
-	GnmExprFunction *ans;
-	g_return_val_if_fail (func, NULL);
-
-	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
-	gnm_func_ref (func);
-	ans->func = func;
-	ans->argc = 1;
-	ans->argv = g_new (GnmExprConstPtr, 1);
-	ans->argv[0] = arg0;
-	return (GnmExpr *)ans;
+	GnmExprConstPtr *argv = g_new (GnmExprConstPtr, 1);
+	argv[0] = arg0;
+	return gnm_expr_new_funcallv (func, 1, argv);
 }
 
 GnmExpr const *
@@ -163,18 +135,10 @@ gnm_expr_new_funcall2 (GnmFunc *func,
 		       GnmExpr const *arg0,
 		       GnmExpr const *arg1)
 {
-	GnmExprFunction *ans;
-	g_return_val_if_fail (func, NULL);
-
-	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
-	gnm_func_ref (func);
-	ans->func = func;
-	ans->argc = 2;
-	ans->argv = g_new (GnmExprConstPtr, 2);
-	ans->argv[0] = arg0;
-	ans->argv[1] = arg1;
-	return (GnmExpr *)ans;
+	GnmExprConstPtr *argv = g_new (GnmExprConstPtr, 2);
+	argv[0] = arg0;
+	argv[1] = arg1;
+	return gnm_expr_new_funcallv (func, 2, argv);
 }
 
 GnmExpr const *
@@ -183,39 +147,15 @@ gnm_expr_new_funcall3 (GnmFunc *func,
 		       GnmExpr const *arg1,
 		       GnmExpr const *arg2)
 {
-	GnmExprFunction *ans;
-	g_return_val_if_fail (func, NULL);
-
-	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_FUNCALL);
-	gnm_func_ref (func);
-	ans->func = func;
-	ans->argc = 3;
-	ans->argv = g_new (GnmExprConstPtr, 3);
-	ans->argv[0] = arg0;
-	ans->argv[1] = arg1;
-	ans->argv[2] = arg2;
-	return (GnmExpr *)ans;
+	GnmExprConstPtr *argv = g_new (GnmExprConstPtr, 3);
+	argv[0] = arg0;
+	argv[1] = arg1;
+	argv[2] = arg2;
+	return gnm_expr_new_funcallv (func, 3, argv);
 }
 
 
 /***************************************************************************/
-
-#if 0
-static guint
-gnm_expr_unary_hash (GnmExprUnary const *expr)
-{
-	return  (GPOINTER_TO_INT (expr->value) * 7) ^
-		(guint)GNM_EXPR_GET_OPER (expr);
-}
-static gboolean
-gnm_expr_unary_eq (GnmExprUnary const *a,
-		   GnmExprUnary const *b)
-{
-	return GNM_EXPR_GET_OPER (a) == GNM_EXPR_GET_OPER (b) &&
-		a->value == b->value;
-}
-#endif
 
 GnmExpr const *
 gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
@@ -226,23 +166,13 @@ gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER_REF1 (ans, op);
+	GNM_EXPR_SET_OPER (ans, op);
 	ans->value = e;
 
 	return (GnmExpr *)ans;
 }
 
 /***************************************************************************/
-
-#if 0
-static guint
-gnm_expr_binary_hash (GnmExprBinary const *expr)
-{
-	return  (GPOINTER_TO_INT (expr->value_a) * 7) ^
-		(GPOINTER_TO_INT (expr->value_b) * 3) ^
-		(guint)(GNM_EXPR_GET_OPER (expr));
-}
-#endif
 
 GnmExpr const *
 gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
@@ -253,7 +183,7 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER_REF1 (ans, op);
+	GNM_EXPR_SET_OPER (ans, op);
 	ans->value_a = l;
 	ans->value_b = r;
 
@@ -261,14 +191,6 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 }
 
 /***************************************************************************/
-
-#if 0
-static guint
-gnm_expr_name_hash (GnmExprName const *expr)
-{
-	return GPOINTER_TO_INT (expr->name);
-}
-#endif
 
 GnmExpr const *
 gnm_expr_new_name (GnmNamedExpr *name,
@@ -280,7 +202,7 @@ gnm_expr_new_name (GnmNamedExpr *name,
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_NAME);
+	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_NAME);
 	ans->name = name;
 	expr_name_ref (name);
 
@@ -292,13 +214,6 @@ gnm_expr_new_name (GnmNamedExpr *name,
 
 /***************************************************************************/
 
-#if 0
-static guint
-gnm_expr_cellref_hash (GnmExprCellRef const *expr)
-{
-}
-#endif
-
 GnmExpr const *
 gnm_expr_new_cellref (GnmCellRef const *cr)
 {
@@ -308,20 +223,13 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_CELLREF);
+	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_CELLREF);
 	ans->ref = *cr;
 
 	return (GnmExpr *)ans;
 }
 
 /***************************************************************************/
-
-#if 0
-static guint
-gnm_expr_array_hash (GnmExprArray const *expr)
-{
-}
-#endif
 
 /**
  * gnm_expr_new_array_corner :
@@ -340,7 +248,7 @@ gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 	if (ans == NULL)
 		return NULL;
 
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_ARRAY_CORNER);
+	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_ARRAY_CORNER);
 	ans->rows = rows;
 	ans->cols = cols;
 	ans->value = NULL;
@@ -357,7 +265,7 @@ gnm_expr_new_array_elem  (int x, int y)
 	if (ans == NULL)
 		return NULL;
 
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_ARRAY_ELEM);
+	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_ARRAY_ELEM);
 	ans->x = x;
 	ans->y = y;
 	return (GnmExpr *)ans;
@@ -365,74 +273,127 @@ gnm_expr_new_array_elem  (int x, int y)
 
 /***************************************************************************/
 
-#if 0
-static guint
-gnm_expr_set_hash (GnmExprSet const *expr)
-{
-	guint h = GNM_EXPR_GET_OPER (expr);
-	GnmExprList *l;
-	for (l = expr->set; l; l = l->next)
-		h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
-	return h;
-}
-#endif
-
-GnmExpr const *
-gnm_expr_new_set (GnmExprList *set)
+static GnmExpr const *
+gnm_expr_new_setv (int argc, GnmExprConstPtr *argv)
 {
 	GnmExprSet *ans = CHUNK_ALLOC (GnmExprSet, expression_pool_small);
 
-	GNM_EXPR_SET_OPER_REF1 (ans, GNM_EXPR_OP_SET);
-	ans->argc = gnm_expr_list_length (set);
-	if (set) {
-		GnmExprList *set0 = set;
-		int i;
-		ans->argv = g_new (GnmExprConstPtr, ans->argc);
-		for (i = 0; set; i++, set = set->next)
-			ans->argv[i] = set->data;
-		gnm_expr_list_free (set0);
-	} else
-		ans->argv = NULL;
+	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_SET);
+	ans->argc = argc;
+	ans->argv = argv;
 
 	return (GnmExpr *)ans;
 }
 
+GnmExpr const *
+gnm_expr_new_set (GnmExprList *set)
+{
+	int i, argc;
+	GnmExprConstPtr *argv;
+	GnmExprList *set0 = set;
+
+	argc = gnm_expr_list_length (set);
+	argv = argc ? g_new (GnmExprConstPtr, argc) : NULL;
+	for (i = 0; set; i++, set = set->next)
+		argv[i] = set->data;
+	gnm_expr_list_free (set0);
+
+	return gnm_expr_new_setv (argc, argv);
+}
+
 /***************************************************************************/
 
-/* This will become a deep copy when we kill the ref-counting.  */
 GnmExpr const *
 gnm_expr_copy (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	/* Temporary check which would fail for a texpr.  */
-	g_return_val_if_fail (GNM_EXPR_GET_REFCOUNT (expr) > 0, NULL);
-	g_return_val_if_fail (GNM_EXPR_GET_REFCOUNT (expr) < 10000, NULL);
+	switch (GNM_EXPR_GET_OPER (expr)) {
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+	case GNM_EXPR_OP_ANY_BINARY:
+		return gnm_expr_new_binary
+			(gnm_expr_copy (expr->binary.value_a),
+			 GNM_EXPR_GET_OPER (expr),
+			 gnm_expr_copy (expr->binary.value_b));
 
-	/* We're screwed if the refcount overflows.  */
-	((GnmExpr *)expr)->oper_and_refcount++;
+	case GNM_EXPR_OP_ANY_UNARY:
+		return gnm_expr_new_unary
+			(GNM_EXPR_GET_OPER (expr),
+			 gnm_expr_copy (expr->unary.value));
 
-	return expr;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprConstPtr *argv =
+			g_new (GnmExprConstPtr, expr->func.argc);
+		int i;
+
+		for (i = 0; i < expr->func.argc; i++)
+			argv[i] = gnm_expr_copy (expr->func.argv[i]);
+
+		return gnm_expr_new_funcallv
+			(expr->func.func,
+			 expr->func.argc,
+			 argv);
+	}
+
+	case GNM_EXPR_OP_NAME:
+		return gnm_expr_new_name
+			(expr->name.name,
+			 expr->name.optional_scope,
+			 expr->name.optional_wb_scope);
+
+	case GNM_EXPR_OP_CONSTANT:
+		return gnm_expr_new_constant
+			(value_dup (expr->constant.value));
+
+	case GNM_EXPR_OP_CELLREF:
+		return gnm_expr_new_cellref (&expr->cellref.ref);
+
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		return gnm_expr_new_array_corner
+			(expr->array_corner.cols, expr->array_corner.rows,
+			 gnm_expr_copy (expr->array_corner.expr));
+
+	case GNM_EXPR_OP_ARRAY_ELEM:
+		return gnm_expr_new_array_elem
+			(expr->array_elem.x,
+			 expr->array_elem.y);
+
+	case GNM_EXPR_OP_SET: {
+		GnmExprConstPtr *argv =
+			g_new (GnmExprConstPtr, expr->set.argc);
+		int i;
+
+		for (i = 0; i < expr->set.argc; i++)
+			argv[i] = gnm_expr_copy (expr->set.argv[i]);
+
+		return gnm_expr_new_setv
+			(expr->set.argc,
+			 argv);
+	}
+
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+		g_assert_not_reached ();
+		break;
+#endif
+	}
 }
 
-static void
-do_gnm_expr_unref (GnmExpr const *expr)
+/*
+ * gnm_expr_free:
+ */
+void
+gnm_expr_free (GnmExpr const *expr)
 {
-	/* We're screwed if the refcount underflows.  */
-	((GnmExpr *)expr)->oper_and_refcount--;
-
-	/* Temporary check which would fail for a texpr.  */
-	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) < 10000);
-
-	if (GNM_EXPR_GET_REFCOUNT (expr) > 0)
-		return;
+	g_return_if_fail (expr != NULL);
 
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		do_gnm_expr_unref (expr->binary.value_a);
-		do_gnm_expr_unref (expr->binary.value_b);
+		gnm_expr_free (expr->binary.value_a);
+		gnm_expr_free (expr->binary.value_b);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
@@ -440,7 +401,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		int i;
 
 		for (i = 0; i < expr->func.argc; i++)
-			do_gnm_expr_unref (expr->func.argv[i]);
+			gnm_expr_free (expr->func.argv[i]);
 		g_free (expr->func.argv);
 		gnm_func_unref (expr->func.func);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
@@ -462,14 +423,14 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		break;
 
 	case GNM_EXPR_OP_ANY_UNARY:
-		do_gnm_expr_unref (expr->unary.value);
+		gnm_expr_free (expr->unary.value);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
 		if (expr->array_corner.value)
 			value_release (expr->array_corner.value);
-		do_gnm_expr_unref (expr->array_corner.expr);
+		gnm_expr_free (expr->array_corner.expr);
 		CHUNK_FREE (expression_pool_big, (gpointer)expr);
 		break;
 
@@ -481,7 +442,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		int i;
 
 		for (i = 0; i < expr->set.argc; i++)
-			do_gnm_expr_unref (expr->set.argv[i]);
+			gnm_expr_free (expr->set.argv[i]);
 		g_free (expr->set.argv);
 		CHUNK_FREE (expression_pool_small, (gpointer)expr);
 		break;
@@ -493,27 +454,6 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		break;
 #endif
 	}
-}
-
-/*
- * gnm_expr_unref:
- * Decrements the ref_count for part of a expression.  (All trees are expected
- * to have been created with a ref-count of one, so when we hit zero, we
- * go down over the tree and unref the tree and its leaves stuff.)
- */
-void
-gnm_expr_unref (GnmExpr const *expr)
-{
-	g_return_if_fail (expr != NULL);
-	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) > 0);
-
-	/* Temporary check which would fail for a texpr.  */
-	g_return_if_fail (GNM_EXPR_GET_REFCOUNT (expr) < 10000);
-
-	if (GNM_EXPR_GET_REFCOUNT (expr) == 1)
-		do_gnm_expr_unref (expr);
-	else
-		((GnmExpr *)expr)->oper_and_refcount--;
 }
 
 /**
@@ -1961,54 +1901,51 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 
 	case GNM_EXPR_OP_FUNCALL: {
 		gboolean rewrite = FALSE;
-		GnmExprList *new_args = NULL;
 		int i;
+		int argc = expr->func.argc;
+		GnmExprConstPtr *argv =
+			argc ? g_new (GnmExprConstPtr, argc) : NULL;
 
-		/* FIXME: Quite inefficient!  */
-		for (i = 0; i < expr->func.argc; i++) {
-			GnmExpr const *arg =
-				gnm_expr_rewrite (expr->func.argv[i], rwinfo);
-			new_args = gnm_expr_list_append (new_args, arg);
-			if (arg != NULL)
+		for (i = 0; i < argc; i++) {
+			argv[i] = gnm_expr_rewrite (expr->func.argv[i], rwinfo);
+			if (argv[i])
 				rewrite = TRUE;
 		}
 
 		if (rewrite) {
-			GnmExprList *m = new_args;
+			for (i = 0; i < argc; i++)
+				if (!argv[i])
+					argv[i] = gnm_expr_copy (expr->func.argv[i]);
 
-			for (i = 0; i < expr->func.argc; i++, m = m->next)
-				if (m->data == NULL)
-					m->data = (GnmExpr *)gnm_expr_copy (expr->func.argv[i]);
-
-			return gnm_expr_new_funcall (expr->func.func, new_args);
+			return gnm_expr_new_funcallv
+				(expr->func.func,
+				 argc,
+				 argv);
 		}
-		g_slist_free (new_args);
+		g_free (argv);
 		return NULL;
 	}
 	case GNM_EXPR_OP_SET: {
 		gboolean rewrite = FALSE;
-		GnmExprList *new_set = NULL;
 		int i;
+		int argc = expr->set.argc;
+		GnmExprConstPtr *argv =
+			argc ? g_new (GnmExprConstPtr, argc) : NULL;
 
-		for (i = 0; i < expr->set.argc; i++) {
-			GnmExpr const *arg =
-				gnm_expr_rewrite (expr->set.argv[i], rwinfo);
-			new_set = gnm_expr_list_append (new_set, arg);
-			if (arg != NULL)
+		for (i = 0; i < argc; i++) {
+			argv[i] = gnm_expr_rewrite (expr->set.argv[i], rwinfo);
+			if (argv[i])
 				rewrite = TRUE;
 		}
 
 		if (rewrite) {
-			GnmExprList *m = new_set;
+			for (i = 0; i < argc; i++)
+				if (!argv[i])
+					argv[i] = gnm_expr_copy (expr->func.argv[i]);
 
-			for (i = 0; i < expr->set.argc; i++, m = m->next) {
-				if (m->data == NULL)
-					m->data = (GnmExpr *)gnm_expr_copy (expr->set.argv[i]);
-			}
-
-			return gnm_expr_new_set (new_set);
+			return gnm_expr_new_setv (argc, argv);
 		}
-		g_slist_free (new_set);
+		g_free (argv);
 		return NULL;
 	}
 
@@ -2142,12 +2079,14 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		return NULL;
 
 	case GNM_EXPR_OP_ARRAY_CORNER: {
-		GnmExpr const *func = gnm_expr_rewrite (expr->array_corner.expr, rwinfo);
-		if (func == NULL)
-			return NULL;
-		return gnm_expr_new_array_corner (
-			expr->array_corner.cols, expr->array_corner.rows,
-			func);
+		GnmExpr const *e =
+			gnm_expr_rewrite (expr->array_corner.expr, rwinfo);
+		if (e)
+			return gnm_expr_new_array_corner
+				(expr->array_corner.cols,
+				 expr->array_corner.rows,
+				 e);
+		return NULL;
 	}
 	}
 
@@ -2555,12 +2494,15 @@ gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 	return FALSE;
 }
 
+/*
+ * This frees the data pointers and the list.
+ */
 void
 gnm_expr_list_unref (GnmExprList *list)
 {
 	GnmExprList *l;
 	for (l = list; l; l = l->next)
-		do_gnm_expr_unref (l->data);
+		gnm_expr_free (l->data);
 	gnm_expr_list_free (list);
 }
 
@@ -2717,7 +2659,7 @@ cb_ets_unref_key (gpointer key, G_GNUC_UNUSED gpointer value,
 		  G_GNUC_UNUSED gpointer user_data)
 {
 	GnmExpr *e = key;
-	gnm_expr_unref (e);
+	gnm_expr_free (e);
 }
 
 
@@ -2775,7 +2717,7 @@ gnm_expr_top_unref (GnmExprTop const *texpr)
 
 	((GnmExprTop *)texpr)->refcount--;
 	if (texpr->refcount == 0) {
-		gnm_expr_unref (texpr->expr);
+		gnm_expr_free (texpr->expr);
 		((GnmExprTop *)texpr)->magic = 0;
 		g_free ((GnmExprTop *)texpr);
 	}

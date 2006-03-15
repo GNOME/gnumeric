@@ -321,14 +321,14 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 	if (dao->type == RangeOutput &&
 	    (dao->cols > 1 || dao->rows > 1) &&
 	    (col >= dao->cols || row >= dao->rows)) {
-		gnm_expr_unref (expr);
+		gnm_expr_free (expr);
 	        return;
 	}
 
 	col += dao->start_col;
 	row += dao->start_row;
 	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS) {
-		gnm_expr_unref (expr);
+		gnm_expr_free (expr);
 		return;
 	}
 

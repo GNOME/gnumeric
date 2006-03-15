@@ -133,7 +133,7 @@ register_allocation (gpointer data, ParseDeallocator freer)
 }
 
 #define register_expr_allocation(expr) \
-  register_allocation ((gpointer)(expr), (ParseDeallocator)&gnm_expr_unref)
+  register_allocation ((gpointer)(expr), (ParseDeallocator)&gnm_expr_free)
 
 #define register_expr_list_allocation(list) \
   register_allocation ((list), (ParseDeallocator)&gnm_expr_list_unref)
@@ -399,7 +399,7 @@ parse_string_as_value (GnmExpr *str)
 
 	if (v != NULL) {
 		unregister_allocation (str);
-		gnm_expr_unref (str);
+		gnm_expr_free (str);
 		return register_expr_allocation (gnm_expr_new_constant (v));
 	}
 	return str;
@@ -438,7 +438,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 		res = gnm_expr_new_constant (v);
 
 	unregister_allocation (str_expr);
-	gnm_expr_unref (str_expr);
+	gnm_expr_free (str_expr);
 	return register_expr_allocation (res);
 }
 
@@ -605,7 +605,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 				state->ptr, strlen (name));
 			YYERROR;
 		} else {
-			unregister_allocation ($2); gnm_expr_unref ($2);
+			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = register_expr_allocation (gnm_expr_new_name (nexpr, $1, NULL));
 		}
 	}
@@ -618,7 +618,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		pos.wb = $1;
 		nexpr = expr_name_lookup (&pos, name);
 		if (nexpr != NULL) {
-			unregister_allocation ($2); gnm_expr_unref ($2);
+			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = register_expr_allocation (gnm_expr_new_name (nexpr, NULL, $1));
 		} else {
 			report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
@@ -653,7 +653,7 @@ function : STRING '(' arg_list ')' {
 
 		if (f_call) {
 			/* We're done with the function name.  */
-			unregister_allocation ($1); gnm_expr_unref ($1);
+			unregister_allocation ($1); gnm_expr_free ($1);
 			unregister_allocation ($3);
 			$$ = register_expr_allocation (f_call);
 		} else {
@@ -671,7 +671,7 @@ workbookref : '[' string_opt_quote ']'  {
 		Workbook *wb = gnm_app_workbook_get_by_name (wb_name);
 
 		if (wb != NULL) {
-			unregister_allocation ($2); gnm_expr_unref ($2);
+			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = wb;
 		} else {
 			/* kludge to produce better error messages
@@ -692,7 +692,7 @@ workbookref : '[' string_opt_quote ']'  {
 sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = parser_sheet_by_name (state->pos->wb, $1);
 		if (sheet != NULL) {
-			unregister_allocation ($1); gnm_expr_unref ($1);
+			unregister_allocation ($1); gnm_expr_free ($1);
 			$$ = sheet;
 		} else {
 			YYERROR;
@@ -702,7 +702,7 @@ sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = parser_sheet_by_name ($1, $2);
 
 		if (sheet != NULL) {
-			unregister_allocation ($2); gnm_expr_unref ($2);
+			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = sheet;
 		} else {
 			YYERROR;

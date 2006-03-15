@@ -33,7 +33,6 @@
 #include "workbook.h"
 #include "ranges.h"
 #include "expr.h"
-#include "expr-impl.h"
 #include "value.h"
 #include "stf-parse.h"
 #include "sheet-object-cell-comment.h"
@@ -125,18 +124,19 @@ paste_cell_with_operation (Sheet *dst_sheet,
 		gnm_expr_top_unref (res);
 	} else {
 		GnmEvalPos pos;
-		GnmExpr	   expr, arg_a, arg_b;
-
-		gnm_expr_constant_init (&arg_a.constant, dst->value);
-		gnm_expr_constant_init (&arg_b.constant, src->val);
-		GNM_EXPR_SET_OPER_REF1 (&expr, op);
-		expr.binary.value_a = &arg_a;
-		expr.binary.value_b = &arg_b;
+		GnmExpr const *expr =
+			gnm_expr_new_binary
+			(gnm_expr_new_constant (value_dup (dst->value)),
+			 op,
+			 gnm_expr_new_constant (value_dup (src->val)));
+		GnmValue *value;
 
 		eval_pos_init_cell (&pos, dst);
 		pos.dep = NULL; /* no dynamic deps */
-		cell_set_value (dst,
-			gnm_expr_eval (&expr, &pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY));
+		value = gnm_expr_eval (expr, &pos,
+				       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		gnm_expr_free (expr);
+		cell_set_value (dst, value);
 	}
 }
 

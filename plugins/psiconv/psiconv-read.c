@@ -362,11 +362,11 @@ parse_subexpr(const psiconv_formula psi_formula)
 		if (nrargs >= 2) {
 			if (!(psi_form2 = psiconv_list_get
 			                  (psi_formula->data.fun_operands,1))) {
-				gnm_expr_unref(expr1);
+				gnm_expr_free(expr1);
 				return NULL;
 			}
 			if (!(expr2 = parse_subexpr(psi_form2))) {
-				gnm_expr_unref(expr1);
+				gnm_expr_free(expr1);
 				return NULL;
 			}
 		}
@@ -396,8 +396,8 @@ parse_subexpr(const psiconv_formula psi_formula)
 		case psiconv_formula_op_neg:
 			return gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG,expr1);
 		default:
-			gnm_expr_unref(expr1);
-			gnm_expr_unref(expr2);
+			gnm_expr_free(expr1);
+			gnm_expr_free(expr2);
 			return NULL;
 		}
 	} else if (kind == 3) {
@@ -472,7 +472,7 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 		g_warning ("Cell with no value or expression ?");
 	}
 	if (expr)
-		gnm_expr_unref (expr);
+		gnm_expr_free (expr);
 
 	/* TODO: Perhaps this must be moved above set_format */
 	set_style(sheet,psi_cell->row,psi_cell->column,psi_cell->layout,

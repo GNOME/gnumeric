@@ -286,7 +286,7 @@ lotus_negate (const GnmExpr *e)
 
 	if (GNM_EXPR_GET_OPER (e) == GNM_EXPR_OP_UNARY_NEG) {
 		res = gnm_expr_copy (e->unary.value);
-		gnm_expr_unref (e);
+		gnm_expr_free (e);
 	} else {
 		res = gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, e);
 	}

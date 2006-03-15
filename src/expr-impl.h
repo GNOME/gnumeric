@@ -8,60 +8,60 @@
 
 
 struct _GnmExprConstant {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	GnmValue const *value;
 };
 
 struct _GnmExprFunction {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	int argc;
 	GnmFunc *func;
 	GnmExprConstPtr *argv;
 };
 
 struct _GnmExprUnary {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	GnmExpr const *value;
 };
 
 struct _GnmExprBinary {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	GnmExpr const *value_a;
 	GnmExpr const *value_b;
 };
 
 /* We could break this out into multiple types to be more space efficient */
 struct _GnmExprName {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	Sheet *optional_scope;
 	Workbook *optional_wb_scope;
 	GnmNamedExpr *name;
 };
 
 struct _GnmExprCellRef {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	GnmCellRef ref;
 };
 
 struct _GnmExprArrayCorner {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	guint32 cols, rows;
 	GnmValue *value;	/* Last array result */
 	GnmExpr const *expr;	/* Real Expression */
 };
 struct _GnmExprArrayElem {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	guint32 x, y;
 };
 
 struct _GnmExprSet {
-	guint32 oper_and_refcount;
+	guint8 oper;
 	int argc;
 	GnmExprConstPtr *argv;
 };
 
 union _GnmExpr {
-	guint32                 oper_and_refcount;
+	guint8                  oper;
 	GnmExprConstant		constant;
 	GnmExprFunction		func;
 	GnmExprUnary		unary;
@@ -73,14 +73,12 @@ union _GnmExpr {
 	GnmExprSet		set;
 };
 
-#define GNM_EXPR_GET_REFCOUNT(e) ((e)->oper_and_refcount & ((1 << 27) - 1))
-#define GNM_EXPR_GET_OPER(e) ((GnmExprOp)((e)->oper_and_refcount >> 27))
-#define GNM_EXPR_SET_OPER_REF1(e,o) ((e)->oper_and_refcount = (((o) << 27) | 1))
+#define GNM_EXPR_GET_OPER(e) ((GnmExprOp)((e)->oper))
 
-#define gnm_expr_constant_init(expr, val)			\
-do {								\
-	GNM_EXPR_SET_OPER_REF1(expr, GNM_EXPR_OP_CONSTANT);	\
-	(expr)->value = val;					\
+#define gnm_expr_constant_init(expr, val)	\
+do {						\
+	(expr)->oper = GNM_EXPR_OP_CONSTANT;	\
+	(expr)->value = val;			\
 } while (0)
 
 
