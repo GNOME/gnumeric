@@ -1,5 +1,8 @@
 Gnumeric 1.6.3
 
+Jody:
+	* Backport duping sheet props when sheet is duped.
+
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]
 	* Implement xls saving/loading of "protected" attribute.  [#330129]

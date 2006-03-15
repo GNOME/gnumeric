@@ -1,3 +1,7 @@
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_dup) : dup the properties too.
+
 2006-03-13  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_sheet_read): Handle "protected" attribute.
