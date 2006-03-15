@@ -1,3 +1,8 @@
+2006-03-15  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (collect_floats): Backport info fixes.
+	(float_range_function2): Backport count fix.
+
 2006-03-14  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_dup) : dup the properties too.

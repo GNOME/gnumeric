@@ -155,16 +155,19 @@ collect_floats (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags 
 {
 	GnmValue * err;
 	collect_floats_t cl;
-	CellIterFlags iter_flags = (flags & COLLECT_IGNORE_BLANKS)
-		? CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL;
-	if (flags & COLLECT_IGNORE_SUBTOTAL)
-		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
+	CellIterFlags iter_flags = CELL_ITER_ALL;
 
 	if (info) {
-		flags = flags | COLLECT_INFO;
+		flags |= COLLECT_INFO;
 		*info = NULL;
-	} else
-		flags = flags & COLLECT_NO_INFO_MASK;
+	} else {
+		if (flags & COLLECT_IGNORE_BLANKS)
+			iter_flags = CELL_ITER_IGNORE_BLANK;
+		flags &= ~COLLECT_INFO;
+	}
+
+	if (flags & COLLECT_IGNORE_SUBTOTAL)
+		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
 
 	cl.alloc_count = 20;
 	cl.data = g_new (gnm_float, cl.alloc_count);
@@ -173,8 +176,10 @@ collect_floats (GnmExprList const *exprlist, GnmEvalPos const *ep, CollectFlags 
 	cl.info = NULL;
 	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
 
-	err = function_iterate_argument_values (ep, &callback_function_collect,
-		&cl, exprlist, TRUE, iter_flags);
+	err = function_iterate_argument_values
+		(ep, &callback_function_collect, &cl,
+		 exprlist,
+		 TRUE, iter_flags);
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);
@@ -404,6 +409,7 @@ float_range_function2 (GnmValue const *val0, GnmValue const *val1, FunctionEvalI
 			g_free (vals0);
 			gval = strip_missing (gval, &missing);
 			vals0 = (gnm_float *)gval->data;
+			n0 = gval->len;
 			g_array_free (gval, FALSE);
 
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
@@ -411,11 +417,17 @@ float_range_function2 (GnmValue const *val0, GnmValue const *val1, FunctionEvalI
 			g_free (vals1);
 			gval = strip_missing (gval, &missing);
 			vals1 = (gnm_float *)gval->data;
+			n1 = gval->len;
 			g_array_free (gval, FALSE);
 
 			g_slist_free (missing0);
 			g_slist_free (missing1);
 			g_slist_free (missing);
+
+			if (n0 != n1) {
+				g_warning ("This should not happen.  n0=%d n1=%d\n",
+					   n0, n1);
+			}
 		}
 
 
