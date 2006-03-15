@@ -258,8 +258,9 @@ GnmCell		*solver_get_target_cell (Sheet *sheet);
 /* Returns a pointer to a input variable cell. */
 GnmCell		*solver_get_input_var (SolverResults *res, int n);
 
-/* Retruns a pointer to a constraint. */
+/* Returns a pointer to a constraint. */
 SolverConstraint* solver_get_constraint (SolverResults *res, int n);
+void              solver_constraint_destroy (SolverConstraint *c);
 
 void              solver_insert_cols    (Sheet *sheet, int col, int count);
 void              solver_insert_rows    (Sheet *sheet, int row, int count);
@@ -270,11 +271,12 @@ void              solver_delete_cols    (Sheet *sheet, int col, int count);
 
 #define solver_param_new() NULL
 #define solver_lp_copy(src_param, new_sheet) NULL
-#define solver_param_destroy(param)
-#define solver_insert_cols(sheet, col, count)
-#define solver_insert_rows(sheet, row, count)
-#define solver_delete_cols(sheet, col, count)
-#define solver_delete_rows(sheet, row, count)
+#define solver_param_destroy(param)		do {} while(0)
+#define solver_insert_cols(sheet, col, count)	do {} while(0)
+#define solver_insert_rows(sheet, row, count)	do {} while(0)
+#define solver_delete_cols(sheet, col, count)	do {} while(0)
+#define solver_delete_rows(sheet, row, count)	do {} while(0)
+#define solver_constraint_destroy(c)		do {} while(0)
 
 #endif
 

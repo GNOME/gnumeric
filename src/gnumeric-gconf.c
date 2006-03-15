@@ -1128,18 +1128,56 @@ go_conf_load_double (GOConfNode *node, gchar const *key,
 		     gdouble minima, gdouble maxima,
 		     gdouble default_val)
 {
-	return default_val;
+	gchar *real_key;
+	gchar *ptr;
+	double val;
+	GError *err = NULL;
+
+	real_key = go_conf_get_real_key (node, key);
+	ptr = g_key_file_get_value (key_file, DOUBLE_GROUP, real_key, &err);
+
+	if (err) {
+		val = default_val;
+		g_error_free (err);
+	} else {		
+		val = g_ascii_strtod (ptr, NULL);
+		if (val < minima || val > maxima) {
+			val = default_val;
+		}
 }
+
+	g_free(ptr);
+	g_free (real_key);
+	return val;
+}
+
 char *
 go_conf_load_string (GOConfNode *node, gchar const *key)
 {
-	return NULL;
+	gchar *real_key;
+	char *val = NULL;
+	GError *err = NULL;
+
+	real_key = go_conf_get_real_key (node, key);
+	val = g_key_file_get_string (key_file, STRING_GROUP, real_key, &err);
+
+	if (err) {
+#if 0
+		g_warning (err->message);
+#endif
+		g_error_free (err);
 }
+	
+	g_free (real_key);
+	return val;
+}
+
 GSList *
 go_conf_load_str_list (GOConfNode *node, gchar const *key)
 {
-	return NULL;
+	return go_conf_get_str_list (node, key);
 }
+
 char *
 go_conf_get_short_desc (GOConfNode *node, gchar const *key)
 {
@@ -1155,18 +1193,55 @@ go_conf_get_long_desc  (GOConfNode *node, gchar const *key)
 GType
 go_conf_get_type (GOConfNode *node, gchar const *key)
 {
-	return G_TYPE_NONE;
+	gchar **groups;
+	gchar *real_key;
+	GType type = G_TYPE_NONE;
+	int i, ng;
+
+	real_key = go_conf_get_real_key (node, key);
+	groups = g_key_file_get_groups (key_file, &ng);
+
+	if (groups != NULL) {
+		for (i = 0; i < ng; i++) {
+			if (g_key_file_has_key (key_file, groups[i], real_key, NULL)) {
+				if (!g_ascii_strcasecmp (groups[i], BOOL_GROUP)) {
+					type = G_TYPE_BOOLEAN;
+				} else if (!g_ascii_strcasecmp (groups[i], INT_GROUP)) {
+					type = G_TYPE_INT;
+				} else if (!g_ascii_strcasecmp (groups[i], DOUBLE_GROUP)) {
+					type = G_TYPE_DOUBLE;
+				} else if (!g_ascii_strcasecmp (groups[i], STRING_GROUP)) {
+					type = G_TYPE_STRING;
+				} else if (!g_ascii_strcasecmp (groups[i], STRLIST_GROUP)) {
+					type = G_TYPE_STRING;
+				}
+				break;
+			}
+		}
+		g_strfreev (groups);
+	}
+		    
+	g_free (real_key);
+
+	return type;
 }
 
 gchar *
 go_conf_get_value_as_str (GOConfNode *node, gchar const *key)
 {
-	return g_strdup ("");
+	gchar *val = NULL;
+	gchar *real_key = go_conf_get_real_key (node, key);
+	val = g_key_file_get_string (key_file, STRING_GROUP, real_key, NULL);
+	g_free (real_key);	
+	return val;
 }
 
 gboolean
 go_conf_set_value_from_str (GOConfNode *node, gchar const *key, gchar const *val_str)
 {
+	gchar *real_key = go_conf_get_real_key (node, key);
+	g_key_file_set_value (key_file, STRING_GROUP, real_key, val_str);
+	g_free (real_key);
 	return TRUE;
 }
 
@@ -1911,4 +1986,3 @@ gnm_gconf_set_prefer_clipboard  (gboolean val)
 	go_conf_set_bool (
 		root, GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, val != FALSE);
 }
-

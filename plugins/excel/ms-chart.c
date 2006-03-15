@@ -1137,7 +1137,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
 
 	BC_R(get_style) (s);
-	switch (GSF_LE_GET_GUINT16 (q->data+6)) {
+	switch (GSF_LE_GET_GINT16 (q->data+6)) {
 	default :
 	case -1 : s->style->line.width = 0; /* hairline */
 		break;

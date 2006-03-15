@@ -469,7 +469,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 int excel_func_desc_size = G_N_ELEMENTS (excel_func_desc);
 
 static GnmExpr const *
-expr_tree_error (ExcelReadSheet const *esheet, int col, int row,
+xl_expr_err (ExcelReadSheet const *esheet, int col, int row,
 		 char const *msg, char const *str)
 {
 	if (esheet != NULL && esheet->sheet != NULL) {
@@ -570,9 +570,9 @@ parse_list_push (GnmExprList **list, GnmExpr const *pd)
 	d (5, fprintf (stderr, "Push 0x%p\n", pd););
 	if (pd == NULL) {
 		g_warning ("FIXME: Pushing nothing onto excel function stack");
-		pd = expr_tree_error (NULL, -1, -1,
+		pd = xl_expr_err (NULL, -1, -1,
 			"Incorrect number of parsed formula arguments",
-			"#WrongArgs");
+			"#WrongArgs!");
 	}
 	*list = gnm_expr_list_prepend (*list, pd);
 }
@@ -595,9 +595,9 @@ parse_list_pop (GnmExprList **list)
 		return ans;
 	}
 
-	return expr_tree_error (NULL, -1, -1,
+	return xl_expr_err (NULL, -1, -1,
 		"Incorrect number of parsed formula arguments",
-		"#WrongArgs");
+		"#WrongArgs!");
 }
 
 /**
@@ -668,13 +668,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		d (2, fprintf (stderr, "Function '%s', %d, expected args: %d flags = 0x%x\n",
 			       fd->name, numargs, fd->num_known_args, fd->flags););
 
-		if ((fd->flags & XL_VARARG) && numargs < 0)
-			g_warning ("We think '%s' is vararg, and XL doesn't", fd->name);
-		if ((fd->flags & XL_FIXED) && numargs >= 0)
-			g_warning ("We think '%s' is fixed, and XL doesn't", fd->name);
-
-		/* Right args for multi-arg funcs. */
-		if (fd->flags & XL_FIXED) {
+		if (numargs < 0) { /* fixed, use the built in */
 			int const available_args =
 			    (*stack != NULL) ? g_slist_length(*stack) : 0;
 			numargs = fd->num_known_args;
@@ -695,7 +689,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		if (fd->name) {
 			name = gnm_func_lookup (fd->name, wb);
 			if (name == NULL)
-				name = gnm_func_add_placeholder (wb, fd->name, "0NKNOWN", TRUE);
+				name = gnm_func_add_placeholder (wb, fd->name, "UNKNOWN", TRUE);
 		}
 		/* This should not happen */
 		if (!name) {
@@ -904,7 +898,7 @@ excel_parse_formula (MSContainer const *container,
 			GnmCellPos top_left;
 
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
-			top_left.col = GSF_LE_GET_GUINT16 (cur+2);
+			top_left.col = (ver >= MS_BIFF_V3) ? GSF_LE_GET_GUINT16 (cur+2) : GSF_LE_GET_GUINT8 (cur+2);
 			sf = excel_sheet_shared_formula (esheet, &top_left);
 
 			if (sf == NULL) {
@@ -926,11 +920,7 @@ excel_parse_formula (MSContainer const *container,
 				return NULL;
 			}
 
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 0) {
-				fprintf (stderr, "Parse shared formula\n");
-			}
-#endif
+			d (0, fprintf (stderr, "Parse shared formula\n"););
 			expr = excel_parse_formula (container, esheet, fn_col, fn_row,
 				sf->data, sf->data_len, TRUE, array_element);
 
@@ -999,111 +989,57 @@ excel_parse_formula (MSContainer const *container,
 			break;
 
 		case FORMULA_PTG_ATTR : { /* FIXME: not fully implemented */
-			guint8  grbit = GSF_LE_GET_GUINT8(cur);
+			guint8  grbit = GSF_LE_GET_GUINT8 (cur);
 			guint16 w;
 			if (ver >= MS_BIFF_V3) {
-				w = GSF_LE_GET_GUINT16(cur+1);
+				w = GSF_LE_GET_GUINT16 (cur+1);
 				ptg_length = 3;
 			} else {
-				w = GSF_LE_GET_GUINT8(cur+1);
+				w = GSF_LE_GET_GUINT8 (cur+1);
 				ptg_length = 2;
 			}
 			if (grbit == 0x00) {
-				static gboolean warned_a = FALSE;
-				static gboolean warned_3 = FALSE;
-				if (w == 0xa) {
-					if (warned_a)
-						break;
-					warned_a = TRUE;
-				} else if (w == 3) {
-					if (warned_3)
-						break;
-					warned_3 = TRUE;
-				} /* else always warn */
-
+#if 0
 				ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 				fprintf (stderr, "Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
 					"bracket a 1x1 array formula.  please send us this file.\n"
 					"Flags = 0x%X\n", w);
+#endif
 			} else if (grbit & 0x01) {
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 0) {
-					fprintf (stderr, "A volatile function: so what\n");
-				}
-#endif
-			} else if (grbit & 0x02) { /* AttrIf: 'optimised' IF function */
-				/* Who cares if the TRUE expr has a goto at the end */
-				GnmExpr const *tr;
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 2) {
-					fprintf (stderr, "Optimised IF 0x%x 0x%x\n", grbit, w);
-					gsf_mem_dump (mem, length);
-				}
-#endif
-				tr = w ? excel_parse_formula (container, esheet, fn_col, fn_row,
-					   cur+ptg_length, w, shared, NULL)
-					: gnm_expr_new_constant (value_new_string (""));
-				parse_list_push (&stack, tr);
-				ptg_length += w;
-			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
-				guint16 len, lp;
-				guint32 offset=0;
-				guint8 const *data=cur+3;
-				GnmExpr const *tr;
+				d (2, fprintf (stderr, "A volatile function\n"););
 
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 1) {
-					fprintf (stderr, "'Optimised' choose\n");
-					gsf_mem_dump (mem,length);
-				}
-#endif
-				for (lp=0;lp<w;lp++) { /* w = wCases */
-					offset= GSF_LE_GET_GUINT16(data);
-					len = GSF_LE_GET_GUINT16(data+2) - offset;
-#ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 1) {
-						fprintf (stderr, "Get from %d len %d [ = 0x%x ]\n",
-							ptg_length+offset, len,
-							*(cur+ptg_length+offset));
-					}
-#endif
-					tr = excel_parse_formula (container, esheet, fn_col, fn_row,
-						cur+ptg_length+offset, len, shared, NULL);
-					data += 2;
-					parse_list_push (&stack, tr);
-				}
-				ptg_length+=GSF_LE_GET_GUINT16(data);
-			} else if (grbit & 0x08) { /* AttrGoto */
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 2) {
-					fprintf (stderr, "Goto %d: cur = 0x%x\n", w,
-						(int)(cur-mem));
-					gsf_mem_dump (mem, length);
-				}
-#endif
-				/* Not right prior to Excel 4.0 ? */
-				if (ver <= MS_BIFF_V3) break;
-				ptg_length = w;
-			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
-				if (!make_function (&stack, 0x04, 1, container->ewb->gnum_wb))
-				{
+			/* AttrIf: stores jump to FALSE condition */
+			} else if (grbit & 0x02) {
+				/* Ignore cached result */
+				d (2, fprintf (stderr, "ATTR IF\n"););
+
+			/* AttrChoose : stores table of inputs */
+			} else if (grbit & 0x04) {
+				/* Ignore the optimzation to specify which arg to use */
+				d (2, fprintf (stderr, "ATTR CHOOSE\n"););
+				ptg_length = 2 * ((w + 1) /* args */ + 1 /* count */) + 1;
+
+			/* AttrGoto : bytes/words to skip during _evaluation_.
+			 * We still need to parse them */
+			} else if (grbit & 0x08) {
+				d (2, fprintf (stderr, "ATTR GOTO\n"););
+
+			/* AttrSum: 'optimised' SUM function */
+			} else if (grbit & 0x10) {
+				if (!make_function (&stack, 0x04, 1, container->ewb->gnum_wb)) {
 					error = TRUE;
-					puts ("Error in optimised SUM");
+					fprintf (stderr, "Error in optimised SUM\n");
 				}
-			} else if (grbit & 0x40) { /* AttrSpace */
-				guint8 num_space = GSF_LE_GET_GUINT8(cur+2);
-				guint8 attrs     = GSF_LE_GET_GUINT8(cur+1);
-				if (attrs == 00) /* bitFSpace : ignore it */
-				/* Could perhaps pop top arg & append space ? */;
-				else
-#ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 1) {
-						fprintf (stderr, "Redundant whitespace in formula 0x%x count %d\n", attrs, num_space);
-					}
-#else
-				;
-#endif
+
+			/* AttrSpace */
+			} else if (grbit & 0x40) {
+				guint8 num_space = GSF_LE_GET_GUINT8 (cur+2);
+				guint8 attrs     = GSF_LE_GET_GUINT8 (cur+1);
+				if (attrs == 0) /* bitFSpace : ignore it for now */
+					;
+  				else
+					d (2, fprintf (stderr, "Redundant whitespace in formula 0x%x count %d\n", attrs, num_space););
 			} else {
 				ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 				fprintf (stderr, "Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
@@ -1113,44 +1049,38 @@ excel_parse_formula (MSContainer const *container,
 		break;
 
 		case FORMULA_PTG_SHEET: {
+			g_warning ("PTG_SHEET! please send us a copy of this file.");
 			ptg_length = 10;
 			external = TRUE;
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 1) {
-				fprintf (stderr, "External ref ignored\n");
-			}
-#endif
 			break;
 		}
 
-		case FORMULA_PTG_SHEET_END: {
+		case FORMULA_PTG_SHEET_END:
+			g_warning ("PTG_SHEET_END! please send us a copy of this file.");
 			ptg_length = 4;
 			external = FALSE;
 			break;
-		}
 
-		case FORMULA_PTG_ERR: {
+		case FORMULA_PTG_ERR:
 			parse_list_push_raw (&stack, biff_get_error (NULL, GSF_LE_GET_GUINT8 (cur)));
 			ptg_length = 1;
 			break;
-		}
-		case FORMULA_PTG_INT: {
-			guint16 num = GSF_LE_GET_GUINT16(cur);
-			parse_list_push_raw (&stack, value_new_int (num));
+
+		case FORMULA_PTG_INT:
+			parse_list_push_raw (&stack, value_new_int (GSF_LE_GET_GUINT16 (cur)));
 			ptg_length = 2;
 			break;
-		}
+
 		case FORMULA_PTG_BOOL:
-			parse_list_push_raw (&stack, value_new_bool (GSF_LE_GET_GUINT8(cur)));
+			parse_list_push_raw (&stack, value_new_bool (GSF_LE_GET_GUINT8 (cur)));
 			ptg_length = 1;
 			break;
 
-		case FORMULA_PTG_NUM: {
-			double tmp = gsf_le_get_double (cur);
-			parse_list_push_raw (&stack, value_new_float (tmp));
+		case FORMULA_PTG_NUM:
+			parse_list_push_raw (&stack, value_new_float (gsf_le_get_double (cur)));
 			ptg_length = 8;
 			break;
-		}
+
 		case FORMULA_PTG_STR: {
 			char *str;
 			int len = GSF_LE_GET_GUINT8 (cur);
@@ -1221,7 +1151,7 @@ excel_parse_formula (MSContainer const *container,
 				/* 0x1d */ 4,  /* eptgSxName, No, Value */
 				/* 0x1e */ 0   /* Reserved */
 			};
-			guint8 const eptg_type = GSF_LE_GET_GUINT8(cur);
+			guint8 const eptg_type = GSF_LE_GET_GUINT8 (cur);
 			if (eptg_type >= G_N_ELEMENTS (extended_ptg_size))
 			{
 				g_warning ("EXCEL : unknown ePtg type %02x",
@@ -1256,8 +1186,8 @@ excel_parse_formula (MSContainer const *container,
 				GnmCellRef ref;
 
 				getRefV8 (&ref,
-					  GSF_LE_GET_GUINT16(cur + 1),
-					  GSF_LE_GET_GUINT16(cur + 3),
+					  GSF_LE_GET_GUINT16 (cur + 1),
+					  GSF_LE_GET_GUINT16 (cur + 3),
 					  fn_col, fn_row, shared);
 
 				if (eptg_type == 0x07) { /* Column */
@@ -1379,10 +1309,10 @@ excel_parse_formula (MSContainer const *container,
 
 			if (ver >= MS_BIFF_V4) {
 				ptg_length = 2;
-				iftab = GSF_LE_GET_GUINT16(cur);
+				iftab = GSF_LE_GET_GUINT16 (cur);
 			} else {
 				ptg_length = 1;
-				iftab = GSF_LE_GET_GUINT8(cur);
+				iftab = GSF_LE_GET_GUINT8 (cur);
 			}
 
 			if (!make_function (&stack, iftab, -1, container->ewb->gnum_wb)) {
@@ -1393,21 +1323,21 @@ excel_parse_formula (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_FUNC_VAR: {
-			int const numargs = (GSF_LE_GET_GUINT8( cur ) & 0x7f);
+			int const numargs = (GSF_LE_GET_GUINT8 ( cur ) & 0x7f);
 			/* index into fn table */
 			int iftab;
 #if 0
 			/* Prompts the user ?  */
-			int const prompt  = (GSF_LE_GET_GUINT8( cur ) & 0x80);
+			int const prompt  = (GSF_LE_GET_GUINT8 ( cur ) & 0x80);
 			/* is a command equiv.?*/
-			int const cmdquiv = (GSF_LE_GET_GUINT16(cur+1) & 0x8000);
+			int const cmdquiv = (GSF_LE_GET_GUINT16 (cur+1) & 0x8000);
 #endif
 			if (ver >= MS_BIFF_V4) {
 				ptg_length = 3;
-				iftab = (GSF_LE_GET_GUINT16(cur+1) & 0x7fff);
+				iftab = (GSF_LE_GET_GUINT16 (cur+1) & 0x7fff);
 			} else {
 				ptg_length = 2;
-				iftab = GSF_LE_GET_GUINT8(cur+1);
+				iftab = GSF_LE_GET_GUINT8 (cur+1);
 			}
 
 			if (!make_function (&stack, iftab, numargs, container->ewb->gnum_wb)) {
@@ -1462,14 +1392,14 @@ excel_parse_formula (MSContainer const *container,
 			GnmCellRef ref;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&ref,
-					  GSF_LE_GET_GUINT16(cur),
-					  GSF_LE_GET_GUINT16(cur + 2),
+					  GSF_LE_GET_GUINT16 (cur),
+					  GSF_LE_GET_GUINT16 (cur + 2),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
 				ptg_length = 4;
 			} else {
 				getRefV7 (&ref,
-					  GSF_LE_GET_GUINT8(cur+2),
-					  GSF_LE_GET_GUINT16(cur),
+					  GSF_LE_GET_GUINT8 (cur+2),
+					  GSF_LE_GET_GUINT16 (cur),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
 				ptg_length = 3;
 			}
@@ -1481,22 +1411,22 @@ excel_parse_formula (MSContainer const *container,
 			GnmCellRef first, last;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,
-					  GSF_LE_GET_GUINT16(cur+0),
-					  GSF_LE_GET_GUINT16(cur+4),
+					  GSF_LE_GET_GUINT16 (cur+0),
+					  GSF_LE_GET_GUINT16 (cur+4),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				getRefV8 (&last,
-					  GSF_LE_GET_GUINT16(cur+2),
-					  GSF_LE_GET_GUINT16(cur+6),
+					  GSF_LE_GET_GUINT16 (cur+2),
+					  GSF_LE_GET_GUINT16 (cur+6),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				ptg_length = 8;
 			} else {
 				getRefV7 (&first,
-					  GSF_LE_GET_GUINT8(cur+4),
-					  GSF_LE_GET_GUINT16(cur+0),
+					  GSF_LE_GET_GUINT8 (cur+4),
+					  GSF_LE_GET_GUINT16 (cur+0),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				getRefV7 (&last,
-					  GSF_LE_GET_GUINT8(cur+5),
-					  GSF_LE_GET_GUINT16(cur+2),
+					  GSF_LE_GET_GUINT8 (cur+5),
+					  GSF_LE_GET_GUINT16 (cur+2),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				ptg_length = 6;
 			}
@@ -1616,22 +1546,22 @@ excel_parse_formula (MSContainer const *container,
 
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,
-					  GSF_LE_GET_GUINT16(cur+2),
-					  GSF_LE_GET_GUINT16(cur+6),
+					  GSF_LE_GET_GUINT16 (cur+2),
+					  GSF_LE_GET_GUINT16 (cur+6),
 					  fn_col, fn_row, 0);
 				getRefV8 (&last,
-					  GSF_LE_GET_GUINT16(cur+4),
-					  GSF_LE_GET_GUINT16(cur+8),
+					  GSF_LE_GET_GUINT16 (cur+4),
+					  GSF_LE_GET_GUINT16 (cur+8),
 					  fn_col, fn_row, 0);
 				ptg_length = 10;
 			} else {
 				getRefV7 (&first,
-					  GSF_LE_GET_GUINT8(cur+18),
-					  GSF_LE_GET_GUINT16(cur+14),
+					  GSF_LE_GET_GUINT8 (cur+18),
+					  GSF_LE_GET_GUINT16 (cur+14),
 					  fn_col, fn_row, 0);
 				getRefV7 (&last,
-					  GSF_LE_GET_GUINT8(cur+19),
-					  GSF_LE_GET_GUINT16(cur+16),
+					  GSF_LE_GET_GUINT8 (cur+19),
+					  GSF_LE_GET_GUINT16 (cur+16),
 					  fn_col, fn_row, 0);
 				ptg_length = 20;
 			}
@@ -1673,16 +1603,16 @@ excel_parse_formula (MSContainer const *container,
 		gsf_mem_dump (mem, length);
 
 		parse_list_free (&stack);
-		return expr_tree_error (esheet, fn_col, fn_row,
+		return xl_expr_err (esheet, fn_col, fn_row,
 			"Unknown Formula/Array", "#Unknown formula");
 	}
 
 	if (stack == NULL)
-		return expr_tree_error (esheet, fn_col, fn_row,
+		return xl_expr_err (esheet, fn_col, fn_row,
 			"Stack too short - unusual", "#ShortStack");
 	if (gnm_expr_list_length (stack) > 1) {
 		parse_list_free (&stack);
-		return expr_tree_error (esheet, fn_col, fn_row,
+		return xl_expr_err (esheet, fn_col, fn_row,
 			"Too much data on stack - probable cause: fixed args function is var-arg, put '-1' in the table above",
 			"#LongStack");
 	}

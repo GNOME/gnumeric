@@ -103,7 +103,8 @@ MSObjAttr    *ms_obj_attr_bag_lookup  (MSObjAttrBag *attrs,
 guint32   ms_obj_attr_get_uint	      (MSObjAttrBag *attrs, MSObjAttrID id, guint32 default_value);
 gint32    ms_obj_attr_get_int	      (MSObjAttrBag *attrs, MSObjAttrID id, gint32 default_value);
 gpointer  ms_obj_attr_get_ptr	      (MSObjAttrBag *attrs, MSObjAttrID id, gpointer default_value);
-GArray   *ms_obj_attr_get_array	      (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_value);
+GArray	      *ms_obj_attr_get_array  (MSObjAttrBag *ab, MSObjAttrID id,
+				       GArray *default_value, gboolean steal);
 GnmExpr const *ms_obj_attr_get_expr   (MSObjAttrBag *attrs, MSObjAttrID id, GnmExpr const *default_value);
 PangoAttrList *ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id, PangoAttrList *default_value);
 

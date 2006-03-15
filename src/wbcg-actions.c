@@ -490,7 +490,7 @@ static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
 
 /****************************************************************************/
 
-static GNM_ACTION_DEF (cb_view_zoom_out)
+static GNM_ACTION_DEF (cb_view_zoom_in)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
@@ -501,7 +501,7 @@ static GNM_ACTION_DEF (cb_view_zoom_out)
 		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
 			  (double) (zoom + 10) / 100);
 }
-static GNM_ACTION_DEF (cb_view_zoom_in)
+static GNM_ACTION_DEF (cb_view_zoom_out)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
@@ -855,7 +855,7 @@ static GNM_ACTION_DEF (cb_help_docs)
 
 static GNM_ACTION_DEF (cb_help_web)
 {
-	GError *err = go_url_show ("http://www.gnumeric.org/");
+	GError *err = go_url_show ("http://www.gnome.org/projects/gnumeric/");
 	if (err != NULL) {
 		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
@@ -1214,6 +1214,11 @@ apply_number_format (WorkbookControlGUI *wbcg,
 	cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, descriptor);
 }
 
+static GNM_ACTION_DEF (cb_format_as_general)
+{
+	apply_number_format (wbcg,
+		cell_formats [FMT_GENERAL][0], _("Format as General"));
+}
 static GNM_ACTION_DEF (cb_format_as_number)
 {
 	apply_number_format (wbcg,
@@ -1945,14 +1950,17 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 		NULL, N_("Split merged ranges of cells"),
 		G_CALLBACK (cb_unmerge_cells) },
 
+	{ "FormatAsGeneral", NULL, N_("General"),
+		"<control>asciitilde", N_("Format the selection as General"),
+		G_CALLBACK (cb_format_as_general) },
 	{ "FormatAsNumber", NULL, N_("Number"),
-		"<control>asciitilde", N_("Format the selection as numbers"),
+		"<control>exclam", N_("Format the selection as numbers"),
 		G_CALLBACK (cb_format_as_number) },
 	{ "FormatAsCurrency", NULL, N_("Currency"),
 		"<control>dollar", N_("Format the selection as currency"),
 		G_CALLBACK (cb_format_as_currency) },
 	{ "FormatAsAccounting", "Gnumeric_FormatAsAccounting", N_("Accounting"),
-		"<control>exclam", N_("Format the selection as accounting"),
+		NULL, N_("Format the selection as accounting"),
 		G_CALLBACK (cb_format_as_accounting) },
 	{ "FormatAsPercentage", "Gnumeric_FormatAsPercentage", N_("Percentage"),
 		"<control>percent", N_("Format the selection as percentage"),

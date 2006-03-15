@@ -454,8 +454,13 @@ static char const *help_atan2 = {
 static GnmValue *
 gnumeric_atan2 (FunctionEvalInfo *ei, GnmValue **args)
 {
-	return value_new_float (atan2gnum (value_get_as_float (args [1]),
-					   value_get_as_float (args [0])));
+	gnm_float x = value_get_as_float (args [0]);
+	gnm_float y = value_get_as_float (args [1]);
+
+	if (x == 0 && y == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	return value_new_float (atan2gnum (y, x));
 }
 
 /***************************************************************************/
@@ -707,15 +712,11 @@ gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue **argv)
 
 	if (argv[1] == NULL)
 	        s = (number >= 0) ? 1.0 : -1.0;
-	else {
+	else
 	        s = value_get_as_float (argv[1]);
-	}
 
-	if (number == 0)
+	if (number == 0 || s == 0)
 		return value_new_int (0);
-
-	if (s == 0)
-		return value_new_error_DIV0 (ei->pos);
 
 	if (number / s < 0)
 		return value_new_error_NUM (ei->pos);
@@ -1585,17 +1586,24 @@ static char const *help_trunc = {
 static GnmValue *
 gnumeric_trunc (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        gnm_float number, p10;
-        int digits;
+	gnm_float number = value_get_as_float (argv[0]);
+	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
 
-	number = value_get_as_float (argv[0]);
-	if (argv[1] == NULL)
-	        digits = 0;
-	else
-	        digits = value_get_as_int (argv[1]);
+	if (digits >= 0) {
+		if (digits <= GNUM_MAX_EXP) {
+			gnm_float p10 = gpow10 ((int)digits);
+			number = gnumeric_fake_trunc (number * p10) / p10;
+		}
+	} else {
+		if (digits >= GNUM_MIN_EXP) {
+			/* Keep p10 integer.  */
+			gnm_float p10 = gpow10 ((int)-digits);
+			number = gnumeric_fake_trunc (number / p10) * p10;
+		} else
+			number = 0;
+	}
 
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_trunc (number * p10) / p10);
+	return value_new_float (number);
 }
 
 /***************************************************************************/
@@ -1700,18 +1708,24 @@ static GnmValue *
 gnumeric_factdouble (FunctionEvalInfo *ei, GnmValue **argv)
 
 {
-        int number;
-	int n;
-	gnm_float product = 1;
+	gnm_float number = value_get_as_float (argv[0]);
+	int inumber, n;
+	gnm_float res;
 
-	number = value_get_as_int (argv[0]);
 	if (number < 0)
 		return value_new_error_NUM (ei->pos);
 
-	for (n = number; n > 0; n -= 2)
-	        product *= n;
+	inumber = (int)MIN (number, (gnm_float)INT_MAX);
+	n = (inumber + 1) / 2;
 
-	return value_new_float (product);
+	if (inumber & 1) {
+		gnm_float lres = lgammagnum (n + 0.5) + n * M_LN2gnum;
+		/* Round as the result ought to be integer.  */
+		res = floorgnum (0.5 + expgnum (lres) / sqrtgnum (M_PIgnum));
+	} else
+		res = fact (n) * gpow2 (n);
+
+	return value_new_float (res);
 }
 
 /***************************************************************************/
@@ -1783,10 +1797,8 @@ static char const *help_quotient = {
 static GnmValue *
 gnumeric_quotient (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        gnm_float num, den;
-
-	num = value_get_as_float (argv[0]);
-	den = value_get_as_float (argv[1]);
+	gnm_float num = value_get_as_float (argv[0]);
+	gnm_float den = value_get_as_float (argv[1]);
 
 	if (den == 0)
 	        return value_new_error_DIV0 (ei->pos);
@@ -1888,17 +1900,7 @@ static char const *help_rounddown = {
 static GnmValue *
 gnumeric_rounddown (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        gnm_float number, p10;
-        int digits;
-
-	number = value_get_as_float (argv[0]);
-	if (argv[1] == NULL)
-	        digits = 0;
-	else
-	        digits = value_get_as_int (argv[1]);
-
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_floor (number * p10) / p10);
+ 	return gnumeric_trunc (ei, argv);
 }
 
 /***************************************************************************/
@@ -1932,14 +1934,24 @@ static char const *help_round = {
 static GnmValue *
 gnumeric_round (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        gnm_float number, p10;
-        int     digits;
+	gnm_float number = value_get_as_float (argv[0]);
+	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
 
-	number = value_get_as_float (argv[0]);
-	digits = argv[1] ? value_get_as_int (argv[1]) : 0;
+	if (digits >= 0) {
+		if (digits <= GNUM_MAX_EXP) {
+			gnm_float p10 = gpow10 ((int)digits);
+			number = gnumeric_fake_round (number * p10) / p10;
+		}
+	} else {
+		if (digits >= GNUM_MIN_EXP) {
+			/* Keep p10 integer.  */
+			gnm_float p10 = gpow10 ((int)-digits);
+			number = gnumeric_fake_round (number / p10) * p10;
+		} else
+			number = 0;
+	}
 
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_round (number * p10) / p10);
+	return value_new_float (number);
 }
 
 /***************************************************************************/
@@ -1970,20 +1982,33 @@ static char const *help_roundup = {
 	   "@SEEALSO=ROUND,ROUNDDOWN")
 };
 
+static gnm_float
+gnm_fake_roundup (gnm_float x)
+{
+	return (x < 0) ? gnumeric_fake_floor (x) : gnumeric_fake_ceil (x);
+}
+
 static GnmValue *
 gnumeric_roundup (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        gnm_float number, p10;
-        int digits;
+	gnm_float number = value_get_as_float (argv[0]);
+	gnm_float digits = argv[1] ? value_get_as_float (argv[1]) : 0;
 
-	number = value_get_as_float (argv[0]);
-	if (argv[1] == NULL)
-	        digits = 0;
-	else
-	        digits = value_get_as_int (argv[1]);
+	if (digits >= 0) {
+		if (digits <= GNUM_MAX_EXP) {
+			gnm_float p10 = gpow10 ((int)digits);
+			number = gnm_fake_roundup (number * p10) / p10;
+		}
+	} else {
+		if (digits >= GNUM_MIN_EXP) {
+			/* Keep p10 integer.  */
+			gnm_float p10 = gpow10 ((int)-digits);
+			number = gnm_fake_roundup (number / p10) * p10;
+		} else
+			number = 0;
+	}
 
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_ceil (number * p10) / p10);
+	return value_new_float (number);
 }
 
 /***************************************************************************/

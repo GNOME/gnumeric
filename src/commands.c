@@ -247,15 +247,15 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 		for (i = range->start.row; i <= range->end.row; i++)
 			for (j = range->start.col; j <= range->end.col; j++)
 				if (mstyle_get_content_locked (sheet_style_get (sheet, j, i))) {
-					char *text;
-					text = g_strdup_printf (wbv->is_protected  ?
-				 _("%s is locked. Unprotect the workbook to enable editing.") :
-				 _("%s is locked. Unprotect the sheet to enable editing."),
-								undo_global_range_name (
-									sheet, range));
-					gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), cmd_name,
-								text);
+					char *r = global_range_name (sheet, range);
+					char *text = g_strdup_printf (wbv->is_protected  ?
+						 _("%s is locked. Unprotect the workbook to enable editing.") :
+						 _("%s is locked. Unprotect the sheet to enable editing."),
+						 r);
+					gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc),
+						cmd_name, text);
 					g_free (text);
+					g_free (r);
 					return TRUE;
 				}
 	return FALSE;
@@ -368,7 +368,7 @@ undo_redo_menu_labels (Workbook *wb)
 }
 
 static void
-update_after_action (Sheet *sheet, Workbook *wb)
+update_after_action (Sheet *sheet, WorkbookControl *wbc)
 {
 	if (sheet != NULL) {
 		g_return_if_fail (IS_SHEET (sheet));
@@ -378,15 +378,11 @@ update_after_action (Sheet *sheet, Workbook *wb)
 			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
 
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			  wb_control_sheet_focus (control, sheet);
-		);
-	} else if (wb != NULL) {
-		WORKBOOK_FOREACH_CONTROL (wb, view, wbc, {
-			wb_control_sheet_focus (wbc, sheet);
-			sheet_update (wb_control_cur_sheet (wbc));
-		});
-	}
+		if (sheet->workbook == wb_control_workbook (wbc))
+			WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
+				  wb_control_sheet_focus (control, sheet););
+	} else if (wbc != NULL)
+		sheet_update (wb_control_cur_sheet (wbc));
 }
 
 /*
@@ -507,7 +503,7 @@ command_undo (WorkbookControl *wbc)
 	/* TRUE indicates a failure to undo.  Leave the command where it is */
 	if (klass->undo_cmd (cmd, wbc))
 		return;
-	update_after_action (cmd->sheet, wb);
+	update_after_action (cmd->sheet, wbc);
 
 	wb->undo_commands = g_slist_remove (wb->undo_commands,
 					    wb->undo_commands->data);
@@ -546,7 +542,7 @@ command_redo (WorkbookControl *wbc)
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
 	if (klass->redo_cmd (cmd, wbc))
 		return;
-	update_after_action (cmd->sheet, wb);
+	update_after_action (cmd->sheet, wbc);
 
 	/* Remove the command from the undo list */
 	wb->redo_commands = g_slist_remove (wb->redo_commands,
@@ -608,7 +604,7 @@ command_setup_combos (WorkbookControl *wbc)
 		undo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, TRUE, undo_label, ptr->data);
 	}
-	g_slist_reverse (tmp);
+	(void) g_slist_reverse (tmp);
 
 	wb_control_undo_redo_truncate (wbc, 0, FALSE);
 	tmp = g_slist_reverse (wb->redo_commands);
@@ -616,7 +612,7 @@ command_setup_combos (WorkbookControl *wbc)
 		redo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, FALSE, redo_label, ptr->data);
 	}
-	g_slist_reverse (tmp);
+	(void) g_slist_reverse (tmp);
 
 	/* update the menus too */
 	wb_control_undo_redo_labels (wbc, undo_label, redo_label);
@@ -792,7 +788,7 @@ command_push_undo (WorkbookControl *wbc, GObject *obj)
 
 	/* TRUE indicates a failure to do the command */
 	trouble = klass->redo_cmd (cmd, wbc);
-	update_after_action (cmd->sheet, wb);
+	update_after_action (cmd->sheet, wbc);
 
 	if (!trouble)
 		command_register_undo (wbc, obj);
@@ -3845,7 +3841,8 @@ typedef struct {
 
 
 static void
-cmd_search_replace_update_after_action (CmdSearchReplace *me)
+cmd_search_replace_update_after_action (CmdSearchReplace *me,
+					WorkbookControl *wbc)
 {
 	GList *tmp;
 	Sheet *last_sheet = NULL;
@@ -3854,7 +3851,7 @@ cmd_search_replace_update_after_action (CmdSearchReplace *me)
 		SearchReplaceItem *sri = tmp->data;
 		if (sri->pos.sheet != last_sheet) {
 			last_sheet = sri->pos.sheet;
-			update_after_action (last_sheet, NULL);
+			update_after_action (last_sheet, wbc);
 		}
 	}
 }
@@ -3862,7 +3859,7 @@ cmd_search_replace_update_after_action (CmdSearchReplace *me)
 
 static gboolean
 cmd_search_replace_undo (GnmCommand *cmd,
-			 G_GNUC_UNUSED WorkbookControl *wbc)
+			 WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
@@ -3893,14 +3890,14 @@ cmd_search_replace_undo (GnmCommand *cmd,
 		break;
 		}
 	}
-	cmd_search_replace_update_after_action (me);
+	cmd_search_replace_update_after_action (me, wbc);
 
 	return FALSE;
 }
 
 static gboolean
 cmd_search_replace_redo (GnmCommand *cmd,
-			 G_GNUC_UNUSED WorkbookControl *wbc)
+			 WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
@@ -3931,7 +3928,7 @@ cmd_search_replace_redo (GnmCommand *cmd,
 		break;
 		}
 	}
-	cmd_search_replace_update_after_action (me);
+	cmd_search_replace_update_after_action (me, wbc);
 
 	return FALSE;
 }
@@ -4074,9 +4071,8 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 
 static gboolean
-cmd_search_replace_do (CmdSearchReplace *me,
-		       G_GNUC_UNUSED Workbook *wb, Sheet *sheet,
-		       gboolean test_run)
+cmd_search_replace_do (CmdSearchReplace *me, Sheet *sheet,
+		       gboolean test_run, WorkbookControl *wbc)
 {
 	GnmSearchReplace *sr = me->sr;
 	GPtrArray *cells;
@@ -4114,7 +4110,7 @@ cmd_search_replace_do (CmdSearchReplace *me,
 		/* Cells were added in the wrong order.  Correct.  */
 		me->cells = g_list_reverse (me->cells);
 
-		cmd_search_replace_update_after_action (me);
+		cmd_search_replace_update_after_action (me, wbc);
 	}
 
 	return result;
@@ -4158,7 +4154,6 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, GnmSearchReplace *sr)
 {
 	GObject *obj;
 	CmdSearchReplace *me;
-	Workbook *wb = wb_control_workbook (wbc);
 
 	g_return_val_if_fail (sr != NULL, TRUE);
 
@@ -4172,13 +4167,13 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, GnmSearchReplace *sr)
 	me->cmd.size = 1;  /* Corrected below. */
 	me->cmd.cmd_descriptor = g_strdup (_("Search and Replace"));
 
-	if (cmd_search_replace_do (me, wb, sheet, TRUE)) {
+	if (cmd_search_replace_do (me, sheet, TRUE, wbc)) {
 		/* There was an error and nothing was done.  */
 		g_object_unref (obj);
 		return TRUE;
 	}
 
-	cmd_search_replace_do (me, wb, sheet, FALSE);
+	cmd_search_replace_do (me, sheet, FALSE, wbc);
 	me->cmd.size += g_list_length (me->cells);
 
 	command_register_undo (wbc, obj);
@@ -6559,8 +6554,12 @@ cmd_text_to_columns (WorkbookControl *wbc,
 {
 	GObject *obj;
 	CmdTextToColumns *me;
+	char *src_range_name, *target_range_name;
 
 	g_return_val_if_fail (content != NULL, TRUE);
+
+	src_range_name = undo_global_range_name (src_sheet, src);
+	target_range_name = undo_global_range_name (target_sheet, target);
 
 	obj = g_object_new (CMD_TEXT_TO_COLUMNS_TYPE, NULL);
 	me = CMD_TEXT_TO_COLUMNS (obj);
@@ -6568,8 +6567,8 @@ cmd_text_to_columns (WorkbookControl *wbc,
 	me->cmd.sheet = (src_sheet == target_sheet ? src_sheet : NULL);
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Text (%s) to Columns (%s)"),
-						  undo_global_range_name (src_sheet, src),
-						  undo_global_range_name (target_sheet, target));
+						  src_range_name,
+						  target_range_name);
 	me->dst.range = *target;
 	me->dst.sheet = target_sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
@@ -6577,6 +6576,9 @@ cmd_text_to_columns (WorkbookControl *wbc,
 	me->src_sheet = src_sheet;
 	me->content = content;
 	me->saved_sizes = NULL;
+
+	g_free (src_range_name);
+	g_free (target_range_name);
 
 	/* Check array subdivision & merged regions */
 	if (sheet_range_splits_region (target_sheet, &me->dst.range,

@@ -424,17 +424,19 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 		res = gnm_canvas_key_mode_object (gcanvas, event);
 	else {
 		gcanvas->mask_state = event->state;
-		if (gtk_im_context_filter_keypress (gcanvas->im_context,event)) {
-			gcanvas->need_im_reset = TRUE;
+		gcanvas->insert_decimal = event->keyval == GDK_KP_Decimal ||
+					  event->keyval == GDK_KP_Separator;
+		if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
 			return TRUE;
-		}
 		switch (event->keyval) {
 		case GDK_Shift_L:   case GDK_Shift_R:
 		case GDK_Alt_L:     case GDK_Alt_R:
 		case GDK_Control_L: case GDK_Control_R:
 			break;
 		default:
+			gcanvas->reseting_im = TRUE;
 			gtk_im_context_reset (gcanvas->im_context);
+			gcanvas->reseting_im = FALSE;
 			break;
 		}
 		res = gnm_canvas_key_mode_sheet (gcanvas, event);
@@ -463,10 +465,7 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 		return TRUE;
 
 	if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
-	{
-		gcanvas->need_im_reset = TRUE;
 		return TRUE;
-	}
 	/*
 	 * The status_region normally displays the current edit_pos
 	 * When we extend the selection it changes to displaying the size of
@@ -486,7 +485,6 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
-	GNM_CANVAS (widget)->need_im_reset = TRUE;
 	gtk_im_context_focus_in (GNM_CANVAS (widget)->im_context);
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
@@ -495,7 +493,6 @@ gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 static gint
 gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
-	GNM_CANVAS (widget)->need_im_reset = TRUE;
 	gtk_im_context_focus_out (GNM_CANVAS (widget)->im_context);
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_out_event) (widget, event);
 }
@@ -586,11 +583,18 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 {
 	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
 	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
-	gint tmp_pos;
+	gint tmp_pos, length;
 
 	if (!wbcg_is_editing (wbcg) &&
 	    !wbcg_edit_start (wbcg, TRUE, TRUE))
 		return;
+
+	if (gcanvas->insert_decimal) {
+		GString const *s = format_get_decimal ();
+		str = s->str;
+		length = s->len;
+	} else
+		length = strlen (str);
 
 	if (gtk_editable_get_selection_bounds (editable, NULL, NULL))
 		gtk_editable_delete_selection (editable);
@@ -601,7 +605,7 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 	}
 
 	tmp_pos = gtk_editable_get_position (editable);
-	gtk_editable_insert_text (editable, str, strlen (str), &tmp_pos);
+	gtk_editable_insert_text (editable, str, length, &tmp_pos);
 	gtk_editable_set_position (editable, tmp_pos);
 }
 
@@ -619,7 +623,11 @@ gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 		pango_attr_list_unref (gcanvas->preedit_attrs);
 	gtk_im_context_get_preedit_string (gcanvas->im_context, &preedit_string, &gcanvas->preedit_attrs, &cursor_pos);
 
-	if (!wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, TRUE, TRUE)) {
+	/* in gtk-2.8 something changed.  gtk_im_context_reset started
+	 * triggering a pre-edit-changed.  We'd end up start and finishing an
+	 * empty edit every time the cursor moved */
+	if (!gcanvas->reseting_im &&
+	    !wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, TRUE, TRUE)) {
 		gtk_im_context_reset (gcanvas->im_context);
 		gcanvas->preedit_length = 0;
 		if (gcanvas->preedit_attrs)
@@ -691,6 +699,7 @@ gnm_canvas_init (GnmCanvas *gcanvas)
 	gcanvas->im_context = gtk_im_multicontext_new ();
 	gcanvas->preedit_length = 0;
 	gcanvas->preedit_attrs = NULL;
+	gcanvas->reseting_im = FALSE;
 
 	g_signal_connect (G_OBJECT (gcanvas->im_context), "commit",
 		G_CALLBACK (gnm_canvas_commit_cb), gcanvas);

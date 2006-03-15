@@ -2037,9 +2037,9 @@ opt_fixed_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 	gnm_float d1, d2;
 	gnm_float e1, e2, m;
 
-	if(OS_Call == call_put_flag)
+	if (OS_Call == call_put_flag)
 		m = s_max;
-	else if(OS_Put == call_put_flag)
+	else /* if (OS_Put == call_put_flag) default to being a put */
 		m = s_min;
 
 	d1 = (loggnum(s / x) + (b + (v * v) / 2.0) * t) / (v * sqrtgnum(t));

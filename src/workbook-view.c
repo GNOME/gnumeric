@@ -748,7 +748,7 @@ cb_cleanup_sendto (gpointer path)
 gboolean
 wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 {
-	gboolean problem;
+	gboolean problem = FALSE;
 	IOContext	*io_context;
 	Workbook	*wb;
 	GnmFileSaver	*fs;

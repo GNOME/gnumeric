@@ -17,6 +17,7 @@
 #include "datetime.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "number-match.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -74,9 +75,17 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue *value, void *closure)
 		break;
 
 	case VALUE_STRING:
-	        if (cl->flags & COLLECT_DATES) {
-		        x = datetime_value_to_serial (value, cl->date_conv);
-			if (x == 0)
+	        if (cl->flags & COLLECT_COERCE_STRINGS) {
+			GnmValue *vc = format_match_number (value_peek_string (value),
+							    NULL,
+							    cl->date_conv);
+			gboolean bad = !vc || VALUE_TYPE(vc) == VALUE_BOOLEAN;
+			if (vc) {
+				x = value_get_as_float (vc);
+				value_release (vc);
+			}
+
+			if (bad)
 			        return value_new_error_VALUE (ep);
 		} else if (cl->flags & COLLECT_IGNORE_STRINGS)
 			goto callback_function_collect_store_info;
@@ -121,9 +130,9 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue *value, void *closure)
  * exprlist:       List of expressions to evaluate.
  * cr:             Current location (for resolving relative cells).
  * flags:          COLLECT_IGNORE_STRINGS: silently ignore strings.
+ *                 COLLECT_COERCE_STRINGS: coerce string into numbers
  *                 COLLECT_ZERO_STRINGS: count strings as 0.
  *                   (Alternative: return #VALUE!.)
- *                 COLLECT_DATES: count strings as dates.
  *                 COLLECT_IGNORE_BOOLS: silently ignore bools.
  *                 COLLECT_ZEROONE_BOOLS: count FALSE as 0, TRUE as 1.
  *                   (Alternative: return #VALUE!.)

@@ -635,7 +635,8 @@ sv_is_region_empty_or_selected (SheetView const *sv, GnmRange const *r)
  * @unfrozen : top left corner of the unfrozen region
  *
  * By definition the unfrozen region must be below the frozen.
- */
+ * If @frozen == @unfrozen or @frozen == NULL unfreeze
+ **/
 void
 sv_freeze_panes (SheetView *sv,
 		 GnmCellPos const *frozen,
@@ -650,7 +651,8 @@ sv_freeze_panes (SheetView *sv,
 
 		/* Just in case */
 		if (unfrozen->col != (SHEET_MAX_COLS-1) &&
-		    unfrozen->row != (SHEET_MAX_ROWS-1)) {
+		    unfrozen->row != (SHEET_MAX_ROWS-1) &&
+		    !cellpos_equal (frozen, unfrozen)) {
 			sv->frozen_top_left = *frozen;
 			sv->unfrozen_top_left = *unfrozen;
 			if (sv->frozen_top_left.col == sv->unfrozen_top_left.col)

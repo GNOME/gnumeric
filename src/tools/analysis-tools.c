@@ -51,6 +51,7 @@
 #include "command-context.h"
 
 #include <string.h>
+#include <stdlib.h>
 #include <math.h>
 
 #undef DEBUG_ANALYSIS_TOOLS

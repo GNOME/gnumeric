@@ -91,6 +91,7 @@ gog_plot1_5d_set_property (GObject *obj, guint param_id,
 		if ((gog_1_5d->in_3d != 0) == (tmp != 0))
 			return;
 		gog_1_5d->in_3d = tmp;
+		break;
 	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -324,7 +325,7 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 			"How to group multiple series, normal, stacked, as_percentage",
 			"normal", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GOG_1_5D_PROP_IN_3D,
-		g_param_spec_boolean ("in_3d", "in_3d",
+		g_param_spec_boolean ("in-3d", "in-3d",
 			"Place holder to all us to round trip pseudo 3d state",
 			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 

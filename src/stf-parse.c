@@ -55,8 +55,6 @@ gnm_setlocale(LC_ALL, parseoptions->locale);}
 gnm_setlocale(LC_ALL, oldlocale);\
 g_free (oldlocale);}
 
-#define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
-
 /* Source_t struct, used for interchanging parsing information between the low level parse functions */
 typedef struct {
 	GStringChunk *chunk;
@@ -774,8 +772,7 @@ stf_parse_general_free (GPtrArray *lines)
 GPtrArray *
 stf_parse_general (StfParseOptions_t *parseoptions,
 		   GStringChunk *lines_chunk,
-		   char const *data, char const *data_end,
-		   int maxlines)
+		   char const *data, char const *data_end)
 {
 	GPtrArray *lines;
 	Source_t src;
@@ -795,11 +792,6 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 	while (*src.position != '\0' && src.position < data_end) {
 		GPtrArray *line;
 
-		if (++row >= SHEET_MAX_ROWS) {
-			g_warning (WARN_TOO_MANY_ROWS, row);
-			break;
-		}
-
 		line = parseoptions->parsetype == PARSE_TYPE_CSV
 			? stf_parse_csv_line (&src, parseoptions)
 			: stf_parse_fixed_line (&src, parseoptions);
@@ -807,7 +799,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 		g_ptr_array_add (lines, line);
 		src.position += compare_terminator (src.position, parseoptions);
 
-		if (row >= maxlines)
+		if (++row == SHEET_MAX_ROWS)
 			break;
 	}
 
@@ -1160,8 +1152,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	if (!data_end)
 		data_end = data + strlen (data);
 	lines_chunk = g_string_chunk_new (100 * 1024);
-	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end,
-				   SHEET_MAX_ROWS);
+	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
 		col = start_col;
 		line = g_ptr_array_index (lines, lrow);
@@ -1212,8 +1203,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	if (!data_end)
 		data_end = data + strlen (data);
 	lines_chunk = g_string_chunk_new (100 * 1024);
-	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end,
-				   SHEET_MAX_ROWS);
+	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col, targetcol = 0;

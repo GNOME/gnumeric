@@ -117,7 +117,7 @@ gnumeric_gnome_reqs="
 	libbonoboui-2.0		>= 2.2.0
 	libgnome-2.0		>= 2.0.0
 	libgnomeui-2.0		>= 2.0.0
-	libgsf-gnome-1		>= 1.12.0
+	libgsf-gnome-1		>= 1.12.2
 "
 
 ui_msg=
@@ -194,20 +194,20 @@ GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $GNUMERIC_PLUGIN_LDFLAGS"
 AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 
 dnl disable for in stable release, re-enable for development series
-CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
-CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
-if test "x$gnumeric_with_gtk" = "xtrue"; then
-	CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
-fi
-if test "x$gnumeric_with_gnome" = "xtrue"; then
-	CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
-fi
+dnl CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
+dnl CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
+dnl if test "x$gnumeric_with_gtk" = "xtrue"; then
+dnl 	CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
+dnl 	CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
+dnl 	CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
+dnl 	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
+dnl 	CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
+dnl fi
+dnl if test "x$gnumeric_with_gnome" = "xtrue"; then
+dnl 	CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
+dnl 	CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
+dnl 	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
+dnl fi
 
 dnl ==============================================
 dnl GNOME Specific extensions
@@ -259,7 +259,7 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
-	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
+	for option in -Wno-pointer-sign -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])

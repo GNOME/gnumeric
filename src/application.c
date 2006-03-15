@@ -124,10 +124,10 @@ add_icon (GtkIconFactory *factory,
 }
 
 /**
- * gnm_app_workbook_list_remove :
+ * gnm_app_workbook_list_add :
  * @wb :
  *
- * Remove @wb from the application's list of workbooks.
+ * Add @wb to the application's list of workbooks.
  **/
 void
 gnm_app_workbook_list_add (Workbook *wb)
@@ -780,7 +780,12 @@ gnumeric_application_finalize (GObject *obj)
 	g_slist_foreach (application->history_list, (GFunc)g_free, NULL);
 	g_slist_free (application->history_list);
 	application->history_list = NULL;
+
+	g_free (application->clipboard_cut_range);
+	application->clipboard_cut_range = NULL;
+
 	g_hash_table_destroy (application->named_pixbufs);
+
 	app = NULL;
 	G_OBJECT_CLASS (parent_klass)->finalize (obj);
 }

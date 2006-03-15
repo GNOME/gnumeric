@@ -56,6 +56,29 @@ make_date (GnmValue *res)
 	return res;
 }
 
+static int
+float_to_secs (gnm_float d)
+{
+	int secs;
+
+	/* Ok, we have a positive number.  Add epsilon before we scale
+	   and translate because otherwise it will not be enough.  */
+	d = gnumeric_add_epsilon (d);
+
+	/* Get the number down between 0 and 1 before we scale.  */
+	d -= floorgnum (d);
+
+	/* Scale and round.  */
+	secs = (int)(gnumeric_add_epsilon (d) * DAY_SECONDS + 0.5);
+
+	/* We rounded, so we might have gone too far.  */
+	if (secs >= DAY_SECONDS)
+		secs -= DAY_SECONDS;
+
+	return secs;
+}
+
+
 /***************************************************************************/
 
 static char const *help_date = {
@@ -82,37 +105,44 @@ static char const *help_date = {
 static GnmValue *
 gnumeric_date (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	int year, month, day;
+	gnm_float year  = value_get_as_float (argv [0]);
+	gnm_float month = value_get_as_float (argv [1]);
+	gnm_float day   = value_get_as_float (argv [2]);
 	GDate date;
 	GnmDateConventions const *conv = DATE_CONV (ei->pos);
 
-	year  = value_get_as_int (argv [0]);
-	month = value_get_as_int (argv [1]);
-	day   = value_get_as_int (argv [2]);
-
-	if (year < 0 || year > 9999)
+	if (year < 0 || year >= 10000)
 		goto error;
-
 	if (year < 1900) /* 1900, not 100.  Ick!  */
 		year += 1900;
 
+	/* This uses floor and not trunc on purpose.  */
+	month = floorgnum (month);
+	if (gnumabs (month) > 120000)  /* Actual number not critical.  */
+		goto error;
+
+	/* This uses floor and not trunc on purpose.  */
+	day = floorgnum (day);
+	if (day < -32768 || day >= 32768)
+		day = 32767;  /* Absurd, but yes.  */
+
         g_date_clear (&date, 1);
 
-	g_date_set_dmy (&date, 1, 1, year);
+	g_date_set_dmy (&date, 1, 1, (int)year);
 	if (!g_date_valid (&date))
 		goto error;
 
-	if (month > 0)
-		g_date_add_months (&date, month - 1);
+	if ((int)month > 0)
+		g_date_add_months (&date, (int)month - 1);
 	else
-		g_date_subtract_months (&date, 1 - month);
+		g_date_subtract_months (&date, 1 - (int)month);
 	if (!g_date_valid (&date))
 		goto error;
 
-	if (day > 0)
-                g_date_add_days (&date, day - 1);
+	if ((int)day > 0)
+		g_date_add_days (&date, (int)day - 1);
 	else
-		g_date_subtract_days (&date, 1 - day);
+		g_date_subtract_days (&date, 1 - (int)day);
 	if (!g_date_valid (&date))
 		goto error;
 
@@ -547,9 +577,14 @@ static char const *help_hour = {
 static GnmValue *
 gnumeric_hour (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	int secs;
-	secs = datetime_value_to_seconds (argv[0]);
+	gnm_float d = value_get_as_float (argv[0]);
+
+	if (d < 0)
+		return value_new_error_NUM (ei->pos);
+	else {
+		int secs = float_to_secs (d);
 	return value_new_int (secs / 3600);
+}
 }
 
 /***************************************************************************/
@@ -576,10 +611,14 @@ static char const *help_minute = {
 static GnmValue *
 gnumeric_minute (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	int secs;
+	gnm_float d = value_get_as_float (argv[0]);
 
-	secs = datetime_value_to_seconds (argv[0]);
-	return value_new_int ((secs / 60) % 60);
+	if (d < 0)
+		return value_new_error_NUM (ei->pos);
+	else {
+		int secs = float_to_secs (d);
+		return value_new_int (secs / 60 % 60);
+	}
 }
 
 /***************************************************************************/
@@ -606,10 +645,14 @@ static char const *help_second = {
 static GnmValue *
 gnumeric_second (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	int secs;
+	gnm_float d = value_get_as_float (argv[0]);
 
-	secs = datetime_value_to_seconds (argv[0]);
+	if (d < 0)
+		return value_new_error_NUM (ei->pos);
+	else {
+		int secs = float_to_secs (d);
 	return value_new_int (secs % 60);
+	}
 }
 
 /***************************************************************************/

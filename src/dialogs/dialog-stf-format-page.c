@@ -381,8 +381,7 @@ format_page_update_preview (StfDialogData *pagedata)
 			       stf_parse_general (pagedata->parseoptions,
 						  lines_chunk,
 						  pagedata->cur,
-						  pagedata->cur_end,
-						  LINE_DISPLAY_LIMIT));
+						  pagedata->cur_end));
 
 	col_import_array_len_old = pagedata->format.col_import_array_len;
 	pagedata->format.col_import_array_len = renderdata->colcount;
@@ -628,6 +627,11 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.index         = -1;
 	pagedata->format.manual_change = FALSE;
 
+	/* Update widgets before connecting signals, see #333407.  */
+	gtk_combo_box_set_active (GTK_COMBO_BOX (pagedata->format.format_trim),
+				  0);
+	format_page_update_column_selection (pagedata);
+
 	/* Connect signals */
 	pagedata->format.format_changed_handler_id = 
 	     g_signal_connect (G_OBJECT (pagedata->format.format_selector),
@@ -641,7 +645,4 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
         g_signal_connect (G_OBJECT (pagedata->format.format_trim),
 			  "changed",
 			  G_CALLBACK (format_page_trim_menu_changed), pagedata);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (pagedata->format.format_trim), 0);
-
-	format_page_update_column_selection (pagedata);
 }

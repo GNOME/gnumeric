@@ -1,3 +1,7 @@
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_dup) : copy properties.
+
 2005-08-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: needs libgsf-1.12.2

@@ -72,11 +72,13 @@ static GnmValue *
 callback_function_and (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
-	gboolean err;
 
+	if (!VALUE_IS_STRING (value)) {
+		gboolean err;
 	*result = value_get_as_bool (value, &err) && *result;
 	if (err)
 		return value_new_error_VALUE (ep);
+	}
 
 	return NULL;
 }
@@ -159,11 +161,13 @@ static GnmValue *
 callback_function_or (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
-	gboolean err;
 
+	if (!VALUE_IS_STRING (value)) {
+		gboolean err;
 	*result = value_get_as_bool (value, &err) || *result == 1;
 	if (err)
 		return value_new_error_VALUE (ep);
+	}
 
 	return NULL;
 }
@@ -216,11 +220,13 @@ static GnmValue *
 callback_function_xor (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
-	gboolean err;
 
+	if (!VALUE_IS_STRING (value)) {
+		gboolean err;
 	*result = value_get_as_bool (value, &err) ^ (*result == 1);
 	if (err)
 		return value_new_error_VALUE (ep);
+	}
 
 	return NULL;
 }

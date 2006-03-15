@@ -393,7 +393,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	case 0x09:
 		g_object_set (G_OBJECT (so), "points",
-			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL),
+			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL, TRUE),
 			NULL);
 		   /* fallthrough */
 
@@ -2277,7 +2277,8 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 const row      = XL_GETROW (q);
 	guint16 const options  = GSF_LE_GET_GUINT16 (q->data + 14);
 	guint16 expr_length;
-	guint offset, val_offset;
+	guint offset;
+	guint8 const *val_dat = q->data + 6;
 	GnmExpr const *expr;
 	GnmCell	 *cell;
 	GnmValue *val = NULL;
@@ -2297,13 +2298,14 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	if (esheet->container.ver >= MS_BIFF_V5) {
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 20);
-		offset = 22; val_offset = 6;
+		offset = 22;
 	} else if (esheet->container.ver >= MS_BIFF_V3) {
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 16);
-		offset = 18; val_offset = 6;
+		offset = 18;
 	} else {
 		expr_length = GSF_LE_GET_GUINT8 (q->data + 16);
-		offset = 17; val_offset = 7;
+		offset = 17;
+		val_dat++;	/* compensate for the 3 byte style */
 	}
 
 	if (q->length < offset) {
@@ -2321,50 +2323,21 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		return;
 	}
 
-	/*
-	 * Get the current value so that we can format, do this BEFORE handling
+	/* Get the current value so that we can format, do this BEFORE handling
 	 * shared/array formulas or strings in case we need to go to the next
-	 * record
-	 */
-	if (GSF_LE_GET_GUINT16 (q->data + 12) != 0xffff) {
-		double const num = gsf_le_get_double (q->data + val_offset);
-		val = value_new_float (num);
+	 * record */
+	if (GSF_LE_GET_GUINT16 (val_dat + 6) != 0xffff) {
+		val = value_new_float (gsf_le_get_double (val_dat));
 	} else {
-		guint8 const val_type = GSF_LE_GET_GUINT8 (q->data + val_offset);
+		guint8 const val_type = GSF_LE_GET_GUINT8 (val_dat);
 		switch (val_type) {
-		case 0: /* String */
-			is_string = TRUE;
+		case 0: is_string = TRUE; break;
+		case 1: val = value_new_bool (GSF_LE_GET_GUINT8 (val_dat + 2) != 0);
 			break;
-
-		case 1: { /* Boolean */
-			guint8 v = GSF_LE_GET_GUINT8 (q->data + val_offset + 2);
-			val = value_new_bool (v ? TRUE : FALSE);
+		case 2: val = biff_get_error (NULL, GSF_LE_GET_GUINT8 (val_dat + 2));
 			break;
-		}
-
-		case 2: { /* Error */
-			guint8 const v = GSF_LE_GET_GUINT8 (q->data + val_offset + 2);
-			val = biff_get_error (NULL, v);
+		case 3: val = value_new_empty (); /* Empty (Undocumented) */
 			break;
-		}
-
-		case 3: /* Empty */
-			/* TODO TODO TODO
-			 * This is undocumented and a big guess, but it seems
-			 * accurate.
-			 */
-			d (0, {
-				fprintf (stderr,"%s:%s: has type 3 contents.  "
-					"Is it an empty cell?\n",
-					esheet->sheet->name_unquoted,
-					cell_name (cell));
-				if (ms_excel_read_debug > 5)
-					gsf_mem_dump (q->data + 6, 8);
-			});
-
-			val = value_new_empty ();
-			break;
-
 		default:
 			fprintf (stderr,"Unknown type (%x) for cell's (%s) current val\n",
 				val_type, cell_name (cell));

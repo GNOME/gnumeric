@@ -3361,6 +3361,7 @@ blipinf_new (SheetObjectImage *soi)
 {
 	BlipInf *blip;
 	GByteArray *bytes;
+	const char *blip_type;
 
 	blip = g_new0 (BlipInf, 1);
 	blip->uncomp_len = -1;
@@ -3372,14 +3373,15 @@ blipinf_new (SheetObjectImage *soi)
 		      "image-data", &bytes,
 		      NULL);
 	blip->bytes = *bytes;	/* Need to copy, we may change it. */
+	blip_type = blip->type ? blip->type : "?";
 	
-	if (strcmp (blip->type, "jpeg") == 0 || /* Raster format */
-	    strcmp (blip->type, "png")  == 0 ||	/* understood by Excel */
-	    strcmp (blip->type, "dib")  == 0) {
+	if (strcmp (blip_type, "jpeg") == 0 || /* Raster format */
+	    strcmp (blip_type, "png")  == 0 ||	/* understood by Excel */
+	    strcmp (blip_type, "dib")  == 0) {
 		blip->header_len = BSE_HDR_LEN + RASTER_BLIP_HDR_LEN;
-	} else if (strcmp (blip->type, "wmf") == 0 || /* Vector format */
-		   strcmp (blip->type, "emf") == 0 || /* - compress */
-		   strcmp (blip->type, "pict") == 0) { 
+	} else if (strcmp (blip_type, "wmf") == 0 || /* Vector format */
+		   strcmp (blip_type, "emf") == 0 || /* - compress */
+		   strcmp (blip_type, "pict") == 0) { 
 
 		int res;
 		gulong dest_len = blip->bytes.len * 1.01 + 12;
@@ -3422,7 +3424,7 @@ blipinf_new (SheetObjectImage *soi)
 		} else {
 			g_warning 
 				("Unable to export %s image as png to Excel", 
-				 blip->type);
+				 blip_type);
 			g_free (blip);
 			blip = NULL;
 		}

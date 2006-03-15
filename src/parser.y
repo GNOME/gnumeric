@@ -378,6 +378,7 @@ build_set (GnmExprList *list)
 			return NULL;
 		}
 
+	unregister_allocation (list);
 	return register_expr_allocation (gnm_expr_new_set (list));
 }
 
@@ -562,8 +563,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 				state->ptr-2, 2);
 			YYERROR;
 		} else {
-			unregister_allocation ($2);
 			if ($2->next == NULL) {
+				unregister_allocation ($2);
 				$$ = register_expr_allocation ($2->data);
 				/* NOTE : free list not content */
 				gnm_expr_list_free ($2);
@@ -716,11 +717,14 @@ cellref:  RANGEREF { $$ = $1; }
 		$$ = build_range_ctor ($1, $3, $3);
 		if ($$ == NULL) { YYERROR; }
 	}
+	| RANGEREF RANGE_SEP RANGEREF {
+		$$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3);
+	}
 	;
 
 arg_list: exp {
 		unregister_allocation ($1);
-		$$ = g_slist_prepend (NULL, $1);
+		$$ = gnm_expr_list_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
 	| exp SEPARATOR arg_list {
@@ -731,7 +735,7 @@ arg_list: exp {
 		if (tmp == NULL)
 			tmp = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_empty ()));
 
-		$$ = g_slist_prepend (tmp, $1);
+		$$ = gnm_expr_list_prepend (tmp, $1);
 		register_expr_list_allocation ($$);
 	}
 	| SEPARATOR arg_list {
@@ -1192,7 +1196,8 @@ yylex (void)
 			while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
 			       !g_unichar_isspace (tmp)) {
 				state->ptr = g_utf8_next_char (state->ptr);
-				if (tmp == '!' || tmp == '?') {
+				if (tmp == '!' || tmp == '?' ||
+				((state->ptr - start) == 4 && 0 == strncmp (start, "#N/A", 4))) {
 					GnmString *name = gnm_string_get_nocopy (g_strndup (start, state->ptr - start));
 					yylval.expr = register_expr_allocation
 						(gnm_expr_new_constant (

@@ -18,7 +18,7 @@ You need:				Debian package name
 	gtk+		>= 2.4.0	libgtk2.0-dev
 	libgnomeprint	>= 2.5.2	libgnomeprint2.2-dev
 	libgnomeprintui	>= 2.5.2	libgnomeprintui2.2-dev
-	libgsf		>= 1.12.0	libgsf-1-dev
+	libgsf		>= 1.12.2	libgsf-1-dev
 	libglade	>= 2.3.6	libglade2-dev
 	intltool	>= 0.27.2	intltool
 	gnome-xml   	>= 2.4.12	libxml2-dev
@@ -27,7 +27,7 @@ You need:				Debian package name
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
-	libgsf-gnome	>= 1.10.0	libgsf-gnome-1-dev
+	libgsf-gnome	>= 1.12.2	libgsf-gnome-1-dev
 	libgnome	>= 2.0.0	libgnome2-dev
 	libgnomeui	>= 2.0.0	libgnomeui-dev
 	libbonobo	>= 2.0.0	libbonobo2-dev

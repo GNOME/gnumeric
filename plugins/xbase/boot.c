@@ -82,12 +82,22 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 
 	switch (field->type) {
 	case 'C': {
-		if (file->char_map != (GIConv)-1)
-			val = value_new_string_nocopy (
-				g_convert_with_iconv (g_strchomp (s), -1,
-				      file->char_map, NULL, NULL, NULL));
+		char *sutf8 = g_convert_with_iconv (g_strchomp (s), -1,
+						    file->char_map, NULL, NULL, NULL);
+		if (!sutf8) {
+			char *t;
+			for (t = s; *t; t++)
+				if ((guchar)*t >= 0x7f)
+					*t = '?';
+			sutf8 = s;
+			s = NULL;
+			g_warning ("Unrepresentable characters replaced by '?'");
+		}
+		if (sutf8)
+			val = value_new_string_nocopy (sutf8);
 		else
-			val = value_new_string_nocopy (g_strchomp (s));
+			val = value_new_string ("???");
+		g_free (s);
 		return val;
 	}
 	case 'N':

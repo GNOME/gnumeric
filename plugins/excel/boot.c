@@ -305,7 +305,6 @@ void
 plugin_init (void)
 {
 	excel_read_init ();
-	excel_xml_read_init ();
 
 #if 0
 {
@@ -356,5 +355,4 @@ plugin_cleanup (void)
 {
 	destroy_xl_font_widths ();
 	excel_read_cleanup ();
-	excel_xml_read_cleanup ();
 }

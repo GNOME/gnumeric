@@ -4060,6 +4060,20 @@ sheet_dup (Sheet const *src)
 					     TRUE, TRUE);
 	dst = sheet_new (wb, name);
 	g_free (name);
+
+	dst->r1c1_addresses		= src->r1c1_addresses;
+	dst->display_formulas		= src->display_formulas;
+	dst->hide_zero			= src->hide_zero;
+	dst->hide_grid			= src->hide_grid;
+	dst->hide_col_header		= src->hide_col_header;
+	dst->hide_row_header		= src->hide_row_header;
+	dst->is_protected		= src->is_protected;
+	dst->is_visible			= src->is_visible;
+	dst->display_outlines		= src->display_outlines;
+	dst->outline_symbols_below	= src->outline_symbols_below;
+	dst->outline_symbols_right	= src->outline_symbols_right;
+	dst->has_filtered_rows		= src->has_filtered_rows;
+
 	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, FALSE, FALSE);
 
         /* Copy the print info */

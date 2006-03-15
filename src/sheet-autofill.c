@@ -114,7 +114,6 @@ typedef struct _FillItem {
 		struct {
 			AutoFillList const *list;
 			int           num;
-			int           was_i18n;
 		} list;
 		struct {
 			GnmString *str;
@@ -153,7 +152,7 @@ autofill_register_list (char const *const *list)
 }
 
 static gboolean
-in_list (AutoFillList const *afl, char const *s, int *n, int *is_i18n)
+in_list (AutoFillList const *afl, char const *s, int *n)
 {
 	int i;
 
@@ -162,7 +161,6 @@ in_list (AutoFillList const *afl, char const *s, int *n, int *is_i18n)
 		if (*translated_text == '*')
 			translated_text++;
 		if (g_ascii_strcasecmp (translated_text, s) == 0) {
-			*is_i18n = TRUE;
 			*n = i;
 			return TRUE;
 		}
@@ -172,12 +170,12 @@ in_list (AutoFillList const *afl, char const *s, int *n, int *is_i18n)
 }
 
 static AutoFillList const *
-matches_list (char const *s, int *n, int *is_i18n)
+matches_list (char const *s, int *n)
 {
 	GList *l;
 	for (l = autofill_lists; l != NULL; l = l->next) {
 		AutoFillList const *afl = l->data;
-		if (in_list (afl, s, n, is_i18n))
+		if (in_list (afl, s, n))
 			return afl;
 	}
 	return NULL;
@@ -316,14 +314,13 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 	if (value_type == VALUE_STRING) {
 		AutoFillList const *list;
-		int  num, pos, endpos, i18;
+		int  num, pos, endpos;
 
-		list = matches_list (value->v_str.val->str, &num, &i18);
+		list = matches_list (value->v_str.val->str, &num);
 		if (list) {
 			fi->type = FILL_STRING_LIST;
 			fi->v.list.list = list;
 			fi->v.list.num  = num;
-			fi->v.list.was_i18n = i18;
 			return fi;
 		}
 
@@ -472,23 +469,34 @@ type_is_compatible (FillItem *last, FillItem *current)
 		return FALSE;
 
 	if (last->type == FILL_STRING_LIST) {
-		/* It is possible the item is in multiple lists.  If things
-		 * disagree see if we are in the previous list, and convert
-		 * eg May
-		 */
-		if (last->v.list.list != current->v.list.list) {
-			int num, is_i18n;
-			if (in_list (last->v.list.list,
-				     current->v.list.list->items [current->v.list.num],
-				     &num, &is_i18n)) {
+		int num;
+		char const *str;
+			
+		if (last->v.list.list == current->v.list.list)
+			return TRUE;
+
+		/* This item may be in multiple lists.  Is it in the
+		 * same list as the previous element ? */
+		str = current->v.list.list->items [current->v.list.num];
+		if (*str == '*')
+			str++;
+		if (in_list (last->v.list.list, str, &num)) {
 				current->v.list.list = last->v.list.list;
 				current->v.list.num = num;
-				current->v.list.was_i18n = is_i18n;
-			} else
-				return FALSE;
+			return TRUE;
 		}
 
-		if (last->v.list.was_i18n != current->v.list.was_i18n)
+		/* The previous element may be in multple lists.  Is it
+		 * in the current list ? */
+		str = last->v.list.list->items [last->v.list.num];
+		if (*str == '*')
+			str++;
+		if (in_list (current->v.list.list, str, &num)) {
+			last->v.list.list = current->v.list.list;
+			last->v.list.num = num;
+			return TRUE;
+		}
+
 			return FALSE;
 	}
 
@@ -709,10 +717,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		if (n < 0)
 			n += delta->v.list.list->count;
 
-		text = delta->v.list.list->items [n];
-		if (delta->v.list.was_i18n)
-			text = _(text);
-
+		text = _(delta->v.list.list->items [n]);
 		if (*text == '*')
 			text++;
 

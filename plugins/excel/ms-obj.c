@@ -180,9 +180,11 @@ ms_obj_attr_get_ptr  (MSObjAttrBag *attrs, MSObjAttrID id, gpointer default_valu
 }
 
 GArray *
-ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_value)
+ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id,
+		       GArray *default_value, gboolean steal)
 {
 	MSObjAttr *attr;
+	GArray *res;
 
 	g_return_val_if_fail (attrs != NULL, default_value);
 	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_GARRAY_MASK, default_value);
@@ -190,7 +192,10 @@ ms_obj_attr_get_array (MSObjAttrBag *attrs, MSObjAttrID id, GArray *default_valu
 	attr = ms_obj_attr_bag_lookup (attrs, id);
 	if (attr == NULL)
 		return default_value;
-	return attr->v.v_array;
+	res = attr->v.v_array;
+	if (steal)
+		attr->v.v_array = NULL;
+	return res;
 }
 
 GnmExpr const *

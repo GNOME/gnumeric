@@ -34,8 +34,9 @@ typedef enum {
 } StyleBorderType;
 
 /* The order corresponds to the border_buttons name list
- * in dialog_cell_format_impl */
-typedef enum _StyleBorderLocation {
+ * in dialog_cell_format_impl
+ * STYLE_BORDER_TOP must be 0 */
+typedef enum {
 	STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
 	STYLE_BORDER_LEFT,	STYLE_BORDER_RIGHT,
 	STYLE_BORDER_REV_DIAG,	STYLE_BORDER_DIAG,
