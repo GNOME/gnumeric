@@ -1,5 +1,9 @@
 2006-03-14  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump and mark as dormant.
+
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.4.4
 
 2006-03-14  Jody Goldberg <jody@gnome.org>
