@@ -1,5 +1,8 @@
 2006-03-14  Morten Welinder  <terra@gnome.org>
 
+	* src/collect.c (collect_floats): When collecting info, walk over
+	blanks too.
+
 	* src/expr.c (gnm_expr_top_unwrap): Remove.  All callers changed.
 
 	* src/preview-grid.c (preview_grid_destroy): Renamed from

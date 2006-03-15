@@ -459,6 +459,7 @@ gnumeric_covar (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
 				      range_covar,
+				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
 				      GNM_ERROR_VALUE);
@@ -494,6 +495,7 @@ gnumeric_correl (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
 				      range_correl_pop,
+				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
 				      GNM_ERROR_VALUE);
@@ -2599,6 +2601,7 @@ gnumeric_rsq (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
 				      range_rsq_pop,
+				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
 				      GNM_ERROR_VALUE);
@@ -5255,6 +5258,7 @@ gnumeric_intercept (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	return float_range_function2 (argv[1], argv[0],
 				      ei,
 				      range_intercept,
+				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
 				      GNM_ERROR_VALUE);
@@ -5302,6 +5306,7 @@ gnumeric_slope (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	return float_range_function2 (argv[1], argv[0],
 				      ei,
 				      range_slope,
+				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
 				      GNM_ERROR_VALUE);

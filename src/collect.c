@@ -158,16 +158,19 @@ collect_floats (int argc, const GnmExprConstPtr *argv,
 {
 	GnmValue * err;
 	collect_floats_t cl;
-	CellIterFlags iter_flags = (flags & COLLECT_IGNORE_BLANKS)
-		? CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL;
-	if (flags & COLLECT_IGNORE_SUBTOTAL)
-		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
+	CellIterFlags iter_flags = CELL_ITER_ALL;
 
 	if (info) {
-		flags = flags | COLLECT_INFO;
+		flags |= COLLECT_INFO;
 		*info = NULL;
-	} else
-		flags = flags & COLLECT_NO_INFO_MASK;
+	} else {
+		if (flags & COLLECT_IGNORE_BLANKS)
+			iter_flags = CELL_ITER_IGNORE_BLANK;
+		flags &= ~COLLECT_INFO;
+	}
+
+	if (flags & COLLECT_IGNORE_SUBTOTAL)
+		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
 
 	cl.alloc_count = 20;
 	cl.data = g_new (gnm_float, cl.alloc_count);

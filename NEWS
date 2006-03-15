@@ -107,6 +107,8 @@ Morten:
 	* Fix printing issue with wrapped, right-aligned text.  [#334144]
 	* Introduce top-level expressions.
 	* Plug leaks in preferences dialog.
+	* Make CORREL, COVAR, RSQ, SLOPE, and INTERCEPT really ignore
+	  blanks.  [#334591]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
