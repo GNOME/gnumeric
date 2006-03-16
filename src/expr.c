@@ -2854,7 +2854,7 @@ gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
 GnmValue const *
 gnm_expr_top_get_constant (GnmExprTop const *texpr)
 {
-	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
 
 	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CONSTANT)
 		return NULL;

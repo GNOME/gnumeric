@@ -1671,7 +1671,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 
 	/* Class renamed between 1.0.x and 1.2.x */
 	else if (!strcmp (tree->name, "GnmGraph"))
-		so = sheet_object_graph_new (FALSE);
+		so = sheet_object_graph_new (NULL);
 
 	/* Class renamed in 1.2.2 */
 	else if (!strcmp (tree->name, "CellComment"))

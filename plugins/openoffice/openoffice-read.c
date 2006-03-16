@@ -1850,7 +1850,7 @@ od_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	if ((state->cur_frame.cur_axis != UNKNOWN) &&
+	if ((state->cur_frame.cur_axis != GOG_AXIS_UNKNOWN) &&
 	 	(state->cur_frame.chart_type != RING) &&
 	 	(state->cur_frame.chart_type != CIRCLE) &&
 	 	(state->cur_frame.chart_type != RADAR)) {

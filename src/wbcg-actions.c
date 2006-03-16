@@ -1168,7 +1168,7 @@ wbcg_set_selection_valign (WorkbookControlGUI *wbcg, GnmVAlign valign)
 	 * then revert to general */
 	wb_view = wb_control_view (wbc);
 	style = wb_view->current_format;
-	if (gnm_style_get_align_h (style) == valign) {
+	if (gnm_style_get_align_v (style) == valign) {
 		if (valign == VALIGN_BOTTOM)
 			return;
 		valign = VALIGN_BOTTOM;

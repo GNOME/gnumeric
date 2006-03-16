@@ -36,7 +36,7 @@ cb_generate_preview (GOFormatSel *gfs, GOColor *c)
 }
 
 GtkWidget *
-gnm_format_sel_new ()
+gnm_format_sel_new (void)
 {
 	GObject *w = g_object_new (GO_FORMAT_SEL_TYPE, NULL);
 	g_signal_connect (w, "generate-preview",

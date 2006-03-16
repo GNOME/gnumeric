@@ -173,8 +173,6 @@ do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
 		switch (v->type) {
 		case VALUE_STRING:
 		case VALUE_ERROR:
-		case GNM_EXPR_OP_ARRAY_CORNER:
-		case GNM_EXPR_OP_ARRAY_ELEM:
 			return GNM_FUNC_AUTO_UNKNOWN;
 
 		case VALUE_CELLRANGE: {

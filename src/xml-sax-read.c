@@ -1477,7 +1477,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	/* Class renamed between 1.0.x and 1.2.x */
 	else if (!strcmp (type_name, "GnmGraph"))
-		so = sheet_object_graph_new (FALSE);
+		so = sheet_object_graph_new (NULL);
 
 	/* Class renamed in 1.2.2 */
 	else if (!strcmp (type_name, "CellComment"))
