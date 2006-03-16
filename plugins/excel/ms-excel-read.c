@@ -129,7 +129,20 @@ char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x14 */	"h:mm",
 /* 0x15 */	"h:mm:ss",
 /* 0x16		"m/d/yy h:mm", */ NULL,
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0x17-0x24 reserved for intl versions */
+/* 0x17 */	NULL, /* 0x17-0x24 reserved for intl versions */
+/* 0x18 */	NULL,
+/* 0x19 */	NULL,
+/* 0x1a */	NULL,
+/* 0x1b */	NULL,
+/* 0x1c */	NULL,
+/* 0x1d */	NULL,
+/* 0x1e	*/	NULL,
+/* 0x1f	*/	NULL,
+/* 0x20	*/	NULL,
+/* 0x21 */	NULL,
+/* 0x22 */	NULL,
+/* 0x23 */	NULL,
+/* 0x24 */	NULL, 
 /* 0x25 */	"#,##0_);(#,##0)",
 /* 0x26 */	"#,##0_);[Red](#,##0)",
 /* 0x27 */	"#,##0.00_);(#,##0.00)",
@@ -3104,7 +3117,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 			if (name != NULL) {
 				unsigned expr_len = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
 				guint8 const *expr_data = q->data + 9 + namelen;
-				nexpr = excel_parse_name (container->importer, 0,
+				nexpr = excel_parse_name (container->importer, NULL,
 					name, expr_data, expr_len, FALSE, NULL);
 			}
 			break;
@@ -3128,12 +3141,12 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	} else if (ver >= MS_BIFF_V5) {
 		name = excel_get_text (container->importer, q->data + 7,
 			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
-		nexpr = excel_parse_name (container->importer, 0,
+		nexpr = excel_parse_name (container->importer, NULL,
 			name, NULL, 0, FALSE, NULL);
 	} else {
 		name = excel_get_text (container->importer, q->data + 3,
 			GSF_LE_GET_GUINT8 (q->data + 2), NULL);
-		nexpr = excel_parse_name (container->importer, 0,
+		nexpr = excel_parse_name (container->importer, NULL,
 			name, NULL, 0, FALSE, NULL);
 	}
 

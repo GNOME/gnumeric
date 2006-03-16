@@ -127,7 +127,9 @@ cell_copy (GnmCell const *cell)
 
 	/* The new cell is not linked into any of the major management structures */
 	new_cell->base.sheet = NULL;
-	new_cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC|CELL_IN_SHEET_LIST|DEPENDENT_IS_LINKED);
+	new_cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC |
+				  (int)CELL_IN_SHEET_LIST |
+				  DEPENDENT_IS_LINKED);
 
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))

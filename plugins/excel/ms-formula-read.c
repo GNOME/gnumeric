@@ -49,7 +49,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 8 */	  { "ROW",		 0,  1, XL_STD, 1, 'V', "R" },
 /* 9 */	  { "COLUMN",		 0,  1, XL_STD, 1, 'V', "R" },
 
-/* 10 */  { "NA",		 0,  0, XL_STD,  0, 'V', 0 },
+/* 10 */  { "NA",		 0,  0, XL_STD,  0, 'V', NULL },
 /* 11 */  { "NPV",		 2, 30, XL_STD, 2, 'V', "VR" },
 /* 12 */  { "STDEV",		 1, 30, XL_STD, 1, 'V', "R" },
 /* 13 */  { "DOLLAR",		 1,  2, XL_STD, 1, 'V', "V" },
@@ -58,7 +58,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 16 */  { "COS",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 17 */  { "TAN",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 18 */  { "ATAN",		 1,  1, XL_STD,  1, 'V', "V" },
-/* 19 */  { "PI",		 0,  0, XL_STD,  0, 'V', 0 },
+/* 19 */  { "PI",		 0,  0, XL_STD,  0, 'V', NULL },
 
 /* 20 */  { "SQRT",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 21 */  { "EXP",		 1,  1, XL_STD,  1, 'V', "V" },
@@ -75,8 +75,8 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 31 */  { "MID",		 3,  3, XL_STD,  3, 'V', "VVV" },
 /* 32 */  { "LEN",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 33 */  { "VALUE",		 1,  1, XL_STD,  1, 'V', "V" },
-/* 34 */  { "TRUE",		 0,  0, XL_STD,  0, 'V', 0 },
-/* 35 */  { "FALSE",		 0,  0, XL_STD,  0, 'V', 0 },
+/* 34 */  { "TRUE",		 0,  0, XL_STD,  0, 'V', NULL },
+/* 35 */  { "FALSE",		 0,  0, XL_STD,  0, 'V', NULL },
 /* 36 */  { "AND",		 1, 30, XL_STD, 1, 'V', "R" },
 /* 37 */  { "OR",		 1, 30, XL_STD, 1, 'V', "R" },
 /* 38 */  { "NOT",		 1,  1, XL_STD,  1, 'V', "V" },
@@ -107,7 +107,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 60 */  { "RATE",		 3,  6, XL_STD, 6, 'V', "VVVVVV" },	/* guess is optional */
 /* 61 */  { "MIRR",		 3,  3, XL_STD,  3, 'V', "RVV" },
 /* 62 */  { "IRR",		 1,  2, XL_STD, 2, 'V', "RV" },	/* guess is optional */
-/* 63 */  { "RAND", 		 0,  0, XL_VOLATILE,  0, 'V',  0 },
+/* 63 */  { "RAND", 		 0,  0, XL_VOLATILE,  0, 'V',  NULL },
 /* 64 */  { "MATCH",		 2,  3, XL_STD, 3, 'V', "VRR" },	/* match_type is optional */
 /* 65 */  { "DATE",		 3,  3, XL_STD,  3, 'V', "VVV" },
 /* 66 */  { "TIME",		 3,  3, XL_STD,  3, 'V', "VVV" },
@@ -119,7 +119,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 71 */  { "HOUR",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 72 */  { "MINUTE",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 73 */  { "SECOND",		 1,  1, XL_STD,  1, 'V', "V" },
-/* 74 */  { "NOW",  		 0,  0, XL_VOLATILE,  0, 'V',  0 },
+/* 74 */  { "NOW",  		 0,  0, XL_VOLATILE,  0, 'V',  NULL },
 /* 75 */  { "AREAS",		 1,  1, XL_STD,  1, 'V', "R" },
 /* 76 */  { "ROWS",		 1,  1, XL_STD,  1, 'V', "R" },
 /* 77 */  { "COLUMNS",		 1,  1, XL_STD,  1, 'V', "R" },
@@ -283,7 +283,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 219 */ { "ADDRESS",		 2,  5, XL_STD, 5, 'V', "VVVVV" },
 
 /* 220 */ { "DAYS360",		 2,  3, XL_STD, 3, 'V', "VVV" },	/* pre-biff5/7 VV */
-/* 221 */ { "TODAY", 		 0,  0, XL_VOLATILE,  0, 'V', 0 },
+/* 221 */ { "TODAY", 		 0,  0, XL_VOLATILE,  0, 'V', NULL },
 /* 222 */ { "VDB",		 5,  7, XL_STD, 7, 'V', "VVVVVVV" },
 /* 223 */ { "ELSE",		-1, -1, XL_XLM },
 /* 224 */ { "ELSE.IF",		-1, -1, XL_XLM },

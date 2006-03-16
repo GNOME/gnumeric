@@ -432,12 +432,12 @@ ms_biff_query_next (BiffQuery *q)
 
 	if (q->data_malloced) {
 		g_free (q->data);
-		q->data = 0;
+		q->data = NULL;
 		q->data_malloced = FALSE;
 	}
 	if (q->non_decrypted_data_malloced) {
 		g_free (q->non_decrypted_data);
-		q->non_decrypted_data = 0;
+		q->non_decrypted_data = NULL;
 		q->non_decrypted_data_malloced = FALSE;
 	}
 
@@ -520,12 +520,12 @@ ms_biff_query_destroy (BiffQuery *q)
 	if (q) {
 		if (q->data_malloced) {
 			g_free (q->data);
-			q->data = 0;
+			q->data = NULL;
 			q->data_malloced = FALSE;
 		}
 		if (q->non_decrypted_data_malloced) {
 			g_free (q->non_decrypted_data);
-			q->non_decrypted_data = 0;
+			q->non_decrypted_data = NULL;
 			q->non_decrypted_data_malloced = FALSE;
 		}
 
@@ -557,7 +557,7 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 {
 	BiffPut *bp;
 
-	g_return_val_if_fail (output != NULL, 0);
+	g_return_val_if_fail (output != NULL, NULL);
 
 	bp = g_new (BiffPut, 1);
 
@@ -566,7 +566,7 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 	bp->length        = 0;
 	bp->streamPos     = gsf_output_tell (output);
 	bp->data_malloced = FALSE;
-	bp->data          = 0;
+	bp->data          = NULL;
 	bp->len_fixed     = 0;
 	bp->output        = output;
 	bp->version       = version;
@@ -610,14 +610,14 @@ ms_biff_put_destroy (BiffPut *bp)
 guint8 *
 ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 {
-	g_return_val_if_fail (bp, 0);
-	g_return_val_if_fail (bp->output, 0);
-	g_return_val_if_fail (bp->data == NULL, 0);
+	g_return_val_if_fail (bp, NULL);
+	g_return_val_if_fail (bp->output, NULL);
+	g_return_val_if_fail (bp->data == NULL, NULL);
 
 	if (bp->version >= MS_BIFF_V8)
-		g_return_val_if_fail (len < MAX_BIFF8_RECORD_SIZE, 0);
+		g_return_val_if_fail (len < MAX_BIFF8_RECORD_SIZE, NULL);
 	else
-		g_return_val_if_fail (len < MAX_BIFF7_RECORD_SIZE, 0);
+		g_return_val_if_fail (len < MAX_BIFF7_RECORD_SIZE, NULL);
 
 #if BIFF_DEBUG > 0
 	printf ("Biff put len 0x%x\n", opcode);
@@ -649,7 +649,7 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 	bp->opcode     = opcode;
 	bp->curpos     = 0;
 	bp->length     = 0;
-	bp->data       = 0;
+	bp->data       = NULL;
 	bp->streamPos  = gsf_output_tell (bp->output);
 
 	GSF_LE_SET_GUINT16 (data,    opcode);
@@ -749,7 +749,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 	gsf_output_write (bp->output, bp->length, bp->data);
 
 	g_free (bp->data);
-	bp->data      = 0 ;
+	bp->data      = NULL;
 	bp->data_malloced = FALSE;
 	bp->streamPos = gsf_output_tell (bp->output);
 	bp->curpos    = 0;

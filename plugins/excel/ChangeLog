@@ -1,3 +1,12 @@
+2006-03-16  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_EXTERNNAME): Use NULL, not 0.
+	* ms-biff.c (ms_biff_query_next): Ditto.
+	(ms_biff_query_destroy): Ditto.
+	(ms_biff_put_new): Ditto.
+	(ms_biff_put_len_next): Ditto.
+	(ms_biff_put_len_commit): Ditto.
+
 2006-03-13  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (write_sheet_head): Write protection flags.

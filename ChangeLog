@@ -1,5 +1,7 @@
 2006-03-16  Morten Welinder  <terra@gnome.org>
 
+	* src/cell.c (cell_copy): Silence a "sparse" warning.
+
 	* src/wbcg-actions.c (wbcg_set_selection_valign): Compare valign
 	with the result of gnm_style_get_align_v, not
 	gnm_style_get_align_h.
