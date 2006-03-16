@@ -241,7 +241,7 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 	case 11 : /* left */
 		borders[STYLE_BORDER_LEFT] = style_border_fetch (STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (MSTYLE_BORDER_LEFT));
+			 style_border_get_orientation (STYLE_BORDER_LEFT));
 		break;
 
 	case 12 : /* none */
@@ -252,7 +252,7 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 	case 13 : /* right */
 		borders[STYLE_BORDER_RIGHT] = style_border_fetch (STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (MSTYLE_BORDER_RIGHT));
+			 style_border_get_orientation (STYLE_BORDER_RIGHT));
 		break;
 
 	case 21 : /* all */

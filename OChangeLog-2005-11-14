@@ -1,5 +1,9 @@
 2006-03-16  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_border_activated): Use STYLE_BORDER_LEFT, not
+	MSTYLE_BORDER_LEFT, for argument to style_border_get_orientation!
+	Ditto for _RIGHT.
+
 	* src/cell.c (cell_copy): Silence a "sparse" warning.
 
 	* src/wbcg-actions.c (wbcg_set_selection_valign): Compare valign
