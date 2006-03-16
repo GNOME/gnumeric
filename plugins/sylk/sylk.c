@@ -385,12 +385,14 @@ sylk_rtd_f_parse (SylkReadState *state, char *str)
 			break;
 		}
 		if (border != MSTYLE_ELEMENT_MAX) {
+			StyleBorderLocation const loc =
+				STYLE_BORDER_TOP + (int)(border - MSTYLE_BORDER_TOP);
 			if (style == NULL)
 				style = gnm_style_new_default ();
 			gnm_style_set_border (style, border,
 				style_border_fetch (STYLE_BORDER_THIN,
 					style_color_black (),
-					style_border_get_orientation (border - MSTYLE_BORDER_TOP)));
+					style_border_get_orientation (loc)));
 		}
 	}
 

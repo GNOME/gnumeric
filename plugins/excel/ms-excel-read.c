@@ -1778,6 +1778,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 		GnmStyle *tmp = mstyle;
 		GnmStyleElement const t = MSTYLE_BORDER_TOP + i;
+		StyleBorderLocation const sbl = STYLE_BORDER_TOP + i;
 		int const color_index = xf->border_color[i];
 		GnmColor *color;
 
@@ -1803,8 +1804,9 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 			break;
 		}
 		gnm_style_set_border (tmp, t,
-				   style_border_fetch (xf->border_type[i],
-						       color, t));
+				      style_border_fetch (xf->border_type[i],
+							  color,
+							  style_border_get_orientation (sbl)));
 	}
 
 	/* Set the cache (const_cast) */
@@ -4451,7 +4453,7 @@ excel_read_CF_border (GnmStyleCond *cond, ExcelReadSheet *esheet,
 		      StyleBorderLocation type,
 		      unsigned xl_pat_index, unsigned xl_color_index)
 {
-	gnm_style_set_border (cond->overlay, MSTYLE_BORDER_TOP + type,
+	gnm_style_set_border (cond->overlay, STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (type),
 		style_border_fetch (biff_xf_map_border (xl_pat_index),
 			excel_palette_get (esheet->container.importer,
 					   xl_color_index),

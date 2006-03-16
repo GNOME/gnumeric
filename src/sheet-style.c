@@ -89,8 +89,9 @@ static void
 pstyle_set_border (GnmStyle *st, GnmBorder *border,
 		   StyleBorderLocation side)
 {
-	gnm_style_set_border (st, MSTYLE_BORDER_TOP + side,
-			   style_border_ref (border));
+	gnm_style_set_border (st,
+			      STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (side),
+			      style_border_ref (border));
 }
 
 /* Amortize the cost of applying a partial style over a large region
@@ -1608,12 +1609,14 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 		      (ForeachTileFunc)cb_find_conflicts, &user);
 
 	/* copy over the diagonals */
-	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++)
-		if (!(user.conflicts & (1 << (MSTYLE_BORDER_TOP+i))))
-			borders [i] = style_border_ref (
-				gnm_style_get_border (*style, MSTYLE_BORDER_TOP+i));
+	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++) {
+		GnmStyleElement se = STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (i);
+		if (user.conflicts & (1 << se))
+			borders[i] = NULL;
 		else
-			borders [i] = NULL;
+			borders[i] = style_border_ref (
+				gnm_style_get_border (*style, se));
+	}
 
 	start_col = r->start.col;
 	if (r->start.col > 0)

@@ -50,6 +50,8 @@ typedef enum {
 	STYLE_BORDER_EDGE_MAX
 } StyleBorderLocation;
 
+#define STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT(sbl) ((GnmStyleElement)(MSTYLE_BORDER_TOP + (int)((sbl) - STYLE_BORDER_TOP)))
+
 struct _GnmBorder {
 	/* Key elements */
 	StyleBorderType	 line_type;

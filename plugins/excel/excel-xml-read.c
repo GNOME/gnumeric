@@ -651,7 +651,9 @@ xl_xml_border (GsfXMLIn *xin, xmlChar const **attrs)
 	    line_type != STYLE_BORDER_MAX) {
 		border = style_border_fetch (line_type,
 			color, style_border_get_orientation (location));
-		gnm_style_set_border (state->style, MSTYLE_BORDER_TOP + location, border);
+		gnm_style_set_border (state->style,
+				      STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (location),
+				      border);
 	} else if (color)
 		    style_color_unref (color);
 }

@@ -1067,7 +1067,7 @@ border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 	}
 	return style_border_fetch
 		(state->border.edge[loc].pattern_index, color,
-		 style_border_get_orientation (loc + MSTYLE_BORDER_TOP));
+		 style_border_get_orientation (loc));
 }
 
 /* See if either the color or pattern for any segment has changed and

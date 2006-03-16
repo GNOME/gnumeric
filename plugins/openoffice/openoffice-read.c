@@ -1135,6 +1135,8 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 	char *border_type = NULL;
 	size_t pos = 0;
 	StyleBorderType border_style;
+	StyleBorderLocation const loc =
+		STYLE_BORDER_TOP + (int)(location - MSTYLE_BORDER_TOP);
 
 	if (end == NULL || end == str)
 		return;
@@ -1160,7 +1162,7 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 			border_style = STYLE_BORDER_DOUBLE;
 
 		border = style_border_fetch (border_style, color,
-			style_border_get_orientation (location - MSTYLE_BORDER_TOP));
+					     style_border_get_orientation (loc));
 		border->width = pts;
 		gnm_style_set_border (style, location, border);
 		free (border_type);

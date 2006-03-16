@@ -1223,9 +1223,11 @@ xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	if (pattern >= STYLE_BORDER_NONE) {
 		GnmStyleElement const type = gsf_state->node->user_data.v_int;
+		StyleBorderLocation const loc =
+			STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
 		GnmBorder *border =
 			style_border_fetch ((StyleBorderType)pattern, colour,
-					    style_border_get_orientation (type));
+					    style_border_get_orientation (loc));
 		gnm_style_set_border (state->style, type, border);
 	}
 }

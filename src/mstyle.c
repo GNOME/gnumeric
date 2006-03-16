@@ -863,7 +863,7 @@ gnm_style_get_pattern_color (GnmStyle const *style)
 
 void
 gnm_style_set_border (GnmStyle *style, GnmStyleElement elem,
-		   GnmBorder *border)
+		      GnmBorder *border)
 {
 	g_return_if_fail (style != NULL);
 
