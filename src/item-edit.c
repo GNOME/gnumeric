@@ -491,14 +491,16 @@ entry_changed (FooCanvasItem *item)
 }
 
 static void
-item_edit_finalize (GObject *gobject)
+item_edit_dispose (GObject *gobject)
 {
 	ItemEdit *ie = ITEM_EDIT (gobject);
 
 	item_edit_cursor_blink_stop (ie);
 	ie_destroy_feedback_range (ie);
-
+#if 0
+	/* Why?  */
 	scg_set_display_cursor (ie->scg);
+#endif
 
 	if (ie->gfont != NULL) {
 		style_font_unref (ie->gfont);
@@ -509,7 +511,7 @@ item_edit_finalize (GObject *gobject)
 		ie->style= NULL;
 	}
 
-	(G_OBJECT_CLASS (parent_class)->finalize) (gobject);
+	G_OBJECT_CLASS (parent_class)->dispose (gobject);
 }
 
 static int
@@ -608,7 +610,7 @@ item_edit_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->set_property = item_edit_set_property;
-	gobject_class->finalize	   = item_edit_finalize;
+	gobject_class->dispose	   = item_edit_dispose;
 
 	g_object_class_install_property (gobject_class, ARG_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",

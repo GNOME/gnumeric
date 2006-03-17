@@ -1,3 +1,10 @@
+2006-03-17  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_effect, gnumeric_nominal): Improve for
+	weird nper.
+	(gnumeric_dollarde, gnumeric_dollarfr): Fix for negative amounts.
+	Improve Excel compatibility.
+
 2006-03-06  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_xnpv): Fix handling of bools and strings.

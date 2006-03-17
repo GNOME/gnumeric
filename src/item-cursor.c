@@ -106,7 +106,7 @@ cb_item_cursor_animation (ItemCursor *ic)
 }
 
 static void
-item_cursor_finalize (GObject *obj)
+item_cursor_dispose (GObject *obj)
 {
 	ItemCursor *ic = ITEM_CURSOR (obj);
 
@@ -115,7 +115,7 @@ item_cursor_finalize (GObject *obj)
 		ic->tip = NULL;
 	}
 
-	(*G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
 
 static void
@@ -1335,7 +1335,7 @@ item_cursor_class_init (GObjectClass *gobject_klass)
 	parent_class = g_type_class_peek_parent (gobject_klass);
 
 	gobject_klass->set_property = item_cursor_set_property;
-	gobject_klass->finalize     = item_cursor_finalize;
+	gobject_klass->dispose = item_cursor_dispose;
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
 			"the sheet control gui controlling the item",

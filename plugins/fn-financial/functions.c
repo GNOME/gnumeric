@@ -835,10 +835,10 @@ static GnmValue *
 gnumeric_effect (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
-	int nper = value_get_as_int (argv[1]);
+	gnm_float nper = gnm_floor (value_get_as_float (argv[1]));
 
-	/* Rate or number of periods cannot be negative */
-	if (rate < 0 || nper <= 0)
+	/* I don't know why Excel disallows 0% for rate.  */
+	if (rate <= 0 || nper < 1)
                 return value_new_error_NUM (ei->pos);
 
         return value_new_float (pow1pm1 (rate / nper, nper));
@@ -876,10 +876,10 @@ static GnmValue *
 gnumeric_nominal (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
-	int nper = value_get_as_int (argv[1]);
+	gnm_float nper = gnm_floor (value_get_as_float (argv[1]));
 
-	/* Rate or number of periods cannot be negative */
-	if (rate < 0 || nper <= 0)
+	/* I don't know why Excel disallows 0% for rate.  */
+	if (rate <= 0 || nper < 1)
                 return value_new_error_NUM (ei->pos);
 
         return value_new_float (nper * pow1pm1 (rate, 1.0 / nper));
@@ -1185,25 +1185,37 @@ static GnmFuncHelp const help_dollarde[] = {
 static GnmValue *
 gnumeric_dollarde (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float fractional_dollar;
-	int        fraction, n, tmp;
-	gnm_float floored, rest;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float f = gnm_floor (value_get_as_float (argv[1]));
+	gnm_float negative = FALSE;
+	gnm_float fdigits;
+	gnm_float res;
 
-	fractional_dollar = value_get_as_float (argv[0]);
-	fraction          = value_get_as_int (argv[1]);
+	if (f < 0)
+		return value_new_error_NUM (ei->pos);
+	if (f == 0)
+		return value_new_error_DIV0 (ei->pos);
 
-	if (fraction <= 0)
-                return value_new_error_NUM (ei->pos);
+	if (x < 0) {
+		negative = TRUE;
+		x = gnm_abs (x);
+	}
 
-	tmp = fraction;
-	/* Count digits in fraction */
-	for (n = 0; tmp; n++)
-	        tmp /= 10;
+	/*
+	 * For a power of 10, this is actually one less than the
+	 * number of digits.
+	 */
+	fdigits = 1 + gnm_floor (gnm_log10 (f - 0.5));
 
-	floored = gnm_floor (fractional_dollar);
-	rest = fractional_dollar - floored;
+	res = gnm_floor (x);
 
-	return value_new_float (floored + rest * gnm_pow10 (n) / fraction);
+	/* If f=9, then .45 means 4.5/9  */
+	res += (x - res) * gnm_pow10 (fdigits) / f;
+
+	if (negative)
+		res = 0 - res;
+
+	return value_new_float (res);
 }
 
 /***************************************************************************/
@@ -1229,25 +1241,35 @@ static GnmFuncHelp const help_dollarfr[] = {
 static GnmValue *
 gnumeric_dollarfr (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-        gnm_float fractional_dollar;
-	int fraction, n, tmp;
-	gnm_float floored, rest;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float f = gnm_floor (value_get_as_float (argv[1]));
+	gnm_float negative = FALSE;
+	gnm_float fdigits;
+	gnm_float res;
 
-	fractional_dollar = value_get_as_float (argv[0]);
-	fraction          = value_get_as_int (argv[1]);
+	if (f < 0)
+		return value_new_error_NUM (ei->pos);
+	if (f == 0)
+		return value_new_error_DIV0 (ei->pos);
 
-	if (fraction <= 0)
-                return value_new_error_NUM (ei->pos);
+	if (x < 0) {
+		negative = TRUE;
+		x = gnm_abs (x);
+	}
 
-	/* Count digits in fraction */
-	tmp = fraction;
-	for (n = 0; tmp; n++)
-	        tmp /= 10;
+	/*
+	 * For a power of 10, this is actually one less than the
+	 * number of digits.
+	 */
+	fdigits = 1 + gnm_floor (gnm_log10 (f - 0.5));
 
-	floored = gnm_floor (fractional_dollar);
-	rest = fractional_dollar - floored;
+	res = gnm_floor (x);
+	res += (x - res) * f / gnm_pow10 (fdigits);
 
-	return value_new_float (floored + rest * fraction / gnm_pow10 (n));
+	if (negative)
+		res = 0 - res;
+
+	return value_new_float (res);
 }
 
 /***************************************************************************/

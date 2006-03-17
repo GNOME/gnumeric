@@ -1987,19 +1987,16 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			state->protection.sheet_protected_changed = FALSE;
 		}
 
-		gnm_style_ref (state->result);
-
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			borders[i] = border_get_mstyle (state, i);
 
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg),
 			state->result, borders, NULL);
-
-		gnm_style_unref (state->result);
-		sheet_update (state->sheet);
-
+		/* state->result got absorbed.  */
 		/* Get a fresh style to accumulate results in */
 		state->result = gnm_style_new ();
+		sheet_update (state->sheet);
+
 
 		gtk_widget_set_sensitive (state->apply_button, FALSE);
 	}

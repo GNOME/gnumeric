@@ -1060,7 +1060,7 @@ item_bar_set_property (GObject *obj, guint param_id,
 }
 
 static void
-item_bar_finalize (GObject *obj)
+item_bar_dispose (GObject *obj)
 {
 	ItemBar *ib = ITEM_BAR (obj);
 
@@ -1080,7 +1080,7 @@ item_bar_finalize (GObject *obj)
 		ib->pango.item = NULL;
 	}
 
-	(*G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
 
 static void
@@ -1114,7 +1114,7 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 
 	parent_class = g_type_class_peek_parent (gobject_klass);
 
-	gobject_klass->finalize     = item_bar_finalize;
+	gobject_klass->dispose = item_bar_dispose;
 	gobject_klass->set_property = item_bar_set_property;
 	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_GNUMERIC_CANVAS,
 		g_param_spec_object ("GnumericCanvas", "GnumericCanvas",

@@ -1,3 +1,18 @@
+2006-03-17  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_workbook_get_by_index,
+	gnm_app_workbook_get_by_name): s/close/closure/.  (The former is
+	reserved by libc.)
+	(cb_workbook_index): Actually set a result.
+
+	* src/item-edit.c (item_edit_dispose): Rename from
+	item_edit_finalize and hook up as such.  Otherwise it may not get
+	run.
+	* src/item-bar.c (item_bar_dispose): Ditto.
+
+	* src/preview-grid.c (preview_grid_dispose): Rename from
+	preview_grid_destroy and hook up as such.
+
 2006-03-16  Morten Welinder  <terra@gnome.org>
 
 	* src/style-border.h (STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT): New

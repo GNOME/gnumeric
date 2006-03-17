@@ -385,12 +385,12 @@ cb_workbook_name (Workbook * wb, gpointer closure)
 Workbook *
 gnm_app_workbook_get_by_name (char const * const name)
 {
-	struct wb_name_closure close;
-	close.wb = NULL;
-	close.name = name;
-	gnm_app_workbook_foreach (&cb_workbook_name, &close);
+	struct wb_name_closure closure;
+	closure.wb = NULL;
+	closure.name = name;
+	gnm_app_workbook_foreach (&cb_workbook_name, &closure);
 
-	return close.wb;
+	return closure.wb;
 }
 
 gboolean
@@ -416,21 +416,25 @@ struct wb_index_closure
 };
 
 static gboolean
-cb_workbook_index (G_GNUC_UNUSED Workbook * wb, gpointer closure)
+cb_workbook_index (Workbook *wb, gpointer closure)
 {
 	struct wb_index_closure *dat = closure;
-	return (--(dat->index) != 0);
+	if (--(dat->index) == 0) {
+		dat->wb = wb;
+		return FALSE;
+	}
+	return TRUE;
 }
 
 Workbook *
 gnm_app_workbook_get_by_index (int i)
 {
-	struct wb_index_closure close;
-	close.wb = NULL;
-	close.index = i;
-	gnm_app_workbook_foreach (&cb_workbook_index, &close);
+	struct wb_index_closure closure;
+	closure.wb = NULL;
+	closure.index = i;
+	gnm_app_workbook_foreach (&cb_workbook_index, &closure);
 
-	return close.wb;
+	return closure.wb;
 }
 
 double

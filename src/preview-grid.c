@@ -499,7 +499,7 @@ preview_grid_set_property (GObject *obj, guint param_id,
 }
 
 static void
-preview_grid_destroy (GtkObject *obj)
+preview_grid_dispose (GObject *obj)
 {
 	PreviewGrid *pg = PREVIEW_GRID (obj);
 
@@ -512,7 +512,7 @@ preview_grid_destroy (GtkObject *obj)
 		pg->defaults.value = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_klass)->destroy (obj);
+	G_OBJECT_CLASS (parent_klass)->dispose (obj);
 }
 
 static void
@@ -525,23 +525,22 @@ preview_grid_init (PreviewGrid *pg)
 	item->x2 = 0;
 	item->y2 = 0;
 
-	pg->gridlines      = FALSE;
-	pg->defaults.col_width  = 64;
+	pg->gridlines = FALSE;
+	pg->defaults.col_width = 64;
 	pg->defaults.row_height = 17;
-	pg->defaults.style      = gnm_style_new_default ();
-	pg->defaults.value	= value_new_empty ();
+	pg->defaults.style = gnm_style_new_default ();
+	pg->defaults.value = value_new_empty ();
 }
 
 static void
 preview_grid_class_init (GObjectClass *gobject_klass)
 {
 	FooCanvasItemClass *item_klass = (FooCanvasItemClass *)gobject_klass;
-	GtkObjectClass *gtkobject_klass = (GtkObjectClass *)gobject_klass;
 
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 
-	gtkobject_klass->destroy = preview_grid_destroy;
 	gobject_klass->set_property = preview_grid_set_property;
+	gobject_klass->dispose = preview_grid_dispose;
 	g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_RENDER_GRIDLINES,
 		g_param_spec_boolean ("render-gridlines", NULL, NULL,
 			FALSE,
