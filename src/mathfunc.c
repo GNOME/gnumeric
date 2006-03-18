@@ -7571,23 +7571,28 @@ gcd (int a, int b)
 
 
 gnm_float
-combin (int n, int k)
+combin (gnm_float n, gnm_float k)
 {
-	if (n >= 15) {
+	/* Assume integer arguments.  */
+
+	if (k < 0 || k > n)
+		return gnm_nan;
+	else if (n >= 15)
 		return gnm_floor (0.5 + gnm_exp (gnm_lgamma (n + 1) - gnm_lgamma (k + 1) - gnm_lgamma (n - k + 1)));
-	} else {
+	else
 		return fact (n) / fact (k) / fact (n - k);
-	}
 }
 
 gnm_float
-permut (int n, int k)
+permut (gnm_float n, gnm_float k)
 {
-	if (n >= 15) {
+	/* Assume integer arguments.  */
+	if (k < 0 || k > n)
+		return gnm_nan;
+	else if (n >= 15)
 		return gnm_floor (0.5 + gnm_exp (gnm_lgamma (n + 1) - gnm_lgamma (n - k + 1)));
-	} else {
+	else
 		return fact (n) / fact (n - k);
-	}
 }
 
 gnm_float

@@ -113,6 +113,7 @@ Morten:
 	* Fix DOLLARDE and DOLLARFR.
 	* Resurrect the ability to name external workbooks by filename,
 	  including relative filename.  (But things still expand to URIs.)
+	* Improve Excel compatibility for ROMAN and COMBIN in extreme cases.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

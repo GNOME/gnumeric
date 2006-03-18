@@ -1046,8 +1046,8 @@ static GnmFuncHelp const help_combin[] = {
 static GnmValue *
 gnumeric_combin (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int n = value_get_as_int (argv[0]);
-	int k = value_get_as_int (argv[1]);
+	gnm_float n = gnm_floor (value_get_as_float (argv[0]));
+	gnm_float k = gnm_floor (value_get_as_float (argv[1]));
 
 	if (k >= 0 && n >= k)
 		return value_new_float (combin (n ,k));
@@ -1911,8 +1911,8 @@ gnumeric_fib (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	static int fibs[47];
 	static int fib_count = G_N_ELEMENTS (fibs);
 	static gboolean inited = FALSE;
+	gnm_float n = gnm_floor (value_get_as_float (argv[0]));
 
-	int n = value_get_as_int (argv[0]);
 	if (n <= 0)
 		return value_new_error_NUM (ei->pos);
 
@@ -1924,7 +1924,7 @@ gnumeric_fib (FunctionEvalInfo *ei, GnmValue const * const *argv)
 				fibs[i] = fibs[i - 1] + fibs[i - 2];
 			inited = TRUE;
 		}
-		return value_new_int (fibs[n]);
+		return value_new_int (fibs[(int)n]);
 	} else {
 		gnm_float s5 = gnm_sqrt (5.0);
 		gnm_float r1 = (1 + s5) / 2;
@@ -2279,52 +2279,48 @@ static GnmFuncHelp const help_roman[] = {
 static GnmValue *
 gnumeric_roman (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const letter[] = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
-	int  const largest = 1000;
-
-	static char buf[256];
-	char        *p;
-
-	int n, form;
+	static char const letter[] = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
+	int const largest = 1000;
+	char buf[256];
+	char *p;
+	gnm_float n = gnm_floor (value_get_as_float (argv[0]));
+	gnm_float form = argv[1] ? gnm_floor (value_get_as_float (argv[1])) : 0;
 	int i, j, dec;
 
 	dec = largest;
-	n = value_get_as_int (argv[0]);
-	form = argv[1] ? value_get_as_int (argv[1]) : 0;
 
 	if (n < 0 || n > 3999)
+		return value_new_error_VALUE (ei->pos);
+	if (form < 0 || form > 4)
 		return value_new_error_VALUE (ei->pos);
 
 	if (n == 0)
 		return value_new_string ("");
 
-	if (form < 0 || form > 4)
-		return value_new_error_NUM (ei->pos);
-
 	for (i = j = 0; dec > 1; dec /= 10, j += 2) {
 	        for (; n > 0; i++) {
 		        if (n >= dec) {
-			        buf[i] = letter [j];
+			        buf[i] = letter[j];
 				n -= dec;
 			} else if (n >= dec - dec / 10) {
-			        buf [i++] = letter [j + 2];
-				buf [i] = letter [j];
+			        buf[i++] = letter[j + 2];
+				buf[i] = letter[j];
 				n -= dec - dec / 10;
 			} else if (n >= dec / 2) {
-			        buf [i] = letter [j + 1];
+			        buf[i] = letter[j + 1];
 				n -= dec / 2;
 			} else if (n >= dec / 2 - dec / 10) {
-			        buf [i++] = letter [j + 2];
-				buf [i] = letter [j + 1];
+			        buf[i++] = letter[j + 2];
+				buf[i] = letter[j + 1];
 				n -= dec / 2 - dec / 10;
 			} else if (dec == 10) {
-			        buf [i] = letter [j + 2];
+			        buf[i] = letter[j + 2];
 				n--;
 			} else
 			        break;
 		}
 	}
-	buf [i] = '\0';
+	buf[i] = '\0';
 
 
 	if (form > 0) {
@@ -3131,7 +3127,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	        res->v_array.vals[c] = g_new (GnmValue *, rows_a);
 	        for (r = 0; r < rows_a; r++)
 		        res->v_array.vals[c][r] =
-			    value_new_float (product [r + c * rows_a]);
+			    value_new_float (product[r + c * rows_a]);
 	}
 	g_free (A);
 	g_free (B);
