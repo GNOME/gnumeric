@@ -64,8 +64,6 @@ static GOMemChunk *expression_pool_small, *expression_pool_big;
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
 
-#define GNM_EXPR_SET_OPER(e,o) ((e)->oper = (o))
-
 /***************************************************************************/
 
 /**
@@ -97,7 +95,7 @@ gnm_expr_new_funcallv (GnmFunc *func, int argc, GnmExprConstPtr *argv)
 
 	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool_small);
 
-	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_FUNCALL);
+	ans->oper = GNM_EXPR_OP_FUNCALL;
 	gnm_func_ref (func);
 	ans->func = func;
 	ans->argc = argc;
@@ -166,7 +164,7 @@ gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER (ans, op);
+	ans->oper = op;
 	ans->value = e;
 
 	return (GnmExpr *)ans;
@@ -183,7 +181,7 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER (ans, op);
+	ans->oper = op;
 	ans->value_a = l;
 	ans->value_b = r;
 
@@ -202,7 +200,7 @@ gnm_expr_new_name (GnmNamedExpr *name,
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_NAME);
+	ans->oper = GNM_EXPR_OP_NAME;
 	ans->name = name;
 	expr_name_ref (name);
 
@@ -223,7 +221,7 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
 	if (!ans)
 		return NULL;
 
-	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_CELLREF);
+	ans->oper = GNM_EXPR_OP_CELLREF;
 	ans->ref = *cr;
 
 	return (GnmExpr *)ans;
@@ -248,7 +246,7 @@ gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 	if (ans == NULL)
 		return NULL;
 
-	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_ARRAY_CORNER);
+	ans->oper = GNM_EXPR_OP_ARRAY_CORNER;
 	ans->rows = rows;
 	ans->cols = cols;
 	ans->value = NULL;
@@ -265,7 +263,7 @@ gnm_expr_new_array_elem  (int x, int y)
 	if (ans == NULL)
 		return NULL;
 
-	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_ARRAY_ELEM);
+	ans->oper = GNM_EXPR_OP_ARRAY_ELEM;
 	ans->x = x;
 	ans->y = y;
 	return (GnmExpr *)ans;
@@ -278,7 +276,7 @@ gnm_expr_new_setv (int argc, GnmExprConstPtr *argv)
 {
 	GnmExprSet *ans = CHUNK_ALLOC (GnmExprSet, expression_pool_small);
 
-	GNM_EXPR_SET_OPER (ans, GNM_EXPR_OP_SET);
+	ans->oper = GNM_EXPR_OP_SET;
 	ans->argc = argc;
 	ans->argv = argv;
 

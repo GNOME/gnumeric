@@ -34,6 +34,7 @@
 #include <gtk/gtkicontheme.h>
 #include <glib/gi18n.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-file.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))
@@ -365,17 +366,56 @@ gnm_app_clipboard_area_get (void)
 	return NULL;
 }
 
-struct wb_name_closure {
-	Workbook *wb;
-	char const *name;
-};
-static gboolean
-cb_workbook_name (Workbook * wb, gpointer closure)
+Workbook *
+gnm_app_workbook_get_by_name (char const *name,
+			      char const *ref_uri)
 {
-	struct wb_name_closure *dat = closure;
+	Workbook *wb;
+	char *filename = NULL;
+
+	/* Try as URI.  */
+	wb = gnm_app_workbook_get_by_uri (name);
+	if (wb)
+		goto out;
+
+	filename = g_filename_from_utf8 (name, -1, NULL, NULL, NULL);
+
+	/* Try as absolute filename.  */
+	if (filename && g_path_is_absolute (filename)) {
+		char *uri = go_filename_to_uri (filename);
+		wb = gnm_app_workbook_get_by_uri (uri);
+		g_free (uri);
+		if (wb)
+			goto out;
+	}
+
+	if (filename && ref_uri) {
+		char *rel_uri = go_url_encode (filename, 1);
+		char *uri = go_url_resolve_relative (ref_uri, rel_uri);
+		g_free (rel_uri);
+		wb = gnm_app_workbook_get_by_uri (uri);
+		g_free (uri);
+		if (wb)
+			goto out;
+	}
+
+ out:
+	g_free (filename);
+	return wb;
+}
+
+struct wb_uri_closure {
+	Workbook *wb;
+	char const *uri;
+};
+
+static gboolean
+cb_workbook_uri (Workbook * wb, gpointer closure)
+{
+	struct wb_uri_closure *dat = closure;
 	const char *wb_uri = workbook_get_uri (wb);
 
-	if (wb_uri && strcmp (wb_uri, dat->name) == 0) {
+	if (wb_uri && strcmp (wb_uri, dat->uri) == 0) {
 		dat->wb = wb;
 		return FALSE;
 	}
@@ -383,12 +423,12 @@ cb_workbook_name (Workbook * wb, gpointer closure)
 }
 
 Workbook *
-gnm_app_workbook_get_by_name (char const * const name)
+gnm_app_workbook_get_by_uri (char const *uri)
 {
-	struct wb_name_closure closure;
+	struct wb_uri_closure closure;
 	closure.wb = NULL;
-	closure.name = name;
-	gnm_app_workbook_foreach (&cb_workbook_name, &closure);
+	closure.uri = uri;
+	gnm_app_workbook_foreach (&cb_workbook_uri, &closure);
 
 	return closure.wb;
 }

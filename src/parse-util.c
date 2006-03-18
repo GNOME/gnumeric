@@ -784,7 +784,7 @@ unquote (char *dst, char const *src, int n)
  *           Otherwise returns @start and does not modify @wb.
  * **/
 static char const *
-wbref_parse (char const *start, Workbook **wb)
+wbref_parse (char const *start, Workbook **wb, Workbook *ref_wb)
 {
 	/* Is this an external reference ? */
 	if (*start == '[') {
@@ -810,7 +810,9 @@ wbref_parse (char const *start, Workbook **wb)
 		} else
 			unquote (name, start+2, end-start-2);
 
-		tmp_wb = gnm_app_workbook_get_by_name (name);
+		tmp_wb = gnm_app_workbook_get_by_name
+			(name,
+			 ref_wb ? workbook_get_uri (ref_wb) : NULL);
 		if (tmp_wb == NULL)
 			return NULL;
 		*wb = tmp_wb;
@@ -965,12 +967,14 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 {
 	char const *ptr = start, *start_sheet, *tmp1, *tmp2;
 	Workbook *wb;
+	Workbook *ref_wb;
 
 	g_return_val_if_fail (start != NULL, start);
 	g_return_val_if_fail (pp != NULL, start);
 
 	wb = pp->wb;
-	start_sheet = wbref_parse (start, &wb);
+	ref_wb = wb ? wb : pp->sheet->workbook;
+	start_sheet = wbref_parse (start, &wb, ref_wb);
 	if (start_sheet == NULL)
 		return start; /* TODO error unknown workbook */
 	ptr = sheetref_parse (start_sheet, &res->a.sheet, wb, TRUE);
@@ -1068,7 +1072,7 @@ gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *
 	g_return_val_if_fail (pp != NULL, start);
 
 	wb = pp->wb;
-	ptr = wbref_parse (start, &wb);
+	ptr = wbref_parse (start, &wb, NULL);
 	if (ptr == NULL)
 		return start; /* TODO error unknown workbook */
 

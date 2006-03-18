@@ -216,7 +216,7 @@ dhl_get_target_email (HyperlinkState *state, gboolean *success)
 		return g_strconcat ("mailto:", address, NULL);
 	}
 
-	encoded = go_url_encode ((char*)subject);
+	encoded = go_url_encode (subject, 0);
 
 	result = g_strconcat ("mailto:", address, "?subject=", encoded, NULL);
 	g_free (encoded);

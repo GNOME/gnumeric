@@ -668,9 +668,19 @@ string_opt_quote : STRING
 
 workbookref : '[' string_opt_quote ']'  {
 		char const *wb_name = $2->constant.value->v_str.val->str;
-		Workbook *wb = gnm_app_workbook_get_by_name (wb_name);
+		Workbook *ref_wb = state->pos
+			? (state->pos->wb
+			   ? state->pos->wb
+			   : (state->pos->sheet
+			      ? state->pos->sheet->workbook
+			      : NULL))
+			: NULL;
+		Workbook *wb = gnm_app_workbook_get_by_name
+			(wb_name,
+			 ref_wb ? workbook_get_uri (ref_wb) : NULL);
 
 		if (wb != NULL) {
+			g_print ("Got %s\n", workbook_get_uri (wb));
 			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = wb;
 		} else {
@@ -699,8 +709,8 @@ sheetref: string_opt_quote SHEET_SEP {
 		}
 	}
 	| workbookref string_opt_quote SHEET_SEP {
-		Sheet *sheet = parser_sheet_by_name ($1, $2);
-
+		Workbook *wb = $1;
+		Sheet *sheet = parser_sheet_by_name (wb, $2);
 		if (sheet != NULL) {
 			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = sheet;

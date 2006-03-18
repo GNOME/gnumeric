@@ -897,7 +897,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 			/* mutt does not handle urls with no destination
 			 * so pick something to arbitrary */
 			GError *err = NULL;
-			char *url, *tmp = go_url_encode (full_name);
+			char *url, *tmp = go_url_encode (full_name, 0);
 			url = g_strdup_printf ("mailto:someone?attach=%s", tmp);
 			g_free (tmp);
 #ifdef WITH_GNOME

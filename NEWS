@@ -111,6 +111,8 @@ Morten:
 	* Make CORREL, COVAR, RSQ, SLOPE, and INTERCEPT really ignore
 	  blanks.  [#334591]
 	* Fix DOLLARDE and DOLLARFR.
+	* Resurrect the ability to name external workbooks by filename,
+	  including relative filename.  (But things still expand to URIs.)
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

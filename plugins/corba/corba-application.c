@@ -57,7 +57,7 @@ capp_workbook_open (PortableServer_Servant ignore,
 		    CORBA_boolean          shared_view,
 		    CORBA_Environment     *ev)
 {
-	Workbook     *wb = gnm_app_workbook_get_by_name (file_name);
+	Workbook     *wb = gnm_app_workbook_get_by_name (file_name, NULL);
 	WorkbookView *wbv;
 
 	if (wb != NULL) {

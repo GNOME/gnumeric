@@ -1,3 +1,15 @@
+2006-03-18  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (wbref_parse): Take reference wb in case a URI
+	is relative.  All callers changed.
+
+	* src/application.c (cb_workbook_uri): Renamed from
+	cb_workbook_name.
+	(gnm_app_workbook_get_by_uri): Renamed from
+	gnm_app_workbook_get_by_name.
+	(gnm_app_workbook_get_by_name): New function that tries URI,
+	absolute filename, and relative URI.
+
 2006-03-17  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_workbook_get_by_index,
