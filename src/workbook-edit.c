@@ -795,6 +795,8 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	g_free (text);
 	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
 
+	gtk_editable_set_position (GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+
 	inside_editing = FALSE;
 	return TRUE;
 }

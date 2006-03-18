@@ -13,6 +13,7 @@ Morten:
 	* Fix stf text import speed regression.  [#333407]
 	* Fix XIRR issues.  [#333620]  [#333631]
 	* Fix printing issue with wrapped, right-aligned text.  [#334144]
+	* Fix position of cursor after F2.  [#319311]
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.2
