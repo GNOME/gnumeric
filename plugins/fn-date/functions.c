@@ -333,7 +333,7 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 		}
 	}
 
-	return datetime_g_days_between (gdate1, gdate2);
+	return g_date_days_between (gdate1, gdate2);
 }
 
 static int
