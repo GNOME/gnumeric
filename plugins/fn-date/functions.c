@@ -370,7 +370,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 		                 day - g_date_get_day (gdate1));
 	}
 
-	return datetime_g_days_between (gdate1, gdate2);
+	return g_date_days_between (gdate1, gdate2);
 }
 
 static GnmValue *
