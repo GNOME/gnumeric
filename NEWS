@@ -114,6 +114,7 @@ Morten:
 	* Resurrect the ability to name external workbooks by filename,
 	  including relative filename.  (But things still expand to URIs.)
 	* Improve Excel compatibility for ROMAN and COMBIN in extreme cases.
+	* Fix sheet object deletion crash.  [#335052]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

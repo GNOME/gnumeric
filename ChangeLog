@@ -1,5 +1,8 @@
 2006-03-18  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-pane.c (cb_sheet_object_view_destroyed): Fix crash
+	exposed by foocanvas fixes.  [#335052]
+
 	* src/mathfunc.c (combin, permut): Changed parameter types to
 	gnm_float.
 

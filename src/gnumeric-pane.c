@@ -1379,7 +1379,9 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 static void
 cb_sheet_object_view_destroyed (FooCanvasItem *view, SheetObject *so)
 {
-	GnmPane *pane = GNM_CANVAS (view->canvas)->pane;
+	GnmPane *pane = view->canvas
+		? GNM_CANVAS (view->canvas)->pane
+		: NULL;
 	if (pane != NULL && g_hash_table_lookup (pane->drag.ctrl_pts, so) != NULL)
 		scg_object_unselect (GNM_SIMPLE_CANVAS (view->canvas)->scg, so);
 }
