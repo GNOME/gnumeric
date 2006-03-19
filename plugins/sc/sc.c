@@ -532,7 +532,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	ErrorInfo *error;
 	ScParseState state;
 
-	wb    = wb_view_workbook (wb_view);
+	wb    = wb_view_get_workbook (wb_view);
 	name  = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
 	state.sheet = sheet_new (wb, name);
 	g_free (name);

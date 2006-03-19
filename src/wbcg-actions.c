@@ -96,7 +96,7 @@ static GNM_ACTION_DEF (cb_file_new)
 
 #ifdef USE_HILDON
 	WorkbookControl * wbc = (WorkbookControl *) wbcg;
-	Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *tmp_wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	if (workbook_is_dirty (tmp_wb)) {
 		switch (wbcg_show_save_dialog (wbcg, tmp_wb, FALSE)) {
@@ -117,7 +117,7 @@ static GNM_ACTION_DEF (cb_file_new)
 	}
 
 	g_object_ref (wbcg);
-	g_object_unref (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+	g_object_unref (wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)));
 	wb_control_set_view (wbc, NULL, wb);
 	wb_control_init_state (wbc);
 	sheet_update (wb_view_cur_sheet (wb_control_view (wbc)));
@@ -138,7 +138,7 @@ static GNM_ACTION_DEF (cb_file_print)	{
 	sheet_print (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET); }
 static GNM_ACTION_DEF (cb_file_print_preview) {
 	sheet_print (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET); }
-static GNM_ACTION_DEF (cb_file_summary)		{ dialog_summary_update (wbcg, TRUE); }
+static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg); }
 static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, 0); }
 static GNM_ACTION_DEF (cb_file_close)		{ wbcg_close_control (wbcg); }
 
@@ -170,7 +170,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 		g_return_if_fail (IS_WORKBOOK (wb));
 		g_return_if_fail (wb->wb_views != NULL);
 
-		if (wb_control_workbook (wbc) == wb)
+		if (wb_control_get_workbook (wbc) == wb)
 			continue;
 		if (discard_all) {
 
@@ -191,12 +191,12 @@ static GNM_ACTION_DEF (cb_file_quit)
 				discard_all = TRUE;
 				old_ptr = ptr;
 				for (ptr = ptr->next; ptr != NULL ; ptr = ptr->next) {
-					Workbook *wba = ptr->data;
+					GODoc *wb = ptr->data;
 					old_ptr = ptr;
-					if (wb_control_workbook (wbc) == wba)
+					if (wb_control_get_doc (wbc) == wb)
 						continue;
-					workbook_mark_not_modified (wba);
-					g_object_unref (wba);
+					go_doc_set_dirty (wb, FALSE);
+					g_object_unref (wb);
 				}
 				ptr = old_ptr;
 				break;
@@ -205,11 +205,10 @@ static GNM_ACTION_DEF (cb_file_quit)
 	}
 
 	if (discard_all) {
-		workbook_mark_not_modified (wb_control_workbook (wbc));
-		g_object_unref (wb_control_workbook (wbc));
-		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next) {
+		go_doc_set_dirty (wb_control_get_doc (wbc), FALSE);
+		g_object_unref (wb_control_get_doc (wbc));
+		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
 			g_object_unref (ptr->data);
-		}
 	} else if (ok && wbcg_close_if_user_permits (wbcg, wb_control_view (wbc),
 						     TRUE, TRUE, ask_user) > 0)
 		/* only close pristine books if nothing was canceled. */
@@ -219,11 +218,6 @@ static GNM_ACTION_DEF (cb_file_quit)
 	g_list_free (workbooks);
 	g_list_free (clean_no_closed);
 }
-static GNM_ACTION_DEF (cb_new_doc_metadata)
-{
-	dialog_doc_metadata_new (wbcg);
-}
-
 /****************************************************************************/
 
 static GNM_ACTION_DEF (cb_edit_clear_all)
@@ -529,7 +523,7 @@ static GNM_ACTION_DEF (cb_edit_recalc)
 	 * ctrl-alt-f9 -  force a full recalc across all sheets
 	 * ctrl-alt-shift-f9  -  a full-monty super recalc
 	 */
-	workbook_recalc_all (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+	workbook_recalc_all (wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)));
 }
 
 static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
@@ -635,7 +629,7 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 static GNM_ACTION_DEF (cb_insert_current_date_time)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Workbook const *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 		GnmValue *v = value_new_float (
 			datetime_timet_to_serial_raw (time (NULL), workbook_date_conv (wb)));
 		char *txt = format_value (go_format_default_date_time (), v, NULL, -1,
@@ -648,7 +642,7 @@ static GNM_ACTION_DEF (cb_insert_current_date_time)
 static GNM_ACTION_DEF (cb_insert_current_date)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Workbook const *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 		GnmValue *v = value_new_int (
 			datetime_timet_to_serial (time (NULL), workbook_date_conv (wb)));
 		char *txt = format_value (go_format_default_date (), v, NULL, -1,
@@ -662,7 +656,7 @@ static GNM_ACTION_DEF (cb_insert_current_date)
 static GNM_ACTION_DEF (cb_insert_current_time)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Workbook const *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 		GnmValue *v = value_new_float (
 			datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
 		char *txt = format_value (go_format_default_time (), v, NULL, -1,
@@ -1609,17 +1603,12 @@ static GtkActionEntry const actions[] = {
 	{ "FilePrint", GTK_STOCK_PRINT, NULL,
 		"<control>p", N_("Print the current file"),
 		G_CALLBACK (cb_file_print) },
-	{ "FileSummary", GTK_STOCK_PROPERTIES, N_("Proper_ties..."),
+	{ "FileMetaData", GTK_STOCK_PROPERTIES, N_("Proper_ties..."),
 		NULL, N_("Edit descriptive information"),
-		G_CALLBACK (cb_file_summary) },
+		G_CALLBACK (cb_doc_meta_data) },
 	{ "FilePreferences", GTK_STOCK_PREFERENCES, N_("Pre_ferences..."),
 		NULL, N_("Change Gnumeric Preferences"),
 		G_CALLBACK (cb_file_preferences) },
-
-/* new hook put here to avoid patch conflict */
-	{ "FileSummary_new", GTK_STOCK_PROPERTIES, N_("NEW Proper_ties..."),
-		NULL, N_("Edit descriptive information"),
-		G_CALLBACK (cb_new_doc_metadata) },
 
 /* Edit -> Clear */
 	{ "EditClearAll", NULL, N_("_All"),
@@ -1666,9 +1655,6 @@ static GtkActionEntry const actions[] = {
 	{ "EditSelectInputs", NULL, N_("Select _Inputs"),
 		"<control>bracketleft", N_("Select all the cells are used by the current edit cell"),
 		G_CALLBACK (cb_edit_select_inputs) },
-	{ "EditMetadata", NULL, N_("Edit Metadata"),
-		NULL, N_("Edit the document's extra information (metadata)"),
-		G_CALLBACK (cb_new_doc_metadata) },
 
 /* Edit -> Fill */
 	{ "EditFillAutofill", NULL, N_("Auto_fill"),

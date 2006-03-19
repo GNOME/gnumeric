@@ -561,7 +561,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 		return;
 
 	state = g_new0 (AutoFormatState, 1);
-	state->wb              = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb              = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->wbcg            = wbcg;
 	state->gui             = gui;
 	state->templates       = NULL;

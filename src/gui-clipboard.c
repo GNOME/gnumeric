@@ -77,7 +77,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		     const char *opt_encoding,
 		     gboolean fixed_encoding)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	DialogStfResult_t *dialogresult;
 	GnmCellRegion *cr = NULL;
 	gboolean oneline;
@@ -224,7 +224,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 		goto out;
 	}
 
-	wb = wb_view_workbook (wb_view);
+	wb = wb_view_get_workbook (wb_view);
 	l = workbook_sheets (wb);
 	if (l) {
 		GnmRange r;

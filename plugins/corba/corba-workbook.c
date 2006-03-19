@@ -4,7 +4,7 @@
  * corba-workbook.c: A WorkbookControl for use by CORBA that implements the
  *			 Gnumeric::Workbook interface.
  *
- * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -32,8 +32,9 @@
 #include <ranges.h>
 #include <sheet.h>
 #include <command-context.h>
-#include <goffice/app/go-cmd-context-impl.h>
 
+#include <goffice/app/go-doc.h>
+#include <goffice/app/go-cmd-context-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-exception.h>
@@ -55,43 +56,45 @@ typedef struct {
 static WorkbookControlCORBA *
 wbcc_from_servant (PortableServer_Servant serv)
 {
-	WorkbookControlCORBA *wbcc = (WorkbookControlCORBA *)(((char *)serv) - G_STRUCT_OFFSET (WorkbookControlCORBA, servant));
+	WorkbookControlCORBA *wbcc =
+		(WorkbookControlCORBA *)(((char *)serv) - G_STRUCT_OFFSET (WorkbookControlCORBA, servant));
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbcc), NULL);
 
 	return wbcc;
 }
 
+static Workbook *
+wb_from_servant (PortableServer_Servant serv)
+{
+	WorkbookControlCORBA *wbcc = wbcc_from_servant (serv);
+	return wb_control_get_workbook (WORKBOOK_CONTROL (wbcc));
+}
+
 static CORBA_string
 cworkbook_get_name (PortableServer_Servant servant,
 		    CORBA_Environment *ev)
 {
-        WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcc));
-	return CORBA_string_dup (workbook_get_uri (wb));
+	Workbook *wb = wb_from_servant (servant);
+	return CORBA_string_dup (go_doc_get_uri (GO_DOC (wb)));
 }
 
 static void
 cworkbook_set_name (PortableServer_Servant servant, CORBA_char const *name,
 		    CORBA_Environment *ev)
 {
-        WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcc));
+	Workbook *wb = wb_from_servant (servant);
 
-	g_return_if_fail (wbcc != NULL);
-	workbook_set_uri (wb, name);
+	g_return_if_fail (wb != NULL);
+
+	go_doc_set_uri (GO_DOC (wb), name);
 }
 
 static GNOME_Gnumeric_Sheet
 cworkbook_sheet_by_index (PortableServer_Servant servant, CORBA_short i,
 			  CORBA_Environment *ev)
 {
-        WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
-	Sheet *sheet;
-
-	g_return_val_if_fail (wbcc != NULL, CORBA_OBJECT_NIL);
-
-	sheet = workbook_sheet_by_index (wb_control_workbook (WORKBOOK_CONTROL (wbcc)), i);
+	Sheet *sheet = workbook_sheet_by_index (wb_from_servant (servant), i);
 	if (sheet != NULL) {
 		/* CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Workbook_NameExists, NULL); */
 	}
@@ -103,12 +106,7 @@ static GNOME_Gnumeric_Sheet
 cworkbook_sheet_by_name (PortableServer_Servant servant, CORBA_char const *name,
 			 CORBA_Environment *ev)
 {
-        WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
-	Sheet *sheet;
-
-	g_return_val_if_fail (wbcc != NULL, CORBA_OBJECT_NIL);
-
-	sheet = workbook_sheet_by_name (wb_control_workbook (WORKBOOK_CONTROL (wbcc)), name);
+	Sheet *sheet = workbook_sheet_by_name (wb_from_servant (servant), name);
 	if (sheet != NULL) {
 	}
 
@@ -120,7 +118,7 @@ cworkbook_sheet_add (PortableServer_Servant servant, CORBA_char const *name, COR
 		     CORBA_Environment *ev)
 {
         WorkbookControl *wbcc = (WorkbookControl *)wbcc_from_servant (servant);
-	Workbook *wb = wb_control_workbook (wbcc);
+	Workbook *wb = wb_control_get_workbook (wbcc);
 	Sheet *sheet = workbook_sheet_add (wb, -1);
 
 	SHEET_FOREACH_CONTROL(sheet, sv, sc, {
@@ -136,7 +134,7 @@ cworkbook_sheets (PortableServer_Servant servant,
 {
         WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
 	GList *sheets =
-		workbook_sheets (wb_control_workbook (WORKBOOK_CONTROL (wbcc)));
+		workbook_sheets (wb_control_get_workbook (WORKBOOK_CONTROL (wbcc)));
 	int i, len = g_list_length (sheets);
 	GNOME_Gnumeric_Workbooks *res = GNOME_Gnumeric_Sheets__alloc ();
 

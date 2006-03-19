@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-autosave.c:
  *
@@ -22,7 +23,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -30,6 +30,8 @@
 #include <workbook.h>
 #include <workbook-control-gui-priv.h>
 #include <gui-util.h>
+#include <goffice/app/go-doc.h>
+#include <glib/gi18n.h>
 
 #include <glade/glade.h>
 #include <gtk/gtktogglebutton.h>
@@ -66,24 +68,20 @@ autosave_set_sensitivity (G_GNUC_UNUSED GtkWidget *widget,
 gboolean
 dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 {
-	gint result;
-	GtkWidget *dialog;
-	const char *uri;
-
-	uri = workbook_get_uri (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
-	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+	char const *uri   = go_doc_get_uri (
+		wb_control_get_doc (WORKBOOK_CONTROL (wbcg)));
+	GtkWidget *dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO,
 					 _("Do you want to save the workbook %s ?"),
 					 uri);
-	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+
 	gtk_widget_destroy (dialog);
 
 	return result == GTK_RESPONSE_YES;
 }
-
-
 
 /**
  * dialog_autosave:
@@ -167,7 +165,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 
 	state = g_new (autosave_t, 1);
 	state->wbcg = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->gui  = gui;
 
 	state->dialog = glade_xml_get_widget (state->gui, "AutoSave");

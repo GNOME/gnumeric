@@ -569,7 +569,7 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
 	GnmValue *v;
 	GnmEvalPos ep;
-	gboolean valid;
+	gboolean valid = FALSE;
 
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);

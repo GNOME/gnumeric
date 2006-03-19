@@ -469,7 +469,7 @@ load_selection (NameGuruState *state)
 static gboolean
 name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	GtkTable *definition_table;
 	GtkTreeViewColumn *column;
 

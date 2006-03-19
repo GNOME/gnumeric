@@ -258,7 +258,7 @@ dialog_init (AutoCorrectState *state)
 		return TRUE;
 	}
 
-	state->wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+	state->wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
 	ac_dialog_toggle_init (state, "init_caps",     AC_INIT_CAPS);
 	ac_dialog_toggle_init (state, "first_letter",  AC_FIRST_LETTER);
 	ac_dialog_toggle_init (state, "names_of_days", AC_NAMES_OF_DAYS);

@@ -1,10 +1,9 @@
 #ifndef GNUMERIC_DIALOGS_H
 #define GNUMERIC_DIALOGS_H
 
-#include "consolidate.h"
 #include "gnumeric.h"
-#include "summary.h"
 #include "workbook-control-gui.h"
+#include "consolidate.h"
 #include <goffice/graph/gog-style.h>
 
 typedef enum {
@@ -106,7 +105,7 @@ int dialog_ttest_tool    (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type tes
 char *dialog_get_password (GtkWindow *parent, char const *filename);
 
 /* Modeless dialogs */
-void	dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
+void	dialog_edit_meta_data  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
 void	dialog_preferences (WorkbookControlGUI *wbcg, gint page);
 
 void	dialog_new_view (WorkbookControlGUI *wbcg);

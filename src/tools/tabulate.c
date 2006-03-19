@@ -78,7 +78,7 @@ GSList *
 do_tabulation (WorkbookControl *wbc,
 	       GnmTabulateInfo *data)
 {
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 	GSList *sheet_idx = NULL;
 	Sheet *sheet = NULL;
 	gboolean sheetdim = (!data->with_coordinates && data->dims >= 3);

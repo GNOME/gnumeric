@@ -1,3 +1,8 @@
+2005-12-28  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_file_open) : use the new workbook_set_meta_data rather
+	  than kludging GObject data.
+
 2006-03-16  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_get_style_from_xf): Even though the third

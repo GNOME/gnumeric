@@ -134,7 +134,7 @@ dialog_summary_put (SummaryState *state)
 	}
 	w = glade_xml_get_widget (state->gui, "doc_name");
 	if (w)
-		gtk_entry_set_text (GTK_ENTRY (w), workbook_get_uri (wb));
+		gtk_entry_set_text (GTK_ENTRY (w), go_doc_get_uri (wb));
 }
 
 static void
@@ -217,7 +217,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 
 	state = g_new (SummaryState, 1);
 	state->wbcg	= wbcg;
-	state->wb	= wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb	= wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->gui	= gui;
 	state->dialog	= dialog;
 

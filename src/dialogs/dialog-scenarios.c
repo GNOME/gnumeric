@@ -649,7 +649,7 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	state->scenario_state->new_report_sheets = NULL;
 	state->scenario_state->current    = NULL;
 	state->scenario_state->old_values = NULL;
-	state->base.wb = wb_control_workbook (wbc);
+	state->base.wb = wb_control_get_workbook (wbc);
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SCENARIOS_VIEW,

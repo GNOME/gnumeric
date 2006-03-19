@@ -221,7 +221,7 @@ static void
 free_state (DialogState *dd)
 {
 	g_signal_handler_disconnect
-		(G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (dd->wbcg))),
+		(G_OBJECT (wb_control_get_workbook (WORKBOOK_CONTROL (dd->wbcg))),
 		 dd->workbook_sheet_deleted_signal);
 	search_filter_matching_free (dd->matches);
 	g_object_unref (dd->gui);
@@ -565,7 +565,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
 	dd->workbook_sheet_deleted_signal =
-		g_signal_connect (G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (wbcg))),
+		g_signal_connect (G_OBJECT (wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))),
 				  "sheet_deleted",
 				  G_CALLBACK (close_clicked),
 				  dd);

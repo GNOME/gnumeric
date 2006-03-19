@@ -911,7 +911,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
 	state->notebook   = glade_xml_get_widget (gui, "notebook");
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
-	state->wb	  = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb	  = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	state->view = GTK_TREE_VIEW(glade_xml_get_widget (gui, "itemlist"));
 	state->store = gtk_tree_store_new (NUM_COLUMNS,

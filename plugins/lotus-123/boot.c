@@ -77,7 +77,7 @@ lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.input	 = input;
 	state.io_context = io_context;
 	state.wbv	 = wb_view;
-	state.wb	 = wb_view_workbook (wb_view);
+	state.wb	 = wb_view_get_workbook (wb_view);
 	state.sheet	 = NULL;
 
 	if (!lotus_read (&state))

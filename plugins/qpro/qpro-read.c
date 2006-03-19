@@ -838,7 +838,7 @@ qpro_file_open (GOFileOpener const *fo, IOContext *context,
 
 	state.io_context = context;
 	state.wbv = new_wb_view;
-	state.wb = wb_view_workbook (new_wb_view);
+	state.wb = wb_view_get_workbook (new_wb_view);
 	state.cur_sheet = NULL;
 	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
 

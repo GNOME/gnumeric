@@ -72,7 +72,6 @@ base_files =					\
 	dialog-stf-export.c			\
 	dialog-stf-export.h			\
 	dialog-tabulate.c			\
-	dialog-summary.c			\
 	dialog-doc-metadata.c			\
 	dialog-view.c				\
 	dialog-workbook-attr.c			\
@@ -142,7 +141,6 @@ glade_DATA = 				\
 	so-scrollbar.glade		\
 	simulation.glade		\
 	solver.glade			\
-	summary.glade			\
 	tabulate.glade			\
 	variance-tests.glade		\
 	view.glade			\

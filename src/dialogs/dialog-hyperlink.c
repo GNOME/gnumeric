@@ -518,7 +518,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 
 	state = g_new (HyperlinkState, 1);
 	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sc   = sc;
 	state->gui  = gui;
         state->dialog = glade_xml_get_widget (state->gui, "hyperlink-dialog");

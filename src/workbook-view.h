@@ -54,7 +54,8 @@ void		 wb_view_attach_control	  (WorkbookView *wbv, WorkbookControl *wbc);
 void		 wb_view_detach_control	  (WorkbookControl *wbc);
 
 /* Information */
-Workbook	*wb_view_workbook	  (WorkbookView const *wbv);
+GODoc		*wb_view_get_doc	  (WorkbookView const *wbv);
+Workbook	*wb_view_get_workbook	  (WorkbookView const *wbv);
 Sheet		*wb_view_cur_sheet	  (WorkbookView const *wbv);
 SheetView	*wb_view_cur_sheet_view	  (WorkbookView const *wbv);
 void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);

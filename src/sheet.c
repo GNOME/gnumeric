@@ -3334,7 +3334,7 @@ sheet_mark_dirty (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (sheet->workbook)
-		workbook_set_dirty (sheet->workbook, TRUE);
+		go_doc_set_dirty (GO_DOC (sheet->workbook), TRUE);
 }
 
 /****************************************************************************/

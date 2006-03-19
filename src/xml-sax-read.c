@@ -1939,7 +1939,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	/* init */
 	state.context = io_context;
 	state.wb_view = wb_view;
-	state.wb = wb_view_workbook (wb_view);
+	state.wb = wb_view_get_workbook (wb_view);
 	state.sheet = NULL;
 	state.version = GNM_XML_UNKNOWN;
 	state.attribute.name = state.attribute.value = NULL;

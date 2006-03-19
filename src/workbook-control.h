@@ -71,7 +71,8 @@ void wb_control_paste_from_selection (WorkbookControl *wbc,
 gboolean wb_control_claim_selection  (WorkbookControl *wbc);
 
 WorkbookView *wb_control_view		(WorkbookControl const *wbc);
-Workbook     *wb_control_workbook	(WorkbookControl const *wbc);
+Workbook     *wb_control_get_workbook	(WorkbookControl const *wbc);
+GODoc	     *wb_control_get_doc	(WorkbookControl const *wbc);
 Sheet        *wb_control_cur_sheet	(WorkbookControl const *wbc);
 SheetView    *wb_control_cur_sheet_view	(WorkbookControl const *wbc);
 

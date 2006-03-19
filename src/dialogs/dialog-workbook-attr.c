@@ -340,7 +340,7 @@ dialog_workbook_attr (WorkbookControlGUI *wbcg)
 	state->gui = gui;
 	state->wbcg = wbcg;
 	state->wbv  = wb_control_view (WORKBOOK_CONTROL (wbcg));
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb   = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	attr_dialog_impl (state);
 }

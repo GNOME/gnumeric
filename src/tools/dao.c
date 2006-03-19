@@ -41,6 +41,7 @@
 #include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "style-color.h"
+#include <goffice/app/go-doc.h>
 
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -214,7 +215,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->wbc = wbc;
 
 	if (dao->type == NewSheetOutput) {
-		Workbook *wb = wb_control_workbook (dao->wbc);
+		Workbook *wb = wb_control_get_workbook (dao->wbc);
 		char *name_with_counter = g_strdup_printf ("%s (1)", name);
 		unique_name = workbook_sheet_get_free_name
 			(wb, name_with_counter, FALSE, TRUE);
@@ -919,7 +920,7 @@ dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 	g_string_free (buf, FALSE);
 
 	buf = g_string_new (NULL);
-	uri = workbook_get_uri (sheet->workbook);
+	uri = go_doc_get_uri (GO_DOC (sheet->workbook));
 	g_string_append_printf (buf, "%s [%s]%s", _("Worksheet:"),
 				uri,
 				sheet->name_quoted);

@@ -53,5 +53,5 @@ void
 psiconv_file_open (GOFileOpener const *fo, IOContext *io_context,
                   WorkbookView *wb_view, GsfInput *input)
 {
-	psiconv_read (io_context, wb_view_workbook(wb_view), input);
+	psiconv_read (io_context, wb_view_get_workbook(wb_view), input);
 }

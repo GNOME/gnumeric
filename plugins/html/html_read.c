@@ -303,7 +303,7 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 	g_return_if_fail (cur != NULL);
 	g_return_if_fail (wb_view != NULL);
 
-	wb = wb_view_workbook (wb_view);
+	wb = wb_view_get_workbook (wb_view);
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type != XML_ELEMENT_NODE)
 			continue;

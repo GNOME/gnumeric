@@ -302,7 +302,7 @@ populate_sheet_list (SheetManager *state)
 	GtkTreeIter iter;
 	GtkWidget *scrolled = glade_xml_get_widget (state->gui, "scrolled");
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 	Sheet *cur_sheet = wb_control_cur_sheet (wbc);
 	int i, n = workbook_sheet_count (wb);
 	GtkCellRenderer *renderer;
@@ -671,7 +671,7 @@ static void
 cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 	char *error;
 	gboolean changed;
 	WorkbookSheetState *old_state;
@@ -761,7 +761,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 static void
 cb_sheet_order_destroy (SheetManager *state)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
 
 	/* Stop to listen to changes in the sheet order. */
 	if (state->sheet_order_changed_listener)
@@ -805,7 +805,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 	gboolean is_rtl;
 	GdkColor *back, *fore;
 	GtkTreeIter iter;
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
 	gint i, j, n_sheets, n_children;
 	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
 	Sheet *sheet_wb, *sheet_model;
@@ -994,7 +994,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Sheet-Manager");
 	/* Listen for changes in the sheet order. */
-	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),
 		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
 		state);

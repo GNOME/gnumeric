@@ -210,7 +210,7 @@ convert (char const *inarg, char const *outarg,
 					    go_file_saver_get_id (fs));
 		}
 		res = !wb_view_save_as (wbv, fs, outfile, cc);
-		g_object_unref (wb_view_workbook (wbv));
+		g_object_unref (wb_view_get_workbook (wbv));
 		g_object_unref (io_context);
 	}
 

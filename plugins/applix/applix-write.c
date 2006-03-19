@@ -75,7 +75,7 @@ applix_write_header (ApplixWriteState const *state)
 #warning "FIXME: filename is fs encoded; that's not right, but neither is UTF-8."
 	gsf_output_printf (state->sink,
 			   "Current Doc Real Name: %s",
-			   workbook_get_uri (state->wb));
+			   go_doc_get_uri (GO_DOC (state->wb)));
 }
 
 static void
@@ -92,7 +92,7 @@ applix_write (IOContext *io_context, WorkbookView const *wb_view, GsfOutput *sin
 	state.sink        = sink;
 	state.parse_error = NULL;
 	state.wb_view     = wb_view;
-	state.wb          = wb_view_workbook (wb_view);
+	state.wb          = wb_view_get_workbook (wb_view);
 
 	d (1, fprintf (stderr, "------------Start writing"););
 	applix_write_header (&state);

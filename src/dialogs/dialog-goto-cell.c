@@ -348,7 +348,7 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 
 	state = g_new (GotoState, 1);
 	state->wbcg   = wbcg;
-	state->wb     = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb     = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->gui    = gui;
         state->dialog = glade_xml_get_widget (state->gui, "goto_dialog");
 

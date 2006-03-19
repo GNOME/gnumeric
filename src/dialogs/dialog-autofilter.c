@@ -110,7 +110,7 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 	}
 
 	if (v == NULL) {
-		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
 		v = format_match (txt, NULL, workbook_date_conv (wb));
 	}
 	if (v == NULL)

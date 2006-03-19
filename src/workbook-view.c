@@ -47,6 +47,7 @@
 #include "auto-format.h"
 
 #include <goffice/app/file.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/app/io-context.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
@@ -67,11 +68,30 @@ enum {
 	LAST_SIGNAL
 };
 
+/**
+ * wb_view_get_workbook :
+ * @wbv : #WorkbookView
+ *
+ * Return the #Workbook assciated with @wbv
+ **/
 Workbook *
-wb_view_workbook (WorkbookView const *wbv)
+wb_view_get_workbook (WorkbookView const *wbv)
 {
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
 	return wbv->wb;
+}
+
+/**
+ * wb_view_get_doc :
+ * @wbv : #WorkbookView
+ *
+ * Return the #Workbook assciated with @wbv cast to a #GODoc
+ **/
+GODoc *
+wb_view_get_doc (WorkbookView const *wbv)
+{
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+	return GO_DOC (wbv->wb);
 }
 
 Sheet *
@@ -480,7 +500,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 
 		if (format) {
 			format_value_gstring (str, format, v, NULL,
-					      -1, workbook_date_conv (wb_view_workbook (wbv)));
+					      -1, workbook_date_conv (wb_view_get_workbook (wbv)));
 			if (tmp_format)
 				go_format_unref (tmp_format);
 		} else {
@@ -698,7 +718,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	g_return_val_if_fail (uri != NULL, FALSE);
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
-	wb = wb_view_workbook (wbv);
+	wb = wb_view_get_workbook (wbv);
 	io_context = gnumeric_io_context_new (context);
 
 	go_cmd_context_set_sensitive (context, FALSE);
@@ -710,8 +730,8 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	if (!has_error) {
 		if (workbook_set_saveinfo (wb,
 			go_file_saver_get_format_level (fs), fs) &&
-		    workbook_set_uri (wb, uri))
-			workbook_mark_not_modified (wb);
+		    go_doc_set_uri (GO_DOC (wb), uri))
+			go_doc_set_dirty (GO_DOC (wb), FALSE);
 	}
 	if (has_error || has_warning)
 		gnumeric_io_error_display (io_context);
@@ -742,7 +762,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
-	wb = wb_view_workbook (wbv);
+	wb = wb_view_get_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
 		fs = go_file_saver_get_default ();
@@ -752,14 +772,14 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else {
-		char const *uri = workbook_get_uri (wb);
+		char const *uri = go_doc_get_uri (GO_DOC (wb));
 		wbv_save_to_uri (wbv, fs, uri, io_context);
 	}
 
 	has_error   = gnumeric_io_error_occurred (io_context);
 	has_warning = gnumeric_io_warning_occurred (io_context);
 	if (!has_error)
-		workbook_mark_not_modified (wb);
+		go_doc_set_dirty (GO_DOC (wb), FALSE);
 	if (has_error || has_warning)
 		gnumeric_io_error_display (io_context);
 
@@ -832,7 +852,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
-	wb = wb_view_workbook (wbv);
+	wb = wb_view_get_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
 		fs = go_file_saver_get_default ();
@@ -840,7 +860,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 	io_context = gnumeric_io_context_new (context);
 	if (fs != NULL) {
 		char *template, *full_name, *uri;
-		char *basename = g_path_get_basename (workbook_get_uri (wb));
+		char *basename = g_path_get_basename (go_doc_get_uri (GO_DOC (wb)));
 
 #define GNM_SEND_DIR	".gnm-sendto-"
 #ifdef HAVE_MKDTEMP
@@ -989,10 +1009,10 @@ wb_view_new_from_input  (GsfInput *input,
 		gboolean old;
 
 		new_wbv = workbook_view_new (NULL);
-		new_wb = wb_view_workbook (new_wbv);
+		new_wb = wb_view_get_workbook (new_wbv);
 		if (NULL != (input_name = gsf_input_name (input))) {
 			char *uri = go_shell_arg_to_uri (input_name);
-			workbook_set_uri (new_wb, uri);
+			go_doc_set_uri (GO_DOC (new_wb), uri);
 			g_free (uri);
 		}
 
@@ -1011,7 +1031,7 @@ wb_view_new_from_input  (GsfInput *input,
 			new_wbv = NULL;			
 		} else {
 			workbook_recalc (new_wb);
-			workbook_mark_not_modified (new_wb);
+			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
 		}
 	} else
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),

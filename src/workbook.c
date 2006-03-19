@@ -9,10 +9,9 @@
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
  * (C) 2000-2001 Ximian, Inc.
- * (C) 2002-2005 Jody Goldberg
+ * (C) 2002-2006 Jody Goldberg
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "workbook-priv.h"
 
@@ -32,11 +31,12 @@
 #include "history.h"
 #include "commands.h"
 #include "libgnumeric.h"
-#include <goffice/app/file.h>
-#include <goffice/app/io-context.h>
 #include "gutils.h"
 #include "gnm-marshalers.h"
 #include "style-color.h"
+
+#include <goffice/app/file.h>
+#include <goffice/app/io-context.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
 
@@ -47,28 +47,24 @@
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
 #endif
 #endif /* WITH_GTK */
+
+#include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include <errno.h>
 
-static GObjectClass *workbook_parent_class;
-
-/* Signals */
 enum {
-	SUMMARY_CHANGED,
+	PROP_0,
+};
+enum {
 	SHEET_ORDER_CHANGED,
 	SHEET_ADDED,
 	SHEET_DELETED,
 	LAST_SIGNAL
 };
-
 static guint signals [LAST_SIGNAL] = { 0 };
-
-enum {
-	PROP_0,
-	PROP_URI,
-	PROP_DIRTY
-};
+static GObjectClass *workbook_parent_class;
 
 static void
 cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
@@ -140,25 +136,17 @@ workbook_dispose (GObject *wb_object)
 			g_warning ("Unexpected left over views");
 	}
 
-	if (wb->uri) {
-		if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
-			gnm_app_history_add (wb->uri);
-	       g_free (wb->uri);
-	       wb->uri = NULL;
-	}
+	if (wb->doc.uri &&
+	    wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
+		gnm_app_history_add (wb->doc.uri);
 
 	workbook_parent_class->dispose (wb_object);
 }
 
-
-
 static void
-workbook_finalize (GObject *wb_object)
+workbook_finalize (GObject *obj)
 {
-	Workbook *wb = WORKBOOK (wb_object);
-
-	summary_info_free (wb->summary_info);
-	wb->summary_info = NULL;
+	Workbook *wb = WORKBOOK (obj);
 
 	/* Remove ourselves from the list of workbooks.  */
 	gnm_app_workbook_list_remove (wb);
@@ -180,67 +168,7 @@ workbook_finalize (GObject *wb_object)
 		gtk_main_quit ();
 #endif
 #endif
-	workbook_parent_class->finalize (wb_object);
-}
-
-/*
- * Mark the workbook and all sheets not modified.
- */
-void
-workbook_mark_not_modified (Workbook *wb)
-{
-	g_return_if_fail (IS_WORKBOOK (wb));
-
-	if (wb->summary_info != NULL)
-		wb->summary_info->modified = FALSE;
-
-	workbook_set_dirty (wb, FALSE);
-}
-
-
-void
-workbook_set_dirty (Workbook *wb, gboolean is_dirty)
-{
-	g_return_if_fail (wb != NULL);
-
-	is_dirty = !!is_dirty;
-	if (is_dirty == wb->modified)
-		return;
-
-	/* Dirtiness changed so no longer pristine.  */
-	wb->pristine = FALSE;
-
-	wb->modified = is_dirty;
-	g_object_notify (G_OBJECT (wb), "dirty");
-}
-
-gboolean
-workbook_is_dirty (Workbook const *wb)
-{
-	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
-
-	return wb->modified;
-}
-
-/**
- * workbook_is_pristine:
- * @wb:
- *
- *   This checks to see if the workbook has ever been
- * used ( approximately )
- *
- * Return value: TRUE if we can discard this workbook.
- **/
-gboolean
-workbook_is_pristine (Workbook const *wb)
-{
-	g_return_val_if_fail (wb != NULL, FALSE);
-
-	if (wb->names ||
-	    (wb->file_format_level > FILE_FL_NEW))
-		return FALSE;
-
-	return wb->pristine;
+	workbook_parent_class->finalize (obj);
 }
 
 static void
@@ -249,19 +177,12 @@ workbook_init (GObject *object)
 	Workbook *wb = WORKBOOK (object);
 
 	wb->is_placeholder = FALSE;
-	wb->modified	   = FALSE;
-	wb->pristine	   = TRUE;
-
 	wb->wb_views = NULL;
 	wb->sheets = g_ptr_array_new ();
 	wb->sheet_hash_private = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->sheet_order_dependents = NULL;
 	wb->sheet_local_functions = NULL;
 	wb->names        = NULL;
-	wb->summary_info = summary_info_new ();
-	summary_info_default (wb->summary_info);
-	wb->summary_info->modified = FALSE;
-	wb->uri = NULL;
 
 	/* Nothing to undo or redo */
 	wb->undo_commands = wb->redo_commands = NULL;
@@ -284,6 +205,7 @@ workbook_init (GObject *object)
 	gnm_app_workbook_list_add (wb);
 }
 
+#if 0
 static void
 workbook_get_property (GObject *object, guint property_id,
 		       GValue *value, GParamSpec *pspec)
@@ -291,12 +213,6 @@ workbook_get_property (GObject *object, guint property_id,
 	Workbook *wb = (Workbook *)object;
 
 	switch (property_id) {
-	case PROP_URI:
-		g_value_set_string (value, wb->uri);
-		break;
-	case PROP_DIRTY:
-		g_value_set_boolean (value, workbook_is_dirty (wb));
-		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -310,56 +226,24 @@ workbook_set_property (GObject *object, guint property_id,
 	Workbook *wb = (Workbook *)object;
 
 	switch (property_id) {
-	case PROP_URI:
-		workbook_set_uri (wb, g_value_get_string (value));
-		break;
-	case PROP_DIRTY:
-		workbook_set_dirty (wb, g_value_get_boolean (value));
-		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
+#endif
 
 static void
 workbook_class_init (GObjectClass *object_class)
 {
 	workbook_parent_class = g_type_class_peek_parent (object_class);
 
+#if 0
 	object_class->set_property = workbook_set_property;
 	object_class->get_property = workbook_get_property;
+#endif
 	object_class->finalize = workbook_finalize;
 	object_class->dispose = workbook_dispose;
-
-        g_object_class_install_property
-		(object_class,
-		 PROP_URI,
-		 g_param_spec_string ("uri",
-				      _("URI"),
-				      _("The URI associated with this workbook."),
-				      NULL,
-				      GSF_PARAM_STATIC |
-				      G_PARAM_READWRITE));
-
-        g_object_class_install_property
-		(object_class,
-		 PROP_DIRTY,
-		 g_param_spec_boolean ("dirty",
-				      _("Dirty"),
-				      _("Whether the workbook has been changed."),
-				       FALSE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
-
-	signals [SUMMARY_CHANGED] = g_signal_new ("summary_changed",
-		WORKBOOK_TYPE,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (WorkbookClass, summary_changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
 
 	signals [SHEET_ORDER_CHANGED] = g_signal_new ("sheet_order_changed",
 		WORKBOOK_TYPE,
@@ -423,7 +307,7 @@ workbook_new (void)
 		}
 		uri = go_filename_to_uri (name);
 
-		is_unique = workbook_set_uri (wb, uri);
+		is_unique = go_doc_set_uri (GO_DOC (wb), uri);
 
 		g_free (uri);
 		g_free (name);
@@ -483,62 +367,9 @@ workbook_new_with_sheets (int sheet_count)
 	Workbook *wb = workbook_new ();
 	while (sheet_count-- > 0)
 		workbook_sheet_add (wb, -1);
-	workbook_mark_not_modified (wb);
-	wb->pristine = TRUE;
+	go_doc_set_dirty (GO_DOC (wb), FALSE);
+	GO_DOC (wb)->pristine = TRUE;
 	return wb;
-}
-
-/**
- * workbook_set_uri:
- * @wb: the workbook to modify
- * @uri: the uri for this worksheet.
- *
- * Sets the internal filename to @name and changes
- * the title bar for the toplevel window to be the name
- * of this file.
- *
- * Returns : TRUE if the name was set succesfully.
- *
- * FIXME : Add a check to ensure the name is unique.
- */
-gboolean
-workbook_set_uri (Workbook *wb, char const *uri)
-{
-	char *new_uri;
-
-	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (uri != NULL, FALSE);
-
-	if (go_str_compare (uri, wb->uri) == 0)
-		return TRUE;
-
-	new_uri = g_strdup (uri);
-	g_free (wb->uri);
-	wb->uri = new_uri;
-
-	g_object_notify (G_OBJECT (wb), "uri");
-	return TRUE;
-}
-
-const gchar *
-workbook_get_uri (Workbook const *wb)
-{
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-	return wb->uri;
-}
-
-void
-workbook_add_summary_info (Workbook *wb, SummaryItem *sit)
-{
-	if (summary_info_add (wb->summary_info, sit))
-		g_signal_emit (G_OBJECT (wb), signals [SUMMARY_CHANGED], 0);
-}
-
-SummaryInfo *
-workbook_metadata (Workbook const *wb)
-{
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-	return wb->summary_info;
 }
 
 /**
@@ -741,7 +572,7 @@ workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
-	g_return_if_fail (wb_view_workbook (wbv) == NULL);
+	g_return_if_fail (wb_view_get_workbook (wbv) == NULL);
 
 	if (wb->wb_views == NULL)
 		wb->wb_views = g_ptr_array_new ();
@@ -976,7 +807,7 @@ workbook_sheet_attach_at_pos (Workbook *wb, Sheet *new_sheet, int pos)
 	/* Do not signal until after adding the views [#314208] */
 	post_sheet_index_change (wb);
 
-	workbook_set_dirty (wb, TRUE);
+	go_doc_set_dirty (GO_DOC (wb), TRUE);
 }
 
 /**
@@ -1065,7 +896,7 @@ workbook_sheet_delete (Sheet *sheet)
 	g_object_unref (sheet);
 
 	if (!wb->during_destruction)
-		workbook_set_dirty (wb, TRUE);
+		go_doc_set_dirty (GO_DOC (wb), TRUE);
 	g_signal_emit (G_OBJECT (wb), signals[SHEET_DELETED], 0);
 
 	if (still_visible_sheets)
@@ -1105,7 +936,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 
 	post_sheet_index_change (wb);
 
-	workbook_set_dirty (wb, TRUE);
+	go_doc_set_dirty (GO_DOC (wb), TRUE);
 }
 
 /**

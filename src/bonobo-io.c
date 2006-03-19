@@ -73,7 +73,7 @@ gnm_persist_stream_load (PortableServer_Servant  servant,
 		return;
 	}
 
-	old_wb = wb_control_workbook (wbc);
+	old_wb = wb_control_get_workbook (wbc);
 	if (workbook_is_dirty (old_wb)) {
 		/* No way to interact properly with user */
 		g_warning ("Old workbook has unsaved changes.");

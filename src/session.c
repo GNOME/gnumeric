@@ -1,5 +1,7 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /* session.c
- * Copyright (C) 2003  Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * Copyright (C) 2003-2006  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +26,6 @@
 #include <glib.h>
 #include "session.h"
 #include "application.h"
-#include <glib/gi18n.h>
 #include <workbook.h>
 #include <workbook-priv.h>
 #include <workbook-view.h>
@@ -32,12 +33,14 @@
 #include <workbook-control-gui.h>
 #include <gui-file.h>
 #include <gui-util.h>
+#include <goffice/app/go-doc.h>
+#include <glib/gi18n.h>
 
 #include <libgnomeui/gnome-client.h>
 
 static GnomeClient *master_client = NULL;
-static const char *program_argv0 = NULL;
-static const char *current_dir = NULL;
+static char const *program_argv0 = NULL;
+static char const *current_dir = NULL;
 
 static void
 set_clone_restart (GnomeClient *client)
@@ -55,7 +58,7 @@ set_clone_restart (GnomeClient *client)
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
 		if (wb->file_format_level == FILE_FL_AUTO) {
-			argv[count] = g_strdup (workbook_get_uri (wb));
+			argv[count] = g_strdup (go_doc_get_uri (GO_DOC (wb)));
 			count++;
 		}
 	}
@@ -100,11 +103,11 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 				do_not_cancel = TRUE;
 				goto finished;
 			}
-		if (workbook_is_dirty (wb)) {
+		if (go_doc_is_dirty (GO_DOC (wb))) {
 			GtkWidget *d;
 			char *msg;
 			int button = 0;
-			const char *wb_uri = workbook_get_uri (wb);			
+			char const *wb_uri = go_doc_get_uri (GO_DOC (wb));			
 
 			if (wb_uri) {
 				char *base = g_path_get_basename (wb_uri);
@@ -187,10 +190,10 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 }
 
 static gboolean
-client_save_yourself_cb (GnomeClient *client, int phase, 
+cb_client_save_yourself (GnomeClient *client, int phase, 
 			 GnomeSaveStyle what_to_save,
 			 gboolean end, GnomeInteractStyle interaction,
-			 gboolean fast, gpointer data)
+			 gboolean fast)
 {
 	gboolean res = TRUE;
 
@@ -211,18 +214,14 @@ client_save_yourself_cb (GnomeClient *client, int phase,
 }
 
 static void
-client_die_cb (GnomeClient *client, gpointer data)
+cb_client_die (GnomeClient *client)
 {
 	GList *ptr, *workbooks;
 
 	workbooks = g_list_copy (gnm_app_workbook_list ());
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
-		Workbook *wb = ptr->data;
-
-		g_return_if_fail (IS_WORKBOOK (wb));
-
-		workbook_mark_not_modified (wb);
-		g_object_unref (wb);
+		go_doc_set_dirty (GO_DOC (ptr->data), FALSE);
+		g_object_unref (ptr->data);
 	}
 	g_list_free (workbooks);
 }
@@ -246,11 +245,9 @@ gnm_session_init (const char *argv0)
 	current_dir = g_get_current_dir ();
 
 	g_signal_connect (master_client, "save_yourself",
-			  G_CALLBACK (client_save_yourself_cb),
-			  NULL);
+		G_CALLBACK (cb_client_save_yourself), NULL);
 	g_signal_connect (master_client, "die",
-			  G_CALLBACK (client_die_cb),
-			  NULL);
+		G_CALLBACK (cb_client_die), NULL);
 }
 
 

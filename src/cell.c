@@ -29,23 +29,6 @@
 #define USE_CELL_POOL 1
 
 /**
- * cell_dirty : Mark the sheet containing the cell as being dirty.
- * @cell : the dirty cell.
- *
- * INTERNAL.
- */
-#warning this is just plain silly handle this at a higher level
-static inline void
-cell_dirty (GnmCell *cell)
-{
-	Sheet *sheet = cell->base.sheet;
-
-	/* Cells from the clipboard do not have a sheet attached */
-	if (sheet)
-		sheet_mark_dirty (sheet);
-}
-
-/**
  * cell_cleanout :
  *      Empty a cell's
  *      	- value.
@@ -172,10 +155,6 @@ cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (rwinfo != NULL);
 
-	/* 1. Tag the cell as dirty */
-	cell_dirty (cell);
-
-	/* 2. If the cell contains a expr, relocate it */
 	if (cell_has_expr (cell)) {
 		GnmExprTop const *texpr =
 			gnm_expr_top_rewrite (cell->base.texpr, rwinfo);
@@ -228,7 +207,6 @@ cell_set_text (GnmCell *cell, char const *text)
 	if (val != NULL) {	/* String was a value */
 		cell_cleanout (cell);
 		cell->value = val;
-		cell_dirty (cell);
 	} else {		/* String was an expression */
 		cell_set_expr (cell, texpr);
 		gnm_expr_top_unref (texpr);
@@ -282,7 +260,6 @@ cell_set_value (GnmCell *cell, GnmValue *v)
 
 	cell_cleanout (cell);
 	cell->value = v;
-	cell_dirty (cell);
 }
 
 /*
@@ -308,7 +285,6 @@ cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v,
 	/* Repeat after me.  Ref before unref. */
 	gnm_expr_top_ref (texpr);
 	cell_cleanout (cell);
-	cell_dirty (cell);
 
 	cell->base.texpr = texpr;
 	cell->value = v;
@@ -344,7 +320,6 @@ cell_set_expr_internal (GnmCell *cell, GnmExprTop const *texpr)
 	 * cell_needs_recalc call in sheet_foreach_cell_in_range.
 	 */
 	cell->value = value_new_empty ();
-	cell_dirty (cell);
 }
 
 /*
@@ -698,7 +673,6 @@ cell_set_format (GnmCell *cell, char const *format)
 
 	g_return_if_fail (mstyle != NULL);
 
-	cell_dirty (cell);
 	gnm_style_set_format_text (mstyle, format);
 
 	r.start = r.end = cell->pos;
@@ -731,8 +705,6 @@ cell_convert_expr_to_value (GnmCell *cell)
 
 	gnm_expr_top_unref (cell->base.texpr);
 	cell->base.texpr = NULL;
-
-	cell_dirty (cell);
 }
 
 /****************************************************************************/

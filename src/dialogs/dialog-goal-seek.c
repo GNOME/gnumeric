@@ -644,7 +644,7 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (GoalSeekState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->warning_dialog = NULL;

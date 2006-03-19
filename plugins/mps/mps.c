@@ -630,7 +630,7 @@ mps_file_open (GOFileOpener const *fo, IOContext *io_context,
 {
         MpsInputContext *ctxt;
 
-	ctxt = mps_input_context_new (io_context, wb_view_workbook (wbv),
+	ctxt = mps_input_context_new (io_context, wb_view_get_workbook (wbv),
 				      input);
 	if (ctxt != NULL) {
 	        mps_parse_file (ctxt);

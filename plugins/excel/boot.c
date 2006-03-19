@@ -1,14 +1,25 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/**
- * boot.c: MS Excel support for Gnumeric
+
+/*
+ * boot.c: the external interface to the MS Excel import/export
  *
- * Author:
- *    Jody Goldberg (jody@gnome.org)
- *    Michael Meeks (michael@ximian.com)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1998-2001 Michael Meeks (miguel@kernel.org)
  *
- * (C) 1998-2001 Michael Meeks
- * (C) 2002-2005 Jody Goldberg
- **/
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 
@@ -25,6 +36,7 @@
 #include "ms-excel-read.h"
 #include "excel-xml-read.h"
 
+#include <goffice/app/go-doc.h>
 #include <goffice/app/file.h>
 #include <goffice/app/io-context.h>
 #include <gsf/gsf-input.h>
@@ -127,7 +139,7 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
 	}
 }
 
-/*
+/**
  * excel_file_open
  * @fo:         File opener
  * @context:   	IO context
@@ -135,7 +147,7 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
  * @input:  	Input stream
  *
  * Load en excel workbook.
- */
+ **/
 void
 excel_file_open (GOFileOpener const *fo, IOContext *context,
                  WorkbookView *wbv, GsfInput *input)
@@ -143,7 +155,7 @@ excel_file_open (GOFileOpener const *fo, IOContext *context,
 	GsfInput  *stream = NULL;
 	GError    *err = NULL;
 	GsfInfile *ole = gsf_infile_msole_new (input, &err);
-	Workbook  *wb = wb_view_workbook (wbv);
+	Workbook  *wb = wb_view_get_workbook (wbv);
 	gboolean   is_double_stream_file, is_97;
 	GsfDocMetaData *meta_data;
 
@@ -181,10 +193,9 @@ excel_file_open (GOFileOpener const *fo, IOContext *context,
 	g_object_unref (G_OBJECT (stream));
 
 	meta_data = gsf_doc_meta_data_new ();
-	excel_read_metadata (meta_data, ole, "\05DocumentSummaryInformation", context);
 	excel_read_metadata (meta_data, ole, "\05SummaryInformation", context);
-	g_object_set_data_full (G_OBJECT (wb), "GsfDocMetaData",
-		meta_data, g_object_unref);
+	excel_read_metadata (meta_data, ole, "\05DocumentSummaryInformation", context);
+	go_doc_set_meta_data (GO_DOC (wb), meta_data);
 
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (ole, "\01CompObj");
@@ -232,7 +243,7 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	if (ewb == NULL)
 		return;
 
-	wb = wb_view_workbook (wbv);
+	wb = wb_view_get_workbook (wbv);
 	outfile = gsf_outfile_msole_new (output);
 	ewb->export_macros = (biff8 &&
 		NULL != g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS"));
@@ -246,7 +257,7 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	excel_write_state_free (ewb);
 	io_progress_range_pop (context);
 
-	meta_data = g_object_get_data (G_OBJECT (wb), "GsfDocMetaData");
+	meta_data = go_doc_get_meta_data (GO_DOC (wb));
 	if (meta_data != NULL) {
 		content = gsf_outfile_new_child (outfile,
 			"\05DocumentSummaryInformation", FALSE);

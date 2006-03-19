@@ -19,9 +19,6 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <glib-object.h>
-#include <glib/gi18n.h>
-#include <glib/gprintf.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -34,15 +31,20 @@
 #include <parse-util.h>
 #include <value.h>
 
-#include <glade/glade.h>
-#include <gtk/gtk.h>
-
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-meta-names.h>
 #include <gsf/gsf-timestamp.h>
 #include <gsf/gsf-docprop-vector.h>
 
+#include <goffice/app/go-doc.h>
 #include <goffice/utils/go-file.h>
+
+#include <glade/glade.h>
+#include <gtk/gtk.h>
+
+#include <glib-object.h>
+#include <glib/gi18n.h>
+#include <glib/gprintf.h>
 
 #include <string.h>
 
@@ -60,6 +62,7 @@ typedef struct {
 
 	WorkbookControlGUI	*wbcg;
 	Workbook                *wb;
+	GODoc	                *doc;
 
 	/* Dialog Widgets */
 	GtkNotebook		*notebook;
@@ -227,7 +230,8 @@ dialog_doc_metadata_set_up_permissions (DialogDocMetaData *state)
 {
 	g_return_if_fail (state->metadata != NULL);
 
-	state->file_permissions = go_get_file_permissions (workbook_get_uri (state->wb));
+	state->file_permissions = go_get_file_permissions (
+		go_doc_get_uri (state->doc));
 
 	if (state->file_permissions != NULL) {
 		/* Set Check buttons */
@@ -307,12 +311,12 @@ dialog_doc_metadata_set_label (DialogDocMetaData *state,
 	if (str_value == NULL && auto_fill == TRUE) {
 		/* File Name */
 		if (label == state->file_name) {
-			str_value = go_basename_from_uri (workbook_get_uri (wb));
+			str_value = go_basename_from_uri (go_doc_get_uri (state->doc));
 		}
 
 		/* File Location */
 		else if (label == state->location) {
-			str_value = go_dirname_from_uri (workbook_get_uri (wb), TRUE);
+			str_value = go_dirname_from_uri (go_doc_get_uri (state->doc), TRUE);
 		}
 
 		/* Date Created */
@@ -322,27 +326,27 @@ dialog_doc_metadata_set_label (DialogDocMetaData *state,
 
 		/* Date Modified */
 		else if (label == state->modified) {
-			str_value = time2str (go_file_get_date_modified (workbook_get_uri (wb)));
+			str_value = time2str (go_file_get_date_modified (go_doc_get_uri (state->doc)));
 		}
 
 		/* Date Accessed */
 		else if (label == state->accessed) {
-			str_value = time2str (go_file_get_date_accessed (workbook_get_uri (wb)));
+			str_value = time2str (go_file_get_date_accessed (go_doc_get_uri (state->doc)));
 		}
 
 		/* Owner */
 		else if (label == state->owner) {
-			str_value = go_file_get_owner_name (workbook_get_uri (wb));
+			str_value = go_file_get_owner_name (go_doc_get_uri (state->doc));
 		}
 
 		/* Group */
 		else if (label == state->group) {
-			str_value = go_file_get_group_name (workbook_get_uri (wb));
+			str_value = go_file_get_group_name (go_doc_get_uri (state->doc));
 		}
 
 		/* Number of Sheets */
 		else if (label == state->sheets) {
-			str_value = g_strdup_printf ("%d",  workbook_sheet_count (state->wb));
+			str_value = g_strdup_printf ("%d",  workbook_sheet_count (state->doc));
 		}
 		
 		/* Number of cells */
@@ -1364,7 +1368,7 @@ dialog_doc_metadata_set_file_permissions (DialogDocMetaData *state)
 {
 	if (state->file_permissions != NULL && 
 	    state->permissions_changed == TRUE)
-		go_set_file_permissions (workbook_get_uri (state->wb),
+		go_set_file_permissions (go_doc_get_uri (state->doc),
 				         state->file_permissions);
 }
 
@@ -1485,7 +1489,8 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 			  WorkbookControlGUI *wbcg)
 {
 	state->wbcg     = wbcg;
-	state->wb       = wb_control_workbook (WORKBOOK_CONTROL(wbcg));
+	state->wb       = wb_control_get_workbook (WORKBOOK_CONTROL(wbcg));
+	state->doc      = GO_DOC (state->wb);
 	state->metadata = g_object_get_data (G_OBJECT (state->wb), "GsfDocMetaData");
 
 	/* If workbook's metadata is NULL, create it! */

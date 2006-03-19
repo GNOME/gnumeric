@@ -371,7 +371,7 @@ scenario_show (WorkbookControl        *wbc,
 
 	/* Show scenario and recalculate. */
 	scenario_for_each_value (s, (ScenarioValueCB) show_cb, dao);
-	workbook_recalc (wb_control_workbook (wbc));
+	workbook_recalc (wb_control_get_workbook (wbc));
 	sheet_redraw_all (dao->sheet, TRUE);
 
 	return stored_values;

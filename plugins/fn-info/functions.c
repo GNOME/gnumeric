@@ -48,6 +48,7 @@
 #include <number-match.h>
 #include <gnm-i18n.h>
 
+#include <goffice/app/go-doc.h>
 #include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
 
@@ -247,7 +248,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	 * the worksheet name, but they can't make any other changes to CELL?!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "filename")) {
-		char const *name = workbook_get_uri (sheet->workbook);
+		char const *name = go_doc_get_uri (GO_DOC (sheet->workbook));
 
 		if (name == NULL)
 			return value_new_string ("");

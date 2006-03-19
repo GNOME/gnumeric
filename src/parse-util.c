@@ -3,7 +3,7 @@
  * parse-util.c: Various utility routines to parse or produce
  *     string representations of common reference types.
  *
- * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -38,13 +38,14 @@
 /* For def_expr_name_handler: */
 #include "expr-impl.h"
 #include "gutils.h"
+#include <goffice/app/go-doc.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <glib.h>
 #include <string.h>
-#include <goffice/utils/go-glib-extras.h>
 
 static void
 col_name_internal (GString *target, int col)
@@ -261,7 +262,7 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append (target, sheet->name_quoted);
 		else {
 			g_string_append_c (target, '[');
-			g_string_append (target, workbook_get_uri (sheet->workbook));
+			g_string_append (target, go_doc_get_uri ((GODoc *)sheet->workbook));
 			g_string_append_c (target, ']');
 			g_string_append (target, sheet->name_quoted);
 		}
@@ -320,7 +321,7 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 	if (ref->a.sheet) {
 		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
 			g_string_append_c (target, '[');
-			g_string_append (target, workbook_get_uri (ref->a.sheet->workbook));
+			g_string_append (target, go_doc_get_uri ((GODoc *)ref->a.sheet->workbook));
 			g_string_append_c (target, ']');
 		}
 		if (pp->wb == NULL && pp->sheet == NULL)
@@ -428,7 +429,7 @@ gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 	if (ref->a.sheet) {
 		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
 			g_string_append_c (target, '[');
-			g_string_append (target, workbook_get_uri (ref->a.sheet->workbook));
+			g_string_append (target, go_doc_get_uri ((GODoc *)ref->a.sheet->workbook));
 			g_string_append_c (target, ']');
 		}
 		if (pp->wb == NULL && pp->sheet == NULL)
@@ -812,7 +813,7 @@ wbref_parse (char const *start, Workbook **wb, Workbook *ref_wb)
 
 		tmp_wb = gnm_app_workbook_get_by_name
 			(name,
-			 ref_wb ? workbook_get_uri (ref_wb) : NULL);
+			 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
 		if (tmp_wb == NULL)
 			return NULL;
 		*wb = tmp_wb;
@@ -1134,7 +1135,7 @@ def_expr_name_handler (GString *target,
 	if (name->optional_scope != NULL) {
 		if (name->optional_scope->workbook != pp->wb) {
 			g_string_append_c (target, '[');
-			g_string_append (target, workbook_get_uri (name->optional_wb_scope));
+			g_string_append (target, go_doc_get_uri ((GODoc *)name->optional_wb_scope));
 			g_string_append_c (target, ']');
 		} else {
 			g_string_append (target, name->optional_scope->name_quoted);

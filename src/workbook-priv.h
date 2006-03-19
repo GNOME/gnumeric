@@ -2,13 +2,12 @@
 #define GNUMERIC_WORKBOOK_PRIV_H
 
 #include "workbook.h"
-#include "summary.h"
 #include <goffice/app/file.h>
 #include <goffice/app/go-doc-impl.h>
 #include <goffice/utils/datetime.h>
 
 struct _Workbook {
-	GODoc base;
+	GODoc	doc;
 
 	GPtrArray *wb_views;
 
@@ -17,11 +16,8 @@ struct _Workbook {
 	GHashTable *sheet_order_dependents;
 	GHashTable *sheet_local_functions;
 
-	gboolean modified;
-	gboolean pristine;
 	gboolean is_placeholder;
 
-	gchar		*uri;
 	FileFormatLevel  file_format_level;
 	GOFileSaver	*file_saver;
 
@@ -30,8 +26,6 @@ struct _Workbook {
 	GSList	   *redo_commands;
 
 	GnmNamedExprCollection *names;
-
-	SummaryInfo *summary_info;
 
 	/* Calculation options */
 	struct {
@@ -50,8 +44,6 @@ struct _Workbook {
 typedef struct {
 	GODocClass base;
 
-	void (*summary_changed)     (Workbook *wb);
-	void (*filename_changed)    (Workbook *wb);
 	void (*sheet_order_changed) (Workbook *wb);
 	void (*sheet_added)         (Workbook *wb);
 	void (*sheet_deleted)       (Workbook *wb);

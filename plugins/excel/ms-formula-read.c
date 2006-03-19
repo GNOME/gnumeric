@@ -26,6 +26,7 @@
 #include <parse-util.h>
 #include <sheet.h>
 #include <workbook.h>
+#include <goffice/app/go-doc.h>
 #include <gsf/gsf-utils.h>
 
 #undef G_LOG_DOMAIN
@@ -723,8 +724,8 @@ ms_excel_dump_cellname (GnmXLImporter const *importer, ExcelReadSheet const *esh
 {
 	if (esheet && esheet->sheet && esheet->sheet->name_unquoted)
 		fprintf (stderr, "%s!", esheet->sheet->name_unquoted);
-	else if (importer && importer->wb && workbook_get_uri (importer->wb)) {
-		fprintf (stderr, "[%s]", workbook_get_uri (importer->wb));
+	else if (importer && importer->wb && go_doc_get_uri (GO_DOC (importer->wb))) {
+		fprintf (stderr, "[%s]", go_doc_get_uri (GO_DOC (importer->wb)));
 		return;
 	}
 	fprintf (stderr, "%s%d : ", col_name(fn_col), fn_row+1);

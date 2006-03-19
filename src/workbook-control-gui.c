@@ -3,7 +3,7 @@
 /*
  * workbook-control-gui.c: GUI specific routines for a workbook-control.
  *
- * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published
@@ -247,7 +247,8 @@ cb_autosave (gpointer *data)
 	if (wb_view == NULL)
 		return FALSE;
 
-	if (wbcg->autosave && workbook_is_dirty (wb_view_workbook (wb_view))) {
+	if (wbcg->autosave &&
+	    go_doc_is_dirty (wb_view_get_doc (wb_view))) {
 	        if (wbcg->autosave_prompt && !dialog_autosave_prompt (wbcg))
 			return TRUE;
 		gui_file_save (wbcg, wb_view);
@@ -378,7 +379,7 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 	gboolean reject = FALSE;
 	if (new_name != NULL) {
 		const char *old_name = editable_label_get_text (el);
-		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 		Sheet *sheet = workbook_sheet_by_name (wb, old_name);
 		reject = cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
 					   sheet,
@@ -393,7 +394,7 @@ wbcg_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, sheet->index_in_wb);
 	cmd_reorganize_sheets2 (wbc, old_state);
@@ -403,7 +404,7 @@ void
 wbcg_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, -1);
 	cmd_reorganize_sheets2 (wbc, old_state);
@@ -609,7 +610,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	 * the sheets.
 	 */
 	if (p_src >= 0) {
-		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 		Sheet *s_src = workbook_sheet_by_index (wb, p_src);
 		int p_dst = gnm_notebook_page_num_by_label (wbcg->notebook,
 							    widget);
@@ -1008,11 +1009,11 @@ wbcg_sheet_order_changed (WorkbookControlGUI *wbcg)
 static void
 wbcg_update_title (WorkbookControlGUI *wbcg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	char *basename = go_basename_from_uri (wb->uri);
+	GODoc *doc = wb_control_get_doc (WORKBOOK_CONTROL (wbcg));
+	char *basename = go_basename_from_uri (doc->uri);
 	char *title = g_strconcat
-		(workbook_is_dirty (wb) ? "*" : "",
-		 basename ? basename : wb->uri,
+		(go_doc_is_dirty (doc) ? "*" : "",
+		 basename ? basename : doc->uri,
 		 _(" : Gnumeric"),
 		 NULL);
  	gtk_window_set_title (wbcg_toplevel (wbcg), title);
@@ -1027,7 +1028,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 
 	if (wbcg->notebook != NULL) {
 		GtkWidget *tmp = GTK_WIDGET (wbcg->notebook);
-		Workbook *wb = wb_control_workbook (wbc);
+		Workbook *wb = wb_control_get_workbook (wbc);
 		int i;
 
 		/* Clear notebook to disable updates as focus changes for pages
@@ -1184,11 +1185,11 @@ wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
 
 int
 wbcg_show_save_dialog (WorkbookControlGUI *wbcg, 
-		       Workbook * wb, gboolean exiting)
+		       Workbook *wb, gboolean exiting)
 {
 	GtkWidget *d;
 	char *msg;
-	const char *wb_uri = workbook_get_uri (wb);
+	char const *wb_uri = go_doc_get_uri (GO_DOC (wb));
 	int ret = 0;
 
 	if (wb_uri) {
@@ -1260,12 +1261,12 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	gboolean   done      = FALSE;
 	int        iteration = 0;
 	int        button = 0;
-	Workbook  *wb = wb_view_workbook (wb_view);
+	Workbook  *wb = wb_view_get_workbook (wb_view);
 	static int in_can_close;
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
 
-	if (!close_clean && !workbook_is_dirty (wb))
+	if (!close_clean && !go_doc_is_dirty (GO_DOC (wb)))
 		return 2;
 
 	if (in_can_close)
@@ -1279,7 +1280,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 			return 3;
 		}
 	}
-	while (workbook_is_dirty (wb) && !done) {
+	while (go_doc_is_dirty (GO_DOC (wb)) && !done) {
 		iteration++;
 		button = wbcg_show_save_dialog(wbcg, wb, exiting); 
 
@@ -1294,12 +1295,12 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 
 		case GTK_RESPONSE_NO:
 			done      = TRUE;
-			workbook_mark_not_modified (wb);
+			go_doc_set_dirty (GO_DOC (wb), FALSE);
 			break;
 
 		case GNM_RESPONSE_DISCARD_ALL:
 			done      = TRUE;
-			workbook_mark_not_modified (wb);
+			go_doc_set_dirty (GO_DOC (wb), FALSE);
 			break;
 
 		default:  /* CANCEL */
@@ -1351,7 +1352,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 
 	/* This is the last control */
 	if (wb_view->wb_controls->len <= 1) {
-		Workbook *wb = wb_view_workbook (wb_view);
+		Workbook *wb = wb_view_get_workbook (wb_view);
 
 		g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
 		g_return_val_if_fail (wb->wb_views != NULL, TRUE);
@@ -1427,10 +1428,7 @@ cb_share_a_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer _es)
 static void
 cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-
-	if (gnumeric_debugging > 3)
-		summary_info_dump (wb->summary_info);
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	if (dependency_debugging > 0) {
 		WORKBOOK_FOREACH_SHEET (wb, sheet,
@@ -1942,7 +1940,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WorkbookControlGU
 		GtkWidget *item;
 
 		/* Test the expression...  */
-		parse_pos_init (&pp, wb_control_workbook (WORKBOOK_CONTROL (wbcg)), NULL, 0, 0);
+		parse_pos_init (&pp, wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)), NULL, 0, 0);
 		new_auto_expr = gnm_expr_parse_str_simple (expr, &pp);
 		if (!new_auto_expr)
 			continue;
@@ -2064,7 +2062,7 @@ wbcg_drag_data_get (GtkWidget          *widget,
 		    guint               time,
 		    WorkbookControl    *wbcg)
 {
-	Workbook *wb    = wb_control_workbook (wbc);
+	Workbook *wb    = wb_control_get_workbook (wbc);
 	Sheet	 *sheet = wb_control_cur_sheet (wbc);
 	BonoboMoniker *moniker;
 	char *s;

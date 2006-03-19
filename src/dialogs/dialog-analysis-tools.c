@@ -333,7 +333,7 @@ dialog_tool_init (GenericToolState *state,
 	GtkWidget *widget;
 
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
 	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->warning_dialog = NULL;

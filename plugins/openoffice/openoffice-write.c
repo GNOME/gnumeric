@@ -34,7 +34,6 @@
 #include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-style.h>
-#include <summary.h>
 #include <style-color.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -303,7 +302,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 
 	state.ioc = ioc;
 	state.wbv = wbv;
-	state.wb  = wb_view_workbook (wbv);
+	state.wb  = wb_view_get_workbook (wbv);
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child  (outfile, streams[i].name, FALSE);
 		streams[i].func (&state, child);

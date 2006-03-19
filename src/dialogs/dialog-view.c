@@ -97,7 +97,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	new_wbc = wb_control_wrapper_new
 		(wbc,
 		 shared ? wb_control_view (wbc) : NULL,
-		 wb_control_workbook (wbc),
+		 wb_control_get_workbook (wbc),
 		 screen);
 
 	if (IS_WORKBOOK_CONTROL_GUI (new_wbc)) {

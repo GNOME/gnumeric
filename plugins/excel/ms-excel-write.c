@@ -5491,7 +5491,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 
 	ewb->bp   	  = NULL;
 	ewb->io_context   = context;
-	ewb->gnum_wb      = wb_view_workbook (gwb_view);
+	ewb->gnum_wb      = wb_view_get_workbook (gwb_view);
 	ewb->gnum_wb_view = gwb_view;
 	ewb->sheets	  = g_ptr_array_new ();
 	ewb->names	  = g_hash_table_new (g_direct_hash, g_direct_equal);

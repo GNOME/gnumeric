@@ -13,7 +13,7 @@
       <menuitem action="FilePrint"/>
       <separator name="file-sep3"/>
       <menuitem action="FileSend"/>
-      <menuitem action="FileSummary"/>
+      <menuitem action="FileMetaData"/>
       <menuitem action="FilePreferences"/>
       <separator name="file-sep4"/>
       <placeholder name="FileHistory" />

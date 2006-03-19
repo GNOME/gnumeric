@@ -647,7 +647,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	/* Set properties */
 	pagedata->format.renderdata =
 		stf_preview_new (pagedata->format.format_data_container,
-				 workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
+				 workbook_date_conv (wb_control_get_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
 	pagedata->format.formats          = g_ptr_array_new ();
 	pagedata->format.index         = -1;
 	pagedata->format.manual_change = FALSE;

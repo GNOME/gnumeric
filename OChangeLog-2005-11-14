@@ -1,3 +1,11 @@
+2006-03-18  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_vector_get_value) : init valid to false
+	  in case value_coerce_to_number fails and does not set it.
+
+	* src/gnumeric-pane.c (cb_sheet_object_view_destroyed) : handle life
+	  cycle change.
+
 2006-03-18  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-pane.c (cb_sheet_object_view_destroyed): Fix crash
@@ -534,6 +542,19 @@
 
 	* schemas/gnumeric-dialogs.schemas.in (unfocused): Fix a typo
 	  in the description.
+
+2005-12-28  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c : Move to GsfDocMetaData
+
+	* src/commands.c (cmd_change_meta_data*) : re-work for new metadata
+	  structure.
+
+	* src/Makefile.am : remove the defunct summary.[ch]
+
+	* src/GNOME_Gnumeric-gtk.xml.in : enable the new dialog in place of
+	  the old one.
+	* src/wbcg-actions.c : ditto.
 
 2005-12-22  Morten Welinder  <terra@gnome.org>
 

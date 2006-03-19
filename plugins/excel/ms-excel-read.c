@@ -58,7 +58,6 @@
 #include <value.h>
 #include <hlink.h>
 #include <application.h>
-#include <goffice/app/io-context.h>
 #include <command-context.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-widget.h>
@@ -67,6 +66,8 @@
 #include <gnm-so-polygon.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
+#include <goffice/app/io-context.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -2795,7 +2796,7 @@ gnm_xl_importer_new (IOContext *context, WorkbookView *wb_view)
 	importer->ver	  = MS_BIFF_V_UNKNOWN;
 	importer->context = context;
 	importer->wbv     = wb_view;
-	importer->wb      = wb_view_workbook (wb_view);
+	importer->wb      = wb_view_get_workbook (wb_view);
 	importer->str_iconv = (GIConv)(-1);
 	gnm_xl_importer_set_codepage (importer, 1252); /* set a default */
 
@@ -5378,7 +5379,7 @@ excel_read_FILEPASS (BiffQuery *q, GnmXLImporter *importer)
 	while (TRUE) {
 		guint8 *passwd = go_cmd_context_get_password (
 			GO_CMD_CONTEXT (importer->context),
-			workbook_get_uri (importer->wb));
+			go_doc_get_uri (GO_DOC (importer->wb)));
 		gboolean ok;
 
 		if (passwd == NULL)

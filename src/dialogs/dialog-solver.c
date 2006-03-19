@@ -1341,7 +1341,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state                 = g_new (SolverState, 1);
 	state->wbcg           = wbcg;
-	state->wb             = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb             = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet          = sheet;
 	state->ov             = NULL;
 	state->ov_stack       = NULL;

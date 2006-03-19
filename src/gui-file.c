@@ -28,6 +28,7 @@
 
 #include <goffice/gtk/go-charmap-sel.h>
 #include <goffice/app/io-context.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/utils/go-file.h>
 
 #include <gtk/gtkcombobox.h>
@@ -103,7 +104,7 @@ void
 gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 {
 	WorkbookControlGUI *new_wbcg = NULL;
-	Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *tmp_wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 #ifdef USE_HILDON
 	if (workbook_is_dirty (tmp_wb)) {
@@ -129,7 +130,7 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 	wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
 	wb_control_init_state (WORKBOOK_CONTROL (wbcg));
 #else
-	if (workbook_is_pristine (tmp_wb)) {
+	if (go_doc_is_pristine (GO_DOC (tmp_wb))) {
 		g_object_ref (wbcg);
 		g_object_unref (tmp_wb);
 		wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
@@ -222,7 +223,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	char *uri = NULL;
 	const char *encoding = NULL;
 	GOFileOpener *fo = NULL;
-	Workbook *workbook = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	Workbook *workbook = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	openers = g_list_sort (g_list_copy (get_file_openers ()),
 			       file_opener_description_cmp);
@@ -273,7 +274,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	}
 
 	/* Start in the same directory as the current workbook.  */
-	gtk_file_chooser_select_uri (fsel, workbook_get_uri (workbook));
+	gtk_file_chooser_select_uri (fsel, go_doc_get_uri (workbook));
 	gtk_file_chooser_unselect_all (fsel);
 
 	/* Filters */
@@ -366,7 +367,7 @@ check_multiple_sheet_support_if_needed (GOFileSaver *fs,
 			       "in separate files or select different file format.\n"
 			       "Do you want to save only current sheet?");
 
-		sheets = workbook_sheets (wb_view_workbook (wb_view));
+		sheets = workbook_sheets (wb_view_get_workbook (wb_view));
 		if (g_list_length (sheets) > 1) {
 			ret_val = go_gtk_query_yes_no (parent, TRUE, msg);
 		}
@@ -462,14 +463,14 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	/* Set default file saver */
 	fs = wbcg->current_saver;
 	if (fs == NULL)
-		fs = workbook_get_file_saver (wb_view_workbook (wb_view));
+		fs = workbook_get_file_saver (wb_view_get_workbook (wb_view));
 	if (fs == NULL || g_list_find (savers, fs) == NULL)
 		fs = go_file_saver_get_default ();
 
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	wb_uri = workbook_get_uri (wb_view_workbook (wb_view));
+	wb_uri = go_doc_get_uri (wb_view_get_workbook (wb_view));
 	if (wb_uri != NULL) {
 		char *basename = go_basename_from_uri (wb_uri);
 		char *dot = basename ? strrchr (basename, '.') : NULL;
@@ -550,7 +551,7 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	                        GTK_WIDGET (wbcg->notebook)->allocation.width,
 	                        GTK_WIDGET (wbcg->notebook)->allocation.height);
 
-	wb = wb_view_workbook (wb_view);
+	wb = wb_view_get_workbook (wb_view);
 	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else

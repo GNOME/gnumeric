@@ -10,7 +10,6 @@
  *	Miguel de Icaza (miguel@gnu.org)
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "print-info.h"
 
@@ -24,10 +23,12 @@
 #include "gnumeric-gconf.h"
 #include "gnumeric-gconf-priv.h"
 
+#include <goffice/app/go-doc.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-glib-extras.h>
 
+#include <glib/gi18n.h>
 #include <string.h>
 #include <locale.h>
 #include <time.h>
@@ -452,7 +453,8 @@ static void
 render_file (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *name = go_basename_from_uri (workbook_get_uri (info->sheet->workbook));
+		char *name = go_basename_from_uri (
+			go_doc_get_uri (GO_DOC (info->sheet->workbook)));
 		g_string_append (target, name);
 		g_free (name);
 	} else 
@@ -463,7 +465,8 @@ static void
 render_path (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *path = go_dirname_from_uri (workbook_get_uri (info->sheet->workbook), TRUE);
+		char *path = go_dirname_from_uri (
+			go_doc_get_uri (GO_DOC (info->sheet->workbook)), TRUE);
 		g_string_append (target, path);
 		g_free (path);
 	} else 

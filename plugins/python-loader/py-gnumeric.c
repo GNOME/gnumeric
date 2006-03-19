@@ -1802,7 +1802,7 @@ py_Gui_get_workbook (py_Gui_object *self, PyObject *args)
 		return NULL;
 	}
 	
-	workbook = wb_control_workbook (WORKBOOK_CONTROL (self->wbcg));
+	workbook = wb_control_get_workbook (WORKBOOK_CONTROL (self->wbcg));
 
 	return py_new_Workbook_object (workbook);
 }

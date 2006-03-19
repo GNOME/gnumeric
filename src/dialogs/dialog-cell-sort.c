@@ -1173,7 +1173,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg)
 
 	state = g_new (SortFlowState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->warning_dialog = NULL;

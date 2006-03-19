@@ -484,7 +484,7 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 static void
 cb_undo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 {
-	unsigned n = workbook_find_command (wb_control_workbook (wbc), TRUE,
+	unsigned n = workbook_find_command (wb_control_get_workbook (wbc), TRUE,
 		go_action_combo_stack_selection (a));
 	while (n-- > 0)
 		command_undo (wbc);
@@ -493,7 +493,7 @@ cb_undo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 static void
 cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 {
-	unsigned n = workbook_find_command (wb_control_workbook (wbc), FALSE,
+	unsigned n = workbook_find_command (wb_control_get_workbook (wbc), FALSE,
 		go_action_combo_stack_selection (a));
 	while (n-- > 0)
 		command_redo (wbc);
@@ -1125,7 +1125,7 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 		if (i >= 20)
 			return i;
 		if (IS_WORKBOOK_CONTROL_GUI (wbc) &&
-			(basename = go_basename_from_uri (wb->uri)) != NULL) {
+			(basename = go_basename_from_uri (GO_DOC (wb)->uri)) != NULL) {
 			GString *label = g_string_new (NULL);
 			char *name;
 			const char *s;
@@ -1164,7 +1164,7 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 static void
 cb_regenerate_window_menu (WBCgtk *gtk)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (gtk));
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (gtk));
 	GList const *ptr;
 	unsigned i;
 

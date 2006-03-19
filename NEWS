@@ -18,6 +18,7 @@ Jody:
 	* Make sheet name quoting modular.
 	* AREAS handles error conditions better.
 	* Make Array formulas use less memory
+	* Move Workbook::uri and ::dirty into GODoc
 
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]

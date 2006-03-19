@@ -267,7 +267,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	sheet = sheet_new (wb_view_workbook (wb_view), _("Some name"));
+	sheet = sheet_new (wb_view_get_workbook (wb_view), _("Some name"));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper != NULL) {
 		 /* wrapping adds a reference */
@@ -280,7 +280,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 	}
 	if (open_result != NULL) {
 		Py_DECREF (open_result);
-		workbook_sheet_attach (wb_view_workbook (wb_view), sheet);
+		workbook_sheet_attach (wb_view_get_workbook (wb_view), sheet);
 	} else {
 		gnumeric_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
@@ -371,7 +371,7 @@ gplp_func_file_save (GOFileSaver const *fs, GOPluginService *service,
 
 	saver_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	py_workbook = py_new_Workbook_object (wb_view_workbook (wb_view));
+	py_workbook = py_new_Workbook_object (wb_view_get_workbook (wb_view));
 	output_wrapper = pygobject_new (G_OBJECT (output));
 	if (output_wrapper != NULL) {
 		/* wrapping adds a reference */

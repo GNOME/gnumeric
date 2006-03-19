@@ -4,7 +4,7 @@
  * xml-sax-write.c : export .gnumeric and the clipboard subset using a the sax
  * 			like wrappers in libgsf
  *
- * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -34,7 +34,6 @@
 #include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-style.h>
-#include <summary.h>
 #include <style-color.h>
 #include <style-conditions.h>
 #include <expr.h>
@@ -137,36 +136,10 @@ xml_write_attributes (GnmOutputXML *state)
 }
 
 static void
-xml_write_summary (GnmOutputXML *state)
+xml_write_meta_data (GnmOutputXML *state)
 {
-	SummaryInfo *summary_info = workbook_metadata (state->wb);
-	GList *items, *ptr;
-
-	if (summary_info == NULL)
-		return;
-	items = summary_info_as_list (summary_info);
-	if (items == NULL)
-		return;
-
-	gsf_xml_out_start_element (state->output, GNM "Summary");
-	for (ptr = items ; ptr != NULL ; ptr = ptr->next) {
-		SummaryItem *sit = ptr->data;
-		if (sit == NULL)
-			continue;
-		gsf_xml_out_start_element (state->output, GNM "Item");
-		gsf_xml_out_simple_element (state->output, GNM "name", sit->name);
-		if (sit->type == SUMMARY_INT) {
-			gsf_xml_out_simple_int_element (state->output,
-				GNM "val-int", sit->v.i);
-		} else {
-			char *text = summary_item_as_text (sit);
-			gsf_xml_out_simple_element (state->output, GNM "val-string", text);
-			g_free (text);
-		}
-		gsf_xml_out_end_element (state->output);	/* </Item> */
-	}
-	gsf_xml_out_end_element (state->output); /* </Summary> */
-	g_list_free (items);
+	gsf_opendoc_metadata_write (state->output, 
+		go_doc_get_meta_data (GO_DOC (state->wb)));
 }
 
 static void
@@ -1182,7 +1155,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	}
 
 	state.wb_view	= wb_view;
-	state.wb	= wb_view_workbook (wb_view);
+	state.wb	= wb_view_get_workbook (wb_view);
 	state.sheet	= NULL;
 	state.output	= gsf_xml_out_new (output);
 	state.exprconv	= xml_io_conventions ();
@@ -1204,7 +1177,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 	xml_write_version	    (&state);
 	xml_write_attributes	    (&state);
-	xml_write_summary	    (&state);
+	xml_write_meta_data	    (&state);
 	xml_write_conventions	    (&state);
 	xml_write_sheet_names	    (&state);
 	xml_write_named_expressions (&state, state.wb->names);

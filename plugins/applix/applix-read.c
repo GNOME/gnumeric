@@ -1532,7 +1532,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.input	  = (GsfInputTextline *)gsf_input_textline_new (src);
 	state.parse_error = NULL;
 	state.wb_view     = wb_view;
-	state.wb          = wb_view_workbook (wb_view);
+	state.wb          = wb_view_get_workbook (wb_view);
 	state.exprs       = g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.colors      = g_ptr_array_new ();

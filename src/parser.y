@@ -677,10 +677,10 @@ workbookref : '[' string_opt_quote ']'  {
 			: NULL;
 		Workbook *wb = gnm_app_workbook_get_by_name
 			(wb_name,
-			 ref_wb ? workbook_get_uri (ref_wb) : NULL);
+			 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
 
 		if (wb != NULL) {
-			g_print ("Got %s\n", workbook_get_uri (wb));
+			g_print ("Got %s\n", go_doc_get_uri ((GODoc *)wb));
 			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = wb;
 		} else {

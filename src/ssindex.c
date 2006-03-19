@@ -165,7 +165,7 @@ ssindex (char const *file, IOContext *ioc)
 	gsf_stdout = gsf_output_stdio_new_FILE ("<stdout>", stdout, TRUE);
 	state.output = gsf_xml_out_new (gsf_stdout);
 	gsf_xml_out_start_element (state.output, "gnumeric");
-	state.wb = wb_view_workbook (state.wb_view);
+	state.wb = wb_view_get_workbook (state.wb_view);
 	for (i = 0 ; i < workbook_sheet_count (state.wb); i++) {
 		state.sheet = workbook_sheet_by_index (state.wb, i);
 		gsf_xml_out_simple_element (state.output,

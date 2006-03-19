@@ -474,7 +474,7 @@ html_file_save (GOFileSaver const *fs, IOContext *io_context,
 		WorkbookView const *wb_view, GsfOutput *output, html_version_t version)
 {
 	GList *sheets, *ptr;
-	Workbook *wb = wb_view_workbook (wb_view);
+	Workbook *wb = wb_view_get_workbook (wb_view);
 	FileSaveScope save_scope;
 
 	g_return_if_fail (fs != NULL);

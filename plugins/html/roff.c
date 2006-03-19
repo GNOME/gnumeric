@@ -90,7 +90,7 @@ roff_file_save (GOFileSaver const *fs, IOContext *io_context,
 	GList *sheets, *ptr;
 	GnmCell *cell;
 	int row, col, fontsize, v_size;
-	Workbook *wb = wb_view_workbook (wb_view);
+	Workbook *wb = wb_view_get_workbook (wb_view);
 
 	g_return_if_fail (wb != NULL);
 

@@ -949,7 +949,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 
 	state = g_new (FormulaGuruState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->gui   = gui;
 	state->active_path = NULL;
 	state->pos = NULL;

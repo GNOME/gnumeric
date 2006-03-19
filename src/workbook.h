@@ -6,7 +6,6 @@
 #define IS_WORKBOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_TYPE))
 
 #include "gnumeric.h"
-#include "summary.h"
 #include <goffice/app/file.h>
 #include <glib-object.h>
 
@@ -40,20 +39,9 @@ unsigned    workbook_find_command	(Workbook *wb,
 
 
 /* IO Routines */
-gboolean       workbook_set_uri		(Workbook *wb, char const *uri);
-char const    *workbook_get_uri		(Workbook const *wb);
-
 gboolean       workbook_set_saveinfo	(Workbook *wb,
 					 FileFormatLevel, GOFileSaver *);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);
-
-gboolean    workbook_is_pristine	(Workbook const *wb);
-void        workbook_set_dirty		(Workbook *wb, gboolean is_dirty);
-gboolean    workbook_is_dirty		(Workbook const *wb);
-void        workbook_mark_not_modified  (Workbook *wb);
-
-void         workbook_add_summary_info    (Workbook *wb, SummaryItem *sit);
-SummaryInfo *workbook_metadata    	  (Workbook const *wb);
 
 /* See also sheet_cell_foreach_range */
 GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,

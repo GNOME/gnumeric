@@ -2,11 +2,10 @@
 /*
  * gnumeric-gconf.c:
  *
- *
  * Author:
  * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
- * (C) Copyright 2002-2004 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * (C) Copyright 2002-2005 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * Introduced the concept of "node" and implemented the win32 backend
  * by Ivan, Wong Yat Cheung <email@ivanwong.info>, 2005

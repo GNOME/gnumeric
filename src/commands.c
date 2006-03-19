@@ -64,7 +64,6 @@
 #include "sheet-object-graph.h"
 #include "sheet-control.h"
 #include "style-color.h"
-#include "summary.h"
 #include "auto-format.h"
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
@@ -73,6 +72,7 @@
 #include "tools/tabulate.h"
 
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-doc-meta-data.h>
 #include <string.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -350,7 +350,7 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
 
-		if (sheet->workbook == wb_control_workbook (wbc))
+		if (sheet->workbook == wb_control_get_workbook (wbc))
 			WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
 				  wb_control_sheet_focus (control, sheet););
 	} else if (wbc != NULL)
@@ -403,7 +403,7 @@ command_undo (WorkbookControl *wbc)
 {
 	GnmCommand *cmd;
 	GnmCommandClass *klass;
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (wb->undo_commands != NULL);
@@ -423,7 +423,7 @@ command_undo (WorkbookControl *wbc)
 		update_after_action (cmd->sheet, wbc);
 
 		if (!cmd->workbook_modified_before_do)
-			workbook_mark_not_modified (wb);
+			go_doc_set_dirty (GO_DOC (wb), FALSE);
 
 		/*
 		 * A few commands clear the undo queue.  For those, we do not
@@ -458,7 +458,7 @@ command_redo (WorkbookControl *wbc)
 {
 	GnmCommand *cmd;
 	GnmCommandClass *klass;
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (wb);
 	g_return_if_fail (wb->redo_commands);
@@ -472,7 +472,7 @@ command_redo (WorkbookControl *wbc)
 	g_object_ref (cmd);
 
 	cmd->workbook_modified_before_do =
-		workbook_is_dirty (wb_control_workbook (wbc));
+		go_doc_is_dirty (wb_control_get_doc (wbc));
 
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
 	if (!klass->redo_cmd (cmd, wbc)) {
@@ -513,7 +513,7 @@ command_repeat (WorkbookControl *wbc)
 {
 	GnmCommand *cmd;
 	GnmCommandClass *klass;
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (wb);
 	g_return_if_fail (wb->undo_commands);
@@ -539,7 +539,7 @@ command_setup_combos (WorkbookControl *wbc)
 {
 	char const *undo_label = NULL, *redo_label = NULL;
 	GSList *ptr, *tmp;
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (wb);
 
@@ -680,7 +680,7 @@ command_register_undo (WorkbookControl *wbc, GObject *obj)
 	int undo_trunc;
 
 	g_return_if_fail (wbc != NULL);
-	wb = wb_control_workbook (wbc);
+	wb = wb_control_get_workbook (wbc);
 
 	cmd = GNM_COMMAND (obj);
 	g_return_if_fail (cmd != NULL);
@@ -723,7 +723,7 @@ command_push_undo (WorkbookControl *wbc, GObject *obj)
 
 	cmd = GNM_COMMAND (obj);
 	cmd->workbook_modified_before_do =
-		workbook_is_dirty (wb_control_workbook (wbc));
+		go_doc_is_dirty (wb_control_get_doc (wbc));
 
 	g_return_val_if_fail (cmd != NULL, TRUE);
 
@@ -4642,7 +4642,7 @@ cmd_reorganize_sheets2 (WorkbookControl *wbc,
 			WorkbookSheetState *old_state)
 {
 	CmdReorganizeSheets2 *me;
-	Workbook *wb = wb_control_workbook (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 
 	me = g_object_new (CMD_REORGANIZE_SHEETS2_TYPE, NULL);
 	me->wb = wb;
@@ -5176,104 +5176,83 @@ cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 
 /******************************************************************/
 
-#define CMD_CHANGE_SUMMARY_TYPE        (cmd_change_summary_get_type ())
-#define CMD_CHANGE_SUMMARY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CHANGE_SUMMARY_TYPE, CmdChangeSummary))
+#define CMD_CHANGE_META_DATA_TYPE        (cmd_change_summary_get_type ())
+#define CMD_CHANGE_META_DATA(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CHANGE_META_DATA_TYPE, CmdChangeMetaData))
 
 typedef struct {
 	GnmCommand cmd;
+	GSList *changed_props;
+	GSList *removed_names;
+} CmdChangeMetaData;
 
-	GSList *new_info;
-	GSList *old_info;
-} CmdChangeSummary;
-
-MAKE_GNM_COMMAND (CmdChangeSummary, cmd_change_summary, NULL);
-
-static void
-cb_change_summary_apply_change (SummaryItem *sit, Workbook *wb)
-{
-	workbook_add_summary_info (wb, summary_item_copy (sit));
-}
-
-static gboolean
-cmd_change_summary_apply (WorkbookControl *wbc, GSList *info)
-{
-	Workbook *wb = wb_control_workbook (wbc);
-
-	g_slist_foreach (info, (GFunc) cb_change_summary_apply_change, wb);
-
-	/* Set Workbook dirty!? */
-	workbook_set_dirty (wb, TRUE);
-	return FALSE;
-}
+MAKE_GNM_COMMAND (CmdChangeMetaData, cmd_change_summary, NULL);
 
 static gboolean
 cmd_change_summary_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
+	CmdChangeMetaData *me = CMD_CHANGE_META_DATA (cmd);
+	GsfDocMetaData *meta = go_doc_get_meta_data (wb_control_get_doc (wbc));
+	GSList *ptr, *old_vals = NULL, *dropped = NULL;
+	GsfDocProp *prop;
+	char const *name;
 
-	return cmd_change_summary_apply (wbc, me->old_info);
+	for (ptr = me->removed_names; ptr != NULL ; ptr = ptr->next) {
+		if (NULL != (prop = gsf_doc_meta_data_steal (meta, ptr->data)))
+			old_vals = g_slist_prepend (old_vals, prop);
+		g_free (ptr->data);
+	}
+	g_slist_free (me->removed_names);
+
+	for (ptr = me->changed_props; ptr != NULL ; ptr = ptr->next) {
+		name = gsf_doc_prop_get_name (ptr->data);
+		if (NULL != (prop = gsf_doc_meta_data_steal (meta, name)))
+			old_vals = g_slist_prepend (old_vals, prop);
+		else
+			dropped = g_slist_prepend (old_vals, g_strdup (name));
+		gsf_doc_meta_data_store (meta, ptr->data);
+	}
+	g_slist_free (me->changed_props);
+
+	me->removed_names = dropped;
+	me->changed_props = old_vals;
+	go_doc_update_meta_data (wb_control_get_doc (wbc));
+
+	return FALSE;
 }
 
 static gboolean
 cmd_change_summary_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
-
-	return cmd_change_summary_apply (wbc, me->new_info);
-}
-
-static void
-cb_change_summary_clear_sit (SummaryItem *sit,
-			     G_GNUC_UNUSED gpointer ignore)
-{
-	summary_item_free (sit);
+	return cmd_change_summary_undo (cmd, wbc);
 }
 
 static void
 cmd_change_summary_finalize (GObject *cmd)
 {
-	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
+	CmdChangeMetaData *me = CMD_CHANGE_META_DATA (cmd);
 
-	g_slist_foreach (me->new_info, (GFunc) cb_change_summary_clear_sit, NULL);
-	g_slist_free (me->new_info);
-	me->new_info = NULL;
-
-	g_slist_foreach (me->old_info, (GFunc) cb_change_summary_clear_sit, NULL);
-	g_slist_free (me->old_info);
-	me->old_info = NULL;
+	g_slist_foreach (me->changed_props, (GFunc) gsf_doc_prop_free, NULL);
+	g_slist_free (me->changed_props);
+	me->changed_props = NULL;
+	g_slist_foreach (me->removed_names, (GFunc) g_free, NULL);
+	g_slist_free (me->removed_names);
+	me->removed_names = NULL;
 
 	gnm_command_finalize (cmd);
 }
 
 gboolean
-cmd_change_summary (WorkbookControl *wbc, GSList *sin_changes)
+cmd_change_meta_data (WorkbookControl *wbc, GSList *changes, GSList *removed)
 {
-	CmdChangeSummary *me;
-	GSList           *sit_l;
-	SummaryInfo const *sin = wb_control_workbook (wbc)->summary_info;
+	CmdChangeMetaData *me = g_object_new (CMD_CHANGE_META_DATA_TYPE, NULL);
 
-	if (sin_changes == NULL)
-		return FALSE;
-
-	me = g_object_new (CMD_CHANGE_SUMMARY_TYPE, NULL);
-
+	me->changed_props = changes;
+	me->removed_names = removed;
 	me->cmd.sheet = NULL;
-	me->cmd.size = g_slist_length (sin_changes);
-	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Changing summary info"));
 
-	me->new_info = sin_changes;
-
-	me->old_info = NULL;
-	for (sit_l = sin_changes; sit_l; sit_l = sit_l->next) {
-		SummaryItem *sit = summary_item_by_name
-			(((SummaryItem *)sit_l->data)->name, sin);
-		if (sit == NULL)
-			sit = summary_item_new_string  (((SummaryItem *)sit_l->data)->name,
-							"", TRUE);
-		me->old_info = g_slist_prepend (me->old_info, sit);
-	}
-
+	me->cmd.size = g_slist_length (changes) + g_slist_length (removed);
+	me->cmd.cmd_descriptor = g_strdup_printf (
+		_("Changing workbook properties"));
 	return command_push_undo (wbc, G_OBJECT (me));
 }
 
@@ -5394,7 +5373,7 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->cmd.sheet->print_info = print_info_dup (
 			(PrintInformation *) me->old_pi->data);
 	} else {
-		book = wb_control_workbook(wbc);
+		book = wb_control_get_workbook(wbc);
 		n = workbook_sheet_count (book);
 		infos = me->old_pi;
 		g_return_val_if_fail (g_slist_length (infos) == n, TRUE);
@@ -5428,7 +5407,7 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			print_info_free (me->cmd.sheet->print_info);
 		me->cmd.sheet->print_info = print_info_dup (me->new_pi);
 	} else {
-		book = wb_control_workbook(wbc);
+		book = wb_control_get_workbook(wbc);
 		n = workbook_sheet_count (book);
 		for (i = 0 ; i < n ; i++) {
 			Sheet * sheet = workbook_sheet_by_index (book, i);
@@ -6331,7 +6310,7 @@ cmd_tabulate_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (l = me->sheet_idx; l != NULL; l = l->next) {
 		Sheet *new_sheet 
-			= workbook_sheet_by_index (wb_control_workbook (wbc), 
+			= workbook_sheet_by_index (wb_control_get_workbook (wbc), 
 						   GPOINTER_TO_INT (l->data));
 		res = res && command_undo_sheet_delete (new_sheet);
 	}

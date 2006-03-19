@@ -202,7 +202,7 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gtk_tree_view_column_set_sort_column_id (column, COL_SHEET_NAME);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (state->sheet_list), column);
 
-	sheets = workbook_sheets (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
+	sheets = workbook_sheets (wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)));
 	cur_row = row = 0;
 	for (l = sheets; l; l = l->next) {
 		GtkTreeIter iter;

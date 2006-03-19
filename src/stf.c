@@ -201,7 +201,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	}
 
 	/* Add Sheet */
-	book = wb_view_workbook (wbv);
+	book = wb_view_get_workbook (wbv);
 	sheet = sheet_new (book, nameutf8);
 	workbook_sheet_attach (book, sheet);
 
@@ -352,7 +352,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (wbv != NULL);
 
-	book = wb_view_workbook (wbv);
+	book = wb_view_get_workbook (wbv);
 	data = stf_preparse (GO_CMD_CONTEXT (context), input, &data_len);
 	if (!data)
 		return;
@@ -408,7 +408,7 @@ stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 
 	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
 		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
-		         wb_view_workbook (wbv));
+		         wb_view_get_workbook (wbv));
 
 	if (result == NULL) {
 		gnumeric_io_error_unknown (context);

@@ -489,7 +489,7 @@ sylk_file_open (GOFileOpener const *fo,
 	char const *input_name;
 	char *base;
 	int i;
-	Workbook *book = wb_view_workbook (wb_view);
+	Workbook *book = wb_view_get_workbook (wb_view);
 	ErrorInfo *sheet_error;
 	char *old_num_locale, *old_monetary_locale;
 

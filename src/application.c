@@ -27,14 +27,14 @@
 #include "commands.h"
 
 #include <gnumeric-gconf.h>
+#include <goffice/app/go-doc.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkiconfactory.h>
 #include <gtk/gtkselection.h>
 #include <gtk/gtkicontheme.h>
 #include <glib/gi18n.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-file.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))
@@ -413,7 +413,7 @@ static gboolean
 cb_workbook_uri (Workbook * wb, gpointer closure)
 {
 	struct wb_uri_closure *dat = closure;
-	const char *wb_uri = workbook_get_uri (wb);
+	char const *wb_uri = go_doc_get_uri (GO_DOC (wb));
 
 	if (wb_uri && strcmp (wb_uri, dat->uri) == 0) {
 		dat->wb = wb;

@@ -338,6 +338,7 @@ colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 {
 	ColRowStateList *list = NULL;
 	ColRowRLEState  *rles;
+	/* gcc is wrong run_state is always initialized */
 	ColRowState	 run_state, cur_state;
 	int              i, run_length = 0;
 

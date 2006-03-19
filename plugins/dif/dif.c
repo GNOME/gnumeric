@@ -254,7 +254,7 @@ void
 dif_file_open (GOFileOpener const *fo, IOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
-	Workbook *wb = wb_view_workbook (wbv);
+	Workbook *wb = wb_view_get_workbook (wbv);
 	DifInputContext *ctxt = dif_input_context_new (io_context, wb, input);
 
 	workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,

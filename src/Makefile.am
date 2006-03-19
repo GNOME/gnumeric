@@ -234,8 +234,6 @@ GNUMERIC_BASE =					\
 	style-conditions.c			\
 	style-conditions.h			\
 	style-font.h				\
-	summary.c				\
-	summary.h				\
 	symbol.c				\
 	symbol.h				\
 	validation.c				\

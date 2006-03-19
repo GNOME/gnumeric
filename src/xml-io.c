@@ -59,6 +59,7 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/app/error-info.h>
 #include <gsf/gsf-libxml.h>
+#include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-gzip.h>
 #include <gsf/gsf-output.h>
@@ -128,7 +129,7 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ctxt->shared_exprs = g_ptr_array_new ();
 	ctxt->wb_view      = wb_view;
-	ctxt->wb	   = (wb_view != NULL) ? wb_view_workbook (wb_view) : NULL;
+	ctxt->wb	   = (wb_view != NULL) ? wb_view_get_workbook (wb_view) : NULL;
 	ctxt->exprconv     = xml_io_conventions ();
 
 	return ctxt;
@@ -426,52 +427,22 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 }
 
 static void
-xml_read_summary (XmlParseContext *ctxt, xmlNodePtr tree, SummaryInfo *summary_info)
+dom_read_meta_data (XmlParseContext *ctxt, xmlNodePtr tree, GsfDocMetaData *meta_data)
 {
 	xmlNodePtr child;
+	xmlChar *val_str, *type_str, *name;
 
-	g_return_if_fail (ctxt != NULL);
-	g_return_if_fail (tree != NULL);
-	g_return_if_fail (summary_info != NULL);
+	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
+		if (xmlIsBlankNode (child) || NULL == child->name || strcmp (child->name, "Property") ||
+		    NULL == (name	= xml_node_get_cstr (child, "name")) ||
+		    NULL == (type_str	= xml_node_get_cstr (child, "type")) ||
+		    NULL == (val_str	= xml_node_get_cstr (child, NULL)))
+			continue;
 
-	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next)
-		if (!xmlIsBlankNode (child) && child->name && !strcmp (child->name, "Item")) {
-			xmlNodePtr bits;
-			xmlChar *name = NULL;
-
-			for (bits = child->xmlChildrenNode; bits != NULL ; bits = bits->next) {
-				SummaryItem *sit = NULL;
-
-				if (xmlIsBlankNode (bits))
-					continue;
-
-				if (!strcmp (bits->name, "name")) {
-					name = xml_node_get_cstr (bits, NULL);
-				} else {
-					xmlChar *txt;
-					g_return_if_fail (name);
-
-					txt = xml_node_get_cstr (bits, NULL);
-					if (txt != NULL){
-						if (!strcmp (bits->name, "val-string"))
-							sit = summary_item_new_string (CXML2C (name),
-										       CXML2C (txt),
-										       TRUE);
-						else if (!strcmp (bits->name, "val-int"))
-							sit = summary_item_new_int (CXML2C (name),
-										    atoi (CXML2C (txt)));
-
-						if (sit)
-							summary_info_add (summary_info, sit);
-						xmlFree (txt);
-					}
-				}
-			}
-			if (name) {
-				xmlFree (name);
-				name = NULL;
-			}
-		}
+		xmlFree (val_str);
+		xmlFree (type_str);
+		xmlFree (name);
+	}
 }
 
 static void
@@ -2340,9 +2311,9 @@ xml_workbook_read (IOContext *context,
 	go_setlocale (LC_MONETARY, "C");
 	go_set_untranslated_bools ();
 
-	child = e_xml_get_child_by_name (tree, CC2XML ("Summary"));
+	child = e_xml_get_child_by_name (tree, CC2XML ("MetaData"));
 	if (child)
-		xml_read_summary (ctxt, child, workbook_metadata (ctxt->wb));
+		dom_read_meta_data (ctxt, child, go_doc_get_meta_data (GO_DOC (ctxt->wb)));
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("DateConvention"));
 	if (child != NULL) {
@@ -2715,7 +2686,7 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	ctxt = xml_parse_ctx_new (res, gmr, wb_view);
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
-	workbook_set_saveinfo (wb_view_workbook (ctxt->wb_view),
+	workbook_set_saveinfo (wb_view_get_workbook (ctxt->wb_view),
 		FILE_FL_AUTO, go_file_saver_for_id ("Gnumeric_xml_sax:xml_sax"));
 
 	xml_parse_ctx_destroy (ctxt);

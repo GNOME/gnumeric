@@ -980,7 +980,7 @@ excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	state.context	= io_context;
 	state.wb_view	= wb_view;
-	state.wb	= wb_view_workbook (wb_view);
+	state.wb	= wb_view_get_workbook (wb_view);
 	state.sheet	= NULL;
 	state.style	= NULL;
 	state.def_style	= NULL;

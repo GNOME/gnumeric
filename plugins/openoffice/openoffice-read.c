@@ -2359,7 +2359,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	/* init */
 	state.context = io_context;
 	state.wb_view = wb_view;
-	state.pos.wb	= wb_view_workbook (wb_view);
+	state.pos.wb	= wb_view_get_workbook (wb_view);
 	state.zip = zip;
 	state.pos.sheet = NULL;
 	state.col_styles[0] = NULL;

@@ -512,7 +512,7 @@ dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 
 	state = g_new (FunctionSelectState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
         state->gui   = gui;
         state->dialog = glade_xml_get_widget (state->gui, "selection_dialog");
 	state->formula_guru_key = key;

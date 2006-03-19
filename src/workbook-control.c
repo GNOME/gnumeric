@@ -166,11 +166,17 @@ wb_control_view (WorkbookControl const *wbc)
 	return wbc->wb_view;
 }
 
+GODoc *
+wb_control_get_doc (WorkbookControl const *wbc)
+{
+	return GO_DOC (wb_control_get_workbook (wbc));
+}
+
 Workbook *
-wb_control_workbook (WorkbookControl const *wbc)
+wb_control_get_workbook (WorkbookControl const *wbc)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
-	return wb_view_workbook (wbc->wb_view);
+	return wb_view_get_workbook (wbc->wb_view);
 }
 
 Sheet *
@@ -333,7 +339,7 @@ wb_control_init_state (WorkbookControl *wbc)
 
 	/* Add views all all existing sheets */
 	wbv = wb_control_view (wbc);
-	sheets = workbook_sheets (wb_control_workbook (wbc));
+	sheets = workbook_sheets (wb_control_get_workbook (wbc));
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
 		sheet = ptr->data;
 		SHEET_FOREACH_VIEW (sheet, view, {
