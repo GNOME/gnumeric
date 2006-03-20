@@ -680,7 +680,6 @@ workbookref : '[' string_opt_quote ']'  {
 			 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
 
 		if (wb != NULL) {
-			g_print ("Got %s\n", go_doc_get_uri ((GODoc *)wb));
 			unregister_allocation ($2); gnm_expr_free ($2);
 			$$ = wb;
 		} else {
