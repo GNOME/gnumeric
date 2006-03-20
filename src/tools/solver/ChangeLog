@@ -1,3 +1,7 @@
+2006-03-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.3
+
 2006-01-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* solver.c (solver_param_destroy): Use g_slist_free to destroy the

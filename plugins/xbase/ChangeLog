@@ -1,3 +1,7 @@
+2006-03-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.3
+
 2006-03-01  Morten Welinder  <terra@gnome.org>
 
 	* xbase.c (xbase_read_header): Fall back to using ISO-8859-1.

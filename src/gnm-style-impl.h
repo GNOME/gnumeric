@@ -47,7 +47,7 @@ struct _GnmStyle {
 
 	GOFormat *format;
 	GnmHAlign	 h_align;
-	GnmHAlign	 v_align;
+	GnmVAlign	 v_align;
 	int		 indent;
 	int		 rotation;
 	int		 text_dir;

@@ -249,7 +249,7 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 	case 11 : /* left */
 		borders[STYLE_BORDER_LEFT] = style_border_fetch (STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (MSTYLE_BORDER_LEFT));
+			 style_border_get_orientation (STYLE_BORDER_LEFT));
 		break;
 
 	case 12 : /* none */
@@ -260,7 +260,7 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 	case 13 : /* right */
 		borders[STYLE_BORDER_RIGHT] = style_border_fetch (STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (MSTYLE_BORDER_RIGHT));
+			 style_border_get_orientation (STYLE_BORDER_RIGHT));
 		break;
 
 	case 21 : /* all */
@@ -651,6 +651,8 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
 				       "name", "FontName",
 				       "case-sensitive", FALSE,
+				       "stock-id", GTK_STOCK_SELECT_FONT,
+				       "visible-vertical", FALSE,
 				       NULL);
 
 	context = gtk_widget_get_pango_context
@@ -705,8 +707,15 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 
 	gtk->font_size = g_object_new (go_action_combo_text_get_type (),
 				       "name", "FontSize",
+				       "stock-id", GTK_STOCK_SELECT_FONT,
+				       "visible-vertical", FALSE,
+				       "label", _("Font Size"),
 				       NULL);
+
+	/* TODO: Create vertical version of this.  */
+
 	font_sizes = go_fonts_list_sizes ();
+
 	for (ptr = font_sizes; ptr != NULL ; ptr = ptr->next) {
 		int psize = GPOINTER_TO_INT (ptr->data);
 		char *size_text = g_strdup_printf ("%g", psize / (double)PANGO_SCALE);

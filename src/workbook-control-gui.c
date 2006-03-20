@@ -94,6 +94,7 @@
 #include <gtk/gtkprogressbar.h>
 #include <gtk/gtkstatusbar.h>
 #include <gtk/gtkicontheme.h>
+#include <gtk/gtktoolbutton.h>
 
 #include <string.h>
 #include <errno.h>
@@ -1030,6 +1031,8 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 
 		disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg));
 
+		wbcg_update_menu_feedback (wbcg, sheet);
+
 		g_object_connect
 			(G_OBJECT (sheet),
 			 "signal::notify::name", cb_sheet_tab_change, scg->label,
@@ -1525,13 +1528,11 @@ static GtkWidget *
 edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
 		  GCallback func, char const *stock_id)
 {
-	GtkWidget *button = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (button),
-		gtk_image_new_from_stock (stock_id,
-					  GTK_ICON_SIZE_BUTTON));
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-	if (!sensitive)
-		gtk_widget_set_sensitive (button, FALSE);
+	GObject *button = g_object_new (GTK_TYPE_TOOL_BUTTON,
+		"stock-id", stock_id,
+		"sensitive", sensitive,
+		"can-focus", FALSE,
+		NULL);
 
 	g_signal_connect_swapped (G_OBJECT (button),
 		"clicked",

@@ -55,13 +55,13 @@ gboolean    cell_is_zero	  (GnmCell const *cell);
 gboolean    cell_is_partial_array (GnmCell const *cell);
 GnmExprArray const *cell_is_array (GnmCell const *cell);
 
-#define cell_eval(cell)							\
-{									\
-	if (cell_needs_recalc (cell)) {					\
-		cell_eval_content (cell);				\
-		cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC | CELL_HAS_NEW_EXPR );		\
-	}								\
-}
+#define cell_eval(cell)											\
+	do {												\
+		if (cell_needs_recalc (cell)) {								\
+			cell_eval_content (cell);							\
+			cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC | (int)CELL_HAS_NEW_EXPR );	\
+		}											\
+	} while (0)
 
 /**
  * Utilities to assign the contents of a cell
