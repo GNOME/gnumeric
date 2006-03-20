@@ -1195,19 +1195,6 @@ compare_bool_bool (GnmValue const *va, GnmValue const *vb)
 }
 
 static GnmValDiff
-compare_int_int (GnmValue const *va, GnmValue const *vb)
-{
-	int const a = value_get_as_int (va);
-	int const b = value_get_as_int (vb);
-	if (a == b)
-		return IS_EQUAL;
-	else if (a < b)
-		return IS_LESS;
-	else
-		return IS_GREATER;
-}
-
-static GnmValDiff
 compare_float_float (GnmValue const *va, GnmValue const *vb)
 {
 	gnm_float const a = value_get_as_float (va);
@@ -1289,12 +1276,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
 	case VALUE_BOOLEAN:
 		return (compare_bool_bool (a, b) == IS_EQUAL) ? 0. : DBL_MAX;
 
-	case VALUE_INTEGER: {
-		int const ia = value_get_as_int (a);
-		int const ib = value_get_as_int (b);
-		return abs (ia - ib);
-	}
-
+	case VALUE_INTEGER:
 	case VALUE_FLOAT: {
 		gnm_float const da = value_get_as_float (a);
 		gnm_float const db = value_get_as_float (b);
@@ -1400,8 +1382,6 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 		return compare_bool_bool (a, b);
 
 	case VALUE_INTEGER:
-		return compare_int_int (a, b);
-
 	case VALUE_FLOAT:
 		return compare_float_float (a, b);
 	default:

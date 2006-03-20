@@ -41,8 +41,6 @@ Worries
     : undo of cell range cut over clipboard
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
-    : value_diff can return a negative number.  (When seeing -2^31 and 0
-      as ints.)
 
 -------------------------------------------------------------------------------
 Blocked Patches

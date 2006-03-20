@@ -117,6 +117,7 @@ Morten:
 	* Improve Excel compatibility for ROMAN and COMBIN in extreme cases.
 	* Fix sheet object deletion crash.  [#335052]
 	* Make ISPRIME and PFACTOR work for much larger numbers.
+	* Fix border case for iterative evaluation.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
