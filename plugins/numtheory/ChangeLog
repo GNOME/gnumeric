@@ -1,3 +1,9 @@
+2006-03-19  Morten Welinder  <terra@gnome.org>
+
+	* numtheory.c (isprime, prime_factor): Make this work for numbers
+	up to bit_max.  (Or up to the square of the (1<<20)th prime.)
+	(func_bitrshift, func_bitlshift): Handle shift counts up to 64.
+
 2006-02-06  Morten Welinder  <terra@gnome.org>
 
 	* numtheory.c (func_bitor, func_bitxor, func_bitand,

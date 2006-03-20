@@ -116,6 +116,7 @@ Morten:
 	  including relative filename.  (But things still expand to URIs.)
 	* Improve Excel compatibility for ROMAN and COMBIN in extreme cases.
 	* Fix sheet object deletion crash.  [#335052]
+	* Make ISPRIME and PFACTOR work for much larger numbers.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

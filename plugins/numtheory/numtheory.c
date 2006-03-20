@@ -3,7 +3,7 @@
  *
  * Author:
  *    Marko R. Riedel (mriedel@neuearbeit.de)    [Functions]
- *    Morten Welinder (terra@gnome.org)            [Plugin framework]
+ *    Morten Welinder (terra@gnome.org)          [Plugin framework]
  *    Brian J. Murrell (brian@interlinx.bc.ca)	 [Bitwise operators]
  *
  * This program is free software; you can redistribute it and/or modify
@@ -31,10 +31,6 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-#ifndef WORD_BIT
-#define WORD_BIT ((int)(sizeof (int) * CHAR_BIT))
-#endif
-
 #define OUT_OF_BOUNDS "#LIMIT!"
 
 static const double bit_max = MIN (1 / GNM_EPSILON, (gnm_float)G_MAXUINT64);
@@ -55,7 +51,7 @@ intpow (int p, int v)
 }
 
 #define PTABLE_CHUNK 64
-#define ITHPRIME_LIMIT 1000000
+#define ITHPRIME_LIMIT (1 << 20)
 static gint *prime_table = NULL;
 
 /* Calculate the i-th prime.  Returns TRUE on error.  */
@@ -182,19 +178,18 @@ compute_nt_pi (int n)
 	return (p == n) ? lower + 1 : lower;
 }
 
-
 /*
  * Returns -1 (out of bounds), 0 (non-prime), or 1 (prime).
  */
 static int
-isprime (int n)
+isprime (guint64 n)
 {
 	int i = 1, p = 2;
 
 	if (n <= 1)
 		return 0;
 
-	for (i = 1; p * p <= n; i++) {
+	for (i = 1; (guint64)p * (guint64)p <= n; i++) {
 		if (ithprime (i, &p))
 			return -1;
 		if (n % p == 0)
@@ -229,13 +224,13 @@ walk_for_phi (int p, int v, void *data)
 static GnmValue *
 gnumeric_phi (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int n, phi = 1;
+	int phi = 1;
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	n = value_get_as_int (args [0]);
-	if (n < 1)
+	if (n < 1 || n > INT_MAX)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization (n, &phi, walk_for_phi))
+	if (walk_factorization ((int)n, &phi, walk_for_phi))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_int (phi);
@@ -271,13 +266,13 @@ walk_for_mu (int p, int v, void *data)
 static GnmValue *
 gnumeric_nt_mu (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int n, mu = 1;
+	int mu = 1;
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	n = value_get_as_int (args [0]);
-	if (n < 1)
+	if (n < 1 || n > INT_MAX)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization (n, &mu, walk_for_mu))
+	if (walk_factorization ((int)n, &mu, walk_for_mu))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_int (mu);
@@ -308,13 +303,13 @@ walk_for_d (int p, int v, void *data)
 static GnmValue *
 gnumeric_d (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int n, d = 1;
+	int d = 1;
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	n = value_get_as_int (args [0]);
-	if (n < 1)
+	if (n < 1 || n > INT_MAX)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization (n, &d, walk_for_d))
+	if (walk_factorization ((int)n, &d, walk_for_d))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_int (d);
@@ -345,13 +340,13 @@ walk_for_sigma (int p, int v, void *data)
 static GnmValue *
 gnumeric_sigma (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int n, sigma = 1;
+	int sigma = 1;
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	n = value_get_as_int (args [0]);
-	if (n < 1)
+	if (n < 1 || n > INT_MAX)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization (n, &sigma, walk_for_sigma))
+	if (walk_factorization ((int)n, &sigma, walk_for_sigma))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_int (sigma);
@@ -375,13 +370,13 @@ static GnmFuncHelp const help_ithprime[] = {
 static GnmValue *
 gnumeric_ithprime (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int i, p;
+	int p;
+	gnm_float i = gnm_floor (value_get_as_float (args[0]));
 
-	i = value_get_as_int (args [0]);
-	if (i < 1)
+	if (i < 1 || i > INT_MAX)
 		return value_new_error_NUM (ei->pos);
 
-	if (ithprime (i, &p))
+	if (ithprime ((int)i, &p))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_int (p);
@@ -405,10 +400,16 @@ static GnmFuncHelp const help_isprime[] = {
 static GnmValue *
 gnumeric_isprime (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int i, yesno;
+	int yesno;
+	gnm_float i = gnm_floor (value_get_as_float (args[0]));
 
-	i = value_get_as_int (args [0]);
-	yesno = isprime (i);
+	if (i < 0)
+		yesno = 0;
+	else if (i > bit_max)
+		yesno = -1;
+	else
+		yesno = isprime ((guint64)i);
+
 	if (yesno == -1)
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 	else
@@ -424,14 +425,14 @@ gnumeric_isprime (FunctionEvalInfo *ei, GnmValue const * const *args)
  *    smallest prime facter
  */
 static int
-prime_factor (int n)
+prime_factor (guint64 n)
 {
 	int i = 1, p = 2;
 
 	if (n <= 1)
 		return 0;
 
-	for (i = 1; p * p <= n; i++) {
+	for (i = 1; (guint64)p * (guint64)p <= n; i++) {
 		if (ithprime (i, &p))
 			return -1;
 		if (n % p == 0)
@@ -459,13 +460,16 @@ static GnmFuncHelp const help_pfactor[] = {
 static GnmValue *
 gnumeric_pfactor (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int n = value_get_as_int (args [0]);
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 	int p;
 
 	if (n < 2)
 		return value_new_error_VALUE (ei->pos);
+	if (n > bit_max)
+		p = -1;
+	else
+		p = prime_factor ((guint64)n);
 
-	p = prime_factor (n);
 	if (p < 0)
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
@@ -491,10 +495,15 @@ static GnmFuncHelp const help_nt_pi[] = {
 static GnmValue *
 gnumeric_nt_pi (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
-	int n, pi;
+	gnm_float n = gnm_floor (value_get_as_float (args[0]));
+	int pi;
 
-	n = value_get_as_int (args [0]);
-	pi = compute_nt_pi (n);
+	if (n < 0)
+		pi = 0;
+	else if (n > INT_MAX)
+		pi = -1;
+	else
+		pi = compute_nt_pi (n);
 
 	if (pi == -1)
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
@@ -610,7 +619,7 @@ func_bitlshift (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (l < 0 || l > bit_max)
 		return value_new_error_NUM (ei->pos);
 
-	if (r >= WORD_BIT || r <= -WORD_BIT)
+	if (r >= 64 || r <= -64)
 		return value_new_int (0);  /* All bits shifted away.  */
 	else if (r < 0)
 		return value_new_float ((guint64)l >> (-(int)r));
@@ -643,7 +652,7 @@ func_bitrshift (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (l < 0 || l > bit_max)
 		return value_new_error_NUM (ei->pos);
 
-	if (r >= WORD_BIT || r <= -WORD_BIT)
+	if (r >= 64 || r <= -64)
 		return value_new_int (0);  /* All bits shifted away.  */
 	else if (r < 0)
 		return value_new_float ((guint64)l << (-(int)r));
