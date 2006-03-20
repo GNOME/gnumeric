@@ -1,3 +1,8 @@
+2006-03-19  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (write_node): Handle integers in VALUE_FLOAT
+	records better.
+
 2005-12-28  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (excel_file_open) : use the new workbook_set_meta_data rather

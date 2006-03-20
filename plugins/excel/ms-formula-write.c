@@ -708,25 +708,21 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		GnmValue const *v = expr->constant.value;
 		switch (v->type) {
 
-		case VALUE_INTEGER : {
+		case VALUE_INTEGER:
+		case VALUE_FLOAT: {
 			guint8 data[10];
-			int i = value_get_as_int (v);
-			if (i >= 0 && i < 1<<16) {
+			gnm_float f = value_get_as_float (v);
+			int i;
+
+			if (f >= 0 && f <= 0xffff && f == (i = (int)f)) {
 				GSF_LE_SET_GUINT8  (data, FORMULA_PTG_INT);
 				GSF_LE_SET_GUINT16 (data + 1, i);
 				ms_biff_put_var_write (pd->ewb->bp, data, 3);
 			} else {
 				GSF_LE_SET_GUINT8 (data, FORMULA_PTG_NUM);
-				gsf_le_set_double (data + 1, value_get_as_float (v));
+				gsf_le_set_double (data + 1, f);
 				ms_biff_put_var_write (pd->ewb->bp, data, 9);
 			}
-			break;
-		}
-		case VALUE_FLOAT : {
-			guint8 data[10];
-			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_NUM);
-			gsf_le_set_double (data+1, value_get_as_float (v));
-			ms_biff_put_var_write (pd->ewb->bp, data, 9);
 			break;
 		}
 		case VALUE_BOOLEAN : {
