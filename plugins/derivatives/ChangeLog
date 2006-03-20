@@ -1,3 +1,7 @@
+2006-03-19  Morten Welinder  <terra@gnome.org>
+
+	* options.c (opt_binomial): Get rid of value_get_as_int usage.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

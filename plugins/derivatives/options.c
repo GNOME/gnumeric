@@ -2189,7 +2189,7 @@ opt_binomial(FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	OptionType amer_euro_flag = option_type(value_peek_string(argv[0]));
 	OptionSide call_put_flag = option_side (value_peek_string(argv[1]));
-	gint n = value_get_as_int (argv[2]);
+	gnm_float n = gnm_floor (value_get_as_float (argv[2]));
 	gnm_float s = value_get_as_float (argv[3]);
 	gnm_float x = value_get_as_float (argv[4]);
 	gnm_float t = value_get_as_float (argv[5]);
@@ -2200,6 +2200,9 @@ opt_binomial(FunctionEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float *value_array;
 	gnm_float u, d, p, dt, Df, temp1, temp2, gf_result;
 	gint i, j, z;
+
+	if (n < 0 || n > 100000)
+		return value_new_error_NUM (ei->pos);
 
 	value_array = (gnm_float *) g_try_malloc ((n + 2)* sizeof(gnm_float));
 	if (value_array == NULL)
