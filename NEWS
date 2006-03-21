@@ -118,6 +118,8 @@ Morten:
 	* Fix sheet object deletion crash.  [#335052]
 	* Make ISPRIME and PFACTOR work for much larger numbers.
 	* Fix border case for iterative evaluation.
+	* Display and xml-save inter-workbook references using relative
+	  URIs.  [#334724]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
