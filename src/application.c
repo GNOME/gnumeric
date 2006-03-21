@@ -29,6 +29,7 @@
 #include <gnumeric-gconf.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkiconfactory.h>

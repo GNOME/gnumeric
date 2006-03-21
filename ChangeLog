@@ -1,3 +1,8 @@
+2006-03-21  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (wb_rel_uri): New function to produce relative
+	URIs for inter-workbook references.
+
 2006-03-19  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_diff): Merge integer and floating-point cases

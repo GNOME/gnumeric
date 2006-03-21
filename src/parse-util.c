@@ -40,6 +40,7 @@
 #include "gutils.h"
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-file.h>
 
 #include <errno.h>
 #include <stdlib.h>
@@ -235,6 +236,21 @@ r1c1_add_index (GString *target, char type, int num, unsigned char relative)
 		g_string_append_printf (target, "%c%d", type, num + 1);
 }
 
+static char *
+wb_rel_uri (Workbook *wb, Workbook *ref_wb)
+{
+	const char *uri = go_doc_get_uri ((GODoc *)wb);
+	const char *ref_uri = go_doc_get_uri ((GODoc *)ref_wb);
+	char *rel_uri = go_url_make_relative (uri, ref_uri);
+
+	if (rel_uri == NULL || rel_uri[0] == '/') {
+		g_free (rel_uri);
+		return g_strdup (uri);
+	}
+
+	return rel_uri;
+}
+
 /**
  * cellref_as_string :
  * @ref :
@@ -261,10 +277,12 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 		else if (pp->wb == NULL || sheet->workbook == pp->wb)
 			g_string_append (target, sheet->name_quoted);
 		else {
+			char *rel_uri = wb_rel_uri (sheet->workbook, pp->wb);
 			g_string_append_c (target, '[');
-			g_string_append (target, go_doc_get_uri ((GODoc *)sheet->workbook));
+			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
 			g_string_append (target, sheet->name_quoted);
+			g_free (rel_uri);
 		}
 		g_string_append (target, conv->output_sheet_name_sep);
 	}
@@ -320,9 +338,11 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 
 	if (ref->a.sheet) {
 		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
+			char *rel_uri = wb_rel_uri (ref->a.sheet->workbook, pp->wb);
 			g_string_append_c (target, '[');
-			g_string_append (target, go_doc_get_uri ((GODoc *)ref->a.sheet->workbook));
+			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
+			g_free (rel_uri);
 		}
 		if (pp->wb == NULL && pp->sheet == NULL)
 			/* For the expression leak printer. */
@@ -428,9 +448,11 @@ gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 
 	if (ref->a.sheet) {
 		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
+			char *rel_uri = wb_rel_uri (ref->a.sheet->workbook, pp->wb);
 			g_string_append_c (target, '[');
-			g_string_append (target, go_doc_get_uri ((GODoc *)ref->a.sheet->workbook));
+			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
+			g_free (rel_uri);
 		}
 		if (pp->wb == NULL && pp->sheet == NULL)
 			/* For the expression leak printer. */
@@ -1134,9 +1156,11 @@ def_expr_name_handler (GString *target,
 
 	if (name->optional_scope != NULL) {
 		if (name->optional_scope->workbook != pp->wb) {
+			char *rel_uri = wb_rel_uri (name->optional_wb_scope, pp->wb);
 			g_string_append_c (target, '[');
-			g_string_append (target, go_doc_get_uri ((GODoc *)name->optional_wb_scope));
+			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
+			g_free (rel_uri);
 		} else {
 			g_string_append (target, name->optional_scope->name_quoted);
 			g_string_append (target, conv->output_sheet_name_sep);
