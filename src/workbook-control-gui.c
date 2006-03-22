@@ -1483,8 +1483,10 @@ cb_autofunction (WorkbookControlGUI *wbcg)
 }
 
 static GtkWidget *
-edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
-		  GCallback func, char const *stock_id)
+edit_area_button (WorkbookControlGUI *wbcg, GtkToolbar *tb,
+		  gboolean sensitive,
+		  GCallback func, char const *stock_id,
+		  GtkTooltips *tips, const char *tip)
 {
 	GObject *button =
 		g_object_new (GTK_TYPE_TOOL_BUTTON,
@@ -1492,10 +1494,9 @@ edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
 			      "sensitive", sensitive,
 			      "can-focus", FALSE,
 			      NULL);
-
-	g_signal_connect_swapped (button,
-		"clicked",
-		G_CALLBACK (func), wbcg);
+	gtk_tool_item_set_tooltip (GTK_TOOL_ITEM (button), tips, tip, NULL);
+	g_signal_connect_swapped (button, "clicked", func, wbcg);
+	gtk_toolbar_insert (tb, GTK_TOOL_ITEM (button), -1);
 
 	return GTK_WIDGET (button);
 }
@@ -2176,16 +2177,26 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 static void
 wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *box, *box2;
-	GtkTooltips *tooltips;
+	GtkToolItem *item;
 	GtkEntry *entry;
 	int len;
+	GtkToolbar *tb;
+	GtkTooltips *tooltips;
 
 	wbcg->selection_descriptor = gtk_entry_new ();
 	wbcg_edit_ctor (wbcg);
 	entry = wbcg_get_entry (wbcg);
-	box   = gtk_hbox_new (FALSE, 0);
-	box2  = gtk_hbox_new (FALSE, 0);
+
+	tb = (GtkToolbar *)gtk_toolbar_new ();
+	gtk_toolbar_set_show_arrow (tb, FALSE);
+	gtk_toolbar_set_style (tb, GTK_TOOLBAR_ICONS);
+
+	tooltips = gtk_tooltips_new ();
+	g_object_ref (tooltips);
+	gtk_object_sink (GTK_OBJECT (tooltips));
+	g_object_set_data_full (G_OBJECT (tb),
+				"tooltips", tooltips,
+				(GDestroyNotify)g_object_unref);
 
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
@@ -2198,46 +2209,40 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 	 */
 	len = len * 3 / 2;
 	gtk_widget_set_size_request (wbcg->selection_descriptor, len, -1);
+	item = gtk_tool_item_new ();
+	gtk_container_add (GTK_CONTAINER (item), wbcg->selection_descriptor);
+	gtk_toolbar_insert (tb, item, -1);
 
-	tooltips = gtk_tooltips_new ();
-	g_object_ref (tooltips);
-	gtk_object_sink (GTK_OBJECT (tooltips));
-	g_object_set_data_full (G_OBJECT (box),
-				"tooltips", tooltips,
-				(GDestroyNotify)g_object_unref);
-
-	wbcg->cancel_button = edit_area_button (wbcg, FALSE,
-		G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL);
-	gtk_tooltips_set_tip (tooltips, wbcg->cancel_button,
-			      _("Cancel change"), "");
-	wbcg->ok_button = edit_area_button (wbcg, FALSE,
-		G_CALLBACK (cb_accept_input), GTK_STOCK_OK);
-	gtk_tooltips_set_tip (tooltips, wbcg->ok_button,
-			      _("Accept change"), "");
-	wbcg->func_button = edit_area_button (wbcg, TRUE,
-		G_CALLBACK (cb_autofunction), "Gnumeric_Equal");
-	gtk_tooltips_set_tip (tooltips, wbcg->func_button,
-			      _("Enter formula..."), "");
-
-	gtk_box_pack_start (GTK_BOX (box2), wbcg->selection_descriptor, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), wbcg->cancel_button, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), wbcg->ok_button, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), wbcg->func_button, FALSE, FALSE, 0);
+	wbcg->cancel_button = edit_area_button
+		(wbcg, tb, FALSE,
+		 G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL,
+		 tooltips, _("Cancel change"));
+	wbcg->ok_button = edit_area_button
+		(wbcg, tb, FALSE,
+		 G_CALLBACK (cb_accept_input), GTK_STOCK_OK,
+		 tooltips, _("Accept change"));
+	wbcg->func_button = edit_area_button
+		(wbcg, tb, TRUE,
+		 G_CALLBACK (cb_autofunction), "Gnumeric_Equal",
+		 tooltips, _("Enter formula..."));
 
 	/* Dependency debugger */
 	if (gnumeric_debugging > 9 ||
 	    dependency_debugging > 0 ||
 	    expression_sharing_debugging > 0) {
-		GtkWidget *deps_button = edit_area_button (wbcg, TRUE,
-			G_CALLBACK (cb_workbook_debug_info),
-			GTK_STOCK_DIALOG_INFO);
-		gtk_box_pack_start (GTK_BOX (box), deps_button, FALSE, FALSE, 0);
+		(void)edit_area_button (wbcg, tb, TRUE,
+					G_CALLBACK (cb_workbook_debug_info),
+					GTK_STOCK_DIALOG_INFO,
+					NULL, NULL);
 	}
 
-	gtk_box_pack_start (GTK_BOX (box2), box, FALSE, FALSE, 0);
-	gtk_box_pack_end   (GTK_BOX (box2), GTK_WIDGET (wbcg->edit_line.entry), TRUE, TRUE, 0);
+	item = gtk_tool_item_new ();
+	gtk_tool_item_set_expand (item, TRUE);
+	gtk_container_add (GTK_CONTAINER (item),
+			   GTK_WIDGET (wbcg->edit_line.entry));
+	gtk_toolbar_insert (tb, item, -1);
 
-	gtk_table_attach (GTK_TABLE (wbcg->table), box2,
+	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (tb),
 			  0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0, 0);
 
@@ -2254,7 +2259,7 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 		"focus-out-event",
 		G_CALLBACK (cb_statusbox_focus), wbcg);
 
-	gtk_widget_show_all (box2);
+	gtk_widget_show_all (GTK_WIDGET (tb));
 }
 
 static void

@@ -120,6 +120,7 @@ Morten:
 	* Fix border case for iterative evaluation.
 	* Display and xml-save inter-workbook references using relative
 	  URIs.  [#334724]
+	* Fix theming problem.  [#309060]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

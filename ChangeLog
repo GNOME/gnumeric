@@ -1,3 +1,10 @@
+2006-03-22  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (edit_area_button): Set tooltips
+	here.
+	(wbcg_create_edit_area): Make the line that contains the edit area
+	a gtktoolbar so it themes like one.
+
 2006-03-21  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (wb_rel_uri): New function to produce relative
