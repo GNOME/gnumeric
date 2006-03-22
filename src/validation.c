@@ -120,7 +120,13 @@ static GnmValue *
 cb_validate_custom (GnmValue const *v, GnmEvalPos const *ep,
 		    int x, int y, GnmValue const *target)
 {
-	return (v != NULL && value_equal (v, target)) ? VALUE_TERMINATE : NULL;
+	if (!v)
+		return NULL;
+
+	if (value_compare (v, target, FALSE) == IS_EQUAL)
+		return VALUE_TERMINATE;
+	else
+		return NULL;
 }
 
 /**
@@ -216,7 +222,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 					(v->texpr[0],
 					eval_pos_init_cell (&ep, cell),
 					GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
-				GnmValue   *res = value_area_foreach (list, &ep,
+				GnmValue *res = value_area_foreach (list, &ep,
 					CELL_ITER_IGNORE_BLANK,
 					(ValueAreaFunc) cb_validate_custom, val);
 				value_release (list);
