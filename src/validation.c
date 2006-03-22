@@ -26,20 +26,51 @@
 #include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "numbers.h"
-#include "mathfunc.h"
 #include "validation.h"
 #include "expr.h"
 #include "mstyle.h"
-#include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
-#include "number-match.h"
 #include "workbook-control.h"
 #include "parse-util.h"
 
-#include <math.h>
-#include <string.h>
+
+static const struct {
+	gboolean errors_not_allowed;
+	gboolean strings_not_allowed;
+	gboolean bool_always_ok;
+} typeinfo[] = {
+	{ FALSE, FALSE, TRUE },		/* ANY */
+	{ TRUE,  TRUE,  TRUE },		/* AS_INT */
+	{ TRUE,  TRUE,  TRUE },		/* AS_NUMBER */
+	{ TRUE,  FALSE, FALSE },	/* IN_LIST */
+	{ TRUE,  TRUE,  TRUE },		/* AS_DATE */
+	{ TRUE,  TRUE,  TRUE },		/* AS_TIME */
+	{ TRUE,  FALSE, FALSE },	/* TEXT_LENGTH */
+	{ FALSE, FALSE, FALSE }		/* CUSTOM */
+};
+
+#define NONE (GnmExprOp)-1
+
+static const struct {
+	int nops;
+	GnmExprOp ops[2];
+	int ntrue;
+} opinfo[] = {
+	/* Note: no entry for VALIDATION_OP_NONE */
+	{ 2, { GNM_EXPR_OP_GTE,       GNM_EXPR_OP_LTE }, 2 }, /* BETWEEN */
+	{ 2, { GNM_EXPR_OP_LT,        GNM_EXPR_OP_GT  }, 1 }, /* NOT_BETWEEN */
+	{ 1, { GNM_EXPR_OP_EQUAL,     NONE            }, 1 }, /* EQUAL */
+	{ 1, { GNM_EXPR_OP_NOT_EQUAL, NONE            }, 1 }, /* NOT_EQUAL */
+	{ 1, { GNM_EXPR_OP_GT,        NONE            }, 1 }, /* GT */
+	{ 1, { GNM_EXPR_OP_LT,        NONE            }, 1 }, /* LT */
+	{ 1, { GNM_EXPR_OP_GTE,       NONE            }, 1 }, /* GTE */
+	{ 1, { GNM_EXPR_OP_LTE,       NONE            }, 1 }, /* LTE */
+};
+
+#undef NONE
+
 
 /**
  * validation_new :
@@ -58,26 +89,50 @@ validation_new (ValidationStyle style,
 		gboolean allow_blank, gboolean use_dropdown)
 {
 	GnmValidation *v;
+	int nops, i;
 
-	if ((type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST) &&
-	    op != VALIDATION_OP_NONE) {
-		/* This can happen if an .xls file was saved as a .gnumeric.  */
-		g_warning ("VALIDATION_TYPE_CUSTOM/VALIDATION_TYPE_IN_LIST need to go with VALIDATION_OP_NONE.  Fixing.");
-		op = VALIDATION_OP_NONE;
+	g_return_val_if_fail (type >= 0, NULL);
+	g_return_val_if_fail (type < G_N_ELEMENTS (typeinfo), NULL);
+	g_return_val_if_fail (op >= VALIDATION_OP_NONE, NULL);
+	g_return_val_if_fail (op < (int)G_N_ELEMENTS (opinfo), NULL);
+
+	switch (type) {
+	case VALIDATION_TYPE_CUSTOM:
+	case VALIDATION_TYPE_IN_LIST:
+		nops = 1;
+		if (op != VALIDATION_OP_NONE) {
+			/*
+			 * This can happen if an .xls file was saved
+			 * as a .gnumeric.
+			 */
+			op = VALIDATION_OP_NONE;
+		}
+		break;
+	case VALIDATION_TYPE_ANY:
+		nops = 0;
+		break;
+	default:
+		nops = (op == VALIDATION_OP_NONE) ? 0 : opinfo[op].nops;
 	}
 
 	v = g_new0 (GnmValidation, 1);
 	v->ref_count = 1;
-
-	v->title = title ? gnm_string_get (title) : NULL;
-	v->msg = msg ? gnm_string_get (msg) : NULL;
+	v->title = title && title[0] ? gnm_string_get (title) : NULL;
+	v->msg = msg && msg[0] ? gnm_string_get (msg) : NULL;
 	v->texpr[0] = texpr0;
 	v->texpr[1] = texpr1;
 	v->style = style;
 	v->type = type;
 	v->op = op;
-	v->allow_blank  = (allow_blank != FALSE);
+	v->allow_blank = (allow_blank != FALSE);
 	v->use_dropdown = (use_dropdown != FALSE);
+
+	/* Clear excess expressions.  */
+	for (i = nops; i < 2; i++)
+		if (v->texpr[i]) {
+			gnm_expr_top_unref (v->texpr[i]);
+			v->texpr[i] = 0;
+		}
 
 	return v;
 }
@@ -116,6 +171,18 @@ validation_unref (GnmValidation *v)
 	}
 }
 
+static ValidationStatus
+validation_barf (WorkbookControl *wbc, GnmValidation *gv, char *def_msg)
+{
+	const char *msg = gv->msg ? gv->msg->str : def_msg;
+	const char *title = gv->title ? gv->title->str : _("Gnumeric: Validation");
+	ValidationStatus result =
+		wb_control_validation_msg (wbc, gv->style, title, msg);
+
+	g_free (def_msg);
+	return result;
+}
+
 static GnmValue *
 cb_validate_custom (GnmValue const *v, GnmEvalPos const *ep,
 		    int x, int y, GnmValue const *target)
@@ -128,6 +195,12 @@ cb_validate_custom (GnmValue const *v, GnmEvalPos const *ep,
 	else
 		return NULL;
 }
+
+#define BARF(msg)					\
+  do {							\
+	if (showed_dialog) *showed_dialog = TRUE;	\
+	return validation_barf (wbc, v, msg);		\
+  } while (0)
 
 /**
  * validation_eval:
@@ -142,10 +215,13 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		 Sheet *sheet, GnmCellPos const *pos, gboolean *showed_dialog)
 {
 	GnmValidation *v;
-	GnmCell	   *cell;
-	char	   *msg = NULL;
-	gboolean    allocated_msg = FALSE;
-	ValidationStatus result;
+	GnmCell *cell;
+	GnmValue *val;
+	gnm_float x;
+	int nok, i;
+	GnmEvalPos ep;
+
+	if (showed_dialog) *showed_dialog = FALSE;
 
 	v = gnm_style_get_validation (mstyle);
 	if (v == NULL)
@@ -161,195 +237,151 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 	if (cell_is_empty (cell)) {
 		if (v->allow_blank)
 			return VALIDATION_STATUS_VALID;
-		msg = g_strdup_printf (_("Cell %s is not permitted to be blank"),
-				       cell_name (cell));
-	} else {
-		GnmExpr const *val_expr = NULL, *expr = NULL;
-		GnmValue *val = cell->value;
+		BARF (g_strdup_printf (_("Cell %s is not permitted to be blank"),
+				       cell_name (cell)));
+	}
 
-		switch (v->type) {
-		case VALIDATION_TYPE_ANY :
+	val = cell->value;
+	switch (VALUE_TYPE (val)) {
+	case VALUE_ERROR:
+		if (typeinfo[v->type].errors_not_allowed)
+			BARF (g_strdup_printf (_("Cell %s is not permitted to contain error values"),
+					       cell_name (cell)));
+		break;
+
+	case VALUE_BOOLEAN:
+		if (typeinfo[v->type].bool_always_ok)
+			return VALIDATION_STATUS_VALID;
+		break;
+
+	case VALUE_STRING:
+		if (typeinfo[v->type].strings_not_allowed)
+			BARF (g_strdup_printf (_("Cell %s is not permitted to contain strings"),
+					       cell_name (cell)));
+		break;
+
+	default:
+		break;
+	}
+
+	eval_pos_init_cell (&ep, cell);
+
+	switch (v->type) {
+	case VALIDATION_TYPE_AS_INT:
+		x = value_get_as_float (val);
+		if (gnm_fake_floor (x) == gnm_fake_ceil (x))
+			break;
+		else
+			BARF (g_strdup_printf (_("'%s' is not an integer"),
+					       value_peek_string (val)));
+
+	case VALIDATION_TYPE_AS_NUMBER:
+		x = value_get_as_float (val);
+		break;
+
+	case VALIDATION_TYPE_AS_DATE: /* What the hell does this do?  */
+		x = value_get_as_float (val);
+		if (x < 0)
+			BARF (g_strdup_printf (_("'%s' is not a valid date"),
+					       value_peek_string (val)));
+		break;
+
+
+	case VALIDATION_TYPE_AS_TIME: /* What the hell does this do?  */
+		x = value_get_as_float (val);
+		break;
+
+	case VALIDATION_TYPE_IN_LIST:
+		if (NULL != v->texpr[0]) {
+			GnmValue *list = gnm_expr_top_eval
+				(v->texpr[0], &ep,
+				 GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+			GnmValue *res = value_area_foreach
+				(list, &ep,
+				 CELL_ITER_IGNORE_BLANK,
+				 (ValueAreaFunc) cb_validate_custom, val);
+			value_release (list);
+			if (res == NULL) {
+				GnmParsePos pp;
+				char *expr_str = gnm_expr_top_as_string
+					(v->texpr[0],
+					 parse_pos_init_evalpos (&pp, &ep),
+					 gnm_expr_conventions_default);
+				char *msg = g_strdup_printf (_("%s does not contain the new value."), expr_str);
+				g_free (expr_str);
+				BARF (msg);
+			}
+		}
+		return VALIDATION_STATUS_VALID;
+
+	case VALIDATION_TYPE_TEXT_LENGTH:
+		/* XL appears to use a very basic value->string mapping that
+		 * ignores formatting.
+		 * eg len (12/13/01) == len (37238) = 5
+		 * This seems wrong for
+		 */
+		x = g_utf8_strlen (value_peek_string (val), -1);
+		break;
+
+	case VALIDATION_TYPE_CUSTOM: {
+		gboolean valid;
+
+		if (v->texpr[0] == NULL)
 			return VALIDATION_STATUS_VALID;
 
-		case VALIDATION_TYPE_AS_INT :
-		case VALIDATION_TYPE_AS_NUMBER :
-		case VALIDATION_TYPE_AS_DATE :		/* What the hell does this do */
-		case VALIDATION_TYPE_AS_TIME : {	/* What the hell does this do */
-			GnmValue *res = NULL;
-			/* we know it is not empty */
-			if (val->type == VALUE_ERROR) {
-				msg = g_strdup_printf (_("'%s' is an error"),
-						       value_peek_string (val));
-				break;
-			} else if (val->type == VALUE_STRING) {
-				char const *s = value_peek_string (val);
-				res = format_match_number (s, NULL,
-					workbook_date_conv (sheet->workbook));
-				if (res == NULL) {
-					char const *fmt;
-					/* FIXME what else is needed */
-					if (v->type == VALIDATION_TYPE_AS_DATE) {
-						fmt = N_("'%s' is not a valid date");
-					} else if (v->type == VALIDATION_TYPE_AS_TIME) {
-						fmt = N_("'%s' is not a valid time");
-					} else
-						fmt = N_("'%s' is not a number");
-					msg = g_strdup_printf (_(fmt), s);
-					break;
-				}
-			} else
-				res = value_dup (val);
+		val = gnm_expr_top_eval (v->texpr[0], &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		valid = value_get_as_bool (val, NULL);
+		value_release (val);
 
-			if (v->type == VALIDATION_TYPE_AS_INT &&
-			    res != NULL && res->type == VALUE_FLOAT) {
-				gnm_float f = value_get_as_float (res);
-				gboolean isint = gnm_abs (f - gnm_fake_round (f)) < 1e-10;
-				if (!isint) {
-					char const *valstr = value_peek_string (val);
-					msg = g_strdup_printf (_("'%s' is not an integer"), valstr);
-					break;
-				}
-			}
-
-			val_expr = gnm_expr_new_constant (res);
-			break;
-		}
-
-		case VALIDATION_TYPE_IN_LIST :
-			if (NULL != v->texpr[0]) {
-				GnmEvalPos  ep;
-				GnmValue   *list = gnm_expr_top_eval
-					(v->texpr[0],
-					eval_pos_init_cell (&ep, cell),
-					GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
-				GnmValue *res = value_area_foreach (list, &ep,
-					CELL_ITER_IGNORE_BLANK,
-					(ValueAreaFunc) cb_validate_custom, val);
-				value_release (list);
-				if (res == NULL) {
-					GnmParsePos  pp;
-					char *expr_str = gnm_expr_top_as_string (v->texpr[0],
-						parse_pos_init_evalpos (&pp, &ep),
-						gnm_expr_conventions_default);
-					msg = g_strdup_printf (_("%s does not contain the new value."), expr_str);
-					g_free (expr_str);
-				} else
-					return VALIDATION_STATUS_VALID;
-			} else
-				return VALIDATION_STATUS_VALID;
-			break;
-
-		case VALIDATION_TYPE_TEXT_LENGTH: {
-			/* XL appears to use a very basic value -> string mapping that
-			 * ignores formatting.
-			 * eg len (12/13/01) == len (37238) = 5
-			 * This seems wrong for
-			 */
-			const char *s = value_peek_string (val);
-			val_expr = gnm_expr_new_constant
-				(value_new_int (g_utf8_strlen (s, -1)));
-			break;
-		}
-
-		case VALIDATION_TYPE_CUSTOM :
-			if (v->texpr[0] == NULL)
-				return VALIDATION_STATUS_VALID;
-			expr = gnm_expr_copy (v->texpr[0]->expr);
-			break;
-		}
-
-		if (msg == NULL && expr == NULL) {
-			GnmExprOp op;
-
-			g_return_val_if_fail (val_expr != NULL, VALIDATION_STATUS_VALID);
-
-			switch (v->op) {
-			case VALIDATION_OP_EQUAL :	 op = GNM_EXPR_OP_EQUAL;	break;
-			case VALIDATION_OP_NOT_EQUAL :	 op = GNM_EXPR_OP_NOT_EQUAL;	break;
-			case VALIDATION_OP_GT :		 op = GNM_EXPR_OP_GT;		break;
-			case VALIDATION_OP_NOT_BETWEEN :
-			case VALIDATION_OP_LT :		 op = GNM_EXPR_OP_LT;		break;
-			case VALIDATION_OP_BETWEEN :
-			case VALIDATION_OP_GTE :	 op = GNM_EXPR_OP_GTE;		break;
-			case VALIDATION_OP_LTE :	 op = GNM_EXPR_OP_LTE;		break;
-			default :
-				g_warning ("Invalid validation operator %d", v->op);
-				return VALIDATION_STATUS_VALID;
-			}
-
-			if (v->texpr [0] == NULL)
-				return VALIDATION_STATUS_VALID;
-
-			expr = gnm_expr_new_binary
-				(val_expr,
-				 op,
-				 gnm_expr_copy (v->texpr[0]->expr));
-		}
-
-		if (msg == NULL && expr != NULL) {
-			GnmParsePos  pp;
-			GnmEvalPos   ep;
-			char	 *expr_str;
-			GnmValue    *val;
-			gboolean  valid;
-
-			eval_pos_init_cell (&ep, cell);
-			val = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-			valid = value_get_as_bool (val, NULL);
-			value_release (val);
-
-			if (valid && v->op != VALIDATION_OP_BETWEEN) {
-				gnm_expr_free (expr);
-				return VALIDATION_STATUS_VALID;
-			}
-
-			if ((v->op == VALIDATION_OP_BETWEEN && valid) ||
-			    v->op == VALIDATION_OP_NOT_BETWEEN) {
-				g_return_val_if_fail (v->texpr[1] != NULL, VALIDATION_STATUS_VALID);
-
-				gnm_expr_free (expr);
-				expr = gnm_expr_new_binary
-					(val_expr,
-					 (v->op == VALIDATION_OP_BETWEEN) ? GNM_EXPR_OP_LTE : GNM_EXPR_OP_GT,
-					 gnm_expr_copy (v->texpr[1]->expr));
-				val = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-				valid = value_get_as_bool (val, NULL);
-				value_release (val);
-				if (valid) {
-					gnm_expr_free (expr);
-					return VALIDATION_STATUS_VALID;
-				}
-			}
-
-			expr_str = gnm_expr_as_string (expr,
-				parse_pos_init_evalpos (&pp, &ep),
-				gnm_expr_conventions_default);
-			msg = g_strdup_printf (_("%s is not true."), expr_str);
+		if (valid)
+			return VALIDATION_STATUS_VALID;
+		else {
+			GnmParsePos pp;
+			char *expr_str = gnm_expr_top_as_string
+				(v->texpr[0],
+				 parse_pos_init_evalpos (&pp, &ep),
+				 gnm_expr_conventions_default);
+			char *msg = g_strdup_printf (_("%s is not true."), expr_str);
 			g_free (expr_str);
-			gnm_expr_free (expr);
+			BARF (msg);
 		}
 	}
 
-	if (v->msg != NULL && v->msg->str[0] != '\0') {
-		if (msg != NULL)
-			g_free (msg);
-		msg = v->msg->str;
-	} else  {
-		if (msg != NULL)
-			allocated_msg = TRUE;
-		else
-			msg = _("That value is invalid.\n"
-				"Restrictions have been placed on this cell's contents.");
+	default:
+		g_assert_not_reached ();
+		return VALIDATION_STATUS_VALID;
 	}
 
-	if (showed_dialog != NULL)
-		*showed_dialog = TRUE;
-	result = wb_control_validation_msg (wbc, v->style,
-		(v->title != NULL && v->title->str[0] != '\0')
-			? v->title->str
-			: _("Gnumeric: Validation"),
-		msg);
-	if (allocated_msg)
-		g_free (msg);
-	return result;
+	if (v->op == VALIDATION_OP_NONE)
+		return VALIDATION_STATUS_VALID;
+
+	nok = 0;
+	for (i = 0; i < opinfo[v->op].nops; i++) {
+		GnmExprTop const *texpr = v->texpr[i];
+		GnmExpr const *expr;
+		GnmValue *cres;
+
+		if (!texpr) {
+			nok++;
+			continue;
+		}
+
+		expr = gnm_expr_new_binary
+			(gnm_expr_new_constant (value_new_float (x)),
+			 opinfo[v->op].ops[i],
+			 gnm_expr_copy (texpr->expr));
+		cres = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		if (value_get_as_bool (cres, NULL))
+			nok++;
+		value_release (cres);
+		gnm_expr_free (expr);
+	}
+
+	if (nok < opinfo[v->op].ntrue)
+		BARF (g_strdup_printf (_("%s is out of permitted range"),
+				       value_peek_string (val)));
+
+	return VALIDATION_STATUS_VALID;
 }
+
+#undef BARF

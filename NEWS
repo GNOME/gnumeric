@@ -122,6 +122,7 @@ Morten:
 	  URIs.  [#334724]
 	* Fix theming problem.  [#309060]
 	* Fix validation problems.  [#114086]
+	* Fix validation handling of errors/strings/booleans.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

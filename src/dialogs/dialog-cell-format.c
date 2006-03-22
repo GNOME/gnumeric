@@ -340,7 +340,7 @@ setup_pattern_button (GdkScreen *screen,
 						      TRUE);
 		}
 	} else
-		g_warning ("CellFormat : Unexpected missing glade widget");
+		g_warning ("CellFormat: Unexpected missing glade widget");
 }
 
 static void
@@ -518,7 +518,7 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 					  supports_indent);
 		gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_label),
 					  supports_indent);
-		/* TODO : Should we 0 the indent ? */
+		/* TODO: Should we 0 the indent ? */
 		fmt_dialog_changed (state);
 	}
 }
@@ -805,7 +805,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	g_return_if_fail (uline != NULL);
 	g_return_if_fail (strike != NULL);
 
-	/* TODO : How to insert the font box in the right place initially */
+	/* TODO: How to insert the font box in the right place initially */
 	gtk_widget_show (tmp);
 	gtk_box_pack_start (GTK_BOX (container), tmp, TRUE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (container), tmp, 0);
@@ -1152,13 +1152,13 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 	else if (y >= B-5.)	which = STYLE_BORDER_BOTTOM;
 	else if (x >= R-5.)	which = STYLE_BORDER_RIGHT;
 	else switch (state->selection_mask) {
-	case 1 :
+	case 1:
 		if ((x < V) == (y < H))
 			which = STYLE_BORDER_REV_DIAG;
 		else
 			which = STYLE_BORDER_DIAG;
 		break;
-	case 2 :
+	case 2:
 		if (H-5. < y  && y < H+5.)
 			which = STYLE_BORDER_HORIZ;
 		else {
@@ -1171,7 +1171,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 				which = STYLE_BORDER_DIAG;
 		}
 		break;
-	case 4 :
+	case 4:
 		if (V-5. < x  && x < V+5.)
 			which = STYLE_BORDER_VERT;
 		else {
@@ -1184,7 +1184,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 				which = STYLE_BORDER_DIAG;
 		}
 		break;
-	case 8 :
+	case 8:
 		if (V-5. < x  && x < V+5.)
 			which = STYLE_BORDER_VERT;
 		else if (H-5. < y  && y < H+5.)
@@ -1201,7 +1201,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 		}
 		break;
 
-	default :
+	default:
 		g_assert_not_reached ();
 	}
 
@@ -1612,10 +1612,10 @@ cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
 		char const *s = NULL;
 
 		switch (index) {
-		case 1 : s = GTK_STOCK_DIALOG_ERROR;	break;
-		case 2 : s = GTK_STOCK_DIALOG_WARNING;	break;
-		case 3 : s = GTK_STOCK_DIALOG_INFO;	break;
-		default :
+		case 1: s = GTK_STOCK_DIALOG_ERROR;	break;
+		case 2: s = GTK_STOCK_DIALOG_WARNING;	break;
+		case 3: s = GTK_STOCK_DIALOG_INFO;	break;
+		default:
 			 g_warning ("Unknown validation style");
 			 return;
 		}
@@ -1641,37 +1641,43 @@ cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
 		state->validation.constraint_type);
 
 	switch (type) {
-	case VALIDATION_TYPE_IN_LIST :		msg0 = _("Source"); break;
-	case VALIDATION_TYPE_CUSTOM :		msg0 = _("Criteria"); break;
+	case VALIDATION_TYPE_IN_LIST:		msg0 = _("Source"); break;
+	case VALIDATION_TYPE_CUSTOM:		msg0 = _("Criteria"); break;
 
-	case VALIDATION_TYPE_AS_INT :
-	case VALIDATION_TYPE_AS_NUMBER :
-	case VALIDATION_TYPE_AS_DATE :
-	case VALIDATION_TYPE_AS_TIME :
-	case VALIDATION_TYPE_TEXT_LENGTH : {
+	case VALIDATION_TYPE_AS_INT:
+	case VALIDATION_TYPE_AS_NUMBER:
+	case VALIDATION_TYPE_AS_DATE:
+	case VALIDATION_TYPE_AS_TIME:
+	case VALIDATION_TYPE_TEXT_LENGTH: {
 		ValidationOp const op = gtk_combo_box_get_active (
 			state->validation.op);
 		has_operators = TRUE;
 		switch (op) {
-		case VALIDATION_OP_BETWEEN : case VALIDATION_OP_NOT_BETWEEN :
-			msg0 = _("Min :");
-			msg1 = _("Max :");
+		case VALIDATION_OP_NONE:
 			break;
-		case VALIDATION_OP_EQUAL : case VALIDATION_OP_NOT_EQUAL :
-			msg0 = _("Value :");
+		case VALIDATION_OP_BETWEEN:
+		case VALIDATION_OP_NOT_BETWEEN:
+			msg0 = _("Min:");
+			msg1 = _("Max:");
 			break;
-		case VALIDATION_OP_GT : case VALIDATION_OP_GTE :
-			msg0 =_("Min :");
+		case VALIDATION_OP_EQUAL:
+		case VALIDATION_OP_NOT_EQUAL:
+			msg0 = _("Value:");
 			break;
-		case VALIDATION_OP_LT : case VALIDATION_OP_LTE :
-			msg0 = _("Max :");
+		case VALIDATION_OP_GT:
+		case VALIDATION_OP_GTE:
+			msg0 =_("Min:");
 			break;
-		default :
-			g_warning ("Unknown operator index");
+		case VALIDATION_OP_LT:
+		case VALIDATION_OP_LTE:
+			msg0 = _("Max:");
+			break;
+		default:
+			g_warning ("Unknown operator index %d", (int)op);
 		}
 		break;
 	}
-	default :
+	default:
 		break;
 	}
 
@@ -2248,7 +2254,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	/* Setup pattern buttons & select the current pattern (or the 1st
 	 * if none is selected)
-	 * NOTE : This must be done AFTER the colour has been setup to
+	 * NOTE: This must be done AFTER the colour has been setup to
 	 * avoid having it erased by initialization.
 	 */
 	state->back.pattern.draw_preview = &draw_pattern_selected;

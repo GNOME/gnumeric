@@ -1,5 +1,8 @@
 2006-03-22  Morten Welinder  <terra@gnome.org>
 
+	* src/validation.c (validation_eval): Clean this up.  Handle
+	errors, strings and booleans better.
+
 	* src/sheet-filter.c (filter_expr_eval): Fix last fix.
 
 	* src/validation.c (cb_validate_custom): Use value_compare, not
