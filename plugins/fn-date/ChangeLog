@@ -1,3 +1,9 @@
+2006-03-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_workday): Implement a fairly decent
+	version of this.
+	(gnumeric_edate, gnumeric_eomonth): Improve compatibility.
+
 2006-03-19  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (datedif_opt_yd): Use g_date_days_between.

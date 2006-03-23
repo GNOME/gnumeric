@@ -69,7 +69,7 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
 	if (serial == 0)
 		return FALSE;
 	datetime_serial_to_g (res, serial, conv);
-	return TRUE;
+	return g_date_valid (res);
 }
 
 /* ------------------------------------------------------------------------- */

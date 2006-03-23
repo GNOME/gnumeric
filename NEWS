@@ -123,6 +123,9 @@ Morten:
 	* Fix theming problem.  [#309060]
 	* Fix validation problems.  [#114086]
 	* Fix validation handling of errors/strings/booleans.
+	* Implement WORKDAY.
+	* Improve Excel compatibility for EDATE and EOMONTH in extreme
+	  cases.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
