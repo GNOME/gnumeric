@@ -1,11 +1,11 @@
+2006-03-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.3
+
 2006-03-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (chart_write_axis): initialize scale before
 	using it [#332012].
-
-2006-03-19  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.6.3
 
 2006-03-13  Morten Welinder  <terra@gnome.org>
 

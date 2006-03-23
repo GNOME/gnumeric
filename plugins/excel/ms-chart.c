@@ -1266,6 +1266,9 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	else
 		s->style->line.dash_type = GO_LINE_SOLID;
 
+	/* FIXME : do we really need to differentiate ? */
+	s->style->outline = s->style->line;
+
 	if (s->prev_opcode == BIFF_CHART_chartline) {
 		/* we only support hi-lo lines at the moment */
 		if (s->cur_role == 1)

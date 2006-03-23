@@ -1,7 +1,12 @@
 Gnumeric 1.6.3
 
+Jean Brefort:
+	* Fix exporting of scaled axes. [#332012].
+
 Jody:
 	* Backport duping sheet props when sheet is duped.
+	* Adding an autofilter dirties the sheet.
+	* Fix xls import of pie outlines.
 
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]
