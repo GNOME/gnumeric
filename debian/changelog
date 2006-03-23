@@ -1,3 +1,15 @@
+gnumeric (1.6.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * [debian/rules] Corrected sed expression to determine the upstream
+    version: `+' is allowed in a debian_revision. This fixes the
+    dependencies when a binNMU is made of this package. (Closes: #357936)
+  * [debian/control] Updated goffice build dependency per configure.in .
+    Updated pxlib-dev and libgsf-1-dev build dependencies to ensure only one
+    version of libgsf is used.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 23 Mar 2006 08:36:14 +0100
+
 gnumeric (1.6.2-3) unstable; urgency=medium
 
   * [ChangeLog, NEWS, README, plugins/fn-financial/functions.c,

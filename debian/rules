@@ -24,7 +24,7 @@ export INSTALL=/usr/bin/install -p
 # Are we building a release version, or are we doing development?
 CVS_BUILD=$(shell test ! -d CVS; echo $$?)
 
-upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9\.]*$$//g')
+upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9+\.]*$$//g')
 
 # Features configuration
 # ---------------------- 
