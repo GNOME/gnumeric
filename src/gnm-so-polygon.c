@@ -248,6 +248,9 @@ gnm_so_polygon_set_property (GObject *obj, guint param_id,
 		break;
 	case SOP_PROP_POINTS:
 		points = g_value_get_pointer (value);
+
+		g_return_if_fail (points != NULL);
+
 		if (sop->points != points) {
 			g_array_free (sop->points, TRUE);
 			sop->points = points;

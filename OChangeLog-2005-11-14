@@ -1,3 +1,8 @@
+2006-03-24  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-so-polygon.c (gnm_so_polygon_set_property) : minor safety
+	  check.
+
 2006-03-23  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-datetime.c (datetime_value_to_g): Check validity of
