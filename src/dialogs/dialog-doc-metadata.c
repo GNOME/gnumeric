@@ -346,7 +346,7 @@ dialog_doc_metadata_set_label (DialogDocMetaData *state,
 
 		/* Number of Sheets */
 		else if (label == state->sheets) {
-			str_value = g_strdup_printf ("%d",  workbook_sheet_count (state->doc));
+			str_value = g_strdup_printf ("%d",  workbook_sheet_count (wb));
 		}
 		
 		/* Number of cells */

@@ -54,17 +54,7 @@
 #include <libxml/globals.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkhscrollbar.h>
-#include <gtk/gtkvscrollbar.h>
-#include <gtk/gtkhscale.h>
-#include <gtk/gtkvscale.h>
+#include <gtk/gtk.h>
 #include <math.h>
 
 

@@ -4,8 +4,9 @@
  * Gnumeric Parser
  *
  * (C) 1998-2002 GNOME Foundation
+ * (C) 2002-2006 Morten Welinder
  *
- * Author:
+ * Authors:
  *    Miguel de Icaza (miguel@gnu.org)
  *    Jody Goldberg (jody@gnome.org)
  *    Morten Welinder (terra@diku.dk)
@@ -28,6 +29,7 @@
 #include "value.h"
 #include "str.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/app/go-doc.h>
 
 #include <string.h>
 #include <errno.h>

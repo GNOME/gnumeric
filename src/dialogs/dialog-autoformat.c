@@ -47,12 +47,7 @@
 
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkvscrollbar.h>
-#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

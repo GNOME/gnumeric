@@ -30,7 +30,7 @@
 #include <number-match.h>
 #include <value.h>
 #include <style.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 #include <widgets/gnumeric-lazy-list.h>
 
 /******************************************************************************************************************
@@ -110,8 +110,8 @@ stf_preview_new (GtkWidget *data_container,
 #if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (renderdata->tooltips);
 #else
-	g_object_ref (renderdata-->tooltips);
-	gtk_object_sink (GTK_OBJECT (renderdata-->tooltips));
+	g_object_ref (renderdata->tooltips);
+	gtk_object_sink (GTK_OBJECT (renderdata->tooltips));
 #endif
 
 	renderdata->colcount = 0;
