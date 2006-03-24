@@ -3,6 +3,19 @@
 	* src/gnm-datetime.c (datetime_value_to_g): Check validity of
 	date.
 
+2006-03-22  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_vector_get_value) : handle blanks without
+	  an error.
+
+2006-03-16  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : Drop the .server, .keys, and .mime files as obsolete.
+
+2006-03-14  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_dup) : dup the properties too.
+
 2006-03-22  Morten Welinder  <terra@gnome.org>
 
 	* src/validation.c (validation_eval): Clean this up.  Handle

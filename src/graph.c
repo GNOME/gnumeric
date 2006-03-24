@@ -578,8 +578,10 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 	v = value_dup (vec->as_col
 		? value_area_get_x_y (vec->val, 0, i, &ep)
 		: value_area_get_x_y (vec->val, i, 0, &ep));
-	v = value_coerce_to_number (v, &valid, &ep);
+	if (NULL == v)
+		return go_nan;
 
+	v = value_coerce_to_number (v, &valid, &ep);
 	if (valid) {
 		gnm_float res = value_get_as_float (v);
 		value_release (v);
@@ -983,8 +985,10 @@ gnm_go_data_matrix_get_value (GODataMatrix *dat, unsigned i, unsigned j)
 
 	eval_pos_init_dep (&ep, &mat->dep);
 	v = value_dup (value_area_get_x_y (mat->val, i, j, &ep));
-	v = value_coerce_to_number (v, &valid, &ep);
+	if (NULL == v)
+		return go_nan;
 
+	v = value_coerce_to_number (v, &valid, &ep);
 	if (valid) {
 		gnm_float res = value_get_as_float (v);
 		value_release (v);

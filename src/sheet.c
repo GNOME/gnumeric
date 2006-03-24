@@ -3,7 +3,7 @@
 /*
  * sheet.c: Implements the sheet management and per-sheet storage
  *
- * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 1997-1999 Miguel de Icaza (miguel@kernel.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -4283,9 +4283,12 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 static void
 sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
-	GnmRange r;
-	GnmStyleList *styles;
-	GnmCellPos	corner = { 0, 0 };
+	static GnmCellPos const	corner = { 0, 0 };
+	GnmRange	 r;
+	GnmStyleList	*styles;
+
+	sheet_style_set_auto_pattern_color (
+		dst, sheet_style_get_auto_pattern_color (src));
 
 	styles = sheet_style_get_list (src, range_init_full_sheet (&r));
 	sheet_style_set_list (dst, &corner, FALSE, styles);
@@ -4368,8 +4371,10 @@ sheet_clone_cells (Sheet const *src, Sheet *dst)
 
 /**
  * sheet_dup :
- * @src :
- */
+ * @src : #Sheet
+ *
+ * Create a new Sheet and return it.
+ **/
 Sheet *
 sheet_dup (Sheet const *src)
 {
@@ -4386,12 +4391,26 @@ sheet_dup (Sheet const *src)
 	dst = sheet_new (wb, name);
 	g_free (name);
 
-        /* Copy the print info */
+	g_object_set (dst,
+		"zoom-factor",		   src->last_zoom_factor_used,
+		"text-is-rtl",		   src->text_is_rtl,
+		"visibility",		   src->visibility,
+		"protected",		   src->is_protected,
+		"display-formulas",	   src->display_formulas,
+		"display-zeros",	  !src->hide_zero,
+		"display-grid",		  !src->hide_grid,
+		"display-column-header",  !src->hide_col_header,
+		"display-row-header",	  !src->hide_row_header,
+		"display-outlines",	  !src->display_outlines,
+		"display-outlines-below",  src->outline_symbols_below,
+		"display-outlines-right",  src->outline_symbols_right,
+		"use-r1c1",		   src->r1c1_addresses,
+		"tab-foreground",	   src->tab_text_color,
+		"tab-background",	   src->tab_color,
+		NULL);
+
 	print_info_free (dst->print_info);
 	dst->print_info = print_info_dup (src->print_info);
-
-	sheet_style_set_auto_pattern_color (
-		dst, sheet_style_get_auto_pattern_color (src));
 
 	sheet_clone_styles         (src, dst);
 	sheet_clone_regions	   (src, dst);
@@ -4403,15 +4422,10 @@ sheet_dup (Sheet const *src)
 #warning selection is in view
 #warning freeze/thaw is in view
 
-	/* Copy the solver */
 	solver_param_destroy (dst->solver_parameters);
 	dst->solver_parameters = solver_lp_copy (src->solver_parameters, dst);
 
-	/* Copy scenarios */
 	dst->scenarios = scenario_copy_all (src->scenarios, dst);
-
-	/* We need a more general property copying solution.  */
-	g_object_set (dst, "zoom-factor", src->last_zoom_factor_used, NULL);
 
 	sheet_mark_dirty (dst);
 	sheet_redraw_all (dst, TRUE);

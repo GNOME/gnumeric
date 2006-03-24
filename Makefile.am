@@ -10,28 +10,30 @@ change_logs = ChangeLog \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
 	OChangeLog-2001-06-26
 
-@INTLTOOL_DESKTOP_RULE@
+# gnewdir = $(datadir)/mc/templates
+# gnew_in_files = gnumeric.desktop.in
+# gnew_DATA = gnumeric.desktop
 
-Applicationsdir = $(datadir)/applications/
-Applications_in_files = gnumeric.desktop.in
-Applications_DATA = gnumeric.desktop
+# Mimedir = $(datadir)/mime-info
+# Mime_DATA = gnumeric.keys gnumeric.mime
 
-gnewdir = $(datadir)/mc/templates
-gnew_in_files = gnumeric.desktop.in
-gnew_DATA = gnumeric.desktop
+# Old stale functionality
+#
+#if WITH_GNOME
+#serverdir = $(libdir)/bonobo/servers/
+#server_in_files = GNOME_Gnumeric.server.in
+#server_DATA	= GNOME_Gnumeric.server
+#GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
+#	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+#
+# @INTLTOOL_SERVER_RULE@
+#endif
 
-Mimedir = $(datadir)/mime-info
-Mime_DATA = gnumeric.keys gnumeric.mime
-
-if WITH_GNOME
-serverdir = $(libdir)/bonobo/servers/
-server_in_files = GNOME_Gnumeric.server.in
-server_DATA	= GNOME_Gnumeric.server
-GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
-endif
-
-@INTLTOOL_SERVER_RULE@
+# Unused as far as I know
+#gnumeric.keys: gnumeric.keys.in Makefile
+#	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
+#	&& mv gnumeric.keys.tmp gnumeric.keys 
+#
 
 CLEANFILES = $(server_DATA) $(server_in_files) \
 	gnumeric.desktop gnumeric.keys
@@ -51,9 +53,11 @@ EXTRA_DIST = \
 	omf.make		\
 	GNOME_Gnumeric.server.in.in $(server_in_files) $(server_DATA)
 
-gnumeric.keys: gnumeric.keys.in Makefile
-	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
-	&& mv gnumeric.keys.tmp gnumeric.keys 
+@INTLTOOL_DESKTOP_RULE@
+
+Applicationsdir = $(datadir)/applications/
+Applications_in_files = gnumeric.desktop.in
+Applications_DATA = gnumeric.desktop
 
 gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
 	 LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
