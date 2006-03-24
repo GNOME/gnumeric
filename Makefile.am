@@ -35,8 +35,7 @@ change_logs = ChangeLog \
 #	&& mv gnumeric.keys.tmp gnumeric.keys 
 #
 
-CLEANFILES = $(server_DATA) $(server_in_files) \
-	gnumeric.desktop gnumeric.keys
+CLEANFILES = gnumeric.desktop gnumeric.keys
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 EXTRA_DIST = \
@@ -51,7 +50,7 @@ EXTRA_DIST = \
 	intltool-update.in	\
 	xmldocs.make 		\
 	omf.make		\
-	GNOME_Gnumeric.server.in.in $(server_in_files) $(server_DATA)
+	GNOME_Gnumeric.server.in.in
 
 @INTLTOOL_DESKTOP_RULE@
 
@@ -70,7 +69,6 @@ endif
 	rm -f $@.tmp $@.tmp2
 
 dist-hook:
-	-cd $(distdir) ; rm -f $(server_in_files) $(server_DATA)
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 
