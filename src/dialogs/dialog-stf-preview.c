@@ -107,8 +107,12 @@ stf_preview_new (GtkWidget *data_container,
 	g_object_unref (ll);
 
 	renderdata->tooltips = gtk_tooltips_new ();
-	g_object_ref (renderdata->tooltips);
-	gtk_object_sink (GTK_OBJECT (renderdata->tooltips));
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (renderdata->tooltips);
+#else
+	g_object_ref (renderdata-->tooltips);
+	gtk_object_sink (GTK_OBJECT (renderdata-->tooltips));
+#endif
 
 	renderdata->colcount = 0;
 

@@ -1,5 +1,12 @@
 2006-03-24  Jody Goldberg <jody@gnome.org>
 
+	* src/gui-util.c
+	* src/sheet-object-widget.c
+	* src/workbook-control-gui.c
+	* src/dialogs/dialog-autoformat.c
+	* src/dialogs/dialog-stf-preview.c : use g_object_ref_sink if it is
+	  available.
+
 	* src/gnm-so-polygon.c (gnm_so_polygon_set_property) : minor safety
 	  check.
 

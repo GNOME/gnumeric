@@ -159,11 +159,10 @@
 /* dialog-simulation.c */
 #define GNUMERIC_HELP_LINK_SIMULATION "sect-advanced-analysis-simulation"
 
+/* dialog-define-table.c */
+#define GNUMERIC_HELP_LINK_DEFINE_TABLE "sect-data-table"
+
 /* dialog-doc-metadata.c */
 #define GNUMERIC_HELP_LINK_METADATA ""
 
-/**********************************************************************/
-/* The following links are included directly in the source code file: */
-/* ../cut-n-paste-code/goffice/graph/gog-guru.c  */
-
-#endif
+#endif /* GNUMERIC_HELP_H */

@@ -654,8 +654,12 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	g_object_unref (pixbuf);
 	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
 	g_object_unref (bitmap);
-	g_object_ref (G_OBJECT (arrow));
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (arrow);
+#else
+	g_object_ref (arrow);
 	gtk_object_sink (GTK_OBJECT (arrow));
+#endif
 	g_object_set_data (G_OBJECT (widget), "arrow", arrow);
 }
 
@@ -2192,8 +2196,12 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 	gtk_toolbar_set_style (tb, GTK_TOOLBAR_ICONS);
 
 	tooltips = gtk_tooltips_new ();
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (tooltips);
+#else
 	g_object_ref (tooltips);
 	gtk_object_sink (GTK_OBJECT (tooltips));
+#endif
 	g_object_set_data_full (G_OBJECT (tb),
 				"tooltips", tooltips,
 				(GDestroyNotify)g_object_unref);

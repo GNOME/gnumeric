@@ -577,8 +577,12 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	state->more_down         = FALSE;
 	state->selected_template = NULL;
 	state->tooltips          = gtk_tooltips_new ();
+#if GLIB_CHECK_VERSION(2,9,1)
+	g_object_ref_sink (state->tooltips);
+#else
 	g_object_ref (state->tooltips);
 	gtk_object_sink (GTK_OBJECT (state->tooltips));
+#endif
 
 	state->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
 	state->category   = GTK_COMBO_BOX (glade_xml_get_widget (gui, "format_category"));
