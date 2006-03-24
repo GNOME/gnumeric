@@ -107,7 +107,7 @@ stf_preview_new (GtkWidget *data_container,
 	g_object_unref (ll);
 
 	renderdata->tooltips = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (renderdata->tooltips);
 #else
 	g_object_ref (renderdata-->tooltips);

@@ -744,7 +744,7 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, GnmCellRef const 
 	g_return_if_fail (swa != NULL);
 
 	swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (swa->adjustment);
 #else
 	g_object_ref (swa->adjustment);

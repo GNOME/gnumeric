@@ -345,7 +345,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-#if GLIB_CHECK_VERSION(2,9,1)
+#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (menu);
 #else
 	g_object_ref (menu);
