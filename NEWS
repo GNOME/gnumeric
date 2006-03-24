@@ -18,6 +18,9 @@ Jody:
 	* Make sheet name quoting modular.
 	* AREAS handles error conditions better.
 	* Make Array formulas use less memory
+	* Fix xls import of optimized CHOOSE
+	* Dup sheet props when duping a sheet.
+	* Adding an autofilter dirties the sheet.
 	* Move Workbook::uri and ::dirty into GODoc
 
 Klokan Pridal:

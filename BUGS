@@ -26,6 +26,37 @@ http://bugzilla.gnome.org/show_bug.cgi?id=322096
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
 
+    - GETPIVOTDATA signature
+    - limit autofilter drop down width to cell width
+	: eg tc45 issue sheet
+	: bugreport0401.xls
+
+    - transparent background to xl95 charts
+	: ms699.xls
+    - Reading /local/info/test-xls/Desktop\ \&\ Collaboration\ Products\ Weekly\ Invoice.xls
+	: getpivotdata
+    - Libro.xls
+	: check sheetnames
+	: check idx>0 warning
+    - TestForBiffConsumer : #REF ??
+    - accrint-test.xls : why fail ?
+    - BAHT functions
+    - broken-name.xls
+    - database_test.xls
+    - div0-xp.xls
+    - edward~1.xls
+    - eng.xls
+    - errors.xls
+	: calc of interest
+	: #REF on sheet2
+    - extract-clean-new.xls : loss of data in col A ?
+    - furigana.xls : #NAME?
+    - global_calling_placeholder.xls
+    - named-expr-95.xls
+    - named-expr-97.xls
+    - operand.xls
+    - pivot-edited.xls : odd colours in the 'the range that contains' box
+
 Pending Patches
 ---------------
     http://bugzilla.gnome.org/show_bug.cgi?id=310354
