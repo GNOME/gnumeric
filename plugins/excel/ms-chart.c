@@ -1272,6 +1272,8 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	else
 		s->style->line.dash_type = GO_LINE_SOLID;
 
+	s->style->outline = s->style->line;
+
 	if (s->prev_opcode == BIFF_CHART_chartline) {
 		/* we only support hi-lo lines at the moment */
 		if (s->cur_role == 1)
@@ -2648,6 +2650,7 @@ not_a_matrix:
 						g_direct_hash, g_direct_equal, NULL, g_object_unref);
 				g_hash_table_insert (s->currentSeries->singletons,
 					GUINT_TO_POINTER (s->style_element), s->style);
+				d (0, fputs ("/* STORE singleton style */\n", stderr););
 			}
 		} else if (s->plot != NULL) {
 			g_return_val_if_fail (s->default_plot_style == NULL, TRUE);

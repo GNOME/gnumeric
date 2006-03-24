@@ -1,3 +1,8 @@
+2006-03-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(lineformat)) : store the format in outline as well
+	  as line.  We do not know where it's going to be used.
+
 2006-03-19  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (write_node): Handle integers in VALUE_FLOAT

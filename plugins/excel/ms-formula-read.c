@@ -693,7 +693,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		if (fd->name) {
 			name = gnm_func_lookup (fd->name, wb);
 			if (name == NULL)
-				name = gnm_func_add_placeholder (wb, fd->name, "0NKNOWN", TRUE);
+				name = gnm_func_add_placeholder (wb, fd->name, "UNKNOWN", TRUE);
 		}
 		/* This should not happen */
 		if (!name) {
@@ -1059,19 +1059,14 @@ excel_parse_formula1 (MSContainer const *container,
 					fprintf (stderr, "Error in optimised SUM\n");
 				}
 
-			} else if (grbit & 0x40) { /* AttrSpace */
-				guint8 num_space = GSF_LE_GET_GUINT8(cur+2);
-				guint8 attrs     = GSF_LE_GET_GUINT8(cur+1);
+			/* AttrSpace */
+			} else if (grbit & 0x40) {
+				guint8 num_space = GSF_LE_GET_GUINT8 (cur+2);
+				guint8 attrs     = GSF_LE_GET_GUINT8 (cur+1);
 				if (attrs == 0) /* bitFSpace : ignore it for now */
 					;
 				else
-#ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 1) {
-						fprintf (stderr, "Redundant whitespace in formula 0x%x count %d\n", attrs, num_space);
-					}
-#else
-				;
-#endif
+					d (2, fprintf (stderr, "Redundant whitespace in formula 0x%x count %d\n", attrs, num_space););
 			} else {
 				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
 				fprintf (stderr, "Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
@@ -1096,12 +1091,12 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 
 		case FORMULA_PTG_INT:
-			parse_list_push_raw (&stack, value_new_int (GSF_LE_GET_GUINT16(cur)));
+			parse_list_push_raw (&stack, value_new_int (GSF_LE_GET_GUINT16 (cur)));
 			ptg_length = 2;
 			break;
 
 		case FORMULA_PTG_BOOL:
-			parse_list_push_raw (&stack, value_new_bool (GSF_LE_GET_GUINT8(cur)));
+			parse_list_push_raw (&stack, value_new_bool (GSF_LE_GET_GUINT8 (cur)));
 			ptg_length = 1;
 			break;
 
@@ -1335,10 +1330,10 @@ excel_parse_formula1 (MSContainer const *container,
 
 			if (ver >= MS_BIFF_V4) {
 				ptg_length = 2;
-				iftab = GSF_LE_GET_GUINT16(cur);
+				iftab = GSF_LE_GET_GUINT16 (cur);
 			} else {
 				ptg_length = 1;
-				iftab = GSF_LE_GET_GUINT8(cur);
+				iftab = GSF_LE_GET_GUINT8 (cur);
 			}
 
 			if (!make_function (&stack, iftab, -1, container->importer->wb)) {
@@ -1349,21 +1344,21 @@ excel_parse_formula1 (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_FUNC_VAR: {
-			int const numargs = (GSF_LE_GET_GUINT8( cur ) & 0x7f);
+			int const numargs = (GSF_LE_GET_GUINT8 ( cur ) & 0x7f);
 			/* index into fn table */
 			int iftab;
 #if 0
 			/* Prompts the user ?  */
-			int const prompt  = (GSF_LE_GET_GUINT8( cur ) & 0x80);
+			int const prompt  = (GSF_LE_GET_GUINT8 ( cur ) & 0x80);
 			/* is a command equiv.?*/
-			int const cmdquiv = (GSF_LE_GET_GUINT16(cur+1) & 0x8000);
+			int const cmdquiv = (GSF_LE_GET_GUINT16 (cur+1) & 0x8000);
 #endif
 			if (ver >= MS_BIFF_V4) {
 				ptg_length = 3;
-				iftab = (GSF_LE_GET_GUINT16(cur+1) & 0x7fff);
+				iftab = (GSF_LE_GET_GUINT16 (cur+1) & 0x7fff);
 			} else {
 				ptg_length = 2;
-				iftab = GSF_LE_GET_GUINT8(cur+1);
+				iftab = GSF_LE_GET_GUINT8 (cur+1);
 			}
 
 			if (!make_function (&stack, iftab, numargs, container->importer->wb)) {
@@ -1432,14 +1427,14 @@ excel_parse_formula1 (MSContainer const *container,
 			GnmCellRef ref;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&ref,
-					  GSF_LE_GET_GUINT16(cur),
-					  GSF_LE_GET_GUINT16(cur + 2),
+					  GSF_LE_GET_GUINT16 (cur),
+					  GSF_LE_GET_GUINT16 (cur + 2),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
 				ptg_length = 4;
 			} else {
 				getRefV7 (&ref,
-					  GSF_LE_GET_GUINT8(cur+2),
-					  GSF_LE_GET_GUINT16(cur),
+					  GSF_LE_GET_GUINT8 (cur+2),
+					  GSF_LE_GET_GUINT16 (cur),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
 				ptg_length = 3;
 			}
@@ -1451,22 +1446,22 @@ excel_parse_formula1 (MSContainer const *container,
 			GnmCellRef first, last;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,
-					  GSF_LE_GET_GUINT16(cur+0),
-					  GSF_LE_GET_GUINT16(cur+4),
+					  GSF_LE_GET_GUINT16 (cur+0),
+					  GSF_LE_GET_GUINT16 (cur+4),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				getRefV8 (&last,
-					  GSF_LE_GET_GUINT16(cur+2),
-					  GSF_LE_GET_GUINT16(cur+6),
+					  GSF_LE_GET_GUINT16 (cur+2),
+					  GSF_LE_GET_GUINT16 (cur+6),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				ptg_length = 8;
 			} else {
 				getRefV7 (&first,
-					  GSF_LE_GET_GUINT8(cur+4),
-					  GSF_LE_GET_GUINT16(cur+0),
+					  GSF_LE_GET_GUINT8 (cur+4),
+					  GSF_LE_GET_GUINT16 (cur+0),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				getRefV7 (&last,
-					  GSF_LE_GET_GUINT8(cur+5),
-					  GSF_LE_GET_GUINT16(cur+2),
+					  GSF_LE_GET_GUINT8 (cur+5),
+					  GSF_LE_GET_GUINT16 (cur+2),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
 				ptg_length = 6;
 			}
@@ -1586,22 +1581,22 @@ excel_parse_formula1 (MSContainer const *container,
 
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,
-					  GSF_LE_GET_GUINT16(cur+2),
-					  GSF_LE_GET_GUINT16(cur+6),
+					  GSF_LE_GET_GUINT16 (cur+2),
+					  GSF_LE_GET_GUINT16 (cur+6),
 					  fn_col, fn_row, 0);
 				getRefV8 (&last,
-					  GSF_LE_GET_GUINT16(cur+4),
-					  GSF_LE_GET_GUINT16(cur+8),
+					  GSF_LE_GET_GUINT16 (cur+4),
+					  GSF_LE_GET_GUINT16 (cur+8),
 					  fn_col, fn_row, 0);
 				ptg_length = 10;
 			} else {
 				getRefV7 (&first,
-					  GSF_LE_GET_GUINT8(cur+18),
-					  GSF_LE_GET_GUINT16(cur+14),
+					  GSF_LE_GET_GUINT8 (cur+18),
+					  GSF_LE_GET_GUINT16 (cur+14),
 					  fn_col, fn_row, shared);
 				getRefV7 (&last,
-					  GSF_LE_GET_GUINT8(cur+19),
-					  GSF_LE_GET_GUINT16(cur+16),
+					  GSF_LE_GET_GUINT8 (cur+19),
+					  GSF_LE_GET_GUINT16 (cur+16),
 					  fn_col, fn_row, shared);
 				ptg_length = 20;
 			}
