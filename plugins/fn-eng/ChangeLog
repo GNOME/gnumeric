@@ -1,3 +1,9 @@
+2006-03-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (val_to_base): Merge float and integer cases.
+	(gnumeric_besselj): Improve compatibility.
+	(gnumeric_besseli): Remove pointless type checking.
+
 2006-01-27  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_delta): Get rid of a load of crap.

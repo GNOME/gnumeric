@@ -1722,12 +1722,11 @@ radio_button_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
-/*	gboolean err; */
-	int result;
+	gnm_float result;
 
 	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
 			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	result = value_get_as_int (v);
+	result = value_get_as_float (v);
 	value_release (v);
 #if 0
 	if (!err) {
@@ -1928,12 +1927,11 @@ list_content_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
-/*	gboolean err;*/
-	int result;
+	gnm_float result;
 
 	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
 			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	result = value_get_as_int (v);
+	result = value_get_as_float (v);
 	value_release (v);
 #if 0
 	if (!err) {
@@ -1956,12 +1954,11 @@ list_output_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
-/*	gboolean err;*/
-	int result;
+	gnm_float result;
 
 	v = gnm_expr_top_eval (dep->texpr, eval_pos_init_dep (&pos, dep),
 			       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	result = value_get_as_int (v);
+	result = value_get_as_float (v);
 	value_release (v);
 #if 0
 	if (!err) {

@@ -90,22 +90,6 @@ val_to_base (FunctionEvalInfo *ei,
 	default:
 		return value_new_error_NUM (ei->pos);
 
-	case VALUE_INTEGER: {
-		int val = value_get_as_int (value);
-		char buf[4 * sizeof (int)];
-		char *err;
-
-		if (val < min_value || val > max_value)
-			value_new_error_NUM (ei->pos);
-
-		sprintf (buf, "%d", val);
-		v = strtol (buf, &err, src_base);
-		if (*err != 0)
-			return value_new_error_NUM (ei->pos);
-
-		break;
-	}
-
 	case VALUE_STRING:
 		if (flags & V2B_STRINGS_GENERAL) {
 			vstring = format_match_number
@@ -152,6 +136,7 @@ val_to_base (FunctionEvalInfo *ei,
 		}
 		/* Fall through.  */
 
+	case VALUE_INTEGER:
 	case VALUE_FLOAT: {
 		gnm_float val = gnm_fake_trunc (value_get_as_float (vstring ? vstring : value));
 		char buf[GNM_MANT_DIG + 10];
@@ -194,9 +179,10 @@ val_to_base (FunctionEvalInfo *ei,
 	}
 
 	if (aplaces) {
-		places = value_get_as_int (aplaces);
-		if (places < min || places > 10)
+		gnm_float fplaces = value_get_as_float (aplaces);
+		if (fplaces < min || fplaces > 10)
 			return value_new_error_NUM (ei->pos);
+		places = (int)fplaces;
 		if (v >= 0 && places > max)
 			max = places;
 	} else
@@ -243,12 +229,12 @@ static GnmValue *
 gnumeric_base (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	static const gnm_float max = 1 / GNM_EPSILON;
-	int base = value_get_as_int (argv[1]);
+	gnm_float base = value_get_as_float (argv[1]);
 
-	if (base < 2 || base > 36)
+	if (base < 2 || base >= 37)
 		return value_new_error_NUM (ei->pos);
 
-	return val_to_base (ei, argv[0], argv[2], 10, base,
+	return val_to_base (ei, argv[0], argv[2], 10, (int)base,
 			    -max, +max,
 			    V2B_STRINGS_GENERAL | V2B_STRINGS_0XH);
 }
@@ -466,9 +452,9 @@ static GnmFuncHelp const help_decimal[] = {
 static GnmValue *
 gnumeric_decimal (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int base = value_get_as_int (argv[1]);
+	gnm_float base = value_get_as_float (argv[1]);
 
-	if (base < 2 || base > 36)
+	if (base < 2 || base >= 37)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_error_NUM (ei->pos);
@@ -690,10 +676,8 @@ static GnmFuncHelp const help_besseli[] = {
 static GnmValue *
 gnumeric_besseli (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x, order;
-
-	x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
-	order = value_get_as_float (argv[1]);	/* the order */
+	gnm_float x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
+	gnm_float order = value_get_as_float (argv[1]);	/* the order */
 
 	if (order < 0)
 		return value_new_error_NUM (ei->pos);
@@ -730,10 +714,8 @@ static GnmFuncHelp const help_besselk[] = {
 static GnmValue *
 gnumeric_besselk (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x, order;
-
-	x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
-	order = value_get_as_float (argv[1]);	/* the order */
+	gnm_float x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
+	gnm_float order = value_get_as_float (argv[1]);	/* the order */
 
 	if (order < 0)
 		return value_new_error_NUM (ei->pos);
@@ -769,15 +751,14 @@ static GnmFuncHelp const help_besselj[] = {
 static GnmValue *
 gnumeric_besselj (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int x, y;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = value_get_as_float (argv[1]);
 
-	x = value_get_as_int (argv[0]);
-	y = value_get_as_int (argv[1]);
-
-	if (y < 0)
+	if (y < 0 || y > INT_MAX)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (jn (y, value_get_as_float (argv[0])));
+	/* FIXME: Why not gnm_jn?  */
+	return value_new_float (jn ((int)y, x));
 }
 
 /***************************************************************************/
@@ -809,17 +790,13 @@ static GnmFuncHelp const help_bessely[] = {
 static GnmValue *
 gnumeric_bessely (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	int y;
-	if (argv[0]->type != VALUE_INTEGER &&
-	    argv[1]->type != VALUE_INTEGER &&
-	    argv[0]->type != VALUE_FLOAT &&
-	    argv[1]->type != VALUE_FLOAT)
-		return value_new_error_VALUE (ei->pos);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = value_get_as_float (argv[1]);
 
-	if ((y = value_get_as_int (argv[1])) < 0)
+	if (y < 0 || y > INT_MAX)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_yn (y, value_get_as_float (argv[0])));
+	return value_new_float (gnm_yn ((int)y, x));
 }
 
 /***************************************************************************/
