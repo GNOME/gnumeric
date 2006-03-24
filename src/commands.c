@@ -241,13 +241,15 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 		for (i = range->start.row; i <= range->end.row; i++)
 			for (j = range->start.col; j <= range->end.col; j++)
 				if (gnm_style_get_content_locked (sheet_style_get (sheet, j, i))) {
+					char *r = global_range_name (sheet, range);
 					char *text = g_strdup_printf (wbv->is_protected  ?
 						_("%s is locked. Unprotect the workbook to enable editing.") :
 						_("%s is locked. Unprotect the sheet to enable editing."),
-						global_range_name (sheet, range));
+						r);
 					go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
 						cmd_name, text);
 					g_free (text);
+					g_free (r);
 					return TRUE;
 				}
 	return FALSE;
@@ -549,7 +551,7 @@ command_setup_combos (WorkbookControl *wbc)
 		undo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, TRUE, undo_label, ptr->data);
 	}
-	g_slist_reverse (tmp);
+	(void) g_slist_reverse (tmp);	/* ignore, list is in undo_commands */
 
 	wb_control_undo_redo_truncate (wbc, 0, FALSE);
 	tmp = g_slist_reverse (wb->redo_commands);
@@ -557,7 +559,7 @@ command_setup_combos (WorkbookControl *wbc)
 		redo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, FALSE, redo_label, ptr->data);
 	}
-	g_slist_reverse (tmp);
+	(void) g_slist_reverse (tmp);	/* ignore, list is in redo_commands */
 
 	/* update the menus too */
 	wb_control_undo_redo_labels (wbc, undo_label, redo_label);
