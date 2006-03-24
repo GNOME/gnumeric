@@ -129,6 +129,7 @@ Morten:
 	* Implement WORKDAY.
 	* Improve Excel compatibility for EDATE and EOMONTH in extreme
 	  cases.
+	* Fix EVEN and ODD for very large numbers.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

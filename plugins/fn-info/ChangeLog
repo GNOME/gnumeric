@@ -1,3 +1,8 @@
+2006-03-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_iseven, gnumeric_isodd): Handle very large
+	numbers.
+
 2005-12-21  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Make isnumber use B arg type, not E.

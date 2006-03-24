@@ -355,7 +355,6 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	return value_new_error_VALUE (ei->pos);
 }
 
-#warning implement this
 #if 0
 /*
 *extension to CELL providing 123 @CELL/@CELLPOINTER functionality as
@@ -1590,7 +1589,11 @@ static GnmFuncHelp const help_iseven[] = {
 static GnmValue *
 gnumeric_iseven (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (!(value_get_as_int (argv[0]) & 1));
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float r = gnm_fmod (gnm_abs (x), 2);
+
+	/* If x is too big, this will always be true.  */
+	return value_new_bool (r < 1);
 }
 
 /***************************************************************************/
@@ -1691,7 +1694,11 @@ static GnmFuncHelp const help_isodd[] = {
 static GnmValue *
 gnumeric_isodd (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (value_get_as_int (argv[0]) & 1);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float r = gnm_fmod (gnm_abs (x), 2);
+
+	/* If x is too big, this will always be false.  */
+	return value_new_bool (r >= 1);
 }
 
 /***************************************************************************/
@@ -1771,23 +1778,20 @@ static GnmFuncHelp const help_n[] = {
 static GnmValue *
 gnumeric_n (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *str;
 	GnmValue *v;
 
-	if (argv[0]->type == VALUE_BOOLEAN)
-		return value_new_int (value_get_as_int(argv[0]));
-
 	if (VALUE_IS_NUMBER (argv[0]))
-		return value_dup (argv[0]);
+		return value_new_float (value_get_as_float (argv[0]));
 
-	if (argv[0]->type != VALUE_STRING)
+	if (!VALUE_IS_STRING (argv[0]))
 		return value_new_error_NUM (ei->pos);
 
-	str = value_peek_string (argv[0]);
-	v = format_match_number (str, NULL,
-		workbook_date_conv (ei->pos->sheet->workbook));
+	v = format_match_number (value_peek_string (argv[0]),
+				 NULL,
+				 workbook_date_conv (ei->pos->sheet->workbook));
 	if (v != NULL)
 		return v;
+
 	return value_new_float (0);
 }
 
