@@ -2,7 +2,7 @@
 /*
  * colrow.c: Utilities for Rows and Columns
  *
- * Copyright (C) 1999-2001 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1999-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -658,14 +658,10 @@ void
 rows_height_update (Sheet *sheet, GnmRange const * range, gboolean shrink)
 {
 	/* FIXME : this needs to check font sizes and contents rather than
-	 * just contents.  Empty cells will cause resize also
-	 */
-	if (shrink)
-		colrow_foreach (&sheet->rows, range->start.row, range->end.row,
-				&cb_autofit_height, sheet);
-	else
-		colrow_foreach (&sheet->rows, range->start.row, range->end.row,
-				&cb_autofit_height_no_shrink, sheet);
+	 * just contents.  Empty cells will cause resize also */
+	colrow_foreach (&sheet->rows, range->start.row, range->end.row,
+		shrink ? &cb_autofit_height : &cb_autofit_height_no_shrink,
+		sheet);
 }
 
 /*****************************************************************************/
