@@ -802,6 +802,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 		gnm_filter_remove (filter);
 		gnm_filter_free (filter);
 	}
+	sheet_mark_dirty (sv->sheet);
 	sheet_update (sv->sheet);
 }
 

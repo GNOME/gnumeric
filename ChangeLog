@@ -1,5 +1,8 @@
 2006-03-24  Jody Goldberg <jody@gnome.org>
 
+	* src/wbcg-actions.c (cb_auto_filter) : adding an autofilter dirties
+	  the workbook.
+
 	* src/gui-util.c
 	* src/sheet-object-widget.c
 	* src/workbook-control-gui.c
