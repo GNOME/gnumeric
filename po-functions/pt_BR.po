@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-08 11:23+0100\n"
-"PO-Revision-Date: 2006-03-08 15:08-0300\n"
+"POT-Creation-Date: 2006-03-25 11:13+0100\n"
+"PO-Revision-Date: 2006-03-25 09:10-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -1337,7 +1337,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:2249
+#: ../plugins/derivatives/options.c:2252
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
@@ -3847,7 +3847,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-date/functions.c:85
+#: ../plugins/fn-date/functions.c:99
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -3883,7 +3883,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: ../plugins/fn-date/functions.c:165
+#: ../plugins/fn-date/functions.c:179
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -3908,7 +3908,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 
-#: ../plugins/fn-date/functions.c:199
+#: ../plugins/fn-date/functions.c:213
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -3935,7 +3935,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 
-#: ../plugins/fn-date/functions.c:236
+#: ../plugins/fn-date/functions.c:250
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -3963,7 +3963,7 @@ msgstr ""
 "DATEVALUE(\"1/1/1999\") retorna 36161 (na convenção 1900).\n"
 "@SEEALSO=DATE"
 
-#: ../plugins/fn-date/functions.c:264
+#: ../plugins/fn-date/functions.c:278
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -4012,7 +4012,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: ../plugins/fn-date/functions.c:416
+#: ../plugins/fn-date/functions.c:430
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -4044,7 +4044,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: ../plugins/fn-date/functions.c:469
+#: ../plugins/fn-date/functions.c:485
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -4070,7 +4070,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: ../plugins/fn-date/functions.c:495
+#: ../plugins/fn-date/functions.c:511
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -4110,7 +4110,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY"
 
-#: ../plugins/fn-date/functions.c:529
+#: ../plugins/fn-date/functions.c:545
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -4134,7 +4134,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: ../plugins/fn-date/functions.c:561
+#: ../plugins/fn-date/functions.c:577
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -4162,7 +4162,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR,MINUTE"
 
-#: ../plugins/fn-date/functions.c:589
+#: ../plugins/fn-date/functions.c:605
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (date)\n"
@@ -4193,7 +4193,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: ../plugins/fn-date/functions.c:626
+#: ../plugins/fn-date/functions.c:642
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (date)\n"
@@ -4223,7 +4223,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: ../plugins/fn-date/functions.c:663
+#: ../plugins/fn-date/functions.c:679
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (date)\n"
@@ -4253,7 +4253,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: ../plugins/fn-date/functions.c:700
+#: ../plugins/fn-date/functions.c:716
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (date)\n"
@@ -4281,7 +4281,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: ../plugins/fn-date/functions.c:734
+#: ../plugins/fn-date/functions.c:750
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (date)\n"
@@ -4309,7 +4309,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: ../plugins/fn-date/functions.c:768
+#: ../plugins/fn-date/functions.c:784
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (date)\n"
@@ -4337,7 +4337,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: ../plugins/fn-date/functions.c:802
+#: ../plugins/fn-date/functions.c:818
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (date[, method])\n"
@@ -4379,7 +4379,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
-#: ../plugins/fn-date/functions.c:856
+#: ../plugins/fn-date/functions.c:872
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -4427,7 +4427,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: ../plugins/fn-date/functions.c:913
+#: ../plugins/fn-date/functions.c:929
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -4458,7 +4458,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: ../plugins/fn-date/functions.c:965
+#: ../plugins/fn-date/functions.c:983
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days[,holidays])\n"
@@ -4489,7 +4489,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NETWORKDAYS"
 
-#: ../plugins/fn-date/functions.c:1036
+#: ../plugins/fn-date/functions.c:1156
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date[,holidays])\n"
@@ -4519,7 +4519,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: ../plugins/fn-date/functions.c:1164
+#: ../plugins/fn-date/functions.c:1284
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -4554,7 +4554,7 @@ msgstr ""
 "Se A1 contém 12/21/00, então ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM, ISOYEAR"
 
-#: ../plugins/fn-date/functions.c:1201
+#: ../plugins/fn-date/functions.c:1321
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -4588,7 +4588,7 @@ msgstr ""
 "Se A1 contém 12/31/2001, então ISOYEAR(A1)=2002\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: ../plugins/fn-date/functions.c:1251
+#: ../plugins/fn-date/functions.c:1371
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date[,method])\n"
@@ -4632,7 +4632,7 @@ msgstr ""
 "Se A1 contém 12/21/00, então WEEKNUM(A1,2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: ../plugins/fn-date/functions.c:1299
+#: ../plugins/fn-date/functions.c:1419
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=YEARFRAC (start_date, end_date [,basis])\n"
@@ -4661,7 +4661,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATEDIF"
 
-#: ../plugins/fn-eng/functions.c:222
+#: ../plugins/fn-eng/functions.c:208
 msgid ""
 "@FUNCTION=BASE\n"
 "@SYNTAX=BASE(number,base[,length])\n"
@@ -4694,7 +4694,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DECIMAL"
 
-#: ../plugins/fn-eng/functions.c:260
+#: ../plugins/fn-eng/functions.c:246
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -4720,7 +4720,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: ../plugins/fn-eng/functions.c:289
+#: ../plugins/fn-eng/functions.c:275
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -4750,7 +4750,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: ../plugins/fn-eng/functions.c:321
+#: ../plugins/fn-eng/functions.c:307
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -4780,7 +4780,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
-#: ../plugins/fn-eng/functions.c:353
+#: ../plugins/fn-eng/functions.c:339
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -4810,7 +4810,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: ../plugins/fn-eng/functions.c:385
+#: ../plugins/fn-eng/functions.c:371
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -4840,7 +4840,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: ../plugins/fn-eng/functions.c:417
+#: ../plugins/fn-eng/functions.c:403
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -4870,7 +4870,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: ../plugins/fn-eng/functions.c:449
+#: ../plugins/fn-eng/functions.c:435
 msgid ""
 "@FUNCTION=DECIMAL\n"
 "@SYNTAX=DECIMAL(text,base)\n"
@@ -4897,7 +4897,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BASE"
 
-#: ../plugins/fn-eng/functions.c:481
+#: ../plugins/fn-eng/functions.c:467
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -4923,7 +4923,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: ../plugins/fn-eng/functions.c:510
+#: ../plugins/fn-eng/functions.c:496
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -4953,7 +4953,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
-#: ../plugins/fn-eng/functions.c:542
+#: ../plugins/fn-eng/functions.c:528
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -4983,7 +4983,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2OCT,·OCT2BIN,·OCT2DEC"
 
-#: ../plugins/fn-eng/functions.c:574
+#: ../plugins/fn-eng/functions.c:560
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -5013,7 +5013,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: ../plugins/fn-eng/functions.c:606
+#: ../plugins/fn-eng/functions.c:592
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -5043,7 +5043,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: ../plugins/fn-eng/functions.c:638
+#: ../plugins/fn-eng/functions.c:624
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -5069,7 +5069,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: ../plugins/fn-eng/functions.c:667
+#: ../plugins/fn-eng/functions.c:653
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -5104,7 +5104,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: ../plugins/fn-eng/functions.c:708
+#: ../plugins/fn-eng/functions.c:692
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -5136,7 +5136,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
-#: ../plugins/fn-eng/functions.c:748
+#: ../plugins/fn-eng/functions.c:730
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -5168,7 +5168,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELK,BESSELY"
 
-#: ../plugins/fn-eng/functions.c:787
+#: ../plugins/fn-eng/functions.c:768
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -5202,7 +5202,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELK"
 
-#: ../plugins/fn-eng/functions.c:833
+#: ../plugins/fn-eng/functions.c:810
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -5425,7 +5425,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-eng/functions.c:1250
+#: ../plugins/fn-eng/functions.c:1227
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -5474,7 +5474,7 @@ msgstr ""
 "tem 90% de chance de cair 1.645 desvios padrões abaixo da média.\n"
 "@SEEALSO=ERFC"
 
-#: ../plugins/fn-eng/functions.c:1301
+#: ../plugins/fn-eng/functions.c:1278
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -5507,7 +5507,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: ../plugins/fn-eng/functions.c:1332
+#: ../plugins/fn-eng/functions.c:1309
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5537,7 +5537,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: ../plugins/fn-eng/functions.c:1364
+#: ../plugins/fn-eng/functions.c:1341
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -5564,7 +5564,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: ../plugins/fn-eng/functions.c:1395
+#: ../plugins/fn-eng/functions.c:1372
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -6490,7 +6490,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: ../plugins/fn-financial/functions.c:1213
+#: ../plugins/fn-financial/functions.c:1225
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -6516,7 +6516,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: ../plugins/fn-financial/functions.c:1257
+#: ../plugins/fn-financial/functions.c:1279
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -6536,7 +6536,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IRR, NPV"
 
-#: ../plugins/fn-financial/functions.c:1320
+#: ../plugins/fn-financial/functions.c:1342
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -6574,7 +6574,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: ../plugins/fn-financial/functions.c:1371
+#: ../plugins/fn-financial/functions.c:1393
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -6606,7 +6606,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: ../plugins/fn-financial/functions.c:1417
+#: ../plugins/fn-financial/functions.c:1439
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -6638,7 +6638,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
-#: ../plugins/fn-financial/functions.c:1463
+#: ../plugins/fn-financial/functions.c:1485
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -6669,7 +6669,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: ../plugins/fn-financial/functions.c:1577
+#: ../plugins/fn-financial/functions.c:1599
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -6711,7 +6711,7 @@ msgstr ""
 "IRR(A1:A8) retorna 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: ../plugins/fn-financial/functions.c:1711
+#: ../plugins/fn-financial/functions.c:1733
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -6741,7 +6741,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: ../plugins/fn-financial/functions.c:1759
+#: ../plugins/fn-financial/functions.c:1781
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -6766,7 +6766,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: ../plugins/fn-financial/functions.c:1810
+#: ../plugins/fn-financial/functions.c:1832
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -6796,7 +6796,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: ../plugins/fn-financial/functions.c:1872
+#: ../plugins/fn-financial/functions.c:1894
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -6845,7 +6845,7 @@ msgstr ""
 "XIRR(A1:A5,B1:B5) retorna 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: ../plugins/fn-financial/functions.c:1992
+#: ../plugins/fn-financial/functions.c:2014
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -6877,7 +6877,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: ../plugins/fn-financial/functions.c:2036
+#: ../plugins/fn-financial/functions.c:2058
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -6919,7 +6919,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2079
+#: ../plugins/fn-financial/functions.c:2101
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
@@ -6961,7 +6961,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2136
+#: ../plugins/fn-financial/functions.c:2158
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -7002,7 +7002,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2192
+#: ../plugins/fn-financial/functions.c:2214
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
@@ -7045,7 +7045,7 @@ msgstr ""
 "dobrará o investimento logo após o 12o. ano.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2252
+#: ../plugins/fn-financial/functions.c:2274
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
@@ -7103,7 +7103,7 @@ msgstr ""
 "\n"
 "@SEEALSO=G_DURATION,MDURATION"
 
-#: ../plugins/fn-financial/functions.c:2314
+#: ../plugins/fn-financial/functions.c:2336
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -7135,7 +7135,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 
-#: ../plugins/fn-financial/functions.c:2358
+#: ../plugins/fn-financial/functions.c:2380
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -7163,7 +7163,7 @@ msgstr ""
 "FVSCHEDULE(3000,A1:A5) retorna 4942.7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2405
+#: ../plugins/fn-financial/functions.c:2427
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -7220,7 +7220,7 @@ msgstr ""
 "EURO(\"DEM\") retorna 1.95583.\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2515
+#: ../plugins/fn-financial/functions.c:2537
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
@@ -7278,7 +7278,7 @@ msgstr ""
 "EUROCONVERT(2.1,\"DEM\",\"EUR\") retorna 1.07.\n"
 "@SEEALSO=EURO"
 
-#: ../plugins/fn-financial/functions.c:2565
+#: ../plugins/fn-financial/functions.c:2587
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
@@ -7327,7 +7327,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2632
+#: ../plugins/fn-financial/functions.c:2654
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,"
@@ -7382,7 +7382,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2755
+#: ../plugins/fn-financial/functions.c:2777
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -7436,7 +7436,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2819
+#: ../plugins/fn-financial/functions.c:2841
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -7487,7 +7487,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2875
+#: ../plugins/fn-financial/functions.c:2897
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -7544,7 +7544,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3032
+#: ../plugins/fn-financial/functions.c:3054
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -7599,7 +7599,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3143
+#: ../plugins/fn-financial/functions.c:3165
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -7655,7 +7655,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3237
+#: ../plugins/fn-financial/functions.c:3259
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -7710,7 +7710,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3331
+#: ../plugins/fn-financial/functions.c:3353
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7777,7 +7777,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORLINC"
 
-#: ../plugins/fn-financial/functions.c:3398
+#: ../plugins/fn-financial/functions.c:3420
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7843,7 +7843,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 
-#: ../plugins/fn-financial/functions.c:3460
+#: ../plugins/fn-financial/functions.c:3482
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
@@ -7910,7 +7910,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3508
+#: ../plugins/fn-financial/functions.c:3530
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -7979,7 +7979,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3557
+#: ../plugins/fn-financial/functions.c:3579
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -8046,7 +8046,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3605
+#: ../plugins/fn-financial/functions.c:3627
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -8112,7 +8112,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3654
+#: ../plugins/fn-financial/functions.c:3676
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -8178,7 +8178,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3704
+#: ../plugins/fn-financial/functions.c:3726
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -8243,7 +8243,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3748
+#: ../plugins/fn-financial/functions.c:3770
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8284,7 +8284,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3801
+#: ../plugins/fn-financial/functions.c:3823
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8325,7 +8325,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3854
+#: ../plugins/fn-financial/functions.c:3876
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8379,7 +8379,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DURATION,G_DURATION"
 
-#: ../plugins/fn-financial/functions.c:3915
+#: ../plugins/fn-financial/functions.c:3937
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -8415,7 +8415,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: ../plugins/fn-info/functions.c:67
+#: ../plugins/fn-info/functions.c:68
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -8487,7 +8487,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TEXT"
 
-#: ../plugins/fn-info/functions.c:1217
+#: ../plugins/fn-info/functions.c:1218
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -8512,7 +8512,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: ../plugins/fn-info/functions.c:1269
+#: ../plugins/fn-info/functions.c:1270
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -8559,7 +8559,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1377
+#: ../plugins/fn-info/functions.c:1378
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -8583,7 +8583,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: ../plugins/fn-info/functions.c:1402
+#: ../plugins/fn-info/functions.c:1403
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -8607,7 +8607,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NA"
 
-#: ../plugins/fn-info/functions.c:1431
+#: ../plugins/fn-info/functions.c:1432
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -8631,7 +8631,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1457
+#: ../plugins/fn-info/functions.c:1458
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8671,7 +8671,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: ../plugins/fn-info/functions.c:1499
+#: ../plugins/fn-info/functions.c:1500
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -8694,7 +8694,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1524
+#: ../plugins/fn-info/functions.c:1525
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -8714,7 +8714,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: ../plugins/fn-info/functions.c:1548
+#: ../plugins/fn-info/functions.c:1549
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -8738,7 +8738,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1573
+#: ../plugins/fn-info/functions.c:1574
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -8762,7 +8762,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: ../plugins/fn-info/functions.c:1598
+#: ../plugins/fn-info/functions.c:1603
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -8786,7 +8786,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1623
+#: ../plugins/fn-info/functions.c:1628
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -8810,7 +8810,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: ../plugins/fn-info/functions.c:1648
+#: ../plugins/fn-info/functions.c:1653
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -8834,7 +8834,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: ../plugins/fn-info/functions.c:1674
+#: ../plugins/fn-info/functions.c:1679
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -8858,7 +8858,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: ../plugins/fn-info/functions.c:1699
+#: ../plugins/fn-info/functions.c:1708
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -8881,7 +8881,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1728
+#: ../plugins/fn-info/functions.c:1737
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -8905,7 +8905,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: ../plugins/fn-info/functions.c:1753
+#: ../plugins/fn-info/functions.c:1762
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -8931,7 +8931,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1796
+#: ../plugins/fn-info/functions.c:1802
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -8968,7 +8968,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1846
+#: ../plugins/fn-info/functions.c:1852
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -8992,7 +8992,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-logical/functions.c:44
+#: ../plugins/fn-logical/functions.c:45
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -9038,7 +9038,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OR, NOT"
 
-#: ../plugins/fn-logical/functions.c:111
+#: ../plugins/fn-logical/functions.c:112
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -9066,7 +9066,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: ../plugins/fn-logical/functions.c:142
+#: ../plugins/fn-logical/functions.c:143
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -9107,7 +9107,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, NOT"
 
-#: ../plugins/fn-logical/functions.c:206
+#: ../plugins/fn-logical/functions.c:207
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -9145,7 +9145,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OR, AND, NOT"
 
-#: ../plugins/fn-logical/functions.c:268
+#: ../plugins/fn-logical/functions.c:269
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -9177,7 +9177,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-logical/functions.c:311
+#: ../plugins/fn-logical/functions.c:310
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -9201,7 +9201,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: ../plugins/fn-logical/functions.c:336
+#: ../plugins/fn-logical/functions.c:335
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -11481,7 +11481,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-math/functions.c:2518
+#: ../plugins/fn-math/functions.c:2514
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -11523,7 +11523,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: ../plugins/fn-math/functions.c:2635
+#: ../plugins/fn-math/functions.c:2631
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -11565,7 +11565,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: ../plugins/fn-math/functions.c:2749
+#: ../plugins/fn-math/functions.c:2745
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -11607,7 +11607,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: ../plugins/fn-math/functions.c:2865
+#: ../plugins/fn-math/functions.c:2861
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -11641,7 +11641,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: ../plugins/fn-math/functions.c:2926
+#: ../plugins/fn-math/functions.c:2922
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11670,7 +11670,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT,MDETERM"
 
-#: ../plugins/fn-math/functions.c:3071
+#: ../plugins/fn-math/functions.c:3067
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11696,7 +11696,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3147
+#: ../plugins/fn-math/functions.c:3143
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -11732,13 +11732,13 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3196
+#: ../plugins/fn-math/functions.c:3192
 msgid "SUMPRODUCT:Multiplies components and adds the results."
 msgstr ""
 "SUMPRODUCT:Multiplica os componentes e adiciona os resultados destas "
 "multiplicações."
 
-#: ../plugins/fn-math/functions.c:3198
+#: ../plugins/fn-math/functions.c:3194
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -11746,11 +11746,11 @@ msgstr ""
 "Multiplica as entradas correspondentes de dados fornecidos em matrizes ou "
 "regiões, retorna a soma desses produtos."
 
-#: ../plugins/fn-math/functions.c:3201
+#: ../plugins/fn-math/functions.c:3197
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Se uma entrada não é numérica, o valor 0 é adotado."
 
-#: ../plugins/fn-math/functions.c:3202
+#: ../plugins/fn-math/functions.c:3198
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -11758,7 +11758,7 @@ msgstr ""
 "Se os argumentos da matriz ou região não têm as mesmas dimensões, retorna o "
 "erro #VALOR!."
 
-#: ../plugins/fn-math/functions.c:3204
+#: ../plugins/fn-math/functions.c:3200
 msgid ""
 "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
 "not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
@@ -13818,7 +13818,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
-#: ../plugins/fn-stat/functions.c:471
+#: ../plugins/fn-stat/functions.c:472
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -13851,7 +13851,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
-#: ../plugins/fn-stat/functions.c:506
+#: ../plugins/fn-stat/functions.c:508
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -13885,7 +13885,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
-#: ../plugins/fn-stat/functions.c:544
+#: ../plugins/fn-stat/functions.c:546
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -13911,7 +13911,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: ../plugins/fn-stat/functions.c:576
+#: ../plugins/fn-stat/functions.c:578
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -13941,7 +13941,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
-#: ../plugins/fn-stat/functions.c:611
+#: ../plugins/fn-stat/functions.c:613
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
@@ -13973,7 +13973,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: ../plugins/fn-stat/functions.c:649
+#: ../plugins/fn-stat/functions.c:651
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stddev)\n"
@@ -14005,7 +14005,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
-#: ../plugins/fn-stat/functions.c:689
+#: ../plugins/fn-stat/functions.c:691
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -14033,7 +14033,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FISHER"
 
-#: ../plugins/fn-stat/functions.c:719
+#: ../plugins/fn-stat/functions.c:721
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -14069,7 +14069,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: ../plugins/fn-stat/functions.c:757
+#: ../plugins/fn-stat/functions.c:759
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -14099,7 +14099,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: ../plugins/fn-stat/functions.c:791
+#: ../plugins/fn-stat/functions.c:793
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -14129,7 +14129,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: ../plugins/fn-stat/functions.c:824
+#: ../plugins/fn-stat/functions.c:826
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -14159,7 +14159,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:870
+#: ../plugins/fn-stat/functions.c:872
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -14189,7 +14189,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: ../plugins/fn-stat/functions.c:915
+#: ../plugins/fn-stat/functions.c:917
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -14221,7 +14221,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: ../plugins/fn-stat/functions.c:949
+#: ../plugins/fn-stat/functions.c:951
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -14252,7 +14252,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: ../plugins/fn-stat/functions.c:993
+#: ../plugins/fn-stat/functions.c:995
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -14283,7 +14283,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,ABS"
 
-#: ../plugins/fn-stat/functions.c:1037
+#: ../plugins/fn-stat/functions.c:1039
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -14326,7 +14326,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: ../plugins/fn-stat/functions.c:1077
+#: ../plugins/fn-stat/functions.c:1079
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -14358,7 +14358,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
-#: ../plugins/fn-stat/functions.c:1112
+#: ../plugins/fn-stat/functions.c:1114
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -14398,7 +14398,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:1152
+#: ../plugins/fn-stat/functions.c:1154
 msgid ""
 "@FUNCTION=BERNOULLI\n"
 "@SYNTAX=BERNOULLI(k,p)\n"
@@ -14426,7 +14426,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDBERNOULLI"
 
-#: ../plugins/fn-stat/functions.c:1197
+#: ../plugins/fn-stat/functions.c:1199
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -14455,7 +14455,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:1237
+#: ../plugins/fn-stat/functions.c:1239
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -14487,7 +14487,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: ../plugins/fn-stat/functions.c:1278
+#: ../plugins/fn-stat/functions.c:1280
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -14517,7 +14517,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: ../plugins/fn-stat/functions.c:1316
+#: ../plugins/fn-stat/functions.c:1318
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -14547,7 +14547,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
-#: ../plugins/fn-stat/functions.c:1352
+#: ../plugins/fn-stat/functions.c:1354
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -14575,7 +14575,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: ../plugins/fn-stat/functions.c:1386
+#: ../plugins/fn-stat/functions.c:1388
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -14607,7 +14607,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: ../plugins/fn-stat/functions.c:1527
+#: ../plugins/fn-stat/functions.c:1529
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -14642,7 +14642,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: ../plugins/fn-stat/functions.c:1573
+#: ../plugins/fn-stat/functions.c:1575
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -14680,7 +14680,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: ../plugins/fn-stat/functions.c:1617
+#: ../plugins/fn-stat/functions.c:1619
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -14715,9 +14715,9 @@ msgstr ""
 "* Se @caudas não é 1 ou 2, TDIST retorna o erro #NUM!\n"
 "* Esta função é compatível com o Excel para valores não-negativos de @x.\n"
 "\n"
-"Aviso: a parametrização desta função é diferente daquela utilizada em, por exemplo,"
-"NORMSDIST.  Essa é uma fonte comum de erros, mas necessária para garantir a "
-"compatibilidade.\n"
+"Aviso: a parametrização desta função é diferente daquela utilizada em, por "
+"exemplo,NORMSDIST.  Essa é uma fonte comum de erros, mas necessária para "
+"garantir a compatibilidade.\n"
 "\n"
 "@EXAMPLES=\n"
 "TDIST(2,5,1) retorna 0.050969739.\n"
@@ -14726,7 +14726,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TINV,TTEST"
 
-#: ../plugins/fn-stat/functions.c:1662
+#: ../plugins/fn-stat/functions.c:1664
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -14737,7 +14737,7 @@ msgid ""
 "* This function is Excel compatible.\n"
 "\n"
 "Warning: the parameterization of this function is different from what is "
-"used for, e.g., NORMSDIST.  This is a common source of mistakes, but "
+"used for, e.g., NORMSINV.  This is a common source of mistakes, but "
 "necessary for compatibility.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -14747,22 +14747,22 @@ msgid ""
 msgstr ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,ngl)\n"
-"@DESCRIPTION=A função TINV retorna o inverso da distribuição t-student "
+"@DESCRIPTION=A função TINV retorna o inverso da distribuição t de Student "
 "bicaudal.\n"
 "\n"
 "* Se @p < 0 ou @p > 1 ou @ngl< 1, TINV retorna o erro #NUM!\n"
 "* Esta função é compatível com o Excel.\n"
 "\n"
-"Aviso:·a·parametrização·desta·função·é·diferente·daquela·utilizada·em,·por·exemplo,"
-"NORMSDIST.··Essa·é·uma·fonte·comum·de·erros,·mas·necessária·para·garantir·a·"
-"compatibilidade.\n"
+"Aviso:·a·parametrização·desta·função·é·diferente·daquela·utilizada·em,"
+"·por·exemplo, NORMSDIST.··Essa·é·uma·fonte·comum·de·erros,"
+"·mas·necessária·para·garantir·a·compatibilidade.\n"
 "\n"
 "@EXAMPLES=\n"
 "TINV(0.4,32) retorna 0.852998454.\n"
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
-#: ../plugins/fn-stat/functions.c:1700
+#: ../plugins/fn-stat/functions.c:1702
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -14794,7 +14794,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: ../plugins/fn-stat/functions.c:1737
+#: ../plugins/fn-stat/functions.c:1739
 msgid ""
 "@FUNCTION=LANDAU\n"
 "@SYNTAX=LANDAU(x)\n"
@@ -14815,7 +14815,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLANDAU"
 
-#: ../plugins/fn-stat/functions.c:1882
+#: ../plugins/fn-stat/functions.c:1884
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -14845,7 +14845,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: ../plugins/fn-stat/functions.c:1918
+#: ../plugins/fn-stat/functions.c:1920
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -14883,7 +14883,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:1963
+#: ../plugins/fn-stat/functions.c:1965
 msgid ""
 "@FUNCTION=CAUCHY\n"
 "@SYNTAX=CAUCHY(x,a,cum)\n"
@@ -14911,7 +14911,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDCAUCHY"
 
-#: ../plugins/fn-stat/functions.c:2001
+#: ../plugins/fn-stat/functions.c:2003
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -14949,7 +14949,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: ../plugins/fn-stat/functions.c:2041
+#: ../plugins/fn-stat/functions.c:2043
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -14979,7 +14979,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: ../plugins/fn-stat/functions.c:2077
+#: ../plugins/fn-stat/functions.c:2079
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
@@ -15018,7 +15018,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: ../plugins/fn-stat/functions.c:2124
+#: ../plugins/fn-stat/functions.c:2126
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -15052,7 +15052,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:2162
+#: ../plugins/fn-stat/functions.c:2164
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
@@ -15082,7 +15082,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:2199
+#: ../plugins/fn-stat/functions.c:2201
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -15124,7 +15124,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:2241
+#: ../plugins/fn-stat/functions.c:2243
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
@@ -15160,7 +15160,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: ../plugins/fn-stat/functions.c:2287
+#: ../plugins/fn-stat/functions.c:2289
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stddev)\n"
@@ -15191,7 +15191,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: ../plugins/fn-stat/functions.c:2326
+#: ../plugins/fn-stat/functions.c:2328
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -15233,7 +15233,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: ../plugins/fn-stat/functions.c:2367
+#: ../plugins/fn-stat/functions.c:2369
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -15265,7 +15265,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: ../plugins/fn-stat/functions.c:2402
+#: ../plugins/fn-stat/functions.c:2404
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -15295,7 +15295,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: ../plugins/fn-stat/functions.c:2435
+#: ../plugins/fn-stat/functions.c:2437
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -15327,7 +15327,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: ../plugins/fn-stat/functions.c:2470
+#: ../plugins/fn-stat/functions.c:2472
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -15355,7 +15355,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: ../plugins/fn-stat/functions.c:2508
+#: ../plugins/fn-stat/functions.c:2510
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -15390,7 +15390,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: ../plugins/fn-stat/functions.c:2550
+#: ../plugins/fn-stat/functions.c:2552
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -15416,7 +15416,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: ../plugins/fn-stat/functions.c:2578
+#: ../plugins/fn-stat/functions.c:2580
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -15442,7 +15442,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: ../plugins/fn-stat/functions.c:2611
+#: ../plugins/fn-stat/functions.c:2614
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -15476,7 +15476,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: ../plugins/fn-stat/functions.c:2647
+#: ../plugins/fn-stat/functions.c:2650
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
 "@SYNTAX=SSMEDIAN(array[,interval)]\n"
@@ -15516,7 +15516,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MEDIAN"
 
-#: ../plugins/fn-stat/functions.c:2753
+#: ../plugins/fn-stat/functions.c:2756
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -15552,7 +15552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:2802
+#: ../plugins/fn-stat/functions.c:2805
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -15588,7 +15588,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: ../plugins/fn-stat/functions.c:2874
+#: ../plugins/fn-stat/functions.c:2877
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -15625,7 +15625,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: ../plugins/fn-stat/functions.c:2969
+#: ../plugins/fn-stat/functions.c:2972
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -15661,7 +15661,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: ../plugins/fn-stat/functions.c:3127
+#: ../plugins/fn-stat/functions.c:3130
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -15696,7 +15696,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: ../plugins/fn-stat/functions.c:3183
+#: ../plugins/fn-stat/functions.c:3186
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -15732,7 +15732,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:3221
+#: ../plugins/fn-stat/functions.c:3224
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -15768,7 +15768,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: ../plugins/fn-stat/functions.c:3259
+#: ../plugins/fn-stat/functions.c:3262
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -15804,7 +15804,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: ../plugins/fn-stat/functions.c:3297
+#: ../plugins/fn-stat/functions.c:3300
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -15846,7 +15846,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: ../plugins/fn-stat/functions.c:3341
+#: ../plugins/fn-stat/functions.c:3344
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -15884,7 +15884,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: ../plugins/fn-stat/functions.c:3380
+#: ../plugins/fn-stat/functions.c:3383
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -15928,7 +15928,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: ../plugins/fn-stat/functions.c:3425
+#: ../plugins/fn-stat/functions.c:3428
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -15967,7 +15967,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: ../plugins/fn-stat/functions.c:3465
+#: ../plugins/fn-stat/functions.c:3468
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -16007,7 +16007,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:3578
+#: ../plugins/fn-stat/functions.c:3581
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -16043,7 +16043,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: ../plugins/fn-stat/functions.c:3630
+#: ../plugins/fn-stat/functions.c:3633
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -16092,7 +16092,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:3689
+#: ../plugins/fn-stat/functions.c:3692
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -16124,7 +16124,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: ../plugins/fn-stat/functions.c:3746
+#: ../plugins/fn-stat/functions.c:3749
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -16185,7 +16185,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: ../plugins/fn-stat/functions.c:3913
+#: ../plugins/fn-stat/functions.c:3916
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -16220,7 +16220,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-stat/functions.c:3993
+#: ../plugins/fn-stat/functions.c:3996
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16283,7 +16283,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: ../plugins/fn-stat/functions.c:4268
+#: ../plugins/fn-stat/functions.c:4271
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16350,7 +16350,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: ../plugins/fn-stat/functions.c:4548
+#: ../plugins/fn-stat/functions.c:4551
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -16415,7 +16415,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: ../plugins/fn-stat/functions.c:4651
+#: ../plugins/fn-stat/functions.c:4654
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -16463,7 +16463,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: ../plugins/fn-stat/functions.c:4769
+#: ../plugins/fn-stat/functions.c:4772
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -16522,7 +16522,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 
-#: ../plugins/fn-stat/functions.c:5025
+#: ../plugins/fn-stat/functions.c:5028
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -16562,7 +16562,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: ../plugins/fn-stat/functions.c:5140
+#: ../plugins/fn-stat/functions.c:5143
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -16602,7 +16602,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: ../plugins/fn-stat/functions.c:5214
+#: ../plugins/fn-stat/functions.c:5217
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16641,7 +16641,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: ../plugins/fn-stat/functions.c:5267
+#: ../plugins/fn-stat/functions.c:5271
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -16671,7 +16671,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: ../plugins/fn-stat/functions.c:5314
+#: ../plugins/fn-stat/functions.c:5319
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -16739,7 +16739,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: ../plugins/fn-stat/functions.c:5420
+#: ../plugins/fn-stat/functions.c:5425
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -16758,7 +16758,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-stat/functions.c:5542
+#: ../plugins/fn-stat/functions.c:5547
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -16788,7 +16788,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: ../plugins/fn-stat/functions.c:5581
+#: ../plugins/fn-stat/functions.c:5586
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -16810,7 +16810,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: ../plugins/fn-stat/functions.c:5620
+#: ../plugins/fn-stat/functions.c:5625
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -16833,7 +16833,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: ../plugins/fn-stat/functions.c:5661
+#: ../plugins/fn-stat/functions.c:5666
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -16856,7 +16856,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: ../plugins/fn-stat/functions.c:5704
+#: ../plugins/fn-stat/functions.c:5709
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -16879,7 +16879,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: ../plugins/fn-stat/functions.c:5750
+#: ../plugins/fn-stat/functions.c:5755
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -16908,7 +16908,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: ../plugins/fn-stat/functions.c:5789
+#: ../plugins/fn-stat/functions.c:5794
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -17609,7 +17609,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: ../plugins/fn-string/functions.c:1189
+#: ../plugins/fn-string/functions.c:1190
 msgid ""
 "@FUNCTION=ASC\n"
 "@SYNTAX=ASC(string)\n"
@@ -17632,7 +17632,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/gda/plugin-gda.c:141
+#: ../plugins/gda/plugin-gda.c:229
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(dsn,username,password,sql)\n"
@@ -17659,7 +17659,7 @@ msgstr ""
 "EXECSQL(\"meusdados\",\"usuário\",\"senha\",\"SELECT * FROM clientes\")\n"
 "@SEEALSO=READDBTABLE"
 
-#: ../plugins/gda/plugin-gda.c:214
+#: ../plugins/gda/plugin-gda.c:302
 msgid ""
 "@FUNCTION=READDBTABLE\n"
 "@SYNTAX=READDBTABLE(dsn,username,password,table)\n"
@@ -17691,7 +17691,7 @@ msgstr ""
 "\")\n"
 "@SEEALSO=EXECSQL"
 
-#: ../plugins/numtheory/numtheory.c:211
+#: ../plugins/numtheory/numtheory.c:206
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -17710,7 +17710,7 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
-#: ../plugins/numtheory/numtheory.c:249
+#: ../plugins/numtheory/numtheory.c:244
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -17740,7 +17740,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: ../plugins/numtheory/numtheory.c:291
+#: ../plugins/numtheory/numtheory.c:286
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -17756,7 +17756,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
-#: ../plugins/numtheory/numtheory.c:327
+#: ../plugins/numtheory/numtheory.c:322
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -17772,7 +17772,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: ../plugins/numtheory/numtheory.c:364
+#: ../plugins/numtheory/numtheory.c:359
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -17788,7 +17788,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
-#: ../plugins/numtheory/numtheory.c:394
+#: ../plugins/numtheory/numtheory.c:389
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -17806,7 +17806,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: ../plugins/numtheory/numtheory.c:446
+#: ../plugins/numtheory/numtheory.c:447
 msgid ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"
@@ -17828,7 +17828,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME"
 
-#: ../plugins/numtheory/numtheory.c:479
+#: ../plugins/numtheory/numtheory.c:483
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -17846,7 +17846,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: ../plugins/numtheory/numtheory.c:509
+#: ../plugins/numtheory/numtheory.c:518
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -17862,7 +17862,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 
-#: ../plugins/numtheory/numtheory.c:536
+#: ../plugins/numtheory/numtheory.c:545
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -17879,7 +17879,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 
-#: ../plugins/numtheory/numtheory.c:564
+#: ../plugins/numtheory/numtheory.c:573
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -17895,7 +17895,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
-#: ../plugins/numtheory/numtheory.c:592
+#: ../plugins/numtheory/numtheory.c:601
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -17915,7 +17915,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
-#: ../plugins/numtheory/numtheory.c:625
+#: ../plugins/numtheory/numtheory.c:634
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
