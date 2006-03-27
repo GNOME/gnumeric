@@ -1,3 +1,9 @@
+Gnumeric 1.6.4
+
+Morten:
+	* Fix sheet-manage dialog crash.  [#336165]
+
+--------------------------------------------------------------------------
 Gnumeric 1.6.3
 
 Jean Brefort:
