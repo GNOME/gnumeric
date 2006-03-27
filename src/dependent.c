@@ -1095,7 +1095,7 @@ cell_eval_content (GnmCell *cell)
 #ifdef DEBUG_EVALUATION
 	{
 		GnmParsePos pp;
-		char *str = gnm_expr_as_string (cell->base.expression,
+		char *str = gnm_expr_top_as_string (cell->base.texpr,
 			parse_pos_init_cell (&pp, cell), gnm_expr_conventions_default);
 		g_print ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
 		g_free (str);
