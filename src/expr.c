@@ -922,7 +922,8 @@ cb_implicit_iter_b_to_scalar_a (GnmValue const *v, GnmEvalPos const *ep,
 }
 
 static GnmValue *
-bin_array_op (GnmEvalPos const *ep, GnmValue *sizer, GnmValue *a, GnmValue *b,
+bin_array_op (GnmEvalPos const *ep, const GnmValue *sizer,
+	      GnmValue *a, GnmValue *b,
 	      BinOpImplicitIteratorFunc func, gpointer user_data)
 {
 	BinOpImplicitIteratorState iter_info;
@@ -946,7 +947,7 @@ bin_array_op (GnmEvalPos const *ep, GnmValue *sizer, GnmValue *a, GnmValue *b,
 			value_area_foreach (a, ep, CELL_ITER_ALL,
 				(ValueAreaFunc) cb_implicit_iter_a_to_scalar_b, &iter_info);
 	} else
-		/* you have to love the aymetry of MS XL */
+		/* you have to love the asymmetry of MS XL */
 		iter_info.res = value_new_error_VALUE (ep);
 	if (a != NULL)
 		value_release (a);
