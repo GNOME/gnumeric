@@ -405,7 +405,7 @@ cell_set_array_formula (Sheet *sheet,
 	corner = sheet_cell_fetch (sheet, col_a, row_a);
 	g_return_if_fail (corner != NULL);
 
-	wrapper = gnm_expr_top_new (gnm_expr_new_array_corner (num_cols, num_rows, gnm_expr_copy (texpr->expr)));
+	wrapper = gnm_expr_top_new_array_corner (num_cols, num_rows, gnm_expr_copy (texpr->expr));
 	gnm_expr_top_unref (texpr);
 	cell_set_expr_internal (corner, wrapper);
 	gnm_expr_top_unref (wrapper);
@@ -419,7 +419,7 @@ cell_set_array_formula (Sheet *sheet,
 				continue;
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
-			te = gnm_expr_top_new (gnm_expr_new_array_elem (x, y));
+			te = gnm_expr_top_new_array_elem (x, y);
 			cell_set_expr_internal (cell, te);
 			dependent_link (CELL_TO_DEP (cell));
 			gnm_expr_top_unref (te);

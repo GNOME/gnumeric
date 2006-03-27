@@ -237,7 +237,7 @@ gnm_expr_new_cellref (GnmCellRef const *cr)
  *
  * Absorb a referernce to @expr if it is non NULL.
  **/
-GnmExpr const *
+static GnmExpr const *
 gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 {
 	GnmExprArrayCorner *ans;
@@ -254,7 +254,7 @@ gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr)
 	return (GnmExpr *)ans;
 }
 
-GnmExpr const *
+static GnmExpr const *
 gnm_expr_new_array_elem  (int x, int y)
 {
 	GnmExprArrayElem *ans;
@@ -2727,6 +2727,18 @@ gnm_expr_top_is_shared (GnmExprTop const *texpr)
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
 
 	return texpr->refcount > 1;
+}
+
+GnmExprTop const *
+gnm_expr_top_new_array_corner(int cols, int rows, GnmExpr const *expr)
+{
+	return gnm_expr_top_new (gnm_expr_new_array_corner (cols, rows, expr));
+}
+
+GnmExprTop const *
+gnm_expr_top_new_array_elem  (int x, int y)
+{
+	return gnm_expr_top_new (gnm_expr_new_array_elem (x, y));
 }
 
 /**

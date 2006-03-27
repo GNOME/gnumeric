@@ -62,8 +62,6 @@ GnmExpr const *gnm_expr_new_funcall3	(GnmFunc *func,
 GnmExpr const *gnm_expr_new_name	(GnmNamedExpr *name,
 					 Sheet *sheet_scope, Workbook *wb_scope);
 GnmExpr const *gnm_expr_new_cellref	(GnmCellRef const *cr);
-GnmExpr const *gnm_expr_new_array_corner(int cols, int rows, GnmExpr const *expr);
-GnmExpr const *gnm_expr_new_array_elem  (int x, int y);
 GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
 GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
@@ -135,6 +133,9 @@ GnmExprTop const *gnm_expr_top_new (GnmExpr const *e);
 GnmExprTop const *gnm_expr_top_new_constant (GnmValue *v);
 void gnm_expr_top_ref (GnmExprTop const *texpr);
 void gnm_expr_top_unref (GnmExprTop const *texpr);
+
+GnmExprTop const *gnm_expr_top_new_array_corner(int cols, int rows, GnmExpr const *expr);
+GnmExprTop const *gnm_expr_top_new_array_elem  (int x, int y);
 
 gboolean gnm_expr_top_is_shared (GnmExprTop const *texpr);
 gboolean gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError e);

@@ -630,10 +630,9 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx,
 			} else
 				aexpr = gnm_expr_copy (array->expr);
 
-			texpr = gnm_expr_top_new
-				(gnm_expr_new_array_corner (cols,
-							    rows,
-							    aexpr));
+			texpr = gnm_expr_top_new_array_corner (cols,
+							       rows,
+							       aexpr);
 		}
 
 		if (!texpr) {

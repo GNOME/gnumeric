@@ -1,3 +1,10 @@
+2006-03-27  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_top_new_array_corner,
+	gnm_expr_top_new_array_elem): New function.
+	(gnm_expr_new_array_corner, gnm_expr_new_array_elem): Make static.
+	All callers changed to _top_ versions.
+
 2006-03-24  Jody Goldberg <jody@gnome.org>
 
 	* src/wbcg-actions.c (cb_auto_filter) : adding an autofilter dirties
