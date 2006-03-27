@@ -364,7 +364,7 @@ dialog_doc_metadata_set_label (DialogDocMetaData *state,
 		gtk_label_set_text (label, str_value);
 		g_free (str_value);
 	} else
-		gtk_label_set_text (label, _("Unknwon"));
+		gtk_label_set_text (label, _("Unknown"));
 }
 
 /**
