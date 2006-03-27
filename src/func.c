@@ -1108,7 +1108,6 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 			if (iter_count > 0) {
 				if (iter_width != value_area_get_width (tmp, ei->pos) ||
 				    iter_height != value_area_get_height (tmp, ei->pos)) {
-					/* no need to free inter_vals, there is nothing there yet */
 					free_values (args, i + 1);
 					return value_new_error_VALUE (ei->pos);
 				}
