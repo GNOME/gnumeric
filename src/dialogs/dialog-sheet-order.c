@@ -519,8 +519,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 			    SHEET_POINTER, NULL,
 			    IS_EDITABLE_COLUMN,	TRUE,
 			    IS_DELETED,	FALSE,
-			    BACKGROUND_COLOUR, 0,
-			    FOREGROUND_COLOUR, 0,
+			    BACKGROUND_COLOUR, NULL,
+			    FOREGROUND_COLOUR, NULL,
 			    SHEET_DIRECTION, FALSE,
 			    SHEET_DIRECTION_IMAGE, state->image_ltr,
 			    -1);
