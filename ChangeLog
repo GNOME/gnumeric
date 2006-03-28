@@ -1,4 +1,10 @@
+2006-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (cb_cell_is_array): Redo in terms of cell_is_array.
+	(cb_sheet_cell_copy): Simplify using cell_is_array_corner.
+
 2006-03-28  Eduardo Lima <eduardo.lima@indt.org.br>
+
 	* src/gui-file.c (gui_wb_view_show) : Fixed compile error if defined
 	USE_HILDON. Added some comments.
 	* src/wbgc-actions.c (cb_file_new) : Fixed compile error if defined

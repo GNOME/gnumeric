@@ -2436,17 +2436,11 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 }
 
 static GnmValue *
-cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
+cb_cell_is_array (G_GNUC_UNUSED Sheet *sheet,
+		  G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
+		  GnmCell *cell, G_GNUC_UNUSED void *user_data)
 {
-	GnmExprOp op;
-
-	if (cell == NULL || !cell_has_expr (cell))
-		return NULL;
-
-	op = GNM_EXPR_GET_OPER (cell->base.texpr->expr);
-	return (op == GNM_EXPR_OP_ARRAY_CORNER || op == GNM_EXPR_OP_ARRAY_ELEM)
-		? VALUE_TERMINATE
-		: NULL;
+	return cell_is_array (cell) ? VALUE_TERMINATE : NULL;
 }
 
 /**
@@ -4322,19 +4316,15 @@ static void
 cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 {
 	GnmCell const *cell = key;
-	Sheet *dst = (Sheet *) new_sheet_param;
-	GnmCell  *new_cell;
-	gboolean is_expr;
+	Sheet *dst = new_sheet_param;
+	GnmExprArrayCorner const *array;
 
 	g_return_if_fail (dst != NULL);
 	g_return_if_fail (cell != NULL);
 
-	is_expr = cell_has_expr (cell);
-
-	if (is_expr &&
-	    GNM_EXPR_GET_OPER (cell->base.texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER) {
+	array = cell_is_array_corner (cell);
+	if (array) {
 		unsigned int i, j;
-		GnmExprArrayCorner const *array = &cell->base.texpr->expr->array_corner;
 		cell_set_array_formula (dst,
 			cell->pos.col, cell->pos.row,
 			cell->pos.col + array->cols-1,
@@ -4351,16 +4341,17 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 						cell->pos.row + j);
 					cell_set_value (out, in->value);
 				}
-			/* only copy the corner */
-			return;
+	} else {
+		GnmCell *new_cell = sheet_cell_new (dst, cell->pos.col, cell->pos.row);
+		GnmValue *value = value_dup (cell->value);
+		if (cell_has_expr (cell))
+			cell_set_expr_and_value (new_cell,
+						 cell->base.texpr,
+						 value,
+						 TRUE);
+		else
+			cell_set_value (new_cell, value);
 	}
-
-	new_cell = sheet_cell_new (dst, cell->pos.col, cell->pos.row);
-	if (is_expr)
-		cell_set_expr_and_value (new_cell,
-			cell->base.texpr, value_dup (cell->value), TRUE);
-	else
-		cell_set_value (new_cell, value_dup (cell->value));
 }
 
 static void
