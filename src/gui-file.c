@@ -107,7 +107,8 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 	Workbook *tmp_wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 #ifdef USE_HILDON
-	if (workbook_is_dirty (tmp_wb)) {
+	/* Ask if the user wants to save the current workbook */
+	if (go_doc_is_dirty (GO_DOC (tmp_wb))) {
 		switch (wbcg_show_save_dialog (wbcg, tmp_wb, FALSE)) {
 
 			case GTK_RESPONSE_YES:
@@ -125,6 +126,7 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 		}
 	}
 
+	/* Shows the new workbook in the same window */
 	g_object_ref (wbcg);
 	g_object_unref (tmp_wb);
 	wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);

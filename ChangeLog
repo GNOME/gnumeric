@@ -1,3 +1,9 @@
+2006-03-28  Eduardo Lima <eduardo.lima@indt.org.br>
+	* src/gui-file.c (gui_wb_view_show) : Fixed compile error if defined
+	USE_HILDON. Added some comments.
+	* src/wbgc-actions.c (cb_file_new) : Fixed compile error if defined
+	USE_HILDON. Added some comments. Code cleanup.
+
 2006-03-27  Jody Goldberg <jody@gnome.org>
 
 	* src/value-sheet.c (value_area_get_x_y) : document that this does a
