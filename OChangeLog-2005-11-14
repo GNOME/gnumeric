@@ -1,3 +1,8 @@
+2006-03-27  Jody Goldberg <jody@gnome.org>
+
+	* src/value-sheet.c (value_area_get_x_y) : document that this does a
+	  cell_eval for range constants.
+
 2006-03-27  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_new_array_corner,

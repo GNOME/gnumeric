@@ -1,3 +1,7 @@
+2006-03-27  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_sumproduct) : fix typo.
+
 2006-03-18  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_roman): Fix error cases.

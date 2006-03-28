@@ -2,7 +2,6 @@
 #
 # These are generated:
 src/parser.c
-GNOME_Gnumeric.server.in
 #
 # and these are no longer in use:
 plugins/gb/plugin.c

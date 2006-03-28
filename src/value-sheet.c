@@ -134,6 +134,18 @@ value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
 	return 1;
 }
 
+/**
+ * value_area_fetch_x_y:
+ * @v : const #GnmValue *
+ * @x : column
+ * @y : row
+ * @ep : const #GnmEvalPos *
+ * 
+ * An internal routine to get a cell from an array or range.
+ * Ensures that elements of CELLRANGE are evaluated
+ *
+ * Returns the element if it exists and is non-empty otherwise returns 0
+ **/
 GnmValue const *
 value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 {
@@ -144,10 +156,18 @@ value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 	return value_zero;
 }
 
-/*
- * An internal routine to get a cell from an array or range.  If any
- * problems occur a NULL is returned.
- */
+/**
+ * value_area_get_x_y:
+ * @v : const #GnmValue *
+ * @x : column
+ * @y : row
+ * @ep : const #GnmEvalPos *
+ * 
+ * An internal routine to get a cell from an array or range.
+ * Ensures that elements of CELLRANGE are evaluated
+ *
+ * If any problems occur a NULL is returned.
+ **/
 GnmValue const *
 value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 {

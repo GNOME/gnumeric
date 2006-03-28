@@ -3227,7 +3227,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv
 
 	for (i = 0; i < argc; i++) {
 		int thissizex, thissizey, x, y;
-		GnmExpr const *expr = argv[0];
+		GnmExpr const *expr = argv[i];
 		GnmValue    *val = gnm_expr_eval (expr, ei->pos,
 					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 					   GNM_EXPR_EVAL_PERMIT_EMPTY);
