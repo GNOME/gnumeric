@@ -11,7 +11,7 @@ main ()
 	double v;
 	char *s;
 
-	format_match_init ();
+	/* format_match_init (); */
 
 	/* To test the formats of the type "0.0 pesos" */
 	format_match_define ("0.0 \"pesos\"");

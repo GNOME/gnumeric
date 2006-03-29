@@ -128,7 +128,7 @@ gnm_common_init (gboolean fast)
 	rendered_value_init ();
 	gnumeric_color_init ();
 	style_init ();
-	format_match_init ();
+	/* format_match_init (); */
 	/* e_cursors_init (); */
 	functions_init ();
 	print_init ();
@@ -183,7 +183,7 @@ gnm_shutdown (void)
 	print_shutdown ();
 	functions_shutdown ();
 	/* e_cursors_shutdown (); */
-	format_match_finish ();
+	/* format_match_finish (); */
 	style_shutdown ();
 	gnumeric_color_shutdown ();
 	rendered_value_shutdown ();

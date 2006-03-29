@@ -1,3 +1,9 @@
+2006-03-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/libgnumeric.c (gnm_common_init, gnm_shutdown),
+	src/number-match-test.c (main): Dropped calls to format_match_init and
+	format_match_finish.
+
 2006-03-29  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (format_match_finish, format_match_init):
