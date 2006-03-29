@@ -25,8 +25,6 @@
 #include "mathfunc.h"
 #include "str.h"
 #include "numbers.h"
-#include <goffice/utils/go-format-match.h>
-#include <goffice/utils/format-impl.h>
 #include <goffice/utils/regutf8.h>
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -1204,16 +1202,4 @@ format_match_number (char const *text, GOFormat *cur_fmt,
 		value_release (res);
 	}
 	return NULL;
-}
-
-
-void
-format_match_init (void)
-{
-}
-
-void
-format_match_finish (void)
-{
-	datetime_locale_clear ();
 }

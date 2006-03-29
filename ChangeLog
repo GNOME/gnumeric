@@ -1,3 +1,8 @@
+2006-03-29  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_finish, format_match_init):
+	Remove.
+
 2006-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-autofill.c (sheet_autofill_dir): Reimplement sanely.
