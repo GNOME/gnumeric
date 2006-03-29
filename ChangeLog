@@ -1,5 +1,13 @@
 2006-03-28  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-autofill.c (sheet_autofill_dir): Reimplement sanely.
+	(autofill_shutdown): New function.
+
+	* src/libgnumeric.c (gnm_shutdown): Hook up autofill_shutdown.
+
+	* src/number-match.c (datetime_locale_setup): Use
+	go_date_month_name.
+
 	* src/sheet.c (cb_cell_is_array): Redo in terms of cell_is_array.
 	(cb_sheet_cell_copy): Simplify using cell_is_array_corner.
 

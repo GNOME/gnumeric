@@ -179,6 +179,7 @@ gnm_shutdown (void)
 		go_conf_sync (NULL);
 	}
 
+	autofill_shutdown ();
 	print_shutdown ();
 	functions_shutdown ();
 	/* e_cursors_shutdown (); */

@@ -170,30 +170,25 @@ datetime_locale_setup (const char *lc_time)
 	GString *p_MMM = g_string_sized_new (200);
 	GString *p_decimal = g_string_sized_new (10);
 	char *s;
-	GDate date;
 	int m;
 
 	datetime_locale.lc_time = g_strdup (lc_time);
 
-	g_date_clear (&date, 1);
-
 	for (m = 1; m <= 12; m++) {
-		char buf[100];
-
-		g_date_set_dmy (&date, 15, m, 2000);
-
-		g_date_strftime (buf, sizeof (buf) - 1, "%B", &date);
 		if (m != 1)
 			g_string_append_c (p_MMMM, '|');
 		g_string_append_c (p_MMMM, '(');
-		go_regexp_quote (p_MMMM, buf);
+		s = go_date_month_name (m, FALSE);
+		go_regexp_quote (p_MMMM, s);
+		g_free (s);
 		g_string_append_c (p_MMMM, ')');
 
-		g_date_strftime (buf, sizeof (buf) - 1, "%b", &date);
 		if (m != 1)
 			g_string_append_c (p_MMM, '|');
 		g_string_append_c (p_MMM, '(');
-		go_regexp_quote (p_MMM, buf);
+		s = go_date_month_name (m, TRUE);
+		go_regexp_quote (p_MMM, s);
+		g_free (s);
 		g_string_append_c (p_MMM, ')');
 	}
 

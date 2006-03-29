@@ -276,7 +276,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	}
 
 	/* Start in the same directory as the current workbook.  */
-	gtk_file_chooser_select_uri (fsel, go_doc_get_uri (workbook));
+	gtk_file_chooser_select_uri (fsel, go_doc_get_uri (GO_DOC (workbook)));
 	gtk_file_chooser_unselect_all (fsel);
 
 	/* Filters */
@@ -472,7 +472,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	wb_uri = go_doc_get_uri (wb_view_get_workbook (wb_view));
+	wb_uri = go_doc_get_uri (GO_DOC (wb_view_get_workbook (wb_view)));
 	if (wb_uri != NULL) {
 		char *basename = go_basename_from_uri (wb_uri);
 		char *dot = basename ? strrchr (basename, '.') : NULL;

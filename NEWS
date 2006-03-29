@@ -131,6 +131,7 @@ Morten:
 	  cases.
 	* Fix EVEN and ODD for very large numbers.
 	* Fix sheet-manage dialog crash.  [#336165]
+	* Reimplement autofill.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
