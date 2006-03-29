@@ -24,6 +24,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include <goffice/utils/go-format.h>
 #include "value.h"
 #include "gnm-datetime.h"
 #include "number-match.h"
@@ -37,13 +38,10 @@ datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 		serial = value_get_as_float (v);
 	else {
 		char const *str = value_peek_string (v);
-		GnmValue *conversion = format_match (str, NULL, conv);
+		GnmValue *conversion = format_match_number (str, go_format_default_date (), conv);
 
 		if (conversion) {
-			if (VALUE_IS_NUMBER (conversion))
-				serial = value_get_as_float (conversion);
-			else
-				serial =  0;
+			serial = value_get_as_float (conversion);
 			value_release (conversion);
 		} else
 			serial = 0;
