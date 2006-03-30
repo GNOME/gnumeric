@@ -642,7 +642,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 
 		if (tmp != NULL) {
 			if (GNM_EXPR_GET_OPER (tmp) == GNM_EXPR_OP_CONSTANT &&
-			    tmp->constant.value->type == VALUE_STRING)
+			    VALUE_IS_STRING (tmp->constant.value))
 				f_name = tmp->constant.value->v_str.val->str;
 			else if (GNM_EXPR_GET_OPER (tmp) == GNM_EXPR_OP_NAME)
 				f_name = tmp->name.name->name->str;

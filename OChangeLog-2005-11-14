@@ -1,5 +1,7 @@
 2006-03-30  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: Use VALUE_IS_STRING and VALUE_IS_EMPTY when appropriate.
+
 	* src/expr.c (negate_value): Simplify.
 	(bin_arith): Simplify and handler overflow better.
 

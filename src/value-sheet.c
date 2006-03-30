@@ -150,10 +150,10 @@ GnmValue const *
 value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 {
 	GnmValue const * const res = value_area_get_x_y (v, x, y, ep);
-	if (res && res->type != VALUE_EMPTY)
+	if (VALUE_IS_EMPTY (res))
+		return value_zero;
+	else
 		return res;
-
-	return value_zero;
 }
 
 /**

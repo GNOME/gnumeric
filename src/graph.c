@@ -431,7 +431,7 @@ cb_assign_val (Sheet *sheet, int col, int row,
 	}
 
 	dat->last = dat->i;
-	if (v->type == VALUE_STRING) {
+	if (VALUE_IS_STRING (v)) {
 		v = format_match_number (v->v_str.val->str, NULL,
 				workbook_date_conv (sheet->workbook));
 		if (v == NULL) {
@@ -520,7 +520,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			if (VALUE_IS_EMPTY_OR_ERROR (v)) {
 				vals[len] = go_nan;
 				continue;
-			} else if (v->type == VALUE_STRING) {
+			} else if (VALUE_IS_STRING (v)) {
 				GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
 						workbook_date_conv (vec->dep.sheet->workbook));
 				if (tmp == NULL) {
@@ -841,7 +841,7 @@ cb_assign_matrix_val (Sheet *sheet, int col, int row,
 	if (dat->last_col < dat->col)
 		dat->last_col = dat->col;
 
-	if (v->type == VALUE_STRING) {
+	if (VALUE_IS_STRING (v)) {
 		v = format_match_number (v->v_str.val->str, NULL,
 				workbook_date_conv (sheet->workbook));
 		if (v == NULL) {
@@ -925,7 +925,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 				if (VALUE_IS_EMPTY_OR_ERROR (v)) {
 					vals[row * size.columns + col] = go_nan;
 					continue;
-				} else if (v->type == VALUE_STRING) {
+				} else if (VALUE_IS_STRING (v)) {
 					GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
 							workbook_date_conv (mat->dep.sheet->workbook));
 					if (tmp == NULL) {

@@ -818,7 +818,7 @@ static GnmFuncHelp const help_t_[] = {
 static GnmValue *
 gnumeric_t_ (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	if (argv[0]->type == VALUE_STRING)
+	if (VALUE_IS_STRING (argv[0]))
 		return value_dup (argv[0]);
 	else
 		return value_new_empty ();
@@ -852,7 +852,7 @@ gnumeric_text (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	GODateConventions const *conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
-	if (v->type == VALUE_STRING) {
+	if (VALUE_IS_STRING (v)) {
 		match = format_match (value_peek_string (v), NULL, conv);
 		if (match != NULL)
 			v = match;

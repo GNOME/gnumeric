@@ -1129,7 +1129,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 		/* All of these argument types must be scalars */
 		switch (arg_type) {
 		case 'b':
-			if (tmp->type == VALUE_STRING) {
+			if (VALUE_IS_STRING (tmp)) {
 				gboolean err;
 				gboolean b = value_get_as_bool (tmp, &err);
 				if (err) {
@@ -1142,7 +1142,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 			}
 			/* Fall through.  */
 		case 'f':
-			if (tmp->type == VALUE_STRING) {
+			if (VALUE_IS_STRING (tmp)) {
 				tmp = format_match_number (value_peek_string (tmp), NULL,
 					workbook_date_conv (ei->pos->sheet->workbook));
 				if (tmp == NULL) {
@@ -1154,17 +1154,13 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 			} else if (tmp->type == VALUE_ERROR) {
 				free_values (args, i);
 				return tmp;
-			} else if (tmp->type == VALUE_EMPTY) {
+			} else if (VALUE_IS_EMPTY (tmp)) {
 				value_release (args [i]);
 				tmp = args[i] = value_new_int (0);
 			}
 
-			if (tmp->type != VALUE_INTEGER &&
-			    tmp->type != VALUE_FLOAT &&
-			    tmp->type != VALUE_BOOLEAN) {
-				free_values (args, i+1);
+			if (!VALUE_IS_NUMBER (tmp))
 				return value_new_error_VALUE (ei->pos);
-			}
 			break;
 
 		case 's':
@@ -1209,7 +1205,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 					if  (arg_type == 'b' || arg_type == 'f') {
 						if (VALUE_IS_EMPTY (elem))
 							elem = value_zero;
-						else if (elem->type == VALUE_STRING) {
+						else if (VALUE_IS_STRING (elem)) {
 							tmp = format_match_number (value_peek_string (elem), NULL,
 								workbook_date_conv (ei->pos->sheet->workbook));
 							if (tmp != NULL) {
@@ -1220,9 +1216,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 						} else if (elem->type == VALUE_ERROR) {
 							err = elem;
 							break;
-						} else if (elem->type != VALUE_INTEGER &&
-							   elem->type != VALUE_FLOAT &&
-							   elem->type != VALUE_BOOLEAN)
+						} else if (!VALUE_IS_NUMBER (elem))
 							break;
 					} else if (arg_type == 's') {
 						if (VALUE_IS_EMPTY (elem)) {
@@ -1231,7 +1225,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 						} else if (elem->type == VALUE_ERROR) {
 							err = elem;
 							break;
-						} else if (tmp->type != VALUE_STRING)
+						} else if (!VALUE_IS_STRING (tmp))
 							break;
 					} else if (elem == NULL) {
 						args [iter_item[i]] = iter_args [i] = value_new_empty ();

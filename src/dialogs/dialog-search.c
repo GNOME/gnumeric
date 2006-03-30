@@ -150,7 +150,7 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 				type = _("Deleted");
 			else if (is_expr)
 				type = _("Expression");
-			else if (is_value && v->type == VALUE_STRING)
+			else if (is_value && VALUE_IS_STRING (v))
 				type = _("String");
 			else if (is_value && v->type == VALUE_INTEGER)
 				type = _("Integer");

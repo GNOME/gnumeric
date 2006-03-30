@@ -610,7 +610,7 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
 		return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 		    ? NULL : value_new_int (0);
 
-	if (res->type == VALUE_EMPTY) {
+	if (VALUE_IS_EMPTY (res)) {
 		value_release (res);
 		return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 		    ? NULL : value_new_int (0);
@@ -790,7 +790,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 		return value_dup (b);
 	if (VALUE_IS_EMPTY (a))
 		a = va = (GnmValue *)value_zero;
-	else if (a->type == VALUE_STRING) {
+	else if (VALUE_IS_STRING (a)) {
 		va = format_match_number (a->v_str.val->str, NULL,
 			workbook_date_conv (ep->sheet->workbook));
 		if (va == NULL)
@@ -801,7 +801,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 		va = (GnmValue *)a;
 	if (VALUE_IS_EMPTY (b))
 		b = vb = (GnmValue *)value_zero;
-	else if (b->type == VALUE_STRING) {
+	else if (VALUE_IS_STRING (b)) {
 		vb = format_match_number (b->v_str.val->str, NULL,
 			workbook_date_conv (ep->sheet->workbook));
 		if (vb == NULL) {
@@ -938,7 +938,7 @@ cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
 		tmp = value_new_int (0);
 	else if (v->type == VALUE_ERROR)
 		tmp = value_dup (v);
-	else if (v->type == VALUE_STRING) {
+	else if (VALUE_IS_STRING (v)) {
 		GnmValue *conv = format_match_number
 			(value_peek_string (v), NULL,
 			 workbook_date_conv (ep->sheet->workbook));
@@ -970,7 +970,7 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 		tmp = value_dup (v);
 	else {
 		GnmValue *conv = NULL;
-		if (v->type == VALUE_STRING) {
+		if (VALUE_IS_STRING (v)) {
 			conv = format_match_number (value_peek_string (v), NULL,
 						    workbook_date_conv (ep->sheet->workbook));
 			if (conv != NULL)
@@ -1104,7 +1104,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			return value_error_set_pos (&a->v_err, pos);
 
 		/* 2) #!VALUE error if A is not a number */
-		if (a->type == VALUE_STRING) {
+		if (VALUE_IS_STRING (a)) {
 			GnmValue *tmp = format_match_number (a->v_str.val->str, NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
@@ -1114,7 +1114,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			a = tmp;
 		} else if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
 			b = gnm_expr_eval (expr->binary.value_b, pos, flags);
-			if (b->type == VALUE_STRING) {
+			if (VALUE_IS_STRING (b)) {
 				res = format_match_number (b->v_str.val->str, NULL,
 					workbook_date_conv (pos->sheet->workbook));
 				value_release (b);
@@ -1136,7 +1136,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 
 		/* 4) #!VALUE error if B is not a number */
-		if (b->type == VALUE_STRING) {
+		if (VALUE_IS_STRING (b)) {
 			GnmValue *tmp = format_match_number (b->v_str.val->str, NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
@@ -1174,7 +1174,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			return a;
 
 		/* 2) #!VALUE error if A is not a number */
-		if (a->type == VALUE_STRING) {
+		if (VALUE_IS_STRING (a)) {
 			GnmValue *tmp = format_match_number (a->v_str.val->str, NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
@@ -1506,7 +1506,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		GnmValue const *v = expr->constant.value;
 		size_t prelen = target->len;
 
-		if (v->type == VALUE_STRING) {
+		if (VALUE_IS_STRING (v)) {
 			go_strescape (target, v->v_str.val->str);
 			return;
 		}

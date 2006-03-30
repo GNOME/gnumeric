@@ -2202,7 +2202,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		style = cell_get_mstyle (cell);
 
 		/* Collect unique fonts in rich text */
-		if (cell->value->type == VALUE_STRING &&
+		if (VALUE_IS_STRING (cell->value) &&
 		    go_format_is_markup (fmt)) {
 			GArray *txo = txomarkup_new (ewb, 
 						     fmt->markup, style);
@@ -2226,7 +2226,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 	}
 
 	/* Collect strings for the SST if we need them */
-	if (ewb->sst.strings != NULL && cell->value->type == VALUE_STRING) {
+	if (ewb->sst.strings != NULL && VALUE_IS_STRING (cell->value)) {
 		str = cell->value->v_str.val;
 		if (!g_hash_table_lookup_extended (ewb->sst.strings, str, NULL, NULL)) {
 			index = ewb->sst.indicies->len;
@@ -3169,7 +3169,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 	if (cell_has_expr (cell))
 		excel_write_FORMULA (ewb, esheet, cell, xf);
 	else if ((v = cell->value) != NULL) {
-		if (v->type == VALUE_STRING &&
+		if (VALUE_IS_STRING (v) &&
 		    VALUE_FMT (v) != NULL &&
 		    go_format_is_markup (VALUE_FMT (v)))
 			excel_write_RSTRING (ewb, cell, xf);

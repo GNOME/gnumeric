@@ -132,11 +132,11 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 		GnmCell *cell = current->data;
 		GnmValue *value = cell->value;
 
-		if ((flags & COLLECT_IGNORE_STRINGS) && value->type == VALUE_STRING)
+		if ((flags & COLLECT_IGNORE_STRINGS) && VALUE_IS_STRING (value))
 			continue;
 		if ((flags & COLLECT_IGNORE_BOOLS) && value->type == VALUE_BOOLEAN)
 			continue;
-		if ((flags & COLLECT_IGNORE_BLANKS) && value->type == VALUE_EMPTY)
+		if ((flags & COLLECT_IGNORE_BLANKS) && VALUE_IS_EMPTY (value))
 			continue;
 		if (floats)
 			res1[count++] = value_get_as_float (value);

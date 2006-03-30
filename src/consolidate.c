@@ -287,7 +287,7 @@ retrieve_row_tree (GnmConsolidate *cs)
 		for (row = sgr->range.start.row; row <= sgr->range.end.row; row++) {
 			GnmValue const *v = sheet_cell_get_value (sgr->sheet, sgr->range.start.col, row);
 
-			if (v && v->type != VALUE_EMPTY) {
+			if (!VALUE_IS_EMPTY (v)) {
 				if (NULL == (ti = g_tree_lookup (tree, (gpointer) v))) {
 					/* NOTE: There is no need to duplicate
 					 * the value as it will not change
@@ -333,7 +333,7 @@ retrieve_col_tree (GnmConsolidate *cs)
 		for (col = sgr->range.start.col; col <= sgr->range.end.col; col++) {
 			GnmValue const *v = sheet_cell_get_value (sgr->sheet, col, sgr->range.start.row);
 
-			if (v && v->type != VALUE_EMPTY) {
+			if (!VALUE_IS_EMPTY (v)) {
 				GnmSheetRange *gr;
 				GSList *granges;
 				TreeItem *ti;
@@ -410,8 +410,8 @@ key_list_get (GnmConsolidate *cs, gboolean is_cols)
 			 * also we treat the value as a constant, we don't duplicate it. It will
 			 * not change during the consolidation.
 			 */
-			if (v && v->type != VALUE_EMPTY
-			    && g_slist_find_custom (keys, (GnmValue *) v, (GCompareFunc) cb_key_find) == NULL)
+			if (!VALUE_IS_EMPTY (v) &&
+			    g_slist_find_custom (keys, (GnmValue *) v, (GCompareFunc) cb_key_find) == NULL)
 				keys = g_slist_insert_sorted (keys, (GnmValue *) v, (GCompareFunc) cb_value_compare);
 		}
 	}

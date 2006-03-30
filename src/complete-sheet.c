@@ -68,7 +68,8 @@ text_matches (CompleteSheet const *cs)
 	Complete const *complete = &cs->parent;
 
 	if (cs->cell->value == NULL ||
-	    cs->cell->value->type != VALUE_STRING || cell_has_expr (cs->cell))
+	    !VALUE_IS_STRING (cs->cell->value) ||
+	    cell_has_expr (cs->cell))
 		return FALSE;
 
 	text = value_peek_string (cs->cell->value);

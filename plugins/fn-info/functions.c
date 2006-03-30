@@ -282,7 +282,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		GnmCell const *cell =
 			sheet_cell_get (sheet, ref->col, ref->row);
 
-		if (cell && cell->value && cell->value->type == VALUE_STRING) {
+		if (cell && cell->value && VALUE_IS_STRING (cell->value)) {
 			switch (gnm_style_get_align_h (mstyle)) {
 			case HALIGN_GENERAL: return value_new_string ("'");
 			case HALIGN_LEFT:    return value_new_string ("'");
@@ -331,7 +331,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		GnmCell const *cell =
 			sheet_cell_get (sheet, ref->col, ref->row);
 		if (cell && cell->value) {
-			if (cell->value->type == VALUE_STRING)
+			if (VALUE_IS_STRING (cell->value))
 				return value_new_string ("l");
 			else
 				return value_new_string ("v");
@@ -1564,7 +1564,7 @@ static GnmFuncHelp const help_isblank[] = {
 static GnmValue *
 gnumeric_isblank (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (argv[0]->type == VALUE_EMPTY);
+	return value_new_bool (VALUE_IS_EMPTY (argv[0]));
 }
 
 /***************************************************************************/
@@ -1643,7 +1643,7 @@ static GnmFuncHelp const help_isnontext[] = {
 static GnmValue *
 gnumeric_isnontext (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (argv[0]->type != VALUE_STRING);
+	return value_new_bool (!VALUE_IS_STRING (argv[0]));
 }
 
 /***************************************************************************/
@@ -1752,7 +1752,7 @@ static GnmFuncHelp const help_istext[] = {
 static GnmValue *
 gnumeric_istext (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (argv[0]->type == VALUE_STRING);
+	return value_new_bool (VALUE_IS_STRING (argv[0]));
 }
 
 /***************************************************************************/

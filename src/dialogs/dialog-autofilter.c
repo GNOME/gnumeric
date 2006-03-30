@@ -202,7 +202,7 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 		return;
 	}
 
-	if (v != NULL && v->type == VALUE_STRING && (i == 1 || i == 2)) {
+	if (v != NULL && VALUE_IS_STRING (v) && (i == 1 || i == 2)) {
 		unsigned const len = strlen (str);
 
 		/* there needs to be at least 1 letter */

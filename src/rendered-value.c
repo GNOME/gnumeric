@@ -593,7 +593,7 @@ cell_get_entered_text (GnmCell const *cell)
 	}
 
 	if (cell->value != NULL) {
-		if (cell->value->type == VALUE_STRING) {
+		if (VALUE_IS_STRING (cell->value)) {
 			/* Try to be reasonably smart about adding a leading quote */
 			char const *tmp = cell->value->v_str.val->str;
 

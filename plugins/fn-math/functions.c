@@ -605,7 +605,7 @@ gnumeric_countif (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (r->type != VALUE_CELLRANGE ||
 	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
 	      r->cell.b.sheet != NULL) ||
-	    (!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING))
+	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
 	        return value_new_error_VALUE (ei->pos);
 
 	res.count = 0;
@@ -705,7 +705,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (r->type != VALUE_CELLRANGE ||
 	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
 	      r->cell.b.sheet != NULL) ||
-	    (!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING))
+	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
 	        return value_new_error_VALUE (ei->pos);
 
 	col_end = r->cell.b.col;

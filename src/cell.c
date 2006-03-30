@@ -440,9 +440,7 @@ cell_set_array_formula (Sheet *sheet,
 gboolean
 cell_is_empty (GnmCell const * cell)
 {
-	return  cell == NULL ||
-		cell->value == NULL ||
-		cell->value->type == VALUE_EMPTY;
+	return cell == NULL || VALUE_IS_EMPTY (cell->value);
 }
 
 /**
@@ -454,9 +452,7 @@ cell_is_empty (GnmCell const * cell)
 gboolean
 cell_is_blank (GnmCell const * cell)
 {
-	return  cell == NULL ||
-		cell->value == NULL ||
-		cell->value->type == VALUE_EMPTY ||
+	return cell_is_empty (cell) ||
 		(VALUE_IS_STRING (cell->value) && *(cell->value->v_str.val->str) == '\0');
 }
 

@@ -56,7 +56,7 @@ find_type_valid (GnmValue const *find)
 	/* Excel does not lookup errors or blanks */
 	if (VALUE_IS_EMPTY (find))
 		return FALSE;
-	return VALUE_IS_NUMBER (find) || find->type == VALUE_STRING;
+	return VALUE_IS_NUMBER (find) || VALUE_IS_STRING (find);
 }
 
 static gboolean

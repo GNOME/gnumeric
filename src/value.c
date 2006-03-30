@@ -939,7 +939,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 					g_string_append (target, col_sep);
 
 				/* quote strings */
-				if (val->type == VALUE_STRING)
+				if (VALUE_IS_STRING (val))
 					go_strescape (target, val->v_str.val->str);
 				else
 					value_get_as_gstring (val, target, conv);
@@ -995,7 +995,7 @@ value_peek_string (GnmValue const *v)
 {
 	g_return_val_if_fail (v, "");
 
-	if (v->type == VALUE_STRING)
+	if (VALUE_IS_STRING (v))
 		return v->v_str.val->str;
 	else if (v->type == VALUE_ERROR)
 		return v->v_err.mesg->str;
@@ -1116,7 +1116,7 @@ value_coerce_to_number (GnmValue *v, gboolean *valid, GnmEvalPos const *ep)
 	g_return_val_if_fail (v != NULL, NULL);
 
 	*valid = FALSE;
-	if (v->type == VALUE_STRING) {
+	if (VALUE_IS_STRING (v)) {
 		GnmValue *tmp = format_match_number (value_peek_string (v), NULL,
 			workbook_date_conv (ep->sheet->workbook));
 		value_release (v);
@@ -1409,8 +1409,8 @@ criteria_test_equal (GnmValue const *x, GnmValue const *y)
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        return (value_get_as_float (x) == value_get_as_float (y));
 	else
-		return (x->type == VALUE_STRING &&
-			y->type == VALUE_STRING &&
+		return (VALUE_IS_STRING (x) &&
+			VALUE_IS_STRING (y) &&
 			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0);
 }
 
@@ -1425,8 +1425,8 @@ criteria_test_unequal (GnmValue const *x, GnmValue const *y)
 	        return (value_get_as_float (x) != value_get_as_float (y));
 	else
 		/* Hmm...  Is this really right?  number vs string, not unequal?  */
-		return (x->type == VALUE_STRING &&
-			y->type == VALUE_STRING &&
+		return (VALUE_IS_STRING (x) &&
+			VALUE_IS_STRING (y) &&
 			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0);
 }
 
@@ -1492,7 +1492,7 @@ find_column_of_field (GnmEvalPos const *ep,
 	if (field->type == VALUE_INTEGER)
 	        return value_get_as_int (field) + offset - 1;
 
-	if (field->type != VALUE_STRING)
+	if (!VALUE_IS_STRING (field))
 	        return -1;
 
 	sheet = eval_sheet (database->v_range.cell.a.sheet, ep->sheet);

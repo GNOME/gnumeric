@@ -300,7 +300,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 
 	is_expr = cell_has_expr (cell);
 	is_value = !is_expr && !cell_is_empty (cell) && v;
-	is_string = is_value && (v->type == VALUE_STRING);
+	is_string = is_value && (VALUE_IS_STRING (v));
 	is_other = is_value && !is_string;
 
 	if ((is_expr && sr->search_expressions) ||

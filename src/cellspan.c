@@ -183,7 +183,7 @@ cellspan_is_empty (int col, ColRowInfo const *ri, GnmCell const *ok_span_cell)
 	 * because we don't respan expression results.
 	 */
 	return (tmp == NULL || tmp->value == NULL ||
-		(tmp->value->type == VALUE_EMPTY && !cell_has_expr(tmp)));
+		(VALUE_IS_EMPTY (tmp->value) && !cell_has_expr(tmp)));
 }
 
 /*

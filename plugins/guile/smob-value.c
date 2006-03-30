@@ -211,10 +211,7 @@ scm_value_get_as_string (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	if (v->v->type == VALUE_STRING ||
-            v->v->type == VALUE_BOOLEAN ||
-            v->v->type == VALUE_INTEGER ||
-            v->v->type == VALUE_FLOAT)
+	if (VALUE_IS_STRING (v->v) || VALUE_IS_NUMBER (v->v))
 		return scm_makfrom0str (value_get_as_string (v->v));
 
 	return SCM_EOL;
@@ -224,9 +221,7 @@ static SCM
 scm_value_get_as_int (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
-	if (v->v->type == VALUE_BOOLEAN ||
-            v->v->type == VALUE_INTEGER ||
-            v->v->type == VALUE_FLOAT)
+	if (VALUE_IS_NUMBER (v->v))
 		return scm_long2num (value_get_as_int (v->v));
 
 	return SCM_EOL;
@@ -237,9 +232,7 @@ scm_value_get_as_float (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	if (v->v->type == VALUE_BOOLEAN ||
-            v->v->type == VALUE_INTEGER ||
-            v->v->type == VALUE_FLOAT)
+	if (VALUE_IS_NUMBER (v->v))
 		return scm_i_dbl2big (value_get_as_float (v->v));
 
 	return SCM_EOL;
@@ -277,7 +270,7 @@ scm_value_get_as_list (SCM value_smob)
 }
 
 void
-init_value_type ()
+init_value_type (void)
 {
 
 	value_tag = scm_make_smob_type ((char *) "value", sizeof (SCM_Value));
@@ -295,6 +288,3 @@ init_value_type ()
 	scm_c_define_gsubr ("value-get-as-float", 1, 0, 0, scm_value_get_as_float);
 	scm_c_define_gsubr ("value-get-as-list", 1, 0, 0, scm_value_get_as_list);
 }
-
-
-
