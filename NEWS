@@ -134,6 +134,7 @@ Morten:
 	* Reimplement autofill.
 	* Fix xls export of data tables.
 	* Fix xls export for intersections.
+	* Fix parser crash.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

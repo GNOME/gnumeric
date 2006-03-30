@@ -715,12 +715,13 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 		/* TODO : add more control for precision, XL is stupid */
 		int new_val = gnm_fake_round (swa->adjustment->value);
 		if (cell->value != NULL &&
-		    cell->value->type == VALUE_INTEGER &&
-		    cell->value->v_int.val == new_val)
+		    VALUE_IS_NUMBER (cell->value) &&
+		    cell->value->type != VALUE_BOOLEAN &&
+		    value_get_as_float (cell->value) == new_val)
 			return;
 
 		swa->being_updated = TRUE;
-		sheet_cell_set_value (cell, value_new_int (swa->adjustment->value));
+		sheet_cell_set_value (cell, value_new_int (new_val));
 
 		workbook_recalc (ref.sheet->workbook);
 		sheet_update (ref.sheet);

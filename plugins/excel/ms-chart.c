@@ -4675,8 +4675,7 @@ chart_write_siindex (XLChartWriteState *s, guint msdim)
 				? xlval->value->v_array.vals[0][j]
 				: xlval->value->v_array.vals[j][0];
 			switch (value->type) {
-			case VALUE_INTEGER:
-			case VALUE_FLOAT:
+			case VALUE_FLOAT: case VALUE_INTEGER:
 				data = ms_biff_put_len_next (s->bp, BIFF_NUMBER_v2, 14);
 				GSF_LE_SET_DOUBLE (data + 6, value_get_as_float (value));
 				break;

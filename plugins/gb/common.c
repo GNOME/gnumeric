@@ -26,11 +26,8 @@ value_to_gb (GnmValue *val)
 	case VALUE_STRING:
 		return gb_value_new_string_chars (val->v_str.val->str);
 
-	case VALUE_INTEGER:
-		return gb_value_new_long (val->v_int.val);
-
-	case VALUE_FLOAT:
-		return gb_value_new_double (val->v_float.val);
+	case VALUE_FLOAT: case VALUE_INTEGE:
+		return gb_value_new_double (value_get_as_float (val));
 
 	default:
 		g_warning ("Unimplemented %d -> GB translation", val->type);

@@ -52,38 +52,24 @@ static GnmValue *
 callback_function_sumxy (Sheet *sheet, int col, int row,
 			 GnmCell *cell, void *user_data)
 {
-        math_sums_t *mm = user_data;
-        gnm_float  x;
-	gpointer    p;
-
 	if (cell == NULL)
 	        return NULL;
 	cell_eval (cell);
-        switch (cell->value->type) {
-	case VALUE_ERROR:
-		return VALUE_TERMINATE;
 
-	case VALUE_BOOLEAN:
-	        x = cell->value->v_bool.val ? 1 : 0;
-		break;
-	case VALUE_INTEGER:
-	        x = cell->value->v_int.val;
-		break;
-	case VALUE_FLOAT:
-	        x = cell->value->v_float.val;
-		break;
-	case VALUE_EMPTY:
-	default:
-	        return NULL;
-	}
+	if (VALUE_IS_NUMBER (cell->value)) {
+		math_sums_t *mm = user_data;
+		gnm_float *p = g_new (gnm_float, 1);
+		*p = value_get_as_float (cell->value);
+		mm->list = g_slist_append (mm->list, p);
+		mm->num++;
 
-	p = g_new (gnm_float, 1);
-	*((gnm_float *) p) = x;
-	mm->list = g_slist_append (mm->list, p);
-	mm->num++;
-
-	return NULL;
+		return NULL;
+	} else if (cell->value->type == VALUE_ERROR)
+		return VALUE_TERMINATE;  /* FIXME: This is probably wrong.  */
+	else
+		return NULL;
 }
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_gcd[] = {
@@ -568,24 +554,22 @@ static GnmFuncHelp const help_countif[] = {
 
 typedef struct {
         GnmCriteriaFunc  test;
-        GnmValue            *test_value;
-	unsigned int	     count;
+        GnmValue *test_value;
+	int count;
 } CountIfClosure;
 
 static GnmValue *
-cb_countif (Sheet *sheet, int col, int row, GnmCell *cell,
-	    CountIfClosure *res)
+cb_countif (Sheet *sheet, int col, int row, GnmCell *cell, CountIfClosure *res)
 {
 	if (cell == NULL)
 		return NULL;
 	cell_eval (cell);
-	switch (cell->value->type) {
-	case VALUE_BOOLEAN: case VALUE_INTEGER: case VALUE_FLOAT:
-	case VALUE_STRING:
+
+	if (VALUE_IS_NUMBER (cell->value) || VALUE_IS_STRING (cell->value)) {
 		if ((res->test) (cell->value, res->test_value))
 			res->count++;
-	default: break;
 	}
+
 	return NULL;
 }
 
@@ -664,9 +648,8 @@ cb_sumif (Sheet *sheet, int col, int row, GnmCell *cell,
 	if (cell == NULL)
 		return NULL;
 	cell_eval (cell);
-	switch (cell->value->type) {
-	case VALUE_BOOLEAN: case VALUE_INTEGER: case VALUE_FLOAT:
-	case VALUE_STRING:
+
+	if (VALUE_IS_NUMBER (cell->value) || VALUE_IS_STRING (cell->value)) {
 		if ((res->test) (cell->value, res->test_value)) {
 			if (NULL != res->target_sheet) {
 				cell = sheet_cell_get (res->target_sheet,
@@ -674,17 +657,20 @@ cb_sumif (Sheet *sheet, int col, int row, GnmCell *cell,
 				if (cell != NULL) {
 					cell_eval (cell);
 					switch (cell->value->type) {
-					case VALUE_INTEGER:	res->sum += cell->value->v_int.val; break;
-					case VALUE_FLOAT:	res->sum += cell->value->v_float.val; break;
-					default : break;
+					case VALUE_FLOAT: case VALUE_INTEGER:
+						/* FIXME: Check bools.  */
+						res->sum += value_get_as_float (cell->value);
+						break;
+					default:
+						break;
 					}
 				}
 			} else
+				/* FIXME: Check bools.  */
 				res->sum += value_get_as_float (cell->value);
 		}
-	default:
-		break;
 	}
+
 	return NULL;
 }
 
@@ -3247,7 +3233,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv
 				/* FIXME: efficiency worries?  */
 				GnmValue const *v = value_area_fetch_x_y (val, x, y, ei->pos);
 				switch (v->type) {
-				case VALUE_ERROR :
+				case VALUE_ERROR:
 					/*
 					 * We carefully tranverse the argument
 					 * list and then the arrays in such an
@@ -3264,8 +3250,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv
 					result = value_dup (v);
 					value_release (val);
 					goto done;
-				case VALUE_INTEGER:
-				case VALUE_FLOAT:
+				case VALUE_FLOAT: case VALUE_INTEGER:
 					data[i][y * thissizex + x] = value_get_as_float (v);
 					break;
 				default :

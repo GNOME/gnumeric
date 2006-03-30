@@ -2818,31 +2818,11 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 		ms_biff_put_commit (ewb->bp);
 		break;
 	}
-	case VALUE_INTEGER: {
-		int vint = v->v_int.val;
-		guint8 *data;
-
-		d (3, fprintf (stderr, "Writing %d %d\n", vint, v->v_int.val););
-		if (((vint<<2)>>2) != vint) { /* Chain to floating point then. */
-			GnmValue *vf = value_new_float (v->v_int.val);
-			excel_write_value (ewb, vf, col, row, xf);
-			value_release (vf);
-		} else {
-			data = ms_biff_put_len_next (ewb->bp, (0x200 | BIFF_RK), 10);
-			EX_SETROW(data, row);
-			EX_SETCOL(data, col);
-			EX_SETXF (data, xf);
-			/* Integers can always be represented as integers.
-			 * Use RK form 2 */
-			GSF_LE_SET_GUINT32 (data + 6, (vint<<2) + 2);
-			ms_biff_put_commit (ewb->bp);
-		}
-		break;
-	}
-	case VALUE_FLOAT: {
-		gnm_float val = v->v_float.val;
-		gboolean is_int = ((val - (int)val) == 0.0) &&
-			(((((int)val)<<2)>>2) == ((int)val));
+	case VALUE_FLOAT: case VALUE_INTEGER: {
+		gnm_float val = value_get_as_float (v);
+		gboolean is_int = (val >= INT_MIN / 4 &&
+				   val <= INT_MAX / 4 &&
+				   val == (int)val);
 
 		d (3, fprintf (stderr, "Writing %g is (%g %g) is int ? %d\n",
 			      (double)val,
@@ -2850,12 +2830,18 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 			      (double)(1.0 * (val - (int)val)),
 			      is_int););
 
-		/* FIXME : Add test for double with 2 digits of fraction
+		/* FIXME : Add test for double of form i/100.0
 		 * and represent it as a mode 3 RK (val*100) construct */
-		if (is_int) { /* not nice but functional */
-			GnmValue *vi = value_new_int (val);
-			excel_write_value (ewb, vi, col, row, xf);
-			value_release (vi);
+		if (is_int) {
+			guint8 *data = ms_biff_put_len_next (ewb->bp, (0x200 | BIFF_RK), 10);
+			int ival = (int)val;
+			EX_SETROW(data, row);
+			EX_SETCOL(data, col);
+			EX_SETXF (data, xf);
+			/* Integers can always be represented as integers.
+			 * Use RK form 2 */
+			GSF_LE_SET_GUINT32 (data + 6, (ival << 2) + 2);
+			ms_biff_put_commit (ewb->bp);
 		} else if (ewb->bp->version >= MS_BIFF_V7) {
 			guint8 *data =ms_biff_put_len_next (ewb->bp, BIFF_NUMBER_v2, 14);
 			EX_SETROW(data, row);
@@ -2938,35 +2924,34 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	EX_SETCOL (data, col);
 	EX_SETXF  (data, xf);
 	switch (v->type) {
-	case VALUE_INTEGER :
-	case VALUE_FLOAT :
+	case VALUE_FLOAT: case VALUE_INTEGER:
 		gsf_le_set_double (data + 6, value_get_as_float (v));
 		break;
 
-	case VALUE_STRING :
+	case VALUE_STRING:
 		GSF_LE_SET_GUINT32 (data +  6, 0x00000000);
 		GSF_LE_SET_GUINT32 (data + 10, 0xffff0000);
 		string_result = TRUE;
 		break;
 
-	case VALUE_BOOLEAN :
+	case VALUE_BOOLEAN:
 		GSF_LE_SET_GUINT32 (data +  6,
 				    v->v_bool.val ? 0x10001 : 0x1);
 		GSF_LE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 
-	case VALUE_ERROR :
+	case VALUE_ERROR:
 		GSF_LE_SET_GUINT32 (data +  6,
 				    0x00000002 | (excel_write_map_errcode (v) << 16));
 		GSF_LE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 
-	case VALUE_EMPTY :
+	case VALUE_EMPTY:
 		GSF_LE_SET_GUINT32 (data +  6, 0x00000003);
 		GSF_LE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 
-	default :
+	default:
 		g_warning ("Unhandled value->type (%d) in excel_write_FORMULA.", v->type);
 	}
 
@@ -3414,7 +3399,6 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 {
 	char const *str = NULL;
 	GnmValue const *v = cond->value[i];
-	int tmp;
 
 	if (cond->op[i] == GNM_FILTER_UNUSED)
 		return NULL;
@@ -3424,17 +3408,19 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 				buf[3] = v->v_bool.val ? 1 : 0;
 				break;
 
-	case VALUE_INTEGER:
-		tmp = v->v_int.val;
-		if (((tmp << 2) >> 2) == tmp) {
+	case VALUE_FLOAT: case VALUE_INTEGER: {
+		gnm_float f = value_get_as_float (v);
+		if (f < INT_MIN / 4 || f > INT_MAX / 4 || f != gnm_floor (f)) {
+			buf[0] = 4;
+			gsf_le_set_double (buf + 2, f);
+		} else {
+			int i = (int)f;
 			buf[0] = 2;
-			GSF_LE_SET_GUINT32 (buf + 2, (tmp << 2) | 2);
+			GSF_LE_SET_GUINT32 (buf + 2, i | 2);
 			break;
 		}
-		/* fall through */
-	case VALUE_FLOAT:	buf[0] = 4;
-		gsf_le_set_double (buf + 2, value_get_as_float (v));
 		break;
+	}
 
 	case VALUE_ERROR:	buf[0] = 8;
 				buf[2] = 1;

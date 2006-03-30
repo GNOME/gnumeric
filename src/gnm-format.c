@@ -42,8 +42,7 @@ gnm_style_format_condition (GOFormatElement const *entry, GnmValue const *value)
 	case VALUE_STRING:
 		return entry->restriction_type == '@';
 
-	case VALUE_INTEGER:
-	case VALUE_FLOAT: {
+	case VALUE_FLOAT: case VALUE_INTEGER: {
 		gnm_float f = value_get_as_float (value);
 		switch (entry->restriction_type) {
 		case '<': return f < entry->restriction_value;
@@ -126,8 +125,7 @@ format_value_gstring (GString *result, GOFormat const *format,
 		g_string_append (result, format_boolean (value->v_bool.val));
 		return;
 
-	case VALUE_INTEGER:
-	case VALUE_FLOAT: {
+	case VALUE_FLOAT: case VALUE_INTEGER: {
 		gnm_float val = value_get_as_float (value);
 
 		if (!gnm_finite (val)) {

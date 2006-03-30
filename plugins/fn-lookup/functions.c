@@ -536,7 +536,7 @@ gnumeric_choose (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 	if (!v)
 		return NULL;
 
-	if ((v->type != VALUE_INTEGER) && (v->type != VALUE_FLOAT)) {
+	if (v->type == VALUE_BOOLEAN || !VALUE_IS_NUMBER (v)) {
 		value_release (v);
 		return value_new_error_VALUE (ei->pos);
 	}

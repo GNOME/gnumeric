@@ -1,5 +1,8 @@
 2006-03-30  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: Reduce the use of VALUE_INTEGER.
+	* parser.y: Fix parser crash for ={-#N/A}.
+
 	* */*.c: Use VALUE_IS_STRING and VALUE_IS_EMPTY when appropriate.
 
 	* src/expr.c (negate_value): Simplify.

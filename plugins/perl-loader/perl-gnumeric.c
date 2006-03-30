@@ -9,19 +9,15 @@ value2perl(GnmValue *v)
     case VALUE_BOOLEAN:
 	sv = newSViv(v->v_bool.val);
 	break;
-	
-    case VALUE_INTEGER:
-	sv = newSViv(v->v_int.val);
+
+    case VALUE_FLOAT: case VALUE_INTEGER:
+	sv = newSVnv(value_get_as_float (v));
 	break;
-	
-    case VALUE_FLOAT:
-	sv = newSVnv(v->v_float.val);
-	break;
-	
+
     case VALUE_STRING:
 	sv = newSVpv(v->v_str.val->str, strlen(v->v_str.val->str));
 	break;
-	
+
     default:
 	sv = NULL;
 	break;
@@ -43,7 +39,7 @@ perl2value(SV *sv)
 	gchar *s,*tmp;
 
 	tmp = SvPV(sv, size);
-	
+
 	s = g_strndup (tmp, size);
 	v = value_new_string (s);
 	g_free (s);

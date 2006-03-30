@@ -706,8 +706,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		GnmValue const *v = expr->constant.value;
 		switch (v->type) {
 
-		case VALUE_INTEGER:
-		case VALUE_FLOAT: {
+		case VALUE_FLOAT: case VALUE_INTEGER: {
 			guint8 data[10];
 			gnm_float f = value_get_as_float (v);
 			int i;

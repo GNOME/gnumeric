@@ -312,21 +312,11 @@ callback_function_rank (Sheet *sheet, int col, int row,
 	if (cell->value == NULL)
 	        return NULL;
 
-	switch (cell->value->type) {
-        case VALUE_BOOLEAN:
-                x = cell->value->v_bool.val ? 1 : 0;
-                break;
-        case VALUE_INTEGER:
-                x = cell->value->v_int.val;
-                break;
-        case VALUE_FLOAT:
-                x = cell->value->v_float.val;
-                break;
-	case VALUE_STRING: /* XL does not appear to do implicit conversion */
-	case VALUE_EMPTY:
-        default:
-                return NULL;	/* ignore them */
-        }
+	if (!VALUE_IS_NUMBER (cell->value))
+		return NULL;
+	/* FIXME: errors?  bools?  */
+
+	x = value_get_as_float (cell->value);
 
 	if (p->order) {
 	        if (x < p->x)
@@ -846,8 +836,7 @@ callback_function_count (GnmEvalPos const *ep, GnmValue const *value, void *clos
 {
 	GnmValue *result = (GnmValue *) closure;
 
-	if (value && 
-	    (value->type == VALUE_INTEGER || value->type == VALUE_FLOAT))
+	if (value && VALUE_IS_NUMBER (value) && value->type != VALUE_BOOLEAN)
 		result->v_int.val++;
 	return NULL;
 }

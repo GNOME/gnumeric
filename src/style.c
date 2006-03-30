@@ -539,8 +539,7 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 		case VALUE_ERROR:
 			return HALIGN_CENTER;
 
-		case VALUE_INTEGER:
-		case VALUE_FLOAT: {
+		case VALUE_FLOAT: case VALUE_INTEGER: {
 			double a = gnm_style_get_rotation (mstyle);
 			if (a > 0 && a < 180)
 				return HALIGN_LEFT;

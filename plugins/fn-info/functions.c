@@ -1669,7 +1669,8 @@ static GnmValue *
 gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0] != NULL &&
-		(argv[0]->type == VALUE_INTEGER || argv[0]->type == VALUE_FLOAT));
+			       argv[0]->type != VALUE_BOOLEAN &&
+			       VALUE_IS_NUMBER (argv[0]));
 }
 
 /***************************************************************************/
@@ -1828,8 +1829,7 @@ gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	case VALUE_BOOLEAN:
 		return value_new_int (4);
 	case VALUE_EMPTY:
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
+	case VALUE_FLOAT: case VALUE_INTEGER:
 		return value_new_int (1);
 	case VALUE_CELLRANGE:
 	case VALUE_ERROR:

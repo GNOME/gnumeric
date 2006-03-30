@@ -234,17 +234,17 @@ static GnmExpr *
 fold_negative (GnmExpr *expr)
 {
 	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
-		GnmValue const *v = expr->constant.value;
+		GnmValue *v = (GnmValue *)expr->constant.value;
+		
+		if (VALUE_IS_NUMBER (v) && v->type != VALUE_BOOLEAN) {
+			gnm_float f = value_get_as_float (v);
+			expr->constant.value = value_new_float (0 - f);
+			value_release (v);
+			return expr;
+		}
+	}
 
-		if (v->type == VALUE_INTEGER)
-			((GnmValue *)v)->v_int.val   = -v->v_int.val;
-		else if (v->type == VALUE_FLOAT)
-			((GnmValue *)v)->v_float.val = -v->v_float.val;
-		else
-			return NULL;
-		return expr;
-	} else
-		return NULL;
+	return NULL;
 }
 
 static GnmExpr *
@@ -766,7 +766,11 @@ arg_list: exp {
 	;
 
 array_exp:     CONSTANT		{ $$ = $1; }
-	 | '-' CONSTANT		{ $$ = fold_negative ($2); }
+	 | '-' CONSTANT		{
+		GnmExpr *tmp = fold_negative ($2);
+		if (!tmp) { YYERROR; }
+		$$ = tmp;
+	 }
 	 | string_opt_quote	{ $$ = parse_string_as_value ($1); }
 	 ;
 

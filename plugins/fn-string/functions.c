@@ -943,28 +943,22 @@ static GnmFuncHelp const help_value[] = {
 static GnmValue *
 gnumeric_value (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	switch (argv[0]->type) {
-	case VALUE_EMPTY:
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
-	case VALUE_BOOLEAN:
+	if (VALUE_IS_EMPTY (argv[0]) || VALUE_IS_NUMBER (argv[0]))
 		return value_dup (argv[0]);
-
-	default: {
+	else {
 		GnmValue *v;
-		char const *p, *arg = value_peek_string (argv[0]);
+		char const *p = value_peek_string (argv[0]);
 
 		/* Skip leading spaces */
-		for (p = arg; *p && g_unichar_isspace (g_utf8_get_char (p));
-		     p = g_utf8_next_char (p))
-			;
+		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
+		       p = g_utf8_next_char (p);
+
 		v = format_match_number (p, NULL,
 			workbook_date_conv (ei->pos->sheet->workbook));
 
 		if (v != NULL)
 			return v;
 		return value_new_error_VALUE (ei->pos);
-	}
 	}
 }
 

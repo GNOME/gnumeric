@@ -136,8 +136,7 @@ val_to_base (FunctionEvalInfo *ei,
 		}
 		/* Fall through.  */
 
-	case VALUE_INTEGER:
-	case VALUE_FLOAT: {
+	case VALUE_FLOAT: case VALUE_INTEGER: {
 		gnm_float val = gnm_fake_trunc (value_get_as_float (vstring ? vstring : value));
 		char buf[GNM_MANT_DIG + 10];
 		char *err;

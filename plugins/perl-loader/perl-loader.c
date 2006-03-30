@@ -67,8 +67,9 @@ call_perl_function_args (FunctionEvalInfo *ei, GnmValue const * const *args)
 	SAVETMPS;
 	PUSHMARK(SP);
 	for (i=0;i<n_args;i++) {
-		g_assert(args[i]->type == VALUE_INTEGER);
-		XPUSHs(sv_2mortal(newSViv(args[i]->v_int.val)));
+		gnm_float f = value_get_as_float (args[i]);
+		int i = (int)i;  /* FIXME: someone needs to figure out what this is.  */
+		XPUSHs(sv_2mortal(newSViv(i)));
 	}
 	PUTBACK;
 	call_pv (perl_func, G_EVAL | G_SCALAR);

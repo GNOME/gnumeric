@@ -160,22 +160,16 @@ rendered_value_render (GString *str,
 		format_value_gstring (str, format, cell->value, go_color,
 				      col_width,
 				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
-		switch (VALUE_TYPE (cell->value)) {
-		case VALUE_INTEGER:
-		case VALUE_FLOAT:
-			if (value_get_as_float (cell->value) < 1.0) {
-				gsize i;
-				for (i = 0; i < str->len; i++)
-					if (str->str[i] == '-') {
-						str->str[i] = minus_utf8[0];
-						g_string_insert_len (str, i + 1, minus_utf8 + 1, minus_utf8_len - 1);
-						i += minus_utf8_len - 1;
-					}
-			}
-			break;
-		default:
-			/* BOOL must go here -- it might have a hyphen in it.  */
-			break;
+		if (VALUE_IS_NUMBER (cell->value) &&
+		    cell->value->type != VALUE_BOOLEAN &&
+		    value_get_as_float (cell->value) < 1.0) {
+			gsize i;
+			for (i = 0; i < str->len; i++)
+				if (str->str[i] == '-') {
+					str->str[i] = minus_utf8[0];
+					g_string_insert_len (str, i + 1, minus_utf8 + 1, minus_utf8_len - 1);
+					i += minus_utf8_len - 1;
+				}
 		}
 	} else {
 		g_warning ("No format: serious error");
