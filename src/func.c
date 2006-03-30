@@ -1490,9 +1490,20 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 			continue;
 		}
 
-		/* Permit empties and non scalars. We don't know what form the
-		 * function wants its arguments */
-		val = gnm_expr_eval (expr, ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR|GNM_EXPR_EVAL_PERMIT_EMPTY);
+		/* We need a cleaner model of what to do here.  For now it
+		 * seems as if var-arg functions treat explict ranges as special cases
+		 * 	SUM(Range)
+		 * will pass the range not do implicit intersection in non-array mode
+		 * 	SUM(Range=3)
+		 * will do implicit intersection in non-array mode */
+		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT)
+			val = value_dup (expr->constant.value);
+		else if (ep->cols > 1 || ep->rows > 1)
+			val = gnm_expr_eval (expr, ep,
+				GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+		else
+			val = gnm_expr_eval (expr, ep,
+				GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		if (val == NULL)
 			continue;

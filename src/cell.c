@@ -482,20 +482,7 @@ gboolean
 cell_is_zero (GnmCell const *cell)
 {
 	GnmValue const * const v = cell->value;
-	if (v == NULL)
-		return FALSE;
-	switch (v->type) {
-	case VALUE_BOOLEAN : return !v->v_bool.val;
-	case VALUE_INTEGER : return v->v_int.val == 0;
-	case VALUE_FLOAT :
-	{
-		gnm_float res = v->v_float.val;
-		return (-1e-10 < res && res < 1e-10);
-	}
-
-	default :
-		return FALSE;
-	}
+	return v && VALUE_IS_NUMBER (v) && gnm_abs (value_get_as_float (v)) < 64 * GNM_EPSILON;
 }
 
 gboolean

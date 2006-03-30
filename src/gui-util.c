@@ -630,11 +630,6 @@ entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean upda
 	if (!value)
 		return TRUE;
 
-	if (!VALUE_IS_NUMBER (value)) {
-		value_release (value);
-		return TRUE;
-	}
-
 	*the_float = value_get_as_float (value);
 	if (update) {
 		char *tmp = format_value (format, value, NULL, 16, NULL);
@@ -652,24 +647,25 @@ entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean upda
  * @the_int:
  * @update:
  *
- * retrieve an int from an entry field parsing all reasonable formats
+ * Retrieve an int from an entry field parsing all reasonable formats
  *
  **/
 gboolean
 entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 {
 	GnmValue *value = format_match_number (gtk_entry_get_text (entry), NULL, NULL);
+	gnm_float f;
 
 	*the_int = 0;
 	if (!value)
 		return TRUE;
 
-	if (value->type != VALUE_INTEGER) {
+	f = value_get_as_float (value);
+	if (f < INT_MIN || f > INT_MAX || f != (*the_int = (int)f)) {
 		value_release (value);
 		return TRUE;
 	}
 
-	*the_int = value_get_as_int (value);
 	if (update) {
 		char *tmp = format_value (NULL, value, NULL, 16, NULL);
 		gtk_entry_set_text (entry, tmp);

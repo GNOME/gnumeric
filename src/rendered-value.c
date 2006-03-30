@@ -115,7 +115,6 @@ rendered_value_render (GString *str,
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
 		*go_color = 0;
 	} else if (gnm_style_is_element_set (mstyle, MSTYLE_FORMAT)) {
-		gboolean handle_minus;
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
 		GOFormat *format = gnm_style_get_format (mstyle);
@@ -163,23 +162,20 @@ rendered_value_render (GString *str,
 				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
 		switch (VALUE_TYPE (cell->value)) {
 		case VALUE_INTEGER:
-			handle_minus = (value_get_as_int (cell->value) < 0);
-			break;
 		case VALUE_FLOAT:
-			handle_minus = (value_get_as_float (cell->value) < 1.0);
+			if (value_get_as_float (cell->value) < 1.0) {
+				gsize i;
+				for (i = 0; i < str->len; i++)
+					if (str->str[i] == '-') {
+						str->str[i] = minus_utf8[0];
+						g_string_insert_len (str, i + 1, minus_utf8 + 1, minus_utf8_len - 1);
+						i += minus_utf8_len - 1;
+					}
+			}
 			break;
 		default:
-			handle_minus = FALSE;
+			/* BOOL must go here -- it might have a hyphen in it.  */
 			break;
-		}
-		if (handle_minus) {
-			unsigned i;
-			for (i = 0; i < str->len; i++)
-				if (str->str[i] == '-') {
-					str->str[i] = minus_utf8[0];
-					g_string_insert_len (str, i + 1, minus_utf8 + 1, minus_utf8_len - 1);
-					i += minus_utf8_len - 1;
-				}
 		}
 	} else {
 		g_warning ("No format: serious error");

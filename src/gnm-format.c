@@ -42,29 +42,20 @@ gnm_style_format_condition (GOFormatElement const *entry, GnmValue const *value)
 	case VALUE_STRING:
 		return entry->restriction_type == '@';
 
-	case VALUE_FLOAT:
-		switch (entry->restriction_type) {
-		case '<': return value->v_float.val < entry->restriction_value;
-		case '>': return value->v_float.val > entry->restriction_value;
-		case '=': return value->v_float.val == entry->restriction_value;
-		case ',': return value->v_float.val <= entry->restriction_value;
-		case '.': return value->v_float.val >= entry->restriction_value;
-		case '+': return value->v_float.val != entry->restriction_value;
-		default:
-			return FALSE;
-		}
-
 	case VALUE_INTEGER:
+	case VALUE_FLOAT: {
+		gnm_float f = value_get_as_float (value);
 		switch (entry->restriction_type) {
-		case '<': return value->v_int.val < entry->restriction_value;
-		case '>': return value->v_int.val > entry->restriction_value;
-		case '=': return value->v_int.val == entry->restriction_value;
-		case ',': return value->v_int.val <= entry->restriction_value;
-		case '.': return value->v_int.val >= entry->restriction_value;
-		case '+': return value->v_int.val != entry->restriction_value;
+		case '<': return f < entry->restriction_value;
+		case '>': return f > entry->restriction_value;
+		case '=': return f == entry->restriction_value;
+		case ',': return f <= entry->restriction_value;
+		case '.': return f >= entry->restriction_value;
+		case '+': return f != entry->restriction_value;
 		default:
 			return FALSE;
 		}
+	}
 
 	case VALUE_ERROR:
 	default:
@@ -130,22 +121,14 @@ format_value_gstring (GString *result, GOFormat const *format,
 	switch (value->type) {
 	case VALUE_EMPTY:
 		return;
+
 	case VALUE_BOOLEAN:
 		g_string_append (result, format_boolean (value->v_bool.val));
 		return;
-	case VALUE_INTEGER: {
-		int val = value->v_int.val;
-		if (need_abs)
-			val = ABS (val);
 
-		if (entry == NULL)
-			go_fmt_general_int (result, val, col_width);
-		else
-			gnm_format_number (result, val, (int)col_width, entry, date_conv);
-		return;
-	}
+	case VALUE_INTEGER:
 	case VALUE_FLOAT: {
-		gnm_float val = value->v_float.val;
+		gnm_float val = value_get_as_float (value);
 
 		if (!gnm_finite (val)) {
 			g_string_append (result, value_error_name (GNM_ERROR_VALUE, TRUE));
@@ -165,10 +148,8 @@ format_value_gstring (GString *result, GOFormat const *format,
 		return;
 	}
 	case VALUE_ERROR:
-		g_string_append (result, value->v_err.mesg->str);
-		return;
 	case VALUE_STRING:
-		g_string_append (result, value->v_str.val->str);
+		g_string_append (result, value_peek_string (value));
 		return;
 	case VALUE_CELLRANGE:
 		g_string_append (result, value_error_name (GNM_ERROR_VALUE, TRUE));

@@ -4657,31 +4657,28 @@ chart_write_siindex (XLChartWriteState *s, guint msdim)
 {
 	guint8 *data;
 	unsigned i, j, jmax;
-	XLValue *xlval;
 	gboolean as_col;
-	GnmValue const* value;
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_siindex, 2);
 	GSF_LE_SET_GUINT16 (data, msdim);
 	ms_biff_put_commit (s->bp);
 	msdim--;
 	for (i = 0; i < s->values[msdim]->len; i++) {
-		xlval = s->values[msdim]->pdata[i];
+		XLValue *xlval = s->values[msdim]->pdata[i];
 		if (xlval->value->type != VALUE_ARRAY)
 			continue;
 		as_col = xlval->value->v_array.y > xlval->value->v_array.x;
-		jmax = (as_col)? xlval->value->v_array.y: xlval->value->v_array.x;
+		jmax = as_col
+			? xlval->value->v_array.y
+			: xlval->value->v_array.x;
 		for (j = 0; j < jmax; j++) {
-			value = (as_col)? xlval->value->v_array.vals [0][j]: xlval->value->v_array.vals [j][0];
+			GnmValue const* value = as_col
+				? xlval->value->v_array.vals[0][j]
+				: xlval->value->v_array.vals[j][0];
 			switch (value->type) {
-			case VALUE_INTEGER: {
-				double d = (double) value->v_int.val;
-				data = ms_biff_put_len_next (s->bp, BIFF_NUMBER_v2, 14);
-				GSF_LE_SET_DOUBLE (data + 6, d);
-				break;
-			}
+			case VALUE_INTEGER:
 			case VALUE_FLOAT:
 				data = ms_biff_put_len_next (s->bp, BIFF_NUMBER_v2, 14);
-				GSF_LE_SET_DOUBLE (data + 6, value->v_float.val);
+				GSF_LE_SET_DOUBLE (data + 6, value_get_as_float (value));
 				break;
 			case VALUE_STRING: {
 				guint8 dat[6];

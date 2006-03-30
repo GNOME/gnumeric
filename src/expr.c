@@ -692,86 +692,47 @@ static GnmValue *
 bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 	   GnmValue const *a, GnmValue const *b)
 {
-	if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
-		int ia = value_get_as_int (a);
-		int ib = value_get_as_int (b);
-		gnm_float dres;
-		int ires;
+	gnm_float const va = value_get_as_float (a);
+	gnm_float const vb = value_get_as_float (b);
+	gnm_float res;
+	int ires;
 
-		/* FIXME: we could use simple (cheap) heuristics to
-		   catch most cases where overflow will not happen.  */
-		switch (GNM_EXPR_GET_OPER (expr)){
-		case GNM_EXPR_OP_ADD:
-			dres = (gnm_float)ia + (gnm_float)ib;
-			break;
+	switch (GNM_EXPR_GET_OPER (expr)) {
+	case GNM_EXPR_OP_ADD:
+		res = va + vb;
+		break;
 
-		case GNM_EXPR_OP_SUB:
-			dres = (gnm_float)ia - (gnm_float)ib;
-			break;
+	case GNM_EXPR_OP_SUB:
+		res = va - vb;
+		break;
 
-		case GNM_EXPR_OP_MULT:
-			dres = (gnm_float)ia * (gnm_float)ib;
-			break;
+	case GNM_EXPR_OP_MULT:
+		res = va * vb;
+		break;
 
-		case GNM_EXPR_OP_DIV:
-			if (ib == 0)
-				return value_new_error_DIV0 (ep);
-			dres = (gnm_float)ia / (gnm_float)ib;
-			break;
+	case GNM_EXPR_OP_DIV:
+		if (vb == 0.0)
+			return value_new_error_DIV0 (ep);
+		res = va / vb;
+		break;
 
-		case GNM_EXPR_OP_EXP:
-			if (ia == 0 && ib <= 0)
-				return value_new_error_NUM (ep);
-			dres = gnm_pow ((gnm_float)ia, (gnm_float)ib);
-			if (!gnm_finite (dres))
-				return value_new_error_NUM (ep);
-			break;
+	case GNM_EXPR_OP_EXP:
+		if ((va == 0 && vb <= 0) || (va < 0 && vb != (int)vb))
+			return value_new_error_NUM (ep);
 
-		default:
-			abort ();
-		}
+		res = gnm_pow (va, vb);
+		break;
 
-		ires = (int)dres;
-		if (dres == ires)
-			return value_new_int (ires);
-		else
-			return value_new_float (dres);
-	} else {
-		gnm_float const va = value_get_as_float (a);
-		gnm_float const vb = value_get_as_float (b);
-
-		switch (GNM_EXPR_GET_OPER (expr)){
-		case GNM_EXPR_OP_ADD:
-			return value_new_float (va + vb);
-
-		case GNM_EXPR_OP_SUB:
-			return value_new_float (va - vb);
-
-		case GNM_EXPR_OP_MULT:
-			return value_new_float (va * vb);
-
-		case GNM_EXPR_OP_DIV:
-			return (vb == 0.0)
-				? value_new_error_DIV0 (ep)
-				: value_new_float (va / vb);
-
-		case GNM_EXPR_OP_EXP: {
-			gnm_float res;
-			if ((va == 0 && vb <= 0) ||
-			    (va < 0 && vb != (int)vb))
-				return value_new_error_NUM (ep);
-
-			res = gnm_pow (va, vb);
-			return gnm_finite (res)
-				? value_new_float (res)
-				: value_new_error_NUM (ep);
-		}
-
-		default:
-			break;
-		}
+	default:
+		g_assert_not_reached ();
 	}
-	return value_new_error (ep, _("Unknown operator"));
+
+	if (res >= INT_MIN && res <= INT_MAX && res == (ires = (int)res))
+		return value_new_int (ires);
+	else if (gnm_finite (res))
+		return value_new_float (res);
+	else
+		return value_new_error_NUM (ep);
 }
 
 static GnmValue *
@@ -956,35 +917,15 @@ bin_array_op (GnmEvalPos const *ep, const GnmValue *sizer,
 	return iter_info.res;
 }
 
-static inline GnmValue *
+static GnmValue *
 negate_value (GnmValue const *v)
 {
-	GnmValue *tmp;
-	GOFormat *fmt; 
-
-	if (v->type == VALUE_INTEGER) {
-		int i = v->v_int.val;
-		if (i < 0 && -i < 0)
-			tmp = value_new_float (-(gnm_float)i);
-		else
-			tmp = value_new_int (-i);
-		fmt = VALUE_FMT (v);
-	} else if (v->type == VALUE_FLOAT) {
-		tmp = value_new_float (-v->v_float.val);
-		fmt = VALUE_FMT (v);
-	} else if (v->type == VALUE_BOOLEAN) {
-		/* Silly, but XL compatible.  */
-		tmp = value_new_int (v->v_bool.val ? -1 : 0);
-		fmt = VALUE_FMT (v);
+	if (VALUE_IS_NUMBER (v)) {
+		GnmValue *tmp = value_new_float (0 - value_get_as_float (v));
+		value_set_fmt (tmp, VALUE_FMT (v));
+		return tmp;
 	} else
 		return NULL;
-
-	if (fmt != NULL) {
-		VALUE_FMT (tmp) = fmt;
-		go_format_ref (fmt);
-	}
-
-	return tmp;
 }
 
 static GnmValue *
@@ -999,19 +940,21 @@ cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
 		tmp = value_dup (v);
 	else if (v->type == VALUE_STRING) {
 		GnmValue *conv = format_match_number
-			(v->v_str.val->str, NULL,
+			(value_peek_string (v), NULL,
 			 workbook_date_conv (ep->sheet->workbook));
 		if (conv != NULL) {
 			tmp = negate_value (conv);
 			value_release (conv);
 		}
-	} else
+	} else {
+		/* BOOL goes here.  */
 		tmp = negate_value (v);
+	}
 
 	if (!tmp)
 		tmp = value_new_error_VALUE (ep);
 
-	res->v_array.vals [x][y] = tmp;
+	res->v_array.vals[x][y] = tmp;
 	return NULL;
 }
 
@@ -1028,7 +971,7 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 	else {
 		GnmValue *conv = NULL;
 		if (v->type == VALUE_STRING) {
-			conv = format_match_number (v->v_str.val->str, NULL,
+			conv = format_match_number (value_peek_string (v), NULL,
 						    workbook_date_conv (ep->sheet->workbook));
 			if (conv != NULL)
 				v = conv;
@@ -1036,8 +979,7 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 
 		if (VALUE_IS_NUMBER (v)){
 			tmp = value_new_float (value_get_as_float (v) / 100);
-			VALUE_FMT (tmp) = go_format_default_percentage ();
-			go_format_ref (VALUE_FMT (tmp));
+			value_set_fmt (tmp, go_format_default_percentage ());
 		} else
 			tmp = value_new_error_VALUE (ep);
 
@@ -1045,7 +987,7 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 			value_release (conv);
 	}
 
-	res->v_array.vals [x][y] = tmp;
+	res->v_array.vals[x][y] = tmp;
 	return NULL;
 }
 

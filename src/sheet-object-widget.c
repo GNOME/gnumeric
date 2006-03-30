@@ -703,7 +703,7 @@ sheet_widget_adjustment_get_ref (SheetWidgetAdjustment const *swa,
 
 static void
 cb_adjustment_value_changed (GtkAdjustment *adjustment,
-			    SheetWidgetAdjustment *swa)
+			     SheetWidgetAdjustment *swa)
 {
 	GnmCellRef ref;
 

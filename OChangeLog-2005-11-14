@@ -1,3 +1,13 @@
+2006-03-30  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (negate_value): Simplify.
+	(bin_arith): Simplify and handler overflow better.
+
+	* src/cell.c (cell_is_zero): Simplify.
+
+	* src/gui-util.c (entry_to_int): Accept floating point values as
+	long as they hold integers of the right magnitude.
+
 2006-03-29  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_get_array_corner,
