@@ -162,6 +162,9 @@ GnmValue *gnm_expr_top_eval (GnmExprTop const *texpr,
 			     GnmExprEvalFlags flags);
 GnmValue      *gnm_expr_top_get_range    (GnmExprTop const *texpr);
 
+GnmExprArrayCorner const *gnm_expr_top_get_array_corner (GnmExprTop const *texpr);
+gboolean gnm_expr_top_is_array_elem (GnmExprTop const *texpr);
+
 /*****************************************************************************/
 
 typedef struct {

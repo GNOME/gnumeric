@@ -703,10 +703,11 @@ afc_set_cell (AutoFiller *af, GnmCell *cell, int n)
 		GnmExprRelocateInfo *rinfo = &rwinfo.u.relocate;
 		GnmExprTop const *texpr;
 		GnmExprTop const *src_texpr = src->base.texpr;
-		GnmExprOp oper = GNM_EXPR_GET_OPER (src_texpr->expr);
+		GnmExprArrayCorner const *array =
+			gnm_expr_top_get_array_corner (src_texpr);
 
 		/* Arrays are always assigned fully at the corner.  */
-		if (oper == GNM_EXPR_OP_ARRAY_ELEM)
+		if (gnm_expr_top_is_array_elem (src_texpr))
 			return;
 
 		rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
@@ -718,10 +719,8 @@ afc_set_cell (AutoFiller *af, GnmCell *cell, int n)
 		texpr = gnm_expr_top_rewrite (src_texpr, &rwinfo);
 
 		/* Clip arrays that are only partially copied.  */
-		if (oper == GNM_EXPR_OP_ARRAY_CORNER) {
+		if (array) {
                         GnmExpr const *aexpr;
-			GnmExprArrayCorner const *array =
-				&src_texpr->expr->array_corner;
 			guint limit_x = afe->last.col - cell->pos.col + 1;
 			guint limit_y = afe->last.row - cell->pos.row + 1;
                         unsigned cols = MIN (limit_x, array->cols);

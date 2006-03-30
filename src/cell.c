@@ -501,41 +501,42 @@ cell_is_zero (GnmCell const *cell)
 gboolean
 cell_array_bound (GnmCell const *cell, GnmRange *res)
 {
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
+	GnmExprArrayCorner const *array;
 
 	if (NULL == cell || !cell_has_expr (cell))
 		return FALSE;
 
 	g_return_val_if_fail (res != NULL, FALSE);
 
-	expr = cell->base.texpr->expr;
-	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_ELEM) {
+	texpr = cell->base.texpr;
+	if (gnm_expr_top_is_array_elem (texpr)) {
 		cell = sheet_cell_get (cell->base.sheet,
-			cell->pos.col - expr->array_elem.x,
-			cell->pos.row - expr->array_elem.y);
+			cell->pos.col - texpr->expr->array_elem.x,
+			cell->pos.row - texpr->expr->array_elem.y);
 
 		g_return_val_if_fail (cell != NULL, FALSE);
 		g_return_val_if_fail (cell_has_expr (cell), FALSE);
 
-		expr = cell->base.texpr->expr;
+		texpr = cell->base.texpr;
 	}
 
-	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_ARRAY_CORNER)
+	array = gnm_expr_top_get_array_corner (texpr);
+	if (!array)
 		return FALSE;
 
 	range_init (res, cell->pos.col, cell->pos.row,
-		cell->pos.col + expr->array_corner.cols - 1,
-		cell->pos.row + expr->array_corner.rows - 1);
+		cell->pos.col + array->cols - 1,
+		cell->pos.row + array->rows - 1);
 	return TRUE;
 }
 
 GnmExprArrayCorner const *
 cell_is_array_corner (GnmCell const *cell)
 {
-	if (cell != NULL && cell_has_expr (cell) &&
-	    GNM_EXPR_GET_OPER (cell->base.texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER)
-		return &cell->base.texpr->expr->array_corner;
-	return NULL;
+	return cell && cell_has_expr (cell)
+		? gnm_expr_top_get_array_corner (cell->base.texpr)
+		: NULL;
 }
 
 /**
@@ -547,15 +548,9 @@ cell_is_array_corner (GnmCell const *cell)
 gboolean
 cell_is_array (GnmCell const *cell)
 {
-	if (cell != NULL && cell_has_expr (cell))
-		switch (GNM_EXPR_GET_OPER (cell->base.texpr->expr)) {
-		case GNM_EXPR_OP_ARRAY_CORNER :
-		case GNM_EXPR_OP_ARRAY_ELEM :
-			return TRUE;
-		default :
-			break;
-		}
-	return FALSE;
+	return cell != NULL && cell_has_expr (cell) &&
+		(gnm_expr_top_get_array_corner (cell->base.texpr) ||
+		 gnm_expr_top_is_array_elem (cell->base.texpr));
 }
 
 /**

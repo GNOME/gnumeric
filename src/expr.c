@@ -2908,6 +2908,22 @@ gnm_expr_top_is_rangeref (GnmExprTop const *texpr)
 	return gnm_expr_is_rangeref (texpr->expr);
 }
 
+GnmExprArrayCorner const *
+gnm_expr_top_get_array_corner (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER
+		? &texpr->expr->array_corner
+		: NULL;	
+}
+
+gboolean
+gnm_expr_top_is_array_elem (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_ELEM;
+}
+
 /****************************************************************************/
 
 #if USE_EXPR_POOLS

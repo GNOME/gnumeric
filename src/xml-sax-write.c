@@ -659,7 +659,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 		gnm_expr_top_is_shared (texpr);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (texpr && GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_ELEM)
+	if (texpr && gnm_expr_top_is_array_elem (texpr))
 		return; /* DOM version would write <Cell Col= Row=/> */
 
 	gsf_xml_out_start_element (state->output, GNM "Cell");
@@ -681,8 +681,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 
 	/* As of version 0.53 we save the size of the array as attributes */
 	/* As of version 0.57 the attributes are in the Cell not the Content */
-	if (texpr &&
-	    GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER) {
+	if (texpr && gnm_expr_top_get_array_corner (texpr)) {
 	        gsf_xml_out_add_int (state->output, "Rows", texpr->expr->array_corner.rows);
 	        gsf_xml_out_add_int (state->output, "Cols", texpr->expr->array_corner.cols);
 	}
