@@ -3649,7 +3649,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 	ms_biff_put_var_write (s->bp, buf, 8);
 
 	if (ref_type == 2) {
-		len = excel_write_formula (s->ewb, texpr->expr,
+		len = excel_write_formula (s->ewb, texpr,
 			gnm_go_data_get_sheet (dim),
 			0, 0, EXCEL_CALLED_FROM_NAME);
 		ms_biff_put_var_seekto (s->bp, 6);

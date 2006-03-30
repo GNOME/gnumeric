@@ -132,6 +132,8 @@ Morten:
 	* Fix EVEN and ODD for very large numbers.
 	* Fix sheet-manage dialog crash.  [#336165]
 	* Reimplement autofill.
+	* Fix xls export of data tables.
+	* Fix xls export for intersections.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

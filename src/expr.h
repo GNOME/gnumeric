@@ -5,7 +5,8 @@
 #include "gnumeric.h"
 #include "position.h"
 
-/* Warning: if you add something here, see do_expr_as_string * ! */
+/* Warning: if you add something here, see do_expr_as_string   ! */
+/* Warning: if you add something here, see ms-formula-write.c  ! */
 typedef enum {
 	GNM_EXPR_OP_EQUAL,	/* Compare value equal */
 	GNM_EXPR_OP_GT,		/* Compare value greather than  */

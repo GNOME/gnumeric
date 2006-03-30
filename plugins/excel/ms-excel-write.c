@@ -966,13 +966,13 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 		expr0_len = (cond->texpr[0] == NULL)
 			? 0
 			: excel_write_formula (esheet->ewb,
-					       cond->texpr[0]->expr,
+					       cond->texpr[0],
 					       esheet->gnum_sheet, 0, 0,
 					       EXCEL_CALLED_FROM_CONDITION);
 		expr1_len = (cond->texpr[1] == NULL)
 			? 0 
 			: excel_write_formula (esheet->ewb,
-					       cond->texpr[1]->expr,
+					       cond->texpr[1],
 					       esheet->gnum_sheet, 0, 0,
 					       EXCEL_CALLED_FROM_CONDITION);
 
@@ -1150,7 +1150,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	if (vip->v != NULL && vip->v->texpr[0] != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-				vip->v->texpr[0]->expr,
+				vip->v->texpr[0],
 				esheet->gnum_sheet, col, row,
 				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
@@ -1166,7 +1166,7 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 	if (vip->v != NULL && vip->v->texpr[1] != NULL) {
 		unsigned pos = bp->curpos;
 		guint16 len = excel_write_formula (esheet->ewb,
-				vip->v->texpr[1]->expr,
+				vip->v->texpr[1],
 				esheet->gnum_sheet, col, row,
 				EXCEL_CALLED_FROM_VALIDATION);
 		unsigned end_pos = bp->curpos;
@@ -1359,7 +1359,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 
 	if (!expr_name_is_placeholder (nexpr)) {
 		guint16 expr_len =
-			excel_write_formula (ewb, nexpr->texpr->expr,
+			excel_write_formula (ewb, nexpr->texpr,
 					     nexpr->pos.sheet, 0, 0,
 					     EXCEL_CALLED_FROM_NAME);
 		ms_biff_put_var_seekto (ewb->bp, 4);
@@ -2919,7 +2919,8 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	gboolean string_result = FALSE;
 	gint     col, row;
 	GnmValue   *v;
-	GnmExpr const *expr;
+	GnmExprTop const *texpr;
+	GnmExprArrayCorner const *corner;
 
 	g_return_if_fail (ewb);
 	g_return_if_fail (cell);
@@ -2930,7 +2931,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	col = cell->pos.col;
 	row = cell->pos.row;
 	v = cell->value;
-	expr = cell->base.texpr->expr;
+	texpr = cell->base.texpr;
 
 	ms_biff_put_var_next (ewb->bp, BIFF_FORMULA_v0);
 	EX_SETROW (data, row);
@@ -2979,7 +2980,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	GSF_LE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
 	ms_biff_put_var_write (ewb->bp, data, 22);
-	len = excel_write_formula (ewb, expr, esheet->gnum_sheet,
+	len = excel_write_formula (ewb, texpr, esheet->gnum_sheet,
 				col, row, EXCEL_CALLED_FROM_CELL); /* unshared for now */
 
 	ms_biff_put_var_seekto (ewb->bp, 20);
@@ -2988,15 +2989,16 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 
 	ms_biff_put_commit (ewb->bp);
 
-	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_ARRAY_CORNER) {
+	corner = gnm_expr_top_get_array_corner (texpr);
+	if (corner) {
 		GnmCellPos c_in, r_in;
-		if (gnm_expr_is_data_table (expr->array_corner.expr, &c_in, &r_in)) {
+		if (gnm_expr_is_data_table (corner->expr, &c_in, &r_in)) {
 			guint16 flags = 0;
 			guint8 *data = ms_biff_put_len_next (ewb->bp, BIFF_TABLE_v2, 16);
 			GSF_LE_SET_GUINT16 (data + 0, cell->pos.row);
-			GSF_LE_SET_GUINT16 (data + 2, cell->pos.row + expr->array_corner.rows-1);
+			GSF_LE_SET_GUINT16 (data + 2, cell->pos.row + corner->rows-1);
 			GSF_LE_SET_GUINT16 (data + 4, cell->pos.col);
-			GSF_LE_SET_GUINT16 (data + 5, cell->pos.col + expr->array_corner.cols-1);
+			GSF_LE_SET_GUINT16 (data + 5, cell->pos.col + corner->cols-1);
 
 			if ((c_in.col != 0 || c_in.row != 0) &&
 			    (r_in.col != 0 || r_in.row != 0)) {
@@ -3026,15 +3028,15 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 		} else {
 			ms_biff_put_var_next (ewb->bp, BIFF_ARRAY_v2);
 			GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
-			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array_corner.rows-1);
+			GSF_LE_SET_GUINT16 (data+2, cell->pos.row + corner->rows-1);
 			GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
-			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + expr->array_corner.cols-1);
+			GSF_LE_SET_GUINT16 (data+5, cell->pos.col + corner->cols-1);
 			GSF_LE_SET_GUINT16 (data+6, 0x0); /* alwaysCalc & calcOnLoad */
 			GSF_LE_SET_GUINT32 (data+8, 0);
 			GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
 			ms_biff_put_var_write (ewb->bp, data, 14);
-			len = excel_write_formula (ewb, expr->array_corner.expr,
-					esheet->gnum_sheet, col, row, EXCEL_CALLED_FROM_ARRAY);
+			len = excel_write_array_formula (ewb, corner,
+							 esheet->gnum_sheet, col, row);
 
 			ms_biff_put_var_seekto (ewb->bp, 12);
 			GSF_LE_SET_GUINT16 (lendat, len);

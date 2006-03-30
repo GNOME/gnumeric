@@ -1,3 +1,14 @@
+2006-03-30  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (write_node): Add missing table entry for
+	array elements.  Write the right PTG for data tables.
+	(excel_write_array_formula): New function.
+	(excel_write_formula): Change to take a texpr.  All callers
+	changed.
+
+	* ms-formula-write.h (ExcelFuncContext): Elminate
+	EXCEL_CALLED_FROM_ARRAY which is now implicit.
+
 2006-03-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(lineformat)) : store the format in outline as well

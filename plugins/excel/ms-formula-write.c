@@ -227,7 +227,7 @@ static void write_node (PolishData *pd, GnmExpr const *expr,
 #define CLASS_REF	0x00
 #define CLASS_VAL	0x20
 #define CLASS_ARRAY	0x40
-static guint8 xl_op_class[NUM_CTXTS][NUM_XL_TYPES][NUM_XL_TYPES+1] = {
+static const guint8 xl_op_class[NUM_CTXTS][NUM_XL_TYPES][NUM_XL_TYPES+1] = {
 	{ /* CELL | Wants REF	Wants VAL	Wants ARR 	From Root */
 /* From REF */	 { CLASS_REF,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
 /* From VAL */	 { CLASS_VAL,	CLASS_VAL,	CLASS_VAL, 	CLASS_VAL },
@@ -669,17 +669,15 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		{ FORMULA_PTG_U_MINUS,	 7, 0, 0 }, /* Unary - */
 		{ FORMULA_PTG_U_PLUS,	 7, 0, 0 }, /* Unary + */
 		{ FORMULA_PTG_PERCENT,	 6, 0, 0 }, /* Percentage (NOT MODULO) */
-		{ 0, 0, 0, 0 },	/* Array    */
+		{ 0, 0, 0, 0 },	/* Array Corner   */
+		{ 0, 0, 0, 0 },	/* Array Element  */
 		{ 0, 0, 0, 0 }, /* Set      */
 		{ FORMULA_PTG_RANGE,	 9, 1, 0 },
 		{ FORMULA_PTG_INTERSECT, 8, 1, 0 }
 	};
-	unsigned op;
+	const GnmExprOp op = GNM_EXPR_GET_OPER (expr);
 
-	g_return_if_fail (pd);
-	g_return_if_fail (expr);
-
-	switch ((op = GNM_EXPR_GET_OPER (expr))) {
+	switch (op) {
 	case GNM_EXPR_OP_ANY_BINARY :
 		if (target_type != XL_ARRAY)
 			target_type = XL_VAL;
@@ -823,7 +821,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		} else
 			x = y = 0;
 
-		op = FORMULA_PTG_EXPR;
+		ptg = FORMULA_PTG_EXPR;
 		if (pd->sheet != NULL) {
 			GnmExprArrayCorner const *corner = cell_is_array_corner (
 				sheet_cell_get (pd->sheet, pd->col - x, pd->row - y));
@@ -832,7 +830,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 				ptg = FORMULA_PTG_TBL;
 		}
 
-		GSF_LE_SET_GUINT8 (data, op);
+		GSF_LE_SET_GUINT8 (data, ptg);
 		GSF_LE_SET_GUINT16 (data+1, pd->row - y);
 		GSF_LE_SET_GUINT16 (data+3, pd->col - x);
 		ms_biff_put_var_write (pd->ewb->bp, data, 5);
@@ -908,7 +906,40 @@ write_arrays (PolishData *pd)
 }
 
 guint32
-excel_write_formula (ExcelWriteState *ewb, GnmExpr const *expr,
+excel_write_array_formula (ExcelWriteState *ewb,
+			   GnmExprArrayCorner const *array,
+			   Sheet *sheet, int fn_col, int fn_row)
+{
+	PolishData pd;
+	unsigned start;
+	guint32 len;
+
+	g_return_val_if_fail (ewb, 0);
+	g_return_val_if_fail (array, 0);
+
+	pd.col     = fn_col;
+	pd.row     = fn_row;
+	pd.sheet   = sheet;
+	pd.ewb     = ewb;
+	pd.arrays  = NULL;
+	pd.context = CTXT_ARRAY;
+	pd.use_name_variant = FALSE;
+
+	start = ewb->bp->length;
+	write_node (&pd, array->expr, 0, XL_ROOT);
+	len = ewb->bp->length - start;
+
+	write_arrays (&pd);
+
+	return len;
+}
+
+/*
+ * This is called for all expressions, including array expressions.
+ * (But write_node will not write the inner expression for arrays.)
+ */
+guint32
+excel_write_formula (ExcelWriteState *ewb, GnmExprTop const *texpr,
 		     Sheet *sheet, int fn_col, int fn_row,
 		     ExcelFuncContext context)
 {
@@ -917,25 +948,35 @@ excel_write_formula (ExcelWriteState *ewb, GnmExpr const *expr,
 	guint32 len;
 
 	g_return_val_if_fail (ewb, 0);
-	g_return_val_if_fail (expr, 0);
+	g_return_val_if_fail (texpr, 0);
 
 	pd.col     = fn_col;
 	pd.row     = fn_row;
 	pd.sheet   = sheet;
 	pd.ewb     = ewb;
 	pd.arrays  = NULL;
-	if ((context == EXCEL_CALLED_FROM_CELL || context == EXCEL_CALLED_FROM_SHARED))
+	switch (context) {
+	case EXCEL_CALLED_FROM_CELL:
 		pd.context = CTXT_CELL;
-	else if (context == EXCEL_CALLED_FROM_NAME)
+		pd.use_name_variant = FALSE;
+		break;
+	case EXCEL_CALLED_FROM_SHARED:
+		pd.context = CTXT_CELL;
+		pd.use_name_variant = TRUE;
+		break;
+	case EXCEL_CALLED_FROM_NAME:
 		pd.context = CTXT_NAME;
-	else
-		pd.context = CTXT_ARRAY;
-	pd.use_name_variant =
-		context != EXCEL_CALLED_FROM_CELL &&
-		context != EXCEL_CALLED_FROM_ARRAY;
+		pd.use_name_variant = TRUE;
+		break;
+	case EXCEL_CALLED_FROM_CONDITION:
+	case EXCEL_CALLED_FROM_VALIDATION:
+	default:
+		pd.context = CTXT_ARRAY; /* What???  */
+		pd.use_name_variant = TRUE;
+	}
 
 	start = ewb->bp->length;
-	write_node (&pd, expr, 0, XL_ROOT);
+	write_node (&pd, texpr->expr, 0, XL_ROOT);
 	len = ewb->bp->length - start;
 
 	write_arrays (&pd);

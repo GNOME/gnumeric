@@ -16,16 +16,19 @@
 
 typedef enum {
 	EXCEL_CALLED_FROM_CELL,
-	EXCEL_CALLED_FROM_ARRAY,
 	EXCEL_CALLED_FROM_SHARED,
 	EXCEL_CALLED_FROM_CONDITION,
 	EXCEL_CALLED_FROM_VALIDATION,
 	EXCEL_CALLED_FROM_NAME
 } ExcelFuncContext;
 
-guint32 excel_write_formula    (ExcelWriteState *ewb, GnmExpr const *expr,
+guint32 excel_write_formula    (ExcelWriteState *ewb,
+				GnmExprTop const *texpr,
 				Sheet *sheet, int fn_col, int fn_row,
 				ExcelFuncContext context);
+guint32 excel_write_array_formula (ExcelWriteState *ewb,
+				   GnmExprArrayCorner const *array,
+				   Sheet *sheet, int fn_col, int fn_row);
 
 void excel_write_prep_expressions (ExcelWriteState *ewb);
 void excel_write_prep_expr  	  (ExcelWriteState *ewb,
