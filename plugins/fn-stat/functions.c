@@ -836,7 +836,7 @@ callback_function_count (GnmEvalPos const *ep, GnmValue const *value, void *clos
 {
 	GnmValue *result = (GnmValue *) closure;
 
-	if (value && VALUE_IS_NUMBER (value) && value->type != VALUE_BOOLEAN)
+	if (value && VALUE_IS_NUMBER (value) && !VALUE_IS_BOOLEAN (value))
 		result->v_int.val++;
 	return NULL;
 }
@@ -5357,7 +5357,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 		return value_new_error_NUM (ei->pos);
 
 	val = gnm_expr_eval (expr, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	if (val->type == VALUE_ERROR)
+	if (VALUE_IS_ERROR (val))
 		return val;
 	fun_nbr = value_get_as_int (val);
 	value_release (val);

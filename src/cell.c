@@ -462,7 +462,7 @@ cell_is_error (GnmCell const * cell)
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
 
-	if (cell->value->type == VALUE_ERROR)
+	if (VALUE_IS_ERROR (cell->value))
 		return cell->value;
 	return NULL;
 }

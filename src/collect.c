@@ -79,7 +79,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 			GnmValue *vc = format_match_number (value_peek_string (value),
 							    NULL,
 							    cl->date_conv);
-			gboolean bad = !vc || VALUE_TYPE(vc) == VALUE_BOOLEAN;
+			gboolean bad = !vc || VALUE_IS_BOOLEAN (vc);
 			if (vc) {
 				x = value_get_as_float (vc);
 				value_release (vc);
@@ -184,7 +184,7 @@ collect_floats (int argc, const GnmExprConstPtr *argv,
 		 TRUE, iter_flags);
 
 	if (err) {
-		g_assert (err->type == VALUE_ERROR);
+		g_assert (VALUE_IS_ERROR (err));
 		g_free (cl.data);
 		g_slist_free (cl.info);
 		*error = err;
@@ -517,7 +517,7 @@ collect_strings (int argc, const GnmExprConstPtr *argv,
 		TRUE, (flags & COLLECT_IGNORE_BLANKS) ?  CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL);
 
 	if (err) {
-		g_assert (err->type == VALUE_ERROR);
+		g_assert (VALUE_IS_ERROR (err));
 		g_slist_foreach (cl.data, (GFunc)g_free, NULL);
 		g_slist_free (cl.data);
 		*error = err;

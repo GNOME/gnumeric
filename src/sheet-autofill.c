@@ -139,7 +139,7 @@ afa_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	if (value == NULL ||
 	    cell_has_expr (cell) ||
 	    !VALUE_IS_NUMBER (value) ||
-	    VALUE_TYPE (value) == VALUE_BOOLEAN) {
+	    VALUE_IS_BOOLEAN (value)) {
 		af->status = AFS_ERROR;
 		return;
 	}

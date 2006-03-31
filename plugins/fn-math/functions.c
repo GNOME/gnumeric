@@ -64,7 +64,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 		mm->num++;
 
 		return NULL;
-	} else if (cell->value->type == VALUE_ERROR)
+	} else if (VALUE_IS_ERROR (cell->value))
 		return VALUE_TERMINATE;  /* FIXME: This is probably wrong.  */
 	else
 		return NULL;

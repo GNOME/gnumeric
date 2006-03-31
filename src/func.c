@@ -1151,7 +1151,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 				}
 				value_release (args [i]);
 				args[i] = tmp;
-			} else if (tmp->type == VALUE_ERROR) {
+			} else if (VALUE_IS_ERROR (tmp)) {
 				free_values (args, i);
 				return tmp;
 			} else if (VALUE_IS_EMPTY (tmp)) {
@@ -1165,7 +1165,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 
 		case 's':
 		case 'S':
-			if (tmp->type == VALUE_ERROR) {
+			if (VALUE_IS_ERROR (tmp)) {
 				free_values (args, i);
 				return tmp;
 			}
@@ -1213,7 +1213,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 								continue;
 							} else
 								break;
-						} else if (elem->type == VALUE_ERROR) {
+						} else if (VALUE_IS_ERROR (elem)) {
 							err = elem;
 							break;
 						} else if (!VALUE_IS_NUMBER (elem))
@@ -1222,7 +1222,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 						if (VALUE_IS_EMPTY (elem)) {
 							args [iter_item[i]] = iter_args [i] = value_new_string ("");
 							continue;
-						} else if (elem->type == VALUE_ERROR) {
+						} else if (VALUE_IS_ERROR (elem)) {
 							err = elem;
 							break;
 						} else if (!VALUE_IS_STRING (tmp))
@@ -1501,7 +1501,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		if (val == NULL)
 			continue;
 
-		if (strict && val->type == VALUE_ERROR) {
+		if (strict && VALUE_IS_ERROR (val)) {
 			/* Be careful not to make VALUE_TERMINATE into a real value */
 			/* FIXME : Make the new position of the error here */
 			return val;

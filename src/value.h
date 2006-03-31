@@ -65,7 +65,6 @@ struct _GnmValueArray {
 	GnmValue ***vals;  /* Array [x][y] */
 };
 
-/* FIXME */
 union _GnmValue {
 	GnmValueType const type;
 	GnmValueAny	v_any;
@@ -83,6 +82,8 @@ union _GnmValue {
 #define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->type == VALUE_EMPTY))
 #define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->type == VALUE_ERROR)
 #define VALUE_IS_STRING(v)		((v)->type == VALUE_STRING)
+#define VALUE_IS_BOOLEAN(v)		((v)->type == VALUE_BOOLEAN)
+#define VALUE_IS_ERROR(v)		((v)->type == VALUE_ERROR)
 #define VALUE_IS_NUMBER(v)		(((v)->type == VALUE_INTEGER) || \
 					 ((v)->type == VALUE_FLOAT) || \
 					 ((v)->type == VALUE_BOOLEAN))

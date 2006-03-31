@@ -81,9 +81,9 @@ val_to_base (FunctionEvalInfo *ei,
 			      value_new_error_VALUE (ei->pos));
 
 	/* func.c ought to take care of this.  */
-	if (VALUE_TYPE (value) == VALUE_BOOLEAN)
+	if (VALUE_IS_BOOLEAN (value))
 		return value_new_error_VALUE (ei->pos);
-	if (aplaces && VALUE_TYPE (aplaces) == VALUE_BOOLEAN)
+	if (aplaces && VALUE_IS_BOOLEAN (aplaces))
 		return value_new_error_VALUE (ei->pos);
 
 	switch (VALUE_TYPE (value)) {
@@ -96,7 +96,7 @@ val_to_base (FunctionEvalInfo *ei,
 				(value_peek_string (value), NULL,
 				 workbook_date_conv (ei->pos->sheet->workbook));
 			if (!vstring ||
-			    VALUE_TYPE (vstring) == VALUE_BOOLEAN ||
+			    VALUE_IS_BOOLEAN (vstring) ||
 			    !VALUE_IS_NUMBER (vstring)) {
 				if (vstring)
 					value_release (vstring);

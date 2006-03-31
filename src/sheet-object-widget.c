@@ -716,7 +716,7 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 		int new_val = gnm_fake_round (swa->adjustment->value);
 		if (cell->value != NULL &&
 		    VALUE_IS_NUMBER (cell->value) &&
-		    cell->value->type != VALUE_BOOLEAN &&
+		    !VALUE_IS_BOOLEAN (cell->value) &&
 		    value_get_as_float (cell->value) == new_val)
 			return;
 

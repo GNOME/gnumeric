@@ -771,9 +771,9 @@ static GnmValue *
 cb_bin_cmp (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 	    GnmExpr const *expr)
 {
-	if (a != NULL && a->type == VALUE_ERROR)
+	if (a != NULL && VALUE_IS_ERROR (a))
 		return value_dup (a);
-	if (b != NULL && b->type == VALUE_ERROR)
+	if (b != NULL && VALUE_IS_ERROR (b))
 		return value_dup (b);
 	return bin_cmp (GNM_EXPR_GET_OPER (expr), value_compare (a, b, FALSE), ep);
 }
@@ -784,9 +784,9 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 {
 	GnmValue *res, *va, *vb;
 
-	if (a != NULL && a->type == VALUE_ERROR)
+	if (a != NULL && VALUE_IS_ERROR (a))
 		return value_dup (a);
-	if (b != NULL && b->type == VALUE_ERROR)
+	if (b != NULL && VALUE_IS_ERROR (b))
 		return value_dup (b);
 	if (VALUE_IS_EMPTY (a))
 		a = va = (GnmValue *)value_zero;
@@ -828,9 +828,9 @@ static GnmValue *
 cb_bin_cat (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 	    GnmExpr const *expr)
 {
-	if (a != NULL && a->type == VALUE_ERROR)
+	if (a != NULL && VALUE_IS_ERROR (a))
 		return value_dup (a);
-	if (b != NULL && b->type == VALUE_ERROR)
+	if (b != NULL && VALUE_IS_ERROR (b))
 		return value_dup (b);
 	if (a == NULL) {
 		if (b != NULL)
@@ -889,7 +889,7 @@ bin_array_op (GnmEvalPos const *ep, const GnmValue *sizer,
 {
 	BinOpImplicitIteratorState iter_info;
 	
-	if (sizer != a || b == NULL || b->type != VALUE_ERROR) {
+	if (sizer != a || b == NULL || !VALUE_IS_ERROR (b)) {
 		iter_info.func = func;
 		iter_info.user_data = user_data;
 		iter_info.a = a;
@@ -936,7 +936,7 @@ cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
 
 	if (VALUE_IS_EMPTY (v))
 		tmp = value_new_int (0);
-	else if (v->type == VALUE_ERROR)
+	else if (VALUE_IS_ERROR (v))
 		tmp = value_dup (v);
 	else if (VALUE_IS_STRING (v)) {
 		GnmValue *conv = format_match_number
@@ -966,7 +966,7 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 
 	if (VALUE_IS_EMPTY (v))
 		tmp = value_new_int (0);
-	else if (v->type == VALUE_ERROR)
+	else if (VALUE_IS_ERROR (v))
 		tmp = value_dup (v);
 	else {
 		GnmValue *conv = NULL;
@@ -1052,7 +1052,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
-			if (a->type == VALUE_ERROR)
+			if (VALUE_IS_ERROR (a))
 				return a;
 			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
 				return bin_array_op (pos, a, a,
@@ -1063,7 +1063,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 		if (b != NULL) {
-			if (b->type == VALUE_ERROR) {
+			if (VALUE_IS_ERROR (b)) {
 				if (a != NULL)
 					value_release (a);
 				return b;
@@ -1100,7 +1100,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		/* 1) Error from A */
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
-		if (a->type == VALUE_ERROR)
+		if (VALUE_IS_ERROR (a))
 			return value_error_set_pos (&a->v_err, pos);
 
 		/* 2) #!VALUE error if A is not a number */
@@ -1130,7 +1130,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		/* 3) Error from B */
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
-		if (b->type == VALUE_ERROR) {
+		if (VALUE_IS_ERROR (b)) {
 			value_release (a);
 			return value_error_set_pos (&b->v_err, pos);
 		}
@@ -1168,7 +1168,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		flags &= ~GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		a = gnm_expr_eval (expr->unary.value, pos, flags);
-		if (a->type == VALUE_ERROR)
+		if (VALUE_IS_ERROR (a))
 			return a;
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_PLUS)
 			return a;
@@ -1209,7 +1209,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		flags |= GNM_EXPR_EVAL_PERMIT_EMPTY;
 		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
-			if (a->type == VALUE_ERROR)
+			if (VALUE_IS_ERROR (a))
 				return a;
 			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
 				return bin_array_op (pos, a, a,
@@ -1219,7 +1219,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 		if (b != NULL) {
-			if (b->type == VALUE_ERROR) {
+			if (VALUE_IS_ERROR (b)) {
 				if (a != NULL)
 					value_release (a);
 				return b;

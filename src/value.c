@@ -211,7 +211,7 @@ GnmValue *
 value_error_set_pos (GnmValueErr *err, GnmEvalPos const *pos)
 {
     g_return_val_if_fail (err != NULL, NULL);
-    g_return_val_if_fail (err->type == VALUE_ERROR, NULL);
+    g_return_val_if_fail (VALUE_IS_ERROR (err), NULL);
 
     err->src = *pos;
     return (GnmValue *)err;
@@ -224,7 +224,7 @@ value_error_classify (GnmValue const *v)
 
 	g_return_val_if_fail (v != NULL, GNM_ERROR_UNKNOWN);
 
-	if (v->type != VALUE_ERROR)
+	if (!VALUE_IS_ERROR (v))
 		return GNM_ERROR_UNKNOWN;
 
 	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++)
@@ -997,7 +997,7 @@ value_peek_string (GnmValue const *v)
 
 	if (VALUE_IS_STRING (v))
 		return v->v_str.val->str;
-	else if (v->type == VALUE_ERROR)
+	else if (VALUE_IS_ERROR (v))
 		return v->v_err.mesg->str;
 	else {
 		static char *cache[2] = { NULL, NULL };
@@ -1123,7 +1123,7 @@ value_coerce_to_number (GnmValue *v, gboolean *valid, GnmEvalPos const *ep)
 		if (tmp == NULL)
 			return value_new_error_VALUE (ep);
 		v = tmp;
-	} else if (v->type == VALUE_ERROR)
+	} else if (VALUE_IS_ERROR (v))
 		return v;
 
 	if (!VALUE_IS_NUMBER (v)) {

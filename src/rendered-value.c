@@ -161,7 +161,7 @@ rendered_value_render (GString *str,
 				      col_width,
 				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
 		if (VALUE_IS_NUMBER (cell->value) &&
-		    cell->value->type != VALUE_BOOLEAN &&
+		    !VALUE_IS_BOOLEAN (cell->value) &&
 		    value_get_as_float (cell->value) < 1.0) {
 			gsize i;
 			for (i = 0; i < str->len; i++)

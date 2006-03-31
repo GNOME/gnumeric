@@ -1393,7 +1393,7 @@ static GnmFuncHelp const help_iserror[] = {
 static GnmValue *
 gnumeric_iserror (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (argv[0]->type == VALUE_ERROR);
+	return value_new_bool (VALUE_IS_ERROR (argv[0]));
 }
 
 /***************************************************************************/
@@ -1447,7 +1447,7 @@ static GnmFuncHelp const help_iserr[] = {
 static GnmValue *
 gnumeric_iserr (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (argv[0]->type == VALUE_ERROR &&
+	return value_new_bool (VALUE_IS_ERROR (argv[0]) &&
 			       value_error_classify (argv[0]) != GNM_ERROR_NA);
 }
 
@@ -1618,7 +1618,7 @@ static GnmFuncHelp const help_islogical[] = {
 static GnmValue *
 gnumeric_islogical (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (argv[0]->type == VALUE_BOOLEAN);
+	return value_new_bool (VALUE_IS_BOOLEAN (argv[0]));
 }
 
 /***************************************************************************/
@@ -1669,7 +1669,7 @@ static GnmValue *
 gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (argv[0] != NULL &&
-			       argv[0]->type != VALUE_BOOLEAN &&
+			       !VALUE_IS_STRING (argv[0]) &&
 			       VALUE_IS_NUMBER (argv[0]));
 }
 

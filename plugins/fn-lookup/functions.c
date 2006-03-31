@@ -454,7 +454,7 @@ gnumeric_areas (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
  restart:
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_CONSTANT:
-		if (expr->constant.value->type == VALUE_ERROR)
+		if (VALUE_IS_ERROR (expr->constant.value))
 			return value_dup (expr->constant.value);
 		if (expr->constant.value->type != VALUE_CELLRANGE)
 			break;
@@ -536,7 +536,7 @@ gnumeric_choose (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 	if (!v)
 		return NULL;
 
-	if (v->type == VALUE_BOOLEAN || !VALUE_IS_NUMBER (v)) {
+	if (VALUE_IS_BOOLEAN (v) || !VALUE_IS_NUMBER (v)) {
 		value_release (v);
 		return value_new_error_VALUE (ei->pos);
 	}
