@@ -58,7 +58,6 @@ static struct {
 	{ N_("#NAME?"), NULL, NULL },
 	{ N_("#NUM!"), NULL, NULL },
 	{ N_("#N/A"), NULL, NULL },
-	{ N_("#RECALC!"), NULL, NULL },
 	{ N_("#UNKNOWN!"), NULL, NULL }
 };
 
@@ -180,12 +179,6 @@ GnmValue *
 value_new_error_NA (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NA].locale_name_str);
-}
-
-GnmValue *
-value_new_error_RECALC (GnmEvalPos const *pos)
-{
-	return value_new_error_str (pos, standard_errors[GNM_ERROR_RECALC].locale_name_str);
 }
 
 char const *
@@ -1148,39 +1141,6 @@ value_array_set (GnmValue *array, int col, int row, GnmValue *v)
 	if (array->v_array.vals[col][row] != NULL)
 		value_release (array->v_array.vals[col][row]);
 	array->v_array.vals[col][row] = v;
-}
-
-void
-value_array_resize (GnmValue *v, int width, int height)
-{
-	int x, y, xcpy, ycpy;
-	GnmValue *newval;
-	GnmValue ***tmp;
-
-	g_warning ("Totally untested");
-	g_return_if_fail (v);
-	g_return_if_fail (v->type == VALUE_ARRAY);
-
-	newval = value_new_array (width, height);
-
-	xcpy = MIN (width, v->v_array.x);
-	ycpy = MIN (height, v->v_array.y);
-
-	for (x = 0; x < xcpy; x++)
-		for (y = 0; y < ycpy; y++) {
-			value_array_set (newval, x, y, v->v_array.vals[x][y]);
-			v->v_array.vals[x][y] = NULL;
-		}
-
-	tmp = v->v_array.vals;
-	v->v_array.vals = newval->v_array.vals;
-	newval->v_array.vals = tmp;
-	newval->v_array.x = v->v_array.x;
-	newval->v_array.y = v->v_array.y;
-	v->v_array.x = width;
-	v->v_array.y = height;
-
-	value_release (newval);
 }
 
 static GnmValDiff

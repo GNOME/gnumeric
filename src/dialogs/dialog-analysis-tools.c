@@ -212,7 +212,7 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
  * Destroy the dialog and associated data structures.
  *
  **/
-gboolean
+static gboolean
 tool_destroy (GtkObject *w, GenericToolState  *state)
 {
 	gboolean res = FALSE;

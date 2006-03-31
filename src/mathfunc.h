@@ -176,7 +176,6 @@ void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 
 /* ------------------------------------------------------------------------- */
 
-int       gcd    (int a, int b);
 gnm_float combin (gnm_float n, gnm_float k);
 gnm_float permut (gnm_float n, gnm_float k);
 gnm_float fact   (int n);

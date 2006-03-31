@@ -265,30 +265,6 @@ stf_parse_options_add_line_terminator (StfParseOptions_t *parseoptions, char con
 }
 
 /**
- * stf_parse_options_remove_line_terminator:
- *
- * This will remove from the line terminators, in both the Fixed width and CSV delimited importers
- * this indicates the end of a row.
- *
- **/
-void
-stf_parse_options_remove_line_terminator (StfParseOptions_t *parseoptions, char const *terminator)
-{
-	GSList*    in_list;
-
-	g_return_if_fail (parseoptions != NULL);
-
-	in_list = g_slist_find_custom (parseoptions->terminator, terminator, go_str_compare);
-
-	if (in_list) {
-		char *s = in_list->data;
-		GO_SLIST_REMOVE (parseoptions->terminator, in_list->data);
-		g_free (s);
-		compile_terminators (parseoptions);
-	}
-}
-
-/**
  * stf_parse_options_clear_line_terminator:
  *
  * This will clear the line terminator, in both the Fixed width and CSV delimited importers

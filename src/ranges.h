@@ -66,12 +66,9 @@ void        range_list_destroy      (GSList *ranges);
 int	    range_width		(GnmRange const *r);
 int	    range_height	(GnmRange const *r);
 gboolean    range_is_singleton  (GnmRange const *r);
-gboolean    range_is_infinite   (GnmRange const *r);
 gboolean    range_is_full	(GnmRange const *r, gboolean is_cols);
 void        range_clip_to_finite(GnmRange *range, Sheet *sheet);
 gboolean    range_contained     (GnmRange const *a, GnmRange const *b);
-gboolean    range_adjacent      (GnmRange const *a, GnmRange const *b);
-GnmRange    range_merge         (GnmRange const *a, GnmRange const *b);
 gboolean    range_intersection  (GnmRange *r,
 				 GnmRange const *a,
 				 GnmRange const *b);
@@ -99,7 +96,6 @@ GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);
 void        range_fragment_free   (GSList *fragments);
 
 GnmSheetRange *gnm_sheet_range_new	  (Sheet *sheet, GnmRange const *r);
-GnmSheetRange *gnm_sheet_range_dup	  (GnmSheetRange const *src);
 void           gnm_sheet_range_free       (GnmSheetRange *r);
 gboolean       gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v);
 gboolean       gnm_sheet_range_overlap    (GnmSheetRange const *a, GnmSheetRange const *b);

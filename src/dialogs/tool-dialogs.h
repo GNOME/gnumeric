@@ -48,7 +48,6 @@ struct _GenericToolState {
 } ;
 
 void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
-gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
 void     dialog_tool_init_buttons (GenericToolState *state,
 				   GCallback ok_function, 
 				   GCallback close_function);

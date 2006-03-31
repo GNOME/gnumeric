@@ -51,7 +51,6 @@ typedef enum {
 	GNM_ERROR_NAME,
 	GNM_ERROR_NUM,
 	GNM_ERROR_NA,
-	GNM_ERROR_RECALC,
 	GNM_ERROR_UNKNOWN
 } GnmStdError;
 

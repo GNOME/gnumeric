@@ -14,7 +14,6 @@
 GType		 sheet_control_gui_get_type (void);
 SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WorkbookControlGUI *wbcg);
 
-GtkWidget *scg_toplevel		(SheetControlGUI *scg);
 void scg_take_focus             (SheetControlGUI *scg);
 
 void scg_mode_create_object	(SheetControlGUI *scg, SheetObject *so);

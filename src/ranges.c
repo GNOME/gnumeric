@@ -177,86 +177,6 @@ range_list_destroy (GSList *ranges)
 }
 
 
-/**
- * range_adjacent:
- * @a: First range
- * @b: Second range
- *
- * Detects whether a range of similar size is adjacent
- * to the other range. Similarity is determined by having
- * a shared side of equal length. NB. this will clearly
- * give odd results for overlapping regions.
- *
- * Return value: if they share a side of equal length
- **/
-gboolean
-range_adjacent (GnmRange const *a, GnmRange const *b)
-{
-	g_return_val_if_fail (a != NULL, FALSE);
-	g_return_val_if_fail (b != NULL, FALSE);
-
-	if ((a->start.col == b->start.col) &&
-	    (a->end.col   == b->end.col))
-		return (a->end.row + 1 == b->start.row ||
-			b->end.row + 1 == a->start.row);
-
-	if ((a->start.row == b->start.row) &&
-	    (a->end.row   == b->end.row))
-		return (a->end.col + 1 == b->start.col ||
-			b->end.col + 1 == a->start.col);
-
-	return FALSE;
-}
-
-/**
- * range_merge:
- * @a: GnmRange a.
- * @b: GnmRange b.
- *
- * This routine coalesces two adjacent regions, eg.
- * (A1, B1) would return A1:B1 or (A1:B2, C1:D2)) would
- * give A1:D2. NB. it is imperative that the regions are
- * actualy adjacent or unexpected results will ensue.
- *
- * Fully commutative.
- *
- * Return value: the merged range.
- **/
-GnmRange
-range_merge (GnmRange const *a, GnmRange const *b)
-{
-	GnmRange ans;
-
-	ans.start.col = 0;
-	ans.start.row = 0;
-	ans.end.col   = 0;
-	ans.end.row   = 0;
-
-	g_return_val_if_fail (a != NULL, ans);
-	g_return_val_if_fail (b != NULL, ans);
-
-/*      Useful perhaps but kills performance */
-/*	g_return_val_if_fail (range_adjacent (a, b), ans); */
-
-	if (a->start.row < b->start.row) {
-		ans.start.row = a->start.row;
-		ans.end.row   = b->end.row;
-	} else {
-		ans.start.row = b->start.row;
-		ans.end.row   = a->end.row;
-	}
-
-	if (a->start.col < b->start.col) {
-		ans.start.col = a->start.col;
-		ans.end.col   = b->end.col;
-	} else {
-		ans.start.col = b->start.col;
-		ans.end.col   = a->end.col;
-	}
-
-	return ans;
-}
-
 char const *
 range_name (GnmRange const *src)
 {
@@ -785,21 +705,6 @@ range_is_full (GnmRange const *r, gboolean is_cols)
 }
 
 /**
- * range_is_infinite:
- * @r: the range.
- *
- * This determines whether @r completely spans a sheet
- * in either dimension ( semi-infinite )
- *
- * Return value: TRUE if it is infinite, FALSE otherwise.
- **/
-gboolean
-range_is_infinite (GnmRange const *r)
-{
-	return range_is_full (r, TRUE) || range_is_full (r, FALSE);
-}
-
-/**
  * range_clip_to_finite :
  * @range :
  * @sheet :
@@ -1025,14 +930,6 @@ gnm_sheet_range_overlap (GnmSheetRange const *a, GnmSheetRange const *b)
 		return TRUE;
 
 	return FALSE;
-}
-
-GnmSheetRange *
-gnm_sheet_range_dup (GnmSheetRange const *src)
-{
-	g_return_val_if_fail (src != NULL, NULL);
-
-	return gnm_sheet_range_new (src->sheet, &src->range);
 }
 
 char *

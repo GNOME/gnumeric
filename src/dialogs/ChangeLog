@@ -1,3 +1,9 @@
+2006-03-31  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (stf_preview_set_startrow): Remove.
+
+	* dialog-analysis-tools.c (tool_destroy): Make static.
+
 2006-03-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-order.c (cb_add_clicked): Fix 0/NULL confusion

@@ -36,7 +36,7 @@
 #define MAX_SAVED_CUSTOM_HF_FORMATS 9
 
 GList *hf_formats = NULL;
-gint   hf_formats_base_num = 0;
+static gint hf_formats_base_num = 0;
 
 PrintHF *
 print_hf_new (char const *left_side_format,

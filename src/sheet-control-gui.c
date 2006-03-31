@@ -2908,14 +2908,6 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 	sv_make_cell_visible (sv, visible.col, visible.row, FALSE);
 }
 
-GtkWidget *
-scg_toplevel (SheetControlGUI *scg)
-{
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
-
-	return GTK_WIDGET (scg->table);
-}
-
 void
 scg_take_focus (SheetControlGUI *scg)
 {

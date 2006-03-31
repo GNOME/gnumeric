@@ -19,7 +19,6 @@ struct _GnmSortData {
 	gboolean	 retain_formats;
 };
 
-void sort_clause_destroy (GnmSortClause *clause);
 void sort_data_destroy   (GnmSortData *data);
 void sort_position 	 (GnmSortData *data, int *perm, GOCmdContext *cc);
 int *sort_contents 	 (GnmSortData *data, GOCmdContext *cc);

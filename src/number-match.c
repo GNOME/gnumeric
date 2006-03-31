@@ -109,7 +109,7 @@ format_match_simple (char const *text)
 	return NULL;
 }
 
-struct {
+static struct {
 	char *lc_time;
 	GORegexp re_MMMMddyyyy;
 	GORegexp re_ddMMMMyyyy;

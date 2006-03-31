@@ -1,3 +1,17 @@
+2006-03-31  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (gcd): Remove.
+	* src/sheet-view.c (sv_get_control): Remove.
+	* src/stf-parse.c (stf_parse_options_remove_line_terminator): Remove.
+	* src/value.c (value_new_error_RECALC, value_array_resize): Remove.
+	* src/workbook-view.c (-wb_view_sheet_remove): Remove.
+	* src/ranges.c (range_adjacent, range_merge, range_is_infinite,
+	gnm_sheet_range_dup): Remove.
+	* src/sheet-control-gui.c (scg_toplevel): Remove.
+
+	* src/print-info.c (hf_formats_base_num): Make static.
+	* src/number-match.c (datetime_locale): Make static.
+
 2006-03-30  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Use VALUE_IS_STRING, VALUE_IS_ERROR, VALUE_IS_BOOLEAN,

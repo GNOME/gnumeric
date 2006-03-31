@@ -235,24 +235,6 @@ stf_preview_set_lines (RenderData_t *renderdata,
 }
 
 /**
- * stf_preview_set_startrow
- * @renderdata : struct containing rendering information
- * @startrow : the new row to start rendering at
- *
- * This will set a new row to start rendering.
- *
- * returns : nothing
- **/
-void
-stf_preview_set_startrow (RenderData_t *renderdata, int startrow)
-{
-	g_return_if_fail (renderdata != NULL);
-	g_return_if_fail (startrow >= 0);
-
-	renderdata->startrow = startrow;
-}
-
-/**
  * stf_preview_colformats_clear
  * @renderdata : a struct containing rendering information
  *

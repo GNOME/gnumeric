@@ -123,13 +123,6 @@ sv_attach_control (SheetView *sv, SheetControl *sc)
 	sv_init_sc (sv, sc);
 }
 
-SheetControl *
-sv_get_control (SheetView const *sv, WorkbookControl const *wbc)
-{
-	SHEET_VIEW_FOREACH_CONTROL (sv, sc, if (sc_wbc (sc) == wbc) return sc;);
-	return NULL;
-}
-
 void
 sv_detach_control (SheetControl *sc)
 {

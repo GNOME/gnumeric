@@ -109,7 +109,6 @@ GnmValue *value_new_error_REF        (GnmEvalPos const *pos);
 GnmValue *value_new_error_NAME       (GnmEvalPos const *pos);
 GnmValue *value_new_error_NUM        (GnmEvalPos const *pos);
 GnmValue *value_new_error_NA         (GnmEvalPos const *pos);
-GnmValue *value_new_error_RECALC     (GnmEvalPos const *pos);
 GnmValue *value_new_string           (char const *str);
 GnmValue *value_new_string_nocopy    (char *str);
 GnmValue *value_new_string_str       (GnmString *str);
@@ -176,7 +175,6 @@ extern GnmValueErr const value_terminate_err;
 #define VALUE_TERMINATE ((GnmValue *)&value_terminate_err)
 
 void value_array_set       (GnmValue *array, int col, int row, GnmValue *v);
-void value_array_resize    (GnmValue *v, int width, int height);
 
 /* FIXME: this stuff below ought to go elsewhere.  */
 typedef gboolean (*GnmCriteriaFunc) (GnmValue const *x, GnmValue const *y);

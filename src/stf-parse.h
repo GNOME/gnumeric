@@ -77,8 +77,6 @@ void stf_parse_options_set_type                        (StfParseOptions_t *parse
 void stf_parse_options_clear_line_terminator           (StfParseOptions_t *parseoptions);
 void stf_parse_options_add_line_terminator             (StfParseOptions_t *parseoptions,
 							char const *terminator);
-void stf_parse_options_remove_line_terminator          (StfParseOptions_t *parseoptions,
-							char const *terminator);
 void stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parseoptions,
 							StfTrimType_t const trim_spaces);
 void stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,

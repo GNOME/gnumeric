@@ -27,7 +27,7 @@ typedef struct {
 
 
 /* Clause stuff */
-void
+static void
 sort_clause_destroy (GnmSortClause *clause)
 {
 	g_free (clause);

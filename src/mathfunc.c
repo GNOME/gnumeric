@@ -7555,21 +7555,6 @@ random_landau (void)
 /* ------------------------------------------------------------------------ */
 
 
-/*
- * Euclid's Algorithm.	Assumes non-negative numbers.
- */
-int
-gcd (int a, int b)
-{
-	while (b != 0) {
-		int r = a % b;
-		a = b;
-		b = r;
-	}
-	return a;
-}
-
-
 gnm_float
 combin (gnm_float n, gnm_float k)
 {
