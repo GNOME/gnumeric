@@ -2808,7 +2808,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 		EX_SETROW(data, row);
 		EX_SETCOL(data, col);
 		EX_SETXF (data, xf);
-		if (v->type == VALUE_ERROR) {
+		if (VALUE_IS_ERROR (v)) {
 			GSF_LE_SET_GUINT8 (data + 6, excel_write_map_errcode (v));
 			GSF_LE_SET_GUINT8 (data + 7, 1); /* Mark as a err */
 		} else {

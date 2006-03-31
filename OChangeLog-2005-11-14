@@ -1,9 +1,10 @@
 2006-03-30  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: Use VALUE_IS_STRING, VALUE_IS_ERROR, VALUE_IS_BOOLEAN,
+	and VALUE_IS_EMPTY when appropriate.
+
 	* */*.c: Reduce the use of VALUE_INTEGER.
 	* parser.y: Fix parser crash for ={-#N/A}.
-
-	* */*.c: Use VALUE_IS_STRING and VALUE_IS_EMPTY when appropriate.
 
 	* src/expr.c (negate_value): Simplify.
 	(bin_arith): Simplify and handler overflow better.

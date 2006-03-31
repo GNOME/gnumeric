@@ -1212,7 +1212,7 @@ networkdays_holiday_callback (GnmValue const *v, GnmEvalPos const *ep,
 	GDate date;
 	GODateConventions const *conv = DATE_CONV (ep);
 
-	if (v->type == VALUE_ERROR)
+	if (VALUE_IS_ERROR (v))
 		return value_dup (v);
 	serial = datetime_value_to_serial (v, conv);
         if (serial <= 0)

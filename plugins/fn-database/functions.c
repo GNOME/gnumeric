@@ -134,7 +134,7 @@ database_find_values (Sheet *sheet, GnmValue const *database,
 
 		if ((flags & COLLECT_IGNORE_STRINGS) && VALUE_IS_STRING (value))
 			continue;
-		if ((flags & COLLECT_IGNORE_BOOLS) && value->type == VALUE_BOOLEAN)
+		if ((flags & COLLECT_IGNORE_BOOLS) && VALUE_IS_BOOLEAN (value))
 			continue;
 		if ((flags & COLLECT_IGNORE_BLANKS) && VALUE_IS_EMPTY (value))
 			continue;

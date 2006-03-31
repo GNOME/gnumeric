@@ -879,11 +879,11 @@ write_arrays (PolishData *pd)
 			for (x = 0; x < array->v_array.x; x++) {
 				GnmValue const *v = array->v_array.vals[x][y];
 
-				if (v->type == VALUE_BOOLEAN) {
+				if (VALUE_IS_BOOLEAN (v)) {
 					push_guint8 (pd, 4);
 					push_guint32 (pd, v->v_bool.val ? 1 : 0);
 					push_guint32 (pd, 0);
-				} else if (v->type == VALUE_ERROR) {
+				} else if (VALUE_IS_ERROR (v)) {
 					push_guint8 (pd, 16);
 					push_guint32 (pd, excel_write_map_errcode (v));
 					push_guint32 (pd, 0);
