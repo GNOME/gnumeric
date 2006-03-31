@@ -2342,7 +2342,6 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 	init_err (module_dict, "GnumericErrorNAME", GNM_ERROR_NAME);
 	init_err (module_dict, "GnumericErrorNUM", GNM_ERROR_NUM);
 	init_err (module_dict, "GnumericErrorNA", GNM_ERROR_NA);
-	init_err (module_dict, "GnumericErrorRECALC", GNM_ERROR_RECALC);
 
 	(void) PyDict_SetItemString
 		(module_dict, (char *) "functions",

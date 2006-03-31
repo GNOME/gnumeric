@@ -1,3 +1,7 @@
+2006-03-31  Jody Goldberg <jody@gnome.org>
+
+	* py-gnumeric.c (py_initgnumeric) : remove deleted std error
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1

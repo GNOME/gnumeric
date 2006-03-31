@@ -490,7 +490,6 @@ call_python_function_nodes (FunctionEvalInfo *ei,
 	GnmFunc const * fndef;
 	GnmValue **values;
 	gint i;
-	GnmExprList const *l;
 	GnmValue *ret_value;
 
 	g_return_val_if_fail (ei != NULL, NULL);
