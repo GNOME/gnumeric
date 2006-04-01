@@ -834,24 +834,24 @@ static GnmFuncHelp const help_count[] = {
 static GnmValue *
 callback_function_count (GnmEvalPos const *ep, GnmValue const *value, void *closure)
 {
-	GnmValue *result = (GnmValue *) closure;
+	int *result = closure;
 
-	if (value && VALUE_IS_NUMBER (value) && !VALUE_IS_BOOLEAN (value))
-		result->v_int.val++;
+	if (value && VALUE_IS_FLOAT (value))
+		(*result)++;
 	return NULL;
 }
 
 static GnmValue *
 gnumeric_count (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-	GnmValue *result = value_new_int (0);
+	int i = 0;
 
 	/* no need to check for error, this is not strict */
 	function_iterate_argument_values
-		(ei->pos, callback_function_count, result,
+		(ei->pos, callback_function_count, &i,
 		 argc, argv, FALSE, CELL_ITER_IGNORE_BLANK);
 
-	return result;
+	return value_new_int (i);
 }
 
 /***************************************************************************/
@@ -880,23 +880,22 @@ static GnmFuncHelp const help_counta[] = {
 static GnmValue *
 callback_function_counta (GnmEvalPos const *ep, GnmValue const *value, void *closure)
 {
-        GnmValue *result = (GnmValue *) closure;
-
-	result->v_int.val++;
+        int *result = closure;
+	(*result)++;
 	return NULL;
 }
 
 static GnmValue *
 gnumeric_counta (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
-        GnmValue *result = value_new_int (0);
+	int i = 0;
 
 	/* no need to check for error, this is not strict */
         function_iterate_argument_values
-		(ei->pos, callback_function_counta, result,
+		(ei->pos, callback_function_counta, &i,
 		 argc, argv, FALSE, CELL_ITER_IGNORE_BLANK);
 
-        return result;
+        return value_new_int (i);
 }
 
 /***************************************************************************/

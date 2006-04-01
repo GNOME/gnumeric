@@ -36,7 +36,6 @@ typedef struct _GnmComment		GnmComment;
 
 typedef union  _GnmValue		GnmValue;
 typedef struct _GnmValueBool		GnmValueBool;
-typedef struct _GnmValueInt		GnmValueInt;
 typedef struct _GnmValueFloat		GnmValueFloat;
 typedef struct _GnmValueErr		GnmValueErr;
 typedef struct _GnmValueStr		GnmValueStr;

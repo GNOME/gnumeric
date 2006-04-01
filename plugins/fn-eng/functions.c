@@ -86,7 +86,7 @@ val_to_base (FunctionEvalInfo *ei,
 	if (aplaces && VALUE_IS_BOOLEAN (aplaces))
 		return value_new_error_VALUE (ei->pos);
 
-	switch (VALUE_TYPE (value)) {
+	switch (value->type) {
 	default:
 		return value_new_error_NUM (ei->pos);
 
@@ -95,9 +95,7 @@ val_to_base (FunctionEvalInfo *ei,
 			vstring = format_match_number
 				(value_peek_string (value), NULL,
 				 workbook_date_conv (ei->pos->sheet->workbook));
-			if (!vstring ||
-			    VALUE_IS_BOOLEAN (vstring) ||
-			    !VALUE_IS_NUMBER (vstring)) {
+			if (!vstring || !VALUE_IS_FLOAT (vstring)) {
 				if (vstring)
 					value_release (vstring);
 				return value_new_error_VALUE (ei->pos);
@@ -136,7 +134,7 @@ val_to_base (FunctionEvalInfo *ei,
 		}
 		/* Fall through.  */
 
-	case VALUE_FLOAT: case VALUE_INTEGER: {
+	case VALUE_FLOAT: {
 		gnm_float val = gnm_fake_trunc (value_get_as_float (vstring ? vstring : value));
 		char buf[GNM_MANT_DIG + 10];
 		char *err;

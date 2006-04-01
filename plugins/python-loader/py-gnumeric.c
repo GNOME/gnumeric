@@ -326,7 +326,7 @@ gnm_value_to_py_obj (const GnmEvalPos *eval_pos, const GnmValue *val)
 	case VALUE_BOOLEAN:
 		py_val = py_new_Boolean_object (val->v_bool.val);
 		break;
-    	case VALUE_FLOAT: case VALUE_INTEGER:
+    	case VALUE_FLOAT:
 		py_val = PyFloat_FromDouble (value_get_as_float (val));
 		break;
 	case VALUE_STRING:

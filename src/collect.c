@@ -70,7 +70,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 			return value_new_error_VALUE (ep);
 		break;
 
-	case VALUE_FLOAT: case VALUE_INTEGER:
+	case VALUE_FLOAT:
 		x = value_get_as_float (value);
 		break;
 
@@ -460,7 +460,7 @@ callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
 	} else switch (value->type) {
 	case VALUE_EMPTY:
 	case VALUE_BOOLEAN:
-	case VALUE_FLOAT: case VALUE_INTEGER:
+	case VALUE_FLOAT:
 	case VALUE_STRING:
 		text = value_get_as_string (value);
 		break;

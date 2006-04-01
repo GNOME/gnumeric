@@ -13,14 +13,20 @@ typedef enum {
 	 * in the xml
 	 */
 	VALUE_EMPTY	= 10,
-	VALUE_BOOLEAN	= 20, /* Keep bool < int < float */
-	VALUE_INTEGER	= 30,
+	VALUE_BOOLEAN	= 20,
 	VALUE_FLOAT	= 40,
 	VALUE_ERROR	= 50,
 	VALUE_STRING	= 60,
 	VALUE_CELLRANGE = 70,
 	VALUE_ARRAY	= 80
 } GnmValueType;
+
+/*
+ * This one lives only in old XML files and is understood by
+ * value_new_from_string.
+ */
+#define	VALUE_INTEGER ((GnmValueType)30)
+
 
 typedef struct {
 	GnmValueType const type;
@@ -30,11 +36,6 @@ struct _GnmValueBool {
 	GnmValueType const type;
 	GOFormat *fmt;
 	gboolean val;
-};
-struct _GnmValueInt {
-	GnmValueType const type;
-	GOFormat *fmt;
-	int val;
 };
 struct _GnmValueFloat {
 	GnmValueType const type;
@@ -69,7 +70,6 @@ union _GnmValue {
 	GnmValueType const type;
 	GnmValueAny	v_any;
 	GnmValueBool	v_bool;
-	GnmValueInt	v_int;
 	GnmValueFloat	v_float;
 	GnmValueErr	v_err;
 	GnmValueStr	v_str;
@@ -77,16 +77,15 @@ union _GnmValue {
 	GnmValueArray	v_array;
 };
 
-#define	VALUE_TYPE(v)			((v)->v_any.type)
 #define	VALUE_FMT(v)			((v)->v_any.fmt)
 #define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->type == VALUE_EMPTY))
 #define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->type == VALUE_ERROR)
 #define VALUE_IS_STRING(v)		((v)->type == VALUE_STRING)
 #define VALUE_IS_BOOLEAN(v)		((v)->type == VALUE_BOOLEAN)
 #define VALUE_IS_ERROR(v)		((v)->type == VALUE_ERROR)
-#define VALUE_IS_NUMBER(v)		(((v)->type == VALUE_INTEGER) || \
-					 ((v)->type == VALUE_FLOAT) || \
+#define VALUE_IS_NUMBER(v)		(((v)->type == VALUE_FLOAT) || \
 					 ((v)->type == VALUE_BOOLEAN))
+#define VALUE_IS_FLOAT(v)		((v)->type == VALUE_FLOAT)
 
 typedef enum {
 	IS_EQUAL,

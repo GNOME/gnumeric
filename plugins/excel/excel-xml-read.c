@@ -58,6 +58,9 @@
 
 /*****************************************************************************/
 
+/* A fake value of the right type, different from all the real enum values.  */
+#define VALUE_FAKE_DATETIME ((GnmValueType)42)
+
 typedef struct {
 	GnumericXMLVersion version;
 	IOContext 	*context;	/* The IOcontext managing things */
@@ -445,7 +448,7 @@ xl_xml_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "Number",	VALUE_FLOAT },
 		{ "Boolean",	VALUE_BOOLEAN },
 		{ "Error",	VALUE_ERROR },
-		{ "DateTime",	0x42 /* some cheesy magic */ },
+		{ "DateTime",	VALUE_FAKE_DATETIME },
 		{ NULL, 0 }
 	};
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
@@ -464,8 +467,8 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	GnmCell *cell = sheet_cell_fetch (state->sheet, state->pos.col, state->pos.row);
 	GnmValue *v;
-	
-	if (state->val_type == 0x42) { /* see cheesy magic above */
+
+	if (state->val_type == VALUE_FAKE_DATETIME) {
 		GDate date;
 		unsigned y, mo, d, h, mi;
 		double s;

@@ -1382,7 +1382,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 
 	case VALUE_EMPTY:
 	case VALUE_BOOLEAN:
-	case VALUE_FLOAT: case VALUE_INTEGER:	
+	case VALUE_FLOAT:	
 	case VALUE_STRING:
 		res = (*callback)(ep, value, closure);
 		break;

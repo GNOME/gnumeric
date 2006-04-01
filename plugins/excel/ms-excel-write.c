@@ -2818,7 +2818,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 		ms_biff_put_commit (ewb->bp);
 		break;
 	}
-	case VALUE_FLOAT: case VALUE_INTEGER: {
+	case VALUE_FLOAT: {
 		gnm_float val = value_get_as_float (v);
 		gboolean is_int = (val >= INT_MIN / 4 &&
 				   val <= INT_MAX / 4 &&
@@ -2924,7 +2924,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	EX_SETCOL (data, col);
 	EX_SETXF  (data, xf);
 	switch (v->type) {
-	case VALUE_FLOAT: case VALUE_INTEGER:
+	case VALUE_FLOAT:
 		gsf_le_set_double (data + 6, value_get_as_float (v));
 		break;
 
@@ -3408,7 +3408,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 				buf[3] = v->v_bool.val ? 1 : 0;
 				break;
 
-	case VALUE_FLOAT: case VALUE_INTEGER: {
+	case VALUE_FLOAT: {
 		gnm_float f = value_get_as_float (v);
 		if (f < INT_MIN / 4 || f > INT_MAX / 4 || f != gnm_floor (f)) {
 			buf[0] = 4;

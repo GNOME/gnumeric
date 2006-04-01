@@ -657,7 +657,7 @@ cb_sumif (Sheet *sheet, int col, int row, GnmCell *cell,
 				if (cell != NULL) {
 					cell_eval (cell);
 					switch (cell->value->type) {
-					case VALUE_FLOAT: case VALUE_INTEGER:
+					case VALUE_FLOAT:
 						/* FIXME: Check bools.  */
 						res->sum += value_get_as_float (cell->value);
 						break;
@@ -3250,7 +3250,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv
 					result = value_dup (v);
 					value_release (val);
 					goto done;
-				case VALUE_FLOAT: case VALUE_INTEGER:
+				case VALUE_FLOAT:
 					data[i][y * thissizex + x] = value_get_as_float (v);
 					break;
 				default :

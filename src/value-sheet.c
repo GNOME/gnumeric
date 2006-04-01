@@ -40,7 +40,7 @@ value_dump (GnmValue const *value)
 		printf ("STRING: %s\n", value->v_str.val->str);
 		break;
 
-	case VALUE_FLOAT: case VALUE_INTEGER:
+	case VALUE_FLOAT:
 		printf ("Number: %" GNM_FORMAT_f "\n", value_get_as_float (value));
 		break;
 

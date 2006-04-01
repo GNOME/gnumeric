@@ -1,10 +1,19 @@
 2006-03-31  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: Get rid of VALUE_INTEGER.  It was a nice idea, but
+	getting the semantics right meant doing everything twice, in code
+	as well as at runtime.  Note, that the magic enum value (30) is
+	still understood by value_new_from_string so we can still read old
+	xml files.
+
+2006-03-31  Morten Welinder  <terra@gnome.org>
+
 	* src/mathfunc.c (gcd): Remove.
 	* src/sheet-view.c (sv_get_control): Remove.
 	* src/stf-parse.c (stf_parse_options_remove_line_terminator): Remove.
 	* src/value.c (value_new_error_RECALC, value_array_resize): Remove.
-	* src/workbook-view.c (-wb_view_sheet_remove): Remove.
+
+	* src/workbook-view.c (wb_view_sheet_remove): Remove.
 	* src/ranges.c (range_adjacent, range_merge, range_is_infinite,
 	gnm_sheet_range_dup): Remove.
 	* src/sheet-control-gui.c (scg_toplevel): Remove.

@@ -706,7 +706,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		GnmValue const *v = expr->constant.value;
 		switch (v->type) {
 
-		case VALUE_FLOAT: case VALUE_INTEGER: {
+		case VALUE_FLOAT: {
 			guint8 data[10];
 			gnm_float f = value_get_as_float (v);
 			int i;
@@ -887,7 +887,7 @@ write_arrays (PolishData *pd)
 					push_guint8 (pd, 16);
 					push_guint32 (pd, excel_write_map_errcode (v));
 					push_guint32 (pd, 0);
-				} else if (VALUE_IS_NUMBER (v)) {
+				} else if (VALUE_IS_FLOAT (v)) {
 					push_guint8 (pd, 1);
 					gsf_le_set_double (data, value_get_as_float (v));
 					ms_biff_put_var_write (pd->ewb->bp, data, 8);

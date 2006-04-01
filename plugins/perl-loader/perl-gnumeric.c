@@ -10,7 +10,7 @@ value2perl(GnmValue *v)
 	sv = newSViv(v->v_bool.val);
 	break;
 
-    case VALUE_FLOAT: case VALUE_INTEGER:
+    case VALUE_FLOAT:
 	sv = newSVnv(value_get_as_float (v));
 	break;
 

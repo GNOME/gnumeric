@@ -1668,9 +1668,7 @@ static GnmFuncHelp const help_isnumber[] = {
 static GnmValue *
 gnumeric_isnumber (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (argv[0] != NULL &&
-			       !VALUE_IS_STRING (argv[0]) &&
-			       VALUE_IS_NUMBER (argv[0]));
+	return value_new_bool (argv[0] && VALUE_IS_FLOAT (argv[0]));
 }
 
 /***************************************************************************/
@@ -1825,11 +1823,11 @@ static GnmValue *
 gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
 	const GnmValue *v = argv[0];
-	switch (v ? VALUE_TYPE (v) : VALUE_EMPTY) {
+	switch (v ? v->type : VALUE_EMPTY) {
 	case VALUE_BOOLEAN:
 		return value_new_int (4);
 	case VALUE_EMPTY:
-	case VALUE_FLOAT: case VALUE_INTEGER:
+	case VALUE_FLOAT:
 		return value_new_int (1);
 	case VALUE_CELLRANGE:
 	case VALUE_ERROR:

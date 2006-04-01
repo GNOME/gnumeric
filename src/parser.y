@@ -236,7 +236,7 @@ fold_negative (GnmExpr *expr)
 	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
 		GnmValue *v = (GnmValue *)expr->constant.value;
 		
-		if (VALUE_IS_NUMBER (v) && v->type != VALUE_BOOLEAN) {
+		if (VALUE_IS_FLOAT (v)) {
 			gnm_float f = value_get_as_float (v);
 			expr->constant.value = value_new_float (0 - f);
 			value_release (v);

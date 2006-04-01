@@ -69,12 +69,12 @@ value_new_empty (void)
 	return (GnmValue *)&v;
 }
 
-/* Memory pool for ints and bools.  */
-static GOMemChunk *value_int_pool;
+/* Memory pool for bools.  */
+static GOMemChunk *value_bool_pool;
 GnmValue *
 value_new_bool (gboolean b)
 {
-	GnmValueBool *v = CHUNK_ALLOC (GnmValueBool, value_int_pool);
+	GnmValueBool *v = CHUNK_ALLOC (GnmValueBool, value_bool_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_BOOLEAN;
 	v->fmt = NULL;
 	v->val = b;
@@ -84,11 +84,7 @@ value_new_bool (gboolean b)
 GnmValue *
 value_new_int (int i)
 {
-	GnmValueInt *v = CHUNK_ALLOC (GnmValueInt, value_int_pool);
-	*((GnmValueType *)&(v->type)) = VALUE_INTEGER;
-	v->fmt = NULL;
-	v->val = i;
-	return (GnmValue *)v;
+	return value_new_float (i);
 }
 
 static GOMemChunk *value_float_pool;
@@ -461,17 +457,7 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		break;
 	}
 
-	case VALUE_INTEGER: {
-		char *end;
-		long l;
-
-		errno = 0;
-		l = strtol (str, &end, 10);
-		if (str != end && *end == '\0' && errno != ERANGE)
-			res = value_new_int ((int)l);
-		break;
-	}
-
+	case VALUE_INTEGER:
 	case VALUE_FLOAT: {
 		char *end;
 		gnm_float d;
@@ -531,8 +517,7 @@ value_release (GnmValue *value)
 		return;
 
 	case VALUE_BOOLEAN:
-	case VALUE_INTEGER:
-		CHUNK_FREE (value_int_pool, value);
+		CHUNK_FREE (value_bool_pool, value);
 		return;
 
 	case VALUE_FLOAT:
@@ -610,10 +595,6 @@ value_dup (GnmValue const *src)
 		res = value_new_bool (src->v_bool.val);
 		break;
 
-	case VALUE_INTEGER:
-		res = value_new_int (src->v_int.val);
-		break;
-
 	case VALUE_FLOAT:
 		res = value_new_float (src->v_float.val);
 		break;
@@ -680,16 +661,7 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 int
 value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 {
-	GnmValue const *a = *(GnmValue const **)ptr_a;
-	GnmValue const *b = *(GnmValue const **)ptr_b;
-	switch (value_compare (a, b, TRUE)) {
-	case IS_EQUAL :   return  0;
-	case IS_LESS :	  return  1;
-	case IS_GREATER : return -1;
-	default :
-		break;
-	}
-	return b->type - a->type;
+	return -value_cmp (ptr_a, ptr_b);
 }
 
 gboolean
@@ -707,9 +679,6 @@ value_equal (GnmValue const *a, GnmValue const *b)
 
 	case VALUE_ERROR:
 		return a->v_err.mesg == b->v_err.mesg;
-
-	case VALUE_INTEGER:
-		return a->v_int.val == b->v_int.val;
 
 	case VALUE_FLOAT:
 		return a->v_float.val == b->v_float.val;
@@ -754,9 +723,6 @@ value_hash (GnmValue const *v)
 
 	case VALUE_ERROR:
 		return g_str_hash (v->v_err.mesg->str);
-
-	case VALUE_INTEGER:
-		return (guint)(v->v_int.val);
 
 	case VALUE_FLOAT: {
 		int expt;
@@ -823,9 +789,6 @@ value_get_as_bool (GnmValue const *v, gboolean *err)
 		return (gboolean)i;
 	}
 
-	case VALUE_INTEGER:
-		return v->v_int.val != 0;
-
 	case VALUE_FLOAT:
 		return v->v_float.val != 0.0;
 
@@ -888,10 +851,6 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 
 	case VALUE_STRING:
 		g_string_append (target, v->v_str.val->str);
-		return;
-
-	case VALUE_INTEGER:
-		g_string_append_printf (target, "%d", v->v_int.val);
 		return;
 
 	case VALUE_FLOAT:
@@ -1023,9 +982,6 @@ value_get_as_int (GnmValue const *v)
 		g_warning ("Getting range as a int: what to do?");
 		return 0;
 
-	case VALUE_INTEGER:
-		return v->v_int.val;
-
 	case VALUE_ARRAY:
 		return 0;
 
@@ -1064,9 +1020,6 @@ value_get_as_float (GnmValue const *v)
 	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a double: what to do?");
 		return 0.0;
-
-	case VALUE_INTEGER:
-		return (gnm_float) v->v_int.val;
 
 	case VALUE_ARRAY:
 		return 0.0;
@@ -1182,7 +1135,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
 {
 	GnmValueType ta, tb;
 
-	/* Handle trivial and double NULL case */
+	/* Handle trivial (including empty/empty) and double NULL */
 	if (a == b)
 		return 0.;
 
@@ -1205,7 +1158,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
 			if (t == 0)
 				return 0.;
 		}
-		case VALUE_INTEGER : case VALUE_FLOAT : case VALUE_BOOLEAN :
+		case VALUE_FLOAT: case VALUE_BOOLEAN:
 		default :
 			return DBL_MAX;
 		}
@@ -1217,16 +1170,16 @@ value_diff (GnmValue const *a, GnmValue const *b)
 			if (*b->v_str.val->str == '\0')
 				return 0.;
 
-		case VALUE_INTEGER : case VALUE_FLOAT : case VALUE_BOOLEAN :
+		case VALUE_FLOAT : case VALUE_BOOLEAN :
 		default :
 			return DBL_MAX;
 		}
 	}
 
 	/* Booleans > all numbers (Why did excel do this ?? ) */
-	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
+	if (ta == VALUE_BOOLEAN && tb == VALUE_FLOAT)
 		return DBL_MAX;
-	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
+	if (tb == VALUE_BOOLEAN && ta == VALUE_FLOAT)
 		return DBL_MAX;
 
 	switch ((ta > tb) ? ta : tb) {
@@ -1236,7 +1189,6 @@ value_diff (GnmValue const *a, GnmValue const *b)
 	case VALUE_BOOLEAN:
 		return (compare_bool_bool (a, b) == IS_EQUAL) ? 0. : DBL_MAX;
 
-	case VALUE_INTEGER:
 	case VALUE_FLOAT: {
 		gnm_float const da = value_get_as_float (a);
 		gnm_float const db = value_get_as_float (b);
@@ -1276,7 +1228,7 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 			if (*a->v_str.val->str == '\0')
 				return IS_EQUAL;
 
-		case VALUE_INTEGER : case VALUE_FLOAT :
+		case VALUE_FLOAT:
 			return IS_GREATER;
 
 		/* Strings are < FALSE ?? */
@@ -1316,7 +1268,7 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 			if (*b->v_str.val->str == '\0')
 				return IS_EQUAL;
 
-		case VALUE_INTEGER : case VALUE_FLOAT :
+		case VALUE_FLOAT :
 			return IS_LESS;
 
 		/* Strings are < FALSE ?? */
@@ -1329,9 +1281,9 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 	}
 
 	/* Booleans > all numbers (Why did excel do this ?? ) */
-	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
+	if (ta == VALUE_BOOLEAN && tb == VALUE_FLOAT)
 		return IS_GREATER;
-	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
+	if (tb == VALUE_BOOLEAN && ta == VALUE_FLOAT)
 		return IS_LESS;
 
 	switch ((ta > tb) ? ta : tb) {
@@ -1341,7 +1293,6 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 	case VALUE_BOOLEAN:
 		return compare_bool_bool (a, b);
 
-	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 		return compare_float_float (a, b);
 	default:
@@ -1449,7 +1400,7 @@ find_column_of_field (GnmEvalPos const *ep,
 
 	offset = database->v_range.cell.a.col;
 
-	if (field->type == VALUE_INTEGER)
+	if (VALUE_IS_FLOAT (field))
 	        return value_get_as_int (field) + offset - 1;
 
 	if (!VALUE_IS_STRING (field))
@@ -1733,7 +1684,7 @@ filter_row:
 /****************************************************************************/
 
 GnmValueErr const value_terminate_err = { VALUE_ERROR, NULL, NULL };
-static GnmValueInt const the_value_zero = { VALUE_INTEGER, NULL, 0 };
+static GnmValueFloat const the_value_zero = { VALUE_FLOAT, NULL, 0 };
 GnmValue const *value_zero = (GnmValue const *)&the_value_zero;
 
 void
@@ -1748,10 +1699,9 @@ value_init (void)
 	}
 
 #if USE_VALUE_POOLS
-	/* GnmValueInt and GnmValueBool ought to have the same size.  */
-	value_int_pool =
-		go_mem_chunk_new ("value int/bool pool",
-				   MAX (sizeof (GnmValueInt), sizeof (GnmValueBool)),
+	value_bool_pool =
+		go_mem_chunk_new ("value bool pool",
+				   sizeof (GnmValueBool),
 				   16 * 1024 - 128);
 
 	value_float_pool =
@@ -1792,8 +1742,8 @@ value_shutdown (void)
 	}
 
 #if USE_VALUE_POOLS
-	go_mem_chunk_destroy (value_int_pool, FALSE);
-	value_int_pool = NULL;
+	go_mem_chunk_destroy (value_bool_pool, FALSE);
+	value_bool_pool = NULL;
 
 	go_mem_chunk_destroy (value_float_pool, FALSE);
 	value_float_pool = NULL;
