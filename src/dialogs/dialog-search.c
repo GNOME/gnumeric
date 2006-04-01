@@ -152,7 +152,7 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 				type = _("Expression");
 			else if (is_value && VALUE_IS_STRING (v))
 				type = _("String");
-			else if (is_value && VALUE_IS_NUMBER (v) && !VALUE_IS_BOOLEAN (v))
+			else if (is_value && VALUE_IS_FLOAT (v))
 				type = _("Number");
 			else
 				type = _("Other value");
