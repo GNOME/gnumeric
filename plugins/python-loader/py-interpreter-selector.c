@@ -21,6 +21,7 @@
 #include "py-interpreter-selector.h"
 
 #include <string.h>
+#include <gtk/gtkversion.h>
 #include <glib.h>
 
 struct _GnmPyInterpreterSelector {
