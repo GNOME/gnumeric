@@ -158,6 +158,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 				gsf_output_puts (output, "<i>");
 			if (gnm_style_get_font_bold (mstyle))
 				gsf_output_puts (output, "<b>");
+			if (gnm_style_get_font_uline (mstyle) != UNDERLINE_NONE)
+				gsf_output_puts (output, "<u>");
 			if (font_is_monospaced (mstyle))
 				gsf_output_puts (output, "<tt>");
 		}
@@ -184,6 +186,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 		if (mstyle != NULL) {
 			if (font_is_monospaced (mstyle))
 				gsf_output_puts (output, "</tt>");
+			if (gnm_style_get_font_uline (mstyle) != UNDERLINE_NONE)
+				gsf_output_puts (output, "</u>");
 			if (gnm_style_get_font_bold (mstyle))
 				gsf_output_puts (output, "</b>");
 			if (gnm_style_get_font_italic (mstyle))

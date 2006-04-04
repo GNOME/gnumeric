@@ -1,3 +1,8 @@
+2006-04-01  Jody Goldberg <jody@gnome.org>
+
+	* html.c (html_write_cell_content) : ivan noticed that underlining is
+	  not being exported.
+
 2006-01-25  Morten Welinder  <terra@gnome.org>
 
 	* html_read.c (html_file_probe): Get rid of casts.  Fix probing in
