@@ -230,8 +230,9 @@ report_err (ParserState *state, GError *err,
 		g_error_free (err);
 }
 
+/* Handle -cst for use in arrays.  Don't handle other types here.  */
 static GnmExpr *
-fold_negative (GnmExpr *expr)
+fold_negative_constant (GnmExpr *expr)
 {
 	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
 		GnmValue *v = (GnmValue *)expr->constant.value;
@@ -242,6 +243,19 @@ fold_negative (GnmExpr *expr)
 			value_release (v);
 			return expr;
 		}
+	}
+
+	return NULL;
+}
+
+/* Handle +cst for use in arrays.  Don't handle other types here.  */
+static GnmExpr *
+fold_positive_constant (GnmExpr *expr)
+{
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
+		const GnmValue *v = expr->constant.value;
+		if (VALUE_IS_FLOAT (v))
+			return expr;
 	}
 
 	return NULL;
@@ -554,10 +568,13 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	}
 
         | '-' exp %prec NEG {
-		GnmExpr *tmp = fold_negative ($2);
-		$$ = (tmp != NULL) ? tmp : build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2);
+		GnmExpr *tmp = fold_negative_constant ($2);
+		$$ = tmp ? tmp : build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2);
 	}
-        | '+' exp %prec PLUS { $$ = build_unary_op (GNM_EXPR_OP_UNARY_PLUS, $2); }
+        | '+' exp %prec PLUS {
+		/* Don't fold here.  */
+		$$ = build_unary_op (GNM_EXPR_OP_UNARY_PLUS, $2);
+	}
         | NOT exp { $$ = build_not ($2); }
         | exp '%' { $$ = build_unary_op (GNM_EXPR_OP_PERCENTAGE, $1); }
 
@@ -767,7 +784,12 @@ arg_list: exp {
 
 array_exp:     CONSTANT		{ $$ = $1; }
 	 | '-' CONSTANT		{
-		GnmExpr *tmp = fold_negative ($2);
+		GnmExpr *tmp = fold_negative_constant ($2);
+		if (!tmp) { YYERROR; }
+		$$ = tmp;
+	 }
+	 | '+' CONSTANT		{
+		GnmExpr *tmp = fold_positive_constant ($2);
 		if (!tmp) { YYERROR; }
 		$$ = tmp;
 	 }

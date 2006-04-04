@@ -136,6 +136,7 @@ Morten:
 	* Fix xls export for intersections.
 	* Fix parser crash.
 	* Get rid of integer/float split.
+	* Allow ={+42}.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
