@@ -137,6 +137,7 @@ Morten:
 	* Fix parser crash.
 	* Get rid of integer/float split.
 	* Allow ={+42}.
+	* Fix copy-and-paste problem between gnumeric instances.  [#337215]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

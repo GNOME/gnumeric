@@ -1,5 +1,8 @@
 2006-04-04  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-io.c (xml_cellregion_read): Switch to C locale while
+	parsing.  Fixes #337215.
+
 	* src/parser.y (array_exp): Handle explicit "+" sign.
 
 2006-03-31  Morten Welinder  <terra@gnome.org>
