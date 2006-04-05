@@ -1,3 +1,14 @@
+2006-04-05  Morten Welinder  <terra@gnome.org>
+
+	* src/search.c (gnm_search_replace_cell): Only force strings to
+	remain as strings if asked to.
+	(gnm_search_replace_class_init): New property
+	replace-keep-strings.
+
+	* src/commands.c (cmd_search_replace_do_cell): Fix error
+	expression handling to go through expressions.
+	(cmd_search_replace_do_cell): Plug leak in make-string case.
+
 2006-04-04  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_cellregion_read): Switch to C locale while

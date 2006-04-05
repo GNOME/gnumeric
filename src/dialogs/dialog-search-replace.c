@@ -118,6 +118,7 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   "match-words", is_checked (gui, "match_words"),
 			   "preserve-case", is_checked (gui, "preserve_case"),
 			   "query", is_checked (gui, "query"),
+			   "replace-keep-strings", is_checked (gui, "keep_strings"),
 			   "search-strings", is_checked (gui, "search_string"),
 			   "search-other-values", is_checked (gui, "search_other"),
 			   "search-expressions", is_checked (gui, "search_expr"),
@@ -280,6 +281,24 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	non_modal_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
 }
 
+static void
+response_clicked (GtkWidget *widget, gpointer pres)
+{
+	while (!GTK_IS_DIALOG (widget))
+		widget = widget->parent;
+	gtk_dialog_response (GTK_DIALOG (widget), GPOINTER_TO_INT (pres));
+}
+
+static void
+set_reponse (GladeXML *gui, const char *name, GtkResponseType res)
+{
+	GtkWidget *w = glade_xml_get_widget (gui, name);
+	g_signal_connect (G_OBJECT (w),
+			  "clicked", G_CALLBACK (response_clicked),
+			  GINT_TO_POINTER (res));
+}
+
+
 int
 dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			     GnmSearchReplace *sr,
@@ -290,7 +309,6 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 	GladeXML *gui;
 	GtkDialog *dialog;
 	int res;
-	GtkWindow *toplevel;
 
 	g_return_val_if_fail (wbcg != NULL, 0);
 
@@ -309,44 +327,26 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			    new_text);
 	set_checked (gui, "qd_query", sr->query);
 
+	set_reponse (gui, "qd_yes", GTK_RESPONSE_YES);
+	set_reponse (gui, "qd_no", GTK_RESPONSE_NO);
+	set_reponse (gui, "qd_cancel", GTK_RESPONSE_CANCEL);
 
-	toplevel = wbcg_toplevel (wbcg);
-	if (GTK_WINDOW (dialog)->transient_parent != toplevel)
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), toplevel);
-
-	gtk_tooltips_set_tip (gtk_tooltips_new (),
-			      gtk_dialog_add_button (dialog, GTK_STOCK_CANCEL,
-						     GTK_RESPONSE_CANCEL),
-			      _("Perform no more replacements"), NULL);
-	gtk_tooltips_set_tip (gtk_tooltips_new (),
-			      gtk_dialog_add_button (dialog, GTK_STOCK_NO,
-						     GTK_RESPONSE_NO),
-			      _("Do not perform this replacement"), NULL);
-	gtk_tooltips_set_tip (gtk_tooltips_new (),
-			      gtk_dialog_add_button (dialog, GTK_STOCK_YES,
-						     GTK_RESPONSE_YES),
-			      _("Perform this replacement"), NULL);
-
+	wbcg_set_transient_for (wbcg, GTK_WINDOW (dialog));
 	gtk_widget_show_all (GTK_WIDGET (dialog));
-	res = gtk_dialog_run (dialog);
 
-	/* Unless cancel is pressed, propagate the query setting back.  */
-	if (res != GTK_RESPONSE_CANCEL && res != GTK_RESPONSE_NONE &&
-	    res != GTK_RESPONSE_DELETE_EVENT)
+	res = gtk_dialog_run (dialog);
+	switch (res) {
+	case GTK_RESPONSE_YES:
+	case GTK_RESPONSE_NO:
 		sr->query = is_checked (gui, "qd_query");
+		break;
+	default:
+		res = GTK_RESPONSE_CANCEL;
+	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
-/*FIXME: rather than recoding the result value we should change the tests down stream */
-	/* Acutally, no.  This needs to be handled as signal on the GnmSearchReplace
-	   object -- MW  */
-
-	if (res == GTK_RESPONSE_YES)
-		return 0;
-	if (res == GTK_RESPONSE_NO)
-		return 1;
-
-	return -1;
+	return res;
 }
 
 /* ------------------------------------------------------------------------- */

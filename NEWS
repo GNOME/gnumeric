@@ -138,6 +138,8 @@ Morten:
 	* Get rid of integer/float split.
 	* Allow ={+42}.
 	* Fix copy-and-paste problem between gnumeric instances.  [#337215]
+	* Improve handling of strings that look like numbers or expressions
+	  during search-and-replace.  [#167304]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

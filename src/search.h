@@ -62,6 +62,7 @@ struct _GnmSearchReplace {
 	gboolean search_comments;
 
 	SearchReplaceError error_behaviour;
+	gboolean replace_keep_strings;
 
 	/*
 	 * If true:  A1,B1,...,A2,B2,...
@@ -76,11 +77,11 @@ struct _GnmSearchReplace {
 	 *   Inform the user that an error occurred in SRE_fail mode.
 	 *
 	 * SRQ_query (..., GnmCell *cell, char const *old, char const *new)
-	 *   Ask user whether to change.  (-1=cancel, 0=yes, 1=no.)
+	 *   Ask user whether to change.  GTK_RESPONSE_(YES|NO|CANCEL)
 	 *
 	 * SRQ_querycommment (..., Sheet *sheet, CellPos *cp,
 	 *                    char const *old, char const *new)
-	 *   Ask user whether to change.  (-1=cancel, 0=yes, 1=no.)
+	 *   Ask user whether to change.  GTK_RESPONSE_(YES|NO|CANCEL)
 	 */
 	SearchReplaceQueryFunc query_func;
 	void *user_data;

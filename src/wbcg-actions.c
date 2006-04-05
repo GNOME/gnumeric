@@ -374,7 +374,7 @@ common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *pos)
 static int
 cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 {
-	int res = 0;
+	int res;
 	va_list pvar;
 	WorkbookControlGUI *wbcg = sr->user_data;
 
@@ -385,10 +385,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 		GnmCell *cell = va_arg (pvar, GnmCell *);
 		char const *old_text = va_arg (pvar, const char *);
 		char const *new_text = va_arg (pvar, const char *);
-
-		char *err;
-
-		err = g_strdup_printf
+		char *err = g_strdup_printf
 			(_("In cell %s, the current contents\n"
 			   "        %s\n"
 			   "would have been replaced by\n"
@@ -402,6 +399,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, err);
 		g_free (err);
+		res = GTK_RESPONSE_NO;
 		break;
 	}
 
@@ -437,6 +435,9 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 		break;
 	}
 
+	default:
+		/* Shouldn't really happen.  */
+		res = GTK_RESPONSE_CANCEL;
 	}
 
 	va_end (pvar);

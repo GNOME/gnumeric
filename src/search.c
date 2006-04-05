@@ -38,6 +38,7 @@ enum {
 	PROP_SEARCH_COMMENTS,
 	PROP_BY_ROW,
 	PROP_QUERY,
+	PROP_REPLACE_KEEP_STRINGS,
 	PROP_SHEET,
 	PROP_SCOPE,
 	PROP_RANGE_TEXT
@@ -310,7 +311,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 		gboolean initial_quote;
 
 		res->old_text = cell_get_entered_text (cell);
-		initial_quote = (is_value && res->old_text[0] == '\'');
+		initial_quote = (is_string && res->old_text[0] == '\'');
 
 		actual_src = res->old_text + (initial_quote ? 1 : 0);
 
@@ -318,7 +319,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 			res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
 								  actual_src);
 			if (res->new_text) {
-				if (initial_quote) {
+				if (sr->replace_keep_strings && is_string) {
 					/*
 					 * The initial quote was not part of the s-a-r,
 					 * so tack it back on.
@@ -424,6 +425,9 @@ gnm_search_replace_get_property (GObject     *object,
 	case PROP_QUERY:
 		g_value_set_boolean (value, sr->query);
 		break;
+	case PROP_REPLACE_KEEP_STRINGS:
+		g_value_set_boolean (value, sr->replace_keep_strings);
+		break;
 	case PROP_SHEET:
 		g_value_set_object (value, sr->sheet);
 		break;
@@ -488,6 +492,9 @@ gnm_search_replace_set_property (GObject      *object,
 		break;
 	case PROP_QUERY:
 		sr->query = g_value_get_boolean (value);
+		break;
+	case PROP_REPLACE_KEEP_STRINGS:
+		sr->replace_keep_strings = g_value_get_boolean (value);
 		break;
 	case PROP_SHEET:
 		gnm_search_replace_set_sheet (sr, g_value_get_object (value));
@@ -588,6 +595,15 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("query",
 				       _("Query"),
 				       _("Should we query for each replacement?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_REPLACE_KEEP_STRINGS,
+		 g_param_spec_boolean ("replace-keep-strings",
+				       _("Keep Strings"),
+				       _("Should replacement keep strings as strings?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));

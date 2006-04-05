@@ -1,3 +1,11 @@
+2006-04-05  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search-replace.c (dialog_search_replace_query): Plug
+	tooltip leaks by letting glade take care of buttons.
+	(dialog_search_replace_query): Return GtkReponse values instead of
+	homegrown magic numbers.  Always set window parent, or else we
+	might display on wrong display!
+
 2006-03-31  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (stf_preview_set_startrow): Remove.

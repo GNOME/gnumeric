@@ -3942,18 +3942,24 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 			} else {
 				switch (sr->error_behaviour) {
 				case SRE_error: {
-					/* FIXME: should go via expression.  */
-					GString *s = g_string_new ("=ERROR(");
-					go_strescape (s, cell_res.new_text);
-					g_string_append_c (s, ')');
-					g_free (cell_res.new_text);
+					GnmExprTop const *ee =
+						gnm_expr_top_new
+						(gnm_expr_new_funcall1
+						 (gnm_func_lookup ("ERROR", NULL),
+						  gnm_expr_new_constant 
+						  (value_new_string_nocopy (cell_res.new_text))));
+					GString *s = g_string_new ("=");
+					gnm_expr_top_as_gstring
+						(s, ee, &pp, gnm_expr_conventions_default);
+					gnm_expr_top_unref (ee);
 					cell_res.new_text = g_string_free (s, FALSE);
 					err = FALSE;
 					break;
 				}
 				case SRE_string: {
-					GString *s = g_string_new (NULL);
-					go_strescape (s, cell_res.new_text);
+					GString *s = g_string_new ("'");
+					g_string_append (s, cell_res.new_text);
+					g_free (cell_res.new_text);
 					cell_res.new_text = g_string_free (s, FALSE);
 					err = FALSE;
 					break;
@@ -3975,12 +3981,12 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 							  cell_res.cell,
 							  cell_res.old_text,
 							  cell_res.new_text);
-				if (res == -1) {
+				if (res == GTK_RESPONSE_CANCEL) {
 					g_free (cell_res.old_text);
 					g_free (cell_res.new_text);
 					return TRUE;
 				}
-				doit = (res == 0);
+				doit = (res == GTK_RESPONSE_YES);
 			}
 
 			if (doit) {
@@ -4012,11 +4018,11 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 						  &ep->eval,
 						  comment_res.old_text,
 						  comment_res.new_text);
-			if (res == -1) {
+			if (res == GTK_RESPONSE_CANCEL) {
 				g_free (comment_res.new_text);
 				return TRUE;
 			}
-			doit = (res == 0);
+			doit = (res == GTK_RESPONSE_YES);
 		}
 
 		if (doit) {
