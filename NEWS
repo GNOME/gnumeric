@@ -138,7 +138,7 @@ Morten:
 	* Reimplement autofill.
 	* Fix xls export of data tables.
 	* Fix xls export for intersections.
-	* Fix parser crash.
+	* Fix parser crash for ={-TRUE}.
 	* Get rid of integer/float split.
 	* Allow ={+42}.
 	* Fix copy-and-paste problem between gnumeric instances.  [#337215]
