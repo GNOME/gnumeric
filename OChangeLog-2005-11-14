@@ -1,3 +1,11 @@
+2006-04-05  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=314866
+	* src/gnumeric-pane.c (cb_pane_drag_leave) : always reset the position
+	  of the control points.  There is no simple way to know a drag was
+	  canceled so we always reset and rely on drag-receive to commit the
+	  correct position.
+
 2006-04-05  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (rendered_value_render): Resolve formats

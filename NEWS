@@ -26,6 +26,7 @@ Jody:
 	* Export underlines to html.
 	* handle ctrl/shift space during rangeselection.
 	* Fix path to docs.
+	* Handle canceling object drag motion. [#314866]
 
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]
