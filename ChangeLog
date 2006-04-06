@@ -1,3 +1,8 @@
+2006-04-05  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (rendered_value_render): Resolve formats
+	the same way as cell_get_format.
+
 2006-04-05  Jody Goldberg <jody@gnome.org>
 
 	* src/wbcg-actions.c : Use shift/ctrl space for select col/row/all

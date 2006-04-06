@@ -116,15 +116,16 @@ rendered_value_render (GString *str,
 		*go_color = 0;
 	} else if (gnm_style_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
-		/* entered text CAN be null if called by set_value */
 		GOFormat *format = gnm_style_get_format (mstyle);
+
+		if (go_format_is_general (format) && VALUE_FMT (cell->value))
+			format = VALUE_FMT (cell->value);
 
 		/* For format general approximate the cell width in characters */
 		if (go_format_is_var_width (format)) {
 			gboolean is_rotated = (gnm_style_get_rotation (mstyle) != 0);
-			is_variable_width = !is_rotated &&
-				(VALUE_FMT (cell->value) == NULL ||
-				 go_format_is_var_width (VALUE_FMT (cell->value)));
+			is_variable_width = !is_rotated;
+
 			if (is_variable_width && allow_variable_width) {
 				GnmFont *style_font = gnm_style_get_font (mstyle, context, zoom);
 				double wdigit = style_font->approx_width.pts.digit;
@@ -154,8 +155,7 @@ rendered_value_render (GString *str,
 					col_width = cell_width / wdigit;
 				}
 				style_font_unref (style_font);
-			} else if (go_format_is_general (format))
-				format = VALUE_FMT (cell->value);
+			}
 		}
 		format_value_gstring (str, format, cell->value, go_color,
 				      col_width,

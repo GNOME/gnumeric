@@ -144,6 +144,7 @@ Morten:
 	* Fix copy-and-paste problem between gnumeric instances.  [#337215]
 	* Improve handling of strings that look like numbers or expressions
 	  during search-and-replace.  [#167304]
+	* Fix rendering problems for values with attached formats.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
