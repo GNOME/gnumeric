@@ -2,6 +2,7 @@ Gnumeric 1.6.4
 
 Morten:
 	* Fix sheet-manage dialog crash.  [#336165]
+	* Fix paste from other gnumerics.  [#337215]
 
 --------------------------------------------------------------------------
 Gnumeric 1.6.3

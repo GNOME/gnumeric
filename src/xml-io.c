@@ -2112,23 +2112,31 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 	XmlParseContext *ctxt;
 	xmlNode	   *l, *clipboard;
 	xmlDoc	   *doc;
-	GnmCellRegion *cr;
+	GnmCellRegion *cr = NULL;
 	int dummy;
+	char *old_num_locale, *old_monetary_locale;
 
 	g_return_val_if_fail (buffer != NULL, NULL);
 
+	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+	go_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+	go_setlocale (LC_MONETARY, "C");
+	go_set_untranslated_bools ();
+
 	doc = xmlParseDoc ((guchar *) buffer);
+
 	if (doc == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
 			_("Unparsable xml in clipboard"));
-		return NULL;
+		goto err;
 	}
 	clipboard = doc->xmlRootNode;
 	if (clipboard == NULL || strcmp (clipboard->name, "ClipboardRange")) {
 		xmlFreeDoc (doc);
 		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
 			_("Clipboard is in unknown format"));
-		return NULL;
+		goto err;
 	}
 
 	/* ctxt->sheet must == NULL or copying objects will break */
@@ -2178,6 +2186,13 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (doc);
+
+ err:
+	/* go_setlocale restores bools to locale translation */
+	go_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+	go_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 
 	return cr;
 }
