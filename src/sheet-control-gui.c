@@ -518,9 +518,9 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	SheetView *sv = sc_view (sc);
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
-	if (!rangesel)
-		if (!wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
-			return FALSE;
+	if (!rangesel &&
+	    !wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
+		return FALSE;
 
 	if (modifiers & GDK_SHIFT_MASK) {
 		if (rangesel) {
@@ -3329,9 +3329,7 @@ void
 scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 			double x, double y, GtkSelectionData *selection_data)
 {
-	gchar *target_type;
-
-	target_type = gdk_atom_name (selection_data->target);
+	gchar *target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) {
 		scg_drag_receive_uri_list (scg, x, y,

@@ -1313,8 +1313,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 	case GNM_EXPR_OP_ARRAY_CORNER: {
 		GnmEvalPos range_pos = *pos;
-		range_pos.cols = expr->array_corner.cols;
-		range_pos.rows = expr->array_corner.rows;
+		range_pos.array = &expr->array_corner;
 
 		/* Release old value if necessary */
 		a = expr->array_corner.value;

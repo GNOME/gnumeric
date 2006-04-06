@@ -142,16 +142,18 @@ gnumeric_table_link (FunctionEvalInfo *ei)
 	rr.b.col_relative = rr.b.row_relative = FALSE;
 	rr.a.sheet = rr.b.sheet = dep->sheet;
 
+	g_return_val_if_fail (ei->pos->array != NULL, DEPENDENT_IGNORE_ARGS);
+
 	g_return_val_if_fail (ei->pos->eval.col > 0, DEPENDENT_IGNORE_ARGS);
 	rr.a.col = rr.b.col = ei->pos->eval.col - 1;
 	rr.a.row = ei->pos->eval.row;
-	rr.b.row = rr.a.row + ei->pos->rows - 1;
+	rr.b.row = rr.a.row + ei->pos->array->rows - 1;
 	dependent_add_dynamic_dep (dep, &rr);
 
 	g_return_val_if_fail (ei->pos->eval.row > 0, DEPENDENT_IGNORE_ARGS);
 	rr.a.row = rr.b.row = ei->pos->eval.row - 1;
 	rr.a.col = ei->pos->eval.col;
-	rr.b.col = rr.a.col + ei->pos->cols - 1;
+	rr.b.col = rr.a.col + ei->pos->array->cols - 1;
 	dependent_add_dynamic_dep (dep, &rr);
 
 	return DEPENDENT_IGNORE_ARGS;
@@ -201,8 +203,8 @@ gnumeric_table (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 	} else
 		in[2] = NULL;
 
-	res = value_new_array (ei->pos->cols, ei->pos->rows);
-	for (x = ei->pos->cols ; x-- > 0 ; ) {
+	res = value_new_array (ei->pos->array->cols, ei->pos->array->rows);
+	for (x = ei->pos->array->cols ; x-- > 0 ; ) {
 		x_iter = sheet_cell_get (ei->pos->sheet,
 			x + ei->pos->eval.col, ei->pos->eval.row-1);
 		if (NULL == x_iter)
@@ -212,7 +214,7 @@ gnumeric_table (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 			in[0]->value = value_dup (x_iter->value);
 			dependent_queue_recalc (&in[0]->base);
 		}
-		for (y = ei->pos->rows ; y-- > 0 ; ) {
+		for (y = ei->pos->array->rows ; y-- > 0 ; ) {
 			y_iter = sheet_cell_get (ei->pos->sheet,
 				ei->pos->eval.col-1, y + ei->pos->eval.row);
 			if (NULL == y_iter)

@@ -61,6 +61,7 @@
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-gzip.h>
 #include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-opendoc-utils.h>
 #include <gsf/gsf-utils.h>
 #include <locale.h>
 

@@ -79,9 +79,10 @@ gboolean    gnm_style_equal_header  (GnmStyle const *a, GnmStyle const *b,
 guint       gnm_style_hash          (gconstpointer style);
 guint       gnm_style_hash_XL	    (gconstpointer style);
 
-gboolean     gnm_style_is_element_set	   (GnmStyle const *style, GnmStyleElement elem);
 unsigned int gnm_style_find_conflicts      (GnmStyle *accum, GnmStyle const *overlay,
 					    unsigned int conflicts);
+gboolean     gnm_style_is_complete    	   (GnmStyle const *style);
+gboolean     gnm_style_is_element_set	   (GnmStyle const *style, GnmStyleElement elem);
 void         gnm_style_unset_element	   (GnmStyle *style, GnmStyleElement elem);
 void         gnm_style_set_font_color	   (GnmStyle *style, GnmColor *col);
 void         gnm_style_set_back_color	   (GnmStyle *style, GnmColor *col);

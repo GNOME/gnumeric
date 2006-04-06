@@ -3,7 +3,7 @@
 /*
  * wbcg-actions.c: The callbacks and tables for all the menus and stock toolbars
  *
- * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -904,19 +904,20 @@ static GNM_ACTION_DEF (cb_help_docs)
 	char   *argv[] = { NULL, NULL, NULL };
 	GError *error = NULL;
 
-#warning "handle translations when we generate them"
 #ifndef G_OS_WIN32
 	argv[0] = (char *)"yelp";
-	argv[1] = g_build_filename (gnm_sys_data_dir (), "doc", "C",
-			"gnumeric.xml", NULL);
+	argv[1] = (char *)"help:gnumeric";
+	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+		NULL, NULL, NULL, &error);
 #else
+	/* TODO : handle translations when we generate them */
 	argv[0] = (char *)"hh";
-	argv[1] = g_build_filename (gnm_sys_data_dir (), "doc", "C",
+	argv[1] = g_build_filename (gnm_help_dir (), "C",
 			"gnumeric.chm", NULL);
-#endif
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, &error);
 	g_free (argv[1]);
+#endif
 }
 
 static GNM_ACTION_DEF (cb_help_web)
@@ -1641,15 +1642,22 @@ static GtkActionEntry const actions[] = {
 
 
 /* Edit -> Select */
+
+	/* Note : The accelerators involving space are just for display
+	 * 	purposes.  We actually handle this in
+	 * 		gnumeric-canvas.c:gnm_canvas_key_mode_sheet
+	 *	with the rest of the key movement and rangeselection.
+	 *	Otherwise input methods would steal them */
 	{ "EditSelectAll", NULL, N_("Select _All"),
-		"<control>a", N_("Select all cells in the spreadsheet"),
+		"<control><shift>space", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
 	{ "EditSelectColumn", NULL, N_("Select _Column"),
 		"<control>space", N_("Select an entire column"),
 		G_CALLBACK (cb_edit_select_col) },
 	{ "EditSelectRow", NULL, N_("Select _Row"),
-		"<alt>space", N_("Select an entire row"),
+		"<shift>space", N_("Select an entire row"),
 		G_CALLBACK (cb_edit_select_row) },
+
 	{ "EditSelectArray", NULL, N_("Select Arra_y"),
 		"<control>slash", N_("Select an array of cells"),
 		G_CALLBACK (cb_edit_select_array) },

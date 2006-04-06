@@ -22,6 +22,10 @@ Jody:
 	* Dup sheet props when duping a sheet.
 	* Adding an autofilter dirties the sheet.
 	* Move Workbook::uri and ::dirty into GODoc
+	* Handle inconsistency with XL's model of vararg eval. [#336212]
+	* Export underlines to html.
+	* handle ctrl/shift space during rangeselection.
+	* Fix path to docs.
 
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]

@@ -6,7 +6,7 @@ SUBDIRS = tools cut-n-paste-code
 
 lib_LTLIBRARIES = libspreadsheet.la
 
-bin_PROGRAMS =
+bin_PROGRAMS = harness
 check_PROGRAMS =
 
 if WITH_GTK
@@ -342,6 +342,11 @@ test_pango_LDFLAGS = -export-dynamic
 test_pango_SOURCES =				\
 	test-pango.c
 
+# Some wrapper code to serve as a stub program for testing
+harness_LDADD   = $(gnumeric_LDADD)
+harness_LDFLAGS = -export-dynamic
+harness_SOURCES = test-harness.c
+	
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
 
@@ -362,12 +367,12 @@ gnumeric-paths.h: Makefile
 	echo '#ifndef GNUMERIC_PATHS_H'; \
 	echo '#define GNUMERIC_PATHS_H'; \
 	echo ''; \
-	echo '#define GNUMERIC_PREFIX "$(prefix)"'; \
-	echo '#define GNUMERIC_SYSCONFDIR "$(sysconfdir)"'; \
-	echo '#define GNUMERIC_DATADIR "$(gnumeric_datadir)"'; \
-	echo '#define GNUMERIC_LIBDIR "$(gnumeric_libdir)"'; \
-	echo '#define GNUMERIC_ICONDIR "$(gnumeric_icondir)"'; \
-	echo '#define GNUMERIC_LOCALEDIR "$(gnumeric_localedir)"'; \
+	echo '#define GNUMERIC_PREFIX		"$(prefix)"'; \
+	echo '#define GNUMERIC_SYSCONFDIR	"$(sysconfdir)"'; \
+	echo '#define GNUMERIC_DATADIR		"$(gnumeric_datadir)"'; \
+	echo '#define GNUMERIC_LIBDIR		"$(gnumeric_libdir)"'; \
+	echo '#define GNUMERIC_ICONDIR		"$(gnumeric_icondir)"'; \
+	echo '#define GNUMERIC_LOCALEDIR	"$(gnumeric_localedir)"'; \
 	echo ''; \
 	echo '#endif /* GNUMERIC_PATHS_H */'; \
 	) >$@

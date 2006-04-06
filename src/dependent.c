@@ -2,7 +2,7 @@
 /*
  * dependent.c:  Manage calculation dependencies between objects
  *
- * Copyright (C) 2000-2005
+ * Copyright (C) 2000-2006
  *  Jody Goldberg   (jody@gnome.org)
  *  Morten Welinder (terra@gnome.org)
  *
@@ -778,8 +778,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 
 	case GNM_EXPR_OP_ARRAY_CORNER: {
 		GnmEvalPos pos = *ep;
-		pos.cols = tree->array_corner.cols;
-		pos.rows = tree->array_corner.rows;
+		pos.array = &tree->array_corner;
 		/* Corner cell depends on the contents of the expr */
 		return link_expr_dep (&pos, tree->array_corner.expr);
 	}

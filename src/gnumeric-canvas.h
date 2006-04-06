@@ -39,7 +39,6 @@ struct _GnmCanvas {
 
 	/*  IM */
 	guint      reseting_im :1;	/* quick hack to keep gtk_im_context_reset from starting an edit */
-	guint      mask_state;
 	guint      preedit_length;
 	GtkIMContext  *im_context;
 	PangoAttrList *preedit_attrs;

@@ -11,6 +11,14 @@ Release Critical
 http://bugzilla.gnome.org/show_bug.cgi?id=322096
 - mis-export of array expr
 
+Worries
+-------
+    : provide undo for dropped objects from sheet_objects_clear
+    : undo of pasting copy/cut of objects
+    : undo of cell range cut over clipboard
+    : Select graph, Copy, and paste to Emacs: used to crash, but now it
+      just g_barfs and pastes empty string.
+
     http://bugzilla.gnome.org/show_bug.cgi?id=317662
     * Double borders in rtl
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
@@ -61,17 +69,6 @@ Pending Patches
 ---------------
     http://bugzilla.gnome.org/show_bug.cgi?id=310354
     - autopackage patches		{rob}
-    - Meta Data
-	: Patches for metadata dialog	{etrunko}
-	: Patches to use GsfDocMetaData	{jody}
-
-Worries
--------
-    : provide undo for dropped objects from sheet_objects_clear
-    : undo of pasting copy/cut of objects
-    : undo of cell range cut over clipboard
-    : Select graph, Copy, and paste to Emacs: used to crash, but now it
-      just g_barfs and pastes empty string.
 
 -------------------------------------------------------------------------------
 Blocked Patches
@@ -84,15 +81,7 @@ Blocked Patches
 Architecture Changes
 --------------------
 
-- R1C1								(DONE)
-- repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
-- ssconvert for non-gnome					(DONE)
 - Merge wb_control_init_state and wb_control_set_view
-
-- accelerators
-     : Looks like ctrl-~ is General not number
-     : Can not replicate ctrl-! as accounting with 2k or xp, check 2003
-     : Make ctrl-space and shift-space work for range selection
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog
@@ -655,13 +644,6 @@ Short Term Goals
            not just the end of the selected region
     21.28) filter changes should dirty things
 
-22) Add dirty flags to workbook too, adding a sheet should
-    make workbook dirty not the new sheet.
-
-27) audit all of the export plugins to handle utf8
-    27.1) latex exporter                                        (DONE 20030611 AJG)
-    27.2) html exporter						(DONE 20050709 JKH)
-
 29) gconf.
     29.1) Check for errors					(DONE)
     29.2) update on remote changes
@@ -720,17 +702,6 @@ Short Term Goals
     33.3) Draw borders sheared.
     33.4) Draw background sheared when border present.
 
-34) Sheet life cycle                                                  {Morten}
-    34.1) Make sheet a proper gobject                                   (DONE)
-    34.2) Butcher many control methods that watch properties.           (DONE)
-    34.3) Make undo/redo use object properties.                         (DONE)
-    34.4) Disengage detach and destroy                                  (DONE)
-    34.5) Base sheet removal undo on just keeping a ref                 (DONE)
-    34.6) Track changes to names during sheet detach for undo.          (DONE)
-    34.7) Track changes to cells during sheet detach for undo.          (DONE)
-    34.8) Track changes to 3d deps during sheet detach for undo.        (DONE)
-    34.9) Rework sheet reorganize dialog to new scheme.			(DONE)
-
 35) Accessibility
     We can use
 	http://bugzilla.gnome.org/attachment.cgi?id=47315&action=view
@@ -766,34 +737,34 @@ auto-fill
 ---------
     - does not resize row/col
 
-- The autocalc label should use a more readable format and should not get
-  clipped.
+    - The autocalc label should use a more readable format and should not get
+      clipped.
 
-- Names
-    : references in names do not get changed with cut/paste or ins/del row/col.
-      How to handle relative references in names ?? here.
-    : Dialog
-	* We should start with the expr entry set to either the current cell,
-	  or by selecting the first named expression in scope that contains the
-	  current cell.
-    : Check scoping changes.						(DONE)
-    : Handle pasting an expression with an un-qualified sheet local name into
-      another sheet
+    - Names
+	: references in names do not get changed with cut/paste or ins/del row/col.
+	  How to handle relative references in names ?? here.
+	: Dialog
+	    * We should start with the expr entry set to either the current cell,
+	      or by selecting the first named expression in scope that contains the
+	      current cell.
+	: Check scoping changes.						(DONE)
+	: Handle pasting an expression with an un-qualified sheet local name into
+	  another sheet
 
-- clean up the range_list codes to differentiate a list of ranges from a list
-  of cellranges.
+    - clean up the range_list codes to differentiate a list of ranges from a list
+      of cellranges.
 
-- The max row/col canvas scroll size is still hard coded.
+    - The max row/col canvas scroll size is still hard coded.
 
-- Entering text of the form scheme://blah or a@b.c should insert hyperlinks
-- let's add simple commands like inc/dec font size and things like that.
+    - Entering text of the form scheme://blah or a@b.c should insert hyperlinks
+    - let's add simple commands like inc/dec font size and things like that.
 
-- Auto resize needs to handle empty cells.
+    - Auto resize needs to handle empty cells.
 
-- Styles
-    : improve uniform_get to handle full sheet more quickly.
-    : Borders
-	* use new border code for cell format dialog (possibly preview-grid)
+    - Styles
+	: improve uniform_get to handle full sheet more quickly.
+	: Borders
+	    * use new border code for cell format dialog (possibly preview-grid)
 
 Dialogs
 -------
@@ -813,6 +784,6 @@ Import/Export
 
 Clipboard
 ---------
-- Fall back to string import when incoming html and OpenOffice doesn't
-  contain tables.                                               (DONE)
-- May be not export html as table when just one cell is selected.
+    - Fall back to string import when incoming html and OpenOffice doesn't
+      contain tables.                                               (DONE)
+    - May be not export html as table when just one cell is selected.

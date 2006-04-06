@@ -88,7 +88,7 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 }
 
 static char const *
-check_name_match (char const *name, char const *description, char const*tag)
+check_name_match (char const *name, char const *description, char const *tag)
 {
 	unsigned tag_len = strlen (tag);
 	char const *tmp;
@@ -175,7 +175,7 @@ cb_dump_usage (gpointer key, Symbol *sym, FILE *out)
 }
 
 static char *
-split_at_colon (const char *s, char **rest)
+split_at_colon (char const *s, char **rest)
 {
 	char *dup = g_strdup (s);
 	char *colon = strchr (dup, ':');
@@ -535,7 +535,7 @@ extract_arg_types (GnmFunc *def)
 static GnmValue *
 error_function_no_full_info (FunctionEvalInfo *ei,
 			     int argc,
-			     const GnmExprConstPtr *argv)
+			     GnmExprConstPtr const *argv)
 {
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
@@ -709,7 +709,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 static GnmValue *
 unknownFunctionHandler (FunctionEvalInfo *ei,
 			int argc,
-			const GnmExprConstPtr *argv)
+			GnmExprConstPtr const *argv)
 {
 	return value_new_error_NAME (ei->pos);
 }
@@ -795,7 +795,7 @@ gnm_func_add_placeholder (Workbook *scope,
 
 /* See type GnmParseFunctionHandler */
 GnmExpr const *
-gnm_func_placeholder_factory (const char *name,
+gnm_func_placeholder_factory (char const *name,
 			      GnmExprList *args,
 			      G_GNUC_UNUSED GnmExprConventions const *convs)
 {
@@ -964,8 +964,7 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
  * Return value: the name of the argument (must be freed)
  **/
 char*
-function_def_get_arg_name (GnmFunc const *fn_def,
-                           int arg_idx)
+function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 {
 	char **names, **o_names;
 	char *name;
@@ -1025,7 +1024,7 @@ free_values (GnmValue **values, int top)
  **/
 GnmValue *
 function_call_with_exprs (FunctionEvalInfo *ei,
-			  int argc, const GnmExprConstPtr *argv,
+			  int argc, GnmExprConstPtr const *argv,
 			  GnmExprEvalFlags flags)
 {
 	GnmFunc const *fn_def;
@@ -1058,7 +1057,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 		char arg_type = fn_def->fn.args.arg_types[i];
 		/* expr is always non-null, missing args are encoded as
 		 * const = empty */
-		const GnmExpr *expr = argv[i];
+		GnmExpr const *expr = argv[i];
 
 		if (arg_type == 'A' || arg_type == 'r') {
 			if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CELLREF) {
@@ -1448,7 +1447,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 				  FunctionIterateCB	 callback,
 				  void			*callback_closure,
 				  int                    argc,
-				  const GnmExprConstPtr *argv,
+				  GnmExprConstPtr const *argv,
 				  gboolean		 strict,
 				  CellIterFlags		 iter_flags)
 {
@@ -1456,7 +1455,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 	int a;
 
 	for (a = 0; result == NULL && a < argc; a++) {
-		const GnmExpr *expr = argv[a];
+		GnmExpr const *expr = argv[a];
 		GnmValue *val;
 
 		if (iter_flags & CELL_ITER_IGNORE_SUBTOTAL &&
@@ -1491,7 +1490,7 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 		 * will do implicit intersection in non-array mode */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT)
 			val = value_dup (expr->constant.value);
-		else if (ep->cols > 1 || ep->rows > 1)
+		else if (ep->array != NULL)
 			val = gnm_expr_eval (expr, ep,
 				GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		else

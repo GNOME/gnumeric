@@ -6,7 +6,7 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *  Jody Goldberg (jody@gnome.org)
  *
- *  (C) 1999-2001 Jody Goldberg
+ *  (C) 1999-2006 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -990,8 +990,7 @@ selection_apply (SheetView *sv, SelectionApplyFunc const func,
 	}
 }
 
-typedef struct
-{
+typedef struct {
 	GString *str;
 	gboolean include_sheet_name_prefix;
 } selection_to_string_closure;

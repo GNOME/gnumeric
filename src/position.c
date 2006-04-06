@@ -39,9 +39,9 @@ eval_pos_init (GnmEvalPos *ep, Sheet *sheet, int col, int row)
 
 	ep->eval.col = col;
 	ep->eval.row = row;
-	ep->cols  = ep->rows = 1;
 	ep->sheet = sheet;
 	ep->dep   = NULL;
+	ep->array = NULL;
 
 	return ep;
 }
@@ -54,9 +54,9 @@ eval_pos_init_pos (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 	g_return_val_if_fail (pos != NULL, NULL);
 
 	ep->eval  = *pos;
-	ep->cols  = ep->rows = 1;
 	ep->sheet = sheet;
 	ep->dep   = NULL;
+	ep->array = NULL;
 
 	return ep;
 }
@@ -71,9 +71,9 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 		ep->eval = DEP_TO_CELL (dep)->pos;
 	else
 		ep->eval.col = ep->eval.row = 0;
-	ep->cols  = ep->rows = 1;
 	ep->sheet = dep->sheet;
-	ep->dep = (GnmDependent *)dep;
+	ep->dep   = (GnmDependent *)dep;
+	ep->array = NULL;
 
 	return ep;
 }
@@ -85,9 +85,9 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	ep->eval  = cell->pos;
-	ep->cols  = ep->rows = 1;
 	ep->sheet = cell->base.sheet;
 	ep->dep   = (GnmDependent *)CELL_TO_DEP (cell);
+	ep->array = NULL;
 
 	return ep;
 }
@@ -99,9 +99,9 @@ eval_pos_init_sheet (GnmEvalPos *ep, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	ep->eval.col = ep->eval.row = 0;
-	ep->cols  = ep->rows = 1;
 	ep->sheet = sheet;
-	ep->dep  = NULL;
+	ep->dep   = NULL;
+	ep->array = NULL;
 
 	return ep;
 }

@@ -37,7 +37,6 @@ void       wbcg_toggle_visibility (WorkbookControlGUI *wbcg,
 void       wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 					 WorkbookControlGUI *wbcg);
 
-void       wbcg_toggle_end_mode   (WorkbookControlGUI *wbcg);
 void       wbcg_set_end_mode      (WorkbookControlGUI *wbcg, gboolean flag);
 
 void	   wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window);

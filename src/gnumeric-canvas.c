@@ -58,7 +58,85 @@ gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 }
 
 static gboolean
-gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
+gnm_canvas_object_key_press (GnmCanvas *gcanvas, GdkEventKey *ev)
+{
+	SheetControlGUI *scg = gcanvas->simple.scg;
+	SheetControl    *sc = SHEET_CONTROL (scg);
+	gboolean const shift	= 0 != (ev->state & GDK_SHIFT_MASK);
+	gboolean const control	= 0 != (ev->state & GDK_CONTROL_MASK);
+	gboolean const alt	= 0 != (ev->state & GDK_MOD1_MASK);
+	gboolean const symmetric = control && alt;
+	double   const delta = 1.0 / FOO_CANVAS (gcanvas)->pixels_per_unit;
+
+	switch (ev->keyval) {
+	case GDK_Escape:
+		scg_mode_edit (sc);
+		gnm_app_clipboard_unant ();
+		return TRUE;
+
+	case GDK_BackSpace: /* Ick! */
+	case GDK_KP_Delete:
+	case GDK_Delete:
+		if (scg->selected_objects != NULL) {
+			cmd_objects_delete (sc->wbc,
+				go_hash_keys (scg->selected_objects), NULL);
+			return TRUE;
+		}
+		sc_mode_edit (sc);
+		break;
+
+	case GDK_Tab:
+	case GDK_ISO_Left_Tab:
+	case GDK_KP_Tab:
+		if (scg->selected_objects != NULL) {
+			Sheet *sheet = sc_sheet (sc);
+			GSList *prev = NULL, *ptr = sheet->sheet_objects;
+			for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
+				if (NULL != g_hash_table_lookup (scg->selected_objects, ptr->data)) {
+					SheetObject *target;
+					if ((ev->state & GDK_SHIFT_MASK)) {
+						if (ptr->next == NULL)
+							target = sheet->sheet_objects->data;
+						else
+							target = ptr->next->data;
+					} else {
+						if (NULL == prev) {
+							GSList *last = g_slist_last (ptr);
+							target = last->data;
+						} else
+							target = prev->data;
+					}
+					if (ptr->data != target) {
+						scg_object_unselect (scg, NULL);
+						scg_object_select (scg, target);
+						return TRUE;
+					}
+				}
+		}
+		break;
+
+	case GDK_KP_Left: case GDK_Left:
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), -delta , 0, symmetric, shift);
+		return TRUE;
+	case GDK_KP_Right: case GDK_Right:
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), delta, 0, symmetric, shift);
+		return TRUE;
+	case GDK_KP_Up: case GDK_Up:
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, -delta, symmetric, shift);
+		return TRUE;
+	case GDK_KP_Down: case GDK_Down:
+		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, delta, symmetric, shift);
+		return TRUE;
+
+	default:
+		break;
+	}
+	return FALSE;
+}
+
+static gboolean
+gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
+			   gboolean allow_rangesel)
 {
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	SheetControl *sc = (SheetControl *) scg;
@@ -72,28 +150,17 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			gboolean jump, gboolean horiz);
 
 	gboolean transition_keys = gnm_app_use_transition_keys();
-	gboolean end_mode = wbcg->last_key_was_end;
+	gboolean const end_mode = wbcg->last_key_was_end;
 
-	/* Magic : Some of these are accelerators,
-	 * we need to catch them before entering because they appear to be printable
-	 */
-	if (!wbcg_is_editing (wbcg) && event->keyval == GDK_space &&
-	    (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
-		return FALSE;
+	/* Update end-mode for magic end key stuff. */
+	if (event->keyval != GDK_End && event->keyval != GDK_KP_End)
+		wbcg_set_end_mode (wbcg, FALSE);
 
-	if (wbcg_rangesel_possible (wbcg)) {
-		/* Ignore a few keys to avoid killing range selection cursor */
-		switch (event->keyval) {
-		case GDK_Shift_L:   case GDK_Shift_R:
-		case GDK_Alt_L:     case GDK_Alt_R:
-		case GDK_Control_L: case GDK_Control_R:
-			return TRUE;
-		}
-
+	if (allow_rangesel)
 		movefn = (event->state & GDK_SHIFT_MASK)
 			? scg_rangesel_extend
 			: scg_rangesel_move;
-	} else
+	else
 		movefn = (event->state & GDK_SHIFT_MASK)
 			? scg_cursor_extend
 			: scg_cursor_move;
@@ -102,53 +169,54 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_Left:
 	case GDK_Left:
 		if (event->state & SCROLL_LOCK_MASK)
-			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col - 1);
+			scg_set_left_col (scg, gcanvas->first.col - 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				 -(gcanvas->last_visible.col-gcanvas->first.col),
+			scg_queue_movement (scg, movefn,
+				 -(gcanvas->last_visible.col - gcanvas->first.col),
 				 FALSE, TRUE);
 		} else
-			(*movefn) (gcanvas->simple.scg, sheet->text_is_rtl ? 1 : -1, jump_to_bounds || end_mode, TRUE);
+			(*movefn) (scg, sheet->text_is_rtl ? 1 : -1, jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
 		if (event->state & SCROLL_LOCK_MASK)
-			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col + 1);
+			scg_set_left_col (scg, gcanvas->first.col + 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				 gcanvas->last_visible.col-gcanvas->first.col,
+			scg_queue_movement (scg, movefn,
+				 gcanvas->last_visible.col - gcanvas->first.col,
 				 FALSE, TRUE);
 		} else
-			(*movefn) (gcanvas->simple.scg, sheet->text_is_rtl ? -1 : 1, jump_to_bounds || end_mode, TRUE);
+			(*movefn) (scg, sheet->text_is_rtl ? -1 : 1,
+				   jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
 		if (event->state & SCROLL_LOCK_MASK)
-			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row - 1);
+			scg_set_top_row (scg, gcanvas->first.row - 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				 -(gcanvas->last_visible.row-gcanvas->first.row),
+			scg_queue_movement (scg, movefn,
+				 -(gcanvas->last_visible.row - gcanvas->first.row),
 				 FALSE, FALSE);
 		} else
-			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds || end_mode, FALSE);
+			(*movefn) (scg, -1, jump_to_bounds || end_mode, FALSE);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
 		if (event->state & SCROLL_LOCK_MASK)
-			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row + 1);
+			scg_set_top_row (scg, gcanvas->first.row + 1);
 		else if (transition_keys && jump_to_bounds) {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				 gcanvas->last_visible.row-gcanvas->first.row,
+			scg_queue_movement (scg, movefn,
+				 gcanvas->last_visible.row - gcanvas->first.row,
 				 FALSE, FALSE);
 		} else
-			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds || end_mode, FALSE);
+			(*movefn) (scg, 1, jump_to_bounds || end_mode, FALSE);
 		break;
 
 	case GDK_KP_Page_Up:
@@ -157,13 +225,13 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			gtk_notebook_prev_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				-(gcanvas->last_visible.row-gcanvas->first.row),
+			scg_queue_movement (scg, movefn,
+				-(gcanvas->last_visible.row - gcanvas->first.row),
 				FALSE, FALSE);
 		} else {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				-(gcanvas->last_visible.col-gcanvas->first.col),
+			scg_queue_movement (scg, movefn,
+				-(gcanvas->last_visible.col - gcanvas->first.col),
 				FALSE, TRUE);
 		}
 		break;
@@ -174,13 +242,13 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			gtk_notebook_next_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				gcanvas->last_visible.row-gcanvas->first.row,
+			scg_queue_movement (scg, movefn,
+				gcanvas->last_visible.row - gcanvas->first.row,
 				FALSE, FALSE);
 		} else {
 			delayed_movement = TRUE;
-			scg_queue_movement (gcanvas->simple.scg, movefn,
-				gcanvas->last_visible.col-gcanvas->first.col,
+			scg_queue_movement (scg, movefn,
+				gcanvas->last_visible.col - gcanvas->first.col,
 				FALSE, TRUE);
 		}
 		break;
@@ -188,18 +256,18 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_Home:
 	case GDK_Home:
 		if (event->state & SCROLL_LOCK_MASK) {
-			scg_set_left_col (gcanvas->simple.scg, sv->edit_pos.col);
-			scg_set_top_row (gcanvas->simple.scg, sv->edit_pos.row);
+			scg_set_left_col (scg, sv->edit_pos.col);
+			scg_set_top_row (scg, sv->edit_pos.row);
 		} else if (end_mode) {
 			/* Same as ctrl-end.  */
 			GnmRange r = sheet_get_extent (sheet, FALSE);
-			(*movefn)(gcanvas->simple.scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
-			(*movefn)(gcanvas->simple.scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
+			(*movefn) (scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
+			(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
 		} else {
 			/* do the ctrl-home jump to A1 in 2 steps */
-			(*movefn)(gcanvas->simple.scg, -SHEET_MAX_COLS, FALSE, TRUE);
+			(*movefn)(scg, -SHEET_MAX_COLS, FALSE, TRUE);
 			if ((event->state & GDK_CONTROL_MASK) || transition_keys)
-				(*movefn)(gcanvas->simple.scg, -SHEET_MAX_ROWS, FALSE, FALSE);
+				(*movefn)(scg, -SHEET_MAX_ROWS, FALSE, FALSE);
 		}
 		break;
 
@@ -208,18 +276,16 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		if (event->state & SCROLL_LOCK_MASK) {
 			int new_col = sv->edit_pos.col - (gcanvas->last_full.col - gcanvas->first.col);
 			int new_row = sv->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
-			scg_set_left_col (gcanvas->simple.scg, new_col);
-			scg_set_top_row (gcanvas->simple.scg, new_row);
+			scg_set_left_col (scg, new_col);
+			scg_set_top_row (scg, new_row);
 		} else if ((event->state & GDK_CONTROL_MASK)) {	
 			GnmRange r = sheet_get_extent (sheet, FALSE);
 
 			/* do the ctrl-end jump to the extent in 2 steps */
-			(*movefn)(gcanvas->simple.scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
-			(*movefn)(gcanvas->simple.scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
-		} else {  /* toggle end mode */
-			wbcg_toggle_end_mode(wbcg);
-		}
-			
+			(*movefn)(scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
+			(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
+		} else  /* toggle end mode */
+			wbcg_set_end_mode (wbcg, !end_mode);
 		break;
 
 	case GDK_KP_Insert :
@@ -313,15 +379,16 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		}
 		if (!wbcg_edit_start (wbcg, FALSE, FALSE))
 			return FALSE; /* attempt to edit failed */
-		/* fall down */
+		/* fall through */
 
 	case GDK_BackSpace:
 		/* Re-center the view on the active cell */
 		if (!wbcg_is_editing (wbcg) && (event->state & GDK_CONTROL_MASK) != 0) {
-			scg_make_cell_visible (gcanvas->simple.scg, sv->edit_pos.col,
-					       sv->edit_pos.row, FALSE, TRUE);
+			scg_make_cell_visible (scg, sv->edit_pos.col,
+				sv->edit_pos.row, FALSE, TRUE);
 			break;
 		}
+		/* fall through */
 
 	default:
 		if (!wbcg_is_editing (wbcg)) {
@@ -335,18 +402,13 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			if (!wbcg_edit_start (wbcg, TRUE, TRUE))
 				return FALSE; /* attempt to edit failed */
 		}
-		scg_rangesel_stop (gcanvas->simple.scg, FALSE);
+		scg_rangesel_stop (scg, FALSE);
 
 		/* Forward the keystroke to the input line */
 		return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 					 (GdkEvent *) event);
 	}
 	
-	/* Update end-mode for magic end key stuff. */
-	if (event->keyval != GDK_End && event->keyval != GDK_KP_End) {
-		wbcg_set_end_mode(wbcg, FALSE);
-	}
-
 	if (!delayed_movement) {
 		if (wbcg_is_editing (wbcg))
 			sheet_update_only_grid (sheet);
@@ -358,124 +420,101 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 }
 
 static gboolean
-gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
+gnm_canvas_colrow_key_press (SheetControlGUI *scg, GdkEventKey *event,
+			     gboolean allow_rangesel)
 {
-	SheetControlGUI *scg = gcanvas->simple.scg;
-	SheetControl    *sc = SHEET_CONTROL (scg);
-	gboolean const shift = 0 != (ev->state & GDK_SHIFT_MASK);
-	gboolean const control = 0 != (ev->state & GDK_CONTROL_MASK);
-	gboolean const alt = 0 != (ev->state & GDK_MOD1_MASK);
-	gboolean const symmetric = control && alt;
-	double delta = 1.0 / FOO_CANVAS (gcanvas)->pixels_per_unit;
+	SheetControl *sc = (SheetControl *) scg;
+	SheetView *sv = sc->view;
+	GnmRange target;
 
-	switch (ev->keyval) {
-	case GDK_Escape:
-		scg_mode_edit (sc);
-		gnm_app_clipboard_unant ();
-		return TRUE;;
-
-	case GDK_BackSpace: /* Ick! */
-	case GDK_KP_Delete:
-	case GDK_Delete:
-		if (scg->selected_objects != NULL) {
-			cmd_objects_delete (sc->wbc,
-				go_hash_keys (scg->selected_objects), NULL);
-			return TRUE;
-		}
-		sc_mode_edit (sc);
-		break;
-
-	case GDK_Tab:
-	case GDK_ISO_Left_Tab:
-	case GDK_KP_Tab:
-		if (scg->selected_objects != NULL) {
-			Sheet *sheet = sc_sheet (sc);
-			GSList *prev = NULL, *ptr = sheet->sheet_objects;
-			for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
-				if (NULL != g_hash_table_lookup (scg->selected_objects, ptr->data)) {
-					SheetObject *target;
-					if ((ev->state & GDK_SHIFT_MASK)) {
-						if (ptr->next == NULL)
-							target = sheet->sheet_objects->data;
-						else
-							target = ptr->next->data;
-					} else {
-						if (NULL == prev) {
-							GSList *last = g_slist_last (ptr);
-							target = last->data;
-						} else
-							target = prev->data;
-					}
-					if (ptr->data != target) {
-						scg_object_unselect (scg, NULL);
-						scg_object_select (scg, target);
-						return TRUE;
-					}
-				}
-		}
-		break;
-
-	case GDK_KP_Left: case GDK_Left:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), -delta , 0, symmetric, shift);
-		return TRUE;
-	case GDK_KP_Right: case GDK_Right:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), delta, 0, symmetric, shift);
-		return TRUE;
-	case GDK_KP_Up: case GDK_Up:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, -delta, symmetric, shift);
-		return TRUE;
-	case GDK_KP_Down: case GDK_Down:
-		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, delta, symmetric, shift);
-		return TRUE;
-
-	default:
-		break;
+	if (allow_rangesel) {
+		if (scg->rangesel.active)
+			target = scg->rangesel.displayed;
+		else
+			target.start = target.end = sv->edit_pos_real;
+	} else {
+		GnmRange const *r = selection_first_range (sv, NULL, NULL);
+		if (NULL == r)
+			return FALSE;
+		target = *r;
 	}
-	return FALSE;
+
+	if (event->state & GDK_SHIFT_MASK) {
+		if (event->state & GDK_CONTROL_MASK)	/* full sheet */
+			/* TODO : How to handle ctrl-A too ? */
+			range_init_full_sheet (&target);
+		else {				 	/* full row */
+			target.start.col = 0;
+			target.end.col = SHEET_MAX_COLS - 1;
+		}
+	} else if (event->state & GDK_CONTROL_MASK) {	/* full col */
+		target.start.row = 0;
+		target.end.row = SHEET_MAX_ROWS - 1;
+	} else
+		return FALSE;
+
+	/* Accept during rangesel */
+	if (allow_rangesel)
+		scg_rangesel_bound (scg,
+			target.start.col, target.start.row,
+			target.end.col, target.end.row);
+	/* actually want the ctrl/shift space keys handled by the input module
+	 * filters during an edit */
+	else if (!wbcg_is_editing (scg->wbcg))
+		sv_selection_set (sv, &sv->edit_pos,
+			target.start.col, target.start.row,
+			target.end.col, target.end.row);
+	else
+		return FALSE;
+
+	return TRUE;
 }
 
 static gint
 gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 {
-	GnmCanvas *gcanvas = GNM_CANVAS (widget);
+	GnmCanvas	*gcanvas = GNM_CANVAS (widget);
 	SheetControlGUI *scg = gcanvas->simple.scg;
-	gboolean res;
-
-	if (wbcg_edit_get_guru (scg->wbcg) == NULL  &&
-	    (scg->selected_objects != NULL || scg->new_object != NULL))
-		res = gnm_canvas_key_mode_object (gcanvas, event);
-	else {
-		if (scg->grab_stack > 0)
-			return TRUE;
-
-		gcanvas->mask_state = event->state;
-		gcanvas->insert_decimal = event->keyval == GDK_KP_Decimal ||
-						event->keyval == GDK_KP_Separator;
-		if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
-			return TRUE;
-		switch (event->keyval) {
-		case GDK_Shift_L:   case GDK_Shift_R:
-		case GDK_Alt_L:     case GDK_Alt_R:
-		case GDK_Control_L: case GDK_Control_R:
-			break;
-		default:
-			gcanvas->reseting_im = TRUE;
-			gtk_im_context_reset (gcanvas->im_context);
-			gcanvas->reseting_im = FALSE;
-			break;
-		}
-		res = gnm_canvas_key_mode_sheet (gcanvas, event);
-	}
+	gboolean	 allow_rangesel;
 
 	switch (event->keyval) {
 	case GDK_Shift_L:   case GDK_Shift_R:
 	case GDK_Alt_L:     case GDK_Alt_R:
 	case GDK_Control_L: case GDK_Control_R:
-		break;
+		return (*GTK_WIDGET_CLASS (parent_klass)->key_press_event) (widget, event);
+	}
 
-	default : if (res)
+	/* Object manipulation */
+	if ((scg->selected_objects != NULL || scg->new_object != NULL)) {
+		if (wbcg_edit_get_guru (scg->wbcg) == NULL  &&
+		    gnm_canvas_object_key_press (gcanvas, event))
 			return TRUE;
 	}
+
+	/* handle grabs after object keys to allow Esc to cancel, and arrows to
+	 * fine tune position even while dragging */
+	if (scg->grab_stack > 0)
+		return TRUE;
+
+	allow_rangesel = wbcg_rangesel_possible (scg->wbcg);
+
+	/* handle ctrl/shift space before input-method filter steals it */
+	if (event->keyval == GDK_space &&
+	    gnm_canvas_colrow_key_press (scg, event, allow_rangesel))
+		return TRUE;
+
+	gcanvas->insert_decimal =
+		event->keyval == GDK_KP_Decimal ||
+		event->keyval == GDK_KP_Separator;
+
+	if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
+		return TRUE;
+	gcanvas->reseting_im = TRUE;
+	gtk_im_context_reset (gcanvas->im_context);
+	gcanvas->reseting_im = FALSE;
+
+	if (gnm_canvas_key_mode_sheet (gcanvas, event, allow_rangesel))
+		return TRUE;
 
 	return (*GTK_WIDGET_CLASS (parent_klass)->key_press_event) (widget, event);
 }
@@ -500,8 +539,7 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 	 */
 	if (gcanvas->simple.scg->selected_objects == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
-		wb_view_selection_desc (wb_control_view (
-			sc->wbc), TRUE, NULL);
+		wb_view_selection_desc (wb_control_view (sc->wbc), TRUE, NULL);
 
 	return (*GTK_WIDGET_CLASS (parent_klass)->key_release_event) (widget, event);
 }
@@ -595,18 +633,22 @@ gnm_canvas_class_init (GnmCanvasClass *klass)
 	widget_class->focus_out_event	   = gnm_canvas_focus_out;
 }
 
-/* IM Context Callbacks
- */
+static GtkEditable *
+gnm_canvas_get_editable (GnmCanvas const *gcanvas)
+{
+	GnmExprEntry *ee = wbcg_get_entry_logical (gcanvas->simple.scg->wbcg);
+	GtkEntry *entry = gnm_expr_entry_get_entry (ee);
+	return GTK_EDITABLE (entry);
+}
 
 static void
 gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanvas)
 {
-	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
-	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
 	gint tmp_pos, length;
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	GtkEditable *editable = gnm_canvas_get_editable (gcanvas);
 
-	if (!wbcg_is_editing (wbcg) &&
-	    !wbcg_edit_start (wbcg, TRUE, TRUE))
+	if (!wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, TRUE, TRUE))
 		return;
 
 	if (gcanvas->insert_decimal) {
@@ -632,11 +674,11 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 static void
 gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 {
-	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
-	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
 	gchar *preedit_string;
 	int tmp_pos;
 	int cursor_pos;
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	GtkEditable *editable = gnm_canvas_get_editable (gcanvas);
 
 	tmp_pos = gtk_editable_get_position (editable);
 	if (gcanvas->preedit_attrs)
@@ -669,10 +711,9 @@ gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 static gboolean
 gnm_canvas_retrieve_surrounding_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 {
-	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
-	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	GtkEditable *editable = gnm_canvas_get_editable (gcanvas);
 	gchar *surrounding = gtk_editable_get_chars (editable, 0, -1);
-	gint  cur_pos = gtk_editable_get_position (editable);
+	gint   cur_pos     = gtk_editable_get_position (editable);
 
 	gtk_im_context_set_surrounding (context,
 	                                surrounding, strlen (surrounding),
@@ -688,10 +729,8 @@ gnm_canvas_delete_surrounding_cb (GtkIMContext *context,
                                   gint         n_chars,
                                   GnmCanvas    *gcanvas)
 {
-	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
-	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	GtkEditable *editable = gnm_canvas_get_editable (gcanvas);
 	gint cur_pos = gtk_editable_get_position (editable);
-
 	gtk_editable_delete_text (editable,
 	                          cur_pos + offset,
 	                          cur_pos + offset + n_chars);
@@ -1372,7 +1411,7 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 			info.col = gnm_canvas_find_col (gcanvas, text_is_rtl
 				? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit)
 				: x, NULL);
-			info.user_data = user_data;;
+			info.user_data = user_data;
 			(*slide_handler) (gcanvas, &info);
 		}
 		gnm_canvas_slide_stop (gcanvas);

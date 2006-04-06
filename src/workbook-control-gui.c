@@ -263,7 +263,7 @@ cb_autosave (gpointer *data)
  * Returns true if the cursor keys should be used to select
  * a cell range (if the cursor is in a spot in the expression
  * where it makes sense to have a cell reference), false if not.
- */
+ **/
 gboolean
 wbcg_rangesel_possible (WorkbookControlGUI const *wbcg)
 {
@@ -1803,25 +1803,14 @@ wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 
 
 void
-wbcg_toggle_end_mode (WorkbookControlGUI *wbcg)
-{
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
-	wbcg_set_end_mode (wbcg, !wbcg->last_key_was_end);
-}
-void
 wbcg_set_end_mode (WorkbookControlGUI *wbcg, gboolean flag)
 {
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
-	if (wbcg->last_key_was_end == flag)
-		return;
-
-	if (flag == TRUE) {
-		wbcg->last_key_was_end = TRUE;
-		wbcg_set_status_text (wbcg, "END");
-	} else {
-		wbcg->last_key_was_end = FALSE;
-		wbcg_set_status_text (wbcg, "");
+	if ((!wbcg->last_key_was_end) != (!flag)) {
+		wbcg_set_status_text (wbcg,
+			(wbcg->last_key_was_end = flag)
+			? "END" : "");
 	}
 }
 

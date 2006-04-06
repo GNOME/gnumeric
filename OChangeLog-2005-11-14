@@ -1,3 +1,51 @@
+2006-04-05  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c : Use shift/ctrl space for select col/row/all
+	  even though this is just for show.  The accels are handled
+	  in gnumeric-canvas.
+	* src/gnumeric-canvas.c (gnm_canvas_key_press) : re-organize to
+	  clarify when to handle things.
+	(gnm_canvas_colrow_key_press) : new.
+
+2006-04-05  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_help_docs) : Use 'yelp help:gnumeric'
+	* gnumeric.desktop.in (DocPath) : add an entry so that things show up
+	  in yelp (at least for suse 10.1)
+
+2006-04-01  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=336212
+	* src/func.c (function_iterate_argument_values) : This is ugly but it
+	  seems to do the right thing.  We can not just assume that args to
+	  vararg functions should be evaluated as non-scalars.  It is more
+	  subtle.  Simple range_refs (direct or via a name) are non-scalar,
+	  but general expressions that use a range (A1:A10=3) evaluate
+	  depending on the top level mode, and honor implicit
+	  intersecion/iteration.
+
+	* src/position.h : Replace the cols/rows elemnts of GnmEvalPos with a
+	  GnmExprArrayCorner pointer.  This allows us to differentiate normal
+	  evaluation and singleton arrays.  As a side benefit it uses less
+	  memory no 32bit architecture which is important as long as we still
+	  use recusion for the recalc queue.
+
+	* src/position.c (eval_pos_init) : adjust to GnmEvalPos change.
+	(eval_pos_init_pos) : ditto.
+	(eval_pos_init_dep) : ditto.
+	(eval_pos_init_cell) : ditto.
+	(eval_pos_init_sheet) : ditto.
+	* src/expr.c (gnm_expr_eval) : ditto.
+	* src/func-builtin.c (gnumeric_table_link) : ditto.
+	(gnumeric_table) : ditto.
+	* src/dependent.c (link_expr_dep) : ditto.
+	* plugins/fn-lookup/functions.c (gnumeric_row) : ditto.
+	(gnumeric_col) : ditto.
+
+2006-04-01  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-write.c : Add include to suppress warning.
+
 2006-04-05  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (gnm_search_replace_cell): Only force strings to

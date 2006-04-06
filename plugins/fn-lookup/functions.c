@@ -952,8 +952,11 @@ gnumeric_column (FunctionEvalInfo *ei, GnmValue const * const *args)
 
 	if (ref == NULL) {
 		col   = ei->pos->eval.col + 1; /* user visible counts from 0 */
-		width = ei->pos->cols;
-		height= ei->pos->rows;
+		if (ei->pos->array != NULL) {
+			width = ei->pos->array->cols;
+			height= ei->pos->array->rows;
+		} else
+			return value_new_int (col);
 	} else if (ref->type == VALUE_CELLRANGE) {
 		Sheet    *tmp;
 		GnmRange  r;
@@ -1130,8 +1133,11 @@ gnumeric_row (FunctionEvalInfo *ei, GnmValue const * const *args)
 
 	if (ref == NULL) {
 		row   = ei->pos->eval.row + 1; /* user visible counts from 0 */
-		width = ei->pos->cols;
-		height= ei->pos->rows;
+		if (ei->pos->array != NULL) {
+			width = ei->pos->array->cols;
+			height= ei->pos->array->rows;
+		} else
+			return value_new_int (row);
 	} else if (ref->type == VALUE_CELLRANGE) {
 		Sheet    *tmp;
 		GnmRange  r;

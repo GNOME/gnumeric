@@ -761,6 +761,17 @@ gnm_style_is_element_set (GnmStyle const *style, GnmStyleElement elem)
 	return elem_is_set (style, elem);
 }
 
+/**
+ * gnm_style_is_complete :
+ * @style : #GnmStyle
+ *
+ * Returns TRUE if all elements are set.
+ **/
+gboolean
+gnm_style_is_complete (GnmStyle const *style)
+{
+}
+
 void
 gnm_style_unset_element (GnmStyle *style, GnmStyleElement elem)
 {
@@ -813,6 +824,17 @@ gnm_style_set_font_color (GnmStyle *style, GnmColor *col)
 	style->color.font = col;
 	gnm_style_pango_clear (style);
 }
+
+/**
+ * gnm_style_set_back_color :
+ * @style : #GnmStyle
+ * @col : #GnmColor
+ *
+ * Assigns @col as the background of @style.
+ *
+ * NOTE : the background colour is only visibile if
+ * 	GnmStyle::pattern > 0
+ **/
 void
 gnm_style_set_back_color (GnmStyle *style, GnmColor *col)
 {
