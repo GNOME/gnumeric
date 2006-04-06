@@ -147,6 +147,7 @@ Morten:
 	  during search-and-replace.  [#167304]
 	* Fix rendering problems for values with attached formats.
 	* Fix button ordering on Win32.  [#170479]
+	* Fix rendering on fractions that round to 0.  [#314210]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
