@@ -235,6 +235,8 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		GdkModifierType mask;
 		double wx, wy;
 
+		g_object_set_data (&context->parent_instance,
+			"wbcg", scg_get_wbcg (scg));
 		gnm_canvas_window_to_coord (gcanvas, x, y, &wx, &wy);
 
 		gdk_window_get_pointer (gtk_widget_get_parent_window (widget),
@@ -244,6 +246,18 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		gdk_drag_status (context, GDK_ACTION_MOVE, time);
 	}
 	return TRUE;
+}
+
+static void
+cb_pane_drag_end (GtkWidget *widget, GdkDragContext *context,
+		  GnmPane *source_pane)
+{
+	/* sync the ctrl-pts with the object in case the drag was canceled. */
+	gnm_pane_objects_drag (source_pane, NULL,
+		source_pane->drag.origin_x,
+		source_pane->drag.origin_y,
+		8, FALSE, FALSE);
+	source_pane->drag.had_motion = FALSE;
 }
 
 /**
@@ -258,19 +272,23 @@ cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 	GnmPane *source_pane;
-
-	if (NULL == source_widget)
-		return;
+	WorkbookControlGUI *wbcg;
+  
+	if (!source_widget) return;
 
 	g_return_if_fail (IS_GNM_CANVAS (source_widget));
 
-	/* Always reset the position of the control points in case the drag
-	 * was cancelled.  We move things back in drag-receive */
 	source_pane = GNM_CANVAS (source_widget)->pane;
+
+	wbcg = scg_get_wbcg (source_pane->gcanvas->simple.scg);
+	if (wbcg == g_object_get_data (&context->parent_instance, "wbcg"))
+		return;
+
 	gnm_pane_objects_drag (source_pane, NULL,
 		source_pane->drag.origin_x,
 		source_pane->drag.origin_y,
 		8, FALSE, FALSE);
+	source_pane->drag.had_motion = FALSE;
 }
 
 static void
@@ -290,6 +308,7 @@ gnm_pane_drag_dest_init (GnmPane *pane, SheetControlGUI *scg)
 		"signal::drag-data-get",	G_CALLBACK (cb_pane_drag_data_get),	scg,
 		"signal::drag-motion",		G_CALLBACK (cb_pane_drag_motion),	pane,
 		"signal::drag-leave",		G_CALLBACK (cb_pane_drag_leave),	pane,
+		"signal::drag-end",		G_CALLBACK (cb_pane_drag_end),		pane,
 		NULL);
 }
 

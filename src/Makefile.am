@@ -6,7 +6,7 @@ SUBDIRS = tools cut-n-paste-code
 
 lib_LTLIBRARIES = libspreadsheet.la
 
-bin_PROGRAMS = harness
+bin_PROGRAMS = # harness
 check_PROGRAMS =
 
 if WITH_GTK
@@ -343,9 +343,9 @@ test_pango_SOURCES =				\
 	test-pango.c
 
 # Some wrapper code to serve as a stub program for testing
-harness_LDADD   = $(gnumeric_LDADD)
-harness_LDFLAGS = -export-dynamic
-harness_SOURCES = test-harness.c
+#harness_LDADD   = $(gnumeric_LDADD)
+#harness_LDFLAGS = -export-dynamic
+#harness_SOURCES = test-harness.c
 	
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_

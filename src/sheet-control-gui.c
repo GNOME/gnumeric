@@ -3307,6 +3307,8 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 
 		gnm_pane_objects_drag (gcanvas->pane, NULL, x, y, 8, FALSE,
 				       (mask & GDK_SHIFT_MASK) != 0);
+		gcanvas->pane->drag.origin_x = x;
+		gcanvas->pane->drag.origin_y = y;
 		scg_objects_drag_commit	(scg, 8, FALSE);
 	} else {
 		GnmCellRegion *content;

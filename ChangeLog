@@ -1,10 +1,12 @@
-2006-04-05  Jody Goldberg <jody@gnome.org>
+2006-04-06  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=314866
-	* src/gnumeric-pane.c (cb_pane_drag_leave) : always reset the position
-	  of the control points.  There is no simple way to know a drag was
-	  canceled so we always reset and rely on drag-receive to commit the
-	  correct position.
+	* src/sheet-control-gui.c (scg_drag_receive_same_process) : store the
+	  current position as the original before we commit.
+	* src/gnumeric-pane.c (cb_pane_drag_end) : restore the ctrl points to
+	  the 'original' position in case the drag was canceled.  Hence the
+	  magic in scg_drag_receive_same_process.
+	  (cb_pane_drag_leave) : 
 
 2006-04-05  Morten Welinder  <terra@gnome.org>
 
