@@ -1,3 +1,8 @@
+2006-04-06  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_keyed_dialog): Guess alternative button
+	order.
+
 2006-04-06  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=314866

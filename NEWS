@@ -146,6 +146,7 @@ Morten:
 	* Improve handling of strings that look like numbers or expressions
 	  during search-and-replace.  [#167304]
 	* Fix rendering problems for values with attached formats.
+	* Fix button ordering on Win32.  [#170479]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
