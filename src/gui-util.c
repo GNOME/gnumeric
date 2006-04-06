@@ -26,6 +26,7 @@
 
 #include <goffice/app/error-info.h>
 #include <goffice/gtk/go-combo-color.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <atk/atkrelation.h>
@@ -200,6 +201,8 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
 	g_return_if_fail (key != NULL);
 
 	wbcg_set_transient (wbcg, dialog);
+
+	go_dialog_guess_alternative_button_order (GTK_DIALOG (dialog));
 
 	ctxt = g_new (KeyedDialogContext, 1);
 	ctxt->wbcg   = wbcg;

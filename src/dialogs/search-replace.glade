@@ -1095,18 +1095,62 @@
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="focus_on_map">True</property>
-  <property name="has_separator">False</property>
+  <property name="has_separator">True</property>
 
   <child internal-child="vbox">
-    <widget class="GtkVBox" id="dialog-vbox2">
+    <widget class="GtkVBox" id="dialog-vbox3">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">8</property>
 
       <child internal-child="action_area">
-	<widget class="GtkHButtonBox" id="dialog-action_area2">
+	<widget class="GtkHButtonBox" id="dialog-action_area3">
 	  <property name="visible">True</property>
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
+
+	  <child>
+	    <widget class="GtkButton" id="qd_cancel">
+	      <property name="visible">True</property>
+	      <property name="tooltip" translatable="yes">Perform no more replacements</property>
+	      <property name="can_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-cancel</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
+	      <property name="response_id">-6</property>
+	    </widget>
+	  </child>
+
+	  <child>
+	    <widget class="GtkButton" id="qd_no">
+	      <property name="visible">True</property>
+	      <property name="tooltip" translatable="yes">Do not perform this replacement</property>
+	      <property name="can_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-no</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
+	      <property name="response_id">-9</property>
+	    </widget>
+	  </child>
+
+	  <child>
+	    <widget class="GtkButton" id="qd_yes">
+	      <property name="visible">True</property>
+	      <property name="tooltip" translatable="yes">Perform this replacement</property>
+	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="has_focus">True</property>
+	      <property name="label">gtk-yes</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
+	      <property name="response_id">-8</property>
+	    </widget>
+	  </child>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
@@ -1321,60 +1365,6 @@
 	  <property name="padding">0</property>
 	  <property name="expand">False</property>
 	  <property name="fill">False</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkHButtonBox" id="hbuttonbox1">
-	  <property name="visible">True</property>
-	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	  <property name="spacing">0</property>
-
-	  <child>
-	    <widget class="GtkButton" id="qd_yes">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Perform this replacement</property>
-	      <property name="can_default">True</property>
-	      <property name="has_default">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="has_focus">True</property>
-	      <property name="label">gtk-yes</property>
-	      <property name="use_stock">True</property>
-	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
-	    </widget>
-	  </child>
-
-	  <child>
-	    <widget class="GtkButton" id="qd_no">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Do not perform this replacement</property>
-	      <property name="can_default">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="label">gtk-no</property>
-	      <property name="use_stock">True</property>
-	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
-	    </widget>
-	  </child>
-
-	  <child>
-	    <widget class="GtkButton" id="qd_cancel">
-	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Perform no more replacements</property>
-	      <property name="can_default">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="label">gtk-cancel</property>
-	      <property name="use_stock">True</property>
-	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
-	    </widget>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
 	</packing>
       </child>
     </widget>

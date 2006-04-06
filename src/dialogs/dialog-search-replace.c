@@ -33,9 +33,8 @@
 #include <selection.h>
 
 #include <glade/glade.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkstock.h>
+#include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #define SEARCH_REPLACE_KEY "search-replace-dialog"
@@ -289,16 +288,6 @@ response_clicked (GtkWidget *widget, gpointer pres)
 	gtk_dialog_response (GTK_DIALOG (widget), GPOINTER_TO_INT (pres));
 }
 
-static void
-set_reponse (GladeXML *gui, const char *name, GtkResponseType res)
-{
-	GtkWidget *w = glade_xml_get_widget (gui, name);
-	g_signal_connect (G_OBJECT (w),
-			  "clicked", G_CALLBACK (response_clicked),
-			  GINT_TO_POINTER (res));
-}
-
-
 int
 dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			     GnmSearchReplace *sr,
@@ -327,11 +316,8 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			    new_text);
 	set_checked (gui, "qd_query", sr->query);
 
-	set_reponse (gui, "qd_yes", GTK_RESPONSE_YES);
-	set_reponse (gui, "qd_no", GTK_RESPONSE_NO);
-	set_reponse (gui, "qd_cancel", GTK_RESPONSE_CANCEL);
-
 	wbcg_set_transient_for (wbcg, GTK_WINDOW (dialog));
+	go_dialog_guess_alternative_button_order (dialog);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 
 	res = gtk_dialog_run (dialog);

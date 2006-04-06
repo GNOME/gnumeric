@@ -1,3 +1,9 @@
+2006-04-06  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search-replace.c (dialog_search_replace_query): Fix glade
+	files so we don't have to set responses by hand.  Set alternative
+	button ordering.
+
 2006-04-05  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search-replace.c (dialog_search_replace_query): Plug
