@@ -148,7 +148,8 @@ Morten:
 	* Fix rendering problems for values with attached formats.
 	* Fix button ordering on Win32.  [#170479]
 	* Fix rendering on fractions that round to 0.  [#314210]
-	* Add undo handling to deletion of names.  [Part of #312610]
+	* Add undo handling to deletion of names.  Fix recalc are removing
+	  or defining names.  [#312610]
 	* Improve editing of cells containing currency amounts, fractions,
 	  or percentages.
 

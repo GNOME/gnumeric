@@ -5644,7 +5644,7 @@ cmd_remove_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	me->texpr = me->nexpr->texpr;
 	gnm_expr_top_ref (me->texpr);
-	expr_name_remove (me->nexpr);
+	expr_name_downgrade_to_placeholder (me->nexpr);
 
 	return FALSE;
 }

@@ -1,5 +1,9 @@
 2006-04-07  Morten Welinder  <terra@gnome.org>
 
+	* src/expr-name.c (expr_name_remove, expr_name_add,
+	expr_name_downgrade_to_placeholder): Queue deps for recalc.
+	Fixes rest of #312610.
+
 	* src/workbook-edit.c (wbcg_edit_start): Reformat numbers as
 	general for editing so we don't hide decimals.  Kill extra spaces
 	for fraction formats.  Improve cursor positioning for percentages.

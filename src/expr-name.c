@@ -478,6 +478,8 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	if (link_to_container)
 		gnm_named_expr_collection_insert (scope, nexpr);
 
+	expr_name_queue_deps (nexpr);
+
 	return nexpr;
 }
 
@@ -523,7 +525,7 @@ expr_name_unref (GnmNamedExpr *nexpr)
  * @nexpr :
  *
  * Remove a @nexpr from its container and deactivate it.
- * NOTE : @nexpr may continue to exist if things still have refrences to it,
+ * NOTE : @nexpr may continue to exist if things still have references to it,
  * but they will evaluate to #REF!
  **/
 void
@@ -543,6 +545,8 @@ expr_name_remove (GnmNamedExpr *nexpr)
 	g_hash_table_remove (
 		nexpr->is_placeholder ? scope->placeholders : scope->names,
 		nexpr->name->str);
+
+	expr_name_queue_deps (nexpr);
 }
 
 /**
@@ -571,6 +575,15 @@ expr_name_eval (GnmNamedExpr const *nexpr, GnmEvalPos const *pos,
 		return value_new_error_NAME (pos);
 
 	return gnm_expr_top_eval (nexpr->texpr, pos, flags);
+}
+
+static void
+expr_name_queue_deps (GnmNamedExpr *nexpr)
+{
+	if (nexpr->dependents)
+		g_hash_table_foreach (nexpr->dependents,
+				      (GHFunc)dependent_queue_recalc,
+				      NULL);
 }
 
 /**
@@ -602,6 +615,8 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 		(nexpr,
 		 gnm_expr_top_new_constant (value_new_error_NAME (NULL)));
 	gnm_named_expr_collection_insert (scope, nexpr);
+
+	expr_name_queue_deps (nexpr);
 }
 
 /*******************************************************************
