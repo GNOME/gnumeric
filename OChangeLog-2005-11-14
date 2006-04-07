@@ -1,5 +1,9 @@
 2006-04-07  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (wbcg_edit_start): Reformat numbers as
+	general for editing so we don't hide decimals.  Kill extra spaces
+	for fraction formats.  Improve cursor positioning for percentages.
+
 	* src/commands.c (cmd_remove_name): New function.
 
 2006-04-06  Jody Goldberg <jody@gnome.org>

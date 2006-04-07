@@ -37,6 +37,7 @@
 
 #include <gtk/gtk.h>
 #include <string.h>
+#include <goffice/utils/format-impl.h>
 
 /*
  * Shuts down the auto completion engine
@@ -682,6 +683,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	char *text = NULL;
 	int col, row;
 	WorkbookView *wbv;
+	int cursor_pos = -1;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
@@ -724,13 +726,60 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	if (blankp)
 		gtk_entry_set_text (wbcg_get_entry (wbcg), "");
 	else if (cell != NULL) {
-		text = cell_get_entered_text (cell);
+		gboolean set_text = FALSE;
 
-		/* If this is part of an array we need to remove the
-		 * '{' '}' and the size information from the display.
-		 * That is not actually part of the parsable expression.
-		 */
-		if (cell_is_array (cell))
+		if (cell_is_array (cell)) {
+			/* If this is part of an array we need to remove the
+			 * '{' '}' and the size information from the display.
+			 * That is not actually part of the parsable expression.
+			 */
+			set_text = TRUE;
+		} else if (!cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {
+			GOFormat *fmt = cell_get_format (cell);
+
+			switch (fmt->family) {
+			case GO_FORMAT_FRACTION:
+				text = cell_get_entered_text (cell);
+				g_strchug (text);
+				g_strchomp (text);
+				set_text = TRUE;
+				break;
+
+			case GO_FORMAT_PERCENTAGE: {
+				GString *new_str = g_string_new (NULL);
+				gnm_float f = value_get_as_float (cell->value);
+				gnm_fmt_general_float (new_str, f * 100, -1);
+				cursor_pos = g_utf8_strlen (new_str->str, -1);
+				g_string_append_c (new_str, '%');
+				text = g_string_free (new_str, FALSE);
+				set_text = TRUE;
+				break;
+			}
+
+			case GO_FORMAT_NUMBER:
+			case GO_FORMAT_CURRENCY:
+			case GO_FORMAT_ACCOUNTING: {
+				GString *new_str = g_string_new (NULL);
+				gnm_float f = value_get_as_float (cell->value);
+				gnm_fmt_general_float (new_str, f, -1);
+				text = g_string_free (new_str, FALSE);
+				set_text = TRUE;
+				break;
+			}
+
+			case GO_FORMAT_DATE:
+			case GO_FORMAT_TIME:
+				/* FIXME: reformat in some standard way.  */
+
+			default:
+				break;
+			}
+		}
+
+		if (!text)
+			text = cell_get_entered_text (cell);
+
+		if (set_text)
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);
 
 		if (cell->value != NULL) {
@@ -800,7 +849,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	inside_editing = FALSE;
 
-	gtk_editable_set_position (GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+	gtk_editable_set_position (GTK_EDITABLE (wbcg_get_entry (wbcg)), cursor_pos);
 
 	return TRUE;
 }

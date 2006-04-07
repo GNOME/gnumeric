@@ -149,6 +149,8 @@ Morten:
 	* Fix button ordering on Win32.  [#170479]
 	* Fix rendering on fractions that round to 0.  [#314210]
 	* Add undo handling to deletion of names.  [Part of #312610]
+	* Improve editing of cells containing currency amounts, fractions,
+	  or percentages.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
