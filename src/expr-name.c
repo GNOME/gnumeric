@@ -386,6 +386,15 @@ expr_name_check_for_loop (char const *name, GnmExprTop const *texpr)
 	return do_expr_name_loop_check (name, texpr->expr);
 }
 
+static void
+expr_name_queue_deps (GnmNamedExpr *nexpr)
+{
+	if (nexpr->dependents)
+		g_hash_table_foreach (nexpr->dependents,
+				      (GHFunc)dependent_queue_recalc,
+				      NULL);
+}
+
 /**
  * expr_name_add:
  * @pp:
@@ -575,15 +584,6 @@ expr_name_eval (GnmNamedExpr const *nexpr, GnmEvalPos const *pos,
 		return value_new_error_NAME (pos);
 
 	return gnm_expr_top_eval (nexpr->texpr, pos, flags);
-}
-
-static void
-expr_name_queue_deps (GnmNamedExpr *nexpr)
-{
-	if (nexpr->dependents)
-		g_hash_table_foreach (nexpr->dependents,
-				      (GHFunc)dependent_queue_recalc,
-				      NULL);
 }
 
 /**
