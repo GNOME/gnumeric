@@ -110,6 +110,7 @@ gboolean cmd_print_setup	(WorkbookControl *wbc, Sheet *sheet, PrintInformation c
 gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 GnmParsePos const *pp,
 				 GnmExprTop const *texpr);
+gboolean cmd_remove_name        (WorkbookControl *wbc, GnmNamedExpr *nexpr);
 
 typedef enum  {
 	cmd_object_pull_to_front,

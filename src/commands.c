@@ -5604,6 +5604,96 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 
 /******************************************************************/
 
+#define CMD_REMOVE_NAME_TYPE        (cmd_remove_name_get_type ())
+#define CMD_REMOVE_NAME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_REMOVE_NAME_TYPE, CmdRemoveName))
+
+typedef struct {
+	GnmCommand cmd;
+
+	GnmParsePos pp;
+	GnmNamedExpr *nexpr;
+	const GnmExprTop *texpr;
+} CmdRemoveName;
+
+MAKE_GNM_COMMAND (CmdRemoveName, cmd_remove_name, NULL);
+
+static gboolean
+cmd_remove_name_undo (GnmCommand *cmd,
+		      G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdRemoveName *me = CMD_REMOVE_NAME (cmd);
+	GnmNamedExpr *nexpr =
+		expr_name_add (&me->nexpr->pos, me->nexpr->name->str,
+			       me->texpr, NULL, TRUE, NULL);
+	if (nexpr) {
+		me->texpr = NULL;
+		expr_name_ref (nexpr);
+		expr_name_unref (me->nexpr);
+		me->nexpr = nexpr;
+		return FALSE;
+	} else {
+		g_warning ("Redefining name failed.");
+		return TRUE;
+	}
+}
+
+static gboolean
+cmd_remove_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdRemoveName *me = CMD_REMOVE_NAME (cmd);
+
+	me->texpr = me->nexpr->texpr;
+	gnm_expr_top_ref (me->texpr);
+	expr_name_remove (me->nexpr);
+
+	return FALSE;
+}
+
+static void
+cmd_remove_name_finalize (GObject *cmd)
+{
+	CmdRemoveName *me = CMD_REMOVE_NAME (cmd);
+
+	expr_name_unref (me->nexpr);
+
+	if (me->texpr) {
+		gnm_expr_top_unref (me->texpr);
+		me->texpr = NULL;
+	}
+
+	gnm_command_finalize (cmd);
+}
+
+/**
+ * cmd_remove_name :
+ * @wbc :
+ * @nexpr : name to remove.
+ *
+ * Returns TRUE on error
+ **/
+gboolean
+cmd_remove_name (WorkbookControl *wbc, GnmNamedExpr *nexpr)
+{
+	CmdRemoveName *me;
+
+	g_return_val_if_fail (wbc != NULL, TRUE);
+	g_return_val_if_fail (nexpr != NULL, TRUE);
+	g_return_val_if_fail (!expr_name_is_placeholder (nexpr), TRUE);
+
+	expr_name_ref (nexpr);
+
+	me = g_object_new (CMD_REMOVE_NAME_TYPE, NULL);
+	me->nexpr = nexpr;
+	me->texpr = NULL;
+	me->cmd.sheet = wb_control_cur_sheet (wbc);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Remove Name %s"), nexpr->name->str);
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/
+
 #define CMD_SCENARIO_ADD_TYPE (cmd_scenario_add_get_type ())
 #define CMD_SCENARIO_ADD(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SCENARIO_ADD_TYPE, CmdScenarioAdd))
 

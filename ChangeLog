@@ -1,3 +1,7 @@
+2006-04-07  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_remove_name): New function.
+
 2006-04-06  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_image_create) : dragging in a new image

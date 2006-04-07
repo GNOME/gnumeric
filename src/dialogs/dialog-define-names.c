@@ -310,11 +310,10 @@ name_guru_remove (G_GNUC_UNUSED GtkWidget *ignored,
 	if (!name_guru_warn (state))
 		return;
 
-	state->expr_names = g_list_remove (state->expr_names, state->cur_name);
-	expr_name_remove (state->cur_name);
+	cmd_remove_name (WORKBOOK_CONTROL (state->wbcg), state->cur_name);
 	state->cur_name = NULL;
-
 	name_guru_populate_list (state);
+	gtk_widget_grab_focus (GTK_WIDGET (state->name));
 }
 
 /**

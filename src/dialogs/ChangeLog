@@ -1,3 +1,7 @@
+2006-04-07  Morten Welinder  <terra@gnome.org>
+
+	* dialog-define-names.c (name_guru_remove): Support undo.
+
 2006-04-06  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search-replace.c (dialog_search_replace_query): Fix glade
