@@ -9,6 +9,7 @@
 #include "command-context.h"
 #include "command-context-stderr.h"
 #include "value.h"
+#include "value-sheet.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -74,7 +75,7 @@ main (int argc, char const *argv [])
 		WorkbookView *wbv;
 		GnmStyle *style;
 
-		sheet = ((GList *) workbook_sheets (wb))->data;
+		sheet = workbook_sheets (wb)->data;
 		style = gnm_style_new_default ();
 		gnm_style_set_back_color (style, style_color_new_i8 (127, 127, 127));
 		gnm_style_set_pattern (style, 1);
@@ -87,11 +88,11 @@ main (int argc, char const *argv [])
 		c33 = sheet_cell_fetch (sheet, 2, 2);
 		cell_set_text (c33, "=A1*B2");
 		workbook_recalc_all (wb);
-		printf("%d\n", value_get_as_int (c33->value));
+		value_dump (c33->value);
 		cell_set_text (c11, "3");
 		cell_queue_recalc (c11);
 		workbook_recalc (wb);
-		printf("%d\n", value_get_as_int (c33->value));
+		value_dump (c33->value);
 
 		fs = go_file_saver_for_id ("Gnumeric_XmlIO:xml_sax");
 		wbv = workbook_view_new (wb);

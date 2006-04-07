@@ -1,5 +1,7 @@
 2006-04-07  Morten Welinder  <terra@gnome.org>
 
+	* src/test-harness.c (main): Don't use value_get_as_int.
+
 	* src/workbook-edit.c (wbcg_edit_start): Standardize formats for
 	time and date entry too.
 
