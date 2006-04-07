@@ -6,7 +6,6 @@ SUBDIRS = tools cut-n-paste-code
 
 lib_LTLIBRARIES = libspreadsheet.la
 
-# bin_PROGRAMS = harness
 bin_PROGRAMS =
 check_PROGRAMS =
 
@@ -343,7 +342,8 @@ test_pango_LDFLAGS = -export-dynamic
 test_pango_SOURCES =				\
 	test-pango.c
 
-# Some wrapper code to serve as a stub program for testing
+# A stub program for testing
+#bin_PROGRAMS += harness
 #harness_LDADD   = $(gnumeric_LDADD)
 #harness_LDFLAGS = -export-dynamic
 #harness_SOURCES = test-harness.c

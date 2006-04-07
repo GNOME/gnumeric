@@ -912,7 +912,7 @@ static GNM_ACTION_DEF (cb_help_docs)
 #else
 	/* TODO : handle translations when we generate them */
 	argv[0] = (char *)"hh";
-	argv[1] = g_build_filename (gnm_help_dir (), "C",
+	argv[1] = g_build_filename (gnm_sys_data_dir (), "doc", "C",
 			"gnumeric.chm", NULL);
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, &error);
