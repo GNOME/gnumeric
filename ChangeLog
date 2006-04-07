@@ -1,3 +1,9 @@
+2006-04-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_image_create) : dragging in a new image
+	  should not resize existing objects being edited, drag back to
+	  sheet_mode before creation.
+
 2006-04-06  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_keyed_dialog): Guess alternative button

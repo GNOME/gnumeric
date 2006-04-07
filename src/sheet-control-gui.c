@@ -3113,6 +3113,9 @@ scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor,
 	SheetObject *so;
 	double w, h;
 
+	/* ensure that we are not editing anything else */
+	scg_mode_edit (SHEET_CONTROL (scg));
+
 	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 	sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
 
