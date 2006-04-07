@@ -1,7 +1,12 @@
 2006-04-07  Morten Welinder  <terra@gnome.org>
 
-	* src/expr-name.c (expr_name_remove, expr_name_add,
-	expr_name_downgrade_to_placeholder): Queue deps for recalc.
+	* src/workbook-edit.c (wbcg_edit_start): Standardize formats for
+	time and date entry too.
+
+	* src/rendered-value.c (rendered_value_render): Do not convert to
+	unicode minus if the format is date.
+
+	* src/expr-name.c (expr_name_set_expr): Queue deps for recalc.
 	Fixes rest of #312610.
 
 	* src/workbook-edit.c (wbcg_edit_start): Reformat numbers as

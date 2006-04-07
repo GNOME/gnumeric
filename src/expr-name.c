@@ -487,8 +487,6 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 	if (link_to_container)
 		gnm_named_expr_collection_insert (scope, nexpr);
 
-	expr_name_queue_deps (nexpr);
-
 	return nexpr;
 }
 
@@ -554,8 +552,6 @@ expr_name_remove (GnmNamedExpr *nexpr)
 	g_hash_table_remove (
 		nexpr->is_placeholder ? scope->placeholders : scope->names,
 		nexpr->name->str);
-
-	expr_name_queue_deps (nexpr);
 }
 
 /**
@@ -615,8 +611,6 @@ expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr)
 		(nexpr,
 		 gnm_expr_top_new_constant (value_new_error_NAME (NULL)));
 	gnm_named_expr_collection_insert (scope, nexpr);
-
-	expr_name_queue_deps (nexpr);
 }
 
 /*******************************************************************
@@ -712,6 +706,8 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExprTop const *texpr)
 
 	if (texpr != NULL)
 		expr_name_handle_references (nexpr, TRUE);
+
+	expr_name_queue_deps (nexpr);
 }
 
 void

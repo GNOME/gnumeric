@@ -651,6 +651,38 @@ wbcg_edit_get_markup (WorkbookControlGUI *wbcg, gboolean full)
 	return full ? wbcg->edit_line.full_content : wbcg->edit_line.markup;
 }
 
+static gboolean
+close_to_int (gnm_float x, gnm_float eps)
+{
+	return (x - gnm_fake_round (x)) < eps;
+}
+
+
+static void
+guess_time_format (GString *res, gnm_float f)
+{
+	int decs;
+	gnm_float eps = 1e-6;
+
+	g_string_append (res, "hh:mm");
+	f *= 24 * 60;
+	if (close_to_int (f, eps / 60))
+		return;
+
+	g_string_append (res, ":ss");
+	f *= 60;
+	if (close_to_int (f, eps))
+		return;
+
+	g_string_append_c (res, '.');
+	for (decs = 0; decs < 6; decs++) {
+		g_string_append_c (res, '0');
+		f *= 10;
+		if (close_to_int (f, eps))
+			break;
+	}
+}
+
 /**
  * wbcg_edit_start:
  *
@@ -736,6 +768,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			set_text = TRUE;
 		} else if (!cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {
 			GOFormat *fmt = cell_get_format (cell);
+			gnm_float f = value_get_as_float (cell->value);
 
 			switch (fmt->family) {
 			case GO_FORMAT_FRACTION:
@@ -747,7 +780,6 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 			case GO_FORMAT_PERCENTAGE: {
 				GString *new_str = g_string_new (NULL);
-				gnm_float f = value_get_as_float (cell->value);
 				gnm_fmt_general_float (new_str, f * 100, -1);
 				cursor_pos = g_utf8_strlen (new_str->str, -1);
 				g_string_append_c (new_str, '%');
@@ -760,16 +792,47 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			case GO_FORMAT_CURRENCY:
 			case GO_FORMAT_ACCOUNTING: {
 				GString *new_str = g_string_new (NULL);
-				gnm_float f = value_get_as_float (cell->value);
 				gnm_fmt_general_float (new_str, f, -1);
 				text = g_string_free (new_str, FALSE);
 				set_text = TRUE;
 				break;
 			}
 
-			case GO_FORMAT_DATE:
+			case GO_FORMAT_DATE: {
+				GString *fstr = g_string_new (format_month_before_day ()
+							      ? "m/d/yyyy"
+							      : "d/m/yyyy");
+				GOFormat *new_fmt;
+
+				if (!close_to_int (f, 1e-6 / (24 * 60 * 60))) {
+					g_string_append_c (fstr, ' ');
+					guess_time_format (fstr, f - gnm_floor (f));
+				}
+				new_fmt = go_format_new_from_XL (fstr->str, FALSE);
+				g_string_free (fstr, TRUE);
+
+				text = format_value (new_fmt, cell->value, NULL, -1,
+						     workbook_date_conv (sv->sheet->workbook));
+				set_text = TRUE;
+				go_format_unref (new_fmt);
+				break;
+			}
+
 			case GO_FORMAT_TIME:
-				/* FIXME: reformat in some standard way.  */
+				if (f >= 0 && f <= 1) {
+					GString *fstr = g_string_new (NULL);
+					GOFormat *new_fmt;
+
+					guess_time_format (fstr, f);
+					new_fmt = go_format_new_from_XL (fstr->str, FALSE);
+					g_string_free (fstr, TRUE);
+
+					text = format_value (new_fmt, cell->value, NULL, -1,
+							     workbook_date_conv (sv->sheet->workbook));
+					set_text = TRUE;
+					go_format_unref (new_fmt);
+				}
+				break;
 
 			default:
 				break;

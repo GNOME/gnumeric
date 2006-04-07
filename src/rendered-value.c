@@ -161,6 +161,7 @@ rendered_value_render (GString *str,
 				      col_width,
 				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
 		if (VALUE_IS_FLOAT (cell->value) &&
+		    format->family != GO_FORMAT_DATE &&
 		    value_get_as_float (cell->value) < 1.0) {
 			gsize i;
 			for (i = 0; i < str->len; i++)
