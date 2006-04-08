@@ -1659,7 +1659,7 @@ xml_sax_paper (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 #define GNM	0
 
-static GsfXMLInNS content_ns[] = {
+static GsfXMLInNS const content_ns[] = {
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v10.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v9.dtd"),
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v8.dtd"),
