@@ -1,3 +1,8 @@
+2006-04-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (xl_chart_import_reg_curve): import power regression
+	and moving average lines.
+
 2006-04-07  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=336858

@@ -2843,26 +2843,30 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 	switch (series->reg_type) {
 	case 0:
 		if (series->reg_order == 1)
-			rc = gog_reg_curve_new_by_name ("GogLinRegCurve");
+			rc = gog_trend_line_new_by_name ("GogLinRegCurve");
 		else {
-			rc = gog_reg_curve_new_by_name ("GogPolynomRegCurve");
+			rc = gog_trend_line_new_by_name ("GogPolynomRegCurve");
 			g_object_set (G_OBJECT (rc), "dims", series->reg_order, NULL);
 		}
 		break;
 	case 1:
-		rc = gog_reg_curve_new_by_name ("GogExpRegCurve");
+		rc = gog_trend_line_new_by_name ("GogExpRegCurve");
 		break;
 	case 2:
-		rc = gog_reg_curve_new_by_name ("GogLogRegCurve");
+		rc = gog_trend_line_new_by_name ("GogLogRegCurve");
 		break;
 	case 3:
-		rc = NULL; /*Power: not yet supported*/
+		rc = gog_trend_line_new_by_name ("GogPowerRegCurve");
 		break;
-	default: /* moving average is 4 and not supported */
+	case 4:
+		rc = gog_trend_line_new_by_name ("GogMovingAvg");
+		break;
+	default:
+		g_warning ("Unknown trend line type: %s", series->reg_type);
 		rc = NULL;
 		break;
 	}
-	if (rc) {
+	if (rc && IS_GOG_REG_CURVE (rc)) {
 		sheet = ms_container_sheet (state->container.parent);
 		g_object_set (G_OBJECT (rc),
 			"affine", series->reg_intercept != 0.,
@@ -2889,7 +2893,7 @@ xl_chart_import_reg_curve (XLChartReadState *state, XLChartSeries *series)
 			}
 		}
 		gog_object_add_by_name (GOG_OBJECT (parent->series),
-			"Regression curve", GOG_OBJECT (rc));
+			"Trend line", GOG_OBJECT (rc));
 		if (series->reg_show_eq || series->reg_show_R2) {
 			GogObject *obj = gog_object_add_by_name (
 				GOG_OBJECT (rc), "Equation", NULL);
