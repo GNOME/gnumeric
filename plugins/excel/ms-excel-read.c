@@ -3118,8 +3118,17 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 		case 0x00: /* external name */
 			name = excel_read_name_str (container->importer, q->data + 7, &namelen, flags&1);
 			if (name != NULL) {
-				unsigned expr_len = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
-				guint8 const *expr_data = q->data + 9 + namelen;
+				unsigned expr_len = 0;
+				guint8 const *expr_data = NULL;
+				if (7 + 2 + namelen <= q->length) {
+					expr_len = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
+					if (7 + 2 + namelen + expr_len <= q->length)
+						expr_data = q->data + 9 + namelen;
+					else
+						gnm_io_warning (container->importer->context,
+							_("Incorrect expression for name '%s' content will be lost.\n"),
+							name);
+				}
 				nexpr = excel_parse_name (container->importer, NULL,
 					name, expr_data, expr_len, FALSE, NULL);
 			}

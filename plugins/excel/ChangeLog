@@ -1,3 +1,10 @@
+2006-04-07  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=336858
+	* ms-excel-read.c (excel_read_EXTERNNAME) : be more careful about
+	  bounds checking.  Looks like 'miniCalc' generates EXTERNNAME with no
+	  expressions at all for it's external functions.
+
 2006-03-30  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (write_node): Add missing table entry for
