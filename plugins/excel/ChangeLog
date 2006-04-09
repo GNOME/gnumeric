@@ -1,3 +1,9 @@
+2006-04-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (xl_chart_import_trend_line), (ms_excel_chart_read),
+	(chart_write_trend_line), (chart_write_series): fix import/export
+	of trend lines (only those supported by xl).
+
 2006-04-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (xl_chart_import_reg_curve): import power regression
