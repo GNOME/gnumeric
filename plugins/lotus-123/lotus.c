@@ -26,6 +26,7 @@
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-msole-utils.h>
 #include <string.h>
 
 #define LOTUS_DEBUG 0
@@ -270,6 +271,9 @@ static const guint16 lmbcs_group_f[256] = {
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 };
+
+static guint16 lmbcs_group_12[128][256];
+static GIConv lmbcs_12_iconv;
 
 /* ------------------------------------------------------------------------- */
 
@@ -1526,7 +1530,7 @@ lotus_read_old (LotusState *state, record_t *r)
 		case LOTUS_LABEL: CHECK_RECORD_SIZE (>= 7) {
 			/* one of '\', '''', '"', '^' */
 /*			gchar format_prefix = *(r->data + 1 + 4);*/
-			GnmValue *v = lotus_new_string (r->data + 6);
+			GnmValue *v = lotus_new_string (r->data + 6, state->lmbcs_group);
 			guint8 fmt = GSF_LE_GET_GUINT8 (r->data);
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
@@ -1564,7 +1568,7 @@ lotus_read_old (LotusState *state, record_t *r)
 				 */
 				if (LOTUS_STRING == record_peek_next (r)) {
 					record_next (r);
-					v = lotus_new_string (r->data + 5);
+					v = lotus_new_string (r->data + 5, state->lmbcs_group);
 				} else
 					v = value_new_error_VALUE (NULL);
 			} else
@@ -1596,8 +1600,50 @@ lotus_get_sheet (Workbook *wb, int i)
 	return workbook_sheet_by_index (wb, i);
 }
 
+static gunichar
+lmbcs_12 (const guint8 *p)
+{
+	guint8 c0, c1;
+	gunichar uc;
+
+	if ((c0 = p[0]) == 0 || (c1 = p[1]) == 0)
+		return 0;
+
+	/* Might be wrong for 0x80 */
+	if (c0 <= 0x80 || c0 == 0xff)
+		return 0;
+
+	uc = lmbcs_group_12[c0 - 0x80][c1];
+	if (uc == 0) {
+		char *s;
+		gsize bytes_read;
+
+		if (lmbcs_12_iconv == (GIConv)0)
+			lmbcs_12_iconv = gsf_msole_iconv_open_for_import (950);
+		if (lmbcs_12_iconv == (GIConv)-1)
+			return 0;
+
+		s = g_convert_with_iconv ((const gchar *)p, 2,
+					  lmbcs_12_iconv,
+					  &bytes_read, NULL,
+					  NULL);
+		if (s && bytes_read == 2)
+			uc = g_utf8_get_char (s);
+		else
+			uc = 0xffff;
+		g_free (s);
+
+		lmbcs_group_12[c0 - 0x80][c1] = uc;
+	}
+
+	if (uc == 0xffff)
+		return 0;
+	return uc;
+}
+
+
 char *
-lotus_get_lmbcs (const char *data, int maxlen)
+lotus_get_lmbcs (const char *data, int maxlen, int def_group)
 {
 	GString *res = g_string_sized_new (maxlen + 2);
 	const guint8 *p;
@@ -1708,12 +1754,20 @@ lotus_get_lmbcs (const char *data, int maxlen)
 			break;
 		}
 
-		case 0x10: case 0x11: case 0x12: case 0x13:
+		case 0x10: case 0x11: case 0x13:
 		case 0x15: case 0x16: case 0x17: {
 			unsigned code = (p[0] << 16) | (p[1] << 8) | p[2];
 			g_warning ("Unhandled character 0x%06x", code);
 			p += 3;
 			/* See http://www.batutis.com/i18n/papers/lmbcs/ */
+			break;
+		}
+
+		case 0x12: {
+			gunichar uc = lmbcs_12 (p + 1);
+			p += 3;
+			if (uc)
+				g_string_append_unichar (res, uc);
 			break;
 		}
 
@@ -1739,8 +1793,26 @@ lotus_get_lmbcs (const char *data, int maxlen)
 			if (p[0] <= 0x7f) {
 				g_string_append_c (res, *p++);
 			} else {
-				/* Assume default group is 1.  */
-				gunichar uc = lmbcs_group_1[*p++];
+				guint8 c = p[0];
+				gunichar uc = 0;
+
+				switch (def_group) {
+				case 0x01: uc = lmbcs_group_1[c]; p++; break;
+				case 0x02: uc = lmbcs_group_2[c]; p++; break;
+				case 0x03: if (c >= 0x80) uc = lmbcs_group_3[c - 0x80]; p++; break;
+				case 0x04: if (c >= 0x80) uc = lmbcs_group_4[c - 0x80]; p++; break;
+				case 0x05: if (c >= 0x80) uc = lmbcs_group_5[c - 0x80]; p++; break;
+				case 0x06: uc = lmbcs_group_6[c]; p++; break;
+				case 0x08: if (c >= 0x80) uc = lmbcs_group_8[c - 0x80]; p++; break;
+				case 0x0b: if (c >= 0x80) uc = lmbcs_group_b[c - 0x80]; p++; break;
+				case 0x0f: uc = lmbcs_group_f[c]; p++; break;
+				case 0x12: uc = lmbcs_12 (p); p += 2; break;
+				default:
+					g_warning ("Unhandled character set 0x%x", def_group);
+					p++;
+					break;
+				}
+
 				if (uc)
 					g_string_append_unichar (res, uc);
 			}
@@ -1753,19 +1825,19 @@ lotus_get_lmbcs (const char *data, int maxlen)
 
 
 static char *
-lotus_get_cstr (const record_t *r, int ofs)
+lotus_get_cstr (const record_t *r, int ofs, int def_group)
 {
 	if (ofs >= r->len)
 		return NULL;
 	else
-		return lotus_get_lmbcs (r->data + ofs, r->len - ofs);
+		return lotus_get_lmbcs (r->data + ofs, r->len - ofs, def_group);
 }
 
 GnmValue *
-lotus_new_string (gchar const *data)
+lotus_new_string (gchar const *data, int def_group)
 {
 	return value_new_string_nocopy
-		(lotus_get_lmbcs (data, strlen (data)));
+		(lotus_get_lmbcs (data, strlen (data), def_group));
 }
 
 static gboolean
@@ -1788,9 +1860,6 @@ lotus_read_new (LotusState *state, record_t *r)
 		switch (r->type) {
 		case LOTUS_BOF: CHECK_RECORD_SIZE (>= 18) {
 			state->lmbcs_group = GSF_LE_GET_GUINT8 (r->data + 16);
-			if (state->lmbcs_group != 1)
-				g_warning ("Unhandled character set setting (%d)",
-					   state->lmbcs_group);
 			break;
 		}
 
@@ -1821,7 +1890,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 /*			gchar format_prefix = *(r->data + ofs + 4);*/
-			GnmValue *v = lotus_new_string (r->data + 5);
+			GnmValue *v = lotus_new_string (r->data + 5, state->lmbcs_group);
 			(void)insert_value (sheet, col, row, v);
 			break;
 		}
@@ -1939,7 +2008,7 @@ lotus_read_new (LotusState *state, record_t *r)
 				guint16 styleid = GSF_LE_GET_GUINT16 (r->data + 2);
 				/* guint8 fontclass = GSF_LE_GET_GUINT8 (r->data + 8); */
 				/* guint8 fontfamily = GSF_LE_GET_GUINT8 (r->data + 9); */
-				char *fontname = lotus_get_cstr (r, 10);
+				char *fontname = lotus_get_cstr (r, 10, state->lmbcs_group);
 
 				if (!fontname) {
 					g_warning ("Invalid fontname record.");
@@ -1987,7 +2056,7 @@ lotus_read_new (LotusState *state, record_t *r)
 
 		case LOTUS_SHEET_NAME: CHECK_RECORD_SIZE (>= 11) {
 			Sheet *sheet = lotus_get_sheet (state->wb, sheetnameno++);
-			char *name = lotus_get_cstr (r, 10);
+			char *name = lotus_get_cstr (r, 10, state->lmbcs_group);
 			g_return_val_if_fail (name != NULL, FALSE);
 			/* Name is followed by something indicating tab colour.  */
 			g_object_set (sheet, "name", name, NULL);
@@ -2155,7 +2224,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
-			char *text = lotus_get_cstr (r, 5);
+			char *text = lotus_get_cstr (r, 5, state->lmbcs_group);
 			GnmCellPos pos;
 
 			pos.col = col;
@@ -2260,4 +2329,16 @@ lotus_read (LotusState *state)
 	}
 
 	return FALSE;
+}
+
+void
+lmbcs_init (void)
+{
+}
+
+void
+lmbcs_shutdown (void)
+{
+	if (lmbcs_12_iconv != (GIConv)0 && lmbcs_12_iconv != (GIConv)-1)
+		g_iconv_close (lmbcs_12_iconv);
 }

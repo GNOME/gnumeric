@@ -524,7 +524,7 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 
 		case LOTUS_FORMULA_STRING:
 			parse_list_push_value (&stack,
-				lotus_new_string (data + i + 1));
+				lotus_new_string (data + i + 1, state->lmbcs_group));
 			i += 2 + strlen (data + i + 1);
 			break;
 
@@ -651,7 +651,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 
 		case LOTUS_FORMULA_STRING:
 			parse_list_push_value (&stack,
-				lotus_new_string (data + i + 1));
+				lotus_new_string (data + i + 1, state->lmbcs_group));
 			i += 2 + strlen (data + i + 1);
 			break;
 
@@ -709,7 +709,9 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 		case LOTUS_FORMULA_SPLFUNC: {
 			int args = data[i + 1];
 			int fnamelen = GSF_LE_GET_GUINT16 (data + i + 2);
-			char *name = lotus_get_lmbcs (data + (i + 4), len - (i + 4));
+			char *name = lotus_get_lmbcs (data + (i + 4),
+						      len - (i + 4),
+						      state->lmbcs_group);
 			size_t namelen;
 			char *p;
 			const LFuncInfo *f;

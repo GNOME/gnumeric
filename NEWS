@@ -152,6 +152,7 @@ Morten:
 	  or defining names.  [#312610]
 	* Improve editing of cells containing currency amounts, fractions,
 	  or percentages.
+	* Improve 1-2-3 import for Chinese files.  [#337968]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

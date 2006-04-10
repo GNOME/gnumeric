@@ -27,10 +27,13 @@ typedef struct {
 } LotusState;
 
 Sheet *lotus_get_sheet (Workbook *wb, int i);
-char *lotus_get_lmbcs (const char *data, int maxlen);
-GnmValue *lotus_new_string (gchar const *data);
+char *lotus_get_lmbcs (const char *data, int maxlen, int def_group);
+GnmValue *lotus_new_string (gchar const *data, int def_group);
 gboolean  lotus_read (LotusState *state);
 GnmValue *lotus_unpack_number (guint32 u);
 GnmValue *lotus_smallnum (signed int d);
+
+void lmbcs_init (void);
+void lmbcs_shutdown (void);
 
 #endif

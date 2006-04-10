@@ -91,6 +91,7 @@ G_MODULE_EXPORT void
 go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin,
 		G_GNUC_UNUSED GOCmdContext *cc)
 {
+	lmbcs_init ();
 	lotus_formula_init ();
 }
 
@@ -99,4 +100,5 @@ go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin,
 		    G_GNUC_UNUSED GOCmdContext *cc)
 {
 	lotus_formula_shutdown ();
+	lmbcs_shutdown ();
 }
