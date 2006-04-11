@@ -155,6 +155,7 @@ Morten:
 	* Improve 1-2-3 import for Chinese files.  [#337968]
 	* Fix 1-2-3 format handling.
 	* Fix parsing of "4/2005".  [#166413]
+	* Fix initial sheet selection in the sheet-manage dialog. [#331984]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

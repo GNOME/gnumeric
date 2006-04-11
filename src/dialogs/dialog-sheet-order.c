@@ -306,6 +306,7 @@ populate_sheet_list (SheetManager *state)
 	Sheet *cur_sheet = wb_control_cur_sheet (wbc);
 	int i, n = workbook_sheet_count (wb);
 	GtkCellRenderer *renderer;
+	GtkTreePath *sel_path = NULL;
 
 	state->model = gtk_list_store_new (NUM_COLMNS,
 					   G_TYPE_BOOLEAN,
@@ -319,7 +320,7 @@ populate_sheet_list (SheetManager *state)
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_COLOR,
 					   GDK_TYPE_COLOR,
-                       G_TYPE_BOOLEAN,
+					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF);
 	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 					   (GTK_TREE_MODEL (state->model)));
@@ -358,7 +359,8 @@ populate_sheet_list (SheetManager *state)
 							    : state->image_ltr),
 				    -1);
 		if (sheet == cur_sheet)
-			gtk_tree_selection_select_iter (selection, &iter);
+			sel_path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model),
+							    &iter);
 		state->old_order = g_slist_prepend (state->old_order, sheet);
 	}
 
@@ -431,6 +433,11 @@ populate_sheet_list (SheetManager *state)
 	g_signal_connect (selection,
 		"changed",
 		G_CALLBACK (cb_selection_changed), state);
+
+	if (sel_path) {
+		gtk_tree_selection_select_path (selection, sel_path);
+		gtk_tree_path_free (sel_path);
+	}
 
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->sheet_list));
 }

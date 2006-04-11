@@ -41,7 +41,7 @@ value_dump (GnmValue const *value)
 		break;
 
 	case VALUE_FLOAT:
-		printf ("Number: %" GNM_FORMAT_f "\n", value_get_as_float (value));
+		printf ("NUMBER: %" GNM_FORMAT_f "\n", value_get_as_float (value));
 		break;
 
 	case VALUE_ARRAY: {
