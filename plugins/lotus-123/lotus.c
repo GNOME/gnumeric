@@ -651,12 +651,12 @@ lotus_pattern (guint i)
 static const char *const
 lotus_special_formats[16] = {
 	"",
-	"",
+	"General",
 	"d-mmm-yy",
 	"d-mmm",
 	"mmm yy",
 	"",
-	"",
+	";;;",  /* Hidden */
 	"h:mm:ss AM/PM",			/* Need am/pm */
 	"h:mm",
 	"m/d/yy",
@@ -720,10 +720,14 @@ lotus_format_string (guint fmt)
 		g_warning ("Country format used.");
 		break;
 
-	case 7:
+	case 7: {
 		/* Lotus special format */
-		g_string_append (res, lotus_special_formats[precision]);
+		const char *f = lotus_special_formats[precision];
+		if (f[0] == 0)
+			f = "General";
+		g_string_append (res, f);
 		break;
+	}
 
 	default:
 		g_warning ("Unknown format type %d used.", fmt_type);
@@ -1310,6 +1314,9 @@ lotus_set_formats_cb (LotusState *state, const GnmSheetRange *r,
 	}
 
 	fmt_string = lotus_format_string (fmt);
+#ifdef DEBUG_FORMAT
+	g_print ("Format 0x%x: %s\n", fmt, fmt_string);
+#endif
 	gnm_style_set_format_text (style, fmt_string);
 	g_free (fmt_string);
 	sheet_apply_style (r->sheet, &r->range, style);

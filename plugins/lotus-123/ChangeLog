@@ -3,6 +3,8 @@
 	* lotus.c (lotus_get_lmbcs): Add extra parameter for default
 	group.  Propagate.  Implement group 12 (by assuming it matches
 	code page 950).  Fixes #337968.
+	(lotus_format_string): If we don't have the right format, use
+	"General" and not "".
 
 2005-11-14  Jody Goldberg <jody@gnome.org>
 

@@ -153,6 +153,7 @@ Morten:
 	* Improve editing of cells containing currency amounts, fractions,
 	  or percentages.
 	* Improve 1-2-3 import for Chinese files.  [#337968]
+	* Fix 1-2-3 format handling.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
