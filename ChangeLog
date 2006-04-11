@@ -1,3 +1,10 @@
+2006-04-11  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match): When we currently have a date
+	format, don't try to match a time.  This has the effect of not
+	having "2005" interpreted as about 8 O'clock.
+	(format_match_datetime): Handle 2005/5 and 5/2005 too.
+
 2006-04-07  Morten Welinder  <terra@gnome.org>
 
 	* src/test-harness.c (main): Don't use value_get_as_int.

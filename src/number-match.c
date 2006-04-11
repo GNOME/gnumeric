@@ -259,6 +259,8 @@ datetime_locale_setup (const char *lc_time)
 				"^(\\d+)[-/.](\\d+)[-/.](\\d+)\\b");
 
 	/*
+	 * "2005/2"   [Feb 1]
+	 * "2/2005"   [Feb 1]
 	 * "01/31"    [Jan 31] if month_before_day
 	 * "31/1"     [Jan 31] if !month_before_day
 	 */
@@ -694,18 +696,27 @@ format_match_datetime (const char *text,
 	/*  1         2       */
 	if (dig1 >= 0 &&
 	    go_regexec (&datetime_locale.re_mmdd, text, G_N_ELEMENTS (match), match, 0) == 0) {
-		if (month_before_day) {
+		if (match[1].rm_eo - match[1].rm_so == 4) {
+			year = handle_year (text, match + 1);
+			month = handle_month (text, match + 2);
+			day = 1;
+			date_format = "yyyy/m";
+		} else if (match[2].rm_eo - match[2].rm_so == 4) {
+			month = handle_month (text, match + 1);
+			year = handle_year (text, match + 2);
+			day = 1;
+			date_format = "m/yyyy";
+		} else if (month_before_day) {
 			month = handle_month (text, match + 1);
 			day = handle_day (text, match + 2);
+			date_format = "m/d/yyyy";
 		} else {
 			month = handle_month (text, match + 2);
 			day = handle_day (text, match + 1);
+			date_format = "d/m/yyyy";
 		}
 		year = current_year ();
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = month_before_day
-				? "m/d/yyyy"
-				: "d/m/yyyy";
 			text += match[0].rm_eo;
 			goto got_date;
 		}
@@ -1088,7 +1099,20 @@ format_match (char const *text, GOFormat *cur_fmt,
 				value_set_fmt (v, cur_fmt);
 			return v;
 
-		case GO_FORMAT_DATE:
+		case GO_FORMAT_DATE: {
+			gboolean month_before_day =
+				hack_month_before_day (cur_fmt);
+
+			v = format_match_datetime (text, date_conv,
+						   month_before_day,
+						   FALSE);
+			if (!v)
+				v = format_match_decimal_number (text, &fam);
+			if (v)
+				value_set_fmt (v, cur_fmt);
+			return v;
+		}
+
 		case GO_FORMAT_TIME: {
 			gboolean month_before_day =
 				hack_month_before_day (cur_fmt);
