@@ -1,3 +1,7 @@
+2006-04-12  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (format_match_decimal_number): Fix FMR.
+
 2006-04-11  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (format_match): When we currently have a date

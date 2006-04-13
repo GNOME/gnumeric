@@ -1030,12 +1030,14 @@ format_match_decimal_number (const char *text, GOFormatFamily *family)
 	} else {
 		gnm_float f;
 		char *end;
+		gboolean bad;
 
 		errno = 0;
 		f = gnm_strto (numstr->str, &end);
+		bad = *end || errno == ERANGE;
 		g_string_free (numstr, TRUE);
 
-		if (*end || errno == ERANGE)
+		if (bad)
 			return NULL;
 
 		if (par_open)
