@@ -95,14 +95,8 @@ format_match_simple (char const *text)
 			/* Allow and ignore spaces at the end.  */
 			while (g_ascii_isspace (*end))
 				end++;
-			if (*end == '\0') {
-				if (d >= INT_MIN && d <= INT_MIN) {
-					int i = (int)d;
-					if (i == d)
-						return value_new_int (i);
-				}
+			if (*end == '\0')
 				return value_new_float (d);
-			}
 		}
 	}
 
