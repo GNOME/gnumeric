@@ -156,7 +156,7 @@ Morten:
 	* Fix 1-2-3 format handling.
 	* Fix parsing of "4/2005".  [#166413]
 	* Fix initial sheet selection in the sheet-manage dialog. [#331984]
-	* Make autofill understand 3Q01, 4Q01, 1Q02, ...
+	* Make autofill understand 3Q01, 4Q01, 1Q02, ...  [#61650]
 	* Make autofill understand Apr, Jul, Oct, Jan, ... (and other skip-N
 	  sequences, with or without year.)
 
