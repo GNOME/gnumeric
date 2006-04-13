@@ -1,3 +1,9 @@
+2006-04-13  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (sheet_autofill_dir): Add support for
+	quarters.  Fixes #61650.
+	(auto_filler_list): Number is fixed-width.
+
 2006-04-12  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (bin_arith): Don't look closely if the result is an

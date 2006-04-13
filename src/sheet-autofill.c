@@ -36,12 +36,15 @@ static char *month_names_long[12 + 1];
 static char *month_names_short[12 + 1];
 static char *weekday_names_long[7 + 1];
 static char *weekday_names_short[7 + 1];
+static char *quarters[4 + 1];
+static gboolean has_quarters;
 
 void
 autofill_init (void)
 {
 	GDateMonth m;
 	GDateWeekday wd;
+	const char *qtemplate;
 
 	for (m = 1; m <= 12; m++) {
 		month_names_long[m - 1] = go_date_month_name (m, FALSE);
@@ -51,6 +54,18 @@ autofill_init (void)
 		weekday_names_long[wd - 1] = go_date_weekday_name (wd, FALSE);
 		weekday_names_short[wd - 1] = go_date_weekday_name (wd, TRUE);
 	}
+
+	/* xgettext: This is a C format string where %d will be replaced
+	   by 1, 2, 3, or 4.  A year will then be appended and we'll get
+	   something like 3Q2005.  If that makes no sense in your language,
+	   translate to the empty string.  */
+	qtemplate = _("%dQ");
+	has_quarters = (qtemplate[0] != 0);
+	if (has_quarters) {
+		int q;
+		for (q = 1; q <= 4; q++)
+			quarters[q - 1] = g_strdup_printf (qtemplate, q);
+	}
 }
 
 void
@@ -58,6 +73,7 @@ autofill_shutdown (void)
 {
 	GDateMonth m;
 	GDateWeekday wd;
+	int q;
 
 	for (m = 1; m <= 12; m++) {
 		g_free (month_names_long[m - 1]);
@@ -67,6 +83,8 @@ autofill_shutdown (void)
 		g_free (weekday_names_long[wd - 1]);
 		g_free (weekday_names_short[wd - 1]);
 	}
+	for (q = 1; q <= 4; q++)
+		g_free (quarters[q - 1]);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -210,8 +228,173 @@ auto_filler_arithmetic (gboolean singleton)
 }
 
 /* ------------------------------------------------------------------------- */
+
+typedef struct {
+	gnm_float base, step;
+	GString *prefix, *suffix;
+	gboolean fixed_length;
+	int base_phase, phases;
+	gsize numlen;
+	gnm_float p10;
+} ArithString;
+
+static void
+as_finalize (ArithString *as)
+{
+	if (as->prefix)
+		g_string_free (as->prefix, TRUE);
+	if (as->suffix)
+		g_string_free (as->suffix, TRUE);
+}
+
+static
+gboolean
+as_check_prefix_suffix (ArithString *as, const char *s, gsize slen)
+{
+	if (as->prefix) {
+		if (slen < as->prefix->len ||
+		    memcmp (s, as->prefix->str, as->prefix->len) != 0)
+			return TRUE;
+		s += as->prefix->len;
+		slen -= as->prefix->len;
+	}
+
+	if (as->suffix) {
+		if (slen < as->suffix->len ||
+		    memcmp (s + slen - as->suffix->len,
+			    as->suffix->str,
+			    as->suffix->len) != 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gnm_float
+as_compute_val (ArithString *as, int n)
+{
+	int pn = (n * as->step + as->base_phase) / as->phases;
+	gnm_float f = as->base + pn;
+	if (as->fixed_length)
+		f = gnm_fmod (f, as->p10);
+	return f;
+}
+
+static char *
+as_compute (ArithString *as, int n)
+{
+	gnm_float f = as_compute_val (as, n);
+	const char *prefix = as->prefix ? as->prefix->str : "";
+	const char *suffix = as->suffix ? as->suffix->str : "";
+
+	if (as->fixed_length) {
+		return g_strdup_printf ("%s%0*.0" GNM_FORMAT_f "%s",
+					prefix,
+					(int)as->numlen, f,
+					suffix);
+	} else {
+		return g_strdup_printf ("%s%.0" GNM_FORMAT_f "%s",
+					prefix,
+					f,
+					suffix);
+	}
+}
+
+static gboolean
+as_teach_first (ArithString *as, const char *s)
+{
+	gsize pl;
+	char *end;
+
+	for (pl = 0; s[pl]; pl++) {
+		if (g_ascii_isdigit (s[pl]))
+			break;
+		if (!as->fixed_length &&
+		    (s[pl] == '+' || s[pl] == '-') &&
+		    g_ascii_isdigit (s[pl + 1]))
+			break;
+	}
+	if (s[pl] == 0)
+		return TRUE;
+
+	if (pl > 0) {
+		if (as->prefix)
+			g_string_append_len (as->prefix, s, pl);
+		else
+			return TRUE;  /* No prefix allowed.  */
+	}
+	errno = 0;
+	as->base = strtol (s + pl, &end, 10);
+	as->step = 1;
+	if (errno)
+		return TRUE;
+	if (*end) {
+		if (as->suffix)
+			g_string_append (as->suffix, end);
+		else
+			return TRUE;  /* No suffix allowed.  */
+	}
+
+	as->numlen = end - (s + pl);
+	as->p10 = gnm_pow10 (as->numlen);
+
+	return FALSE;
+}
+
+static gboolean
+as_teach_rest (ArithString *as, const char *s, int n, int phase)
+{
+	gsize slen = strlen (s);
+	char *end;
+	gnm_float val;
+	const char *s2 = s + (as->prefix ? as->prefix->len : 0);
+
+	if (as_check_prefix_suffix (as, s, slen))
+		return TRUE;
+
+	if (g_ascii_isspace (*s2))
+		return TRUE;
+
+	errno = 0;
+	if (as->fixed_length) {
+		if (!g_ascii_isdigit (*s2))
+			return TRUE;
+		val = strtol (s2, &end, 10);
+		if (as->numlen != (gsize)(end - s2))
+			return TRUE;
+	} else {
+		/*
+		 * Verify no leading zero so the fixed-length
+		 * version gets a chance.
+		 */
+		const char *s3 = s2;
+		if (!g_ascii_isdigit (*s3))
+			s3++;
+		if (s3[0] == '0' && g_ascii_isdigit (s3[1]))
+			return TRUE;
+		val = strtol (s2, &end, 10);
+	}
+
+	if (errno == ERANGE || end != s + slen - (as->suffix ? as->suffix->len : 0))
+		return TRUE;
+
+	if (n == 1) {
+		as->step = (val - as->base) * as->phases + (phase - as->base_phase);
+		if (as->fixed_length && as->step < 0)
+			as->step += as->p10 * as->phases;
+	} else {
+		gnm_float f = as_compute_val (as, n);
+		if (gnm_abs (f - val) > 0.5)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
- * Arithmetic sequences:
+ * Arithmetic sequences in strings:
  *
  * "Foo 1", "Foo 2", "Foo 3", ...
  * "1 Bar", "3 Bar", "5 Bar", ...
@@ -222,20 +405,14 @@ typedef struct {
 	AutoFiller filler;
 
 	gboolean singleton;  /* Missing step becomes 1.  */
-	gnm_float base, step;
-	GString *prefix;
-	GString *suffix;
-	gboolean fixed_length;
-	gsize numlen;
-	gnm_float p10;
+	ArithString as;
 } AutoFillerNumberString;
 
 static void
 afns_finalize (AutoFiller *af)
 {
 	AutoFillerNumberString *afns = (AutoFillerNumberString *)af;
-	g_string_free (afns->prefix, TRUE);
-	g_string_free (afns->suffix, TRUE);
+	as_finalize (&afns->as);
 	af_finalize (af);
 }
 
@@ -257,102 +434,23 @@ afns_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	s = value_peek_string (value);
 
 	if (n == 0) {
-		gsize pl;
-		char *end;
-
-		for (pl = 0; s[pl]; pl++) {
-			if (g_ascii_isdigit (s[pl]))
-				break;
-			if (!afns->fixed_length &&
-			    (s[pl] == '+' || s[pl] == '-') &&
-			    g_ascii_isdigit (s[pl + 1]))
-				break;
-		}
-		if (s[pl] == 0)
+		if (as_teach_first (&afns->as, s))
 			goto bad;
-		g_string_append_len (afns->prefix, s, pl);
-		errno = 0;
-		afns->base = strtol (s + pl, &end, 10);
-		if (errno)
-			goto bad;
-		afns->numlen = end - (s + pl);
-		afns->p10 = gnm_pow10 (afns->numlen);
-		g_string_append (afns->suffix, end);
 
-		if (afns->singleton) {
-			afns->step = 1;
+		if (afns->singleton)
 			af->status = AFS_READY;
-		}
 	} else {
-		gsize slen = strlen (s);
-		char *end;
-		gnm_float val;
-		const char *s2 = s + afns->prefix->len;
-
-		if (slen <= afns->prefix->len + afns->suffix->len)
-			goto bad;
-		if (memcmp (s, afns->prefix->str, afns->prefix->len))
-			goto bad;
-		if (memcmp (s + slen - afns->suffix->len,
-			    afns->suffix->str,
-			    afns->suffix->len))
-			goto bad;
-		if (g_ascii_isspace (*s2))
+		if (as_teach_rest (&afns->as, s, n, 0))
 			goto bad;
 
-		errno = 0;
-		if (afns->fixed_length) {
-			val = strtoul (s2, &end, 10);
-			if (afns->numlen != (gsize)(end - s2))
-				goto bad;
-		} else {
-			/*
-			 * Verify no leading zero so the fixed-length
-			 * version gets a chance.
-			 */
-			const char *s3 = s2;
-			if (!g_ascii_isdigit (*s3))
-				s3++;
-			if (s3[0] == '0' && g_ascii_isdigit (s3[1]))
-				goto bad;
-			val = strtol (s2, &end, 10);
-		}
-		if (errno || end != s + slen - afns->suffix->len)
-			goto bad;
-
-		if (n == 1) {
-			afns->step = val - afns->base;
-			if (afns->fixed_length && afns->step < 0)
-				afns->step += afns->p10;
-			af->status = AFS_READY;
-		} else {
-			gnm_float f = afns->base + n * afns->step;
-			if (afns->fixed_length)
-				f = gnm_fmod (f, afns->p10);
-			if (gnm_abs (f - val) > 0.5)
-				goto bad;
-		}
+		af->status = AFS_READY;
 	}
 }
 
 static char *
 afns_compute (AutoFillerNumberString *afns, int n)
 {
-	gnm_float f = afns->base + n * afns->step;
-	if (afns->fixed_length) {
-		f = gnm_fmod (f, afns->p10);
-		return g_strdup_printf ("%-.*s%0*.0" GNM_FORMAT_f "%s",
-					(int)afns->prefix->len,
-					afns->prefix->str,
-					(int)afns->numlen, f,
-					afns->suffix->str);
-	} else {
-		return g_strdup_printf ("%-.*s%.0" GNM_FORMAT_f "%s",
-					(int)afns->prefix->len,
-					afns->prefix->str,
-					f,
-					afns->suffix->str);
-	}
+	return as_compute (&afns->as, n);
 }
 
 static void
@@ -385,9 +483,11 @@ auto_filler_number_string (gboolean singleton, gboolean fixed_length)
 	res->filler.set_cell = afns_set_cell;
 	res->filler.hint = afns_hint;
 	res->singleton = singleton;
-	res->fixed_length = fixed_length;
-	res->prefix = g_string_new (NULL);
-	res->suffix = g_string_new (NULL);
+	res->as.fixed_length = fixed_length;
+	res->as.prefix = g_string_new (NULL);
+	res->as.suffix = g_string_new (NULL);
+	res->as.base_phase = 0;
+	res->as.phases = 1;
 
 	return &res->filler;
 }
@@ -529,18 +629,23 @@ typedef struct {
 	AutoFiller filler;
 
 	char **list;
-	int base, size;
 	gboolean with_number;
-	GString *sep;
-	gnm_float base_number;
+	ArithString as;
 } AutoFillerList;
 
 static void
 afl_finalize (AutoFiller *af)
 {
 	AutoFillerList *afl = (AutoFillerList *)af;
-	g_string_free (afl->sep, TRUE);
+	as_finalize (&afl->as);
 	af_finalize (af);
+}
+
+static int
+afl_compute_phase (AutoFillerList *afl, int n)
+{
+	return (int)(n * afl->as.step + afl->as.base_phase) %
+		afl->as.phases;
 }
 
 static void
@@ -549,6 +654,8 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	AutoFillerList *afl = (AutoFillerList *)af;
 	GnmValue *value = cell ? cell->value : NULL;
 	const char *s;
+	gsize elen = 0;
+	int ph;
 
 	if (value == NULL ||
 	    cell_has_expr (cell) ||
@@ -559,63 +666,49 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	}
 
 	s = value_peek_string (value);
+	for (ph = 0; ph < afl->as.phases; ph++) {
+		const char *e = afl->list[ph];
+		elen = strlen (e);
+		/* This isn't UTF-8 pretty.  */
+		/* This isn't case pretty.  */
+		/* This won't work if one list item is a prefix of another.  */
+		if (strncmp (s, e, elen) == 0)
+			break;
+	}
+	if (ph == afl->as.phases)
+		goto bad;
 
 	if (n == 0) {
-		gsize elen = 0;
-
-		for (afl->base = 0; afl->base < afl->size; afl->base++) {
-			const char *e = afl->list[afl->base];
-			elen = strlen (e);
-			/* This isn't UTF-8 pretty.  */
-			if (strncmp (s, e, elen) == 0)
-				break;
-		}
-		if (afl->base == afl->size)
-			goto bad;
+		afl->as.base_phase = ph;
 
 		if (afl->with_number) {
-			const char *s2 = s + elen;
-			char *end;
-
-			while (*s2 && !g_ascii_isdigit (*s2)) {
-				g_string_append_c (afl->sep, *s2);
-				s2++;
-			}
-
-			errno = 0;
-			afl->base_number = strtoul (s2, &end, 10);
-			if (*s2 == 0 || errno || *end != 0)
+			afl->as.prefix = g_string_new (NULL);
+			afl->as.suffix = g_string_new (NULL);
+			if (as_teach_first (&afl->as, s + elen))
 				goto bad;
 		} else {
 			if (s[elen] != 0)
 				goto bad;
 		}
 	} else {
-		const char *e = afl->list[(afl->base + n) % afl->size];
-		gsize elen = strlen (e);
-		/* This isn't UTF-8 pretty.  */
-		if (strncmp (s, e, elen))
-			goto bad;
-
 		if (afl->with_number) {
-			const char *s2 = s + elen;
-			char *end;
-			gnm_float f = afl->base_number +
-				(afl->base + n) / afl->size;
-
-			if (memcmp (s2, afl->sep->str, afl->sep->len))
-				goto bad;
-			s2 += afl->sep->len;
-
-			errno = 0;
-			if (*s2 == 0 ||
-			    strtoul (s2, &end, 10) != f ||
-			    errno ||
-			    *end != 0)
+			if (as_teach_rest (&afl->as, s + elen, n, ph))
 				goto bad;
 		} else {
 			if (s[elen] != 0)
 				goto bad;
+
+			if (n == 1) {
+				int step = ph - afl->as.base_phase;
+				if (step == 0)
+					goto bad;
+				if (step < 0)
+					step += afl->as.phases;
+				afl->as.step = step;
+			} else {
+				if (ph != afl_compute_phase (afl, n))
+					goto bad;				
+			}
 		}
 
 		af->status = AFS_READY;
@@ -626,13 +719,13 @@ static void
 afl_set_cell (AutoFiller *af, GnmCell *cell, int n)
 {
 	AutoFillerList *afl = (AutoFillerList *)af;
-	int n2 = afl->base + n;
 	GnmValue *val;
-	GString *res = g_string_new (afl->list[n2 % afl->size]);
+	GString *res = g_string_new (afl->list[afl_compute_phase (afl, n)]);
+
 	if (afl->with_number) {
-		gnm_float f = afl->base_number + n2 / afl->size;
-		go_string_append_gstring (res, afl->sep);
-		g_string_append_printf (res, "%.0" GNM_FORMAT_f, f);
+		char *s = as_compute (&afl->as, n);
+		g_string_append (res, s);
+		g_free (s);
 	}
 
 	val = value_new_string_nocopy (g_string_free (res, FALSE));
@@ -657,9 +750,11 @@ auto_filler_list (char **list, int prio, gboolean with_number)
 	res->filler.set_cell = afl_set_cell;
 	res->filler.hint = afl_hint;
 	res->list = list;
-	res->size = g_strv_length (list);
 	res->with_number = with_number;
-	res->sep = g_string_new (NULL);
+	res->as.phases = g_strv_length (list);
+	res->as.fixed_length = TRUE;
+	res->as.prefix = NULL;
+	res->as.suffix = NULL;
 
 	return &res->filler;
 }
@@ -813,6 +908,8 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 		(fillers, auto_filler_month (dateconv));
 	fillers = g_list_prepend
 		(fillers, auto_filler_copy (region_size, last_col, last_row));
+	fillers = g_list_prepend (fillers, auto_filler_list (quarters, 50, TRUE));
+
 	fillers = g_list_prepend
 		(fillers, auto_filler_list (month_names_long, 61, TRUE));
 	fillers = g_list_prepend
