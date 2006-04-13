@@ -1,5 +1,8 @@
 2006-04-12  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (bin_arith): Don't look closely if the result is an
+	int because it no longer matters.
+
 	* src/number-match.c (format_match_decimal_number): Fix FMR.
 	(format_match_simple): Don't do the integer dance.  (And don't do
 	it with two left feet either.)

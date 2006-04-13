@@ -727,9 +727,7 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 		g_assert_not_reached ();
 	}
 
-	if (res >= INT_MIN && res <= INT_MAX && res == (ires = (int)res))
-		return value_new_int (ires);
-	else if (gnm_finite (res))
+	if (gnm_finite (res))
 		return value_new_float (res);
 	else
 		return value_new_error_NUM (ep);
