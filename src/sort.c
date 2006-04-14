@@ -179,15 +179,15 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 	GnmPasteTarget pt;
 
 	pt.sheet = data->sheet;
-	pt.paste_flags = PASTE_CONTENT | PASTE_COMMENTS | PASTE_NO_RECALC;
+	pt.paste_flags = PASTE_CONTENTS | PASTE_COMMENTS | PASTE_NO_RECALC;
 	if (!data->retain_formats)
 		pt.paste_flags = pt.paste_flags | PASTE_FORMATS;
 
 #ifdef DEBUG_SORT
-	fprintf (stderr, "Permutation:");
+	g_printerr ("Permutation:");
 	for (i = 0; i < length; i++)
-		fprintf (stderr, " %d", perm[i]);
-	fprintf (stderr, "\n");
+		g_printerr (" %d", perm[i]);
+	g_printerr ("\n");
 #endif
 
 	rperm = sort_permute_invert (perm, length);
@@ -200,7 +200,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 		/* Special case: element is already in place.  */
 		if (i == rperm[i]) {
 #ifdef DEBUG_SORT
-			fprintf (stderr, "  Fixpoint: %d\n", i);
+			g_printerr ("  Fixpoint: %d\n", i);
 #endif
 			continue;
 		}
@@ -210,12 +210,12 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 		rcopy1 = clipboard_copy_range (data->sheet, &range1);
 
 #ifdef DEBUG_SORT
-		fprintf (stderr, "  Cycle:");
+		g_printerr ("  Cycle:");
 #endif
 		i1 = i;
 		do {
 #ifdef DEBUG_SORT
-			fprintf (stderr, " %d", i1);
+			g_printerr (" %d", i1);
 #endif
 
 			i2 = rperm[i1];
@@ -238,7 +238,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 			i1 = i2;
 		} while (i1 != i);
 #ifdef DEBUG_SORT
-		fprintf (stderr, "\n");
+		g_printerr ("\n");
 #endif
 	}
 

@@ -364,10 +364,10 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 		gsf_xml_out_add_int (state->output, "Shade", gnm_style_get_pattern (style));
 	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
 		gsf_xml_out_add_int (state->output, "Indent", gnm_style_get_indent (style));
-	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_LOCKED))
-		gsf_xml_out_add_bool (state->output, "Locked", gnm_style_get_content_locked (style));
-	if (gnm_style_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
-		gsf_xml_out_add_bool (state->output, "Hidden", gnm_style_get_content_hidden (style));
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_LOCKED))
+		gsf_xml_out_add_bool (state->output, "Locked", gnm_style_get_contents_locked (style));
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_HIDDEN))
+		gsf_xml_out_add_bool (state->output, "Hidden", gnm_style_get_contents_hidden (style));
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
 		gnm_xml_out_add_color (state->output, "Fore", gnm_style_get_font_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
@@ -1249,7 +1249,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	gsf_xml_out_add_int (state.output, "Rows", cr->rows);
 	gsf_xml_out_add_int (state.output, "BaseCol", cr->base.col);
 	gsf_xml_out_add_int (state.output, "BaseRow", cr->base.row);
-	if (cr->not_as_content)
+	if (cr->not_as_contents)
 		gsf_xml_out_add_bool (state.output, "NotAsContent", TRUE);
 
 	if (cr->styles != NULL) {
@@ -1271,9 +1271,9 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 
 	pp.wb = NULL; /* NOTE SNEAKY : ensure that sheet names have explicit workbooks */
 	pp.sheet = cr->origin_sheet;
-	if (cr->content != NULL) {
+	if (cr->contents != NULL) {
 		gsf_xml_out_start_element (state.output, GNM "Cells");
-		for (ptr = cr->content; ptr != NULL ; ptr = ptr->next) {
+		for (ptr = cr->contents; ptr != NULL ; ptr = ptr->next) {
 			cc = ptr->data;
 			pp.eval.col = cr->base.col + cc->col_offset,
 			pp.eval.row = cr->base.row + cc->row_offset;

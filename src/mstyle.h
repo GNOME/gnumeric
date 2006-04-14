@@ -45,8 +45,8 @@ typedef enum {
 		MSTYLE_WRAP_TEXT,		/* marks a header */
 		MSTYLE_SHRINK_TO_FIT,		/* marks a header */
 
-	        MSTYLE_CONTENT_LOCKED,
-	        MSTYLE_CONTENT_HIDDEN,
+	        MSTYLE_CONTENTS_LOCKED,
+	        MSTYLE_CONTENTS_HIDDEN,
 
 	/* Things not in MS Excel's Style */
 	        MSTYLE_VALIDATION,
@@ -136,10 +136,10 @@ gboolean	 gnm_style_get_effective_wrap_text   (GnmStyle const *style);
 void		 gnm_style_set_shrink_to_fit (GnmStyle *style, gboolean f);
 gboolean	 gnm_style_get_shrink_to_fit (GnmStyle const *style);
 
-void		 gnm_style_set_content_locked (GnmStyle *style, gboolean f);
-gboolean	 gnm_style_get_content_locked (GnmStyle const *style);
-void		 gnm_style_set_content_hidden (GnmStyle *style, gboolean f);
-gboolean	 gnm_style_get_content_hidden (GnmStyle const *style);
+void		 gnm_style_set_contents_locked (GnmStyle *style, gboolean f);
+gboolean	 gnm_style_get_contents_locked (GnmStyle const *style);
+void		 gnm_style_set_contents_hidden (GnmStyle *style, gboolean f);
+gboolean	 gnm_style_get_contents_hidden (GnmStyle const *style);
 
 void		 gnm_style_set_validation	(GnmStyle *style, GnmValidation *v);
 GnmValidation	*gnm_style_get_validation	(GnmStyle const *style);

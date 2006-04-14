@@ -779,9 +779,9 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 		gnm_style_set_wrap_text (style, val);
 
 	if (xml_node_get_int (tree, "Locked", &val))
-		gnm_style_set_content_locked (style, val);
+		gnm_style_set_contents_locked (style, val);
 	if (xml_node_get_int (tree, "Hidden", &val))
-		gnm_style_set_content_hidden (style, val);
+		gnm_style_set_contents_hidden (style, val);
 
 	if (xml_node_get_int (tree, "VAlign", &val))
 		gnm_style_set_align_v (style, val);
@@ -2084,7 +2084,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 	}
 	go_format_unref (value_fmt);
 
-	cr->content = g_slist_prepend (cr->content, cc);
+	cr->contents = g_slist_prepend (cr->contents, cc);
 }
 
 /**
@@ -2140,7 +2140,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 	xml_node_get_int (clipboard, "BaseCol", &cr->base.col);
 	xml_node_get_int (clipboard, "BaseRow", &cr->base.row);
 	/* if it exists it is TRUE */
-	cr->not_as_content = xml_node_get_int (clipboard, "NotAsContent", &dummy);
+	cr->not_as_contents = xml_node_get_int (clipboard, "NotAsContent", &dummy);
 
 	l = e_xml_get_child_by_name (clipboard, CC2XML ("Styles"));
 	if (l != NULL)

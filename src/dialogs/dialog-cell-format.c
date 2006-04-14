@@ -1464,7 +1464,7 @@ static void
 cb_protection_locked_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		gnm_style_set_content_locked (state->result,
+		gnm_style_set_contents_locked (state->result,
 			gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
@@ -1474,7 +1474,7 @@ static void
 cb_protection_hidden_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		gnm_style_set_content_hidden (state->result,
+		gnm_style_set_contents_hidden (state->result,
 			gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
@@ -1497,8 +1497,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 	GtkWidget *w;
 	gboolean flag = FALSE;
 
-	flag = (state->conflicts & (1 << MSTYLE_CONTENT_LOCKED))
-		? FALSE : gnm_style_get_content_locked (state->style);
+	flag = (state->conflicts & (1 << MSTYLE_CONTENTS_LOCKED))
+		? FALSE : gnm_style_get_contents_locked (state->style);
 	w = glade_xml_get_widget (state->gui, "protection_locked");
 	state->protection.locked = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
@@ -1506,8 +1506,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 		"toggled",
 		G_CALLBACK (cb_protection_locked_toggle), state);
 
-	flag = (state->conflicts & (1 << MSTYLE_CONTENT_HIDDEN))
-		? FALSE : gnm_style_get_content_hidden (state->style);
+	flag = (state->conflicts & (1 << MSTYLE_CONTENTS_HIDDEN))
+		? FALSE : gnm_style_get_contents_hidden (state->style);
 	w = glade_xml_get_widget (state->gui, "protection_hidden");
 	state->protection.hidden = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);

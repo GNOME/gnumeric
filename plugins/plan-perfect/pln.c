@@ -221,7 +221,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 			}
 		}
 		if ((attr & 0x8000)) {
-			gboolean is_locked = gnm_style_get_content_locked (def);
+			gboolean is_locked = gnm_style_get_contents_locked (def);
 			attr = (attr & 0x3fff) | (is_locked ? 0x4000 : 0);
 		}
 		gnm_style_unref (def);

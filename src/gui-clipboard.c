@@ -127,7 +127,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		cc->texpr = NULL;
 
 		cr = cellregion_new (NULL);
-		cr->content = g_slist_prepend (cr->content, cc);
+		cr->contents = g_slist_prepend (cr->contents, cc);
 		cr->cols = cr->rows = 1;
 	} else {
 		dialogresult = stf_dialog (wbcg, opt_encoding, fixed_encoding,
@@ -620,7 +620,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 	for (row = 0; row < cr->rows; row++)
 		data[row] = g_new0 (char *, cr->cols);
 
-	for (ptr = cr->content; ptr; ptr = ptr->next) {
+	for (ptr = cr->contents; ptr; ptr = ptr->next) {
 		src = ptr->data;
 		style = style_list_get_style (cr->styles,
 			src->col_offset, src->row_offset);

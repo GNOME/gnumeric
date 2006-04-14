@@ -240,7 +240,7 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 	if (wbv->is_protected || sheet->is_protected)
 		for (i = range->start.row; i <= range->end.row; i++)
 			for (j = range->start.col; j <= range->end.col; j++)
-				if (gnm_style_get_content_locked (sheet_style_get (sheet, j, i))) {
+				if (gnm_style_get_contents_locked (sheet_style_get (sheet, j, i))) {
 					char *r = global_range_name (sheet, range);
 					char *text = g_strdup_printf (wbv->is_protected  ?
 						_("%s is locked. Unprotect the workbook to enable editing.") :
@@ -805,7 +805,7 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	r.start = r.end = me->pos.eval;
 	clipboard_paste_region (me->old_contents,
-		paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENT | PASTE_FORMATS),
+		paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENTS | PASTE_FORMATS),
 		GO_CMD_CONTEXT (wbc));
 
 	return FALSE;
@@ -986,7 +986,7 @@ typedef struct {
 	GnmParsePos   pp;
 	char	  *text;
 	gboolean   as_array;
-	GSList	*old_content;
+	GSList	*old_contents;
 	GSList	*selection;
 } CmdAreaSetText;
 
@@ -1008,23 +1008,23 @@ cmd_area_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->old_content != NULL, TRUE);
+	g_return_val_if_fail (me->old_contents != NULL, TRUE);
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
 		GnmRange const *r = ranges->data;
 		GnmCellRegion * c;
 		GnmPasteTarget pt;
 
-		g_return_val_if_fail (me->old_content != NULL, TRUE);
+		g_return_val_if_fail (me->old_contents != NULL, TRUE);
 
-		c = me->old_content->data;
+		c = me->old_contents->data;
 		clipboard_paste_region (c,
-			paste_target_init (&pt, me->cmd.sheet, r, PASTE_CONTENT | PASTE_FORMATS),
+			paste_target_init (&pt, me->cmd.sheet, r, PASTE_CONTENTS | PASTE_FORMATS),
 			GO_CMD_CONTEXT (wbc));
 		cellregion_unref (c);
-		me->old_content = g_slist_remove (me->old_content, c);
+		me->old_contents = g_slist_remove (me->old_contents, c);
 	}
-	g_return_val_if_fail (me->old_content == NULL, TRUE);
+	g_return_val_if_fail (me->old_contents == NULL, TRUE);
 
 	return FALSE;
 }
@@ -1072,7 +1072,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	/* Everything is ok. Store previous contents and perform the operation */
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		GnmRange const *r = l->data;
-		me->old_content = g_slist_prepend (me->old_content,
+		me->old_contents = g_slist_prepend (me->old_contents,
 			clipboard_copy_range (me->cmd.sheet, r));
 
 		/* Queue depends of region as a block beforehand */
@@ -1093,11 +1093,11 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			}
 		}
 
-		/* mark content as dirty */
+		/* mark contents as dirty */
 		sheet_flag_status_update_range (me->cmd.sheet, r);
 		sheet_queue_respan (me->cmd.sheet, r->start.row, r->end.row);
 	}
-	me->old_content = g_slist_reverse (me->old_content);
+	me->old_contents = g_slist_reverse (me->old_contents);
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 
 	if (new_style)
@@ -1113,11 +1113,11 @@ cmd_area_set_text_finalize (GObject *cmd)
 
 	g_free (me->text);
 
-	if (me->old_content != NULL) {
+	if (me->old_contents != NULL) {
 		GSList *l;
-		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
+		for (l = me->old_contents ; l != NULL ; l = g_slist_remove (l, l->data))
 			cellregion_unref (l->data);
-		me->old_content = NULL;
+		me->old_contents = NULL;
 	}
 	range_fragment_free (me->selection);
 	me->selection = NULL;
@@ -1138,7 +1138,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 
 	me->text        = g_strdup (new_text);
 	me->selection   = selection_get_ranges (sv, FALSE /* No intersection */);
-	me->old_content = NULL;
+	me->old_contents = NULL;
 
 	/* Only enter an array formula if
 	 *   1) the text is a formula
@@ -1452,7 +1452,7 @@ cmd_insert_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
 {
 	/* g_strdup_printf does not support positional args, which screws the translators.
-	 * We control the buffer content so there is no worry of overflow
+	 * We control the buffer contents so there is no worry of overflow
 	 */
 	char mesg[128];
 	snprintf (mesg, sizeof (mesg), (count > 1)
@@ -1468,7 +1468,7 @@ cmd_insert_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
 {
 	/* g_strdup_printf does not support positional args, which screws the translators.
-	 * We control the buffer content so there is no worry of overflow
+	 * We control the buffer contents so there is no worry of overflow
 	 */
 	char mesg[128];
 	snprintf (mesg, sizeof (mesg), (count > 1)
@@ -1512,7 +1512,7 @@ typedef struct {
 	int	 clear_flags;
 	int	 paste_flags;
 	SheetView *sv;
-	GSList	  *old_content;
+	GSList	  *old_contents;
 	GSList	  *selection;
 } CmdClear;
 
@@ -1533,7 +1533,7 @@ cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->old_content != NULL, TRUE);
+	g_return_val_if_fail (me->old_contents != NULL, TRUE);
 
 	sv = sheet_get_view (me->cmd.sheet, wb_control_view (wbc));
 
@@ -1545,9 +1545,9 @@ cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		GnmCellRegion  *c;
 		GnmPasteTarget pt;
 
-		g_return_val_if_fail (me->old_content != NULL, TRUE);
+		g_return_val_if_fail (me->old_contents != NULL, TRUE);
 
-		c = me->old_content->data;
+		c = me->old_contents->data;
 
 		if (me->clear_flags)
 			clipboard_paste_region (c,
@@ -1555,13 +1555,13 @@ cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
 				GO_CMD_CONTEXT (wbc));
 
 		cellregion_unref (c);
-		me->old_content = g_slist_remove (me->old_content, c);
+		me->old_contents = g_slist_remove (me->old_contents, c);
 		sv_selection_add_range (sv,
 			r->start.col, r->start.row,
 			r->start.col, r->start.row,
 			r->end.col, r->end.row);
 	}
-	g_return_val_if_fail (me->old_content == NULL, TRUE);
+	g_return_val_if_fail (me->old_contents == NULL, TRUE);
 
 	return FALSE;
 }
@@ -1574,7 +1574,7 @@ cmd_clear_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
-	g_return_val_if_fail (me->old_content == NULL, TRUE);
+	g_return_val_if_fail (me->old_contents == NULL, TRUE);
 
 	/* Check for array subdivision */
 	if (sheet_ranges_split_region (me->cmd.sheet, me->selection,
@@ -1587,8 +1587,8 @@ cmd_clear_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		GnmRange const *r = l->data;
-		me->old_content =
-			g_slist_prepend (me->old_content,
+		me->old_contents =
+			g_slist_prepend (me->old_contents,
 				clipboard_copy_range (me->cmd.sheet, r));
 
 		/* We have already checked the arrays */
@@ -1597,7 +1597,7 @@ cmd_clear_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			me->clear_flags|CLEAR_NOCHECKARRAY|CLEAR_RECALC_DEPS,
 			GO_CMD_CONTEXT (wbc));
 	}
-	me->old_content = g_slist_reverse (me->old_content);
+	me->old_contents = g_slist_reverse (me->old_contents);
 
 	return FALSE;
 }
@@ -1607,11 +1607,11 @@ cmd_clear_finalize (GObject *cmd)
 {
 	CmdClear *me = CMD_CLEAR (cmd);
 
-	if (me->old_content != NULL) {
+	if (me->old_contents != NULL) {
 		GSList *l;
-		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
+		for (l = me->old_contents ; l != NULL ; l = g_slist_remove (l, l->data))
 			cellregion_unref (l->data);
-		me->old_content = NULL;
+		me->old_contents = NULL;
 	}
 	range_fragment_free (me->selection);
 	me->selection = NULL;
@@ -1630,7 +1630,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 
 	paste_flags = 0;
 	if (clear_flags & CLEAR_VALUES)
-		paste_flags |= PASTE_CONTENT;
+		paste_flags |= PASTE_CONTENTS;
 	if (clear_flags & CLEAR_FORMATS)
 		paste_flags |= PASTE_FORMATS;
 	if (clear_flags & CLEAR_COMMENTS)
@@ -1640,7 +1640,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 
 	me->clear_flags = clear_flags;
 	me->paste_flags = paste_flags;
-	me->old_content = NULL;
+	me->old_contents = NULL;
 	me->selection = selection_get_ranges (sv, FALSE /* No intersection */);
 
 	me->cmd.sheet = sv_sheet (sv);
@@ -2043,7 +2043,7 @@ typedef struct {
 
 	GnmSortData *data;
 	int         *perm;
-	int         *inv;
+	GnmCellRegion *old_contents;
 } CmdSort;
 
 MAKE_GNM_COMMAND (CmdSort, cmd_sort, NULL);
@@ -2053,18 +2053,11 @@ cmd_sort_finalize (GObject *cmd)
 {
 	CmdSort *me = CMD_SORT (cmd);
 
-	if (me->data != NULL) {
+	if (me->data != NULL)
 		sort_data_destroy (me->data);
-		me->data = NULL;
-	}
-	if (me->perm != NULL) {
-		g_free (me->perm);
-		me->perm = NULL;
-	}
-	if (me->inv != NULL) {
-		g_free (me->inv);
-		me->inv = NULL;
-	}
+	g_free (me->perm);
+	if (me->old_contents != NULL)
+		cellregion_unref (me->old_contents);
 
 	gnm_command_finalize (cmd);
 }
@@ -2073,12 +2066,15 @@ static gboolean
 cmd_sort_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSort *me = CMD_SORT (cmd);
-	g_return_val_if_fail (me != NULL, TRUE);
+	GnmSortData *data = me->data;
+	GnmPasteTarget pt;
 
-	if (!me->inv) {
-		me->inv = sort_permute_invert (me->perm, sort_data_length (me->data));
-	}
-	sort_position (me->data, me->inv, GO_CMD_CONTEXT (wbc));
+	paste_target_init (&pt, data->sheet, data->range,
+			   PASTE_CONTENTS | PASTE_FORMATS |
+			   (data->retain_formats ? PASTE_FORMATS : 0));
+	clipboard_paste_region (me->old_contents,
+				&pt,
+				GO_CMD_CONTEXT (wbc));
 
 	return FALSE;
 }
@@ -2087,22 +2083,25 @@ static gboolean
 cmd_sort_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSort *me = CMD_SORT (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
+	GnmSortData *data = me->data;
 
 	/* Check for locks */
 	if (cmd_cell_range_is_locked_effective
-	    (me->data->sheet, me->data->range, wbc, _("Sorting")))
+	    (data->sheet, data->range, wbc, _("Sorting")))
 		return TRUE;
 
-	if (!me->perm) {
-		me->perm = sort_contents (me->data, GO_CMD_CONTEXT (wbc));
-		me->cmd.size += 2 * sort_data_length (me->data);
-	} else
-		sort_position (me->data, me->perm, GO_CMD_CONTEXT (wbc));
+	if (me->perm)
+		sort_position (data, me->perm, GO_CMD_CONTEXT (wbc));
+	else {
+		me->old_contents =
+			clipboard_copy_range (data->sheet, data->range);
+		me->cmd.size = cellregion_cmd_size (me->old_contents);
+		me->perm = sort_contents (data, GO_CMD_CONTEXT (wbc));
+	}
 
 	return FALSE;
 }
+
 gboolean
 cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 {
@@ -2122,8 +2121,6 @@ cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 
 	me->data = data;
 	me->perm = NULL;
-	me->inv = NULL;
-
 	me->cmd.sheet = data->sheet;
 	me->cmd.size = 1;  /* Changed in initial redo.  */
 	me->cmd.cmd_descriptor = desc;
@@ -2481,12 +2478,12 @@ typedef struct {
 	GnmCommand cmd;
 
 	GnmExprRelocateInfo info;
-	GSList		*paste_content;
+	GSList		*paste_contents;
 	GnmRelocUndo	 reloc_storage;
 	gboolean	 move_selection;
 	ColRowStateList *saved_sizes;
 
-	/* handle redo-ing an undo with content from a deleted sheet */
+	/* handle redo-ing an undo with contents from a deleted sheet */
 	GnmCellRegion *deleted_sheet_contents;
 } CmdPasteCut;
 
@@ -2528,7 +2525,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	GnmExprRelocateInfo reverse;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->paste_content != NULL, TRUE);
+	g_return_val_if_fail (me->paste_contents != NULL, TRUE);
 	g_return_val_if_fail (me->deleted_sheet_contents == NULL, TRUE);
 
 	reverse.reloc_type = GNM_EXPR_RELOCATE_STD;
@@ -2556,9 +2553,9 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	gnm_reloc_undo_apply (&me->reloc_storage, me->info.target_sheet);
 
-	while (me->paste_content) {
-		PasteContent *pc = me->paste_content->data;
-		me->paste_content = g_slist_remove (me->paste_content, pc);
+	while (me->paste_contents) {
+		PasteContent *pc = me->paste_contents->data;
+		me->paste_contents = g_slist_remove (me->paste_contents, pc);
 
 		clipboard_paste_region (pc->contents, &pc->pt, GO_CMD_CONTEXT (wbc));
 		cellregion_unref (pc->contents);
@@ -2593,7 +2590,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	GnmRange  tmp;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->paste_content == NULL, TRUE);
+	g_return_val_if_fail (me->paste_contents == NULL, TRUE);
 	g_return_val_if_fail (me->reloc_storage.exprs == NULL, TRUE);
 	g_return_val_if_fail (me->reloc_storage.objs == NULL, TRUE);
 
@@ -2608,7 +2605,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		PasteContent *pc = g_new (PasteContent, 1);
 		paste_target_init (&pc->pt, me->info.target_sheet, &tmp, PASTE_ALL_TYPES);
 		pc->contents = clipboard_copy_range (me->info.target_sheet, &tmp);
-		me->paste_content = g_slist_prepend (me->paste_content, pc);
+		me->paste_contents = g_slist_prepend (me->paste_contents, pc);
 	} else {
 		/* need to store any portions of the paste target
 		 * that do not overlap with the source.
@@ -2621,7 +2618,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				PasteContent *pc = g_new (PasteContent, 1);
 				paste_target_init (&pc->pt, me->info.target_sheet, r, PASTE_ALL_TYPES);
 				pc->contents = clipboard_copy_range (me->info.target_sheet,  r);
-				me->paste_content = g_slist_prepend (me->paste_content, pc);
+				me->paste_contents = g_slist_prepend (me->paste_contents, pc);
 			}
 			g_free (r);
 		}
@@ -2666,9 +2663,9 @@ cmd_paste_cut_finalize (GObject *cmd)
 
 	if (me->saved_sizes)
 		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
-	while (me->paste_content) {
-		PasteContent *pc = me->paste_content->data;
-		me->paste_content = g_slist_remove (me->paste_content, pc);
+	while (me->paste_contents) {
+		PasteContent *pc = me->paste_contents->data;
+		me->paste_contents = g_slist_remove (me->paste_contents, pc);
 		cellregion_unref (pc->contents);
 		g_free (pc);
 	}
@@ -2724,7 +2721,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	me = g_object_new (CMD_PASTE_CUT_TYPE, NULL);
 
 	me->info = *info;
-	me->paste_content  = NULL;
+	me->paste_contents  = NULL;
 	me->deleted_sheet_contents = NULL;
 	me->reloc_storage.exprs = NULL;
 	me->reloc_storage.objs  = NULL;
@@ -2758,7 +2755,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 typedef struct {
 	GnmCommand cmd;
 
-	GnmCellRegion   *content;
+	GnmCellRegion   *contents;
 	GnmPasteTarget   dst;
 	gboolean         has_been_through_cycle;
 	ColRowStateList *saved_sizes;
@@ -2787,24 +2784,24 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		     gboolean is_undo)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
-	GnmCellRegion *content;
+	GnmCellRegion *contents;
 	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->content != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
-	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-	if (clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc))) {
+	contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+	if (clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
-		cellregion_unref (content);
+		cellregion_unref (contents);
 		return TRUE;
 	}
 
 	if (me->has_been_through_cycle)
-		cellregion_unref (me->content);
+		cellregion_unref (me->contents);
 	else
-		/* Save the content */
-		me->dst.paste_flags = PASTE_CONTENT |
+		/* Save the contents */
+		me->dst.paste_flags = PASTE_CONTENTS |
 			(me->dst.paste_flags & PASTE_FORMATS);
 
 	if (is_undo) {
@@ -2818,10 +2815,10 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		rows_height_update (me->dst.sheet, &me->dst.range, FALSE);
 	}
 
-	me->content = content;
+	me->contents = contents;
 	me->has_been_through_cycle = TRUE;
 
-	/* Make the newly pasted content the selection (this queues a redraw) */
+	/* Make the newly pasted contents the selection (this queues a redraw) */
 	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv,
@@ -2853,10 +2850,10 @@ cmd_paste_copy_finalize (GObject *cmd)
 
 	if (me->saved_sizes)
 		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
-	if (me->content) {
+	if (me->contents) {
 		if (me->has_been_through_cycle)
-			cellregion_unref (me->content);
-		me->content = NULL;
+			cellregion_unref (me->contents);
+		me->contents = NULL;
 	}
 	gnm_command_finalize (cmd);
 }
@@ -2878,7 +2875,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
 						     range_name (&pt->range));
 	me->dst = *pt;
-	me->content = cr;
+	me->contents = cr;
 	me->has_been_through_cycle = FALSE;
 	me->saved_sizes = NULL;
 
@@ -2969,7 +2966,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 typedef struct {
 	GnmCommand cmd;
 
-	GnmCellRegion *content;
+	GnmCellRegion *contents;
 	GnmPasteTarget dst;
 	int base_col, base_row, w, h, end_col, end_row;
 	gboolean default_increment;
@@ -3004,16 +3001,16 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->content != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
-	res = clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc));
-	cellregion_unref (me->content);
-	me->content = NULL;
+	res = clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc));
+	cellregion_unref (me->contents);
+	me->contents = NULL;
 
 	if (res)
 		return TRUE;
 
-	/* Make the newly pasted content the selection (this queues a redraw) */
+	/* Make the newly pasted contents the selection (this queues a redraw) */
 	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv,
@@ -3033,11 +3030,11 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->content == NULL, TRUE);
+	g_return_val_if_fail (me->contents == NULL, TRUE);
 
-	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+	me->contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 
-	g_return_val_if_fail (me->content != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
 	/* FIXME : when we split autofill to support hints and better validation
 	 * move this in there.
@@ -3049,9 +3046,7 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		GO_CMD_CONTEXT (wbc));
 
 	if (me->cmd.size == 1)
-		me->cmd.size += (g_slist_length (me->content->content) +
-				    g_slist_length (me->content->styles) +
-				    1);
+		me->cmd.size += cellregion_cmd_size (me->contents);
 	if (me->inverse_autofill)
 		sheet_autofill (me->dst.sheet, me->default_increment,
 			me->end_col, me->end_row, me->w, me->h,
@@ -3061,7 +3056,7 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			me->base_col, me->base_row, me->w, me->h,
 			me->end_col, me->end_row);
 
-	/* Make the newly filled content the selection (this queues a redraw) */
+	/* Make the newly filled contents the selection (this queues a redraw) */
 	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv,
@@ -3082,9 +3077,9 @@ cmd_autofill_finalize (GObject *cmd)
 {
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
 
-	if (me->content) {
-		cellregion_unref (me->content);
-		me->content = NULL;
+	if (me->contents) {
+		cellregion_unref (me->contents);
+		me->contents = NULL;
 	}
 	gnm_command_finalize (cmd);
 }
@@ -3144,9 +3139,9 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 
 	me = g_object_new (CMD_AUTOFILL_TYPE, NULL);
 
-	me->content = NULL;
+	me->contents = NULL;
 	me->dst.sheet = sheet;
-	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
+	me->dst.paste_flags = PASTE_CONTENTS | PASTE_FORMATS;
 	me->dst.range = target;
 
 	me->base_col = base_col;
@@ -3174,7 +3169,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 typedef struct {
 	GnmCommand cmd;
 
-	GnmCellRegion *content;
+	GnmCellRegion *contents;
 	GnmPasteTarget dst, src;
 	int dx, dy;
 	const char *name;
@@ -3197,16 +3192,16 @@ cmd_copyrel_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->content != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
-	res = clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc));
-	cellregion_unref (me->content);
-	me->content = NULL;
+	res = clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc));
+	cellregion_unref (me->contents);
+	me->contents = NULL;
 
 	if (res)
 		return TRUE;
 
-	/* Make the newly pasted content the selection (this queues a redraw) */
+	/* Make the newly pasted contents the selection (this queues a redraw) */
 	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv,
@@ -3225,15 +3220,15 @@ cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdCopyRel *me = CMD_COPYREL (cmd);
 	SheetView *sv;
-	GnmCellRegion *content;
+	GnmCellRegion *contents;
 	gboolean res;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->content == NULL, TRUE);
+	g_return_val_if_fail (me->contents == NULL, TRUE);
 
-	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+	me->contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 
-	g_return_val_if_fail (me->content != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
 	sheet_clear_region (me->dst.sheet,
 		me->dst.range.start.col, me->dst.range.start.row,
@@ -3241,13 +3236,13 @@ cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS,
 		GO_CMD_CONTEXT (wbc));
 
-	content = clipboard_copy_range (me->src.sheet, &me->src.range);
-	res = clipboard_paste_region (content, &me->dst, GO_CMD_CONTEXT (wbc));
-	cellregion_unref (content);
+	contents = clipboard_copy_range (me->src.sheet, &me->src.range);
+	res = clipboard_paste_region (contents, &me->dst, GO_CMD_CONTEXT (wbc));
+	cellregion_unref (contents);
 	if (res)
 		return TRUE;
 
-	/* Make the newly filled content the selection (this queues a redraw) */
+	/* Make the newly filled contents the selection (this queues a redraw) */
 	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv,
@@ -3270,9 +3265,9 @@ cmd_copyrel_finalize (GObject *cmd)
 {
 	CmdCopyRel *me = CMD_COPYREL (cmd);
 
-	if (me->content) {
-		cellregion_unref (me->content);
-		me->content = NULL;
+	if (me->contents) {
+		cellregion_unref (me->contents);
+		me->contents = NULL;
 	}
 	gnm_command_finalize (cmd);
 }
@@ -3309,12 +3304,12 @@ cmd_copyrel (WorkbookControl *wbc,
 
 	me = g_object_new (CMD_COPYREL_TYPE, NULL);
 
-	me->content = NULL;
+	me->contents = NULL;
 	me->dst.sheet = sheet;
-	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
+	me->dst.paste_flags = PASTE_CONTENTS | PASTE_FORMATS;
 	me->dst.range = target;
 	me->src.sheet = sheet;
-	me->src.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
+	me->src.paste_flags = PASTE_CONTENTS | PASTE_FORMATS;
 	me->src.range = src;
 	me->dx = dx;
 	me->dy = dy;
@@ -3618,7 +3613,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 typedef struct {
 	GnmCommand cmd;
 	GArray	*ranges;
-	GSList	*old_content;
+	GSList	*old_contents;
 	gboolean center;
 } CmdMergeCells;
 
@@ -3650,7 +3645,7 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_merge_remove (me->cmd.sheet, r, GO_CMD_CONTEXT (wbc));
 	}
 
-	flags = PASTE_CONTENT | PASTE_FORMATS | PASTE_IGNORE_COMMENTS;
+	flags = PASTE_CONTENTS | PASTE_FORMATS | PASTE_IGNORE_COMMENTS;
 	if (me->center)
 		flags |= PASTE_FORMATS;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
@@ -3658,16 +3653,16 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		GnmPasteTarget pt;
 		GnmCellRegion * c;
 
-		g_return_val_if_fail (me->old_content != NULL, TRUE);
+		g_return_val_if_fail (me->old_contents != NULL, TRUE);
 
-		c = me->old_content->data;
+		c = me->old_contents->data;
 		clipboard_paste_region (c,
 			paste_target_init (&pt, me->cmd.sheet, r, flags),
 			GO_CMD_CONTEXT (wbc));
 		cellregion_unref (c);
-		me->old_content = g_slist_remove (me->old_content, c);
+		me->old_contents = g_slist_remove (me->old_contents, c);
 	}
-	g_return_val_if_fail (me->old_content == NULL, TRUE);
+	g_return_val_if_fail (me->old_contents == NULL, TRUE);
 
 	return FALSE;
 }
@@ -3691,8 +3686,8 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
 		GSList *ptr, *merged = sheet_merge_get_overlap (sheet, r);
 
-		/* save content before removing contained merged regions */
-		me->old_content = g_slist_prepend (me->old_content,
+		/* save contents before removing contained merged regions */
+		me->old_contents = g_slist_prepend (me->old_contents,
 			clipboard_copy_range (sheet, r));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
 			sheet_merge_remove (sheet, ptr->data, GO_CMD_CONTEXT (wbc));
@@ -3705,7 +3700,7 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (me->center)
 		gnm_style_unref (align_center);
-	me->old_content = g_slist_reverse (me->old_content);
+	me->old_contents = g_slist_reverse (me->old_contents);
 	return FALSE;
 }
 
@@ -3714,11 +3709,11 @@ cmd_merge_cells_finalize (GObject *cmd)
 {
 	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
 
-	if (me->old_content != NULL) {
+	if (me->old_contents != NULL) {
 		GSList *l;
-		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
+		for (l = me->old_contents ; l != NULL ; l = g_slist_remove (l, l->data))
 			cellregion_unref (l->data);
-		me->old_content = NULL;
+		me->old_contents = NULL;
 	}
 
 	if (me->ranges != NULL) {
@@ -4413,7 +4408,7 @@ cmd_objects_store_location (SheetObject *so, GArray *location)
 	g_array_append_val (location, loc);
 }
 
-/* Absorbs the list, adding references to the content */
+/* Absorbs the list, adding references to the contents */
 gboolean
 cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 		    char const *name)
@@ -4823,7 +4818,7 @@ typedef struct {
 	ColRowStateList         *col_info;
 	ColRowStateList         *row_info;
 	GnmRange                   old_range;
-	GnmCellRegion              *old_content;
+	GnmCellRegion              *old_contents;
 } CmdAnalysis_Tool;
 
 MAKE_GNM_COMMAND (CmdAnalysis_Tool, cmd_analysis_tool, NULL);
@@ -4854,11 +4849,11 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 				    CLEAR_COMMENTS | CLEAR_FORMATS | CLEAR_NOCHECKARRAY |
 				    CLEAR_RECALC_DEPS | CLEAR_VALUES | CLEAR_MERGES,
 				    GO_CMD_CONTEXT (wbc));
-		clipboard_paste_region (me->old_content,
+		clipboard_paste_region (me->old_contents,
 			paste_target_init (&pt, me->dao->sheet, &me->old_range, PASTE_ALL_TYPES),
 			GO_CMD_CONTEXT (wbc));
-		cellregion_unref (me->old_content);
-		me->old_content = NULL;
+		cellregion_unref (me->old_contents);
+		me->old_contents = NULL;
 		if (me->col_info) {
 			dao_set_colrow_state_list (me->dao, TRUE, me->col_info);
 			me->col_info = colrow_state_list_destroy (me->col_info);
@@ -4898,18 +4893,18 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	switch (me->type) {
 	case NewSheetOutput:
-		me->old_content = NULL;
+		me->old_contents = NULL;
 		break;
 	case NewWorkbookOutput:
 		/* No undo in this case (see below) */
-		me->old_content = NULL;
+		me->old_contents = NULL;
 		break;
 	case RangeOutput:
 	default:
 		range_init (&me->old_range, me->dao->start_col, me->dao->start_row,
 			    me->dao->start_col + me->dao->cols - 1,
 			    me->dao->start_row + me->dao->rows - 1);
-		me->old_content = clipboard_copy_range (me->dao->sheet, &me->old_range);
+		me->old_contents = clipboard_copy_range (me->dao->sheet, &me->old_range);
 		break;
 	}
 
@@ -4956,8 +4951,8 @@ cmd_analysis_tool_finalize (GObject *cmd)
 		g_free (me->specs);
 		g_free (me->dao);
 	}
-	if (me->old_content)
-		cellregion_unref (me->old_content);
+	if (me->old_contents)
+		cellregion_unref (me->old_contents);
 
 	gnm_command_finalize (cmd);
 }
@@ -5055,7 +5050,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
 	int i;
-	GnmCellRegion *merge_content;
+	GnmCellRegion *merge_contents;
 	GnmRangeRef *cell = &me->merge_zone->v_range.cell;
 	GnmPasteTarget pt;
 	GSList *this_field = me->merge_fields;
@@ -5068,7 +5063,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	range_init (&target_range, cell->a.col, cell->a.row,
 		    cell->b.col, cell->b.row);
-	merge_content = clipboard_copy_range (source_sheet, &target_range);
+	merge_contents = clipboard_copy_range (source_sheet, &target_range);
 	state_col = colrow_get_states (source_sheet, TRUE, target_range.start.col,
 					   target_range.end.col);
 	state_row = colrow_get_states (source_sheet, FALSE, target_range.start.row,
@@ -5083,7 +5078,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
 		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row);
 		sheet_object_clone_sheet (source_sheet, new_sheet, &target_range);
-		clipboard_paste_region (merge_content,
+		clipboard_paste_region (merge_contents,
 			paste_target_init (&pt, new_sheet, &target_range, PASTE_ALL_TYPES),
 			GO_CMD_CONTEXT (wbc));
 	}
@@ -5897,7 +5892,7 @@ cmd_data_shuffle (WorkbookControl *wbc, data_shuffling_t *sc, Sheet *sheet)
 typedef struct {
 	GnmCommand cmd;
 
-	GnmCellRegion      *content;
+	GnmCellRegion      *contents;
 	GnmPasteTarget      dst;
 	GnmRange            src;
 	Sheet           *src_sheet;
@@ -5911,20 +5906,20 @@ cmd_text_to_columns_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		     gboolean is_undo)
 {
 	CmdTextToColumns *me = CMD_TEXT_TO_COLUMNS (cmd);
-	GnmCellRegion *content;
+	GnmCellRegion *contents;
 	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->content != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
-	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-	if (clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc))) {
+	contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+	if (clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
-		cellregion_unref (content);
+		cellregion_unref (contents);
 		return TRUE;
 	}
 
-	cellregion_unref (me->content);
+	cellregion_unref (me->contents);
 
 	if (is_undo) {
 		colrow_set_states (me->dst.sheet, FALSE,
@@ -5937,9 +5932,9 @@ cmd_text_to_columns_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		rows_height_update (me->dst.sheet, &me->dst.range, FALSE);
 	}
 
-	me->content = content;
+	me->contents = contents;
 
-	/* Make the newly pasted content the selection (this queues a redraw) */
+	/* Make the newly pasted contents the selection (this queues a redraw) */
 	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv,
@@ -5971,9 +5966,9 @@ cmd_text_to_columns_finalize (GObject *cmd)
 
 	if (me->saved_sizes)
 		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
-	if (me->content) {
-		cellregion_unref (me->content);
-		me->content = NULL;
+	if (me->contents) {
+		cellregion_unref (me->contents);
+		me->contents = NULL;
 	}
 	gnm_command_finalize (cmd);
 }
@@ -5982,12 +5977,12 @@ gboolean
 cmd_text_to_columns (WorkbookControl *wbc,
 		     GnmRange const *src, Sheet *src_sheet, 
 		     GnmRange const *target, Sheet *target_sheet, 
-		     GnmCellRegion *content)
+		     GnmCellRegion *contents)
 {
 	CmdTextToColumns *me;
 	char *src_range_name, *target_range_name;
 
-	g_return_val_if_fail (content != NULL, TRUE);
+	g_return_val_if_fail (contents != NULL, TRUE);
 
 	src_range_name = undo_range_name (src_sheet, src);
 	target_range_name = undo_range_name (target_sheet, target);
@@ -6001,10 +5996,10 @@ cmd_text_to_columns (WorkbookControl *wbc,
 						  target_range_name);
 	me->dst.range = *target;
 	me->dst.sheet = target_sheet;
-	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
+	me->dst.paste_flags = PASTE_CONTENTS | PASTE_FORMATS;
 	me->src = *src;
 	me->src_sheet = src_sheet;
-	me->content = content;
+	me->contents = contents;
 	me->saved_sizes = NULL;
 
 	g_free (src_range_name);

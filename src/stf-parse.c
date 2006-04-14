@@ -1173,7 +1173,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	GODateConventions const *date_conv = wb ? workbook_date_conv (wb) : &default_conv;
 
 	GnmCellRegion *cr;
-	GSList	 *content = NULL;
+	GSList	 *contents = NULL;
 	unsigned int row, colhigh = 0;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
@@ -1211,7 +1211,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 					ccopy = gnm_cell_copy_new (targetcol, row);
 					ccopy->val  = v;
 					ccopy->texpr = NULL;
-					content = g_slist_prepend (content, ccopy);
+					contents = g_slist_prepend (contents, ccopy);
 					targetcol++;
 					if (targetcol > colhigh)
 						colhigh = targetcol;
@@ -1225,7 +1225,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	END_LOCALE_SWITCH;
 
 	cr = cellregion_new (NULL);
-	cr->content = content;
+	cr->contents = contents;
 	cr->cols    = (colhigh > 0) ? colhigh : 1;
 	cr->rows    = row;
 

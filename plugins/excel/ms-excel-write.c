@@ -2452,8 +2452,8 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 	xfd->style_format = gnm_style_get_format (st);
 	xfd->format_idx   = formats_get_index (ewb, xfd->style_format);
 
-	xfd->locked	= gnm_style_get_content_locked (st);
-	xfd->hidden	= gnm_style_get_content_hidden (st);
+	xfd->locked	= gnm_style_get_contents_locked (st);
+	xfd->hidden	= gnm_style_get_contents_hidden (st);
 	xfd->halign	= gnm_style_get_align_h (st);
 	xfd->valign	= gnm_style_get_align_v (st);
 	xfd->wrap_text	= gnm_style_get_wrap_text (st);

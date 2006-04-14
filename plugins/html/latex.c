@@ -718,7 +718,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 	/* Print the cell according to its style. */
 	GnmStyle *mstyle = cell_get_mstyle (cell);
-	gboolean hidden = gnm_style_get_content_hidden (mstyle);
+	gboolean hidden = gnm_style_get_contents_hidden (mstyle);
 
 	g_return_if_fail (mstyle != NULL);
 

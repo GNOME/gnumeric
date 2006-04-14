@@ -142,7 +142,7 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 	guint g = 0;
 	guint b = 0;
 	char *rendered_string;
-	gboolean hidden = gnm_style_get_content_hidden (mstyle);
+	gboolean hidden = gnm_style_get_contents_hidden (mstyle);
 	GnmHLink* hlink = gnm_style_get_hlink (mstyle);
 	const guchar* hlink_target = NULL;
 
@@ -357,7 +357,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 				html_get_text_color (cell, mstyle, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
 					gsf_output_printf (output, " color:#%02X%02X%02X;", r, g, b);
-				if (gnm_style_get_content_hidden (mstyle))
+				if (gnm_style_get_contents_hidden (mstyle))
 					gsf_output_puts (output, " visibility:hidden;");
 			}
 

@@ -1673,8 +1673,8 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 		gnm_style_set_format (mstyle, xf->style_format);
 
 	/* protection */
-	gnm_style_set_content_locked (mstyle, xf->locked);
-	gnm_style_set_content_hidden (mstyle, xf->hidden);
+	gnm_style_set_contents_locked (mstyle, xf->locked);
+	gnm_style_set_contents_hidden (mstyle, xf->hidden);
 
 	/* Alignment */
 	gnm_style_set_align_v   (mstyle, xf->valign);

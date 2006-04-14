@@ -1208,7 +1208,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "color")))
 			gnm_style_set_font_color (style, color);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "cell-protect"))
-			gnm_style_set_content_locked (style, !strcmp (attrs[1], "protected"));
+			gnm_style_set_contents_locked (style, !strcmp (attrs[1], "protected"));
 		else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_FO : OO_NS_STYLE,
 				       "text-align", h_alignments, &tmp))
@@ -1247,7 +1247,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "shrink-to-fit", &btmp))
 			gnm_style_set_shrink_to_fit (style, btmp);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "cell-protect"))
-			gnm_style_set_content_locked (style, !strcmp (attrs[1], "protected"));
+			gnm_style_set_contents_locked (style, !strcmp (attrs[1], "protected"));
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "direction"))
 			gnm_style_set_text_dir (style, strcmp (attrs[1], "rtl") ? GNM_TEXT_DIR_LTR : GNM_TEXT_DIR_RTL);
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp))

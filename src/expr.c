@@ -695,7 +695,6 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 	gnm_float const va = value_get_as_float (a);
 	gnm_float const vb = value_get_as_float (b);
 	gnm_float res;
-	int ires;
 
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_ADD:

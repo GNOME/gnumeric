@@ -145,7 +145,7 @@ cb_paste_special_response (GtkWidget *dialog,
 	if (response_id == GTK_RESPONSE_OK) {
 		switch (state->type) {
 		case 0: result = PASTE_ALL_TYPES;	break;
-		case 1: result = PASTE_CONTENT;		break;
+		case 1: result = PASTE_CONTENTS;	break;
 		case 2: result = PASTE_AS_VALUES;	break;
 		case 3: result = PASTE_FORMATS;		break;
 		case 4: result = PASTE_COMMENTS;	break;

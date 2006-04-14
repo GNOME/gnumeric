@@ -5,7 +5,7 @@
 #include <pango/pango-context.h>
 
 enum {
-	PASTE_CONTENT		= 1 << 0, /* either CONTENT or AS_VALUES */
+	PASTE_CONTENTS		= 1 << 0, /* either CONTENTS or AS_VALUES */
 	PASTE_AS_VALUES		= 1 << 1, /*  can be applied, not both */
 	PASTE_FORMATS		= 1 << 2,
 	PASTE_COMMENTS		= 1 << 3,
@@ -41,7 +41,7 @@ enum {
 	PASTE_NO_RECALC         = 1 << 16
 };
 
-#define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS)
+#define PASTE_ALL_TYPES (PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS)
 #define PASTE_DEFAULT   PASTE_ALL_TYPES
 #define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
 
@@ -55,11 +55,11 @@ struct _GnmCellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
 	GnmCellPos	 base;
 	int		 cols, rows;
-	GSList		*content;
+	GSList		*contents;
 	GnmStyleList	*styles;
 	GSList		*merged;
 	GSList		*objects;
-	gboolean	 not_as_content;
+	gboolean	 not_as_contents;
 	unsigned	 ref_count;
 };
 
@@ -71,15 +71,17 @@ struct _GnmPasteTarget {
 
 GnmCellRegion  *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 GnmCellRegion  *clipboard_copy_obj     (Sheet *sheet, GSList *objects);
-gboolean        clipboard_paste_region (GnmCellRegion const *content,
+gboolean        clipboard_paste_region (GnmCellRegion const *contents,
 					GnmPasteTarget const *pt,
 					GOCmdContext *cc);
 GnmPasteTarget *paste_target_init      (GnmPasteTarget *pt,
-					Sheet *sheet, GnmRange const *r, int flags);
+					Sheet *sheet, GnmRange const *r,
+					int flags);
 
 GnmCellRegion *cellregion_new	(Sheet *origin_sheet);
-void           cellregion_ref   (GnmCellRegion *content);
-void           cellregion_unref (GnmCellRegion *content);
+void           cellregion_ref   (GnmCellRegion *contents);
+void           cellregion_unref (GnmCellRegion *contents);
+int            cellregion_cmd_size (const GnmCellRegion *contents);
 
 GnmCellCopy *gnm_cell_copy_new	(int col_offset, int row_offset);
 

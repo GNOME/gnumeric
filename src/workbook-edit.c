@@ -740,7 +740,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	 * information if we look at the selection.
 	 */
 	if (wb_view_is_protected (wbv, TRUE) &&
-	    gnm_style_get_content_locked (sheet_style_get (sv->sheet, col, row))) {
+	    gnm_style_get_contents_locked (sheet_style_get (sv->sheet, col, row))) {
 		char *pos =  g_strdup_printf ( _("%s!%s is locked"),
 			sv->sheet->name_quoted, cell_coord_name (col, row));
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg), pos,

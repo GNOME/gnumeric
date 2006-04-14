@@ -53,8 +53,8 @@ struct _GnmStyle {
 	int		 text_dir;
 	gboolean         wrap_text;
 	gboolean         shrink_to_fit;
-	gboolean         content_locked;
-	gboolean         content_hidden;
+	gboolean         contents_locked;
+	gboolean         contents_hidden;
 
 	GnmValidation		*validation;
 	GnmHLink		*hlink;

@@ -2346,6 +2346,5 @@ lmbcs_init (void)
 void
 lmbcs_shutdown (void)
 {
-	if (lmbcs_12_iconv != (GIConv)0 && lmbcs_12_iconv != (GIConv)-1)
-		g_iconv_close (lmbcs_12_iconv);
+	gsf_iconv_close (lmbcs_12_iconv);
 }

@@ -421,8 +421,8 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 		/* Allocate the new style */
 		style = gnm_style_new_default ();
 
-		gnm_style_set_content_locked (style, is_protected);
-		gnm_style_set_content_hidden (style, is_invisible);
+		gnm_style_set_contents_locked (style, is_protected);
+		gnm_style_set_contents_hidden (style, is_invisible);
 
 		if (sep[1] == '\'')
 			sep += 2;

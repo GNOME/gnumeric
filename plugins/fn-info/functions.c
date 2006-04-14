@@ -299,7 +299,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		   !g_ascii_strcasecmp (info_type, "protect")) {
 		GnmStyle const *mstyle =
 			sheet_style_get (sheet, ref->col, ref->row);
-		return value_new_int (gnm_style_get_content_locked (mstyle) ? 1 : 0);
+		return value_new_int (gnm_style_get_contents_locked (mstyle) ? 1 : 0);
 
     /* different characteristics grouped for efficiency
      * TYPE needed for backward compatibility w/123 but otherwise useless

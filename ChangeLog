@@ -1,5 +1,22 @@
 2006-04-13  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-style-impl.h (GnmStyle): Rename content_locked to
+	contents_locked and content_hidden to contents_hidden.  All users
+	changed.
+
+	* src/clipboard.h (GnmCellRegion): Rename content to contents and
+	not_as_content to not_as_contents.  All users changed.
+
+	* src/mstyle.c (gnm_style_get_contents_locked,
+	gnm_style_get_contents_hidden, gnm_style_set_contents_locked,
+	gnm_style_set_contents_hidden): Renamed from _content_.
+	All callers changed.
+
+	* src/clipboard.c (cellregion_cmd_size): New function.
+
+	* src/commands.c (cmd_sort_undo): Do this by pasting old contents.
+	Fixes #161890.
+
 	* src/sheet-autofill.c (sheet_autofill_dir): Add support for
 	quarters.  Fixes #61650.
 	(auto_filler_list): Number is fixed-width.

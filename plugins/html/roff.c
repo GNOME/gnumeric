@@ -51,7 +51,7 @@ roff_fprintf (GsfOutput *output, GnmCell *cell)
 		return 0;
 
 	mstyle = cell_get_mstyle (cell);
-	if (mstyle != NULL && gnm_style_get_content_hidden (mstyle))
+	if (mstyle != NULL && gnm_style_get_contents_hidden (mstyle))
 		return 0;
 
 	s = cell_get_rendered_text (cell);

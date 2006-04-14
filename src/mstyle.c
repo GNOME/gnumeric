@@ -65,8 +65,8 @@ gnm_style_element_name[MSTYLE_ELEMENT_MAX] = {
 	"Rotation",
 	"WrapText",
 	"ShrinkToFit",
-	"Content.Locked",
-	"Content.Hidden",
+	"Contents.Locked",
+	"Contents.Hidden",
 	"Validation",
 	"Hyper Link",
 	"Input Msg"
@@ -160,11 +160,11 @@ gnm_style_update (GnmStyle *style)
 		hash ^= 0x1379;
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 	}
-	if (style->content_locked) {
+	if (style->contents_locked) {
 		hash ^= 0x1379;
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 	}
-	if (style->content_hidden) {
+	if (style->contents_hidden) {
 		hash ^= 0x1379;
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 	}
@@ -230,8 +230,8 @@ elem_is_eq (GnmStyle const *a, GnmStyle const *b, GnmStyleElement elem)
 	case MSTYLE_TEXT_DIR:		return a->text_dir == b->text_dir;
 	case MSTYLE_WRAP_TEXT:		return a->wrap_text == b->wrap_text;
 	case MSTYLE_SHRINK_TO_FIT:	return a->shrink_to_fit == b->shrink_to_fit;
-	case MSTYLE_CONTENT_LOCKED:	return a->content_locked == b->content_locked;
-	case MSTYLE_CONTENT_HIDDEN:	return a->content_hidden == b->content_hidden;
+	case MSTYLE_CONTENTS_LOCKED:	return a->contents_locked == b->contents_locked;
+	case MSTYLE_CONTENTS_HIDDEN:	return a->contents_hidden == b->contents_hidden;
 	case MSTYLE_VALIDATION:		return a->validation == b->validation;
 	case MSTYLE_HLINK:		return a->hlink == b->hlink;
 	case MSTYLE_INPUT_MSG:		return a->input_msg == b->input_msg;
@@ -242,7 +242,7 @@ elem_is_eq (GnmStyle const *a, GnmStyle const *b, GnmStyleElement elem)
 }
 
 static void
-elem_assign_content (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
+elem_assign_contents (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 {
 #ifdef DEBUG_STYLES
 	g_return_if_fail (src != dst);
@@ -272,8 +272,8 @@ elem_assign_content (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 	case MSTYLE_TEXT_DIR:		dst->text_dir = src->text_dir; return;
 	case MSTYLE_WRAP_TEXT:		dst->wrap_text = src->wrap_text; return;
 	case MSTYLE_SHRINK_TO_FIT:	dst->shrink_to_fit = src->shrink_to_fit; return;
-	case MSTYLE_CONTENT_LOCKED:	dst->content_locked = src->content_locked; return;
-	case MSTYLE_CONTENT_HIDDEN:	dst->content_hidden = src->content_hidden; return;
+	case MSTYLE_CONTENTS_LOCKED:	dst->contents_locked = src->contents_locked; return;
+	case MSTYLE_CONTENTS_HIDDEN:	dst->contents_hidden = src->contents_hidden; return;
 	case MSTYLE_VALIDATION:
 		if ((dst->validation = src->validation))
 			validation_ref (dst->validation);
@@ -296,7 +296,7 @@ elem_assign_content (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 }
 
 static void
-elem_clear_content (GnmStyle *style, GnmStyleElement elem)
+elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 {
 #ifdef DEBUG_STYLES
 	g_return_if_fail (style != NULL);
@@ -358,7 +358,7 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 		    !elem_is_set (overlay, i))
 			continue;
 		if (!elem_is_set (accum, i)) {
-			elem_assign_content (accum, overlay, i);
+			elem_assign_contents (accum, overlay, i);
 			elem_set (accum, i);
 			elem_changed (accum, i);
 		} else if (!elem_is_eq (accum, overlay, i))
@@ -442,8 +442,8 @@ gnm_style_new_default (void)
 	gnm_style_set_text_dir    (new_style, GNM_TEXT_DIR_CONTEXT);
 	gnm_style_set_wrap_text   (new_style, FALSE);
 	gnm_style_set_shrink_to_fit (new_style, FALSE);
-	gnm_style_set_content_locked (new_style, TRUE);
-	gnm_style_set_content_hidden (new_style, FALSE);
+	gnm_style_set_contents_locked (new_style, TRUE);
+	gnm_style_set_contents_hidden (new_style, FALSE);
 	gnm_style_set_font_uline  (new_style, UNDERLINE_NONE);
 	gnm_style_set_font_strike (new_style, FALSE);
 	gnm_style_set_font_script (new_style, GO_FONT_SCRIPT_STANDARD);
@@ -474,7 +474,7 @@ gnm_style_dup (GnmStyle const *src)
 	new_style->ref_count = 1;
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
 		if (elem_is_set (src, i)) {
-			elem_assign_content (new_style, src, i);
+			elem_assign_contents (new_style, src, i);
 			elem_set (new_style, i);
 			elem_changed (new_style, i);
 		}
@@ -497,7 +497,7 @@ gnm_style_merge (GnmStyle const *src, GnmStyle const *overlay)
 
 	new_style->ref_count = 1;
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		elem_assign_content (new_style, elem_is_set (overlay, i) ? overlay : src, i);
+		elem_assign_contents (new_style, elem_is_set (overlay, i) ? overlay : src, i);
 		elem_set (new_style, i);
 		elem_changed (new_style, i);
 	}
@@ -529,7 +529,7 @@ gnm_style_unref (GnmStyle *style)
 		g_return_if_fail (style->linked_sheet == NULL);
 
 		for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
-			elem_clear_content (style, i);
+			elem_clear_contents (style, i);
 		style->set = 0;
 		clear_conditional_merges (style);
 		gnm_style_pango_clear (style);
@@ -779,7 +779,7 @@ gnm_style_unset_element (GnmStyle *style, GnmStyleElement elem)
 	g_return_if_fail (MSTYLE_COLOR_BACK <= elem && elem < MSTYLE_ELEMENT_MAX);
 
 	if (elem_is_set (style, elem)) {
-		elem_clear_content (style, elem);
+		elem_clear_contents (style, elem);
 		elem_unset (style, elem);
 	}
 }
@@ -802,8 +802,8 @@ gnm_style_merge_element (GnmStyle *dst, GnmStyle const *src, GnmStyleElement ele
 	g_return_if_fail (src != dst);
 
 	if (elem_is_set (src, elem)) {
-		elem_clear_content (dst, elem);
-		elem_assign_content (dst, src, elem);
+		elem_clear_contents (dst, elem);
+		elem_assign_contents (dst, src, elem);
 		elem_set (dst, elem);
 		elem_changed (dst, elem);
 	}
@@ -1127,7 +1127,7 @@ gnm_style_set_format (GnmStyle *style, GOFormat *format)
 
 	elem_changed (style, MSTYLE_FORMAT);
 	go_format_ref (format);
-	elem_clear_content (style, MSTYLE_FORMAT);
+	elem_clear_contents (style, MSTYLE_FORMAT);
 	elem_set (style, MSTYLE_FORMAT);
 	style->format = format;
 }
@@ -1301,38 +1301,38 @@ gnm_style_get_shrink_to_fit (GnmStyle const *style)
 	return style->shrink_to_fit;
 }
 void
-gnm_style_set_content_locked (GnmStyle *style, gboolean f)
+gnm_style_set_contents_locked (GnmStyle *style, gboolean f)
 {
 	g_return_if_fail (style != NULL);
 
-	elem_changed (style, MSTYLE_CONTENT_LOCKED);
-	elem_set (style, MSTYLE_CONTENT_LOCKED);
-	style->content_locked = f;
+	elem_changed (style, MSTYLE_CONTENTS_LOCKED);
+	elem_set (style, MSTYLE_CONTENTS_LOCKED);
+	style->contents_locked = f;
 }
 
 gboolean
-gnm_style_get_content_locked (GnmStyle const *style)
+gnm_style_get_contents_locked (GnmStyle const *style)
 {
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONTENT_LOCKED), FALSE);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONTENTS_LOCKED), FALSE);
 
-	return style->content_locked;
+	return style->contents_locked;
 }
 void
-gnm_style_set_content_hidden (GnmStyle *style, gboolean f)
+gnm_style_set_contents_hidden (GnmStyle *style, gboolean f)
 {
 	g_return_if_fail (style != NULL);
 
-	elem_changed (style, MSTYLE_CONTENT_HIDDEN);
-	elem_set (style, MSTYLE_CONTENT_HIDDEN);
-	style->content_hidden = f;
+	elem_changed (style, MSTYLE_CONTENTS_HIDDEN);
+	elem_set (style, MSTYLE_CONTENTS_HIDDEN);
+	style->contents_hidden = f;
 }
 
 gboolean
-gnm_style_get_content_hidden (GnmStyle const *style)
+gnm_style_get_contents_hidden (GnmStyle const *style)
 {
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONTENT_HIDDEN), FALSE);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONTENTS_HIDDEN), FALSE);
 
-	return style->content_hidden;
+	return style->contents_hidden;
 }
 
 void
@@ -1340,7 +1340,7 @@ gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
 {
 	g_return_if_fail (style != NULL);
 
-	elem_clear_content (style, MSTYLE_VALIDATION);
+	elem_clear_contents (style, MSTYLE_VALIDATION);
 	elem_changed (style, MSTYLE_VALIDATION);
 	elem_set (style, MSTYLE_VALIDATION);
 	style->validation = v;
@@ -1359,7 +1359,7 @@ gnm_style_set_hlink (GnmStyle *style, GnmHLink *link)
 {
 	g_return_if_fail (style != NULL);
 
-	elem_clear_content (style, MSTYLE_HLINK);
+	elem_clear_contents (style, MSTYLE_HLINK);
 	elem_changed (style, MSTYLE_HLINK);
 	elem_set (style, MSTYLE_HLINK);
 	style->hlink = link;
@@ -1378,7 +1378,7 @@ gnm_style_set_input_msg (GnmStyle *style, GnmInputMsg *msg)
 {
 	g_return_if_fail (style != NULL);
 
-	elem_clear_content (style, MSTYLE_INPUT_MSG);
+	elem_clear_contents (style, MSTYLE_INPUT_MSG);
 	elem_changed (style, MSTYLE_INPUT_MSG);
 	elem_set (style, MSTYLE_INPUT_MSG);
 	style->input_msg = msg;
@@ -1397,7 +1397,7 @@ gnm_style_set_conditions (GnmStyle *style, GnmStyleConditions *sc)
 {
 	g_return_if_fail (style != NULL);
 
-	elem_clear_content (style, MSTYLE_CONDITIONS);
+	elem_clear_contents (style, MSTYLE_CONDITIONS);
 	elem_changed (style, MSTYLE_CONDITIONS);
 	elem_set (style, MSTYLE_CONDITIONS);
 	style->conditions = sc;
@@ -1669,10 +1669,10 @@ gnm_style_dump (GnmStyle const *style)
 		fprintf (stderr, "\twrap text %d\n", style->wrap_text);
 	if (elem_is_set (style, MSTYLE_SHRINK_TO_FIT))
 		fprintf (stderr, "\tshrink to fit %d\n", style->shrink_to_fit);
-	if (elem_is_set (style, MSTYLE_CONTENT_LOCKED))
-		fprintf (stderr, "\tlocked %d\n", style->content_locked);
-	if (elem_is_set (style, MSTYLE_CONTENT_HIDDEN))
-		fprintf (stderr, "\thidden %d\n", style->content_hidden);
+	if (elem_is_set (style, MSTYLE_CONTENTS_LOCKED))
+		fprintf (stderr, "\tlocked %d\n", style->contents_locked);
+	if (elem_is_set (style, MSTYLE_CONTENTS_HIDDEN))
+		fprintf (stderr, "\thidden %d\n", style->contents_hidden);
 	if (elem_is_set (style, MSTYLE_VALIDATION))
 		fprintf (stderr, "\tvalidation %p\n", style->validation);
 	if (elem_is_set (style, MSTYLE_HLINK))

@@ -903,11 +903,9 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (!strcmp (attrs[0], "Format"))
 			gnm_style_set_format_text (state->style, (char *)attrs[1]);
 		else if (xml_sax_attr_int (attrs, "Hidden", &val))
-			gnm_style_set_content_hidden (state->style, val);
+			gnm_style_set_contents_hidden (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Locked", &val))
-			gnm_style_set_content_locked (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Locked", &val))
-			gnm_style_set_content_locked (state->style, val);
+			gnm_style_set_contents_locked (state->style, val);
 		else if (xml_sax_attr_int (attrs, "Orient", &val))
 			; /* ignore old useless attribute */
 		else
