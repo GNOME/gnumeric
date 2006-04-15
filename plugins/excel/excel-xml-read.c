@@ -21,7 +21,6 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "excel-xml-read.h"
 #include "xml-io-version.h"
 #include "sheet-view.h"
 #include "sheet-style.h"
@@ -967,7 +966,8 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
       GSF_XML_IN_NODE (COND_FMT, COND,		XL_NS_XL, "Condition", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (COND, COND_VALUE1,	XL_NS_XL, "Value1", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (COND, COND_STYLE,	XL_NS_XL, "Format", GSF_XML_NO_CONTENT, NULL, NULL),
-  { NULL }
+
+  GSF_XML_IN_NODE_END
 };
 
 G_MODULE_EXPORT void

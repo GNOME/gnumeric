@@ -34,7 +34,6 @@
 #include "boot.h"
 #include "ms-excel-util.h"
 #include "ms-excel-read.h"
-#include "excel-xml-read.h"
 
 #include <goffice/app/go-doc.h>
 #include <goffice/app/file.h>
