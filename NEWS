@@ -162,6 +162,8 @@ Morten:
 	* Make autofill understand Apr, Jul, Oct, Jan, ... (and other skip-N
 	  sequences, with or without year.)
 	* Fix sorting undo problem.  [#161890]
+	* Add locale choice on text export.  [#123339]
+	* Remove stray "Back" button for text export's one-sheet case.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

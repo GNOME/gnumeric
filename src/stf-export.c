@@ -47,6 +47,7 @@ struct _GnmStfExport {
 
 	GSList *sheet_list;
 	char *charset;
+	char *locale;
 	GnmStfTransliterateMode transliterate_mode;
 	GnmStfFormatMode format;
 };
@@ -60,6 +61,7 @@ typedef struct {
 enum {
 	PROP_0,
 	PROP_CHARSET,
+	PROP_LOCALE,
 	PROP_TRANSLITERATE_MODE,
 	PROP_FORMAT
 };
@@ -237,6 +239,7 @@ stf_export (GnmStfExport *stfe)
 	GSList *ptr;
 	GsfOutput *sink;
 	gboolean result = TRUE;
+	char *old_locale = NULL;
 
 	g_return_val_if_fail (GNM_IS_STF_EXPORT (stfe), FALSE);
 	g_return_val_if_fail (stfe->sheet_list != NULL, FALSE);
@@ -271,11 +274,21 @@ stf_export (GnmStfExport *stfe)
 		}
 	}
 
+	if (stfe->locale) {
+		old_locale = g_strdup (go_setlocale (LC_ALL, NULL));
+		go_setlocale (LC_ALL, stfe->locale);
+	}
+
 	for (ptr = stfe->sheet_list; ptr != NULL ; ptr = ptr->next)
 		if (!stf_export_sheet (stfe, ptr->data)) {
 			result = FALSE;
 			break;
 		}
+
+	if (stfe->locale) {
+		go_setlocale (LC_ALL, old_locale);
+		g_free (old_locale);		
+	}
 
 	g_object_set (G_OBJECT (stfe),
 		      "sink", sink,
@@ -363,6 +376,7 @@ gnm_stf_export_finalize (GObject *obj)
 
 	stf_export_options_sheet_list_clear (stfe);
 	g_free (stfe->charset);
+	g_free (stfe->locale);
 
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -380,6 +394,9 @@ gnm_stf_export_get_property (GObject     *object,
 	switch (property_id) {
 	case PROP_CHARSET:
 		g_value_set_string (value, stfe->charset);
+		break;
+	case PROP_LOCALE:
+		g_value_set_string (value, stfe->locale);
 		break;
 	case PROP_TRANSLITERATE_MODE:
 		g_value_set_enum (value, stfe->transliterate_mode);
@@ -410,6 +427,11 @@ gnm_stf_export_set_property (GObject      *object,
 		g_free (stfe->charset);
 		stfe->charset = scopy;
 		break;
+	case PROP_LOCALE:
+		scopy = g_strdup (g_value_get_string (value));
+		g_free (stfe->locale);
+		stfe->locale = scopy;
+		break;
 	case PROP_TRANSLITERATE_MODE:
 		stfe->transliterate_mode = g_value_get_enum (value);
 		break;
@@ -439,6 +461,15 @@ gnm_stf_export_class_init (GObjectClass *gobject_class)
 		 g_param_spec_string ("charset",
 				      _("Character set"),
 				      _("The character encoding of the output."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_LOCALE,
+		 g_param_spec_string ("locale",
+				      _("Locale"),
+				      _("The locale to use for number and date formatting."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));

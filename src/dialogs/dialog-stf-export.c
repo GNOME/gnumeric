@@ -29,22 +29,9 @@
 #include <sheet.h>
 #include <gui-util.h>
 #include <goffice/gtk/go-charmap-sel.h>
+#include <goffice/gtk/go-locale-sel.h>
 
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcomboboxentry.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 typedef enum {
@@ -66,7 +53,7 @@ typedef struct {
 	WorkbookControlGUI	*wbcg;
 	GtkWindow		*window;
 	GtkWidget		*notebook;
-	GtkWidget		*back_button, *next_button, *next_label, *next_image;
+	GtkWidget		*back_button, *next_button, *finish_button;
 
 	struct {
 		GtkListStore *model;
@@ -76,17 +63,17 @@ typedef struct {
 		int num, num_selected, non_empty;
 	} sheets;
 	struct {
-		GtkComboBox 	*termination;
-		GtkComboBox 	*separator;
-		GtkWidget      	*custom;
-		GtkComboBox 	*quote;
-		GtkComboBoxEntry      	*quotechar;
-		GtkWidget	*charset;
-		GtkComboBox 	*transliterate;
-		GtkComboBox 	*format;
+		GtkComboBox	 *termination;
+		GtkComboBox	 *separator;
+		GtkWidget	 *custom;
+		GtkComboBox	 *quote;
+		GtkComboBoxEntry *quotechar;
+		GtkWidget	 *charset;
+		GtkWidget	 *locale;
+		GtkComboBox	 *transliterate;
+		GtkComboBox	 *format;
 	} format;
 
-	TextExportPage	cur_page;
 	GnmStfExport *result;
 } TextExportState;
 
@@ -96,7 +83,7 @@ sheet_page_separator_menu_changed (TextExportState *state)
 	/* 9 == the custom entry */
 	if (gtk_combo_box_get_active (state->format.separator) == 9) {
 		gtk_widget_set_sensitive (state->format.custom, TRUE);
-		gtk_widget_grab_focus      (state->format.custom);
+		gtk_widget_grab_focus (state->format.custom);
 		gtk_editable_select_region (GTK_EDITABLE (state->format.custom), 0, -1);
 	} else {
 		gtk_widget_set_sensitive (state->format.custom, FALSE);
@@ -119,9 +106,10 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gtk_combo_box_set_active (state->format.quote, 0);
 	state->format.quotechar   = GTK_COMBO_BOX_ENTRY      (glade_xml_get_widget (state->gui, "format_quotechar"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.quotechar), 0);
-	state->format.format     = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format"));
+	state->format.format      = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.format), 0);
 	state->format.charset	  = go_charmap_sel_new (GO_CHARMAP_SEL_FROM_UTF8);
+	state->format.locale	  = go_locale_sel_new ();
 	state->format.transliterate = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_transliterate"));
 	gnumeric_editable_enters (state->window, state->format.custom);
 	gnumeric_editable_enters (state->window,
@@ -141,7 +129,10 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	}
 
 	table = glade_xml_get_widget (state->gui, "format_table");
-	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset, 1, 2, 5, 6);
+	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset,
+				   1, 2, 5, 6);
+	gtk_table_attach_defaults (GTK_TABLE (table), state->format.locale,
+				   1, 2, 6, 7);
 	gtk_widget_show_all (table);
 
 	g_signal_connect_swapped (state->format.separator,
@@ -175,6 +166,7 @@ stf_export_dialog_finish (TextExportState *state)
 	GString *triggers = g_string_new (NULL);
 	char *separator, *quote;
 	const char *charset;
+	char *locale;
 
 	/* What options */
 	switch (gtk_combo_box_get_active (state->format.termination)) {
@@ -224,6 +216,7 @@ stf_export_dialog_finish (TextExportState *state)
 	}
 
 	charset = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset));
+	locale = go_locale_sel_get_locale (GO_LOCALE_SEL (state->format.locale));
 
 	if (quotingmode == GSF_OUTPUT_CSV_QUOTING_MODE_AUTO) {
 		g_string_append (triggers, " \t");
@@ -242,6 +235,7 @@ stf_export_dialog_finish (TextExportState *state)
 		 "transliterate-mode", transliteratemode,
 		 "format", format,
 		 "charset", charset,
+		 "locale", locale,
 		 NULL);
 
 	/* Which sheets */
@@ -252,6 +246,7 @@ stf_export_dialog_finish (TextExportState *state)
 	g_free (separator);
 	g_free (quote);
 	g_string_free (triggers, TRUE);
+	g_free (locale);
 
 	gtk_dialog_response (GTK_DIALOG (state->window), GTK_RESPONSE_OK);
 }
@@ -520,38 +515,35 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 static void
 stf_export_dialog_switch_page (TextExportState *state, TextExportPage new_page)
 {
-	char const *label, *image;
-
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook),
-		state->cur_page = new_page);
-	if (state->cur_page != PAGE_FORMAT) {
-		label = _("_Next");
-		image = GTK_STOCK_GO_FORWARD;
+				       new_page);
+	if (new_page == PAGE_FORMAT) {
+		gtk_widget_hide (state->next_button);
+		gtk_widget_show (state->finish_button);
 	} else {
-		label = _("_Finish");
-		image = GTK_STOCK_APPLY;
+		gtk_widget_show (state->next_button);
+		gtk_widget_hide (state->finish_button);
 	}
-	gtk_widget_set_sensitive (state->back_button,
-				  (state->cur_page != PAGE_SHEETS) &&
-				  (state->sheets.non_empty > 1));
-	gtk_label_set_label (GTK_LABEL (state->next_label), label);
-	gtk_image_set_from_stock (GTK_IMAGE (state->next_image),
-		image, GTK_ICON_SIZE_BUTTON);
+
+	if (state->sheets.non_empty > 1) {
+		gtk_widget_show (state->back_button);
+		gtk_widget_set_sensitive (state->back_button, new_page > 0);
+	} else
+		gtk_widget_hide (state->back_button);
 }
 
 static void
 cb_back_page (TextExportState *state)
 {
-	stf_export_dialog_switch_page (state, state->cur_page-1);
+	int p = gtk_notebook_get_current_page (GTK_NOTEBOOK (state->notebook));
+	stf_export_dialog_switch_page (state, p - 1);
 }
 
 static void
 cb_next_page (TextExportState *state)
 {
-	if (state->cur_page == PAGE_FORMAT)
-		stf_export_dialog_finish (state);
-	else
-		stf_export_dialog_switch_page (state, state->cur_page+1);
+	int p = gtk_notebook_get_current_page (GTK_NOTEBOOK (state->notebook));
+	stf_export_dialog_switch_page (state, p + 1);
 }
 
 /**
@@ -580,8 +572,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	state.notebook	  = glade_xml_get_widget (state.gui, "text-export-notebook");
 	state.back_button = glade_xml_get_widget (state.gui, "button-back");
 	state.next_button = glade_xml_get_widget (state.gui, "button-next");
-	state.next_label  = glade_xml_get_widget (state.gui, "button-next-label");
-	state.next_image  = glade_xml_get_widget (state.gui, "button-next-image");
+	state.finish_button = glade_xml_get_widget (state.gui, "button-finish");
 	state.result	  = NULL;
 	stf_export_dialog_sheet_page_init (&state);
 	stf_export_dialog_format_page_init (&state);
@@ -602,6 +593,10 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 		g_signal_connect_swapped (G_OBJECT (state.next_button),
 					  "clicked",
 					  G_CALLBACK (cb_next_page), &state);
+		g_signal_connect_swapped (G_OBJECT (state.finish_button),
+					  "clicked",
+					  G_CALLBACK (stf_export_dialog_finish),
+					  &state);
 
 		go_gtk_dialog_run (GTK_DIALOG (state.window), wbcg_toplevel (wbcg));
 	}

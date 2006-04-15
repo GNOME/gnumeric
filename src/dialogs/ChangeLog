@@ -1,3 +1,12 @@
+2006-04-15  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-export.c (stf_export_dialog_finish): Transfer locale
+	setting.
+	(stf_export_dialog_sheet_page_init): Use separate buttons for Next
+	and Finish.
+	(stf_export_dialog_switch_page): Hide the Back button for the
+	one-sheet case.
+
 2006-04-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-order.c (populate_sheet_list): Fix selection of
