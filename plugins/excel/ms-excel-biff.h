@@ -46,7 +46,8 @@ typedef enum {	/* Horizontal alignment */
 	MS_BIFF_H_A_RIGHT   = 3,
 	MS_BIFF_H_A_FILL    = 4,
 	MS_BIFF_H_A_JUSTIFTY = 5,
-	MS_BIFF_H_A_CENTER_ACROSS_SELECTION = 6
+	MS_BIFF_H_A_CENTER_ACROSS_SELECTION = 6,
+	MS_BIFF_H_A_DISTRIBUTED = 7
 } MsBiffHAlign;
 
 typedef enum {	/* Vertical alignment */
