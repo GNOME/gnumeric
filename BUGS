@@ -64,6 +64,9 @@ Worries
     - named-expr-97.xls
     - operand.xls
     - pivot-edited.xls : odd colours in the 'the range that contains' box
+    - hidding col/row headers should not hide outline symbols
+    - with frozen panes that have topleft != A1 there are a few extra pixels
+      between col header and grid.
 
 Pending Patches
 ---------------
