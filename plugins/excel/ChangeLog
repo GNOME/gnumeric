@@ -1,3 +1,9 @@
+2006-04-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (halign_to_excel) : add HALIGN_DISTRIBUTED.
+	* ms-excel-read.c (excel_read_TAB_COLOR) : office 12 seems to add some
+	  bytes.
+
 2006-04-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (xl_chart_import_trend_line), (ms_excel_chart_read),

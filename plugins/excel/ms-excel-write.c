@@ -2289,6 +2289,9 @@ halign_to_excel (GnmHAlign halign)
 	case HALIGN_CENTER_ACROSS_SELECTION:
 		ialign = MS_BIFF_H_A_CENTER_ACROSS_SELECTION;
 		break;
+	case HALIGN_DISTRIBUTED:
+		ialign = MS_BIFF_H_A_DISTRIBUTED;
+		break;
 	default:
 		ialign = MS_BIFF_H_A_GENERAL;
 	}

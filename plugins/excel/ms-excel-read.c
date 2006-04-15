@@ -1904,8 +1904,7 @@ excel_map_pattern_index_from_excel (int const i)
 	};
 
 	/* Default to Solid if out of range */
-	g_return_val_if_fail (i >= 0 && i < (int)G_N_ELEMENTS (map_from_excel),
-			      0);
+	g_return_val_if_fail (i >= 0 && i < (int)G_N_ELEMENTS (map_from_excel), 0);
 
 	return map_from_excel[i];
 }
@@ -3554,13 +3553,15 @@ excel_read_TAB_COLOR (BiffQuery *q, ExcelReadSheet *esheet)
 #if 0
  0 | 62  8  0  0  0  0  0  0  0  0  0  0 14  0  0  0 | b...............
 10 |     0  0  0 XX XX XX XX XX XX XX XX XX XX XX XX |  ...************
+
+office 12 seems to add 8 bytes
 #endif
 	guint8 color_index;
 	GnmColor *color;
 	GnmColor *text_color;
 	int contrast;
 
-	g_return_if_fail (q->length == 20);
+	g_return_if_fail (q->length >= 20);
 
 	/* be conservative for now, we have not seen a palette larger than 56
 	 * so this is largely moot, this is probably a uint32
