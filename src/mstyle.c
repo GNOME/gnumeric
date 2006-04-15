@@ -982,7 +982,7 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context, float zoom)
 }
 
 void
-gnm_style_set_font_name (GnmStyle *style, const char *name)
+gnm_style_set_font_name (GnmStyle *style, char const *name)
 {
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (style != NULL);

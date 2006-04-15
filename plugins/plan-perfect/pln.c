@@ -216,6 +216,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 			case HALIGN_GENERAL:break;
 			case HALIGN_LEFT:	attr |= 0x0100; break;
 			case HALIGN_RIGHT:	attr |= 0x0200; break;
+			case HALIGN_DISTRIBUTED:
 			case HALIGN_CENTER_ACROSS_SELECTION :
 			case HALIGN_CENTER:	attr |= 0x0300; break;
 			}

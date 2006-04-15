@@ -135,10 +135,11 @@ get_top_left (ItemEdit const *ie, int *top, int *left)
 	*left = ((int)ie->item.x1) + ci->margin_a;
 	*top  = (int)ie->item.y1;
 
-	if (align == VALIGN_CENTER || align == VALIGN_BOTTOM) {
+	if (align == VALIGN_CENTER || align == VALIGN_DISTRIBUTED ||
+	    align == VALIGN_BOTTOM) {
 		int text_height, height = (int)(ie->item.y2 - ie->item.y1);
 		pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
-		*top += (align == VALIGN_CENTER)
+		*top += (align != VALIGN_BOTTOM)
 			? (height - text_height + 1)/2
 			: (height - text_height + 1);
 	}

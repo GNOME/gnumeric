@@ -105,6 +105,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		case HALIGN_RIGHT:
 			hoffset += (width - indent) - rv->layout_natural_width;
 			break;
+		case HALIGN_DISTRIBUTED:
 		case HALIGN_CENTER:
 			if (h_center == -1)
 				h_center = width / 2;
@@ -165,6 +166,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		break;
 	}
 
+	case VALIGN_DISTRIBUTED: /* dunno what this does yet */
 	case VALIGN_CENTER: {
 		int dh = (height - rv->layout_natural_height) / 2;
 		if (rv->rotation == 0 && dh < 0)
@@ -174,7 +176,6 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	}
 
 	case VALIGN_JUSTIFY:
-	case VALIGN_DISTRIBUTED: /* dunno what this does yet */
 		text_base = rect_y;
 		if (!rv->vfilled && height > rv->layout_natural_height) {
 			int line_count = pango_layout_get_line_count (layout);

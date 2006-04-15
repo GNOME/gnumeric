@@ -314,11 +314,11 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 		case VALIGN_BOTTOM:
 			gsf_output_puts (output, " valign=\"bottom\" ");
 			break;
+		case VALIGN_DISTRIBUTED:
 		case VALIGN_CENTER:
 			gsf_output_puts (output, " valign=\"center\" ");
 			break;
 		case VALIGN_JUSTIFY:
-		case VALIGN_DISTRIBUTED:
 			gsf_output_puts (output, " valign=\"baseline\" ");
 			break;
 		default:
@@ -328,6 +328,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 		case HALIGN_RIGHT:
 			gsf_output_puts (output, " align=\"right\" ");
 			break;
+		case HALIGN_DISTRIBUTED:
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
 			gsf_output_puts (output, " align=\"center\" ");

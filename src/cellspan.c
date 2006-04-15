@@ -246,6 +246,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		  indented_w <= COL_INTERNAL_WIDTH (cell->col_info))) ||
 	    h_align == HALIGN_JUSTIFY ||
 	    h_align == HALIGN_FILL ||
+	    h_align == HALIGN_DISTRIBUTED ||
 	    v_align == VALIGN_JUSTIFY ||
 	    v_align == VALIGN_DISTRIBUTED) {
 		*col1 = *col2 = cell->pos.col;
@@ -392,7 +393,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	}
 
 	default:
-		g_warning ("Unknown horizontal alignment type %d.", h_align);
+		g_warning ("Unknown horizontal alignment type %x.", h_align);
 	} /* switch */
 }
 

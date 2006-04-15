@@ -1,3 +1,19 @@
+2006-04-15  Jody Goldberg <jody@gnome.org>
+
+	* plugins/fn-info/functions.c : Add HALIGN_DISTRIBUTED and resync a
+	  few cases.
+	* plugins/html/latex.c (latex2e_write_multicolumn_cell) : ditto.
+	* plugins/html/roff.c (roff_file_save) : ditto.
+	* plugins/plan-perfect/pln.c (pln_get_style) : ditto.
+	* src/cellspan.c (cell_calc_span) : ditto.
+	* src/rendered-value.c (rendered_value_new) : ditto.
+	* src/dialogs/cell-format.glade : ditto.
+	* src/dialogs/dialog-cell-format.c : ditto.
+	* plugins/html/html.c (write_cell) : add HALIGN_DISTRIBUTED and fix
+	  VALIGN_DISTRIBUTED.
+	* src/cell-draw.c (cell_calc_layout) : ditto.
+	* src/item-edit.c (get_top_left) : ditto.
+
 2006-04-13  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-style-impl.h (GnmStyle): Rename content_locked to

@@ -324,9 +324,9 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->effective_valign = gnm_style_get_align_v (mstyle);
 	res->rotation = rotation;
 	if (rotation) {
+		static PangoMatrix const id = PANGO_MATRIX_INIT;
 		RenderedRotatedValue *rrv = (RenderedRotatedValue *)res;
 		GnmStyleElement e;
-		static const PangoMatrix id = PANGO_MATRIX_INIT;
 
 		rrv->rotmat = id;
 		pango_matrix_rotate (&rrv->rotmat, rotation);
@@ -431,6 +431,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
 		break;
 
+	case HALIGN_DISTRIBUTED:
 	case HALIGN_CENTER:
 	case HALIGN_CENTER_ACROSS_SELECTION:
 		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);

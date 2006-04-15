@@ -805,6 +805,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	case HALIGN_RIGHT:
 		gsf_output_printf (output, "\\gnumericPB{\\raggedleft}");
 		break;
+	case HALIGN_DISTRIBUTED:
 	case HALIGN_CENTER:
 	case HALIGN_CENTER_ACROSS_SELECTION:
 		gsf_output_printf (output, "\\gnumericPB{\\centering}");
@@ -828,6 +829,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		case HALIGN_RIGHT:
 			gsf_output_printf (output, "\\gnumbox[r]{");
 			break;
+		case HALIGN_DISTRIBUTED:
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
 			gsf_output_printf (output, "\\gnumbox{");

@@ -515,7 +515,7 @@ sheet_style_init (Sheet *sheet)
 	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
 		gnm_style_set_back_color (default_style,
 			style_color_new_i8 (0x50, 0x50, 0x50));
-		kstyle_set_pattern (default_style, 1);
+		gnm_style_set_pattern (default_style, 1);
 	}
 #endif
 	sheet->style_data->default_style =
