@@ -40,6 +40,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <locale.h>
 
 
 struct _GnmStfExport {
