@@ -94,7 +94,7 @@
 
 #define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
-void wbcg_ ## func arglist				\
+void wbcg_ ## func arglist					\
 {								\
 	WorkbookControlGUIClass *wbcg_class;			\
 								\
@@ -2481,6 +2481,8 @@ wbcg_view_changed (WorkbookControlGUI *wbcg,
 			 0);
 	}
 }
+
+#undef DISCONNECT
 
 /***************************************************************************/
 #include <goffice/graph/gog-data-allocator.h>
