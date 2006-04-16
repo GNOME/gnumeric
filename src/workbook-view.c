@@ -513,12 +513,12 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 {
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
-	g_return_if_fail (wbc->wb_view == NULL);
+	g_return_if_fail (wb_control_view (wbc) == NULL);
 
 	if (wbv->wb_controls == NULL)
 		wbv->wb_controls = g_ptr_array_new ();
 	g_ptr_array_add (wbv->wb_controls, wbc);
-	wbc->wb_view = wbv;
+	g_object_set (G_OBJECT (wbc), "view", wbv, NULL);
 
 	if (wbv->wb != NULL)
 		wb_view_init_control (wbc);
@@ -528,14 +528,14 @@ void
 wb_view_detach_control (WorkbookControl *wbc)
 {
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbc->wb_view));
+	g_return_if_fail (IS_WORKBOOK_VIEW (wb_control_view (wbc)));
 
 	g_ptr_array_remove (wbc->wb_view->wb_controls, wbc);
 	if (wbc->wb_view->wb_controls->len == 0) {
 		g_ptr_array_free (wbc->wb_view->wb_controls, TRUE);
 		wbc->wb_view->wb_controls = NULL;
 	}
-	wbc->wb_view = NULL;
+	g_object_set (G_OBJECT (wbc), "view", NULL, NULL);
 }
 
 static GObjectClass *parent_class;

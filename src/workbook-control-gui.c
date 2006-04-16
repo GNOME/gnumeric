@@ -2411,6 +2411,77 @@ wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
 }
 
+#define DISCONNECT(field)						\
+	if (wbcg->field) {						\
+		g_signal_handler_disconnect (old_wb, wbcg->field);	\
+		wbcg->field = 0;					\
+	}
+
+static void
+wbcg_view_changed (WorkbookControlGUI *wbcg,
+		   G_GNUC_UNUSED GParamSpec *pspec,
+		   Workbook *old_wb)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookView *wbv = wb_control_view (wbc);
+
+	/* Disconnect self because we will need to change data.  */
+	if (wbcg->sig_view_changed) {
+		g_signal_handler_disconnect (wbc, wbcg->sig_view_changed);
+		wbcg->sig_view_changed = 0;
+	}
+
+	if (old_wb) {
+		DISCONNECT (sig_sheet_order);
+		DISCONNECT (sig_notify_uri);
+		DISCONNECT (sig_notify_dirty);
+	}
+
+	if (wbv) {
+		Workbook *wb = wbv->wb;
+
+		wbcg->sig_view_changed =
+			g_signal_connect_object
+			(G_OBJECT (wbc),
+			 "notify::view",
+			 G_CALLBACK (wbcg_view_changed),
+			 wb,
+			 0);
+
+		wbcg->sig_sheet_order =
+			g_signal_connect_object
+			(G_OBJECT (wb),
+			 "sheet-order-changed",
+			 G_CALLBACK (wbcg_sheet_order_changed),
+			 wbcg, G_CONNECT_SWAPPED);
+
+		wbcg->sig_notify_uri =
+			g_signal_connect_object
+			(G_OBJECT (wb),
+			 "notify::uri",
+			 G_CALLBACK (wbcg_update_title),
+			 wbcg, G_CONNECT_SWAPPED);
+
+		wbcg->sig_notify_dirty =
+			g_signal_connect_object
+			(G_OBJECT (wb),
+			 "notify::dirty",
+			 G_CALLBACK (wbcg_update_title),
+			 wbcg, G_CONNECT_SWAPPED);
+
+		wbcg_update_title (wbcg);
+	} else {
+		Workbook *wb = NULL;
+		wbcg->sig_view_changed =
+			g_signal_connect_object
+			(G_OBJECT (wbc),
+			 "notify::view",
+			 G_CALLBACK (wbcg_view_changed),
+			 wb,
+			 0);
+	}
+}
+
 /***************************************************************************/
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-series.h>
@@ -2698,16 +2769,8 @@ wbcg_create (WorkbookControlGUI *wbcg,
 		wb_control_style_feedback (wbc, NULL);
 		cb_zoom_change (sheet, NULL, wbcg);
 	}
-	g_signal_connect_object (G_OBJECT (wbv->wb),
-		"sheet-order-changed",
-		G_CALLBACK (wbcg_sheet_order_changed), wbcg, G_CONNECT_SWAPPED);
-	g_signal_connect_object (G_OBJECT (wbv->wb),
-		"notify::uri",
-		G_CALLBACK (wbcg_update_title), wbcg, G_CONNECT_SWAPPED);
-	g_signal_connect_object (G_OBJECT (wbv->wb),
-		"notify::dirty",
-		G_CALLBACK (wbcg_update_title), wbcg, G_CONNECT_SWAPPED);
-	wbcg_update_title (wbcg);
+
+	wbcg_view_changed (wbcg, NULL, NULL);
 
 	if (optional_screen)
 		gtk_window_set_screen (wbcg_toplevel (wbcg), optional_screen);

@@ -1,5 +1,19 @@
 2006-04-15  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control.c (workbook_control_class_init): Add a
+	"view" property.
+
+	* src/workbook-view.c (wb_view_attach_control,
+	wb_view_detach_control): Use g_object_set instead of poking
+	directly into wbc->wb_view.  That's cleaner and will fire the
+	notify signals.
+
+	* src/workbook-control-gui.c (wbcg_view_changed): Install and
+	disconnect workbook signals here.  Watch changes to "view" (which
+	implies changes to underlying workbook) and reconnect signals.
+	(wbcg_create): Call wbcg_view_changed to update title and watch
+	for changes.
+
 	* src/stf-export.c (gnm_stf_export_class_init): New "locale"
 	property.
 	(stf_export): Switch locale during actual export.

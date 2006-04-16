@@ -164,6 +164,8 @@ Morten:
 	* Fix sorting undo problem.  [#161890]
 	* Add locale choice on text export.  [#123339]
 	* Remove stray "Back" button for text export's one-sheet case.
+	* Fix elusive sheet tab tracking bug after we replaced the initial
+	  pristine workbook by a newly loaded one.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

@@ -610,8 +610,9 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SHEET,
-		 g_param_spec_object ("sheet", "Sheet",
-				      "The sheet in which to search.",
+		 g_param_spec_object ("sheet",
+				      _("Sheet"),
+				      _("The sheet in which to search."),
 				      GNM_SHEET_TYPE,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
