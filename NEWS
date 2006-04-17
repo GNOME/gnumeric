@@ -99,6 +99,7 @@ Morten:
 	* Allow "20041231:103355".
 	* Fix bogus duplicate-accelerator warnings.  [#324692]
 	* Fix criticals relating to toolbar combos for very narrow windows.
+	  [#162498]
 	* Allow vertical toolbars.
 	* Save a bit of memory for function calls.
 	* Fix type confusing in mps importer.
