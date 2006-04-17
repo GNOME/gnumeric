@@ -49,8 +49,7 @@ EXTRA_DIST = \
 	intltool-merge.in	\
 	intltool-update.in	\
 	xmldocs.make 		\
-	omf.make		\
-	GNOME_Gnumeric.server.in.in
+	omf.make
 
 @INTLTOOL_DESKTOP_RULE@
 

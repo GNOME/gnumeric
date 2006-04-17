@@ -1,6 +1,7 @@
 2006-04-16  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric.desktop.in : Add mimetype for MS Office 12.
+	* po/POTFILES.in : add xlsx-read.c
 
 2006-04-16  Jon K Hellan  <hellan@acm.org>
 
