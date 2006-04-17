@@ -1,3 +1,10 @@
+2006-04-16  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c : new.  Basic import and some code that will move to
+	  libgsf for 'Open Package' support.
+	* plugin.xml.in : Add xlsx import.
+	* Makefile.am : ditto.
+
 2006-04-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (halign_to_excel) : add HALIGN_DISTRIBUTED.

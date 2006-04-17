@@ -22,8 +22,6 @@ excel_la_LIBADD  = $(Z_LIBS)
 excel_la_SOURCES =		\
 	boot.c			\
 	boot.h			\
-	excel-xml-read.c	\
-	excel-xml-read.h	\
 	excel.h			\
 	formula-types.h		\
 	ms-excel-biff.h		\
@@ -57,7 +55,12 @@ excel_la_SOURCES =		\
 	crypt-md4.c		\
 	crypt-md4.h		\
 	md5.c			\
-	md5.h
+	md5.h			\
+	\
+	excel-xml-read.c	\
+	excel-xml-read.h	\
+	\
+	xlsx-read.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

@@ -1,3 +1,7 @@
+2006-04-16  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.desktop.in : Add mimetype for MS Office 12.
+
 2006-04-16  Jon K Hellan  <hellan@acm.org>
 
 	* src/stf-export.c: Include locale.h to make it build again.
