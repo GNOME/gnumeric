@@ -263,7 +263,8 @@
 #define BIFF_WQSETT			0x803	/* OO named it and can export it, but does not include it in the docs */
 #define BIFF_WQTABLES			0x804	/* OO named it and can export it, but does not include it in the docs */
 #define BIFF_UNKNOWN_805		0x805	/* No name or docs, seems related to web query see #153260 for sample */
-#define BIFF_UNKNOWN_810		0x810	/* what is this ? */
+#define BIFF_PIVOT_AUTOFORMAT		0x810	/* Seems to contain pivot table autoformat indicies, plus ?? */
+#define BIFF_UNKNOWN_864		0x864	/* seems related to pivot tables */
 #define BIFF_SHEETPROTECTION		0x867	/* OO named it, and has docs */
 #define BIFF_RANGEPROTECTION		0x868	/* OO named it, no docs yet */
 

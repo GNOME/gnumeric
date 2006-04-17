@@ -2618,15 +2618,15 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		MSObj   *obj;
 		char    *author;
 
-		/* docs mention   0x002 == hidden
-		 * real life adds 0x100 == no indicator visible */
-		if (options & 0xefd)
+		/* Docs claim that only 0x2 is valid, all other flags should
+		 * be 0 but we have seen examples with 0x100 'pusiuhendused juuli 2003.xls'
+		 *
+		 * docs mention   0x002 == hidden
+		 * real life adds 0x080 == ???
+		 * real life adds 0x100 == no indicator visible ??? */
+		if (options & 0xe7d)
 			g_warning ("unknown flag on NOTE record %hx", options);
 
-		/* Buggers.
-		 * Docs claim that only 0x2 is valid, all other flags should be 0
-		 * but we have seen examples with 0x100 (pusiuhendused\ juuli\ 2003.xls)
-		 **/
 		author = excel_get_text (esheet->container.importer, q->data + 10, author_len, NULL);
 		d (1, fprintf (stderr,"Comment at %s%d id %d options"
 			      " 0x%x hidden %d by '%s'\n",
@@ -5794,7 +5794,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			excel_read_DV (q, esheet);
 			break;
 
-		case BIFF_UNKNOWN_810:
+		case BIFF_PIVOT_AUTOFORMAT:
 			/* samples/excel/dbfuns.xls has as sample of this record */
 			break;
 
