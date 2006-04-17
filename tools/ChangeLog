@@ -1,3 +1,7 @@
+2006-04-16  Morten Welinder  <terra@gnome.org>
+
+	* check-cvs-binary: Skip files in non-CVS directories.
+
 2005-12-19  Morten Welinder  <terra@gnome.org>
 
 	* import-lpsolve: Replace ftime call with g_get_current_time call.

@@ -43,10 +43,17 @@ my @files;
 	$filename =~ s|^\./||;
 	next if $exceptions{$filename};
 
+	my $dir = $filename;
+	$dir =~ s|[^/]+$||;
+	if (!-d "$dir/CVS") {
+	    # print STDERR "Skipping $dir\n";
+	    next;
+	}
+
 	if ($filename =~ /\.(pgn|gif|jpe?g|xcf)$/) {
 	    # Pictures
 	    push @files, $filename;
-	} elsif ($filename =~ /\.(xls|gnumeric|wb.)$/) {
+	} elsif ($filename =~ /\.(xls|xlsx|ods|gnumeric|wb.|123)$/) {
 	    # Spreadsheets in binary formats.
 	    push @files, $filename;
 	} elsif ($filename =~ /\.(gz)$/) {
@@ -56,7 +63,6 @@ my @files;
     }
     close (*FIND);
 }
-
 
 if (@files) {
     my $filename = undef;
