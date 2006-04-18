@@ -1,3 +1,18 @@
+2006-04-18  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_save_as, wb_view_save,
+	wb_view_sendto): Hold a ref to the workbook while the save is in
+	progress.  Makes #338847 go away, even if the underlying cause has
+	not been fixed.
+
+	* src/wbc-gtk.c (cb_regenerate_window_menu): Safely handle a
+	control that no longer has a view (and thus a workbook).
+
+	* src/workbook-control.c (wb_control_get_workbook): Handle NULL
+	view.
+	* src/workbook-control-gui.c (wbcg_view_changed): Simplify after
+	above change.
+
 2006-04-16  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric.desktop.in : Add mimetype for MS Office 12.

@@ -652,8 +652,8 @@ wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 
 	if (output != NULL) {
 		GError const *save_err;
-
 		g_printerr ("Writing %s\n", uri);
+
 		go_file_saver_save (fs, io_context, wbv, output);
 		if (!gsf_output_is_closed (output))
 			gsf_output_close (output);
@@ -704,6 +704,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
+	g_object_ref (wb);
 	io_context = gnumeric_io_context_new (context);
 
 	go_cmd_context_set_sensitive (context, FALSE);
@@ -721,6 +722,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	if (has_error || has_warning)
 		gnumeric_io_error_display (io_context);
 	g_object_unref (G_OBJECT (io_context));
+	g_object_unref (wb);
 
 	return !has_error;
 }
@@ -748,6 +750,8 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
+	g_object_ref (wb);
+
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
 		fs = go_file_saver_get_default ();
@@ -769,6 +773,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
+	g_object_unref (wb);
 
 	return !has_error;
 }
@@ -838,6 +843,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
+	g_object_ref (wb);
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
 		fs = go_file_saver_get_default ();
@@ -935,6 +941,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 
  out:
 	g_object_unref (G_OBJECT (io_context));
+	g_object_unref (wb);
 
 	return !problem;
 }

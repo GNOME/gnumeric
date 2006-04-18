@@ -181,7 +181,7 @@ Workbook *
 wb_control_get_workbook (WorkbookControl const *wbc)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
-	return wb_view_get_workbook (wbc->wb_view);
+	return wbc->wb_view ? wb_view_get_workbook (wbc->wb_view) : NULL;
 }
 
 Sheet *

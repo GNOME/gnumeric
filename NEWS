@@ -173,6 +173,7 @@ Morten:
 	* Fix elusive sheet tab tracking bug after we replaced the initial
 	  pristine workbook by a newly loaded one.
 	* Fix GUI inconsistency for text import.  [#338694]
+	* Fix crash on save+quit.  [#338847]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

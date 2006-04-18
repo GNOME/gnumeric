@@ -1168,6 +1168,10 @@ cb_regenerate_window_menu (WBCgtk *gtk)
 	GList const *ptr;
 	unsigned i;
 
+	/* This can happen during exit.  */
+	if (!wb)
+		return;
+
 	if (gtk->windows.merge_id != 0)
 		gtk_ui_manager_remove_ui (gtk->ui, gtk->windows.merge_id);
 	gtk->windows.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);

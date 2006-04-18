@@ -2423,13 +2423,18 @@ wbcg_view_changed (WorkbookControlGUI *wbcg,
 		   Workbook *old_wb)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	WorkbookView *wbv = wb_control_view (wbc);
+	Workbook *wb = wb_control_get_workbook (wbc);
 
-	/* Disconnect self because we will need to change data.  */
-	if (wbcg->sig_view_changed) {
+	/* Reconnect self because we need to change data.  */
+	if (wbcg->sig_view_changed)
 		g_signal_handler_disconnect (wbc, wbcg->sig_view_changed);
-		wbcg->sig_view_changed = 0;
-	}
+	wbcg->sig_view_changed =
+		g_signal_connect_object
+		(G_OBJECT (wbc),
+		 "notify::view",
+		 G_CALLBACK (wbcg_view_changed),
+		 wb,
+		 0);
 
 	if (old_wb) {
 		DISCONNECT (sig_sheet_order);
@@ -2437,17 +2442,7 @@ wbcg_view_changed (WorkbookControlGUI *wbcg,
 		DISCONNECT (sig_notify_dirty);
 	}
 
-	if (wbv) {
-		Workbook *wb = wbv->wb;
-
-		wbcg->sig_view_changed =
-			g_signal_connect_object
-			(G_OBJECT (wbc),
-			 "notify::view",
-			 G_CALLBACK (wbcg_view_changed),
-			 wb,
-			 0);
-
+	if (wb) {
 		wbcg->sig_sheet_order =
 			g_signal_connect_object
 			(G_OBJECT (wb),
@@ -2470,15 +2465,6 @@ wbcg_view_changed (WorkbookControlGUI *wbcg,
 			 wbcg, G_CONNECT_SWAPPED);
 
 		wbcg_update_title (wbcg);
-	} else {
-		Workbook *wb = NULL;
-		wbcg->sig_view_changed =
-			g_signal_connect_object
-			(G_OBJECT (wbc),
-			 "notify::view",
-			 G_CALLBACK (wbcg_view_changed),
-			 wb,
-			 0);
 	}
 }
 
