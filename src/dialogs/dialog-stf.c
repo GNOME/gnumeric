@@ -172,61 +172,6 @@ back_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 }
 
 
-static void
-cancel_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
-{
-	if (go_gtk_query_yes_no
-	    (GTK_WINDOW (data->dialog),
-	     FALSE,
-	     _("Are you sure you want to cancel?"))) {
-		data->canceled = TRUE;
-		gtk_widget_destroy (GTK_WIDGET (data->dialog));
-		gtk_main_quit ();
-	}
-}
-
-static void
-finish_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
-{
-	gtk_widget_destroy (GTK_WIDGET (data->dialog));
-	gtk_main_quit ();
-}
-
-/**
- * stf_dialog_window_delete
- *
- * Stops the import and indicates the user has cancelled
- **/
-static gboolean
-stf_dialog_window_delete (G_GNUC_UNUSED GtkDialog *dialog,
-			  G_GNUC_UNUSED GdkEventKey *event,
-			  StfDialogData *data)
-{
-	data->canceled = TRUE;
-	gtk_main_quit ();
-	return TRUE;
-}
-
-/**
- * stf_dialog_check_escape
- *
- * Stops the import if the user pressed escape.
- *
- * returns: TRUE if we handled the keypress, FALSE if we pass it on.
- **/
-static gint
-stf_dialog_check_escape (G_GNUC_UNUSED GtkDialog *dialog,
-			 GdkEventKey *event, StfDialogData *data)
-{
-	if (event->keyval == GDK_Escape) {
-		data->canceled = TRUE;
-		gtk_widget_destroy (GTK_WIDGET (data->dialog));
-		gtk_main_quit ();
-		return TRUE;
-	} else
-		return FALSE;
-}
-
 /**
  * stf_dialog_attach_page_signals
  * @gui: the glade gui of the dialog
@@ -253,22 +198,6 @@ stf_dialog_attach_page_signals (GladeXML *gui, StfDialogData *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->back_button),
 			  "clicked",
 			  G_CALLBACK (back_clicked), pagedata);
-
-	g_signal_connect (G_OBJECT (pagedata->cancel_button),
-			  "clicked",
-			  G_CALLBACK (cancel_clicked), pagedata);
-
-	g_signal_connect (G_OBJECT (pagedata->finish_button),
-			  "clicked",
-			  G_CALLBACK (finish_clicked), pagedata);
-
-	/* And for the surrounding dialog */
-	g_signal_connect (G_OBJECT (pagedata->dialog),
-		"key_press_event",
-		G_CALLBACK (stf_dialog_check_escape), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->dialog),
-		"delete_event",
-		G_CALLBACK (stf_dialog_window_delete), pagedata);
 }
 
 /**
@@ -328,6 +257,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
 	StfDialogData pagedata;
+	GtkResponseType resp;
 
 	g_return_val_if_fail (opt_encoding != NULL || !fixed_encoding, NULL);
 	g_return_val_if_fail (opt_locale != NULL || !fixed_locale, NULL);
@@ -338,8 +268,6 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		"dialog-stf.glade", NULL, NULL);
 	if (gui == NULL)
 		return NULL;
-
-	pagedata.canceled = FALSE;
 
 	pagedata.encoding = g_strdup (opt_encoding);
 	pagedata.fixed_encoding = fixed_encoding;
@@ -372,18 +300,12 @@ stf_dialog (WorkbookControlGUI *wbcg,
 
 	stf_dialog_set_initial_keyboard_focus (&pagedata);
 
-	g_object_ref (pagedata.dialog);
-
 	prepare_page (&pagedata);
 	frob_buttons (&pagedata);
 
-	wbcg_set_transient_for (wbcg, GTK_WINDOW (pagedata.dialog));
-	gtk_widget_show (GTK_WIDGET (pagedata.dialog));
-	gtk_main ();
+	resp = go_gtk_dialog_run (pagedata.dialog, wbcg_toplevel (wbcg));
 
-	if (pagedata.canceled) {
-		dialogresult = NULL;
-	} else {
+	if (resp == GTK_RESPONSE_OK) {
 		dialogresult = g_new (DialogStfResult_t, 1);
 
 		dialogresult->text = pagedata.utf8_data;
@@ -412,6 +334,8 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		pagedata.format.col_import_array = NULL;
 		pagedata.format.col_import_count = 0;
 		pagedata.format.col_import_array_len = 0;
+	} else {
+		dialogresult = NULL;
 	}
 
 	stf_dialog_main_page_cleanup   (&pagedata);
@@ -419,9 +343,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	stf_dialog_fixed_page_cleanup  (&pagedata);
 	stf_dialog_format_page_cleanup (&pagedata);
 
-	gtk_widget_destroy (GTK_WIDGET (pagedata.dialog));
-	g_object_unref (pagedata.dialog);
-	g_object_unref (G_OBJECT (gui));
+	g_object_unref (gui);
 	g_free (pagedata.encoding);
 	g_free (pagedata.locale);
 	g_free (pagedata.utf8_data);

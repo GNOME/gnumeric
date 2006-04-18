@@ -1,3 +1,7 @@
+2006-04-18  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (excel_file_open): Don't leak the meta_data object.
+
 2006-04-16  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c : new.  Basic import and some code that will move to

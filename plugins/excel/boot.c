@@ -195,6 +195,7 @@ excel_file_open (GOFileOpener const *fo, IOContext *context,
 	excel_read_metadata (meta_data, ole, "\05SummaryInformation", context);
 	excel_read_metadata (meta_data, ole, "\05DocumentSummaryInformation", context);
 	go_doc_set_meta_data (GO_DOC (wb), meta_data);
+	g_object_unref (meta_data);
 
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (ole, "\01CompObj");

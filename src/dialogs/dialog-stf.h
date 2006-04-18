@@ -122,7 +122,6 @@ typedef struct {
 	FixedInfo_t           fixed;
 	FormatInfo_t          format;
 
-	gboolean              canceled;   /* Indicates whether the user pressed cancel button */
 	StfParseOptions_t    *parseoptions;
 } StfDialogData;
 

@@ -1,3 +1,8 @@
+2006-04-18  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf.c (stf_dialog): Simplify using go_gtk_dialog_run.
+	Happens to fix #338694.
+
 2006-04-15  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-export.c (stf_export_dialog_finish): Transfer locale
