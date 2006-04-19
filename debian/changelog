@@ -1,3 +1,10 @@
+gnumeric (1.6.3-2) UNRELEASED; urgency=low
+
+  * [debian/po/nl.po] Added, courtesy of Kurt De Bree <kdebree@telenet.be>
+    (Closes: #363043).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 19 Apr 2006 07:12:12 +0200
+
 gnumeric (1.6.3-1) unstable; urgency=medium
 
   * New upstream release.
