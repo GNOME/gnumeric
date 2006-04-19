@@ -926,14 +926,9 @@ sheet_apply_style (Sheet       *sheet,
 		   GnmStyle      *style)
 {
 	SpanCalcFlags spanflags = required_updates_for_style (style);
-
 	sheet_style_apply_range (sheet, range, style);
+	/* This also redraws the range: */
 	sheet_range_calc_spans (sheet, range, spanflags);
-
-	if ((spanflags & SPANCALC_ROW_HEIGHT))
-		rows_height_update (sheet, range, TRUE);
-
-	sheet_redraw_range (sheet, range);
 }
 
 void
@@ -943,8 +938,8 @@ sheet_apply_border (Sheet       *sheet,
 {
 	SpanCalcFlags spanflags = SPANCALC_RE_RENDER | SPANCALC_RESIZE;
 	sheet_style_apply_border (sheet, range, borders);
+	/* This also redraws the range: */
 	sheet_range_calc_spans (sheet, range, spanflags);
-	sheet_redraw_range (sheet, range);
 }
 
 /****************************************************************************/
@@ -1576,28 +1571,14 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 	if (cell_is_merged (cell))
 		return NULL;
 
-	if (cell->rendered_value == NULL) {
-		GnmStyle const *style = sheet_style_get (sheet, col, row);
-
-		/* rendering is expensive.  Unwrapped cells will be the same
-		 * height as their font */
-		if (gnm_style_get_wrap_text (style) ||
-		    gnm_style_get_rotation (style) != 0) {
-			cell_render_value (cell, TRUE);
-			height = cell_rendered_height (cell);
-		} else {
-			GnmFont *font = gnm_style_get_font (style, sheet->context,
-				sheet->last_zoom_factor_used);
-			height = font->height;
-			style_font_unref (font);
-		}
-	} else
-		height = cell_rendered_height (cell);
+	if (cell->rendered_value == NULL)
+		cell_render_value (cell, TRUE);
 
 	/* Do the test after rendering because that may trigger evaluation. */
 	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
 		return NULL;
 
+	height = cell_rendered_height (cell);
 	if (height > data->max)
 		data->max = height;
 

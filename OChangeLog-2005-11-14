@@ -1,5 +1,16 @@
 2006-04-19  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_apply_style): Don't re-fit heights here.
+	Don't redraw twice.
+	(sheet_apply_border): Don't redraw twice.
+	(cb_max_cell_height): Drop cheap hack that didn't work on
+	multi-line text.
+
+	* src/commands.c (cmd_format_undo): Undo in reverse order of redo.
+	(cmd_format_redo): Use colrow_autofit.
+
+2006-04-19  Morten Welinder  <terra@gnome.org>
+
 	* src/commands.c (cmd_set_text_redo): Autofit row heights for
 	string constants.
 

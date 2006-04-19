@@ -176,6 +176,7 @@ Morten:
 	* Fix crash on save+quit.  [#338847]
 	* Auto-fit width when entering new values or formulas.
 	* Auto-fit height when entering string constants.
+	* Fix minor undo problem for applying a height-changing format.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

@@ -1730,6 +1730,8 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 typedef struct {
 	GnmCellPos pos;
 	GnmStyleList *styles;
+	ColRowIndexList *rows;
+	ColRowStateGroup *old_heights;
 } CmdFormatOldStyle;
 
 typedef struct {
@@ -1765,29 +1767,33 @@ cmd_format_undo (GnmCommand *cmd,
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	if (me->old_styles) {
-		GSList *l1 = me->old_styles;
-		GSList *l2 = me->selection;
-		GnmRange const *r;
-		CmdFormatOldStyle *os;
-		SpanCalcFlags flags;
-		gboolean const re_fit_height =
-			me->new_style &&
-			(SPANCALC_ROW_HEIGHT & required_updates_for_style (me->new_style));
+		GSList *rstyles = g_slist_reverse (g_slist_copy (me->old_styles));
+		GSList *rsel = g_slist_reverse (g_slist_copy (me->selection));
+		GSList *l1, *l2;
 
-		for (; l1; l1 = l1->next, l2 = l2->next) {
-			os = l1->data;
-			flags = sheet_style_set_list (me->cmd.sheet,
-				&os->pos, FALSE, os->styles);
+		for (l1 = rstyles, l2 = rsel; l1; l1 = l1->next, l2 = l2->next) {
+			CmdFormatOldStyle *os = l1->data;
+			GnmRange const *r = l2->data;
+			SpanCalcFlags flags = sheet_style_set_list
+				(me->cmd.sheet,
+				 &os->pos, FALSE, os->styles);
 
-			g_return_val_if_fail (l2 && l2->data, TRUE);
+			if (os->old_heights) {
+				colrow_restore_state_group (me->cmd.sheet, FALSE,
+							    os->rows,
+							    os->old_heights);
+				os->old_heights = NULL;
+				colrow_index_list_destroy (os->rows);
+				os->rows = NULL;
+			}
 
-			r = l2->data;
-			if (re_fit_height)
-				rows_height_update (me->cmd.sheet, r, TRUE);
 			sheet_range_calc_spans (me->cmd.sheet, r, flags);
 			sheet_flag_format_update_range (me->cmd.sheet, r);
 		}
+
 		sheet_redraw_all (me->cmd.sheet, FALSE);
+		g_slist_free (rstyles);
+		g_slist_free (rsel);
 	}
 
 	return FALSE;
@@ -1797,7 +1803,8 @@ static gboolean
 cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdFormat *me = CMD_FORMAT (cmd);
-	GSList    *l;
+	GSList *l1, *l2;
+	gboolean re_fit_height;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1806,15 +1813,25 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 					       wbc, _("Changing Format")))
 		return TRUE;
 
-	for (l = me->selection; l; l = l->next) {
+	re_fit_height =	me->new_style &&
+		(SPANCALC_ROW_HEIGHT & required_updates_for_style (me->new_style));
+
+	for (l1 = me->old_styles, l2 = me->selection; l2; l1 = l1->next, l2 = l2->next) {
+		CmdFormatOldStyle *os = l1->data;
+		GnmRange const *r = l2->data;
+
 		if (me->borders)
-			sheet_apply_border (me->cmd.sheet, l->data,
-					    me->borders);
+			sheet_apply_border (me->cmd.sheet, r, me->borders);
 		if (me->new_style) {
 			gnm_style_ref (me->new_style);
-			sheet_apply_style (me->cmd.sheet, l->data, me->new_style);
+			sheet_apply_style (me->cmd.sheet, r, me->new_style);
+			if (re_fit_height)
+				colrow_autofit (me->cmd.sheet, r, FALSE, FALSE,
+						TRUE, FALSE,
+						&os->rows, &os->old_heights);
 		}
-		sheet_flag_format_update_range (me->cmd.sheet, l->data);
+
+		sheet_flag_format_update_range (me->cmd.sheet, r);
 	}
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 	sheet_mark_dirty (me->cmd.sheet);
@@ -1845,9 +1862,9 @@ cmd_format_finalize (GObject *cmd)
 		for (l = me->old_styles ; l != NULL ; l = g_slist_remove (l, l->data)) {
 			CmdFormatOldStyle *os = l->data;
 
-			if (os->styles)
-				style_list_free (os->styles);
-
+			style_list_free (os->styles);
+			colrow_index_list_destroy (os->rows);
+			colrow_state_group_destroy (os->old_heights);
 			g_free (os);
 		}
 		me->old_styles = NULL;
@@ -1893,8 +1910,9 @@ cmd_selection_format (WorkbookControl *wbc,
 
 	me->old_styles = NULL;
 	for (l = me->selection; l; l = l->next) {
+		GnmRange const *sel_r = l->data;
+		GnmRange range = *sel_r;
 		CmdFormatOldStyle *os;
-		GnmRange range = *((GnmRange const *)l->data);
 
 		/* Store the containing range to handle borders */
 		if (borders != NULL) {
@@ -1908,6 +1926,8 @@ cmd_selection_format (WorkbookControl *wbc,
 
 		os->styles = sheet_style_get_list (me->cmd.sheet, &range);
 		os->pos = range.start;
+		os->rows = NULL;
+		os->old_heights = NULL;
 
 		me->cmd.size += g_slist_length (os->styles);
 		me->old_styles = g_slist_append (me->old_styles, os);
@@ -1990,11 +2010,8 @@ cmd_resize_colrow_finalize (GObject *cmd)
 {
 	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
 
-	if (me->selection)
-		me->selection = colrow_index_list_destroy (me->selection);
-
-	if (me->saved_sizes)
-		me->saved_sizes = colrow_state_group_destroy (me->saved_sizes);
+	colrow_index_list_destroy (me->selection);
+	colrow_state_group_destroy (me->saved_sizes);
 
 	gnm_command_finalize (cmd);
 }
