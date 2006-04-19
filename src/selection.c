@@ -584,9 +584,9 @@ sv_selection_set (SheetView *sv, GnmCellPos const *edit,
  */
 void
 sv_selection_add_range (SheetView *sv,
-			 int edit_col, int edit_row,
-			 int base_col, int base_row,
-			 int move_col, int move_row)
+			int edit_col, int edit_row,
+			int base_col, int base_row,
+			int move_col, int move_row)
 {
 	GnmRange *ss;
 	GnmCellPos edit;

@@ -1,5 +1,20 @@
 2006-04-18  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_set_text_redo): Autofit column based on
+	cell's width.
+
+	* src/sheet.c (sheet_col_size_fit_pixels): Take two extra
+	arguments specifying the row interval to look at.  All callers
+	changed.
+	(sheet_row_size_fit_pixels): Similarly.
+
+	* src/colrow.c (colrow_autofit): New primitive to autofit columns
+	or rows based on the size of a range.
+	(rows_height_update): This is now a special case of
+	colrow_autofit.
+
+2006-04-18  Morten Welinder  <terra@gnome.org>
+
 	* src/workbook-view.c (wb_view_save_as, wb_view_save,
 	wb_view_sendto): Hold a ref to the workbook while the save is in
 	progress.  Makes #338847 go away, even if the underlying cause has

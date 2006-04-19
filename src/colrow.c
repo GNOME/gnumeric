@@ -491,8 +491,8 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			if (tmp < 0)
 				/* Fall back to assigning the defaul if it is empty */
 				tmp = (is_cols)
-					? sheet_col_size_fit_pixels (sheet, i)
-					: sheet_row_size_fit_pixels (sheet, i);
+					? sheet_col_size_fit_pixels (sheet, i, 0, SHEET_MAX_ROWS - 1)
+					: sheet_row_size_fit_pixels (sheet, i, 0, SHEET_MAX_COLS - 1);
 
 			if (tmp > 0) {
 				if (is_cols)
@@ -619,32 +619,6 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 	g_slist_free (state_groups);
 }
 
-static gboolean
-cb_autofit_height (ColRowInfo *info, void *sheet)
-{
-	/* If the size was not set by the user then auto resize */
-	if (!info->hard_size) {
-		int const new_size = sheet_row_size_fit_pixels (sheet, info->pos);
-		if (new_size > 0)
-			sheet_row_set_size_pixels (sheet, info->pos, new_size, FALSE);
-	}
-	return FALSE;
-}
-
-static gboolean
-cb_autofit_height_no_shrink (ColRowInfo *info, void *sheet)
-{
-	/* If the size was not set by the user then auto resize */
-	if (!info->hard_size) {
-		int const new_size     = sheet_row_size_fit_pixels (sheet, info->pos);
-		int const default_size = sheet_row_get_default_size_pixels (sheet);
-
-		if (new_size > 0 && new_size > default_size)
-			sheet_row_set_size_pixels (sheet, info->pos, new_size, FALSE);
-	}
-	return FALSE;
-}
-
 /**
  * rows_height_update
  * @sheet:  The sheet,
@@ -659,9 +633,91 @@ rows_height_update (Sheet *sheet, GnmRange const * range, gboolean shrink)
 {
 	/* FIXME : this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also */
-	colrow_foreach (&sheet->rows, range->start.row, range->end.row,
-		shrink ? &cb_autofit_height : &cb_autofit_height_no_shrink,
-		sheet);
+	colrow_autofit (sheet, range, FALSE,
+			FALSE, !shrink,
+			NULL, NULL);
+}
+
+/* ------------------------------------------------------------------------- */
+
+struct cb_autofit {
+	Sheet *sheet;
+	const GnmRange *range;
+	gboolean is_cols;
+	gboolean min_current;
+	gboolean min_default;
+};
+
+static gboolean
+cb_autofit (ColRowInfo *info, void *data_)
+{
+	struct cb_autofit *data = data_;
+	if (info->hard_size)
+		; /* Nothing */
+	else if (data->is_cols) {
+		int size = sheet_col_size_fit_pixels
+			(data->sheet, info->pos,
+			 data->range->start.row, data->range->end.row);
+		/* FIXME: better idea than this?  */
+		int max = 50 * sheet_col_get_default_size_pixels (data->sheet);
+		int min = 0;
+		if (data->min_current) min = MAX (min, info->size_pixels);
+		if (data->min_default) min = MAX (min, sheet_col_get_default_size_pixels (data->sheet));
+		size = MIN (size, max);
+		if (size > min)
+			sheet_col_set_size_pixels (data->sheet, info->pos,
+						   size, FALSE);
+	} else {
+		int size = sheet_row_size_fit_pixels
+			(data->sheet, info->pos,
+			 data->range->start.col, data->range->end.col);
+		int max = 20 * sheet_row_get_default_size_pixels (data->sheet);
+		int min = 0;
+		if (data->min_current) min = MAX (min, info->size_pixels);
+		if (data->min_default) min = MAX (min, sheet_row_get_default_size_pixels (data->sheet));
+		
+		size = MIN (size, max);
+		if (size > min)
+			sheet_row_set_size_pixels (data->sheet, info->pos,
+						   size, FALSE);
+	}
+
+	return FALSE;
+}
+
+
+void
+colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
+		gboolean min_current, gboolean min_default,
+		ColRowIndexList **indices,
+		ColRowStateGroup **sizes)
+{
+	struct cb_autofit data;
+	int a, b;
+	ColRowCollection *crs;
+
+	data.sheet = sheet;
+	data.range = range;
+	data.is_cols = is_cols;
+	data.min_current = min_current;
+	data.min_default = min_default;
+
+	if (is_cols) {
+		a = range->start.col;
+		b = range->end.col;
+		crs = &sheet->cols;
+	} else {
+		a = range->start.row;
+		b = range->end.row;
+		crs = &sheet->rows;
+	}
+
+	if (indices)
+		*indices = colrow_get_index_list (a, b, NULL);
+	if (sizes)
+		*sizes = g_slist_prepend (NULL, colrow_get_states (sheet, is_cols, a, b));
+
+	colrow_foreach (crs, a, b, cb_autofit, &data);
 }
 
 /*****************************************************************************/

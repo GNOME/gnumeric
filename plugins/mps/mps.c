@@ -489,7 +489,7 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 
 
 	/* Autofit column A */
-	i = sheet_col_size_fit_pixels (sh, 0);
+	i = sheet_col_size_fit_pixels (sh, 0, 0, SHEET_MAX_ROWS - 1);
 	if (i == 0)
 	          return;
 	sheet_col_set_size_pixels (sh, 0, i, TRUE);

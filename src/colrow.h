@@ -118,4 +118,13 @@ int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean is_col,
 
 void             rows_height_update		(Sheet *sheet, GnmRange const *range,
 						 gboolean shrink);
+
+void             colrow_autofit                 (Sheet *sheet,
+						 const GnmRange *r,
+						 gboolean is_col,
+						 gboolean min_current,
+						 gboolean min_default,
+						 ColRowIndexList **indices,
+						 ColRowStateList **sizes);
+
 #endif /* GNUMERIC_COLROW_H */

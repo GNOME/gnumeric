@@ -1526,7 +1526,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
  *          or 0 if there are no cells.
  */
 int
-sheet_col_size_fit_pixels (Sheet *sheet, int col)
+sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow)
 {
 	int max = -1;
 	ColRowInfo *ci = sheet_col_get (sheet, col);
@@ -1535,7 +1535,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 
 	sheet_foreach_cell_in_range (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
-		col, 0, col, SHEET_MAX_ROWS-1,
+		col, srow, col, erow,
 		(CellIterFunc)&cb_max_cell_width, &max);
 
 	/* Reset to the default width if the column was empty */
@@ -1594,7 +1594,7 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
  *          or 0 if there are no cells.
  **/
 int
-sheet_row_size_fit_pixels (Sheet *sheet, int row)
+sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol)
 {
 	int max = -1;
 	ColRowInfo const *ri = sheet_row_get (sheet, row);
@@ -1603,8 +1603,8 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 
 	sheet_foreach_cell_in_range (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
-		0, row,
-		SHEET_MAX_COLS-1, row,
+		scol, row,
+		ecol, row,
 		(CellIterFunc)&cb_max_cell_height, &max);
 
 	/* Reset to the default width if the column was empty */

@@ -208,8 +208,10 @@ void    sheet_row_set_default_size_pts	  (Sheet *sheet, double height_pts);
 void    sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels);
 
 /* Find minimum pixel size to display contents (including margins and far grid line) */
-int     sheet_col_size_fit_pixels    (Sheet *sheet, int col);
-int     sheet_row_size_fit_pixels    (Sheet *sheet, int row);
+int     sheet_col_size_fit_pixels    (Sheet *sheet, int col,
+				      int srow, int erow);
+int     sheet_row_size_fit_pixels    (Sheet *sheet, int row,
+				      int scol, int ecol);
 
 gboolean sheet_colrow_can_group	     (Sheet *sheet, GnmRange const *r,
 				      gboolean is_cols);

@@ -779,10 +779,12 @@ typedef struct {
 	GnmCommand cmd;
 
 	GnmEvalPos pos;
-	gchar		*text;
-	PangoAttrList	*markup;
-	gboolean	 has_user_format;
-	GnmCellRegion	*old_contents;
+	gchar *text;
+	PangoAttrList *markup;
+	gboolean has_user_format;
+	GnmCellRegion *old_contents;
+	ColRowIndexList *columns;
+	ColRowStateGroup *old_widths;
 } CmdSetText;
 
 static void
@@ -808,6 +810,15 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENTS | PASTE_FORMATS),
 		GO_CMD_CONTEXT (wbc));
 
+	if (me->old_widths) {
+		colrow_restore_state_group (me->cmd.sheet, TRUE,
+					    me->columns,
+					    me->old_widths);
+		me->old_widths = NULL;
+		colrow_index_list_destroy (me->columns);
+		me->columns = NULL;
+	}
+
 	return FALSE;
 }
 
@@ -815,10 +826,11 @@ static gboolean
 cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
+	GnmRange r;
 	GnmExprTop const *texpr;
 	GnmCell *cell = sheet_cell_fetch (me->pos.sheet,
-				       me->pos.eval.col,
-				       me->pos.eval.row);
+					  me->pos.eval.col,
+					  me->pos.eval.row);
 	sheet_cell_set_text (cell, me->text, me->markup);
 	texpr = cell->base.texpr;
 
@@ -840,6 +852,11 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		}
 	}
 
+	range_init_cellpos (&r, &me->pos.eval, &me->pos.eval);
+	colrow_autofit (me->cmd.sheet, &r, TRUE,
+			TRUE, FALSE,
+			&me->columns, &me->old_widths);
+
 	return FALSE;
 }
 
@@ -852,6 +869,8 @@ cmd_set_text_finalize (GObject *cmd)
 	if (me->markup)
 		pango_attr_list_unref (me->markup);
 	g_free (me->text);
+	colrow_index_list_destroy (me->columns);
+	colrow_state_group_destroy (me->old_widths);
 	gnm_command_finalize (cmd);
 }
 
