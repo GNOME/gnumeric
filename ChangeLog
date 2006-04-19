@@ -1,3 +1,14 @@
+2005-04-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gui-clipboard.c (image_write): sheet_object_write_image takes an
+	extra parameter for export resolution.
+	* src/sheet-control-gui.c (scg_drag_send_image): ditto.
+	* src/sheet-object-image.c (gnm_soi_write_image): ditto.
+	* src/sheet-object-impl.h: ditto.
+	* src/sheet-object.c (sheet_object_write_image): ditto.
+	* src/sheet-object-graph.c (gnm_sog_write_image): ditto.
+	(sog_cb_save_as): ditto. Get resolution from gui_get_image_save_info.
+	
 2006-04-19  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_apply_style): Don't re-fit heights here.

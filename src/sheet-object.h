@@ -108,7 +108,9 @@ void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
 GtkTargetList *sheet_object_get_target_list (SheetObject const *so);
 void sheet_object_write_image 	(SheetObject const *so, 
 				 const char *format,
-				 GsfOutput *output, GError **err);
+				 double resolution,
+				 GsfOutput *output, 
+				 GError **err);
 
 /* Object export */
 GtkTargetList *sheet_object_exportable_get_target_list (SheetObject const *so);

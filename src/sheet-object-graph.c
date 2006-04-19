@@ -222,7 +222,7 @@ gnm_sog_get_object_target_list (SheetObject const *so)
 }
 
 static void
-gnm_sog_write_image (SheetObject const *so, const char *format,
+gnm_sog_write_image (SheetObject const *so, const char *format, double resolution,
 		     GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
@@ -243,9 +243,8 @@ gnm_sog_write_image (SheetObject const *so, const char *format,
 
 	g_return_if_fail (w > 0 && h > 0);
 
-	/* FIXME Add a dpi editor. Default dpi to 150 for now */
 	res = gog_graph_export_image (sog->graph, go_image_get_format_from_name (format),
-				      output, 150.0, 150.0);
+				      output, resolution, resolution);
 	
 	if (!res && err && *err == NULL)
 		*err = g_error_new (gsf_output_error_id (), 0,
@@ -294,6 +293,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 	GOImageFormat selected_format;
 	GOImageFormatInfo const *format_info;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	double resolution;
 
 	g_return_if_fail (sog != NULL);
 
@@ -303,14 +303,14 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 
 #warning "This violates model gui barrier"
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
-	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format);
+	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format, &resolution);
 	if (!uri)
 		goto out;
 	output = go_file_create (uri, &err);
 	if (!output)
 		goto out;
 	format_info = go_image_get_format_info (selected_format);
-	sheet_object_write_image (so, format_info->name, output, &err);
+	sheet_object_write_image (so, format_info->name, resolution, output, &err);
 	g_object_unref (output);
 		
 	if (err != NULL)

@@ -968,12 +968,12 @@ sheet_object_get_target_list (SheetObject const *so)
 }
 
 void
-sheet_object_write_image (SheetObject const *so, const char *format,
+sheet_object_write_image (SheetObject const *so, const char *format, double resolution,
 			  GsfOutput *output, GError **err)
 {
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGEABLE (so));
 
-	SHEET_OBJECT_IMAGEABLE_CLASS (so)->write_image (so, format, 
+	SHEET_OBJECT_IMAGEABLE_CLASS (so)->write_image (so, format, resolution, 
 							output, err);
 
 }

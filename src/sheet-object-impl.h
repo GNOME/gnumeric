@@ -143,7 +143,9 @@ struct _SheetObjectImageableIface {
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
 	void           (*write_image)	  (SheetObject const *so, 
 					   const char *format,
-					   GsfOutput *output, GError **err);
+					   double resolution,
+					   GsfOutput *output, 
+					   GError **err);
 };
 
 /***************************************************************************/

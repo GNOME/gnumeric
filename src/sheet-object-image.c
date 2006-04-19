@@ -383,7 +383,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 }
 
 static void
-gnm_soi_write_image (SheetObject const *so, const char *format,
+gnm_soi_write_image (SheetObject const *so, const char *format, double resolution,
 		     GsfOutput *output, GError **err)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
@@ -429,7 +429,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
-	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt);
+	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt, NULL);
 	if (!uri)
 		goto out;
 
@@ -437,7 +437,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	if (!output)
 		goto out;
 	format_info = go_image_get_format_info (sel_fmt);
-	sheet_object_write_image (so, format_info->name, output, &err);
+	sheet_object_write_image (so, format_info->name, -1.0, output, &err);
 	gsf_output_close (output);
 	g_object_unref (output);
 

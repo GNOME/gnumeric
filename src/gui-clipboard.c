@@ -541,7 +541,7 @@ image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	}
 	output = gsf_output_memory_new ();
 	omem   = GSF_OUTPUT_MEMORY (output);
-	sheet_object_write_image (so, format, output, NULL);
+	sheet_object_write_image (so, format, -1.0, output, NULL);
 	osize = gsf_output_size (output);
 			
 	*size = osize;
