@@ -1,3 +1,12 @@
+2006-04-19  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_set_text_redo): Autofit row heights for
+	string constants.
+
+	* src/sheet.c (sheet_col_size_fit_pixels): Add extra argument to
+	control whether to ignore strings.  All callers changed.
+	(sheet_row_size_fit_pixels): Similarly.
+
 2006-04-18  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_set_text_redo): Autofit column based on

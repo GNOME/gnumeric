@@ -783,8 +783,8 @@ typedef struct {
 	PangoAttrList *markup;
 	gboolean has_user_format;
 	GnmCellRegion *old_contents;
-	ColRowIndexList *columns;
-	ColRowStateGroup *old_widths;
+	ColRowIndexList *columns, *rows;
+	ColRowStateGroup *old_widths, *old_heights;
 } CmdSetText;
 
 static void
@@ -817,6 +817,15 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->old_widths = NULL;
 		colrow_index_list_destroy (me->columns);
 		me->columns = NULL;
+	}
+
+	if (me->old_heights) {
+		colrow_restore_state_group (me->cmd.sheet, FALSE,
+					    me->rows,
+					    me->old_heights);
+		me->old_heights = NULL;
+		colrow_index_list_destroy (me->rows);
+		me->rows = NULL;
 	}
 
 	return FALSE;
@@ -853,9 +862,14 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	}
 
 	range_init_cellpos (&r, &me->pos.eval, &me->pos.eval);
-	colrow_autofit (me->cmd.sheet, &r, TRUE,
-			TRUE, FALSE,
-			&me->columns, &me->old_widths);
+	if (texpr || !VALUE_IS_STRING (cell->value))
+		colrow_autofit (me->cmd.sheet, &r, TRUE, TRUE,
+				TRUE, FALSE,
+				&me->columns, &me->old_widths);
+	else
+		colrow_autofit (me->cmd.sheet, &r, FALSE, FALSE,
+				TRUE, FALSE,
+				&me->rows, &me->old_heights);
 
 	return FALSE;
 }
@@ -870,7 +884,9 @@ cmd_set_text_finalize (GObject *cmd)
 		pango_attr_list_unref (me->markup);
 	g_free (me->text);
 	colrow_index_list_destroy (me->columns);
+	colrow_index_list_destroy (me->rows);
 	colrow_state_group_destroy (me->old_widths);
+	colrow_state_group_destroy (me->old_heights);
 	gnm_command_finalize (cmd);
 }
 

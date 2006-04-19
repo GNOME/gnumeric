@@ -175,6 +175,7 @@ Morten:
 	* Fix GUI inconsistency for text import.  [#338694]
 	* Fix crash on save+quit.  [#338847]
 	* Auto-fit width when entering new values or formulas.
+	* Auto-fit height when entering string constants.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

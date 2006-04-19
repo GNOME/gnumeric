@@ -491,8 +491,8 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			if (tmp < 0)
 				/* Fall back to assigning the defaul if it is empty */
 				tmp = (is_cols)
-					? sheet_col_size_fit_pixels (sheet, i, 0, SHEET_MAX_ROWS - 1)
-					: sheet_row_size_fit_pixels (sheet, i, 0, SHEET_MAX_COLS - 1);
+					? sheet_col_size_fit_pixels (sheet, i, 0, SHEET_MAX_ROWS - 1, FALSE)
+					: sheet_row_size_fit_pixels (sheet, i, 0, SHEET_MAX_COLS - 1, FALSE);
 
 			if (tmp > 0) {
 				if (is_cols)
@@ -633,7 +633,7 @@ rows_height_update (Sheet *sheet, GnmRange const * range, gboolean shrink)
 {
 	/* FIXME : this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also */
-	colrow_autofit (sheet, range, FALSE,
+	colrow_autofit (sheet, range, FALSE, FALSE,
 			FALSE, !shrink,
 			NULL, NULL);
 }
@@ -643,51 +643,89 @@ rows_height_update (Sheet *sheet, GnmRange const * range, gboolean shrink)
 struct cb_autofit {
 	Sheet *sheet;
 	const GnmRange *range;
-	gboolean is_cols;
+	gboolean ignore_strings;
 	gboolean min_current;
 	gboolean min_default;
 };
 
 static gboolean
-cb_autofit (ColRowInfo *info, void *data_)
+cb_autofit_col (ColRowInfo *info, void *data_)
 {
 	struct cb_autofit *data = data_;
+	int size, min, max;
+
 	if (info->hard_size)
-		; /* Nothing */
-	else if (data->is_cols) {
-		int size = sheet_col_size_fit_pixels
-			(data->sheet, info->pos,
-			 data->range->start.row, data->range->end.row);
-		/* FIXME: better idea than this?  */
-		int max = 50 * sheet_col_get_default_size_pixels (data->sheet);
-		int min = 0;
-		if (data->min_current) min = MAX (min, info->size_pixels);
-		if (data->min_default) min = MAX (min, sheet_col_get_default_size_pixels (data->sheet));
-		size = MIN (size, max);
-		if (size > min)
-			sheet_col_set_size_pixels (data->sheet, info->pos,
-						   size, FALSE);
-	} else {
-		int size = sheet_row_size_fit_pixels
-			(data->sheet, info->pos,
-			 data->range->start.col, data->range->end.col);
-		int max = 20 * sheet_row_get_default_size_pixels (data->sheet);
-		int min = 0;
-		if (data->min_current) min = MAX (min, info->size_pixels);
-		if (data->min_default) min = MAX (min, sheet_row_get_default_size_pixels (data->sheet));
-		
-		size = MIN (size, max);
-		if (size > min)
-			sheet_row_set_size_pixels (data->sheet, info->pos,
-						   size, FALSE);
-	}
+		return FALSE;
+
+	size = sheet_col_size_fit_pixels
+		(data->sheet, info->pos,
+		 data->range->start.row, data->range->end.row,
+		 data->ignore_strings);
+	/* FIXME: better idea than this?  */
+	max = 50 * sheet_col_get_default_size_pixels (data->sheet);
+	size = MIN (size, max);
+
+	min = 0;
+	if (data->min_current)
+		min = MAX (min, info->size_pixels);
+	if (data->min_default)
+		min = MAX (min, sheet_col_get_default_size_pixels (data->sheet));
+
+	if (size > min)
+		sheet_col_set_size_pixels (data->sheet, info->pos,
+					   size, FALSE);
 
 	return FALSE;
 }
 
+static gboolean
+cb_autofit_row (ColRowInfo *info, void *data_)
+{
+	struct cb_autofit *data = data_;
+	int size, min, max;
 
+	if (info->hard_size)
+		return FALSE;
+
+	size = sheet_row_size_fit_pixels
+		(data->sheet, info->pos,
+		 data->range->start.col, data->range->end.col,
+		 data->ignore_strings);
+	max = 20 * sheet_row_get_default_size_pixels (data->sheet);
+	size = MIN (size, max);
+
+	min = 0;
+	if (data->min_current)
+		min = MAX (min, info->size_pixels);
+	if (data->min_default)
+		min = MAX (min, sheet_row_get_default_size_pixels (data->sheet));
+		
+	if (size > min)
+		sheet_row_set_size_pixels (data->sheet, info->pos,
+					   size, FALSE);
+
+	return FALSE;
+}
+
+/*
+ * colrow_autofit:
+ * @sheet: the sheet to change
+ * @range: the range to consider
+ * @is_cols: TRUE for columns, FALSE for rows.
+ * @ignore_strings: Don't consider cells with string values.
+ * @min_current: Don't shrink below current size.
+ * @min_default: Don't shrink below default size.
+ * @indices: indices appropriate for colrow_restore_state_group.
+ * @sizes: old sizes appropriate for colrow_restore_state_group.
+ *
+ * This function autofits columns or rows in @range as specified by
+ * @is_cols.  Only cells in @range are considered for the sizing
+ * and the size can be bounded below by current size and/or default
+ * size.
+ */
 void
 colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
+		gboolean ignore_strings,
 		gboolean min_current, gboolean min_default,
 		ColRowIndexList **indices,
 		ColRowStateGroup **sizes)
@@ -695,10 +733,11 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	struct cb_autofit data;
 	int a, b;
 	ColRowCollection *crs;
+	ColRowHandler handler;
 
 	data.sheet = sheet;
 	data.range = range;
-	data.is_cols = is_cols;
+	data.ignore_strings = ignore_strings;
 	data.min_current = min_current;
 	data.min_default = min_default;
 
@@ -706,10 +745,12 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 		a = range->start.col;
 		b = range->end.col;
 		crs = &sheet->cols;
+		handler = cb_autofit_col;
 	} else {
 		a = range->start.row;
 		b = range->end.row;
 		crs = &sheet->rows;
+		handler = cb_autofit_row;
 	}
 
 	if (indices)
@@ -717,7 +758,7 @@ colrow_autofit (Sheet *sheet, const GnmRange *range, gboolean is_cols,
 	if (sizes)
 		*sizes = g_slist_prepend (NULL, colrow_get_states (sheet, is_cols, a, b));
 
-	colrow_foreach (crs, a, b, cb_autofit, &data);
+	colrow_foreach (crs, a, b, handler, &data);
 }
 
 /*****************************************************************************/

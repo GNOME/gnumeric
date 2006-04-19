@@ -1491,26 +1491,36 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	return closure.range;
 }
 
+struct cb_fit {
+	int max;
+	gboolean ignore_strings;
+};
+
 /*
  * Callback for sheet_foreach_cell_in_range to find the maximum width
  * in a range.
  */
 static GnmValue *
 cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
-		   int *max)
+		   struct cb_fit *data)
 {
 	int width;
 
-	if (!cell_is_merged (cell)) {
-		/* Variable width cell must be re-rendered */
-		if (cell->rendered_value == NULL ||
-		    cell->rendered_value->variable_width)
-			cell_render_value (cell, FALSE);
+	if (cell_is_merged (cell))
+		return NULL;
+	/* Variable width cell must be re-rendered */
+	if (cell->rendered_value == NULL ||
+	    cell->rendered_value->variable_width)
+		cell_render_value (cell, FALSE);
 
-		width = cell_rendered_width (cell) + cell_rendered_offset (cell);
-		if (width > *max)
-			*max = width;
-	}
+	/* Do the test after rendering because that may trigger evaluation. */
+	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
+		return NULL;
+
+	width = cell_rendered_width (cell) + cell_rendered_offset (cell);
+	if (width > data->max)
+		data->max = width;
+
 	return NULL;
 }
 
@@ -1518,6 +1528,9 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
  * sheet_col_size_fit_pixels:
  * @sheet: The sheet
  * @col: the column that we want to query
+ * @srow: starting row.
+ * @erow: ending row.
+ * @ignore_strings: skip cells containing string values.
  *
  * This routine computes the ideal size for the column to make the contents all
  * cells in the column visible.
@@ -1526,25 +1539,28 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
  *          or 0 if there are no cells.
  */
 int
-sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow)
+sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow,
+			   gboolean ignore_strings)
 {
-	int max = -1;
+	struct cb_fit data;
 	ColRowInfo *ci = sheet_col_get (sheet, col);
 	if (ci == NULL)
 		return 0;
 
+	data.max = -1;
+	data.ignore_strings = ignore_strings;
 	sheet_foreach_cell_in_range (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
 		col, srow, col, erow,
-		(CellIterFunc)&cb_max_cell_width, &max);
+		(CellIterFunc)&cb_max_cell_width, &data);
 
 	/* Reset to the default width if the column was empty */
-	if (max <= 0)
+	if (data.max <= 0)
 		return 0;
 
 	/* GnmCell width does not include margins or far grid line*/
-	max += ci->margin_a + ci->margin_b + 1;
-	return max;
+	data.max += ci->margin_a + ci->margin_b + 1;
+	return data.max;
 }
 
 /*
@@ -1553,9 +1569,10 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow)
  */
 static GnmValue *
 cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
-		   int *max)
+		    struct cb_fit *data)
 {
 	int height;
+
 	if (cell_is_merged (cell))
 		return NULL;
 
@@ -1577,15 +1594,23 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 	} else
 		height = cell_rendered_height (cell);
 
-	if (height > *max)
-		*max = height;
+	/* Do the test after rendering because that may trigger evaluation. */
+	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
+		return NULL;
+
+	if (height > data->max)
+		data->max = height;
+
 	return NULL;
 }
 
 /**
  * sheet_row_size_fit_pixels:
  * @sheet: The sheet
- * @col: the row that we want to query
+ * @row: the row that we want to query
+ * @scol: starting column.
+ * @ecol: ending column.
+ * @ignore_strings: skip cells containing string values.
  *
  * This routine computes the ideal size for the row to make all data fit
  * properly.
@@ -1594,25 +1619,28 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
  *          or 0 if there are no cells.
  **/
 int
-sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol)
+sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol,
+			   gboolean ignore_strings)
 {
-	int max = -1;
+	struct cb_fit data;
 	ColRowInfo const *ri = sheet_row_get (sheet, row);
 	if (ri == NULL)
 		return 0;
 
+	data.max = -1;
+	data.ignore_strings = FALSE;
 	sheet_foreach_cell_in_range (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
 		scol, row,
 		ecol, row,
-		(CellIterFunc)&cb_max_cell_height, &max);
+		(CellIterFunc)&cb_max_cell_height, &data);
 
 	/* Reset to the default width if the column was empty */
-	if (max <= 0)
+	if (data.max <= 0)
 		return 0;
 
 	/* GnmCell height does not include margins or bottom grid line */
-	return max + ri->margin_a + ri->margin_b;
+	return data.max + ri->margin_a + ri->margin_b;
 }
 
 struct recalc_span_closure {
