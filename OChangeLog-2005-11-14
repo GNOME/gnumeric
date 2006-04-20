@@ -1,3 +1,14 @@
+2006-04-19  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_paste_copy_impl, cmd_autofill_undo,
+	cmd_copyrel_undo, cmd_text_to_columns_impl, cmd_paste_cut_redo,
+	cmd_paste_cut_undo): Simplify using select_range.
+	(cmd_set_text_undo, cmd_set_text_redo): Call select_range.
+	(cmd_clear_undo): Simplify using select_selection.
+	(cmd_clear_redo, cmd_format_redo, cmd_format_undo): Call
+	select_selection.
+	(select_range, select_selection): New functions.
+
 2005-04-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/gui-clipboard.c (image_write): sheet_object_write_image takes an

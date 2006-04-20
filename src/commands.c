@@ -287,7 +287,6 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
  * workbook with the given wbcg (otherwise the results may be strange)
  *
  */
-
 static gboolean
 cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 				   WorkbookControl *wbc, char const *cmd_name)
@@ -299,6 +298,51 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 	}
 	return FALSE;
 }
+
+/*
+ * A helper routine to select a range and make sure the top-left
+ * is visible.
+ */
+static void
+select_range (Sheet *sheet, const GnmRange *r, WorkbookControl *wbc)
+{
+	SheetView *sv = sheet_get_view (sheet, wb_control_view (wbc));
+
+	wb_control_sheet_focus (wbc, sheet);
+	sv_selection_reset (sv);
+	sv_selection_add_range (sv,
+				r->start.col, r->start.row,
+				r->start.col, r->start.row,
+				r->end.col, r->end.row);
+	sv_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
+}
+
+/*
+ * A helper routine to select a list of ranges and make sure the top-left
+ * corner of the last is visible.
+ */
+static void
+select_selection (Sheet *sheet, GSList *selection, WorkbookControl *wbc)
+{
+	SheetView *sv = sheet_get_view (sheet, wb_control_view (wbc));
+	const GnmRange *r0 = NULL;
+	GSList *l;
+
+	g_return_if_fail (selection != NULL);
+
+	wb_control_sheet_focus (wbc, sheet);
+	sv_selection_reset (sv);
+	for (l = selection; l; l = l->next) {
+		const GnmRange *r = l->data;
+		sv_selection_add_range (sv,
+					r->start.col, r->start.row,
+					r->start.col, r->start.row,
+					r->end.col, r->end.row);
+		r0 = r;
+	}
+	sv_make_cell_visible (sv, r0->start.col, r0->start.row, FALSE);
+}
+
 
 static guint
 max_descriptor_width (void)
@@ -828,6 +872,8 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->rows = NULL;
 	}
 
+	select_range (me->cmd.sheet, &r, wbc);
+
 	return FALSE;
 }
 
@@ -870,6 +916,8 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		colrow_autofit (me->cmd.sheet, &r, FALSE, FALSE,
 				TRUE, FALSE,
 				&me->rows, &me->old_heights);
+
+	select_range (me->cmd.sheet, &r, wbc);
 
 	return FALSE;
 }
@@ -1546,7 +1594,6 @@ typedef struct {
 
 	int	 clear_flags;
 	int	 paste_flags;
-	SheetView *sv;
 	GSList	  *old_contents;
 	GSList	  *selection;
 } CmdClear;
@@ -1564,16 +1611,10 @@ cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdClear *me = CMD_CLEAR (cmd);
 	GSList *ranges;
-	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->old_contents != NULL, TRUE);
-
-	sv = sheet_get_view (me->cmd.sheet, wb_control_view (wbc));
-
-	/* reset the selection as a convenience AND to queue a redraw */
-	sv_selection_reset (sv);
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
 		GnmRange const *r = ranges->data;
@@ -1591,12 +1632,10 @@ cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 		cellregion_unref (c);
 		me->old_contents = g_slist_remove (me->old_contents, c);
-		sv_selection_add_range (sv,
-			r->start.col, r->start.row,
-			r->start.col, r->start.row,
-			r->end.col, r->end.row);
 	}
 	g_return_val_if_fail (me->old_contents == NULL, TRUE);
+
+	select_selection (me->cmd.sheet, me->selection, wbc);
 
 	return FALSE;
 }
@@ -1633,6 +1672,8 @@ cmd_clear_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			GO_CMD_CONTEXT (wbc));
 	}
 	me->old_contents = g_slist_reverse (me->old_contents);
+
+	select_selection (me->cmd.sheet, me->selection, wbc);
 
 	return FALSE;
 }
@@ -1796,6 +1837,8 @@ cmd_format_undo (GnmCommand *cmd,
 		g_slist_free (rsel);
 	}
 
+	select_selection (me->cmd.sheet, me->selection, wbc);	
+
 	return FALSE;
 }
 
@@ -1835,6 +1878,8 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	}
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 	sheet_mark_dirty (me->cmd.sheet);
+
+	select_selection (me->cmd.sheet, me->selection, wbc);	
 
 	return FALSE;
 }
@@ -2547,26 +2592,31 @@ typedef struct {
 } PasteContent;
 
 /**
- * cmd_paste_cut_update_origin :
+ * cmd_paste_cut_update :
  *
  * Utility routine to update things when we are transfering between sheets and
  * workbooks.
  */
 static void
-cmd_paste_cut_update_origin (GnmExprRelocateInfo const *info,
-			     G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_paste_cut_update (GnmExprRelocateInfo const *info,
+		      G_GNUC_UNUSED WorkbookControl *wbc)
 {
-	/* Dirty and update both sheets */
-	if (info->origin_sheet != info->target_sheet) {
-		sheet_mark_dirty (info->target_sheet);
+	Sheet *o = info->origin_sheet;
+	Sheet *t = info->target_sheet;
 
-		/* An if necessary both workbooks */
-		if (IS_SHEET (info->origin_sheet) &&
-		    info->origin_sheet->workbook != info->target_sheet->workbook) {
-			if (workbook_autorecalc (info->origin_sheet->workbook))
-				workbook_recalc (info->origin_sheet->workbook);
-			sheet_update (info->origin_sheet);
+	/* Dirty and update both sheets */
+	sheet_mark_dirty (t);
+	if (workbook_autorecalc (t->workbook))
+		workbook_recalc (t->workbook);
+	sheet_update (t);
+
+	if (IS_SHEET (o) && o != t) {
+		sheet_mark_dirty (o);
+		if (o->workbook != t->workbook) {
+			if (workbook_autorecalc (o->workbook))
+				workbook_recalc (o->workbook);
 		}
+		sheet_update (o);
 	}
 }
 
@@ -2617,20 +2667,13 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	/* Force update of the status area */
 	sheet_flag_status_update_range (me->info.target_sheet, NULL);
 
-	/* Select the original region */
-	if (me->move_selection && IS_SHEET (me->info.origin_sheet)) {
-		SheetView *sv = sheet_get_view (me->info.origin_sheet,
-			wb_control_view (wbc));
-		if (sv != NULL)
-			sv_selection_set (sv,
-				  &me->info.origin.start,
-				  me->info.origin.start.col,
-				  me->info.origin.start.row,
-				  me->info.origin.end.col,
-				  me->info.origin.end.row);
-	}
+	cmd_paste_cut_update (&me->info, wbc);
 
-	cmd_paste_cut_update_origin (&me->info, wbc);
+	/* Select the original region */
+	if (me->move_selection && IS_SHEET (me->info.origin_sheet))
+		select_range (me->info.origin_sheet,
+			      &me->info.origin,
+			      wbc);
 
 	return FALSE;
 }
@@ -2639,7 +2682,7 @@ static gboolean
 cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
-	GnmRange  tmp;
+	GnmRange tmp;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_contents == NULL, TRUE);
@@ -2692,7 +2735,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	} else
 		sheet_move_range (&me->info, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
 
-	cmd_paste_cut_update_origin (&me->info, wbc);
+	cmd_paste_cut_update (&me->info, wbc);
 
 	/* Backup row heights and adjust row heights to fit */
 	me->saved_sizes = colrow_get_states (me->info.target_sheet, FALSE, tmp.start.row, tmp.end.row);
@@ -2700,10 +2743,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* Make sure the destination is selected */
 	if (me->move_selection)
-		sv_selection_set (sheet_get_view (me->info.target_sheet, wb_control_view (wbc)),
-				  &tmp.start,
-				  tmp.start.col, tmp.start.row,
-				  tmp.end.col, tmp.end.row);
+		select_range (me->info.target_sheet, &tmp, wbc);
 
 	return FALSE;
 }
@@ -2780,7 +2820,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	me->move_selection = move_selection;
 	me->saved_sizes    = NULL;
 
-	me->cmd.sheet = info->target_sheet;
+	me->cmd.sheet = NULL;  /* we have potentially two different.  */
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = descriptor;
 
@@ -2837,7 +2877,6 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 	GnmCellRegion *contents;
-	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents != NULL, TRUE);
@@ -2870,15 +2909,8 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	me->contents = contents;
 	me->has_been_through_cycle = TRUE;
 
-	/* Make the newly pasted contents the selection (this queues a redraw) */
-	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
-	sv_selection_reset (sv);
-	sv_selection_add_range (sv,
-		me->dst.range.start.col, me->dst.range.start.row,
-		me->dst.range.start.col, me->dst.range.start.row,
-		me->dst.range.end.col, me->dst.range.end.row);
-	sv_make_cell_visible (sv,
-		me->dst.range.start.col, me->dst.range.start.row, FALSE);
+	/* Select the newly pasted contents  (this queues a redraw) */
+	select_range (me->dst.sheet, &me->dst.range, wbc);
 
 	return FALSE;
 }
@@ -3049,7 +3081,7 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
 	gboolean res;
-	SheetView *sv;
+	GnmRange r;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -3062,15 +3094,12 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (res)
 		return TRUE;
 
-	/* Make the newly pasted contents the selection (this queues a redraw) */
-	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
-	sv_selection_reset (sv);
-	sv_selection_add_range (sv,
-		me->base_col, me->base_row,
-		me->base_col, me->base_row,
-		me->base_col + me->w-1,
-		me->base_row + me->h-1);
-	sv_make_cell_visible (sv, me->base_col, me->base_row, FALSE);
+	/* Select the newly pasted contents  (this queues a redraw) */
+	select_range (me->dst.sheet,
+		      range_init (&r, me->base_col, me->base_row,
+				  me->base_col + me->w - 1,
+				  me->base_row + me->h - 1),
+		      wbc);
 
 	return FALSE;
 }
@@ -3079,7 +3108,6 @@ static gboolean
 cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
-	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents == NULL, TRUE);
@@ -3108,18 +3136,12 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			me->base_col, me->base_row, me->w, me->h,
 			me->end_col, me->end_row);
 
-	/* Make the newly filled contents the selection (this queues a redraw) */
-	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
-	sv_selection_reset (sv);
-	sv_selection_add_range (sv,
-		me->base_col, me->base_row,
-		me->base_col, me->base_row,
-		me->end_col, me->end_row);
-
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
-	sv_make_cell_visible (sv, me->base_col, me->base_row, FALSE);
+
+	/* Select the newly pasted contents  (this queues a redraw) */
+	select_range (me->dst.sheet, &me->dst.range, wbc);
 
 	return FALSE;
 }
@@ -3240,7 +3262,6 @@ cmd_copyrel_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdCopyRel *me = CMD_COPYREL (cmd);
 	gboolean res;
-	SheetView *sv;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -3253,16 +3274,8 @@ cmd_copyrel_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (res)
 		return TRUE;
 
-	/* Make the newly pasted contents the selection (this queues a redraw) */
-	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
-	sv_selection_reset (sv);
-	sv_selection_add_range (sv,
-				me->dst.range.start.col, me->dst.range.start.row,
-				me->dst.range.start.col, me->dst.range.start.row,
-				me->dst.range.end.col, me->dst.range.end.row);
-	sv_make_cell_visible (sv,
-			      me->dst.range.start.col, me->dst.range.start.row,
-			      FALSE);
+	/* Select the newly pasted contents  (this queues a redraw) */
+	select_range (me->dst.sheet, &me->dst.range, wbc);
 
 	return FALSE;
 }
@@ -3271,7 +3284,6 @@ static gboolean
 cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdCopyRel *me = CMD_COPYREL (cmd);
-	SheetView *sv;
 	GnmCellRegion *contents;
 	gboolean res;
 
@@ -3294,20 +3306,12 @@ cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (res)
 		return TRUE;
 
-	/* Make the newly filled contents the selection (this queues a redraw) */
-	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
-	sv_selection_reset (sv);
-	sv_selection_add_range (sv,
-				me->dst.range.start.col, me->dst.range.start.row,
-				me->dst.range.start.col, me->dst.range.start.row,
-				me->dst.range.end.col, me->dst.range.end.row);
-
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
-	sv_make_cell_visible (sv,
-			      me->dst.range.start.col, me->dst.range.start.row,
-			      FALSE);
+
+	/* Select the newly pasted contents  (this queues a redraw) */
+	select_range (me->dst.sheet, &me->dst.range, wbc);
 
 	return FALSE;
 }
@@ -5955,11 +5959,10 @@ MAKE_GNM_COMMAND (CmdTextToColumns, cmd_text_to_columns, NULL);
 
 static gboolean
 cmd_text_to_columns_impl (GnmCommand *cmd, WorkbookControl *wbc,
-		     gboolean is_undo)
+			  gboolean is_undo)
 {
 	CmdTextToColumns *me = CMD_TEXT_TO_COLUMNS (cmd);
 	GnmCellRegion *contents;
-	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents != NULL, TRUE);
@@ -5986,15 +5989,8 @@ cmd_text_to_columns_impl (GnmCommand *cmd, WorkbookControl *wbc,
 
 	me->contents = contents;
 
-	/* Make the newly pasted contents the selection (this queues a redraw) */
-	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
-	sv_selection_reset (sv);
-	sv_selection_add_range (sv,
-		me->dst.range.start.col, me->dst.range.start.row,
-		me->dst.range.start.col, me->dst.range.start.row,
-		me->dst.range.end.col, me->dst.range.end.row);
-	sv_make_cell_visible (sv,
-		me->dst.range.start.col, me->dst.range.start.row, FALSE);
+	/* Select the newly pasted contents  (this queues a redraw) */
+	select_range (me->dst.sheet, &me->dst.range, wbc);
 
 	return FALSE;
 }
