@@ -178,6 +178,7 @@ Morten:
 	* Auto-fit height when entering string constants.
 	* Fix minor undo problem for applying a height-changing format.
 	* When undoing or redoing, move to where things happen.  [#114077]
+	* Add tooltips to a few combos.  [#339122]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

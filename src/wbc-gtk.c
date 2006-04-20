@@ -174,6 +174,7 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 				  "name", "Zoom",
 				  "label", _("_Zoom"),
 				  "visible-vertical", FALSE,
+				  "tooltip", _("Zoom"),
 				  NULL);
 #ifdef USE_HILDON
 	go_action_combo_text_set_width (gtk->zoom,  "100000000%");
@@ -677,6 +678,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 				       "case-sensitive", FALSE,
 				       "stock-id", GTK_STOCK_SELECT_FONT,
 				       "visible-vertical", FALSE,
+				       "tooltip", _("Font"),
 				       NULL);
 
 	/* TODO: Create vertical version of this.  */
@@ -736,6 +738,7 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 				       "stock-id", GTK_STOCK_SELECT_FONT,
 				       "visible-vertical", FALSE,
 				       "label", _("Font Size"),
+				       "tooltip", _("Font Size"),
 				       NULL);
 
 	/* TODO: Create vertical version of this.  */

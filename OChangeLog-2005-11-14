@@ -1,3 +1,9 @@
+2006-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_init_zoom, wbc_gtk_init_font_size,
+	wbc_gtk_init_font_name): Add tooltip.  Together with goffice patch,
+	this fixes #339122.
+
 2006-04-19  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_paste_copy_impl, cmd_autofill_undo,
