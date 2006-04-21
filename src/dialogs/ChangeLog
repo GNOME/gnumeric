@@ -1,3 +1,10 @@
+2006-04-20  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (stf_preview_set_lines): Speedup.
+
+	* dialog-stf-csv-page.c (stf_dialog_csv_page_init): Project
+	guessed options onto gui.
+
 2006-04-18  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf.c (stf_dialog): Simplify using go_gtk_dialog_run.

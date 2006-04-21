@@ -176,7 +176,8 @@ stf_preview_set_lines (RenderData_t *renderdata,
 	unsigned int i;
 	int colcount = 1;
 	GnumericLazyList *ll;
-	
+	gboolean hidden;
+
 	g_return_if_fail (renderdata != NULL);
 
 	/* Empty the table.  */
@@ -202,7 +203,16 @@ stf_preview_set_lines (RenderData_t *renderdata,
 		colcount = MAX (colcount, (int)line->len);
 	}
 
-	/* Fix number of columns.  */
+	/*
+	 * If we are making large changes we need to hide the treeview
+	 * because performance other wise suffers a lot.
+	 */
+	hidden = GTK_WIDGET_VISIBLE (GTK_WIDGET (renderdata->tree_view)) &&
+		(colcount < renderdata->colcount - 1 ||
+		 colcount > renderdata->colcount + 10);
+	if (hidden)
+		gtk_widget_hide (GTK_WIDGET (renderdata->tree_view));
+
 	while (renderdata->colcount > colcount)
                gtk_tree_view_remove_column
                        (renderdata->tree_view,
@@ -232,6 +242,9 @@ stf_preview_set_lines (RenderData_t *renderdata,
 	gnumeric_lazy_list_add_column (ll, colcount, G_TYPE_STRING);
 	gtk_tree_view_set_model (renderdata->tree_view, GTK_TREE_MODEL (ll));
 	g_object_unref (ll);
+
+	if (hidden)
+		gtk_widget_show (GTK_WIDGET (renderdata->tree_view));
 }
 
 /**

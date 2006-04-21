@@ -190,6 +190,8 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates),
 				      po->duplicates);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_2x_indicator),
+				      po->indicator_2x_is_single);
 }
 
 
@@ -258,6 +260,7 @@ stf_dialog_csv_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->csv.renderdata    =
 		stf_preview_new (pagedata->csv.csv_data_container,
 				 NULL);
+	csv_page_parseoptions_to_gui (pagedata);
 
 	/* Connect signals */
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_tab),

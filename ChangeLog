@@ -1,5 +1,8 @@
 2006-04-20  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_options_guess): When we guess a space
+	as separators, make two count as one.  Fixes #332997.
+
 	* src/wbc-gtk.c (wbc_gtk_init_zoom, wbc_gtk_init_font_size,
 	wbc_gtk_init_font_name): Add tooltip.  Together with goffice patch,
 	this fixes #339122.

@@ -179,6 +179,7 @@ Morten:
 	* Fix minor undo problem for applying a height-changing format.
 	* When undoing or redoing, move to where things happen.  [#114077]
 	* Add tooltips to a few combos.  [#339122]
+	* Improve stf import format guessing.  [#332997]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
