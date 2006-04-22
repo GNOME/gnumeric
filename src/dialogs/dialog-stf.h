@@ -35,11 +35,12 @@ typedef struct {
 /* for the csv_page */
 typedef struct {
 	GtkCheckButton  *csv_tab, *csv_colon, *csv_comma;
-	GtkCheckButton  *csv_space, *csv_semicolon, *csv_pipe;
-	GtkCheckButton  *csv_slash, *csv_hyphen, *csv_bang;
+	GtkCheckButton  *csv_space, *csv_semicolon;
+	GtkCheckButton  *csv_hyphen;
 	GtkCheckButton  *csv_custom;
 	GtkEntry        *csv_customseparator;
 	GtkCheckButton  *csv_duplicates;
+	GtkCheckButton  *csv_trim_seps;
 	GtkCheckButton  *csv_2x_indicator;
 	GtkWidget       *csv_textindicator;
 	GtkEntry        *csv_textfield;

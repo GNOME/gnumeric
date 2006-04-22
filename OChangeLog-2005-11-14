@@ -1,3 +1,12 @@
+2006-04-21  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_guess): If we guessed a space
+	separator that implies we want initial separators ignored.
+	Further, space implies tab.
+	(stf_parse_options_csv_set_trim_seps): New function.
+	(stf_parse_csv_line): Ignore initial separators if asked to.
+	Fixes #339297.
+
 2006-04-20  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess): When we guess a space

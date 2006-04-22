@@ -71,14 +71,8 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 		g_string_append_c (sepc, ' ');
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_semicolon)))
 		g_string_append_c (sepc, ';');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_pipe)))
-		g_string_append_c (sepc, '|');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_slash)))
-		g_string_append_c (sepc, '/');
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_hyphen)))
 		g_string_append_c (sepc, '-');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_bang)))
-		g_string_append_c (sepc, '!');
 
 	stf_parse_options_csv_set_separators (parseoptions,
 					      strcmp (sepc->str, "") == 0 ? NULL : sepc->str,
@@ -88,6 +82,8 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates)));
+	stf_parse_options_csv_set_trim_seps (parseoptions,
+					     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_trim_seps)));
 
 	lines_chunk = g_string_chunk_new (100 * 1024);
 
@@ -157,10 +153,7 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 		gboolean s_comma = FALSE;
 		gboolean s_space = FALSE;
 		gboolean s_semicolon = FALSE;
-		gboolean s_pipe = FALSE;
-		gboolean s_slash = FALSE;
 		gboolean s_hyphen = FALSE;
-		gboolean s_bang = FALSE;
 
 		if (po->sep.chr)
 			for (sep = po->sep.chr; *sep; sep++) {
@@ -170,10 +163,7 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 				case ',': s_comma = TRUE; break;
 				case ' ': s_space = TRUE; break;
 				case ';': s_semicolon = TRUE; break;
-				case '|': s_pipe = TRUE; break;
-				case '/': s_slash = TRUE; break;
 				case '-': s_hyphen = TRUE; break;
-				case '!': s_bang = TRUE; break;
 				default: break;
 				}
 			}
@@ -182,14 +172,13 @@ csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_comma), s_comma);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_space), s_space);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_semicolon), s_semicolon);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_pipe), s_pipe);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_slash), s_slash);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_hyphen), s_hyphen);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_bang), s_bang);
 	}
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates),
 				      po->duplicates);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_trim_seps),
+				      po->trim_seps);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_2x_indicator),
 				      po->indicator_2x_is_single);
 }
@@ -243,17 +232,15 @@ stf_dialog_csv_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->csv.csv_comma           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_comma"));
 	pagedata->csv.csv_space           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_space"));
 	pagedata->csv.csv_semicolon       = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_semicolon"));
-	pagedata->csv.csv_pipe            = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_pipe"));
-	pagedata->csv.csv_slash           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_slash"));
 	pagedata->csv.csv_hyphen          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_hyphen"));
-	pagedata->csv.csv_bang            = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_bang"));
 	pagedata->csv.csv_custom          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_custom"));
 	pagedata->csv.csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
-	pagedata->csv.csv_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_2x_indicator"));
-	pagedata->csv.csv_textindicator = glade_xml_get_widget (gui, "csv_textindicator");
-	pagedata->csv.csv_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "csv_textfield"));
+	pagedata->csv.csv_2x_indicator    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_2x_indicator"));
+	pagedata->csv.csv_textindicator   = glade_xml_get_widget (gui, "csv_textindicator");
+	pagedata->csv.csv_textfield       = GTK_ENTRY    (glade_xml_get_widget (gui, "csv_textfield"));
 
-	pagedata->csv.csv_duplicates    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));
+	pagedata->csv.csv_duplicates      = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));
+	pagedata->csv.csv_trim_seps       = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_trim_seps"));
 	pagedata->csv.csv_data_container  =                   glade_xml_get_widget (gui, "csv_data_container");
 
 	/* Set properties */
@@ -278,16 +265,7 @@ stf_dialog_csv_page_init (GladeXML *gui, StfDialogData *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_semicolon),
 		"toggled",
 		G_CALLBACK (csv_page_global_change), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->csv.csv_pipe),
-		"toggled",
-		G_CALLBACK (csv_page_global_change), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->csv.csv_slash),
-		"toggled",
-		G_CALLBACK (csv_page_global_change), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_hyphen),
-		"toggled",
-		G_CALLBACK (csv_page_global_change), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->csv.csv_bang),
 		"toggled",
 		G_CALLBACK (csv_page_global_change), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_custom),
@@ -297,6 +275,9 @@ stf_dialog_csv_page_init (GladeXML *gui, StfDialogData *pagedata)
 		"changed",
 		G_CALLBACK (csv_page_global_change), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_duplicates),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->csv.csv_trim_seps),
 		"toggled",
 		G_CALLBACK (csv_page_global_change), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_2x_indicator),

@@ -48,6 +48,7 @@ typedef struct {
 	gunichar             stringindicator;       /* String indicator */
 	gboolean             indicator_2x_is_single;/* 2 quote chars form a single non-terminating quote */
 	gboolean             duplicates;            /* See two text separators as one? */
+	gboolean             trim_seps;             /* Ignore initial seps.  */
      
 	/* Fixed width related */
 	GArray              *splitpositions;        /* Positions where text will be split vertically */
@@ -87,6 +88,8 @@ void stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parse
 							gboolean const indic_2x);
 void stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parseoptions,
 							gboolean const duplicates);
+void stf_parse_options_csv_set_trim_seps               (StfParseOptions_t *parseoptions,
+							gboolean const trim_seps);
 void stf_parse_options_fixed_splitpositions_clear      (StfParseOptions_t *parseoptions);
 void stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parseoptions,
 							int position);

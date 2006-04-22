@@ -1,3 +1,9 @@
+2006-04-21  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-csv-page.c (stf_dialog_csv_page_init): Remove some of
+	the more crazy separators.  Add option to remove initial
+	separators.
+
 2006-04-20  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (stf_preview_set_lines): Speedup.

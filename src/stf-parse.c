@@ -156,9 +156,10 @@ stf_parse_options_new (void)
 	parseoptions->splitpositions = NULL;
 	stf_parse_options_fixed_splitpositions_clear (parseoptions);
 
-	parseoptions->stringindicator        = '"';
+	parseoptions->stringindicator = '"';
 	parseoptions->indicator_2x_is_single = TRUE;
-	parseoptions->duplicates             = FALSE;
+	parseoptions->duplicates = FALSE;
+	parseoptions->trim_seps = FALSE;
 
 	parseoptions->sep.str = NULL;
 	parseoptions->sep.chr = NULL;
@@ -348,6 +349,19 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
 	g_return_if_fail (parseoptions != NULL);
 
 	parseoptions->duplicates = duplicates;
+}
+
+/**
+ * stf_parse_options_csv_set_trim_seps:
+ * @trim_seps : a boolean value indicating whether we want to ignore
+ *               separators at the beginning of lines
+ **/
+void
+stf_parse_options_csv_set_trim_seps (StfParseOptions_t *parseoptions, gboolean const trim_seps)
+{
+	g_return_if_fail (parseoptions != NULL);
+
+	parseoptions->trim_seps = trim_seps;
 }
 
 /**
@@ -641,6 +655,8 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
 	line = g_ptr_array_new ();
+	if (parseoptions->trim_seps)
+		stf_parse_eat_separators (src, parseoptions);
 	while (*src->position != '\0' && !compare_terminator (src->position, parseoptions)) {
 		char *field = stf_parse_csv_cell (src, parseoptions);
 		if (parseoptions->duplicates)
@@ -1390,6 +1406,8 @@ stf_parse_options_guess (const char *data)
 		    count_character (lines, (c = ' '), 0.5) > 0) {
 			char sep[7];
 			sep[g_unichar_to_utf8 (c, sep)] = 0;
+			if (c == ' ')
+				strcat (sep, "\t");
 			stf_parse_options_csv_set_separators (res, sep, NULL);
 		}
 	}
@@ -1401,6 +1419,8 @@ stf_parse_options_guess (const char *data)
 		stf_parse_options_set_trim_spaces (res, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
 		stf_parse_options_csv_set_indicator_2x_is_single (res, TRUE);
 		stf_parse_options_csv_set_duplicates
+			(res, strchr (res->sep.chr, ' ') != NULL);
+		stf_parse_options_csv_set_trim_seps
 			(res, strchr (res->sep.chr, ' ') != NULL);
 
 		stf_parse_options_csv_set_stringindicator (res, '"');
