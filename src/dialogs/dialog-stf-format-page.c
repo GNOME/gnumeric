@@ -27,10 +27,8 @@
 #include <gnm-format.h>
 #include <workbook.h>
 #include <gui-util.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -133,8 +131,8 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 	StfDialogData *pagedata =
 		g_object_get_data (G_OBJECT (togglebutton), "pagedata");
 	gboolean active = gtk_toggle_button_get_active (togglebutton);
-	GtkCellRenderer   *renderer;
-	
+	GtkCellRenderer *renderer;
+
 	g_return_if_fail (i < pagedata->format.col_import_array_len);
 
 	if (pagedata->format.col_import_array[i] == active)
@@ -230,7 +228,7 @@ cb_popup_menu_check_right (GtkWidget *widget, gpointer data)
 	StfDialogData *pagedata = data;
 	
 	check_columns_for_import (pagedata, pagedata->format.index + 1,
-				    pagedata->format.renderdata->colcount - 1);
+				  pagedata->format.renderdata->colcount - 1);
 }
 
 static void
@@ -378,6 +376,46 @@ cb_treeview_button_press (GtkWidget *treeview,
 	return FALSE;
 }
 
+static gint
+cb_treeview_key_press (GtkWidget *treeview,
+		       GdkEventKey *event,
+		       StfDialogData *pagedata)
+{
+	if (event->type == GDK_KEY_PRESS) {
+		switch (event->keyval) {
+		case GDK_Left:
+			if (pagedata->format.index > 0)
+				activate_column (pagedata,
+						 pagedata->format.index - 1);
+			return TRUE;
+
+		case GDK_Right:
+			if (pagedata->format.index + 1 < (int)pagedata->format.formats->len)
+				activate_column (pagedata,
+						 pagedata->format.index + 1);
+			return TRUE;
+
+		case GDK_space:
+		case GDK_Return: {
+			GtkTreeViewColumn *column = stf_preview_get_column
+				(pagedata->format.renderdata,
+				 pagedata->format.index);
+			GtkToggleButton *button =
+				g_object_get_data (G_OBJECT (column),
+						   "checkbox");
+			gtk_toggle_button_set_active
+				(button,
+				 !gtk_toggle_button_get_active (button));
+			return TRUE;
+		}
+
+		default:
+			; /*  Nothing.  */
+		}
+	}
+
+	return FALSE;
+}
 
 /**
  * format_page_update_preview
@@ -672,5 +710,9 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->format.renderdata->tree_view),
 			  "button_press_event",
 			  G_CALLBACK (cb_treeview_button_press),
+			  pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format.renderdata->tree_view),
+			  "key_press_event",
+			  G_CALLBACK (cb_treeview_key_press),
 			  pagedata);
 }
