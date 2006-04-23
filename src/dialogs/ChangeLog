@@ -2,6 +2,7 @@
 
 	* dialog-stf-format-page.c (cb_treeview_key_press): New function
 	improving keyboard navigation.
+	(activate_column): Make sure the column is visible.
 
 2006-04-21  Morten Welinder  <terra@gnome.org>
 

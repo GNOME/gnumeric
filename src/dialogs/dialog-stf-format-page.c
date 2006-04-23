@@ -85,11 +85,33 @@ format_page_trim_menu_changed (G_GNUC_UNUSED GtkMenu *menu,
 	format_page_update_preview (data);
 }
 
+/*
+ * More or less a copy of gtk_tree_view_clamp_column_visible.
+ */
+static void
+tree_view_clamp_column_visible (GtkTreeView       *tree_view,
+				GtkTreeViewColumn *column)
+{
+	GtkAdjustment *hadjustment = gtk_tree_view_get_hadjustment (tree_view);
+	GtkWidget *button = column->button;
+
+	if ((hadjustment->value + hadjustment->page_size) <
+	    (button->allocation.x + button->allocation.width))
+		gtk_adjustment_set_value (hadjustment,
+					  button->allocation.x +
+					  button->allocation.width -
+					  hadjustment->page_size);
+	else if (hadjustment->value > button->allocation.x)
+		gtk_adjustment_set_value (hadjustment,
+					  button->allocation.x);
+}
+
 static void
 activate_column (StfDialogData *pagedata, int i)
 {
 	GOFormat *colformat;
 	GtkCellRenderer *cell;
+	GtkTreeViewColumn *column;
 	RenderData_t *renderdata = pagedata->format.renderdata;
 
 	cell = stf_preview_get_cell_renderer (renderdata,
@@ -101,8 +123,13 @@ activate_column (StfDialogData *pagedata, int i)
 	}
 
 	pagedata->format.index = i;
-	cell = stf_preview_get_cell_renderer (renderdata,
-					      pagedata->format.index);
+
+	column = stf_preview_get_column (renderdata, i);
+	if (column) {
+		tree_view_clamp_column_visible (renderdata->tree_view, column);
+	}
+
+	cell = stf_preview_get_cell_renderer (renderdata, i);
 	if (cell) {
 		g_object_set (G_OBJECT (cell),
 			      "background", "lightgrey",
@@ -384,12 +411,14 @@ cb_treeview_key_press (GtkWidget *treeview,
 	if (event->type == GDK_KEY_PRESS) {
 		switch (event->keyval) {
 		case GDK_Left:
+		case GDK_KP_Left:
 			if (pagedata->format.index > 0)
 				activate_column (pagedata,
 						 pagedata->format.index - 1);
 			return TRUE;
 
 		case GDK_Right:
+		case GDK_KP_Right:
 			if (pagedata->format.index + 1 < (int)pagedata->format.formats->len)
 				activate_column (pagedata,
 						 pagedata->format.index + 1);
