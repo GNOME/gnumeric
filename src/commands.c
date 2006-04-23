@@ -4649,8 +4649,8 @@ cmd_object_format (WorkbookControl *wbc, SheetObject *so,
 
 /******************************************************************/
 
-#define CMD_REORGANIZE_SHEETS2_TYPE        (cmd_reorganize_sheets2_get_type ())
-#define CMD_REORGANIZE_SHEETS2(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_REORGANIZE_SHEETS2_TYPE, CmdReorganizeSheets2))
+#define CMD_REORGANIZE_SHEETS_TYPE        (cmd_reorganize_sheets_get_type ())
+#define CMD_REORGANIZE_SHEETS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_REORGANIZE_SHEETS_TYPE, CmdReorganizeSheets))
 
 typedef struct {
 	GnmCommand cmd;
@@ -4658,35 +4658,46 @@ typedef struct {
 	WorkbookSheetState *old;
 	WorkbookSheetState *new;
 	gboolean first;
-} CmdReorganizeSheets2;
+	Sheet *undo_sheet;
+	Sheet *redo_sheet;
+} CmdReorganizeSheets;
 
-MAKE_GNM_COMMAND (CmdReorganizeSheets2, cmd_reorganize_sheets2, NULL);
+MAKE_GNM_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets, NULL);
 
 static gboolean
-cmd_reorganize_sheets2_undo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_reorganize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	CmdReorganizeSheets2 *me = CMD_REORGANIZE_SHEETS2 (cmd);
+	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
 	workbook_sheet_state_restore (me->wb, me->old);	
+	if (me->undo_sheet) {
+		WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
+			  wb_control_sheet_focus (control, me->undo_sheet););
+	}
 	return FALSE;
 }
 
 static gboolean
-cmd_reorganize_sheets2_redo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_reorganize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	CmdReorganizeSheets2 *me = CMD_REORGANIZE_SHEETS2 (cmd);
+	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
 
 	if (me->first)
 		me->first = FALSE;
-	else
+	else {
 		workbook_sheet_state_restore (me->wb, me->new);	
+		if (me->redo_sheet) {
+			WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
+						       wb_control_sheet_focus (control, me->redo_sheet););
+		}
+	}
 
 	return FALSE;
 }
 
 static void
-cmd_reorganize_sheets2_finalize (GObject *cmd)
+cmd_reorganize_sheets_finalize (GObject *cmd)
 {
-	CmdReorganizeSheets2 *me = CMD_REORGANIZE_SHEETS2 (cmd);
+	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
 
 	if (me->old)
 		workbook_sheet_state_free (me->old);
@@ -4697,17 +4708,20 @@ cmd_reorganize_sheets2_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_reorganize_sheets2 (WorkbookControl *wbc,
-			WorkbookSheetState *old_state)
+cmd_reorganize_sheets (WorkbookControl *wbc,
+		       WorkbookSheetState *old_state,
+		       Sheet *undo_sheet)
 {
-	CmdReorganizeSheets2 *me;
+	CmdReorganizeSheets *me;
 	Workbook *wb = wb_control_get_workbook (wbc);
 
-	me = g_object_new (CMD_REORGANIZE_SHEETS2_TYPE, NULL);
+	me = g_object_new (CMD_REORGANIZE_SHEETS_TYPE, NULL);
 	me->wb = wb;
 	me->old = old_state;
 	me->new = workbook_sheet_state_new (me->wb);
 	me->first = TRUE;
+	me->undo_sheet = undo_sheet;
+	me->redo_sheet = wb_control_cur_sheet (wbc);
 
 	me->cmd.sheet = NULL;
 	me->cmd.size = 1;
@@ -4746,7 +4760,7 @@ cmd_rename_sheet (WorkbookControl *wbc,
 
 	old_state = workbook_sheet_state_new (sheet->workbook);
 	g_object_set (sheet, "name", new_name, NULL);
-	return cmd_reorganize_sheets2 (wbc, old_state);
+	return cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
 /******************************************************************/

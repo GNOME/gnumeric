@@ -177,7 +177,8 @@ Morten:
 	* Auto-fit width when entering new values or formulas.
 	* Auto-fit height when entering string constants.
 	* Fix minor undo problem for applying a height-changing format.
-	* When undoing or redoing, move to where things happen.  [#114077]
+	* When undoing or redoing, move to where things happen. [#114077,
+	  #154705]
 	* Add tooltips to a few combos.  [#339122]
 	* Improve stf import format guessing.  [#332997]
 	* Improve stf import for sloppy clumps of whitespace.  [#339297]

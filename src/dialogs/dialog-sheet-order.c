@@ -761,7 +761,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		n++;
 	}
 
-	cmd_reorganize_sheets2 (wbc, old_state);
+	cmd_reorganize_sheets (wbc, old_state, NULL);
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 

@@ -1,3 +1,11 @@
+2006-04-23  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_reorganize_sheets): Rename from
+	cmd_reorganize_sheets2.  Take extra argument optionally specifying
+	the front sheet before the action.
+	(cmd_reorganize_sheets_undo, cmd_reorganize_sheets_redo): Raise
+	relevant sheet.  Fixes #154705.
+
 2006-04-21  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess): If we guessed a space

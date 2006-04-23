@@ -392,22 +392,23 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 void
 wbcg_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_get_workbook (wbc);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, sheet->index_in_wb);
-	cmd_reorganize_sheets2 (wbc, old_state);
+	cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
 void
 wbcg_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_get_workbook (wbc);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, -1);
-	cmd_reorganize_sheets2 (wbc, old_state);
+	cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
 static void
@@ -436,7 +437,7 @@ scg_delete_sheet_if_possible (G_GNUC_UNUSED GtkWidget *ignored,
 		WorkbookControl *wbc = sc->wbc;
 		workbook_sheet_delete (sheet);
 		/* Careful: sc just ceased to be valid.  */
-		cmd_reorganize_sheets2 (wbc, old_state);
+		cmd_reorganize_sheets (wbc, old_state, sheet);
 	}
 }
 
@@ -619,7 +620,9 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		if (s_src && s_dst && s_src != s_dst) {
 			WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 			workbook_sheet_move (s_src, p_dst - p_src);
-			cmd_reorganize_sheets2 (WORKBOOK_CONTROL (wbcg), old_state);
+			cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg),
+					       old_state,
+					       s_src);
 		}
 	} else {
 

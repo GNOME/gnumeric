@@ -89,8 +89,9 @@ gboolean cmd_objects_move	(WorkbookControl *wbc,
 gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
 				 gpointer orig_style);
 
-gboolean cmd_reorganize_sheets2 (WorkbookControl *wbc,
-				 WorkbookSheetState *old_state);
+gboolean cmd_reorganize_sheets  (WorkbookControl *wbc,
+				 WorkbookSheetState *old_state,
+				 Sheet *undo_sheet);
 
 gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
 				 char const *new_name);
