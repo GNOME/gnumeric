@@ -27,7 +27,6 @@
 #include "expr-impl.h"
 #include "expr-name.h"
 #include "dependent.h"
-#include "gnm-format.h"
 #include "func.h"
 #include "cell.h"
 #include "sheet.h"
@@ -44,6 +43,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <goffice/utils/go-format.h>
 #include <goffice/utils/go-glib-extras.h>
 
 /*

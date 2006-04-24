@@ -1,3 +1,7 @@
+2006-04-24  Morten Welinder  <terra@gnome.org>
+
+	* */*.c: Avoid lots of includes of <gnm-format.h>
+
 2006-04-23  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_reorganize_sheets): Rename from

@@ -770,6 +770,10 @@ gnm_style_is_element_set (GnmStyle const *style, GnmStyleElement elem)
 gboolean
 gnm_style_is_complete (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, FALSE);
+
+	g_assert_not_reached ();
+	return FALSE;
 }
 
 void

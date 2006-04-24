@@ -36,7 +36,6 @@
 #include "dependent.h"
 #include "value.h"
 #include "number-match.h"
-#include "gnm-format.h"
 #include "clipboard.h"
 #include "selection.h"
 #include "ranges.h"
@@ -62,6 +61,7 @@
 #include "pivottable.h"
 #include "scenarios.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-format.h>
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>

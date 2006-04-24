@@ -37,7 +37,6 @@
 #include "validation.h"
 #include "hlink.h"
 #include "input-msg.h"
-#include "gnm-format.h"
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
@@ -60,6 +59,7 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-format.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>

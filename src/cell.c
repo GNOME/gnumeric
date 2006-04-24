@@ -20,11 +20,11 @@
 #include "str.h"
 #include "style.h"
 #include "ranges.h"
-#include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-style.h"
 #include "parse-util.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-format.h>
 
 #define USE_CELL_POOL 1
 

@@ -27,8 +27,8 @@
 #include "sheet.h"
 #include "value.h"
 #include "number-match.h"
-#include "gnm-format.h"
 #include "func-builtin.h"
+#include <goffice/utils/go-format.h>
 
 #include <string.h>
 #include <glib.h>

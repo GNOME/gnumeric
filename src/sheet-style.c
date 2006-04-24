@@ -25,7 +25,6 @@
 #include "ranges.h"
 #include "sheet.h"
 #include "expr.h"
-#include "gnm-format.h"
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"

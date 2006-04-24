@@ -78,10 +78,11 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	    rv->might_overflow &&
 	    !rv->numeric_overflow) {
 		char const *text = pango_layout_get_text (layout);
-		/* This assumes that hash marks are wider than
+		size_t textlen = strlen (text);
+		/* This assumes that two hash marks are wider than
 		   the characters in the number.  Probably ok.  */
 		pango_layout_set_text (layout, hashes,
-				       MIN (sizeof (hashes) - 1, strlen (text)));
+				       MIN (sizeof (hashes) - 1, 2 * textlen));
 		rv->numeric_overflow = TRUE;
 		rv->variable_width = TRUE;
 		rv->hfilled = TRUE;

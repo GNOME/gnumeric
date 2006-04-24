@@ -31,12 +31,12 @@
 #include "workbook.h"
 #include "workbook-cmd-format.h"
 #include "commands.h"
-#include "gnm-format.h"
 #include "cmd-edit.h"
 #include "clipboard.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-format.h>
 #include <string.h>
 
 #define SCROLL_LOCK_MASK GDK_MOD5_MASK

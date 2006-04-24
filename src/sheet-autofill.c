@@ -19,12 +19,12 @@
 #include "sheet-style.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "gnm-format.h"
 #include "gnm-datetime.h"
 #include "mstyle.h"
 #include "ranges.h"
 #include "sheet-merge.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-format.h>
 
 #include <string.h>
 #include <errno.h>
