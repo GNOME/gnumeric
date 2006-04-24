@@ -1,3 +1,9 @@
+2006-04-24  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_read_cells): Ignore cells beyond
+	SHEET_MAX_COLS x SHEET_MAX_ROWS.
+	(cb_remove_style): Fix crash.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
