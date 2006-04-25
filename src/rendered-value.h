@@ -16,7 +16,6 @@ struct _RenderedValue {
 	/* In pixels:  */
 	guint16 indent_left, indent_right;
 
-	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	GOColor go_fore_color;
 
 	guint effective_halign : 8; /* 7 bits would be enough.  */

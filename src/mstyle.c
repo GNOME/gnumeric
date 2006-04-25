@@ -981,7 +981,6 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context, float zoom)
 		((GnmStyle *)style)->font_zoom = zoom;
 	}
 
-	style_font_ref (style->font);
 	return style->font;
 }
 
@@ -1498,7 +1497,6 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 	{
 		GnmFont *font = gnm_style_get_font (style, context, zoom);
 		add_attr (l, pango_attr_font_desc_new (font->pango.font_descr));
-		style_font_unref (font);
 	}
 
 	add_attr (l, pango_attr_scale_new (zoom));

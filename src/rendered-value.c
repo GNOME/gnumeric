@@ -78,7 +78,6 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 		if (indent) {
 			GnmFont *style_font = gnm_style_get_font (mstyle, context, zoom);
 			indent *= style_font->approx_width.pixels.digit;
-			style_font_unref (style_font);
 		}
 	}
 	return MIN (indent, 65535);
@@ -154,7 +153,6 @@ rendered_value_render (GString *str,
 #endif
 					col_width = cell_width / wdigit;
 				}
-				style_font_unref (style_font);
 			}
 		}
 		format_value_gstring (str, format, cell->value, go_color,

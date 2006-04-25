@@ -278,17 +278,17 @@ ensure_decoration_layout (PrintJobInfo *pj)
 	if (!pj->decoration_layout) {
 		PangoLayout *layout = gnome_print_pango_create_layout (pj->print_context);
 		/*
-		 * Copy the style so we don't leave a cached GnmFont in the prefs
-		 * object.
+		 * Copy the style so we don't leave a cached GnmFont in the
+		 * prefs object.
 		 */
 		GnmStyle *style = gnm_style_dup (gnm_app_prefs->printer_decoration_font);
-		GnmFont *font = gnm_style_get_font (style,
-						 pango_layout_get_context (layout),
-						 1.);
+		GnmFont *font = gnm_style_get_font
+			(style,
+			 pango_layout_get_context (layout),
+			 1.);
 
 		pj->decoration_layout = layout;
 		pango_layout_set_font_description (layout, font->pango.font_descr);
-		style_font_unref (font);
 		gnm_style_unref (style);
 	}
 	return pj->decoration_layout;

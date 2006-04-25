@@ -574,6 +574,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 			sheet_style_get (sheet, ie->pos.col, ie->pos.row));
 		ie->gfont = gnm_style_get_font (ie->style,
 			sheet->context, sheet->last_zoom_factor_used);
+		style_font_ref (ie->gfont);
 
 		if (gnm_style_get_align_h (ie->style) == HALIGN_GENERAL)
 			gnm_style_set_align_h (ie->style, HALIGN_LEFT);
