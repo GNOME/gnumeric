@@ -1,3 +1,8 @@
+2006-04-25  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_get_font): Don't ref the font.  All
+	callers changed.
+
 2006-04-24  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Avoid lots of includes of <gnm-format.h>
