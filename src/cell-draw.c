@@ -79,6 +79,9 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	    !rv->numeric_overflow) {
 		char const *text = pango_layout_get_text (layout);
 		size_t textlen = strlen (text);
+#if 0
+		g_print ("nat=%d  w=%d  i=%d\n", rv->layout_natural_width, width, indent);
+#endif
 		/* This assumes that two hash marks are wider than
 		   the characters in the number.  Probably ok.  */
 		pango_layout_set_text (layout, hashes,
