@@ -184,6 +184,7 @@ Morten:
 	* Improve stf import for sloppy clumps of whitespace.  [#339297]
 	* Improve stf import's keyboard navigation.
 	* Fix applix import issue.  [#339190]
+	* Fix critical.  [#339793]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

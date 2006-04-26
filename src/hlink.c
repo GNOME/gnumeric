@@ -154,8 +154,15 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 	Sheet	  *target_sheet;
 	Sheet	  *sheet = wb_control_cur_sheet      (wbc);
 	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
-	GnmValue *target = value_new_cellrange_str (sheet, lnk->target);
+	GnmValue *target;
 
+	if (!lnk->target) {
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+			_("Link target"), _("(none)"));
+		return FALSE;
+	}
+
+	target = value_new_cellrange_str (sheet, lnk->target);
 	/* not an address, is it a name ? */
 	if (target == NULL) {
 		GnmParsePos pp;
