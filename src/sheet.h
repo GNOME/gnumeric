@@ -186,6 +186,7 @@ void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
  */
 /* Col width */
 double  sheet_col_get_distance_pts	  (Sheet const *sheet, int from_col, int to_col);
+int     sheet_col_get_distance_pixels     (Sheet const *sheet, int from_col, int to_col);
 void    sheet_col_set_size_pts		  (Sheet *sheet, int col, double width_pts,
 					   gboolean set_by_user);
 void    sheet_col_set_size_pixels	  (Sheet *sheet, int col, int width_pixels,

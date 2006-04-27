@@ -20,11 +20,12 @@
 #include "str.h"
 #include "style.h"
 #include "ranges.h"
+#include "gnm-format.h"
+#include "number-match.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-style.h"
 #include "parse-util.h"
 #include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-format.h>
 
 #define USE_CELL_POOL 1
 
@@ -600,6 +601,117 @@ cell_get_rendered_text  (GnmCell *cell)
 	return g_strdup (rendered_value_get_text (cell->rendered_value));
 }
 
+/**
+ * cell_get_render_color:
+ * @cell: the cell from which we want to pull the color from
+ *
+ * The returned value is a pointer to a PangoColor describing
+ * the foreground colour.
+ */
+GOColor
+cell_get_render_color (GnmCell const *cell)
+{
+	g_return_val_if_fail (cell != NULL, 0);
+
+	/* A precursor to just in time rendering Ick! */
+	if (cell->rendered_value == NULL)
+		cell_render_value ((GnmCell *)cell, TRUE);
+
+	return cell->rendered_value->go_fore_color;
+}
+
+/**
+ * cell_get_entered_text:
+ * @cell: the cell from which we want to pull the content from
+ *
+ * This returns a g_malloc()ed region of memory with a text representation
+ * of the cell contents.
+ *
+ * This will return a text expression if the cell contains a formula, or
+ * a string representation of the value.
+ */
+char *
+cell_get_entered_text (GnmCell const *cell)
+{
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	if (cell_has_expr (cell)) {
+		GnmParsePos pp;
+		GString *res = g_string_new ("=");
+
+		gnm_expr_top_as_gstring (res, cell->base.texpr,
+					 parse_pos_init_cell (&pp, cell),
+					 cell->base.sheet->convs);
+		return g_string_free (res, FALSE);
+	}
+
+	if (cell->value != NULL) {
+		if (VALUE_IS_STRING (cell->value)) {
+			/* Try to be reasonably smart about adding a leading quote */
+			char const *tmp = cell->value->v_str.val->str;
+
+			if (tmp[0] != '\'' && !gnm_expr_char_start_p (tmp)) {
+				GnmValue *val = format_match_number (tmp,
+					cell_get_format	(cell),
+					workbook_date_conv (cell->base.sheet->workbook));
+				if (val == NULL)
+					return g_strdup (tmp);
+				value_release (val);
+			}
+			return g_strconcat ("\'", tmp, NULL);
+		}
+		return format_value (NULL, cell->value, NULL, -1,
+			workbook_date_conv (cell->base.sheet->workbook));
+	}
+
+	g_warning ("A cell with no expression, and no value ??");
+	return g_strdup ("<ERROR>");
+}
+
+
+/*
+ * Return the height of the rendered layout after rotation.
+ */
+int
+cell_rendered_height (GnmCell const *cell)
+{
+	const RenderedValue *rv;
+
+	g_return_val_if_fail (cell != NULL, 0);
+
+	rv = cell->rendered_value;
+	if (!rv)
+		return 0;
+
+	return PANGO_PIXELS (cell->rendered_value->layout_natural_height);
+}
+
+/*
+ * Return the width of the rendered layout after rotation.
+ */
+int
+cell_rendered_width (GnmCell const *cell)
+{
+	const RenderedValue *rv;
+
+	g_return_val_if_fail (cell != NULL, 0);
+
+	rv = cell->rendered_value;
+	if (!rv)
+		return 0;
+
+	return PANGO_PIXELS (cell->rendered_value->layout_natural_width);
+}
+
+int
+cell_rendered_offset (GnmCell const * cell)
+{
+	if (!cell || !cell->rendered_value)
+		return 0;
+
+	return (cell->rendered_value->indent_left +
+		cell->rendered_value->indent_right);
+}
 
 GnmStyle *
 cell_get_mstyle (GnmCell const *cell)

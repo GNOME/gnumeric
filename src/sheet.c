@@ -3978,6 +3978,41 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 }
 
 /**
+ * sheet_col_get_distance_pixels:
+ *
+ * Return the number of pixels between from_col to to_col
+ * measured from the upper left corner.
+ */
+int
+sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
+{
+	gboolean neg;
+	int pixels = 0;
+	int i;
+
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
+
+	neg = (from > to);
+	if (neg) {
+		int const tmp = to;
+		to = from;
+		from = tmp;
+	}
+
+	g_return_val_if_fail (from >= 0, 1);
+	g_return_val_if_fail (to <= SHEET_MAX_COLS, 1);
+
+	/* Do not use colrow_foreach, it ignores empties */
+	for (i = from ; i < to ; ++i) {
+		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
+		if (ci->visible)
+			pixels += ci->size_pixels;
+	}
+
+	return neg ? -pixels : pixels;
+}
+
+/**
  * sheet_col_set_size_pts:
  * @sheet:	 The sheet
  * @col:	 The col

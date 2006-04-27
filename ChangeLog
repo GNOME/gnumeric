@@ -1,5 +1,24 @@
 2006-04-26  Morten Welinder  <terra@gnome.org>
 
+	* src/style.c (gnm_font_metrics_new, gnm_font_metrics_free,
+	gnm_font_metrics_unit): New font metrics setup.
+
+	* src/sheet.c (sheet_col_get_distance_pixels): New function.
+
+	* src/cell.c (cell_get_render_color, cell_get_entered_text,
+	cell_rendered_height, cell_rendered_width, cell_rendered_offset):
+	Moved from src/rendered-value.c.
+
+	* src/gnm-format.c (gnm_format_layout, gnm_format_general): New
+	functions.
+	(format_value_gstring): Use gnm_format_general.
+
+	* src/rendered-value.c (rendered_value_render): Calculate column
+	widths in pixels and use gnm_format_layout to get accurate
+	rendering.  Take layout instead of string.
+	(rendered_value_new): Set attributes before the call to
+	rendered_value_render.
+
 	* src/hlink.c (gnm_hlink_cur_wb_activate): Prevent a critical.
 	#339793.
 

@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include <goffice/utils/go-format.h>
+#include <pango/pango.h>
 
 char  *format_value	    (GOFormat const *format,
 			     GnmValue const *value, GOColor *go_color,
@@ -10,7 +11,16 @@ char  *format_value	    (GOFormat const *format,
 void   format_value_gstring (GString *result,
 			     GOFormat const *format,
 			     GnmValue const *value, GOColor *go_color,
-			     double col_width, GODateConventions const *date_conv);
+			     double col_width,
+			     GODateConventions const *date_conv);
+
+void   gnm_format_layout    (PangoLayout *result,
+			     GnmFontMetrics *metrics,
+			     GOFormat const *format,
+			     GnmValue const *value, GOColor *go_color,
+			     int col_width,
+			     GODateConventions const *date_conv,
+			     gboolean unicode_minus);
 
 /*
  * http://www.unicode.org/charts/PDF/U0080.pdf

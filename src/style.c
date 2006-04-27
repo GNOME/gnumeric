@@ -51,7 +51,7 @@ get_substitute_font (gchar const *fontname)
 {
 	int i;
 
-	static char const *map[][2] = {
+	static char const * const map[][2] = {
 		{ "Times New Roman", "Times"},
 		{ "Tms Rmn",	     "Times"},
 		{ "Arial",           "Sans"},
@@ -74,42 +74,58 @@ get_substitute_font (gchar const *fontname)
 	return NULL;
 }
 
-static int
-style_font_string_width (PangoLayout *layout, char const *str)
+GnmFontMetrics *
+gnm_font_metrics_new (PangoContext *context, PangoFontDescription *font_descr)
 {
-	int w;
-	pango_layout_set_text (layout, str, -1);
-	pango_layout_get_pixel_size (layout, &w, NULL);
-	return w;
-}
+	PangoLayout *layout = pango_layout_new (context);
+	GnmFontMetrics *res = g_new0 (GnmFontMetrics, 1);
+	int i, sumw = 0;
 
-static double
-calc_font_width (PangoLayout *layout, char const *teststr)
-{
-	char const *p1, *p2;
-	int w = 0, w1, w2, dw;
-	char buf[3];
+	pango_layout_set_font_description (layout, font_descr);
+	res->min_digit_width = INT_MAX;
+	for (i = 0; i <= 9; i++) {
+		char c = '0' + i;
+		int w;
 
-	for (p1 = teststr; *p1; p1++) {
-		buf[0] = *p1;
-		buf[1] = 0;
-		w1 = style_font_string_width (layout, buf);
-		for (p2 = teststr; *p2; p2++) {
-			buf[1] = *p2;
-			buf[2] = 0;
-			w2 = style_font_string_width (layout, buf);
-			dw = w2 - w1;
-			if (dw > w) {
-				w = dw;
-#ifdef DEBUG_FONT_WIDTH
-				fprintf (stderr, "   %s = %d", buf, w);
-#endif
-			}
-		}
+		pango_layout_set_text (layout, &c, 1);
+		pango_layout_get_size (layout, &w, NULL);
+
+		res->digit_widths[i] = w;
+
+		w = MAX (w, PANGO_SCALE);  /* At least one pixel.  */
+		res->min_digit_width = MIN (w, res->min_digit_width);
+		res->max_digit_width = MAX (w, res->max_digit_width);
+		sumw += w;
 	}
+	res->avg_digit_width = (sumw + 5) / 10;
 
-	return w;
+	pango_layout_set_text (layout, "-", -1);
+	pango_layout_get_size (layout, &res->hyphen_width, NULL);
+
+	pango_layout_set_text (layout, "\xe2\x88\x92", -1);
+	pango_layout_get_size (layout, &res->minus_width, NULL);
+
+	pango_layout_set_text (layout, "+", -1);
+	pango_layout_get_size (layout, &res->plus_width, NULL);
+
+	pango_layout_set_text (layout, "E", -1);
+	pango_layout_get_size (layout, &res->E_width, NULL);
+
+	g_object_unref (layout);
+
+	return res;
 }
+
+void
+gnm_font_metrics_free (GnmFontMetrics *metrics)
+{
+	g_free (metrics);
+}
+
+static GnmFontMetrics gnm_font_metrics_unit_var;
+
+/* All widths == 1.  */
+const GnmFontMetrics *gnm_font_metrics_unit = &gnm_font_metrics_unit_var;
 
 
 static GnmFont *
@@ -138,11 +154,7 @@ style_font_new_simple (PangoContext *context,
 
 	font = (GnmFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (font == NULL) {
-		PangoFontDescription	*desc;
-		PangoFontMetrics	*metrics;
-		PangoLayout		*layout;
-		double pts_scale;
-		int height;
+		PangoFontDescription *desc;
 
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
@@ -183,34 +195,8 @@ style_font_new_simple (PangoContext *context,
 		}
 
 		font->pango.font_descr = pango_font_description_copy (desc);
-
-		metrics = pango_font_get_metrics (font->pango.font,
-				gtk_get_default_language ());
-		height = pango_font_metrics_get_ascent (metrics) +
-			 pango_font_metrics_get_descent (metrics);
-		font->height = PANGO_PIXELS (height);
-		pango_font_metrics_unref (metrics);
-
-		layout = pango_layout_new (context);
-		pango_layout_set_font_description (layout,
-			font->pango.font_descr);
-
-		pts_scale = 72. / (gnm_app_display_dpi_get (TRUE) * scale);
-		/* TODO : ?? Can we pango_font_metrics_get_approximate_digit_width */
-		font->approx_width.pts.digit = pts_scale *
-			(font->approx_width.pixels.digit = calc_font_width (layout, "0123456789"));
-		font->approx_width.pts.decimal = pts_scale *
-			(font->approx_width.pixels.decimal = calc_font_width (layout, ".,"));
-		font->approx_width.pixels.hash = pts_scale *
-			(font->approx_width.pixels.hash = calc_font_width (layout, "#"));
-		font->approx_width.pixels.sign = pts_scale *
-			(font->approx_width.pixels.sign = calc_font_width (layout, "-+"));
-		font->approx_width.pixels.E = pts_scale *
-			(font->approx_width.pixels.E = calc_font_width (layout, "E"));
-		font->approx_width.pixels.e = pts_scale *
-			(font->approx_width.pixels.e = calc_font_width (layout, "e"));
-		g_object_unref (layout);
-
+		font->metrics = gnm_font_metrics_new (context,
+						      font->pango.font_descr);
 		g_hash_table_insert (style_font_hash, font, font);
 	} else
 		font->ref_count++;
@@ -307,6 +293,10 @@ style_font_unref (GnmFont *sf)
 		pango_font_description_free (sf->pango.font_descr);
 		sf->pango.font_descr = NULL;
 	}
+	if (sf->metrics) {
+		gnm_font_metrics_free (sf->metrics);
+		sf->metrics = NULL;
+	}
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);
 	g_free (sf);
@@ -376,6 +366,7 @@ font_init (void)
 {
 	PangoContext *context;
 	GnmFont *gnumeric_default_font = NULL;
+	double pts_scale = 72. / gnm_app_display_dpi_get (TRUE);
 
 	gnumeric_default_font_name = g_strdup (gnm_app_prefs->default_font.name);
 	gnumeric_default_font_size = gnm_app_prefs->default_font.size;
@@ -411,7 +402,8 @@ font_init (void)
 		}
 	}
 
-	gnumeric_default_font_width = gnumeric_default_font->approx_width.pts.digit;
+	gnumeric_default_font_width = pts_scale *
+		PANGO_PIXELS (gnumeric_default_font->metrics->avg_digit_width);
 	style_font_unref (gnumeric_default_font);
 	g_object_unref (G_OBJECT (context));
 }
@@ -426,6 +418,18 @@ font_shutdown (void)
 void
 style_init (void)
 {
+	int i;
+
+	gnm_font_metrics_unit_var.min_digit_width = 1;
+	gnm_font_metrics_unit_var.max_digit_width = 1;
+	gnm_font_metrics_unit_var.avg_digit_width = 1;
+	gnm_font_metrics_unit_var.hyphen_width = 1;
+	gnm_font_metrics_unit_var.minus_width = 1;
+	gnm_font_metrics_unit_var.plus_width = 1;
+	gnm_font_metrics_unit_var.E_width = 1;
+	for (i = 0; i <= 9; i++)
+		gnm_font_metrics_unit_var.digit_widths[i] = 1;
+
 	style_font_hash = g_hash_table_new (style_font_hash_func,
 					    style_font_equal);
 	style_font_negative_hash = g_hash_table_new (style_font_hash_func,

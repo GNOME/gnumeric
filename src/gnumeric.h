@@ -92,6 +92,7 @@ typedef GList   			ColRowIndexList;
 typedef struct _ColRowIndexSet          ColRowIndexSet;
 
 typedef struct _GnmFont	        	GnmFont;
+typedef struct _GnmFontMetrics        	GnmFontMetrics;
 typedef struct _GnmColor	        GnmColor;
 typedef struct _GnmBorder	        GnmBorder;
 typedef struct _GnmStyle		GnmStyle;

@@ -185,6 +185,8 @@ Morten:
 	* Improve stf import's keyboard navigation.
 	* Fix applix import issue.  [#339190]
 	* Fix critical.  [#339793]
+	* Make "General" format pixel-perfect.
+	* Fix zoomed rendering issue.  [#310492]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.
