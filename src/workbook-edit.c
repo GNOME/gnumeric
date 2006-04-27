@@ -39,6 +39,8 @@
 #include <string.h>
 #include <goffice/utils/format-impl.h>
 
+#define GNM_RESPONSE_REMOVE -1000
+
 /*
  * Shuts down the auto completion engine
  */
@@ -683,6 +685,12 @@ guess_time_format (GString *res, gnm_float f)
 	}
 }
 
+static void
+cb_warn_toggled (GtkToggleButton *button, gboolean *b)
+{
+	*b = gtk_toggle_button_get_active (button);
+}
+
 /**
  * wbcg_edit_start:
  *
@@ -709,6 +717,8 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	 * FIXME!  static?  At worst this should sit in wbcg.
 	 */
 	static gboolean inside_editing = FALSE;
+	/* We could save this, but the situation is rare, if confusing.  */
+	static gboolean warn_on_text_format = TRUE;
 	SheetView *sv;
 	SheetControlGUI *scg;
 	GnmCell *cell;
@@ -752,9 +762,59 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		return FALSE;
 	}
 
+	cell = sheet_cell_get (sv->sheet, col, row);
+	if (cell &&
+	    warn_on_text_format &&
+	    go_format_is_text (cell_get_format (cell)) &&
+	    (cell_has_expr (cell) || !VALUE_IS_STRING (cell->value))) {
+		GtkResponseType res;
+		GtkWidget *check;
+		GtkWidget *align;
+
+		GtkWidget *d = gnumeric_message_dialog_new
+			(wbcg_toplevel (wbcg),
+			 GTK_DIALOG_DESTROY_WITH_PARENT,
+			 GTK_MESSAGE_WARNING,
+			 _("You are about to edit a cell with \"text\" format."),
+			 _("The cell does not currently contain text, though, so if "
+			   "you go on editing then the contents will be turned into "
+			   "text."));
+		gtk_dialog_add_button (GTK_DIALOG (d), GTK_STOCK_EDIT, GTK_RESPONSE_OK);
+		go_gtk_dialog_add_button
+			(GTK_DIALOG (d), _("Remove format"), GTK_STOCK_REMOVE,
+			 GNM_RESPONSE_REMOVE);
+		gtk_dialog_add_button (GTK_DIALOG (d), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_CANCEL);
+		
+		check = gtk_check_button_new_with_label (_("Show this dialog next time."));
+		g_signal_connect (check, "toggled", G_CALLBACK (cb_warn_toggled), &warn_on_text_format);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
+		align = gtk_alignment_new (0.5, 0.5, 0, 0);
+		gtk_container_add (GTK_CONTAINER (align), check);
+		gtk_widget_show_all (align);
+		gtk_box_pack_end_defaults (GTK_BOX (GTK_DIALOG (d)->vbox), align);
+		res = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
+
+		switch (res) {
+		case GNM_RESPONSE_REMOVE: {
+			GnmStyle *style = gnm_style_new ();
+			gnm_style_set_format (style, go_format_general ());
+			if (!cmd_selection_format (WORKBOOK_CONTROL (wbcg),
+						   style, NULL, NULL))
+				break;
+			/* Fall through.  */
+		}
+		default:
+		case GTK_RESPONSE_CANCEL:
+			inside_editing = FALSE;
+			return FALSE;
+		case GTK_RESPONSE_OK:
+			break;
+		}
+	}
+
 	gnm_app_clipboard_unant ();
 
-	cell = sheet_cell_get (sv->sheet, col, row);
 	if (blankp)
 		gtk_entry_set_text (wbcg_get_entry (wbcg), "");
 	else if (cell != NULL) {

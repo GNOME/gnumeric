@@ -949,13 +949,12 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 		gtk_misc_set_alignment (GTK_MISC (label), 0.0 , 0.0);
-		gtk_misc_set_alignment (GTK_MISC (label), 0.0 , 0.0);
 		gtk_box_set_spacing (GTK_BOX (hbox), 12);
 		gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 		gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 12);
 		gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-		gtk_window_set_resizable (GTK_WINDOW(dialog), FALSE);
+		gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 		gtk_widget_show_all (GTK_WIDGET (GTK_DIALOG (dialog)->vbox));
 	}
 

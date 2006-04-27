@@ -1,5 +1,8 @@
 2006-04-27  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (wbcg_edit_start): Issue a warning if the
+	cell has text format, but contains anything but a string.
+
 	* src/wbc-gtk.c (wbc_gtk_init_zoom): Add stock_id.  Not a perfect
 	match, but close enough.
 
