@@ -175,6 +175,7 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 				  "label", _("_Zoom"),
 				  "visible-vertical", FALSE,
 				  "tooltip", _("Zoom"),
+				  "stock-id", GTK_STOCK_ZOOM_IN,
 				  NULL);
 #ifdef USE_HILDON
 	go_action_combo_text_set_width (gtk->zoom,  "100000000%");
