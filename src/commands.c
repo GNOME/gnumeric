@@ -6365,69 +6365,6 @@ cmd_freeze_panes (WorkbookControl *wbc, SheetView *sv,
 /******************************************************************/
 
 
-#define CMD_CLONE_SHEET_TYPE        (cmd_clone_sheet_get_type ())
-#define CMD_CLONE_SHEET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CLONE_SHEET_TYPE, CmdCloneSheet))
-
-typedef struct {
-	GnmCommand cmd;
-	Sheet *new_sheet;
-} CmdCloneSheet;
-
-static void
-cmd_clone_sheet_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
-{
-	cmd_clone_sheet (wbc, wb_control_cur_sheet (wbc));
-}
-MAKE_GNM_COMMAND (CmdCloneSheet, cmd_clone_sheet, cmd_clone_sheet_repeat);
-
-static gboolean
-cmd_clone_sheet_undo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdCloneSheet *me = CMD_CLONE_SHEET (cmd);
-	return !command_undo_sheet_delete (me->new_sheet);
-}
-
-static gboolean
-cmd_clone_sheet_redo (GnmCommand *cmd, WorkbookControl *wbc)
-{
-	CmdCloneSheet *me = CMD_CLONE_SHEET (cmd);
-     	
-	me->new_sheet = sheet_dup (me->cmd.sheet);
-	workbook_sheet_attach_at_pos (me->cmd.sheet->workbook,
-				      me->new_sheet, 
-				      me->cmd.sheet->index_in_wb + 1);
-	g_object_unref (me->new_sheet);
-	wbcg_focus_cur_scg (WORKBOOK_CONTROL_GUI(wbc));
-
-	return FALSE;
-}
-
-static void
-cmd_clone_sheet_finalize (GObject *cmd)
-{
-	gnm_command_finalize (cmd);
-}
-
-gboolean
-cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet)
-{
-	CmdCloneSheet *me;
-
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-
-	me = g_object_new (CMD_CLONE_SHEET_TYPE, NULL);
-
-	me->cmd.sheet = sheet;
-	me->cmd.size = 1;
-
-	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Duplicating %s"), sheet->name_unquoted);
-
-	return command_push_undo (wbc, G_OBJECT (me));
-}
-/******************************************************************/
-
-
 #define CMD_TABULATE_TYPE        (cmd_tabulate_get_type ())
 #define CMD_TABULATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_TABULATE_TYPE, CmdTabulate))
 
@@ -6464,9 +6401,10 @@ cmd_tabulate_undo (GnmCommand *cmd, WorkbookControl *wbc)
 				       cmd_reorganize_sheets_delete_cmp_f);
 
 	for (l = me->sheet_idx; l != NULL; l = l->next) {
-		Sheet *new_sheet 
-			= workbook_sheet_by_index (wb_control_get_workbook (wbc), 
-						   GPOINTER_TO_INT (l->data));
+		int i = GPOINTER_TO_INT (l->data);
+		Sheet *new_sheet =
+			workbook_sheet_by_index (wb_control_get_workbook (wbc),
+						 i);
 		res = res && command_undo_sheet_delete (new_sheet);
 	}
 	return !res;

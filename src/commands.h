@@ -143,8 +143,6 @@ gboolean cmd_solver (WorkbookControl *wbc,
 gboolean cmd_goal_seek (WorkbookControl *wbc,
 			GnmCell *cell, GnmValue *ov, GnmValue *nv);
 
-gboolean cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet);
-
 gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,  

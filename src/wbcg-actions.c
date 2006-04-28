@@ -346,13 +346,6 @@ static GNM_ACTION_DEF (cb_sheet_remove)
 		scg_delete_sheet_if_possible (NULL, scg);
 }
 
-static GNM_ACTION_DEF (cb_edit_duplicate_sheet)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *old_sheet = wb_control_cur_sheet (wbc);
-	cmd_clone_sheet (wbc, old_sheet);
-}
-
 #ifdef USE_HILDON
 static GNM_ACTION_DEF (cb_edit_undo) { command_undo (WORKBOOK_CONTROL (wbcg)); }
 static GNM_ACTION_DEF (cb_edit_redo) { command_redo (WORKBOOK_CONTROL (wbcg)); }
@@ -1701,7 +1694,7 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (wbcg_append_sheet) },
 	{ "EditDuplicateSheet", NULL, N_("_Duplicate"),
 		NULL, N_("Make a copy of the current sheet"),
-		G_CALLBACK (cb_edit_duplicate_sheet) },
+		G_CALLBACK (wbcg_clone_sheet) },
 	{ "SheetRemove", NULL, N_("_Remove"),
 		NULL, N_("Irrevocably remove an entire sheet"),
 		G_CALLBACK (cb_sheet_remove) },

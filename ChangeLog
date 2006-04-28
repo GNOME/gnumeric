@@ -1,5 +1,13 @@
 2006-04-27  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_clone_sheet): Remove.
+
+	* src/wbcg-actions.c (cb_edit_duplicate_sheet): Remove.
+
+	* src/workbook-control-gui.c (wbcg_clone_sheet): New function,
+	based on cmd_reorganize_sheets.
+	(sheet_action_clone_sheet): Just call wbcg_clone_sheet.
+
 	* src/workbook-edit.c (wbcg_edit_start): Issue a warning if the
 	cell has text format, but contains anything but a string.
 

@@ -410,6 +410,22 @@ wbcg_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
+void
+wbcg_clone_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	Workbook *wb = sheet->workbook;
+	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
+	Sheet *new_sheet = sheet_dup (sheet);
+	workbook_sheet_attach_at_pos (wb, new_sheet, sheet->index_in_wb + 1);
+	/* See workbook_sheet_add:  */
+	g_signal_emit_by_name (G_OBJECT (wb), "sheet_added", 0);
+	cmd_reorganize_sheets (wbc, old_state, sheet);
+	g_object_unref (new_sheet);
+}
+
+
 static void
 sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
@@ -449,9 +465,7 @@ sheet_action_rename_sheet (GtkWidget *widget, SheetControlGUI *scg)
 static void
 sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
-	SheetControl *sc = (SheetControl *) scg;
-
-	cmd_clone_sheet (WORKBOOK_CONTROL (scg->wbcg), sc->sheet);
+	wbcg_clone_sheet (NULL, scg->wbcg);
 }
 
 static void
