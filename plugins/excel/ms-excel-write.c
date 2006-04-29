@@ -34,6 +34,7 @@
 #include <position.h>
 #include <style-color.h>
 #include <cell.h>
+#include <cellspan.h>
 #include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-object.h>
@@ -2199,7 +2200,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		return;
 
 	if ((fmt = VALUE_FMT (cell->value)) != NULL) {
-		style = cell_get_style (cell);
+		style = cell_get_mstyle (cell);
 
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
