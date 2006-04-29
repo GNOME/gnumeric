@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sc.c - file import of SC/xspread files
  * Copyright 1999 Jeff Garzik <jgarzik@mandrakesoft.com>
@@ -16,6 +17,7 @@
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
 #include <goffice/utils/go-glib-extras.h>
+#include "sheet-style.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "parse-util.h"
@@ -140,6 +142,16 @@ sc_parse_coord (char const **strdata, int *col, int *row)
 }
 
 
+static void
+set_h_align (GnmCell const *cell, GnmHAlign ha)
+{
+	GnmRange r;
+	GnmStyle *style = gnm_style_new ();
+	gnm_style_set_align_h (style, ha);
+	r.start = r.end = cell->pos;
+	sheet_style_apply_range	(cell->base.sheet, &r, style);
+}
+
 static gboolean
 sc_parse_label (ScParseState *state, char const *cmd, char const *str, int col, int row)
 {
@@ -147,7 +159,6 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str, int col, 
 	char *s = NULL, *tmpout;
 	char const *tmpstr;
 	gboolean result = FALSE;
-	sc_string_cmd_t cmdtype;
 
 	g_return_val_if_fail (state, FALSE);
 	g_return_val_if_fail (state->sheet, FALSE);
@@ -183,24 +194,13 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str, int col, 
 	cell_set_text (cell, s);
 
 	if (strcmp (cmd, "leftstring") == 0)
-		cmdtype = LEFTSTRING;
+		set_h_align (cell, HALIGN_LEFT);
 	else if (strcmp (cmd, "rightstring") == 0)
-		cmdtype = RIGHTSTRING;
+		set_h_align (cell, HALIGN_RIGHT);
+#if 0
 	else
 		cmdtype = LABEL;
-
-	if (cmdtype == LEFTSTRING || cmdtype == RIGHTSTRING) {
-		GnmStyle *mstyle;
-
-		mstyle = cell_get_mstyle (cell);
-		if (!mstyle)
-			goto err_out;
-
-		if (cmdtype == LEFTSTRING)
-			gnm_style_set_align_h (mstyle, HALIGN_LEFT);
-		else
-			gnm_style_set_align_h (mstyle, HALIGN_RIGHT);
-	}
+#endif
 
 	result = TRUE;
 	/* fall through */
