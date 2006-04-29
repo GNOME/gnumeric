@@ -221,7 +221,7 @@ sylk_rtd_c_parse (SylkReadState *state, char *str)
 			state->col - 1, state->row - 1);
 
 		if (val != NULL) {
-			GnmStyle *style = sheet_style_get (state->sheet,
+			GnmStyle const *style = sheet_style_get (state->sheet,
 				state->col - 1, state->row - 1);
 			value_set_fmt (val, gnm_style_get_format (style));
 		}

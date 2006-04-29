@@ -1,3 +1,8 @@
+2006-04-29  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c (sylk_rtd_c_parse) : add some const safety to
+	  sheet_style_get.
+
 2005-11-14  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.1
