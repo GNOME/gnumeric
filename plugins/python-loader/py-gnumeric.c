@@ -1277,7 +1277,7 @@ py_Cell_get_gnm_style_method (py_Cell_object *self, PyObject *args)
 		return NULL;
 	}
 
-	return py_new_Style_const_object (cell_get_style (self->cell));
+	return py_new_Style_const_object (cell_get_mstyle (self->cell));
 }
 
 static PyObject *

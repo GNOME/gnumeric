@@ -5,6 +5,7 @@ plugins/gb/plugin.xml.in
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
+src/test-harness.c
 gnumeric.desktop.in
 plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
