@@ -29,6 +29,7 @@
 #include "roff.h"
 #include "font.h"
 #include "cell.h"
+#include "cellspan.h"
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
 
@@ -49,7 +50,7 @@ roff_fprintf (GsfOutput *output, GnmCell *cell)
 	if (cell_is_empty (cell))
 		return 0;
 
-	style = cell_get_style (cell);
+	style = cell_get_mstyle (cell);
 	if (style != NULL && gnm_style_get_contents_hidden (style))
 		return 0;
 
@@ -121,7 +122,7 @@ roff_file_save (GOFileSaver const *fs, IOContext *io_context,
 				if (!cell) {
 					gsf_output_printf (output, "l");
 				} else {
-					GnmStyle const *style = cell_get_style (cell);
+					GnmStyle const *style = cell_get_mstyle (cell);
 					if (!style)
 						break;
 					if (gnm_style_get_align_h (style) & HALIGN_RIGHT)

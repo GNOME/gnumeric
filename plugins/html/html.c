@@ -38,6 +38,7 @@
 #include "sheet-merge.h"
 #include "value.h"
 #include "font.h"
+#include "cellspan.h"
 #include <goffice/app/error-info.h>
 #include "style-border.h"
 #include <rendered-value.h>

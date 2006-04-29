@@ -55,6 +55,7 @@
 #include <sheet-style.h>
 #include <parse-util.h>
 #include <rendered-value.h>
+#include <cellspan.h>
 
 #include <locale.h>
 #include <gsf/gsf-output.h>
@@ -716,7 +717,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	StyleBorderType right_border = STYLE_BORDER_NONE;
 
 	/* Print the cell according to its style. */
-	GnmStyle const *style = cell_get_style (cell);
+	GnmStyle const *style = cell_get_mstyle (cell);
 	gboolean hidden = gnm_style_get_contents_hidden (style);
 
 	g_return_if_fail (style != NULL);
