@@ -9,3 +9,6 @@ plugins/gb/plugin.xml.in
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
+#
+# and this is a test program intended to have arbitrary content.
+src/test-harness.c
