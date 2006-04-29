@@ -1542,7 +1542,7 @@ put_color_gnm (ExcelWriteState *ewb, GnmColor const *c)
  * Add colors in mstyle to palette
  **/
 static void
-put_colors (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
+put_colors (GnmStyle const *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	unsigned i, j;
 	GnmBorder const *b;
@@ -1879,7 +1879,7 @@ put_efont (ExcelWriteFont *efont, ExcelWriteState *ewb)
 	return two_way_table_put (twt, efont, TRUE, (AfterPutFunc) after_put_font, NULL);
 }
 static void
-put_style_font (GnmStyle *style, gconstpointer dummy, ExcelWriteState *ewb)
+put_style_font (GnmStyle const *style, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	put_efont (excel_font_new (style), ewb);
 }
@@ -2035,7 +2035,7 @@ formats_get_index (ExcelWriteState *ewb, GOFormat const *format)
 	return two_way_table_key_to_idx (ewb->formats.two_way_table, format);
 }
 static void
-put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
+put_format (GnmStyle const *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	two_way_table_put (ewb->formats.two_way_table,
 		go_format_ref (gnm_style_get_format (mstyle)), TRUE,
@@ -2145,7 +2145,7 @@ xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 }
 
 static GArray *
-txomarkup_new (ExcelWriteState *ewb, PangoAttrList *markup, GnmStyle *style)
+txomarkup_new (ExcelWriteState *ewb, PangoAttrList *markup, GnmStyle const *style)
 {
 	PangoAttrIterator *iter = pango_attr_list_get_iterator (markup);
 	GArray *txo = g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
@@ -2191,15 +2191,15 @@ static void
 cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 {
 	int index;
-	GnmStyle  *style;
-	GOFormat *fmt;
-	GnmString *str;
+	GnmStyle const	*style;
+	GOFormat	*fmt;
+	GnmString	*str;
 
 	if (cell_has_expr (cell) || cell->value == NULL)
 		return;
 
 	if ((fmt = VALUE_FMT (cell->value)) != NULL) {
-		style = cell_get_mstyle (cell);
+		style = cell_get_style (cell);
 
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
@@ -2217,11 +2217,11 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		 * current style.  Otherwise an entry like '10:00' gets loaded
 		 * as a raw number.  */
 		else if (go_format_is_general (gnm_style_get_format (style))) {
-			style = gnm_style_dup (style);
-			gnm_style_set_format (style, fmt);
+			GnmStyle *tmp = gnm_style_dup (style);
+			gnm_style_set_format (tmp, fmt);
 			g_hash_table_insert (ewb->xf.value_fmt_styles,
 				(gpointer)cell,
-				sheet_style_find (cell->base.sheet, style));
+				sheet_style_find (cell->base.sheet, tmp));
 		}
 	}
 
@@ -2238,9 +2238,9 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 }
 
 static void
-cb_accum_styles (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
+cb_accum_styles (GnmStyle const *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	two_way_table_put (ewb->xf.two_way_table, st, TRUE, NULL, NULL);
+	two_way_table_put (ewb->xf.two_way_table, (gpointer)st, TRUE, NULL, NULL);
 }
 static void
 gather_styles (ExcelWriteState *ewb)
@@ -2368,7 +2368,7 @@ rotation_to_excel_v8 (int rotation)
  * others. Can we use the actual default style as XF 0?
  **/
 static void
-get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *parentst)
+get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle const *parentst)
 {
 	int i;
 
@@ -2688,7 +2688,7 @@ excel_write_XFs (ExcelWriteState *ewb)
 	TwoWayTable *twt = ewb->xf.two_way_table;
 	unsigned nxf = twt->idx_to_key->len;
 	unsigned i;
-	GnmStyle *st;
+	BiffXFData xfd;
 
 	/* it is more compact to just spew the default representations than
 	 * to store a readable form, and generate the constant data. */
@@ -2761,9 +2761,7 @@ excel_write_XFs (ExcelWriteState *ewb)
 
 	/* now write our styles */
 	for (; i < nxf + twt->base; i++) {
-		BiffXFData xfd;
-		st = xf_get_mstyle (ewb, i);
-		build_xf_data (ewb, &xfd, st);
+		build_xf_data (ewb, &xfd, xf_get_mstyle (ewb, i));
 		d (3, log_xf_data (ewb, &xfd, i););
 		excel_write_XF (ewb->bp, ewb, &xfd);
 	}
@@ -4310,7 +4308,7 @@ static guint32
 excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			 GArray *dbcells)
 {
-	GnmStyle *style;
+	GnmStyle const *style;
 	ExcelWriteState *ewb = esheet->ewb;
 	int col, row, max_row, max_col = esheet->max_col;
 	unsigned  ri_start [2]; /* Row info start */

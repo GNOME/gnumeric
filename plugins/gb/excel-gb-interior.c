@@ -100,7 +100,7 @@ palette_from_color (GnmColor *color)
 
 
 static void
-real_set_style (Sheet *sheet, GnmRange *range, GnmStyle *style)
+real_set_style (Sheet *sheet, GnmRange *range, GnmStyle const *style)
 {
 	sheet_apply_style (sheet, range, style);
 }
@@ -112,7 +112,7 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 			   GBValue          *val)
 {
 	ExcelGBInterior *interior = EXCEL_GB_INTERIOR (object);
-	GnmStyle          *style;
+	GnmStyle const  *style;
 
 	switch (property) {
 
@@ -178,7 +178,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 	ExcelGBInterior *interior = EXCEL_GB_INTERIOR (object);
 	int              col      = interior->range.start.col;
 	int              row      = interior->range.end.col;
-	GnmStyle          *style;
+	GnmStyle const  *style;
 
 	switch (property) {
 	case COLOR: {

@@ -105,7 +105,7 @@ two_way_table_free (TwoWayTable *table)
  * entered or not.
  */
 gint
-two_way_table_put (const TwoWayTable *table, gpointer key,
+two_way_table_put (TwoWayTable const *table, gpointer key,
 		   gboolean potentially_unique,
 		   AfterPutFunc apf, gconstpointer closure)
 {
@@ -178,7 +178,7 @@ two_way_table_move (TwoWayTable const *table, gint dst_idx, gint src_idx)
  * Returns index of key, or -1 if key not found.
  */
 gint
-two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key)
+two_way_table_key_to_idx (TwoWayTable const *table, gconstpointer key)
 {
 	return GPOINTER_TO_INT (g_hash_table_lookup (table->unique_keys, key)) - 1;
 }
@@ -191,7 +191,7 @@ two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key)
  * Returns key bound to index, or NULL if index is out of range.
  */
 gpointer
-two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
+two_way_table_idx_to_key (TwoWayTable const *table, gint idx)
 {
 	g_return_val_if_fail (idx - table->base >= 0, NULL);
 	g_return_val_if_fail (idx - table->base < (int)table->idx_to_key->len,

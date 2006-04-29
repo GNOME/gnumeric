@@ -24,9 +24,9 @@
 
 #include <gnumeric.h>
 
-int font_is_monospaced (GnmStyle *mstyle);
-int font_is_helvetica  (GnmStyle *mstyle);
-int font_is_sansserif  (GnmStyle *mstyle);
+int font_is_monospaced (GnmStyle const *mstyle);
+int font_is_helvetica  (GnmStyle const *mstyle);
+int font_is_sansserif  (GnmStyle const *mstyle);
 
 #endif
 

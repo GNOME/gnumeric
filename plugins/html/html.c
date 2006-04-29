@@ -34,7 +34,6 @@
 #include "style-color.h"
 #include "html.h"
 #include "cell.h"
-#include "cellspan.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "value.h"
@@ -42,7 +41,7 @@
 #include <goffice/app/error-info.h>
 #include "style-border.h"
 #include <rendered-value.h>
-#include "mstyle.h"
+#include "style.h"
 #include "hlink.h"
 
 #include <gsf/gsf-output.h>
@@ -114,7 +113,7 @@ html_print_encoded (GsfOutput *output, char const *str)
 }
 
 static void
-html_get_text_color (GnmCell *cell, GnmStyle *mstyle, guint *r, guint *g, guint *b)
+html_get_text_color (GnmCell *cell, GnmStyle const *style, guint *r, guint *g, guint *b)
 {
 	GOColor fore = cell_get_render_color (cell);
 
@@ -127,23 +126,23 @@ html_get_text_color (GnmCell *cell, GnmStyle *mstyle, guint *r, guint *g, guint 
 	}
 }
 static void
-html_get_back_color (GnmStyle *mstyle, guint *r, guint *g, guint *b)
+html_get_back_color (GnmStyle const *style, guint *r, guint *g, guint *b)
 {
-	GnmColor const *color = gnm_style_get_back_color (mstyle);
+	GnmColor const *color = gnm_style_get_back_color (style);
 	*r = color->gdk_color.red >> 8;
 	*g = color->gdk_color.green >> 8;
 	*b = color->gdk_color.blue >> 8;
 }
 
 static void
-html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, html_version_t version)
+html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style, html_version_t version)
 {
 	guint r = 0;
 	guint g = 0;
 	guint b = 0;
 	char *rendered_string;
-	gboolean hidden = gnm_style_get_contents_hidden (mstyle);
-	GnmHLink* hlink = gnm_style_get_hlink (mstyle);
+	gboolean hidden = gnm_style_get_contents_hidden (style);
+	GnmHLink* hlink = gnm_style_get_hlink (style);
 	const guchar* hlink_target = NULL;
 
 	if (hlink && IS_GNM_HLINK_URL (hlink)) {
@@ -153,14 +152,14 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 	if (version == HTML32 && hidden)
 		gsf_output_puts (output, "<!-- 'HIDDEN DATA' -->");
 	else {
-		if (mstyle != NULL) {
-			if (gnm_style_get_font_italic (mstyle))
+		if (style != NULL) {
+			if (gnm_style_get_font_italic (style))
 				gsf_output_puts (output, "<i>");
-			if (gnm_style_get_font_bold (mstyle))
+			if (gnm_style_get_font_bold (style))
 				gsf_output_puts (output, "<b>");
-			if (gnm_style_get_font_uline (mstyle) != UNDERLINE_NONE)
+			if (gnm_style_get_font_uline (style) != UNDERLINE_NONE)
 				gsf_output_puts (output, "<u>");
-			if (font_is_monospaced (mstyle))
+			if (font_is_monospaced (style))
 				gsf_output_puts (output, "<tt>");
 		}
 
@@ -168,8 +167,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 			gsf_output_printf (output, "<a href=\"%s\">", hlink_target);
 
 		if (cell != NULL) {
-			if (mstyle != NULL && version != HTML40) {
-				html_get_text_color (cell, mstyle, &r, &g, &b);
+			if (style != NULL && version != HTML40) {
+				html_get_text_color (cell, style, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
 					gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
 			}
@@ -183,14 +182,14 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 			gsf_output_puts (output, "</font>");
 		if (hlink_target)
 			gsf_output_puts (output, "</a>");
-		if (mstyle != NULL) {
-			if (font_is_monospaced (mstyle))
+		if (style != NULL) {
+			if (font_is_monospaced (style))
 				gsf_output_puts (output, "</tt>");
-			if (gnm_style_get_font_uline (mstyle) != UNDERLINE_NONE)
+			if (gnm_style_get_font_uline (style) != UNDERLINE_NONE)
 				gsf_output_puts (output, "</u>");
-			if (gnm_style_get_font_bold (mstyle))
+			if (gnm_style_get_font_bold (style))
 				gsf_output_puts (output, "</b>");
-			if (gnm_style_get_font_italic (mstyle))
+			if (gnm_style_get_font_italic (style))
 				gsf_output_puts (output, "</i>");
 		}
 	}
@@ -271,20 +270,20 @@ html_write_one_border_style_40 (GsfOutput *output, GnmBorder *border, char const
 }
 
 static void
-html_write_border_style_40 (GsfOutput *output, GnmStyle *mstyle)
+html_write_border_style_40 (GsfOutput *output, GnmStyle const *style)
 {
 	GnmBorder *border;
 
-	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_TOP);
+	border = gnm_style_get_border (style, MSTYLE_BORDER_TOP);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-top");
-	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
+	border = gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-bottom");
-	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_LEFT);
+	border = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-left");
-	border = gnm_style_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+	border = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
 	if (!style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-right");
 }
@@ -293,21 +292,21 @@ static void
 write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t version)
 {
 	GnmCell *cell;
-	GnmStyle *mstyle;
+	GnmStyle const *style;
 	guint r, g, b;
 
-	mstyle = sheet_style_get (sheet, col, row);
-	if (mstyle != NULL && version != HTML32 && version != HTML40 &&
-	    gnm_style_get_pattern (mstyle) != 0 &&
-	    gnm_style_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
-		html_get_back_color (mstyle, &r, &g, &b);
+	style = sheet_style_get (sheet, col, row);
+	if (style != NULL && version != HTML32 && version != HTML40 &&
+	    gnm_style_get_pattern (style) != 0 &&
+	    gnm_style_is_element_set (style, MSTYLE_COLOR_BACK)) {
+		html_get_back_color (style, &r, &g, &b);
 		gsf_output_printf (output, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
 	}
 
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell != NULL) {
 
-		switch (gnm_style_get_align_v (mstyle)) {
+		switch (gnm_style_get_align_v (style)) {
 		case VALIGN_TOP:
 			gsf_output_puts (output, " valign=\"top\" ");
 			break;
@@ -324,7 +323,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 		default:
 			break;
 		}
-		switch (style_default_halign(mstyle, cell)) {
+		switch (style_default_halign(style, cell)) {
 		case HALIGN_RIGHT:
 			gsf_output_puts (output, " align=\"right\" ");
 			break;
@@ -345,29 +344,29 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 
 	}
 	if (version == HTML40 || version == HTML40F) {
-		if (mstyle != NULL) {
+		if (style != NULL) {
 			gsf_output_printf (output, " style=\"");
-			if (gnm_style_get_pattern (mstyle) != 0 &&
-			    gnm_style_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
-				html_get_back_color (mstyle, &r, &g, &b);
+			if (gnm_style_get_pattern (style) != 0 &&
+			    gnm_style_is_element_set (style, MSTYLE_COLOR_BACK)) {
+				html_get_back_color (style, &r, &g, &b);
 				gsf_output_printf (output, "background:#%02X%02X%02X;", r, g, b);
 			}
 			if (cell != NULL) {
-				gint size = (int) (gnm_style_get_font_size (mstyle) + 0.5);
+				gint size = (int) (gnm_style_get_font_size (style) + 0.5);
 				gsf_output_printf (output, " font-size:%ipt;", size);
-				html_get_text_color (cell, mstyle, &r, &g, &b);
+				html_get_text_color (cell, style, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
 					gsf_output_printf (output, " color:#%02X%02X%02X;", r, g, b);
-				if (gnm_style_get_contents_hidden (mstyle))
+				if (gnm_style_get_contents_hidden (style))
 					gsf_output_puts (output, " visibility:hidden;");
 			}
 
-			html_write_border_style_40 (output, mstyle);
+			html_write_border_style_40 (output, style);
 			gsf_output_printf (output, "\"");
 		}
 	}
 	gsf_output_printf (output, ">");
-	html_write_cell_content (output, cell, mstyle, version);
+	html_write_cell_content (output, cell, style, version);
 	gsf_output_puts (output, "</td>\n");
 }
 

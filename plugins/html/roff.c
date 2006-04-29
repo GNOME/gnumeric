@@ -31,7 +31,6 @@
 #include "cell.h"
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
-#include "cellspan.h"
 
 #include <string.h>
 #include <gsf/gsf-output.h>
@@ -43,15 +42,15 @@ static int
 roff_fprintf (GsfOutput *output, GnmCell *cell)
 {
 	int len, i;
-	const char *p;
+	char const *p;
 	char * s;
-	GnmStyle *mstyle;
+	GnmStyle const *style;
 
 	if (cell_is_empty (cell))
 		return 0;
 
-	mstyle = cell_get_mstyle (cell);
-	if (mstyle != NULL && gnm_style_get_contents_hidden (mstyle))
+	style = cell_get_style (cell);
+	if (style != NULL && gnm_style_get_contents_hidden (style))
 		return 0;
 
 	s = cell_get_rendered_text (cell);
@@ -122,49 +121,49 @@ roff_file_save (GOFileSaver const *fs, IOContext *io_context,
 				if (!cell) {
 					gsf_output_printf (output, "l");
 				} else {
-					GnmStyle *mstyle = cell_get_mstyle (cell);
-					if (!mstyle)
+					GnmStyle const *style = cell_get_style (cell);
+					if (!style)
 						break;
-					if (gnm_style_get_align_h (mstyle) & HALIGN_RIGHT)
+					if (gnm_style_get_align_h (style) & HALIGN_RIGHT)
 						gsf_output_printf (output, "r");
-					else if (gnm_style_get_align_h (mstyle) == HALIGN_CENTER ||
+					else if (gnm_style_get_align_h (style) == HALIGN_CENTER ||
 						 /* FIXME : center across selection is different */
-						 gnm_style_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION ||
-						 gnm_style_get_align_h (mstyle) == HALIGN_DISTRIBUTED)
+						 gnm_style_get_align_h (style) == HALIGN_CENTER_ACROSS_SELECTION ||
+						 gnm_style_get_align_h (style) == HALIGN_DISTRIBUTED)
 						gsf_output_printf (output, "c");
 					else
 						gsf_output_printf (output, "l");
-					if (font_is_monospaced (mstyle)) {
-						if (gnm_style_get_font_bold (mstyle) &&
-						    gnm_style_get_font_italic (mstyle))
+					if (font_is_monospaced (style)) {
+						if (gnm_style_get_font_bold (style) &&
+						    gnm_style_get_font_italic (style))
 							gsf_output_printf (output, "fCBI");
-						else if (gnm_style_get_font_bold (mstyle))
+						else if (gnm_style_get_font_bold (style))
 							gsf_output_printf (output, "fCB");
-						else if (gnm_style_get_font_italic (mstyle))
+						else if (gnm_style_get_font_italic (style))
 							gsf_output_printf (output, "fCI");
 						else
 							gsf_output_printf (output, "fCR");
-					} else if (font_is_helvetica (mstyle)) {
-						if (gnm_style_get_font_bold (mstyle) &&
-						    gnm_style_get_font_italic (mstyle))
+					} else if (font_is_helvetica (style)) {
+						if (gnm_style_get_font_bold (style) &&
+						    gnm_style_get_font_italic (style))
 							gsf_output_printf (output, "fHBI");
-						else if (gnm_style_get_font_bold (mstyle))
+						else if (gnm_style_get_font_bold (style))
 							gsf_output_printf (output, "fHB");
-						else if (gnm_style_get_font_italic (mstyle))
+						else if (gnm_style_get_font_italic (style))
 							gsf_output_printf (output, "fHI");
 						else
 							gsf_output_printf (output, "fHR");
 					} else {
 						/* default is times */
-						if (gnm_style_get_font_bold (mstyle) &&
-						    gnm_style_get_font_italic (mstyle))
+						if (gnm_style_get_font_bold (style) &&
+						    gnm_style_get_font_italic (style))
 							gsf_output_printf (output, "fTBI");
-						else if (gnm_style_get_font_bold (mstyle))
+						else if (gnm_style_get_font_bold (style))
 							gsf_output_printf (output, "fTB");
-						else if (gnm_style_get_font_italic (mstyle))
+						else if (gnm_style_get_font_italic (style))
 							gsf_output_printf (output, "fTI");
 					}
-					fontsize = gnm_style_get_font_size (mstyle);
+					fontsize = gnm_style_get_font_size (style);
 					if (fontsize) {
 						gsf_output_printf (output, "p%d", fontsize);
 						v_size = v_size > fontsize ? v_size :

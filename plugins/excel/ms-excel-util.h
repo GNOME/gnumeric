@@ -38,25 +38,25 @@ void
 two_way_table_free (TwoWayTable *table);
 
 gint
-two_way_table_put (const TwoWayTable *table, gpointer key,
+two_way_table_put (TwoWayTable const *table, gpointer key,
 		   gboolean unique,  AfterPutFunc apf, gconstpointer closure);
 
 void
-two_way_table_move (const TwoWayTable *table, gint dst_idx, gint src_idx);
+two_way_table_move (TwoWayTable const *table, gint dst_idx, gint src_idx);
 
 gint
-two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key);
+two_way_table_key_to_idx (TwoWayTable const *table, gconstpointer key);
 
 gpointer
-two_way_table_idx_to_key (const TwoWayTable *table, gint idx);
+two_way_table_idx_to_key (TwoWayTable const *table, gint idx);
 
 /*****************************************************************************/
 
 typedef struct {
-	char const *const name;
-	int const	  defcol_unit;
-	int const	  colinfo_baseline;
-	float const	  colinfo_step;
+	char const *name;
+	int	defcol_unit;
+	int	colinfo_baseline;
+	float	colinfo_step;
 } XL_font_width;
 
 /* Measures base character width for column sizing. Returns width. */
