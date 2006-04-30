@@ -90,15 +90,13 @@ cell_new (void)
 
 
 /**
- * cell_copy:
+ * cell_dup:
  * @cell: existing cell to duplicate
  *
- * Makes a copy of a GnmCell.
- *
- * Returns a copy of the cell.
- */
+ * Returns a copy of @cell which the caller needs to free.
+ **/
 GnmCell *
-cell_copy (GnmCell const *cell)
+cell_dup (GnmCell const *cell)
 {
 	GnmCell *new_cell;
 
@@ -112,7 +110,7 @@ cell_copy (GnmCell const *cell)
 	/* The new cell is not linked into any of the major management structures */
 	new_cell->base.sheet = NULL;
 	new_cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC |
-				  (int)CELL_IN_SHEET_LIST |
+				  CELL_IN_SHEET_LIST |
 				  DEPENDENT_IS_LINKED);
 
 	/* now copy properly the rest */

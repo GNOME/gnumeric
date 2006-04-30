@@ -33,9 +33,11 @@ struct _GnmCell {
  * Manage cells
  */
 GnmCell  *cell_new      (void);
-GnmCell	 *cell_copy	(GnmCell const *cell);
 void	  cell_destroy  (GnmCell *cell);
 void	  cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo);
+
+/* DEPRECATED  */
+GnmCell	 *cell_copy	(GnmCell const *cell);
 
 /**
  * GnmCell state checking

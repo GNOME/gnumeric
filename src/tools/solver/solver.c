@@ -760,14 +760,10 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 
 	/* Copy the input cell list */
 	for (inputs = src_param->input_cells; inputs ; inputs = inputs->next) {
-		GnmCell *cell = inputs->data;
-		GnmCell *new_cell;
-
-		new_cell = cell_copy (cell);
+		GnmCell *new_cell = cell_dup (inputs->data);
 		new_cell->base.sheet = new_sheet;
-		dst_param->input_cells =
-		        g_slist_prepend (dst_param->input_cells,
-					 (gpointer) new_cell);
+		dst_param->input_cells = g_slist_prepend (
+			dst_param->input_cells, (gpointer) new_cell);
 	}
 	dst_param->input_cells = g_slist_reverse (dst_param->input_cells);
 
