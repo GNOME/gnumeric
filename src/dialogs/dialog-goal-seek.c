@@ -404,7 +404,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 
-	format = gnm_style_get_format (cell_get_mstyle (state->set_cell));
+	format = gnm_style_get_format (cell_get_style (state->set_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->to_value_entry),
 					&state->target_value, TRUE, format)){
 		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
@@ -416,7 +416,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	format = gnm_style_get_format (cell_get_mstyle (state->change_cell));
+	format = gnm_style_get_format (cell_get_style (state->change_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->at_least_entry),
 					 &state->xmin, TRUE, format)) {
 		state->xmin = -max_range_val;

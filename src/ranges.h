@@ -87,8 +87,8 @@ gboolean    range_trim		(Sheet const *sheet, GnmRange *r,
 gboolean    range_has_header    (Sheet const *sheet, GnmRange const *src,
 				 gboolean top, gboolean ignore_styles);
 
-char const *range_name          (GnmRange const *src);
-void        range_dump          (GnmRange const *src, char const *suffix);
+char const *range_as_string	(GnmRange const *src);
+void        range_dump		(GnmRange const *src, char const *suffix);
 GnmRange   *range_dup		(GnmRange const *src);
 
 GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);

@@ -2395,9 +2395,8 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 	state->dialog_changed	= NULL;
 	state->dialog_changed_user_data = NULL;
 
-	(void) selection_foreach_range (state->sv, TRUE,
-					fmt_dialog_selection_type,
-					state);
+	(void) sv_selection_foreach (state->sv,
+		fmt_dialog_selection_type, state);
 	state->selection_mask	= 1 << state->selection_mask;
 
 	fmt_dialog_impl (state, pageno);

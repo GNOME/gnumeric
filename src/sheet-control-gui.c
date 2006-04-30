@@ -504,7 +504,7 @@ scg_select_all (SheetControlGUI *scg)
 		scg_mode_edit (SHEET_CONTROL (sc));
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 		sv_selection_reset (sc->view);
-		sv_selection_add_range (sc->view, 0, 0, 0, 0,
+		sv_selection_add_full (sc->view, 0, 0, 0, 0,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	}
 	sheet_update (sheet);
@@ -548,14 +548,14 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		} else if (is_cols) {
 			GnmCanvas *gcanvas =
 				scg_pane (scg, scg->pane[3].is_active ? 3 : 0);
-			sv_selection_add_range (sv,
+			sv_selection_add_full (sv,
 				index, gcanvas->first.row,
 				index, 0,
 				index, SHEET_MAX_ROWS-1);
 		} else {
 			GnmCanvas *gcanvas =
 				scg_pane (scg, scg->pane[1].is_active ? 1 : 0);
-			sv_selection_add_range (sv,
+			sv_selection_add_full (sv,
 				gcanvas->first.col, index,
 				0, index,
 				SHEET_MAX_COLS-1, index);
@@ -1810,7 +1810,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		!gnm_app_clipboard_is_cut ())
 		? 0 : CONTEXT_DISABLE_PASTE_SPECIAL;
 
-	GList *l;
+	GSList *l;
 	gboolean has_link = FALSE;
 
 	wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
@@ -1862,7 +1862,7 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 	SCG_FOREACH_PANE (scg, pane,
 		item_cursor_set_visibility (pane->cursor.std, is_visible););
 
-	selection_foreach_range (sc->view, TRUE, cb_redraw_sel, sc);
+	sv_selection_foreach (sc->view, cb_redraw_sel, sc);
 }
 
 /***************************************************************************/

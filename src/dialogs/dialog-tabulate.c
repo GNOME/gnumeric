@@ -151,7 +151,7 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 		if (child->left_attach == x && child->top_attach == y &&
 		    GTK_IS_ENTRY (child->widget)) {
 			*wp = GTK_ENTRY (child->widget);
-			format = gnm_style_get_format (cell_get_mstyle (cell));
+			format = gnm_style_get_format (cell_get_style (cell));
 			return (with_default ?
 				entry_to_float_with_format_default (GTK_ENTRY (child->widget), number,
 							   TRUE, format, default_float) :

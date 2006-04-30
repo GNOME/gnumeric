@@ -294,7 +294,7 @@ cb_collect_unique (Sheet *sheet, int col, int row, GnmCell *cell,
 	if (cell_is_blank (cell))
 		uc->has_blank = TRUE;
 	else {
-		const GOFormat *format = cell_get_format (cell);			
+		GOFormat const *format = cell_get_format (cell);			
 		GnmValue const *v = cell->value;
 		char *str = format_value (format, v, NULL, -1, uc->date_conv);
 		g_hash_table_replace (uc->hash, str, cell);
@@ -377,10 +377,10 @@ collect_unique_elements (GnmFilterField *field,
 	       sorted->len, sizeof (char *),
 	       order_alphabetically);
 	for (i = 0; i < sorted->len ; i++) {
-		const char *str = g_ptr_array_index (sorted, i);
+		char const *str = g_ptr_array_index (sorted, i);
 		char *label = NULL;
 		gsize len = g_utf8_strlen (str, -1);
-		const int max = 50;
+		unsigned const max = 50;
 
 		if (len > max + 3) {
 			label = g_strdup (str);
@@ -706,7 +706,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 	GnmValDiff cmp;
 
 	if (src == NULL) {
-		const GOFormat *format = cell_get_format (cell);			
+		GOFormat const *format = cell_get_format (cell);			
 		GODateConventions const *date_conv =
 			workbook_date_conv (cell->base.sheet->workbook);
 		char *str = format_value (format, target, NULL, -1, date_conv);

@@ -181,6 +181,44 @@ map_color_to_palette (ExcelWriteState const *ewb,
 	return palette_get_index (ewb, gnm_color_to_bgr (c));
 }
 
+void
+excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
+		    int maxcols, int maxrows, IOContext *io_context)
+{
+	int i;
+
+	/* Ignore spans and merges past the bound */
+	*extent = sheet_get_extent (sheet, FALSE);
+
+	if (extent->end.col >= maxcols) {
+		gnm_io_warning (io_context,
+			_("Some content will be lost when saving.  This format only supports %u cols, and this workbook has %d"),
+			  maxcols, extent->end.col);
+		extent->end.col = maxcols;
+	}
+	if (extent->end.row >= maxrows) {
+		gnm_io_warning (io_context,
+			_("Some content will be lost when saving.  This format only supports %u rows, and this workbook has %d"),
+			maxrows, extent->end.row);
+		extent->end.row = maxrows;
+	}
+
+	sheet_style_get_extent (sheet, extent, col_styles);
+
+	/* include collapsed or hidden rows */
+	for (i = maxrows ; i-- > extent->end.row ; )
+		if (!colrow_is_empty (sheet_row_get (sheet, i))) {
+			extent->end.row = i;
+			break;
+		}
+	/* include collapsed or hidden rows */
+	for (i = 256 ; i-- > extent->end.col ; )
+		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
+			extent->end.col = i;
+			break;
+		}
+}
+
 /**
  * excel_write_string_len :
  * @str : The utf8 encoded string in question
@@ -605,8 +643,7 @@ excel_write_WINDOW1 (BiffPut *bp, WorkbookView const *wb_view)
 	ms_biff_put_commit (bp);
 }
 
-/* returns TRUE if a PANE record is necessary. */
-static gboolean
+static void
 excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 {
 	/* 1	0x020 grids are the colour of the normal style */
@@ -614,11 +651,31 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 	/* 0	0x800 (biff8 only) no page break mode*/
 	guint16 options = 0x0A0;
 	guint8 *data;
-	GnmCellPos top_left;
+	GnmCellPos topLeft, frozen_topLeft;
 	Sheet const *sheet = esheet->gnum_sheet;
 	GnmColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
 	GnmColor *default_auto = style_color_auto_pattern ();
 	guint32 biff_pat_col = 0x40;	/* default grid color index == auto */
+	int const frozen_height = sv->unfrozen_top_left.row -
+		sv->frozen_top_left.row;
+	int const frozen_width = sv->unfrozen_top_left.col -
+		sv->frozen_top_left.col;
+	guint16 freeze_type; /* NOTE docs lie, this is not 'active pane' */
+
+	if (frozen_width > 0) {
+		topLeft.col		= sv->frozen_top_left.col;
+		frozen_topLeft.col	= sv->initial_top_left.col;
+	} else {
+		topLeft.col		= sv->initial_top_left.col;
+		frozen_topLeft.col	= sv->frozen_top_left.col;
+	}
+	if (frozen_height > 0) {
+		topLeft.row		= sv->frozen_top_left.row;
+		frozen_topLeft.row	= sv->initial_top_left.row;
+	} else {
+		topLeft.row		= sv->initial_top_left.row;
+		frozen_topLeft.row	= sv->frozen_top_left.row;
+	}
 
 	if (sheet->display_formulas)
 		options |= 0x0001;
@@ -626,11 +683,8 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 		options |= 0x0002;
 	if (!sheet->hide_col_header || !sheet->hide_row_header)
 		options |= 0x0004;
-	if (sv_is_frozen (sv)) {
+	if (sv_is_frozen (sv))
 		options |= 0x0108;
-		top_left = sv->frozen_top_left;
-	} else
-		top_left = sv->initial_top_left;
 	if (!sheet->hide_zero)
 		options |= 0x0010;
 	if (sheet->text_is_rtl)
@@ -650,15 +704,15 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2_v2, 10);
 
 		GSF_LE_SET_GUINT16 (data +  0, options);
-		GSF_LE_SET_GUINT16 (data +  2, top_left.row);
-		GSF_LE_SET_GUINT16 (data +  4, top_left.col);
+		GSF_LE_SET_GUINT16 (data +  2, topLeft.row);
+		GSF_LE_SET_GUINT16 (data +  4, topLeft.col);
 		GSF_LE_SET_GUINT32 (data +  6, biff_pat_col);
 	} else {
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2_v2, 18);
 
 		GSF_LE_SET_GUINT16 (data +  0, options);
-		GSF_LE_SET_GUINT16 (data +  2, top_left.row);
-		GSF_LE_SET_GUINT16 (data +  4, top_left.col);
+		GSF_LE_SET_GUINT16 (data +  2, topLeft.row);
+		GSF_LE_SET_GUINT16 (data +  4, topLeft.col);
 		GSF_LE_SET_GUINT32 (data +  6, biff_pat_col);
 		GSF_LE_SET_GUINT16 (data + 10, 0x1);	/* print preview 100% */
 		GSF_LE_SET_GUINT16 (data + 12, 0x0);	/* FIXME : why 0? */
@@ -668,31 +722,23 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 
 	style_color_unref (sheet_auto);
 	style_color_unref (default_auto);
-	return (options & 0x0008);
-}
 
-static void
-excel_write_PANE (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
-{
-	guint8 *data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
-	int const frozen_height = sv->unfrozen_top_left.row -
-		sv->frozen_top_left.row;
-	int const frozen_width = sv->unfrozen_top_left.col -
-		sv->frozen_top_left.col;
-	guint16 freeze_type; /* NOTE docs lie, this is not 'active pane' */
+	if (sv_is_frozen (sv)) {
+		data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
 
-	if (sv->unfrozen_top_left.col > 0)
-		freeze_type = (sv->unfrozen_top_left.row > 0) ? 0 : 1;
-	else
-		freeze_type = (sv->unfrozen_top_left.row > 0) ? 2 : 3;
+		if (sv->unfrozen_top_left.col > 0)
+			freeze_type = (sv->unfrozen_top_left.row > 0) ? 0 : 1;
+		else
+			freeze_type = (sv->unfrozen_top_left.row > 0) ? 2 : 3;
 
-	GSF_LE_SET_GUINT16 (data + 0, frozen_width);
-	GSF_LE_SET_GUINT16 (data + 2, frozen_height);
-	GSF_LE_SET_GUINT16 (data + 4, sv->initial_top_left.row);
-	GSF_LE_SET_GUINT16 (data + 6, sv->initial_top_left.col);
-	GSF_LE_SET_GUINT16 (data + 8, freeze_type);
+		GSF_LE_SET_GUINT16 (data + 0, frozen_width);
+		GSF_LE_SET_GUINT16 (data + 2, frozen_height);
+		GSF_LE_SET_GUINT16 (data + 4, frozen_topLeft.row);
+		GSF_LE_SET_GUINT16 (data + 6, frozen_topLeft.col);
+		GSF_LE_SET_GUINT16 (data + 8, freeze_type);
 
-	ms_biff_put_commit (bp);
+		ms_biff_put_commit (bp);
+	}
 }
 
 /*
@@ -2200,7 +2246,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		return;
 
 	if ((fmt = VALUE_FMT (cell->value)) != NULL) {
-		style = cell_get_mstyle (cell);
+		style = cell_get_style (cell);
 
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
@@ -4116,11 +4162,11 @@ excel_write_SCL (BiffPut *bp, double zoom, gboolean force)
 }
 
 static void
-excel_write_SELECTION (BiffPut *bp, GList *selections,
+excel_write_SELECTION (BiffPut *bp, GSList *selections,
 		       GnmCellPos const *pos, int pane)
 {
-	int n = g_list_length (selections);
-	GList *ptr;
+	int n = g_slist_length (selections);
+	GSList *ptr;
 	guint8 *data;
 
 	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 9 + 6*n);
@@ -4145,7 +4191,7 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 {
 	GnmRange  r;
 	GnmCellPos pos;
-	GList *tmp;
+	GSList *tmp;
 
 	excel_write_SELECTION (bp, sv->selections, &sv->edit_pos, 3);
 
@@ -4153,26 +4199,26 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 		pos = sv->edit_pos;
 		if (pos.col < sv->unfrozen_top_left.col)
 			pos.col = sv->unfrozen_top_left.col;
-		tmp = g_list_prepend (NULL,
+		tmp = g_slist_prepend (NULL,
 			      range_init_cellpos (&r, &pos, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 1);
-		g_list_free (tmp);
+		g_slist_free (tmp);
 	}
 	if (sv->unfrozen_top_left.row > 0) {
 		pos = sv->edit_pos;
 		if (pos.row < sv->unfrozen_top_left.row)
 			pos.row = sv->unfrozen_top_left.row;
-		tmp = g_list_prepend (NULL,
+		tmp = g_slist_prepend (NULL,
 			      range_init_cellpos (&r, &pos, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 2);
-		g_list_free (tmp);
+		g_slist_free (tmp);
 	}
 	if (sv->unfrozen_top_left.col > 0 && sv->unfrozen_top_left.row > 0) {
 		pos = sv->edit_pos;	/* apparently no bounds check needed */
-		tmp = g_list_prepend (NULL,
+		tmp = g_slist_prepend (NULL,
 			      range_init_cellpos (&r, &pos, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 0);
-		g_list_free (tmp);
+		g_slist_free (tmp);
 	}
 }
 
@@ -4473,8 +4519,8 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	guint32  block_end;
 	gint32	 y;
 	int	 rows_in_block = ROW_BLOCK_MAX_LEN;
-	unsigned index_off;
-	MsBiffFileType type;
+	unsigned	index_off;
+	MsBiffFileType	type;
 
 	/* No. of blocks of rows. Only correct as long as all rows
 	 * _including empties_ have row info records
@@ -4536,8 +4582,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 		excel_write_objs_v8 (esheet);
 
 	SHEET_FOREACH_VIEW (esheet->gnum_sheet, view, {
-		if (excel_write_WINDOW2 (ewb->bp, esheet, view))
-			excel_write_PANE (ewb->bp, esheet, view);
+		excel_write_WINDOW2 (ewb->bp, esheet, view);
 		excel_write_SCL (ewb->bp, /* zoom will move to view eentually */
 			esheet->gnum_sheet->last_zoom_factor_used, FALSE);
 		excel_write_selections (ewb->bp, esheet, view);
@@ -4575,43 +4620,12 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
 	GnmRange extent;
 	GSList *objs, *img;
-	int i;
 
 	g_return_val_if_fail (sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);
 
-	/* Ignore spans and merges past the bound */
-	extent = sheet_get_extent (sheet, FALSE);
-
-	if (extent.end.row >= maxrows) {
-		gnm_io_warning (ewb->io_context,
-				_("Some content will be lost when saving as MS Excel (tm) 95. "
-				  "It only supports %d rows, and this workbook has %d"),
-			  maxrows, extent.end.row);
-		extent.end.row = maxrows;
-	}
-	if (extent.end.col >= 256) {
-		gnm_io_warning (ewb->io_context,
-				_("Some content will be lost when saving as MS Excel (tm). "
-				  "It only supports %d rows, and this workbook has %d"),
-			  256, extent.end.col);
-		extent.end.col = 256;
-	}
-
-	sheet_style_get_extent (sheet, &extent, esheet->col_style);
-
-	/* include collapsed or hidden rows */
-	for (i = maxrows ; i-- > extent.end.row ; )
-		if (!colrow_is_empty (sheet_row_get (sheet, i))) {
-			extent.end.row = i;
-			break;
-		}
-	/* include collapsed or hidden rows */
-	for (i = 256 ; i-- > extent.end.col ; )
-		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
-			extent.end.col = i;
-			break;
-		}
+	excel_sheet_extent (sheet, &extent, esheet->col_style,
+		256, maxrows, ewb->io_context);
 
 	esheet->gnum_sheet = sheet;
 	esheet->streamPos  = 0x0deadbee;

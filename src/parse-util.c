@@ -1277,11 +1277,21 @@ std_name_parser (const char *str,
 	return str;
 }
 
-
+/**
+ * gnm_expr_conventions_new_full :
+ * @size :
+ *
+ * Construct a GnmExprConventions of @size.
+ *
+ * Returns a GnmExprConventions with default values.  Caller is responsible for
+ * freeing the result.
+ **/
 GnmExprConventions *
-gnm_expr_conventions_new (void)
+gnm_expr_conventions_new_full (unsigned size)
 {
-	GnmExprConventions *res = g_new0 (GnmExprConventions, 1);
+	GnmExprConventions *res = g_malloc0 (size);
+
+	g_return_val_if_fail (size >= sizeof (GnmExprConventions), NULL);
 
 	res->expr_name_handler = def_expr_name_handler;
 	res->cell_ref_handler = cellref_as_string;
@@ -1292,6 +1302,21 @@ gnm_expr_conventions_new (void)
 	res->output_sheet_name_sep = "!";
 	res->output_translated = TRUE;
 	return res;
+}
+
+/**
+ * gnm_expr_conventions_new :
+ *
+ * A convenience wrapper around gnm_expr_conventions_new_full
+ * that constructs a GnmExprConventions of std size.
+ *
+ * Returns a GnmExprConventions with default values.  Caller is responsible for
+ * freeing the result.
+ **/
+GnmExprConventions *
+gnm_expr_conventions_new (void)
+{
+	return gnm_expr_conventions_new_full (sizeof (GnmExprConventions));
 }
 
 void

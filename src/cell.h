@@ -84,7 +84,7 @@ void cell_convert_expr_to_value	(GnmCell *cell);
 /**
  * Manipulate GnmCell attributes
  */
-GnmStyle *cell_get_mstyle		(GnmCell const *cell);
+GnmStyle const *cell_get_style	(GnmCell const *cell);
 GOFormat *cell_get_format	(GnmCell const *cell);
 void	cell_set_format		(GnmCell *cell, char const *format);
 

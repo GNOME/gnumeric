@@ -1,8 +1,15 @@
-#ifndef GNUMERIC_SHEET_VIEW_H
-#define GNUMERIC_SHEET_VIEW_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef GNM_SHEET_VIEW_H
+#define GNM_SHEET_VIEW_H
 
 #include "gnumeric.h"
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
+
+typedef enum {
+	GNM_SHEET_VIEW_NORMAL_MODE,
+	GNM_SHEET_VIEW_PAGE_BREAK_MODE,
+	GNM_SHEET_VIEW_LAYOUT_MODE
+} GnmSheetViewMode;
 
 struct _SheetView {
 	GObject  base;
@@ -16,7 +23,7 @@ struct _SheetView {
 	/* an ordered list of Ranges, the first of which corresponds to the
 	 * a normalized version of SheetView::{cursor.base_corner:move_corner}
 	 */
-	GList	*selections;
+	GSList		*selections;
 	GnmCellPos	 edit_pos;	/* Cell that would be edited */
 	GnmCellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
 
@@ -36,6 +43,8 @@ struct _SheetView {
 	unsigned char enable_insert_cols;
 	unsigned char enable_insert_cells;
 	unsigned char reposition_selection;
+
+	GnmSheetViewMode	view_mode;
 
 	/* TODO : these should be replaced with Dependents when we support
 	 * format based dependents
@@ -117,4 +126,4 @@ do {										\
 		}								\
 } while (0)
 
-#endif /* GNUMERIC_SHEET_VIEW_H */
+#endif /* GNM_SHEET_VIEW_H */

@@ -1105,7 +1105,7 @@ item_cursor_tip_setlabel (ItemCursor *ic)
 	}
 
 	g_return_if_fail (ic->tip != NULL);
-	gtk_label_set_text (GTK_LABEL (ic->tip), range_name (&ic->pos));
+	gtk_label_set_text (GTK_LABEL (ic->tip), range_as_string (&ic->pos));
 }
 
 static gboolean

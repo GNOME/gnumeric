@@ -444,7 +444,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	/* Store the input cell range for the Solver dialog. */
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW,
 		    MAX_COL, VARIABLE_ROW + n_rows_per_fn - 1);
-	param->input_entry_str = g_strdup (range_name (&range));
+	param->input_entry_str = g_strdup (range_as_string (&range));
 }
 
 /* Creates the spreadsheet model. */

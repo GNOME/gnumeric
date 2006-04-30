@@ -504,7 +504,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 	HyperlinkState* state;
 	GnmHLink	*link = NULL;
 	Sheet		*sheet;
-	GList		*ptr;
+	GSList		*ptr;
 
 	g_return_if_fail (wbcg != NULL);
 

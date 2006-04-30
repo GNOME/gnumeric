@@ -197,7 +197,8 @@ struct _GnmExprConventions {
 	gboolean output_translated;
 };
 
-GnmExprConventions *gnm_expr_conventions_new (void);
+GnmExprConventions *gnm_expr_conventions_new	  (void);
+GnmExprConventions *gnm_expr_conventions_new_full (unsigned size);
 void gnm_expr_conventions_free (GnmExprConventions *c);
 
 extern GnmExprConventions const *gnm_expr_conventions_default;

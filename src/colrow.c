@@ -867,7 +867,7 @@ cb_colrow_visibility (SheetView *sv, GnmRange const *r, void *closure)
  * pairs of row/col ranges that need to be hidden or unhiden.
  *
  * NOTE : leave sheet non-const until we have a const version of
- *        selection_apply.
+ *        sv_selection_apply.
  */
 ColRowVisList *
 colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,
@@ -878,7 +878,7 @@ colrow_get_visiblity_toggle (SheetView *sv, gboolean is_cols,
 	closure.visible = visible;
 	closure.elements = NULL;
 
-	selection_apply (sv, &cb_colrow_visibility, FALSE, &closure);
+	sv_selection_apply (sv, &cb_colrow_visibility, FALSE, &closure);
 
 	return closure.elements;
 }

@@ -389,7 +389,7 @@ insert_cols (scenario_t *s, int col, int count)
 		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
-		s->cell_sel_str = g_strdup (range_name (&s->range));
+		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
 
@@ -411,7 +411,7 @@ insert_rows (scenario_t *s, int row, int count)
 		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
-		s->cell_sel_str = g_strdup (range_name (&s->range));
+		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
 
@@ -435,7 +435,7 @@ delete_cols (scenario_t *s, int col, int count)
 		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
-		s->cell_sel_str = g_strdup (range_name (&s->range));
+		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
 
@@ -457,7 +457,7 @@ delete_rows (scenario_t *s, int row, int count)
 		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
-		s->cell_sel_str = g_strdup (range_name (&s->range));
+		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
 
@@ -481,7 +481,7 @@ move_range (scenario_t *s, GnmRange const *origin, int col_offset, int row_offse
 		s->range.end.row   += row_offset;
 		g_free (s->cell_sel_str);
 
-		s->cell_sel_str = g_strdup (range_name (&s->range));
+		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
 

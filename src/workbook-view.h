@@ -56,6 +56,7 @@ void		 wb_view_detach_control	  (WorkbookControl *wbc);
 /* Information */
 GODoc		*wb_view_get_doc	  (WorkbookView const *wbv);
 Workbook	*wb_view_get_workbook	  (WorkbookView const *wbv);
+int		 wb_view_get_index_in_wb  (WorkbookView const *wbv);
 Sheet		*wb_view_cur_sheet	  (WorkbookView const *wbv);
 SheetView	*wb_view_cur_sheet_view	  (WorkbookView const *wbv);
 void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);

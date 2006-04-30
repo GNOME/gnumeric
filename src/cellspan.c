@@ -201,7 +201,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	int h_align, v_align, left, max_col, min_col;
 	int row, pos, margin;
 	int cell_width_pixel, indented_w;
-	GnmStyle *mstyle;
+	GnmStyle const *style;
 	ColRowInfo const *ri;
 	GnmRange const *merge_left;
 	GnmRange const *merge_right;
@@ -211,8 +211,8 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	sheet = cell->base.sheet;
 	ri = cell->row_info;
 
-	mstyle = cell_get_mstyle (cell);
-	h_align = style_default_halign (mstyle, cell);
+	style = cell_get_style (cell);
+	h_align = style_default_halign (style, cell);
 
         /*
 	 * Report only one column is used if
@@ -230,7 +230,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		return;
 	}
 
-	v_align = gnm_style_get_align_v (mstyle);
+	v_align = gnm_style_get_align_v (style);
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = cell_rendered_width (cell);
 	if (h_align == HALIGN_LEFT || h_align == HALIGN_RIGHT) {
@@ -242,7 +242,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	if (cell_is_empty (cell) ||
 	    !cell->col_info->visible ||
 	    (h_align != HALIGN_CENTER_ACROSS_SELECTION &&
-		 (gnm_style_get_wrap_text (mstyle) ||
+		 (gnm_style_get_wrap_text (style) ||
 		  indented_w <= COL_INTERNAL_WIDTH (cell->col_info))) ||
 	    h_align == HALIGN_JUSTIFY ||
 	    h_align == HALIGN_FILL ||
@@ -365,10 +365,10 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
 			if (ci->visible) {
 				if (cellspan_is_empty (pos_l, ri, cell)) {
-					GnmStyle * const mstyle =
+					GnmStyle * const style =
 						sheet_style_get (cell->base.sheet, pos_l, row);
 
-					if (gnm_style_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
+					if (gnm_style_get_align_h (style) != HALIGN_CENTER_ACROSS_SELECTION)
 						break;
 					*col1 = pos_l;
 				} else
@@ -379,10 +379,10 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_r);
 			if (ci->visible) {
 				if (cellspan_is_empty (pos_r, ri, cell)) {
-					GnmStyle * const mstyle =
+					GnmStyle const * const style =
 						sheet_style_get (cell->base.sheet, pos_r, row);
 
-					if (gnm_style_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
+					if (gnm_style_get_align_h (style) != HALIGN_CENTER_ACROSS_SELECTION)
 						break;
 					*col2 = pos_r;
 				} else

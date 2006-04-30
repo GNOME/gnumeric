@@ -519,7 +519,7 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 	 */
 	if ((r = selection_first_range (state->base.sv, NULL, NULL)) != NULL 
 	    && !range_is_singleton (r))
-		selection_foreach_range (state->base.sv, TRUE, &add_source_area, state);
+		sv_selection_foreach (state->base.sv, &add_source_area, state);
 
 	adjust_source_areas (state);
 	dialog_set_button_sensitivity (NULL, state);

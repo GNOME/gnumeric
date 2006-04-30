@@ -202,7 +202,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 			g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
 			g_free (str);
 #endif
-		} else {
+		} else if (cond->op < GNM_STYLE_COND_CONTAINS_STR) {
 			GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
 			GnmValue const *cv = cell ? cell->value : NULL;
 			GnmValDiff diff = value_compare (cv, val, TRUE);
@@ -217,6 +217,8 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 				value_release (val);
 				val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 				diff = value_compare (cv, val, TRUE);
+				/* fall through */
+
 			case GNM_STYLE_COND_GT:		use_this = (diff == IS_GREATER); break;
 			case GNM_STYLE_COND_LT:		use_this = (diff == IS_LESS); break;
 			case GNM_STYLE_COND_GTE:	use_this = (diff != IS_LESS); break;
@@ -228,6 +230,29 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 				diff = value_compare (cv, val, TRUE);
 				/* fall through */
 			case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
+			}
+		} else {
+			GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+			GnmValue const *cv = cell ? cell->value : NULL;
+#warning FINISH
+
+			switch (cond->op) {
+			default :
+			case GNM_STYLE_COND_CONTAINS_STR :
+			case GNM_STYLE_COND_NOT_CONTAINS_STR :
+				break;
+			case GNM_STYLE_COND_BEGINS_WITH_STR :
+			case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
+				break;
+			case GNM_STYLE_COND_ENDS_WITH_STR :
+			case GNM_STYLE_COND_NOT_ENDS_WITH_STR :
+				break;
+			case GNM_STYLE_COND_CONTAINS_ERR :
+			case GNM_STYLE_COND_NOT_CONTAINS_ERR :
+				break;
+			case GNM_STYLE_COND_CONTAINS_BLANKS :
+			case GNM_STYLE_COND_NOT_CONTAINS_BLANKS :
+				break;
 			}
 		}
 

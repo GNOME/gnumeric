@@ -318,10 +318,10 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 				   l - r - (ci->margin_b + ci->margin_a + 1),
 				   b - t - (ri->margin_b + ri->margin_a + 1), -1);
 		else
-		cell_draw (cell, ig->gc.cell, drawable,
-			   l, t,
-			   r - l - (ci->margin_b + ci->margin_a + 1),
-			   b - t - (ri->margin_b + ri->margin_a + 1), -1);
+			cell_draw (cell, ig->gc.cell, drawable,
+				   l, t,
+				   r - l - (ci->margin_b + ci->margin_a + 1),
+				   b - t - (ri->margin_b + ri->margin_a + 1), -1);
 	}
 	style_border_draw_diag (style, drawable, l, t, r, b);
 }

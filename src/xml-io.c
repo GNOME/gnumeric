@@ -299,10 +299,7 @@ xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 	sv_selection_reset (sv);
 	for (sel = selections->xmlChildrenNode; sel; sel = sel->next)
 		if (!xmlIsBlankNode (sel) && xml_node_get_range (sel, &r))
-			sv_selection_add_range (sv,
-						r.start.col, r.start.row,
-						r.start.col, r.start.row,
-						r.end.col, r.end.row);
+			sv_selection_add_range (sv, &r);
 
 	if (xml_node_get_int (selections, "CursorCol", &pos.col) &&
 	    xml_node_get_int (selections, "CursorRow", &pos.row))

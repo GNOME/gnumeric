@@ -1321,7 +1321,7 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	if (text_is_rtl &&
 	    event->x < (-64000 / gcanvas->simple.canvas.pixels_per_unit)) {
 #if SHEET_MAX_COLS > 700 /* a guestimate */
-#error We need a better solution to the rtl event kludge with SHEET_MAX_COLS so large
+#warning WARNING We need a better solution to the rtl event kludge with SHEET_MAX_COLS so large
 #endif
 		foo_canvas_w2c (canvas, event->x + 65536, event->y, &x, &y);
 	} else

@@ -1,3 +1,25 @@
+2006-04-29  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_get_index_in_wb) : new for xlsx export.
+
+	* src/selection.h (sv_selection_foreach) : renamed from
+	  selection_foreach_range.  All callers changed.
+	* src/selection.c (sv_selection_add_full) : renamed from
+	  sv_selection_add_range to be clearer.
+	(sv_selection_add_range) : new utility that takes a ... GnmRange.
+
+	* src/sheet-view.h : SheetView::selections make this a GSList, no need
+	  for a GList.  This makes the api more homogeneous.
+
+	* src/cell.c (cell_get_style) : constify the result and rename from
+	  cell_get_mstyle.
+
+	* src/ranges.c (range_as_string) : renamed from range_name.  All
+	  callers fixed.
+
+	* src/style-conditions.c (gnm_style_conditions_eval) : tack on hooks
+	  for some of the new condition types in office 12.
+
 2006-04-27  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_clone_sheet): Remove.

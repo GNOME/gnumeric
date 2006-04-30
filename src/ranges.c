@@ -178,7 +178,7 @@ range_list_destroy (GSList *ranges)
 
 
 char const *
-range_name (GnmRange const *src)
+range_as_string (GnmRange const *src)
 {
 	static char buffer[(2 + 4 * sizeof (long)) * 2 + 1];
 
@@ -250,8 +250,8 @@ range_has_header (Sheet const *sheet, GnmRange const *src,
 
 		/* Look for style differences */
 		if (!ignore_styles &&
-		    !gnm_style_equal_header (cell_get_mstyle (a),
-					  cell_get_mstyle (b), top))
+		    !gnm_style_equal_header (cell_get_style (a),
+					     cell_get_style (b), top))
 			return TRUE;
 	}
 
@@ -935,7 +935,7 @@ gnm_sheet_range_overlap (GnmSheetRange const *a, GnmSheetRange const *b)
 char *
 global_range_name (Sheet const *sheet, GnmRange const *r)
 {
-	char const * the_range_name = range_name (r);
+	char const * the_range_name = range_as_string (r);
 
 	if (sheet == NULL)
 		return g_strdup (the_range_name);
@@ -976,11 +976,11 @@ undo_cell_pos_name (Sheet const *sheet, GnmCellPos const *pos)
  * @r:
  *
  * Returns the range name depending on the preference setting.
- */
+ **/
 char *
 undo_range_name (Sheet const *sheet, GnmRange const *r)
 {
-	char const * the_range_name = range_name (r);
+	char const *the_range_name = range_as_string (r);
 	guint max_width;
 
 	max_width = max_range_name_width ();
@@ -1007,7 +1007,7 @@ range_list_name_try (GString *names, Sheet const *sheet, GSList const *ranges,
 		     guint max_width)
 {
 	GSList const *l;
-	char const *n = range_name (ranges->data);
+	char const *n = range_as_string (ranges->data);
 
 	if (sheet == NULL)
 		g_string_assign (names, n);
@@ -1022,7 +1022,7 @@ range_list_name_try (GString *names, Sheet const *sheet, GSList const *ranges,
 	for (l = ranges->next; l != NULL; l = l->next) {
 		gsize new_len;
 
-		n = range_name (l->data);
+		n = range_as_string (l->data);
 
 		/* The string may not get too long. */
 		new_len = names->len + 2 + strlen (n);

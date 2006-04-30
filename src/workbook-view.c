@@ -24,7 +24,7 @@
 #include "workbook-view.h"
 
 #include "workbook-control-priv.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "application.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -92,6 +92,25 @@ wb_view_get_doc (WorkbookView const *wbv)
 {
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
 	return GO_DOC (wbv->wb);
+}
+
+/**
+ * wb_view_get_index_in_wb :
+ * @wbv : #WorkbookView
+ *
+ * Returns 0 based index of wbv within workbook, or -1 if there is no workbook.
+ **/
+int
+wb_view_get_index_in_wb (WorkbookView const *wbv)
+{
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), -1);
+	if (NULL != wbv->wb) {
+		unsigned i = wbv->wb->wb_views->len;
+		while (i-- > 0)
+			if (g_ptr_array_index (wbv->wb->wb_views, i) == wbv)
+				return i;
+	}
+	return -1;
 }
 
 Sheet *
@@ -449,7 +468,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	if (sv == NULL)
 		return;
 
-	selection_apply (sv, &accumulate_regions, FALSE, &selection);
+	sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
 
 	ei.pos = eval_pos_init_sheet (&ep, wbv->current_sheet);
 	ei.func_call = (GnmExprFunction const *)wbv->auto_expr;

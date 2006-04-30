@@ -280,14 +280,6 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	non_modal_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
 }
 
-static void
-response_clicked (GtkWidget *widget, gpointer pres)
-{
-	while (!GTK_IS_DIALOG (widget))
-		widget = widget->parent;
-	gtk_dialog_response (GTK_DIALOG (widget), GPOINTER_TO_INT (pres));
-}
-
 int
 dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			     GnmSearchReplace *sr,

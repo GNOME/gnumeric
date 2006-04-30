@@ -679,6 +679,10 @@ gnumeric_besseli (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (order < 0)
 		return value_new_error_NUM (ei->pos);
 
+	/* It seems that XL uses abs value of x */
+	if (x < 0.)
+		x = -x;
+
 	return value_new_float (bessel_i (x, order, 1.0));
 }
 
@@ -895,7 +899,7 @@ static GnmFuncHelp const help_convert[] = {
 	   "\t'y'  \tyocto \t\t1E-24\n"
 	   "\n"
 	   "* If @from_unit and @to_unit are different types, CONVERT returns "
-	   "#NUM! error.\n"
+	   "#N/A error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1214,7 +1218,7 @@ gnumeric_convert (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		    ei->pos))
 	        return v;
 
-	return value_new_error_NUM (ei->pos);
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/

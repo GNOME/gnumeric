@@ -60,7 +60,10 @@ excel_la_SOURCES =		\
 	excel-xml-read.c	\
 	excel-xml-read.h	\
 	\
-	xlsx-read.c
+	xlsx-utils.h		\
+	xlsx-utils.c		\
+	xlsx-read.c		\
+	xlsx-write.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

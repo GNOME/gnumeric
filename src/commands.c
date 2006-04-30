@@ -310,10 +310,7 @@ select_range (Sheet *sheet, const GnmRange *r, WorkbookControl *wbc)
 
 	wb_control_sheet_focus (wbc, sheet);
 	sv_selection_reset (sv);
-	sv_selection_add_range (sv,
-				r->start.col, r->start.row,
-				r->start.col, r->start.row,
-				r->end.col, r->end.row);
+	sv_selection_add_range (sv, r);
 	sv_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
 }
 
@@ -333,11 +330,8 @@ select_selection (Sheet *sheet, GSList *selection, WorkbookControl *wbc)
 	wb_control_sheet_focus (wbc, sheet);
 	sv_selection_reset (sv);
 	for (l = selection; l; l = l->next) {
-		const GnmRange *r = l->data;
-		sv_selection_add_range (sv,
-					r->start.col, r->start.row,
-					r->start.col, r->start.row,
-					r->end.col, r->end.row);
+		GnmRange const *r = l->data;
+		sv_selection_add_range (sv, r);
 		r0 = r;
 	}
 	sv_make_cell_visible (sv, r0->start.col, r0->start.row, FALSE);
@@ -2207,7 +2201,7 @@ cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 
 	g_return_val_if_fail (data != NULL, TRUE);
 
-	desc = g_strdup_printf (_("Sorting %s"), range_name (data->range));
+	desc = g_strdup_printf (_("Sorting %s"), range_as_string (data->range));
 	if (sheet_range_contains_region (data->sheet, data->range, GO_CMD_CONTEXT (wbc), desc)) {
 		sort_data_destroy (data);
 		g_free (desc);
@@ -2272,11 +2266,11 @@ cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
 	if (index >= 0) {
 		sv_selection_reset (sv);
 		if (me->is_cols)
-			sv_selection_add_range (sv, y, x, y, 0,
-						y, SHEET_MAX_ROWS - 1);
+			sv_selection_add_full (sv, y, x, y, 0,
+					       y, SHEET_MAX_ROWS - 1);
 		else
-			sv_selection_add_range (sv, y, x, 0, x,
-						SHEET_MAX_COLS - 1, x);
+			sv_selection_add_full (sv, y, x, 0, x,
+					       SHEET_MAX_COLS - 1, x);
 	}
 #endif
 }
@@ -2957,7 +2951,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->cmd.sheet = pt->sheet;
 	me->cmd.size = 1;  /* FIXME?  */
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
-						     range_name (&pt->range));
+		range_as_string (&pt->range));
 	me->dst = *pt;
 	me->contents = cr;
 	me->has_been_through_cycle = FALSE;
@@ -3230,7 +3224,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;  /* Changed in initial redo.  */
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Autofilling %s"),
-		range_name (&me->dst.range));
+		range_as_string (&me->dst.range));
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }
@@ -3967,7 +3961,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 		parse_pos_init_evalpos (&pp, ep);
 		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &texpr,
-			gnm_style_get_format (cell_get_mstyle (cell_res.cell)),
+			gnm_style_get_format (cell_get_style (cell_res.cell)),
 			workbook_date_conv (cell_res.cell->base.sheet->workbook));
 
 		/*

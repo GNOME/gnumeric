@@ -58,7 +58,7 @@ sv_is_singleton_selected (SheetView const *sv)
 gboolean
 sv_is_pos_selected (SheetView const *sv, int col, int row)
 {
-	GList *ptr;
+	GSList *ptr;
 	GnmRange const *sr;
 
 	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
@@ -79,7 +79,7 @@ sv_is_pos_selected (SheetView const *sv, int col, int row)
 gboolean
 sv_is_range_selected (SheetView const *sv, GnmRange const *r)
 {
-	GList *ptr;
+	GSList *ptr;
 	GnmRange const *sr;
 
 	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next){
@@ -101,7 +101,7 @@ sv_is_range_selected (SheetView const *sv, GnmRange const *r)
 gboolean
 sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
 {
-	GList *ptr;
+	GSList *ptr;
 	GnmRange const *sr;
 
 	for (ptr = sv->selections; ptr != NULL ; ptr = ptr->next) {
@@ -129,7 +129,7 @@ sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
 gboolean
 sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 {
-	GList *l;
+	GSList *l;
 	for (l = sv->selections; l != NULL; l = l->next) {
 		GnmRange const *ss = l->data;
 
@@ -160,7 +160,7 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 gboolean
 sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 {
-	GList *l;
+	GSList *l;
 	gboolean found = FALSE;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
@@ -193,7 +193,7 @@ sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 ColRowSelectionType
 sv_selection_col_type (SheetView const *sv, int col)
 {
-	GList *ptr;
+	GSList *ptr;
 	GnmRange const *sr;
 	int ret = COL_ROW_NO_SELECTION;
 
@@ -228,7 +228,7 @@ sv_selection_col_type (SheetView const *sv, int col)
 ColRowSelectionType
 sv_selection_row_type (SheetView const *sv, int row)
 {
-	GList *ptr;
+	GSList *ptr;
 	GnmRange const *sr;
 	int ret = COL_ROW_NO_SELECTION;
 
@@ -328,17 +328,18 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
  *
  * Returns the first range, if a control is supplied it displays an error if
  *    there is more than one range.
- */
+ **/
 GnmRange const *
 selection_first_range (SheetView const *sv,
 		       GOCmdContext *cc, char const *cmd_name)
 {
 	GnmRange const *r;
-	GList *l;
+	GSList *l;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
-	l = g_list_first (sv->selections);
+	l = sv->selections;
+
 	g_return_val_if_fail (l != NULL && l->data != NULL, NULL);
 
 	r = l->data;
@@ -407,7 +408,7 @@ sheet_selection_set_internal (SheetView *sv,
 			      int move_col, int move_row,
 			      gboolean just_add_it)
 {
-	GList *list;
+	GSList *list;
 	GnmRange *ss;
 	GnmRange old_sel, new_sel;
 	gboolean do_cols, do_rows;
@@ -573,20 +574,19 @@ sv_selection_set (SheetView *sv, GnmCellPos const *edit,
 }
 
 /**
- * sv_selection_add_range : prepends a new range to the selection list.
- *
+ * sv_selection_add_full :
  * @sheet          : sheet whose selection to append to.
  * @edit_{col,row} : cell to mark as the new edit cursor.
  * @base_{col,row} : stationary corner of the newly selected range.
  * @move_{col,row} : moving corner of the newly selected range.
  *
- * Prepends a range to the selection list and set the edit cursor.
- */
+ * Prepends a range to the selection list and sets the edit position.
+ **/
 void
-sv_selection_add_range (SheetView *sv,
-			int edit_col, int edit_row,
-			int base_col, int base_row,
-			int move_col, int move_row)
+sv_selection_add_full (SheetView *sv,
+		       int edit_col, int edit_row,
+		       int base_col, int base_row,
+		       int move_col, int move_row)
 {
 	GnmRange *ss;
 	GnmCellPos edit;
@@ -595,7 +595,7 @@ sv_selection_add_range (SheetView *sv,
 
 	/* Create and prepend new selection */
 	ss = g_new0 (GnmRange, 1);
-	sv->selections = g_list_prepend (sv->selections, ss);
+	sv->selections = g_slist_prepend (sv->selections, ss);
 	edit.col = edit_col;
 	edit.row = edit_row;
 	sheet_selection_set_internal (sv, &edit,
@@ -604,9 +604,15 @@ sv_selection_add_range (SheetView *sv,
 }
 
 void
+sv_selection_add_range (SheetView *sv, GnmRange const *r)
+{
+	sv_selection_add_full (sv, r->start.col, r->start.row,
+		r->start.col, r->start.row, r->end.col, r->end.row);
+}
+void
 sv_selection_add_pos (SheetView *sv, int col, int row)
 {
-	sv_selection_add_range (sv, col, row, col, row, col, row);
+	sv_selection_add_full (sv, col, row, col, row, col, row);
 }
 
 /**
@@ -618,11 +624,11 @@ sv_selection_add_pos (SheetView *sv, int col, int row)
 void
 sv_selection_free (SheetView *sv)
 {
-	GList *list;
+	GSList *list;
 
 	for (list = sv->selections; list; list = list->next)
 		g_free (list->data);
-	g_list_free (sv->selections);
+	g_slist_free (sv->selections);
 	sv->selections = NULL;
 }
 
@@ -638,7 +644,7 @@ sv_selection_free (SheetView *sv)
 void
 sv_selection_reset (SheetView *sv)
 {
-	GList *list, *tmp;
+	GSList *list, *tmp;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
@@ -654,7 +660,7 @@ sv_selection_reset (SheetView *sv)
 		g_free (ss);
 	}
 
-	g_list_free (list);
+	g_slist_free (list);
 
 	/* Make sure we re-enable the insert col/row and cell menu items */
 	sv_menu_enable_insert (sv, TRUE, TRUE);
@@ -668,7 +674,7 @@ sv_selection_reset (SheetView *sv)
 GSList *
 selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 {
-	GList  *l;
+	GSList  *l;
 	GSList *proposed = NULL;
 
 #undef DEBUG_SELECTION
@@ -947,7 +953,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 }
 
 /**
- * selection_apply:
+ * sv_selection_apply:
  * @sv: the sheet.
  * @func:  The function to apply.
  * @allow_intersection : Call the routine for the non-intersecting subregions.
@@ -958,11 +964,11 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
  * than the smaller system created non-intersection regions.
  */
 void
-selection_apply (SheetView *sv, SelectionApplyFunc const func,
-		 gboolean allow_intersection,
-		 void * closure)
+sv_selection_apply (SheetView *sv, SelectionApplyFunc const func,
+		    gboolean allow_intersection,
+		    void * closure)
 {
-	GList *l;
+	GSList *l;
 	GSList *proposed = NULL;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
@@ -1022,8 +1028,8 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 	res.str = g_string_new (NULL);
 	res.include_sheet_name_prefix = include_sheet_name_prefix;
 
-	/* selection_apply will check all necessary invariants. */
-	selection_apply (sv, &cb_range_to_string, TRUE, &res);
+	/* sv_selection_apply will check all necessary invariants. */
+	sv_selection_apply (sv, &cb_range_to_string, TRUE, &res);
 
 	output = res.str->str;
 	g_string_free (res.str, FALSE);
@@ -1031,9 +1037,8 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 }
 
 /**
- * selection_foreach_range :
+ * sv_selection_foreach :
  * @sv : The whose selection is being iterated.
- * @from_start : Iterate from start to end or end to start.
  * @range_cb : A function to call for each selected range.
  * @user_data :
  *
@@ -1042,32 +1047,25 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
  * selection list.  This can be changed in the future if it is a requirement.
  */
 gboolean
-selection_foreach_range (SheetView *sv, gboolean from_start,
+sv_selection_foreach (SheetView *sv,
 			 gboolean (*range_cb) (SheetView *sv,
 					       GnmRange const *range,
 					       gpointer user_data),
 			 gpointer user_data)
 {
-	GList *l;
+	GSList *l;
 
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 
-	if (from_start)
-		for (l = sv->selections; l != NULL; l = l->next) {
-			GnmRange *ss = l->data;
-			if (!range_cb (sv, ss, user_data))
-				return FALSE;
-		}
-	else
-		for (l = g_list_last (sv->selections); l != NULL; l = l->prev) {
-			GnmRange *ss = l->data;
-			if (!range_cb (sv, ss, user_data))
-				return FALSE;
-		}
+	for (l = sv->selections; l != NULL; l = l->next) {
+		GnmRange *ss = l->data;
+		if (!range_cb (sv, ss, user_data))
+			return FALSE;
+	}
 	return TRUE;
 }
 
-/*
+/**
  * walk_boundaries : Iterates through a region by row then column.
  *
  * @sv : The sheet being iterated in
@@ -1078,7 +1076,7 @@ selection_foreach_range (SheetView *sv, gboolean from_start,
  * @res : The result.
  *
  * returns TRUE if the cursor leaves the boundary region.
- */
+ **/
 static gboolean
 walk_boundaries (SheetView const *sv, GnmRange const * const bound,
 		 gboolean const forward, gboolean const horizontal,
@@ -1168,7 +1166,7 @@ sv_selection_walk_step (SheetView *sv,
 	g_return_if_fail (sv->selections != NULL);
 
 	ss = sv->selections->data;
-	selections_count = g_list_length (sv->selections);
+	selections_count = g_slist_length (sv->selections);
 
 	/* If there is no selection besides the cursor
 	 * iterate through the entire sheet.  Move the
@@ -1217,19 +1215,16 @@ sv_selection_walk_step (SheetView *sv,
 	if (walk_boundaries (sv, ss, forward, horizontal,
 			     TRUE, &destination)) {
 		if (forward) {
-			GList *tmp = g_list_last (sv->selections);
-			sv->selections =
-			    g_list_concat (tmp,
-					   g_list_remove_link (sv->selections,
-							       tmp));
+			GSList *tmp = g_slist_last (sv->selections);
+			sv->selections = g_slist_concat (tmp,
+				g_slist_remove_link (sv->selections, tmp));
 			ss = sv->selections->data;
 			destination = ss->start;
 		} else {
-			GList *tmp = sv->selections;
-			sv->selections =
-			    g_list_concat (g_list_remove_link (sv->selections,
-							       tmp),
-					   tmp);
+			GSList *tmp = sv->selections;
+			sv->selections = g_slist_concat (
+				g_slist_remove_link (sv->selections, tmp),
+				tmp);
 			ss = sv->selections->data;
 			destination = ss->end;
 		}
@@ -1293,13 +1288,10 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 	return is_string; /* NOTREACHED */
 }
 
-/* FIXME cheat to avoid having graph types in public headers
- * change the gpointer to a GogPlot soon
- */
 void
-sv_selection_to_plot (SheetView *sv, gpointer go_plot)
+sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 {
-	GList *ptr;
+	GSList *ptr, *sels;
 	GnmRange const *r;
 	int num_cols, num_rows;
 
@@ -1333,8 +1325,6 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 	header.sheet = sheet;
 	header.col_relative = header.row_relative = FALSE;
 
-	/* selections are in reverse order so walk them bacwards */
-	ptr = g_list_last (sv->selections);
 
 /* FIXME : a cheesy quick implementation */
 	cur_dim = desc->series.num_dim - 1;
@@ -1342,6 +1332,8 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 		/* Here, only the first range is used. It is assumed it is large enough
 		to retrieve the axis data and the matrix z values. We probably should raise
 		an error condition if it is not the case */
+		/* selections are in reverse order so walk them backwards */
+		GSList const *ptr = g_slist_last (sv->selections);
 		GnmRange vector = *((GnmRange const *)ptr->data);
 		int start_row = vector.start.row;
 		int start_col = vector.start.col;
@@ -1378,13 +1370,15 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 					value_new_cellrange_r (sheet, &vector))), NULL);
 		return;
 	}
+
+	/* selections are in reverse order so walk them backwards */
 	cur_dim = 0;
-	for (; ptr != NULL; ptr = ptr->prev) {
+	sels = ptr = g_slist_reverse (g_slist_copy (sv->selections));
+	for (; ptr != NULL; ptr = ptr->next) {
 		GnmRange vector = *((GnmRange const *)ptr->data);
 
 		/* Special case the handling of a vector rather than a range.
-		 * it should stay in its orientation,  only ranges get split
-		 */
+		 * it should stay in its orientation,  only ranges get split */
 		as_cols = (vector.start.col == vector.end.col || default_to_cols);
 		has_header = range_has_header (sheet, &vector, as_cols, TRUE);
 		header.col = vector.start.col;
@@ -1458,6 +1452,8 @@ skip :
 			}
 		}
 	}
+
+	g_slist_free (sels);
 
 #warning TODO is last series is incomplete try to shift data out of optional dimensions
 }

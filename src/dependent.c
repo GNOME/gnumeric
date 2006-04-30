@@ -2349,7 +2349,7 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	GString *target = g_string_new (NULL);
 
 	g_string_append (target, "    ");
-	g_string_append (target, range_name (range));
+	g_string_append (target, range_as_string (range));
 	g_string_append (target, " -> ");
 
 	micro_hash_foreach_list (deprange->deps, list,

@@ -19,7 +19,8 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <gnumeric.h>
+#include "xlsx-utils.h"
+
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -28,6 +29,7 @@
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
+#include "style-conditions.h"
 #include "gnm-format.h"
 #include "cell.h"
 #include "position.h"
@@ -92,6 +94,7 @@ typedef struct {
 	GnmRange	  array;
 	char		 *shared_id;
 	GHashTable	 *shared_exprs;
+	GnmExprConventions *expr_convs;
 
 	SheetView	*sv;		/* current sheetview */
 
@@ -114,6 +117,10 @@ typedef struct {
 	GPtrArray	*collection;	/* utility for the shared collection handlers */
 	unsigned	 count;
 	XLSXPanePos	 pane_pos;
+
+	GnmStyleConditions *conditions;
+	GSList		   *cond_regions;
+	GnmStyleCond	    cond;
 } XLSXReadState;
 typedef struct {
 	GnmString	*str;
@@ -136,11 +143,23 @@ static GsfXMLInNS const xlsx_ns[] = {
 /****************************************************************************/
 /* some utilities for Open Packaging format.
  * Move to gsf when the set of useful functionality clarifies */
-typedef struct _GsfOpenPkgRel GsfOpenPkgRel;
+typedef struct _GsfOpenPkgRel	GsfOpenPkgRel;
+typedef struct _GsfOpenPkgRels	GsfOpenPkgRels;
 
 struct _GsfOpenPkgRel {
 	char *id, *type, *target;
 };
+struct _GsfOpenPkgRels {
+	GHashTable	*by_id;
+	GHashTable	*by_type;
+};
+static void
+gsf_open_pkg_rels_free (GsfOpenPkgRels *rels)
+{
+	g_hash_table_destroy (rels->by_id);
+	g_hash_table_destroy (rels->by_type);
+	g_free (rels);
+}
 
 static void
 gsf_open_pkg_rel_free (GsfOpenPkgRel *rel)
@@ -154,6 +173,7 @@ gsf_open_pkg_rel_free (GsfOpenPkgRel *rel)
 static void
 xlsx_pkg_rel_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	GsfOpenPkgRels *rels = xin->user_state;
 	GsfOpenPkgRel *rel;
 	xmlChar const *id = NULL;
 	xmlChar const *type = NULL;
@@ -176,7 +196,8 @@ xlsx_pkg_rel_start (GsfXMLIn *xin, xmlChar const **attrs)
 	rel->type	= g_strdup (type);
 	rel->target	= g_strdup (target);
 
-	g_hash_table_replace (xin->user_state, rel->id, rel);
+	g_hash_table_replace (rels->by_id, rel->id, rel);
+	g_hash_table_replace (rels->by_type, rel->type, rel);
 }
 
 static GsfXMLInNode const open_pkg_rel_dtd[] = {
@@ -190,32 +211,40 @@ GSF_XML_IN_NODE_END
 /**
  * gsf_open_pkg_get_rels :
  * @in : #GsfInput
- * 
+ *
  * Returns a hashtable of the relationships associated with @in
  **/
-static GHashTable *
+static GsfOpenPkgRels *
 gsf_open_pkg_get_rels (GsfInput *in)
 {
-	GHashTable *rels;
+	GsfOpenPkgRels *rels;
 
 	g_return_val_if_fail (in != NULL, NULL);
 
 	if (NULL == (rels = g_object_get_data (G_OBJECT (in), "OpenPkgRels"))) {
-		char *rel_name;
+		char const *part_name = gsf_input_name (in);
 		GsfXMLInDoc *rel_doc;
 		GsfInput *rel_stream;
-		GsfInfile *container = gsf_input_container (in);
 
-		g_return_val_if_fail (container != NULL, NULL);
+		if (NULL != part_name) {
+			GsfInfile *container = gsf_input_container (in);
+			char *rel_name;
 
-		rel_name = g_strconcat (gsf_input_name (in), ".rels", NULL);
-		rel_stream = gsf_infile_child_by_vname (container, "_rels", rel_name, NULL);
-		g_free (rel_name);
+			g_return_val_if_fail (container != NULL, NULL);
+
+			rel_name = g_strconcat (part_name, ".rels", NULL);
+			rel_stream = gsf_infile_child_by_vname (container, "_rels", rel_name, NULL);
+			g_free (rel_name);
+		} else /* the root */
+			rel_stream = gsf_infile_child_by_vname (GSF_INFILE (in), "_rels", ".rels", NULL);
 
 		g_return_val_if_fail (rel_stream != NULL, NULL);
 
-		rels = g_hash_table_new_full (g_str_hash, g_str_equal,
+		rels = g_new (GsfOpenPkgRels, 1);
+		rels->by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
 			NULL, (GDestroyNotify)gsf_open_pkg_rel_free);
+		rels->by_type = g_hash_table_new (g_str_hash, g_str_equal);
+
 		rel_doc = gsf_xml_in_doc_new (open_pkg_rel_dtd, xlsx_ns);
 		(void) gsf_xml_in_doc_parse (rel_doc, rel_stream, rels);
 
@@ -223,46 +252,66 @@ gsf_open_pkg_get_rels (GsfInput *in)
 		g_object_unref (G_OBJECT (rel_stream));
 
 		g_object_set_data_full (G_OBJECT (in), "OpenPkgRels", rels,
-			(GDestroyNotify) g_hash_table_destroy);
+			(GDestroyNotify) gsf_open_pkg_rels_free);
 	}
 
 	return rels;
 }
 
 static GsfInput *
-gsf_open_pkg_get_rel (GsfInput *in, char const *id)
+gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel)
+{
+	GsfInfile *container;
+	gchar **elems;
+	unsigned i;
+
+	g_return_val_if_fail (rel != NULL, NULL);
+	g_return_val_if_fail (in != NULL, NULL);
+
+	container = gsf_input_name (in)
+		? gsf_input_container (in) : GSF_INFILE (in);
+
+	/* parts can not have '/' in their names ? TODO : PROVE THIS
+	 * right now the only test is that worksheets can not have it
+	 * in their names */
+	elems = g_strsplit (rel->target, "/", 0);
+	for (i = 0 ; elems[i] ;) {
+		in = gsf_infile_child_by_name (container, elems[i]);
+		if (i > 0)
+			g_object_unref (G_OBJECT (container));
+		if (NULL != elems[++i]) {
+			g_return_val_if_fail (GSF_IS_INFILE (in), NULL);
+			container = GSF_INFILE (in);
+		}
+	}
+	g_strfreev (elems);
+
+	return in;
+}
+
+static GsfInput *
+gsf_open_pkg_get_rel_by_id (GsfInput *in, char const *id)
 {
 	GsfOpenPkgRel *rel = NULL;
-	GHashTable *rels = gsf_open_pkg_get_rels (in);
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
 
 	g_return_val_if_fail (rels != NULL, NULL);
 
-	rel = g_hash_table_lookup (rels, id);
-	if (rel != NULL) {
-		gchar **elems;
-		unsigned i;
-		GsfInfile *container = gsf_input_container (in);
+	if (NULL != (rel = g_hash_table_lookup (rels->by_id, id)))
+		return gsf_open_pkg_open_rel (in, rel);
+	return NULL;
+}
 
-		g_return_val_if_fail (container != NULL, NULL);
+static GsfInput *
+gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type)
+{
+	GsfOpenPkgRel *rel = NULL;
+	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
 
-		/* parts can not have '/' in their names ? TODO : PROVE THIS
-		 * right now the only test is that worksheets can not have it
-		 * in their names */
-		elems = g_strsplit (rel->target, "/", 0);
-		for (i = 0 ; elems[i] ;) {
-			in = gsf_infile_child_by_name (container, elems[i]);
-			if (i > 0)
-				g_object_unref (G_OBJECT (container));
-			if (NULL != elems[++i]) {
-				g_return_val_if_fail (GSF_IS_INFILE (in), NULL);
-				container = GSF_INFILE (in);
-			}
-		}
-		g_strfreev (elems);
+	g_return_val_if_fail (rels != NULL, NULL);
 
-		return in;
-	}
-
+	if (NULL != (rel = g_hash_table_lookup (rels->by_type, type)))
+		return gsf_open_pkg_open_rel (in, rel);
 	return NULL;
 }
 
@@ -446,6 +495,11 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	return TRUE;
 }
 
+/***********************************************************************
+ * These indexes look like the values in xls.  Dup some code from there.
+ * TODO : Can we merge the code ?
+ * 	  Will the 'indexedColors' look like a palette ?
+ */
 static struct {
 	guint8 r, g, b;
 } excel_default_palette_v8 [] = {
@@ -520,10 +574,12 @@ indexed_color (gint idx)
 		return style_color_black ();
 	}
 
+	/* TODO cache and ref */
 	return style_color_new_i8 (excel_default_palette_v8[idx].r,
 				   excel_default_palette_v8[idx].g,
 				   excel_default_palette_v8[idx].b);
 }
+/***********************************************************************/
 
 static GnmColor *
 elem_color (GsfXMLIn *xin, xmlChar const **attrs)
@@ -561,6 +617,15 @@ xlsx_get_xf (GsfXMLIn *xin, int xf)
 	xlsx_warning (xin, _("Undefined style record '%d'"), xf);
 	return NULL;
 }
+static GnmStyle *
+xlsx_get_dxf (GsfXMLIn *xin, int dxf)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (0 <= dxf && NULL != state->dxfs && dxf < (int)state->dxfs->len)
+		return g_ptr_array_index (state->dxfs, dxf);
+	xlsx_warning (xin, _("Undefined partial style record '%d'"), dxf);
+	return NULL;
+}
 static GOFormat *
 xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 {
@@ -581,9 +646,10 @@ static GnmExprTop const *
 xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 		 GnmParsePos const *pp)
 {
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmParseError err;
 	GnmExprTop const *texpr;
-	
+
 	/* Odd, some time IF and CHOOSE show up with leading spaces ??
 	 * = IF(....
 	 * = CHOOSE(...
@@ -593,7 +659,7 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 		expr_str++;
 
 	texpr = gnm_expr_parse_str (expr_str, pp,
-		GNM_EXPR_PARSE_DEFAULT, gnm_expr_conventions_default,
+		GNM_EXPR_PARSE_DEFAULT, state->expr_convs,
 		parse_error_init (&err));
 	if (NULL == texpr)
 		xlsx_warning (xin, "'%s' %s", expr_str, err.err->message);
@@ -959,8 +1025,205 @@ xlsx_CT_MergeCell (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_cond_fmt_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmRange  r;
+	char const *refs = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "sqref"))
+			refs = attrs[1];
+
+	while (NULL != refs && *refs) {
+		if (NULL == (refs = cellpos_parse (refs, &r.start, FALSE)))
+			return;
+
+		if (*refs == '\0' || *refs == ' ')
+			r.end = r.start;
+		else if (*refs != ':' ||
+			 NULL == (refs = cellpos_parse (refs + 1, &r.end, FALSE)))
+			return;
+
+		state->cond_regions = g_slist_prepend (state->cond_regions,
+			range_dup (&r));
+
+		while (*refs == ' ')
+			refs++;
+	}
+
+	/* create in first call xlsx_cond_rule to avoid creating condition with
+	 * no rules */
+	state->conditions = NULL;
+}
+
+static void
+xlsx_cond_fmt_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmStyle *style = NULL;
+	GSList   *ptr;
+
+	if (NULL != state->conditions) {
+		style = gnm_style_new ();
+		gnm_style_set_conditions (style, state->conditions);
+		for (ptr = state->cond_regions ; ptr != NULL ; ptr = ptr->next) {
+			gnm_style_ref (style);
+			sheet_style_apply_range	(state->sheet, ptr->data, style);
+			g_free (ptr->data);
+		}
+		gnm_style_unref (style);
+	} else for (ptr = state->cond_regions ; ptr != NULL ; ptr = ptr->next)
+		g_free (ptr->data);
+	g_slist_free (state->cond_regions);
+	state->cond_regions = NULL;
+}
+
+typedef enum {
+	XLSX_CF_TYPE_UNDEFINED,
+
+	XLSX_CF_TYPE_EXPRESSION,
+	XLSX_CF_TYPE_CELLIS,
+	XLSX_CF_TYPE_COLORSCALE,
+	XLSX_CF_TYPE_DATABAR,
+	XLSX_CF_TYPE_ICONSET,
+	XLSX_CF_TYPE_TOP10,
+	XLSX_CF_TYPE_UNIQUEVALUES,
+	XLSX_CF_TYPE_DUPLICATEVALUES,
+	XLSX_CF_TYPE_CONTAINSTEXT,
+	XLSX_CF_TYPE_DOESNOTCONTAINTEXT,
+	XLSX_CF_TYPE_BEGINSWITH,
+	XLSX_CF_TYPE_ENDSWITH,
+	XLSX_CF_TYPE_CONTAINSBLANKS,
+	XLSX_CF_TYPE_CONTAINSNOBLANKS,
+	XLSX_CF_TYPE_CONTAINSERRORS,
+	XLSX_CF_TYPE_CONTAINSNOERRORS,
+	XLSX_CF_TYPE_COMPARECOLUMNS,
+	XLSX_CF_TYPE_TIMEPERIOD,
+	XLSX_CF_TYPE_ABOVEAVERAGE
+} XlsxCFTypes;
+static void
+xlsx_cond_fmt_rule_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const ops[] = {
+		{ "lessThan",		GNM_STYLE_COND_LT },
+		{ "lessThanOrEqual",	GNM_STYLE_COND_LTE },
+		{ "equal",		GNM_STYLE_COND_EQUAL },
+		{ "notEqual",		GNM_STYLE_COND_NOT_EQUAL },
+		{ "greaterThanOrEqual",	GNM_STYLE_COND_GTE },
+		{ "greaterThan",	GNM_STYLE_COND_GT },
+		{ "between",		GNM_STYLE_COND_BETWEEN },
+		{ "notBetween",		GNM_STYLE_COND_NOT_BETWEEN },
+		{ "contains",		GNM_STYLE_COND_CONTAINS_STR },
+		{ "notContains",	GNM_STYLE_COND_NOT_CONTAINS_STR },
+		{ "beginsWith",		GNM_STYLE_COND_BEGINS_WITH_STR },
+		{ "endsWith",		GNM_STYLE_COND_ENDS_WITH_STR },
+		{ "notContain",		GNM_STYLE_COND_NOT_CONTAINS_STR },
+		{ NULL, 0 }
+	};
+	static EnumVal const types[] = {
+		{ "expression",		XLSX_CF_TYPE_EXPRESSION },
+		{ "cellIs",		XLSX_CF_TYPE_CELLIS },
+		{ "colorScale",		XLSX_CF_TYPE_COLORSCALE },
+		{ "dataBar",		XLSX_CF_TYPE_DATABAR },
+		{ "iconSet",		XLSX_CF_TYPE_ICONSET },
+		{ "top10",		XLSX_CF_TYPE_TOP10 },
+		{ "uniqueValues",	XLSX_CF_TYPE_UNIQUEVALUES },
+		{ "duplicateValues",	XLSX_CF_TYPE_DUPLICATEVALUES },
+		{ "containsText",	XLSX_CF_TYPE_CONTAINSTEXT },
+		{ "doesNotContainText",	XLSX_CF_TYPE_DOESNOTCONTAINTEXT },
+		{ "beginsWith",		XLSX_CF_TYPE_BEGINSWITH },
+		{ "endsWith",		XLSX_CF_TYPE_ENDSWITH },
+		{ "containsBlanks",	XLSX_CF_TYPE_CONTAINSBLANKS },
+		{ "containsNoBlanks",	XLSX_CF_TYPE_CONTAINSNOBLANKS },
+		{ "containsErrors",	XLSX_CF_TYPE_CONTAINSERRORS },
+		{ "containsNoErrors",	XLSX_CF_TYPE_CONTAINSNOERRORS },
+		{ "compareColumns",	XLSX_CF_TYPE_COMPARECOLUMNS },
+		{ "timePeriod",		XLSX_CF_TYPE_TIMEPERIOD },
+		{ "aboveAverage",	XLSX_CF_TYPE_ABOVEAVERAGE },
+		{ NULL, 0 }
+	};
+
+	XLSXReadState  *state = (XLSXReadState *)xin->user_state;
+	gboolean	formatRow = FALSE;
+	gboolean	stopIfTrue = FALSE;
+	gboolean	above = TRUE;
+	gboolean	percent = FALSE;
+	gboolean	bottom = FALSE;
+	int		tmp, dxf = -1;
+	/* use custom invalid flag, it is not in MS enum */
+	GnmStyleCondOp	op = GNM_STYLE_COND_CUSTOM;
+	XlsxCFTypes	type = XLSX_CF_TYPE_UNDEFINED;
+	char const	*type_str = _("Undefined");
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_bool (xin, attrs, XL_NS_SS, "formatRow", &formatRow)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "stopIfTrue", &stopIfTrue)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "above", &above)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "percent", &percent)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "bottom", &bottom)) ;
+		else if (attr_int  (xin, attrs, XL_NS_SS, "dxfId", &dxf)) ;
+		else if (attr_enum (xin, attrs, XL_NS_SS, "operator", ops, &tmp))
+			op = tmp;
+		else if (attr_enum (xin, attrs, XL_NS_SS, "type", types, &tmp)) {
+			type = tmp;
+			type_str = attrs[1];
+		}
+#if 0
+	"numFmtId"	="ST_NumFmtId" use="optional">
+	"priority"	="xs:int" use="required">
+	"text"		="xs:string" use="optional">
+	"timePeriod"	="ST_TimePeriod" use="optional">
+	"col1"		="xs:unsignedInt" use="optional">
+	"col2"		="xs:unsignedInt" use="optional">
+#endif
+
+	switch (type) {
+	case XLSX_CF_TYPE_CELLIS :
+		state->cond.op = op;
+		state->cond.overlay = xlsx_get_dxf (xin, dxf);
+		gnm_style_ref (state->cond.overlay);
+		break;
+
+	default :
+		xlsx_warning (xin, _("Ignoring unhandled conditional format of type '%s'"), type_str);
+		return;
+	}
+	state->count = 0;
+}
+
+static void
+xlsx_cond_fmt_rule_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (NULL == state->conditions)
+		state->conditions = gnm_style_conditions_new ();
+	gnm_style_conditions_insert (state->conditions, &state->cond, -1);
+	state->cond.overlay = NULL;
+}
+
+static void
+xlsx_cond_fmt_formula_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmParsePos	pp;
+	if (state->count > 1)
+		return;
+
+	state->cond.texpr[state->count++] = xlsx_parse_expr (xin, xin->content->str,
+		parse_pos_init_sheet (&pp, state->sheet));
+}
+
+static void
 xlsx_CT_SheetView_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static EnumVal const view_types[] = {
+		{ "normal", 		GNM_SHEET_VIEW_NORMAL_MODE },
+		{ "pageBreakPreview",	GNM_SHEET_VIEW_PAGE_BREAK_MODE },
+		{ "pageLayout",		GNM_SHEET_VIEW_LAYOUT_MODE },
+		{ NULL, 0 }
+	};
+
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int showGridLines	= TRUE;
 	int showFormulas	= FALSE;
@@ -975,7 +1238,10 @@ xlsx_CT_SheetView_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int showOutlineSymbols	= TRUE;
 	int defaultGridColor	= TRUE;
 	int showWhiteSpace	= TRUE;
-	int scale = 100;
+	int scale		= 100;
+	int grid_color_index	= -1;
+	int tmp;
+	GnmSheetViewMode	view_mode = GNM_SHEET_VIEW_NORMAL_MODE;
 	GnmCellPos topLeft = { -1, -1 };
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -994,13 +1260,14 @@ xlsx_CT_SheetView_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_bool (xin, attrs, XL_NS_SS, "defaultGridColor", &defaultGridColor)) ;
 		else if (attr_bool (xin, attrs, XL_NS_SS, "showWhiteSpace", &showWhiteSpace)) ;
 		else if (attr_int (xin, attrs, XL_NS_SS, "zoomScale", &scale)) ;
+		else if (attr_int (xin, attrs, XL_NS_SS, "colorId", &grid_color_index)) ;
+		else if (attr_enum (xin, attrs, XL_NS_SS, "view", view_types, &tmp))
+			view_mode = tmp;
 #if 0
 "zoomScaleNormal"		type="xs:unsignedInt" use="optional" default="0"
 "zoomScaleSheetLayoutView"	type="xs:unsignedInt" use="optional" default="0"
 "zoomScalePageLayoutView"	type="xs:unsignedInt" use="optional" default="0"
 "workbookViewId"		type="xs:unsignedInt" use="required"
-"view"				type="ST_SheetViewType" use="optional" default="normal"
-"colorId"			type="xs:int" use="optional" default="64"
 #endif
 
 	/* get this from the workbookViewId */
@@ -1023,14 +1290,22 @@ xlsx_CT_SheetView_start (GsfXMLIn *xin, xmlChar const **attrs)
 		"display-row-header",	showRowColHeaders,
 		"display-outlines",	showOutlineSymbols,
 		"zoom-factor",		((double)scale) / 100.,
+		NULL);
 #if 0
 		gboolean active			= FALSE;
 		gboolean showRuler		= TRUE;
-		gboolean defaultGridColor	= TRUE;
 		gboolean showWhiteSpace		= TRUE;
 #endif
-		NULL);
 
+#if 0
+	g_object_set (state->sv,
+		"displayMode",	view_mode,
+		NULL);
+#endif
+
+	if (!defaultGridColor && grid_color_index >= 0)
+		sheet_style_set_auto_pattern_color (state->sheet,
+			indexed_color (grid_color_index));
 	if (tabSelected)
 		wb_view_sheet_focus (state->wb_view, state->sheet);
 }
@@ -1058,6 +1333,7 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *refs = NULL;
 	XLSXPanePos pane_pos = XLSX_PANE_TOP_LEFT;
 	GnmRange r;
+	GSList *ptr, *accum = NULL;
 
 	g_return_if_fail (state->sv != NULL);
 
@@ -1086,20 +1362,23 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 		if (i == 0)
 			sv_selection_reset (state->sv);
 
-		/* FIXME : gnumeric assumes the edit_pos is in the last
-		 * selected range.  We need to re-order the selection list. */
-		if (i == sel_with_edit_pos && edit_pos.col >= 0)
-			sv_selection_add_range (state->sv,
-				edit_pos.col, edit_pos.row,
-				r.start.col, r.start.row,
-				r.end.col, r.end.row);
+		/* gnumeric assumes the edit_pos is in the last selected range.
+		 * We need to re-order the selection list. */
+		if (i <= sel_with_edit_pos && edit_pos.col >= 0)
+			accum = g_slist_prepend (accum, range_dup (&r));
 		else
-			sv_selection_add_range (state->sv,
-				r.start.col, r.start.row,
-				r.start.col, r.start.row,
-				r.end.col, r.end.row);
+			sv_selection_add_range (state->sv, &r);
 		while (*refs == ' ')
 			refs++;
+	}
+
+	if (NULL != accum) {
+		accum = g_slist_reverse (accum);
+		for (ptr = accum ; ptr != NULL ; ptr = ptr->next) {
+			sv_selection_add_range (state->sv, ptr->data);
+			g_free (ptr->data);
+		}
+		sv_set_edit_pos (state->sv, &edit_pos);
 	}
 }
 static void
@@ -1160,7 +1439,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
   GSF_XML_IN_NODE (SHEET, CONTENT, XL_NS_SS, "sheetData", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CONTENT, ROW, XL_NS_SS, "row", GSF_XML_NO_CONTENT, &xlsx_CT_Row, NULL),
       GSF_XML_IN_NODE (ROW, CELL, XL_NS_SS, "c", GSF_XML_NO_CONTENT, &xlsx_cell_start, &xlsx_cell_end),
-	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end), 
+	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
 	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_start, &xlsx_cell_expr_end),
 
   GSF_XML_IN_NODE (SHEET, MERGES, XL_NS_SS, "mergeCells", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1168,9 +1447,14 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 
   GSF_XML_IN_NODE (SHEET, PROTECTION, XL_NS_SS, "sheetProtection", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, PHONETIC, XL_NS_SS, "phoneticPr", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (SHEET, COND_FMTS, XL_NS_SS, "conditionalFormatting", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (COND_FMTS, COND_RULE, XL_NS_SS, "cfRule", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (COND_RULE, COND_FMLA, XL_NS_SS, "formula", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, COND_FMTS, XL_NS_SS, "conditionalFormatting", GSF_XML_NO_CONTENT,
+		   &xlsx_cond_fmt_start, &xlsx_cond_fmt_end),
+    GSF_XML_IN_NODE (COND_FMTS, COND_RULE, XL_NS_SS, "cfRule", GSF_XML_NO_CONTENT,
+		   &xlsx_cond_fmt_rule_start, &xlsx_cond_fmt_rule_end),
+      GSF_XML_IN_NODE (COND_RULE, COND_FMLA, XL_NS_SS, "formula", GSF_XML_CONTENT, NULL, &xlsx_cond_fmt_formula_end),
+      GSF_XML_IN_NODE (COND_RULE, COND_COLOR_SCALE, XL_NS_SS, "colorScale", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (COND_RULE, COND_DATA_BAR, XL_NS_SS, "dataBar", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (COND_RULE, COND_ICON_SET, XL_NS_SS, "iconSet", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (SHEET, HYPERLINKS, XL_NS_SS, "hyperlinks", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (HYPERLINKS, HYPERLINK, XL_NS_SS, "hyperlink", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1201,13 +1485,13 @@ xlsx_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 
-	if (name == NULL) {
+	if (NULL == name) {
 		xlsx_warning (xin, _("Ignoring a sheet without a name"));
 		return;
 	}
 
 	sheet =  workbook_sheet_by_name (state->wb, name);
-	if (sheet == NULL) {
+	if (NULL == sheet) {
 		sheet = sheet_new (state->wb, name);
 		workbook_sheet_attach (state->wb, sheet);
 	}
@@ -1243,7 +1527,7 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				range_init_full_sheet (&r), style);
 		}
 
-		if (NULL != (state->sheet_stream = gsf_open_pkg_get_rel (state->stream, part_id))) {
+		if (NULL != (state->sheet_stream = gsf_open_pkg_get_rel_by_id (state->stream, part_id))) {
 			GsfXMLInDoc *doc = gsf_xml_in_doc_new (xlsx_sheet_dtd, xlsx_ns);
 			if (!gsf_xml_in_doc_parse (doc, state->sheet_stream, state))
 				gnumeric_io_error_string (state->context, _("is corrupt!"));
@@ -1305,12 +1589,16 @@ xlsx_sstitem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		entry->markup = go_format_new_markup (state->rich_attrs, FALSE);
 		state->rich_attrs = NULL;
 	}
+
+	/* sst does not have content so that we can ignore whitespace outside
+	 * the <t> elements, but the <t>s do have SHARED content */
+	g_string_truncate (xin->content, 0);
 }
 
 static GsfXMLInNode const xlsx_shared_strings_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SST, XL_NS_SS, "sst", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_sst_start, NULL, 0),
-  GSF_XML_IN_NODE (SST, ITEM, XL_NS_SS, "sstItem", GSF_XML_CONTENT, NULL, &xlsx_sstitem_end),
+  GSF_XML_IN_NODE (SST, ITEM, XL_NS_SS, "sstItem", GSF_XML_NO_CONTENT, NULL, &xlsx_sstitem_end),
     GSF_XML_IN_NODE (ITEM, TEXT, XL_NS_SS, "t", GSF_XML_SHARED_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (ITEM, RICH, XL_NS_SS, "r", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (RICH, RICH_TEXT, XL_NS_SS, "t", GSF_XML_SHARED_CONTENT, NULL, NULL),
@@ -1359,7 +1647,7 @@ xlsx_style_numfmt (GsfXMLIn *xin, xmlChar const **attrs)
 			fmt = attrs[1];
 
 	if (NULL != id && NULL != fmt)
-		g_hash_table_replace (state->num_fmts, g_strdup (id), 
+		g_hash_table_replace (state->num_fmts, g_strdup (id),
 			go_format_new_from_XL (fmt, FALSE));
 }
 
@@ -1492,15 +1780,15 @@ static void
 xlsx_font_uline (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const types[] = {
-		{ "single", UNDERLINE_SINGLE }, 
+		{ "single", UNDERLINE_SINGLE },
 		{ "double", UNDERLINE_DOUBLE },
-		{ "singleAccounting", UNDERLINE_SINGLE }, 
+		{ "singleAccounting", UNDERLINE_SINGLE },
 		{ "doubleAccounting", UNDERLINE_DOUBLE },
 		{ "none", UNDERLINE_NONE },
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int val = UNDERLINE_SINGLE; 
+	int val = UNDERLINE_SINGLE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, XL_NS_SS, "val", types, &val))
@@ -1518,7 +1806,7 @@ xlsx_font_valign (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int val = UNDERLINE_SINGLE; 
+	int val = UNDERLINE_SINGLE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, XL_NS_SS, "val", types, &val))
@@ -1604,7 +1892,7 @@ xlsx_border_start (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int border_style = STYLE_BORDER_NONE; 
+	int border_style = STYLE_BORDER_NONE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, XL_NS_SS, "style", borders, &border_style))
@@ -1671,8 +1959,9 @@ xlsx_xf_start (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 #if 0
-		"xfId"
-		"quotePrefix"
+		"xfId"			parent style ??
+		"quotePrefix"			??
+
 		"applyNumberFormat"
 		"applyFont"
 		"applyFill"
@@ -1682,16 +1971,9 @@ xlsx_xf_start (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 }
 static void
-xlsx_xf_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xlsx_xf_end (GsfXMLIn *xin, GsfXMLBlob *blob)
 {
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-
-	if (state->count >= state->collection->len)
-		g_ptr_array_add (state->collection, state->style_accum);
-	else
-		g_ptr_array_index (state->collection, state->count) = state->style_accum;
-	state->count++;
-	state->style_accum = NULL;
+	xlsx_col_elem_end (xin, blob);
 }
 
 static void
@@ -1781,6 +2063,44 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static void
+xlsx_dxf_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	state->style_accum = gnm_style_new ();
+}
+static void
+xlsx_dxf_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	if (state->count >= state->collection->len)
+		g_ptr_array_add (state->collection, state->style_accum);
+	else
+		g_ptr_array_index (state->collection, state->count) = state->style_accum;
+	fprintf (stderr, "%d) ", state->count);
+	gnm_style_dump (state->style_accum);
+	state->count++;
+	state->style_accum = NULL;
+}
+static void
+xlsx_dxf_pattern_fg (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmColor *color = elem_color (xin, attrs);
+
+	if (NULL != color)
+		gnm_style_set_pattern_color (state->style_accum, color);
+}
+static void
+xlsx_dxf_pattern_bg (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmColor *color = elem_color (xin, attrs);
+	if (NULL != color)
+		gnm_style_set_back_color (state->style_accum, color);
+}
 static GsfXMLInNode const xlsx_styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -1788,7 +2108,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
   GSF_XML_IN_NODE (STYLE_INFO, NUM_FMTS, XL_NS_SS, "numFmts", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NUM_FMTS, NUM_FMT, XL_NS_SS, "numFmt", GSF_XML_NO_CONTENT, &xlsx_style_numfmt, NULL),
 
-  GSF_XML_IN_NODE_FULL (STYLE_INFO, FONTS, XL_NS_SS, "fonts", GSF_XML_NO_CONTENT, 
+  GSF_XML_IN_NODE_FULL (STYLE_INFO, FONTS, XL_NS_SS, "fonts", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_FONT),
     GSF_XML_IN_NODE (FONTS, FONT, XL_NS_SS, "font", GSF_XML_NO_CONTENT, &xlsx_col_elem_start, &xlsx_col_elem_end),
       GSF_XML_IN_NODE (FONT, FONT_NAME,	     XL_NS_SS, "name",	    GSF_XML_NO_CONTENT, &xlsx_font_name, NULL),
@@ -1810,9 +2130,9 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
   GSF_XML_IN_NODE_FULL (STYLE_INFO, FILLS, XL_NS_SS, "fills", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_FILLS),
     GSF_XML_IN_NODE (FILLS, FILL, XL_NS_SS, "fill", GSF_XML_NO_CONTENT, &xlsx_col_elem_start, &xlsx_col_elem_end),
-      GSF_XML_IN_NODE (FILL, PATTERN_FILL, XL_NS_SS, "patternFill", GSF_XML_NO_CONTENT, xlsx_pattern, NULL),
-	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT, xlsx_pattern_fg, NULL),
-	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT, xlsx_pattern_bg, NULL),
+      GSF_XML_IN_NODE (FILL, PATTERN_FILL, XL_NS_SS, "patternFill", GSF_XML_NO_CONTENT, &xlsx_pattern, NULL),
+	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_fg, NULL),
+	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_bg, NULL),
       GSF_XML_IN_NODE (FILL, IMAGE_FILL, XL_NS_SS, "image", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL, GRADIENT_FILL, XL_NS_SS, "gradient", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (GRADIENT_FILL, GRADIENT_STOPS, XL_NS_SS, "stop", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1858,13 +2178,16 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, PARTIAL_XFS, XL_NS_SS, "dxfs", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_DXFS),
-    GSF_XML_IN_NODE (PARTIAL_XFS, PARTIAL_XF, XL_NS_SS, "dxf", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (PARTIAL_XFS, PARTIAL_XF, XL_NS_SS, "dxf", GSF_XML_NO_CONTENT, &xlsx_dxf_start, &xlsx_dxf_end),
+
+      /* FIXME FIXME FIXME : make gsf work to share the underlying items here */
       GSF_XML_IN_NODE (PARTIAL_XF, NUM_FMT, XL_NS_SS, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, FONT,    XL_NS_SS, "font", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, DXF_FILL,    XL_NS_SS, "fill", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (DXF_FILL, DXF_PATTERN_FILL, XL_NS_SS, "patternFill", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (DXF_PATTERN_FILL, DXF_PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (DXF_PATTERN_FILL, DXF_PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (DXF_FILL, DXF_PATTERN_FILL, XL_NS_SS, "patternFill", GSF_XML_NO_CONTENT, &xlsx_pattern, NULL),
+	  GSF_XML_IN_NODE (DXF_PATTERN_FILL, DXF_PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT, &xlsx_dxf_pattern_fg, NULL),
+	  GSF_XML_IN_NODE (DXF_PATTERN_FILL, DXF_PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT, &xlsx_dxf_pattern_bg, NULL),
+
       GSF_XML_IN_NODE (PARTIAL_XF, BORDER,  XL_NS_SS, "border", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, DXF_ALIGNMENT, XL_NS_SS, "alignment", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, DXF_PROTECTION, XL_NS_SS, "protection", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1907,11 +2230,11 @@ xlsx_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 static gboolean
-xlsx_parse_stream (XLSXReadState *state, char const *stream_name, GsfXMLInNode const *dtd)
+xlsx_parse_stream (XLSXReadState *state, GsfInput *in, GsfXMLInNode const *dtd)
 {
 	gboolean	 success = FALSE;
 
-	if (NULL != (state->stream = gsf_infile_child_by_vname (state->zip, "xl", stream_name, NULL))) {
+	if (NULL != (state->stream = in)) {
 		GsfXMLInDoc *doc = gsf_xml_in_doc_new (dtd, xlsx_ns);
 		if (gsf_xml_in_doc_parse (doc, state->stream, state))
 			success = TRUE;
@@ -1961,6 +2284,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 		(GDestroyNotify)g_free, (GDestroyNotify) gnm_style_unref);
 	state.num_fmts = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) go_format_unref);
+	state.expr_convs = xlsx_expr_conv_new ();
 
 	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
 	go_setlocale (LC_NUMERIC, "C");
@@ -1970,10 +2294,22 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	if (NULL != (state.zip = gsf_infile_zip_new (input, NULL))) {
 		/* optional */
-		xlsx_parse_stream (&state, "sharedStrings.xml", xlsx_shared_strings_dtd);
+		GsfInput *wb_part = gsf_open_pkg_get_rel_by_type (GSF_INPUT (state.zip),
+			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
 
-		xlsx_parse_stream (&state, "styles.xml", xlsx_styles_dtd);
-		xlsx_parse_stream (&state, "workbook.xml", xlsx_workbook_dtd);
+		if (NULL != wb_part) {
+			GsfInput *in;
+			
+			in = gsf_open_pkg_get_rel_by_type (wb_part,
+				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings");
+			xlsx_parse_stream (&state, in, xlsx_shared_strings_dtd);
+
+			in = gsf_open_pkg_get_rel_by_type (wb_part,
+				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles");
+			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
+
+			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
+		}
 		g_object_unref (G_OBJECT (state.zip));
 	}
 
@@ -1994,6 +2330,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 		}
 		g_array_free (state.sst, TRUE);
 	}
+	xlsx_expr_conv_free (state.expr_convs);
 	g_hash_table_destroy (state.num_fmts);
 	g_hash_table_destroy (state.cell_styles);
 	g_hash_table_destroy (state.shared_exprs);
@@ -2004,21 +2341,27 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 	xlsx_style_array_free (state.style_xfs);
 	xlsx_style_array_free (state.dxfs);
 	xlsx_style_array_free (state.table_styles);
+
+	workbook_set_saveinfo (state.wb, FILE_FL_AUTO,
+		go_file_saver_for_id ("Gnumeric_Excel:xlsx"));
 }
 
 /* TODO * TODO * TODO
  *
  * Named expressions
  * rich text
- * conditional formats
  * validation
  * autofilters
  * workbook/calc properties
- * print settings
+ * more print settings
  * comments
  * text direction in styles
  *
  * IMPROVE
  * 	- column widths : Don't use hard coded font side
  * 	- share colours
+ * 	- conditional formats
+* 		: why do we need to flip fg and bg for solid in xf but not for dxf
+* 		: other condition types
+* 		: check binary operators
  **/

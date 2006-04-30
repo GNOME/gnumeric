@@ -25,7 +25,7 @@ to build upon the experience of and pitfalls of the Michael's work.
 
 	b) Set elements:
 
-	   gnm_style_set_font_name (mstyle, "Dingbats");
+	   gnm_style_set_font_name (style, "Dingbats");
 
 	        The passed const font name in this case is hashed and ref-counted
 	internally for efficiency. The only case in which it is necessary to do
@@ -50,13 +50,13 @@ to build upon the experience of and pitfalls of the Michael's work.
 
 	   /* Use the fully specified style in place of the current style
 	   sheet_style_set_range	(sheet, range, style);
-	   sheet_style_set_pos		(sheet, col, row, mstyle);
+	   sheet_style_set_pos		(sheet, col, row, style);
 
 1.1.2	Getting a style
 
-	GnmStyle *mstyle = sheet_style_get (sheet, col, row);
+	GnmStyle const *style = sheet_style_get (sheet, col, row);
 	    or
-	GnmStyle *mstyle = cell_get_mstyle (cell);
+	GnmStyle const *style = cell_get_style (cell);
 
 	Neither of these adds a reference to the style.  If you intend to store
 	the style for later use you will need to ref/unref it.
@@ -66,8 +66,8 @@ to build upon the experience of and pitfalls of the Michael's work.
 	sheet_style_attach ie.
 
 	    BAD BAD BAD
-		GnmStyle *mstyle = cell_get_mstyle (cell);
-		gnm_style_set_font_size (mstyle, 12.0);
+		GnmStyle const *style = cell_get_style (cell);
+		gnm_style_set_font_size (style, 12.0);
 	    BAD BAD BAD
 	
 	    Do _not_ even think of doing the above, it will produce wacky
@@ -77,12 +77,12 @@ to build upon the experience of and pitfalls of the Michael's work.
 
 	If you do the following:
 
-	GnmStyle *mstyle = gnm_style_new ();
-	gnm_style_set_font_name (mstyle, "dingbats");
-	cell_set_style (cell, mstyle);
-	mstyle = gnm_style_new ();
-	gnm_style_set_font_bold (mstyle, TRUE);
-	cell_set_style (cell, mstyle);
+	GnmStyle *style = gnm_style_new ();
+	gnm_style_set_font_name (style, "dingbats");
+	cell_set_style (cell, style);
+	style = gnm_style_new ();
+	gnm_style_set_font_bold (style, TRUE);
+	cell_set_style (cell, style);
 
 	Then you needlessly create two style regions ( for the same cell )
 	where one would have sufficed. This is a degenerate case clearly,
@@ -96,11 +96,11 @@ to build upon the experience of and pitfalls of the Michael's work.
 	to reference count them the followings ( standard ) conventions are
 	used namely:
 
-	GnmStyle *mstyle = gnm_style_new ();
+	GnmStyle *style = gnm_style_new ();
 
-	    Creating an mstyle in this way hands you a single reference.
+	    Creating an style in this way hands you a single reference.
 
-	sheet_style_set_pos (sheet, col, row, mstyle)
+	sheet_style_set_pos (sheet, col, row, style)
 
 	    Attaching a style passes that reference on to the style code.
 	The way to ascertain whether a style reference has been handed on is
@@ -143,7 +143,7 @@ to build upon the experience of and pitfalls of the Michael's work.
 	Conflicts are marked in the final GnmStyle result and can be tested for
 	using:
 
-		gnm_style_element_is_conflict (mstyle, GnmStyleElement);
+		gnm_style_element_is_conflict (style, GnmStyleElement);
 
 2.3.1	Unique borders
 

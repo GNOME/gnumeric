@@ -39,13 +39,8 @@ Worries
 	: eg tc45 issue sheet
 	: bugreport0401.xls
 
-    - transparent background to xl95 charts
-	: ms699.xls
     - Reading /local/info/test-xls/Desktop\ \&\ Collaboration\ Products\ Weekly\ Invoice.xls
 	: getpivotdata
-    - Libro.xls
-	: check sheetnames
-	: check idx>0 warning
     - TestForBiffConsumer : #REF ??
     - accrint-test.xls : why fail ?
     - BAHT functions
@@ -54,6 +49,8 @@ Worries
     - div0-xp.xls
     - edward~1.xls
     - eng.xls
+	- XL returns real numbers as strings from complex functions
+	- Check difference in besseli
     - errors.xls
 	: calc of interest
 	: #REF on sheet2
@@ -67,6 +64,9 @@ Worries
     - hidding col/row headers should not hide outline symbols
     - with frozen panes that have topleft != A1 there are a few extra pixels
       between col header and grid.
+    - xml persistence of grid colour
+    - store and persist view modes
+    - fix bogosity of 'ant' cursors being in sheet_view and having the app contact them.
 
 Pending Patches
 ---------------
@@ -85,6 +85,7 @@ Architecture Changes
 --------------------
 
 - Merge wb_control_init_state and wb_control_set_view
+- Use gtk_window_group_new to keep wbcg's distinct 
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog

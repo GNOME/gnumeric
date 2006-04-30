@@ -232,7 +232,7 @@ xml_write_print_repeat_range (GnmOutputXML *state,
 	if (range->use) {
 		gsf_xml_out_start_element (state->output, name);
 		gsf_xml_out_add_cstr_unchecked (state->output, "value",
-			range_name (&range->range));
+			range_as_string (&range->range));
 		gsf_xml_out_end_element (state->output);
 	}
 }
@@ -628,8 +628,8 @@ xml_write_cols_rows (GnmOutputXML *state)
 static void
 xml_write_selection_info (GnmOutputXML *state)
 {
-	GList *ptr, *copy;
-	const SheetView *sv = sheet_get_view (state->sheet, state->wb_view);
+	GSList *ptr, *copy;
+	SheetView const *sv = sheet_get_view (state->sheet, state->wb_view);
 	if (!sv) return;  /* Hidden.  */
 
 	gsf_xml_out_start_element (state->output, GNM "Selections");
@@ -637,15 +637,15 @@ xml_write_selection_info (GnmOutputXML *state)
 	gsf_xml_out_add_int (state->output, "CursorRow", sv->edit_pos_real.row);
 
 	/* Insert the selections in REVERSE order */
-	copy = g_list_copy (sv->selections);
-	ptr = g_list_reverse (copy);
+	copy = g_slist_copy (sv->selections);
+	ptr = g_slist_reverse (copy);
 	for (; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *r = ptr->data;
 		gsf_xml_out_start_element (state->output, GNM "Selection");
 		xml_out_add_range (state->output, r);
 		gsf_xml_out_end_element (state->output); /* </gnm:Selection> */
 	}
-	g_list_free (copy);
+	g_slist_free (copy);
 
 	gsf_xml_out_end_element (state->output); /* </gnm:Selections> */
 }
@@ -741,7 +741,7 @@ xml_write_merged_regions (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "MergedRegions");
 	for (; ptr != NULL ; ptr = ptr->next)
 		gsf_xml_out_simple_element (state->output,
-			GNM "Merge", range_name (ptr->data));
+			GNM "Merge", range_as_string (ptr->data));
 	gsf_xml_out_end_element (state->output); /* </gnm:MergedRegions> */
 }
 
@@ -835,7 +835,7 @@ xml_write_sheet_filters (GnmOutputXML *state)
 		filter = ptr->data;
 		gsf_xml_out_start_element (state->output, GNM "Filter");
 		gsf_xml_out_add_cstr_unchecked (state->output, "Area",
-			range_name (&filter->r));
+			range_as_string (&filter->r));
 
 		for (i = filter->fields->len ; i-- > 0 ; ) {
 			cond = gnm_filter_get_condition (filter, i);
@@ -993,7 +993,7 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 
 		tmp = g_strconcat (GNM, type_name, NULL);
 		gsf_xml_out_start_element (state->output, tmp);
-		gsf_xml_out_add_cstr (state->output, "ObjectBound", range_name (&so->anchor.cell_bound));
+		gsf_xml_out_add_cstr (state->output, "ObjectBound", range_as_string (&so->anchor.cell_bound));
 		snprintf (buffer, sizeof (buffer), "%.3g %.3g %.3g %.3g",
 			  so->anchor.offset [0], so->anchor.offset [1],
 			  so->anchor.offset [2], so->anchor.offset [3]);
@@ -1264,7 +1264,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 		for (ptr = cr->merged ; ptr != NULL ; ptr = ptr->next) {
 			gsf_xml_out_start_element (state.output, GNM "Merge");
 			gsf_xml_out_add_cstr_unchecked (state.output, NULL,
-				range_name (ptr->data));
+				range_as_string (ptr->data));
 			gsf_xml_out_end_element (state.output); /* </Merge> */
 		}
 	}

@@ -3048,17 +3048,18 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.has_extra_dataformat = FALSE;
 
 	if (NULL != (state.sog = sog)) {
-		GogStyle *style = gog_style_new ();
-		style->outline.width = 0;
-		style->outline.dash_type = GO_LINE_NONE;
-		style->fill.type = GOG_FILL_STYLE_NONE;
-
 		state.graph = sheet_object_graph_get_gog (sog);
 		state.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state.graph), "Chart", NULL));
 
-		g_object_set (G_OBJECT (state.graph), "style", style, NULL);
-		g_object_set (G_OBJECT (state.chart), "style", style, NULL);
-		g_object_unref (style);
+		if (NULL != full_page) {
+			GogStyle *style = gog_style_new ();
+			style->outline.width = 0;
+			style->outline.dash_type = GO_LINE_NONE;
+			style->fill.type = GOG_FILL_STYLE_NONE;
+			g_object_set (G_OBJECT (state.graph), "style", style, NULL);
+			g_object_set (G_OBJECT (state.chart), "style", style, NULL);
+			g_object_unref (style);
+		}
 	} else {
 		state.graph = NULL;
 		state.chart = NULL;

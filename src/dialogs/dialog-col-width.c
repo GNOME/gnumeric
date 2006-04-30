@@ -123,7 +123,7 @@ dialog_col_width_set_value (gnm_float value, ColWidthState *state)
 static void
 dialog_col_width_load_value (ColWidthState *state)
 {
-	GList *l;
+	GSList *l;
 	gnm_float value = 0.0;
 	state->orig_is_default = TRUE;
 	state->orig_some_default = FALSE;

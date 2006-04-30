@@ -861,9 +861,7 @@ xl_xml_selection (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		end = rangeref_parse (&rr, ptr, &pp, gnm_expr_conventions_r1c1);
 		if (end != ptr) {
 			range_init_rangeref (&r, &rr);
-			fprintf (stderr, "%s = ", ptr);
-			range_dump (&r, "\n");
-			sv_selection_add_range (sv,
+			sv_selection_add_full (sv,
 				state->pos.col, state->pos.row,
 				r.start.col, r.start.row,
 				r.end.col, r.end.row);

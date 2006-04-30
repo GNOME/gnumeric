@@ -674,10 +674,7 @@ xml_sax_selection_range (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	GnmRange r;
 	if (xml_sax_attr_range (attrs, &r))
 		sv_selection_add_range (
-			sheet_get_view (state->sheet, state->wb_view),
-			r.start.col, r.start.row,
-			r.start.col, r.start.row,
-			r.end.col, r.end.row);
+			sheet_get_view (state->sheet, state->wb_view), &r);
 }
 
 static void

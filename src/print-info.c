@@ -344,9 +344,9 @@ print_info_save (PrintInformation const *pi)
 	gnm_gconf_set_print_order_across_then_down (pi->print_across_then_down);
 	
 	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP,
-		pi->repeat_top.use ? range_name (&pi->repeat_top.range) : "");
+		pi->repeat_top.use ? range_as_string (&pi->repeat_top.range) : "");
 	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_LEFT,
-		pi->repeat_left.use ? range_name (&pi->repeat_left.range) : "");
+		pi->repeat_left.use ? range_as_string (&pi->repeat_left.range) : "");
 
 	save_formats ();
 

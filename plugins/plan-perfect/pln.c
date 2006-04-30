@@ -240,7 +240,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 		};
 		res = gnm_style_new_default ();
 		gnm_style_set_font_italic (res, (attr & 0x0010) ? TRUE : FALSE);
-		gnm_style_set_content_hidden (res, (attr & 0x0020) ? TRUE : FALSE);
+		gnm_style_set_contents_hidden (res, (attr & 0x0020) ? TRUE : FALSE);
 		gnm_style_set_font_uline (res,
 			(attr & 0x1000) ?  UNDERLINE_DOUBLE :
 			((attr & 0x0040) ?  UNDERLINE_SINGLE : UNDERLINE_NONE));

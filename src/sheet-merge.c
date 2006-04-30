@@ -78,7 +78,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 		if (cc != NULL)
 			go_cmd_context_error (cc, g_error_new (go_error_invalid(), 0,
 				_("There is already a merged region that intersects\n%s!%s"),
-				sheet->name_unquoted, range_name (r)));
+				sheet->name_unquoted, range_as_string (r)));
 		g_slist_free (test);
 		return TRUE;
 	}

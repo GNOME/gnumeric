@@ -1,3 +1,28 @@
+2006-04-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_WINDOW2) : merge excel_write_PANE into
+	  here and fix export of H or V only freezes.
+
+2006-04-23  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-write.c : new.  Basic export and some code that will move to
+	  libgsf for 'Open Package' support.
+	* plugin.xml.in : Add xlsx export.
+	* Makefile.am : ditto.
+
+2006-04-23  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_EXTERNSHEET_v7) : patch
+	  tweak to import broken quoted sheetname from gnumeric-1.0.x eg
+	  Libro1.xls.
+
+2006-04-23  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_read) : Don't set the graph and chart
+	  styles to blank unless this is a full sheet object.  Fixes the
+	  import of older charts that are not wrapped in BOF records eg
+	  ms699.xls.
+
 2006-04-18  Morten Welinder  <terra@gnome.org>
 
 	* boot.c (excel_file_open): Don't leak the meta_data object.

@@ -1047,8 +1047,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 	/* Functions that take pre-computed Values */
 	if (argc > fn_def->fn.args.max_args ||
 	    argc < fn_def->fn.args.min_args)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
+		return value_new_error_NA (ei->pos);
 
 	args = g_alloca (sizeof (GnmValue *) * fn_def->fn.args.max_args);
 	iter_count = (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ? 0 : -1;
@@ -1269,7 +1268,7 @@ function_call_with_values (GnmEvalPos const *ep, char const *fn_name,
 	/* FIXME : support workbook local functions */
 	fn_def = gnm_func_lookup (fn_name, NULL);
 	if (fn_def == NULL)
-		return value_new_error (ep, _("Function does not exist"));
+		return value_new_error_NAME (ep);
 	return function_def_call_with_values (ep, fn_def, argc, values);
 }
 

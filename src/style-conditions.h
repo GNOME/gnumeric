@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 
+/* This is persisted directly in .gnumeric files, DO NOT REMOVE OR REORDER */
 typedef enum {
 	/* Cell Value */
 	GNM_STYLE_COND_BETWEEN,
@@ -15,7 +16,21 @@ typedef enum {
 	GNM_STYLE_COND_LTE,
 
 	/* Arbitrary expr evaluated at EvalPos */
-	GNM_STYLE_COND_CUSTOM
+	GNM_STYLE_COND_CUSTOM,
+
+	/* New in Gnumeric 2.0 */
+	GNM_STYLE_COND_CONTAINS_STR		= 0x10,
+	GNM_STYLE_COND_NOT_CONTAINS_STR,
+	GNM_STYLE_COND_BEGINS_WITH_STR,
+	GNM_STYLE_COND_NOT_BEGINS_WITH_STR,
+	GNM_STYLE_COND_ENDS_WITH_STR,
+	GNM_STYLE_COND_NOT_ENDS_WITH_STR,
+
+	GNM_STYLE_COND_CONTAINS_ERR,
+	GNM_STYLE_COND_NOT_CONTAINS_ERR,
+
+	GNM_STYLE_COND_CONTAINS_BLANKS,
+	GNM_STYLE_COND_NOT_CONTAINS_BLANKS
 } GnmStyleCondOp;
 
 typedef struct {

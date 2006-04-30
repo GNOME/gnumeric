@@ -142,15 +142,7 @@ excel_gb_range_select (GBRunEvalContext *ec,
 		       GBValue         **args)
 {
 	ExcelGBRange   *range = EXCEL_GB_RANGE (object);
-
-	sv_selection_add_range (range->sheet,
-				range->range.start.col,
-				range->range.start.row,
-				range->range.start.col,
-				range->range.start.row,
-				range->range.end.col,
-				range->range.end.row);
-
+	sv_selection_add_range (range->sheet, &range->range);
 	return gb_value_new_empty ();
 }
 

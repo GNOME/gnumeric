@@ -958,7 +958,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 	guint32  get_len, chars_left, total_len, total_end_len = 0;
 	unsigned i, post_data_len, n_markup, total_n_markup = 0;
 	gboolean use_utf16, has_extended;
-	char    *str;
+	char    *str, *old_res, *res_str = NULL;
 
 	offset    = ms_biff_query_bound_check (q, offset, 2);
 	total_len = GSF_LE_GET_GUINT16 (q->data + offset);
@@ -980,13 +980,13 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 			q->data + offset, get_len, use_utf16);
 		offset += get_len * (use_utf16 ? 2 : 1);
 
-		if (res->str != NULL) {
-			char *old_res = res->str;
-			res->str = g_strconcat (old_res, str, NULL);
+		if (res_str != NULL) {
+			old_res = res_str;
+			res_str = g_strconcat (old_res, str, NULL);
 			g_free (str);
 			g_free (old_res);
 		} else
-			res->str = str;
+			res_str = str;
 	} while (total_len > 0);
 
 	if (total_n_markup > 0) {
@@ -998,8 +998,8 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		for (i = total_n_markup ; i-- > 0 ; offset += 4) {
 			offset = ms_biff_query_bound_check (q, offset, 4);
 			if ((q->length - offset) >= 4) {
-				txo_run.last = g_utf8_offset_to_pointer (res->str,
-					GSF_LE_GET_GUINT16 (q->data+offset)) - res->str;
+				txo_run.last = g_utf8_offset_to_pointer (res_str,
+					GSF_LE_GET_GUINT16 (q->data+offset)) - res_str;
 				if (prev_markup != NULL)
 					pango_attr_list_filter (prev_markup,
 						(PangoAttrFilterFunc) append_markup, &txo_run);
@@ -1017,6 +1017,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		total_end_len -= 4*total_n_markup;
 	}
 
+	res->content = gnm_string_get_nocopy (res_str);
 	return offset + total_end_len;
 }
 
@@ -1040,11 +1041,11 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 	for (i = 0; i < importer->sst_len; i++) {
 		offset = sst_read_string (q, &importer->container, importer->sst + i, offset);
 
-		if (importer->sst[i].str == NULL)
+		if (importer->sst[i].content == NULL)
 			d (4, fprintf (stderr,"Blank string in table at 0x%x.\n", i););
 #ifndef NO_DEBUG_EXCEL
 		else if (ms_excel_read_debug > 4)
-			puts (importer->sst[i].str);
+			puts (importer->sst[i].content->str);
 #endif
 	}
 }
@@ -2362,7 +2363,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	sf->data = data_len > 0 ? g_memdup (data, data_len) : NULL;
 	sf->data_len = data_len;
 
-	d (1, fprintf (stderr,"Shared formula, extent %s\n", range_name (&r)););
+	d (1, fprintf (stderr,"Shared formula, extent %s\n", range_as_string (&r)););
 
 	g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
 
@@ -2911,7 +2912,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 	if (importer->sst != NULL) {
 		unsigned i = importer->sst_len;
 		while (i-- > 0) {
-			g_free (importer->sst[i].str);
+			gnm_string_unref (importer->sst[i].content);
 			if (importer->sst[i].markup != NULL)
 				go_format_unref (importer->sst[i].markup);
 		}
@@ -3814,10 +3815,10 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 		r.start.col = GSF_LE_GET_GUINT8  (refs + 4);
 		r.end.col   = GSF_LE_GET_GUINT8  (refs + 5);
 
-		d (5, fprintf (stderr,"Ref %d = %s\n", i-1, range_name (&r)););
+		d (5, fprintf (stderr,"Ref %d = %s\n", i-1, range_as_string (&r)););
 
 		tmp = (i == num_refs) ? edit_pos : r.start;
-		sv_selection_add_range (sv,
+		sv_selection_add_full (sv,
 			tmp.col, tmp.row,
 			r.start.col, r.start.row,
 			r.end.col, r.end.row);
@@ -4219,7 +4220,7 @@ excel_read_DIMENSIONS (BiffQuery *q, GnmXLImporter *importer)
 		excel_read_range (&r, q->data);
 	}
 
-	d (1, fprintf (stderr,"Dimension = %s\n", range_name (&r)););
+	d (1, fprintf (stderr,"Dimension = %s\n", range_as_string (&r)););
 }
 
 static MSContainer *
@@ -5329,18 +5330,16 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		if (name != NULL) {
 			sheet = workbook_sheet_by_name (container->importer->wb, name);
 			if (sheet == NULL) {
-				/* There was a bug in 1.0.x export that spewed the quoted name */
+				/* There was a bug in 1.0.x export that spewed the quoted name 
+				 * includling internal backquoting */
 				if (name[0] == '\'') {
-					int tmp_len = strlen (name);
-					if (tmp_len >= 3 && name[tmp_len-1] == '\'') {
-						char *tmp = g_strndup (name+1, tmp_len - 2);
-						sheet = workbook_sheet_by_name (container->importer->wb, tmp);
-						if (sheet != NULL) {
-							g_free (name);
-							name = tmp;
-						} else
-							g_free (tmp);
-					}
+					GString *fixed = g_string_new (NULL);
+					if (NULL != go_strunescape (fixed, name) &&
+					    NULL != (sheet = workbook_sheet_by_name (container->importer->wb, fixed->str))) {
+						g_free (name);
+						name = g_string_free (fixed, FALSE);
+					} else
+						g_string_free (fixed, TRUE);
 				}
 
 				if (sheet == NULL) {
@@ -5744,9 +5743,13 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			i = GSF_LE_GET_GUINT32 (q->data + 6);
 
 			if (esheet->container.importer->sst && i < esheet->container.importer->sst_len) {
-				char const *str = esheet->container.importer->sst[i].str;
-				/* FIXME FIXME FIXME: Why would there be a NULL?  */
-				v = value_new_string ((str != NULL) ? str : "");
+				GnmString *str = esheet->container.importer->sst[i].content;
+				/* ? Why would there be a NULL ? */
+				if (NULL != str) {
+					gnm_string_ref (str);
+					v = value_new_string_str (str);
+				} else
+					v = value_new_string ("");
 				if (esheet->container.importer->sst[i].markup != NULL)
 					value_set_fmt (v, esheet->container.importer->sst[i].markup);
 				excel_sheet_insert_val (esheet, q, v);

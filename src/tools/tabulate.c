@@ -66,7 +66,7 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 static GOFormat const *
 my_get_format (GnmCell const *cell)
 {
-	GOFormat const *format = gnm_style_get_format (cell_get_mstyle (cell));
+	GOFormat const *format = gnm_style_get_format (cell_get_style (cell));
 
 	if (go_format_is_general (format) &&
 	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)

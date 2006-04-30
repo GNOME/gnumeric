@@ -597,13 +597,13 @@ sheet_style_shutdown (Sheet *sheet)
 }
 
 /**
- * sheet_style_set_auto_pattern_color
- *
+ * sheet_style_set_auto_pattern_color :
  * @sheet:         The sheet
  * @pattern_color: The color
  *
  * Set the color for rendering auto colored patterns in this sheet.
- */
+ * Absorbs a reference to @pattern_color;
+ **/
 void
 sheet_style_set_auto_pattern_color (Sheet  *sheet, GnmColor *pattern_color)
 {
@@ -623,11 +623,11 @@ sheet_style_set_auto_pattern_color (Sheet  *sheet, GnmColor *pattern_color)
 
 /**
  * sheet_style_get_auto_pattern_color:
- *
  * @sheet: the sheet
  *
+ * Caller receives a reference to the result.
  * Returns the color for rendering auto colored patterns in this sheet.
- */
+ **/
 GnmColor *
 sheet_style_get_auto_pattern_color (Sheet const *sheet)
 {
@@ -2324,7 +2324,7 @@ cb_validate (GnmStyle *style,
 			   corner_col, corner_row,
 			   corner_col+width -1, corner_row+height-1);
 		g_warning ("%s!%s", sheet->name_unquoted,
-			   range_name (&r));
+			   range_as_string (&r));
 	}
 }
 

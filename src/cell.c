@@ -202,7 +202,7 @@ cell_set_text (GnmCell *cell, char const *text)
 	g_return_if_fail (!cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
-		text, &val, &texpr, gnm_style_get_format (cell_get_mstyle (cell)),
+		text, &val, &texpr, gnm_style_get_format (cell_get_style (cell)),
 		workbook_date_conv (cell->base.sheet->workbook));
 
 	if (val != NULL) {	/* String was a value */
@@ -573,7 +573,7 @@ cell_render_value (GnmCell *cell, gboolean allow_variable_width)
 	g_return_if_fail (cell != NULL);
 
 	sheet = cell->base.sheet;
-	rv = rendered_value_new (cell, cell_get_mstyle (cell),
+	rv = rendered_value_new (cell, cell_get_style (cell),
 				 allow_variable_width,
 				 sheet->context,
 				 sheet->last_zoom_factor_used);
@@ -713,8 +713,8 @@ cell_rendered_offset (GnmCell const * cell)
 		cell->rendered_value->indent_right);
 }
 
-GnmStyle *
-cell_get_mstyle (GnmCell const *cell)
+GnmStyle const *
+cell_get_style (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	return sheet_style_get (cell->base.sheet,
@@ -728,7 +728,7 @@ cell_get_mstyle (GnmCell const *cell)
  *
  * Get the display format.  If the assigned format is General,
  * the format of the value will be used.
- */
+ **/
 GOFormat *
 cell_get_format (GnmCell const *cell)
 {
@@ -736,7 +736,7 @@ cell_get_format (GnmCell const *cell)
 
 	g_return_val_if_fail (cell != NULL, go_format_general ());
 
-	fmt = gnm_style_get_format (cell_get_mstyle (cell));
+	fmt = gnm_style_get_format (cell_get_style (cell));
 
 	g_return_val_if_fail (fmt != NULL, go_format_general ());
 

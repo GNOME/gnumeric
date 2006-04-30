@@ -54,7 +54,7 @@ workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, Sheet *sheet,
 	struct closure_colrow_resize closure;
 	closure.is_cols = is_cols;
 	closure.selection = NULL;
-	selection_foreach_range (sheet_get_view (sheet, wb_control_view (wbc)),
-				 TRUE, &cb_colrow_collect, &closure);
+	sv_selection_foreach (sheet_get_view (sheet, wb_control_view (wbc)),
+		&cb_colrow_collect, &closure);
 	cmd_resize_colrow (wbc, sheet, is_cols, closure.selection, new_size_pixels);
 }

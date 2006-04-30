@@ -93,7 +93,7 @@ typedef struct {
 } BiffFormatData;
 
 typedef struct {
-	char		*str;
+	GnmString	*content;
 	GOFormat	*markup;
 } ExcelStringEntry;
 

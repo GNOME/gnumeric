@@ -56,7 +56,7 @@ sv_select_cur_row (SheetView *sv)
 	if (sel != NULL) {
 		GnmRange r = *sel;
 		sv_selection_reset (sv);
-		sv_selection_add_range (sv,
+		sv_selection_add_full (sv,
 			sv->edit_pos.col, sv->edit_pos.row,
 			0, r.start.row, SHEET_MAX_COLS-1, r.end.row);
 		sheet_update (sv->sheet);
@@ -76,7 +76,7 @@ sv_select_cur_col (SheetView *sv)
 	if (sel != NULL) {
 		GnmRange r = *sel;
 		sv_selection_reset (sv);
-		sv_selection_add_range (sv,
+		sv_selection_add_full (sv,
 			sv->edit_pos.col, sv->edit_pos.row,
 			r.start.col, 0, r.end.col, SHEET_MAX_ROWS-1);
 		sheet_update (sv->sheet);
@@ -101,7 +101,7 @@ sv_select_cur_array (SheetView *sv)
 
 	/* leave the edit pos where it is, select the entire array. */
 	sv_selection_reset (sv);
-	sv_selection_add_range (sv, c, r,
+	sv_selection_add_full (sv, c, r,
 		a.start.col, a.start.row, a.end.col, a.end.row);
 	sheet_update (sv->sheet);
 }
@@ -212,13 +212,9 @@ sv_select_cur_depends (SheetView *sv)
 
 		/* now select the ranges */
 		while (ptr) {
-			GnmRange *r = ptr->data;
-			sv_selection_add_range (sv,
-						r->start.col, r->start.row,
-						r->start.col, r->start.row,
-						r->end.col, r->end.row);
+			sv_selection_add_range (sv, ptr->data);
 			g_free (ptr->data);
-			ptr = g_list_remove (ptr, r);
+			ptr = g_list_remove (ptr, ptr->data);
 		}
 	}
 	sheet_update (sv->sheet);
@@ -263,7 +259,7 @@ sv_select_cur_inputs (SheetView *sv)
 		if (r->a.sheet != NULL && r->a.sheet != sv->sheet)
 			continue;
 
-		sv_selection_add_range (sv,
+		sv_selection_add_full (sv,
 			gnm_cellref_get_col (&r->a, &ep),
 			gnm_cellref_get_row (&r->a, &ep),
 			gnm_cellref_get_col (&r->a, &ep),

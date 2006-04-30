@@ -2,6 +2,7 @@
 #define GNUMERIC_SELECTION_H
 
 #include "gnumeric.h"
+#include <goffice/graph/goffice-graph.h>
 
 typedef enum {
 	COL_ROW_NO_SELECTION,
@@ -28,13 +29,13 @@ GnmRange const	*selection_first_range (SheetView const *sv,
 GSList		*selection_get_ranges  (SheetView const *sv,
 					gboolean allow_intersection);
 
-/* FIXME : temporary until we have goffice-graph in std include path */
-void	 sv_selection_to_plot	   (SheetView *sv, gpointer plot);
+void	 sv_selection_to_plot	   (SheetView *sv, GogPlot *plot);
 
 /* Selection management */
 void	 sv_selection_reset	   (SheetView *sv);
 void	 sv_selection_add_pos	   (SheetView *sv, int col, int row);
-void	 sv_selection_add_range	   (SheetView *sv,
+void	 sv_selection_add_range	   (SheetView *sv, GnmRange const *range);
+void	 sv_selection_add_full	   (SheetView *sv,
 				    int edit_col, int edit_row,
 				    int base_col, int base_row,
 				    int move_col, int move_row);
@@ -49,15 +50,16 @@ void	sv_selection_walk_step	   (SheetView *sv,
 				    gboolean horizontal);
 
 /* Utilities for operating on a selection */
-typedef void (*SelectionApplyFunc) (SheetView *sv, GnmRange const *, gpointer closure);
+typedef void	 (*SelectionApplyFunc)	(SheetView *sv, GnmRange const *,
+					 gpointer user_data);
+typedef gboolean (*GnmSelectionFunc)	(SheetView *sv, GnmRange const *r,
+					 gpointer user_data);
 
-void	 selection_apply	 (SheetView *sv, SelectionApplyFunc const func,
-				 gboolean allow_intersection,
-				 void *closure);
-gboolean selection_foreach_range (SheetView *sv, gboolean from_start,
-				  gboolean (*range_cb) (SheetView *sv,
-							GnmRange const *range,
-							gpointer user_data),
-				     gpointer user_data);
+void	 sv_selection_apply	 (SheetView *sv, SelectionApplyFunc const func,
+				  gboolean allow_intersection,
+				  gpointer user_data);
+gboolean sv_selection_foreach	 (SheetView *sv,
+				  GnmSelectionFunc handler,
+				  gpointer user_data);
 
 #endif /* GNUMERIC_SELECTION_H */
