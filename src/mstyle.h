@@ -59,12 +59,12 @@ typedef enum {
 
 GnmStyle   *gnm_style_new           (void);
 GnmStyle   *gnm_style_new_default   (void);
+GnmStyle   *gnm_style_new_merged    (GnmStyle const *orig, GnmStyle const *overlay);
 GnmStyle   *gnm_style_dup	    (GnmStyle const *src);
-GnmStyle   *gnm_style_merge	    (GnmStyle const *orig, GnmStyle const *overlay);
 void        gnm_style_merge_element (GnmStyle *dst, GnmStyle const *src,
 				     GnmStyleElement elem);
-void        gnm_style_ref           (GnmStyle *style);
-void        gnm_style_unref         (GnmStyle *style);
+void        gnm_style_ref           (GnmStyle const *style);
+void        gnm_style_unref         (GnmStyle const *style);
 
 GnmStyle   *gnm_style_link_sheet    (GnmStyle *style, Sheet *sheet);
 void        gnm_style_link          (GnmStyle *style);

@@ -162,7 +162,7 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 		 */
 		s = (GnmStyle *)g_hash_table_lookup (rs->cache, *old);
 		if (s == NULL) {
-			GnmStyle *tmp = gnm_style_merge (*old, rs->pstyle);
+			GnmStyle *tmp = gnm_style_new_merged (*old, rs->pstyle);
 			s = sheet_style_find (rs->sheet, tmp);
 			gnm_style_link (*old);
 			g_hash_table_insert (rs->cache, *old, s);

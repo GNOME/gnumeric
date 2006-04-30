@@ -1950,7 +1950,7 @@ xlsx_xf_start (GsfXMLIn *xin, xmlChar const **attrs)
 			else
 				style = NULL;
 			if (NULL != style) {
-				style = gnm_style_merge (state->style_accum, style);
+				style = gnm_style_new_merged (state->style_accum, style);
 				gnm_style_unref (state->style_accum);
 				state->style_accum = style;
 			} else

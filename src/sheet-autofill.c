@@ -891,7 +891,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 	GList *f;
 	int i;
 	AutoFiller *af = NULL;
-	GnmStyle **styles;
+	GnmStyle const **styles;
 	GODateConventions const *dateconv =
 		workbook_date_conv (sheet->workbook);
 

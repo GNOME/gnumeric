@@ -365,7 +365,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
 			if (ci->visible) {
 				if (cellspan_is_empty (pos_l, ri, cell)) {
-					GnmStyle * const style =
+					GnmStyle const * const style =
 						sheet_style_get (cell->base.sheet, pos_l, row);
 
 					if (gnm_style_get_align_h (style) != HALIGN_CENTER_ACROSS_SELECTION)

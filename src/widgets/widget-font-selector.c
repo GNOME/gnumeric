@@ -87,7 +87,7 @@ fs_modify_style (FontSelector *fs, GnmStyle *modification)
 	GnmStyle *original = fs->mstyle;
 	g_return_if_fail (modification != NULL);
 
-	fs->mstyle = gnm_style_merge (original, modification);
+	fs->mstyle = gnm_style_new_merged (original, modification);
 	g_signal_emit (G_OBJECT (fs),
 		fs_signals[FONT_CHANGED], 0, modification);
 	foo_canvas_item_set (fs->font_preview_grid,

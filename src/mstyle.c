@@ -489,8 +489,18 @@ gnm_style_dup (GnmStyle const *src)
 	return new_style;
 }
 
+/**
+ * gnm_style_new_merged :
+ * @src : #GnmStyle
+ * @overlay : #GnmStyle
+ *
+ * A new GnmStyle that contains any elements of @overlay that are set, and uses
+ * @src for anything that is not set in @overlay.
+ *
+ * Returns A ref to a new GnmStyle.
+ **/
 GnmStyle *
-gnm_style_merge (GnmStyle const *src, GnmStyle const *overlay)
+gnm_style_new_merged (GnmStyle const *src, GnmStyle const *overlay)
 {
 	GnmStyle *new_style = CHUNK_ALLOC0 (GnmStyle, gnm_style_pool);
 	int i;
@@ -506,36 +516,46 @@ gnm_style_merge (GnmStyle const *src, GnmStyle const *overlay)
 }
 
 void
-gnm_style_ref (GnmStyle *style)
+gnm_style_ref (GnmStyle const *style)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (style->ref_count > 0);
 
-	style->ref_count++;
+	((GnmStyle *)style)->ref_count++;
 	d(("ref %p = %d\n", style, style->ref_count));
 }
 
+/**
+ * gnm_style_unref :
+ * @style : #GnmStyle const
+ *
+ * Unrefs and _potentially frees_ @style.
+ * Takes a _const_ pointer to facilitate life cycles.  The const indicates that
+ * the content can not be changed, mainly when handling styles that are in the
+ * style hash.
+ **/
 void
-gnm_style_unref (GnmStyle *style)
+gnm_style_unref (GnmStyle const *style)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (style->ref_count > 0);
 
 	d(("unref %p = %d\n", style, style->ref_count-1));
-	if (style->ref_count-- <= 1) {
+	if (((GnmStyle *)style)->ref_count-- <= 1) {
+		GnmStyle *unconst = (GnmStyle *)style;
 		int i;
 
 		g_return_if_fail (style->link_count == 0);
 		g_return_if_fail (style->linked_sheet == NULL);
 
 		for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
-			elem_clear_contents (style, i);
-		style->set = 0;
-		clear_conditional_merges (style);
-		gnm_style_pango_clear (style);
-		gnm_style_font_clear (style);
+			elem_clear_contents (unconst, i);
+		unconst->set = 0;
+		clear_conditional_merges (unconst);
+		gnm_style_pango_clear (unconst);
+		gnm_style_font_clear (unconst);
 
-		CHUNK_FREE (gnm_style_pool, style);
+		CHUNK_FREE (gnm_style_pool, unconst);
 	}
 }
 
@@ -772,8 +792,7 @@ gnm_style_is_complete (GnmStyle const *style)
 {
 	g_return_val_if_fail (style != NULL, FALSE);
 
-	g_assert_not_reached ();
-	return FALSE;
+	return style->set == ((1u << MSTYLE_ELEMENT_MAX) - 1);
 }
 
 void

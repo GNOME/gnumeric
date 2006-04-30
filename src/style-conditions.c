@@ -163,7 +163,7 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 	res = g_ptr_array_sized_new (sc->conditions->len);
 	for (i = 0 ; i < sc->conditions->len; i++) {
 		overlay = g_array_index (sc->conditions, GnmStyleCond, i).overlay;
-		merge = gnm_style_merge (base, overlay);
+		merge = gnm_style_new_merged (base, overlay);
 		/* We only draw a background colour is the pattern != 0 */
 		if (merge->pattern == 0 &&
 		     elem_is_set (overlay, MSTYLE_COLOR_BACK) &&

@@ -1,5 +1,7 @@
 2006-04-30  Jody Goldberg <jody@gnome.org>
 
+	* src/mstyle.c (gnm_style_is_complete) : implement.
+
 	* src/sheet-style.c (sheet_style_get) : returns a const to make it
 	  clear not to touch the result.
 	* src/workbook-view.c (wb_view_format_feedback) : update.

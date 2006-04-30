@@ -2062,7 +2062,7 @@ gnm_gconf_set_hf_font (GnmStyle const *mstyle)
 		prefs.printer_decoration_font :
 		gnm_style_new_default ();
 	
-	prefs.printer_decoration_font = gnm_style_merge (old_style, mstyle);
+	prefs.printer_decoration_font = gnm_style_new_merged (old_style, mstyle);
 	gnm_style_unref (old_style);
 	
 	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
