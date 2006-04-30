@@ -52,9 +52,9 @@ thrash_scroll (Sheet *sheet)
 		for (j = 0; j < SCREEN_HEIGHT; j++) {
 			int k;
 			for (k = 0; k < SCREEN_WIDTH; k++) {
-				GnmStyle *mstyle;
+				GnmStyle const *style;
 
-				mstyle = sheet_style_get (sheet, k, i + j);
+				style = sheet_style_get (sheet, k, i + j);
 			}
 		}
 	}
