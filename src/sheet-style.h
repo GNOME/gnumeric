@@ -19,7 +19,7 @@ struct _GnmStyleRow {
 };
 
 GnmStyle *sheet_style_default		(Sheet const *sheet);
-GnmStyle *sheet_style_get		(Sheet const *sheet, int col, int row);
+GnmStyle const *sheet_style_get		(Sheet const *sheet, int col, int row);
 GnmStyle *sheet_style_find   		(Sheet const *sheet, GnmStyle *st);
 void	 sheet_style_get_row		(Sheet const *sheet, GnmStyleRow *sr);
 void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,

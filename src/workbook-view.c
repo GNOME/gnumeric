@@ -231,7 +231,8 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 	if (sv == NULL)
 		return;
 
-	style = sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row);
+	style = (GnmStyle *)sheet_style_get (sv->sheet,
+		sv->edit_pos.col, sv->edit_pos.row);
 	sf_style = gnm_style_get_format (style);
 	if (go_format_is_general (sf_style) &&
 	    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
