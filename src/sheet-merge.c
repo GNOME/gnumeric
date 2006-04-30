@@ -30,7 +30,6 @@
 #include "sheet-private.h"
 #include "ranges.h"
 #include "cell.h"
-#include "cellspan.h"
 #include "sheet-style.h"
 #include "mstyle.h"
 #include "expr.h"
