@@ -2191,7 +2191,8 @@ static GtkToggleActionEntry const toggle_actions[] = {
 
 	{ "ViewFullScreen", GTK_STOCK_ZOOM_FIT,
 		N_("F_ull Screen"), FULLSCREEN_ACCEL,
-		N_("in or out"), G_CALLBACK (cb_view_fullscreen), FALSE }
+		N_("Switch to or from full screen mode"),
+		G_CALLBACK (cb_view_fullscreen), FALSE }
 };
 
 static GtkToggleActionEntry const font_toggle_actions[] = {
