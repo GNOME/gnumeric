@@ -1,3 +1,10 @@
+2006-05-01  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (rendered_value_new): Expand
+	rendered_value_render and setup the layout fully before rendering.
+	Fix latent allocation problem.  Fix border case of filling strings
+	that have number formats.
+
 2006-04-29  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c: Put a decent status bar message for full

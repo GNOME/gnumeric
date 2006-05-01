@@ -73,83 +73,6 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 }
 
 
-/**
- * rendered_value_render :
- *
- * returns TRUE if the result depends on the width of the cell
- **/
-static gboolean
-rendered_value_render (PangoLayout *layout,
-		       GnmFont *font,
-		       GnmCell const *cell,
-		       GnmStyle const *mstyle,
-		       gboolean allow_variable_width,
-		       gboolean *display_formula,
-		       GOColor *go_color)
-{
-	/* This can be NULL when called from preview-grid.c  */
-	Sheet const *sheet = cell->base.sheet;
-
-	/* Is the format variable?  We may ignore it, but we still need to know
-	 * if it is possible */
-	gboolean is_variable_width = FALSE;
-
-	*display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
-
-	if (*display_formula) {
-		GnmParsePos pp;
-		GString *str = g_string_new ("=");
-		gnm_expr_top_as_gstring (str, cell->base.texpr,
-					 parse_pos_init_cell (&pp, cell),
-					 sheet->convs);
-		pango_layout_set_text (layout, str->str, str->len);
-		g_string_free (str, TRUE);
-		*go_color = 0;
-	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
-		pango_layout_set_text (layout, "", 0);
-		*go_color = 0;
-	} else if (gnm_style_is_element_set (mstyle, MSTYLE_FORMAT)) {
-		int col_width = -1;
-		GOFormat *format = gnm_style_get_format (mstyle);
-		GODateConventions const *date_conv = sheet
-			? workbook_date_conv (sheet->workbook)
-			: NULL;
-
-		if (go_format_is_general (format) && VALUE_FMT (cell->value))
-			format = VALUE_FMT (cell->value);
-
-		if (go_format_is_var_width (format)) {
-			gboolean is_rotated = (gnm_style_get_rotation (mstyle) != 0);
-			is_variable_width = !is_rotated;
-
-			if (is_variable_width && allow_variable_width) {
-				int col_width_pixels;
-
-				if (cell_is_merged (cell)) {
-					GnmRange const *merged =
-						sheet_merge_is_corner (sheet, &cell->pos);
-					
-					col_width_pixels = sheet_col_get_distance_pixels (sheet,
-											  merged->start.col, merged->end.col + 1);
-				} else
-					col_width_pixels = cell->col_info->size_pixels;
-				/* This probably isn't right for the merged
-				   case */
-				col_width_pixels -= (cell->col_info->margin_a +
-						     cell->col_info->margin_b +
-						     1);
-				col_width = col_width_pixels * PANGO_SCALE;
-			}
-		}
-
-		gnm_format_layout (layout, font->metrics, format, cell->value,
-				   go_color, col_width, date_conv, TRUE);
-	} else {
-		g_warning ("No format: serious error");
-	}
-	return is_variable_width;
-}
-
 void
 rendered_value_remeasure (RenderedValue *rv)
 {
@@ -255,12 +178,15 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	GOColor		 fore;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
-	gboolean        display_formula;
-	int             rotation;
+	int              rotation;
+	Sheet const *sheet;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
 	g_return_val_if_fail (context != NULL, NULL);
+
+	/* Sheet can be NULL when called from preview-grid.c  */
+	sheet = cell->base.sheet;
 
 	/* Special handling for manual recalc.
 	 * If a cell has a new expression and something tries to display it we
@@ -270,17 +196,45 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	}
 
 	rotation = gnm_style_get_rotation (mstyle);
+	if (rotation) {
+		static PangoMatrix const id = PANGO_MATRIX_INIT;
+		RenderedRotatedValue *rrv;
+		GnmStyleElement e;
 
-	res = CHUNK_ALLOC (RenderedValue,
-			   rotation ? rendered_rotated_value_pool : rendered_value_pool);
+		rrv = CHUNK_ALLOC (RenderedRotatedValue, rendered_rotated_value_pool);
+		res = &rrv->rv;
+
+		rrv->rotmat = id;
+		pango_matrix_rotate (&rrv->rotmat, rotation);
+		rrv->linecount = 0;
+		rrv->lines = NULL;
+
+		res->noborders = TRUE;
+		/* Deliberately exclude diagonals.  */
+		for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_RIGHT; e++) {
+			GnmBorder *b = gnm_style_get_border (mstyle, e);
+			if (!style_border_is_blank (b)) {
+				res->noborders = FALSE;
+				break;
+			}
+		}
+	} else {
+		res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
+		res->noborders = FALSE;
+	}
+	res->rotation = rotation;
+
 	res->layout = layout = pango_layout_new (context);
+	res->hfilled = FALSE;
+	res->vfilled = FALSE;
+	res->variable_width = FALSE;
 
 	/* ---------------------------------------- */
 
 	attrs = gnm_style_get_pango_attrs (mstyle, context, zoom);
 #ifdef DEBUG_BOUNDING_BOX
+	/* Make the whole layout end up with a red background.  */
 	{
-		/* Make the whole layout end up with a red background.  */
 		PangoAttrList *new_attrs = pango_attr_list_copy (attrs);
 		PangoAttribute *attr;
 
@@ -293,6 +247,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	}
 #endif
 
+	/* Add markup.  */
 	{
 		GOFormat const *fmt = VALUE_FMT (cell->value);
 		if (fmt != NULL && go_format_is_markup (fmt)) {
@@ -307,58 +262,10 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	/* ---------------------------------------- */
 
-	res->variable_width = rendered_value_render
-		(layout, gnm_style_get_font (mstyle, context, zoom),
-		 cell, mstyle,
-		 allow_variable_width,
-		 &display_formula, &fore);
-	res->indent_left = res->indent_right = 0;
-	res->numeric_overflow = FALSE;
-	res->hfilled = FALSE;
-	res->vfilled = FALSE;
 	res->wrap_text = gnm_style_get_effective_wrap_text (mstyle);
-	res->effective_halign = style_default_halign (mstyle, cell);
 	res->effective_valign = gnm_style_get_align_v (mstyle);
-	res->rotation = rotation;
-	if (rotation) {
-		static PangoMatrix const id = PANGO_MATRIX_INIT;
-		RenderedRotatedValue *rrv = (RenderedRotatedValue *)res;
-		GnmStyleElement e;
-
-		rrv->rotmat = id;
-		pango_matrix_rotate (&rrv->rotmat, rotation);
-		rrv->linecount = 0;
-		rrv->lines = NULL;
-		res->might_overflow = FALSE;
-
-		res->noborders = TRUE;
-		/* Deliberately exclude diagonals.  */
-		for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_RIGHT; e++) {
-			GnmBorder *b = gnm_style_get_border (mstyle, e);
-			if (!style_border_is_blank (b)) {
-				res->noborders = FALSE;
-				break;
-			}
-		}
-	} else {
-		res->might_overflow =
-			cell_is_number (cell) &&
-			!display_formula;
-		res->noborders = FALSE;
-	}
-
-	/*
-	 * We store the foreground color separately because
-	 * 1. It is [used to be?] slow to store it as an attribute, see
-	 *    http://bugzilla.gnome.org/show_bug.cgi?id=105322
-	 * 2. This way we get to share the attribute list.
-	 */
-	if (0 == fore) {
-		GnmColor const *c = gnm_style_get_font_color (mstyle);
-		res->go_fore_color = c->go_color;
-	} else
-		res->go_fore_color = fore;
-
+	res->effective_halign = style_default_halign (mstyle, cell);
+	res->indent_left = res->indent_right = 0;
 	switch (res->effective_halign) {
 	case HALIGN_LEFT:
 		res->indent_left = calc_indent (context, mstyle, zoom);
@@ -381,6 +288,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		 */
 		pango_layout_set_single_paragraph_mode (layout, TRUE);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+		res->variable_width = TRUE;
 		break;
 
 	case HALIGN_RIGHT:
@@ -397,6 +305,84 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	default:
 		g_warning ("Line justification style not supported.");
 	}
+
+	/* ---------------------------------------- */
+
+	res->numeric_overflow = FALSE;
+
+	if (cell_has_expr (cell) && sheet && sheet->display_formulas) {
+		GnmParsePos pp;
+		GString *str = g_string_new ("=");
+		gnm_expr_top_as_gstring (str, cell->base.texpr,
+					 parse_pos_init_cell (&pp, cell),
+					 sheet->convs);
+		pango_layout_set_text (layout, str->str, str->len);
+		g_string_free (str, TRUE);
+		fore = 0;
+		res->might_overflow = FALSE;
+	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
+		pango_layout_set_text (layout, "", 0);
+		fore = 0;
+		res->might_overflow = FALSE;
+	} else {
+		int col_width = -1;
+		GOFormat *format = gnm_style_get_format (mstyle);
+		GODateConventions const *date_conv = sheet
+			? workbook_date_conv (sheet->workbook)
+			: NULL;
+		GnmFont *font = gnm_style_get_font (mstyle, context, zoom);
+		gboolean is_rotated = (rotation != 0);
+		gboolean variable;
+
+		if (go_format_is_general (format) && VALUE_FMT (cell->value))
+			format = VALUE_FMT (cell->value);
+
+		res->might_overflow = !is_rotated &&
+			VALUE_IS_FLOAT (cell->value);
+
+		if (go_format_is_general (format))
+			variable = !is_rotated && VALUE_IS_FLOAT (cell->value);
+		else
+			variable = !is_rotated && go_format_is_var_width (format);
+		if (variable)
+			res->variable_width = TRUE;
+
+		if (variable && allow_variable_width) {
+			int col_width_pixels;
+
+			if (cell_is_merged (cell)) {
+				GnmRange const *merged =
+					sheet_merge_is_corner (sheet, &cell->pos);
+
+				col_width_pixels = sheet_col_get_distance_pixels
+					(sheet,
+					 merged->start.col, merged->end.col + 1);
+			} else
+				col_width_pixels = cell->col_info->size_pixels;
+			/* This probably isn't right for the merged case */
+			col_width_pixels -= (cell->col_info->margin_a +
+					     cell->col_info->margin_b +
+					     1);
+			col_width = col_width_pixels * PANGO_SCALE;
+		}
+
+		gnm_format_layout (layout, font->metrics, format, cell->value,
+				   &fore, col_width, date_conv, TRUE);
+	}
+
+	/* ---------------------------------------- */
+
+	/*
+	 * We store the foreground color separately because
+	 * 1. It is [used to be?] slow to store it as an attribute, see
+	 *    http://bugzilla.gnome.org/show_bug.cgi?id=105322
+	 * 2. This way we get to share the attribute list.
+	 */
+	if (0 == fore) {
+		GnmColor const *c = gnm_style_get_font_color (mstyle);
+		res->go_fore_color = c->go_color;
+	} else
+		res->go_fore_color = fore;
 
 	rendered_value_remeasure (res);
 
