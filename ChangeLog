@@ -1,5 +1,9 @@
 2006-05-01  Morten Welinder  <terra@gnome.org>
 
+	* src/print-cell.c (print_cell): Always call the display logic for
+	the cells as that can change the layouts.  (And do it right while
+	we're at it.)
+
 	* src/rendered-value.c (rendered_value_new): Expand
 	rendered_value_render and setup the layout fully before rendering.
 	Fix latent allocation problem.  Fix border case of filling strings

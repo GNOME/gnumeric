@@ -85,18 +85,9 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	gint x, y;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
-	Sheet *sheet;
-
-	/* Get the sizes exclusive of margins and grids */
-	/* FIXME : all callers will eventually pass in their cell size */
-	/* Note: +1 because size_pixels includes right gridline.  */
-	if (width < 0) /* DEPRECATED */
-		width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1);
-	if (height < 0) /* DEPRECATED */
-		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1);
+	Sheet *sheet = cell->base.sheet;
 
 	/* Create a rendered value for printing */
-	sheet = cell->base.sheet;
 	if (sheet->last_zoom_factor_used != 1) {
 		/*
 		 * We're zoomed and we don't want printing to reflect that.
@@ -108,29 +99,47 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 					    cell_rv->variable_width,
 					    pango_layout_get_context (cell_rv->layout),
 					    1.0);
-		/*
-		 * Ah, but not so fast!
-		 *
-		 * If the old layout was modified by cell_calc_layout in a
-		 * way that might affect the shape of the layout, we have
-		 * to try that again before we recontext.
-		 */
-		if (pango_layout_get_width (cell_rv->layout) != -1) {
-			gint dummy_x, dummy_y;
-			GOColor dummy_fore_color;
-
-			cell_calc_layout (cell, cell_rv100, -1,
-					  (int)(width * PANGO_SCALE),
-					  (int)(height * PANGO_SCALE),
-					  (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
-					  &dummy_fore_color, &dummy_x, &dummy_y);
-		}
-
 		cell_rv = cell_rv100;
+	}
+
+	/*
+	 * Since some layout decisions are taken during cell_calc_layout
+	 * we need to make sure that has been called.
+	 */	   
+	{
+		gint dummy_x, dummy_y;
+		GOColor dummy_fore_color;
+		int dummy_h_center = -1;  /* Affects position only.  */
+		int dummy_height = 42;  /* Affects position only.  */
+		int col_width_pixels;
+
+		if (cell_is_merged (cell)) {
+			GnmRange const *merged =
+				sheet_merge_is_corner (sheet, &cell->pos);
+
+			col_width_pixels = sheet_col_get_distance_pixels
+				(sheet,
+				 merged->start.col, merged->end.col + 1);
+		} else
+			col_width_pixels = cell->col_info->size_pixels;
+		/* This probably isn't right for the merged case */
+		col_width_pixels -= (cell->col_info->margin_a +
+				     cell->col_info->margin_b +
+				     1);
+
+		cell_calc_layout (cell, cell_rv, -1,
+				  col_width_pixels * PANGO_SCALE,
+				  dummy_height,
+				  dummy_h_center,
+				  &dummy_fore_color, &dummy_x, &dummy_y);
 	}
 
 	/* Now pretend it was made for printing.  */
 	rv = rendered_value_recontext (cell_rv, pcontext);
+
+	/* Make sure we don't get overflow in print unless we had it in
+	   display.  */
+	rv->might_overflow = rv->numeric_overflow;
 
 	if (cell_rv100)
 		rendered_value_destroy (cell_rv100);
@@ -292,8 +301,9 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 		/* FIXME : get the margins from the far col/row too */
 		print_cell (cell, style, context, pcontext,
 			    l, t,
-			    r - l - ci->margin_b - ci->margin_a,
-			    t - b - ri->margin_b - ri->margin_a, -1.);
+			    r - l - (ci->margin_b + ci->margin_a),
+			    t - b - (ri->margin_b + ri->margin_a),
+			    -1.);
 	}
 	style_border_print_diag (style, context, l, t, r, b);
 }
@@ -343,8 +353,8 @@ print_cell_range (GnomePrintContext *context,
 
 	/* Skip any hidden cols/rows at the start */
 	for (; start_col <= end_col ; ++start_col) {
-		ri = sheet_col_get_info (sheet, start_col);
-		if (ri->visible)
+		ColRowInfo const *ci = sheet_col_get_info (sheet, start_col);
+		if (ci->visible)
 			break;
 	}
 	for (; start_row <= end_row ; ++start_row) {
@@ -377,7 +387,9 @@ print_cell_range (GnomePrintContext *context,
 	next_sr.row = sr.row = row = start_row;
 	sheet_style_get_row (sheet, &sr);
 
-	for (y = base_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
+	for (y = base_y;
+	     row <= end_row;
+	     row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
 		g_return_if_fail (merged_active == NULL);
@@ -449,6 +461,7 @@ print_cell_range (GnomePrintContext *context,
 			GnmStyle const *style;
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
+			ColRowInfo const *ri = sheet_row_get_info (sheet, row);
 
 			if (!ci->visible) {
 				if (merged_active != NULL) {
@@ -536,7 +549,10 @@ print_cell_range (GnomePrintContext *context,
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell))
 					print_cell (cell, style, context, pcontext,
-						    x, y, -1., -1., -1.);
+						    x, y,
+						    ci->size_pts - (ci->margin_b + ci->margin_a),
+						    ri->size_pts - (ri->margin_b + ri->margin_a),
+						    -1.);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
@@ -581,7 +597,10 @@ print_cell_range (GnomePrintContext *context,
 				}
 
 				print_cell (cell, style, context, pcontext,
-					    real_x, y, tmp_width, -1, center_offset);
+					    real_x, y,
+					    tmp_width,
+					    ri->size_pts - (ri->margin_b + ri->margin_a),
+					    center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 
