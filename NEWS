@@ -192,6 +192,7 @@ Morten:
 	* Warn for confusing text-formatted-non-string situation. [#339834]
 	* Fix filling of text formatted as non-general.
 	* Fix printing problem for cells that haven't been displayed.
+	* Fix critical on exit for --debug=1.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

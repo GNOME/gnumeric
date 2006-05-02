@@ -1,3 +1,8 @@
+2006-05-02  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_dispose): Remove debug code that no
+	longer does anything but cause criticals.
+
 2006-05-01  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell): Always call the display logic for

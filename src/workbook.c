@@ -105,15 +105,6 @@ workbook_dispose (GObject *wb_object)
 		Sheet *sheet = ptr->data;
 
 		sheet_destroy_contents (sheet);
-		/*
-		 * We need to put this test BEFORE we detach
-		 * the sheet from the workbook.  It is ugly, but should
-		 * be ok for debug code.
-		 */
-		if (gnumeric_debugging > 0) {
-			g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
-			gnm_dep_container_dump (sheet->deps);
-		}
 	}
 
 	/* Now remove the sheets themselves */
