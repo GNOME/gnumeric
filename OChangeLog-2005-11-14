@@ -1,5 +1,8 @@
 2006-05-02  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c (main): Gracefully handle missing
+	AttachConsole.  #332975.  Modeled after patch by Harun Vos.
+
 	* src/workbook.c (workbook_dispose): Remove debug code that no
 	longer does anything but cause criticals.
 

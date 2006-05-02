@@ -364,12 +364,12 @@ main (int argc, char **argv)
 	gboolean has_console = FALSE;
 	{
 		typedef BOOL (CALLBACK* LPFNATTACHCONSOLE)(DWORD);
-		LPFNATTACHCONSOLE MyAttachConsole = NULL;
+		LPFNATTACHCONSOLE MyAttachConsole;
 		HMODULE hmod;
 
 		if ((hmod = GetModuleHandle("kernel32.dll"))) {
 			MyAttachConsole = (LPFNATTACHCONSOLE) GetProcAddress(hmod, "AttachConsole");
-			if (MyAttachConsole(ATTACH_PARENT_PROCESS)) {
+			if (MyAttachConsole && MyAttachConsole(ATTACH_PARENT_PROCESS)) {
 				freopen("CONOUT$", "w", stdout);
 				freopen("CONOUT$", "w", stderr);
 				dup2(fileno(stdout), 1);

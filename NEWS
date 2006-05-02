@@ -11,6 +11,9 @@ Andreas:
 	* Make sort dialog range entry sensitive to keyboard entry.
 	  [#329250]
 
+Harun Vos:
+	* Fix Win32 crash-on-start for pre-WinXP.
+
 Ivan, Y.C. Wong:
 	* Fix Gdk-WARNING when cutting or copying cells. [#314210]
 	* No more debug command prompt.
