@@ -17,6 +17,7 @@
 #include "gnm-format.h"
 #include "rendered-value.h"
 #include "parse-util.h"
+#include "sheet-merge.h"
 #include <goffice/utils/go-color.h>
 
 #include <gdk/gdk.h>
@@ -62,6 +63,8 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 
 	layout = rv->layout;
 	indent = (rv->indent_left + rv->indent_right) * PANGO_SCALE;
+
+	rv->drawn = TRUE;
 
 	if (width <= 0 || height <= 0)
 		return FALSE;
@@ -206,6 +209,47 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	*res_y = text_base;
 
 	return TRUE;
+}
+
+/*
+ * This finishes a layout by pretending to draw it.  The effect is to
+ * handler numerical overflow, filling, etc.
+ * (Doesn't currently handle vertical fill.)
+ */
+void
+cell_finish_layout (GnmCell const *cell, RenderedValue *rv)
+{
+	gint dummy_x, dummy_y;
+	GOColor dummy_fore_color;
+	int dummy_h_center = -1;  /* Affects position only.  */
+	int dummy_height = 1;  /* Unhandled.  */
+	int col_width_pixels;
+
+	if (!rv)
+		rv = cell->rendered_value;
+	if (rv->drawn)
+		return;
+
+	if (cell_is_merged (cell)) {
+		Sheet const *sheet = cell->base.sheet;
+		GnmRange const *merged =
+			sheet_merge_is_corner (sheet, &cell->pos);
+
+		col_width_pixels = sheet_col_get_distance_pixels
+			(sheet,
+			 merged->start.col, merged->end.col + 1);
+	} else
+		col_width_pixels = cell->col_info->size_pixels;
+	/* This probably isn't right for the merged case */
+	col_width_pixels -= (cell->col_info->margin_a +
+			     cell->col_info->margin_b +
+			     1);
+
+	cell_calc_layout (cell, rv, -1,
+			  col_width_pixels * PANGO_SCALE,
+			  dummy_height,
+			  dummy_h_center,
+			  &dummy_fore_color, &dummy_x, &dummy_y);
 }
 
 

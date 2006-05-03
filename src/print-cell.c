@@ -105,34 +105,8 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	/*
 	 * Since some layout decisions are taken during cell_calc_layout
 	 * we need to make sure that has been called.
-	 */	   
-	{
-		gint dummy_x, dummy_y;
-		GOColor dummy_fore_color;
-		int dummy_h_center = -1;  /* Affects position only.  */
-		int dummy_height = 42;  /* Affects position only.  */
-		int col_width_pixels;
-
-		if (cell_is_merged (cell)) {
-			GnmRange const *merged =
-				sheet_merge_is_corner (sheet, &cell->pos);
-
-			col_width_pixels = sheet_col_get_distance_pixels
-				(sheet,
-				 merged->start.col, merged->end.col + 1);
-		} else
-			col_width_pixels = cell->col_info->size_pixels;
-		/* This probably isn't right for the merged case */
-		col_width_pixels -= (cell->col_info->margin_a +
-				     cell->col_info->margin_b +
-				     1);
-
-		cell_calc_layout (cell, cell_rv, -1,
-				  col_width_pixels * PANGO_SCALE,
-				  dummy_height,
-				  dummy_h_center,
-				  &dummy_fore_color, &dummy_x, &dummy_y);
-	}
+	 */
+	cell_finish_layout (cell, cell_rv);
 
 	/* Now pretend it was made for printing.  */
 	rv = rendered_value_recontext (cell_rv, pcontext);

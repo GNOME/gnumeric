@@ -60,6 +60,7 @@
 #include "sheet-filter.h"
 #include "pivottable.h"
 #include "scenarios.h"
+#include "cell-draw.h"
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>
 
@@ -1512,6 +1513,9 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
 	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
 		return NULL;
 
+	/* Make sure things are as-if drawn.  */
+	cell_finish_layout (cell, NULL);
+
 	width = cell_rendered_width (cell) + cell_rendered_offset (cell);
 	if (width > data->max)
 		data->max = width;
@@ -1577,6 +1581,9 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 	/* Do the test after rendering because that may trigger evaluation. */
 	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
 		return NULL;
+
+	/* Make sure things are as-if drawn.  */
+	cell_finish_layout (cell, NULL);
 
 	height = cell_rendered_height (cell);
 	if (height > data->max)

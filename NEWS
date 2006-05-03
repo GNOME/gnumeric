@@ -181,6 +181,7 @@ Morten:
 	* Fix crash on save+quit.  [#338847]
 	* Auto-fit width when entering new values or formulas.
 	* Auto-fit height when entering string constants.
+	* Fix fits for wrapped text.  [#67351]
 	* Fix minor undo problem for applying a height-changing format.
 	* When undoing or redoing, move to where things happen. [#114077,
 	  #154705]

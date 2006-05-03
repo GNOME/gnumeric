@@ -179,7 +179,8 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
 	int              rotation;
-	Sheet const *sheet;
+	Sheet const     *sheet;
+	gboolean         displayed_formula;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
@@ -187,6 +188,9 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	/* Sheet can be NULL when called from preview-grid.c  */
 	sheet = cell->base.sheet;
+
+	displayed_formula =
+		cell_has_expr (cell) && sheet && sheet->display_formulas;
 
 	/* Special handling for manual recalc.
 	 * If a cell has a new expression and something tries to display it we
@@ -228,6 +232,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->hfilled = FALSE;
 	res->vfilled = FALSE;
 	res->variable_width = FALSE;
+	res->drawn = FALSE;
 
 	/* ---------------------------------------- */
 
@@ -262,7 +267,15 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	/* ---------------------------------------- */
 
-	res->wrap_text = gnm_style_get_effective_wrap_text (mstyle);
+	/*
+	 * Excel actually does something rather weird.  Just like
+	 * everywhere else we just see displayed formulas as
+	 * strings.
+	 */
+	res->wrap_text =
+		(VALUE_IS_STRING (cell->value) || displayed_formula) &&
+		gnm_style_get_effective_wrap_text (mstyle);
+
 	res->effective_valign = gnm_style_get_align_v (mstyle);
 	res->effective_halign = style_default_halign (mstyle, cell);
 	res->indent_left = res->indent_right = 0;
@@ -310,7 +323,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	res->numeric_overflow = FALSE;
 
-	if (cell_has_expr (cell) && sheet && sheet->display_formulas) {
+	if (displayed_formula) {
 		GnmParsePos pp;
 		GString *str = g_string_new ("=");
 		gnm_expr_top_as_gstring (str, cell->base.texpr,

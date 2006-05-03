@@ -18,8 +18,8 @@ struct _RenderedValue {
 
 	GOColor go_fore_color;
 
-	guint effective_halign : 8; /* 7 bits would be enough.  */
-	guint effective_valign : 8; /* 4 bits would be enough.  */
+	guint effective_halign : 8;
+	guint effective_valign : 5;
  	guint variable_width : 1;   /* result depends on the width of cell */
 	guint hfilled : 1;
 	guint vfilled : 1;
@@ -27,6 +27,7 @@ struct _RenderedValue {
 	guint might_overflow : 1;   /* Subject to ####### treatment.  */
 	guint numeric_overflow : 1; /* ####### has happened.  */
 	guint noborders : 1;        /* Valid for rotated only.  */
+	guint drawn : 1;            /* Has drawing layout taken place?  */
 	signed int rotation : 10;
 };
 

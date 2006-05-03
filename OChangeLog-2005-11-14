@@ -1,5 +1,13 @@
 2006-05-02  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (cb_max_cell_width, cb_max_cell_height): Call
+	cell_finish_layout.  Fixes #67351.
+
+	* src/cell-draw.c (cell_finish_layout): Split out...
+	* src/print-cell.c (print_cell): ...here.
+
+	* src/rendered-value.c (rendered_value_new): Wrap texts only.
+
 	* src/main-application.c (main): Gracefully handle missing
 	AttachConsole.  #332975.  Modeled after patch by Harun Vos.
 
