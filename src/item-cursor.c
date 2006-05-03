@@ -30,6 +30,7 @@
 #include "ranges.h"
 #include "parse-util.h"
 #include "gui-util.h"
+#include "sheet-autofill.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkstock.h>
@@ -47,13 +48,14 @@ struct _ItemCursor {
 
 	SheetControlGUI *scg;
 	gboolean	 pos_initialized;
-	GnmRange		 pos;
+	GnmRange	 pos;
 
 	/* Offset of dragging cell from top left of pos */
 	int col_delta, row_delta;
 
 	/* Tip for movement */
 	GtkWidget        *tip;
+	GnmCellPos last_tip_pos;
 
 	ItemCursorStyle style;
 	GdkGC    *gc;
@@ -73,7 +75,8 @@ struct _ItemCursor {
 	struct { /* cursor outline in canvas coords (bounding box is larger) */
 		int x1, x2, y1, y2;
 	} outline;
-	int	 drag_button;
+	int drag_button;
+	guint drag_button_state;
 
 	gboolean visible;
 	gboolean use_color;
@@ -632,6 +635,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 
 		scg_special_cursor_start (ic->scg, style, button);
 		special_cursor = gcanvas->pane->cursor.special;
+		special_cursor->drag_button_state = ic->drag_button_state;
 		if (style == ITEM_CURSOR_AUTOFILL)
 			item_cursor_setup_auto_fill (
 				special_cursor, ic, x, y);
@@ -860,6 +864,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			 * during a double-click
 			 */
 			ic->drag_button = event->button.button;
+			ic->drag_button_state = event->button.state;
 			gnm_simple_canvas_grab (item,
 				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
 				NULL, event->button.time);
@@ -1096,7 +1101,7 @@ item_cursor_set_visibility (ItemCursor *ic, gboolean visible)
 }
 
 static void
-item_cursor_tip_setlabel (ItemCursor *ic)
+item_cursor_tip_setlabel (ItemCursor *ic, const char *text)
 {
 	if (ic->tip == NULL) {
 		ic->tip = gnumeric_create_tooltip ();
@@ -1105,7 +1110,7 @@ item_cursor_tip_setlabel (ItemCursor *ic)
 	}
 
 	g_return_if_fail (ic->tip != NULL);
-	gtk_label_set_text (GTK_LABEL (ic->tip), range_as_string (&ic->pos));
+	gtk_label_set_text (GTK_LABEL (ic->tip), text);
 }
 
 static gboolean
@@ -1128,7 +1133,7 @@ cb_move_cursor (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 	else if (corner.row >= (SHEET_MAX_ROWS - h))
 		corner.row = SHEET_MAX_ROWS - h - 1;
 
-	item_cursor_tip_setlabel (ic);
+	item_cursor_tip_setlabel (ic, range_as_string (&ic->pos));
 
 	/* Make target cell visible, and adjust the cursor size */
 	item_cursor_set_bounds_visibly (ic, info->col, info->row, &corner,
@@ -1167,7 +1172,7 @@ item_cursor_drag_event (FooCanvasItem *item, GdkEvent *event)
 		/* This kind of cursor is created and grabbed.  Then destroyed
 		 * when the button is released.  If we are seeing a press it
 		 * means that someone has pressed another button WHILE THE
-		 * FIRST IS STILL DOWN.  Ignore ths event.
+		 * FIRST IS STILL DOWN.  Ignore this event.
 		 */
 		return TRUE;
 
@@ -1186,6 +1191,7 @@ cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 	ItemCursor *ic = info->user_data;
 	GnmRange r = ic->autofill_src;
 	int col = info->col, row = info->row;
+	int h, w;
 
 	/* compass offsets are distances (in cells) from the edges of the
 	 * selected area to the mouse cursor */
@@ -1215,8 +1221,35 @@ cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 			row = r.end.row;
 	}
 
+	/* Check if we have moved to a new cell.  */
+	if (col == ic->last_tip_pos.col && row == ic->last_tip_pos.row)
+		return FALSE;
+	ic->last_tip_pos.col = col;
+	ic->last_tip_pos.row = row;
+
 	item_cursor_set_bounds_visibly (ic, col, row,
 		&r.start, r.end.col, r.end.row);
+
+	w = range_width (&ic->autofill_src);
+	h = range_height (&ic->autofill_src);
+	if (ic->pos.start.col + w - 1 == ic->pos.end.col &&
+	    ic->pos.start.row + h - 1 == ic->pos.end.row)
+		item_cursor_tip_setlabel (ic, _("Autofill"));
+	else {
+		SheetControl *sc = (SheetControl *) ic->scg;
+		Sheet *sheet = sc->sheet;
+		char *hint = sheet_autofill_hint
+			(sheet,
+			 ic->drag_button_state & GDK_CONTROL_MASK,
+			 ic->pos.start.col, ic->pos.start.row,
+			 w, h,
+			 ic->pos.end.col, ic->pos.end.row);
+		if (hint) {
+			item_cursor_tip_setlabel (ic, hint);
+			g_free (hint);
+		} else
+			item_cursor_tip_setlabel (ic, "");
+	}
 
 	return FALSE;
 }
@@ -1226,19 +1259,19 @@ item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 	SheetControl *sc = (SheetControl *) ic->scg;
-	gboolean inverse_autofill;
 
 	switch (event->type) {
-	case GDK_BUTTON_RELEASE:
-		gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
+	case GDK_BUTTON_RELEASE: {
+		gboolean inverse_autofill;
 
+		gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
 		inverse_autofill = (ic->pos.start.col < ic->autofill_src.start.col ||
 				    ic->pos.start.row < ic->autofill_src.start.row);
 
 		cmd_autofill (sc->wbc, sc->sheet,
-			      event->button.state & GDK_CONTROL_MASK,
+			      ic->drag_button_state & GDK_CONTROL_MASK,
 			      ic->pos.start.col, ic->pos.start.row,
 			      range_width (&ic->autofill_src),
 			      range_height (&ic->autofill_src),
@@ -1247,6 +1280,7 @@ item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 
 		scg_special_cursor_stop	(ic->scg);
 		return TRUE;
+	}
 
 	case GDK_MOTION_NOTIFY:
 		item_cursor_handle_motion (ic, event, &cb_autofill_scroll);
@@ -1385,6 +1419,8 @@ item_cursor_init (ItemCursor *ic)
 	ic->row_delta = 0;
 
 	ic->tip = NULL;
+	ic->last_tip_pos.col = -1;
+	ic->last_tip_pos.row = -1;
 
 	ic->style = ITEM_CURSOR_SELECTION;
 	ic->gc = NULL;

@@ -1514,7 +1514,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
 		return NULL;
 
 	/* Make sure things are as-if drawn.  */
-	cell_finish_layout (cell, NULL);
+	cell_finish_layout (cell, NULL, TRUE);
 
 	width = cell_rendered_width (cell) + cell_rendered_offset (cell);
 	if (width > data->max)
@@ -1582,8 +1582,8 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
 		return NULL;
 
-	/* Make sure things are as-if drawn.  */
-	cell_finish_layout (cell, NULL);
+	/* Make sure things are as-if drawn.  Inhibit #####s.  */
+	cell_finish_layout (cell, NULL, FALSE);
 
 	height = cell_rendered_height (cell);
 	if (height > data->max)

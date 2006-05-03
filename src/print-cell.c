@@ -106,7 +106,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	 * Since some layout decisions are taken during cell_calc_layout
 	 * we need to make sure that has been called.
 	 */
-	cell_finish_layout (cell, cell_rv);
+	cell_finish_layout (cell, cell_rv, FALSE);
 
 	/* Now pretend it was made for printing.  */
 	rv = rendered_value_recontext (cell_rv, pcontext);

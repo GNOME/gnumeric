@@ -8,7 +8,8 @@ gboolean cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_directi
 			   int width, int height, int h_center,
 			   GOColor *res_color, gint *res_x, gint *res_y);
 
-void cell_finish_layout (GnmCell const *cell, RenderedValue *rv);
+void cell_finish_layout (GnmCell const *cell, RenderedValue *rv,
+			 gboolean inhibit_overflow);
 
 void cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		int x, int y, int height, int width, int h_center);

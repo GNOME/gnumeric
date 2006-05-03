@@ -217,13 +217,15 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
  * (Doesn't currently handle vertical fill.)
  */
 void
-cell_finish_layout (GnmCell const *cell, RenderedValue *rv)
+cell_finish_layout (GnmCell const *cell, RenderedValue *rv,
+		    gboolean inhibit_overflow)
 {
 	gint dummy_x, dummy_y;
 	GOColor dummy_fore_color;
 	int dummy_h_center = -1;  /* Affects position only.  */
 	int dummy_height = 1;  /* Unhandled.  */
 	int col_width_pixels;
+	gboolean might_overflow;
 
 	if (!rv)
 		rv = cell->rendered_value;
@@ -245,11 +247,14 @@ cell_finish_layout (GnmCell const *cell, RenderedValue *rv)
 			     cell->col_info->margin_b +
 			     1);
 
+	might_overflow = rv->might_overflow;
+	if (inhibit_overflow) rv->might_overflow = FALSE;
 	cell_calc_layout (cell, rv, -1,
 			  col_width_pixels * PANGO_SCALE,
 			  dummy_height,
 			  dummy_h_center,
 			  &dummy_fore_color, &dummy_x, &dummy_y);
+	rv->might_overflow = might_overflow;
 }
 
 

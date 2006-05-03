@@ -1,3 +1,20 @@
+2006-05-03  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (sheet_autofill_hint): New function.
+	(sheet_autofill_internal): Split out from sheet_autofill.
+	(afm_teach_cell): Deduce dateconv here instead of as an init
+	paramter.
+	(afa_teach_cell): Deduce deduce here.
+	(afa_set_cell): Set format correctly.
+
+	* src/item-cursor.c (cb_autofill_scroll): Display autofill hint.
+	(item_cursor_selection_event): Store button state.
+	(item_cursor_autofill_event): Use CONTROL state as-of when we
+	started the drag, not when we ended it.
+
+	* src/cell-draw.c (cell_finish_layout): Add parameter to allow
+	inhibiting numerical overflow.  All callers changed.
+
 2006-05-02  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (cb_max_cell_width, cb_max_cell_height): Call

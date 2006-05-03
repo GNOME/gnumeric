@@ -197,6 +197,7 @@ Morten:
 	* Fix filling of text formatted as non-general.
 	* Fix printing problem for cells that haven't been displayed.
 	* Fix critical on exit for --debug=1.
+	* Display tooltips during autofill.  [#51272]
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

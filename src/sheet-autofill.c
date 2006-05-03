@@ -23,6 +23,7 @@
 #include "mstyle.h"
 #include "ranges.h"
 #include "sheet-merge.h"
+#include "gnm-format.h"
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>
 
@@ -110,7 +111,7 @@ struct _AutoFiller {
 	void (*set_cell) (AutoFiller *af, GnmCell *cell, int n);
 
 	/* Hint of what will be the nth element.  */
-	char * (*hint) (AutoFiller *af, int n);
+	char * (*hint) (AutoFiller *af, GnmCellPos *pos, int n);
 };
 
 static void
@@ -136,6 +137,7 @@ typedef struct {
 	gboolean singleton;  /* Missing step becomes 1.  */
 	gnm_float base, step;
 	GOFormat *format;
+	GODateConventions const *dateconv;
 } AutoFillerArithmetic;
 
 static void
@@ -166,6 +168,7 @@ afa_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 
 	switch (n) {
 	case 0:
+		afa->dateconv = workbook_date_conv (cell->base.sheet->workbook);
 		afa->base = f;
 		if (afa->singleton) {
 			afa->step = 1;
@@ -191,23 +194,32 @@ afa_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	}
 }
 
+static GnmValue *
+afa_compute (AutoFillerArithmetic *afa, int n)
+{
+	gnm_float f = afa->base + n * afa->step;
+	GnmValue *v = value_new_float (f);
+	if (afa->format)
+		value_set_fmt (v, afa->format);
+	return v;
+}
+
 static void
 afa_set_cell (AutoFiller *af, GnmCell *cell, int n)
 {
 	AutoFillerArithmetic *afa = (AutoFillerArithmetic *)af;
-	gnm_float f = afa->base + n * afa->step;
-	cell_set_value (cell, value_new_float (f));
+	GnmValue *v = afa_compute (afa, n);
+	cell_set_value (cell, v);
 }
 
 static char *
-afa_hint (AutoFiller *af, int n)
+afa_hint (AutoFiller *af, GnmCellPos *pos, int n)
 {
 	AutoFillerArithmetic *afa = (AutoFillerArithmetic *)af;
-	if (af->status == AFS_READY) {
-		gnm_float f = afa->base + n * afa->step;
-		return g_strdup_printf ("%" GNM_FORMAT_g, f);
-	}
-	return NULL;
+	GnmValue *v = afa_compute (afa, n);
+	char *res = format_value (NULL, v, NULL, -1, afa->dateconv);
+	value_release (v);
+	return res;
 }
 
 static AutoFiller *
@@ -222,6 +234,7 @@ auto_filler_arithmetic (gboolean singleton)
 	res->filler.set_cell = afa_set_cell;
 	res->filler.hint = afa_hint;
 	res->format = NULL;
+	res->dateconv = NULL;
 	res->singleton = singleton;
 
 	return &res->filler;
@@ -462,13 +475,10 @@ afns_set_cell (AutoFiller *af, GnmCell *cell, int n)
 }
 
 static char *
-afns_hint (AutoFiller *af, int n)
+afns_hint (AutoFiller *af, GnmCellPos *pos, int n)
 {
 	AutoFillerNumberString *afns = (AutoFillerNumberString *)af;
-	if (af->status == AFS_READY)
-		return afns_compute (afns, n);
-	else
-		return NULL;
+	return afns_compute (afns, n);
 }
 
 static AutoFiller *
@@ -538,6 +548,7 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	if (VALUE_IS_NUMBER (value) && sf->family != GO_FORMAT_DATE)
 		goto bad;
 
+	afm->dateconv = workbook_date_conv (cell->base.sheet->workbook);
 	if (!datetime_value_to_g (&d, value, afm->dateconv))
 		goto bad;
 
@@ -569,10 +580,9 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	}
 }
 
-static void
-afm_set_cell (AutoFiller *af, GnmCell *cell, int n)
+static GnmValue *
+afm_compute (AutoFillerMonth *afm, int n)
 {
-	AutoFillerMonth *afm = (AutoFillerMonth *)af;
 	GDate d = afm->base;
 	GnmValue *v;
 
@@ -581,12 +591,8 @@ afm_set_cell (AutoFiller *af, GnmCell *cell, int n)
 	else
 		g_date_subtract_months (&d, n * afm->nmonths);
 
-	if (!g_date_valid (&d) || g_date_get_year (&d) > 9999) {
-		GnmEvalPos ep;
-		eval_pos_init_cell (&ep, cell);
-		cell_set_value (cell, value_new_error_VALUE (&ep));
-		return;
-	}
+	if (!g_date_valid (&d) || g_date_get_year (&d) > 9999)
+		return NULL;
 
 	if (afm->end_of_month) {
 		int year = g_date_get_year (&d);
@@ -597,17 +603,41 @@ afm_set_cell (AutoFiller *af, GnmCell *cell, int n)
 	v = value_new_int (datetime_g_to_serial (&d, afm->dateconv));
 	if (afm->format)
 		value_set_fmt (v, afm->format);
-	cell_set_value (cell, v);
+	return v;	
+}
+
+static void
+afm_set_cell (AutoFiller *af, GnmCell *cell, int n)
+{
+	AutoFillerMonth *afm = (AutoFillerMonth *)af;
+	GnmValue *v = afm_compute (afm, n);
+
+	if (v)
+		cell_set_value (cell, v);
+	else {
+		GnmEvalPos ep;
+		eval_pos_init_cell (&ep, cell);
+		cell_set_value (cell, value_new_error_VALUE (&ep));
+	}
 }
 
 static char *
-afm_hint (AutoFiller *af, int n)
+afm_hint (AutoFiller *af, GnmCellPos *pos, int n)
 {
-	return NULL;
+	AutoFillerMonth *afm = (AutoFillerMonth *)af;
+	GnmValue *v = afm_compute (afm, n);
+	char *res = NULL;
+
+	if (v) {
+		res = format_value (NULL, v, NULL, -1, afm->dateconv);
+		value_release (v);
+	}
+
+	return res;
 }
 
 static AutoFiller *
-auto_filler_month (GODateConventions const *dateconv)
+auto_filler_month (void)
 {
 	AutoFillerMonth *res = g_new (AutoFillerMonth, 1);
 
@@ -618,7 +648,7 @@ auto_filler_month (GODateConventions const *dateconv)
 	res->filler.set_cell = afm_set_cell;
 	res->filler.hint = afm_hint;
 	res->format = NULL;
-	res->dateconv = dateconv;
+	res->dateconv = NULL;
 
 	return &res->filler;
 }
@@ -715,12 +745,10 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	}
 }
 
-static void
-afl_set_cell (AutoFiller *af, GnmCell *cell, int n)
+static char *
+afl_compute (AutoFillerList *afl, int n)
 {
-	AutoFillerList *afl = (AutoFillerList *)af;
-	GnmValue *val;
-	GString *res = g_string_new (afl->list[afl_compute_phase (afl, n)]);
+       	GString *res = g_string_new (afl->list[afl_compute_phase (afl, n)]);
 
 	if (afl->with_number) {
 		char *s = as_compute (&afl->as, n);
@@ -728,14 +756,23 @@ afl_set_cell (AutoFiller *af, GnmCell *cell, int n)
 		g_free (s);
 	}
 
-	val = value_new_string_nocopy (g_string_free (res, FALSE));
+	return g_string_free (res, FALSE);
+}
+
+static void
+afl_set_cell (AutoFiller *af, GnmCell *cell, int n)
+{
+	AutoFillerList *afl = (AutoFillerList *)af;
+	char *str = afl_compute (afl, n);
+	GnmValue *val = value_new_string_nocopy (str);
 	cell_set_value (cell, val);
 }
 
 static char *
-afl_hint (AutoFiller *af, int n)
+afl_hint (AutoFiller *af, GnmCellPos *pos, int n)
 {
-	return NULL;
+	AutoFillerList *afl = (AutoFillerList *)af;
+	return afl_compute (afl, n);
 }
 
 static AutoFiller *
@@ -788,11 +825,13 @@ afc_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	}
 }
 
-static void
-afc_set_cell (AutoFiller *af, GnmCell *cell, int n)
+static char *
+afc_set_cell_hint (AutoFiller *af, GnmCell *cell, const GnmCellPos *pos,
+		   int n, gboolean doit)
 {
 	AutoFillerCopy *afe = (AutoFillerCopy *)af;
 	const GnmCell *src = afe->cells[n % afe->size];
+	char *res = NULL;
 	if (src && cell_has_expr (src)) {
 		GnmExprRewriteInfo rwinfo;
 		GnmExprRelocateInfo *rinfo = &rwinfo.u.relocate;
@@ -800,24 +839,27 @@ afc_set_cell (AutoFiller *af, GnmCell *cell, int n)
 		GnmExprTop const *src_texpr = src->base.texpr;
 		GnmExprArrayCorner const *array =
 			gnm_expr_top_get_array_corner (src_texpr);
+		GnmParsePos pp;
+		Sheet *sheet = src->base.sheet;
 
 		/* Arrays are always assigned fully at the corner.  */
 		if (gnm_expr_top_is_array_elem (src_texpr))
-			return;
+			return NULL;
 
 		rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
 		rinfo->target_sheet = rinfo->origin_sheet = NULL;
 		rinfo->col_offset = rinfo->row_offset = 0;
-		rinfo->origin.start = rinfo->origin.end = cell->pos;
-		eval_pos_init_cell (&rinfo->pos, cell);
+		rinfo->origin.start = rinfo->origin.end = *pos;
+		eval_pos_init (&rinfo->pos, sheet, pos->col, pos->row);
+		parse_pos_init_evalpos (&pp, &rinfo->pos);
 
 		texpr = gnm_expr_top_rewrite (src_texpr, &rwinfo);
 
 		/* Clip arrays that are only partially copied.  */
 		if (array) {
                         GnmExpr const *aexpr;
-			guint limit_x = afe->last.col - cell->pos.col + 1;
-			guint limit_y = afe->last.row - cell->pos.row + 1;
+			guint limit_x = afe->last.col - pos->col + 1;
+			guint limit_y = afe->last.row - pos->row + 1;
                         unsigned cols = MIN (limit_x, array->cols);
                         unsigned rows = MIN (limit_y, array->rows);
 
@@ -827,27 +869,66 @@ afc_set_cell (AutoFiller *af, GnmCell *cell, int n)
                         } else
                                 aexpr = gnm_expr_copy (array->expr);
 
-			cell_set_array_formula
-				(cell->base.sheet,
-				 cell->pos.col, cell->pos.row,
-				 cell->pos.col + (cols - 1),
-				 cell->pos.row + (rows - 1),
-				 gnm_expr_top_new (aexpr));
+			if (doit)
+				cell_set_array_formula
+					(cell->base.sheet,
+					 pos->col, cell->pos.row,
+					 pos->col + (cols - 1),
+					 pos->row + (rows - 1),
+					 gnm_expr_top_new (aexpr));
+			else {
+				res = gnm_expr_as_string
+					(aexpr, &pp,
+					 gnm_expr_conventions_default);
+				gnm_expr_free (aexpr);
+			}
 		} else if (texpr) {
-			cell_set_expr (cell, texpr);
+			if (doit)
+				cell_set_expr (cell, texpr);
+			else
+				res = gnm_expr_top_as_string
+					(texpr, &pp,
+					 gnm_expr_conventions_default);
 			gnm_expr_top_unref (texpr);
-		} else
-			cell_set_expr (cell, src_texpr);
+		} else {
+			if (doit)
+				cell_set_expr (cell, src_texpr);
+			else
+				res = gnm_expr_top_as_string
+					(src_texpr, &pp,
+					 gnm_expr_conventions_default);
+		}
 	} else if (src) {
-		cell_set_value (cell, value_dup (src->value));
-	} else
-		sheet_cell_remove (cell->base.sheet, cell, TRUE, TRUE);
+		if (doit)
+			cell_set_value (cell, value_dup (src->value));
+		else {
+			Sheet const *sheet = src->base.sheet;
+			GODateConventions const *dateconv =
+				workbook_date_conv (sheet->workbook);
+			GOFormat const *format = cell_get_format (src);
+			return format_value (format, src->value, NULL, -1,
+					     dateconv);
+		}
+	} else {
+		if (doit)
+			sheet_cell_remove (cell->base.sheet, cell, TRUE, TRUE);
+		else
+			res = g_strdup (_("(empty)"));
+	}
+
+	return res;
+}
+
+static void
+afc_set_cell (AutoFiller *af, GnmCell *cell, int n)
+{
+	afc_set_cell_hint (af, cell, &cell->pos, n, TRUE);
 }
 
 static char *
-afc_hint (AutoFiller *af, int n)
+afc_hint (AutoFiller *af, GnmCellPos *pos, int n)
 {
-	return NULL;
+	return afc_set_cell_hint (af, NULL, pos, n, FALSE);
 }
 
 static AutoFiller *
@@ -879,24 +960,24 @@ auto_filler_copy (int size, guint last_col, guint last_row)
  * (last_col,last_row): last cell of entire area being filled.
  */
 
-static void
+static char *
 sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 		    int base_col, int base_row,
 		    int region_size,
 		    int count_max,
 		    int col_inc, int row_inc,
-		    int last_col, int last_row)
+		    int last_col, int last_row,
+		    gboolean doit)
 {
 	GList *fillers = NULL;
 	GList *f;
 	int i;
 	AutoFiller *af = NULL;
 	GnmStyle const **styles;
-	GODateConventions const *dateconv =
-		workbook_date_conv (sheet->workbook);
+	char *hint = NULL;
 
 	if (count_max <= 0 || region_size <= 0)
-		return;
+		return NULL;
 
 	fillers = g_list_prepend
 		(fillers, auto_filler_arithmetic (singleton));
@@ -905,7 +986,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 	fillers = g_list_prepend
 		(fillers, auto_filler_number_string (singleton, FALSE));
 	fillers = g_list_prepend
-		(fillers, auto_filler_month (dateconv));
+		(fillers, auto_filler_month ());
 	fillers = g_list_prepend
 		(fillers, auto_filler_copy (region_size, last_col, last_row));
 	fillers = g_list_prepend (fillers, auto_filler_list (quarters, 50, TRUE));
@@ -923,7 +1004,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 	fillers = g_list_prepend
 		(fillers, auto_filler_list (weekday_names_short, 50, FALSE));
 
-	styles = g_new (GnmStyle *, region_size);
+	styles = doit ? g_new (const GnmStyle *, region_size) : NULL;
 
 	for (i = 0; i < region_size; i++) {
 		int col = base_col + i * col_inc;
@@ -945,8 +1026,10 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 			f = next;
 		}
 
-		styles[i] = sheet_style_get (sheet, col, row);
-		gnm_style_ref (styles[i]);
+		if (styles) {
+			styles[i] = sheet_style_get (sheet, col, row);
+			gnm_style_ref (styles[i]);
+		}
 	}
 
 	/* Find the best filler that's ready.  */
@@ -958,15 +1041,25 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 		}
 	}
 
-	for (; af && i < count_max; i++) {
-		int col = base_col + i * col_inc;
-		int row = base_row + i * row_inc;
-		int j = i % region_size;
-		GnmCell *cell = sheet_cell_fetch (sheet, col, row);
-		af->set_cell (af, cell, i);
+	if (!af) {
+		/* Strange, but no fill.  */
+	} else if (doit) {
+		for (; i < count_max; i++) {
+			int col = base_col + i * col_inc;
+			int row = base_row + i * row_inc;
+			int j = i % region_size;
+			GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+			af->set_cell (af, cell, i);
 
-		gnm_style_ref (styles[j]);
-		sheet_style_set_pos (sheet, col, row, styles[j]);
+			gnm_style_ref (styles[j]);
+			sheet_style_set_pos (sheet, col, row, styles[j]);
+		}
+	} else {
+		int i = count_max - 1;
+		GnmCellPos pos;
+		pos.col = base_col + i * col_inc;
+		pos.row = base_row + i * row_inc;
+		hint = af->hint (af, &pos, i);
 	}
 
 	while (fillers) {
@@ -975,10 +1068,99 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 		af->finalize (af);
 	}
 
-	for (i = 0; i < region_size; i++)
-		gnm_style_unref (styles[i]);
-	g_free (styles);
+	if (styles) {
+		int i;
+		for (i = 0; i < region_size; i++)
+			gnm_style_unref (styles[i]);
+		g_free (styles);
+	}
+
+	return hint;
 }
+
+static void
+add_item (GString *dst, const char *item, const char *sep)
+{
+	if (!dst) return;
+	if (dst->len)
+		g_string_append (dst, sep);
+	if (item)
+		g_string_append (dst, item);
+	else
+		g_string_append (dst, "?");
+}
+
+static char *
+sheet_autofill_internal (Sheet *sheet, gboolean singleton,
+			 int base_col, int base_row,
+			 int w, int h,
+			 int end_col, int end_row,
+			 gboolean doit)
+{
+	int series;
+	int right_col = MAX (base_col, end_col);
+	int bottom_row = MAX (base_row, end_row);
+	GString *res = NULL;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	if (!doit)
+		res = g_string_new (NULL);
+
+	if (base_col > end_col || base_row > end_row) {
+		if (base_col != end_col + w - 1) {
+			/* LEFT */
+			for (series = 0; series < h; series++)
+				add_item (res,
+					  sheet_autofill_dir (sheet, singleton,
+							      base_col, base_row - series,
+							      w, ABS (base_col - (end_col - 1)),
+							      -1, 0,
+							      right_col, bottom_row,
+							      doit),
+					  "\n");
+		} else {
+			/* UP */
+			for (series = 0; series < w; series++)
+				add_item (res,
+					  sheet_autofill_dir (sheet, singleton,
+							      base_col - series, base_row,
+							      h, ABS (base_row - (end_row - 1)),
+							      0, -1,
+							      right_col, bottom_row,
+							      doit),
+					  " | ");
+		}
+	} else {
+		if (end_col != base_col + w - 1) {
+			/* RIGHT */
+			for (series = 0; series < h; series++)
+				add_item (res,
+					  sheet_autofill_dir (sheet, singleton,
+							      base_col, base_row + series,
+							      w, ABS (base_col - (end_col + 1)),
+							      1, 0,
+							      right_col, bottom_row,
+							      doit),
+					  "\n");
+		} else {
+			/* DOWN */
+			for (series = 0; series < w; series++)
+				add_item (res,
+					  sheet_autofill_dir (sheet, singleton,
+							      base_col + series, base_row,
+							      h, ABS (base_row - (end_row + 1)),
+							      0, 1,
+							      right_col, bottom_row,
+							      doit),
+					  " | ");
+		}
+	}
+
+	return doit ? NULL : g_string_free (res, FALSE);
+}
+
+
 
 /**
  * sheet_autofill :
@@ -992,47 +1174,22 @@ sheet_autofill (Sheet *sheet, gboolean singleton,
 		int w, int h,
 		int end_col, int end_row)
 {
-	int series;
-	int right_col = MAX (base_col, end_col);
-	int bottom_row = MAX (base_row, end_row);
+	sheet_autofill_internal (sheet, singleton,
+				 base_col, base_row,
+				 w, h,
+				 end_col, end_row,
+				 TRUE);
+}
 
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (base_col > end_col || base_row > end_row) {
-		if (base_col != end_col + w - 1) {
-			/* LEFT */
-			for (series = 0; series < h; series++)
-				sheet_autofill_dir (sheet, singleton,
-					base_col, base_row - series,
-					w, ABS (base_col - (end_col - 1)),
-					-1, 0,
-					right_col, bottom_row);
-		} else {
-			/* UP */
-			for (series = 0; series < w; series++)
-				sheet_autofill_dir (sheet, singleton,
-					base_col - series, base_row,
-					h, ABS (base_row - (end_row - 1)),
-					0, -1,
-					right_col, bottom_row);
-		}
-	} else {
-		if (end_col != base_col + w - 1) {
-			/* RIGHT */
-			for (series = 0; series < h; series++)
-				sheet_autofill_dir (sheet, singleton,
-					base_col, base_row + series,
-					w, ABS (base_col - (end_col + 1)),
-					1, 0,
-					right_col, bottom_row);
-		} else {
-			/* DOWN */
-			for (series = 0; series < w; series++)
-				sheet_autofill_dir (sheet, singleton,
-					base_col + series, base_row,
-					h, ABS (base_row - (end_row + 1)),
-					0, 1,
-					right_col, bottom_row);
-		}
-	}
+char *
+sheet_autofill_hint (Sheet *sheet, gboolean default_increment,
+		     int base_col, int base_row,
+		     int w,        int h,
+		     int end_col,  int end_row)
+{
+	return sheet_autofill_internal (sheet, default_increment,
+					base_col, base_row,
+					w, h,
+					end_col, end_row,
+					FALSE);
 }
