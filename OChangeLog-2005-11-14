@@ -1,5 +1,7 @@
 2006-05-03  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_autofill_redo): Improve selection.
+
 	* src/sheet-autofill.c (sheet_autofill_hint): New function.
 	(sheet_autofill_internal): Split out from sheet_autofill.
 	(afm_teach_cell): Deduce dateconv here instead of as an init

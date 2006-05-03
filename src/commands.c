@@ -3046,6 +3046,7 @@ typedef struct {
 
 	GnmCellRegion *contents;
 	GnmPasteTarget dst;
+	GnmRange src;
 	int base_col, base_row, w, h, end_col, end_row;
 	gboolean default_increment;
 	gboolean inverse_autofill;
@@ -3075,7 +3076,6 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
 	gboolean res;
-	GnmRange r;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -3088,12 +3088,7 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (res)
 		return TRUE;
 
-	/* Select the newly pasted contents  (this queues a redraw) */
-	select_range (me->dst.sheet,
-		      range_init (&r, me->base_col, me->base_row,
-				  me->base_col + me->w - 1,
-				  me->base_row + me->h - 1),
-		      wbc);
+	select_range (me->dst.sheet, &me->src, wbc);
 
 	return FALSE;
 }
@@ -3102,6 +3097,7 @@ static gboolean
 cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
+	GnmRange r;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents == NULL, TRUE);
@@ -3113,6 +3109,7 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	/* FIXME : when we split autofill to support hints and better validation
 	 * move this in there.
 	 */
+	/* MW: May 2006: we support hints now.  What's this about?  */
 	sheet_clear_region (me->dst.sheet,
 		me->dst.range.start.col, me->dst.range.start.row,
 		me->dst.range.end.col,   me->dst.range.end.row,
@@ -3134,8 +3131,8 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
 
-	/* Select the newly pasted contents  (this queues a redraw) */
-	select_range (me->dst.sheet, &me->dst.range, wbc);
+	r = range_union (&me->dst.range, &me->src);
+	select_range (me->dst.sheet, &r, wbc);
 
 	return FALSE;
 }
@@ -3211,6 +3208,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->dst.sheet = sheet;
 	me->dst.paste_flags = PASTE_CONTENTS | PASTE_FORMATS;
 	me->dst.range = target;
+	me->src = src;
 
 	me->base_col = base_col;
 	me->base_row = base_row,
