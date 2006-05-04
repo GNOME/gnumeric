@@ -34,6 +34,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkstock.h>
+#include <goffice/app/go-cmd-context-impl.h>
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
 
@@ -858,11 +859,23 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			return TRUE;
 
 		if (event->button.button != 3) {
+			int x, y;
+
 			/* prepare to create fill or drag cursors, but dont until we
 			 * move.  If we did create them here there would be problems
 			 * with race conditions when the new cursors pop into existence
 			 * during a double-click
 			 */
+
+			foo_canvas_w2c (canvas,
+					event->button.x, event->button.y, &x, &y);
+			if (item_cursor_in_drag_handle (ic, x, y))
+				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (ic->scg->wbcg),
+								     _("Drag to autofill"));
+			else
+				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (ic->scg->wbcg),
+								     _("Drag to move"));
+
 			ic->drag_button = event->button.button;
 			ic->drag_button_state = event->button.state;
 			gnm_simple_canvas_grab (item,
@@ -881,6 +894,8 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			gnm_simple_canvas_ungrab (item, event->button.time);
 			ic->drag_button = -1;
 		}
+		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (ic->scg->wbcg),
+						     " ");
 		return TRUE;
 
 	default:
@@ -1236,14 +1251,28 @@ cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 	    ic->pos.start.row + h - 1 == ic->pos.end.row)
 		item_cursor_tip_setlabel (ic, _("Autofill"));
 	else {
+		gboolean inverse_autofill =
+			(ic->pos.start.col < ic->autofill_src.start.col ||
+			 ic->pos.start.row < ic->autofill_src.start.row);
+		gboolean default_increment =
+			ic->drag_button_state & GDK_CONTROL_MASK;
 		SheetControl *sc = (SheetControl *) ic->scg;
 		Sheet *sheet = sc->sheet;
-		char *hint = sheet_autofill_hint
-			(sheet,
-			 ic->drag_button_state & GDK_CONTROL_MASK,
-			 ic->pos.start.col, ic->pos.start.row,
-			 w, h,
-			 ic->pos.end.col, ic->pos.end.row);
+		char *hint;
+
+		if (inverse_autofill)
+			hint = sheet_autofill_hint
+				(sheet, default_increment,
+				 ic->pos.end.col, ic->pos.end.row,
+				 w, h,
+				 ic->pos.start.col, ic->pos.start.row);
+		else
+			hint = sheet_autofill_hint
+				(sheet, default_increment,
+				 ic->pos.start.col, ic->pos.start.row,
+				 w, h,
+				 ic->pos.end.col, ic->pos.end.row);
+
 		if (hint) {
 			item_cursor_tip_setlabel (ic, hint);
 			g_free (hint);
@@ -1262,16 +1291,16 @@ item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 
 	switch (event->type) {
 	case GDK_BUTTON_RELEASE: {
-		gboolean inverse_autofill;
+		gboolean inverse_autofill =
+			(ic->pos.start.col < ic->autofill_src.start.col ||
+			 ic->pos.start.row < ic->autofill_src.start.row);
+		gboolean default_increment =
+			ic->drag_button_state & GDK_CONTROL_MASK;
 
 		gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
-		inverse_autofill = (ic->pos.start.col < ic->autofill_src.start.col ||
-				    ic->pos.start.row < ic->autofill_src.start.row);
-
-		cmd_autofill (sc->wbc, sc->sheet,
-			      ic->drag_button_state & GDK_CONTROL_MASK,
+		cmd_autofill (sc->wbc, sc->sheet, default_increment,
 			      ic->pos.start.col, ic->pos.start.row,
 			      range_width (&ic->autofill_src),
 			      range_height (&ic->autofill_src),

@@ -1,3 +1,9 @@
+2006-05-04  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (item_cursor_selection_event): Add help
+	messages explaining what is going on.
+	(cb_autofill_scroll): Fix hint for inverse autofill.
+
 2006-05-03  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_autofill_redo): Improve selection.
