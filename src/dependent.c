@@ -51,12 +51,12 @@ static void name_dep_debug_name	   (GnmDependent const *dep, GString *target);
 
 static GnmCellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
-static DependentClass dynamic_dep_class = {
+static GnmDependentClass dynamic_dep_class = {
 	dynamic_dep_eval,
 	NULL,
 	dynamic_dep_debug_name,
 };
-static DependentClass name_dep_class = {
+static GnmDependentClass name_dep_class = {
 	name_dep_eval,
 	NULL,
 	name_dep_debug_name,
@@ -97,7 +97,7 @@ dependent_types_shutdown (void)
  * of dependents.
  */
 guint32
-dependent_type_register (DependentClass const *klass)
+dependent_type_register (GnmDependentClass const *klass)
 {
 	guint32 res;
 
@@ -162,7 +162,7 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 		 */
 		cell_set_expr_unsafe (DEP_TO_CELL (dep), new_texpr);
 	} else {
-		DependentClass *klass = g_ptr_array_index (dep_classes, t);
+		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 		g_return_if_fail (klass);
 		if (new_texpr)
@@ -1220,7 +1220,7 @@ dependent_eval (GnmDependent *dep)
 		int const t = dependent_type (dep);
 
 		if (t != DEPENDENT_CELL) {
-			DependentClass *klass = g_ptr_array_index (dep_classes, t);
+			GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 			g_return_val_if_fail (klass, FALSE);
 
@@ -2551,7 +2551,7 @@ dependent_debug_name (GnmDependent const *dep, GString *target)
 
 	t = dependent_type (dep);
 	if (t != DEPENDENT_CELL) {
-		DependentClass *klass = g_ptr_array_index (dep_classes, t);
+		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 		g_return_if_fail (klass);
 		(*klass->debug_name) (dep, target);

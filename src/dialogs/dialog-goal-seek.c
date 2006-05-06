@@ -88,16 +88,22 @@ typedef struct {
 
 typedef struct {
 	GnmCell *xcell, *ycell;
-	gnm_float ytarget;
+	gnm_float	ytarget;
+	gboolean	update_ui;
 } GoalEvalData;
 
 static GoalSeekStatus
 goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 {
-	GoalEvalData *evaldata = vevaldata;
+	GoalEvalData const *evaldata = vevaldata;
+	GnmValue *v = value_new_float (x);
 
-	cell_set_value (evaldata->xcell, value_new_float (x));
-	cell_queue_recalc (evaldata->xcell);
+	if (evaldata->update_ui) {
+		sheet_cell_set_value (evaldata->xcell, v);
+	} else {
+		cell_set_value (evaldata->xcell, v);
+		cell_queue_recalc (evaldata->xcell);
+	}
 	workbook_recalc (evaldata->xcell->base.sheet->workbook);
 
 	if (evaldata->ycell->value) {
@@ -126,6 +132,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	evaldata.xcell = state->change_cell;
 	evaldata.ycell = state->set_cell;
 	evaldata.ytarget = state->target_value;
+	evaldata.update_ui = FALSE;
 
 	hadold = !VALUE_IS_EMPTY_OR_ERROR (state->change_cell->value);
 	oldx = hadold ? value_get_as_float (state->change_cell->value) : 0;
@@ -236,6 +243,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	}
 
  DONE:
+	evaldata.update_ui = TRUE;
 	if (status == GOAL_SEEK_OK) {
 		gnm_float yroot;
 		(void) goal_seek_eval (seekdata.root, &yroot, &evaldata);
@@ -243,9 +251,6 @@ gnumeric_goal_seek (GoalSeekState *state)
 		gnm_float ydummy;
 		(void) goal_seek_eval (oldx, &ydummy, &evaldata);
 	}
-
-	sheet_cell_calc_span (state->change_cell, SPANCALC_RENDER);
-	sheet_flag_status_update_cell (state->change_cell);
 
 	return status;
 }
@@ -294,13 +299,6 @@ dialog_destroy (GtkObject *w, GoalSeekState  *state)
 	return FALSE;
 }
 
-/**
- * cb_dialog_cancel_clicked:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
 static void
 cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			  GoalSeekState *state)
@@ -313,22 +311,13 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 		state->old_value = NULL;
 	}
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
-/**
- * cb_dialog_close_clicked:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
 static void
 cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 GoalSeekState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 /**

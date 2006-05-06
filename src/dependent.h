@@ -19,7 +19,7 @@ typedef struct {
 	void (*eval) (GnmDependent *dep);
 	void (*set_expr) (GnmDependent *dep, GnmExprTop const *new_texpr);
 	void (*debug_name) (GnmDependent const *dep, GString *target);
-} DependentClass;
+} GnmDependentClass;
 
 typedef enum {
 	DEPENDENT_NO_FLAG	   = 0,
@@ -80,7 +80,7 @@ struct _GnmDepContainer {
 
 typedef void (*DepFunc) (GnmDependent *dep, gpointer user);
 
-guint32	 dependent_type_register   (DependentClass const *klass);
+guint32	 dependent_type_register   (GnmDependentClass const *klass);
 void	 dependent_types_init	   (void);
 void	 dependent_types_shutdown  (void);
 
@@ -128,7 +128,7 @@ t ## _get_dep_type (void)					\
 {								\
 	static guint32 type = 0;				\
 	if (type == 0) {					\
-		static DependentClass klass;			\
+		static GnmDependentClass klass;			\
 		klass.eval	 = &t ## _eval;			\
 		klass.set_expr	 = set_expr_handler;		\
 		klass.debug_name = &t ## _debug_name;		\

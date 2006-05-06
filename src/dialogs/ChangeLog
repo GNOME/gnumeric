@@ -1,3 +1,12 @@
+2006-05-05  Jody Goldberg <jody@gnome.org>
+
+	* dialog-goal-seek.c (gnumeric_goal_seek) : use new update_ui flag in
+	  GoalEvalData.
+	(goal_seek_eval) : Have an update_ui flag that toggles between
+	  sheet_cell_set_value rather than cell_set_value so that the final
+	  call from gnumeric_goal_seek does not need to manually respan
+	  things.
+
 2006-04-22  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c (cb_treeview_key_press): New function
