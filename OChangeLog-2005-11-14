@@ -1,3 +1,11 @@
+2006-05-06  Jody Goldberg <jody@gnome.org>
+
+	* libspreadsheet-1.7.pc.in : new.
+	* configure.in : Add it.
+	* src/Makefile.am : install headers.  When we move to subversion we
+	  can move the path around a bit, with cvs too much surgery would be
+	  required.
+
 2006-05-05  Jody Goldberg <jody@gnome.org>
 
 	* src/dependent.h : s/DependentClass/GnmDependentClass/ to be

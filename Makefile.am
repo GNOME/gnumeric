@@ -51,6 +51,9 @@ EXTRA_DIST = \
 	xmldocs.make 		\
 	omf.make
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libspreadsheet-1.7.pc
+
 @INTLTOOL_DESKTOP_RULE@
 
 Applicationsdir = $(datadir)/applications/

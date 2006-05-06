@@ -158,7 +158,10 @@ libspreadsheet_la_SOURCES =			\
 	gnumeric-gconf.c			\
 	gnumeric-gconf-priv.h
 
-libspreadsheet_includedir = $(includedir)/libspreadheet-1-7/ssheet
+# When we switch to subversion fix this to nest as
+# libspreadsheet-ver/ssheet/header
+# doing it now would require massive cvs surgery.
+libspreadsheet_includedir = $(includedir)/libspreadsheet-1-7
 libspreadsheet_include_HEADERS = 	\
 	application.h				\
 	auto-format.h				\

@@ -966,6 +966,7 @@ AC_DEFINE(GNM_VERSION_EXTRA, "gnumeric_version_extra",
 AC_OUTPUT([
 gnumeric.spec
 Makefile
+libspreadsheet-1.7.pc
 icons/Makefile
 src/Makefile
 src/dialogs/Makefile
