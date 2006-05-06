@@ -237,7 +237,6 @@ src/widgets/gnumeric-cell-renderer-toggle.c
 src/widgets/gnumeric-expr-entry.c
 src/widgets/widget-font-selector.c
 src/application.c
-src/bonobo-io.c
 src/cell.c
 src/clipboard.c
 src/cmd-edit.c
@@ -291,9 +290,7 @@ src/sheet.c
 src/sheet-control-gui.c
 src/sheet-filter.c
 src/sheet-merge.c
-src/sheet-object-bonobo.c
 src/sheet-object.c
-src/sheet-object-container.c
 src/sheet-object-graph.c
 src/sheet-object-image.c
 src/sheet-object-widget.c

@@ -44,6 +44,19 @@
 	* src/workbook.c (workbook_dispose): Remove debug code that no
 	longer does anything but cause criticals.
 
+2006-04-30  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : remove unused code associated with bonobo.  People
+	  can pull it from cvs archives if desired.
+		: bonobo-io.c
+		: bonobo-io.h
+		: sheet-object-bonobo.c
+		: sheet-object-bonobo.h
+		: sheet-object-container.c
+		: sheet-object-container.h
+		: sheet-object-item.c
+		: sheet-object-item.h
+
 2006-05-01  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell): Always call the display logic for
