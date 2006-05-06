@@ -43,6 +43,7 @@
 #include <gnm-format.h>
 #include <command-context.h>
 #include <goffice/app/io-context.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/datetime.h>
 
@@ -52,6 +53,7 @@
 #include <gsf/gsf-infile-zip.h>
 #include <gsf/gsf-opendoc-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-output-stdio.h>
 #include <glib/gi18n.h>
 
 #include <string.h>
@@ -2360,8 +2362,8 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	go_set_untranslated_bools ();
 
 	/* init */
-	state.context = io_context;
-	state.wb_view = wb_view;
+	state.context	= io_context;
+	state.wb_view	= wb_view;
 	state.pos.wb	= wb_view_get_workbook (wb_view);
 	state.zip = zip;
 	state.pos.sheet = NULL;
@@ -2395,10 +2397,14 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		if (meta_file != NULL) {
 			meta_data = gsf_doc_meta_data_new ();
 			err = gsf_opendoc_metadata_read (meta_file, meta_data);
-			g_object_set_data_full (G_OBJECT(state.pos.wb),
-						"GsfDocMetaData", meta_data,
-						g_object_unref);
-			g_object_unref (meta_file);
+			if (NULL != err) {
+				gnm_io_warning (io_context,
+					_("Invalid metadata '%s'"), err->message);
+				g_error_free (err);
+			} else
+				go_doc_set_meta_data (GO_DOC (state.pos.wb), meta_data);
+
+			g_object_unref (meta_data);
 		}
 	}
 

@@ -1,3 +1,7 @@
+2006-05-06  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : read metadata.
+
 2006-03-16  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (od_chart_grid): Use GOG_AXIS_UNKNOWN (== -1),
