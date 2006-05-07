@@ -172,6 +172,7 @@ Morten:
 	* Make autofill understand 3Q01, 4Q01, 1Q02, ...  [#61650]
 	* Make autofill understand Apr, Jul, Oct, Jan, ... (and other skip-N
 	  sequences, with or without year.)
+	* Make autofill fit columns.
 	* Fix sorting undo problem.  [#161890]
 	* Add locale choice on text export.  [#123339]
 	* Remove stray "Back" button for text export's one-sheet case.

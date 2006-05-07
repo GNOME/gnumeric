@@ -3050,6 +3050,8 @@ typedef struct {
 	int base_col, base_row, w, h, end_col, end_row;
 	gboolean default_increment;
 	gboolean inverse_autofill;
+	ColRowIndexList *columns;
+	ColRowStateGroup *old_widths;
 } CmdAutofill;
 
 static void
@@ -3084,6 +3086,15 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	res = clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc));
 	cellregion_unref (me->contents);
 	me->contents = NULL;
+
+	if (me->old_widths) {
+		colrow_restore_state_group (me->cmd.sheet, TRUE,
+					    me->columns,
+					    me->old_widths);
+		me->old_widths = NULL;
+		colrow_index_list_destroy (me->columns);
+		me->columns = NULL;
+	}
 
 	if (res)
 		return TRUE;
@@ -3127,6 +3138,10 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			me->base_col, me->base_row, me->w, me->h,
 			me->end_col, me->end_row);
 
+	colrow_autofit (me->cmd.sheet, &me->dst.range, TRUE, TRUE,
+			TRUE, FALSE,
+			&me->columns, &me->old_widths);
+
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
@@ -3146,6 +3161,8 @@ cmd_autofill_finalize (GObject *cmd)
 		cellregion_unref (me->contents);
 		me->contents = NULL;
 	}
+	colrow_index_list_destroy (me->columns);
+	colrow_state_group_destroy (me->old_widths);
 	gnm_command_finalize (cmd);
 }
 

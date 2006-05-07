@@ -1,3 +1,7 @@
+2006-05-06  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_autofill_redo): Fit columns.
+
 2006-05-06  Jody Goldberg <jody@gnome.org>
 
 	* libspreadsheet-1.7.pc.in : new.
