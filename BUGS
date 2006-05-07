@@ -739,8 +739,6 @@ autoformat
 
 auto-fill
 ---------
-    - does not resize row/col
-
     - The autocalc label should use a more readable format and should not get
       clipped.
 

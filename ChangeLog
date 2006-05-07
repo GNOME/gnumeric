@@ -36,7 +36,7 @@
 	(sheet_autofill_internal): Split out from sheet_autofill.
 	(afm_teach_cell): Deduce dateconv here instead of as an init
 	paramter.
-	(afa_teach_cell): Deduce deduce here.
+	(afa_teach_cell): Deduce dateconv here.
 	(afa_set_cell): Set format correctly.
 
 	* src/item-cursor.c (cb_autofill_scroll): Display autofill hint.
