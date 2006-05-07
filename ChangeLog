@@ -1,3 +1,10 @@
+2006-05-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Ensure pkg-config is recent enough to support private
+	libraries. 
+	* libspreadsheet-1.7.pc.in: libart-2.0 is not being exposed by
+	libspreadsheet's headers; mark it as private.
+
 2006-05-06  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_autofill_redo): Fit columns.
