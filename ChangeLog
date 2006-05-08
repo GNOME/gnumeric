@@ -1,3 +1,13 @@
+2006-05-08  Morten Welinder  <terra@gnome.org>
+
+	* src/style.c (style_font_new_simple): Copy font description
+	early.  We aren't supposed to touch the result of
+	pango_context_get_font_description!
+	(gnm_font_metrics_new, gnm_font_metrics_free): Moved to goffice.
+
+	* src/style-font.h: Add GOFont and GOFontMetrics members.  Remove
+	PangoFontDescription member.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

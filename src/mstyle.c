@@ -19,6 +19,7 @@
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-font.h>
 
 #include <stdio.h>
 
@@ -1515,7 +1516,7 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 
 	{
 		GnmFont *font = gnm_style_get_font (style, context, zoom);
-		add_attr (l, pango_attr_font_desc_new (font->pango.font_descr));
+		add_attr (l, pango_attr_font_desc_new (font->go.font->desc));
 	}
 
 	add_attr (l, pango_attr_scale_new (zoom));

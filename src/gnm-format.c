@@ -27,6 +27,7 @@
 
 #include <goffice/utils/format-impl.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-font.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <stdio.h>
@@ -192,7 +193,7 @@ zero_measure (const GString *str, PangoLayout *layout)
  */
 static void
 gnm_format_general (PangoLayout *layout, GString *str,
-		    GnmFormatMeasure measure, const GnmFontMetrics *metrics,
+		    GnmFormatMeasure measure, const GOFontMetrics *metrics,
 		    gnm_float val,
 		    int col_width,
 		    gboolean unicode_minus)
@@ -395,7 +396,7 @@ pango_measure (const GString *str, PangoLayout *layout)
 
 void
 gnm_format_layout (PangoLayout *result,
-		   GnmFontMetrics *metrics,
+		   GOFontMetrics *metrics,
 		   GOFormat const *format,
 		   GnmValue const *value, GOColor *go_color,
 		   int col_width,
@@ -508,7 +509,7 @@ format_value_gstring (GString *str, GOFormat const *format,
 				new_str = g_string_sized_new (G_ASCII_DTOSTR_BUF_SIZE + GNM_DIG);
 			gnm_format_general (NULL, str->len ? new_str : str,
 					    strlen_measure,
-					    gnm_font_metrics_unit,
+					    go_font_metrics_unit,
 					    val, col_width, unicode_minus);
 			if (new_str) {
 				go_string_append_gstring (str, new_str);

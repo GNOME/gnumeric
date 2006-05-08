@@ -39,6 +39,7 @@
 
 #include <string.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-font.h>
 
 #undef DEBUG_BOUNDING_BOX
 
@@ -66,7 +67,7 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 		int n = gnm_style_get_indent (mstyle);
 		if (n) {
 			GnmFont *style_font = gnm_style_get_font (mstyle, context, zoom);
-			indent = PANGO_PIXELS (n * style_font->metrics->avg_digit_width);
+			indent = PANGO_PIXELS (n * style_font->go.metrics->avg_digit_width);
 		}
 	}
 	return MIN (indent, 65535);
@@ -379,7 +380,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 			col_width = col_width_pixels * PANGO_SCALE;
 		}
 
-		gnm_format_layout (layout, font->metrics, format, cell->value,
+		gnm_format_layout (layout, font->go.metrics, format, cell->value,
 				   &fore, col_width, date_conv, TRUE);
 	}
 

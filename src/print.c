@@ -35,6 +35,7 @@
 #include "ranges.h"
 #include "style-font.h"
 #include "gnumeric-gconf.h"
+#include <goffice/utils/go-font.h>
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-config.h>
@@ -288,7 +289,7 @@ ensure_decoration_layout (PrintJobInfo *pj)
 			 1.);
 
 		pj->decoration_layout = layout;
-		pango_layout_set_font_description (layout, font->pango.font_descr);
+		pango_layout_set_font_description (layout, font->go.font->desc);
 		gnm_style_unref (style);
 	}
 	return pj->decoration_layout;

@@ -15,7 +15,7 @@ void   format_value_gstring (GString *result,
 			     GODateConventions const *date_conv);
 
 void   gnm_format_layout    (PangoLayout *result,
-			     GnmFontMetrics *metrics,
+			     GOFontMetrics *metrics,
 			     GOFormat const *format,
 			     GnmValue const *value, GOColor *go_color,
 			     int col_width,

@@ -1,3 +1,11 @@
+Gnumeric 1.7.1
+
+Morten:
+	* Moved font metrics to goffice.
+	* Fixed font initialization.
+
+--------------------------------------------------------------------------
+
 Gnumeric 1.7.0
 
 PACKAGERS :

@@ -41,6 +41,7 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
+#include <goffice/utils/go-font.h>
 
 static FooCanvasItemClass *parent_class;
 
@@ -261,7 +262,7 @@ ie_layout (FooCanvasItem *item)
 	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
 	pango_layout_set_text (ie->layout, text, -1);
 
-	pango_layout_set_font_description (ie->layout, gfont->pango.font_descr);
+	pango_layout_set_font_description (ie->layout, gfont->go.font->desc);
 	pango_layout_set_wrap (ie->layout, PANGO_WRAP_WORD_CHAR);
 	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 

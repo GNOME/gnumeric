@@ -27,6 +27,7 @@
 #include <gdk/gdkpango.h>
 #include <gtk/gtkmain.h>
 #include <string.h>
+#include <goffice/utils/go-font.h>
 
 #undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS
@@ -74,60 +75,6 @@ get_substitute_font (gchar const *fontname)
 	return NULL;
 }
 
-GnmFontMetrics *
-gnm_font_metrics_new (PangoContext *context, PangoFontDescription *font_descr)
-{
-	PangoLayout *layout = pango_layout_new (context);
-	GnmFontMetrics *res = g_new0 (GnmFontMetrics, 1);
-	int i, sumw = 0;
-
-	pango_layout_set_font_description (layout, font_descr);
-	res->min_digit_width = INT_MAX;
-	for (i = 0; i <= 9; i++) {
-		char c = '0' + i;
-		int w;
-
-		pango_layout_set_text (layout, &c, 1);
-		pango_layout_get_size (layout, &w, NULL);
-
-		res->digit_widths[i] = w;
-
-		w = MAX (w, PANGO_SCALE);  /* At least one pixel.  */
-		res->min_digit_width = MIN (w, res->min_digit_width);
-		res->max_digit_width = MAX (w, res->max_digit_width);
-		sumw += w;
-	}
-	res->avg_digit_width = (sumw + 5) / 10;
-
-	pango_layout_set_text (layout, "-", -1);
-	pango_layout_get_size (layout, &res->hyphen_width, NULL);
-
-	pango_layout_set_text (layout, "\xe2\x88\x92", -1);
-	pango_layout_get_size (layout, &res->minus_width, NULL);
-
-	pango_layout_set_text (layout, "+", -1);
-	pango_layout_get_size (layout, &res->plus_width, NULL);
-
-	pango_layout_set_text (layout, "E", -1);
-	pango_layout_get_size (layout, &res->E_width, NULL);
-
-	g_object_unref (layout);
-
-	return res;
-}
-
-void
-gnm_font_metrics_free (GnmFontMetrics *metrics)
-{
-	g_free (metrics);
-}
-
-static GnmFontMetrics gnm_font_metrics_unit_var;
-
-/* All widths == 1.  */
-const GnmFontMetrics *gnm_font_metrics_unit = &gnm_font_metrics_unit_var;
-
-
 static GnmFont *
 style_font_new_simple (PangoContext *context,
 		       char const *font_name, double size_pts, double scale,
@@ -168,7 +115,8 @@ style_font_new_simple (PangoContext *context,
 		/* One reference for the cache, one for the caller. */
 		font->ref_count = 2;
 
-		desc = pango_context_get_font_description (context);
+		desc = pango_font_description_copy (pango_context_get_font_description (context));
+
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
 			bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
@@ -187,16 +135,15 @@ style_font_new_simple (PangoContext *context,
 			}
 
 			if (font->pango.font == NULL) {
-				font->pango.font_descr = NULL;
+				pango_font_description_free (desc);
 				g_hash_table_insert (style_font_negative_hash,
 						     font, font);
 				return NULL;
 			}
 		}
 
-		font->pango.font_descr = pango_font_description_copy (desc);
-		font->metrics = gnm_font_metrics_new (context,
-						      font->pango.font_descr);
+		font->go.font = go_font_new_by_desc (desc);
+		font->go.metrics = go_font_metrics_new (context, font->go.font);
 		g_hash_table_insert (style_font_hash, font, font);
 	} else
 		font->ref_count++;
@@ -289,13 +236,13 @@ style_font_unref (GnmFont *sf)
 		g_object_unref (G_OBJECT (sf->pango.font));
 		sf->pango.font = NULL;
 	}
-	if (sf->pango.font_descr != NULL) {
-		pango_font_description_free (sf->pango.font_descr);
-		sf->pango.font_descr = NULL;
+	if (sf->go.font) {
+		go_font_unref (sf->go.font);
+		sf->go.font = NULL;
 	}
-	if (sf->metrics) {
-		gnm_font_metrics_free (sf->metrics);
-		sf->metrics = NULL;
+	if (sf->go.metrics) {
+		go_font_metrics_free (sf->go.metrics);
+		sf->go.metrics = NULL;
 	}
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);
@@ -345,11 +292,6 @@ gnm_pango_context_get (void)
 
 	if (screen != NULL) {
 		context = gdk_pango_context_get_for_screen (screen);
-#ifndef GDK_DISABLE_DEPRECATED
-		/* this function is deprecated in newer gtk */
-		gdk_pango_context_set_colormap (context,
-			gdk_screen_get_default_colormap (screen));
-#endif
 	} else {
 		PangoFontMap *fontmap = pango_ft2_font_map_new ();
 		pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
@@ -403,7 +345,7 @@ font_init (void)
 	}
 
 	gnumeric_default_font_width = pts_scale *
-		PANGO_PIXELS (gnumeric_default_font->metrics->avg_digit_width);
+		PANGO_PIXELS (gnumeric_default_font->go.metrics->avg_digit_width);
 	style_font_unref (gnumeric_default_font);
 	g_object_unref (G_OBJECT (context));
 }
@@ -418,18 +360,6 @@ font_shutdown (void)
 void
 style_init (void)
 {
-	int i;
-
-	gnm_font_metrics_unit_var.min_digit_width = 1;
-	gnm_font_metrics_unit_var.max_digit_width = 1;
-	gnm_font_metrics_unit_var.avg_digit_width = 1;
-	gnm_font_metrics_unit_var.hyphen_width = 1;
-	gnm_font_metrics_unit_var.minus_width = 1;
-	gnm_font_metrics_unit_var.plus_width = 1;
-	gnm_font_metrics_unit_var.E_width = 1;
-	for (i = 0; i <= 9; i++)
-		gnm_font_metrics_unit_var.digit_widths[i] = 1;
-
 	style_font_hash = g_hash_table_new (style_font_hash_func,
 					    style_font_equal);
 	style_font_negative_hash = g_hash_table_new (style_font_hash_func,

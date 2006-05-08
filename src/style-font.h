@@ -5,31 +5,17 @@
 #include <pango/pango.h>
 #include <libgnomeprint/gnome-font.h>
 
-/* Needs to move to Goffice.  */
-struct _GnmFontMetrics {
-	int digit_widths[10];
-	int min_digit_width;
-	int max_digit_width;
-	int avg_digit_width;
-	int hyphen_width, minus_width, plus_width;
-	int E_width;
-};
-
-extern const GnmFontMetrics *gnm_font_metrics_unit;
-GnmFontMetrics *gnm_font_metrics_new (PangoContext *context,
-				      PangoFontDescription *font_descr);
-void gnm_font_metrics_free (GnmFontMetrics *metrics);
-
-
 struct _GnmFont {
 	int	 ref_count;
 	char	*font_name;
 	double	 size_pts;
 	double	 scale;
-	GnmFontMetrics *metrics;
+	struct {
+		GOFont const *font;
+		GOFontMetrics *metrics;
+	} go;
 	struct {
 		PangoFont	  	*font;
-		PangoFontDescription  	*font_descr;
 	} pango;
 
 	unsigned int is_bold : 1;
