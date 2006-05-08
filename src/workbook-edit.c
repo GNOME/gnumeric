@@ -38,6 +38,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include <goffice/utils/format-impl.h>
+#include <goffice/utils/go-font.h>
 
 #define GNM_RESPONSE_REMOVE -1000
 
@@ -840,7 +841,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 			case GO_FORMAT_PERCENTAGE: {
 				GString *new_str = g_string_new (NULL);
-				gnm_fmt_general_float (new_str, f * 100, -1);
+				gnm_render_general (NULL, new_str, go_format_measure_zero,
+						    go_font_metrics_unit, f * 100,
+						    -1, FALSE);
 				cursor_pos = g_utf8_strlen (new_str->str, -1);
 				g_string_append_c (new_str, '%');
 				text = g_string_free (new_str, FALSE);
@@ -852,7 +855,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			case GO_FORMAT_CURRENCY:
 			case GO_FORMAT_ACCOUNTING: {
 				GString *new_str = g_string_new (NULL);
-				gnm_fmt_general_float (new_str, f, -1);
+				gnm_render_general (NULL, new_str, go_format_measure_zero,
+						    go_font_metrics_unit, f,
+						    -1, FALSE);
 				text = g_string_free (new_str, FALSE);
 				set_text = TRUE;
 				break;

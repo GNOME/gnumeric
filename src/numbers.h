@@ -74,7 +74,6 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_finite finitel
 #define gnm_floor floorl
 #define gnm_fmod fmodl
-#define gnm_fmt_general_float go_fmt_general_floatl
 #define gnm_format_number go_format_numberl
 #define gnm_frexp frexpl
 #define gnm_hypot hypotl
@@ -92,6 +91,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_pow powl
 #define gnm_pow10 go_pow10l
 #define gnm_pow2 go_pow2l
+#define gnm_render_general go_render_generall
 #define gnm_render_number go_render_numberl
 #define gnm_sin sinl
 #define gnm_sinh sinhl
@@ -142,7 +142,6 @@ typedef double gnm_float;
 #define gnm_finite go_finite
 #define gnm_floor floor
 #define gnm_fmod fmod
-#define gnm_fmt_general_float go_fmt_general_float
 #define gnm_format_number go_format_number
 #define gnm_frexp frexp
 #define gnm_hypot hypot
@@ -160,6 +159,7 @@ typedef double gnm_float;
 #define gnm_pow pow
 #define gnm_pow10 go_pow10
 #define gnm_pow2 go_pow2
+#define gnm_render_general go_render_general
 #define gnm_render_number go_render_number
 #define gnm_sin sin
 #define gnm_sinh sinh

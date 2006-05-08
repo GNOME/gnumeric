@@ -648,6 +648,8 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	GONumberFormat fmt;
 	GString *str;
 
+	memset (&fmt, 0, sizeof (fmt));
+
 	decimals = gnm_fake_trunc (decimals);
 	if (decimals >= 128)
 		return value_new_error_VALUE (ei->pos);
@@ -670,6 +672,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	fmt.decimal_separator_seen = (decimals > 0);
 	fmt.group_thousands	   = commas;
 	fmt.has_fraction	   = FALSE;
+	fmt.unicode_minus          = FALSE;
 
 	str = g_string_new (NULL);
 	if (num < 0.) {
