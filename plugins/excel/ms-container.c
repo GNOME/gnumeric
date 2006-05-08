@@ -260,11 +260,7 @@ ms_container_read_markup (MSContainer const *c,
 
 	txo_run.last = G_MAXINT;
 	txo_run.accum = pango_attr_list_new ();
-	g_print ("str=[%s] %d\n", str, strlen (str));
 	for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
-		g_print ("tco: %d %d\n",
-			 GSF_LE_GET_GUINT16 (data + txo_len),
-			 GSF_LE_GET_GUINT16 (data + txo_len + 2));
 		txo_run.first = g_utf8_offset_to_pointer (str,
 			GSF_LE_GET_GUINT16 (data + txo_len)) - str;
 		pango_attr_list_filter (ms_container_get_markup (
