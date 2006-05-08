@@ -2,6 +2,10 @@
 
 	* Release 1.7.0
 
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_subtotal) : fix COUNT/COUNTA
+
 2006-03-14  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_correl): Ignore blanks as advertised.

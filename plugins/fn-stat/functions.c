@@ -5344,7 +5344,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 {
         GnmExpr const *expr;
 	GnmValue *val;
-	int   fun_nbr;
+	int   fun_nbr, res;
 	float_range_function_t func;
 	GnmStdError err = GNM_ERROR_DIV0;
 
@@ -5366,21 +5366,21 @@ gnumeric_subtotal (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 	argv++;
 
 	switch (fun_nbr) {
-	case 2: val = value_new_int (0);
+	case 2: res = 0;
 		/* no need to check for error, this is not strict */
 		function_iterate_argument_values
-			(ei->pos, callback_function_count, val,
+			(ei->pos, callback_function_count, &res,
 			 argc, argv, FALSE,
 			 CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_SUBTOTAL);
-		return val;
+		return value_new_int (res);
 
-	case 3: val = value_new_int (0);
+	case 3: res = 0;
 		/* no need to check for error, this is not strict */
 		function_iterate_argument_values
-			(ei->pos, callback_function_counta, val,
+			(ei->pos, callback_function_counta, &res,
 			 argc, argv, FALSE,
 			 CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_SUBTOTAL);
-		return val;
+		return value_new_int (res);
 
 	case  1: func = range_average;		break;
 	case  4: err = GNM_ERROR_VALUE;

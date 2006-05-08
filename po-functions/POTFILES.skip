@@ -114,7 +114,6 @@ src/dialogs/so-checkbox.glade
 src/dialogs/so-frame.glade
 src/dialogs/solver.glade
 src/dialogs/so-scrollbar.glade
-src/dialogs/summary.glade
 src/dialogs/tabulate.glade
 src/dialogs/variance-tests.glade
 src/dialogs/view.glade
