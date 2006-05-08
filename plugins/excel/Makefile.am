@@ -58,7 +58,6 @@ excel_la_SOURCES =		\
 	md5.h			\
 	\
 	excel-xml-read.c	\
-	excel-xml-read.h	\
 	\
 	xlsx-utils.h		\
 	xlsx-utils.c		\

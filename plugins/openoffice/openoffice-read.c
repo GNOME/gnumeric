@@ -137,9 +137,9 @@ typedef struct {
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
-	GSList	*col_styles[2];		/* [0] style information, [1] the column starting with this style*/
 	ODFrameProperties cur_frame;
 	GnmParsePos 	pos;
+	GnmCellPos 	extent;
 
 	int 		 col_inc, row_inc;
 	gboolean 	 simple_content;
@@ -420,6 +420,8 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->pos.eval.col = 0;
 	state->pos.eval.row = 0;
+	state->extent.col = -1;
+	state->extent.row = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "name")) {
@@ -436,6 +438,31 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			/* hidden & rtl vs ltr */
 		}
 }
+static void
+oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GnmRange r;
+
+	if (state->extent.col < 0 || state->extent.row < 0)
+		return;
+
+	/* default cell styles are applied only to cells that are specified
+	 * which is a performance nightmare.  Instead we apply the styles to
+	 * the entire column or row and clear the area beyond the extent here. */
+	if (state->extent.col < SHEET_MAX_COLS) {
+		range_init (&r, state->extent.col, 0,
+			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+		sheet_style_set_range (state->pos.sheet, &r,
+			sheet_style_default (state->pos.sheet));
+	}
+	if (state->extent.row < SHEET_MAX_ROWS) {
+		range_init (&r, 0, state->extent.row,
+			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+		sheet_style_set_range (state->pos.sheet, &r,
+			sheet_style_default (state->pos.sheet));
+	}
+}
 
 static void
 oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
@@ -443,48 +470,86 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmStyle *style = NULL;
 	double   *width_pts = NULL;
-	int repeat_count = 1;
+	int	  i, repeat_count = 1;
+	gboolean  hidden = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "default-cell-style-name"))
-		{
 			style = g_hash_table_lookup (state->cell_styles, attrs[1]);
-			state->col_styles[0] = g_slist_append (state->col_styles[0], g_strdup(attrs[1]));
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))
 			width_pts = g_hash_table_lookup (state->col_row_styles, attrs[1]);
 		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count))
 			;
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "visibility"))
+			hidden = 0 != strcmp (attrs[1], "visible");
 
-	state->col_styles[1] = g_slist_append (state->col_styles[1], GINT_TO_POINTER (repeat_count));
+	if (hidden)
+		colrow_set_visibility (state->pos.sheet, TRUE, FALSE, state->pos.eval.col,
+			state->pos.eval.col + repeat_count - 1);
 
-	while (repeat_count-- > 0) {
-		if (width_pts != NULL)
-			sheet_col_set_size_pts (state->pos.sheet,
-				state->pos.eval.col++, *width_pts, TRUE);
+	/* see oo_table_end for details */
+	if (NULL != style) {
+		GnmRange r;
+		r.start.col = state->pos.eval.col;
+		r.end.col   = state->pos.eval.col + repeat_count - 1;
+		r.start.row = 0;
+		r.end.row  = SHEET_MAX_ROWS - 1;
+		gnm_style_ref (style);
+		sheet_style_set_range (state->pos.sheet, &r, style);
 	}
+	if (width_pts != NULL)
+		for (i = repeat_count; i-- > 0 ; )
+			sheet_col_set_size_pts (state->pos.sheet,
+				state->pos.eval.col + i, *width_pts, TRUE);
+
+	state->pos.eval.col += repeat_count;
 }
 
 static void
 oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	int	 i, repeat_count = 1;
-	double  *height_pts = NULL;
+	GnmStyle *style = NULL;
+	double   *height_pts = NULL;
+	int	  i, repeat_count = 1;
+	gboolean  hidden = FALSE;
 
 	state->pos.eval.col = 0;
 
-	g_return_if_fail (state->pos.eval.row < SHEET_MAX_ROWS);
+	if (state->pos.eval.row >= SHEET_MAX_ROWS) {
+		oo_warning (xin, _("Content past the maxium number of rows supported in this build (%u).  Please recompile with larger limits."), SHEET_MAX_ROWS);
+		state->row_inc = 0;
+		return;
+	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))
 			height_pts = g_hash_table_lookup (state->col_row_styles, attrs[1]);
 		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count))
 			;
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "visibility"))
+			hidden = 0 != strcmp (attrs[1], "visible");
 	}
+	if (hidden)
+		colrow_set_visibility (state->pos.sheet, FALSE, FALSE, state->pos.eval.row,
+			state->pos.eval.row+repeat_count - 1);
+
+	/* see oo_table_end for details */
+	if (NULL != style) {
+		GnmRange r;
+		r.start.row = state->pos.eval.row;
+		r.end.row   = state->pos.eval.row + repeat_count - 1;
+		r.start.col = 0;
+		r.end.col  = SHEET_MAX_COLS - 1;
+		gnm_style_ref (style);
+		sheet_style_set_range (state->pos.sheet, &r, style);
+	}
+
 	if (height_pts != NULL)
 		for (i = repeat_count; i-- > 0 ; )
 			sheet_row_set_size_pts (state->pos.sheet,
 				state->pos.eval.row + i, *height_pts, TRUE);
+
 	state->row_inc = repeat_count;
 }
 static void
@@ -492,24 +557,37 @@ oo_row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	state->pos.eval.row += state->row_inc;
+
+	if (state->extent.col < state->pos.eval.col)
+		state->extent.col = state->pos.eval.col;
+	if (state->extent.row < state->pos.eval.row)
+		state->extent.row = state->pos.eval.row;
 }
 
 static char const *
 oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 {
 	char const *tmp1, *tmp2, *ptr = start;
-	/* sheet name cannot contain '.' */
+	/* sheet name cannot contain '.' a '\'' or a '\"' */
 	if (*ptr != '.') {
 		char *name;
+		int offset = 0;
+
 		if (*ptr == '$') /* ignore abs vs rel sheet name */
 			ptr++;
 		tmp1 = strchr (ptr, '.');
 		if (tmp1 == NULL)
 			return start;
+		if ((*ptr == '\'' || *ptr == '\"') && *ptr == tmp1[-1]) {
+			ptr++;
+			tmp1--;
+			offset = 1;
+		}
+
 		name = g_alloca (tmp1-ptr+1);
 		strncpy (name, ptr, tmp1-ptr);
 		name[tmp1-ptr] = 0;
-		ptr = tmp1+1;
+		ptr = tmp1 + 1 + offset;
 
 		/* OpenCalc does not pre-declare its sheets, but it does have a
 		 * nice unambiguous format.  So if we find a name that has not
@@ -583,8 +661,6 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int merge_cols = -1, merge_rows = -1;
 	GnmStyle *style = NULL;
 	char const *expr_string;
-	GSList *search_str = NULL;
-	gint cont_col, sum_cols, cont, cur_col=0;
 	GnmRange tmp;
 
 	state->col_inc = 1;
@@ -696,36 +772,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			sheet_style_set_pos (state->pos.sheet,
 				state->pos.eval.col, state->pos.eval.row,
 				style);
-	} else if (g_slist_length (state->col_styles[1]) > 0) {
-		for (cont_col = 0; cont_col < state->col_inc; cont_col++) {
-			cur_col = (state->pos.eval.col) + cont_col;
-			sum_cols = -1;
-			cont = 0;
-			while (sum_cols < cur_col){
-				sum_cols += GPOINTER_TO_INT(g_slist_nth_data(state->col_styles[1], cont));
-				cont ++;
-			}
-
-			search_str = g_slist_nth (state->col_styles[0], cont - 1);
-
-			if (NULL != search_str){
-				style = g_hash_table_lookup (state->cell_styles, search_str->data);
-				gnm_style_ref (style);
-				if (state->row_inc > 1){
-					GnmRange style_range;
-					range_init (&style_range,
-						state->pos.eval.col+cont_col, state->pos.eval.row,
-						state->pos.eval.col+cont_col,
-						state->pos.eval.row + state->row_inc - 1);
-					sheet_style_set_range (state->pos.sheet, &style_range, style);
-				} else
-					sheet_style_set_pos (state->pos.sheet,
-						state->pos.eval.col+cont_col, state->pos.eval.row,
-						style);
-			}
-		}
 	}
-
 	state->simple_content = FALSE;
 	if (texpr != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
@@ -1258,7 +1305,11 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			float size;
 			if (1 == sscanf (attrs[1], "%fpt", &size))
 				gnm_style_set_font_size (style, size);
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-underline-style"))
+
+		/* TODO : get specs on how these relate */
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-underline-style") ||
+			   gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-underline-type") ||
+			   gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-underline"))
 			/* cheesy simple support for now */
 			gnm_style_set_font_uline (style, strcmp (attrs[1], "none") ? UNDERLINE_SINGLE : UNDERLINE_NONE);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-style"))
@@ -1412,9 +1463,10 @@ static void
 oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	xmlChar const *name     = NULL;
+	xmlChar const *name      = NULL;
 	xmlChar const *base_str  = NULL;
-	xmlChar const *expr_str = NULL;
+	xmlChar const *expr_str  = NULL;
+	char *range_str = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "name"))
@@ -1423,6 +1475,8 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			base_str = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "expression"))
 			expr_str = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "cell-range-address"))
+			expr_str = range_str = g_strconcat ("[", attrs[1], "]", NULL);
 
 	if (name != NULL && base_str != NULL && expr_str != NULL) {
 		GnmParseError perr;
@@ -1463,12 +1517,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		}
 	}
-}
-
-static void
-oo_named_range (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	g_warning ("Unimplemented");
+	g_free (range_str);
 }
 
 static void
@@ -2058,7 +2107,7 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
     GSF_XML_IN_NODE (OFFICE_BODY, TABLE_CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TABLE_CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, oo_date_convention, NULL),
 
-    GSF_XML_IN_NODE (OFFICE_BODY, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, NULL),
+    GSF_XML_IN_NODE (OFFICE_BODY, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
       GSF_XML_IN_NODE (TABLE, FORMS,	 OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
       GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
@@ -2079,6 +2128,7 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
         GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
     GSF_XML_IN_NODE (OFFICE_BODY, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
+      GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
     GSF_XML_IN_NODE (OFFICE_BODY, DB_RANGES, OO_NS_TABLE, "database-ranges", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2197,7 +2247,7 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", TRUE, &od_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", TRUE, &od_chart_grid, NULL),
 
-	    GSF_XML_IN_NODE (TABLE_SETTINGS, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, NULL),
+	    GSF_XML_IN_NODE (TABLE_SETTINGS, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
@@ -2229,7 +2279,7 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
 	  GSF_XML_IN_NODE (TABLE_SETTINGS, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
-	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_range, NULL),
+	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
 	GSF_XML_IN_NODE (OFFICE_BODY, DB_RANGES, OO_NS_TABLE, "database-ranges", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2367,8 +2417,6 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.pos.wb	= wb_view_get_workbook (wb_view);
 	state.zip = zip;
 	state.pos.sheet = NULL;
-	state.col_styles[0] = NULL;
-	state.col_styles[1] = NULL;
 	state.pos.eval.col	= -1;
 	state.pos.eval.row	= -1;
 	state.col_row_styles = g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -2447,8 +2495,6 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.cell_styles);
 	g_hash_table_destroy (state.cur_frame.graph_styles);
 	g_hash_table_destroy (state.formats);
-	g_slist_free (state.col_styles[0]);
-	g_slist_free (state.col_styles[1]);
 	g_object_unref (content);
 
 	g_object_unref (zip);

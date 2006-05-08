@@ -1,3 +1,7 @@
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
 2005-11-29  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (callback_function_and, callback_function_or,

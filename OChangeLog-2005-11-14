@@ -1,3 +1,7 @@
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
 2006-05-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Ensure pkg-config is recent enough to support private

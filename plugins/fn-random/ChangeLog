@@ -1,3 +1,7 @@
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
 2006-02-06  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_randbetween): Fix Excel compatibility for

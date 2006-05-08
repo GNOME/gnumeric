@@ -1,3 +1,7 @@
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
 2006-05-05  Jody Goldberg <jody@gnome.org>
 
 	* dialog-goal-seek.c (gnumeric_goal_seek) : use new update_ui flag in

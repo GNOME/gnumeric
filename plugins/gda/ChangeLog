@@ -1,3 +1,7 @@
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
 2006-03-08  Vivien Malerba <malerba@gnome-db.org>
 
 	* plugin-gda.c: make the open_connection() reuse existing

@@ -39,6 +39,12 @@ Jody:
 	* Do not make backgrounds for xl95 charts transparent.
 	* Basic import and export for MS Office 12 (beta1) files
 	* xls import optimization for shared strings.
+	* Install the headers for libspreadsheet. [#332218]
+	* Enable ODF metadata import.
+	* Fix ODF import of underlines.
+	* Fix ODF import of sheets with quoted names.
+	* Enable ODF import of hidden rows/cols.
+	* Fix ODF import of col/row cell default styles.
 
 Klokan Pridal:
 	* Implement xml saving/loading of "protected" attribute.  [#334257]

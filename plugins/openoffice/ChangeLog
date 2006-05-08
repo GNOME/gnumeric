@@ -1,3 +1,14 @@
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-05-07  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cellref_parse) : handled quoted sheet named.
+	(oo_style_prop_cell) : Handle other forms of underlining.
+	(oo_row_start) : collapsed/filtered rows.
+	(oo_col_start) : ditto.
+
 2006-05-06  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (openoffice_file_open) : read metadata.

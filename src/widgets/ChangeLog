@@ -1,3 +1,7 @@
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
 2006-01-13  Morten Welinder  <terra@gnome.org>
 
 	* widget-font-selector.c (font_selected): Prevent crash.

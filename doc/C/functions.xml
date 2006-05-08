@@ -3682,7 +3682,7 @@
         <para>	'y'  	yocto 		1E-24</para>
         <itemizedlist>
           <listitem>
-            <para>If <parameter>from_unit</parameter> and <parameter>to_unit</parameter> are different types, <function>CONVERT</function> returns #NUM! error.</para>
+            <para>If <parameter>from_unit</parameter> and <parameter>to_unit</parameter> are different types, <function>CONVERT</function> returns #N/A error.</para>
           </listitem>
           <listitem>
             <para>This function is Excel compatible.</para>
@@ -12707,7 +12707,10 @@
         <para><function>RANDBETWEEN</function> function returns a random integer number between and including <parameter>bottom</parameter> and <parameter>top</parameter>.</para>
         <itemizedlist>
           <listitem>
-            <para>If <parameter>bottom</parameter> or <parameter>top</parameter> is non-integer, they are truncated.</para>
+            <para>If <parameter>bottom</parameter> is non-integer, it is rounded up.</para>
+          </listitem>
+          <listitem>
+            <para>If <parameter>top</parameter> is non-integer, it is rounded down.</para>
           </listitem>
           <listitem>
             <para>If <parameter>bottom</parameter> &gt; <parameter>top</parameter>, <function>RANDBETWEEN</function> returns #NUM! error.</para>
@@ -18353,6 +18356,7 @@
             <para>This function is Excel compatible for non-negative <parameter>x</parameter>.</para>
           </listitem>
         </itemizedlist>
+        <para>Warning: the parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility.</para>
       </refsect1>
       <refsect1>
         <title>Examples</title>
@@ -18393,6 +18397,7 @@
             <para>This function is Excel compatible.</para>
           </listitem>
         </itemizedlist>
+        <para>Warning: the parameterization of this function is different from what is used for, e.g., NORMSINV.  This is a common source of mistakes, but necessary for compatibility.</para>
       </refsect1>
       <refsect1>
         <title>Examples</title>

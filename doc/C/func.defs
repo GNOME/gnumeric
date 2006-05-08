@@ -1566,7 +1566,7 @@ For metric units any of the following prefixes can be used:
 	'z'  	zepto 		1E-21
 	'y'  	yocto 		1E-24
 
-* If @from_unit and @to_unit are different types, CONVERT returns #NUM! error.
+* If @from_unit and @to_unit are different types, CONVERT returns #N/A error.
 * This function is Excel compatible.
 
 @EXAMPLES=
@@ -5039,7 +5039,8 @@ RANDBETA(1,2).
 @SYNTAX=RANDBETWEEN(bottom,top)
 @DESCRIPTION=RANDBETWEEN function returns a random integer number between and including @bottom and @top.
 
-* If @bottom or @top is non-integer, they are truncated.
+* If @bottom is non-integer, it is rounded up.
+* If @top is non-integer, it is rounded down.
 * If @bottom > @top, RANDBETWEEN returns #NUM! error.
 * This function is Excel compatible.
 
@@ -7076,6 +7077,8 @@ SUBTOTAL(11,A1:A5) equals 30.4.
 * If @tails is neither 1 or 2 TDIST returns #NUM! error.
 * This function is Excel compatible for non-negative @x.
 
+Warning: the parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility.
+
 @EXAMPLES=
 TDIST(2,5,1) equals 0.050969739.
 TDIST(-2,5,1) equals 0.949030261.
@@ -7090,6 +7093,8 @@ TDIST(0,5,2) equals 1.
 
 * If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error.
 * This function is Excel compatible.
+
+Warning: the parameterization of this function is different from what is used for, e.g., NORMSINV.  This is a common source of mistakes, but necessary for compatibility.
 
 @EXAMPLES=
 TINV(0.4,32) equals 0.852998454.
