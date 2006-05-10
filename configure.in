@@ -111,29 +111,34 @@ dnl execution.  Thus we need an explicite call:
 PKG_PROG_PKG_CONFIG(0.18)
 
 dnl *****************************
-gnumeric_reqs="
+libspreadsheet_reqs="
+	libgoffice-0.3		>= 0.3.1
+	libgsf-1		>= 1.13.2
+	libxml-2.0		>= 2.4.12
+"
+gnumeric_reqs="$libspreadsheet_reqs
 	glib-2.0		>= 2.6.0
 	gobject-2.0		>= 2.6.0
 	gmodule-2.0		>= 2.6.0
-	libgsf-1		>= 1.13.2
-	libgoffice-0.3		>= 0.2.0
-	libxml-2.0		>= 2.4.12
 	pango			>= 1.8.1
 	pangoft2		>= 1.8.1
 "
-gnumeric_gtk_reqs="
-	gtk+-2.0		>= 2.6.0
+libspreadsheet_gtk_reqs="
 	libglade-2.0		>= 2.3.6
 	libgnomeprint-2.2	>= 2.8.2
 	libgnomeprintui-2.2	>= 2.8.2
+	gtk+-2.0		>= 2.6.0
 	libart-2.0		>= 2.3.11
 "
-gnumeric_gnome_reqs="
+gnumeric_gtk_reqs="$libspreadsheet_gtk_reqs"
+libspreadsheet_gnome_reqs="
+	libgnomeui-2.0		>= 2.0.0
 	gconf-2.0
 	libbonobo-2.0		>= 2.2.0
+"
+gnumeric_gnome_reqs="$libspreadsheet_gnome_reqs
 	libbonoboui-2.0		>= 2.2.0
 	libgnome-2.0		>= 2.0.0
-	libgnomeui-2.0		>= 2.0.0
 	libgsf-gnome-1		>= 1.13.0
 "
 
@@ -151,12 +156,14 @@ else
 	dnl We shouldn't silently default to --without-gtk.
 	dnl If the requirements are not met, fail.
 	ui_msg="Gtk"
+	PKG_CHECK_MODULES(GTK, [$libspreadsheet_gtk_reqs])
 	PKG_CHECK_MODULES(GTK, [$gnumeric_gtk_reqs])
 fi 
 
 gnumeric_with_gnome=$gnumeric_with_gtk
 if test "x$gnumeric_with_gtk" = "xtrue" ; then
 	AC_DEFINE(WITH_GTK, 1, [Define if UI is built])
+	libspreadsheet_reqs="$libspreadsheet_reqs $libspreadsheet_gtk_reqs"
 	gnumeric_reqs="$gnumeric_reqs $gnumeric_gtk_reqs"
 
 	dnl ************************************
@@ -172,6 +179,9 @@ if test "x$gnumeric_with_gtk" = "xtrue" ; then
 		fi
 	)
 	if test "x$gnumeric_with_gnome" = "xtrue"; then
+		PKG_CHECK_MODULES(GNOME, [$libspreadsheet_gnome_reqs],
+			[ui_msg="Gnome"],
+			[ui_msg="Gtk (missing gnome dependencies)" ; gnumeric_with_gnome=false])
 		PKG_CHECK_MODULES(GNOME, [$gnumeric_gnome_reqs],
 			[ui_msg="Gnome"],
 			[ui_msg="Gtk (missing gnome dependencies)" ; gnumeric_with_gnome=false])
@@ -179,6 +189,7 @@ if test "x$gnumeric_with_gtk" = "xtrue" ; then
 
 	if test "x$gnumeric_with_gnome" = "xtrue"; then
 		AC_DEFINE(WITH_GNOME, 1, [Define if GNOME extensions are available])
+		libspreadsheet_reqs="$libspreadsheet_reqs $libspreadsheet_gnome_reqs"
 		gnumeric_reqs="$gnumeric_reqs $gnumeric_gnome_reqs"
 	fi
 fi
@@ -189,6 +200,10 @@ dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
 dnl shot so that we can have a nice neat compile/link line
 dnl ****************************
+
+PKG_CHECK_MODULES(LIBSPREADSHEET, $libspreadsheet_reqs)
+AC_SUBST(LIBSPREADSHEET_LIBS)
+AC_SUBST(LIBSPREADSHEET_CFLAGS)
 
 PKG_CHECK_MODULES(GNUMERIC, $gnumeric_reqs)
 AC_SUBST(GNUMERIC_LIBS)
