@@ -24,7 +24,7 @@ export INSTALL=/usr/bin/install -p
 # Are we building a release version, or are we doing development?
 CVS_BUILD=$(shell test ! -d CVS; echo $$?)
 
-upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9\.]*$$//g')
+upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9+\.]*$$//g')
 
 # Features configuration
 # ---------------------- 
@@ -34,42 +34,21 @@ upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's
 
 features:=
 
-# The Python executable
-features+= PYTHON=/usr/bin/python
+# Spreadsheet indexer for beagle
+features+= --enable-ssindex
 
-# The Python support offers a nice way to extend gnumeric's functionality.
-
-features+= --with-python
-
-# Bonobo allows us to use parts of other applications as components via
-# CORBA, and was supposed to allow us to work as a component for other
-# applications. However, that promise hasn't really been realised and
-# according to Morten Welinder "drop bonobo from your build.  it's
-# pointless."
-
-features+= --without-bonobo
-
-# Plugin to access databases through the GDA framework.
-
-features+= --with-gda
-
-# Guile offers an additional way to extension gnumeric, but the guile
-# support is for guile 1.5 or newer, which is not currently available in
-# Debian.
-
-features+= --without-guile
+# Plugins to access databases through the GDA framework and through GnomeDB.
+#
+# The GDA and GnomeDB plugins for gnumeric now require versions of GDA and
+# GnomeDB that are not available as packages yet.
+#	Mon, 10 Oct 2005 20:37:06 +0200
+features+= --without-gda --without-gnomedb
 
 # configure.in: "Gnome Basic is extremely API unstable; it is likely that
 # gnumeric will only build with the single version mentioned in
 # configure.in, if at all. It is possible, but unlikely, that Gnome Basic
 # contains security vulnerabilities."
-
 features+= --without-gb
-
-# The GDA and GnomeDB plugins for gnumeric now require versions of GDA and
-# GnomeDB that are not available as packages yet.
-#	Mon, 10 Oct 2005 20:37:06 +0200
-features+= --without-gda --without-gnomedb
 
 # Debian's psiconv packages are not recent enough for gnumeric; see
 # http://bugs.debian.org/268576
@@ -79,8 +58,18 @@ features+= --without-psiconv
 # Paradox database files plugin
 features+= --with-paradox
 
-# Spreadsheet indexer for beagle
-features+= --enable-ssindex
+# Perl plugin
+features+= --with-perl
+
+# The Python plugin
+features+= PYTHON=/usr/bin/python --with-python
+
+# Bonobo allows us to use parts of other applications as components via
+# CORBA, and was supposed to allow us to work as a component for other
+# applications. However, that promise hasn't really been realised and
+# according to Morten Welinder "drop bonobo from your build.  it's
+# pointless."
+features+= --without-bonobo
 
 confflags :=	--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
@@ -96,7 +85,7 @@ else
 	confflags += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
 endif
 
-# Make the linker work a bit harder so dynamic loading can be done faster
+# Make the linker work a bit harder so dynamic loading can be done faster.
 #
 # Make the linker only include actual dependencies on libraries, rather than
 # for all libraries specified in the link line.
@@ -188,7 +177,10 @@ install: build
 	rm -rf debian/tmp/usr/lib/bonobo
 	# libspreadsheet is far from a mature library; loose the development
 	# files
-	rm -f debian/tmp/usr/lib/libspreadsheet.la debian/tmp/usr/lib/libspreadsheet.so
+	rm -f debian/tmp/usr/lib/libspreadsheet*.la
+	rm -f debian/tmp/usr/lib/pkgconfig/libspreadsheet-*.pc
+	rm -rf debian/tmp/usr/include/libspreadsheet-*
+
 	# Outdated
 	rm -f debian/tmp/usr/share/mc/templates/gnumeric.desktop
 

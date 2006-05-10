@@ -1,3 +1,48 @@
+gnumeric (1.7.0-1) experimental; urgency=low
+
+  * New upstream development release. Changes include:
+    * Moving tabs works (Closes: #366354)
+    * The sheet from which the sheet manage dialog is started is now selected
+      in that dialog, making it easier to e.g. change the tab's color.
+      (Closes: #353811)
+  * [debian/control] Changed goffice build dependency per configure.in;
+    updated Standards-Version.
+  * [debian/gnumeric.mime] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 10 May 2006 21:29:08 +0200
+
+gnumeric (1.6.3-2) unstable; urgency=low
+
+  * Sourceful upload; should fix installability on amd64. (Closes: #365691)
+  * [debian/po/nl.po] Added, courtesy of Kurt De Bree <kdebree@telenet.be>
+    (Closes: #363043).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  9 May 2006 21:21:58 +0200
+
+gnumeric (1.6.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * [debian/rules] Corrected sed expression to determine the upstream
+    version: `+' is allowed in a debian_revision. This fixes the
+    dependencies when a binNMU is made of this package. (Closes: #357936)
+  * [debian/control] Updated goffice build dependency per configure.in .
+    Updated pxlib-dev and libgsf-1-dev build dependencies to ensure only one
+    version of libgsf is used.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 23 Mar 2006 08:36:14 +0100
+
+gnumeric (1.6.2-3) unstable; urgency=medium
+
+  * [ChangeLog, NEWS, README, plugins/fn-financial/functions.c,
+    plugins/xbase/ChangeLog, plugins/xbase/boot.c, plugins/xbase/xbase.c,
+    src/dialogs/ChangeLog, src/dialogs/dialog-stf-format-page.c, 
+    src/print-cell.c, src/tools/solver/ChangeLog, src/tools/solver/solver.c]
+    Updates from CVS gnumeric-1-6 branch.
+  * [debian/po/fr.po] Added, courtesy of Severine Lombardo via Thomas Huriaux
+    <thomas.huriaux@gmail.com> (Closes: #354543).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  5 Mar 2006 10:40:45 +0100
+
 gnumeric (1.6.1-2) unstable; urgency=medium
 
   * [debian/gnumeric.templates, debian/gnumeric.preinst] New. Make a

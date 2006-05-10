@@ -16,7 +16,7 @@ fi
 db_version 2.0
 db_title Detected a running gnumeric process
 
-# Ignore the fact that shis question may have been answered on another
+# Ignore the fact that this question may have been answered on another
 # occasion already
 db_fset gnumeric/existing-process seen false
 
@@ -25,6 +25,7 @@ db_input high gnumeric/existing-process || true
 db_go
 db_get gnumeric/existing-process
 if [ "$RET" = "false" ] ; then
+	# Abort installation of the package
 	db_stop
 	exit 1
 fi

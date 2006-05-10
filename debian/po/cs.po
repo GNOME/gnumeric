@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric\n"
+"Report-Msgid-Bugs-To: jdassen@debian.org\n"
+"POT-Creation-Date: 2006-01-04 21:26+0100\n"
+"PO-Revision-Date: 2006-02-17 19:56+0100\n"
+"Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:4
+msgid "Are you sure you want to upgrade gnumeric right now?"
+msgstr "Jste si jisti, že chcete aktualizovat gnumeric právě teď?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:4
+msgid ""
+"It appears there is an instance of gnumeric running currently. If you "
+"upgrade gnumeric now, that instance may not be able to save its data anymore."
+msgstr ""
+"Zdá se, že momentálně běží nejméně jedna instance gnumericu. Pokud "
+"provedete aktualizaci nyní, může se stát, že nebudete moci uložit právě "
+"otevřená data."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:4
+msgid ""
+"You are strongly recommended to close the running instances of gnumeric "
+"prior to upgrading this package."
+msgstr ""
+"Před aktualizací tohoto balíku důrazně doporučujeme ukončit všechny běžící "
+"instance gnumericu."

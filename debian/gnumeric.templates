@@ -1,7 +1,7 @@
 Template: gnumeric/existing-process
 Type: boolean
 Default: false
-Description: Are you sure you want to upgrade gnumeric right now?
+_Description: Are you sure you want to upgrade gnumeric right now?
  It appears there is an instance of gnumeric running currently. If you
  upgrade gnumeric now, that instance may not be able to save its data
  anymore.
