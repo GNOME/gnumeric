@@ -3429,6 +3429,7 @@ colrow_move (Sheet *sheet,
 	sheet_mark_dirty (sheet);
 }
 
+/* reloc_storage can be NULL */
 static void
 sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int state_start, ColRowStateList *states,
@@ -3478,6 +3479,7 @@ sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
 	}
 }
 
+/* reloc_storage can be NULL */
 static void
 sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states,
@@ -3503,6 +3505,7 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 		sv_panes_insdel_colrow (sv, is_cols, TRUE, pos, count););
 }
 
+/* reloc_storage can be NULL */
 static void
 sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states,
@@ -3532,7 +3535,8 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
  * @col    : At which position we want to insert
  * @count  : The number of columns to be inserted
  * @states :
- * @reloc_storage   :
+ * @reloc_storage : optionally NULL, caller releases result
+ * 			with gnm_reloc_undo_release.
  * @cc     :
  **/
 gboolean
@@ -3542,11 +3546,11 @@ sheet_insert_cols (Sheet *sheet,
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
+	GSList   *relocated_exprs;
 	int   i;
 
-	g_return_val_if_fail (reloc_storage != NULL, TRUE);
-
-	reloc_storage->exprs = NULL;
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
@@ -3572,7 +3576,12 @@ sheet_insert_cols (Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = count;
 	reloc_info.row_offset = 0;
-	reloc_storage->exprs = dependents_relocate (&reloc_info);
+	relocated_exprs = dependents_relocate (&reloc_info);
+
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = relocated_exprs;
+	else
+		dependents_unrelocate_free (relocated_exprs);
 
 	/* 3. Move the columns to their new location (From right to left) */
 	for (i = sheet->cols.max_used; i >= col ; --i)
@@ -3591,6 +3600,9 @@ sheet_insert_cols (Sheet *sheet,
  * @sheet   The sheet
  * @col     At which position we want to start deleting columns
  * @count   The number of columns to be deleted
+ * @reloc_storage : optionally NULL, caller releases result
+ * 			with gnm_reloc_undo_release.
+ * @cc : The command context
  */
 gboolean
 sheet_delete_cols (Sheet *sheet,
@@ -3598,11 +3610,11 @@ sheet_delete_cols (Sheet *sheet,
 		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
+	GSList   *relocated_exprs;
 	int i;
 
-	g_return_val_if_fail (reloc_storage != NULL, TRUE);
-
-	reloc_storage->exprs = NULL;
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
@@ -3631,15 +3643,22 @@ sheet_delete_cols (Sheet *sheet,
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	/* 2. Invalidate references to the cells in the delete columns */
-	reloc_storage->exprs = dependents_relocate (&reloc_info);
+	relocated_exprs = dependents_relocate (&reloc_info);
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = relocated_exprs;
+	else
+		dependents_unrelocate_free (relocated_exprs);
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.col = col+count;
 	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
-	reloc_storage->exprs = g_slist_concat (dependents_relocate (&reloc_info),
-		reloc_storage->exprs);
+	relocated_exprs = dependents_relocate (&reloc_info);
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = g_slist_concat (relocated_exprs, reloc_storage->exprs);
+	else
+		dependents_unrelocate_free (relocated_exprs);
 
 	/* 4. Move the columns to their new location (from left to right) */
 	for (i = col + count ; i <= sheet->cols.max_used; ++i)
@@ -3658,6 +3677,10 @@ sheet_delete_cols (Sheet *sheet,
  * @sheet   The sheet
  * @row     At which position we want to insert
  * @count   The number of rows to be inserted
+ * @states :
+ * @reloc_storage : optionally NULL, caller releases result
+ * 			with gnm_reloc_undo_release.
+ * @cc : The command context
  */
 gboolean
 sheet_insert_rows (Sheet *sheet,
@@ -3666,11 +3689,11 @@ sheet_insert_rows (Sheet *sheet,
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
+	GSList   *relocated_exprs;
 	int   i;
 
-	g_return_val_if_fail (reloc_storage != NULL, TRUE);
-
-	reloc_storage->exprs = NULL;
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
@@ -3696,7 +3719,9 @@ sheet_insert_rows (Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = count;
-	reloc_storage->exprs = dependents_relocate (&reloc_info);
+	relocated_exprs = dependents_relocate (&reloc_info);
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = relocated_exprs;
 
 	/* 3. Move the rows to their new location (from bottom to top) */
 	for (i = sheet->rows.max_used; i >= row ; --i)
@@ -3715,6 +3740,9 @@ sheet_insert_rows (Sheet *sheet,
  * @sheet   The sheet
  * @row     At which position we want to start deleting rows
  * @count   The number of rows to be deleted
+ * @reloc_storage : optionally NULL, caller releases result
+ * 			with gnm_reloc_undo_release.
+ * @cc : The command context
  */
 gboolean
 sheet_delete_rows (Sheet *sheet,
@@ -3722,11 +3750,11 @@ sheet_delete_rows (Sheet *sheet,
 		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
+	GSList   *relocated_exprs;
 	int i;
 
-	g_return_val_if_fail (reloc_storage != NULL, TRUE);
-
-	reloc_storage->exprs = NULL;
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
@@ -3755,15 +3783,22 @@ sheet_delete_rows (Sheet *sheet,
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	/* 2. Invalidate references to the cells in the delete columns */
-	reloc_storage->exprs = dependents_relocate (&reloc_info);
+	relocated_exprs = dependents_relocate (&reloc_info);
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = relocated_exprs;
+	else
+		dependents_unrelocate_free (relocated_exprs);
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.row = row + count;
 	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = -count;
-	reloc_storage->exprs = g_slist_concat (dependents_relocate (&reloc_info),
-		reloc_storage->exprs);
+	relocated_exprs = dependents_relocate (&reloc_info);
+	if (NULL != reloc_storage)
+		reloc_storage->exprs = g_slist_concat (relocated_exprs, reloc_storage->exprs);
+	else
+		dependents_unrelocate_free (relocated_exprs);
 
 	/* 4. Move the rows to their new location (from top to bottom) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
@@ -3781,7 +3816,8 @@ sheet_delete_rows (Sheet *sheet,
  * sheet_move_range :
  * @cc :
  * @rinfo :
- * @reloc_storage : optionally NULL.
+ * @reloc_storage : optionally NULL, caller releases result
+ * 			with gnm_reloc_undo_release.
  *
  * Move a range as specified in @rinfo report warnings to @cc.
  * if @reloc_storage is non NULL, invalidate references to the

@@ -85,6 +85,8 @@ void             wb_view_auto_expr_precision (WorkbookView *wbv,
 gboolean wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs,
 			  char const *file_name, GOCmdContext *cc);
 gboolean wb_view_save	 (WorkbookView *wbv, GOCmdContext *cc);
+void	 wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
+			     GsfOutput *output, IOContext *io_context);
 gboolean wb_view_sendto	 (WorkbookView *wbv, GOCmdContext *cc);
 
 WorkbookView *wb_view_new_from_input  (GsfInput *input,

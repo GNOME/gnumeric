@@ -1,3 +1,14 @@
+2006-05-09  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wbv_save_to_output) : new function broken out
+	  of wbv_save_to_uri for convenience.  This API will change.
+
+	* src/sheet.c
+	(sheet_insert_cols) : make reloc_storage arg optionally NULL.
+	(sheet_delete_cols) : ditto.
+	(sheet_insert_rows) : ditto.
+	(sheet_delete_rows) : ditto.
+
 2006-05-08  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (style_font_new_simple): Copy font description

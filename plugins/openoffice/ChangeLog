@@ -1,3 +1,10 @@
+2006-05-09  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cellref_parse) : Eike just posted a newer
+	  definition of how sheet names are encoded.
+	    - only single quotes are allowed
+	    - in quoted names a quote is escaped by doubling it 'aa''a' == aa'a
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0

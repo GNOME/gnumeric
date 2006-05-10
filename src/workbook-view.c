@@ -653,48 +653,60 @@ workbook_view_new (Workbook *wb)
 	return wbv;
 }
 
+/**
+ * wbv_save_to_output :
+ * @wbv : #WorkbookView
+ * @fs  : #GOFileSaver
+ * @output : #GsfOutput
+ * @io_context : #IOContext
+ *
+ * NOTE : Temporary api until we get the new output framework.
+ **/
+void
+wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
+		    GsfOutput *output, IOContext *io_context)
+{
+	GError const *err;
+	char const   *msg;
+
+	go_file_saver_save (fs, io_context, wbv, output);
+
+	/* The plugin convention is unclear */
+	if (!gsf_output_is_closed (output))
+		gsf_output_close (output);
+
+	if (NULL == (err = gsf_output_error (output)))
+		return;
+	if (NULL == (msg = err->message))
+		msg = _("An unexplained error happened while saving.");
+	g_printerr ("  ==> %s\n", msg);
+	if (!gnumeric_io_error_occurred (io_context))
+		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
+}
+
 static void
 wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 		 char const *uri, IOContext *io_context)
 {
-	char *msg = NULL;
+	char   *msg = NULL;
 	GError *err = NULL;
 	GsfOutput *output = go_file_create (uri, &err);
 
 	if (output == NULL) {
-		char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
-					     uri, err->message);
-		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), str);
-		g_error_free (err);
-		g_free (str);
-		return;
-	}
+		if (NULL != err) {
+			msg = g_strdup_printf (_("Can't open '%s' for writing: %s"),
+						     uri, err->message);
+			g_error_free (err);
+		} else
+			msg = g_strdup_printf (_("Can't open '%s' for writing"), uri);
 
-	if (output != NULL) {
-		GError const *save_err;
-		g_printerr ("Writing %s\n", uri);
-
-		go_file_saver_save (fs, io_context, wbv, output);
-		if (!gsf_output_is_closed (output))
-			gsf_output_close (output);
-		save_err = gsf_output_error (output);
-		if (save_err) {
-			msg = g_strdup (save_err->message);
-			g_printerr ("  ==> %s\n", msg);
-			g_object_unref (output);
-		} else {
-			g_object_unref (output);
-			return;
-		}
-	}
-
-	if (msg == NULL)
-		msg = g_strdup_printf (_("An unexplained error happened while saving %s"),
-				       uri);
-
-	if (!gnumeric_io_error_occurred (io_context))
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
-	g_free (msg);
+		g_free (msg);
+	} else {
+		g_printerr ("Writing %s\n", uri);
+		wbv_save_to_output (wbv, fs, output, io_context);
+		g_object_unref (output);
+	}
 }
 
 /**

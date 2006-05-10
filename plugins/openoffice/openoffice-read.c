@@ -568,31 +568,51 @@ static char const *
 oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 {
 	char const *tmp1, *tmp2, *ptr = start;
-	/* sheet name cannot contain '.' a '\'' or a '\"' */
+
 	if (*ptr != '.') {
-		char *name;
-		int offset = 0;
+		char *name, *accum;
 
-		if (*ptr == '$') /* ignore abs vs rel sheet name */
+		/* ignore abs vs rel for sheets */
+		if (*ptr == '$')
 			ptr++;
-		tmp1 = strchr (ptr, '.');
-		if (tmp1 == NULL)
-			return start;
-		if ((*ptr == '\'' || *ptr == '\"') && *ptr == tmp1[-1]) {
-			ptr++;
-			tmp1--;
-			offset = 1;
+
+		/* From the spec :
+		 * 	SheetName   ::= [^\. ']+ | "'" ([^'] | "''")+ "'" */
+		if ('\'' == *ptr) {
+			tmp1 = ++ptr;
+two_quotes :
+			/* missing close paren */
+			if (NULL == (tmp1 = strchr (tmp1, '\'')))
+				return start;
+
+			/* two in a row is the escape for a single */
+			if (tmp1[1] == '\'') {
+				tmp1 += 2;
+				goto two_quotes;
+			}
+
+			/* If a name is quoted the entire named must be quoted */
+			if (tmp1[1] != '.')
+				return start;
+
+			accum = name = g_alloca (tmp1-ptr+1);
+			while (ptr != tmp1)
+				if ('\'' == (*accum++ = *ptr++))
+					ptr++;
+			*accum = '\0';
+			ptr += 2;
+		} else {
+			if (NULL == (tmp1 = strchr (ptr, '.')))
+				return start;
+			name = g_alloca (tmp1-ptr+1);
+			strncpy (name, ptr, tmp1-ptr);
+			name[tmp1-ptr] = '\0';
+			ptr = tmp1 + 1;
 		}
-
-		name = g_alloca (tmp1-ptr+1);
-		strncpy (name, ptr, tmp1-ptr);
-		name[tmp1-ptr] = 0;
-		ptr = tmp1 + 1 + offset;
 
 		/* OpenCalc does not pre-declare its sheets, but it does have a
 		 * nice unambiguous format.  So if we find a name that has not
-		 * been added yet add it.  Reorder below.
-		 */
+		 * been added yet add it.  Reorder below. */
 		ref->sheet = workbook_sheet_by_name (pp->wb, name);
 		if (ref->sheet == NULL) {
 			ref->sheet = sheet_new (pp->wb, name);

@@ -1,5 +1,8 @@
 Gnumeric 1.7.1
 
+Jody:
+	* Fix ODF sheet name import ('aa''a' == aa'a).
+
 Morten:
 	* Moved font metrics to goffice.
 	* Fixed font initialization.
