@@ -30,6 +30,7 @@
 #include "str.h"
 #include "gui-util.h"
 #include "gui-file.h"
+#include "gnm-graph-window.h"
 #include "style-color.h"
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
@@ -53,6 +54,7 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/app/go-cmd-context.h>
+#include <goffice/gtk/go-graph-widget.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
@@ -61,6 +63,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkwindow.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
@@ -322,14 +325,42 @@ out:
 }
 
 static void
-gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
+sog_cb_open_in_new_window (SheetObject *so, SheetControl *sc)
 {
-	static SheetObjectAction const sog_action =
-		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, sog_cb_save_as };
-	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, actions);
-	go_ptr_array_insert (actions, (gpointer) &sog_action, 1);
+ 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+ 	GtkWidget *window;
+	double coords[4];
+ 
+ 	g_return_if_fail (sog != NULL);
+
+	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
+ 	window = gnm_graph_window_new (sog->graph,
+				       floor (fabs (coords[2] - coords[0]) + 0.5),
+				       floor (fabs (coords[3] - coords[1]) + 0.5));
+ 	gtk_window_present (GTK_WINDOW (window));
+	g_signal_connect (window, "delete-event",
+			  G_CALLBACK (gtk_widget_destroy),
+			  NULL);
 }
 
+static void
+gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
+{
+ 	static SheetObjectAction const sog_actions[] = {
+ 		{ GTK_STOCK_SAVE_AS, N_("_Save as Image"),      NULL, 0, sog_cb_save_as },
+ 		{ NULL,              N_("Open in _New Window"), NULL, 0, sog_cb_open_in_new_window }
+ 	};
+
+ 	unsigned int i;
+
+	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, actions);
+
+ 	for (i = 0; i < G_N_ELEMENTS (sog_actions); i++)
+ 		go_ptr_array_insert (actions, (gpointer) (sog_actions + i), 1 + i);
+ 
+}
+  
 static gboolean
 gnm_sog_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *ctxt, xmlNodePtr tree)

@@ -1,3 +1,12 @@
+2006-05-11  Christian Neumair  <chris@gnome-de.org>
+
+	* src/Makefile.am:
+	* src/gnm-graph-window.c:
+	* src/gnm-graph-window.h:
+	* src/sheet-object-graph.c:
+	Add graph window for displaying graph in separate windows, add
+	action to graph context menu.
+
 2006-05-10  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Bumped goffice dependency to reflect that goffice HEAD
