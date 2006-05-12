@@ -4,9 +4,7 @@
 
 2006-04-01  Jean Brefort  <jean.brefort@normalesup.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* py-interpreter-selector.c:
+	* py-interpreter-selector.c: add missing header.
 
 2006-03-31  Jody Goldberg <jody@gnome.org>
 
