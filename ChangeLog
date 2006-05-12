@@ -1,5 +1,9 @@
 2006-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* component/gnumeric.c: (go_gnm_component_print): implemented.
+
+2006-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* Makefile.am: add component directory.
 	* component/Gnumeric-embed.xml.in: add a goffice component.
 	* component/Makefile.am: ditto.

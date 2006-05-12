@@ -310,6 +310,15 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 												double width, double height)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
+	GnmRange range;
+	Sheet *sheet = workbook_sheet_by_index (wb_view_get_workbook (gognm->wv), gognm->sheet);
+	if (sheet == NULL)
+		return;
+	range.start.row = gognm->row_start;
+	range.start.col = gognm->col_start;
+	range.end.row = gognm->row_end;
+	range.end.col = gognm->col_end;
+	print_cell_range (gpc, sheet, &range, 0., height, TRUE);
 }
 
 static void
