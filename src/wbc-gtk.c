@@ -1609,6 +1609,12 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 	wbcg->toggle_for_fullscreen = tmp;
 }
 
+#ifndef HILDON
+char const *uifilename = NULL;
+GtkActionEntry const *extra_actions = NULL;
+int nb_extra_actions = 0;
+#endif
+
 static void
 wbc_gtk_init (GObject *obj)
 {
@@ -1692,6 +1698,8 @@ wbc_gtk_init (GObject *obj)
 	gtk_action_group_set_translation_domain (gtk->font_actions, NULL);
 
 	wbcg_register_actions (wbcg, gtk->permanent_actions, gtk->actions, gtk->font_actions);
+	if (extra_actions)
+		gtk_action_group_add_actions (gtk->actions, extra_actions, nb_extra_actions, wbcg);
 
 	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
 		act = gtk_action_group_get_action (
@@ -1725,7 +1733,8 @@ wbc_gtk_init (GObject *obj)
 #ifdef USE_HILDON	
 	uifile = g_build_filename (gnm_sys_data_dir (), "HILDON_Gnumeric-gtk.xml", NULL);
 #else
-	uifile = g_build_filename (gnm_sys_data_dir (), "GNOME_Gnumeric-gtk.xml", NULL);
+	uifile = g_build_filename (gnm_sys_data_dir (),
+		(uifilename? uifilename: "GNOME_Gnumeric-gtk.xml"), NULL);
 #endif
 	if (!gtk_ui_manager_add_ui_from_file (gtk->ui, uifile, &error)) {
 		g_message ("building menus failed: %s", error->message);

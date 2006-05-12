@@ -359,6 +359,46 @@ gnm_so_filled_print (SheetObject const *so, GnomePrintContext *gp_context,
 }
 #endif /* WITH_GTK */
 
+static void
+gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
+	double width, double height)
+{
+	GnmSOFilled *sof = GNM_SO_FILLED (so);
+	cairo_t *cairo = (cairo_t*) data;
+	GogStyle const *style = sof->style;
+	cairo_pattern_t *pat = NULL;
+
+	cairo_new_path (cairo);
+	if (sof->is_oval) {
+		cairo_save (cairo);
+		cairo_scale (cairo, width, height);
+		cairo_arc (cairo, .5, .5, .5, 0., 2 * M_PI);
+		cairo_restore (cairo);
+	} else {
+		cairo_move_to (cairo, 0., 0.);
+		cairo_line_to (cairo, width, 0.);
+		cairo_line_to (cairo, width, height);
+		cairo_line_to (cairo, 0., height);
+		cairo_line_to (cairo, 0., 0.);
+		cairo_close_path (cairo);
+	}
+	/* Fill the shape */
+	pat = gog_style_create_cairo_pattern (style, width, height);
+	if (pat) {
+		cairo_set_source (cairo, pat);
+		cairo_fill_preserve (cairo);
+		cairo_pattern_destroy (pat);
+	}
+	/* Draw the line */
+	cairo_set_line_width (cairo, (style->outline.width)? style->outline.width: 1.);
+	cairo_set_source_rgba (cairo,
+		UINT_RGBA_R(style->outline.color),
+		UINT_RGBA_B(style->outline.color),
+		UINT_RGBA_G(style->outline.color),
+		UINT_RGBA_A(style->outline.color));
+	cairo_stroke (cairo);
+}
+
 static gboolean
 gnm_so_filled_read_xml_dom (SheetObject *so, char const *typename,
 			    XmlParseContext const *ctxt,
@@ -521,6 +561,7 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 	so_class->user_config		= gnm_so_filled_user_config;
 	so_class->print			= gnm_so_filled_print;
 #endif /* WITH_GTK */
+	so_class->draw_cairo	= gnm_so_filled_draw_cairo;
 
         g_object_class_install_property (gobject_class, SOF_PROP_STYLE,
                  g_param_spec_object ("style", NULL, NULL, GOG_STYLE_TYPE,

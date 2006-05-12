@@ -436,7 +436,7 @@ typedef GOPluginLoaderModuleClass GnmPluginLoaderModuleClass;
 
 #define GNM_PLUGIN_LOADER_MODULE_TYPE (gnm_plugin_loader_module_get_type ())
 #define GNM_PLUGIN_LOADER_MODULE(o)  (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_LOADER_MODULE_TYPE, GnmPluginLoaderModule))
-static GType gnm_plugin_loader_module_get_type (void);
+GType gnm_plugin_loader_module_get_type (void);
 
 /*
  * Service - function_group
@@ -637,7 +637,7 @@ go_plugin_loader_module_iface_init (GOPluginLoaderClass *iface)
 	iface->service_unload = gplm_service_unload;
 }
 
-static GSF_CLASS_FULL (GnmPluginLoaderModule, gnm_plugin_loader_module,
+GSF_CLASS_FULL (GnmPluginLoaderModule, gnm_plugin_loader_module,
            NULL, NULL, NULL, NULL,
            NULL, GO_PLUGIN_LOADER_MODULE_TYPE, 0,
 	   GSF_INTERFACE (go_plugin_loader_module_iface_init, GO_PLUGIN_LOADER_TYPE))

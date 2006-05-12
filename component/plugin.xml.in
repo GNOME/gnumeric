@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GOffice_gnumeric">
+	<information>
+		<_name>Component : Gnumeric</_name>
+		<_description>Spreadsheets</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="gnumeric"/>
+	</loader>
+	<services>
+		<service type="component_engine" id="GOGnmComponent">
+			<information>
+				<_description>Spreadsheets component engine</_description>
+			</information>
+		</service>
+		<service type="component_type" id="GOGnmComponent">
+			<mime_type name="application/x-gnumeric" priority="native"/>
+			<information>
+				<_description>Spreadsheets</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

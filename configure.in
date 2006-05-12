@@ -955,6 +955,12 @@ AC_SUBST(MONO_LIBS)
 ])
 
 dnl **************************************************
+dnl * Goffice component stuff
+dnl **************************************************
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.3`
+AC_SUBST(GOFFICE_PLUGINS_DIR)
+
+dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
 dnl
@@ -1047,6 +1053,7 @@ templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
 tools/Makefile
+component/Makefile
 ])
 
 echo "

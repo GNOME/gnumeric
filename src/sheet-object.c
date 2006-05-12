@@ -454,6 +454,115 @@ sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
 		SO_CLASS (so)->print (so, ctx, width, height);
 }
 
+/**
+ * sheet_object_draw_cairo :
+ *
+ * Draw a sheet object using cairo.
+ **/
+void
+sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
+{
+	if (SO_CLASS (so)->draw_cairo) {
+		cairo_t *cairo = (cairo_t*) data;
+		SheetObjectAnchor const *anchor;
+		double x = 0., y = 0., width, height, cell_width, cell_height;
+		anchor = sheet_object_get_anchor (so);
+		width = sheet_col_get_distance_pts (so->sheet,
+					anchor->cell_bound.start.col,
+					anchor->cell_bound.end.col + 1);
+		height = sheet_row_get_distance_pts (so->sheet,
+					anchor->cell_bound.start.row,
+					anchor->cell_bound.end.row + 1);
+		cell_width = sheet_col_get_distance_pts (so->sheet,
+					anchor->cell_bound.start.col,
+					anchor->cell_bound.start.col + 1);
+		cell_height = sheet_row_get_distance_pts (so->sheet,
+					anchor->cell_bound.start.row,
+					anchor->cell_bound.start.row + 1);
+		switch (anchor->type[0]) {
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+			x = cell_width * anchor->offset[0];
+			break;
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+			x = cell_width * (1. - anchor->offset[0]);
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_START:
+			x = anchor->offset[0];
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_END:
+			x = cell_width - anchor->offset[0];
+			break;
+		default:
+			break;
+		}
+		width -= x;	
+		switch (anchor->type[1]) {
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+			y = cell_height * anchor->offset[1];
+			break;
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+			y = cell_height * (1 - anchor->offset[1]);
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_START:
+			y = anchor->offset[1];
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_END:
+			y = cell_height - anchor->offset[1];
+			break;
+		default:
+			break;
+		}	
+		height -= y;
+		cell_width = sheet_col_get_distance_pts (so->sheet,
+					anchor->cell_bound.end.col,
+					anchor->cell_bound.end.col + 1);
+		cell_height = sheet_row_get_distance_pts (so->sheet,
+					anchor->cell_bound.end.row,
+					anchor->cell_bound.end.row + 1);
+		switch (anchor->type[2]) {
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+			width -= cell_width * (1. - anchor->offset[2]);
+			break;
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+			width -= cell_width * anchor->offset[2];
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_START:
+			width -= cell_width - anchor->offset[2];
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_END:
+			width -= anchor->offset[2];
+			break;
+		case SO_ANCHOR_PTS_ABSOLUTE:
+			width = anchor->offset[2];
+			break;
+		default:
+			break;
+		}		
+		switch (anchor->type[3]) {
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+			height -= cell_height * (1 - anchor->offset[3]);
+			break;
+		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+			height -= cell_height * anchor->offset[3];
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_START:
+			height -= cell_height - anchor->offset[3];
+			break;
+		case SO_ANCHOR_PTS_FROM_COLROW_END:
+			height -= anchor->offset[3];
+			break;
+		case SO_ANCHOR_PTS_ABSOLUTE:
+			height = anchor->offset[3];
+			break;
+		default:
+			break;
+		}
+		/* we don't need to save/restore cairo, the caller must do it */
+		cairo_translate (cairo, x, y);
+		SO_CLASS (so)->draw_cairo (so, cairo, width, height);
+	}
+}
+
 GnmRange const *
 sheet_object_get_range (SheetObject const *so)
 {

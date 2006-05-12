@@ -1,3 +1,20 @@
+2006-05-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: add component directory.
+	* component/Gnumeric-embed.xml.in: add a goffice component.
+	* component/Makefile.am: ditto.
+	* component/gnumeric.c: ditto.
+	* component/plugin.xml.in: ditto.
+	* configure.in: add support for the component.
+	* src/gnm-plugin.c: make GnmPluginLoaderModule public.
+	* src/gnm-so-filled.c: (gnm_so_filled_draw_cairo),
+	(gnm_so_filled_class_init): render using cairo.
+	* src/sheet-object-impl.h: add a draw_cairo method.
+	* src/sheet-object.c: (sheet_object_draw_cairo): implement the
+	new functionality.
+	* src/sheet-object.h: ditto.
+	* src/wbc-gtk.c: (wbc_gtk_init): add support for customized ui.
+
 2006-05-11  Christian Neumair  <chris@gnome-de.org>
 
 	* src/Makefile.am:

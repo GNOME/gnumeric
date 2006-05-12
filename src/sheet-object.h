@@ -118,7 +118,9 @@ void sheet_object_write_object 	(SheetObject const *so,
 				 const char *format,
 				 GsfOutput *output, GError **err);
 
+/* cairo rendering */
+void sheet_object_draw_cairo (SheetObject const *so, gpointer *data);
+
 /* management routine to register all the builtin object types */
 void sheet_objects_init (void);
-
 #endif /* GNUMERIC_SHEET_OBJECT_H */

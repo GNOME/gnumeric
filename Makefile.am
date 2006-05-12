@@ -1,4 +1,4 @@
-SUBDIRS = . po po-functions src plugins icons templates doc schemas
+SUBDIRS = . po po-functions src plugins icons templates doc schemas component
 if WITH_WIN32
   SUBDIRS += tools
 endif
