@@ -385,7 +385,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	GnmRange range;
 	ExcelReadSheet *esheet;
 	MSObjAttr *attr, *flip_h, *flip_v;
-	SheetObjectDirection direction;
+	GODrawingAnchorDir direction;
 	SheetObjectAnchor anchor;
 	SheetObject *so;
 	GogStyle *style;
@@ -412,8 +412,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	flip_h = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
 	flip_v = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
 	direction =
-		((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
-		((flip_v == NULL) ? SO_DIR_DOWN : 0);
+		((flip_h == NULL) ? GOD_ANCHOR_DIR_RIGHT : 0) |
+		((flip_v == NULL) ? GOD_ANCHOR_DIR_DOWN : 0);
 
 	sheet_object_anchor_init (&anchor, &range,
 		offsets, anchor_types, direction);

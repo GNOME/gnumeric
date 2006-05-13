@@ -1705,9 +1705,9 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 	}
 
 	if (xml_node_get_int (tree, "Direction", &tmp_int))
-		so->anchor.direction = tmp_int;
+		so->anchor.base.direction = tmp_int;
 	else
-		so->anchor.direction = SO_DIR_UNKNOWN;
+		so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
 
 	/* Do not assign to a sheet when extracting a cell region */
 	if (NULL != ctxt->sheet) {

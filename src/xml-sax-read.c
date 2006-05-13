@@ -1506,7 +1506,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	}
 	state->so = so;
 
-	so->anchor.direction = SO_DIR_UNKNOWN;
+	so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2) {
 		if (!strcmp (attrs[i], "ObjectBound")) {
 			GnmRange r;
@@ -1523,7 +1523,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			for (count = 4; count-- > 0 ; )
 				so->anchor.type[count] = n[count];
 		} else if (xml_sax_attr_int (attrs+i, "Direction", &tmp_int))
-			so->anchor.direction = tmp_int;
+			so->anchor.base.direction = tmp_int;
 #if 0 /* There may be extra attributes that are handled by the objects */
 		else
 			unknown_attr (gsf_state, attrs+i);

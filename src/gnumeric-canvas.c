@@ -611,14 +611,8 @@ gnm_canvas_finalize (GObject *object)
 static void
 gnm_canvas_class_init (GnmCanvasClass *klass)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
-	FooCanvasClass *canvas_class;
-
-	object_class = (GtkObjectClass *) klass;
-	widget_class = (GtkWidgetClass *) klass;
-	canvas_class = (FooCanvasClass *) klass;
+	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class  = (GtkWidgetClass *) klass;
 
 	parent_klass = g_type_class_peek_parent (klass);
 

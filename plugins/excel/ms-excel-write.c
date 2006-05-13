@@ -3691,7 +3691,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 
 		r.end.col = 1 + (r.start.col = filter->r.start.col + i);
 		sheet_object_anchor_init (&anchor, &r, offsets, anchor_types,
-			SO_DIR_DOWN_RIGHT);
+			GOD_ANCHOR_DIR_DOWN_RIGHT);
 		if (bp->version >= MS_BIFF_V8) {
 			guint32 id = excel_write_start_drawing (esheet);
 			memcpy (buf, obj_v8, sizeof obj_v8);

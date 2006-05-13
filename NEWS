@@ -2,6 +2,8 @@ Gnumeric 1.7.1
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).
+	* Don't lose the orientation of line objects when copying.
+	* Add context menu binding for selected objects.	[#338616]
 
 Morten:
 	* Moved font metrics to goffice.

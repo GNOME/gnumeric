@@ -586,7 +586,7 @@ gnm_so_filled_init (GObject *obj)
 	sof->markup = NULL;
 	sof->margin_pts.top  = sof->margin_pts.bottom = 3;
 	sof->margin_pts.left = sof->margin_pts.right  = 5;
-	SHEET_OBJECT (obj)->anchor.direction = SO_DIR_NONE_MASK;
+	SHEET_OBJECT (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 }
 
 GSF_CLASS (GnmSOFilled, gnm_so_filled,

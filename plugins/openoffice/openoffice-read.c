@@ -1571,7 +1571,7 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 	frame_offset[2] = (width/col->size_pts);
 	frame_offset[3] = (height/row->size_pts);
 
-	sheet_object_anchor_init (&state->cur_frame.anchor, &cell_base, frame_offset, NULL, SO_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&state->cur_frame.anchor, &cell_base, frame_offset, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
 }
 
 static void

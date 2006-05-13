@@ -1,3 +1,32 @@
+2006-05-13  Jody Goldberg <jody@gnome.org>
+
+	* component/gnumeric.c : patch some warnings and make some comments.
+
+	* src/gnumeric-pane.c (display_object_menu) : Use the new
+	  sheet_object_populate_menu and clarify that so and event can be
+	  NULL.
+	(cb_pane_popup_menu) : if objects are selected use
+	  display_object_menu.
+
+	* src/sheet-object.c (sheet_object_populate_menu) : new and public.
+	(sheet_object_populate_menu_real) : renamed from sheet_object_populate_menu
+	  and make smarter to be able to handle so == NULL.
+
+	* src/gnumeric-canvas.c (gnm_canvas_class_init) : delete some unused
+	  variables.
+
+	* src/clipboard.c (clipboard_copy_obj) : tidy up a bit, and prepare to
+	  clean out the odd GObject data usage.
+
+	* src/sheet-control-gui.c (scg_object_coords_to_anchor) : set the
+	  direction.
+
+	* src/wbcg-actions.c (permanent_actions) : Make Save and Save-As
+	  permanent so that the user can always save.
+
+	* src/xml-sax-write.c (gnm_xml_file_save) : accept saving to unnamed
+	  files.
+
 2006-05-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c: (go_gnm_component_print): implemented.

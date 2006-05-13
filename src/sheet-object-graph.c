@@ -527,7 +527,7 @@ static void
 gnm_sog_init (GObject *obj)
 {
 	SheetObject *so = SHEET_OBJECT (obj);
-	so->anchor.direction = SO_DIR_DOWN_RIGHT;
+	so->anchor.base.direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 }
 
 static void

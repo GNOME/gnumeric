@@ -287,7 +287,7 @@ sv_select_cur_inputs (SheetView *sv)
  * When pasting a copy the destination can be a singleton, or an integer
  * multiple of the size of the source.  This is not tested here.
  * Full undo support.
- */
+ **/
 void
 cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 {

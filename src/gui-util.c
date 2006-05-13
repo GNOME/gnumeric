@@ -329,6 +329,14 @@ kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
 	g_object_unref (G_OBJECT (menu));
 }
 
+/**
+ * gnumeric_popup_menu :
+ * @menu : #GtkMenu
+ * @event : #GdkEventButton optionally NULL
+ *
+ * Bring up a popup and if @event is non-NULL ensure that the popup is on the
+ * right screen.
+ **/
 void
 gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 {

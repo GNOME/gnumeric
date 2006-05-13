@@ -682,7 +682,7 @@ gnm_soi_init (GObject *obj)
 		= 0.0;
 
 	so = SHEET_OBJECT (obj);
-	so->anchor.direction = SO_DIR_DOWN_RIGHT;
+	so->anchor.base.direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 }
 
 static void

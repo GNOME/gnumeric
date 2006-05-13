@@ -104,7 +104,7 @@ cb_so_copy (SheetObject *so, SheetControl *sc)
 }
 
 static void
-sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
+sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 {
 	static SheetObjectAction const so_actions [] = {
 		{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor },
@@ -124,6 +124,23 @@ sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 	for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
 		if (i != 0 || SO_CLASS(so)->user_config != NULL)
 			g_ptr_array_add (actions, (gpointer) (so_actions + i));
+}
+
+/**
+ * sheet_object_populate_menu :
+ * @so : #SheetObject optionally NULL
+ * @actions : #GPtrArray
+ *
+ * Get a list of the actions that can be performed on @so, if @so is NULL use
+ * the default set.
+ **/
+void
+sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
+{
+	if (NULL != so)
+		SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, actions);
+	else
+		sheet_object_populate_menu (NULL, actions);
 }
 
 /**
@@ -176,7 +193,7 @@ sheet_object_init (GObject *object)
 	/* Store the logical position as A1 */
 	so->anchor.cell_bound.start.col = so->anchor.cell_bound.start.row = 0;
 	so->anchor.cell_bound.end.col = so->anchor.cell_bound.end.row = 1;
-	so->anchor.direction = SO_DIR_UNKNOWN;
+	so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
 
 	for (i = 4; i-- > 0 ;) {
 		so->anchor.offset [i] = 0.;
@@ -199,7 +216,7 @@ sheet_object_class_init (GObjectClass *klass)
 
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = sheet_object_finalize;
-	sheet_object_class->populate_menu        = sheet_object_populate_menu;
+	sheet_object_class->populate_menu        = sheet_object_populate_menu_real;
 	sheet_object_class->print                = NULL;
 	sheet_object_class->user_config          = NULL;
 	sheet_object_class->rubber_band_directly = FALSE;
@@ -886,16 +903,15 @@ sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
 void
 sheet_object_direction_set (SheetObject *so, gdouble const *coords)
 {
-	if (so->anchor.direction == SO_DIR_UNKNOWN)
+	if (so->anchor.base.direction == GOD_ANCHOR_DIR_UNKNOWN)
 		return;
 
-	so->anchor.direction = SO_DIR_NONE_MASK;
+	so->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 
 	if (coords [1] < coords [3])
-		so->anchor.direction |= SO_DIR_DOWN;
+		so->anchor.base.direction |= GOD_ANCHOR_DIR_DOWN;
 	if (coords [0] < coords [2])
-		so->anchor.direction |= SO_DIR_RIGHT;
-
+		so->anchor.base.direction |= GOD_ANCHOR_DIR_RIGHT;
 }
 
 /**
@@ -923,7 +939,7 @@ void
 sheet_object_anchor_init (SheetObjectAnchor *anchor,
 			  GnmRange const *r, float const *offsets,
 			  SheetObjectAnchorType const *types,
-			  SheetObjectDirection direction)
+			  GODrawingAnchorDir direction)
 {
 	int i;
 
@@ -952,7 +968,7 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 	for (i = 4; i-- > 0 ; )
 		anchor->type [i] = types [i];
 
-	anchor->direction = direction;
+	anchor->base.direction = direction;
 	/* TODO : add sanity checking to handle offsets past edges of col/row */
 }
 

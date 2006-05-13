@@ -1004,7 +1004,7 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 		gsf_xml_out_add_cstr (state->output, "ObjectAnchorType", buffer);
 
 		gsf_xml_out_add_int (state->output, "Direction",
-			so->anchor.direction);
+			so->anchor.base.direction);
 
 		(*klass->write_xml_sax) (so, state->output);
 
@@ -1139,12 +1139,14 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 {
 	GnmOutputXML state;
 	char *old_num_locale, *old_monetary_locale;
-	char const *extension = gsf_extension_pointer (gsf_output_name (output));
+	char const *extension = NULL;
 	GsfOutput *gzout = NULL;
 	gboolean compress;
 
 	/* If the suffix is .xml disable compression */
-	if (extension && g_ascii_strcasecmp (extension, "xml") == 0)
+	if (NULL != gsf_output_name (output))
+		extension = gsf_extension_pointer (gsf_output_name (output));
+	if (NULL != extension && g_ascii_strcasecmp (extension, "xml") == 0)
 		compress = FALSE;
 	else 
 		compress = (gnm_app_prefs->xml_compression_level > 0);

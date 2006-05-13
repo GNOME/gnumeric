@@ -49,6 +49,7 @@
 #include <workbook-control-gui-priv.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <print-cell.h>
 #include <sheet-object.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
@@ -207,7 +208,6 @@ cell_render (cairo_t *cairo, GnmCell *cell)
 		cairo_set_source_rgb (cairo, UINT_RGBA_B(fore_color), UINT_RGBA_G(fore_color),  UINT_RGBA_R(fore_color));
 		if (rv->rotation) {
 			RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
-			PangoContext *context = pango_layout_get_context (rv->layout);
 			struct RenderedRotatedValueInfo const *li = rrv->lines;
 			GSList *lines;
 			cairo_matrix_t m;
@@ -381,7 +381,7 @@ static void
 go_gnm_component_set_property (GObject *obj, guint param_id,
 		       GValue const *value, GParamSpec *pspec)
 {
-	GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);
+	/* GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);*/
 
 	switch (param_id) {
 	case COMPONENT_PROP_START_ROW:
@@ -403,7 +403,7 @@ static void
 go_gnm_component_get_property (GObject *obj, guint param_id,
 		       GValue *value, GParamSpec *pspec)
 {
-	GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);
+	/* GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);*/
 
 	switch (param_id) {
 	case COMPONENT_PROP_START_ROW:
@@ -464,6 +464,7 @@ go_gnm_component_class_init (GOComponentClass *klass)
 	klass->print = go_gnm_component_print;
 	klass->edit = go_gnm_component_edit;
 
+/* Better to do this as a GnmRange */
 	g_object_class_install_property (obj_klass, COMPONENT_PROP_START_ROW,
 		g_param_spec_int ("gnm-start-row", _("Start row"),
 			_("First displayed row"),
@@ -484,6 +485,8 @@ go_gnm_component_class_init (GOComponentClass *klass)
 			_("Last displayed column"),
 			0, SHEET_MAX_COLS - 1, 4,
 			G_PARAM_READWRITE | GOC_PARAM_PERSISTENT));
+
+/* or even a GnmSheetRange */
 	g_object_class_install_property (obj_klass, COMPONENT_PROP_END_COL,
 		g_param_spec_int ("gnm-sheet", _("Sheet"),
 			_("Index of dislpayed sheet"),
@@ -523,6 +526,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	if (env_var != NULL)
 		GO_SLIST_CONCAT (dir_list, go_strsplit_to_slist (env_var, G_SEARCHPATH_SEPARATOR));
 
+/* WHERE IS THIS DEFINED */
 	go_plugins_add (go_component_get_command_context (),
 		gnm_app_prefs->plugin_file_states,
 		gnm_app_prefs->active_plugins,

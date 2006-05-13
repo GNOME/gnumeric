@@ -546,6 +546,8 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 GnmCellRegion *
 clipboard_copy_obj (Sheet *sheet, GSList *objects)
 {
+	SheetObjectAnchor tmp_anchor;
+	SheetObjectAnchor const *anchor;
 	GnmCellRegion *cr;
 	GnmRange *r;
 	GSList *ptr;
@@ -557,24 +559,28 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 	g_return_val_if_fail (objects != NULL, NULL);
 
 	cr = cellregion_new (sheet);
-	for (ptr = objects ; ptr != NULL ; ptr = ptr->next) {
-		sheet_object_position_pts_get (SHEET_OBJECT (ptr->data),
-					       coords);
-		w = fabs (coords[2] - coords[0]) + 1;
-		h = fabs (coords[3] - coords[1]) + 1.;
-		so = sheet_object_dup (ptr->data);
-		if (so != NULL) {
-			r = (GnmRange *) sheet_object_get_range	(so);
-			range_translate (r,
-					 -MIN (r->start.col, r->end.col),
-					 -MIN (r->start.row, r->end.row));
+	for (ptr = objects ; ptr != NULL ; ptr = ptr->next)
+		if (NULL != (so = sheet_object_dup (ptr->data))) {
+			anchor = sheet_object_get_anchor (so);
+
+	/* FIXME : This is only used in gnm_sog_write_image What is it for ?? */
+			sheet_object_anchor_to_pts (anchor, sheet, coords);
+			w = fabs (coords[2] - coords[0]) + 1.5;
+			h = fabs (coords[3] - coords[1]) + 1.5;
 			g_object_set_data (G_OBJECT (so),  "pt-width-at-copy",
-					   GUINT_TO_POINTER (w));
+				GUINT_TO_POINTER (w));
 			g_object_set_data (G_OBJECT (so),  "pt-height-at-copy",
-					   GUINT_TO_POINTER (h));
+				GUINT_TO_POINTER (h));
+
+			sheet_object_anchor_cpy (&tmp_anchor, anchor);
+			r = &tmp_anchor.cell_bound;
+			range_translate (r,
+				-MIN (r->start.col, r->end.col),
+				-MIN (r->start.row, r->end.row));
+			sheet_object_set_anchor (so, &tmp_anchor);
+
 			cr->objects = g_slist_prepend (cr->objects, so);
 		}
-	}
 
 	return cr;
 }

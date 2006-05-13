@@ -2307,12 +2307,14 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	g_return_if_fail (coords != NULL);
 
+	in_out->base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 	if ((coords [0] > coords [2]) == (!scg->sheet_control.sheet->text_is_rtl)) {
 		tmp [0] = coords [2];
 		tmp [2] = coords [0];
 	} else {
 		tmp [0] = coords [0];
 		tmp [2] = coords [2];
+		in_out->base.direction = GOD_ANCHOR_DIR_RIGHT;
 	}
 	if (coords [1] > coords [3]) {
 		tmp [1] = coords [3];
@@ -2320,6 +2322,7 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 	} else {
 		tmp [1] = coords [1];
 		tmp [3] = coords [3];
+		in_out->base.direction |= GOD_ANCHOR_DIR_DOWN;
 	}
 
 	foo_canvas_w2c (FOO_CANVAS (gcanvas), tmp [0], tmp [1],
@@ -2355,7 +2358,7 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	/* pane 0 always exists and the others are always use the same basis */
 	GnmCanvas *gcanvas = scg_pane ((SheetControlGUI *)scg, 0);
 	Sheet *sheet = ((SheetControl const *) scg)->sheet;
-	SheetObjectDirection direction;
+	GODrawingAnchorDir direction;
 	double pixels [4], scale;
 	GnmRange const *r;
 
@@ -2379,15 +2382,15 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	pixels [3] += cell_offset_calc_pixel (sheet, r->end.row,
 		FALSE, anchor->type [3], anchor->offset [3]);
 
-	direction = anchor->direction;
-	if (direction == SO_DIR_UNKNOWN)
-		direction = SO_DIR_DOWN_RIGHT;
+	direction = anchor->base.direction;
+	if (direction == GOD_ANCHOR_DIR_UNKNOWN)
+		direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
 
 	scale = 1. / FOO_CANVAS (gcanvas)->pixels_per_unit;
-	coords [0] = pixels [direction & SO_DIR_H_MASK  ? 0 : 2] * scale;
-	coords [1] = pixels [direction & SO_DIR_V_MASK  ? 1 : 3] * scale;
-	coords [2] = pixels [direction & SO_DIR_H_MASK  ? 2 : 0] * scale;
-	coords [3] = pixels [direction & SO_DIR_V_MASK  ? 3 : 1] * scale;
+	coords [0] = pixels [direction & GOD_ANCHOR_DIR_H_MASK  ? 0 : 2] * scale;
+	coords [1] = pixels [direction & GOD_ANCHOR_DIR_V_MASK  ? 1 : 3] * scale;
+	coords [2] = pixels [direction & GOD_ANCHOR_DIR_H_MASK  ? 2 : 0] * scale;
+	coords [3] = pixels [direction & GOD_ANCHOR_DIR_V_MASK  ? 3 : 1] * scale;
 	if (sheet->text_is_rtl) {
 		double tmp = -coords [0];
 		coords [0] = -coords [2];
@@ -3135,7 +3138,7 @@ scg_paste_image (SheetControlGUI *scg, GnmRange *where,
 	SheetObjectAnchor anchor;
 
 	sheet_object_anchor_init (&anchor, where, NULL, NULL,
-				  SO_DIR_DOWN_RIGHT);
+				  GOD_ANCHOR_DIR_DOWN_RIGHT);
 	scg_image_create (scg, &anchor, data, len);
 }
 
@@ -3147,7 +3150,7 @@ scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y,
 	double coords[4];
 
 	sheet_object_anchor_init (&anchor, NULL, NULL, NULL,
-				  SO_DIR_DOWN_RIGHT);
+				  GOD_ANCHOR_DIR_DOWN_RIGHT);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);
@@ -3216,7 +3219,7 @@ scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 	double coords[4];
 
 	sheet_object_anchor_init (&anchor, NULL, NULL, NULL,
-				  SO_DIR_DOWN_RIGHT);
+				  GOD_ANCHOR_DIR_DOWN_RIGHT);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);

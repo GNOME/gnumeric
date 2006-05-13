@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
@@ -6,6 +6,28 @@
 #include <gtk/gtkselection.h>
 #include <libgnomeprint/gnome-print.h>
 #include <gsf/gsf-output.h>
+
+/***********************************************************
+ * Move to goffice during 1.7 */
+
+typedef enum {
+	GOD_ANCHOR_DIR_UNKNOWN    = 0xFF,
+	GOD_ANCHOR_DIR_UP_LEFT    = 0x00,
+	GOD_ANCHOR_DIR_UP_RIGHT   = 0x01,
+	GOD_ANCHOR_DIR_DOWN_LEFT  = 0x10,
+	GOD_ANCHOR_DIR_DOWN_RIGHT = 0x11,
+
+	GOD_ANCHOR_DIR_NONE_MASK  = 0x00,
+	GOD_ANCHOR_DIR_H_MASK 	  = 0x01,
+	GOD_ANCHOR_DIR_RIGHT	  = 0x01,
+	GOD_ANCHOR_DIR_V_MASK	  = 0x10,
+	GOD_ANCHOR_DIR_DOWN  	  = 0x10
+} GODrawingAnchorDir;
+typedef struct _GODrawingAnchor {
+	int			pos_pts [4];	/* position in points */
+	GODrawingAnchorDir	direction;
+} GODrawingAnchor;
+/***********************************************************/
 
 typedef enum {
 	SO_ANCHOR_UNKNOWN			= 0x00,
@@ -19,26 +41,12 @@ typedef enum {
 	/* only allowed for Anchors 2-3 to support fixed size */
 	SO_ANCHOR_PTS_ABSOLUTE			= 0x30
 } SheetObjectAnchorType;
-
-typedef enum {
-	SO_DIR_UNKNOWN    = 0xFF,
-	SO_DIR_UP_LEFT    = 0x00,
-	SO_DIR_UP_RIGHT   = 0x01,
-	SO_DIR_DOWN_LEFT  = 0x10,
-	SO_DIR_DOWN_RIGHT = 0x11,
-
-	SO_DIR_NONE_MASK  = 0x00,
-	SO_DIR_H_MASK 	  = 0x01,
-	SO_DIR_RIGHT	  = 0x01,
-	SO_DIR_V_MASK	  = 0x10,
-	SO_DIR_DOWN  	  = 0x10
-} SheetObjectDirection;
-
 struct _SheetObjectAnchor {
-	GnmRange	cell_bound; /* cellpos containg corners */
-	float	offset [4];
-	SheetObjectAnchorType type [4];
-	SheetObjectDirection direction;
+	GODrawingAnchor	base;
+
+	GnmRange		cell_bound; /* cellpos containg corners */
+	float			offset [4];
+	SheetObjectAnchorType	type [4];
 };
 
 #define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
@@ -68,6 +76,8 @@ void          sheet_object_print	 (SheetObject const *so,
 					  GnomePrintContext *ctx,
 					  double width, double height);
 void	     sheet_object_get_editor	 (SheetObject *so, SheetControl *sc);
+void	     sheet_object_populate_menu  (SheetObject *so, GPtrArray *actions);
+
 void	     sheet_object_update_bounds  (SheetObject *so, GnmCellPos const *p);
 void	     sheet_object_default_size	 (SheetObject *so, double *w, double *h);
 gint	     sheet_object_adjust_stacking(SheetObject *so, gint positions);
@@ -100,7 +110,7 @@ void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GnmRange const *cell_bound,
 				 float const	offset [4],
 				 SheetObjectAnchorType const type [4],
-				 SheetObjectDirection direction);
+				 GODrawingAnchorDir direction);
 void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
 				 SheetObjectAnchor const *src);
 

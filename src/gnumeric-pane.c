@@ -43,6 +43,8 @@
 
 #undef DEBUG_DND
 
+static void cb_pane_popup_menu (GnmPane *pane);
+
 /**
  * For now, application/x-gnumeric is disabled. It handles neither
  * images nor graphs correctly.
@@ -145,33 +147,6 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 		MAX ((int)floor (fabs (coords [3] - coords [1]) + 0.5), 0));
 	gtk_label_set_text (GTK_LABEL (pane->size_tip), msg);
 	g_free (msg);
-}
-
-static void
-cb_pane_popup_menu (GnmPane *pane)
-{
-	/* the popup-menu signal is a binding. the grid almost always has focus
-	 * we need to cheat to find out if the user realllllly wants a col/row
-	 * header menu */
-	gboolean is_col = FALSE;
-	gboolean is_row = FALSE;
-	GdkWindow *gdk_win = gdk_display_get_window_at_pointer (
-		gtk_widget_get_display (GTK_WIDGET (pane->gcanvas)),
-		NULL, NULL);
-
-	if (gdk_win != NULL) {
-		gpointer gtk_win_void = NULL;
-		GtkWindow *gtk_win = NULL;
-		gdk_window_get_user_data (gdk_win, &gtk_win_void);
-		gtk_win = gtk_win_void;
-		if (gtk_win != NULL) {
-			if (gtk_win == (GtkWindow *)pane->col.canvas)
-				is_col = TRUE;
-			else if (gtk_win == (GtkWindow *)pane->row.canvas)
-				is_row = TRUE;
-		}
-	}
-	scg_context_menu (pane->gcanvas->simple.scg, NULL, is_col, is_row);
 }
 
 static void
@@ -852,6 +827,7 @@ cb_ptr_array_free (GPtrArray *actions)
 	g_ptr_array_free (actions, TRUE);
 }
 
+/* event and so can be NULL */
 static void
 display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 {
@@ -860,9 +836,11 @@ display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	GtkWidget *menu;
 	unsigned i = 0;
 
-	if (NULL == g_hash_table_lookup (scg->selected_objects, so))
+	if (NULL != so &&
+	    NULL == g_hash_table_lookup (scg->selected_objects, so))
 		scg_object_select (scg, so);
-	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, actions);
+
+	sheet_object_populate_menu (so, actions);
 
 	if (actions->len == 0) {
 		g_ptr_array_free (actions, TRUE);
@@ -876,6 +854,53 @@ display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 		(GDestroyNotify)cb_ptr_array_free);
 	gtk_widget_show_all (menu);
 	gnumeric_popup_menu (GTK_MENU (menu), &event->button);
+}
+
+static void
+cb_collect_selected_objs (SheetObject *so, double *coords, GSList **accum)
+{
+	*accum = g_slist_prepend (*accum, so);
+}
+
+static void
+cb_pane_popup_menu (GnmPane *pane)
+{
+	SheetControlGUI *scg = pane->gcanvas->simple.scg;
+
+	/* ignore new_object, it is not visible, and should not create a
+	 * context menu */
+	if (NULL != scg->selected_objects) {
+		GSList *accum = NULL;
+		g_hash_table_foreach (scg->selected_objects,
+			(GHFunc) cb_collect_selected_objs, &accum);
+		if (NULL != accum && NULL == accum->next)
+			display_object_menu (pane, accum->data, NULL);
+		g_slist_free (accum);
+	} else {
+		/* the popup-menu signal is a binding. the grid almost always
+		 * has focus we need to cheat to find out if the user
+		 * realllllly wants a col/row header menu */
+		gboolean is_col = FALSE;
+		gboolean is_row = FALSE;
+		GdkWindow *gdk_win = gdk_display_get_window_at_pointer (
+			gtk_widget_get_display (GTK_WIDGET (pane->gcanvas)),
+			NULL, NULL);
+
+		if (gdk_win != NULL) {
+			gpointer gtk_win_void = NULL;
+			GtkWindow *gtk_win = NULL;
+			gdk_window_get_user_data (gdk_win, &gtk_win_void);
+			gtk_win = gtk_win_void;
+			if (gtk_win != NULL) {
+				if (gtk_win == (GtkWindow *)pane->col.canvas)
+					is_col = TRUE;
+				else if (gtk_win == (GtkWindow *)pane->row.canvas)
+					is_row = TRUE;
+			}
+		}
+
+		scg_context_menu (scg, NULL, is_col, is_row);
+	}
 }
 
 static void

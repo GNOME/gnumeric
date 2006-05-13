@@ -206,14 +206,14 @@ gnm_so_line_print (SheetObject const *so, GnomePrintContext *ctx,
 	if (style->color == 0 || style->width < 0 || style->pattern == 0)
 		return;
 
-	switch (so->anchor.direction) {
-	case SO_DIR_UP_RIGHT:
-	case SO_DIR_DOWN_RIGHT:
+	switch (so->anchor.base.direction) {
+	case GOD_ANCHOR_DIR_UP_RIGHT:
+	case GOD_ANCHOR_DIR_DOWN_RIGHT:
 		x1 = 0.;
 		x2 = width;
 		break;
-	case SO_DIR_UP_LEFT:
-	case SO_DIR_DOWN_LEFT:
+	case GOD_ANCHOR_DIR_UP_LEFT:
+	case GOD_ANCHOR_DIR_DOWN_LEFT:
 		x1 = width;
 		x2 = 0.;
 		break;
@@ -222,14 +222,14 @@ gnm_so_line_print (SheetObject const *so, GnomePrintContext *ctx,
 		return;
 	}
 
-	switch (so->anchor.direction) {
-	case SO_DIR_UP_LEFT:
-	case SO_DIR_UP_RIGHT:
+	switch (so->anchor.base.direction) {
+	case GOD_ANCHOR_DIR_UP_LEFT:
+	case GOD_ANCHOR_DIR_UP_RIGHT:
 		y1 = -height;
 		y2 = 0.;
 		break;
-	case SO_DIR_DOWN_LEFT:
-	case SO_DIR_DOWN_RIGHT:
+	case GOD_ANCHOR_DIR_DOWN_LEFT:
+	case GOD_ANCHOR_DIR_DOWN_RIGHT:
 		y1 = 0.;
 		y2 = -height;
 		break;
@@ -439,7 +439,7 @@ gnm_so_line_init (GObject *obj)
 	go_arrow_init (&sol->start_arrow, 0., 0., 0.);
 	go_arrow_init (&sol->end_arrow,   0., 0., 0.);
 
-	SHEET_OBJECT (obj)->anchor.direction = SO_DIR_NONE_MASK;
+	SHEET_OBJECT (obj)->anchor.base.direction = GOD_ANCHOR_DIR_NONE_MASK;
 }
 
 GSF_CLASS (GnmSOLine, gnm_so_line,
