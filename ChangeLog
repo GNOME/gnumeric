@@ -1,3 +1,8 @@
+2006-05-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/expr.c: (ets_hash): use G_POINTER_TO_UINT instead of a cast
+	(fixes a warning for 64 bits processors).
+
 2006-05-13  Jody Goldberg <jody@gnome.org>
 
 	* component/gnumeric.c : patch some warnings and make some comments.
