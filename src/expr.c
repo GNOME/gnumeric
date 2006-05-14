@@ -2512,7 +2512,7 @@ ets_hash (gconstpointer key)
 
 	case GNM_EXPR_OP_NAME:
 		/* all we need is a somewhat unique hash, ignore int != ptr */
-		return (guint)(expr->name.name);
+		return GPOINTER_TO_UINT (expr->name.name);
 
 	case GNM_EXPR_OP_CELLREF:
 		return gnm_cellref_hash (&expr->cellref.ref);
