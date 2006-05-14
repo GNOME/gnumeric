@@ -239,9 +239,9 @@ gnm_so_line_print (SheetObject const *so, GnomePrintContext *ctx,
 	}
 
 	gnome_print_setrgbcolor (ctx,
-		style->color / (double) 0xffff,
-		style->color / (double) 0xffff,
-		style->color / (double) 0xffff);
+		DOUBLE_RGBA_R (style->color),
+		DOUBLE_RGBA_G (style->color),
+		DOUBLE_RGBA_B (style->color));
 
 	if (sol->end_arrow.c > 0.) {
 		double phi;
@@ -275,6 +275,90 @@ gnm_so_line_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 #endif /* WITH_GTK */
+
+static void
+gnm_so_line_draw_cairo (SheetObject const *so, gpointer data,
+	double width, double height)
+{
+#ifdef GOFFICE_WITH_CAIRO
+	GnmSOLine *sol = GNM_SO_LINE (so);
+	cairo_t *cairo = (cairo_t*) data;
+	GogStyleLine const *style = &sol->style->line;
+	double x1, y1, x2, y2;
+
+	if (style->color == 0 || style->width < 0 || style->pattern == 0)
+		return;
+
+	switch (so->anchor.base.direction) {
+	case GOD_ANCHOR_DIR_UP_RIGHT:
+	case GOD_ANCHOR_DIR_DOWN_RIGHT:
+		x1 = 0.;
+		x2 = width;
+		break;
+	case GOD_ANCHOR_DIR_UP_LEFT:
+	case GOD_ANCHOR_DIR_DOWN_LEFT:
+		x1 = width;
+		x2 = 0.;
+		break;
+	default:
+		g_warning ("Cannot guess direction!");
+		return;
+	}
+
+	switch (so->anchor.base.direction) {
+	case GOD_ANCHOR_DIR_UP_LEFT:
+	case GOD_ANCHOR_DIR_UP_RIGHT:
+		y1 = height;
+		y2 = 0.;
+		break;
+	case GOD_ANCHOR_DIR_DOWN_LEFT:
+	case GOD_ANCHOR_DIR_DOWN_RIGHT:
+		y1 = 0.;
+		y2 = height;
+		break;
+	default:
+		g_warning ("Cannot guess direction!");
+		return;
+	}
+
+	cairo_set_line_width (cairo, (style->width)? style->width: 1.);
+	cairo_set_source_rgba (cairo,
+		UINT_RGBA_R(style->color),
+		UINT_RGBA_B(style->color),
+		UINT_RGBA_G(style->color),
+		UINT_RGBA_A(style->color));
+
+	if (sol->end_arrow.c > 0.) {
+		double phi;
+
+		phi = atan2 (y2 - y1, x2 - x1) - M_PI_2;
+
+		cairo_save (cairo);
+		cairo_translate (cairo, x2, y2);
+		cairo_rotate (cairo, phi);
+		cairo_set_line_width (cairo, 1.0);
+		cairo_new_path (cairo);
+		cairo_move_to (cairo, 0.0, 0.0);
+		cairo_line_to (cairo, -sol->end_arrow.c, -sol->end_arrow.b);
+		cairo_line_to (cairo, 0.0, -sol->end_arrow.a);
+		cairo_line_to (cairo, sol->end_arrow.c, -sol->end_arrow.b);
+		cairo_close_path (cairo);
+		cairo_fill (cairo);
+		cairo_restore (cairo);
+
+		/* Make the line shorter so that the arrow won't be
+		 * on top of a (perhaps quite fat) line.  */
+		x2 += sol->end_arrow.a * sin (phi);
+		y2 -= sol->end_arrow.a * cos (phi);
+	}
+
+	cairo_set_line_width (cairo, style->width);
+	cairo_new_path (cairo);
+	cairo_move_to (cairo, x1, y1);
+	cairo_line_to (cairo, x2, y2);
+	cairo_stroke (cairo);
+#endif
+}
 
 static gboolean
 gnm_so_line_read_xml_dom (SheetObject *so, char const *typename,
@@ -412,6 +496,7 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 	so_class->xml_export_name	= "SheetObjectGraphic";
 
 #ifdef WITH_GTK
+	so_class->draw_cairo	= gnm_so_line_draw_cairo;
 	so_class->user_config		= gnm_so_line_user_config;
 	so_class->new_view		= gnm_so_line_new_view;
 	so_class->print			= gnm_so_line_print;

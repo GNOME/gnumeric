@@ -1,3 +1,22 @@
+2006-05-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c: (cairo_to_pixbuf): fixed and renamed,
+	(go_gnm_component_set_data): use current selection as displayed area,
+	(cell_render): set colors in the correct (RGB) order,
+	(go_gnm_component_draw): skip hidden rows and columns,
+	(go_gnm_component_print): print sheet objects,
+	(go_gnm_component_init): updated,
+	(go_gnm_component_class_init): removed unused properties.
+	* src/gnm-so-filled.c: (gnm_so_filled_draw_cairo): don't use cairo if
+	GOFFICE_WITH_CAIRO is not defined.	
+	* src/gnm-so-line.c: (gnm_so_line_print): use correct color,
+	(gnm_so_line_draw_cairo): implemented,
+	(gnm_so_line_class_init): add draw_cairo.
+	* src/sheet-object-graph.c: (gnm_sog_draw_cairo): implemented,
+	(gnm_sog_class_init): add draw_cairo.
+	* src/sheet-object.c: (sheet_object_draw_cairo): don't use cairo if
+	GOFFICE_WITH_CAIRO is not defined.	
+
 2006-05-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/expr.c: (ets_hash): use G_POINTER_TO_UINT instead of a cast

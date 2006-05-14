@@ -26,7 +26,6 @@
 #include <gnumeric.h>
 #include <libgnumeric.h>
 #include <gnumeric-gconf.h>
-#include <cairo/cairo.h>
 #include <glib/gi18n-lib.h>
 #include <gtk/gtkactiongroup.h>
 #include <gtk/gtkstock.h>
@@ -44,17 +43,22 @@
 #include <cell.h>
 #include <cell-draw.h>
 #include <colrow.h>
+#include <print-cell.h>
 #include <rendered-value.h>
 #include <workbook-view.h>
 #include <workbook-control-gui-priv.h>
 #include <workbook.h>
+#include <selection.h>
 #include <sheet.h>
+#include <sheet-object-impl.h>
 #include <print-cell.h>
 #include <sheet-object.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
-#include <cairo.h>
-#include <pango/pangocairo.h>
+#ifdef GOFFICE_WITH_CAIRO
+#	include <cairo.h>
+#	include <pango/pangocairo.h>
+#endif
 
 GOPluginModuleDepend const go_plugin_depends [] = {
     { "goffice", GOFFICE_API_VERSION }
@@ -65,34 +69,26 @@ GOPluginModuleHeader const go_plugin_header =
 G_MODULE_EXPORT void go_plugin_init (GOPlugin *plugin, GOCmdContext *cc);
 G_MODULE_EXPORT void go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc);
 
-enum {
-	COMPONENT_PROP_0,
-	COMPONENT_PROP_START_ROW,
-	COMPONENT_PROP_END_ROW,
-	COMPONENT_PROP_START_COL,
-	COMPONENT_PROP_END_COL,
-	COMPONENT_PROP_SHEET,
-};
-
 typedef struct
 {
 	GOComponent parent;
 
 	WorkbookView *wv;
 	WorkbookControlGUI *edited;
-	int sheet, col_start, col_end, row_start, row_end;
+	Sheet *sheet;
+	int col_start, col_end, row_start, row_end;
 	int width, height;
 } GOGnmComponent;
 
 /* Red and blue are inverted in a pixbuf compared to cairo */
 static void
-pixbuf_to_cairo (unsigned char *p, int width, int height, int rowstride)
+cairo_to_pixbuf (unsigned char *p, int width, int height, int rowstride)
 {
 	int i,j;
 	unsigned char a;
 	guint t;
 	
-#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
+#define MULT(d,c,a,t) G_STMT_START { t = (a)? c * 255 / a: 0; d = t;} G_STMT_END
 	
 	for (i = 0; i < height; i++) {
 		for (j = 0; j < width; j++) {
@@ -153,7 +149,8 @@ static void
 go_gnm_component_set_data (GOComponent *component)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
-	Sheet *sheet;
+	SheetView *sv;
+	GnmRange const *range;
 	GOCmdContext *cc = go_component_get_command_context ();
 	IOContext *io_context = gnumeric_io_context_new (cc);
 	GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
@@ -161,16 +158,23 @@ go_gnm_component_set_data (GOComponent *component)
 	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
  	gognm->wv = wb_view_new_from_input (input, NULL, io_context, NULL);
 	g_object_unref (io_context);
-	sheet = workbook_sheet_by_index (wb_view_get_workbook (gognm->wv), gognm->sheet);
+	gognm->sheet = wb_view_cur_sheet (gognm->wv);
+	sv = sheet_get_view (gognm->sheet, gognm->wv);
+	range = selection_first_range (sv, NULL, NULL);
+	gognm->col_start = range->start.col;
+	gognm->row_start = range->start.row;
+	gognm->col_end = range->end.col;
+	gognm->row_end = range->end.row;
 	gognm->width = sheet_col_get_distance_pts (
-		sheet, gognm->col_start, gognm->col_end + 1);
+		gognm->sheet, gognm->col_start, gognm->col_end + 1);
 	component->width = gognm->width / 72.;
 	component->descent = 0.;
 	gognm->height = sheet_row_get_distance_pts (
-		sheet, gognm->row_start, gognm->row_end + 1);
+		gognm->sheet, gognm->row_start, gognm->row_end + 1);
 	component->ascent = gognm->height  / 72.;
 }
 
+#ifdef GOFFICE_WITH_CAIRO
 static void
 cell_render (cairo_t *cairo, GnmCell *cell)
 {
@@ -196,7 +200,6 @@ cell_render (cairo_t *cairo, GnmCell *cell)
 			height * PANGO_SCALE,
 			h_center == -1 ? -1 : (h_center * PANGO_SCALE),
 			&fore_color, &x, &y)) {
-		cairo_set_source_rgb (cairo, UINT_RGBA_R(fore_color), UINT_RGBA_G(fore_color),  UINT_RGBA_B(fore_color));
 		cairo_new_path (cairo);
 		cairo_move_to (cairo, x1, y1);
 		cairo_line_to (cairo, x1 + width, y1);
@@ -205,7 +208,7 @@ cell_render (cairo_t *cairo, GnmCell *cell)
 		cairo_close_path (cairo);
 		cairo_clip (cairo);
 
-		cairo_set_source_rgb (cairo, UINT_RGBA_B(fore_color), UINT_RGBA_G(fore_color),  UINT_RGBA_R(fore_color));
+		cairo_set_source_rgb (cairo, UINT_RGBA_R(fore_color), UINT_RGBA_G(fore_color),  UINT_RGBA_B(fore_color));
 		if (rv->rotation) {
 			RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
 			struct RenderedRotatedValueInfo const *li = rrv->lines;
@@ -233,23 +236,27 @@ cell_render (cairo_t *cairo, GnmCell *cell)
 		}
 	}
 }
+#endif
 
 static void
 go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixels)
 {
+#ifdef GOFFICE_WITH_CAIRO
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	int col, row;
 	cairo_surface_t* surface ;
 	cairo_t *cairo;
 	GnmCell *cell;
-	Sheet *sheet;
 	double xoffset = 0., yoffset;
 	GSList *l;
 	SheetObject *so;
 	SheetObjectAnchor const *anchor;
+	ColRowInfo const *ri;
 
 	gdk_pixbuf_fill (component->pixbuf, 0);
 	if (gognm->wv == NULL)
+		return;
+	if (gognm->sheet == NULL)
 		return;
 	surface = cairo_image_surface_create_for_data (
               				gdk_pixbuf_get_pixels (component->pixbuf),
@@ -258,11 +265,16 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
                				gdk_pixbuf_get_rowstride (component->pixbuf));
 	cairo = cairo_create (surface);
 	cairo_scale (cairo, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
-	sheet = workbook_sheet_by_index (wb_view_get_workbook (gognm->wv), gognm->sheet);
 	for (col = gognm->col_start; col <= gognm->col_end; col++) {
+		ri = sheet_col_get_info (gognm->sheet, col);
+		if (!ri->visible)
+			continue;
 		yoffset = 0.;
 		for (row = gognm->row_start; row <= gognm->row_end; row++) {
-			cell = sheet_cell_get (sheet, col, row);
+			ri = sheet_row_get_info (gognm->sheet, row);
+			if (!ri->visible)
+				continue;
+			cell = sheet_cell_get (gognm->sheet, col, row);
 			if (cell) {
 				cairo_save (cairo);
 				cairo_translate (cairo, xoffset, yoffset);
@@ -272,12 +284,12 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 				cell_render (cairo, cell);
 				cairo_restore (cairo);
 			}
-			yoffset += sheet_row_get_distance_pts (sheet, row, row + 1);
+			yoffset += sheet_row_get_distance_pts (gognm->sheet, row, row + 1);
 		}
-		xoffset += sheet_col_get_distance_pts (sheet, col, col + 1);
+		xoffset += sheet_col_get_distance_pts (gognm->sheet, col, col + 1);
 	}
 	/* Now render objects */
-	l = sheet->sheet_objects;
+	l = gognm->sheet->sheet_objects;
 	while (l) {
 		so = SHEET_OBJECT (l->data);
 		anchor = sheet_object_get_anchor (so);
@@ -287,9 +299,9 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 			(anchor->cell_bound.start.row <= gognm->row_end) &&
 			(anchor->cell_bound.end.row >= gognm->row_start)) {
 			/* translate the origin to start cell of object */
-			xoffset = sheet_col_get_distance_pts (sheet, gognm->col_start,
+			xoffset = sheet_col_get_distance_pts (gognm->sheet, gognm->col_start,
 				anchor->cell_bound.start.col);
-			yoffset = sheet_row_get_distance_pts (sheet, gognm->row_start,
+			yoffset = sheet_row_get_distance_pts (gognm->sheet, gognm->row_start,
 				anchor->cell_bound.start.row);
 			cairo_save (cairo);
 			cairo_translate (cairo, xoffset, yoffset);
@@ -300,9 +312,10 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 	}
 	cairo_destroy (cairo);
 	cairo_surface_destroy (surface);
-	pixbuf_to_cairo (gdk_pixbuf_get_pixels (component->pixbuf), 
+	cairo_to_pixbuf (gdk_pixbuf_get_pixels (component->pixbuf), 
 					width_pixels, height_pixels, 
 					gdk_pixbuf_get_rowstride (component->pixbuf));
+#endif
 }
 
 static void
@@ -311,14 +324,136 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	GnmRange range;
-	Sheet *sheet = workbook_sheet_by_index (wb_view_get_workbook (gognm->wv), gognm->sheet);
-	if (sheet == NULL)
+	GSList *l;
+	SheetObject *so;
+	SheetObjectAnchor const *anchor;
+	if (gognm->sheet == NULL)
 		return;
 	range.start.row = gognm->row_start;
 	range.start.col = gognm->col_start;
 	range.end.row = gognm->row_end;
 	range.end.col = gognm->col_end;
-	print_cell_range (gpc, sheet, &range, 0., height, TRUE);
+	print_cell_range (gpc, gognm->sheet, &range, 0., height, TRUE);
+	/* Now print objects */
+	l = gognm->sheet->sheet_objects;
+	gnome_print_gsave (gpc);
+	gnome_print_translate (gpc, 0., height);
+	while (l) {
+		so = SHEET_OBJECT (l->data);
+		anchor = sheet_object_get_anchor (so);
+		/* test if the object overlaps the exposed range */
+		if ((anchor->cell_bound.start.col <= gognm->col_end) &&
+			(anchor->cell_bound.end.col >= gognm->col_start) &&
+			(anchor->cell_bound.start.row <= gognm->row_end) &&
+			(anchor->cell_bound.end.row >= gognm->row_start)) {
+			double xoffset = 0., yoffset, x = 0., y = 0., cell_width, cell_height;
+			/* translate the origin to start cell of object */
+			xoffset = sheet_col_get_distance_pts (gognm->sheet, gognm->col_start,
+				anchor->cell_bound.start.col);
+			yoffset = sheet_row_get_distance_pts (gognm->sheet, gognm->row_start,
+				anchor->cell_bound.start.row);
+			width = sheet_col_get_distance_pts (so->sheet,
+						anchor->cell_bound.start.col,
+						anchor->cell_bound.end.col + 1);
+			height = sheet_row_get_distance_pts (so->sheet,
+						anchor->cell_bound.start.row,
+						anchor->cell_bound.end.row + 1);
+			cell_width = sheet_col_get_distance_pts (so->sheet,
+						anchor->cell_bound.start.col,
+						anchor->cell_bound.start.col + 1);
+			cell_height = sheet_row_get_distance_pts (so->sheet,
+						anchor->cell_bound.start.row,
+						anchor->cell_bound.start.row + 1);
+			switch (anchor->type[0]) {
+			case SO_ANCHOR_UNKNOWN:
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+				x = cell_width * anchor->offset[0];
+				break;
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+				x = cell_width * (1. - anchor->offset[0]);
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_START:
+				x = anchor->offset[0];
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_END:
+				x = cell_width - anchor->offset[0];
+				break;
+			default:
+				break;
+			}
+			width -= x;	
+			switch (anchor->type[1]) {
+			case SO_ANCHOR_UNKNOWN:
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+				y = cell_height * anchor->offset[1];
+				break;
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+				y = cell_height * (1 - anchor->offset[1]);
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_START:
+				y = anchor->offset[1];
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_END:
+				y = cell_height - anchor->offset[1];
+				break;
+			default:
+				break;
+			}	
+			height -= y;
+			cell_width = sheet_col_get_distance_pts (so->sheet,
+						anchor->cell_bound.end.col,
+						anchor->cell_bound.end.col + 1);
+			cell_height = sheet_row_get_distance_pts (so->sheet,
+						anchor->cell_bound.end.row,
+						anchor->cell_bound.end.row + 1);
+			switch (anchor->type[2]) {
+			case SO_ANCHOR_UNKNOWN:
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+				width -= cell_width * (1. - anchor->offset[2]);
+				break;
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+				width -= cell_width * anchor->offset[2];
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_START:
+				width -= cell_width - anchor->offset[2];
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_END:
+				width -= anchor->offset[2];
+				break;
+			case SO_ANCHOR_PTS_ABSOLUTE:
+				width = anchor->offset[2];
+				break;
+			default:
+				break;
+			}		
+			switch (anchor->type[3]) {
+			case SO_ANCHOR_UNKNOWN:
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
+				height -= cell_height * (1 - anchor->offset[3]);
+				break;
+			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
+				height -= cell_height * anchor->offset[3];
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_START:
+				height -= cell_height - anchor->offset[3];
+				break;
+			case SO_ANCHOR_PTS_FROM_COLROW_END:
+				height -= anchor->offset[3];
+				break;
+			case SO_ANCHOR_PTS_ABSOLUTE:
+				height = anchor->offset[3];
+				break;
+			default:
+				break;
+			}
+			gnome_print_gsave (gpc);
+			gnome_print_translate (gpc, xoffset + x, - yoffset - y);
+			sheet_object_print (so, gpc, width, height);
+			gnome_print_grestore (gpc);
+		}
+		l = l->next;
+	}
+	gnome_print_grestore (gpc);
 }
 
 static void
@@ -335,7 +470,7 @@ static GtkActionEntry const actions[] = {
 /* File */
 	{ "FileSaveEmbed", GTK_STOCK_SAVE, NULL,
 		NULL, N_("Save the embedded workbook"),
-		G_CALLBACK (cb_gognm_save) }
+		G_CALLBACK (cb_gognm_save) },
 };
 
 static void
@@ -378,50 +513,6 @@ go_gnm_component_edit (GOComponent *component)
 }
 
 static void
-go_gnm_component_set_property (GObject *obj, guint param_id,
-		       GValue const *value, GParamSpec *pspec)
-{
-	/* GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);*/
-
-	switch (param_id) {
-	case COMPONENT_PROP_START_ROW:
-		break;
-	case COMPONENT_PROP_END_ROW:
-		break;
-	case COMPONENT_PROP_START_COL:
-		break;
-	case COMPONENT_PROP_END_COL:
-		break;
-	case COMPONENT_PROP_SHEET:
-		break;
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
-	}
-}
-
-static void
-go_gnm_component_get_property (GObject *obj, guint param_id,
-		       GValue *value, GParamSpec *pspec)
-{
-	/* GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);*/
-
-	switch (param_id) {
-	case COMPONENT_PROP_START_ROW:
-		break;
-	case COMPONENT_PROP_END_ROW:
-		break;
-	case COMPONENT_PROP_START_COL:
-		break;
-	case COMPONENT_PROP_END_COL:
-		break;
-	case COMPONENT_PROP_SHEET:
-		break;
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 break;
-	}
-}
-
-static void
 go_gnm_component_finalize (GObject *obj)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (obj);
@@ -443,7 +534,8 @@ go_gnm_component_init (GOComponent *component)
 	component->resizable = FALSE;
 	component->editable = TRUE;
 	component->needs_window = FALSE;
-	gognm->row_start = gognm->col_start = gognm->sheet = 0;
+	gognm->row_start = gognm->col_start = 0;
+	gognm->sheet = NULL;
 	gognm->row_end = 9;
 	gognm->col_end = 4;
 }
@@ -453,8 +545,6 @@ go_gnm_component_class_init (GOComponentClass *klass)
 {
 	GObjectClass *obj_klass = (GObjectClass *) klass;
 	obj_klass->finalize = go_gnm_component_finalize;
-	obj_klass->set_property = go_gnm_component_set_property;
-	obj_klass->get_property = go_gnm_component_get_property;
 
 	gognm_parent_klass = (GObjectClass*) g_type_class_peek_parent (klass);
 
@@ -463,35 +553,6 @@ go_gnm_component_class_init (GOComponentClass *klass)
 	klass->draw = go_gnm_component_draw;
 	klass->print = go_gnm_component_print;
 	klass->edit = go_gnm_component_edit;
-
-/* Better to do this as a GnmRange */
-	g_object_class_install_property (obj_klass, COMPONENT_PROP_START_ROW,
-		g_param_spec_int ("gnm-start-row", _("Start row"),
-			_("First displayed row"),
-			0, SHEET_MAX_ROWS - 1, 0,
-			G_PARAM_READWRITE | GOC_PARAM_PERSISTENT));
-	g_object_class_install_property (obj_klass, COMPONENT_PROP_END_ROW,
-		g_param_spec_int ("gnm-end-row", _("End row"),
-			_("Last displayed row"),
-			0, SHEET_MAX_ROWS - 1, 9,
-			G_PARAM_READWRITE | GOC_PARAM_PERSISTENT));
-	g_object_class_install_property (obj_klass, COMPONENT_PROP_START_COL,
-		g_param_spec_int ("gnm-start-col", _("Start column"),
-			_("First displayed column"),
-			0, SHEET_MAX_COLS - 1, 0,
-			G_PARAM_READWRITE | GOC_PARAM_PERSISTENT));
-	g_object_class_install_property (obj_klass, COMPONENT_PROP_END_COL,
-		g_param_spec_int ("gnm-end-col", _("End column"),
-			_("Last displayed column"),
-			0, SHEET_MAX_COLS - 1, 4,
-			G_PARAM_READWRITE | GOC_PARAM_PERSISTENT));
-
-/* or even a GnmSheetRange */
-	g_object_class_install_property (obj_klass, COMPONENT_PROP_END_COL,
-		g_param_spec_int ("gnm-sheet", _("Sheet"),
-			_("Index of dislpayed sheet"),
-			0,  G_MAXINT32, 0,
-			G_PARAM_READWRITE | GOC_PARAM_PERSISTENT));
 }
 
 GSF_DYNAMIC_CLASS (GOGnmComponent, go_gnm_component,

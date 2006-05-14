@@ -413,6 +413,16 @@ gnm_sog_print (SheetObject const *so, GnomePrintContext *ctx,
 		SHEET_OBJECT_GRAPH (so)->graph, ctx, width, height);
 }
 
+static void
+gnm_sog_draw_cairo (SheetObject const *so, gpointer data,
+			  double width, double height)
+{
+#ifdef GOFFICE_WITH_CAIRO
+	gog_graph_render_to_cairo (
+		SHEET_OBJECT_GRAPH (so)->graph, data, width, height);
+#endif
+}
+
 typedef struct {
 	SheetObject *so;
 	WorkbookControl *wbc;
@@ -519,6 +529,7 @@ gnm_sog_class_init (GObjectClass *klass)
 	so_class->remove_from_sheet	= gnm_sog_remove_from_sheet;
 	so_class->print			= gnm_sog_print;
 	so_class->default_size		= gnm_sog_default_size;
+	so_class->draw_cairo		= gnm_sog_draw_cairo;
 
 	so_class->rubber_band_directly = FALSE;
 }
