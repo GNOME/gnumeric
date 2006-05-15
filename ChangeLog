@@ -1,3 +1,8 @@
+2006-05-15  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-graph-window.c: Handle missing GTK_STOCK_FULLSCREEN and
+	GTK_STOCK_LEAVE_FULLSCREEN.
+
 2006-05-14  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c: (cairo_to_pixbuf): fixed and renamed,

@@ -23,6 +23,15 @@
 #define ZOOM_100(x) *x = ZOOM_LEVEL_100
 #define ZOOM_FIT(x) *x = ZOOM_LEVEL_FIT
 
+/* GTK_STOCK_FULLSCREEN appeared sometime after GTK+ 2.6.  */
+#ifndef GTK_STOCK_FULLSCREEN
+#define GTK_STOCK_FULLSCREEN GTK_STOCK_ZOOM_FIT
+#endif
+#ifndef GTK_STOCK_LEAVE_FULLSCREEN
+#define GTK_STOCK_LEAVE_FULLSCREEN GTK_STOCK_ZOOM_FIT
+#endif
+
+
 struct _GnmGraphWindow {
 	GtkWindow parent;
 
@@ -223,6 +232,7 @@ gnm_graph_window_init (GnmGraphWindow *window)
 
 	item = gtk_tool_button_new_from_stock (GTK_STOCK_FULLSCREEN);
 	gtk_widget_show (GTK_WIDGET (item));
+
 	gtk_toolbar_insert (GTK_TOOLBAR (window->toolbar), item, -1);
 	g_signal_connect (item, "clicked",
 			  G_CALLBACK (fullscreen_button_clicked), window);
