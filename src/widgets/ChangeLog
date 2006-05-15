@@ -1,3 +1,8 @@
+2006-05-15  Morten Welinder  <terra@gnome.org>
+
+	* widget-editable-label.c (el_motion_notify): New handler to fix
+	cursor problem.  #341877.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0

@@ -8,6 +8,7 @@ Jody:
 Morten:
 	* Moved font metrics to goffice.
 	* Fixed font initialization.
+	* Fix minor mouse cursor problem.  [#341877]
 
 --------------------------------------------------------------------------
 

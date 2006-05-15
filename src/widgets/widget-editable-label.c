@@ -42,6 +42,7 @@ struct _EditableLabel {
 	GdkColor  base, text;
 	char	 *unedited_text;
 	unsigned int base_set, text_set, editable : 1;
+	unsigned int set_cursor_after_motion;
 };
 
 typedef struct {
@@ -105,10 +106,13 @@ el_stop_editing (EditableLabel *el)
 	el->unedited_text = NULL;
 
 	el_set_style_label (el);
-	el_set_cursor (GTK_ENTRY (el), GDK_HAND2);
 	gtk_editable_set_editable (GTK_EDITABLE (el), FALSE);
 	gtk_editable_select_region (GTK_EDITABLE (el), 0, 0);
 	gtk_grab_remove (GTK_WIDGET (el));
+	el_set_cursor (GTK_ENTRY (el), GDK_HAND2);
+	/* GtkEntry is playing tricks with the cursor, so we sometimes
+	   need to set the cursor again later. */
+	el->set_cursor_after_motion = TRUE;
 }
 
 static void
@@ -218,6 +222,22 @@ el_entry_realize (GtkWidget *widget)
 	el_set_cursor (GTK_ENTRY (widget), GDK_HAND2);
 }
 
+static gint
+el_motion_notify (GtkWidget      *widget,
+		  GdkEventMotion *event)
+{
+	EditableLabel *el = EDITABLE_LABEL (widget);
+	int res = ((GtkWidgetClass *)parent_class)->motion_notify_event (widget, event);
+
+	if (el->set_cursor_after_motion) {
+		el->set_cursor_after_motion = FALSE;
+		el_set_cursor (GTK_ENTRY (widget),
+			       el->unedited_text ? GDK_XTERM : GDK_HAND2);
+	}
+
+	return res;
+}
+
 static void
 el_class_init (GtkObjectClass *object_class)
 {
@@ -228,10 +248,11 @@ el_class_init (GtkObjectClass *object_class)
 	object_class->destroy = el_destroy;
 
 	widget_class = (GtkWidgetClass *) object_class;
-	widget_class->button_press_event = el_button_press_event;
-	widget_class->key_press_event	 = el_key_press_event;
-	widget_class->size_request	 = el_size_request;
-	widget_class->realize		 = el_entry_realize;
+	widget_class->button_press_event  = el_button_press_event;
+	widget_class->key_press_event	  = el_key_press_event;
+	widget_class->size_request	  = el_size_request;
+	widget_class->realize		  = el_entry_realize;
+	widget_class->motion_notify_event = el_motion_notify;
 
 	el_signals [EDIT_FINISHED] = g_signal_new ("edit_finished",
 		EDITABLE_LABEL_TYPE,
@@ -253,6 +274,7 @@ el_init (GObject *obj)
 {
 	EditableLabel *el = EDITABLE_LABEL (obj);
 	el->editable = TRUE;
+	el->set_cursor_after_motion = FALSE;
 	g_signal_connect (obj, "changed", G_CALLBACK (cb_el_changed), NULL);
 }
 
