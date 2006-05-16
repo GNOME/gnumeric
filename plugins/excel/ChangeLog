@@ -1,3 +1,8 @@
+2006-05-16  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_MULRK): Add some bullet-proofing.
+	[#341917]
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0

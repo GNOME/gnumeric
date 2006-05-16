@@ -4101,10 +4101,19 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 	BiffXFData const *xf;
 	GnmStyle *mstyle;
 
+	g_return_if_fail (q->length >= 4 + 6 + 2);
+
 	row = GSF_LE_GET_GUINT16 (q->data);
 	col = GSF_LE_GET_GUINT16 (q->data + 2);
 	ptr += 4;
 	lastcol = GSF_LE_GET_GUINT16 (q->data + q->length - 2);
+
+	g_return_if_fail (lastcol >= col);
+
+	if (q->length != 4 + 6 * (lastcol - col + 1) + 2) {
+		g_warning ("MULRK with strange size.");
+		lastcol = col + (q->length - (4 + 6 + 2)) / 6 - 1;
+	}
 
 	for (; col <= lastcol ; col++) {
 		/* 2byte XF, 4 byte RK */

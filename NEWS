@@ -11,6 +11,7 @@ Morten:
 	* Moved font metrics to goffice.
 	* Fixed font initialization.
 	* Fix minor mouse cursor problem.  [#341877]
+	* Improve handling of invalid xls files.  [#341917]
 
 --------------------------------------------------------------------------
 
