@@ -74,5 +74,14 @@ figdir = figures
 include $(top_srcdir)/doc/gnumeric-doc.make
 
 manpagedir   = $(mandir)/man1
-manpage_DATA = gnumeric.1 ssconvert.1 ssindex.1
-EXTRA_DIST += $(manpage_DATA)
+manpage_DATA = gnumeric.1
+
+if ENABLE_SSCONVERT
+manpage_DATA += ssconvert.1
+endif
+
+if ENABLE_SSINDEX
+manpage_DATA += ssindex.1
+endif
+
+EXTRA_DIST += $(manpage_DATA) ssconvert.1 ssindex.1

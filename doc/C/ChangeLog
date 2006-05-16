@@ -1,3 +1,7 @@
+2006-05-16  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : only install ssconvert.1 and ssindex.1 if they are enabled.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0
