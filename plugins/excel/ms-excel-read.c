@@ -909,11 +909,11 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 	txo_run.last = G_MAXINT;
 
 	if (esheet_ver (esheet) >= MS_BIFF_V8) {
-		g_return_val_if_fail (ptr+2 <= end , NULL);
+		XL_CHECK_CONDITION_VAL (ptr+2 <= end , NULL);
 		n = 4 * GSF_LE_GET_GUINT16 (ptr);
 		ptr += 2;
 
-		g_return_val_if_fail (ptr + n == end , NULL);
+		XL_CHECK_CONDITION_VAL (ptr + n == end , NULL);
 
 		txo_run.accum = pango_attr_list_new ();
 		while (n > 0) {
@@ -926,11 +926,11 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 			txo_run.last = txo_run.first;
 		}
 	} else {
-		g_return_val_if_fail (ptr+1 <= end , NULL);
+		XL_CHECK_CONDITION_VAL (ptr+1 <= end , NULL);
 		n = 2 * GSF_LE_GET_GUINT8 (ptr);
 		ptr += 1;
 
-		g_return_val_if_fail (ptr + n == end , NULL);
+		XL_CHECK_CONDITION_VAL (ptr + n == end , NULL);
 
 		txo_run.accum = pango_attr_list_new ();
 		while (n > 0) {
@@ -974,7 +974,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		get_len = (chars_left > total_len) ? total_len : chars_left;
 		total_len -= get_len;
 
-		g_return_val_if_fail (get_len >= 0, 0);
+		XL_CHECK_CONDITION_VAL (get_len >= 0, 0);
 
 		str = excel_get_chars (c->importer,
 			q->data + offset, get_len, use_utf16);
@@ -1638,7 +1638,7 @@ excel_get_xf (ExcelReadSheet *esheet, unsigned xfidx)
 	}
 
 	if (xfidx >= p->len) {
-		g_return_val_if_fail (p->len > 0, NULL);
+		XL_CHECK_CONDITION_VAL (p->len > 0, NULL);
 		g_warning ("XL: Xf index 0x%X is not in the range[0..0x%X)", xfidx, p->len);
 		xfidx = 0;
 	}
@@ -1905,7 +1905,7 @@ excel_map_pattern_index_from_excel (int const i)
 	};
 
 	/* Default to Solid if out of range */
-	g_return_val_if_fail (i >= 0 && i < (int)G_N_ELEMENTS (map_from_excel), 0);
+	XL_CHECK_CONDITION_VAL (i >= 0 && i < (int)G_N_ELEMENTS (map_from_excel), 0);
 
 	return map_from_excel[i];
 }
@@ -3379,12 +3379,12 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 	if (importer->ver >= MS_BIFF_V8) {
 		guint16 supbook;
 
-		g_return_if_fail (q->length == 4);
+		XL_CHECK_CONDITION (q->length == 4);
 
 		count   = GSF_LE_GET_GINT16 (q->data);
 		supbook = GSF_LE_GET_GUINT16 (q->data+2);
 	} else {
-		g_return_if_fail (q->length == 2);
+		XL_CHECK_CONDITION (q->length == 2);
 
 		count = GSF_LE_GET_GINT16 (q->data);
 
@@ -3405,7 +3405,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 		}
 		ms_biff_query_next (q);
 
-		g_return_if_fail (q->length >= 4);
+		XL_CHECK_CONDITION (q->length >= 4);
 
 		ep.eval.col = GSF_LE_GET_GUINT8  (q->data+0);
 		last_col    = GSF_LE_GET_GUINT8  (q->data+1);
@@ -3416,7 +3416,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 			continue;
 
 		for (data = q->data + 4; ep.eval.col <= last_col ; ep.eval.col++) {
-			g_return_if_fail (data + 1 - q->data <= (int)q->length);
+			XL_CHECK_CONDITION (data + 1 - q->data <= (int)q->length);
 
 			switch (*data) {
 			case  1: v = value_new_float (GSF_LE_GET_DOUBLE (data+1));
@@ -3562,7 +3562,7 @@ office 12 seems to add 8 bytes
 	GnmColor *text_color;
 	int contrast;
 
-	g_return_if_fail (q->length >= 20);
+	XL_CHECK_CONDITION (q->length >= 20);
 
 	/* be conservative for now, we have not seen a palette larger than 56
 	 * so this is largely moot, this is probably a uint32
@@ -3602,7 +3602,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);
 	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
-	g_return_if_fail (firstcol < SHEET_MAX_COLS);
+	XL_CHECK_CONDITION (firstcol < SHEET_MAX_COLS);
 	g_return_if_fail (spec != NULL);
 
 	/* Widths appear to be quoted including margins and the leading
@@ -3879,7 +3879,7 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	int col_gut, row_gut;
 
-	g_return_if_fail (q->length == 8);
+	XL_CHECK_CONDITION (q->length == 8);
 
 	/* ignore the specification of how wide/tall the gutters are */
 	row_gut = GSF_LE_GET_GUINT16 (q->data + 4);
@@ -4026,7 +4026,7 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 	PrintInformation *pi = esheet->sheet->print_info;
 	guint16  flags;
 
-	g_return_if_fail (q->length >= 12);
+	XL_CHECK_CONDITION (q->length >= 12);
 
 	flags = GSF_LE_GET_GUINT16 (q->data + 10);
 	pi->print_across_then_down = (flags & 0x1) != 0;
@@ -4064,7 +4064,7 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		pi->portrait_orientation = (flags & 0x2) != 0;
 
 	if (esheet_ver (esheet) > MS_BIFF_V4) {
-		g_return_if_fail (q->length >= 34);
+		XL_CHECK_CONDITION (q->length >= 34);
 
 		pi->print_as_draft = (flags & 0x10) != 0;
 		pi->comment_placement = (flags & 0x20)
@@ -4101,14 +4101,14 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 	BiffXFData const *xf;
 	GnmStyle *mstyle;
 
-	g_return_if_fail (q->length >= 4 + 6 + 2);
+	XL_CHECK_CONDITION (q->length >= 4 + 6 + 2);
 
 	row = GSF_LE_GET_GUINT16 (q->data);
 	col = GSF_LE_GET_GUINT16 (q->data + 2);
 	ptr += 4;
 	lastcol = GSF_LE_GET_GUINT16 (q->data + q->length - 2);
 
-	g_return_if_fail (lastcol >= col);
+	XL_CHECK_CONDITION (lastcol >= col);
 
 	if (q->length != 4 + 6 * (lastcol - col + 1) + 2) {
 		g_warning ("MULRK with strange size.");
@@ -4198,7 +4198,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 	guint8 const *data = q->data + 2;
 	GnmRange r;
 
-	g_return_if_fail (q->length == (unsigned int)(2 + 8 * num_merged));
+	XL_CHECK_CONDITION (q->length == (unsigned int)(2 + 8 * num_merged));
 
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
@@ -4278,7 +4278,7 @@ excel_read_WSBOOL (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	guint16 options;
 
-	g_return_if_fail (q->length == 2);
+	XL_CHECK_CONDITION (q->length == 2);
 
 	options = GSF_LE_GET_GUINT16 (q->data);
 	/* 0x0001 automatic page breaks are visible */
@@ -4309,7 +4309,7 @@ excel_read_CALCCOUNT (BiffQuery *q, GnmXLImporter *importer)
 {
 	guint16 count;
 
-	g_return_if_fail (q->length == 2);
+	XL_CHECK_CONDITION (q->length == 2);
 
 	count = GSF_LE_GET_GUINT16 (q->data);
 	workbook_iteration_max_number (importer->wb, count);
@@ -4318,7 +4318,7 @@ excel_read_CALCCOUNT (BiffQuery *q, GnmXLImporter *importer)
 static void
 excel_read_CALCMODE (BiffQuery *q, GnmXLImporter *importer)
 {
-	g_return_if_fail (q->length == 2);
+	XL_CHECK_CONDITION (q->length == 2);
 	workbook_autorecalc_enable (importer->wb,
 		GSF_LE_GET_GUINT16 (q->data) != 0);
 }
@@ -4328,7 +4328,7 @@ excel_read_DELTA (BiffQuery *q, GnmXLImporter *importer)
 {
 	double tolerance;
 
-	g_return_if_fail (q->length == 8);
+	XL_CHECK_CONDITION (q->length == 8);
 
 	tolerance = gsf_le_get_double (q->data);
 	workbook_iteration_tolerance (importer->wb, tolerance);
@@ -4339,7 +4339,7 @@ excel_read_ITERATION (BiffQuery *q, GnmXLImporter *importer)
 {
 	guint16 enabled;
 
-	g_return_if_fail (q->length == 2);
+	XL_CHECK_CONDITION (q->length == 2);
 
 	enabled = GSF_LE_GET_GUINT16 (q->data);
 	workbook_iteration_enabled (importer->wb, enabled != 0);
@@ -4392,7 +4392,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 	if (q->opcode == BIFF_WINDOW2_v2) {
 		guint16 const options    = GSF_LE_GET_GUINT16 (q->data + 0);
 
-		g_return_if_fail (q->length >= 10);
+		XL_CHECK_CONDITION (q->length >= 10);
 
 		esheet->sheet->display_formulas	= ((options & 0x0001) != 0);
 		esheet->sheet->hide_grid	= ((options & 0x0002) == 0);
@@ -4419,7 +4419,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			});
 		}
 	} else {
-		g_return_if_fail (q->length >= 14);
+		XL_CHECK_CONDITION (q->length >= 14);
 
 		esheet->sheet->display_formulas	= (q->data[0] != 0);
 		esheet->sheet->hide_grid	= (q->data[1] == 0);
@@ -4665,7 +4665,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		offset += 4;
 	}
 
-	g_return_if_fail (q->length == offset + expr0_len + expr1_len);
+	XL_CHECK_CONDITION (q->length == offset + expr0_len + expr1_len);
 
 	d (1, gnm_style_dump (cond.overlay););
 
@@ -4683,7 +4683,7 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 	GnmRange  region;
 	GSList   *ptr, *regions = NULL;
 
-	g_return_if_fail (q->length >= 14);
+	XL_CHECK_CONDITION (q->length >= 14);
 
 	num_fmts = GSF_LE_GET_GUINT16 (q->data + 0);
 	num_areas = GSF_LE_GET_GUINT16 (q->data + 12);
@@ -4704,7 +4704,7 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 		regions = g_slist_prepend (regions, range_dup (&region));
 	}
 
-	g_return_if_fail (data == q->data + q->length);
+	XL_CHECK_CONDITION (data == q->data + q->length);
 
 	sc = gnm_style_conditions_new ();
 	for (i = 0 ; i < num_fmts ; i++) {
@@ -4746,26 +4746,26 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	GSList *ptr, *ranges = NULL;
 	GnmStyle *mstyle;
 
-	g_return_if_fail (q->length >= 4);
+	XL_CHECK_CONDITION (q->length >= 4);
 	options	= GSF_LE_GET_GUINT32 (q->data);
 	data = q->data + 4;
 
-	g_return_if_fail (data+3 <= end);
+	XL_CHECK_CONDITION (data+3 <= end);
 	input_title = excel_get_text (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
 
-	g_return_if_fail (data+3 <= end);
+	XL_CHECK_CONDITION (data+3 <= end);
 	error_title = excel_get_text (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
 
-	g_return_if_fail (data+3 <= end);
+	XL_CHECK_CONDITION (data+3 <= end);
 	input_msg = excel_get_text (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
 
-	g_return_if_fail (data+3 <= end);
+	XL_CHECK_CONDITION (data+3 <= end);
 	error_msg = excel_get_text (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
@@ -4777,22 +4777,22 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 		fprintf (stderr,"Error Msg   : '%s'\n", error_msg);
 	});
 
-	g_return_if_fail (data+2 <= end);
+	XL_CHECK_CONDITION (data+2 <= end);
 	expr1_len = GSF_LE_GET_GUINT16 (data);
 	d (5, fprintf (stderr,"Unknown1 = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr1_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
 	data += expr1_len + 4;
 
-	g_return_if_fail (data+2 <= end);
+	XL_CHECK_CONDITION (data+2 <= end);
 	expr2_len = GSF_LE_GET_GUINT16 (data);
 	d (5, fprintf (stderr,"Unknown2 = %hx\n", GSF_LE_GET_GUINT16 (data+2)););
 	expr2_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
 	data += expr2_len + 4;
 
-	g_return_if_fail (data+2 < end);
+	XL_CHECK_CONDITION (data+2 < end);
 	i = GSF_LE_GET_GUINT16 (data);
 	for (data += 2; i-- > 0 ;) {
-		g_return_if_fail (data+8 <= end);
+		XL_CHECK_CONDITION (data+8 <= end);
 		data = excel_read_range (&r, data);
 		ranges = g_slist_prepend (ranges, range_dup (&r));
 	}
@@ -4897,7 +4897,7 @@ excel_read_DVAL (BiffQuery *q, ExcelReadSheet *esheet)
 	guint32 input_coord_x, input_coord_y, drop_down_id, dv_count;
 	unsigned i;
 
-	g_return_if_fail (q->length == 18);
+	XL_CHECK_CONDITION (q->length == 18);
 
 	options	      = GSF_LE_GET_GUINT16 (q->data + 0);
 	input_coord_x = GSF_LE_GET_GUINT32 (q->data + 2);
@@ -4966,7 +4966,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	guchar *tip = NULL;
 	GnmHLink *link = NULL;
 
-	g_return_if_fail (q->length > 32);
+	XL_CHECK_CONDITION (q->length > 32);
 
 	r.start.row = GSF_LE_GET_GUINT16 (data +  0);
 	r.end.row   = GSF_LE_GET_GUINT16 (data +  2);
@@ -4974,7 +4974,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	r.end.col   = GSF_LE_GET_GUINT16 (data +  6);
 	options     = GSF_LE_GET_GUINT32 (data + 28);
 
-	g_return_if_fail (!memcmp (data + 8, stdlink_guid, sizeof (stdlink_guid)));
+	XL_CHECK_CONDITION (!memcmp (data + 8, stdlink_guid, sizeof (stdlink_guid)));
 
 	data += 32;
 
@@ -4982,7 +4982,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	if ((options & 0x14) == 0x14) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
+		XL_CHECK_CONDITION (data + len*2 - q->data <= (int)q->length);
 		label = read_utf16_str (len, data);
 		data += len*2;
 	}
@@ -4991,7 +4991,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	if (options & 0x80) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		g_return_if_fail (len*2 + data - q->data <= (int)q->length);
+		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
 		target = read_utf16_str (len, data);
 		data += len*2;
 	}
@@ -5002,7 +5002,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		data += sizeof (url_guid);
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		g_return_if_fail (len + data - q->data <= (int)q->length);
+		XL_CHECK_CONDITION (len + data - q->data <= (int)q->length);
 
 		url = read_utf16_str (len/2, data);
 		link = g_object_new (gnm_hlink_url_get_type (), NULL);
@@ -5018,7 +5018,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 		gsf_mem_dump (data, q->length - (data - q->data));
 
-		g_return_if_fail (len + data - q->data <= (int)q->length);
+		XL_CHECK_CONDITION (len + data - q->data <= (int)q->length);
 		data += len;
 
 	} else if ((options & 0x1e3) == 0x103) {
@@ -5035,7 +5035,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	if (options & 0x8) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		g_return_if_fail (len*2 + data - q->data <= (int)q->length);
+		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
 		target = read_utf16_str (len, data);
 		data += len*2;
 	}
@@ -5182,12 +5182,12 @@ excel_read_SCL (BiffQuery *q, Sheet *sheet)
 {
 	unsigned num, denom;
 
-	g_return_if_fail (q->length == 4);
+	XL_CHECK_CONDITION (q->length == 4);
 
 	num = GSF_LE_GET_GUINT16 (q->data);
 	denom = GSF_LE_GET_GUINT16 (q->data + 2);
 
-	g_return_if_fail (denom != 0);
+	XL_CHECK_CONDITION (denom != 0);
 
 	g_object_set (sheet, "zoom-factor", num / (double)denom, NULL);
 }
@@ -5260,7 +5260,7 @@ excel_read_EXTERNSHEET_v8 (BiffQuery const *q, GnmXLImporter *importer)
 	gint16 sup_index;
 	unsigned i, num, first, last;
 
-	g_return_if_fail (importer->ver >= MS_BIFF_V8);
+	XL_CHECK_CONDITION (importer->ver >= MS_BIFF_V8);
 	g_return_if_fail (importer->v8.externsheet == NULL);
 	num = GSF_LE_GET_GUINT16 (q->data);
 
@@ -5894,7 +5894,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 		 return;
 	}
 
-	g_return_if_fail (len < q->length);
+	XL_CHECK_CONDITION (len < q->length);
 
 #warning create a workbook and sheets when we have a facility for merging things
 	encodeType = GSF_LE_GET_GUINT8 (q->data + 5);

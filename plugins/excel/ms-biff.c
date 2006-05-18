@@ -16,6 +16,7 @@
 
 #include "ms-biff.h"
 #include "biff-types.h"
+#include "ms-excel-util.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
@@ -340,7 +341,7 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 	if (version < MS_BIFF_V8 || q->data[0] == 0)
 		return ms_biff_pre_biff8_query_set_decrypt (q, password);
 
-	g_return_val_if_fail (q->length == sizeof_BIFF_8_FILEPASS, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length == sizeof_BIFF_8_FILEPASS, FALSE);
 
 	if (!verify_password (password, q->data + 6,
 			      q->data + 22, q->data + 38, &q->md5_ctxt))
@@ -369,7 +370,7 @@ ms_biff_query_copy_decrypt (BiffQuery *dst, BiffQuery const *src)
 	switch (src->encryption) {
 	default :
 	case MS_BIFF_CRYPTO_NONE:
-		g_return_if_fail (dst->encryption == MS_BIFF_CRYPTO_NONE);
+		XL_CHECK_CONDITION (dst->encryption == MS_BIFF_CRYPTO_NONE);
 		break;
 	case MS_BIFF_CRYPTO_XOR :
 		break;
@@ -449,7 +450,7 @@ ms_biff_query_next (BiffQuery *q)
 	q->length = GSF_LE_GET_GUINT16 (data + 2);
 
 	/* no biff record should be larger than around 20,000 */
-	g_return_val_if_fail (q->length < 20000, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length < 20000, FALSE);
 
 	if (q->length > 0) {
 		q->data = (guint8 *)gsf_input_read (q->input, q->length, NULL);
@@ -615,9 +616,9 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	g_return_val_if_fail (bp->data == NULL, NULL);
 
 	if (bp->version >= MS_BIFF_V8)
-		g_return_val_if_fail (len < MAX_BIFF8_RECORD_SIZE, NULL);
+		XL_CHECK_CONDITION_VAL (len < MAX_BIFF8_RECORD_SIZE, NULL);
 	else
-		g_return_val_if_fail (len < MAX_BIFF7_RECORD_SIZE, NULL);
+		XL_CHECK_CONDITION_VAL (len < MAX_BIFF7_RECORD_SIZE, NULL);
 
 #if BIFF_DEBUG > 0
 	printf ("Biff put len 0x%x\n", opcode);
@@ -674,7 +675,7 @@ ms_biff_put_var_write  (BiffPut *bp, guint8 const *data, guint32 len)
 	g_return_if_fail (!bp->len_fixed);
 
 	/* Temporary */
-	g_return_if_fail (bp->length + len < 0xf000);
+	XL_CHECK_CONDITION (bp->length + len < 0xf000);
 
 	if ((bp->curpos + len) > ms_biff_max_record_len (bp)) {
 
@@ -736,9 +737,9 @@ ms_biff_put_len_commit (BiffPut *bp)
 	g_return_if_fail (bp->len_fixed);
 	g_return_if_fail (bp->length == 0 || bp->data);
 	if (bp->version >= MS_BIFF_V8)
-		g_return_if_fail (bp->length < MAX_BIFF8_RECORD_SIZE);
+		XL_CHECK_CONDITION (bp->length < MAX_BIFF8_RECORD_SIZE);
 	else
-		g_return_if_fail (bp->length < MAX_BIFF7_RECORD_SIZE);
+		XL_CHECK_CONDITION (bp->length < MAX_BIFF7_RECORD_SIZE);
 
 /*	if (!bp->data_malloced) Unimplemented optimisation
 		bp->output->lseek (bp->output, bp->length, G_SEEK_CUR);

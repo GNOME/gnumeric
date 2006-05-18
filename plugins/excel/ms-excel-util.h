@@ -13,6 +13,35 @@
 #include <glib.h>
 #include <stdlib.h>
 
+/*
+ * Check a condition relating to whether the file being read is ok.
+ * (Not to be confused with checking a programming error.)
+ *
+ * If it fails, print a warning and return.
+ */
+#define XL_CHECK_CONDITION(cond)					\
+  do {									\
+	if (!(cond)) {							\
+		g_warning ("File is most likely corrupted.\n"		\
+			   "(Condition \"%s\" failed in %s.)\n",	\
+			   #cond,					\
+			   G_STRFUNC);					\
+		return;							\
+	}								\
+  } while (0)
+
+#define XL_CHECK_CONDITION_VAL(cond,val)				\
+  do {									\
+	if (!(cond)) {							\
+		g_warning ("File is most likely corrupted.\n"		\
+			   "(Condition \"%s\" failed in %s.)\n",	\
+			   #cond,					\
+			   G_STRFUNC);					\
+		return (val);						\
+	}								\
+  } while (0)
+
+
 typedef struct _TwoWayTable   TwoWayTable;
 
 struct _TwoWayTable {
