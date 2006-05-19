@@ -1,3 +1,14 @@
+2006-05-18  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (cb_share_a_cell): Reinstate code.
+
+	* src/expr.c (gnm_expr_sharer_new): Renamed from
+	expr_tree_sharer_new.  Class renamed from ExprTreeSharer to
+	GnmExprSharer.
+	(gnm_expr_sharer_destroy): Renamed from expr_tree_sharer_destroy.
+	(gnm_expr_sharer_share): Renamed form expr_tree_sharer_share and
+	changed to use GnmExprTop.
+
 2006-05-15  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-graph-window.c: Handle missing GTK_STOCK_FULLSCREEN and

@@ -13,6 +13,7 @@ Morten:
 	* Fix minor mouse cursor problem.  [#341877]
 	* Improve handling of invalid xls files.  [#341917]
 	* Try harder not producing CRITICALs on buggy files.
+	* Fixup expression sharer interfaces.
 
 --------------------------------------------------------------------------
 

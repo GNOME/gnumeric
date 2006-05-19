@@ -2528,92 +2528,34 @@ ets_hash (gconstpointer key)
 	return h;
 }
 
-/*
- * Special equality function for expressions that assumes that equal
- * sub-expressions are pointer-equal.  (Thus no need for recursion.)
- */
-static gboolean
-ets_equal (gconstpointer _a, gconstpointer _b)
+
+GnmExprSharer *
+gnm_expr_sharer_new (void)
 {
-	GnmExpr const *ea = _a;
-	GnmExpr const *eb = _b;
-
-	if (GNM_EXPR_GET_OPER (ea) != GNM_EXPR_GET_OPER (eb))
-		return FALSE;
-
-	switch (GNM_EXPR_GET_OPER (ea)) {
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY:
-		return (ea->binary.value_a == eb->binary.value_a &&
-			ea->binary.value_b == eb->binary.value_b);
-	case GNM_EXPR_OP_ANY_UNARY:
-		return (ea->unary.value == eb->unary.value);
-	case GNM_EXPR_OP_FUNCALL: {
-		int i;
-
-		if (ea->func.func != eb->func.func ||
-		    ea->func.argc != eb->func.argc)
-			return FALSE;
-
-		for (i = 0; i < ea->func.argc; i++)
-			if (ea->func.argv[i] != eb->func.argv[i])
-				return FALSE;
-		return TRUE;
-	}
-					
-	case GNM_EXPR_OP_SET: {
-		int i;
-
-		if (ea->set.argc != eb->set.argc)
-			return FALSE;
-
-		for (i = 0; i < ea->set.argc; i++)
-			if (ea->set.argv[i] != eb->set.argv[i])
-				return FALSE;
-		return TRUE;
-	}
-
-	default:
-		/* No sub-expressions.  */
-		return gnm_expr_equal (ea, eb);
-	}
-}
-
-
-ExprTreeSharer *
-expr_tree_sharer_new (void)
-{
-	ExprTreeSharer *es = g_new (ExprTreeSharer, 1);
+	GnmExprSharer *es = g_new (GnmExprSharer, 1);
 	es->nodes_in = es->nodes_stored = 0;
-	es->exprs = g_hash_table_new (ets_hash, ets_equal);
-	es->ptrs = g_hash_table_new (g_direct_hash, g_direct_equal);
+	es->exprs = g_hash_table_new_full
+		((GHashFunc)ets_hash,
+		 (GEqualFunc)gnm_expr_top_equal,
+		 (GDestroyNotify)gnm_expr_top_unref,
+		 NULL);
 	return es;
 }
 
-static void
-cb_ets_unref_key (gpointer key, G_GNUC_UNUSED gpointer value,
-		  G_GNUC_UNUSED gpointer user_data)
-{
-	GnmExpr *e = key;
-	gnm_expr_free (e);
-}
-
-
 void
-expr_tree_sharer_destroy (ExprTreeSharer *es)
+gnm_expr_sharer_destroy (GnmExprSharer *es)
 {
-	g_hash_table_foreach (es->exprs, cb_ets_unref_key, NULL);
 	g_hash_table_destroy (es->exprs);
-	g_hash_table_foreach (es->ptrs, cb_ets_unref_key, NULL);
-	g_hash_table_destroy (es->ptrs);
 	g_free (es);
 }
 
-GnmExpr const *
-expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
+GnmExprTop const *
+gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr)
 {
-	return e;
+        g_return_val_if_fail (es != NULL, texpr);
+        g_return_val_if_fail (texpr != NULL, NULL);
+
+	return texpr;
 }
 
 /***************************************************************************/

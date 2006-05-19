@@ -53,6 +53,7 @@
 #include "libgnumeric.h"
 #include "dependent.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "position.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -1433,13 +1434,11 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 static GnmValue *
 cb_share_a_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer _es)
 {
-#if 0
 	if (cell && cell_has_expr (cell)) {
-		ExprTreeSharer *es = _es;
-		cell->base.expression =
-			expr_tree_sharer_share (es, cell->base.expression);
+		GnmExprSharer *es = _es;
+		cell->base.texpr =
+			gnm_expr_sharer_share (es, cell->base.texpr);
 	}
-#endif
 
 	return NULL;
 }
@@ -1457,7 +1456,7 @@ cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 	}
 
 	if (expression_sharing_debugging > 0) {
-		ExprTreeSharer *es = expr_tree_sharer_new ();
+		GnmExprSharer *es = gnm_expr_sharer_new ();
 
 		WORKBOOK_FOREACH_SHEET (wb, sheet, {
 			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
@@ -1468,9 +1467,10 @@ cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 						     es);
 		});
 
-		g_warning ("Nodes in: %d, nodes stored: %d.",
-			   es->nodes_in, es->nodes_stored);
-		expr_tree_sharer_destroy (es);
+		g_print ("Expression sharer results:\n"
+			 "Nodes in: %d, nodes stored: %d.",
+			 es->nodes_in, es->nodes_stored);
+		gnm_expr_sharer_destroy (es);
 	}
 }
 

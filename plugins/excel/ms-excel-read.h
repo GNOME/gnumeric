@@ -120,7 +120,7 @@ struct _GnmXLImporter {
 	unsigned	  sst_len;
 	ExcelStringEntry *sst;
 
-	ExprTreeSharer   *expr_sharer;
+	GnmExprSharer    *expr_sharer;
 	GIConv            str_iconv;
 };
 

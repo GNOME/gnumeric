@@ -1,5 +1,8 @@
 2006-05-18  Morten Welinder  <terra@gnome.org>
 
+	* ms-formula-read.c (excel_parse_formula): Reinstate the call for
+	expression sharing.
+
 	* ms-excel-read.c: Don't use g_return_if_fail and
 	g_return_val_if_fail for condition relating to file contents.  (They
 	produce CRITICALS and Jon Kaare will complain one day.)

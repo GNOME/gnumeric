@@ -122,6 +122,7 @@ void 	 gnm_expr_list_unref	  (GnmExprList *list);
 
 /*****************************************************************************/
 
+#define GNM_EXPR_TOP_MAGIC 0x01123622
 #define IS_GNM_EXPR_TOP(et) ((et) && (et)->magic == GNM_EXPR_TOP_MAGIC)
 
 struct _GnmExprTop {
@@ -168,15 +169,11 @@ gboolean gnm_expr_top_is_array_elem (GnmExprTop const *texpr);
 
 /*****************************************************************************/
 
-typedef struct {
-	GHashTable *exprs, *ptrs;
+GnmExprSharer *   gnm_expr_sharer_new  (void);
+void              gnm_expr_sharer_destroy (GnmExprSharer *es);
+GnmExprTop const *gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr);
 
-	int nodes_in, nodes_stored;
-} ExprTreeSharer;
-
-ExprTreeSharer *expr_tree_sharer_new     (void);
-void            expr_tree_sharer_destroy (ExprTreeSharer *);
-GnmExpr const  *expr_tree_sharer_share   (ExprTreeSharer *, GnmExpr const *expr);
+/*****************************************************************************/
 
 void expr_init (void);
 void expr_shutdown (void);

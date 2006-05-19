@@ -2800,7 +2800,7 @@ gnm_xl_importer_new (IOContext *context, WorkbookView *wb_view)
 	importer->str_iconv = (GIConv)(-1);
 	gnm_xl_importer_set_codepage (importer, 1252); /* set a default */
 
-	importer->expr_sharer = expr_tree_sharer_new ();
+	importer->expr_sharer = gnm_expr_sharer_new ();
 	importer->v8.supbook     = g_array_new (FALSE, FALSE, sizeof (ExcelSupBook));
 	importer->v8.externsheet = NULL;
 
@@ -2867,7 +2867,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		g_slist_free (real_order);
 	}
 
-	expr_tree_sharer_destroy (importer->expr_sharer);
+	gnm_expr_sharer_destroy (importer->expr_sharer);
 
 	g_hash_table_destroy (importer->boundsheet_data_by_stream);
 	importer->boundsheet_data_by_stream = NULL;

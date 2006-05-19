@@ -82,6 +82,11 @@ do {						\
 } while (0)
 
 
-#define GNM_EXPR_TOP_MAGIC 0x01123622
+struct _GnmExprSharer {
+	GHashTable *exprs;
+
+	int nodes_in, nodes_stored;
+};
+
 
 #endif /* GNUMERIC_EXPR_IMPL_H */

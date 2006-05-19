@@ -1673,9 +1673,12 @@ excel_parse_formula (MSContainer const *container,
 		     gboolean shared,
 		     gboolean *array_element)
 {
-	return gnm_expr_top_new (excel_parse_formula1 (container, esheet,
-						       fn_col, fn_row,
-						       mem, length,
-						       shared,
-						       array_element));
+	GnmExprTop const *texpr =
+		gnm_expr_top_new (excel_parse_formula1 (container, esheet,
+							fn_col, fn_row,
+							mem, length,
+							shared,
+							array_element));
+	return gnm_expr_sharer_share (container->importer->expr_sharer,
+				      texpr);
 }
