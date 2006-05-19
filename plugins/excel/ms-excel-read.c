@@ -961,6 +961,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 	char    *str, *old_res, *res_str = NULL;
 
 	offset    = ms_biff_query_bound_check (q, offset, 2);
+	XL_CHECK_CONDITION_VAL (offset < q->length, offset);
 	total_len = GSF_LE_GET_GUINT16 (q->data + offset);
 	offset += 2;
 	do {
@@ -1027,6 +1028,8 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 	guint32 offset;
 	unsigned i;
 
+	XL_CHECK_CONDITION (q->length >= 8);
+
 	d (4, {
 		fprintf (stderr, "SST total = %u, sst = %u\n",
 			 GSF_LE_GET_GUINT32 (q->data + 0),
@@ -1035,6 +1038,8 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 	});
 
 	importer->sst_len = GSF_LE_GET_GUINT32 (q->data + 4);
+	XL_CHECK_CONDITION (importer->sst_len < INT_MAX / sizeof (ExcelStringEntry));
+
 	importer->sst = g_new0 (ExcelStringEntry, importer->sst_len);
 
 	offset = 8;
@@ -1053,6 +1058,7 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 static void
 excel_read_EXSST (BiffQuery *q, GnmXLImporter *importer)
 {
+	XL_CHECK_CONDITION (q->length >= 2);
 	d (10, fprintf (stderr,"Bucketsize = %hu,\tnum buckets = %d\n",
 		       GSF_LE_GET_GUINT16 (q->data), (q->length - 2) / 8););
 }
@@ -1060,6 +1066,7 @@ excel_read_EXSST (BiffQuery *q, GnmXLImporter *importer)
 static void
 excel_read_1904 (BiffQuery *q, GnmXLImporter *importer)
 {
+	XL_CHECK_CONDITION (q->length >= 2);
 	if (GSF_LE_GET_GUINT16 (q->data) == 1)
 		workbook_set_1904 (importer->wb, TRUE);
 }
@@ -1552,8 +1559,11 @@ excel_read_PALETTE (BiffQuery *q, GnmXLImporter *importer)
 	int lp, len;
 	ExcelPalette *pal;
 
-	pal = g_new (ExcelPalette, 1);
+	XL_CHECK_CONDITION (q->length >= 2);
 	len = GSF_LE_GET_GUINT16 (q->data);
+	XL_CHECK_CONDITION (q->length >= 2u + len * 4u);
+
+	pal = g_new (ExcelPalette, 1);
 	pal->length = len;
 	pal->red = g_new (int, len);
 	pal->green = g_new (int, len);
@@ -2041,9 +2051,12 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 static void
 excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 {
-	BiffXFData *xf = g_new (BiffXFData, 1);
+	BiffXFData *xf;
 	guint32 data, subdata;
 
+	XL_CHECK_CONDITION (q->length >= 8);  /* Check this */
+
+	xf = g_new (BiffXFData, 1);
 	xf->font_idx = GSF_LE_GET_GUINT16 (q->data);
 	xf->format_idx = GSF_LE_GET_GUINT16 (q->data + 2);
 	xf->style_format = (xf->format_idx > 0)
@@ -2386,20 +2399,21 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 static void
 excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	if (q->length < 16)
-		return;
-	{
 	/* Pre-retrieve incase this is a string */
 	gboolean array_elem, is_string = FALSE;
-	guint16 const col      = XL_GETCOL (q);
-	guint16 const row      = XL_GETROW (q);
-	guint16 const options  = GSF_LE_GET_GUINT16 (q->data + 14);
+	guint16 col, row, options;
 	guint16 expr_length;
 	guint offset;
 	guint8 const *val_dat = q->data + 6;
 	GnmExprTop const *texpr;
 	GnmCell	 *cell;
 	GnmValue *val = NULL;
+
+	XL_CHECK_CONDITION (q->length >= 16);
+
+	col = XL_GETCOL (q);
+	row = XL_GETROW (q);
+	options = GSF_LE_GET_GUINT16 (q->data + 14);
 
 	excel_set_xf (esheet, q);
 
@@ -2565,7 +2579,6 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	if (options & 0x3)
 		cell_queue_recalc (cell);
-	}
 }
 
 XLSharedFormula *
@@ -2607,6 +2620,8 @@ static void
 excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmCellPos pos;
+
+	XL_CHECK_CONDITION (q->length >= 4);  /* Check */
 
 	pos.row = XL_GETROW (q);
 	pos.col = XL_GETCOL (q);
@@ -2726,6 +2741,7 @@ add_attr (PangoAttrList  *attr_list, PangoAttribute *attr)
 	attr->end_index = 0;
 	pango_attr_list_insert (attr_list, attr);
 }
+
 static PangoAttrList *
 ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 {
@@ -3111,8 +3127,12 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	 * the version is the same for very old and new, with _v2 used for
 	 * some intermediate variants */
 	if (ver >= MS_BIFF_V7) {
-		guint16 flags = GSF_LE_GET_GUINT8 (q->data);
-		guint32 namelen = GSF_LE_GET_GUINT8 (q->data + 6);
+		guint16 flags;
+		guint32 namelen;
+
+		XL_CHECK_CONDITION (q->length >= 7);
+		flags = GSF_LE_GET_GUINT8 (q->data);
+		namelen = GSF_LE_GET_GUINT8 (q->data + 6);
 
 		switch (flags & 0x18) {
 		case 0x00: /* external name */
@@ -3151,11 +3171,15 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 			break;
 		}
 	} else if (ver >= MS_BIFF_V5) {
+		XL_CHECK_CONDITION (q->length >= 7);
+
 		name = excel_get_text (container->importer, q->data + 7,
 			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
 		nexpr = excel_parse_name (container->importer, NULL,
 			name, NULL, 0, FALSE, NULL);
 	} else {
+		XL_CHECK_CONDITION (q->length >= 3);
+
 		name = excel_get_text (container->importer, q->data + 3,
 			GSF_LE_GET_GUINT8 (q->data + 2), NULL);
 		nexpr = excel_parse_name (container->importer, NULL,

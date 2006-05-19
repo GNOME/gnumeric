@@ -1,3 +1,9 @@
+2006-05-19  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula): Avoid critical on array
+	formulas.
+	* ms-excel-read.c: Add more checks for corrupted files.
+
 2006-05-18  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula): Reinstate the call for

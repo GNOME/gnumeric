@@ -1679,6 +1679,7 @@ excel_parse_formula (MSContainer const *container,
 							mem, length,
 							shared,
 							array_element));
-	return gnm_expr_sharer_share (container->importer->expr_sharer,
-				      texpr);
+	return texpr
+		? gnm_expr_sharer_share (container->importer->expr_sharer, texpr)
+		: NULL;
 }
