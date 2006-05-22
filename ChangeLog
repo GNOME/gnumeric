@@ -1,3 +1,8 @@
+2005-05-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gui-clipboard.c (image_write): set a resolution, which will be
+	used when pasting graph from gnumeric in raster format.
+
 2006-05-18  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (cb_share_a_cell): Reinstate code.
