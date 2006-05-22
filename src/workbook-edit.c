@@ -852,6 +852,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			}
 
 			case GO_FORMAT_NUMBER:
+			case GO_FORMAT_SCIENTIFIC:
 			case GO_FORMAT_CURRENCY:
 			case GO_FORMAT_ACCOUNTING: {
 				GString *new_str = g_string_new (NULL);

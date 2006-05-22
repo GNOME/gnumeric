@@ -14,6 +14,7 @@ Morten:
 	* Improve handling of invalid xls files.  [#341917]
 	* Try harder not producing CRITICALs on buggy files.
 	* Fixup expression sharer interfaces.
+	* Fix scientific-number editing problem.  [#342583]
 
 --------------------------------------------------------------------------
 

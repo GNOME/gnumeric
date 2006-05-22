@@ -1,3 +1,8 @@
+2006-05-22  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-edit.c (wbcg_edit_start): Handle scientific as
+	other number formats.
+
 2005-05-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/gui-clipboard.c (image_write): set a resolution, which will be
