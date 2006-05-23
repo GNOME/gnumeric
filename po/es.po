@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-19 19:20+0200\n"
-"PO-Revision-Date: 2006-05-19 19:42+0200\n"
+"PO-Revision-Date: 2006-05-23 02:41+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -475,17 +475,17 @@ msgstr "Color «%s» inválido para el atributo rgb"
 #: ../plugins/excel/xlsx-read.c:617
 #, c-format
 msgid "Undefined style record '%d'"
-msgstr ""
+msgstr "Registro de estilo indefinido «%d»"
 
 #: ../plugins/excel/xlsx-read.c:626
 #, c-format
 msgid "Undefined partial style record '%d'"
-msgstr ""
+msgstr "Registro de estilo parcial indefinido «%d»"
 
 #: ../plugins/excel/xlsx-read.c:641
 #, c-format
 msgid "Undefined number format id '%s'"
-msgstr ""
+msgstr "Id de formato de número «%s» indefinido"
 
 #: ../plugins/excel/xlsx-read.c:696
 #, c-format
@@ -508,7 +508,7 @@ msgstr "No definido"
 #: ../plugins/excel/xlsx-read.c:1189
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
-msgstr ""
+msgstr "Ignorando formato condicional no tratado del tipo «%s»"
 
 #: ../plugins/excel/xlsx-read.c:1489
 msgid "Ignoring a sheet without a name"
@@ -517,7 +517,7 @@ msgstr "Ignorar una hoja sin un nombre"
 #: ../plugins/excel/xlsx-read.c:1517
 #, c-format
 msgid "Missing part-id for sheet '%s'"
-msgstr ""
+msgstr "Para el id de parte para la hoja «%s»"
 
 #: ../plugins/excel/xlsx-read.c:1533 ../plugins/excel/xlsx-read.c:2242
 msgid "is corrupt!"
@@ -526,7 +526,7 @@ msgstr "está corrompido"
 #: ../plugins/excel/xlsx-read.c:1957
 #, c-format
 msgid "Undefined font record '%d'"
-msgstr ""
+msgstr "Registro de tipo «%d» indefinido"
 
 #. TODO * TODO * TODO
 #. *
@@ -1465,7 +1465,7 @@ msgstr "Conexión a base de datos"
 
 #: ../plugins/gda/plugin-gda.c:266
 msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr "Formato: execSQL(dsn,user,password,sql)"
+msgstr "Formato: execSQL(dsn,usuario,contraseña,sql)"
 
 #: ../plugins/gda/plugin-gda.c:270 ../plugins/gda/plugin-gda.c:346
 #, c-format
@@ -1518,7 +1518,7 @@ msgstr "Ha sido imposible analizar el HTML."
 
 #: ../plugins/html/plugin.xml.in.h:1
 msgid "HTML &amp; TeX"
-msgstr "HTML &amp; TeX"
+msgstr "HTML y TeX"
 
 #: ../plugins/html/plugin.xml.in.h:2
 msgid "HTML (*.html) fragment"
@@ -1660,7 +1660,7 @@ msgstr "La sección RHS en el archivo no es válida."
 
 #: ../plugins/mps/parser.c:567
 msgid "Invalid RANGES section in the file."
-msgstr "La sección RANGOS en el archivo no es válido."
+msgstr "La sección RANGES en el archivo no es válido."
 
 #: ../plugins/mps/parser.c:572
 msgid "Invalid BOUNDS section in the file."
@@ -1712,7 +1712,7 @@ msgstr "Importa documentos GNU Oleo"
 msgid ""
 "Content past the maxium number of rows supported in this build (%u).  Please "
 "recompile with larger limits."
-msgstr ""
+msgstr "El contenido excedió el número máximo de filas soportadas en esta compilación (%u). Por favor recompile con límites mayores."
 
 #: ../plugins/openoffice/openoffice-read.c:693
 msgid "Missing expression"
@@ -1769,7 +1769,7 @@ msgstr "No se encontró ningún flujo llamado mimetype."
 
 #: ../plugins/openoffice/openoffice-read.c:2403
 msgid "Unknown mimetype for openoffice file."
-msgstr "Tipo mime desconicido para el archivo openoffice."
+msgstr "Tipo mime desconocido para el archivo openoffice."
 
 #: ../plugins/openoffice/openoffice-read.c:2414
 msgid "No stream named content.xml found."
@@ -8064,7 +8064,7 @@ msgstr "Convertir a texto los registros que no se puedan procesar"
 msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
-msgstr ""
+msgstr "Cuando se establece, los valores de cadena permanecerán así después del reemplazo, incluso si parecen números o expresiones"
 
 #: ../src/dialogs/search-replace.glade.h:43
 msgid "_Column major"
@@ -9550,14 +9550,13 @@ msgstr "El contenido sólo se puede pegar por valor o por enlace."
 
 #: ../src/clipboard.c:307
 #, c-format
-#, fuzzy
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"No se puede pegar. El destino no contiene un múltiplo de la cantidad de "
-"columnas a pegar (%d en vez de %d)\n"
+"El destino no contiene un múltiplo par de la cantidad de columnas de origen (%d en vez de %d)\n"
+"\n"
 "Pruebe seleccionando una sola celda o un área del mismo tamaño y forma."
 
 #: ../src/clipboard.c:318
@@ -13513,13 +13512,13 @@ msgstr "Desproteger la hoja para permitir la edición."
 
 #: ../src/workbook-edit.c:779
 msgid "You are about to edit a cell with \"text\" format."
-msgstr ""
+msgstr "Va a editar una celda con formato «texto»."
 
 #: ../src/workbook-edit.c:780
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
-msgstr ""
+msgstr "La celda actualmente no contiene texto, aunque, si procede a editarla entonces el contenido se convertirá en texto."
 
 #: ../src/workbook-edit.c:785
 msgid "Remove format"
@@ -13527,7 +13526,7 @@ msgstr "Quitar formato"
 
 #: ../src/workbook-edit.c:790
 msgid "Show this dialog next time."
-msgstr ""
+msgstr "Mostrar este diálogo la próxima vez."
 
 #: ../src/workbook-view.c:309
 #, c-format
