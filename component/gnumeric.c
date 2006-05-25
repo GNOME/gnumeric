@@ -34,6 +34,7 @@
 #include <goffice/component/go-component.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-image.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
@@ -80,37 +81,6 @@ typedef struct
 	int width, height;
 } GOGnmComponent;
 
-/* Red and blue are inverted in a pixbuf compared to cairo */
-static void
-cairo_to_pixbuf (unsigned char *p, int width, int height, int rowstride)
-{
-	int i,j;
-	unsigned char a;
-	guint t;
-	
-#define MULT(d,c,a,t) G_STMT_START { t = (a)? c * 255 / a: 0; d = t;} G_STMT_END
-	
-	for (i = 0; i < height; i++) {
-		for (j = 0; j < width; j++) {
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-			MULT(a,    p[2], p[3], t);
-			MULT(p[1], p[1], p[3], t);
-			MULT(p[2], p[0], p[3], t);
-			p[0] = a;
-#else	  
-			a = p[3];
-			MULT(p[3], p[2], a, t);
-			MULT(p[2], p[1], a, t);
-			MULT(p[1], p[0], a, t);
-			p[0] = a;
-#endif
-			p += 4;
-		}
-		p += rowstride - width * 4;
-	}
-#undef MULT
-}
-
 typedef GOComponentClass GOGnmComponentClass;
 
 #define GO_GNM_COMPONENT_TYPE	(go_gnm_component_get_type ())
@@ -156,7 +126,9 @@ go_gnm_component_set_data (GOComponent *component)
 	GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
 
 	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
- 	gognm->wv = wb_view_new_from_input (input, NULL, io_context, NULL);
+	if (gognm->wv != NULL)
+ 		g_object_unref (gognm->wv);
+	gognm->wv = wb_view_new_from_input (input, NULL, io_context, NULL);
 	g_object_unref (io_context);
 	gognm->sheet = wb_view_cur_sheet (gognm->wv);
 	sv = sheet_get_view (gognm->sheet, gognm->wv);
@@ -244,7 +216,6 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 #ifdef GOFFICE_WITH_CAIRO
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	int col, row;
-	cairo_surface_t* surface ;
 	cairo_t *cairo;
 	GnmCell *cell;
 	double xoffset = 0., yoffset;
@@ -252,18 +223,15 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 	SheetObject *so;
 	SheetObjectAnchor const *anchor;
 	ColRowInfo const *ri;
+	GOImage *image;
 
-	gdk_pixbuf_fill (component->pixbuf, 0);
 	if (gognm->wv == NULL)
 		return;
 	if (gognm->sheet == NULL)
 		return;
-	surface = cairo_image_surface_create_for_data (
-              				gdk_pixbuf_get_pixels (component->pixbuf),
-							CAIRO_FORMAT_ARGB32,
-							width_pixels, height_pixels, 
-               				gdk_pixbuf_get_rowstride (component->pixbuf));
-	cairo = cairo_create (surface);
+	gdk_pixbuf_fill (component->pixbuf, 0);
+	image = go_image_new_from_pixbuf (component->pixbuf);
+	cairo = go_image_get_cairo (image);
 	cairo_scale (cairo, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
 	for (col = gognm->col_start; col <= gognm->col_end; col++) {
 		ri = sheet_col_get_info (gognm->sheet, col);
@@ -311,10 +279,8 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 		l = l->next;
 	}
 	cairo_destroy (cairo);
-	cairo_surface_destroy (surface);
-	cairo_to_pixbuf (gdk_pixbuf_get_pixels (component->pixbuf), 
-					width_pixels, height_pixels, 
-					gdk_pixbuf_get_rowstride (component->pixbuf));
+	go_image_get_pixbuf (image);
+	g_object_unref (image);
 #endif
 }
 

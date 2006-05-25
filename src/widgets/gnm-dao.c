@@ -32,7 +32,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtktogglebutton.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 struct  _GnmDao {
 	GtkHBox 	box;

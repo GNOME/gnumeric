@@ -8,7 +8,7 @@
  * (C) 2002-2005 Jon K Hellan
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <stdio.h>
 #include "gnumeric.h"
 #include "command-context-stderr.h"

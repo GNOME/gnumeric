@@ -9,7 +9,7 @@
  * (C) 2000-2005 Ximian, Inc.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "workbook-edit.h"
 

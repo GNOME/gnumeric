@@ -30,7 +30,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/utils/go-color.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 
 #define GNM_SO_LINE(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_SO_LINE_TYPE, GnmSOLine))

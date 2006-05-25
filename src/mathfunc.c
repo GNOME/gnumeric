@@ -52,7 +52,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "mathfunc.h"
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <math.h>
 #include <errno.h>

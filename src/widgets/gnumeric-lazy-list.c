@@ -1,6 +1,6 @@
 #include <gnumeric-config.h>
 #include "gnumeric-lazy-list.h"
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnm-marshalers.h>
 
 #include <gtk/gtktreemodel.h>

@@ -28,7 +28,7 @@
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-glib-extras.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <locale.h>
 #include <time.h>

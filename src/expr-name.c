@@ -10,7 +10,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include "gnumeric.h"
 #include "expr-name.h"
@@ -835,4 +835,3 @@ sheet_names_check (Sheet const *sheet, GnmRange const *r)
 
 	return (nexpr != NULL) ? nexpr->name->str : NULL;
 }
-

@@ -10,7 +10,7 @@
  *  Jody Goldberg   (jody@gnome.org)
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include "gnumeric.h"
 #include "func.h"

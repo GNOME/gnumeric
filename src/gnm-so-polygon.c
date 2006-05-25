@@ -30,7 +30,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/utils/go-color.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <math.h>
 
@@ -190,6 +190,14 @@ gnm_so_polygon_print (SheetObject const *so, GnomePrintContext *gp_context,
 }
 #endif /* WITH_GTK */
 
+static void
+gnm_so_polygon_draw_cairo (SheetObject const *so, gpointer data,
+	double width, double height)
+{
+#ifdef GOFFICE_WITH_CAIRO
+#endif
+}
+
 static gboolean
 gnm_so_polygon_read_xml_dom (SheetObject *so, char const *typename,
 			     XmlParseContext const *ctxt, xmlNodePtr node)
@@ -316,6 +324,7 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	so_class->user_config		= gnm_so_polygon_user_config;
 	so_class->print			= gnm_so_polygon_print;
 #endif /* WITH_GTK */
+	so_class->draw_cairo	= gnm_so_polygon_draw_cairo;
 
         g_object_class_install_property (gobject_class, SOP_PROP_STYLE,
                  g_param_spec_object ("style", NULL, NULL, GOG_STYLE_TYPE,

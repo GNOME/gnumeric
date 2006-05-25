@@ -36,7 +36,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkdnd.h>
 #include <gdk/gdkdisplay.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <math.h>
 #define GNUMERIC_ITEM "GnmPane"
 #include "item-debug.h"

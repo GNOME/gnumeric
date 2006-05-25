@@ -30,7 +30,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/utils/go-color.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <math.h>
 
@@ -368,6 +368,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
 	cairo_t *cairo = (cairo_t*) data;
 	GogStyle const *style = sof->style;
 	cairo_pattern_t *pat = NULL;
+	gpointer obj;
 
 	cairo_new_path (cairo);
 	if (sof->is_oval) {
@@ -384,12 +385,14 @@ gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
 		cairo_close_path (cairo);
 	}
 	/* Fill the shape */
-	pat = gog_style_create_cairo_pattern (style, width, height);
+	pat = gog_style_create_cairo_pattern (style, width, height, &obj);
 	if (pat) {
 		cairo_set_source (cairo, pat);
 		cairo_fill_preserve (cairo);
 		cairo_pattern_destroy (pat);
 	}
+	if (obj)
+		g_object_unref (G_OBJECT (obj));
 	/* Draw the line */
 	cairo_set_line_width (cairo, (style->outline.width)? style->outline.width: 1.);
 	cairo_set_source_rgba (cairo,

@@ -35,7 +35,7 @@
 #include <gtk/gtkiconfactory.h>
 #include <gtk/gtkselection.h>
 #include <gtk/gtkicontheme.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))
@@ -984,4 +984,3 @@ _gnm_app_flag_windows_changed (void)
 		windows_update_timer = g_timeout_add (100,
 			(GSourceFunc)cb_flag_windows_changed, NULL);
 }
-

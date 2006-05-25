@@ -9,7 +9,7 @@
  *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "xml-io.h"
 #include "xml-sax.h"

@@ -29,7 +29,7 @@
 #include <gtk/gtkliststore.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <glade/glade.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

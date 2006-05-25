@@ -1,3 +1,85 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c: (go_gnm_component_set_data),
+	(go_gnm_component_draw): use GOImage for the cairo <-> pixbuf conversion.
+	* src/application.c: replaced gi18n.h by gi18n-lib.h.
+	* src/clipboard.c: ditto.
+	* src/cmd-edit.c: ditto.
+	* src/command-context-stderr.c: ditto.
+	* src/command-context.c: ditto.
+	* src/commands.c: ditto.
+	* src/consolidate.c: ditto.
+	* src/expr-name.c: ditto.
+	* src/expr.c: ditto.
+	* src/file-autoft.c: ditto.
+	* src/format-template.c: ditto.
+	* src/func-builtin.c: ditto.
+	* src/func.c: ditto.
+	* src/gnm-format.c: ditto.
+	* src/gnm-graph-window.c: ditto.
+	* src/gnm-plugin.c: ditto.
+	* src/gnm-so-filled.c: (gnm_so_filled_draw_cairo): fixed a memory leak and
+	the gi18n change.
+	* src/gnm-so-line.c: replaced gi18n.h by gi18n-lib.h.
+	* src/gnm-so-polygon.c: (gnm_so_polygon_draw_cairo),
+	(gnm_so_polygon_class_init): new draw cairo function (not implemented)
+	and ditto.
+	* src/gnumeric-canvas.c: replaced gi18n.h by gi18n-lib.h.
+	* src/gnumeric-pane.c: ditto.
+	* src/gui-clipboard.c: ditto.
+	* src/gui-file.c: ditto.
+	* src/gui-util.c: ditto.
+	* src/gutils.c: ditto.
+	* src/history.c: ditto.
+	* src/hlink.c: ditto.
+	* src/input-msg.c: ditto.
+	* src/item-bar.c: ditto.
+	* src/item-cursor.c: ditto.
+	* src/item-edit.c: ditto.
+	* src/libgnumeric.c: ditto.
+	* src/mathfunc.c: ditto.
+	* src/number-match.c: ditto.
+	* src/parser.y: ditto.
+	* src/pivottable.c: ditto.
+	* src/print-info.c: ditto.
+	* src/print.c: ditto.
+	* src/ranges.c: ditto.
+	* src/search.c: ditto.
+	* src/selection.c: ditto.
+	* src/session.c: ditto.
+	* src/sheet-autofill.c: ditto.
+	* src/sheet-control-gui.c: ditto.
+	* src/sheet-filter.c: ditto.
+	* src/sheet-merge.c: ditto.
+	* src/sheet-object-graph.c: ditto.
+	* src/sheet-object-image.c: ditto.
+	* src/sheet-object-widget.c: ditto.
+	* src/sheet-object.c: ditto.
+	* src/sheet-style.c: ditto.
+	* src/sheet-view.c: ditto.
+	* src/sheet.c: ditto.
+	* src/stf-export.c: ditto.
+	* src/stf-parse.c: ditto.
+	* src/stf.c: ditto.
+	* src/style.c: ditto.
+	* src/validation.c: ditto.
+	* src/value-sheet.c: ditto.
+	* src/value.c: ditto.
+	* src/wbc-gtk.c: ditto and set translation domain for actions.
+	* src/wbcg-actions.c: replaced gi18n.h by gi18n-lib.h.
+	* src/widgets/gnm-dao.c: ditto.
+	* src/widgets/gnumeric-expr-entry.c: ditto.
+	* src/widgets/gnumeric-lazy-list.c: ditto.
+	* src/widgets/widget-font-selector.c: ditto.
+	* src/workbook-cmd-format.c: ditto.
+	* src/workbook-control-gui.c: ditto.
+	* src/workbook-control.c: ditto.
+	* src/workbook-edit.c: ditto.
+	* src/workbook-view.c: ditto.
+	* src/workbook.c: ditto.
+	* src/xml-io.c: ditto.
+	* src/xml-sax-read.c: ditto.
+
 2006-05-22  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_start): Handle scientific as

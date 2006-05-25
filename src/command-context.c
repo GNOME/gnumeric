@@ -24,7 +24,7 @@
 #include "command-context.h"
 #include "ranges.h"
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #define CC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_CMD_CONTEXT_TYPE, GOCmdContextClass))
 

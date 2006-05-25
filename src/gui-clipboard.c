@@ -38,7 +38,7 @@
 #include <goffice/app/io-context.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>

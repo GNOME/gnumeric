@@ -65,7 +65,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-gzip.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>

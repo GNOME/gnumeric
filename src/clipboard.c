@@ -37,7 +37,7 @@
 #include "stf-parse.h"
 #include "sheet-object-cell-comment.h"
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <locale.h>
 #include <string.h>
 #include <goffice/utils/go-glib-extras.h>

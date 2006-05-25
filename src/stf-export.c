@@ -27,7 +27,7 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include "stf-export.h"
 
 #include "sheet.h"

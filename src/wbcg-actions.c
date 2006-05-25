@@ -77,7 +77,7 @@
 #include <gtk/gtkactiongroup.h>
 #include <gtk/gtktoggleaction.h>
 #include <gtk/gtkstock.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gsf/gsf-input.h>
 #include <string.h>
 

@@ -34,7 +34,7 @@
 #include <gui-file.h>
 #include <gui-util.h>
 #include <goffice/app/go-doc.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <libgnomeui/gnome-client.h>
 

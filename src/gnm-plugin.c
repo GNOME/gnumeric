@@ -20,7 +20,7 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-libxml-extras.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 
 typedef PluginServiceSimpleClass	PluginServiceFunctionGroupClass;

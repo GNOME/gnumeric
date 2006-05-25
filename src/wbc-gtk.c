@@ -52,7 +52,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include "gdk/gdkkeysyms.h"
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <errno.h>
 #include <string.h>
 
@@ -1691,11 +1691,11 @@ wbc_gtk_init (GObject *obj)
 
 #warning "TODO split into smaller chunks"
 	gtk->permanent_actions = gtk_action_group_new ("PermanentActions");
-	gtk_action_group_set_translation_domain (gtk->permanent_actions, NULL);
+	gtk_action_group_set_translation_domain (gtk->permanent_actions, GETTEXT_PACKAGE);
 	gtk->actions = gtk_action_group_new ("Actions");
-	gtk_action_group_set_translation_domain (gtk->actions, NULL);
+	gtk_action_group_set_translation_domain (gtk->actions, GETTEXT_PACKAGE);
 	gtk->font_actions = gtk_action_group_new ("FontActions");
-	gtk_action_group_set_translation_domain (gtk->font_actions, NULL);
+	gtk_action_group_set_translation_domain (gtk->font_actions, GETTEXT_PACKAGE);
 
 	wbcg_register_actions (wbcg, gtk->permanent_actions, gtk->actions, gtk->font_actions);
 	if (extra_actions)

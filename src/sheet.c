@@ -64,7 +64,7 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>
 #include <string.h>
