@@ -20,7 +20,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
 
@@ -412,4 +412,3 @@ stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
 		}
 	}
 }
-

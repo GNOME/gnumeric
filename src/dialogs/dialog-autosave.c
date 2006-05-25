@@ -31,7 +31,7 @@
 #include <workbook-control-gui-priv.h>
 #include <gui-util.h>
 #include <goffice/app/go-doc.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <glade/glade.h>
 #include <gtk/gtktogglebutton.h>

@@ -21,7 +21,7 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"

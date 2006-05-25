@@ -32,7 +32,7 @@
 #include <goffice/gtk/go-locale-sel.h>
 
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 typedef enum {
 	PAGE_SHEETS,

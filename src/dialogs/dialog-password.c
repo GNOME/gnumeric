@@ -7,7 +7,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkvbox.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include "dialogs.h"
 
 static void
