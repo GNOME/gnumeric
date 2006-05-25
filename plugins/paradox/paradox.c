@@ -6,7 +6,7 @@
  *    Uwe Steinmann <uwe@steinmann.cx>
  **/
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <string.h>
 #include "px.h"
@@ -278,4 +278,3 @@ paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
 
 	return true;
 }
-
