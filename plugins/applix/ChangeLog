@@ -1,3 +1,7 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* applix-read.c: replaced gi18n.h by gi18n-lib.h.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0
@@ -605,4 +609,3 @@
 	* applix-read.c (applix_read_cells) : Fix array formulas.
 	(applix_read_views) : Implement a bit more.
 	(applix_read_view) : new function.
-
