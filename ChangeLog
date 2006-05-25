@@ -1,3 +1,15 @@
+2006-05-25  Morten Welinder  <terra@gnome.org>
+
+	* src/str.c (gnm_string_dump): New function for debugging.
+
+	* src/dependent.c: Use new "compact set" implementation for the
+	micro hash.  Use alternative (and very efficient) storage methods
+	for 1-element sets and for {2,3}-element sets.
+	(micro_hash_insert): When resizing, make sure the hash table end
+	up somewhat dense.  (Since we are using a pool allocator for
+	cells, the entries are extremely well distributed in the hash
+	table.)
+
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* samples/chart-tests.gnumeric: added series lines samples for

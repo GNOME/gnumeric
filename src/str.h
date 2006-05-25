@@ -8,8 +8,9 @@ struct _GnmString {
 	char       *str;
 };
 
-void    gnm_string_init       (void);
-void    gnm_string_shutdown   (void);
+void gnm_string_init     (void);
+void gnm_string_shutdown (void);
+void gnm_string_dump     (void);
 
 GnmString *gnm_string_get        (char const *s);
 GnmString *gnm_string_get_nocopy (char *s);

@@ -15,6 +15,7 @@ Morten:
 	* Try harder not producing CRITICALs on buggy files.
 	* Fixup expression sharer interfaces.
 	* Fix scientific-number editing problem.  [#342583]
+	* Reduce memory consumption for dependency storage.
 
 --------------------------------------------------------------------------
 

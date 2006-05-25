@@ -41,7 +41,151 @@
 #include <string.h>
 #include <goffice/utils/go-glib-extras.h>
 
+/* ------------------------------------------------------------------------- */
+
+#define USE_POOLS 1
+
+#if USE_POOLS
+static GOMemChunk *micro_few_pool;
+static GOMemChunk *cset_pool;
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
+#else
+#define CHUNK_ALLOC(T,c) g_new (T,1)
+#define CHUNK_FREE(p,v) g_free ((v))
+#endif
+
+/* Odd and small.  */
+#define MICRO_HASH_FEW 3
+
+/* ------------------------------------------------------------------------- */
+/* Maps between row numbers and bucket numbers.  */
+
 #define BUCKET_SIZE	128
+#define BUCKET_OF_ROW(row) ((row) / BUCKET_SIZE)
+#define BUCKET_LAST (BUCKET_OF_ROW (SHEET_MAX_ROWS - 1))
+#define BUCKET_START_ROW(b) ((b) * BUCKET_SIZE)
+#define BUCKET_END_ROW(b) ((b) * BUCKET_SIZE + (BUCKET_SIZE - 1))
+
+/* ------------------------------------------------------------------------- */
+
+/* Keep this odd */
+#define CSET_SEGMENT_SIZE 29
+
+typedef struct _CSet CSet;
+struct _CSet {
+        int count;
+        CSet *next;
+        gpointer data[CSET_SEGMENT_SIZE];
+        /* And one pointer for allocation overhead.  */
+};
+
+#if 0
+static gboolean
+cset_find (CSet *list, gpointer datum)
+{
+        while (list) {
+                guint i = list->count;
+                while (i-- > 0)
+                        if (list->data[i] == datum)
+                                return TRUE;
+                list = list->next;
+        }
+        return FALSE;
+}
+#endif
+
+static void
+cset_free (CSet *list)
+{
+        while (list) {
+                CSet *next = list->next;
+                CHUNK_FREE (cset_pool, list);
+                list = next;
+        }
+}
+
+/* NOTE: takes reference.  */
+static void
+cset_insert (CSet **list, gpointer datum)
+{
+	CSet *cs = *list;
+        if (cs == NULL || cs->count == CSET_SEGMENT_SIZE) {
+                CSet *h = *list = CHUNK_ALLOC (CSet, cset_pool);
+                h->next = cs;
+                h->count = 1;
+		h->data[0] = datum;
+        } else
+		cs->data[cs->count++] = datum;
+}
+
+/* NOTE: takes reference.  Returns TRUE if datum was already present.  */
+static gboolean
+cset_insert_checked (CSet **list, gpointer datum)
+{
+	CSet *cs = *list;
+	CSet *nonfull = NULL;
+
+        while (cs) {
+                guint i = cs->count;
+		if (i != CSET_SEGMENT_SIZE)
+			nonfull = cs;
+                while (i-- > 0)
+                        if (cs->data[i] == datum)
+                                return TRUE;
+                cs = cs->next;
+        }
+
+	if (nonfull)
+		nonfull->data[nonfull->count++] = datum;
+	else
+		cset_insert (list, datum);
+        return FALSE;
+}
+
+
+/* NOTE: takes reference.  Returns TRUE if removed.  */
+static gboolean
+cset_remove (CSet **list, gpointer datum)
+{
+        CSet *l, *last = NULL;
+
+        for (l = *list; l; l = l->next) {
+                guint i;
+
+                for (i = l->count; i-- > 0; )
+                        if (l->data[i] == datum) {
+                                l->count--;
+                                if (l->count == 0) {
+                                        if (last)
+                                                last->next = l->next;
+                                        else
+                                                *list = l->next;
+                                        CHUNK_FREE (cset_pool, l);
+                                } else
+					l->data[i] = l->data[l->count];
+                                return TRUE;
+                        }
+                last = l;
+        }
+        return FALSE;
+}
+
+#define CSET_FOREACH(list,var,code)			\
+  do {							\
+        CSet *cs_;					\
+        for (cs_ = (list); cs_; cs_ = cs_->next) {	\
+		guint i_;				\
+                for (i_ = cs_->count; i_-- > 0; ) {	\
+                        var = cs_->data[i_];		\
+                        code				\
+                }					\
+        }						\
+  } while (0)
+
+
+/* ------------------------------------------------------------------------- */
+
 #undef DEBUG_EVALUATION
 
 static void dynamic_dep_eval 	   (GnmDependent *dep);
@@ -79,6 +223,17 @@ dependent_types_init (void)
 	g_ptr_array_add	(dep_classes, NULL); /* Cell */
 	g_ptr_array_add	(dep_classes, &dynamic_dep_class);
 	g_ptr_array_add	(dep_classes, &name_dep_class);
+
+#if USE_POOLS
+	micro_few_pool =
+		go_mem_chunk_new ("micro few pool",
+				  MICRO_HASH_FEW * sizeof (gpointer),
+				  16 * 1024 - 128);
+	cset_pool =
+		go_mem_chunk_new ("cset pool",
+				  sizeof (CSet),
+				  16 * 1024 - 128);
+#endif
 }
 
 void
@@ -87,6 +242,13 @@ dependent_types_shutdown (void)
 	g_return_if_fail (dep_classes != NULL);
 	g_ptr_array_free (dep_classes, TRUE);
 	dep_classes = NULL;
+
+#if USE_POOLS
+	go_mem_chunk_destroy (micro_few_pool, FALSE);
+	micro_few_pool = NULL;
+	go_mem_chunk_destroy (cset_pool, FALSE);
+	cset_pool = NULL;
+#endif
 }
 
 /**
@@ -219,27 +381,9 @@ cell_list_deps (GnmCell const *cell)
 	return deps;
 }
 
-
-/**
- * dependent_queue_recalc_list :
- * @list :
- *
- * Queues any elements of @list for recalc that are not already queued,
- * and marks all elements as needing a recalc.
- */
 static void
-dependent_queue_recalc_list (GSList *list)
+dependent_queue_recalc_main (GSList *work)
 {
-	GSList *work = NULL;
-
-	for (; list != NULL ; list = list->next) {
-		GnmDependent *dep = list->data;
-		if (!dependent_needs_recalc (dep)) {
-			dependent_flag_recalc (dep);
-			work = g_slist_prepend (work, dep);
-		}
-	}
-
 	/*
 	 * Work is now a list of marked cells whose dependencies need
 	 * to be marked.  Marking early guarentees that we will not
@@ -250,10 +394,10 @@ dependent_queue_recalc_list (GSList *list)
 	while (work) {
 		GnmDependent *dep = work->data;
 		int const t = dependent_type (dep);
-
 		/* Pop the top element.  */
-		list = work;
+		GSList *list = work;
 		work = work->next;
+
 		g_slist_free_1 (list);
 
 		if (t == DEPENDENT_CELL) {
@@ -283,6 +427,30 @@ dependent_queue_recalc_list (GSList *list)
 	}
 }
 
+
+/**
+ * dependent_queue_recalc_list :
+ * @list :
+ *
+ * Queues any elements of @list for recalc that are not already queued,
+ * and marks all elements as needing a recalc.
+ */
+static void
+dependent_queue_recalc_list (GSList *list)
+{
+	GSList *work = NULL;
+
+	for (; list != NULL ; list = list->next) {
+		GnmDependent *dep = list->data;
+		if (!dependent_needs_recalc (dep)) {
+			dependent_flag_recalc (dep);
+			work = g_slist_prepend (work, dep);
+		}
+	}
+
+	dependent_queue_recalc_main (work);
+}
+
 void
 dependent_queue_recalc (GnmDependent *dep)
 {
@@ -299,144 +467,240 @@ dependent_queue_recalc (GnmDependent *dep)
 /**************************************************************************/
 
 typedef struct {
-	gint     num_buckets;
-	gint     num_elements;
+	gint num_buckets;
+	gint num_elements;
 	union {
-		GSList **buckets;
-		GSList *singleton;
+		gpointer one;
+		gpointer *few;
+		CSet **many;
 	} u;
 } MicroHash;
 
 #define MICRO_HASH_MIN_SIZE 11
 #define MICRO_HASH_MAX_SIZE 13845163
-#define MICRO_HASH_RESIZE(hash_table)						\
-G_STMT_START {									\
-	if ((hash_table->num_buckets > MICRO_HASH_MIN_SIZE &&			\
-	     hash_table->num_buckets >= 3 * hash_table->num_elements) ||	\
-	    (hash_table->num_buckets < MICRO_HASH_MAX_SIZE &&			\
-	     3 * hash_table->num_buckets <= hash_table->num_elements))		\
-		micro_hash_resize (hash_table);					\
-} G_STMT_END
 
 #define MICRO_HASH_hash(key) ((guint)(key))
 
 static void
-micro_hash_resize (MicroHash *hash_table)
+micro_hash_many_to_few (MicroHash *hash_table)
 {
-	GSList **new_buckets, *node, *next;
-	guint bucket;
-	gint old_num_buckets = hash_table->num_buckets;
-	gint new_num_buckets;
+	CSet **buckets = hash_table->u.many;
+	int nbuckets = hash_table->num_buckets;
+	int i = 0;
 
-	if (hash_table->num_elements <= 1)
-		new_num_buckets = 1;
-	else {
-		new_num_buckets = g_spaced_primes_closest (hash_table->num_elements);
-		if (new_num_buckets < MICRO_HASH_MIN_SIZE)
-			new_num_buckets = MICRO_HASH_MIN_SIZE;
-		else if (new_num_buckets > MICRO_HASH_MAX_SIZE)
-			new_num_buckets = MICRO_HASH_MAX_SIZE;
+	hash_table->u.few = USE_POOLS
+		? CHUNK_ALLOC (gpointer, micro_few_pool)
+		: g_new (gpointer, MICRO_HASH_FEW);
+
+	while (nbuckets-- > 0 ) {
+		gpointer datum;
+
+		CSET_FOREACH (buckets[nbuckets], datum, {
+			hash_table->u.few[i++] = datum;
+		});
+		cset_free (buckets[nbuckets]);
 	}
 
-	if (old_num_buckets <= 1) {
-		if (new_num_buckets == 1)
-			return;
-		new_buckets = g_new0 (GSList *, new_num_buckets);
-		for (node = hash_table->u.singleton; node; node = next) {
-			next = node->next;
-			bucket =  MICRO_HASH_hash (node->data) % new_num_buckets;
-			node->next = new_buckets[bucket];
-			new_buckets[bucket] = node;
-		}
-		hash_table->u.buckets = new_buckets;
-	} else if (new_num_buckets > 1) {
-		new_buckets = g_new0 (GSList *, new_num_buckets);
-		for (old_num_buckets = hash_table->num_buckets; old_num_buckets-- > 0 ; )
-			for (node = hash_table->u.buckets[old_num_buckets]; node; node = next) {
-				next = node->next;
-				bucket =  MICRO_HASH_hash (node->data) % new_num_buckets;
-				node->next = new_buckets[bucket];
-				new_buckets[bucket] = node;
-			}
-		g_free (hash_table->u.buckets);
-		hash_table->u.buckets = new_buckets;
-	} else {
-		GSList *singleton = NULL;
-		while (old_num_buckets-- > 0)
-			singleton = g_slist_concat (hash_table->u.buckets[old_num_buckets], singleton);
-		g_free (hash_table->u.buckets);
-		hash_table->u.singleton = singleton;
-	}
-
-	hash_table->num_buckets = new_num_buckets;
+	g_free (buckets);
 }
+
+static void
+micro_hash_many_resize (MicroHash *hash_table, int new_nbuckets)
+{
+	CSet **buckets = hash_table->u.many;
+	int nbuckets = hash_table->num_buckets;
+	CSet **new_buckets = g_new0 (CSet *, new_nbuckets);
+
+	hash_table->u.many = new_buckets;
+	hash_table->num_buckets = new_nbuckets;
+
+	while (nbuckets-- > 0 ) {
+		gpointer datum;
+
+		CSET_FOREACH (buckets[nbuckets], datum, {
+			guint bucket = MICRO_HASH_hash (datum) % new_nbuckets;
+			cset_insert (&(new_buckets[bucket]), datum);
+		});
+		cset_free (buckets[nbuckets]);
+	}
+	g_free (buckets);
+
+#if 0
+	{
+		int nonzero = 0;
+		int capacity = 0, totlen = 0;
+		int i;
+
+		for (i = 0; i < new_nbuckets; i++) {
+			CSet *cs = new_buckets[i];
+			if (cs) {
+				nonzero++;
+				while (cs) {
+					totlen += cs->count;
+					capacity += CSET_SEGMENT_SIZE;
+					cs = cs->next;
+				}
+			}
+		}
+
+		g_print ("resize %p: %d [%d %.1f %.0f%%]\n",
+			 hash_table,
+			 new_nbuckets,
+			 hash_table->num_elements,
+			 (double)totlen / nonzero,
+			 100.0 * totlen / capacity);
+	}
+#endif
+}
+
+
+static void
+micro_hash_few_to_many (MicroHash *hash_table)
+{
+	int nbuckets = hash_table->num_buckets = MICRO_HASH_MIN_SIZE;
+	CSet **buckets = g_new0 (CSet *, nbuckets);
+	int i;
+
+	for (i = 0; i < hash_table->num_elements; i++) {
+		gpointer datum = hash_table->u.few[i];
+		guint bucket = MICRO_HASH_hash (datum) % nbuckets;
+		cset_insert (&(buckets[bucket]), datum);
+	}
+	CHUNK_FREE (micro_few_pool, hash_table->u.few);
+	hash_table->u.many = buckets;
+}
+
+
 
 static void
 micro_hash_insert (MicroHash *hash_table, gpointer key)
 {
-	GSList **head;
-	int const hash_size = hash_table->num_buckets;
+	int N = hash_table->num_elements;
 
-	if (hash_size > 1) {
-		guint const bucket = MICRO_HASH_hash (key) % hash_size;
-		head = hash_table->u.buckets + bucket;
-	} else
-		head = & (hash_table->u.singleton);
+	g_return_if_fail (key != NULL);
 
-	if (g_slist_find (*head, key) == NULL) {
-		*head = g_slist_prepend (*head, key);
-		hash_table->num_elements++;
-		MICRO_HASH_RESIZE (hash_table);
+	if (N == 0) {
+		hash_table->u.one = key;
+	} else if (N == 1) {
+		gpointer key0 = hash_table->u.one;
+		if (key == key0)
+			return;
+		/* one --> few */
+		hash_table->u.few = USE_POOLS
+			? CHUNK_ALLOC (gpointer, micro_few_pool)
+			: g_new (gpointer, MICRO_HASH_FEW);
+		hash_table->u.few[0] = key0;
+		hash_table->u.few[1] = key;
+		memset (hash_table->u.few + 2, 0, (MICRO_HASH_FEW - 2) * sizeof (gpointer));
+	} else if (N <= MICRO_HASH_FEW) {
+		int i;
+
+		for (i = 0; i < N; i++)
+			if (hash_table->u.few[i] == key)
+				return;
+
+		if (N == MICRO_HASH_FEW) {
+			guint bucket;
+
+			micro_hash_few_to_many (hash_table);
+			bucket = MICRO_HASH_hash (key) % hash_table->num_buckets;
+			cset_insert (&(hash_table->u.many[bucket]), key);
+		} else
+			hash_table->u.few[N] = key;
+	} else {
+		int nbuckets = hash_table->num_buckets;
+		guint bucket = MICRO_HASH_hash (key) % nbuckets;
+		CSet **buckets = hash_table->u.many;
+
+		if (cset_insert_checked (&(buckets[bucket]), key))
+			return;
+
+		if (N > CSET_SEGMENT_SIZE * nbuckets &&
+		    nbuckets < MICRO_HASH_MAX_SIZE) {
+			int new_nbuckets = g_spaced_primes_closest (N / (CSET_SEGMENT_SIZE / 2));
+			if (new_nbuckets > MICRO_HASH_MAX_SIZE)
+				new_nbuckets = MICRO_HASH_MAX_SIZE;
+			micro_hash_many_resize (hash_table, new_nbuckets);
+		}
 	}
+
+	hash_table->num_elements++;
 }
 
 static void
 micro_hash_remove (MicroHash *hash_table, gpointer key)
 {
-	GSList **head, *old;
-	int const hash_size = hash_table->num_buckets;
+	int N = hash_table->num_elements;
+	guint bucket;
 
-	if (hash_size > 1) {
-		guint const bucket = MICRO_HASH_hash (key) % hash_size;
-		head = hash_table->u.buckets + bucket;
-	} else
-		head = & (hash_table->u.singleton);
+	if (N == 0)
+		return;
 
-	for (; *head != NULL ; head = &((*head)->next))
-		if ((*head)->data == key) {
-			old = *head;
-			*head = old->next;
-			g_slist_free_1 (old);
-			hash_table->num_elements--;
-			MICRO_HASH_RESIZE (hash_table);
+	if (N == 1) {
+		if (hash_table->u.one != key)
 			return;
+		hash_table->u.one = NULL;
+		hash_table->num_elements--;
+		return;
+	}
+
+	if (N <= MICRO_HASH_FEW) {
+		int i;
+
+		for (i = 0; i < N; i++)
+			if (hash_table->u.few[i] == key) {
+				hash_table->u.few[i] = hash_table->u.few[N - 1];
+				hash_table->num_elements--;
+				if (hash_table->num_elements > 1)
+					return;
+				/* few -> one */
+				key = hash_table->u.few[0];
+				CHUNK_FREE (micro_few_pool, hash_table->u.few);
+				hash_table->u.one = key;
+				return;
+			}
+		return;
+	}
+
+	bucket = MICRO_HASH_hash (key) % hash_table->num_buckets;
+	if (cset_remove (&(hash_table->u.many[bucket]), key)) {
+		hash_table->num_elements--;
+
+		if (hash_table->num_elements <= MICRO_HASH_FEW)
+			micro_hash_many_to_few (hash_table);
+		else {
+			/* Maybe resize? */
 		}
+		return;
+	}
 }
+
 
 static void
 micro_hash_release (MicroHash *hash_table)
 {
-	guint i = hash_table->num_buckets;
+	int N = hash_table->num_elements;
 
-	if (i > 1) {
+	if (N <= 1)
+		; /* Nothing */
+	else if (N <= MICRO_HASH_FEW)
+		CHUNK_FREE (micro_few_pool, hash_table->u.few);
+	else {
+		guint i = hash_table->num_buckets;
 		while (i-- > 0)
-			g_slist_free (hash_table->u.buckets[i]);
-		g_free (hash_table->u.buckets);
-		hash_table->u.buckets = NULL;
-	} else {
-		g_slist_free (hash_table->u.singleton);
-		hash_table->u.singleton = NULL;
+			cset_free (hash_table->u.many[i]);
+		g_free (hash_table->u.many);
 	}
 	hash_table->num_elements = 0;
 	hash_table->num_buckets = 1;
+	hash_table->u.one = NULL;
 }
 
 static void
 micro_hash_init (MicroHash *hash_table, gpointer key)
 {
 	hash_table->num_elements = 1;
-	hash_table->num_buckets = 1;
-	hash_table->u.singleton = g_slist_prepend (NULL, key);
+	hash_table->u.one = key;
 }
 
 static inline gboolean
@@ -447,31 +711,20 @@ micro_hash_is_empty (MicroHash const *hash_table)
 
 /*************************************************************************/
 
-#define micro_hash_foreach_dep(dc, dep, code) do {		\
-	GSList *l;						\
-	int i = dc.num_buckets;					\
-	if (i <= 1) { 						\
-		for (l = dc.u.singleton; l ; l = l->next) {	\
-			GnmDependent *dep = l->data;		\
-			code					\
-		}						\
-	} else while (i-- > 0) {				\
-		for (l = dc.u.buckets[i]; l ; l = l->next) {	\
-			GnmDependent *dep = l->data;		\
-			code					\
-		}						\
-	}							\
-} while (0)
-#define micro_hash_foreach_list(dc, list, code) do {		\
-	GSList *list;						\
-	int i = dc.num_buckets;					\
-	if (i <= 1) { 						\
-		list = dc.u.singleton;				\
-		code						\
-	} else while (i-- > 0) {				\
-		list = dc.u.buckets[i];				\
-		code						\
-	}							\
+#define micro_hash_foreach_dep(dc, dep, code) do {			\
+        guint i_ = dc.num_elements;					\
+	if (i_ <= MICRO_HASH_FEW) {					\
+		const gpointer *e_ = (i_ == 1) ? &dc.u.one : dc.u.few;	\
+		while (i_-- > 0) {					\
+			GnmDependent *dep = e_[i_];			\
+			code						\
+		}							\
+	} else {							\
+		GnmDependent *dep;					\
+		guint b_ = dc.num_buckets;				\
+		while (b_-- > 0)					\
+			CSET_FOREACH (dc.u.many[b_], dep, code);	\
+	}								\
 } while (0)
 
 /**************************************************************************
@@ -591,8 +844,8 @@ static void
 link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		DependencyRange const *r)
 {
-	int i = r->range.start.row / BUCKET_SIZE;
-	int const end = r->range.end.row / BUCKET_SIZE;
+	int i = BUCKET_OF_ROW (r->range.start.row);
+	int const end = BUCKET_OF_ROW (r->range.end.row);
 
 	for ( ; i <= end; i++) {
 		/* Look it up */
@@ -623,8 +876,8 @@ static void
 unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		  DependencyRange const *r)
 {
-	int i = r->range.start.row / BUCKET_SIZE;
-	int const end = r->range.end.row / BUCKET_SIZE;
+	int i = BUCKET_OF_ROW (r->range.start.row);
+	int const end = BUCKET_OF_ROW (r->range.end.row);
 
 	if (!deps)
 		return;
@@ -1305,7 +1558,7 @@ cell_foreach_range_dep (GnmCell const *cell, DepFunc func, gpointer user)
 {
 	search_rangedeps_closure_t closure;
 	GHashTable *bucket =
-		cell->base.sheet->deps->range_hash[cell->pos.row / BUCKET_SIZE];
+		cell->base.sheet->deps->range_hash[BUCKET_OF_ROW (cell->pos.row)];
 
 	if (bucket != NULL) {
 		closure.col = cell->pos.col;
@@ -1351,9 +1604,17 @@ cb_recalc_all_depends (gpointer key, G_GNUC_UNUSED gpointer value,
 		       G_GNUC_UNUSED gpointer ignore)
 {
 	DependencyAny const *depany = key;
-	micro_hash_foreach_list (depany->deps, list,
-		dependent_queue_recalc_list (list););
+	GSList *work = NULL;
+	micro_hash_foreach_dep (depany->deps, dep, {
+		if (!dependent_needs_recalc (dep)) {
+			dependent_flag_recalc (dep);
+			work = g_slist_prepend (work, dep);
+		}
+	});
+	dependent_queue_recalc_main (work);
 }
+
+
 
 static void
 cb_range_contained_depend (gpointer key, G_GNUC_UNUSED gpointer value,
@@ -1363,9 +1624,16 @@ cb_range_contained_depend (gpointer key, G_GNUC_UNUSED gpointer value,
 	GnmRange const *range = &deprange->range;
 	GnmRange const *target = user;
 
-	if (range_overlap (target, range))
-		micro_hash_foreach_list (deprange->deps, list,
-			dependent_queue_recalc_list (list););
+	if (range_overlap (target, range)) {
+		GSList *work = NULL;
+		micro_hash_foreach_dep (deprange->deps, dep, {
+			if (!dependent_needs_recalc (dep)) {
+				dependent_flag_recalc (dep);
+				work = g_slist_prepend (work, dep);
+			}
+		});
+		dependent_queue_recalc_main (work);
+	}
 }
 
 static void
@@ -1376,9 +1644,16 @@ cb_single_contained_depend (gpointer key,
 	DependencySingle const *depsingle  = key;
 	GnmRange const *target = user;
 
-	if (range_contains (target, depsingle->pos.col, depsingle->pos.row))
-		micro_hash_foreach_list (depsingle->deps, list,
-			dependent_queue_recalc_list (list););
+	if (range_contains (target, depsingle->pos.col, depsingle->pos.row)) {
+		GSList *work = NULL;
+		micro_hash_foreach_dep (depsingle->deps, dep, {
+			if (!dependent_needs_recalc (dep)) {
+				dependent_flag_recalc (dep);
+				work = g_slist_prepend (work, dep);
+			}
+		});
+		dependent_queue_recalc_main (work);
+	}
 }
 
 /**
@@ -1405,7 +1680,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 			dependent_flag_recalc (dep););
 
 		/* look for things that depend on the sheet */
-		for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
+		for (i = BUCKET_LAST; i >= 0 ; i--) {
 			GHashTable *hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -1414,7 +1689,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 		g_hash_table_foreach (sheet->deps->single_hash,
 			&cb_recalc_all_depends, NULL);
 	} else {
-		int const first = r->start.row / BUCKET_SIZE;
+		int const first = BUCKET_OF_ROW (r->start.row);
 
 		/* mark the contained depends dirty non recursively */
 		SHEET_FOREACH_DEPENDENT (sheet, dep, {
@@ -1425,7 +1700,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 		});
 
 		/* look for things that depend on target region */
-		for (i = r->end.row / BUCKET_SIZE; i >= first ; i--) {
+		for (i = BUCKET_OF_ROW (r->end.row); i >= first ; i--) {
 			GHashTable *hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -1612,9 +1887,9 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 		(GHFunc) &cb_single_contained_collect,
 		(gpointer)&collect);
 	{
-		int const first = r->start.row / BUCKET_SIZE;
+		int const first = BUCKET_OF_ROW (r->start.row);
 		GHashTable *hash;
-		for (i = r->end.row / BUCKET_SIZE; i >= first ; i--) {
+		for (i = BUCKET_OF_ROW (r->end.row); i >= first ; i--) {
 			hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -1991,7 +2266,7 @@ do_deps_destroy (Sheet *sheet)
 	sheet->deps = NULL;
 	clear_revive_info (sheet);
 
-	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
+	for (i = BUCKET_LAST; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
 			dep_hash_destroy (hash, &dyn_deps, sheet, TRUE);
@@ -2043,7 +2318,7 @@ do_deps_invalidate (Sheet *sheet)
 
 	deps = sheet->deps;
 
-	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
+	for (i = BUCKET_LAST; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
 			dep_hash_destroy (hash, &dyn_deps, sheet, FALSE);
@@ -2304,8 +2579,7 @@ gnm_dep_container_new (void)
 
 	deps->head = deps->tail = NULL;
 
-	deps->range_hash  = g_new0 (GHashTable *,
-				    (SHEET_MAX_ROWS - 1) / BUCKET_SIZE + 1);
+	deps->range_hash  = g_new0 (GHashTable *, BUCKET_LAST + 1);
 	deps->range_pool  = go_mem_chunk_new ("range pool",
 					       sizeof (DependencyRange),
 					       16 * 1024 - 100);
@@ -2326,19 +2600,6 @@ gnm_dep_container_new (void)
 /****************************************************************************
  * Debug utils
  */
-static void
-dump_dependent_list (GSList *l, GString *target)
-{
-	g_string_append_c (target, '(');
-	while (l != NULL) {
-		GnmDependent *dep = l->data;
-		dependent_debug_name (dep, target);
-		l = l->next;
-		if (l != NULL)
-			g_string_append (target, ", ");
-	}
-	g_string_append (target, ")");
-}
 
 static void
 dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
@@ -2346,14 +2607,21 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 {
 	DependencyRange const *deprange = key;
 	GnmRange const *range = &(deprange->range);
-	GString *target = g_string_new (NULL);
+	GString *target = g_string_sized_new (10000);
+	gboolean first = TRUE;
 
 	g_string_append (target, "    ");
 	g_string_append (target, range_as_string (range));
-	g_string_append (target, " -> ");
+	g_string_append (target, " -> (");
 
-	micro_hash_foreach_list (deprange->deps, list,
-		dump_dependent_list (list, target););
+	micro_hash_foreach_dep (deprange->deps, dep, {
+		if (first)
+			first = FALSE;
+		else
+			g_string_append (target, ", ");
+		dependent_debug_name (dep, target);
+	});
+	g_string_append_c (target, ')');
 
 	g_print ("%s\n", target->str);
 	g_string_free (target, TRUE);
@@ -2364,14 +2632,22 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 		 G_GNUC_UNUSED gpointer closure)
 {
 	DependencySingle *depsingle = key;
-	GString *target = g_string_new (NULL);
+	GString *target = g_string_sized_new (10000);
+	gboolean first = TRUE;
 
 	g_string_append (target, "    ");
 	g_string_append (target, cellpos_as_string (&depsingle->pos));
 	g_string_append (target, " -> ");
 
-	micro_hash_foreach_list (depsingle->deps, list,
-		dump_dependent_list (list, target););
+	micro_hash_foreach_dep (depsingle->deps, dep, {
+		if (first)
+			first = FALSE;
+		else
+			g_string_append (target, ", ");
+		dependent_debug_name (dep, target);
+	});
+	g_string_append_c (target, ')');
+
 	g_print ("%s\n", target->str);
 	g_string_free (target, TRUE);
 }
@@ -2463,11 +2739,13 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 
 	gnm_dep_container_sanity_check (deps);
 
-	for (i = (SHEET_MAX_ROWS - 1) / BUCKET_SIZE; i >= 0 ; i--) {
+	for (i = BUCKET_LAST; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
 			g_print ("  Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
-				 i, i * BUCKET_SIZE, (i + 1) * BUCKET_SIZE - 1,
+				 i,
+				 BUCKET_START_ROW (i),
+				 BUCKET_END_ROW (i),
 				 g_hash_table_size (hash));
 			g_hash_table_foreach (hash,
 					      dump_range_dep, NULL);

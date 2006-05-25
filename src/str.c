@@ -104,6 +104,52 @@ gnm_string_unref (GnmString *string)
 	}
 }
 
+static void
+cb_collect_strings (G_GNUC_UNUSED gpointer key, gpointer str,
+		    gpointer user_data)
+{
+	GSList **pstrs = user_data;
+	*pstrs = g_slist_prepend (*pstrs, str);
+}
+
+static gint
+cb_by_refcount_str (gconstpointer a_, gconstpointer b_)
+{
+	const GnmString *a = a_;
+	const GnmString *b = b_;
+
+	if (a->ref_count == b->ref_count)
+		return strcmp (a->str, b->str);
+	return (a->ref_count - b->ref_count);
+}
+
+void
+gnm_string_dump (void)
+{
+	GSList *strs = NULL;
+	GSList *l;
+	int refs = 0, len = 0;
+	int count;
+
+	g_hash_table_foreach (string_hash_table, cb_collect_strings, &strs);
+	strs = g_slist_sort (strs, cb_by_refcount_str);
+	count = g_slist_length (strs);
+	for (l = strs; l; l = l->next) {
+		const GnmString *s = l->data;
+		refs += s->ref_count;
+		len += strlen (s->str);
+	}
+
+	for (l = g_slist_nth (strs, MAX (0, count - 100)); l; l = l->next) {
+		const GnmString *s = l->data;
+		g_print ("%8d \"%s\"\n", s->ref_count, s->str);
+	}
+	g_print ("String table contains %d different strings.\n", count);
+	g_print ("String table contains a total of %d characters.\n", len);
+	g_print ("String table contains a total of %d refs.\n", refs);
+	g_slist_free (strs);
+}
+
 void
 gnm_string_init (void)
 {
