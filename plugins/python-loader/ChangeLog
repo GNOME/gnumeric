@@ -1,3 +1,12 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/python-loader/gnm-py-interpreter.c: replaced gi18n.h by
+	gi18n-lib.h.
+	* plugins/python-loader/gnm-python.c: ditto.
+	* plugins/python-loader/py-console.c: ditto.
+	* plugins/python-loader/py-gnumeric.c: ditto.
+	* plugins/python-loader/python-loader.c: ditto.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0

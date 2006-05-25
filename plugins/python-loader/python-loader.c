@@ -32,7 +32,7 @@
 #include <goffice/app/go-plugin-loader.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <stdlib.h>
 #include <glib.h>

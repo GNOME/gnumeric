@@ -5,7 +5,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
