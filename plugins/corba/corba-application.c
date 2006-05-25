@@ -33,7 +33,7 @@
 #include <goffice/app/io-context.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-main.h>
@@ -151,4 +151,3 @@ go_plugin_shutdown (GOPlugin *p, GOCmdContext *cc)
 }
 
 GNM_PLUGIN_MODULE_HEADER;
-
