@@ -1,5 +1,10 @@
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* samples/chart-tests.gnumeric: added series lines samples for
+	bars and columns.
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* component/gnumeric.c: (go_gnm_component_set_data),
 	(go_gnm_component_draw): use GOImage for the cairo <-> pixbuf conversion.
 	* src/application.c: replaced gi18n.h by gi18n-lib.h.
