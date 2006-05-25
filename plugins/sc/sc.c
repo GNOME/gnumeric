@@ -7,7 +7,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <string.h>
 #include <errno.h>
@@ -579,5 +579,3 @@ sc_file_probe (GOFileOpener const *fo, GsfInput *input,
  * goto C7
  *
  */
-
-
