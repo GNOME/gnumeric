@@ -1,3 +1,8 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pboot.c: replaced gi18n.h by gi18n-lib.h.
+	* xbase.c: ditto.
+	
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0
@@ -584,4 +589,3 @@
 1999-06-10  Sean Atkinson  <sca20@cam.ac.uk>
 
 	* Created.
-

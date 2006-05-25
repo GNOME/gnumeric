@@ -22,7 +22,7 @@
 #include <goffice/app/error-info.h>
 #include <gnm-plugin.h>
 #include <goffice/utils/datetime.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <stdlib.h>
 
 GNM_PLUGIN_MODULE_HEADER;
