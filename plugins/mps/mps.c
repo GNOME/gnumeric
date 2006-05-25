@@ -50,7 +50,7 @@
 #include <goffice/app/file.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/app/error-info.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
