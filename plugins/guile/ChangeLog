@@ -1,3 +1,8 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugin.c: replaced gi18n.h by gi18n-lib.h.
+	* smob-value.c: ditto.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0
@@ -837,4 +842,3 @@
 	(scm_gnumeric_funcall) : Ditto.
 	(func_marshal_func) : Create an implicit stack of eval_pos.
 	(init_plugin) : Init the eval_pos kludge.
-
