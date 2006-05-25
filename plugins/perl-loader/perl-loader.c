@@ -26,7 +26,7 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <stdlib.h>
 
 #define TYPE_GNM_PERL_PLUGIN_LOADER	(gnm_perl_plugin_loader_get_type ())
