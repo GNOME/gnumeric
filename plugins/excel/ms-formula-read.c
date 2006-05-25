@@ -10,7 +10,7 @@
  * (C) 2002-2005 Jody Goldberg
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "ms-formula-read.h"
 #include "excel.h"

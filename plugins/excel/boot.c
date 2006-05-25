@@ -46,7 +46,7 @@
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-structured-blob.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 
 GNM_PLUGIN_MODULE_HEADER;

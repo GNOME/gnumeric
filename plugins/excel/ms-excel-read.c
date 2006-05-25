@@ -76,7 +76,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <string.h>
 #include <locale.h>

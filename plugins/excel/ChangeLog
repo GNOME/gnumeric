@@ -1,3 +1,14 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* boot.c: replaced gi18n.h by gi18n-lib.h.
+	* excel-xml-read.c: ditto.
+	* ms-excel-read.c: ditto.
+	* ms-excel-write.c: ditto. 
+	* ms-formula-read.c: ditto.
+	* ms-formula-write.c: ditto.
+	* xlsx-read.c: ditto.
+	* xlsx-write.c: ditto.
+
 2006-05-19  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula): Avoid critical on array

@@ -34,7 +34,7 @@
 #include <goffice/app/io-context.h>
 
 #include <gsf/gsf-utils.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 
 #define FORMULA_DEBUG 0

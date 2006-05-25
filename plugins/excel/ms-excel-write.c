@@ -14,7 +14,7 @@
  * FIXME: Check for errors and propagate upward. We've only started.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <string.h>
 #include "ms-formula-write.h"
@@ -5588,4 +5588,3 @@ excel_write_state_free (ExcelWriteState *ewb)
 
 	g_free (ewb);
 }
-
