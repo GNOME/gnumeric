@@ -1,3 +1,16 @@
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-tools.c: ditto.
+	* auto-correct.c: ditto.
+	* dao.c: ditto.
+	* data-shuffling.c: ditto.
+	* fill-series.c: ditto.
+	* filter.c: ditto.
+	* random-generator.c: ditto.
+	* scenarios.c: ditto.
+	* simulation.c: ditto.
+	* tabulate.c: ditto.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0

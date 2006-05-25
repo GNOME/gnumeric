@@ -44,7 +44,7 @@
 #include <goffice/app/go-doc.h>
 
 #include <glib.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <time.h>
 #include <parse-util.h>

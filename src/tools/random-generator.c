@@ -25,7 +25,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "random-generator.h"
 
@@ -772,4 +772,3 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 	}
 	return TRUE;  /* We shouldn't get here */
 }
-

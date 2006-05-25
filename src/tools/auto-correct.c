@@ -25,7 +25,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "auto-correct.h"
 
