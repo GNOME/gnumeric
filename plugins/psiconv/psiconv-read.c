@@ -25,7 +25,7 @@
 
 /* TODO: Limit the number of include files a bit */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "psiconv-plugin.h"
 #include "application.h"
@@ -658,4 +658,3 @@ out:
 		psiconv_buffer_free(buf);
 	return res;
 }
-
