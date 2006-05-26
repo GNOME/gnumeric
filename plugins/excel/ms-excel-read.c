@@ -3146,7 +3146,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 						expr_data = q->data + 9 + namelen;
 					else
 						gnm_io_warning (container->importer->context,
-							_("Incorrect expression for name '%s' content will be lost.\n"),
+							_("Incorrect expression for name '%s': content will be lost.\n"),
 							name);
 				}
 				nexpr = excel_parse_name (container->importer, NULL,
