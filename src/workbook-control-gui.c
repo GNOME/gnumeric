@@ -2246,7 +2246,9 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 		(void)edit_area_button (wbcg, tb, TRUE,
 					G_CALLBACK (cb_workbook_debug_info),
 					GTK_STOCK_DIALOG_INFO,
-					NULL, NULL);
+					tooltips,
+					/* Untranslated */
+					"Dump debug info");
 	}
 
 	item = gtk_tool_item_new ();

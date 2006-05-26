@@ -1,5 +1,8 @@
 2006-05-25  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_create_edit_area): Add tooltip
+	for the debug button so we don't get a critical.
+
 	* src/str.c (gnm_string_dump): New function for debugging.
 
 	* src/dependent.c: Use new "compact set" implementation for the

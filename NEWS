@@ -16,6 +16,7 @@ Morten:
 	* Fixup expression sharer interfaces.
 	* Fix scientific-number editing problem.  [#342583]
 	* Reduce memory consumption for dependency storage.
+	* Fix CRITICAL for --debug-deps on startup.
 
 --------------------------------------------------------------------------
 
