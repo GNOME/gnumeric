@@ -7,8 +7,8 @@ msgid ""
 ""
 msgstr "Project-Id-Version: gnumeric 1.5.9.0 HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-26 03:31+0200\n"
-"PO-Revision-Date: 2006-05-26 17:46+0930\n"
+"POT-Creation-Date: 2006-05-27 03:30+0200\n"
+"PO-Revision-Date: 2006-05-27 21:08+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -346,7 +346,7 @@ msgstr "Gặp lỗi phân tách tên « %s »."
 
 #: ../plugins/excel/ms-excel-read.c:3149
 #, c-format
-msgid "Incorrect expression for name '%s' content will be lost.\n"
+msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Biểu thức không đúng cho tên « %s »: nội dung sẽ bị mất.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3159
@@ -378,14 +378,16 @@ msgstr "Chưa nhập mật khẩu"
 msgid ""
 "Some content will be lost when saving.  This format only supports %u cols, "
 "and this workbook has %d"
-msgstr "Một phần nội dung sẽ bị mất khi lưu. Dạng thức này hỗ trợ chỉ %u cột, còn sổ làm việc này có %d cột."
+msgstr "Một phần nội dung sẽ bị mất khi lưu. Dạng thức này hỗ trợ chỉ %u cột, còn sổ "
+"làm việc này có %d cột."
 
 #: ../plugins/excel/ms-excel-write.c:201
 #, c-format
 msgid ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
-msgstr "Một phần nội dung sẽ bị mất khi lưu. Dạng thức này hỗ trợ chỉ %u hàng, còn sổ làm việc này có %d hàng."
+msgstr "Một phần nội dung sẽ bị mất khi lưu. Dạng thức này hỗ trợ chỉ %u hàng, còn "
+"sổ làm việc này có %d hàng."
 
 #: ../plugins/excel/ms-excel-write.c:300
 msgid ""
@@ -1794,7 +1796,8 @@ msgstr "Nhập tài liệu GNU Oleo"
 msgid ""
 "Content past the maxium number of rows supported in this build (%u).  Please "
 "recompile with larger limits."
-msgstr "Gặp nội dung qua số hàng tối đa được hỗ trợ trong bản xây dựng này (%u). Hãy biên dịch lại với hạn chế lớn hơn."
+msgstr "Gặp nội dung qua số hàng tối đa được hỗ trợ trong bản xây dựng này (%u). Hãy "
+"biên dịch lại với hạn chế lớn hơn."
 
 #: ../plugins/openoffice/openoffice-read.c:693
 msgid "Missing expression"
@@ -1869,14 +1872,16 @@ msgstr "Siêu dữ liệu không hợp lệ « %s »"
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d rows, and sheet '%s' has %d"
-msgstr "Một phần nội dung sẽ bị mất khi lưu dạng « .sxc » OpenOffice. Khuôn dạng này hỗ trợ chỉ %d hàng, còn tờ « %s » có %d hàng."
+msgstr "Một phần nội dung sẽ bị mất khi lưu dạng « .sxc » OpenOffice. Khuôn dạng này "
+"hỗ trợ chỉ %d hàng, còn tờ « %s » có %d hàng."
 
 #: ../plugins/openoffice/openoffice-write.c:127
 #, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d columns, and sheet '%s' has %d"
-msgstr "Một phần nội dung sẽ bị mất khi lưu dạng « .sxc » OpenOffice. Khuôn dạng này hỗ trợ chỉ %d cột, còn tờ « %s » có %d cột."
+msgstr "Một phần nội dung sẽ bị mất khi lưu dạng « .sxc » OpenOffice. Khuôn dạng này "
+"hỗ trợ chỉ %d cột, còn tờ « %s » có %d cột."
 
 #: ../plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc, *.ods)"
@@ -8129,7 +8134,8 @@ msgstr "Chuyển các mục không thể phân tách thành giá trị chuỗi"
 msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
-msgstr "Khi đặt, giá trị chuỗi sẽ không thay đổi sau việc thay thế, thậm chí nếu nó hình như con số hay biểu thức."
+msgstr "Khi đặt, giá trị chuỗi sẽ không thay đổi sau việc thay thế, thậm chí nếu nó "
+"hình như con số hay biểu thức."
 
 #: ../src/dialogs/search-replace.glade.h:43
 msgid "_Column major"
@@ -13586,18 +13592,18 @@ msgstr "Chấp nhận thay đổi"
 msgid "Enter formula..."
 msgstr "Gõ công thức..."
 
-#: ../src/workbook-control-gui.c:2376
-#: ../src/workbook-control-gui.c:2391
+#: ../src/workbook-control-gui.c:2378
+#: ../src/workbook-control-gui.c:2393
 msgid "_Re-Edit"
 msgstr "Sửa _lại"
 
-#: ../src/workbook-control-gui.c:2377
-#: ../src/workbook-control-gui.c:2382
+#: ../src/workbook-control-gui.c:2379
+#: ../src/workbook-control-gui.c:2384
 msgid "_Discard"
 msgstr "_Hủy bỏ"
 
-#: ../src/workbook-control-gui.c:2381
-#: ../src/workbook-control-gui.c:2392
+#: ../src/workbook-control-gui.c:2383
+#: ../src/workbook-control-gui.c:2394
 msgid "_Accept"
 msgstr "_Chấp nhận"
 
@@ -13622,7 +13628,8 @@ msgstr "Bạn sắp hiệu chỉnh ô có dạng thức « text » (chữ)."
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
-msgstr "Ô này hiện thời không chứa chữ này, nhưng nếu bạn tiếp tục hiệu chỉnh, nội dung sẽ bị chuyển đổi sang chữ."
+msgstr "Ô này hiện thời không chứa chữ này, nhưng nếu bạn tiếp tục hiệu chỉnh, nội "
+"dung sẽ bị chuyển đổi sang chữ."
 
 #: ../src/workbook-edit.c:785
 msgid "Remove format"
