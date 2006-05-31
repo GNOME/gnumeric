@@ -90,43 +90,6 @@ cell_new (void)
 
 
 /**
- * cell_dup:
- * @cell: existing cell to duplicate
- *
- * Returns a copy of @cell which the caller needs to free.
- **/
-GnmCell *
-cell_dup (GnmCell const *cell)
-{
-	GnmCell *new_cell;
-
-	g_return_val_if_fail (cell != NULL, NULL);
-
-	new_cell = cell_new ();
-
-	/* bitmap copy first */
-	*new_cell = *cell;
-
-	/* The new cell is not linked into any of the major management structures */
-	new_cell->base.sheet = NULL;
-	new_cell->base.flags &= ~(DEPENDENT_NEEDS_RECALC |
-				  CELL_IN_SHEET_LIST |
-				  DEPENDENT_IS_LINKED);
-
-	/* now copy properly the rest */
-	if (cell_has_expr (new_cell))
-		gnm_expr_top_ref (new_cell->base.texpr);
-
-	new_cell->rendered_value = NULL;
-
-	new_cell->value = (new_cell->value)
-		? value_dup (new_cell->value)
-		: value_new_empty ();
-
-	return new_cell;
-}
-
-/**
  * cell_destroy: Frees all resources allocated to the cell's content and marks the
  *     GnmCell's container as dirty.
  *

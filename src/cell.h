@@ -36,9 +36,6 @@ GnmCell  *cell_new      (void);
 void	  cell_destroy  (GnmCell *cell);
 void	  cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo);
 
-/* DEPRECATED  */
-GnmCell	 *cell_dup	(GnmCell const *cell);
-
 /**
  * GnmCell state checking
  */

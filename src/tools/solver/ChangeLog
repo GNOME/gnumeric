@@ -1,3 +1,7 @@
+2006-05-31  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_lp_copy): Don't create dangling cells here.
+
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* api.c: ditto.
