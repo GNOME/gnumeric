@@ -1028,11 +1028,15 @@ excel_parse_formula1 (MSContainer const *container,
 				ptg_length = 2;
 			}
 			if (grbit == 0x00) {
+#if 0
 				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
 				fprintf (stderr, "Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
 					"bracket a 1x1 array formula.  please send us this file.\n"
 					"Flags = 0x%X\n", w);
+#else
+				; /* this looks ignoreable */
+#endif
 			} else if (grbit & 0x01) {
 				d (2, fprintf (stderr, "A volatile function\n"););
 

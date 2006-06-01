@@ -1,3 +1,9 @@
+2006-05-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula1) : disable the long lived
+	  warning about extended attr 0 with 3 and 0xA.  It has something to
+	  do with singleton arrays, but does not seem important.
+
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* boot.c: replaced gi18n.h by gi18n-lib.h.
