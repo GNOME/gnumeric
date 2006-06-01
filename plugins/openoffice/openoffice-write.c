@@ -56,6 +56,8 @@
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-opendoc-utils.h>
+
 #include <glib/gi18n-lib.h>
 #include <locale.h>
 
@@ -210,6 +212,8 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
+	g_object_unref (state->xml);
+	state->xml = NULL;
 }
 
 /*****************************************************************************/
@@ -224,6 +228,10 @@ oo_write_styles (GnmOOExport *state, GsfOutput *child)
 static void
 oo_write_meta (GnmOOExport *state, GsfOutput *child)
 {
+	GsfXMLOut *xml = gsf_xml_out_new (child);
+	gsf_opendoc_metadata_write (xml, 
+		go_doc_get_meta_data (GO_DOC (state->wb)));
+	g_object_unref (xml);
 }
 
 /*****************************************************************************/
@@ -265,6 +273,7 @@ oo_write_manifest (GnmOOExport *state, GsfOutput *child)
 	oo_file_entry (xml, "text/xml", "meta.xml");
 	oo_file_entry (xml, "text/xml", "settings.xml");
 	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
+	g_object_unref (xml);
 }
 
 /**********************************************************************************/

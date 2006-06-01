@@ -3,6 +3,10 @@
 	* plugins/openoffice/openoffice-read.c: replaced gi18n.h by gi18n-lib.h.
 	* plugins/openoffice/openoffice-write.c:
 
+2006-05-23  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c (oo_write_meta) : write the meta data.
+
 2006-05-09  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_cellref_parse) : Eike just posted a newer
