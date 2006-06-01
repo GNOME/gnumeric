@@ -1,5 +1,12 @@
 2006-05-31  Jody Goldberg <jody@gnome.org>
 
+	* component/gnumeric.c (cell_render_cairo) : Just look up the
+	  col_info/row_info directly for now.  It's less efficient than using
+	  GnmCell::col_info, but that is going away and this renderer will be
+	  rewritten to use GnmRenderedRegion when it is done.
+
+2006-05-31  Jody Goldberg <jody@gnome.org>
+
 	* src/parser.y (gnm_expr_parse_str) : fix docs.  Add new behavior.
 	  if conv is NULL use the conv from @pp::sheet
 

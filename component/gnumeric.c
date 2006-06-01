@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * Gnumeric GOffice component
  * gnumeric.c
@@ -148,13 +149,12 @@ go_gnm_component_set_data (GOComponent *component)
 
 #ifdef GOFFICE_WITH_CAIRO
 static void
-cell_render (cairo_t *cairo, GnmCell *cell)
+cell_render_cairo (cairo_t *cairo, GnmCell *cell,
+		   ColRowInfo const *ci, ColRowInfo const *ri)
 {
 	GOColor fore_color;
 	int x, y;
 	RenderedValue *rv = cell->rendered_value;
-	ColRowInfo const * const ci = cell->col_info;
-	ColRowInfo const * const ri = cell->row_info;
 
 	int width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
 	int height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
@@ -222,6 +222,7 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 	GSList *l;
 	SheetObject *so;
 	SheetObjectAnchor const *anchor;
+	ColRowInfo const *ci;
 	ColRowInfo const *ri;
 	GOImage *image;
 
@@ -234,8 +235,8 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 	cairo = go_image_get_cairo (image);
 	cairo_scale (cairo, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
 	for (col = gognm->col_start; col <= gognm->col_end; col++) {
-		ri = sheet_col_get_info (gognm->sheet, col);
-		if (!ri->visible)
+		ci = sheet_col_get_info (gognm->sheet, col);
+		if (!ci->visible)
 			continue;
 		yoffset = 0.;
 		for (row = gognm->row_start; row <= gognm->row_end; row++) {
@@ -249,7 +250,7 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 				cairo_scale (cairo,
 					72. / gnm_app_display_dpi_get (TRUE),
 					72. / gnm_app_display_dpi_get (FALSE));
-				cell_render (cairo, cell);
+				cell_render_cairo (cairo, cell, ci, ri);
 				cairo_restore (cairo);
 			}
 			yoffset += sheet_row_get_distance_pts (gognm->sheet, row, row + 1);
