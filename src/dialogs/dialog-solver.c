@@ -181,18 +181,14 @@ static gboolean
 dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   SolverState *state)
 {
-	gboolean ready;
-	gboolean select_ready;
+	SolverConstraintType t = gtk_combo_box_get_active (state->type_combo);
+	gboolean select_ready = (state->constr != NULL);
 
-	select_ready = (state->constr != NULL);
-	ready = gnm_expr_entry_is_cell_ref (state->lhs.entry, state->sheet,
-					    TRUE) &&
-		((gtk_combo_box_get_active (state->type_combo)
-		  == SolverINT)
-		 || (gtk_combo_box_get_active (state->type_combo)
-		     == SolverBOOL)
-		 || (is_hom_row_or_col_ref (state->lhs.entry, state->rhs.entry,
-					    state->sheet)));
+	gboolean ready =
+		gnm_expr_entry_is_cell_ref (state->lhs.entry, state->sheet, TRUE) &&
+		((t == SolverINT) ||
+		 (t == SolverBOOL) ||
+		 (is_hom_row_or_col_ref (state->lhs.entry, state->rhs.entry, state->sheet)));
 
 	gtk_widget_set_sensitive (state->add_button, ready);
 	gtk_widget_set_sensitive (state->change_button, select_ready && ready);

@@ -343,8 +343,9 @@ value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
  * value_new_cellrange_str :
  * @sheet: the sheet where the cell range is evaluated. This really only needed if
  *         the range given does not include a sheet specification.
- * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3).
+ * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3", "R1C1").
  *
+ * Parse @str using the convention associated with @sheet.
  * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
  */
@@ -361,8 +362,7 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
 		parse_pos_init_sheet (&pp, sheet),
 		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
 		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
-		gnm_expr_conventions_default,
-		NULL);
+		NULL, NULL);
 
 	if (texpr != NULL)  {
 		GnmValue *value = gnm_expr_top_get_range (texpr);

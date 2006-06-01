@@ -1252,7 +1252,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	texpr = gnm_expr_parse_str (text, pp, flags, gnm_expr_conventions_default, perr);
+	texpr = gnm_expr_parse_str (text, pp, flags, NULL, perr);
 	if (texpr == NULL)
 		return NULL;
 

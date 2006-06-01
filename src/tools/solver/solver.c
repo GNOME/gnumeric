@@ -835,17 +835,14 @@ solver_insert_cols (Sheet *sheet, int col, int count)
 
 	/* Adjust the input range. */
 	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
-	if (input_range != NULL) {
-	        if (input_range->v_range.cell.a.col >= col) {
-		        range.start.col = input_range->v_range.cell.a.col +
-			        count;
-		        range.start.row = input_range->v_range.cell.a.row;
-		        range.end.col   = input_range->v_range.cell.b.col +
-			        count;
-		        range.end.row   = input_range->v_range.cell.b.row;
-			param->input_entry_str =
-			        g_strdup (global_range_name (sheet, &range));
-		}
+	if (input_range != NULL &&
+	    input_range->v_range.cell.a.col >= col) {
+		range.start.col = input_range->v_range.cell.a.col + count;
+		range.start.row = input_range->v_range.cell.a.row;
+		range.end.col   = input_range->v_range.cell.b.col + count;
+		range.end.row   = input_range->v_range.cell.b.row;
+		param->input_entry_str = g_strdup (
+			global_range_name (sheet, &range));
 	}
 
 	/* Adjust the constraints. */
@@ -878,21 +875,17 @@ solver_delete_rows (Sheet *sheet, int row, int count)
 
 	/* Adjust the input range. */
 	input_range = value_new_cellrange_str (sheet, param->input_entry_str);
-	if (input_range != NULL) {
-	        if (input_range->v_range.cell.a.row >= row) {
-		        range.start.col = input_range->v_range.cell.a.col;
-		        range.start.row = input_range->v_range.cell.a.row -
-			        count;
-		        range.end.col   = input_range->v_range.cell.b.col;
-		        range.end.row   = input_range->v_range.cell.b.row -
-			        count;
-			if (range.start.row < row || range.end.row < row)
-			        param->input_entry_str = g_strdup ("");
-			else
-			        param->input_entry_str =
-				         g_strdup (global_range_name (sheet,
-								      &range));
-		}
+	if (input_range != NULL &&
+	    input_range->v_range.cell.a.row >= row) {
+		range.start.col = input_range->v_range.cell.a.col;
+		range.start.row = input_range->v_range.cell.a.row - count;
+		range.end.col   = input_range->v_range.cell.b.col;
+		range.end.row   = input_range->v_range.cell.b.row - count;
+		if (range.start.row < row || range.end.row < row)
+			param->input_entry_str = g_strdup ("");
+		else
+			param->input_entry_str = g_strdup (
+				global_range_name (sheet, &range));
 	}
 
 	/* Adjust the constraints. */

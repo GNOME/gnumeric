@@ -142,7 +142,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 			parse_pos_init_editpos (&pp, sv);
 			parse_error_init (&perr);
 			texpr = gnm_expr_parse_str (expr_txt,
-				&pp, GNM_EXPR_PARSE_DEFAULT, gnm_expr_conventions_default, &perr);
+				&pp, GNM_EXPR_PARSE_DEFAULT, NULL, &perr);
 			/* Try adding a single extra closing paren to see if it helps */
 			if (texpr == NULL && perr.err != NULL &&
 			    perr.err->code == PERR_MISSING_PAREN_CLOSE) {
@@ -151,7 +151,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 				parse_error_init (&tmp_err);
 				texpr = gnm_expr_parse_str (gnm_expr_char_start_p (tmp),
 					&pp, GNM_EXPR_PARSE_DEFAULT,
-					gnm_expr_conventions_default, &tmp_err);
+					NULL, &tmp_err);
 				parse_error_free (&tmp_err);
 
 				if (texpr != NULL)

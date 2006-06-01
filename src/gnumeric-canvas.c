@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Gnumeric's extended canvas used to display the sheet.
  *
@@ -176,7 +176,8 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 				 -(gcanvas->last_visible.col - gcanvas->first.col),
 				 FALSE, TRUE);
 		} else
-			(*movefn) (scg, sheet->text_is_rtl ? 1 : -1, jump_to_bounds || end_mode, TRUE);
+			(*movefn) (scg, sheet->text_is_rtl ? 1 : -1,
+				   jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Right:

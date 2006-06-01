@@ -1356,16 +1356,19 @@ yyerror (char const *s)
  * gnm_expr_parse_str:
  *
  * @expr_text   : The string to parse.
+ * @pp		: #GnmParsePos
  * @flags       : See parse-utils for descriptions
+ * @convs	: optionally NULL #GnmExprConventions
  * @error       : optionally NULL ptr to store details of error.
  *
  * Parse a string. if @error is non-null it will be assumed that the
  * caller has passed a pointer to a GnmParseError struct AND that it will
  * take responsibility for freeing that struct and its contents.
  * with parse_error_free.
+ * If @convs is NULL use the conventions from @pp.
  **/
 GnmExprTop const *
-gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
+gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
 		    GnmExprParseFlags flags,
 		    GnmExprConventions const *convs,
 		    GnmParseError *error)
@@ -1374,24 +1377,26 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 	ParserState pstate;
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
-	g_return_val_if_fail (convs != NULL, NULL);
+	g_return_val_if_fail (pp != NULL, NULL);
 
 	pstate.start = pstate.ptr = expr_text;
-	pstate.pos   = pos;
+	pstate.pos   = pp;
 
 	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
 	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
 	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 	pstate.unknown_names_are_strings		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
-	pstate.convs                                    = convs;
+	pstate.convs                                    =
+		(NULL != convs) ? convs : ((NULL != pp->sheet) ? pp->sheet->convs : gnm_expr_conventions_default);
 
-	pstate.decimal_point = convs->decimal_sep_dot
+
+	pstate.decimal_point = pstate.convs->decimal_sep_dot
 		? '.'
 		: g_utf8_get_char (format_get_decimal ()->str); /* FIXME: one char handled.  */
-	pstate.separator = convs->argument_sep_semicolon
+	pstate.separator = pstate.convs->argument_sep_semicolon
 		? ';'
 		: format_get_arg_sep ();
-	pstate.array_col_separator = convs->array_col_sep_comma
+	pstate.array_col_separator = pstate.convs->array_col_sep_comma
 		? ','
 		: format_get_col_sep ();
 
@@ -1401,8 +1406,6 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 	if (deallocate_stack == NULL)
 		deallocate_init ();
 
-	g_return_val_if_fail (pstate.pos != NULL, NULL);
-	g_return_val_if_fail (pstate.ptr != NULL, NULL);
 	g_return_val_if_fail (state == NULL, NULL);
 
 	state = &pstate;

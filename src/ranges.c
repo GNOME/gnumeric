@@ -1,8 +1,9 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * ranges.c: various functions for common operations on cell ranges.
  *
  * Author:
+ *   Jody Goldberg   (jody@gnome.org)
  *   Miguel de Icaza (miguel@gnu.org).
  *   Michael Meeks   (mmeeks@gnu.org).
  */
@@ -1120,14 +1121,12 @@ global_range_list_parse (Sheet *sheet, char const *str)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	texpr = gnm_expr_parse_str
-		(str,
+	texpr = gnm_expr_parse_str (str,
 		 parse_pos_init_sheet (&pp, sheet),
 		 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
 		 GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS |
 		 GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
-		 gnm_expr_conventions_default,
-		 NULL);
+		 NULL, NULL);
 
 	if (texpr != NULL)  {
 		if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_SET) {

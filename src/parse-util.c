@@ -731,9 +731,7 @@ parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
 	expr_start = gnm_expr_char_start_p (text);
 	if (NULL != expr_start && *expr_start) {
 		*texpr = gnm_expr_parse_str (expr_start, pos,
-					     GNM_EXPR_PARSE_DEFAULT,
-					     gnm_expr_conventions_default,
-					     NULL);
+			GNM_EXPR_PARSE_DEFAULT, NULL, NULL);
 		if (*texpr != NULL)
 			return;
 	}
@@ -929,8 +927,6 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 	return end;
 }
 
-/* An odd little routine that is called when we start parsing looking for an A1
- * style ref and get into a situation that may be an R1C1 */
 static char const *
 r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 {
@@ -1477,8 +1473,7 @@ parse_util_shutdown (void)
 GnmExprTop const *
 gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp)
 {
-	return gnm_expr_parse_str (expr, pp, GNM_EXPR_PARSE_DEFAULT,
-				   gnm_expr_conventions_default, NULL);
+	return gnm_expr_parse_str (expr, pp, GNM_EXPR_PARSE_DEFAULT, NULL, NULL);
 }
 
 /* ------------------------------------------------------------------------- */
