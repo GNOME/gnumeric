@@ -302,25 +302,15 @@ save_original_values (SolverResults          *res,
 	res->original_value_of_obj_fn = value_get_as_float (cell->value);
 }
 
-/*
- * Restores the original values of the input variables.
- */
 static void
 restore_original_values (SolverResults *res)
 {
-  
-	GSList   *inputs = res->param->input_cells;
-	GnmCell  *cell;
-	int      i = 0;
+	GSList *ptr;
+	int     i = 0;
 
-	while (inputs != NULL) {
-	        cell = (GnmCell *) inputs->data;
-
-		sheet_cell_set_value (cell,
-				      value_new_float(res->original_values[i]));
-		inputs = inputs->next;
-		i++;
-	}
+	for (ptr = res->param->input_cells; ptr != NULL ; ptr = ptr->next)
+		sheet_cell_set_value (ptr->data,
+			value_new_float (res->original_values[i++]));
 }
 
 /************************************************************************

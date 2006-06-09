@@ -1,3 +1,14 @@
+2006-06-09  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-view.h (SheetView) : Add ::first_col_tab
+	  to track the first column a user used Tab to move out of.
+	* src/sheet-view.c (sv_set_edit_pos) : reset ::first_tab_col to -1.
+	* src/selection.c (sv_selection_walk_step) : When moving vertically in
+	  a singleton (hitting Enter) check to see if the previous movements
+	  where done with Tab, and jump back to that column.  For horizontal
+	  movement (hitting Tab) store the col or restore the previous
+	  ::first_tab_col. #88167
+
 2006-05-31  Jody Goldberg <jody@gnome.org>
 
 	* component/gnumeric.c (cell_render_cairo) : Just look up the

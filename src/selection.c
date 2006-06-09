@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * selection.c:  Manage selection regions.
  *
@@ -1187,7 +1187,10 @@ sv_selection_walk_step (SheetView *sv,
 	}
 
 	if (is_singleton) {
+		int const first_tab_col = sv->first_tab_col;
+		int const cur_col = sv->edit_pos.col;
 		GnmRange full_sheet;
+
 		if (horizontal) {
 			full_sheet.start.col = 0;
 			full_sheet.end.col   = SHEET_MAX_COLS-1;
@@ -1203,11 +1206,16 @@ sv_selection_walk_step (SheetView *sv,
 		/* Ignore attempts to move outside the boundary region */
 		if (!walk_boundaries (sv, &full_sheet, forward, horizontal,
 				      FALSE, &destination)) {
+			if (!horizontal && first_tab_col >= 0)
+				destination.col = first_tab_col;
+
 			sv_selection_set (sv, &destination,
 					  destination.col, destination.row,
 					  destination.col, destination.row);
 			sv_make_cell_visible (sv, sv->edit_pos.col,
 					      sv->edit_pos.row, FALSE);
+			if (horizontal)
+				sv->first_tab_col = (first_tab_col < 0) ? cur_col : first_tab_col;
 		}
 		return;
 	}

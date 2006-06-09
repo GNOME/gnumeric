@@ -390,7 +390,7 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
  * @move_col :
  * @move_row :
  * @bound    : An optionally NULL range that should contain all the supplied points
- */
+ **/
 void
 sv_cursor_set (SheetView *sv,
 	       GnmCellPos const *edit,
@@ -447,6 +447,7 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 	g_return_if_fail (pos->row < SHEET_MAX_ROWS);
 
 	old = sv->edit_pos;
+	sv->first_tab_col = -1; /* invalidate */
 
 	if (old.col != pos->col || old.row != pos->row) {
 		GnmRange const *merged = sheet_merge_is_corner (sv->sheet, &old);

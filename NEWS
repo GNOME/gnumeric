@@ -6,6 +6,7 @@ Jody:
 	* Add context menu binding for selected objects. [#338616]
 	* Allow File->Save even when editing an object. [#338619]
 	* Only install util man pages if they are built. [#341916]
+	* Handle Tab/Return movement. [#88167]
 
 Morten:
 	* Moved font metrics to goffice.

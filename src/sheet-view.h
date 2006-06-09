@@ -26,6 +26,7 @@ struct _SheetView {
 	GSList		*selections;
 	GnmCellPos	 edit_pos;	/* Cell that would be edited */
 	GnmCellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
+	int		 first_tab_col;	/* where to jump to after an Enter */
 
 	struct {
 		/* Static corner to rubber band the selection range around */
