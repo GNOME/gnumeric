@@ -1,3 +1,10 @@
+2006-03-31  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : force libgsf < 1.13.0
+	  gsf_xml_in_parse was renamed to gsf_xml_in_doc_parse in newer
+	  versions.
+	* README : ditto.
+
 2006-03-14  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump and mark as dormant.

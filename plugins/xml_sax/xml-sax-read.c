@@ -1279,7 +1279,6 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 	char const *type_name = gsf_state->node->name;
-	char *tmp;
 	int tmp_int;
 	SheetObject *so;
 
@@ -1341,7 +1340,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 				so->anchor.offset +2, so->anchor.offset +3);
 		} else if (!strcmp (attrs[0], "ObjectanchorType")) {
 			int i[4], count;
-			sscanf (tmp, "%d %d %d %d", i+0, i+1, i+2, i+3);
+			sscanf (attrs[1], "%d %d %d %d", i+0, i+1, i+2, i+3);
 
 			for (count = 4; count-- > 0 ; )
 				so->anchor.type[count] = i[count];
