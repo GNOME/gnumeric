@@ -1,3 +1,11 @@
+2006-05-31  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (callback_function_sumxy) : Adjust to the signature
+	  change in CellIterFunc.
+	(cb_countif) : ditto.
+	(cb_sumif) : ditto.
+	(cb_function_mmult_validate) : ditto.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0

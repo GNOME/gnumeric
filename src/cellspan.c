@@ -202,7 +202,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	int row, pos, margin;
 	int cell_width_pixel, indented_w;
 	GnmStyle const *style;
-	ColRowInfo const *ri;
+	ColRowInfo const *ri, *ci;
 	GnmRange const *merge_left;
 	GnmRange const *merge_right;
 
@@ -239,11 +239,12 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			h_align = (h_align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;
 	}
 
+	ci = sheet_col_get_info	(cell->base.sheet, cell->pos.col);
 	if (cell_is_empty (cell) ||
-	    !cell->col_info->visible ||
+	    !ci->visible ||
 	    (h_align != HALIGN_CENTER_ACROSS_SELECTION &&
 		 (gnm_style_get_wrap_text (style) ||
-		  indented_w <= COL_INTERNAL_WIDTH (cell->col_info))) ||
+		  indented_w <= COL_INTERNAL_WIDTH (ci))) ||
 	    h_align == HALIGN_JUSTIFY ||
 	    h_align == HALIGN_FILL ||
 	    h_align == HALIGN_DISTRIBUTED ||
@@ -261,8 +262,8 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	switch (h_align) {
 	case HALIGN_LEFT:
 		pos = cell->pos.col + 1;
-		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
-		margin = cell->col_info->margin_b;
+		left = indented_w - COL_INTERNAL_WIDTH (ci);
+		margin = GNM_COL_MARGIN;
 
 		for (; left > 0 && pos < max_col; pos++){
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
@@ -285,8 +286,8 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 
 	case HALIGN_RIGHT:
 		pos = cell->pos.col - 1;
-		left = indented_w - COL_INTERNAL_WIDTH (cell->col_info);
-		margin = cell->col_info->margin_a;
+		left = indented_w - COL_INTERNAL_WIDTH (ci);
+		margin = GNM_COL_MARGIN;
 
 		for (; left > 0 && pos > min_col; pos--){
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
@@ -312,12 +313,12 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		int margin_a, margin_b, pos_l, pos_r;
 
 		pos_l = pos_r = cell->pos.col;
-		left = cell_width_pixel -  COL_INTERNAL_WIDTH (cell->col_info);
+		left = cell_width_pixel -  COL_INTERNAL_WIDTH (ci);
 
 		remain_left  = left / 2 + (left % 2);
 		remain_right = left / 2;
-		margin_a = cell->col_info->margin_a;
-		margin_b = cell->col_info->margin_b;
+		margin_a = GNM_COL_MARGIN;
+		margin_b = GNM_COL_MARGIN;
 
 		for (; remain_left > 0 || remain_right > 0;){
 			ColRowInfo const *ci;

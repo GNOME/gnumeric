@@ -1318,25 +1318,26 @@ typedef struct {
 	gboolean           ignore_subtotal;
 } IterateCallbackClosure;
 
-/*
+/**
  * cb_iterate_cellrange:
  *
  * Helper routine used by the function_iterate_do_value routine.
  * Invoked by the sheet cell range iterator.
- */
+ **/
 static GnmValue *
-cb_iterate_cellrange (Sheet *sheet, int col, int row,
-		      GnmCell *cell, gpointer user_data)
+cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
+		      
 {
-	IterateCallbackClosure *data = user_data;
+	IterateCallbackClosure *data = user;
+	GnmCell  *cell;
 	GnmValue *res;
 	GnmEvalPos ep;
 
-	if (cell == NULL) {
-		ep.sheet = sheet;
+	if (NULL == (cell = iter->cell)) {
+		ep.sheet = iter->pp.sheet;
 		ep.dep = NULL;
-		ep.eval.col = col;
-		ep.eval.row = row;
+		ep.eval.col = iter->pp.eval.col;
+		ep.eval.row = iter->pp.eval.row;
 		return (*data->callback)(&ep, NULL, data->closure);
 	}
 

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * analysis-tools.c:
  *
@@ -84,17 +85,11 @@ typedef struct {
 	Sheet *sheet;
 } data_list_specs_t;
 
-/*
- *  cb_store_data:
- *  @cell:
- *  @data: pointer to a data_set_t
- */
 static GnmValue *
-cb_store_data (G_GNUC_UNUSED Sheet *sheet,
-	       G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
-	       GnmCell *cell, void *user_data)
+cb_store_data (GnmCellIter const *iter, gpointer user)
 {
-	data_set_t *data_set = (data_set_t *)user_data;
+	data_set_t *data_set = (data_set_t *)user;
+	GnmCell *cell = iter->cell;
 	gnm_float the_data;
 
 	if (data_set->read_label) {
@@ -753,16 +748,17 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 	g_free (orig_copy);
 }
 
-/* Callbacks for write */
+#warning 2006/May/31  Review this.  Why are we pulling elements from the front of an array ??
 static GnmValue *
-WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
-			 GnmCell *cell, GArray* data)
+cb_write_data (GnmCellIter const *iter, GArray* data)
 {
 	gnm_float  x;
+	GnmCell *cell;
 	if (data->len == 0)
 		return VALUE_TERMINATE;
-	if (cell == NULL)
-		cell = sheet_cell_new (sheet, col, row);
+	if (NULL == (cell = iter->cell))
+		cell = sheet_cell_create (iter->pp.sheet,
+			iter->pp.eval.col, iter->pp.eval.row);
 	x = g_array_index (data, gnm_float, 0);
 	g_array_remove_index (data, 0);
 	sheet_cell_set_value (cell, value_new_float (x));
@@ -782,7 +778,7 @@ write_data (data_analysis_output_t *dao, GArray *data)
 
 	sheet_foreach_cell_in_range (dao->sheet, CELL_ITER_ALL,
 		st_col, st_row, end_col, end_row,
-		(CellIterFunc)&WriteData_ForeachCellCB, data);
+		(CellIterFunc)&cb_write_data, data);
 }
 
 static gboolean

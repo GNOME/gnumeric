@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_EXPR_H
-#define GNUMERIC_EXPR_H
+#ifndef GNM_EXPR_H
+#define GNM_EXPR_H
 
 #include "gnumeric.h"
 #include "position.h"
@@ -78,7 +78,7 @@ char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
 gboolean  gnm_expr_contains_subtotal (GnmExpr const *expr);
 
 struct _GnmExprRelocateInfo {
-	GnmEvalPos pos;
+	GnmParsePos pos;
 
 	GnmRange   origin;	    /* References to cells in origin_sheet!range */
 	Sheet     *origin_sheet;    /* should to adjusted */
@@ -178,4 +178,4 @@ GnmExprTop const *gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *te
 void expr_init (void);
 void expr_shutdown (void);
 
-#endif /* GNUMERIC_EXPR_H */
+#endif /* GNM_EXPR_H */

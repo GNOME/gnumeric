@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include "colrow.h"
+#include "position.h"
 #include <pango/pango.h>
 
 typedef struct _SheetPrivate SheetPrivate;
@@ -111,19 +112,27 @@ void      sheet_destroy_contents (Sheet *sheet);
 /* GnmCell management */
 GnmCell  *sheet_cell_get	 (Sheet const *sheet, int col, int row);
 GnmCell  *sheet_cell_fetch	 (Sheet *sheet, int col, int row);
-GnmCell  *sheet_cell_new	 (Sheet *sheet, int col, int row);
+GnmCell  *sheet_cell_create	 (Sheet *sheet, int col, int row);
 void      sheet_cell_remove	 (Sheet *sheet, GnmCell *cell,
 				  gboolean redraw, gboolean queue_recalc);
+/* TODO TODO TODO
+ * Merge with sheet_cell_foreach
+ *
+ **/
+struct _GnmCellIter {
+	GnmCell	    *cell;
+	GnmParsePos  pp;
+	ColRowInfo  *ci, *ri;
+};
 GnmValue *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
 				  int start_col, int start_row,
 				  int end_col, int end_row,
 				  CellIterFunc callback,
 				  gpointer     closure);
-void	    sheet_foreach_cell	 (Sheet *sheet, GHFunc callback, gpointer data);
-GPtrArray  *sheet_cells          (Sheet *sheet,
-				  int start_col, int start_row,
-				  int end_col, int end_row,
-				  gboolean comments);
+void	    sheet_cell_foreach	 (Sheet const *sheet,
+				  GHFunc callback, gpointer data);
+unsigned    sheet_cells_count	 (Sheet const *sheet);
+GPtrArray  *sheet_cells          (Sheet *sheet, gboolean comments);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 

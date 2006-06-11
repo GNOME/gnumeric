@@ -415,13 +415,15 @@ cb_set_colrow_size (ColRowInfo *info, void *userdata)
 }
 
 static GnmValue *
-cb_clear_variable_width_content (Sheet *sheet, int col, int row, GnmCell *cell)
+cb_clear_variable_width_content (GnmCellIter const *iter,
+				 G_GNUC_UNUSED gpointer user)
 {
-	if (cell->rendered_value != NULL &&
-	    cell->rendered_value->variable_width) {
-		cell->row_info->needs_respan = TRUE;
-		rendered_value_destroy (cell->rendered_value);
-		cell->rendered_value = NULL;
+	RenderedValue *rv;
+	if (NULL != (rv = iter->cell->rendered_value) &&
+	    rv->variable_width) {
+		iter->ri->needs_respan = TRUE;
+		rendered_value_destroy (rv);
+		iter->cell->rendered_value = NULL;
 	}
 	return NULL;
 }

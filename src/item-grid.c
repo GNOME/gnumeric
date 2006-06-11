@@ -306,21 +306,17 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
-		ColRowInfo const * const ci = cell->col_info;
 
 		if (ri->needs_respan)
 			row_calc_spans ((ColRowInfo *)ri, sheet);
 
-		/* FIXME : get the margins from the far col/row too */
 		if (sheet->text_is_rtl)
 			cell_draw (cell, ig->gc.cell, drawable,
-				   r, t,
-				   l - r - (ci->margin_b + ci->margin_a + 1),
+				   r, t, l - r,
 				   b - t - (ri->margin_b + ri->margin_a + 1), -1);
 		else
 			cell_draw (cell, ig->gc.cell, drawable,
-				   l, t,
-				   r - l - (ci->margin_b + ci->margin_a + 1),
+				   l, t, r - l,
 				   b - t - (ri->margin_b + ri->margin_a + 1), -1);
 	}
 	style_border_draw_diag (style, drawable, l, t, r, b);
@@ -649,22 +645,23 @@ plain_draw : /* a quick hack to deal with 142267 */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell) && cell != edit_cell)
 					cell_draw (cell, ig->gc.cell, drawable,
-						   x, y, -1, -1, -1);
+						   x, y, ci->size_pixels,
+						   ri->size_pixels - (ri->margin_b + ri->margin_a + 1),
+						   -1);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
-			 * to draw the edit cell, or blanks.
-			 */
+			 * to draw the edit cell, or blanks. */
 			} else if (edit_cell != span->cell &&
 				   (col == span->right || col == end_col)) {
 				GnmCell const *cell = span->cell;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = x;
-				int center_offset = cell->col_info->size_pixels/2;
-				/* TODO : Use the spanning margins */
-				int tmp_width = ci->size_pixels -
-					ci->margin_b - ci->margin_a;
+				ColRowInfo const *cell_col =
+					sheet_col_get_info (sheet, cell->pos.col);
+				int center_offset = cell_col->size_pixels/2;
+				int tmp_width = ci->size_pixels;
 
 				if (col != cell->pos.col)
 					style = sheet_style_get (sheet,
@@ -672,8 +669,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 
 				/* x, y are relative to this cell origin, but the cell
 				 * might be using columns to the left (if it is set to right
-				 * justify or center justify) compute the pixel difference
-				 */
+				 * justify or center justify) compute the pixel difference */
 				if (start_span_col != cell->pos.col)
 					center_offset += scg_colrow_distance_get (
 						gcanvas->simple.scg, TRUE,
@@ -698,7 +694,9 @@ plain_draw : /* a quick hack to deal with 142267 */
 				}
 
 				cell_draw (cell, ig->gc.cell, drawable,
-					   real_x, y, tmp_width, -1, center_offset);
+					   real_x, y, tmp_width,
+					   ri->size_pixels - (ri->margin_b + ri->margin_a + 1),
+					   center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

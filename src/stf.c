@@ -224,19 +224,18 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 }
 
 static GnmValue *
-cb_get_content (Sheet *sheet, int col, int row,
-		GnmCell *cell, GsfOutput *buf)
+cb_get_content (GnmCellIter const *iter, GsfOutput *buf)
 {
-	if (cell != NULL) {
+	GnmCell *cell;
+
+	if (NULL != (cell = iter->cell)) {
 		char *tmp;
-		if (cell_has_expr (cell)) {
-			GnmParsePos pp;
+		if (cell_has_expr (cell))
 			tmp = gnm_expr_top_as_string (cell->base.texpr,
-				parse_pos_init_cell (&pp, cell),
-				gnm_expr_conventions_default);
-		} else if (VALUE_FMT (cell->value) != NULL)
+				&iter->pp, iter->pp.sheet->convs);
+		else if (VALUE_FMT (cell->value) != NULL)
 			tmp = format_value (NULL, cell->value, NULL, -1,
-				workbook_date_conv (sheet->workbook));
+				workbook_date_conv (iter->pp.wb));
 		else
 			tmp = value_get_as_string (cell->value);
 

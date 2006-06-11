@@ -1135,7 +1135,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	cell = sheet_cell_get (ctxt->sheet, col, row);
 	if ((is_new_cell = (cell == NULL)))
-		cell = sheet_cell_new (ctxt->sheet, col, row);
+		cell = sheet_cell_create (ctxt->sheet, col, row);
 	if (cell == NULL)
 		return NULL;
 

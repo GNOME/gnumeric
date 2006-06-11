@@ -142,9 +142,7 @@ search_collect_cells (GnmSearchReplace *sr)
 		break;
 
 	case GNM_SRS_SHEET:
-		cells = sheet_cells (sr->sheet,
-				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
-				     TRUE);
+		cells = sheet_cells (sr->sheet, TRUE);
 		break;
 
 	case GNM_SRS_RANGE:

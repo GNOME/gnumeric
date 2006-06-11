@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_COLROW_H
-#define GNUMERIC_COLROW_H
+#ifndef GNM_COLROW_H
+#define GNM_COLROW_H
 
 #include "gnumeric.h"
 
@@ -36,6 +36,9 @@ struct _ColRowCollection {
 	float	    size_pts;
 	int	    size_pixels;
 };
+
+/* We never did get around to support 'thick' borders so these are constants */
+#define	GNM_COL_MARGIN	2	/* these do not scale, no unit needed */
 
 /* The size, mask, and shift must be kept in sync */
 #define COLROW_SEGMENT_SIZE	0x80
@@ -128,4 +131,4 @@ void             colrow_autofit                 (Sheet *sheet,
 						 ColRowIndexList **indices,
 						 ColRowStateList **sizes);
 
-#endif /* GNUMERIC_COLROW_H */
+#endif /* GNM_COLROW_H */

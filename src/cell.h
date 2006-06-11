@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_CELL_H
-#define GNUMERIC_CELL_H
+#ifndef GNM_CELL_H
+#define GNM_CELL_H
 
 #include "gnumeric.h"
 #include "dependent.h"
@@ -22,7 +22,6 @@ struct _GnmCell {
 
 	/* Mandatory state information */
 	GnmCellPos     pos;
-	ColRowInfo    *col_info;
 	ColRowInfo    *row_info;
 
 	GnmValue      *value;	/* computed or entered (Must be non NULL) */
@@ -42,7 +41,6 @@ void	  cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo);
 #define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
 #define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IS_LINKED)
 #define	    cell_has_expr(cell)		((cell)->base.texpr != NULL)
-#define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
 #define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)
 gboolean    cell_is_empty	  (GnmCell const *cell);
 gboolean    cell_is_blank	  (GnmCell const *cell); /* empty, or "" */
@@ -98,4 +96,4 @@ char *  cell_get_rendered_text  (GnmCell *cell);
 void cell_init (void);
 void cell_shutdown (void);
 
-#endif /* GNUMERIC_CELL_H */
+#endif /* GNM_CELL_H */

@@ -471,15 +471,9 @@ setup_scale (PrintJobInfo const *pj, Sheet const *sheet)
 }
 
 static GnmValue *
-cb_range_empty (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flags)
+cb_range_empty (GnmCellIter const *iter, gpointer flags)
 {
-	ColRowInfo const *cri = sheet_col_get_info (sheet, col);
-	if (!cri->visible)
-		return NULL;
-	cri = sheet_row_get_info (sheet, row);
-	if (!cri->visible)
-		return NULL;
-	return VALUE_TERMINATE;
+	return (iter->ci->visible && iter->ri->visible) ? VALUE_TERMINATE : NULL;
 }
 
 /**

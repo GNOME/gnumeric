@@ -459,20 +459,20 @@ clipboard_paste_region (GnmCellRegion const *contents,
 }
 
 static GnmValue *
-cb_clipboard_prepend_cell (Sheet *sheet, int col, int row,
-			   GnmCell const *cell, GnmCellRegion *cr)
+cb_clipboard_prepend_cell (GnmCellIter const *iter, GnmCellRegion *cr)
 {
 	GnmRange     a;
 	GnmCellCopy *copy = gnm_cell_copy_new (
-		col - cr->base.col, row - cr->base.row);
-	copy->val = value_dup (cell->value);
+		iter->pp.eval.col - cr->base.col,
+		iter->pp.eval.row - cr->base.row);
+	copy->val = value_dup (iter->cell->value);
 
-	if (cell_has_expr (cell)) {
-		gnm_expr_top_ref (copy->texpr = cell->base.texpr);
+	if (cell_has_expr (iter->cell)) {
+		gnm_expr_top_ref (copy->texpr = iter->cell->base.texpr);
 
 		/* Check for array division */
 		if (!cr->not_as_contents &&
-		    cell_array_bound (cell, &a) &&
+		    cell_array_bound (iter->cell, &a) &&
 		    (a.start.col < cr->base.col ||
 		     a.start.row < cr->base.row ||
 		     a.end.col >= (cr->base.col + cr->cols) ||
@@ -540,9 +540,12 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 
 /**
  * clipboard_copy_obj:
+ * @sheet : #Sheet
+ * @objects : #GSList
  *
- * Returns a cell region with copies of objects in list.
- */
+ * Returns a cell region with copies of objects in list.  Caller is responsible
+ * 	for cellregion_unref-ing the result.
+ **/
 GnmCellRegion *
 clipboard_copy_obj (Sheet *sheet, GSList *objects)
 {

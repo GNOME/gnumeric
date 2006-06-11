@@ -413,15 +413,14 @@ struct assign_closure {
 };
 
 static GnmValue *
-cb_assign_val (Sheet *sheet, int col, int row,
-	       GnmCell *cell, struct assign_closure *dat)
+cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 {
 	GnmValue *v;
 	double res;
 
-	if (cell != NULL) {
-		cell_eval (cell);
-		v = cell->value;
+	if (iter->cell != NULL) {
+		cell_eval (iter->cell);
+		v = iter->cell->value;
 	} else
 		v = NULL;
 
@@ -433,7 +432,7 @@ cb_assign_val (Sheet *sheet, int col, int row,
 	dat->last = dat->i;
 	if (VALUE_IS_STRING (v)) {
 		v = format_match_number (v->v_str.val->str, NULL,
-				workbook_date_conv (sheet->workbook));
+			workbook_date_conv (iter->pp.wb));
 		if (v == NULL) {
 			dat->vals[dat->i++] = gnm_pinf;
 			return NULL;
@@ -810,23 +809,22 @@ struct assign_matrix_closure {
 };
 
 static GnmValue *
-cb_assign_matrix_val (Sheet *sheet, int col, int row,
-	       GnmCell *cell, struct assign_matrix_closure *dat)
+cb_assign_matrix_val (GnmCellIter const *iter,
+		      struct assign_matrix_closure *dat)
 {
 	GnmValue *v;
 	double res;
 
-	if (dat->first_row == -1)
-		dat->first_row = row;
-	dat->row = row - dat->first_row;
-
 	if (dat->first_col == -1)
-		dat->first_col = col;
-	dat->col = col - dat->first_col;
-	
-	if (cell != NULL) {
-		cell_eval (cell);
-		v = cell->value;
+		dat->first_col = iter->pp.eval.col;
+	dat->col = iter->pp.eval.col - dat->first_col;
+	if (dat->first_row == -1)
+		dat->first_row = iter->pp.eval.row;
+	dat->row = iter->pp.eval.row - dat->first_row;
+
+	if (iter->cell != NULL) {
+		cell_eval (iter->cell);
+		v = iter->cell->value;
 	} else
 		v = NULL;
 	
@@ -843,7 +841,7 @@ cb_assign_matrix_val (Sheet *sheet, int col, int row,
 
 	if (VALUE_IS_STRING (v)) {
 		v = format_match_number (v->v_str.val->str, NULL,
-				workbook_date_conv (sheet->workbook));
+			workbook_date_conv (iter->pp.wb));
 		if (v == NULL) {
 			dat->vals[dat->row * dat->columns + dat->col] = go_nan;
 			/* may be go_pinf should be more appropriate? */

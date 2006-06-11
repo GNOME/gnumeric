@@ -135,8 +135,8 @@ typedef enum {
 	/* contains SUBTOTAL, or hidden row in a filter */
 	CELL_ITER_IGNORE_SUBTOTAL	= 1 << 3
 } CellIterFlags;
-typedef GnmValue *(*CellIterFunc) (Sheet *sheet, int col, int row,
-				   GnmCell *cell, gpointer user_data);
+typedef struct _GnmCellIter GnmCellIter;
+typedef GnmValue *(*CellIterFunc) (GnmCellIter const *iter, gpointer user);
 
 typedef enum {
 	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */

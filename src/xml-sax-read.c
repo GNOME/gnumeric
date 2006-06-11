@@ -1376,7 +1376,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	cell = sheet_cell_get (state->sheet, col, row);
 	if ((is_new_cell = (cell == NULL)))
-		cell = sheet_cell_new (state->sheet, col, row);
+		cell = sheet_cell_create (state->sheet, col, row);
 
 	if (cell == NULL)
 		return;

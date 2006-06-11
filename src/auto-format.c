@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * auto-format.c: Suggest formats for expressions.
  *
@@ -66,13 +67,11 @@ static GnmFuncFlags do_af_suggest_list (int argc,
 struct cb_af_suggest { GnmFuncFlags typ; GOFormat **explicit; };
 
 static GnmValue *
-cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
-	       G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
-	       GnmCell *cell, void *_data)
+cb_af_suggest (GnmCellIter const *iter, gpointer user)
 {
-	struct cb_af_suggest *data = _data;
+	struct cb_af_suggest *data = user;
 
-	*(data->explicit) = cell_get_format (cell);
+	*(data->explicit) = cell_get_format (iter->cell);
 	if (*(data->explicit)) {
 		data->typ = AF_EXPLICIT;
 		return VALUE_TERMINATE;

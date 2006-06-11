@@ -178,12 +178,11 @@ sheet_set_use_r1c1 (Sheet *sheet, gboolean use_r1c1)
 }
 
 static GnmValue *
-cb_rerender_zeroes (Sheet *sheet, int col, int row, GnmCell *cell,
-		    gpointer ignored)
+cb_rerender_zeroes (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	if (!cell->rendered_value || !cell_is_zero (cell))
+	if (!iter->cell->rendered_value || !cell_is_zero (iter->cell))
 		return NULL;
-	cell_render_value (cell, TRUE);
+	cell_render_value (iter->cell, TRUE);
 	return NULL;
 }
 
@@ -303,7 +302,7 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS - 1,
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
-	g_hash_table_foreach (sheet->cell_hash, (GHFunc)&cb_clear_rendered_cells, NULL);
+	sheet_cell_foreach (sheet, (GHFunc)&cb_clear_rendered_cells, NULL);
 	SHEET_FOREACH_CONTROL (sheet, view, control, sc_scale_changed (control););
 }
 
@@ -774,12 +773,11 @@ sheet_redraw_all (Sheet const *sheet, gboolean headers)
 }
 
 static GnmValue *
-cb_clear_rendered_values (Sheet *sheet, int col, int row, GnmCell *cell,
-			  gpointer ignored)
+cb_clear_rendered_values (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	if (cell->rendered_value != NULL) {
-		rendered_value_destroy (cell->rendered_value);
-		cell->rendered_value = NULL;
+	if (iter->cell->rendered_value != NULL) {
+		rendered_value_destroy (iter->cell->rendered_value);
+		iter->cell->rendered_value = NULL;
 	}
 	return NULL;
 }
@@ -1277,7 +1275,7 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 
 	cell = sheet_cell_get (sheet, col, row);
 	if (!cell)
-		cell = sheet_cell_new (sheet, col, row);
+		cell = sheet_cell_create (sheet, col, row);
 
 	return cell;
 }
@@ -1460,7 +1458,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	closure.range.end.row   = 0;
 	closure.spans_and_merges_extend = spans_and_merges_extend;
 
-	g_hash_table_foreach (sheet->cell_hash, &cb_sheet_get_extent, &closure);
+	sheet_cell_foreach (sheet, &cb_sheet_get_extent, &closure);
 
 	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
@@ -1492,18 +1490,16 @@ struct cb_fit {
 	gboolean ignore_strings;
 };
 
-/*
- * Callback for sheet_foreach_cell_in_range to find the maximum width
- * in a range.
- */
+/* find the maximum width in a range.  */
 static GnmValue *
-cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
-		   struct cb_fit *data)
+cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 {
 	int width;
+	GnmCell *cell = iter->cell;
 
 	if (cell_is_merged (cell))
 		return NULL;
+
 	/* Variable width cell must be re-rendered */
 	if (cell->rendered_value == NULL ||
 	    cell->rendered_value->variable_width)
@@ -1514,7 +1510,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
 		return NULL;
 
 	/* Make sure things are as-if drawn.  */
-	cell_finish_layout (cell, NULL, TRUE);
+	cell_finish_layout (cell, NULL, iter->ci->size_pixels, TRUE);
 
 	width = cell_rendered_width (cell) + cell_rendered_offset (cell);
 	if (width > data->max)
@@ -1536,7 +1532,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
  *
  * Return : Maximum size in pixels INCLUDING margins and grid lines
  *          or 0 if there are no cells.
- */
+ **/
 int
 sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow,
 			   gboolean ignore_strings)
@@ -1562,15 +1558,12 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow,
 	return data.max;
 }
 
-/*
- * Callback for sheet_foreach_cell_in_range to find the maximum height
- * in a range.
- */
+/* find the maximum height in a range. */
 static GnmValue *
-cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
-		    struct cb_fit *data)
+cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 {
 	int height;
+	GnmCell *cell = iter->cell;
 
 	if (cell_is_merged (cell))
 		return NULL;
@@ -1583,7 +1576,7 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 		return NULL;
 
 	/* Make sure things are as-if drawn.  Inhibit #####s.  */
-	cell_finish_layout (cell, NULL, FALSE);
+	cell_finish_layout (cell, NULL, iter->ci->size_pixels, FALSE);
 
 	height = cell_rendered_height (cell);
 	if (height > data->max)
@@ -1692,27 +1685,27 @@ typedef struct {
 } closure_set_cell_value;
 
 static GnmValue *
-cb_set_cell_content (Sheet *sheet, int col, int row, GnmCell *cell,
-		     closure_set_cell_value *info)
+cb_set_cell_content (GnmCellIter const *iter, closure_set_cell_value *info)
 {
 	GnmExprTop const *texpr = info->texpr;
-	if (cell == NULL)
-		cell = sheet_cell_new (sheet, col, row);
+	GnmCell *cell;
+
+	if (NULL == (cell = iter->cell))
+		cell = sheet_cell_create (iter->pp.sheet,
+			iter->pp.eval.col, iter->pp.eval.row);
+
 	if (texpr != NULL) {
-		if (!range_contains (&info->expr_bound, col, row)) {
+		if (!range_contains (&info->expr_bound,
+				     iter->pp.eval.col, iter->pp.eval.row)) {
 			GnmExprRewriteInfo rwinfo;
 
 			rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
-			rwinfo.u.relocate.pos.eval.col =
-			rwinfo.u.relocate.origin.start.col =
-			rwinfo.u.relocate.origin.end.col = col;
-			rwinfo.u.relocate.pos.eval.row =
-			rwinfo.u.relocate.origin.start.row =
-			rwinfo.u.relocate.origin.end.row = row;
-			rwinfo.u.relocate.pos.sheet =
-			rwinfo.u.relocate.origin_sheet =
-			rwinfo.u.relocate.target_sheet = sheet;
-			rwinfo.u.relocate.col_offset =
+			rwinfo.u.relocate.pos = iter->pp;
+			rwinfo.u.relocate.origin.start = iter->pp.eval;
+			rwinfo.u.relocate.origin.end   = iter->pp.eval;
+			rwinfo.u.relocate.origin_sheet = iter->pp.sheet;
+			rwinfo.u.relocate.target_sheet = iter->pp.sheet;
+			rwinfo.u.relocate.col_offset = 0;
 			rwinfo.u.relocate.row_offset = 0;
 			texpr = gnm_expr_top_rewrite (texpr, &rwinfo);
 		}
@@ -1724,11 +1717,11 @@ cb_set_cell_content (Sheet *sheet, int col, int row, GnmCell *cell,
 }
 
 static GnmValue *
-cb_clear_non_corner (Sheet *sheet, int col, int row, GnmCell *cell,
-		     GnmRange const *merged)
+cb_clear_non_corner (GnmCellIter const *iter, GnmRange const *merged)
 {
-	if (merged->start.col != col || merged->start.row != row)
-		cell_set_value (cell, value_new_empty ());
+	if (merged->start.col != iter->pp.eval.col ||
+	    merged->start.row != iter->pp.eval.row)
+		cell_set_value (iter->cell, value_new_empty ());
 	return NULL;
 }
 
@@ -1742,7 +1735,7 @@ cb_clear_non_corner (Sheet *sheet, int col, int row, GnmCell *cell,
  * Does NOT check for array division.
  * Does NOT redraw
  * Does NOT generate spans.
- */
+ **/
 void
 sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str)
 {
@@ -2452,11 +2445,9 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 }
 
 static GnmValue *
-cb_cell_is_array (G_GNUC_UNUSED Sheet *sheet,
-		  G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
-		  GnmCell *cell, G_GNUC_UNUSED void *user_data)
+cb_cell_is_array (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	return cell_is_array (cell) ? VALUE_TERMINATE : NULL;
+	return cell_is_array (iter->cell) ? VALUE_TERMINATE : NULL;
 }
 
 /**
@@ -2663,16 +2654,19 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			     int end_col,   int end_row,
 			     CellIterFunc callback, void *closure)
 {
-	int i, j;
 	GnmValue *cont;
+	GnmCellIter iter;
 	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN) != 0;
 	gboolean const subtotal_magic = (flags & CELL_ITER_IGNORE_SUBTOTAL) != 0;
 	gboolean const only_existing = (flags & CELL_ITER_IGNORE_NONEXISTENT) != 0;
 	gboolean const ignore_empty = (flags & CELL_ITER_IGNORE_EMPTY) != 0;
+	gboolean ignore;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
 
+	iter.pp.sheet = sheet;
+	iter.pp.wb = sheet->workbook;
 	if (start_col > end_col)
 		SWAP_INT (start_col, end_col);
 
@@ -2686,22 +2680,23 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			end_row = sheet->rows.max_used;
 	}
 
-	for (i = start_row; i <= end_row; ++i) {
-		ColRowInfo *ri = sheet_row_get (sheet, i);
+	for (iter.pp.eval.row = start_row; iter.pp.eval.row <= end_row; ++iter.pp.eval.row) {
+		iter.ri = sheet_row_get (iter.pp.sheet, iter.pp.eval.row);
 
 		/* no need to check visiblity, that would require a colinfo to exist */
-		if (ri == NULL) {
+		if (iter.ri == NULL) {
 			if (only_existing) {
 				/* skip segments with no cells */
-				if (i == COLROW_SEGMENT_START (i)) {
+				if (iter.pp.eval.row == COLROW_SEGMENT_START (iter.pp.eval.row)) {
 					ColRowSegment const *segment =
-						COLROW_GET_SEGMENT (&(sheet->rows), i);
+						COLROW_GET_SEGMENT (&(sheet->rows), iter.pp.eval.row);
 					if (segment == NULL)
-						i = COLROW_SEGMENT_END (i);
+						iter.pp.eval.row = COLROW_SEGMENT_END (iter.pp.eval.row);
 				}
 			} else {
-				for (j = start_col; j <= end_col; ++j) {
-					cont = (*callback) (sheet, j, i, NULL, closure);
+				iter.cell = NULL;
+				for (iter.pp.eval.col = start_col; iter.pp.eval.col <= end_col; ++iter.pp.eval.col) {
+					cont = (*callback) (&iter, closure);
 					if (cont != NULL)
 						return cont;
 				}
@@ -2710,37 +2705,37 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			continue;
 		}
 
-		if (visiblity_matters && !ri->visible)
+		if (visiblity_matters && !iter.ri->visible)
 			continue;
-		if (subtotal_magic && ri->in_filter && !ri->visible)
+		if (subtotal_magic && iter.ri->in_filter && !iter.ri->visible)
 			continue;
 
-		for (j = start_col; j <= end_col; ++j) {
-			ColRowInfo const *ci = sheet_col_get (sheet, j);
-			GnmCell *cell = NULL;
-			gboolean ignore;
-
-			if (ci != NULL) {
-				if (visiblity_matters && !ci->visible)
+		for (iter.pp.eval.col = start_col; iter.pp.eval.col <= end_col; ++iter.pp.eval.col) {
+			iter.ci = sheet_col_get (sheet, iter.pp.eval.col);
+			if (iter.ci != NULL) {
+				if (visiblity_matters && !iter.ci->visible)
 					continue;
-				cell = sheet_cell_get (sheet, j, i);
-			}
+				iter.cell = sheet_cell_get (sheet,
+					iter.pp.eval.col, iter.pp.eval.row);
+			} else
+				iter.cell = NULL;
 
-			ignore = (cell == NULL)
+			ignore = (iter.cell == NULL)
 				? (only_existing || ignore_empty)
-				: (ignore_empty && VALUE_IS_EMPTY (cell->value) && !cell_needs_recalc (cell));
+				: (ignore_empty && VALUE_IS_EMPTY (iter.cell->value) &&
+				   !cell_needs_recalc (iter.cell));
 
 			if (ignore) {
-				if (j == COLROW_SEGMENT_START (j)) {
+				if (iter.pp.eval.col == COLROW_SEGMENT_START (iter.pp.eval.col)) {
 					ColRowSegment const *segment =
-						COLROW_GET_SEGMENT (&(sheet->cols), j);
+						COLROW_GET_SEGMENT (&(sheet->cols), iter.pp.eval.col);
 					if (segment == NULL)
-						j = COLROW_SEGMENT_END (j);
+						iter.pp.eval.col = COLROW_SEGMENT_END (iter.pp.eval.col);
 				}
 				continue;
 			}
 
-			cont = (*callback) (sheet, j, i, cell, closure);
+			cont = (*callback) (&iter, closure);
 			if (cont != NULL)
 				return cont;
 		}
@@ -2748,48 +2743,60 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 	return NULL;
 }
 
+/**
+ * sheet_cell_foreach :
+ * @sheet : #Sheet
+ * @callback :
+ * @data :
+ *
+ * Call @callback with an argument of @data for each cell in the sheet
+ **/
 void
-sheet_foreach_cell (Sheet *sheet, GHFunc callback, gpointer data)
+sheet_cell_foreach (Sheet const *sheet, GHFunc callback, gpointer data)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
 	g_hash_table_foreach (sheet->cell_hash, callback, data);
 }
 
-static GnmValue *
-cb_sheet_cells_collect (Sheet *sheet, int col, int row,
-			GnmCell *cell, void *user_data)
+/**
+ * sheet_cells_count :
+ * @sheet : #Sheet
+ *
+ * Returns the number of cells with content in the current workbook.
+ **/
+unsigned
+sheet_cells_count (Sheet const *sheet)
 {
-	GPtrArray *cells = user_data;
+	return g_hash_table_size (sheet->cell_hash);
+}
+
+static GnmValue *
+cb_sheet_cells_collect (GnmCellIter const *iter, gpointer user)
+{
+	GPtrArray *cells = user;
 	GnmEvalPos *ep = g_new (GnmEvalPos, 1);
 
-	ep->sheet = sheet;
-	ep->eval.col = col;
-	ep->eval.row = row;
+	ep->sheet = iter->pp.sheet;
+	ep->eval.col = iter->pp.eval.col;
+	ep->eval.row = iter->pp.eval.row;
 
 	g_ptr_array_add (cells, ep);
 
 	return NULL;
 }
 
-
 /**
  * sheet_cells:
  *
  * @sheet     : The sheet to find cells in.
- * @start_col : the first column to search.
- * @start_row : the first row to search.
- * @end_col   : the last column to search.
- * @end_row   : the last row to search.
  * @comments  : If true, include cells with only comments also.
  *
  * Collects a GPtrArray of GnmEvalPos pointers for all cells in a sheet.
  * No particular order should be assumed.
- */
+ **/
 GPtrArray *
-sheet_cells (Sheet *sheet,
-	     int start_col, int start_row, int end_col, int end_row,
-	     gboolean comments)
+sheet_cells (Sheet *sheet, gboolean comments)
 {
 	GPtrArray *cells = g_ptr_array_new ();
 	GnmRange r;
@@ -2798,13 +2805,10 @@ sheet_cells (Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), cells);
 
 	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		start_col, start_row, end_col, end_row,
+		0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
 		cb_sheet_cells_collect, cells);
 
-	r.start.col = start_col;
-	r.start.row = start_row;
-	r.end.col = end_col;
-	r.end.row = end_row;
+	range_init_full_sheet (&r);
 	scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 	for (ptr = scomments; ptr; ptr = ptr->next) {
 		GnmComment *c = ptr->data;
@@ -2826,9 +2830,9 @@ sheet_cells (Sheet *sheet,
 
 
 static GnmValue *
-fail_if_exist (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
+cb_fail_if_exist (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	return cell_is_empty (cell) ? NULL : VALUE_TERMINATE;
+	return cell_is_empty (iter->cell) ? NULL : VALUE_TERMINATE;
 }
 
 /**
@@ -2850,7 +2854,7 @@ sheet_is_region_empty (Sheet *sheet, GnmRange const *r)
 	return sheet_foreach_cell_in_range (
 		sheet, CELL_ITER_IGNORE_BLANK,
 		r->start.col, r->start.row, r->end.col, r->end.row,
-		fail_if_exist, NULL) == NULL;
+		cb_fail_if_exist, NULL) == NULL;
 }
 
 gboolean
@@ -2874,11 +2878,22 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 {
 	g_return_if_fail (cell->pos.col < SHEET_MAX_COLS);
 	g_return_if_fail (cell->pos.row < SHEET_MAX_ROWS);
-	g_return_if_fail (!cell_is_linked (cell));
 
 	cell->base.flags |= CELL_IN_SHEET_LIST;
-	cell->col_info   = sheet_col_fetch (sheet, cell->pos.col);
+	/* NOTE :
+	 *   fetching the col/row here serve 3 functions
+	 *   1) The obvious.  Storing the ptr in the cell.
+	 *   2) Expanding col/row.max_used
+	 *   3) Creating an entry in the COLROW_SEGMENT.  Lots and lots of
+	 *   	things use those to help limit iteration
+	 *
+	 * For now just call col_fetch even though it is not necessary to
+	 * ensure that 2,3 still happen.  Alot will need rewriting to avoid
+	 * these requirements.
+	 **/
+	(void) sheet_col_fetch (sheet, cell->pos.col);
 	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
+
 	if (cell->rendered_value) {
 		rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
@@ -2890,8 +2905,16 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 		cell->base.flags |= CELL_IS_MERGED;
 }
 
+/**
+ * sheet_cell_create :
+ * @sheet : #Sheet
+ * @col   :
+ * @row   :
+ *
+ * Creates a new cell and adds it to the sheet hash.
+ **/
 GnmCell *
-sheet_cell_new (Sheet *sheet, int col, int row)
+sheet_cell_create (Sheet *sheet, int col, int row)
 {
 	GnmCell *cell;
 
@@ -2920,8 +2943,6 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 static void
 sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 {
-	g_return_if_fail (cell_is_linked (cell));
-
 	cell_unregister_span (cell);
 	if (cell_expr_is_linked (cell))
 		dependent_unlink (CELL_TO_DEP (cell));
@@ -2975,9 +2996,9 @@ sheet_cell_remove (Sheet *sheet, GnmCell *cell,
 }
 
 static GnmValue *
-cb_free_cell (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
+cb_free_cell (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	sheet_cell_destroy (sheet, cell, FALSE);
+	sheet_cell_destroy (iter->pp.sheet, iter->cell, FALSE);
 	return NULL;
 }
 
@@ -3029,6 +3050,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->rows), row);
 	int const sub = COLROW_SUB_INDEX (row);
 	ColRowInfo *ri = NULL;
+
 	if (*segment == NULL)
 		return;
 	ri = (*segment)->info[sub];
@@ -3124,8 +3146,7 @@ sheet_destroy_contents (Sheet *sheet)
 		row_destroy_span (sheet_row_get (sheet, i));
 
 	/* Remove all the cells */
-	g_hash_table_foreach (sheet->cell_hash,
-		(GHFunc) &cb_remove_allcells, NULL);
+	sheet_cell_foreach (sheet, (GHFunc) &cb_remove_allcells, NULL);
 	g_hash_table_destroy (sheet->cell_hash);
 
 	/* Delete in ascending order to avoid decrementing max_used each time */
@@ -3239,9 +3260,9 @@ sheet_finalize (GObject *obj)
  * this cell and can now continue.
  */
 static GnmValue *
-cb_empty_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flags)
+cb_empty_cell (GnmCellIter const *iter, gpointer user)
 {
-	int clear_flags = GPOINTER_TO_INT (flags);
+	int clear_flags = GPOINTER_TO_INT (user);
 #if 0
 	/* TODO : here and other places flag a need to update the
 	 * row/col maxima.
@@ -3249,9 +3270,9 @@ cb_empty_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flags)
 	if (row >= sheet->rows.max_used || col >= sheet->cols.max_used) { }
 #endif
 
-	sheet_cell_remove (sheet, cell, FALSE,
-			   (clear_flags & CLEAR_RECALC_DEPS) &&
-			   sheet->workbook->recursive_dirty_enabled);
+	sheet_cell_remove (iter->pp.sheet, iter->cell, FALSE,
+		(clear_flags & CLEAR_RECALC_DEPS) &&
+		iter->pp.wb->recursive_dirty_enabled);
 
 	return NULL;
 }
@@ -3354,13 +3375,13 @@ sheet_mark_dirty (Sheet *sheet)
  * hash, unlink from the dependent collection and put it in a temporary list.
  */
 static GnmValue *
-cb_collect_cell (Sheet *sheet, int col, int row, GnmCell *cell,
-		 void *user_data)
+cb_collect_cell (GnmCellIter const *iter, gpointer user)
 {
-	GList ** l = user_data;
+	GList ** l = user;
+	GnmCell *cell = iter->cell;
 	gboolean needs_recalc = cell_needs_recalc (cell);
 
-	sheet_cell_remove_from_hash (sheet, cell);
+	sheet_cell_remove_from_hash (iter->pp.sheet, cell);
 	*l = g_list_prepend (*l, cell);
 	if (needs_recalc)
 		cell->base.flags |= DEPENDENT_NEEDS_RECALC;
@@ -4429,7 +4450,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 					cell_set_value (out, in->value);
 				}
 	} else {
-		GnmCell *new_cell = sheet_cell_new (dst, cell->pos.col, cell->pos.row);
+		GnmCell *new_cell = sheet_cell_create (dst, cell->pos.col, cell->pos.row);
 		GnmValue *value = value_dup (cell->value);
 		if (cell_has_expr (cell))
 			cell_set_expr_and_value (new_cell,
@@ -4444,7 +4465,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 static void
 sheet_clone_cells (Sheet const *src, Sheet *dst)
 {
-	g_hash_table_foreach (src->cell_hash, &cb_sheet_cell_copy, dst);
+	sheet_cell_foreach (src, &cb_sheet_cell_copy, dst);
 }
 
 /**

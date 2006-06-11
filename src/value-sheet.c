@@ -246,18 +246,19 @@ typedef struct
 } WrapperClosure;
 
 static GnmValue *
-cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
-				 GnmCell *cell, void *user_data)
+cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, gpointer user)
 {
-	WrapperClosure *wrap = (WrapperClosure *)user_data;
+	WrapperClosure *wrap = (WrapperClosure *)user;
 	GnmValue const *v;
-	if (cell != NULL) {
-		cell_eval (cell);
-		v = cell->value;
+	if (iter->cell != NULL) {
+		cell_eval (iter->cell);
+		v = iter->cell->value;
 	} else
 		v = NULL;
        	return (*wrap->callback) (v, wrap->ep,
-		col - wrap->base_col, row - wrap->base_row, wrap->real_data);
+		iter->pp.eval.col - wrap->base_col,
+		iter->pp.eval.row - wrap->base_row,
+		wrap->real_data);
 }
 
 /**

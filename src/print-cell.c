@@ -83,7 +83,6 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	RenderedValue *rv, *cell_rv = cell->rendered_value, *cell_rv100 = NULL;
 	GOColor fore_color;
 	gint x, y;
-	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
 	Sheet *sheet = cell->base.sheet;
 
@@ -94,11 +93,10 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 		 * Simply create a new RenderedValue at zoom 100% for the
 		 * _screen_ context.
 		 */
-		cell_rv100 =
-			rendered_value_new ((GnmCell *)cell, mstyle,
-					    cell_rv->variable_width,
-					    pango_layout_get_context (cell_rv->layout),
-					    1.0);
+		cell_rv100 = rendered_value_new ((GnmCell *)cell, mstyle,
+			cell_rv->variable_width,
+			pango_layout_get_context (cell_rv->layout),
+			1.0);
 		cell_rv = cell_rv100;
 	}
 
@@ -106,7 +104,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	 * Since some layout decisions are taken during cell_calc_layout
 	 * we need to make sure that has been called.
 	 */
-	cell_finish_layout (cell, cell_rv, FALSE);
+	cell_finish_layout (cell, cell_rv, width, FALSE);
 
 	/* Now pretend it was made for printing.  */
 	rv = rendered_value_recontext (cell_rv, pcontext);
@@ -123,7 +121,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 			      (int)(height * PANGO_SCALE),
 			      (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
-		double x0 = x1 + 1 + ci->margin_a;
+		double x0 = x1 + 1 + GNM_COL_MARGIN;
 		double y0 = y1 - (1 + ri->margin_a);
 		double px = x1 + x / (double)PANGO_SCALE;
 		double py = y1 + y / (double)PANGO_SCALE;
@@ -267,17 +265,18 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
-		ColRowInfo const * const ci = cell->col_info;
 
 		if (ri->needs_respan)
 			row_calc_spans ((ColRowInfo *)ri, sheet);
 
-		/* FIXME : get the margins from the far col/row too */
-		print_cell (cell, style, context, pcontext,
-			    l, t,
-			    r - l - (ci->margin_b + ci->margin_a),
-			    t - b - (ri->margin_b + ri->margin_a),
-			    -1.);
+		if (sheet->text_is_rtl)
+			print_cell (cell, style, context, pcontext,
+				    r, t, l - r,
+				    t - b - (ri->margin_b + ri->margin_a), -1.);
+		else
+			print_cell (cell, style, context, pcontext,
+				    l, t, r - l,
+				    t - b - (ri->margin_b + ri->margin_a), -1.);
 	}
 	style_border_print_diag (style, context, l, t, r, b);
 }
@@ -523,8 +522,7 @@ print_cell_range (GnomePrintContext *context,
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell))
 					print_cell (cell, style, context, pcontext,
-						    x, y,
-						    ci->size_pts - (ci->margin_b + ci->margin_a),
+						    x, y, ci->size_pts,
 						    ri->size_pts - (ri->margin_b + ri->margin_a),
 						    -1.);
 
@@ -537,10 +535,10 @@ print_cell_range (GnomePrintContext *context,
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				double real_x = x;
-				double center_offset = cell->col_info->size_pts / 2;
-				/* TODO : Use the spanning margins */
-				double tmp_width = ci->size_pts -
-					ci->margin_b - ci->margin_a;
+				ColRowInfo const *cell_col =
+					sheet_col_get_info (sheet, cell->pos.col);
+				double center_offset = cell_col->size_pts / 2;
+				double tmp_width = ci->size_pts;
 
 				if (col != cell->pos.col)
 					style = sheet_style_get (sheet,
@@ -571,8 +569,7 @@ print_cell_range (GnomePrintContext *context,
 				}
 
 				print_cell (cell, style, context, pcontext,
-					    real_x, y,
-					    tmp_width,
+					    real_x, y, tmp_width,
 					    ri->size_pts - (ri->margin_b + ri->margin_a),
 					    center_offset);
 			} else if (col != span->left)

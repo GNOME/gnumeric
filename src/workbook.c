@@ -486,10 +486,7 @@ workbook_cells (Workbook *wb, gboolean comments)
 
 	WORKBOOK_FOREACH_SHEET (wb, sheet, {
 		int oldlen = cells->len;
-		GPtrArray *scells =
-			sheet_cells (sheet,
-				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
-				     comments);
+		GPtrArray *scells = sheet_cells (sheet, comments);
 
 		g_ptr_array_set_size (cells, oldlen + scells->len);
 		memcpy (&g_ptr_array_index (cells, oldlen),

@@ -172,7 +172,7 @@ ssindex (char const *file, IOContext *ioc)
 			"data", state.sheet->name_unquoted);
 
 		/* cell content */
-		sheet_foreach_cell (state.sheet,
+		sheet_cell_foreach (state.sheet,
 			(GHFunc)&cb_index_cell, &state);
 
 		/* now the objects */

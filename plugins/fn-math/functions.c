@@ -49,15 +49,15 @@ typedef struct {
 } math_sums_t;
 
 static GnmValue *
-callback_function_sumxy (Sheet *sheet, int col, int row,
-			 GnmCell *cell, void *user_data)
+callback_function_sumxy (GnmCellIter const *iter, gpointer user)
 {
-	if (cell == NULL)
+	GnmCell *cell;
+	if (NULL == (cell = iter->cell))
 	        return NULL;
 	cell_eval (cell);
 
 	if (VALUE_IS_NUMBER (cell->value)) {
-		math_sums_t *mm = user_data;
+		math_sums_t *mm = user;
 		gnm_float *p = g_new (gnm_float, 1);
 		*p = value_get_as_float (cell->value);
 		mm->list = g_slist_append (mm->list, p);
@@ -559,14 +559,14 @@ typedef struct {
 } CountIfClosure;
 
 static GnmValue *
-cb_countif (Sheet *sheet, int col, int row, GnmCell *cell, CountIfClosure *res)
+cb_countif (GnmCellIter const *iter, CountIfClosure *res)
 {
-	if (cell == NULL)
-		return NULL;
-	cell_eval (cell);
-
-	if (VALUE_IS_NUMBER (cell->value) || VALUE_IS_STRING (cell->value)) {
-		if ((res->test) (cell->value, res->test_value))
+	GnmCell *cell;
+	if (NULL != (cell = iter->cell)) {
+		cell_eval (cell);
+		if ((VALUE_IS_NUMBER (cell->value) ||
+		     VALUE_IS_STRING (cell->value)) &&
+		    (res->test) (cell->value, res->test_value))
 			res->count++;
 	}
 
@@ -595,6 +595,7 @@ gnumeric_countif (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	res.count = 0;
 	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
 		workbook_date_conv (ei->pos->sheet->workbook));
+#warning 2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_countif
 	problem = sheet_foreach_cell_in_range (sheet, iter_flags,
 		r->cell.a.col, r->cell.a.row, r->cell.b.col, r->cell.b.row,
 		(CellIterFunc) &cb_countif, &res);
@@ -642,33 +643,33 @@ typedef struct {
 } SumIfClosure;
 
 static GnmValue *
-cb_sumif (Sheet *sheet, int col, int row, GnmCell *cell,
-	  SumIfClosure *res)
+cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 {
-	if (cell == NULL)
+	GnmCell *cell;
+	if (NULL == (cell = iter->cell))
 		return NULL;
 	cell_eval (cell);
 
-	if (VALUE_IS_NUMBER (cell->value) || VALUE_IS_STRING (cell->value)) {
-		if ((res->test) (cell->value, res->test_value)) {
-			if (NULL != res->target_sheet) {
-				cell = sheet_cell_get (res->target_sheet,
-					col + res->offset.col, row + res->offset.row);
-				if (cell != NULL) {
-					cell_eval (cell);
-					switch (cell->value->type) {
-					case VALUE_FLOAT:
-						/* FIXME: Check bools.  */
-						res->sum += value_get_as_float (cell->value);
-						break;
-					default:
-						break;
-					}
+	if ((VALUE_IS_NUMBER (cell->value) || VALUE_IS_STRING (cell->value)) &&
+	    (res->test) (cell->value, res->test_value)) {
+		if (NULL != res->target_sheet) {
+			cell = sheet_cell_get (res->target_sheet,
+				iter->pp.eval.col + res->offset.col,
+				iter->pp.eval.row + res->offset.row);
+			if (cell != NULL) {
+				cell_eval (cell);
+				switch (cell->value->type) {
+				case VALUE_FLOAT:
+					/* FIXME: Check bools.  */
+					res->sum += value_get_as_float (cell->value);
+					break;
+				default:
+					break;
 				}
-			} else
-				/* FIXME: Check bools.  */
-				res->sum += value_get_as_float (cell->value);
-		}
+			}
+		} else
+			/* FIXME: Check bools.  */
+			res->sum += value_get_as_float (cell->value);
 	}
 
 	return NULL;
@@ -717,6 +718,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	res.sum = 0.;
 	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
 		workbook_date_conv (ei->pos->sheet->workbook));
+#warning 2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_sumif
 	problem = sheet_foreach_cell_in_range (sheet, iter_flags,
 		r->cell.a.col, r->cell.a.row, col_end, row_end,
 		(CellIterFunc) &cb_sumif, &res);
@@ -2926,10 +2928,10 @@ static GnmFuncHelp const help_minverse[] = {
 
 
 static GnmValue *
-cb_function_mmult_validate (Sheet *sheet, int col, int row,
-			     GnmCell *cell, void *user_data)
+cb_function_mmult_validate (GnmCellIter const *iter, gpointer user)
 {
-        int *item_count = user_data;
+	GnmCell *cell = iter->cell;
+        int *item_count = user;
 
 	cell_eval (cell);
 	if (!VALUE_IS_NUMBER (cell->value))

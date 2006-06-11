@@ -516,12 +516,14 @@ cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static GnmValue *
-grab_cells (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
+cb_grab_cells (GnmCellIter const *iter, gpointer user)
 {
-	GList **the_list = user_data;
+	GList **the_list = user;
+	GnmCell *cell;
 
-	if (cell == NULL)
-		cell = sheet_cell_fetch (sheet, col, row);
+	if (NULL == (cell = iter->cell))
+		cell = sheet_cell_create (iter->pp.sheet,
+			iter->pp.eval.col, iter->pp.eval.row);
 	*the_list = g_list_append (*the_list, cell);
 	return NULL;
 }
@@ -875,7 +877,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	result = workbook_foreach_cell_in_range (
 		eval_pos_init_sheet (&pos, state->sheet),
-		input_range, CELL_ITER_ALL, grab_cells, &input_cells);
+		input_range, CELL_ITER_ALL, cb_grab_cells, &input_cells);
 
 	param->input_cells = input_cells;
 

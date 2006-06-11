@@ -302,10 +302,10 @@ typedef struct {
 } stat_rank_t;
 
 static GnmValue *
-callback_function_rank (Sheet *sheet, int col, int row,
-			GnmCell *cell, void *user_data)
+cb_rank (GnmCellIter const *iter, gpointer user)
 {
-        stat_rank_t *p = user_data;
+        stat_rank_t *p = user;
+	GnmCell	    *cell = iter->cell;
 	gnm_float  x;
 
 	cell_eval (cell);
@@ -348,7 +348,7 @@ gnumeric_rank (FunctionEvalInfo *ei, GnmValue const * const *argv)
 		argv[1]->v_range.cell.a.row,
 		argv[1]->v_range.cell.b.col,
 		argv[1]->v_range.cell.b.row,
-		callback_function_rank,
+		cb_rank,
 		&p);
 
 	if (ret != NULL)
@@ -2841,10 +2841,10 @@ typedef struct {
 } stat_list_t;
 
 static GnmValue *
-callback_function_list (Sheet *sheet, int col, int row,
-			GnmCell *cell, void *user_data)
+cb_list (GnmCellIter const *iter, gpointer user)
 {
-        stat_list_t *mm = user_data;
+        stat_list_t *mm = user;
+	GnmCell *cell = iter->cell;
 	gnm_float *p;
 
 	cell_eval (cell);
@@ -3003,7 +3003,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, GnmValue const * const *argv)
 			known_x->v_range.cell.a.row,
 			known_x->v_range.cell.b.col,
 			known_x->v_range.cell.b.row,
-			callback_function_list,
+			cb_list,
 			&items_x);
 		if (ret != NULL) {
 			list1 = items_x.list;
@@ -3033,7 +3033,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, GnmValue const * const *argv)
 			known_y->v_range.cell.a.row,
 			known_y->v_range.cell.b.col,
 			known_y->v_range.cell.b.row,
-			callback_function_list,
+			cb_list,
 			&items_y);
 		if (ret != NULL) {
 			list1 = items_x.list;

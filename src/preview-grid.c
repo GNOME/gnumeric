@@ -127,26 +127,16 @@ pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 	 */
 	cell = g_new0 (GnmCell, 1);
 
-	cell->col_info = g_new0 (ColRowInfo, 1);
 	cell->row_info = g_new0 (ColRowInfo, 1);
 
 	style = pg_get_style (pg, col, row);
 
-	/*
-	 * Eventually the row_info->pos and col_info->pos
-	 * will go away
-	 */
-	cell->col_info->pos = col;
+	/* Eventually the cell->row_info will go away */
 	cell->row_info->pos = row;
 	cell->pos.col = col;
 	cell->pos.row = row;
-
-	cell->col_info->margin_a = 2;
-	cell->col_info->margin_b = 2;
 	cell->row_info->margin_a = 0;
 	cell->row_info->margin_b = 0;
-
-	cell->col_info->size_pixels = pg_get_col_width  (pg, col);
 	cell->row_info->size_pixels = pg_get_row_height (pg, row);
 
 	cell->value = NULL;
@@ -233,7 +223,6 @@ pg_destruct_cell (GnmCell *cell)
 	value_release (cell->value);
 	rendered_value_destroy (cell->rendered_value);
 
-	g_free (cell->col_info);
 	g_free (cell->row_info);
 
 	g_free (cell);

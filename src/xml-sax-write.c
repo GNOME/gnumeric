@@ -714,11 +714,10 @@ xml_write_cell_and_position (GnmOutputXML *state,
 }
 
 static GnmValue *
-cb_write_cell (Sheet *sheet, int col, int row, GnmCell const *cell, GnmOutputXML *state)
+cb_write_cell (GnmCellIter const *iter, GnmOutputXML *state)
 {
-	GnmParsePos pp;
-	xml_write_cell_and_position (state, cell->base.texpr, cell->value,
-		parse_pos_init_cell (&pp, cell));
+	xml_write_cell_and_position (state,
+		iter->cell->base.texpr, iter->cell->value, &iter->pp);
 	return NULL;
 }
 

@@ -51,7 +51,6 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		  int width, int height, int h_center,
 		  GOColor *res_color, gint *res_x, gint *res_y)
 {
-	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
 	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	int text_base;
 	PangoLayout *layout;
@@ -73,7 +72,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
-	rect_x = PANGO_SCALE * (1 + ci->margin_a);
+	rect_x = PANGO_SCALE * (1 + GNM_COL_MARGIN);
 	rect_y = PANGO_SCALE * y_direction * (1 + ri->margin_a);
 
 	/* if a number overflows, do special drawing */
@@ -218,13 +217,13 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
  */
 void
 cell_finish_layout (GnmCell const *cell, RenderedValue *rv,
+		    int col_width,
 		    gboolean inhibit_overflow)
 {
 	gint dummy_x, dummy_y;
 	GOColor dummy_fore_color;
 	int dummy_h_center = -1;  /* Affects position only.  */
 	int dummy_height = 1;  /* Unhandled.  */
-	int col_width_pixels;
 	gboolean might_overflow;
 
 	if (!rv)
@@ -232,32 +231,26 @@ cell_finish_layout (GnmCell const *cell, RenderedValue *rv,
 	if (rv->drawn)
 		return;
 
-	if (cell_is_merged (cell)) {
-		Sheet const *sheet = cell->base.sheet;
-		GnmRange const *merged =
-			sheet_merge_is_corner (sheet, &cell->pos);
-
-		col_width_pixels = sheet_col_get_distance_pixels
-			(sheet,
-			 merged->start.col, merged->end.col + 1);
-	} else
-		col_width_pixels = cell->col_info->size_pixels;
-	/* This probably isn't right for the merged case */
-	col_width_pixels -= (cell->col_info->margin_a +
-			     cell->col_info->margin_b +
-			     1);
-
 	might_overflow = rv->might_overflow;
 	if (inhibit_overflow) rv->might_overflow = FALSE;
-	cell_calc_layout (cell, rv, -1,
-			  col_width_pixels * PANGO_SCALE,
-			  dummy_height,
-			  dummy_h_center,
-			  &dummy_fore_color, &dummy_x, &dummy_y);
+	cell_calc_layout (cell, rv, -1, col_width * PANGO_SCALE,
+		dummy_height, dummy_h_center, &dummy_fore_color,
+		&dummy_x, &dummy_y);
 	rv->might_overflow = might_overflow;
 }
 
 
+/**
+ * cell_draw:
+ * @cell : #GnmCell const
+ * @gc   : #GdkGC
+ * @drawable : #GdkDrawable
+ * @x1 :
+ * @y1 :
+ * @width : including margins and leading grid line
+ * @height :
+ * @h_center :
+ **/
 void
 cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1, int width, int height, int h_center)
@@ -266,16 +259,15 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	gint x;
 	gint y;
 	RenderedValue *rv = cell->rendered_value;
-	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
-	/* Note: +1 because size_pixels includes right gridline.  */
-	if (width < 0) /* DEPRECATED */
-		width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
 	if (height < 0) /* DEPRECATED */
 		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
+
+	/* Note: +1 because size_pixels includes right gridline.  */
+	width  -= (GNM_COL_MARGIN + GNM_COL_MARGIN + 1);
 
 	if (cell_calc_layout (cell, rv, +1,
 			      width * PANGO_SCALE,
@@ -286,7 +278,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 
 		/* +1 to get past left grid-line.  */
 		GdkRectangle rect;
-		rect.x = x1 + 1 + ci->margin_a;
+		rect.x = x1 + 1 + GNM_COL_MARGIN;
 		rect.y = y1 + 1 + ri->margin_a;
 		rect.width = width;
 		rect.height = height;

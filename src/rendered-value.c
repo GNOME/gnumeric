@@ -371,12 +371,11 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 				col_width_pixels = sheet_col_get_distance_pixels
 					(sheet,
 					 merged->start.col, merged->end.col + 1);
-			} else
-				col_width_pixels = cell->col_info->size_pixels;
-			/* This probably isn't right for the merged case */
-			col_width_pixels -= (cell->col_info->margin_a +
-					     cell->col_info->margin_b +
-					     1);
+			} else {
+				ColRowInfo const *ci = sheet_col_get_info (sheet, cell->pos.col);
+				col_width_pixels = ci->size_pixels;
+			}
+			col_width_pixels -= (GNM_COL_MARGIN + GNM_COL_MARGIN + 1);
 			col_width = col_width_pixels * PANGO_SCALE;
 		}
 

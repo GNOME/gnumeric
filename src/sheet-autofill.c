@@ -826,11 +826,11 @@ afc_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 }
 
 static char *
-afc_set_cell_hint (AutoFiller *af, GnmCell *cell, const GnmCellPos *pos,
+afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 		   int n, gboolean doit)
 {
 	AutoFillerCopy *afe = (AutoFillerCopy *)af;
-	const GnmCell *src = afe->cells[n % afe->size];
+	GnmCell const *src = afe->cells[n % afe->size];
 	char *res = NULL;
 	if (src && cell_has_expr (src)) {
 		GnmExprRewriteInfo rwinfo;
@@ -839,7 +839,6 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, const GnmCellPos *pos,
 		GnmExprTop const *src_texpr = src->base.texpr;
 		GnmExprArrayCorner const *array =
 			gnm_expr_top_get_array_corner (src_texpr);
-		GnmParsePos pp;
 		Sheet *sheet = src->base.sheet;
 
 		/* Arrays are always assigned fully at the corner.  */
@@ -850,8 +849,8 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, const GnmCellPos *pos,
 		rinfo->target_sheet = rinfo->origin_sheet = NULL;
 		rinfo->col_offset = rinfo->row_offset = 0;
 		rinfo->origin.start = rinfo->origin.end = *pos;
-		eval_pos_init (&rinfo->pos, sheet, pos->col, pos->row);
-		parse_pos_init_evalpos (&pp, &rinfo->pos);
+		parse_pos_init (&rinfo->pos, sheet->workbook, sheet,
+			pos->col, pos->row);
 
 		texpr = gnm_expr_top_rewrite (src_texpr, &rwinfo);
 
@@ -877,26 +876,23 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, const GnmCellPos *pos,
 					 pos->row + (rows - 1),
 					 gnm_expr_top_new (aexpr));
 			else {
-				res = gnm_expr_as_string
-					(aexpr, &pp,
-					 gnm_expr_conventions_default);
+				res = gnm_expr_as_string (aexpr,
+					&rinfo->pos, gnm_expr_conventions_default);
 				gnm_expr_free (aexpr);
 			}
 		} else if (texpr) {
 			if (doit)
 				cell_set_expr (cell, texpr);
 			else
-				res = gnm_expr_top_as_string
-					(texpr, &pp,
-					 gnm_expr_conventions_default);
+				res = gnm_expr_top_as_string (texpr,
+					&rinfo->pos, gnm_expr_conventions_default);
 			gnm_expr_top_unref (texpr);
 		} else {
 			if (doit)
 				cell_set_expr (cell, src_texpr);
 			else
-				res = gnm_expr_top_as_string
-					(src_texpr, &pp,
-					 gnm_expr_conventions_default);
+				res = gnm_expr_top_as_string (src_texpr,
+					&rinfo->pos, gnm_expr_conventions_default);
 		}
 	} else if (src) {
 		if (doit)

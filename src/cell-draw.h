@@ -9,6 +9,7 @@ gboolean cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_directi
 			   GOColor *res_color, gint *res_x, gint *res_y);
 
 void cell_finish_layout (GnmCell const *cell, RenderedValue *rv,
+			 int col_width,
 			 gboolean inhibit_overflow);
 
 void cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,

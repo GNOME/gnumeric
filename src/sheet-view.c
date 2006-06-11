@@ -612,9 +612,9 @@ sv_update (SheetView *sv)
 }
 
 static GnmValue *
-fail_if_not_selected (Sheet *sheet, int col, int row, GnmCell *cell, void *sv)
+cb_fail_if_not_selected (GnmCellIter const *iter, gpointer sv)
 {
-	if (!sv_is_pos_selected (sv, col, row))
+	if (!sv_is_pos_selected (sv, iter->pp.eval.col, iter->pp.eval.row))
 		return VALUE_TERMINATE;
 	else
 		return NULL;
@@ -661,7 +661,7 @@ sv_is_region_empty_or_selected (SheetView const *sv, GnmRange const *r)
 	return sheet_foreach_cell_in_range (
 		sv->sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		r->start.col, r->start.row, r->end.col, r->end.row,
-		fail_if_not_selected, (gpointer)sv) == NULL;
+		cb_fail_if_not_selected, (gpointer)sv) == NULL;
 }
 
 /**

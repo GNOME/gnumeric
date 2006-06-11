@@ -232,9 +232,11 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 			case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
 			}
 		} else {
+#if 0
 			GnmCell const *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+			/* TODO write this */
 			GnmValue const *cv = cell ? cell->value : NULL;
-#warning FINISH
+#endif
 
 			switch (cond->op) {
 			default :

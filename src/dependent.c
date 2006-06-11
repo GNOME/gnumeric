@@ -1715,7 +1715,7 @@ typedef struct
 {
     	int dep_type;
 	union {
-		GnmEvalPos    pos;
+		GnmParsePos   pos;
 		GnmDependent *dep;
 	} u;
 	GnmExprTop const *oldtree;
@@ -1909,7 +1909,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 		dep->flags &= ~DEPENDENT_FLAGGED;
 		sheet_flag_status_update_range (dep->sheet, NULL);
 
-		eval_pos_init_dep (&rwinfo.u.relocate.pos, dep);
+		parse_pos_init_dep (&rwinfo.u.relocate.pos, dep);
 
 		/* it is possible nothing changed for contained deps
 		 * using absolute references */

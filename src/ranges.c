@@ -96,7 +96,7 @@ range_init (GnmRange *r, int start_col, int start_row,
  *
  * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
  * succesfully parsed or NULL on failure.
- */
+ **/
 GnmValue *
 range_parse (Sheet *sheet, char const *range, gboolean strict)
 {
@@ -163,7 +163,7 @@ parse_range (char const *text, GnmRange *r)
  * @ranges: a list of value ranges to destroy.
  *
  * Destroys a list of ranges returned from parse_cell_range_list
- */
+ **/
 void
 range_list_destroy (GSList *ranges)
 {
@@ -492,7 +492,7 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
  * Copies the @a range.
  *
  * Return value: A copy of the GnmRange.
- */
+ **/
 GnmRange *
 range_dup (GnmRange const *a)
 {
@@ -594,13 +594,12 @@ range_normalize (GnmRange *src)
 }
 
 static GnmValue *
-cb_find_extents (Sheet *sheet, int col, int row, GnmCell *cell,
-		 GnmCellPos *extent)
+cb_find_extents (GnmCellIter const *iter, GnmCellPos *extent)
 {
-	if (extent->col < col)
-		extent->col = col;
-	if (extent->row < row)
-		extent->row = row;
+	if (extent->col < iter->pp.eval.col)
+		extent->col = iter->pp.eval.col;
+	if (extent->row < iter->pp.eval.row)
+		extent->row = iter->pp.eval.row;
 	return NULL;
 }
 
@@ -712,7 +711,7 @@ range_is_full (GnmRange const *r, gboolean is_cols)
  *
  * Clip the range to the area of the sheet with content.
  * WARNING THIS IS EXPENSIVE!
- */
+ **/
 void
 range_clip_to_finite (GnmRange *range, Sheet *sheet)
 {
@@ -777,7 +776,7 @@ range_translate (GnmRange *range, int col_offset, int row_offset)
  *
  * Silently clip a range to ensure that it does not contain areas
  * outside the valid bounds.  Does NOT fix inverted ranges.
- */
+ **/
 void
 range_ensure_sanity (GnmRange *range)
 {
@@ -796,7 +795,7 @@ range_ensure_sanity (GnmRange *range)
  * @range : the range to check
  *
  * Generate warnings if the range is out of bounds or inverted.
- */
+ **/
 gboolean
 range_is_sane (GnmRange const *range)
 {
@@ -957,12 +956,12 @@ max_range_name_width (void)
 }
 
 /**
- * char const *undo_cell_pos_name
+ * undo_cell_pos_name:
  * @sheet:
  * @pos:
  *
  * Returns the range name depending on the preference setting.
- */
+ **/
 char *
 undo_cell_pos_name (Sheet const *sheet, GnmCellPos const *pos)
 {
@@ -1045,14 +1044,14 @@ range_list_name_try (GString *names, Sheet const *sheet, GSList const *ranges,
 
 
 /**
- * char const *undo_range_list_name
+ * undo_range_list_name:
  * @sheet:
  * @ranges : GSList containing GnmRange *'s
  *
  * Returns the range list name depending on the preference setting.
  * (The result will be something like: "A1:C3, D4:E5"). The string will be
  * truncated to max_descriptor_width.
- */
+ **/
 char *
 undo_range_list_name (Sheet const *sheet, GSList const *ranges)
 {
@@ -1109,7 +1108,7 @@ undo_range_list_name (Sheet const *sheet, GSList const *ranges)
  * results.
  *
  * Returns a GSList containing Values of type VALUE_CELLRANGE, or NULL on failure
- */
+ **/
 GSList *
 global_range_list_parse (Sheet *sheet, char const *str)
 {

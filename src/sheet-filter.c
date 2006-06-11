@@ -3,7 +3,7 @@
 /*
  * filter.c: support for filters
  *
- * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -288,16 +288,15 @@ typedef struct {
 } UniqueCollection;
 
 static GnmValue *
-cb_collect_unique (Sheet *sheet, int col, int row, GnmCell *cell,
-		   UniqueCollection *uc)
+cb_collect_unique (GnmCellIter const *iter, UniqueCollection *uc)
 {
-	if (cell_is_blank (cell))
+	if (cell_is_blank (iter->cell))
 		uc->has_blank = TRUE;
 	else {
-		GOFormat const *format = cell_get_format (cell);			
-		GnmValue const *v = cell->value;
+		GOFormat const *format = cell_get_format (iter->cell);			
+		GnmValue const *v = iter->cell->value;
 		char *str = format_value (format, v, NULL, -1, uc->date_conv);
-		g_hash_table_replace (uc->hash, str, cell);
+		g_hash_table_replace (uc->hash, str, iter->cell);
 	}
 
 	return NULL;
@@ -747,10 +746,9 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 }
 
 static GnmValue *
-cb_filter_expr (Sheet *sheet, int col, int row, GnmCell *cell,
-		FilterExpr const *fexpr)
+cb_filter_expr (GnmCellIter const *iter, FilterExpr const *fexpr)
 {
-	if (cell != NULL) {
+	if (iter->cell != NULL) {
 		unsigned int ui;
 
 		for (ui = 0; ui < G_N_ELEMENTS (fexpr->cond->op); ui++) {
@@ -762,7 +760,7 @@ cb_filter_expr (Sheet *sheet, int col, int row, GnmCell *cell,
 			res = filter_expr_eval (fexpr->cond->op[ui],
 						fexpr->val[ui],
 						fexpr->regexp + ui,
-						cell);
+						iter->cell);
 			if (fexpr->cond->is_and && !res)
 				goto nope;   /* AND(...,FALSE,...) */
 			if (res && !fexpr->cond->is_and)
@@ -774,25 +772,28 @@ cb_filter_expr (Sheet *sheet, int col, int row, GnmCell *cell,
 	}
 
  nope:
-	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
+	colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+		iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 
 /*****************************************************************************/
 
 static GnmValue *
-cb_filter_non_blanks (Sheet *sheet, int col, int row, GnmCell *cell, gpointer data)
+cb_filter_non_blanks (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	if (cell_is_blank (cell))
-		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
+	if (cell_is_blank (iter->cell))
+		colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+			iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 
 static GnmValue *
-cb_filter_blanks (Sheet *sheet, int col, int row, GnmCell *cell, gpointer data)
+cb_filter_blanks (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	if (!cell_is_blank (cell))
-		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
+	if (!cell_is_blank (iter->cell))
+		colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+			iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 
@@ -806,10 +807,9 @@ typedef struct {
 } FilterItems;
 
 static GnmValue *
-cb_filter_find_items (Sheet *sheet, int col, int row, GnmCell *cell,
-		      FilterItems *data)
+cb_filter_find_items (GnmCellIter const *iter, FilterItems *data)
 {
-	GnmValue const *v = cell->value;
+	GnmValue const *v = iter->cell->value;
 	if (data->elements >= data->count) {
 		unsigned j, i = data->elements;
 		GnmValDiff const cond = data->find_max ? IS_GREATER : IS_LESS;
@@ -832,18 +832,18 @@ cb_filter_find_items (Sheet *sheet, int col, int row, GnmCell *cell,
 }
 
 static GnmValue *
-cb_hide_unwanted_items (Sheet *sheet, int col, int row, GnmCell *cell,
-			FilterItems const *data)
+cb_hide_unwanted_items (GnmCellIter const *iter, FilterItems const *data)
 {
-	if (cell != NULL) {
+	if (iter->cell != NULL) {
 		int i = data->elements;
-		GnmValue const *v = cell->value;
+		GnmValue const *v = iter->cell->value;
 
 		while (i-- > 0)
 			if (data->vals[i] == v)
 				return NULL;
 	}
-	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
+	colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+		iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 
@@ -855,11 +855,10 @@ typedef struct {
 } FilterPercentage;
 
 static GnmValue *
-cb_filter_find_percentage (Sheet *sheet, int col, int row, GnmCell *cell,
-			   FilterPercentage *data)
+cb_filter_find_percentage (GnmCellIter const *iter, FilterPercentage *data)
 {
-	if (VALUE_IS_NUMBER (cell->value)) {
-		gnm_float const v = value_get_as_float (cell->value);
+	if (VALUE_IS_NUMBER (iter->cell->value)) {
+		gnm_float const v = value_get_as_float (iter->cell->value);
 
 		if (data->initialized) {
 			if (data->low > v)
@@ -875,11 +874,11 @@ cb_filter_find_percentage (Sheet *sheet, int col, int row, GnmCell *cell,
 }
 
 static GnmValue *
-cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, GnmCell *cell,
+cb_hide_unwanted_percentage (GnmCellIter const *iter,
 			     FilterPercentage const *data)
 {
-	if (cell != NULL && VALUE_IS_NUMBER (cell->value)) {
-		gnm_float const v = value_get_as_float (cell->value);
+	if (iter->cell != NULL && VALUE_IS_NUMBER (iter->cell->value)) {
+		gnm_float const v = value_get_as_float (iter->cell->value);
 		if (data->find_max) {
 			if (v >= data->high)
 				return NULL;
@@ -888,7 +887,8 @@ cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, GnmCell *cell,
 				return NULL;
 		}
 	}
-	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
+	colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+		iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 /*****************************************************************************/
