@@ -1,3 +1,21 @@
+2006-06-03  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_ns) : add the namespace for beta2.
+	(xlsx_shared_strings_dtd) : s/sstItem/si/ for beta2.
+	* xlsx-write.c (gsf_outfile_open_pkg_close) : move to the new
+	  spreadsheetml namespace.
+	(xlsx_write_styles) : ditto.
+	(xlsx_write_shared_strings) : ditto.
+	(xlsx_write_sheet) : ditto.
+
+2006-05-31  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (gather_styles) : Use sheet_cell_foreach, rather
+	  than accessing Sheet::cell_hash directly.  This will make it easier
+	  to jump to the quad tree later.
+	(excel_write_workbook) : use the new sheet_cells_count rather than
+	  accessing Sheet::cell_hash.
+
 2006-05-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula1) : disable the long lived

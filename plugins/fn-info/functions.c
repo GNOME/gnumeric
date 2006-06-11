@@ -1235,16 +1235,15 @@ static GnmFuncHelp const help_countblank[] = {
 };
 
 static GnmValue *
-cb_countblank (Sheet *sheet, int col, int row,
-	       GnmCell *cell, void *user_data)
+cb_countblank (GnmCellIter const *iter, gpointer user)
 {
-	cell_eval (cell);
-	if (!cell_is_empty (cell)) {
-		const GnmValue *v = cell->value;
+	cell_eval (iter->cell);
+	if (!cell_is_empty (iter->cell)) {
+		GnmValue const *v = iter->cell->value;
 		if (VALUE_IS_STRING (v) && value_peek_string (v)[0] == 0)
 			; /* Nothing -- the empty string is blank.  */
 		else
-			*((int *)user_data) -= 1;
+			*((int *)user) -= 1;
 	}
 	return NULL;
 }

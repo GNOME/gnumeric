@@ -524,18 +524,18 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *w
 
 		gsf_xml_out_start_element (xml, "sst");
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-			"http://schemas.microsoft.com/office/excel/2006/2");
+			"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
 		gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 		gsf_xml_out_add_int (xml, "uniqueCount", state->shared_string_array->len);
 		gsf_xml_out_add_int (xml, "count", state->shared_string_array->len);
 
 		for (i = 0 ; i < state->shared_string_array->len ; i++) {
-			gsf_xml_out_start_element (xml, "sstItem");
+			gsf_xml_out_start_element (xml, "si");
 			gsf_xml_out_start_element (xml, "t");
 			str = g_ptr_array_index (state->shared_string_array, i);
 			gsf_xml_out_add_cstr (xml, NULL, str->str);
 			gsf_xml_out_end_element (xml); /* </t> */
-			gsf_xml_out_end_element (xml); /* </sstItem> */
+			gsf_xml_out_end_element (xml); /* </si> */
 		}
 
 		gsf_xml_out_end_element (xml); /* </sst> */
@@ -557,7 +557,7 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part)
 
 	gsf_xml_out_start_element (xml, "styleSheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-		"http://schemas.microsoft.com/office/excel/2006/2");
+		"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
 	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 
 	gsf_xml_out_end_element (xml); /* </styleSheet> */
@@ -862,7 +862,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 
 	gsf_xml_out_start_element (xml, "worksheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-		"http://schemas.microsoft.com/office/excel/2006/2");
+		"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r",
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships");
 	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
@@ -951,7 +951,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	xml = gsf_xml_out_new (GSF_OUTPUT (wb_part));
 	gsf_xml_out_start_element (xml, "workbook");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-		"http://schemas.microsoft.com/office/excel/2006/2");
+		"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r",
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships");
 	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");

@@ -2298,11 +2298,10 @@ gather_styles (ExcelWriteState *ewb)
 
 	for (i = 0; i < ewb->sheets->len; i++) {
 		esheet = g_ptr_array_index (ewb->sheets, i);
-
-		g_hash_table_foreach (esheet->gnum_sheet->cell_hash,
+		sheet_cell_foreach (esheet->gnum_sheet,
 			(GHFunc) cb_cell_pre_pass, ewb);
-
-		sheet_style_foreach (esheet->gnum_sheet, (GHFunc)cb_accum_styles, ewb);
+		sheet_style_foreach (esheet->gnum_sheet,
+			(GHFunc) cb_accum_styles, ewb);
 		for (col = 0; col < esheet->max_col; col++)
 			esheet->col_xf [col] = two_way_table_key_to_idx (ewb->xf.two_way_table,
 									 esheet->col_style [col]);
@@ -5337,10 +5336,8 @@ excel_write_workbook (ExcelWriteState *ewb)
 	ms_biff_put_empty (ewb->bp, BIFF_EOF);
 
 	n = 0;
-	for (i = workbook_sheet_count (ewb->gnum_wb) ; i-- > 0 ;) {
-		Sheet const *sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
-		n += g_hash_table_size (sheet->cell_hash);
-	}
+	for (i = workbook_sheet_count (ewb->gnum_wb) ; i-- > 0 ;)
+		n += sheet_cells_count (workbook_sheet_by_index (ewb->gnum_wb, i));
 	count_io_progress_set (ewb->io_context,
 		n, N_CELLS_BETWEEN_UPDATES);
 	for (i = 0; i < ewb->sheets->len; i++)

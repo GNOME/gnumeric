@@ -301,8 +301,6 @@ excel_read_pivot_caches (GnmXLImporter *importer,
 	if (NULL == dir)
 		return;
 
-	return; /* leave this disabled for now */
-
 	s.importer = importer;
 	n = gsf_infile_num_children (GSF_INFILE (dir));
 	for (i = 0 ; i < n ; i++) {

@@ -7,6 +7,8 @@ Jody:
 	* Allow File->Save even when editing an object. [#338619]
 	* Only install util man pages if they are built. [#341916]
 	* Handle Tab/Return movement. [#88167]
+	* Re-enable R1C1 parsing.
+	* Remove GnmCell::col_info to shrink cell by 4 more bytes.
 
 Morten:
 	* Moved font metrics to goffice.

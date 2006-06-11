@@ -1,3 +1,46 @@
+2006-06-11  Jody Goldberg <jody@gnome.org>
+
+	* src/cell-draw.c (cell_calc_layout) : Take the width as an argument
+	  rather than calculating it here.
+	(cell_draw) : width must be specified now.  No more magic < 0 implies
+	  cur col width.  Width convention changed to include margins.
+
+	* src/search.c (search_collect_cells) :  adjust to sheet_cells
+	  signature change.
+
+	* src/expr.h (GnmExprRelocateInfo) : convert pos from an EvalPos to a
+	  ParsePos.  One day the distinction will go away, but for now
+	  relocations do not need to know which dependent is being evaluated.
+	* src/dependent.c (dependents_relocate) : adjust to that change.
+	* src/sheet-autofill.c (afc_set_cell_hint) : ditto.
+
+	* src/colrow.h (GNM_COL_MARGIN) : define.  Margins are going away, why
+	  waste space and time looking up values that were constant.
+
+	* src/cell.h : remove GnmCell::col_info.
+	(cell_is_linked) : delete.  it was only used internally this model is
+	  targeted for removal when cells move into the quadtree.
+
+	* src/gnumeric.h : Change CellIterFunc signature to take a GnmCellIter
+	  in place of all the distinct arguments.
+	* src/auto-format.c (cb_af_suggest) : Adjust to signature change.
+	* src/clipboard.c (cb_clipboard_prepend_cell) : ditto.
+	* src/colrow.c (cb_clear_variable_width_content) : ditto.
+	* src/func.c (cb_iterate_cellrange) : ditto.
+	* src/graph.c (cb_assign_val) : ditto.
+	(cb_assign_matrix_val) : ditto.
+	* src/print.c (cb_range_empty) : ditto.
+	* src/ranges.c (cb_find_extents) : ditto.
+	* src/sheet-filter.c (cb_collect_unique) : ditto.
+	(cb_filter_expr) : ditto.
+	(cb_filter_non_blanks) : ditto.
+	(cb_filter_blanks) : ditto.
+	(cb_filter_find_items) : ditto.
+	(cb_hide_unwanted_items) : ditto.
+	(cb_filter_find_percentage) : ditto.
+	(cb_hide_unwanted_percentage) : ditto.
+	* src/sheet-view.c (cb_fail_if_not_selected) : ditto.
+
 2006-06-09  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-view.h (SheetView) : Add ::first_col_tab
