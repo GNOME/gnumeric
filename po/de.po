@@ -9,7 +9,7 @@
 # Christian Meyer <chrisime@gnome.org>, 2001.
 # Christian Neumair <chris@gnome-de.org>, 2002, 2003, 2004.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
-# Hendrik Richter <hendrikr@gnome.org>, 2005.
+# Hendrik Richter <hendrikr@gnome.org>, 2005, 2006.
 #
 # Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
 #
@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-05 10:46+0200\n"
-"PO-Revision-Date: 2006-06-15 17:10+0200\n"
+"PO-Revision-Date: 2006-06-15 17:48+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -9377,7 +9377,7 @@ msgstr ""
 
 #: ../src/commands.c:426
 msgid "..."
-msgstr " …"
+msgstr "…"
 
 #: ../src/commands.c:996 ../src/commands.c:1123 ../src/commands.c:1128
 msgid "Set Text"
