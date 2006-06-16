@@ -1,3 +1,7 @@
+2006-06-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* samples/chart-stripe-tests.gnumeric: new.
+
 2006-06-11  Jody Goldberg <jody@gnome.org>
 
 	* src/cell-draw.c (cell_calc_layout) : Take the width as an argument
