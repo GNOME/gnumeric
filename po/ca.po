@@ -6,13 +6,14 @@
 # Jordi Ivars <jordi@ultimobyte.es>, 2004,2005
 # Albert Gasset <albert.gasset@estudiant.upc.edu>, 2004,2005
 # Maria Soler <maria.soler@epsem.upc.edu>, 2006
+# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2006
 # fitxer: ca.po
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-30 11:44+0200\n"
-"PO-Revision-Date: 2006-04-30 11:49+0200\n"
+"PO-Revision-Date: 2006-06-18 11:49+0200\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -7261,7 +7262,7 @@ msgstr "Exporta com a text"
 #
 # fitxer: src.ca.po.14
 #: ../src/dialogs/dialog-stf-export.glade.h:16
-#, fuzzy
+#
 msgid "Line _termination:"
 msgstr "Fina_l de línia:"
 
@@ -7387,9 +7388,9 @@ msgstr "_Format:"
 # src/functions/fn-logical.c:231
 # fitxer: src.ca.po.8
 #: ../src/dialogs/dialog-stf-export.glade.h:42
-#, fuzzy
+#
 msgid "_Locale"
-msgstr "Localització"
+msgstr "_Localització"
 
 #
 # fitxer: src.ca.po.14
@@ -7533,11 +7534,11 @@ msgstr ""
 # fitxer: src.ca.po.14
 #: ../src/dialogs/dialog-stf.glade.h:9
 msgid "CSV"
-msgstr "VSC"
+msgstr "CSV"
 
 # fitxer: src.ca.po.14
 #: ../src/dialogs/dialog-stf.glade.h:10
-#, fuzzy
+#
 msgid "C_olon (:)"
 msgstr "_Dos punts (:)"
 
@@ -7771,19 +7772,19 @@ msgstr "_Neteja"
 
 # fitxer: src.ca.po.14
 #: ../src/dialogs/dialog-stf.glade.h:52
-#, fuzzy
+#,
 msgid "_Comma (,)"
 msgstr "Co_ma (,)"
 
 # fitxer: src.ca.po.14
 #: ../src/dialogs/dialog-stf.glade.h:53
-#, fuzzy
+#
 msgid "_Hyphen (-)"
 msgstr "G_uió (-)"
 
 #: ../src/dialogs/dialog-stf.glade.h:54
 msgid "_Ignore initial separators"
-msgstr ""
+msgstr "_Ignora els separadors inicials"
 
 # fitxer: src.ca.po.14
 #: ../src/dialogs/dialog-stf.glade.h:55
@@ -8205,9 +8206,9 @@ msgid "The document keywords"
 msgstr "Les paraules clau del document"
 
 #: ../src/dialogs/doc-meta-data.glade.h:45
-#, fuzzy
+#
 msgid "The document manager"
-msgstr "El títol del dociment (no el nom del fitxer)"
+msgstr "El gestor del document"
 
 #: ../src/dialogs/doc-meta-data.glade.h:46
 msgid "The document subject"
@@ -8330,7 +8331,7 @@ msgstr "_Més"
 #: ../src/dialogs/fill-series.glade.h:17 ../src/dialogs/pivottable.glade.h:13
 #: ../src/wbcg-actions.c:1506
 msgid "_Row"
-msgstr "_Fila"
+msgstr "Fi_la"
 
 #
 # fitxer: src.ca.po.2
@@ -8457,7 +8458,7 @@ msgstr "Solució:"
 #
 # fitxer: src.ca.po.1
 #: ../src/dialogs/goalseek.glade.h:10
-#, fuzzy
+#
 msgid "_By Changing Cell:"
 msgstr "_Per la cel·la que canvia:"
 
@@ -8465,7 +8466,7 @@ msgstr "_Per la cel·la que canvia:"
 # fitxer: src.ca.po.1
 #: ../src/dialogs/goalseek.glade.h:11
 msgid "_Set Cell:"
-msgstr "E_specifiqueu la celÂ·la:"
+msgstr "E_specifiqueu la cel·la:"
 
 #
 # fitxer: src.ca.po.1
@@ -8879,7 +8880,7 @@ msgstr "_Pàgina"
 # fitxer: src.ca.po.11
 #: ../src/dialogs/pivottable.glade.h:12 ../src/wbcg-actions.c:1698
 msgid "_Remove"
-msgstr "_Suprimeix"
+msgstr "Suprimei_x"
 
 # fitxer: src.ca.po.1
 #: ../src/dialogs/pivottable.glade.h:14
@@ -9287,7 +9288,7 @@ msgstr "Nom de l'escenari:"
 
 # fitxer: src.ca.po.1
 #: ../src/dialogs/scenario-add.glade.h:5
-#, fuzzy
+#
 msgid "_Changing cells:"
 msgstr "Cel·les que _canvien:"
 
@@ -9595,9 +9596,9 @@ msgstr "Intenta preservar majúscula/minúscula del text en reemplaçar"
 #
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:7
-#, fuzzy
+#
 msgid "By"
-msgstr "_Per"
+msgstr "Per"
 
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:8
@@ -9623,9 +9624,9 @@ msgstr "Falla sense fer cap canvi a cap cel·la"
 #
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:13
-#, fuzzy
+#
 msgid "Location"
-msgstr "_Ubicació"
+msgstr "Ubicació"
 
 #
 # fitxer: src.ca.po.2
@@ -9636,14 +9637,14 @@ msgstr "Concorda amb paraules _senceres"
 #
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:15
-#, fuzzy
+#
 msgid "Make _error expression"
 msgstr "_Crea l'expressió d'error"
 
 #
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:16
-#, fuzzy
+#
 msgid "Make _string value"
 msgstr "Crea el _valor de la cadena"
 
@@ -9691,9 +9692,9 @@ msgstr "Ra_ng"
 #
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:27
-#, fuzzy
+#
 msgid "Replacing"
-msgstr "_Reemplaçar"
+msgstr "S'està reemplaçant"
 
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:623
@@ -9966,7 +9967,7 @@ msgstr "E_scalat Automàtic"
 
 # fitxer: src.ca.po.2
 #: ../src/dialogs/solver.glade.h:5
-#, fuzzy
+#
 msgid "B_y Changing Cells: "
 msgstr "Per cel·les que canv_ien:"
 
@@ -10948,7 +10949,7 @@ msgstr "Valors actuals"
 
 # fitxer: src.ca.po.5
 #: ../src/tools/scenarios.c:688
-#, fuzzy
+#
 msgid "Changing Cells:"
 msgstr "Cel·les que canvien:"
 
@@ -11624,7 +11625,7 @@ msgstr "No es pot enganxar"
 
 # fitxer: src.ca.po.10
 #: ../src/clipboard.c:299
-#, fuzzy
+#
 msgid "Contents can only be pasted by value or by link."
 msgstr "El contingut només es pot enganxar per valor o per enllaç."
 
@@ -12144,7 +12145,7 @@ msgstr "Fusionar dades a %s"
 
 # fitxer: src.ca.po.9
 #: ../src/commands.c:5322
-#, fuzzy
+#
 msgid "Changing workbook properties"
 msgstr "S'estan canviant les propietats del full"
 
@@ -12645,9 +12646,9 @@ msgstr "Destí de l'enllaç"
 
 # fitxer: src.ca.po.12
 #: ../src/hlink.c:161
-#, fuzzy
+#
 msgid "(none)"
-msgstr "cap"
+msgstr "(cap)"
 
 # fitxer: src.ca.po.3
 #: ../src/hlink.c:225
@@ -13021,7 +13022,7 @@ msgstr "&[PAGE]"
 # fitxer: src.ca.po.4
 #: ../src/print.c:1116
 msgid "Print Region"
-msgstr "Imprimeix regió"
+msgstr "Imprimeix la regió"
 
 # fitxer: src.ca.po.4
 #: ../src/print.c:1233 ../src/wbcg-actions.c:1599
@@ -13036,7 +13037,7 @@ msgstr "Ha fallat la impressió"
 # fitxer: src.ca.po.4
 #: ../src/print.c:1349
 msgid "Print Sheets"
-msgstr "Imprimeix Fulls"
+msgstr "Imprimeix els fulls"
 
 # fitxer: src.ca.po.4
 #: ../src/print.c:1358
@@ -13987,9 +13988,9 @@ msgstr "La cel·la %s no pot estar en blanc"
 
 # fitxer: src.ca.po.7
 #: ../src/validation.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "Cell %s is not permitted to contain strings"
-msgstr "La cel·la %s no pot estar en blanc"
+msgstr "La cel·la %s no pot contenir cadenes"
 
 # fitxer: src.ca.po.7
 #: ../src/validation.c:275
@@ -14261,7 +14262,7 @@ msgstr "Nete_ja"
 # fitxer: src.ca.po.1
 #: ../src/wbcg-actions.c:1494
 msgid "_Delete"
-msgstr "_Suprimeix"
+msgstr "Suprimei_x"
 
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1495
@@ -14307,7 +14308,7 @@ msgstr "E_special"
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1504
 msgid "F_ormat"
-msgstr "F_ormat"
+msgstr "For_mat"
 
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1505
@@ -14318,7 +14319,7 @@ msgstr "C_olumna"
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
 #: ../src/wbcg-actions.c:1507 ../src/wbcg-actions.c:1689
 msgid "_Sheet"
-msgstr "_Full"
+msgstr "F_ull"
 
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1508
@@ -14413,7 +14414,7 @@ msgstr "Desfés l'última acció"
 # fitxer: src.ca.po.15
 #: ../src/wbcg-actions.c:1540 ../src/workbook-control-gui.c:1169
 msgid "_Redo"
-msgstr "To_rna a fer"
+msgstr "Torna a _fer"
 
 # fitxer: src.ca.po.9
 #: ../src/wbcg-actions.c:1541 ../src/wbc-gtk.c:527
@@ -14535,7 +14536,7 @@ msgstr "Imprimeix el fitxer actual"
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1604
 msgid "Proper_ties..."
-msgstr "Propie_tats..."
+msgstr "P_ropietats..."
 
 #
 # fitxer: src.ca.po.6
@@ -14787,7 +14788,7 @@ msgstr "Edita el comentari de les cel·les seleccionades"
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1714
 msgid "_Find..."
-msgstr "_Cerca..."
+msgstr "Ce_rca..."
 
 #
 # fitxer: src.ca.po.6
@@ -14798,7 +14799,7 @@ msgstr "Cerca alguna cosa"
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1717
 msgid "R_eplace..."
-msgstr "Re_emplaça..."
+msgstr "Reemp_laça..."
 
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1718
@@ -14849,7 +14850,7 @@ msgstr "Atura la part superior esquerra del full"
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1735
 msgid "_Zoom..."
-msgstr "Am_pliació..."
+msgstr "A_mpliació..."
 
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1736
@@ -15006,7 +15007,7 @@ msgstr "Modifica el format de les cel·les seleccionades"
 # fitxer: src.ca.po.8
 #: ../src/wbcg-actions.c:1799
 msgid "_Workbook..."
-msgstr "_Llibre de treball..."
+msgstr "Lli_bre de treball..."
 
 # fitxer: src.ca.po.8
 #: ../src/wbcg-actions.c:1800
@@ -15038,7 +15039,7 @@ msgstr "Formata una regió de cel·les seguint una plantilla predefinida"
 #. Format -> Col
 #: ../src/wbcg-actions.c:1810
 msgid "_Width..."
-msgstr "_Amplada..."
+msgstr "Amp_lada..."
 
 # fitxer: src.ca.po.8
 #: ../src/wbcg-actions.c:1811
@@ -15115,7 +15116,7 @@ msgstr "Canvia l'alçada de la fila per defecte"
 #. Tools
 #: ../src/wbcg-actions.c:1844
 msgid "_Plug-ins..."
-msgstr "_Connectors..."
+msgstr "Connec_tors..."
 
 # fitxer: src.ca.po.8
 #: ../src/wbcg-actions.c:1845
@@ -15450,13 +15451,13 @@ msgstr "Consolida les regions usant una funció"
 #
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:1952
-#, fuzzy
+#
 msgid "_PivotTable..."
 msgstr "_TaulaBase..."
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:1953
-#, fuzzy
+#
 msgid "Create a pivot table"
 msgstr "Crea una taula base"
 
@@ -16975,19 +16976,6 @@ msgstr "Una plantilla de llista senzilla"
 #~ msgid "Slas_h (/)"
 #~ msgstr "Barra _diagonal (/)"
 
-# fitxer: src.ca.po.2
-#~ msgid ""
-#~ "Âôù€\n"
-#~ "Âôù¥\n"
-#~ "=\n"
-#~ "Int\n"
-#~ "Bool\n"
-#~ msgstr ""
-#~ "Âôù€\n"
-#~ "Âôù¥\n"
-#~ "=\n"
-#~ "Int\n"
-#~ "Bool\n"
 
 # fitxer: src.ca.po.2
 #~ msgid "<span weight=\"bold\">Document Summary Information</span>"
