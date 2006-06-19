@@ -9694,7 +9694,7 @@ msgstr "Ra_ng"
 #: ../src/dialogs/search-replace.glade.h:27
 #
 msgid "Replacing"
-msgstr "S'està reemplaçant"
+msgstr "Reemplaçar"
 
 # fitxer: src.ca.po.2
 #: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:623
