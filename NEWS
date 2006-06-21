@@ -21,6 +21,7 @@ Morten:
 	* Reduce memory consumption for dependency storage.
 	* Fix CRITICAL for --debug-deps on startup.
 	* Fix sheet duplication problem related to the solver.
+	* Fix stf import crash.  [#345477]
 
 --------------------------------------------------------------------------
 

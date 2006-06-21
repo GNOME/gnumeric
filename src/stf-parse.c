@@ -1400,6 +1400,7 @@ stf_parse_options_guess (const char *data)
 		if (count_character (lines, (c = sepchar), 0.5) > 0 ||
 		    count_character (lines, (c = format_get_col_sep ()), 0.5) > 0 ||
 		    count_character (lines, (c = ':'), 0.5) > 0 ||
+		    count_character (lines, (c = ','), 0.5) > 0 ||
 		    count_character (lines, (c = ';'), 0.5) > 0 ||
 		    count_character (lines, (c = '|'), 0.5) > 0 ||
 		    count_character (lines, (c = '!'), 0.5) > 0 ||
@@ -1414,14 +1415,18 @@ stf_parse_options_guess (const char *data)
 
 	if (1) {
 		/* Separated */
+		gboolean dups =
+			res->sep.chr &&
+			strchr (res->sep.chr, ' ') != NULL;
+		gboolean trim =
+			res->sep.chr &&
+			strchr (res->sep.chr, ' ') != NULL;
 
 		stf_parse_options_set_type (res, PARSE_TYPE_CSV);
 		stf_parse_options_set_trim_spaces (res, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
 		stf_parse_options_csv_set_indicator_2x_is_single (res, TRUE);
-		stf_parse_options_csv_set_duplicates
-			(res, strchr (res->sep.chr, ' ') != NULL);
-		stf_parse_options_csv_set_trim_seps
-			(res, strchr (res->sep.chr, ' ') != NULL);
+		stf_parse_options_csv_set_duplicates (res, dups);
+		stf_parse_options_csv_set_trim_seps (res, trim);
 
 		stf_parse_options_csv_set_stringindicator (res, '"');
 	} else {

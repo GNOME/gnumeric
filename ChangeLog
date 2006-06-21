@@ -1,3 +1,9 @@
+2006-06-20  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_guess): Explicitly try a
+	comma.  And don't crash if we fail to guess a separator.  Fixes
+	#345477.
+
 2006-06-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* samples/chart-stripe-tests.gnumeric: new.
