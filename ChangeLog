@@ -1,3 +1,11 @@
+
+
+2006-01-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-plugin.c (plugin_service_function_group_get_description):
+	  Fix ngettext call #345027
+	(plugin_service_ui_get_description): ditto
+
 2006-06-20  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess): Explicitly try a

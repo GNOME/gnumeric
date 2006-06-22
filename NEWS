@@ -1,5 +1,8 @@
 Gnumeric 1.7.1
 
+Andreas:
+	* Fix ngettext calls [#345027]
+
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).
 	* Don't lose the orientation of line objects when copying.

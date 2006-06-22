@@ -214,8 +214,8 @@ plugin_service_function_group_get_description (GOPluginService *service)
 		: service_function_group->category_name;
 
 	return g_strdup_printf (ngettext (
-			N_("%d function in category \"%s\""),
-			N_("Group of %d functions in category \"%s\""),
+			"%d function in category \"%s\"",
+			"Group of %d functions in category \"%s\"",
 			n_functions),
 		n_functions, category_name);
 }
@@ -404,8 +404,8 @@ plugin_service_ui_get_description (GOPluginService *service)
 	n_actions = g_slist_length (service_ui->actions);
 	return g_strdup_printf (
 		ngettext (
-			N_("User interface with %d action"),
-			N_("User interface with %d actions"),
+			"User interface with %d action",
+			"User interface with %d actions",
 			n_actions),
 		n_actions);
 }
