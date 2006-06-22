@@ -1,3 +1,10 @@
+2006-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-format-page.c (cb_col_check_clicked): use
+	  ngettext #123860
+	* ialog-stf-main-page.c (main_page_import_range_changed): 
+	  use ngettext #123860
+	
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dao-gui-utils.c: replaced gi18n.h by gi18n-lib.h.

@@ -192,13 +192,25 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 
 	if (extent->end.col >= maxcols) {
 		gnm_io_warning (io_context,
-			_("Some content will be lost when saving.  This format only supports %u cols, and this workbook has %d"),
+			ngettext("Some content will be lost when saving.  "
+				 "This format only supports %u column, and "
+				 "this workbook has %d",
+				 "Some content will be lost when saving.  "
+				 "This format only supports %u columns, "
+				 "and this workbook has %d",
+				 maxcols),
 			  maxcols, extent->end.col);
 		extent->end.col = maxcols;
 	}
 	if (extent->end.row >= maxrows) {
 		gnm_io_warning (io_context,
-			_("Some content will be lost when saving.  This format only supports %u rows, and this workbook has %d"),
+			ngettext("Some content will be lost when saving.  "
+				 "This format only supports %u row, and "
+				 "this workbook has %d",
+				 "Some content will be lost when saving.  "
+				 "This format only supports %u rows, "
+				 "and this workbook has %d",
+				 maxrows),
 			maxrows, extent->end.row);
 		extent->end.row = maxrows;
 	}

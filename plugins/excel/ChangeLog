@@ -1,3 +1,7 @@
+2006-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-write.c (excel_sheet_extent): use ngettext #123860
+
 2006-06-03  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c (xlsx_ns) : add the namespace for beta2.

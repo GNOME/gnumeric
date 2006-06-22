@@ -156,7 +156,9 @@ main_page_import_range_changed (StfDialogData *data)
 	data->cur = stf_parse_find_line (data->parseoptions, data->utf8_data, startrow - 1);
 	data->cur_end = stf_parse_find_line (data->parseoptions, data->utf8_data, stoprow);
 
-	linescaption = g_strdup_printf (_("%d of %d lines to import"),
+	linescaption = g_strdup_printf (ngettext("%d of %d line to import",
+						 "%d of %d lines to import",
+						 renderdata->lines->len),
 					(stoprow - startrow) + 1,
 					renderdata->lines->len);
 	gtk_label_set_text (data->main.main_lines, linescaption);
