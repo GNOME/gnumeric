@@ -132,20 +132,64 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 };
 
 /**
+ * latex_raw_str :
+ * @p :	    a pointer to a char, start of the string to be processed
+ * @output : output stream where the processed characters are written.
+ * @utf8:   is this a utf8 string?
+ *
+ * @return:
+ * If @p is in form of \L{foo}, return the char pointer pointing to '}' of \L{foo}
+ * else return @p untouched; 
+ * 
+ * Check if @p is in form of \L{foo}.
+ * If it is, the exact "foo" will be put into @output, without any esacaping.
+ *
+ */
+static const char*
+latex_raw_str(const char *p, GsfOutput *output, gboolean utf8)
+{
+	const char *p_begin, *p_orig = p;
+	int depth = 1;
+	if(strncasecmp(p, "\\L{", 3) == 0){
+		p += 3;
+		p_begin = p;
+		/* find the matching close bracket */
+		for(; *p; p = utf8 ? g_utf8_next_char(p) : p + 1){
+			switch(*p){ /* FIXME: how to put in unmatched brackets? */
+				case '{':
+					depth ++;
+					break;
+				case '}':
+					depth--;
+					if(depth == 0){
+						/* put the string beginning from p_begin to p to output */
+						gsf_output_write(output, p - p_begin, p_begin);
+						return p;
+					}
+			}
+		}
+	}
+	return p_orig;
+}
+
+
+/**
  * latex_fputs_utf :
  *
  * @p :      a pointer to a char, start of the string to be processed.
  * @output : output stream where the processed characters are written.
  *
- * This escapes any special LaTeX characters from the LaTeX engine. Re-ordered
- * from Rasca's code to have most common first.
+ * This escapes any special LaTeX characters from the LaTeX engine,
+ * except the ones enclosed in "\L{" and "}".
+ * Re-ordered from Rasca's code to have most common first.
  */
 static void
 latex_fputs_utf (char const *p, GsfOutput *output)
 {
+	const char *rlt;
 	for (; *p; p = g_utf8_next_char (p)) {
 		switch (g_utf8_get_char (p)) {
-			
+
 			/* These are the classic TeX symbols $ & % # _ { } (see Lamport, p.15) */
 		case '$': case '&': case '%': case '#':
 		case '_': case '{': case '}':
@@ -156,7 +200,11 @@ latex_fputs_utf (char const *p, GsfOutput *output)
 			gsf_output_printf (output, "\\%c{ }", *p);
 			break;
 		case '\\':
-			gsf_output_puts (output, "$\\backslash$");
+			rlt = latex_raw_str(p, output, TRUE);
+			if(rlt == p)
+			    gsf_output_puts (output, "$\\backslash$");
+			else
+			    p = rlt;
 			break;
 			/* Are these available only in LaTeX through mathmode? */
 		case '>': case '<':
@@ -177,13 +225,15 @@ latex_fputs_utf (char const *p, GsfOutput *output)
  * @p :     a pointer to a char, start of the string to be processed.
  * @output: output stream where the processed characters are written.
  *
- * This escapes any special LaTeX characters from the LaTeX engine.
+ * This escapes any special LaTeX characters from the LaTeX engine,
+ * except the ones enclosed in "\L{" and "}".
  * 
  * We assume that htis will be set in Mathematics mode.
  */
 static void
 latex_math_fputs_utf (char const *p, GsfOutput *output)
 {
+	const char *rlt;
 	for (; *p; p = g_utf8_next_char (p)) {
 		switch (g_utf8_get_char (p)) {
 
@@ -196,9 +246,12 @@ latex_math_fputs_utf (char const *p, GsfOutput *output)
 				gsf_output_printf (output, "\\%c{ }", *p);
 				break;
 			case '\\':
-				gsf_output_puts (output, "\\backslash");
+				rlt = latex_raw_str(p, output, TRUE);
+				if(rlt == p)
+				    gsf_output_puts (output, "$\\backslash$");
+				else
+				    p = rlt;
 				break;
-
 			default:
 				gsf_output_write (output, 
 						  (g_utf8_next_char (p)) - p, p);
@@ -260,14 +313,16 @@ latex_convert_latin_to_utf (char const *text)
  * @p :      a pointer to a char, start of the string to be processed.
  * @output : output stream where the processed characters are written.
  *
- * This escapes any special LaTeX characters from the LaTeX engine. Re-ordered
- * from Rasca's code to have most common first.
+ * This escapes any special LaTeX characters from the LaTeX engine,
+ * except the ones enclosed in "\L{" and "}".
+ * Re-ordered from Rasca's code to have most common first.
  */
 static void
 latex_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
 	char * p;
+	char * rlt;
 
 	encoded_text = latex_convert_latin_to_utf (text);
 
@@ -284,7 +339,11 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 			gsf_output_printf (output, "\\%c{ }", *p);
 			break;
 		case '\\':
-			gsf_output_puts (output, "$\\backslash$");
+			rlt = latex_raw_str(p, output, FALSE);
+			if(rlt == p)
+			    gsf_output_puts (output, "$\\backslash$");
+			else
+			    p = rlt;
 			break;
 			/* Are these available only in LaTeX through mathmode? */
 		case '>': case '<': case 'µ':
@@ -305,7 +364,8 @@ latex_fputs_latin (char const *text, GsfOutput *output)
  * @p :     a pointer to a char, start of the string to be processed.
  * @output: output stream where the processed characters are written.
  *
- * This escapes any special LaTeX characters from the LaTeX engine.
+ * This escapes any special LaTeX characters from the LaTeX engine, 
+ * except the ones enclosed in "\L{" and "}".
  * 
  * We assume that htis will be set in Mathematics mode.
  */
@@ -314,6 +374,7 @@ latex_math_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
 	char * p;
+	char * rlt;
 
 	encoded_text = latex_convert_latin_to_utf (text);
 
@@ -329,7 +390,11 @@ latex_math_fputs_latin (char const *text, GsfOutput *output)
 				gsf_output_printf (output, "\\%c{ }", *p);
 				break;
 			case '\\':
-				gsf_output_puts (output, "\\backslash");
+				rlt = latex_raw_latin(p, output, FALSE);
+				if(rlt == p)
+				    gsf_output_puts (output, "$\\backslash$");
+				else
+				    p = rlt;
 				break;
 
 			default:

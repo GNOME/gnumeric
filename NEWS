@@ -28,6 +28,11 @@ Morten:
 	* Fix sheet duplication problem related to the solver.
 	* Fix stf import crash.  [#345477]
 
+Shixin Zeng
+	
+	* Add \L{} escape to LaTeX exporter (The content of the 
+          braces is being inserted litterally into the LaTeX file.) 
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.7.0
