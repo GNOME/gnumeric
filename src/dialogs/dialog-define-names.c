@@ -181,10 +181,13 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 	 **/
 	in_list = name_guru_in_list (state, name, TRUE);
 	add    = name != NULL && name[0] != '\0' && in_list == NULL;
-	update = name != NULL && name[0] != '\0' && !add;
+	update = name != NULL && name[0] != '\0' && in_list != NULL
+		&& in_list->is_editable;
 	selection = gtk_tree_selection_get_selected (state->selection, NULL, NULL);
 
-	gtk_widget_set_sensitive (state->delete_button, selection && in_list != NULL);
+	gtk_widget_set_sensitive (state->delete_button,
+				  selection && in_list != NULL
+				  && !in_list->is_permanent);
 	gtk_widget_set_sensitive (state->add_button,    add);
 	gtk_widget_set_sensitive (state->update_button, update);
 

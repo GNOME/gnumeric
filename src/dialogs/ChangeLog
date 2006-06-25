@@ -1,3 +1,8 @@
+2006-06-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-define-names.c (name_guru_update_sensitivity):
+	  handle permanent names
+
 2006-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (stf_dialog_format_page_init):

@@ -326,6 +326,8 @@ expr_name_new (char const *name, gboolean is_placeholder)
 	nexpr->dependents	= NULL;
 	nexpr->is_placeholder	= is_placeholder;
 	nexpr->is_hidden	= FALSE;
+	nexpr->is_permanent	= FALSE;
+	nexpr->is_editable	= TRUE;
 
 	g_return_val_if_fail (nexpr->name != NULL, NULL);
 
@@ -451,14 +453,20 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 			nexpr->is_placeholder = FALSE;
 		} else {
 			nexpr = g_hash_table_lookup (scope->names, name);
+			/* If this is a permanent name, we may be adding it on opening of a file, although */
+			/* the name is already in place. */
 			if (nexpr != NULL) {
-				if (error_msg != NULL)
-					*error_msg = (pp->sheet != NULL)
-						? g_strdup_printf (_("'%s' is already defined in sheet"), name)
-						: g_strdup_printf (_("'%s' is already defined in workbook"), name);
-
-				gnm_expr_top_unref (texpr);
-				return NULL;
+				if (nexpr->is_permanent)
+					link_to_container = FALSE;
+				else {
+					if (error_msg != NULL)
+						*error_msg = (pp->sheet != NULL)
+							? g_strdup_printf (_("'%s' is already defined in sheet"), name)
+							: g_strdup_printf (_("'%s' is already defined in workbook"), name);
+					
+					gnm_expr_top_unref (texpr);
+					return NULL;
+				}
 			}
 		}
 	} else if (pp->sheet != NULL)
@@ -834,4 +842,36 @@ sheet_names_check (Sheet const *sheet, GnmRange const *r)
 	}
 
 	return (nexpr != NULL) ? nexpr->name->str : NULL;
+}
+
+
+/**
+ * expr_name_perm_add:
+ * @name:               name
+ * @texpr:              string to be the value of the name
+ * @is_editable:        whether this is a predefined action
+ *
+ * This is a wrapper around expr_name_add to set this as permanent name. 
+ *
+ *
+ **/
+void
+expr_name_perm_add (Sheet *sheet, char const *name,
+				char const *value,
+				gboolean is_editable)
+{
+	GnmNamedExpr *res;
+	GnmParsePos pp;
+
+	parse_pos_init_sheet (&pp, sheet);
+	res = expr_name_add (&pp, name,
+			     gnm_expr_top_new_constant
+			     (value_new_string (value)),
+			     NULL, TRUE, NULL);
+	if (res) {
+		res->is_permanent = TRUE;
+		res->is_editable = is_editable;
+	}
+
+
 }

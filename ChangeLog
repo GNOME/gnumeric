@@ -1,6 +1,16 @@
+2006-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet.c (sheet_set_name): update the Sheet_Title name
+	(sheet_new_with_type): Create Sheet_Title permanent name
+	* src/expr-name.h (GnmNamedExpr): add is_permanent and is_editable
+	  fields
+	(expr_name_perm_add): new
+	* src/expr-name.c (expr_name_new): initialize new fields
+	(expr_name_add): avoid conflicts when permanent names are (re)loaded 
+	  from files.
+	(expr_name_perm_add): new
 
-2006-01-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2006-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-plugin.c (plugin_service_function_group_get_description):
 	  Fix ngettext call #345027

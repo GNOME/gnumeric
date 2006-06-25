@@ -255,6 +255,21 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		g_hash_table_insert (wb->sheet_hash_private,
 				     sheet->name_case_insensitive,
 				     sheet);
+
+	if (sheet->sheet_type == GNM_SHEET_DATA) {
+		/* We have to fix the Sheet_Title name */
+		GnmNamedExpr *nexpr;
+		GnmParsePos pp;
+
+		parse_pos_init_sheet (&pp, sheet);
+		nexpr = expr_name_lookup (&pp, "Sheet_Title");
+
+		if (nexpr != NULL) 
+			expr_name_set_expr (nexpr,
+					    gnm_expr_top_new_constant
+					    (value_new_string
+					     (sheet->name_unquoted)));
+	}
 }
 
 struct resize_colrow {
@@ -744,6 +759,13 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	if (type == GNM_SHEET_OBJECT) {
 		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
 		colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+	}
+
+	if (type == GNM_SHEET_DATA) {
+		/* We have to add permanent names */
+		expr_name_perm_add (sheet, "Sheet_Title",
+				    sheet->name_unquoted,
+				    FALSE);
 	}
 
 	return sheet;

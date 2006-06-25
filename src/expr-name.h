@@ -15,6 +15,8 @@ struct _GnmNamedExpr {
 	gboolean    active;
 	gboolean    is_placeholder;
 	gboolean    is_hidden;
+	gboolean    is_permanent;
+	gboolean    is_editable;
 };
 
 GnmNamedExpr *expr_name_lookup (GnmParsePos const *pos, char const *name);
@@ -22,6 +24,10 @@ GnmNamedExpr *expr_name_add    (GnmParsePos const *pp, char const *name,
 				GnmExprTop const *texpr, char **error_msg,
 				gboolean link_to_container,
 				GnmNamedExpr *stub);
+void expr_name_perm_add        (Sheet *sheet,
+				char const *name,
+				char const *texpr,
+				gboolean is_editable);
 GnmNamedExpr *expr_name_new    (char const *name, gboolean is_placeholder);
 
 void	 expr_name_ref	      (GnmNamedExpr *nexpr);
