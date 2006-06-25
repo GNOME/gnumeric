@@ -1,5 +1,10 @@
 2006-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-format-page.c (stf_dialog_format_page_init):
+	  initialize locale selector if pagedata.locale is set.
+
+2006-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-zoom.glade: remove unneccessary &-signs #311206
 
 2006-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>

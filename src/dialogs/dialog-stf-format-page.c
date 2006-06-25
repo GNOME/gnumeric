@@ -704,6 +704,10 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 
 	pagedata->format.locale_selector =
 		GO_LOCALE_SEL (go_locale_sel_new ());
+	if (pagedata->locale && !go_locale_sel_set_locale (pagedata->format.locale_selector, pagedata->locale)) {
+		g_free (pagedata->locale);
+		pagedata->locale = go_locale_sel_get_locale (pagedata->format.locale_selector);
+	}
 	gtk_table_attach (
 		GTK_TABLE (glade_xml_get_widget (gui, "locale_table")),
 		GTK_WIDGET (pagedata->format.locale_selector),

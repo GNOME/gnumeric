@@ -4,6 +4,7 @@ Andreas:
 	* Fix ngettext calls [#345027]
 	* Use ngettext to support correct plurals [#123860]
 	* Fix zoom-dialog labels [#311206]
+	* Initialize locale selector in stf export.
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).
