@@ -186,7 +186,7 @@ latex_raw_str(const char *p, GsfOutput *output, gboolean utf8)
 static void
 latex_fputs_utf (char const *p, GsfOutput *output)
 {
-	const char *rlt;
+	char const *rlt;
 	for (; *p; p = g_utf8_next_char (p)) {
 		switch (g_utf8_get_char (p)) {
 
@@ -321,8 +321,8 @@ static void
 latex_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
-	char * p;
-	char * rlt;
+	char const *p;
+	char const *rlt;
 
 	encoded_text = latex_convert_latin_to_utf (text);
 
@@ -373,8 +373,8 @@ static void
 latex_math_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
-	char * p;
-	char * rlt;
+	char const *p;
+	char const *rlt;
 
 	encoded_text = latex_convert_latin_to_utf (text);
 
@@ -390,7 +390,7 @@ latex_math_fputs_latin (char const *text, GsfOutput *output)
 				gsf_output_printf (output, "\\%c{ }", *p);
 				break;
 			case '\\':
-				rlt = latex_raw_latin(p, output, FALSE);
+				rlt = latex_raw_str(p, output, FALSE);
 				if(rlt == p)
 				    gsf_output_puts (output, "$\\backslash$");
 				else

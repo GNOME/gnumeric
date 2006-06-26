@@ -1,4 +1,10 @@
 2006-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* latex.c (latex_fputs_latin): fix typo and add
+	  const qualifiers
+	(latex_math_fputs_latin): ditto
+
+2006-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Shixin Zeng <shixinzeng@sjtu.edu.cn>
 
 	* latex.c (latex_raw_str): new
