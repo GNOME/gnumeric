@@ -156,11 +156,11 @@ cell_render_cairo (cairo_t *cairo, GnmCell *cell,
 	int x, y;
 	RenderedValue *rv = cell->rendered_value;
 
-	int width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
-	int height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
+	int width  = ci->size_pixels - (GNM_COL_MARGIN + GNM_COL_MARGIN + 1);
+	int height = ri->size_pixels - (GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1);
 	int h_center = -1;
-	int x1 = 1 + ci->margin_a;
-	int y1 = 1 + ri->margin_a;
+	int x1 = 1 + GNM_COL_MARGIN;
+	int y1 = 1 + GNM_ROW_MARGIN;
 
 	if (!rv) {
 		cell_render_value (cell, FALSE);
