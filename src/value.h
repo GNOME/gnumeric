@@ -46,8 +46,6 @@ struct _GnmValueErr {
 	GnmValueType const type;
 	GOFormat *fmt;
 	GnmString   *mesg;
-	/* Currently unused.  Intended to support audit functions */
-	GnmEvalPos  src;
 };
 struct _GnmValueStr {
 	GnmValueType const type;

@@ -52,42 +52,6 @@ enum {
 
 /*****************************************************************************/
 
-static int
-pg_get_row_height (PreviewGrid *pg, int row)
-{
-	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
-	int height;
-
-	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 1);
-	g_return_val_if_fail (klass != NULL, 1);
-
-	if (klass->get_row_height != NULL) {
-		height = (klass->get_row_height) (pg, row);
-		if (height > 0)
-			return height;
-	}
-
-	return pg->defaults.row_height;
-}
-
-static int
-pg_get_col_width (PreviewGrid *pg, int col)
-{
-	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
-	int width;
-
-	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 1);
-	g_return_val_if_fail (klass != NULL, 1);
-
-	if (klass->get_col_width != NULL) {
-		width = (klass->get_col_width) (pg, col);
-		if (width > 0)
-			return width;
-	}
-
-	return pg->defaults.col_width;
-}
-
 static GnmStyle *
 pg_get_style (PreviewGrid *pg, int col, int row)
 {
@@ -126,29 +90,23 @@ pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 	 * it and it must be g_free'd.
 	 */
 	cell = g_new0 (GnmCell, 1);
-
-	cell->row_info = g_new0 (ColRowInfo, 1);
-
-	style = pg_get_style (pg, col, row);
-
-	/* Eventually the cell->row_info will go away */
-	cell->row_info->pos = row;
 	cell->pos.col = col;
 	cell->pos.row = row;
-	cell->row_info->margin_a = 0;
-	cell->row_info->margin_b = 0;
-	cell->row_info->size_pixels = pg_get_row_height (pg, row);
+	/* Eventually the cell->row_info will go away */
+	cell->row_info = g_new0 (ColRowInfo, 1);
+	cell->row_info->size_pixels = pg->defaults.row_height;
 
 	cell->value = NULL;
 	if (klass->get_cell_value != NULL)
 		cell->value = (klass->get_cell_value) (pg, col, row);
 	if (cell->value == NULL)
 		cell->value = value_dup (pg->defaults.value);
+
+	style = pg_get_style (pg, col, row);
 	cell->rendered_value = rendered_value_new (cell, style, TRUE, context, 1.0);
 
 	return cell;
 }
-
 
 /**
  * pg_get_row_offset:
@@ -163,12 +121,11 @@ pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
 {
 	int row   = 0;
 	int pixel = 1;
-	int h;
+	int const h = pg->defaults.row_height;
 
 	g_return_val_if_fail (pg != NULL, 0);
 
 	do {
-		h = pg_get_row_height (pg, row);
 		if (y <= (pixel + h) || h == 0) {
 			if (row_origin)
 				*row_origin = pixel;
@@ -200,7 +157,7 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 	g_return_val_if_fail (pg != NULL, 0);
 
 	do {
-		w = pg_get_col_width (pg, col);
+		w = pg->defaults.col_width;
 		if (x <= (pixel + w) || w == 0) {
 			if (col_origin)
 				*col_origin = pixel;
@@ -364,6 +321,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  	int start_row       = pg_get_row_offset (pg, draw_y - 2, &y);
  	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
  	int diff_y    = y;
+	int row_height = pg->defaults.row_height;
 
 	GnmStyleRow sr, next_sr;
 	GnmStyle const **styles;
@@ -391,7 +349,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	colwidths = g_alloca (n * sizeof (int));
 	colwidths -= start_col;
 	for (col = start_col; col <= end_col; col++)
-		colwidths[col] = pg_get_col_width (pg, col);
+		colwidths[col] = pg->defaults.col_width;
 
 	foo_canvas_w2c (item->canvas, diff_x, diff_y, &diff_x, &diff_y);
  	/* Fill entire region with default background (even past far edge) */
@@ -399,8 +357,6 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  			    diff_x, diff_y, width, height);
 
 	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row) {
- 		int row_height = pg_get_row_height (pg, row);
-
 		if (++next_sr.row > end_row) {
 			for (col = start_col ; col <= end_col; ++col)
 				next_sr.vertical [col] =
@@ -418,7 +374,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 			if (!cell_is_empty (cell))
 				cell_draw (cell, pg->gc.cell, drawable,
-					   x, y, colwidths [col], -1, -1);
+					   x, y, colwidths [col], row_height, -1);
 
 			pg_destruct_cell (cell);
  			x += colwidths [col];

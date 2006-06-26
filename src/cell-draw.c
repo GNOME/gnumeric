@@ -51,7 +51,6 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		  int width, int height, int h_center,
 		  GOColor *res_color, gint *res_x, gint *res_y)
 {
-	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	int text_base;
 	PangoLayout *layout;
 	int indent;
@@ -73,7 +72,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
 	rect_x = PANGO_SCALE * (1 + GNM_COL_MARGIN);
-	rect_y = PANGO_SCALE * y_direction * (1 + ri->margin_a);
+	rect_y = PANGO_SCALE * y_direction * (1 + GNM_ROW_MARGIN);
 
 	/* if a number overflows, do special drawing */
 	if (rv->layout_natural_width > width - indent &&
@@ -248,7 +247,7 @@ cell_finish_layout (GnmCell const *cell, RenderedValue *rv,
  * @x1 :
  * @y1 :
  * @width : including margins and leading grid line
- * @height :
+ * @height : including margins and leading grid line
  * @h_center :
  **/
 void
@@ -259,15 +258,11 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	gint x;
 	gint y;
 	RenderedValue *rv = cell->rendered_value;
-	ColRowInfo const * const ri = cell->row_info;
 
 	/* Get the sizes exclusive of margins and grids */
-	/* FIXME : all callers will eventually pass in their cell size */
-	if (height < 0) /* DEPRECATED */
-		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
-
-	/* Note: +1 because size_pixels includes right gridline.  */
-	width  -= (GNM_COL_MARGIN + GNM_COL_MARGIN + 1);
+	/* Note: +1 because size_pixels includes leading gridline.  */
+	height -= GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
+	width  -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
 	if (cell_calc_layout (cell, rv, +1,
 			      width * PANGO_SCALE,
@@ -279,7 +274,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		/* +1 to get past left grid-line.  */
 		GdkRectangle rect;
 		rect.x = x1 + 1 + GNM_COL_MARGIN;
-		rect.y = y1 + 1 + ri->margin_a;
+		rect.y = y1 + 1 + GNM_ROW_MARGIN;
 		rect.width = width;
 		rect.height = height;
 

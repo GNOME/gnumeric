@@ -252,7 +252,7 @@ void             solver_results_free   (SolverResults *res);
 
 /* Returns a pointer to the target cell of the model attached to the
  * given sheet. */
-GnmCell		*solver_get_target_cell (Sheet *sheet);
+GnmCell      	*solver_get_target_cell (Sheet *sheet);
 
 /* Returns a pointer to a input variable cell. */
 GnmCell		*solver_get_input_var (SolverResults *res, int n);

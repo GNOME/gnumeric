@@ -202,7 +202,7 @@ value_error_set_pos (GnmValueErr *err, GnmEvalPos const *pos)
     g_return_val_if_fail (err != NULL, NULL);
     g_return_val_if_fail (VALUE_IS_ERROR (err), NULL);
 
-    err->src = *pos;
+    /* err->src = *pos; */
     return (GnmValue *)err;
 }
 
@@ -600,7 +600,7 @@ value_dup (GnmValue const *src)
 		break;
 
 	case VALUE_ERROR:
-		res = value_new_error_str (&src->v_err.src,
+		res = value_new_error_str (NULL, /* &src->v_err.src, */
 					   src->v_err.mesg);
 		break;
 

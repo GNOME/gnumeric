@@ -597,9 +597,10 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 		x += 1.;
 		y += 1.;
 	} else {
-		/* If there are no grids ignore the leading cell margins */
-		x -= sheet->cols.default_style.margin_a;
-		y -= sheet->rows.default_style.margin_a;
+		/* If there are no grids alias back to avoid a penalty for the
+		 * margins of the leading gridline */
+		x -= GNM_COL_MARGIN;
+		y -= GNM_ROW_MARGIN;
 	}
 
 	/* Note: we cannot have spaces in page numbers.  */

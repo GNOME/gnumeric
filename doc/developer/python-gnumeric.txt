@@ -150,7 +150,6 @@ interface to Gnumeric using the data structure GnmValue, which is a
 discriminated union. This table shows the mappings between the various
 types of Gnumeric values and Python data types.
 
-VALUE_INTEGER    <=>    Python integer
 VALUE_FLOAT      <=>    Python float
 VALUE_STRING     <=>    Python string
 VALUE_CELLRANGE  <=>    Python CellRange class

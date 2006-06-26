@@ -1185,7 +1185,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 		ColRowInfo const * ri;
 		ri = sheet_row_get_info (current_sheet, row);
 		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *) ri, current_sheet);
+			row_calc_spans ((ColRowInfo *) ri, row, current_sheet);
 
 		/* We need to check for horizontal borders at the top of this row */
 		length = num_cols;

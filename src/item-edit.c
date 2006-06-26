@@ -130,10 +130,8 @@ static void
 get_top_left (ItemEdit const *ie, int *top, int *left)
 {
 	GnmVAlign const align = gnm_style_get_align_v (ie->style);
-	ColRowInfo const *ci = sheet_col_get_info (
-		sc_sheet (SHEET_CONTROL (ie->scg)), ie->pos.col);
 
-	*left = ((int)ie->item.x1) + ci->margin_a;
+	*left = ((int)ie->item.x1) + GNM_COL_MARGIN;
 	*top  = (int)ie->item.y1;
 
 	if (align == VALIGN_CENTER || align == VALIGN_DISTRIBUTED ||
@@ -243,7 +241,7 @@ ie_layout (FooCanvasItem *item)
 	ItemEdit *ie = ITEM_EDIT (item);
 	GtkWidget const  *canvas = GTK_WIDGET (item->canvas);
 	GnmCanvas const  *gcanvas = GNM_CANVAS (item->canvas);
-	ColRowInfo const *cri;
+	ColRowInfo const *ci;
 	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (ie->scg));
 	GnmFont  const *gfont = ie->gfont;
 	GnmRange	   const *merged;
@@ -254,9 +252,9 @@ ie_layout (FooCanvasItem *item)
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 
 	end_col = ie->pos.col;
-	cri = sheet_col_get_info (sheet, end_col);
+	ci = sheet_col_get_info (sheet, end_col);
 
-	g_return_if_fail (cri != NULL);
+	g_return_if_fail (ci != NULL);
 
 	entered_text = gtk_entry_get_text (ie->entry);
 	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
@@ -312,27 +310,27 @@ ie_layout (FooCanvasItem *item)
 	pango_layout_get_pixel_size (ie->layout, &width, &height);
 
 	/* Start after the grid line and the left margin */
-	col_size = cri->size_pixels - cri->margin_a - 1;
+	col_size = ci->size_pixels - GNM_COL_MARGIN - 1;
 	if (sheet->text_is_rtl)
 		while (col_size < width &&
 		       end_col > gcanvas->first.col &&
 		       end_col > 0) {
 			end_col--;
-			cri = sheet_col_get_info (sheet, end_col);
-			g_return_if_fail (cri != NULL);
-			if (cri->visible)
-				col_size += cri->size_pixels;
+			ci = sheet_col_get_info (sheet, end_col);
+			g_return_if_fail (ci != NULL);
+			if (ci->visible)
+				col_size += ci->size_pixels;
 		}
 	else
-	while (col_size < width &&
-	       end_col <= gcanvas->last_full.col &&
-	       end_col < SHEET_MAX_COLS-1) {
-		end_col++;
-		cri = sheet_col_get_info (sheet, end_col);
-		g_return_if_fail (cri != NULL);
-		if (cri->visible)
-			col_size += cri->size_pixels;
-	}
+		while (col_size < width &&
+		       end_col <= gcanvas->last_full.col &&
+		       end_col < SHEET_MAX_COLS-1) {
+			end_col++;
+			ci = sheet_col_get_info (sheet, end_col);
+			g_return_if_fail (ci != NULL);
+			if (ci->visible)
+				col_size += ci->size_pixels;
+		}
 
 	merged = sheet_merge_is_corner (sheet, &ie->pos);
 	if (merged != NULL) {

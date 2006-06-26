@@ -271,8 +271,7 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 
 	state->spin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "spin"));
 	gtk_spin_button_get_adjustment (state->spin)->lower =
-		state->sheet->cols.default_style.margin_a +
-		state->sheet->cols.default_style.margin_b;
+		GNM_COL_MARGIN + GNM_COL_MARGIN;
 	g_signal_connect (G_OBJECT (state->spin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_col_width_value_changed), state);

@@ -145,9 +145,6 @@ gboolean    sheet_row_is_hidden		   (Sheet const *sheet, int row);
 GnmComment *sheet_get_comment		   (Sheet const *sheet,
 					    GnmCellPos const *pos);
 
-/* Create new ColRowInfos from the default sheet style */
-ColRowInfo *sheet_col_new                  (Sheet *sheet);
-ColRowInfo *sheet_row_new                  (Sheet *sheet);
 int	    sheet_find_boundary_horizontal (Sheet *sheet, int col, int move_row,
 					    int base_row, int count,
 					    gboolean jump_to_boundaries);
@@ -173,10 +170,6 @@ ColRowInfo const *sheet_col_get_info	  (Sheet const *sheet, int col);
 ColRowInfo const *sheet_row_get_info	  (Sheet const *sheet, int row);
 ColRowInfo const *sheet_colrow_get_info	  (Sheet const *sheet,
 					   int colrow, gboolean is_cols);
-
-/* Add a ColRowInfo to the Sheet */
-void        sheet_col_add                 (Sheet *sheet, ColRowInfo *cp);
-void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
 
 /*
  * Definitions of row/col size terminology :

@@ -773,36 +773,36 @@ xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	ColRowInfo *cri = NULL;
 	double size = -1.;
-	int dummy;
+	int pos, val;
 	int count = 1;
 	gboolean const is_col = gsf_state->node->user_data.v_bool;
 
 	g_return_if_fail (state->sheet != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_int (attrs, "No", &dummy)) {
+		if (xml_sax_attr_int (attrs, "No", &pos)) {
 			g_return_if_fail (cri == NULL);
 
 			cri = is_col
-				? sheet_col_fetch (state->sheet, dummy)
-				: sheet_row_fetch (state->sheet, dummy);
+				? sheet_col_fetch (state->sheet, pos)
+				: sheet_row_fetch (state->sheet, pos);
 		} else {
 			g_return_if_fail (cri != NULL);
 
 			if (gnm_xml_attr_double (attrs, "Unit", &size)) ;
 			else if (xml_sax_attr_int (attrs, "Count", &count)) ;
-			else if (xml_sax_attr_int (attrs, "MarginA", &dummy))
-				cri->margin_a = dummy;
-			else if (xml_sax_attr_int (attrs, "MarginB", &dummy))
-				cri->margin_b = dummy;
-			else if (xml_sax_attr_int (attrs, "HardSize", &dummy))
-				cri->hard_size = dummy;
-			else if (xml_sax_attr_int (attrs, "Hidden", &dummy))
-				cri->visible = !dummy;
-			else if (xml_sax_attr_int (attrs, "Collapsed", &dummy))
-				cri->is_collapsed = dummy;
-			else if (xml_sax_attr_int (attrs, "OutlineLevel", &dummy))
-				cri->outline_level = dummy;
+			else if (xml_sax_attr_int (attrs, "HardSize", &val))
+				cri->hard_size = val;
+			else if (xml_sax_attr_int (attrs, "Hidden", &val))
+				cri->visible = !val;
+			else if (xml_sax_attr_int (attrs, "Collapsed", &val))
+				cri->is_collapsed = val;
+			else if (xml_sax_attr_int (attrs, "OutlineLevel", &val))
+				cri->outline_level = val;
+			else if (xml_sax_attr_int (attrs, "MarginA", &val))
+				; /* deprecated in 1.7.1 */
+			else if (xml_sax_attr_int (attrs, "MarginB", &val))
+				; /* deprecated in 1.7.1 */
 			else
 				unknown_attr (gsf_state, attrs);
 		}
@@ -811,14 +811,12 @@ xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (cri != NULL && size > -1.);
 
 	if (is_col) {
-		int pos = cri->pos;
 		sheet_col_set_size_pts (state->sheet, pos, size, cri->hard_size);
 		/* resize flags are already set only need to copy the sizes */
 		while (--count > 0)
 			colrow_copy (sheet_col_fetch (state->sheet, ++pos), cri);
 	} else {
-		int pos = cri->pos;
-		sheet_row_set_size_pts (state->sheet, cri->pos, size, cri->hard_size);
+		sheet_row_set_size_pts (state->sheet, pos, size, cri->hard_size);
 		/* resize flags are already set only need to copy the sizes */
 		while (--count > 0)
 			colrow_copy (sheet_row_fetch (state->sheet, ++pos), cri);

@@ -4,15 +4,9 @@
 #include "gnumeric.h"
 
 struct _ColRowInfo {
-	int	pos;		/* the column or row number */
-
 	/* Size including margins, and right grid line */
 	float	 size_pts;
 	int      size_pixels;
-
-	/* These are not scaled, and are the same in points and pixels */
-	unsigned  margin_a	: 3;  	/* top/left margin */
-	unsigned  margin_b	: 3; 	/* bottom/right margin */
 
 	unsigned  is_default	: 1;
 	unsigned  outline_level : 4;
@@ -37,8 +31,10 @@ struct _ColRowCollection {
 	int	    size_pixels;
 };
 
-/* We never did get around to support 'thick' borders so these are constants */
-#define	GNM_COL_MARGIN	2	/* these do not scale, no unit needed */
+/* We never did get around to support 'thick' borders so these are effectively
+ * unitless (margins do not scale) constants . */
+#define	GNM_COL_MARGIN	2
+#define	GNM_ROW_MARGIN	0
 
 /* The size, mask, and shift must be kept in sync */
 #define COLROW_SEGMENT_SIZE	0x80
@@ -55,7 +51,8 @@ struct _ColRowSegment {
 	int	size_pixels;
 };
 
-#define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
+#define COL_INTERNAL_WIDTH(col)	\
+	((col)->size_pixels - (GNM_COL_MARGIN + GNM_COL_MARGIN + 1))
 
 void	colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 					gboolean horizontal);
@@ -67,7 +64,12 @@ gboolean colrow_is_empty   (ColRowInfo const *cri);
 gboolean colrow_equal	   (ColRowInfo const *a, ColRowInfo const *b);
 void     colrow_copy	   (ColRowInfo *dst, ColRowInfo const *src);
 
-typedef gboolean (*ColRowHandler)(ColRowInfo *info, gpointer user_data);
+typedef struct {
+	int	pos;
+	ColRowInfo const *cri;
+} GnmColRowIter;
+
+typedef gboolean (*ColRowHandler)(GnmColRowIter const *iter, gpointer user_data);
 gboolean colrow_foreach	   (ColRowCollection const *infos,
 			    int first, int last,
 			    ColRowHandler callback,

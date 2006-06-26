@@ -1755,91 +1755,77 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 }
 
-/*
- * Create a ColRowInfo equivalent to the XML subtree of doc.
- */
-static int
+static void
 xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
-		      ColRowInfo *info, double *size_pts)
+		      gboolean is_cols)
 {
-	int val, count;
+	ColRowInfo *cri;
+	double size_pts;
+	int pos, val;
 
-	info->size_pts = -1;
-	xml_node_get_int (tree, "No", &info->pos);
-	xml_node_get_double (tree, "Unit", size_pts);
-	if (xml_node_get_int (tree, "MarginA", &val))
-		info->margin_a = val;
-	if (xml_node_get_int (tree, "MarginB", &val))
-		info->margin_b = val;
+	if (!xml_node_get_int (tree, "No", &pos) ||
+	    NULL == (cri = sheet_colrow_fetch (ctxt->sheet, pos, is_cols)))
+		return;
+
 	if (xml_node_get_int (tree, "HardSize", &val))
-		info->hard_size = val;
+		cri->hard_size = val;
+	if (xml_node_get_double (tree, "Unit", &size_pts)) {
+		if (is_cols)
+			sheet_col_set_size_pts (ctxt->sheet,
+				pos, size_pts, cri->hard_size);
+		else
+			sheet_row_set_size_pts (ctxt->sheet,
+				pos, size_pts, cri->hard_size);
+	}
+
 	if (xml_node_get_int (tree, "Hidden", &val) && val)
-		info->visible = FALSE;
+		cri->visible = FALSE;
 	if (xml_node_get_int (tree, "Collapsed", &val) && val)
-		info->is_collapsed = TRUE;
+		cri->is_collapsed = TRUE;
 	if (xml_node_get_int (tree, "OutlineLevel", &val) && val > 0)
-		info->outline_level = val;
-	if (xml_node_get_int (tree, "Count", &count))
-		return count;
-	return 1;
+		cri->outline_level = val;
+
+	if (xml_node_get_int (tree, "Count", &val)) {
+		/* resize flags are already set only need to copy the sizes */
+		for ( ; --val > 0 ; )
+			colrow_copy (sheet_colrow_fetch (ctxt->sheet, ++val, is_cols), cri);
+	}
 }
 
 static void
 xml_read_cols_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr cols, col;
-	double size_pts, tmp;
-	ColRowInfo *info;
-	int count, pos;
-	Sheet *sheet = ctxt->sheet;
+	double tmp;
 
 	cols = e_xml_get_child_by_name (tree, CC2XML ("Cols"));
 	if (cols == NULL)
 		return;
 
 	if (xml_node_get_double (cols, "DefaultSizePts", &tmp))
-		sheet_col_set_default_size_pts (sheet, tmp);
+		sheet_col_set_default_size_pts (ctxt->sheet, tmp);
 
 	for (col = cols->xmlChildrenNode; col; col = col->next)
-		if (!xmlIsBlankNode (col)) {
-			info = sheet_col_new (sheet);
-			count = xml_read_colrow_info (ctxt, col, info, &size_pts);
-			sheet_col_add (sheet, info);
-			sheet_col_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
-
-			/* resize flags are already set only need to copy the sizes */
-			for (pos = info->pos ; --count > 0 ; )
-				colrow_copy (sheet_col_fetch (ctxt->sheet, ++pos), info);
-		}
+		if (!xmlIsBlankNode (col))
+			xml_read_colrow_info (ctxt, col, TRUE);
 }
 
 static void
 xml_read_rows_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr rows, row;
-	double size_pts, tmp;
-	ColRowInfo *info;
-	int count, pos;
-	Sheet *sheet = ctxt->sheet;
+	double tmp;
 
 	rows = e_xml_get_child_by_name (tree, CC2XML ("Rows"));
 	if (rows == NULL)
 		return;
 
 	if (xml_node_get_double (rows, "DefaultSizePts", &tmp))
-		sheet_row_set_default_size_pts (sheet, tmp);
+		sheet_row_set_default_size_pts (ctxt->sheet, tmp);
 
 	for (row = rows->xmlChildrenNode; row; row = row->next)
-		if (!xmlIsBlankNode (row)) {
-			info = sheet_row_new (sheet);
-			count = xml_read_colrow_info (ctxt, row, info, &size_pts);
-			sheet_row_add (sheet, info);
-			sheet_row_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
-
-			/* resize flags are already set only need to copy the sizes */
-			for (pos = info->pos ; --count > 0 ; )
-				colrow_copy (sheet_row_fetch (ctxt->sheet, ++pos), info);
-		}
+		if (!xmlIsBlankNode (row))
+			xml_read_colrow_info (ctxt, row, FALSE);
 }
 
 static void

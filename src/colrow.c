@@ -39,7 +39,7 @@ void
 colrow_compute_pixels_from_pts (ColRowInfo *cri,
 				Sheet const *sheet, gboolean horizontal)
 {
-	int const margin = cri->margin_a + cri->margin_b;
+	int const margin = horizontal ? 2*GNM_COL_MARGIN : 2*GNM_ROW_MARGIN;
 	double const scale =
 		sheet->last_zoom_factor_used *
 		gnm_app_display_dpi_get (horizontal) / 72.;
@@ -64,12 +64,11 @@ colrow_compute_pts_from_pixels (ColRowInfo *cri,
 #endif
 }
 
-/* TODO : use the is_default flag */
 gboolean
 colrow_is_default (ColRowInfo const *cri)
 {
 	g_return_val_if_fail (cri != NULL, FALSE);
-	return cri->pos < 0;
+	return cri->is_default;
 }
 
 /**
@@ -105,8 +104,6 @@ colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 		return FALSE;
 
 	return  a->size_pts	 == b->size_pts &&
-		a->margin_a	 == b->margin_a &&
-		a->margin_b	 == b->margin_b &&
 		a->outline_level == b->outline_level &&
 		a->is_collapsed	 == b->is_collapsed &&
 		a->hard_size	 == b->hard_size &&
@@ -125,8 +122,6 @@ colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
 {
 	dst->size_pts      = src->size_pts;
 	dst->size_pixels   = src->size_pixels;
-	dst->margin_a	   = src->margin_a;
-	dst->margin_b 	   = src->margin_b;
 	dst->outline_level = src->outline_level;
 	dst->is_collapsed  = src->is_collapsed;
 	dst->hard_size     = src->hard_size;
@@ -151,7 +146,9 @@ gboolean
 colrow_foreach (ColRowCollection const *infos, int first, int last,
 		ColRowHandler callback, void *user_data)
 {
-	int i;
+	GnmColRowIter iter;
+	ColRowSegment const *segment;
+	int inner_last, i;
 
 	/* TODO : Do we need to support right -> left as an option */
 
@@ -159,21 +156,18 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 	if (last > infos->max_used)
 		last = infos->max_used;
 
-	i = first;
-	while (i <= last) {
-		ColRowSegment const *segment = COLROW_GET_SEGMENT (infos, i);
-		int sub = COLROW_SUB_INDEX(i);
-		int inner_last;
-
+	for (i = first; i <= last ; ) {
+		segment = COLROW_GET_SEGMENT (infos, i);
+		iter.pos = COLROW_SUB_INDEX(i);
 		inner_last = (COLROW_SEGMENT_INDEX (last) == COLROW_SEGMENT_INDEX (i))
 			? COLROW_SUB_INDEX (last)+1 : COLROW_SEGMENT_SIZE;
-		i += COLROW_SEGMENT_SIZE - sub;
+		i += COLROW_SEGMENT_SIZE - iter.pos;
 		if (segment == NULL)
 			continue;
 
-		for (; sub < inner_last; ++sub) {
-			ColRowInfo *info = segment->info[sub];
-			if (info != NULL && (*callback)(info, user_data))
+		for (; iter.pos < inner_last; ++iter.pos) {
+			iter.cri = segment->info[iter.pos];
+			if (iter.cri != NULL && (*callback)(&iter, user_data))
 				return TRUE;
 		}
 	}
@@ -391,24 +385,23 @@ colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 	return g_slist_reverse (list);
 }
 
-struct resize_closure
-{
+struct resize_closure {
 	Sheet *sheet;
-	int new_size;
+	int	 new_size;
 	gboolean is_cols;
 };
 
 static gboolean
-cb_set_colrow_size (ColRowInfo *info, void *userdata)
+cb_set_colrow_size (GnmColRowIter const *iter, void *userdata)
 {
-	if (info->visible) {
+	if (iter->cri->visible) {
 		struct resize_closure const *c = userdata;
 
 		if (c->is_cols)
-			sheet_col_set_size_pixels (c->sheet, info->pos,
+			sheet_col_set_size_pixels (c->sheet, iter->pos,
 						   c->new_size, TRUE);
 		else
-			sheet_row_set_size_pixels (c->sheet, info->pos,
+			sheet_row_set_size_pixels (c->sheet, iter->pos,
 						   c->new_size, TRUE);
 	}
 	return FALSE;
@@ -651,16 +644,15 @@ struct cb_autofit {
 };
 
 static gboolean
-cb_autofit_col (ColRowInfo *info, void *data_)
+cb_autofit_col (GnmColRowIter const *iter, void *data_)
 {
 	struct cb_autofit *data = data_;
 	int size, min, max;
 
-	if (info->hard_size)
+	if (iter->cri->hard_size)
 		return FALSE;
 
-	size = sheet_col_size_fit_pixels
-		(data->sheet, info->pos,
+	size = sheet_col_size_fit_pixels (data->sheet, iter->pos,
 		 data->range->start.row, data->range->end.row,
 		 data->ignore_strings);
 	/* FIXME: better idea than this?  */
@@ -669,28 +661,26 @@ cb_autofit_col (ColRowInfo *info, void *data_)
 
 	min = 0;
 	if (data->min_current)
-		min = MAX (min, info->size_pixels);
+		min = MAX (min, iter->cri->size_pixels);
 	if (data->min_default)
 		min = MAX (min, sheet_col_get_default_size_pixels (data->sheet));
 
 	if (size > min)
-		sheet_col_set_size_pixels (data->sheet, info->pos,
-					   size, FALSE);
+		sheet_col_set_size_pixels (data->sheet, iter->pos, size, FALSE);
 
 	return FALSE;
 }
 
 static gboolean
-cb_autofit_row (ColRowInfo *info, void *data_)
+cb_autofit_row (GnmColRowIter const *iter, void *data_)
 {
 	struct cb_autofit *data = data_;
 	int size, min, max;
 
-	if (info->hard_size)
+	if (iter->cri->hard_size)
 		return FALSE;
 
-	size = sheet_row_size_fit_pixels
-		(data->sheet, info->pos,
+	size = sheet_row_size_fit_pixels (data->sheet, iter->pos,
 		 data->range->start.col, data->range->end.col,
 		 data->ignore_strings);
 	max = 20 * sheet_row_get_default_size_pixels (data->sheet);
@@ -698,13 +688,12 @@ cb_autofit_row (ColRowInfo *info, void *data_)
 
 	min = 0;
 	if (data->min_current)
-		min = MAX (min, info->size_pixels);
+		min = MAX (min, iter->cri->size_pixels);
 	if (data->min_default)
 		min = MAX (min, sheet_row_get_default_size_pixels (data->sheet));
 		
 	if (size > min)
-		sheet_row_set_size_pixels (data->sheet, info->pos,
-					   size, FALSE);
+		sheet_row_set_size_pixels (data->sheet, iter->pos, size, FALSE);
 
 	return FALSE;
 }

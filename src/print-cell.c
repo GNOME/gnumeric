@@ -3,7 +3,7 @@
  * print-cell.c: Printing of cell regions and cells.
  *
  * Author:
- *    Jody Goldberg 2000-2002	(jody@gnome.org)
+ *    Jody Goldberg 2000-2006	(jody@gnome.org)
  *    Miguel de Icaza 1999 (miguel@kernel.org)
  */
 #include <gnumeric-config.h>
@@ -83,8 +83,12 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	RenderedValue *rv, *cell_rv = cell->rendered_value, *cell_rv100 = NULL;
 	GOColor fore_color;
 	gint x, y;
-	ColRowInfo const * const ri = cell->row_info;
 	Sheet *sheet = cell->base.sheet;
+
+	/* Get the sizes exclusive of margins and grids */
+	/* Note: +1 because size_pixels includes leading gridline.  */
+	height -= GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
+	width  -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
 	/* Create a rendered value for printing */
 	if (sheet->last_zoom_factor_used != 1) {
@@ -121,8 +125,8 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 			      (int)(height * PANGO_SCALE),
 			      (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
-		double x0 = x1 + 1 + GNM_COL_MARGIN;
-		double y0 = y1 - (1 + ri->margin_a);
+		double x0 = x1 + (1 + GNM_COL_MARGIN);
+		double y0 = y1 - (1 + GNM_ROW_MARGIN);
 		double px = x1 + x / (double)PANGO_SCALE;
 		double py = y1 + y / (double)PANGO_SCALE;
 
@@ -267,16 +271,14 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 		ColRowInfo const * const ri = cell->row_info;
 
 		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, sheet);
+			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
 
 		if (sheet->text_is_rtl)
 			print_cell (cell, style, context, pcontext,
-				    r, t, l - r,
-				    t - b - (ri->margin_b + ri->margin_a), -1.);
+				r, t, l - r, t - b, -1.);
 		else
 			print_cell (cell, style, context, pcontext,
-				    l, t, r - l,
-				    t - b - (ri->margin_b + ri->margin_a), -1.);
+				l, t, r - l, t - b, -1.);
 	}
 	style_border_print_diag (style, context, l, t, r, b);
 }
@@ -396,7 +398,7 @@ print_cell_range (GnomePrintContext *context,
 		 * will ever get flagged.
 		 */
 		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, sheet);
+			row_calc_spans ((ColRowInfo *)ri, row, sheet);
 
 		/* look for merges that start on this row, on the first painted row
 		 * also check for merges that start above. */
@@ -512,19 +514,17 @@ print_cell_range (GnomePrintContext *context,
 
 			/* Is this part of a span?
 			 * 1) There are cells allocated in the row
-			 *       (indicated by ri->pos != -1)
+			 *       (indicated by ri->spans != NULL)
 			 * 2) Look in the rows hash table to see if
 			 *    there is a span descriptor.
 			 */
-			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
+			if (NULL == ri->spans || NULL == (span = row_span_get (ri, col))) {
 
 				/* no need to draw blanks */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell))
 					print_cell (cell, style, context, pcontext,
-						    x, y, ci->size_pts,
-						    ri->size_pts - (ri->margin_b + ri->margin_a),
-						    -1.);
+						x, y, ci->size_pts, ri->size_pts, -1.);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
@@ -569,9 +569,7 @@ print_cell_range (GnomePrintContext *context,
 				}
 
 				print_cell (cell, style, context, pcontext,
-					    real_x, y, tmp_width,
-					    ri->size_pts - (ri->margin_b + ri->margin_a),
-					    center_offset);
+					real_x, y, tmp_width, ri->size_pts, center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

@@ -308,16 +308,14 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 		ColRowInfo const * const ri = cell->row_info;
 
 		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, sheet);
+			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
 
 		if (sheet->text_is_rtl)
 			cell_draw (cell, ig->gc.cell, drawable,
-				   r, t, l - r,
-				   b - t - (ri->margin_b + ri->margin_a + 1), -1);
+				r, t, l - r, b - t, -1);
 		else
 			cell_draw (cell, ig->gc.cell, drawable,
-				   l, t, r - l,
-				   b - t - (ri->margin_b + ri->margin_a + 1), -1);
+				l, t, r - l, b - t, -1);
 	}
 	style_border_draw_diag (style, drawable, l, t, r, b);
 }
@@ -505,7 +503,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 		 * will ever get flagged.
 		 */
 		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, sheet);
+			row_calc_spans ((ColRowInfo *)ri, row, sheet);
 
 		/* look for merges that start on this row, on the first painted row
 		 * also check for merges that start above. */
@@ -631,11 +629,11 @@ plain_draw : /* a quick hack to deal with 142267 */
 
 			/* Is this part of a span?
 			 * 1) There are cells allocated in the row
-			 *       (indicated by ri->pos != -1)
+			 *       (indicated by ri->spans != NULL)
 			 * 2) Look in the rows hash table to see if
 			 *    there is a span descriptor.
 			 */
-			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
+			if (NULL == ri->spans || NULL == (span = row_span_get (ri, col))) {
 
 				/* If it is being edited pretend it is empty to
 				 * avoid problems with the a long cells
@@ -646,8 +644,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				if (!cell_is_empty (cell) && cell != edit_cell)
 					cell_draw (cell, ig->gc.cell, drawable,
 						   x, y, ci->size_pixels,
-						   ri->size_pixels - (ri->margin_b + ri->margin_a + 1),
-						   -1);
+						   ri->size_pixels, -1);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
@@ -695,8 +692,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 
 				cell_draw (cell, ig->gc.cell, drawable,
 					   real_x, y, tmp_width,
-					   ri->size_pixels - (ri->margin_b + ri->margin_a + 1),
-					   center_offset);
+					   ri->size_pixels, center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

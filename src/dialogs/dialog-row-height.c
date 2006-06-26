@@ -269,8 +269,7 @@ dialog_row_height (WorkbookControlGUI *wbcg, gboolean use_default)
 
 	state->spin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "spin"));
 	gtk_spin_button_get_adjustment (state->spin)->lower =
-		state->sheet->rows.default_style.margin_a +
-		state->sheet->rows.default_style.margin_b;
+		GNM_ROW_MARGIN + GNM_ROW_MARGIN;
 	g_signal_connect (G_OBJECT (state->spin),
 		"value-changed",
 		G_CALLBACK (cb_dialog_row_height_value_changed), state);

@@ -148,12 +148,12 @@ advanced_filter (WorkbookControl        *wbc,
 	return OK;
 }
 
-static
-gboolean 
-cb_show_all (ColRowInfo *ri, Sheet *sheet)
+static gboolean 
+cb_show_all (GnmColRowIter const *iter, Sheet *sheet)
 {
-	if (ri->in_filter && !ri->visible)
-		colrow_set_visibility (sheet, FALSE, TRUE, ri->pos, ri->pos);
+	if (iter->cri->in_filter && !iter->cri->visible)
+		colrow_set_visibility (sheet, FALSE, TRUE,
+			iter->pos, iter->pos);
 	return FALSE;
 }
 
@@ -172,7 +172,7 @@ filter_show_all (Sheet *sheet)
 
 	/* FIXME: This is slow. We should probably have a linked list
 	 * containing the filtered rows in the sheet structure. */
-	colrow_foreach (&(sheet->rows), 0, SHEET_MAX_ROWS,
+	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS,
 			(ColRowHandler) cb_show_all, sheet);
 	sheet->has_filtered_rows = FALSE;
 	sheet_redraw_all (sheet, TRUE);

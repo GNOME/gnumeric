@@ -316,8 +316,8 @@ set_selection_state (ScenariosState *state, gboolean f)
 		GtkTreeIter             iter;
 		GtkTreeModel            *model;
 		gchar                   *name;
-		gchar                   *comment;
-		gchar                   *cells;
+		gchar                   *comment = NULL;
+		gchar                   *cells = NULL;
 
 		selection = gtk_tree_view_get_selection
 			(GTK_TREE_VIEW

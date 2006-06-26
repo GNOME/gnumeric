@@ -109,7 +109,7 @@ roff_file_save (GOFileSaver const *fs, IOContext *io_context,
 			ColRowInfo const * ri;
 			ri = sheet_row_get_info (sheet, row);
 			if (ri->needs_respan)
-				row_calc_spans ((ColRowInfo *) ri, sheet);
+				row_calc_spans ((ColRowInfo *) ri, row, sheet);
 
 			if (row > r.start.row)
 				gsf_output_printf (output, ".T&\n");

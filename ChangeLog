@@ -1,3 +1,33 @@
+2006-06-25  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xsd : update a bit.
+	* ColRowInfo::pos : removed.
+	* ColRowInfo::margin_a	: removed.
+	* ColRowInfo::margin_b	: removed.
+	* GnmCell::col_info	: removed.
+	* GnmValueErr::src	: removed.
+
+	* src/colrow.c (colrow_foreach) : Pass a new type 'GnmColRowIter' to
+	  the handler to provide a position and an info ptr.  All callers
+	  changed.
+
+	* src/sheet.c
+	(sheet_col_size_fit_pixels) : use the constant margins
+	(sheet_row_size_fit_pixels) : ditto and and add +1 for
+	  the grid line (why was this different from col_size_fit_pixels).
+	* src/dialogs/dialog-row-height.c (dialog_row_height) : row margin is
+	  constant now.
+	* src/dialogs/dialog-col-width.c (dialog_col_width) : ditto.
+
+	* src/cell-draw.c (cell_calc_layout) : no need for ri, the margins are
+	  constant.
+	(cell_draw) : row margin is now constant too.
+	(cell_finish_layout) : document height better and make the row
+	  margins constant.
+
+	* src/cellspan.c (row_calc_spans) : Take the position as an argument
+	  now that ColRowInfo::pos is gone.  All callers changed.
+
 2006-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c (sheet_set_name): update the Sheet_Title name

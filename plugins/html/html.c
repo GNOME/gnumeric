@@ -387,11 +387,9 @@ static void
 write_row (GsfOutput *output, Sheet *sheet, gint row, GnmRange *range, html_version_t version)
 {
 	gint col;
-	ColRowInfo const * ri;
-
-	ri = sheet_row_get_info (sheet, row);
+	ColRowInfo const *ri = sheet_row_get_info (sheet, row);
 	if (ri->needs_respan)
-		row_calc_spans ((ColRowInfo *) ri, sheet);
+		row_calc_spans ((ColRowInfo *) ri, row, sheet);
 
 	for (col = range->start.col; col <= range->end.col; col++) {
 		CellSpanInfo const *the_span;

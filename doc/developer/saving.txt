@@ -68,9 +68,12 @@ ColRowInfo
    int pos
    Style style
    int units
+   int pixels
+
+There were once (pre 1.7.1)
    int margin_a
    int margin_b
-   int pixels
+   But they are now depricated and ignored.
 
 GnmCell
    GnmCellPos pos

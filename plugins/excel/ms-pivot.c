@@ -293,6 +293,8 @@ excel_read_pivot_caches (GnmXLImporter *importer,
 	BiffQuery *q;
 	GsfInput  *cache, *dir;
 
+	return;
+
 	if (NULL == ole)
 		return;				/* pre-Excel 95 without ole */
 	dir = gsf_infile_child_by_name (ole, "_SX_DB_CUR");	/* Excel 97 */

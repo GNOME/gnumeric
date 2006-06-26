@@ -892,19 +892,24 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 				new_size += cri->size_pixels;
 
 			/* Ensure we always have enough room for the margins */
-			if (new_size <= (cri->margin_a + cri->margin_b)) {
-				new_size = cri->margin_a + cri->margin_b + 1;
-				if (is_cols)
+			if (is_cols) {
+				if (new_size <= (GNM_COL_MARGIN + GNM_COL_MARGIN)) {
+					new_size = GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 					pos = gcanvas->first_offset.col +
 						scg_colrow_distance_get (scg, TRUE,
 							gcanvas->first.col,
 							ib->colrow_being_resized);
-				else
+					pos += new_size;
+				}
+			} else {
+				if (new_size <= (GNM_ROW_MARGIN + GNM_ROW_MARGIN)) {
+					new_size = GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 					pos = gcanvas->first_offset.row +
 						scg_colrow_distance_get (scg, FALSE,
 							gcanvas->first.row,
 							ib->colrow_being_resized);
-				pos += new_size;
+					pos += new_size;
+				}
 			}
 
 			ib->colrow_resize_size = new_size;

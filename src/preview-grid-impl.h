@@ -28,8 +28,6 @@ typedef struct {
 	FooCanvasGroupClass parent_class;
 
 	/* Virtuals */
-	int      (* get_col_width)  (PreviewGrid *pg, int col);
-	int      (* get_row_height) (PreviewGrid *pg, int row);
 	GnmStyle * (* get_cell_style) (PreviewGrid *pg, int col, int row);
 	GnmValue*(* get_cell_value) (PreviewGrid *pg, int col, int row);
 } PreviewGridClass;

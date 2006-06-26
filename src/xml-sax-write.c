@@ -551,19 +551,19 @@ xml_write_styles (GnmOutputXML *state)
 
 typedef struct {
 	GnmOutputXML *state;
-	gboolean is_column;
-	ColRowInfo *previous;
-	int rle_count;
+	gboolean	is_column;
+	ColRowInfo const *prev;
+	int prev_pos, rle_count;
 } closure_write_colrow;
 
 static gboolean
-xml_write_colrow_info (ColRowInfo *info, closure_write_colrow *closure)
+xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 {
-	ColRowInfo const *prev = closure->previous;
+	ColRowInfo const *prev = closure->prev;
 	GsfXMLOut *output = closure->state->output;
 
 	closure->rle_count++;
-	if (colrow_equal (prev, info))
+	if (NULL != iter && colrow_equal (prev, iter->cri))
 		return FALSE;
 
 	if (prev != NULL) {
@@ -572,10 +572,8 @@ xml_write_colrow_info (ColRowInfo *info, closure_write_colrow *closure)
 		else
 			gsf_xml_out_start_element (output, GNM "RowInfo");
 
-		gsf_xml_out_add_int (output, "No", prev->pos);
+		gsf_xml_out_add_int (output, "No", closure->prev_pos);
 		xml_out_add_points (output, "Unit", prev->size_pts);
-		gsf_xml_out_add_int (output, "MarginA", prev->margin_a);
-		gsf_xml_out_add_int (output, "MarginB", prev->margin_b);
 		if (prev->hard_size)
 			gsf_xml_out_add_bool (output, "HardSize", TRUE);
 		if (!prev->visible)
@@ -591,7 +589,10 @@ xml_write_colrow_info (ColRowInfo *info, closure_write_colrow *closure)
 	}
 
 	closure->rle_count = 0;
-	closure->previous = info;
+	if (NULL != iter) {
+		closure->prev = iter->cri;
+		closure->prev_pos = iter->pos;
+	}
 
 	return FALSE;
 }
@@ -605,7 +606,8 @@ xml_write_cols_rows (GnmOutputXML *state)
 		sheet_col_get_default_size_pts (state->sheet));
 	closure.state = state;
 	closure.is_column = TRUE;
-	closure.previous = NULL;
+	closure.prev = NULL;
+	closure.prev_pos = -1;
 	closure.rle_count = 0;
 	colrow_foreach (&state->sheet->cols, 0, SHEET_MAX_COLS-1,
 		(ColRowHandler)&xml_write_colrow_info, &closure);
@@ -617,7 +619,8 @@ xml_write_cols_rows (GnmOutputXML *state)
 		sheet_row_get_default_size_pts (state->sheet));
 	closure.state = state;
 	closure.is_column = FALSE;
-	closure.previous = NULL;
+	closure.prev = NULL;
+	closure.prev_pos = -1;
 	closure.rle_count = 0;
 	colrow_foreach (&state->sheet->rows, 0, SHEET_MAX_ROWS-1,
 		(ColRowHandler)&xml_write_colrow_info, &closure);

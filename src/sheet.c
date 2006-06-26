@@ -274,14 +274,15 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 
 struct resize_colrow {
 	Sheet *sheet;
-	gboolean horizontal;
+	gboolean is_cols;
 };
 
 static gboolean
-cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
+cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter, 
+				   struct resize_colrow *data)
 {
-	struct resize_colrow *closure = data;
-	colrow_compute_pixels_from_pts (cri, closure->sheet, closure->horizontal);
+	colrow_compute_pixels_from_pts ((ColRowInfo *)iter->cri,
+		data->sheet, data->is_cols);
 	return FALSE;
 }
 
@@ -310,12 +311,12 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 	/* Then every column and row */
 	closure.sheet = sheet;
-	closure.horizontal = TRUE;
+	closure.is_cols = TRUE;
 	colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS - 1,
-			&cb_colrow_compute_pixels_from_pts, &closure);
-	closure.horizontal = FALSE;
+		(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
+	closure.is_cols = FALSE;
 	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS - 1,
-			&cb_colrow_compute_pixels_from_pts, &closure);
+		(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 
 	sheet_cell_foreach (sheet, (GHFunc)&cb_clear_rendered_cells, NULL);
 	SHEET_FOREACH_CONTROL (sheet, view, control, sc_scale_changed (control););
@@ -965,7 +966,7 @@ sheet_apply_border (Sheet       *sheet,
 
 /****************************************************************************/
 
-ColRowInfo *
+static ColRowInfo *
 sheet_row_new (Sheet *sheet)
 {
 	ColRowInfo *ri = g_new (ColRowInfo, 1);
@@ -973,12 +974,13 @@ sheet_row_new (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	*ri = sheet->rows.default_style;
+	ri->is_default = FALSE;
 	ri->needs_respan = TRUE;
 
 	return ri;
 }
 
-ColRowInfo *
+static ColRowInfo *
 sheet_col_new (Sheet *sheet)
 {
 	ColRowInfo *ci = g_new (ColRowInfo, 1);
@@ -986,14 +988,14 @@ sheet_col_new (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	*ci = sheet->cols.default_style;
+	ci->is_default = FALSE;
 
 	return ci;
 }
 
-void
-sheet_col_add (Sheet *sheet, ColRowInfo *cp)
+static void
+sheet_col_add (Sheet *sheet, ColRowInfo *cp, int col)
 {
-	int const col = cp->pos;
 	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->cols), col);
 
 	g_return_if_fail (col >= 0);
@@ -1011,10 +1013,9 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 	}
 }
 
-void
-sheet_row_add (Sheet *sheet, ColRowInfo *rp)
+static void
+sheet_row_add (Sheet *sheet, ColRowInfo *rp, int row)
 {
-	int const row = rp->pos;
 	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->rows), row);
 
 	g_return_if_fail (row >= 0);
@@ -1441,7 +1442,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 	} else {
 		CellSpanInfo const *span;
 		if (cell->row_info->needs_respan)
-			row_calc_spans (cell->row_info, cell->base.sheet);
+			row_calc_spans (cell->row_info, cell->pos.row, cell->base.sheet);
 		span = row_span_get (cell->row_info, cell->pos.col);
 		if (NULL != span) {
 			if (res->range.start.col > span->left)
@@ -1576,8 +1577,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col, int srow, int erow,
 		return 0;
 
 	/* GnmCell width does not include margins or far grid line*/
-	data.max += ci->margin_a + ci->margin_b + 1;
-	return data.max;
+	return data.max + GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 }
 
 /* find the maximum height in a range. */
@@ -1643,7 +1643,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol,
 		return 0;
 
 	/* GnmCell height does not include margins or bottom grid line */
-	return data.max + ri->margin_a + ri->margin_b;
+	return data.max + GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 }
 
 struct recalc_span_closure {
@@ -1652,12 +1652,12 @@ struct recalc_span_closure {
 };
 
 static gboolean
-cb_recalc_spans_in_col (ColRowInfo *ri, gpointer user)
+cb_recalc_spans_in_col (GnmColRowIter const *iter, gpointer user)
 {
 	struct recalc_span_closure *closure = user;
 	int const col = closure->col;
 	int left, right;
-	CellSpanInfo const * span = row_span_get (ri, col);
+	CellSpanInfo const *span = row_span_get (iter->cri, col);
 
 	if (span) {
 		/* If there is an existing span see if it changed */
@@ -1669,7 +1669,7 @@ cb_recalc_spans_in_col (ColRowInfo *ri, gpointer user)
 		}
 	} else {
 		/* If there is a cell see if it started to span */
-		GnmCell const * const cell = sheet_cell_get (closure->sheet, col, ri->pos);
+		GnmCell const * const cell = sheet_cell_get (closure->sheet, col, iter->pos);
 		if (cell) {
 			cell_calc_span (cell, &left, &right);
 			if (left != right)
@@ -2271,13 +2271,13 @@ typedef struct {
 } ArrayCheckData;
 
 static gboolean
-cb_check_array_horizontal (ColRowInfo *col, ArrayCheckData *data)
+cb_check_array_horizontal (GnmColRowIter const *iter, ArrayCheckData *data)
 {
 	gboolean is_array = FALSE;
 
 	if (data->flags & CHECK_AND_LOAD_START  &&	/* Top */
 	    (is_array = cell_array_bound (
-			sheet_cell_get (data->sheet, col->pos, data->start),
+			sheet_cell_get (data->sheet, iter->pos, data->start),
 			&data->error)) &&
 	    data->error.start.row < data->start &&
 	    (data->ignore == NULL ||
@@ -2286,7 +2286,7 @@ cb_check_array_horizontal (ColRowInfo *col, ArrayCheckData *data)
 
 	if (data->flags & LOAD_END)
 		is_array = cell_array_bound (
-			sheet_cell_get (data->sheet, col->pos, data->end),
+			sheet_cell_get (data->sheet, iter->pos, data->end),
 			&data->error);
 
 	return (data->flags & CHECK_END &&
@@ -2297,13 +2297,13 @@ cb_check_array_horizontal (ColRowInfo *col, ArrayCheckData *data)
 }
 
 static gboolean
-cb_check_array_vertical (ColRowInfo *row, ArrayCheckData *data)
+cb_check_array_vertical (GnmColRowIter const *iter, ArrayCheckData *data)
 {
 	gboolean is_array = FALSE;
 
 	if (data->flags & CHECK_AND_LOAD_START &&	/* Left */
 	    (is_array = cell_array_bound (
-			sheet_cell_get (data->sheet, data->start, row->pos),
+			sheet_cell_get (data->sheet, data->start, iter->pos),
 			&data->error)) &&
 	    data->error.start.col < data->start &&
 	    (data->ignore == NULL ||
@@ -2312,7 +2312,7 @@ cb_check_array_vertical (ColRowInfo *row, ArrayCheckData *data)
 
 	if (data->flags & LOAD_END)
 		is_array = cell_array_bound (
-			sheet_cell_get (data->sheet, data->end, row->pos),
+			sheet_cell_get (data->sheet, data->end, iter->pos),
 			&data->error);
 
 	return (data->flags & CHECK_END &&
@@ -2583,13 +2583,10 @@ sheet_colrow_get (Sheet const *sheet, int colrow, gboolean is_cols)
 ColRowInfo *
 sheet_col_fetch (Sheet *sheet, int pos)
 {
-	ColRowInfo * res = sheet_col_get (sheet, pos);
-	if (res == NULL)
-		if ((res = sheet_col_new (sheet)) != NULL) {
-			res->pos = pos;
-			sheet_col_add (sheet, res);
-		}
-	return res;
+	ColRowInfo *cri = sheet_col_get (sheet, pos);
+	if (NULL == cri && NULL != (cri = sheet_col_new (sheet)))
+		sheet_col_add (sheet, cri, pos);
+	return cri;
 }
 
 /**
@@ -2600,13 +2597,10 @@ sheet_col_fetch (Sheet *sheet, int pos)
 ColRowInfo *
 sheet_row_fetch (Sheet *sheet, int pos)
 {
-	ColRowInfo * res = sheet_row_get (sheet, pos);
-	if (res == NULL)
-		if ((res = sheet_row_new (sheet)) != NULL) {
-			res->pos = pos;
-			sheet_row_add (sheet, res);
-		}
-	return res;
+	ColRowInfo *cri = sheet_row_get (sheet, pos);
+	if (NULL == cri && NULL != (cri = sheet_row_new (sheet)))
+		sheet_row_add (sheet, cri, pos);
+	return cri;
 }
 
 ColRowInfo *
@@ -3448,13 +3442,11 @@ colrow_move (Sheet *sheet,
 
 	/* Update the position */
 	segment->info [COLROW_SUB_INDEX (old_pos)] = NULL;
-	info->pos = new_pos;
-
 	/* TODO : Figure out a way to merge these functions */
 	if (is_cols)
-		sheet_col_add (sheet, info);
+		sheet_col_add (sheet, info, new_pos);
 	else
-		sheet_row_add (sheet, info);
+		sheet_row_add (sheet, info, new_pos);
 
 	/* Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
@@ -4001,27 +3993,25 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 }
 
 static void
-sheet_colrow_default_calc (Sheet *sheet, double units, int margin_a, int margin_b,
-			   gboolean is_horizontal, gboolean is_pts)
+sheet_colrow_default_calc (Sheet *sheet, double units,
+			   gboolean is_cols, gboolean is_pts)
 {
-	ColRowInfo *cri = is_horizontal
+	ColRowInfo *cri = is_cols
 		? &sheet->cols.default_style
 		: &sheet->rows.default_style;
 
 	g_return_if_fail (units > 0.);
 
-	cri->pos = -1;
-	cri->margin_a = margin_a;
-	cri->margin_b = margin_b;
-	cri->hard_size = FALSE;
-	cri->visible = TRUE;
-	cri->spans = NULL;
+	cri->is_default	= TRUE;
+	cri->hard_size	= FALSE;
+	cri->visible	= TRUE;
+	cri->spans	= NULL;
 	if (is_pts) {
 		cri->size_pts = units;
-		colrow_compute_pixels_from_pts (cri, sheet, is_horizontal);
+		colrow_compute_pixels_from_pts (cri, sheet, is_cols);
 	} else {
 		cri->size_pixels = units;
-		colrow_compute_pts_from_pixels (cri, sheet, is_horizontal);
+		colrow_compute_pts_from_pixels (cri, sheet, is_cols);
 	}
 }
 
@@ -4181,7 +4171,7 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_colrow_default_calc (sheet, width_pts, 2, 2, TRUE, TRUE);
+	sheet_colrow_default_calc (sheet, width_pts, TRUE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet->priv->reposition_objects.col = 0;
@@ -4191,7 +4181,7 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_colrow_default_calc (sheet, width_pixels, 2, 2, TRUE, FALSE);
+	sheet_colrow_default_calc (sheet, width_pixels, TRUE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet->priv->reposition_objects.col = 0;
@@ -4342,14 +4332,14 @@ sheet_row_get_default_size_pixels (Sheet const *sheet)
 void
 sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 {
-	sheet_colrow_default_calc (sheet, height_pts, 0, 0, FALSE, TRUE);
+	sheet_colrow_default_calc (sheet, height_pts, FALSE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
-	sheet_colrow_default_calc (sheet, height_pixels, 0, 0, FALSE, FALSE);
+	sheet_colrow_default_calc (sheet, height_pixels, FALSE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }
@@ -4373,12 +4363,12 @@ typedef struct
 } closure_clone_colrow;
 
 static gboolean
-sheet_clone_colrow_info_item (ColRowInfo *src, void *user_data)
+sheet_clone_colrow_info_item (GnmColRowIter const *iter, void *user_data)
 {
 	closure_clone_colrow const *closure = user_data;
 	ColRowInfo *new_colrow = sheet_colrow_fetch (closure->sheet,
-		src->pos, closure->is_column);
-	colrow_copy (new_colrow, src);
+		iter->pos, closure->is_column);
+	colrow_copy (new_colrow, iter->cri);
 	return FALSE;
 }
 
@@ -4596,9 +4586,9 @@ sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)
 }
 
 static gboolean
-cb_queue_respan (ColRowInfo *info, void *user_data)
+cb_queue_respan (GnmColRowIter const *iter, void *user_data)
 {
-	info->needs_respan = TRUE;
+	((ColRowInfo *)(iter->cri))->needs_respan = TRUE;
 	return FALSE;
 }
 

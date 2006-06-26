@@ -128,8 +128,8 @@ cell_unregister_span (GnmCell const * const cell)
 	if (cell->row_info->spans == NULL)
 		return;
 
-	g_hash_table_foreach_remove (cell->row_info->spans, &span_remove,
-				     (gpointer)cell);
+	g_hash_table_foreach_remove (cell->row_info->spans,
+		&span_remove, (gpointer)cell);
 }
 
 /*
@@ -168,15 +168,17 @@ row_span_get (ColRowInfo const * const ri, int const col)
  * returns TRUE if the cell is empty.
  */
 static inline gboolean
-cellspan_is_empty (int col, ColRowInfo const *ri, GnmCell const *ok_span_cell)
+cellspan_is_empty (int col, GnmCell const *ok_span_cell)
 {
-	CellSpanInfo const *span = row_span_get (ri, col);
+	CellSpanInfo const *span = row_span_get (ok_span_cell->row_info, col);
 	GnmCell const *tmp;
 
 	if (span != NULL && span->cell != ok_span_cell)
 		return FALSE;
 
-	tmp = sheet_cell_get (ok_span_cell->base.sheet, col, ri->pos);
+	tmp = sheet_cell_get (ok_span_cell->base.sheet,
+		col, ok_span_cell->pos.row);
+
 	/* FIXME : cannot use cell_is_empty until expressions can span.
 	 * because cells with expressions start out with value Empty
 	 * existing spans continue to flow through, but never get removed
@@ -199,18 +201,16 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 {
 	Sheet *sheet;
 	int h_align, v_align, left, max_col, min_col;
-	int row, pos, margin;
+	int row, pos;
 	int cell_width_pixel, indented_w;
 	GnmStyle const *style;
-	ColRowInfo const *ri, *ci;
+	ColRowInfo const *ci;
 	GnmRange const *merge_left;
 	GnmRange const *merge_right;
 
 	g_return_if_fail (cell != NULL);
 
 	sheet = cell->base.sheet;
-	ri = cell->row_info;
-
 	style = cell_get_style (cell);
 	h_align = style_default_halign (style, cell);
 
@@ -239,7 +239,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			h_align = (h_align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;
 	}
 
-	ci = sheet_col_get_info	(cell->base.sheet, cell->pos.col);
+	ci = sheet_col_get_info	(sheet, cell->pos.col);
 	if (cell_is_empty (cell) ||
 	    !ci->visible ||
 	    (h_align != HALIGN_CENTER_ACROSS_SELECTION &&
@@ -263,62 +263,54 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	case HALIGN_LEFT:
 		pos = cell->pos.col + 1;
 		left = indented_w - COL_INTERNAL_WIDTH (ci);
-		margin = GNM_COL_MARGIN;
 
 		for (; left > 0 && pos < max_col; pos++){
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
-				if (!cellspan_is_empty (pos, ri, cell))
+				if (!cellspan_is_empty (pos, cell))
 					return;
 
 				/* The space consumed is:
 				 *   - The margin_b from the last column
 				 *   - The width of the cell
 				 */
-				left -= COL_INTERNAL_WIDTH (ci) +
-					margin + ci->margin_a;
+				left -= ci->size_pixels - 1;
 				*col2 = pos;
 			}
-			margin = ci->margin_b;
 		}
 		return;
 
 	case HALIGN_RIGHT:
 		pos = cell->pos.col - 1;
 		left = indented_w - COL_INTERNAL_WIDTH (ci);
-		margin = GNM_COL_MARGIN;
 
 		for (; left > 0 && pos > min_col; pos--){
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
-				if (!cellspan_is_empty (pos, ri, cell))
+				if (!cellspan_is_empty (pos, cell))
 					return;
 
 				/* The space consumed is:
 				 *   - The margin_a from the last column
 				 *   - The width of this cell
 				 */
-				left -= COL_INTERNAL_WIDTH (ci) +
-					margin + ci->margin_b;
+				left -= ci->size_pixels - 1;
 				*col1 = pos;
 			}
-			margin = ci->margin_a;
 		}
 		return;
 
 	case HALIGN_CENTER: {
 		int remain_left, remain_right;
-		int margin_a, margin_b, pos_l, pos_r;
+		int pos_l, pos_r;
 
 		pos_l = pos_r = cell->pos.col;
-		left = cell_width_pixel -  COL_INTERNAL_WIDTH (ci);
+		left = cell_width_pixel - COL_INTERNAL_WIDTH (ci);
 
 		remain_left  = left / 2 + (left % 2);
 		remain_right = left / 2;
-		margin_a = GNM_COL_MARGIN;
-		margin_b = GNM_COL_MARGIN;
 
 		for (; remain_left > 0 || remain_right > 0;){
 			ColRowInfo const *ci;
@@ -327,10 +319,8 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 				ci = sheet_col_get_info (sheet, pos_l);
 
 				if (ci->visible) {
-					if (cellspan_is_empty (pos_l, ri, cell)) {
-						remain_left -= COL_INTERNAL_WIDTH (ci) +
-							margin_a + ci->margin_b;
-						margin_a = ci->margin_a;
+					if (cellspan_is_empty (pos_l, cell)) {
+						remain_left -= ci->size_pixels - 1;
 						*col1 = pos_l;
 					} else
 						remain_left = 0;
@@ -342,10 +332,8 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 				ci = sheet_col_get_info (sheet, pos_r);
 
 				if (ci->visible) {
-					if (cellspan_is_empty (pos_r, ri, cell)) {
-						remain_right -= COL_INTERNAL_WIDTH (ci) +
-							margin_b + ci->margin_a;
-						margin_b = ci->margin_b;
+					if (cellspan_is_empty (pos_r, cell)) {
+						remain_right -= ci->size_pixels - 1;
 						*col2 = pos_r;
 					} else
 						max_col = remain_right = 0;
@@ -356,16 +344,15 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		break;
 	} /* case HALIGN_CENTER */
 
-	case HALIGN_CENTER_ACROSS_SELECTION:
-	{
-		int const row = ri->pos;
+	case HALIGN_CENTER_ACROSS_SELECTION: {
+		int const row = cell->pos.row;
 		int pos_l, pos_r;
 
 		pos_l = pos_r = cell->pos.col;
 		while (--pos_l > min_col) {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
 			if (ci->visible) {
-				if (cellspan_is_empty (pos_l, ri, cell)) {
+				if (cellspan_is_empty (pos_l, cell)) {
 					GnmStyle const * const style =
 						sheet_style_get (cell->base.sheet, pos_l, row);
 
@@ -379,7 +366,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		while (++pos_r < max_col) {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_r);
 			if (ci->visible) {
-				if (cellspan_is_empty (pos_r, ri, cell)) {
+				if (cellspan_is_empty (pos_r, cell)) {
 					GnmStyle const * const style =
 						sheet_style_get (cell->base.sheet, pos_r, row);
 
@@ -399,14 +386,14 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 }
 
 void
-row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
+row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 {
-	int left, right, col, row = rinfo->pos;
+	int left, right, col;
 	GnmRange const *merged;
 	GnmCell *cell;
 	int const last = sheet->cols.max_used;
 
-	row_destroy_span (rinfo);
+	row_destroy_span (ri);
 	for (col = 0 ; col <= last ; ) {
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell == NULL) {
@@ -439,5 +426,5 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 			col++;
 	}
 
-	rinfo->needs_respan = FALSE;
+	ri->needs_respan = FALSE;
 }
