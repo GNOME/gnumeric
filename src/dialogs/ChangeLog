@@ -1,3 +1,14 @@
+2006-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=345896
+	* dialog-define-names.c (NameGuruState): add action_possible 
+	  field
+	(name_guru_update_sensitivity): rewrite
+	(cb_scope_changed): just update the buttons, don't switch scope
+	(name_guru_add): make sure the action is permissible
+	(cb_entry_activate): use action_possible
+	(name_guru_init): initialize action_possible
+
 2006-06-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-define-names.c (name_guru_update_sensitivity):

@@ -80,6 +80,7 @@ typedef struct {
 	GnmNamedExpr		*cur_name;
 	GnmParsePos		 pp;
 	gboolean	 	 updating;
+	gboolean                 action_possible;
 } NameGuruState;
 
 static gboolean
@@ -166,35 +167,58 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 	gboolean selection;
 	gboolean update;
 	gboolean add;
-	GnmNamedExpr *in_list = NULL;
+	gboolean delete;
+	gboolean clear_selection;
 	char const *name;
 
 	if (state->updating)
 		return;
 
 	name  = gtk_entry_get_text (state->name);
-
-	/** Add is active if :
-	 *  - We have a name in the entry to add
-	 *  - Either we don't have a current Name or if we have a current
-	 *     name, the name is different than what we are going to add
-	 **/
-	in_list = name_guru_in_list (state, name, TRUE);
-	add    = name != NULL && name[0] != '\0' && in_list == NULL;
-	update = name != NULL && name[0] != '\0' && in_list != NULL
-		&& in_list->is_editable;
 	selection = gtk_tree_selection_get_selected (state->selection, NULL, NULL);
 
-	gtk_widget_set_sensitive (state->delete_button,
-				  selection && in_list != NULL
-				  && !in_list->is_permanent);
+	delete = (selection != 0);
+	clear_selection = (selection != 0);
+
+	if (name != NULL && name[0] != '\0') {
+		GnmNamedExpr *in_list = NULL;
+
+		/** Add is active if :
+		 *  - We have a name in the entry to add
+		 *  - Either we don't have a current Name or if we have a current
+		 *     name, the name is different than what we are going to add
+		 *  - If we have a current name which is equal to the name to be added but
+		 *     the scope differs.
+		 **/
+		
+		in_list = name_guru_in_list (state, name, TRUE);
+		
+		if (in_list != NULL) {
+			add = name_guru_scope_is_sheet (state) ?
+				(in_list->pos.sheet == NULL) : (in_list->pos.sheet != NULL);
+			delete = delete && !in_list->is_permanent;
+			clear_selection = FALSE;
+		} else
+			add = TRUE;
+		
+		update = !add && in_list->is_editable;
+	} else
+		add = update = FALSE;
+	
+
+	gtk_widget_set_sensitive (state->delete_button, delete);
 	gtk_widget_set_sensitive (state->add_button,    add);
 	gtk_widget_set_sensitive (state->update_button, update);
+
+	state->action_possible = update || add;
+
+	gtk_widget_set_sensitive (state->ok_button, state->action_possible);
+
 
 	if (!selection && update_entries)
 		name_guru_set_expr (state, NULL);
 
-	if (selection && in_list == NULL) {
+	if (clear_selection) {
 		state->updating = TRUE;
 		gtk_tree_selection_unselect_all (state->selection);
 		state->updating = FALSE;
@@ -245,18 +269,20 @@ name_guru_populate_list (NameGuruState *state)
 static void
 cb_scope_changed (G_GNUC_UNUSED GtkToggleButton *button, NameGuruState *state)
 {
-	char *err;
-	if (state->updating || state->cur_name == NULL)
-		return;
-	err = expr_name_set_scope (state->cur_name,
-		name_guru_scope_is_sheet (state) ? state->sheet : NULL);
-	if (err != NULL) {
-		go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
-				 GTK_MESSAGE_ERROR, err);
-		g_free (err);
-		name_guru_display_scope (state); /* flip it back */
-	} else
-		name_guru_populate_list (state);
+	name_guru_update_sensitivity (state, FALSE);
+
+/* 	char *err; */
+/* 	if (state->updating || state->cur_name == NULL) */
+/* 		return; */
+/* 	err = expr_name_set_scope (state->cur_name, */
+/* 		name_guru_scope_is_sheet (state) ? state->sheet : NULL); */
+/* 	if (err != NULL) { */
+/* 		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), */
+/* 				 GTK_MESSAGE_ERROR, err); */
+/* 		g_free (err); */
+/* 		name_guru_display_scope (state); /\* flip it back *\/ */
+/* 	} else */
+/* 		name_guru_populate_list (state); */
 }
 
 
@@ -338,10 +364,13 @@ name_guru_add (NameGuruState *state)
 
 	g_return_val_if_fail (state != NULL, FALSE);
 
+	if (!state->action_possible)
+		return TRUE;
+
 	name  = gtk_entry_get_text (state->name);
 
-	if (!name || (name[0] == '\0'))
-		return TRUE;
+	g_return_val_if_fail (name != NULL, TRUE);
+	g_return_val_if_fail (name[0] != '\0', TRUE);
 
 	texpr = gnm_expr_entry_parse (state->expr_entry,
 		&state->pp, parse_error_init (&perr), FALSE, GNM_EXPR_PARSE_DEFAULT);
@@ -449,9 +478,7 @@ static void
 cb_entry_activate (G_GNUC_UNUSED GtkWidget *item,
 		   NameGuruState *state)
 {
-	char const *name = gtk_entry_get_text (state->name);
-
-	if (name == NULL || *name == '\0' ||
+	if (!state->action_possible ||
 	    gnm_expr_entry_is_blank (state->expr_entry))
 		gtk_widget_destroy (state->dialog);
 	name_guru_add (state);
@@ -504,6 +531,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->expr_names = NULL;
 	state->cur_name   = NULL;
 	state->updating   = FALSE;
+	state->action_possible = FALSE;
 
 	state->model	 = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	state->treeview  = glade_xml_get_widget (state->gui, "name_list");

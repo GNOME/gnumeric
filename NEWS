@@ -6,6 +6,7 @@ Andreas:
 	* Fix zoom-dialog labels [#311206]
 	* Initialize locale selector in stf export.
 	* Added Sheet_Title predefined name [#342542]
+	* Improve Define Names dialog [#345896]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).
