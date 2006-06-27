@@ -1173,7 +1173,7 @@ applix_read_cells (ApplixReadState *state)
 
 				if (texpr == NULL) {
 					applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),
-								   cell->base.sheet->name_quoted, cell_name (cell),
+								   sheet->name_quoted, cell_name (cell),
 								   expr_string, perr.err->message);
 					parse_error_free (&perr);
 					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
