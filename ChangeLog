@@ -1,3 +1,7 @@
+2006-06-27  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_foreach) : really fix it.
+
 2006-06-26  Jody Goldberg <jody@gnome.org>
 
 	* src/colrow.c (colrow_foreach) : Fix last nights breakage.

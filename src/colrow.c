@@ -161,6 +161,7 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 		sub = COLROW_SUB_INDEX(i);
 		inner_last = (COLROW_SEGMENT_INDEX (last) == COLROW_SEGMENT_INDEX (i))
 			? COLROW_SUB_INDEX (last)+1 : COLROW_SEGMENT_SIZE;
+		iter.pos = i;
 		i += COLROW_SEGMENT_SIZE - sub;
 		if (segment == NULL)
 			continue;
