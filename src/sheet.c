@@ -4028,7 +4028,8 @@ sheet_colrow_default_calc (Sheet *sheet, double units,
 double
 sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 {
-	double units = 0., sign = 1.;
+	ColRowInfo const *ci;
+	double dflt, pts = 0., sign = 1.;
 	int i;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
@@ -4044,13 +4045,15 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (to <= SHEET_MAX_COLS, 1.);
 
 	/* Do not use colrow_foreach, it ignores empties */
+	dflt =  sheet->cols.default_style.size_pts;
 	for (i = from ; i < to ; ++i) {
-		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		if (ci->visible)
-			units += ci->size_pts;
+		if (NULL == (ci = sheet_col_get (sheet, i)))
+			pts += dflt;
+		else if (ci->visible)
+			pts += ci->size_pts;
 	}
 
-	return units*sign;
+	return pts * sign;
 }
 
 /**
@@ -4062,30 +4065,32 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 int
 sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 {
-	gboolean neg;
-	int pixels = 0;
+	ColRowInfo const *ci;
+	int dflt, pixels = 0, sign = 1;
 	int i;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
-	neg = (from > to);
-	if (neg) {
+	if (from > to) {
 		int const tmp = to;
 		to = from;
 		from = tmp;
+		sign = -1;
 	}
 
 	g_return_val_if_fail (from >= 0, 1);
 	g_return_val_if_fail (to <= SHEET_MAX_COLS, 1);
 
 	/* Do not use colrow_foreach, it ignores empties */
+	dflt =  sheet->cols.default_style.size_pts;
 	for (i = from ; i < to ; ++i) {
-		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		if (ci->visible)
+		if (NULL == (ci = sheet_col_get (sheet, i)))
+			pixels += dflt;
+		else if (ci->visible)
 			pixels += ci->size_pixels;
 	}
 
-	return neg ? -pixels : pixels;
+	return pixels * sign;
 }
 
 /**
@@ -4200,6 +4205,8 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 double
 sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 {
+	ColRowSegment const *segment;
+	ColRowInfo const *ri;
 	double const default_size = sheet->rows.default_style.size_pts;
 	double pts = 0., sign = 1.;
 	int i;
@@ -4221,11 +4228,10 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	 * for performance.
 	 */
 	for (i = from ; i < to ; ++i) {
-		ColRowSegment const *segment =
-			COLROW_GET_SEGMENT (&(sheet->rows), i);
+		segment = COLROW_GET_SEGMENT (&(sheet->rows), i);
 
 		if (segment != NULL) {
-			ColRowInfo const *ri = segment->info[COLROW_SUB_INDEX (i)];
+			ri = segment->info[COLROW_SUB_INDEX (i)];
 			if (ri == NULL)
 				pts += default_size;
 			else if (ri->visible)

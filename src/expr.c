@@ -1366,6 +1366,18 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		return handle_empty ((a != NULL) ? value_dup (a) : NULL, flags);
 	}
 	case GNM_EXPR_OP_SET:
+		if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) {
+			int i;
+			int argc = expr->set.argc;
+
+			res = value_new_array_non_init (1, expr->set.argc);
+			res->v_array.vals[0] = g_new (GnmValue *, expr->set.argc);
+			for (i = 0; i < argc; i++)
+				res->v_array.vals[0][i] = gnm_expr_eval (
+					expr->set.argv[i], pos,
+					GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+			return res;
+		}
 		return value_new_error_VALUE (pos);
 
 	case GNM_EXPR_OP_RANGE_CTOR:

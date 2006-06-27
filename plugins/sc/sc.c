@@ -59,13 +59,11 @@ typedef enum {
 
 /* we can't use cellpos_parse b/c it doesn't support 0 bases (A0, B0, ...) */
 static gboolean
-sc_cellname_to_coords (char const *cellname, int *col, int *row)
+sc_cellname_to_coords (char const *cellname, GnmCellPos *pos)
 {
 	int mult;
 
 	g_return_val_if_fail (cellname, FALSE);
-	g_return_val_if_fail (col, FALSE);
-	g_return_val_if_fail (row, FALSE);
 
 	if (!cellname || !*cellname || !g_ascii_isalpha (*cellname))
 		goto err_out;
@@ -80,12 +78,12 @@ sc_cellname_to_coords (char const *cellname, int *col, int *row)
 		int ofs = g_ascii_toupper (*cellname) - 'A';
 		if (ofs < 0 || ofs > 25)
 			goto err_out;
-		*col = ((mult + 1) * 26) + ofs;
+		pos->col = ((mult + 1) * 26) + ofs;
 		cellname++;
 	}
 
 	else {
-		*col = mult;
+		pos->col = mult;
 	}
 
 	/* XXX need to replace this block with strtol+error checking */
@@ -93,21 +91,21 @@ sc_cellname_to_coords (char const *cellname, int *col, int *row)
 		if (!g_ascii_isdigit (*cellname))
 			goto err_out;
 
-		*row = atoi (cellname);
+		pos->row = atoi (cellname);
 	}
 
-	g_return_val_if_fail (*col > -1, FALSE);
-	g_return_val_if_fail (*row > -1, FALSE);
+	g_return_val_if_fail (pos->col > -1, FALSE);
+	g_return_val_if_fail (pos->row > -1, FALSE);
 	return TRUE;
 
 err_out:
-	*col = *row = -1;
+	pos->col = pos->row = -1;
 	return FALSE;
 }
 
 
 static void
-sc_parse_coord (char const **strdata, int *col, int *row)
+sc_parse_coord (char const **strdata, GnmCellPos *pos)
 {
 	char const *s = *strdata, *eq;
 	int len = strlen (s);
@@ -115,8 +113,6 @@ sc_parse_coord (char const **strdata, int *col, int *row)
 	size_t tmplen;
 
 	g_return_if_fail (strdata);
-	g_return_if_fail (col);
-	g_return_if_fail (row);
 
 	eq = strstr (s, " = ");
 	if (!eq)
@@ -129,11 +125,11 @@ sc_parse_coord (char const **strdata, int *col, int *row)
 	memcpy (tmpstr, s, tmplen);
 	tmpstr [tmplen] = 0;
 
-	if (!sc_cellname_to_coords (tmpstr, col, row))
+	if (!sc_cellname_to_coords (tmpstr, pos))
 		return;
 
-	g_assert (*col >= 0);
-	g_assert (*row >= 0);
+	g_return_if_fail (pos->col >= 0);
+	g_return_if_fail (pos->row >= 0);
 
 	if ((eq - s + 1 + 3) > len)
 		return;
@@ -143,31 +139,27 @@ sc_parse_coord (char const **strdata, int *col, int *row)
 
 
 static void
-set_h_align (GnmCell const *cell, GnmHAlign ha)
+set_h_align (Sheet *sheet, GnmCellPos const *pos, GnmHAlign ha)
 {
 	GnmRange r;
 	GnmStyle *style = gnm_style_new ();
 	gnm_style_set_align_h (style, ha);
-	r.start = r.end = cell->pos;
-	sheet_style_apply_range	(cell->base.sheet, &r, style);
+	r.start = r.end = *pos;
+	sheet_style_apply_range	(sheet, &r, style);
 }
 
 static gboolean
-sc_parse_label (ScParseState *state, char const *cmd, char const *str, int col, int row)
+sc_parse_label (ScParseState *state, char const *cmd, char const *str,
+		GnmCellPos const *pos)
 {
 	GnmCell *cell;
 	char *s = NULL, *tmpout;
 	char const *tmpstr;
 	gboolean result = FALSE;
 
-	g_return_val_if_fail (state, FALSE);
-	g_return_val_if_fail (state->sheet, FALSE);
-	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
-	g_return_val_if_fail (col >= 0, FALSE);
-	g_return_val_if_fail (row >= 0, FALSE);
 
-	if (!str || *str != '"' || col == -1 || row == -1)
+	if (*str != '"')
 		goto err_out;
 
 	s = tmpout = g_strdup (str);
@@ -187,16 +179,16 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str, int col, 
 	tmpout--;
 	*tmpout = 0;
 
-	cell = sheet_cell_fetch (state->sheet, col, row);
+	cell = sheet_cell_fetch (state->sheet, pos->col, pos->row);
 	if (!cell)
 		goto err_out;
 
 	cell_set_text (cell, s);
 
 	if (strcmp (cmd, "leftstring") == 0)
-		set_h_align (cell, HALIGN_LEFT);
+		set_h_align (state->sheet, pos, HALIGN_LEFT);
 	else if (strcmp (cmd, "rightstring") == 0)
-		set_h_align (cell, HALIGN_RIGHT);
+		set_h_align (state->sheet, pos, HALIGN_RIGHT);
 #if 0
 	else
 		cmdtype = LABEL;
@@ -325,22 +317,19 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 
 
 static gboolean
-sc_parse_let (ScParseState *state, char const *cmd, char const *str, int col, int row)
+sc_parse_let (ScParseState *state, char const *cmd, char const *str,
+	      GnmCellPos const *pos)
 {
 	GnmExprTop const *texpr;
 	GnmCell *cell;
-	GnmParsePos pos;
+	GnmParsePos pp;
 	GnmValue const *v;
 	char *str2, *p1, *p2;
 
-	g_return_val_if_fail (state, FALSE);
-	g_return_val_if_fail (state->sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
-	g_return_val_if_fail (col >= 0, FALSE);
-	g_return_val_if_fail (row >= 0, FALSE);
 
-	cell = sheet_cell_fetch (state->sheet, col, row);
+	cell = sheet_cell_fetch (state->sheet, pos->col, pos->row);
 	if (!cell)
 		return FALSE;
 
@@ -349,14 +338,13 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str, int col, in
 		if (*p1 != '@')
 			*p2++ = *p1;
 	texpr = gnm_expr_parse_str (str2,
-				   parse_pos_init_cell (&pos, cell),
-				   GNM_EXPR_PARSE_DEFAULT,
-				   state->exprconv,
-				   NULL);
+			parse_pos_init_cell (&pp, cell),
+			GNM_EXPR_PARSE_DEFAULT,
+			state->exprconv, NULL);
 	g_free (str2);
 	if (!texpr) {
 		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
-			   cmd, str, col, row);
+			   cmd, str, pos->col, pos->row);
 		return TRUE;
 	}
 
@@ -377,16 +365,15 @@ typedef struct {
 	char const *name;
 	int namelen;
 	gboolean (*handler) (ScParseState *state, char const *name,
-			     char const *str, int col, int row);
-	unsigned have_coord : 1;
+			     char const *str, GnmCellPos const *pos);
+	gboolean have_coord;
 } sc_cmd_t;
 
-
 static sc_cmd_t const sc_cmd_list[] = {
-	{ "leftstring", 10, sc_parse_label, 1 },
-	{ "rightstring", 11, sc_parse_label, 1 },
-	{ "label", 5, sc_parse_label, 1 },
-	{ "let", 3, sc_parse_let, 1 },
+	{ "leftstring", 10,	sc_parse_label,	TRUE },
+	{ "rightstring", 11,	sc_parse_label,	TRUE },
+	{ "label", 5,		sc_parse_label,	TRUE },
+	{ "let", 3,		sc_parse_let,	TRUE },
 	{ NULL, 0, NULL, 0 },
 };
 
@@ -414,14 +401,13 @@ sc_parse_line (ScParseState *state, char *buf)
 		cmd = &sc_cmd_list [i];
 		if (cmd->namelen == cmdlen &&
 		    strncmp (cmd->name, buf, cmdlen) == 0) {
-			int col = -1, row = -1;
+			GnmCellPos pos = { -1, -1 };
 			char const *strdata = space;
 
 			if (cmd->have_coord)
-				sc_parse_coord (&strdata, &col, &row);
+				sc_parse_coord (&strdata, &pos);
 
-			cmd->handler (state, cmd->name, 
-				      strdata, col, row);
+			cmd->handler (state, cmd->name, strdata, &pos);
 			return TRUE;
 		}
 	}

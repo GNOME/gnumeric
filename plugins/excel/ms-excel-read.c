@@ -2425,7 +2425,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	 * 	'this file was calculated with a different version of XL'
 	 * warning when exiting without changing. */
 	d (1, fprintf (stderr,"Formula in %s!%s has recalc tag 0x%x;\n",
-		      cell->base.sheet->name_quoted, cell_name (cell),
+		      esheet->sheet->name_quoted, cell_name (cell),
 		      GSF_LE_GET_GUINT32 (q->data + 16)););
 
 	/* TODO TODO TODO: Wishlist
@@ -2569,7 +2569,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		 * The value and format can still be set.
 		 */
 		g_warning ("EXCEL: Multiple expressions for cell %s!%s",
-			   cell->base.sheet->name_quoted, cell_name (cell));
+			   esheet->sheet->name_quoted, cell_name (cell));
 		cell_set_value (cell, val);
 	}
 

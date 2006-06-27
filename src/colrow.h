@@ -26,9 +26,6 @@ struct _ColRowCollection {
 	ColRowInfo  default_style;
 	GPtrArray * info;
 	int	    max_outline_level;
-
-	float	    size_pts;
-	int	    size_pixels;
 };
 
 /* We never did get around to support 'thick' borders so these are effectively

@@ -87,6 +87,7 @@ typedef struct {
 
 
 typedef struct {
+	GoalSeekState	*state;
 	GnmCell *xcell, *ycell;
 	gnm_float	ytarget;
 	gboolean	update_ui;
@@ -104,7 +105,7 @@ goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 		cell_set_value (evaldata->xcell, v);
 		cell_queue_recalc (evaldata->xcell);
 	}
-	workbook_recalc (evaldata->xcell->base.sheet->workbook);
+	workbook_recalc (evaldata->state->wb);
 
 	if (evaldata->ycell->value) {
 	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
@@ -307,7 +308,7 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
 		sheet_cell_set_value (state->old_cell, state->old_value);
-		workbook_recalc (state->old_cell->base.sheet->workbook);
+		workbook_recalc (state->wb);
 		state->old_value = NULL;
 	}
 	gtk_widget_destroy (state->dialog);
@@ -420,7 +421,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
 		sheet_cell_set_value (state->old_cell, state->old_value);
-		workbook_recalc (state->old_cell->base.sheet->workbook);
+		workbook_recalc (state->wb);
 		state->old_value = NULL;
 	}
 	state->old_cell = state->change_cell;

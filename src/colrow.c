@@ -148,7 +148,7 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 {
 	GnmColRowIter iter;
 	ColRowSegment const *segment;
-	int inner_last, i;
+	int sub, inner_last, i;
 
 	/* TODO : Do we need to support right -> left as an option */
 
@@ -158,15 +158,15 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 
 	for (i = first; i <= last ; ) {
 		segment = COLROW_GET_SEGMENT (infos, i);
-		iter.pos = COLROW_SUB_INDEX(i);
+		sub = COLROW_SUB_INDEX(i);
 		inner_last = (COLROW_SEGMENT_INDEX (last) == COLROW_SEGMENT_INDEX (i))
 			? COLROW_SUB_INDEX (last)+1 : COLROW_SEGMENT_SIZE;
-		i += COLROW_SEGMENT_SIZE - iter.pos;
+		i += COLROW_SEGMENT_SIZE - sub;
 		if (segment == NULL)
 			continue;
 
-		for (; iter.pos < inner_last; ++iter.pos) {
-			iter.cri = segment->info[iter.pos];
+		for (; sub < inner_last; sub++, iter.pos++) {
+			iter.cri = segment->info[sub];
 			if (iter.cri != NULL && (*callback)(&iter, user_data))
 				return TRUE;
 		}
