@@ -42,7 +42,7 @@
 static guint
 sheet_pair_hash (ExcelSheetPair const *sp)
 {
-	return (((int)sp->a >> 2) & 0xffff) | (((int)sp->b << 14) & 0xffff0000);
+	return ((GPOINTER_TO_INT(sp->a) >> 2) & 0xffff) | ((GPOINTER_TO_INT(sp->b) << 14) & 0xffff0000);
 }
 
 static gint

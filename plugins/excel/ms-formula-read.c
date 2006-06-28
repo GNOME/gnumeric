@@ -595,7 +595,7 @@ parse_list_pop (GnmExprList **list)
 	if (tmp != NULL) {
 		GnmExpr const *ans = tmp->data;
 		*list = g_slist_remove (*list, ans);
-		d (5, fprintf (stderr, "Pop 0x%x\n", (int)ans););
+		d (5, fprintf (stderr, "Pop 0x%p\n", ans););
 		return ans;
 	}
 

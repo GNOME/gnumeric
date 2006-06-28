@@ -479,7 +479,7 @@ typedef struct {
 #define MICRO_HASH_MIN_SIZE 11
 #define MICRO_HASH_MAX_SIZE 13845163
 
-#define MICRO_HASH_hash(key) ((guint)(key))
+#define MICRO_HASH_hash(key) ((guint)GPOINTER_TO_UINT(key))
 
 static void
 micro_hash_many_to_few (MicroHash *hash_table)

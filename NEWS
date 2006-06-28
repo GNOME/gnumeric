@@ -8,7 +8,8 @@ Andreas:
 	* Added Sheet_Title predefined name [#342542]
 	* Improve Define Names dialog [#345896]
 	* Fix button sensitivity in Define Names dialog in presence
-	  of identical workbook and sheet scope names 
+	  of identical workbook and sheet scope names
+	* Remove some warnings on AMD64 [#346045]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).

@@ -70,7 +70,7 @@ typedef struct {
 static guint
 watcher_hash (Watcher const *w)
 {
-	return ((int)w->node << 16) + (int)w->dep;
+	return (GPOINTER_TO_INT(w->node) << 16) + GPOINTER_TO_INT(w->dep);
 }
 static gint
 watcher_equal (Watcher const *w1, Watcher const *w2)

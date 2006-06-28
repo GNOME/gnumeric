@@ -1,3 +1,8 @@
+2006-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-formula-read.c (parse_list_pop): use %p for pointers #346045
+	* ms-formula-write.c (sheet_pair_hash): extinguish warning #346045
+
 2006-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-write.c (excel_sheet_extent): use ngettext #123860

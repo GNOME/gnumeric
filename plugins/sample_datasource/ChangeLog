@@ -1,3 +1,7 @@
+2006-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sample_datasource.c (watcher_hash): extinguish warning #346045
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0
