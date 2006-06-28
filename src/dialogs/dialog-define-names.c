@@ -117,9 +117,16 @@ name_guru_display_scope (NameGuruState *state)
 	state->updating = FALSE;
 }
 
+/*
+ * use_sheet_scope: look only at sheet scope names
+ * not use_sheet_scope: look only at workbook scope names
+ *
+ */
+
 static GnmNamedExpr *
 name_guru_in_list (NameGuruState *state, char const *name,
-		   gboolean ignore_placeholders)
+		   gboolean ignore_placeholders,
+		   gboolean use_sheet_scope)
 {
 	GnmNamedExpr *nexpr;
 	GList *list;
@@ -132,6 +139,8 @@ name_guru_in_list (NameGuruState *state, char const *name,
 		g_return_val_if_fail (nexpr->name->str != NULL, NULL);
 
 		if (ignore_placeholders && expr_name_is_placeholder (nexpr))
+			continue;
+		if ((nexpr->pos.sheet == NULL) == use_sheet_scope)
 			continue;
 
 		/* no need for UTF-8 or collation magic, just equality */
@@ -165,8 +174,8 @@ static void
 name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 {
 	gboolean selection;
-	gboolean update;
-	gboolean add;
+	gboolean update = FALSE;
+	gboolean add = FALSE;
 	gboolean delete;
 	gboolean clear_selection;
 	char const *name;
@@ -182,6 +191,7 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 
 	if (name != NULL && name[0] != '\0') {
 		GnmNamedExpr *in_list = NULL;
+		gboolean sheet_scope;
 
 		/** Add is active if :
 		 *  - We have a name in the entry to add
@@ -190,20 +200,19 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		 *  - If we have a current name which is equal to the name to be added but
 		 *     the scope differs.
 		 **/
+
+		sheet_scope = name_guru_scope_is_sheet (state);
 		
-		in_list = name_guru_in_list (state, name, TRUE);
+		in_list = name_guru_in_list (state, name, TRUE, sheet_scope);
 		
 		if (in_list != NULL) {
-			add = name_guru_scope_is_sheet (state) ?
-				(in_list->pos.sheet == NULL) : (in_list->pos.sheet != NULL);
 			delete = delete && !in_list->is_permanent;
 			clear_selection = FALSE;
 		} else
 			add = TRUE;
 		
 		update = !add && in_list->is_editable;
-	} else
-		add = update = FALSE;
+	}
 	
 
 	gtk_widget_set_sensitive (state->delete_button, delete);
