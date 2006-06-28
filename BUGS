@@ -13,6 +13,7 @@ http://bugzilla.gnome.org/show_bug.cgi?id=322096
 
 Worries
 -------
+    : do bounds check in excel_get_text
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : undo of cell range cut over clipboard
