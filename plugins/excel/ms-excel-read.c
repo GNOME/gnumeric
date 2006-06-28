@@ -5441,11 +5441,15 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	GnmValue *v;
 	guint16 const col = XL_GETCOL (q);
 	guint16 const row = XL_GETROW (q);
-	unsigned str_len;
-	char *txt = excel_get_text (esheet->container.importer, q->data + 8,
-		(esheet_ver (esheet) == MS_BIFF_V2)
-		? GSF_LE_GET_GUINT8 (q->data + 7)
-		: GSF_LE_GET_GUINT16 (q->data + 6), &str_len);
+	guint in_len, str_len;
+	gchar *txt;
+	
+	in_len = q->opcode == BIFF_LABEL_v0 ?
+		GSF_LE_GET_GUINT8 (q->data + 7) : GSF_LE_GET_GUINT16 (q->data + 6);
+	g_return_if_fail (q->length - 8 >= in_len);
+	
+	txt = excel_get_text (esheet->container.importer, q->data + 8,
+		in_len, &str_len);
 
 	d (0, fprintf (stderr,"%s in %s%d;\n",
 		       has_markup ? "formatted string" : "string",
