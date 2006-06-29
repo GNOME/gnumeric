@@ -1788,7 +1788,7 @@ xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
 	if (xml_node_get_int (tree, "Count", &val)) {
 		/* resize flags are already set only need to copy the sizes */
 		for ( ; --val > 0 ; )
-			colrow_copy (sheet_colrow_fetch (ctxt->sheet, ++val, is_cols), cri);
+			colrow_copy (sheet_colrow_fetch (ctxt->sheet, ++pos, is_cols), cri);
 	}
 }
 
@@ -2701,11 +2701,12 @@ xml_init (void)
 	xml_sax_prober.error      = (errorSAXFunc) xml_probe_problem;
 	xml_sax_prober.fatalError = (fatalErrorSAXFunc) xml_probe_problem;
 	xml_sax_prober.startElement = (startElementSAXFunc) xml_probe_start_element;
+#warning REMOVE for 2.0
 	go_file_opener_register (go_file_opener_new (
 		"Gnumeric_XmlIO:gnum_xml",
-		_("Gnumeric XML (*.gnumeric)"),
+		_("Gnumeric XML (*.gnumeric) Old slow importer"),
 		suffixes, mimes,
-		xml_probe, gnumeric_xml_read_workbook), 50);
+		xml_probe, gnumeric_xml_read_workbook), 40);
 
 	go_file_opener_register (go_file_opener_new (
 		"Gnumeric_XmlIO:xml_sax",

@@ -40,6 +40,7 @@ hello_message (GnmAction const *action, WorkbookControl *wbc)
 }
 
 ModulePluginUIActions const hello_ui_actions[] = {
-	{ "HelloWorld", hello_message},
+	{ "HelloMenu", NULL },
+	{ "HelloWorld", hello_message },
 	{ NULL }
 };

@@ -558,7 +558,8 @@ gnm_plugin_loader_module_func_exec_action (GOPluginService *service,
 		return;
 	}
 	action_index = GPOINTER_TO_INT (action_index_ptr);
-	loader_data->module_ui_actions_array [action_index].handler (action, wbc);
+	if (NULL != loader_data->module_ui_actions_array [action_index].handler)
+		(*loader_data->module_ui_actions_array [action_index].handler) (action, wbc);
 }
 
 static void

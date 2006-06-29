@@ -1,3 +1,11 @@
+2006-06-28  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_init) : down grade priority and rename the DOM
+	  exporter.  We default to SAX now.
+	(xml_read_colrow_info) : fix import.
+	* src/gnm-plugin.c (gnm_plugin_loader_module_func_exec_action) : do
+	  not crash if there is no handler.
+
 2006-06-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/dependent.c (MICRO_HASH_hash): extinguish warning #346045

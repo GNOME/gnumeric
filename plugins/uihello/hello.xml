@@ -1,7 +1,9 @@
 <ui>
   <menubar>
     <menu name="Tools" action="MenuTools">
-      <menuitem action="HelloWorld"/>
+      <menu name="Hello" action="HelloMenu">
+	<menuitem action="HelloWorld"/>
+      </menu>
     </menu>
   </menubar>
 </ui>
