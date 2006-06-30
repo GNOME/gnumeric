@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-16 21:23+0200\n"
-"PO-Revision-Date: 2006-06-16 21:25+0200\n"
+"POT-Creation-Date: 2006-06-30 01:57+0200\n"
+"PO-Revision-Date: 2006-06-30 02:01+0200\n"
 "Last-Translator: FRancisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team:  <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -264,8 +264,8 @@ msgstr "Derivadas financieras"
 msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6100
-#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2645
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6104
+#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2631
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -360,7 +360,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:994
-#: ../plugins/openoffice/openoffice-read.c:2509 ../src/xml-sax-read.c:1967
+#: ../plugins/openoffice/openoffice-read.c:2509 ../src/xml-sax-read.c:1965
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -432,22 +432,30 @@ msgstr "No se suministró contraseña"
 #: ../plugins/excel/ms-excel-write.c:195
 #, c-format
 msgid ""
-"Some content will be lost when saving.  This format only supports %u cols, "
+"Some content will be lost when saving.  This format only supports %u column, "
 "and this workbook has %d"
-msgstr ""
+msgid_plural ""
+"Some content will be lost when saving.  This format only supports %u "
+"columns, and this workbook has %d"
+msgstr[0] "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u columna, y este libro de cuentas tiene %d"
+msgstr[1] ""
 "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u "
 "columnas, y este libro de cuentas tiene %d"
 
-#: ../plugins/excel/ms-excel-write.c:201
+#: ../plugins/excel/ms-excel-write.c:207
 #, c-format
 msgid ""
+"Some content will be lost when saving.  This format only supports %u row, "
+"and this workbook has %d"
+msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
-msgstr ""
+msgstr[0] "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u fila y este libro de cuentas tiene %d"
+msgstr[1] ""
 "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u "
 "filas y este libro de cuentas tiene %d"
 
-#: ../plugins/excel/ms-excel-write.c:300
+#: ../plugins/excel/ms-excel-write.c:312
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -457,11 +465,11 @@ msgstr ""
 "Ya escribimos una longitud para una cadena que ha sido truncada debido a "
 "problemas de codificación."
 
-#: ../plugins/excel/ms-excel-write.c:5379
+#: ../plugins/excel/ms-excel-write.c:5391
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No se pudo el flujo «Libro» para escritura\n"
 
-#: ../plugins/excel/ms-excel-write.c:5399
+#: ../plugins/excel/ms-excel-write.c:5411
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
 
@@ -1635,7 +1643,7 @@ msgstr "Función objetivo:"
 msgid "Constraints:"
 msgstr "Restricciones:"
 
-#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:509
+#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:549
 #: ../src/dialogs/dialog-doc-metadata.c:1277
 #: ../src/dialogs/dialog-formula-guru.c:812
 #: ../src/dialogs/dialog-function-select.c:444
@@ -1651,7 +1659,7 @@ msgstr "Restricciones:"
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
 #: ../src/tools/solver/reports-write.c:668 ../src/commands.c:5593
-#: ../src/format-template.c:251 ../src/sheet.c:529
+#: ../src/format-template.c:251 ../src/sheet.c:545
 msgid "Name"
 msgstr "Nombre"
 
@@ -2192,7 +2200,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: ../plugins/sc/sc.c:451
+#: ../plugins/sc/sc.c:437
 msgid "Error parsing line"
 msgstr "Ha ocurrido un error al procesar la línea"
 
@@ -2245,7 +2253,7 @@ msgstr "Error al abrir archivo xbase."
 #: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:420 ../src/dialogs/dialog-stf-export.c:456
 #: ../src/dialogs/print.glade.h:23 ../src/print-info.c:401 ../src/search.c:612
-#: ../src/workbook.c:828 ../src/xml-io.c:2245
+#: ../src/workbook.c:828 ../src/xml-io.c:2231
 msgid "Sheet"
 msgstr "Hoja"
 
@@ -5180,11 +5188,11 @@ msgstr "El rango de salida se solapa con los rangos de entrada."
 msgid "Could not create the Consolidate dialog."
 msgstr "No se puede crear el diálogo de Consolidación."
 
-#: ../src/dialogs/dialog-define-names.c:361
+#: ../src/dialogs/dialog-define-names.c:402
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "¿Por qué quiere definir un nombre como #NAME?"
 
-#: ../src/dialogs/dialog-define-names.c:598
+#: ../src/dialogs/dialog-define-names.c:638
 #: ../src/dialogs/dialog-doc-metadata.c:1597
 #: ../src/dialogs/dialog-paste-names.c:145
 msgid "Could not create the Name Guru."
@@ -5238,37 +5246,37 @@ msgstr "Usados recientemente"
 msgid "All Functions (long list)"
 msgstr "Todas las funciones (lista larga)"
 
-#: ../src/dialogs/dialog-goal-seek.c:351
+#: ../src/dialogs/dialog-goal-seek.c:352
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Debe introducir un nombre válido de celda en 'Definir celda'"
 
-#: ../src/dialogs/dialog-goal-seek.c:363
+#: ../src/dialogs/dialog-goal-seek.c:364
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "La celda dada en 'Definir celda' debe que contener una fórmula"
 
-#: ../src/dialogs/dialog-goal-seek.c:376
+#: ../src/dialogs/dialog-goal-seek.c:377
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Debe introducir un nombre válido de celda en 'Por celda modificable:'."
 
-#: ../src/dialogs/dialog-goal-seek.c:389
+#: ../src/dialogs/dialog-goal-seek.c:390
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "La celda dada en 'Por celda modificable' no debe contener una fórmula."
 
-#: ../src/dialogs/dialog-goal-seek.c:402
+#: ../src/dialogs/dialog-goal-seek.c:403
 msgid "The value given in 'To Value:' is not valid."
 msgstr "El valor dado en 'Al valor:' no es válido."
 
-#: ../src/dialogs/dialog-goal-seek.c:446
+#: ../src/dialogs/dialog-goal-seek.c:447
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "He encontrado la solución usando la celda %s."
 
-#: ../src/dialogs/dialog-goal-seek.c:467
+#: ../src/dialogs/dialog-goal-seek.c:468
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "No se ha encontrado la solución usando la celda %s."
 
-#: ../src/dialogs/dialog-goal-seek.c:644
+#: ../src/dialogs/dialog-goal-seek.c:645
 msgid "Could not create the Goal-Seek dialog."
 msgstr "No se puede crear el diálogo para la herramienta de búsqueda-objetivo."
 
@@ -6398,37 +6406,43 @@ msgid "Importing %i columns and ignoring %i."
 msgstr "Importando %i columnas y e ignorar %i."
 
 #: ../src/dialogs/dialog-stf-format-page.c:183
-#: ../src/dialogs/dialog-stf-format-page.c:507
+#, c-format
+msgid "A maximum of %d column can be imported."
+msgid_plural "A maximum of %d columns can be imported."
+msgstr[0] "Se puede importar un máximo de %d columna."
+msgstr[1] "Se puede importar un máximo de %d columnas."
+
+#: ../src/dialogs/dialog-stf-format-page.c:315
+msgid "Ignore all columns on right"
+msgstr "Ignorar todas las columnas a la derecha"
+
+#: ../src/dialogs/dialog-stf-format-page.c:316
+msgid "Ignore all columns on left"
+msgstr "Ignorar todas las columnas a la izquierda"
+
+#: ../src/dialogs/dialog-stf-format-page.c:317
+msgid "Import all columns on right"
+msgstr "Importar todas las columnas a la derecha"
+
+#: ../src/dialogs/dialog-stf-format-page.c:318
+msgid "Import all columns on left"
+msgstr "Importar todas las columnas a la izquierda"
+
+#: ../src/dialogs/dialog-stf-format-page.c:319
+msgid "Copy format to right"
+msgstr "Copiar formato a la derecha"
+
+#: ../src/dialogs/dialog-stf-format-page.c:509
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Un máximo de %d columnas puede ser importado."
 
-#: ../src/dialogs/dialog-stf-format-page.c:313
-msgid "Ignore all columns on right"
-msgstr "Ignorar todas las columnas a la derecha"
-
-#: ../src/dialogs/dialog-stf-format-page.c:314
-msgid "Ignore all columns on left"
-msgstr "Ignorar todas las columnas a la izquierda"
-
-#: ../src/dialogs/dialog-stf-format-page.c:315
-msgid "Import all columns on right"
-msgstr "Importar todas las columnas a la derecha"
-
-#: ../src/dialogs/dialog-stf-format-page.c:316
-msgid "Import all columns on left"
-msgstr "Importar todas las columnas a la izquierda"
-
-#: ../src/dialogs/dialog-stf-format-page.c:317
-msgid "Copy format to right"
-msgstr "Copiar formato a la derecha"
-
-#: ../src/dialogs/dialog-stf-format-page.c:537
+#: ../src/dialogs/dialog-stf-format-page.c:539
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr "Si se selecciona esta casilla, la columna será importada a Gnumeric."
 
-#: ../src/dialogs/dialog-stf-format-page.c:691
+#: ../src/dialogs/dialog-stf-format-page.c:693
 #: ../src/dialogs/dialog-stf-preview.h:26
 #, c-format
 msgid "Column %d"
@@ -6703,25 +6717,27 @@ msgstr "`"
 
 #: ../src/dialogs/dialog-stf-main-page.c:159
 #, c-format
-msgid "%d of %d lines to import"
-msgstr "%d de %d líneas para importar"
+msgid "%d of %d line to import"
+msgid_plural "%d of %d lines to import"
+msgstr[0] "%d de %d línea para importar"
+msgstr[1] "%d de %d líneas para importar"
 
-#: ../src/dialogs/dialog-stf-main-page.c:180
+#: ../src/dialogs/dialog-stf-main-page.c:182
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 "El dato no es válido en la codificación %s, por favor, seleccione otra "
 "codificación."
 
-#: ../src/dialogs/dialog-stf-main-page.c:381 ../src/wbcg-actions.c:2026
+#: ../src/dialogs/dialog-stf-main-page.c:383 ../src/wbcg-actions.c:2026
 msgid "Line"
 msgstr "Línea"
 
-#: ../src/dialogs/dialog-stf-main-page.c:393
+#: ../src/dialogs/dialog-stf-main-page.c:395
 msgid "Text"
 msgstr "Texto"
 
-#: ../src/dialogs/dialog-stf-main-page.c:406
+#: ../src/dialogs/dialog-stf-main-page.c:408
 #, c-format
 msgid "Data (from %s)"
 msgstr "Datos (de %s)"
@@ -6785,57 +6801,51 @@ msgstr "Pantalla %d [Esta pantalla]"
 msgid "Screen %d"
 msgstr "Pantalla %d"
 
-#: ../src/dialogs/dialog-zoom.glade.h:2 ../src/tools/analysis-tools.c:5096
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: ../src/dialogs/dialog-zoom.glade.h:4
+#: ../src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "20_0 %"
 msgstr "20_0 %"
 
 # Mejorar traduccion
-#: ../src/dialogs/dialog-zoom.glade.h:5
+#: ../src/dialogs/dialog-zoom.glade.h:3
 msgid "Magnification"
 msgstr "Aumento"
 
-#: ../src/dialogs/dialog-zoom.glade.h:6
+#: ../src/dialogs/dialog-zoom.glade.h:4
 msgid "Sheets"
 msgstr "Hojas"
 
-#: ../src/dialogs/dialog-zoom.glade.h:7 ../src/wbc-gtk.c:177
+#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:177
 msgid "Zoom"
 msgstr "Ampliación"
 
-#: ../src/dialogs/dialog-zoom.glade.h:9
+#: ../src/dialogs/dialog-zoom.glade.h:7
 #, no-c-format
 msgid "_100 %"
 msgstr "_100 %"
 
-#: ../src/dialogs/dialog-zoom.glade.h:11
+#: ../src/dialogs/dialog-zoom.glade.h:9
 #, no-c-format
 msgid "_25 %"
 msgstr "_25%"
 
-#: ../src/dialogs/dialog-zoom.glade.h:13
+#: ../src/dialogs/dialog-zoom.glade.h:11
 #, no-c-format
 msgid "_50 %"
 msgstr "_50%"
 
-#: ../src/dialogs/dialog-zoom.glade.h:15
+#: ../src/dialogs/dialog-zoom.glade.h:13
 #, no-c-format
 msgid "_75 %"
 msgstr "_75%"
 
-#: ../src/dialogs/dialog-zoom.glade.h:16
-msgid "_Custom"
-msgstr "_Personalizado"
+#: ../src/dialogs/dialog-zoom.glade.h:14
+msgid "_Custom Percentage"
+msgstr "_Porcentajes personalizados"
 
-#: ../src/dialogs/dialog-zoom.glade.h:18
-#, no-c-format
-msgid "_Fit Selection %"
-msgstr "_Ajustar selección %"
+#: ../src/dialogs/dialog-zoom.glade.h:15
+msgid "_Fit Selection"
+msgstr "_Ajustar selección"
 
 #: ../src/dialogs/doc-meta-data.glade.h:1
 msgid "<accessed>"
@@ -8998,6 +9008,10 @@ msgstr "Bin"
 msgid "Frequency"
 msgstr "Frecuencia"
 
+#: ../src/tools/analysis-tools.c:5096
+msgid "%"
+msgstr "%"
+
 #: ../src/tools/analysis-tools.c:5099
 #, no-c-format
 msgid "Cumulative %"
@@ -9736,11 +9750,11 @@ msgstr "Tecleando «%s%s»"
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Supr Columna/Fila"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3654
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3668
 msgid "Delete Columns"
 msgstr "Borrar columnas"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3794
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3808
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
@@ -9785,7 +9799,7 @@ msgid "Deleting row %s"
 msgstr "Borrando %s fila"
 
 #. Check for locked cells
-#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3309
+#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3325
 msgid "Clear"
 msgstr "Limpiar"
 
@@ -10147,21 +10161,21 @@ msgstr "Consolidando a (%s)"
 msgid "Internal type error"
 msgstr "Error de tipo interno"
 
-#: ../src/expr.c:1376
+#: ../src/expr.c:1388
 msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
-#: ../src/expr-name.c:434
+#: ../src/expr-name.c:436
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "«%s» tiene una referencia circular"
 
-#: ../src/expr-name.c:457 ../src/expr-name.c:646
+#: ../src/expr-name.c:464 ../src/expr-name.c:654
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "«%s» ya se encuentra definido en la hoja"
 
-#: ../src/expr-name.c:458 ../src/expr-name.c:647
+#: ../src/expr-name.c:465 ../src/expr-name.c:655
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "«%s» ya se encuentra definido en el libro de cuentas"
@@ -10364,12 +10378,9 @@ msgstr "Sin método func_desc_load.\n"
 #: ../src/gnm-plugin.c:217
 #, c-format
 msgid "%d function in category \"%s\""
-msgstr "%d función en la categoría «%s»"
-
-#: ../src/gnm-plugin.c:218
-#, c-format
-msgid "Group of %d functions in category \"%s\""
-msgstr "Grupo de %d funciones en la categoría «%s»"
+msgid_plural "Group of %d functions in category \"%s\""
+msgstr[0] "%d función en la categoría «%s»"
+msgstr[1] "Grupo de %d funciones en la categoría «%s»"
 
 #: ../src/gnm-plugin.c:324
 msgid "Missing file name."
@@ -10385,19 +10396,16 @@ msgstr ""
 #: ../src/gnm-plugin.c:407
 #, c-format
 msgid "User interface with %d action"
-msgstr "Interfaz de usuario con %d acción"
+msgid_plural "User interface with %d actions"
+msgstr[0] "Interfaz de usuario con %d acción"
+msgstr[1] "Interfaz de usuario con %d acciones"
 
-#: ../src/gnm-plugin.c:408
-#, c-format
-msgid "User interface with %d actions"
-msgstr "Interfaz de usuario con %d acciones"
-
-#: ../src/gnm-plugin.c:513 ../src/gnm-plugin.c:584
+#: ../src/gnm-plugin.c:513 ../src/gnm-plugin.c:585
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "El archivo del módulo «%s» no tiene un formato válido."
 
-#: ../src/gnm-plugin.c:517 ../src/gnm-plugin.c:587
+#: ../src/gnm-plugin.c:517 ../src/gnm-plugin.c:588
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "El archivo no contiene el array «%s»."
@@ -10805,31 +10813,31 @@ msgid "Unexpected token %c"
 msgstr "Señal (token) inesperada %c"
 
 #. Note: we cannot have spaces in page numbers.
-#: ../src/print.c:606
+#: ../src/print.c:607
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: ../src/print.c:1111
+#: ../src/print.c:1112
 msgid "Print Region"
 msgstr "Región de impresión"
 
-#: ../src/print.c:1228 ../src/wbcg-actions.c:1599
+#: ../src/print.c:1229 ../src/wbcg-actions.c:1599
 msgid "Print preview"
 msgstr "Vista previa de impresión"
 
-#: ../src/print.c:1240
+#: ../src/print.c:1241
 msgid "Printing failed"
 msgstr "Falló la impresión"
 
-#: ../src/print.c:1344
+#: ../src/print.c:1345
 msgid "Print Sheets"
 msgstr "Imprimir hojas"
 
-#: ../src/print.c:1353
+#: ../src/print.c:1354
 msgid "Act_ive sheet"
 msgstr "Hoja _activa"
 
-#: ../src/print.c:1353
+#: ../src/print.c:1354
 msgid "S_heets"
 msgstr "_Hojas"
 
@@ -11017,150 +11025,150 @@ msgstr "%dQ"
 msgid "(empty)"
 msgstr "(vacía)"
 
-#: ../src/sheet.c:530
+#: ../src/sheet.c:546
 msgid "The name of the sheet."
 msgstr "El nombre de la hoja."
 
-#: ../src/sheet.c:538
+#: ../src/sheet.c:554
 msgid "text-is-rtl"
 msgstr "el texto es D-->I"
 
-#: ../src/sheet.c:539
+#: ../src/sheet.c:555
 msgid "Text goes from right to left."
 msgstr "El texto va de derecha a izquierda."
 
-#: ../src/sheet.c:547
+#: ../src/sheet.c:563
 msgid "Visibility"
 msgstr "Visibilidad"
 
-#: ../src/sheet.c:548
+#: ../src/sheet.c:564
 msgid "How visible the sheet is."
 msgstr "Cómo de visible es la hoja."
 
-#: ../src/sheet.c:557
+#: ../src/sheet.c:573
 msgid "Protected"
 msgstr "Protegida"
 
-#: ../src/sheet.c:558
+#: ../src/sheet.c:574
 msgid "Sheet is protected."
 msgstr "La hoja está protegida."
 
-#: ../src/sheet.c:566
+#: ../src/sheet.c:582
 msgid "Display Formulas"
 msgstr "Mostrar fórmulas"
 
-#: ../src/sheet.c:567
+#: ../src/sheet.c:583
 msgid "Control whether formulas are shown instead of values."
 msgstr "Controla si se muestran las fórmulas en vez de los valores."
 
-#: ../src/sheet.c:575
+#: ../src/sheet.c:591
 msgid "Display Zeros"
 msgstr "Mostrar ceros"
 
-#: ../src/sheet.c:576
+#: ../src/sheet.c:592
 msgid "Control whether zeros are shown are blanked out."
 msgstr "Controla si se muestran los ceros."
 
-#: ../src/sheet.c:584
+#: ../src/sheet.c:600
 msgid "Display Grid"
 msgstr "Mostrar cuadrícula"
 
-#: ../src/sheet.c:585
+#: ../src/sheet.c:601
 msgid "Control whether the grid is shown."
 msgstr "Controla si se muestra la cuadrícula."
 
-#: ../src/sheet.c:593
+#: ../src/sheet.c:609
 msgid "Display Column Headers"
 msgstr "Mostrar cabeceras de columnas"
 
-#: ../src/sheet.c:594
+#: ../src/sheet.c:610
 msgid "Control whether column headers are shown."
 msgstr "Controla si se muestran las cabeceras de las columnas."
 
-#: ../src/sheet.c:602
+#: ../src/sheet.c:618
 msgid "Display Row Headers"
 msgstr "Mostrar cabeceras de fila"
 
-#: ../src/sheet.c:603
+#: ../src/sheet.c:619
 msgid "Control whether row headers are shown."
 msgstr "Controla si se muestran las cabeceras de las filas."
 
-#: ../src/sheet.c:611
+#: ../src/sheet.c:627
 msgid "Display Outlines"
 msgstr "Mostrar contornos"
 
-#: ../src/sheet.c:612
+#: ../src/sheet.c:628
 msgid "Control whether outlines are shown."
 msgstr "Controla si se muestran los contornos."
 
-#: ../src/sheet.c:620
+#: ../src/sheet.c:636
 msgid "Display Outlines Below"
 msgstr "Mostrar contornos abajo"
 
-#: ../src/sheet.c:621
+#: ../src/sheet.c:637
 msgid "Control whether outline symbols are shown below."
 msgstr "Controla si se muestran los símbolos de los contornos abajo."
 
-#: ../src/sheet.c:629
+#: ../src/sheet.c:645
 msgid "Display Outlines Right"
 msgstr "Mostrar contornos de la derecha"
 
-#: ../src/sheet.c:630
+#: ../src/sheet.c:646
 msgid "Control whether outline symbols are shown to the right."
 msgstr "Controla si se muestran los contornos de la derecha."
 
-#: ../src/sheet.c:638
+#: ../src/sheet.c:654
 msgid "Use R1C1 notation rather than A1"
 msgstr "Usar notación R1C1 en vez de A1"
 
-#: ../src/sheet.c:639
+#: ../src/sheet.c:655
 msgid ""
 "Display cell addresses using R1C1 notion rather than the more common A1."
 msgstr ""
 "Mostrar direcciones de celdas usando la notación R1C1 en vez de la más común "
 "A1."
 
-#: ../src/sheet.c:647
+#: ../src/sheet.c:663
 msgid "Tab Foreground"
 msgstr "Primer plano de la solapa"
 
-#: ../src/sheet.c:648
+#: ../src/sheet.c:664
 msgid "The foreground color of the tab."
 msgstr "El color de la solapa en primer plano."
 
-#: ../src/sheet.c:656
+#: ../src/sheet.c:672
 msgid "Tab Background"
 msgstr "Fondo de la solapa"
 
-#: ../src/sheet.c:657
+#: ../src/sheet.c:673
 msgid "The background color of the tab."
 msgstr "El color de fonde de la solapa."
 
-#: ../src/sheet.c:666
+#: ../src/sheet.c:682
 msgid "Zoom Factor"
 msgstr "Factor de ampliación"
 
-#: ../src/sheet.c:667
+#: ../src/sheet.c:683
 msgid "The level of zoom used for this sheet."
 msgstr "El nivel de amplicación que se usa para esta hoja."
 
-#: ../src/sheet.c:2415
+#: ../src/sheet.c:2437
 msgid "Target region contains merged cells"
 msgstr "La región de destino contiene celdas mezcladas"
 
-#: ../src/sheet.c:2476
+#: ../src/sheet.c:2498
 msgid "cannot operate on merged cells"
 msgstr "no se puede operar sobre celdas mezcladas"
 
-#: ../src/sheet.c:2486
+#: ../src/sheet.c:2508
 msgid "cannot operate on array formulae"
 msgstr "no se puede operar sobre un array de fórmulas"
 
-#: ../src/sheet.c:3583
+#: ../src/sheet.c:3597
 msgid "Insert Columns"
 msgstr "Insertar columnas"
 
-#: ../src/sheet.c:3726
+#: ../src/sheet.c:3740
 msgid "Insert Rows"
 msgstr "Insertar filas"
 
@@ -13695,34 +13703,38 @@ msgstr "Formato de archivo no soportado."
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocurrió un error no explicado mientras se abría %s"
 
-#: ../src/xml-io.c:1659 ../src/xml-sax-read.c:1495
+#: ../src/xml-io.c:1659 ../src/xml-sax-read.c:1493
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipo de objeto no soportado «%s»"
 
-#: ../src/xml-io.c:2120
+#: ../src/xml-io.c:2106
 msgid "Unparsable xml in clipboard"
 msgstr "No se puede procesar el texto XML del portapapeles"
 
-#: ../src/xml-io.c:2127
+#: ../src/xml-io.c:2113
 msgid "Clipboard is in unknown format"
 msgstr "El portapapeles tiene un formato desconocido"
 
-#: ../src/xml-io.c:2354
+#: ../src/xml-io.c:2340
 msgid "Processing file..."
 msgstr "Procesando el archivo…"
 
-#: ../src/xml-io.c:2693
+#: ../src/xml-io.c:2679
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "El archivo no es un Libro de Cuentas Gnumeric"
 
-#: ../src/xml-io.c:2720 ../src/xml-io.c:2731
-msgid "Gnumeric XML (*.gnumeric)"
-msgstr "Gnumeric XML  (*.gnumeric)"
+#: ../src/xml-io.c:2707
+msgid "Gnumeric XML (*.gnumeric) Old slow importer"
+msgstr "Importador antiguo de Gnumeric XML  (*.gnumeric)"
 
-#: ../src/xml-io.c:2726
+#: ../src/xml-io.c:2713
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "SAX basado en Gnumeric (*.gnumeric) (EXPERIMENTAL)"
+
+#: ../src/xml-io.c:2718
+msgid "Gnumeric XML (*.gnumeric)"
+msgstr "Gnumeric XML  (*.gnumeric)"
 
 #: ../src/xml-sax-read.c:355
 #, c-format
@@ -13922,3 +13934,12 @@ msgstr "Una plantilla de lista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
+
+#~ msgid "_Custom"
+#~ msgstr "_Personalizado"
+
+#~ msgid "Group of %d functions in category \"%s\""
+#~ msgstr "Grupo de %d funciones en la categoría «%s»"
+
+#~ msgid "User interface with %d actions"
+#~ msgstr "Interfaz de usuario con %d acciones"
