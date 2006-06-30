@@ -1,3 +1,8 @@
+2006-06-30  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (afm_compute): Fix hanlding of decresing
+	month sequences.  Fixes #346028.
+
 2006-06-28  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_init) : down grade priority and rename the DOM
