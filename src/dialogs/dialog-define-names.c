@@ -71,6 +71,7 @@ typedef struct {
 	GtkWidget *close_button;
 	GtkWidget *delete_button;
 	GtkWidget *update_button;
+	GtkWidget *switchscope_button;
 
 	Sheet			*sheet;
 	SheetView		*sv;
@@ -177,6 +178,7 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 	gboolean update = FALSE;
 	gboolean add = FALSE;
 	gboolean delete;
+	gboolean switchscope;
 	gboolean clear_selection;
 	char const *name;
 
@@ -185,9 +187,7 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 
 	name  = gtk_entry_get_text (state->name);
 	selection = gtk_tree_selection_get_selected (state->selection, NULL, NULL);
-
-	delete = (selection != 0);
-	clear_selection = (selection != 0);
+	delete = clear_selection = switchscope = (selection != 0);
 
 	if (name != NULL && name[0] != '\0') {
 		GnmNamedExpr *in_list = NULL;
@@ -214,10 +214,19 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		update = !add && in_list->is_editable;
 	}
 	
+	if (switchscope) {
+		GnmNamedExpr const *nexpr = state->cur_name;
+		
+		if (nexpr != NULL ) 
+			switchscope = !nexpr->is_permanent && 
+				(NULL == name_guru_in_list (state, nexpr->name->str, 
+						TRUE, (nexpr->pos.sheet == NULL)));   
+	}
 
 	gtk_widget_set_sensitive (state->delete_button, delete);
 	gtk_widget_set_sensitive (state->add_button,    add);
 	gtk_widget_set_sensitive (state->update_button, update);
+	gtk_widget_set_sensitive (state->switchscope_button, switchscope);
 
 	state->action_possible = update || add;
 
@@ -279,19 +288,6 @@ static void
 cb_scope_changed (G_GNUC_UNUSED GtkToggleButton *button, NameGuruState *state)
 {
 	name_guru_update_sensitivity (state, FALSE);
-
-/* 	char *err; */
-/* 	if (state->updating || state->cur_name == NULL) */
-/* 		return; */
-/* 	err = expr_name_set_scope (state->cur_name, */
-/* 		name_guru_scope_is_sheet (state) ? state->sheet : NULL); */
-/* 	if (err != NULL) { */
-/* 		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), */
-/* 				 GTK_MESSAGE_ERROR, err); */
-/* 		g_free (err); */
-/* 		name_guru_display_scope (state); /\* flip it back *\/ */
-/* 	} else */
-/* 		name_guru_populate_list (state); */
 }
 
 
@@ -353,6 +349,27 @@ name_guru_remove (G_GNUC_UNUSED GtkWidget *ignored,
 	name_guru_populate_list (state);
 	gtk_widget_grab_focus (GTK_WIDGET (state->name));
 }
+
+/*
+ * name_guru_switchscope:
+ * @state:
+ *
+ * switch the scope of the currently selected name
+ */
+static void
+name_guru_switchscope (NameGuruState *state)
+{
+	GnmNamedExpr const *nexpr = state->cur_name;
+
+	g_return_if_fail (nexpr != NULL);
+	g_return_if_fail (!nexpr->is_permanent);
+	
+	expr_name_set_scope (state->cur_name,
+			     (nexpr->pos.sheet == NULL) ?
+			     state->sheet : NULL);
+	name_guru_populate_list (state);
+}
+
 
 /**
  * name_guru_add:
@@ -433,6 +450,10 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 		name_guru_remove (NULL, state);
 		return;
 	}
+	 if (button == state->switchscope_button) {
+                 name_guru_switchscope (state);
+                 return;
+        }
 
 	if (button == state->add_button ||
 	    button == state->update_button ||
@@ -569,6 +590,9 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->delete_button = name_guru_init_button (state, "delete_button");
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0., .5);
 	state->update_button = name_guru_init_button (state, "update_button");
+	gtk_button_set_alignment (GTK_BUTTON (state->update_button), 0., .5);
+	state->switchscope_button = name_guru_init_button (state, "switchscope_button");
+	gtk_button_set_alignment (GTK_BUTTON (state->switchscope_button), 0., .5);
 
 	g_signal_connect (G_OBJECT (state->selection),
 		"changed",

@@ -1,3 +1,14 @@
+2006-06-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-define-names.c (NameGuruState): add
+	  switchscope_button field
+	(cb_scope_changed): remove unnecessary code
+	(name_guru_update_sensitivity): handle switch-scope button
+	(cb_name_guru_clicked): ditto
+	(name_guru_init): ditto
+	(name_guru_switchscope): new
+	* define-name.glade: add switch-scope button
+
 2006-06-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-define-names.c (name_guru_in_list): add scope argument
