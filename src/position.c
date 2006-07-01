@@ -148,7 +148,10 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 
 	pp->sheet = dep->sheet;
 	pp->wb = dep->sheet->workbook;
-	pp->eval.col = pp->eval.row = 0;
+	if (dependent_is_cell (dep))
+		pp->eval = DEP_TO_CELL (dep)->pos;
+	else
+		pp->eval.col = pp->eval.row = 0;
 
 	return pp;
 }
