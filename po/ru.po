@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-26 08:04+0400\n"
-"PO-Revision-Date: 2006-06-25 23:35+0400\n"
+"POT-Creation-Date: 2006-07-03 02:05+0400\n"
+"PO-Revision-Date: 2006-07-01 16:53+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -81,6 +81,8 @@ msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
+"%s!%s : невозможно разобрать \"%s\"\n"
+"     %s"
 
 #: ../plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -222,7 +224,7 @@ msgstr "Финансовые производные"
 msgid "Functions related to financial derivatives"
 msgstr "Функции относящиеся к финансовым производным"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6100
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6104
 #: ../plugins/mps/mps.c:534 ../src/xml-io.c:2631
 msgid "Reading file..."
 msgstr "Чтение файла..."
@@ -356,7 +358,7 @@ msgstr "Ошибка при распознавании имени \"%s\""
 #: ../plugins/excel/ms-excel-read.c:3149
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
-msgstr ""
+msgstr "Неправильное выражение для имени \"%s\": содержимое будет потеряно.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3159
 #, c-format
@@ -1602,7 +1604,7 @@ msgstr "Действительная функция:"
 msgid "Constraints:"
 msgstr "Ограничения:"
 
-#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:512
+#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:570
 #: ../src/dialogs/dialog-doc-metadata.c:1277
 #: ../src/dialogs/dialog-formula-guru.c:812
 #: ../src/dialogs/dialog-function-select.c:444
@@ -1899,11 +1901,15 @@ msgstr "PLN: таблица защищена паролем"
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
+"Игнорируются данные, которые должны быть в строке %u, так как она больше "
+"максимальной строки %u"
 
 #: ../plugins/plan-perfect/pln.c:576
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
+"Игнорируются данные, которые должны быть в столбце %u, так как он больше "
+"максимального столбца %u"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
@@ -2115,18 +2121,20 @@ msgstr ""
 #: ../plugins/qpro/qpro-read.c:782
 #, c-format
 msgid "Invalid zoom %hd %%"
-msgstr ""
+msgstr "Недопустимый масштаб %hd %%"
 
 #: ../plugins/qpro/qpro-read.c:823
 #, c-format
 msgid "Invalid record %d of length %hd"
-msgstr ""
+msgstr "Недопустимая запись %d длины %hd"
 
 #: ../plugins/qpro/qpro-read.c:855
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"Не удалось обнаружить поток PerfectOffice_MAIN. Это действительно файл "
+"Quattro Pro?"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
@@ -2148,7 +2156,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: ../plugins/sc/sc.c:451
+#: ../plugins/sc/sc.c:437
 msgid "Error parsing line"
 msgstr "Ошибка разбора строки"
 
@@ -2238,6 +2246,8 @@ msgid ""
 ">This value determines the default setting in the Print Setup dialog whether "
 "print grid lines. Please use the Print Setup dialog to edit this value."
 msgstr ""
+">Это значение определяет исходные настройки в диалоге печати для линий "
+"сетки. Для исправления этого значения используйте диалог настройки печати."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:2
 msgid ""
@@ -2245,6 +2255,9 @@ msgid ""
 "whether to center pages vertically. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
+">Это значение определяет исходные настройки в диалоге печати для "
+"вертикального центрирования страниц. Для исправления этого значения "
+"используйте диалог настройки печати."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:3
 msgid "Activate New Plugins"
@@ -2567,6 +2580,9 @@ msgid ""
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
+"Это значение задаёт исходные настройки для печати пустых, но "
+"сформатированных ячеек. Используйте диалог настройки печати для изменения "
+"этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
@@ -2574,6 +2590,8 @@ msgid ""
 "to print first right then down. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
+"Это значение задаёт исходные настройки для печати сначала вправо, а затем "
+"вниз. Используйте диалог настройки печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:70
 msgid ""
@@ -2581,6 +2599,8 @@ msgid ""
 "to print in only black and white. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
+"Это значение задаёт исходные настройки для чёрно-белой печати. Используйте "
+"диалог настройки печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:71
 msgid ""
@@ -2588,6 +2608,8 @@ msgid ""
 "to print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
+"Это значение задаёт исходные настройки для печати заголовков строк и "
+"столбцов. Используйте диалог настройки печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:72
 msgid ""
@@ -2595,6 +2617,9 @@ msgid ""
 "to scale pages by a given percentage. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
+"Это значение задаёт исходные настройки для масштабирования страниц (в "
+"процентах) при печати. Используйте диалог настройки печати для изменения "
+"этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:73
 msgid ""
@@ -2602,19 +2627,24 @@ msgid ""
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
 msgstr ""
+"Это значение задаёт исходные настройки для горизонтального центрирования "
+"страниц при печати. Используйте диалог настройки печати для изменения этого "
+"значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
+"Это значение определяет будут ли установки диалога печати по умолчанию "
+"применяться одновременно ко всем листам."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:75
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
 msgstr ""
-"Эта переменная определяет будет ли исходный шрифт для заголовков и сносок "
+"Это значение определяет будет ли исходный шрифт для заголовков и сносок "
 "полужирным."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:76
@@ -2622,7 +2652,7 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
 msgstr ""
-"Эта переменная определяет будет ли исходный шрифт для заголовков и сносок "
+"Это значение определяет будет ли исходный шрифт для заголовков и сносок "
 "наклонным."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:77
@@ -2910,6 +2940,8 @@ msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
 msgstr ""
+"Этот параметр определяет исходное состояние кнопки порядка сортировки в "
+"диалоге сортировки."
 
 #: ../schemas/gnumeric-general.schemas.in.h:50
 msgid ""
@@ -2945,6 +2977,8 @@ msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
+"Это значение определяет будут ли показаны имена листов в списке отмен/"
+"возвратов."
 
 #: ../schemas/gnumeric-general.schemas.in.h:55
 msgid ""
@@ -3868,7 +3902,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-sort.glade.h:4
 msgid "Clear all fields from the sort specification"
-msgstr ""
+msgstr "Очистить все поля в спецификации сортировки"
 
 #: ../src/dialogs/cell-sort.glade.h:5
 msgid "Direction:"
@@ -3888,7 +3922,7 @@ msgstr "Диапазон:"
 
 #: ../src/dialogs/cell-sort.glade.h:9
 msgid "Remove the selected field from the sort specification"
-msgstr ""
+msgstr "Удалить выделенное поле из спецификации сортировки"
 
 #: ../src/dialogs/cell-sort.glade.h:10
 msgid "Sort columns by the specified rows"
@@ -4068,22 +4102,26 @@ msgid "Define Names"
 msgstr "Определить имена"
 
 #: ../src/dialogs/define-name.glade.h:5
+msgid "Switch _Scope"
+msgstr "Переключить область"
+
+#: ../src/dialogs/define-name.glade.h:6
 msgid "Workbook"
 msgstr "Рабочая книга"
 
-#: ../src/dialogs/define-name.glade.h:6
+#: ../src/dialogs/define-name.glade.h:7
 msgid "_Expression: "
 msgstr "Выражение : "
 
-#: ../src/dialogs/define-name.glade.h:7 ../src/dialogs/solver.glade.h:28
+#: ../src/dialogs/define-name.glade.h:8 ../src/dialogs/solver.glade.h:28
 msgid "_Name: "
 msgstr "Название :"
 
-#: ../src/dialogs/define-name.glade.h:8
+#: ../src/dialogs/define-name.glade.h:9
 msgid "_Scope:"
 msgstr "Размах:"
 
-#: ../src/dialogs/define-name.glade.h:9
+#: ../src/dialogs/define-name.glade.h:10
 msgid "_Update"
 msgstr "Обновить"
 
@@ -4616,11 +4654,11 @@ msgstr "Невозможно создать диалог Фурье анализ
 
 #: ../src/dialogs/dialog-analysis-tools.c:1046
 msgid "No statistics are selected."
-msgstr ""
+msgstr "Не выбрана статистика."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1056
 msgid "The confidence level should be between 0 and 1."
-msgstr ""
+msgstr "Доверительный уровень должен быть между 0 и 1."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1068
 #: ../src/dialogs/dialog-analysis-tools.c:1079
@@ -5008,11 +5046,11 @@ msgstr "Диапазон вывода перекрывается с диапаз
 msgid "Could not create the Consolidate dialog."
 msgstr "Невозможно создать диалог консолидации данных."
 
-#: ../src/dialogs/dialog-define-names.c:364
+#: ../src/dialogs/dialog-define-names.c:419
 msgid "Why would you want to define a name to be #NAME?"
 msgstr ""
 
-#: ../src/dialogs/dialog-define-names.c:601
+#: ../src/dialogs/dialog-define-names.c:662
 #: ../src/dialogs/dialog-doc-metadata.c:1597
 #: ../src/dialogs/dialog-paste-names.c:145
 msgid "Could not create the Name Guru."
@@ -5066,38 +5104,38 @@ msgstr "Последние использовавшиеся"
 msgid "All Functions (long list)"
 msgstr "Все функции (длинный список)"
 
-#: ../src/dialogs/dialog-goal-seek.c:351
+#: ../src/dialogs/dialog-goal-seek.c:352
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr ""
 "Вы должны ввести подходящее название для ячейки в \"Установить ячейку:\"!"
 
-#: ../src/dialogs/dialog-goal-seek.c:363
+#: ../src/dialogs/dialog-goal-seek.c:364
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Ячейка указанная в \"Установить ячейку:\" должна содержать формулу!"
 
-#: ../src/dialogs/dialog-goal-seek.c:376
+#: ../src/dialogs/dialog-goal-seek.c:377
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Вы должны ввести подходящее название для ячейки в \"Изменяя ячейку:\"!"
 
-#: ../src/dialogs/dialog-goal-seek.c:389
+#: ../src/dialogs/dialog-goal-seek.c:390
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "Ячейка указанная в \"Изменяя ячейку:\" должна не содержать формул."
 
-#: ../src/dialogs/dialog-goal-seek.c:402
+#: ../src/dialogs/dialog-goal-seek.c:403
 msgid "The value given in 'To Value:' is not valid."
 msgstr "Значение заданное в \"До значения:\" не является допустимым."
 
-#: ../src/dialogs/dialog-goal-seek.c:446
+#: ../src/dialogs/dialog-goal-seek.c:447
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Поиск цели для ячейки %s привёл к решению."
 
-#: ../src/dialogs/dialog-goal-seek.c:467
+#: ../src/dialogs/dialog-goal-seek.c:468
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Поиск цели для ячейки %s не привёл к решению"
 
-#: ../src/dialogs/dialog-goal-seek.c:644
+#: ../src/dialogs/dialog-goal-seek.c:645
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Невозможно создать диалог поиска цели."
 
@@ -5581,7 +5619,7 @@ msgstr "Хи-квадрат"
 
 #: ../src/dialogs/dialog-random-generator.c:132
 msgid "_nu Value:"
-msgstr "ню значение:"
+msgstr "Значение ню:"
 
 #: ../src/dialogs/dialog-random-generator.c:134
 msgid "Exponential"
@@ -5686,7 +5724,7 @@ msgstr "Лямбда:"
 
 #: ../src/dialogs/dialog-random-generator.c:169
 msgid "Rayleigh"
-msgstr "Рэлея:"
+msgstr "Рэлея"
 
 #: ../src/dialogs/dialog-random-generator.c:169
 #: ../src/dialogs/dialog-random-generator.c:171
@@ -5703,7 +5741,7 @@ msgstr "Стьюдента t"
 
 #: ../src/dialogs/dialog-random-generator.c:173
 msgid "nu Value:"
-msgstr "b значение:"
+msgstr "Значение ню:"
 
 #: ../src/dialogs/dialog-random-generator.c:175
 msgid "Weibull"
@@ -5711,7 +5749,7 @@ msgstr "Вейбуля"
 
 #: ../src/dialogs/dialog-random-generator.c:849
 msgid "Could not create the Random Tool dialog."
-msgstr ""
+msgstr "Невозможно создать диалог случайных чисел."
 
 #: ../src/dialogs/dialog-row-height.c:232
 msgid "Set standard/default row height"
@@ -5729,7 +5767,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-scenarios.c:138
 msgid "Changing cells should be on the current sheet only."
-msgstr ""
+msgstr "Изменяющиеся ячейки должны быть только на текущем листе."
 
 #: ../src/dialogs/dialog-scenarios.c:150
 msgid "Scenario name already used"
@@ -5774,7 +5812,7 @@ msgstr "Результат"
 #: ../src/dialogs/dialog-search.c:150 ../src/dialogs/dialog-search.c:176
 #: ../src/dialogs/dialog-search.c:182 ../src/dialogs/dialog-search.c:188
 msgid "Deleted"
-msgstr ""
+msgstr "Удалённое"
 
 #: ../src/dialogs/dialog-search.c:152
 msgid "Expression"
@@ -6272,6 +6310,10 @@ msgid ""
 "On left side only\n"
 "On right side only"
 msgstr ""
+"С обеих сторон\n"
+"Ни с одной стороны\n"
+"Только на левой стороне\n"
+"Только на правой стороне"
 
 #: ../src/dialogs/dialog-stf.glade.h:9
 msgid "CSV"
@@ -6340,7 +6382,7 @@ msgstr "Фиксированная ширина"
 
 #: ../src/dialogs/dialog-stf.glade.h:23
 msgid "Fixed"
-msgstr ""
+msgstr "Фиксированная"
 
 #: ../src/dialogs/dialog-stf.glade.h:24 ../src/stf-export.c:491
 msgid "Format"
@@ -6352,7 +6394,7 @@ msgstr "Со строки:"
 
 #: ../src/dialogs/dialog-stf.glade.h:26
 msgid "Ignore any separators at the beginning of lines"
-msgstr ""
+msgstr "Игнорировать любые разделители в началах строк"
 
 #: ../src/dialogs/dialog-stf.glade.h:27
 msgid "Line breaks:"
@@ -6790,7 +6832,7 @@ msgstr "Комментарий к документу"
 
 #: ../src/dialogs/doc-meta-data.glade.h:43
 msgid "The document company"
-msgstr ""
+msgstr "Компания владелец документа"
 
 #: ../src/dialogs/doc-meta-data.glade.h:44
 msgid "The document keywords"
@@ -6922,7 +6964,7 @@ msgstr "Размер:"
 
 #: ../src/dialogs/formula-guru.glade.h:1
 msgid "Enter as array function"
-msgstr ""
+msgstr "Ввести как функцию массива"
 
 #: ../src/dialogs/formula-guru.glade.h:2
 msgid "Formula Guru"
@@ -7091,7 +7133,7 @@ msgstr "Предопределённые двоичные"
 
 #: ../src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
-msgstr ""
+msgstr "<small>Дополнительно</small>"
 
 #: ../src/dialogs/hyperlink.glade.h:3
 msgid "Email _Address:"
@@ -7265,7 +7307,7 @@ msgstr "Расположение:"
 
 #: ../src/dialogs/pivottable.glade.h:3
 msgid "PivotTable Guru : Gnumeric"
-msgstr ""
+msgstr "Мастер сводных таблиц : Gnumeric"
 
 #: ../src/dialogs/pivottable.glade.h:4
 msgid "Style"
@@ -7937,6 +7979,8 @@ msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
 msgstr ""
+"Если установлено, строковые значения останутся таковыми после замены, даже "
+"если они будут похожи на числа или выражения"
 
 #: ../src/dialogs/search-replace.glade.h:43
 msgid "_Column major"
@@ -7952,7 +7996,7 @@ msgstr "Сбой"
 
 #: ../src/dialogs/search-replace.glade.h:51
 msgid "_Keep strings as strings"
-msgstr ""
+msgstr "Сохранять строки строками"
 
 #: ../src/dialogs/search-replace.glade.h:54
 msgid "_Preserve case"
@@ -8010,7 +8054,7 @@ msgstr "<b>Итог моделирования:</b>"
 
 #: ../src/dialogs/simulation.glade.h:5
 msgid "<b>Summary of results:</b>"
-msgstr ""
+msgstr "<b>Сводка результатов:</b>"
 
 #: ../src/dialogs/simulation.glade.h:6
 msgid "Find Max."
@@ -8303,7 +8347,7 @@ msgstr "Сравнение равенства двух переменных (F-�
 
 #: ../src/dialogs/view.glade.h:3
 msgid "<b>Location</b>"
-msgstr ""
+msgstr "<b>Расположение</b>"
 
 #: ../src/dialogs/view.glade.h:4
 msgid "Create New View"
@@ -8367,7 +8411,7 @@ msgstr "Горизонтальная прокрутка"
 
 #: ../src/dialogs/workbook-attr.glade.h:15
 msgid "_Iteration"
-msgstr ""
+msgstr "Итерация"
 
 #: ../src/dialogs/workbook-attr.glade.h:16
 msgid "_Manual"
@@ -9893,7 +9937,7 @@ msgstr "Перемешать данные"
 #: ../src/commands.c:6065
 #, c-format
 msgid "Text (%s) to Columns (%s)"
-msgstr ""
+msgstr "Текст (%s) по столбцам (%s)"
 
 #: ../src/commands.c:6292
 #, c-format
@@ -9925,7 +9969,7 @@ msgstr "Консолидировать в (%s)"
 msgid "Internal type error"
 msgstr "Ошибка встроенного типа"
 
-#: ../src/expr.c:1376
+#: ../src/expr.c:1388
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
@@ -10163,12 +10207,12 @@ msgstr[0] "Пользовательский интерфейс с %d дейст�
 msgstr[1] "Пользовательский интерфейс с %d действиями"
 msgstr[2] "Пользовательский интерфейс с %d действиями"
 
-#: ../src/gnm-plugin.c:513 ../src/gnm-plugin.c:584
+#: ../src/gnm-plugin.c:513 ../src/gnm-plugin.c:585
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "У файла модуля \"%s\" недопустимый формат."
 
-#: ../src/gnm-plugin.c:517 ../src/gnm-plugin.c:587
+#: ../src/gnm-plugin.c:517 ../src/gnm-plugin.c:588
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "Файл не содержит массив \"%s\"."
@@ -10431,6 +10475,9 @@ msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
+"%s\n"
+"Запустите \"%s --help\", чтобы увидеть полный список доступных параметров "
+"командной строки.\n"
 
 #: ../src/main-application.c:345
 msgid ""
@@ -12873,11 +12920,11 @@ msgstr "Переключение отображения заголовков с�
 
 #: ../src/wbcg-actions.c:2152
 msgid "Use R1C1 N_otation "
-msgstr ""
+msgstr "Использовать нотацию R1C1"
 
 #: ../src/wbcg-actions.c:2153
 msgid "Display addresses as R1C1 or A1"
-msgstr ""
+msgstr "Показывать адреса как R1C1 или как A1"
 
 #: ../src/wbcg-actions.c:2157
 msgid "_Left Align"
@@ -12957,7 +13004,7 @@ msgstr "Во _весь экран"
 
 #: ../src/wbcg-actions.c:2194
 msgid "Switch to or from full screen mode"
-msgstr ""
+msgstr "Переключение в полноэкранный режим и обратно"
 
 #: ../src/wbcg-actions.c:2200
 msgid "_Bold"
@@ -13429,13 +13476,17 @@ msgstr "Обработка файла..."
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Это не файл рабочей книги Gnumeric"
 
-#: ../src/xml-io.c:2706 ../src/xml-io.c:2717
-msgid "Gnumeric XML (*.gnumeric)"
-msgstr "Gnumeric XML (*.gnumeric)"
+#: ../src/xml-io.c:2707
+msgid "Gnumeric XML (*.gnumeric) Old slow importer"
+msgstr "Gnumeric XML (*.gnumeric) старый медленный модуль импорта"
 
-#: ../src/xml-io.c:2712
+#: ../src/xml-io.c:2713
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "ЭКСПЕРИМЕНТАЛЬНЫЙ формат Gnumeric основанный на SAX (*.gnumeric)"
+
+#: ../src/xml-io.c:2718
+msgid "Gnumeric XML (*.gnumeric)"
+msgstr "Gnumeric XML (*.gnumeric)"
 
 #: ../src/xml-sax-read.c:355
 #, c-format
