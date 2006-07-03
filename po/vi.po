@@ -2708,7 +2708,7 @@ msgstr "Giá trị này xác định có nên phông chữ mặc định cho ph�
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Giá trị này lập số lượng điểm mặc định từ đáy trang đến kết thức thân trang. "
+msgstr "Giá trị này lập số lượng điểm mặc định từ đáy trang đến kết thúc thân trang. "
 "Hãy dùng hộp thoại « Thiết lập in » để hiệu chỉnh giá trị này."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:78
@@ -3442,8 +3442,8 @@ msgstr "\n"
 "nhỏ hơn hoặc bằng\n"
 "bắt đầu với\n"
 "không bắt đầu với\n"
-"kết thức với\n"
-"không kết thức với\n"
+"kết thúc với\n"
+"không kết thúc với\n"
 "chứa\n"
 "không chứa"
 
@@ -6238,7 +6238,7 @@ msgstr "Giảm tờ đã chọn xuống danh sách các tờ cần xuất, sẽ 
 msgid ""
 "Move the selected sheet to the end of the list of to be exported sheets to "
 "be exported last."
-msgstr "Di chuyển tờ đã chọn xuống kết thức danh sách các tờ cần xuất, sẽ xuất cuối "
+msgstr "Di chuyển tờ đã chọn xuống kết thúc danh sách các tờ cần xuất, sẽ xuất cuối "
 "cùng."
 
 #: ../src/dialogs/dialog-stf-export.glade.h:19
@@ -6452,7 +6452,7 @@ msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
-msgstr "Ký tự được giải dịch là ký tự trích dẫn. Nếu gặp ký tự kết thức hoặc ngăn "
+msgstr "Ký tự được giải dịch là ký tự trích dẫn. Nếu gặp ký tự kết thúc hoặc ngăn "
 "cản giữa ký tự trích dẫn thì nó được xử lý là phần chữ cột."
 
 #: ../src/dialogs/dialog-stf.glade.h:13
@@ -6544,7 +6544,7 @@ msgstr "Định dạng mỗi cột"
 
 #: ../src/dialogs/dialog-stf.glade.h:34
 msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr "Việc xử lý kết thức tại dòng này, mọi dòng phụ sẽ bị bỏ qua."
+msgstr "Việc xử lý kết thúc tại dòng này, mọi dòng phụ sẽ bị bỏ qua."
 
 #: ../src/dialogs/dialog-stf.glade.h:35
 msgid "S_ee two separators as one"
@@ -6557,7 +6557,7 @@ msgstr "Xem hai thanh ngăn cách liên tiếp như một."
 #: ../src/dialogs/dialog-stf.glade.h:37
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
-msgstr "Xem hai bộ chỉ thị chữ liên tiếp như một mà không kết thức ô."
+msgstr "Xem hai bộ chỉ thị chữ liên tiếp như một mà không kết thúc ô."
 
 #: ../src/dialogs/dialog-stf.glade.h:38
 msgid "Semicolo_n (;)"
@@ -7028,7 +7028,7 @@ msgstr "Cấp số theo:"
 
 #: ../src/dialogs/fill-series.glade.h:10
 msgid "St_op value:"
-msgstr "Giá trị kết thức:"
+msgstr "Giá trị kết thúc:"
 
 #: ../src/dialogs/fill-series.glade.h:11
 msgid "Type:"
