@@ -1039,9 +1039,8 @@ compute_sheet_pages (PageCountInfo *pc, Sheet const *sheet)
 	}
 
 	if (pj->range != PRINT_SHEET_SELECTION) {
-		r = sheet_get_extent (sheet, TRUE);
-		if (pi->print_even_if_only_styles)
-			sheet_style_get_extent (sheet, &r, NULL);
+		r = sheet_get_printarea	(sheet,
+					 pi->print_even_if_only_styles);
 	} else
 		r = pc->r;
 
@@ -1093,10 +1092,8 @@ print_sheet (PrintJobInfo *pj, Sheet const *sheet)
 			return;
 	}
 
-	extent = sheet_get_extent (sheet, TRUE);
-	if (pi->print_even_if_only_styles)
-		sheet_style_get_extent (sheet, &extent, NULL);
-
+	extent = sheet_get_printarea (sheet,
+				      pi->print_even_if_only_styles);
 	print_sheet_range (pj, sheet, &extent, TRUE);
 }
 

@@ -257,6 +257,8 @@ void	 sheet_scrollbar_config		(Sheet const *s);
 void     sheet_mark_dirty	(Sheet *sheet);
 GnmRange    sheet_get_extent	(Sheet const *sheet,
 				 gboolean spans_and_merges_extend);
+GnmRange    sheet_get_printarea	(Sheet const *sheet,
+				 gboolean include_styles);
 
 /*
  * Utilities to set cell contents, queueing recalcs,

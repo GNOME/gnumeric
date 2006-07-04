@@ -857,17 +857,14 @@ sheet_names_check (Sheet const *sheet, GnmRange const *r)
  **/
 void
 expr_name_perm_add (Sheet *sheet, char const *name,
-				char const *value,
+				GnmExprTop const *value,
 				gboolean is_editable)
 {
 	GnmNamedExpr *res;
 	GnmParsePos pp;
 
 	parse_pos_init_sheet (&pp, sheet);
-	res = expr_name_add (&pp, name,
-			     gnm_expr_top_new_constant
-			     (value_new_string (value)),
-			     NULL, TRUE, NULL);
+	res = expr_name_add (&pp, name, value, NULL, TRUE, NULL);
 	if (res) {
 		res->is_permanent = TRUE;
 		res->is_editable = is_editable;
@@ -875,3 +872,4 @@ expr_name_perm_add (Sheet *sheet, char const *name,
 
 
 }
+

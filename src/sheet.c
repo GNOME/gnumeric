@@ -764,9 +764,18 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 
 	if (type == GNM_SHEET_DATA) {
 		/* We have to add permanent names */
-		expr_name_perm_add (sheet, "Sheet_Title",
-				    sheet->name_unquoted,
+		{
+			expr_name_perm_add (sheet, "Sheet_Title",
+				    gnm_expr_top_new_constant (value_new_string (sheet->name_unquoted)),
 				    FALSE);
+		}
+		{
+			GnmRange r;
+			range_init_full_sheet (&r);
+			expr_name_perm_add (sheet, "Print_Area", 
+				gnm_expr_top_new_constant (value_new_cellrange_r (NULL, &r)),
+				TRUE);
+		}
 	}
 
 	return sheet;
@@ -1506,6 +1515,49 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 		closure.range.end.row = 0;
 
 	return closure.range;
+}
+
+GnmRange
+sheet_get_printarea	(Sheet const *sheet,
+			 gboolean include_styles)
+{
+	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
+	GnmRange r;
+	GnmNamedExpr *nexpr;
+	GnmParsePos pos;
+	GnmValue *val;
+	GnmRangeRef const *r_ref;
+	GnmRange print_area;
+	GnmRange intersect;
+
+	g_return_val_if_fail (IS_SHEET (sheet), dummy);
+
+	r = sheet_get_extent (sheet, TRUE);
+	if (include_styles)
+		sheet_style_get_extent (sheet, &r, NULL);
+	/* GnmParsePos should really have Sheet const * */
+	parse_pos_init_sheet (&pos, (Sheet *) sheet);
+	nexpr = expr_name_lookup (&pos, "Print_Area");
+	if (nexpr != NULL) {
+		val = gnm_expr_get_range (nexpr->texpr->expr);
+		if (val != NULL) {
+			r_ref = value_get_rangeref (val);
+			if (r_ref != NULL) {
+				range_init_rangeref (&print_area,
+						     r_ref);
+				if (range_intersection (&intersect,
+							&r,
+							&print_area))
+					r = intersect;
+				else {
+					/* What should we do here? */
+					r = dummy;
+				}
+			}
+			value_release (val);
+		}
+	}
+	return r;
 }
 
 struct cb_fit {

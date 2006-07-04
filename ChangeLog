@@ -1,3 +1,14 @@
+2006-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/expr-name.c (expr_name_perm_add)): accept expressions rather 
+	  than just strings
+	* src/expr-name.h (expr_name_perm_add): ditto
+	* src/print.c (compute_pages): use new sheet_get_printarea
+	(print_sheet): ditto
+	* src/sheet.c (sheet_get_printarea): new
+	(sheet_new_with_type): create "Print_Area" permanent name
+	* src/sheet.h (sheet_get_printarea): new
+
 2006-06-30  Jody Goldberg <jody@gnome.org>
 
 	* src/position.c (parse_pos_init_dep) : init the col/row too for

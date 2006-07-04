@@ -11,6 +11,7 @@ Andreas:
 	  of identical workbook and sheet scope names
 	* Remove some warnings on AMD64 [#346045]
 	* Add "switch scope" button to define names dialog [#345896]
+	* Add "print area" to sheets [#164058]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).

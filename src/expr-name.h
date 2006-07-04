@@ -26,7 +26,7 @@ GnmNamedExpr *expr_name_add    (GnmParsePos const *pp, char const *name,
 				GnmNamedExpr *stub);
 void expr_name_perm_add        (Sheet *sheet,
 				char const *name,
-				char const *texpr,
+				GnmExprTop const *texpr,
 				gboolean is_editable);
 GnmNamedExpr *expr_name_new    (char const *name, gboolean is_placeholder);
 
