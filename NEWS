@@ -12,6 +12,8 @@ Andreas:
 	* Remove some warnings on AMD64 [#346045]
 	* Add "switch scope" button to define names dialog [#345896]
 	* Add "print area" to sheets [#164058]
+	* Fix writing of floating point preference values under
+	  --without-gnome [#346433]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).

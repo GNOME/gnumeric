@@ -1,5 +1,10 @@
 2006-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnumeric-gconf.c (go_conf_set_double): use real_key when 
+	  writing the value #346433
+
+2006-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/expr-name.c (expr_name_perm_add)): accept expressions rather 
 	  than just strings
 	* src/expr-name.h (expr_name_perm_add): ditto

@@ -1189,7 +1189,7 @@ go_conf_set_double (GOConfNode *node, gchar const *key, gnm_float val)
 	gchar str[G_ASCII_DTOSTR_BUF_SIZE];
 
 	g_ascii_dtostr (str, sizeof (str), val);
-	g_key_file_set_value (key_file, DOUBLE_GROUP, key, str);
+	g_key_file_set_value (key_file, DOUBLE_GROUP, real_key, str);
 	g_free (real_key);
 }
 
