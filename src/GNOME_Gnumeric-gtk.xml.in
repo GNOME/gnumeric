@@ -9,6 +9,11 @@
       <menuitem action="FileSaveAs"/>
       <separator name="file-sep2"/>
       <menuitem action="FilePageSetup"/>
+      <menu name="Print Area" action="FilePrintArea">
+        <menuitem action="FilePrintAreaSet"/>
+        <menuitem action="FilePrintAreaClear"/>
+        <menuitem action="FilePrintAreaShow"/>
+      </menu>
       <menuitem action="FilePrintPreview"/>
       <menuitem action="FilePrint"/>
       <separator name="file-sep3"/>

@@ -1518,15 +1518,41 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 }
 
 GnmRange
+sheet_get_nominal_printarea	(Sheet const *sheet)
+{
+	GnmNamedExpr *nexpr;
+	GnmParsePos pos;
+	GnmValue *val;
+	GnmRangeRef const *r_ref;
+	GnmRange print_area;
+
+	range_init_full_sheet (&print_area);
+
+	g_return_val_if_fail (IS_SHEET (sheet), print_area);
+
+	/* GnmParsePos should really have Sheet const * */
+	parse_pos_init_sheet (&pos, (Sheet *) sheet);
+	nexpr = expr_name_lookup (&pos, "Print_Area");
+	if (nexpr != NULL) {
+		val = gnm_expr_top_get_range (nexpr->texpr);
+		if (val != NULL) {
+			r_ref = value_get_rangeref (val);
+			if (r_ref != NULL) {
+				range_init_rangeref (&print_area,
+						     r_ref);
+			}
+			value_release (val);
+		}
+	}
+	return print_area;
+}
+
+GnmRange
 sheet_get_printarea	(Sheet const *sheet,
 			 gboolean include_styles)
 {
 	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
 	GnmRange r;
-	GnmNamedExpr *nexpr;
-	GnmParsePos pos;
-	GnmValue *val;
-	GnmRangeRef const *r_ref;
 	GnmRange print_area;
 	GnmRange intersect;
 
@@ -1535,29 +1561,13 @@ sheet_get_printarea	(Sheet const *sheet,
 	r = sheet_get_extent (sheet, TRUE);
 	if (include_styles)
 		sheet_style_get_extent (sheet, &r, NULL);
-	/* GnmParsePos should really have Sheet const * */
-	parse_pos_init_sheet (&pos, (Sheet *) sheet);
-	nexpr = expr_name_lookup (&pos, "Print_Area");
-	if (nexpr != NULL) {
-		val = gnm_expr_get_range (nexpr->texpr->expr);
-		if (val != NULL) {
-			r_ref = value_get_rangeref (val);
-			if (r_ref != NULL) {
-				range_init_rangeref (&print_area,
-						     r_ref);
-				if (range_intersection (&intersect,
-							&r,
-							&print_area))
-					r = intersect;
-				else {
-					/* What should we do here? */
-					r = dummy;
-				}
-			}
-			value_release (val);
-		}
-	}
-	return r;
+
+	print_area = sheet_get_nominal_printarea (sheet);
+
+	if (range_intersection (&intersect, &r, &print_area))
+		return intersect;
+
+	return dummy;
 }
 
 struct cb_fit {

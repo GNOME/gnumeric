@@ -110,7 +110,8 @@ gboolean cmd_change_meta_data	(WorkbookControl *wbc, GSList *changes, GSList *re
 gboolean cmd_print_setup	(WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi);
 gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 GnmParsePos const *pp,
-				 GnmExprTop const *texpr);
+				 GnmExprTop const *texpr,
+				 char const *descriptor);
 gboolean cmd_remove_name        (WorkbookControl *wbc, GnmNamedExpr *nexpr);
 
 typedef enum  {

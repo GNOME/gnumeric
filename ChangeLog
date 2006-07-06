@@ -1,3 +1,18 @@
+2006-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: add print area commands to File
+	  menu
+	* src/commands.c (cmd_define_name): add optional descriptor argument
+	* src/commands.h (cmd_define_name): ditto
+	* src/sheet.c (sheet_get_nominal_printarea): new
+	(-sheet_get_printarea): use sheet_get_nominal_printarea
+	* src/sheet.h (sheet_get_nominal_printarea): new
+	* src/wbcg-actions.c (cb_file_print_area_set): new
+	(cb_file_print_area_show): new
+	(cb_file_print_area_sclear): new
+	* src/workbook-control.c (wb_control_parse_and_jump): add argument 
+	  to call of cmd_define_name
+	
 2006-07-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnumeric-gconf.c (go_conf_set_double): use real_key when 

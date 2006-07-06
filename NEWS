@@ -14,6 +14,8 @@ Andreas:
 	* Add "print area" to sheets [#164058]
 	* Fix writing of floating point preference values under
 	  --without-gnome [#346433]
+	* Added menu items to set/clear/show the print area of a sheet
+	  [#164058]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).

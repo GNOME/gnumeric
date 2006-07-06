@@ -428,7 +428,7 @@ name_guru_add (NameGuruState *state)
 	if (!name_guru_scope_is_sheet (state))
 		pp.sheet = NULL;
 	res = !cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name, &pp,
-				texpr);
+				texpr, NULL);
 
 	if (res) {
 		name_guru_populate_list (state);

@@ -65,6 +65,7 @@
 #include "gui-util.h"
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
+#include "expr.h"
 
 #include <goffice/app/io-context.h>
 #include <goffice/graph/gog-guru.h>
@@ -136,6 +137,51 @@ static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_vie
 static GNM_ACTION_DEF (cb_file_sendto)	{
 	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_file_page_setup) { dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg)); }
+
+static GNM_ACTION_DEF (cb_file_print_area_set) {
+	Sheet *sheet = wbcg_cur_sheet (wbcg);
+	SheetView *sv = sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	GnmParsePos pp;
+	char *message;
+	char * selection;
+	GnmRange const *r = selection_first_range (sv,
+				       GO_CMD_CONTEXT (wbcg), _("Set Print Area"));;
+	if (r != NULL) {
+		parse_pos_init_sheet (&pp, sheet);
+		selection = undo_range_name (sheet, r);
+		message = g_strdup_printf (_("Set Print Area to %s"), selection);
+		cmd_define_name	(WORKBOOK_CONTROL (wbcg), "Print_Area", &pp,
+				 gnm_expr_top_new_constant
+				 (value_new_cellrange_r (NULL, r)),
+				 message);
+		g_free (selection);
+		g_free (message);
+	}
+}
+
+static GNM_ACTION_DEF (cb_file_print_area_clear) {
+	GnmParsePos pp;
+	GnmRange r;
+	
+	range_init_full_sheet (&r);
+	parse_pos_init_sheet (&pp, wbcg_cur_sheet (wbcg));
+	cmd_define_name	(WORKBOOK_CONTROL (wbcg), "Print_Area", &pp,
+			 gnm_expr_top_new_constant
+			 (value_new_cellrange_r (NULL, &r)),
+			 _("Clear Print Area"));
+}
+
+static GNM_ACTION_DEF (cb_file_print_area_show) {
+	Sheet *sheet = wbcg_cur_sheet (wbcg);
+	SheetView *sv = sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	GnmRange r = sheet_get_nominal_printarea (sheet);
+	
+	wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
+	sv_selection_reset (sv);
+	sv_selection_add_range (sv, &r);
+	sv_make_cell_visible (sv, r.start.col, r.start.row, FALSE);
+}
+
 static GNM_ACTION_DEF (cb_file_print)	{
 	sheet_print (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET); }
 static GNM_ACTION_DEF (cb_file_print_preview) {
@@ -1489,6 +1535,7 @@ static GNM_ACTION_DEF (cb_format_row_unhide)
 /* Actions that are always sensitive */
 static GtkActionEntry const permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
+		{ "FilePrintArea",      NULL, N_("Print Area")},
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
 		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
@@ -1607,6 +1654,17 @@ static GtkActionEntry const actions[] = {
 	{ "FilePreferences", GTK_STOCK_PREFERENCES, N_("Pre_ferences..."),
 		NULL, N_("Change Gnumeric Preferences"),
 		G_CALLBACK (cb_file_preferences) },
+
+/* File->PrintArea */
+        { "FilePrintAreaSet", NULL, N_("Set Print Area"),
+                NULL, N_("Use the current selection as print area"),
+                G_CALLBACK (cb_file_print_area_set)},
+        { "FilePrintAreaClear", NULL, N_("Clear Print Area"),
+                NULL, N_("Undefine the print area"),
+                G_CALLBACK (cb_file_print_area_clear)},
+        { "FilePrintAreaShow", NULL, N_("Show Print Area"),
+                NULL, N_("Select the print area"),
+                G_CALLBACK (cb_file_print_area_show)},
 
 /* Edit -> Clear */
 	{ "EditClearAll", NULL, N_("_All"),

@@ -5626,6 +5626,7 @@ cmd_define_name_finalize (GObject *cmd)
  * @name :
  * @pp   :
  * @texpr : absorbs a ref to the texpr.
+ * @descriptor : optional descriptor.
  *
  * If the @name has never been defined in context @pp create a new name
  * If its a placeholder assign @texpr to it and make it real
@@ -5635,7 +5636,8 @@ cmd_define_name_finalize (GObject *cmd)
  **/
 gboolean
 cmd_define_name (WorkbookControl *wbc, char const *name,
-		 GnmParsePos const *pp, GnmExprTop const *texpr)
+		 GnmParsePos const *pp, GnmExprTop const *texpr,
+		 char const *descriptor)
 {
 	CmdDefineName	*me;
 	GnmNamedExpr    *nexpr;
@@ -5665,14 +5667,17 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	me->cmd.sheet = wb_control_cur_sheet (wbc);
 	me->cmd.size = 1;
 
-	nexpr = expr_name_lookup (pp, name);
-	if (nexpr == NULL || expr_name_is_placeholder (nexpr))
-		me->cmd.cmd_descriptor =
-			g_strdup_printf (_("Define Name %s"), name);
-	else
-		me->cmd.cmd_descriptor =
-			g_strdup_printf (_("Update Name %s"), name);
-
+	if (descriptor == NULL) {
+		nexpr = expr_name_lookup (pp, name);
+		if (nexpr == NULL || expr_name_is_placeholder (nexpr))
+			me->cmd.cmd_descriptor =
+				g_strdup_printf (_("Define Name %s"), name);
+		else
+			me->cmd.cmd_descriptor =
+				g_strdup_printf (_("Update Name %s"), name);
+	} else
+		me->cmd.cmd_descriptor = g_strdup (descriptor);
+	
 	return command_push_undo (wbc, G_OBJECT (me));
 }
 
