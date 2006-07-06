@@ -10580,7 +10580,7 @@ msgstr "CẤP ĐỘ"
 
 #: ../src/main-application.c:118
 msgid "Enables some debugging functions for expression sharing"
-msgstr "Bật các hàm gỡ lỗi có thể chia sẽ biểu thức"
+msgstr "Bật các hàm gỡ lỗi có thể chia sẻ biểu thức"
 
 #: ../src/main-application.c:124
 msgid "Enables some print debugging behavior"
