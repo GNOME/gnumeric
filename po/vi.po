@@ -423,7 +423,7 @@ msgstr "Không biết giá trị đếm « %s » cho thuộc tính %s"
 #: ../plugins/excel/xlsx-read.c:420
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
-msgstr "Số nguyên « %s » ở ngoại phạm vị cho thuộc tính %s"
+msgstr "Số nguyên « %s » ở ngoại phạm vi cho thuộc tính %s"
 
 #: ../plugins/excel/xlsx-read.c:424
 #, c-format
@@ -443,7 +443,7 @@ msgstr "Vị trí ô không hợp lệ « %s » cho thuộc tính %s"
 #: ../plugins/excel/xlsx-read.c:493
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
-msgstr "Phạm vị không hợp lệ « %s » cho thuộc tính %s"
+msgstr "Phạm vi không hợp lệ « %s » cho thuộc tính %s"
 
 #: ../plugins/excel/xlsx-read.c:594
 #, c-format
@@ -1632,7 +1632,7 @@ msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr "Phạm vị XHTML — xuất vào khay"
+msgstr "Phạm vi XHTML — xuất vào khay"
 
 #: ../plugins/lotus-123/boot.c:85
 msgid "Error while reading lotus workbook."
@@ -2333,7 +2333,7 @@ msgstr "Kích hoạt các bộ cầm phít mới"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
 #: ../src/dialogs/dialog-preferences.c:737
 msgid "Allow Unfocused Range Selections"
-msgstr "Cho phép việc chọn phạm vị không có tiêu điểm"
+msgstr "Cho phép việc chọn phạm vi không có tiêu điểm"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:5
 msgid "Apply print-setup to all sheets"
@@ -2498,7 +2498,7 @@ msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
-msgstr "Một số hộp thoại chứa chỉ một mục nhập riêng lẻ mà cho phép lựa chọn phạm vị "
+msgstr "Một số hộp thoại chứa chỉ một mục nhập riêng lẻ mà cho phép lựa chọn phạm vi "
 "trong sổ làm việc. Lập biến này là TRUE (đúng) thì chuyển tiếp lựa chọn vào "
 "mục nhập này, thậm chí nếu mục nhập này không có tiêu điểm bàn phím."
 
@@ -4013,7 +4013,7 @@ msgstr "<span weight=\"bold\">Đặc tả sắp xếp</span>"
 msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
-msgstr "Thêm bất cứ trường nào trong hộp phạm vị bên trái vào những tiêu chuẩn sắp "
+msgstr "Thêm bất cứ trường nào trong hộp phạm vi bên trái vào những tiêu chuẩn sắp "
 "xếp, hoặc cho phép chọn trường từ trình đơn."
 
 #: ../src/dialogs/cell-sort.glade.h:4
@@ -4046,7 +4046,7 @@ msgstr "Sắp xếp cột theo hàng đã xác định"
 
 #: ../src/dialogs/cell-sort.glade.h:11
 msgid "Sort range has a _header"
-msgstr "Phạm vị sắp xếp có phần _đầu"
+msgstr "Phạm vi sắp xếp có phần _đầu"
 
 #: ../src/dialogs/cell-sort.glade.h:12
 msgid "Sort rows by the specified columns"
@@ -4207,11 +4207,11 @@ msgstr "_Phạm vi xuất:"
 
 #: ../src/dialogs/dao.glade.h:9
 msgid "Retain output range _formatting"
-msgstr "Giữ _định dạng phạm vị xuất"
+msgstr "Giữ _định dạng phạm vi xuất"
 
 #: ../src/dialogs/dao.glade.h:10
 msgid "Retain output range co_mments"
-msgstr "Giữ _chú thích phạm vị xuất"
+msgstr "Giữ _chú thích phạm vi xuất"
 
 #: ../src/dialogs/dao.glade.h:11
 msgid "_Enter into cells:"
@@ -4861,34 +4861,34 @@ msgstr "Không tạo được hộp thoại Công cụ ANOVA (hệ số đơn)."
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu và "
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu và "
 "nhãn."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2828
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2834
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai cột dữ liệu và nhãn."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột dữ liệu và nhãn."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2837
 msgid "The given input range should contain at least two columns of data."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai cột dữ liệu."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột dữ liệu."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2843
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu và nhãn."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu và nhãn."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2846
 msgid "The given input range should contain at least two rows of data."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2853
 msgid "The number of data rows must be a multiple of the replication number."
@@ -5171,7 +5171,7 @@ msgstr "Vùng nguồn %s đè lên vùng đích."
 
 #: ../src/dialogs/dialog-consolidate.c:327
 msgid "The output range overlaps with the input ranges."
-msgstr "Phạm vi xuất đè lên những phạm vị gõ."
+msgstr "Phạm vi xuất đè lên những phạm vi gõ."
 
 #: ../src/dialogs/dialog-consolidate.c:551
 msgid "Could not create the Consolidate dialog."
@@ -5302,7 +5302,7 @@ msgstr "Không tạo được hộp thoại Đi đến."
 
 #: ../src/dialogs/dialog-hyperlink.c:144
 msgid "Not a range or name"
-msgstr "Không phải phạm vị hoặc tên."
+msgstr "Không phải phạm vi hoặc tên."
 
 #: ../src/dialogs/dialog-hyperlink.c:254
 msgid "Internal Link"
@@ -5310,7 +5310,7 @@ msgstr "Liên kết nội bộ"
 
 #: ../src/dialogs/dialog-hyperlink.c:256
 msgid "Jump to specific cells or named range in the current workbook"
-msgstr "Nhảy đến ô dứt khoát hoặc phạm vị tên đặc biệt trong sổ làm việc hiện có."
+msgstr "Nhảy đến ô dứt khoát hoặc phạm vi tên đặc biệt trong sổ làm việc hiện có."
 
 #: ../src/dialogs/dialog-hyperlink.c:260
 msgid "External Link"
@@ -5688,7 +5688,7 @@ msgstr "Rời rạc"
 
 #: ../src/dialogs/dialog-random-generator.c:118
 msgid "_Value And Probability Input Range:"
-msgstr "Phạm vị gõ _giá trị và xác suất:"
+msgstr "Phạm vi gõ _giá trị và xác suất:"
 
 #: ../src/dialogs/dialog-random-generator.c:124
 msgid "Bernoulli"
@@ -6071,7 +6071,7 @@ msgstr "Tối đa"
 
 #: ../src/dialogs/dialog-simulation.c:317
 msgid "Invalid variable range was given"
-msgstr "Đã cho phạm vị biến không hợp lệ."
+msgstr "Đã cho phạm vi biến không hợp lệ."
 
 #: ../src/dialogs/dialog-simulation.c:331
 msgid ""
@@ -8650,7 +8650,7 @@ msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr "/Trung bình/Lỗi chuẩn/Trung vị/Chế độ/Độ lệch chuẩn/Phương sai mẫu/Kurtosis/"
-"Độ lệch/Phạm vị/Tối thiểu/Tối đa/Tổng/Đếm"
+"Độ lệch/Phạm vi/Tối thiểu/Tối đa/Tổng/Đếm"
 
 #: ../src/tools/analysis-tools.c:1222
 #, c-format
@@ -9053,19 +9053,19 @@ msgstr "Điền đầy cấp số (%s)"
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
-msgstr "Phạm vị gõ xác suất chứa một giá trị không thuộc số.\n"
+msgstr "Phạm vi gõ xác suất chứa một giá trị không thuộc số.\n"
 "Mọi xác suất phải là số phi âm."
 
 #: ../src/tools/random-generator.c:115
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
-msgstr "Phạm vị gõ xác suất chứa một số âm.\n"
+msgstr "Phạm vi gõ xác suất chứa một số âm.\n"
 "Mọi xác suất phải là số phi âm."
 
 #: ../src/tools/random-generator.c:130
 msgid "None of the values in the value range may be empty!"
-msgstr "Không cho phép giá trị rỗng trong phạm vị."
+msgstr "Không cho phép giá trị rỗng trong phạm vi."
 
 #: ../src/tools/random-generator.c:146
 msgid "The probabilities may not all be 0!"
@@ -9572,7 +9572,7 @@ msgstr "Lỗi lập thời gian giải tối đa với bộ giải này: hãy th
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
-msgstr "Một số ô gõ chứa giá trị không phải thuộc số. Hãy xác định phạm vị gõ hợp lệ."
+msgstr "Một số ô gõ chứa giá trị không phải thuộc số. Hãy xác định phạm vi gõ hợp lệ."
 
 #: ../src/tools/tabulate.c:140
 msgid "Tabulation"
@@ -9580,7 +9580,7 @@ msgstr "Xếp thành bảng"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1264
 msgid "Expecting a single range"
-msgstr "Ngờ một phạm vị đơn"
+msgstr "Ngờ một phạm vi đơn"
 
 #.ALSO "<control>2"
 #: ../src/widgets/widget-font-selector.c:210
@@ -10682,7 +10682,7 @@ msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
 #: ../src/mathfunc.c:3879
 #: ../src/mathfunc.c:4350
 msgid ". Arg. out of range?\n"
-msgstr "Đối số ở ngoại phạm vị không?\n"
+msgstr "Đối số ở ngoại phạm vi không?\n"
 
 #: ../src/mathfunc.c:3882
 #: ../src/mathfunc.c:4353
@@ -10720,7 +10720,7 @@ msgstr "Mảng phải có hình chữ nhật."
 
 #: ../src/parser.y:366
 msgid "Constructed ranges use simple references"
-msgstr "Phạm vị đã cấu trúc dùng tham chiếu đơn giản."
+msgstr "Phạm vi đã cấu trúc dùng tham chiếu đơn giản."
 
 #: ../src/parser.y:380
 #: ../src/parser.y:394
@@ -10760,7 +10760,7 @@ msgstr "Yêu cầu tên tờ"
 #: ../src/parser.y:1201
 #: ../src/parser.y:1226
 msgid "The number is out of range"
-msgstr "Số này ở ngoại phạm vị."
+msgstr "Số này ở ngoại phạm vi."
 
 #: ../src/parser.y:1260
 msgid "Improperly formatted error token"
@@ -10960,16 +10960,16 @@ msgstr "Nơi tìm kiếm"
 
 #: ../src/search.c:633
 msgid "Range as Text"
-msgstr "Phạm vị là chữ"
+msgstr "Phạm vi là chữ"
 
 #: ../src/search.c:634
 msgid "The range in which to search."
-msgstr "Phạm vị nơi tìm kiếm"
+msgstr "Phạm vi nơi tìm kiếm"
 
 #: ../src/selection.c:348
 #, c-format
 msgid "%s does not support multiple ranges"
-msgstr "« %s » không hỗ trợ nhiều phạm vị."
+msgstr "« %s » không hỗ trợ nhiều phạm vi."
 
 #: ../src/session.c:115
 #, c-format
@@ -11636,7 +11636,7 @@ msgstr "%s là không đúng."
 #: ../src/validation.c:381
 #, c-format
 msgid "%s is out of permitted range"
-msgstr "%s ở ngoại phạm vị được phép"
+msgstr "%s ở ngoại phạm vi được phép"
 
 #: ../src/value.c:54
 msgid "#NULL!"
@@ -12957,7 +12957,7 @@ msgstr "Tạo nút chọn một"
 
 #: ../src/wbcg-actions.c:2047
 msgid "Merge a range of cells"
-msgstr "Trộn các ô trong phạm vị đã chọn"
+msgstr "Trộn các ô trong phạm vi đã chọn"
 
 #: ../src/wbcg-actions.c:2049
 msgid "Split"
@@ -12965,7 +12965,7 @@ msgstr "Chia tách"
 
 #: ../src/wbcg-actions.c:2050
 msgid "Split merged ranges of cells"
-msgstr "Tách các phạm vị ô đã được trộn"
+msgstr "Tách các phạm vi ô đã được trộn"
 
 #: ../src/wbcg-actions.c:2054
 msgid "Format the selection as General"
