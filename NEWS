@@ -16,6 +16,7 @@ Andreas:
 	  --without-gnome [#346433]
 	* Added menu items to set/clear/show the print area of a sheet
 	  [#164058]
+	* Add a latex-exporter for an unformatted table fragments [#325980]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).

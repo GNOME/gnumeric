@@ -28,4 +28,7 @@
 void latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 		      WorkbookView const *wb_view, GsfOutput *output);
 
+void latex_table_file_save (GOFileSaver const *fs, IOContext *io_context,
+		            WorkbookView const *wb_view, GsfOutput *output);
+
 #endif

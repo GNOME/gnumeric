@@ -7,7 +7,7 @@
  * Copyright (C) 2001 Adrian Custer, Berkeley
  * email: acuster@nature.berkeley.edu
  *
- * Copyright (C) 2001 Andreas J. Guelzow, Edmonton
+ * Copyright (C) 2001-2006 Andreas J. Guelzow, Edmonton
  * email: aguelzow@taliesin.ca
  *
  * This program is free software; you can redistribute it and/or modify
@@ -1321,4 +1321,105 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 	gsf_output_printf (output, "\\end{longtable}\n\n");
 	gsf_output_printf (output, "\\gnumericTableEnd\n");
+}
+
+
+/**
+ * latex2e_table_cell:
+ *
+ * @output : output stream where the cell contents will be written.
+ * @cell :   the cell whose contents are to be written.
+ * @sheet :  the current sheet.
+ *
+ * This function creates all the LaTeX code for the cell of a table (i.e. all
+ * the code that might fall between two ampersands (&)).
+ *
+ */
+static void
+latex2e_table_write_cell (GsfOutput *output, GnmCell *cell, Sheet *sheet)
+{
+	GnmStyle const *style = cell_get_style (cell);
+
+	if (gnm_style_get_contents_hidden (style))
+		return;
+
+	if (!cell_is_empty (cell)) {
+		char * rendered_string;
+
+		rendered_string = cell_get_rendered_text (cell);
+		latex_fputs (rendered_string, output);
+		g_free (rendered_string);
+	}
+}
+
+
+/**
+ * latex2e_table_write_file_header:
+ *
+ * @output: Output stream where the cell contents will be written.
+ *
+ * This ouputs the LaTeX header. Kept separate for esthetics.
+ */
+
+static void
+latex2e_table_write_file_header(GsfOutput *output)
+{
+	gsf_output_puts (output,
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+"%%                                                                  %%\n"
+"%%  This is a LaTeX2e table fragment exported from Gnumeric.        %%\n"
+"%%                                                                  %%\n"
+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+        );
+}
+
+/**
+ * latex_table_file_save :  The LaTeX2e exporter plugin function.
+ *
+ * @FileSaver :        New structure for file plugins. I don't understand.
+ * @IOcontext :        currently not used but reserved for the future.
+ * @WorkbookView :     this provides the way to access the sheet being exported.
+ * @filename :         where we'll write.
+ *
+ * This writes the top sheet of a Gnumeric workbook as the content of a latex table environment.
+ * We try to avoid all formatting.
+ */
+void
+latex_table_file_save (GOFileSaver const *fs, IOContext *io_context,
+		 WorkbookView const *wb_view, GsfOutput *output)
+{
+	GnmCell *cell;
+	Sheet *current_sheet;
+	GnmRange total_range;
+	int row, col;
+
+	/* This is the preamble of the LaTeX2e file. */
+	latex2e_table_write_file_header(output);
+
+	/* Get the topmost sheet and its range from the plugin function argument. */
+	current_sheet = wb_view_cur_sheet(wb_view);
+	total_range = sheet_get_extent (current_sheet, TRUE);
+
+	/* Step through the sheet, writing cells as appropriate. */
+	for (row = total_range.start.row; row <= total_range.end.row; row++) {
+		ColRowInfo const * ri;
+		ri = sheet_row_get_info (current_sheet, row);
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *) ri, row, current_sheet);
+
+		for (col = total_range.start.col; col <= total_range.end.col; col++) {
+			/* Get the cell. */
+			cell = sheet_cell_get (current_sheet, col, row);
+
+			/* Check if we are not the first cell in the row.*/
+			if (col != total_range.start.col)
+				gsf_output_printf (output, "\t&");
+
+			if (cell_is_empty (cell))
+				continue;
+
+			latex2e_table_write_cell(output, cell, current_sheet);
+		}
+		gsf_output_printf (output, "\\\\\n");
+	}
 }
