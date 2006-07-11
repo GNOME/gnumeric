@@ -17,10 +17,10 @@
 				<suffix>ods</suffix>
 			</suffixes>
 		</service>
-		<service type="file_saver" id="openoffice" file_extension="swc"
+		<service type="file_saver" id="openoffice" file_extension="ods"
 		         format_level="auto" overwrite_files="TRUE">
 			<information>
-				<_description>OpenOffice OASIS _UNFINISHED_</_description>
+				<_description>OpenDocument/OpenOffice _UNFINISHED_ (*.ods)</_description>
 			</information>
 		</service>
 	</services>

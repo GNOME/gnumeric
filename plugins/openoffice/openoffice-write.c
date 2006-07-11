@@ -1,9 +1,14 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * openoffice-write.c : export OpenOffice OASIS .sxc files
+ * openoffice-write.c : export OpenOffice OASIS .ods files
  *
  * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
+ *
+ * Copyright (C) 2006 Andreas J. Guelzow (aguelzow@pyrshep.ca)
+ *
+ * Copyright (C) 2005 INdT - Instituto Nokia de Tecnologia
+ *               Author: Luciano Wolf (luciano.wolf@indt.org.br)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -65,6 +70,7 @@
 #define OFFICE	 "office:"
 #define STYLE	 "style:"
 #define TABLE	 "table:"
+#define TEXT     "text:"
 
 typedef struct {
 	GsfXMLOut *xml;
@@ -83,9 +89,6 @@ oo_write_mimetype (GnmOOExport *state, GsfOutput *child)
 }
 
 /*****************************************************************************/
-
-static unsigned oo_max_cols (void) { return 256; }
-static unsigned oo_max_rows (void) { return 32000; }
 
 static void
 oo_start_style (GsfXMLOut *xml, char const *name, char const *family)
@@ -107,31 +110,70 @@ oo_write_table_styles (GnmOOExport *state)
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
 
+static gboolean
+od_cell_is_covered (Sheet const *sheet, GnmCell *current_cell, 
+		    int col, int row)
+{
+	return FALSE;
+}
+
+static void 
+od_write_empty_cell (GnmOOExport *state, int *num)
+{
+	if (*num > 0) {
+		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
+		gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated", *num);
+		gsf_xml_out_end_element (state->xml);   /* table-cell */
+		*num = 0;
+	}
+}
+
+static void 
+od_write_covered_cell (GnmOOExport *state, int *num)
+{
+	if (*num > 0) {
+		gsf_xml_out_start_element (state->xml, TABLE "covered-table-cell");
+		gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated", *num);
+		gsf_xml_out_end_element (state->xml);   /* covered-table-cell */
+		*num = 0;
+	}
+}
+
+static void 
+od_write_cell (GnmOOExport *state, GnmCell *cell)
+{
+	char *rendered_string;
+
+	g_return_if_fail (cell != NULL);
+
+	rendered_string = cell_get_rendered_text (cell);
+
+	gsf_xml_out_start_element (state->xml, TABLE "table-cell");
+	gsf_xml_out_add_cstr_unchecked (state->xml, 
+					OFFICE "value-type", "string");
+	gsf_xml_out_add_cstr_unchecked (state->xml, 
+					OFFICE "value",rendered_string);
+	gsf_xml_out_start_element (state->xml, TEXT "p");
+	gsf_xml_out_add_cstr_unchecked (state->xml, NULL, rendered_string);
+	gsf_xml_out_end_element (state->xml);   /* p */
+	gsf_xml_out_end_element (state->xml);   /* table-cell */	
+
+	g_free (rendered_string);
+}
+
 static void
 oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
 	GnmStyle *col_styles [SHEET_MAX_COLS];
 	GnmRange  extent;
+#warning: Does OpenDocument really have a maximum column and row number?
 	int max_cols = oo_max_cols ();
 	int max_rows = oo_max_rows ();
-	int i;
+	int i, col, row;
+	int null_cell;
+	int covered_cell;
 
 	extent = sheet_get_extent (sheet, FALSE);
-	if (extent.end.row >= max_rows) {
-		gnm_io_warning (state->ioc,
-			_("Some content will be lost when saving as OpenOffice .sxc. "
-			  "It only supports %d rows, and sheet '%s' has %d"),
-			max_rows, sheet->name_unquoted, extent.end.row);
-		extent.end.row = max_rows;
-	}
-	if (extent.end.col >= max_cols) {
-		gnm_io_warning (state->ioc,
-			_("Some content will be lost when saving as OpenOffice .sxc. "
-			  "It only supports %d columns, and sheet '%s' has %d"),
-			max_cols, sheet->name_unquoted, extent.end.col);
-		extent.end.col = max_cols;
-	}
-
 	sheet_style_get_extent (sheet, &extent, col_styles);
 
 	/* include collapsed or hidden cols and rows */
@@ -145,11 +187,46 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			extent.end.col = i;
 			break;
 		}
-	/* It is ok to have formatting out of range, we can disregard that. */
-	if (extent.end.col > max_cols)
-		extent.end.col = max_cols;
-	if (extent.end.row > max_rows)
-		extent.end.row = max_rows;
+	if (extent.start.row > 0) {
+		/* We need to write a bunch of empty rows !*/
+		gsf_xml_out_start_element (state->xml, TABLE "table-row");
+		gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated", extent.start.row);
+		gsf_xml_out_end_element (state->xml);   /* table-row */
+	}
+
+	for (row = extent.start.row; row <= extent.end.row; row++) {
+		null_cell = extent.start.col;
+		covered_cell = 0;
+		gsf_xml_out_start_element (state->xml, TABLE "table-row");
+		for (col = extent.start.col; col <= extent.end.col; col++) {
+			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
+
+			if (od_cell_is_covered (sheet, current_cell, col, row)) {
+				if (null_cell >0)
+					od_write_empty_cell (state, &null_cell);
+				covered_cell++;
+				continue;
+			}
+			if (cell_is_empty (current_cell)) {
+				if (covered_cell > 0)
+					od_write_covered_cell (state, &covered_cell);
+				null_cell++;
+				continue;
+			}
+
+			if (null_cell > 0)
+				od_write_empty_cell (state, &null_cell);
+			if (covered_cell > 0)
+				od_write_covered_cell (state, &covered_cell);
+			od_write_cell (state, current_cell);
+			
+		}
+		if (covered_cell > 0)
+			od_write_covered_cell (state, &covered_cell);
+		
+		gsf_xml_out_end_element (state->xml);   /* table-row */
+	}
+
 }
 
 static void
@@ -159,31 +236,48 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 		char const *key;
 		char const *url;
 	} const ns[] = {
-		{ "xmlns:office",	"http://openoffice.org/2000/office" },
-		{ "xmlns:style",	"http://openoffice.org/2000/style" },
-		{ "xmlns:text",		"http://openoffice.org/2000/text" },
-		{ "xmlns:table",	"http://openoffice.org/2000/table" },
-		{ "xmlns:draw",		"http://openoffice.org/2000/drawing" },
-		{ "xmlns:fo",		"http://www.w3.org/1999/XSL/Format" },
-		{ "xmlns:xlink",	"http://www.w3.org/1999/xlink" },
-		{ "xmlns:number",	"http://openoffice.org/2000/datastyle" },
-		{ "xmlns:svg",		"http://www.w3.org/2000/svg" },
-		{ "xmlns:chart",	"http://openoffice.org/2000/chart" },
-		{ "xmlns:dr3d",		"http://openoffice.org/2000/dr3d" },
-		{ "xmlns:math",		"http://www.w3.org/1998/Math/MathML" },
-		{ "xmlns:form",		"http://openoffice.org/2000/form" },
-		{ "xmlns:script",	"http://openoffice.org/2000/script" },
+		{ "xmlns:office",
+		  "urn:oasis:names:tc:opendocument:xmlns:office:1.0" },
+		{ "xmlns:style",
+		  "urn:oasis:names:tc:opendocument:xmlns:style:1.0"},
+		{ "xmlns:text",
+		  "urn:oasis:names:tc:opendocument:xmlns:text:1.0" },
+		{ "xmlns:table",
+		  "urn:oasis:names:tc:opendocument:xmlns:table:1.0" },
+		{ "xmlns:draw",
+		  "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" },
+		{ "xmlns:fo",
+		  "urn:oasis:names:tc:opendocument:xmlns:"
+		  "xsl-fo-compatible:1.0"},
+		{ "xmlns:xlink", "http://www.w3.org/1999/xlink" },
+		{ "xmlns:dc", "http://purl.org/dc/elements/1.1/" },
+		{ "xmlns:meta",
+		  "urn:oasis:names:tc:opendocument:xmlns:meta:1.0" },
+		{ "xmlns:number",
+		  "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" },
+		{ "xmlns:svg",
+		  "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" },
+		{ "xmlns:chart",
+		  "urn:oasis:names:tc:opendocument:xmlns:chart:1.0" },
+		{ "xmlns:dr3d",
+		  "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" },
+		{ "xmlns:math", "http://www.w3.org/1998/Math/MathML" },
+		{ "xmlns:form",
+		  "urn:oasis:names:tc:opendocument:xmlns:form:1.0" },
+		{ "xmlns:script",
+		  "urn:oasis:names:tc:opendocument:xmlns:script:1.0" },
+		{ "xmlns:ooo", "http://openoffice.org/2004/office" },
+		{ "xmlns:ooow", "http://openoffice.org/2004/writer" },
+		{ "xmlns:oooc", "http://openoffice.org/2004/calc" },
+		{ "xmlns:dom", "http://www.w3.org/2001/xml-events" },
+		{ "xmlns:xforms", "http://www.w3.org/2002/xforms" },
+		{ "xmlns:xsd", "http://www.w3.org/2001/XMLSchema" },
+		{ "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" },
 	};
 	int i;
 
 	state->xml = gsf_xml_out_new (child);
-	gsf_xml_out_set_doc_type (state->xml, 
-		"<!DOCTYPE "
-		   "office:document-content "
-		   "PUBLIC "
-		   "\"-//OpenOffice.org//DTD "
-		   "OfficeDocument "
-		   "1.0//EN\" \"office.dtd\">");
+	gsf_xml_out_set_doc_type (state->xml, "\n");
 	gsf_xml_out_start_element (state->xml, OFFICE "document-content");
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)

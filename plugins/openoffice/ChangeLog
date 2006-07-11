@@ -1,3 +1,16 @@
+2006-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in : use .ods extension for writer
+	* openoffice-write.c (oo_max_cols): deleted
+	(oo_max_rows) : deleted
+	(od_cell_is_covered): new
+	(od_write_empty_cell): new
+	(od_write_covered_cell): new
+	(od_write_cell): new
+	(oo_write_sheet): use the above and drop the check for whether the 
+	  extent is to large for openoffice. OpenDocument has no limit
+	(openoffice_file_save): use new ur[ln]s
+
 2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* plugins/openoffice/openoffice-read.c: replaced gi18n.h by gi18n-lib.h.
