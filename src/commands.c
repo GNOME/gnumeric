@@ -5668,13 +5668,25 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	me->cmd.size = 1;
 
 	if (descriptor == NULL) {
+		char const *tmp;
+		GString *res;
+
+	/* Underscores need to be doubled.  */
+		res = g_string_new (NULL);
+		for (tmp = name; *tmp; tmp++) {
+			if (*tmp == '_')
+				g_string_append_c (res, '_');
+			g_string_append_c (res, *tmp);
+		}
+		
 		nexpr = expr_name_lookup (pp, name);
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr))
 			me->cmd.cmd_descriptor =
-				g_strdup_printf (_("Define Name %s"), name);
+				g_strdup_printf (_("Define Name %s"), res->str);
 		else
 			me->cmd.cmd_descriptor =
-				g_strdup_printf (_("Update Name %s"), name);
+				g_strdup_printf (_("Update Name %s"), res->str);
+		g_string_free (res, TRUE);
 	} else
 		me->cmd.cmd_descriptor = g_strdup (descriptor);
 	

@@ -1,3 +1,8 @@
+2006-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_define_name): handle _ in names used in 
+	  descriptor text
+
 2006-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/GNOME_Gnumeric-gtk.xml.in: add print area commands to File
