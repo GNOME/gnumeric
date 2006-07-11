@@ -1,5 +1,12 @@
 2006-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (od_cell_is_covered): implement
+	(od_write_cell): handle merged cells
+	(cb_sheet_merges_free): new
+	(oo_write_sheet): initialize & clean up  merge handling
+
+2006-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* plugin.xml.in : use .ods extension for writer
 	* openoffice-write.c (oo_max_cols): deleted
 	(oo_max_rows) : deleted

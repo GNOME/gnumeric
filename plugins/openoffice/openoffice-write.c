@@ -39,6 +39,7 @@
 #include <sheet.h>
 #include <sheet-view.h>
 #include <sheet-style.h>
+#include <sheet-merge.h>
 #include <style-color.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -112,8 +113,36 @@ oo_write_table_styles (GnmOOExport *state)
 
 static gboolean
 od_cell_is_covered (Sheet const *sheet, GnmCell *current_cell, 
-		    int col, int row)
+		    int col, int row, GnmRange const *merge_range,
+		    GSList **merge_ranges)
 {
+	GSList *l;
+	
+	if (merge_range != NULL) {
+		GnmRange *new_range = g_new(GnmRange, 1);
+		*new_range = *merge_range;
+		(*merge_ranges) = g_slist_prepend (*merge_ranges, new_range);
+		return FALSE;
+	}
+
+	if ((*merge_ranges) == NULL)
+		return FALSE;
+
+	*merge_ranges = g_slist_remove_all (*merge_ranges, NULL);
+
+	for (l = *merge_ranges; l != NULL; l = g_slist_next(l)) {
+		GnmRange *r = l->data;
+		if (r->end.row < row) {
+			/* We do not need this range anymore */
+			g_free (r);
+			l->data = NULL;
+			continue;
+		}
+		/* no need to check for beginning rows */
+		/* we have to check for column range */
+		if ((r->start.col <= col) && (col <= r->end.col))
+			return TRUE;
+	}
 	return FALSE;
 }
 
@@ -140,25 +169,43 @@ od_write_covered_cell (GnmOOExport *state, int *num)
 }
 
 static void 
-od_write_cell (GnmOOExport *state, GnmCell *cell)
+od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range)
 {
 	char *rendered_string;
+	int rows_spanned = 0, cols_spanned = 0;
 
-	g_return_if_fail (cell != NULL);
-
-	rendered_string = cell_get_rendered_text (cell);
-
+	if (merge_range != NULL) {
+		rows_spanned = merge_range->end.row - merge_range->start.row + 1;
+		cols_spanned = merge_range->end.col - merge_range->start.col + 1;
+	}
+	
 	gsf_xml_out_start_element (state->xml, TABLE "table-cell");
-	gsf_xml_out_add_cstr_unchecked (state->xml, 
-					OFFICE "value-type", "string");
-	gsf_xml_out_add_cstr_unchecked (state->xml, 
-					OFFICE "value",rendered_string);
-	gsf_xml_out_start_element (state->xml, TEXT "p");
-	gsf_xml_out_add_cstr_unchecked (state->xml, NULL, rendered_string);
-	gsf_xml_out_end_element (state->xml);   /* p */
+	if (cols_spanned > 1)
+		gsf_xml_out_add_int (state->xml,
+				     TABLE "number-columns-spanned", cols_spanned);
+	if (rows_spanned > 1)
+		gsf_xml_out_add_int (state->xml,
+				     TABLE "number-rows-spanned", rows_spanned);
+	if (cell != NULL) {
+		rendered_string = cell_get_rendered_text (cell);
+		gsf_xml_out_add_cstr_unchecked (state->xml, 
+						OFFICE "value-type", "string");
+		gsf_xml_out_add_cstr_unchecked (state->xml, 
+						OFFICE "value",rendered_string);
+		gsf_xml_out_start_element (state->xml, TEXT "p");
+		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, rendered_string);
+		gsf_xml_out_end_element (state->xml);   /* p */
+	}
 	gsf_xml_out_end_element (state->xml);   /* table-cell */	
 
 	g_free (rendered_string);
+}
+
+static void
+cb_sheet_merges_free (gpointer data, gpointer user_data)
+{
+	if (data != NULL)
+		g_free (data);
 }
 
 static void
@@ -166,12 +213,13 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
 	GnmStyle *col_styles [SHEET_MAX_COLS];
 	GnmRange  extent;
-#warning: Does OpenDocument really have a maximum column and row number?
-	int max_cols = oo_max_cols ();
-	int max_rows = oo_max_rows ();
+	int max_cols = SHEET_MAX_COLS;
+	int max_rows = SHEET_MAX_ROWS;
 	int i, col, row;
 	int null_cell;
 	int covered_cell;
+	GnmCellPos pos;
+	GSList *sheet_merges = NULL;
 
 	extent = sheet_get_extent (sheet, FALSE);
 	sheet_style_get_extent (sheet, &extent, col_styles);
@@ -197,17 +245,25 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	for (row = extent.start.row; row <= extent.end.row; row++) {
 		null_cell = extent.start.col;
 		covered_cell = 0;
+		pos.row = row;
+
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
+
 		for (col = extent.start.col; col <= extent.end.col; col++) {
 			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
+			GnmRange const	*merge_range;
 
-			if (od_cell_is_covered (sheet, current_cell, col, row)) {
+			pos.col = col;
+			merge_range = sheet_merge_is_corner (sheet, &pos);
+
+			if (od_cell_is_covered (sheet, current_cell, col, row,
+						merge_range, &sheet_merges)) {
 				if (null_cell >0)
 					od_write_empty_cell (state, &null_cell);
 				covered_cell++;
 				continue;
 			}
-			if (cell_is_empty (current_cell)) {
+			if ((merge_range == NULL) && cell_is_empty (current_cell)) {
 				if (covered_cell > 0)
 					od_write_covered_cell (state, &covered_cell);
 				null_cell++;
@@ -218,7 +274,7 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 				od_write_empty_cell (state, &null_cell);
 			if (covered_cell > 0)
 				od_write_covered_cell (state, &covered_cell);
-			od_write_cell (state, current_cell);
+			od_write_cell (state, current_cell, merge_range);
 			
 		}
 		if (covered_cell > 0)
@@ -227,6 +283,10 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 		gsf_xml_out_end_element (state->xml);   /* table-row */
 	}
 
+	if (sheet_merges != NULL) {
+		g_slist_foreach (sheet_merges, cb_sheet_merges_free, NULL);
+		g_slist_free (sheet_merges);
+	}
 }
 
 static void
