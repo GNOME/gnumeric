@@ -55,6 +55,7 @@
 #include <sheet-filter.h>
 #include <print-info.h>
 #include <print-info.h>
+#include <parse-util.h>
 #include <tools/scenarios.h>
 
 #include <gsf/gsf-libxml.h>
@@ -78,6 +79,7 @@ typedef struct {
 	IOContext *ioc;
 	WorkbookView const *wbv;
 	Workbook const	   *wb;
+	GnmExprConventions *conv;
 } GnmOOExport;
 
 void	openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
@@ -110,6 +112,20 @@ oo_write_table_styles (GnmOOExport *state)
 
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
+
+static GnmExprConventions *
+oo_expr_conventions_new (void)
+{
+	GnmExprConventions *conv;
+
+	conv = gnm_expr_conventions_new ();
+	conv->argument_sep_semicolon = TRUE;
+	conv->decimal_sep_dot = TRUE;
+	
+	/* FIXME: we have to set up the correct conventions */
+	return conv;
+}
+
 
 static gboolean
 od_cell_is_covered (Sheet const *sheet, GnmCell *current_cell, 
@@ -194,10 +210,21 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range)
 				     TABLE "number-rows-spanned", rows_spanned);
 	if (cell != NULL) {
 		if (cell_has_expr(cell)) {
-			/* FIX ME!  FIX ME!  FIX ME!  FIX ME!  FIX ME! */
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
-							OFFICE "formula", "=NOW()");
+			char *formula, *eq_formula;
+			GnmParsePos pp;
+			parse_pos_init_cell (&pp, cell);
+			formula = gnm_expr_as_string (cell->base.texpr->expr,
+						      &pp,
+						      state->conv);
+			eq_formula = g_strdup_printf ("oooc:=%s", formula);
+			
+			gsf_xml_out_add_cstr_unchecked (state->xml,
+							TABLE "formula",
+							eq_formula);
+			g_free (formula);
+			g_free (eq_formula);
 		}
+		
 		rendered_string = cell_get_rendered_text (cell);
 		
 		switch (cell->value->type) {
@@ -394,16 +421,17 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "class", "spreadsheet");
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
 
-	gsf_xml_out_simple_element (state->xml, OFFICE "script", NULL);
+	gsf_xml_out_simple_element (state->xml, OFFICE "scripts", NULL);
 
-	gsf_xml_out_start_element (state->xml, OFFICE "font-decls");
-	gsf_xml_out_end_element (state->xml); /* </office:font-decls> */
+	gsf_xml_out_start_element (state->xml, OFFICE "font-face-decls");
+	gsf_xml_out_end_element (state->xml); /* </office:font-face-decls> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
-	oo_write_table_styles (state);
+/* 	oo_write_table_styles (state); */
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
+/* 	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet"); */
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 #warning validate sheet name against OOo conventions
@@ -412,7 +440,8 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 		oo_write_sheet (state, sheet);
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
 	}
-	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
+/* 	gsf_xml_out_end_element (state->xml); /\* </office:spreadsheet> *\/ */
+	gsf_xml_out_end_element (state->xml); /* </office:body> */
 
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
 	g_object_unref (state->xml);
@@ -515,6 +544,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.ioc = ioc;
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
+	state.conv = oo_expr_conventions_new ();
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child  (outfile, streams[i].name, FALSE);
 		streams[i].func (&state, child);
@@ -530,4 +560,6 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	g_free (old_monetary_locale);
 	go_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
+
+	g_free (state.conv);
 }

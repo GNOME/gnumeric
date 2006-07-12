@@ -1,5 +1,17 @@
 2006-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (GnmOOExport): add GnmExprConventions
+	  field
+	(oo_expr_conventions_new): new
+	(od_write_cell): try to write some formulas
+	(oo_write_content): fix some spelling, temporarily skip writing 
+	  styles, don't use the office:spreadsheet element until we
+	  know why openoffice doesn't like it.
+	(openoffice_file_save): initialize GnmExprConventions in 
+	  GnmOOExport
+	
+2006-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (od_write_empty_cell): don't write 
 	  number-columns-repeated if value is 1
 	(od_write_covered_cell): ditto
