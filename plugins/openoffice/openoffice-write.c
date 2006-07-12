@@ -151,7 +151,10 @@ od_write_empty_cell (GnmOOExport *state, int *num)
 {
 	if (*num > 0) {
 		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
-		gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated", *num);
+		if (*num > 1)
+			gsf_xml_out_add_int (state->xml,
+					     TABLE "number-columns-repeated",
+					     *num);
 		gsf_xml_out_end_element (state->xml);   /* table-cell */
 		*num = 0;
 	}
@@ -162,7 +165,10 @@ od_write_covered_cell (GnmOOExport *state, int *num)
 {
 	if (*num > 0) {
 		gsf_xml_out_start_element (state->xml, TABLE "covered-table-cell");
-		gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated", *num);
+		if (*num > 1)
+			gsf_xml_out_add_int (state->xml,
+					     TABLE "number-columns-repeated",
+					     *num);
 		gsf_xml_out_end_element (state->xml);   /* covered-table-cell */
 		*num = 0;
 	}
@@ -187,11 +193,54 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range)
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-rows-spanned", rows_spanned);
 	if (cell != NULL) {
+		if (cell_has_expr(cell)) {
+			/* FIX ME!  FIX ME!  FIX ME!  FIX ME!  FIX ME! */
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "formula", "=NOW()");
+		}
 		rendered_string = cell_get_rendered_text (cell);
-		gsf_xml_out_add_cstr_unchecked (state->xml, 
-						OFFICE "value-type", "string");
-		gsf_xml_out_add_cstr_unchecked (state->xml, 
-						OFFICE "value",rendered_string);
+		
+		switch (cell->value->type) {
+		case VALUE_BOOLEAN:
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value-type", "boolean");
+			gsf_xml_out_add_bool (state->xml, OFFICE "boolean-value", 
+					       value_get_as_bool
+					       (cell->value, NULL));
+			break;
+		case VALUE_FLOAT:
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value-type", "float");
+			gsf_xml_out_add_float (state->xml, OFFICE "value", 
+					       value_get_as_float 
+					       (cell->value),
+					       10);
+			break;
+		case VALUE_STRING:
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value-type", "string");
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value",rendered_string);
+			break;
+		case VALUE_ARRAY:   /* FIX ME */
+			break;
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value-type", "string");
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value",
+							value_peek_string (cell->value));
+			break;
+		case VALUE_ERROR:
+		case VALUE_CELLRANGE:
+		default:
+			break;
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value-type", "string");
+			gsf_xml_out_add_cstr_unchecked (state->xml, 
+							OFFICE "value",
+							value_peek_string (cell->value));
+		}
+		
 		gsf_xml_out_start_element (state->xml, TEXT "p");
 		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, rendered_string);
 		gsf_xml_out_end_element (state->xml);   /* p */

@@ -1,3 +1,10 @@
+2006-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (od_write_empty_cell): don't write 
+	  number-columns-repeated if value is 1
+	(od_write_covered_cell): ditto
+	(od_write_cell): handle various value types
+
 2006-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (od_cell_is_covered): implement
