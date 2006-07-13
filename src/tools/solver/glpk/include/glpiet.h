@@ -1,19 +1,11 @@
-/* glpiet.h */
+/* glpiet.h (implicit enumeration tree) */
 
 /*----------------------------------------------------------------------
--- GLPIET -- Implicit Enumeration Tree.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- Author:        Andrew Makhorin, Department for Applied Informatics,
---                Moscow Aviation Institute, Moscow, Russia.
--- E-mail:        <mao@mai2.rcnet.ru>, <mao@gnu.org>
--- Date written:  Autumn 2003.
--- Last modified: October 2003.
---
--- This file is part of GLPK (GNU Linear Programming Kit).
---
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved.
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -28,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #ifndef _GLPIET_H
@@ -178,9 +170,9 @@ struct IET
          its purpose is to delete an additional information associated
          with corresponding object; the second parameter specifies what
          object is being deleted: */
-#define IET_ND          101   /* subproblem is being deleted */
-#define IET_RD          102   /* row is being deleted */
-#define IET_CD          103   /* column is being deleted */
+#define IET_ND          401   /* subproblem is being deleted */
+#define IET_RD          402   /* row is being deleted */
+#define IET_CD          403   /* column is being deleted */
       void *info;
       /* transitional pointer passed to the hook routine */
       /*--------------------------------------------------------------*/
@@ -408,11 +400,11 @@ struct IETROW
       /* pointer to corresponding global descriptor */
       int type;
       /* type of auxiliary variable associated with this row: */
-#define IET_FR          111   /* free variable */
-#define IET_LO          112   /* variable with lower bound */
-#define IET_UP          113   /* variable with upper bound */
-#define IET_DB          114   /* gnm_float-bounded variable */
-#define IET_FX          115   /* fixed variable */
+#define IET_FR          411   /* free variable */
+#define IET_LO          412   /* variable with lower bound */
+#define IET_UP          413   /* variable with upper bound */
+#define IET_DB          414   /* gnm_float-bounded variable */
+#define IET_FX          415   /* fixed variable */
       gnm_float lb;
       /* lower bound; if the row has no lower bound, lb is zero */
       gnm_float ub;
@@ -428,11 +420,11 @@ struct IETROW
          are placed in this row */
       int stat;
       /* status of auxiliary variable associated with this row: */
-#define IET_BS          121   /* basic variable */
-#define IET_NL          122   /* non-basic variable on lower bound */
-#define IET_NU          123   /* non-basic variable on upper bound */
-#define IET_NF          124   /* non-basic free variable */
-#define IET_NS          125   /* non-basic fixed variable */
+#define IET_BS          421   /* basic variable */
+#define IET_NL          422   /* non-basic variable on lower bound */
+#define IET_NU          423   /* non-basic variable on upper bound */
+#define IET_NF          424   /* non-basic free variable */
+#define IET_NS          425   /* non-basic fixed variable */
       int old_type;
       gnm_float old_lb;
       gnm_float old_ub;
@@ -450,11 +442,11 @@ struct IETCOL
       /* pointer to corresponding global descriptor */
       int type;
       /* type of structural variable associated with this column: */
-#define IET_FR          111   /* free variable */
-#define IET_LO          112   /* variable with lower bound */
-#define IET_UP          113   /* variable with upper bound */
-#define IET_DB          114   /* gnm_float-bounded variable */
-#define IET_FX          115   /* fixed variable */
+#define IET_FR          411   /* free variable */
+#define IET_LO          412   /* variable with lower bound */
+#define IET_UP          413   /* variable with upper bound */
+#define IET_DB          414   /* gnm_float-bounded variable */
+#define IET_FX          415   /* fixed variable */
       gnm_float lb;
       /* lower bound; if the column has no lower bound, lb is zero */
       gnm_float ub;
@@ -472,11 +464,11 @@ struct IETCOL
          are placed in this column */
       int stat;
       /* status of structural variable associated with this column: */
-#define IET_BS          121   /* basic variable */
-#define IET_NL          122   /* non-basic variable on lower bound */
-#define IET_NU          123   /* non-basic variable on upper bound */
-#define IET_NF          124   /* non-basic free variable */
-#define IET_NS          125   /* non-basic fixed variable */
+#define IET_BS          421   /* basic variable */
+#define IET_NL          422   /* non-basic variable on lower bound */
+#define IET_NU          423   /* non-basic variable on upper bound */
+#define IET_NF          424   /* non-basic free variable */
+#define IET_NS          425   /* non-basic fixed variable */
       int old_type;
       gnm_float old_lb;
       gnm_float old_ub;

@@ -9,5 +9,5 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)/src/tools/solver/glpk/include	\
 	$(GNUMERIC_CFLAGS)
 
-noinst_LIBRARIES =
+noinst_LTLIBRARIES =
 

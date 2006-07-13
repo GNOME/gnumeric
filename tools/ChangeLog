@@ -1,3 +1,8 @@
+2006-07-06  Jody Goldberg <jody@gnome.org>
+
+	* import-GLPK : update for glpk-4.9 and move to shared lib to link
+	  with libspreadsheet.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0

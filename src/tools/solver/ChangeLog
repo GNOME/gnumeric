@@ -1,3 +1,8 @@
+2006-07-12  Jody Goldberg <jody@gnome.org>
+
+	* api.c : Update glpk api usage to the new names (post 4.4) now that
+	  the old ones have been removed in 4.9.
+
 2006-05-31  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (solver_lp_copy): Don't create dangling cells here.

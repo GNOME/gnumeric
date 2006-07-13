@@ -1,3 +1,45 @@
+GLPK 4.9 (release date: Jan 17, 2006)
+
+        An advanced MIP solver was implemented. It includes:
+
+        - basic presolving technique (removing free, singleton and
+          redundant rows, improving bounds of columns, removing fixed
+          columns, reducing constraint coefficents);
+
+        - generating cutting planes to improve LP relaxation (currently
+          only Gomory's mixed integer cuts are implemented);
+
+        - using the branch-and-bound method to solve resultant MIP;
+
+        - recovering solution of the original MIP.
+
+        The solver is available on API level via the routine lpx_intopt
+        (see the reference manual). It is similar to the routine
+        lpx_integer, however, does not require initial solution of LP
+        relaxation.
+
+        The solver is also available in the command-line utility glpsol
+        via two options: --intopt (only presolving) and --cuts (assumes
+        --intopt plus generating cuts).
+
+        Note that efficiency of the MIP solver strongly depends on the
+        internal structure of the problem to be solved. For some hard
+        instances it is very efficient, but for other instances it may
+        be significantly worse than the standard branch-and-bound.
+
+        For some comparative benchmarks see doc/bench1.txt.
+
+        Well, what else...
+
+        Three built-in functions were added to MathProg: sin, cos, and
+        atan (the latter allows one or two arguments).
+
+        Some bugs were fixed.
+
+        Several new examples in MathProg were included: color.mod
+        (graph coloring problem), tsp.mod (traveling salesman problem),
+        and pbn.mod (paint-by-numbers puzzle).
+
 GLPK 4.8 (release date: Jan 12, 2005)
 
         Core simplex method and interior-point method routines were

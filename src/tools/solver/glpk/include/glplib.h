@@ -1,11 +1,11 @@
-/* glplib.h */
+/* glplib.h (miscellaneous low-level routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #ifndef _GLPLIB_H
@@ -36,6 +36,8 @@
 #define lib_init_env          glp_lib_init_env
 #define lib_env_ptr           glp_lib_env_ptr
 #define lib_free_env          glp_lib_free_env
+#define lib_open_hardcopy     glp_lib_open_hardcopy
+#define lib_close_hardcopy    glp_lib_close_hardcopy
 #define print                 glp_lib_print
 #define lib_set_print_hook    glp_lib_set_print_hook
 #define fault                 glp_lib_fault
@@ -50,9 +52,8 @@
 #define str2dbl               glp_lib_str2dbl
 #define strspx                glp_lib_strspx
 #define strtrim               glp_lib_strtrim
-#define lib_init_rand         glp_lib_init_rand
-#define lib_next_rand         glp_lib_next_rand
-#define lib_unif_rand         glp_lib_unif_rand
+#define fp2rat                glp_lib_fp2rat
+#define write_bmp16           glp_lib_write_bmp16
 
 typedef struct LIBENV LIBENV;
 typedef struct LIBMEM LIBMEM;
@@ -66,11 +67,11 @@ struct LIBENV
       /* user-defined hook routines */
       void *print_info;
       /* transit pointer passed to the routine print_hook */
-      int (*print_hook)(void *info, const char *msg);
+      int (*print_hook)(void *info, char *msg);
       /* user-defined print hook routine */
       void *fault_info;
       /* transit pointer passed to the routine fault_hook */
-      int (*fault_hook)(void *info, const char *msg);
+      int (*fault_hook)(void *info, char *msg);
       /* user-defined fault hook routine */
       /*--------------------------------------------------------------*/
       /* dynamic memory registration */
@@ -93,12 +94,12 @@ struct LIBENV
       void *file_slot[LIB_MAX_OPEN]; /* FILE *file_slot[]; */
       /* file_slot[k], 0 <= k <= LIB_MAX_OPEN-1, is a pointer to k-th
          i/o stream; if k-th slot is free, file_slot[k] is NULL */
-      /*--------------------------------------------------------------*/
-      /* pseudo-random number generator */
-      int rand_val[56];
-      /* pseudo-random values */
-      int *next_val;
-      /* the next pseudo-random value to be exported */
+#if 1 /* 14/I-2006 */
+      void *hcpy_file; /* FILE *hcpy_file; */
+      /* pointer to output stream used for hardcopying messages output
+         on the screen by the print and fault routines; NULL means the
+         hardcopy file is not used */
+#endif
 };
 
 struct LIBMEM
@@ -135,6 +136,12 @@ LIBENV *lib_env_ptr(void);
 
 int lib_free_env(void);
 /* free library environment */
+
+int lib_open_hardcopy(char *filename);
+/* open hardcopy file */
+
+int lib_close_hardcopy(void);
+/* close hardcopy file */
 
 void print(const char *fmt, ...);
 /* print informative message */
@@ -194,14 +201,11 @@ char *strspx(char *str);
 char *strtrim(char *str);
 /* remove trailing spaces from character string */
 
-void lib_init_rand(int seed);
-/* initialize pseudo-random number generator */
+int fp2rat(gnm_float x, gnm_float eps, gnm_float *p, gnm_float *q);
+/* convert floating-point number to rational number */
 
-int lib_next_rand(void);
-/* obtain pseudo-random integer on [0, 2^31-1] */
-
-int lib_unif_rand(int m);
-/* obtain pseudo-random integer on [0, m-1] */
+int write_bmp16(char *fname, int m, int n, char map[]);
+/* write 16-color raster image in Windows Bitmap format */
 
 #endif
 

@@ -1,11 +1,11 @@
 /* glplpx4.c (problem scaling routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #include <float.h>
@@ -315,7 +315,7 @@ err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
 }
 
 /*----------------------------------------------------------------------
--- lpx_scale_prob - scale LP problem data.
+-- lpx_scale_prob - scale problem data.
 --
 -- *Synopsis*
 --
@@ -324,129 +324,85 @@ err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
 --
 -- *Description*
 --
--- The routine lpx_scale_prob performs scaling LP problem data in an LP
--- object, which the parameter lp points to.
+-- The routine lpx_scale_prob performs scaling of problem data for the
+-- specified problem object.
 --
 -- The purpose of scaling is to replace the original constraint matrix
 -- A by the scaled matrix A' = R*A*S, where R and S are diagonal scaling
 -- matrices, in the hope that A' has better numerical properties than A.
 --
--- On API level the scaling effect is almost invisible, since all data
--- entered into the LP problem object (say, constraint coefficients or
--- bounds of variables) are automatically scaled by api routines using
--- the scaling matrices R and S, and vice versa, all data obtained from
--- the LP problem object (say, values of variables or reduced costs) are
--- automatically unscaled. However, round-off errors may involve small
--- distortions (of order DBL_EPSILON) of original data. */
+-- May note that the scaling is implicit in the sense that the original
+-- constraint matrix A is not changed. */
 
 static int mat(void *info, int k, int ndx[], gnm_float val[])
-{     /* this auxiliary routine is intended to obtain a row or a column
-         of the constraint matrix */
+{     /* this auxiliary routine obtains a required row or column of the
+         original constraint matrix */
       LPX *lp = info;
-      int m = lp->m;
-      int n = lp->n;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int i, j, beg, len;
+      int m = lpx_get_num_rows(lp);
+      int n = lpx_get_num_cols(lp);
+      int i, j, len;
       if (k > 0)
       {  /* i-th row required */
          i = +k;
          insist(1 <= i && i <= m);
-         beg = aa_ptr[i];
-         len = aa_len[i];
+         len = lpx_get_mat_row(lp, i, ndx, val);
       }
       else
       {  /* j-th column required */
          j = -k;
          insist(1 <= j && j <= n);
-         beg = aa_ptr[m+j];
-         len = aa_len[m+j];
+         len = lpx_get_mat_col(lp, j, ndx, val);
       }
-      memcpy(&ndx[1], &sv_ndx[beg], len * sizeof(int));
-      memcpy(&val[1], &sv_val[beg], len * sizeof(gnm_float));
       return len;
 }
 
 void lpx_scale_prob(LPX *lp)
-{     /* scale LP problem data */
-      int m = lp->m;
-      int n = lp->n;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      gnm_float *rs = lp->rs;
-      gnm_float *coef = lp->coef;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int i, i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr;
-      gnm_float r_i, s_j;
-      if (m == 0)
-         fault("lpx_scale_prob: problem has no rows");
-      if (n == 0)
-         fault("lpx_scale_prob: problem has no columns");
-      /* unscale LP problem data */
-      lpx_unscale_prob(lp);
-      /* now the scaling matrices R and S are unity */
-      switch (lp->scale)
+{     /* scale LP/MIP problem data */
+      int m = lpx_get_num_rows(lp);
+      int n = lpx_get_num_cols(lp);
+      int sc_ord = 0, sc_max = 20;
+      gnm_float sc_eps = 0.01; 
+      int i, j;
+      gnm_float *R, *S;
+      /* initialize R := I and S := I */
+      R = ucalloc(1+m, sizeof(gnm_float));
+      S = ucalloc(1+n, sizeof(gnm_float));
+      for (i = 1; i <= m; i++) R[i] = 1.0;
+      for (j = 1; j <= n; j++) S[j] = 1.0;
+      /* if the problem has no rows/columns, skip computations */
+      if (m == 0 || n == 0) goto skip;
+      /* compute the scaling matrices R and S */
+      switch (lpx_get_int_parm(lp, LPX_K_SCALE))
       {  case 0:
             /* no scaling */
             break;
          case 1:
             /* equilibration scaling */
-            eq_scal(lp->m, lp->n, lp, mat, &rs[0], &rs[m], lp->sc_ord);
+            eq_scal(m, n, lp, mat, R, S, sc_ord);
             break;
          case 2:
             /* geometric mean scaling */
-            gm_scal(lp->m, lp->n, lp, mat, &rs[0], &rs[m], lp->sc_ord,
-               lp->sc_max, lp->sc_eps);
+            gm_scal(m, n, lp, mat, R, S, sc_ord, sc_max, sc_eps);
             break;
          case 3:
             /* geometric mean scaling, then equilibration scaling */
-            gm_scal(lp->m, lp->n, lp, mat, &rs[0], &rs[m], lp->sc_ord,
-               lp->sc_max, lp->sc_eps);
-            eq_scal(lp->m, lp->n, lp, mat, &rs[0], &rs[m], lp->sc_ord);
+            gm_scal(m, n, lp, mat, R, S, sc_ord, sc_max, sc_eps);
+            eq_scal(m, n, lp, mat, R, S, sc_ord);
             break;
          default:
-            insist(lp->scale != lp->scale);
+            insist(lp != lp);
       }
-      /* here diagonal elements of the matrices R and S can be replaced
-         by degrees of FLT_RADIX in order to completely avoid round-off
-         errors in scaling/unscaling */
-      /* scale rows */
-      for (i = 1; i <= m; i++)
-      {  r_i = rs[i];
-         lb[i] *= r_i;
-         ub[i] *= r_i;
-         coef[i] /= r_i;
-         i_beg = aa_ptr[i];
-         i_end = i_beg + aa_len[i] - 1;
-         for (i_ptr = i_beg; i_ptr <= i_end; i_ptr++)
-         {  j = m + sv_ndx[i_ptr];
-            sv_val[i_ptr] *= (r_i * rs[j]);
-         }
-      }
-      /* scale columns */
-      for (j = m+1; j <= m+n; j++)
-      {  s_j = rs[j];
-         lb[j] /= s_j;
-         ub[j] /= s_j;
-         coef[j] *= s_j;
-         j_beg = aa_ptr[j];
-         j_end = j_beg + aa_len[j] - 1;
-         for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-         {  i = sv_ndx[j_ptr];
-            sv_val[j_ptr] *= (rs[i] * s_j);
-         }
-      }
-      /* the basis was invalidated by the routine lpx_unscale_prob */
+skip: /* enter the scaling matrices R and S into the problem object and
+         thereby perform implicit scaling */
+      for (i = 1; i <= m; i++) lpx_set_rii(lp, i, R[i]);
+      for (j = 1; j <= n; j++) lpx_set_sjj(lp, j, S[j]);
+      ufree(R);
+      ufree(S);
       return;
 }
 
 /*----------------------------------------------------------------------
--- lpx_unscale_prob - unscale LP problem data.
+-- lpx_unscale_prob - unscale problem data.
 --
 -- *Synopsis*
 --
@@ -455,57 +411,18 @@ void lpx_scale_prob(LPX *lp)
 --
 -- *Description*
 --
--- The routine lpx_unscale_prob performs unscaling LP problem data in
--- an LP object, which the parameter lp points to.
+-- The routine lpx_unscale_prob performs unscaling of problem data for
+-- the specified problem object.
 --
 -- "Unscaling" means replacing the current scaling matrices R and S by
 -- unity matrices that cancels the scaling effect. */
 
 void lpx_unscale_prob(LPX *lp)
-{     int m = lp->m;
-      int n = lp->n;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      gnm_float *rs = lp->rs;
-      gnm_float *coef = lp->coef;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int i, i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr, k;
-      gnm_float r_i, s_j;
-      /* unscale rows */
-      for (i = 1; i <= m; i++)
-      {  r_i = rs[i];
-         lb[i] /= r_i;
-         ub[i] /= r_i;
-         coef[i] *= r_i;
-         i_beg = aa_ptr[i];
-         i_end = i_beg + aa_len[i] - 1;
-         for (i_ptr = i_beg; i_ptr <= i_end; i_ptr++)
-         {  j = m + sv_ndx[i_ptr];
-            sv_val[i_ptr] /= (r_i * rs[j]);
-         }
-      }
-      /* unscale columns */
-      for (j = m+1; j <= m+n; j++)
-      {  s_j = rs[j];
-         lb[j] *= s_j;
-         ub[j] *= s_j;
-         coef[j] /= s_j;
-         j_beg = aa_ptr[j];
-         j_end = j_beg + aa_len[j] - 1;
-         for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-         {  i = sv_ndx[j_ptr];
-            sv_val[j_ptr] /= (rs[i] * s_j);
-         }
-      }
-      /* reset scaling matrices */
-      for (k = 1; k <= m+n; k++) rs[k] = 1.0;
-      /* invalidate the current basis */
-      lp->b_stat = LPX_B_UNDEF;
-      lp->p_stat = LPX_P_UNDEF;
-      lp->d_stat = LPX_D_UNDEF;
+{     int m = lpx_get_num_rows(lp);
+      int n = lpx_get_num_cols(lp);
+      int i, j;
+      for (i = 1; i <= m; i++) lpx_set_rii(lp, i, 1.0);
+      for (j = 1; j <= n; j++) lpx_set_sjj(lp, j, 1.0);
       return;
 }
 

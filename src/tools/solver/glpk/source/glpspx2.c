@@ -1,11 +1,11 @@
-/* glpspx2.c (generic simplex method routines) */
+/* glpspx2.c (simplex method solver routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,1899 +20,1353 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
-#include <float.h>
-#include <math.h>
-#include <stddef.h>
+#include <string.h>
 #include "glplib.h"
 #include "glpspx.h"
 
 /*----------------------------------------------------------------------
--- spx_eval_xn_j - determine value of non-basic variable.
+-- spx_warm_up - "warm up" the initial basis.
 --
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnm_float spx_eval_xn_j(LPX *lp, int j);
+-- int spx_warm_up(SPX *spx);
+--
+-- *Description*
+--
+-- The routine spx_warm_up "warms up" the initial basis specified by
+-- the array tagx. "Warming up" includes (if necessary) reinverting
+-- (factorizing) the initial basis matrix, computing the initial basic
+-- solution components (values of basic variables, simplex multipliers,
+-- reduced costs of non-basic variables), and determining primal and
+-- dual statuses of the initial basic solution.
 --
 -- *Returns*
 --
--- The routine spx_eval_xn_j returns a value of the non-basic variable
--- xN[j], 1 <= j <= n, for the current basic solution. */
+-- The routine spx_warm_up returns one of the following exit codes:
+--
+-- LPX_E_OK       the initial basis has been successfully "warmed up".
+--
+-- LPX_E_EMPTY    the problem has no rows and/or no columns.
+--
+-- LPX_E_BADB     the initial basis is invalid, because number of basic
+--                variables and number of rows are different.
+--
+-- LPX_E_SING     the initial basis matrix is numerically singular or
+--                ill-conditioned.
+--
+-- Note that additional exit codes may appear in the future versions of
+-- this routine. */
 
-gnm_float spx_eval_xn_j(LPX *lp, int j)
-{     int m = lp->m;
-      int n = lp->n;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      int *tagx = lp->tagx;
-      int *indx = lp->indx;
-      int k;
-      gnm_float xn_j;
-      insist(1 <= j && j <= n);
-      k = indx[m+j]; /* x[k] = xN[j] */
-      switch (tagx[k])
-      {  case LPX_NL:
-            /* xN[j] is on its lower bound */
-            xn_j = lb[k]; break;
-         case LPX_NU:
-            /* xN[j] is on its upper bound */
-            xn_j = ub[k]; break;
-         case LPX_NF:
-            /* xN[j] is free variable */
-            xn_j = 0.0; break;
-         case LPX_NS:
-            /* xN[j] is fixed variable */
-            xn_j = lb[k]; break;
-         default:
-            insist(tagx != tagx);
-      }
-      return xn_j;
-}
-
-/*----------------------------------------------------------------------
--- spx_eval_bbar - compute values of basic variables.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_eval_bbar(LPX *lp);
---
--- *Description*
---
--- The routine spx_eval_bbar computes values of basic variables
---
---    xB = beta = (beta_1, ..., beta_m)
---
--- for the current basis and stores elements of the vector beta to the
--- locations bbar[1], ..., bbar[m].
---
--- The vector beta is computed using the following formula:
---
---    beta = - inv(B) * (N * xN) =
---
---         = inv(B) * (- N[1]*xN[1] - ... - N[n]*xN[n]),
---
--- where N[j] is the j-th column of the augmented constraint matrix A~,
--- which corresponds to the non-basic variable xN[j]. */
-
-void spx_eval_bbar(LPX *lp)
-{     int m = lp->m;
-      int n = lp->n;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int *indx = lp->indx;
-      gnm_float *bbar = lp->bbar;
-      int i, j, j_beg, j_end, j_ptr, k;
-      gnm_float *rhs = bbar, xn_j;
-      /* rhs := - N*xN = - N[1]*xN[1] - ... - N[n]*xN[n] */
-      for (i = 1; i <= m; i++) rhs[i] = 0.0;
-      for (j = 1; j <= n; j++)
-      {  xn_j = spx_eval_xn_j(lp, j);
-         if (xn_j == 0.0) continue;
-         k = indx[m+j]; /* x[k] = xN[j] */
-         if (k <= m)
-         {  /* x[k] is auxiliary variable */
-            rhs[k] -= xn_j;
-         }
-         else
-         {  /* x[k] is structural variable */
-            j_beg = aa_ptr[k];
-            j_end = j_beg + aa_len[k] - 1;
-            for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-               rhs[sv_ndx[j_ptr]] += sv_val[j_ptr] * xn_j;
-         }
-      }
-      /* bbar := inv(B) * rhs */
-      spx_ftran(lp, rhs, 0);
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_eval_pi - compute simplex multipliers.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_eval_pi(LPX *lp);
---
--- *Description*
---
--- The routine spx_eval_pi computes simplex multipliers (i.e. Lagrange
--- multipliers that correspond to the equality constraints)
---
---    pi = (pi_1, ..., pi_m)
---
--- for the current basis and stores elements of the vector pi to the
--- locations pi[1], ..., pi[m].
---
--- The vector pi is computed using the following formula:
---
---    pi = inv(B') * cB,
---
--- where B' is a matrix transposed to the current basis matrix B, cB is
--- the vector of objective coefficients at basic variables xB. */
-
-void spx_eval_pi(LPX *lp)
-{     int m = lp->m;
-      gnm_float *coef = lp->coef;
-      int *indx = lp->indx;
-      int i;
-      gnm_float *cb = lp->pi;
-      /* make the vector cB */
-      for (i = 1; i <= m; i++) cb[i] = coef[indx[i]];
-      /* pi := inv(B') * cB */
-      spx_btran(lp, cb);
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_eval_cbar - compute reduced costs of non-basic variables.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_eval_cbar(LPX *lp);
---
--- *Description*
---
--- The routine spx_eval_cbar computes reduced costs
---
---    d = (d_1, ..., d_n)
---
--- of non-basic variables for the current basis and stores elements of
--- the vector d to the locations cbar[1], ..., cbar[n].
---
--- The vector d is computed using the following formula:
---
---    d[j] = cN[j] - pi' * N[j], j = 1, ..., n,
---
--- where cN[j] is coefficient of the objective function at the variable
--- xN[j], pi is the vector of simplex multipliers (should be computed
--- before), N[j] is the j-th column of the augmented constraint matrix
--- A~, which corresponds to the non-basic variable xN[j]. */
-
-void spx_eval_cbar(LPX *lp)
-{     int m = lp->m;
-      int n = lp->n;
-      gnm_float *coef = lp->coef;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int *indx = lp->indx;
-      gnm_float *pi = lp->pi;
-      gnm_float *cbar = lp->cbar;
-      int j, j_beg, j_end, j_ptr, k;
-      gnm_float cbar_j;
-      /* d[j] := cN[j] - pi' * N[j] */
-      for (j = 1; j <= n; j++)
-      {  k = indx[m+j]; /* x[k] = xN[j] */
-         cbar_j = coef[k];
-         if (k <= m)
-         {  /* x[k] is auxiliary variable */
-            cbar_j -= pi[k];
-         }
-         else
-         {  /* x[k] is structural variable */
-            j_beg = aa_ptr[k];
-            j_end = j_beg + aa_len[k] - 1;
-            for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-               cbar_j += pi[sv_ndx[j_ptr]] * sv_val[j_ptr];
-         }
-         cbar[j] = cbar_j;
-      }
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_eval_obj - compute value of the objective function.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_eval_obj(LPX *lp);
---
--- *Returns*
---
--- The routine spx_eval_obj returns the current value of the objective
--- function (used mainly for displaying). */
-
-gnm_float spx_eval_obj(LPX *lp)
-{     int m = lp->m;
-      int n = lp->n;
-      int *tagx = lp->tagx;
-      int *posx = lp->posx;
-      gnm_float *coef = lp->coef;
-      gnm_float *bbar = lp->bbar;
-      int i, j, k;
-      gnm_float obj = coef[0];
-      for (k = 1; k <= m+n; k++)
-      {  if (tagx[k] == LPX_BS)
-         {  /* x[k] = xB[i] */
-            i = posx[k];
-            insist(1 <= i && i <= m);
-            obj += coef[k] * bbar[i];
-         }
-         else
-         {  /* x[k] = xN[j] */
-            j = posx[k] - m;
-            obj += coef[k] * spx_eval_xn_j(lp, j);
-         }
-      }
-      return obj;
-}
-
-/*----------------------------------------------------------------------
--- spx_eval_col - compute column of the simplex table.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_eval_col(LPX *lp, int j, gnm_float col[], int save);
---
--- *Description*
---
--- The routine spx_eval_col computes the j-th column of the current
--- simplex table A^ = -inv(B)*N and stores elements of this column to
--- the locations col[1], ..., col[m].
---
--- The parameter save is a flag. If this flag is set, it means that the
--- computed column is the column of non-basic variable xN[q], which has
--- been chosen to enter the basis (i.e. j = q). This flag is used by the
--- routine spx_ftran in order to save and pass the corresponding column
--- to the routine spx_update.
---
--- The j-th column is computed using the following formula:
---
---    A^[j] = - inv(B) * N[j],
---
--- where N[j] is the j-th column of the augmented constraint matrix A~,
--- which corresponds to the non-basic variable xN[j]. */
-
-void spx_eval_col(LPX *lp, int j, gnm_float col[], int save)
-{     int m = lp->m;
-      int n = lp->n;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int *indx = lp->indx;
-      int i, j_beg, j_end, j_ptr, k;
-      gnm_float *rhs = col;
-      insist(1 <= j && j <= n);
-      /* rhs := N[j] */
-      for (i = 1; i <= m; i++) rhs[i] = 0.0;
-      k = indx[m+j]; /* x[k] = xN[j] */
-      if (k <= m)
-      {  /* x[k] is auxiliary variable */
-         rhs[k] = +1.0;
-      }
-      else
-      {  /* x[k] is structural variable */
-         j_beg = aa_ptr[k];
-         j_end = j_beg + aa_len[k] - 1;
-         for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-            rhs[sv_ndx[j_ptr]] = - sv_val[j_ptr];
-      }
-      /* A^[j] := - inv(B) * N[j] */
-      spx_ftran(lp, rhs, save);
-      for (i = 1; i <= m; i++) col[i] = - col[i];
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_eval_rho - compute row of the inverse.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_eval_rho(LPX *lp, int i, gnm_float rho[]);
---
--- *Description*
---
--- The routine spx_eval_rho computes the i-th row of the matrix inv(B),
--- where B is the current basis matrix, and stores elements of this row
--- to the locations rho[1], ..., rho[m].
---
--- The i-th row of the inverse is computed using the following formula:
---
---    zeta = inv(B') * e[i],
---
--- where B' is a matrix transposed to B, e[i] is a unity vector, which
--- contains one in the i-th position. */
-
-void spx_eval_rho(LPX *lp, int i, gnm_float rho[])
-{     int m = lp->m;
-      int j;
-      gnm_float *rhs = rho;
-      insist(1 <= i && i <= m);
-      for (j = 1; j <= m; j++) rhs[j] = 0.0;
-      rhs[i] = +1.0;
-      spx_btran(lp, rhs);
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_eval_row - compute row of the simplex table.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_eval_row(LPX *lp, gnm_float rho[], gnm_float row[]);
---
--- *Description*
---
--- The routine spx_eval_col computes the i-th row of the current simplex
--- table A^ = -inv(B)*N and stores elements of this row to the locations
--- row[1], ..., row[n].
---
--- The row number i is defined implicitly by the array rho, which on
--- entry should contain the i-th row of the inverse inv(B) computed by
--- means of the routine spx_eval_rho. This array is not changed on exit.
---
--- In order to exploit possible sparsity of the vector rho, the routine
--- computes the i-th row as a linear combination of rows of the matrix N
--- using the following formula:
---
---    a^[i] = - N' * rho = - N'[1]*rho[1] - ... - N'[m]*rho[m],
---
--- N' is a matrix transposed to N, N is the matrix of non-basic columns
--- of the augmented constraint matrix A~, N'[i] is the i-th row of the
--- matrix N. */
-
-void spx_eval_row(LPX *lp, gnm_float rho[], gnm_float row[])
-{     int m = lp->m;
-      int n = lp->n;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int *posx = lp->posx;
-      int i, i_beg, i_end, i_ptr, j;
-      gnm_float rho_i;
-      for (j = 1; j <= n; j++) row[j] = 0.0;
-      for (i = 1; i <= m; i++)
-      {  rho_i = rho[i];
-         if (rho_i == 0.0) continue;
-         /* i-th row of the augmented constraint matrix A~ has the form
-            (0 ... 0 +1 0 ... 0 | -a[i,1] ... -a[i,m]), where the unity
-            subvector is not stored explicitly; we need to consider only
-            elements, which are placed in non-basic columns */
-         /* look through the unity subvector of the i-th row of A~ */
-         j = posx[i] - m;
-         if (j > 0)
-         {  /* xN[j] is the auxiliary variable x[i] */
-            row[j] -= rho_i;
-         }
-         /* look through other non-zero elements in the i-th row of A~
-            that correspond to structural variables */
-         i_beg = aa_ptr[i];
-         i_end = i_beg + aa_len[i] - 1;
-         for (i_ptr = i_beg; i_ptr <= i_end; i_ptr++)
-         {  j = posx[sv_ndx[i_ptr] + m] - m;
-            if (j > 0)
-            {  /* xN[j] is some structural variable */
-               row[j] += rho_i * sv_val[i_ptr];
-            }
-         }
-      }
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_check_bbar - check primal feasibility.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_check_bbar(LPX *lp, gnm_float tol);
---
--- *Description*
---
--- The routine spx_check_bbar checks if the current basic solution is
--- primal feasible, i.e. whether the current values of basic variables
--- are within their bounds, using a relative tolerance tol.
---
--- *Returns*
---
--- The routine returns the non-positive sum of primal infeasibilities.
--- If the basic solution is primal feasible, this sum is exact zero. */
-
-gnm_float spx_check_bbar(LPX *lp, gnm_float tol)
-{     int m = lp->m;
-      int *typx = lp->typx;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      int *indx = lp->indx;
-      gnm_float *bbar = lp->bbar;
-      int i, k, typx_k;
-      gnm_float lb_k, ub_k, bbar_i;
-      gnm_float sum = 0.0;
-      for (i = 1; i <= m; i++)
-      {  k = indx[i]; /* x[k] = xB[i] */
-         typx_k = typx[k];
-         bbar_i = bbar[i];
-         if (typx_k == LPX_LO || typx_k == LPX_DB || typx_k == LPX_FX)
-         {  /* xB[i] has lower bound */
-            lb_k = lb[k];
-            if ((lb_k - bbar_i) / (1.0 + gnm_abs(lb_k)) > tol)
-               sum += (lb_k - bbar_i);
-         }
-         if (typx_k == LPX_UP || typx_k == LPX_DB || typx_k == LPX_FX)
-         {  /* xB[i] has upper bound */
-            ub_k = ub[k];
-            if ((bbar_i - ub_k) / (1.0 + gnm_abs(ub_k)) > tol)
-               sum += (bbar_i - ub_k);
-         }
-      }
-      return sum;
-}
-
-/*----------------------------------------------------------------------
--- spx_check_cbar - check dual feasibility.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_check_cbar(LPX *lp, gnm_float tol);
---
--- *Description*
---
--- The routine spx_check_cbar checks if the current basic solution is
--- dual feasible, i.e. whether the current reduced costs of non-basic
--- variables have correct signs, using an absolute tolerance tol.
---
--- *Returns*
---
--- The routine returns the non-positive sum of dual infeasibilities. If
--- the basic solution is dual feasible, this sum is exact zero. */
-
-gnm_float spx_check_cbar(LPX *lp, gnm_float tol)
-{     int m = lp->m;
-      int n = lp->n;
-      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
-      int *tagx = lp->tagx;
-      int *indx = lp->indx;
-      gnm_float *cbar = lp->cbar;
-      int j, k, tagx_k;
-      gnm_float cbar_j;
-      gnm_float sum = 0.0;
-      for (j = 1; j <= n; j++)
-      {  k = indx[m+j]; /* x[k] = xN[j] */
-         tagx_k = tagx[k];
-         cbar_j = dir * cbar[j];
-         if (tagx_k == LPX_NF || tagx_k == LPX_NL)
-         {  /* xN[j] can increase */
-            if (cbar_j < - tol) sum -= cbar_j;
-         }
-         if (tagx_k == LPX_NF || tagx_k == LPX_NU)
-         {  /* xN[j] can decrease */
-            if (cbar_j > + tol) sum += cbar_j;
-         }
-      }
-      return sum;
-}
-
-/*----------------------------------------------------------------------
--- spx_prim_chuzc - choose non-basic variable (primal simplex).
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_prim_chuzc(SPX *spx, gnm_float tol);
---
--- *Description*
---
--- The routine spx_prim_chuzc chooses a non-basic variable xN[q], which
--- should enter the basis.
---
--- The parameter tol is an absolute tolerance, which is used to check
--- if some non-basic variable violates the dual feasibility condition
--- and therefore can be considered as a possible candidate.
---
--- The routine chooses a non-basic variable xN[q], which can change in
--- a feasible direction improving the objective fucntion and which has
--- the largest weighted reduced cost:
---
---    |d[q]| / sqrtgnum(gamma[q]) = max(|d[j]| / sqrtgnum(gamma[j])),
---
--- where d[j] is a reduced cost of the non-basic variable xN[j], and
--- gamma[j] is a "weight" of this variable.
---
--- If the non-basic variable xN[q] has been chosen, the routine sets q
--- to the number of this variable, 1 <= q <= n. However, if the current
--- basis is dual feasible and therefore no choice has been made, the
--- routine sets q to 0.
---
--- *Returns*
---
--- Non-zero return code means that the routine recomputed all the basic
--- solution components in order to improve their numeric accuracy. */
-
-int spx_prim_chuzc(SPX *spx, gnm_float tol)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
-      gnm_float *coef = lp->coef;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int *tagx = lp->tagx;
-      int *indx = lp->indx;
-      gnm_float *pi = lp->pi;
-      gnm_float *cbar = lp->cbar;
-      gnm_float *gvec = spx->gvec;
-      int j, j_beg, j_end, j_ptr, k, q, retry = 0;
-      gnm_float best, temp, cbar_j, cbar_q;
-loop: /* recompute basic solution components (if required) */
-      if (retry)
-      {  spx_eval_bbar(lp);
-         spx_eval_pi(lp);
-         spx_eval_cbar(lp);
-      }
-      /* nothing chosen so far */
-      q = 0, best = 0.0;
-      /* look through the list of non-basic variables */
-      for (j = 1; j <= n; j++)
-      {  cbar_j = dir * cbar[j];
-         /* if xN[j] doesn't affect on the obj. function, skip it */
-         if (cbar_j == 0.0) continue;
-         /* analyze main cases */
-         k = indx[m+j]; /* x[k] = xN[j] */
-         switch (tagx[k])
-         {  case LPX_NL:
-               /* xN[j] can increase */
-               if (cbar_j > -tol) continue;
-               break;
-            case LPX_NU:
-               /* xN[j] can decrease */
-               if (cbar_j < +tol) continue;
-               break;
-            case LPX_NF:
-               /* xN[j] can change in any direction */
-               if (-tol < cbar_j && cbar_j < +tol) continue;
-               break;
-            case LPX_NS:
-               /* xN[j] can't change */
-               continue;
-            default:
-               insist(tagx != tagx);
-         }
-         /* xN[j] can improve the objective function */
-         temp = (cbar_j * cbar_j) / gvec[j];
-         if (best < temp) q = j, best = temp;
-      }
-      /* since reduced costs are not computed directly every time, but
-         recomputed recursively, the choice sometimes may be unreliable
-         due to excessive round-off errors in the reduced costs; so, if
-         q = 0 or if some test shows that the current value of cbar[q]
-         is inaccurate, it is reasonable to recompute components of the
-         current basic solution and then repeat the choice */
-      if (!retry)
-      {  if (q == 0)
-         {  /* the current basic solution seems to be dual feasible,
-               but we need to be sure that this is really so */
-            retry = 1;
-         }
-         else
-         {  /* xN[q] has been chosen; recompute its reduced cost more
-               accurately using the formula d[q] = cN[q] - pi' * N[q] */
-            k = indx[m+q]; /* x[k] = xN[q] */
-            cbar_q = coef[k];
-            if (k <= m)
-            {  /* x[k] is auxiliary variable */
-               cbar_q -= pi[k];
-            }
-            else
-            {  /* x[k] is structural variable */
-               j_beg = aa_ptr[k];
-               j_end = j_beg + aa_len[k] - 1;
-               for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-                  cbar_q += pi[sv_ndx[j_ptr]] * sv_val[j_ptr];
-            }
-            /* estimate an error in cbar[q] */
-            temp = gnm_abs(cbar[q] - cbar_q) / (1.0 + gnm_abs(cbar_q));
-            if (temp <= 0.10 * tol)
-            {  /* the error is not so big; replace cbar[q] by the new,
-                  more accurate value */
-               cbar[q] = cbar_q;
-            }
-            else
-            {  /* the error is too big; in this case cbar[q] may have
-                  wrong sign (if it is close to zero) and involve wrong
-                  choice a basic variable xB[p] in the future causing
-                  numeric instability; therefore the vector of reduced
-                  costs should be recomputed more accurately */
-               if (lp->msg_lev >= 3)
-                  print("spx_prim_chuzc: recomputing basic solution com"
-                     "ponents");
-               retry = 1;
-            }
-         }
-         if (retry) goto loop;
-      }
-      /* store the number q and return */
-      spx->q = q;
-      return retry;
-}
-
-/*----------------------------------------------------------------------
--- spx_prim_chuzr - choose basic variable (primal simplex).
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- int spx_prim_chuzr(SPX *spx, gnm_float relax);
---
--- *Description*
---
--- The routine spx_prim_chuzr chooses a basic variable xB[p], which
--- should leave the basis.
---
--- The parameter relax is used to relax bounds of basic variables. If
--- relax = 0, the routine implements standard ("textbook") ratio test.
--- Otherwise, if relax > 0, the routine implements two-pass ratio test
--- proposed by P.Harris.
---
--- The routine chooses a basic variable xB[p], which reaches its bound
--- before any other basic variables when the chosen non-basic variable
--- xN[q] is changing in a valid direction.
---
--- If the basic variable xB[p] has been chosen, the routine sets p to
--- the number of this variable, 1 <= p <= m, and also provide the tag
--- p_tag, which should be set for xB[p] after it has left the basis.
--- The special case p < 0 means that the non-basic variable xN[q] being
--- gnm_float-bounded just goes to its opposite bound, so the current basis
--- remains unchanged. If xN[q] can infinitely change and therefore the
--- choice cannot be made, the routine sets p to 0.
---
--- *Returns*
---
--- Non-zero return code means that all elements of the q-th column of
--- the simplex table are too small (in absolute value); in this case
--- it is desirable to reinvert the current basis matrix and repeat the
--- choice. */
-
-int spx_prim_chuzr(SPX *spx, gnm_float relax)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
-      gnm_float *bbar = lp->bbar;
-      gnm_float *cbar = lp->cbar;
-      int *indx = lp->indx;
-      int q = spx->q;
-      gnm_float *aq = spx->aq;
-      int i, i_tag, k, p, p_tag, ret = 0;
-      gnm_float aq_i, abs_aq_i, big, eps, temp, teta;
-      insist(1 <= q && q <= n);
-      /* turn to the case of increasing xN[q] in order to simplify the
-         program logic */
-      if (dir * cbar[q] > 0.0)
-         for (i = 1; i <= m; i++) aq[i] = - aq[i];
-      /* compute the largest absolute value of elements of the q-th
-         column of the simplex table */
-      big = 0.0;
-      for (i = 1; i <= m; i++)
-      {  temp = aq[i];
-         if (temp < 0.0) temp = - temp;
-         if (big < temp) big = temp;
-      }
-#if 0
-      /* if all elements of the q-th column of the simplex table are
-         too small, tell the calling program to reinvert the basis and
-         repeat the choice */
-      if (big < lp->tol_piv) ret = 1;
-#endif
-      /* compute the absolute tolerance eps used to check elements of
-         the q-th column */
-      eps = lp->tol_piv * (1.0 + big);
-      /* initial settings for the first pass */
-      k = indx[m+q]; /* x[k] = xN[q] */
-      if (typx[k] == LPX_DB)
-      {  /* xN[q] has both lower and upper bounds */
-         p = -1, p_tag = 0, teta = (ub[k] - lb[k]) + relax, big = 1.0;
-      }
-      else
-      {  /* xN[q] has no opposite bound */
-         p = 0, p_tag = 0, teta = DBL_MAX, big = 0.0;
-      }
-      /* look through the list of basic variables */
-      for (i = 1; i <= m; i++)
-      {  aq_i = aq[i];
-         /* if xN[q] doesn't affect on xB[i], skip the latter */
-         if (aq_i == 0.0) continue;
-         abs_aq_i = (aq_i > 0.0 ? +aq_i : -aq_i);
-         /* analyze main cases */
-         k = indx[i]; /* x[k] = xB[i] */
-         switch (typx[k])
-         {  case LPX_FR:
-               /* xB[i] is free variable */
-               continue;
-            case LPX_LO:
-lo_1:          /* xB[i] has lower bound */
-               if (aq_i > -eps) continue;
-               i_tag = LPX_NL;
-               temp = ((lb[k] - relax) - bbar[i]) / aq_i;
-               break;
-            case LPX_UP:
-               /* xB[i] has upper bound */
-up_1:          if (aq_i < +eps) continue;
-               i_tag = LPX_NU;
-               temp = ((ub[k] + relax) - bbar[i]) / aq_i;
-               break;
-            case LPX_DB:
-               /* xB[i] has both lower and upper bounds */
-               if (aq_i < 0.0) goto lo_1; else goto up_1;
-            case LPX_FX:
-               /* xB[i] is fixed variable */
-               if (abs_aq_i < eps) continue;
-               i_tag = LPX_NS;
-               temp = relax / abs_aq_i;
-               break;
-            default:
-               insist(typx != typx);
-         }
-         /* if xB[i] violates its bound (slightly, because the current
-            basis is assumed to be primal feasible), temp is negative;
-            we can think that this happens due to round-off errors and
-            xB[i] is exactly on its bound; this allows to replace temp
-            by zero */
-         if (temp < 0.0) temp = 0.0;
-         /* apply minimal ratio test */
-         if (teta > temp || teta == temp && big < abs_aq_i)
-            p = i, p_tag = i_tag, teta = temp, big = abs_aq_i;
-      }
-      /* the standard ratio test has been completed */
-      if (relax == 0.0) goto done;
-      /* if no basic variable has been chosen on the first pass, the
-         second pass should be skipped */
-      if (p == 0) goto done;
-      /* teta is a maximal change (in absolute value) of the variable
-         xN[q] in a valid direction, on which all the basic variables
-         still remain within their (relaxed) bounds; on the second pass
-         we try to choose a basic variable xB[p], for which the change
-         of xN[q] is not greater than teta and which has the greatest
-         (in absolute value) influence coefficient (element of the q-th
-         column of the simplex table) */
-      teta *= (1.0 + 3.0 * DBL_EPSILON);
-      /* if xN[q] is gnm_float-bounded variable and can go to the opposite
-         bound, it is reasonable to choose it */
-      k = indx[m+q]; /* x[k] = xN[q] */
-      if (typx[k] == LPX_DB && ub[k] - lb[k] <= teta)
-      {  p = -1, p_tag = 0;
+int spx_warm_up(SPX *spx)
+{     int m = spx->m;
+      int n = spx->n;
+      int ret;
+      /* check if the problem is empty */
+      if (!(m > 0 && n > 0))
+      {  ret = LPX_E_EMPTY;
          goto done;
       }
-      /* initial settings for the second pass */
-      p = 0, p_tag = 0, big = 0.0;
-      /* look through the list of basic variables */
-      for (i = 1; i <= m; i++)
-      {  aq_i = aq[i];
-         /* if xN[q] doesn't affect on xB[i], skip the latter */
-         if (aq_i == 0.0) continue;
-         abs_aq_i = (aq_i > 0.0 ? +aq_i : -aq_i);
-         /* analyze main cases */
-         k = indx[i]; /* x[k] = xB[i] */
-         switch (typx[k])
-         {  case LPX_FR:
-               /* xB[i] is free variable */
-               continue;
-            case LPX_LO:
-lo_2:          /* xB[i] has lower bound */
-               if (aq_i > -eps) continue;
-               i_tag = LPX_NL;
-               temp = (lb[k] - bbar[i]) / aq_i;
-               break;
-            case LPX_UP:
-up_2:          /* xB[i] has upper bound */
-               if (aq_i < +eps) continue;
-               i_tag = LPX_NU;
-               temp = (ub[k] - bbar[i]) / aq_i;
-               break;
-            case LPX_DB:
-               /* xB[i] has both lower and upper bounds */
-               if (aq_i < 0.0) goto lo_2; else goto up_2;
-            case LPX_FX:
-               /* xB[i] is fixed variable */
-               if (abs_aq_i < eps) continue;
-               i_tag = LPX_NS;
-               temp = 0.0;
-               break;
-            default:
-               insist(typx != typx);
+      /* reinvert the initial basis matrix (if necessary) */
+      if (spx->b_stat != LPX_B_VALID)
+      {  int i, j, k;
+         /* invalidate the basic solution */
+         spx->p_stat = LPX_P_UNDEF;
+         spx->d_stat = LPX_D_UNDEF;
+         /* build the arrays posx and indx using the array tagx */
+         i = j = 0;
+         for (k = 1; k <= m+n; k++)
+         {  if (spx->tagx[k] == LPX_BS)
+            {  /* x[k] = xB[i] */
+               i++;
+               if (i > m)
+               {  /* too many basic variables */
+                  ret = LPX_E_BADB;
+                  goto done;
+               }
+               spx->posx[k] = i, spx->indx[i] = k;
+            }
+            else
+            {  /* x[k] = xN[j] */
+               j++;
+               if (j > n)
+               {  /* too many non-basic variables */
+                  ret = LPX_E_BADB;
+                  goto done;
+               }
+               spx->posx[k] = m+j, spx->indx[m+j] = k;
+            }
          }
-         /* see comments about this trick in the first pass loop */
-         if (temp < 0.0) temp = 0.0;
-         /* apply Harris' rule */
-         if (temp <= teta && big < abs_aq_i)
-            p = i, p_tag = i_tag, big = abs_aq_i;
+         insist(i == m && j == n);
+         /* reinvert the initial basis matrix */
+         if (spx_invert(spx) != 0)
+         {  /* the basis matrix is singular or ill-conditioned */
+            ret = LPX_E_SING;
+            goto done;
+         }
       }
-      /* the second pass should always choose some xB[p] */
-      insist(1 <= p && p <= m);
-done: /* restore original signs of the coefficients aq[i] */
-      if (dir * cbar[q] > 0.0)
-         for (i = 1; i <= m; i++) aq[i] = - aq[i];
-      /* store the number p and the tag p_tag */
-      spx->p = p, spx->p_tag = p_tag;
-      /* return to the simplex method program */
+      /* now the basis is valid */
+      insist(spx->b_stat == LPX_B_VALID);
+      /* compute the initial primal solution */
+      spx_eval_bbar(spx);
+      if (spx_check_bbar(spx, spx->tol_bnd) == 0.0)
+         spx->p_stat = LPX_P_FEAS;
+      else
+         spx->p_stat = LPX_P_INFEAS;
+      /* compute the initial dual solution */
+      spx_eval_pi(spx);
+      spx_eval_cbar(spx);
+      if (spx_check_cbar(spx, spx->tol_dj) == 0.0)
+         spx->d_stat = LPX_D_FEAS;
+      else
+         spx->d_stat = LPX_D_INFEAS;
+      /* the basis has been successfully "warmed up" */
+      ret = LPX_E_OK;
+      /* return to the calling program */
+done: return ret;
+}
+
+/*----------------------------------------------------------------------
+-- spx_prim_opt - find optimal solution (primal simplex).
+--
+-- *Synopsis*
+--
+-- #include "glpspx.h"
+-- int spx_prim_opt(SPX *spx);
+--
+-- *Description*
+--
+-- The routine spx_prim_opt is intended to find optimal solution of an
+-- LP problem using the primal simplex method.
+--
+-- On entry to the routine the initial basis should be "warmed up" and,
+-- moreover, the initial basic solution should be primal feasible.
+--
+-- Structure of this routine can be an example for other variants based
+-- on the primal simplex method.
+--
+-- *Returns*
+--
+-- The routine spx_prim_opt returns one of the folloiwng exit codes:
+--
+-- LPX_E_OK       optimal solution found.
+--
+-- LPX_E_NOFEAS   the problem has no dual feasible solution, therefore
+--                its primal solution is unbounded.
+--
+-- LPX_E_ITLIM    iterations limit exceeded.
+--
+-- LPX_E_TMLIM    time limit exceeded.
+--
+-- LPX_E_BADB     the initial basis is not "warmed up".
+--
+-- LPX_E_INFEAS   the initial basic solution is primal infeasible.
+--
+-- LPX_E_INSTAB   numerical instability; the current basic solution got
+--                primal infeasible due to excessive round-off errors.
+--
+-- LPX_E_SING     singular basis; the current basis matrix got singular
+--                or ill-conditioned due to improper simplex iteration.
+--
+-- Note that additional exit codes may appear in the future versions of
+-- this routine. */
+
+static void prim_opt_dpy(SPX *spx)
+{     /* this auxiliary routine displays information about the current
+         basic solution */
+      int i, def = 0;
+      for (i = 1; i <= spx->m; i++)
+         if (spx->typx[spx->indx[i]] == LPX_FX) def++;
+      print("*%6d:   objval = %17.9e   infeas = %17.9e (%d)",
+         spx->it_cnt, spx_eval_obj(spx), spx_check_bbar(spx, 0.0), def);
+      return;
+}
+
+int spx_prim_opt(SPX *spx)
+{     /* find optimal solution (primal simplex) */
+      int m = spx->m;
+      int n = spx->n;
+      int ret;
+      gnm_float start = utime(), spent = 0.0;
+      /* the initial basis should be "warmed up" */
+      if (spx->b_stat != LPX_B_VALID ||
+          spx->p_stat == LPX_P_UNDEF || spx->d_stat == LPX_D_UNDEF)
+      {  ret = LPX_E_BADB;
+         goto done;
+      }
+      /* the initial basic solution should be primal feasible */
+      if (spx->p_stat != LPX_P_FEAS)
+      {  ret = LPX_E_INFEAS;
+         goto done;
+      }
+      /* if the initial basic solution is dual feasible, nothing to
+         search for */
+      if (spx->d_stat == LPX_D_FEAS)
+      {  ret = LPX_E_OK;
+         goto done;
+      }
+      /* allocate the working segment */
+      insist(spx->meth == 0);
+      spx->meth = 'P';
+      spx->p = 0;
+      spx->p_tag = 0;
+      spx->q = 0;
+      spx->zeta = ucalloc(1+m, sizeof(gnm_float));
+      spx->ap = ucalloc(1+n, sizeof(gnm_float));
+      spx->aq = ucalloc(1+m, sizeof(gnm_float));
+      spx->gvec = ucalloc(1+n, sizeof(gnm_float));
+      spx->dvec = NULL;
+      spx->refsp = (spx->price ? ucalloc(1+m+n, sizeof(int)) : NULL);
+      spx->count = 0;
+      spx->work = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_typx = NULL;
+      spx->orig_lb = spx->orig_ub = NULL;
+      spx->orig_dir = 0;
+      spx->orig_coef = NULL;
+beg:  /* initialize weights of non-basic variables */
+      if (!spx->price)
+      {  /* textbook pricing will be used */
+         int j;
+         for (j = 1; j <= n; j++) spx->gvec[j] = 1.0;
+      }
+      else
+      {  /* steepest edge pricing will be used */
+         spx_reset_refsp(spx);
+      }
+      /* display information about the initial basic solution */
+      if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq != 0 &&
+          spx->out_dly <= spent) prim_opt_dpy(spx);
+      /* main loop starts here */
+      for (;;)
+      {  /* determine the spent amount of time */
+         spent = utime() - start;
+         /* display information about the current basic solution */
+         if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq == 0 &&
+             spx->out_dly <= spent) prim_opt_dpy(spx);
+         /* check if the iterations limit has been exhausted */
+         if (spx->it_lim == 0)
+         {  ret = LPX_E_ITLIM;
+            break;
+         }
+         /* check if the time limit has been exhausted */
+         if (spx->tm_lim >= 0.0 && spx->tm_lim <= spent)
+         {  ret = LPX_E_TMLIM;
+            break;
+         }
+         /* choose non-basic variable xN[q] */
+         if (spx_prim_chuzc(spx, spx->tol_dj))
+         {  /* basic solution components were recomputed; check primal
+               feasibility */
+            if (spx_check_bbar(spx, spx->tol_bnd) != 0.0)
+            {  /* the current solution became primal infeasible due to
+                  round-off errors */
+               ret = LPX_E_INSTAB;
+               break;
+            }
+         }
+         /* if no xN[q] has been chosen, the current basic solution is
+            dual feasible and therefore optimal */
+         if (spx->q == 0)
+         {  ret = LPX_E_OK;
+            break;
+         }
+         /* compute the q-th column of the current simplex table (later
+            this column will enter the basis) */
+         spx_eval_col(spx, spx->q, spx->aq, 1);
+         /* choose basic variable xB[p] */
+         if (spx_prim_chuzr(spx, spx->relax * spx->tol_bnd))
+         {  /* the basis matrix should be reinverted, because the q-th
+               column of the simplex table is unreliable */
+            ret = LPX_E_INSTAB;
+            break;
+         }
+         /* if no xB[p] has been chosen, the problem is unbounded (has
+            no dual feasible solution) */
+         if (spx->p == 0)
+         {  spx->some = spx->indx[m + spx->q];
+            ret = LPX_E_NOFEAS;
+            break;
+         }
+         /* update values of basic variables */
+         spx_update_bbar(spx, NULL);
+         if (spx->p > 0)
+         {  /* compute the p-th row of the inverse inv(B) */
+            spx_eval_rho(spx, spx->p, spx->zeta);
+            /* compute the p-th row of the current simplex table */
+            spx_eval_row(spx, spx->zeta, spx->ap);
+            /* update simplex multipliers */
+            spx_update_pi(spx);
+            /* update reduced costs of non-basic variables */
+            spx_update_cbar(spx, 0);
+            /* update weights of non-basic variables */
+            if (spx->price) spx_update_gvec(spx);
+         }
+         /* jump to the adjacent vertex of the LP polyhedron */
+         if (spx_change_basis(spx))
+         {  /* the basis matrix should be reinverted */
+            if (spx_invert(spx) != 0)
+            {  /* numerical problems with the basis matrix */
+               spx->p_stat = LPX_P_UNDEF;
+               spx->d_stat = LPX_D_UNDEF;
+               ret = LPX_E_SING;
+               goto done;
+            }
+            /* compute the current basic solution components */
+            spx_eval_bbar(spx);
+            spx_eval_pi(spx);
+            spx_eval_cbar(spx);
+            /* check primal feasibility */
+            if (spx_check_bbar(spx, spx->tol_bnd) != 0.0)
+            {  /* the current solution became primal infeasible due to
+                  round-off errors */
+               ret = LPX_E_INSTAB;
+               break;
+            }
+         }
+#if 0
+         /* check accuracy of main solution components after updating
+            (for debugging purposes only) */
+         {  gnm_float ae_bbar = spx_err_in_bbar(spx);
+            gnm_float ae_pi   = spx_err_in_pi(spx);
+            gnm_float ae_cbar = spx_err_in_cbar(spx, 0);
+            gnm_float ae_gvec = spx->price ? spx_err_in_gvec(spx) : 0.0;
+            print("bbar: %g; pi: %g; cbar: %g; gvec: %g",
+               ae_bbar, ae_pi, ae_cbar, ae_gvec);
+            if (ae_bbar > 1e-7 || ae_pi > 1e-7 || ae_cbar > 1e-7 ||
+                ae_gvec > 1e-3) fault("solution accuracy too low");
+         }
+#endif
+      }
+      /* compute the final basic solution components */
+      spx_eval_bbar(spx);
+      spx_eval_pi(spx);
+      spx_eval_cbar(spx);
+      if (spx_check_bbar(spx, spx->tol_bnd) == 0.0)
+         spx->p_stat = LPX_P_FEAS;
+      else
+         spx->p_stat = LPX_P_INFEAS;
+      if (spx_check_cbar(spx, spx->tol_dj) == 0.0)
+         spx->d_stat = LPX_D_FEAS;
+      else
+         spx->d_stat = LPX_D_INFEAS;
+      /* display information about the final basic solution */
+      if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq != 0 &&
+          spx->out_dly <= spent) prim_opt_dpy(spx);
+      /* correct the preliminary diagnosis */
+      switch (ret)
+      {  case LPX_E_OK:
+            /* assumed LPX_P_FEAS and LPX_D_FEAS */
+            if (spx->p_stat != LPX_P_FEAS)
+               ret = LPX_E_INSTAB;
+            else if (spx->d_stat != LPX_D_FEAS)
+            {  /* it seems we need to continue the search */
+               goto beg;
+            }
+            break;
+         case LPX_E_ITLIM:
+         case LPX_E_TMLIM:
+            /* assumed LPX_P_FEAS and LPX_D_INFEAS */
+            if (spx->p_stat != LPX_P_FEAS)
+               ret = LPX_E_INSTAB;
+            else if (spx->d_stat == LPX_D_FEAS)
+               ret = LPX_E_OK;
+            break;
+         case LPX_E_NOFEAS:
+            /* assumed LPX_P_FEAS and LPX_D_INFEAS */
+            if (spx->p_stat != LPX_P_FEAS)
+               ret = LPX_E_INSTAB;
+            else if (spx->d_stat == LPX_D_FEAS)
+               ret = LPX_E_OK;
+            else
+               spx->d_stat = LPX_D_NOFEAS;
+            break;
+         case LPX_E_INSTAB:
+            /* assumed LPX_P_INFEAS */
+            if (spx->p_stat == LPX_P_FEAS)
+            {  if (spx->d_stat == LPX_D_FEAS)
+                  ret = LPX_E_OK;
+               else
+               {  /* it seems we need to continue the search */
+                  goto beg;
+               }
+            }
+            break;
+         default:
+            insist(ret != ret);
+      }
+done: /* deallocate the working segment */
+      if (spx->meth != 0)
+      {  spx->meth = 0;
+         ufree(spx->zeta);
+         ufree(spx->ap);
+         ufree(spx->aq);
+         ufree(spx->gvec);
+         if (spx->price) ufree(spx->refsp);
+         ufree(spx->work);
+      }
+      /* determine the spent amount of time */
+      spent = utime() - start;
+      /* decrease the time limit by the spent amount */
+      if (spx->tm_lim >= 0.0)
+      {  spx->tm_lim -= spent;
+         if (spx->tm_lim < 0.0) spx->tm_lim = 0.0;
+      }
+      /* return to the calling program */
       return ret;
 }
 
 /*----------------------------------------------------------------------
--- spx_dual_chuzr - choose basic variable (dual simplex).
+-- spx_prim_feas - find primal feasible solution (primal simplex).
 --
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_dual_chuzr(SPX *spx, gnm_float tol);
+-- int spx_prim_feas(SPX *spx);
 --
 -- *Description*
 --
--- The routine spx_dual_chuzr chooses a basic variable xB[p], which
--- should leave the basis.
+-- The routine spx_prim_feas tries to find primal feasible solution of
+-- an LP problem using the method of implicit artificial variables that
+-- is based on the primal simplex method (see the comments below).
 --
--- The parameter tol is a relative tolerance, which is used to check
--- if some basic variable violates the primal feasibility condition and
--- therefore can be considered as a possible candidate.
+-- On entry to the routine the initial basis should be "warmed up".
 --
--- The routine chooses a basic variable xB[p], which has the largest
--- weighted residual:
+-- *Returns*
 --
---    |r[p]| / sqrtgnum(delta[p]) = max(|r[i]| / sqrtgnum(delta[i])),
+-- The routine spx_prim_feas returns one of the following exit codes:
 --
--- where r[i] is a current residual for variable xB[i]:
+-- LPX_E_OK       primal feasible solution found.
 --
---    r[i] = max(0, lB[i] - bbar[i]), if xB[i] has an lower bound,
+-- LPX_E_NOFEAS   the problem has no primal feasible solution.
 --
---    r[i] = max(0, bbar[i] - uB[i]), if xB[i] has an upper bound,
+-- LPX_E_ITLIM    iterations limit exceeded.
 --
--- and delta[i] is a "weight" of the variable xB[i].
+-- LPX_E_TMLIM    time limit exceeded.
 --
--- If the basic variable xB[p] has been chosen, the routine sets p to
--- the number of this variable, 1 <= p <= m, and also provide the tag
--- p_tag, which should be set for xB[p] after it has left the basis.
--- Note that if xB[p] is fixed variable, the routine sets the tag as if
--- xB[p] were gnm_float-bounded variable; this is used in order to know in
--- what direction this variable will change leaving the basis. If the
--- current basis is primal feasible and therefore no choice has been
--- made, the routine sets p to 0. */
+-- LPX_E_BADB     the initial basis is not "warmed up".
+--
+-- LPX_E_INSTAB   numerical instability; the current artificial basic
+--                solution (internally constructed by the routine) got
+--                primal infeasible due to excessive round-off errors.
+--
+-- LPX_E_SING     singular basis; the current basis matrix got singular
+--                or ill-conditioned due to improper simplex iteration.
+--
+-- Note that additional exit codes may appear in the future versions of
+-- this routine. */
 
-void spx_dual_chuzr(SPX *spx, gnm_float tol)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int *typx = lp->typx;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      int *indx = lp->indx;
-      gnm_float *bbar = lp->bbar;
-      gnm_float *dvec = spx->dvec;
-      int i, k, p, p_tag, typx_k;
-      gnm_float best, lb_k, ub_k, bbar_i, temp;
-      /* nothing chosen so far */
-      p = 0, p_tag = 0, best = 0.0;
-      /* look through the list of basic variables */
+static gnm_float orig_objval(SPX *spx)
+{     /* this auxliary routine computes value of the objective function
+         for the original LP problem */
+      gnm_float objval;
+      void *t;
+      t = spx->typx, spx->typx = spx->orig_typx, spx->orig_typx = t;
+      t = spx->lb, spx->lb = spx->orig_lb, spx->orig_lb = t;
+      t = spx->ub, spx->ub = spx->orig_ub, spx->orig_ub = t;
+      t = spx->coef, spx->coef = spx->orig_coef, spx->orig_coef = t;
+      objval = spx_eval_obj(spx);
+      t = spx->typx, spx->typx = spx->orig_typx, spx->orig_typx = t;
+      t = spx->lb, spx->lb = spx->orig_lb, spx->orig_lb = t;
+      t = spx->ub, spx->ub = spx->orig_ub, spx->orig_ub = t;
+      t = spx->coef, spx->coef = spx->orig_coef, spx->orig_coef = t;
+      return objval;
+}
+
+static gnm_float orig_infsum(SPX *spx, gnm_float tol)
+{     /* this auxiliary routine computes the sum of infeasibilities for
+         the original LP problem */
+      gnm_float infsum;
+      void *t;
+      t = spx->typx, spx->typx = spx->orig_typx, spx->orig_typx = t;
+      t = spx->lb, spx->lb = spx->orig_lb, spx->orig_lb = t;
+      t = spx->ub, spx->ub = spx->orig_ub, spx->orig_ub = t;
+      t = spx->coef, spx->coef = spx->orig_coef, spx->orig_coef = t;
+      infsum = spx_check_bbar(spx, tol);
+      t = spx->typx, spx->typx = spx->orig_typx, spx->orig_typx = t;
+      t = spx->lb, spx->lb = spx->orig_lb, spx->orig_lb = t;
+      t = spx->ub, spx->ub = spx->orig_ub, spx->orig_ub = t;
+      t = spx->coef, spx->coef = spx->orig_coef, spx->orig_coef = t;
+      return infsum;
+}
+
+static void prim_feas_dpy(SPX *spx, gnm_float sum_0)
+{     /* this auxiliary routine displays information about the current
+         basic solution */
+      int i, def = 0;
+      for (i = 1; i <= spx->m; i++)
+         if (spx->typx[spx->indx[i]] == LPX_FX) def++;
+      print(" %6d:   objval = %17.9e   infeas = %17.9e (%d)",
+         spx->it_cnt, orig_objval(spx), orig_infsum(spx, 0.0) / sum_0,
+         def);
+      return;
+}
+
+int spx_prim_feas(SPX *spx)
+{     /* find primal feasible solution (primal simplex) */
+      int m = spx->m;
+      int n = spx->n;
+      int i, k, ret;
+      gnm_float sum_0;
+      gnm_float start = utime(), spent = 0.0;
+      /* the initial basis should be "warmed up" */
+      if (spx->b_stat != LPX_B_VALID ||
+          spx->p_stat == LPX_P_UNDEF || spx->d_stat == LPX_D_UNDEF)
+      {  ret = LPX_E_BADB;
+         goto done;
+      }
+      /* if the initial basic solution is primal feasible, nothing to
+         search for */
+      if (spx->p_stat == LPX_P_FEAS)
+      {  ret = LPX_E_OK;
+         goto done;
+      }
+      /* allocate the working segment */
+      insist(spx->meth == 0);
+      spx->meth = 'P';
+      spx->p = 0;
+      spx->p_tag = 0;
+      spx->q = 0;
+      spx->zeta = ucalloc(1+m, sizeof(gnm_float));
+      spx->ap = ucalloc(1+n, sizeof(gnm_float));
+      spx->aq = ucalloc(1+m, sizeof(gnm_float));
+      spx->gvec = ucalloc(1+n, sizeof(gnm_float));
+      spx->dvec = NULL;
+      spx->refsp = (spx->price ? ucalloc(1+m+n, sizeof(int)) : NULL);
+      spx->count = 0;
+      spx->work = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_typx = ucalloc(1+m+n, sizeof(int));
+      spx->orig_lb = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_ub = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_dir = 0;
+      spx->orig_coef = ucalloc(1+m+n, sizeof(gnm_float));
+      /* save components of the original LP problem, which are changed
+         by the routine */
+      memcpy(spx->orig_typx, spx->typx, (1+m+n) * sizeof(int));
+      memcpy(spx->orig_lb, spx->lb, (1+m+n) * sizeof(gnm_float));
+      memcpy(spx->orig_ub, spx->ub, (1+m+n) * sizeof(gnm_float));
+      spx->orig_dir = spx->dir;
+      memcpy(spx->orig_coef, spx->coef, (1+m+n) * sizeof(gnm_float));
+      /* build an artificial basic solution, which is primal feasible,
+         and also build an auxiliary objective function to minimize the
+         sum of infeasibilities (residuals) for the original problem */
+      spx->dir = LPX_MIN;
+      for (k = 0; k <= m+n; k++) spx->coef[k] = 0.0;
       for (i = 1; i <= m; i++)
-      {  k = indx[i]; /* x[k] = xB[i] */
-         typx_k = typx[k];
-         bbar_i = bbar[i];
+      {  int typx_k;
+         gnm_float lb_k, ub_k, bbar_i;
+         gnm_float eps = 0.10 * spx->tol_bnd;
+         k = spx->indx[i]; /* x[k] = xB[i] */
+         typx_k = spx->orig_typx[k];
+         lb_k = spx->orig_lb[k];
+         ub_k = spx->orig_ub[k];
+         bbar_i = spx->bbar[i];
          if (typx_k == LPX_LO || typx_k == LPX_DB || typx_k == LPX_FX)
-         {  /* xB[i] has lower bound */
-            lb_k = lb[k];
-            temp = bbar_i - lb_k;
-            lb_k = (lb_k < 0.0 ? -lb_k : +lb_k);
-            if (temp / (1.0 + lb_k) < - tol)
-            {  /* xB[i] violates its lower bound */
-               temp = (temp * temp) / dvec[i];
-               if (best < temp) p = i, p_tag = LPX_NL, best = temp;
+         {  /* in the original problem x[k] has an lower bound */
+            if (bbar_i < lb_k - eps)
+            {  /* and violates it */
+               spx->typx[k] = LPX_UP;
+               spx->lb[k] = 0.0;
+               spx->ub[k] = lb_k;
+               spx->coef[k] = -1.0; /* x[k] should be increased */
             }
          }
          if (typx_k == LPX_UP || typx_k == LPX_DB || typx_k == LPX_FX)
-         {  /* xB[i] has upper bound */
-            ub_k = ub[k];
-            temp = bbar_i - ub_k;
-            ub_k = (ub_k < 0.0 ? -ub_k : +ub_k);
-            if (temp / (1.0 + ub_k) > + tol)
-            {  /* xB[i] violates its upper bound */
-               temp = (temp * temp) / dvec[i];
-               if (best < temp) p = i, p_tag = LPX_NU, best = temp;
+         {  /* in the original problem x[k] has an upper bound */
+            if (bbar_i > ub_k + eps)
+            {  /* and violates it */
+               spx->typx[k] = LPX_LO;
+               spx->lb[k] = ub_k;
+               spx->ub[k] = 0.0;
+               spx->coef[k] = +1.0; /* x[k] should be decreased */
             }
          }
       }
-      spx->p = p, spx->p_tag = p_tag;
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_dual_chuzc - choose non-basic variable (dual simplex).
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- int spx_dual_chuzc(SPX *spx, gnm_float relax);
---
--- *Description*
---
--- The routine spx_dual_chuzc chooses a non-basic variable xN[q], which
--- should enter the basis.
---
--- The parameter relax is used to relax (zero) bounds of reduced costs
--- of non-basic variables (i.e. bounds of dual variables). If relax = 0,
--- the routine implements standard ("textbook") ratio test. Otherwise,
--- if relax > 0, the routine implements two-pass ratio test proposed by
--- P.Harris.
---
--- The routine chooses a non-basic variables xN[q], whose reduced cost
--- reaches zero before reduced costs of any other non-basic variables
--- when reduced cost of the chosen basic variable xB[p] is changing in
--- in a valid direction starting from zero.
---
--- If the non-basic variable xN[q] has been chosen, the routine sets q
--- to the number of this variable, 1 <= q <= n. If reduced cost of xB[p]
--- can infinitely change and therefore the choice cannot be made, the
--- routine sets q to 0. */
-
-int spx_dual_chuzc(SPX *spx, gnm_float relax)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
-      int *indx = lp->indx;
-      int *tagx = lp->tagx;
-      gnm_float *cbar = lp->cbar;
-      int p = spx->p;
-      int p_tag = spx->p_tag;
-      gnm_float *ap = spx->ap;
-      int j, k, q, ret = 0;
-      gnm_float big, eps, teta, ap_j, abs_ap_j, temp;
-      insist(1 <= p && p <= m);
-      insist(p_tag == LPX_NL || p_tag == LPX_NU);
-      /* turn to the case of increasing xB[p] in order to simplify the
-         program logic */
-      if (p_tag == LPX_NU)
-         for (j = 1; j <= n; j++) ap[j] = - ap[j];
-      /* compute the largest absolute value of elements of the p-th row
-         of the simplex table */
-      big = 0.0;
-      for (j = 1; j <= n; j++)
-      {  temp = ap[j];
-         if (temp < 0.0) temp = - temp;
-         if (big < temp) big = temp;
-      }
-#if 0
-      /* if all elements in the p-th row of the simplex table are too
-         small, tell the calling program to reinvert the basis and then
-         repeat the choice */
-      if (big < lp->tol_piv) ret = 1;
-#endif
-      /* compute the absolute tolerance eps used to check elements of
-         the p-th row */
-      eps = lp->tol_piv * (1.0 + big);
-      /* initial settings for the first pass */
-      q = 0, teta = DBL_MAX, big = 0.0;
-      /* look through the list of non-basic variables */
-      for (j = 1; j <= n; j++)
-      {  ap_j = ap[j];
-         /* if xN[j] doesn't affect ob xB[p], skip the former */
-         if (ap_j == 0.0) continue;
-         abs_ap_j = (ap_j > 0.0 ? +ap_j : -ap_j);
-         /* analyze main cases */
-         k = indx[m+j]; /* x[k] = xN[j] */
-         switch (tagx[k])
-         {  case LPX_NF:
-               /* xN[j] is free variable */
-               if (abs_ap_j < eps) continue;
-               temp = relax / abs_ap_j;
-               break;
-            case LPX_NL:
-               /* xN[j] is on its lower bound */
-               if (ap_j < +eps) continue;
-               temp = (dir * cbar[j] + relax) / ap_j;
-               break;
-            case LPX_NU:
-               /* xN[j] is on its upper bound */
-               if (ap_j > -eps) continue;
-               temp = (dir * cbar[j] - relax) / ap_j;
-               break;
-            case LPX_NS:
-               /* xN[j] is fixed variable */
-               continue;
-            default:
-               insist(tagx != tagx);
-         }
-         /* if reduced cost of xN[j] violates its zero bound (slightly,
-            because the current basis is assumed to be dual feasible),
-            temp is negative; we can think that this happens due to
-            round-off errors and reduced cost of xN[j] is exact zero in
-            this case; this allows to replace temp by zero */
-         if (temp < 0.0) temp = 0.0;
-         /* apply minimal ratio test */
-         if (teta > temp || teta == temp && big < abs_ap_j)
-            q = j, teta = temp, big = abs_ap_j;
-      }
-      /* the standard ratio test has been completed */
-      if (relax == 0.0) goto done;
-      /* if no variable has been chosen on the first pass, the second
-         pass should be skipped */
-      if (q == 0) goto done;
-      /* teta is a maximal change (in absolute value) of reduced cost
-         of the variable xB[p] in a valid direction, on which reduced
-         costs of all the non-basic variables still remain within their
-         relaxed bounds; on the second pass we try to choose a non-basic
-         variable xN[q], for which the change of reduced cost of xB[p]
-         if not greater than teta and which has the largest (in absolute
-         value) influence coefficient (i.e. element of the p-th row of
-         the simplex table) */
-      teta *= (1.0 + 3.0 * DBL_EPSILON);
-      /* initial settings for the second pass */
-      q = 0, big = 0.0;
-      /* look through the list of non-basic variables */
-      for (j = 1; j <= n; j++)
-      {  ap_j = ap[j];
-         /* if xN[j] doesn't affect ob xB[p], skip the former */
-         if (ap_j == 0.0) continue;
-         abs_ap_j = (ap_j > 0.0 ? +ap_j : -ap_j);
-         /* analyze main cases */
-         k = indx[m+j]; /* x[k] = xN[j] */
-         switch (tagx[k])
-         {  case LPX_NF:
-               /* xN[j] is free variable */
-               if (abs_ap_j < eps) continue;
-               temp = 0.0;
-               break;
-            case LPX_NL:
-               /* xN[j] is on its lower bound */
-               if (ap_j < +eps) continue;
-               temp = (dir * cbar[j]) / ap_j;
-               break;
-            case LPX_NU:
-               /* xN[j] is on its upper bound */
-               if (ap_j > -eps) continue;
-               temp = (dir * cbar[j]) / ap_j;
-               break;
-            case LPX_NS:
-               /* xN[j] is fixed variable */
-               continue;
-            default:
-               insist(tagx != tagx);
-         }
-         /* see comments about this trick in the first pass loop */
-         if (temp < 0.0) temp = 0.0;
-         /* apply Harris' rule */
-         if (temp <= teta && big < abs_ap_j)
-            q = j, big = abs_ap_j;
-      }
-      /* the second pass should always choose some xN[q] */
-      insist(1 <= q && q <= n);
-done: /* restore original signs of the coefficients ap[j] */
-      if (p_tag == LPX_NU)
-         for (j = 1; j <= n; j++) ap[j] = - ap[j];
-      /* store the number q */
-      spx->q = q;
-      /* return to the simplex method program */
-      return ret;
-}
-
-/*----------------------------------------------------------------------
--- spx_update_bbar - update values of basic variables.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_update_bbar(SPX *spx, gnm_float *obj);
---
--- *Description*
---
--- The routine spx_update_bbar recomputes values of basic variables for
--- an adjacent basis.
---
--- If the parameter obj is not NULL, it is assumed that *obj is the
--- current value of the objective function, in which case the routine
--- recomputes it for the adjacent basis.
---
--- This routine assumes that the basic variable xB[p] and the non-basic
--- variable xN[q] (that define the adjacent basis) have been chosen but
--- the current basis has not been changed yet. */
-
-void spx_update_bbar(SPX *spx, gnm_float *obj)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      int *tagx = lp->tagx;
-      int *indx = lp->indx;
-      gnm_float *bbar = lp->bbar;
-      int p = spx->p;
-      int p_tag = spx->p_tag;
-      int q = spx->q;
-      gnm_float *aq = spx->aq;
-      int i, k;
-      gnm_float aq_i, dxn_q, new_xb_p;
-      if (p < 0)
-      {  /* the special case: xN[q] goes to its opposite bound */
-         insist(1 <= q && q <= n);
-         k = indx[m+q]; /* x[k] = xN[q] */
-         insist(typx[k] == LPX_DB);
-         switch (tagx[k])
-         {  case LPX_NL:
-               /* xN[q] goes from its lower bound to its upper one */
-               dxn_q = ub[k] - lb[k];
-               break;
-            case LPX_NU:
-               /* xN[q] goes from its upper bound to its lower one */
-               dxn_q = lb[k] - ub[k];
-               break;
-            default:
-               insist(tagx != tagx);
-         }
-         /* recompute values of the basic variables */
-         for (i = 1; i <= m; i++)
-         {  aq_i = aq[i];
-            if (aq_i != 0.0) bbar[i] += aq_i * dxn_q;
-         }
+      /* now the initial basic solution should be primal feasible due
+         to changes of bounds of some basic variables, which turned to
+         implicit artifical variables */
+      insist(spx_check_bbar(spx, spx->tol_bnd) == 0.0);
+      /* compute the initial sum of infeasibilities for the original
+         problem */
+      sum_0 = orig_infsum(spx, 0.0);
+      /* it can't be zero, because the initial basic solution is primal
+         infeasible */
+      insist(sum_0 != 0.0);
+      /* compute simplex multipliers and reduced costs of non-basic
+         variables once again (because the objective function has been
+         changed) */
+      spx_eval_pi(spx);
+      spx_eval_cbar(spx);
+      /* initialize weights of non-basic variables */
+      if (!spx->price)
+      {  /* textbook pricing will be used */
+         int j;
+         for (j = 1; j <= n; j++) spx->gvec[j] = 1.0;
       }
       else
-      {  /* xB[p] will leave and xN[q] will enter the basis */
-         insist(1 <= p && p <= m);
-         insist(1 <= q && q <= n);
-         /* determine value of xB[p] in the adjacent basis */
-         k = indx[p];
-         switch (p_tag)
-         {  case LPX_NL:
-               new_xb_p = lb[k]; break;
-            case LPX_NU:
-               new_xb_p = ub[k]; break;
-            case LPX_NF:
-               new_xb_p = 0.0; break;
-            case LPX_NS:
-               new_xb_p = lb[k]; break;
-            default:
-               insist(p_tag != p_tag);
-         }
-         /* determine increment of xN[q] in the adjacent basis */
-         insist(aq[p] != 0.0);
-         dxn_q = (new_xb_p - bbar[p]) / aq[p];
-         /* compute a new value of xN[q] when it has entered the basis
-            and taken the place of xB[p] */
-         bbar[p] = spx_eval_xn_j(lp, q) + dxn_q;
-         /* recompute values of other basic variables */
-         for (i = 1; i <= m; i++)
-         {  if (i == p) continue;
-            aq_i = aq[i];
-            if (aq_i != 0.0) bbar[i] += aq_i * dxn_q;
-         }
+      {  /* steepest edge pricing will be used */
+         spx_reset_refsp(spx);
       }
-      /* recompute value of the objective function (if req'd) */
-      if (obj != NULL) *obj += lp->cbar[q] * dxn_q;
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_update_pi - update simplex multipliers.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_update_pi(SPX *spx);
---
--- *Description*
---
--- The routine spx_update_pi recomputes simplex multipliers (Lagrange
--- multipliers for the equality constraints) for an adjacent basis.
---
--- This routine assumes that the basic variable xB[p] and the non-basic
--- variable xN[q] (that define the adjacent basis) have been chosen but
--- the current basis has not been changed yet. */
-
-void spx_update_pi(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      gnm_float *pi = lp->pi;
-      gnm_float *cbar = lp->cbar;
-      int p = spx->p;
-      int q = spx->q;
-      gnm_float *zeta = spx->zeta;
-      gnm_float *ap = spx->ap;
-      int i;
-      gnm_float new_cbar_q, zeta_i;
-      /* xB[p] will leave and xN[q] will enter the basis */
-      insist(1 <= p && p <= m);
-      insist(1 <= q && q <= n);
-      insist(ap[q] != 0.0);
-      new_cbar_q = cbar[q] / ap[q];
-      for (i = 1; i <= m; i++)
-      {  zeta_i = zeta[i];
-         if (zeta_i != 0.0) pi[i] -= zeta_i * new_cbar_q;
-      }
-      return;
-}
-
-/*----------------------------------------------------------------------
--- spx_update_cbar - update reduced costs of non-basic variables.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_update_cbar(SPX *spx, int all);
---
--- *Description*
---
--- The routine spx_update_cbar recomputes reduced costs of non-basic
--- variables for an adjacent basis.
---
--- If the parameter all is set, the routine recomputes reduced costs of
--- all non-basic variables. Otherwise reduced costs for fixed non-basic
--- variables are not recomputed.
---
--- This routine assumes that the basic variable xB[p] and the non-basic
--- variable xN[q] (that define the adjacent basis) have been chosen but
--- the current basis has not been changed yet. */
-
-void spx_update_cbar(SPX *spx, int all)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *tagx = lp->tagx;
-      int *indx = lp->indx;
-      gnm_float *cbar = lp->cbar;
-      int p = spx->p;
-      int q = spx->q;
-      gnm_float *ap = spx->ap;
-      int j, k;
-      gnm_float new_cbar_q, ap_j;
-      /* xB[p] will leave and xN[q] will enter the basis */
-      insist(1 <= p && p <= m);
-      insist(1 <= q && q <= n);
-      /* compute a new reduced cost of xB[p] when it has left the basis
-         and taken the place of xN[q] */
-      new_cbar_q = (cbar[q] /= ap[q]);
-      /* recompute reduced costs of other non-basic variables */
-      for (j = 1; j <= n; j++)
-      {  if (j == q) continue;
-         if (!all)
-         {  k = indx[m+j]; /* x[k] = xN[j] */
-            if (tagx[k] == LPX_NS)
-            {  cbar[j] = 0.0;
-               continue;
-            }
-         }
-         ap_j = ap[j];
-         if (ap_j != 0.0) cbar[j] -= ap_j * new_cbar_q;
-      }
-      return;
-}
-
-/*----------------------------------------------------------------------
--- change_basis - change basis and update the factorization.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- int spx_change_basis(SPX *spx);
---
--- *Description*
---
--- The routine spx_change_basis changes the current basis assuming that
--- the basic variable xB[p] leaves the basis and the non-basic variable
--- xN[q] enters it. Then the routine updates the factorization of the
--- basis matrix for the adjacent basis.
---
--- In the specilal case, which is indicated by p < 0, the current basis
--- is not changed, but the non-basic gnm_float-bounded variable xN[q] goes
--- from its current bound to the opposite one.
---
--- *Returns*
---
--- Zero return code means that the factorization has been successfully
--- updated. Non-zero return code means that the factorization should be
--- reinverted by the routine spx_invert. */
-
-int spx_change_basis(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      int *tagx = lp->tagx;
-      int *posx = lp->posx;
-      int *indx = lp->indx;
-      int p = spx->p;
-      int p_tag = spx->p_tag;
-      int q = spx->q;
-      int k, kp, kq, ret;
-      if (p < 0)
-      {  /* the special case: xN[q] goes to its opposite bound */
-         insist(1 <= q && q <= n);
-         k = indx[m+q]; /* x[k] = xN[q] */
-         insist(typx[k] == LPX_DB);
-         insist(tagx[k] == LPX_NL || tagx[k] == LPX_NU);
-         tagx[k] = (tagx[k] == LPX_NL ? LPX_NU : LPX_NL);
-         ret = 0;
-      }
-      else
-      {  /* xB[p] leaves the basis, xN[q] enters the basis */
-         insist(1 <= p && p <= m);
-         insist(1 <= q && q <= n);
-         /* xN[q] takes the place of xB[p] and vice versa */
-         kp = indx[p];   /* x[kp] = xB[p] */
-         kq = indx[m+q]; /* x[kq] = xN[q] */
-         tagx[kp] = p_tag,  posx[kp] = m+q, indx[m+q] = kp;
-         tagx[kq] = LPX_BS, posx[kq] = p,   indx[p]   = kq;
-         /* check the tag of xN[q] (former xB[p]) */
-         switch (typx[kp])
-         {  case LPX_FR:
-               insist(p_tag == LPX_NF); break;
-            case LPX_LO:
-               insist(p_tag == LPX_NL); break;
-            case LPX_UP:
-               insist(p_tag == LPX_NU); break;
-            case LPX_DB:
-               insist(p_tag == LPX_NL || p_tag == LPX_NU); break;
-            case LPX_FX:
-               insist(p_tag == LPX_NS); break;
-            default:
-               insist(typx != typx);
-         }
-         /* update the factorization of the basis matrix */
-         ret = spx_update(lp, p);
-      }
-      /* one simplex iteration has been performed */
-      if (lp->it_lim > 0) lp->it_lim--;
-      lp->it_cnt++;
-      /* return to the simplex method program */
-      return ret;
-}
-
-/*----------------------------------------------------------------------
--- spx_err_in_bbar - compute maximal absolute error in bbar.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_err_in_bbar(SPX *spx);
---
--- *Returns*
---
--- The routine spx_err_in_bbar returns the maximal absolute error
---
---    max|bbar[i] - bbar'[i]|,
---
--- where bbar and bbar' are, respectively, directly computed and the
--- current (updated) values of basic variables.
---
--- This routine is intended for debugging purposes only. */
-
-gnm_float spx_err_in_bbar(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      gnm_float *bbar = lp->bbar;
-      int i;
-      gnm_float d, dmax;
-      lp->bbar = ucalloc(1+m, sizeof(gnm_float));
-      spx_eval_bbar(lp);
-      dmax = 0.0;
-      for (i = 1; i <= m; i++)
-      {  d = gnm_abs(lp->bbar[i] - bbar[i]);
-         if (dmax < d) dmax = d;
-      }
-      ufree(lp->bbar);
-      lp->bbar = bbar;
-      return dmax;
-}
-
-/*----------------------------------------------------------------------
--- spx_err_in_pi - compute maximal absolute error in pi.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_err_in_pi(SPX *spx);
---
--- *Returns*
---
--- The routine spx_err_in_pi returns the maximal absolute error
---
---    max|pi[i] - pi'[i]|,
---
--- where pi and pi' are, respectively, directly computed and the current
--- (updated) values of simplex multipliers.
---
--- This routine is intended for debugging purposes only. */
-
-gnm_float spx_err_in_pi(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      gnm_float *pi = lp->pi;
-      int i;
-      gnm_float d, dmax;
-      lp->pi = ucalloc(1+m, sizeof(gnm_float));
-      spx_eval_pi(lp);
-      dmax = 0.0;
-      for (i = 1; i <= m; i++)
-      {  d = gnm_abs(lp->pi[i] - pi[i]);
-         if (dmax < d) dmax = d;
-      }
-      ufree(lp->pi);
-      lp->pi = pi;
-      return dmax;
-}
-
-/*----------------------------------------------------------------------
--- spx_err_in_cbar - compute maximal absolute error in cbar.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_err_in_cbar(SPX *spx, int all);
---
--- *Returns*
---
--- The routine spx_err_in_cbar returns the maximal absolute error
---
---    max|cbar[j] - cbar'[j]|,
---
--- where cbar and cbar' are, respectively, directly computed and the
--- current (updated) reduced costs of non-basic variables (if the flag
--- all is not set, fixed variables are not considered).
---
--- This routine is intended for debugging purposes only. */
-
-gnm_float spx_err_in_cbar(SPX *spx, int all)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *tagx = lp->tagx;
-      int *indx = lp->indx;
-      gnm_float *cbar = lp->cbar;
-      int j, k;
-      gnm_float d, dmax;
-      lp->cbar = ucalloc(1+n, sizeof(gnm_float));
-      spx_eval_cbar(lp);
-      dmax = 0.0;
-      for (j = 1; j <= n; j++)
-      {  if (!all)
-         {  k = indx[m+j]; /* x[k] = xN[j] */
-            if (tagx[k] == LPX_NS) continue;
-         }
-         d = gnm_abs(lp->cbar[j] - cbar[j]);
-         if (dmax < d) dmax = d;
-      }
-      ufree(lp->cbar);
-      lp->cbar = cbar;
-      return dmax;
-}
-
-/*----------------------------------------------------------------------
--- spx_reset_refsp - reset the reference space.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_reset_refsp(SPX *spx);
---
--- *Description*
---
--- The routine spx_reset_refsp resets (redefines) the reference space
--- and the vector gamma (in the case of primal simplex) or the vector
--- delta (in the case of dual simplex) used in the projected steepest
--- edge technique. After reset the reference space corresponds to the
--- current set of non-basic (primal simplex) or basic (dual simplex)
--- variables, and therefore all elements of the vector gamma or delta
--- are equal to one (by the definition). */
-
-void spx_reset_refsp(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *tagx = lp->tagx;
-      gnm_float *gvec = spx->gvec;
-      gnm_float *dvec = spx->dvec;
-      int *refsp = spx->refsp;
-      int i, j, k;
-      switch (spx->meth)
-      {  case 'P':
-            /* primal simplex is used */
-            for (k = 1; k <= m+n; k++)
-               refsp[k] = (tagx[k] == LPX_BS ? 0 : 1);
-            for (j = 1; j <= n; j++) gvec[j] = 1.0;
+      /* display information about the initial basic solution */
+      if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq != 0 &&
+          spx->out_dly <= spent) prim_feas_dpy(spx, sum_0);
+      /* main loop starts here */
+      for (;;)
+      {  /* determine the spent amount of time */
+         spent = utime() - start;
+         /* display information about the current basic solution */
+         if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq == 0 &&
+             spx->out_dly <= spent) prim_feas_dpy(spx, sum_0);
+         /* we needn't to wait until all artificial variables leave the
+            basis */
+         if (orig_infsum(spx, spx->tol_bnd) == 0.0)
+         {  /* the sum of infeasibilities is zero, therefore the current
+               solution is primal feasible for the original problem */
+            ret = LPX_E_OK;
             break;
-         case 'D':
-            /* dual simplex is used */
-            for (k = 1; k <= m+n; k++)
-               refsp[k] = (tagx[k] == LPX_BS ? 1 : 0);
-            for (i = 1; i <= m; i++) dvec[i] = 1.0;
+         }
+         /* check if the iterations limit has been exhausted */
+         if (spx->it_lim == 0)
+         {  ret = LPX_E_ITLIM;
+            break;
+         }
+         /* check if the time limit has been exhausted */
+         if (spx->tm_lim >= 0.0 && spx->tm_lim <= spent)
+         {  ret = LPX_E_TMLIM;
+            break;
+         }
+         /* choose non-basic variable xN[q] */
+         if (spx_prim_chuzc(spx, spx->tol_dj))
+         {  /* basic solution components were recomputed; check primal
+               feasibility (of the artificial solution) */
+            if (spx_check_bbar(spx, spx->tol_bnd) != 0.0)
+            {  /* the current solution became primal infeasible due to
+                  round-off errors */
+               ret = LPX_E_INSTAB;
+               break;
+            }
+         }
+         /* if no xN[q] has been chosen, the sum of infeasibilities is
+            minimal but non-zero; therefore the original problem has no
+            primal feasible solution */
+         if (spx->q == 0)
+         {  ret = LPX_E_NOFEAS;
+            break;
+         }
+         /* compute the q-th column of the current simplex table (later
+            this column will enter the basis) */
+         spx_eval_col(spx, spx->q, spx->aq, 1);
+         /* choose basic variable xB[p] */
+         if (spx_prim_chuzr(spx, spx->relax * spx->tol_bnd))
+         {  /* the basis matrix should be reinverted, because the q-th
+               column of the simplex table is unreliable */
+            ret = LPX_E_INSTAB;
+            break;
+         }
+         /* the sum of infeasibilities can't be negative, therefore the
+            modified problem can't have unbounded solution */
+         insist(spx->p != 0);
+         /* update values of basic variables */
+         spx_update_bbar(spx, NULL);
+         if (spx->p > 0)
+         {  /* compute the p-th row of the inverse inv(B) */
+            spx_eval_rho(spx, spx->p, spx->zeta);
+            /* compute the p-th row of the current simplex table */
+            spx_eval_row(spx, spx->zeta, spx->ap);
+            /* update simplex multipliers */
+            spx_update_pi(spx);
+            /* update reduced costs of non-basic variables */
+            spx_update_cbar(spx, 0);
+            /* update weights of non-basic variables */
+            if (spx->price) spx_update_gvec(spx);
+         }
+         /* xB[p] is leaving the basis; if it is implicit artificial
+            variable, the corresponding residual vanishes; therefore
+            bounds of this variable should be restored to the original
+            ones */
+         if (spx->p > 0)
+         {  k = spx->indx[spx->p]; /* x[k] = xB[p] */
+            if (spx->typx[k] != spx->orig_typx[k])
+            {  /* x[k] is implicit artificial variable */
+               spx->typx[k] = spx->orig_typx[k];
+               spx->lb[k] = spx->orig_lb[k];
+               spx->ub[k] = spx->orig_ub[k];
+               insist(spx->p_tag == LPX_NL || spx->p_tag == LPX_NU);
+               spx->p_tag = (spx->p_tag == LPX_NL ? LPX_NU : LPX_NL);
+               if (spx->typx[k] == LPX_FX) spx->p_tag = LPX_NS;
+               /* nullify the objective coefficient at x[k] */
+               spx->coef[k] = 0.0;
+               /* since coef[k] has been changed, we need to compute
+                  new reduced cost of x[k], which it will have in the
+                  adjacent basis */
+               /* the formula d[j] = cN[j] - pi' * N[j] is used (note
+                  that the vector pi is not changed, because it depends
+                  on objective coefficients at basic variables, but in
+                  the adjacent basis, for which the vector pi has been
+                  just recomputed, x[k] is non-basic) */
+               if (k <= m)
+               {  /* x[k] is auxiliary variable */
+                  spx->cbar[spx->q] = - spx->pi[k];
+               }
+               else
+               {  /* x[k] is structural variable */
+                  int ptr = spx->AT_ptr[k-m];
+                  int end = spx->AT_ptr[k-m+1];
+                  gnm_float d = 0.0;
+                  for (ptr = ptr; ptr < end; ptr++)
+                     d += spx->pi[spx->AT_ind[ptr]] * spx->AT_val[ptr];
+                  spx->cbar[spx->q] = d;
+               }
+            }
+         }
+         /* jump to the adjacent vertex of the LP polyhedron */
+         if (spx_change_basis(spx))
+         {  /* the basis matrix should be reinverted */
+            if (spx_invert(spx))
+            {  /* numerical problems with the basis matrix */
+               ret = LPX_E_SING;
+               break;
+            }
+            /* compute the current basic solution components */
+            spx_eval_bbar(spx);
+            spx_eval_pi(spx);
+            spx_eval_cbar(spx);
+            /* check primal feasibility */
+            if (spx_check_bbar(spx, spx->tol_bnd) != 0.0)
+            {  /* the current solution became primal infeasible due to
+                  excessive round-off errors */
+               ret = LPX_E_INSTAB;
+               break;
+            }
+         }
+#if 0
+         /* check accuracy of main solution components after updating
+            (for debugging purposes only) */
+         {  gnm_float ae_bbar = spx_err_in_bbar(spx);
+            gnm_float ae_pi   = spx_err_in_pi(spx);
+            gnm_float ae_cbar = spx_err_in_cbar(spx, 0);
+            gnm_float ae_gvec = spx->price ? spx_err_in_gvec(spx) : 0.0;
+            print("bbar: %g; pi: %g; cbar: %g; gvec: %g",
+               ae_bbar, ae_pi, ae_cbar, ae_gvec);
+            if (ae_bbar > 1e-7 || ae_pi > 1e-7 || ae_cbar > 1e-7 ||
+                ae_gvec > 1e-3) fault("solution accuracy too low");
+         }
+#endif
+      }
+      /* restore components of the original problem, which were changed
+         by the routine */
+      memcpy(spx->typx, spx->orig_typx, (1+m+n) * sizeof(int));
+      memcpy(spx->lb, spx->orig_lb, (1+m+n) * sizeof(gnm_float));
+      memcpy(spx->ub, spx->orig_ub, (1+m+n) * sizeof(gnm_float));
+      spx->dir = spx->orig_dir;
+      memcpy(spx->coef, spx->orig_coef, (1+m+n) * sizeof(gnm_float));
+      /* if there are numerical problems with the basis matrix, the
+         latter must be repaired; mark the basic solution as undefined
+         and exit immediately */
+      if (ret == LPX_E_SING)
+      {  spx->p_stat = LPX_P_UNDEF;
+         spx->d_stat = LPX_D_UNDEF;
+         goto done;
+      }
+      /* compute the final basic solution components */
+      spx_eval_bbar(spx);
+      spx_eval_pi(spx);
+      spx_eval_cbar(spx);
+      if (spx_check_bbar(spx, spx->tol_bnd) == 0.0)
+         spx->p_stat = LPX_P_FEAS;
+      else
+         spx->p_stat = LPX_P_INFEAS;
+      if (spx_check_cbar(spx, spx->tol_dj) == 0.0)
+         spx->d_stat = LPX_D_FEAS;
+      else
+         spx->d_stat = LPX_D_INFEAS;
+      /* display information about the final basic solution */
+      if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq != 0 &&
+          spx->out_dly <= spent) prim_feas_dpy(spx, sum_0);
+      /* correct the preliminary diagnosis */
+      switch (ret)
+      {  case LPX_E_OK:
+            /* assumed LPX_P_FEAS */
+            if (spx->p_stat != LPX_P_FEAS)
+               ret = LPX_E_INSTAB;
+            break;
+         case LPX_E_ITLIM:
+         case LPX_E_TMLIM:
+            /* assumed LPX_P_INFEAS */
+            if (spx->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            break;
+         case LPX_E_NOFEAS:
+            /* assumed LPX_P_INFEAS */
+            if (spx->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            else
+               spx->p_stat = LPX_P_NOFEAS;
+            break;
+         case LPX_E_INSTAB:
+            /* assumed LPX_P_INFEAS */
+            if (spx->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
             break;
          default:
-            insist(spx->meth != spx->meth);
+            insist(ret != ret);
       }
-      /* after this number of simplex iterations the reference space
-         should be again reset */
-      spx->count = 1000;
+done: /* deallocate the working segment */
+      if (spx->meth != 0)
+      {  spx->meth = 0;
+         ufree(spx->zeta);
+         ufree(spx->ap);
+         ufree(spx->aq);
+         ufree(spx->gvec);
+         if (spx->price) ufree(spx->refsp);
+         ufree(spx->work);
+         ufree(spx->orig_typx);
+         ufree(spx->orig_lb);
+         ufree(spx->orig_ub);
+         ufree(spx->orig_coef);
+      }
+      /* determine the spent amount of time */
+      spent = utime() - start;
+      /* decrease the time limit by the spent amount */
+      if (spx->tm_lim >= 0.0)
+      {  spx->tm_lim -= spent;
+         if (spx->tm_lim < 0.0) spx->tm_lim = 0.0;
+      }
+      /* return to the calling program */
+      return ret;
+}
+
+/*----------------------------------------------------------------------
+-- spx_dual_opt - find optimal solution (dual simplex).
+--
+-- *Synopsis*
+--
+-- #include "glpspx.h"
+-- int spx_dual_opt(SPX *spx);
+--
+-- *Description*
+--
+-- The routine spx_dual_opt is intended to find optimal solution of an
+-- LP problem using the dual simplex method.
+--
+-- On entry to the routine the initial basis should be "warmed up" and,
+-- moreover, the initial basic solution should be dual feasible.
+--
+-- Structure of this routine can be an example for other variants based
+-- on the dual simplex method.
+--
+-- *Returns*
+--
+-- The routine spx_dual_opt returns one of the following exit codes:
+--
+-- LPX_E_OK       optimal solution found.
+--
+-- LPX_E_NOFEAS   the problem has no primal feasible solution.
+--
+-- LPX_E_OBJLL    the objective function has reached its lower limit
+--                and continues decreasing.
+--
+-- LPX_E_OBJUL    the objective function has reached its upper limit
+--                and continues increasing.
+--
+-- LPX_E_ITLIM    iterations limit exceeded.
+--
+-- LPX_E_TMLIM    time limit exceeded.
+--
+-- LPX_E_BADB     the initial basis is not "warmed up".
+--
+-- LPX_E_INFEAS   the initial basic solution is dual infeasible.
+--
+-- LPX_E_INSTAB   numerical instability; the current basic solution got
+--                primal infeasible due to excessive round-off errors.
+--
+-- LPX_E_SING     singular basis; the current basis matrix got singular
+--                or ill-conditioned due to improper simplex iteration.
+--
+-- Note that additional exit codes may appear in the future versions of
+-- this routine. */
+
+static void dual_opt_dpy(SPX *spx)
+{     /* this auxiliary routine displays information about the current
+         basic solution */
+      int i, def = 0;
+      for (i = 1; i <= spx->m; i++)
+         if (spx->typx[spx->indx[i]] == LPX_FX) def++;
+      print("|%6d:   objval = %17.9e   infeas = %17.9e (%d)",
+         spx->it_cnt, spx_eval_obj(spx), spx_check_bbar(spx, 0.0), def);
       return;
 }
 
+int spx_dual_opt(SPX *spx)
+{     /* find optimal solution (dual simplex) */
+      int m = spx->m;
+      int n = spx->n;
+      int ret;
+      gnm_float start = utime(), spent = 0.0, obj;
+      /* the initial basis should be "warmed up" */
+      if (spx->b_stat != LPX_B_VALID ||
+          spx->p_stat == LPX_P_UNDEF || spx->d_stat == LPX_D_UNDEF)
+      {  ret = LPX_E_BADB;
+         goto done;
+      }
+      /* the initial basic solution should be dual feasible */
+      if (spx->d_stat != LPX_D_FEAS)
+      {  ret = LPX_E_INFEAS;
+         goto done;
+      }
+      /* if the initial basic solution is primal feasible, nothing to
+         search for */
+      if (spx->p_stat == LPX_P_FEAS)
+      {  ret = LPX_E_OK;
+         goto done;
+      }
+      /* allocate the working segment */
+      insist(spx->meth == 0);
+      spx->meth = 'D';
+      spx->p = 0;
+      spx->p_tag = 0;
+      spx->q = 0;
+      spx->zeta = ucalloc(1+m, sizeof(gnm_float));
+      spx->ap = ucalloc(1+n, sizeof(gnm_float));
+      spx->aq = ucalloc(1+m, sizeof(gnm_float));
+      spx->gvec = NULL;
+      spx->dvec = ucalloc(1+m, sizeof(gnm_float));
+      spx->refsp = (spx->price ? ucalloc(1+m+n, sizeof(int)) : NULL);
+      spx->count = 0;
+      spx->work = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_typx = NULL;
+      spx->orig_lb = spx->orig_ub = NULL;
+      spx->orig_dir = 0;
+      spx->orig_coef = NULL;
+beg:  /* compute initial value of the objective function */
+      obj = spx_eval_obj(spx);
+      /* initialize weights of basic variables */
+      if (!spx->price)
+      {  /* textbook pricing will be used */
+         int i;
+         for (i = 1; i <= m; i++) spx->dvec[i] = 1.0;
+      }
+      else
+      {  /* steepest edge pricing will be used */
+         spx_reset_refsp(spx);
+      }
+      /* display information about the initial basic solution */
+      if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq != 0 &&
+          spx->out_dly <= spent) dual_opt_dpy(spx);
+      /* main loop starts here */
+      for (;;)
+      {  /* determine the spent amount of time */
+         spent = utime() - start;
+         /* display information about the current basic solution */
+         if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq == 0 &&
+             spx->out_dly <= spent) dual_opt_dpy(spx);
+         /* if the objective function should be minimized, check if it
+            has reached its upper bound */
+         if (spx->dir == LPX_MIN && obj >= spx->obj_ul)
+         {  ret = LPX_E_OBJUL;
+            break;
+         }
+         /* if the objective function should be maximized, check if it
+            has reached its lower bound */
+         if (spx->dir == LPX_MAX && obj <= spx->obj_ll)
+         {  ret = LPX_E_OBJLL;
+            break;
+         }
+         /* check if the iterations limit has been exhausted */
+         if (spx->it_lim == 0)
+         {  ret = LPX_E_ITLIM;
+            break;
+         }
+         /* check if the time limit has been exhausted */
+         if (spx->tm_lim >= 0.0 && spx->tm_lim <= spent)
+         {  ret = LPX_E_TMLIM;
+            break;
+         }
+         /* choose basic variable */
+         spx_dual_chuzr(spx, spx->tol_bnd);
+         /* if no xB[p] has been chosen, the current basic solution is
+            primal feasible and therefore optimal */
+         if (spx->p == 0)
+         {  ret = LPX_E_OK;
+            break;
+         }
+         /* compute the p-th row of the inverse inv(B) */
+         spx_eval_rho(spx, spx->p, spx->zeta);
+         /* compute the p-th row of the current simplex table */
+         spx_eval_row(spx, spx->zeta, spx->ap);
+         /* choose non-basic variable xN[q] */
+         if (spx_dual_chuzc(spx, spx->relax * spx->tol_dj))
+         {  /* the basis matrix should be reinverted, because the p-th
+               row of the simplex table is unreliable */
+            ret = LPX_E_INSTAB;
+            break;
+         }
+         /* if no xN[q] has been chosen, there is no primal feasible
+            solution (the dual problem has unbounded solution) */
+         if (spx->q == 0)
+         {  ret = LPX_E_NOFEAS;
+            break;
+         }
+         /* compute the q-th column of the current simplex table (later
+            this column will enter the basis) */
+         spx_eval_col(spx, spx->q, spx->aq, 1);
+         /* update values of basic variables and value of the objective
+            function */
+         spx_update_bbar(spx, &obj);
+         /* update simplex multipliers */
+         spx_update_pi(spx);
+         /* update reduced costs of non-basic variables */
+         spx_update_cbar(spx, 0);
+         /* update weights of basic variables */
+         if (spx->price) spx_update_dvec(spx);
+         /* if xB[p] is fixed variable, adjust its non-basic tag */
+         if (spx->typx[spx->indx[spx->p]] == LPX_FX)
+            spx->p_tag = LPX_NS;
+         /* jump to the adjacent vertex of the LP polyhedron */
+         if (spx_change_basis(spx))
+         {  /* the basis matrix should be reinverted */
+            if (spx_invert(spx) != 0)
+            {  /* numerical problems with the basis matrix */
+               spx->p_stat = LPX_P_UNDEF;
+               spx->d_stat = LPX_D_UNDEF;
+               ret = LPX_E_SING;
+               goto done;
+            }
+            /* compute the current basic solution components */
+            spx_eval_bbar(spx);
+            obj = spx_eval_obj(spx);
+            spx_eval_pi(spx);
+            spx_eval_cbar(spx);
+            /* check dual feasibility */
+            if (spx_check_cbar(spx, spx->tol_dj) != 0.0)
+            {  /* the current solution became dual infeasible due to
+                  round-off errors */
+               ret = LPX_E_INSTAB;
+               break;
+            }
+         }
+#if 0
+         /* check accuracy of main solution components after updating
+            (for debugging purposes only) */
+         {  gnm_float ae_bbar = spx_err_in_bbar(spx);
+            gnm_float ae_pi   = spx_err_in_pi(spx);
+            gnm_float ae_cbar = spx_err_in_cbar(spx, 0);
+            gnm_float ae_dvec = spx->price ? spx_err_in_dvec(spx) : 0.0;
+            print("bbar: %g; pi: %g; cbar: %g; dvec: %g",
+               ae_bbar, ae_pi, ae_cbar, ae_dvec);
+            if (ae_bbar > 1e-9 || ae_pi > 1e-9 || ae_cbar > 1e-9 ||
+                ae_dvec > 1e-3)
+               insist("solution accuracy too low" == NULL);
+         }
+#endif
+      }
+      /* compute the final basic solution components */
+      spx_eval_bbar(spx);
+      obj = spx_eval_obj(spx);
+      spx_eval_pi(spx);
+      spx_eval_cbar(spx);
+      if (spx_check_bbar(spx, spx->tol_bnd) == 0.0)
+         spx->p_stat = LPX_P_FEAS;
+      else
+         spx->p_stat = LPX_P_INFEAS;
+      if (spx_check_cbar(spx, spx->tol_dj) == 0.0)
+         spx->d_stat = LPX_D_FEAS;
+      else
+         spx->d_stat = LPX_D_INFEAS;
+      /* display information about the final basic solution */
+      if (spx->msg_lev >= 2 && spx->it_cnt % spx->out_frq != 0 &&
+          spx->out_dly <= spent) dual_opt_dpy(spx);
+      /* correct the preliminary diagnosis */
+      switch (ret)
+      {  case LPX_E_OK:
+            /* assumed LPX_P_FEAS and LPX_D_FEAS */
+            if (spx->d_stat != LPX_D_FEAS)
+               ret = LPX_E_INSTAB;
+            else if (spx->p_stat != LPX_P_FEAS)
+            {  /* it seems we need to continue the search */
+               goto beg;
+            }
+            break;
+         case LPX_E_OBJLL:
+         case LPX_E_OBJUL:
+            /* assumed LPX_P_INFEAS and LPX_D_FEAS */
+            if (spx->d_stat != LPX_D_FEAS)
+               ret = LPX_E_INSTAB;
+            else if (spx->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            else if (spx->dir == LPX_MIN && obj < spx->obj_ul ||
+                     spx->dir == LPX_MAX && obj > spx->obj_ll)
+            {  /* it seems we need to continue the search */
+               goto beg;
+            }
+            break;
+         case LPX_E_ITLIM:
+         case LPX_E_TMLIM:
+            /* assumed LPX_P_INFEAS and LPX_D_FEAS */
+            if (spx->d_stat != LPX_D_FEAS)
+               ret = LPX_E_INSTAB;
+            else if (spx->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            break;
+         case LPX_E_NOFEAS:
+            /* assumed LPX_P_INFEAS and LPX_D_FEAS */
+            if (spx->d_stat != LPX_D_FEAS)
+               ret = LPX_E_INSTAB;
+            else if (spx->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            else
+               spx->p_stat = LPX_P_NOFEAS;
+            break;
+         case LPX_E_INSTAB:
+            /* assumed LPX_D_INFEAS */
+            if (spx->d_stat == LPX_D_FEAS)
+            {  if (spx->p_stat == LPX_P_FEAS)
+                  ret = LPX_E_OK;
+               else
+               {  /* it seems we need to continue the search */
+                  goto beg;
+               }
+            }
+            break;
+         default:
+            insist(ret != ret);
+      }
+done: /* deallocate the working segment */
+      if (spx->meth != 0)
+      {  spx->meth = 0;
+         ufree(spx->zeta);
+         ufree(spx->ap);
+         ufree(spx->aq);
+         ufree(spx->dvec);
+         if (spx->price) ufree(spx->refsp);
+         ufree(spx->work);
+      }
+      /* determine the spent amount of time */
+      spent = utime() - start;
+      /* decrease the time limit by the spent amount */
+      if (spx->tm_lim >= 0.0)
+      {  spx->tm_lim -= spent;
+         if (spx->tm_lim < 0.0) spx->tm_lim = 0.0;
+      }
+      /* return to the calling program */
+      return ret;
+}
+
 /*----------------------------------------------------------------------
--- spx_update_gvec - update the vector gamma for adjacent basis.
+-- spx_simplex - base driver to the simplex method.
 --
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_update_gvec(SPX *spx);
+-- int spx_simplex(SPX *spx);
 --
 -- *Description*
 --
--- The routine spx_update_gvec recomputes the vector gamma (used in the
--- primal projected steepest edge technique) for an adjacent basis.
+-- The routine spx_simplex is a base driver to the simplex method.
 --
--- This routine assumes that the basic variable xB[p] and the non-basic
--- variable xN[q] (that define the adjacent basis) have been chosen but
--- the current basis has not been changed yet. */
-
-void spx_update_gvec(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int *tagx = lp->tagx;
-      int *indx = lp->indx;
-      int p = spx->p;
-      int q = spx->q;
-      gnm_float *ap = spx->ap;
-      gnm_float *aq = spx->aq;
-      gnm_float *gvec = spx->gvec;
-      int *refsp = spx->refsp;
-      int i, j, j_beg, j_end, j_ptr, k, ref_k, ref_p, ref_q;
-      gnm_float ap_j, ap_q, aq_i, s_j, t1, t2, t3, sum, temp;
-      gnm_float *w = spx->work;
-      insist(1 <= p && p <= m);
-      insist(1 <= q && q <= n);
-      /* check if it's time to reset the reference space */
-      if (spx->count <= 0)
-      {  /* yes, do that */
-         spx_reset_refsp(spx);
-         goto done;
-      }
-      else
-      {  /* otherwise decrease the count */
-         spx->count--;
-      }
-      /* compute t1 and w */
-      t1 = 0.0;
-      for (i = 1; i <= m; i++)
-      {  if (i != p && refsp[indx[i]])
-         {  w[i] = aq[i];
-            t1 += w[i] * w[i];
-         }
-         else
-            w[i] = 0.0;
-      }
-      spx_btran(lp, w);
-      /* update the vector gamma */
-      ref_p = refsp[indx[p]];    /* if xB[p] belongs to the space */
-      ref_q = refsp[indx[m+q]];  /* if xN[q] belongs to the space */
-      ap_q = ap[q];
-      insist(ap_q != 0.0);
-      for (j = 1; j <= n; j++)
-      {  /* gvec[q] will be computed later */
-         if (j == q) continue;
-         /* if xN[j] is fixed variable, its weight is not used, because
-            fixed variables never enter the basis */
-         k = indx[m+j]; /* x[k] = xN[j] */
-         if (tagx[k] == LPX_NS)
-         {  gvec[j] = 1.0;
-            continue;
-         }
-         ref_k = refsp[k]; /* if xN[j] belongs to the space */
-         /* compute s[j] */
-         ap_j = ap[j];
-         s_j = gvec[j];
-         if (ref_p) s_j -= ap_j * ap_j;
-         if (ref_k) s_j -= 1.0;
-         if (ap_j == 0.0)
-            t3 = 0.0;
-         else
-         {  /* t2 := N[j] * w */
-            if (k <= m)
-            {  /* x[k] is auxiliary variable */
-               t2 = + w[k];
-            }
-            else
-            {  /* x[k] is structural variable */
-               j_beg = aa_ptr[k];
-               j_end = j_beg + aa_len[k] - 1;
-               t2 = 0.0;
-               for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-                  t2 -= sv_val[j_ptr] * w[sv_ndx[j_ptr]];
-            }
-            t3 = ap_j / ap_q;
-            s_j += (2.0 * t2 + t1 * t3) * t3;
-         }
-         /* update gvec[j] */
-         if (ref_k) s_j += 1.0;
-         if (ref_q) s_j += t3 * t3;
-         if (s_j < DBL_EPSILON) s_j = 1.0;
-         gvec[j] = s_j;
-      }
-      /* compute exact value of gvec[q] */
-      sum = (ref_p ? 1.0 : 0.0);
-      temp = ap_q * ap_q;
-      for (i = 1; i <= m; i++)
-      {  if (i == p)
-         {  if (ref_q)
-               sum += 1.0 / temp;
-         }
-         else
-         {  if (refsp[indx[i]])
-            {  aq_i = aq[i];
-               sum += (aq_i * aq_i) / temp;
-            }
-         }
-      }
-      gvec[q] = sum;
-done: return;
-}
-
-/*----------------------------------------------------------------------
--- spx_err_in_gvec - compute maximal absolute error in gvec.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_err_in_gvec(SPX *spx);
+-- Currently this routine implements an easy variant of the two-phase
+-- primal simplex method, where on the phase I the routine searches for
+-- a primal feasible solution, and on the phase II for an optimal one.
+-- (However, if the initial basic solution is primal infeasible, but
+-- dual feasible, the dual simplex method may be used; see the control
+-- parameter LPX_K_DUAL.)
 --
 -- *Returns*
 --
--- The routine spx_err_in_gvec returns the maximal absolute error
+-- The routine spx_simplex returns one of the following exit codes:
 --
---    max|gvec[j] - gvec'[j]|,
+-- LPX_E_OK       the LP problem has been successfully solved.
 --
--- where gvec and gvec' are, respectively, directly computed and the
--- current (updated) elements of the vector gamma.
+-- LPX_E_FAULT    either the LP problem has no rows and/or columns, or
+--                the initial basis is invalid, or the basis matrix is
+--                singular or ill-conditioned.
 --
--- This routine is intended for debugging purposes only. */
+-- LPX_E_OBJLL    the objective function has reached its lower limit
+--                and continues decreasing.
+--
+-- LPX_E_OBJUL    the objective function has reached its upper limit
+--                and continues increasing.
+--
+-- LPX_E_ITLIM    iterations limit exceeded.
+--
+-- LPX_E_TMLIM    time limit exceeded.
+--
+-- LPX_E_SING     the basis matrix becomes singular or ill-conditioned
+--                due to improper simplex iteration.
+--
+-- Note that additional exit codes may appear in the future versions of
+-- this routine. */
 
-gnm_float spx_err_in_gvec(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *indx = lp->indx;
-      gnm_float *gvec = spx->gvec;
-      int *refsp = spx->refsp;
-      gnm_float *aj = spx->work;
-      int i, j, k;
-      gnm_float dmax, d, gvec_j;
-      dmax = 0.0;
-      for (j = 1; j <= n; j++)
-      {  /* if xN[j] is fixed variable, skip it, because its weight is
-            not updated */
-         k = indx[m+j];
-         if (lp->typx[k] == LPX_FX)
-         {  insist(lp->tagx[k] == LPX_NS);
-            continue;
+#define prefix "spx_simplex: "
+
+int spx_simplex(SPX *spx)
+{     int ret;
+      /* check that each gnm_float-bounded variable has correct lower and
+         upper bounds */
+      {  int k;
+         for (k = 1; k <= spx->m + spx->n; k++)
+         {  if (spx->typx[k] == LPX_DB && spx->lb[k] >= spx->ub[k])
+            {  if (spx->msg_lev >= 1)
+                  print(prefix "gnm_float-bounded variable %d has invalid "
+                     "bounds", k);
+               ret = LPX_E_FAULT;
+               goto done;
+            }
          }
-         /* compute exact value of gvec[j] */
-         spx_eval_col(lp, j, aj, 0);
-         gvec_j = (refsp[indx[m+j]] ? 1.0 : 0.0);
-         for (i = 1; i <= m; i++)
-            if (refsp[indx[i]]) gvec_j += aj[i] * aj[i];
-         /* compute absolute error in gvec[j] */
-         d = gnm_abs(gvec_j - gvec[j]);
-         if (dmax < d) dmax = d;
       }
-      return dmax;
-}
-
-/*----------------------------------------------------------------------
--- spx_update_dvec - update the vector delta for adjacent basis.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- void spx_update_dvec(SPX *spx);
---
--- *Description*
---
--- The routine spx_update_dvec recomputes the vector delta (used in the
--- dual projected steepest edge technique) for an adjacent basis.
---
--- This routine assumes that the basic variable xB[p] and the non-basic
--- variable xN[q] (that define the adjacent basis) have been chosen but
--- the current basis has not been changed yet. */
-
-void spx_update_dvec(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int *indx = lp->indx;
-      int p = spx->p;
-      int q = spx->q;
-      gnm_float *ap = spx->ap;
-      gnm_float *aq = spx->aq;
-      gnm_float *dvec = spx->dvec;
-      int *refsp = spx->refsp;
-      gnm_float *w = spx->work;
-      int i, j, j_beg, j_end, j_ptr, k, ref_k, ref_p, ref_q;
-      gnm_float ap_j, aq_p, aq_i, s_i, t1, sum, temp;
-      insist(1 <= p && p <= m);
-      insist(1 <= q && q <= n);
-      /* check if it's time to reset the reference space */
-      if (spx->count <= 0)
-      {  /* yes, do that */
-         spx_reset_refsp(spx);
+      /* "warm up" the initial basis */
+      ret = spx_warm_up(spx);
+      switch (ret)
+      {  case LPX_E_OK:
+            break;
+         case LPX_E_EMPTY:
+            if (spx->msg_lev >= 1)
+               print(prefix "problem has no rows/columns");
+            ret = LPX_E_FAULT;
+            goto done;
+         case LPX_E_BADB:
+            if (spx->msg_lev >= 1)
+               print(prefix "initial basis is invalid");
+            ret = LPX_E_FAULT;
+            goto done;
+         case LPX_E_SING:
+            if (spx->msg_lev >= 1)
+               print(prefix "initial basis is singular");
+            ret = LPX_E_FAULT;
+            goto done;
+         default:
+            insist(ret != ret);
+      }
+      /* if the initial basic solution is optimal (i.e. primal and dual
+         feasible), nothing to search for */
+      if (spx->p_stat == LPX_P_FEAS && spx->d_stat == LPX_D_FEAS)
+      {  if (spx->msg_lev >= 2 && spx->out_dly == 0.0)
+            print("!%6d:   objval = %17.9e   infeas = %17.9e",
+               spx->it_cnt, spx_eval_obj(spx), 0.0);
+         if (spx->msg_lev >= 3)
+            print("OPTIMAL SOLUTION FOUND");
+         ret = LPX_E_OK;
          goto done;
       }
-      else
-      {  /* otherwise decrease the count */
-         spx->count--;
-      }
-      /* compute t1 */
-      t1 = 0.0;
-      for (j = 1; j <= n; j++)
-      {  if (j != q && refsp[indx[m+j]])
-         {  ap_j = ap[j];
-            t1 += ap_j * ap_j;
-         }
-      }
-      /* compute w */
-      for (i = 1; i <= m; i++) w[i] = 0.0;
-      for (j = 1; j <= n; j++)
-      {  if (j != q && refsp[indx[m+j]])
-         {  /* w += ap[j] * N[j] */
-            ap_j = ap[j];
-            if (ap_j == 0.0) continue;
-            k = indx[m+j]; /* x[k] = xN[j] */
-            if (k <= m)
-               /* xN[j] is auxiliary variable */
-               w[k] += ap_j;
-            else
-            {  /* xN[j] is structural variable */
-               j_beg = aa_ptr[k];
-               j_end = j_beg + aa_len[k] - 1;
-               for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-                  w[sv_ndx[j_ptr]] -= ap_j * sv_val[j_ptr];
+      /* if the initial basic solution is primal infeasible, but dual
+         feasible, the dual simplex method may be used */
+      if (spx->d_stat == LPX_D_FEAS && spx->dual) goto dual;
+feas: /* phase I: find a primal feasible basic solution */
+      ret = spx_prim_feas(spx);
+      switch (ret)
+      {  case LPX_E_OK:
+            goto opt;
+         case LPX_E_NOFEAS:
+            if (spx->msg_lev >= 3)
+               print("PROBLEM HAS NO FEASIBLE SOLUTION");
+            ret = LPX_E_OK;
+            goto done;
+         case LPX_E_ITLIM:
+            if (spx->msg_lev >= 3)
+               print("ITERATION LIMIT EXCEEDED; SEARCH TERMINATED");
+            goto done;
+         case LPX_E_TMLIM:
+            if (spx->msg_lev >= 3)
+               print("TIME LIMIT EXCEEDED; SEARCH TERMINATED");
+            goto done;
+         case LPX_E_INSTAB:
+            if (spx->msg_lev >= 2)
+               print(prefix "numerical instability (primal simplex, pha"
+                  "se I)");
+            goto feas;
+         case LPX_E_SING:
+            if (spx->msg_lev >= 1)
+            {  print(prefix "numerical problems with basis matrix");
+               print(prefix "sorry, basis recovery procedure not implem"
+                  "ented yet");
             }
-         }
+            goto done;
+         default:
+            insist(ret != ret);
       }
-      spx_ftran(lp, w, 0);
-      /* update the vector delta */
-      ref_p = refsp[indx[p]];    /* if xB[p] belongs to the space */
-      ref_q = refsp[indx[m+q]];  /* if xN[q] belongs to the space */
-      aq_p = aq[p];
-      insist(aq_p != 0.0);
-      for (i = 1; i <= m; i++)
-      {  /* dvec[p] will be computed later */
-         if (i == p) continue;
-         /* if xB[i] is free variable, its weight is not used, because
-            free variables never leave the basis */
-         k = indx[i];
-         if (typx[k] == LPX_FR)
-         {  dvec[i] = 1.0;
-            continue;
-         }
-         ref_k = refsp[k]; /* if xB[i] belongs to the space */
-         /* compute s_i */
-         aq_i = aq[i];
-         s_i = dvec[i];
-         if (ref_k) s_i -= 1.0;
-         if (ref_q) s_i -= aq[i] * aq[i];
-         if (aq_i == 0.0)
-            temp = 0.0;
-         else
-         {  temp = aq_i / aq_p;
-            s_i += (2.0 * w[i] + t1 * temp) * temp;
-         }
-         /* update dvec[i] */
-         if (ref_k) s_i += 1.0;
-         if (ref_p) s_i += temp * temp;
-         if (s_i < DBL_EPSILON) s_i = 1.0;
-         dvec[i] = s_i;
-      }
-      /* compute exact value of dvec[p] */
-      sum = (ref_q ? 1.0 : 0.0);
-      temp = aq_p * aq_p;
-      for (j = 1; j <= n; j++)
-      {  if (j == q)
-         {  if (ref_p)
-               sum += 1.0 / temp;
-         }
-         else
-         {  if (refsp[indx[m+j]])
-            {  ap_j = ap[j];
-               sum += (ap_j * ap_j) / temp;
+opt:  /* phase II: find an optimal basic solution (primal simplex) */
+      ret = spx_prim_opt(spx);
+      switch (ret)
+      {  case LPX_E_OK:
+            if (spx->msg_lev >= 3)
+               print("OPTIMAL SOLUTION FOUND");
+            goto done;
+         case LPX_E_NOFEAS:
+            if (spx->msg_lev >= 3)
+               print("PROBLEM HAS UNBOUNDED SOLUTION");
+            ret = LPX_E_OK;
+            goto done;
+         case LPX_E_ITLIM:
+            if (spx->msg_lev >= 3)
+               print("ITERATIONS LIMIT EXCEEDED; SEARCH TERMINATED");
+            goto done;
+         case LPX_E_TMLIM:
+            if (spx->msg_lev >= 3)
+               print("TIME LIMIT EXCEEDED; SEARCH TERMINATED");
+            goto done;
+         case LPX_E_INSTAB:
+            if (spx->msg_lev >= 2)
+               print(prefix "numerical instability (primal simplex, pha"
+                  "se II)");
+            goto feas;
+         case LPX_E_SING:
+            if (spx->msg_lev >= 1)
+            {  print(prefix "numerical problems with basis matrix");
+               print(prefix "sorry, basis recovery procedure not implem"
+                  "ented yet");
             }
-         }
+            goto done;
+         default:
+            insist(ret != ret);
       }
-      dvec[p] = sum;
-done: return;
-}
-
-/*----------------------------------------------------------------------
--- spx_err_in_dvec - compute maximal absolute error in dvec.
---
--- *Synopsis*
---
--- #include "glpspx.h"
--- gnm_float spx_err_in_dvec(SPX *spx);
---
--- *Returns*
---
--- The routine spx_err_in_dvec returns the maximal absolute error
---
---    max|dvec[j] - dvec'[j]|,
---
--- where dvec and dvec' are, respectively, directly computed and the
--- current (updated) elements of the vector delta.
---
--- This routine is intended for debugging purposes only. */
-
-gnm_float spx_err_in_dvec(SPX *spx)
-{     LPX *lp = spx->lp;
-      int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      int *indx = lp->indx;
-      gnm_float *dvec = spx->dvec;
-      int *refsp = spx->refsp;
-      gnm_float *rho = spx->work;
-      gnm_float *ai = &spx->work[m];
-      int i, j, k;
-      gnm_float dmax, d, dvec_i;
-      dmax = 0.0;
-      for (i = 1; i <= m; i++)
-      {  /* if xB[i] is free variable, skip it, because its weight is
-            not updated */
-         k = indx[i];
-         if (typx[k] == LPX_FR) continue;
-         /* compute exact value of dvec[i] */
-         spx_eval_rho(lp, i, rho);
-         spx_eval_row(lp, rho, ai);
-         dvec_i = (refsp[indx[i]] ? 1.0 : 0.0);
-         for (j = 1; j <= n; j++)
-            if (refsp[indx[m+j]]) dvec_i += ai[j] * ai[j];
-         /* compute absolute error in dvec[i] */
-         d = gnm_abs(dvec_i - dvec[i]);
-         if (dmax < d) dmax = d;
+dual: /* phase II: find an optimal basic solution (dual simplex) */
+      ret = spx_dual_opt(spx);
+      switch (ret)
+      {  case LPX_E_OK:
+            if (spx->msg_lev >= 3)
+               print("OPTIMAL SOLUTION FOUND");
+            goto done;
+         case LPX_E_NOFEAS:
+            if (spx->msg_lev >= 3)
+               print("PROBLEM HAS NO FEASIBLE SOLUTION");
+            ret = LPX_E_OK;
+            goto done;
+         case LPX_E_OBJLL:
+            if (spx->msg_lev >= 3)
+               print("OBJECTIVE LOWER LIMIT REACHED; SEARCH TERMINATED")
+                  ;
+            goto done;
+         case LPX_E_OBJUL:
+            if (spx->msg_lev >= 3)
+               print("OBJECTIVE UPPER LIMIT REACHED; SEARCH TERMINATED")
+                  ;
+            goto done;
+         case LPX_E_ITLIM:
+            if (spx->msg_lev >= 3)
+               print("ITERATIONS LIMIT EXCEEDED; SEARCH TERMINATED");
+            goto done;
+         case LPX_E_TMLIM:
+            if (spx->msg_lev >= 3)
+               print("TIME LIMIT EXCEEDED; SEARCH TERMINATED");
+            goto done;
+         case LPX_E_INSTAB:
+            if (spx->msg_lev >= 2)
+               print(prefix "numerical instability (dual simplex)");
+            goto feas;
+         case LPX_E_SING:
+            if (spx->msg_lev >= 1)
+            {  print(prefix "numerical problems with basis matrix");
+               print(prefix "sorry, basis recovery procedure not implem"
+                  "ented yet");
+            }
+            goto done;
+         default:
+            insist(ret != ret);
       }
-      return dmax;
+done: /* return to the calling program */
+      return ret;
 }
 
 /* eof */

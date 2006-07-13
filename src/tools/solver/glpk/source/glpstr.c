@@ -1,11 +1,11 @@
 /* glpstr.c */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #include <string.h>

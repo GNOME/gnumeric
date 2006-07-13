@@ -87,12 +87,12 @@ my @gnumeric_inc =
 
 my @src =
     (
-     ##"include/glpavl.h",
+     "include/glpavl.h",
      ##"include/glpchol.h",
      "include/glpdmp.h",
      ##"include/glphbsm.h",
-     "include/glpies.h",
      "include/glpiet.h",
+     "include/glpipp.h",
      "include/glpinv.h",
      "include/glpios.h",
      ##"include/glpipm.h",
@@ -107,21 +107,19 @@ my @src =
      ##"include/glpmpl.h",
      ##"include/glpmps.h",
      ##"include/glpqmd.h",
-     "include/glpspm.h",
      "include/glpspx.h",
      "include/glpstr.h",
      ##"include/glptsp.h",
 
 
 
-     ##"source/glpavl.c",
+     "source/glpavl.c",
      ##"source/glpchol.c",
      "source/glpdmp.c",      # glp_dmp_get_atomv, ...
      ##"source/glphbsm.c",
-     "source/glpies1.c",
-     "source/glpies2.c",
-     "source/glpies3.c",
      ##"source/glpiet.c",
+     "source/glpipp1.c",
+     "source/glpipp2.c",
      "source/glpinv.c",      # inv_btran, ...
      ##"source/glpios1.c",
      ##"source/glpios2.c",
@@ -143,8 +141,10 @@ my @src =
      "source/glplpx6a.c",    # lpx_simplex
      ##"source/glplpx6b.c",
      "source/glplpx6c.c",    # lpx_integer
+     "source/glplpx6d.c",    # lpx_intopt
      ##"source/glplpx6d.c",
      "source/glplpx7.c",
+     "source/glplpx7a.c",    # lpx_remove_tiny
      ##"source/glplpx8a.c",
      ##"source/glplpx8b.c",
      ##"source/glplpx8c.c",
@@ -152,13 +152,13 @@ my @src =
      "source/glpluf.c",      # luf_create
      ##"source/glpmat.c",
      "source/glpmip1.c",     # mip_delete_tree
+     "source/glpmip2.c",     # mip_driver
      ##"source/glpmpl1.c",
      ##"source/glpmpl2.c",
      ##"source/glpmpl3.c",
      ##"source/glpmpl4.c",
      ##"source/glpmps.c",
      ##"source/glpqmd.c",
-     "source/glpspm.c",      # spm_delete, ...
      "source/glpspx1.c",     # spx_update, ...
      "source/glpspx2.c",     # spx_reset_refsp, ...
      "source/glpstr.c",
@@ -267,7 +267,7 @@ foreach my $filename (@src) {
     print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
     print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
     print OUTFILE "\t\$(GNUMERIC_CFLAGS)\n\n";
-    print OUTFILE "noinst_LIBRARIES =\n\n";
+    print OUTFILE "noinst_LTLIBRARIES =\n\n";
     close OUTFILE;
 
     &update_file ($dstfilename);
@@ -291,8 +291,8 @@ foreach my $filename (@src) {
     print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
     print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
     print OUTFILE "\t\$(GNUMERIC_CFLAGS)\n\n";
-    print OUTFILE "noinst_LIBRARIES = libglpk.a\n\n";
-    print OUTFILE "libglpk_a_SOURCES =\t\t\t\t\t\\\n";
+    print OUTFILE "noinst_LTLIBRARIES = libglpk.la\n\n";
+    print OUTFILE "libglpk_la_SOURCES =\t\t\t\t\t\\\n";
 
     foreach my $name (@src) {
 	next if $name =~ /include\//;

@@ -1,11 +1,11 @@
-/* glpmip.h */
+/* glpmip.h (branch-and-bound method) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #ifndef _GLPMIP_H
@@ -30,237 +30,302 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
-#include "glpies.h"
+#include "glplpx.h"
 
 #define mip_create_tree       glp_mip_create_tree
-#define mip_driver            glp_mip_driver
+#define mip_revive_node       glp_mip_revive_node
+#define mip_freeze_node       glp_mip_freeze_node
+#define mip_clone_node        glp_mip_clone_node
+#define mip_delete_node       glp_mip_delete_node
 #define mip_delete_tree       glp_mip_delete_tree
+#define mip_pseudo_root       glp_mip_pseudo_root
+#define mip_best_node         glp_mip_best_node
+#define mip_relative_gap      glp_mip_relative_gap
+#define mip_solve_node        glp_mip_solve_node
+#define mip_driver            glp_mip_driver
 
-typedef struct MIPTREE MIPTREE;
-typedef struct MIPROW MIPROW;
-typedef struct MIPCOL MIPCOL;
-typedef struct MIPNODE MIPNODE;
+typedef struct MIPTREE MIPTREE; /* branch-and-bound tree */
+typedef struct MIPSLOT MIPSLOT; /* node subproblem slot */
+typedef struct MIPNODE MIPNODE; /* node subproblem descriptor */
+typedef struct MIPBNDS MIPBNDS; /* bounds change entry */
+typedef struct MIPSTAT MIPSTAT; /* status change entry */
 
 struct MIPTREE
-{     /* MIP solver workspace */
-      DMP *row_pool;
-      /* memory pool for rows (constraints) */
-      DMP *col_pool;
-      /* memory pool for columns (variables) */
-      DMP *node_pool;
-      /* memory pool for nodes (subproblems) */
+{     /* branch-and-bound tree */
       /*--------------------------------------------------------------*/
-      /* original problem information */
-      int orig_m;
-      /* number of rows in the original problem */
-      int orig_n;
-      /* number of columns in the original problem */
+      /* global information (valid for all subproblems) */
+      int m;
+      /* number of rows */
+      int n;
+      /* number of columns */
       int dir;
       /* optimization direction:
          LPX_MIN - minimization
          LPX_MAX - maximization */
       int int_obj;
-      /* if this flag is set, the objective is integral */
+      /* if this flag is set, the objective function is integral */
+      int *int_col; /* int int_col[1+n]; */
+      /* integer column flags;
+         int_col[0] is not used;
+         int_col[j], 1 <= j <= n, is the flag of j-th column; if this
+         flag is set, corresponding structural variable is required to
+         be integer */
       /*--------------------------------------------------------------*/
-      /* application interface */
-      void *info;
-      /* transit pointer passed to the application procedure */
-      void (*appl)(void *info, MIPTREE *tree);
-      /* event-driven application procedure */
-      int event;
-      /* current event code: */
-#define MIP_V_UNDEF     1100  /* undefined event (never raised) */
-#define MIP_V_SELECT    1101  /* subproblem selection required */
-#define MIP_V_BEGSUB    1102  /* subproblem processing begins */
-#define MIP_V_BEGLP     1103  /* LP optimization begins */
-#define MIP_V_ENDLP     1104  /* LP optimization ended */
-#define MIP_V_REJECT    1105  /* subproblem rejected */
-#define MIP_V_BINGO     1106  /* better MIP solution found */
-#define MIP_V_BRANCH    1107  /* branching variable required */
-#define MIP_V_ENDSUB    1108  /* subproblem processing ended */
+      /* memory management */
+      DMP *node_pool;
+      /* memory pool for MIPNODE objects */
+      DMP *bnds_pool;
+      /* memory pool for MIPBNDS objects */
+      DMP *stat_pool;
+      /* memory pool for MIPSTAT objects */
       /*--------------------------------------------------------------*/
-      /* MIP solver segment */
-      IESTREE *tree;
-      /* implicit enumeration tree */
-      MIPNODE *glob;
-      /* pointer to a subproblem, which is the highest-leveled common
-         ancestor of all active and the current subproblems (initially
-         it is the root subproblem); an optimal value of the objective
-         for LP relaxation of this subproblem is the global lower (in
-         case of minimization) or upper (in case of maximization) bound
-         for the original MIP problem */
-      MIPNODE *curr;
-      /* pointer to the current subproblem being solved; NULL means the
-         current subproblem is undefined (not selected yet) */
-      int m_max;
-      /* current length of the array row (if necessary, this parameter
-         is automatically increased) */
-      MIPROW **row; /* MIPROW *row[1+m_max]; */
-      /* array of pointers to rows of the current subproblem;
-         row[1], ..., row[m] are pointers to rows, which are presented
-         in the current subproblem, where m = mip_get_num_rows;
-         row[m+1], ..., row[m+nrs] are pointers to rows, which will be
-         added to the current subproblem before re-optimization;
-         row[m+nrs+1], ..., row[m_max] are free entries */
-      MIPCOL **col; /* MIPCOL *col[1+n]; */
-      /* array of pointers to columns of the current subproblem, where
-         n = mip_get_num_cols = orig_n */
-      int reopt;
-      /* this count is reset to zero when a new subproblem is selected
-         from the active list and then increased by one each time when
-         the subproblem is re-optimized */
-      int e_code;
-      /* exit code returned by the lpx_simplex routine after solving LP
-         relaxation of the current subproblem */
-      int better;
-      /* this flag is set if optimal solution of the LP relaxation of
-         the current subproblem is better than the best known integer
-         feasible solution; otherwise this flag is clear */
-      int unsat;
-      /* number of columns (structural variables) of integer kind that
-         have fractional values in the basic solution of LP relaxation
-         of the current subproblem */
-      gnm_float ii_sum;
-      /* the sum of integer infeasibilites for the basic solution of LP
-         relaxation of the current subproblem */
-      int *del; /* int del[1+m_max]; */
-      /* if the flag del[i] (1 <= i <= m, where m = mip_get_num_rows)
-         is set, i-th row will be removed from the current subproblem
-         before re-optimization */
-      int nrs;
-      /* number of additional rows, which will be added to the current
-         subproblem before re-optimization; pointers to these new rows
-         are stored in locations row[m+1], ..., row[m+nrs] */
-      int j_br;
-      /* number of column (structural variable) chosen to branch on */
-      int heir;
-      /* this flag specifies which subproblem created as the result of
-         branching on the column j_br should be selected next:
-         0 - selected using a backtracking heuristic
-         1 - down branch (subproblem, where the branching variable has
-             a new, decreased upper bound)
-         2 - up branch (subproblem, where the branching variable has a
-             new, increased lower bound) */
+      /* branch-and-bound tree */
+      int nslots;
+      /* length of the array of slots (increased automatically) */
+      int avail;
+      /* index of first free slot; 0 means all slots are in use */
+      MIPSLOT *slot; /* MIPSLOT slot[1+nslots]; */
+      /* array of slots:
+         slot[0] is never used;
+         slot[p], 1 <= p <= nslots, either contains a pointer to some
+         node of the branch-and-bound tree, in which case p is used on
+         api level as the reference number of corresponding subproblem,
+         or is free; all free slots are linked into single linked list;
+         slot[1] always contains a pointer to the root node (it is free
+         only if the tree is empty) */
+      MIPNODE *head;
+      /* pointer to the head of the active list */
+      MIPNODE *tail;
+      /* pointer to the tail of the active list */
+      /* the active list is a doubly linked list of active subproblems
+         which correspond to leaves of the tree; all subproblems in the
+         active list are ordered chronologically (each a new subproblem
+         is always added to the tail of the list) */
+      int a_cnt;
+      /* current number of active nodes (including the current one) */
+      int n_cnt;
+      /* current number of all (active and inactive) nodes */
+      int t_cnt;
+      /* total number of nodes including those which have been already
+         removed from the tree; this count is increased whenever a new
+         node is created and never decreased */
       /*--------------------------------------------------------------*/
-      /* best known solution */
+      /* best known integer feasible solution */
       int found;
-      /* this flag is set if the solver has found some integer feasible
-         solution; otherwise this flag is clear */
-      gnm_float *best; /* gnm_float best[1+orig_m+orig_n]; */
-      /* best[0] is a numerical value of the objective function;
-         best[1], ..., best[orig_m] are numerical values of auxiliary
-         variables (rows) of the original problem;
-         best[orig_m+1], ..., best[orig_m+orig_n] are numerical values
-         of structural variables (columns) of the original problem;
-         if the flag found is not set, all components of the array best
-         are undefined */
+      /* if this flag is set, at least one integer feasible solution has
+         been found */
+      gnm_float best;
+      /* incumbent objective value, that is the objective value which
+         corresponds to the best known integer feasible solution (it is
+         undefined if the flag found is not set); this value is a global
+         upper (minimization) or lower (maximization) bound for integer
+         optimal solution of the original problem being solved */
+      gnm_float *mipx; /* gnm_float mipx[1+m+n]; */
+      /* values of auxiliary and structural variables which correspond
+         to the best known integer feasible solution (these are values
+         are undefined if the flag found is not set):
+         mipx[0] is not used;
+         mipx[i], 1 <= i <= m, is a value of i-th auxiliary variable;
+         mipx[m+j], 1 <= j <= n, is a value of j-th structural variable
+         note: if j-th structural variable is required to be integer,
+         its value mipx[m+j] is provided to be integral */
+      /*--------------------------------------------------------------*/
+      /* current subproblem and its LP relaxation */
+      MIPNODE *curr;
+      /* pointer to the current subproblem (which can be only active);
+         NULL means the current subproblem does not exist */
+      LPX *lp;
+      /* LP relaxation of the current subproblem (this problem object
+         contains global data valid for all subproblems, namely, the
+         sets of rows and columns, objective coefficients, as well as
+         the constraint matrix; only bounds and statuses of some rows
+         and/or columns may be changed for a particular subproblem) */
+      int *old_type;  /* int old_type[1+m+n]; */
+      gnm_float *old_lb; /* gnm_float old_lb[1+m+n]; */
+      gnm_float *old_ub; /* gnm_float old_ub[1+m+n]; */
+      int *old_stat;  /* int old_stat[1+m+n]; */
+      /* these four arrays contain attributes of rows and columns which
+         they have in the parent subproblem (types, lower bounds, upper
+         bounds, and statuses); this information is used to build change
+         lists on freezing the current subproblem; note that if the root
+         subproblem is current, standard attributes of rows and columns
+         are used (all rows are free and basic, all columns are fixed at
+         zero and non-basic) */
+      int *non_int; /* int non_int[1+n]; */
+      /* these column flags are set once LP relaxation of the current
+         subproblem has been solved;
+         non_int[0] is not used;
+         non_int[j], 1 <= j <= n, is the flag of j-th column; if this
+         flag is set, corresponding structural variable is required to
+         be integer, but its value in basic solution is fractional */
       /*--------------------------------------------------------------*/
       /* control parameters and statistics */
       int msg_lev;
-      /* level of messages output by the solver:
+      /* level of messages issued by the solver:
          0 - no output
          1 - error messages only
          2 - normal output
-         3 - full output (includes informational messages) */
+         3 - detailed step-by-step output */
+      int branch; /* MIP */
+      /* branching heuristic:
+         0 - branch on first variable
+         1 - branch on last variable
+         2 - branch using heuristic by Driebeck and Tomlin
+         3 - branch on most fractional variable */
+      int btrack; /* MIP */
+      /* backtracking heuristic:
+         0 - select most recent node (depth first search)
+         1 - select earliest node (breadth first search)
+         2 - select node using the best projection heuristic
+         3 - select node with best local bound */
       gnm_float tol_int;
       /* absolute tolerance used to check if the current basic solution
          is integer feasible */
       gnm_float tol_obj;
-      /* relative tolerance used to check if a value of the objective
-         function is not better than in the best known integer feasible
-         solution */
-      int it_lim;
-      /* simplex iterations limit; if this value is positive, it is
-         decreased by one each time when one simplex iteration has been
-         performed, and reaching zero value signals the solver to stop
-         the search; negative value means no iterations limit */
-      int sn_lim;
-      /* solved subproblems limit; if this value is positive, it is
-         decreased by one each time when one active subroblem has been
-         solved, and reaching zero value signals the solver to stop the
-         search; negative value means no subproblems limit */
+      /* relative tolerance used to check if the value of the objective
+         function is better than the incumbent objective value */
       gnm_float tm_lim;
       /* searching time limit, in seconds; if this value is positive,
-         it is decreased each time when one complete round of the
-         search is performed by the amount of time spent for the round,
-         and reaching zero value signals the solver to stop the search;
+         it is decreased whenever one complete round of the search is
+         performed by the amount of time spent for the round, and
+         reaching zero value signals the solver to stop the search;
          negative value means no time limit */
       gnm_float out_frq;
       /* output frequency, in seconds; this parameter specifies how
-         frequently the solver sends information about progress of the
-         search to the standard output */
-      int an_cnt;
-      /* number of subproblems in the active list */
-      int sn_cnt;
-      /* number of solved subproblems (including those ones which were
-         rejected not being actually solved); some of them can still be
-         in the tree if they have active descendants; at the end of the
-         search this count is total number of explored subproblems */
-      gnm_float tm_last;
-      /* most recent time, at which visual information was displayed */
+         frequently the solver sends information about the progress of
+         the search to the standard output */
+      gnm_float out_dly;
+      /* output delay, in seconds; this parameter specifies how long
+         output from the LP solver is delayed on solving LP relaxation
+         of the current subproblem; zero value means no delay */
+      gnm_float tm_beg;
+      /* starting time of the search, in seconds; the total time of the
+         search is the difference between utime() and tm_beg */
+      gnm_float tm_lag;
+      /* the most recent time, in seconds, at which the progress of the
+         the search was displayed */
 };
 
-struct MIPROW
-{     /* row (constraint) */
-      int i;
-      /* ordinal number of this row */
-      IESITEM *row;
-      /* pointer to the corresponding master row; the field link in the
-         master row structure refers to this structure */
+struct MIPSLOT
+{     /* node subproblem slot */
       MIPNODE *node;
-      /* pointer to the subproblem, which was the current when this row
-         was added */
-};
-
-struct MIPCOL
-{     /* column (variable) */
-      int j;
-      /* ordinal number of this column */
-      IESITEM *col;
-      /* pointer to the corresponding master column; the field link in
-         the master column structure refers to this structure */
-      int intvar;
-      /* if this flag is set, the variable is of integer kind; if this
-         flag is clear, the variable is of continuous kind */
-      int infeas;
-      /* if this flag is set, the variable is of integer kind and its
-         value in a basic solution of the current subproblem is integer
-         infeasible (fractional); otherwise this flag is clear */
+      /* pointer to subproblem descriptor; NULL means free slot */
+      int next;
+      /* index of another free slot (only if this slot is free) */
 };
 
 struct MIPNODE
-{     /* subproblem */
-      IESNODE *node;
-      /* pointer to the corresponding node problem; the field link in
-         the node problem structure refers to this structure */
-      gnm_float lp_obj;
-      /* optimal value of the objective function for LP relaxation of
-         this subproblem; if this subproblem is in the active list and
-         therefore never solved yet, lp_obj is an estimation of the
-         objective function, which is a lower (in case of minimization)
-         or an upper (in case of maximization) bound of a true optimal
-         value; the estimation can be obtained in different ways, for
-         example, it can be just lp_obj from the parent subproblem */
-      gnm_float temp;
-      /* reserved for internal needs */
+{     /* node subproblem descriptor */
+      int p;
+      /* subproblem reference number (it is the index to corresponding
+         slot, i.e. slot[p] points to this descriptor) */
+      MIPNODE *up;
+      /* pointer to parent subproblem; NULL means this node is the root
+         of the tree, in which case p = 1 */
+      int level;
+      /* node level (the root node has level 0) */
+      int count;
+      /* if count = 0, this subproblem is active; if count > 0, this
+         subproblem is inactive, in which case count is the number of
+         its child subproblems */
+      MIPBNDS *bnds;
+      /* linked list of rows and columns whose types and bounds were
+         changed; this list is destroyed on reviving and built anew on
+         freezing the subproblem */
+      MIPSTAT *stat;
+      /* linked list of rows and columns whose statuses were changed;
+         this list is destroyed on reviving and built anew on freezing
+         the subproblem */
+      gnm_float bound;
+      /* local lower (minimization) or upper (maximization) bound of
+         integer optimal solution of *this* subproblem; this bound is
+         local in the sense that only subproblems in the subtree rooted
+         at this node cannot have better integer feasible solutions;
+         on creating a subproblem its local bound is inherited from its
+         parent and then can be made stronger (never weaker); for the
+         root subproblem its local bound is initially set to -DBL_MAX
+         (minimization) or +DBL_MAX (maximization) and then improved as
+         the root LP relaxation has been solved */
+      /* if this subproblem is inactive, the following two quantities
+         correspond to final optimal solution of its LP relaxation; for
+         active subproblems these quantities are undefined */
+      int ii_cnt;
+      /* number of columns (structural variables) of integer kind whose
+         primal values are fractional */
+      gnm_float ii_sum;
+      /* the sum of integer infeasibilities */
+      MIPNODE *temp;
+      /* auxiliary pointer used by some routines */
+      MIPNODE *prev;
+      /* pointer to previous subproblem in the active list */
+      MIPNODE *next;
+      /* pointer to next subproblem in the active list */
+};
+
+struct MIPBNDS
+{     /* bounds change entry */
+      int k;
+      /* ordinal number of corresponding row (1 <= k <= m) or column
+         (m+1 <= k <= m+n) */
+      int type;
+      /* new type */
+      gnm_float lb;
+      /* new lower bound */
+      gnm_float ub;
+      /* new upper bound */
+      MIPBNDS *next;
+      /* pointer to next entry for the same subproblem */
+};
+
+struct MIPSTAT
+{     /* status change entry */
+      int k;
+      /* ordinal number of corresponding row (1 <= k <= m) or column
+         (m+1 <= k <= m+n) */
+      int stat;
+      /* new status */
+      MIPSTAT *next;
+      /* pointer to next entry for the same subproblem */
 };
 
 /* exit codes returned by the routine mip_driver: */
 #define MIP_E_OK        1200  /* the search is completed */
 #define MIP_E_ITLIM     1201  /* iterations limit exhausted */
-#define MIP_E_SNLIM     1202  /* subproblems limit exhausted */
-#define MIP_E_TMLIM     1203  /* time limit exhausted */
-#define MIP_E_ERROR     1204  /* can't solve LP relaxation */
+#define MIP_E_TMLIM     1202  /* time limit exhausted */
+#define MIP_E_ERROR     1203  /* error on solving LP relaxation */
 
-MIPTREE *mip_create_tree(LPX *mip,
-      void *info, void appl(void *info, MIPTREE *tree));
-/* create MIP solver wprkspace */
+MIPTREE *mip_create_tree(int m, int n, int dir);
+/* create branch-and-bound tree */
+
+void mip_revive_node(MIPTREE *tree, int p);
+/* revive specified subproblem */
+
+void mip_freeze_node(MIPTREE *tree);
+/* freeze current subproblem */
+
+void mip_clone_node(MIPTREE *tree, int p, int nnn, int ref[]);
+/* clone specified subproblem */
+
+void mip_delete_node(MIPTREE *tree, int p);
+/* delete specified subproblem */
+
+void mip_delete_tree(MIPTREE *tree);
+/* delete branch-and-bound tree */
+
+int mip_pseudo_root(MIPTREE *tree);
+/* find pseudo-root of the branch-and-bound tree */
+
+int mip_best_node(MIPTREE *tree);
+/* find active node with best local bound */
+
+gnm_float mip_relative_gap(MIPTREE *tree);
+/* compute relative mip gap */
+
+int mip_solve_node(MIPTREE *tree);
+/* solve LP relaxation of current subproblem */
 
 int mip_driver(MIPTREE *tree);
 /* branch-and-bound driver */
-
-void mip_delete_tree(MIPTREE *tree);
-/* delete MIP solver workspace */
 
 #endif
 

@@ -1,30 +1,30 @@
-2006-05-08  Jody Goldberg <jody@gnome.org>
+Tue Jan 17 12:00:00 2006 Andrew Makhorin <mao@mai2.rcnet.ru>
 
-	* Release 1.7.0
+        * GLPK 4.9 has been released.
 
-2005-11-14  Jody Goldberg <jody@gnome.org>
+        * glpipp.h, glpipp1.c, glpipp2.c
+        A MIP presolver were implemented (currently incomplete). It is
+        used internally in the routine lpx_intopt (see below).
 
-	* Release 1.6.1
+        * glplpx6d.c, glplpx7a.c
+        An advanced branch-and-bound solver (the routine lpx_intopt)
+        were implemented.
 
-2005-10-10  Jody Goldberg <jody@gnome.org>
+        * glplpx6c.c
+        The routine lpx_check_int to check MIP feasibility conditions
+        was added.
 
-	* Release 1.6.0
+        * glplpx8a.c
+        The routine lpx_print_mip was changed to print MIP feasibility
+        conditions.
 
-2005-09-08  Jody Goldberg <jody@gnome.org>
+        * glpmpl.h, glpmpl1.c, glpmpl3.c
+        The built-in functions sin, cos, atan, and atan2 were added to
+        the MathProg language.
 
-	* Release 1.5.90
-
-2005-08-28  Morten Welinder <terra@gnome.org>
-
-	* Release 1.5.5
-
-2005-08-28  Morten Welinder <terra@gnome.org>
-
-	* Release 1.5.4
-
-2005-08-15  Morten Welinder <terra@gnome.org>
-
-	* Release 1.5.3
+        * doc/lang.*
+        Some typos were fixed.
+        Thanks to Minh Ha Duong <haduong@centre-cired.fr> (CIRED, CNRS).
 
 Wed Jan 12 12:00:00 2005 Andrew Makhorin <mao@mai2.rcnet.ru>
 

@@ -385,7 +385,7 @@ w_glpk_set_obj_fn (SolverProgram program, int col, gnm_float value)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
 
-	lpx_set_col_coef (lp->p, col + 1, value);
+	lpx_set_obj_coef (lp->p, col + 1, value);
 }
 
 static void
@@ -454,7 +454,7 @@ w_glpk_print_lp (SolverProgram program)
 	else
 	        printf ("Minimize\t");
 	for (i = 0; i < cols; i++)
-	        printf ("%8g ", lpx_get_col_coef (lp->p, i + 1));
+	        printf ("%8g ", lpx_get_obj_coef (lp->p, i + 1));
 	printf ("\n");
 
 	for (i = 0; i < rows; i++) {
@@ -520,7 +520,7 @@ w_glpk_simplex_solve (SolverProgram program)
 	if (lp->scaling)
 	        lpx_scale_prob (lp->p);
 
-	lpx_load_mat3 (lp->p, lp->n - 1, lp->rn, lp->cn, lp->a);
+	lpx_load_matrix (lp->p, lp->n - 1, lp->rn, lp->cn, lp->a);
 
 #if SOLVER_DEBUG
 	w_glpk_print_lp (program);
@@ -540,8 +540,8 @@ w_glpk_simplex_solve (SolverProgram program)
 			return SolverInfeasible;
 		}
 
-		lpx_integer (lp->p);
-		switch (lpx_get_mip_stat (lp->p)) {
+		lpx_intopt (lp->p);
+		switch (lpx_mip_status (lp->p)) {
 		case LPX_I_OPT:
 			return SolverOptimal;
 		case LPX_I_NOFEAS:
@@ -577,7 +577,7 @@ w_glpk_get_solution (SolverProgram program, int col)
         if (lpx_get_class (lp->p) == LPX_LP)
 		lpx_get_col_info (lp->p, col + 1, NULL, &x, NULL);
 	else
-		x = lpx_get_mip_col (lp->p, col + 1);
+		x = lpx_mip_col_val (lp->p, col + 1);
 
 	return x;
 }
@@ -590,7 +590,7 @@ w_glpk_get_value_of_obj_fn (SolverProgram program)
         if (lpx_get_class (lp->p) == LPX_LP)
 		return lpx_get_obj_val (lp->p);
 	else
-		return lpx_get_mip_obj (lp->p);
+		return lpx_mip_obj_val (lp->p);
 }
 
 static gnm_float

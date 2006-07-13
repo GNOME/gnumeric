@@ -1,11 +1,11 @@
 /* glplpp1.c */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,10 +20,11 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #include <float.h>
+#include <math.h>
 #include <stddef.h>
 #include "glplib.h"
 #include "glplpp.h"
@@ -447,10 +448,14 @@ void lpp_load_orig(LPP *lpp, LPX *orig)
          resultant vector of objective coefficients is accumulated in
          the working array c */
       for (j = 1; j <= lpp->orig_n; j++)
-         c[j] = lpx_get_col_coef(orig, j);
+         c[j] = lpx_get_obj_coef(orig, j);
       for (i = 1; i <= lpp->orig_m; i++)
       {  /* obtain an objective coefficient at i-th row */
+#if 0
          temp = lpx_get_row_coef(orig, i);
+#else
+         temp = 0.0;
+#endif
          /* substitute i-th row into the objective function */
          if (temp != 0.0)
          {  len = lpx_get_mat_row(orig, i, ndx, val);
@@ -478,7 +483,7 @@ void lpp_load_orig(LPP *lpp, LPX *orig)
          lpp_add_col(lpp, lb, ub, c[j]);
       }
       /* copy the constant term of the original objective function */
-      lpp->c0 = lpx_get_obj_c0(orig);
+      lpp->c0 = lpx_get_obj_coef(orig, 0);
       /* if the original problem is maximization, change the sign of
          the objective function, because the transformed problem to be
          processed by the presolver must be minimization */
@@ -495,10 +500,24 @@ void lpp_load_orig(LPP *lpp, LPX *orig)
          map[col->j] = col;
       /* copy the original constraint matrix into the workspace */
       for (row = lpp->row_ptr; row != NULL; row = row->next)
+#if 1
       {  len = lpx_get_mat_row(orig, row->i, ndx, val);
          for (t = 1; t <= len; t++)
             lpp_add_aij(lpp, row, map[ndx[t]], val[t]);
       }
+#else /* 27/XI-2003 (the problem persists) */
+      {  gnm_float big, eps;
+         len = lpx_get_mat_row(orig, row->i, ndx, val);
+         big = 0.0;
+         for (t = 1; t <= len; t++)
+            if (big < gnm_abs(val[t])) big = gnm_abs(val[t]);
+         eps = 1e-10 * big;
+         for (t = 1; t <= len; t++)
+         {  if (gnm_abs(val[t]) < eps) continue;
+            lpp_add_aij(lpp, row, map[ndx[t]], val[t]);
+         }
+      }
+#endif
       /* free working arrays */
       ufree(c);
       ufree(ndx);
@@ -556,51 +575,10 @@ void *lpp_append_tqe(LPP *lpp, int type, int size)
 --
 -- The routine returns a pointer to the LP problem object. */
 
-struct load_info
-{     /* transit information passed to the routine next_aij */
-      LPP *lpp;
-      /* pointer to the LP presolver workspace */
-      LPPROW *row;
-      /* pointer to the current row */
-      LPPAIJ *aij;
-      /* pointer to the next element of the constraint matrix in the
-         current row */
-};
-
-static gnm_float next_aij(void *_info, int *i, int *j)
-{     /* "read" a next element of the constraint matrix */
-      struct load_info *info = _info;
-      gnm_float val;
-      while (info->aij == NULL)
-      {  /* either it is the first call or the current row has been
-            completely read; choose the first/next row */
-         if (info->row == NULL)
-            info->row = info->lpp->row_ptr;
-         else
-            info->row = info->row->next;
-         if (info->row == NULL)
-         {  /* the entire matrix has been completely read */
-            *i = *j = 0;
-            return 0.0;
-         }
-         /* set the pointer to the first element of the row */
-         info->aij = info->row->ptr;
-      }
-      /* obtain the next element from the current row */
-      *i = info->aij->row->i;
-      *j = info->aij->col->j;
-      val = info->aij->val;
-      /* advance the pointer */
-      info->aij = info->aij->r_next;
-      /* bring the next element to the calling program */
-      return val;
-}
-
 LPX *lpp_build_prob(LPP *lpp)
 {     LPX *prob;
       LPPROW *row;
       LPPCOL *col;
-      struct load_info info;
       int i, j, typx;
       /* count number of rows and columns in the resultant problem */
       lpp->m = lpp->n = 0;
@@ -616,7 +594,7 @@ LPX *lpp_build_prob(LPP *lpp)
          as the original problem */
       lpx_set_obj_dir(prob, lpp->orig_dir);
       /* set the constant term of the objective function */
-      lpx_set_obj_c0(prob,
+      lpx_set_obj_coef(prob, 0,
          lpp->orig_dir == LPX_MIN ? + lpp->c0 : - lpp->c0);
       /* create rows of the resultant problem */
       insist(lpp->m > 0);
@@ -656,15 +634,32 @@ LPX *lpp_build_prob(LPP *lpp)
          else
             typx = LPX_FX;
          lpx_set_col_bnds(prob, j, typx, col->lb, col->ub);
-         lpx_set_col_coef(prob, j,
+         lpx_set_obj_coef(prob, j,
             lpp->orig_dir == LPX_MIN ? + col->c : - col->c);
       }
       insist(col == NULL);
       /* create the constraint matrix of the resultant problem */
+#if 0
       info.lpp = lpp;
       info.row = NULL;
       info.aij = NULL;
       lpx_load_mat(prob, &info, next_aij);
+#else
+      {  LPPAIJ *aij;
+         int len, *ind;
+         gnm_float *val;
+         ind = ucalloc(1+lpp->n, sizeof(int));
+         val = ucalloc(1+lpp->n, sizeof(gnm_float));
+         for (row = lpp->row_ptr; row != NULL; row = row->next)
+         {  len = 0;
+            for (aij = row->ptr; aij != NULL; aij = aij->r_next)
+               len++, ind[len] = aij->col->j, val[len] = aij->val;
+            lpx_set_mat_row(prob, row->i, len, ind, val);
+         }
+         ufree(ind);
+         ufree(val);
+      }
+#endif
       /* count number of non-zeros in the resultant problem */
       lpp->nnz = lpx_get_num_nz(prob);
       /* internal data structures that represnts the resultant problem
@@ -724,7 +719,7 @@ void lpp_load_sol(LPP *lpp, LPX *prob)
       insist(lpp->n == lpx_get_num_cols(prob));
       insist(lpp->orig_dir == lpx_get_obj_dir(prob));
       insist(lpx_get_status(prob) != LPX_UNDEF);
-      for (i = 1; i <= prob->m; i++)
+      for (i = 1; i <= lpp->m; i++)
       {  lpx_get_row_info(prob, i, &stat, &prim, &dual);
          ref = lpp->row_ref[i];
          insist(1 <= ref && ref <= lpp->nrows);
@@ -732,9 +727,9 @@ void lpp_load_sol(LPP *lpp, LPX *prob)
          lpp->row_stat[ref] = stat;
          lpp->row_prim[ref] = prim;
          lpp->row_dual[ref] =
-            (lpp->orig_dir == LPX_MIN ? + dual : -dual);
+            (lpp->orig_dir == LPX_MIN ? + dual : - dual);
       }
-      for (j = 1; j <= prob->n; j++)
+      for (j = 1; j <= lpp->n; j++)
       {  lpx_get_col_info(prob, j, &stat, &prim, &dual);
          ref = lpp->col_ref[j];
          insist(1 <= ref && ref <= lpp->ncols);
@@ -764,23 +759,23 @@ void lpp_load_sol(LPP *lpp, LPX *prob)
 -- the parameter orig points to. */
 
 void lpp_unload_sol(LPP *lpp, LPX *orig)
-{     int m = lpp->orig_m, n = lpp->orig_n, dir = lpp->orig_dir;
-      int i, j, k, tagx;
-      gnm_float prim, dual;
-      insist(m == orig->m);
-      insist(n == orig->n);
-      insist(dir == orig->dir);
-      /* it is assumed that the recovered solution is optimal */
-      orig->b_stat = LPX_B_UNDEF;
-      orig->p_stat = LPX_P_FEAS;
-      orig->d_stat = LPX_D_FEAS;
-      /* check and set statuses of rows and columns */
+{     int i, j, k, m, n, typx, tagx;
+      m = lpp->orig_m;
+      n = lpp->orig_n;
+      insist(m == lpx_get_num_rows(orig));
+      insist(n == lpx_get_num_cols(orig));
+      insist(lpp->orig_dir == lpx_get_obj_dir(orig));
+      /* check row and column statuses */
       insist(m <= lpp->nrows);
       insist(n <= lpp->ncols);
       for (k = 1; k <= m+n; k++)
       {  tagx = (k <= m ? lpp->row_stat[k] : lpp->col_stat[k-m]);
          if (tagx != LPX_BS)
-         {  switch (orig->typx[k])
+         {  if (k <= m)
+               lpx_get_row_bnds(orig, k, &typx, NULL, NULL);
+            else
+               lpx_get_col_bnds(orig, k-m, &typx, NULL, NULL);
+            switch (typx)
             {  case LPX_FR:
                   insist(tagx == LPX_NF);
                   break;
@@ -800,46 +795,18 @@ void lpp_unload_sol(LPP *lpp, LPX *orig)
                   insist(orig != orig);
             }
          }
-         orig->tagx[k] = tagx;
       }
-      /* build the arrays posx and indx using the array tagx */
-      i = j = 0;
-      for (k = 1; k <= m+n; k++)
-      {  if (orig->tagx[k] == LPX_BS)
-         {  /* x[k] = xB[i] */
-            i++;
-            insist(i <= m);
-            orig->posx[k] = i, orig->indx[i] = k;
-         }
-         else
-         {  /* x[k] = xN[j] */
-            j++;
-            insist(j <= n);
-            orig->posx[k] = m+j, orig->indx[m+j] = k;
-         }
+      /* if the original problem is maximization, change signs of dual
+         values */
+      if (lpp->orig_dir == LPX_MAX)
+      {  for (i = 1; i <= m; i++) lpp->row_dual[i] = -lpp->row_dual[i];
+         for (j = 1; j <= n; j++) lpp->col_dual[j] = -lpp->col_dual[j];
       }
-      insist(i == m && j == n);
-      /* scale and store primal and dual values */
-      for (k = 1; k <= m+n; k++)
-      {  if (k <= m)
-         {  prim = lpp->row_prim[k] * orig->rs[k];
-            dual = lpp->row_dual[k] / orig->rs[k];
-         }
-         else
-         {  prim = lpp->col_prim[k-m] / orig->rs[k];
-            dual = lpp->col_dual[k-m] * orig->rs[k];
-         }
-         if (orig->posx[k] <= m)
-         {  i = orig->posx[k]; /* x[k] = xB[i] */
-            insist(1 <= i && i <= m);
-            orig->bbar[i] = prim;
-         }
-         else
-         {  j = orig->posx[k] - m; /* x[k] = xN[j] */
-            insist(1 <= j && j <= n);
-            orig->cbar[j] = (orig->dir == LPX_MIN ? + dual : - dual);
-         }
-      }
+      /* store solution components into the original problem object (it
+         is assumed that the recovered solution is optimal) */
+      lpx_put_solution(orig, LPX_P_FEAS, LPX_D_FEAS,
+         lpp->row_stat, lpp->row_prim, lpp->row_dual,
+         lpp->col_stat, lpp->col_prim, lpp->col_dual);
       return;
 }
 

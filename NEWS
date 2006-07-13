@@ -31,6 +31,7 @@ Jody:
 	* Remove GnmCell::col_info to shrink cell by a ptr
 	* Remove ColRowInfo::pos to shrink col/row by an int
 	* Update schema a bit.
+	* Update GLPK to version 4.9.
 
 Morten:
 	* Moved font metrics to goffice.

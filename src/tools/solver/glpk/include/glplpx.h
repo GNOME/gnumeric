@@ -1,11 +1,11 @@
-/* glplpx.h */
+/* glplpx.h (LP/MIP problem object) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #ifndef _GLPLPX_H
@@ -30,75 +30,99 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
+#include "glpavl.h"
 #include "glpinv.h"
-#include "glpspm.h"
 #include "glpstr.h"
 
 #define lpx_create_prob       glp_lpx_create_prob
-#define lpx_realloc_prob      glp_lpx_realloc_prob
-#define lpx_add_rows          glp_lpx_add_rows
-#define lpx_add_cols          glp_lpx_add_cols
-#define lpx_check_name        glp_lpx_check_name
 #define lpx_set_prob_name     glp_lpx_set_prob_name
-#define lpx_set_row_name      glp_lpx_set_row_name
-#define lpx_set_col_name      glp_lpx_set_col_name
-#define lpx_set_row_bnds      glp_lpx_set_row_bnds
-#define lpx_set_col_bnds      glp_lpx_set_col_bnds
 #define lpx_set_class         glp_lpx_set_class
-#define lpx_set_col_kind      glp_lpx_set_col_kind
 #define lpx_set_obj_name      glp_lpx_set_obj_name
 #define lpx_set_obj_dir       glp_lpx_set_obj_dir
-#define lpx_set_obj_c0        glp_lpx_set_obj_c0
-#define lpx_set_row_coef      glp_lpx_set_row_coef
-#define lpx_set_col_coef      glp_lpx_set_col_coef
-#define lpx_set_row_stat      glp_lpx_set_row_stat
-#define lpx_set_col_stat      glp_lpx_set_col_stat
-#define lpx_load_mat          glp_lpx_load_mat
-#define lpx_load_mat3         glp_lpx_load_mat3
+#define lpx_add_rows          glp_lpx_add_rows
+#define lpx_add_cols          glp_lpx_add_cols
+#define lpx_set_row_name      glp_lpx_set_row_name
+#define lpx_set_col_name      glp_lpx_set_col_name
+#define lpx_set_col_kind      glp_lpx_set_col_kind
+#define lpx_set_row_bnds      glp_lpx_set_row_bnds
+#define lpx_set_col_bnds      glp_lpx_set_col_bnds
+#define lpx_set_obj_coef      glp_lpx_set_obj_coef
 #define lpx_set_mat_row       glp_lpx_set_mat_row
 #define lpx_set_mat_col       glp_lpx_set_mat_col
-#define lpx_unmark_all        glp_lpx_unmark_all
-#define lpx_mark_row          glp_lpx_mark_row
-#define lpx_mark_col          glp_lpx_mark_col
-#define lpx_clear_mat         glp_lpx_clear_mat
-#define lpx_del_items         glp_lpx_del_items
+#define lpx_load_matrix       glp_lpx_load_matrix
+#define lpx_order_matrix      glp_lpx_order_matrix
+#define lpx_set_rii           glp_lpx_set_rii
+#define lpx_set_sjj           glp_lpx_set_sjj
+#define lpx_set_row_stat      glp_lpx_set_row_stat
+#define lpx_set_col_stat      glp_lpx_set_col_stat
+#define lpx_del_rows          glp_lpx_del_rows
+#define lpx_del_cols          glp_lpx_del_cols
 #define lpx_delete_prob       glp_lpx_delete_prob
+#if 1 /* 15/VIII-2004 */
+#define lpx_create_index      glp_lpx_create_index
+#define lpx_find_row          glp_lpx_find_row
+#define lpx_find_col          glp_lpx_find_col
+#define lpx_delete_index      glp_lpx_delete_index
+#endif
+#define lpx_put_lp_basis      glp_lpx_put_lp_basis
+#define lpx_put_solution      glp_lpx_put_solution
+#define lpx_put_ray_info      glp_lpx_put_ray_info
+#define lpx_put_ipt_soln      glp_lpx_put_ipt_soln
+#define lpx_put_mip_soln      glp_lpx_put_mip_soln
 
+#define lpx_get_prob_name     glp_lpx_get_prob_name
+#define lpx_get_class         glp_lpx_get_class
+#define lpx_get_obj_name      glp_lpx_get_obj_name
+#define lpx_get_obj_dir       glp_lpx_get_obj_dir
 #define lpx_get_num_rows      glp_lpx_get_num_rows
 #define lpx_get_num_cols      glp_lpx_get_num_cols
 #define lpx_get_num_int       glp_lpx_get_num_int
 #define lpx_get_num_bin       glp_lpx_get_num_bin
-#define lpx_get_num_nz        glp_lpx_get_num_nz
-#define lpx_get_prob_name     glp_lpx_get_prob_name
 #define lpx_get_row_name      glp_lpx_get_row_name
 #define lpx_get_col_name      glp_lpx_get_col_name
-#define lpx_get_row_bnds      glp_lpx_get_row_bnds
-#define lpx_get_col_bnds      glp_lpx_get_col_bnds
-#define lpx_get_class         glp_lpx_get_class
 #define lpx_get_col_kind      glp_lpx_get_col_kind
-#define lpx_get_obj_name      glp_lpx_get_obj_name
-#define lpx_get_obj_dir       glp_lpx_get_obj_dir
-#define lpx_get_obj_c0        glp_lpx_get_obj_c0
-#define lpx_get_row_coef      glp_lpx_get_row_coef
-#define lpx_get_col_coef      glp_lpx_get_col_coef
+#define lpx_get_row_type      glp_lpx_get_row_type
+#define lpx_get_row_lb        glp_lpx_get_row_lb
+#define lpx_get_row_ub        glp_lpx_get_row_ub
+#define lpx_get_col_type      glp_lpx_get_col_type
+#define lpx_get_col_lb        glp_lpx_get_col_lb
+#define lpx_get_col_ub        glp_lpx_get_col_ub
+#define lpx_get_obj_coef      glp_lpx_get_obj_coef
+#define lpx_get_num_nz        glp_lpx_get_num_nz
 #define lpx_get_mat_row       glp_lpx_get_mat_row
 #define lpx_get_mat_col       glp_lpx_get_mat_col
-#define lpx_get_row_mark      glp_lpx_get_row_mark
-#define lpx_get_col_mark      glp_lpx_get_col_mark
+#define lpx_get_rii           glp_lpx_get_rii
+#define lpx_get_sjj           glp_lpx_get_sjj
+#define lpx_is_b_avail        glp_lpx_is_b_avail
+#define lpx_get_b_info        glp_lpx_get_b_info
+#define lpx_get_row_b_ind     glp_lpx_get_row_b_ind
+#define lpx_get_col_b_ind     glp_lpx_get_col_b_ind
+#define lpx_access_inv        glp_lpx_access_inv
 #define lpx_get_status        glp_lpx_get_status
 #define lpx_get_prim_stat     glp_lpx_get_prim_stat
 #define lpx_get_dual_stat     glp_lpx_get_dual_stat
-#define lpx_get_row_info      glp_lpx_get_row_info
-#define lpx_get_col_info      glp_lpx_get_col_info
 #define lpx_get_obj_val       glp_lpx_get_obj_val
-#define lpx_get_ips_stat      glp_lpx_get_ips_stat
-#define lpx_get_ips_row       glp_lpx_get_ips_row
-#define lpx_get_ips_col       glp_lpx_get_ips_col
-#define lpx_get_ips_obj       glp_lpx_get_ips_obj
-#define lpx_get_mip_stat      glp_lpx_get_mip_stat
-#define lpx_get_mip_row       glp_lpx_get_mip_row
-#define lpx_get_mip_col       glp_lpx_get_mip_col
-#define lpx_get_mip_obj       glp_lpx_get_mip_obj
+#define lpx_get_row_stat      glp_lpx_get_row_stat
+#define lpx_get_row_prim      glp_lpx_get_row_prim
+#define lpx_get_row_dual      glp_lpx_get_row_dual
+#define lpx_get_col_stat      glp_lpx_get_col_stat
+#define lpx_get_col_prim      glp_lpx_get_col_prim
+#define lpx_get_col_dual      glp_lpx_get_col_dual
+#define lpx_get_ray_info      glp_lpx_get_ray_info
+#define lpx_ipt_status        glp_lpx_ipt_status
+#define lpx_ipt_obj_val       glp_lpx_ipt_obj_val
+#define lpx_ipt_row_prim      glp_lpx_ipt_row_prim
+#define lpx_ipt_row_dual      glp_lpx_ipt_row_dual
+#define lpx_ipt_col_prim      glp_lpx_ipt_col_prim
+#define lpx_ipt_col_dual      glp_lpx_ipt_col_dual
+#define lpx_mip_status        glp_lpx_mip_status
+#define lpx_mip_obj_val       glp_lpx_mip_obj_val
+#define lpx_mip_row_val       glp_lpx_mip_row_val
+#define lpx_mip_col_val       glp_lpx_mip_col_val
+#define lpx_get_row_bnds      glp_lpx_get_row_bnds       /* obsolete */
+#define lpx_get_col_bnds      glp_lpx_get_col_bnds       /* obsolete */
+#define lpx_get_row_info      glp_lpx_get_row_info       /* obsolete */
+#define lpx_get_col_info      glp_lpx_get_col_info       /* obsolete */
 
 #define lpx_reset_parms       glp_lpx_reset_parms
 #define lpx_set_int_parm      glp_lpx_set_int_parm
@@ -112,60 +136,57 @@
 #define lpx_std_basis         glp_lpx_std_basis
 #define lpx_adv_basis         glp_lpx_adv_basis
 
-#define lpx_warm_up           glp_lpx_warm_up
-#define lpx_prim_opt          glp_lpx_prim_opt
-#define lpx_prim_feas         glp_lpx_prim_feas
-#define lpx_prim_art          glp_lpx_prim_art
-#define lpx_dual_opt          glp_lpx_dual_opt
 #define lpx_simplex           glp_lpx_simplex
 #define lpx_check_kkt         glp_lpx_check_kkt
 #define lpx_interior          glp_lpx_interior
 #define lpx_integer           glp_lpx_integer
+#define lpx_check_int         glp_lpx_check_int
 #define lpx_intopt            glp_lpx_intopt
 
+#define lpx_invert            glp_lpx_invert
+#define lpx_ftran             glp_lpx_ftran
+#define lpx_btran             glp_lpx_btran
+#define lpx_eval_b_prim       glp_lpx_eval_b_prim
+#define lpx_eval_b_dual       glp_lpx_eval_b_dual
+#define lpx_warm_up           glp_lpx_warm_up
 #define lpx_eval_tab_row      glp_lpx_eval_tab_row
 #define lpx_eval_tab_col      glp_lpx_eval_tab_col
 #define lpx_transform_row     glp_lpx_transform_row
 #define lpx_transform_col     glp_lpx_transform_col
 #define lpx_prim_ratio_test   glp_lpx_prim_ratio_test
 #define lpx_dual_ratio_test   glp_lpx_dual_ratio_test
-#define lpx_eval_activity     glp_lpx_eval_activity
-#define lpx_eval_red_cost     glp_lpx_eval_red_cost
+
+#define lpx_remove_tiny       glp_lpx_remove_tiny
 #define lpx_reduce_form       glp_lpx_reduce_form
-#define lpx_mixed_gomory      glp_lpx_mixed_gomory
-#define lpx_estim_obj_chg     glp_lpx_estim_obj_chg
+#define lpx_eval_row          glp_lpx_eval_row
+#define lpx_eval_degrad       glp_lpx_eval_degrad
+#define lpx_gomory_cut        glp_lpx_gomory_cut
 
 #define lpx_read_mps          glp_lpx_read_mps
 #define lpx_write_mps         glp_lpx_write_mps
 #define lpx_read_bas          glp_lpx_read_bas
 #define lpx_write_bas         glp_lpx_write_bas
+#define lpx_read_freemps      glp_lpx_read_freemps
+#define lpx_write_freemps     glp_lpx_write_freemps
 #define lpx_print_prob        glp_lpx_print_prob
 #define lpx_print_sol         glp_lpx_print_sol
 #define lpx_print_ips         glp_lpx_print_ips
 #define lpx_print_mip         glp_lpx_print_mip
-
 #define lpx_print_sens_bnds   glp_lpx_print_sens_bnds
-
-#define lpx_read_lpt          glp_lpx_read_lpt
-#define lpx_write_lpt         glp_lpx_write_lpt
-
+#define lpx_read_cpxlp        glp_lpx_read_cpxlp
+#define lpx_write_cpxlp       glp_lpx_write_cpxlp
+#define lpx_extract_prob      glp_lpx_extract_prob
 #define lpx_read_model        glp_lpx_read_model
+#define lpx_read_prob         glp_lpx_read_prob
+#define lpx_write_prob        glp_lpx_write_prob
 
 /*----------------------------------------------------------------------
--- The structure LPX defines LP/MIP problem object, which includes the
--- following information:
---
---    LP/MIP problem data;
---    current basis;
---    factorization of the basis matrix;
---    LP/MIP solution components;
---    control parameters and statistics.
---
--- LP problem has the following formulation:
+-- The structure LPX is an LP/MIP problem object, which corresponds to
+-- the following problem statement:
 --
 --    minimize (or maximize)
 --
---       Z = c[1]*x[1] + c[2]*x[2] + ... + c[m+n]*x[m+n] + c[0]      (1)
+--       Z = c[1]*x[m+1] + c[2]*x[m+2] + ... + c[n]*x[m+n] + c[0]    (1)
 --
 --    subject to linear constraints
 --
@@ -185,7 +206,7 @@
 -- x[1], ..., x[m]      - rows (auxiliary variables);
 -- x[m+1], ..., x[m+n]  - columns (structural variables);
 -- Z                    - objective function;
--- c[1], ..., c[m+n]    - coefficients of the objective function;
+-- c[1], ..., c[n]      - coefficients of the objective function;
 -- c[0]                 - constant term of the objective function;
 -- a[1,1], ..., a[m,n]  - constraint coefficients;
 -- l[1], ..., l[m+n]    - lower bounds of variables;
@@ -207,8 +228,8 @@
 --       l <= x <= u                                                 (6)
 --
 -- where:
--- xR                   - subvector of auxiliary variables (rows);
--- xS                   - subvector of structural variables (columns);
+-- xR                   - vector of auxiliary variables;
+-- xS                   - vector of structural variables;
 -- x = (xR, xS)         - vector of all variables;
 -- c                    - vector of objective coefficients;
 -- A                    - constraint matrix (has m rows and n columns);
@@ -236,8 +257,8 @@
 --
 -- where B is a square non-sigular mxm matrix built of basic columns
 -- and called the basis matrix, N is a mxn matrix built of non-basic
--- columns, xB is a subvector of basic variables, xN is a subvector of
--- non-basic variables.
+-- columns, xB is vector of basic variables, xN is vector of non-basic
+-- variables.
 --
 -- Using the partitioning (9) the LP problem (4)-(6) can be written in
 -- a form, which defines components of the corresponding basic solution
@@ -245,7 +266,7 @@
 --
 --    Z = d * xN + c[0]                                             (10)
 --
---    xB = A~ * xN                                                  (11)
+--    xB = A^ * xN                                                  (11)
 --
 --    lB <= xB <= uB                                                (12)
 --
@@ -253,7 +274,7 @@
 --
 -- where:
 --
---    A~ = (alfa[i,j]) = - inv(B) * N                               (14)
+--    A^ = (alfa[i,j]) = - inv(B) * N                               (14)
 --
 -- is the mxn matrix of influence coefficients;
 --
@@ -270,7 +291,7 @@
 -- (15) in both cases of minimization and maximization.
 --
 -- The structure LPX allows scaling the problem. In the scaled problem
--- the constraint matrix is scaled and has the form
+-- the constraint matrix is scaled and has the form:
 --
 --    A" = R * A * S,                                               (17)
 --
@@ -278,22 +299,10 @@
 -- R and S are, respectively, diagonal scaling mxm and nxn matrices with
 -- positive diagonal elements used to scale rows and columns of A.
 --
--- Actually *all* components of the LP problem stored in the structure
--- LPX are in the scaled form (for example, the constraint matrix stored
--- in LPX is A" = R*A*S, not A), and if the scaling is not used, it just
--- means that the matrices R and S are unity. Each time when something
--- is entered into LPX (for example, bounds of variables or constraint
--- coefficients), it is automatically scaled and then stored, and vice
--- versa, if something is obtained from LPX (for example, components of
--- the current basic solution), it is automatically unscaled. Thus, on
--- API level the scaling process is invisible.
---
 -- The connection between the original and scaled components is defined
--- by (17) and expressed by the following formulae:
+-- by (17) and expressed with the following formulae:
 --
---    cR" = inv(R) * cR    (obj. coefficients at auxiliary variables)
---
---    cS" = S * cS         (obj. coefficients at structural variables)
+--    c"  = S * c          (objective coefficients)
 --
 --    xR" = R * xR         (values of auxiliary variables)
 --    lR" = R * lR         (lower bounds of auxiliary variables)
@@ -309,167 +318,112 @@
 -- LP problem. */
 
 typedef struct LPX LPX;
+typedef struct LPXROW LPXROW;
+typedef struct LPXCOL LPXCOL;
+typedef struct LPXAIJ LPXAIJ;
 
-/* CAUTION: DO NOT CHANGE ANY MEMBERS OF THIS STRUCTURE DIRECTLY; THIS
-   MAY DAMAGE ITS INTEGRITY AND CAUSE UNPREDICTABLE ERRORS! */
-
+#ifndef _GLPLPX_UNLOCK
+struct LPX { int none_; };
+struct LPX_LOCKED
+#else
 struct LPX
+#endif
 {     /* LP/MIP problem object */
-      int m_max;
-      /* maximal number of rows (if necessary, this parameter can be
-         automatically changed) */
-      int n_max;
-      /* maximal number of columns (if necessary, this parameter can be
-         automatically changed) */
-      int m;
-      /* current number of rows (auxiliary variables) */
-      int n;
-      /* current number of columns (structural variables) */
-      DMP *pool;
-      /* memory pool for segmented character strings */
-      char *buf; /* char buf[255+1]; */
-      /* working buffer used to return character strings */
       /*--------------------------------------------------------------*/
-      /* LP problem data */
-      STR *prob;
-      /* symbolic name of the LP problem object */
-      int clss;
+      /* memory management */
+      DMP *row_pool;
+      /* memory pool for LPXROW objects */
+      DMP *col_pool;
+      /* memory pool for LPXCOL objects */
+      DMP *aij_pool;
+      /* memory pool for LPXAIJ objects */
+      DMP *str_pool;
+      /* memory pool for segmented character strings */
+      char *str_buf; /* char str_buf[255+1]; */
+      /* working buffer to store character strings */
+      /*--------------------------------------------------------------*/
+      /* LP/MIP data */
+      STR *name;
+      /* problem name (1 to 255 chars); NULL means no name is assigned
+         to the problem */
+      int klass;
       /* problem class: */
 #define LPX_LP          100   /* linear programming (LP) */
 #define LPX_MIP         101   /* mixed integer programming (MIP) */
-      STR **name; /* STR *name[1+m+n]; */
-      /* name[0] is not used;
-         name[k], 1 <= k <= m+n, is a name of the variable x[k] */
-      int *typx; /* int typx[1+m_max+n_max]; */
-      /* typx[0] is not used;
-         typx[k], 1 <= k <= m+n, is the type of the variable x[k]: */
-#define LPX_FR          110   /* free variable:  -inf <  x[k] < +inf  */
-#define LPX_LO          111   /* lower bound:    l[k] <= x[k] < +inf  */
-#define LPX_UP          112   /* upper bound:    -inf <  x[k] <= u[k] */
-#define LPX_DB          113   /* gnm_float bound:   l[k] <= x[k] <= u[k] */
-#define LPX_FX          114   /* fixed variable: l[k]  = x[k]  = u[k] */
-      gnm_float *lb; /* gnm_float lb[1+m_max+n_max]; */
-      /* lb[0] is not used;
-         lb[k], 1 <= k <= m+n, is an lower bound of the variable x[k];
-         if x[k] has no lower bound, lb[k] is zero */
-      gnm_float *ub; /* gnm_float ub[1+m_max+n_max]; */
-      /* ub[0] is not used;
-         ub[k], 1 <= k <= m+n, is an upper bound of the variable x[k];
-         if x[k] has no upper bound, ub[k] is zero; if x[k] is of fixed
-         type, ub[k] is equal to lb[k] */
-      gnm_float *rs; /* gnm_float rs[1+m_max+n_max]; */
-      /* rs[0] is not used;
-         rs[i], 1 <= i <= m, is diagonal element r[i,i] of the row
-         scaling matrix R (see (17));
-         rs[m+j], 1 <= j <= n, is diagonal element s[j,j] of the column
-         scaling matrix S (see (17)) */
-      int *mark; /* int mark[1+m+max+n_max]; */
-      /* mark[0] is not used;
-         mark[k], 1 <= k <= m+n, is a marker of the variable x[k];
-         these markers are used to mark rows and columns for various
-         purposes */
       STR *obj;
-      /* symbolic name of the objective function */
+      /* objective function name (1 to 255 chars); NULL means no name
+         is assigned to the objective function */
       int dir;
-      /* optimization direction (sense of the objective function): */
+      /* optimization direction flag (objective "sense"): */
 #define LPX_MIN         120   /* minimization */
 #define LPX_MAX         121   /* maximization */
-      gnm_float *coef; /* gnm_float coef[1+m_max+n_max]; */
-      /* coef[0] is a constant term of the objective function;
-         coef[k], 1 <= k <= m+n, is a coefficient of the objective
-         function at the variable x[k] (note that auxiliary variables
-         also may have non-zero objective coefficients) */
-      SPM *A; /* SPM A[1:m,1:n]; */
-      /* constraint matrix (has m rows and n columns) */
+      gnm_float c0;
+      /* constant term of the objective function ("shift") */
+      int m_max;
+      /* length of the array of rows (enlarged automatically) */
+      int n_max;
+      /* length of the array of columns (enlarged automatically) */
+      int m;
+      /* number of rows, 0 <= m <= m_max */
+      int n;
+      /* number of columns, 0 <= n <= n_max */
+      LPXROW **row; /* LPXROW *row[1+m_max]; */
+      /* row[0] is not used;
+         row[i], 1 <= i <= m, is a pointer to i-th row */
+      LPXCOL **col; /* LPXCOL *col[1+n_max]; */
+      /* col[0] is not used;
+         col[j], 1 <= j <= n, is a pointer to j-th column */
+#if 1 /* 15/VIII-2004 */
+      AVLTREE *r_tree;
+      /* row index to find rows by their names; NULL means this index
+         does not exist */
+      AVLTREE *c_tree;
+      /* column index to find columns by their names; NULL means this
+         index does not exist */
+#endif
       /*--------------------------------------------------------------*/
-      /* basic solution segment */
+      /* LP basis */
       int b_stat;
-      /* status of the current basis: */
+      /* basis status: */
 #define LPX_B_UNDEF     130   /* current basis is undefined */
 #define LPX_B_VALID     131   /* current basis is valid */
+      int *basis; /* int basis[1+m_max]; */
+      /* basis header (valid only if the basis status is LPX_B_VALID):
+         basis[0] is not used;
+         basis[i] = k is the ordinal number of auxiliary (1 <= k <= m)
+         or structural (m+1 <= k <= m+n) variable which corresponds to
+         i-th basic variable xB[i], 1 <= i <= m */
+      INV *b_inv; /* INV b_inv[1:m,1:m]; */
+      /* factorization (invertable form) of the current basis matrix;
+         NULL means the factorization does not exist; it is valid only
+         if the basis status is LPX_B_VALID */
+      /*--------------------------------------------------------------*/
+      /* LP/MIP solution */
       int p_stat;
-      /* status of the primal solution: */
-#define LPX_P_UNDEF     132   /* primal status is undefined */
+      /* status of primal basic solution: */
+#define LPX_P_UNDEF     132   /* primal solution is undefined */
 #define LPX_P_FEAS      133   /* solution is primal feasible */
 #define LPX_P_INFEAS    134   /* solution is primal infeasible */
 #define LPX_P_NOFEAS    135   /* no primal feasible solution exists */
       int d_stat;
-      /* status of the dual solution: */
-#define LPX_D_UNDEF     136   /* dual status is undefined */
+      /* status of dual basic solution: */
+#define LPX_D_UNDEF     136   /* dual solution is undefined */
 #define LPX_D_FEAS      137   /* solution is dual feasible */
 #define LPX_D_INFEAS    138   /* solution is dual infeasible */
 #define LPX_D_NOFEAS    139   /* no dual feasible solution exists */
-      int *tagx; /* int tagx[1+m_max+n_max]; */
-      /* tagx[0] is not used;
-         tagx[k], 1 <= k <= m+n, is the status of the variable x[k]
-         (contents of this array is always defined independently on the
-         status of the current basis): */
-#define LPX_BS          140   /* basic variable */
-#define LPX_NL          141   /* non-basic variable on lower bound */
-#define LPX_NU          142   /* non-basic variable on upper bound */
-#define LPX_NF          143   /* non-basic free variable */
-#define LPX_NS          144   /* non-basic fixed variable */
-      int *posx; /* int posx[1+m_max+n_max]; */
-      /* posx[0] is not used;
-         posx[k], 1 <= k <= m+n, is the position of the variable x[k]
-         in the vector of basic variables xB or non-basic variables xN:
-         posx[k] = i   means that x[k] = xB[i], 1 <= i <= m
-         posx[k] = m+j means that x[k] = xN[j], 1 <= j <= n
-         (if the current basis is undefined, contents of this array is
-         undefined) */
-      int *indx; /* int indx[1+m_max+n_max]; */
-      /* indx[0] is not used;
-         indx[i], 1 <= i <= m, is the original number of the basic
-         variable xB[i], i.e. indx[i] = k means that posx[k] = i
-         indx[m+j], 1 <= j <= n, is the original number of the non-basic
-         variable xN[j], i.e. indx[m+j] = k means that posx[k] = m+j
-         (if the current basis is undefined, contents of this array is
-         undefined) */
-      INV *inv; /* INV inv[1:m,1:m]; */
-      /* an invertable (factorized) form of the current basis matrix */
-      gnm_float *bbar; /* gnm_float bbar[1+m_max]; */
-      /* bbar[0] is not used;
-         bbar[i], 1 <= i <= m, is a value of basic variable xB[i] */
-      gnm_float *pi; /* gnm_float pi[1+m_max]; */
-      /* pi[0] is not used;
-         pi[i], 1 <= i <= m, is a simplex (Lagrange) multiplier, which
-         corresponds to the i-th row (equality constraint) */
-      gnm_float *cbar; /* gnm_float cbar[1+n_max]; */
-      /* cbar[0] is not used;
-         cbar[j], 1 <= j <= n, is a reduced cost of non-basic variable
-         xN[j] */
-      /*--------------------------------------------------------------*/
-      /* interior point solution segment */
+      int some;
+      /* ordinal number of some auxiliary or structural variable which
+         has certain property, 0 <= some <= m+n */
       int t_stat;
-      /* status of the interior point solution: */
-#define LPX_T_UNDEF     150   /* solution is undefined */
-#define LPX_T_OPT       151   /* solution is optimal */
-      gnm_float *pv; /* gnm_float pv[1+m_max+n_max]; */
-      /* pv[0] is not used;
-         pv[k], 1 <= k <= m+n, is a primal value of the variable x[k];
-         if t_stat = LPX_T_UNDEF, this array may be unallocated */
-      gnm_float *dv; /* gnm_float dv[1+m_max+n_max]; */
-      /* dv[0] is not used;
-         dv[k], 1 <= k <= m+n, is a dual value of the variable x[k];
-         if t_stat = LPX_T_UNDEF, this array may be unallocated */
-      /*--------------------------------------------------------------*/
-      /* mixed integer programming (MIP) segment */
-      int *kind; /* int kind[1+n_max]; */
-      /* kind[0] is not used;
-         kind[j], 1 <= j <= n, specifies the kind of the j-th structural
-         variable: */
-#define LPX_CV          160   /* continuous variable */
-#define LPX_IV          161   /* integer variable */
+      /* status of interior-point solution: */
+#define LPX_T_UNDEF     150   /* interior solution is undefined */
+#define LPX_T_OPT       151   /* interior solution is optimal */
       int i_stat;
-      /* status of the integer solution: */
-#define LPX_I_UNDEF     170   /* integer status is undefined */
-#define LPX_I_OPT       171   /* solution is integer optimal */
-#define LPX_I_FEAS      172   /* solution is integer feasible */
+      /* status of integer solution: */
+#define LPX_I_UNDEF     170   /* integer solution is undefined */
+#define LPX_I_OPT       171   /* integer solution is optimal */
+#define LPX_I_FEAS      172   /* integer solution is feasible */
 #define LPX_I_NOFEAS    173   /* no integer solution exists */
-      gnm_float *mipx; /* gnm_float mipx[1+m_max+n_max]; */
-      /* mipx[0] is not used;
-         mipx[k], 1 <= k <= m+n, is an (unscaled!) value of the variable
-         x[k] for integer optimal or integer feasible solution */
       /*--------------------------------------------------------------*/
       /* control parameters and statistics */
       int msg_lev;
@@ -484,14 +438,6 @@ struct LPX
          1 - equilibration scaling
          2 - geometric mean scaling
          3 - geometric mean scaling, then equilibration scaling */
-      int sc_ord;
-      /* scaling order:
-         0 - at first rows, then columns
-         1 - at first columns, then rows */
-      int sc_max;
-      /* maximal number of iterations used in geometric mean scaling */
-      gnm_float sc_eps;
-      /* stopping criterion used in geometric mean scaling */
       int dual;
       /* dual simplex option:
          0 - do not use the dual simplex
@@ -557,14 +503,16 @@ struct LPX
          to the standard output; zero value means no delay */
       int branch; /* MIP */
       /* branching heuristic:
-         0 - branch on the first variable
-         1 - branch on the last variable
-         2 - branch using a heuristic by Driebeck and Tomlin */
+         0 - branch on first variable
+         1 - branch on last variable
+         2 - branch using heuristic by Driebeck and Tomlin
+         3 - branch on most fractional variable */
       int btrack; /* MIP */
       /* backtracking heuristic:
-         0 - depth first search
-         1 - breadth first search
-         2 - backtrack using the best projection heuristic */
+         0 - select most recent node (depth first search)
+         1 - select earliest node (breadth first search)
+         2 - select node using the best projection heuristic
+         3 - select node with best local bound */
       gnm_float tol_int; /* MIP */
       /* absolute tolerance used to check if the current basic solution
          is integer feasible */
@@ -606,6 +554,148 @@ struct LPX
       /* LP presolver option:
          0 - do not use LP presolver
          1 - use LP presolver */
+#if 1 /* 07/I-2006 */
+      int binarize; /* lpx_intopt */
+      /* if this flag is set, the routine lpx_intopt replaces integer
+         columns by binary ones */
+      int use_cuts; /* lpx_intopt */
+      /* if this flag is set, the routine lpx_intopt tries generating
+         cutting planes */
+#endif
+};
+
+struct LPXROW
+{     /* LP row (auxiliary variable) */
+      int i;
+      /* ordinal number (1 to m) assigned to this row */
+      STR *name;
+      /* row name (1 to 255 chars); NULL means no name is assigned to
+         this row */
+#if 1 /* 15/VIII-2004 */
+      AVLNODE *node;
+      /* pointer to corresponding node in the row index; NULL means
+         that either the row index does not exist or this row has no
+         name assigned */
+#endif
+      int type;
+      /* type of the auxiliary variable: */
+#define LPX_FR          110   /* free variable */
+#define LPX_LO          111   /* variable with lower bound */
+#define LPX_UP          112   /* variable with upper bound */
+#define LPX_DB          113   /* gnm_float-bounded variable */
+#define LPX_FX          114   /* fixed variable */
+      gnm_float lb; /* non-scaled */
+      /* lower bound; if the row has no lower bound, lb is zero */
+      gnm_float ub; /* non-scaled */
+      /* upper bound; if the row has no upper bound, ub is zero */
+      /* if the row type is LPX_FX, ub is equal to lb */
+      LPXAIJ *ptr; /* non-scaled */
+      /* pointer to doubly linked list of constraint coefficients which
+         are placed in this row */
+      gnm_float rii;
+      /* diagonal element r[i,i] of the scaling matrix R (see (17)) for
+         this row; if the scaling is not used, r[i,i] is 1 */
+      int stat;
+      /* status of the auxiliary variable: */
+#define LPX_BS          140   /* basic variable */
+#define LPX_NL          141   /* non-basic variable on lower bound */
+#define LPX_NU          142   /* non-basic variable on upper bound */
+#define LPX_NF          143   /* non-basic free variable */
+#define LPX_NS          144   /* non-basic fixed variable */
+      int b_ind;
+      /* if the auxiliary variable is basic (LPX_BS), lpx.basis[b_ind]
+         refers to this row; if the auxiliary variable is non-basic,
+         b_ind is 0; this attribute is valid only if the basis status
+         is LPX_B_VALID */
+      gnm_float prim; /* non-scaled */
+      /* primal value of the auxiliary variable in basic solution */
+      gnm_float dual; /* non-scaled */
+      /* dual value of the auxiliary variable in basic solution */
+      gnm_float pval; /* non-scaled */
+      /* primal value of the auxiliary variable in interior solution */
+      gnm_float dval; /* non-scaled */
+      /* dual value of the auxiliary variable in interior solution */
+      gnm_float mipx; /* non-scaled */
+      /* primal value of the auxiliary variable in integer solution */
+};
+
+struct LPXCOL
+{     /* LP column (structural variable) */
+      int j;
+      /* ordinal number (1 to n) assigned to this column */
+      STR *name;
+      /* column name (1 to 255 chars); NULL means no name is assigned
+         to this column */
+#if 1 /* 15/VIII-2004 */
+      AVLNODE *node;
+      /* pointer to corresponding node in the column index; NULL means
+         that either the column index does not exist or the column has
+         no name assigned */
+#endif
+      int kind;
+      /* kind of the structural variable: */
+#define LPX_CV          160   /* continuous variable */
+#define LPX_IV          161   /* integer variable */
+      int type;
+      /* type of the structural variable: */
+#define LPX_FR          110   /* free variable */
+#define LPX_LO          111   /* variable with lower bound */
+#define LPX_UP          112   /* variable with upper bound */
+#define LPX_DB          113   /* gnm_float-bounded variable */
+#define LPX_FX          114   /* fixed variable */
+      gnm_float lb; /* non-scaled */
+      /* lower bound; if the column has no lower bound, lb is zero */
+      gnm_float ub; /* non-scaled */
+      /* upper bound; if the column has no upper bound, ub is zero */
+      /* if the column type is LPX_FX, ub is equal to lb */
+      gnm_float coef; /* non-scaled */
+      /* objective coefficient at the structural variable */
+      LPXAIJ *ptr; /* non-scaled */
+      /* pointer to doubly linked list of constraint coefficients which
+         are placed in this column */
+      gnm_float sjj;
+      /* diagonal element s[j,j] of the scaling matrix S (see (17)) for
+         this column; if the scaling is not used, s[j,j] is 1 */
+      int stat;
+      /* status of the structural variable: */
+#define LPX_BS          140   /* basic variable */
+#define LPX_NL          141   /* non-basic variable on lower bound */
+#define LPX_NU          142   /* non-basic variable on upper bound */
+#define LPX_NF          143   /* non-basic free variable */
+#define LPX_NS          144   /* non-basic fixed variable */
+      int b_ind;
+      /* if the structural variable is basic (LPX_BS), lpx.basis[b_ind]
+         refers to this column; if the structural variable is non-basic,
+         b_ind is 0; this attribute is valid only if the basis status
+         is LPX_B_VALID */
+      gnm_float prim; /* non-scaled */
+      /* primal value of the structural variable in basic solution */
+      gnm_float dual; /* non-scaled */
+      /* dual value of the structural variable in basic solution */
+      gnm_float pval; /* non-scaled */
+      /* primal value of the structural variable in interior solution */
+      gnm_float dval; /* non-scaled */
+      /* dual value of the structural variable in interior solution */
+      gnm_float mipx;
+      /* primal value of the structural variable in integer solution */
+};
+
+struct LPXAIJ
+{     /* constraint coefficient a[i,j]; see (2) and (5) */
+      LPXROW *row;
+      /* pointer to row, where this coefficient is placed */
+      LPXCOL *col;
+      /* pointer to column, where this coefficient is placed */
+      gnm_float val;
+      /* numeric (non-zero) value of this coefficient */
+      LPXAIJ *r_prev;
+      /* pointer to previous coefficient in the same row */
+      LPXAIJ *r_next;
+      /* pointer to next coefficient in the same row */
+      LPXAIJ *c_prev;
+      /* pointer to previous coefficient in the same column */
+      LPXAIJ *c_next;
+      /* pointer to next coefficient in the same column */
 };
 
 /* status codes reported by the routine lpx_get_status: */
@@ -616,7 +706,7 @@ struct LPX
 #define LPX_UNBND       184   /* unbounded */
 #define LPX_UNDEF       185   /* undefined */
 
-/* exit codes returned by the simplex-based solver routines: */
+/* exit codes returned by solver routines: */
 #define LPX_E_OK        200   /* success */
 #define LPX_E_EMPTY     201   /* empty problem */
 #define LPX_E_BADB      202   /* invalid initial basis */
@@ -631,7 +721,7 @@ struct LPX
 #define LPX_E_SING      211   /* problems with basis matrix */
 #define LPX_E_NOCONV    212   /* no convergence (interior) */
 #define LPX_E_NOPFS     213   /* no primal feas. sol. (LP presolver) */
-#define LPX_E_NODFS     214   /* no dual feas. sol.   (LP presolver) */
+#define LPX_E_NODFS     214   /* no dual feas. sol. (LP presolver) */
 
 /* control parameter identifiers: */
 #define LPX_K_MSGLEV    300   /* lp->msg_lev */
@@ -662,11 +752,13 @@ struct LPX
 #define LPX_K_MPSSKIP   325   /* lp->mps_skip */
 #define LPX_K_LPTORIG   326   /* lp->lpt_orig */
 #define LPX_K_PRESOL    327   /* lp->presol */
+#define LPX_K_BINARIZE  328   /* lp->binarize */
+#define LPX_K_USECUTS   329   /* lp->use_cuts */
 
 typedef struct LPXKKT LPXKKT;
 
 struct LPXKKT
-{     /* this structure contains results provided by the routines that
+{     /* this structure contains results reported by the routines which
          checks Karush-Kuhn-Tucker conditions (for details see comments
          to those routines) */
       /*--------------------------------------------------------------*/
@@ -754,22 +846,25 @@ struct LPXKKT
 /* problem creating and modifying routines ---------------------------*/
 
 LPX *lpx_create_prob(void);
-/* create LP problem object */
-
-void lpx_realloc_prob(LPX *lp, int m_max, int n_max);
-/* reallocate LP problem object */
-
-void lpx_add_rows(LPX *lp, int nrs);
-/* add new rows to LP problem object */
-
-void lpx_add_cols(LPX *lp, int ncs);
-/* add new columns to LP problem object */
-
-int lpx_check_name(char *name);
-/* check correctness of symbolic name */
+/* create problem object */
 
 void lpx_set_prob_name(LPX *lp, char *name);
 /* assign (change) problem name */
+
+void lpx_set_class(LPX *lp, int klass);
+/* set (change) problem class */
+
+void lpx_set_obj_name(LPX *lp, char *name);
+/* assign (change) objective function name */
+
+void lpx_set_obj_dir(LPX *lp, int dir);
+/* set (change) optimization direction flag */
+
+int lpx_add_rows(LPX *lp, int nrs);
+/* add new rows to problem object */
+
+int lpx_add_cols(LPX *lp, int ncs);
+/* add new columns to problem object */
 
 void lpx_set_row_name(LPX *lp, int i, char *name);
 /* assign (change) row name */
@@ -777,32 +872,35 @@ void lpx_set_row_name(LPX *lp, int i, char *name);
 void lpx_set_col_name(LPX *lp, int j, char *name);
 /* assign (change) column name */
 
-void lpx_set_row_bnds(LPX *lp, int i, int typx, gnm_float lb, gnm_float ub);
-/* set (change) row bounds */
-
-void lpx_set_col_bnds(LPX *lp, int j, int typx, gnm_float lb, gnm_float ub);
-/* set (change) column bounds */
-
-void lpx_set_class(LPX *lp, int clss);
-/* set (change) problem class */
-
 void lpx_set_col_kind(LPX *lp, int j, int kind);
 /* set (change) column kind */
 
-void lpx_set_obj_name(LPX *lp, char *name);
-/* assign (change) objective function name */
+void lpx_set_row_bnds(LPX *lp, int i, int type, gnm_float lb, gnm_float ub);
+/* set (change) row bounds */
 
-void lpx_set_obj_dir(LPX *lp, int dir);
-/* set (change) optimization direction */
+void lpx_set_col_bnds(LPX *lp, int j, int type, gnm_float lb, gnm_float ub);
+/* set (change) column bounds */
 
-void lpx_set_obj_c0(LPX *lp, gnm_float c0);
-/* set (change) constant term of the obj. function */
+void lpx_set_obj_coef(LPX *lp, int j, gnm_float coef);
+/* set (change) obj. coefficient or constant term */
 
-void lpx_set_row_coef(LPX *lp, int i, gnm_float coef);
-/* set (change) row objective coefficient */
+void lpx_set_mat_row(LPX *lp, int i, int len, int ind[], gnm_float val[]);
+/* set (replace) row of the constraint matrix */
 
-void lpx_set_col_coef(LPX *lp, int j, gnm_float coef);
-/* set (change) column objective coefficient */
+void lpx_set_mat_col(LPX *lp, int j, int len, int ind[], gnm_float val[]);
+/* set (replace) column of the constraint matrix */
+
+void lpx_load_matrix(LPX *lp, int ne, int ia[], int ja[], gnm_float ar[]);
+/* load (replace) the whole constraint matrix */
+
+void lpx_order_matrix(LPX *lp);
+/* order rows and columns of the constraint matrix */
+
+void lpx_set_rii(LPX *lp, int i, gnm_float rii);
+/* set (change) row scale factor */
+
+void lpx_set_sjj(LPX *lp, int j, gnm_float sjj);
+/* set (change) column scale factor */
 
 void lpx_set_row_stat(LPX *lp, int i, int stat);
 /* set (change) row status */
@@ -810,62 +908,189 @@ void lpx_set_row_stat(LPX *lp, int i, int stat);
 void lpx_set_col_stat(LPX *lp, int j, int stat);
 /* set (change) column status */
 
-void lpx_load_mat(LPX *lp,
-      void *info, gnm_float (*mat)(void *info, int *i, int *j));
-/* load constraint matrix */
+void lpx_del_rows(LPX *lp, int nrs, int num[]);
+/* delete specified rows from problem object */
 
-void lpx_load_mat3(LPX *lp, int nz, int rn[], int cn[], gnm_float a[]);
-/* load constraint matrix */
-
-void lpx_set_mat_row(LPX *lp, int i, int len, int ndx[], gnm_float val[]);
-/* set (replace) row of the constraint matrix */
-
-void lpx_set_mat_col(LPX *lp, int j, int len, int ndx[], gnm_float val[]);
-/* set (replace) column of the constraint matrix */
-
-void lpx_unmark_all(LPX *lp);
-/* unmark all rows and columns */
-
-void lpx_mark_row(LPX *lp, int i, int mark);
-/* assign mark to row */
-
-void lpx_mark_col(LPX *lp, int j, int mark);
-/* assign mark to column */
-
-void lpx_clear_mat(LPX *lp);
-/* clear rows and columns of the constraint matrix */
-
-void lpx_del_items(LPX *lp);
-/* remove rows and columns from LP problem object */
+void lpx_del_cols(LPX *lp, int ncs, int num[]);
+/* delete specified columns from problem object */
 
 void lpx_delete_prob(LPX *lp);
-/* delete LP problem object */
+/* delete problem object */
 
-/* problem querying routines -----------------------------------------*/
+#if 1 /* 15/VIII-2004 */
+void lpx_create_index(LPX *lp);
+int lpx_find_row(LPX *lp, char *name);
+int lpx_find_col(LPX *lp, char *name);
+void lpx_delete_index(LPX *lp);
+#endif
 
-int lpx_get_num_rows(LPX *lp);
-/* determine number of rows */
+void lpx_put_lp_basis(LPX *lp, int b_stat, int basis[], INV *b_inv);
+/* store LP basis information */
 
-int lpx_get_num_cols(LPX *lp);
-/* determine number of columns */
+void lpx_put_solution(LPX *lp, int p_stat, int d_stat,
+      int row_stat[], gnm_float row_prim[], gnm_float row_dual[],
+      int col_stat[], gnm_float col_prim[], gnm_float col_dual[]);
+/* store basic solution components */
 
-int lpx_get_num_int(LPX *lp);
-/* determine number of integer columns */
+void lpx_put_ray_info(LPX *lp, int k);
+/* store row/column which causes unboundness */
 
-int lpx_get_num_bin(LPX *lp);
-/* determine number of binary columns */
+void lpx_put_ipt_soln(LPX *lp, int t_stat, gnm_float row_pval[],
+      gnm_float row_dval[], gnm_float col_pval[], gnm_float col_dval[]);
+/* store interior-point solution components */
 
-int lpx_get_num_nz(LPX *lp);
-/* determine number of constraint coefficients */
+void lpx_put_mip_soln(LPX *lp, int i_stat, gnm_float row_mipx[],
+      gnm_float col_mipx[]);
+/* store mixed integer solution components */
+
+/* problem retrieving routines ---------------------------------------*/
 
 char *lpx_get_prob_name(LPX *lp);
-/* obtain problem name */
+/* retrieve problem name */
+
+int lpx_get_class(LPX *lp);
+/* retrieve problem class */
+
+char *lpx_get_obj_name(LPX *lp);
+/* retrieve objective function name */
+
+int lpx_get_obj_dir(LPX *lp);
+/* retrieve optimization direction flag */
+
+int lpx_get_num_rows(LPX *lp);
+/* retrieve number of rows */
+
+int lpx_get_num_cols(LPX *lp);
+/* retrieve number of columns */
+
+int lpx_get_num_int(LPX *lp);
+/* retrieve number of integer columns */
+
+int lpx_get_num_bin(LPX *lp);
+/* retrieve number of binary columns */
 
 char *lpx_get_row_name(LPX *lp, int i);
-/* obtain row name */
+/* retrieve row name */
 
 char *lpx_get_col_name(LPX *lp, int j);
-/* obtain column name */
+/* retrieve column name */
+
+int lpx_get_col_kind(LPX *lp, int j);
+/* retrieve column kind */
+
+int lpx_get_row_type(LPX *lp, int i);
+/* retrieve row type */
+
+gnm_float lpx_get_row_lb(LPX *lp, int i);
+/* retrieve row lower bound */
+
+gnm_float lpx_get_row_ub(LPX *lp, int i);
+/* retrieve row upper bound */
+
+int lpx_get_col_type(LPX *lp, int j);
+/* retrieve column type */
+
+gnm_float lpx_get_col_lb(LPX *lp, int j);
+/* retrieve column lower bound */
+
+gnm_float lpx_get_col_ub(LPX *lp, int j);
+/* retrieve column upper bound */
+
+gnm_float lpx_get_obj_coef(LPX *lp, int j);
+/* retrieve obj. coefficient or constant term */
+
+int lpx_get_num_nz(LPX *lp);
+/* retrieve number of constraint coefficients */
+
+int lpx_get_mat_row(LPX *lp, int i, int ind[], gnm_float val[]);
+/* retrieve row of the constraint matrix */
+
+int lpx_get_mat_col(LPX *lp, int j, int ind[], gnm_float val[]);
+/* retrieve column of the constraint matrix */
+
+gnm_float lpx_get_rii(LPX *lp, int i);
+/* retrieve row scale factor */
+
+gnm_float lpx_get_sjj(LPX *lp, int j);
+/* retrieve column scale factor */
+
+int lpx_is_b_avail(LPX *lp);
+/* check if LP basis is available */
+
+int lpx_get_b_info(LPX *lp, int i);
+/* retrieve LP basis information */
+
+int lpx_get_row_b_ind(LPX *lp, int i);
+/* retrieve row index in LP basis */
+
+int lpx_get_col_b_ind(LPX *lp, int j);
+/* retrieve column index in LP basis */
+
+INV *lpx_access_inv(LPX *lp);
+/* access factorization of basis matrix */
+
+int lpx_get_status(LPX *lp);
+/* retrieve generic status of basic solution */
+
+int lpx_get_prim_stat(LPX *lp);
+/* retrieve primal status of basic solution */
+
+int lpx_get_dual_stat(LPX *lp);
+/* retrieve dual status of basic solution */
+
+gnm_float lpx_get_obj_val(LPX *lp);
+/* retrieve objective value (basic solution) */
+
+int lpx_get_row_stat(LPX *lp, int i);
+/* retrieve row status (basic solution) */
+
+gnm_float lpx_get_row_prim(LPX *lp, int i);
+/* retrieve row primal value (basic solution) */
+
+gnm_float lpx_get_row_dual(LPX *lp, int i);
+/* retrieve row dual value (basic solution) */
+
+int lpx_get_col_stat(LPX *lp, int j);
+/* retrieve column status (basic solution) */
+
+gnm_float lpx_get_col_prim(LPX *lp, int j);
+/* retrieve column primal value (basic solution) */
+
+gnm_float lpx_get_col_dual(LPX *lp, int j);
+/* retrieve column dual value (basic solution) */
+
+int lpx_get_ray_info(LPX *lp);
+/* determine what causes primal unboundness */
+
+int lpx_ipt_status(LPX *lp);
+/* retrieve status of interior-point solution */
+
+gnm_float lpx_ipt_obj_val(LPX *lp);
+/* retrieve objective value (interior point) */
+
+gnm_float lpx_ipt_row_prim(LPX *lp, int i);
+/* retrieve row primal value (interior point) */
+
+gnm_float lpx_ipt_row_dual(LPX *lp, int i);
+/* retrieve row dual value (interior point) */
+
+gnm_float lpx_ipt_col_prim(LPX *lp, int j);
+/* retrieve column primal value (interior point) */
+
+gnm_float lpx_ipt_col_dual(LPX *lp, int j);
+/* retrieve column dual value (interior point) */
+
+int lpx_mip_status(LPX *lp);
+/* retrieve status of MIP solution */
+
+gnm_float lpx_mip_obj_val(LPX *lp);
+/* retrieve objective value (MIP solution) */
+
+gnm_float lpx_mip_row_val(LPX *lp, int i);
+/* retrieve row value (MIP solution) */
+
+gnm_float lpx_mip_col_val(LPX *lp, int j);
+/* retrieve column value (MIP solution) */
 
 void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnm_float *lb,
       gnm_float *ub);
@@ -875,82 +1100,13 @@ void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnm_float *lb,
       gnm_float *ub);
 /* obtain column bounds */
 
-int lpx_get_class(LPX *lp);
-/* query problem class */
-
-int lpx_get_col_kind(LPX *lp, int j);
-/* query column kind */
-
-char *lpx_get_obj_name(LPX *lp);
-/* obtain objective function name */
-
-int lpx_get_obj_dir(LPX *lp);
-/* determine optimization direction */
-
-gnm_float lpx_get_obj_c0(LPX *lp);
-/* obtain constant term of the obj. function */
-
-gnm_float lpx_get_row_coef(LPX *lp, int i);
-/* obtain row objective coefficient */
-
-gnm_float lpx_get_col_coef(LPX *lp, int j);
-/* obtain column objective coefficient */
-
-int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnm_float val[]);
-/* get row of the constraint matrix */
-
-int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnm_float val[]);
-/* get column of the constraint matrix */
-
-int lpx_get_row_mark(LPX *lp, int i);
-/* determine row mark */
-
-int lpx_get_col_mark(LPX *lp, int j);
-/* determine column mark */
-
-int lpx_get_status(LPX *lp);
-/* query basic solution status */
-
-int lpx_get_prim_stat(LPX *lp);
-/* query primal status of basic solution */
-
-int lpx_get_dual_stat(LPX *lp);
-/* query dual status of basic solution */
-
-void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx, gnm_float *dx)
-      ;
+void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx,
+      gnm_float *dx);
 /* obtain row solution information */
 
-void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx, gnm_float *dx)
-      ;
+void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx,
+      gnm_float *dx);
 /* obtain column solution information */
-
-gnm_float lpx_get_obj_val(LPX *lp);
-/* obtain value of the objective function */
-
-int lpx_get_ips_stat(LPX *lp);
-/* query status of interior point solution */
-
-void lpx_get_ips_row(LPX *lp, int i, gnm_float *vx, gnm_float *dx);
-/* obtain row interior point solution */
-
-void lpx_get_ips_col(LPX *lp, int j, gnm_float *vx, gnm_float *dx);
-/* obtain column interior point solution */
-
-gnm_float lpx_get_ips_obj(LPX *lp);
-/* obtain interior point value of the obj. function */
-
-int lpx_get_mip_stat(LPX *lp);
-/* query status of MIP solution */
-
-gnm_float lpx_get_mip_row(LPX *lp, int i);
-/* obtain row activity for MIP solution */
-
-gnm_float lpx_get_mip_col(LPX *lp, int j);
-/* obtain column activity for MIP solution */
-
-gnm_float lpx_get_mip_obj(LPX *lp);
-/* obtain value of the obj. func. for MIP solution */
 
 /* control parameters and statistics routines ------------------------*/
 
@@ -972,35 +1128,20 @@ gnm_float lpx_get_real_parm(LPX *lp, int parm);
 /* problem scaling routines ------------------------------------------*/
 
 void lpx_scale_prob(LPX *lp);
-/* scale LP problem data */
+/* scale problem data */
 
 void lpx_unscale_prob(LPX *lp);
-/* unscale LP problem data */
+/* unscale problem data */
 
-/* initial basis routines --------------------------------------------*/
+/* LP basis constructing routines ------------------------------------*/
 
 void lpx_std_basis(LPX *lp);
-/* build standard initial basis */
+/* construct standard initial LP basis */
 
 void lpx_adv_basis(LPX *lp);
-/* build advanced initial basis */
+/* construct advanced initial LP basis */
 
 /* solver routines ---------------------------------------------------*/
-
-int lpx_warm_up(LPX *lp);
-/* "warm up" the initial basis */
-
-int lpx_prim_opt(LPX *lp);
-/* find optimal solution (primal simplex) */
-
-int lpx_prim_feas(LPX *lp);
-/* find primal feasible solution (primal simplex) */
-
-int lpx_prim_art(LPX *lp);
-/* find primal feasible solution (primal simplex) */
-
-int lpx_dual_opt(LPX *lp);
-/* find optimal solution (dual simplex) */
 
 int lpx_simplex(LPX *lp);
 /* easy-to-use driver to the simplex method */
@@ -1014,62 +1155,92 @@ int lpx_interior(LPX *lp);
 int lpx_integer(LPX *lp);
 /* easy-to-use driver to the branch-and-bound method */
 
+void lpx_check_int(LPX *lp, LPXKKT *kkt);
+/* check integer feasibility conditions */
+
 int lpx_intopt(LPX *mip);
 /* easy-to-use driver to the branch-and-bound method */
 
-/* simplex table routines --------------------------------------------*/
+/* LP basis and simplex table routines -------------------------------*/
 
-int lpx_eval_tab_row(LPX *lp, int k, int ndx[], gnm_float val[]);
+int lpx_invert(LPX *lp);
+/* compute factorization of basis matrix */
+
+void lpx_ftran(LPX *lp, gnm_float x[]);
+/* forward transformation (solve system B*x = b) */
+
+void lpx_btran(LPX *lp, gnm_float x[]);
+/* backward transformation (solve system B'*x = b) */
+
+void lpx_eval_b_prim(LPX *lp, gnm_float row_prim[], gnm_float col_prim[]);
+/* compute primal basic solution components */
+
+void lpx_eval_b_dual(LPX *lp, gnm_float row_dual[], gnm_float col_dual[]);
+/* compute dual basic solution components */
+
+int lpx_warm_up(LPX *lp);
+/* "warm up" LP basis */
+
+int lpx_eval_tab_row(LPX *lp, int k, int ind[], gnm_float val[]);
 /* compute row of the simplex table */
 
-int lpx_eval_tab_col(LPX *lp, int k, int ndx[], gnm_float val[]);
+int lpx_eval_tab_col(LPX *lp, int k, int ind[], gnm_float val[]);
 /* compute column of the simplex table */
 
-int lpx_transform_row(LPX *lp, int len, int ndx[], gnm_float val[]);
+int lpx_transform_row(LPX *lp, int len, int ind[], gnm_float val[]);
 /* transform explicitly specified row */
 
-int lpx_transform_col(LPX *lp, int len, int ndx[], gnm_float val[]);
+int lpx_transform_col(LPX *lp, int len, int ind[], gnm_float val[]);
 /* transform explicitly specified column */
 
-int lpx_prim_ratio_test(LPX *lp, int len, int ndx[], gnm_float val[],
+int lpx_prim_ratio_test(LPX *lp, int len, int ind[], gnm_float val[],
       int how, gnm_float tol);
 /* perform primal ratio test */
 
-int lpx_dual_ratio_test(LPX *lp, int len, int ndx[], gnm_float val[],
+int lpx_dual_ratio_test(LPX *lp, int len, int ind[], gnm_float val[],
       int how, gnm_float tol);
 /* perform dual ratio test */
 
-gnm_float lpx_eval_activity(LPX *lp, int len, int ndx[], gnm_float val[]);
-/* compute activity of explicitly specified row */
+/*--------------------------------------------------------------------*/
 
-gnm_float lpx_eval_red_cost(LPX *lp, int len, int ndx[], gnm_float val[]);
-/* compute red. cost of explicitly specified column */
+int lpx_remove_tiny(int ne, int ia[], int ja[], gnm_float ar[],
+      gnm_float eps);
+/* remove zero and tiny elements */
 
-int lpx_reduce_form(LPX *lp, int len, int ndx[], gnm_float val[],
+int lpx_reduce_form(LPX *lp, int len, int ind[], gnm_float val[],
       gnm_float work[]);
 /* reduce linear form */
 
-int lpx_mixed_gomory(LPX *lp, int kind[], int len, int ndx[],
-      gnm_float val[], gnm_float work[]);
-/* generate Gomory's mixed integer cut */
+gnm_float lpx_eval_row(LPX *lp, int len, int ind[], gnm_float val[]);
+/* compute explicitly specified row */
 
-void lpx_estim_obj_chg(LPX *lp, int k, gnm_float dn_val, gnm_float up_val,
-      gnm_float *dn_chg, gnm_float *up_chg, int ndx[], gnm_float val[]);
-/* estimate obj. changes for down- and up-branch */
+gnm_float lpx_eval_degrad(LPX *lp, int len, int ind[], gnm_float val[],
+      int type, gnm_float rhs);
+/* compute degradation of the objective function */
+
+int lpx_gomory_cut(LPX *lp, int len, int ind[], gnm_float val[],
+      gnm_float work[]);
+/* generate Gomory's mixed integer cut */
 
 /* additional utility routines ---------------------------------------*/
 
 LPX *lpx_read_mps(char *fname);
-/* read in problem data using MPS format */
+/* read problem data in fixed MPS format */
 
 int lpx_write_mps(LPX *lp, char *fname);
-/* write problem data using MPS format */
+/* write problem data in fixed MPS format */
 
 int lpx_read_bas(LPX *lp, char *fname);
-/* read predefined basis using MPS format */
+/* read LP basis in fixed MPS format */
 
 int lpx_write_bas(LPX *lp, char *fname);
-/* write current basis using MPS format */
+/* write LP basis in fixed MPS format */
+
+LPX *lpx_read_freemps(char *fname);
+/* read problem data in free MPS format */
+
+int lpx_write_freemps(LPX *lp, char *fname);
+/* write problem data in free MPS format */
 
 int lpx_print_prob(LPX *lp, char *fname);
 /* write problem data in plain text format */
@@ -1086,14 +1257,23 @@ int lpx_print_mip(LPX *lp, char *fname);
 int lpx_print_sens_bnds(LPX *lp, char *fname);
 /* write bounds sensitivity information */
 
-LPX *lpx_read_lpt(char *fname);
-/* read LP/MIP problem using CPLEX LP format */
+LPX *lpx_read_cpxlp(char *fname);
+/* read problem data in CPLEX LP format */
 
-int lpx_write_lpt(LPX *lp, char *fname);
-/* write problem data using CPLEX LP format */
+int lpx_write_cpxlp(LPX *lp, char *fname);
+/* write problem data in CPLEX LP format */
+
+LPX *lpx_extract_prob(void *mpl);
+/* extract problem instance from MathProg model */
 
 LPX *lpx_read_model(char *model, char *data, char *output);
 /* read LP/MIP model written in GNU MathProg language */
+
+LPX *lpx_read_prob(char *fname);
+/* read problem data in GNU LP format */
+
+int lpx_write_prob(LPX *lp, char *fname);
+/* write problem data in GNU LP format */
 
 #endif
 

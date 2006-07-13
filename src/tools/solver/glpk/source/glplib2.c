@@ -1,11 +1,11 @@
 /* glplib2.c */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #include <limits.h>
@@ -80,10 +80,9 @@ int lib_init_env(void)
       env->mem_count = 0;
       env->mem_cpeak = 0;
       for (k = 0; k < LIB_MAX_OPEN; k++) env->file_slot[k] = NULL;
-      env->rand_val[0] = -1;
-      for (k = 1; k <= 55; k++) env->rand_val[k] = 0;
-      env->next_val = env->rand_val;
-      lib_init_rand(0);
+#if 1 /* 14/I-2006 */
+      env->hcpy_file = NULL;
+#endif
       /* initialization completed */
       return 0;
 }
@@ -177,6 +176,36 @@ int lib_free_env(void)
       return 0;
 }
 
+#if 1 /* 14/I-2006 */
+int lib_open_hardcopy(char *filename)
+{     /* open hardcopy file */
+      LIBENV *env = lib_env_ptr();
+      if (env->hcpy_file != NULL)
+      {  /* hardcopy file is already open */
+         return 1;
+      }
+      env->hcpy_file = ufopen(filename, "w");
+      if (env->hcpy_file == NULL)
+      {  /* cannot create hardcopy file */
+         return 2;
+      }
+      setvbuf(env->hcpy_file, NULL, _IOLBF, BUFSIZ);
+      return 0;
+}
+
+int lib_close_hardcopy(void)
+{     /* close hardcopy file */
+      LIBENV *env = lib_env_ptr();
+      if (env->hcpy_file == NULL)
+      {  /* hardcopy file is already closed */
+         return 1;
+      }
+      ufclose(env->hcpy_file);
+      env->hcpy_file = NULL;
+      return 0;
+}
+#endif
+
 /*----------------------------------------------------------------------
 -- print - print informative message.
 --
@@ -204,6 +233,10 @@ void print(const char *fmt, ...)
           env->print_hook(env->print_info, msg) != 0) goto skip;
       /* send the message to the standard output */
       fprintf(stdout, "%s\n", msg);
+#if 1 /* 14/I-2006 */
+      if (env->hcpy_file != NULL)
+         fprintf(env->hcpy_file, "%s\n", msg);
+#endif
 skip: /* return to the calling program */
       return;
 }
@@ -270,6 +303,10 @@ void fault(const char *fmt, ...)
           env->fault_hook(env->fault_info, msg) != 0) goto skip;
       /* send the message to the standard output */
       fprintf(stdout, "%s\n", msg);
+#if 1 /* 14/I-2006 */
+      if (env->hcpy_file != NULL)
+         fprintf(env->hcpy_file, "%s\n", msg);
+#endif
 skip: /* terminate program execution */
       exit(EXIT_FAILURE);
       /* no return */
@@ -358,6 +395,7 @@ void _insist(const char *expr, const char *file, int line)
 -- The routine umalloc returns a pointer to the allocated memory block.
 -- To free this block the routine ufree (not free!) should be used. */
 
+#ifndef _GLPLIB_HUGEMEM
 void *umalloc(int size)
 {     LIBENV *env = lib_env_ptr();
       LIBMEM *desc;
@@ -389,6 +427,15 @@ void *umalloc(int size)
          env->mem_cpeak = env->mem_count;
       return (void *)((char *)desc + size_of_desc);
 }
+#else
+void *umalloc(int size)
+{     void *ptr;
+      ptr =g_malloc (size);
+      if (ptr == NULL)
+         fault("umalloc: size = %d; malloc failed", size);
+      return ptr;
+}
+#endif
 
 /*----------------------------------------------------------------------
 -- ucalloc - allocate memory block.
@@ -411,6 +458,7 @@ void *umalloc(int size)
 -- The routine ucalloc returns a pointer to the allocated memory block.
 -- To free this block the routine ufree (not free!) should be used. */
 
+#ifndef _GLPLIB_HUGEMEM
 void *ucalloc(int nmemb, int size)
 {     if (nmemb < 1)
          fault("ucalloc: nmemb = %d; invalid parameter", nmemb);
@@ -421,6 +469,16 @@ void *ucalloc(int nmemb, int size)
             nmemb, size);
       return umalloc(nmemb * size);
 }
+#else
+void *ucalloc(int nmemb, int size)
+{     void *ptr;
+      ptr = calloc(nmemb, size);
+      if (ptr == NULL)
+         fault("ucalloc: nmemb = %d; size = %d; calloc failed", nmemb,
+            size);
+      return ptr;
+}
+#endif
 
 /*----------------------------------------------------------------------
 -- ufree - free memory block.
@@ -435,6 +493,7 @@ void *ucalloc(int nmemb, int size)
 -- The routine ufree frees the memory block pointed to by ptr and which
 -- was previuosly allocated by the routine umalloc or ucalloc. */
 
+#ifndef _GLPLIB_HUGEMEM
 void ufree(void *ptr)
 {     LIBENV *env = lib_env_ptr();
       LIBMEM *desc;
@@ -460,6 +519,12 @@ void ufree(void *ptr)
      g_free (desc);
       return;
 }
+#else
+void ufree(void *ptr)
+{    g_free (ptr);
+      return;
+}
+#endif
 
 /*----------------------------------------------------------------------
 -- ufopen - open file.

@@ -12,10 +12,10 @@ AM_CPPFLAGS =						\
 noinst_LTLIBRARIES = libglpk.la
 
 libglpk_la_SOURCES =					\
+	glpavl.c				\
 	glpdmp.c				\
-	glpies1.c				\
-	glpies2.c				\
-	glpies3.c				\
+	glpipp1.c				\
+	glpipp2.c				\
 	glpinv.c				\
 	glplib1a.c				\
 	glplib1b.c				\
@@ -31,10 +31,12 @@ libglpk_la_SOURCES =					\
 	glplpx5.c				\
 	glplpx6a.c				\
 	glplpx6c.c				\
+	glplpx6d.c				\
 	glplpx7.c				\
+	glplpx7a.c				\
 	glpluf.c				\
 	glpmip1.c				\
-	glpspm.c				\
+	glpmip2.c				\
 	glpspx1.c				\
 	glpspx2.c				\
 	glpstr.c				

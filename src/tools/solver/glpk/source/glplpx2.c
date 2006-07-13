@@ -1,11 +1,11 @@
-/* glplpx2.c (problem querying routines) */
+/* glplpx2.c (problem retrieving routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #include <errno.h>
@@ -28,120 +28,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "glplib.h"
+#define _GLPLPX_UNLOCK
 #include "glplpx.h"
 
 /*----------------------------------------------------------------------
--- lpx_get_num_rows - determine number of rows.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- int lpx_get_num_rows(LPX *lp);
---
--- *Returns*
---
--- The routine lpx_get_num_rows returns current number of rows in an LP
--- problem object, which the parameter lp points to. */
-
-int lpx_get_num_rows(LPX *lp)
-{     int m = lp->m;
-      return m;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_num_cols - determine number of columns.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- int lpx_get_num_cols(LPX *lp);
---
--- *Returns*
---
--- The routine lpx_get_num_cols returns current number of columns in an
--- LP problem object, which the parameter lp points to. */
-
-int lpx_get_num_cols(LPX *lp)
-{     int n = lp->n;
-      return n;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_num_int - determine number of integer columns.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- int lpx_get_num_int(LPX *lp);
---
--- *Returns*
---
--- The routine lpx_get_num_int returns number of columns (structural
--- variables) in the problem object, which are marked as integer. */
-
-int lpx_get_num_int(LPX *lp)
-{     int count = 0, j;
-      if (lp->clss != LPX_MIP)
-         fault("lpx_get_num_int: error -- not a MIP problem");
-      for (j = 1; j <= lp->n; j++)
-         if (lp->kind[j] == LPX_IV) count++;
-      return count;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_num_bin - determine number of binary columns.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- int lpx_get_num_bin(LPX *lp);
---
--- *Returns*
---
--- The routine lpx_get_num_bin returns number of columns (structural
--- variables) in the problem object, which are marked as integer and
--- have zero lower bound and unity upper bound. */
-
-int lpx_get_num_bin(LPX *lp)
-{     int count = 0, j, k;
-      gnm_float trick = 1e-12;
-      if (lp->clss != LPX_MIP)
-         fault("lpx_get_num_bin: error -- not a MIP problem");
-      for (j = 1; j <= lp->n; j++)
-      {  if (lp->kind[j] == LPX_IV)
-         {  k = lp->m + j;
-            if (lp->typx[k] == LPX_DB &&
-                gnm_abs(lp->lb[k] * lp->rs[k])       <= trick &&
-                gnm_abs(lp->ub[k] * lp->rs[k] - 1.0) <= trick) count++;
-         }
-      }
-      return count;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_num_nz - determine number of constraint coefficients.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- int lpx_get_num_nz(LPX *lp);
---
--- *Returns*
---
--- The routine lpx_get_num_nz returns current number non-zero elements
--- in the constraint matrix that belongs to an LP problem object, which
--- the parameter lp points to. */
-
-int lpx_get_num_nz(LPX *lp)
-{     int m = lp->m;
-      int *aa_len = lp->A->len;
-      int i, count = 0;
-      for (i = 1; i <= m; i++) count += aa_len[i];
-      return count;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_prob_name - obtain problem name.
+-- lpx_get_prob_name - retrieve problem name.
 --
 -- *Synopsis*
 --
@@ -150,149 +41,21 @@ int lpx_get_num_nz(LPX *lp)
 --
 -- *Returns*
 --
--- The routine lpx_get_prob_name returns a pointer to a static buffer
--- that contains symbolic name of the problem. However, if the problem
+-- The routine lpx_get_prob_name returns a pointer to a static buffer,
+-- which contains symbolic name of the problem. However, if the problem
 -- has no assigned name, the routine returns NULL. */
 
 char *lpx_get_prob_name(LPX *lp)
-{     return
-         lp->prob == NULL ? NULL : get_str(lp->buf, lp->prob);
+{     char *name;
+      if (lp->name == NULL)
+         name = NULL;
+      else
+         name = get_str(lp->str_buf, lp->name);
+      return name;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_row_name - obtain row name.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- char *lpx_get_row_name(LPX *lp, int i);
---
--- *Returns*
---
--- The routine lpx_get_row_name returns a pointer to a static buffer
--- that contains symbolic name of the i-th row. However, if the i-th
--- row has no assigned name, the routine returns NULL. */
-
-char *lpx_get_row_name(LPX *lp, int i)
-{     if (!(1 <= i && i <= lp->m))
-         fault("lpx_get_row_name: i = %d; row number out of range", i);
-      return
-         lp->name[i] == NULL ? NULL : get_str(lp->buf, lp->name[i]);
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_col_name - obtain column name.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- char *lpx_get_col_name(LPX *lp, int j);
---
--- *Returns*
---
--- The routine lpx_get_col_name returns a pointer to a static buffer
--- that contains symbolic name of the j-th column. However, if the j-th
--- column has no assigned name, the routine returns NULL. */
-
-char *lpx_get_col_name(LPX *lp, int j)
-{     if (!(1 <= j && j <= lp->n))
-         fault("lpx_get_col_name: j = %d; column number out of range",
-            j);
-      j += lp->m;
-      return
-         lp->name[j] == NULL ? NULL : get_str(lp->buf, lp->name[j]);
-}
-
-/*----------------------------------------------------------------------
--- glp_get_row_bnds - obtain row bounds.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnm_float *lb,
---    gnm_float *ub);
---
--- *Description*
---
--- The routine lpx_get_row_bnds stores the type, lower bound and upper
--- bound of the i-th row to locations, which the parameters typx, lb,
--- and ub point to, respectively.
---
--- If some of the parameters typx, lb, or ub is NULL, the corresponding
--- value is not stored.
---
--- Types and bounds have the following meaning:
---
---     Type          Bounds            Note
---    -------------------------------------------
---    LPX_FR   -inf <  x <  +inf   free variable
---    LPX_LO     lb <= x <  +inf   lower bound
---    LPX_UP   -inf <  x <=  ub    upper bound
---    LPX_DB     lb <= x <=  ub    gnm_float bound
---    LPX_FX           x  =  lb    fixed variable
---
--- where x is the corresponding auxiliary variable.
---
--- If the row has no lower bound, *lb is set to zero. If the row has no
--- upper bound, *ub is set to zero. If the row is of fixed type, *lb and
--- *ub are set to the same value. */
-
-void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnm_float *lb, gnm_float *ub)
-{     if (!(1 <= i && i <= lp->m))
-         fault("lpx_get_row_bnds: i = %d; row number out of range", i);
-      if (typx != NULL) *typx = lp->typx[i];
-      if (lb != NULL) *lb = lp->lb[i] / lp->rs[i];
-      if (ub != NULL) *ub = lp->ub[i] / lp->rs[i];
-      return;
-}
-
-/*----------------------------------------------------------------------
--- glp_get_col_bnds - obtain column bounds.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnm_float *lb,
---    gnm_float *ub);
---
--- *Description*
---
--- The routine lpx_get_col_bnds stores the type, lower bound and upper
--- bound of the j-th column to locations, which the parameters typx, lb,
--- and ub point to, respectively.
---
--- If some of the parameters typx, lb, or ub is NULL, the corresponding
--- value is not stored.
---
--- Types and bounds have the following meaning:
---
---     Type          Bounds            Note
---    -------------------------------------------
---    LPX_FR   -inf <  x <  +inf   free variable
---    LPX_LO     lb <= x <  +inf   lower bound
---    LPX_UP   -inf <  x <=  ub    upper bound
---    LPX_DB     lb <= x <=  ub    gnm_float bound
---    LPX_FX           x  =  lb    fixed variable
---
--- where x is the corresponding structural variable.
---
--- If the column has no lower bound, *lb is set to zero. If the column
--- has no upper bound, *ub is set to zero. If the column is of fixed
--- type, *lb and *ub are set to the same value. */
-
-void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnm_float *lb, gnm_float *ub)
-{     if (!(1 <= j && j <= lp->n))
-         fault("lpx_get_col_bnds: j = %d; column number out of range",
-            j);
-      j += lp->m;
-      if (typx != NULL) *typx = lp->typx[j];
-      if (lb != NULL) *lb = lp->lb[j] * lp->rs[j];
-      if (ub != NULL) *ub = lp->ub[j] * lp->rs[j];
-      return;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_class - query problem class.
+-- lpx_get_class - retrieve problem class.
 --
 -- *Synopsis*
 --
@@ -308,37 +71,13 @@ void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnm_float *lb, gnm_float *ub)
 -- LPX_MIP - mixed integer programming (MIP) problem. */
 
 int lpx_get_class(LPX *lp)
-{     int clss = lp->clss;
-      return clss;
+{     int klass;
+      klass = lp->klass;
+      return klass;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_col_kind - query column kind.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- int lpx_get_col_kind(LPX *lp, int j);
---
--- *Returns*
---
--- The routine lpx_get_col_kind returns the kind of j-th structural
--- variable:
---
--- LPX_CV - continuous variable;
--- LPX_IV - integer variable. */
-
-int lpx_get_col_kind(LPX *lp, int j)
-{     if (lp->clss != LPX_MIP)
-         fault("lpx_get_col_kind: error -- not a MIP problem");
-      if (!(1 <= j && j <= lp->n))
-         fault("lpx_get_col_kind: j = %d; column number out of range",
-            j);
-      return lp->kind[j];
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_obj_name - obtain objective function name.
+-- lpx_get_obj_name - retrieve objective function name.
 --
 -- *Synopsis*
 --
@@ -347,18 +86,22 @@ int lpx_get_col_kind(LPX *lp, int j)
 --
 -- *Returns*
 --
--- The routine lpx_get_obj_name returns a pointer to a static buffer
--- that contains a symbolic name of the objective function. However,
+-- The routine lpx_get_obj_name returns a pointer to a static buffer,
+-- which contains a symbolic name of the objective function. However,
 -- if the objective function has no assigned name, the routine returns
 -- NULL. */
 
 char *lpx_get_obj_name(LPX *lp)
-{     return
-         lp->obj == NULL ? NULL : get_str(lp->buf, lp->obj);
+{     char *name;
+      if (lp->obj == NULL)
+         name = NULL;
+      else
+         name = get_str(lp->str_buf, lp->obj);
+      return name;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_obj_dir - determine optimization direction.
+-- lpx_get_obj_dir - retrieve optimization direction flag.
 --
 -- *Synopsis*
 --
@@ -367,209 +110,602 @@ char *lpx_get_obj_name(LPX *lp)
 --
 -- *Returns*
 --
--- The routine lpx_get_obj_dir returns a flag that defines optimization
--- direction (i.e. sense of the objective function):
+-- The routine lpx_get_obj_dir returns the optimization direction flag
+-- (i.e. "sense" of the objective function):
 --
--- LPX_MIN - the objective function has to be minimized;
--- LPX_MAX - the objective function has to be maximized. */
+-- LPX_MIN - minimization;
+-- LPX_MAX - maximization. */
 
 int lpx_get_obj_dir(LPX *lp)
-{     int dir = lp->dir;
+{     int dir;
+      dir = lp->dir;
       return dir;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_obj_c0 - obtain constant term of the obj. function.
+-- lpx_get_num_rows - retrieve number of rows.
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnm_float lpx_get_obj_c0(LPX *lp);
+-- int lpx_get_num_rows(LPX *lp);
 --
 -- *Returns*
 --
--- The routine lpx_get_obj_c0 return a constant term of the objective
--- function for an LP problem, which the parameter lp points to. */
+-- The routine lpx_get_num_rows returns the current number of rows in
+-- a problem object, which the parameter lp points to. */
 
-gnm_float lpx_get_obj_c0(LPX *lp)
-{     gnm_float c0 = lp->coef[0];
-      return c0;
+int lpx_get_num_rows(LPX *lp)
+{     int m;
+      m = lp->m;
+      return m;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_row_coef - obtain row objective coefficient.
+-- lpx_get_num_cols - retrieve number of columns.
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnm_float lpx_get_row_coef(LPX *lp, int i);
+-- int lpx_get_num_cols(LPX *lp);
 --
 -- *Returns*
 --
--- The routine lpx_get_row_coef returns a coefficient of the objective
--- function at the i-th auxiliary variable (row). */
+-- The routine lpx_get_num_cols returns the current number of columns
+-- in a problem object, which the parameter lp points to. */
 
-gnm_float lpx_get_row_coef(LPX *lp, int i)
-{     if (!(1 <= i && i <= lp->m))
-         fault("lpx_get_row_coef: i = %d; row number out of range", i);
-      return lp->coef[i] * lp->rs[i];
+int lpx_get_num_cols(LPX *lp)
+{     int n;
+      n = lp->n;
+      return n;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_col_coef - obtain column objective coefficient.
+-- lpx_get_num_int - retrieve number of integer columns.
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnm_float lpx_get_col_coef(LPX *lp, int j);
+-- int lpx_get_num_int(LPX *lp);
 --
 -- *Returns*
 --
--- The routine lpx_get_col_coef returns a coefficient of the objective
--- function at the j-th structural variable (column). */
+-- The routine lpx_get_num_int returns the current number of columns,
+-- which are marked as integer. */
 
-gnm_float lpx_get_col_coef(LPX *lp, int j)
-{     if (!(1 <= j && j <= lp->n))
-         fault("lpx_get_col_coef: j = %d; column number out of range",
+int lpx_get_num_int(LPX *lp)
+{     int j, count;
+      if (lp->klass != LPX_MIP)
+         fault("lpx_get_num_int: not a MIP problem");
+      count = 0;
+      for (j = 1; j <= lp->n; j++)
+         if (lp->col[j]->kind == LPX_IV) count++;
+      return count;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_num_bin - retrieve number of binary columns.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_num_bin(LPX *lp);
+--
+-- *Returns*
+--
+-- The routine lpx_get_num_bin returns the current number of columns,
+-- which are marked as integer and whose lower bound is zero and upper
+-- bound is one. */
+
+int lpx_get_num_bin(LPX *lp)
+{     LPXCOL *col;
+      int j, count;
+      if (lp->klass != LPX_MIP)
+         fault("lpx_get_num_bin: not a MIP problem");
+      count = 0;
+      for (j = 1; j <= lp->n; j++)
+      {  col = lp->col[j];
+         if (col->kind == LPX_IV && col->type == LPX_DB &&
+             col->lb == 0.0 && col->ub == 1.0) count++;
+      }
+      return count;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_row_name - retrieve row name.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- char *lpx_get_row_name(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_row_name returns a pointer to a static buffer,
+-- which contains symbolic name of i-th row. However, if i-th row has
+-- no assigned name, the routine returns NULL. */
+
+char *lpx_get_row_name(LPX *lp, int i)
+{     char *name;
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_name: i = %d; row number out of range", i);
+      if (lp->row[i]->name == NULL)
+         name = NULL;
+      else
+         name = get_str(lp->str_buf, lp->row[i]->name);
+      return name;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_name - retrieve column name.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- char *lpx_get_col_name(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_name returns a pointer to a static buffer,
+-- which contains symbolic name of j-th column. However, if j-th column
+-- has no assigned name, the routine returns NULL. */
+
+char *lpx_get_col_name(LPX *lp, int j)
+{     char *name;
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_name: j = %d; column number out of range",
             j);
-      j += lp->m;
-      return lp->coef[j] / lp->rs[j];
+      if (lp->col[j]->name == NULL)
+         name = NULL;
+      else
+         name = get_str(lp->str_buf, lp->col[j]->name);
+      return name;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_mat_row - get row of the constraint matrix.
+-- lpx_get_col_kind - retrieve column kind.
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnm_float val[]);
+-- int lpx_get_col_kind(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_kind returns the kind of j-th column, i.e.
+-- the kind of corresponding structural variable, as follows:
+--
+-- LPX_CV - continuous variable;
+-- LPX_IV - integer variable. */
+
+int lpx_get_col_kind(LPX *lp, int j)
+{     if (lp->klass != LPX_MIP)
+         fault("lpx_get_col_kind: not a MIP problem");
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_kind: j = %d; column number out of range",
+            j);
+      return lp->col[j]->kind;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_row_type - retrieve row type.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_row_type(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_row_type returns the type of i-th row, i.e. the
+-- type of corresponding auxiliary variable, as follows:
+--
+-- LPX_FR -g_free (unbounded) variable;
+-- LPX_LO - variable with lower bound;
+-- LPX_UP - variable with upper bound;
+-- LPX_DB - gnm_float-bounded variable;
+-- LPX_FX - fixed variable. */
+
+int lpx_get_row_type(LPX *lp, int i)
+{     if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_type: i = %d; row number out of range", i);
+      return lp->row[i]->type;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_row_lb - retrieve row lower bound.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_row_lb(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_row_lb returns the lower bound of i-th row, i.e.
+-- the lower bound of corresponding auxiliary variable. However, if the
+-- row has no lower bound, the routine returns zero. */
+
+gnm_float lpx_get_row_lb(LPX *lp, int i)
+{     if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_lb: i = %d; row number out of range", i);
+      return lp->row[i]->lb;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_row_ub - retrieve row upper bound.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_row_ub(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_row_ub returns the upper bound of i-th row, i.e.
+-- the upper bound of corresponding auxiliary variable. However, if the
+-- row has no upper bound, the routine returns zero. */
+
+gnm_float lpx_get_row_ub(LPX *lp, int i)
+{     if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_ub: i = %d; row number out of range", i);
+      return lp->row[i]->ub;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_type - retrieve column type.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_col_type(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_type returns the type of j-th column, i.e.
+-- the type of corresponding structural variable, as follows:
+--
+-- LPX_FR -g_free (unbounded) variable;
+-- LPX_LO - variable with lower bound;
+-- LPX_UP - variable with upper bound;
+-- LPX_DB - gnm_float-bounded variable;
+-- LPX_FX - fixed variable. */
+
+int lpx_get_col_type(LPX *lp, int j)
+{     if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_type: j = %d; column number out of range",
+            j);
+      return lp->col[j]->type;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_lb - retrieve column lower bound.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_col_lb(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_lb returns the lower bound of j-th column,
+-- i.e. the lower bound of corresponding structural variable. However,
+-- if the column has no lower bound, the routine returns zero. */
+
+gnm_float lpx_get_col_lb(LPX *lp, int j)
+{     if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_lb: j = %d; column number out of range", j);
+      return lp->col[j]->lb;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_ub - retrieve column upper bound.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_col_ub(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_ub returns the upper bound of j-th column,
+-- i.e. the upper bound of corresponding structural variable. However,
+-- if the column has no upper bound, the routine returns zero. */
+
+gnm_float lpx_get_col_ub(LPX *lp, int j)
+{     if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_ub: j = %d; column number out of range", j);
+      return lp->col[j]->ub;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_obj_coef - retrieve obj. coefficient or constant term.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_obj_coef(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_obj_coef returns the objective coefficient at
+-- j-th structural variable (column) of the specified problem object.
+-- However, if the parameter j is 0, the routine returns the constant
+-- term (i.e. "shift") of the objective function. */
+
+gnm_float lpx_get_obj_coef(LPX *lp, int j)
+{     if (!(0 <= j && j <= lp->n))
+         fault("lpx_get_obj_coef: j = %d; column number out of range",
+            j);
+      return j == 0 ? lp->c0 : lp->col[j]->coef;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_num_nz - retrieve number of constraint coefficients.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_num_nz(LPX *lp);
+--
+-- *Returns*
+--
+-- The routine lpx_get_num_nz returns the number of (non-zero) elements
+-- in the constraint matrix of the specified problem object. */
+
+int lpx_get_num_nz(LPX *lp)
+{     int count;
+      count = lp->aij_pool->count;
+      return count;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_mat_row - retrieve row of the constraint matrix.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_mat_row(LPX *lp, int i, int ind[], gnm_float val[]);
 --
 -- *Description*
 --
--- The routine lpx_get_mat_row scans (non-zero) elements of the i-th
--- row of the constraint matrix and stores their column indices and
--- values to locations ndx[1], ..., ndx[len] and val[1], ..., val[len]
--- respectively, where 0 <= len <= n is number of elements in the i-th
--- row, n is number of columns. It is allowed to specify val as NULL,
--- in which case only column indices are stored.
+-- The routine lpx_get_mat_row scans (non-zero) elements of i-th row
+-- of the constraint matrix of the specified problem object and stores
+-- their column indices and numeric values to locations ind[1], ...,
+-- ind[len] and val[1], ..., val[len], respectively, where 0 <= len <= n
+-- is the number of elements in i-th row, n is the number of columns.
+--
+-- The parameter ind or/and val can be specified as NULL, in which case
+-- corresponding information is not stored.
 --
 -- *Returns*
 --
--- The routine returns len, which is number of stored elements (length
--- of the i-th row). */
+-- The routine lpx_get_mat_row returns the length len, i.e. the number
+-- of (non-zero) elements in i-th row. */
 
-int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnm_float val[])
-{     int m = lp->m;
-      gnm_float *rs = lp->rs;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int beg, len, t;
-      gnm_float rs_i;
-      if (!(1 <= i && i <= m))
+int lpx_get_mat_row(LPX *lp, int i, int ind[], gnm_float val[])
+{     LPXAIJ *aij;
+      int len;
+      if (!(1 <= i && i <= lp->m))
          fault("lpx_get_mat_row: i = %d; row number out of range", i);
-      beg = aa_ptr[i];
-      len = aa_len[i];
-      memcpy(&ndx[1], &sv_ndx[beg], len * sizeof(int));
-      if (val != NULL)
-      {  memcpy(&val[1], &sv_val[beg], len * sizeof(gnm_float));
-         rs_i = rs[i];
-         for (t = 1; t <= len; t++)
-            val[t] /= (rs_i * rs[m + ndx[t]]);
+      len = 0;
+      for (aij = lp->row[i]->ptr; aij != NULL; aij = aij->r_next)
+      {  len++;
+         if (ind != NULL) ind[len] = aij->col->j;
+         if (val != NULL) val[len] = aij->val;
       }
+      insist(len <= lp->n);
       return len;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_mat_col - get column of the constraint matrix.
+-- lpx_get_mat_col - retrieve column of the constraint matrix.
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnm_float val[]);
+-- int lpx_get_mat_col(LPX *lp, int j, int ind[], gnm_float val[]);
 --
 -- *Description*
 --
--- The routine lpx_get_mat_col scans (non-zero) elements of the j-th
--- column of the constraint matrix and stores their row indices and
--- values to locations ndx[1], ..., ndx[len] and val[1], ..., val[len]
--- respectively, where 0 <= len <= m is number of elements in the j-th
--- column, m is number of rows. It is allowed to specify val as NULL,
--- in which case only row indices are stored.
+-- The routine lpx_get_mat_col scans (non-zero) elements of j-th column
+-- of the constraint matrix of the specified problem object and stores
+-- their row indices and numeric values to locations ind[1], ...,
+-- ind[len] and val[1], ..., val[len], respectively, where 0 <= len <= m
+-- is the number of elements in j-th column, m is the number of rows.
+--
+-- The parameter ind or/and val can be specified as NULL, in which case
+-- corresponding information is not stored.
 --
 -- *Returns*
 --
--- The routine returns len, which is number of stored elements (length
--- of the j-th column). */
+-- The routine lpx_get_mat_col returns the length len, i.e. the number
+-- of (non-zero) elements in j-th column. */
 
-int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnm_float val[])
-{     int m = lp->m;
-      int n = lp->n;
-      gnm_float *rs = lp->rs;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      gnm_float *sv_val = lp->A->val;
-      int beg, len, t;
-      gnm_float rs_j;
-      if (!(1 <= j && j <= n))
+int lpx_get_mat_col(LPX *lp, int j, int ind[], gnm_float val[])
+{     LPXAIJ *aij;
+      int len;
+      if (!(1 <= j && j <= lp->n))
          fault("lpx_get_mat_col: j = %d; column number out of range",
             j);
-      j += m;
-      beg = aa_ptr[j];
-      len = aa_len[j];
-      memcpy(&ndx[1], &sv_ndx[beg], len * sizeof(int));
-      if (val != NULL)
-      {  memcpy(&val[1], &sv_val[beg], len * sizeof(gnm_float));
-         rs_j = rs[j];
-         for (t = 1; t <= len; t++)
-            val[t] /= (rs[ndx[t]] * rs_j);
+      len = 0;
+      for (aij = lp->col[j]->ptr; aij != NULL; aij = aij->c_next)
+      {  len++;
+         if (ind != NULL) ind[len] = aij->row->i;
+         if (val != NULL) val[len] = aij->val;
       }
+      insist(len <= lp->m);
       return len;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_row_mark - determine row mark.
+-- lpx_get_rii - retrieve row scale factor.
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- int lpx_get_row_mark(LPX *lp, int i);
+-- gnm_float lpx_get_rii(LPX *lp, int i);
 --
 -- *Returns*
 --
--- The routine lpx_get_row_mark returns an integer mark assigned to the
--- i-th row by the routine lpx_mark_row. */
+-- The routine lpx_get_rii returns current scale factor r[i,i] for i-th
+-- row of the specified problem object. */
 
-int lpx_get_row_mark(LPX *lp, int i)
+gnm_float lpx_get_rii(LPX *lp, int i)
 {     if (!(1 <= i && i <= lp->m))
-         fault("lpx_get_row_mark: i = %d; row number out of range", i);
-      return lp->mark[i];
+         fault("lpx_get_rii: i = %d; row number out of range", i);
+      return lp->row[i]->rii;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_col_mark - determine column mark.
+-- lpx_get_sjj - retrieve column scale factor.
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- int lpx_get_col_mark(LPX *lp, int j);
+-- gnm_float lpx_get_sjj(LPX *lp, int j);
 --
 -- *Returns*
 --
--- The routine lpx_get_col_mark returns an integer mark assigned to the
--- j-th column by the routine lpx_mark_col. */
+-- The routine lpx_get_sjj returns current scale factor s[j,j] for j-th
+-- column of the specified problem object. */
 
-int lpx_get_col_mark(LPX *lp, int j)
+gnm_float lpx_get_sjj(LPX *lp, int j)
 {     if (!(1 <= j && j <= lp->n))
-         fault("lpx_get_col_mark: j = %d; column number out of range",
-            j);
-      return lp->mark[lp->m + j];
+         fault("lpx_get_sjj: j = %d; column number out of range", j);
+      return lp->col[j]->sjj;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_status - query basic solution status.
+-- lpx_is_b_avail - check if LP basis is available.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_is_b_avail(LPX *lp);
+--
+-- *Returns*
+--
+-- If the LP basis associated with the specified problem object exists
+-- and therefore available for computations, the routine lpx_is_b_avail
+-- returns non-zero. Otherwise, if the LP basis is not available, the
+-- routine returns zero. */
+
+int lpx_is_b_avail(LPX *lp)
+{     int avail;
+      switch (lp->b_stat)
+      {  case LPX_B_UNDEF:
+            avail = 0;
+            break;
+         case LPX_B_VALID:
+            insist(lp->b_inv != NULL);
+            insist(lp->b_inv->m == lp->m);
+            insist(lp->b_inv->valid);
+            avail = 1;
+            break;
+         default:
+            insist(lp != lp);
+      }
+      return avail;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_b_info - retrieve LP basis information.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_b_info(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_b_info returns the ordinal number k of auxiliary
+-- (1 <= k <= m) or structural (m+1 <= k <= m+n) variable, which is
+-- basic variable xB[i], 1 <= i <= m, in the current basis associated
+-- with the specified problem object, where m is the number of rows and
+-- n is the number of columns. */
+
+int lpx_get_b_info(LPX *lp, int i)
+{     if (!lpx_is_b_avail(lp))
+         fault("lpx_get_b_info: LP basis is not available");
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_b_info: i = %d; index out of range", i);
+      return lp->basis[i];
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_row_b_ind - retrieve row index in LP basis.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_row_b_ind(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_row_b_ind returns the index k of basic variable
+-- xB[k], 1 <= k <= m, which is the auxiliary variable associated with
+-- i-th row in the current basis for the specified problem object.
+-- However, if the auxiliary variable is non-basic, the routine returns
+-- zero. */
+
+int lpx_get_row_b_ind(LPX *lp, int i)
+{     if (!lpx_is_b_avail(lp))
+         fault("lpx_get_row_b_ind: LP basis is not available");
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_b_ind: i = %d; row number out of range", i);
+      return lp->row[i]->b_ind;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_b_ind - retrieve column index in LP basis.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_col_b_ind(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_b_ind returns the index k of basic variable
+-- xB[k], 1 <= k <= m, which is the structural variable associated with
+-- j-th column in the current basis for the specified problem object.
+-- However, if the structural variable is non-basic, the routine returns
+-- zero. */
+
+int lpx_get_col_b_ind(LPX *lp, int j)
+{     if (!lpx_is_b_avail(lp))
+         fault("lpx_get_col_b_ind: LP basis is not available");
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_b_ind: j = %d; column number out of range",
+            j);
+      return lp->col[j]->b_ind;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_access_inv - access factorization of basis matrix.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- INV *lpx_access_inv(LPX *lp);
+--
+-- *Returns*
+--
+-- The routine lpx_access_inv returns a pointer to a factorization of
+-- the basis matrix for the specified problem object. The factorization
+-- may not exist, in which case the routine returns NULL.
+--
+-- NOTE: This routine is intended for internal use only. */
+
+INV *lpx_access_inv(LPX *lp)
+{     INV *b_inv;
+      b_inv = lp->b_inv;
+      return b_inv;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_status - retrieve generic status of basic solution.
 --
 -- *Synopsis*
 --
@@ -578,27 +714,24 @@ int lpx_get_col_mark(LPX *lp, int j)
 --
 -- *Returns*
 --
--- The routine lpx_get_status reports the status of the current basic
--- solution obtained for an LP problem object, which the parameter lp
--- points to:
+-- The routine lpx_get_status reports the generic status of the basic
+-- solution for the specified problem object as follows:
 --
--- LPX_OPT      - solution is optimal;
--- LPX_FEAS     - solution is feasible;
--- LPX_INFEAS   - solution is infeasible;
--- LPX_NOFEAS   - problem has no feasible solution;
--- LPX_UNBND    - problem has unbounded solution;
--- LPX_UNDEF    - solution is undefined. */
+-- LPX_OPT    - solution is optimal;
+-- LPX_FEAS   - solution is feasible;
+-- LPX_INFEAS - solution is infeasible;
+-- LPX_NOFEAS - problem has no feasible solution;
+-- LPX_UNBND  - problem has unbounded solution;
+-- LPX_UNDEF  - solution is undefined. */
 
 int lpx_get_status(LPX *lp)
-{     int p_stat = lp->p_stat;
-      int d_stat = lp->d_stat;
-      int status;
-      switch (p_stat)
+{     int status;
+      switch (lp->p_stat)
       {  case LPX_P_UNDEF:
             status = LPX_UNDEF;
             break;
          case LPX_P_FEAS:
-            switch (d_stat)
+            switch (lp->d_stat)
             {  case LPX_D_UNDEF:
                   status = LPX_FEAS;
                   break;
@@ -612,7 +745,7 @@ int lpx_get_status(LPX *lp)
                   status = LPX_UNBND;
                   break;
                default:
-                  insist(d_stat != d_stat);
+                  insist(lp != lp);
             }
             break;
          case LPX_P_INFEAS:
@@ -622,13 +755,13 @@ int lpx_get_status(LPX *lp)
             status = LPX_NOFEAS;
             break;
          default:
-            insist(p_stat != p_stat);
+            insist(lp != lp);
       }
       return status;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_prim_stat - query primal status of basic solution.
+-- lpx_get_prim_stat - retrieve primal status of basic solution.
 --
 -- *Synopsis*
 --
@@ -638,21 +771,21 @@ int lpx_get_status(LPX *lp)
 -- *Returns*
 --
 -- The routine lpx_get_prim_stat reports the primal status of the basic
--- solution obtained by the solver for an LP problem object, which the
--- parameter lp points to:
+-- solution for the specified problem object as follows:
 --
--- LPX_P_UNDEF  - the primal status is undefined;
--- LPX_P_FEAS   - the solution is primal feasible;
--- LPX_P_INFEAS - the solution is primal infeasible;
+-- LPX_P_UNDEF  - primal solution is undefined;
+-- LPX_P_FEAS   - solution is primal feasible;
+-- LPX_P_INFEAS - solution is primal infeasible;
 -- LPX_P_NOFEAS - no primal feasible solution exists. */
 
 int lpx_get_prim_stat(LPX *lp)
-{     int p_stat = lp->p_stat;
+{     int p_stat;
+      p_stat = lp->p_stat;
       return p_stat;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_dual_stat - query dual status of basic solution.
+-- lpx_get_dual_stat - retrieve dual status of basic solution.
 --
 -- *Synopsis*
 --
@@ -662,219 +795,21 @@ int lpx_get_prim_stat(LPX *lp)
 -- *Returns*
 --
 -- The routine lpx_get_dual_stat reports the dual status of the basic
--- solution obtained by the solver for an LP problem object, which the
--- parameter lp points to:
+-- solution for the specified problem object as follows:
 --
--- LPX_D_UNDEF  - the dual status is undefined;
--- LPX_D_FEAS   - the solution is dual feasible;
--- LPX_D_INFEAS - the solution is dual infeasible;
+-- LPX_D_UNDEF  - dual solution is undefined;
+-- LPX_D_FEAS   - solution is dual feasible;
+-- LPX_D_INFEAS - solution is dual infeasible;
 -- LPX_D_NOFEAS - no dual feasible solution exists. */
 
 int lpx_get_dual_stat(LPX *lp)
-{     int d_stat = lp->d_stat;
+{     int d_stat;
+      d_stat = lp->d_stat;
       return d_stat;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_row_info - obtain row solution information.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx,
---    gnm_float *dx);
---
--- *Description*
---
--- The routine lpx_get_row_info stores status, primal value and dual
--- value of the i-th auxiliary variable (row) to locations, which the
--- parameters tagx, vx, and dx point to, respectively.
---
--- The status code has the following meaning:
---
--- LPX_BS - basic variable;
--- LPX_NL - non-basic variable on its lower bound;
--- LPX_NU - non-basic variable on its upper bound;
--- LPX_NF - non-basicg_free (unbounded) variable;
--- LPX_NS - non-basic fixed variable.
---
--- If some of pointers tagx, vx, or dx is NULL, the corresponding value
--- is not stored. */
-
-void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx, gnm_float *dx)
-{     int m = lp->m;
-      int n = lp->n;
-      int tagx_i, t;
-      gnm_float vx_i, dx_i;
-      if (!(1 <= i && i <= m))
-         fault("lpx_get_row_info: i = %d; row number out of range", i);
-      /* obtain the status */
-      tagx_i = lp->tagx[i];
-      if (tagx != NULL) *tagx = tagx_i;
-      /* obtain the primal value */
-      if (vx != NULL)
-      {  if (lp->p_stat == LPX_P_UNDEF)
-         {  /* the primal value is undefined */
-            vx_i = 0.0;
-         }
-         else
-         {  if (tagx_i == LPX_BS)
-            {  /* basic variable */
-               t = lp->posx[i]; /* x[i] = xB[t] */
-               insist(1 <= t && t <= m);
-               vx_i = lp->bbar[t];
-               /* round the primal value (if required) */
-               if (lp->round && gnm_abs(vx_i) <= lp->tol_bnd) vx_i = 0.0;
-            }
-            else
-            {  /* non-basic variable */
-               switch (tagx_i)
-               {  case LPX_NL:
-                     vx_i = lp->lb[i]; break;
-                  case LPX_NU:
-                     vx_i = lp->ub[i]; break;
-                  case LPX_NF:
-                     vx_i = 0.0; break;
-                  case LPX_NS:
-                     vx_i = lp->lb[i]; break;
-                  default:
-                     insist(tagx_i != tagx_i);
-               }
-            }
-            /* unscale the primal value */
-            vx_i /= lp->rs[i];
-         }
-         *vx = vx_i;
-      }
-      /* obtain the dual value */
-      if (dx != NULL)
-      {  if (lp->d_stat == LPX_D_UNDEF)
-         {  /* the dual value is undefined */
-            dx_i = 0.0;
-         }
-         else
-         {  if (tagx_i == LPX_BS)
-            {  /* basic variable */
-               dx_i = 0.0;
-            }
-            else
-            {  /* non-basic variable */
-               t = lp->posx[i] - m; /* x[i] = xN[t] */
-               insist(1 <= t && t <= n);
-               dx_i = lp->cbar[t];
-               /* round the dual value (if required) */
-               if (lp->round && gnm_abs(dx_i) <= lp->tol_dj) dx_i = 0.0;
-            }
-            /* unscale the dual value */
-            dx_i *= lp->rs[i];
-         }
-         *dx = dx_i;
-      }
-      return;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_col_info - obtain column solution information.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx,
---    gnm_float *dx);
---
--- *Description*
---
--- The routine lpx_get_col_info stores status, primal value and dual
--- value of the j-th structural variable (column) to locations, which
--- the parameters tagx, vx, and dx point to, respectively.
---
--- The status code has the following meaning:
---
--- LPX_BS - basic variable;
--- LPX_NL - non-basic variable on its lower bound;
--- LPX_NU - non-basic variable on its upper bound;
--- LPX_NF - non-basicg_free (unbounded) variable;
--- LPX_NS - non-basic fixed variable.
---
--- If some of pointers tagx, vx, or dx is NULL, the corresponding value
--- is not stored. */
-
-void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx, gnm_float *dx)
-{     int m = lp->m;
-      int n = lp->n;
-      int tagx_j, t;
-      gnm_float vx_j, dx_j;
-      if (!(1 <= j && j <= n))
-         fault("lpx_get_col_info: j = %d; column number out of range",
-            j);
-      j += m;
-      /* obtain the status */
-      tagx_j = lp->tagx[j];
-      if (tagx != NULL) *tagx = tagx_j;
-      /* obtain the primal value */
-      if (vx != NULL)
-      {  if (lp->p_stat == LPX_P_UNDEF)
-         {  /* the primal value is undefined */
-            vx_j = 0.0;
-         }
-         else
-         {  if (tagx_j == LPX_BS)
-            {  /* basic variable */
-               t = lp->posx[j]; /* x[j] = xB[t] */
-               insist(1 <= t && t <= m);
-               vx_j = lp->bbar[t];
-               /* round the primal value (if required) */
-               if (lp->round && gnm_abs(vx_j) <= lp->tol_bnd) vx_j = 0.0;
-            }
-            else
-            {  /* non-basic variable */
-               switch (tagx_j)
-               {  case LPX_NL:
-                     vx_j = lp->lb[j]; break;
-                  case LPX_NU:
-                     vx_j = lp->ub[j]; break;
-                  case LPX_NF:
-                     vx_j = 0.0; break;
-                  case LPX_NS:
-                     vx_j = lp->lb[j]; break;
-                  default:
-                     insist(tagx_j != tagx_j);
-               }
-            }
-            /* unscale the primal value */
-            vx_j *= lp->rs[j];
-         }
-         *vx = vx_j;
-      }
-      /* obtain the dual value */
-      if (dx != NULL)
-      {  if (lp->d_stat == LPX_D_UNDEF)
-         {  /* the dual value is undefined */
-            dx_j = 0.0;
-         }
-         else
-         {  if (tagx_j == LPX_BS)
-            {  /* basic variable */
-               dx_j = 0.0;
-            }
-            else
-            {  /* non-basic variable */
-               t = lp->posx[j] - m; /* x[i] = xN[t] */
-               insist(1 <= t && t <= n);
-               dx_j = lp->cbar[t];
-               /* round the dual value (if required) */
-               if (lp->round && gnm_abs(dx_j) <= lp->tol_dj) dx_j = 0.0;
-            }
-            /* unscale the dual value */
-            dx_j /= lp->rs[j];
-         }
-         *dx = dx_j;
-      }
-      return;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_obj_val - obtain value of the objective function.
+-- lpx_get_obj_val - retrieve objective value (basic solution).
 --
 -- *Synopsis*
 --
@@ -883,314 +818,466 @@ void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx, gnm_float *dx)
 --
 -- *Returns*
 --
--- The routine lpx_get_obj_val returns the current value of the
--- objective function for an LP problem object, which the parameter lp
--- points to. */
+-- The routine lpx_get_obj_val returns value of the objective function
+-- for basic solution. */
 
 gnm_float lpx_get_obj_val(LPX *lp)
-{     int m = lp->m;
-      int n = lp->n;
-      int i, j;
-      gnm_float sum, coef, vx;
-      sum = lpx_get_obj_c0(lp);
-      for (i = 1; i <= m; i++)
-      {  coef = lpx_get_row_coef(lp, i);
-         if (coef != 0.0)
-         {  lpx_get_row_info(lp, i, NULL, &vx, NULL);
-            sum += coef * vx;
-         }
+{     LPXCOL *col;
+      int j;
+      gnm_float sum;
+      sum = lp->c0;
+      for (j = 1; j <= lp->n; j++)
+      {  col = lp->col[j];
+         sum += col->coef * col->prim;
       }
-      for (j = 1; j <= n; j++)
-      {  coef = lpx_get_col_coef(lp, j);
-         if (coef != 0.0)
-         {  lpx_get_col_info(lp, j, NULL, &vx, NULL);
-            sum += coef * vx;
-         }
-      }
+      if (lp->round && gnm_abs(sum) < 1e-9) sum = 0.0;
       return sum;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_ips_stat - query status of interior point solution.
+-- lpx_get_row_stat - retrieve row status (basic solution).
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- int lpx_get_ips_stat(LPX *lp);
+-- int lpx_get_row_stat(LPX *lp, int i);
 --
 -- *Returns*
 --
--- The routine lpx_get_ips_stat reports the status of interior point
--- solution obtained by the solver for an LP problem object, which the
--- parameter lp points to:
+-- The routine lpx_get_row_stat returns current status assigned to the
+-- auxiliary variable associated with i-th row as follows:
 --
--- LPX_T_UNDEF  - the interior point solution is undefined;
--- LPX_T_OPT    - the interior point solution is optimal.
---
--- Note that additional status codes may appear in the future versions
--- of this routine. */
+-- LPX_BS - basic variable;
+-- LPX_NL - non-basic variable on its lower bound;
+-- LPX_NU - non-basic variable on its upper bound;
+-- LPX_NF - non-basicg_free (unbounded) variable;
+-- LPX_NS - non-basic fixed variable. */
 
-int lpx_get_ips_stat(LPX *lp)
-{     int t_stat = lp->t_stat;
+int lpx_get_row_stat(LPX *lp, int i)
+{     if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_stat: i = %d; row number out of range", i);
+      return lp->row[i]->stat;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_row_prim - retrieve row primal value (basic solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_row_prim(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_row_prim returns primal value of the auxiliary
+-- variable associated with i-th row. */
+
+gnm_float lpx_get_row_prim(LPX *lp, int i)
+{     gnm_float prim;
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_prim: i = %d; row number out of range", i);
+      prim = lp->row[i]->prim;
+      if (lp->round && gnm_abs(prim) < 1e-9) prim = 0.0;
+      return prim;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_row_dual - retrieve row dual value (basic solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_row_dual(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_get_row_dual returns dual value (i.e. reduced cost)
+-- of the auxiliary variable associated with i-th row. */
+
+gnm_float lpx_get_row_dual(LPX *lp, int i)
+{     gnm_float dual;
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_get_row_dual: i = %d; row number out of range", i);
+      dual = lp->row[i]->dual;
+      if (lp->round && gnm_abs(dual) < 1e-9) dual = 0.0;
+      return dual;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_stat - retrieve column status (basic solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_col_stat(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_stat returns current status assigned to the
+-- structural variable associated with j-th column as follows:
+--
+-- LPX_BS - basic variable;
+-- LPX_NL - non-basic variable on its lower bound;
+-- LPX_NU - non-basic variable on its upper bound;
+-- LPX_NF - non-basicg_free (unbounded) variable;
+-- LPX_NS - non-basic fixed variable. */
+
+int lpx_get_col_stat(LPX *lp, int j)
+{     if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_stat: j = %d; column number out of range",
+            j);
+      return lp->col[j]->stat;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_prim - retrieve column primal value (basic solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_col_prim(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_prim returns primal value of the structural
+-- variable associated with j-th column. */
+
+gnm_float lpx_get_col_prim(LPX *lp, int j)
+{     gnm_float prim;
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_prim: j = %d; column number out of range",
+            j);
+      prim = lp->col[j]->prim;
+      if (lp->round && gnm_abs(prim) < 1e-9) prim = 0.0;
+      return prim;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_col_dual - retrieve column dual value (basic solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_get_col_dual(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_get_col_dual returns dual value (i.e. reduced cost)
+-- of the structural variable associated with j-th column. */
+
+gnm_float lpx_get_col_dual(LPX *lp, int j)
+{     gnm_float dual;
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_get_col_dual: j = %d; column number out of range",
+            j);
+      dual = lp->col[j]->dual;
+      if (lp->round && gnm_abs(dual) < 1e-9) dual = 0.0;
+      return dual;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_get_ray_info - retrieve row/column which causes unboundness.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_get_ray_info(LPX *lp);
+--
+-- *Returns*
+--
+-- The routine lpx_get_ray_info returns the number k of some non-basic
+-- variable x[k], which causes primal unboundness. If such a variable
+-- cannot be identified, the routine returns zero.
+--
+-- If 1 <= k <= m, x[k] is the auxiliary variable associated with k-th
+-- row, if m+1 <= k <= m+n, x[k] is the structural variable associated
+-- with (k-m)-th column, where m is the number of rows, n is the number
+-- of columns in the LP problem object. */
+
+int lpx_get_ray_info(LPX *lp)
+{     int k;
+      k = lp->some;
+      return k;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_ipt_status - retrieve status of interior-point solution.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_ipt_status(LPX *lp);
+--
+-- *Returns*
+--
+-- The routine lpx_ipt_status reports the status of solution found by
+-- interior-point solver as follows:
+--
+-- LPX_T_UNDEF - interior-point solution is undefined;
+-- LPX_T_OPT   - interior-point solution is optimal. */
+
+int lpx_ipt_status(LPX *lp)
+{     int t_stat;
+      t_stat = lp->t_stat;
       return t_stat;
 }
 
 /*----------------------------------------------------------------------
--- lpx_get_ips_row - obtain row interior point solution.
+-- lpx_ipt_obj_val - retrieve objective value (interior point).
 --
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_get_ips_row(LPX *lp, int i, gnm_float *vx, gnm_float *dx);
---
--- *Description*
---
--- The routine lpx_get_ips_row stores primal and dual interior point
--- values of the i-th auxiliary variable (row) to locations, which the
--- parameters vx and dx point to, respectively. If some of pointers vx
--- or dx is NULL, the corresponding value is not stored. */
-
-void lpx_get_ips_row(LPX *lp, int i, gnm_float *vx, gnm_float *dx)
-{     gnm_float vx_i, dx_i;
-      if (!(1 <= i && i <= lp->m))
-         fault("lpx_get_ips_row: i = %d; row number out of range", i);
-      switch (lp->t_stat)
-      {  case LPX_T_UNDEF:
-            vx_i = dx_i = 0.0;
-            break;
-         case LPX_T_OPT:
-            /* obtain primal and dual values */
-            vx_i = lp->pv[i];
-            dx_i = lp->dv[i];
-#if 1
-            /* round them (if required) */
-            if (lp->round)
-            {  if (gnm_abs(vx_i) <= 1e-8) vx_i = 0.0;
-               if (gnm_abs(dx_i) <= 1e-8) dx_i = 0.0;
-            }
-#endif
-            /* and unscale these values */
-            vx_i /= lp->rs[i];
-            dx_i *= lp->rs[i];
-            break;
-         default:
-            insist(lp->t_stat != lp->t_stat);
-      }
-      if (vx != NULL) *vx = vx_i;
-      if (dx != NULL) *dx = dx_i;
-      return;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_ips_col - obtain column interior point solution.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- void lpx_get_ips_col(LPX *lp, int j, gnm_float *vx, gnm_float *dx);
---
--- *Description*
---
--- The routine lpx_get_ips_col stores primal and dual interior point
--- values of the j-th structural variable (column) to locations, which
--- the parameters vx and dx point to, respectively. If some of pointers
--- vx or dx is NULL, the corresponding value is not stored. */
-
-void lpx_get_ips_col(LPX *lp, int j, gnm_float *vx, gnm_float *dx)
-{     gnm_float vx_j, dx_j;
-      if (!(1 <= j && j <= lp->n))
-         fault("lpx_get_ips_col: j = %d; column number out of range",
-            j);
-      j += lp->m;
-      switch (lp->t_stat)
-      {  case LPX_T_UNDEF:
-            vx_j = dx_j = 0.0;
-            break;
-         case LPX_T_OPT:
-            /* obtain primal and dual values */
-            vx_j = lp->pv[j];
-            dx_j = lp->dv[j];
-#if 1
-            /* round them (if required) */
-            if (lp->round)
-            {  if (gnm_abs(vx_j) <= 1e-8) vx_j = 0.0;
-               if (gnm_abs(dx_j) <= 1e-8) dx_j = 0.0;
-            }
-#endif
-            /* and unscale these values */
-            vx_j *= lp->rs[j];
-            dx_j /= lp->rs[j];
-            break;
-         default:
-            insist(lp->t_stat != lp->t_stat);
-      }
-      if (vx != NULL) *vx = vx_j;
-      if (dx != NULL) *dx = dx_j;
-      return;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_ips_obj - obtain interior point value of the obj. function.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- gnm_float lpx_get_ips_obj(LPX *lp);
+-- gnm_float lpx_ipt_obj_val(LPX *lp);
 --
 -- *Returns*
 --
--- The routine lpx_get_ips_obj returns an interior point value of the
--- objective function. */
+-- The routine lpx_ipt_obj_val returns value of the objective function
+-- for interior-point solution. */
 
-gnm_float lpx_get_ips_obj(LPX *lp)
-{     int m = lp->m;
-      int n = lp->n;
-      int i, j;
-      gnm_float sum, coef, vx;
-      sum = lpx_get_obj_c0(lp);
-      for (i = 1; i <= m; i++)
-      {  coef = lpx_get_row_coef(lp, i);
-         if (coef != 0.0)
-         {  lpx_get_ips_row(lp, i, &vx, NULL);
-            sum += coef * vx;
-         }
-      }
-      for (j = 1; j <= n; j++)
-      {  coef = lpx_get_col_coef(lp, j);
-         if (coef != 0.0)
-         {  lpx_get_ips_col(lp, j, &vx, NULL);
-            sum += coef * vx;
-         }
-      }
-      return sum;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_mip_stat - query status of MIP solution.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- int lpx_get_mip_stat(LPX *lp);
---
--- *Returns*
---
--- The routine lpx_get_mip_stat reports the status of a MIP solution
--- found by the solver for a MIP problem object, which the parameter lp
--- points to:
---
--- LPX_I_UNDEF  - the status is undefined (either the problem has not
---                been solved yet or no integer feasible solution has
---                been found yet).
---
--- LPX_I_OPT    - the solution is integer optimal.
---
--- LPX_I_FEAS   - the solution is integer feasible but its optimality
---                (or non-optimality) has not been proven, perhaps due
---                to premature termination of the search.
---
--- LPX_I_NOFEAS - the problem has no integer feasible solution (proven
---                by the solver). */
-
-int lpx_get_mip_stat(LPX *lp)
-{     if (lp->clss != LPX_MIP)
-         fault("lpx_get_mip_stat: error -- not a MIP problem");
-      return lp->i_stat;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_mip_row - obtain row activity for MIP solution.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- gnm_float lpx_get_mip_row(LPX *lp, int i);
---
--- *Returns*
---
--- The routine returns a value of the i-th auxiliary variable (row) for
--- a MIP solution contained in the specified problem object. */
-
-gnm_float lpx_get_mip_row(LPX *lp, int i)
-{     gnm_float vx;
-      if (lp->clss != LPX_MIP)
-         fault("lpx_get_mip_row: error -- not a MIP problem");
-      if (!(1 <= i && i <= lp->m))
-         fault("lpx_get_mip_row: i = %d; row number out of range", i);
-      if (!(lp->i_stat == LPX_I_OPT || lp->i_stat == LPX_I_FEAS))
-         vx = 0.0;
-      else
-      {  vx = lp->mipx[i];
-         if (lp->round)
-         {  gnm_float eps = lp->tol_bnd / lp->rs[i];
-            if (gnm_abs(vx) <= eps) vx = 0.0;
-         }
-      }
-      return vx;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_mip_col - obtain column activity for MIP solution.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- gnm_float lpx_get_mip_col(LPX *lp, int j);
---
--- *Returns*
---
--- The routine returns a value of the j-th structural variable (column)
--- for a MIP solution contained in the specified problem object. */
-
-gnm_float lpx_get_mip_col(LPX *lp, int j)
-{     gnm_float vx;
-      if (lp->clss != LPX_MIP)
-         fault("lpx_get_mip_col: error -- not a MIP problem");
-      if (!(1 <= j && j <= lp->n))
-         fault("lpx_get_mip_col: j = %d; column number out of range",
-            j);
-      if (!(lp->i_stat == LPX_I_OPT || lp->i_stat == LPX_I_FEAS))
-         vx = 0.0;
-      else
-      {  vx = lp->mipx[lp->m+j];
-         if (lp->kind[j] == LPX_IV)
-            insist(vx == gnm_floor(vx));
-         else if (lp->round)
-         {  gnm_float eps = lp->tol_bnd * lp->rs[lp->m+j];
-            if (gnm_abs(vx) <= eps) vx = 0.0;
-         }
-      }
-      return vx;
-}
-
-/*----------------------------------------------------------------------
--- lpx_get_mip_obj - obtain value of the obj. func. for MIP solution.
---
--- *Synopsis*
---
--- #include "glplpx.h"
--- gnm_float lpx_get_mip_obj(LPX *lp);
---
--- *Returns*
---
--- The routine lpx_get_mip_obj returns a value of the obj. function for
--- a MIP solution contained in the specified problem object. */
-
-gnm_float lpx_get_mip_obj(LPX *lp)
-{     int i, j;
-      gnm_float sum, coef;
-      if (lp->clss != LPX_MIP)
-         fault("lpx_get_mip_obj: error -- not a MIP problem");
-      sum = lpx_get_obj_c0(lp);
-      for (i = 1; i <= lp->m; i++)
-      {  coef = lpx_get_row_coef(lp, i);
-         if (coef != 0.0) sum += coef * lpx_get_mip_row(lp, i);
-      }
+gnm_float lpx_ipt_obj_val(LPX *lp)
+{     LPXCOL *col;
+      int j;
+      gnm_float sum;
+      sum = lp->c0;
       for (j = 1; j <= lp->n; j++)
-      {  coef = lpx_get_col_coef(lp, j);
-         if (coef != 0.0) sum += coef * lpx_get_mip_col(lp, j);
+      {  col = lp->col[j];
+         sum += col->coef * col->pval;
       }
+      if (lp->round && gnm_abs(sum) < 1e-9) sum = 0.0;
       return sum;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_ipt_row_prim - retrieve row primal value (interior point).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_ipt_row_prim(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_ipt_row_prim returns primal value of the auxiliary
+-- variable associated with i-th row. */
+
+gnm_float lpx_ipt_row_prim(LPX *lp, int i)
+{     gnm_float pval;
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_ipt_row_prim: i = %d; row number out of range", i);
+      pval = lp->row[i]->pval;
+      if (lp->round && gnm_abs(pval) < 1e-9) pval = 0.0;
+      return pval;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_ipt_row_dual - retrieve row dual value (interior point).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_ipt_row_dual(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_ipt_row_dual returns dual value (i.e. reduced cost)
+-- of the auxiliary variable associated with i-th row. */
+
+gnm_float lpx_ipt_row_dual(LPX *lp, int i)
+{     gnm_float dval;
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_ipt_row_dual: i = %d; row number out of range", i);
+      dval = lp->row[i]->dval;
+      if (lp->round && gnm_abs(dval) < 1e-9) dval = 0.0;
+      return dval;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_ipt_col_prim - retrieve column primal value (interior point).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_ipt_col_prim(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_ipt_col_prim returns primal value of the structural
+-- variable associated with j-th column. */
+
+gnm_float lpx_ipt_col_prim(LPX *lp, int j)
+{     gnm_float pval;
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_ipt_col_prim: j = %d; column number out of range",
+            j);
+      pval = lp->col[j]->pval;
+      if (lp->round && gnm_abs(pval) < 1e-9) pval = 0.0;
+      return pval;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_ipt_col_dual - retrieve column dual value (interior point).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_ipt_col_dual(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_ipt_col_dual returns dual value (i.e. reduced cost)
+-- of the structural variable associated with j-th column. */
+
+gnm_float lpx_ipt_col_dual(LPX *lp, int j)
+{     gnm_float dval;
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_ipt_col_dual: j = %d; column number out of range",
+            j);
+      dval = lp->col[j]->dval;
+      if (lp->round && gnm_abs(dval) < 1e-9) dval = 0.0;
+      return dval;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_mip_status - retrieve status of MIP solution.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_mip_status(LPX *lp);
+--
+-- *Returns*
+--
+-- The routine lpx_mip_status reports the status of MIP solution found
+-- by branch-and-bound solver as follows:
+--
+-- LPX_I_UNDEF  - MIP solution is undefined;
+-- LPX_I_OPT    - MIP solution is integer optimal;
+-- LPX_I_FEAS   - MIP solution is integer feasible but its optimality
+--                (or non-optimality) has not been proven, perhaps due
+--                to premature termination of the search;
+-- LPX_I_NOFEAS - problem has no integer feasible solution (proven by
+--                the solver). */
+
+int lpx_mip_status(LPX *lp)
+{     int i_stat;
+      if (lp->klass != LPX_MIP)
+         fault("lpx_mip_status: not a MIP problem");
+      i_stat = lp->i_stat;
+      return i_stat;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_mip_obj_val - retrieve objective value (MIP solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_mip_obj_val(LPX *lp);
+--
+-- *Returns*
+--
+-- The routine lpx_mip_obj_val returns value of the objective function
+-- for MIP solution. */
+
+gnm_float lpx_mip_obj_val(LPX *lp)
+{     LPXCOL *col;
+      int j;
+      gnm_float sum;
+      if (lp->klass != LPX_MIP)
+         fault("lpx_mip_obj_val: not a MIP problem");
+      sum = lp->c0;
+      for (j = 1; j <= lp->n; j++)
+      {  col = lp->col[j];
+         sum += col->coef * col->mipx;
+      }
+      if (lp->round && gnm_abs(sum) < 1e-9) sum = 0.0;
+      return sum;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_mip_row_val - retrieve row value (MIP solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_mip_row_val(LPX *lp, int i);
+--
+-- *Returns*
+--
+-- The routine lpx_mip_row_val returns value of the auxiliary variable
+-- associated with i-th row. */
+
+gnm_float lpx_mip_row_val(LPX *lp, int i)
+{     gnm_float mipx;
+      if (lp->klass != LPX_MIP)
+         fault("lpx_mip_row_val: not a MIP problem");
+      if (!(1 <= i && i <= lp->m))
+         fault("lpx_mip_row_val: i = %d; row number out of range", i);
+      mipx = lp->row[i]->mipx;
+      if (lp->round && gnm_abs(mipx) < 1e-9) mipx = 0.0;
+      return mipx;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_mip_col_val - retrieve column value (MIP solution).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- gnm_float lpx_mip_col_val(LPX *lp, int j);
+--
+-- *Returns*
+--
+-- The routine lpx_mip_col_val returns value of the structural variable
+-- associated with j-th column. */
+
+gnm_float lpx_mip_col_val(LPX *lp, int j)
+{     gnm_float mipx;
+      if (lp->klass != LPX_MIP)
+         fault("lpx_mip_col_val: not a MIP problem");
+      if (!(1 <= j && j <= lp->n))
+         fault("lpx_mip_col_val: j = %d; column number out of range",
+            j);
+      mipx = lp->col[j]->mipx;
+      if (lp->round && gnm_abs(mipx) < 1e-9) mipx = 0.0;
+      return mipx;
+}
+
+/*----------------------------------------------------------------------
+-- Obsolete API routines are kept for backward compatibility and will
+-- be removed in the future. */
+
+void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnm_float *lb, gnm_float *ub)
+{     /* obtain row bounds */
+      if (typx != NULL) *typx = lpx_get_row_type(lp, i);
+      if (lb != NULL) *lb = lpx_get_row_lb(lp, i);
+      if (ub != NULL) *ub = lpx_get_row_ub(lp, i);
+      return;
+}
+
+void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnm_float *lb, gnm_float *ub)
+{     /* obtain column bounds */
+      if (typx != NULL) *typx = lpx_get_col_type(lp, j);
+      if (lb != NULL) *lb = lpx_get_col_lb(lp, j);
+      if (ub != NULL) *ub = lpx_get_col_ub(lp, j);
+      return;
+}
+
+void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx, gnm_float *dx)
+{     /* obtain row solution information */
+      if (tagx != NULL) *tagx = lpx_get_row_stat(lp, i);
+      if (vx != NULL) *vx = lpx_get_row_prim(lp, i);
+      if (dx != NULL) *dx = lpx_get_row_dual(lp, i);
+      return;
+}
+
+void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx, gnm_float *dx)
+{     /* obtain column solution information */
+      if (tagx != NULL) *tagx = lpx_get_col_stat(lp, j);
+      if (vx != NULL) *vx = lpx_get_col_prim(lp, j);
+      if (dx != NULL) *dx = lpx_get_col_dual(lp, j);
+      return;
 }
 
 /* eof */

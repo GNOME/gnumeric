@@ -1,10 +1,11 @@
 %% refman.latex %%
 
-%% Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Andrew Makhorin,
+%%----------------------------------------------------------------------
+%% This code is part of GNU Linear Programming Kit (GLPK).
+%%
+%% Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
 %% Department for Applied Informatics, Moscow Aviation Institute,
 %% Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
-%%
-%% This file is part of GLPK (GNU Linear Programming Kit).
 %%
 %% GLPK is free software; you can redistribute it and/or modify it
 %% under the terms of the GNU General Public License as published by
@@ -19,7 +20,8 @@
 %% You should have received a copy of the GNU General Public License
 %% along with GLPK; see the file COPYING. If not, write to the Free
 %% Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-%% 02110-1301  USA.
+%% 02110-1301, USA.
+%%----------------------------------------------------------------------
 
 \documentclass[a4paper,11pt,twoside,draft]{report}
 
@@ -60,12 +62,12 @@
 \vspace{0.5in}
 
 \begin{LARGE}
-{\bf Version 4.8}
+{\bf Version 4.9}
 \end{LARGE}
 
 \vspace{0.5in}
 \begin{Large}
-(Draft Edition, January 2005)
+(Draft Edition, January 2006)
 \end{Large}
 \end{center}
 
@@ -78,13 +80,13 @@ The GLPK package is part of the GNU Project released under the aegis of
 GNU.
 
 \medskip \noindent
-Copyright \copyright{} 2000, 2001, 2002, 2003, 2004, 2005 Andrew
+Copyright \copyright{} 2000, 2001, 2002, 2003, 2004, 2005, 2006 Andrew
 Makhorin, Department for Applied Informatics, Moscow Aviation Institute,
 Moscow, Russia. All rights reserved.
 
 \medskip \noindent
 Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-02110-1301  USA.
+02110-1301, USA.
 
 \medskip \noindent
 Permission is granted to make and distribute verbatim copies of this
@@ -3103,6 +3105,8 @@ The routine \verb|lpx_get_num_bin| returns the number of columns
 (structural variables), which are marked as integer and whose lower
 bound is zero and upper bound is one.
 
+\medskip
+
 \noindent \hrulefill
 
 \subsection{{\tt lpx\_integer} --- solve MIP problem using the
@@ -3171,8 +3175,69 @@ The routine \verb|lpx_integer| returns one of the following exit codes:
                     & the problem object doesn't contain optimal
                       solution for LP relaxation, or \\
                     & some integer variable has non-integer lower or
-                      upper bound, or \\
-                    & some row has non-zero objective coefficient. \\
+                      upper bound. \\
+\verb|LPX_E_ITLIM|  & the search was prematurely terminated because the
+   simplex iterations limit has been exceeded. \\
+\verb|LPX_E_TMLIM|  & the search was prematurely terminated because the
+   time limit has been exceeded. \\
+\verb|LPX_E_SING|   & the search was prematurely terminated due to the
+   solver failure (the current basis matrix got singular or
+   ill-conditioned). \\
+\end{tabular}
+
+\medskip
+
+\noindent \hrulefill
+
+\subsection{{\tt lpx\_intopt} --- solve MIP problem using the
+branch-and-bound method}
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+int lpx_intopt(LPX *lp);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_intopt| is an advanced version of the MIP solver
+based on the branch-and-bound method.
+
+From the user's standpoint it is similar to the routine
+\verb|lpx_integer| (see the previous subsection). However, it provides
+the following two additional features:
+
+1) presolving MIP that includes removing free, singleton and redundant
+rows, improve bounds of columns, removing fixed columns, and reducing
+constraint coefficients;
+
+2) generating cutting planes (optionally) to improve LP relaxation of
+the specified MIP problem before applying the branch-and-bound method.
+(Currently only Gomory's mixed integer cuts are implemented.)
+
+The routine \verb|lpx_intopt| (unlike the routine \verb|lpx_integer|)
+{\it does not require} optimal solution of LP relaxation.
+
+\paragraph{Returns}
+
+The routine \verb|lpx_integer| returns one of the following exit codes:
+
+\begin{tabular}{@{}p{25mm}p{114mm}@{}}
+\verb|LPX_E_OK|     & the MIP problem has been successfully solved.
+   (Note that, for example, if the problem has no integer feasible
+   solution, this exit code is reported.) \\
+\verb|LPX_E_FAULT|  & unable to start the search because either \\
+                    & the problem is not of MIP class or \\
+                    & some integer variable has non-integer lower or
+                      upper bound. \\
+\verb|LPX_E_NOPFS|  & the problem has no primal feasible solution
+                      (detected either by the MIP presolver, or by the
+                      simplex method on solving LP relaxation, or on
+                      re-optimization on generating cutting planes).\\
+\verb|LPX_E_NODFS|  & LP relaxation of the problem has no dual feasible
+                      solution (detected either by the MIP presolver or
+                      by the simplex method on solving LP relaxation).\\
 \verb|LPX_E_ITLIM|  & the search was prematurely terminated because the
    simplex iterations limit has been exceeded. \\
 \verb|LPX_E_TMLIM|  & the search was prematurely terminated because the
@@ -3214,8 +3279,6 @@ found by the branch-and-bound solver as follows:
 \medskip
 
 \noindent \hrulefill
-
-\pagebreak
 
 \subsection{{\tt lpx\_mip\_obj\_val} --- retrieve objective value}
 
@@ -3603,6 +3666,15 @@ default values, and descriptions are given on the right.
    & If this flag is set, the routine \verb|lpx_simplex| solves the
      problem using the built-in LP presolver. Otherwise the LP presolver
      is not used. \\
+\end{tabular}
+
+\noindent\begin{tabular}{@{}p{28mm}p{117mm}@{}}
+\verb|LPX_K_USECUTS|
+   & type: int, default: 0 \\
+   & If this flag is set, the routine \verb|lpx_intopt| generates and
+     adds cutting planes to the MIP problem in order to improve its LP
+     relaxation before applying the branch-and-bound method. Currently
+     only Gomory's mixed integer cuts are implemented. \\
 \end{tabular}
 
 \newpage
@@ -5406,6 +5478,8 @@ solution to a text file in plain format.
 \verb|--bestp|    &  backtrack using the best projection heuristic
                      (default) \\
 \verb|--bestb|    &  backtrack using node with best local bound \\
+\verb|--intopt|   &  use advanced MIP solver \\
+\verb|--cuts|     &  generate cutting planes (assumes \verb|--intopt|)\\
 \end{tabular}
 
 \bigskip

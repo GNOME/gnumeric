@@ -1,10 +1,11 @@
 %% lang.latex %%
 
-%% Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 Andrew Makhorin,
+%%----------------------------------------------------------------------
+%% This code is part of GNU Linear Programming Kit (GLPK).
+%%
+%% Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
 %% Department for Applied Informatics, Moscow Aviation Institute,
 %% Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
-%%
-%% This file is part of GLPK (GNU Linear Programming Kit).
 %%
 %% GLPK is free software; you can redistribute it and/or modify it
 %% under the terms of the GNU General Public License as published by
@@ -19,7 +20,8 @@
 %% You should have received a copy of the GNU General Public License
 %% along with GLPK; see the file COPYING. If not, write to the Free
 %% Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-%% 02110-1301  USA.
+%% 02110-1301, USA.
+%%----------------------------------------------------------------------
 
 \documentclass[a4paper,11pt,twoside,draft]{article}
 
@@ -60,12 +62,12 @@
 \vspace{0.5in}
 
 \begin{LARGE}
-{\bf Version 4.8}
+{\bf Version 4.9}
 \end{LARGE}
 
 \vspace{0.5in}
 \begin{Large}
-(Draft Edition, January 2005)
+(Draft Edition, January 2006)
 \end{Large}
 \end{center}
 
@@ -78,13 +80,13 @@ The GLPK package is part of the GNU Project released under the aegis of
 GNU.
 
 \medskip \noindent
-Copyright \copyright{} 2000, 2001, 2002, 2003, 2004, 2005 Andrew
+Copyright \copyright{} 2000, 2001, 2002, 2003, 2004, 2005, 2006 Andrew
 Makhorin, Department for Applied Informatics, Moscow Aviation Institute,
 Moscow, Russia. All rights reserved.
 
 \medskip \noindent
 Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-02110-1301  USA.
+02110-1301, USA.
 
 \medskip \noindent
 Permission is granted to make and distribute verbatim copies of this
@@ -588,8 +590,11 @@ built-in functions which may be used in numeric expressions:
 \begin{center}
 \begin{tabular}{@{}ll}
 \verb|abs|$(x)$ & absolute value \\
+\verb|atan|$(x)$ & trigonometric arctangent $\arctan x$ (in radians)\\
+\verb|atan|$(y,x)$&trigonometric arctangent $\arctan y/x$ (in radians)\\
 \verb|ceil|$(x)$ & smallest integer not less than $x$
 (``ceiling of $x$'') \\
+\verb|cos|$(x)$ & trigonometric cosine $\cos x$ (in radians)\\
 \verb|floor|$(x)$ & largest integer not greater than $x$
 (``floor of $x$'') \\
 \verb|exp|$(x)$ & base-$e$ exponential $e^x$ \\
@@ -601,6 +606,7 @@ $x_1, x_2, \dots, x_n$\\
 $x_1, x_2, \dots, x_n$\\
 \verb|round|$(x)$ & rounding $x$ to nearest integer \\
 \verb|round|$(x,n)$ & rounding $x$ to $n$ fractional decimal digits \\
+\verb|sin|$(x)$ & trigonometric sine $\sin x$ (in radians)\\
 \verb|sqrt|$(x)$ & square root $\sqrt{x}$ \\
 \verb|trunc|$(x)$ & truncating $x$ to nearest integer \\
 \verb|trunc|$(x,n)$ & truncating $x$ to $n$ fractional decimal digits \\
@@ -628,6 +634,8 @@ Note that each pseudo-random generator function have a latent argument
 been applied. Thus, if the function is applied repeatedly even to
 identical arguments, due to the side effect different resultant values
 are always produced.
+
+\pagebreak
 
 \paragraph{Iterated expressions.} Iterated numeric expression is a
 primary numeric expression, which has the following syntactic form:
@@ -810,7 +818,7 @@ Examples:
 
 \verb|'abc[' & i & ',' & j & ']'|
 
-\verb|"from " & city[i] " to " & city[j]|
+\verb|"from " & city[i] & " to " & city[j]|
 
 \medskip
 
@@ -876,7 +884,7 @@ S \\
 \end{array} \eqno (6)
 $$
 where $t, t_1, t_2, \dots, t_k$ are indices, $S$ is a set expression
-which specifies the basic set.
+(discussed in the next section) which specifies the basic set.
 
 The number of indices in the indexing entry must be the same as the
 dimension of the basic set $S$, i.e. if $S$ consists of 1-tuples, the
@@ -934,7 +942,7 @@ B &=& \{(1,Jan),(1,Feb),(2,Mar),(2,Apr),(3,May),(3,Jun)\} \\
 C &=& \{a,b,c\} \\
 \end{array} \eqno (7)
 $$
-where $A$ and $B$ consist of 1-tuples (singles), $C$ consists of
+where $A$ and $C$ consist of 1-tuples (singles), $B$ consists of
 2-tuples (doubles). And consider the following indexing expression:
 $$\verb|{i in A, (j,k) in B, l in C}| \eqno(8)$$
 where $i$, $j$, $k$, and $l$ are dummy indices.
@@ -1042,10 +1050,10 @@ and components on $n$-tuples in the resultant set is positional,
 i.e. the first dummy index corresponds to the first component, the
 second dummy index corresponds to the second component, etc.
 
-In many cases it is needed to select a subset from some set of from the
-Cartesian product of some sets. This may be attained by using an
-optional logical predicate, which is specified in indexing expression
-after the last or the only indexing entry.
+In many cases it is needed to select a subset from the Cartesian
+product of some sets. This may be attained by using an optional logical
+predicate, which is specified in indexing expression after the last or
+the only indexing entry.
 
 Consider, for example, the following indexing expression:
 $$\verb|{i in A, (j,k) in B, l in C: i <= 5 and k <> 'Mar'}| \eqno(11)$$
@@ -1086,6 +1094,8 @@ expression, conditional set expression, or another set expression
 enclosed in parentheses.
 
 \medskip
+
+\pagebreak
 
 Examples:
 
@@ -2551,9 +2561,8 @@ the set is an array of sets).\footnote{There is another way to specify
 data for a simple set along with data for parameters. This feature is
 discussed in the next subsection.}
 
-Data blocks can be specified only for the sets, which are
-non-computable, i.e. which have no assign attribute in the corresponding
-set statements.
+Data blocks can be specified only for non-computable sets, i.e. sets
+which have no assign attribute in the corresponding set statements.
 
 If the set is a simple set, only its symbolic name should be given in
 the header of the data block. Otherwise, if the set is a $n$-dimensional

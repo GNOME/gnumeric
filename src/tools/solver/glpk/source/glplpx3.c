@@ -1,11 +1,11 @@
 /* glplpx3.c (control parameters and statistics routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,11 +20,12 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #include <float.h>
 #include "glplib.h"
+#define _GLPLPX_UNLOCK
 #include "glplpx.h"
 
 /*----------------------------------------------------------------------
@@ -44,9 +45,6 @@
 void lpx_reset_parms(LPX *lp)
 {     lp->msg_lev  = 3;
       lp->scale    = 1;
-      lp->sc_ord   = 0;
-      lp->sc_max   = 20;
-      lp->sc_eps   = 0.01;
       lp->dual     = 0;
       lp->price    = 1;
       lp->relax    = 0.07;
@@ -73,6 +71,10 @@ void lpx_reset_parms(LPX *lp)
       lp->mps_skip = 0;
       lp->lpt_orig = 0;
       lp->presol = 0;
+#if 1 /* 07/I-2006 */
+      lp->binarize = 0;
+      lp->use_cuts = 0;
+#endif
       return;
 }
 
@@ -135,13 +137,13 @@ void lpx_set_int_parm(LPX *lp, int parm, int val)
             lp->out_frq = val;
             break;
          case LPX_K_BRANCH:
-            if (!(val == 0 || val == 1 || val == 2))
+            if (!(val == 0 || val == 1 || val == 2 || val == 3))
                fault("lpx_set_int_parm: BRANCH = %d; invalid value",
                   val);
             lp->branch = val;
             break;
          case LPX_K_BTRACK:
-            if (!(val == 0 || val == 1 || val == 2))
+            if (!(val == 0 || val == 1 || val == 2 || val == 3))
                fault("lpx_set_int_parm: BTRACK = %d; invalid value",
                   val);
             lp->btrack = val;
@@ -194,6 +196,20 @@ void lpx_set_int_parm(LPX *lp, int parm, int val)
                   val);
             lp->presol = val;
             break;
+#if 1 /* 07/I-2006 */
+         case LPX_K_BINARIZE:
+            if (!(val == 0 || val == 1))
+               fault("lpx_set_int_parm: BINARIZE = %d; invalid value",
+                  val);
+            lp->binarize = val;
+            break;
+         case LPX_K_USECUTS:
+            if (!(val == 0 || val == 1))
+               fault("lpx_set_int_parm: USECUTS = %d; invalid value",
+                  val);
+            lp->use_cuts = val;
+            break;
+#endif
          default:
             fault("lpx_set_int_parm: parm = %d; invalid parameter",
                parm);
@@ -253,6 +269,12 @@ int lpx_get_int_parm(LPX *lp, int parm)
             val = lp->lpt_orig; break;
          case LPX_K_PRESOL:
             val = lp->presol; break;
+#if 1 /* 07/I-2006 */
+         case LPX_K_BINARIZE:
+            val = lp->binarize; break;
+         case LPX_K_USECUTS:
+            val = lp->use_cuts; break;
+#endif
          default:
             fault("lpx_get_int_parm: parm = %d; invalid parameter",
                parm);

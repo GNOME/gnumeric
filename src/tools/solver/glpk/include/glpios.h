@@ -1,19 +1,11 @@
-/* glpios.h */
+/* glpios.h (integer optimization suite) */
 
 /*----------------------------------------------------------------------
--- GLPIOS -- Integer Optimization Suite.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- Author:        Andrew Makhorin, Department for Applied Informatics,
---                Moscow Aviation Institute, Moscow, Russia.
--- E-mail:        <mao@mai2.rcnet.ru>, <mao@gnu.org>
--- Date written:  Autumn 2003.
--- Last modified: October 2003.
---
--- This file is part of GLPK (GNU Linear Programming Kit).
---
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved.
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -28,7 +20,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #ifndef _GLPIOS_H
@@ -112,7 +104,12 @@
 #define ios_solve_root        glp_ios_solve_root
 #define ios_solve_node        glp_ios_solve_node
 
+#define ios_branch_first      glp_ios_branch_first
+#define ios_branch_last       glp_ios_branch_last
+#define ios_branch_drtom      glp_ios_branch_drtom
 #define ios_branch_on         glp_ios_branch_on
+#define ios_select_fifo       glp_ios_select_fifo
+#define ios_select_lifo       glp_ios_select_lifo
 #define ios_select_node       glp_ios_select_node
 #define ios_driver            glp_ios_driver
 
@@ -153,8 +150,8 @@ struct IOS
       /* main options */
       int dir;
       /* optimization direction flag (objective sense): */
-#define IOS_MIN         201   /* minimization */
-#define IOS_MAX         202   /* maximization */
+#define IOS_MIN         501   /* minimization */
+#define IOS_MAX         502   /* maximization */
       int int_obj;
       /* if this flag is set, the objective function is integral */
       int row_gen;
@@ -178,16 +175,16 @@ struct IOS
       /* basic solution of LP relaxation of the current subproblem */
       int p_stat;
       /* primal status: */
-#define IOS_UNDEF       211   /* undefined */
-#define IOS_FEAS        212   /* feasible */
-#define IOS_INFEAS      213   /* infeasible (intermediate) */
-#define IOS_NOFEAS      214   /* infeasible (final) */
+#define IOS_UNDEF       511   /* undefined */
+#define IOS_FEAS        512   /* feasible */
+#define IOS_INFEAS      513   /* infeasible (intermediate) */
+#define IOS_NOFEAS      514   /* infeasible (final) */
       int d_stat;
       /* dual status: */
-#define IOS_UNDEF       211   /* undefined */
-#define IOS_FEAS        212   /* feasible */
-#define IOS_INFEAS      213   /* infeasible (intermediate) */
-#define IOS_NOFEAS      214   /* infeasible (final) */
+#define IOS_UNDEF       511   /* undefined */
+#define IOS_FEAS        512   /* feasible */
+#define IOS_INFEAS      513   /* infeasible (intermediate) */
+#define IOS_NOFEAS      514   /* infeasible (final) */
       gnm_float lp_obj;
       /* value of the objective function */
       gnm_float lp_sum;
@@ -222,16 +219,6 @@ struct IOS
       gnm_float tol_obj;
       /* relative tolerance used to check if the value of the objective
          function is better than the incumbent objective value */
-      int it_lim;
-      /* simplex iterations limit; if this value is positive, it is
-         decreased by one whenever one simplex iteration is performed,
-         and reaching zero value signals the solver to stop the search;
-         negative value means no iterations limit */
-      gnm_float tm_lim;
-      /* searching time limit, in seconds; if this value is positive,
-         it is decreased by the amount of time spent by the solver at
-         some check points, and reaching zero value signals the solver
-         to stop the search; negative value means no time limit */
       gnm_float out_frq;
       /* output frequency, in seconds; this parameter specifies how
          frequently the solver sends information about the progress of
@@ -257,26 +244,26 @@ struct IOS
       /* transitional pointer passed to the application procedure */
       int event;
       /* current event code: */
-#define IOS_V_NONE      301   /* dummy event (never raised) */
-#define IOS_V_INIT      302   /* initializing */
-#define IOS_V_GENROW    303   /* row generation required */
-#define IOS_V_GENCOL    304   /* column generation required */
-#define IOS_V_GENCUT    305   /* cut generation required */
-#define IOS_V_BINGO     306   /* better integer solution found */
-#define IOS_V_BRANCH    307   /* branching required */
-#define IOS_V_SELECT    308   /* subproblem selection required */
-#define IOS_V_DELSUB    309   /* subproblem is being deleted */
-#define IOS_V_DELROW    310   /* row is being deleted */
-#define IOS_V_DELCOL    311   /* column is being deleted */
-#define IOS_V_TERM      312   /* terminating */
-      int reopt;
+#define IOS_V_NONE      601   /* dummy event (never raised) */
+#define IOS_V_INIT      602   /* initializing */
+#define IOS_V_GENROW    603   /* row generation required */
+#define IOS_V_GENCOL    604   /* column generation required */
+#define IOS_V_GENCUT    605   /* cut generation required */
+#define IOS_V_BINGO     606   /* better integer solution found */
+#define IOS_V_BRANCH    607   /* branching required */
+#define IOS_V_SELECT    608   /* subproblem selection required */
+#define IOS_V_DELSUB    609   /* subproblem is being deleted */
+#define IOS_V_DELROW    610   /* row is being deleted */
+#define IOS_V_DELCOL    611   /* column is being deleted */
+#define IOS_V_TERM      612   /* terminating */
+      int r_flag;
       /* reoptimization flag; if this flag is set, LP relaxation of the
          current subproblem needs to be re-optimized */
       int b_flag;
       /* branching flag; if this flag is set, branching is done */
       int t_flag;
       /* backtracking flag; if this flag is set, some active subproblem
-         is selected */
+         has been selected */
 };
 
 struct IOSNPD
@@ -291,6 +278,14 @@ struct IOSNPD
          for the root subproblem until its complete LP relaxation has
          been solved, the local bound is set to -DBL_MAX (minimization)
          or +DBL_MAX (maximization) */
+      /* if this subproblem is inactive, the following two quantities
+         correspond to final optimal solution of its LP relaxation; for
+         active subproblems these quantities are undefined */
+      int ii_cnt;
+      /* number of columns (structural variables) of integer kind whose
+         primal values are fractional */
+      gnm_float ii_sum;
+      /* the sum of integer infeasibilities */
 };
 
 struct IOSRGD
@@ -305,8 +300,8 @@ struct IOSCGD
 {     /* extension of column global descriptor */
       int kind;
       /* column kind: */
-#define IOS_NUM         221   /* continuous column */
-#define IOS_INT         222   /* integer column */
+#define IOS_NUM         521   /* continuous column */
+#define IOS_INT         522   /* integer column */
       int mark;
       /* column mark (reserved for application) */
       void *link;
@@ -366,12 +361,6 @@ struct IOSCOL
          is of integer kind, but its primal value is integer infeasible
          within given tolerance */
 };
-
-/* exit codes returned by the routine ios_driver: */
-#define IOS_E_OK        301   /* search successfully completed */
-#define IOS_E_ITLIM     302   /* simplex iterations limit exceeded */
-#define IOS_E_TMLIM     303   /* time limit exceeded */
-#define IOS_E_ERROR     304   /* search terminated due to error */
 
 /**********************************************************************/
 /* * *               LOW-LEVEL MAINTENANCE ROUTINES               * * */
@@ -640,8 +629,23 @@ int ios_solve_node(IOS *ios);
 /* * *                  IOS FUNCTIONARY ROUTINES                  * * */
 /**********************************************************************/
 
+int ios_branch_first(IOS *ios, int *next);
+/* choose first column to branch on */
+
+int ios_branch_last(IOS *ios, int *next);
+/* choose last column to branch on */
+
+int ios_branch_drtom(IOS *ios, int *next);
+/* choose column using Driebeck-Tomlin heuristic */
+
 void ios_branch_on(IOS *ios, int j, int next);
 /* perform branching on specified column */
+
+int ios_select_fifo(IOS *ios);
+/* select subproblem using FIFO heuristic */
+
+int ios_select_lifo(IOS *ios);
+/* select subproblem using LIFO heuristic */
 
 void ios_select_node(IOS *ios, int p);
 /* select subproblem to continue the search */

@@ -1,11 +1,11 @@
-/* glplpx5.c (initial basis routines) */
+/* glplpx5.c (LP basis constructing routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
--- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
--- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
+-- This code is part of GNU Linear Programming Kit (GLPK).
 --
--- This file is part of GLPK (GNU Linear Programming Kit).
+-- Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Andrew Makhorin,
+-- Department for Applied Informatics, Moscow Aviation Institute,
+-- Moscow, Russia. All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -20,15 +20,16 @@
 -- You should have received a copy of the GNU General Public License
 -- along with GLPK; see the file COPYING. If not, write to the Free
 -- Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
--- 02110-1301  USA.
+-- 02110-1301, USA.
 ----------------------------------------------------------------------*/
 
 #include <math.h>
+#include <stddef.h>
 #include "glplib.h"
 #include "glplpx.h"
 
 /*----------------------------------------------------------------------
--- lpx_std_basis - build standard initial basis.
+-- lpx_std_basis - construct standard initial LP basis.
 --
 -- *Synopsis*
 --
@@ -44,43 +45,23 @@
 -- structural variables are non-basic. */
 
 void lpx_std_basis(LPX *lp)
-{     int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      int *tagx = lp->tagx;
-      int k;
-      /* build tags of auxiliary and structural variables */
-      for (k = 1; k <= m+n; k++)
-      {  if (k <= m)
-         {  /* x[k] is auxiliary variable; make it basic */
-            tagx[k] = LPX_BS;
-         }
+{     int i, j, m, n, type;
+      gnm_float lb, ub;
+      /* all auxiliary variables are basic */
+      m = lpx_get_num_rows(lp);
+      for (i = 1; i <= m; i++)
+         lpx_set_row_stat(lp, i, LPX_BS);
+      /* all structural variables are non-basic */
+      n = lpx_get_num_cols(lp);
+      for (j = 1; j <= n; j++)
+      {  type = lpx_get_col_type(lp, j);
+         lb = lpx_get_col_lb(lp, j);
+         ub = lpx_get_col_ub(lp, j);
+         if (type != LPX_DB || gnm_abs(lb) <= gnm_abs(ub))
+            lpx_set_col_stat(lp, j, LPX_NL);
          else
-         {  /* x[k] is structural variable; make it non-basic */
-            switch (typx[k])
-            {  case LPX_FR:
-                  tagx[k] = LPX_NF; break;
-               case LPX_LO:
-                  tagx[k] = LPX_NL; break;
-               case LPX_UP:
-                  tagx[k] = LPX_NU; break;
-               case LPX_DB:
-                  tagx[k] =
-                     (gnm_abs(lb[k]) <= gnm_abs(ub[k]) ? LPX_NL : LPX_NU);
-                  break;
-               case LPX_FX:
-                  tagx[k] = LPX_NS; break;
-               default:
-                  insist(typx != typx);
-            }
-         }
+            lpx_set_col_stat(lp, j, LPX_NU);
       }
-      /* invalidate the current basis */
-      lp->b_stat = LPX_B_UNDEF;
-      lp->p_stat = LPX_P_UNDEF;
-      lp->d_stat = LPX_D_UNDEF;
       return;
 }
 
@@ -413,7 +394,7 @@ static int triang(int m, int n,
 }
 
 /*----------------------------------------------------------------------
--- lpx_adv_basis - build advanced initial basis.
+-- lpx_adv_basis - construct advanced initial LP basis.
 --
 -- *Synopsis*
 --
@@ -443,28 +424,36 @@ static int mat(void *info, int k, int ndx[])
          a given column of the augmented constraint matrix A~ = (I|-A),
          in which columns of fixed variables are implicitly cleared */
       LPX *lp = info;
-      int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      int *aa_ptr = lp->A->ptr;
-      int *aa_len = lp->A->len;
-      int *sv_ndx = lp->A->ndx;
-      int i, i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr, len = 0;
+      int m = lpx_get_num_rows(lp);
+      int n = lpx_get_num_cols(lp);
+      int typx, i, j, lll, len = 0;
       if (k > 0)
       {  /* the pattern of the i-th row is required */
          i = +k;
          insist(1 <= i && i <= m);
+#if 0 /* 22/XII-2003 */
          /* if the auxiliary variable x[i] is non-fixed, include its
             element (placed in the i-th column) in the pattern */
-         if (typx[i] != LPX_FX) ndx[++len] = i;
+         lpx_get_row_bnds(lp, i, &typx, NULL, NULL);
+         if (typx != LPX_FX) ndx[++len] = i;
          /* include in the pattern elements placed in columns, which
             correspond to non-fixed structural varables */
          i_beg = aa_ptr[i];
          i_end = i_beg + aa_len[i] - 1;
          for (i_ptr = i_beg; i_ptr <= i_end; i_ptr++)
          {  j = m + sv_ndx[i_ptr];
-            if (typx[j] != LPX_FX) ndx[++len] = j;
+            lpx_get_col_bnds(lp, j-m, &typx, NULL, NULL);
+            if (typx != LPX_FX) ndx[++len] = j;
          }
+#else
+         lll = lpx_get_mat_row(lp, i, ndx, NULL);
+         for (k = 1; k <= lll; k++)
+         {  lpx_get_col_bnds(lp, ndx[k], &typx, NULL, NULL);
+            if (typx != LPX_FX) ndx[++len] = m + ndx[k];
+         }
+         lpx_get_row_bnds(lp, i, &typx, NULL, NULL);
+         if (typx != LPX_FX) ndx[++len] = i;
+#endif
       }
       else
       {  /* the pattern of the j-th column is required */
@@ -472,17 +461,25 @@ static int mat(void *info, int k, int ndx[])
          insist(1 <= j && j <= m+n);
          /* if the (auxiliary or structural) variable x[j] is fixed,
             the pattern of its column is empty */
-         if (typx[j] != LPX_FX)
+         if (j <= m)
+            lpx_get_row_bnds(lp, j, &typx, NULL, NULL);
+         else
+            lpx_get_col_bnds(lp, j-m, &typx, NULL, NULL);
+         if (typx != LPX_FX)
          {  if (j <= m)
             {  /* x[j] is non-fixed auxiliary variable */
                ndx[++len] = j;
             }
             else
             {  /* x[j] is non-fixed structural variables */
+#if 0 /* 22/XII-2003 */
                j_beg = aa_ptr[j];
                j_end = j_beg + aa_len[j] - 1;
                for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
                   ndx[++len] = sv_ndx[j_ptr];
+#else
+               len = lpx_get_mat_col(lp, j-m, ndx, NULL);
+#endif
             }
          }
       }
@@ -492,14 +489,12 @@ static int mat(void *info, int k, int ndx[])
 
 void lpx_adv_basis(LPX *lp)
 {     /* build advanced initial basis */
-      int m = lp->m;
-      int n = lp->n;
-      int *typx = lp->typx;
-      gnm_float *lb = lp->lb;
-      gnm_float *ub = lp->ub;
-      int *tagx = lp->tagx;
+      int m = lpx_get_num_rows(lp);
+      int n = lpx_get_num_cols(lp);
       int i, j, jj, k, size;
       int *rn, *cn, *rn_inv, *cn_inv;
+      int typx, *tagx = ucalloc(1+m+n, sizeof(int));
+      gnm_float lb, ub;
       if (m == 0)
          fault("lpx_adv_basis: problem has no rows");
       if (n == 0)
@@ -512,7 +507,7 @@ void lpx_adv_basis(LPX *lp)
       rn = ucalloc(1+m, sizeof(int));
       cn = ucalloc(1+m+n, sizeof(int));
       size = triang(m, m+n, lp, mat, rn, cn);
-      if (lp->msg_lev >= 3)
+      if (lpx_get_int_parm(lp, LPX_K_MSGLEV) >= 3)
          print("lpx_adv_basis: size of triangular part = %d", size);
       /* the first size rows and columns of the matrix P*A~*Q (where
          P and Q are permutation matrices defined by the arrays rn and
@@ -554,7 +549,11 @@ void lpx_adv_basis(LPX *lp)
       /* build tags of non-basic variables */
       for (k = 1; k <= m+n; k++)
       {  if (tagx[k] != LPX_BS)
-         {  switch (typx[k])
+         {  if (k <= m)
+               lpx_get_row_bnds(lp, k, &typx, &lb, &ub);
+            else
+               lpx_get_col_bnds(lp, k-m, &typx, &lb, &ub);
+            switch (typx)
             {  case LPX_FR:
                   tagx[k] = LPX_NF; break;
                case LPX_LO:
@@ -563,7 +562,7 @@ void lpx_adv_basis(LPX *lp)
                   tagx[k] = LPX_NU; break;
                case LPX_DB:
                   tagx[k] =
-                     (gnm_abs(lb[k]) <= gnm_abs(ub[k]) ? LPX_NL : LPX_NU);
+                     (gnm_abs(lb) <= gnm_abs(ub) ? LPX_NL : LPX_NU);
                   break;
                case LPX_FX:
                   tagx[k] = LPX_NS; break;
@@ -572,10 +571,13 @@ void lpx_adv_basis(LPX *lp)
             }
          }
       }
-      /* invalidate the current basis */
-      lp->b_stat = LPX_B_UNDEF;
-      lp->p_stat = LPX_P_UNDEF;
-      lp->d_stat = LPX_D_UNDEF;
+      for (k = 1; k <= m+n; k++)
+      {  if (k <= m)
+            lpx_set_row_stat(lp, k, tagx[k]);
+         else
+            lpx_set_col_stat(lp, k-m, tagx[k]);
+      }
+      ufree(tagx);
       return;
 }
 
