@@ -1,3 +1,17 @@
+2006-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_write_content): move ns structure to file
+	  scope
+	(oo_write_styles): implement stub
+	(oo_write_settings): implement stub
+	(oo_write_manifest): update to opendocument
+
+2006-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_write_sheet): write table:table-column
+	(oo_write_content): there is no office:class attribute in opendocument
+	  version 1.0 but we should use office:spreadsheet element
+
 2006-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (GnmOOExport): add GnmExprConventions

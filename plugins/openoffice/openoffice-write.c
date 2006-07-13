@@ -82,6 +82,52 @@ typedef struct {
 	GnmExprConventions *conv;
 } GnmOOExport;
 
+	static struct {
+		char const *key;
+		char const *url;
+	} const ns[] = {
+		{ "xmlns:office",
+		  "urn:oasis:names:tc:opendocument:xmlns:office:1.0" },
+		{ "xmlns:style",
+		  "urn:oasis:names:tc:opendocument:xmlns:style:1.0"},
+		{ "xmlns:text",
+		  "urn:oasis:names:tc:opendocument:xmlns:text:1.0" },
+		{ "xmlns:table",
+		  "urn:oasis:names:tc:opendocument:xmlns:table:1.0" },
+		{ "xmlns:draw",
+		  "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" },
+		{ "xmlns:fo",
+		  "urn:oasis:names:tc:opendocument:xmlns:"
+		  "xsl-fo-compatible:1.0"},
+		{ "xmlns:xlink", "http://www.w3.org/1999/xlink" },
+		{ "xmlns:dc", "http://purl.org/dc/elements/1.1/" },
+		{ "xmlns:meta",
+		  "urn:oasis:names:tc:opendocument:xmlns:meta:1.0" },
+		{ "xmlns:number",
+		  "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" },
+		{ "xmlns:svg",
+		  "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" },
+		{ "xmlns:chart",
+		  "urn:oasis:names:tc:opendocument:xmlns:chart:1.0" },
+		{ "xmlns:dr3d",
+		  "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" },
+		{ "xmlns:math", "http://www.w3.org/1998/Math/MathML" },
+		{ "xmlns:form",
+		  "urn:oasis:names:tc:opendocument:xmlns:form:1.0" },
+		{ "xmlns:script",
+		  "urn:oasis:names:tc:opendocument:xmlns:script:1.0" },
+		{ "xmlns:ooo", "http://openoffice.org/2004/office" },
+		{ "xmlns:ooow", "http://openoffice.org/2004/writer" },
+		{ "xmlns:oooc", "http://openoffice.org/2004/calc" },
+		{ "xmlns:dom", "http://www.w3.org/2001/xml-events" },
+		{ "xmlns:xforms", "http://www.w3.org/2002/xforms" },
+		{ "xmlns:xsd", "http://www.w3.org/2001/XMLSchema" },
+		{ "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" },
+	};
+
+
+
+
 void	openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 			      WorkbookView const *wbv, GsfOutput *output);
 
@@ -373,48 +419,6 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 static void
 oo_write_content (GnmOOExport *state, GsfOutput *child)
 {
-	static struct {
-		char const *key;
-		char const *url;
-	} const ns[] = {
-		{ "xmlns:office",
-		  "urn:oasis:names:tc:opendocument:xmlns:office:1.0" },
-		{ "xmlns:style",
-		  "urn:oasis:names:tc:opendocument:xmlns:style:1.0"},
-		{ "xmlns:text",
-		  "urn:oasis:names:tc:opendocument:xmlns:text:1.0" },
-		{ "xmlns:table",
-		  "urn:oasis:names:tc:opendocument:xmlns:table:1.0" },
-		{ "xmlns:draw",
-		  "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" },
-		{ "xmlns:fo",
-		  "urn:oasis:names:tc:opendocument:xmlns:"
-		  "xsl-fo-compatible:1.0"},
-		{ "xmlns:xlink", "http://www.w3.org/1999/xlink" },
-		{ "xmlns:dc", "http://purl.org/dc/elements/1.1/" },
-		{ "xmlns:meta",
-		  "urn:oasis:names:tc:opendocument:xmlns:meta:1.0" },
-		{ "xmlns:number",
-		  "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" },
-		{ "xmlns:svg",
-		  "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" },
-		{ "xmlns:chart",
-		  "urn:oasis:names:tc:opendocument:xmlns:chart:1.0" },
-		{ "xmlns:dr3d",
-		  "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" },
-		{ "xmlns:math", "http://www.w3.org/1998/Math/MathML" },
-		{ "xmlns:form",
-		  "urn:oasis:names:tc:opendocument:xmlns:form:1.0" },
-		{ "xmlns:script",
-		  "urn:oasis:names:tc:opendocument:xmlns:script:1.0" },
-		{ "xmlns:ooo", "http://openoffice.org/2004/office" },
-		{ "xmlns:ooow", "http://openoffice.org/2004/writer" },
-		{ "xmlns:oooc", "http://openoffice.org/2004/calc" },
-		{ "xmlns:dom", "http://www.w3.org/2001/xml-events" },
-		{ "xmlns:xforms", "http://www.w3.org/2002/xforms" },
-		{ "xmlns:xsd", "http://www.w3.org/2001/XMLSchema" },
-		{ "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" },
-	};
 	int i;
 
 	state->xml = gsf_xml_out_new (child);
@@ -459,6 +463,16 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 static void
 oo_write_styles (GnmOOExport *state, GsfOutput *child)
 {
+	int i;
+
+	state->xml = gsf_xml_out_new (child);
+	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
+	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
+		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
+	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
+	g_object_unref (state->xml);
+	state->xml = NULL;
 }
 
 /*****************************************************************************/
@@ -477,6 +491,16 @@ oo_write_meta (GnmOOExport *state, GsfOutput *child)
 static void
 oo_write_settings (GnmOOExport *state, GsfOutput *child)
 {
+	int i;
+
+	state->xml = gsf_xml_out_new (child);
+	gsf_xml_out_start_element (state->xml, OFFICE "document-settings");
+	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
+		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
+	gsf_xml_out_end_element (state->xml); /* </office:document-settings> */
+	g_object_unref (state->xml);
+	state->xml = NULL;
 }
 
 /**********************************************************************************/
@@ -494,17 +518,11 @@ static void
 oo_write_manifest (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
-	gsf_xml_out_set_doc_type (xml, 
-		"<!DOCTYPE "
-		   "manifest:manifest "
-		   "PUBLIC "
-		   "\"-//OpenOffice.org//DTD "
-		   "Manifest "
-		   "1.0//EN\" \"Manifest.dtd\">");
+	gsf_xml_out_set_doc_type (xml, "\n");
 	gsf_xml_out_start_element (xml, MANIFEST "manifest");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
-		"http://openoffice.org/2001/manifest");
-	oo_file_entry (xml, "application/vnd.sun.xml.calc" ,"/");
+		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
+	oo_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
 	oo_file_entry (xml, "", "Pictures/");
 	oo_file_entry (xml, "text/xml", "content.xml");
 	oo_file_entry (xml, "text/xml", "styles.xml");
