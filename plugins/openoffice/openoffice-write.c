@@ -311,6 +311,11 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			extent.end.col = i;
 			break;
 		}
+
+	gsf_xml_out_start_element (state->xml, TABLE "table-column");
+	gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated", extent.end.col);
+	gsf_xml_out_end_element (state->xml); /* table-column */
+	
 	if (extent.start.row > 0) {
 		/* We need to write a bunch of empty rows !*/
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
@@ -418,7 +423,7 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "class", "spreadsheet");
+/*	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "class", "spreadsheet"); */
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
 
 	gsf_xml_out_simple_element (state->xml, OFFICE "scripts", NULL);
@@ -427,20 +432,21 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_end_element (state->xml); /* </office:font-face-decls> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
-/* 	oo_write_table_styles (state); */
+ 	oo_write_table_styles (state); 
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
-/* 	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet"); */
+  	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");  
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 #warning validate sheet name against OOo conventions
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
+		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", "ta1");
 		oo_write_sheet (state, sheet);
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
 	}
-/* 	gsf_xml_out_end_element (state->xml); /\* </office:spreadsheet> *\/ */
+  	gsf_xml_out_end_element (state->xml); /* </office:spreadsheet> */  
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
 
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
