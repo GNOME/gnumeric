@@ -1,5 +1,9 @@
 2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (oo_expr_conventions_new): set argument separator
+
+2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (oo_cellref_as_string): new
 	(oo_rangeref_as_string): new
 	(oo_expr_conventions_new): initialize cell_ref_, range_ref_handler

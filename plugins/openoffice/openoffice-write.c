@@ -195,6 +195,7 @@ oo_expr_conventions_new (void)
 
 	conv = gnm_expr_conventions_new ();
 	conv->output_sheet_name_sep = ".";
+	conv->output_argument_sep = ";";
 	conv->argument_sep_semicolon = TRUE;
 	conv->decimal_sep_dot = TRUE;
 	conv->cell_ref_handler = oo_cellref_as_string;
