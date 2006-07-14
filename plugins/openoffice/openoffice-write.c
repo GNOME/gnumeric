@@ -255,20 +255,38 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range)
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-rows-spanned", rows_spanned);
 	if (cell != NULL) {
-		if (cell_has_expr(cell)) {
+		GnmExprArrayCorner const *ac = NULL;
+
+		if (cell_has_expr(cell)
+		    && ((NULL != (ac = gnm_expr_top_get_array_corner
+				  (cell->base.texpr)))
+			|| !gnm_expr_top_is_array_elem (cell->base.texpr))) {
 			char *formula, *eq_formula;
 			GnmParsePos pp;
+
+			if (ac != NULL) {
+				gsf_xml_out_add_uint (state->xml,
+					TABLE "number-matrix-columns-spanned",
+						     (uint)(ac->cols));
+				gsf_xml_out_add_uint (state->xml,
+					TABLE "number-matrix-rows-spanned",
+						     (uint)(ac->rows));
+			}			
+
 			parse_pos_init_cell (&pp, cell);
 			formula = gnm_expr_as_string (cell->base.texpr->expr,
 						      &pp,
 						      state->conv);
 			eq_formula = g_strdup_printf ("oooc:=%s", formula);
+
+			g_warning ("Writing: %s", eq_formula);
 			
-			gsf_xml_out_add_cstr_unchecked (state->xml,
-							TABLE "formula",
-							eq_formula);
+			gsf_xml_out_add_cstr (state->xml,
+					      TABLE "formula",
+					      eq_formula);
 			g_free (formula);
 			g_free (eq_formula);
+
 		}
 		
 		rendered_string = cell_get_rendered_text (cell);
@@ -290,32 +308,20 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range)
 					       10);
 			break;
 		case VALUE_STRING:
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
-							OFFICE "value-type", "string");
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
-							OFFICE "value",rendered_string);
-			break;
-		case VALUE_ARRAY:   /* FIX ME */
-			break;
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
-							OFFICE "value-type", "string");
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
-							OFFICE "value",
-							value_peek_string (cell->value));
-			break;
+		case VALUE_ARRAY:
 		case VALUE_ERROR:
 		case VALUE_CELLRANGE:
 		default:
 			break;
 			gsf_xml_out_add_cstr_unchecked (state->xml, 
 							OFFICE "value-type", "string");
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
-							OFFICE "value",
-							value_peek_string (cell->value));
+			gsf_xml_out_add_cstr (state->xml, 
+					      OFFICE "value",
+					      value_peek_string (cell->value));
 		}
 		
 		gsf_xml_out_start_element (state->xml, TEXT "p");
-		gsf_xml_out_add_cstr_unchecked (state->xml, NULL, rendered_string);
+		gsf_xml_out_add_cstr (state->xml, NULL, rendered_string);
 		gsf_xml_out_end_element (state->xml);   /* p */
 	}
 	gsf_xml_out_end_element (state->xml);   /* table-cell */	
@@ -359,13 +365,15 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 		}
 
 	gsf_xml_out_start_element (state->xml, TABLE "table-column");
-	gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated", extent.end.col);
+	gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
+			     extent.end.col + 1);
 	gsf_xml_out_end_element (state->xml); /* table-column */
 	
 	if (extent.start.row > 0) {
 		/* We need to write a bunch of empty rows !*/
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
-		gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated", extent.start.row);
+		gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
+				     extent.start.row);
 		gsf_xml_out_end_element (state->xml);   /* table-row */
 	}
 
@@ -427,7 +435,6 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-/*	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "class", "spreadsheet"); */
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
 
 	gsf_xml_out_simple_element (state->xml, OFFICE "scripts", NULL);
@@ -443,7 +450,7 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
   	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");  
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
-#warning validate sheet name against OOo conventions
+
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", "ta1");
