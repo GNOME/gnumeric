@@ -159,16 +159,47 @@ oo_write_table_styles (GnmOOExport *state)
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
 
+static void
+oo_cellref_as_string (GString *target, GnmExprConventions const *conv,
+			GnmCellRef const *cell_ref,
+			GnmParsePos const *pp, gboolean no_sheetname)
+{
+	g_string_append (target, "[");
+	if (cell_ref->sheet == NULL)
+		g_string_append (target, conv->output_sheet_name_sep);
+	cellref_as_string (target, conv, cell_ref, pp, FALSE);
+	g_string_append (target, "]");
+}
+
+static void
+oo_rangeref_as_string (GString *target, GnmExprConventions const *conv,
+			 GnmRangeRef const *ref, GnmParsePos const *pp)
+{
+	g_string_append (target, "[");
+	if (ref->a.sheet == NULL)
+		g_string_append (target, conv->output_sheet_name_sep);
+	cellref_as_string (target, conv,
+			      &(ref->a), pp, FALSE);
+	g_string_append (target, ":");
+	g_string_append (target, conv->output_sheet_name_sep);
+	cellref_as_string (target, conv,
+			      &(ref->b), pp, TRUE);	
+	g_string_append (target, "]");
+}
+
+
 static GnmExprConventions *
 oo_expr_conventions_new (void)
 {
 	GnmExprConventions *conv;
 
 	conv = gnm_expr_conventions_new ();
+	conv->output_sheet_name_sep = ".";
 	conv->argument_sep_semicolon = TRUE;
 	conv->decimal_sep_dot = TRUE;
+	conv->cell_ref_handler = oo_cellref_as_string;
+	conv->range_ref_handler = oo_rangeref_as_string;
 	
-	/* FIXME: we have to set up the correct conventions */
 	return conv;
 }
 

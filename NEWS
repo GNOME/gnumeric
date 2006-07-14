@@ -17,7 +17,7 @@ Andreas:
 	* Added menu items to set/clear/show the print area of a sheet
 	  [#164058]
 	* Add a latex-exporter for an unformatted table fragments [#325980]
-	* A little work on the OpenDocument exporter.
+	* Implement content export in the OpenDocument exporter.
 	* Fix undo text for definition/update of names [#346962]
 
 Jody:

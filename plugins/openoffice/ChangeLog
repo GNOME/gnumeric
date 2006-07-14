@@ -1,5 +1,12 @@
 2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (oo_cellref_as_string): new
+	(oo_rangeref_as_string): new
+	(oo_expr_conventions_new): initialize cell_ref_, range_ref_handler
+	  and output_sheet_name_sep
+
+2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (od_write_cell): handle matrix functions and
 	  be careful with checking unkown strings. Remove some duplicated code.
 	(oo_write_sheet): extent is 0 based 
