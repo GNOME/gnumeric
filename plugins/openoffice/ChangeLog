@@ -1,3 +1,11 @@
+2006-07-14  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c (oo_write_mimetype) : use ods, rather than sxc
+
+2006-07-12  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cell_start) : be more flexible with spans. [#347263]
+
 2006-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (oo_write_content): move ns structure to file

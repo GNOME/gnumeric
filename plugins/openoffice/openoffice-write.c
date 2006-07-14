@@ -134,7 +134,7 @@ void	openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 static void
 oo_write_mimetype (GnmOOExport *state, GsfOutput *child)
 {
-	gsf_output_puts (child, "application/vnd.sun.xml.calc");
+	gsf_output_puts (child, "application/vnd.oasis.opendocument.spreadsheet");
 }
 
 /*****************************************************************************/
