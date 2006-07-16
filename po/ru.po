@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-11 03:54+0200\n"
-"PO-Revision-Date: 2006-07-11 11:21+0400\n"
+"POT-Creation-Date: 2006-07-16 13:03+0400\n"
+"PO-Revision-Date: 2006-07-16 13:46+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1423,7 +1423,7 @@ msgstr "текст1, текст2"
 
 #: ../plugins/fn-string/functions.c:1237
 msgid "text1,text2,num"
-msgstr ""
+msgstr "текст1, текст2, число"
 
 #: ../plugins/fn-string/functions.c:1240
 msgid "num,decs,no_commas"
@@ -1443,7 +1443,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1264
 msgid "text,num"
-msgstr ""
+msgstr "текст, число"
 
 #: ../plugins/fn-string/functions.c:1270
 msgid "search_string,text,start_num"
@@ -1451,7 +1451,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:1273
 msgid "text,old,new,num"
-msgstr ""
+msgstr "текст, старое, новое, число"
 
 #: ../plugins/fn-string/functions.c:1279
 msgid "value,format_text"
@@ -1799,24 +1799,6 @@ msgstr "Не найден поток с названием stream.xml."
 msgid "Invalid metadata '%s'"
 msgstr "Испорченные метаданные \"%s\""
 
-#: ../plugins/openoffice/openoffice-write.c:122
-#, c-format
-msgid ""
-"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
-"d rows, and sheet '%s' has %d"
-msgstr ""
-"Некоторые данные могут быть потеряны при сохранении в формате OpenOffice ."
-"sxc, т.к. этот формат поддерживает %d строк, а в этой таблице '%s' их %d."
-
-#: ../plugins/openoffice/openoffice-write.c:129
-#, c-format
-msgid ""
-"Some content will be lost when saving as OpenOffice .sxc. It only supports %"
-"d columns, and sheet '%s' has %d"
-msgstr ""
-"Некоторые данные могут быть потеряны при сохранении в формате OpenOffice ."
-"sxc, т.к. этот формат поддерживает %d столбцов, а в таблице '%s' их %d."
-
 #: ../plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc, *.ods)"
 msgstr "Open/Star Calc (*.sxc, *.ods)"
@@ -1830,8 +1812,8 @@ msgid "OpenCalc/StarCalc"
 msgstr "OpenCalc/StarCalc"
 
 #: ../plugins/openoffice/plugin.xml.in.h:4
-msgid "OpenOffice OASIS _UNFINISHED_"
-msgstr "OpenOffice OASIS _НЕЗАВЕРШЁННЫЙ_"
+msgid "OpenDocument/OpenOffice _UNFINISHED_ (*.ods)"
+msgstr "OpenDocument/OpenOffice _НЕЗАВЕРШЁННЫЙ_ (*.ods)"
 
 #: ../plugins/paradox/paradox.c:73 ../plugins/paradox/paradox.c:122
 msgid "Error while opening Paradox file."
@@ -2120,7 +2102,7 @@ msgstr "Quattro Pro(tm)"
 #: ../plugins/qpro/qpro-read.c:151
 #, c-format
 msgid "Invalid '%s' record of length %hd instead of %d"
-msgstr ""
+msgstr "Неправильная запись \"%s\" длины %hd вместо %d"
 
 #: ../plugins/qpro/qpro-read.c:782
 #, c-format
@@ -2142,7 +2124,7 @@ msgstr ""
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Подтверждение концепции внешнего источника данных"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:3
 msgid "Sample DataSource"
@@ -2398,7 +2380,7 @@ msgstr "Список известных дополнений."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Список состояний файлов дополнений."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "List of recently used functions."
@@ -2537,7 +2519,7 @@ msgstr "Это список всех известных дополнений."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:62
 msgid "This list contains all plugin file states."
-msgstr ""
+msgstr "Этот списко содержит все состояния файлов дополнений."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:63
 msgid ""
@@ -2931,13 +2913,13 @@ msgstr ""
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
-msgstr ""
+msgstr "Это число (между 0.25 и 1.00) определяет какую часть экрана по-горизонтали будет занимать окно по умолчанию."
 
 #: ../schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
-msgstr ""
+msgstr "Это число (между 0.25 и 1.00) определяет какую часть экрана по-вертикали будет занимать окно по умолчанию."
 
 #: ../schemas/gnumeric-general.schemas.in.h:49
 msgid ""
@@ -3896,7 +3878,7 @@ msgstr "<span weight=\"bold\">Параметры сортировки</span>"
 
 #: ../src/dialogs/cell-sort.glade.h:2
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Спецификация сортировки</span>"
 
 #: ../src/dialogs/cell-sort.glade.h:3
 msgid ""
@@ -4010,6 +3992,16 @@ msgid ""
 "VAR\n"
 "VARP"
 msgstr ""
+"СУММА\n"
+"МИНИМУМ\n"
+"МАКСИМУМ\n"
+"СРЕДНЕЕ\n"
+"КОЛИЧЕСТВО\n"
+"ПРОИЗВЕДЕНИЕ\n"
+"СТ.ОТКЛОНЕНИЕ\n"
+"STDEVP\n"
+"VAR\n"
+"VARP"
 
 #: ../src/dialogs/consolidate.glade.h:19
 msgid "The function to use when consolidating"
@@ -4190,7 +4182,7 @@ msgstr "K:"
 
 #: ../src/dialogs/descriptive-stats.glade.h:20
 msgid "_Use ssmedian"
-msgstr ""
+msgstr "Использовать ssmedian"
 
 #: ../src/dialogs/dialog-about.c:63
 msgid "Core"
@@ -4623,7 +4615,7 @@ msgstr "Недопустимый диапазон ввода"
 #: ../src/dialogs/dialog-analysis-tools.c:2706
 #: ../src/dialogs/dialog-analysis-tools.c:2932
 msgid "The output specification is invalid."
-msgstr ""
+msgstr "Неправильная спецификация вывода."
 
 #: ../src/dialogs/dialog-analysis-tools.c:560
 #: ../src/dialogs/dialog-analysis-tools.c:679
@@ -4777,7 +4769,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2853
 msgid "The number of data rows must be a multiple of the replication number."
-msgstr ""
+msgstr "Число строк с данными должно быть кратным числу репликаций."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2923
 msgid "The number of rows per sample should be a positive integer."
@@ -4992,7 +4984,7 @@ msgstr "%s (%s)"
 #: ../src/dialogs/dialog-cell-sort.c:319
 #, c-format
 msgid "%s to %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: ../src/dialogs/dialog-cell-sort.c:775
 msgid "no available row"
@@ -5035,7 +5027,7 @@ msgstr ""
 #: ../src/dialogs/dialog-consolidate.c:193
 #, c-format
 msgid "Specification %s does not define a region"
-msgstr ""
+msgstr "Спецификация \"%s\" не определяет область"
 
 #: ../src/dialogs/dialog-consolidate.c:202
 #, c-format
@@ -5235,12 +5227,12 @@ msgstr "Невозможно создать диалог вставки ячей
 
 #: ../src/dialogs/dialog-merge.c:264
 msgid "One field is not part of the merge zone!"
-msgstr ""
+msgstr "Одно поле не является частью зоны объединения!"
 
 #: ../src/dialogs/dialog-merge.c:266
 #, c-format
 msgid "%i fields are not part of the merge zone!"
-msgstr ""
+msgstr "%i полей не являются частью зоны объединени!"
 
 #: ../src/dialogs/dialog-merge.c:283
 #, c-format
@@ -5631,11 +5623,11 @@ msgstr "Экспоненциальное"
 
 #: ../src/dialogs/dialog-random-generator.c:136
 msgid "Exponential Power"
-msgstr ""
+msgstr "Степень экспоненты"
 
 #: ../src/dialogs/dialog-random-generator.c:138
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: ../src/dialogs/dialog-random-generator.c:138
 msgid "nu_1 Value:"
@@ -5680,11 +5672,11 @@ msgstr "Лапласа"
 
 #: ../src/dialogs/dialog-random-generator.c:154
 msgid "Levy alpha-Stable"
-msgstr ""
+msgstr "Альфа-стабильное Леви"
 
 #: ../src/dialogs/dialog-random-generator.c:154
 msgid "_c Value:"
-msgstr ""
+msgstr "Значение \"c\":"
 
 #: ../src/dialogs/dialog-random-generator.c:154
 msgid "_alpha:"
@@ -5704,7 +5696,7 @@ msgstr "Логнормальное"
 
 #: ../src/dialogs/dialog-random-generator.c:160
 msgid "_Zeta Value:"
-msgstr ""
+msgstr "Значение Зета:"
 
 #: ../src/dialogs/dialog-random-generator.c:162
 msgid "Negative Binomial"
@@ -6236,12 +6228,12 @@ msgstr "Сузить этот столбец"
 #: ../src/dialogs/dialog-stf-format-page.c:45
 #, c-format
 msgid "Importing %i columns and ignoring none."
-msgstr ""
+msgstr "Импортируется %i столбцов."
 
 #: ../src/dialogs/dialog-stf-format-page.c:48
 #, c-format
 msgid "Importing %i columns and ignoring %i."
-msgstr ""
+msgstr "Импортируется %i столбцов и %i игнорируется."
 
 #: ../src/dialogs/dialog-stf-format-page.c:183
 #, c-format
@@ -6768,7 +6760,7 @@ msgstr "<изменено>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:22
 msgid "<name.extension>"
-msgstr ""
+msgstr "<имя.расширение>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:23
 msgid "<owner>"
@@ -7153,7 +7145,7 @@ msgstr "Тип:"
 
 #: ../src/dialogs/hyperlink.glade.h:6
 msgid "Target _Range:"
-msgstr ""
+msgstr "Целевой диапазон:"
 
 #: ../src/dialogs/hyperlink.glade.h:7
 msgid "_File:"
@@ -7165,7 +7157,7 @@ msgstr "Тема:"
 
 #: ../src/dialogs/hyperlink.glade.h:9
 msgid "_Tip:"
-msgstr ""
+msgstr "Подсказка:"
 
 #: ../src/dialogs/hyperlink.glade.h:10
 msgid "_Web Address:"
@@ -7319,7 +7311,7 @@ msgstr "Стиль"
 
 #: ../src/dialogs/pivottable.glade.h:5
 msgid "Subtotal By"
-msgstr ""
+msgstr "Промежуточный итог по"
 
 #: ../src/dialogs/pivottable.glade.h:6
 msgid "_Add:"
@@ -7667,7 +7659,7 @@ msgstr ""
 
 #: ../src/dialogs/scenario-manager.glade.h:6
 msgid "<span weight=\"bold\">Scenarios</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Сценарии</span>"
 
 #: ../src/dialogs/scenario-manager.glade.h:7
 msgid "Create _Report"
@@ -7851,7 +7843,7 @@ msgstr "Строки"
 
 #: ../src/dialogs/search-replace.glade.h:1
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Изменить ячейки содержащие</span>"
 
 #: ../src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Miscellaneous</span>"
@@ -8135,11 +8127,11 @@ msgstr "Свойства рамки"
 
 #: ../src/dialogs/solver.glade.h:2
 msgid "Assume _Integer (Discrete)"
-msgstr ""
+msgstr "Предполагать целочисленность (дискретность)"
 
 #: ../src/dialogs/solver.glade.h:3
 msgid "Assume _Non-Negative"
-msgstr "Проверить НЕ отрицательность"
+msgstr "Предполагать НЕ отрицательность"
 
 #: ../src/dialogs/solver.glade.h:4
 msgid "Automatic _Scaling"
@@ -8202,7 +8194,7 @@ msgstr "Решить"
 #: ../src/tools/solver/reports-write.c:484
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
-#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6215
+#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6227
 msgid "Solver"
 msgstr ""
 
@@ -9008,7 +9000,7 @@ msgstr "(Ввод)"
 
 #: ../src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
-msgstr ""
+msgstr "Превышено максимальное время. Иммитация не завершена."
 
 #: ../src/tools/solver/reports.c:325
 msgid ""
@@ -9426,7 +9418,7 @@ msgstr "Табуляция"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1264
 msgid "Expecting a single range"
-msgstr ""
+msgstr "Ожидается один диапазон"
 
 #. ALSO "<control>2"
 #: ../src/widgets/widget-font-selector.c:210 ../src/wbcg-actions.c:2259
@@ -9910,57 +9902,57 @@ msgstr "Настройка печати для всех листов"
 msgid "has a circular reference"
 msgstr "имеет круговую ссылку"
 
-#: ../src/commands.c:5674
+#: ../src/commands.c:5685
 #, c-format
 msgid "Define Name %s"
 msgstr "Определить имя %s"
 
-#: ../src/commands.c:5677
+#: ../src/commands.c:5688
 #, c-format
 msgid "Update Name %s"
 msgstr "Обновить имя %s"
 
-#: ../src/commands.c:5769
+#: ../src/commands.c:5781
 #, c-format
 msgid "Remove Name %s"
 msgstr "Удалить имя %s"
 
-#: ../src/commands.c:5831
+#: ../src/commands.c:5843
 msgid "Add scenario"
 msgstr "Добавить сценарий"
 
-#: ../src/commands.c:5904
+#: ../src/commands.c:5916
 msgid "Scenario Show"
 msgstr "Показать сценарий"
 
-#: ../src/commands.c:5966
+#: ../src/commands.c:5978
 msgid "Shuffle Data"
 msgstr "Перемешать данные"
 
 #. FIXME?
-#: ../src/commands.c:6070
+#: ../src/commands.c:6082
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Текст (%s) по столбцам (%s)"
 
-#: ../src/commands.c:6297
+#: ../src/commands.c:6309
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Поиск цели (%s)"
 
-#: ../src/commands.c:6467
+#: ../src/commands.c:6479
 msgid "Tabulating Dependencies"
 msgstr "Табулирование зависимости"
 
-#: ../src/commands.c:6541
+#: ../src/commands.c:6553
 msgid "Reconfigure Graph"
 msgstr "Перенастройть график"
 
-#: ../src/commands.c:6585
+#: ../src/commands.c:6597
 msgid "Left to Right"
 msgstr "Слева на право"
 
-#: ../src/commands.c:6585
+#: ../src/commands.c:6597
 msgid "Right to Left"
 msgstr "Справа на лево"
 
@@ -10490,6 +10482,10 @@ msgid ""
 "Editing rich text therefore does not work well.  Please check\n"
 "with your distribution if a fixed Pango library is available."
 msgstr ""
+"Установленная в вашей системе библиотека Pango содержит ошибки, смотрите\n"
+"http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
+"Поэтому редактирование текста с форматированием не работает правильно.\n"
+"Проверьте, доступна ли для вашего дистрибутива исправленная версия Pango."
 
 #: ../src/main-application.c:389
 #, c-format
@@ -10508,11 +10504,11 @@ msgstr ""
 
 #: ../src/mathfunc.c:3879 ../src/mathfunc.c:3882
 msgid "bessel_i(%"
-msgstr ""
+msgstr "bessel_i(%"
 
 #: ../src/mathfunc.c:3879 ../src/mathfunc.c:4350
 msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
-msgstr ""
+msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
 
 #: ../src/mathfunc.c:3879 ../src/mathfunc.c:4350
 msgid ". Arg. out of range?\n"
@@ -10520,11 +10516,11 @@ msgstr "Аргументы вне допустимого диапазона?\n"
 
 #: ../src/mathfunc.c:3882 ../src/mathfunc.c:4353
 msgid ",nu=%"
-msgstr ""
+msgstr ",nu=%"
 
 #: ../src/mathfunc.c:3882 ../src/mathfunc.c:4353
 msgid "): precision lost in result\n"
-msgstr ""
+msgstr "): результат имеет меньшую точность\n"
 
 #: ../src/mathfunc.c:4342
 msgid "bessel_k allocation error"
@@ -10532,7 +10528,7 @@ msgstr ""
 
 #: ../src/mathfunc.c:4350 ../src/mathfunc.c:4353
 msgid "bessel_k(%"
-msgstr ""
+msgstr "bessel_k(%"
 
 #: ../src/mathfunc.c:7733
 msgid ""
@@ -10564,7 +10560,7 @@ msgstr "Неизвестный лист \"%s\""
 
 #: ../src/parser.y:584
 msgid "() is an invalid expression"
-msgstr ""
+msgstr "() - недопустимое выражение"
 
 #: ../src/parser.y:622 ../src/parser.y:644
 #, c-format
@@ -11227,6 +11223,8 @@ msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Модуль экспорта \"%s\" неизвестен.\n"
+"Используйте --list-exporters для вывода списка известных модулей.\n"
 
 #: ../src/ssconvert.c:174
 #, c-format
@@ -11234,12 +11232,16 @@ msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Не удалось подобрать модуль экспорта для использования с \"%s\".\n"
+"Используйте --list-exporters для вывода списка известных модулей.\n"
 
 #: ../src/ssconvert.c:183
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Требуется имя файла или точное указание модуля экспорта.\n"
+"Используйте --list-exporters для вывода списка известных модулей.\n"
 
 #: ../src/ssconvert.c:193
 #, c-format
@@ -11247,6 +11249,8 @@ msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
+"Модуль импорта \"%s\" неизвестен.\n"
+"Используйте --list-exporters для вывода списка известных модулей.\n"
 
 #: ../src/ssconvert.c:208
 #, c-format
@@ -11254,6 +11258,8 @@ msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
+"Выбраный модуль экспорта (%s) не поддерживает сохранение нескольких таблиц в одном файле.\n"
+"Будет сохранён только текущий лист."
 
 #: ../src/ssconvert.c:235 ../src/ssconvert.c:273
 msgid "INFILE [OUTFILE]"
@@ -11266,15 +11272,18 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"Версия ssconvert: \"%s\"\n"
+"каталог данных: \"%s\"\n"
+"каталог библиотек: \"%s\"\n"
 
 #: ../src/ssconvert.c:271 ../src/ssindex.c:237
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr ""
+msgstr "Используйте: %s [ПАРАМЕТРЫ...] %s\n"
 
 #: ../src/ssindex.c:73
 msgid "List MIME types which ssindex is able to read"
-msgstr ""
+msgstr "Список типов MIME, которые ssindex может читать"
 
 #: ../src/ssindex.c:80
 msgid "Index the given files"
@@ -11291,6 +11300,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"Версия ssindex: \"%s\"\n"
+"каталог данных: \"%s\"\n"
+"каталог библиотек: \"%s\"\n"
 
 #: ../src/stf.c:114
 msgid "Error while trying to read file"
@@ -11418,7 +11430,7 @@ msgstr "%s не является допустимой датой"
 #: ../src/validation.c:310
 #, c-format
 msgid "%s does not contain the new value."
-msgstr ""
+msgstr "%s не содержит нового значения."
 
 #: ../src/validation.c:344
 #, c-format
@@ -13427,13 +13439,16 @@ msgstr "Снять защиту с листа, чтобы разрешить р�
 
 #: ../src/workbook-edit.c:779
 msgid "You are about to edit a cell with \"text\" format."
-msgstr "Вы собираетесь редактировать ячейку, для которой установлен текстовый формат."
+msgstr ""
+"Вы собираетесь редактировать ячейку, для которой установлен текстовый формат."
 
 #: ../src/workbook-edit.c:780
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
-msgstr "В настоящий момент ячейка не содержит текста, но то что будет введено, будет превращено в текст."
+msgstr ""
+"В настоящий момент ячейка не содержит текста, но то что будет введено, будет "
+"превращено в текст."
 
 #: ../src/workbook-edit.c:785
 msgid "Remove format"
