@@ -1,3 +1,9 @@
+2006-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_write_cell): add GnmComment parameter and
+	write aanotation
+	(oo_write_sheet): call oo_write_cell with new GnmComment parameter
+
 2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (oo_expr_conventions_new): set argument separator

@@ -53,6 +53,7 @@
 #include <hlink.h>
 #include <solver.h>
 #include <sheet-filter.h>
+#include <sheet-object-cell-comment.h>
 #include <print-info.h>
 #include <print-info.h>
 #include <parse-util.h>
@@ -73,6 +74,7 @@
 #define STYLE	 "style:"
 #define TABLE	 "table:"
 #define TEXT     "text:"
+#define DUBLINCORE "dc:"
 
 typedef struct {
 	GsfXMLOut *xml;
@@ -269,7 +271,7 @@ od_write_covered_cell (GnmOOExport *state, int *num)
 }
 
 static void 
-od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range)
+od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, GnmComment const *cc)
 {
 	char *rendered_string;
 	int rows_spanned = 0, cols_spanned = 0;
@@ -350,6 +352,20 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range)
 			gsf_xml_out_add_cstr (state->xml, 
 					      OFFICE "value",
 					      value_peek_string (cell->value));
+		}
+
+		if (cc != NULL) {
+			char const *author;
+			author = cell_comment_author_get (cc);
+			
+			gsf_xml_out_start_element (state->xml, OFFICE "annotation");
+			if (author != NULL) {
+				gsf_xml_out_start_element (state->xml, DUBLINCORE "creator");
+				gsf_xml_out_add_cstr (state->xml, NULL, author);
+				gsf_xml_out_end_element (state->xml); /*  DUBLINCORE "creator" */;
+			}
+			gsf_xml_out_add_cstr (state->xml, NULL, cell_comment_text_get (cc));			
+			gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
 		}
 		
 		gsf_xml_out_start_element (state->xml, TEXT "p");
@@ -441,7 +457,8 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 				od_write_empty_cell (state, &null_cell);
 			if (covered_cell > 0)
 				od_write_covered_cell (state, &covered_cell);
-			od_write_cell (state, current_cell, merge_range);
+			od_write_cell (state, current_cell, merge_range, 
+				       sheet_get_comment (sheet, &pos));
 			
 		}
 		if (covered_cell > 0)
