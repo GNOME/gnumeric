@@ -712,6 +712,19 @@ Short Term Goals
 	http://bugzilla.gnome.org/attachment.cgi?id=47315&action=view
     as a template
 
+36) OpenDocument                                              (Andreas)
+    36.1 missing features in importer that we in fact export
+         36.1.1  Cell Comments
+    36.2 incorrect import 
+         36.2.1  We fail to do proper white space handling on import, see
+                 5.1.1 of the OpenDocument Standard. (It is only a minor
+                 issue since files created by OOo or us work correctly. 
+                 In fact because of 36.3.1, we depend currently on this to
+                 read our own files.)  
+    36.3 incorrect export
+         36.3.1  We don't handle whitespace correctly. See OpenDocument
+                 format 5.1.1
+
 Misc stuff that should be fixed
 -------------------------------
 

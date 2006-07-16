@@ -273,7 +273,6 @@ od_write_covered_cell (GnmOOExport *state, int *num)
 static void 
 od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, GnmComment const *cc)
 {
-	char *rendered_string;
 	int rows_spanned = 0, cols_spanned = 0;
 
 	if (merge_range != NULL) {
@@ -289,6 +288,7 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, G
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-rows-spanned", rows_spanned);
 	if (cell != NULL) {
+		char *rendered_string;
 		GnmExprArrayCorner const *ac = NULL;
 
 		if (cell_has_expr(cell)
@@ -353,28 +353,28 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, G
 					      OFFICE "value",
 					      value_peek_string (cell->value));
 		}
-
-		if (cc != NULL) {
-			char const *author;
-			author = cell_comment_author_get (cc);
-			
-			gsf_xml_out_start_element (state->xml, OFFICE "annotation");
-			if (author != NULL) {
-				gsf_xml_out_start_element (state->xml, DUBLINCORE "creator");
-				gsf_xml_out_add_cstr (state->xml, NULL, author);
-				gsf_xml_out_end_element (state->xml); /*  DUBLINCORE "creator" */;
-			}
-			gsf_xml_out_add_cstr (state->xml, NULL, cell_comment_text_get (cc));			
-			gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
-		}
-		
 		gsf_xml_out_start_element (state->xml, TEXT "p");
 		gsf_xml_out_add_cstr (state->xml, NULL, rendered_string);
 		gsf_xml_out_end_element (state->xml);   /* p */
-	}
-	gsf_xml_out_end_element (state->xml);   /* table-cell */	
 
-	g_free (rendered_string);
+		g_free (rendered_string);
+	}
+
+	if (cc != NULL) {
+		char const *author;
+		author = cell_comment_author_get (cc);
+		
+		gsf_xml_out_start_element (state->xml, OFFICE "annotation");
+		if (author != NULL) {
+			gsf_xml_out_start_element (state->xml, DUBLINCORE "creator");
+			gsf_xml_out_add_cstr (state->xml, NULL, author);
+			gsf_xml_out_end_element (state->xml); /*  DUBLINCORE "creator" */;
+		}
+		gsf_xml_out_add_cstr (state->xml, NULL, cell_comment_text_get (cc));
+		gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
+	}
+
+	gsf_xml_out_end_element (state->xml);   /* table-cell */	
 }
 
 static void
@@ -435,8 +435,10 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 		for (col = extent.start.col; col <= extent.end.col; col++) {
 			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
 			GnmRange const	*merge_range;
+			GnmComment const *cc;
 
 			pos.col = col;
+			cc = sheet_get_comment (sheet, &pos);
 			merge_range = sheet_merge_is_corner (sheet, &pos);
 
 			if (od_cell_is_covered (sheet, current_cell, col, row,
@@ -446,7 +448,8 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 				covered_cell++;
 				continue;
 			}
-			if ((merge_range == NULL) && cell_is_empty (current_cell)) {
+			if ((merge_range == NULL) && (cc == NULL) &&
+			    cell_is_empty (current_cell)) {
 				if (covered_cell > 0)
 					od_write_covered_cell (state, &covered_cell);
 				null_cell++;
@@ -457,8 +460,7 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 				od_write_empty_cell (state, &null_cell);
 			if (covered_cell > 0)
 				od_write_covered_cell (state, &covered_cell);
-			od_write_cell (state, current_cell, merge_range, 
-				       sheet_get_comment (sheet, &pos));
+			od_write_cell (state, current_cell, merge_range, cc);
 			
 		}
 		if (covered_cell > 0)

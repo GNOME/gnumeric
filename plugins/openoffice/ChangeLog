@@ -1,7 +1,14 @@
 2006-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (oo_write_cell): We will also be called for 
+	  empty cells with attached cell comment.
+	(oo_write_sheet): we may not collapse empty cells that have comments
+	  attached to them
+
+2006-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (oo_write_cell): add GnmComment parameter and
-	write aanotation
+	write annotation
 	(oo_write_sheet): call oo_write_cell with new GnmComment parameter
 
 2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
