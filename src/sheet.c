@@ -4692,8 +4692,16 @@ sheet_get_comment (Sheet const *sheet, GnmCellPos const *pos)
 	GSList *comments;
 	GnmComment *res;
 
-	r.start = r.end = *pos;
-	comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
+	GnmRange const *mr;
+	
+	mr = sheet_merge_contains_pos (sheet, pos);
+
+	if (mr)
+		comments = sheet_objects_get (sheet, mr, CELL_COMMENT_TYPE);
+	else {
+		r.start = r.end = *pos;
+		comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
+	}
 	if (!comments)
 		return NULL;
 

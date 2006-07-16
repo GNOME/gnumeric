@@ -261,6 +261,7 @@ Morten:
 	* Fix printing problem for cells that haven't been displayed.
 	* Fix critical on exit for --debug=1.
 	* Display tooltips during autofill.  [#51272]
+	* Fix editing of comments attached to merged regions.
 
 Jon Kåre:
         * Hand clipboard off to clipboard manager when exiting.

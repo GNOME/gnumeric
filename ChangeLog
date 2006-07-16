@@ -1,3 +1,9 @@
+2006-07-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.c (sheet_get_comment): If the position is in a 
+	  merged region we have to search for comments in the whole
+	  region.
+	
 2006-07-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_define_name): handle _ in names used in 
