@@ -3576,7 +3576,7 @@ cmd_unmerge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		GnmRange const *tmp = &(g_array_index (me->unmerged_regions, GnmRange, i));
 		sheet_redraw_range (me->cmd.sheet, tmp);
-		sheet_merge_add (me->cmd.sheet, tmp, FALSE, GO_CMD_CONTEXT (wbc));
+		sheet_merge_add (me->cmd.sheet, tmp, TRUE, GO_CMD_CONTEXT (wbc));
 		sheet_range_calc_spans (me->cmd.sheet, tmp, SPANCALC_RE_RENDER);
 	}
 
@@ -3601,8 +3601,13 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			&(g_array_index (me->ranges, GnmRange, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const tmp = *(GnmRange *)(ptr->data);
+			GnmComment * cc;
+
+			cc = sheet_get_comment (me->cmd.sheet, &(tmp.start)); 
 			g_array_append_val (me->unmerged_regions, tmp);
 			sheet_merge_remove (me->cmd.sheet, &tmp, GO_CMD_CONTEXT (wbc));
+			if (cc)
+				cell_comment_set_cell (cc, &(tmp.start));
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
 						SPANCALC_RE_RENDER);
 		}
@@ -3710,7 +3715,7 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_merge_remove (me->cmd.sheet, r, GO_CMD_CONTEXT (wbc));
 	}
 
-	flags = PASTE_CONTENTS | PASTE_FORMATS | PASTE_IGNORE_COMMENTS;
+	flags = PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS;
 	if (me->center)
 		flags |= PASTE_FORMATS;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
@@ -4798,10 +4803,17 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text)
 		if (text)
 			cell_comment_text_set (comment, text);
 		else {
-			GnmRange r;
-			r.start = *pos;
-			r.end   = *pos;
-			sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
+			GnmRange const *mr;
+
+			mr = sheet_merge_contains_pos (sheet, pos);
+
+			if (mr)
+				sheet_objects_clear (sheet, mr, CELL_COMMENT_TYPE);
+			else {
+				GnmRange r;
+				r.start = r.end = *pos;
+				sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
+			}
 		}
 	} else if (text && (strlen (text) > 0))
 		cell_set_comment (sheet, pos, NULL, text);

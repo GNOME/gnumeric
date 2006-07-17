@@ -19,6 +19,7 @@ Andreas:
 	* Add a latex-exporter for an unformatted table fragments [#325980]
 	* Implement content export in the OpenDocument exporter.
 	* Fix undo text for definition/update of names [#346962]
+	* Fix interaction of merged cells, cell comments and undo [#347536]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).

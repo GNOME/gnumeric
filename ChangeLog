@@ -1,3 +1,10 @@
+2006-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_unmerge_cells_undo): make sure we are moving the
+	  comment back into place #347536
+	(cmd_unmerge_cells_redo): don't leave the comments behind #347536
+	(cmd_merge_cells_undo): also put the comments back #347536
+
 2006-07-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c (sheet_get_comment): If the position is in a 
