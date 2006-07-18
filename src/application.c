@@ -374,6 +374,9 @@ gnm_app_workbook_get_by_name (char const *name,
 	Workbook *wb;
 	char *filename = NULL;
 
+	if (*name == 0)
+		return NULL;
+
 	/* Try as URI.  */
 	wb = gnm_app_workbook_get_by_uri (name);
 	if (wb)

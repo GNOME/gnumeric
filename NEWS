@@ -47,6 +47,7 @@ Morten:
 	* Fix sheet duplication problem related to the solver.
 	* Fix stf import crash.  [#345477]
 	* Fix problems with decreasing month autofill.  [#346028]
+	* Fix CRITICALs for =[].  [#347916]
 
 Shixin Zeng
 	

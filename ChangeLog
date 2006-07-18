@@ -1,3 +1,8 @@
+2006-07-18  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_workbook_get_by_name): Handle empty
+	name.  Fixes #347916.
+
 2006-07-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_unmerge_cells_undo): make sure we are moving the
