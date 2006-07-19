@@ -2887,7 +2887,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	else
 		/* Save the contents */
 		me->dst.paste_flags = PASTE_CONTENTS |
-			(me->dst.paste_flags & PASTE_FORMATS);
+			(me->dst.paste_flags & PASTE_FORMATS | PASTE_COMMENTS);
 
 	if (is_undo) {
 		colrow_set_states (me->dst.sheet, FALSE,
@@ -2942,6 +2942,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 {
 	CmdPasteCopy *me;
 	int n;
+	char *range_name;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (pt->sheet), TRUE);
@@ -2950,8 +2951,12 @@ cmd_paste_copy (WorkbookControl *wbc,
 
 	me->cmd.sheet = pt->sheet;
 	me->cmd.size = 1;  /* FIXME?  */
+
+	range_name = undo_range_name (pt->sheet, &pt->range);
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
-		range_as_string (&pt->range));
+						  range_name);
+	g_free (range_name);
+	
 	me->dst = *pt;
 	me->contents = cr;
 	me->has_been_through_cycle = FALSE;

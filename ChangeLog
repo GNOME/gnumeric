@@ -1,3 +1,9 @@
+2006-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_paste_copy_impl): don't forget comments
+	(cmd_paste_copy): use undo_range_name rather than range_as_string 
+	  to use sheet name according to preferences
+
 2006-07-18  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_workbook_get_by_name): Handle empty
