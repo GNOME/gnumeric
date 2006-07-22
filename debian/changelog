@@ -1,3 +1,12 @@
+gnumeric (1.6.3-3) UNRELEASED; urgency=low
+
+  * [debian/po/lt.po] Added, courtesy of Gintautas Miliauskas <gintas@akl.lt>.
+    (Closes: #374319).
+  * [debian/po/pt.po] Added, courtesy of Ricardo Silva <ardoric@gmail.com> via
+    Rui Branco <ruipb@debianpt.org>. (Closes: #378890)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 22 Jul 2006 13:40:19 +0200
+
 gnumeric (1.6.3-2) unstable; urgency=low
 
   * Sourceful upload; should fix installability on amd64. (Closes: #365691)

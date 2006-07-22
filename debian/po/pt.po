@@ -1,0 +1,43 @@
+# Native Portuguese translation of gnumeric.
+# Copyright (C) 2006 THE gnumeric'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnumeric package.
+# Ricardo Silva <ardoric@gmail.com>, 2006.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric 1.6.3-2\n"
+"Report-Msgid-Bugs-To: jdassen@debian.org\n"
+"POT-Creation-Date: 2006-07-22 13:33+0200\n"
+"PO-Revision-Date: 2006-07-19 14:18+0100\n"
+"Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
+"Language-Team: Native Portuguese <traduz@debianpt.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid "Are you sure you want to upgrade gnumeric right now?"
+msgstr "Tem a certeza que quer actualizar o gnumeric agora?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid ""
+"It appears there is an instance of gnumeric running currently. If you "
+"upgrade gnumeric now, that instance may not be able to save its data anymore."
+msgstr ""
+"Parece já existir uma instância do gnumeric a correr. Se actualizar o "
+"gnumeric agora essa instância poderá não ser capaz de salvar os seus dados."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid ""
+"You are strongly recommended to close the running instances of gnumeric "
+"prior to upgrading this package."
+msgstr ""
+"Sugerimos fortemente que encerre todas as instâncias do gnumeric a correr "
+"antes de actualizar este pacote."
