@@ -145,7 +145,7 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
  * If it is, the exact "foo" will be put into @output, without any esacaping.
  *
  */
-static charconst *
+static char const *
 latex_raw_str(char const *p, GsfOutput *output, gboolean utf8)
 {
 	char const *p_begin, *p_orig = p;

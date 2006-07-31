@@ -358,7 +358,7 @@ static char const *cont_elt_types[] = {
 };
 
 static gboolean 
-is_elt_type (htmlNodePtr ptr, charconst ** types)
+is_elt_type (htmlNodePtr ptr, char const ** types)
 {
 	char const **p;
 	gboolean ret = FALSE;
