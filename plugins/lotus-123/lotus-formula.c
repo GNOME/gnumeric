@@ -36,7 +36,7 @@ struct _LFuncInfo {
 	short args;
 	unsigned short ordinal;
 	char const *lotus_name;
-	char cons *gnumeric_name;
+	char const *gnumeric_name;
 	int (*handler) (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
 };
 
