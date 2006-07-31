@@ -1016,15 +1016,23 @@ wbcg_sheet_order_changed (WorkbookControlGUI *wbcg)
 {
 	GtkNotebook *nb = wbcg->notebook;
 	int i, n = gtk_notebook_get_n_pages (nb);
+	SheetControlGUI **scgs = g_new (SheetControlGUI *, n);
 
+	/* Collect the scgs first as we are moving pages.  */
 	for (i = 0 ; i < n; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page (nb, i);
-		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+		scgs[i] = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+	}
+
+	for (i = 0 ; i < n; i++) {
+		SheetControlGUI *scg = scgs[i];
 		Sheet *sheet = ((SheetControl *)scg)->sheet;
 		gtk_notebook_reorder_child (nb,
 					    GTK_WIDGET (scg->table),
 					    sheet->index_in_wb);
 	}
+
+	g_free (scgs);
 }
 
 static void

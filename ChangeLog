@@ -1,3 +1,8 @@
+2006-07-31  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_order_changed): Fix
+	methodology and thus probably #349255.
+
 2006-07-25  Jody Goldberg <jody@gnome.org>
 
 	* src/cell.c (cell_relocate) : merge into clipboard.
