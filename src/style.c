@@ -279,6 +279,8 @@ style_font_hash_func (gconstpointer v)
 	return k->size_pts + g_str_hash (k->font_name);
 }
 
+static PangoFontMap *fontmap;
+
 /**
  * gnm_pango_context_get :
  *
@@ -293,7 +295,8 @@ gnm_pango_context_get (void)
 	if (screen != NULL) {
 		context = gdk_pango_context_get_for_screen (screen);
 	} else {
-		PangoFontMap *fontmap = pango_ft2_font_map_new ();
+		if (!fontmap)
+			fontmap = pango_ft2_font_map_new ();
 		pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
 		context = pango_ft2_font_map_create_context (PANGO_FT2_FONT_MAP (fontmap));
 	}
@@ -355,6 +358,17 @@ font_shutdown (void)
 {
 	g_free (gnumeric_default_font_name);
 	gnumeric_default_font_name = NULL;
+
+	if (fontmap) {
+		/*
+		 * Workaround for bug #143542 (PangoFT2Fontmap leak).
+		 * See also bug #148997 (Text layer rendering leaks font file
+		 * descriptor).
+		 */
+		pango_ft2_font_map_substitute_changed (PANGO_FT2_FONT_MAP (fontmap));
+		g_object_unref (fontmap);
+		fontmap = NULL;
+	}
 }
 
 void

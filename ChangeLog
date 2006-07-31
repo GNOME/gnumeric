@@ -1,5 +1,8 @@
 2006-07-31  Morten Welinder  <terra@gnome.org>
 
+	* src/style.c (gnm_pango_context_get): Avoid leaking font maps in
+	the no-screen case.
+
 	* src/workbook-control-gui.c (wbcg_sheet_order_changed): Fix
 	methodology and thus probably #349255.
 
