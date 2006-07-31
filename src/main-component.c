@@ -209,7 +209,7 @@ add_interfaces (BonoboObject *control, WorkbookControl *wbc)
 
 static BonoboObject *
 gnm_component_factory (BonoboGenericFactory *this,
-		       const char           *oaf_iid,
+		       char const           *oaf_iid,
 		       void                 *data)
 {
 	BonoboControl *control;

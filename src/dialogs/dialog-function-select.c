@@ -306,7 +306,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 					   cursor[1] == '*' &&
 					   cursor[2] == ' ') {
 					int j = g_utf8_pointer_to_offset (f_desc, cursor);
-					const char *p;
+					char const *p;
 
 					tag = gtk_text_buffer_create_tag
 						(state->description, NULL,

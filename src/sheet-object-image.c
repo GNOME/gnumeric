@@ -40,7 +40,7 @@
 #define d(code)
 #endif
 
-#define CC2XML(s) ((const xmlChar *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
 
 static void
 so_image_view_destroy (SheetObjectView *sov)
@@ -331,7 +331,7 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 }
 
 static gboolean
-soi_gdk_pixbuf_save (const gchar *buf,
+soi_gdk_pixbuf_save (gchar const *buf,
 		     gsize count,
 		     GError **error,
 		     gpointer data)
@@ -383,7 +383,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 }
 
 static void
-gnm_soi_write_image (SheetObject const *so, const char *format, double resolution,
+gnm_soi_write_image (SheetObject const *so, char const *format, double resolution,
 		     GsfOutput *output, GError **err)
 {
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);

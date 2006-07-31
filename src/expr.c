@@ -2,7 +2,7 @@
 /*
  * expr.c : Expression evaluation in Gnumeric
  *
- * Copyright (C) 2001-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2001-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 1998-2000 Miguel de Icaza (miguel@gnu.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -880,7 +880,7 @@ cb_implicit_iter_b_to_scalar_a (GnmValue const *v, GnmEvalPos const *ep,
 }
 
 static GnmValue *
-bin_array_op (GnmEvalPos const *ep, const GnmValue *sizer,
+bin_array_op (GnmEvalPos const *ep, GnmValue const *sizer,
 	      GnmValue *a, GnmValue *b,
 	      BinOpImplicitIteratorFunc func, gpointer user_data)
 {
@@ -1390,7 +1390,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 static void
 gnm_expr_list_as_string (GString *target,
-			 int argc, const GnmExprConstPtr *argv,
+			 int argc, GnmExprConstPtr const *argv,
 			 GnmParsePos const *pp,
 			 GnmExprConventions const *fmt);
 
@@ -1492,7 +1492,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 	}
 
 	case GNM_EXPR_OP_FUNCALL: {
-		const GnmExprFunction *func = &expr->func;
+		GnmExprFunction const *func = &expr->func;
 		char const *name = gnm_func_get_name (func->func);
 
 		g_string_append (target, name);
@@ -1587,16 +1587,10 @@ typedef enum {
 	CELLREF_RELOCATE_FROM_OUT,
 	CELLREF_RELOCATE_ERR
 } CellRefRelocate;
-
-/*
- * FIXME :
- * C3 : =sum(a$1:b$2)
- * Cut B2:C3
- * Paste to the right or diagonal.
- * range changes when it should not.
- */
 static CellRefRelocate
-cellref_relocate (GnmCellRef *ref, GnmExprRelocateInfo const *rinfo)
+relocate_cellref (GnmExprRelocateInfo const *rinfo, gboolean ignore_rel,
+		  GnmCellRef *ref)
+
 {
 	/* For row or column refs
 	 * Ref	From	To
@@ -1624,10 +1618,12 @@ cellref_relocate (GnmCellRef *ref, GnmExprRelocateInfo const *rinfo)
 	int row = ref->row;
 	Sheet *ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
 
-	if (ref->col_relative)
+	if (ref->col_relative) {
 		col += rinfo->pos.eval.col;
-	if (ref->row_relative)
+	}
+	if (ref->row_relative) {
 		row += rinfo->pos.eval.row;
+	}
 
 	/* fprintf (stderr, "%s\n", cellref_as_string (ref, &rinfo->pos, FALSE)); */
 
@@ -1722,8 +1718,54 @@ cellref_shift (GnmCellRef const *ref, GnmExprRelocateInfo const *rinfo)
 }
 
 static GnmExpr const *
-cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
+relocate_cellrange (GnmExprRelocateInfo const *rinfo, gboolean ignore_rel,
+		    GnmValueRange const *v)
 {
+	GnmCellRef ref_a = v->cell.a;
+	GnmCellRef ref_b = v->cell.b;
+	int reloc_a, reloc_b;
+
+	if (rinfo->reloc_type == GNM_EXPR_RELOCATE_INVALIDATE_SHEET) {
+		Sheet const *sheet_a = ref_a.sheet;
+		Sheet const *sheet_b = ref_b.sheet;
+		Workbook *wb;
+		gboolean hit_a = sheet_a && sheet_a->being_invalidated;
+		gboolean hit_b = sheet_b && sheet_b->being_invalidated;
+		int dir;
+
+		if (!hit_a && !hit_b)
+			return NULL;
+
+		if (sheet_a == NULL || sheet_b == NULL ||
+		    sheet_a->workbook != sheet_b->workbook)
+			/* A 3D reference between workbooks?  */
+			return gnm_expr_new_constant (value_new_error_REF (NULL));
+
+		/* Narrow the sheet range.  */
+		wb = sheet_a->workbook;
+		dir = (sheet_a->index_in_wb < sheet_b->index_in_wb) ? +1 : -1;
+		while (sheet_a != sheet_b && sheet_a->being_invalidated)
+			sheet_a = workbook_sheet_by_index (wb, sheet_a->index_in_wb + dir);
+		while (sheet_a != sheet_b && sheet_b->being_invalidated)
+			sheet_b = workbook_sheet_by_index (wb, sheet_b->index_in_wb - dir);
+
+		if (sheet_a->being_invalidated)
+			return gnm_expr_new_constant (value_new_error_REF (NULL));
+
+		ref_a.sheet = (Sheet *)sheet_a;
+		ref_b.sheet = (Sheet *)sheet_b;
+		return gnm_expr_new_constant (value_new_cellrange_unsafe (&ref_a, &ref_b));
+	}
+
+	/* FIXME : should not be necessary.  We need to audit the code to
+	 * define whether both refs need a sheet, or just ref_a for normal
+	 * non-3d references */
+	if (ref_b.sheet == NULL && ref_a.sheet != NULL)
+		ref_b.sheet = ref_a.sheet;
+
+	reloc_a = relocate_cellref (rinfo, ignore_rel, &ref_a);
+	reloc_b = relocate_cellref (rinfo, ignore_rel, &ref_b);
+
 	/*
 	 * If either end is an error then the whole range is an error.
 	 * If both ends need to relocate -> relocate
@@ -1733,38 +1775,15 @@ cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
 	 *	in only 1 dimension, and the
 	 * otherwise remain static
 	 */
-	GnmCellRef ref_a = v->v_range.cell.a;
-	GnmCellRef ref_b = v->v_range.cell.b;
-	int needs = 0;
 
-	/* FIXME : should not be necessary.  We need to audit the code to
-	 * define whether both refs need a sheet, or just ref_a for normal
-	 * non-3d references */
-	if (ref_b.sheet == NULL && ref_a.sheet != NULL)
-		ref_b.sheet = ref_a.sheet;
-
-	switch (cellref_relocate (&ref_a, rinfo)) {
-	case CELLREF_NO_RELOCATE :	break;
-	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
-	case CELLREF_RELOCATE_FROM_OUT : needs = 0x1;	break;
-	case CELLREF_RELOCATE_ERR : return gnm_expr_new_constant (
-		value_new_error_REF (NULL));
-	}
-	switch (cellref_relocate (&ref_b, rinfo)) {
-	case CELLREF_NO_RELOCATE :	break;
-	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
-	case CELLREF_RELOCATE_FROM_OUT : needs |= 0x2;	break;
-	case CELLREF_RELOCATE_ERR :
-#if 0
-		if (needs == 0 &&
-		    (rinfo->col_offset == 0 || rinfo->row_offset == 0)) {
-		}
-#endif
-		return gnm_expr_new_constant (
-			value_new_error_REF (NULL));
-	}
-
-	if (needs != 0) {
+	/*
+	 * FIXME :
+	 * C3 : =sum(a$1:b$2)
+	 * Cut B2:C3
+	 * Paste to the right or diagonal.
+	 * range changes when it should not.
+	 */
+	if (!reloc_a || !reloc_b) {
 		GnmValue *res;
 		Sheet const *sheet_a = ref_a.sheet;
 		Sheet const *sheet_b = ref_b.sheet;
@@ -1778,8 +1797,10 @@ cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
 		/* Dont allow creation of 3D references */
 		if (sheet_a == sheet_b) {
 			/* If just 1 end is moving do not change the reference */
-			if ((needs == 0x1 && cellref_shift (&ref_b, rinfo)) ||
-			    (needs == 0x2 && cellref_shift (&ref_a, rinfo)))
+			if ((reloc_a == CELLREF_RELOCATE_FROM_OUT &&
+			     cellref_shift (&ref_b, rinfo)) ||
+			    (reloc_b == CELLREF_RELOCATE_FROM_OUT &&
+			     cellref_shift (&ref_a, rinfo)))
 				return NULL;
 			res = value_new_cellrange (&ref_a, &ref_b,
 						   rinfo->pos.eval.col,
@@ -1793,33 +1814,9 @@ cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
 	return NULL;
 }
 
-/*
- * gnm_expr_rewrite :
- * @expr   : Expression to fixup
- * @pos    : Location of the cell containing @expr.
- * @rwinfo : State information required to rewrite the reference.
- *
- * Either:
- *
- * GNM_EXPR_REWRITE_INVALIDATE_SHEETS:
- *
- *	Find any references to sheets marked being_invalidated and
- *      re-write them to #REF!
- *
- * or
- *
- * GNM_EXPR_REWRITE_RELOCATE:
- *
- *	Find any references to the specified area and adjust them by the
- * supplied deltas.  Check for out of bounds conditions.  Return NULL if
- * no change is required.
- *
- *	If the expression is within the range to be moved, its relative
- * references to cells outside the range are adjusted to reference the
- * same cell after the move.
- */
 static GnmExpr const *
-gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
+gnm_expr_relocate (GnmExpr const *expr, GnmExprRelocateInfo const *rinfo,
+		   gboolean ignore_rel)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
@@ -1827,8 +1824,8 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY: {
-		GnmExpr const *a = gnm_expr_rewrite (expr->binary.value_a, rwinfo);
-		GnmExpr const *b = gnm_expr_rewrite (expr->binary.value_b, rwinfo);
+		GnmExpr const *a = gnm_expr_relocate (expr->binary.value_a, rinfo, ignore_rel);
+		GnmExpr const *b = gnm_expr_relocate (expr->binary.value_b, rinfo, ignore_rel);
 
 		if (a == NULL && b == NULL)
 			return NULL;
@@ -1842,7 +1839,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	}
 
 	case GNM_EXPR_OP_ANY_UNARY: {
-		GnmExpr const *a = gnm_expr_rewrite (expr->unary.value, rwinfo);
+		GnmExpr const *a = gnm_expr_relocate (expr->unary.value, rinfo, ignore_rel);
 		if (a == NULL)
 			return NULL;
 		return gnm_expr_new_unary (GNM_EXPR_GET_OPER (expr), a);
@@ -1856,7 +1853,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			argc ? g_new (GnmExprConstPtr, argc) : NULL;
 
 		for (i = 0; i < argc; i++) {
-			argv[i] = gnm_expr_rewrite (expr->func.argv[i], rwinfo);
+			argv[i] = gnm_expr_relocate (expr->func.argv[i], rinfo, ignore_rel);
 			if (argv[i])
 				rewrite = TRUE;
 		}
@@ -1882,7 +1879,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			argc ? g_new (GnmExprConstPtr, argc) : NULL;
 
 		for (i = 0; i < argc; i++) {
-			argv[i] = gnm_expr_rewrite (expr->set.argv[i], rwinfo);
+			argv[i] = gnm_expr_relocate (expr->set.argv[i], rinfo, ignore_rel);
 			if (argv[i])
 				rewrite = TRUE;
 		}
@@ -1909,7 +1906,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		if (!nexpr->active)
 			return gnm_expr_new_constant (value_new_error_REF (NULL));
 
-		if (rwinfo->rw_type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
+		if (rinfo->reloc_type == GNM_EXPR_RELOCATE_INVALIDATE_SHEET) {
 			if (nexpr->pos.sheet && nexpr->pos.sheet->being_invalidated)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			else
@@ -1919,11 +1916,10 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		/* If the name is not officially scoped, check that it is
 		 * available in the new scope ?  */
 		if (expr->name.optional_scope == NULL &&
-		    rwinfo->u.relocate.target_sheet != rwinfo->u.relocate.origin_sheet) {
+		    rinfo->target_sheet != rinfo->origin_sheet) {
 			GnmNamedExpr *new_nexpr;
 			GnmParsePos pos;
-			parse_pos_init_sheet (&pos,
-				rwinfo->u.relocate.target_sheet);
+			parse_pos_init_sheet (&pos, rinfo->target_sheet);
 
 			/* If the name is not available in the new scope explicitly scope it */
 			new_nexpr = expr_name_lookup (&pos, nexpr->name->str);
@@ -1940,7 +1936,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		}
 
 		/* Do NOT rewrite the name.  Just invalidate the use of the name */
-		tmp = gnm_expr_top_rewrite (expr->name.name->texpr, rwinfo);
+		tmp = gnm_expr_top_relocate (expr->name.name->texpr, rinfo, FALSE);
 		if (tmp != NULL) {
 			gnm_expr_top_unref (tmp);
 			return gnm_expr_new_constant (
@@ -1951,18 +1947,17 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 	}
 
 	case GNM_EXPR_OP_CELLREF:
-		switch (rwinfo->rw_type) {
-		case GNM_EXPR_REWRITE_INVALIDATE_SHEETS:
+		switch (rinfo->reloc_type) {
+		case GNM_EXPR_RELOCATE_INVALIDATE_SHEET:
 			if (expr->cellref.ref.sheet &&
 			    expr->cellref.ref.sheet->being_invalidated)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			return NULL;
 
-		case GNM_EXPR_REWRITE_NAME:
 		default : {
 			GnmCellRef res = expr->cellref.ref; /* Copy */
 
-			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {
+			switch (relocate_cellref (rinfo, ignore_rel, &res)) {
 			case CELLREF_NO_RELOCATE :
 				return NULL;
 			case CELLREF_RELOCATE_FROM_IN :
@@ -1975,66 +1970,21 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		}
 		return NULL;
 
-	case GNM_EXPR_OP_CONSTANT: {
-		GnmValue const *v = expr->constant.value;
-
-		if (v->type == VALUE_CELLRANGE) {
-			GnmCellRef const *ref_a = &v->v_range.cell.a;
-			GnmCellRef const *ref_b = &v->v_range.cell.b;
-
-			if (rwinfo->rw_type == GNM_EXPR_REWRITE_INVALIDATE_SHEETS) {
-				Sheet *sheet_a = ref_a->sheet;
-				Sheet *sheet_b = ref_b->sheet;
-				Workbook *wb;
-				gboolean hit_a = sheet_a && sheet_a->being_invalidated;
-				gboolean hit_b = sheet_b && sheet_b->being_invalidated;
-				int dir_a, dir_b;
-
-				if (!hit_a && !hit_b)
-					return NULL;
-
-				if (sheet_a == NULL || sheet_b == NULL ||
-				    sheet_a->workbook != sheet_b->workbook)
-					/* A 3D reference between workbooks?  */
-					return gnm_expr_new_constant (value_new_error_REF (NULL));
-
-				wb = sheet_a->workbook;
-				dir_a = (sheet_a->index_in_wb < sheet_b->index_in_wb) ? +1 : -1;
-				dir_b = -dir_a;
-				/* Narrow the sheet range.  */
-				while (sheet_a != sheet_b && sheet_a->being_invalidated)
-					sheet_a = workbook_sheet_by_index (wb, sheet_a->index_in_wb + dir_a);
-				while (sheet_a != sheet_b && sheet_b->being_invalidated)
-					sheet_b = workbook_sheet_by_index (wb, sheet_b->index_in_wb + dir_b);
-
-				if (sheet_a->being_invalidated)
-					return gnm_expr_new_constant (value_new_error_REF (NULL));
-				else {
-					GnmCellRef new_a = *ref_a;
-					GnmCellRef new_b = *ref_b;
-
-					new_a.sheet = sheet_a;
-					new_b.sheet = sheet_b;
-					return gnm_expr_new_constant (value_new_cellrange_unsafe (&new_a, &new_b));
-				}
-			} else
-				return cellrange_relocate (v, &rwinfo->u.relocate);
-		}
-
+	case GNM_EXPR_OP_CONSTANT:
+		if (expr->constant.value->type == VALUE_CELLRANGE)
+			return relocate_cellrange (rinfo, ignore_rel,
+				&expr->constant.value->v_range);
 		return NULL;
-	}
 
 	case GNM_EXPR_OP_ARRAY_ELEM:
 		return NULL;
 
 	case GNM_EXPR_OP_ARRAY_CORNER: {
-		GnmExpr const *e =
-			gnm_expr_rewrite (expr->array_corner.expr, rwinfo);
+		GnmExpr const *e = gnm_expr_relocate (expr->array_corner.expr, rinfo, ignore_rel);
 		if (e)
-			return gnm_expr_new_array_corner
-				(expr->array_corner.cols,
-				 expr->array_corner.rows,
-				 e);
+			return gnm_expr_new_array_corner (
+				expr->array_corner.cols,
+				expr->array_corner.rows, e);
 		return NULL;
 	}
 	}
@@ -2457,7 +2407,7 @@ gnm_expr_list_unref (GnmExprList *list)
 
 static void
 gnm_expr_list_as_string (GString *target,
-			 int argc, const GnmExprConstPtr *argv,
+			 int argc, GnmExprConstPtr const *argv,
 			 GnmParsePos const *pp,
 			 GnmExprConventions const *conv)
 {
@@ -2692,13 +2642,34 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 	return gnm_expr_equal (te1->expr, te2->expr);
 }
 
+/*
+ * gnm_expr_top_relocate :
+ * @expr   : #GnmExprTop to fixup
+ * @rinfo : #GnmExprRelocateInfo details of relocation
+ * @ignore_rel : Do not adjust relative refs (for internal use when
+ *		  relocating named expressions.   Most callers will want FALSE.
+ *
+ * GNM_EXPR_RELOCATE_INVALIDATE_SHEET :
+ *	Convert any references to  sheets marked being_invalidated into #REF!
+ * GNM_EXPR_RELOCATE_MOVE_RANGE,
+ *	Find any references to the specified area and adjust them by the
+ *	supplied deltas.  Check for out of bounds conditions.  Return NULL if
+ *	no change is required.
+ *	If the expression is within the range to be moved, its relative
+ *	references to cells outside the range are adjusted to reference the
+ *	same cell after the move.
+ * GNM_EXPR_RELOCATE_COLS
+ * GNM_EXPR_RELOCATE_ROWS
+ * 	
+ */
 GnmExprTop const *
-gnm_expr_top_rewrite (GnmExprTop const *texpr,
-		      GnmExprRewriteInfo const *rwinfo)
+gnm_expr_top_relocate (GnmExprTop const *texpr,
+		       GnmExprRelocateInfo const *rinfo,
+		       gboolean ignore_rel)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
 
-	return gnm_expr_top_new (gnm_expr_rewrite (texpr->expr, rwinfo));
+	return gnm_expr_top_new (gnm_expr_relocate (texpr->expr, rinfo, ignore_rel));
 }
 
 gboolean

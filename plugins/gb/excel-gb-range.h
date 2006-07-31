@@ -35,6 +35,6 @@ ExcelGBRange *excel_gb_range_new      (GBRunEvalContext *ec,
 
 ExcelGBRange *excel_gb_range_new_ref  (GBRunEvalContext *ec,
 				       Sheet            *sheet,
-				       const char       *range);
+				       char const       *range);
 
 #endif /* EXCEL_GB_RANGE_H */

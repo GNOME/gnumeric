@@ -223,7 +223,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	gint opener_default;
 	char const *title;
 	char *uri = NULL;
-	const char *encoding = NULL;
+	char const *encoding = NULL;
 	GOFileOpener *fo = NULL;
 	Workbook *workbook = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
@@ -430,8 +430,8 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		gtk_file_filter_set_name (filter, _("Spreadsheets"));
 		for (l = savers->next; l; l = l->next) {
 			GOFileSaver *fs = l->data;
-			const char *ext = go_file_saver_get_extension (fs);
-			const char *mime = go_file_saver_get_mime_type (fs);
+			char const *ext = go_file_saver_get_extension (fs);
+			char const *mime = go_file_saver_get_mime_type (fs);
 
 			if (mime)
 				gtk_file_filter_add_mime_type (filter, mime);

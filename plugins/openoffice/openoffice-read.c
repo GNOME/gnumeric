@@ -3,7 +3,7 @@
 /*
  * openoffice-read.c : import open/star calc files
  *
- * Copyright (C) 2002-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2006 Luciano Miguel Wolf (luciano.wolf@indt.org.br)
  *
  * This program is free software; you can redistribute it and/or
@@ -678,7 +678,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean	 bool_val;
 	gnm_float	 float_val = 0;
 	int array_cols = -1, array_rows = -1;
-	int merge_cols = -1, merge_rows = -1;
+	int merge_cols = 1, merge_rows = 1;
 	GnmStyle *style = NULL;
 	char const *expr_string;
 	GnmRange tmp;
@@ -776,17 +776,12 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (style != NULL) {
 		gnm_style_ref (style);
 		if (state->col_inc > 1 || state->row_inc > 1) {
-			range_init (&tmp,
-				state->pos.eval.col, state->pos.eval.row,
-				state->pos.eval.col + state->col_inc - 1,
-				state->pos.eval.row + state->row_inc - 1);
+			range_init_cellpos_size (&tmp, &state->pos.eval,
+				state->col_inc, state->row_inc);
 			sheet_style_set_range (state->pos.sheet, &tmp, style);
-		} else if (merge_cols > 0 || merge_rows > 0) {
-			GnmRange tmp;
-			range_init (&tmp,
-				state->pos.eval.col, state->pos.eval.row,
-				state->pos.eval.col + merge_cols - 1,
-				state->pos.eval.row + merge_rows - 1);
+		} else if (merge_cols > 1 || merge_rows > 1) {
+			range_init_cellpos_size (&tmp, &state->pos.eval,
+				merge_cols, merge_rows);
 			sheet_style_set_range (state->pos.sheet, &tmp, style);
 		} else
 			sheet_style_set_pos (state->pos.sheet,
@@ -799,10 +794,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->pos.eval.col, state->pos.eval.row);
 
 		if (array_cols > 0 || array_rows > 0) {
-			if (array_cols < 0) {
+			if (array_cols <= 0) {
 				array_cols = 1;
 				oo_warning (xin, _("Invalid array expression does not specify number of columns."));
-			} else if (array_rows < 0) {
+			} else if (array_rows <= 0) {
 				array_rows = 1;
 				oo_warning (xin, _("Invalid array expression does not specify number of rows."));
 			}
@@ -834,14 +829,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		/* store the content as a string */
 		state->simple_content = TRUE;
 
-	if (merge_cols > 0 && merge_rows > 0) {
-		GnmRange r;
-		range_init (&r,
-			state->pos.eval.col, state->pos.eval.row,
-			state->pos.eval.col + merge_cols - 1,
-			state->pos.eval.row + merge_rows - 1);
-		sheet_merge_add (state->pos.sheet, &r, FALSE,
-				 NULL);
+	if (merge_cols > 1 || merge_rows > 1) {
+		range_init_cellpos_size (&tmp, &state->pos.eval,
+			merge_cols, merge_rows);
+		sheet_merge_add (state->pos.sheet, &tmp, FALSE, NULL);
 	}
 }
 

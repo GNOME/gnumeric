@@ -946,7 +946,7 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 	GnmHLink *link;
 	int x, y;
 	GnmCellPos pos;
-	const char *tiptext;
+	char const *tiptext;
 
 	/* Be anal and look it up in case something has destroyed the link
 	 * since the last motion */

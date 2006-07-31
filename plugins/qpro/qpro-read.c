@@ -158,10 +158,10 @@ qpro_validate_len (QProReadState *state, char const *id, guint16 len, int expect
 
 enum { ARGS_UNKNOWN = -1, ARGS_COUNT_FOLLOWS = -2 };
 
-static const struct {
-	const char *name;
+static struct {
+	char const *name;
 	int args;
-} qpro_functions[QPRO_OP_LAST_FUNC - QPRO_OP_FIRST_FUNC + 1] = {
+} const qpro_functions[QPRO_OP_LAST_FUNC - QPRO_OP_FIRST_FUNC + 1] = {
 	{ "err", ARGS_UNKNOWN }, /* No args -- returns error.  */
 	{ "abs", 1 },
 	{ "int", 1 },
@@ -303,7 +303,7 @@ dump_missing_functions (void)
 
 	if (!done) {
 		for (i = QPRO_OP_FIRST_FUNC; i <= QPRO_OP_LAST_FUNC; i++) {
-			const char *name = qpro_functions[i - QPRO_OP_FIRST_FUNC].name;
+			char const *name = qpro_functions[i - QPRO_OP_FIRST_FUNC].name;
 			int args = qpro_functions[i - QPRO_OP_FIRST_FUNC].args;
 			GnmFunc *f;
 			int dummy;
@@ -507,7 +507,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		default:
 			if (QPRO_OP_FIRST_FUNC <= *fmla && *fmla <= QPRO_OP_LAST_FUNC) {
 				int idx = *fmla - QPRO_OP_FIRST_FUNC;
-				const char *name = qpro_functions[idx].name;
+				char const *name = qpro_functions[idx].name;
 				int args = qpro_functions[idx].args;
 				GnmExprList *arglist = NULL;
 				GSList *tmp = stack;

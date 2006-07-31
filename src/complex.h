@@ -33,17 +33,17 @@ typedef struct {
 
 /* ------------------------------------------------------------------------- */
 
-char *complex_to_string (const complex_t *src, const char *reformat,
-			 const char *imformat, char imunit);
+char *complex_to_string (complex_t const *src, char const *reformat,
+			 char const *imformat, char imunit);
 
-int complex_from_string (complex_t *dst, const char *src, char *imunit);
+int complex_from_string (complex_t *dst, char const *src, char *imunit);
 
-void complex_to_polar (gnm_float *mod, gnm_float *angle, const complex_t *src);
+void complex_to_polar (gnm_float *mod, gnm_float *angle, complex_t const *src);
 void complex_from_polar (complex_t *dst, gnm_float mod, gnm_float angle);
-void complex_mul (complex_t *dst, const complex_t *a, const complex_t *b);
-void complex_div (complex_t *dst, const complex_t *a, const complex_t *b);
-void complex_sqrt (complex_t *dst, const complex_t *src);
-void complex_pow (complex_t *dst, const complex_t *a, const complex_t *b);
+void complex_mul  (complex_t *dst, complex_t const *a, complex_t const *b);
+void complex_div  (complex_t *dst, complex_t const *a, complex_t const *b);
+void complex_pow  (complex_t *dst, complex_t const *a, complex_t const *b);
+void complex_sqrt (complex_t *dst, complex_t const *src);
 
 /* ------------------------------------------------------------------------- */
 
@@ -67,7 +67,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_real (complex_t *dst, gnm_float re))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (int complex_real_p (const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (int complex_real_p (complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	return src->im == 0;
@@ -76,7 +76,7 @@ GNUMERIC_COMPLEX_PROTO (int complex_real_p (const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (int complex_zero_p (const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (int complex_zero_p (complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	return src->re == 0 && src->im == 0;
@@ -85,7 +85,7 @@ GNUMERIC_COMPLEX_PROTO (int complex_zero_p (const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (gnm_float complex_mod (const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (gnm_float complex_mod (complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	return gnm_hypot (src->re, src->im);
@@ -94,7 +94,7 @@ GNUMERIC_COMPLEX_PROTO (gnm_float complex_mod (const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (gnm_float complex_angle (const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (gnm_float complex_angle (complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	return gnm_atan2 (src->im, src->re);
@@ -103,7 +103,7 @@ GNUMERIC_COMPLEX_PROTO (gnm_float complex_angle (const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_conj (complex_t *dst, const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (void complex_conj (complex_t *dst, complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst, src->re, -src->im);
@@ -122,7 +122,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_scale_real (complex_t *dst, gnm_float f))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_add (complex_t *dst, const complex_t *a, const complex_t *b))
+GNUMERIC_COMPLEX_PROTO (void complex_add (complex_t *dst, complex_t const *a, complex_t const *b))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst, a->re + b->re, a->im + b->im);
@@ -131,7 +131,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_add (complex_t *dst, const complex_t *a, co
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_sub (complex_t *dst, const complex_t *a, const complex_t *b))
+GNUMERIC_COMPLEX_PROTO (void complex_sub (complex_t *dst, complex_t const *a, complex_t const *b))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst, a->re - b->re, a->im - b->im);
@@ -140,7 +140,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_sub (complex_t *dst, const complex_t *a, co
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_exp (complex_t *dst, const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (void complex_exp (complex_t *dst, complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
@@ -151,7 +151,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_exp (complex_t *dst, const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_ln (complex_t *dst, const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (void complex_ln (complex_t *dst, complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
@@ -162,7 +162,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_ln (complex_t *dst, const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_sin (complex_t *dst, const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (void complex_sin (complex_t *dst, complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
@@ -173,7 +173,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_sin (complex_t *dst, const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_cos (complex_t *dst, const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (void complex_cos (complex_t *dst, complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
@@ -184,7 +184,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_cos (complex_t *dst, const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_tan (complex_t *dst, const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (void complex_tan (complex_t *dst, complex_t const *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_t s, c;

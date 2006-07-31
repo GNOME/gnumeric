@@ -69,7 +69,7 @@ typedef struct {
 StfParseOptions_t  *stf_parse_options_new                             (void);
 void                stf_parse_options_free                            (StfParseOptions_t *parseoptions);
 
-StfParseOptions_t  *stf_parse_options_guess                           (const char *data);
+StfParseOptions_t  *stf_parse_options_guess                           (char const *data);
 
 /* MANIPULATION of stf options struct */
 
@@ -107,7 +107,7 @@ GPtrArray	*stf_parse_general			(StfParseOptions_t *parseoptions,
 void		 stf_parse_general_free			(GPtrArray *lines);
 GPtrArray	*stf_parse_lines			(StfParseOptions_t *parseoptions,
 							 GStringChunk *lines_chunk,
-							 const char *data,
+							 char const *data,
 							 int maxlines,
 							 gboolean with_lineno);
 
@@ -116,7 +116,7 @@ void		 stf_parse_options_fixed_autodiscover	(StfParseOptions_t *parseoptions,
 							 char const *data_end);
 
 char const	*stf_parse_find_line			(StfParseOptions_t *parseoptions,
-							 const char *data,
+							 char const *data,
 							 int line);
 
 char const	*stf_parse_next_token			(char const *data, 

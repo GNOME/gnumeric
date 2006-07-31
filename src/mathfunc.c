@@ -6486,7 +6486,7 @@ random_01 (void)
 
 	while (seeded) {
 		if (seeded == -2) {
-			const char *seed = g_getenv ("GNUMERIC_PRNG_SEED");
+			char const *seed = g_getenv ("GNUMERIC_PRNG_SEED");
 			if (seed) {
 				int len = strlen (seed);
 				int i;

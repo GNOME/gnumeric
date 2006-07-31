@@ -64,8 +64,8 @@ typedef enum {
  **/
 static GnmValue *
 val_to_base (FunctionEvalInfo *ei,
-	     const GnmValue *value,
-	     const GnmValue *aplaces,
+	     GnmValue const *value,
+	     GnmValue const *aplaces,
 	     int src_base, int dest_base,
 	     gnm_float min_value, gnm_float max_value,
 	     Val2BaseFlags flags)
@@ -101,7 +101,7 @@ val_to_base (FunctionEvalInfo *ei,
 				return value_new_error_VALUE (ei->pos);
 			}
 		} else {
-			const char *str = value_peek_string (value);
+			char const *str = value_peek_string (value);
 			size_t len;
 			gboolean hsuffix = FALSE;
 			char *err;
@@ -953,10 +953,10 @@ get_constant_of_unit(const eng_convert_unit_t units[],
 /* See also http://physics.nist.gov/cuu/Units/prefixes.html */
 
 static gboolean
-convert (const eng_convert_unit_t units[],
-	 const eng_convert_unit_t prefixes[],
+convert (eng_convert_unit_t const units[],
+	 eng_convert_unit_t const prefixes[],
 	 char const *from_unit, char const *to_unit,
-	 gnm_float n, GnmValue **v, const GnmEvalPos *ep)
+	 gnm_float n, GnmValue **v, GnmEvalPos const *ep)
 {
         gnm_float from_c, from_prefix, to_c, to_prefix;
 
@@ -1412,7 +1412,7 @@ range_invsuminv (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_invsuminv (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_invsuminv (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_invsuminv,
@@ -1424,7 +1424,7 @@ gnumeric_invsuminv (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor engineering_functions[] = {
+GnmFuncDescriptor const engineering_functions[] = {
         { "base",     "Sf|f",   "text,base,length", help_base,
 	  gnumeric_base, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

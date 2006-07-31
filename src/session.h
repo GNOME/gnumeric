@@ -18,7 +18,7 @@
 #ifndef GNUMERIC_SESSION_H
 #define GNUMERIC_SESSION_H
 
-void gnm_session_init (const char *argv0);
+void gnm_session_init (char const *argv0);
 /* gboolean gnm_session_is_restored (void); */
 /* gboolean gnm_session_load (void); */
 

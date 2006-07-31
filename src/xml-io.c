@@ -81,9 +81,9 @@
 #define XML_INPUT_BUFFER_SIZE      4096
 #define N_ELEMENTS_BETWEEN_UPDATES 20
 
-#define CC2XML(s) ((const xmlChar *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
 #define C2XML(s) ((xmlChar *)(s))
-#define CXML2C(s) ((const char *)(s))
+#define CXML2C(s) ((char const *)(s))
 #define XML2C(s) ((char *)(s))
 
 /* ------------------------------------------------------------------------- */
@@ -577,7 +577,7 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		if (s) {
 			GnmRange r;
-			if (parse_range (CXML2C (s), &r)) {
+			if (range_parse (&r, CXML2C (s))) {
 				range->range = r;
 				range->use   = TRUE;
 			}
@@ -1450,7 +1450,7 @@ xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
 		area = xml_node_get_cstr (filter_node, "Area");
 		if (area == NULL)
 			continue;
-		if (parse_range (CXML2C (area), &r)) {
+		if (range_parse (&r, CXML2C (area))) {
 			filter = gnm_filter_new (ctxt->sheet, &r);
 			for (field = filter_node->xmlChildrenNode; field != NULL; field = field->next)
 				if (!xmlIsBlankNode (field))
@@ -1681,7 +1681,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
 	if (tmp != NULL) {
 		GnmRange r;
-		if (parse_range (tmp, &r))
+		if (range_parse (&r, tmp))
 			so->anchor.cell_bound = r;
 		xmlFree (tmp);
 	}
@@ -1731,7 +1731,7 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 			xmlChar *content = xml_node_get_cstr (region, NULL);
 			GnmRange r;
 			if (content != NULL) {
-				if (parse_range (CXML2C (content), &r))
+				if (range_parse (&r, CXML2C (content)))
 					sheet_merge_add (ctxt->sheet, &r, FALSE, NULL);
 				xmlFree (content);
 			}
@@ -2140,7 +2140,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 			if (!xmlIsBlankNode (l)) {
 				GnmRange r;
 				xmlChar *content = (char *)xmlNodeGetContent (l);
-				if (parse_range (CXML2C (content), &r))
+				if (range_parse (&r, CXML2C (content)))
 					cr->merged = g_slist_prepend (cr->merged,
 								      range_dup (&r));
 				xmlFree (content);
@@ -2430,7 +2430,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	GString *buffer;
 	guint ui;
 	char *converted;
-	const char *encoding;
+	char const *encoding;
 	gboolean ok;
 
 	buf = gsf_input_read (input, strlen (noencheader), NULL);

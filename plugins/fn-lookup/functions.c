@@ -442,7 +442,7 @@ static GnmFuncHelp const help_areas[] = {
 
 /* TODO : we need to rethink EXPR_SET as an operator vs a value type */
 static GnmValue *
-gnumeric_areas (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_areas (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmExpr const *expr;
 	int res = -1;
@@ -523,7 +523,7 @@ static GnmFuncHelp const help_choose[] = {
 };
 
 static GnmValue *
-gnumeric_choose (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_choose (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int     index;
 	GnmValue  *v;
@@ -873,7 +873,7 @@ static GnmFuncHelp const help_index[] = {
 };
 
 static GnmValue *
-gnumeric_index (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_index (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmExpr const *source;
 	int elem[3] = { 0, 0, 0 };

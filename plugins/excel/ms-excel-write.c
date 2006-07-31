@@ -106,7 +106,7 @@ typedef struct {
 typedef struct _BlipType BlipType;
 
 struct _BlipType {
-	const char *type_name;
+	char const *type_name;
 	guint8 type;
 	guint8 blip_tag[2];
 	void (*handler) (ExcelWriteState *ewb, 
@@ -3783,7 +3783,7 @@ blipinf_new (SheetObjectImage *soi)
 {
 	BlipInf *blip;
 	GByteArray *bytes;
-	const char *blip_type;
+	char const *blip_type;
 
 	blip = g_new0 (BlipInf, 1);
 	blip->uncomp_len = -1;
@@ -5079,7 +5079,7 @@ static BlipType bliptypes[] =
 };
 
 static BlipType *
-get_bliptype (const char *type)
+get_bliptype (char const *type)
 {
 	int n = sizeof bliptypes / sizeof bliptypes[0];
 	int i;

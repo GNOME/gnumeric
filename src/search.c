@@ -76,10 +76,10 @@ gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 /* ------------------------------------------------------------------------- */
 
 static int
-cb_order_sheet_row_col (const void *_a, const void *_b)
+cb_order_sheet_row_col (void const *_a, void const *_b)
 {
-	const GnmEvalPos *a = *(const GnmEvalPos **)_a;
-	const GnmEvalPos *b = *(const GnmEvalPos **)_b;
+	GnmEvalPos const *a = *(GnmEvalPos const **)_a;
+	GnmEvalPos const *b = *(GnmEvalPos const **)_b;
 	int i;
 
 	i = strcmp (a->sheet->name_unquoted_collate_key,
@@ -95,10 +95,10 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 }
 
 static int
-cb_order_sheet_col_row (const void *_a, const void *_b)
+cb_order_sheet_col_row (void const *_a, void const *_b)
 {
-	const GnmEvalPos *a = *(const GnmEvalPos **)_a;
-	const GnmEvalPos *b = *(const GnmEvalPos **)_b;
+	GnmEvalPos const *a = *(GnmEvalPos const **)_a;
+	GnmEvalPos const *b = *(GnmEvalPos const **)_b;
 	int i;
 
 	i = strcmp (a->sheet->name_unquoted_collate_key,
@@ -305,7 +305,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 	if ((is_expr && sr->search_expressions) ||
 	    (is_string && sr->search_strings) ||
 	    (is_other && sr->search_other_values)) {
-		const char *actual_src;
+		char const *actual_src;
 		gboolean initial_quote;
 
 		res->old_text = cell_get_entered_text (cell);
@@ -454,7 +454,7 @@ gnm_search_replace_set_sheet (GnmSearchReplace *sr, Sheet *sheet)
 }
 
 static void
-gnm_search_replace_set_range_text (GnmSearchReplace *sr, const char *text)
+gnm_search_replace_set_range_text (GnmSearchReplace *sr, char const *text)
 {
 	char *text_copy = g_strdup (text);
 	g_free (sr->range_text);

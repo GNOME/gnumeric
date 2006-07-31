@@ -80,14 +80,14 @@ typedef char const *(*GnmRangeRefParse) (GnmRangeRef *res, char const *in,
 					 GnmParsePos const *pp,
 					 GnmExprConventions const *convs);
 					 /* GError **err); */
-typedef char const *(*GnmNameParse) (const char *in,
+typedef char const *(*GnmNameParse) (char const *in,
 				     GnmExprConventions const *convs);
 
 /*
  * On success, this functions should return a non-NULL value and
  * absorb the args, including the list.
  */
-typedef GnmExpr const *(*GnmParseFunctionHandler) (const char *name,
+typedef GnmExpr const *(*GnmParseFunctionHandler) (char const *name,
 						   GnmExprList *args,
 						   GnmExprConventions const *convs);
 
@@ -108,7 +108,7 @@ typedef void (*GnmParseRangeRefHandler) (GString *target,
 					 GnmParsePos const *pp);
 
 typedef GString * (*GnmSheetNameQuoteHandler) (GnmExprConventions const *convs,
-					       const char *name);
+					       char const *name);
 
 struct _GnmExprConventions {
 #if 0

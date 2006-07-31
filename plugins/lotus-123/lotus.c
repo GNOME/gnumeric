@@ -648,7 +648,7 @@ lotus_pattern (guint i)
 
 /* ------------------------------------------------------------------------- */
 
-static const char *const
+static char const * const
 lotus_special_formats[16] = {
 	"",
 	"General",
@@ -671,7 +671,7 @@ lotus_special_formats[16] = {
 static void
 append_precision (GString *res, guint n)
 {
-	static const char dotzeros[17] = ".0000000000000000";
+	static char const dotzeros[17] = ".0000000000000000";
 	if (n > 0)
 		g_string_append_len (res, dotzeros, n + 1);
 }
@@ -722,7 +722,7 @@ lotus_format_string (guint fmt)
 
 	case 7: {
 		/* Lotus special format */
-		const char *f = lotus_special_formats[precision];
+		char const *f = lotus_special_formats[precision];
 		if (f[0] == 0)
 			f = "General";
 		g_string_append (res, f);
@@ -1650,13 +1650,13 @@ lmbcs_12 (const guint8 *p)
 
 
 char *
-lotus_get_lmbcs (const char *data, int maxlen, int def_group)
+lotus_get_lmbcs (char const *data, int maxlen, int def_group)
 {
 	GString *res = g_string_sized_new (maxlen + 2);
-	const guint8 *p;
-	const guint8 *theend;
+	guint8 const *p;
+	guint8 const *theend;
 
-	p = (const guint8 *)data;
+	p = (guint8 const *)data;
 	if (maxlen == -1)
 		maxlen = strlen (data);
 	theend = p + maxlen;

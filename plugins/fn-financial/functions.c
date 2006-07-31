@@ -53,7 +53,7 @@ GNM_PLUGIN_MODULE_HEADER;
 #define is_valid_paytype(t) ((t) == 0 || (t) == 1)
 
 static int
-value_get_basis (const GnmValue *v, int defalt)
+value_get_basis (GnmValue const *v, int defalt)
 {
 	if (v) {
 		gnm_float b = value_get_as_float (v);
@@ -66,7 +66,7 @@ value_get_basis (const GnmValue *v, int defalt)
 }
 
 static int
-value_get_freq (const GnmValue *v)
+value_get_freq (GnmValue const *v)
 {
 	gnm_float f;
 
@@ -82,7 +82,7 @@ value_get_freq (const GnmValue *v)
 }
 
 static int
-value_get_paytype (const GnmValue *v)
+value_get_paytype (GnmValue const *v)
 {
 	if (v) {
 		gnm_float f = value_get_as_float (v);
@@ -1815,7 +1815,7 @@ range_npv (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_npv (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_npv (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_npv,
@@ -2926,8 +2926,8 @@ static GnmFuncHelp const help_oddfprice[] = {
 };
 
 static gnm_float
-date_ratio (const GDate *d1, const GDate *d2, const GDate *d3,
-	    const GnmCouponConvention *conv)
+date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
+	    GnmCouponConvention const *conv)
 {
 	GDate next_coupon, prev_coupon;
 	gnm_float res;
@@ -2957,7 +2957,7 @@ static gnm_float
 calc_oddfprice (const GDate *settlement, const GDate *maturity,
 		const GDate *issue, const GDate *first_coupon,
 		gnm_float rate, gnm_float yield, gnm_float redemption,
-		const GnmCouponConvention *conv)
+		GnmCouponConvention const *conv)
 
 {
 	gnm_float a = days_between_basis (issue, settlement, conv->basis);
@@ -3197,7 +3197,7 @@ static gnm_float
 calc_oddlprice (const GDate *settlement, const GDate *maturity,
 		const GDate *last_interest,
 		gnm_float rate, gnm_float yield, gnm_float redemption,
-		const GnmCouponConvention *conv)
+		GnmCouponConvention *conv)
 {
 	GDate d = *last_interest;
 	gnm_float x1, x2, x3;
@@ -3289,10 +3289,10 @@ static GnmFuncHelp const help_oddlyield[] = {
 
 
 static gnm_float
-calc_oddlyield (const GDate *settlement, const GDate *maturity,
-		const GDate *last_interest,
+calc_oddlyield (GDate const *settlement, GDate const *maturity,
+		GDate const *last_interest,
 		gnm_float rate, gnm_float price, gnm_float redemption,
-		const GnmCouponConvention *conv)
+		GnmCouponConvention const *conv)
 {
 	GDate d = *last_interest;
 	gnm_float x1, x2, x3;
@@ -3979,7 +3979,7 @@ gnumeric_vdb (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor financial_functions[] = {
+GnmFuncDescriptor const financial_functions[] = {
 	{ "accrint", "ffffff|f", "issue,first_interest,settlement,rate,par,frequency,basis",
 	  help_accrint, gnumeric_accrint, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,

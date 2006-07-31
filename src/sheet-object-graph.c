@@ -225,7 +225,7 @@ gnm_sog_get_object_target_list (SheetObject const *so)
 }
 
 static void
-gnm_sog_write_image (SheetObject const *so, const char *format, double resolution,
+gnm_sog_write_image (SheetObject const *so, char const *format, double resolution,
 		     GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
@@ -255,7 +255,7 @@ gnm_sog_write_image (SheetObject const *so, const char *format, double resolutio
 }
 
 static void
-gnm_sog_write_object (SheetObject const *so, const char *format,
+gnm_sog_write_object (SheetObject const *so, char const *format,
 				 GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);

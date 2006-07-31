@@ -68,11 +68,11 @@ gboolean workbook_set_1904 (Workbook *wb, gboolean flag);
 void workbook_attach_view (Workbook *wb, WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);
 
-WorkbookSheetState *workbook_sheet_state_new (const Workbook *wb);
+WorkbookSheetState *workbook_sheet_state_new (Workbook const *wb);
 void workbook_sheet_state_free (WorkbookSheetState *wss);
-void workbook_sheet_state_restore (Workbook *wb, const WorkbookSheetState *wss);
-int workbook_sheet_state_size (const WorkbookSheetState *wss);
-char *workbook_sheet_state_diff (const WorkbookSheetState *wss_a,
-				 const WorkbookSheetState *wss_b);
+void workbook_sheet_state_restore (Workbook *wb, WorkbookSheetState const *wss);
+int workbook_sheet_state_size	(WorkbookSheetState const *wss);
+char *workbook_sheet_state_diff (WorkbookSheetState const *wss_a,
+				 WorkbookSheetState const *wss_b);
 
 #endif /* GNUMERIC_WORKBOOK_H */

@@ -107,7 +107,7 @@ stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 
 static char *
 try_auto_date (GnmValue *value, const GOFormat *format,
-	       const GODateConventions *date_conv)
+	       GODateConventions const *date_conv)
 {
 	gnm_float v, vr, vs;
 	GOFormat *actual;
@@ -156,7 +156,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 static gboolean
 stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 {
-	const char *text = NULL;
+	char const *text = NULL;
 	char *tmp = NULL;
 	gboolean ok;
 	g_return_val_if_fail (stfe != NULL, FALSE);
@@ -169,7 +169,7 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 		default:
 		case GNM_STF_FORMAT_AUTO:
 			if (cell->value) {
-				const GODateConventions *date_conv =
+				GODateConventions const *date_conv =
 					workbook_date_conv (cell->base.sheet->workbook);
 				GOFormat *format = cell_get_format (cell);
 				if (format->family == GO_FORMAT_DATE ||
@@ -333,7 +333,7 @@ gnm_stf_transliterate_mode_get_type (void)
 {
   static GType etype = 0;
   if (etype == 0) {
-	  static const GEnumValue values[] = {
+	  static GEnumValue const values[] = {
 		  { GNM_STF_TRANSLITERATE_MODE_TRANS,  (char*)"GNM_STF_TRANSLITERATE_MODE_TRANS",  (char*)"transliterate" },
 		  { GNM_STF_TRANSLITERATE_MODE_ESCAPE, (char*)"GNM_STF_TRANSLITERATE_MODE_ESCAPE", (char*)"escape" },
 		  { 0, NULL, NULL }
@@ -350,7 +350,7 @@ gnm_stf_format_mode_get_type (void)
 {
   static GType etype = 0;
   if (etype == 0) {
-	  static const GEnumValue values[] = {
+	  static GEnumValue const values[] = {
 		  { GNM_STF_FORMAT_AUTO,     (char*)"GNM_STF_FORMAT_AUTO",     (char*)"automatic" },
 		  { GNM_STF_FORMAT_RAW,      (char*)"GNM_STF_FORMAT_RAW",      (char*)"raw" },
 		  { GNM_STF_FORMAT_PRESERVE, (char*)"GNM_STF_FORMAT_PRESERVE", (char*)"preserve" },

@@ -186,7 +186,7 @@ unregister_allocation (void const *data)
 
 /* Bison/Yacc internals */
 static int yylex (void);
-static int yyerror (const char *s);
+static int yyerror (char const *s);
 
 typedef struct {
 	char const *ptr;	/* current position of the lexer */

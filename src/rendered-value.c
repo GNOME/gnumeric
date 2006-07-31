@@ -472,7 +472,7 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 
 /* Return the value as a single string without format infomation.
  */
-const char *
+char const *
 rendered_value_get_text (RenderedValue const *rv)
 {
 	g_return_val_if_fail (rv != NULL, "ERROR");

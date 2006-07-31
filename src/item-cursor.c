@@ -1116,7 +1116,7 @@ item_cursor_set_visibility (ItemCursor *ic, gboolean visible)
 }
 
 static void
-item_cursor_tip_setlabel (ItemCursor *ic, const char *text)
+item_cursor_tip_setlabel (ItemCursor *ic, char const *text)
 {
 	if (ic->tip == NULL) {
 		ic->tip = gnumeric_create_tooltip ();

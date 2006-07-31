@@ -1266,7 +1266,7 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 
 	while (1) {
 		tmp = *vector;
-		if (!range_trim (sheet, &tmp, as_cols, !as_cols)) {
+		if (!sheet_range_trim (sheet, &tmp, as_cols, !as_cols)) {
 			cell = sheet_cell_get (sheet, tmp.end.col+dx, tmp.end.row+dy);
 			if (cell == NULL)
 				return is_string;
@@ -1388,7 +1388,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 		/* Special case the handling of a vector rather than a range.
 		 * it should stay in its orientation,  only ranges get split */
 		as_cols = (vector.start.col == vector.end.col || default_to_cols);
-		has_header = range_has_header (sheet, &vector, as_cols, TRUE);
+		has_header = sheet_range_has_heading (sheet, &vector, as_cols, TRUE);
 		header.col = vector.start.col;
 		header.row = vector.start.row;
 

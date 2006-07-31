@@ -272,7 +272,7 @@ time2str (time_t t)
 {
 	char buffer[4000];
 	gsize len;
-	const char *format = "%c";
+	char const *format = "%c";
 
 	if (t == -1)
 		return NULL;
@@ -297,7 +297,7 @@ time2str (time_t t)
 static void 
 dialog_doc_metadata_set_label (DialogDocMetaData *state,
 			       GtkLabel          *label,
-			       const char        *text,
+			       char        const *text,
 			       gboolean          auto_fill)
 {
 	Workbook *wb = state->wb;
@@ -1179,7 +1179,7 @@ cb_dialog_doc_metadata_tree_prop_selected (GtkTreeView       *tree_view,
  *
  **/
 static gchar * 
-dialog_doc_metadata_get_prop_val (const char *prop_name,
+dialog_doc_metadata_get_prop_val (char const *prop_name,
 				  GValue     *prop_value)
 {
 	GValue str_value = { 0 };

@@ -112,7 +112,7 @@ typedef gpointer SolverProgram;
  * Solver's API for LP solving algorithms
  */
 typedef SolverProgram
-        (solver_init_fn)                (const SolverParameters *param);
+        (solver_init_fn)                (SolverParameters const *param);
 typedef void
         (solver_remove_fn)              (SolverProgram p);
 typedef void
@@ -151,7 +151,7 @@ typedef int
 
 
 typedef struct {
-        const char                    *name;
+        char const                    *name;
         solver_init_fn                *init_fn;
         solver_remove_fn              *remove_fn;
         solver_lp_set_obj_fn          *set_obj_fn;
@@ -244,7 +244,7 @@ void             solver_param_destroy  (SolverParameters *);
 
 /* Creates a copy of the Solver's data structures when a sheet is
  * duplicated. */
-SolverParameters *solver_lp_copy       (const SolverParameters *src_param,
+SolverParameters *solver_lp_copy       (SolverParameters const *src_param,
 					Sheet *new_sheet);
 
 /* Frees the data structure allocated for the results. */

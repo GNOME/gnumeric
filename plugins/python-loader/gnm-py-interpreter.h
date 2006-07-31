@@ -19,7 +19,7 @@ void              gnm_py_interpreter_switch_to	(GnmPyInterpreter *interpreter);
 void              gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter,
                                                  char const *str,
 						 char **opt_stdout, char **opt_stderr);
-const char       *gnm_py_interpreter_get_name	(GnmPyInterpreter *interpreter);
+char const       *gnm_py_interpreter_get_name	(GnmPyInterpreter *interpreter);
 GOPlugin        *gnm_py_interpreter_get_plugin	(GnmPyInterpreter *interpreter);
 int               gnm_py_interpreter_compare	(gconstpointer a, gconstpointer b);
 

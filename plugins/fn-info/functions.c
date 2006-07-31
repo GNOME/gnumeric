@@ -1723,7 +1723,7 @@ static GnmFuncHelp const help_isref[] = {
 };
 
 static GnmValue *
-gnumeric_isref (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_isref (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	if (argc != 1)
 		return value_new_error (ei->pos,
@@ -1825,7 +1825,7 @@ static GnmFuncHelp const help_type[] = {
 static GnmValue *
 gnumeric_type (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	const GnmValue *v = argv[0];
+	GnmValue const *v = argv[0];
 	switch (v ? v->type : VALUE_EMPTY) {
 	case VALUE_BOOLEAN:
 		return value_new_int (4);
@@ -1879,7 +1879,7 @@ gnumeric_getenv (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor info_functions[] = {
+GnmFuncDescriptor const info_functions[] = {
 	{ "cell",	"sr", N_("info_type, cell"), help_cell,
 	  gnumeric_cell, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUBSET_WITH_EXTENSIONS, GNM_FUNC_TEST_STATUS_BASIC },

@@ -53,14 +53,16 @@
 				 (r)->start.row <= (r)->end.row)
 
 GnmRange   *range_init_full_sheet   (GnmRange *r);
-GnmRange   *range_init_rangeref	    (GnmRange *range, GnmRangeRef const *rr);
-GnmRange   *range_init_value	    (GnmRange *range, GnmValue const *v);
-GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *start, GnmCellPos const *end);
-
+GnmRange   *range_init_rangeref	    (GnmRange *r, GnmRangeRef const *rr);
+GnmRange   *range_init_value	    (GnmRange *r, GnmValue const *v);
+GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *start,
+				     GnmCellPos const *end);
+GnmRange   *range_init_cellpos_size (GnmRange *r, GnmCellPos const *start,
+				     int cols, int rows);
 GnmRange   *range_init              (GnmRange *r, int start_col, int start_row,
 				     int end_col, int end_row);
-GnmValue   *range_parse             (Sheet *sheet, char const *range, gboolean strict);
-gboolean    parse_range 	    (char const *text, GnmRange *r);
+gboolean    range_parse 	    (GnmRange *r, char const *text);
+
 void        range_list_destroy      (GSList *ranges);
 
 int	    range_width		(GnmRange const *r);
@@ -79,17 +81,9 @@ gboolean    range_is_sane	(GnmRange const *range);
 gboolean    range_translate     (GnmRange *range, int col_offset, int row_offset);
 gboolean    range_transpose     (GnmRange *range, GnmCellPos const *origin);
 
-/* TODO : Do these 2 belong here ? or in sheet.h
- * Probably sheet.h but that is overfull.
- */
-gboolean    range_trim		(Sheet const *sheet, GnmRange *r,
-				 gboolean cols, gboolean rows);
-gboolean    range_has_header    (Sheet const *sheet, GnmRange const *src,
-				 gboolean top, gboolean ignore_styles);
-
-char const *range_as_string	(GnmRange const *src);
-void        range_dump		(GnmRange const *src, char const *suffix);
-GnmRange   *range_dup		(GnmRange const *src);
+char const *range_as_string	(GnmRange const *r);
+void        range_dump		(GnmRange const *r, char const *suffix);
+GnmRange   *range_dup		(GnmRange const *r);
 
 GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);
 GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);

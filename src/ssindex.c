@@ -41,7 +41,7 @@ static gboolean ssindex_list_mime_types = FALSE;
 static gboolean ssindex_run_indexer = FALSE;
 static char *ssindex_import_encoding = NULL;
 
-static const GOptionEntry ssindex_options [] = { 
+static GOptionEntry const ssindex_options [] = { 
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &ssindex_show_version,
@@ -254,7 +254,7 @@ main (int argc, char **argv)
 		gnm_io_context_set_num_files (ioc, argc - 1);
 
 		for (i = 1; i < argc; i++) {
-			const char *file = argv[i];
+			char const *file = argv[i];
 			gnm_io_context_processing_file (ioc, file);
 			g_print ("-> %s\n", file);
 			res |= ssindex (file, ioc);

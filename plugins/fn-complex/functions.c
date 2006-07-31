@@ -62,7 +62,7 @@ value_get_as_complex (GnmValue const *val, complex_t *res, char *imunit)
 }
 
 static GnmValue *
-value_new_complex (const complex_t *c, char imunit)
+value_new_complex (complex_t const *c, char imunit)
 {
 	if (complex_real_p (c))
 		return value_new_float (c->re);
@@ -1541,7 +1541,7 @@ callback_function_imoper (GnmEvalPos const *ep, GnmValue const *value, void *clo
 }
 
 static GnmValue *
-gnumeric_improduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_improduct (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmValue *v;
         eng_imoper_t p;
@@ -1582,7 +1582,7 @@ static GnmFuncHelp const help_imsum[] = {
 };
 
 static GnmValue *
-gnumeric_imsum (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_imsum (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmValue *v;
         eng_imoper_t p;

@@ -29,20 +29,20 @@
 #include <gsf/gsf-impl-utils.h>
 
 #ifndef G_OS_WIN32
-const char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-const char *gnumeric_data_dir = GNUMERIC_DATADIR;
-static const char gnumeric_icon_dir[] = GNUMERIC_ICONDIR;
-static const char gnumeric_locale_dir[] = GNUMERIC_LOCALEDIR;
+char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+char const *gnumeric_data_dir = GNUMERIC_DATADIR;
+static char const gnumeric_icon_dir[] = GNUMERIC_ICONDIR;
+static char const gnumeric_locale_dir[] = GNUMERIC_LOCALEDIR;
 #else
-const char *gnumeric_lib_dir;
-const char *gnumeric_data_dir;
-static const char *priv_lib_dir;
-static const char *priv_data_dir;
-static const char *gnumeric_icon_dir;
-static const char *gnumeric_locale_dir;
+char const *gnumeric_lib_dir;
+char const *gnumeric_data_dir;
+static char const *priv_lib_dir;
+static char const *priv_data_dir;
+static char const *gnumeric_icon_dir;
+static char const *gnumeric_locale_dir;
 #endif
 
-static const char *gnumeric_usr_dir;
+static char const *gnumeric_usr_dir;
 
 void
 gutils_init (void)
@@ -145,7 +145,7 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags)
 }
 
 #if 0
-static const char *
+static char const *
 color_to_string (PangoColor color)
 {
 	static char result[100];

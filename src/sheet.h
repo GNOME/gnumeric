@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_SHEET_H
-#define GNUMERIC_SHEET_H
+#ifndef GNM_SHEET_H
+#define GNM_SHEET_H
 
 #include "gnumeric.h"
 #include "colrow.h"
@@ -236,6 +236,11 @@ gboolean sheet_ranges_split_region   (Sheet const *sheet, GSList const *ranges,
 gboolean sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 				      GOCmdContext *cc, char const *cmd);
 void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *r);
+gboolean sheet_range_trim	     (Sheet const *sheet, GnmRange *r,
+				      gboolean cols, gboolean rows);
+gboolean sheet_range_has_heading     (Sheet const *sheet, GnmRange const *src,
+				      gboolean top, gboolean ignore_styles);
+
 
 /* Redraw */
 #define sheet_is_visible(_sheet) ((_sheet)->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
@@ -348,4 +353,4 @@ do {										\
 	}										\
   } while (0)
 
-#endif /* GNUMERIC_SHEET_H */
+#endif /* GNM_SHEET_H */

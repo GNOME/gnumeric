@@ -243,7 +243,7 @@ excel_gb_range_new (GBRunEvalContext *ec,
 ExcelGBRange *
 excel_gb_range_new_ref (GBRunEvalContext *ec,
 			Sheet            *sheet,
-			const char       *text)
+			char       const *text)
 {
 	GnmRange         tmp;
 	int           len;

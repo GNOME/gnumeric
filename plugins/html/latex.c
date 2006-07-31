@@ -145,10 +145,10 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
  * If it is, the exact "foo" will be put into @output, without any esacaping.
  *
  */
-static const char*
-latex_raw_str(const char *p, GsfOutput *output, gboolean utf8)
+static charconst *
+latex_raw_str(char const *p, GsfOutput *output, gboolean utf8)
 {
-	const char *p_begin, *p_orig = p;
+	char const *p_begin, *p_orig = p;
 	int depth = 1;
 	if(strncasecmp(p, "\\L{", 3) == 0){
 		p += 3;
@@ -233,7 +233,7 @@ latex_fputs_utf (char const *p, GsfOutput *output)
 static void
 latex_math_fputs_utf (char const *p, GsfOutput *output)
 {
-	const char *rlt;
+	char const *rlt;
 	for (; *p; p = g_utf8_next_char (p)) {
 		switch (g_utf8_get_char (p)) {
 

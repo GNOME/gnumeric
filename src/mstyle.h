@@ -95,7 +95,7 @@ void         gnm_style_set_border	   (GnmStyle *style, GnmStyleElement elem,
 GnmBorder   *gnm_style_get_border	   (GnmStyle const *style, GnmStyleElement elem);
 void         gnm_style_set_pattern	   (GnmStyle *style, int pattern);
 int          gnm_style_get_pattern	   (GnmStyle const *style);
-void         gnm_style_set_font_name	   (GnmStyle *style, const char *name);
+void         gnm_style_set_font_name	   (GnmStyle *style, char const *name);
 char const  *gnm_style_get_font_name	   (GnmStyle const *style);
 void         gnm_style_set_font_bold	   (GnmStyle *style, gboolean bold);
 gboolean     gnm_style_get_font_bold	   (GnmStyle const *style);

@@ -41,9 +41,9 @@
 #include <unistd.h>
 
 static gint
-category_compare_name_and_dir (const void *a, const void *b)
+category_compare_name_and_dir (gconstpointer a, gconstpointer b)
 {
-	const FormatTemplateCategory *cat_a = a, *cat_b = b;
+	FormatTemplateCategory const *cat_a = a, *cat_b = b;
 	int res;
 
 	res = strcmp (cat_a->name, cat_b->name);

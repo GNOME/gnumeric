@@ -820,7 +820,7 @@ go_conf_get_str_list (GOConfNode *node, gchar const *key)
 	gint i;
 
 	if ((ptr = go_conf_get_string (node, key)) != NULL) {
-		str_list = g_strsplit ((const gchar *) ptr, "\n", 0);
+		str_list = g_strsplit ((gchar const *) ptr, "\n", 0);
 		for (i = 0; str_list[i]; ++i)
 			list = g_slist_prepend (list, g_strcompress (str_list[i]));
 		list = g_slist_reverse (list);
@@ -1222,7 +1222,7 @@ go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 	}
 
 	g_key_file_set_string_list (key_file, STRLIST_GROUP, real_key, 
-				    (const gchar **const) strs, ns);
+				    (gchar const **const) strs, ns);
 	g_free (real_key);
 
 	for (i = 0; i < ns; i++)
@@ -2225,7 +2225,7 @@ gnm_gconf_set_gui_resolution_v (gnm_float val)
 }
 
 gboolean
-gnm_gconf_get_toolbar_visible (const char *name)
+gnm_gconf_get_toolbar_visible (char const *name)
 {
 	gpointer pval;
 	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
@@ -2250,7 +2250,7 @@ gnm_gconf_get_toolbar_visible (const char *name)
 }
 
 void
-gnm_gconf_set_toolbar_visible (const char *name, gboolean vis)
+gnm_gconf_set_toolbar_visible (char const *name, gboolean vis)
 {
 	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
 				 name,
@@ -2267,7 +2267,7 @@ gnm_gconf_set_toolbar_visible (const char *name, gboolean vis)
  * Actually returns a GtkPositionType.
  */
 int
-gnm_gconf_get_toolbar_position (const char *name)
+gnm_gconf_get_toolbar_position (char const *name)
 {
 	gpointer pval;
 	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
@@ -2294,7 +2294,7 @@ gnm_gconf_get_toolbar_position (const char *name)
 }
 
 void
-gnm_gconf_set_toolbar_position (const char *name, int pos)
+gnm_gconf_set_toolbar_position (char const *name, int pos)
 {
 	char *key;
 

@@ -3253,7 +3253,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 
 	g_free (cdata);
 	for (l = urls; l; l = l-> next) {
-		const char *uri_str = l->data;
+		char const *uri_str = l->data;
 		gchar *mime = go_get_mime_type (uri_str);
 		/* Note that we have imperfection detection of mime-type
 		 * with some platforms, e.g. Win32. In the worst case if go_get_mime_type()

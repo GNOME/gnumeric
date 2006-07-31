@@ -56,7 +56,7 @@ static GnmFuncHelp const help_sum[] = {
 };
 
 GnmValue *
-gnumeric_sum (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_sum (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_sum,
@@ -87,7 +87,7 @@ static GnmFuncHelp const help_product[] = {
 };
 
 static int
-range_bogusproduct (const gnm_float *xs, int n, gnm_float *res)
+range_bogusproduct (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n == 0) {
 		*res = 0;  /* Severe Excel brain damange.  */
@@ -97,7 +97,7 @@ range_bogusproduct (const gnm_float *xs, int n, gnm_float *res)
 }
 
 GnmValue *
-gnumeric_product (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_product (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_bogusproduct,
@@ -160,7 +160,7 @@ gnumeric_table_link (FunctionEvalInfo *ei)
 }
 
 static GnmValue *
-gnumeric_table (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_table (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmExpr const *arg;
 	GnmCell       *in[3], *x_iter, *y_iter;

@@ -62,7 +62,7 @@ static char const *formula1[] = {
 	"COLUMN("			/* 20 */
 };
 
-static const char* formula2[] =
+static char const * formula2[] =
 {
 	"?bad1?(",		/* 0 */
 	"POWER(",

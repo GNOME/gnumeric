@@ -941,11 +941,11 @@ workbook_sheet_move (Sheet *sheet, int direction)
  **/
 char *
 workbook_sheet_get_free_name (Workbook *wb,
-			      const char *base,
+			      char const *base,
 			      gboolean always_suffix,
 			      gboolean handle_counter)
 {
-	const char *name_format;
+	char const *name_format;
 	char *name, *base_name;
 	unsigned int i = 0;
 	int limit;

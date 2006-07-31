@@ -419,7 +419,7 @@ value_new_array_empty (guint cols, guint rows)
  * Returns TRUE, FALSE, or -1.
  */
 static int
-value_parse_boolean (const char *str, gboolean translated)
+value_parse_boolean (char const *str, gboolean translated)
 {
 	if (translated) {
 		/* FIXME: ascii???  */

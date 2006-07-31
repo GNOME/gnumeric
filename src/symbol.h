@@ -20,8 +20,8 @@ typedef struct {
 SymbolTable *symbol_table_new      (void);
 void         symbol_table_destroy  (SymbolTable *st);
 
-Symbol      *symbol_lookup         (SymbolTable *st, const char *str);
-Symbol      *symbol_install        (SymbolTable *st, const char *str,
+Symbol      *symbol_lookup         (SymbolTable *st, char const *str);
+Symbol      *symbol_install        (SymbolTable *st, char const *str,
 				    SymbolType type, void *data);
 
 void         symbol_ref            (Symbol *);

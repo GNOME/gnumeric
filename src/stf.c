@@ -450,9 +450,9 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	if (pl == FILE_PROBE_CONTENT) {
 		guint8 const *header;
 		gsf_off_t i;
-		const char *enc = NULL;
+		char const *enc = NULL;
 		char *header_utf8;
-		const char *p;
+		char const *p;
 		int try;
 		gboolean ok = TRUE;
 

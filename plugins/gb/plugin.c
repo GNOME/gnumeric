@@ -153,7 +153,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 static void
 register_vb_function (Workbook         *opt_workbook,
-		      const char       *name,
+		      char       const *name,
 		      GnmFuncGroup *cat,
 		      GBWorkbookData   *wd)
 {
@@ -226,7 +226,7 @@ read_gb (gpointer            *jody_broke_the_context,
 
 static GBLexerStream *
 stream_provider (GBRunEvalContext *ec,
-		 const char       *name,
+		 char       const *name,
 		 gpointer          user_data)
 {
 	MsOle         *f = user_data;
@@ -276,7 +276,7 @@ read_ole2_gb (gpointer *jody_broke_the_context, Workbook *wb, MsOle *f)
 }
 
 static GBLexerStream *
-file_to_stream (const char *filename)
+file_to_stream (char const *filename)
 {
 	guint8            *data;
 	struct stat        sbuf;
@@ -320,7 +320,7 @@ file_to_stream (const char *filename)
 
 static GBLexerStream *
 file_provider (GBRunEvalContext *ec,
-	       const char       *name,
+	       char       const *name,
 	       gpointer          user_data)
 {
 	GBLexerStream *ret = NULL;

@@ -672,7 +672,7 @@ check_data_for_missing (GPtrArray *data)
 /***** Some general routines ***********************************************/
 
 static gint
-float_compare (const gnm_float *a, const gnm_float *b)
+float_compare (gnm_float const *a, gnm_float const *b)
 {
         if (*a < *b)
                 return -1;
@@ -683,7 +683,7 @@ float_compare (const gnm_float *a, const gnm_float *b)
 }
 
 static gnm_float *
-range_sort (const gnm_float *xs, int n)
+range_sort (gnm_float const *xs, int n)
 {
 	if (n <= 0)
 		return NULL;
@@ -4838,7 +4838,7 @@ typedef struct {
 } bin_t;
 
 static gint
-bin_compare (const bin_t *set_a, const bin_t *set_b)
+bin_compare (bin_t const *set_a, bin_t const *set_b)
 {
 	gnm_float a, b;
 
@@ -4854,7 +4854,7 @@ bin_compare (const bin_t *set_a, const bin_t *set_b)
 }
 
 static gint
-bin_pareto_at_i (const bin_t *set_a, const bin_t *set_b, guint index)
+bin_pareto_at_i (bin_t const *set_a, bin_t const *set_b, guint index)
 {
 	gnm_float a, b;
 
@@ -4873,7 +4873,7 @@ bin_pareto_at_i (const bin_t *set_a, const bin_t *set_b, guint index)
 }
 
 static gint
-bin_pareto (const bin_t *set_a, const bin_t *set_b)
+bin_pareto (bin_t const *set_a, bin_t const *set_b)
 {
 	return bin_pareto_at_i (set_a, set_b, 0);
 }
@@ -5219,7 +5219,7 @@ analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,
  **/
 
 static void
-fourier_fft (const complex_t *in, int n, int skip, complex_t **fourier, gboolean inverse)
+fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboolean inverse)
 {
 	complex_t  *fourier_1, *fourier_2;
 	int        i;
@@ -5288,7 +5288,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		in = g_new (complex_t, desired_length);
 		for (i = 0; i < desired_length; i++)
 			complex_real (&in[i],
-				      ((const gnm_float *)current->data->data)[i]);
+				      ((gnm_float const *)current->data->data)[i]);
 
 		fourier_fft (in, desired_length, 1, &fourier, info->inverse);
 		g_free (in);

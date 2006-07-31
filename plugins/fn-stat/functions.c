@@ -48,7 +48,7 @@ GNM_PLUGIN_MODULE_HEADER;
 /***************************************************************************/
 
 static gint
-float_compare (const gnm_float *a, const gnm_float *b)
+float_compare (gnm_float const *a, gnm_float const *b)
 {
         if (*a < *b)
                 return -1;
@@ -150,7 +150,7 @@ static GnmFuncHelp const help_varp[] = {
 };
 
 static GnmValue *
-gnumeric_varp (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_varp (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_var_pop,
@@ -187,7 +187,7 @@ static GnmFuncHelp const help_var[] = {
 };
 
 static GnmValue *
-gnumeric_var (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_var (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_var_est,
@@ -226,7 +226,7 @@ static GnmFuncHelp const help_stdev[] = {
 };
 
 static GnmValue *
-gnumeric_stdev (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_stdev (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_stddev_est,
@@ -260,7 +260,7 @@ static GnmFuncHelp const help_stdevp[] = {
 };
 
 static GnmValue *
-gnumeric_stdevp (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_stdevp (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_stddev_pop,
@@ -385,7 +385,7 @@ static GnmFuncHelp const help_trimmean[] = {
 };
 
 static int
-range_trimmean (const gnm_float *xs, int n, gnm_float *res)
+range_trimmean (gnm_float const *xs, int n, gnm_float *res)
 {
 	gnm_float p;
 	int tc, c;
@@ -409,7 +409,7 @@ range_trimmean (const gnm_float *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_trimmean (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_trimmean (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_trimmean,
@@ -732,7 +732,7 @@ static GnmFuncHelp const help_mode[] = {
 };
 
 static GnmValue *
-gnumeric_mode (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_mode (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_mode,
@@ -766,7 +766,7 @@ static GnmFuncHelp const help_harmean[] = {
 };
 
 static GnmValue *
-gnumeric_harmean (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_harmean (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_harmonic_mean,
@@ -799,7 +799,7 @@ static GnmFuncHelp const help_geomean[] = {
 };
 
 static GnmValue *
-gnumeric_geomean (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_geomean (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_geometric_mean,
@@ -842,7 +842,7 @@ callback_function_count (GnmEvalPos const *ep, GnmValue const *value, void *clos
 }
 
 static GnmValue *
-gnumeric_count (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_count (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int i = 0;
 
@@ -886,7 +886,7 @@ callback_function_counta (GnmEvalPos const *ep, GnmValue const *value, void *clo
 }
 
 static GnmValue *
-gnumeric_counta (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_counta (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int i = 0;
 
@@ -922,7 +922,7 @@ static GnmFuncHelp const help_average[] = {
 };
 
 static GnmValue *
-gnumeric_average (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_average (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_average,
@@ -956,7 +956,7 @@ static GnmFuncHelp const help_min[] = {
 };
 
 static int
-range_min0 (const gnm_float *xs, int n, gnm_float *res)
+range_min0 (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n == 0) {
 		*res = 0;
@@ -966,7 +966,7 @@ range_min0 (const gnm_float *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_min (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_min (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_min0,
@@ -1000,7 +1000,7 @@ static GnmFuncHelp const help_max[] = {
 };
 
 static int
-range_max0 (const gnm_float *xs, int n, gnm_float *res)
+range_max0 (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n == 0) {
 		*res = 0;
@@ -1010,7 +1010,7 @@ range_max0 (const gnm_float *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_max (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_max (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_max0,
@@ -1050,7 +1050,7 @@ static GnmFuncHelp const help_skew[] = {
 };
 
 static GnmValue *
-gnumeric_skew (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_skew (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_skew_est,
@@ -1085,7 +1085,7 @@ static GnmFuncHelp const help_skewp[] = {
 };
 
 static GnmValue *
-gnumeric_skewp (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_skewp (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_skew_pop,
@@ -2340,7 +2340,7 @@ static GnmFuncHelp const help_kurt[] = {
 };
 
 static GnmValue *
-gnumeric_kurt (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_kurt (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_kurtosis_m3_est,
@@ -2375,7 +2375,7 @@ static GnmFuncHelp const help_kurtp[] = {
 };
 
 static GnmValue *
-gnumeric_kurtp (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_kurtp (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_kurtosis_m3_pop,
@@ -2408,7 +2408,7 @@ static GnmFuncHelp const help_avedev[] = {
 };
 
 static GnmValue *
-gnumeric_avedev (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_avedev (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_avedev,
@@ -2443,7 +2443,7 @@ static GnmFuncHelp const help_devsq[] = {
 };
 
 static GnmValue *
-gnumeric_devsq (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_devsq (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_devsq,
@@ -2621,7 +2621,7 @@ static GnmFuncHelp const help_median[] = {
 };
 
 static GnmValue *
-gnumeric_median (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_median (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     (float_range_function_t)range_median_inter_nonconst,
@@ -2713,7 +2713,7 @@ gnumeric_ssmedian (FunctionEvalInfo *ei, GnmValue const * const *argv)
 					((*data + *(data+1))/2);
 				break;
 			default:
-				qsort (data, n, sizeof (data[0]), (int (*) (const void *, const void *))&float_compare);
+				qsort (data, n, sizeof (data[0]), (int (*) (void const *, void const *))&float_compare);
 				if ((n%2) == 0) {
 					result = (*(data + n/2) == *(data + n/2 - 1)) ?
 						value_new_float 
@@ -2776,7 +2776,7 @@ range_large (gnm_float *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_large (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_large (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     (float_range_function_t)range_large,
@@ -2825,7 +2825,7 @@ range_small (gnm_float *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_small (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_small (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     (float_range_function_t)range_small,
@@ -3139,7 +3139,7 @@ static GnmFuncHelp const help_ztest[] = {
 };
 
 static int
-range_ztest (const gnm_float *xs, int n, gnm_float *res)
+range_ztest (gnm_float const *xs, int n, gnm_float *res)
 {
 	gnm_float x, s, m;
 
@@ -3157,7 +3157,7 @@ range_ztest (const gnm_float *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_ztest (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_ztest (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_ztest,
@@ -3195,7 +3195,7 @@ static GnmFuncHelp const help_averagea[] = {
 };
 
 static GnmValue *
-gnumeric_averagea (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_averagea (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_average,
@@ -3233,7 +3233,7 @@ static GnmFuncHelp const help_maxa[] = {
 };
 
 static GnmValue *
-gnumeric_maxa (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_maxa (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_max,
@@ -3271,7 +3271,7 @@ static GnmFuncHelp const help_mina[] = {
 };
 
 static GnmValue *
-gnumeric_mina (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_mina (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_min,
@@ -3315,7 +3315,7 @@ static GnmFuncHelp const help_vara[] = {
 };
 
 static GnmValue *
-gnumeric_vara (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_vara (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_var_est,
@@ -3354,7 +3354,7 @@ static GnmFuncHelp const help_varpa[] = {
 };
 
 static GnmValue *
-gnumeric_varpa (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_varpa (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_var_pop,
@@ -3399,7 +3399,7 @@ static GnmFuncHelp const help_stdeva[] = {
 };
 
 static GnmValue *
-gnumeric_stdeva (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_stdeva (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_stddev_est,
@@ -3439,7 +3439,7 @@ static GnmFuncHelp const help_stdevpa[] = {
 };
 
 static GnmValue *
-gnumeric_stdevpa (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_stdevpa (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_stddev_pop,
@@ -5227,7 +5227,7 @@ static GnmFuncHelp const help_intercept[] = {
 };
 
 static int
-range_intercept (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
+range_intercept (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 {
 	gnm_float linres[2];
 	int dim = 1;
@@ -5275,7 +5275,7 @@ static GnmFuncHelp const help_slope[] = {
 };
 
 static int
-range_slope (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
+range_slope (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 {
 	gnm_float linres[2];
 	int dim = 1;
@@ -5340,7 +5340,7 @@ static GnmFuncHelp const help_subtotal[] = {
 };
 
 static GnmValue *
-gnumeric_subtotal (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_subtotal (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
         GnmExpr const *expr;
 	GnmValue *val;
@@ -5438,7 +5438,7 @@ free_values (GnmValue **values, int top)
 
 static GnmValue *
 function_marshal_arg (FunctionEvalInfo *ei,
-		      const GnmExpr *t,
+		      GnmExpr const *t,
 		      GnmValue **type_mismatch)
 {
 	GnmValue *v;
@@ -5468,7 +5468,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 }
 
 static GnmValue *
-gnumeric_cronbach (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_cronbach (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int         i, j;
 	GnmValue **values;
@@ -5808,7 +5808,7 @@ gnumeric_laplace (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor stat_functions[] = {
+GnmFuncDescriptor const stat_functions[] = {
         { "avedev", NULL,      N_("number,number,"),
 	  help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,

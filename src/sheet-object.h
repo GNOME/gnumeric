@@ -117,7 +117,7 @@ void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
 /* Image rendering */
 GtkTargetList *sheet_object_get_target_list (SheetObject const *so);
 void sheet_object_write_image 	(SheetObject const *so, 
-				 const char *format,
+				 char const *format,
 				 double resolution,
 				 GsfOutput *output, 
 				 GError **err);
@@ -125,7 +125,7 @@ void sheet_object_write_image 	(SheetObject const *so,
 /* Object export */
 GtkTargetList *sheet_object_exportable_get_target_list (SheetObject const *so);
 void sheet_object_write_object 	(SheetObject const *so, 
-				 const char *format,
+				 char const *format,
 				 GsfOutput *output, GError **err);
 
 /* cairo rendering */

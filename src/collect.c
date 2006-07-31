@@ -151,7 +151,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
  * gnm_float.
  */
 static gnm_float *
-collect_floats (int argc, const GnmExprConstPtr *argv,
+collect_floats (int argc, GnmExprConstPtr const *argv,
 		GnmEvalPos const *ep, CollectFlags flags,
 		int *n, GnmValue **error, GSList **info)
 {
@@ -237,7 +237,7 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 /* ------------------------------------------------------------------------- */
 
 GnmValue *
-float_range_function (int argc, const GnmExprConstPtr *argv,
+float_range_function (int argc, GnmExprConstPtr const *argv,
 		      FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
@@ -501,7 +501,7 @@ callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
  */
 
 static GSList *
-collect_strings (int argc, const GnmExprConstPtr *argv,
+collect_strings (int argc, GnmExprConstPtr const *argv,
 		 GnmEvalPos const *ep, CollectFlags flags,
 		 GnmValue **error)
 {
@@ -529,7 +529,7 @@ collect_strings (int argc, const GnmExprConstPtr *argv,
 
 
 GnmValue *
-string_range_function (int argc, const GnmExprConstPtr *argv,
+string_range_function (int argc, GnmExprConstPtr const *argv,
 		       FunctionEvalInfo *ei,
 		       string_range_function_t func,
 		       CollectFlags flags,

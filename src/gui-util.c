@@ -192,7 +192,7 @@ cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
  * the object data is managed here.
  **/
 void
-gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *key)
+gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, char const *key)
 {
 	KeyedDialogContext *ctxt;
 
@@ -228,7 +228,7 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
  * Returns TRUE if dialog found, FALSE if not.
  **/
 gpointer
-gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, const char *key)
+gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, char const *key)
 {
 	KeyedDialogContext *ctxt;
 
@@ -309,7 +309,7 @@ gtk_radio_group_get_selected (GSList *radio_group)
 
 
 int
-gnumeric_glade_group_value (GladeXML *gui, const char *const group[])
+gnumeric_glade_group_value (GladeXML *gui, char const * const group[])
 {
 	int i;
 	for (i = 0; group[i]; i++) {
@@ -758,7 +758,7 @@ gnumeric_load_pixbuf (char const *filename)
  * The fractional tiles are spead evenly left-right and top-bottom.
  */
 GdkPixbuf *
-gnm_pixbuf_tile (const GdkPixbuf *src, int w, int h)
+gnm_pixbuf_tile (GdkPixbuf const *src, int w, int h)
 {
 	int src_w = gdk_pixbuf_get_width (src);
 	int src_h = gdk_pixbuf_get_height (src);

@@ -156,10 +156,10 @@ void     gnm_gconf_set_gui_transition_keys (gboolean value);
 void     gnm_gconf_set_gui_livescrolling (gboolean value);
 void     gnm_gconf_set_gui_resolution_h (gnm_float val);
 void     gnm_gconf_set_gui_resolution_v (gnm_float val);
-gboolean gnm_gconf_get_toolbar_visible (const char *name);
-void     gnm_gconf_set_toolbar_visible (const char *name, gboolean vis);
-int      gnm_gconf_get_toolbar_position (const char *name);
-void     gnm_gconf_set_toolbar_position (const char *name, int pos);
+gboolean gnm_gconf_get_toolbar_visible (char const *name);
+void     gnm_gconf_set_toolbar_visible (char const *name, gboolean vis);
+int      gnm_gconf_get_toolbar_position (char const *name);
+void     gnm_gconf_set_toolbar_position (char const *name, int pos);
 
 /* default font */
 void     gnm_gconf_set_default_font_size (gnm_float val);
@@ -192,7 +192,7 @@ void     gnm_gconf_set_prefer_clipboard  (gboolean value);
 
 /**************************************************************/
 
-GOConfNode * go_conf_get_node       (GOConfNode *parent, const gchar *key);
+GOConfNode * go_conf_get_node       (GOConfNode *parent, gchar const *key);
 void	 go_conf_free_node	    (GOConfNode *node);
 
 gchar	*go_conf_get_short_desc     (GOConfNode *node, gchar const *key);

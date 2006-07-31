@@ -1170,7 +1170,7 @@ callback_function_simtable (GnmEvalPos const *ep, GnmValue const *value, void *c
 }
 
 static GnmValue *
-gnumeric_simtable (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_simtable (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	simtable_t p;
 
@@ -1190,7 +1190,7 @@ gnumeric_simtable (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor random_functions[] = {
+GnmFuncDescriptor const random_functions[] = {
 	{ "rand",    "", "",           help_rand,
 	  gnumeric_rand, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

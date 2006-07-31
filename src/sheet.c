@@ -1781,17 +1781,17 @@ cb_set_cell_content (GnmCellIter const *iter, closure_set_cell_value *info)
 	if (texpr != NULL) {
 		if (!range_contains (&info->expr_bound,
 				     iter->pp.eval.col, iter->pp.eval.row)) {
-			GnmExprRewriteInfo rwinfo;
+			GnmExprRelocateInfo rinfo;
 
-			rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
-			rwinfo.u.relocate.pos = iter->pp;
-			rwinfo.u.relocate.origin.start = iter->pp.eval;
-			rwinfo.u.relocate.origin.end   = iter->pp.eval;
-			rwinfo.u.relocate.origin_sheet = iter->pp.sheet;
-			rwinfo.u.relocate.target_sheet = iter->pp.sheet;
-			rwinfo.u.relocate.col_offset = 0;
-			rwinfo.u.relocate.row_offset = 0;
-			texpr = gnm_expr_top_rewrite (texpr, &rwinfo);
+			rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
+			rinfo.pos = iter->pp;
+			rinfo.origin.start = iter->pp.eval;
+			rinfo.origin.end   = iter->pp.eval;
+			rinfo.origin_sheet = iter->pp.sheet;
+			rinfo.target_sheet = iter->pp.sheet;
+			rinfo.col_offset = 0;
+			rinfo.row_offset = 0;
+			texpr = gnm_expr_top_relocate (texpr, &rinfo, FALSE);
 		}
 
 		cell_set_expr (cell, texpr);
@@ -2983,6 +2983,72 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 		cell->base.flags |= CELL_IS_MERGED;
 }
 
+#define USE_CELL_POOL
+
+#ifdef USE_CELL_POOL
+/* The pool from which all cells are allocated.  */
+static GOMemChunk *cell_pool;
+#endif
+
+static GnmCell *
+cell_new (void)
+{
+	GnmCell *cell =
+#ifdef USE_CELL_POOL
+		go_mem_chunk_alloc0 (cell_pool) 
+#else
+		g_new0 (GnmCell, 1)
+#endif
+	;
+
+	cell->base.flags = DEPENDENT_CELL;
+	return cell;
+}
+
+
+static void
+cell_free (GnmCell *cell)
+{
+	g_return_if_fail (cell != NULL);
+
+	cell_cleanout (cell);
+#ifdef USE_CELL_POOL
+	go_mem_chunk_free (cell_pool, cell);
+#else
+	g_free (cell);
+#endif
+}
+
+void
+gnm_sheet_cell_init (void)
+{
+#ifdef USE_CELL_POOL
+	cell_pool = go_mem_chunk_new ("cell pool",
+				       sizeof (GnmCell),
+				       128 * 1024 - 128);
+#endif
+}
+
+#ifdef USE_CELL_POOL
+static void
+cb_cell_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
+{
+	GnmCell const *cell = data;
+	fprintf (stderr, "Leaking cell %p at %s\n", cell, cellpos_as_string (&cell->pos));
+}
+#endif
+
+void
+gnm_sheet_cell_shutdown (void)
+{
+#ifdef USE_CELL_POOL
+	go_mem_chunk_foreach_leak (cell_pool, cb_cell_pool_leak, NULL);
+	go_mem_chunk_destroy (cell_pool, FALSE);
+	cell_pool = NULL;
+#endif
+}
+/****************************************************************************/
+
 /**
  * sheet_cell_create :
  * @sheet : #Sheet
@@ -3047,7 +3113,7 @@ sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 		cell_foreach_dep (cell, (DepFunc)dependent_queue_recalc, NULL);
 
 	sheet_cell_remove_from_hash (sheet, cell);
-	cell_destroy (cell);
+	cell_free (cell);
 }
 
 /**
@@ -3163,7 +3229,7 @@ static void
 cb_remove_allcells (gpointer ignore0, GnmCell *cell, gpointer ignore1)
 {
 	cell->base.flags &= ~CELL_IN_SHEET_LIST;
-	cell_destroy (cell);
+	cell_free (cell);
 }
 
 void
@@ -3966,7 +4032,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			else
 				invalid = g_slist_append (NULL, range_dup (&dst));
 
-			reloc_info.reloc_type = GNM_EXPR_RELOCATE_STD;
+			reloc_info.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
 			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
 			reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
 			reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
@@ -4026,7 +4092,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 		/* check for out of bounds and delete if necessary */
 		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
-			cell_destroy (cell);
+			cell_free (cell);
 			continue;
 		}
 
@@ -4709,4 +4775,114 @@ sheet_get_comment (Sheet const *sheet, GnmCellPos const *pos)
 	res = comments->data;
 	g_slist_free (comments);
 	return res;
+}
+
+static GnmValue *
+cb_find_extents (GnmCellIter const *iter, GnmCellPos *extent)
+{
+	if (extent->col < iter->pp.eval.col)
+		extent->col = iter->pp.eval.col;
+	if (extent->row < iter->pp.eval.row)
+		extent->row = iter->pp.eval.row;
+	return NULL;
+}
+
+/**
+ * sheet_range_trim:
+ * @sheet: sheet cells are contained on
+ * @r:	   range to trim empty cells from
+ * @cols:  trim from right
+ * @rows:  trim from bottom
+ *
+ * This removes empty rows/cols from the
+ * right hand or bottom edges of the range
+ * depending on the value of @cols or @rows.
+ *
+ * Return value: TRUE if the range was totally empty.
+ **/
+gboolean
+sheet_range_trim (Sheet const *sheet, GnmRange *r,
+		  gboolean cols, gboolean rows)
+{
+	GnmCellPos extent = { -1, -1 };
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (r != NULL, TRUE);
+
+	sheet_foreach_cell_in_range (
+		(Sheet *)sheet, CELL_ITER_IGNORE_BLANK,
+		r->start.col, r->start.row, r->end.col, r->end.row,
+		(CellIterFunc) cb_find_extents, &extent);
+
+	if (extent.col < 0 || extent.row < 0)
+		return TRUE;
+	if (cols)
+		r->end.col = extent.col;
+	if (rows)
+		r->end.row = extent.row;
+	return FALSE;
+}
+
+/**
+ * sheet_range_has_heading:
+ * @sheet: Sheet to check
+ * @src: GnmRange to check
+ * @top: Flag
+ *
+ * Checks for a header row in @sheet!@src.  If top is true it looks for a
+ * header row from the top and if false it looks for a header col from the
+ * left
+ *
+ * Returns : TRUE if @src seems to have a heading
+ **/
+gboolean
+sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,
+			gboolean top, gboolean ignore_styles)
+{
+	GnmCell const *a, *b;
+	int length, i;
+
+	/* There is only one row or col */
+	if (top) {
+		if (src->end.row <= src->start.row)
+			return FALSE;
+		length = src->end.col - src->start.col + 1;
+	} else {
+		if (src->end.col <= src->start.col)
+			return FALSE;
+		length = src->end.row - src->start.row + 1;
+	}
+
+	for (i = 0; i < length; i++) {
+		if (top) {
+			a = sheet_cell_get (sheet,
+				src->start.col + i, src->start.row);
+			b = sheet_cell_get (sheet,
+				src->start.col + i, src->start.row + 1);
+		} else {
+			a = sheet_cell_get (sheet,
+				src->start.col, src->start.row + i);
+			b = sheet_cell_get (sheet,
+				src->start.col + 1, src->start.row + i);
+		}
+
+		/* be anal */
+		if (a == NULL || a->value == NULL || b == NULL || b->value == NULL)
+			continue;
+
+		if (VALUE_IS_NUMBER (a->value)) {
+			if (!VALUE_IS_NUMBER (b->value))
+				return TRUE;
+			/* check for style differences */
+		} else if (a->value->type != b->value->type)
+			return TRUE;
+
+		/* Look for style differences */
+		if (!ignore_styles &&
+		    !gnm_style_equal_header (cell_get_style (a),
+					     cell_get_style (b), top))
+			return TRUE;
+	}
+
+	return FALSE;
 }

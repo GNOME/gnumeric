@@ -1099,7 +1099,7 @@ sheet_object_get_target_list (SheetObject const *so)
 }
 
 void
-sheet_object_write_image (SheetObject const *so, const char *format, double resolution,
+sheet_object_write_image (SheetObject const *so, char const *format, double resolution,
 			  GsfOutput *output, GError **err)
 {
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGEABLE (so));
@@ -1142,7 +1142,7 @@ sheet_object_exportable_get_target_list (SheetObject const *so)
 }
 
 void
-sheet_object_write_object (SheetObject const *so, const char *format,
+sheet_object_write_object (SheetObject const *so, char const *format,
 			  GsfOutput *output, GError **err)
 {
 	g_return_if_fail (IS_SHEET_OBJECT_EXPORTABLE (so));

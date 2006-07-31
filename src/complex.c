@@ -18,13 +18,13 @@
 /* ------------------------------------------------------------------------- */
 
 char *
-complex_to_string (const complex_t *src, const char *reformat,
-		   const char *imformat, char imunit)
+complex_to_string (complex_t const *src, char const *reformat,
+		   char const *imformat, char imunit)
 {
 	char *re_buffer = NULL;
 	char *im_buffer = NULL;
-	const char *sign = "";
-	const char *suffix = "";
+	char const *sign = "";
+	char const *suffix = "";
 	char *res;
 	char suffix_buffer[2];
 
@@ -65,7 +65,7 @@ complex_to_string (const complex_t *src, const char *reformat,
 /* ------------------------------------------------------------------------- */
 
 static int
-is_unit_imaginary (const char *src, gnm_float *im, char *imunit)
+is_unit_imaginary (char const *src, gnm_float *im, char *imunit)
 {
 	if (*src == '-') {
 		*im = -1.0;
@@ -83,7 +83,7 @@ is_unit_imaginary (const char *src, gnm_float *im, char *imunit)
 }
 
 int
-complex_from_string (complex_t *dst, const char *src, char *imunit)
+complex_from_string (complex_t *dst, char const *src, char *imunit)
 {
 	gnm_float x, y;
 	char *end;
@@ -138,7 +138,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 /* ------------------------------------------------------------------------- */
 
 void
-complex_to_polar (gnm_float *mod, gnm_float *angle, const complex_t *src)
+complex_to_polar (gnm_float *mod, gnm_float *angle, complex_t const *src)
 {
 	*mod = complex_mod (src);
 	*angle = complex_angle (src);
@@ -155,7 +155,7 @@ complex_from_polar (complex_t *dst, gnm_float mod, gnm_float angle)
 /* ------------------------------------------------------------------------- */
 
 void
-complex_mul (complex_t *dst, const complex_t *a, const complex_t *b)
+complex_mul (complex_t *dst, complex_t const *a, complex_t const *b)
 {
 	complex_init (dst,
 		      a->re * b->re - a->im * b->im,
@@ -165,7 +165,7 @@ complex_mul (complex_t *dst, const complex_t *a, const complex_t *b)
 /* ------------------------------------------------------------------------- */
 
 void
-complex_div (complex_t *dst, const complex_t *a, const complex_t *b)
+complex_div (complex_t *dst, complex_t const *a, complex_t const *b)
 {
 	gnm_float bmod = complex_mod (b);
 
@@ -189,7 +189,7 @@ complex_div (complex_t *dst, const complex_t *a, const complex_t *b)
 /* ------------------------------------------------------------------------- */
 
 void
-complex_sqrt (complex_t *dst, const complex_t *src)
+complex_sqrt (complex_t *dst, complex_t const *src)
 {
 	if (complex_real_p (src)) {
 		if (src->re >= 0)
@@ -205,7 +205,7 @@ complex_sqrt (complex_t *dst, const complex_t *src)
 /* ------------------------------------------------------------------------- */
 
 void
-complex_pow (complex_t *dst, const complex_t *a, const complex_t *b)
+complex_pow (complex_t *dst, complex_t const *a, complex_t const *b)
 {
 	complex_t lna, b_lna;
 

@@ -135,8 +135,8 @@ datetime_locale_clear (void)
 	memset (&datetime_locale, 0, sizeof (datetime_locale));
 }
 
-static const char *
-my_regerror (int err, const GORegexp *preg)
+static char const *
+my_regerror (int err, GORegexp const *preg)
 {
 	static char buffer[1024];
 	go_regerror (err, preg, buffer, sizeof (buffer));
@@ -144,7 +144,7 @@ my_regerror (int err, const GORegexp *preg)
 }
 
 static void
-datetime_locale_setup1 (GORegexp *rx, const char *pat)
+datetime_locale_setup1 (GORegexp *rx, char const *pat)
 {
 	int ret = go_regcomp (rx, pat, REG_ICASE);
 	if (ret) {
@@ -156,7 +156,7 @@ datetime_locale_setup1 (GORegexp *rx, const char *pat)
 
 
 static void
-datetime_locale_setup (const char *lc_time)
+datetime_locale_setup (char const *lc_time)
 {
 	GString *p_MMMM = g_string_sized_new (200);
 	GString *p_MMM = g_string_sized_new (200);
@@ -312,7 +312,7 @@ datetime_locale_setup (const char *lc_time)
 }
 
 static int
-find_month (const GORegmatch *pm)
+find_month (GORegmatch const *pm)
 {
 	int m;
 
@@ -326,11 +326,11 @@ find_month (const GORegmatch *pm)
 }
 
 static int
-handle_int (const char *text, const GORegmatch *pm, int min, int max)
+handle_int (char const *text, GORegmatch const *pm, int min, int max)
 {
 	int i = 0;
-	const char *p = text + pm->rm_so;
-	const char *end = text + pm->rm_eo;
+	char const *p = text + pm->rm_so;
+	char const *end = text + pm->rm_eo;
 
 	while (p != end) {
 		gunichar uc = g_utf8_get_char (p);
@@ -348,13 +348,13 @@ handle_int (const char *text, const GORegmatch *pm, int min, int max)
 }
 
 static int
-handle_day (const char *text, const GORegmatch *pm)
+handle_day (char const *text, GORegmatch const *pm)
 {
 	return handle_int (text, pm, 1, 31);
 }
 
 static int
-handle_month (const char *text, const GORegmatch *pm)
+handle_month (char const *text, GORegmatch const *pm)
 {
 	return handle_int (text, pm, 1, 12);
 }
@@ -368,7 +368,7 @@ current_year (void)
 }
 
 static int
-handle_year (const char *text, const GORegmatch *pm)
+handle_year (char const *text, GORegmatch const *pm)
 {
 	int y;
 
@@ -391,11 +391,11 @@ handle_year (const char *text, const GORegmatch *pm)
 
 
 static gnm_float
-handle_float (const char *text, const GORegmatch *pm)
+handle_float (char const *text, GORegmatch const *pm)
 {
 	gnm_float val = 0;
-	const char *p = text + pm->rm_so;
-	const char *end = text + pm->rm_eo;
+	char const *p = text + pm->rm_so;
+	char const *end = text + pm->rm_eo;
 	gnm_float num = 10;
 
 	/* Empty means zero.  */
@@ -467,7 +467,7 @@ valid_hms (gnm_float h, gnm_float m, gnm_float s, gboolean allow_elapsed)
 
 
 static GnmValue *
-format_match_time (const char *text, gboolean allow_elapsed,
+format_match_time (char const *text, gboolean allow_elapsed,
 		   gboolean prefer_hour, gboolean add_format)
 {
 	char sign = 0;
@@ -475,7 +475,7 @@ format_match_time (const char *text, gboolean allow_elapsed,
 	gnm_float hour, minute, second;
 	gnm_float time_val;
 	GORegmatch match[10];
-	const char *time_format = NULL;
+	char const *time_format = NULL;
 	GnmValue *v;
 
 	SKIP_SPACES (text);
@@ -575,7 +575,7 @@ format_match_time (const char *text, gboolean allow_elapsed,
 }
 
 static GnmValue *
-format_match_datetime (const char *text,
+format_match_datetime (char const *text,
 		       GODateConventions const *date_conv,
 		       gboolean month_before_day,
 		       gboolean add_format)
@@ -583,11 +583,11 @@ format_match_datetime (const char *text,
 	int day, month, year;
 	GDate date;
 	gnm_float time_val, date_val;
-	const char *lc_time = setlocale (LC_TIME, NULL);
+	char const *lc_time = setlocale (LC_TIME, NULL);
 	GORegmatch match[31];
 	gunichar uc;
 	int dig1;
-	const char *date_format = NULL;
+	char const *date_format = NULL;
 	GnmValue *v = NULL;
 	char *time_format = NULL;
 
@@ -762,11 +762,11 @@ format_match_datetime (const char *text,
 }
 
 static gboolean
-hack_month_before_day (const GOFormat *cur_fmt)
+hack_month_before_day (GOFormat const *cur_fmt)
 {
 	char *s = go_format_as_XL (cur_fmt, FALSE);
 	char *p;
-	const char *pos_m, *pos_d;
+	char const *pos_m, *pos_d;
 	gboolean res;
 
 	/* Try to block out minutes.  */
@@ -785,7 +785,7 @@ hack_month_before_day (const GOFormat *cur_fmt)
 }
 
 static gboolean
-hack_prefer_hour (const GOFormat *cur_fmt)
+hack_prefer_hour (GOFormat const *cur_fmt)
 {
 	char *s = go_format_as_XL (cur_fmt, FALSE);
 	gboolean res = (strchr (s, 'h') != NULL);
@@ -804,11 +804,11 @@ hack_prefer_hour (const GOFormat *cur_fmt)
  * The number of digits in the denominator is stored in @denlen.
  */
 static GnmValue *
-format_match_fraction (const char *text, int *denlen)
+format_match_fraction (char const *text, int *denlen)
 {
 	char sign = 0;
 	gnm_float whole, num, den, f;
-	const char *start;
+	char const *start;
 	gunichar uc;
 
 	SKIP_SPACES (text);
@@ -878,7 +878,7 @@ format_match_fraction (const char *text, int *denlen)
 
 
 static GnmValue *
-format_match_decimal_number (const char *text, GOFormatFamily *family)
+format_match_decimal_number (char const *text, GOFormatFamily *family)
 {
 	gboolean par_open = FALSE;
 	gboolean par_close = FALSE;
@@ -1183,7 +1183,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 	v = format_match_fraction (text, &denlen);
 	if (v) {
 		char fmtstr[20];
-		const char *qqq = "?????" + 5;
+		char const *qqq = "?????" + 5;
 		GOFormat *fmt;
 
 		denlen = MIN (denlen, 5);

@@ -489,9 +489,8 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, target))
 		return FALSE;
 
-	if (!parse_range (attrs[1], res))
-		xlsx_warning (xin,
-			_("Invalid range '%s' for attribute %s"),
+	if (!range_parse (res, attrs[1]))
+		xlsx_warning (xin, _("Invalid range '%s' for attribute %s"),
 			attrs[1], target);
 	return TRUE;
 }

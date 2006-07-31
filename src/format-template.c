@@ -38,8 +38,8 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <libxml/parser.h>
 
-#define CC2XML(s) ((const xmlChar *)(s))
-#define CXML2C(s) ((const char *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+#define CXML2C(s) ((char const *)(s))
 
 #define ROW_COL_KEY(row,col) GINT_TO_POINTER (row * SHEET_MAX_COLS + col)
 

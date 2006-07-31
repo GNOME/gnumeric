@@ -239,8 +239,8 @@ r1c1_add_index (GString *target, char type, int num, unsigned char relative)
 static char *
 wb_rel_uri (Workbook *wb, Workbook *ref_wb)
 {
-	const char *uri = go_doc_get_uri ((GODoc *)wb);
-	const char *ref_uri = go_doc_get_uri ((GODoc *)ref_wb);
+	char const *uri = go_doc_get_uri ((GODoc *)wb);
+	char const *ref_uri = go_doc_get_uri ((GODoc *)ref_wb);
 	char *rel_uri = go_url_make_relative (uri, ref_uri);
 
 	if (rel_uri == NULL || rel_uri[0] == '/') {
@@ -1179,7 +1179,7 @@ std_sheet_name_quote (GnmExprConventions const *convs,
 {
 	gunichar uc = g_utf8_get_char (str);
 	GString *res = g_string_sized_new (20);
-	const char *p;
+	char const *p;
 	int nletters;
 	int ndigits;
 
@@ -1252,8 +1252,8 @@ std_sheet_name_quote (GnmExprConventions const *convs,
 	return res;
 }
 
-static const char *
-std_name_parser (const char *str,
+static char const *
+std_name_parser (char const *str,
 		 G_GNUC_UNUSED GnmExprConventions const *convs)
 {
 	gunichar uc = g_utf8_get_char (str);

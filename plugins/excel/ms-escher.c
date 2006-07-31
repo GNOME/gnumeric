@@ -326,7 +326,7 @@ ms_escher_read_BSE (MSEscherState *state, MSEscherHeader *h)
 	guint8 const is_texture	= GSF_LE_GET_GUINT8  (data + 32);
 	guint8 const name_len	= GSF_LE_GET_GUINT8  (data + 33);
 	guint8 checksum[16]; /* RSA Data Security, Inc. MD4 Message-Digest Algorithm */
-	const char *name = "unknown";
+	char const *name = "unknown";
 	int i;
 	for (i = 16; i-- > 0;)
 		checksum[i] = GSF_LE_GET_GUINT8 (data + 2 + i);

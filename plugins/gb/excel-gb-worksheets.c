@@ -41,7 +41,7 @@ excel_gb_worksheets_add (GBRunEvalContext *ec,
 static void
 excel_gb_worksheets_remove (GBRunEvalContext *ec,
 			    GBRunCollection  *collection,
-			    const char       *name)
+			    char       const *name)
 {
 	Sheet *sheet;
 	ExcelGBWorksheets *ws = EXCEL_GB_WORKSHEETS (collection);

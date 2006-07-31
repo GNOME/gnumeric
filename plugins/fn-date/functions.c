@@ -1001,7 +1001,7 @@ static GnmFuncHelp const help_workday[] = {
 };
 
 static gint
-float_compare (const gnm_float *a, const gnm_float *b)
+float_compare (gnm_float const *a, gnm_float const *b)
 {
         if (*a < *b)
                 return -1;

@@ -120,7 +120,7 @@ list_them (get_them_f get_them,
 	int len = 0;
 
 	for (ptr = (*get_them) (); ptr ; ptr = ptr->next) {
-		const char *id = (*get_his_id) (ptr->data);
+		char const *id = (*get_his_id) (ptr->data);
 		int tmp = strlen (id);
 		if (len < tmp)
 			len = tmp;
@@ -131,7 +131,7 @@ list_them (get_them_f get_them,
 		    "ID",
 		    "Description");
 	for (ptr = (*get_them) (); ptr ; ptr = ptr->next) {
-		const char *id = (*get_his_id) (ptr->data);
+		char const *id = (*get_his_id) (ptr->data);
 		g_printerr ("%-*s | %s\n", len,
 			    id,
 			    (*get_his_description) (ptr->data));
@@ -158,7 +158,7 @@ convert (char const *inarg, char const *outarg,
 			goto out;
 		} else if (outfile == NULL &&
 			   go_file_saver_get_extension (fs) != NULL) {
-			const char *ext = gsf_extension_pointer (infile);
+			char const *ext = gsf_extension_pointer (infile);
 			if (*infile) {
 				GString *res = g_string_new (NULL);
 				g_string_append_len (res, infile, ext - infile);

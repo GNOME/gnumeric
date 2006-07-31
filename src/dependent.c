@@ -1840,7 +1840,7 @@ cb_single_contained_collect (DependencySingle const *depsingle,
 
 /**
  * dependents_relocate:
- * @info : the descriptor record for what is being moved where.
+ * @rinfo : the descriptor record for what is being moved where.
  *
  * Fixes references to or from a region that is going to be moved.
  * Returns a list of the locations and expressions that were changed outside of
@@ -1850,9 +1850,9 @@ cb_single_contained_collect (DependencySingle const *depsingle,
  * 	for recalc
  **/
 GSList *
-dependents_relocate (GnmExprRelocateInfo const *info)
+dependents_relocate (GnmExprRelocateInfo const *rinfo)
 {
-	GnmExprRewriteInfo rwinfo;
+	GnmExprRelocateInfo local_rinfo;
 	GSList    *l, *dependents = NULL, *undo_info = NULL;
 	Sheet	  *sheet;
 	GnmRange const   *r;
@@ -1860,18 +1860,18 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	CollectClosure collect;
 	GHashTable *names;
 
-	g_return_val_if_fail (info != NULL, NULL);
+	g_return_val_if_fail (rinfo != NULL, NULL);
 
 	/* short circuit if nothing would move */
-	if (info->col_offset == 0 && info->row_offset == 0 &&
-	    info->origin_sheet == info->target_sheet)
+	if (rinfo->col_offset == 0 && rinfo->row_offset == 0 &&
+	    rinfo->origin_sheet == rinfo->target_sheet)
 		return NULL;
 
-	sheet = info->origin_sheet;
-	r     = &info->origin;
+	sheet = rinfo->origin_sheet;
+	r     = &rinfo->origin;
 
 	/* collect contained cells with expressions */
-	SHEET_FOREACH_DEPENDENT (info->origin_sheet, dep, {
+	SHEET_FOREACH_DEPENDENT (rinfo->origin_sheet, dep, {
 		GnmCell *cell = DEP_TO_CELL (dep);
 		if (dependent_is_cell (dep) &&
 		    range_contains (r, cell->pos.col, cell->pos.row)) {
@@ -1898,10 +1898,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 		}
 	}
 	dependents = collect.list;
-
-	rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
-	memcpy (&rwinfo.u.relocate, info, sizeof (GnmExprRelocateInfo));
-
+	memcpy (&local_rinfo, rinfo, sizeof (GnmExprRelocateInfo));
 	for (l = dependents; l; l = l->next) {
 		GnmExprTop const *newtree;
 		GnmDependent *dep = l->data;
@@ -1909,11 +1906,11 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 		dep->flags &= ~DEPENDENT_FLAGGED;
 		sheet_flag_status_update_range (dep->sheet, NULL);
 
-		parse_pos_init_dep (&rwinfo.u.relocate.pos, dep);
+		parse_pos_init_dep (&local_rinfo.pos, dep);
 
 		/* it is possible nothing changed for contained deps
 		 * using absolute references */
-		newtree = gnm_expr_top_rewrite (dep->texpr, &rwinfo);
+		newtree = gnm_expr_top_relocate (dep->texpr, &local_rinfo, FALSE);
 		if (newtree != NULL) {
 			int const t = dependent_type (dep);
 			ExprRelocateStorage *tmp =
@@ -1923,7 +1920,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 			if (t == DEPENDENT_NAME) {
 			} else {
 				if (t == DEPENDENT_CELL)
-					tmp->u.pos = rwinfo.u.relocate.pos;
+					tmp->u.pos = local_rinfo.pos;
 				else
 					tmp->u.dep = dep;
 				tmp->oldtree = dep->texpr;
@@ -1960,9 +1957,8 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 		sheet_flag_status_update_range (dep->sheet, NULL);
 	}
 
-	names = info->origin_sheet->deps->referencing_names;
+	names = rinfo->origin_sheet->deps->referencing_names;
 	if (names != NULL) {
-		rwinfo.rw_type = GNM_EXPR_REWRITE_NAME;
 	}
 
 	g_slist_free (dependents);
@@ -1985,7 +1981,7 @@ static void
 dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean destroy)
 {
 	GSList *deps = NULL, *l;
-	GnmExprRewriteInfo rwinfo;
+	GnmExprRelocateInfo rinfo;
 	GSList *deplist = NULL;
 
 	/* We collect first because we will be changing the hash.  */
@@ -2028,7 +2024,7 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean de
 	 * above.  The testcase for that is 314207, deleting
 	 * all but the first sheet in one go.
 	 */
-	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+	rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
 	for (l = deplist; l; l = l->next) {
 		GnmDependent *dep = l->data;
 		GnmExprTop const *te = dep->texpr;
@@ -2038,7 +2034,7 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean de
 		 * 2) we had a duplicate reference and we have already removed it.
 		 * 3) We depended on things via a name which will be
 		 *    invalidated elsewhere */
-		GnmExprTop const *newtree = gnm_expr_top_rewrite (te, &rwinfo);
+		GnmExprTop const *newtree = gnm_expr_top_relocate (te, &rinfo, FALSE);
 		if (newtree != NULL) {
 			if (!destroy) {
 				gnm_expr_top_ref (te);
@@ -2095,9 +2091,9 @@ invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
 		: nexpr->pos.wb->during_destruction;
 
 	if (!scope_being_killed) {
-		GnmExprRewriteInfo rwinfo;
-		rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
-		new_expr = gnm_expr_top_rewrite (old_expr, &rwinfo);
+		GnmExprRelocateInfo rinfo;
+		rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
+		new_expr = gnm_expr_top_relocate (old_expr, &rinfo, FALSE);
 		g_return_if_fail (new_expr != NULL);
 	}
 
@@ -2349,7 +2345,7 @@ tweak_3d (Sheet *sheet, gboolean destroy)
 {
 	Workbook *wb = sheet->workbook;
 	GSList *deps = NULL, *l;
-	GnmExprRewriteInfo rwinfo;
+	GnmExprRelocateInfo rinfo;
 
 	if (!wb->sheet_order_dependents)
 		return;
@@ -2358,11 +2354,11 @@ tweak_3d (Sheet *sheet, gboolean destroy)
 			      (GHFunc)cb_tweak_3d,
 			      &deps);
 
-	rwinfo.rw_type = GNM_EXPR_REWRITE_INVALIDATE_SHEETS;
+	rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
 	for (l = deps; l; l = l->next) {
 		GnmDependent *dep = l->data;
 		GnmExprTop const *te = dep->texpr;
-		GnmExprTop const *newtree = gnm_expr_top_rewrite (te, &rwinfo);
+		GnmExprTop const *newtree = gnm_expr_top_relocate (te, &rinfo, FALSE);
 
 		if (newtree != NULL) {
 			if (!destroy) {

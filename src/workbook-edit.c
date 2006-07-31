@@ -596,7 +596,7 @@ static void
 wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 {
 	SheetView const *sv  = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
-	const char *text = gtk_entry_get_text (wbcg_get_entry (wbcg));
+	char const *text = gtk_entry_get_text (wbcg_get_entry (wbcg));
 
 	g_return_if_fail (wbcg->edit_line.full_content == NULL);
 

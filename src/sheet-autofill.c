@@ -45,7 +45,7 @@ autofill_init (void)
 {
 	GDateMonth m;
 	GDateWeekday wd;
-	const char *qtemplate;
+	char const *qtemplate;
 
 	for (m = 1; m <= 12; m++) {
 		month_names_long[m - 1] = go_date_month_name (m, FALSE);
@@ -262,7 +262,7 @@ as_finalize (ArithString *as)
 
 static
 gboolean
-as_check_prefix_suffix (ArithString *as, const char *s, gsize slen)
+as_check_prefix_suffix (ArithString *as, char const *s, gsize slen)
 {
 	if (as->prefix) {
 		if (slen < as->prefix->len ||
@@ -297,8 +297,8 @@ static char *
 as_compute (ArithString *as, int n)
 {
 	gnm_float f = as_compute_val (as, n);
-	const char *prefix = as->prefix ? as->prefix->str : "";
-	const char *suffix = as->suffix ? as->suffix->str : "";
+	char const *prefix = as->prefix ? as->prefix->str : "";
+	char const *suffix = as->suffix ? as->suffix->str : "";
 
 	if (as->fixed_length) {
 		return g_strdup_printf ("%s%0*.0" GNM_FORMAT_f "%s",
@@ -314,7 +314,7 @@ as_compute (ArithString *as, int n)
 }
 
 static gboolean
-as_teach_first (ArithString *as, const char *s)
+as_teach_first (ArithString *as, char const *s)
 {
 	gsize pl;
 	char *end;
@@ -355,12 +355,12 @@ as_teach_first (ArithString *as, const char *s)
 }
 
 static gboolean
-as_teach_rest (ArithString *as, const char *s, int n, int phase)
+as_teach_rest (ArithString *as, char const *s, int n, int phase)
 {
 	gsize slen = strlen (s);
 	char *end;
 	gnm_float val;
-	const char *s2 = s + (as->prefix ? as->prefix->len : 0);
+	char const *s2 = s + (as->prefix ? as->prefix->len : 0);
 
 	if (as_check_prefix_suffix (as, s, slen))
 		return TRUE;
@@ -380,7 +380,7 @@ as_teach_rest (ArithString *as, const char *s, int n, int phase)
 		 * Verify no leading zero so the fixed-length
 		 * version gets a chance.
 		 */
-		const char *s3 = s2;
+		char const *s3 = s2;
 		if (!g_ascii_isdigit (*s3))
 			s3++;
 		if (s3[0] == '0' && g_ascii_isdigit (s3[1]))
@@ -434,7 +434,7 @@ afns_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 {
 	AutoFillerNumberString *afns = (AutoFillerNumberString *)af;
 	GnmValue *value = cell ? cell->value : NULL;
-	const char *s;
+	char const *s;
 
 	if (value == NULL ||
 	    cell_has_expr (cell) ||
@@ -683,7 +683,7 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 {
 	AutoFillerList *afl = (AutoFillerList *)af;
 	GnmValue *value = cell ? cell->value : NULL;
-	const char *s;
+	char const *s;
 	gsize elen = 0;
 	int ph;
 
@@ -697,7 +697,7 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 
 	s = value_peek_string (value);
 	for (ph = 0; ph < afl->as.phases; ph++) {
-		const char *e = afl->list[ph];
+		char const *e = afl->list[ph];
 		elen = strlen (e);
 		/* This isn't UTF-8 pretty.  */
 		/* This isn't case pretty.  */
@@ -833,8 +833,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 	GnmCell const *src = afe->cells[n % afe->size];
 	char *res = NULL;
 	if (src && cell_has_expr (src)) {
-		GnmExprRewriteInfo rwinfo;
-		GnmExprRelocateInfo *rinfo = &rwinfo.u.relocate;
+		GnmExprRelocateInfo rinfo;
 		GnmExprTop const *texpr;
 		GnmExprTop const *src_texpr = src->base.texpr;
 		GnmExprArrayCorner const *array =
@@ -845,14 +844,14 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 		if (gnm_expr_top_is_array_elem (src_texpr))
 			return NULL;
 
-		rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
-		rinfo->target_sheet = rinfo->origin_sheet = NULL;
-		rinfo->col_offset = rinfo->row_offset = 0;
-		rinfo->origin.start = rinfo->origin.end = *pos;
-		parse_pos_init (&rinfo->pos, sheet->workbook, sheet,
+		rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
+		rinfo.target_sheet = rinfo.origin_sheet = NULL;
+		rinfo.col_offset   = rinfo.row_offset = 0;
+		rinfo.origin.start = rinfo.origin.end = *pos;
+		parse_pos_init (&rinfo.pos, sheet->workbook, sheet,
 			pos->col, pos->row);
 
-		texpr = gnm_expr_top_rewrite (src_texpr, &rwinfo);
+		texpr = gnm_expr_top_relocate (src_texpr, &rinfo, FALSE);
 
 		/* Clip arrays that are only partially copied.  */
 		if (array) {
@@ -877,7 +876,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 					 gnm_expr_top_new (aexpr));
 			else {
 				res = gnm_expr_as_string (aexpr,
-					&rinfo->pos, gnm_expr_conventions_default);
+					&rinfo.pos, gnm_expr_conventions_default);
 				gnm_expr_free (aexpr);
 			}
 		} else if (texpr) {
@@ -885,14 +884,14 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 				cell_set_expr (cell, texpr);
 			else
 				res = gnm_expr_top_as_string (texpr,
-					&rinfo->pos, gnm_expr_conventions_default);
+					&rinfo.pos, gnm_expr_conventions_default);
 			gnm_expr_top_unref (texpr);
 		} else {
 			if (doit)
 				cell_set_expr (cell, src_texpr);
 			else
 				res = gnm_expr_top_as_string (src_texpr,
-					&rinfo->pos, gnm_expr_conventions_default);
+					&rinfo.pos, gnm_expr_conventions_default);
 		}
 	} else if (src) {
 		if (doit)
@@ -941,7 +940,7 @@ auto_filler_copy (int size, guint last_col, guint last_row)
 	res->size = size;
 	res->last.col = last_col;
 	res->last.row = last_row;
-	res->cells = g_new0 (const GnmCell *, size);
+	res->cells = g_new0 (GnmCell const *, size);
 
 	return &res->filler;
 }
@@ -1000,7 +999,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 	fillers = g_list_prepend
 		(fillers, auto_filler_list (weekday_names_short, 50, FALSE));
 
-	styles = doit ? g_new (const GnmStyle *, region_size) : NULL;
+	styles = doit ? g_new (GnmStyle const *, region_size) : NULL;
 
 	for (i = 0; i < region_size; i++) {
 		int col = base_col + i * col_inc;
@@ -1075,7 +1074,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 }
 
 static void
-add_item (GString *dst, const char *item, const char *sep)
+add_item (GString *dst, char const *item, char const *sep)
 {
 	if (!dst) return;
 	if (dst->len)

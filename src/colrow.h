@@ -122,7 +122,7 @@ void             rows_height_update		(Sheet *sheet, GnmRange const *range,
 						 gboolean shrink);
 
 void             colrow_autofit                 (Sheet *sheet,
-						 const GnmRange *r,
+						 GnmRange const *r,
 						 gboolean is_cols,
 						 gboolean ignore_strings,
 						 gboolean min_current,

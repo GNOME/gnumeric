@@ -3,7 +3,7 @@
  * cell.c: Cell content and simple management.
  *
  * Author:
- *    Jody Goldberg 2000-2005 (jody@gnome.org)
+ *    Jody Goldberg 2000-2006 (jody@gnome.org)
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include <gnumeric-config.h>
@@ -27,8 +27,6 @@
 #include "parse-util.h"
 #include <goffice/utils/go-glib-extras.h>
 
-#define USE_CELL_POOL 1
-
 /**
  * cell_cleanout :
  *      Empty a cell's
@@ -47,7 +45,7 @@
  *      	- unqueue a previously queued recalc.
  *      	- Mark sheet as dirty.
  */
-static void
+void
 cell_cleanout (GnmCell *cell)
 {
 	/* A cell can have either an expression or entered text */
@@ -69,70 +67,6 @@ cell_cleanout (GnmCell *cell)
 	}
 	if (cell->row_info != NULL)
 		cell->row_info->needs_respan = TRUE;
-}
-
-/* The pool from which all cells are allocated.  */
-static GOMemChunk *cell_pool;
-
-/**
- * cell_new:
- * @sheet: sheet in which to allocate cell.
- *
- * Creates a new cell.
- */
-GnmCell *
-cell_new (void)
-{
-	GnmCell *cell = USE_CELL_POOL ? go_mem_chunk_alloc0 (cell_pool) : g_new0 (GnmCell, 1);
-	cell->base.flags = DEPENDENT_CELL;
-	return cell;
-}
-
-
-/**
- * cell_destroy: Frees all resources allocated to the cell's content and marks the
- *     GnmCell's container as dirty.
- *
- * @cell : The cell to destroy
- */
-void
-cell_destroy (GnmCell *cell)
-{
-	g_return_if_fail (cell != NULL);
-
-	cell_cleanout (cell);
-	if (USE_CELL_POOL) go_mem_chunk_free (cell_pool, cell); else g_free (cell);
-}
-
-/*
- * cell_relocate:
- * @cell   : The cell that is changing position
- * @rwinfo : An OPTIONAL pointer to allow for bounds checking and relocation
- *
- * This routine is used to move a cell to a different location:
- */
-void
-cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (rwinfo != NULL);
-
-	if (cell_has_expr (cell)) {
-		GnmExprTop const *texpr =
-			gnm_expr_top_rewrite (cell->base.texpr, rwinfo);
-
-#warning "make this a precondition"
-		if (cell_expr_is_linked (cell))
-			dependent_unlink (CELL_TO_DEP (cell));
-
-		/* bounds check, and adjust local references from the cell */
-		if (texpr != NULL) {
-			gnm_expr_top_unref (cell->base.texpr);
-			cell->base.texpr = texpr;
-		}
-
-		dependent_link (CELL_TO_DEP (cell));
-	}
 }
 
 /****************************************************************************/
@@ -758,33 +692,3 @@ cell_convert_expr_to_value (GnmCell *cell)
 	cell->base.texpr = NULL;
 }
 
-/****************************************************************************/
-
-void
-cell_init (void)
-{
-#if USE_CELL_POOL
-	cell_pool = go_mem_chunk_new ("cell pool",
-				       sizeof (GnmCell),
-				       128 * 1024 - 128);
-#endif
-}
-
-#if USE_CELL_POOL
-static void
-cb_cell_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
-{
-	GnmCell const *cell = data;
-	fprintf (stderr, "Leaking cell %p at %s\n", cell, cellpos_as_string (&cell->pos));
-}
-#endif
-
-void
-cell_shutdown (void)
-{
-#if USE_CELL_POOL
-	go_mem_chunk_foreach_leak (cell_pool, cb_cell_pool_leak, NULL);
-	go_mem_chunk_destroy (cell_pool, FALSE);
-	cell_pool = NULL;
-#endif
-}

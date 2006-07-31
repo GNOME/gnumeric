@@ -942,7 +942,7 @@ cb_gnm_pango_attr_list_equal (PangoAttribute *a, gpointer _sl)
 }
 
 static gboolean
-gnm_pango_attr_list_equal (const PangoAttrList *l1, const PangoAttrList *l2)
+gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2)
 {
 	if (l1 == l2)
 		return TRUE;
@@ -2624,7 +2624,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->paste_contents != NULL, TRUE);
 	g_return_val_if_fail (me->deleted_sheet_contents == NULL, TRUE);
 
-	reverse.reloc_type = GNM_EXPR_RELOCATE_STD;
+	reverse.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
 	reverse.target_sheet = me->info.origin_sheet;
 	reverse.origin_sheet = me->info.target_sheet;
 	reverse.origin = me->info.origin;
@@ -3260,7 +3260,7 @@ typedef struct {
 	GnmCellRegion *contents;
 	GnmPasteTarget dst, src;
 	int dx, dy;
-	const char *name;
+	char const *name;
 } CmdCopyRel;
 
 static void
@@ -3345,7 +3345,7 @@ cmd_copyrel_finalize (GObject *cmd)
 gboolean
 cmd_copyrel (WorkbookControl *wbc,
 	     int dx, int dy,
-	     const char *name)
+	     char const *name)
 {
 	CmdCopyRel *me;
 	GnmRange target, src;

@@ -144,7 +144,7 @@ struct _SheetObjectImageableIface {
 
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
 	void           (*write_image)	  (SheetObject const *so, 
-					   const char *format,
+					   char const *format,
 					   double resolution,
 					   GsfOutput *output, 
 					   GError **err);
@@ -157,7 +157,7 @@ struct _SheetObjectExportableIface {
 
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
 	void           (*write_object)	  (SheetObject const *so, 
-					   const char *format,
+					   char const *format,
 					   GsfOutput *output, GError **err);
 };
 

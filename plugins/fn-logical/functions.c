@@ -87,7 +87,7 @@ callback_function_and (GnmEvalPos const *ep, GnmValue const *value, void *closur
 }
 
 static GnmValue *
-gnumeric_and (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_and (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int result = -1;
 
@@ -182,7 +182,7 @@ callback_function_or (GnmEvalPos const *ep, GnmValue const *value, void *closure
 }
 
 static GnmValue *
-gnumeric_or (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_or (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int result = -1;
 
@@ -244,7 +244,7 @@ callback_function_xor (GnmEvalPos const *ep, GnmValue const *value, void *closur
 }
 
 static GnmValue *
-gnumeric_xor (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_xor (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int result = -1;
 
@@ -355,7 +355,7 @@ gnumeric_false (FunctionEvalInfo *ei, GnmValue const * const *args)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor logical_functions[] = {
+GnmFuncDescriptor const logical_functions[] = {
 	{ "and", NULL, N_("number,number,"), help_and, NULL,
 	  gnumeric_and, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,

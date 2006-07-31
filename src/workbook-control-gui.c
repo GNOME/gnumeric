@@ -378,7 +378,7 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 {
 	gboolean reject = FALSE;
 	if (new_name != NULL) {
-		const char *old_name = editable_label_get_text (el);
+		char const *old_name = editable_label_get_text (el);
 		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 		Sheet *sheet = workbook_sheet_by_name (wb, old_name);
 		reject = cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
@@ -484,7 +484,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 	SheetControl *sc = (SheetControl *) scg;
 
 	struct {
-		const char *text;
+		char const *text;
 		void (*function) (GtkWidget *widget, SheetControlGUI *scg);
 		enum { SHEET_CONTEXT_TEST_SIZE = 1 } flags;
 	} const sheet_label_context_actions [] = {
@@ -504,7 +504,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 
 	for (i = 0; i < G_N_ELEMENTS (sheet_label_context_actions); i++){
 		int flags = sheet_label_context_actions [i].flags;
-		const char *text = sheet_label_context_actions[i].text;
+		char const *text = sheet_label_context_actions[i].text;
 		GtkWidget *item;
 		gboolean inactive =
 			((flags & SHEET_CONTEXT_TEST_SIZE) &&
@@ -1502,7 +1502,7 @@ static GtkWidget *
 edit_area_button (WorkbookControlGUI *wbcg, GtkToolbar *tb,
 		  gboolean sensitive,
 		  GCallback func, char const *stock_id,
-		  GtkTooltips *tips, const char *tip)
+		  GtkTooltips *tips, char const *tip)
 {
 	GObject *button =
 		g_object_new (GTK_TYPE_TOOL_BUTTON,
@@ -1770,7 +1770,7 @@ wbcg_set_status_text (WorkbookControlGUI *wbcg, char const *text)
 
 static void
 set_visibility (WorkbookControlGUI *wbcg,
-		const char *action_name,
+		char const *action_name,
 		gboolean visible)
 {
 	GtkWidget *w = g_hash_table_lookup (wbcg->visibility_widgets, action_name);
@@ -1800,7 +1800,7 @@ wbcg_toggle_visibility (WorkbookControlGUI *wbcg, GtkToggleAction *action)
 }
 
 static void
-cb_visibility (const char *action, GtkWidget *orig_widget, WorkbookControlGUI *new_wbcg)
+cb_visibility (char const *action, GtkWidget *orig_widget, WorkbookControlGUI *new_wbcg)
 {
 	set_visibility (new_wbcg, action, GTK_WIDGET_VISIBLE (orig_widget));
 }
@@ -1941,8 +1941,8 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WorkbookControlGU
 
 	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
 		GnmParsePos pp;
-		const char *expr = quick_compute_routines [i].function;
-		const GnmExprTop *new_auto_expr;
+		char const *expr = quick_compute_routines [i].function;
+		GnmExprTop const *new_auto_expr;
 		GtkWidget *item;
 
 		/* Test the expression...  */
@@ -2364,7 +2364,7 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	ValidationStatus res0, res1 = VALIDATION_STATUS_VALID; /* supress warning */
-	const char *btn0, *btn1;
+	char const *btn0, *btn1;
 	GtkMessageType  type;
 	GtkWidget  *dialog;
 	int response;

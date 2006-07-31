@@ -170,12 +170,12 @@ handle_paint_events (void)
 }
 
 static void
-warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
+warn_about_ancient_gnumerics (char const *binary, IOContext *ioc)
 {
 	struct stat buf;
 	time_t now = time (NULL);
 	int days = 180;
-	const char *sep;
+	char const *sep;
 
 	if (!binary)
 		return;

@@ -1,3 +1,13 @@
+2006-07-25  Jody Goldberg <jody@gnome.org>
+
+	* src/cell.c (cell_relocate) : merge into clipboard.
+	* src/ranges.c (range_parse) : renamed from parse_range and the
+	  original unused range_parse was deleted.
+
+	* src/sheet.c (sheet_range_trim) : renamed from range_trim.  It makes
+	  more sense here.
+	(sheet_range_has_heading) : renamed from range_has_header.
+
 2006-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_paste_copy_impl): don't forget comments

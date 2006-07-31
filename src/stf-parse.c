@@ -77,13 +77,13 @@ typedef struct {
  * not deal very well with that.
  */
 static inline int
-my_garray_len (const GArray *a)
+my_garray_len (GArray const *a)
 {
 	return (int)a->len;
 }
 
 static inline int
-my_gptrarray_len (const GPtrArray *a)
+my_gptrarray_len (GPtrArray const *a)
 {
 	return (int)a->len;
 }
@@ -102,7 +102,7 @@ comp_term (gchar const *s, gchar const *term)
 static int
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
-	const guchar *us = (const guchar *)s;
+	guchar const *us = (guchar const *)s;
 	GSList *l;
 
 	if (*us > parseoptions->compiled_terminator.max ||
@@ -110,8 +110,8 @@ compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 		return 0;
 
 	for (l = parseoptions->terminator; l; l = l->next) {
-		const char *term = l->data;
-		const char *d = s;
+		char const *term = l->data;
+		char const *d = s;
 
 		while (*term) {
 			if (*d != *term)
@@ -803,7 +803,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 GPtrArray *
 stf_parse_lines (StfParseOptions_t *parseoptions,
 		 GStringChunk *lines_chunk,
-		 const char *data,
+		 char const *data,
 		 int maxlines, gboolean with_lineno)
 {
 	GPtrArray *lines;
@@ -813,7 +813,7 @@ stf_parse_lines (StfParseOptions_t *parseoptions,
 
 	lines = g_ptr_array_new ();
 	while (*data) {
-		const char *data0 = data;
+		char const *data0 = data;
 		GPtrArray *line = g_ptr_array_new ();
 
 		if (with_lineno) {
@@ -845,9 +845,9 @@ stf_parse_lines (StfParseOptions_t *parseoptions,
 	return lines;
 }
 
-const char *
+char const *
 stf_parse_find_line (StfParseOptions_t *parseoptions,
-		     const char *data,
+		     char const *data,
 		     int line)
 {
 	while (line > 0) {
@@ -1314,9 +1314,9 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 }
 
 static int
-int_sort (const void *a, const void *b)
+int_sort (void const *a, void const *b)
 {
-	return *(const int *)a - *(const int *)b;
+	return *(int const *)a - *(int const *)b;
 }
 
 
@@ -1333,7 +1333,7 @@ count_character (GPtrArray *lines, gunichar c, double quantile)
 	for (lno = cno = 0; lno < lines->len; lno++) {
 		int count = 0;
 		GPtrArray *boxline = g_ptr_array_index (lines, lno);
-		const char *line = g_ptr_array_index (boxline, 0);
+		char const *line = g_ptr_array_index (boxline, 0);
 
 		/* Ignore empty lines.  */
 		if (*line == 0)
@@ -1365,7 +1365,7 @@ count_character (GPtrArray *lines, gunichar c, double quantile)
 
 
 StfParseOptions_t *
-stf_parse_options_guess (const char *data)
+stf_parse_options_guess (char const *data)
 {
 	StfParseOptions_t *res;
 	GStringChunk *lines_chunk;

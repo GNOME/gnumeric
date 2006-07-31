@@ -137,7 +137,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 {
 	GnmConsolidate      *cs   = consolidate_new ();
 	GnmConsolidateMode  mode = 0;
-	const char       *func;
+	char       const *func;
 	GnmValue         *range_value;
 	GtkTreeIter      iter;
 

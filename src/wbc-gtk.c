@@ -792,7 +792,7 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 	for (i = 1; ptr != NULL ; ptr = ptr->next, i++) {
 		GtkActionEntry entry;
 		GtkAction *action;
-		const char *uri = ptr->data;
+		char const *uri = ptr->data;
 		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
 		char *label = history_item_label (uri, i);
 		char *filename = go_filename_from_uri (uri);
@@ -1039,12 +1039,12 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 
 #ifdef CHECK_MENU_UNDERLINES
 
-static const char *
+static char const *
 get_accel_label (GtkMenuItem *item, guint *key)
 {
 	GList *children = gtk_container_get_children (GTK_CONTAINER (item));
 	GList *l;
-	const char *res = NULL;
+	char const *res = NULL;
 
 	*key = GDK_VoidSymbol;
 	for (l = children; l; l = l->next) {
@@ -1062,7 +1062,7 @@ get_accel_label (GtkMenuItem *item, guint *key)
 }
 
 static void
-check_underlines (GtkWidget *w, const char *path)
+check_underlines (GtkWidget *w, char const *path)
 {
 	GList *children = gtk_container_get_children (GTK_CONTAINER (w));
 	GHashTable *used = g_hash_table_new_full (NULL, NULL, NULL, (GDestroyNotify)g_free);
@@ -1072,7 +1072,7 @@ check_underlines (GtkWidget *w, const char *path)
 		GtkMenuItem *item = GTK_MENU_ITEM (l->data);
 		GtkWidget *sub = gtk_menu_item_get_submenu (item);
 		guint key;
-		const char *label = get_accel_label (item, &key);
+		char const *label = get_accel_label (item, &key);
 
 		if (sub) {
 			char *newpath = g_strconcat (path, *path ? "->" : "", label, NULL);
@@ -1081,7 +1081,7 @@ check_underlines (GtkWidget *w, const char *path)
 		}
 
 		if (key != GDK_VoidSymbol) {
-			const char *prev = g_hash_table_lookup (used, GUINT_TO_POINTER (key));
+			char const *prev = g_hash_table_lookup (used, GUINT_TO_POINTER (key));
 			if (prev) {
 				/* xgettext: Translators: if this warning shows up when
 				 * running Gnumeric in your locale, the underlines need
@@ -1132,7 +1132,7 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 			(basename = go_basename_from_uri (GO_DOC (wb)->uri)) != NULL) {
 			GString *label = g_string_new (NULL);
 			char *name;
-			const char *s;
+			char const *s;
 			GtkActionEntry entry;
 
 			if (i < 10) g_string_append_c (label, '_');
@@ -1298,7 +1298,7 @@ set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCgtk *gtk)
 	GtkWidget *hdlbox = GTK_WIDGET (tb)->parent;
 	GtkContainer *zone = GTK_CONTAINER (GTK_WIDGET (hdlbox)->parent);
 	GtkContainer *new_zone = GTK_CONTAINER (gtk->toolbar_zones[pos]);
-	const char *name = g_object_get_data (G_OBJECT (hdlbox), "name");
+	char const *name = g_object_get_data (G_OBJECT (hdlbox), "name");
 
 	if (zone == new_zone)
 		return;
@@ -1350,10 +1350,10 @@ toolbar_context_menu (GtkToolbar *tb, WBCgtk *gtk, GdkEventButton *event_button)
 	GtkWidget *menu = gtk_menu_new ();
 	GtkWidget *item;
 
-	static const struct {
-		const char *text;
+	static struct {
+		char const *text;
 		GtkPositionType pos;
-	} pos_items[] = {
+	} const pos_items[] = {
 		{ N_("Display above sheets"), GTK_POS_TOP },
 		{ N_("Display to the left of sheets"), GTK_POS_LEFT },
 		{ N_("Display to the right of sheets"), GTK_POS_RIGHT }
@@ -1370,7 +1370,7 @@ toolbar_context_menu (GtkToolbar *tb, WBCgtk *gtk, GdkEventButton *event_button)
 		GSList *group = NULL;
 
 		for (ui = 0; ui < G_N_ELEMENTS (pos_items); ui++) {
-			const char *text = _(pos_items[ui].text);
+			char const *text = _(pos_items[ui].text);
 			GtkPositionType pos = pos_items[ui].pos;
 
 			item = gtk_radio_menu_item_new_with_label (group, text);
@@ -1438,7 +1438,7 @@ cb_handlebox_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
 {
 	GtkToggleAction *toggle_action = g_object_get_data (
 		G_OBJECT (box), "toggle_action");
-	const char *name = g_object_get_data (G_OBJECT (box), "name");
+	char const *name = g_object_get_data (G_OBJECT (box), "name");
 	gboolean visible = GTK_WIDGET_VISIBLE (box);
 
 	gtk_toggle_action_set_active (toggle_action, visible);

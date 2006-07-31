@@ -20,7 +20,7 @@
  * @str: string to be looked up in the symbol table
  */
 Symbol *
-symbol_lookup (SymbolTable *st, const char *str)
+symbol_lookup (SymbolTable *st, char const *str)
 {
 	Symbol *sym;
 
@@ -40,7 +40,7 @@ symbol_lookup (SymbolTable *st, const char *str)
  * @data: information attached to the symbol
  */
 Symbol *
-symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
+symbol_install (SymbolTable *st, char const *str, SymbolType type, void *data)
 {
 	Symbol *sym;
 

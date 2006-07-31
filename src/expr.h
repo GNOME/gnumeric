@@ -77,38 +77,6 @@ char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
 				      GnmExprConventions const *fmt);
 gboolean  gnm_expr_contains_subtotal (GnmExpr const *expr);
 
-struct _GnmExprRelocateInfo {
-	GnmParsePos pos;
-
-	GnmRange   origin;	    /* References to cells in origin_sheet!range */
-	Sheet     *origin_sheet;    /* should to adjusted */
-	Sheet     *target_sheet;    /* to point at this sheet */
-	int col_offset, row_offset; /* and offset by this amount */
-	enum {
-		GNM_EXPR_RELOCATE_STD,	/* do standard relocation */
-		GNM_EXPR_RELOCATE_COLS, /* ins/del col */
-		GNM_EXPR_RELOCATE_ROWS	/* ins/del row */
-	} reloc_type;
-};
-
-struct _GnmExprRewriteInfo {
-	enum {
-		/* invalidate references to specified sheet */
-		GNM_EXPR_REWRITE_INVALIDATE_SHEETS,
-		/* relocate only fully absolute references */
-		GNM_EXPR_REWRITE_NAME,
-		/* relocate all references */
-		GNM_EXPR_REWRITE_EXPR
-	} rw_type;
-
-	union {
-		struct {
-			int dummy;
-		} sheets;
-		GnmExprRelocateInfo relocate;
-	} u;
-};
-
 GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			 GnmExprEvalFlags flags);
 
@@ -131,41 +99,57 @@ struct _GnmExprTop {
 	GnmExpr const *expr;
 };
 
-GnmExprTop const *gnm_expr_top_new (GnmExpr const *e);
-GnmExprTop const *gnm_expr_top_new_constant (GnmValue *v);
-void gnm_expr_top_ref (GnmExprTop const *texpr);
-void gnm_expr_top_unref (GnmExprTop const *texpr);
+GnmExprTop const *gnm_expr_top_new		(GnmExpr const *e);
+GnmExprTop const *gnm_expr_top_new_constant	(GnmValue *v);
+GnmExprTop const *gnm_expr_top_new_array_corner (int cols, int rows, GnmExpr const *expr);
+GnmExprTop const *gnm_expr_top_new_array_elem	(int x, int y);
 
-GnmExprTop const *gnm_expr_top_new_array_corner(int cols, int rows, GnmExpr const *expr);
-GnmExprTop const *gnm_expr_top_new_array_elem  (int x, int y);
-
-gboolean gnm_expr_top_is_shared (GnmExprTop const *texpr);
-gboolean gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError e);
-gboolean  gnm_expr_top_is_rangeref (GnmExprTop const *texpr);
-GnmValue const*gnm_expr_top_get_constant (GnmExprTop const *texpr);
-gboolean gnm_expr_top_contains_subtotal (GnmExprTop const *texpr);
-GSList *gnm_expr_top_referenced_sheets (GnmExprTop const *texpr);
-GnmExpr const *gnm_expr_top_first_funcall (GnmExprTop const *texpr);
-void gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, GnmRange *bound);
-
-GnmExprTop const *gnm_expr_top_rewrite (GnmExprTop const *texpr,
-					GnmExprRewriteInfo const *rwinfo);
-GSList *gnm_expr_top_get_ranges (GnmExprTop const *texpr);
-gboolean gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2);
-char *gnm_expr_top_as_string (GnmExprTop const *texpr,
-			      GnmParsePos const *pp,
-			      GnmExprConventions const *fmt);
-void gnm_expr_top_as_gstring (GString *target,
-			      GnmExprTop const *texpr,
-			      GnmParsePos const *pp,
-			      GnmExprConventions const *fmt);
-GnmValue *gnm_expr_top_eval (GnmExprTop const *texpr,
-			     GnmEvalPos const *pos,
-			     GnmExprEvalFlags flags);
-GnmValue      *gnm_expr_top_get_range    (GnmExprTop const *texpr);
-
+void		gnm_expr_top_ref		(GnmExprTop const *texpr);
+void		gnm_expr_top_unref		(GnmExprTop const *texpr);
+gboolean	gnm_expr_top_equal		(GnmExprTop const *te1, GnmExprTop const *te2);
+gboolean	gnm_expr_top_is_shared		(GnmExprTop const *texpr);
+gboolean	gnm_expr_top_is_err		(GnmExprTop const *texpr, GnmStdError e);
+gboolean 	gnm_expr_top_is_rangeref	(GnmExprTop const *texpr);
+gboolean	gnm_expr_top_is_array_elem	(GnmExprTop const *texpr);
 GnmExprArrayCorner const *gnm_expr_top_get_array_corner (GnmExprTop const *texpr);
-gboolean gnm_expr_top_is_array_elem (GnmExprTop const *texpr);
+GnmValue       *gnm_expr_top_get_range		(GnmExprTop const *texpr);
+GSList	       *gnm_expr_top_get_ranges		(GnmExprTop const *texpr);
+GnmValue const *gnm_expr_top_get_constant	(GnmExprTop const *texpr);
+void		gnm_expr_top_get_boundingbox	(GnmExprTop const *texpr, GnmRange *bound);
+gboolean	gnm_expr_top_contains_subtotal	(GnmExprTop const *texpr);
+GSList	       *gnm_expr_top_referenced_sheets	(GnmExprTop const *texpr);
+GnmExpr const  *gnm_expr_top_first_funcall	(GnmExprTop const *texpr);
+
+struct _GnmExprRelocateInfo {
+	GnmParsePos pos;
+
+	GnmRange   origin;	    /* References to cells in origin_sheet!range */
+	Sheet     *origin_sheet;    /* should to adjusted */
+	Sheet     *target_sheet;    /* to point at this sheet */
+	int col_offset, row_offset; /* and offset by this amount */
+	enum {
+		/* invalidate references to any sheets with
+		 * 	Sheet::being_invalidated == TRUE */
+		GNM_EXPR_RELOCATE_INVALIDATE_SHEET,
+		GNM_EXPR_RELOCATE_MOVE_RANGE,
+		GNM_EXPR_RELOCATE_COLS,		/* ins/del col */
+		GNM_EXPR_RELOCATE_ROWS		/* ins/del row */
+	} reloc_type;
+};
+GnmExprTop const *gnm_expr_top_relocate	 (GnmExprTop const *texpr,
+					  GnmExprRelocateInfo const *rinfo,
+					  gboolean include_rel);
+
+GnmValue *gnm_expr_top_eval	  (GnmExprTop const *texpr,
+				   GnmEvalPos const *pos,
+				   GnmExprEvalFlags flags);
+char	 *gnm_expr_top_as_string  (GnmExprTop const *texpr,
+				   GnmParsePos const *pp,
+				   GnmExprConventions const *fmt);
+void	  gnm_expr_top_as_gstring (GString *target,
+				   GnmExprTop const *texpr,
+				   GnmParsePos const *pp,
+				   GnmExprConventions const *fmt);
 
 /*****************************************************************************/
 

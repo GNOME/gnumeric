@@ -1020,7 +1020,7 @@ gnm_style_set_font_name (GnmStyle *style, char const *name)
 	gnm_style_pango_clear (style);
 }
 
-const char *
+char const *
 gnm_style_get_font_name (GnmStyle const *style)
 {
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_NAME), NULL);
@@ -1156,7 +1156,7 @@ gnm_style_set_format (GnmStyle *style, GOFormat *format)
 }
 
 void
-gnm_style_set_format_text (GnmStyle *style, const char *format)
+gnm_style_set_format_text (GnmStyle *style, char const *format)
 {
 	GOFormat *sf;
 

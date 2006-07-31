@@ -50,7 +50,7 @@ excel_gb_context_get_type (void)
 
 
 GBEvalContext *
-excel_gb_context_new_control (const char       *module_name,
+excel_gb_context_new_control (char       const *module_name,
 			      GBRunSecurityFlag flags,
 			      WorkbookControl  *control)
 {
@@ -71,7 +71,7 @@ excel_gb_context_new_control (const char       *module_name,
 }
 
 GBEvalContext *
-excel_gb_context_new (const char       *module_name,
+excel_gb_context_new (char       const *module_name,
 		      GBRunSecurityFlag flags)
 {
 	WorkbookControl  *ctl = gtk_type_new (WORKBOOK_CONTROL_TYPE);

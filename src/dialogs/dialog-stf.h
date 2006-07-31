@@ -107,13 +107,13 @@ typedef struct {
 	gboolean               fixed_encoding;
 	char                  *locale;
 	gboolean               fixed_locale;
-	const char            *raw_data;     /* Raw bytes, not UTF-8.  */
+	char const            *raw_data;     /* Raw bytes, not UTF-8.  */
 	int                    raw_data_len;
 	char                  *utf8_data;    /* raw_data converted into UTF-8.  */
-	const char            *cur;          /* Pointer pointing to position in utf8_data to start parsing */
-	const char            *cur_end;      /* Pointer pointing to position in utf8_data to stop parsing */
+	char const            *cur;          /* Pointer pointing to position in utf8_data to start parsing */
+	char const            *cur_end;      /* Pointer pointing to position in utf8_data to stop parsing */
 
-	const char            *source;       /* Where we are reading from (UTF-8) */
+	char const            *source;       /* Where we are reading from (UTF-8) */
 
 	int                    rowcount;
 	int                    longest_line;  /* #characters in longest line.  */
@@ -136,12 +136,12 @@ typedef struct {
 
 /* This is the main function which handles all the dialog import stuff */
 DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg,
-							 const char *opt_encoding,
+							 char const *opt_encoding,
 							 gboolean fixed_encoding,
-							 const char *opt_locale,
+							 char const *opt_locale,
 							 gboolean fixed_locale,
-							 const char *source,
-							 const char *data,
+							 char const *source,
+							 char const *data,
 							 int data_len);
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 

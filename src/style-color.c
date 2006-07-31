@@ -212,7 +212,7 @@ style_color_unref (GnmColor *sc)
 }
 
 gint
-style_color_equal (const GnmColor *k1, const GnmColor *k2)
+style_color_equal (GnmColor const *k1, GnmColor const *k2)
 {
 	if (k1->gdk_color.red   == k2->gdk_color.red &&
 	    k1->gdk_color.green == k2->gdk_color.green &&
@@ -226,7 +226,7 @@ style_color_equal (const GnmColor *k1, const GnmColor *k2)
 static guint
 color_hash (gconstpointer v)
 {
-	const GnmColor *k = (const GnmColor *)v;
+	GnmColor const *k = (GnmColor const *)v;
 
 	return (k->gdk_color.red << 16) ^ (k->gdk_color.green << 8) ^ (k->gdk_color.blue << 0) ^
 		(k->is_auto);

@@ -25,11 +25,12 @@ typedef int (*float_range_function_t) (gnm_float const *, int, gnm_float *);
 typedef int (*float_range_function2_t) (gnm_float const *, gnm_float const *, int, gnm_float *);
 typedef int (*string_range_function_t) (GSList *, char**);
 
-gnm_float *collect_floats_value (GnmValue const *val, const GnmEvalPos *ep,
+gnm_float *collect_floats_value (GnmValue const *val,
+				 GnmEvalPos const *ep,
 				 CollectFlags flags,
 				 int *n, GnmValue **error);
 
-GnmValue *float_range_function (int argc, const GnmExprConstPtr *argv,
+GnmValue *float_range_function (int argc, GnmExprConstPtr const *argv,
 				FunctionEvalInfo *ei,
 				float_range_function_t func,
 				CollectFlags flags,
@@ -40,7 +41,7 @@ GnmValue *float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 				 float_range_function2_t func,
 				 CollectFlags flags,
 				 GnmStdError func_error);
-GnmValue *string_range_function (int argc, const GnmExprConstPtr *argv,
+GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 				 FunctionEvalInfo *ei,
 				 string_range_function_t func,
 				 CollectFlags flags,

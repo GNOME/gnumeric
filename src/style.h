@@ -52,9 +52,9 @@ void           style_init  	      (void);
 void	       style_shutdown         (void);
 
 GnmFont     *style_font_new         (PangoContext *context,
-				       const char *font_name,
-				       double size_pts, double scale,
-				       gboolean bold, gboolean italic);
+				     char const *font_name,
+				     double size_pts, double scale,
+				     gboolean bold, gboolean italic);
 void style_font_ref          (GnmFont *sf);
 void style_font_unref        (GnmFont *sf);
 

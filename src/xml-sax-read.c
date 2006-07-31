@@ -941,8 +941,8 @@ xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	}
 }
 
-static const char *
-font_component (const char *fontname, int idx)
+static char const *
+font_component (char const *fontname, int idx)
 {
 	int i = 0;
 	char const *p = fontname;
@@ -968,7 +968,7 @@ font_component (const char *fontname, int idx)
  * Returns: A valid style font.
  */
 static void
-style_font_read_from_x11 (GnmStyle *mstyle, const char *fontname)
+style_font_read_from_x11 (GnmStyle *mstyle, char const *fontname)
 {
 	char const *c;
 
@@ -1444,7 +1444,7 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmRange r;
 	g_return_if_fail (gsf_state->content->len > 0);
 
-	if (parse_range (gsf_state->content->str, &r))
+	if (range_parse (&r, gsf_state->content->str))
 		sheet_merge_add (state->sheet, &r, FALSE,
 			GO_CMD_CONTEXT (state->context));
 }
@@ -1508,7 +1508,7 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2) {
 		if (!strcmp (attrs[i], "ObjectBound")) {
 			GnmRange r;
-			if (parse_range (attrs[i+1], &r))
+			if (range_parse (&r, attrs[i+1]))
 				so->anchor.cell_bound = r;
 		} else if (!strcmp (attrs[i], "ObjectOffset")) {
 			sscanf (attrs[i+1], "%g %g %g %g",
@@ -1858,7 +1858,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	GString *buffer;
 	guint ui;
 	char *converted;
-	const char *encoding;
+	char const *encoding;
 	gboolean ok;
 
 	buf = gsf_input_read (input, strlen (noencheader), NULL);

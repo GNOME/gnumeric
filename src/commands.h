@@ -12,7 +12,7 @@ void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
-				 GnmCellPos const *pos, const char *new_text,
+				 GnmCellPos const *pos, char const *new_text,
 				 PangoAttrList *markup);
 
 gboolean cmd_area_set_text	(WorkbookControl *wbc, SheetView *sv,
@@ -48,7 +48,7 @@ gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_copyrel		(WorkbookControl *wbc,
 				 int dx, int dy,
-				 const char *name);
+				 char const *name);
 
 /* currently these operate on the current sheet, and it calling control's
  * selection.  In the future we should pass in a virtualized selection.
@@ -97,7 +97,7 @@ gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
 				 char const *new_name);
 
 gboolean cmd_set_comment	(WorkbookControl *wbc, Sheet *sheet,
-				 GnmCellPos const *pos, const char *new_text);
+				 GnmCellPos const *pos, char const *new_text);
 
 gboolean cmd_analysis_tool	(WorkbookControl *wbc, Sheet *sheet,
 				 data_analysis_output_t *dao, gpointer specs,

@@ -136,7 +136,7 @@ print_info_free (PrintInformation *pi)
 static gboolean
 load_range (char const *str, GnmRange *r)
 {
-	return ((str != NULL) &&  parse_range (str, r));
+	return ((str != NULL) &&  range_parse (r, str));
 }
 
 static void
@@ -363,14 +363,14 @@ print_info_save (PrintInformation const *pi)
 }
 
 const GnomePrintUnit *
-unit_name_to_unit (const char *name)
+unit_name_to_unit (char const *name)
 {
 	GList *units = gnome_print_unit_get_list (GNOME_PRINT_UNITS_ALL);
 	GList *l;
-	const GnomePrintUnit *res = NULL;
+	GnomePrintUnit const *res = NULL;
 
 	for (l = units; l; l = l->next) {
-		const GnomePrintUnit *u = l->data;
+		GnomePrintUnit const *u = l->data;
 		if (g_ascii_strcasecmp (name, u->name) == 0 ||
 		    g_ascii_strcasecmp (name, u->plural) == 0 ||
 		    g_ascii_strcasecmp (name, u->abbr) == 0 ||
@@ -385,7 +385,7 @@ unit_name_to_unit (const char *name)
 }
 
 double
-unit_convert (double value, const GnomePrintUnit *src, const GnomePrintUnit *dst)
+unit_convert (double value, GnomePrintUnit const *src, GnomePrintUnit const *dst)
 {
 	gboolean ok = gnome_print_convert_distance (&value, src, dst);
 	g_assert (ok);

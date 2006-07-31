@@ -60,7 +60,7 @@
 #define AF_EXPLICIT ((GnmFuncFlags)(GNM_FUNC_AUTO_MASK + 1))
 
 static GnmFuncFlags do_af_suggest_list (int argc,
-					const GnmExprConstPtr *argv,
+					GnmExprConstPtr const *argv,
 					GnmEvalPos const *epos,
 					GOFormat **explicit);
 
@@ -87,7 +87,7 @@ is_date (GnmFuncFlags typ, GOFormat *explicit)
 }
 
 static GnmFuncFlags
-do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
+do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat **explicit)
 {
 #if 0
 	{
@@ -233,8 +233,8 @@ do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
 }
 
 static GnmFuncFlags
-do_af_suggest_list (int argc, const GnmExprConstPtr *argv,
-		    const GnmEvalPos *epos, GOFormat **explicit)
+do_af_suggest_list (int argc, GnmExprConstPtr const *argv,
+		    GnmEvalPos const *epos, GOFormat **explicit)
 {
 	int i;
 

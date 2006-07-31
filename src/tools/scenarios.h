@@ -41,10 +41,10 @@ scenario_t *scenario_show         (WorkbookControl        *wbc,
 				   scenario_t             *scenario,
 				   scenario_t             *old_values,
 				   data_analysis_output_t *dao);
-gboolean    scenario_add_new      (const gchar *name,
+gboolean    scenario_add_new      (gchar const *name,
 				   GnmValue *changing_cells,
-				   const gchar *cell_sel_str,
-				   const gchar *comment,
+				   gchar const *cell_sel_str,
+				   gchar const *comment,
 				   Sheet *sheet, scenario_t **new_scenario);
 void        scenario_add          (Sheet *sheet, scenario_t *scenario);
 gboolean    scenario_mark_deleted (GList *scenarios, gchar *name);

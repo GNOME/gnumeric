@@ -33,7 +33,7 @@ zero_stats (void)
 }
 
 static void
-dump_stats (const char *type)
+dump_stats (char const *type)
 {
 	printf ("'%s': Hits %d, Range Hits %d, Misses %d Flushes %d\n", type,
 		style_cache_hits, style_cache_range_hits,

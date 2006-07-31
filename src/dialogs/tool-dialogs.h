@@ -51,7 +51,7 @@ void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
 void     dialog_tool_init_buttons (GenericToolState *state,
 				   GCallback ok_function, 
 				   GCallback close_function);
-void     error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
+void     error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str);
 gboolean dialog_tool_init (GenericToolState *state, 
 			   WorkbookControlGUI *wbcg,
 			   Sheet *sheet,

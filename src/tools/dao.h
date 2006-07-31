@@ -95,7 +95,7 @@ void dao_set_cell_float_na    (data_analysis_output_t *dao, int col, int row,
 			       gnm_float v, 
 			   gboolean is_valid);
 void dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
-			   const char *comment);
+			   char const *comment);
 
 void dao_prepare_output       (WorkbookControl *wbc,  
 			       data_analysis_output_t *dao, char const *name);

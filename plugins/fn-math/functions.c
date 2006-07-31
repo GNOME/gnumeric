@@ -131,7 +131,7 @@ range_gcd (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_gcd (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_gcd (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_gcd,
@@ -200,7 +200,7 @@ range_lcm (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_lcm (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_lcm (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_lcm,
@@ -230,7 +230,7 @@ static GnmFuncHelp const help_hypot[] = {
 };
 
 static GnmValue *
-gnumeric_hypot (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_hypot (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_hypot,
@@ -1503,7 +1503,7 @@ static GnmFuncHelp const help_suma[] = {
 };
 
 static GnmValue *
-gnumeric_suma (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_suma (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_sum,
@@ -1537,7 +1537,7 @@ static GnmFuncHelp const help_sumsq[] = {
 
 
 static GnmValue *
-gnumeric_sumsq (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_sumsq (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_sumsq,
@@ -1569,7 +1569,7 @@ static GnmFuncHelp const help_multinomial[] = {
 
 
 static GnmValue *
-gnumeric_multinomial (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_multinomial (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_multinomial,
@@ -1600,7 +1600,7 @@ static GnmFuncHelp const help_g_product[] = {
 };
 
 static GnmValue *
-gnumeric_g_product (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_g_product (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_product,
@@ -2893,7 +2893,7 @@ range_seriessum (gnm_float const *xs, int n, gnm_float *res)
 
 
 static GnmValue *
-gnumeric_seriessum (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_seriessum (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_seriessum,
@@ -3200,7 +3200,7 @@ static GnmFuncHelp const help_sumproduct[] = {
 };
 
 static GnmValue *
-gnumeric_sumproduct (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_sumproduct (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	gnm_float **data;
 	GnmValue *result;

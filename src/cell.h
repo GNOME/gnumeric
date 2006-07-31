@@ -29,13 +29,6 @@ struct _GnmCell {
 };
 
 /**
- * Manage cells
- */
-GnmCell  *cell_new      (void);
-void	  cell_destroy  (GnmCell *cell);
-void	  cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo);
-
-/**
  * GnmCell state checking
  */
 #define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
@@ -76,6 +69,7 @@ void cell_set_expr_unsafe 	(GnmCell *cell, GnmExprTop const *texpr);
 void cell_set_array_formula	(Sheet *sheet,
 				 int cola, int rowa, int colb, int rowb,
 				 GnmExprTop const *texpr);
+void cell_cleanout		(GnmCell *cell);
 void cell_convert_expr_to_value	(GnmCell *cell);
 
 /**
@@ -92,8 +86,5 @@ int	cell_rendered_offset	(GnmCell const * cell);
 GOColor cell_get_render_color	(GnmCell const * cell);
 char *	cell_get_entered_text	(GnmCell const * cell);
 char *  cell_get_rendered_text  (GnmCell *cell);
-
-void cell_init (void);
-void cell_shutdown (void);
 
 #endif /* GNM_CELL_H */

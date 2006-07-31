@@ -52,9 +52,9 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 
-#define CC2XML(s) ((const xmlChar *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
 #define C2XML(s) ((xmlChar *)(s))
-#define CXML2C(s) ((const char *)(s))
+#define CXML2C(s) ((char const *)(s))
 #define XML2C(s) ((char *)(s))
 
 typedef struct {
@@ -332,7 +332,7 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 }
 
 /* Element types which imply that we are inside a table */
-static const char *table_start_elt_types[] = {
+static char const *table_start_elt_types[] = {
 	"caption",
 	"col",
 	"colgroup",
@@ -344,23 +344,23 @@ static const char *table_start_elt_types[] = {
 };
 
 /* Element types which imply that we are inside a row */
-static const char *row_start_elt_types[] = {
+static char const *row_start_elt_types[] = {
 	"td",
 	"th",
 	NULL
 };
 
 /* Element types which occur inside tables and rows, but also outside */
-static const char *cont_elt_types[] = {
+static char const *cont_elt_types[] = {
 	"del",
 	"ins",
 	NULL
 };
 
 static gboolean 
-is_elt_type (htmlNodePtr ptr, const char** types)
+is_elt_type (htmlNodePtr ptr, charconst ** types)
 {
-	const char **p;
+	char const **p;
 	gboolean ret = FALSE;
 
 	for (p = types; *p; p++)
@@ -518,7 +518,7 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 				bomlen = 0;
 			}
 			ctxt = htmlCreatePushParserCtxt (
-				NULL, NULL, (const char *)(buf + bomlen),
+				NULL, NULL, (char const *)(buf + bomlen),
 				4 - bomlen, gsf_input_name (input), enc);
 			
 			for (; size > 0 ; size -= len) {
@@ -527,10 +527,10 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 				if (buf == NULL)
 					break;
 				htmlParseChunk (
-					ctxt, (const char *)buf, len, 0);
+					ctxt, (char const *)buf, len, 0);
 			}
 
-			htmlParseChunk (ctxt, (const char *)buf, 0, 1);
+			htmlParseChunk (ctxt, (char const *)buf, 0, 1);
 			doc = ctxt->myDoc;
 			htmlFreeParserCtxt (ctxt);
 		}

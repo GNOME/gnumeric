@@ -104,7 +104,7 @@ gnm_guile_helper (void *data)
 static SCM
 gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 {
-	const char *header = _("Guile error");
+	char const *header = _("Guile error");
 	SCM smob;
 	SCM func;
 	SCM res;

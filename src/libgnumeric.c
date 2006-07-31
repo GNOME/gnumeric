@@ -29,8 +29,8 @@
 #include "str.h"
 #include "dependent.h"
 #include "sheet-autofill.h"
+#include "sheet-private.h"
 #include "xml-io.h"
-#include "cell.h"
 #include "clipboard.h"
 #include "value.h"
 #include "expr.h"
@@ -122,7 +122,7 @@ gnm_common_init (gboolean fast)
 	value_init ();
 	parse_util_init ();
 	expr_init ();
-	cell_init ();
+	gnm_sheet_cell_init ();
 	clipboard_init ();
 	dependent_types_init ();
 	rendered_value_init ();
@@ -185,7 +185,7 @@ gnm_shutdown (void)
 	rendered_value_shutdown ();
 	dependent_types_shutdown ();
 	clipboard_shutdown ();
-	cell_shutdown ();
+	gnm_sheet_cell_shutdown ();
 	expr_shutdown ();
 	parse_util_shutdown ();
 	value_shutdown ();

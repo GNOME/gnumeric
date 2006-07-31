@@ -72,6 +72,16 @@ range_init_cellpos (GnmRange *r, GnmCellPos const *start, GnmCellPos const *end)
 
 	return r;
 }
+GnmRange *
+range_init_cellpos_size (GnmRange *r,
+			 GnmCellPos const *start, int cols, int rows)
+{
+	r->start = *start;
+	r->end.col = start->col + cols - 1;
+	r->end.row = start->row + rows - 1;
+
+	return r;
+}
 
 GnmRange *
 range_init (GnmRange *r, int start_col, int start_row,
@@ -87,60 +97,18 @@ range_init (GnmRange *r, int start_col, int start_row,
 	return r;
 }
 
-
 /**
- * range_parse:
- * @sheet: the sheet where the cell range is evaluated
- * @range: a range specification (ex: "A1", "A1:C3").
- * @strict: if FALSE, allow extra characters after range text.
+ * range_parse :
+ * @r : #GnmRange
+ * @text :
  *
- * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
- * succesfully parsed or NULL on failure.
+ * Parse a simple range (no abs/rel refs, no sheet refs)
+ * Store the result in @res.
+ *
+ * Returns TRUE on success.
  **/
-GnmValue *
-range_parse (Sheet *sheet, char const *range, gboolean strict)
-{
-	GnmCellRef a, b;
-	GnmCellPos tmp;
-
-	g_return_val_if_fail (range != NULL, NULL);
-
-	range = cellpos_parse (range, &tmp, FALSE);
-	if (!range)
-		return NULL;
-
-	a.sheet = sheet;
-	a.col = tmp.col;
-	a.col_relative = 0;
-	a.row = tmp.row;
-	a.row_relative = 0;
-
-	if (*range == ':') {
-		range = cellpos_parse (range + 1, &tmp, strict);
-		if (!range)
-			return NULL;
-		b.sheet = sheet;
-		b.col = tmp.col;
-		b.col_relative = 0;
-		b.row = tmp.row;
-		b.row_relative = 0;
-	} else if (strict && *range)
-		return NULL;
-	else
-		b = a;
-
-	/*
-	 * We can dummy out the calling cell because we know that both
-	 * refs use the same mode.  This will handle inversions.
-	 */
-	return value_new_cellrange (&a, &b, 0, 0);
-}
-
-/* Pulled from dialog-analysis-tools.c
- * Should be merged with range_parse
- */
 gboolean
-parse_range (char const *text, GnmRange *r)
+range_parse (GnmRange *r, char const *text)
 {
 	text = cellpos_parse (text, &r->start, FALSE);
 	if (!text)
@@ -193,70 +161,6 @@ range_as_string (GnmRange const *src)
 			 col_name (src->end.col), row_name (src->end.row));
 
 	return buffer;
-}
-
-/**
- * range_has_header:
- * @sheet: Sheet to check
- * @src: GnmRange to check
- * @top: Flag
- *
- * This routine takes a sheet and a range and checks for a header row
- * in the range.  If top is true it looks for a header row from the top
- * and if false it looks for a header col from the left
- *
- * Return value: Whether or not the range has a header
- **/
-gboolean
-range_has_header (Sheet const *sheet, GnmRange const *src,
-		  gboolean top, gboolean ignore_styles)
-{
-	GnmCell const *a, *b;
-	int length, i;
-
-	/* There is only one row or col */
-	if (top) {
-		if (src->end.row <= src->start.row)
-			return FALSE;
-		length = src->end.col - src->start.col + 1;
-	} else {
-		if (src->end.col <= src->start.col)
-			return FALSE;
-		length = src->end.row - src->start.row + 1;
-	}
-
-	for (i = 0; i < length; i++) {
-		if (top) {
-			a = sheet_cell_get (sheet,
-				src->start.col + i, src->start.row);
-			b = sheet_cell_get (sheet,
-				src->start.col + i, src->start.row + 1);
-		} else {
-			a = sheet_cell_get (sheet,
-				src->start.col, src->start.row + i);
-			b = sheet_cell_get (sheet,
-				src->start.col + 1, src->start.row + i);
-		}
-
-		/* be anal */
-		if (a == NULL || a->value == NULL || b == NULL || b->value == NULL)
-			continue;
-
-		if (VALUE_IS_NUMBER (a->value)) {
-			if (!VALUE_IS_NUMBER (b->value))
-				return TRUE;
-			/* check for style differences */
-		} else if (a->value->type != b->value->type)
-			return TRUE;
-
-		/* Look for style differences */
-		if (!ignore_styles &&
-		    !gnm_style_equal_header (cell_get_style (a),
-					     cell_get_style (b), top))
-			return TRUE;
-	}
-
-	return FALSE;
 }
 
 void
@@ -591,52 +495,6 @@ range_normalize (GnmRange *src)
 		src->end.row = src->start.row;
 		src->start.row = tmp;
 	}
-}
-
-static GnmValue *
-cb_find_extents (GnmCellIter const *iter, GnmCellPos *extent)
-{
-	if (extent->col < iter->pp.eval.col)
-		extent->col = iter->pp.eval.col;
-	if (extent->row < iter->pp.eval.row)
-		extent->row = iter->pp.eval.row;
-	return NULL;
-}
-
-/**
- * range_trim:
- * @sheet: sheet cells are contained on
- * @r:	   range to trim empty cells from
- * @cols:  trim from right
- * @rows:  trim from bottom
- *
- * This removes empty rows/cols from the
- * right hand or bottom edges of the range
- * depending on the value of @cols or @rows.
- *
- * Return value: TRUE if the range was totally empty.
- **/
-gboolean
-range_trim (Sheet const *sheet, GnmRange *r,
-	    gboolean cols, gboolean rows)
-{
-	GnmCellPos extent = { -1, -1 };
-
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (r != NULL, TRUE);
-
-	sheet_foreach_cell_in_range (
-		(Sheet *)sheet, CELL_ITER_IGNORE_BLANK,
-		r->start.col, r->start.row, r->end.col, r->end.row,
-		(CellIterFunc) cb_find_extents, &extent);
-
-	if (extent.col < 0 || extent.row < 0)
-		return TRUE;
-	if (cols)
-		r->end.col = extent.col;
-	if (rows)
-		r->end.row = extent.row;
-	return FALSE;
 }
 
 /**

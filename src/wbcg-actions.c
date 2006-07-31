@@ -422,8 +422,8 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 	switch (q) {
 	case SRQ_fail: {
 		GnmCell *cell = va_arg (pvar, GnmCell *);
-		char const *old_text = va_arg (pvar, const char *);
-		char const *new_text = va_arg (pvar, const char *);
+		char const *old_text = va_arg (pvar, char const *);
+		char const *new_text = va_arg (pvar, char const *);
 		char *err = g_strdup_printf
 			(_("In cell %s, the current contents\n"
 			   "        %s\n"
@@ -444,8 +444,8 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 
 	case SRQ_query: {
 		GnmCell *cell = va_arg (pvar, GnmCell *);
-		char const *old_text = va_arg (pvar, const char *);
-		char const *new_text = va_arg (pvar, const char *);
+		char const *old_text = va_arg (pvar, char const *);
+		char const *new_text = va_arg (pvar, char const *);
 		Sheet *sheet = cell->base.sheet;
 		char *pos_name = g_strconcat (sheet->name_unquoted, "!",
 					      cell_name (cell), NULL);
@@ -461,8 +461,8 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 	case SRQ_querycommment: {
 		Sheet *sheet = va_arg (pvar, Sheet *);
 		GnmCellPos *cp = va_arg (pvar, GnmCellPos *);
-		const char *old_text = va_arg (pvar, const char *);
-		const char *new_text = va_arg (pvar, const char *);
+		char const *old_text = va_arg (pvar, char const *);
+		char const *new_text = va_arg (pvar, char const *);
 		char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
 						  sheet->name_unquoted,
 						  cellpos_as_string (cp));
@@ -511,7 +511,7 @@ static GNM_ACTION_DEF (cb_edit_fill_autofill)
 		gboolean do_loop;
 		GSList *merges, *ptr;
 
-		if (range_trim (sheet, &src, TRUE, TRUE))
+		if (sheet_range_trim (sheet, &src, TRUE, TRUE))
 			return; /* Region totally empty */
 
 		/* trim is a bit overzealous, it forgets about merges */
@@ -1091,7 +1091,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
 	 */
 	data->top = TRUE;
 
-	if (range_has_header (data->sheet, data->range, data->top, FALSE))
+	if (sheet_range_has_heading (data->sheet, data->range, data->top, FALSE))
 		data->range->start.row += 1;
 
 	cmd_sort (WORKBOOK_CONTROL (wbcg), data);

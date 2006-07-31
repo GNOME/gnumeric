@@ -372,11 +372,11 @@ static GnmFuncHelp const help_mid[] = {
 static GnmValue *
 gnumeric_mid (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *source = value_peek_string (argv[0]);
+	char const *source = value_peek_string (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
 	size_t slen = g_utf8_strlen (source, -1);
-	const char *upos;
+	char const *upos;
 	size_t ilen, ipos, ulen;
 
 	if (len < 0 || pos < 1)
@@ -481,7 +481,7 @@ static GnmFuncHelp const help_concatenate[] = {
 };
 
 static GnmValue *
-gnumeric_concatenate (FunctionEvalInfo *ei, int argc, const GnmExprConstPtr *argv)
+gnumeric_concatenate (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return string_range_function (argc, argv, ei,
 				      range_concatenate,
@@ -598,12 +598,12 @@ static GnmFuncHelp const help_find[] = {
 static GnmValue *
 gnumeric_find (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *needle   = value_peek_string (argv[0]);
-	const char *haystack = value_peek_string (argv[1]);
+	char const *needle   = value_peek_string (argv[0]);
+	char const *haystack = value_peek_string (argv[1]);
 	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1.0;
 	size_t haystacksize = g_utf8_strlen (haystack, -1);
 	size_t icount;
-	const char *p;
+	char const *p;
 
 	if (count < 1 || count >= haystacksize + 1)
 		return value_new_error_VALUE (ei->pos);
@@ -762,12 +762,12 @@ static GnmFuncHelp const help_replace[] = {
 static GnmValue *
 gnumeric_replace (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *old = value_peek_string (argv[0]);
+	char const *old = value_peek_string (argv[0]);
 	gnm_float start = value_get_as_float (argv[1]);
 	gnm_float num = value_get_as_float (argv[2]);
-	const char *new = value_peek_string (argv[3]);
+	char const *new = value_peek_string (argv[3]);
 	size_t istart, inum, oldlen, precutlen, postcutlen, newlen;
-	const char *p, *q;
+	char const *p, *q;
 	char *res;
 
 	if (start < 1 || num < 0)
@@ -1206,7 +1206,7 @@ gnumeric_asc (FunctionEvalInfo *ei, GnmValue const * const *argv)
 }
 
 /***************************************************************************/
-const GnmFuncDescriptor string_functions[] = {
+GnmFuncDescriptor const string_functions[] = {
         { "asc",       "s",     N_("string"),                  help_asc,
 	  gnumeric_asc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

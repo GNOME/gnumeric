@@ -96,7 +96,7 @@ paste_op_to_expr_op (int paste_flags)
 static void
 paste_cell_with_operation (Sheet *dst_sheet,
 			   int target_col, int target_row,
-			   GnmExprRewriteInfo const *rwinfo,
+			   GnmExprRelocateInfo const *rinfo,
 			   GnmCellCopy const *src,
 			   int paste_flags)
 {
@@ -119,17 +119,20 @@ paste_cell_with_operation (Sheet *dst_sheet,
 		GnmExpr const *old_expr    = contents_as_expr (dst->base.texpr, dst->value);
 		GnmExpr const *copied_expr = contents_as_expr (src->texpr, src->val);
 		GnmExprTop const *res = gnm_expr_top_new (gnm_expr_new_binary (old_expr, op, copied_expr));
-		cell_set_expr (dst, res);
-		cell_relocate (dst, rwinfo);
+		GnmExprTop const *relo = gnm_expr_top_relocate (res, rinfo, FALSE);
+		if (relo) {
+			cell_set_expr (dst, relo);
+			gnm_expr_top_unref (relo);
+		} else
+			cell_set_expr (dst, res);
 		gnm_expr_top_unref (res);
 	} else {
+		GnmValue  *value;
 		GnmEvalPos pos;
-		GnmExpr const *expr =
-			gnm_expr_new_binary
-			(gnm_expr_new_constant (value_dup (dst->value)),
-			 op,
-			 gnm_expr_new_constant (value_dup (src->val)));
-		GnmValue *value;
+		GnmExpr const *expr = gnm_expr_new_binary (
+			gnm_expr_new_constant (value_dup (dst->value)),
+			op,
+			gnm_expr_new_constant (value_dup (src->val)));
 
 		eval_pos_init_cell (&pos, dst);
 		pos.dep = NULL; /* no dynamic deps */
@@ -184,33 +187,34 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 
 /**
  * paste_cell: Pastes a cell in the spreadsheet
- *
  * @dst_sheet:   The sheet where the pasting will be done
  * @target_col:  Column to put the cell into
  * @target_row:  Row to put the cell into.
- * @new_cell:    A new cell (not linked into the sheet, or wb->expr_list)
+ * @rinfo:	 A #GnmExprRelocateInfo on how to relocate content
+ * @src:         A #GnmCelCopy with the content to paste
  * @paste_flags: Bit mask that describes the paste options.
  */
 static void
 paste_cell (Sheet *dst_sheet,
 	    int target_col, int target_row,
-	    GnmExprRewriteInfo const *rwinfo,
+	    GnmExprRelocateInfo const *rinfo,
 	    GnmCellCopy const *src, int paste_flags)
 {
 	if (paste_flags & PASTE_OPER_MASK)
 		paste_cell_with_operation (dst_sheet, target_col, target_row,
-					   rwinfo, src, paste_flags);
-	else if (src->texpr) {
+					   rinfo, src, paste_flags);
+	else {
 		GnmCell *dst = sheet_cell_fetch (dst_sheet, target_col, target_row);
-		cell_set_expr_and_value (dst, src->texpr,
-			value_dup (src->val), FALSE);
-		if (paste_flags & PASTE_CONTENTS)
-			cell_relocate (dst, rwinfo);
-		else
-			cell_convert_expr_to_value (dst);
-	} else
-		cell_set_value (sheet_cell_fetch (dst_sheet, target_col, target_row),
-			value_dup (src->val));
+		if (NULL != src->texpr && (paste_flags & PASTE_CONTENTS)) {
+			GnmExprTop const *relo = gnm_expr_top_relocate (
+				src->texpr, rinfo, FALSE);
+			cell_set_expr_and_value (dst, relo ? relo : src->texpr,
+				value_dup (src->val), FALSE);
+			if (NULL != relo)
+				gnm_expr_top_unref (relo);
+		} else
+			cell_set_value (dst, value_dup (src->val));
+	}
 }
 
 static void
@@ -363,23 +367,20 @@ clipboard_paste_region (GnmCellRegion const *contents,
 		for (j = 0; j < repeat_vertical ; j++) {
 			int const left = i * src_cols + pt->range.start.col;
 			int const top = j * src_rows + pt->range.start.row;
-			GnmExprRewriteInfo   rwinfo;
-			GnmExprRelocateInfo *rinfo;
+			GnmExprRelocateInfo rinfo;
 
-			rwinfo.rw_type = GNM_EXPR_REWRITE_EXPR;
-			rinfo = &rwinfo.u.relocate;
-			rinfo->origin_sheet = rinfo->target_sheet = pt->sheet;
-
+			rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
+			rinfo.origin_sheet = rinfo.target_sheet = pt->sheet;
 			if (pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
-				rinfo->origin.start = contents->base;
-				rinfo->origin.end.col = contents->base.col + contents->cols - 1;
-				rinfo->origin.end.row = contents->base.row + contents->rows - 1;
-				rinfo->col_offset = left - contents->base.col;
-				rinfo->row_offset = top - contents->base.row;
+				rinfo.origin.start = contents->base;
+				rinfo.origin.end.col = contents->base.col + contents->cols - 1;
+				rinfo.origin.end.row = contents->base.row + contents->rows - 1;
+				rinfo.col_offset = left - contents->base.col;
+				rinfo.row_offset = top - contents->base.row;
 			} else {
-				rinfo->origin = pt->range;
-				rinfo->col_offset = 0;
-				rinfo->row_offset = 0;
+				rinfo.origin = pt->range;
+				rinfo.col_offset = 0;
+				rinfo.row_offset = 0;
 			}
 
 			/* Move the styles on here so we get correct formats before recalc */
@@ -424,17 +425,17 @@ clipboard_paste_region (GnmCellRegion const *contents,
 						target_row += src->row_offset;
 					}
 
-					rinfo->pos.sheet = pt->sheet;
+					rinfo.pos.sheet = pt->sheet;
 					if (pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
-						rinfo->pos.eval.col = contents->base.col + src->col_offset;
-						rinfo->pos.eval.row = contents->base.row + src->row_offset;
+						rinfo.pos.eval.col = contents->base.col + src->col_offset;
+						rinfo.pos.eval.row = contents->base.row + src->row_offset;
 					} else {
-						rinfo->pos.eval.col = target_col;
-						rinfo->pos.eval.row = target_row;
+						rinfo.pos.eval.col = target_col;
+						rinfo.pos.eval.row = target_row;
 					}
 
 					paste_cell (pt->sheet, target_col, target_row,
-						    &rwinfo, src, pt->paste_flags);
+						    &rinfo, src, pt->paste_flags);
 				}
 			if (pt->paste_flags & (PASTE_COMMENTS | PASTE_OBJECTS))
 				for (ptr = contents->objects; ptr; ptr = ptr->next)
@@ -675,7 +676,7 @@ cellregion_unref (GnmCellRegion *cr)
 }
 
 int
-cellregion_cmd_size (const GnmCellRegion *contents)
+cellregion_cmd_size (GnmCellRegion const *contents)
 {
 	return (g_slist_length (contents->contents) +
 		g_slist_length (contents->styles) +

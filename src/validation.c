@@ -174,8 +174,8 @@ validation_unref (GnmValidation *v)
 static ValidationStatus
 validation_barf (WorkbookControl *wbc, GnmValidation *gv, char *def_msg)
 {
-	const char *msg = gv->msg ? gv->msg->str : def_msg;
-	const char *title = gv->title ? gv->title->str : _("Gnumeric: Validation");
+	char const *msg = gv->msg ? gv->msg->str : def_msg;
+	char const *title = gv->title ? gv->title->str : _("Gnumeric: Validation");
 	ValidationStatus result =
 		wb_control_validation_msg (wbc, gv->style, title, msg);
 

@@ -121,7 +121,7 @@ char             *hf_format_render       (char const *format,
 HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
-GnomePrintUnit const *unit_name_to_unit    (const char *name);
+GnomePrintUnit const *unit_name_to_unit    (char const *name);
 double      unit_convert             (double value,
 				      GnomePrintUnit const *source,
 				      GnomePrintUnit const *target);

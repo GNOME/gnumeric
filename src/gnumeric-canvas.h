@@ -52,7 +52,7 @@ int  gnm_canvas_find_col (GnmCanvas const *gsheet, int x, int *col_origin);
 int  gnm_canvas_find_row (GnmCanvas const *gsheet, int y, int *row_origin);
 void gnm_canvas_redraw_range (GnmCanvas *gsheet, GnmRange const *r);
 void gnm_canvas_compute_visible_region (GnmCanvas *gsheet,
-					gboolean const full_recompute);
+					gboolean full_recompute);
 
 typedef enum {
 	GNM_CANVAS_SLIDE_X = 1,

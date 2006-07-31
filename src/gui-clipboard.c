@@ -74,7 +74,7 @@ typedef struct {
 static GnmCellRegion *
 text_to_cell_region (WorkbookControlGUI *wbcg,
 		     guchar const *data, int data_len,
-		     const char *opt_encoding,
+		     char const *opt_encoding,
 		     gboolean fixed_encoding)
 {
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
@@ -98,7 +98,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 
 	if (oneline && (opt_encoding == NULL || strcmp (opt_encoding, "UTF-8") != 0)) {
 		size_t bytes_written;
-		const char *enc = opt_encoding ? opt_encoding : "ASCII";
+		char const *enc = opt_encoding ? opt_encoding : "ASCII";
 
 		data_converted = g_convert (data, data_len,
 					    "UTF-8", enc,
@@ -200,7 +200,7 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
  * and calling wb_view_new_from_input.
  **/
 static GnmCellRegion *
-table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
+table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 		       GnmPasteTarget *pt, guchar *buffer, int length)
 {
 	WorkbookView *wb_view = NULL;

@@ -80,7 +80,7 @@
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
 
 
-static const char * const grouped_by_group[] = {
+static char const * const grouped_by_group[] = {
 	"grouped_by_row",
 	"grouped_by_col",
 	"grouped_by_area",
@@ -192,7 +192,7 @@ typedef struct {
  * Show an error dialog and select corresponding entry
  */
 void
-error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
+error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str)
 {
         go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 				  &(state->warning_dialog),

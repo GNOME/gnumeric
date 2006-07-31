@@ -233,7 +233,7 @@ cb_client_die (GnomeClient *client)
  * the beginning of the program.
  **/
 void
-gnm_session_init (const char *argv0)
+gnm_session_init (char const *argv0)
 {
 	if (master_client)
 		return;
@@ -254,7 +254,7 @@ gnm_session_init (const char *argv0)
 #else
 #include "session.h"
 void
-gnm_session_init (const char *argv0)
+gnm_session_init (char const *argv0)
 {
 }
 #endif /* WITH_GNOME */

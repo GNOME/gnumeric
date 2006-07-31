@@ -68,7 +68,7 @@ static gnm_float opt_crit_val_chooser (gnm_float s,gnm_float xc,gnm_float xp,gnm
 
 
 static OptionSide
-option_side (const char *s)
+option_side (char const *s)
 {
 	if (s[0] == 'p' || s[0] == 'P')
 		return OS_Put;
@@ -79,7 +79,7 @@ option_side (const char *s)
 }
 
 static OptionType
-option_type (const char *s)
+option_type (char const *s)
 {
 	if (s[0] == 'a' || s[0] == 'A')
 		return OT_Amer;
@@ -1676,7 +1676,7 @@ opt_crit_val_chooser (gnm_float s,gnm_float xc,gnm_float xp,gnm_float t,
 static GnmValue *
 opt_on_options (FunctionEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *type_flag = value_peek_string (argv[0]);
+	char const *type_flag = value_peek_string (argv[0]);
 	gnm_float s = value_get_as_float (argv[1]);
 	gnm_float x1 = value_get_as_float (argv[2]);
 	gnm_float x2 = value_get_as_float (argv[3]);

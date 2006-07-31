@@ -35,8 +35,8 @@ typedef struct _LFuncInfo LFuncInfo;
 struct _LFuncInfo {
 	short args;
 	unsigned short ordinal;
-	const char *lotus_name;
-	const char *gnumeric_name;
+	char const *lotus_name;
+	char cons *gnumeric_name;
 	int (*handler) (GnmExprList **stack, LFuncInfo const *func, guint8 const *data, const GnmParsePos *orig);
 };
 
@@ -271,7 +271,7 @@ parse_list_last_n (GnmExprList **list, gint n, const GnmParsePos *orig)
 }
 
 static GnmFunc *
-lotus_placeholder (const char *lname)
+lotus_placeholder (char const *lname)
 {
 	char *gname = g_strconcat ("LOTUS_", lname, NULL);
 	GnmFunc *func = gnm_func_add_placeholder (NULL, gname, "Lotus ", TRUE);
@@ -463,8 +463,8 @@ get_cellref (GnmCellRef *ref, guint8 const *dataa, guint8 const *datab,
   }
 
 static void
-handle_named_func (GnmExprList **stack, const GnmParsePos *orig,
-		   const char *gname, const char *lname, int args)
+handle_named_func (GnmExprList **stack, GnmParsePos const *orig,
+		   char const *gname, char const *lname, int args)
 {
 	GnmFunc *func = gnm_func_lookup (gname, NULL);
 	if (!func) {

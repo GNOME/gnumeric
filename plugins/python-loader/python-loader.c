@@ -482,7 +482,7 @@ call_python_function_args (FunctionEvalInfo *ei, GnmValue const * const *args)
 
 static GnmValue *
 call_python_function_nodes (FunctionEvalInfo *ei,
-			    int argc, const GnmExprConstPtr *argv)
+			    int argc, GnmExprConstPtr const *argv)
 {
 	GOPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;

@@ -18,8 +18,8 @@ char const *gnm_usr_dir	       (void);
 /* The right way to access these is via gnm_sys_lib_dir() and
    gnm_sys_data_dir(), but option processing needs write access.
  */
-extern const char *gnumeric_lib_dir;
-extern const char *gnumeric_data_dir;
+extern char const *gnumeric_lib_dir;
+extern char const *gnumeric_data_dir;
 
 int gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags);
 

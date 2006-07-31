@@ -117,8 +117,8 @@ find_entry (GOFormat const *format, GnmValue const *value,
 }
 
 
-static const char *
-format_nonnumber (const GnmValue *value)
+static char const *
+format_nonnumber (GnmValue const *value)
 {
 	switch (value->type) {
 	case VALUE_EMPTY:

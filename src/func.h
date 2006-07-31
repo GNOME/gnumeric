@@ -122,8 +122,7 @@ typedef enum {
 
 typedef GnmValue 	*(*GnmFuncArgs)	  (FunctionEvalInfo *ei, GnmValue const * const *args);
 typedef GnmValue 	*(*GnmFuncNodes)  (FunctionEvalInfo *ei,
-					   int argc,
-					   const GnmExprConstPtr *argv);
+					   int argc, GnmExprConstPtr const *argv);
 typedef DependentFlags	 (*GnmFuncLink)	  (FunctionEvalInfo *ei);
 typedef void		 (*GnmFuncUnlink) (FunctionEvalInfo *ei);
 
@@ -211,7 +210,7 @@ GnmFunc    *gnm_func_add_placeholder (Workbook *optional_context,
 				      char const *name,
 				      char const *type,
 				      gboolean copy_name);
-GnmExpr const *gnm_func_placeholder_factory (const char *name,
+GnmExpr const *gnm_func_placeholder_factory (char const *name,
 					     GnmExprList *args,
 					     GnmExprConventions const *convs);
 
@@ -229,7 +228,7 @@ char       *function_def_get_arg_name  (GnmFunc const *fn_def,
 /*************************************************************************/
 
 GnmValue *function_call_with_exprs	(FunctionEvalInfo *ei,
-					 int argc, const GnmExprConstPtr *argv,
+					 int argc, GnmExprConstPtr const *argv,
 					 GnmExprEvalFlags flags);
 GnmValue *function_call_with_values     (GnmEvalPos const *ep, char const *name,
 					 int argc, GnmValue const * const *values);
@@ -243,7 +242,7 @@ GnmValue *function_iterate_argument_values (GnmEvalPos const *ep,
 					    FunctionIterateCB cb,
 					    gpointer user_data,
 					    int argc,
-					    const GnmExprConstPtr *argv,
+					    GnmExprConstPtr const *argv,
 					    gboolean strict,
 					    CellIterFlags iter_flags);
 GnmValue *function_iterate_do_value	(GnmEvalPos const   *ep,

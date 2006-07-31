@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_SHEET_PRIVATE_H
-#define GNUMERIC_SHEET_PRIVATE_H
+#ifndef GNM_SHEET_PRIVATE_H
+#define GNM_SHEET_PRIVATE_H
 
 struct _SheetPrivate {
 	GnmRange	 unhidden_region;
@@ -17,4 +17,8 @@ struct _SheetPrivate {
 	unsigned char	 filters_changed;
 };
 
-#endif /* GNUMERIC_SHEET_PRIVATE_H */
+/* for internal use only */
+void gnm_sheet_cell_init (void);
+void gnm_sheet_cell_shutdown (void);
+
+#endif /* GNM_SHEET_PRIVATE_H */
