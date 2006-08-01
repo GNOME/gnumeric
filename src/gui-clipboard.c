@@ -609,7 +609,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 	GnmCellCopy const *src;
 	GnmStyle const	  *style;
 	char ***data;
-	int col, row;
+	int col, row, ncells;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (cr->rows >= 0, NULL);
@@ -631,7 +631,8 @@ cellregion_to_string (GnmCellRegion const *cr,
 			g_string_free (line, FALSE);
 	}
 
-	all = g_string_sized_new (20 * cr->cols * cr->rows);
+	ncells = g_slist_length (cr->contents);
+	all = g_string_sized_new (20 * ncells + cr->cols * cr->rows);
 	line = g_string_new (NULL);
 	for (row = 0; row < cr->rows;) {
 		g_string_assign (line, "");

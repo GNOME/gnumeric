@@ -51,6 +51,7 @@ Morten:
 	* Fix problems with decreasing month autofill.  [#346028]
 	* Fix CRITICALs for =[].  [#347916]
 	* Fix problems with sheet reordering.  [#349255]
+	* Fix clipboard code's memory usage.  [#348922]
 
 Shixin Zeng
 	

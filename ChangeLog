@@ -1,3 +1,9 @@
+2006-08-01  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (cellregion_to_string): Allocate only 1 byte
+	per cell, not 20.  Allocate further 20 bytes per non-blank cell.
+	Fixes #348922.
+
 2006-07-31  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (gnm_pango_context_get): Avoid leaking font maps in
