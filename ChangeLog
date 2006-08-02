@@ -1,3 +1,7 @@
+2006-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	* src/sheet.c (sheet_new_with_type): specify sheet for Print_Area
+	  range
+
 2006-08-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (cellregion_to_string): Allocate only 1 byte

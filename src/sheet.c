@@ -773,7 +773,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 			GnmRange r;
 			range_init_full_sheet (&r);
 			expr_name_perm_add (sheet, "Print_Area", 
-				gnm_expr_top_new_constant (value_new_cellrange_r (NULL, &r)),
+				gnm_expr_top_new_constant (value_new_cellrange_r (sheet, &r)),
 				TRUE);
 		}
 	}
