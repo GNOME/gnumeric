@@ -1,3 +1,7 @@
+2006-08-03  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Updated Norwegian bokmål translation.
+
 2006-03-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.3
@@ -5774,7 +5778,7 @@
 2000-04-12  Pablo Saratxaga <pablo@mandrakesoft.com>
 
 	* da.po: Updated Danish file
-	* es.po: Passed it trough ispell
+	* es.po: Passed it through ispell
 	* various *.po: checked them with msgfmt -c -v for syntax errors
 
 2000-04-11  Christopher R. Gabriel  <cgabriel@linux.it>
