@@ -716,21 +716,24 @@ xml_write_cell_and_position (GnmOutputXML *state,
 	gsf_xml_out_end_element (state->output); /* </gnm:Cell> */
 }
 
-static GnmValue *
-cb_write_cell (GnmCellIter const *iter, GnmOutputXML *state)
+static void
+cb_write_cell (G_GNUC_UNUSED gpointer unused,
+	       GnmCell const *cell,
+	       GnmOutputXML *state)
 {
+	GnmParsePos pp;
+	parse_pos_init_cell (&pp, cell);
 	xml_write_cell_and_position (state,
-		iter->cell->base.texpr, iter->cell->value, &iter->pp);
-	return NULL;
+				     cell->base.texpr,
+				     cell->value,
+				     &pp);
 }
 
 static void
 xml_write_cells (GnmOutputXML *state)
 {
 	gsf_xml_out_start_element (state->output, GNM "Cells");
-	sheet_foreach_cell_in_range ((Sheet *)state->sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
-		(CellIterFunc) cb_write_cell, state);
+	sheet_cell_foreach (state->sheet, (GHFunc)cb_write_cell, state);
 	gsf_xml_out_end_element (state->output); /* </gnm:Cells> */
 }
 

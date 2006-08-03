@@ -232,7 +232,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
 	if (cell != NULL)
-		dependent_eval (CELL_TO_DEP (cell));
+		cell_eval (cell);
 
 	if (cell_is_empty (cell)) {
 		if (v->allow_blank)

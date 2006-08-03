@@ -1439,13 +1439,14 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 
 /******************************************************************************/
 
-static GnmValue *
-cb_share_a_cell (GnmCellIter const *iter, GnmExprSharer *es)
+static void
+cb_share_a_cell (G_GNUC_UNUSED gpointer unused,
+		 GnmCell *cell,
+		 GnmExprSharer *es)
 {
-	if (cell_has_expr (iter->cell))
-		iter->cell->base.texpr = gnm_expr_sharer_share (es,
-			iter->cell->base.texpr);
-	return NULL;
+	if (cell_has_expr (cell))
+		cell->base.texpr =
+			gnm_expr_sharer_share (es, cell->base.texpr);
 }
 
 static void
@@ -1463,12 +1464,7 @@ cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 		GnmExprSharer *es = gnm_expr_sharer_new ();
 
 		WORKBOOK_FOREACH_SHEET (wb, sheet, {
-			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-				0, 0,
-				SHEET_MAX_COLS - 1,
-				SHEET_MAX_ROWS - 1,
-				(CellIterFunc) &cb_share_a_cell,
-				es);
+			sheet_cell_foreach (sheet, (GHFunc)cb_share_a_cell, es);
 		});
 
 		g_print ("Expression sharer results:\n"

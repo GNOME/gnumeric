@@ -87,7 +87,6 @@ void	 dependent_set_expr	   (GnmDependent *dep, GnmExprTop const *new_texpr);
 void	 dependent_set_sheet	   (GnmDependent *dep, Sheet *sheet);
 void	 dependent_link		   (GnmDependent *dep);
 void	 dependent_unlink	   (GnmDependent *dep);
-gboolean dependent_eval		   (GnmDependent *dep);
 void	 dependent_queue_recalc	   (GnmDependent *dep);
 void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 

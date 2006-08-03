@@ -2887,7 +2887,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	else
 		/* Save the contents */
 		me->dst.paste_flags = PASTE_CONTENTS |
-			(me->dst.paste_flags & PASTE_FORMATS | PASTE_COMMENTS);
+			(me->dst.paste_flags & (PASTE_FORMATS | PASTE_COMMENTS));
 
 	if (is_undo) {
 		colrow_set_states (me->dst.sheet, FALSE,

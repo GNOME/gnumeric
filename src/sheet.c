@@ -132,23 +132,24 @@ sheet_set_visibility (Sheet *sheet, GnmSheetVisibility visibility)
 }
 
 static void
+cb_re_render_formulas (G_GNUC_UNUSED gpointer unused,
+		       GnmCell *cell,
+		       G_GNUC_UNUSED gpointer user)
+{
+	if (cell_has_expr (cell)) {
+		if (cell->rendered_value != NULL) {
+			rendered_value_destroy (cell->rendered_value);
+			cell->rendered_value = NULL;
+		}
+		if (cell->row_info != NULL)
+			cell->row_info->needs_respan = TRUE;
+	}
+}
+
+static void
 re_render_formulas (Sheet const *sheet)
 {
-	GnmCell *cell;
-
-	SHEET_FOREACH_DEPENDENT (sheet, dep, {
-		if (dependent_is_cell (dep)) {
-			cell = DEP_TO_CELL (dep);
-			if (cell_has_expr (cell)) {
-				if (cell->rendered_value != NULL) {
-					rendered_value_destroy (cell->rendered_value);
-					cell->rendered_value = NULL;
-				}
-				if (cell->row_info != NULL)
-					cell->row_info->needs_respan = TRUE;
-			}
-		}
-	});
+	sheet_cell_foreach (sheet, (GHFunc)cb_re_render_formulas, NULL);
 }
 
 static void	  
@@ -177,13 +178,13 @@ sheet_set_use_r1c1 (Sheet *sheet, gboolean use_r1c1)
 		sv->edit_pos_changed.content = TRUE;);
 }
 
-static GnmValue *
-cb_rerender_zeroes (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
+static void
+cb_sheet_set_hide_zeros (G_GNUC_UNUSED gpointer unused,
+			 GnmCell *cell,
+			 G_GNUC_UNUSED gpointer user)
 {
-	if (!iter->cell->rendered_value || !cell_is_zero (iter->cell))
-		return NULL;
-	cell_render_value (iter->cell, TRUE);
-	return NULL;
+	if (cell->rendered_value && cell_is_zero (cell))
+		cell_render_value (cell, TRUE);
 }
 
 static void	  
@@ -194,9 +195,7 @@ sheet_set_hide_zeros (Sheet *sheet, gboolean hide)
 		return;
 	sheet->hide_zero = hide;
 
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
-		cb_rerender_zeroes, NULL);
+	sheet_cell_foreach (sheet, (GHFunc)cb_sheet_set_hide_zeros, NULL);
 }
 
 static void
@@ -224,7 +223,9 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		 * setting just the two names.
 		 */
 		char *sucker_name = workbook_sheet_get_free_name (wb, new_name, TRUE, FALSE);
+#if 0
 		g_warning ("Renaming %s to %s to avoid clash.\n", sucker->name_unquoted, sucker_name);
+#endif
 		g_object_set (sucker, "name", sucker_name, NULL);
 		g_free (sucker_name);
 	}
@@ -2849,19 +2850,13 @@ sheet_cells_count (Sheet const *sheet)
 	return g_hash_table_size (sheet->cell_hash);
 }
 
-static GnmValue *
-cb_sheet_cells_collect (GnmCellIter const *iter, gpointer user)
+static void
+cb_sheet_cells_collect (G_GNUC_UNUSED gpointer unused,
+			GnmCell const *cell,
+			GPtrArray *cells)
 {
-	GPtrArray *cells = user;
-	GnmEvalPos *ep = g_new (GnmEvalPos, 1);
-
-	ep->sheet = iter->pp.sheet;
-	ep->eval.col = iter->pp.eval.col;
-	ep->eval.row = iter->pp.eval.row;
-
+	GnmEvalPos *ep = eval_pos_init_cell (g_new (GnmEvalPos, 1), cell);
 	g_ptr_array_add (cells, ep);
-
-	return NULL;
 }
 
 /**
@@ -2877,31 +2872,32 @@ GPtrArray *
 sheet_cells (Sheet *sheet, gboolean comments)
 {
 	GPtrArray *cells = g_ptr_array_new ();
-	GnmRange r;
-	GSList *scomments, *ptr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), cells);
 
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
-		cb_sheet_cells_collect, cells);
+	sheet_cell_foreach (sheet, (GHFunc)cb_sheet_cells_collect, cells);
 
-	range_init_full_sheet (&r);
-	scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
-	for (ptr = scomments; ptr; ptr = ptr->next) {
-		GnmComment *c = ptr->data;
-		GnmRange const *loc = sheet_object_get_range (SHEET_OBJECT (c));
-		GnmCell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
-		if (!cell) {
-			/* If cells does not exist, we haven't seen it...  */
-			GnmEvalPos *ep = g_new (GnmEvalPos, 1);
-			ep->sheet = sheet;
-			ep->eval.col = loc->start.col;
-			ep->eval.row = loc->start.row;
-			g_ptr_array_add (cells, ep);
+	if (comments) {
+		GnmRange r;
+		GSList *scomments, *ptr;
+
+		range_init_full_sheet (&r);
+		scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
+		for (ptr = scomments; ptr; ptr = ptr->next) {
+			GnmComment *c = ptr->data;
+			GnmRange const *loc = sheet_object_get_range (SHEET_OBJECT (c));
+			GnmCell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
+			if (!cell) {
+				/* If cell does not exist, we haven't seen it...  */
+				GnmEvalPos *ep = g_new (GnmEvalPos, 1);
+				ep->sheet = sheet;
+				ep->eval.col = loc->start.col;
+				ep->eval.row = loc->start.row;
+				g_ptr_array_add (cells, ep);
+			}
 		}
+		g_slist_free (scomments);
 	}
-	g_slist_free (scomments);
 
 	return cells;
 }

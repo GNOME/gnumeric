@@ -1,3 +1,29 @@
+2006-08-03  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_cells): Actually respect "comments" argument.
+
+	* src/commands.c (cmd_paste_copy_impl): Add () to clarify.
+
+	* src/sheet.c (re_render_formulas): Use sheet_cell_foreach, not
+	SHEET_FOREACH_DEPENDENT.
+	(sheet_set_hide_zeros): Use sheet_cell_foreach, not
+	sheet_foreach_cell_in_range.
+	(cb_rerender_zeroes): Adapt to sheet_set_hide_zeros change.
+	(sheet_cells): Use sheet_cell_foreach, not
+	sheet_foreach_cell_in_range.
+
+	* src/workbook-control-gui.c (cb_workbook_debug_info): Use
+	sheet_cell_foreach, not sheet_foreach_cell_in_range.
+
+	* src/xml-sax-write.c (xml_write_cells): Use sheet_cell_foreach,
+	not sheet_foreach_cell_in_range.
+
+	* src/dependent.c (dependent_eval): Make this static.  Move
+	dependent_needs_recalc check to caller.  Change to void result.
+
+	* src/validation.c (validation_eval): Use cell_eval, not
+	dependent_eval.
+
 2006-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	* src/sheet.c (sheet_new_with_type): specify sheet for Print_Area
 	  range

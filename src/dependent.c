@@ -330,7 +330,7 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 		if (new_texpr)
 			gnm_expr_top_ref (new_texpr);
 		if (klass->set_expr)
-			(*klass->set_expr) (dep, new_texpr);
+			klass->set_expr (dep, new_texpr);
 
 		if (dep->texpr)
 			gnm_expr_top_unref (dep->texpr);
@@ -1466,38 +1466,34 @@ iterate :
  * dependent_eval :
  * @dep :
  */
-gboolean
+static void
 dependent_eval (GnmDependent *dep)
 {
-	if (dependent_needs_recalc (dep)) {
-		int const t = dependent_type (dep);
+	int const t = dependent_type (dep);
 
-		if (t != DEPENDENT_CELL) {
-			GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
+	if (t != DEPENDENT_CELL) {
+		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
-			g_return_val_if_fail (klass, FALSE);
+		g_return_if_fail (klass);
 
-			if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
-				dependent_clear_dynamic_deps (dep);
-				dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
-			}
-
-			(*klass->eval) (dep);
-		} else {
-			/* This will clear the dynamic deps too, see comment there
-			 * to explain asymmetry.
-			 */
-			gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
-
-			/* This should always be the top of the stack */
-			g_return_val_if_fail (finished, FALSE);
+		if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
+			dependent_clear_dynamic_deps (dep);
+			dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
 		}
 
-		/* Don't clear flag until after in case we iterate */
-		dep->flags &= ~DEPENDENT_NEEDS_RECALC;
-		return TRUE;
+		klass->eval (dep);
+	} else {
+		/* This will clear the dynamic deps too, see comment there
+		 * to explain asymmetry.
+		 */
+		gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
+
+		/* This should always be the top of the stack */
+		g_return_if_fail (finished);
 	}
-	return FALSE;
+
+	/* Don't clear flag until after in case we iterate */
+	dep->flags &= ~DEPENDENT_NEEDS_RECALC;
 }
 
 
@@ -2516,7 +2512,12 @@ workbook_recalc (Workbook *wb)
 
 	g_return_if_fail (IS_WORKBOOK (wb));
 
-	WORKBOOK_FOREACH_DEPENDENT (wb, dep, redraw |= dependent_eval (dep););
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
+		if (dependent_needs_recalc (dep)) {
+			dependent_eval (dep);
+			redraw = TRUE;
+		}
+	});
 	if (redraw) {
 		WORKBOOK_FOREACH_SHEET (wb, sheet, {
 			SHEET_FOREACH_VIEW (sheet, sv, sv_flag_selection_change (sv););
@@ -2828,7 +2829,7 @@ dependent_debug_name (GnmDependent const *dep, GString *target)
 		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 		g_return_if_fail (klass);
-		(*klass->debug_name) (dep, target);
+		klass->debug_name (dep, target);
 	} else
 		g_string_append (target, cell_name (DEP_TO_CELL (dep)));
 }
