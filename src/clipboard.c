@@ -209,7 +209,7 @@ paste_cell (Sheet *dst_sheet,
 			GnmExprTop const *relo = gnm_expr_top_relocate (
 				src->texpr, rinfo, FALSE);
 			cell_set_expr_and_value (dst, relo ? relo : src->texpr,
-				value_dup (src->val), FALSE);
+				value_dup (src->val), TRUE);
 			if (NULL != relo)
 				gnm_expr_top_unref (relo);
 		} else

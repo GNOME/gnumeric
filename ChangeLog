@@ -1,3 +1,10 @@
+2006-08-04  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (paste_cell): Old cell_relocate linked the dep
+	for us.  Thus we now need to ask cell_set_expr_and_value to do that.
+	Note: now all callers to cell_set_expr_and_value has TRUE as last
+	argument.
+
 2006-08-03  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_cells): Actually respect "comments" argument.
@@ -25,6 +32,7 @@
 	dependent_eval.
 
 2006-08-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet.c (sheet_new_with_type): specify sheet for Print_Area
 	  range
 
