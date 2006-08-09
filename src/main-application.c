@@ -357,7 +357,7 @@ main (int argc, char **argv)
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
 #ifdef USE_HILDON
-	osso_context_t * osso_context = osso_initialize ("gnumeric", "1.6.2", TRUE, NULL);
+	osso_context_t * osso_context = osso_initialize ("gnumeric", "1.7.0", TRUE, NULL);
 #endif
 
 #ifdef G_OS_WIN32

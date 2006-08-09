@@ -28,7 +28,8 @@ AM_CPPFLAGS = 								\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/dialogs						\
 	-I$(srcdir)/tools						\
-	$(GNUMERIC_CFLAGS)
+	$(GNUMERIC_CFLAGS)						\
+	$(HILDON_CFLAGS)
 
 # A hint is needed to build these headers first:
 BUILT_SOURCES =					\
@@ -47,7 +48,8 @@ libspreadsheet_la_LDFLAGS = -release $(VERSION)
 libspreadsheet_la_LIBADD = 			\
 	$(gnumeric_app_libs)			\
 	$(GNUMERIC_LIBS)			\
-	$(INTLLIBS)
+	$(INTLLIBS)				\
+	$(HILDON_LIBS)
 
 libspreadsheet_la_SOURCES =			\
 	gnm-marshalers.list			\
@@ -383,9 +385,13 @@ uninstall-hook:
 # what the build
 EXTRA_DIST = main-component.c			\
 	    README.gnm_float			\
-	    gnumeric.rc gnm-i18n.h		\
-	    GNOME_Gnumeric-gtk.xml.in		\
-	    HILDON_Gnumeric-gtk.xml.in
+	    gnumeric.rc gnm-i18n.h
+
+if USE_HILDON
+EXTRA_DIST += HILDON_Gnumeric-gtk.xml.in
+else
+EXTRA_DIST += GNOME_Gnumeric-gtk.xml.in
+endif
 
 gtkactiondir=$(gnumeric_datadir)
 

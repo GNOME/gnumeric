@@ -130,6 +130,7 @@ libspreadsheet_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
 	libart-2.0		>= 2.3.11
 "
+
 gnumeric_gtk_reqs="$libspreadsheet_gtk_reqs"
 libspreadsheet_gnome_reqs="
 	libgnomeui-2.0		>= 2.0.0
@@ -240,48 +241,28 @@ if test "x$gnumeric_with_gnome" = "xtrue"; then
 	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
 fi
 
-# CHECK HILDON
-# -------------------------
-# AC_DEFUN([ABI_HILDON_QUICK], [
-
-dnl Quick&Easy HILDON Detection
-
-hildon=false
-
-HILDON_CFLAGS=""
-HILDON_LIBS=""
+dnl ==============================================
+dnl Maemo/Hildon based User Interface
 
 AC_ARG_ENABLE(hildon,
-	AC_HELP_STRING([--enable-hildon],[Compile with hildon support]),[
-	if test "x$enableval" = "xyes"; then
-		hildon=true
-	fi
-])
+	AC_HELP_STRING([--enable-hildon],[Build with Maemo/Hildon support]),
+    enable_hildon="$enableval",
+    enable_hildon=no)
 
-AM_CONDITIONAL(USE_HILDON, $hildon)
-
-if test "$hildon" = true ; then
-PKG_CHECK_MODULES(HILDON, hildon-libs dbus-1, USE_HILDON=yes,USE_HILDON=no)
-	PKG_CHECK_MODULES(HILDON,[
-		hildon-libs
-		libosso
-	])
-	HILDON_CFLAGS="$HILDON_CFLAGS -DUSE_HILDON=1"
-	HILDON_LIBS="$HILDON_LIBS"
+if test "x$enable_hildon" = "xyes" ; then
+    PKG_CHECK_MODULES(HILDON,
+                      hildon-libs hildon-fm libosso,
+                      HAVE_HILDON=yes, HAVE_HILDON=no)
 fi
+
+if test "x$HAVE_HILDON" = "xyes" ; then
+    AC_DEFINE(USE_HILDON, 1, [Build with Maemo/Hildon support])
+fi
+
+AM_CONDITIONAL(USE_HILDON, test "x$HAVE_HILDON" = "xyes")
 
 AC_SUBST(HILDON_CFLAGS)
 AC_SUBST(HILDON_LIBS)
-
-CFLAGS="$CFLAGS $HILDON_CFLAGS"
-LIBS="$LIBS $HILDON_LIBS"
-
-AM_CONDITIONAL(WITH_HILDON, test "x$hildon" = "xtrue")
-
-# ])
-
-# END HILDON
-# --------------------------------------------------------------
 
 dnl ==============================================
 dnl GNOME Specific extensions

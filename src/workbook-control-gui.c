@@ -21,7 +21,6 @@
  *
  * Port to Maemo:
  * 	Eduardo Lima  (eduardo.lima@indt.org.br)
- * 	Renato Araujo (renato.filho@indt.org.br)
  */
 
 #include <gnumeric-config.h>
@@ -87,11 +86,6 @@
 #include <string.h>
 #include <errno.h>
 
-#ifdef USE_HILDON
-	#include <hildon-widgets/hildon-app.h>
-	#include <hildon-widgets/hildon-appview.h>
-#endif
-
 #define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
 void wbcg_ ## func arglist					\
@@ -106,12 +100,6 @@ void wbcg_ ## func arglist					\
 }
 #define WBCG_VIRTUAL(func, arglist, call) \
         WBCG_VIRTUAL_FULL(func, func, arglist, call)
-
-#ifdef USE_HILDON
-#define TABLE_COLUMNS  2
-#else
-#define TABLE_COLUMNS  1	
-#endif
 
 #define	SHEET_CONTROL_KEY	"SheetControl"
 
@@ -174,11 +162,7 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
-#ifdef USE_HILDON
-	return GTK_WINDOW (gtk_widget_get_parent (wbcg->toplevel));
-#else
 	return GTK_WINDOW (wbcg->toplevel);
-#endif
 }
 
 void
@@ -1643,10 +1627,13 @@ wbcg_finalize (GObject *obj)
 	g_hash_table_destroy (wbcg->visibility_widgets);
 	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
 
-#ifdef USE_HILDON	
-	if (wbcg->hildon_app != NULL)
-		gtk_object_destroy (GTK_OBJECT (wbcg->hildon_app));
-#endif	
+#ifdef USE_HILDON
+	if (wbcg->hildon_prog != NULL) {
+		g_object_unref (wbcg->hildon_prog);
+		wbcg->hildon_prog = NULL;
+	}
+#endif
+
 	(*parent_class->finalize) (obj);
 }
 
@@ -1751,14 +1738,14 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_notebook_switch_page), wbcg);
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
-			  0, TABLE_COLUMNS, 1, 2,
+			  0, 1, 1, 2,
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
 
 	gtk_widget_show (GTK_WIDGET (wbcg->notebook));
 
-#ifdef USE_HILDON	
+#ifdef USE_HILDON
 	gtk_notebook_set_show_border (wbcg->notebook, FALSE);
 	gtk_notebook_set_show_tabs (wbcg->notebook, FALSE);
 #endif
@@ -1995,7 +1982,6 @@ static int
 show_gui (WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg;
-#ifndef USE_HILDON
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	int sx, sy;
 	gdouble fx, fy;
@@ -2048,7 +2034,6 @@ show_gui (WorkbookControlGUI *wbcg)
 		/* Use default */
 		gtk_window_set_default_size (wbcg_toplevel (wbcg), sx * fx, sy * fy);
 	}
-#endif /* ifndef  USE_HILDON */ 
 
 	if (NULL != (scg = wbcg_cur_scg (wbcg)))
 		cb_direction_change (NULL, NULL, scg);
@@ -2311,9 +2296,7 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		tmp->style->font_desc, "W") * 15, -1);
 
-#ifndef USE_HILDON
 	wbcg_class->create_status_area (wbcg, wbcg->progress_bar, wbcg->status_text, frame);
-#endif
 }
 
 void

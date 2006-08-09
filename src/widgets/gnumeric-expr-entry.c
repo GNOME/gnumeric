@@ -402,6 +402,11 @@ gee_init (GnmExprEntry *gee)
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
+
+#ifdef USE_HILDON
+	g_object_set (G_OBJECT (gee->entry), "autocap", FALSE, NULL);
+#endif
+
 	/* Disable selecting the entire content when the widget gets focus */
 	g_object_set (gtk_widget_get_settings (GTK_WIDGET (gee->entry)),
 		      "gtk-entry-select-on-focus", FALSE,

@@ -9,7 +9,6 @@
  *
  * Port to Maemo:
  * 	Eduardo Lima  (eduardo.lima@indt.org.br)
- * 	Renato Araujo (renato.filho@indt.org.br) 
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
@@ -46,9 +45,7 @@
 #include <string.h>
 
 #ifdef USE_HILDON
-	#include <hildon-lgpl/hildon-widgets/hildon-app.h>
-	#include <hildon-lgpl/hildon-widgets/hildon-appview.h>
-	#include <hildon-fm/hildon-widgets/hildon-file-chooser-dialog.h>
+#include <hildon-fm/hildon-widgets/hildon-file-chooser-dialog.h>
 #endif
 
 typedef struct {
@@ -106,32 +103,6 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 	WorkbookControlGUI *new_wbcg = NULL;
 	Workbook *tmp_wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
-#ifdef USE_HILDON
-	/* Ask if the user wants to save the current workbook */
-	if (go_doc_is_dirty (GO_DOC (tmp_wb))) {
-		switch (wbcg_show_save_dialog (wbcg, tmp_wb, FALSE)) {
-
-			case GTK_RESPONSE_YES:
-			case GNM_RESPONSE_SAVE_ALL:
-				gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
-				break;
-
-			case GTK_RESPONSE_NO:
-			case GNM_RESPONSE_DISCARD_ALL:
-				/* Do nothing */
-				break;
-			
-			default:  /* CANCEL */
-				return;
-		}
-	}
-
-	/* Shows the new workbook in the same window */
-	g_object_ref (wbcg);
-	g_object_unref (tmp_wb);
-	wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
-	wb_control_init_state (WORKBOOK_CONTROL (wbcg));
-#else
 	if (go_doc_is_pristine (GO_DOC (tmp_wb))) {
 		g_object_ref (wbcg);
 		g_object_unref (tmp_wb);
@@ -146,7 +117,6 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 
 		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 	}
-#endif
 
 	sheet_update (wb_view_cur_sheet	(wbv));
 }

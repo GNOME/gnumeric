@@ -10,12 +10,16 @@
 
 #include <gtk/gtknotebook.h>
 
+#ifdef USE_HILDON
+#include <hildon-widgets/hildon-program.h>
+#endif
+
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;
 
 	GtkWidget   *toplevel;
 #ifdef USE_HILDON
-	GtkWidget   *hildon_app;
+	HildonProgram *hildon_prog;
 #endif
 	GtkNotebook *notebook;
 	GtkWidget   *progress_bar;

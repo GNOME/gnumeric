@@ -1,3 +1,40 @@
+2006-08-09  Eduardo Lima  <eduardo.lima@indt.org.br>
+
+	Port to Maemo/Hildon 2.0 (Nokia 770 OS2006).
+
+	* configure.in: Clean up Maemo/Hildon configuration.
+
+	* src/Makefile.am: Added $(HILDON_CFLAGS) and $(HILDON_LIBS) vars.
+
+	* src/HILDON_Gnumeric-gtk.xml.in: Merged with GNOME_Gnumeric-gtk.xml.in.
+
+	* src/widgets/gnumeric-expr-entry.c (gee_init): Set property "autocap"
+	of the entry to FALSE if defined HILDON.
+
+	* src/workbook-control-gui-priv.h: Using the new HildonProgram/Window
+	API instead of the deprecated HildonApp/Appview.
+
+	* src/workbook-control-gui.c: Clean up. Using the new
+	HildonProgram/Window API instead of the deprecated HildonApp/Appview.
+
+	* src/wbcg-actions.c: Clean up. Using the new HildonProgram/Window
+	API instead of the deprecated HildonApp/Appview.
+
+	(cb_edit_undo_last): New. Added in place of cb_edit_undo for action
+	"UndoLast".
+	(cb_edit_redo_last): New. Added in place of cb_edit_redo for action
+	"RedoLast".
+
+	* src/wbc-gtk.c: Clean up. Using the new HildonProgram/Window API
+	instead of the deprecated HildonApp/Appview.
+
+	* src/main-application.c: Changed gnumeric version in call to
+	osso_initialize() if defined HILDON.
+
+	* src/gui-file.c: Clean up.
+
+	* src/item-grid.c: Clean up.
+
 2006-08-04  Morten Welinder  <terra@gnome.org>
 
 	* src/clipboard.c (paste_cell): Old cell_relocate linked the dep
