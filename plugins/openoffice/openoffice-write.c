@@ -301,10 +301,10 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, G
 			if (ac != NULL) {
 				gsf_xml_out_add_uint (state->xml,
 					TABLE "number-matrix-columns-spanned",
-						     (uint)(ac->cols));
+						     (unsigned int)(ac->cols));
 				gsf_xml_out_add_uint (state->xml,
 					TABLE "number-matrix-rows-spanned",
-						     (uint)(ac->rows));
+						     (unsigned int)(ac->rows));
 			}			
 
 			parse_pos_init_cell (&pp, cell);

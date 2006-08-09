@@ -1,3 +1,8 @@
+2006-08-09  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* openoffice-write.c (od_write_cell): Changed casts from uint to
+	unsigned int in calls to gsf_xml_out_add_uint().
+
 2006-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (oo_write_cell): We will also be called for 
