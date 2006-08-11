@@ -2453,7 +2453,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	if (state.ver == OOO_VER_OPENDOC) {
 		GsfInput *meta_file =
 			meta_file = gsf_infile_child_by_name (zip, "meta.xml");
-		if (meta_file != NULL) {
+		if ((meta_file != NULL) && (gsf_input_size(meta_file) > 0)) {	
 			meta_data = gsf_doc_meta_data_new ();
 			err = gsf_opendoc_metadata_read (meta_file, meta_data);
 			if (NULL != err) {
@@ -2467,7 +2467,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		}
 	}
 
-	if (styles != NULL) {
+	if ((styles != NULL) && (gsf_input_size(styles) > 0)) {
 		GsfXMLInDoc *doc = gsf_xml_in_doc_new (styles_dtd, gsf_ooo_ns);
 		gsf_xml_in_doc_parse (doc, styles, &state);
 		gsf_xml_in_doc_free (doc);

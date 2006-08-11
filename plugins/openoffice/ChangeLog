@@ -1,3 +1,7 @@
+2006-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	* openoffice-read.c (openoffice_file_open): Add two gsf_input_size()
+	  checks (patch by sum1_abi@yahoo.com)
+
 2006-08-09  Eduardo Lima <eduardo.lima@indt.org.br>
 
 	* openoffice-write.c (od_write_cell): Changed casts from uint to

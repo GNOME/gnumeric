@@ -23,6 +23,8 @@ Andreas:
 	* Fix undo problem for paste [#347826]
 	* Fix crash when jumping to Print_Area [#349686]
 	* Adjust width of tables in LaTeX export [#350625]
+	* Check for empty styles.xml and meta.xml files in OpenDocument 
+	  import [#350644]  Patch by sum1_abi@yahoo.com.
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).
