@@ -701,12 +701,13 @@ latex2e_print_vert_border (GsfOutput *output, StyleBorderType style)
 }
 
 /**
- * latex2e_write_blank_cell:
+ * latex2e_write_blank_multicolumn_cell:
  *
  * @output : output stream where the cell contents will be written.
- * @col :
- * @row :
- * @first_column :
+ * @star_col :
+ * @start_row :
+ * @num_merged_cols : an integer value of the number of columns to merge.
+ * @num_merged_rows : an integer value of the number of rows to merge.
  * @sheet :  the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
@@ -716,24 +717,58 @@ latex2e_print_vert_border (GsfOutput *output, StyleBorderType style)
  *
  */
 static void
-latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
-			  StyleBorderType *borders, Sheet *sheet)
+latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int start_row,
+				      int num_merged_cols, int num_merged_rows,
+				      gint index,
+				      StyleBorderType *borders, Sheet *sheet)
 {
-	GnmCellPos pos;
+	int merge_width = 0;
 	StyleBorderType left_border = STYLE_BORDER_NONE;
 	StyleBorderType right_border = STYLE_BORDER_NONE;
 
-	pos.col = col;
-	pos.row = row;
+	if (num_merged_cols > 1 || num_merged_rows > 1) {
+		ColRowInfo const * ci;
+		int i;
+
+		for (i = 0; i < num_merged_cols; i++) {
+			ci = sheet_col_get_info (sheet, start_col + i);
+			merge_width += ci->size_pixels;
+		}
+	}
 
 	if (index == 0) {
 		left_border = *borders;
 	}
-	right_border = borders[index + 1];
+	right_border = borders[index + num_merged_cols];
 
-	if (left_border == STYLE_BORDER_NONE && right_border == STYLE_BORDER_NONE)
-		gsf_output_printf (output, "\n");
-	else {
+	/* We only set up a multicolumn command if necessary */
+	if (num_merged_cols > 1) {
+		int i;
+
+		/* Open the multicolumn statement. */
+		gsf_output_printf (output, "\\multicolumn{%d}{", num_merged_cols);
+
+		if (left_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (output, left_border);
+
+		if (num_merged_rows > 1) {
+			gsf_output_printf (output, "c");
+		} else {
+			gsf_output_printf (output, "p{");
+			for (i = 0; i < num_merged_cols; i++) {
+				gsf_output_printf (output, "\t\\gnumericCol%s+%%\n",
+					 col_name (start_col + i));
+			}
+			gsf_output_printf (output, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
+		}
+
+		if (right_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (output, right_border);
+
+		/*Close the right delimiter, as above. Also open the text delimiter.*/
+		gsf_output_printf (output,"}%%\n\t{");
+	} else if (left_border != STYLE_BORDER_NONE || right_border != STYLE_BORDER_NONE) {
+
 		/* Open the multicolumn statement. */
 		gsf_output_printf (output, "\\multicolumn{1}{");
 
@@ -741,14 +776,40 @@ latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
 			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
-		gsf_output_printf (output, "c");
+		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(start_col));
 
 		if (right_border != STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
 
-		/*Close the right delimiter, as above. Also add the empty text delimiters.*/
-		gsf_output_printf (output,"}{}%%\n");
+		/*Close the right delimiter, as above. Also open the text delimiter.*/
+		gsf_output_printf (output,"}%%\n\t{");
+
 	}
+
+	if (num_merged_rows > 1) {
+		int i;
+		/* Open the multirow statement. */
+		gsf_output_printf (output, "\\multirow{%d}[%i]*{\\begin{tabular}{p{",
+			 num_merged_rows, num_merged_rows/2);
+		for (i = 0; i < num_merged_cols; i++) {
+			gsf_output_printf (output, "\t\\gnumericCol%s+%%\n", col_name (start_col + i));
+		}
+		if (num_merged_cols > 2)
+			gsf_output_printf (output, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
+		else
+			gsf_output_printf (output, "\t0pt}}");
+		/* Close the multirowtext. */
+		gsf_output_printf (output, "\\end{tabular}}");
+	}
+
+	/* Close the multicolumn text bracket. */
+	if (num_merged_cols > 1 || left_border != STYLE_BORDER_NONE
+	    || right_border != STYLE_BORDER_NONE)
+		gsf_output_printf (output, "}");
+
+	/* And we are done. */
+	gsf_output_printf (output, "\n");
+
 }
 
 
@@ -757,6 +818,7 @@ latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
  *
  * @output : output stream where the cell contents will be written.
  * @cell :   the cell whose contents are to be written.
+ * @star_col :
  * @num_merged_cols : an integer value of the number of columns to merge.
  * @num_merged_rows : an integer value of the number of rows to merge.
  * @sheet :  the current sheet.
@@ -837,7 +899,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
-		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(cell->pos.col));
+		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(start_col));
 
 		if (right_border != STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
@@ -1145,8 +1207,8 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 	gsf_output_puts (output, ""
 "\\setlength\\gnumericTableWidthComplete{\\gnumericTableWidth+%\n"
 "         \\tabcolsep*\\gumericNumCols*2+\\arrayrulewidth*\\gumericNumCols}\n"
-"\\ifthenelse{\\lengthtest{\\gnumericTableWidthComplete > \\textwidth}}%\n"
-"         {\\def\\gnumericScale{\\ratio{\\textwidth-%\n"
+"\\ifthenelse{\\lengthtest{\\gnumericTableWidthComplete > \\linewidth}}%\n"
+"         {\\def\\gnumericScale{\\ratio{\\linewidth-%\n"
 "                        \\tabcolsep*\\gumericNumCols*2-%\n"
 "                        \\arrayrulewidth*\\gumericNumCols}%\n"
 "{\\gnumericTableWidth}}}%\n"
@@ -1232,8 +1294,11 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 		g_free (clines);
 
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {
-			CellSpanInfo const *the_span;
+		        GnmCellPos pos;
 
+			pos.col = col;
+			pos.row = row;
+			
 			/* Get the cell. */
 			cell = sheet_cell_get (current_sheet, col, row);
 
@@ -1243,33 +1308,17 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 			else
 				gsf_output_printf (output, "\t ");
 
-			/* Even an empty cell (especially an empty cell!) can be */
-			/* covered by a span!                                    */
-			the_span = row_span_get (ri, col);
-			if (the_span != NULL) {
-				latex2e_write_multicolumn_cell(output, (GnmCell *)the_span->cell,
-							       col,
-							       the_span->right -
-							       col + 1, 1,
+			/* Check a merge. */
+			merge_range = sheet_merge_is_corner (current_sheet, &pos);
+			if (merge_range == NULL) {
+			        if (cell_is_empty(cell))
+				        latex2e_write_blank_multicolumn_cell(output, col, row,
+									     1, 1,
 							       col - total_range.start.col,
 							       next_vert, current_sheet);
-				col += the_span->right - col;
-				continue;
-			}
-
-
-			/* A blank cell has only a few options*/
-			if (cell_is_empty(cell)) {
-				latex2e_write_blank_cell(output, col, row,
-							col - total_range.start.col,
-							next_vert, current_sheet);
-				continue;
-			}
-
-			/* Check a merge. */
-			merge_range = sheet_merge_is_corner (current_sheet, &cell->pos);
-			if (merge_range == NULL) {
-				latex2e_write_multicolumn_cell(output, cell, col, 1, 1,
+				else
+				        latex2e_write_multicolumn_cell(output, cell, col,
+								       1, 1,
 							       col - total_range.start.col,
 							       next_vert, current_sheet);
 				continue;
@@ -1279,10 +1328,17 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 			num_merged_cols = merge_range->end.col - merge_range->start.col + 1;
 			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
 
-			latex2e_write_multicolumn_cell(output, cell, col, num_merged_cols,
-						       num_merged_rows,
-						       col - total_range.start.col,
-						       next_vert, current_sheet);
+			if (cell_is_empty(cell))
+				latex2e_write_blank_multicolumn_cell(output, col, row, 
+								     num_merged_cols,
+								     num_merged_rows,
+								     col - total_range.start.col,
+								     next_vert, current_sheet);
+			else
+				latex2e_write_multicolumn_cell(output, cell, col, num_merged_cols,
+							       num_merged_rows,
+							       col - total_range.start.col,
+							       next_vert, current_sheet);
 			col += (num_merged_cols - 1);
 			continue;
 		}

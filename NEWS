@@ -22,6 +22,7 @@ Andreas:
 	* Fix interaction of merged cells, cell comments and undo [#347536]
 	* Fix undo problem for paste [#347826]
 	* Fix crash when jumping to Print_Area [#349686]
+	* Adjust width of tables in LaTeX export [#350625]
 
 Jody:
 	* Fix ODF sheet name import ('aa''a' == aa'a).
