@@ -11900,7 +11900,7 @@ msgstr "Afficha_ge"
 
 #: ../src/wbcg-actions.c:1546
 msgid "_Windows"
-msgstr "Fe_nêtres"
+msgstr "Fenêt_res"
 
 #: ../src/wbcg-actions.c:1547
 msgid "_Toolbars"
@@ -12320,7 +12320,7 @@ msgstr "Recherche un texte et le remplace par un autre"
 
 #: ../src/wbcg-actions.c:1778
 msgid "_Goto cell..."
-msgstr "_Aller à la cellule..."
+msgstr "Aller à la cellule..."
 
 #: ../src/wbcg-actions.c:1779
 msgid "Jump to a specified cell"
