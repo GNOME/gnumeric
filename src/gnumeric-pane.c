@@ -214,11 +214,13 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 			"wbcg", scg_get_wbcg (scg));
 		gnm_canvas_window_to_coord (gcanvas, x, y, &wx, &wy);
 
-		gdk_window_get_pointer (gtk_widget_get_parent_window (widget),
+		gdk_window_get_pointer (gtk_widget_get_parent_window (source_widget),
 			NULL, NULL, &mask);
 		gnm_pane_objects_drag (GNM_CANVAS (source_widget)->pane, NULL,
 			wx, wy, 8, FALSE, (mask & GDK_SHIFT_MASK) != 0);
-		gdk_drag_status (context, GDK_ACTION_MOVE, time);
+		gdk_drag_status (context, 
+				 (mask & GDK_CONTROL_MASK) != 0 ? GDK_ACTION_COPY : GDK_ACTION_MOVE, 
+				 time);
 	}
 	return TRUE;
 }
@@ -1025,32 +1027,11 @@ void
 gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 			      SheetObject *so, int drag_type, gboolean is_creation)
 {
-	/* ctrl-click on acetate dups the object */
-	gboolean const make_dup = drag_type == 8 &&
-		(event->state & GDK_CONTROL_MASK);
 	FooCanvasItem **ctrl_pts;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (0 <= drag_type);
 	g_return_if_fail (drag_type < 9);
-
-	if (make_dup) {
-		SheetControlGUI *scg = pane->gcanvas->simple.scg;
-		GSList *ptr, *objs = go_hash_keys (scg->selected_objects);
-
-		for (ptr = objs ; ptr != NULL ; ptr = ptr->next) {
-			SheetObject *dup_obj = sheet_object_dup (ptr->data);
-			if (dup_obj != NULL) {
-				sheet_object_set_sheet (dup_obj, sc_sheet (SHEET_CONTROL (scg)));
-				scg_object_select (scg, dup_obj);
-				g_object_unref (dup_obj);
-				scg_object_unselect (scg, ptr->data);
-				if (so == ptr->data)
-					so = dup_obj;
-			}
-		}
-		g_slist_free (objs);
-	}
 
 	ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
 
@@ -1061,7 +1042,7 @@ gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK,
 		NULL, event->time);
-	pane->drag.created_objects = is_creation || make_dup;
+	pane->drag.created_objects = is_creation;
 	pane->drag.button = event->button;
 	pane->drag.last_x = pane->drag.origin_x = event->x;
 	pane->drag.last_y = pane->drag.origin_y = event->y;
@@ -1164,12 +1145,13 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 			gnm_pane_drag_begin (pane, so, event);
 		else if (gnm_canvas_handle_motion (GNM_CANVAS (ctrl_pt->canvas),
 						   ctrl_pt->canvas, &event->motion,
-						   GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y | GNM_CANVAS_SLIDE_EXTERIOR_ONLY,
+						   GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y |
+						   GNM_CANVAS_SLIDE_EXTERIOR_ONLY,
 						   cb_slide_handler, ctrl_pt))
 			gnm_pane_object_move (pane, G_OBJECT (ctrl_pt),
-				event->motion.x, event->motion.y,
-				(event->button.state & GDK_CONTROL_MASK) != 0,
-				(event->button.state & GDK_SHIFT_MASK) != 0);
+					      event->motion.x, event->motion.y,
+					      (event->button.state & GDK_CONTROL_MASK) != 0,
+					      (event->button.state & GDK_SHIFT_MASK) != 0);
 		break;
 
 	default:

@@ -3307,15 +3307,45 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 		GdkWindow *window;
 		GdkModifierType mask;
 		int xp, yp;
+		int xx = x, yy = y;
+		int origin_x = 0, origin_y = 0;
+		gboolean make_dup;
 
 		window = gtk_widget_get_parent_window (GTK_WIDGET (gcanvas));
 		gdk_window_get_pointer (window, &xp, &yp, &mask);
+		make_dup = ((mask & GDK_CONTROL_MASK) != 0);
 
-		gnm_pane_objects_drag (gcanvas->pane, NULL, x, y, 8, FALSE,
+		/* When copying objects, we have to create a copy of current selection.
+		 * Since new objects are on top of canvas, we have to move current selection
+		 * back to original position, create a copy of selected objects, make them
+		 * the current selection, then move these objects to drop location. */
+		
+		if (make_dup) {
+			xx = origin_x = gcanvas->pane->drag.origin_x;
+			yy = origin_y = gcanvas->pane->drag.origin_y;
+		}
+		
+		gnm_pane_objects_drag (gcanvas->pane, NULL, xx, yy, 8, FALSE,
 				       (mask & GDK_SHIFT_MASK) != 0);
-		gcanvas->pane->drag.origin_x = x;
-		gcanvas->pane->drag.origin_y = y;
+		gcanvas->pane->drag.origin_x = gcanvas->pane->drag.last_x;
+		gcanvas->pane->drag.origin_y = gcanvas->pane->drag.last_y;
 		scg_objects_drag_commit	(scg, 8, FALSE);
+		
+		if (make_dup) {
+			GSList *ptr, *objs = go_hash_keys (scg->selected_objects);
+
+			for (ptr = objs ; ptr != NULL ; ptr = ptr->next) {
+				SheetObject *dup_obj = sheet_object_dup (ptr->data);
+				if (dup_obj != NULL) {
+					sheet_object_set_sheet (dup_obj, sc_sheet (SHEET_CONTROL (scg)));
+					scg_object_select (scg, dup_obj);
+					g_object_unref (dup_obj);
+					scg_object_unselect (scg, ptr->data);
+				}
+			}
+			g_slist_free (objs);
+			scg_objects_nudge (scg, gcanvas, 8, x - origin_x, y - origin_y, FALSE, FALSE);
+		}
 	} else {
 		GnmCellRegion *content;
 		GSList *objects;

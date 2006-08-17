@@ -894,23 +894,20 @@ wbc_gtk_set_action_label (WorkbookControlGUI const *wbcg,
 	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
 
 	if (prefix != NULL) {
-		gchar    *text;
-		gboolean  sensitive = TRUE;
-
-		if (suffix == NULL) {
-			suffix = _("Nothing");
-			sensitive = FALSE;
-		}
+		char *text;
+		gboolean is_suffix = (suffix != NULL);
 
 #ifdef USE_HILDON
-		wbc_gtk_hildon_set_action_sensitive (gtk, action, sensitive);
+		wbc_gtk_hildon_set_action_sensitive (gtk, action, is_suffix);
 #endif
-		text = g_strdup_printf ("%s : %s", prefix, suffix);
-		g_object_set (G_OBJECT (a),
-			      "label",	   text,
-			      "sensitive", sensitive,
-			      NULL);
-		g_free (text);
+
+		text = is_suffix ? g_strdup_printf ("%s: %s", prefix, suffix) : (char *) prefix;
+			g_object_set (G_OBJECT (a),
+				      "label",	   text,
+				      "sensitive", is_suffix,
+				      NULL);
+		if (is_suffix)
+			g_free (text);
 	} else
 		g_object_set (G_OBJECT (a), "label", suffix, NULL);
 

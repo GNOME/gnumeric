@@ -1,3 +1,13 @@
+2006-08-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Fix for #342582.
+	
+	* src/gnumeric-pane.c (cb_pane_drag_motion): update cursor wrt
+	control key state of source_widget window.
+	(gnm_pane_object_start_resize): don't duplicate sheet object here.
+	* src/sheet-control-gui.c (scg_drag_receive_same_process): duplicate
+	sheet object when dropping with control key pressed.
+
 2006-08-17  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* src/wbc-gtk.c (wbc_gtk_set_action_label): don't display "Nothing"
