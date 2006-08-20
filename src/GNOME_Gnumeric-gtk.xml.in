@@ -198,6 +198,7 @@
       <separator/>
       <menuitem action="DataTextToColumns"/>
       <menuitem action="DataConsolidate"/>
+<!--      <menuitem action="DataSlice"/> -->
       <menu name="Outline" action="MenuOutline">
         <menuitem action="DataOutlineHideDetail"/>
         <menuitem action="DataOutlineShowDetail"/>
@@ -208,9 +209,6 @@
         <menuitem action="SheetOutlineBelow"/>
         <menuitem action="SheetOutlineRight"/>
       </menu>
-<!--
-	    <menuitem action="PivotTable" />
-	    -->
       <menu name="ExternalData" action="MenuExternalData">
         <menuitem action="DataImportText"/>
       </menu>
@@ -314,4 +312,5 @@
   <accelerator name="FormatAddBorders"	 action="FormatAddBorders"/>
   <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
   <accelerator name="Repeat"		 action="Repeat"/>
+  <accelerator name="EditSelectAllXL"	 action="EditSelectAllXL"/>
 </ui>

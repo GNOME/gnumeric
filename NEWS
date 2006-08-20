@@ -39,6 +39,8 @@ Jody:
 	* Update schema a bit.
 	* Update GLPK to version 4.9.
 	* Make ODF merge cell import more flexible. [#347263]
+	* Restore ctrl-a as alternative for select-all.
+	* Select All no longer moves the edit_pos.
 
 Morten:
 	* Moved font metrics to goffice.

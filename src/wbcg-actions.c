@@ -799,9 +799,8 @@ static GNM_ACTION_DEF (cb_data_filter)		{ dialog_advanced_filter (wbcg); }
 static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION); }
 static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_data_consolidate)	{ dialog_consolidate (wbcg); }
-
-#ifdef ENABLE_PIVOTS
-static GNM_ACTION_DEF (cb_data_pivottable)	{ dialog_pivottable (wbcg); }
+#ifdef DATA_SLICER
+static GNM_ACTION_DEF (cb_data_slicer)		{ dialog_data_slicer (wbcg); }
 #endif
 
 static void
@@ -1646,6 +1645,10 @@ static GtkActionEntry const actions[] = {
 	{ "EditSelectAll", NULL, N_("Select _All"),
 		"<control><shift>space", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
+	/* A duplicate that should not go into the menus, used only for the accelerator */
+	{ "EditSelectAllXL", NULL, N_("Select _All"),
+		"<control>a", N_("Select all cells in the spreadsheet"),
+		G_CALLBACK (cb_edit_select_all) },
 	{ "EditSelectColumn", NULL, N_("Select _Column"),
 		"<control>space", N_("Select an entire column"),
 		G_CALLBACK (cb_edit_select_col) },
@@ -1949,11 +1952,10 @@ static GtkActionEntry const actions[] = {
 	{ "DataConsolidate", NULL, N_("_Consolidate..."),
 		NULL, N_("Consolidate regions using a function"),
 		G_CALLBACK (cb_data_consolidate) },
-
-#ifdef ENABLE_PIVOTS
-	{ "PivotTable", "Gnumeric_PivotTable", N_("_PivotTable..."),
-		NULL, N_("Create a pivot table"),
-		G_CALLBACK (cb_data_pivottable) },
+#ifdef DATA_SLICER
+	{ "DataSlice", "Gnumeric_DataSlice", N_("_Data Slice..."),
+		NULL, N_("Create a Data Slice"),
+		G_CALLBACK (cb_data_slicer) },
 #endif
 
 /* Data -> Outline */

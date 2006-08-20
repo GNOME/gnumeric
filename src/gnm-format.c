@@ -77,13 +77,14 @@ find_entry (GOFormat const *format, GnmValue const *value,
 		*go_color = 0;
 
 	if (format) {
-		GSList *list;
+		GSList *ptr;
 
-		for (list = format->entries; list; list = list->next) {
-			entry = list->data;
-			if (gnm_style_format_condition (entry, value))
+		for (ptr = format->entries; ptr; ptr = ptr->next)
+			/* 142474 : only set entry if it matches */
+			if (gnm_style_format_condition (ptr->data, value)) {
+				entry = ptr->data;
 				break;
-		}
+			}
 
 		if (entry != NULL) {
 			/* Empty formats should be ignored */

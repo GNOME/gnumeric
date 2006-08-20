@@ -1,3 +1,12 @@
+2006-08-19  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-format.c (find_entry) : re-fix 142474 do not use the last
+	  element as a catch all.  If nothing matches use General.
+
+	* src/wbcg-actions.c (actions) : Add EditSelectAllXL with accelerator
+	  ctrl-a for backwards, and ms compat.
+	* src/GNOME_Gnumeric-gtk.xml.in : add it to the accelerator list.
+
 2006-08-11  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Fix for #342582.
