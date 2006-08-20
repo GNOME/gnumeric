@@ -5,6 +5,23 @@ issues that need to be addressed.  Divided into, things that will prevent
 release, and longer term bugs.
 
 -------------------------------------------------------------------------------
+Pending Patches
+---------------
+    http://bugzilla.gnome.org/show_bug.cgi?id=310354
+    - autopackage patches		{rob}
+    - ExprEntry toggle button		{Manny}
+    - New conditional criteria		{Trelane}
+    - off by 1 errors in rtl		{emmanuel}
+    - sheet object movement		{emmanuel}
+    - fwd & backwards eval		{morten}
+
+Review
+------
+    - handling of place_holders in xls export.		{andreas}
+	: Are we using them for function names too ?
+
+    - handling of images in styles			{jean}
+
 Release Critical
 ----------------
 
@@ -69,11 +86,6 @@ Worries
     - store and persist view modes
     - fix bogosity of 'ant' cursors being in sheet_view and having the app contact them.
 
-Pending Patches
----------------
-    http://bugzilla.gnome.org/show_bug.cgi?id=310354
-    - autopackage patches		{rob}
-
 -------------------------------------------------------------------------------
 Blocked Patches
 ---------------
@@ -84,6 +96,25 @@ Blocked Patches
 -------------------------------------------------------------------------------
 Architecture Changes
 --------------------
+
+- Histogram enhancements
+    : Add connection to charts
+    : Add option to bucket by date/time
+	* second
+	* minute
+	* hour
+	* day
+	* week
+	* month
+	* quarter
+	* year
+	* decade
+	* century ??
+    : generalize for use with pivot tables
+- GnmRanges interface
+    : implement it in SheetView
+- Error reporting interface
+- Add 'send a frown/smile' button
 
 - Merge wb_control_init_state and wb_control_set_view
 - Use gtk_window_group_new to keep wbcg's distinct 
