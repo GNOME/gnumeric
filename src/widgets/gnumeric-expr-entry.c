@@ -34,6 +34,7 @@
 #include <gtk/gtkcelleditable.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtktogglebutton.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
@@ -146,6 +147,132 @@ gee_destroy (GtkObject *object)
 }
 
 static void
+cb_icon_clicked (GtkButton *icon,
+		 GnmExprEntry *entry)
+{
+	GtkWidget *toplevel = gtk_widget_get_toplevel (GTK_WIDGET (entry));
+
+	/* TODO special-case GnmExprEntry being directly packed
+	 * into a GtkWindow. Currently, we just use it in
+	 * GtkDialogs so the current window child widget
+	 * is never identical to the entry when it is
+	 * not rolled up.
+	 */
+
+	if (toplevel != NULL && (GTK_WIDGET_FLAGS (toplevel) & GTK_TOPLEVEL)) {
+		GtkWidget *old_entry_parent;
+		GtkWidget *old_toplevel_child;
+		GParamSpec **container_props_pspec;
+		GValueArray *container_props;
+
+		g_assert (GTK_IS_WINDOW (toplevel));
+
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (icon))) {
+			int n, width, height;
+
+			/* roll-up request */
+
+			old_toplevel_child = gtk_bin_get_child (GTK_BIN (toplevel));
+			g_assert (GTK_IS_WIDGET (old_toplevel_child));
+
+			old_entry_parent = gtk_widget_get_parent (GTK_WIDGET (entry));
+			g_assert (GTK_IS_CONTAINER (old_entry_parent));
+
+			g_object_set_data_full (G_OBJECT (entry), "old_entry_parent",
+						gtk_widget_ref (old_entry_parent),
+						(GDestroyNotify) gtk_widget_unref);
+
+			g_return_if_fail ((GtkWidget *) entry != old_toplevel_child);
+
+			g_object_set_data_full (G_OBJECT (entry), "old_toplevel_child",
+						gtk_widget_ref (old_toplevel_child),
+						(GDestroyNotify) gtk_widget_unref);
+
+			gtk_window_get_size (GTK_WINDOW (toplevel), &width, &height);
+			g_object_set_data (G_OBJECT (entry), "old_window_width", GUINT_TO_POINTER (width));
+			g_object_set_data (G_OBJECT (entry), "old_window_height", GUINT_TO_POINTER (height));
+
+			container_props = NULL;
+
+			container_props_pspec = gtk_container_class_list_child_properties
+					(G_OBJECT_GET_CLASS (old_entry_parent), &n);
+			if (container_props_pspec != NULL) {
+				int i;
+
+				g_assert (n >= 1);
+
+				container_props = g_value_array_new (n);
+
+				for (i = 0; i < n; i++) {
+					GValue value = { 0 };
+					g_value_init (&value, G_PARAM_SPEC_VALUE_TYPE (container_props_pspec[i]));
+
+					gtk_container_child_get_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
+									  g_param_spec_get_name (container_props_pspec[i]),
+									  &value);
+					g_value_array_append (container_props, &value);
+				}
+			}
+
+			g_object_set_data_full (G_OBJECT (entry), "container_props",
+						container_props,
+						(GDestroyNotify) g_value_array_free);
+			g_object_set_data_full (G_OBJECT (entry), "container_props_pspec",
+						container_props_pspec,
+						(GDestroyNotify) g_free);
+
+			gtk_container_remove (GTK_CONTAINER (toplevel), old_toplevel_child);
+			gtk_widget_reparent (GTK_WIDGET (entry), toplevel);
+
+			gtk_widget_grab_focus (GTK_WIDGET (entry->entry));
+			gtk_window_resize (GTK_WINDOW (toplevel), 1, 1);
+
+		} else {
+			int i;
+
+			/* reset rolled-up window */
+
+			old_toplevel_child = g_object_get_data (G_OBJECT (entry), "old_toplevel_child");
+			g_assert (GTK_IS_WIDGET (old_toplevel_child));
+
+			old_entry_parent = g_object_get_data (G_OBJECT (entry), "old_entry_parent");
+			g_assert (GTK_IS_CONTAINER (old_entry_parent));
+
+			gtk_widget_ref (GTK_WIDGET (entry));
+			gtk_container_remove (GTK_CONTAINER (toplevel), GTK_WIDGET (entry));
+			gtk_container_add (GTK_CONTAINER (toplevel), old_toplevel_child);
+			gtk_container_add (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry));
+			gtk_widget_unref (GTK_WIDGET (entry));
+
+			container_props = g_object_get_data (G_OBJECT (entry), "container_props");
+			container_props_pspec = g_object_get_data (G_OBJECT (entry), "container_props_pspec");
+
+			g_assert (!(container_props != NULL && container_props_pspec == NULL));
+			g_assert (!(container_props == NULL && container_props_pspec != NULL));
+
+			if (container_props_pspec != NULL) {
+				for (i = 0; container_props_pspec[i] != NULL; i++) {
+					gtk_container_child_set_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
+									  g_param_spec_get_name (container_props_pspec[i]),
+									  g_value_array_get_nth (container_props, i));
+				}
+			}
+
+			gtk_window_resize (GTK_WINDOW (toplevel),
+					   GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (entry), "old_window_width")),
+					   GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (entry), "old_window_height")));
+
+			g_object_set_data (G_OBJECT (entry), "old_entry_parent", NULL);
+			g_object_set_data (G_OBJECT (entry), "old_toplevel_child", NULL);
+			g_object_set_data (G_OBJECT (entry), "container_props", NULL);
+			g_object_set_data (G_OBJECT (entry), "container_props_pspec", NULL);
+		}
+	} else {
+		g_warning ("GnmExprEntry button was clicked, but entry has no toplevel parent.");
+	}
+}
+
+static void
 gee_set_property (GObject      *object,
 		  guint         prop_id,
 		  GValue const *value,
@@ -160,10 +287,14 @@ gee_set_property (GObject      *object,
 	case PROP_WITH_ICON:
 		if (g_value_get_boolean (value)) {
 			if (gee->icon == NULL) {
-				gee->icon = gtk_image_new_from_stock (
-					"Gnumeric_ExprEntry", GTK_ICON_SIZE_BUTTON);
+				gee->icon = gtk_toggle_button_new ();
+				gtk_container_add (GTK_CONTAINER (gee->icon),
+						   gtk_image_new_from_stock ("Gnumeric_ExprEntry",
+							   		     GTK_ICON_SIZE_BUTTON));
 				gtk_box_pack_start (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
-				gtk_widget_show (gee->icon);
+				gtk_widget_show_all (gee->icon);
+				g_signal_connect (gee->icon, "clicked",
+						  G_CALLBACK (cb_icon_clicked), gee);
 			}
 		} else if (gee->icon != NULL)
 			gtk_object_destroy (GTK_OBJECT (gee->icon));

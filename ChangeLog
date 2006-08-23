@@ -1,3 +1,9 @@
+2006-08-23  Christian Neumair  <chris@gnome-de.org>
+
+	* src/widgets/gnumeric-expr-entry.c: (cb_icon_clicked),
+	(gee_set_property): Allow to toggle window size when clicking
+	expression entry in dialogs.
+
 2006-08-19  Jody Goldberg <jody@gnome.org>
 
 	* src/gnm-format.c (find_entry) : re-fix 142474 do not use the last
