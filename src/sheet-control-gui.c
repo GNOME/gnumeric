@@ -584,7 +584,7 @@ cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControl
 	gdk_draw_rectangle (widget->window,
 			    widget->style->bg_gc[GTK_STATE_ACTIVE],
 			    TRUE,
-			    offset, 0, widget->allocation.width, widget->allocation.height);
+			    offset + 1, 1, widget->allocation.width - 1, widget->allocation.height - 1);
 	gtk_paint_shadow (widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 			  NULL, NULL, "GnmItemBarCell",
 			  offset, 0, widget->allocation.width + 1, widget->allocation.height + 1);

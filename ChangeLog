@@ -1,5 +1,10 @@
 2006-09-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* src/sheet-control-gui.c (cb_select_all_btn_expose): small display
+	fix.
+
+2006-09-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Update of column/row header look and fixes for rtl mode.
 
 	* src/gnumeric-canvas.c (gnm_canvas_find_col): use new
