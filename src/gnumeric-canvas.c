@@ -814,9 +814,9 @@ gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 	Sheet const *sheet = ((SheetControl const *) gcanvas->simple.scg)->sheet;
 	int col   = gcanvas->first.col;
 	int pixel = gcanvas->first_offset.col;
-
-	if (sheet->text_is_rtl)
-		x = - (x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit);
+	int before = x;
+	
+	x = gnm_canvas_x_w2c (gcanvas, x);
 
 	if (x < pixel) {
 		while (col > 0) {
@@ -825,15 +825,14 @@ gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 				pixel -= ci->size_pixels;
 				if (x >= pixel) {
 					if (col_origin)
-						*col_origin = (sheet->text_is_rtl)
-							? - (pixel + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : pixel;
+						*col_origin = gnm_canvas_x_w2c (gcanvas, 
+										pixel);
 					return col;
 				}
 			}
 		}
 		if (col_origin)
-			*col_origin = (sheet->text_is_rtl)
-				? - gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit : 0;
+			*col_origin = gnm_canvas_x_w2c (gcanvas, 0);
 		return 0;
 	}
 
@@ -843,17 +842,16 @@ gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 			int const tmp = ci->size_pixels;
 			if (x <= pixel + tmp) {
 				if (col_origin)
-					*col_origin = (sheet->text_is_rtl)
-						? - (pixel + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : pixel;
+					*col_origin = gnm_canvas_x_w2c (gcanvas, pixel);
 				return col;
 			}
 			pixel += tmp;
 		}
-	} while (++col < SHEET_MAX_COLS-1);
+	} while (++col < SHEET_MAX_COLS - 1);
+	
 	if (col_origin)
-		*col_origin = (sheet->text_is_rtl)
-			? - (pixel + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : pixel;
-	return SHEET_MAX_COLS-1;
+		*col_origin = gnm_canvas_x_w2c (gcanvas, pixel);
+	return SHEET_MAX_COLS - 1;
 }
 
 /**
@@ -932,8 +930,8 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 		int col_offset = gcanvas->first_offset.col = scg_colrow_distance_get (scg,
 			TRUE, 0, gcanvas->first.col);
 		if (sheet->text_is_rtl)
-			col_offset = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas,
-				gcanvas->first_offset.col + GTK_WIDGET (gcanvas)->allocation.width);
+			col_offset = gnm_canvas_x_w2c (gcanvas,
+				gcanvas->first_offset.col + GTK_WIDGET (gcanvas)->allocation.width - 1);
 		if (NULL != gcanvas->pane->col.canvas)
 			foo_canvas_scroll_to (gcanvas->pane->col.canvas, col_offset, 0);
 
@@ -1069,8 +1067,8 @@ gnm_canvas_redraw_range (GnmCanvas *gcanvas, GnmRange const *r)
 #endif
 
 	if (sheet->text_is_rtl)  {
-		int tmp = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas, x1);
-		x1 = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas, x2);
+		int tmp = gnm_canvas_x_w2c (gcanvas, x1);
+		x1 = gnm_canvas_x_w2c (gcanvas, x2);
 		x2 = tmp;
 	}
 	foo_canvas_request_redraw (&gcanvas->simple.canvas, x1-2, y1-2, x2, y2);
@@ -1469,7 +1467,7 @@ gnm_canvas_window_to_coord (GnmCanvas *gcanvas,
 	y += gcanvas->first_offset.row;
 
 	if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
-		x = x - GTK_WIDGET (gcanvas)->allocation.width - gcanvas->first_offset.col;
+		x = x - GTK_WIDGET (gcanvas)->allocation.width - 1 - gcanvas->first_offset.col;
 	else
 		x += gcanvas->first_offset.col;
 	*wx = x * scale;

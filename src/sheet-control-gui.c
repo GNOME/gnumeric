@@ -70,6 +70,7 @@
 #include <gsf/gsf-output-memory.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkalignment.h>
+#include <gtk/gtkdrawingarea.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkrange.h>
@@ -182,8 +183,8 @@ scg_redraw_headers (SheetControl *sc,
 			/* Request excludes the far coordinate.  Add 1 to include them */
 			if (col_canvas->scroll_x1) {
 				foo_canvas_request_redraw (col_canvas,
-					gnm_simple_canvas_x_w2c (col_canvas, right + 1), 0,
-					gnm_simple_canvas_x_w2c (col_canvas, left), G_MAXINT);
+					gnm_foo_canvas_x_w2c (pane->col.canvas, right + 1), 0,
+					gnm_foo_canvas_x_w2c (pane->col.canvas, left), G_MAXINT);
 			} else
 				foo_canvas_request_redraw (col_canvas,
 					left, 0, right+1, G_MAXINT);
@@ -323,11 +324,15 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		scg->pane[0].row.item, FALSE,
 		-1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
 
+	/* When setting a canvas scroll region to [x0 .. x1[ , pixel x1 is not displayed.
+	 * That's why we set scroll region to [-FACTOR + 1 .. +1[ in rtl mode, because
+	 * we want x(ltr) = - x(rtl). */
+	
 	/* no need to resize panes that are about to go away while unfreezing */
 	if (scg->active_panes == 1 || !sv_is_frozen (sc->view)) {
 		if (sheet->text_is_rtl)
 			foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
-				-GNUMERIC_CANVAS_FACTOR_X * scale, 0, 0, h * scale);
+				-GNUMERIC_CANVAS_FACTOR_X * scale + 1.0, 0, 1.0, h * scale);
 		else
 			foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 				0, 0, GNUMERIC_CANVAS_FACTOR_X * scale, h * scale);
@@ -366,10 +371,10 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 			 * However, we really should track the bug eventually.
 			 */
 			h = item_bar_calc_size (scg->pane[1].col.item);
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1].col.canvas), r - l, h+1);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1].col.canvas), r - l, h);
 			if (sheet->text_is_rtl)
 				foo_canvas_set_scroll_region (scg->pane[1].col.canvas,
-					-GNUMERIC_CANVAS_FACTOR_X * scale, 0, 0, h * scale);
+					-GNUMERIC_CANVAS_FACTOR_X * scale + 1.0, 0, 1.0, h * scale);
 			else
 				foo_canvas_set_scroll_region (scg->pane[1].col.canvas,
 					0, 0, GNUMERIC_CANVAS_FACTOR_X * scale, h * scale);
@@ -379,7 +384,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3].gcanvas), -1,    b - t);
 			/* The item_bar_calcs should be equal */
 			w = item_bar_calc_size (scg->pane[3].row.item);
-			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3].row.canvas), w+1, b - t);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3].row.canvas), w, b - t);
 			foo_canvas_set_scroll_region (scg->pane[3].row.canvas,
 				0, 0, w * scale, GNUMERIC_CANVAS_FACTOR_Y * scale);
 		}
@@ -389,7 +394,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 
 		if (sheet->text_is_rtl)
 			foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
-				-GNUMERIC_CANVAS_FACTOR_X * scale, 0, 0, h * scale);
+				-GNUMERIC_CANVAS_FACTOR_X * scale + 1.0, 0, 1.0, h * scale);
 		else
 			foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 				0, 0, GNUMERIC_CANVAS_FACTOR_X * scale, h * scale);
@@ -400,7 +405,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 	SCG_FOREACH_PANE (scg, pane, {
 		if (sheet->text_is_rtl)
 			foo_canvas_set_scroll_region (FOO_CANVAS (pane->gcanvas),
-				-GNUMERIC_CANVAS_FACTOR_X * scale, 0., 0., GNUMERIC_CANVAS_FACTOR_Y * scale);
+				-(GNUMERIC_CANVAS_FACTOR_X * scale) + 1.0, 0., 1.0, GNUMERIC_CANVAS_FACTOR_Y * scale);
 		else
 			foo_canvas_set_scroll_region (FOO_CANVAS (pane->gcanvas),
 				0., 0., GNUMERIC_CANVAS_FACTOR_X * scale,  GNUMERIC_CANVAS_FACTOR_Y * scale);
@@ -570,10 +575,30 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 
 /***************************************************************************/
 
-static void
-cb_select_all (GtkWidget *the_button, SheetControlGUI *scg)
+static void 
+cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControlGUI *scg)
 {
-	scg_select_all (scg);
+	int offset = scg->sheet_control.sheet->text_is_rtl ? -1 : 0;
+	
+	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
+	gdk_draw_rectangle (widget->window,
+			    widget->style->bg_gc[GTK_STATE_ACTIVE],
+			    TRUE,
+			    offset, 0, widget->allocation.width, widget->allocation.height);
+	gtk_paint_shadow (widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+			  NULL, NULL, "GnmItemBarCell",
+			  offset, 0, widget->allocation.width + 1, widget->allocation.height + 1);
+}
+
+static gboolean 
+cb_select_all_btn_event (GtkWidget *widget, GdkEvent *event, SheetControlGUI *scg)
+{
+	if (event->type == GDK_BUTTON_PRESS) {
+		scg_select_all (scg);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static void
@@ -652,6 +677,17 @@ scg_init (SheetControlGUI *scg)
 
 /*************************************************************************/
 
+/*
+ * calc_left_position:
+ * @gcanvas: a #GnmCanvas
+ * @x: first row x position.
+ *
+ * Calculate x position of left row in canvas coordinates.
+ */
+#define calc_left_row_position(gcanvas,x)	((gcanvas)->simple.scg->sheet_control.sheet->text_is_rtl) ? \
+						gnm_foo_canvas_x_w2c ((FooCanvas *) (gcanvas), \
+						(x) + GTK_WIDGET (gcanvas)->allocation.width - 1) : (x)
+
 /**
  * gnm_canvas_update_inital_top_left :
  * A convenience routine to store the new topleft back in the view.
@@ -676,9 +712,7 @@ bar_set_left_col (GnmCanvas *gcanvas, int new_first_col)
 	col_offset = gcanvas->first_offset.col +=
 		scg_colrow_distance_get (gcanvas->simple.scg, TRUE, gcanvas->first.col, new_first_col);
 	gcanvas->first.col = new_first_col;
-	if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
-		col_offset = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas,
-			col_offset + GTK_WIDGET (gcanvas)->allocation.width);
+	col_offset  = calc_left_row_position (gcanvas, col_offset);
 
 	/* Scroll the column headers */
 	if (NULL != (colc = gcanvas->pane->col.canvas))
@@ -760,9 +794,7 @@ gnm_canvas_set_top_row (GnmCanvas *gcanvas, int new_first_row)
 		int col_offset = gcanvas->first_offset.col;
 
 		gnm_canvas_compute_visible_region (gcanvas, FALSE);
-		if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
-			col_offset = gnm_simple_canvas_x_w2c (canvas,
-				col_offset + GTK_WIDGET (gcanvas)->allocation.width);
+		col_offset = calc_left_row_position (gcanvas, col_offset);
 		foo_canvas_scroll_to (canvas, col_offset, row_offset);
 		gnm_canvas_update_inital_top_left (gcanvas);
 	}
@@ -808,11 +840,9 @@ gnm_canvas_set_top_left (GnmCanvas *gcanvas,
 		}
 		col_offset = bar_set_left_col (gcanvas, col);
 		changed = TRUE;
-	} else if (gcanvas->simple.scg->sheet_control.sheet->text_is_rtl)
-		col_offset = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas,
-			gcanvas->first_offset.col + GTK_WIDGET (gcanvas)->allocation.width);
-	else
-		col_offset = gcanvas->first_offset.col;
+	} else {
+		col_offset = calc_left_row_position (gcanvas, gcanvas->first_offset.col);
+	}
 
 	if (gcanvas->first.row != row || force_scroll) {
 		if (force_scroll) {
@@ -1172,7 +1202,10 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 				pos -= w;
 		}
 		pos += gcanvas->first_offset.col;
-		colrow = gnm_canvas_find_col (gcanvas, pos, guide_pos);
+		colrow = gnm_canvas_find_col (gcanvas, 
+					      gnm_canvas_x_w2c (gcanvas, pos),
+					      guide_pos);
+		*guide_pos = gnm_canvas_x_w2c (gcanvas, *guide_pos);
 	} else {
 		pos -= GTK_WIDGET (scg->pane[0].col.canvas)->allocation.height;
 		if (scg->pane[3].is_active) {
@@ -1323,11 +1356,12 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	scg->row_group.buttons = g_ptr_array_new ();
 	scg->col_group.button_box = gtk_vbox_new (TRUE, 0);
 	scg->row_group.button_box = gtk_hbox_new (TRUE, 0);
-	scg->select_all_btn = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (scg->select_all_btn, GTK_CAN_FOCUS);
-	g_signal_connect (G_OBJECT (scg->select_all_btn),
-		"clicked",
-		G_CALLBACK (cb_select_all), scg);
+	scg->select_all_btn = gtk_drawing_area_new ();
+	gtk_widget_add_events (scg->select_all_btn, GDK_BUTTON_PRESS_MASK);
+	g_signal_connect (G_OBJECT (scg->select_all_btn), "expose-event",
+			  G_CALLBACK (cb_select_all_btn_expose), scg);
+	g_signal_connect (G_OBJECT (scg->select_all_btn), "event",
+			  G_CALLBACK (cb_select_all_btn_event), scg);
 
 	scg->corner	 = GTK_TABLE (gtk_table_new (2, 2, FALSE));
 	gtk_table_attach (scg->corner, scg->col_group.button_box,
@@ -3003,6 +3037,8 @@ scg_scale_changed (SheetControl *sc)
 	});
 
 	scg_resize (sc, TRUE);
+	set_resize_pane_pos (scg, scg->vpane);
+	set_resize_pane_pos (scg, scg->hpane);
 }
 
 

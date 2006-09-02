@@ -344,7 +344,7 @@ ie_layout (FooCanvasItem *item)
 	 * Recall that the bound excludes the far point */
 
 	if (sheet->text_is_rtl) {
-		tmp = gnm_simple_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
+		tmp = gnm_foo_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
 		item->x2 = 1 + item->x1 +
 			scg_colrow_distance_get (ie->scg, TRUE, end_col, ie->pos.col+1) - 2;
 	} else {
@@ -587,7 +587,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 				gcanvas->first.col, ie->pos.col);
 		if (ie->scg->sheet_control.sheet->text_is_rtl)
 			/* -1 to remove the above, then 2 more to move from next cell back */
-			item->x1 = 2 + gnm_simple_canvas_x_w2c (item->canvas, item->x1 +
+			item->x1 = 2 + gnm_foo_canvas_x_w2c (item->canvas, item->x1 +
 				scg_colrow_distance_get (ie->scg, TRUE,
 					ie->pos.col, ie->pos.col + 1) - 1);
 

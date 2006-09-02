@@ -1,3 +1,40 @@
+2006-09-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Update of column/row header look and fixes for rtl mode.
+
+	* src/gnumeric-canvas.c (gnm_canvas_find_col): use new
+	gnm_canvas_x_w2c function.
+	(gnm_canvas_compute_visible_region): use gnm_canvas_x_w2c instead of
+	removed gnm_simple_canvas_x_w2c.
+	(gnm_canvas_redraw_range): ditto.
+	(gnm_canvas_window_to_coord): last pixel is allocation.width - 1.
+	* src/gnumeric-canvas.h (gnm_foo_canvas_x_w2c): new.
+	(gnm_canvas_x_w2c): new.
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_x_w2c): removed.
+	* src/item-bar.c (ib_draw_cell): change bar item look to somehting
+	less bulky.
+	(item_bar_draw): ditto.
+	* src/item-cursor.c (item_cursor_update): use of gnm_foo_canvas_x_w2c
+	instead of gnm_simple_canvas_x_w2c.
+	* src/item-edit.c (ie_layout): ditto.
+	* src/sheet-control-gui.c (scg_redraw_headers): ditto.
+	(scg_resize): fix for foo_canvas_set_scroll_region in rtl mode. When 
+	setting a canvas scroll region to [x0 .. x1[ , pixel x1 is not displayed.
+	That's why we set scroll region to [-FACTOR + 1 .. +1[ in rtl mode, 
+	because we want x(ltr) = - x(rtl).
+	(cb_select_all): removed.
+	(cb_select_all_btn_expose): select all button is converted to a
+	GtkDrawingArea, so we provide a custom rendering method here, in sync
+	with item-bar.c.
+	(cb_select_all_btn_event): new.
+	(bar_set_left_col): use of calc_left_row_position.
+	(gnm_canvas_set_top_row): ditto.
+	(gnm_canvas_set_top_left): ditto.
+	(resize_pane_pos): fix for rtl mode.
+	(sheet_control_gui_new): select all button is converted to a
+	GtkDrawingArea.
+	(scg_scale_changed): update frozen pane handle position.
+
 2006-08-23  Christian Neumair  <chris@gnome-de.org>
 
 	* src/widgets/gnumeric-expr-entry.c: (cb_icon_clicked),

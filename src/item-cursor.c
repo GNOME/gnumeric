@@ -201,8 +201,8 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 
 	if (scg->sheet_control.sheet->text_is_rtl) {
 		tmp = ic->outline.x1;
-		ic->outline.x1 = gnm_simple_canvas_x_w2c (item->canvas, ic->outline.x2);
-		ic->outline.x2 = gnm_simple_canvas_x_w2c (item->canvas, tmp);
+		ic->outline.x1 = gnm_foo_canvas_x_w2c (item->canvas, ic->outline.x2);
+		ic->outline.x2 = gnm_foo_canvas_x_w2c (item->canvas, tmp);
 	}
 	/* NOTE : sometimes y1 > y2 || x1 > x2 when we create a cursor in an
 	 * invisible region such as above a frozen pane */

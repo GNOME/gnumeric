@@ -288,11 +288,13 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 	}
 	g_return_if_fail (font != NULL);
 
+	/* Draw header background */
 	gdk_draw_rectangle (drawable, gc, TRUE,
-			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
+			    rect->x + 1, rect->y + 1, rect->width - 1, rect->height - 1);
+	/* Then draw its shadow. */
 	gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
 			  NULL, NULL, "GnmItemBarCell",
-			  rect->x, rect->y, rect->width, rect->height);
+			  rect->x, rect->y, rect->width + 1, rect->height + 1);
 	gdk_gc_set_clip_rectangle (text_gc, rect);
 
 	g_object_unref (ib->pango.item->analysis.font);
@@ -347,15 +349,11 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		shadow = (col > 0 && !has_object && sv_selection_col_type (sv, col-1) == COL_ROW_FULL_SELECTION) 
 			? GTK_SHADOW_IN : GTK_SHADOW_OUT;
 
-		if (rtl) {
-			total = gnm_simple_canvas_x_w2c (item->canvas, gcanvas->first_offset.col) + 2;
-			gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-				NULL, NULL, "GnmItemBarCell", total-2, rect.y, 10, rect.height);
-		} else {
-			total = gcanvas->first_offset.col+1;
+		if (rtl)
+			total = gnm_foo_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
+		else {
+			total = gcanvas->first_offset.col;
 			end += expose->area.width;
-			gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-				NULL, NULL, "GnmItemBarCell", total-10, rect.y, 10, rect.height);
 		}
 
 		if (col > 0) {
@@ -510,33 +508,16 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		int const end = expose->area.y + expose->area.height;
 		int const dir = rtl ? -1 : 1;
 
-		int total = 1 + gcanvas->first_offset.row;
+		int total = gcanvas->first_offset.row;
 		int row = gcanvas->first.row;
 
 		if (rtl) {
 			base_pos = ib->indent + ib->cell_width - base_pos;
-			rect.x = 0;
+			/* Move header bar 1 pixel to the left. */
+			rect.x = -1;
 		} else
 			rect.x = ib->indent;
 		rect.width = ib->cell_width;
-
-		/* To avoid overlaping the cells the shared pixel belongs to
-		 * the cell above.  This has the nice property that the bottom
-		 * dark line of the shadow aligns with the grid lines.
-		 * Unfortunately it also implies a 1 pixel empty space at the
-		 * top of the bar.  Which we are forced to fill in with
-		 * something.  For now we draw a shadow there to be compatible 
-		 * with the colour used on the bottom of the cell shadows.
-		 *
-		 * shadow type selection must be keep in sync with code in ib_draw_cell.
-		 */
-		if (row > 0 && !has_object && sv_selection_row_type (sv, row - 1) == COL_ROW_FULL_SELECTION)
-			shadow = GTK_SHADOW_IN;
-		else 
-			shadow = GTK_SHADOW_OUT;
-		gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-				  NULL, NULL, "GnmItemBarCell",
-				  rect.x, total-10, rect.width, 10);
 
 		if (row > 0) {
 			cri = sheet_row_get_info (sheet, row-1);

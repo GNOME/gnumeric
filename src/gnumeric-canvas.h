@@ -76,4 +76,24 @@ void gnm_canvas_window_to_coord   (GnmCanvas *gcanvas,
 void gnm_canvas_object_autoscroll (GnmCanvas *gcanvas, GdkDragContext *context,
 				   gint x, gint y, guint time);
 
+/*
+ * gnm_foo_canvas_x_w2c:
+ * @canvas: a #FooCanvas
+ * @x : a position in world coordinate
+ *
+ * Converts a x position from world coordinates to canvas coordinates.
+ */
+#define gnm_foo_canvas_x_w2c(canvas,x) -(int)((x) + ((canvas)->scroll_x1 * (canvas)->pixels_per_unit) - 0.5)
+
+/*
+ * gnm_canvas_x_w2c:
+ * @gcanvas: a #GnmCanvas
+ * @x: position in world coordinates
+ *
+ * Convert an x position from world coordinates to canvas coordinates,
+ * taking into account sheet right to left text setting.
+ */
+#define gnm_canvas_x_w2c(gcanvas,x) 	((gcanvas)->simple.scg->sheet_control.sheet->text_is_rtl) ? \
+					gnm_foo_canvas_x_w2c ((FooCanvas *) (gcanvas), (x)) : (x)
+
 #endif /* GNM_CANVAS_H */
