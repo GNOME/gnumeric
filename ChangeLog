@@ -1,3 +1,9 @@
+2006-09-08  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* src/gui-file.c (gui_file_save_as): Added file type combo box to file
+	chooser dialog for Maemo.
+	(gui_file_open): ditto.
+
 2006-09-02  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* src/sheet-control-gui.c (cb_select_all_btn_expose): small display

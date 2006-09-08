@@ -298,8 +298,16 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 					       go_charmap_sel);
-
+#ifdef USE_HILDON
+		/*
+		 * Don't need to show the vbox. This is here just to avoid the warning :
+		 * GLIB WARNING ** default - hildon-file-chooser-dialog.c:1226: invalid
+		 * property id 4103 for "extra-widget" of type `GParamObject' in `HildonFileChooserDialog'
+		 */
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->vbox), box, FALSE, TRUE, 6);
+#else
 		gtk_file_chooser_set_extra_widget (fsel, box);
+#endif
 	}
 
 	/* Show file selector */
@@ -429,7 +437,12 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 6);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
+#ifdef USE_HILDON
+		gtk_widget_show_all (box);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->vbox), box, FALSE, TRUE, 6);
+#else
 		gtk_file_chooser_set_extra_widget (fsel, box);
+#endif
 	}
 
 	/* Set default file saver */
