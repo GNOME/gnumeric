@@ -554,6 +554,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	if (env_var != NULL)
 		GO_SLIST_CONCAT (dir_list, go_strsplit_to_slist (env_var, G_SEARCHPATH_SEPARATOR));
 
+	go_components_set_mime_suffix ("application/x-gnumeric", "*.gnumeric");
+
 /* WHERE IS THIS DEFINED */
 	go_plugins_add (go_component_get_command_context (),
 		gnm_app_prefs->plugin_file_states,
