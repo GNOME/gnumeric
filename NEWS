@@ -58,11 +58,12 @@ Morten:
 	* Fix CRITICALs for =[].  [#347916]
 	* Fix problems with sheet reordering.  [#349255]
 	* Fix clipboard code's memory usage.  [#348922]
+	* Fix ods import of time values.  [#355943]
 
-Shixin Zeng
-	
+Shixin Zeng:
+
 	* Add \L{} escape to LaTeX exporter (The content of the 
-          braces is being inserted litterally into the LaTeX file.) 
+          braces is being inserted literally into the LaTeX file.) 
 
 --------------------------------------------------------------------------
 

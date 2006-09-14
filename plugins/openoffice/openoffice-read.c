@@ -750,10 +750,14 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 						val = value_new_int (d_serial);
 				}
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "time-value")) {
+		} else if (gsf_xml_in_namecmp (xin, attrs[0],
+					       (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
+					       "time-value")) {
 			unsigned h, m, s;
-			if (3 == sscanf (attrs[1], "PT%uH%uM%uS", &h, &m, &s))
-				val = value_new_float (h + ((double)m / 60.) + ((double)s / 3600.));
+			if (3 == sscanf (attrs[1], "PT%uH%uM%uS", &h, &m, &s)) {
+				unsigned secs = h * 3600 + m * 60 + s;
+				val = value_new_float (secs / (gnm_float)86400);
+			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "string-value"))
 			val = value_new_string (attrs[1]);
 		else if (oo_attr_float (xin, attrs,

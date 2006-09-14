@@ -1,3 +1,8 @@
+2006-09-14  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_cell_start): Fix time value import.
+	[#355943]
+
 2006-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	* openoffice-read.c (openoffice_file_open): Add two gsf_input_size()
 	  checks (patch by sum1_abi@yahoo.com)
