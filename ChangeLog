@@ -1,3 +1,8 @@
+2006-09-15  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-format.c (find_entry): Make sure floating point values,
+	notably negative ones, get the right format.  #356140.
+
 2006-09-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* component/gnumeric.c: (go_plugin_init): add a call to

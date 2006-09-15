@@ -78,13 +78,23 @@ find_entry (GOFormat const *format, GnmValue const *value,
 
 	if (format) {
 		GSList *ptr;
+		GOFormatElement const *last_entry = NULL;
 
-		for (ptr = format->entries; ptr; ptr = ptr->next)
+		for (ptr = format->entries; ptr; ptr = ptr->next) {
+			last_entry = ptr->data;			
 			/* 142474 : only set entry if it matches */
 			if (gnm_style_format_condition (ptr->data, value)) {
-				entry = ptr->data;
+				entry = last_entry;
 				break;
 			}
+		}
+
+		/*
+		 * 356140: floating point values need to use the last format
+		 * if nothing else matched.
+		 */
+		if (entry == NULL && VALUE_IS_FLOAT (value))
+			entry = last_entry;
 
 		if (entry != NULL) {
 			/* Empty formats should be ignored */
