@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Interface Gnumeric to Databases
  * Copyright (C) 1998,1999 Michael Lausch
  * Copyright (C) 2000-2002 Rodrigo Moya
@@ -30,9 +31,13 @@
 #include "func.h"
 #include "expr.h"
 #include "value.h"
+#include "workbook.h"
+#include "sheet.h"
 #include "gnm-i18n.h"
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
+#include <goffice/utils/datetime.h>
+#include <goffice/utils/go-format.h>
 #include <gnm-plugin.h>
 
 GNM_PLUGIN_MODULE_HEADER;
@@ -42,8 +47,100 @@ static gboolean    libgda_init_done = FALSE;
 static GHashTable *cnc_hash = NULL;
 
 static GnmValue *
+gnm_value_new_from_gda (GValue const *gval,
+			GODateConventions const *date_conv)
+{
+	GnmValue *res;
+	GType t;
+
+	if (NULL == gval) 
+		return value_new_empty ();
+
+	g_return_val_if_fail (G_IS_VALUE (gval), value_new_empty ());
+
+	t = G_VALUE_TYPE (gval);
+	if (t == GDA_TYPE_SHORT)
+		return value_new_int (gda_value_get_short (gval));
+	if (t == GDA_TYPE_USHORT)
+		return value_new_int (gda_value_get_ushort (gval));
+	if (t ==  G_TYPE_DATE) {
+		res = value_new_int (datetime_g_to_serial (
+			(GDate const *) g_value_get_boxed (gval), date_conv));
+		value_set_fmt (res, go_format_default_date ());
+		return res;
+	}
+
+	if (t == GDA_TYPE_TIME) {
+		GdaTime const *time = gda_value_get_time (gval);
+		res = value_new_float ( (time->hour +
+					 (time->minute +
+					  time->second / 60.) / 60.) / 24.),
+		value_set_fmt (res, go_format_default_time ());
+		return res;
+	}
+
+	switch (t) {
+	case G_TYPE_BOOLEAN :
+		return value_new_bool (g_value_get_boolean (gval));
+
+	case G_TYPE_DOUBLE :
+		return value_new_float (g_value_get_double (gval));
+	case G_TYPE_FLOAT :
+		return value_new_float (g_value_get_float (gval));
+#if 0
+	case G_TYPE_INT64 : /* g_value_get_int64 (gval) */
+	case G_TYPE_UINT64 : /* g_value_get_uint64 (gval) */
+#endif
+	case G_TYPE_INT :
+		return value_new_int (g_value_get_int (gval));
+	case G_TYPE_UINT :
+		return value_new_int (g_value_get_uint (gval));
+
+#if 0
+	/* No way to represent a timezone, leave it as a string for now */
+	case GDA_TYPE_TIMESTAMP:
+#endif
+#if 0
+	/* Do we want to consider nested arrays ??
+	 * The rest of the system is not strong enough yet. */
+	case GDA_TYPE_LIST : {
+		GList const *ptr;
+		for (ptr = gda_value_get_list (gval) ; NULL != ptr ; ptr = ptr->next) {
+		}
+		return array;
+	}
+#endif
+
+#if 0
+	/* Use the default gvalue conversions for these */
+	case G_TYPE_CHAR :
+	case G_TYPE_UCHAR :
+	case G_TYPE_STRING :
+	case GDA_TYPE_GEOMETRIC_POINT :
+	case GDA_TYPE_BINARY :
+
+	/* this is stored as a string, let gda handle it */
+	case GDA_TYPE_NUMERIC :
+#endif
+	default :
+		break;
+	}
+
+	if (g_value_type_transformable (G_VALUE_TYPE (gval), G_TYPE_STRING)) {
+		GValue str = { 0 };
+		g_value_init (&str, G_TYPE_STRING);
+		if (g_value_transform (gval, &str))
+			return value_new_string (g_value_get_string (&str));
+		g_value_unset (&str);
+	}
+
+	return value_new_empty ();
+}
+
+static GnmValue *
 display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
 {
+	GODateConventions const *date_conv;
 	GnmValue* array = NULL;
 	gint   col;
 	gint   row;
@@ -52,8 +149,8 @@ display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
 
 	g_return_val_if_fail (GDA_IS_DATA_MODEL (recset), NULL);
 
-	fieldcount = gda_data_model_get_n_columns (GDA_DATA_MODEL (recset));
-	rowcount = gda_data_model_get_n_rows (GDA_DATA_MODEL (recset));
+	fieldcount = gda_data_model_get_n_columns (recset);
+	rowcount = gda_data_model_get_n_rows (recset);
 
 	/* convert the GdaDataModel in an array */
 	if (rowcount <= 0)
@@ -62,21 +159,14 @@ display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
 	if (rowcount >= SHEET_MAX_ROWS)
 		return value_new_error (ei->pos, _("Too much data returned"));
 
+	date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 	array = value_new_array_empty (fieldcount, rowcount);
 	for (row = 0; row < rowcount; row++) {
 		for (col = 0; col < fieldcount; col++) {
-			gchar *str;
-			const GdaValue *value;
-
-			value = gda_data_model_get_value_at (GDA_DATA_MODEL (recset),
-							     col, row);
-			str = gda_value_stringify ((GdaValue *) value);
-			value_array_set (array,
-					 col,
-					 row,
-					 value_new_string(str));
-
-			g_free (str);
+			value_array_set (array, col, row,
+				gnm_value_new_from_gda (
+					gda_data_model_get_value_at (recset, col, row),
+					date_conv));
 		}
 	}
 
@@ -245,7 +335,7 @@ static GnmFuncHelp const help_execSQL[] = {
 };
 
 static GnmValue *
-gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue const  * const *args)
 {
 	GnmValue*         ret;
 	gchar*         dsn_name;
@@ -321,7 +411,7 @@ static GnmFuncHelp const help_readDBTable[] = {
 };
 
 static GnmValue *
-gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue **args)
+gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue const * const *args)
 {
 	GnmValue*         ret;
 	gchar*         dsn_name;
@@ -381,7 +471,13 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 GnmFuncDescriptor gdaif_functions[] = {
-	{"execSQL", "ssss", "dsn,username,password,sql", help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL },
-	{"readDBTable", "ssss", "dsn,username,password,table", help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL },
+	{
+		"execSQL",	"ssss", "dsn,username,password,sql",
+		help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL
+	},
+	{
+		"readDBTable", "ssss", "dsn,username,password,table",
+		help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL
+	},
 	{NULL}
 };

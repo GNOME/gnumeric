@@ -1,3 +1,9 @@
+2006-09-17  Jody Goldberg <jody@gnome.org>
+
+	* plugin-gda.c (gnm_value_new_from_gda) : new function.
+	(display_recordset) : adapt to GValue based gda and use
+	  gnm_value_new_from_gda to do more intelligent conversion.
+
 2006-05-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.0
