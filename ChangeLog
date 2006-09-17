@@ -1,3 +1,8 @@
+2006-09-17  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_select_all) : do not move the edit
+	  position.
+
 2006-09-16  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump the libgda version dep.

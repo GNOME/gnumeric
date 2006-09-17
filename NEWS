@@ -41,6 +41,7 @@ Jody:
 	* Make ODF merge cell import more flexible. [#347263]
 	* Restore ctrl-a as alternative for select-all.
 	* Select All no longer moves the edit_pos.
+	* Extend GDA type conversions, and make compatibile with 1.9.103.
 
 Morten:
 	* Moved font metrics to goffice.

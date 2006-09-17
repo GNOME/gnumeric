@@ -2,7 +2,7 @@
 /*
  * sheet-control-gui.c: Implements a graphic control for a sheet.
  *
- * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 1997-1999 Miguel de Icaza (miguel@kernel.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -506,11 +506,13 @@ scg_select_all (SheetControlGUI *scg)
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
 	} else if (wbcg_edit_get_guru (scg->wbcg) == NULL) {
+		SheetView *sv = sc->view;
+
 		scg_mode_edit (SHEET_CONTROL (sc));
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
-		sv_selection_reset (sc->view);
-		sv_selection_add_full (sc->view, 0, 0, 0, 0,
-			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+		sv_selection_reset (sv);
+		sv_selection_add_full (sv, sv->edit_pos.col, sv->edit_pos.row,
+			0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	}
 	sheet_update (sheet);
 }
