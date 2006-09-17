@@ -144,6 +144,8 @@ IMAGES = 							\
 	link_email_16.png		link_email_24.png 	\
 	link_url_16.png			link_url_24.png 	\
 	\
+	data_slice_16.png		data_slice_24.png	\
+	\
 	autofilter_16.png		autofilter_24.png	\
 	autofilter_delete_16.png	autofilter_delete_24.png
 
@@ -320,6 +322,8 @@ VARIABLES = 		 									\
 	gnm_link_email_16			$(srcdir)/link_email_16.png			\
 	gnm_link_url_24				$(srcdir)/link_url_24.png			\
 	gnm_link_url_16				$(srcdir)/link_url_16.png			\
+	gnm_data_slice_24			$(srcdir)/data_slice_24.png			\
+	gnm_data_slice_16			$(srcdir)/data_slice_16.png			\
 	gnm_autofilter_24			$(srcdir)/autofilter_24.png			\
 	gnm_autofilter_16			$(srcdir)/autofilter_16.png			\
 	gnm_autofilter_delete_24		$(srcdir)/autofilter_delete_24.png		\
