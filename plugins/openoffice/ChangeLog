@@ -1,11 +1,18 @@
+2006-09-23  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : remove size checks on
+	  substreams.  If gsf was crashing on an empty xml file, then we
+	  should fix it there.	[#350644]
+
 2006-09-14  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_cell_start): Fix time value import.
 	[#355943]
 
 2006-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (openoffice_file_open): Add two gsf_input_size()
-	  checks (patch by sum1_abi@yahoo.com)
+	  checks (patch by sum1_abi@yahoo.com)	[#350644]
 
 2006-08-09  Eduardo Lima <eduardo.lima@indt.org.br>
 
