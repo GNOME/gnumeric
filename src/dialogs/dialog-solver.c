@@ -105,9 +105,9 @@ typedef struct {
 	SolverModelType     type;
 } algorithm_def_t;
 
-static const algorithm_def_t algorithm_defs [] = {
+static algorithm_def_t const algorithm_defs [] = {
 	{ N_("Simplex (LP Solve)"), LPSolve, SolverLPModel },
-	{ N_("Revised Simplex (GLPK 4.5)"), GLPKSimplex, SolverLPModel },
+	{ N_("Revised Simplex (GLPK 4.9)"), GLPKSimplex, SolverLPModel },
 	{ N_("< Not available >"), QPDummy, SolverQPModel },
 	{ NULL, 0, 0 }
 };
@@ -118,14 +118,14 @@ typedef struct {
 	Sheet    *sheet;
 } constraint_conversion_t;
 
-static const char *const problem_type_group[] = {
+static char const * const problem_type_group[] = {
 	"min_button",
 	"max_button",
 	"equal_to_button",
 	NULL
 };
 
-static const char *const model_type_group[] = {
+static char const * const model_type_group[] = {
 	"lp_model_button",
 	"qp_model_button",
 	"nlp_model_button",
@@ -537,7 +537,7 @@ check_int_constraints (GnmValue *input_range, SolverState *state)
 	store = gtk_tree_view_get_model (state->constraint_list);
 	if (gtk_tree_model_get_iter_first (store, &iter))
 		do {
-			const constraint_t *a_constraint;
+			constraint_t const *a_constraint;
 			gchar *text;
 
 			gtk_tree_model_get (store, &iter, 0, &text, 1, &a_constraint, -1);
@@ -574,7 +574,7 @@ convert_constraint_format (constraint_conversion_t *conv)
 {
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	const constraint_t *a_constraint;
+	constraint_t const *a_constraint;
 	SolverConstraint *engine_constraint;
 
 	store = gtk_tree_view_get_model (conv->c_listing);
@@ -631,7 +631,7 @@ revert_constraint_format (constraint_conversion_t * conv)
 	GSList *engine_constraint_list = conv->c_list;
 
 	while (engine_constraint_list != NULL) {
-		const SolverConstraint *engine_constraint =
+		SolverConstraint const *engine_constraint =
 			engine_constraint_list->data;
 		GnmRange r;
 		constraint_t *a_constraint = g_new (constraint_t, 1);
@@ -686,7 +686,7 @@ save_original_values (GSList *input_cells)
 /* Returns FALSE if the reports deleted the current sheet
  * and forced the dialog to die */
 static gboolean
-solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
+solver_reporting (SolverState *state, SolverResults *res, gchar const *errmsg)
 {
 	SolverOptions *opt = &res->param->options;
 	gchar         *err = NULL;
@@ -794,11 +794,11 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 }
 
 static void
-solver_add_scenario (SolverState *state, SolverResults *res, const gchar *name)
+solver_add_scenario (SolverState *state, SolverResults *res, gchar const *name)
 {
 	SolverParameters *param = res->param;
 	GnmValue         *input_range;
-	const gchar      *comment = _("Optimal solution created by solver.\n");
+	gchar const      *comment = _("Optimal solution created by solver.\n");
 	scenario_t       *scenario;
 
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
@@ -832,10 +832,10 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;
-	const gchar             *errmsg = _("Unknown error.");
+	gchar const             *errmsg = _("Unknown error.");
 	SolverParameters        *param;
 	GtkTreeIter iter;
-	const gchar *name;
+	gchar const *name;
 
 	param = state->sheet->solver_parameters;
 

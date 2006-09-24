@@ -1,3 +1,7 @@
+2006-09-24  Jody Goldberg <jody@gnome.org>
+
+	* dialog-solver.c : We use GLPK 4.9 now.
+
 2006-07-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-define-names.c (name_guru_add): add argument to call
