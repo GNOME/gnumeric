@@ -1,11 +1,11 @@
+2006-09-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c: removed unused and deprecated header
+	(gog-renderer-svg.h).	
+
 2006-09-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump gsf req to 1.14.2 for some of xml fixes.
-
-2006-09-23  Jean Brefort  <jean.brefort@normalesup.org>
-
-	* src/dialogs/doc-meta-data.glade: set buttons layout to
-	GTK_BUTTONBOX_END. [#357192].	
 
 2006-09-17  Jody Goldberg <jody@gnome.org>
 

@@ -46,7 +46,6 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-units.h>
