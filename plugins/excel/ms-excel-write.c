@@ -1376,7 +1376,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 		  GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
 	guint8 data [16];
-	guint16 flags = 0;
+	guint16 expr_len, flags = 0;
 	size_t name_len;
 	char const *name;
 	int builtin_index;
@@ -1416,15 +1416,11 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 		excel_write_string (ewb->bp, STR_NO_LENGTH, name);
 	}
 
-	if (!expr_name_is_placeholder (nexpr)) {
-		guint16 expr_len =
-			excel_write_formula (ewb, nexpr->texpr,
-					     nexpr->pos.sheet, 0, 0,
-					     EXCEL_CALLED_FROM_NAME);
-		ms_biff_put_var_seekto (ewb->bp, 4);
-		GSF_LE_SET_GUINT16 (data, expr_len);
-		ms_biff_put_var_write (ewb->bp, data, 2);
-	}
+	expr_len = excel_write_formula (ewb, nexpr->texpr,
+		nexpr->pos.sheet, 0, 0, EXCEL_CALLED_FROM_NAME);
+	ms_biff_put_var_seekto (ewb->bp, 4);
+	GSF_LE_SET_GUINT16 (data, expr_len);
+	ms_biff_put_var_write (ewb->bp, data, 2);
 	ms_biff_put_commit (ewb->bp);
 }
 
@@ -3606,6 +3602,10 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 				(value_new_cellrange_r (sheet, &filter->r));
 			excel_write_NAME (NULL, &nexpr, ewb);
 			gnm_expr_top_unref (nexpr.texpr);
+
+			if (NULL != sheet->filters->next) {
+				/* TODO Warn of lost autofilters */
+			}
 		}
 	}
 	gnm_string_unref (nexpr.name);
@@ -4893,14 +4893,11 @@ excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
 
 	if (wb->names != NULL) {
 		g_hash_table_foreach (wb->names->names, func, ewb);
-		g_hash_table_foreach (wb->names->placeholders, func, ewb);
 	}
 	for (i = 0; i < num_sheets; i++) {
 		sheet = workbook_sheet_by_index (wb, i);
 		if (sheet->names != NULL) {
 			g_hash_table_foreach (sheet->names->names,
-				func, ewb);
-			g_hash_table_foreach (sheet->names->placeholders,
 				func, ewb);
 		}
 	}
@@ -5416,7 +5413,7 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 static void
 cb_check_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
-	if (nexpr->active && !nexpr->is_placeholder)
+	if (nexpr->active)
 		excel_write_prep_expr (ewb, nexpr->texpr);
 }
 

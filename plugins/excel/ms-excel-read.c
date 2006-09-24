@@ -7,7 +7,7 @@
  *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998-2001 Michael Meeks
- * (C) 2002-2005 Jody Goldberg
+ * (C) 2002-2006 Jody Goldberg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -4079,8 +4079,11 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		pi->scaling.dim.cols = GSF_LE_GET_GUINT16 (q->data + 6);
 		pi->scaling.dim.rows = GSF_LE_GET_GUINT16 (q->data + 8);
 		if (pi->scaling.percentage.x < 1. || pi->scaling.percentage.x > 1000.) {
-			g_warning ("setting invalid print scaling (%f) to 100%%",
-				   pi->scaling.percentage.x);
+			if (pi->scaling.percentage.x != 0) {
+				/* 0 seems to be 'auto' */
+				g_warning ("setting invalid print scaling (%f) to 100%%",
+					   pi->scaling.percentage.x);
+			}
 			pi->scaling.percentage.x = pi->scaling.percentage.y = 100.;
 		}
 	}
