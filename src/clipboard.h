@@ -55,7 +55,7 @@ struct _GnmCellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
 	GnmCellPos	 base;
 	int		 cols, rows;
-	GSList		*contents;
+	GHashTable	*contents;
 	GnmStyleList	*styles;
 	GSList		*merged;
 	GSList		*objects;

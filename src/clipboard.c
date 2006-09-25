@@ -2,7 +2,7 @@
 /*
  * clipboard.c: A temporary store for contents from a worksheet
  *
- * Copyright (C) 2000-2005 Jody Goldberg   (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg   (jody@gnome.org)
  *  		 1999      Miguel de Icaza (miguel@gnu.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -55,6 +55,8 @@ static GOMemChunk *cell_copy_pool;
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
+
+static void gnm_cell_copy_free (GnmCellCopy *cc);
 
 static gboolean
 cell_has_expr_or_number_or_blank (GnmCell const * cell)
@@ -481,7 +483,7 @@ cb_clipboard_prepend_cell (GnmCellIter const *iter, GnmCellRegion *cr)
 			cr->not_as_contents = TRUE;
 	} else
 		copy->texpr = NULL;
-	cr->contents = g_slist_prepend (cr->contents, copy);
+	g_hash_table_insert (cr->contents, copy, copy);
 	return NULL;
 }
 
@@ -627,6 +629,7 @@ cellregion_ref (GnmCellRegion *cr)
 	cr->ref_count++;
 }
 
+
 void
 cellregion_unref (GnmCellRegion *cr)
 {
@@ -638,20 +641,10 @@ cellregion_unref (GnmCellRegion *cr)
 		return;
 	}
 
-	for (ptr = cr->contents; ptr; ptr = ptr->next) {
-		GnmCellCopy *cc = ptr->data;
-		if (cc->texpr) {
-			gnm_expr_top_unref (cc->texpr);
-			cc->texpr = NULL;
-		}
-		if (cc->val) {
-			value_release (cc->val);
-			cc->val = NULL;
-		}
-		CHUNK_FREE (cell_copy_pool, cc);
+	if (NULL != cr->contents) {
+		g_hash_table_destroy (cr->contents);
+		cr->contents = NULL;
 	}
-	g_slist_free (cr->contents);
-	cr->contents = NULL;
 
 	if (cr->styles != NULL) {
 		style_list_free (cr->styles);
@@ -692,6 +685,20 @@ gnm_cell_copy_new (int col_offset, int row_offset)
 	res->texpr = NULL;
 	res->val = NULL;
 	return res;
+}
+
+static void
+gnm_cell_copy_free (GnmCellCopy *cc)
+{
+	if (cc->texpr) {
+		gnm_expr_top_unref (cc->texpr);
+		cc->texpr = NULL;
+	}
+	if (cc->val) {
+		value_release (cc->val);
+		cc->val = NULL;
+	}
+	CHUNK_FREE (cell_copy_pool, cc);
 }
 
 void

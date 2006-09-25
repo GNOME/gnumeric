@@ -810,7 +810,7 @@ set_dir (GtkWidget *w, GtkTextDirection *dir)
 static void
 cb_direction_change (G_GNUC_UNUSED Sheet *null_sheet,
 		     G_GNUC_UNUSED GParamSpec *null_pspec,
-		     const SheetControlGUI *scg)
+		     SheetControlGUI const *scg)
 {
 	GtkWidget *w = (GtkWidget *)scg->wbcg->notebook;
 	gboolean text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
