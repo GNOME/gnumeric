@@ -1,3 +1,8 @@
+2006-09-28  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c, src/clipboard.h: undo partial list->hash
+	change.
+
 2006-09-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c: removed unused and deprecated header
