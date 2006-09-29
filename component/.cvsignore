@@ -5,3 +5,4 @@ Makefile
 *.lo
 *.la
 plugin.xml
+Gnumeric-embed.xml
