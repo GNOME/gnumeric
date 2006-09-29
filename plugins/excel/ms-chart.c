@@ -48,6 +48,7 @@
 #include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-line.h>
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-marker.h>
 
@@ -1694,6 +1695,13 @@ static gboolean
 BC_R(serfmt)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
+	guint8 const flags = GSF_LE_GET_GUINT8  (q->data);
+	if (flags & 1)
+		s->style->interpolation.type = GO_LINE_INTERPOLATION_SPLINE;
+		s->style->interpolation.auto_type = FALSE;
+	d (1, {
+		fprintf (stderr, "interpolation: %s\n", (flags & 1)? "spline": "linear");
+	});
 	return FALSE;
 }
 
@@ -3490,6 +3498,15 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GogStyleLine const *lstyle,
 }
 
 static void
+chart_write_SERFMT (XLChartWriteState *s, GogStyle const *style)
+{
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_serfmt, 2);
+	GSF_LE_SET_GUINT8 (data+0,
+		(style->interpolation.type == GO_LINE_INTERPOLATION_SPLINE)? 1: 0);
+	ms_biff_put_commit (s->bp);
+}
+
+static void
 chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style,
 			  gboolean clear_marks_for_null)
 {
@@ -3781,6 +3798,9 @@ style_is_completely_auto (GogStyle const *style)
 	    (!style->line.auto_color || !style->line.auto_dash ||
 		(style->line.width != 0.)))
 		return FALSE;
+	if ((style->interesting_fields & GOG_STYLE_INTERPOLATION) &&
+		(style->interpolation.type == GO_LINE_INTERPOLATION_SPLINE))
+		return FALSE;
 	if ((style->interesting_fields & GOG_STYLE_MARKER)) {
 		if (!style->marker.auto_shape ||
 		    !style->marker.auto_outline_color ||
@@ -3798,9 +3818,10 @@ chart_write_style (XLChartWriteState *s, GogStyle const *style,
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
 	if (!style_is_completely_auto (style)) {
-		if ((style->interesting_fields & GOG_STYLE_LINE))
+		if ((style->interesting_fields & GOG_STYLE_LINE)) {
 			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
-		else
+			chart_write_SERFMT (s, style);
+		} else
 			chart_write_LINEFORMAT (s, &style->outline, FALSE, FALSE);
 		chart_write_AREAFORMAT (s, style, FALSE);
 		chart_write_PIEFORMAT (s, separation);

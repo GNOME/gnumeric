@@ -1,3 +1,9 @@
+2006-09-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (serfmt), (chart_write_SERFMT),
+	(style_is_completely_auto), (chart_write_style): implemented serfmt
+	to import/export interpolation type for splines. [#349457].
+
 2006-09-24  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c : Some initial work at parsing charts.
@@ -4354,7 +4360,7 @@
 	  Add support for setting the frozen flag.
 	(ms_excel_sheet_new) : init the freeze flag here.
 
-2001-07-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-07-13  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* ms-escher.c (ms_escher_read_ClientData): Syntax and name of
 	sheet_object_bonobo_load(_persist)_stream changed.
