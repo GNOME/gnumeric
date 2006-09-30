@@ -2273,6 +2273,7 @@ BC_R(end)(XLChartHandler const *handle,
 		XLChartSeries *eseries;
 		GogSeries     *series;
 		GogStyle      *style;
+		gboolean	   plot_has_lines = FALSE, plot_has_marks = FALSE;
 
 		/* check series now and create 3d plot if necessary */
 		if (s->is_surface) {
@@ -2478,17 +2479,22 @@ not_a_matrix:
 			if (type != NULL && style->marker.mark != NULL &&
 			    (!strcmp (type, "GogXYPlot") ||
 			     !strcmp (type, "GogLinePlot") ||
-			     !strcmp (type, "GogRadarPlot")))
+			     !strcmp (type, "GogRadarPlot"))) {
+				plot_has_marks =
+					 go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE;
 				g_object_set (G_OBJECT (s->plot),
 					"default-style-has-markers",
-					go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE,
+					plot_has_marks,
 					NULL);
-			if (type != NULL && 0 == strcmp (type, "GogXYPlot"))
+			}
+			if (type != NULL && 0 == strcmp (type, "GogXYPlot")) {
+				plot_has_lines = style->line.dash_type != GO_LINE_NONE;
 				g_object_set (G_OBJECT (s->plot),
 					"default-style-has-lines",
 					style->line.width >= 0 &&
-					style->line.dash_type != GO_LINE_NONE,
+					plot_has_lines,
 					NULL);
+			}
 
 			g_object_unref (s->default_plot_style);
 			s->default_plot_style = NULL;
@@ -2594,6 +2600,12 @@ not_a_matrix:
 						/* These avoid warnings when exporting, do we really care? */
 						style->fill.auto_fore = FALSE;
 						style->fill.auto_back = FALSE;
+					} else {
+						if (!plot_has_marks &&
+							go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE)
+							style->marker.auto_shape = FALSE;
+						if (!plot_has_lines && style->line.dash_type != GO_LINE_NONE)
+							style->line.auto_dash = FALSE;
 					}
 					g_object_set (G_OBJECT (series),
 						"style", style,
