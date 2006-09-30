@@ -1,5 +1,9 @@
 Gnumeric 1.6.4
 
+Jean Brefort:
+	* Don't use auto_shape or auto_dash when plot has no marker/line
+	and series have while importing from excel. [#319727]
+
 Morten:
 	* Fix sheet-manage dialog crash.  [#336165]
 	* Fix paste from other gnumerics.  [#337215]
@@ -73,7 +77,7 @@ Morten:
 	* Fix DATE compatibility for bizarre input.
 	* Cleanup parameter handling in financial functions.
 
-Jon Kåre:
+Jon KÃ¥re:
         * Hand clipboard off to clipboard manager when exiting.
 
 Nick Lamb:
@@ -232,7 +236,7 @@ Jody:
 	* Warnings when consolidating single columns. [#308431]
 	* Improve sync of cell editing and editline for autocomplete. [#308303]
 
-Jon Kåre:
+Jon KÃ¥re:
         * Improve sc/xspread import.
 	* Export page orientation to Excel.
 	* Fix top margin/header interaction bug in page setup. [#310055]
@@ -291,7 +295,7 @@ Jody:
 	* Delete while editing should not clear the cell. [#165172]
 	* R1C1 support.
 
-Jon Kåre:
+Jon KÃ¥re:
         * Don't output the xml declaration for xhtml. [#303827]
 
 Michal Kaukic:
@@ -367,7 +371,7 @@ Jody:
 	* Add vertical alignment DISTRIBUTED
 	* Fix xls in/out of rotation
 
-Jon Kåre:
+Jon KÃ¥re:
         * Don't crash on csv file with invalid unicode [#167190]
 	* Import html hyperlinks as hyperlinks.
 	* Fix session management bug when gnumeric is minimized. [#166769]
@@ -783,7 +787,7 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=114153
 	* Respect 0 as no-compression for xml export
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Fix the CORBA plugin.
 	* Add pangoft2 dependency.
 	http://bugzilla.gnome.org/show_bug.cgi?id=153701
@@ -837,7 +841,7 @@ Jody:
 	* Add full screen toggle
 	* Auto recognize csv files < 80 characters long
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Export text objects to Excel
 
 Kasal:
@@ -909,7 +913,7 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=143724
 	* Clip large dbf files to compile time file limits
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Export images to Excel
 	* Read images from native Gnumeric format
 	* Read and save images we cannot render without loss to and
@@ -1235,7 +1239,7 @@ Jody:
 John Gill:
 	* Add a field menu and keyboard shortcuts to the sort dialog
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Fix encoding of author field in summary.
 	http://bugzilla.gnome.org/show_bug.cgi?id=129702
 
@@ -1509,7 +1513,7 @@ Jody:
 	* XLS import legend position
 	* Honour and edit manual min/max values for axis
 
-Jon Kåre:
+Jon KÃ¥re:
         * Ensure that scrollbars always show up in font combo when
  	  needed (http://bugzilla.gnome.org/show_bug.cgi?id=121877).
 
@@ -1532,7 +1536,7 @@ Jean Brefort:
 	* Basic SVG renderer for charting engine.
 	* Implement brightness style gradients
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Add 'Save As' entry for graph objects.  Support png for now.
 	* Persist Styles for charting engine.
 	* Begin to enable support for is_auto
@@ -1557,7 +1561,7 @@ Jody:
 	* Fix dynamic depend leak.
 	* Improve performance when deleting multiple sheets at once.
 	* Only export a charting style field if it is interesting.
-	* Hook up the Jean's SVG exporter to Jon Kåre's Chart Save As
+	* Hook up the Jean's SVG exporter to Jon KÃ¥re's Chart Save As
 	* Bound clipping for xy/bar/col/line/area
 	* Finish axis life cycle support
 
@@ -1659,7 +1663,7 @@ John Gill:
 	* More XLish heuristics for autofill range selection.
 	* Support End keys, and XL style 'transition' keys
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Improve color combo.
 	* Fix keynav for various kinds of combos.
 	* Make splash screen display code clairvoyant.
@@ -1875,7 +1879,7 @@ Jody:
 	* Added Skeleton for importing MS Excel XML.
 	* Changed default toolbar layout to icon only.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Finish UI for managing hyperlinks of various sorts.
 	* Skip sheet chooser page in text export when there is only
 	  one sheet (Fixes 84791).
@@ -1922,7 +1926,7 @@ Jody:
 	* Fix parser's handling of unknown function.
 	* Remove unnecessary new/free of dates.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Open DB connections read only.
 	* Improve password dialog.
 	* Show password dialog also for files given on command line.
@@ -1971,7 +1975,7 @@ Jody:
 	* XLS export for autofilters
 	* Fix print dialog's entry of repeated cols/rows
 
-Jon Kåre:
+Jon KÃ¥re:
         * Separate GUI for showing progress and messages before first
 	  spreadsheet window is displayed.
 	* Fix 98661.
@@ -2040,7 +2044,7 @@ Jody:
 	* Implement intersheet and 3d references for xls97 export
 	* Fix xls import of 3d external references
 
-Jon Kåre:
+Jon KÃ¥re:
         * Merged File/Open and File/Import
 	* Remove code which supported the File/Open File/Import
 	  distinction.
@@ -2194,7 +2198,7 @@ Tim A. Garner:
 	* Hide hidden data in html export
 	* In the LaTeX exporter optionally export math in italics
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Remove old Python plugin
 
 --------------------------------------------------------------------------
@@ -2246,7 +2250,7 @@ Morten:
 	* Fix loading of sheets with error constants in expressions, such
 	  as #REF!
 
-Lutz Müller:
+Lutz MÃ¼ller:
 	* Drag & Drop sheet re-ordering
 
 --------------------------------------------------------------------------
@@ -2271,7 +2275,7 @@ Jody:
 	  reading our sheets.
 	* Partially fix printing images
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Port to new libgsf big file api
 
 Jukka:
@@ -2444,7 +2448,7 @@ Morten:
 	* Start making Search and Search/Replace UTF-8 safe.
 	* Resurrect long double support.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Use GsfInput in the Python plugin loader
 	* Use GsfInput in the Nautilus component
 	* Open all probe-able file formats from the Nautilus component
@@ -2503,7 +2507,7 @@ Morten:
 	* Prevent gcc 2.96 compilation.
 	* Fix leaks for unknown function stubs.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Install bonobo control
 	* Merge bonobo control commands into container's menus
 	* Make bonobo control zoomable
@@ -2566,7 +2570,7 @@ Jody:
 	* Start support for filter importing.
 	* Fix sheetobjects in the presence of panes.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Enable bonobo
 	* fix hpux build
 	* Clean up Guile plugin
@@ -2715,7 +2719,7 @@ Jody:
 	* Add a sample external data source.
 	* fix paste-special.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* More correct import of "automatic" colors from Excel.
 	* Export "automatic" colors to Excel.
 	* Simplify and fix bugs in Excel color import and export.
@@ -2815,7 +2819,7 @@ Jody:
 	* Try REALLY hard to find an expression in xml not
 	   marked as being a value.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Added WEEKNUM and ISOWEEKNUM
 
 Morten:
@@ -3476,7 +3480,7 @@ Jody:
 	* Partial support for outline mode
 	* Misc bugs.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* New architecture for selecting cell ranges into dialogs.
 	* Fix dialog placement.
 
@@ -3547,7 +3551,7 @@ Morten:
 	* Column header drawing fix.
 	* [Linear] Regression fix.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* item-edit fix.
 
 Translations:
@@ -3571,7 +3575,7 @@ Jody:
 	* Improve pixel matching of XL import.
 	* Add option to manage printing ranges with only styles.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Improve file save dialog.
 
 Morten:
@@ -3629,7 +3633,7 @@ Jody:
 	* More work on expression relocation.
 	* Bugs.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Improve XL export of non-builtin functions.
 
 Morten:
@@ -3665,7 +3669,7 @@ Jody:
 	* Some initial work on an MVC split for workbooks.
 	* More work on double click fill support.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* When format toolbar is vertical, replace font and size
 	  selectors with a button.
 
@@ -3710,7 +3714,7 @@ Jody:
 John Gill:
 	* Double click fill support.
 
-Jon Kåre:
+Jon KÃ¥re:
         * Make print work with new gnome-print
 	* Lots of printing/margin bugs.
 
@@ -3781,7 +3785,7 @@ Jody:
 	* Extend auto-fill to support months and years.
 	* Some translation bugs.
 
-Jon Kåre:
+Jon KÃ¥re:
 	* Tooltips for combo boxes.
 	* Synchronize list selection with entry field in combo boxes.
 	* Make  units in print setup dialog user selectable.

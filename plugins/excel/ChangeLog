@@ -1,3 +1,8 @@
+2006-09-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (end): Don't use auto_shape or auto_dash when plot has
+	no marker/line and series have while importing from excel. [#319727]
+
 2006-03-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.3
@@ -4117,7 +4122,7 @@
 	  Add support for setting the frozen flag.
 	(ms_excel_sheet_new) : init the freeze flag here.
 
-2001-07-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-07-13  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* ms-escher.c (ms_escher_read_ClientData): Syntax and name of
 	sheet_object_bonobo_load(_persist)_stream changed.
