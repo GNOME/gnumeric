@@ -1,3 +1,8 @@
+2006-10-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c: (gnm_sog_get_object_target_list):
+	do not add image targets from there.
+
 2006-09-29  Jody Goldberg <jody@gnome.org>
 
 	* component/gnumeric.c : add an include to suppress a warning.

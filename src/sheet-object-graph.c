@@ -209,17 +209,6 @@ gnm_sog_get_object_target_list (SheetObject const *so)
 	tl = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add (tl, gdk_atom_intern
 					("application/x-goffice-graph", FALSE), 0, 0);
-	if (IS_SHEET_OBJECT_IMAGEABLE (so)) {
-		GList *ptr;
-		tl2 = sheet_object_get_target_list (so);
-		ptr = tl2->list;
-		while (ptr) {
-			pair = (GtkTargetPair*) ptr->data;
-			gtk_target_list_add (tl,pair->target, pair->flags, pair->info);
-			ptr = ptr->next;
-		}
-		gtk_target_list_unref (tl2);
-	}
 	return tl;
 }
 
