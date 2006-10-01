@@ -27,20 +27,6 @@
 #include <gnumeric.h>
 #include <libgnumeric.h>
 #include <gnumeric-gconf.h>
-#include <glib/gi18n-lib.h>
-#include <gtk/gtkactiongroup.h>
-#include <gtk/gtkstock.h>
-#include <goffice/app/io-context.h>
-#include <goffice/component/goffice-component.h>
-#include <goffice/component/go-component.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-image.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-output-memory.h>
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/app/module-plugin-defs.h>
 #include <application.h>
 #include <cell.h>
 #include <cell-draw.h>
@@ -57,13 +43,32 @@
 #include <sheet-object.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
+
+#include <goffice/app/io-context.h>
+#include <goffice/component/goffice-component.h>
+#include <goffice/component/go-component-factory.h>
+#include <goffice/component/go-component.h>
+#include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-color.h>
+#include <goffice/utils/go-image.h>
+#include <goffice/app/go-cmd-context.h>
+#include <goffice/app/module-plugin-defs.h>
+
+#include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-output-memory.h>
+
+#include <gtk/gtkactiongroup.h>
+#include <gtk/gtkstock.h>
+
+#include <glib/gi18n-lib.h>
 #ifdef GOFFICE_WITH_CAIRO
 #	include <cairo.h>
 #	include <pango/pangocairo.h>
 #endif
 
 GOPluginModuleDepend const go_plugin_depends [] = {
-    { "goffice", GOFFICE_API_VERSION }
+	{ "goffice", GOFFICE_API_VERSION }
 };
 GOPluginModuleHeader const go_plugin_header =
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
@@ -71,8 +76,7 @@ GOPluginModuleHeader const go_plugin_header =
 G_MODULE_EXPORT void go_plugin_init (GOPlugin *plugin, GOCmdContext *cc);
 G_MODULE_EXPORT void go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc);
 
-typedef struct
-{
+typedef struct {
 	GOComponent parent;
 
 	WorkbookView *wv;
