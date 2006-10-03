@@ -857,30 +857,27 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 		for (ptr = content->objects; ptr != NULL;
 		     ptr = ptr->next) {
 			candidate = SHEET_OBJECT (ptr->data);
-			if (IS_SHEET_OBJECT_EXPORTABLE (candidate)) {
+			if (exportable == NULL && IS_SHEET_OBJECT_EXPORTABLE (candidate))
 				exportable = candidate;
-				break;
-			} else if (IS_SHEET_OBJECT_IMAGEABLE (candidate)) {
+			if (imageable == NULL && IS_SHEET_OBJECT_IMAGEABLE (candidate))
 				imageable = candidate;
-				break;
-			}
 		}
 	}
+	targets = (GtkTargetEntry *) table_targets;
+	n_targets = G_N_ELEMENTS (table_targets);
 	if (exportable) {
 		tl = sheet_object_exportable_get_target_list (exportable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, table_targets, 1);
 		targets = target_list_to_entries (tl, &n_targets);
 		gtk_target_list_unref (tl);
-	} else if (imageable) {
+	}
+	if (imageable) {
 		tl = sheet_object_get_target_list (imageable);
 		/* _add_table prepends to target_list */
 		gtk_target_list_add_table (tl, table_targets, 1);
 		targets = target_list_to_entries (tl, &n_targets);
 		gtk_target_list_unref (tl);
-	} else {
-		targets = (GtkTargetEntry *) table_targets;
-		n_targets = G_N_ELEMENTS (table_targets);
 	}
 	/* Register a x_clipboard_clear_cb only for CLIPBOARD, not for
 	 * PRIMARY */ 

@@ -1,3 +1,8 @@
+2006-10-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gui-clipboard.c: (x_claim_clipboard): check for imageable and
+	exportable indepentently.
+
 2006-10-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
