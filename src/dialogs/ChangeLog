@@ -1,3 +1,7 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
 2006-09-24  Jody Goldberg <jody@gnome.org>
 
 	* dialog-solver.c : We use GLPK 4.9 now.

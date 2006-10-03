@@ -1,3 +1,7 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
 2006-09-17  Jody Goldberg <jody@gnome.org>
 
 	* plugin-gda.c (gnm_value_new_from_gda) : new function.

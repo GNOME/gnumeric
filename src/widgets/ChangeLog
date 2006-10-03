@@ -1,3 +1,7 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
 2006-05-15  Morten Welinder  <terra@gnome.org>
 
 	* widget-editable-label.c (el_motion_notify): New handler to fix

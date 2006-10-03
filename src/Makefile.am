@@ -191,7 +191,7 @@ libspreadsheet_include_HEADERS = 	\
 	func.h					\
 	func-builtin.h				\
 	gnm-format.h				\
-	gnm-graph-window.c			\
+	gnm-graph-window.h			\
 	gnm-datetime.h				\
 	gnm-style-impl.h			\
 	gnumeric.h				\

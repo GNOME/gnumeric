@@ -1,3 +1,7 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
 2006-07-12  Jody Goldberg <jody@gnome.org>
 
 	* api.c : Update glpk api usage to the new names (post 4.4) now that

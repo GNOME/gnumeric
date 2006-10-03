@@ -1050,7 +1050,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 		return value_new_error_NA (ei->pos);
 
 	args = g_alloca (sizeof (GnmValue *) * fn_def->fn.args.max_args);
-	iter_count = (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ? 0 : -1;
+	iter_count = (ei->pos->array != NULL) ? 0 : -1;
 
 	for (i = 0; i < argc; i++) {
 		char arg_type = fn_def->fn.args.arg_types[i];
@@ -1223,7 +1223,7 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 						} else if (VALUE_IS_ERROR (elem)) {
 							err = elem;
 							break;
-						} else if (!VALUE_IS_STRING (tmp))
+						} else if (!VALUE_IS_STRING (elem))
 							break;
 					} else if (elem == NULL) {
 						args [iter_item[i]] = iter_args [i] = value_new_empty ();
@@ -1484,13 +1484,15 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 
 		/* We need a cleaner model of what to do here.  For now it
 		 * seems as if var-arg functions treat explict ranges as special cases
-		 * 	SUM(Range)
+		 * 	SUM(Range) or
+		 * 	SUM(INDIRECT(foo))
 		 * will pass the range not do implicit intersection in non-array mode
 		 * 	SUM(Range=3)
 		 * will do implicit intersection in non-array mode */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT)
 			val = value_dup (expr->constant.value);
-		else if (ep->array != NULL)
+		else if (ep->array != NULL ||
+			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL)
 			val = gnm_expr_eval (expr, ep,
 				GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		else
@@ -1502,7 +1504,6 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 
 		if (strict && VALUE_IS_ERROR (val)) {
 			/* Be careful not to make VALUE_TERMINATE into a real value */
-			/* FIXME : Make the new position of the error here */
 			return val;
 		}
 

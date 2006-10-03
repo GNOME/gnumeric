@@ -1,3 +1,15 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (function_call_with_exprs) : Iterate when we are in an
+	  array, not when non-scalars are permitted.
+	  Fix typo.
+	(function_iterate_argument_values) : permit non-scalars for args that
+	  are function calls.
+
 2006-10-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-graph.c: (gnm_sog_get_object_target_list):

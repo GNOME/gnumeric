@@ -1,3 +1,7 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
 2006-05-31  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (cb_countblank) : adjust to the change in CellIterFunc

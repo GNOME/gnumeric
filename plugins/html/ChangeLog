@@ -1,3 +1,7 @@
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
 2006-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	* latex.c (latex_file_save): use \linewidth rather 
 	  than \textwidth
