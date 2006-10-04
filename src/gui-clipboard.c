@@ -875,14 +875,13 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 	if (imageable) {
 		tl = sheet_object_get_target_list (imageable);
 		/* _add_table prepends to target_list */
-		gtk_target_list_add_table (tl, table_targets, 1);
+		gtk_target_list_add_table (tl, targets, (exportable)? n_targets: 1);
 		targets = target_list_to_entries (tl, &n_targets);
 		gtk_target_list_unref (tl);
 	}
 	/* Register a x_clipboard_clear_cb only for CLIPBOARD, not for
 	 * PRIMARY */ 
-	ret =
-	gtk_clipboard_set_with_owner (
+	ret = gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
 		targets, n_targets,
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
