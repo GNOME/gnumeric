@@ -1,5 +1,11 @@
-gnumeric (1.7.1-0) UNRELEASED; urgency=low
+gnumeric (1.7.1-1) experimental; urgency=low
 
+  * New upstream development release.
+  * [debian/control] Bumped libgsf and goffice build dependencies per
+    configure.in .
+  * [debian/control] Change list bullet character from `o' to `*' for
+    aptitude. (Closes: #389140)
+  * [debian/gnumeric.install] Add goffice plugin.
   * [debian/po/lt.po] Added, courtesy of Gintautas Miliauskas <gintas@akl.lt>.
     (Closes: #374319).
   * [debian/po/pt.po] Added, courtesy of Ricardo Silva <ardoric@gmail.com> via
@@ -7,7 +13,7 @@ gnumeric (1.7.1-0) UNRELEASED; urgency=low
   * [debian/po/ru.po] Added, courtesy of Yuri Kozlov <kozlov.y@gmail.com>.
     (Closes: #379367)
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 10 May 2006 21:29:08 +0200
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed,  4 Oct 2006 21:24:30 +0200
 
 gnumeric (1.7.0-1) experimental; urgency=low
 

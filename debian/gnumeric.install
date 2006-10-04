@@ -6,7 +6,12 @@
 /usr/lib/gnumeric/*/plugins/*/*.la
 /usr/lib/gnumeric/*/plugins/*/*.so
 /usr/lib/gnumeric/*/plugins/*/*.xml
+/usr/lib/goffice/*/plugins/gnumeric/*.glade
+/usr/lib/goffice/*/plugins/gnumeric/*.la
+/usr/lib/goffice/*/plugins/gnumeric/*.so
+/usr/lib/goffice/*/plugins/gnumeric/*.xml
 /usr/lib/libspreadsheet-*.so*
 /usr/lib/libspreadsheet.so
 /usr/share/gnumeric/*/GNOME_Gnumeric-gtk.xml
+/usr/share/gnumeric/*/Gnumeric-embed.xml
 /usr/share/man/man*/*
