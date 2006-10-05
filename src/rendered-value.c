@@ -187,11 +187,11 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	g_return_val_if_fail (cell->value != NULL, NULL);
 	g_return_val_if_fail (context != NULL, NULL);
 
-	/* Sheet can be NULL when called from preview-grid.c  */
+	/* sheet->workbook can be NULL when called from preview-grid.c  */
 	sheet = cell->base.sheet;
 
 	displayed_formula =
-		cell_has_expr (cell) && sheet && sheet->display_formulas;
+		cell_has_expr (cell) && sheet->display_formulas;
 
 	/* Special handling for manual recalc.
 	 * If a cell has a new expression and something tries to display it we
@@ -334,14 +334,14 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		g_string_free (str, TRUE);
 		fore = 0;
 		res->might_overflow = FALSE;
-	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
+	} else if (sheet->hide_zero && cell_is_zero (cell)) {
 		pango_layout_set_text (layout, "", 0);
 		fore = 0;
 		res->might_overflow = FALSE;
 	} else {
 		int col_width = -1;
 		GOFormat *format = gnm_style_get_format (mstyle);
-		GODateConventions const *date_conv = sheet
+		GODateConventions const *date_conv = sheet->workbook
 			? workbook_date_conv (sheet->workbook)
 			: NULL;
 		GnmFont *font = gnm_style_get_font (mstyle, context, zoom);
