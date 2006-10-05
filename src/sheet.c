@@ -1586,14 +1586,21 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 	if (cell_is_merged (cell))
 		return NULL;
 
+	/*
+	 * Special handling for manual recalc.  We need to eval newly
+	 * entered expressions.  cell_render_value will do that for us,
+	 * but we want to short-circuit some strings early.
+	 */
+	if (cell->base.flags & CELL_HAS_NEW_EXPR)
+		cell_eval (cell);
+
+	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
+		return NULL;
+
 	/* Variable width cell must be re-rendered */
 	if (cell->rendered_value == NULL ||
 	    cell->rendered_value->variable_width)
 		cell_render_value (cell, FALSE);
-
-	/* Do the test after rendering because that may trigger evaluation. */
-	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
-		return NULL;
 
 	/* Make sure things are as-if drawn.  */
 	cell_finish_layout (cell, NULL, iter->ci->size_pixels, TRUE);
@@ -1653,17 +1660,37 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 	if (cell_is_merged (cell))
 		return NULL;
 
-	if (cell->rendered_value == NULL)
-		cell_render_value (cell, TRUE);
+	/*
+	 * Special handling for manual recalc.  We need to eval newly
+	 * entered expressions.  cell_render_value will do that for us,
+	 * but we want to short-circuit some strings early.
+	 */
+	if (cell->base.flags & CELL_HAS_NEW_EXPR)
+		cell_eval (cell);
 
-	/* Do the test after rendering because that may trigger evaluation. */
 	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
 		return NULL;
 
-	/* Make sure things are as-if drawn.  Inhibit #####s.  */
-	cell_finish_layout (cell, NULL, iter->ci->size_pixels, FALSE);
+	if (!VALUE_IS_STRING (cell->value)) {
+		/*
+		 * Mildly cheating to avoid performance problems, See bug
+		 * 359392.  This assumes that non-strings do not wrap and
+		 * that they are all the same height, more or less.
+		 */
+		const Sheet *sheet = cell->base.sheet;
+		height = gnm_style_get_pango_height (cell_get_style (cell),
+						     sheet->context,
+						     sheet->last_zoom_factor_used);
+	} else {
+		if (cell->rendered_value == NULL)
+			cell_render_value (cell, TRUE);
 
-	height = cell_rendered_height (cell);
+		/* Make sure things are as-if drawn.  Inhibit #####s.  */
+		cell_finish_layout (cell, NULL, iter->ci->size_pixels, FALSE);
+
+		height = cell_rendered_height (cell);
+	}
+
 	if (height > data->max)
 		data->max = height;
 

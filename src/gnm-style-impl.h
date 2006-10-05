@@ -22,6 +22,7 @@ struct _GnmStyle {
 
 	PangoAttrList *pango_attrs;
 	float          pango_attrs_zoom;
+	int            pango_attrs_height;
 	GnmFont       *font;
 
 /* public */

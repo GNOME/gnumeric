@@ -110,7 +110,6 @@ GOFontScript gnm_style_get_font_script	   (GnmStyle const *style);
 void         gnm_style_set_font_size	   (GnmStyle *style, float size);
 float        gnm_style_get_font_size	   (GnmStyle const *style);
 
-/* this font must be unrefd after use */
 GnmFont     *gnm_style_get_font		   (GnmStyle const *style,
 					    PangoContext *context,
 					    float zoom);
@@ -159,8 +158,11 @@ PangoAttrList	*gnm_style_generate_attrs_full (GnmStyle const *style);
 PangoAttrList	*gnm_style_get_pango_attrs     (GnmStyle const *style,
 						PangoContext *context,
 						float zoom);
+int              gnm_style_get_pango_height    (GnmStyle const *style,
+						PangoContext *context,
+						float zoom);
 void   	    gnm_style_set_from_pango_attribute (GnmStyle *style,
-						     PangoAttribute const *attr);
+						PangoAttribute const *attr);
 
 void        gnm_style_init (void);
 void        gnm_style_shutdown (void);

@@ -2,6 +2,7 @@ Gnumeric 1.7.2
 
 Morten:
 	* Fix font preview crash.
+	* Fix performance problem with big paste.  [#359392]
 
 --------------------------------------------------------------------------
 

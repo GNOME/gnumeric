@@ -1478,6 +1478,7 @@ gnm_style_get_pango_attrs (GnmStyle const *style,
 
 	((GnmStyle *)style)->pango_attrs = l = pango_attr_list_new ();
 	((GnmStyle *)style)->pango_attrs_zoom = zoom;
+	((GnmStyle *)style)->pango_attrs_height = -1;
 
 	/* Foreground colour.  */
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
@@ -1553,6 +1554,28 @@ gnm_style_generate_attrs_full (GnmStyle const *style)
 
 	return l;
 }
+
+int
+gnm_style_get_pango_height (GnmStyle const *style,
+			    PangoContext *context,
+			    float zoom)
+{
+	PangoAttrList *attrs = gnm_style_get_pango_attrs (style, context, zoom);
+
+	if (style->pango_attrs_height == -1) {
+		int h;
+		PangoLayout *layout = pango_layout_new (context);
+		pango_layout_set_attributes (layout, attrs);
+		pango_layout_set_text (layout, "+1.23456789E-01", -1);
+		pango_layout_get_pixel_size (layout, NULL, &h);
+		g_object_unref (layout);
+		((GnmStyle *)style)->pango_attrs_height = h;
+	}
+
+	pango_attr_list_unref (attrs);
+	return style->pango_attrs_height;
+}
+
 
 void
 gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
