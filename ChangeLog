@@ -1,3 +1,12 @@
+2006-10-04  Morten Welinder  <terra@gnome.org>
+
+	* src/preview-grid.c (pg_destruct_cell): Destroy cell properly.
+	(pg_construct_cell): Construct it properly.
+	(preview_grid_init): Create proper sheet object.
+
+	* src/dependent.c (handle_outgoing_references): Handle sheet
+	without workbook.
+
 2006-10-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gui-clipboard.c: (x_claim_clipboard): fixed one more detail.

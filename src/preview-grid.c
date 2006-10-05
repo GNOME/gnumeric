@@ -27,6 +27,7 @@
 #include "preview-grid-impl.h"
 
 #include "cell.h"
+#include "sheet.h"
 #include "cell-draw.h"
 #include "colrow.h"
 #include "pattern.h"
@@ -75,26 +76,14 @@ static GnmCell *
 pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 {
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
-	GnmCell   *cell;
-	GnmStyle *style;
+	GnmCell *cell;
 
 	g_return_val_if_fail (klass != NULL, NULL);
 	g_return_val_if_fail (pg != NULL, NULL);
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, NULL);
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, NULL);
 
-	/*
-	 * We are going to manually replicate a cell
-	 * structure here, please remember that this is not
-	 * the equivalent of a real cell.  In particular we g_new
-	 * it and it must be g_free'd.
-	 */
-	cell = g_new0 (GnmCell, 1);
-	cell->pos.col = col;
-	cell->pos.row = row;
-	/* Eventually the cell->row_info will go away */
-	cell->row_info = g_new0 (ColRowInfo, 1);
-	cell->row_info->size_pixels = pg->defaults.row_height;
+	cell = sheet_cell_create (pg->sheet, col, row);
 
 	cell->value = NULL;
 	if (klass->get_cell_value != NULL)
@@ -102,8 +91,10 @@ pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 	if (cell->value == NULL)
 		cell->value = value_dup (pg->defaults.value);
 
-	style = pg_get_style (pg, col, row);
-	cell->rendered_value = rendered_value_new (cell, style, TRUE, context, 1.0);
+	cell->rendered_value =
+		rendered_value_new (cell, pg_get_style (pg, col, row),
+				    TRUE, context,
+				    pg->sheet->last_zoom_factor_used);
 
 	return cell;
 }
@@ -177,12 +168,7 @@ pg_destruct_cell (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
-	value_release (cell->value);
-	rendered_value_destroy (cell->rendered_value);
-
-	g_free (cell->row_info);
-
-	g_free (cell);
+	sheet_cell_remove (cell->base.sheet, cell, FALSE, FALSE);
 }
 
 static void
@@ -457,6 +443,11 @@ preview_grid_dispose (GObject *obj)
 		pg->defaults.value = NULL;
 	}
 
+	if (pg->sheet) {
+		g_object_unref (pg->sheet);
+		pg->sheet = NULL;
+	}
+
 	G_OBJECT_CLASS (parent_klass)->dispose (obj);
 }
 
@@ -470,6 +461,9 @@ preview_grid_init (PreviewGrid *pg)
 	item->x2 = 0;
 	item->y2 = 0;
 
+	pg->sheet = g_object_new (GNM_SHEET_TYPE, NULL);
+	pg->sheet->index_in_wb = -1;
+	pg->sheet->workbook = NULL;
 	pg->gridlines = FALSE;
 	pg->defaults.col_width = 64;
 	pg->defaults.row_height = 17;

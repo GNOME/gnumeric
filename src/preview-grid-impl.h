@@ -8,6 +8,8 @@
 struct _PreviewGrid {
 	FooCanvasGroup base;
 
+	Sheet *sheet;
+
 	struct { /* Gc's */
 		GdkGC *fill;	/* Default background fill gc */
 		GdkGC *cell;	/* Color used for the cell */

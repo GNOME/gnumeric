@@ -2177,7 +2177,7 @@ handle_outgoing_references (GnmDepContainer *deps, Sheet *sheet, gboolean destro
 {
 	DependentFlags what = DEPENDENT_USES_NAME;
 
-	what |= sheet->workbook->during_destruction
+	what |= (sheet->workbook && sheet->workbook->during_destruction)
 		? DEPENDENT_GOES_INTERBOOK
 		: DEPENDENT_GOES_INTERSHEET;
 	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
