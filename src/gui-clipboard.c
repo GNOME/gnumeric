@@ -929,10 +929,11 @@ x_store_clipboard_if_needed (WorkbookControlGUI *wbcg)
 
 	/* Test for 0, we are already linked out of the data structures */
 	if (num_wbcg == 0) {
-		gtk_clipboard_store
-			(gtk_clipboard_get_for_display
-			 (gtk_widget_get_display 
-			  (GTK_WIDGET (wbcg_toplevel (wbcg))),
-			  GDK_SELECTION_CLIPBOARD));
+		GtkClipboard *clip = gtk_clipboard_get_for_display
+			(gtk_widget_get_display 
+			 (GTK_WIDGET (wbcg_toplevel (wbcg))),
+			 GDK_SELECTION_CLIPBOARD);
+		if (gtk_clipboard_get_owner (clip) == gnm_app_get_app ())
+			gtk_clipboard_store (clip);
 	}
 }
