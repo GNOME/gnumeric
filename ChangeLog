@@ -1,3 +1,11 @@
+2006-10-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-file.c (gui_file_open, gui_file_save_as): Explicitly
+	show the file format box, because go_gtk_file_sel_dialog no longer
+	calls gtk_wiget_show_all.
+
+	* src/gui-clipboard.c (x_clipboard_get_cb): Ignore SAVE_TARGETS.
+
 2006-10-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_store_clipboard_if_needed): Only store if

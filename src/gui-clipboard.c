@@ -730,6 +730,10 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
 		g_free (buffer);
+	} else if (strcmp (target_name, "SAVE_TARGETS") == 0) {
+		/* We implicitly registered this when calling
+		 * gtk_clipboard_set_can_store. We're supposed to
+		 * ignore it. */
 	} else {
 		Workbook *wb = clipboard->origin_sheet->workbook;
 		GString *res = cellregion_to_string (clipboard,
