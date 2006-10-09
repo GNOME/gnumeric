@@ -1,5 +1,8 @@
 2006-10-09  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Fix hiding/unhiding of
+	toolbars broken by 2006-08-09 commit.
+
 	* src/clipboard.c (paste_cell): Transpose array formulas.
 	[#349288].  Make sure we do not end up sharing corners in the
 	non-transposed case.

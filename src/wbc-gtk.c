@@ -1499,8 +1499,6 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
 			"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
 			NULL);
-		g_object_set_data (G_OBJECT (box), "toggle_action",
-			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
 		g_object_set_data_full (G_OBJECT (box), "name",
 					g_strdup (name),
 					(GDestroyNotify)g_free);
@@ -1520,6 +1518,8 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		entry.is_active = visible;
 		gtk_action_group_add_toggle_actions (gtk->toolbar.actions,
 			&entry, 1, (WorkbookControlGUI *)wbcg);
+		g_object_set_data (G_OBJECT (box), "toggle_action",
+			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
 		gtk_ui_manager_add_ui (gtk->ui, gtk->toolbar.merge_id,
 #ifdef USE_HILDON
 			"/popup/View/Toolbars",
