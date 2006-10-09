@@ -119,6 +119,7 @@ void		gnm_expr_top_get_boundingbox	(GnmExprTop const *texpr, GnmRange *bound);
 gboolean	gnm_expr_top_contains_subtotal	(GnmExprTop const *texpr);
 GSList	       *gnm_expr_top_referenced_sheets	(GnmExprTop const *texpr);
 GnmExpr const  *gnm_expr_top_first_funcall	(GnmExprTop const *texpr);
+GnmExprTop const *gnm_expr_top_transpose        (GnmExprTop const *texpr);
 
 struct _GnmExprRelocateInfo {
 	GnmParsePos pos;

@@ -4,6 +4,8 @@ Morten:
 	* Fix font preview crash.
 	* Fix performance problem with big paste.  [#359392]
 	* Fix paste crash.  [#360672]
+	* Fix transposed pasting of arrays.  [#349288]
+	* Fix sharing problem with regular pasting of arrays.
 
 --------------------------------------------------------------------------
 

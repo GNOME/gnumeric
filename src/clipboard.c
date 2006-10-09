@@ -208,8 +208,20 @@ paste_cell (Sheet *dst_sheet,
 		if (NULL != src->texpr && (paste_flags & PASTE_CONTENTS)) {
 			GnmExprTop const *relo = gnm_expr_top_relocate (
 				src->texpr, rinfo, FALSE);
+			if (paste_flags & PASTE_TRANSPOSE) {
+				GnmExprTop const *trelo =
+					gnm_expr_top_transpose (relo ? relo : src->texpr);
+				if (trelo) {
+					if (relo)
+						gnm_expr_top_unref (relo);
+					relo = trelo;
+				}
+			} else if (!relo && gnm_expr_top_get_array_corner (src->texpr)) {
+				/* We must not share array expressions.  */
+				relo = gnm_expr_top_new (gnm_expr_copy (src->texpr->expr));
+			}
 			cell_set_expr_and_value (dst, relo ? relo : src->texpr,
-				value_dup (src->val), TRUE);
+						 value_dup (src->val), TRUE);
 			if (NULL != relo)
 				gnm_expr_top_unref (relo);
 		} else

@@ -1,3 +1,11 @@
+2006-10-09  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (paste_cell): Transpose array formulas.
+	[#349288].  Make sure we do not end up sharing corners in the
+	non-transposed case.
+
+	* src/expr.c (gnm_expr_top_transpose): New function.
+
 2006-10-08  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_read_clipboard_cell): Make sure the value gets

@@ -2573,7 +2573,7 @@ gnm_expr_top_is_shared (GnmExprTop const *texpr)
 }
 
 GnmExprTop const *
-gnm_expr_top_new_array_corner(int cols, int rows, GnmExpr const *expr)
+gnm_expr_top_new_array_corner (int cols, int rows, GnmExpr const *expr)
 {
 	return gnm_expr_top_new (gnm_expr_new_array_corner (cols, rows, expr));
 }
@@ -2785,6 +2785,27 @@ gnm_expr_top_is_array_elem (GnmExprTop const *texpr)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
 	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_ELEM;
+}
+
+GnmExprTop const *
+gnm_expr_top_transpose (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	switch (GNM_EXPR_GET_OPER (texpr->expr)) {
+	case GNM_EXPR_OP_ARRAY_CORNER:
+		/* Transpose size  */
+		return gnm_expr_top_new_array_corner
+			(texpr->expr->array_corner.rows,
+			 texpr->expr->array_corner.cols,
+			 gnm_expr_copy (texpr->expr));
+	case GNM_EXPR_OP_ARRAY_ELEM:
+		/* Transpose coordinates  */
+		return gnm_expr_top_new_array_elem
+			(texpr->expr->array_elem.y,
+			 texpr->expr->array_elem.x);
+	default:
+		return NULL;
+	}
 }
 
 /****************************************************************************/
