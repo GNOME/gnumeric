@@ -1,3 +1,8 @@
+2006-10-08  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (cell_set_expr_and_value): Set CELL_HAS_NEW_EXPR just
+	like cell_set_expr_internal.  Fixes #360672.
+
 2006-10-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-file.c (gui_file_open, gui_file_save_as): Explicitly

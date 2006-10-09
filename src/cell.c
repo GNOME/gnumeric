@@ -182,6 +182,7 @@ cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v,
 	gnm_expr_top_ref (texpr);
 	cell_cleanout (cell);
 
+	cell->base.flags |= CELL_HAS_NEW_EXPR;
 	cell->base.texpr = texpr;
 	cell->value = v;
 	if (link_expr)
