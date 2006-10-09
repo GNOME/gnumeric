@@ -1,5 +1,8 @@
 2006-10-08  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-io.c (xml_read_clipboard_cell): Make sure the value gets
+	set to a non-NULL value.  Don't try to free a NULL value.
+
 	* src/cell.c (cell_set_expr_and_value): Set CELL_HAS_NEW_EXPR just
 	like cell_set_expr_internal.  Fixes #360672.
 

@@ -2044,8 +2044,10 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 						(value_new_string
 						 (gnm_expr_char_start_p
 						  (CXML2C (content))));
-					value_release (cc->val);
-					cc->val = value_new_empty ();
+					if (cc->val) {
+						value_release (cc->val);
+						cc->val = NULL;
+					}
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
 						 (gpointer)cc->texpr);
@@ -2063,9 +2065,11 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 		} else {
 			g_warning ("XML-IO: Missing shared expression");
 		}
-		cc->val = value_new_empty ();
 	}
 	go_format_unref (value_fmt);
+
+	if (!cc->val)
+		cc->val = value_new_empty ();
 
 	cr->contents = g_slist_prepend (cr->contents, cc);
 }
