@@ -5023,7 +5023,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		data += len*2;
 	}
 
-	if ((options & 0x1e3) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
+	if ((options & 0x163) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
 		guchar *url;
 
 		data += sizeof (url_guid);

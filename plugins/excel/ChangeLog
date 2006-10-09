@@ -1,3 +1,8 @@
+2006-10-09  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (excel_read_HLINK): Fix bug with URLs having
+	target frames.
+
 2006-10-02  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.1
