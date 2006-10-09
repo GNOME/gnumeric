@@ -1,5 +1,9 @@
 Gnumeric 1.7.2
 
+Jon Kåre:
+        * Fix import of certain hyperlinks from Excel.
+	* Fix bug which hid file type selector when saving images.
+
 Morten:
 	* Fix font preview crash.
 	* Fix performance problem with big paste.  [#359392]
