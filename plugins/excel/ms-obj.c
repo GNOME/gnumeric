@@ -140,6 +140,19 @@ ms_obj_attr_new_markup (MSObjAttrID id, PangoAttrList *markup)
 	return res;
 }
 
+MSObjAttr *
+ms_obj_attr_new_gobject (MSObjAttrID id, GObject *object)
+{
+	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_IS_GOBJECT_MASK, NULL);
+
+	*((MSObjAttrID *)&(res->id)) = id;
+	res->v.v_object = object;
+	g_object_ref (object);
+	return res;
+}
+
 guint32
 ms_obj_attr_get_uint (MSObjAttrBag *attrs, MSObjAttrID id, guint32 default_value)
 {
@@ -244,6 +257,20 @@ ms_obj_attr_get_markup (MSObjAttrBag *attrs, MSObjAttrID id,
 	return res;
 }
 
+GObject *
+ms_obj_attr_get_gobject (MSObjAttrBag *attrs, MSObjAttrID id)
+{
+	MSObjAttr *attr;
+
+	g_return_val_if_fail (attrs != NULL, NULL);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_GOBJECT_MASK, NULL);
+
+	attr = ms_obj_attr_bag_lookup (attrs, id);
+	if (attr == NULL)
+		return NULL;
+	return attr->v.v_object;
+}
+
 static void
 ms_obj_attr_destroy (MSObjAttr *attr)
 {
@@ -264,6 +291,10 @@ ms_obj_attr_destroy (MSObjAttr *attr)
 			   attr->v.v_markup != NULL) {
 			pango_attr_list_unref (attr->v.v_markup);
 			attr->v.v_markup = NULL;
+		} else if ((attr->id & MS_OBJ_ATTR_IS_GOBJECT_MASK) &&
+			   attr->v.v_object != NULL) {
+			g_object_unref (attr->v.v_object);
+			attr->v.v_object = NULL;
 		}
 		g_free (attr);
 	}
@@ -820,8 +851,13 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 			ms_biff_query_next (q);
 			pixbuf = excel_read_IMDATA (q, FALSE);
-			if (pixbuf)
+			if (pixbuf) {
+			        ms_obj_attr_bag_insert (obj->attrs,
+				        ms_obj_attr_new_gobject 
+						(MS_OBJ_ATTR_IMDATA, 
+						 G_OBJECT (pixbuf)));
 				g_object_unref (pixbuf);
+			}
 		}
 	}
 	return FALSE;

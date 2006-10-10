@@ -496,6 +496,23 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 					!blip->needs_free);
 				blip->needs_free = FALSE; /* image took over managing data */
 			}
+		} else if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
+   		        MS_OBJ_ATTR_IMDATA)) != NULL) {
+			GdkPixbuf *pixbuf = GDK_PIXBUF (attr->v.v_object);
+			
+			if (pixbuf) {
+				gchar *buf;
+				gsize buf_size;
+
+				gdk_pixbuf_save_to_buffer 
+					(pixbuf, &buf, &buf_size, "png", 
+					 NULL, NULL);
+				if (buf_size > 0) {
+					sheet_object_image_set_image 
+						(SHEET_OBJECT_IMAGE (so),
+						 "png", buf, buf_size, FALSE);
+				}
+			}
 		}
 		if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
 		     MS_OBJ_ATTR_BLIP_CROP_LEFT)) != NULL)

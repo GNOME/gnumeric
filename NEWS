@@ -6,6 +6,7 @@ Jon Kåre:
 	* Fix crash when storing to clipboard manager.  [321714]
 	* Fix warnings when storing to clipboard manager.  [342580]
 	* Fix warnings when pasting objects over clipboard. [308569]
+        * Fix import of images in Excel files written by PHP/Perl. [155696]
 
 Morten:
 	* Fix font preview crash.

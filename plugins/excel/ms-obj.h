@@ -70,7 +70,11 @@ typedef enum {
 	MS_OBJ_ATTR_IS_EXPR_MASK = 0x20000,
 	MS_OBJ_ATTR_LINKED_TO_CELL,
 
-	MS_OBJ_ATTR_MASK = 0x37000
+    /* GObjects */
+	MS_OBJ_ATTR_IS_GOBJECT_MASK = 0x40000,
+	MS_OBJ_ATTR_IMDATA,
+
+	MS_OBJ_ATTR_MASK = 0x77000
 } MSObjAttrID;
 
 typedef struct {
@@ -83,6 +87,7 @@ typedef struct {
 		GArray   *v_array;
 		GnmExprTop const *v_texpr;
 		PangoAttrList *v_markup;
+		GObject  *v_object;
 	} v;
 } MSObjAttr;
 
@@ -93,6 +98,7 @@ MSObjAttr    *ms_obj_attr_new_ptr   (MSObjAttrID id, gpointer val);
 MSObjAttr    *ms_obj_attr_new_array (MSObjAttrID id, GArray *array);
 MSObjAttr    *ms_obj_attr_new_expr  (MSObjAttrID id, GnmExprTop const *texpr);
 MSObjAttr    *ms_obj_attr_new_markup (MSObjAttrID id, PangoAttrList *list);
+MSObjAttr    *ms_obj_attr_new_gobject (MSObjAttrID id, GObject *object);
 
 typedef GHashTable MSObjAttrBag;
 MSObjAttrBag  *ms_obj_attr_bag_new     (void);
@@ -114,6 +120,7 @@ GnmExprTop const *ms_obj_attr_get_expr (MSObjAttrBag *ab, MSObjAttrID id,
 					gboolean steal);
 PangoAttrList *ms_obj_attr_get_markup (MSObjAttrBag *ab, MSObjAttrID id,
 				       PangoAttrList *default_value, gboolean steal);
+GObject      *ms_obj_attr_get_gobject (MSObjAttrBag *attrs, MSObjAttrID id);
 
 
 struct _MSObj {
