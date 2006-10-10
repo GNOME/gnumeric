@@ -1,9 +1,13 @@
 2006-10-10  Jon K Hellan  <hellan@acm.org>
 
+	* src/gui-clipboard.c (x_claim_clipboard): Don't declare text or
+	html formats on clipboard for sheet objects. Fixes #308569.
+
 	* src/workbook-control-gui.c (wbcg_finalize,
 	wbcg_close_if_user_permits):  Move call of
 	x_store_clipboard_if_needed from finalize to
-	close_if_user_permits. This works around some lifecycle issues.
+	close_if_user_permits. This works around some lifecycle
+	issues. Fixes #321714, #342580.
 
 	* src/gui-clipboard.[ch] (x_store_clipboard_if_needed):
 	Make it take a workbook, not a wbcg. Should now be explicitly

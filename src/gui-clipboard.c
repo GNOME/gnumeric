@@ -855,6 +855,8 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 		{ (char *)"STRING", 0, 0 },
 	};
 
+	targets = (GtkTargetEntry *) table_targets;
+	n_targets = G_N_ELEMENTS (table_targets);
 	if (content &&
 	    (content->cols <= 0 || content->rows <= 0) &&
 	    content->objects != NULL) {
@@ -866,9 +868,9 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 			if (imageable == NULL && IS_SHEET_OBJECT_IMAGEABLE (candidate))
 				imageable = candidate;
 		}
+		/* Currently, we can't render sheet objects as text or html */
+		n_targets = 1;
 	}
-	targets = (GtkTargetEntry *) table_targets;
-	n_targets = G_N_ELEMENTS (table_targets);
 	if (exportable) {
 		tl = sheet_object_exportable_get_target_list (exportable);
 		/* _add_table prepends to target_list */
