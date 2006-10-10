@@ -1289,6 +1289,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	if (!ask_user) {
 		done = gui_file_save (wbcg, wb_view);
 		if (done) {
+			x_store_clipboard_if_needed (wb);
 			g_object_unref (wb);
 			return 3;
 		}
@@ -1326,6 +1327,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	in_can_close = FALSE;
 
 	if (can_close) {
+		x_store_clipboard_if_needed (wb);
 		g_object_unref (wb);
 		switch (button) {
 		case GNM_RESPONSE_SAVE_ALL:
@@ -1591,8 +1593,6 @@ static void
 wbcg_finalize (GObject *obj)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (obj);
-
-	x_store_clipboard_if_needed (wbcg);
 
 	/* Disconnect signals that would attempt to change things during
 	 * destruction.

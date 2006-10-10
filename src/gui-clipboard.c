@@ -913,31 +913,34 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 	return ret;
 }
 
-/* Hand clipboard off to clipboard manager if this is the last
- * remaining wbcg. We get called when it is being finalized */
+/* Hand clipboard off to clipboard manager if wbcg belongs to the last
+ * remaining workbook. To be called before workbook object is destroyed.
+ */
 void 
-x_store_clipboard_if_needed (WorkbookControlGUI *wbcg)
+x_store_clipboard_if_needed (Workbook *wb)
 {
-	GList *workbooks = gnm_app_workbook_list ();
+	WorkbookControlGUI *wbcg = NULL;
 	int num_wbcg = 0;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WORKBOOK (wb));
 	
-	for (; workbooks; workbooks = workbooks->next) {
-		Workbook *wb = WORKBOOK (workbooks->data);
+	/* See if only one workbook remains */
+	if (g_list_length ( gnm_app_workbook_list ()) == 1) {
 		WORKBOOK_FOREACH_CONTROL (wb, view, control, {
-			if (IS_WORKBOOK_CONTROL_GUI (control))
+			if (IS_WORKBOOK_CONTROL_GUI (control)) {
 				num_wbcg++;
-			});
-	}
+				wbcg = WORKBOOK_CONTROL_GUI (control);
+			}
+		});
 
-	/* Test for 0, we are already linked out of the data structures */
-	if (num_wbcg == 0) {
-		GtkClipboard *clip = gtk_clipboard_get_for_display
-			(gtk_widget_get_display 
-			 (GTK_WIDGET (wbcg_toplevel (wbcg))),
-			 GDK_SELECTION_CLIPBOARD);
-		if (gtk_clipboard_get_owner (clip) == gnm_app_get_app ())
-			gtk_clipboard_store (clip);
+		if (num_wbcg == 1) {
+			GtkClipboard *clip = gtk_clipboard_get_for_display
+				(gtk_widget_get_display 
+				 (GTK_WIDGET (wbcg_toplevel (wbcg))),
+				 GDK_SELECTION_CLIPBOARD);
+			if (gtk_clipboard_get_owner (clip) == gnm_app_get_app ())
+				gtk_clipboard_store (clip);
+		}
 	}
 }
+

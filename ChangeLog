@@ -1,3 +1,14 @@
+2006-10-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (wbcg_finalize,
+	wbcg_close_if_user_permits):  Move call of
+	x_store_clipboard_if_needed from finalize to
+	close_if_user_permits. This works around some lifecycle issues.
+
+	* src/gui-clipboard.[ch] (x_store_clipboard_if_needed):
+	Make it take a workbook, not a wbcg. Should now be explicitly
+	called before workbook object is destroyed.
+
 2006-10-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Fix hiding/unhiding of
