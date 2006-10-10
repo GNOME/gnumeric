@@ -41,6 +41,7 @@ double	     gnm_app_dpi_to_pixels	  (void);
 
 /* Clipboard */
 void		 gnm_app_clipboard_clear	  (gboolean drop_selection);
+void		 gnm_app_clipboard_invalidate_sheet (Sheet *sheet);
 void		 gnm_app_clipboard_cut_copy	  (WorkbookControl *wbc, gboolean is_cut,
 						   SheetView *sv, GnmRange const *area,
 						   gboolean animate_range);

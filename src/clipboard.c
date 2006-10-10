@@ -687,6 +687,36 @@ cellregion_unref (GnmCellRegion *cr)
 	g_free (cr);
 }
 
+void
+cellregion_invalidate_sheet (GnmCellRegion *cr,
+			     Sheet *sheet)
+{
+	GSList *ptr;
+	gboolean save_invalidated;
+	GnmExprRelocateInfo rinfo;
+
+	g_return_if_fail (cr != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	save_invalidated = sheet->being_invalidated;
+	sheet->being_invalidated = TRUE;
+	rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
+	for (ptr = cr->contents; ptr; ptr = ptr->next) {
+		GnmCellCopy *cc = ptr->data;
+		GnmExprTop const *texpr;
+		if (!cc->texpr)
+			continue;
+
+		texpr = gnm_expr_top_relocate (cc->texpr, &rinfo, FALSE);
+		if (!texpr)
+			continue;
+
+		gnm_expr_top_unref (cc->texpr);
+		cc->texpr = texpr;
+	}
+	sheet->being_invalidated = save_invalidated;
+}
+
 int
 cellregion_cmd_size (GnmCellRegion const *contents)
 {

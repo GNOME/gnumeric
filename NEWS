@@ -15,6 +15,7 @@ Morten:
 	* Fix transposed pasting of arrays.  [#349288]
 	* Fix sharing problem with regular pasting of arrays.
 	* Fix toolbar hiding/unhiding.
+	* Fix inter-workbook crash.  [#323811]
 
 --------------------------------------------------------------------------
 

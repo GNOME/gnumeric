@@ -212,6 +212,20 @@ gnm_app_clipboard_clear (gboolean drop_selection)
 }
 
 void
+gnm_app_clipboard_invalidate_sheet (Sheet *sheet)
+{
+	/* Clear the cliboard to avoid dangling references to the deleted sheet */
+	if (sheet == gnm_app_clipboard_sheet_get ())
+		gnm_app_clipboard_clear (TRUE);
+	else {
+		if (app->clipboard_copied_contents)
+			cellregion_invalidate_sheet (app->clipboard_copied_contents,
+						     sheet);
+	}
+}
+
+
+void
 gnm_app_clipboard_unant (void)
 {
 	g_return_if_fail (app != NULL);

@@ -3344,13 +3344,10 @@ sheet_destroy_contents (Sheet *sheet)
  * sheet_destroy:
  * @sheet: the sheet to destroy
  *
- * Destroys a Sheet.  You will still need to unref after calling this
- * function.
- *
  * Please note that you need to detach this sheet before
  * calling this routine or you will get a warning.
  */
-void
+static void
 sheet_destroy (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
@@ -3368,9 +3365,7 @@ sheet_destroy (Sheet *sheet)
 	style_color_unref (sheet->tab_text_color);
 	sheet->tab_text_color = NULL;
 
-	/* Clear the cliboard to avoid dangling references to the deleted sheet */
-	if (sheet == gnm_app_clipboard_sheet_get ())
-		gnm_app_clipboard_clear (TRUE);
+	gnm_app_clipboard_invalidate_sheet (sheet);
 }
 
 static void

@@ -82,6 +82,8 @@ GnmCellRegion *cellregion_new	(Sheet *origin_sheet);
 void           cellregion_ref   (GnmCellRegion *contents);
 void           cellregion_unref (GnmCellRegion *contents);
 int            cellregion_cmd_size (GnmCellRegion const *contents);
+void	       cellregion_invalidate_sheet (GnmCellRegion *cr,
+					    Sheet *sheet);
 
 GnmCellCopy *gnm_cell_copy_new	(int col_offset, int row_offset);
 
