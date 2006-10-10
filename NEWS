@@ -3,10 +3,10 @@ Gnumeric 1.7.2
 Jon Kåre:
         * Fix import of certain hyperlinks from Excel.
 	* Fix bug which hid file type selector when saving images.
-	* Fix crash when storing to clipboard manager.  [321714]
-	* Fix warnings when storing to clipboard manager.  [342580]
-	* Fix warnings when pasting objects over clipboard. [308569]
-        * Fix import of images in Excel files written by PHP/Perl. [155696]
+	* Fix crash when storing to clipboard manager.  [#321714]
+	* Fix warnings when storing to clipboard manager.  [#342580]
+	* Fix warnings when pasting objects over clipboard. [#308569]
+        * Fix import of images in Excel files written by PHP/Perl. [#155696]
 
 Morten:
 	* Fix font preview crash.
