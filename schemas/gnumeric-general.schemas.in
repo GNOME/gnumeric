@@ -267,7 +267,8 @@ they are also processed at that time. If `lag' is negative, then recalculation h
 	<default>FALSE</default>
         <locale name="C">
         <short>Transition Keys</short>
-        <long>This variable determines whether transition keys are set on.</long>
+        <long>This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling.
+	     They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.</long>
         </locale>
       </schema>
       <schema>

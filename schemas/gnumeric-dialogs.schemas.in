@@ -386,7 +386,7 @@
 	<default>0</default>
         <locale name="C">
         <short>Default Scaling Width</short>
-        <long>This value determines the default number of pages a printout of the current sheet is suppposed to be wide. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
+        <long>This value determines the default number of pages a printout of the current sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
         </locale>
       </schema>
       <schema>
@@ -397,7 +397,7 @@
 	<default>0</default>
         <locale name="C">
         <short>Default Scaling Height</short>
-        <long>This value determines the default number of pages a printout of the current sheet is suppposed to be high. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
+        <long>This value determines the default number of pages a printout of the current sheet is supposed to be high. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
         </locale>
       </schema>
       <schema>
