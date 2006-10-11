@@ -90,11 +90,12 @@ void 	 gnm_expr_list_unref	  (GnmExprList *list);
 
 /*****************************************************************************/
 
-#define GNM_EXPR_TOP_MAGIC 0x01123622
+#define GNM_EXPR_TOP_MAGIC 0x42
 #define IS_GNM_EXPR_TOP(et) ((et) && (et)->magic == GNM_EXPR_TOP_MAGIC)
 
 struct _GnmExprTop {
-	guint32 magic;
+	unsigned magic : 8;
+	unsigned hash : 24;  /* Zero meaning not yet computed.  */
 	guint32 refcount;
 	GnmExpr const *expr;
 };
@@ -107,6 +108,7 @@ GnmExprTop const *gnm_expr_top_new_array_elem	(int x, int y);
 void		gnm_expr_top_ref		(GnmExprTop const *texpr);
 void		gnm_expr_top_unref		(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_equal		(GnmExprTop const *te1, GnmExprTop const *te2);
+guint           gnm_expr_top_hash               (GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_shared		(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_err		(GnmExprTop const *texpr, GnmStdError e);
 gboolean 	gnm_expr_top_is_rangeref	(GnmExprTop const *texpr);

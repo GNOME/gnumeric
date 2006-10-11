@@ -1,3 +1,16 @@
+2006-10-11  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (cb_write_cell, xml_write_cells): Only last
+	change.  The explicit ordering was useful.
+
+	* src/expr.c (gnm_expr_hash): Renamed from ets_hash and adapted to
+	traverse the entire tree.
+	(gnm_expr_top_hash): New function.
+	(gnm_expr_sharer_new): Use gnm_expr_top_hash, not ets_hash.
+	(gnm_expr_sharer_share): Re-implement sharing.
+	(gnm_expr_top_equal): If we have different hash values,
+	short-circuit as false.
+
 2006-10-11  Valek Filippov  <frob@df.ru>
 
 	* schemas/gnumeric-general.schemas.in: 	Extend comment about 'Transition Keys' with Jody's explanation.

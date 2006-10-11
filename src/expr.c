@@ -2431,41 +2431,34 @@ gnm_expr_list_as_string (GString *target,
 	g_string_append_c (target, ')');
 }
 
-/***************************************************************************/
-
-/*
- * Special hash function for expressions that assumes that equal
- * sub-expressions are pointer-equal.  (Thus no need for recursion.)
- */
 static guint
-ets_hash (gconstpointer key)
+gnm_expr_hash (GnmExpr const *expr)
 {
-	GnmExpr const *expr = (GnmExpr const *)key;
 	guint h = (guint)(GNM_EXPR_GET_OPER (expr));
 
 	switch (GNM_EXPR_GET_OPER (expr)){
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return ((GPOINTER_TO_UINT (expr->binary.value_a) * 7) ^
-			(GPOINTER_TO_UINT (expr->binary.value_b) * 3) ^
+		return ((gnm_expr_hash (expr->binary.value_a) * 7) ^
+			(gnm_expr_hash (expr->binary.value_b) * 3) ^
 			h);
 
 	case GNM_EXPR_OP_ANY_UNARY:
-		return ((GPOINTER_TO_UINT (expr->unary.value) * 7) ^
+		return ((gnm_expr_hash (expr->unary.value) * 7) ^
 			h);
 
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
 		for (i = 0; i < expr->func.argc; i++)
-			h = (h * 3) ^ (GPOINTER_TO_UINT (expr->func.argv[i]));
+			h = (h * 3) ^ gnm_expr_hash (expr->func.argv[i]);
 		return h;
 	}
 
 	case GNM_EXPR_OP_SET: {
 		int i;
 		for (i = 0; i < expr->set.argc; i++)
-			h = (h * 3) ^ (GPOINTER_TO_UINT (expr->set.argv[i]));
+			h = (h * 3) ^ gnm_expr_hash (expr->set.argv[i]);
 		return h;
 	}
 
@@ -2480,16 +2473,18 @@ ets_hash (gconstpointer key)
 		return gnm_cellref_hash (&expr->cellref.ref);
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
-		return ((GPOINTER_TO_UINT (expr->array_corner.expr) * 7) ^
-			h);
-		break;
+		return gnm_expr_hash (expr->array_corner.expr);
+
 	case GNM_EXPR_OP_ARRAY_ELEM:
-		return ((expr->array_elem.x * 7) ^
-			(expr->array_elem.y * 3));
+		return ((expr->array_elem.x << 16) ^
+			(expr->array_elem.y));
 	}
+
 	return h;
 }
 
+
+/***************************************************************************/
 
 GnmExprSharer *
 gnm_expr_sharer_new (void)
@@ -2497,7 +2492,7 @@ gnm_expr_sharer_new (void)
 	GnmExprSharer *es = g_new (GnmExprSharer, 1);
 	es->nodes_in = es->nodes_stored = 0;
 	es->exprs = g_hash_table_new_full
-		((GHashFunc)ets_hash,
+		((GHashFunc)gnm_expr_top_hash,
 		 (GEqualFunc)gnm_expr_top_equal,
 		 (GDestroyNotify)gnm_expr_top_unref,
 		 NULL);
@@ -2514,8 +2509,27 @@ gnm_expr_sharer_destroy (GnmExprSharer *es)
 GnmExprTop const *
 gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr)
 {
+	GnmExprTop const *shared;
+
         g_return_val_if_fail (es != NULL, texpr);
         g_return_val_if_fail (texpr != NULL, NULL);
+
+	es->nodes_in++;
+
+	/* Corners must not get shared.  */
+	if (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER)
+		return texpr;
+
+	shared = g_hash_table_lookup (es->exprs, texpr);
+	if (shared) {
+		gnm_expr_top_ref (shared);
+		gnm_expr_top_unref (texpr);
+		return shared;
+	}
+
+	gnm_expr_top_ref (texpr);
+	g_hash_table_insert (es->exprs, (gpointer)texpr, (gpointer)texpr);
+	es->nodes_stored++;
 
 	return texpr;
 }
@@ -2532,6 +2546,7 @@ gnm_expr_top_new (GnmExpr const *expr)
 
 	res = g_new (GnmExprTop, 1);
 	res->magic = GNM_EXPR_TOP_MAGIC;
+	res->hash = 0;
 	res->refcount = 1;
 	res->expr = expr;
 	return res;
@@ -2630,6 +2645,20 @@ gnm_expr_top_as_gstring (GString *target,
 	do_expr_as_string (target, texpr->expr, pp, 0, fmt);
 }
 
+guint
+gnm_expr_top_hash (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), 0);
+
+	if (texpr->hash == 0) {
+		((GnmExprTop *)texpr)->hash = gnm_expr_hash (texpr->expr);
+		/* The following line tests the truncated value.  */
+		if (texpr->hash == 0)
+			((GnmExprTop *)texpr)->hash = 1;
+	}
+	return texpr->hash;
+}
+
 gboolean
 gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 {
@@ -2638,6 +2667,9 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (te1), FALSE);
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (te2), FALSE);
+
+	if (te1->hash && te2->hash && te1->hash != te2->hash)
+		return FALSE;
 
 	return gnm_expr_equal (te1->expr, te2->expr);
 }
