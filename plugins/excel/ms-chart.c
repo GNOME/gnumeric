@@ -1696,9 +1696,10 @@ BC_R(serfmt)(XLChartHandler const *handle,
 	     XLChartReadState *s, BiffQuery *q)
 {
 	guint8 const flags = GSF_LE_GET_GUINT8  (q->data);
-	if (flags & 1)
+	if (flags & 1) {
 		s->style->interpolation.type = GO_LINE_INTERPOLATION_SPLINE;
 		s->style->interpolation.auto_type = FALSE;
+	}
 	d (1, {
 		fprintf (stderr, "interpolation: %s\n", (flags & 1)? "spline": "linear");
 	});
