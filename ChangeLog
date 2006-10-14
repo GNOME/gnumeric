@@ -1,3 +1,9 @@
+2006-10-13  Jody Goldberg <jody@gnome.org>
+
+	* src/style-border.c (print_vline) : Respect RTL when rounding to
+	  pixel bounds. [#317662]
+	(style_borders_row_print) : and here.
+
 2006-10-11  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (cb_write_cell, xml_write_cells): Only last

@@ -1,5 +1,11 @@
 Gnumeric 1.7.2
 
+Emmanuel :
+	* New look for col/row headers.
+
+Jody :
+	* Fix off by one pt, printing vertical borders in RTL mode.  [#317662]
+
 Jon Kåre:
         * Fix import of certain hyperlinks from Excel.
 	* Fix bug which hid file type selector when saving images.
