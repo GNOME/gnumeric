@@ -121,6 +121,7 @@ src/dialogs/variance-tests.glade
 src/dialogs/view.glade
 src/dialogs/workbook-attr.glade
 src/GNOME_Gnumeric-gtk.xml.in
+src/HILDON_Gnumeric-gtk.xml.in
 templates/autoformat/3D.category.in
 templates/autoformat/autoformat.3D.button.xml.in
 templates/autoformat/autoformat.3D.list.xml.in

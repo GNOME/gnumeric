@@ -262,6 +262,7 @@ src/gnm-so-filled.c
 src/gnm-so-line.c
 src/gnm-so-polygon.c
 src/GNOME_Gnumeric-gtk.xml.in
+src/HILDON_Gnumeric-gtk.xml.in
 src/gnumeric-canvas.c
 src/gnumeric-pane.c
 src/gui-clipboard.c

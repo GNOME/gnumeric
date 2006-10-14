@@ -1,5 +1,11 @@
 2006-10-13  Jody Goldberg <jody@gnome.org>
 
+	* po/POTFILES.in : translate the Hildon file (no actual text right now)
+	* po-functions/POTFILES.skip : There is no function text in the hildon
+	  file.
+
+2006-10-13  Jody Goldberg <jody@gnome.org>
+
 	* src/style-border.c (print_vline) : Respect RTL when rounding to
 	  pixel bounds. [#317662]
 	(style_borders_row_print) : and here.
