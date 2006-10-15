@@ -667,8 +667,8 @@ xml_write_cell_and_position (GnmOutputXML *state,
 		return; /* DOM version would write <Cell Col= Row=/> */
 
 	gsf_xml_out_start_element (state->output, GNM "Cell");
-	gsf_xml_out_add_int (state->output, "Col", pp->eval.col);
 	gsf_xml_out_add_int (state->output, "Row", pp->eval.row);
+	gsf_xml_out_add_int (state->output, "Col", pp->eval.col);
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
