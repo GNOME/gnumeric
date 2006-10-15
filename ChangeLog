@@ -1,3 +1,10 @@
+2006-10-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (cellregion_to_string): Limit to non-empty
+	part of sheet.
+	(x_store_clipboard_if_needed): Call whenever workbook with
+	clipboard sheet is closed,
+
 2006-10-14  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_sheet_delete): Actually clear clipboard

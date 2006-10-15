@@ -608,17 +608,25 @@ cellregion_to_string (GnmCellRegion const *cr,
 	GSList	 *ptr;
 	GnmCellCopy const *src;
 	GnmStyle const	  *style;
+	GnmRange extent;
 	char ***data;
-	int col, row, ncells;
+	int cols, rows, col, row, ncells;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (cr->rows >= 0, NULL);
 	g_return_val_if_fail (cr->cols >= 0, NULL);
 
-	data = g_new0 (char **, cr->rows);
+	cols = cr->cols;
+	rows = cr->rows;
+	if (cr->origin_sheet != NULL) {
+		extent = sheet_get_extent (cr->origin_sheet, FALSE);
+		cols = MIN (cr->cols, 1 + extent.end.col - cr->base.col);
+		rows = MIN (cr->rows, 1 + extent.end.row - cr->base.row);
+	}
+	data = g_new0 (char **, rows);
 
-	for (row = 0; row < cr->rows; row++)
-		data[row] = g_new0 (char *, cr->cols);
+	for (row = 0; row < rows; row++)
+		data[row] = g_new0 (char *, cols);
 
 	for (ptr = cr->contents; ptr; ptr = ptr->next) {
 		src = ptr->data;
@@ -632,26 +640,26 @@ cellregion_to_string (GnmCellRegion const *cr,
 	}
 
 	ncells = g_slist_length (cr->contents);
-	all = g_string_sized_new (20 * ncells + cr->cols * cr->rows);
+	all = g_string_sized_new (20 * ncells + cols * rows);
 	line = g_string_new (NULL);
-	for (row = 0; row < cr->rows;) {
+	for (row = 0; row < rows;) {
 		g_string_assign (line, "");
 
-		for (col = 0; col < cr->cols;) {
+		for (col = 0; col < cols;) {
 			if (data[row][col]) {
 				g_string_append (line, data[row][col]);
 				g_free (data[row][col]);
 			}
-			if (++col < cr->cols)
+			if (++col < cols)
 				g_string_append_c (line, '\t');
 		}
 		g_string_append_len (all, line->str, line->len);
-		if (++row < cr->rows)
+		if (++row < rows)
 			g_string_append_c (all, '\n');
 	}
 
 	g_string_free (line, TRUE);
-	for (row = 0; row < cr->rows; row++)
+	for (row = 0; row < rows; row++)
 		g_free (data[row]);
 	g_free (data);
 	return all;
@@ -742,8 +750,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 			gtk_selection_data_set_text (selection_data, 
 				res->str, res->len);
 			g_string_free (res, TRUE);
-		} else
+		} else {
 			gtk_selection_data_set_text (selection_data, "", 0);
+		}
 	}
 
 	/*
@@ -915,27 +924,25 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 	return ret;
 }
 
-/* Hand clipboard off to clipboard manager if wbcg belongs to the last
- * remaining workbook. To be called before workbook object is destroyed.
+/* Hand clipboard off to clipboard manager. To be called before workbook
+ * object is destroyed. 
  */
 void 
 x_store_clipboard_if_needed (Workbook *wb)
 {
+	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	WorkbookControlGUI *wbcg = NULL;
-	int num_wbcg = 0;
 
 	g_return_if_fail (IS_WORKBOOK (wb));
 	
-	/* See if only one workbook remains */
-	if (g_list_length ( gnm_app_workbook_list ()) == 1) {
+	if (sheet && sheet->workbook == wb) {
 		WORKBOOK_FOREACH_CONTROL (wb, view, control, {
 			if (IS_WORKBOOK_CONTROL_GUI (control)) {
-				num_wbcg++;
 				wbcg = WORKBOOK_CONTROL_GUI (control);
 			}
 		});
 
-		if (num_wbcg == 1) {
+		if (wbcg) {
 			GtkClipboard *clip = gtk_clipboard_get_for_display
 				(gtk_widget_get_display 
 				 (GTK_WIDGET (wbcg_toplevel (wbcg))),
