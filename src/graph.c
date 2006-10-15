@@ -108,7 +108,7 @@ gnm_go_data_from_str (GOData *dat, char const *str)
 	GnmParsePos   pp;
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
 
-	/* Its too early in the life cycle to know where we
+	/* It is too early in the life cycle to know where we
 	 * are.  Wait until later when we parse the sheet */
 	if (dep->sheet == NULL) {
 		g_object_set_data_full (G_OBJECT (dat),
@@ -171,6 +171,34 @@ gnm_go_data_get_expr (GOData const *dat)
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
 	g_return_val_if_fail (dep != NULL, NULL);
 	return dep->texpr;
+}
+
+void
+gnm_go_data_invalidate_sheet (GOData *dat, Sheet const *sheet)
+{
+	GnmDependent *dep = gnm_go_data_get_dep (dat);
+
+	if (dep == NULL)
+		return;
+
+	if (dep->texpr) {
+		GnmExprRelocateInfo rinfo;
+		GnmExprTop const *texpr;
+		gboolean save_invalidated = sheet->being_invalidated;
+
+		((Sheet *)sheet)->being_invalidated = TRUE;
+		rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
+		texpr = gnm_expr_top_relocate (dep->texpr, &rinfo, FALSE);
+		((Sheet *)sheet)->being_invalidated = save_invalidated;
+
+		if (texpr) {
+			gboolean was_linked = dependent_is_linked (dep);
+			dependent_set_expr (dep, texpr);
+			gnm_expr_top_unref (texpr);
+			if (was_linked)
+				dependent_link (dep);
+		}
+	}
 }
 
 /**************************************************************************/

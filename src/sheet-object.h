@@ -93,6 +93,9 @@ void		 sheet_object_set_anchor (SheetObject *so,
 SheetObjectAnchor const *sheet_object_get_anchor (SheetObject const *so);
 void sheet_object_position_pts_get (SheetObject const *so, double *coords);
 
+void sheet_object_invalidate_sheet       (SheetObject *so,
+					  Sheet const *sheet);
+
 /* Object Management */
 void	sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo, gboolean update,
 				  GnmRelocUndo *undo);

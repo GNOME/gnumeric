@@ -71,15 +71,16 @@ typedef struct {
 	void		    (*copy)  (SheetObject *dst,
 				      SheetObject const *src);
 
-	void (*default_size)	 (SheetObject const *so,
-				  double *width_pts, double *height_pts);
+	void	     (*default_size) (SheetObject const *so,
+				      double *width_pts, double *height_pts);
 
-	void (*draw_cairo)		(SheetObject const *so, gpointer data,
-				double width, double height);
+	void	       (*draw_cairo) (SheetObject const *so, gpointer data,
+				      double width, double height);
+
+	void     (*invalidate_sheet) (SheetObject *so, Sheet const *sheet);
 
 	void (*func_pad1)	(void);
 	void (*func_pad2)	(void);
-	void (*func_pad3)	(void);
 
 	gboolean rubber_band_directly; /* If false, we draw a rectangle where
 					* the object is going to be layed out

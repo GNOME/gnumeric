@@ -23,6 +23,7 @@ Morten:
 	* Fix toolbar hiding/unhiding.
 	* Fix inter-workbook crash.  [#323811]
 	* Re-implement sharing of top-level expressions.
+	* Fix stale sheet pointer problems in clipboard.  [#323762]
 
 --------------------------------------------------------------------------
 

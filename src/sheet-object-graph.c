@@ -123,10 +123,19 @@ typedef SheetObjectClass SheetObjectGraphClass;
 static GObjectClass *parent_klass;
 
 static void
-sog_data_set_sheet (G_GNUC_UNUSED SheetObjectGraph *sog, GOData *data, Sheet *sheet)
+sog_data_set_sheet (G_GNUC_UNUSED SheetObjectGraph *sog,
+		    GOData *data, Sheet *sheet)
 {
 	gnm_go_data_set_sheet (data, sheet);
 }
+
+static void
+sog_data_invalidate_sheet (G_GNUC_UNUSED SheetObjectGraph *sog,
+			   GOData *data, Sheet const *sheet)
+{
+	gnm_go_data_invalidate_sheet (data, sheet);
+}
+
 static void
 cb_graph_add_data (G_GNUC_UNUSED GogGraph *graph,
 		   GOData *data, SheetObjectGraph *sog)
@@ -455,6 +464,15 @@ gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 	g_closure_sink (closure);
 }
 
+static void
+gnm_sog_invalidate_sheet (SheetObject *so, Sheet const *sheet)
+{
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	GSList *ptr = gog_graph_get_data (sog->graph);
+	for (; ptr != NULL ; ptr = ptr->next)
+		sog_data_invalidate_sheet (sog, ptr->data, sheet);
+}
+
 static gboolean
 gnm_sog_set_sheet (SheetObject *so, Sheet *sheet)
 {
@@ -518,6 +536,7 @@ gnm_sog_class_init (GObjectClass *klass)
 	so_class->print			= gnm_sog_print;
 	so_class->default_size		= gnm_sog_default_size;
 	so_class->draw_cairo		= gnm_sog_draw_cairo;
+	so_class->invalidate_sheet	= gnm_sog_invalidate_sheet;
 
 	so_class->rubber_band_directly = FALSE;
 }

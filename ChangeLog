@@ -1,3 +1,14 @@
+2006-10-14  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_sheet_delete): Actually clear clipboard
+	references as the docs claim.  Fixes #323762.
+
+	* src/sheet-object.c (sheet_object_invalidate_sheet): New
+	function.
+
+	* src/clipboard.c (cellregion_invalidate_sheet): Invalidate the
+	sheet in sheet objects too.
+
 2006-10-13  Jody Goldberg <jody@gnome.org>
 
 	* po/POTFILES.in : translate the Hildon file (no actual text right now)

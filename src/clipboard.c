@@ -715,6 +715,11 @@ cellregion_invalidate_sheet (GnmCellRegion *cr,
 		cc->texpr = texpr;
 	}
 	sheet->being_invalidated = save_invalidated;
+
+	for (ptr = cr->objects; ptr != NULL ; ptr = ptr->next) {
+		SheetObject *so = ptr->data;
+		sheet_object_invalidate_sheet (so, sheet);
+	}
 }
 
 int

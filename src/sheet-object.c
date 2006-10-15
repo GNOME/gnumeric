@@ -222,6 +222,7 @@ sheet_object_class_init (GObjectClass *klass)
 	sheet_object_class->rubber_band_directly = FALSE;
 	sheet_object_class->default_size	 = so_default_size;
 	sheet_object_class->xml_export_name 	 = NULL;
+	sheet_object_class->invalidate_sheet     = NULL;
 
 	signals [BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
 		SHEET_OBJECT_TYPE,
@@ -411,6 +412,13 @@ sheet_object_clear_sheet (SheetObject *so)
 	g_object_unref (G_OBJECT (so));
 
 	return FALSE;
+}
+
+void
+sheet_object_invalidate_sheet (SheetObject *so, Sheet const *sheet)
+{
+	if (SO_CLASS (so)->invalidate_sheet)
+		SO_CLASS (so)->invalidate_sheet (so, sheet);
 }
 
 static void

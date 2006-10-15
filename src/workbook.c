@@ -859,6 +859,8 @@ workbook_sheet_delete (Sheet *sheet)
         g_return_if_fail (IS_SHEET (sheet));
         g_return_if_fail (IS_WORKBOOK (sheet->workbook));
 
+	gnm_app_clipboard_invalidate_sheet (sheet);
+
 	wb = sheet->workbook;
 	sheet_index = sheet->index_in_wb;
 
