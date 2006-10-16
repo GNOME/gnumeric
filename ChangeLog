@@ -1,5 +1,11 @@
 2006-10-15  Jody Goldberg <jody@gnome.org>
 
+	* src/func.c (function_call_with_exprs) : I don't have a concrete
+	  example of where this would matter, but it seems like a better
+	  choice.  Iterating for every array function seems over the top.
+
+2006-10-15  Jody Goldberg <jody@gnome.org>
+
 	* src/xml-sax-write.c (xml_write_cell_and_position) : minor cosmetc
 	  fix to export Row before Col to make the result more readable.
 

@@ -1050,7 +1050,9 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 		return value_new_error_NA (ei->pos);
 
 	args = g_alloca (sizeof (GnmValue *) * fn_def->fn.args.max_args);
-	iter_count = (ei->pos->array != NULL) ? 0 : -1;
+	iter_count = (ei->pos->array != NULL &&
+		      (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR))
+		? 0 : -1;
 
 	for (i = 0; i < argc; i++) {
 		char arg_type = fn_def->fn.args.arg_types[i];
@@ -1063,8 +1065,6 @@ function_call_with_exprs (FunctionEvalInfo *ei,
 				GnmCellRef r;
 				gnm_cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
 				args[i] = value_new_cellrange_unsafe (&r, &r);
-				/* TODO decide on the semantics of these argument types */
-#warning "Do we need to force an eval here?"
 			} else {
 				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 					GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
