@@ -360,18 +360,35 @@ main (int argc, char **argv)
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
 #ifdef USE_HILDON
-	osso_context_t * osso_context = osso_initialize ("gnumeric", "1.7.0", TRUE, NULL);
+	osso_context_t * osso_context;
 #endif
+
+/*
+ * NO CODE BEFORE THIS POINT, PLEASE!
+ *
+ * Using threads (by way of libraries) makes our stack too small in some
+ * circumstances.  It is hard to control directly, but setting the stack
+ * limit to something not unlimited seems to work.
+ *
+ * See http://bugzilla.gnome.org/show_bug.cgi?id=92131
+ */
 #ifdef HAVE_SYS_RESOURCE_H
-#ifdef __linux__
 	struct rlimit rlim;
 
-	getrlimit(RLIMIT_STACK, &rlim);
-	if (rlim.rlim_max == RLIM_INFINITY) {
-		rlim.rlim_cur = 64 * 1024 * 1024;
-		setrlimit(RLIMIT_STACK, &rlim);
-	} 
+	if (getrlimit (RLIMIT_STACK, &rlim) == 0) {
+		rlim_t our_lim = 64 * 1024 * 1024;
+		if (rlim.rlim_max != RLIM_INFINITY)
+			our_lim = MIN (our_lim, rlim.rlim_max);
+		if (rlim.rlim_cur != RLIM_INFINITY &&
+		    rlim.rlim_cur < our_lim) {
+			rlim.rlim_cur = our_lim;
+			(void)setrlimit (RLIMIT_STACK, &rlim);
+		}
+	}
 #endif
+
+#ifdef USE_HILDON
+	osso_context = osso_initialize ("gnumeric", "1.7.0", TRUE, NULL);
 #endif
 
 #ifdef G_OS_WIN32
