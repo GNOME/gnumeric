@@ -25,6 +25,7 @@ Morten:
 	* Re-implement sharing of top-level expressions.
 	* Fix stale sheet pointer problems in clipboard.  [#323762]
 	* Fix growing button in sheet manage dialog.  [#362558]
+	* Expand default stack.  (With JKH.)  [#92131]
 
 --------------------------------------------------------------------------
 
