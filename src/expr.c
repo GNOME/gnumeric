@@ -2490,7 +2490,9 @@ GnmExprSharer *
 gnm_expr_sharer_new (void)
 {
 	GnmExprSharer *es = g_new (GnmExprSharer, 1);
-	es->nodes_in = es->nodes_stored = 0;
+	es->nodes_in = 0;
+	es->nodes_stored = 0;
+	es->nodes_killed = 0;
 	es->exprs = g_hash_table_new_full
 		((GHashFunc)gnm_expr_top_hash,
 		 (GEqualFunc)gnm_expr_top_equal,
@@ -2523,6 +2525,8 @@ gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr)
 	shared = g_hash_table_lookup (es->exprs, texpr);
 	if (shared) {
 		gnm_expr_top_ref (shared);
+		if (texpr->refcount == 1)
+			es->nodes_killed++;
 		gnm_expr_top_unref (texpr);
 		return shared;
 	}

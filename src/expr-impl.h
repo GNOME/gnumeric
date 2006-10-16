@@ -85,7 +85,7 @@ do {						\
 struct _GnmExprSharer {
 	GHashTable *exprs;
 
-	int nodes_in, nodes_stored;
+	int nodes_in, nodes_stored, nodes_killed;
 };
 
 

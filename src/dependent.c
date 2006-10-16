@@ -2643,7 +2643,6 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 			g_string_append (target, ", ");
 		dependent_debug_name (dep, target);
 	});
-	g_string_append_c (target, ')');
 
 	g_print ("%s\n", target->str);
 	g_string_free (target, TRUE);

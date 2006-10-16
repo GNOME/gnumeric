@@ -1454,8 +1454,8 @@ cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 		});
 
 		g_print ("Expression sharer results:\n"
-			 "Nodes in: %d, nodes stored: %d.",
-			 es->nodes_in, es->nodes_stored);
+			 "Nodes in: %d, nodes stored: %d, nodes killed: %d.\n",
+			 es->nodes_in, es->nodes_stored, es->nodes_killed);
 		gnm_expr_sharer_destroy (es);
 	}
 }
