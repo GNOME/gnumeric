@@ -1029,7 +1029,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		_("Default"), 0, cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_fore), TRUE);
-	gtk_box_pack_start (vbox, state->ccombo_fore, TRUE, TRUE, 0);
+	gtk_box_pack_start (vbox, state->ccombo_fore, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
 
 	populate_sheet_list (state);

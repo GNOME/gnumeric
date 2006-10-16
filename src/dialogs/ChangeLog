@@ -1,3 +1,8 @@
+2006-10-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-sheet-order.c (dialog_sheet_order): Don't let the
+	foreground button grow.  [#362558]
+
 2006-10-02  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.1

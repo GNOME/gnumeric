@@ -24,6 +24,7 @@ Morten:
 	* Fix inter-workbook crash.  [#323811]
 	* Re-implement sharing of top-level expressions.
 	* Fix stale sheet pointer problems in clipboard.  [#323762]
+	* Fix growing button in sheet manage dialog.  [#362558]
 
 --------------------------------------------------------------------------
 
