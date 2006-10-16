@@ -6,14 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-10 09:36-0400\n"
-"PO-Revision-Date: 2006-10-11 08:57-0400\n"
+"POT-Creation-Date: 2006-10-16 09:35-0400\n"
+"PO-Revision-Date: 2006-10-16 10:17-0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -29,14 +30,17 @@ msgid "Spreadsheet"
 msgstr "Электронная таблица"
 
 #: ../component/Gnumeric-embed.xml.in.h:1 ../src/GNOME_Gnumeric-gtk.xml.in.h:1
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:1
 msgid "FormatToolbar"
 msgstr "Панель форматирования"
 
 #: ../component/Gnumeric-embed.xml.in.h:2 ../src/GNOME_Gnumeric-gtk.xml.in.h:2
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:2
 msgid "ObjectToolbar"
 msgstr "Панель графических элементов"
 
 #: ../component/Gnumeric-embed.xml.in.h:3 ../src/GNOME_Gnumeric-gtk.xml.in.h:3
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:3
 msgid "StandardToolbar"
 msgstr "Стандартная панель"
 
@@ -223,7 +227,7 @@ msgstr "Финансовые производные"
 msgid "Functions related to financial derivatives"
 msgstr "Функции относящиеся к финансовым производным"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6107
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6124
 #: ../plugins/mps/mps.c:534 ../src/xml-io.c:2635
 msgid "Reading file..."
 msgstr "Чтение файла..."
@@ -248,14 +252,18 @@ msgstr "Неизвестный тип данных %d в строке %d. Игн
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
-msgstr "Файл DIF содержит больше максимального числа строк (%d). Оставшиеся строки игнорируются."
+msgstr ""
+"Файл DIF содержит больше максимального числа строк (%d). Оставшиеся строки "
+"игнорируются."
 
 #: ../plugins/dif/dif.c:232
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
-msgstr "Файл в формате DIF содержит больше максимального числа столбцов (%d). Оставшиеся столбцы игнорируются."
+msgstr ""
+"Файл в формате DIF содержит больше максимального числа столбцов (%d). "
+"Оставшиеся столбцы игнорируются."
 
 #: ../plugins/dif/dif.c:244
 #, c-format
@@ -316,13 +324,13 @@ msgstr "Неожиданный атрибут %s::%s == \"%s\"."
 msgid "XML document not well formed!"
 msgstr "Неправильно сформированный документ XML!"
 
-#: ../plugins/excel/ms-excel-read.c:1085 ../src/value.c:61
+#: ../plugins/excel/ms-excel-read.c:1102 ../src/value.c:61
 msgid "#UNKNOWN!"
 msgstr "#НЕИЗВЕСТНОЕ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1167 ../plugins/excel/ms-excel-read.c:1179
+#: ../plugins/excel/ms-excel-read.c:1184 ../plugins/excel/ms-excel-read.c:1196
 #: ../plugins/oleo/oleo.c:343 ../plugins/psiconv/psiconv-read.c:509
 #: ../src/dialogs/dialog-sheet-order.c:495
 #: ../src/dialogs/dialog-sheet-order.c:499
@@ -330,32 +338,32 @@ msgstr "#НЕИЗВЕСТНОЕ!"
 msgid "Sheet%d"
 msgstr "Лист%d"
 
-#: ../plugins/excel/ms-excel-read.c:1183
+#: ../plugins/excel/ms-excel-read.c:1200
 #, c-format
 msgid "Macro%d"
 msgstr "Макро%d"
 
-#: ../plugins/excel/ms-excel-read.c:1187
+#: ../plugins/excel/ms-excel-read.c:1204
 #, c-format
 msgid "Chart%d"
 msgstr "Диаграмма%d"
 
-#: ../plugins/excel/ms-excel-read.c:1190
+#: ../plugins/excel/ms-excel-read.c:1207
 #, c-format
 msgid "Module%d"
 msgstr "Модуль%d"
 
-#: ../plugins/excel/ms-excel-read.c:3046
+#: ../plugins/excel/ms-excel-read.c:3063
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Ошибка при распознавании имени \"%s\""
 
-#: ../plugins/excel/ms-excel-read.c:3149
+#: ../plugins/excel/ms-excel-read.c:3166
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Неправильное выражение для имени \"%s\": содержимое будет потеряно.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3159
+#: ../plugins/excel/ms-excel-read.c:3176
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -364,7 +372,7 @@ msgstr ""
 "Связи DDE не поддерживаются.\n"
 "Имя \"%s\" будет потеряно.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3165
+#: ../plugins/excel/ms-excel-read.c:3182
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -373,11 +381,11 @@ msgstr ""
 "Связи OLE не поддерживаются.\n"
 "Имя \"%s\" будет потеряно.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5405
+#: ../plugins/excel/ms-excel-read.c:5422
 msgid "external references"
 msgstr "внешние ссылки"
 
-#: ../plugins/excel/ms-excel-read.c:5431
+#: ../plugins/excel/ms-excel-read.c:5448
 msgid "No password supplied"
 msgstr "Не предоставлен пароль"
 
@@ -424,7 +432,8 @@ msgid ""
 "encoding problems."
 msgstr ""
 "Это что-то повреждённое.\n"
-"Мы всегда записываем длину для строки, которая была усечена из-за проблем с кодировкой."
+"Мы всегда записываем длину для строки, которая была усечена из-за проблем с "
+"кодировкой."
 
 #: ../plugins/excel/ms-excel-write.c:5388
 msgid "Couldn't open stream 'Book' for writing\n"
@@ -442,7 +451,9 @@ msgstr "Ошибочная функция"
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
-msgstr "Слишком много аргументов у функции '%s', M$ Excel поддерживает только %d, а не %d"
+msgstr ""
+"Слишком много аргументов у функции '%s', M$ Excel поддерживает только %d, а "
+"не %d"
 
 #: ../plugins/excel/xlsx-read.c:357
 #, c-format
@@ -792,11 +803,11 @@ msgstr "нагрузка, линии"
 
 #: ../plugins/fn-erlang/functions.c:329
 msgid "traffic,gos"
-msgstr ""
+msgstr "нагрузка, доступность"
 
 #: ../plugins/fn-erlang/functions.c:334
 msgid "circuits,gos"
-msgstr ""
+msgstr "линии, доступность"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 msgid "Erlang"
@@ -918,7 +929,7 @@ msgid "Type Mismatch"
 msgstr "Несоответствие типов"
 
 #: ../plugins/fn-logical/functions.c:359 ../plugins/fn-logical/functions.c:363
-#: ../plugins/fn-logical/functions.c:383 ../plugins/fn-math/functions.c:3465
+#: ../plugins/fn-logical/functions.c:383 ../plugins/fn-math/functions.c:3458
 #: ../plugins/fn-stat/functions.c:5812 ../plugins/fn-stat/functions.c:5816
 #: ../plugins/fn-stat/functions.c:5820 ../plugins/fn-stat/functions.c:5858
 #: ../plugins/fn-stat/functions.c:5861 ../plugins/fn-stat/functions.c:5870
@@ -937,24 +948,24 @@ msgid "number,number,"
 msgstr "число, число,"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:367 ../plugins/fn-math/functions.c:3297
-#: ../plugins/fn-math/functions.c:3301 ../plugins/fn-math/functions.c:3304
-#: ../plugins/fn-math/functions.c:3307 ../plugins/fn-math/functions.c:3310
-#: ../plugins/fn-math/functions.c:3313 ../plugins/fn-math/functions.c:3316
-#: ../plugins/fn-math/functions.c:3322 ../plugins/fn-math/functions.c:3331
-#: ../plugins/fn-math/functions.c:3340 ../plugins/fn-math/functions.c:3348
-#: ../plugins/fn-math/functions.c:3351 ../plugins/fn-math/functions.c:3354
-#: ../plugins/fn-math/functions.c:3357 ../plugins/fn-math/functions.c:3360
-#: ../plugins/fn-math/functions.c:3365 ../plugins/fn-math/functions.c:3369
-#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-math/functions.c:3385
-#: ../plugins/fn-math/functions.c:3392 ../plugins/fn-math/functions.c:3395
-#: ../plugins/fn-math/functions.c:3401 ../plugins/fn-math/functions.c:3404
-#: ../plugins/fn-math/functions.c:3417 ../plugins/fn-math/functions.c:3423
-#: ../plugins/fn-math/functions.c:3429 ../plugins/fn-math/functions.c:3450
-#: ../plugins/fn-math/functions.c:3453 ../plugins/fn-math/functions.c:3456
-#: ../plugins/fn-math/functions.c:3459 ../plugins/fn-math/functions.c:3462
-#: ../plugins/fn-math/functions.c:3475 ../plugins/fn-math/functions.c:3487
-#: ../plugins/fn-math/functions.c:3490 ../plugins/fn-stat/functions.c:5882
+#: ../plugins/fn-logical/functions.c:367 ../plugins/fn-math/functions.c:3290
+#: ../plugins/fn-math/functions.c:3294 ../plugins/fn-math/functions.c:3297
+#: ../plugins/fn-math/functions.c:3300 ../plugins/fn-math/functions.c:3303
+#: ../plugins/fn-math/functions.c:3306 ../plugins/fn-math/functions.c:3309
+#: ../plugins/fn-math/functions.c:3315 ../plugins/fn-math/functions.c:3324
+#: ../plugins/fn-math/functions.c:3333 ../plugins/fn-math/functions.c:3341
+#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3347
+#: ../plugins/fn-math/functions.c:3350 ../plugins/fn-math/functions.c:3353
+#: ../plugins/fn-math/functions.c:3358 ../plugins/fn-math/functions.c:3362
+#: ../plugins/fn-math/functions.c:3368 ../plugins/fn-math/functions.c:3378
+#: ../plugins/fn-math/functions.c:3385 ../plugins/fn-math/functions.c:3388
+#: ../plugins/fn-math/functions.c:3394 ../plugins/fn-math/functions.c:3397
+#: ../plugins/fn-math/functions.c:3410 ../plugins/fn-math/functions.c:3416
+#: ../plugins/fn-math/functions.c:3422 ../plugins/fn-math/functions.c:3443
+#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3449
+#: ../plugins/fn-math/functions.c:3452 ../plugins/fn-math/functions.c:3455
+#: ../plugins/fn-math/functions.c:3468 ../plugins/fn-math/functions.c:3480
+#: ../plugins/fn-math/functions.c:3483 ../plugins/fn-stat/functions.c:5882
 #: ../plugins/fn-stat/functions.c:5885 ../plugins/fn-stat/functions.c:5903
 #: ../plugins/fn-stat/functions.c:5981 ../plugins/fn-string/functions.c:1213
 #: ../plugins/fn-string/functions.c:1216
@@ -1026,7 +1037,7 @@ msgstr ""
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1313 ../plugins/fn-math/functions.c:3503
+#: ../plugins/fn-lookup/functions.c:1313 ../plugins/fn-math/functions.c:3496
 msgid "array"
 msgstr "массив"
 
@@ -1042,18 +1053,18 @@ msgstr "Поиск"
 msgid "Lookup Functions"
 msgstr "Функции поиска"
 
-#: ../plugins/fn-math/functions.c:2560 ../plugins/fn-math/functions.c:2580
-#: ../plugins/fn-math/functions.c:2676 ../plugins/fn-math/functions.c:2696
-#: ../plugins/fn-math/functions.c:2790 ../plugins/fn-math/functions.c:2810
+#: ../plugins/fn-math/functions.c:2553 ../plugins/fn-math/functions.c:2573
+#: ../plugins/fn-math/functions.c:2669 ../plugins/fn-math/functions.c:2689
+#: ../plugins/fn-math/functions.c:2783 ../plugins/fn-math/functions.c:2803
 #: ../plugins/fn-stat/functions.c:3026 ../plugins/fn-stat/functions.c:3056
 msgid "Array version not implemented!"
 msgstr "Версия массива не реализована!"
 
-#: ../plugins/fn-math/functions.c:3319
+#: ../plugins/fn-math/functions.c:3312
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-#: ../plugins/fn-math/functions.c:3325 ../plugins/fn-math/functions.c:3328
+#: ../plugins/fn-math/functions.c:3318 ../plugins/fn-math/functions.c:3321
 #: ../plugins/fn-random/functions.c:1200 ../plugins/fn-random/functions.c:1221
 #: ../plugins/fn-random/functions.c:1227 ../plugins/fn-random/functions.c:1266
 #: ../plugins/fn-random/functions.c:1281 ../plugins/fn-random/functions.c:1284
@@ -1061,67 +1072,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3336
+#: ../plugins/fn-math/functions.c:3329
 msgid "range,criteria"
 msgstr "диапазон, критерий"
 
-#: ../plugins/fn-math/functions.c:3344
+#: ../plugins/fn-math/functions.c:3337
 msgid "number,significance"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3372 ../plugins/fn-stat/functions.c:5996
+#: ../plugins/fn-math/functions.c:3365 ../plugins/fn-stat/functions.c:5996
 msgid "n,k"
 msgstr "n,k"
 
-#: ../plugins/fn-math/functions.c:3379
+#: ../plugins/fn-math/functions.c:3372
 msgid "number,number"
 msgstr "число, число"
 
-#: ../plugins/fn-math/functions.c:3398
+#: ../plugins/fn-math/functions.c:3391
 msgid "number,base"
 msgstr "число, основание"
 
-#: ../plugins/fn-math/functions.c:3407 ../plugins/fn-math/functions.c:3426
+#: ../plugins/fn-math/functions.c:3400 ../plugins/fn-math/functions.c:3419
 msgid "numerator,denominator"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3403
 msgid "number,multiple"
 msgstr "число, множитель"
 
-#: ../plugins/fn-math/functions.c:3420
+#: ../plugins/fn-math/functions.c:3413
 msgid "base,exponent"
 msgstr "основание, степень"
 
-#: ../plugins/fn-math/functions.c:3432
+#: ../plugins/fn-math/functions.c:3425
 msgid "number,type"
 msgstr "число, тип"
 
-#: ../plugins/fn-math/functions.c:3435 ../plugins/fn-math/functions.c:3439
-#: ../plugins/fn-math/functions.c:3443 ../plugins/fn-math/functions.c:3493
+#: ../plugins/fn-math/functions.c:3428 ../plugins/fn-math/functions.c:3432
+#: ../plugins/fn-math/functions.c:3436 ../plugins/fn-math/functions.c:3486
 msgid "number,digits"
 msgstr "число, цифры"
 
-#: ../plugins/fn-math/functions.c:3447
+#: ../plugins/fn-math/functions.c:3440
 msgid "x,n,m,coefficients"
 msgstr "x,n,m, коэффициенты"
 
-#: ../plugins/fn-math/functions.c:3469
+#: ../plugins/fn-math/functions.c:3462
 msgid "range,criteria,actual_range"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3472
+#: ../plugins/fn-math/functions.c:3465
 msgid "range,range,"
 msgstr "диапазон, диапазон, "
 
-#: ../plugins/fn-math/functions.c:3478 ../plugins/fn-math/functions.c:3481
-#: ../plugins/fn-math/functions.c:3484 ../plugins/fn-math/functions.c:3500
+#: ../plugins/fn-math/functions.c:3471 ../plugins/fn-math/functions.c:3474
+#: ../plugins/fn-math/functions.c:3477 ../plugins/fn-math/functions.c:3493
 #: ../plugins/fn-stat/functions.c:5855 ../plugins/fn-stat/functions.c:5864
 #: ../plugins/fn-stat/functions.c:5987 ../plugins/fn-stat/functions.c:6043
 msgid "array1,array2"
 msgstr "массив1, массив2"
 
-#: ../plugins/fn-math/functions.c:3506 ../plugins/fn-math/functions.c:3510
+#: ../plugins/fn-math/functions.c:3499 ../plugins/fn-math/functions.c:3503
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -1144,7 +1155,9 @@ msgstr "Статистические функции"
 #: ../plugins/fn-r/plugin.xml.in.h:2
 msgid ""
 "Statistical Functions with naming a calling conventions from The R Project"
-msgstr "Статистические функции соответствующие по именами и вызовам функциям из \"The R Project\""
+msgstr ""
+"Статистические функции соответствующие по именами и вызовам функциям из "
+"\"The R Project\""
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
 #: ../src/dialogs/descriptive-stats.glade.h:12
@@ -1774,13 +1787,17 @@ msgstr "Недопустимое обозначение массива, не у�
 #: ../plugins/openoffice/openoffice-read.c:1511
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr "Не удалось проанализировать позицию для выражения \"%s\" в \"%s\", так как \"%s\""
+msgstr ""
+"Не удалось проанализировать позицию для выражения \"%s\" в \"%s\", так как "
+"\"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:1524
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
-msgstr "Не удалось проанализировать позицию для выражения \"%s\" со значением \"%s\", так как \"%s\""
+msgstr ""
+"Не удалось проанализировать позицию для выражения \"%s\" со значением \"%s"
+"\", так как \"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:1827
 #, c-format
@@ -2215,7 +2232,10 @@ msgid ""
 "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
 "file.  You will need a custom build with SHEET_MAX_ROWS increased to read "
 "this file."
-msgstr "Эта сборка Gnumeric поддерживает только %d строк. Остаток файла будет проигнорирован. Чтобы прочесть этот файл необходимо пересобрать Gnumeric с увеличенным значением SHEET_MAX_ROWS."
+msgstr ""
+"Эта сборка Gnumeric поддерживает только %d строк. Остаток файла будет "
+"проигнорирован. Чтобы прочесть этот файл необходимо пересобрать Gnumeric с "
+"увеличенным значением SHEET_MAX_ROWS."
 
 #: ../plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -2423,7 +2443,11 @@ msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
-msgstr "Некоторые диалоги содержат только одно поле ввода допускающее указание выделенного диапазона в рабочей книге. Установка значений этой переменной в TRUE (истина) направляет выделение в это поле даже если поле не имеет фокуса ввода."
+msgstr ""
+"Некоторые диалоги содержат только одно поле ввода допускающее указание "
+"выделенного диапазона в рабочей книге. Установка значений этой переменной в "
+"TRUE (истина) направляет выделение в это поле даже если поле не имеет фокуса "
+"ввода."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:45
 msgid "System Directory for Autoformats"
@@ -2552,16 +2576,22 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
 "This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be high. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
-msgstr "Это значение определяет исходное количество страниц печати в высоту для текущего листа. 0 отключает масштабирование. Используйте диалог настройки печати для изменения этого значения."
+"sheet is supposed to be high. 0 disables scaling. Please use the Print Setup "
+"dialog to edit this value."
+msgstr ""
+"Это значение определяет исходное количество страниц печати в высоту для "
+"текущего листа. 0 отключает масштабирование. Используйте диалог настройки "
+"печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
 "This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
-msgstr "Это значение определяет исходное количество страниц печати в ширину для текущего листа. 0 отключает масштабирование. Используйте диалог настройки печати для изменения этого значения."
+"sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup "
+"dialog to edit this value."
+msgstr ""
+"Это значение определяет исходное количество страниц печати в ширину для "
+"текущего листа. 0 отключает масштабирование. Используйте диалог настройки "
+"печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
@@ -2648,24 +2678,34 @@ msgstr ""
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Это значение задаёт исходное число пунктов от нижнего края страницы до конца области печати. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт исходное число пунктов от нижнего края страницы до конца "
+"области печати. Используйте диалог настройки печати для изменения этого "
+"значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:78
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Это значение задаёт исходное число пунктов от верхнего края страницы до начала области печати. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт исходное число пунктов от верхнего края страницы до "
+"начала области печати. Используйте диалог настройки печати для изменения "
+"этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:79
 msgid ""
 "This value gives the percentage by which to scale each printed page. Please "
 "use the Print Setup dialog to edit this value."
-msgstr "Это значение задаёт масштаб для печати каждой страницы в процентах. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт масштаб для печати каждой страницы в процентах. "
+"Используйте диалог настройки печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:80
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
-msgstr "Эта переменная определяет надо ли активировать каждое новое обнаруженное дополнение."
+msgstr ""
+"Эта переменная определяет надо ли активировать каждое новое обнаруженное "
+"дополнение."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:81
 msgid "User Directory for Autoformats"
@@ -2746,7 +2786,14 @@ msgid ""
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milleseconds."
-msgstr "Если \"задержка\" равна 0, gnumeric пересчитывает все выражения немедленно после каждого изменения. Значения отличные от 0 позволяют gnumeric накопить больше изменений до каждого пересчёта. Если \"задержка\" положительная, то после любого изменения gnumeric ждёт указанное число миллисекунд и затем пересчитывает выражения. Если в этот период произойдут какие-то дополнительные изменения, то они тоже будут обработаны в этот момент. Если значение \"задержки\" отрицательное, используется модуль её значения."
+msgstr ""
+"Если \"задержка\" равна 0, gnumeric пересчитывает все выражения немедленно "
+"после каждого изменения. Значения отличные от 0 позволяют gnumeric накопить "
+"больше изменений до каждого пересчёта. Если \"задержка\" положительная, то "
+"после любого изменения gnumeric ждёт указанное число миллисекунд и затем "
+"пересчитывает выражения. Если в этот период произойдут какие-то "
+"дополнительные изменения, то они тоже будут обработаны в этот момент. Если "
+"значение \"задержки\" отрицательное, используется модуль её значения."
 
 #: ../schemas/gnumeric-general.schemas.in.h:15
 #: ../src/dialogs/dialog-preferences.c:633
@@ -2803,21 +2850,35 @@ msgid ""
 "Setting this option will cause the sort buttons on the toolbar to assume "
 "that the area to be sorted has a header and determine the initial state of "
 "the has-header checkbox in the sort dialog."
-msgstr "Установка этого параметра приведёт к тому, что при сортировке с помощью кнопки на панели инструментов будет предполагаться, что сортируемая область имеет заголовок. Соответствующим образом будет определяться исходное значение переключателя \"Область сортировки содержит заголовок\" в диалоге сортировки."
+msgstr ""
+"Установка этого параметра приведёт к тому, что при сортировке с помощью "
+"кнопки на панели инструментов будет предполагаться, что сортируемая область "
+"имеет заголовок. Соответствующим образом будет определяться исходное "
+"значение переключателя \"Область сортировки содержит заголовок\" в диалоге "
+"сортировки."
 
 #: ../schemas/gnumeric-general.schemas.in.h:28
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
-msgstr "Установка этого параметра приведёт к тому, что при сортировке с помощью кнопки на панели инструментов будет производиться сортировка с учётом регистра символов. Соответствующим образом будет определяться исходное состояние переключателя \"Сортировка с учётом регистра\" в диалоге сортировки."
+msgstr ""
+"Установка этого параметра приведёт к тому, что при сортировке с помощью "
+"кнопки на панели инструментов будет производиться сортировка с учётом "
+"регистра символов. Соответствующим образом будет определяться исходное "
+"состояние переключателя \"Сортировка с учётом регистра\" в диалоге "
+"сортировки."
 
 #: ../schemas/gnumeric-general.schemas.in.h:29
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
-msgstr "Установка этого параметра приведёт к тому, что при сортировке с помощью кнопки на панели инструментов будет сохраняться форматирование ячеек. Соответствующим образом будет определяться исходное состояние поля отметки \"Сохранять форматирование при сортировке\" в диалоге сортировки."
+msgstr ""
+"Установка этого параметра приведёт к тому, что при сортировке с помощью "
+"кнопки на панели инструментов будет сохраняться форматирование ячеек. "
+"Соответствующим образом будет определяться исходное состояние поля отметки "
+"\"Сохранять форматирование при сортировке\" в диалоге сортировки."
 
 #: ../schemas/gnumeric-general.schemas.in.h:30
 #: ../src/dialogs/dialog-preferences.c:490
@@ -2829,7 +2890,10 @@ msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
-msgstr "Некоторые форматы файлов могут содержать только один лист. Эта отметка определяет будет ли пользователь предупреждён в том случае, когда будет сохранён только один лист из многостраничной рабочей книги."
+msgstr ""
+"Некоторые форматы файлов могут содержать только один лист. Эта отметка "
+"определяет будет ли пользователь предупреждён в том случае, когда будет "
+"сохранён только один лист из многостраничной рабочей книги."
 
 #: ../schemas/gnumeric-general.schemas.in.h:32
 msgid "Sort Area Has Header"
@@ -2937,7 +3001,9 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:51
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
-msgstr "Это значение определяет максимальное число элементов в списке отмен/возвратов."
+msgstr ""
+"Это значение определяет максимальное число элементов в списке отмен/"
+"возвратов."
 
 #: ../schemas/gnumeric-general.schemas.in.h:52
 msgid ""
@@ -3026,8 +3092,11 @@ msgstr ""
 "Эта переменная определяет будет ли видна при запуске стандартная панель."
 
 #: ../schemas/gnumeric-general.schemas.in.h:64
-msgid "This variable determines whether transition keys are set on."
-msgstr "Эта переменная определяет установлены ли клавиши перехода."
+msgid ""
+"This variable determines whether transition keys are set on. Transition keys "
+"are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
+"page movement rather than jumping to the start/end of series."
+msgstr "Эта переменная определяет будут ли включены клавиши переходов. Клавиши переходов -- это возврат к обработке клавиатурных комбинаций в стиле Lotus 1-2-3. Они превращают нажатие \"Ctrl-стрелка\" в сдвиг страницы вместо перехода в начало/конец серии."
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
 msgid "Toolbar Style"
@@ -5029,7 +5098,7 @@ msgstr "Установить стандартную/используемую п�
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
+msgstr "Установить ширину выделенных столбцов в <span style='italic' weight='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-consolidate.c:193
 #, c-format
@@ -5051,7 +5120,7 @@ msgstr "Невозможно создать диалог консолидаци�
 
 #: ../src/dialogs/dialog-define-names.c:419
 msgid "Why would you want to define a name to be #NAME?"
-msgstr ""
+msgstr "Почему вы хотите определить название как #NAME?"
 
 #: ../src/dialogs/dialog-define-names.c:662
 #: ../src/dialogs/dialog-doc-metadata.c:1597
@@ -5246,7 +5315,7 @@ msgstr "%i полей не являются частью зоны объедин
 msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
 "%i and proceed?"
-msgstr ""
+msgstr "Диапазон длин столбцов данных от %i до %i. Отсечь по длине до %i и продолжить?"
 
 #: ../src/dialogs/dialog-merge.c:392
 msgid "Input Data"
@@ -5372,7 +5441,8 @@ msgid ""
 "one:\n"
 "\n"
 msgstr ""
-"Для активации этого дополнения необходимо активировать следующие дополнения:\n"
+"Для активации этого дополнения необходимо активировать следующие "
+"дополнения:\n"
 "\n"
 
 #: ../src/dialogs/dialog-plugin-manager.c:621
@@ -5762,7 +5832,9 @@ msgstr "Установить высоту строки по умолчанию"
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr "Установить высоту строки в выделении в <span style='italic' weight='bold'>%s</span>"
+msgstr ""
+"Установить высоту строки в выделении в <span style='italic' weight='bold'>%"
+"s</span>"
 
 #: ../src/dialogs/dialog-scenarios.c:130
 msgid "Invalid changing cells"
@@ -9407,7 +9479,7 @@ msgstr "Полужирный наклонный"
 msgid "Italic"
 msgstr "Наклонный"
 
-#: ../src/application.c:301
+#: ../src/application.c:315
 msgid "Cut Object"
 msgstr "Вырезать объект"
 
@@ -9527,11 +9599,11 @@ msgstr "Набрать \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Вставить/Удалить столбцы/строки"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3819
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3814
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3959
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3954
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
@@ -9576,7 +9648,7 @@ msgid "Deleting row %s"
 msgstr "Удаление строки %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3476
+#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3471
 msgid "Clear"
 msgstr "Очистить"
 
@@ -10932,11 +11004,11 @@ msgstr "невозможно использовать на объединенн�
 msgid "cannot operate on array formulae"
 msgstr "невозможно использовать на формулах массива"
 
-#: ../src/sheet.c:3748
+#: ../src/sheet.c:3743
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: ../src/sheet.c:3891
+#: ../src/sheet.c:3886
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
@@ -11098,15 +11170,15 @@ msgstr "_Ниже"
 msgid "Pus_h to Back"
 msgstr "На _задний план"
 
-#: ../src/sheet-object-graph.c:242 ../src/sheet-object-image.c:405
+#: ../src/sheet-object-graph.c:251 ../src/sheet-object-image.c:405
 msgid "Unknown failure while saving image"
 msgstr "Неизвестная ошибка при сохранении изображения"
 
-#: ../src/sheet-object-graph.c:339
+#: ../src/sheet-object-graph.c:348
 msgid "_Save as Image"
 msgstr "Сохранить как изображение"
 
-#: ../src/sheet-object-graph.c:340
+#: ../src/sheet-object-graph.c:349
 msgid "Open in _New Window"
 msgstr "Открыть в новом окне"
 
@@ -11230,8 +11302,8 @@ msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
-"Выбранный модуль экспорта (%s) не поддерживает сохранение нескольких таблиц в "
-"одном файле.\n"
+"Выбранный модуль экспорта (%s) не поддерживает сохранение нескольких таблиц "
+"в одном файле.\n"
 "Будет сохранён только текущий лист."
 
 #: ../src/ssconvert.c:235 ../src/ssconvert.c:273
@@ -13227,55 +13299,55 @@ msgstr "Переключить отображение панели инстру�
 msgid "Book%d.%s"
 msgstr "Книга%d.%s"
 
-#: ../src/workbook.c:1297
+#: ../src/workbook.c:1299
 msgid "Renaming sheet"
 msgstr "Переименование листа"
 
-#: ../src/workbook.c:1298
+#: ../src/workbook.c:1300
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "Переименование %d листов"
 
-#: ../src/workbook.c:1301
+#: ../src/workbook.c:1303
 msgid "Adding sheet"
 msgstr "Добавление листа"
 
-#: ../src/workbook.c:1302
+#: ../src/workbook.c:1304
 #, c-format
 msgid "Adding %d sheets"
 msgstr "Добавление %d листов"
 
-#: ../src/workbook.c:1309
+#: ../src/workbook.c:1311
 msgid "Inserting sheet"
 msgstr "Вставка листа"
 
-#: ../src/workbook.c:1310
+#: ../src/workbook.c:1312
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "Вставка %d листов"
 
-#: ../src/workbook.c:1312
+#: ../src/workbook.c:1314
 msgid "Changing sheet tab colors"
 msgstr "Изменение цвета ярлыков"
 
-#: ../src/workbook.c:1314
+#: ../src/workbook.c:1316
 msgid "Changing sheet properties"
 msgstr "Изменение свойств листа"
 
-#: ../src/workbook.c:1322
+#: ../src/workbook.c:1324
 msgid "Deleting sheet"
 msgstr "Удаление листа"
 
-#: ../src/workbook.c:1323
+#: ../src/workbook.c:1325
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "Удаление %d листов"
 
-#: ../src/workbook.c:1325
+#: ../src/workbook.c:1327
 msgid "Changing sheet order"
 msgstr "Изменение порядка листов"
 
-#: ../src/workbook.c:1327
+#: ../src/workbook.c:1329
 msgid "Reorganizing Sheets"
 msgstr "Реорганизация листов"
 
