@@ -1,5 +1,13 @@
 2006-10-15  Jody Goldberg <jody@gnome.org>
 
+	* src/preview-grid.c (pg_fetch_cell) : renamed from pg_construct_cell.
+	  Now that we have a sheet to store things in the life cycle gets
+	  simpler.
+	(preview_grid_draw) : no need to destroy things so quickly now.
+	(pg_destruct_cell) : delete.
+
+2006-10-15  Jody Goldberg <jody@gnome.org>
+
 	* src/func.c (function_call_with_exprs) : I don't have a concrete
 	  example of where this would matter, but it seems like a better
 	  choice.  Iterating for every array function seems over the top.

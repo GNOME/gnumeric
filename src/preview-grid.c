@@ -73,28 +73,27 @@ pg_get_style (PreviewGrid *pg, int col, int row)
 }
 
 static GnmCell *
-pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
+pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
+	       GnmStyle const *style)
 {
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
-	GnmCell *cell;
+	GnmCell  *cell;
+	GnmValue *v = NULL;
 
 	g_return_val_if_fail (klass != NULL, NULL);
 	g_return_val_if_fail (pg != NULL, NULL);
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, NULL);
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, NULL);
 
-	cell = sheet_cell_create (pg->sheet, col, row);
+	if (NULL != klass->get_cell_value)
+		v = (klass->get_cell_value) (pg, col, row);
+	if (NULL == v)
+		v = value_dup (pg->defaults.value);
 
-	cell->value = NULL;
-	if (klass->get_cell_value != NULL)
-		cell->value = (klass->get_cell_value) (pg, col, row);
-	if (cell->value == NULL)
-		cell->value = value_dup (pg->defaults.value);
-
-	cell->rendered_value =
-		rendered_value_new (cell, pg_get_style (pg, col, row),
-				    TRUE, context,
-				    pg->sheet->last_zoom_factor_used);
+	cell = sheet_cell_fetch (pg->sheet, col, row);
+	cell_set_value (cell, v);
+	cell->rendered_value = rendered_value_new (cell, style,
+		TRUE, context, pg->sheet->last_zoom_factor_used);
 
 	return cell;
 }
@@ -161,14 +160,6 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 		*col_origin = pixel;
 
 	return SHEET_MAX_COLS - 1;
-}
-
-static void
-pg_destruct_cell (GnmCell *cell)
-{
-	g_return_if_fail (cell != NULL);
-
-	sheet_cell_remove (cell->base.sheet, cell, FALSE, FALSE);
 }
 
 static void
@@ -351,8 +342,9 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			pg_style_get_row (pg, &next_sr);
 
 		for (col = start_col, x = diff_x; col <= end_col; col++) {
- 			GnmCell      *cell  = pg_construct_cell (pg, col, row, context);
 			GnmStyle const *style = sr.styles [col];
+ 			GnmCell const  *cell  = pg_fetch_cell (pg,
+				col, row, context, style);
 
  			preview_grid_draw_background (drawable, pg,
  						      style, col, row, x, y,
@@ -362,7 +354,6 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 				cell_draw (cell, pg->gc.cell, drawable,
 					   x, y, colwidths [col], row_height, -1);
 
-			pg_destruct_cell (cell);
  			x += colwidths [col];
  		}
 
