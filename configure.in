@@ -649,6 +649,9 @@ AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codese
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
+dnl check for rlimit
+AC_CHECK_HEADERS(sys/resource.h)
+
 SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"

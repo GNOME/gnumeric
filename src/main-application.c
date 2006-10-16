@@ -43,6 +43,9 @@
 
 #include <sys/types.h>
 #include <fcntl.h>
+#ifdef HAVE_SYS_RESOURCE_H
+#include <sys/resource.h>
+#endif
 #include <time.h>
 #include <string.h>
 
@@ -358,6 +361,17 @@ main (int argc, char **argv)
 	GSList *wbcgs_to_kill = NULL;
 #ifdef USE_HILDON
 	osso_context_t * osso_context = osso_initialize ("gnumeric", "1.7.0", TRUE, NULL);
+#endif
+#ifdef HAVE_SYS_RESOURCE_H
+#ifdef __linux__
+	struct rlimit rlim;
+
+	getrlimit(RLIMIT_STACK, &rlim);
+	if (rlim.rlim_max == RLIM_INFINITY) {
+		rlim.rlim_cur = 64 * 1024 * 1024;
+		setrlimit(RLIMIT_STACK, &rlim);
+	} 
+#endif
 #endif
 
 #ifdef G_OS_WIN32
