@@ -1,3 +1,10 @@
+2006-10-17  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (go_plugin_init): Initialize the type here.  (By calling
+	the right function.)
+	(go_plugin_shutdown): Not here.
+	(perl_get_loader_type): Export.
+
 2006-10-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.2

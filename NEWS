@@ -1,5 +1,8 @@
 Gnumeric 1.7.3
 
+Morten:
+	* Basic life support for perl-loader.  [#362911]
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.7.2

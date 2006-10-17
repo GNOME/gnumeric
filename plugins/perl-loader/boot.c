@@ -15,7 +15,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 GType perl_get_loader_type (ErrorInfo **ret_error);
 
-GType
+G_MODULE_EXPORT GType
 perl_get_loader_type (ErrorInfo **ret_error)
 {
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -25,11 +25,11 @@ perl_get_loader_type (ErrorInfo **ret_error)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	GTypeModule *module = go_plugin_get_type_module (plugin);
-	gnm_perl_plugin_loader_register (module);
 }
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
+	GTypeModule *module = go_plugin_get_type_module (plugin);
+	gnm_perl_plugin_loader_register_type (module);
 }
