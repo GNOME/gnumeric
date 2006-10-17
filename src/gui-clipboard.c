@@ -867,8 +867,7 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 	targets = (GtkTargetEntry *) table_targets;
 	n_targets = G_N_ELEMENTS (table_targets);
 	if (content &&
-	    (content->cols <= 0 || content->rows <= 0) &&
-	    content->objects != NULL) {
+	    (content->cols <= 0 || content->rows <= 0)) {
 		for (ptr = content->objects; ptr != NULL;
 		     ptr = ptr->next) {
 			candidate = SHEET_OBJECT (ptr->data);
