@@ -5,10 +5,10 @@
 # 
 msgid ""
 ""
-msgstr "Project-Id-Version: gnumeric 1.5.9.0 HEAD\n"
+msgstr "Project-Id-Version: gnumeric 1.7.2 HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-27 03:58+0200\n"
-"PO-Revision-Date: 2006-08-27 15:50+0930\n"
+"POT-Creation-Date: 2006-10-17 12:12+0200\n"
+"PO-Revision-Date: 2006-10-17 22:27+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Tính, phân tích và cách thức hiển thị thông tin"
 
 #.Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:2
-#: ../src/main-application.c:422
+#: ../src/main-application.c:453
 msgid "Gnumeric Spreadsheet"
 msgstr "Bảng tính Gnumeric"
 
@@ -33,20 +33,23 @@ msgstr "Bảng tính"
 
 #: ../component/Gnumeric-embed.xml.in.h:1
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:1
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:1
 msgid "FormatToolbar"
 msgstr "Thanh công cụ định dạng"
 
 #: ../component/Gnumeric-embed.xml.in.h:2
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:2
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:2
 msgid "ObjectToolbar"
 msgstr "Thanh công cụ đối tượng"
 
 #: ../component/Gnumeric-embed.xml.in.h:3
 #: ../src/GNOME_Gnumeric-gtk.xml.in.h:3
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:3
 msgid "StandardToolbar"
 msgstr "Thanh công cụ chuẩn"
 
-#: ../component/gnumeric.c:439
+#: ../component/gnumeric.c:443
 msgid "Save the embedded workbook"
 msgstr "Lưu sổ làm việc nhúng"
 
@@ -56,7 +59,7 @@ msgstr "Thành phần : Gnumeric"
 
 #: ../component/plugin.xml.in.h:2
 #: ../src/gui-file.c:263
-#: ../src/gui-file.c:400
+#: ../src/gui-file.c:409
 msgid "Spreadsheets"
 msgstr "Bảng tính"
 
@@ -245,9 +248,9 @@ msgid "Functions related to financial derivatives"
 msgstr "Các hàm liên quan đến đạo hàm tài chính"
 
 #: ../plugins/dif/dif.c:66
-#: ../plugins/excel/ms-excel-read.c:6104
+#: ../plugins/excel/ms-excel-read.c:6124
 #: ../plugins/mps/mps.c:534
-#: ../src/xml-io.c:2631
+#: ../src/xml-io.c:2635
 msgid "Reading file..."
 msgstr "Đang đọc tập tin..."
 
@@ -335,20 +338,20 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Gặp thuộc tính bất ngờ %s::%s == « %s »."
 
 #: ../plugins/excel/excel-xml-read.c:994
-#: ../plugins/openoffice/openoffice-read.c:2500
+#: ../plugins/openoffice/openoffice-read.c:2503
 #: ../src/xml-sax-read.c:1965
 msgid "XML document not well formed!"
 msgstr "Tập tin XML sai dạng thức."
 
-#: ../plugins/excel/ms-excel-read.c:1085
+#: ../plugins/excel/ms-excel-read.c:1102
 #: ../src/value.c:61
 msgid "#UNKNOWN!"
 msgstr "#KHÔNG BIẾT!"
 
 #.We can't use workbook_sheet_get_free_name since that would give us the same
 #.name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1167
-#: ../plugins/excel/ms-excel-read.c:1179
+#: ../plugins/excel/ms-excel-read.c:1184
+#: ../plugins/excel/ms-excel-read.c:1196
 #: ../plugins/oleo/oleo.c:343
 #: ../plugins/psiconv/psiconv-read.c:509
 #: ../src/dialogs/dialog-sheet-order.c:495
@@ -357,32 +360,32 @@ msgstr "#KHÔNG BIẾT!"
 msgid "Sheet%d"
 msgstr "Tờ%d"
 
-#: ../plugins/excel/ms-excel-read.c:1183
+#: ../plugins/excel/ms-excel-read.c:1200
 #, c-format
 msgid "Macro%d"
 msgstr "Macrô%d"
 
-#: ../plugins/excel/ms-excel-read.c:1187
+#: ../plugins/excel/ms-excel-read.c:1204
 #, c-format
 msgid "Chart%d"
 msgstr "Sơ_đồ%d"
 
-#: ../plugins/excel/ms-excel-read.c:1190
+#: ../plugins/excel/ms-excel-read.c:1207
 #, c-format
 msgid "Module%d"
 msgstr "Môđun%d"
 
-#: ../plugins/excel/ms-excel-read.c:3046
+#: ../plugins/excel/ms-excel-read.c:3063
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Gặp lỗi phân tách tên « %s »."
 
-#: ../plugins/excel/ms-excel-read.c:3149
+#: ../plugins/excel/ms-excel-read.c:3166
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Biểu thức không đúng cho tên « %s »: nội dung sẽ bị mất.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3159
+#: ../plugins/excel/ms-excel-read.c:3176
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -390,7 +393,7 @@ msgid ""
 msgstr "Không hỗ trợ liên kết DDE.\n"
 "Vậy tên « %s » sẽ bị mất.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3165
+#: ../plugins/excel/ms-excel-read.c:3182
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -398,11 +401,11 @@ msgid ""
 msgstr "Không hỗ trợ liên kết OLE.\n"
 "Vậy tên « %s » sẽ bị mất.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5402
+#: ../plugins/excel/ms-excel-read.c:5422
 msgid "external references"
 msgstr "tham chiếu ngoại"
 
-#: ../plugins/excel/ms-excel-read.c:5428
+#: ../plugins/excel/ms-excel-read.c:5448
 msgid "No password supplied"
 msgstr "Chưa nhập mật khẩu"
 
@@ -433,11 +436,11 @@ msgid ""
 "encoding problems."
 msgstr "Chúng ta đã viết một độ dài cho một chuỗi đang bị cắt xén vì gặp lỗi mã hóa."
 
-#: ../plugins/excel/ms-excel-write.c:5391
+#: ../plugins/excel/ms-excel-write.c:5388
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Không mở được dòng « Book » (sách) để ghi.\n"
 
-#: ../plugins/excel/ms-excel-write.c:5411
+#: ../plugins/excel/ms-excel-write.c:5408
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Không mở được dòng « Workbook » (sổ làm việc) để ghi.\n"
 
@@ -452,94 +455,109 @@ msgid ""
 msgstr "Quá nhiều đối số cho hàm « %s », MS Excel™ chỉ có thể quản lý %d đối số, "
 "không phải %d."
 
-#: ../plugins/excel/xlsx-read.c:378
+#: ../plugins/excel/xlsx-read.c:357
+#, c-format
+msgid "Missing id for part in '%s'"
+msgstr "Thiếu mã nhận diện (ID) cho phần trong « %s »"
+
+#: ../plugins/excel/xlsx-read.c:368
+#, c-format
+msgid "Part '%s' in '%s' from '%s' is corrupt!"
+msgstr "Phần « %s » trong « %s » từ « %s » bị hỏng !"
+
+#: ../plugins/excel/xlsx-read.c:377
+#, c-format
+msgid "Unable to find part '%s' for '%s'"
+msgstr "Không thể tìm thấy phần « %s » cho « %s »"
+
+#: ../plugins/excel/xlsx-read.c:394
+#, c-format
+msgid "'%s' is corrupt!"
+msgstr "« %s » bị hỏng !"
+
+#: ../plugins/excel/xlsx-read.c:463
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Không biết giá trị đếm « %s » cho thuộc tính %s"
 
-#: ../plugins/excel/xlsx-read.c:421
+#: ../plugins/excel/xlsx-read.c:506
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "Số nguyên « %s » ở ngoại phạm vị cho thuộc tính %s"
 
-#: ../plugins/excel/xlsx-read.c:425
+#: ../plugins/excel/xlsx-read.c:510
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Số nguyên không hợp lệ « %s » cho thuộc tính %s"
 
-#: ../plugins/excel/xlsx-read.c:450
+#: ../plugins/excel/xlsx-read.c:535
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Số không hợp lệ « %s » cho thuộc tính %s"
 
-#: ../plugins/excel/xlsx-read.c:474
+#: ../plugins/excel/xlsx-read.c:559
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Vị trí ô không hợp lệ « %s » cho thuộc tính %s"
 
-#: ../plugins/excel/xlsx-read.c:493
+#: ../plugins/excel/xlsx-read.c:578
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Phạm vị không hợp lệ « %s » cho thuộc tính %s"
 
-#: ../plugins/excel/xlsx-read.c:594
+#: ../plugins/excel/xlsx-read.c:933
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Màu không hợp lệ « %s » cho thuộc tính rgb"
 
-#: ../plugins/excel/xlsx-read.c:617
+#: ../plugins/excel/xlsx-read.c:956
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Mục ghi « %d » chưa được xác định"
 
-#: ../plugins/excel/xlsx-read.c:626
+#: ../plugins/excel/xlsx-read.c:965
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Mục ghi bộ phận « %d » chưa được xác định"
 
-#: ../plugins/excel/xlsx-read.c:641
+#: ../plugins/excel/xlsx-read.c:980
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Dạng thức số « %s » chưa được xác định"
 
-#: ../plugins/excel/xlsx-read.c:696
+#: ../plugins/excel/xlsx-read.c:1035
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Tham chiếu sst không hợp lệ « %s »"
 
-#: ../plugins/excel/xlsx-read.c:818
+#: ../plugins/excel/xlsx-read.c:1157
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Ô không hợp lệ %s"
 
-#: ../plugins/excel/xlsx-read.c:918
+#: ../plugins/excel/xlsx-read.c:1257
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Đang bỏ qua thông tin cột không xác định điều thứ nhất hay cuối cùng."
 
-#: ../plugins/excel/xlsx-read.c:1159
+#: ../plugins/excel/xlsx-read.c:1515
 msgid "Undefined"
 msgstr "Chưa xác định"
 
-#: ../plugins/excel/xlsx-read.c:1191
+#: ../plugins/excel/xlsx-read.c:1547
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Đang bỏ qua dạng thức điều kiện chưa thao tác có kiểu « %s »"
 
-#: ../plugins/excel/xlsx-read.c:1491
+#: ../plugins/excel/xlsx-read.c:1850
 msgid "Ignoring a sheet without a name"
 msgstr "Đang bỏ qua tờ không có tên"
 
-#: ../plugins/excel/xlsx-read.c:1519
+#: ../plugins/excel/xlsx-read.c:1878
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Thiếu ID phần cho tờ « %s »"
 
-#: ../plugins/excel/xlsx-read.c:1535
-#: ../plugins/excel/xlsx-read.c:2244
-msgid "is corrupt!"
-msgstr "bị hỏng !"
-
-#: ../plugins/excel/xlsx-read.c:1959
+#: ../plugins/excel/xlsx-read.c:2312
 #, c-format
 msgid "Undefined font record '%d'"
 msgstr "Mục ghi phông chữ « %d » chưa xác định"
@@ -936,7 +954,7 @@ msgstr "Kiểu không khớp"
 #: ../plugins/fn-logical/functions.c:359
 #: ../plugins/fn-logical/functions.c:363
 #: ../plugins/fn-logical/functions.c:383
-#: ../plugins/fn-math/functions.c:3465
+#: ../plugins/fn-math/functions.c:3458
 #: ../plugins/fn-stat/functions.c:5812
 #: ../plugins/fn-stat/functions.c:5816
 #: ../plugins/fn-stat/functions.c:5820
@@ -970,40 +988,40 @@ msgstr "số,số,"
 
 #.MS Excel puts this in the engineering functions
 #: ../plugins/fn-logical/functions.c:367
+#: ../plugins/fn-math/functions.c:3290
+#: ../plugins/fn-math/functions.c:3294
 #: ../plugins/fn-math/functions.c:3297
-#: ../plugins/fn-math/functions.c:3301
-#: ../plugins/fn-math/functions.c:3304
-#: ../plugins/fn-math/functions.c:3307
-#: ../plugins/fn-math/functions.c:3310
-#: ../plugins/fn-math/functions.c:3313
-#: ../plugins/fn-math/functions.c:3316
-#: ../plugins/fn-math/functions.c:3322
-#: ../plugins/fn-math/functions.c:3331
-#: ../plugins/fn-math/functions.c:3340
-#: ../plugins/fn-math/functions.c:3348
-#: ../plugins/fn-math/functions.c:3351
-#: ../plugins/fn-math/functions.c:3354
-#: ../plugins/fn-math/functions.c:3357
-#: ../plugins/fn-math/functions.c:3360
-#: ../plugins/fn-math/functions.c:3365
-#: ../plugins/fn-math/functions.c:3369
-#: ../plugins/fn-math/functions.c:3375
+#: ../plugins/fn-math/functions.c:3300
+#: ../plugins/fn-math/functions.c:3303
+#: ../plugins/fn-math/functions.c:3306
+#: ../plugins/fn-math/functions.c:3309
+#: ../plugins/fn-math/functions.c:3315
+#: ../plugins/fn-math/functions.c:3324
+#: ../plugins/fn-math/functions.c:3333
+#: ../plugins/fn-math/functions.c:3341
+#: ../plugins/fn-math/functions.c:3344
+#: ../plugins/fn-math/functions.c:3347
+#: ../plugins/fn-math/functions.c:3350
+#: ../plugins/fn-math/functions.c:3353
+#: ../plugins/fn-math/functions.c:3358
+#: ../plugins/fn-math/functions.c:3362
+#: ../plugins/fn-math/functions.c:3368
+#: ../plugins/fn-math/functions.c:3378
 #: ../plugins/fn-math/functions.c:3385
-#: ../plugins/fn-math/functions.c:3392
-#: ../plugins/fn-math/functions.c:3395
-#: ../plugins/fn-math/functions.c:3401
-#: ../plugins/fn-math/functions.c:3404
-#: ../plugins/fn-math/functions.c:3417
-#: ../plugins/fn-math/functions.c:3423
-#: ../plugins/fn-math/functions.c:3429
-#: ../plugins/fn-math/functions.c:3450
-#: ../plugins/fn-math/functions.c:3453
-#: ../plugins/fn-math/functions.c:3456
-#: ../plugins/fn-math/functions.c:3459
-#: ../plugins/fn-math/functions.c:3462
-#: ../plugins/fn-math/functions.c:3475
-#: ../plugins/fn-math/functions.c:3487
-#: ../plugins/fn-math/functions.c:3490
+#: ../plugins/fn-math/functions.c:3388
+#: ../plugins/fn-math/functions.c:3394
+#: ../plugins/fn-math/functions.c:3397
+#: ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3416
+#: ../plugins/fn-math/functions.c:3422
+#: ../plugins/fn-math/functions.c:3443
+#: ../plugins/fn-math/functions.c:3446
+#: ../plugins/fn-math/functions.c:3449
+#: ../plugins/fn-math/functions.c:3452
+#: ../plugins/fn-math/functions.c:3455
+#: ../plugins/fn-math/functions.c:3468
+#: ../plugins/fn-math/functions.c:3480
+#: ../plugins/fn-math/functions.c:3483
 #: ../plugins/fn-stat/functions.c:5882
 #: ../plugins/fn-stat/functions.c:5885
 #: ../plugins/fn-stat/functions.c:5903
@@ -1082,7 +1100,7 @@ msgid "ref,row,col,height,width"
 msgstr "tch,hàng,cột,cao,rộng"
 
 #: ../plugins/fn-lookup/functions.c:1313
-#: ../plugins/fn-math/functions.c:3503
+#: ../plugins/fn-math/functions.c:3496
 msgid "array"
 msgstr "mảng"
 
@@ -1098,23 +1116,23 @@ msgstr "Tra_cứu"
 msgid "Lookup Functions"
 msgstr "Hàm tra cứu"
 
-#: ../plugins/fn-math/functions.c:2560
-#: ../plugins/fn-math/functions.c:2580
-#: ../plugins/fn-math/functions.c:2676
-#: ../plugins/fn-math/functions.c:2696
-#: ../plugins/fn-math/functions.c:2790
-#: ../plugins/fn-math/functions.c:2810
+#: ../plugins/fn-math/functions.c:2553
+#: ../plugins/fn-math/functions.c:2573
+#: ../plugins/fn-math/functions.c:2669
+#: ../plugins/fn-math/functions.c:2689
+#: ../plugins/fn-math/functions.c:2783
+#: ../plugins/fn-math/functions.c:2803
 #: ../plugins/fn-stat/functions.c:3026
 #: ../plugins/fn-stat/functions.c:3056
 msgid "Array version not implemented!"
 msgstr "Phiên bản mảng chưa được làm."
 
-#: ../plugins/fn-math/functions.c:3319
+#: ../plugins/fn-math/functions.c:3312
 msgid "xnum,ynum"
 msgstr "sốx,sốy"
 
-#: ../plugins/fn-math/functions.c:3325
-#: ../plugins/fn-math/functions.c:3328
+#: ../plugins/fn-math/functions.c:3318
+#: ../plugins/fn-math/functions.c:3321
 #: ../plugins/fn-random/functions.c:1200
 #: ../plugins/fn-random/functions.c:1221
 #: ../plugins/fn-random/functions.c:1227
@@ -1125,67 +1143,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #.MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3336
+#: ../plugins/fn-math/functions.c:3329
 msgid "range,criteria"
 msgstr "phạm_vị,tiêu_chuẩn"
 
-#: ../plugins/fn-math/functions.c:3344
+#: ../plugins/fn-math/functions.c:3337
 msgid "number,significance"
 msgstr "số,độ_quan_trọng"
 
-#: ../plugins/fn-math/functions.c:3372
+#: ../plugins/fn-math/functions.c:3365
 #: ../plugins/fn-stat/functions.c:5996
 msgid "n,k"
 msgstr "n,k"
 
-#: ../plugins/fn-math/functions.c:3379
+#: ../plugins/fn-math/functions.c:3372
 msgid "number,number"
 msgstr "số,số"
 
-#: ../plugins/fn-math/functions.c:3398
+#: ../plugins/fn-math/functions.c:3391
 msgid "number,base"
 msgstr "số,cơ_số"
 
-#: ../plugins/fn-math/functions.c:3407
-#: ../plugins/fn-math/functions.c:3426
+#: ../plugins/fn-math/functions.c:3400
+#: ../plugins/fn-math/functions.c:3419
 msgid "numerator,denominator"
 msgstr "tử_số,mẫu_số"
 
-#: ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3403
 msgid "number,multiple"
 msgstr "số,bội"
 
-#: ../plugins/fn-math/functions.c:3420
+#: ../plugins/fn-math/functions.c:3413
 msgid "base,exponent"
 msgstr "cơ_số,mũ"
 
-#: ../plugins/fn-math/functions.c:3432
+#: ../plugins/fn-math/functions.c:3425
 msgid "number,type"
 msgstr "số,kiểu"
 
-#: ../plugins/fn-math/functions.c:3435
-#: ../plugins/fn-math/functions.c:3439
-#: ../plugins/fn-math/functions.c:3443
-#: ../plugins/fn-math/functions.c:3493
+#: ../plugins/fn-math/functions.c:3428
+#: ../plugins/fn-math/functions.c:3432
+#: ../plugins/fn-math/functions.c:3436
+#: ../plugins/fn-math/functions.c:3486
 msgid "number,digits"
 msgstr "số,lần"
 
-#: ../plugins/fn-math/functions.c:3447
+#: ../plugins/fn-math/functions.c:3440
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,hệ_số"
 
-#: ../plugins/fn-math/functions.c:3469
+#: ../plugins/fn-math/functions.c:3462
 msgid "range,criteria,actual_range"
 msgstr "phạm_vị,tiêu_chuẩn,phạm_vị_thật"
 
-#: ../plugins/fn-math/functions.c:3472
+#: ../plugins/fn-math/functions.c:3465
 msgid "range,range,"
 msgstr "phạm_vị,phạm_vị,"
 
-#: ../plugins/fn-math/functions.c:3478
-#: ../plugins/fn-math/functions.c:3481
-#: ../plugins/fn-math/functions.c:3484
-#: ../plugins/fn-math/functions.c:3500
+#: ../plugins/fn-math/functions.c:3471
+#: ../plugins/fn-math/functions.c:3474
+#: ../plugins/fn-math/functions.c:3477
+#: ../plugins/fn-math/functions.c:3493
 #: ../plugins/fn-stat/functions.c:5855
 #: ../plugins/fn-stat/functions.c:5864
 #: ../plugins/fn-stat/functions.c:5987
@@ -1193,8 +1211,8 @@ msgstr "phạm_vị,phạm_vị,"
 msgid "array1,array2"
 msgstr "mảng1,mảng2"
 
-#: ../plugins/fn-math/functions.c:3506
-#: ../plugins/fn-math/functions.c:3510
+#: ../plugins/fn-math/functions.c:3499
+#: ../plugins/fn-math/functions.c:3503
 msgid "array,matrix_type,bandsize"
 msgstr "mảng,kiểu_ma_trận,bandsize"
 
@@ -1224,7 +1242,7 @@ msgstr "Hàm thống kê có quy ước đặt tên từ Dự án R."
 #: ../plugins/fn-r/plugin.xml.in.h:3
 #: ../plugins/fn-stat/plugin.xml.in.h:2
 #: ../src/dialogs/descriptive-stats.glade.h:12
-#: ../src/dialogs/doc-meta-data.glade.h:38
+#: ../src/dialogs/doc-meta-data.glade.h:37
 msgid "Statistics"
 msgstr "Thống kê"
 
@@ -1572,30 +1590,30 @@ msgstr "Chuỗi"
 msgid "String Functions"
 msgstr "Hàm chuỗi"
 
-#: ../plugins/gda/plugin-gda.c:63
+#: ../plugins/gda/plugin-gda.c:160
 msgid "Too much data returned"
 msgstr "Quá nhiều dữ liệu trả về"
 
-#: ../plugins/gda/plugin-gda.c:178
+#: ../plugins/gda/plugin-gda.c:268
 msgid "Database Connection"
 msgstr "Kết nối đến cơ sở dữ liệu"
 
-#: ../plugins/gda/plugin-gda.c:266
+#: ../plugins/gda/plugin-gda.c:356
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Dạng thức: execSQL(dsn,người dùng,mật khẩu,sql)"
 
-#: ../plugins/gda/plugin-gda.c:270
-#: ../plugins/gda/plugin-gda.c:346
+#: ../plugins/gda/plugin-gda.c:360
+#: ../plugins/gda/plugin-gda.c:436
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Lỗi: không thể tạo kết nối tới %s"
 
-#: ../plugins/gda/plugin-gda.c:280
-#: ../plugins/gda/plugin-gda.c:356
+#: ../plugins/gda/plugin-gda.c:370
+#: ../plugins/gda/plugin-gda.c:446
 msgid "Error: no recordsets were returned"
 msgstr "Lỗi: không có tập dữ liệu nào được trả về."
 
-#: ../plugins/gda/plugin-gda.c:342
+#: ../plugins/gda/plugin-gda.c:432
 msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Dạng thức: readDBTable(dsn,người dùng,mật khẩu,bảng)"
 
@@ -1863,47 +1881,47 @@ msgstr "Không thể phân tách\n"
 "\t« %s »\n"
 "vì « %s »"
 
-#: ../plugins/openoffice/openoffice-read.c:799
+#: ../plugins/openoffice/openoffice-read.c:803
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Biểu thức mảng không hợp lệ do không xác định số cột."
 
-#: ../plugins/openoffice/openoffice-read.c:802
+#: ../plugins/openoffice/openoffice-read.c:806
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Biểu thức mảng không hợp lệ do không xác định số hàng."
 
-#: ../plugins/openoffice/openoffice-read.c:1507
+#: ../plugins/openoffice/openoffice-read.c:1511
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Không thể phân tách vị trí cho biểu thức « %s » @ « %s » vì « %s »."
 
-#: ../plugins/openoffice/openoffice-read.c:1520
+#: ../plugins/openoffice/openoffice-read.c:1524
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Không thể phân tách vị trí cho biểu thức « %s » với giá trị « %s » vì « %s »."
 
-#: ../plugins/openoffice/openoffice-read.c:1823
+#: ../plugins/openoffice/openoffice-read.c:1827
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Không thể phân tách « %s » vì « %s »"
 
-#: ../plugins/openoffice/openoffice-read.c:2382
+#: ../plugins/openoffice/openoffice-read.c:2386
 msgid "No stream named mimetype found."
 msgstr "Không có dòng tên « mimetype » (kiểu mime)."
 
-#: ../plugins/openoffice/openoffice-read.c:2394
+#: ../plugins/openoffice/openoffice-read.c:2398
 msgid "Unknown mimetype for openoffice file."
 msgstr "Kiểu MIME lạ cho tập tin OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:2405
+#: ../plugins/openoffice/openoffice-read.c:2409
 msgid "No stream named content.xml found."
 msgstr "Không thấy có dòng tên « content.xml » (nội dung)."
 
-#: ../plugins/openoffice/openoffice-read.c:2413
+#: ../plugins/openoffice/openoffice-read.c:2417
 msgid "No stream named styles.xml found."
 msgstr "Không thấy có dòng tên « styles.xml » (kiểu dạng)."
 
-#: ../plugins/openoffice/openoffice-read.c:2461
+#: ../plugins/openoffice/openoffice-read.c:2464
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Siêu dữ liệu không hợp lệ « %s »"
@@ -2303,8 +2321,8 @@ msgstr "Gặp lỗi khi mở tập tin XBase."
 #: ../src/dialogs/print.glade.h:23
 #: ../src/print-info.c:401
 #: ../src/search.c:612
-#: ../src/workbook.c:828
-#: ../src/xml-io.c:2231
+#: ../src/workbook.c:850
+#: ../src/xml-io.c:2235
 msgid "Sheet"
 msgstr "Tờ"
 
@@ -2639,20 +2657,16 @@ msgstr "Chuỗi này cung cấp vùng mặc định cần lặp lại tại đ�
 #: ../schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
 "This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be high. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
-msgstr "Giá trị này xác định số lượng trang mặc định là độ cao của toàn việc in ra "
-"tờ hiện có. Giá trị số không thì tắt tính năng tỷ lệ. Hãy dùng hộp thoại « "
-"Thiết lập in » để hiệu chỉnh giá trị này."
+"sheet is supposed to be high. 0 disables scaling. Please use the Print Setup "
+"dialog to edit this value."
+msgstr "Giá trị này xác định số lượng trang mặc định là độ cao của toàn bản in ra tờ hiện có. Giá trị số không thì tắt khả năng tỷ lệ. Hãy dùng hộp thoại « Thiết lập in » để chỉnh sửa giá trị này."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
 "This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
-msgstr "Giá trị này xác định số lượng trang mặc định là độ rộng của toàn việc in ra "
-"tờ hiện có. Giá trị số không thì tắt tính năng tỷ lệ. Hãy dùng hộp thoại « "
-"Thiết lập in » để hiệu chỉnh giá trị này."
+"sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup "
+"dialog to edit this value."
+msgstr "Giá trị này xác định số lượng trang mặc định là độ rộng của toàn bản in ra tờ hiện có. Giá trị số không thì tắt tính năng tỷ lệ. Hãy dùng hộp thoại « Thiết lập in » để chỉnh sửa giá trị này."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
@@ -3118,8 +3132,11 @@ msgid ""
 msgstr "Biến này xác định có hiển thị thanh công cụ chuẩn ban đầu không."
 
 #: ../schemas/gnumeric-general.schemas.in.h:64
-msgid "This variable determines whether transition keys are set on."
-msgstr "Biến này xác định có bật phím chuyển đổi không."
+msgid ""
+"This variable determines whether transition keys are set on. Transition keys "
+"are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
+"page movement rather than jumping to the start/end of series."
+msgstr "Giá trị này xác định nếu phím chuyển tiếp được bật hay không. Phím chuyển tiếp bắt nguồn từ khả năng quản lý sự kiện kiểu 1-2-3. Chúng làm cho tổ hợp phím Ctrl-mũi-tên di chuyển trang thay vào nhảy tới đầu/cuối dãy."
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
 msgid "Toolbar Style"
@@ -5373,7 +5390,7 @@ msgid "Edit Hyperlink"
 msgstr "Sửa siêu liên kết"
 
 #: ../src/dialogs/dialog-hyperlink.c:350
-#: ../src/sheet-control-gui.c:1698
+#: ../src/sheet-control-gui.c:1734
 msgid "Remove Hyperlink"
 msgstr "Bỏ siêu liên kết"
 
@@ -6082,18 +6099,18 @@ msgstr "Biến"
 
 #: ../src/dialogs/dialog-simulation.c:237
 #: ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1918
+#: ../src/workbook-control-gui.c:1903
 msgid "Min"
 msgstr "Tối thiểu"
 
 #: ../src/dialogs/dialog-simulation.c:237
-#: ../src/workbook-control-gui.c:1920
+#: ../src/workbook-control-gui.c:1905
 msgid "Average"
 msgstr "Trung bình"
 
 #: ../src/dialogs/dialog-simulation.c:237
 #: ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1919
+#: ../src/workbook-control-gui.c:1904
 msgid "Max"
 msgstr "Tối đa"
 
@@ -6116,8 +6133,8 @@ msgid "Simplex (LP Solve)"
 msgstr "Simplex (LP Solve)"
 
 #: ../src/dialogs/dialog-solver.c:110
-msgid "Revised Simplex (GLPK 4.5)"
-msgstr "Revised Simplex (GLPK 4.5)"
+msgid "Revised Simplex (GLPK 4.9)"
+msgstr "Revised Simplex (GLPK 4.9)"
 
 #: ../src/dialogs/dialog-solver.c:111
 msgid "< Not available >"
@@ -6935,78 +6952,38 @@ msgid "Company:"
 msgstr "Công ty:"
 
 #: ../src/dialogs/doc-meta-data.glade.h:31
-msgid "Document Properties"
-msgstr "Thuộc tính tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:32
 msgid "File"
 msgstr "Tập tin"
 
-#: ../src/dialogs/doc-meta-data.glade.h:33
+#: ../src/dialogs/doc-meta-data.glade.h:32
 msgid "Keywords:"
 msgstr "Từ khóa:"
 
-#: ../src/dialogs/doc-meta-data.glade.h:34
+#: ../src/dialogs/doc-meta-data.glade.h:33
 msgid "Link:"
 msgstr "Liên kết:"
 
-#: ../src/dialogs/doc-meta-data.glade.h:35
+#: ../src/dialogs/doc-meta-data.glade.h:34
 msgid "Manager:"
 msgstr "Quản trị:"
 
-#: ../src/dialogs/doc-meta-data.glade.h:36
+#: ../src/dialogs/doc-meta-data.glade.h:35
 msgid "Name: "
 msgstr "Tên: "
 
-#: ../src/dialogs/doc-meta-data.glade.h:37
+#: ../src/dialogs/doc-meta-data.glade.h:36
 msgid "Properties"
 msgstr "Thuộc tính"
 
-#: ../src/dialogs/doc-meta-data.glade.h:39
+#: ../src/dialogs/doc-meta-data.glade.h:38
 msgid "Subject:"
 msgstr "Chủ đề:"
 
-#: ../src/dialogs/doc-meta-data.glade.h:40
-msgid "The document author"
-msgstr "Tác giả tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:41
-msgid "The document category"
-msgstr "Phân loại tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:42
-msgid "The document comments"
-msgstr "Các chú thích về tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:43
-msgid "The document company"
-msgstr "Công ty tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:44
-msgid "The document keywords"
-msgstr "Các từ khoá tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:45
-msgid "The document manager"
-msgstr "Người quản lý tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:46
-msgid "The document subject"
-msgstr "Chủ đề tài liệu"
-
-#: ../src/dialogs/doc-meta-data.glade.h:47
-msgid "The document title (not filename)"
-msgstr "Tiêu đề tài liệu ( không tên tập tin)"
-
-#: ../src/dialogs/doc-meta-data.glade.h:48
-msgid "This property's content (text)"
-msgstr "Nội dung của tài sản này (chữ)"
-
-#: ../src/dialogs/doc-meta-data.glade.h:49
+#: ../src/dialogs/doc-meta-data.glade.h:39
 msgid "Title:"
 msgstr "Tựa đề:"
 
-#: ../src/dialogs/doc-meta-data.glade.h:50
+#: ../src/dialogs/doc-meta-data.glade.h:40
 msgid "Value: "
 msgstr "Giá trị: "
 
@@ -9170,7 +9147,7 @@ msgid "Range"
 msgstr "Phạm vị"
 
 #: ../src/tools/simulation.c:257
-#: ../src/workbook-control-gui.c:1921
+#: ../src/workbook-control-gui.c:1906
 msgid "Count"
 msgstr "Đếm"
 
@@ -9631,22 +9608,22 @@ msgstr "Nghiêng đậm"
 msgid "Italic"
 msgstr "Nghiêng"
 
-#: ../src/application.c:301
+#: ../src/application.c:315
 msgid "Cut Object"
 msgstr "Cắt đối tượng"
 
-#: ../src/clipboard.c:302
 #: ../src/clipboard.c:314
-#: ../src/clipboard.c:325
-#: ../src/clipboard.c:333
+#: ../src/clipboard.c:326
+#: ../src/clipboard.c:337
+#: ../src/clipboard.c:345
 msgid "Unable to paste"
 msgstr "Không thể dán"
 
-#: ../src/clipboard.c:303
+#: ../src/clipboard.c:315
 msgid "Contents can only be pasted by value or by link."
 msgstr "Nội dung có thể được dán chỉ theo giá trị hoặc bằng liên kết thôi."
 
-#: ../src/clipboard.c:311
+#: ../src/clipboard.c:323
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -9656,7 +9633,7 @@ msgstr "số lượng cột nguồn ở đích không phải là một số ch�
 "\n"
 "Hãy thử chọn một ô đơn hoặc một vùng có cùng hình dạng và kích thước."
 
-#: ../src/clipboard.c:322
+#: ../src/clipboard.c:334
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -9666,7 +9643,7 @@ msgstr "số lượng hàng nguồn ở đích không phải là một số ch�
 "\n"
 "Hãy thử chọn ô đơn hoặc vùng có cùng hình dạng và kích thước."
 
-#: ../src/clipboard.c:334
+#: ../src/clipboard.c:346
 msgid "result passes the sheet boundary"
 msgstr "kết quả vượt ngoài phạm vị bảng"
 
@@ -9754,13 +9731,13 @@ msgstr "Chèn/Xóa/Cột/Hàng"
 
 #: ../src/commands.c:1385
 #: ../src/commands.c:1390
-#: ../src/sheet.c:3792
+#: ../src/sheet.c:3814
 msgid "Delete Columns"
 msgstr "Xóa bỏ cột"
 
 #: ../src/commands.c:1385
 #: ../src/commands.c:1390
-#: ../src/sheet.c:3932
+#: ../src/sheet.c:3954
 msgid "Delete Rows"
 msgstr "Xoá bỏ hàng"
 
@@ -9807,7 +9784,7 @@ msgstr "Đang xóa bỏ hàng %s"
 #.Check for locked cells
 #: ../src/commands.c:1649
 #: ../src/commands.c:1653
-#: ../src/sheet.c:3449
+#: ../src/sheet.c:3471
 msgid "Clear"
 msgstr "Xóa"
 
@@ -10172,7 +10149,7 @@ msgstr "Đang củng cố đến (%s)"
 msgid "Internal type error"
 msgstr "Lỗi kiểu nội bộ"
 
-#: ../src/expr.c:1388
+#: ../src/expr.c:1447
 msgid "Unknown evaluation error"
 msgstr "Lỗi định giá lạ"
 
@@ -10446,21 +10423,21 @@ msgid "Load file"
 msgstr "Tải tập tin"
 
 #: ../src/gui-file.c:232
-#: ../src/gui-file.c:379
+#: ../src/gui-file.c:388
 msgid "Select a file"
 msgstr "Chọn tập tin"
 
 #: ../src/gui-file.c:258
-#: ../src/gui-file.c:395
+#: ../src/gui-file.c:404
 msgid "All Files"
 msgstr "Mọi tập tin"
 
 #: ../src/gui-file.c:289
-#: ../src/gui-file.c:424
+#: ../src/gui-file.c:433
 msgid "File _type:"
 msgstr "Kiểu _tập tin:"
 
-#: ../src/gui-file.c:336
+#: ../src/gui-file.c:345
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -10471,7 +10448,7 @@ msgstr "Dạng thức tập tin được chọn không hỗ trợ lưu nhiều t
 "hoặc chọn một dạng thức tập tin khác.\n"
 "Bạn có muốn lưu chỉ tờ hiện tại thôi không?"
 
-#: ../src/gui-file.c:475
+#: ../src/gui-file.c:490
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10506,12 +10483,12 @@ msgstr "Không thể kích hoạt địa chỉ Mạng « %s »."
 msgid "Unable to open '%s'"
 msgstr "Không thể mở « %s »."
 
-#: ../src/item-bar.c:787
+#: ../src/item-bar.c:768
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Rộng: %.2f pts (%d điểm ảnh)"
 
-#: ../src/item-bar.c:790
+#: ../src/item-bar.c:771
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Cao: %.2f pts (%d điểm ảnh)"
@@ -10537,7 +10514,7 @@ msgid "_Move"
 msgstr "Di ch_uyển"
 
 #: ../src/item-cursor.c:1023
-#: ../src/sheet-control-gui.c:1730
+#: ../src/sheet-control-gui.c:1766
 msgid "_Copy"
 msgstr "_Chép"
 
@@ -10569,18 +10546,18 @@ msgstr "Dịch phải _và di chuyển"
 msgid "C_ancel"
 msgstr "Hủ_y bỏ"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:78
 msgid "Display Gnumeric's version"
 msgstr "Hiện phiên bản Gnumeric"
 
-#: ../src/main-application.c:81
+#: ../src/main-application.c:84
 #: ../src/ssconvert.c:49
 #: ../src/ssindex.c:57
 msgid "Set the root library directory"
 msgstr "Đặt thư mục thư viện gốc"
 
-#: ../src/main-application.c:82
-#: ../src/main-application.c:88
+#: ../src/main-application.c:85
+#: ../src/main-application.c:91
 #: ../src/ssconvert.c:50
 #: ../src/ssconvert.c:57
 #: ../src/ssindex.c:58
@@ -10588,70 +10565,70 @@ msgstr "Đặt thư mục thư viện gốc"
 msgid "DIR"
 msgstr "TMỤC"
 
-#: ../src/main-application.c:87
+#: ../src/main-application.c:90
 #: ../src/ssconvert.c:56
 #: ../src/ssindex.c:64
 msgid "Adjust the root data directory"
 msgstr "Chỉnh thư mục dữ liệu gốc"
 
-#: ../src/main-application.c:93
+#: ../src/main-application.c:96
 msgid "Specify the size and location of the initial window"
 msgstr "Xác định kích thước và vị trí cửa sổ ban đầu"
 
-#: ../src/main-application.c:94
+#: ../src/main-application.c:97
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "RỘNGxCAO+TOẠĐỘ_X+TỌAĐỘ_Y"
 
-#: ../src/main-application.c:99
+#: ../src/main-application.c:102
 msgid "Don't show splash screen"
 msgstr "Không hiện màn hình giật gân"
 
-#: ../src/main-application.c:105
+#: ../src/main-application.c:108
 msgid "Don't display warning dialogs when importing"
 msgstr "Đừng hiển thị hộp thoại cảnh báo trong khi nhập."
 
-#: ../src/main-application.c:112
+#: ../src/main-application.c:115
 msgid "Enables some dependency related debugging functions"
 msgstr "Bật một số hàm gỡ lỗi liên quan đến lệ thuộc"
 
-#: ../src/main-application.c:113
-#: ../src/main-application.c:119
-#: ../src/main-application.c:125
-#: ../src/main-application.c:150
+#: ../src/main-application.c:116
+#: ../src/main-application.c:122
+#: ../src/main-application.c:128
+#: ../src/main-application.c:153
 msgid "LEVEL"
 msgstr "CẤP ĐỘ"
 
-#: ../src/main-application.c:118
+#: ../src/main-application.c:121
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Bật các hàm gỡ lỗi có thể chia sẻ biểu thức"
 
-#: ../src/main-application.c:124
+#: ../src/main-application.c:127
 msgid "Enables some print debugging behavior"
 msgstr "Bật một phần hành vi gỡ lỗi khi in"
 
-#: ../src/main-application.c:131
-#: ../src/main-application.c:137
+#: ../src/main-application.c:134
+#: ../src/main-application.c:140
 msgid "Dumps the function definitions"
 msgstr "Đổ các định nghĩa hàm"
 
-#: ../src/main-application.c:132
-#: ../src/main-application.c:138
+#: ../src/main-application.c:135
+#: ../src/main-application.c:141
 msgid "FILE"
 msgstr "TẬP TIN"
 
-#: ../src/main-application.c:143
+#: ../src/main-application.c:146
 msgid "Generate new help and po files"
 msgstr "Tạo ra tập tin trợ giúp và .po mới"
 
-#: ../src/main-application.c:149
+#: ../src/main-application.c:152
 msgid "Enables some debugging functions"
 msgstr "Bật một số hàm gỡ lỗi"
 
-#: ../src/main-application.c:155
+#: ../src/main-application.c:158
 msgid "Exit immediately after loading the selected books"
 msgstr "Thoát ngay lập tức sau khi tải các sách đã chọn"
 
-#: ../src/main-application.c:195
+#: ../src/main-application.c:198
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -10676,7 +10653,7 @@ msgstr "Xin cám ơn đã sử dụng Gnumeric!\n"
 "\n"
 " • Nhóm phát triển Gnumeric."
 
-#: ../src/main-application.c:279
+#: ../src/main-application.c:282
 #: ../src/ssconvert.c:241
 #: ../src/ssindex.c:226
 #, c-format
@@ -10686,7 +10663,7 @@ msgid ""
 msgstr "%s\n"
 "Hãy chạy lệnh « %s --help » để xem danh sách đầy đủ các tùy chọn dòng lệnh.\n"
 
-#: ../src/main-application.c:345
+#: ../src/main-application.c:348
 msgid ""
 "The Pango library present on your system is buggy, see\n"
 "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
@@ -10698,7 +10675,7 @@ msgstr "Thư viện Pango có trong hệ thống bạn có lỗi: xem\n"
 "cho đúng. Hãy kiểm tra nếu bản phát hành của bạn\n"
 "có thư viện Pango đã sửa hay không."
 
-#: ../src/main-application.c:389
+#: ../src/main-application.c:420
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -11178,35 +11155,35 @@ msgstr "Hệ số phóng"
 msgid "The level of zoom used for this sheet."
 msgstr "Mức độ phóng được dùng trong tờ này."
 
-#: ../src/sheet.c:2500
+#: ../src/sheet.c:2527
 msgid "Target region contains merged cells"
 msgstr "Vùng đích chứa ô đã trộn."
 
-#: ../src/sheet.c:2561
+#: ../src/sheet.c:2588
 msgid "cannot operate on merged cells"
 msgstr "không thể thực hiện trên các ô đã trộn."
 
-#: ../src/sheet.c:2571
+#: ../src/sheet.c:2598
 msgid "cannot operate on array formulae"
 msgstr "không thể thực hiện trên công thức mảng."
 
-#: ../src/sheet.c:3721
+#: ../src/sheet.c:3743
 msgid "Insert Columns"
 msgstr "Chèn cột"
 
-#: ../src/sheet.c:3864
+#: ../src/sheet.c:3886
 msgid "Insert Rows"
 msgstr "Chèn hàng"
 
-#: ../src/sheet-control-gui.c:1728
+#: ../src/sheet-control-gui.c:1764
 msgid "Cu_t"
 msgstr "Cắ_t"
 
-#: ../src/sheet-control-gui.c:1732
+#: ../src/sheet-control-gui.c:1768
 msgid "_Paste"
 msgstr "_Dán"
 
-#: ../src/sheet-control-gui.c:1734
+#: ../src/sheet-control-gui.c:1770
 msgid "Paste _Special"
 msgstr "Dán đặc _biệt"
 
@@ -11217,92 +11194,92 @@ msgstr "Dán đặc _biệt"
 #.* This is hard for now because there is no memory management for the label
 #.* strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1746
+#: ../src/sheet-control-gui.c:1782
 msgid "_Insert Cells..."
 msgstr "C_hèn ô..."
 
-#: ../src/sheet-control-gui.c:1748
+#: ../src/sheet-control-gui.c:1784
 msgid "_Delete Cells..."
 msgstr "_Xoá bỏ ô..."
 
-#: ../src/sheet-control-gui.c:1750
+#: ../src/sheet-control-gui.c:1786
 msgid "_Insert Column(s)"
 msgstr "C_hèn cột"
 
-#: ../src/sheet-control-gui.c:1752
+#: ../src/sheet-control-gui.c:1788
 msgid "_Delete Column(s)"
 msgstr "_Xóa bỏ cột"
 
-#: ../src/sheet-control-gui.c:1754
+#: ../src/sheet-control-gui.c:1790
 msgid "_Insert Row(s)"
 msgstr "C_hèn hàng"
 
-#: ../src/sheet-control-gui.c:1756
+#: ../src/sheet-control-gui.c:1792
 msgid "_Delete Row(s)"
 msgstr "_Xóa bỏ hàng"
 
-#: ../src/sheet-control-gui.c:1759
+#: ../src/sheet-control-gui.c:1795
 msgid "Clear Co_ntents"
 msgstr "Xoá _nội dung"
 
-#: ../src/sheet-control-gui.c:1761
+#: ../src/sheet-control-gui.c:1797
 msgid "Edit Co_mment..."
 msgstr "_Sửa chú thích..."
 
-#: ../src/sheet-control-gui.c:1767
+#: ../src/sheet-control-gui.c:1803
 msgid "_Format Cells..."
 msgstr "Định _dạng ô..."
 
 #.Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1771
+#: ../src/sheet-control-gui.c:1807
 msgid "Column _Width..."
 msgstr "Độ _rộng cột..."
 
-#: ../src/sheet-control-gui.c:1773
-#: ../src/sheet-control-gui.c:1781
+#: ../src/sheet-control-gui.c:1809
+#: ../src/sheet-control-gui.c:1817
 #: ../src/wbcg-actions.c:1821
 #: ../src/wbcg-actions.c:1838
 msgid "_Hide"
 msgstr "Ẩ_n"
 
-#: ../src/sheet-control-gui.c:1775
-#: ../src/sheet-control-gui.c:1783
+#: ../src/sheet-control-gui.c:1811
+#: ../src/sheet-control-gui.c:1819
 #: ../src/wbcg-actions.c:1824
 #: ../src/wbcg-actions.c:1841
 msgid "_Unhide"
 msgstr "_Hiện"
 
 #.Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1779
+#: ../src/sheet-control-gui.c:1815
 msgid "_Row Height..."
 msgstr "Độ ca_o hàng..."
 
-#: ../src/sheet-control-gui.c:1786
+#: ../src/sheet-control-gui.c:1822
 msgid "_Hyperlink"
 msgstr "_Siêu liên kết"
 
-#: ../src/sheet-control-gui.c:1789
+#: ../src/sheet-control-gui.c:1825
 msgid "Edit _Hyperlink"
 msgstr "Sửa _siêu liên kết"
 
-#: ../src/sheet-control-gui.c:1792
+#: ../src/sheet-control-gui.c:1828
 msgid "_Remove Hyperlink"
 msgstr "_Bỏ siêu liên kết"
 
 #.This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2283
+#: ../src/sheet-control-gui.c:2319
 msgid "Duplicate Object"
 msgstr "Tạo bản sao đối tượng"
 
-#: ../src/sheet-control-gui.c:2283
+#: ../src/sheet-control-gui.c:2319
 msgid "Insert Object"
 msgstr "Chèn đối tượng"
 
-#: ../src/sheet-control-gui.c:2284
+#: ../src/sheet-control-gui.c:2320
 msgid "Move Object"
 msgstr "Di chuyển đối tượng"
 
-#: ../src/sheet-control-gui.c:2284
+#: ../src/sheet-control-gui.c:2320
 msgid "Resize Object"
 msgstr "Đổi cỡ đối tượng"
 
@@ -11360,16 +11337,16 @@ msgstr "Đẩy phía _sau"
 msgid "Pus_h to Back"
 msgstr "Đẩy nằm s_au"
 
-#: ../src/sheet-object-graph.c:254
+#: ../src/sheet-object-graph.c:251
 #: ../src/sheet-object-image.c:405
 msgid "Unknown failure while saving image"
 msgstr "Gặp lỗi lạ khi lưu ảnh"
 
-#: ../src/sheet-object-graph.c:351
+#: ../src/sheet-object-graph.c:348
 msgid "_Save as Image"
 msgstr "_Lưu dạng ảnh"
 
-#: ../src/sheet-object-graph.c:352
+#: ../src/sheet-object-graph.c:349
 msgid "Open in _New Window"
 msgstr "Mở tro_ng cửa sổ mới"
 
@@ -11548,58 +11525,57 @@ msgid "Error while trying to read file"
 msgstr "Gặp lỗi khi cố đọc tập tin."
 
 #: ../src/stf.c:270
-#: ../src/stf.c:306
+#: ../src/stf.c:305
 msgid "Text to Columns"
 msgstr "Chữ sang cột"
 
 #: ../src/stf.c:275
-#, c-format
-msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
-msgstr "Có thể phân tách chỉ 1 cột dữ liệu <b>nhập</b> trong một lần, không phải %d."
+msgid "Only one column of <b>input</b> data can be parsed at a time"
+msgstr "Có thể phân tách chỉ 1 cột dữ liệu <b>nhập</b> mỗi lần"
 
-#: ../src/stf.c:301
+#: ../src/stf.c:300
 msgid "There is no data to convert"
 msgstr "Không có dữ liệu cần chuyển đổi."
 
-#: ../src/stf.c:321
+#: ../src/stf.c:320
 msgid "Error while trying to parse data into sheet"
 msgstr "Gặp lỗi khi cố phân tách dữ liệu vào tờ."
 
-#: ../src/stf.c:364
+#: ../src/stf.c:363
 msgid "That file is not in the given encoding."
 msgstr "Tập tin đó không phải dùng bộ ký tự cho trước."
 
-#: ../src/stf.c:385
+#: ../src/stf.c:384
 msgid ""
 "Some columns of data were dropped since they exceeded the available sheet "
 "size."
 msgstr "Một số cột dữ liệu bị bỏ vì vượt quá kích thước tờ sẵn sàng."
 
-#: ../src/stf.c:392
+#: ../src/stf.c:391
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Gặp lỗi phân tách khi cố phân tách dữ liệu vào tờ."
 
-#: ../src/stf.c:420
+#: ../src/stf.c:419
 msgid "Error while trying to export file as text"
 msgstr "Gặp lỗi khi cố xuất tập tin dạng chữ."
 
-#: ../src/stf.c:438
+#: ../src/stf.c:437
 msgid "Error while trying to write CSV file"
 msgstr "Gặp lỗi khi cố ghi tập tin CSV."
 
-#: ../src/stf.c:528
+#: ../src/stf.c:527
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Giá trị định giới bằng dấu phẩy hay tab (CSV/TSV)."
 
-#: ../src/stf.c:533
+#: ../src/stf.c:532
 msgid "Text import (configurable)"
 msgstr "Nhập chữ (có thể cấu hình)"
 
-#: ../src/stf.c:539
+#: ../src/stf.c:538
 msgid "Text export (configurable)"
 msgstr "Xuất chữ (có thể cấu hình)"
 
-#: ../src/stf.c:543
+#: ../src/stf.c:542
 msgid "Comma separated values (CSV)"
 msgstr "Giá trị định giới bằng dấu phẩy (CSV)"
 
@@ -12908,7 +12884,7 @@ msgstr "Nhập các chữ từ một tập tin"
 
 #.Standard Toolbar
 #: ../src/wbcg-actions.c:1991
-#: ../src/workbook-control-gui.c:1917
+#: ../src/workbook-control-gui.c:1902
 #: ../src/workbook-view.c:639
 msgid "Sum"
 msgstr "Tổng"
@@ -13508,55 +13484,55 @@ msgstr "Hiện/Ẩn thanh công cụ %s"
 msgid "Book%d.%s"
 msgstr "Sách%d.%s"
 
-#: ../src/workbook.c:1297
+#: ../src/workbook.c:1321
 msgid "Renaming sheet"
 msgstr "Đang đổi tên tờ"
 
-#: ../src/workbook.c:1298
+#: ../src/workbook.c:1322
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "Đang đổi tên %d tờ"
 
-#: ../src/workbook.c:1301
+#: ../src/workbook.c:1325
 msgid "Adding sheet"
 msgstr "Đang thêm tờ"
 
-#: ../src/workbook.c:1302
+#: ../src/workbook.c:1326
 #, c-format
 msgid "Adding %d sheets"
 msgstr "Đang thêm %d tờ"
 
-#: ../src/workbook.c:1309
+#: ../src/workbook.c:1333
 msgid "Inserting sheet"
 msgstr "Đang chèn tờ"
 
-#: ../src/workbook.c:1310
+#: ../src/workbook.c:1334
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "Đang chèn %d tờ"
 
-#: ../src/workbook.c:1312
+#: ../src/workbook.c:1336
 msgid "Changing sheet tab colors"
 msgstr "Đang đổi màu tờ"
 
-#: ../src/workbook.c:1314
+#: ../src/workbook.c:1338
 msgid "Changing sheet properties"
 msgstr "Đang đổi thuộc tính tờ"
 
-#: ../src/workbook.c:1322
+#: ../src/workbook.c:1346
 msgid "Deleting sheet"
 msgstr "Đang xóa bỏ tờ"
 
-#: ../src/workbook.c:1323
+#: ../src/workbook.c:1347
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "Đang xóa bỏ %d tờ"
 
-#: ../src/workbook.c:1325
+#: ../src/workbook.c:1349
 msgid "Changing sheet order"
 msgstr "Đang đổi thứ tự tờ"
 
-#: ../src/workbook.c:1327
+#: ../src/workbook.c:1351
 msgid "Reorganizing Sheets"
 msgstr "Đang tổ chức lại các tờ"
 
@@ -13652,34 +13628,34 @@ msgstr "Đừng thoát"
 msgid "Don't close"
 msgstr "Đừng đóng"
 
-#: ../src/workbook-control-gui.c:1966
+#: ../src/workbook-control-gui.c:1951
 msgid "Use maximum precision"
 msgstr "Dùng độ chính xác tối đa"
 
-#: ../src/workbook-control-gui.c:2217
+#: ../src/workbook-control-gui.c:2202
 msgid "Cancel change"
 msgstr "Thôi thay đổi"
 
-#: ../src/workbook-control-gui.c:2221
+#: ../src/workbook-control-gui.c:2206
 msgid "Accept change"
 msgstr "Chấp nhận thay đổi"
 
-#: ../src/workbook-control-gui.c:2225
+#: ../src/workbook-control-gui.c:2210
 msgid "Enter formula..."
 msgstr "Gõ công thức..."
 
+#: ../src/workbook-control-gui.c:2346
 #: ../src/workbook-control-gui.c:2361
-#: ../src/workbook-control-gui.c:2376
 msgid "_Re-Edit"
 msgstr "Sửa _lại"
 
-#: ../src/workbook-control-gui.c:2362
-#: ../src/workbook-control-gui.c:2367
+#: ../src/workbook-control-gui.c:2347
+#: ../src/workbook-control-gui.c:2352
 msgid "_Discard"
 msgstr "_Hủy"
 
-#: ../src/workbook-control-gui.c:2366
-#: ../src/workbook-control-gui.c:2377
+#: ../src/workbook-control-gui.c:2351
+#: ../src/workbook-control-gui.c:2362
 msgid "_Accept"
 msgstr "Chấ_p nhận"
 
@@ -13757,11 +13733,11 @@ msgstr "Bộ lưu tập tin mặc định không sẵn sàng."
 msgid "Failed to create temporary file for sending."
 msgstr "Không tạo được tập tin tạm để gởi."
 
-#: ../src/workbook-view.c:1062
+#: ../src/workbook-view.c:1063
 msgid "Unsupported file format."
 msgstr "Dạng thức tập tin không được hỗ trợ."
 
-#: ../src/workbook-view.c:1110
+#: ../src/workbook-view.c:1111
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Gặp lỗi chưa giải thích khi mở %s."
@@ -13772,31 +13748,31 @@ msgstr "Gặp lỗi chưa giải thích khi mở %s."
 msgid "Unsupported object type '%s'"
 msgstr "Kiểu đối tượng « %s » không được hỗ trợ."
 
-#: ../src/xml-io.c:2106
+#: ../src/xml-io.c:2110
 msgid "Unparsable xml in clipboard"
 msgstr "XML không thể phân tách trong khay."
 
-#: ../src/xml-io.c:2113
+#: ../src/xml-io.c:2117
 msgid "Clipboard is in unknown format"
 msgstr "Khay dùng dạng thức lạ."
 
-#: ../src/xml-io.c:2340
+#: ../src/xml-io.c:2344
 msgid "Processing file..."
 msgstr "Đang xử lý tập tin..."
 
-#: ../src/xml-io.c:2679
+#: ../src/xml-io.c:2683
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Tập tin này không phải là tập tin Sổ làm việc Gnumeric."
 
-#: ../src/xml-io.c:2707
+#: ../src/xml-io.c:2711
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "Gnumeric XML (*.gnumeric) Bộ nhập chậm cũ"
 
-#: ../src/xml-io.c:2713
+#: ../src/xml-io.c:2717
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "Gnumeric THỰC NGHIỆM dựa vào SAX (*.gnumeric)"
 
-#: ../src/xml-io.c:2718
+#: ../src/xml-io.c:2722
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
