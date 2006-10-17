@@ -1,3 +1,13 @@
+2006-10-16  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (cb_workbook_debug_info): Use
+	workbook_share_expressions.
+
+	* src/workbook.c (workbook_share_expressions): New function.
+
+	* src/workbook-view.c (wb_view_new_from_input): Share expressions
+	after load.
+
 2006-10-16  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c : Fixes #361074

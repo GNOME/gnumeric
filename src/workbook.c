@@ -499,6 +499,28 @@ workbook_cells (Workbook *wb, gboolean comments)
 	return cells;
 }
 
+GnmExprSharer *
+workbook_share_expressions (Workbook *wb, gboolean freeit)
+{
+	GnmExprSharer *es = gnm_expr_sharer_new ();
+
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
+		if (dependent_is_cell (dep)) {
+			/* Hopefully safe, even when linked.  */
+			dep->texpr = gnm_expr_sharer_share (es, dep->texpr);
+		} else {
+			/* Not sure we want to touch this here.  */
+		}
+	});
+
+	if (freeit) {
+		gnm_expr_sharer_destroy (es);
+		es = NULL;
+	}
+
+	return es;
+}
+
 GSList *
 workbook_local_functions (Workbook const *wb)
 {

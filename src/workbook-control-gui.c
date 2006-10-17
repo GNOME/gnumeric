@@ -1424,17 +1424,6 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 }
 
 /******************************************************************************/
-
-static void
-cb_share_a_cell (G_GNUC_UNUSED gpointer unused,
-		 GnmCell *cell,
-		 GnmExprSharer *es)
-{
-	if (cell_has_expr (cell))
-		cell->base.texpr =
-			gnm_expr_sharer_share (es, cell->base.texpr);
-}
-
 static void
 cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 {
@@ -1447,11 +1436,7 @@ cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 	}
 
 	if (expression_sharing_debugging > 0) {
-		GnmExprSharer *es = gnm_expr_sharer_new ();
-
-		WORKBOOK_FOREACH_SHEET (wb, sheet, {
-			sheet_cell_foreach (sheet, (GHFunc)cb_share_a_cell, es);
-		});
+		GnmExprSharer *es = workbook_share_expressions (wb, FALSE);
 
 		g_print ("Expression sharer results:\n"
 			 "Nodes in: %d, nodes stored: %d, nodes killed: %d.\n",

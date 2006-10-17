@@ -37,6 +37,7 @@ gboolean    workbook_sheet_rename        (Workbook *wb,
 unsigned    workbook_find_command	(Workbook *wb,
 					 gboolean is_undo, gpointer cmd);
 
+GnmExprSharer *workbook_share_expressions (Workbook *wb, gboolean freeit);
 
 /* IO Routines */
 gboolean       workbook_set_saveinfo	(Workbook *wb,
