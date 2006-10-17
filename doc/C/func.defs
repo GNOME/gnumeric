@@ -4328,19 +4328,11 @@ FIB(12) equals 144.
 
 @CATEGORY=Mathematics
 @FUNCTION=FLOOR
-@SYNTAX=FLOOR(x[,significance])
+@SEEALSO=CEIL,CEILING,ABS,INT,MOD
+@SYNTAX=FLOOR(x,significance)
 @DESCRIPTION=FLOOR function rounds @x down to the next nearest multiple of @significance.
-
-* @significance defaults to 1.
-* This function is Excel compatible.
-
-@EXAMPLES=
-FLOOR(0.5) equals 0.
-FLOOR(5,2) equals 4.
-FLOOR(-5,-2) equals -4.
-FLOOR(-5,2) equals #NUM!.
-
-@SEEALSO=CEIL, CEILING, ABS, INT, MOD
+@{x}: value.
+@{significance}: base multiple (defaults to 1 for @x > 0 and -1 for @x <0)
 
 @CATEGORY=Mathematics
 @FUNCTION=G_PRODUCT

@@ -385,13 +385,9 @@ uninstall-hook:
 # what the build
 EXTRA_DIST = main-component.c			\
 	    README.gnm_float			\
-	    gnumeric.rc gnm-i18n.h
-
-if USE_HILDON
-EXTRA_DIST += HILDON_Gnumeric-gtk.xml.in
-else
-EXTRA_DIST += GNOME_Gnumeric-gtk.xml.in
-endif
+	    gnumeric.rc gnm-i18n.h		\
+	    GNOME_Gnumeric-gtk.xml.in		\
+	    HILDON_Gnumeric-gtk.xml.in
 
 gtkactiondir=$(gnumeric_datadir)
 
