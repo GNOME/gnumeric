@@ -851,15 +851,25 @@ typedef struct {
 	GnmValue *res;
 	GnmValue const *a, *b;
 	BinOpImplicitIteratorFunc	func;
+
+	/* multiply by 0 in unused dimensions.
+	 * this is simpler than lots of conditions
+	 * 	state->use_x.a ? x : 0
+	 **/
+	struct {
+		int a, b;
+	} x, y;
 	gpointer	user_data;
 } BinOpImplicitIteratorState;
 
 static GnmValue *
-cb_implicit_iter_a_to_b (GnmValue const *v, GnmEvalPos const *ep,
+cb_implicit_iter_a_and_b (GnmValue const *v, GnmEvalPos const *ep,
 			 int x, int y, BinOpImplicitIteratorState const *state)
 {
 	state->res->v_array.vals [x][y] = (*state->func) (ep,
-		v, value_area_get_x_y (state->b, x, y, ep), state->user_data);
+		value_area_get_x_y (state->a, state->x.a * x, state->y.a * y, ep),
+		value_area_get_x_y (state->b, state->x.b * x, state->y.b * y, ep),
+		state->user_data);
 	return NULL;
 }
 static GnmValue *
@@ -870,6 +880,65 @@ cb_implicit_iter_a_to_scalar_b (GnmValue const *v, GnmEvalPos const *ep,
 		v, state->b, state->user_data);
 	return NULL;
 }
+
+/* This is only triggered if something returns an array or a range which can
+ * only happen if we are in array eval mode. */
+static GnmValue *
+bin_array_iter_a (GnmEvalPos const *ep,
+		  GnmValue *a, GnmValue *b,
+		  BinOpImplicitIteratorFunc func,
+		  GnmExpr const *expr)
+{
+	BinOpImplicitIteratorState iter_info;
+	
+	/* a must be a cellrange or array, it can not be NULL */
+	iter_info.func = func;
+	iter_info.user_data = (gpointer) expr;
+	iter_info.a = a;
+	iter_info.b = b;
+
+	/* matrix to matrix
+	 * Use matching positions unless the dimension is singular, in which
+	 * case use the zero item
+	 * res[x][y] = f(a[singular.a.x ? 0 : x, b[singular.b.x ? 0 : x)
+	 *
+	 * If both items have non-singular sizes for
+	 * the same dimension use the min size (see samples/array.xls) */
+	if (b != NULL &&
+	    (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)) {
+		int sa, sb, w = 1, h = 1;
+
+		sa = value_area_get_width  (a, ep);
+		sb = value_area_get_width  (b, ep);
+		if ((iter_info.x.a = (sa == 1) ? 0 : 1))
+			w = sa;
+		if ((iter_info.x.b = (sb == 1) ? 0 : 1) && (w > sb || w == 1))
+			w = sb;
+
+		sa = value_area_get_height  (a, ep);
+		sb = value_area_get_height  (b, ep);
+		if ((iter_info.y.a = (sa == 1) ? 0 : 1))
+			h = sa;
+		if ((iter_info.y.b = (sb == 1) ? 0 : 1) && (h > sb || h == 1))
+			h = sb;
+
+		iter_info.res = value_new_array_empty (w, h);
+		value_area_foreach (iter_info.res, ep, CELL_ITER_ALL,
+			(ValueAreaFunc) cb_implicit_iter_a_and_b, &iter_info);
+	} else {
+		iter_info.res = value_new_array_empty (
+			value_area_get_width  (a, ep),
+			value_area_get_height (a, ep));
+		value_area_foreach (a, ep, CELL_ITER_ALL,
+			(ValueAreaFunc) cb_implicit_iter_a_to_scalar_b, &iter_info);
+	}
+
+	value_release (a);
+	if (b != NULL)
+		value_release (b);
+	return iter_info.res;
+}
+
 static GnmValue *
 cb_implicit_iter_b_to_scalar_a (GnmValue const *v, GnmEvalPos const *ep,
 				int x, int y, BinOpImplicitIteratorState const *state)
@@ -878,39 +947,29 @@ cb_implicit_iter_b_to_scalar_a (GnmValue const *v, GnmEvalPos const *ep,
 		state->a, v, state->user_data);
 	return NULL;
 }
-
 static GnmValue *
-bin_array_op (GnmEvalPos const *ep, GnmValue const *sizer,
-	      GnmValue *a, GnmValue *b,
-	      BinOpImplicitIteratorFunc func, gpointer user_data)
+bin_array_iter_b (GnmEvalPos const *ep,
+		  GnmValue *a, GnmValue *b,
+		  BinOpImplicitIteratorFunc func,
+		  GnmExpr const *expr)
 {
 	BinOpImplicitIteratorState iter_info;
-	
-	if (sizer != a || b == NULL || !VALUE_IS_ERROR (b)) {
-		iter_info.func = func;
-		iter_info.user_data = user_data;
-		iter_info.a = a;
-		iter_info.b = b;
-		iter_info.res = value_new_array_empty (
-			value_area_get_width  (sizer, ep),
-			value_area_get_height (sizer, ep));
-		if (sizer == b)
-			value_area_foreach (b, ep, CELL_ITER_ALL,
-				(ValueAreaFunc) cb_implicit_iter_b_to_scalar_a, &iter_info);
-		else if (b != NULL &&
-			   (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY))
-			value_area_foreach (a, ep, CELL_ITER_ALL,
-				(ValueAreaFunc) cb_implicit_iter_a_to_b, &iter_info);
-		else
-			value_area_foreach (a, ep, CELL_ITER_ALL,
-				(ValueAreaFunc) cb_implicit_iter_a_to_scalar_b, &iter_info);
-	} else
-		/* you have to love the asymmetry of MS XL */
-		iter_info.res = value_new_error_VALUE (ep);
+
+	iter_info.func = func;
+	iter_info.user_data = (gpointer) expr;
+	iter_info.a = a;
+	iter_info.b = b;
+
+	/* b must be a cellrange or array, it can not be NULL */
+	iter_info.res = value_new_array_empty (
+		value_area_get_width  (b, ep),
+		value_area_get_height (b, ep));
+	value_area_foreach (b, ep, CELL_ITER_ALL,
+		(ValueAreaFunc) cb_implicit_iter_b_to_scalar_a, &iter_info);
 	if (a != NULL)
 		value_release (a);
-	if (b != NULL)
-		value_release (b);
+	value_release (b);
+
 	return iter_info.res;
 }
 
@@ -1052,10 +1111,10 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			if (VALUE_IS_ERROR (a))
 				return a;
 			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
-				return bin_array_op (pos, a, a,
+				return bin_array_iter_a (pos, a,
 					gnm_expr_eval (expr->binary.value_b, pos, flags),
 					(BinOpImplicitIteratorFunc) cb_bin_cmp,
-					(gpointer) expr);
+					expr);
 		}
 
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
@@ -1066,9 +1125,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				return b;
 			}
 			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
-				return bin_array_op (pos, b, a, b,
+				return bin_array_iter_b (pos, a, b,
 					(BinOpImplicitIteratorFunc) cb_bin_cmp,
-					(gpointer) expr);
+					expr);
 		}
 
 		res = bin_cmp (GNM_EXPR_GET_OPER (expr), value_compare (a, b, FALSE), pos);
@@ -1117,9 +1176,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				value_release (b);
 				b = (res == NULL) ? value_new_error_VALUE (pos) : res;
 			}
-			return bin_array_op (pos, a, a, b,
+			return bin_array_iter_a (pos, a, b,
 				(BinOpImplicitIteratorFunc) cb_bin_arith,
-				(gpointer) expr);
+				expr);
 		} else if (!VALUE_IS_NUMBER (a)) {
 			value_release (a);
 			return value_new_error_VALUE (pos);
@@ -1144,9 +1203,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			}
 			b = tmp;
 		} else if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
-			return bin_array_op (pos, b, a, b,
+			return bin_array_iter_b (pos, a, b,
 				(BinOpImplicitIteratorFunc) cb_bin_arith,
-				(gpointer) expr);
+				expr);
 		else if (!VALUE_IS_NUMBER (b)) {
 			value_release (a);
 			value_release (b);
@@ -1209,10 +1268,10 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			if (VALUE_IS_ERROR (a))
 				return a;
 			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)
-				return bin_array_op (pos, a, a,
+				return bin_array_iter_a (pos, a,
 					gnm_expr_eval (expr->binary.value_b, pos, flags),
 					(BinOpImplicitIteratorFunc) cb_bin_cat,
-					(gpointer) expr);
+					expr);
 		}
 		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 		if (b != NULL) {
@@ -1222,9 +1281,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				return b;
 			}
 			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY)
-				return bin_array_op (pos, b, a, b,
+				return bin_array_iter_b (pos, a, b,
 					(BinOpImplicitIteratorFunc) cb_bin_cat,
-					(gpointer) expr);
+					expr);
 		}
 
 		if (a == NULL) {

@@ -1,3 +1,13 @@
+2006-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c : Fixes #361074
+	(bin_array_iter_a) : split out of the old bin_array_op, and handle the
+	  more complex iteration cases of different shaped arguments.  See
+	  samples/array.xls for details.
+	(bin_array_iter_b) : split from bin_array_op and handle the simple
+	  case of f(scalar,array).
+	(gnm_expr_eval) : adjust to new binary array iterator functions.
+
 2006-10-16  Jon K Hellan  <hellan@acm.org>
 
 	* src/main-application.c (main): Increase stack limit.
