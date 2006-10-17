@@ -10,6 +10,12 @@
 
 2006-10-16  Jody Goldberg <jody@gnome.org>
 
+	* src/expr.c (relocate_cellrange) : Check for inversion from the
+	  destination position. (rinfo->pos.eval + offset).
+	  Fixes 350222.
+
+2006-10-16  Jody Goldberg <jody@gnome.org>
+
 	* src/expr.c : Fixes #361074
 	(bin_array_iter_a) : split out of the old bin_array_op, and handle the
 	  more complex iteration cases of different shaped arguments.  See

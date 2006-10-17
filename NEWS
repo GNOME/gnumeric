@@ -6,6 +6,7 @@ Emmanuel :
 Jody :
 	* Fix off by one pt, printing vertical borders in RTL mode.  [#317662]
 	* Handle the last (we hope) MS XL array iteration. [#361074]
+	* Fix inversion check for cell relocation. [#350222]
 
 Jon Kåre:
         * Fix import of certain hyperlinks from Excel.

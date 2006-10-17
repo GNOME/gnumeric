@@ -1862,8 +1862,8 @@ relocate_cellrange (GnmExprRelocateInfo const *rinfo, gboolean ignore_rel,
 			     cellref_shift (&ref_a, rinfo)))
 				return NULL;
 			res = value_new_cellrange (&ref_a, &ref_b,
-						   rinfo->pos.eval.col,
-						   rinfo->pos.eval.row);
+				rinfo->pos.eval.col + rinfo->col_offset,
+				rinfo->pos.eval.row + rinfo->row_offset);
 		} else
 			res = value_new_error_REF (NULL);
 
