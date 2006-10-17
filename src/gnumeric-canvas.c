@@ -279,7 +279,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 			int new_row = sv->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
 			scg_set_left_col (scg, new_col);
 			scg_set_top_row (scg, new_row);
-		} else if ((event->state & GDK_CONTROL_MASK)) {	
+		} else if ((event->state & GDK_CONTROL_MASK)) {
 			GnmRange r = sheet_get_extent (sheet, FALSE);
 
 			/* do the ctrl-end jump to the extent in 2 steps */
@@ -409,7 +409,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 		return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 					 (GdkEvent *) event);
 	}
-	
+
 	if (!delayed_movement) {
 		if (wbcg_is_editing (wbcg))
 			sheet_update_only_grid (sheet);
@@ -814,8 +814,7 @@ gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 	Sheet const *sheet = ((SheetControl const *) gcanvas->simple.scg)->sheet;
 	int col   = gcanvas->first.col;
 	int pixel = gcanvas->first_offset.col;
-	int before = x;
-	
+
 	x = gnm_canvas_x_w2c (gcanvas, x);
 
 	if (x < pixel) {
@@ -825,7 +824,7 @@ gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 				pixel -= ci->size_pixels;
 				if (x >= pixel) {
 					if (col_origin)
-						*col_origin = gnm_canvas_x_w2c (gcanvas, 
+						*col_origin = gnm_canvas_x_w2c (gcanvas,
 										pixel);
 					return col;
 				}
@@ -848,7 +847,7 @@ gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 			pixel += tmp;
 		}
 	} while (++col < SHEET_MAX_COLS - 1);
-	
+
 	if (col_origin)
 		*col_origin = gnm_canvas_x_w2c (gcanvas, pixel);
 	return SHEET_MAX_COLS - 1;
@@ -1455,7 +1454,7 @@ gnm_canvas_slide_init (GnmCanvas *gcanvas)
  * @y :
  * @wx : result
  * @wy : result
- * 
+ *
  * Map window coords into sheet object coords
  **/
 void
