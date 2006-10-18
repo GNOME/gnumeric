@@ -1,5 +1,8 @@
 Gnumeric 1.7.3
 
+Jon Kåre:
+	* Fix another clipboard crash. [#362993]
+
 Morten:
 	* Basic life support for perl-loader.  [#362911]
 
