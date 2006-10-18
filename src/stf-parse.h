@@ -9,24 +9,16 @@
 #include "cell.h"
 
 typedef enum {
-	STF_TOKEN_UNDEF = 0,
-	STF_TOKEN_CHAR,
-	STF_TOKEN_STRING,
-	STF_TOKEN_STRING_INC,
-	STF_TOKEN_TERMINATOR,
-	STF_TOKEN_SEPARATOR
-} StfTokenType_t;
-
-typedef enum {
 	PARSE_TYPE_NOTSET    = 1 << 0,
 	PARSE_TYPE_CSV       = 1 << 1,
 	PARSE_TYPE_FIXED     = 1 << 2
 } StfParseType_t;
 
+/* Additive.  */
 typedef enum {
-	TRIM_TYPE_NEVER      = 1 << 0,
-	TRIM_TYPE_LEFT       = 1 << 1,
-	TRIM_TYPE_RIGHT      = 1 << 2
+	TRIM_TYPE_NEVER      = 0,
+	TRIM_TYPE_LEFT       = 1 << 0,
+	TRIM_TYPE_RIGHT      = 2 << 1
 } StfTrimType_t;
 
 typedef struct {
@@ -118,10 +110,6 @@ void		 stf_parse_options_fixed_autodiscover	(StfParseOptions_t *parseoptions,
 char const	*stf_parse_find_line			(StfParseOptions_t *parseoptions,
 							 char const *data,
 							 int line);
-
-char const	*stf_parse_next_token			(char const *data, 
-							 StfParseOptions_t *parseoptions,
-							 StfTokenType_t *tokentype);
 
 /* Higher level functions, can be used for directly parsing into an application specific data container */
 gboolean	 stf_parse_sheet			(StfParseOptions_t *parseoptions,

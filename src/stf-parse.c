@@ -88,17 +88,6 @@ my_gptrarray_len (GPtrArray const *a)
 	return (int)a->len;
 }
 
-static inline gboolean
-comp_term (gchar const *s, gchar const *term)
-{
-	gchar const *this, *si = s;
-
-	for (this = term; *term; term++, si++)
-		if (*term != *si)
-			return FALSE;
-	return TRUE;
-}
-
 static int
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
@@ -536,80 +525,112 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 	return NULL;
 }
 
-/**
- * stf_parse_csv_cell:
- *
- * returns a pointer to the parsed cell contents. (has to be freed by the calling routine)
- **/
-static char *
-stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
+typedef enum {
+	STF_CELL_ERROR,
+	STF_CELL_EOF,
+	STF_CELL_EOL,
+	STF_CELL_FIELD_NO_SEP,
+	STF_CELL_FIELD_SEP,
+} StfParseCellRes;
+
+static StfParseCellRes
+stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoptions)
 {
 	char const *cur;
-	char const *next = NULL;
-	char *res;
-	GString *text;
-	StfTokenType_t ttype;
+	gboolean saw_sep = FALSE;
 
-	g_return_val_if_fail (src != NULL, NULL);
-	g_return_val_if_fail (parseoptions != NULL, NULL);
+	g_return_val_if_fail (src != NULL, STF_CELL_ERROR);
+	g_return_val_if_fail (parseoptions != NULL, STF_CELL_ERROR);
 
 	cur = src->position;
-	g_return_val_if_fail (cur != NULL, NULL);
+	g_return_val_if_fail (cur != NULL, STF_CELL_ERROR);
 
-	text = g_string_sized_new (30);
+	/* Skip whitespace, but stop at line terminators.  */
+	while (1) {
+		int term_len;
 
-	while (cur && *cur) {
-		char const *here, *there;
-
-		next = stf_parse_next_token (cur, parseoptions, &ttype);
-		here = cur;
-		there = next;
-		switch (ttype) {
-		case STF_TOKEN_STRING:
-			there = g_utf8_find_prev_char (here, there);
-			/* break */   /* fall through */
-		case STF_TOKEN_STRING_INC:
-			here = g_utf8_find_next_char (here, there);
-			/* break */   /* fall through */
-		case STF_TOKEN_CHAR:
-			if (here && there)
-				g_string_append_len (text, here, there - here);
-			break;
-		case STF_TOKEN_SEPARATOR:
-			cur = next;
-			goto cellfinished;
-		case STF_TOKEN_TERMINATOR:
-			goto cellfinished;
-		case STF_TOKEN_UNDEF:
-			g_warning ("Undefined stf token type encountered!");
-			break;
+		if (*cur == 0) {
+			src->position = cur;
+			return STF_CELL_EOF;
 		}
-		cur = next;
+
+		term_len = compare_terminator (cur, parseoptions);
+		if (term_len) {
+			src->position = cur + term_len;
+			return STF_CELL_EOL;
+		}
+
+		if ((parseoptions->trim_spaces & TRIM_TYPE_LEFT) == 0)
+			break;
+
+		if (!g_unichar_isspace (g_utf8_get_char (cur)))
+			break;
+		cur = g_utf8_next_char (cur);
 	}
 
- cellfinished:
+	if (g_utf8_get_char (cur) == parseoptions->stringindicator) {
+		cur = g_utf8_next_char (cur);
+		while (*cur) {
+			gunichar uc = g_utf8_get_char (cur);
+			cur = g_utf8_next_char (cur);
+
+			if (uc == parseoptions->stringindicator) {
+				if (parseoptions->indicator_2x_is_single &&
+				    g_utf8_get_char (cur) == parseoptions->stringindicator)
+					cur = g_utf8_next_char (cur);
+				else {
+					/* "field content"dropped-garbage,  */
+					while (*cur && !compare_terminator (cur, parseoptions)) {
+						char const *post = stf_parse_csv_is_separator
+							(cur, parseoptions->sep.chr, parseoptions->sep.str);
+						if (post) {
+							cur = post;
+							saw_sep = TRUE;
+							break;
+						}
+						cur = g_utf8_next_char (cur);
+					}
+					break;
+				}
+			}
+
+			g_string_append_unichar (text, uc);
+		}
+
+		/* We silently allow a missing terminating quote.  */
+	} else {
+		/* Unquoted field.  */
+
+		while (*cur && !compare_terminator (cur, parseoptions)) {
+
+			char const *post = stf_parse_csv_is_separator
+				(cur, parseoptions->sep.chr, parseoptions->sep.str);
+			if (post) {
+				cur = post;
+				saw_sep = TRUE;
+				break;
+			}
+
+			g_string_append_unichar (text, g_utf8_get_char (cur));
+			cur = g_utf8_next_char (cur);
+		}
+
+		if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
+			while (text->len) {
+				const char *last = g_utf8_prev_char (text->str + text->len);
+				if (!g_unichar_isspace (g_utf8_get_char (last)))
+					break;
+				g_string_truncate (text, last - text->str);
+			}
+		}
+	}
+
 	src->position = cur;
 
-	if (parseoptions->indicator_2x_is_single) {
-		gboolean second = TRUE;
-		gunichar quote = parseoptions->stringindicator;
-		int len = text->len;
-		char *found;
+	if (saw_sep && parseoptions->duplicates)
+		stf_parse_eat_separators (src, parseoptions);
 
-		while ((found = g_utf8_strrchr (text->str, len, quote))) {
-			len = found - text->str;
-			if (second) {
-				g_string_erase (text, len, g_utf8_next_char(found) - found);
-				second = FALSE;
-			} else
-				second = TRUE;
-		}
-	}
-
-	res = g_string_chunk_insert_len (src->chunk, text->str, text->len);
-	g_string_free (text, TRUE);
-
-	return res;
+	return saw_sep ? STF_CELL_FIELD_SEP : STF_CELL_FIELD_NO_SEP;
 }
 
 /*
@@ -650,6 +671,7 @@ static GPtrArray *
 stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GPtrArray *line;
+	gboolean cont = FALSE;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
@@ -657,20 +679,29 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 	line = g_ptr_array_new ();
 	if (parseoptions->trim_seps)
 		stf_parse_eat_separators (src, parseoptions);
-	while (*src->position != '\0' && !compare_terminator (src->position, parseoptions)) {
-		char *field = stf_parse_csv_cell (src, parseoptions);
-		if (parseoptions->duplicates)
-			stf_parse_eat_separators (src, parseoptions);
 
-		trim_spaces_inplace (field, parseoptions);
-		g_ptr_array_add (line, field);
+	while (1) {
+		GString *text = g_string_sized_new (30);
 
+		switch (stf_parse_csv_cell (text, src, parseoptions)) {
+		case STF_CELL_FIELD_NO_SEP:
+			g_ptr_array_add (line, g_string_free (text, FALSE));
+			cont = FALSE;
+			break;
+
+		case STF_CELL_FIELD_SEP:
+			g_ptr_array_add (line, g_string_free (text, FALSE));
+			cont = TRUE;  /* Make sure we see one more field.  */
+			break;
+
+		default:
+			if (cont)
+				g_ptr_array_add (line, g_string_free (text, FALSE));
+			else
+				g_string_free (text, TRUE);
+			return line;
+		}
 	}
-#if 0
-	g_print ("Got a line of %d fields.\n", line->len);
-#endif
-
-	return line;
 }
 
 /**
@@ -791,7 +822,8 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 			: stf_parse_fixed_line (&src, parseoptions);
 
 		g_ptr_array_add (lines, line);
-		src.position += compare_terminator (src.position, parseoptions);
+		if (parseoptions->parsetype != PARSE_TYPE_CSV)
+			src.position += compare_terminator (src.position, parseoptions);
 
 		if (++row == SHEET_MAX_ROWS)
 			break;
@@ -1248,77 +1280,11 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	return cr;
 }
 
-/*
- * stf_parse_next_token: find the next token. A token is a single character or
- *                       a sequence of quoted characters
- * @data      : string to consider (guaranteed to be utf-8)
- * @quote     : quote character
- * @adj_escaped : if true then 2 adjacent quote characters represent one
- *                literal quote character
- *
- * returns the next token or NULL if there are no more tokens
- */
-
-char const*
-stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfTokenType_t *tokentype)
-{
-	char const *character;
-	StfTokenType_t ttype;
-	gunichar quote;
-
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (parseoptions != NULL, NULL);
-	g_return_val_if_fail (*data != '\0', NULL);
-#if 0
-	/* This is *nuts*.  Have the caller validate the whole string.  */
-	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
-#endif
-
-	quote = parseoptions->stringindicator;
-
-	ttype = STF_TOKEN_CHAR;
-	character = g_utf8_find_next_char (data, NULL);
-	if (g_utf8_get_char (data) == quote) {
-		gboolean adj_escaped = parseoptions->indicator_2x_is_single;
-
-		ttype = STF_TOKEN_STRING_INC;
-		while (character && *character) {
-			if (g_utf8_get_char (character) == quote) {
-				character = g_utf8_find_next_char (character, NULL);
-				if (!adj_escaped ||
-				    g_utf8_get_char(character) != quote) {
-					ttype = STF_TOKEN_STRING;
-					break;
-				}
-			}
-			character = g_utf8_find_next_char (character, NULL);
-		}
-	} else {
-		gint term_length = compare_terminator (data, parseoptions);
-		if (term_length) {
-			ttype = STF_TOKEN_TERMINATOR;
-			character = data + term_length;
-		} else {
-			char const *after_sep = stf_parse_csv_is_separator
-				(data, parseoptions->sep.chr, parseoptions->sep.str);
-			if (after_sep) {
-				character = after_sep;
-				ttype = STF_TOKEN_SEPARATOR;
-			}
-		}
-	}
-
-	if (tokentype)
-		*tokentype = ttype;
-	return character;
-}
-
 static int
 int_sort (void const *a, void const *b)
 {
 	return *(int const *)a - *(int const *)b;
 }
-
 
 static int
 count_character (GPtrArray *lines, gunichar c, double quantile)

@@ -5,6 +5,7 @@ Jon Kåre:
 
 Morten:
 	* Basic life support for perl-loader.  [#362911]
+	* Fix csv problems.  [#359269]
 
 --------------------------------------------------------------------------
 
