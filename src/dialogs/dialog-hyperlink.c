@@ -145,7 +145,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 			gnm_expr_entry_grab_focus (gee, TRUE);
 		}
 	}
-	return ret;
+	return g_strdup (ret);
 }
 
 static void
@@ -163,7 +163,7 @@ dhl_get_target_external (HyperlinkState *state, gboolean *success)
 	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
 
 	*success = TRUE;
-	return strlen (target) > 0 ? target : NULL;
+	return strlen (target) > 0 ? g_strdup (target) : NULL;
 }
 
 static void
@@ -185,8 +185,10 @@ dhl_set_target_email (HyperlinkState *state, const char* const target)
 
 	subject = strstr (cursor, "?subject=");
 	if (subject) {
-		gtk_entry_set_text (GTK_ENTRY (w2), subject + strlen ("?subject="));
+		guitext = go_url_decode (subject + strlen ("?subject="));
+		gtk_entry_set_text (GTK_ENTRY (w2), guitext);
 		*subject = '\0';
+		g_free (guitext);
 	}
 
 	guitext = go_url_decode (cursor);
@@ -204,7 +206,7 @@ dhl_get_target_email (HyperlinkState *state, gboolean *success)
 	GtkWidget *w2 = glade_xml_get_widget (state->gui, "email-subject");
 	const char *address = gtk_entry_get_text (GTK_ENTRY (w));
 	const char *subject = gtk_entry_get_text (GTK_ENTRY (w2));
-	gchar* encoded;
+	gchar* enc_subj, *enc_addr;
 	gchar* result;
 
 	*success = TRUE;
@@ -212,14 +214,18 @@ dhl_get_target_email (HyperlinkState *state, gboolean *success)
 		return NULL;
 	}
 
+	enc_addr = go_url_encode (address, 0);
 	if (!subject || *subject == '\0') {
-		return g_strconcat ("mailto:", address, NULL);
+		result =  g_strconcat ("mailto:", enc_addr, NULL);
+	} else {
+		enc_subj = go_url_encode (subject, 0);
+		
+		result = g_strconcat ("mailto:", enc_addr, 
+				      "?subject=", enc_subj, NULL);
+		g_free (enc_subj);
 	}
 
-	encoded = go_url_encode (subject, 0);
-
-	result = g_strconcat ("mailto:", address, "?subject=", encoded, NULL);
-	g_free (encoded);
+	g_free (enc_addr);
 
 	return result;
 }
@@ -239,7 +245,7 @@ dhl_get_target_url (HyperlinkState *state, gboolean *success)
 	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
 
 	*success = TRUE;
-	return strlen (target) > 0 ? target : NULL;
+	return strlen (target) > 0 ? g_strdup (target) : NULL;
 }
 
 static struct {
@@ -323,7 +329,7 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 {
 	GnmStyle *style;
 	char *cmdname;
-	const char *target;
+	char *target;
 	gboolean success;
 
 	target = dhl_get_target (state, &success);
@@ -344,6 +350,7 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 			cmdname = _("Edit Hyperlink");
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
 				      NULL, cmdname);
+		g_free (target);
 	} else if (!state->is_new) {
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, NULL);

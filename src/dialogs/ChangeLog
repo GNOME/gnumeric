@@ -1,3 +1,10 @@
+2006-10-18  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-hyperlink.c (dhl_get_target_cur_wb,
+	dhl_get_target_external, dhl_get_target_url, dhl_cb_ok): Fix
+	lifecycle of returned string, plug leak.
+	(dhl_get_target_email): Fix encoding of mailtos [#148550]
+
 2006-10-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.2
