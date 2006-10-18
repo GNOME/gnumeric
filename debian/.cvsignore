@@ -7,3 +7,5 @@ tmp
 *.post*.debhelper
 *.pre*.debhelper
 *.substvars
+post*.debhelper
+pre*.debhelper
