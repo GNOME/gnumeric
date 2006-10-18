@@ -525,6 +525,32 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 	return NULL;
 }
 
+/*
+ * stf_parse_eat_separators:
+ *
+ * skip over leading separators
+ *
+ */
+
+static void
+stf_parse_eat_separators (Source_t *src, StfParseOptions_t *parseoptions)
+{
+	char const *cur, *next;
+
+	g_return_if_fail (src != NULL);
+        g_return_if_fail (parseoptions != NULL);
+
+	cur = src->position;
+
+	if (*cur == '\0' || compare_terminator (cur, parseoptions))
+		return;
+	while ((next = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str)))
+		cur = next;
+	src->position = cur;
+	return;
+}
+
+
 typedef enum {
 	STF_CELL_ERROR,
 	STF_CELL_EOF,
@@ -632,32 +658,6 @@ stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoption
 
 	return saw_sep ? STF_CELL_FIELD_SEP : STF_CELL_FIELD_NO_SEP;
 }
-
-/*
- * stf_parse_eat_separators:
- *
- * skip over leading separators
- *
- */
-
-static void
-stf_parse_eat_separators (Source_t *src, StfParseOptions_t *parseoptions)
-{
-	char const *cur, *next;
-
-	g_return_if_fail (src != NULL);
-        g_return_if_fail (parseoptions != NULL);
-
-	cur = src->position;
-
-	if (*cur == '\0' || compare_terminator (cur, parseoptions))
-		return;
-	while ((next = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str)))
-		cur = next;
-	src->position = cur;
-	return;
-}
-
 
 /**
  * stf_parse_csv_line:
