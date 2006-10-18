@@ -1,3 +1,8 @@
+2006-10-18  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (cellregion_to_string): Brown paper bag -
+	would try to allocate negative memory. Fixes #362993.
+
 2006-10-17  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_claim_clipboard): Really fix #308569.

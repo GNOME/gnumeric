@@ -621,7 +621,9 @@ cellregion_to_string (GnmCellRegion const *cr,
 	if (cr->origin_sheet != NULL) {
 		extent = sheet_get_extent (cr->origin_sheet, FALSE);
 		cols = MIN (cr->cols, 1 + extent.end.col - cr->base.col);
+		cols = MAX (cols, 1);
 		rows = MIN (cr->rows, 1 + extent.end.row - cr->base.row);
+		rows = MAX (rows, 1);
 	}
 	data = g_new0 (char **, rows);
 
