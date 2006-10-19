@@ -1,3 +1,9 @@
+2006-10-19  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (cb_sheet_label_button_press): Only
+	enable context menu when label is editable, which it is when we're
+	not editing a cell. Fixes #363261.
+
 2006-10-18  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_next_token, comp_term): Remove.

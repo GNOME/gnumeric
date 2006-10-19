@@ -525,7 +525,6 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	GtkNotebook *notebook;
 	gint page_number;
 	GtkWidget *table = GTK_WIDGET (scg->table);
-
 	if (event->type != GDK_BUTTON_PRESS)
 		return FALSE;
 
@@ -537,7 +536,8 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	if (event->button == 1 || NULL != scg->wbcg->rangesel)
 		return TRUE;
 
-	if (event->button == 3) {
+	if (event->button == 3 && 
+	    editable_label_get_editable (EDITABLE_LABEL (widget))) {
 		sheet_menu_label_run (scg, event);
 		scg_take_focus (scg);
 		return TRUE;

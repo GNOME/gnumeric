@@ -1,3 +1,12 @@
+2006-10-19  Jon K Hellan  <hellan@acm.org>
+
+	* widget-editable-label.[ch] (editable_label_get_editable):
+	New. Lets us fix #363261.
+
+	* widget-editable-label.c (editable_label_set_text,
+	editable_label_get_text, editable_label_start_editing,
+	editable_label_set_editable): Add type checking.
+
 2006-10-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.2

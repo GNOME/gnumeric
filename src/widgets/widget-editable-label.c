@@ -41,7 +41,9 @@ struct _EditableLabel {
 
 	GdkColor  base, text;
 	char	 *unedited_text;
-	unsigned int base_set, text_set, editable : 1;
+	unsigned int base_set;
+	unsigned int text_set;
+	unsigned int editable;
 	unsigned int set_cursor_after_motion;
 };
 
@@ -284,6 +286,8 @@ GSF_CLASS (EditableLabel, editable_label,
 void
 editable_label_set_text (EditableLabel *el, char const *text)
 {
+	g_return_if_fail (IS_EDITABLE_LABEL (el));
+
 	gtk_entry_set_text (GTK_ENTRY (el), text);
 }
 
@@ -291,6 +295,7 @@ char const *
 editable_label_get_text  (EditableLabel const *el)
 {
 	g_return_val_if_fail (IS_EDITABLE_LABEL (el), "");
+
 	return (el->unedited_text != NULL)
 		? el->unedited_text
 		: gtk_entry_get_text (GTK_ENTRY (el));
@@ -349,6 +354,8 @@ editable_label_new (char const *text, GdkColor *base_color,
 void
 editable_label_start_editing (EditableLabel *el)
 {
+	g_return_if_fail (IS_EDITABLE_LABEL (el));
+
 	if (el->unedited_text != NULL || !el->editable)
 		return;
 
@@ -364,9 +371,19 @@ editable_label_start_editing (EditableLabel *el)
 	gtk_grab_add (GTK_WIDGET (el));
 }
 
+gboolean
+editable_label_get_editable (EditableLabel *el)
+{
+	g_return_val_if_fail (IS_EDITABLE_LABEL (el), FALSE);
+
+	return el->editable;
+}
+
 void
 editable_label_set_editable (EditableLabel *el, gboolean editable)
 {
+	g_return_if_fail (IS_EDITABLE_LABEL (el));
+
 	if (!editable)
 		el_cancel_editing (el);
 
