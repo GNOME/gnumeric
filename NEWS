@@ -4,6 +4,7 @@ Jon Kåre:
 	* Fix another clipboard crash. [#362993]
 	* Fix encoding of mailtos. [#148550]
 	* Fix crash in sheet label context menu. [#363261]
+	* Fix crash deleting and adding sheets. [#363549]
 
 Morten:
 	* Basic life support for perl-loader.  [#362911]

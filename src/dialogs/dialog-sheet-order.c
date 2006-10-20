@@ -679,6 +679,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
+	Sheet *cur_sheet;
 	char *error;
 	gboolean changed;
 	WorkbookSheetState *old_state;
@@ -760,6 +761,11 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		if (back) gdk_color_free (back);
 		n++;
 	}
+	
+	cur_sheet  = wb_view_cur_sheet (wb_control_view (wbc));
+	if (cur_sheet && cur_sheet->index_in_wb == -1)
+		wb_view_sheet_focus (wb_control_view (wbc), 
+				     workbook_sheet_by_index (wb, 0));
 
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));

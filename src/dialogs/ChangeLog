@@ -1,3 +1,8 @@
+2006-10-20  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-sheet-order.c (cb_ok_clicked): Ensure that a live sheet
+	has focus on exit. [363549]
+
 2006-10-18  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-hyperlink.c (dhl_get_target_cur_wb,
