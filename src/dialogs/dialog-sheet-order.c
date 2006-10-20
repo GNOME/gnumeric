@@ -763,7 +763,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	}
 	
 	cur_sheet  = wb_view_cur_sheet (wb_control_view (wbc));
-	if (cur_sheet && cur_sheet->index_in_wb == -1)
+	if (!cur_sheet || cur_sheet->index_in_wb == -1)
 		wb_view_sheet_focus (wb_control_view (wbc), 
 				     workbook_sheet_by_index (wb, 0));
 
