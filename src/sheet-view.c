@@ -73,18 +73,21 @@ sv_sheet_name_changed (G_GNUC_UNUSED Sheet *sheet,
 		       G_GNUC_UNUSED GParamSpec *pspec,
 		       SheetView *sv)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
 	sv->edit_pos_changed.content = TRUE;
 }
 
 Sheet *
 sv_sheet (SheetView const *sv)
 {
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 	return sv->sheet;
 }
 
 WorkbookView *
 sv_wbv (SheetView const *sv)
 {
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 	return sv->sv_wbv;
 }
 
@@ -324,6 +327,8 @@ void
 sv_redraw_range	(SheetView *sv, GnmRange const *r)
 {
 	GnmRange tmp = *r;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
 	if (sv->sheet == NULL) /* beware initialization */
 		return;
 	sheet_range_bounding_box (sv->sheet, &tmp);
@@ -336,6 +341,8 @@ sv_redraw_headers (SheetView const *sv,
 		   gboolean col, gboolean row,
 		   GnmRange const* r /* optional == NULL */)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
 		sc_redraw_headers (control, col, row, r););
 }
@@ -345,6 +352,7 @@ sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 {
 	GnmRange const *sel;
 
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Copy"))))
 		return FALSE;
 
@@ -492,6 +500,9 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 void
 sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (pos != NULL);
+
 	/* if a part of the selected region changed value update
 	 * the auto expressions
 	 */
@@ -521,6 +532,8 @@ sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
 void
 sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
 	/* Force an update */
 	if (range == NULL) {
 		sv->selection_content_changed = TRUE;
@@ -553,6 +566,8 @@ sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 void
 sv_flag_format_update_range (SheetView *sv, GnmRange const *range)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (range != NULL);
 	if (range_contains (range, sv->edit_pos.col, sv->edit_pos.row))
 		sv->edit_pos_changed.format = TRUE;
 }
@@ -568,12 +583,15 @@ sv_flag_format_update_range (SheetView *sv, GnmRange const *range)
 void
 sv_flag_selection_change (SheetView *sv)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
 	sv->selection_content_changed = TRUE;
 }
 
 void
 sv_update (SheetView *sv)
 {
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
 	if (sv->edit_pos_changed.content) {
 		sv->edit_pos_changed.content = FALSE;
 		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
@@ -737,8 +755,13 @@ void
 sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			gboolean is_insert, int start, int count)
 {
-	GnmCellPos tl = sv->frozen_top_left;	/* _copy_ them */
-	GnmCellPos br = sv->unfrozen_top_left;
+	GnmCellPos tl;
+	GnmCellPos br;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
+	tl = sv->frozen_top_left;	/* _copy_ them */
+	br = sv->unfrozen_top_left;
 
 	if (is_cols) {
 		/* ignore if not frozen, or acting in unfrozen region */
