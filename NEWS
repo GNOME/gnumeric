@@ -9,6 +9,7 @@ Morten:
 	* Basic life support for perl-loader.  [#362911]
 	* Fix csv problems.  [#359269]
 	* Fix crash deleting and adding sheets. [#363549]
+	* Fix jump-to-area crash.  [#363977]
 
 --------------------------------------------------------------------------
 

@@ -253,7 +253,8 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	}
 
 	r = &target->v_range.cell;
-	sheet = r->a.sheet;
+	if (r->a.sheet)
+		sheet = r->a.sheet;
 	sv = sheet_get_view (sheet, wb_control_view (wbc)),
 	tmp.col = r->a.col;
 	tmp.row = r->a.row;
