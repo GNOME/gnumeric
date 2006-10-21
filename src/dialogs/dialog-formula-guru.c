@@ -703,16 +703,20 @@ cb_dialog_formula_guru_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 {
 	GtkTreeIter iter;
 	GtkTreePath *path;
+	gboolean have_iter = FALSE;
 
 	path = gtk_tree_path_new_from_string (path_string);
 
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
+	have_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+					     &iter, path);
+	gtk_tree_path_free (path);
+	if (!have_iter) 
+		return;
 	gtk_tree_store_set (state->model, &iter, FUN_ARG_ENTRY, new_text, -1);
 
 	if (g_utf8_strlen (new_text, -1) > 0)
 		dialog_formula_guru_adjust_varargs (&iter, state);
 
-	gtk_tree_path_free (path);
 
 	dialog_formula_guru_update_parent (&iter, state, gtk_tree_model_get_path
 					   (GTK_TREE_MODEL (state->model), &iter),
