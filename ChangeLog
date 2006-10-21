@@ -1,3 +1,15 @@
+2006-10-20  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_get_scg): When we are focusing
+	a new sheet it might not have a page yet.
+	(wbcg_sheet_focus): Handle NULL sheet properly.
+
+	* src/workbook.c (workbook_focus_other_sheet): Set focus even if
+	that is NULL.
+
+	* src/expr-name.c (cb_check_name): Survive a name without any
+	expression.  That can happen in connection with sheet undo/redo.
+
 2006-10-20  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-view.c: Add preconditions

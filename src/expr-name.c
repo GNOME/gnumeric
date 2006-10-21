@@ -195,7 +195,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 {
 	GnmValue *v;
 
-	if (!nexpr->active || nexpr->is_hidden)
+	if (!nexpr->active || nexpr->is_hidden || !nexpr->texpr)
 		return;
 
 	v = gnm_expr_top_get_range (nexpr->texpr);

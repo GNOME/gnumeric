@@ -153,6 +153,10 @@ wbcg_get_scg (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
+	/* This can happen when we focus the first sheet being created.  */
+	if (wbcg->notebook->children == NULL)
+		return NULL;
+
 	w = gtk_notebook_get_nth_page (wbcg->notebook, sheet->index_in_wb);
 	return g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
 }
@@ -972,27 +976,31 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetControlGUI *scg = wbcg_get_scg (wbcg, sheet);
 
-	gtk_notebook_set_current_page (wbcg->notebook, sheet->index_in_wb);
+	if (sheet)
+		gtk_notebook_set_current_page (wbcg->notebook,
+					       sheet->index_in_wb);
 	if (wbcg->rangesel == NULL)
 		gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
 
 	disconnect_sheet_signals (wbcg, wbcg_cur_sheet (wbcg), TRUE);
 
-	wbcg_update_menu_feedback (wbcg, sheet);
+	if (sheet) {
+		wbcg_update_menu_feedback (wbcg, sheet);
 
-	g_object_connect
-		(G_OBJECT (sheet),
-		 "signal::notify::display-formulas", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::display-zeros", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::display-grid", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::display-column-header", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::display-row-header", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
-		 "signal::notify::text-is-rtl", cb_direction_change, scg,
-		 "signal::notify::zoom-factor", cb_zoom_change, wbcg,
-		 NULL);
+		g_object_connect
+			(G_OBJECT (sheet),
+			 "signal::notify::display-formulas", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-zeros", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-grid", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-column-header", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-row-header", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-outlines", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-outlines-below", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::display-outlines-right", cb_toggle_menu_item_changed, wbcg,
+			 "signal::notify::text-is-rtl", cb_direction_change, scg,
+			 "signal::notify::zoom-factor", cb_zoom_change, wbcg,
+			 NULL);
+	}
 }
 
 static void

@@ -742,11 +742,10 @@ workbook_focus_other_sheet (Workbook *wb, Sheet *sheet)
 			focus = this_sheet;
 	}
 
-	if (focus)
-		WORKBOOK_FOREACH_VIEW (wb, wbv,
-			if (sheet == wb_view_cur_sheet (wbv))
-				wb_view_sheet_focus (wbv, focus);
-		);
+	WORKBOOK_FOREACH_VIEW (wb, wbv, {
+		if (sheet == wb_view_cur_sheet (wbv))
+			wb_view_sheet_focus (wbv, focus);
+	});
 
 	return focus;
 }
