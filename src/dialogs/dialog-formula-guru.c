@@ -374,7 +374,11 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 				gtk_tree_path_free (new_path);
 				return;
 			}
- 		}
+ 		} else {
+			gtk_tree_store_clear (state->model);
+			gtk_tree_path_free (new_path);
+			return;
+		}
 		gtk_tree_path_free (new_path);
 	}
 

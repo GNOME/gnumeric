@@ -1,7 +1,12 @@
+2006-10-21  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-formula-guru.c (dialog_formula_guru_load_fd): Give up if
+	we don't have a valid iterator. [#363871]
+
 2006-10-20  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-sheet-order.c (cb_ok_clicked): Ensure that a live sheet
-	has focus on exit. [363549]
+	has focus on exit. [#363549]
 
 2006-10-18  Jon K Hellan  <hellan@acm.org>
 
