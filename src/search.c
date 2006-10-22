@@ -114,19 +114,14 @@ cb_order_sheet_col_row (void const *_a, void const *_b)
 }
 
 static GnmValue *
-search_collect_cells_cb (Sheet *sheet, int col, int row,
-			 GnmCell *cell, GPtrArray *cells)
+search_collect_cells_cb (GnmCellIter const *iter, gpointer user)
 {
+	GPtrArray *cells = user;
 	GnmEvalPos *ep = g_new (GnmEvalPos, 1);
 
-	ep->sheet = sheet;
-	ep->eval.col = col;
-	ep->eval.row = row;
-
-	g_ptr_array_add (cells, ep);
+	g_ptr_array_add (cells, eval_pos_init_cell (ep, iter->cell));
 
 	return NULL;
-
 }
 
 /* Collect a list of all cells subject to search.  */
@@ -154,7 +149,7 @@ search_collect_cells (GnmSearchReplace *sr)
 		global_range_list_foreach (range_list,
 			   eval_pos_init_sheet (&ep, sr->sheet),
 			   CELL_ITER_IGNORE_BLANK,
-			   (CellIterFunc) &search_collect_cells_cb, cells);
+			   search_collect_cells_cb, cells);
 		range_list_destroy (range_list);
 		break;
 	}
