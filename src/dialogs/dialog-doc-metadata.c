@@ -1002,6 +1002,7 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 {
 	GtkTreeIter list_iter;
 	GtkTreeIter tree_iter;
+	gboolean    has_iter;
 	GtkTreePath *path;
 	GtkEntry    *entry;
 	GValue      *prop_name;
@@ -1015,9 +1016,10 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->ppt_name_store),
 					&list_iter);
 
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->properties_store),
-				 &tree_iter,
-				 path);
+	has_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->properties_store), 
+					    &tree_iter, path);
+	gtk_tree_path_free (path);
+	g_return_if_fail (has_iter);
 
 	/* Get the property name */
 	prop_name = g_new0 (GValue, 1);
@@ -1081,53 +1083,55 @@ cb_dialog_doc_metadata_combo_prop_selected (GtkComboBox       *combo_box,
 	GtkTreeIter tree_iter;
 	GtkTreePath *path;
 	GValue      *value;
-	gboolean    ret;
 	gchar       *link_value;
 
 	g_return_if_fail (state->metadata != NULL);
 
 	/* Get list store path */
-	ret = gtk_combo_box_get_active_iter (combo_box, &list_iter);
+	if (gtk_combo_box_get_active_iter (combo_box, &list_iter)) {
+		path = gtk_tree_model_get_path 
+			(GTK_TREE_MODEL (state->ppt_name_store), &list_iter);
 
-	if (ret == TRUE) {
-		path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->ppt_name_store),
-						&list_iter);
+		if (gtk_tree_model_get_iter 
+		    (GTK_TREE_MODEL (state->properties_store), 
+		     &tree_iter, path)) {
 
-		/* Get value on the second column */
-		gtk_tree_model_get_iter (GTK_TREE_MODEL (state->properties_store),
-					 &tree_iter,
-					 path);
+			/* Get value on the second column */
+			value = g_new0 (GValue, 1);
+			gtk_tree_model_get_value 
+				(GTK_TREE_MODEL (state->properties_store),
+				 &tree_iter, 1, value);
 
-		value = g_new0 (GValue, 1);
-		gtk_tree_model_get_value (GTK_TREE_MODEL (state->properties_store),
-					  &tree_iter,
-					  1,
-					  value);
+			gtk_entry_set_text (state->ppt_value, 
+					    g_value_get_string (value));
 
-		gtk_entry_set_text (state->ppt_value, g_value_get_string (value));
+			/* Get link value on the 3rd column */
+			g_value_unset (value);
+			gtk_tree_model_get_value 
+				(GTK_TREE_MODEL (state->properties_store),
+				 &tree_iter, 2, value);
 
-		/* Get link value on the 3rd column */
-		g_value_unset (value);
-		gtk_tree_model_get_value (GTK_TREE_MODEL (state->properties_store),
-					  &tree_iter,
-					  2,
-					  value);
+			link_value = (gchar *) g_value_get_string (value);
 
-		link_value = (gchar *) g_value_get_string (value);
+			if (link_value != NULL)
+				gtk_entry_set_text (state->ppt_link, 
+						    (const gchar *) link_value);
 
-		if (link_value != NULL)
-			gtk_entry_set_text (state->ppt_link, (const gchar *) link_value);
+			/* Update tree view cursor */
+			gtk_tree_view_set_cursor (state->properties,
+						  path, NULL, FALSE);
 
-		/* Update tree view cursor */
-		gtk_tree_view_set_cursor (state->properties, path, NULL, FALSE);
+			/* Set 'Remove' button sensitive */
+			gtk_widget_set_sensitive
+				(GTK_WIDGET (state->remove_button), TRUE);
 
-		/* Set 'Remove' button sensitive */
-		gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button), TRUE);
+			g_value_unset (value);
+			g_free (value);
+		} else {
+			g_warning ("Did not get a valid iterator");
+		}
 
-		/* Free all data */
 		gtk_tree_path_free (path);
-		g_value_unset (value);
-		g_free (value);
 	}
 }
 
@@ -1144,29 +1148,27 @@ static void
 cb_dialog_doc_metadata_tree_prop_selected (GtkTreeView       *tree_view,
 					   DialogDocMetaData *state)
 {
-	GtkTreeIter tree_iter;
 	GtkTreeIter list_iter;
 	GtkTreePath *path;
 
 	g_return_if_fail (state->metadata != NULL);
 
 	gtk_tree_view_get_cursor (tree_view, &path, NULL);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->properties_store),
-				 &tree_iter,
-				 path);
+	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->ppt_name_store),
+				     &list_iter,
+				     path)) {
 
-	/* Activate item on combo box */
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->ppt_name_store),
-				 &list_iter,
-				 path);
+		/* Activate item on combo box */
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->ppt_name),
+					       &list_iter);
 
-	gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->ppt_name),
-				       &list_iter);
-
+		/* Set remove button sensitive */
+		gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button), 
+					  TRUE);
+	} else {
+		g_warning ("Did not get a valid iterator");
+	}
 	gtk_tree_path_free (path);
-
-	/* Set remove button sensitive */
-	gtk_widget_set_sensitive (GTK_WIDGET (state->remove_button), TRUE);
 }
 
 /**

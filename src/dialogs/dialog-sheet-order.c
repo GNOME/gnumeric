@@ -113,8 +113,13 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 
 	path = gtk_tree_path_new_from_string (path_string);
 
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
-	gtk_list_store_set (state->model, &iter, SHEET_NEW_NAME, new_text, -1);
+	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+				     &iter, path)) {
+		gtk_list_store_set (state->model, &iter, 
+				    SHEET_NEW_NAME, new_text, -1);
+	} else {
+		g_warning ("Did not get a valid iterator");
+	}
 
 	gtk_tree_path_free (path);
 }
@@ -166,6 +171,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	GtkTreeIter  it, iter;
 	Sheet *sheet;
 	gboolean is_deleted;
+	gboolean has_iter;
 	GdkColor *fore, *back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
@@ -204,9 +210,8 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
                               is_deleted ? GTK_STOCK_UNDELETE : GTK_STOCK_DELETE);
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 
-	gtk_tree_model_get_iter_first
-		(GTK_TREE_MODEL (state->model),
-		 &iter);
+	has_iter = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->model) &iter);
+	g_return_if_fail (has_iter);
 	gtk_widget_set_sensitive (state->up_btn,
 				  !gtk_tree_selection_iter_is_selected (selection, &iter));
 	it = iter;
@@ -232,15 +237,22 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	gboolean value;
 
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, SHEET_LOCKED, &value, -1);
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_model_get (model, &iter, SHEET_LOCKED, &value, -1);
 
-	if (value) {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_LOCKED, FALSE,
-				   SHEET_LOCK_IMAGE, state->image_padlock_no, -1);
+		if (value) {
+			gtk_list_store_set 
+				(GTK_LIST_STORE (model), &iter, SHEET_LOCKED,
+				 FALSE, SHEET_LOCK_IMAGE, 
+				 state->image_padlock_no, -1);
+		} else {
+			gtk_list_store_set 
+				(GTK_LIST_STORE (model), &iter, SHEET_LOCKED,
+				 TRUE, SHEET_LOCK_IMAGE, 
+				 state->image_padlock, -1);
+		}
 	} else {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_LOCKED, TRUE,
-				   SHEET_LOCK_IMAGE, state->image_padlock, -1);
+		g_warning ("Did not get a valid iterator");
 	}
 	gtk_tree_path_free (path);
 }
@@ -255,12 +267,18 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	GtkTreeIter iter;
 	gboolean value;
 
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, SHEET_DIRECTION, &value, -1);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-		SHEET_DIRECTION,	!value,
-		SHEET_DIRECTION_IMAGE,	value ? state->image_ltr : state->image_rtl,
-		-1);
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_model_get (model, &iter, SHEET_DIRECTION, &value, -1);
+		gtk_list_store_set 
+			(GTK_LIST_STORE (model), &iter,
+			 SHEET_DIRECTION,	!value,
+			 SHEET_DIRECTION_IMAGE,	
+			 value ? state->image_ltr : state->image_rtl,
+			 -1);
+	} else {
+		g_warning ("Did not get a valid iterator");
+	}
+
 	gtk_tree_path_free (path);
 }
 
@@ -275,20 +293,24 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	gboolean value;
 
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, SHEET_VISIBLE, &value, -1);
-
-	if (value) {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    SHEET_VISIBLE, FALSE,
-				    SHEET_VISIBLE_IMAGE, NULL,
-				    -1);
-
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_model_get (model, &iter, SHEET_VISIBLE, &value, -1);
+		
+		if (value) {
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+					    SHEET_VISIBLE, FALSE,
+					    SHEET_VISIBLE_IMAGE, NULL,
+					    -1);
+			
+		} else {
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+					    SHEET_VISIBLE, TRUE,
+					    SHEET_VISIBLE_IMAGE, 
+					    state->image_visible,
+					    -1);
+		}
 	} else {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    SHEET_VISIBLE, TRUE,
-				    SHEET_VISIBLE_IMAGE, state->image_visible,
-				    -1);
+		g_warning ("Did not get a valid iterator");
 	}
 	gtk_tree_path_free (path);
 }

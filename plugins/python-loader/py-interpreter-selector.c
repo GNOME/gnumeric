@@ -53,16 +53,18 @@ static void cb_destroyed_interpreter (GnmPyInterpreterSelector *sel,
 static void
 cb_selector_changed (GnmPyInterpreterSelector *sel)
 {
-	GnmPyInterpreter *interpreter;
+	GnmPyInterpreter *interpreter = NULL;
 	GtkTreeIter iter;
 	GtkTreePath *path = gtk_tree_path_new_from_indices (
 						gtk_combo_box_get_active (GTK_COMBO_BOX (sel)), -1);
 	GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (sel));
 
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, 1, &interpreter, -1);
+	if (gtk_tree_model_get_iter (model, &iter, path))
+		gtk_tree_model_get (model, &iter, 1, &interpreter, -1);
+	else
+		g_warning ("Did not get a valid iterator");
 	gtk_tree_path_free (path);
-	if (interpreter != sel->cur_interpreter) {
+	if (interpreter && interpreter != sel->cur_interpreter) {
 		sel->cur_interpreter = interpreter;
 		g_signal_emit (sel, signals[INTERPRETER_CHANGED_SIGNAL], 0);
 	}
@@ -139,8 +141,10 @@ cb_destroyed_interpreter (GnmPyInterpreterSelector *sel,
 	g_return_if_fail (path != NULL);
 
 	GO_SLIST_REMOVE (sel->added_interpreters, ex_interpreter);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+	if (gtk_tree_model_get_iter (model, &iter, path))
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+	else
+		g_warning ("Did not get a valid iterator");
 	gtk_tree_path_free (path);
 	if (sel->cur_interpreter == ex_interpreter) {
 		sel->cur_interpreter = gnm_python_get_default_interpreter (sel->py_object);

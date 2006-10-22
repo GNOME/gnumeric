@@ -111,6 +111,9 @@ adjust_source_areas (ConsolidateState *state)
 			g_free (source);
 		} while (gtk_tree_model_iter_next 
 			 (state->source_areas,&iter));
+	} else {
+		g_warning ("Did not get a valid iterator");
+		return;
 	}
 	for (i = 0; i < cnt_empty; i++) {
 		gtk_list_store_append (GTK_LIST_STORE(state->source_areas),
@@ -140,6 +143,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 	char       const *func;
 	GnmValue         *range_value;
 	GtkTreeIter      iter;
+	gboolean         has_iter;
 
 	switch (gtk_combo_box_get_active (state->function)) {
 	case 0 : func = "SUM"; break;
@@ -175,9 +179,9 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 			      (state->source_areas,
 			       NULL)> 2, NULL);
 
-	gtk_tree_model_get_iter_first 
-		(state->source_areas, &iter);
-
+	has_iter = gtk_tree_model_get_iter_first (state->source_areas, 
+						  &iter);
+	g_return_val_if_fail (has_iter, NULL);
 	do {
 		char *source;
 
@@ -258,9 +262,11 @@ cb_source_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 
 	path = gtk_tree_path_new_from_string (path_string);
 
-	gtk_tree_model_get_iter (state->source_areas, &iter, path);
-	gtk_list_store_set (GTK_LIST_STORE(state->source_areas), 
-			    &iter, SOURCE_COLUMN, new_text, -1);
+	if (gtk_tree_model_get_iter (state->source_areas, &iter, path))
+		gtk_list_store_set (GTK_LIST_STORE(state->source_areas), 
+				    &iter, SOURCE_COLUMN, new_text, -1);
+	else
+		g_warning ("Did not get a valid iterator");
 
 	gtk_tree_path_free (path);
 	adjust_source_areas (state);

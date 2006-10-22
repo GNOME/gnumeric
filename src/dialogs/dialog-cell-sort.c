@@ -648,11 +648,14 @@ toggled (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	gboolean value;
 
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, column, &value, -1);
-
-	value = !value;
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, column, value, -1);
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_model_get (model, &iter, column, &value, -1);
+		value = !value;
+		gtk_list_store_set (GTK_LIST_STORE (model), 
+				    &iter, column, value, -1);
+	} else {
+		g_warning ("Did not get a valid iterator");
+	}
 
 	gtk_tree_path_free (path);
 }
@@ -926,14 +929,21 @@ cb_toggled_descending (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	gboolean value;
 
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, ITEM_DESCENDING, &value, -1);
-	if (value) {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, ITEM_DESCENDING, FALSE,
-				   ITEM_DESCENDING_IMAGE, state->image_ascending, -1);
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_model_get (model, &iter, ITEM_DESCENDING, &value, -1);
+		if (value) {
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter, 
+					    ITEM_DESCENDING, FALSE,
+					    ITEM_DESCENDING_IMAGE, state->image_ascending, 
+					    -1);
+		} else {
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter, 
+					    ITEM_DESCENDING, TRUE,
+					    ITEM_DESCENDING_IMAGE, state->image_descending, 
+					    -1);
+		}
 	} else {
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, ITEM_DESCENDING, TRUE,
-				   ITEM_DESCENDING_IMAGE, state->image_descending, -1);
+		g_warning ("Did not get a valid iterator");
 	}
 	gtk_tree_path_free (path);
 }

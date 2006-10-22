@@ -1,3 +1,26 @@
+2006-10-22  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-stf-export.c (cb_selection_changed,
+	cb_sheet_export_toggled): Check that tree model iterator is valid.
+
+	* dialog-simulation.c (update_log): Ditto.
+
+	* dialog-sheet-order.c (cb_name_edited, cb_selection_changed,
+	cb_toggled_lock, cb_toggled_direction, cb_toggled_visible): Ditto.
+
+	* dialog-scenarios.c (update_scenarios_treeview): Ditto.
+
+	* dialog-plugin-manager.c (cb_active_toggled): Ditto.
+
+	* dialog-doc-metadata.c (cb_dialog_doc_metadata_remove_clicked,
+	cb_dialog_doc_metadata_combo_prop_selected,
+	cb_dialog_doc_metadata_tree_prop_selected): Ditto.
+
+	* dialog-consolidate.c (adjust_source_areas,
+	construct_consolidate, cb_source_edited): Ditto.
+
+	* dialog-cell-sort.c (toggled, cb_toggled_descending): Ditto.
+
 2006-10-21  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-formula-guru.c (dialog_formula_guru_load_fd,

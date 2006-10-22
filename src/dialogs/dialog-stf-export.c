@@ -310,10 +310,10 @@ cb_selection_changed (GtkTreeSelection *new_selection,
 		: new_selection;
 
 	if (selection != NULL 
-	    && gtk_tree_selection_count_selected_rows (selection) > 0) {
-		gtk_tree_model_get_iter_first 
-			(GTK_TREE_MODEL (state->sheets.model),
-			 &iter);
+	    && gtk_tree_selection_count_selected_rows (selection) > 0
+	    && gtk_tree_model_get_iter_first 
+		       (GTK_TREE_MODEL (state->sheets.model),
+			&iter)) {
 		first_selected = gtk_tree_selection_iter_is_selected 
 			(selection, &iter);
 		it = iter;
@@ -403,16 +403,23 @@ cb_sheet_export_toggled (GtkCellRendererToggle *cell,
 	GtkTreeIter  iter;
 	gboolean value;
 
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->sheets.model), &iter, path);
+	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->sheets.model), 
+				     &iter, path)) {
+		gtk_tree_model_get 
+			(GTK_TREE_MODEL (state->sheets.model), &iter,
+			 STF_EXPORT_COL_EXPORTED,	&value,
+			 -1);
+		gtk_list_store_set 
+			(state->sheets.model, &iter,
+			 STF_EXPORT_COL_EXPORTED,	!value,
+			 -1);
+		set_sheet_selection_count 
+			(state,
+			 state->sheets.num_selected + (value ? -1 : 1));
+	} else {
+		g_warning ("Did not get a valid iterator");
+	}
 	gtk_tree_path_free (path);
-	gtk_tree_model_get (GTK_TREE_MODEL (state->sheets.model), &iter,
-		STF_EXPORT_COL_EXPORTED,	&value,
-		-1);
-	gtk_list_store_set (state->sheets.model, &iter,
-		STF_EXPORT_COL_EXPORTED,	!value,
-		-1);
-	set_sheet_selection_count (state,
-		state->sheets.num_selected + (value ? -1 : 1));
 }
 
 static void

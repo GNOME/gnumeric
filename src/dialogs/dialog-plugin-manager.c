@@ -594,9 +594,13 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 	GtkTreeIter iter;
 	GOPlugin *plugin;
 	ErrorInfo *error;
+	gboolean has_iter;
 
 	model = gtk_tree_view_get_model (pm_gui->list_plugins);
-	gtk_tree_model_get_iter_from_string (model, &iter, path);
+	has_iter = gtk_tree_model_get_iter_from_string (model, &iter, path);
+
+	g_return_if_fail (has_iter);
+
 	gtk_tree_model_get (model, &iter, PLUGIN_POINTER, &plugin, -1);
 
 	g_return_if_fail (plugin != NULL);

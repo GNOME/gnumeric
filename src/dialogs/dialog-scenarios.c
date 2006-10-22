@@ -355,9 +355,12 @@ update_scenarios_treeview (GtkWidget *view, GList *scenarios)
 	          scenarios = scenarios->next;
 	  }
 	  path = gtk_tree_path_new_from_string ("0");
-	  gtk_tree_model_get_iter (GTK_TREE_MODEL (store),
-				   &iter,
-				   path);
+	  if (gtk_tree_model_get_iter (GTK_TREE_MODEL (store),
+				       &iter, path)) {
+		  ;		/* Do something */
+	  }  else {
+		  g_warning ("Did not get a valid iterator");
+	  }
 	  gtk_tree_path_free (path);
 
 	  gtk_tree_view_set_model (GTK_TREE_VIEW (view),
