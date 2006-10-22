@@ -1,5 +1,8 @@
 2006-10-22  Jon K Hellan  <hellan@acm.org>
 
+	* dialog-scenarios.c (scenario_add_ok_clicked_cb): Fix string typo
+	[#364201] 
+
 	* dialog-stf-export.c (cb_selection_changed,
 	cb_sheet_export_toggled): Check that tree model iterator is valid.
 

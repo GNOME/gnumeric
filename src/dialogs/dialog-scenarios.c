@@ -182,7 +182,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				 _("Changing cells contain at least one "
 				   "expression that is not just a value. "
 				   "Note that showing the scenario will "
-				   "overwrite the formula with it's current "
+				   "overwrite the formula with its current "
 				   "value."));
 
 	g_free (name);
