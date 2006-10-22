@@ -1,3 +1,4 @@
+
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-sheet-order.c: Dialog to change the order of sheets in the Gnumeric
@@ -53,6 +54,8 @@
 #include <gtk/gtkbox.h>
 #include <string.h>
 #include <stdio.h>
+
+#define SHEET_ORDER_KEY          "sheet-order-dialog"
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;
@@ -806,6 +809,7 @@ cb_sheet_order_destroy (SheetManager *state)
 	wbcg_edit_detach_guru (state->wbcg);
 
 	g_object_unref (G_OBJECT (state->gui));
+	g_object_set_data (G_OBJECT (wb), SHEET_ORDER_KEY, NULL);
 	state->gui = NULL;
 
 	g_object_unref (state->image_padlock);
@@ -994,6 +998,18 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
         if (gui == NULL)
                 return;
 
+	wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	if (g_object_get_data (G_OBJECT (wb), SHEET_ORDER_KEY)) {
+		GtkWidget *dialog = gtk_message_dialog_new 
+			(wbcg_toplevel (wbcg),
+			 GTK_DIALOG_DESTROY_WITH_PARENT,
+			 GTK_MESSAGE_WARNING,
+			 GTK_BUTTONS_CLOSE,
+			 _("Another view is already managing sheets"));
+		go_gtk_dialog_run (GTK_DIALOG (dialog), wbcg_toplevel (wbcg));
+		return;
+	} 
+	g_object_set_data (G_OBJECT (wb), SHEET_ORDER_KEY, (gpointer) gui);
 	state = g_new0 (SheetManager, 1);
 	state->gui = gui;
 	state->wbcg = wbcg;
@@ -1029,7 +1045,6 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Sheet-Manager");
 	/* Listen for changes in the sheet order. */
-	wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),
 		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
 		state);
