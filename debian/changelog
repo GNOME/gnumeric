@@ -1,3 +1,19 @@
+gnumeric (1.6.3-4) unstable; urgency=low
+
+  * Pulled in core code and translation changes from upstream CVS branch.
+  * Backported packaging improvements from the 1.7.x packages in experimental,
+    including:
+    * Follow new python policy. (Closes: #380831)
+    * [debian/control] Made lists in package descriptions render nicely in
+      aptitude (Closes: #389140)
+  * [debian/po/ja.po] Added, courtesy of Shimono Atsushi
+    <shimono@kwasan.kyoto-u.ac.jp>. (Closes: ##384994).
+  * [debian/gnumeric.mime] Add text/csv in whose favour 
+    text/comma-separated-values has been depreciated in RFC 4180. 
+    (Closes: #394053)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 22 Oct 2006 17:42:30 +0200
+
 gnumeric (1.6.3-3) unstable; urgency=low
 
   * [debian/po/lt.po] Added, courtesy of Gintautas Miliauskas <gintas@akl.lt>.

@@ -177,7 +177,10 @@ install: build
 	rm -rf debian/tmp/usr/lib/bonobo
 	# libspreadsheet is far from a mature library; loose the development
 	# files
-	rm -f debian/tmp/usr/lib/libspreadsheet.la debian/tmp/usr/lib/libspreadsheet.so
+	rm -f debian/tmp/usr/lib/libspreadsheet*.la
+	rm -f debian/tmp/usr/lib/pkgconfig/libspreadsheet-*.pc
+	rm -rf debian/tmp/usr/include/libspreadsheet-*
+
 	# Outdated
 	rm -f debian/tmp/usr/share/mc/templates/gnumeric.desktop
 
@@ -223,6 +226,8 @@ binary-indep: build install
 	dh_installdocs -i
 
 	dh_installexamples -i
+	dh_pycentral -i
+	#dh_python -i
 	dh_installmenu -i
 #	dh_installlogrotate -i
 #	dh_installemacsen -i
@@ -255,6 +260,8 @@ binary-arch: build install
 	dh_installdocs -a --noscripts
 	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
 	dh_installexamples -a
+	dh_pycentral -a
+	#dh_python -a
 	dh_installmenu -a
 #	dh_installlogrotate -a
 #	dh_installemacsen -a
