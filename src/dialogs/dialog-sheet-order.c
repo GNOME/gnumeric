@@ -210,7 +210,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
                               is_deleted ? GTK_STOCK_UNDELETE : GTK_STOCK_DELETE);
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 
-	has_iter = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->model) &iter);
+	has_iter = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->model), &iter);
 	g_return_if_fail (has_iter);
 	gtk_widget_set_sensitive (state->up_btn,
 				  !gtk_tree_selection_iter_is_selected (selection, &iter));
