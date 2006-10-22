@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-09 07:17+0300\n"
-"PO-Revision-Date: 2006-10-09 08:23+0300\n"
+"POT-Creation-Date: 2006-10-22 08:08+0300\n"
+"PO-Revision-Date: 2006-10-20 06:46+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Tiedon laskenta, analyysi ja visualisointi"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:422
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:453
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric-taulukkolaskenta"
 
@@ -38,14 +38,17 @@ msgid "Spreadsheet"
 msgstr "Taulukkolaskenta"
 
 #: ../component/Gnumeric-embed.xml.in.h:1 ../src/GNOME_Gnumeric-gtk.xml.in.h:1
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:1
 msgid "FormatToolbar"
 msgstr "Muotoilutyökalupalkki"
 
 #: ../component/Gnumeric-embed.xml.in.h:2 ../src/GNOME_Gnumeric-gtk.xml.in.h:2
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:2
 msgid "ObjectToolbar"
 msgstr "Objektityökalupalkki"
 
 #: ../component/Gnumeric-embed.xml.in.h:3 ../src/GNOME_Gnumeric-gtk.xml.in.h:3
+#: ../src/HILDON_Gnumeric-gtk.xml.in.h:3
 msgid "StandardToolbar"
 msgstr "Vakiotyökalupalkki"
 
@@ -57,7 +60,7 @@ msgstr "Tallenna upotettu työkirja"
 msgid "Component : Gnumeric"
 msgstr "Komponentti : Gnumeric"
 
-#: ../component/plugin.xml.in.h:2 ../src/gui-file.c:263 ../src/gui-file.c:408
+#: ../component/plugin.xml.in.h:2 ../src/gui-file.c:263 ../src/gui-file.c:409
 msgid "Spreadsheets"
 msgstr "Taulukot"
 
@@ -232,8 +235,8 @@ msgstr "Talousjohdannaiset"
 msgid "Functions related to financial derivatives"
 msgstr "Talousjohdannaisiin liittyvät funktiot"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6107
-#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2631
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6124
+#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2635
 msgid "Reading file..."
 msgstr "Luetaan tiedostoa..."
 
@@ -329,13 +332,13 @@ msgstr "Odottamaton määrite %s::%s == \"%s\"."
 msgid "XML document not well formed!"
 msgstr "XML-dokumentti ei ole hyvinmuotoiltu!"
 
-#: ../plugins/excel/ms-excel-read.c:1085 ../src/value.c:61
+#: ../plugins/excel/ms-excel-read.c:1102 ../src/value.c:61
 msgid "#UNKNOWN!"
 msgstr "#TUNTEMATON!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1167 ../plugins/excel/ms-excel-read.c:1179
+#: ../plugins/excel/ms-excel-read.c:1184 ../plugins/excel/ms-excel-read.c:1196
 #: ../plugins/oleo/oleo.c:343 ../plugins/psiconv/psiconv-read.c:509
 #: ../src/dialogs/dialog-sheet-order.c:495
 #: ../src/dialogs/dialog-sheet-order.c:499
@@ -343,32 +346,32 @@ msgstr "#TUNTEMATON!"
 msgid "Sheet%d"
 msgstr "Taulu%d"
 
-#: ../plugins/excel/ms-excel-read.c:1183
+#: ../plugins/excel/ms-excel-read.c:1200
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1187
+#: ../plugins/excel/ms-excel-read.c:1204
 #, c-format
 msgid "Chart%d"
 msgstr "Kaavio%d"
 
-#: ../plugins/excel/ms-excel-read.c:1190
+#: ../plugins/excel/ms-excel-read.c:1207
 #, c-format
 msgid "Module%d"
 msgstr "Moduuli%d"
 
-#: ../plugins/excel/ms-excel-read.c:3046
+#: ../plugins/excel/ms-excel-read.c:3063
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Virhe jäsennettäessä nimeä \"%s\""
 
-#: ../plugins/excel/ms-excel-read.c:3149
+#: ../plugins/excel/ms-excel-read.c:3166
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr ""
 
-#: ../plugins/excel/ms-excel-read.c:3159
+#: ../plugins/excel/ms-excel-read.c:3176
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -377,7 +380,7 @@ msgstr ""
 "DDE-linkkejä ei tueta.\n"
 "Nimi \"%s\" häviää.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3165
+#: ../plugins/excel/ms-excel-read.c:3182
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -386,11 +389,11 @@ msgstr ""
 "OLE-linkkejä ei tueta.\n"
 "Nimi \"%s\" häviää.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5405
+#: ../plugins/excel/ms-excel-read.c:5422
 msgid "external references"
 msgstr "ulkoiset viittaukset"
 
-#: ../plugins/excel/ms-excel-read.c:5431
+#: ../plugins/excel/ms-excel-read.c:5448
 msgid "No password supplied"
 msgstr "Salasanaa ei annettu"
 
@@ -403,11 +406,11 @@ msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u "
 "columns, and this workbook has %d"
 msgstr[0] ""
-"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u saraketta "
-"ja tässä työkirjassa on %d saraketta"
+"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u saraketta ja "
+"tässä työkirjassa on %d saraketta"
 msgstr[1] ""
-"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u saraketta "
-"ja tässä työkirjassa on %d saraketta"
+"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u saraketta ja "
+"tässä työkirjassa on %d saraketta"
 
 #: ../plugins/excel/ms-excel-write.c:207
 #, c-format
@@ -418,11 +421,11 @@ msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
 msgstr[0] ""
-"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u riviä "
-"ja tässä työkirjassa on %d saraketta"
+"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u riviä ja "
+"tässä työkirjassa on %d saraketta"
 msgstr[1] ""
-"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u riviä "
-"ja tässä työkirjassa on %d saraketta"
+"Osa sisällöstä häviää tallennettaessa. Tämä muoto tukee vain %u riviä ja "
+"tässä työkirjassa on %d saraketta"
 
 #: ../plugins/excel/ms-excel-write.c:312
 msgid ""
@@ -454,12 +457,12 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:357
 #, c-format
 msgid "Missing id for part in '%s'"
-msgstr ""
+msgstr "Tunniste puuttuu kohdasta \"%s\""
 
 #: ../plugins/excel/xlsx-read.c:368
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
-msgstr ""
+msgstr "Osa \"%s\" kohdassa \"%s\" lähteestä \"%s\" on viallinen!"
 
 #: ../plugins/excel/xlsx-read.c:377
 #, c-format
@@ -542,21 +545,21 @@ msgstr "Ei määritelty"
 #: ../plugins/excel/xlsx-read.c:1547
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
-msgstr ""
+msgstr "Ei huomioita käsittelemätöntä ehdollista tyypin \"%s\" muotoilua"
 
 #: ../plugins/excel/xlsx-read.c:1850
 msgid "Ignoring a sheet without a name"
-msgstr ""
+msgstr "Ohitetaan sarake ilman nimeä"
 
 #: ../plugins/excel/xlsx-read.c:1878
 #, c-format
 msgid "Missing part-id for sheet '%s'"
-msgstr ""
+msgstr "Taulukolta \"%s\" puuttuu osan tunniste"
 
 #: ../plugins/excel/xlsx-read.c:2312
 #, c-format
 msgid "Undefined font record '%d'"
-msgstr ""
+msgstr "Määrittelemätön kirjasintietue \"%d\""
 
 #. TODO * TODO * TODO
 #. *
@@ -925,7 +928,7 @@ msgid "Type Mismatch"
 msgstr "Väärä tyyppi"
 
 #: ../plugins/fn-logical/functions.c:359 ../plugins/fn-logical/functions.c:363
-#: ../plugins/fn-logical/functions.c:383 ../plugins/fn-math/functions.c:3465
+#: ../plugins/fn-logical/functions.c:383 ../plugins/fn-math/functions.c:3458
 #: ../plugins/fn-stat/functions.c:5812 ../plugins/fn-stat/functions.c:5816
 #: ../plugins/fn-stat/functions.c:5820 ../plugins/fn-stat/functions.c:5858
 #: ../plugins/fn-stat/functions.c:5861 ../plugins/fn-stat/functions.c:5870
@@ -944,24 +947,24 @@ msgid "number,number,"
 msgstr "luku,luku,"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:367 ../plugins/fn-math/functions.c:3297
-#: ../plugins/fn-math/functions.c:3301 ../plugins/fn-math/functions.c:3304
-#: ../plugins/fn-math/functions.c:3307 ../plugins/fn-math/functions.c:3310
-#: ../plugins/fn-math/functions.c:3313 ../plugins/fn-math/functions.c:3316
-#: ../plugins/fn-math/functions.c:3322 ../plugins/fn-math/functions.c:3331
-#: ../plugins/fn-math/functions.c:3340 ../plugins/fn-math/functions.c:3348
-#: ../plugins/fn-math/functions.c:3351 ../plugins/fn-math/functions.c:3354
-#: ../plugins/fn-math/functions.c:3357 ../plugins/fn-math/functions.c:3360
-#: ../plugins/fn-math/functions.c:3365 ../plugins/fn-math/functions.c:3369
-#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-math/functions.c:3385
-#: ../plugins/fn-math/functions.c:3392 ../plugins/fn-math/functions.c:3395
-#: ../plugins/fn-math/functions.c:3401 ../plugins/fn-math/functions.c:3404
-#: ../plugins/fn-math/functions.c:3417 ../plugins/fn-math/functions.c:3423
-#: ../plugins/fn-math/functions.c:3429 ../plugins/fn-math/functions.c:3450
-#: ../plugins/fn-math/functions.c:3453 ../plugins/fn-math/functions.c:3456
-#: ../plugins/fn-math/functions.c:3459 ../plugins/fn-math/functions.c:3462
-#: ../plugins/fn-math/functions.c:3475 ../plugins/fn-math/functions.c:3487
-#: ../plugins/fn-math/functions.c:3490 ../plugins/fn-stat/functions.c:5882
+#: ../plugins/fn-logical/functions.c:367 ../plugins/fn-math/functions.c:3290
+#: ../plugins/fn-math/functions.c:3294 ../plugins/fn-math/functions.c:3297
+#: ../plugins/fn-math/functions.c:3300 ../plugins/fn-math/functions.c:3303
+#: ../plugins/fn-math/functions.c:3306 ../plugins/fn-math/functions.c:3309
+#: ../plugins/fn-math/functions.c:3315 ../plugins/fn-math/functions.c:3324
+#: ../plugins/fn-math/functions.c:3333 ../plugins/fn-math/functions.c:3341
+#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3347
+#: ../plugins/fn-math/functions.c:3350 ../plugins/fn-math/functions.c:3353
+#: ../plugins/fn-math/functions.c:3358 ../plugins/fn-math/functions.c:3362
+#: ../plugins/fn-math/functions.c:3368 ../plugins/fn-math/functions.c:3378
+#: ../plugins/fn-math/functions.c:3385 ../plugins/fn-math/functions.c:3388
+#: ../plugins/fn-math/functions.c:3394 ../plugins/fn-math/functions.c:3397
+#: ../plugins/fn-math/functions.c:3410 ../plugins/fn-math/functions.c:3416
+#: ../plugins/fn-math/functions.c:3422 ../plugins/fn-math/functions.c:3443
+#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3449
+#: ../plugins/fn-math/functions.c:3452 ../plugins/fn-math/functions.c:3455
+#: ../plugins/fn-math/functions.c:3468 ../plugins/fn-math/functions.c:3480
+#: ../plugins/fn-math/functions.c:3483 ../plugins/fn-stat/functions.c:5882
 #: ../plugins/fn-stat/functions.c:5885 ../plugins/fn-stat/functions.c:5903
 #: ../plugins/fn-stat/functions.c:5981 ../plugins/fn-string/functions.c:1213
 #: ../plugins/fn-string/functions.c:1216
@@ -1033,7 +1036,7 @@ msgstr "arvo,alue,arvio"
 msgid "ref,row,col,height,width"
 msgstr "viite,rivi,sarake,korkeus,leveys"
 
-#: ../plugins/fn-lookup/functions.c:1313 ../plugins/fn-math/functions.c:3503
+#: ../plugins/fn-lookup/functions.c:1313 ../plugins/fn-math/functions.c:3496
 msgid "array"
 msgstr "taulukko"
 
@@ -1049,18 +1052,18 @@ msgstr ""
 msgid "Lookup Functions"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:2560 ../plugins/fn-math/functions.c:2580
-#: ../plugins/fn-math/functions.c:2676 ../plugins/fn-math/functions.c:2696
-#: ../plugins/fn-math/functions.c:2790 ../plugins/fn-math/functions.c:2810
+#: ../plugins/fn-math/functions.c:2553 ../plugins/fn-math/functions.c:2573
+#: ../plugins/fn-math/functions.c:2669 ../plugins/fn-math/functions.c:2689
+#: ../plugins/fn-math/functions.c:2783 ../plugins/fn-math/functions.c:2803
 #: ../plugins/fn-stat/functions.c:3026 ../plugins/fn-stat/functions.c:3056
 msgid "Array version not implemented!"
 msgstr "Taulukkoversio on toteuttamatta!"
 
-#: ../plugins/fn-math/functions.c:3319
+#: ../plugins/fn-math/functions.c:3312
 msgid "xnum,ynum"
 msgstr "xnro,ynro"
 
-#: ../plugins/fn-math/functions.c:3325 ../plugins/fn-math/functions.c:3328
+#: ../plugins/fn-math/functions.c:3318 ../plugins/fn-math/functions.c:3321
 #: ../plugins/fn-random/functions.c:1200 ../plugins/fn-random/functions.c:1221
 #: ../plugins/fn-random/functions.c:1227 ../plugins/fn-random/functions.c:1266
 #: ../plugins/fn-random/functions.c:1281 ../plugins/fn-random/functions.c:1284
@@ -1068,67 +1071,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3336
+#: ../plugins/fn-math/functions.c:3329
 msgid "range,criteria"
 msgstr "alue,ehto"
 
-#: ../plugins/fn-math/functions.c:3344
+#: ../plugins/fn-math/functions.c:3337
 msgid "number,significance"
 msgstr "numero,tärkeys"
 
-#: ../plugins/fn-math/functions.c:3372 ../plugins/fn-stat/functions.c:5996
+#: ../plugins/fn-math/functions.c:3365 ../plugins/fn-stat/functions.c:5996
 msgid "n,k"
 msgstr "n,k"
 
-#: ../plugins/fn-math/functions.c:3379
+#: ../plugins/fn-math/functions.c:3372
 msgid "number,number"
 msgstr "luku,luku"
 
-#: ../plugins/fn-math/functions.c:3398
+#: ../plugins/fn-math/functions.c:3391
 msgid "number,base"
 msgstr "luku,kanta"
 
-#: ../plugins/fn-math/functions.c:3407 ../plugins/fn-math/functions.c:3426
+#: ../plugins/fn-math/functions.c:3400 ../plugins/fn-math/functions.c:3419
 msgid "numerator,denominator"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3410
+#: ../plugins/fn-math/functions.c:3403
 msgid "number,multiple"
 msgstr "numero,useita"
 
-#: ../plugins/fn-math/functions.c:3420
+#: ../plugins/fn-math/functions.c:3413
 msgid "base,exponent"
 msgstr "kanta,eksponentti"
 
-#: ../plugins/fn-math/functions.c:3432
+#: ../plugins/fn-math/functions.c:3425
 msgid "number,type"
 msgstr "numero,tyyppi"
 
-#: ../plugins/fn-math/functions.c:3435 ../plugins/fn-math/functions.c:3439
-#: ../plugins/fn-math/functions.c:3443 ../plugins/fn-math/functions.c:3493
+#: ../plugins/fn-math/functions.c:3428 ../plugins/fn-math/functions.c:3432
+#: ../plugins/fn-math/functions.c:3436 ../plugins/fn-math/functions.c:3486
 msgid "number,digits"
 msgstr "numero,numeroita"
 
-#: ../plugins/fn-math/functions.c:3447
+#: ../plugins/fn-math/functions.c:3440
 msgid "x,n,m,coefficients"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3469
+#: ../plugins/fn-math/functions.c:3462
 msgid "range,criteria,actual_range"
 msgstr "alue,ehto,todellinen_alue"
 
-#: ../plugins/fn-math/functions.c:3472
+#: ../plugins/fn-math/functions.c:3465
 msgid "range,range,"
 msgstr "alue,alue,"
 
-#: ../plugins/fn-math/functions.c:3478 ../plugins/fn-math/functions.c:3481
-#: ../plugins/fn-math/functions.c:3484 ../plugins/fn-math/functions.c:3500
+#: ../plugins/fn-math/functions.c:3471 ../plugins/fn-math/functions.c:3474
+#: ../plugins/fn-math/functions.c:3477 ../plugins/fn-math/functions.c:3493
 #: ../plugins/fn-stat/functions.c:5855 ../plugins/fn-stat/functions.c:5864
 #: ../plugins/fn-stat/functions.c:5987 ../plugins/fn-stat/functions.c:6043
 msgid "array1,array2"
 msgstr "lista1,lista2"
 
-#: ../plugins/fn-math/functions.c:3506 ../plugins/fn-math/functions.c:3510
+#: ../plugins/fn-math/functions.c:3499 ../plugins/fn-math/functions.c:3503
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -1501,15 +1504,15 @@ msgstr ""
 #: ../plugins/gda/plugin-gda.c:360 ../plugins/gda/plugin-gda.c:436
 #, c-format
 msgid "Error: could not open connection to %s"
-msgstr ""
+msgstr "Virhe: yhteyttä kohteeseen \"%s\" ei voi avata"
 
 #: ../plugins/gda/plugin-gda.c:370 ../plugins/gda/plugin-gda.c:446
 msgid "Error: no recordsets were returned"
-msgstr ""
+msgstr "Virhe: tietuejoukkoja ei palautettu"
 
 #: ../plugins/gda/plugin-gda.c:432
 msgid "Format: readDBTable(dsn,user,password,table)"
-msgstr ""
+msgstr "Muotoilu: readDBTable(dsn,käyttäjä,salasana,taulu)"
 
 #: ../plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for retrieval of data from a database."
@@ -1517,11 +1520,11 @@ msgstr "Tietokantafunktiot datan hakemiseksi tietokannasta."
 
 #: ../plugins/gnome-db/plugin-gnomedb.c:26
 msgid "Could not run GNOME database configuration tool"
-msgstr ""
+msgstr "Gnomen tietokantatyökalua ei voitu suorittaa"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
-msgstr ""
+msgstr "Tietokantojen käyttöliittymäpalvelujen liitännäinen"
 
 #: ../plugins/gnome-db/plugin.xml.in.h:2
 msgid "GNOME-DB"
@@ -1537,7 +1540,7 @@ msgstr "Gnome-sanasto PO-tiedostomuoto"
 
 #: ../plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
+msgstr "Tarjoaa Gnome Glossaryn tallentamiseen .po-tiedostoina."
 
 #: ../plugins/html/html_read.c:548
 msgid "Unable to parse the html."
@@ -1626,7 +1629,7 @@ msgstr "Rajoitteet:"
 
 #: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:570
 #: ../src/dialogs/dialog-doc-metadata.c:1277
-#: ../src/dialogs/dialog-formula-guru.c:812
+#: ../src/dialogs/dialog-formula-guru.c:820
 #: ../src/dialogs/dialog-function-select.c:444
 #: ../src/dialogs/dialog-function-select.c:466
 #: ../src/dialogs/dialog-paste-names.c:101
@@ -1656,7 +1659,7 @@ msgstr "Arvo"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:816
+#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:824
 #: ../src/dialogs/dialog-search.c:422 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Tyyppi"
@@ -1711,7 +1714,7 @@ msgstr ""
 
 #: ../plugins/numtheory/plugin.xml.in.h:1
 msgid "Bitwise Operations"
-msgstr ""
+msgstr "Bittioperaatiot"
 
 #: ../plugins/numtheory/plugin.xml.in.h:2
 msgid "Number Theory"
@@ -1761,7 +1764,8 @@ msgid ""
 "Unable to parse\n"
 "\t'%s'\n"
 "because '%s'"
-msgstr "Ei voi tulkita\n"
+msgstr ""
+"Ei voi tulkita\n"
 "\t\"%s\"\n"
 "syy: \"%s\""
 
@@ -1791,19 +1795,19 @@ msgstr "Lauseketta \"%s\" ei voitu jäsentää, koska \"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:2386
 msgid "No stream named mimetype found."
-msgstr ""
+msgstr "Virtaa mimetype ei löydy."
 
 #: ../plugins/openoffice/openoffice-read.c:2398
 msgid "Unknown mimetype for openoffice file."
-msgstr ""
+msgstr "Tuntematon MIME-tyyppi openoffice-tiedostossa."
 
 #: ../plugins/openoffice/openoffice-read.c:2409
 msgid "No stream named content.xml found."
-msgstr ""
+msgstr "Virtaa content.xml ei löydy."
 
 #: ../plugins/openoffice/openoffice-read.c:2417
 msgid "No stream named styles.xml found."
-msgstr ""
+msgstr "Virtaa styles.xml ei löydy."
 
 #: ../plugins/openoffice/openoffice-read.c:2464
 #, c-format
@@ -1837,7 +1841,7 @@ msgstr "Tietueelle ei voitu varata muistia."
 #: ../plugins/paradox/paradox.c:220
 #, c-format
 msgid "Field type %d is not supported."
-msgstr ""
+msgstr "Kentän tyyppi %d ei ole tuettu."
 
 #: ../plugins/paradox/plugin.xml.in.h:1
 msgid "Imports Paradox files"
@@ -1892,17 +1896,20 @@ msgstr "Tämä liitännäinen tarjoaa Perl-liitännäistuen"
 
 #: ../plugins/plan-perfect/pln.c:503
 msgid "PLN : Spreadsheet is password encrypted"
-msgstr ""
+msgstr "PLN: taulukko suojattu salasanalla"
 
 #: ../plugins/plan-perfect/pln.c:572
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
+"Ohitetaan tiedot, jotka väittävät olevansa rivillä %u kun suurin rivi on %u"
 
 #: ../plugins/plan-perfect/pln.c:576
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
+"Ohitetaan tiedot, jotka väittävät olevansa sarakkeessa %u kun suurin sarake "
+"on %u"
 
 #: ../plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
@@ -1930,7 +1937,7 @@ msgstr "Psion (*.psisheet)"
 
 #: ../plugins/psiconv/psiconv-read.c:607
 msgid "Error while reading psiconv file."
-msgstr ""
+msgstr "Virhe luettaessa psiconv-tiodostoa."
 
 #: ../plugins/psiconv/psiconv-read.c:617
 msgid "Error while parsing Psion file."
@@ -1956,7 +1963,7 @@ msgstr ""
 
 #: ../plugins/python-loader/gnm-py-interpreter.c:255
 msgid "Default interpreter"
-msgstr ""
+msgstr "Oletustulkki"
 
 #: ../plugins/python-loader/gnm-python.c:128
 #: ../plugins/python-loader/gnm-python.c:150
@@ -1998,7 +2005,7 @@ msgstr "Gnumeric-Python-pääte"
 
 #: ../plugins/python-loader/py-console.c:169
 msgid "E_xecute in:"
-msgstr ""
+msgstr "Suo_rita kansiossa:"
 
 #: ../plugins/python-loader/py-console.c:214
 msgid "C_ommand:"
@@ -2034,12 +2041,12 @@ msgstr "Pythonin moduulinimeä ei annettu."
 #: ../plugins/python-loader/python-loader.c:89
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr ""
+msgstr "Virhe avattaessa tiedostoa \"%s\" kirjoitettavaksi."
 
 #: ../plugins/python-loader/python-loader.c:93
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
-msgstr ""
+msgstr "Virhe avattaessa tiedostoa \"%s\" luettavaksi."
 
 #: ../plugins/python-loader/python-loader.c:124
 msgid "Cannot create new Python interpreter."
@@ -2077,13 +2084,13 @@ msgstr "Tiedosto ei sisällä funktiota \"%s\"."
 #: ../plugins/python-loader/python-loader.c:769
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr ""
+msgstr "Tiedosto ei sisällä \"%s\"-hakemistoa."
 
 #: ../plugins/python-loader/python-loader.c:662
 #: ../plugins/python-loader/python-loader.c:774
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr ""
+msgstr "Oliota \"%s\" ei löydy hakemistosta."
 
 #: ../plugins/python-loader/python-loader.c:712 ../src/gnm-plugin.c:557
 #, c-format
@@ -2110,7 +2117,7 @@ msgstr "Quattro Pro™"
 #: ../plugins/qpro/qpro-read.c:151
 #, c-format
 msgid "Invalid '%s' record of length %hd instead of %d"
-msgstr ""
+msgstr "Virheellinen tietue \"%s\" (pituus %hd, pitäisi olla %d)"
 
 #: ../plugins/qpro/qpro-read.c:782
 #, c-format
@@ -2120,13 +2127,14 @@ msgstr ""
 #: ../plugins/qpro/qpro-read.c:823
 #, c-format
 msgid "Invalid record %d of length %hd"
-msgstr ""
+msgstr "Virhellinen tietue %d (pituus %hd)"
 
 #: ../plugins/qpro/qpro-read.c:855
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"Virtaa PerfectOffice_MAIN ei löydy. Onko tämä todella Quattro Pro-tiedosto?"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
@@ -2179,20 +2187,20 @@ msgstr "virhe jäsennettäessä riviä\n"
 
 #: ../plugins/sylk/sylk.c:530
 msgid "Error while reading sheet."
-msgstr ""
+msgstr "Virhe luettaessa taulukkoa."
 
 #: ../plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
-msgstr ""
+msgstr "Hello World-liitännäinen käyttäen käyttöliittymäpalvelua"
 
 #: ../plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
-msgstr ""
+msgstr "GUI Hello World"
 
 #: ../plugins/uihello/uihello.c:36
 #, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr ""
+msgstr "Tämä on viesti \"%s\" -liitännäiseltä."
 
 #: ../plugins/xbase/boot.c:180
 msgid "Error while opening xbase file."
@@ -2201,7 +2209,7 @@ msgstr "Virhe avattaessa xbase-tiedostoa."
 #: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:420 ../src/dialogs/dialog-stf-export.c:456
 #: ../src/dialogs/print.glade.h:23 ../src/print-info.c:401 ../src/search.c:612
-#: ../src/workbook.c:828 ../src/xml-io.c:2231
+#: ../src/workbook.c:849 ../src/xml-io.c:2235
 msgid "Sheet"
 msgstr "Taulu"
 
@@ -2227,7 +2235,7 @@ msgstr "Xbase (*.dbf) -tiedostomuoto"
 
 #: ../plugins/xbase/xbase.c:142
 msgid "Failed to read DBF header."
-msgstr ""
+msgstr "DBF-otsaketta ei voitu lukea."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -2249,23 +2257,23 @@ msgstr "Ota uuden liitännäiset käyttöön"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
 #: ../src/dialogs/dialog-preferences.c:737
 msgid "Allow Unfocused Range Selections"
-msgstr ""
+msgstr "Salli kohdistamattomat alueen valinnat"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:5
 msgid "Apply print-setup to all sheets"
-msgstr ""
+msgstr "Käytä tulostusasetuksia kaikille taulukoille"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:6
 msgid "Autocorrect first letter"
-msgstr "Autokorjaa ensimmäinen kirjain"
+msgstr "Korjaa ensimmäinen kirjain automattisesti"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:7
 msgid "Autocorrect initial caps"
-msgstr ""
+msgstr "Korjaa aloittavat isot kirjaimet automaattisesti"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:8
 msgid "Autocorrect names of days"
-msgstr "Autokorjaa päivien nimet"
+msgstr "Korjaa päivien nimet automaattisesti"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:9
 msgid "Autocorrect replace"
@@ -2273,31 +2281,31 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "Default Black and White Printing"
-msgstr ""
+msgstr "Mustavalkoinen tulostus oletuksena"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "Default Bottom Margin"
-msgstr ""
+msgstr "Alareunan oletusmarginaali"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:12
 msgid "Default Grid Line Printing"
-msgstr ""
+msgstr "Tulostaanko apuviivat oletuksena"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "Default Header/Footer Font Size"
-msgstr ""
+msgstr "Otsakkeen ja alaotsakkeen kirjasinkoon oletus"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "Default Horizontal Centering"
-msgstr ""
+msgstr "Vaakasuuntaisen keskityksen oletus"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "Default Print Cells with Only Styles"
-msgstr ""
+msgstr "Tulostetaanko oletuksena vain solut, joissa on tyylejä"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Default Print Direction"
-msgstr ""
+msgstr "Tulostuksen oletussuunta"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Default Repeated Left Region"
@@ -2353,7 +2361,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "List of Active Plugins."
-msgstr "Luettelo aktiivisista liitännäisistä."
+msgstr "Lista Lista aktiivisista liitännäisistä."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "List of Extra Autoformat Directories."
@@ -2361,32 +2369,32 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:32
 msgid "List of Extra Plugin Directories."
-msgstr ""
+msgstr "Lista liitännäishakemistoista."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:33
 msgid "List of First Letter Exceptions"
-msgstr ""
+msgstr "Lista ensimmäisen kirjaimen poikkeuksista."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:34
 msgid "List of Init Caps Exceptions"
-msgstr ""
+msgstr "Lista alkavan ison kirjaimen poikkeuksista."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "Listä tu"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Lista liitännäistiedostojen tiloista."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Lista äskettäin käytetyistä funktioista."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:38
 #: ../src/dialogs/dialog-preferences.c:726
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Äskettäin käytettyjen funktioiden listan enimmäispituus"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:39
 msgid "Page Footer"
@@ -2398,7 +2406,7 @@ msgstr "Sivun ylätunniste"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Muuta tätä arvoa tulostuksen asetusikkunasta."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Print Config"
@@ -2522,15 +2530,15 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
 "This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be high. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
+"sheet is supposed to be high. 0 disables scaling. Please use the Print Setup "
+"dialog to edit this value."
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
 "This value determines the default number of pages a printout of the current "
-"sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
+"sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup "
+"dialog to edit this value."
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:68
@@ -2943,7 +2951,10 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:64
-msgid "This variable determines whether transition keys are set on."
+msgid ""
+"This variable determines whether transition keys are set on. Transition keys "
+"are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
+"page movement rather than jumping to the start/end of series."
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
@@ -4951,11 +4962,11 @@ msgstr ""
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:824
+#: ../src/dialogs/dialog-formula-guru.c:832
 msgid "Function/Argument"
 msgstr "Funktio/argumentti"
 
-#: ../src/dialogs/dialog-formula-guru.c:992
+#: ../src/dialogs/dialog-formula-guru.c:1000
 msgid "Could not create the formula guru."
 msgstr "Kaavagurua ei voitu luoda."
 
@@ -5034,55 +5045,55 @@ msgstr ""
 msgid "Not a range or name"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:254
+#: ../src/dialogs/dialog-hyperlink.c:260
 msgid "Internal Link"
 msgstr "Sisäinen linkki"
 
-#: ../src/dialogs/dialog-hyperlink.c:256
+#: ../src/dialogs/dialog-hyperlink.c:262
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:260
+#: ../src/dialogs/dialog-hyperlink.c:266
 msgid "External Link"
 msgstr "Ulkoinen linkki"
 
-#: ../src/dialogs/dialog-hyperlink.c:262
+#: ../src/dialogs/dialog-hyperlink.c:268
 msgid "Open an external file with the specified name"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:265
+#: ../src/dialogs/dialog-hyperlink.c:271
 msgid "Email Link"
 msgstr "Sähköpostilinkki"
 
-#: ../src/dialogs/dialog-hyperlink.c:267
+#: ../src/dialogs/dialog-hyperlink.c:273
 msgid "Prepare an email"
 msgstr "Valmistele sähköpostiviesti"
 
-#: ../src/dialogs/dialog-hyperlink.c:270
+#: ../src/dialogs/dialog-hyperlink.c:276
 msgid "Web Link"
 msgstr "WWW-linkki"
 
-#: ../src/dialogs/dialog-hyperlink.c:272
+#: ../src/dialogs/dialog-hyperlink.c:278
 msgid "Browse to the specified URL"
 msgstr "Selaa annettu URL"
 
-#: ../src/dialogs/dialog-hyperlink.c:342
+#: ../src/dialogs/dialog-hyperlink.c:348
 msgid "Add Hyperlink"
 msgstr "Lisää hyperlinkki"
 
-#: ../src/dialogs/dialog-hyperlink.c:344
+#: ../src/dialogs/dialog-hyperlink.c:350
 msgid "Edit Hyperlink"
 msgstr "Muokkaa hyperlinkkiä"
 
-#: ../src/dialogs/dialog-hyperlink.c:350 ../src/sheet-control-gui.c:1734
+#: ../src/dialogs/dialog-hyperlink.c:357 ../src/sheet-control-gui.c:1734
 msgid "Remove Hyperlink"
 msgstr "Poista hyperlinkki"
 
-#: ../src/dialogs/dialog-hyperlink.c:542
+#: ../src/dialogs/dialog-hyperlink.c:549
 msgid "Could not create the hyperlink dialog."
 msgstr "Ei voitu luoda hyperlinkki-ikkunaa"
 
-#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:477
+#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:481
 msgid "Insert"
 msgstr "Lisää"
 
@@ -5729,12 +5740,12 @@ msgstr "On olemassa useampi kuin yksi taulukko nimellä \"%s\""
 msgid "At least one sheet must remain visible!"
 msgstr "Vähintään yhden taulukon täytyy jäädä näkyviin!"
 
-#: ../src/dialogs/dialog-sheet-order.c:948
+#: ../src/dialogs/dialog-sheet-order.c:954
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Taulukoiden järjestys on vaihtunut. Päivitetäänkö luettelo?"
 
-#: ../src/dialogs/dialog-sheet-order.c:1019
-#: ../src/dialogs/dialog-sheet-order.c:1029
+#: ../src/dialogs/dialog-sheet-order.c:1025
+#: ../src/dialogs/dialog-sheet-order.c:1035
 msgid "Default"
 msgstr "Oletus"
 
@@ -5780,16 +5791,16 @@ msgid "Variable"
 msgstr "Vaihteleva"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1918
+#: ../src/workbook-control-gui.c:1911
 msgid "Min"
 msgstr "Minimi"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1920
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1913
 msgid "Average"
 msgstr "Keskiarvo"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1919
+#: ../src/workbook-control-gui.c:1912
 msgid "Max"
 msgstr "Maksimi"
 
@@ -7473,7 +7484,7 @@ msgid "Show"
 msgstr "Näytä"
 
 #: ../src/dialogs/scenario-manager.glade.h:13
-#: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:340
+#: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:341
 msgid "View"
 msgstr "Näkymä"
 
@@ -8727,7 +8738,7 @@ msgstr "Huipukkuus"
 msgid "Range"
 msgstr "Alue"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1921
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1914
 msgid "Count"
 msgstr "Määrä"
 
@@ -9191,20 +9202,20 @@ msgstr "Lihava kursiivi"
 msgid "Italic"
 msgstr "Kursivointi"
 
-#: ../src/application.c:301
+#: ../src/application.c:315
 msgid "Cut Object"
 msgstr "Leikkaa objekti"
 
-#: ../src/clipboard.c:302 ../src/clipboard.c:314 ../src/clipboard.c:325
-#: ../src/clipboard.c:333
+#: ../src/clipboard.c:314 ../src/clipboard.c:326 ../src/clipboard.c:337
+#: ../src/clipboard.c:345
 msgid "Unable to paste"
 msgstr "Ei voi liittää"
 
-#: ../src/clipboard.c:303
+#: ../src/clipboard.c:315
 msgid "Contents can only be pasted by value or by link."
 msgstr "Sisältöä voi liittää vain arvoina tai linkkeinä."
 
-#: ../src/clipboard.c:311
+#: ../src/clipboard.c:323
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -9215,7 +9226,7 @@ msgstr ""
 "\n"
 "Valitse joko saman kokoinen ja muotoinen alue tai yksi solu."
 
-#: ../src/clipboard.c:322
+#: ../src/clipboard.c:334
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -9226,7 +9237,7 @@ msgstr ""
 "\n"
 "Valitse joko saman kokoinen ja muotoinen alue tai yksi solu."
 
-#: ../src/clipboard.c:334
+#: ../src/clipboard.c:346
 msgid "result passes the sheet boundary"
 msgstr "tulos ylittää taulukon reunan"
 
@@ -9311,11 +9322,11 @@ msgstr "Kirjoitus \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Lisää/poista sarake/rivi"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3819
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3814
 msgid "Delete Columns"
 msgstr "Poista sarakkeet"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3959
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3954
 msgid "Delete Rows"
 msgstr "Poista rivit"
 
@@ -9360,7 +9371,7 @@ msgid "Deleting row %s"
 msgstr "Poistetaan rivi %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3476
+#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3471
 msgid "Clear"
 msgstr "Tyhjennä"
 
@@ -9721,7 +9732,7 @@ msgstr "Yhdistetään alueeseen (%s)"
 msgid "Internal type error"
 msgstr "Sisäinen tyyppivirhe"
 
-#: ../src/expr.c:1388
+#: ../src/expr.c:1447
 msgid "Unknown evaluation error"
 msgstr "Tuntematon laskentavirhe"
 
@@ -9976,19 +9987,19 @@ msgstr "Automaattisesti tunnistettu"
 msgid "Load file"
 msgstr "Lataa tiedosto"
 
-#: ../src/gui-file.c:232 ../src/gui-file.c:387
+#: ../src/gui-file.c:232 ../src/gui-file.c:388
 msgid "Select a file"
 msgstr ""
 
-#: ../src/gui-file.c:258 ../src/gui-file.c:403
+#: ../src/gui-file.c:258 ../src/gui-file.c:404
 msgid "All Files"
 msgstr ""
 
-#: ../src/gui-file.c:289 ../src/gui-file.c:432
+#: ../src/gui-file.c:289 ../src/gui-file.c:433
 msgid "File _type:"
 msgstr "Tiedoston _tyyppi:"
 
-#: ../src/gui-file.c:344
+#: ../src/gui-file.c:345
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -9996,7 +10007,7 @@ msgid ""
 "Do you want to save only current sheet?"
 msgstr ""
 
-#: ../src/gui-file.c:488
+#: ../src/gui-file.c:490
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10093,78 +10104,80 @@ msgstr "Siirrä soluja o_ikealle ja liikuta"
 msgid "C_ancel"
 msgstr "_Peru"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:78
 msgid "Display Gnumeric's version"
 msgstr "Näytä Gnumericin versio"
 
-#: ../src/main-application.c:81 ../src/ssconvert.c:49 ../src/ssindex.c:57
+#: ../src/main-application.c:84 ../src/ssconvert.c:49 ../src/ssindex.c:57
 msgid "Set the root library directory"
 msgstr "Aseta juurikirjastohakemisto"
 
-#: ../src/main-application.c:82 ../src/main-application.c:88
+#: ../src/main-application.c:85 ../src/main-application.c:91
 #: ../src/ssconvert.c:50 ../src/ssconvert.c:57 ../src/ssindex.c:58
 #: ../src/ssindex.c:65
 msgid "DIR"
 msgstr ""
 
-#: ../src/main-application.c:87 ../src/ssconvert.c:56 ../src/ssindex.c:64
+#: ../src/main-application.c:90 ../src/ssconvert.c:56 ../src/ssindex.c:64
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: ../src/main-application.c:93
+#: ../src/main-application.c:96
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: ../src/main-application.c:94
+#: ../src/main-application.c:97
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "LEVEYSxKORKEUS+XSIIRT+YSIIRT"
 
-#: ../src/main-application.c:99
+#: ../src/main-application.c:102
 msgid "Don't show splash screen"
 msgstr "Älä näytä käynnistysruutua"
 
-#: ../src/main-application.c:105
+#: ../src/main-application.c:108
 msgid "Don't display warning dialogs when importing"
 msgstr ""
 
-#: ../src/main-application.c:112
+#: ../src/main-application.c:115
 msgid "Enables some dependency related debugging functions"
-msgstr "Asettaa joitain riippuvuuksiin liittyviä virheenetsintäfunktioita päälle"
+msgstr ""
+"Asettaa joitain riippuvuuksiin liittyviä virheenetsintäfunktioita päälle"
 
-#: ../src/main-application.c:113 ../src/main-application.c:119
-#: ../src/main-application.c:125 ../src/main-application.c:150
+#: ../src/main-application.c:116 ../src/main-application.c:122
+#: ../src/main-application.c:128 ../src/main-application.c:153
 msgid "LEVEL"
 msgstr "TASO"
 
-#: ../src/main-application.c:118
+#: ../src/main-application.c:121
 msgid "Enables some debugging functions for expression sharing"
-msgstr "Asettaa joitain lausekkeiden jakoon liittyviä virheenetsintäfuntioita päälle"
+msgstr ""
+"Asettaa joitain lausekkeiden jakoon liittyviä virheenetsintäfuntioita päälle"
 
-#: ../src/main-application.c:124
+#: ../src/main-application.c:127
 msgid "Enables some print debugging behavior"
 msgstr "Asettaa joitain tulostuksen virheenetsintätoimintoja päälle"
 
-#: ../src/main-application.c:131 ../src/main-application.c:137
+#: ../src/main-application.c:134 ../src/main-application.c:140
 msgid "Dumps the function definitions"
 msgstr "Tulostaa funktiomäärittelyt"
 
-#: ../src/main-application.c:132 ../src/main-application.c:138
+#: ../src/main-application.c:135 ../src/main-application.c:141
 msgid "FILE"
 msgstr "TIEDOSTO"
 
-#: ../src/main-application.c:143
+#: ../src/main-application.c:146
 msgid "Generate new help and po files"
 msgstr "Luo uudet ohje- ja po-tiedostot"
 
-#: ../src/main-application.c:149
+#: ../src/main-application.c:152
 msgid "Enables some debugging functions"
 msgstr "Asettaa joitain virheenetsintäfuntioita päälle"
 
-#: ../src/main-application.c:155
+#: ../src/main-application.c:158
 msgid "Exit immediately after loading the selected books"
 msgstr "Sulje heti, kun valitut työkirjat on ladattu"
 
-#: ../src/main-application.c:195
+#: ../src/main-application.c:198
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -10178,14 +10191,14 @@ msgid ""
 "-- The Gnumeric Team."
 msgstr ""
 
-#: ../src/main-application.c:279 ../src/ssconvert.c:241 ../src/ssindex.c:226
+#: ../src/main-application.c:282 ../src/ssconvert.c:241 ../src/ssindex.c:226
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 
-#: ../src/main-application.c:345
+#: ../src/main-application.c:348
 msgid ""
 "The Pango library present on your system is buggy, see\n"
 "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
@@ -10193,7 +10206,7 @@ msgid ""
 "with your distribution if a fixed Pango library is available."
 msgstr ""
 
-#: ../src/main-application.c:389
+#: ../src/main-application.c:420
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -10211,22 +10224,6 @@ msgstr "bessel_i-varausvirhe"
 #: ../src/mathfunc.c:3879 ../src/mathfunc.c:3882
 msgid "bessel_i(%"
 msgstr "bessel_i(%"
-
-#: ../src/mathfunc.c:3879 ../src/mathfunc.c:4350
-msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
-msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
-
-#: ../src/mathfunc.c:3879 ../src/mathfunc.c:4350
-msgid ". Arg. out of range?\n"
-msgstr ". Argumentti ei rajoissa?\n"
-
-#: ../src/mathfunc.c:3882 ../src/mathfunc.c:4353
-msgid ",nu=%"
-msgstr ",nu=%"
-
-#: ../src/mathfunc.c:3882 ../src/mathfunc.c:4353
-msgid "): precision lost in result\n"
-msgstr "): tarkkuutta hävisi tuloksessa\n"
 
 #: ../src/mathfunc.c:4342
 msgid "bessel_k allocation error"
@@ -10664,11 +10661,11 @@ msgstr ""
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: ../src/sheet.c:3748
+#: ../src/sheet.c:3743
 msgid "Insert Columns"
 msgstr "Lisää sarakkeita"
 
-#: ../src/sheet.c:3891
+#: ../src/sheet.c:3886
 msgid "Insert Rows"
 msgstr "Lisää rivejä"
 
@@ -10828,15 +10825,15 @@ msgstr ""
 msgid "Pus_h to Back"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:242 ../src/sheet-object-image.c:405
+#: ../src/sheet-object-graph.c:251 ../src/sheet-object-image.c:405
 msgid "Unknown failure while saving image"
 msgstr "Tuntematon virhe tallennettaessa kuvaa"
 
-#: ../src/sheet-object-graph.c:339
+#: ../src/sheet-object-graph.c:348
 msgid "_Save as Image"
 msgstr "_Tallenna kuvana"
 
-#: ../src/sheet-object-graph.c:340
+#: ../src/sheet-object-graph.c:349
 msgid "Open in _New Window"
 msgstr ""
 
@@ -10871,11 +10868,11 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: ../src/sheet-view.c:348
+#: ../src/sheet-view.c:356
 msgid "Copy"
 msgstr "Kopioi"
 
-#: ../src/sheet-view.c:373 ../src/sheet-view.c:376
+#: ../src/sheet-view.c:381 ../src/sheet-view.c:384
 msgid "Cut"
 msgstr "Leikkaa"
 
@@ -10949,7 +10946,7 @@ msgstr ""
 
 #: ../src/ssconvert.c:235 ../src/ssconvert.c:273
 msgid "INFILE [OUTFILE]"
-msgstr ""
+msgstr "SYÖTETIEDOSTO [TULOSTIEDOSTO]"
 
 #: ../src/ssconvert.c:248
 #, c-format
@@ -10958,15 +10955,18 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"ssconvert versio \"%s\"\n"
+"datakansio: \"%s\"\n"
+"kirjastokansio: \"%s\"\n"
 
 #: ../src/ssconvert.c:271 ../src/ssindex.c:237
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr ""
+msgstr "Käyttö: %s [VALITSIN...] %s\n"
 
 #: ../src/ssindex.c:73
 msgid "List MIME types which ssindex is able to read"
-msgstr ""
+msgstr "Listaa MIME-tyypit, joita ssindex voi lukea"
 
 #: ../src/ssindex.c:80
 msgid "Index the given files"
@@ -11016,6 +11016,8 @@ msgid ""
 "Some columns of data were dropped since they exceeded the available sheet "
 "size."
 msgstr ""
+"Joidenkin sarakkeiden tiedot tiputettiin, koska ne ylittivät sallitun "
+"taulukon koon."
 
 #: ../src/stf.c:391
 msgid "Parse error while trying to parse data into sheet"
@@ -11023,11 +11025,11 @@ msgstr "Jäsennysvirhe yritettäessä jäsentää dataa tauluun"
 
 #: ../src/stf.c:419
 msgid "Error while trying to export file as text"
-msgstr ""
+msgstr "Virhe vietäessä tiedostoa tekstimuotoon"
 
 #: ../src/stf.c:437
 msgid "Error while trying to write CSV file"
-msgstr ""
+msgstr "Virhe kirjoitettaessa CSV-tiedostoa"
 
 #: ../src/stf.c:527
 msgid "Comma or tab separated values (CSV/TSV)"
@@ -11059,7 +11061,7 @@ msgstr "Maa-asetusto"
 
 #: ../src/stf-export.c:473
 msgid "The locale to use for number and date formatting."
-msgstr ""
+msgstr "Numeroiden ja päiväysten muotoilussa käytetty maa-asetusto."
 
 #: ../src/stf-export.c:481
 msgid "Transliterate mode"
@@ -11073,7 +11075,7 @@ msgstr "Mitä tehdään merkeille, joita ei voi esittää."
 msgid "How should cells be formatted?"
 msgstr "Kuinka solut muotoillaan?"
 
-#: ../src/stf-parse.c:1162
+#: ../src/stf-parse.c:1194
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -11452,7 +11454,7 @@ msgstr "Kopioi valinta"
 msgid "Paste the clipboard"
 msgstr "Liitä leikepöydän sisältö"
 
-#: ../src/wbcg-actions.c:1534 ../src/workbook-control-gui.c:1161
+#: ../src/wbcg-actions.c:1534 ../src/workbook-control-gui.c:1169
 msgid "_Undo"
 msgstr "_Kumoa"
 
@@ -11460,7 +11462,7 @@ msgstr "_Kumoa"
 msgid "Undo the last action"
 msgstr "Kumoa viimeisin toiminto"
 
-#: ../src/wbcg-actions.c:1537 ../src/workbook-control-gui.c:1162
+#: ../src/wbcg-actions.c:1537 ../src/workbook-control-gui.c:1170
 msgid "_Redo"
 msgstr "_Toista"
 
@@ -11794,11 +11796,11 @@ msgstr "_Uusi näkymä..."
 msgid "Create a new view of the workbook"
 msgstr "Luo uusi jaettu näkymä työkirjaan"
 
-#: ../src/wbcg-actions.c:1737 ../src/workbook-control-gui.c:1136
+#: ../src/wbcg-actions.c:1737 ../src/workbook-control-gui.c:1144
 msgid "_Freeze Panes"
 msgstr "_Jäädytä ruudut"
 
-#: ../src/wbcg-actions.c:1738 ../src/workbook-control-gui.c:1139
+#: ../src/wbcg-actions.c:1738 ../src/workbook-control-gui.c:1147
 msgid "Freeze the top left of the sheet"
 msgstr "Jäädytä taulukon vasen yläreuna"
 
@@ -12069,7 +12071,7 @@ msgstr "_Näytä..."
 
 #: ../src/wbcg-actions.c:1871
 msgid "View, delete and report different scenarios"
-msgstr ""
+msgstr "Näytä, muokkaa ja raportoi eri skenaarioita"
 
 #: ../src/wbcg-actions.c:1873
 msgid "_Add..."
@@ -12150,15 +12152,15 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1906
 msgid "_Known Variances: Z-Test..."
-msgstr ""
+msgstr "_Tunnetut varianssit: Z-Test..."
 
 #: ../src/wbcg-actions.c:1907
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
 msgstr ""
-"Kahden perusjoukon keskiarvon vertailu käyttäen tunnettuja variansseja "
-"z-test..."
+"Kahden perusjoukon keskiarvon vertailu käyttäen tunnettuja variansseja: z-"
+"test..."
 
 #. Tools -> Analysis
 #: ../src/wbcg-actions.c:1911
@@ -12289,7 +12291,7 @@ msgstr "_Näytä lisätiedot"
 
 #: ../src/wbcg-actions.c:1966
 msgid "Uncollapse an outline group"
-msgstr ""
+msgstr "Laajenna reunaviivaryhmä"
 
 #: ../src/wbcg-actions.c:1968
 msgid "_Group..."
@@ -12308,7 +12310,7 @@ msgid "Remove an outline group"
 msgstr "Poista reunaviivaryhmä"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1976 ../src/workbook-control-gui.c:1147
+#: ../src/wbcg-actions.c:1976 ../src/workbook-control-gui.c:1155
 msgid "Add _Auto Filter"
 msgstr "Lisää _automaattisuodatin"
 
@@ -12342,7 +12344,7 @@ msgid "Import the text from a file"
 msgstr "Tuo tekstiä tiedostosta"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1991 ../src/workbook-control-gui.c:1917
+#: ../src/wbcg-actions.c:1991 ../src/workbook-control-gui.c:1910
 #: ../src/workbook-view.c:639
 msgid "Sum"
 msgstr "Summa"
@@ -12360,6 +12362,7 @@ msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
+"Lajittele alue nousevaan järjestykseen ensimmäisen sarakkeen perusteella"
 
 #: ../src/wbcg-actions.c:2001
 msgid "Sort Descending"
@@ -12370,6 +12373,7 @@ msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
+"Lajittele alue laskevaan järjestykseen ensimmäisen sarakkeen perusteella"
 
 #. Object Toolbar
 #: ../src/wbcg-actions.c:2006
@@ -12503,7 +12507,7 @@ msgstr "Kirjanpito"
 
 #: ../src/wbcg-actions.c:2067
 msgid "Format the selection as accounting"
-msgstr ""
+msgstr "Muotoile valinta kirjanpitoa varten"
 
 #: ../src/wbcg-actions.c:2069
 msgid "Percentage"
@@ -12559,7 +12563,7 @@ msgstr "Tuhaterotin"
 
 #: ../src/wbcg-actions.c:2089
 msgid "Set the format of the selected cells to include a thousands separator"
-msgstr ""
+msgstr "Määrittele valittujen solujen sisältöön mukaan tuhaterotin"
 
 # Tarkista
 #: ../src/wbcg-actions.c:2091
@@ -12580,11 +12584,11 @@ msgstr "Vähennä näkyvien desimaalien määrää"
 
 #: ../src/wbcg-actions.c:2098
 msgid "Decrease the indent, and align the contents to the left"
-msgstr ""
+msgstr "Pienennä sisennystä ja tasaa sisältö vasemmalle"
 
 #: ../src/wbcg-actions.c:2101
 msgid "Increase the indent, and align the contents to the left"
-msgstr ""
+msgstr "Kasvata sisennystä ja tasaa sisältö vasemmalle"
 
 #: ../src/wbcg-actions.c:2132
 msgid "Display _Outlines"
@@ -12592,23 +12596,23 @@ msgstr "Näytä _reunaviivat"
 
 #: ../src/wbcg-actions.c:2133
 msgid "Toggle whether or not to display outline groups"
-msgstr ""
+msgstr "Näytetäänkö reunaviivatryhmät"
 
 #: ../src/wbcg-actions.c:2135
 msgid "Outlines _Below"
-msgstr ""
+msgstr "Reunaviivat _alla"
 
 #: ../src/wbcg-actions.c:2136
 msgid "Toggle whether to display row outlines on top or bottom"
-msgstr ""
+msgstr "Näytetäänkö rivien reunaviivat päällä vai alla"
 
 #: ../src/wbcg-actions.c:2138
 msgid "Outlines _Right"
-msgstr ""
+msgstr "Reuvaviivat _oikealla"
 
 #: ../src/wbcg-actions.c:2139
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
+msgstr "Näytetäänkö sarakkeiden reunaviivat vasemmalla vai oikealla"
 
 #: ../src/wbcg-actions.c:2141
 msgid "Display _Formulas"
@@ -12624,7 +12628,7 @@ msgstr "Piilota _nollat"
 
 #: ../src/wbcg-actions.c:2145
 msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
+msgstr "Näytetäänkö nollat tyhjinä"
 
 #: ../src/wbcg-actions.c:2147
 msgid "Hide _Gridlines"
@@ -12632,7 +12636,7 @@ msgstr "Piilota ruu_dukon viivat"
 
 #: ../src/wbcg-actions.c:2148
 msgid "Toggle whether or not to display gridlines"
-msgstr ""
+msgstr "Näytetäänkö ruudukon viivat"
 
 #: ../src/wbcg-actions.c:2150
 msgid "Hide _Column Headers"
@@ -12640,7 +12644,7 @@ msgstr "Piilota _sarakkeiden otsakkeet"
 
 #: ../src/wbcg-actions.c:2151
 msgid "Toggle whether or not to display column headers"
-msgstr ""
+msgstr "Näytetäänkö sarakkeiden otsakkeet"
 
 #: ../src/wbcg-actions.c:2153
 msgid "Hide _Row Headers"
@@ -12648,15 +12652,15 @@ msgstr "Piilota _rivien otsakkeet"
 
 #: ../src/wbcg-actions.c:2154
 msgid "Toggle whether or not to display row headers"
-msgstr ""
+msgstr "Näytetäänkö rivien otsakkeet"
 
 #: ../src/wbcg-actions.c:2156
 msgid "Use R1C1 N_otation "
-msgstr ""
+msgstr "Käytä RIC1-notaatiota"
 
 #: ../src/wbcg-actions.c:2157
 msgid "Display addresses as R1C1 or A1"
-msgstr ""
+msgstr "Näytä osoitteet RIC1- tai A1-notaatiolla"
 
 #: ../src/wbcg-actions.c:2161
 msgid "_Left Align"
@@ -12696,39 +12700,39 @@ msgstr "_Yhdistä ja keskitä"
 
 #: ../src/wbcg-actions.c:2175
 msgid "Merge the selection into 1 cell, and center horizontaly."
-msgstr ""
+msgstr "Yhdistä valinta yhteen soluun ja keskitä vaakasuunnassa."
 
 #: ../src/wbcg-actions.c:2182
 msgid "Align _Top"
-msgstr ""
+msgstr "Tasaa _ylös"
 
 #: ../src/wbcg-actions.c:2183 ../src/wbc-gtk.c:351
 msgid "Align Top"
-msgstr ""
+msgstr "Tasaa yläreunaan"
 
 #: ../src/wbcg-actions.c:2185
 msgid "_Vertically Center"
-msgstr ""
+msgstr "Keskitä _pystysuunnassa"
 
 #: ../src/wbcg-actions.c:2186
 msgid "Vertically Center"
-msgstr ""
+msgstr "Keskitä pystysuunnassa"
 
 #: ../src/wbcg-actions.c:2188
 msgid "Align _Bottom"
-msgstr ""
+msgstr "Tasaa _alas"
 
 #: ../src/wbcg-actions.c:2189 ../src/wbc-gtk.c:353
 msgid "Align Bottom"
-msgstr ""
+msgstr "Tasaa alareunaan"
 
 #: ../src/wbcg-actions.c:2192
 msgid "View _Statusbar"
-msgstr ""
+msgstr "Näytä _tilarivi"
 
 #: ../src/wbcg-actions.c:2193
 msgid "Toggle visibility of statusbar"
-msgstr ""
+msgstr "Näytetäänkö tilarivi"
 
 #: ../src/wbcg-actions.c:2197
 msgid "F_ull Screen"
@@ -12736,7 +12740,7 @@ msgstr "K_okoruutu"
 
 #: ../src/wbcg-actions.c:2198
 msgid "Switch to or from full screen mode"
-msgstr ""
+msgstr "Vaihda kokoruututilaan ja takaisin"
 
 #: ../src/wbcg-actions.c:2204
 msgid "_Bold"
@@ -12900,7 +12904,7 @@ msgstr "Avaa %s"
 #: ../src/wbc-gtk.c:1101
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
-msgstr ""
+msgstr "Valikossa %s, näppäintä %s käytätään sekä kohdille %s ja %s."
 
 #: ../src/wbc-gtk.c:1370
 msgid "Display above sheets"
@@ -12932,55 +12936,55 @@ msgstr "Näytetäänkö työkalupakki %s"
 msgid "Book%d.%s"
 msgstr "Työkirja%d.%s"
 
-#: ../src/workbook.c:1297
+#: ../src/workbook.c:1320
 msgid "Renaming sheet"
 msgstr "Nimetään taulukkoa uudelleen"
 
-#: ../src/workbook.c:1298
+#: ../src/workbook.c:1321
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "Nimetään %d taulukkoa uudelleen"
 
-#: ../src/workbook.c:1301
+#: ../src/workbook.c:1324
 msgid "Adding sheet"
 msgstr "Lisätään taulukko"
 
-#: ../src/workbook.c:1302
+#: ../src/workbook.c:1325
 #, c-format
 msgid "Adding %d sheets"
 msgstr "Lisätään %d taulukkoa"
 
-#: ../src/workbook.c:1309
+#: ../src/workbook.c:1332
 msgid "Inserting sheet"
 msgstr "Lisää uusi taulukko"
 
-#: ../src/workbook.c:1310
+#: ../src/workbook.c:1333
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "Lisätään %d uutta taulukkoa"
 
-#: ../src/workbook.c:1312
+#: ../src/workbook.c:1335
 msgid "Changing sheet tab colors"
 msgstr "Muutetaan välilehtien värejä"
 
-#: ../src/workbook.c:1314
+#: ../src/workbook.c:1337
 msgid "Changing sheet properties"
 msgstr "Muutetaan taulukon ominaisuuksia"
 
-#: ../src/workbook.c:1322
+#: ../src/workbook.c:1345
 msgid "Deleting sheet"
 msgstr "Poistetaan taulukko"
 
-#: ../src/workbook.c:1323
+#: ../src/workbook.c:1346
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "Poistetaan %d taulukkoa"
 
-#: ../src/workbook.c:1325
+#: ../src/workbook.c:1348
 msgid "Changing sheet order"
 msgstr "Muutetaan taulukkojen järjestystä"
 
-#: ../src/workbook.c:1327
+#: ../src/workbook.c:1350
 msgid "Reorganizing Sheets"
 msgstr "Taulukoiden uudelleenjärjestely"
 
@@ -12992,113 +12996,113 @@ msgstr "Määrittele nimi"
 msgid "Address"
 msgstr "Osoite"
 
-#: ../src/workbook-control.c:341
+#: ../src/workbook-control.c:342
 msgid "The workbook view being controlled."
-msgstr ""
+msgstr "Ohjattava työkirjanäkymä."
 
-#: ../src/workbook-control-gui.c:475
+#: ../src/workbook-control-gui.c:479
 msgid "Manage sheets..."
 msgstr "Hallinnoi taulukkoja..."
 
-#: ../src/workbook-control-gui.c:478
+#: ../src/workbook-control-gui.c:482
 msgid "Append"
 msgstr "Liitä perään"
 
-#: ../src/workbook-control-gui.c:479
+#: ../src/workbook-control-gui.c:483
 msgid "Duplicate"
 msgstr "Monista"
 
-#: ../src/workbook-control-gui.c:480
+#: ../src/workbook-control-gui.c:484
 msgid "Remove"
 msgstr "Poista"
 
-#: ../src/workbook-control-gui.c:481
+#: ../src/workbook-control-gui.c:485
 msgid "Rename"
 msgstr "Vaihda nimi"
 
-#: ../src/workbook-control-gui.c:1030
+#: ../src/workbook-control-gui.c:1038
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/workbook-control-gui.c:1135
+#: ../src/workbook-control-gui.c:1143
 msgid "Un_freeze Panes"
 msgstr "Su_lata ruudut"
 
-#: ../src/workbook-control-gui.c:1138
+#: ../src/workbook-control-gui.c:1146
 msgid "Unfreeze the top left of the sheet"
 msgstr "Sulata taulukon vasen yläosa"
 
-#: ../src/workbook-control-gui.c:1146
+#: ../src/workbook-control-gui.c:1154
 msgid "Remove _Auto Filter"
 msgstr "Poista _automaattisuodatin"
 
-#: ../src/workbook-control-gui.c:1149
+#: ../src/workbook-control-gui.c:1157
 msgid "Remove a filter"
 msgstr "Poista suodatin"
 
-#: ../src/workbook-control-gui.c:1150
+#: ../src/workbook-control-gui.c:1158
 msgid "Add a filter"
 msgstr "Lisää suodatin"
 
-#: ../src/workbook-control-gui.c:1211
+#: ../src/workbook-control-gui.c:1219
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Tallenna työkirjan \"%s\" muutokset ennen sulkemista?"
 
-#: ../src/workbook-control-gui.c:1215
+#: ../src/workbook-control-gui.c:1223
 msgid "Save changes to workbook before closing?"
 msgstr "Tallenna työkirjan muutokset ennen sulkemista?"
 
-#: ../src/workbook-control-gui.c:1222
+#: ../src/workbook-control-gui.c:1230
 msgid "If you close without saving, changes will be discarded."
 msgstr "Jos suljet tallentamatta, muutokset hylätään."
 
-#: ../src/workbook-control-gui.c:1228
+#: ../src/workbook-control-gui.c:1236
 msgid "Discard all"
 msgstr "Hylkää kaikki"
 
-#: ../src/workbook-control-gui.c:1230 ../src/workbook-control-gui.c:1237
-#: ../src/workbook-control-gui.c:1243
+#: ../src/workbook-control-gui.c:1238 ../src/workbook-control-gui.c:1245
+#: ../src/workbook-control-gui.c:1251
 msgid "Discard"
 msgstr "Hylkää"
 
-#: ../src/workbook-control-gui.c:1232
+#: ../src/workbook-control-gui.c:1240
 msgid "Save all"
 msgstr "Tallenna kaikki"
 
-#: ../src/workbook-control-gui.c:1234 ../src/workbook-control-gui.c:1239
+#: ../src/workbook-control-gui.c:1242 ../src/workbook-control-gui.c:1247
 msgid "Don't quit"
 msgstr "Älä lopeta"
 
-#: ../src/workbook-control-gui.c:1245
+#: ../src/workbook-control-gui.c:1253
 msgid "Don't close"
 msgstr "Älä sulje"
 
-#: ../src/workbook-control-gui.c:1966
+#: ../src/workbook-control-gui.c:1959
 msgid "Use maximum precision"
 msgstr "Käytä parasta tarkkuutta"
 
-#: ../src/workbook-control-gui.c:2217
+#: ../src/workbook-control-gui.c:2210
 msgid "Cancel change"
 msgstr "Peru muutos"
 
-#: ../src/workbook-control-gui.c:2221
+#: ../src/workbook-control-gui.c:2214
 msgid "Accept change"
 msgstr "Hyväksy muutos"
 
-#: ../src/workbook-control-gui.c:2225
+#: ../src/workbook-control-gui.c:2218
 msgid "Enter formula..."
 msgstr "Syötä kaava..."
 
-#: ../src/workbook-control-gui.c:2361 ../src/workbook-control-gui.c:2376
+#: ../src/workbook-control-gui.c:2354 ../src/workbook-control-gui.c:2369
 msgid "_Re-Edit"
 msgstr "_Muokkaa uudelleen"
 
-#: ../src/workbook-control-gui.c:2362 ../src/workbook-control-gui.c:2367
+#: ../src/workbook-control-gui.c:2355 ../src/workbook-control-gui.c:2360
 msgid "_Discard"
 msgstr "H_ylkää"
 
-#: ../src/workbook-control-gui.c:2366 ../src/workbook-control-gui.c:2377
+#: ../src/workbook-control-gui.c:2359 ../src/workbook-control-gui.c:2370
 msgid "_Accept"
 msgstr "_Hyväksy"
 
@@ -13117,7 +13121,7 @@ msgstr "Poista taulukon suojaus muokkausta varten."
 
 #: ../src/workbook-edit.c:779
 msgid "You are about to edit a cell with \"text\" format."
-msgstr ""
+msgstr "Olet muokkaamassa solua, jonka muotoilu on \"teksti\"."
 
 #: ../src/workbook-edit.c:780
 msgid ""
@@ -13131,7 +13135,7 @@ msgstr "Poista muotoilu"
 
 #: ../src/workbook-edit.c:790
 msgid "Show this dialog next time."
-msgstr ""
+msgstr "Näytä tämä ikkuna jatkossa."
 
 #: ../src/workbook-view.c:309
 #, c-format
@@ -13174,11 +13178,11 @@ msgstr "Oletustiedostotallennin ei ole saatavilla."
 msgid "Failed to create temporary file for sending."
 msgstr "Väliaikaistiedoston luominen lähettämistä varten epäonnistui."
 
-#: ../src/workbook-view.c:1062
+#: ../src/workbook-view.c:1063
 msgid "Unsupported file format."
 msgstr "Tuntematon tiedostomuoto."
 
-#: ../src/workbook-view.c:1110
+#: ../src/workbook-view.c:1111
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Selittämätön virhe tapahtui avattaessa tiedostoa %s"
@@ -13188,42 +13192,42 @@ msgstr "Selittämätön virhe tapahtui avattaessa tiedostoa %s"
 msgid "Unsupported object type '%s'"
 msgstr "Tukematon oliotyyppi \"%s\""
 
-#: ../src/xml-io.c:2106
+#: ../src/xml-io.c:2110
 msgid "Unparsable xml in clipboard"
 msgstr "Jäsentymätöntä xml:ää leikepöydällä"
 
-#: ../src/xml-io.c:2113
+#: ../src/xml-io.c:2117
 msgid "Clipboard is in unknown format"
 msgstr "Leikepöytä on tuntematonta muotoa"
 
-#: ../src/xml-io.c:2340
+#: ../src/xml-io.c:2344
 msgid "Processing file..."
 msgstr "Käsitellään tiedostoa..."
 
-#: ../src/xml-io.c:2679
+#: ../src/xml-io.c:2683
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Tiedosto ei ole Gnumeric-työkirjatiedosto"
 
-#: ../src/xml-io.c:2707
+#: ../src/xml-io.c:2711
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "Gnumericin XML-tiedoston (*.gnumeric) vanha, hidas tuoja"
 
-#: ../src/xml-io.c:2713
+#: ../src/xml-io.c:2717
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
-msgstr ""
+msgstr "KOKEELLINEN SAX-pohjainen Gnumeric (*.gnumeric)"
 
-#: ../src/xml-io.c:2718
+#: ../src/xml-io.c:2722
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumericin XML-tiedosto (*.gnumeric)"
 
 #: ../src/xml-sax-read.c:355
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
-msgstr ""
+msgstr "Useita versiomäärittelyjä, oletetaan %d"
 
 #: ../src/xml-sax-read.c:536
 msgid "File has inconsistent SheetNameIndex element."
-msgstr ""
+msgstr "Tiedostossa on epäyhtenäinen SheetNameIndex-elementti."
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "A button like template"
@@ -13257,7 +13261,7 @@ msgstr "Gnumeric-tiimi"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "A 3D list template"
-msgstr ""
+msgstr "Kolmiulotteinen listapohja"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:1
 msgid "Cool"
@@ -13279,7 +13283,7 @@ msgstr "Yksinkertainen"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "A classical yet colorful template"
-msgstr ""
+msgstr "Klassinen, mutta värikäs pohja"
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
 msgid "Trendy"
@@ -13287,11 +13291,11 @@ msgstr "Trendikäs"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "A banana coloured template"
-msgstr ""
+msgstr "Banaaninvärinen pohja"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:2
 msgid "Banana"
-msgstr ""
+msgstr "Banaani"
 
 #: ../templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
@@ -13299,7 +13303,7 @@ msgstr "musta"
 
 #: ../templates/autoformat/autoformat.Colourful.black.xml.in.h:3
 msgid "Template with a black background"
-msgstr ""
+msgstr "Pohja mustalla taustalla"
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
 msgid "A colourful template with mainly blue and teal colours"
@@ -13319,7 +13323,7 @@ msgstr "Oranssi asiakirjapohja"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
 msgid "Template with vanilla colour"
-msgstr ""
+msgstr "Vaniljanvärinen pohja"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
 msgid "Vanilla"
@@ -13343,7 +13347,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:3
 msgid "Ice"
-msgstr ""
+msgstr "Jää"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:2
 msgid "Modern"
@@ -13367,7 +13371,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:1
 msgid "A basic formal style"
-msgstr ""
+msgstr "Tavallinen muodollinen tyyli"
 
 #: ../templates/autoformat/autoformat.General.basic.xml.in.h:2
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:2
@@ -13376,11 +13380,11 @@ msgstr "Tavallinen"
 
 #: ../templates/autoformat/autoformat.General.empty.xml.in.h:1
 msgid "A fully empty template"
-msgstr ""
+msgstr "Täysin tyhjä pohja"
 
 #: ../templates/autoformat/autoformat.General.empty.xml.in.h:2
 msgid "Empty"
-msgstr ""
+msgstr "Tyhjä"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:2
 msgid "Table"
@@ -13388,7 +13392,7 @@ msgstr "Taulukko"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Very simple table template with the same border everywhere "
-msgstr ""
+msgstr "Ykinkertainenn taulukkopohja tasalevyisillä reunuksilla"
 
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:1
 msgid "A basic list"
@@ -13396,7 +13400,7 @@ msgstr "Yksinkertainen lista"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:1
 msgid "A green list template"
-msgstr ""
+msgstr "Vihreä listapohja"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
@@ -13414,3 +13418,14 @@ msgstr "Lilanvärinen listapohja"
 msgid "A simple list template"
 msgstr "Yksinkertainen listapohja"
 
+#~ msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
+#~ msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
+
+#~ msgid ". Arg. out of range?\n"
+#~ msgstr ". Argumentti ei rajoissa?\n"
+
+#~ msgid ",nu=%"
+#~ msgstr ",nu=%"
+
+#~ msgid "): precision lost in result\n"
+#~ msgstr "): tarkkuutta hävisi tuloksessa\n"
