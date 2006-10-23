@@ -6,6 +6,7 @@ Jon Kåre:
 	* Fix crash in sheet label context menu. [#363261]
 	* Fix crash when deleting same sheet from two views. [#364082]
 	* Fix crash reading inconsistent file. [#312010]
+	* Remove "deactivate all" button from plugin manager.
 
 Morten:
 	* Basic life support for perl-loader.  [#362911]

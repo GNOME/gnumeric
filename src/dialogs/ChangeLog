@@ -1,3 +1,11 @@
+2006-10-23  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-plugin-manager.c (cb_pm_button_deactivate_all_clicked):
+	Remove. 
+	(pm_dialog_init, dialog_plugin_manager): Remove "Deactivate all"
+	button.
+	* plugin-manager.glade: Ditto.
+
 2006-10-22  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-sheet-order.c (cb_sheet_order_destroy): Unset unique

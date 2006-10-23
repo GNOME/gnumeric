@@ -75,7 +75,7 @@ typedef struct {
 	GtkTreeSelection   *selection;
 	GtkButton *button_rescan_directories;
 	GtkButton *button_directory_add, *button_directory_delete;
-	GtkButton *button_activate_all, *button_deactivate_all;
+	GtkButton *button_activate_all;
 	GtkCheckButton *checkbutton_install_new;
 	GtkWidget *frame_mark_for_deactivation;
 	GtkWidget *checkbutton_mark_for_deactivation;
@@ -505,23 +505,6 @@ cb_pm_button_activate_all_clicked (G_GNUC_UNUSED GtkButton *button,
 }
 
 static void
-cb_pm_button_deactivate_all_clicked (G_GNUC_UNUSED GtkButton *button,
-				     PluginManagerGUI *pm_gui)
-{
-	ErrorInfo *deactivation_error, *error;
-
-	go_plugin_db_deactivate_plugin_list (
-		go_plugins_get_available_plugins (), &deactivation_error);
-	if (deactivation_error != NULL) {
-		error = error_info_new_str_with_details (
-			_("Errors while deactivating plugins"), deactivation_error);
-		gnumeric_error_info_dialog_show (
-			GTK_WINDOW (pm_gui->dialog_pm), error);
-		error_info_free (error);
-	}
-}
-
-static void
 pm_dialog_init (PluginManagerGUI *pm_gui)
 {
 	GSList *sorted_plugin_list;
@@ -530,9 +513,6 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_signal_connect (G_OBJECT (pm_gui->button_activate_all),
 		"clicked",
 		G_CALLBACK (cb_pm_button_activate_all_clicked), pm_gui);
-	g_signal_connect (G_OBJECT (pm_gui->button_deactivate_all),
-		"clicked",
-		G_CALLBACK (cb_pm_button_deactivate_all_clicked), pm_gui);
 	g_signal_connect_swapped (G_OBJECT (pm_gui->button_rescan_directories),
 		"clicked",
 		G_CALLBACK (cb_pm_button_rescan_directories_clicked), pm_gui);
@@ -699,8 +679,6 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	pm_gui->button_activate_all =
 		GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_all"));
-	pm_gui->button_deactivate_all =
-		GTK_BUTTON (glade_xml_get_widget (gui, "button_deactivate_all"));
 	pm_gui->button_rescan_directories = GTK_BUTTON (glade_xml_get_widget
 						    (gui, "button_rescan_directories"));
 	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget
