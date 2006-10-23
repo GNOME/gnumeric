@@ -1523,7 +1523,7 @@ applix_read_impl (ApplixReadState *state)
 
 	/* We only need the sheet, the visible cell, and edit pos are already set */
 	if (applix_parse_cellref (state, cur_cell_addr, &sheet, &pos, ':') &&
-	    valid_cellpos (&pos))
+	    valid_cellpos (&pos) && sheet)
 		wb_view_sheet_focus (state->wb_view, sheet);
 
 	return 0;
