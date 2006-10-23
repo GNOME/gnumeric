@@ -2379,9 +2379,12 @@ xml_workbook_read (IOContext *context,
 	child = e_xml_get_child_by_name (tree, CC2XML ("UIData"));
 	if (child) {
 		int sheet_index = 0;
-		if (xml_node_get_int (child, "SelectedTab", &sheet_index))
-			wb_view_sheet_focus (ctxt->wb_view,
-				workbook_sheet_by_index (ctxt->wb, sheet_index));
+		if (xml_node_get_int (child, "SelectedTab", &sheet_index)) {
+			Sheet *sheet = workbook_sheet_by_index (ctxt->wb, 
+								sheet_index);
+			if (sheet)
+				wb_view_sheet_focus (ctxt->wb_view, sheet);
+		}
 	}
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Calculation"));

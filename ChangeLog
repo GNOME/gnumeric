@@ -1,3 +1,10 @@
+2006-10-23  Jon K Hellan  <hellan@acm.org>
+
+	* src/xml-sax-read.c (xml_sax_wb_view): Check that "SelectedTab"
+	exists. Fixes #312010.
+
+	* src/xml-io.c (xml_workbook_read): Ditto.
+
 2006-10-22  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (search_collect_cells_cb): Adapt to change in

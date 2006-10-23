@@ -386,9 +386,12 @@ xml_sax_wb_view (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	int width = -1, height = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_int (attrs, "SelectedTab", &sheet_index))
-			wb_view_sheet_focus (state->wb_view,
-				workbook_sheet_by_index (state->wb, sheet_index));
+		if (xml_sax_attr_int (attrs, "SelectedTab", &sheet_index)) {
+			Sheet *sheet = workbook_sheet_by_index (state->wb, 
+								sheet_index);
+			if (sheet)
+				wb_view_sheet_focus (state->wb_view, sheet);
+		} 
 		else if (xml_sax_attr_int (attrs, "Width", &width)) ;
 		else if (xml_sax_attr_int (attrs, "Height", &height)) ;
 		else

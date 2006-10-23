@@ -5,6 +5,7 @@ Jon Kåre:
 	* Fix encoding of mailtos. [#148550]
 	* Fix crash in sheet label context menu. [#363261]
 	* Fix crash when deleting same sheet from two views. [#364082]
+	* Fix crash reading inconsistent file. [#312010]
 
 Morten:
 	* Basic life support for perl-loader.  [#362911]
