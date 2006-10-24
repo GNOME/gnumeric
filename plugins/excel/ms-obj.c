@@ -423,25 +423,29 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 
 	if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 		gboolean use_utf16;
+		guint maxlen;
 
 		ms_biff_query_next (q);
 
 		use_utf16 = q->data[0] != 0;
+		maxlen = use_utf16 ? q->length / 2 : q->length-1;
 		text = excel_get_chars (c->importer,
-			q->data + 1, MIN (text_len, q->length-1), use_utf16);
-		if (q->length < text_len) {
+			q->data + 1, MIN (text_len, maxlen), use_utf16);
+		if (maxlen < text_len) {
 			GString *accum = g_string_new (text);
 			g_free (text);
-			text_len -= q->length - 1;
+			text_len -= maxlen;
 			while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 				ms_biff_query_next (q);
-				text = excel_get_chars (c->importer, q->data,
+				use_utf16 = q->data[0] != 0;
+				text = excel_get_chars (c->importer, q->data + 1,
 					MIN (q->length, text_len), use_utf16);
 				g_string_append (accum, text);
 				g_free (text);
-				if (text_len <= q->length)
+				maxlen = use_utf16 ? q->length / 2 : q->length - 1;
+				if (text_len <= maxlen)
 					break;
-				text_len -= q->length;
+				text_len -= maxlen;
 			}
 			text = g_string_free (accum, FALSE);
 		}
