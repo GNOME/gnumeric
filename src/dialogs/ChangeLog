@@ -1,3 +1,8 @@
+2006-10-24  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-hyperlink.c: Change _get_target_ methods from const char*
+	to char*.
+
 2006-10-23  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-plugin-manager.c (cb_pm_button_deactivate_all_clicked):

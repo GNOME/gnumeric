@@ -110,7 +110,7 @@ dhl_set_target_cur_wb (HyperlinkState *state, const char* const target)
 	gnm_expr_entry_load_from_text (state->internal_link_ee, target);
 }
 
-static const char *
+static char *
 dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 {
 	char *ret = NULL;
@@ -156,7 +156,7 @@ dhl_set_target_external (HyperlinkState *state, const char* const target)
 	gtk_entry_set_text (GTK_ENTRY (w), target);
 }
 
-static const char *
+static char *
 dhl_get_target_external (HyperlinkState *state, gboolean *success)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, "external-link");
@@ -199,7 +199,7 @@ dhl_set_target_email (HyperlinkState *state, const char* const target)
 	g_free (cursor);
 }
 
-static const char*
+static char*
 dhl_get_target_email (HyperlinkState *state, gboolean *success)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, "email-address");
@@ -238,7 +238,7 @@ dhl_set_target_url (HyperlinkState *state, const char* const target)
 	gtk_entry_set_text (GTK_ENTRY (w), target);
 }
 
-static const char *
+static char *
 dhl_get_target_url (HyperlinkState *state, gboolean *success)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, "url");
@@ -255,7 +255,7 @@ static struct {
 	char const *widget_name;
 	char const *descriptor;
 	void (*set_target) (HyperlinkState *state, const char* const target);
-	char const * (*get_target) (HyperlinkState *state, gboolean *success);
+	char * (*get_target) (HyperlinkState *state, gboolean *success);
 } const type [] = {
 	{ N_("Internal Link"), "Gnumeric_Link_Internal",
 	  "GnmHLinkCurWB",	"internal-link-box",
@@ -299,7 +299,7 @@ dhl_set_target (HyperlinkState* state)
 	}
 }
 
-static const char *
+static char *
 dhl_get_target (HyperlinkState *state, gboolean *success)
 {
 	unsigned i;
