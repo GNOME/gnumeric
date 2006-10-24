@@ -412,6 +412,8 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	int const valign = (options >> 4) & 0x7;
 	char         *text;
 	guint16       op;
+	GString *accum;
+	gboolean continue_seen = FALSE;
 
 	*markup = NULL;
 	if (text_len == 0)
@@ -421,44 +423,34 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
 	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
-	if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
+	accum = g_string_new ("");
+	while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 		gboolean use_utf16;
 		guint maxlen;
 
+		continue_seen = TRUE;
 		ms_biff_query_next (q);
 
 		use_utf16 = q->data[0] != 0;
 		maxlen = use_utf16 ? q->length / 2 : q->length-1;
 		text = excel_get_chars (c->importer,
 			q->data + 1, MIN (text_len, maxlen), use_utf16);
-		if (maxlen < text_len) {
-			GString *accum = g_string_new (text);
-			g_free (text);
-			text_len -= maxlen;
-			while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
-				ms_biff_query_next (q);
-				use_utf16 = q->data[0] != 0;
-				text = excel_get_chars (c->importer, q->data + 1,
-					MIN (text_len, maxlen), use_utf16);
-				g_string_append (accum, text);
-				g_free (text);
-				maxlen = use_utf16 ? q->length / 2 : q->length - 1;
-				if (text_len <= maxlen)
-					break;
-				text_len -= maxlen;
-			}
-			text = g_string_free (accum, FALSE);
-		}
-
+		g_string_append (accum, text);
+		g_free (text);
+		if (text_len <= maxlen)
+			break;
+		text_len -= maxlen;
+	}
+	text = g_string_free (accum, FALSE);
+	if (continue_seen) {
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 			ms_biff_query_next (q);
 			*markup = ms_container_read_markup (c, q->data, q->length, text);
-		} else
+		} else {
 			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", op, q->streamPos);
+		}
 	} else {
-		if (text_len > 0)
-			g_warning ("TXO len of %d but no continue", text_len);
-		text = g_strdup ("");
+		g_warning ("TXO len of %d but no continue", text_len);
 	}
 
 #ifndef NO_DEBUG_EXCEL
