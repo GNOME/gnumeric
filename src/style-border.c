@@ -197,15 +197,17 @@ style_border_none_set_color (GnmColor *color)
  * the same pattern depending on whether this is a horizontal or vertical line.
  */
 GnmBorder *
-style_border_fetch (StyleBorderType const	 line_type,
+style_border_fetch (StyleBorderType	         line_type,
 		    GnmColor 			*color,
 		    StyleBorderOrientation	 orientation)
 {
 	GnmBorder *border;
 	GnmBorder key;
 
-	g_return_val_if_fail (line_type >= STYLE_BORDER_NONE, NULL);
-	g_return_val_if_fail (line_type < STYLE_BORDER_MAX, NULL);
+	if (line_type < STYLE_BORDER_NONE || line_type > STYLE_BORDER_MAX) {
+		g_warning ("Invalid border type: %d", line_type);
+		line_type = STYLE_BORDER_NONE;
+	}
 
 	if (line_type == STYLE_BORDER_NONE) {
 		if (color)

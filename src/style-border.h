@@ -71,7 +71,7 @@ GnmBorder  *style_border_ref   (GnmBorder *border);
 GnmBorder  *style_border_none  (void);
 void        style_border_none_set_color (GnmColor *color);
 
-GnmBorder  *style_border_fetch (StyleBorderType const	 line_type,
+GnmBorder  *style_border_fetch (StyleBorderType  	 line_type,
 				  GnmColor 			*color,
 				  StyleBorderOrientation       orientation);
 gboolean style_border_visible_in_blank (GnmBorder const *border);

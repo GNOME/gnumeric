@@ -7,6 +7,7 @@ Jon Kåre:
 	* Fix crash when deleting same sheet from two views. [#364082]
 	* Fix crash reading inconsistent file. [#312010]
 	* Remove "deactivate all" button from plugin manager.
+	* Fix crash due to invalid border line type. [#364658]
 
 Jody:
 	* Rewrite expression relocation logic.
