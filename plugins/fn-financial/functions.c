@@ -145,14 +145,6 @@ calculate_fvifa (gnm_float rate, gnm_float nper)
 
 
 static gnm_float
-calculate_interest_part (gnm_float pv, gnm_float pmt,
-			 gnm_float rate, gnm_float per)
-{
-	return -(pv * pow1p (rate, per) * rate +
-		 pmt * pow1pm1 (rate, per));
-}
-
-static gnm_float
 calculate_pmt (gnm_float rate, gnm_float nper, gnm_float pv, gnm_float fv,
 	       int type)
 {
@@ -164,6 +156,17 @@ calculate_pmt (gnm_float rate, gnm_float nper, gnm_float pv, gnm_float fv,
 	fvifa = calculate_fvifa (rate, nper);
 
         return ((-pv * pvif - fv ) / ((1.0 + rate * type) * fvifa));
+}
+
+static gnm_float
+calculate_ipmt (gnm_float rate, gnm_float per, gnm_float nper,
+		gnm_float pv, gnm_float fv, int type)
+{
+	gnm_float pmt = calculate_pmt (rate, nper, pv, fv, /*type*/ 0);
+	gnm_float ipmt = -(pv * pow1p (rate, per - 1) * rate +
+			   pmt * pow1pm1 (rate, per - 1));
+
+	return (type == 0) ? ipmt : ipmt / (1 + rate);
 }
 
 /***************************************************************************/
@@ -2143,12 +2146,7 @@ gnumeric_ipmt (FunctionEvalInfo *ei, GnmValue const * const *argv)
 	if (!is_valid_paytype (type))
 		return value_new_error_VALUE (ei->pos);
 
-	{
-		gnm_float pmt = calculate_pmt (rate, nper, pv, fv, type);
-		gnm_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
-
-		return value_new_float (ipmt);
-	}
+	return value_new_float (calculate_ipmt (rate, per, nper, pv, fv, type));
 }
 
 /***************************************************************************/
@@ -2202,7 +2200,7 @@ gnumeric_ppmt (FunctionEvalInfo *ei, GnmValue const * const *argv)
 
 	{
 		gnm_float pmt = calculate_pmt (rate, nper, pv, fv, type);
-		gnm_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
+		gnm_float ipmt = calculate_ipmt (rate, per, nper, pv, fv, type);
 		return value_new_float (pmt - ipmt);
 	}
 }

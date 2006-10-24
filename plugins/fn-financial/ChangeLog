@@ -1,3 +1,9 @@
+2006-10-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (calculate_ipmt): New function replacing and fixing
+	calculate_interest_part.
+	(gnumeric_ipmt, gnumeric_ppmt): Use calculate_ipmt.
+
 2006-10-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.2

@@ -21,6 +21,7 @@ Morten:
 	* Fix crash deleting and adding sheets. [#363549]
 	* Fix jump-to-area crash.  [#363977]
 	* Fix search crash.  [#364085]
+	* Fix IPMT, PPMT issues.
 
 --------------------------------------------------------------------------
 
