@@ -31,6 +31,11 @@ typedef enum {
 
 	GNM_STYLE_COND_CONTAINS_BLANKS,
 	GNM_STYLE_COND_NOT_CONTAINS_BLANKS
+
+	/*NOTE: we should really have a case-independent version of the
+	 *  above.  It should be much easier with GNU extensions, but it
+	 *  must also be portable!  Maybe this isn't a problem, though;
+	 *  More research is needed.*/
 } GnmStyleCondOp;
 
 typedef struct {
