@@ -545,21 +545,37 @@ range_is_singleton (GnmRange const *r)
 }
 
 /**
- * range_is_full:
- * @r: the range.
+ * range_is_full :
+ * @r    : the range.
+ * @horiz : TRUE to check for a horizontal full ref (_cols_ [0..MAX))
  *
- *  This determines whether @r completely spans a sheet
- * in the specified dimension.
+ * This determines whether @r completely spans a sheet
+ * in the dimension specified by @horiz.
  *
  * Return value: TRUE if it is infinite else FALSE
  **/
 gboolean
-range_is_full (GnmRange const *r, gboolean is_cols)
+range_is_full (GnmRange const *r, gboolean horiz)
 {
-	if (is_cols)
+	if (horiz)
 		return (r->start.col <= 0 && r->end.col >= SHEET_MAX_COLS - 1);
 	else
 		return (r->start.row <= 0 && r->end.row >= SHEET_MAX_ROWS - 1);
+}
+
+/**
+ * range_make_full:
+ * @r: the range.
+ * @full_col : Make @r a full column  ref (_row_ [0..MAX))
+ * @full_row : Make @r a full row ref  (_column_ [0..MAX))
+ **/
+void
+range_make_full	(GnmRange *r, gboolean full_col, gboolean full_row)
+{
+	if (full_col)
+		r->start.row = 0, r->end.row = SHEET_MAX_ROWS - 1;
+	if (full_row)
+		r->start.col = 0, r->end.col = SHEET_MAX_COLS - 1;
 }
 
 /**

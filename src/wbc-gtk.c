@@ -1,9 +1,9 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * wbc-gtk.c: A raw gtk based WorkbookControl
+ * wbc-gtk.c: A gtk based WorkbookControl
  *
- * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or

@@ -1,5 +1,5 @@
-#ifndef __GNUMERIC_WBC_GTK_H__
-#define __GNUMERIC_WBC_GTK_H__
+#ifndef GNM_WORKBOOK_CONTROL_GTK_H
+#define GNM_WORKBOOK_CONTROL_GTK_H
 
 #include <glib-object.h>
 
@@ -11,4 +11,4 @@ typedef struct _WBCgtk WBCgtk;
 
 GType wbc_gtk_get_type (void);
 
-#endif /* __GNUMERIC_WBC_GTK_H__ */
+#endif /* GNM_WORKBOOK_CONTROL_GTK_H */

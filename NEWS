@@ -8,6 +8,12 @@ Jon Kåre:
 	* Fix crash reading inconsistent file. [#312010]
 	* Remove "deactivate all" button from plugin manager.
 
+Jody:
+	* Rewrite expression relocation logic.
+
+Joseph Pingenot:
+	* Add more conditional format types.
+
 Morten:
 	* Basic life support for perl-loader.  [#362911]
 	* Fix csv problems.  [#359269]
