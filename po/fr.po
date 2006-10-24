@@ -12039,7 +12039,7 @@ msgstr "Ouvrir un fichier"
 
 #: ../src/wbcg-actions.c:1582
 msgid "Sen_d To..."
-msgstr "_Envoyer à..."
+msgstr "En_voyer à..."
 
 #: ../src/wbcg-actions.c:1583
 msgid "Send the current file via email"
@@ -12067,16 +12067,15 @@ msgstr "Éditer les informations supplémentaires"
 
 #: ../src/wbcg-actions.c:1597
 msgid "Pre_ferences..."
-msgstr "Préféren_ces..."
+msgstr "_Préférences..."
 
 #: ../src/wbcg-actions.c:1598
 msgid "Change Gnumeric Preferences"
 msgstr "Changer les préférences de Gnumeric"
 
 #: ../src/wbcg-actions.c:1603
-#, fuzzy
 msgid "Use the current selection as print area"
-msgstr "Utiliser la sélection courante pour créer les noms"
+msgstr "Utiliser la sélection courante comme zone d'impression"
 
 #: ../src/wbcg-actions.c:1606
 msgid "Undefine the print area"
@@ -12255,7 +12254,7 @@ msgstr "Renommer la feuille en cours"
 #. Edit
 #: ../src/wbcg-actions.c:1711
 msgid "P_aste special..."
-msgstr "Co_llage spécial..."
+msgstr "Coll_age spécial..."
 
 #: ../src/wbcg-actions.c:1712
 msgid "Paste with optional filters and transformations"
@@ -13070,7 +13069,6 @@ msgid "AddBorders"
 msgstr "Ajouter des bordures"
 
 #: ../src/wbcg-actions.c:2082
-#, fuzzy
 msgid "Add a border around the selection"
 msgstr "Ajouter une bordure à la sélection"
 
@@ -13659,9 +13657,8 @@ msgid ""
 msgstr ""
 
 #: ../src/workbook-edit.c:785
-#, fuzzy
 msgid "Remove format"
-msgstr "Enlever les bordures"
+msgstr "Enlever le format"
 
 #: ../src/workbook-edit.c:790
 msgid "Show this dialog next time."

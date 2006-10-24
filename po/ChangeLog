@@ -1,3 +1,7 @@
+2006-10-24  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* fr.po: Fix duplicated accelerator warnings.
+
 2006-10-22  Christophe Merlet  <redfox@redfoxcenter.org>
 
 	* fr.po: Updated french translation.
