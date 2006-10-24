@@ -1046,8 +1046,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 			GnmCell *cell = sheet_cell_fetch (sheet, col, row);
 			af->set_cell (af, cell, i);
 
-			gnm_style_ref (styles[j]);
-			sheet_style_set_pos (sheet, col, row, styles[j]);
+			sheet_style_set_pos (sheet, col, row, gnm_style_dup (styles[j]));
 		}
 	} else {
 		int i = count_max - 1;

@@ -1,3 +1,8 @@
+2006-10-24  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (sheet_autofill_dir): Copy the style, don't
+	just ref it, before sending it to sheet_style_set_pos.
+
 2006-10-24  Jon K Hellan  <hellan@acm.org>
 
 	* src/style-border.c (style_border_fetch): Return empty border for
