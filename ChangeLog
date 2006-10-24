@@ -1,3 +1,7 @@
+2006-10-24  Joseph Pingenot <trelane@digitasaru.net>
+
+	* Add in string and error conditional styles.
+
 2006-10-23  Jon K Hellan  <hellan@acm.org>
 
 	* src/xml-sax-read.c (xml_sax_wb_view): Check that "SelectedTab"
