@@ -1040,6 +1040,12 @@ value_get_as_float (GnmValue const *v)
 	return 0.0;
 }
 
+gboolean
+value_is_zero (GnmValue const *v)
+{
+	return gnm_abs (value_get_as_float (v)) < 64 * GNM_EPSILON;
+}
+
 GnmRangeRef const *
 value_get_rangeref (GnmValue const *v)
 {

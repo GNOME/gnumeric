@@ -140,6 +140,7 @@ void        value_get_as_gstring   (GnmValue const *v, GString *target,
 
 int         value_get_as_int	   (GnmValue const *v);
 gnm_float   value_get_as_float	   (GnmValue const *v);
+gboolean    value_is_zero	   (GnmValue const *v);
 GnmValue   *value_coerce_to_number (GnmValue *v, gboolean *valid,
 				    GnmEvalPos const *ep);
 
