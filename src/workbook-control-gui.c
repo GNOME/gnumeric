@@ -147,18 +147,35 @@ static SheetControlGUI *
 wbcg_get_scg (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GtkWidget *w;
+	int i, npages;
 
 	if (sheet == NULL || wbcg->notebook == NULL)
 		return NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	/* This can happen when we focus the first sheet being created.  */
-	if (wbcg->notebook->children == NULL)
-		return NULL;
+	g_return_val_if_fail (sheet->index_in_wb >= 0, NULL);
 
 	w = gtk_notebook_get_nth_page (wbcg->notebook, sheet->index_in_wb);
-	return g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+	if (w) {
+		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+		if (sc_sheet (SHEET_CONTROL (scg)) == sheet)
+			return scg;
+	}
+
+	/*
+	 * index_in_wb is probably not accurate because we are in the
+	 * middle of removing or adding a sheet.
+	 */
+	npages = gtk_notebook_get_n_pages (wbcg->notebook);
+	for (i = 0; i < npages; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page (wbcg->notebook, i);
+		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+		if (sc_sheet (SHEET_CONTROL (scg)) == sheet)
+			return scg;
+	}
+
+	g_warning ("Failed to find scg for sheet %s", sheet->name_quoted);
+	return NULL;
 }
 
 GtkWindow *
