@@ -10,6 +10,17 @@
 
 2006-10-24  Jody Goldberg <jody@gnome.org>
 
+	* src/expr.c (reloc_range) : Special case deleting cols/rows.
+	  Trunate rather than invalidate  if only the bottom/right range 
+	  is being removed.  Top/Left case is already handled by the inversion
+	  avoidance.
+
+	* src/sheet.c (sheet_delete_cols) : translate only columns when
+	  invalidating otherwise the relocation code does not shorten ranges.
+	(sheet_insert_rows) : ditto.
+
+2006-10-24  Jody Goldberg <jody@gnome.org>
+
 	* src/func.c (gnm_func_group_fetch_with_translation) : warning
 	  suppression.
 

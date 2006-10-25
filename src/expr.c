@@ -1686,9 +1686,9 @@ invalidate_sheet_cellrange (RelocInfoInternal const *rinfo,
 }
 
 static gboolean
-relocate_range (GnmExprRelocateInfo const *rinfo,
-		Sheet const *start_sheet, Sheet const *end_sheet,
-		GnmRange *rng)
+reloc_range (GnmExprRelocateInfo const *rinfo,
+	     Sheet const *start_sheet, Sheet const *end_sheet,
+	     GnmRange *rng)
 {
 	GnmRange t, b, l, r;
 	gboolean start, end;
@@ -1717,7 +1717,14 @@ relocate_range (GnmExprRelocateInfo const *rinfo,
 			return TRUE;
 		}
 		if (end && rinfo->row_offset > -range_height (rng)) {
-			rng->end.row += rinfo->row_offset;
+			/* Special case invalidating the bottom of a range while
+			 * deleting rows. Otherwise we #REF! before  we can shorten
+			 * The -1 is safe, origin.start.row == 0 is handled above */
+			if (rinfo->reloc_type == GNM_EXPR_RELOCATE_ROWS &&
+			    rinfo->row_offset >= SHEET_MAX_ROWS)
+				rng->end.row  = rinfo->origin.start.row - 1;
+			else
+				rng->end.row += rinfo->row_offset;
 			return TRUE;
 		}
 	}
@@ -1730,7 +1737,14 @@ relocate_range (GnmExprRelocateInfo const *rinfo,
 		}
 		if (range_contained (&r, &rinfo->origin) &&
 		    rinfo->col_offset > -range_width (rng)) {
-			rng->end.col += rinfo->col_offset;
+			/* Special case invalidating the right side of a range while
+			 * deleting cols. Otherwise we #REF! before  we can shorten.
+			 * The -1 is safe, origin.start.col == 0 is handled above */
+			if (rinfo->reloc_type == GNM_EXPR_RELOCATE_COLS &&
+			    rinfo->col_offset >= SHEET_MAX_COLS)
+				rng->end.col  = rinfo->origin.start.col - 1;
+			else
+				rng->end.col += rinfo->col_offset;
 			return TRUE;
 		}
 	}
@@ -1794,7 +1808,7 @@ reloc_restore_cellref (RelocInfoInternal const *rinfo,
 
 	  
 static GnmExpr const *
-relocate_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
+reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
 {
 	GnmRange r;
 	Sheet   *start_sheet, *end_sheet;
@@ -1814,7 +1828,7 @@ relocate_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
 	full_col = range_is_full (&r, FALSE);
 	full_row = range_is_full (&r, TRUE);
 
-	if (relocate_range (rinfo->details, start_sheet, end_sheet, &r) ||
+	if (reloc_range (rinfo->details, start_sheet, end_sheet, &r) ||
 	    rinfo->from_inside) {
 		GnmRangeRef res = v->cell;
 		range_make_full (&r, full_col, full_row);
@@ -1976,7 +1990,7 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 			reloc_normalize_cellref (rinfo, ref, &sheet, &r.start);
 			r.end = r.start;
 
-			if (relocate_range (rinfo->details, sheet, sheet, &r) ||
+			if (reloc_range (rinfo->details, sheet, sheet, &r) ||
 			    rinfo->from_inside) {
 				GnmCellRef res = *ref;
 				if (reloc_restore_cellref (rinfo, sheet, &r.start, &res))
@@ -1998,7 +2012,7 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 				return invalidate_sheet_cellrange (rinfo,
 					&expr->constant.value->v_range);
 			default :
-				return relocate_cellrange (rinfo,
+				return reloc_cellrange (rinfo,
 					&expr->constant.value->v_range);
 			}
 		}

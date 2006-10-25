@@ -3806,8 +3806,8 @@ sheet_delete_cols (Sheet *sheet,
 	reloc_info.origin.end.col = col + count - 1;
 	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
-	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
-	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+	reloc_info.col_offset = SHEET_MAX_COLS; /* force invalidation */
+	reloc_info.row_offset = 0;
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,
@@ -3823,7 +3823,7 @@ sheet_delete_cols (Sheet *sheet,
 	 * need to mark the cleared area */
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
-	/* 2. Invalidate references to the cells in the delete columns */
+	/* 2. Invalidate references to the cells in the deleted columns */
 	relocated_exprs = dependents_relocate (&reloc_info);
 	if (NULL != reloc_storage)
 		reloc_storage->exprs = relocated_exprs;
@@ -3946,8 +3946,8 @@ sheet_delete_rows (Sheet *sheet,
 	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
 	reloc_info.origin.end.row = row + count - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
-	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
-	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+	reloc_info.col_offset = 0;
+	reloc_info.row_offset = SHEET_MAX_ROWS; /* force invalidation */
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,
@@ -3963,7 +3963,7 @@ sheet_delete_rows (Sheet *sheet,
 	 * need to mark the cleared area */
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
-	/* 2. Invalidate references to the cells in the delete columns */
+	/* 2. Invalidate references to the cells in the deleted rows */
 	relocated_exprs = dependents_relocate (&reloc_info);
 	if (NULL != reloc_storage)
 		reloc_storage->exprs = relocated_exprs;
