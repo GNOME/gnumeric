@@ -982,3 +982,94 @@ gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter)
 	gtk_tree_path_free (path);
 	return FALSE;
 }
+
+typedef struct {
+	GPtrArray *objects_signals;
+} GnmDialogDestroySignals;
+
+static void
+cb_gnm_dialog_setup_destroy_handlers (G_GNUC_UNUSED GtkWidget *widget,
+				      GnmDialogDestroySignals *dd)
+{
+	GPtrArray *os = dd->objects_signals;
+	int i;
+
+	for (i = 0; i < (int)os->len; i += 2) {
+		GObject *obj = g_ptr_array_index (os, i);
+		guint s = GPOINTER_TO_UINT (g_ptr_array_index (os, i + 1));
+		g_signal_handler_disconnect (obj, s);	
+	}
+
+	g_ptr_array_free (os, TRUE);
+	memset (dd, 0, sizeof (*dd));
+	g_free (dd);
+}
+
+void
+gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
+				   WorkbookControlGUI *wbcg,
+				   GnmDialogDestroyOptions what)
+{
+	GnmDialogDestroySignals *dd = g_new (GnmDialogDestroySignals, 1);
+	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	int N = workbook_sheet_count (wb), i;
+	GPtrArray *os = g_ptr_array_new ();
+
+	dd->objects_signals = os;
+
+	/* FIXME: Properly implement CURRENT_SHEET_REMOVED.  */
+	if (what & GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED)
+		what |= GNM_DIALOG_DESTROY_SHEET_REMOVED;
+
+	if (what & GNM_DIALOG_DESTROY_SHEET_REMOVED) {
+		guint s = g_signal_connect_swapped
+			(G_OBJECT (wb),
+			 "sheet_deleted",
+			 G_CALLBACK (gtk_widget_destroy),
+			 dialog);
+		g_ptr_array_add (os, wb);
+		g_ptr_array_add (os, GUINT_TO_POINTER (s));
+	}
+
+	if (what & GNM_DIALOG_DESTROY_SHEET_ADDED) {
+		guint s = g_signal_connect_swapped
+			(G_OBJECT (wb),
+			 "sheet_added",
+			 G_CALLBACK (gtk_widget_destroy),
+			 dialog);
+		g_ptr_array_add (os, wb);
+		g_ptr_array_add (os, GUINT_TO_POINTER (s));
+	}
+
+	if (what & GNM_DIALOG_DESTROY_SHEETS_REORDERED) {
+		guint s = g_signal_connect_swapped
+			(G_OBJECT (wb),
+			 "sheet_order_changed",
+			 G_CALLBACK (gtk_widget_destroy),
+			 dialog);
+		g_ptr_array_add (os, wb);
+		g_ptr_array_add (os, GUINT_TO_POINTER (s));
+	}
+
+	for (i = 0; i < N; i++) {
+		Sheet *this_sheet = workbook_sheet_by_index (wb, i);
+		gboolean current = (sheet == this_sheet);
+
+		if ((what & GNM_DIALOG_DESTROY_SHEET_RENAMED) ||
+		    (current && (what & GNM_DIALOG_DESTROY_CURRENT_SHEET_RENAMED))) {
+			guint s = g_signal_connect_swapped
+				(G_OBJECT (this_sheet),
+				 "notify::name",
+				 G_CALLBACK (gtk_widget_destroy),
+				 dialog);
+			g_ptr_array_add (os, this_sheet);
+			g_ptr_array_add (os, GUINT_TO_POINTER (s));
+		}
+	}
+
+	g_signal_connect (G_OBJECT (dialog),
+			  "destroy",
+			  G_CALLBACK (cb_gnm_dialog_setup_destroy_handlers),
+			  dd);
+}

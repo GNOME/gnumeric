@@ -111,5 +111,18 @@ typedef gboolean gnm_iter_search_t (GtkTreeModel *model, GtkTreeIter* iter);
 #define gnm_tree_model_iter_next gtk_tree_model_iter_next
 gboolean gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter);
 
+typedef enum {
+	GNM_DIALOG_DESTROY_SHEET_ADDED = 0x01,
+	GNM_DIALOG_DESTROY_SHEET_REMOVED = 0x02,
+	GNM_DIALOG_DESTROY_SHEET_RENAMED = 0x04,
+	GNM_DIALOG_DESTROY_SHEETS_REORDERED = 0x08,
+	GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED = 0x100,
+	GNM_DIALOG_DESTROY_CURRENT_SHEET_RENAMED = 0x200,
+} GnmDialogDestroyOptions;
+
+void gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
+					WorkbookControlGUI *wbcg,
+					GnmDialogDestroyOptions what);
+	
 
 #endif /* GNUMERIC_GUI_UTIL_H */

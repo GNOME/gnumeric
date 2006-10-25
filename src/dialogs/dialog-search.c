@@ -69,7 +69,6 @@ typedef struct {
 	GtkWidget *prev_button, *next_button;
 	GtkNotebook *notebook;
 	int notebook_matches_page;
-	gulong workbook_sheet_deleted_signal;
 
 	GtkTreeView *matches_table;
 	GPtrArray *matches;
@@ -218,9 +217,6 @@ make_matches_model (DialogState *dd, int rows)
 static void
 free_state (DialogState *dd)
 {
-	g_signal_handler_disconnect
-		(G_OBJECT (wb_control_get_workbook (WORKBOOK_CONTROL (dd->wbcg))),
-		 dd->workbook_sheet_deleted_signal);
 	search_filter_matching_free (dd->matches);
 	g_object_unref (dd->gui);
 	memset (dd, 0, sizeof (*dd));
@@ -562,11 +558,8 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
-	dd->workbook_sheet_deleted_signal =
-		g_signal_connect (G_OBJECT (wb_control_get_workbook (WORKBOOK_CONTROL (wbcg))),
-				  "sheet_deleted",
-				  G_CALLBACK (close_clicked),
-				  dd);
+	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),

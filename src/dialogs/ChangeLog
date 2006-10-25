@@ -1,3 +1,12 @@
+2006-10-24  Morten Welinder  <terra@gnome.org>
+
+	* dialog-scenarios.c (dialog_scenario_add): Use
+	gnm_dialog_setup_destroy_handlers.  Fixes the initial part of
+	#364291.
+
+	* dialog-search.c (dialog_search): Use
+	gnm_dialog_setup_destroy_handlers.
+
 2006-10-24  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-hyperlink.c: Change _get_target_ methods from const char*
