@@ -24,16 +24,25 @@ while (@ARGV) {
     }
 
     push @cmd, $arg;
-    if ($arg eq '-o' && $ARGV[0] =~ /\.lo$/) {
-	$target = $tmptarget = shift @ARGV;
-	$tmptarget =~ s/\.lo$/-tmp.o/;
-	push @cmd, $tmptarget;
+    if ($arg eq '-o') {
+	$target = shift @ARGV;;
+	if ($target =~ /\.lo$/) {
+	    $tmptarget = $target;
+	    $tmptarget =~ s/\.lo$/-tmp.o/;
+	    push @cmd, $tmptarget;
+	} else {
+	    push @cmd, $target;
+	}
     }
 }
 
 system (@cmd);
+
 my $code = $?;
-if (defined $tmptarget) {
+if ($code != 0) {
+    unlink $tmptarget if defined $tmptarget;
+    unlink $target;
+} elsif (defined $tmptarget) {
     rename $tmptarget, $target;
 }
-exit $code;
+exit $code >> 8;
