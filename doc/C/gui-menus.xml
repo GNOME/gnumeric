@@ -328,7 +328,7 @@
 	  <para><!-- Keep in sync with format dialog entry. -->
 	    <guimenuitem>Preferences...</guimenuitem> &mdash; The
 	    <guimenuitem>Preference...</guimenuitem> menu item call
-	    the <guilabel>&gnum; Preferences</guilabel> dialog. This
+	    the <guilabel>Gnumeric Preferences</guilabel> dialog. This
 	    menu item opens a dialog with fields to edit the document
 	    summary information of the file currently open in that
 	    window. Summary information describes the sheet, for
@@ -1479,7 +1479,7 @@
           <para>
             <guimenuitem>Preferences...</guimenuitem> &mdash; The
 	    <guimenuitem>Preference...</guimenuitem> menu item call
-	    the <guilabel>&gnum; Preferences</guilabel> dialog. This
+	    the <guilabel>Gnumeric Preferences</guilabel> dialog. This
 	    menu item opens a dialog with fields to edit the document
 	    summary information of the file currently open in that
 	    window. Summary information describes the sheet, for
@@ -1989,7 +1989,7 @@
       <varlistentry>
 	<term>
 	  <emphasis role="bold">2</emphasis>
-	    The <interface>About &gnum;</interface> dialog.
+	    The <interface>About Gnumeric</interface> dialog.
 	</term>
 
         <listitem>
