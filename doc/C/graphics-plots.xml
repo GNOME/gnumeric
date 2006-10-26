@@ -3101,19 +3101,18 @@
 	    </variablelist>
 
 
+
+      <para>
+         Several new types of plots will be added to
+         <application>Gnumeric</application> in the near future as the
+         graphing engine is improved.
+        
+         <!-- mention here to keep in figures/ and its Makefile.am -->
+         <!-- graph_stock.png -->
+         <!-- graph_surface.png -->
+      </para>
+	    
     </sect3>
-
-
-    <para>
-      Several new types of plots will be added to
-      <application>Gnumeric</application> in the near future as the
-      graphing engine is improved.
-
-    <!-- mention here to keep in figures/ and its Makefile.am -->
-    <!-- graph_stock.png -->
-    <!-- graph_surface.png -->
-    </para>
-
   </sect2>
 
 
