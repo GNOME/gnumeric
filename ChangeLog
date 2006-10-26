@@ -4,6 +4,9 @@
 
 2006-10-24  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnm_dialog_setup_destroy_handlers): New function
+	for handling issues like 364291.
+
 	* src/workbook-control-gui.c (wbcg_get_scg): Fix sheet removal
 	problem.  Fixes #364865.
 
