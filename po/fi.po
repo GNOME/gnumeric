@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-22 08:08+0300\n"
-"PO-Revision-Date: 2006-10-20 06:46+0300\n"
+"PO-Revision-Date: 2006-10-27 07:27+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3366,7 +3366,7 @@ msgstr "_Oikealla"
 
 #: ../src/dialogs/autoformat.glade.h:23
 msgid "_Settings"
-msgstr "_Asetukset"
+msgstr "Asetu_kset"
 
 #: ../src/dialogs/autoformat.glade.h:24
 msgid "_Show Gridlines"
@@ -6797,7 +6797,7 @@ msgstr "Valitse lisättävä funktio:"
 #: ../src/dialogs/function-select.glade.h:6 ../src/wbcg-actions.c:1493
 #: ../src/wbcg-actions.c:1690
 msgid "_Insert"
-msgstr "_Lisää"
+msgstr "L_iitä"
 
 #: ../src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -6891,7 +6891,7 @@ msgstr ""
 #: ../src/dialogs/histogram.glade.h:10 ../src/dialogs/regression.glade.h:5
 #: ../src/dialogs/sampling.glade.h:5
 msgid "O_ptions"
-msgstr "_Asetukset"
+msgstr "_Valinnat"
 
 #: ../src/dialogs/histogram.glade.h:11
 msgid "Pareto (_sorted)"
@@ -10787,11 +10787,11 @@ msgstr "(Mukautettu...)"
 
 #: ../src/sheet-filter.c:409
 msgid "(Blanks...)"
-msgstr ""
+msgstr "(Tyhjiä...)"
 
 #: ../src/sheet-filter.c:415
 msgid "(Non Blanks...)"
-msgstr ""
+msgstr "(Ei-tyhjiä...)"
 
 #. Format toolbar
 #: ../src/sheet-merge.c:73 ../src/wbcg-actions.c:2050
@@ -10807,7 +10807,7 @@ msgstr ""
 
 #: ../src/sheet-object.c:112
 msgid "_Order"
-msgstr ""
+msgstr "_Järjestys"
 
 #: ../src/sheet-object.c:113
 msgid "Pul_l to Front"
@@ -11363,7 +11363,7 @@ msgstr "_Ikkunat"
 
 #: ../src/wbcg-actions.c:1492
 msgid "_Toolbars"
-msgstr "_Työkalupalkit"
+msgstr "Työkalu_palkit"
 
 #: ../src/wbcg-actions.c:1494
 msgid "_Names"
@@ -11388,7 +11388,7 @@ msgstr "_Taulu"
 
 #: ../src/wbcg-actions.c:1500
 msgid "_Tools"
-msgstr "_Työkalut"
+msgstr "Työ_kalut"
 
 #: ../src/wbcg-actions.c:1501
 msgid "Sce_narios"
@@ -11456,7 +11456,7 @@ msgstr "Liitä leikepöydän sisältö"
 
 #: ../src/wbcg-actions.c:1534 ../src/workbook-control-gui.c:1169
 msgid "_Undo"
-msgstr "_Kumoa"
+msgstr "K_umoa"
 
 #: ../src/wbcg-actions.c:1535 ../src/wbc-gtk.c:514
 msgid "Undo the last action"
@@ -11464,7 +11464,7 @@ msgstr "Kumoa viimeisin toiminto"
 
 #: ../src/wbcg-actions.c:1537 ../src/workbook-control-gui.c:1170
 msgid "_Redo"
-msgstr "_Toista"
+msgstr "Tee uu_destaan"
 
 #: ../src/wbcg-actions.c:1538 ../src/wbc-gtk.c:526
 msgid "Redo the undone action"
@@ -11607,7 +11607,7 @@ msgstr "Poista valitut solut sisältäviä sarakkeita"
 #. Insert
 #: ../src/wbcg-actions.c:1633 ../src/wbcg-actions.c:1754
 msgid "C_ells..."
-msgstr "_Solut..."
+msgstr "S_olut..."
 
 #: ../src/wbcg-actions.c:1634
 msgid "Delete the selected cells, shifting others into their place"
@@ -11643,7 +11643,7 @@ msgstr "Valitse solujoukko"
 
 #: ../src/wbcg-actions.c:1662
 msgid "Select _Depends"
-msgstr "Valitse _riippuvat"
+msgstr "Valitse r_iippuvuudet"
 
 #: ../src/wbcg-actions.c:1663
 msgid "Select all the cells that depend on the current edit cell"
@@ -11749,7 +11749,7 @@ msgstr "Liitä mahdollisesti suodattaen ja muuntaen"
 
 #: ../src/wbcg-actions.c:1715
 msgid "Co_mment..."
-msgstr "K_ommentit"
+msgstr "Ko_mmentit"
 
 #: ../src/wbcg-actions.c:1716
 msgid "Edit the selected cell's comment"
@@ -11850,7 +11850,7 @@ msgstr "Lisää uuden rivin"
 
 #: ../src/wbcg-actions.c:1764
 msgid "C_hart..."
-msgstr "_Kuvaaja..."
+msgstr "Ku_vaaja..."
 
 #: ../src/wbcg-actions.c:1765
 msgid "Insert a Chart"
@@ -11891,7 +11891,7 @@ msgstr "Lisää tämänhetkisen ajan valittuihin soluihin"
 
 #: ../src/wbcg-actions.c:1783
 msgid "Current d_ate and time"
-msgstr "Nykyinen _aika ja päiväys"
+msgstr "Nykyinen aika ja päi_väys"
 
 #: ../src/wbcg-actions.c:1784
 msgid "Insert the current date and time into the selected cell(s)"
@@ -11921,7 +11921,7 @@ msgstr "Käytä nykyistä valintaa nimien luomiseksi"
 #. Format
 #: ../src/wbcg-actions.c:1801
 msgid "_Cells..."
-msgstr "_Soluja..."
+msgstr "S_oluja..."
 
 #: ../src/wbcg-actions.c:1802
 msgid "Modify the formatting of the selected cells"
@@ -11929,7 +11929,7 @@ msgstr "Muokkaa valittujen solujen muotoilua"
 
 #: ../src/wbcg-actions.c:1804
 msgid "_Workbook..."
-msgstr "_Työkirja..."
+msgstr "Työk_irja..."
 
 #: ../src/wbcg-actions.c:1805
 msgid "Modify the workbook attributes"
@@ -12173,11 +12173,11 @@ msgstr "Pearsonin korrelaatio"
 
 #: ../src/wbcg-actions.c:1914
 msgid "Co_variance..."
-msgstr "Ko_varianssi..."
+msgstr "Kovar_ianssi..."
 
 #: ../src/wbcg-actions.c:1917
 msgid "_Descriptive Statistics..."
-msgstr "_Kuvaavat tilastot..."
+msgstr "K_uvaavat tilastot..."
 
 #: ../src/wbcg-actions.c:1918
 msgid "Various summary statistics"
@@ -12221,7 +12221,7 @@ msgstr "Periodiset ja satunnaiset otokset"
 
 #: ../src/wbcg-actions.c:1935
 msgid "_Two Variances: FTest..."
-msgstr "_Kaksi tekijää: F-testi..."
+msgstr "Kaksi _tekijää: F-testi..."
 
 #: ../src/wbcg-actions.c:1936
 msgid "Comparing two population variances"
@@ -12592,7 +12592,7 @@ msgstr "Kasvata sisennystä ja tasaa sisältö vasemmalle"
 
 #: ../src/wbcg-actions.c:2132
 msgid "Display _Outlines"
-msgstr "Näytä _reunaviivat"
+msgstr "Näytä reuna_viivat"
 
 #: ../src/wbcg-actions.c:2133
 msgid "Toggle whether or not to display outline groups"
@@ -12624,7 +12624,7 @@ msgstr "Näkyykö kaavan tulos vai kaava itse"
 
 #: ../src/wbcg-actions.c:2144
 msgid "Hide _Zeros"
-msgstr "Piilota _nollat"
+msgstr "Piilota n_ollat"
 
 #: ../src/wbcg-actions.c:2145
 msgid "Toggle whether or not to display zeros as blanks"
@@ -13273,7 +13273,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:1
 msgid "A simple template with classical look and feel"
-msgstr ""
+msgstr "Yksinkertainen pohja perinteisellä ulkoasulla"
 
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
