@@ -1354,6 +1354,9 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return;
 	}
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SOLVER_KEY);
 

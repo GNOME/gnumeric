@@ -278,6 +278,10 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_ZOOM);
+
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       ZOOM_DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),

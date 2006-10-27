@@ -449,6 +449,9 @@ dialog_simulation (WorkbookControlGUI *wbcg, G_GNUC_UNUSED Sheet *sheet)
 	gtk_widget_set_sensitive (w, FALSE);
 	gtk_widget_hide (w);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+
 	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	simulation_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);

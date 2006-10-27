@@ -276,6 +276,9 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	gtk_widget_show_all (dialog->vbox);
 	gtk_widget_grab_focus (GTK_WIDGET (dd->search_text));
 
+	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 	non_modal_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
 }
@@ -311,6 +314,9 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 	wbcg_set_transient_for (wbcg, GTK_WINDOW (dialog));
 	go_dialog_guess_alternative_button_order (dialog);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
+
+	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
 	res = gtk_dialog_run (dialog);
 	switch (res) {

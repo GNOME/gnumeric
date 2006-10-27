@@ -389,6 +389,9 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 		"destroy",
 		G_CALLBACK (dialog_destroy), dd);
 
+	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+
 	gtk_widget_show_all (dialog->vbox);
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
