@@ -1,5 +1,7 @@
 2006-10-27  Morten Welinder  <terra@gnome.org>
 
+	* dialog-hyperlink.c (dhl_get_target_cur_wb): Kill cast.
+
 	* dialog-*.c: Add calls to gnm_dialog_setup_destroy_handlers.
 	Part of #364291.
 

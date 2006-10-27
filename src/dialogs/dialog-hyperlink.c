@@ -136,7 +136,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 		}
 		if (val) {
 			*success = TRUE;
-			ret = (char *) target;
+			ret = g_strdup (target);
 			value_release (val);
 		} else {
 			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), 
@@ -145,7 +145,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 			gnm_expr_entry_grab_focus (gee, TRUE);
 		}
 	}
-	return g_strdup (ret);
+	return ret;
 }
 
 static void
