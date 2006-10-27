@@ -4241,13 +4241,24 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 	int num_merged = GSF_LE_GET_GUINT16 (q->data);
 	guint8 const *data = q->data + 2;
 	GnmRange r;
+	GSList *overlap;
 
 	XL_CHECK_CONDITION (q->length == (unsigned int)(2 + 8 * num_merged));
 
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
+		overlap = sheet_merge_get_overlap (esheet->sheet, &r);
+		if (overlap) {
+			GnmRange *r2 = (GnmRange *) overlap->data;
+			
+			/* Unmerge r2, then merge (r U r2) */
+			sheet_merge_remove (esheet->sheet, r2,
+				 GO_CMD_CONTEXT (esheet->container.importer->context));
+			r = range_union (&r, r2);
+			g_slist_free (overlap);
+		} 
 		sheet_merge_add (esheet->sheet, &r, FALSE,
-			GO_CMD_CONTEXT (esheet->container.importer->context));
+			 GO_CMD_CONTEXT (esheet->container.importer->context));
 	}
 }
 

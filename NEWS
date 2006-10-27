@@ -9,6 +9,7 @@ Jon Kåre:
 	* Remove "deactivate all" button from plugin manager.
 	* Fix crash due to invalid border line type. [#364658]
 	* Fix crash on loading Excel file with unusual text box. [#340293]
+	* Fix loading Excel files with unusual cell merges. [#331190]
 
 Jody:
 	* Rewrite expression relocation logic.

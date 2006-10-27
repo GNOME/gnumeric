@@ -1,3 +1,8 @@
+2006-10-27  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (excel_read_MERGECELLS): Accept overlapping
+	merges, as Excel does.
+
 2006-10-24  Jon K Hellan  <hellan@acm.org>
 
 	* ms-obj.c (ms_read_TXO): Handle UTF-16, and switching between
