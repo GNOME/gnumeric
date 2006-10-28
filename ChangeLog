@@ -2,6 +2,7 @@
 
 	* src/workbook-control-gui.c (wbcg_show_save_dialog): Escape URI
 	so that g_markup can do the right thing.
+	(wbcg_close_control): Regenerate window list. Fixes #366335.
 
 2006-10-24  Jody Goldberg <jody@gnome.org>
 

@@ -10,6 +10,7 @@ Jon Kåre:
 	* Fix crash due to invalid border line type. [#364658]
 	* Fix crash on loading Excel file with unusual text box. [#340293]
 	* Fix loading Excel files with unusual cell merges. [#331190]
+	* Update window list when closing view. [#366335]
 
 Jody:
 	* Rewrite expression relocation logic.
