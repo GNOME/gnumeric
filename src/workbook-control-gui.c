@@ -1231,11 +1231,13 @@ wbcg_show_save_dialog (WorkbookControlGUI *wbcg,
 	int ret = 0;
 
 	if (wb_uri) {
-		char *base = go_basename_from_uri (wb_uri);
+		char *base    = go_basename_from_uri (wb_uri);
+		char *display = g_markup_escape_text (base, -1);
 		msg = g_strdup_printf (
 			_("Save changes to workbook '%s' before closing?"),
-			base);
+			display);
 		g_free (base);
+		g_free (display);
 	} else {
 		msg = g_strdup (_("Save changes to workbook before closing?"));
 	}
