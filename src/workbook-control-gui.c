@@ -1407,6 +1407,8 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	} else
 		g_object_unref (G_OBJECT (wbcg));
 
+	_gnm_app_flag_windows_changed ();
+
 	return FALSE;
 }
 
