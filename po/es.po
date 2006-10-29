@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-20 16:07+0200\n"
-"PO-Revision-Date: 2006-10-20 16:10+0200\n"
+"POT-Creation-Date: 2006-10-29 23:50+0100\n"
+"PO-Revision-Date: 2006-10-29 23:52+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -268,8 +268,8 @@ msgstr "Derivadas financieras"
 msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6124
-#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2635
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:6135
+#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2638
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -364,7 +364,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:994
-#: ../plugins/openoffice/openoffice-read.c:2503 ../src/xml-sax-read.c:1965
+#: ../plugins/openoffice/openoffice-read.c:2503 ../src/xml-sax-read.c:1968
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -376,8 +376,8 @@ msgstr "#DESCONOCIDO!"
 #. name for multiple adds
 #: ../plugins/excel/ms-excel-read.c:1184 ../plugins/excel/ms-excel-read.c:1196
 #: ../plugins/oleo/oleo.c:343 ../plugins/psiconv/psiconv-read.c:509
-#: ../src/dialogs/dialog-sheet-order.c:495
-#: ../src/dialogs/dialog-sheet-order.c:499
+#: ../src/dialogs/dialog-sheet-order.c:520
+#: ../src/dialogs/dialog-sheet-order.c:524
 #, c-format
 msgid "Sheet%d"
 msgstr "Hoja%d"
@@ -425,11 +425,11 @@ msgstr ""
 "Los enlaces OLE no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5422
+#: ../plugins/excel/ms-excel-read.c:5433
 msgid "external references"
 msgstr "referencias externas"
 
-#: ../plugins/excel/ms-excel-read.c:5448
+#: ../plugins/excel/ms-excel-read.c:5459
 msgid "No password supplied"
 msgstr "No se suministró contraseña"
 
@@ -1520,7 +1520,7 @@ msgstr "valor,texto_formato"
 msgid "Functions for manipulating strings"
 msgstr "Funciones para manipular cadenas"
 
-#: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:154
+#: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:153
 #: ../src/func.c:938
 msgid "String"
 msgstr "Cadena"
@@ -1672,13 +1672,13 @@ msgid "Constraints:"
 msgstr "Restricciones:"
 
 #: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:570
-#: ../src/dialogs/dialog-doc-metadata.c:1277
-#: ../src/dialogs/dialog-formula-guru.c:812
+#: ../src/dialogs/dialog-doc-metadata.c:1279
+#: ../src/dialogs/dialog-formula-guru.c:820
 #: ../src/dialogs/dialog-function-select.c:444
 #: ../src/dialogs/dialog-function-select.c:466
 #: ../src/dialogs/dialog-paste-names.c:101
-#: ../src/dialogs/dialog-scenarios.c:368
-#: ../src/dialogs/dialog-simulation.c:217 ../src/dialogs/dialog-zoom.c:198
+#: ../src/dialogs/dialog-scenarios.c:375
+#: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:198
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -1691,8 +1691,8 @@ msgstr "Restricciones:"
 msgid "Name"
 msgstr "Nombre"
 
-#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1283
-#: ../src/dialogs/dialog-simulation.c:222
+#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1285
+#: ../src/dialogs/dialog-simulation.c:226
 #: ../src/tools/solver/reports-write.c:236
 #: ../src/tools/solver/reports-write.c:282
 #: ../src/tools/solver/reports-write.c:394
@@ -1703,8 +1703,8 @@ msgstr "Valor"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:816
-#: ../src/dialogs/dialog-search.c:422 ../src/tools/solver/reports-write.c:515
+#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:824
+#: ../src/dialogs/dialog-search.c:418 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Tipo"
 
@@ -2261,9 +2261,9 @@ msgid "Error while opening xbase file."
 msgstr "Error al abrir archivo xbase."
 
 #: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:289
-#: ../src/dialogs/dialog-search.c:420 ../src/dialogs/dialog-stf-export.c:456
-#: ../src/dialogs/print.glade.h:23 ../src/print-info.c:401 ../src/search.c:612
-#: ../src/workbook.c:850 ../src/xml-io.c:2235
+#: ../src/dialogs/dialog-search.c:416 ../src/dialogs/dialog-stf-export.c:463
+#: ../src/dialogs/print.glade.h:23 ../src/print-info.c:401 ../src/search.c:607
+#: ../src/workbook.c:849 ../src/xml-io.c:2235
 msgid "Sheet"
 msgstr "Hoja"
 
@@ -2625,14 +2625,20 @@ msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is supposed to be high. 0 disables scaling. Please use the Print Setup "
 "dialog to edit this value."
-msgstr "Este valor determina el número de páginas predeterminado que debe tener una impresión de la hoja actual de alto. 0 desactiva el escalado. Use el diálogo de «Configuración de impresión» para editar este valor."
+msgstr ""
+"Este valor determina el número de páginas predeterminado que debe tener una "
+"impresión de la hoja actual de alto. 0 desactiva el escalado. Use el diálogo "
+"de «Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup "
 "dialog to edit this value."
-msgstr "Este valor determina el número de páginas predeterminado que debe tener una impresión de la hoja actual de ancho. 0 desactiva el escalado. Use el diálogo de «Configuración de impresión» para editar este valor."
+msgstr ""
+"Este valor determina el número de páginas predeterminado que debe tener una "
+"impresión de la hoja actual de ancho. 0 desactiva el escalado. Use el "
+"diálogo de «Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
@@ -3152,7 +3158,11 @@ msgid ""
 "This variable determines whether transition keys are set on. Transition keys "
 "are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
 "page movement rather than jumping to the start/end of series."
-msgstr "Esta variable determina si las claves de transición están activadas. Las claves de transición son una vuelta atrás a la manipulación de eventos estilo 1-2-3. Convierten Ctrl-flecha en movimiento de páginas en vez de saltar al inicio/fin de las series."
+msgstr ""
+"Esta variable determina si las claves de transición están activadas. Las "
+"claves de transición son una vuelta atrás a la manipulación de eventos "
+"estilo 1-2-3. Convierten Ctrl-flecha en movimiento de páginas en vez de "
+"saltar al inicio/fin de las series."
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
 msgid "Toolbar Style"
@@ -3350,7 +3360,6 @@ msgstr "_Filas"
 #: ../src/dialogs/histogram.glade.h:1 ../src/dialogs/hyperlink.glade.h:1
 #: ../src/dialogs/mean-tests.glade.h:1
 #: ../src/dialogs/moving-averages.glade.h:1
-#: ../src/dialogs/plugin-manager.glade.h:1
 #: ../src/dialogs/random-generation.glade.h:1
 #: ../src/dialogs/regression.glade.h:1 ../src/dialogs/sampling.glade.h:1
 #: ../src/dialogs/scenario-add.glade.h:1
@@ -5058,7 +5067,7 @@ msgstr "Simple"
 msgid "Double"
 msgstr "Doble"
 
-#: ../src/dialogs/dialog-cell-format.c:471 ../src/dialogs/dialog-search.c:156
+#: ../src/dialogs/dialog-cell-format.c:471 ../src/dialogs/dialog-search.c:155
 #: ../src/func.c:936 ../src/wbcg-actions.c:2060
 msgid "Number"
 msgstr "Número"
@@ -5141,31 +5150,31 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s a %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:775
+#: ../src/dialogs/dialog-cell-sort.c:778
 msgid "no available row"
 msgstr "fila no disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:775
+#: ../src/dialogs/dialog-cell-sort.c:778
 msgid "no available column"
 msgstr "columna no disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:1018
+#: ../src/dialogs/dialog-cell-sort.c:1028
 msgid "Header"
 msgstr "Encabezado"
 
-#: ../src/dialogs/dialog-cell-sort.c:1023
+#: ../src/dialogs/dialog-cell-sort.c:1033
 msgid "Row/Column"
 msgstr "Fila/Columna"
 
-#: ../src/dialogs/dialog-cell-sort.c:1043
+#: ../src/dialogs/dialog-cell-sort.c:1053
 msgid "Case Sensitive"
 msgstr "Sensible a capitalización"
 
-#: ../src/dialogs/dialog-cell-sort.c:1063
+#: ../src/dialogs/dialog-cell-sort.c:1073
 msgid "By Value"
 msgstr "Por valor"
 
-#: ../src/dialogs/dialog-cell-sort.c:1195
+#: ../src/dialogs/dialog-cell-sort.c:1205
 msgid "Could not create the Cell-Sort dialog."
 msgstr "No se pudo crear el diálogo de ordenación de celda."
 
@@ -5181,21 +5190,21 @@ msgstr ""
 "Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
 "s</span>"
 
-#: ../src/dialogs/dialog-consolidate.c:193
+#: ../src/dialogs/dialog-consolidate.c:197
 #, c-format
 msgid "Specification %s does not define a region"
 msgstr "La especificación %s no define una región"
 
-#: ../src/dialogs/dialog-consolidate.c:202
+#: ../src/dialogs/dialog-consolidate.c:206
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "El área de origen %s se superpone a la región de destino"
 
-#: ../src/dialogs/dialog-consolidate.c:327
+#: ../src/dialogs/dialog-consolidate.c:333
 msgid "The output range overlaps with the input ranges."
 msgstr "El rango de salida se solapa con los rangos de entrada."
 
-#: ../src/dialogs/dialog-consolidate.c:551
+#: ../src/dialogs/dialog-consolidate.c:557
 msgid "Could not create the Consolidate dialog."
 msgstr "No se puede crear el diálogo de Consolidación."
 
@@ -5204,7 +5213,7 @@ msgid "Why would you want to define a name to be #NAME?"
 msgstr "¿Por qué quiere definir un nombre como #NAME?"
 
 #: ../src/dialogs/dialog-define-names.c:662
-#: ../src/dialogs/dialog-doc-metadata.c:1597
+#: ../src/dialogs/dialog-doc-metadata.c:1599
 #: ../src/dialogs/dialog-paste-names.c:145
 msgid "Could not create the Name Guru."
 msgstr "No se ha podido crear al asistente de los nombres."
@@ -5228,7 +5237,7 @@ msgstr "No se pudo crear el diálogo de borrar celda."
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1289
+#: ../src/dialogs/dialog-doc-metadata.c:1291
 msgid "Linked To"
 msgstr "Enlazado a"
 
@@ -5241,11 +5250,11 @@ msgstr "No se puede crear el diálogo para el Series de relleno."
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:824
+#: ../src/dialogs/dialog-formula-guru.c:832
 msgid "Function/Argument"
 msgstr "Función/Argumento7"
 
-#: ../src/dialogs/dialog-formula-guru.c:992
+#: ../src/dialogs/dialog-formula-guru.c:1000
 msgid "Could not create the formula guru."
 msgstr "No se pudo crear el asistente de fórmulas."
 
@@ -5304,7 +5313,7 @@ msgstr "Nivel de libro de cuentas"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:421
+#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:417
 #: ../src/dialogs/tabulate.glade.h:2 ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
 #: ../src/tools/solver/reports-write.c:127
@@ -5373,7 +5382,7 @@ msgstr "Eliminar hiperenlace"
 msgid "Could not create the hyperlink dialog."
 msgstr "No se puede crear el diálogo para el hiperenlace."
 
-#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:477
+#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:498
 msgid "Insert"
 msgstr "Insertar"
 
@@ -5513,11 +5522,7 @@ msgstr "Servicios del complemento"
 msgid "Errors while activating plugins"
 msgstr "Errores al activar los complementos"
 
-#: ../src/dialogs/dialog-plugin-manager.c:517
-msgid "Errors while deactivating plugins"
-msgstr "Errores al desactivar los complementos"
-
-#: ../src/dialogs/dialog-plugin-manager.c:615
+#: ../src/dialogs/dialog-plugin-manager.c:599
 msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
@@ -5527,12 +5532,12 @@ msgstr ""
 "este:\n"
 "\n"
 
-#: ../src/dialogs/dialog-plugin-manager.c:621
+#: ../src/dialogs/dialog-plugin-manager.c:605
 #, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
 msgstr "El complemento con id=«%s» es desconocido\n"
 
-#: ../src/dialogs/dialog-plugin-manager.c:628
+#: ../src/dialogs/dialog-plugin-manager.c:612
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
@@ -5540,36 +5545,36 @@ msgstr ""
 "\n"
 "¿Quiere activar este complemento junto con sus dependencias?"
 
-#: ../src/dialogs/dialog-plugin-manager.c:649
+#: ../src/dialogs/dialog-plugin-manager.c:633
 #, c-format
 msgid "Error while deactivating plugin \"%s\"."
 msgstr "Ha ocurrido un error al desactivar el complemento «%s»."
 
-#: ../src/dialogs/dialog-plugin-manager.c:653
+#: ../src/dialogs/dialog-plugin-manager.c:637
 #, c-format
 msgid "Error while activating plugin \"%s\"."
 msgstr "Ha ocurrido un error al activar el complemento «%s»."
 
-#: ../src/dialogs/dialog-plugin-manager.c:719
+#: ../src/dialogs/dialog-plugin-manager.c:701
 msgid "Active"
 msgstr "Activo"
 
-#: ../src/dialogs/dialog-plugin-manager.c:724
+#: ../src/dialogs/dialog-plugin-manager.c:706
 msgid "Plugin name"
 msgstr "Nombre del complemento"
 
-#: ../src/dialogs/dialog-plugin-manager.c:743
+#: ../src/dialogs/dialog-plugin-manager.c:725
 #: ../src/dialogs/doc-meta-data.glade.h:30
 #: ../src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Descripción"
 
-#: ../src/dialogs/dialog-plugin-manager.c:747 ../src/ssconvert.c:73
+#: ../src/dialogs/dialog-plugin-manager.c:729 ../src/ssconvert.c:73
 #: ../src/ssconvert.c:89
 msgid "ID"
 msgstr "ID"
 
-#: ../src/dialogs/dialog-plugin-manager.c:767
+#: ../src/dialogs/dialog-plugin-manager.c:749
 msgid "Directory"
 msgstr "Directorio"
 
@@ -5939,12 +5944,9 @@ msgstr "Nombre de escenario inválido"
 #: ../src/dialogs/dialog-scenarios.c:182
 msgid ""
 "Changing cells contain at least one expression that is not just a value. "
-"Note that showing the scenario will overwrite the formula with it's current "
+"Note that showing the scenario will overwrite the formula with its current "
 "value."
-msgstr ""
-"Las celdas modificables contienen al menos una expresión que no es sólo un "
-"valor. Note que mostrar el escenario sobreescribirá la fórmula con su valor "
-"actual."
+msgstr "Cambiando celdas que contienen al menos una expresión que no es sólo un valor. Note que mostrar el escenario sobreescribirá la fórmula con su valor actual."
 
 #: ../src/dialogs/dialog-scenarios.c:216
 msgid "Could not create the Scenario Add dialog."
@@ -5954,87 +5956,91 @@ msgstr "No se puede crear el diálogo del escenario «Añadir» ."
 msgid "Created on "
 msgstr "Creado en"
 
-#: ../src/dialogs/dialog-scenarios.c:572
+#: ../src/dialogs/dialog-scenarios.c:579
 msgid "Results entry did not contain valid cell names."
 msgstr "La entrada de resultados no contiene nombres de celdas válidos."
 
-#: ../src/dialogs/dialog-scenarios.c:640
+#: ../src/dialogs/dialog-scenarios.c:647
 msgid "Could not create the Scenarios dialog."
 msgstr "No se pudo crear el diálogo de escenarios."
 
-#: ../src/dialogs/dialog-search.c:137
+#: ../src/dialogs/dialog-search.c:136
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../src/dialogs/dialog-search.c:140 ../src/tools/solver/reports-write.c:406
+#: ../src/dialogs/dialog-search.c:139 ../src/tools/solver/reports-write.c:406
 #: ../src/tools/solver/reports-write.c:411
 msgid "Result"
 msgstr "Resultado"
 
-#: ../src/dialogs/dialog-search.c:150 ../src/dialogs/dialog-search.c:176
-#: ../src/dialogs/dialog-search.c:182 ../src/dialogs/dialog-search.c:188
+#: ../src/dialogs/dialog-search.c:149 ../src/dialogs/dialog-search.c:175
+#: ../src/dialogs/dialog-search.c:181 ../src/dialogs/dialog-search.c:187
 msgid "Deleted"
 msgstr "Borrado"
 
-#: ../src/dialogs/dialog-search.c:152
+#: ../src/dialogs/dialog-search.c:151
 msgid "Expression"
 msgstr "Expresión"
 
-#: ../src/dialogs/dialog-search.c:158
+#: ../src/dialogs/dialog-search.c:157
 msgid "Other value"
 msgstr "Otros valores"
 
-#: ../src/dialogs/dialog-search.c:344
+#: ../src/dialogs/dialog-search.c:340
 #: ../src/dialogs/dialog-search-replace.c:144
 msgid "You must select some cell types to search."
 msgstr "Debe seleccionar al menos un tipo de celda para realizar la búsqueda."
 
-#: ../src/dialogs/dialog-search.c:423
+#: ../src/dialogs/dialog-search.c:419
 msgid "Content"
 msgstr "Contenido"
 
 #. xgettext : "Lock" is short for locked.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:375
+#: ../src/dialogs/dialog-sheet-order.c:400
 msgid "Lock"
 msgstr "Bloq"
 
 #. xgettext : "Viz" is short for visibility.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:388
+#: ../src/dialogs/dialog-sheet-order.c:413
 msgid "Viz"
 msgstr "Vis"
 
 #. xgettext : "Dir" is short for direction.  Keep this short.
-#: ../src/dialogs/dialog-sheet-order.c:400
+#: ../src/dialogs/dialog-sheet-order.c:425
 msgid "Dir"
 msgstr "Dir"
 
-#: ../src/dialogs/dialog-sheet-order.c:407
+#: ../src/dialogs/dialog-sheet-order.c:432
 msgid "Current Name"
 msgstr "Nombre actual"
 
-#: ../src/dialogs/dialog-sheet-order.c:417
+#: ../src/dialogs/dialog-sheet-order.c:442
 msgid "New Name"
 msgstr "Nombre nuevo"
 
-#: ../src/dialogs/dialog-sheet-order.c:629
+#: ../src/dialogs/dialog-sheet-order.c:654
 msgid "New sheets must be given a name."
 msgstr "Debe dar un nombre a las hojas nuevas."
 
-#: ../src/dialogs/dialog-sheet-order.c:634
+#: ../src/dialogs/dialog-sheet-order.c:659
 #, c-format
 msgid "There is more than one sheet named \"%s\""
 msgstr "Hay más de una hoja llamada «%s»"
 
-#: ../src/dialogs/dialog-sheet-order.c:669
+#: ../src/dialogs/dialog-sheet-order.c:694
 msgid "At least one sheet must remain visible!"
 msgstr "Al menos una hoja debe permanecer visible."
 
-#: ../src/dialogs/dialog-sheet-order.c:948
+#: ../src/dialogs/dialog-sheet-order.c:980
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "El orden de la hoja ha cambiado. ¿Quiere actualizar la lista?"
 
-#: ../src/dialogs/dialog-sheet-order.c:1019
-#: ../src/dialogs/dialog-sheet-order.c:1029
+#: ../src/dialogs/dialog-sheet-order.c:1008
+msgid "Another view is already managing sheets"
+msgstr "Ya está otra vista gestionando las hojas"
+
+#: ../src/dialogs/dialog-sheet-order.c:1062
+#: ../src/dialogs/dialog-sheet-order.c:1072
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -6060,11 +6066,11 @@ msgstr "Iteraciones"
 
 #: ../src/dialogs/dialog-simulation.c:158
 msgid "# Input variables"
-msgstr "# Variables de entrada"
+msgstr "Nº de variables de entrada"
 
 #: ../src/dialogs/dialog-simulation.c:159
 msgid "# Output variables"
-msgstr "# Variables de salida"
+msgstr "Nº de variables de salida"
 
 #: ../src/dialogs/dialog-simulation.c:159
 msgid "Runtime"
@@ -6074,29 +6080,29 @@ msgstr "Tiempo de ejecución"
 msgid "Run on"
 msgstr "Ejecutar en"
 
-#: ../src/dialogs/dialog-simulation.c:236
+#: ../src/dialogs/dialog-simulation.c:240
 msgid "Variable"
 msgstr "Variable"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1903
+#: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:247
+#: ../src/workbook-control-gui.c:1932
 msgid "Min"
 msgstr "Mínimo"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1905
+#: ../src/dialogs/dialog-simulation.c:241 ../src/workbook-control-gui.c:1934
 msgid "Average"
 msgstr "Promediación"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1904
+#: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:249
+#: ../src/workbook-control-gui.c:1933
 msgid "Max"
 msgstr "Máximo"
 
-#: ../src/dialogs/dialog-simulation.c:317
+#: ../src/dialogs/dialog-simulation.c:321
 msgid "Invalid variable range was given"
-msgstr "Se dio un rango de variables inválido"
+msgstr "Se dió un rango de variables inválido"
 
-#: ../src/dialogs/dialog-simulation.c:331
+#: ../src/dialogs/dialog-simulation.c:335
 msgid ""
 "First round number should be greater or equal than the number of the last "
 "round."
@@ -6104,7 +6110,7 @@ msgstr ""
 "El número de la primera ronda debería ser mayor o igual que el número de la "
 "última ronda."
 
-#: ../src/dialogs/dialog-simulation.c:422
+#: ../src/dialogs/dialog-simulation.c:426
 msgid "Could not create the Simulation dialog."
 msgstr "No se pudo crear el diálogo de simulación."
 
@@ -6200,11 +6206,11 @@ msgstr "Sujeto a las restricciones:"
 msgid "Could not create the Solver dialog."
 msgstr "No se puede crear el diálogo para el Solver."
 
-#: ../src/dialogs/dialog-stf-export.c:450
+#: ../src/dialogs/dialog-stf-export.c:457
 msgid "Export"
 msgstr "Exportar"
 
-#: ../src/dialogs/dialog-stf-export.c:582
+#: ../src/dialogs/dialog-stf-export.c:589
 msgid "This workbook does not contain any exportable content."
 msgstr "Este libro de cuentas no contiene ningún contenido exportable."
 
@@ -7488,35 +7494,35 @@ msgstr "_Quitar"
 msgid "_Up"
 msgstr "_Arriba"
 
-#: ../src/dialogs/plugin-manager.glade.h:2
+#: ../src/dialogs/plugin-manager.glade.h:1
 msgid "Activate _new plugins by default"
 msgstr "Activar por omisión los complementos _nuevos"
 
-#: ../src/dialogs/plugin-manager.glade.h:3
+#: ../src/dialogs/plugin-manager.glade.h:2
 msgid "Directories"
 msgstr "Directorios"
 
-#: ../src/dialogs/plugin-manager.glade.h:4
+#: ../src/dialogs/plugin-manager.glade.h:3
 msgid "Do _not activate this plugin next time I start Gnumeric"
 msgstr "_No activar este complemento la próxima vez que inicie Gnumeric"
 
-#: ../src/dialogs/plugin-manager.glade.h:5
+#: ../src/dialogs/plugin-manager.glade.h:4
 msgid "Plugin Details"
 msgstr "Detalles del complemento"
 
-#: ../src/dialogs/plugin-manager.glade.h:6
+#: ../src/dialogs/plugin-manager.glade.h:5
 msgid "Plugin List"
 msgstr "Lista de complementos"
 
-#: ../src/dialogs/plugin-manager.glade.h:7
+#: ../src/dialogs/plugin-manager.glade.h:6
 msgid "Plugin Manager"
 msgstr "Administrador de complementos"
 
-#: ../src/dialogs/plugin-manager.glade.h:8
+#: ../src/dialogs/plugin-manager.glade.h:7
 msgid "Plugin directory:"
 msgstr "Directorio del complemento:"
 
-#: ../src/dialogs/plugin-manager.glade.h:9
+#: ../src/dialogs/plugin-manager.glade.h:8
 msgid ""
 "The plugin cannot be deactivated now because it is in use. However, if you "
 "use the check button below, the plugin won't be activated after restarting "
@@ -7527,13 +7533,9 @@ msgstr ""
 "será activado después de reiniciar Gnumeric. (a no ser que lo necesite otro "
 "complemento)."
 
-#: ../src/dialogs/plugin-manager.glade.h:10
+#: ../src/dialogs/plugin-manager.glade.h:9
 msgid "_Activate All"
 msgstr "_Activar todo"
-
-#: ../src/dialogs/plugin-manager.glade.h:11
-msgid "_Deactivate All"
-msgstr "_Desactivar todo"
 
 #: ../src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
@@ -7826,7 +7828,7 @@ msgid "Show"
 msgstr "Mostrar"
 
 #: ../src/dialogs/scenario-manager.glade.h:13
-#: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:340
+#: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:341
 msgid "View"
 msgstr "Ver"
 
@@ -8079,7 +8081,7 @@ msgstr "Ra_ngo"
 msgid "Replacing"
 msgstr "Reemplazando"
 
-#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:621
+#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:616
 msgid "Scope"
 msgstr "Ámbito"
 
@@ -9127,7 +9129,7 @@ msgstr "Curtosis"
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1906
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1935
 msgid "Count"
 msgstr "Cuenta"
 
@@ -10846,7 +10848,7 @@ msgstr "ruta"
 #. Actually we can get slightly more than max_width here.
 #. * But max_width was computed as an estimate, anyway, so we don't care.
 #.
-#: ../src/ranges.c:956
+#: ../src/ranges.c:972
 msgid "..."
 msgstr "…"
 
@@ -10858,83 +10860,83 @@ msgstr "Debe especificar un rango de búsqueda."
 msgid "The search range is invalid."
 msgstr "El rango de búsqueda no es válido."
 
-#: ../src/search.c:540
+#: ../src/search.c:535
 msgid "Search Strings"
 msgstr "Buscar cadenas"
 
-#: ../src/search.c:541
+#: ../src/search.c:536
 msgid "Should strings be searched?"
 msgstr "¿Deben buscarse las cadenas?"
 
-#: ../src/search.c:549
+#: ../src/search.c:544
 msgid "Search Other Values"
 msgstr "Buscar otros valores"
 
-#: ../src/search.c:550
+#: ../src/search.c:545
 msgid "Should non-strings be searched?"
 msgstr "¿Deben buscarse las no cadenas?"
 
-#: ../src/search.c:558
+#: ../src/search.c:553
 msgid "Search Expressions"
 msgstr "Buscar expresiones"
 
-#: ../src/search.c:559
+#: ../src/search.c:554
 msgid "Should expressions be searched?"
 msgstr "¿Deben buscarse las expresiones?"
 
-#: ../src/search.c:567
+#: ../src/search.c:562
 msgid "Search Expression Results"
 msgstr "Buscar el resultado de las expresiones"
 
-#: ../src/search.c:568
+#: ../src/search.c:563
 msgid "Should the results of expressions be searched?"
 msgstr "¿Deben buscarse los resultados de las expresiones?"
 
-#: ../src/search.c:576
+#: ../src/search.c:571
 msgid "Search Comments"
 msgstr "Buscar comentarios"
 
-#: ../src/search.c:577
+#: ../src/search.c:572
 msgid "Should cell comments be searched?"
 msgstr "¿Deben buscarse los comentarios de celdas?"
 
-#: ../src/search.c:585
+#: ../src/search.c:580
 msgid "By Row"
 msgstr "por fila"
 
-#: ../src/search.c:586
+#: ../src/search.c:581
 msgid "Is the search order by row?"
 msgstr "¿Es el orden de búsqueda por fila?"
 
-#: ../src/search.c:594
+#: ../src/search.c:589
 msgid "Query"
 msgstr "Consultar"
 
-#: ../src/search.c:595
+#: ../src/search.c:590
 msgid "Should we query for each replacement?"
 msgstr "¿Se debe consultar para cada reemplazo?"
 
-#: ../src/search.c:603
+#: ../src/search.c:598
 msgid "Keep Strings"
 msgstr "Conservar cadenas"
 
-#: ../src/search.c:604
+#: ../src/search.c:599
 msgid "Should replacement keep strings as strings?"
 msgstr "¿Debería el reemplazo conservar las cadenas como cadenas?"
 
-#: ../src/search.c:613
+#: ../src/search.c:608
 msgid "The sheet in which to search."
 msgstr "La hoja en la que buscar."
 
-#: ../src/search.c:622
+#: ../src/search.c:617
 msgid "Where to search."
 msgstr "Dónde buscar."
 
-#: ../src/search.c:631
+#: ../src/search.c:626
 msgid "Range as Text"
 msgstr "Rango como texto"
 
-#: ../src/search.c:632
+#: ../src/search.c:627
 msgid "The range in which to search."
 msgstr "El rango en el que buscar."
 
@@ -11334,11 +11336,11 @@ msgstr ""
 "columna nombrada TRUE puede crear conflictos con la\n"
 "constante del mismo nombre. Espere comportamiento anómalos."
 
-#: ../src/sheet-view.c:348
+#: ../src/sheet-view.c:373
 msgid "Copy"
 msgstr "Copiar"
 
-#: ../src/sheet-view.c:373 ../src/sheet-view.c:376
+#: ../src/sheet-view.c:398 ../src/sheet-view.c:401
 msgid "Cut"
 msgstr "Cortar"
 
@@ -11934,7 +11936,7 @@ msgstr "Copiar selección"
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del portapapeles"
 
-#: ../src/wbcg-actions.c:1534 ../src/workbook-control-gui.c:1161
+#: ../src/wbcg-actions.c:1534 ../src/workbook-control-gui.c:1186
 msgid "_Undo"
 msgstr "_Deshacer"
 
@@ -11942,7 +11944,7 @@ msgstr "_Deshacer"
 msgid "Undo the last action"
 msgstr "Deshacer la operación"
 
-#: ../src/wbcg-actions.c:1537 ../src/workbook-control-gui.c:1162
+#: ../src/wbcg-actions.c:1537 ../src/workbook-control-gui.c:1187
 msgid "_Redo"
 msgstr "_Rehacer"
 
@@ -12280,11 +12282,11 @@ msgstr "_Vista nueva…"
 msgid "Create a new view of the workbook"
 msgstr "Crea una vista nueva del libro de cuentas"
 
-#: ../src/wbcg-actions.c:1737 ../src/workbook-control-gui.c:1136
+#: ../src/wbcg-actions.c:1737 ../src/workbook-control-gui.c:1161
 msgid "_Freeze Panes"
 msgstr "_Inmovilizar paneles"
 
-#: ../src/wbcg-actions.c:1738 ../src/workbook-control-gui.c:1139
+#: ../src/wbcg-actions.c:1738 ../src/workbook-control-gui.c:1164
 msgid "Freeze the top left of the sheet"
 msgstr "Inmoviliza la esquina izquierda de la hoja"
 
@@ -12802,7 +12804,7 @@ msgid "Remove an outline group"
 msgstr "Elimina un contorno de grupo"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1976 ../src/workbook-control-gui.c:1147
+#: ../src/wbcg-actions.c:1976 ../src/workbook-control-gui.c:1172
 msgid "Add _Auto Filter"
 msgstr "Añadir _auto filtro"
 
@@ -12836,8 +12838,8 @@ msgid "Import the text from a file"
 msgstr "Importa texto desde un archivo"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1991 ../src/workbook-control-gui.c:1902
-#: ../src/workbook-view.c:639
+#: ../src/wbcg-actions.c:1991 ../src/workbook-control-gui.c:1931
+#: ../src/workbook-view.c:636
 msgid "Sum"
 msgstr "Suma"
 
@@ -13433,55 +13435,55 @@ msgstr "Mostrar/ocultar barra de herramientas %s"
 msgid "Book%d.%s"
 msgstr "Libro%d.%s"
 
-#: ../src/workbook.c:1321
+#: ../src/workbook.c:1320
 msgid "Renaming sheet"
 msgstr "Renombrar hoja"
 
-#: ../src/workbook.c:1322
+#: ../src/workbook.c:1321
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "Renombrar %d hojas"
 
-#: ../src/workbook.c:1325
+#: ../src/workbook.c:1324
 msgid "Adding sheet"
 msgstr "Añadir hoja"
 
-#: ../src/workbook.c:1326
+#: ../src/workbook.c:1325
 #, c-format
 msgid "Adding %d sheets"
 msgstr "Añadir %d hojas"
 
-#: ../src/workbook.c:1333
+#: ../src/workbook.c:1332
 msgid "Inserting sheet"
 msgstr "Insertando una hoja"
 
-#: ../src/workbook.c:1334
+#: ../src/workbook.c:1333
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "Insertando %d hojas"
 
-#: ../src/workbook.c:1336
+#: ../src/workbook.c:1335
 msgid "Changing sheet tab colors"
 msgstr "Cambiando colores de solapa de la hoja"
 
-#: ../src/workbook.c:1338
+#: ../src/workbook.c:1337
 msgid "Changing sheet properties"
 msgstr "Cambiando propiedades de la hoja"
 
-#: ../src/workbook.c:1346
+#: ../src/workbook.c:1345
 msgid "Deleting sheet"
 msgstr "Borrando hoja"
 
-#: ../src/workbook.c:1347
+#: ../src/workbook.c:1346
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "Borrando %d hojas"
 
-#: ../src/workbook.c:1349
+#: ../src/workbook.c:1348
 msgid "Changing sheet order"
 msgstr "Cambiando el orden de la hoja"
 
-#: ../src/workbook.c:1351
+#: ../src/workbook.c:1350
 msgid "Reorganizing Sheets"
 msgstr "Reorganizar hojas"
 
@@ -13493,134 +13495,134 @@ msgstr "Definir nombre"
 msgid "Address"
 msgstr "Dirección"
 
-#: ../src/workbook-control.c:341
+#: ../src/workbook-control.c:342
 msgid "The workbook view being controlled."
 msgstr "La vista del libro de cuentas que se está controlando."
 
-#: ../src/workbook-control-gui.c:475
+#: ../src/workbook-control-gui.c:496
 msgid "Manage sheets..."
 msgstr "Administrar hojas…"
 
-#: ../src/workbook-control-gui.c:478
+#: ../src/workbook-control-gui.c:499
 msgid "Append"
 msgstr "Concatenar"
 
-#: ../src/workbook-control-gui.c:479
+#: ../src/workbook-control-gui.c:500
 msgid "Duplicate"
 msgstr "Duplicar"
 
-#: ../src/workbook-control-gui.c:480
+#: ../src/workbook-control-gui.c:501
 msgid "Remove"
 msgstr "Quitar"
 
-#: ../src/workbook-control-gui.c:481
+#: ../src/workbook-control-gui.c:502
 msgid "Rename"
 msgstr "Renombrar"
 
-#: ../src/workbook-control-gui.c:1030
+#: ../src/workbook-control-gui.c:1055
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/workbook-control-gui.c:1135
+#: ../src/workbook-control-gui.c:1160
 msgid "Un_freeze Panes"
 msgstr "Desb_loquear paneles"
 
-#: ../src/workbook-control-gui.c:1138
+#: ../src/workbook-control-gui.c:1163
 msgid "Unfreeze the top left of the sheet"
 msgstr "Desbloquear la esquina superior izquierda de la hoja"
 
-#: ../src/workbook-control-gui.c:1146
+#: ../src/workbook-control-gui.c:1171
 msgid "Remove _Auto Filter"
 msgstr "Eliminar el _autofiltro"
 
-#: ../src/workbook-control-gui.c:1149
+#: ../src/workbook-control-gui.c:1174
 msgid "Remove a filter"
 msgstr "Eliminar un filtro"
 
-#: ../src/workbook-control-gui.c:1150
+#: ../src/workbook-control-gui.c:1175
 msgid "Add a filter"
 msgstr "Añade un filtro"
 
-#: ../src/workbook-control-gui.c:1211
+#: ../src/workbook-control-gui.c:1237
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "¿Guardar los cambios al libro de cuentas «%s» antes de cerrar?"
 
-#: ../src/workbook-control-gui.c:1215
+#: ../src/workbook-control-gui.c:1242
 msgid "Save changes to workbook before closing?"
 msgstr "¿Guardar los cambios al libro de cuentas antes de cerrar?"
 
-#: ../src/workbook-control-gui.c:1222
+#: ../src/workbook-control-gui.c:1249
 msgid "If you close without saving, changes will be discarded."
 msgstr "Si cierra sin guardar, los cambios serán descartados."
 
-#: ../src/workbook-control-gui.c:1228
+#: ../src/workbook-control-gui.c:1255
 msgid "Discard all"
 msgstr "Descartar todo"
 
-#: ../src/workbook-control-gui.c:1230 ../src/workbook-control-gui.c:1237
-#: ../src/workbook-control-gui.c:1243
+#: ../src/workbook-control-gui.c:1257 ../src/workbook-control-gui.c:1264
+#: ../src/workbook-control-gui.c:1270
 msgid "Discard"
 msgstr "Descartar"
 
-#: ../src/workbook-control-gui.c:1232
+#: ../src/workbook-control-gui.c:1259
 msgid "Save all"
 msgstr "Guardar todo"
 
-#: ../src/workbook-control-gui.c:1234 ../src/workbook-control-gui.c:1239
+#: ../src/workbook-control-gui.c:1261 ../src/workbook-control-gui.c:1266
 msgid "Don't quit"
 msgstr "No salir"
 
-#: ../src/workbook-control-gui.c:1245
+#: ../src/workbook-control-gui.c:1272
 msgid "Don't close"
 msgstr "No cerrar"
 
-#: ../src/workbook-control-gui.c:1951
+#: ../src/workbook-control-gui.c:1980
 msgid "Use maximum precision"
 msgstr "Usar precisión máxima"
 
-#: ../src/workbook-control-gui.c:2202
+#: ../src/workbook-control-gui.c:2231
 msgid "Cancel change"
 msgstr "Cancelar el cambio"
 
-#: ../src/workbook-control-gui.c:2206
+#: ../src/workbook-control-gui.c:2235
 msgid "Accept change"
 msgstr "Aceptar el cambio"
 
-#: ../src/workbook-control-gui.c:2210
+#: ../src/workbook-control-gui.c:2239
 msgid "Enter formula..."
 msgstr "Introducir fórmula…"
 
-#: ../src/workbook-control-gui.c:2346 ../src/workbook-control-gui.c:2361
+#: ../src/workbook-control-gui.c:2375 ../src/workbook-control-gui.c:2390
 msgid "_Re-Edit"
 msgstr "_Reeditar"
 
-#: ../src/workbook-control-gui.c:2347 ../src/workbook-control-gui.c:2352
+#: ../src/workbook-control-gui.c:2376 ../src/workbook-control-gui.c:2381
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: ../src/workbook-control-gui.c:2351 ../src/workbook-control-gui.c:2362
+#: ../src/workbook-control-gui.c:2380 ../src/workbook-control-gui.c:2391
 msgid "_Accept"
 msgstr "_Aceptar"
 
-#: ../src/workbook-edit.c:755
+#: ../src/workbook-edit.c:760
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s está bloqueado"
 
-#: ../src/workbook-edit.c:759
+#: ../src/workbook-edit.c:764
 msgid "Unprotect the workbook to enable editing."
 msgstr "Desproteger el libro de cuentas para permitir la edición."
 
-#: ../src/workbook-edit.c:760
+#: ../src/workbook-edit.c:765
 msgid "Unprotect the sheet to enable editing."
 msgstr "Desproteger la hoja para permitir la edición."
 
-#: ../src/workbook-edit.c:779
+#: ../src/workbook-edit.c:784
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Va a editar una celda con formato «texto»."
 
-#: ../src/workbook-edit.c:780
+#: ../src/workbook-edit.c:785
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -13628,65 +13630,65 @@ msgstr ""
 "La celda actualmente no contiene texto, aunque, si procede a editarla "
 "entonces el contenido se convertirá en texto."
 
-#: ../src/workbook-edit.c:785
+#: ../src/workbook-edit.c:790
 msgid "Remove format"
 msgstr "Quitar formato"
 
-#: ../src/workbook-edit.c:790
+#: ../src/workbook-edit.c:795
 msgid "Show this dialog next time."
 msgstr "Mostrar este diálogo la próxima vez."
 
-#: ../src/workbook-view.c:309
+#: ../src/workbook-view.c:306
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: ../src/workbook-view.c:311
+#: ../src/workbook-view.c:308
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: ../src/workbook-view.c:313
+#: ../src/workbook-view.c:310
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: ../src/workbook-view.c:518
+#: ../src/workbook-view.c:515
 msgid "Internal ERROR"
 msgstr "ERROR interno"
 
-#: ../src/workbook-view.c:681
+#: ../src/workbook-view.c:678
 msgid "An unexplained error happened while saving."
 msgstr "Ocurrió un error inexplicable mientras se guardaba."
 
-#: ../src/workbook-view.c:697
+#: ../src/workbook-view.c:694
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "No se puede abrir «%s» para escritura: %s"
 
-#: ../src/workbook-view.c:701
+#: ../src/workbook-view.c:698
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "No se puede abrir «%s» para escritura"
 
-#: ../src/workbook-view.c:794 ../src/workbook-view.c:969
+#: ../src/workbook-view.c:791 ../src/workbook-view.c:966
 msgid "Default file saver is not available."
 msgstr "No se encuentra disponible el guardador de archivos preestablecido."
 
-#: ../src/workbook-view.c:910
+#: ../src/workbook-view.c:907
 msgid "Failed to create temporary file for sending."
 msgstr "No se puede crear archivo temporal para el envío."
 
-#: ../src/workbook-view.c:1063
+#: ../src/workbook-view.c:1060
 msgid "Unsupported file format."
 msgstr "Formato de archivo no soportado."
 
-#: ../src/workbook-view.c:1111
+#: ../src/workbook-view.c:1108
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocurrió un error no explicado mientras se abría %s"
 
-#: ../src/xml-io.c:1659 ../src/xml-sax-read.c:1493
+#: ../src/xml-io.c:1659 ../src/xml-sax-read.c:1496
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipo de objeto no soportado «%s»"
@@ -13703,19 +13705,19 @@ msgstr "El portapapeles tiene un formato desconocido"
 msgid "Processing file..."
 msgstr "Procesando el archivo…"
 
-#: ../src/xml-io.c:2683
+#: ../src/xml-io.c:2686
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "El archivo no es un Libro de Cuentas Gnumeric"
 
-#: ../src/xml-io.c:2711
+#: ../src/xml-io.c:2714
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "Importador antiguo de Gnumeric XML  (*.gnumeric)"
 
-#: ../src/xml-io.c:2717
+#: ../src/xml-io.c:2720
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "SAX basado en Gnumeric (*.gnumeric) (EXPERIMENTAL)"
 
-#: ../src/xml-io.c:2722
+#: ../src/xml-io.c:2725
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML  (*.gnumeric)"
 
@@ -13724,7 +13726,7 @@ msgstr "Gnumeric XML  (*.gnumeric)"
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Especificaciones correspondientes a múltiples versiones. Se asume %d"
 
-#: ../src/xml-sax-read.c:536
+#: ../src/xml-sax-read.c:539
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "El archivo tiene un elemento SheetNameIndex inconsistente."
 
@@ -13917,6 +13919,12 @@ msgstr "Una plantilla de lista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
+
+#~ msgid "Errors while deactivating plugins"
+#~ msgstr "Errores al desactivar los complementos"
+
+#~ msgid "_Deactivate All"
+#~ msgstr "_Desactivar todo"
 
 #~ msgid "This variable determines whether transition keys are set on."
 #~ msgstr ""
