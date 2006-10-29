@@ -27,6 +27,8 @@ Morten:
 	* Fix IPMT, PPMT issues.
 	* Start fixing issues with sheets being deleted underneath a
 	  dialog.  [#364291]
+	* Fix undo/redo problems in cases where all sheets might become
+	  temporarily hidden.  [#366477]
 
 --------------------------------------------------------------------------
 

@@ -77,6 +77,17 @@ sv_sheet_name_changed (G_GNUC_UNUSED Sheet *sheet,
 	sv->edit_pos_changed.content = TRUE;
 }
 
+static void
+sv_sheet_visibility_changed (Sheet *sheet,
+			     G_GNUC_UNUSED GParamSpec *pspec,
+			     SheetView *sv)
+{
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	/* See bug 366477.  */
+	if (sheet_is_visible (sheet) && !wb_view_cur_sheet (sv->sv_wbv))
+		wb_view_sheet_focus (sv->sv_wbv, sheet);
+}
+
 Sheet *
 sv_sheet (SheetView const *sv)
 {
@@ -194,6 +205,7 @@ sv_real_dispose (GObject *object)
 		sv->sheet = NULL;
 		g_ptr_array_remove (sheet->sheet_views, sv);
 		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_name_changed, sv);
+		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_visibility_changed, sv);
 		g_object_unref (sv);
 		g_object_unref (sheet);
 	}
@@ -260,6 +272,11 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 	g_signal_connect (G_OBJECT (sheet),
 			  "notify::name",
 			  G_CALLBACK (sv_sheet_name_changed),
+			  sv);
+
+	g_signal_connect (G_OBJECT (sheet),
+			  "notify::visibility",
+			  G_CALLBACK (sv_sheet_visibility_changed),
 			  sv);
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,

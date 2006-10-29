@@ -134,12 +134,16 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 		/* Make sure the sheet has been attached */
 		g_return_if_fail (sheet == NULL || sheet->index_in_wb >= 0);
 
+#if 0
+		g_print ("Focus %s\n", sheet ? sheet->name_quoted : "-");
+#endif
+
 		wbv->current_sheet = sheet;
+		wbv->current_sheet_view = sheet_get_view (sheet, wbv);
 
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 			wb_control_sheet_focus (control, sheet););
 
-		wbv->current_sheet_view = sheet_get_view (sheet, wbv);
 		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
 		wb_view_format_feedback (wbv, TRUE);
@@ -155,22 +159,15 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
-	/* create the new view before potentially looking for it
-	 * if this is the 1st sheet
-	 */
 	new_view = sheet_view_new (new_sheet, wbv);
-	if (wbv->current_sheet == NULL) {
-		wbv->current_sheet = new_sheet;
-		wbv->current_sheet_view = sheet_get_view (new_sheet, wbv);
-		wb_view_format_feedback (wbv, FALSE);
-		wb_view_menus_update (wbv);
-		wb_view_auto_expr_recalc (wbv, FALSE);
-	}
 
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 		wb_control_sheet_add (control, new_view););
 
 	g_object_unref (new_view);
+
+	if (wbv->current_sheet == NULL)
+		wb_view_sheet_focus (wbv, new_sheet);
 }
 
 gboolean
