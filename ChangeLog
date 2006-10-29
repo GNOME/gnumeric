@@ -1,5 +1,9 @@
 2006-10-28  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (cb_entry_delete_text): Handle the no-scg
+	case.
+	(wbcg_edit_finish): Ditto.  Fixes #366570.
+
 	Fixes for #366477:
 
 	* src/workbook-view.c (wb_view_sheet_focus): Set

@@ -29,6 +29,7 @@ Morten:
 	  dialog.  [#364291]
 	* Fix undo/redo problems in cases where all sheets might become
 	  temporarily hidden.  [#366477]
+	* Fix crash relating to workbook disposal.  [#366570]
 
 --------------------------------------------------------------------------
 

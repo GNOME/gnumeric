@@ -285,11 +285,14 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 
 	wb_control_update_action_sensitivity (wbc);
 
-	/* restore focus to original sheet in case things were being selected
-	 * on a different page.  Do no go through the view, rangesel is
-	 * specific to the control.  */
-	wb_control_sheet_focus (wbc, sheet);
-	scg_edit_stop (wbcg_cur_scg (wbcg));	/* Only the edit sheet has an edit cursor */
+	if (!sheet->workbook->during_destruction) {
+		/* restore focus to original sheet in case things were being selected
+		 * on a different page.  Do no go through the view, rangesel is
+		 * specific to the control.  */
+		wb_control_sheet_focus (wbc, sheet);
+		/* Only the edit sheet has an edit cursor */
+		scg_edit_stop (wbcg_cur_scg (wbcg));
+	}
 	wbcg_auto_complete_destroy (wbcg);
 	wb_control_style_feedback (wbc, NULL);	/* in case markup messed with things */
 
@@ -566,10 +569,12 @@ cb_entry_delete_text (GtkEditable    *editable,
 		      WorkbookControlGUI *wbcg)
 {
 	if (wbcg->auto_completing) {
+		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 		wbcg_auto_complete_destroy (wbcg);
-		SCG_FOREACH_PANE (wbcg_cur_scg (wbcg), pane,
-			if (pane->editor != NULL)
-				foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););
+		if (scg)
+			SCG_FOREACH_PANE (scg, pane,
+					  if (pane->editor != NULL)
+					  foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor)););
 	}
 
 	if (wbcg->edit_line.full_content) {
