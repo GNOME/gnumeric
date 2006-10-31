@@ -3295,7 +3295,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 		gchar *mime = go_get_mime_type (uri_str);
 		/* Note that we have imperfection detection of mime-type
 		 * with some platforms, e.g. Win32. In the worst case if go_get_mime_type()
-		 * doesn't return "applicatiojn/x-gnumeric" (registry corruption?)
+		 * doesn't return "application/x-gnumeric" (registry corruption?)
 		 * it will give "text/plain" and a spreadsheet file is assumed.
 		 */
 		if (!mime)
@@ -3401,6 +3401,29 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 	}
 }
 
+#ifdef DEBUG_DND
+/*  Keep in sync with gtk_selection_data_targets_include_text() */
+static gboolean
+is_text_target (gchar *target_type) 
+{
+	const gchar *charset;
+	gchar       *text_plain_locale;
+	gboolean ret;
+
+	g_get_charset (&charset);
+	text_plain_locale = g_strdup_printf ("text/plain;charset=%s", charset);
+	ret = !strcmp (target_type, "UTF8_STRING") ||
+	      !strcmp (target_type, "COMPOUND_TEXT") ||    
+	      !strcmp (target_type, "TEXT") ||    
+	      !strcmp (target_type, "STRING") ||    
+	      !strcmp (target_type, "text/plain;charset=utf-8") ||    
+	      !strcmp (target_type, text_plain_locale) ||    
+	      !strcmp (target_type, "text/plain");
+	g_free (text_plain_locale);
+	return ret;
+}
+#endif
+
 void
 scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 			double x, double y, GtkSelectionData *selection_data)
@@ -3435,8 +3458,7 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 		printf ("data length: %d, data: %s\n",
 			selection_data->length, cdata);
 		g_free (cdata);
-	} else if (!strcmp (target_type, "text/plain") ||
-		   !strcmp (target_type, "UTF8_STRING")) {
+	} else if (is_text_target (target_type)) {
 		char *cdata = g_strndup (selection_data->data,
 					 selection_data->length);
 		printf ("data length: %d, data: %s\n",
