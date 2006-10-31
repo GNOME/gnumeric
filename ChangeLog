@@ -1,3 +1,9 @@
+2006-10-31  Jon K Hellan  <hellan@acm.org>
+
+	* src/application.c (gnm_app_workbook_get_by_name,
+	gnm_app_workbook_get_by_uri): Check for NULL URI. Fixes crash part
+	of #367870.
+
 2006-10-28  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-edit.c (cb_entry_delete_text): Handle the no-scg

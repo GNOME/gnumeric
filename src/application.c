@@ -388,7 +388,7 @@ gnm_app_workbook_get_by_name (char const *name,
 	Workbook *wb;
 	char *filename = NULL;
 
-	if (*name == 0)
+	if (name == NULL || *name == 0)
 		return NULL;
 
 	/* Try as URI.  */
@@ -401,8 +401,10 @@ gnm_app_workbook_get_by_name (char const *name,
 	/* Try as absolute filename.  */
 	if (filename && g_path_is_absolute (filename)) {
 		char *uri = go_filename_to_uri (filename);
-		wb = gnm_app_workbook_get_by_uri (uri);
-		g_free (uri);
+		if (uri) {
+			wb = gnm_app_workbook_get_by_uri (uri);
+			g_free (uri);
+		}
 		if (wb)
 			goto out;
 	}
@@ -411,8 +413,10 @@ gnm_app_workbook_get_by_name (char const *name,
 		char *rel_uri = go_url_encode (filename, 1);
 		char *uri = go_url_resolve_relative (ref_uri, rel_uri);
 		g_free (rel_uri);
-		wb = gnm_app_workbook_get_by_uri (uri);
-		g_free (uri);
+		if (uri) {
+			wb = gnm_app_workbook_get_by_uri (uri);
+			g_free (uri);
+		}
 		if (wb)
 			goto out;
 	}
@@ -444,6 +448,9 @@ Workbook *
 gnm_app_workbook_get_by_uri (char const *uri)
 {
 	struct wb_uri_closure closure;
+
+	g_return_val_if_fail (uri != NULL, NULL);
+
 	closure.wb = NULL;
 	closure.uri = uri;
 	gnm_app_workbook_foreach (&cb_workbook_uri, &closure);

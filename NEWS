@@ -11,6 +11,7 @@ Jon Kåre:
 	* Fix crash on loading Excel file with unusual text box. [#340293]
 	* Fix loading Excel files with unusual cell merges. [#331190]
 	* Update window list when closing view. [#366335]
+	* Fix crash when attempting to edit locked cell. [#367870]
 
 Jody:
 	* Rewrite expression relocation logic.
