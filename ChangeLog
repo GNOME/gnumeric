@@ -1,5 +1,11 @@
 2006-10-31  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet-control-gui.c (scg_drag_data_received): Don't output
+	warning if UTF8_STRING drag is received.
+
+	* src/gnumeric-pane.c (cb_pane_drag_leave): Just return, no
+	critical, when drag source widget is something other than GnmCanvas.
+
 	* src/application.c (gnm_app_workbook_get_by_name,
 	gnm_app_workbook_get_by_uri): Check for NULL URI. Fixes crash part
 	of #367870.

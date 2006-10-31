@@ -3435,7 +3435,8 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 		printf ("data length: %d, data: %s\n",
 			selection_data->length, cdata);
 		g_free (cdata);
-	} else if (!strcmp (target_type, "text/plain")) {
+	} else if (!strcmp (target_type, "text/plain") ||
+		   !strcmp (target_type, "UTF8_STRING")) {
 		char *cdata = g_strndup (selection_data->data,
 					 selection_data->length);
 		printf ("data length: %d, data: %s\n",

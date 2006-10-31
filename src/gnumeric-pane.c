@@ -251,9 +251,7 @@ cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	GnmPane *source_pane;
 	WorkbookControlGUI *wbcg;
   
-	if (!source_widget) return;
-
-	g_return_if_fail (IS_GNM_CANVAS (source_widget));
+	if (!source_widget || !IS_GNM_CANVAS (source_widget)) return;
 
 	source_pane = GNM_CANVAS (source_widget)->pane;
 
