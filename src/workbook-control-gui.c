@@ -1429,8 +1429,19 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 		      WorkbookControlGUI *wbcg)
 {
 	if (!wbcg_is_editing (wbcg))
-		if (!wbcg_edit_start (wbcg, FALSE, TRUE))
+		if (!wbcg_edit_start (wbcg, FALSE, TRUE)) {
+			GtkEntry *entry = GTK_ENTRY (w);
 			wbcg_focus_cur_scg (wbcg);
+			entry->in_drag = FALSE;
+			/*
+			 * ->button is private, ugh.  Since the text area
+			 * never gets a release event, there seems to be
+			 * no official way of returning the widget to its
+			 * correct state.
+			 */
+			entry->button = 0;
+			return TRUE;
+		}
 
 	return FALSE;
 }

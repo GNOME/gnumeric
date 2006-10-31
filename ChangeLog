@@ -1,3 +1,8 @@
+2006-10-31  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (cb_editline_focus_in): Restore entry
+	to normal state.  Fixes #367870.
+
 2006-10-31  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui.c (scg_drag_data_received): Don't output
