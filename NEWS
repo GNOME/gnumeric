@@ -12,6 +12,7 @@ Jon Kåre:
 	* Fix loading Excel files with unusual cell merges. [#331190]
 	* Update window list when closing view. [#366335]
 	* Fix crash when attempting to edit locked cell. [#367870]
+	* Fix initial sizing bug. [#368825]
 
 Jody:
 	* Rewrite expression relocation logic.

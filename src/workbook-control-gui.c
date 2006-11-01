@@ -2054,6 +2054,10 @@ show_gui (WorkbookControlGUI *wbcg)
 		if (requisition.height + 20 > rect.height || 
 		    requisition.width > rect.width) {
 			gtk_window_maximize (GTK_WINDOW (wbcg->toplevel));
+		} else {
+			gtk_window_set_default_size 
+				(wbcg_toplevel (wbcg), 
+				 requisition.width, requisition.height);
 		}
 	} else {
 		/* Use default */

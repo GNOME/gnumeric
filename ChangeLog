@@ -1,3 +1,8 @@
+2006-11-01  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (show_gui): Fix initial sizing. Fixes
+	#368825.
+
 2006-10-31  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (cb_editline_focus_in): Restore entry
