@@ -215,8 +215,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 
 		valid = validation_eval (wbc, mstyle, sheet, &sv->edit_pos, showed_dialog);
 
-		if (free_txt != NULL)
-			g_free (free_txt);
+		g_free (free_txt);
 
 		if (valid != VALIDATION_STATUS_VALID) {
 			result = WBC_EDIT_REJECT;

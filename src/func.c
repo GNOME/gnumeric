@@ -1603,8 +1603,7 @@ tokenized_help_destroy (TokenizedHelp *tok)
 {
 	g_return_if_fail (tok != NULL);
 
-	if (tok->help_copy)
-		g_free (tok->help_copy);
+	g_free (tok->help_copy);
 
 	if (tok->sections)
 		g_ptr_array_free (tok->sections, TRUE);

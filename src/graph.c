@@ -263,7 +263,7 @@ gnm_go_data_scalar_finalize (GObject *obj)
 	g_free (scalar->val_str);
 	scalar->val_str = NULL;
 
-	(*scalar_parent_klass->finalize) (obj);
+	scalar_parent_klass->finalize (obj);
 }
 
 static double
@@ -362,12 +362,11 @@ gnm_go_data_vector_finalize (GObject *obj)
 		value_release (vec->val);
 		vec->val = NULL;
 	}
-	if (vec->base.values != NULL) {
-		g_free (vec->base.values);
-		vec->base.values = NULL;
-	}
 
-	(*vector_parent_klass->finalize) (obj);
+	g_free (vec->base.values);
+	vec->base.values = NULL;
+
+	vector_parent_klass->finalize (obj);
 }
 
 static void
@@ -749,12 +748,11 @@ gnm_go_data_matrix_finalize (GObject *obj)
 		value_release (mat->val);
 		mat->val = NULL;
 	}
-	if (mat->base.values != NULL) {
-		g_free (mat->base.values);
-		mat->base.values = NULL;
-	}
 
-	(*matrix_parent_klass->finalize) (obj);
+	g_free (mat->base.values);
+	mat->base.values = NULL;
+
+	matrix_parent_klass->finalize (obj);
 }
 
 static void

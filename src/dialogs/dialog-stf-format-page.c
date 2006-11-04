@@ -568,8 +568,7 @@ format_page_update_preview (StfDialogData *pagedata)
 					  GINT_TO_POINTER (i));
 		}
 	}
-	if (msg != NULL)
-		g_free (msg);
+	g_free (msg);
 }
 
 /*************************************************************************************************

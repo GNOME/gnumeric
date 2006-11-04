@@ -396,8 +396,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 void
 wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *func_name)
 {
-	if (wbv->auto_expr_desc)
-		g_free (wbv->auto_expr_desc);
+	g_free (wbv->auto_expr_desc);
 	if (wbv->auto_expr)
 		gnm_expr_free (wbv->auto_expr);
 
@@ -578,14 +577,13 @@ wb_view_finalize (GObject *object)
 		gnm_expr_free (wbv->auto_expr);
 		wbv->auto_expr = NULL;
 	}
-	if (wbv->auto_expr_desc) {
-		g_free (wbv->auto_expr_desc);
-		wbv->auto_expr_desc = NULL;
-	}
-	if (wbv->auto_expr_value_as_string) {
-		g_free (wbv->auto_expr_value_as_string);
-		wbv->auto_expr_value_as_string = NULL;
-	}
+
+	g_free (wbv->auto_expr_desc);
+	wbv->auto_expr_desc = NULL;
+
+	g_free (wbv->auto_expr_value_as_string);
+	wbv->auto_expr_value_as_string = NULL;
+
 	if (wbv->current_format != NULL) {
 		gnm_style_unref (wbv->current_format);
 		wbv->current_format = NULL;

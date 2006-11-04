@@ -173,12 +173,10 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	if (parseoptions->col_import_array)
-		g_free (parseoptions->col_import_array);
-	if (parseoptions->locale)
-		g_free (parseoptions->locale);
-	if (parseoptions->sep.chr)
-		g_free (parseoptions->sep.chr);
+	g_free (parseoptions->col_import_array);
+	g_free (parseoptions->locale);
+	g_free (parseoptions->sep.chr);
+
 	if (parseoptions->sep.str) {
 		GSList *l;
 
@@ -960,8 +958,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions,
 		 * If there are excess spaces at the end of
 		 * the line : ignore them
 		 */
-		if (disc)
-			g_free (disc);
+		g_free (disc);
 
 		/*
 		 * Hop over the terminator

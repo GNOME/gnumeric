@@ -188,8 +188,7 @@ bool_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 	GtkWidget *item = gtk_check_button_new_with_label (
 		(desc != NULL) ? desc : default_text);
 
-	if (desc != NULL)
-		g_free (desc);
+	g_free (desc);
 
 	bool_pref_conf_to_widget (node, key, GTK_TOGGLE_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
@@ -231,8 +230,7 @@ int_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 	GtkWidget *item = gtk_label_new 
 		((desc != NULL) ? desc : default_text);
 
-	if (desc != NULL)
-		g_free (desc);
+	g_free (desc);
 
 	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (item), 0, 0);
@@ -285,8 +283,7 @@ double_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 	char *desc = go_conf_get_short_desc (node, key);
 	GtkWidget *item = gtk_label_new (desc ? desc : default_text);
 	
-	if (desc != NULL)
-		g_free (desc);
+	g_free (desc);
 
 	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (item), 0, 0);

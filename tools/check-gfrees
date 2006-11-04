@@ -74,6 +74,12 @@ my %exceptions =
 		    next LINE;
 		}
 
+		if ($lineno >= 3 &&
+		    ($lines[-3] . $lines[-2] . $lines[-1]) =~
+		    /^[^\n]*([^ 	()]+)\s*\?\s*g_strdup\s*\(\s*\1\s*\)\s*:\s*NULL/) {
+		    print STDERR "$0: Checked g_strdup at $filename:$lineno\n";
+		    next LINE;
+		}
 	    }
 	    close (*FIL);
 	} else {

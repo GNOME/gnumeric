@@ -1343,8 +1343,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 			continue;
 		}
 		gsf_output_printf (output, "\\\\\n");
-		if (prev_vert != NULL)
-			g_free (prev_vert);
+		g_free (prev_vert);
 	}
 
 	/* We need to check for horizontal borders at the bottom  of  the last  row */

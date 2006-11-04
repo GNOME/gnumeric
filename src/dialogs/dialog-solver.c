@@ -856,8 +856,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	if (param->input_entry_str != NULL)
-		g_free (param->input_entry_str);
+	g_free (param->input_entry_str);
 	param->input_entry_str = value_get_as_string (input_range);
 
 	param->target_cell =

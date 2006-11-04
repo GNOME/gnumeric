@@ -206,8 +206,7 @@ soi_info_cb (GdkPixbufLoader *loader,
 	GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
 	char *name = gdk_pixbuf_format_get_name (format);
 	
-	if (soi->type)
-		g_free (soi->type);
+	g_free (soi->type);
 	soi->type = name;
 }
 

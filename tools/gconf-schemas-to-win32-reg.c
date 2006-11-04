@@ -205,8 +205,7 @@ convert_schema (xmlDocPtr doc, xmlNodePtr schema, GHashTable *table)
 
 			if (n) {
 				str = xmlNodeListGetString (doc, n->xmlChildrenNode, 1);
-				if (info.def)
-					g_free (info.def);
+				g_free (info.def);
 				info.def = g_strdup (str ? (gchar *) str : "");
 				if (str)
 					xmlFree (str);
@@ -275,8 +274,7 @@ free_node (GNode *node, gpointer data)
 	for (values = info->values; values; values = values->next) {
 		key_info = (KeyInfo *) values->data;
 		g_free (key_info->name);
-		if (key_info->def)
-			g_free (key_info->def);
+		g_free (key_info->def);
 		g_free (key_info);
 	}
 	if (info->values)

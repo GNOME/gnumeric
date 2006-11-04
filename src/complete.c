@@ -51,13 +51,11 @@ complete_finalize (GObject *object)
 		complete->idle_tag = 0;
 	}
 
-	if (complete->text) {
-		g_free (complete->text);
-		complete->text = NULL;
-	}
+	g_free (complete->text);
+	complete->text = NULL;
 
 	parent = g_type_class_peek (PARENT_TYPE);
-	(parent->finalize) (object);
+	parent->finalize (object);
 }
 
 static gint
@@ -85,8 +83,7 @@ complete_start (Complete *complete, char const *text)
 	g_return_if_fail (text != NULL);
 
 	if (complete->text != text) {
-		if (complete->text)
-			g_free (complete->text);
+		g_free (complete->text);
 		complete->text = g_strdup (text);
 	}
 

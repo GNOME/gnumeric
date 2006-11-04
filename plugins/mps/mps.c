@@ -602,15 +602,12 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 	g_hash_table_destroy (ctxt->row_hash);
 	g_hash_table_destroy (ctxt->col_hash);
 
-	if (ctxt->col_name_tbl) {
-		g_free (ctxt->col_name_tbl);
-		ctxt->col_name_tbl = NULL;
-	}
+	g_free (ctxt->col_name_tbl);
+	ctxt->col_name_tbl = NULL;
 
-	if (ctxt->matrix) {
-		g_free (ctxt->matrix);
-		ctxt->matrix = NULL;
-	}
+	g_free (ctxt->matrix);
+	ctxt->matrix = NULL;
+
 	g_free (ctxt->name);
 	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
 	g_free (ctxt);

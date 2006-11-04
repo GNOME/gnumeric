@@ -549,8 +549,7 @@ string_range_function (int argc, GnmExprConstPtr const *argv,
 	g_slist_free (vals);
 
 	if (err) {
-		if (res)
-			g_free (res);
+		g_free (res);
 		return value_new_error_std (ei->pos, func_error);
 	} else {
 		return value_new_string_nocopy (res);

@@ -1591,13 +1591,13 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	parse_error_free (&perr);
 
-	if (state->name.position) {
-		g_free (state->name.position);
-		state->name.position = NULL;
-	}
+	g_free (state->name.position);
+	state->name.position = NULL;
+
 	g_free (state->name.name);
-	g_free (state->name.value);
 	state->name.name = NULL;
+
+	g_free (state->name.value);
 	state->name.value = NULL;
 }
 

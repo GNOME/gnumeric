@@ -197,8 +197,8 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 	result = TRUE;
 	/* fall through */
 
-err_out:
-	if (s) g_free (s);
+ err_out:
+	g_free (s);
 	return result;
 }
 

@@ -56,8 +56,8 @@ complex_to_string (complex_t const *src, char const *reformat,
 			   suffix,
 			   NULL);
 
-	if (re_buffer) g_free (re_buffer);
-	if (im_buffer) g_free (im_buffer);
+	g_free (re_buffer);
+	g_free (im_buffer);
 
 	return res;
 }

@@ -137,13 +137,11 @@ dao_command_descriptor (data_analysis_output_t *dao, char const *format,
 			gpointer result)
 {
 	char *rangename = NULL;
-	char **text;
+	char **text = result;
 
 	g_return_val_if_fail (result != NULL, NULL);
 
-	text = ((char **)result);
-	if (*text != NULL)
-		g_free (*text);
+	g_free (*text);
 	switch (dao->type) {
 	case NewSheetOutput:
 		*text = g_strdup_printf (format, _("New Sheet"));

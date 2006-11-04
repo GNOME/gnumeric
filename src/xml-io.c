@@ -452,24 +452,21 @@ xml_node_get_print_hf (xmlNodePtr node, PrintHF *hf)
 
 	txt = xmlGetProp (node, CC2XML ("Left"));
 	if (txt) {
-		if (hf->left_format)
-			g_free (hf->left_format);
+		g_free (hf->left_format);
 		hf->left_format = g_strdup ((gchar *)txt);
 		xmlFree (txt);
 	}
 
 	txt = xmlGetProp (node, CC2XML ("Middle"));
 	if (txt) {
-		if (hf->middle_format)
-			g_free (hf->middle_format);
+		g_free (hf->middle_format);
 		hf->middle_format = g_strdup ((gchar *)txt);
 		xmlFree (txt);
 	}
 
 	txt = xmlGetProp (node, CC2XML ("Right"));
 	if (txt) {
-		if (hf->right_format)
-			g_free (hf->right_format);
+		g_free (hf->right_format);
 		hf->right_format = g_strdup ((gchar *)txt);
 		xmlFree (txt);
 	}

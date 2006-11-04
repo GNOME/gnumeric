@@ -2682,10 +2682,9 @@ not_a_matrix:
 		break;
 
 	case BIFF_CHART_text :
-		if (s->text != NULL) {
-			g_free (s->text);
-			s->text = NULL;
-		}
+		g_free (s->text);
+		s->text = NULL;
+
 		if (s->style != NULL) {
 			g_object_unref (s->style);
 			s->style = NULL;

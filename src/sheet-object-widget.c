@@ -242,12 +242,10 @@ sheet_widget_frame_finalize (GObject *obj)
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (obj);
 
-	if (swf->label != NULL) {
-		g_free (swf->label);
-		swf->label = NULL;
-	}
+	g_free (swf->label);
+	swf->label = NULL;
 
-	(*sheet_object_widget_class->finalize) (obj);
+	sheet_object_widget_class->finalize (obj);
 }
 
 static GtkWidget *
@@ -334,8 +332,7 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
   	GList *ptr;
   	SheetWidgetFrame *swc = state->swc;
 
-  	if (swc->label)
-  		g_free(swc->label);
+	g_free (swc->label);
 
   	swc->label = g_strdup(state->old_label);
   	for (ptr = swc->sow.realized_list; ptr != NULL ; ptr = ptr->next)
@@ -355,10 +352,9 @@ cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
 
   	text = gtk_entry_get_text(GTK_ENTRY(entry));
   	swc = state->swc;
-  	if (swc->label)
-  		g_free(swc->label);
+	g_free (swc->label);
 
-	swc->label = g_strdup(text);
+	swc->label = g_strdup (text);
   	for (ptr = swc->sow.realized_list; ptr != NULL; ptr = ptr->next) {
 		gtk_frame_set_label
 			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
@@ -1319,14 +1315,12 @@ sheet_widget_checkbox_finalize (GObject *obj)
 
 	g_return_if_fail (swc != NULL);
 
-	if (swc->label != NULL) {
-		g_free (swc->label);
-		swc->label = NULL;
-	}
+	g_free (swc->label);
+	swc->label = NULL;
 
 	dependent_set_expr (&swc->dep, NULL);
 
-	(*sheet_object_widget_class->finalize) (obj);
+	sheet_object_widget_class->finalize (obj);
 }
 
 static GnmCellRef *
@@ -1756,10 +1750,8 @@ sheet_widget_radio_button_finalize (GObject *obj)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
 
-	if (swrb->label != NULL) {
-		g_free (swrb->label);
-		swrb->label = NULL;
-	}
+	g_free (swrb->label);
+	swrb->label = NULL;
 
 	dependent_set_expr (&swrb->dep, NULL);
 	(*sheet_object_widget_class->finalize) (obj);

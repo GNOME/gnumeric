@@ -300,8 +300,8 @@ cell_comment_copy (SheetObject *dst, SheetObject const *src)
 {
 	GnmComment const *comment	= CELL_COMMENT (src);
 	GnmComment	 *new_comment	= CELL_COMMENT (dst);
-	new_comment->author = comment->author ? g_strdup (comment->author) : NULL;
-	new_comment->text   = comment->text   ? g_strdup (comment->text) : NULL;
+	new_comment->author = g_strdup (comment->author);
+	new_comment->text   = g_strdup (comment->text);
 }
 
 static void
@@ -354,9 +354,8 @@ cell_comment_author_set (GnmComment *cc, char const *author)
 	char *tmp;
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
-	tmp = author ? g_strdup (author) : NULL;
-	if (cc->author)
-		g_free (cc->author);
+	tmp = g_strdup (author);
+	g_free (cc->author);
 	cc->author = tmp;
 }
 
@@ -373,9 +372,8 @@ cell_comment_text_set (GnmComment *cc, char const *text)
 	char *tmp;
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
-	tmp = text ? g_strdup (text) : NULL;
-	if (cc->text)
-		g_free (cc->text);
+	tmp = g_strdup (text);
+	g_free (cc->text);
 	cc->text = tmp;
 }
 
@@ -411,8 +409,8 @@ cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 	g_return_val_if_fail (pos != NULL, NULL);
 
 	cc = g_object_new (CELL_COMMENT_TYPE, NULL);
-	cc->author = author ? g_strdup (author) : NULL;
-	cc->text = text ? g_strdup (text) : NULL;
+	cc->author = g_strdup (author);
+	cc->text = g_strdup (text);
 
 	cell_comment_set_cell (cc, pos);
 

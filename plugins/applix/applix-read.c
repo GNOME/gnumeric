@@ -1627,8 +1627,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	res = applix_read_impl (&state);
 
 	g_object_unref (G_OBJECT (state.input));
-	if (state.buffer)
-		g_free (state.buffer);
+	g_free (state.buffer);
 
 	state.sheet_order = g_slist_reverse (state.sheet_order);
 	workbook_sheet_reorder (state.wb, state.sheet_order);

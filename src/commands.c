@@ -1477,10 +1477,10 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 		cellregion_unref (me->contents);
 		me->contents = NULL;
 	}
-	if (me->cutcopied) {
-		g_free (me->cutcopied);
-		me->cutcopied = NULL;
-	}
+
+	g_free (me->cutcopied);
+	me->cutcopied = NULL;
+
 	sv_weak_unref (&(me->cut_copy_view));
 	gnm_reloc_undo_release (&me->reloc_storage);
 	gnm_command_finalize (cmd);

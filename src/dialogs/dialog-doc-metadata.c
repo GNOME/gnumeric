@@ -1234,8 +1234,7 @@ dialog_doc_metadata_populate_tree_view (gchar             *name,
 
 	dialog_doc_metadata_update_prop (state, gsf_doc_prop_get_name (prop), str_value);
 
-	if (str_value != NULL)
-		g_free (str_value);
+	g_free (str_value);
 }
 
 /**
@@ -1401,17 +1400,14 @@ dialog_doc_metadata_free (DialogDocMetaData *state)
 		state->gui = NULL;
 	}
 
-	if (state->file_permissions != NULL) {
-		g_free (state->file_permissions);
-		state->file_permissions = NULL;
-	}
+	g_free (state->file_permissions);
+	state->file_permissions = NULL;
 
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	state->dialog = NULL;
 
 	g_free (state);
-	state = NULL;
 }
 
 /**

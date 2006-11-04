@@ -3394,14 +3394,10 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		if ((flags & 0x1000) != 0) fprintf (stderr," BinData");
 		fprintf (stderr,"\n");
 
-		if (menu_txt)
-			g_free (menu_txt);
-		if (descr_txt)
-			g_free (descr_txt);
-		if (help_txt)
-			g_free (help_txt);
-		if (status_txt)
-			g_free (status_txt);
+		g_free (menu_txt);
+		g_free (descr_txt);
+		g_free (help_txt);
+		g_free (status_txt);
 	});
 }
 

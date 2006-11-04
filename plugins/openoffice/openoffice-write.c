@@ -380,8 +380,7 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, G
 static void
 cb_sheet_merges_free (gpointer data, gpointer user_data)
 {
-	if (data != NULL)
-		g_free (data);
+	g_free (data);
 }
 
 static void
