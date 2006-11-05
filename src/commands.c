@@ -2842,6 +2842,7 @@ typedef struct {
 	GnmCommand cmd;
 
 	GnmCellRegion   *contents;
+	GSList          *new_objects;
 	GnmPasteTarget   dst;
 	gboolean         has_been_through_cycle;
 	ColRowStateList *saved_sizes;
@@ -2865,22 +2866,75 @@ cmd_paste_copy_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 }
 MAKE_GNM_COMMAND (CmdPasteCopy, cmd_paste_copy, cmd_paste_copy_repeat);
 
+static int
+by_addr (gconstpointer a, gconstpointer b)
+{
+	if (GPOINTER_TO_UINT (a) < GPOINTER_TO_UINT (b))
+		return -1;
+	if (GPOINTER_TO_UINT (a) > GPOINTER_TO_UINT (b))
+		return +1;
+	return 0;
+}
+
+static GSList *
+get_new_objects (Sheet *sheet, GSList *old)
+{
+	GSList *objs = g_slist_sort (g_slist_copy (sheet->sheet_objects),
+				     by_addr);
+	GSList *p = objs, *last = NULL;
+
+	while (old) {
+		int c = -1;
+		while (p && (c = by_addr (p->data, old->data)) < 0) {
+			last = p;
+			p = p->next;
+		}
+
+		old = old->next;
+
+		if (c == 0) {
+			GSList *next = p->next;
+			if (last)
+				last->next = next;
+			else
+				objs = next;
+			g_slist_free_1 (p);
+			p = next;
+		}
+	}
+
+	return objs;
+}
+
 static gboolean
 cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		     gboolean is_undo)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 	GnmCellRegion *contents;
+	GSList *old_objects;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents != NULL, TRUE);
+
+	g_slist_foreach (me->new_objects,
+			 (GFunc)sheet_object_clear_sheet,
+			 NULL);
+	go_slist_free_custom (me->new_objects, (GFreeFunc)g_object_unref);
+	me->new_objects = NULL;
+	old_objects = get_new_objects (me->dst.sheet, NULL);
 
 	contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	if (clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
 		cellregion_unref (contents);
+		g_slist_free (old_objects);
 		return TRUE;
 	}
+
+	me->new_objects = get_new_objects (me->dst.sheet, old_objects);
+	g_slist_foreach (me->new_objects, (GFunc)g_object_ref, NULL);
+	g_slist_free (old_objects);
 
 	if (me->has_been_through_cycle)
 		cellregion_unref (me->contents);
@@ -2933,6 +2987,7 @@ cmd_paste_copy_finalize (GObject *cmd)
 			cellregion_unref (me->contents);
 		me->contents = NULL;
 	}
+	go_slist_free_custom (me->new_objects, (GFreeFunc)g_object_unref);
 	gnm_command_finalize (cmd);
 }
 
@@ -2961,6 +3016,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->contents = cr;
 	me->has_been_through_cycle = FALSE;
 	me->saved_sizes = NULL;
+	me->new_objects = NULL;
 
 	/* If the input is only objects ignore all this range stuff */
 	if (cr->cols < 1 || cr->rows < 1) {

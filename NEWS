@@ -34,6 +34,7 @@ Morten:
 	* Fix crash relating to workbook disposal.  [#366570]
 	* Fix edit-line weirdness.  [#367870]
 	* Cleanup g_free and g_strdup calls.  [#369661]
+	* Fix undo for sheet object copy.  [#308300]
 
 --------------------------------------------------------------------------
 
