@@ -14491,17 +14491,17 @@ msgstr "Tanca l'aplicació"
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1527
 msgid "Cut the selection"
-msgstr "Retallar selecció"
+msgstr "Retalla la selecció"
 
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1530
 msgid "Copy the selection"
-msgstr "Copiar selecció"
+msgstr "Copia la selecció"
 
 # fitxer: src.ca.po.6
 #: ../src/wbcg-actions.c:1533
 msgid "Paste the clipboard"
-msgstr "Enganxar porta-retalls"
+msgstr "Enganxa el porta-retalls"
 
 # fitxer: src.ca.po.15
 #: ../src/wbcg-actions.c:1535 ../src/workbook-control-gui.c:1161
@@ -15840,12 +15840,12 @@ msgstr "Divideix els rangs fusionats de les cel·les"
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2056
 msgid "Format the selection as General"
-msgstr "Formata la selecció com a general"
+msgstr "Dóna a la selecció el format general"
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2059
 msgid "Format the selection as numbers"
-msgstr "Formata la selecció com a nombre"
+msgstr "Dóna a la selecció el format de nombre"
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2061
@@ -15855,7 +15855,7 @@ msgstr "Moneda"
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2062
 msgid "Format the selection as currency"
-msgstr "Format de selecció com a moneda"
+msgstr "Dóna a la selecció el format de moneda"
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2064
@@ -15865,7 +15865,7 @@ msgstr "Financer"
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2065
 msgid "Format the selection as accounting"
-msgstr "Format de selecció com a finances"
+msgstr "Dóna a la selecció el format de comptabilitat"
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2067
@@ -15875,7 +15875,7 @@ msgstr "Percentatge"
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2068
 msgid "Format the selection as percentage"
-msgstr "Formata la selecció com a percentatge"
+msgstr "Dóna a la selecció el format de percentatge"
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2070
@@ -15895,7 +15895,7 @@ msgstr "Data"
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2074
 msgid "Format the selection as date"
-msgstr "Formata la selecció com a data"
+msgstr "Dóna a la selecció un format de data"
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2076
@@ -15905,7 +15905,7 @@ msgstr "Hora"
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2077
 msgid "Format the selection as time"
-msgstr "Formata la selecció com a hora"
+msgstr "Dóna a la selecció un format d'hora"
 
 # fitxer: src.ca.po.7
 #: ../src/wbcg-actions.c:2079
