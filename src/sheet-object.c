@@ -177,7 +177,7 @@ sheet_object_finalize (GObject *object)
 	SheetObject *so = SHEET_OBJECT (object);
 	if (so->sheet != NULL)
 		sheet_object_clear_sheet (so);
-	(*parent_klass->finalize) (object);
+	parent_klass->finalize (object);
 }
 
 static void

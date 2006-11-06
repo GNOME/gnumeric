@@ -1,3 +1,9 @@
+2006-11-05  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_paste_copy_impl): Paste objects on
+	non-initial redos.  Paste the proper set of objects.  Fixes
+	#308300.
+
 2006-11-04  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_paste_copy_impl): Keep track of new objects

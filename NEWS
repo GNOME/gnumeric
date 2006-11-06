@@ -35,6 +35,7 @@ Morten:
 	* Fix edit-line weirdness.  [#367870]
 	* Cleanup g_free and g_strdup calls.  [#369661]
 	* Fix undo for sheet object copy.  [#308300]
+	* Fix redo for sheet object copy.  [#308300]
 
 --------------------------------------------------------------------------
 

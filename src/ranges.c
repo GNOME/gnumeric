@@ -629,6 +629,10 @@ range_height (GnmRange const *r)
 gboolean
 range_translate (GnmRange *range, int col_offset, int row_offset)
 {
+	/*
+	 * FIXME: we should probably check for overflow without actually
+	 * performing it.
+	 */
 	range->start.col += col_offset;
 	range->end.col   += col_offset;
 	range->start.row += row_offset;
