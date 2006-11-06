@@ -372,7 +372,7 @@
     </mediaobject>
   </figure>
 
-  <sect2 id="menu-bar">
+  <sect2 id="sect-printing-menubar">
     <title>Menu Bar</title>
     <variablelist>
       <varlistentry>
@@ -424,7 +424,7 @@
   </variablelist>
 </sect2>
  
- <sect2>
+ <sect2 id="sect-printing-toolbar">
    <title>Toolbar</title>
    <variablelist>
       <varlistentry>

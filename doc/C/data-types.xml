@@ -309,7 +309,7 @@
     references.
   </para>
     
-  <sect3>
+  <sect3 id="sect-data-formulas-syntax">
     <title>Syntax</title>
     
     <para>
@@ -370,7 +370,7 @@
 
 
 
-  <sect3>
+  <sect3 id="sect-data-formulas-functions">
     <title>Using Functions</title>
     
     <para>
@@ -468,7 +468,7 @@ FUNCTIONNAME(ARGUMENTS)
       </example>
     </para>
   
-    <sect4>
+    <sect4 id="sect-data-formulas-references-absolute">
       <title>Absolute cell referencing</title>
 
       <para>
@@ -582,7 +582,7 @@ FUNCTIONNAME(ARGUMENTS)
     </sect4>
 
 
-    <sect4>
+    <sect4 id="sect-data-formulas-references-multi">
       <title>Referencing multiple cells</title>
     
       <para>
@@ -591,7 +591,7 @@ FUNCTIONNAME(ARGUMENTS)
         thereof.
       </para>
     
-      <sect5>
+      <sect5 id="sect-data-formulas-references-multi-indiv">
         <title>Multiple individual cells</title>
       
         <para>
@@ -623,7 +623,7 @@ FUNCTIONNAME(ARGUMENTS)
 
       </sect5>
     
-      <sect5>
+      <sect5 id="sect-data-formulas-references-multi-region">
         <title>Referencing a continuous region of cells</title>
       
         <para>
@@ -663,7 +663,7 @@ FUNCTIONNAME(ARGUMENTS)
         </screenshot>
       </sect5>
     
-      <sect5>
+      <sect5 id="sect-data-formulas-references-multi-disjoint">
         <title>Referencing non-continuous regions</title>
 	  
         <para>
@@ -684,7 +684,7 @@ FUNCTIONNAME(ARGUMENTS)
       </sect5>
     </sect4>
 
-    <sect4>
+    <sect4 id="sect-data-formulas-references-tosheets">
       <title>Referencing cells on other sheets</title>
 
       <para>
@@ -713,7 +713,7 @@ FUNCTIONNAME(ARGUMENTS)
 
     </sect4>
 
-    <sect4>
+    <sect4 id="sect-data-formulas-references-tofiles">
       <title>Referencing cells on other files</title>
 
       <para>
@@ -740,7 +740,7 @@ FUNCTIONNAME(ARGUMENTS)
 
 
 
-  <sect3 id="formulas-names">
+  <sect3 id="sect-data-formulas-names">
     <title>Names</title>
 
     <para>
@@ -794,7 +794,7 @@ FUNCTIONNAME(ARGUMENTS)
 
   </sect3>
 
-  <sect3>
+  <sect3 id="sect-data-formulas-array">
     <title>Array Formulas</title>
     
     <para>

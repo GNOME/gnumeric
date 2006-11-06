@@ -25,7 +25,7 @@
   </para>
   
 <!-- TODO: change through whole file current cell to selection. -->
-    <sect2>
+    <sect2 id="data-entry-currentcell">
       <title>Current Cell Indicator</title>
 	  
       <para>
@@ -78,7 +78,7 @@
       
     </sect2>
     
-    <sect2>
+    <sect2 id="data-entry-cancel">
       <title>The <guibutton>Cancel</guibutton> Button</title>
       
     <para>
@@ -109,7 +109,7 @@
   </sect2>
   
 	
-    <sect2>
+    <sect2 id="data-entry-confirm">
       <title>The <guibutton>Confirm</guibutton> Button</title>
       
       <para>The confirm button
@@ -130,7 +130,7 @@
     </sect2>
 	
 	
-    <sect2>
+    <sect2 id="data-entry-equals">
       <title>The <guibutton>Equals</guibutton> Button</title>
       
       <para>The equals button 
@@ -272,7 +272,7 @@
 
 	</sect2>
 
-  <sect2>
+  <sect2 id="cell-grid-scrollbars">
     <title>The Scrollbars</title>
 
 <!-- TODO: add screenshot, explain the different parts: thumb, channel... -->
@@ -287,7 +287,7 @@
 
 
 
-  <sect2>
+  <sect2 id="cell-grid-tabs">
     <title>The Tabbed Sheet Indicator</title>
 
 <!-- TODO: add a screenshot. Explain selction, drag. -->
@@ -356,7 +356,7 @@
       happening in Gnumeric.
     </para>
 	
-	<sect2>
+	<sect2 id="info-area-hint">
 		<title>The Menu Hint Area</title>
 	
 	<para>
@@ -370,7 +370,7 @@
 
 	</sect2>
 
-	<sect2>
+	<sect2 id="info-area-file">
 		<title>The File Status Indicator</title>
 
 		<para>
@@ -384,7 +384,7 @@
 
 
 
-       <sect2>
+       <sect2 id="info-area-calc">
       <title>The Running Calculation Area</title>
       
       <para>In the bottom right hand corner, is an info area that

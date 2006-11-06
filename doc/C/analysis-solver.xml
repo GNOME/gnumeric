@@ -8,7 +8,7 @@
   <!-- solver-05.png -->
 
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-solver-linearprog">
     <title>Introduction to Linear Programming</title>
 
     <para>A linear program (LP) is a problem that can be expressed as
@@ -65,7 +65,7 @@
     constraints.</para>
   </sect2>
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-solver-modeling">
     <title>Spreadsheet Modeling</title>
 
     <para>To solve optimization problems with Gnumeric you have to
@@ -110,10 +110,10 @@
 
   </sect2>
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-solver-using">
     <title>Using Solver</title>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-using-params">
       <title>Solver Parameters</title>
 
       <para>Now it is time to select `Solver...' from the `Tools' menu.
@@ -168,7 +168,7 @@
 
     </sect3>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-using-constraints">
       <title>Solver Constraints</title>
 
       <para>Now we can add the constraints.  Select the `Constraints'
@@ -240,7 +240,7 @@
 
     </sect3>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-using-report">
       <title>Solver Reporting</title>
 
       <para>Select the `Reports' page from the top of the dialog and
@@ -251,7 +251,7 @@
 
     </sect3>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-using-optimize">
       <title>Optimization</title>
 
       <para>After you have specified the parameters, the constraints
@@ -284,10 +284,10 @@
 
   </sect2>
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-solver-reports">
     <title>Solver Reports</title>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-reports-answer">
       <title>Answer Report</title>
 
       <para>Answer report gives the original and final values for the
@@ -298,7 +298,7 @@
 
     </sect3>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-reports-sensitivity">
       <title>Sensitivity Report</title>
 
       <para>Sensitivity report gives the shadow prices for the
@@ -309,7 +309,7 @@
 
     </sect3>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-reports-limits">
       <title>Limits Report</title>
 
       <para>Limits report reports the achieved optimal value all the
@@ -333,7 +333,7 @@
 
     </sect3>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-reports-performance">
       <title>Performance Report</title>
 
       <para>Performance reports gives various statistical
@@ -344,7 +344,7 @@
 
     </sect3>
 
-    <sect3>
+    <sect3 id="sect-advanced-analysis-solver-reports-program">
       <title>Program Report</title>
 
       <para>Program report gives the model in its mathematical form.
@@ -355,7 +355,7 @@
 
   </sect2>
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-solver-intprog">
     <title>Integer Programming</title>
 
     <para>You can use the Solver tool also for integer programming

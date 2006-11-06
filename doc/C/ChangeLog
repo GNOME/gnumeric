@@ -1,3 +1,21 @@
+2006-11-06  Jody Goldberg <jody@gnome.org>
+
+	Patch from acuster :
+	* analysis-goalseek.xml : Add missing section ids.
+	* analysis-solver.xml : ditto.
+	* data-types.xml : ditto.
+	* gui-other-elements.xml : ditto.
+	* quick-start.xml : ditto.
+	* printing.xml : fix section ids
+	* gui-menus.xml : Fix linkend.
+
+2006-11-06  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xml :
+	  - Bump the appversion to 1.7.
+	  - include some new file formats.
+	  - Include some extra entities so that things validate.
+
 2006-10-26  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric.xml: Make docs validate

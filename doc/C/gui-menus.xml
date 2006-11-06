@@ -1169,7 +1169,7 @@
 	       expression can be as simple as defining an expression
 	       called "Total" which refers to a particular
 	       cell. However, the user can also build up a whole sheet
-	       with named expressions.  <xref linkend="formulas-names"
+	       with named expressions.  <xref linkend="sect-data-formulas-names"
 	       /> explains names in greater detail.
 	     </para>
 	   </listitem>

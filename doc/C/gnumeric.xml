@@ -5,11 +5,11 @@
 
 
   <!ENTITY app "Gnumeric">
-  <!ENTITY appversion "1.4">
+  <!ENTITY appversion "1.7">
   <!ENTITY manrevision "1.4">
-  <!ENTITY date "November 2004">
-  <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, 
-           comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo">
+  <!ENTITY date "November 2006">
+  <!ENTITY file-format-open "Excel 95/97/2000/2003/XP/2007, gnumeric XML, HTML, 
+           comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo, OpenOffice ODF">
   <!ENTITY gnum "<application>Gnumeric</application>">
 
 
@@ -104,6 +104,13 @@
 
   <!ENTITY appendix-keybindings SYSTEM "appendix-keybindings.xml">
   <!ENTITY appendix-glossary    SYSTEM "appendix-glossary.xml">
+
+  <!-- Some extra enties to help validation -->
+  <!ENTITY mdash	"---">
+  <!ENTITY hellip	"...">
+  <!ENTITY yen		"JPY">
+  <!ENTITY pound	"GBP">
+  <!ENTITY curren	"Currency">
 ]>
 
 

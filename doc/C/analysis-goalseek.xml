@@ -8,7 +8,7 @@
   whose marginal revenue just covers the fixed costs and the profit is
   thus zero).</para>
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-goalseek-tool">
     <title>Using the Tool</title>
 
     <para>First, select the ``Goal Seek...''  tool item from ``Tools''
@@ -30,7 +30,7 @@
 
   </sect2>
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-goalseek-results">
     <title>Results</title>
 
     <para>Gnumeric will systematically iterate the model by changing
@@ -46,7 +46,7 @@
 
   </sect2>
 
-  <sect2>
+  <sect2 id="sect-advanced-analysis-goalseek-range">
     <title>Desired Value in a Given Range</title>
 
     <para>If Gnumeric did not find a solution that generates the

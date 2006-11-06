@@ -392,7 +392,7 @@ c:\Program Files\Gnome-Office\gnumeric
     of this manual.
   </para>
 
-  <sect2>
+  <sect2 id="quick-commands-menu">
     <title>Using Menu Commands</title>
     <para>
       The menus provide the simplest way to get to all of the commands
@@ -406,7 +406,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </para>
   </sect2>
 
-  <sect2>
+  <sect2 id="quick-commands-toolbar">
     <title>Using Toolbar Button Commands</title>
     <para>
       The buttons on the toolbars are quite simple to use. Simply
@@ -417,7 +417,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </para>
   </sect2>
 
-  <sect2>
+  <sect2 id="quick-commands-context">
     <title>Using Context Menu Commands</title>
     <para>
       In many situations, <application>Gnumeric</application> provides
@@ -429,7 +429,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </para>
   </sect2>
 
-  <sect2>
+  <sect2 id="quick-commands-keyboard">
     <title>Using Keyboard Shortcut Commands</title>
     <para>
       Certain common commands can be triggered using a combination of
@@ -463,7 +463,7 @@ c:\Program Files\Gnome-Office\gnumeric
     used in <application>Gnumeric</application>.
   </para>
 
-    <sect2>
+    <sect2 id="quick-data-datatypes">
     <title>The Types of Data in a Spreadsheet</title>
 
     <para>
@@ -519,7 +519,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
   </sect2>
 
-  <sect2>
+  <sect2 id="quick-data-input">
     <title>Putting Data into the Spreadsheet</title>
 
     <para>
@@ -537,7 +537,7 @@ c:\Program Files\Gnome-Office\gnumeric
       to a desired cell and then by typing the data.
     </para>
 
-    <sect3>
+    <sect3 id="quick-data-input-moveselection">
       <title>Moving the selection box</title>
       <para>
         In order to enter data into
@@ -584,7 +584,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </para>
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-data-input-input">
       <title>Data Input</title>
 
       <para>
@@ -648,7 +648,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-data-input-recognition">
       <title>Automatic Data recognition</title>
 
       <para>
@@ -679,7 +679,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-data-input-text">
       <title>Entering text</title>
 
       <para>
@@ -699,7 +699,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-data-input-numbers">
       <title>Entering numbers</title>
 
       <para>
@@ -781,7 +781,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-data-input-boolean">
       <title>Entering a Boolean</title>
       <para>
         Entering boolean values requires selecting the appropriate
@@ -790,7 +790,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </para>
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-data-input-formula">
       <title>Entering a Formula</title>
 
       <para>
@@ -889,7 +889,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-data-input-error">
       <title>Entering an Error Value</title>
 
       <para>
@@ -1114,7 +1114,7 @@ c:\Program Files\Gnome-Office\gnumeric
     altered.
   </para>
 
-  <sect2>
+  <sect2 id="quick-cut-n-paste-movecontents">
     <title>Moving Cell Contents</title>
 
     <para>
@@ -1201,7 +1201,7 @@ c:\Program Files\Gnome-Office\gnumeric
   </sect2>
 
 
-  <sect2>
+  <sect2 id="quick-cut-n-paste-insdel">
     <title>Inserting and Deleting Cells</title>
 
     <para>
@@ -1406,7 +1406,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </tip>
   </para>
 
-  <sect2 id="quick-graphing-anExamples">
+  <sect2 id="quick-graphing-anExample">
     <title>A Simple Graphing Example</title>
 
     <para>
@@ -1414,7 +1414,7 @@ c:\Program Files\Gnome-Office\gnumeric
       by presenting an example of a side-by-side column plot.
     </para>
 
-    <sect3>
+    <sect3 id="quick-graphing-anExample-data">
     <title>Data for the examples.</title>
     <para>
       Because a graph requires data, it is first necessary to create
@@ -1444,7 +1444,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-graphing-anExample-plot">
       <title>Making the Column Plot </title>
 
       <para>
@@ -1550,7 +1550,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     </sect3>
 
-    <sect3>
+    <sect3 id="quick-graphing-anExample-simple">
       <title>Modifying the Simple Graph</title>
 
       <para>
