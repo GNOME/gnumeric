@@ -758,6 +758,7 @@ gnumeric_application_setup_icons (void)
 		{ gnm_bucket,				NULL,				"Gnumeric_Bucket" },
 		{ gnm_font,				NULL,				"Gnumeric_Font" },
 		{ gnm_expr_entry,			NULL,				"Gnumeric_ExprEntry" },
+		{ gnm_brush_22,				gnm_brush_16,			"Gnumeric_Brush" },
 
 		{ gnm_object_arrow_24,			NULL,				"Gnumeric_ObjectArrow" },
 		{ gnm_object_ellipse_24,		NULL,				"Gnumeric_ObjectEllipse" },
