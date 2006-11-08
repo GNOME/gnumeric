@@ -35,6 +35,7 @@ IMAGES = 							\
 	format_money_24.png		\
 	format_percent_24.png		\
 	thousands.xpm		\
+	brush-16.png			brush-22.png	\
 	\
 	auto-sum.xpm		\
 	equal-sign.xpm		\
@@ -216,6 +217,8 @@ VARIABLES = 		 									\
 	gnm_bucket				$(srcdir)/bucket.xpm				\
 	gnm_font				$(srcdir)/font.xpm				\
 	gnm_expr_entry				$(srcdir)/expr_entry.png			\
+	gnm_brush_16				$(srcdir)/brush-16.png				\
+	gnm_brush_22				$(srcdir)/brush-22.png				\
 	\
 	gnumeric_splash				$(srcdir)/gnumeric_splash_1.4.png		\
 	unknown_image				$(srcdir)/unknown_image.png			\
