@@ -1,3 +1,9 @@
+2006-11-06  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-doc.make : Update with extensions from gnome-doc-html
+	  We'll move to using that directly when it is not quite so bleeding
+	  edge (it was added in early Oct).
+
 2006-10-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.2

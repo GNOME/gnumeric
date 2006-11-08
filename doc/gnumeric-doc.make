@@ -37,10 +37,11 @@ EXTRA_DIST += $(functions_xml_parts)
 .PHONY : html
 html :
 	-mkdir -p html
-	xsltproc -o html/index.html			\
-	    --param db.chunk.chunk_top 0 		\
-	    --param db.chunk.max_depth 3 		\
-	    --stringparam db.chunk.basename gnumeric 	\
-	    --stringparam db2html.admon.graphics_path stylesheet/ \
-	    $(datadir)/xml/gnome/xslt/docbook/html/db2html.xsl	\
+	xsltproc -o html/gnumeric.shtml					\
+	    --param db.chunk.chunk_top 0 				\
+	    --param db.chunk.max_depth 3				\
+	    --stringparam db.chunk.basename	"gnumeric"		\
+	    --stringparam db.chunk.extension	".shtml"		\
+	    --stringparam db2html.css.file	"gnumeric-doc.css"	\
+	    $(datadir)/xml/gnome/xslt/docbook/html/db2html.xsl		\
 	    $(srcdir)/gnumeric.xml
