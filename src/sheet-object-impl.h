@@ -7,7 +7,10 @@
 #include <libxml/tree.h>
 #include <glib-object.h>
 #include <gtk/gtkmenu.h>
+
+#ifdef WITH_GNOME_PRINT
 #include <libgnomeprint/gnome-print.h>
+#endif
 
 typedef enum {
 	SHEET_OBJECT_IS_VISIBLE	= 1 << 0,	/* user selectable */
@@ -65,9 +68,13 @@ typedef struct {
 
 	/* Called with 0,0 set to the top, left corner of the object, and the
 	 * graphics context saved */
+#ifdef WITH_GNOME_PRINT
 	void                (*print) (SheetObject const *so,
 				      GnomePrintContext *ctx,
 				      double width, double height);
+#else
+	void                *print;
+#endif
 	void		    (*copy)  (SheetObject *dst,
 				      SheetObject const *src);
 

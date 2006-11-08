@@ -1,3 +1,37 @@
+2006-11-08  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* configure.in: Make print support optional. #331948
+	* plugins/excel/excel-xml-read.c: Ditto.
+	* plugins/excel/ms-excel-read.c: Ditto.
+	* plugins/openoffice/openoffice-write.c: Ditto.
+	* src/Makefile.am: Ditto.
+	* src/gnm-so-filled.c: Ditto.
+	* src/gnm-so-line.c: Ditto.
+	* src/gnm-so-polygon.c: Ditto.
+	* src/gnumeric-gconf.c: Ditto.
+	* src/gnumeric-gconf.h: Ditto.
+	* src/pattern.c: Ditto.
+	* src/pattern.h: Ditto.
+	* src/print-info.c: Ditto.
+	* src/print-info.h: Ditto.
+	* src/sheet-object-cell-comment.c: Ditto.
+	* src/sheet-object-graph.c: Ditto.
+	* src/sheet-object-image.c: Ditto.
+	* src/sheet-object-impl.h: Ditto.
+	* src/sheet-object.c: Ditto.
+	* src/sheet-object.h: Ditto.
+	* src/style-border.c: Ditto.
+	* src/style-border.h: Ditto.
+	* src/style-font.h: Ditto.
+	* src/wbc-gtk.c: Ditto.
+	* src/wbcg-actions.c: Ditto.
+	* src/workbook-control-gui.c: Ditto.
+	* src/xml-io.c: Ditto.
+	* src/xml-sax-read.c: Ditto.
+	* src/xml-sax-write.c: Ditto.
+	* src/dialogs/Makefile.am: Ditto.
+	* src/dialogs/dialogs.h: Ditto.
+
 2006-11-07  Jody Goldberg <jody@gnome.org>
 
 	* src/application.c : Add a brush from the gimp for use in format

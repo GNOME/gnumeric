@@ -3,6 +3,7 @@
 
 #include "numbers.h"
 #include <gnumeric.h>
+#include <glib-object.h>
 #include <print-info.h>
 
 typedef struct {

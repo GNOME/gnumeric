@@ -46,7 +46,6 @@
 #include "workbook-cmd-format.h"
 #include "selection.h"
 #include "clipboard.h"
-#include "print.h"
 #include "gui-clipboard.h"
 #include "workbook-edit.h"
 #include "libgnumeric.h"

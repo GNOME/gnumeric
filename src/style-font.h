@@ -3,7 +3,10 @@
 
 #include "gnumeric.h"
 #include <pango/pango.h>
+
+#ifdef WITH_GNOME_PRINT
 #include <libgnomeprint/gnome-font.h>
+#endif
 
 struct _GnmFont {
 	int	 ref_count;

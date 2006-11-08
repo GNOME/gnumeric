@@ -195,6 +195,7 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, item, TRUE);
 }
 
+#ifdef WITH_GNOME_PRINT
 static void
 gnm_so_line_print (SheetObject const *so, GnomePrintContext *ctx,
 		   double width, double height)
@@ -273,6 +274,7 @@ gnm_so_line_print (SheetObject const *so, GnomePrintContext *ctx,
 	gnome_print_lineto (ctx, x2, y2);
 	gnome_print_stroke (ctx);
 }
+#endif /* WITH_GNOME_PRINT */
 
 #endif /* WITH_GTK */
 
@@ -499,7 +501,12 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 	so_class->draw_cairo	= gnm_so_line_draw_cairo;
 	so_class->user_config		= gnm_so_line_user_config;
 	so_class->new_view		= gnm_so_line_new_view;
+	so_class->print			= NULL;
+
+#ifdef WITH_GNOME_PRINT
 	so_class->print			= gnm_so_line_print;
+#endif /* WITH_GNOME_PRINT */
+
 #endif /* WITH_GTK */
 
         g_object_class_install_property (gobject_class, SOL_PROP_STYLE,

@@ -170,6 +170,7 @@ gnumeric_background_set_gc (GnmStyle const *mstyle, GdkGC *gc,
  *                              background of a cell when printing.
  * return : TRUE if there is a background to paint.
  */
+#ifdef WITH_GNOME_PRINT
 gboolean
 gnumeric_background_set_pc (GnmStyle const *mstyle, GnomePrintContext *context)
 {
@@ -249,3 +250,4 @@ gnumeric_background_set_pc (GnmStyle const *mstyle, GnomePrintContext *context)
 
 	return FALSE;
 }
+#endif

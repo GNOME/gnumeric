@@ -362,6 +362,7 @@ print_info_save (PrintInformation const *pi)
 	go_conf_free_node (node);
 }
 
+#ifdef WITH_GNOME_PRINT
 const GnomePrintUnit *
 unit_name_to_unit (char const *name)
 {
@@ -391,6 +392,7 @@ unit_convert (double value, GnomePrintUnit const *src, GnomePrintUnit const *dst
 	g_assert (ok);
 	return value;
 }
+#endif /* WITH_GNOME_PRINT */
 
 static void
 render_tab (GString *target, HFRenderInfo *info, char const *args)
@@ -703,6 +705,7 @@ print_info_get_paper_height (PrintInformation const *pi)
 	return pi->paper_height;
 }
 
+#ifdef WITH_GNOME_PRINT
 GnomePrintConfig *
 print_info_make_config (PrintInformation const *pi)
 {
@@ -790,3 +793,4 @@ print_info_load_config (PrintInformation *pi, GnomePrintConfig *config)
 		g_free (str);
 	}
 }
+#endif /* WITH_GNOME_PRINT */

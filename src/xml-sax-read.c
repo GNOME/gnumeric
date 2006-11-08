@@ -596,10 +596,12 @@ xml_sax_print_margins_unit (GsfXMLIn *gsf_state, xmlChar const **attrs, PrintUni
 {
 	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_double (attrs, "Points", &points))
+		if (gnm_xml_attr_double (attrs, "Points", &points)) {
 			pu->points = points;
-		else if (!strcmp (attrs[0], "PrefUnit")) {
+#ifdef WITH_GNOME_PRINT
+		} else if (!strcmp (attrs[0], "PrefUnit")) {
 			pu->desired_display = unit_name_to_unit (attrs[1]);
+#endif
 		} else
 			unknown_attr (gsf_state, attrs);
 	}

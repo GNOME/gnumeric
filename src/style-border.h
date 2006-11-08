@@ -3,7 +3,10 @@
 
 #include "gnumeric.h"
 #include <gdk/gdkgc.h>
+
+#ifdef WITH_GNOME_PRINT
 #include <libgnomeprint/gnome-print.h>
+#endif
 
 typedef enum {
 	STYLE_BORDER_HORIZONTAL,
@@ -90,6 +93,7 @@ void style_border_draw_diag  (GnmStyle const *style,
 			      GdkDrawable *drawable,
 			      int x1, int y1, int x2, int y2);
 
+#ifdef WITH_GNOME_PRINT
 void style_borders_row_print (GnmBorder const * const * prev_vert,
 			      GnmStyleRow const *sr,
 			      GnomePrintContext *context,
@@ -98,5 +102,6 @@ void style_borders_row_print (GnmBorder const * const * prev_vert,
 void style_border_print_diag (GnmStyle const *style,
 			      GnomePrintContext *context,
 			      float x1, float y1, float x2, float y2);
+#endif
 
 #endif /* GNUMERIC_STYLE_BORDER_H */

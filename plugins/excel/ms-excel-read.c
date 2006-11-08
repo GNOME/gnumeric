@@ -660,9 +660,11 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 static void
 excel_print_unit_init_inch (PrintUnit *pu, double val)
 {
+#ifdef WITH_GNOME_PRINT
 	GnomePrintUnit const *uinch = gnome_print_unit_get_by_abbreviation ("in");
-	pu->points = GO_IN_TO_PT (val);
 	pu->desired_display = uinch; /* FIXME: should be more global */
+#endif
+	pu->points = GO_IN_TO_PT (val);
 }
 
 /*

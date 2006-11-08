@@ -50,7 +50,6 @@ base_files =					\
 	dialog-paste-special.c			\
 	dialog-pivottable.c			\
 	dialog-plugin-manager.c 		\
-	dialog-printer-setup.c			\
 	dialog-preferences.c			\
 	dialog-random-generator.c		\
 	dialog-row-height.c			\
@@ -78,6 +77,10 @@ base_files =					\
 	dialog-zoom.c				\
 	dialogs.h				\
 	tool-dialogs.h
+
+if WITH_GNOME_PRINT
+base_files += dialog-printer-setup.c
+endif
 
 gladedir   = $(gnumeric_datadir)/glade
 glade_DATA = 				\
@@ -124,7 +127,6 @@ glade_DATA = 				\
 	pivottable.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\
-	print.glade 			\
 	rank.glade			\
 	random-generation.glade		\
 	regression.glade		\
@@ -146,4 +148,8 @@ glade_DATA = 				\
 	view.glade			\
 	workbook-attr.glade
 
+if WITH_GNOME_PRINT
+glade_DATA += print.glade
+endif
+	
 EXTRA_DIST = $(glade_DATA)

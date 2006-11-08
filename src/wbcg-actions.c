@@ -25,7 +25,6 @@
 
 #include "libgnumeric.h"
 #include "application.h"
-#include "print.h"
 #include "commands.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -64,6 +63,10 @@
 #include "gnumeric-gconf.h"
 #include "expr.h"
 
+#ifdef WITH_GNOME_PRINT
+#include "print.h"
+#endif
+
 #include <goffice/app/io-context.h>
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-data-allocator.h>
@@ -94,7 +97,12 @@ static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WOR
 static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
 static GNM_ACTION_DEF (cb_file_sendto)	{
 	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GO_CMD_CONTEXT (wbcg)); }
-static GNM_ACTION_DEF (cb_file_page_setup) { dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_file_page_setup)
+{ 
+#ifdef WITH_GNOME_PRINT
+	dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg));
+#endif
+}
 
 static GNM_ACTION_DEF (cb_file_print_area_set) {
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
@@ -140,10 +148,20 @@ static GNM_ACTION_DEF (cb_file_print_area_show) {
 	sv_make_cell_visible (sv, r.start.col, r.start.row, FALSE);
 }
 
-static GNM_ACTION_DEF (cb_file_print)	{
-	sheet_print (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET); }
-static GNM_ACTION_DEF (cb_file_print_preview) {
-	sheet_print (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET); }
+static GNM_ACTION_DEF (cb_file_print)
+{
+#ifdef WITH_GNOME_PRINT
+	sheet_print (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET);
+#endif
+}
+
+static GNM_ACTION_DEF (cb_file_print_preview)
+{
+#ifdef WITH_GNOME_PRINT
+	sheet_print (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET);
+#endif
+}
+
 static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg); }
 static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, 0); }
 static GNM_ACTION_DEF (cb_file_close)		{ wbcg_close_control (wbcg); }

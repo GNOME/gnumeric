@@ -106,8 +106,6 @@ libspreadsheet_la_SOURCES =			\
 	pivottable.c				\
 	position.c				\
 	preview-grid.c				\
-	print.c					\
-	print-cell.c				\
 	print-info.c				\
 	rangefunc.c				\
 	rangefunc-strings.c			\
@@ -160,6 +158,12 @@ libspreadsheet_la_SOURCES =			\
 	xml-sax-write.c				\
 	gnumeric-gconf.c			\
 	gnumeric-gconf-priv.h
+
+if WITH_GNOME_PRINT
+libspreadsheet_la_SOURCES +=			\
+	print.c					\
+	print-cell.c
+endif
 
 # When we switch to subversion fix this to nest as
 # libspreadsheet-ver/ssheet/header
@@ -225,8 +229,6 @@ libspreadsheet_include_HEADERS = 	\
 	position.h				\
 	preview-grid.h				\
 	preview-grid-impl.h			\
-	print.h					\
-	print-cell.h				\
 	print-info.h				\
 	rangefunc.h				\
 	rangefunc-strings.h			\
@@ -285,6 +287,12 @@ libspreadsheet_include_HEADERS = 	\
 	xml-io-version.h			\
 	xml-sax.h				\
 	gnumeric-gconf.h
+
+if WITH_GNOME_PRINT
+libspreadsheet_include_HEADERS +=		\
+	print.h					\
+	print-cell.h
+endif
 
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\

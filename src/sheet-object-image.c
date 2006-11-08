@@ -566,6 +566,7 @@ gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 	new_soi->crop_right	= soi->crop_right;
 }
 
+#ifdef WITH_GNOME_PRINT
 static void
 gnm_soi_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double width, double height)
@@ -592,6 +593,7 @@ gnm_soi_print (SheetObject const *so, GnomePrintContext *ctx,
 		gnome_print_grestore (ctx);
 	}
 }
+#endif
 
 static void
 gnm_soi_default_size (SheetObject const *so, double *w, double *h)
@@ -648,7 +650,12 @@ gnm_soi_class_init (GObjectClass *object_class)
 	so_class->prep_sax_parser	= gnm_soi_prep_sax_parser;
 	so_class->copy			= gnm_soi_copy;
 	so_class->user_config		= NULL;
+
+	so_class->print			= NULL;
+#ifdef WITH_GNOME_PRINT
 	so_class->print			= gnm_soi_print;
+#endif
+
 	so_class->default_size		= gnm_soi_default_size;
 	so_class->rubber_band_directly	= TRUE;
 

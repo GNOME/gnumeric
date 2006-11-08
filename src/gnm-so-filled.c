@@ -235,6 +235,7 @@ gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, FOO_CANVAS_ITEM (group), TRUE);
 }
 
+#ifdef WITH_GNOME_PRINT
 static void
 make_rect (GnomePrintContext *gp_context, double x1, double x2, double y1, double y2)
 {
@@ -357,6 +358,8 @@ gnm_so_filled_print (SheetObject const *so, GnomePrintContext *gp_context,
 		gnome_print_stroke (gp_context);
 	}
 }
+#endif /* WITH_GNOME_PRINT*/
+
 #endif /* WITH_GTK */
 
 static void
@@ -564,7 +567,12 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 #ifdef WITH_GTK
 	so_class->new_view		= gnm_so_filled_new_view;
 	so_class->user_config		= gnm_so_filled_user_config;
+	so_class->print			= NULL;
+
+#ifdef WITH_GNOME_PRINT
 	so_class->print			= gnm_so_filled_print;
+#endif /* WITH_GNOME_PRINT */
+
 #endif /* WITH_GTK */
 	so_class->draw_cairo	= gnm_so_filled_draw_cairo;
 

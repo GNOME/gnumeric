@@ -254,7 +254,9 @@ xml_node_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 	xml_node_get_double (node, "Points", &pu->points);
 	txt = (gchar *)xmlGetProp  (node, CC2XML ("PrefUnit"));
 	if (txt) {
+#ifdef WITH_GNOME_PRINT
 		pu->desired_display = unit_name_to_unit (txt);
+#endif
 		xmlFree (txt);
 	}
 }

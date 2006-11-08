@@ -35,7 +35,6 @@
 #include "position.h"
 #include "expr.h"
 #include "expr-name.h"
-#include "print-info.h"
 #include "validation.h"
 #include "value.h"
 #include "selection.h"

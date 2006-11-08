@@ -44,7 +44,6 @@
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/utils/go-file.h>
@@ -54,6 +53,10 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/gtk/go-graph-widget.h>
+
+#ifdef WITH_GNOME_PRINT
+#include <goffice/graph/gog-renderer-gnome-print.h>
+#endif
 
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>
@@ -402,6 +405,7 @@ gnm_sog_copy (SheetObject *dst, SheetObject const *src)
 	g_object_unref (graph);
 }
 
+#ifdef WITH_GNOME_PRINT
 static void
 gnm_sog_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double width, double height)
@@ -409,6 +413,7 @@ gnm_sog_print (SheetObject const *so, GnomePrintContext *ctx,
 	gog_graph_print_to_gnome_print (
 		SHEET_OBJECT_GRAPH (so)->graph, ctx, width, height);
 }
+#endif
 
 static void
 gnm_sog_draw_cairo (SheetObject const *so, gpointer data,
@@ -533,7 +538,12 @@ gnm_sog_class_init (GObjectClass *klass)
 	so_class->user_config		= gnm_sog_user_config;
 	so_class->assign_to_sheet	= gnm_sog_set_sheet;
 	so_class->remove_from_sheet	= gnm_sog_remove_from_sheet;
+	so_class->print			= NULL;
+	
+#ifdef WITH_GNOME_PRINT
 	so_class->print			= gnm_sog_print;
+#endif
+
 	so_class->default_size		= gnm_sog_default_size;
 	so_class->draw_cairo		= gnm_sog_draw_cairo;
 	so_class->invalidate_sheet	= gnm_sog_invalidate_sheet;

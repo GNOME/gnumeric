@@ -1,5 +1,8 @@
 Gnumeric 1.7.3
 
+Eduardo Lima:
+	* Make printing support optional. [#331948]
+
 Jon Kåre:
 	* Fix another clipboard crash. [#362993]
 	* Fix encoding of mailtos. [#148550]

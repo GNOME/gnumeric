@@ -55,7 +55,6 @@
 #include <sheet-filter.h>
 #include <sheet-object-cell-comment.h>
 #include <print-info.h>
-#include <print-info.h>
 #include <parse-util.h>
 #include <tools/scenarios.h>
 

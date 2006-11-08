@@ -2,11 +2,16 @@
 #define GNM_PRINT_INFO_H
 
 #include "gnumeric.h"
+
+#ifdef WITH_GNOME_PRINT
 #include <libgnomeprint/gnome-print-config.h>	/* for typedef of GnomePrintConfig */
+#endif
 
 typedef struct {
 	double    points;
+#ifdef WITH_GNOME_PRINT
 	GnomePrintUnit const *desired_display;
+#endif
 } PrintUnit;
 
 /*
@@ -104,8 +109,11 @@ PrintInformation *print_info_new         (void);
 PrintInformation *print_info_dup	 (PrintInformation const *pi);
 void              print_info_free        (PrintInformation *pi);
 void              print_info_save        (PrintInformation const *pi);
+
+#ifdef WITH_GNOME_PRINT
 GnomePrintConfig *print_info_make_config (PrintInformation const *pi);
 void		  print_info_load_config (PrintInformation *pi, GnomePrintConfig *config);
+#endif
 
 PrintHF          *print_hf_new           (char const *left,
 					  char const *middle,
@@ -121,10 +129,12 @@ char             *hf_format_render       (char const *format,
 HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
+#ifdef WITH_GNOME_PRINT
 GnomePrintUnit const *unit_name_to_unit    (char const *name);
 double      unit_convert             (double value,
 				      GnomePrintUnit const *source,
 				      GnomePrintUnit const *target);
+#endif
 
 void        print_init               (void);
 void        print_shutdown           (void);

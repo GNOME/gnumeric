@@ -340,6 +340,7 @@ style_border_get_gc (GnmBorder const *border, GdkDrawable *drawable)
 	return border->gc;
 }
 
+#ifdef WITH_GNOME_PRINT
 static void
 style_border_set_pc_dash (StyleBorderType const i,
 			  GnomePrintContext *context)
@@ -385,6 +386,7 @@ style_border_set_pc (GnmBorder const * const border,
 				 border->color->gdk_color.blue  / (double) 0xffff);
 	return TRUE;
 }
+#endif /* WITH_GNOME_PRINT */
 
 GnmBorder *
 style_border_ref (GnmBorder *border)
@@ -722,6 +724,7 @@ style_border_draw_diag (GnmStyle const *style,
 	}
 }
 
+#ifdef WITH_GNOME_PRINT
 static inline void
 print_hline (GnomePrintContext *context,
 	     float x1, float x2, float y, int width)
@@ -855,3 +858,4 @@ style_border_print_diag (GnmStyle const *style,
 		gnome_print_grestore (context);
 	}
 }
+#endif /* WITH_GNOME_PRINT */

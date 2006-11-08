@@ -471,6 +471,7 @@ sheet_object_can_print (SheetObject const *so)
 		SO_CLASS (so)->print != NULL;
 }
 
+#ifdef WITH_GNOME_PRINT
 void
 sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
 		    double width, double height)
@@ -478,6 +479,7 @@ sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
 	if (SO_CLASS (so)->print)
 		SO_CLASS (so)->print (so, ctx, width, height);
 }
+#endif
 
 /**
  * sheet_object_draw_cairo :
