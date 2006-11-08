@@ -1,3 +1,17 @@
+2006-11-08  Jody Goldberg <jody@gnome.org>
+
+	Get things partially working.  TODO
+	- More error checking on import
+	- set locales in i/o
+	- more value types on export
+	* dif.c (dif_get_line) : inc the line number so that error messages
+	  are more useful.
+	(dif_parse_data) : handle quoted strings properly.
+	(dif_parse_data) : handle other value types.
+	(dif_file_save) : fix off by one in count of exported cols/rows.
+	(dif_file_save) : fix ancient typo in exported strings. "1,0" not
+	  "1.0"
+
 2006-10-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.2

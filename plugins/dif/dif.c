@@ -1,5 +1,6 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * dif.c: read/write sheets using a CSV encoding.
+ * dif.c: read/write sheets using a DIF encoding.
  *
  * Authors:
  *   Kevin Handy <kth@srv.net>
@@ -14,6 +15,7 @@
 #include <cell.h>
 #include <sheet.h>
 #include <value.h>
+#include <numbers.h>
 #include <goffice/app/io-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
@@ -40,6 +42,7 @@ typedef struct {
 
 	GsfInputTextline *input;
 	gint   line_no;
+	gsize  line_len;
 	gchar *line;
 
 	Sheet *sheet;
@@ -82,15 +85,15 @@ static gboolean
 dif_get_line (DifInputContext *ctxt)
 {
 	char *raw;
-
-	raw = gsf_input_textline_ascii_gets (ctxt->input);
-	if (!raw)
+	
+	if (NULL == (raw = gsf_input_textline_ascii_gets (ctxt->input)))
 		return FALSE;
 
 	g_free (ctxt->line);
-	ctxt->line =
-		g_convert_with_iconv (raw, -1, ctxt->converter, NULL, NULL, NULL);
+	ctxt->line = g_convert_with_iconv (raw, -1, ctxt->converter,
+					   NULL, &ctxt->line_len, NULL);
 
+	ctxt->line_no++;
 	return ctxt->line != NULL;
 }
 
@@ -154,50 +157,69 @@ dif_parse_data (DifInputContext *ctxt)
 {
 	gboolean too_many_rows = FALSE, too_many_columns = FALSE;
 	gint row = -1, col = 0;
+	gint val_type;
+	GnmCell *cell;
+	gchar *msg;
 
 	while (1) {
-		gint val_type;
-		GnmCell *cell;
-		gchar *msg;
-
 		if (!dif_get_line (ctxt))
 			return FALSE;
 
 		val_type = atoi (ctxt->line);
 		if (val_type == 0) {
-			gchar *comma;
-
-			(void) dif_get_line (ctxt);
-			if (col > SHEET_MAX_COLS) {
+			gchar const *comma = strchr (ctxt->line, ',');
+			if (comma == NULL)
+				gnm_io_warning (ctxt->io_context,
+						_("Syntax error at line %d. Ignoring."),
+						ctxt->line_no);
+			else if (col > SHEET_MAX_COLS) {
 				too_many_columns = TRUE;
-				continue;
-			}
-			comma = strchr (ctxt->line, ',');
-			if (comma != NULL) {
-				cell = sheet_cell_fetch (ctxt->sheet, col, row);
-				cell_set_text (cell, comma + 1);
-				col++;
+				break;
 			} else {
-				msg = g_strdup_printf (_("Syntax error at line %d. Ignoring."),
-				                       ctxt->line_no);
-				g_warning (msg);
-				g_free (msg);
+				gnm_float num = gnm_strto (comma+1, NULL);
+				GnmValue *v = NULL;
+
+				if (!dif_get_line (ctxt))
+					return FALSE;
+
+				if (0 == strcmp (ctxt->line, "V")) {		/* V       value */
+					v = value_new_float (num);
+				} else if (0 == strcmp (ctxt->line, "NA")) {	/* NA      not available res must be O */
+					v = value_new_error_NA (NULL);
+				} else if (0 == strcmp (ctxt->line, "TRUE")) {	/* ERROR   bool T	 res must be 1 */
+					v = value_new_bool (TRUE);
+				} else if (0 == strcmp (ctxt->line, "FALSE")) {	/* TRUE    bool F	 res must be O */
+					v = value_new_bool (TRUE);
+				} else if (0 == strcmp (ctxt->line, "ERROR")) {	/* FALSE   err		 res must be O */
+					gnm_io_warning (ctxt->io_context,
+							_("Unknown value type '%s' at line %d. Ignoring."),
+							ctxt->line, ctxt->line_no);
+				}
+
+				if (NULL != v) {
+					cell = sheet_cell_fetch (ctxt->sheet, col, row);
+					cell_set_value (cell, v);
+				}
+				col++;
 			}
 		} else if (val_type == 1) {
-			if (!dif_get_line (ctxt)) {
+			if (!dif_get_line (ctxt))
 				return FALSE;
-			}
 			if (col > SHEET_MAX_COLS) {
 				too_many_columns = TRUE;
 				continue;
 			}
-			cell_set_text (sheet_cell_fetch (ctxt->sheet, col, row),
-				ctxt->line);
+			cell = sheet_cell_fetch (ctxt->sheet, col, row);
+			if (ctxt->line_len >= 2 &&
+			    ctxt->line[0] == '"' && ctxt->line[ctxt->line_len - 1] == '"') {
+				ctxt->line[ctxt->line_len - 1] = '\0'; 	 
+				cell_set_text (cell, ctxt->line + 1); 	 
+			} else
+				cell_set_text (cell, ctxt->line);
 			col++;
 		} else if (val_type == -1) {
-			if (!dif_get_line (ctxt)) {
+			if (!dif_get_line (ctxt))
 				return FALSE;
-			}
 			if (strcmp (ctxt->line, "BOT") == 0) {
 				col = 0;
 				row++;
@@ -293,10 +315,10 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 	res  = gsf_output_puts (output, "TABLE\n" "0,1\n" "\"GNUMERIC\"\n");
 	if (res) res = gsf_output_printf (output,
 					  "VECTORS\n" "0,%d\n" "\"\"\n",
-					  r.end.row);
+					  r.end.row+1);
 	if (res) res = gsf_output_printf (output,
 					  "TUPLES\n" "0,%d\n" "\"\"\n",
-					  r.end.col);
+					  r.end.col+1);
 	if (res) res= gsf_output_puts (output, "DATA\n0,0\n" "\"\"\n");
 
 	/* Process all cells */
@@ -307,11 +329,9 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 			if (cell_is_empty (cell)) {
 				gsf_output_puts(output, "1,0\n" "\"\"\n");
 			} else {
-				gchar *str;
-
-				str = cell_get_rendered_text (cell);
+				gchar *str = cell_get_rendered_text (cell);
 				res = gsf_output_printf (output,
-							 "1.0\n" "\"%s\"\n",
+							 "1,0\n" "\"%s\"\n",
 							 str);
 				g_free (str);
 			}
