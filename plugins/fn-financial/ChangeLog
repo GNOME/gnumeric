@@ -1,3 +1,10 @@
+2006-10-24  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_accrint) : if par is ommited use 1000 (XL
+	  compatibility).  Still more work needed.
+	(value_get_paytype) : Be more accomodating with values.  Anything
+	  non-zero
+
 2006-10-24  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (calculate_ipmt): New function replacing and fixing

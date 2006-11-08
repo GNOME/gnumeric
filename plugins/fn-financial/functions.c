@@ -84,14 +84,7 @@ value_get_freq (GnmValue const *v)
 static int
 value_get_paytype (GnmValue const *v)
 {
-	if (v) {
-		gnm_float f = value_get_as_float (v);
-		if (f < 0 || f >= 2)
-			return -1;
-		else
-			return (int)f;
-	} else
-		return 0;
+	return (v == NULL || value_is_zero (v)) ? 0 : 1;
 }
 
 /***************************************************************************
