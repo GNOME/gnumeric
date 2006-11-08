@@ -1,3 +1,7 @@
+2006-10-30  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (auto_sum) :  <Alt>= is the accelerator.
+
 2006-11-05  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_paste_copy_impl): Paste objects on

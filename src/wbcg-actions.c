@@ -1989,7 +1989,7 @@ static GtkActionEntry const actions[] = {
 
 /* Standard Toolbar */
 	{ "AutoSum", "Gnumeric_AutoSum", N_("Sum"),
-		NULL, N_("Sum into the current cell"),
+		"<alt>equal", N_("Sum into the current cell"),
 		G_CALLBACK (cb_autosum) },
 	{ "InsertFormula", "Gnumeric_FormulaGuru", N_("Function"), NULL,
 		N_("Edit a function in the current cell"),
