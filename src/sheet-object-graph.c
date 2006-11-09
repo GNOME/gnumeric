@@ -72,7 +72,6 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 #include <math.h>
 #include <string.h>
-#include <locale.h>
 
 static void
 so_graph_view_destroy (SheetObjectView *sov)
@@ -256,20 +255,13 @@ gnm_sog_write_image (SheetObject const *so, char const *format, double resolutio
 
 static void
 gnm_sog_write_object (SheetObject const *so, char const *format,
-				 GsfOutput *output, GError **err)
+		      GsfOutput *output, GError **err)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	GsfXMLOut *xout;
-	char *old_num_locale, *old_monetary_locale;
 	GogObject *graph;
 
 	g_return_if_fail (strcmp (format, "application/x-goffice-graph") == 0);
-
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
 
 	graph = gog_object_dup (GOG_OBJECT (sog->graph),
 		NULL, gog_dataset_dup_to_simple);
@@ -277,12 +269,6 @@ gnm_sog_write_object (SheetObject const *so, char const *format,
 	gog_object_write_xml_sax (GOG_OBJECT (graph), xout);
 	g_object_unref (xout);
 	g_object_unref (graph);
-
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 }
 
 static void

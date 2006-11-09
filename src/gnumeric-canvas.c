@@ -168,6 +168,9 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
+		if (event->state & GDK_MOD1_MASK)
+			return TRUE; /* Alt is used for accelerators */
+
 		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_left_col (scg, gcanvas->first.col - 1);
 		else if (transition_keys && jump_to_bounds) {
@@ -182,6 +185,9 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 
 	case GDK_KP_Right:
 	case GDK_Right:
+		if (event->state & GDK_MOD1_MASK)
+			return TRUE; /* Alt is used for accelerators */
+
 		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_left_col (scg, gcanvas->first.col + 1);
 		else if (transition_keys && jump_to_bounds) {
@@ -338,6 +344,9 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 	case GDK_Tab:
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
+		if (event->state & GDK_MOD1_MASK)
+			return TRUE; /* Alt is used for accelerators */
+
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 

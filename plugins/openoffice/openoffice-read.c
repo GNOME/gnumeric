@@ -42,6 +42,7 @@
 #include <style-border.h>
 #include <gnm-format.h>
 #include <command-context.h>
+#include <gutils.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-units.h>
@@ -57,7 +58,6 @@
 #include <glib/gi18n-lib.h>
 
 #include <string.h>
-#include <locale.h>
 
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot-impl.h>
@@ -2356,7 +2356,7 @@ oo_conventions (void)
 void
 openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
-void
+G_MODULE_EXPORT void
 openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
@@ -2366,9 +2366,9 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	GsfInput	*mimetype = NULL;
 	GsfDocMetaData	*meta_data;
 	GsfInfile	*zip;
+	GnmLocale	*locale;
 	OOParseState	 state;
 	GError		*err = NULL;
-	char *old_num_locale, *old_monetary_locale;
 	int i;
 
 	zip = gsf_infile_zip_new (input, &err);
@@ -2420,11 +2420,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	/* init */
 	state.context	= io_context;
@@ -2519,9 +2515,5 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	gnm_expr_conventions_free (state.exprconv);
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 }

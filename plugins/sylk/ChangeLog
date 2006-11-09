@@ -1,3 +1,8 @@
+2006-11-09  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c (slyk_file_open) : use the new
+	  gnm_push_C_locale/gnm_pop_C_locale utils.
+
 2006-10-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.2

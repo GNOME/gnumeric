@@ -1984,10 +1984,10 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Uncollapse an outline group"),
 		G_CALLBACK (cb_data_show_detail) },
 	{ "DataOutlineGroup", "Gnumeric_Group", N_("_Group..."),
-		NULL, N_("Add an outline group"),
+		"<shift><alt>Right", N_("Add an outline group"),
 		G_CALLBACK (cb_data_group) },
 	{ "DataOutlineUngroup", "Gnumeric_Ungroup", N_("_Ungroup..."),
-		NULL, N_("Remove an outline group"),
+		"<shift><alt>Left", N_("Remove an outline group"),
 		G_CALLBACK (cb_data_ungroup) },
 
 /* Data -> Filter */
@@ -2113,10 +2113,10 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Decrease the number of decimals displayed"),
 		G_CALLBACK (cb_format_dec_precision) },
 	{ "FormatDecreaseIndent", GTK_STOCK_UNINDENT, NULL,
-		NULL, N_("Decrease the indent, and align the contents to the left"),
+		"<control><alt><shift>Tab", N_("Decrease the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_dec_indent) },
 	{ "FormatIncreaseIndent", GTK_STOCK_INDENT, NULL,
-		NULL, N_("Increase the indent, and align the contents to the left"),
+		"<control><alt>Tab", N_("Increase the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_inc_indent) },
 /* Unattached */
 #warning add descriptions for copy down/right

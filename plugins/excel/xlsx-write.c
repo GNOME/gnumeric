@@ -40,6 +40,7 @@
 #include "str.h"
 #include "style-color.h"
 #include "print-info.h"
+#include "gutils.h"
 
 #include <goffice/app/file.h>
 #include <goffice/utils/go-format.h>
@@ -51,7 +52,6 @@
 #include <gsf/gsf-libxml.h>
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
-#include <locale.h>
 
 /*************************************************************/
 typedef struct _GsfOutfileOpenPkg GsfOutfileOpenPkg;
@@ -1008,14 +1008,10 @@ xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
 		gconstpointer wb_view, GsfOutput *output)
 {
 	XLSXWriteState state;
-	char *old_num_locale, *old_monetary_locale;
 	GsfOutfile *root_part;
+	GnmLocale  *locale;
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	state.io_context = io_context;
 	state.wb_view	 = wb_view;
@@ -1027,11 +1023,7 @@ xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
 	gsf_output_close (GSF_OUTPUT (root_part));
 	g_object_unref (root_part);
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 }
 
 /* TODO : (Just about everything)

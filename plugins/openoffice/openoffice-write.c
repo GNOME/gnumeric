@@ -57,6 +57,7 @@
 #include <print-info.h>
 #include <parse-util.h>
 #include <tools/scenarios.h>
+#include <gutils.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
@@ -66,7 +67,6 @@
 #include <gsf/gsf-opendoc-utils.h>
 
 #include <glib/gi18n-lib.h>
-#include <locale.h>
 
 #define MANIFEST "manifest:"
 #define OFFICE	 "office:"
@@ -607,17 +607,13 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	};
 
 	GnmOOExport state;
-	char *old_num_locale, *old_monetary_locale;
 	GsfOutfile *outfile = NULL;
 	GsfOutput  *child;
+	GnmLocale  *locale;
 	GError *err;
 	unsigned i;
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale  = gnm_push_C_locale ();
 
 	outfile = gsf_outfile_zip_new (output, &err);
 
@@ -632,14 +628,10 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 		g_object_unref (G_OBJECT (child));
 	}
 
+	g_free (state.conv);
+
 	gsf_output_close (GSF_OUTPUT (outfile));
 	g_object_unref (G_OBJECT (outfile));
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
-
-	g_free (state.conv);
+	gnm_pop_C_locale (locale);
 }

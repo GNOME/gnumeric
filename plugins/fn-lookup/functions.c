@@ -532,6 +532,7 @@ gnumeric_choose (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	if (argc < 1)
 		return value_new_error_VALUE (ei->pos);
 
+#warning TODO add array eval
 	v = gnm_expr_eval (argv[0], ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!v)
 		return NULL;

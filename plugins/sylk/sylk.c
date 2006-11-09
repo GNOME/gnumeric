@@ -29,13 +29,13 @@
 #include "style-color.h"
 #include "sheet-style.h"
 #include "number-match.h"
+#include "gutils.h"
 #include <goffice/app/error-info.h>
 #include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
 
 #include <string.h>
 #include <errno.h>
-#include <locale.h>
 #include <stdlib.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -489,9 +489,9 @@ sylk_file_open (GOFileOpener const *fo,
 	char const *input_name;
 	char *base;
 	int i;
-	Workbook *book = wb_view_get_workbook (wb_view);
+	GnmLocale *locale;
+	Workbook  *book = wb_view_get_workbook (wb_view);
 	ErrorInfo *sheet_error;
-	char *old_num_locale, *old_monetary_locale;
 
 	input_name = gsf_input_name (input);
 	if (input_name == NULL)
@@ -510,19 +510,11 @@ sylk_file_open (GOFileOpener const *fo,
 	workbook_sheet_attach (book, state.sheet);
 	g_free (base);
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	sylk_parse_sheet (&state, &sheet_error);
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 
 	if (sheet_error != NULL)
 		gnumeric_io_error_info_set (io_context,

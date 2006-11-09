@@ -23,4 +23,9 @@ extern char const *gnumeric_data_dir;
 
 int gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags);
 
+/* Locale utilities */
+typedef struct _GnmLocale GnmLocale;
+GnmLocale *gnm_push_C_locale (void);
+void	   gnm_pop_C_locale  (GnmLocale *locale);
+
 #endif /* GNUMERIC_UTILS_H */

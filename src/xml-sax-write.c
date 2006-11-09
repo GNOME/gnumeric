@@ -52,6 +52,7 @@
 #include <sheet-object-impl.h>
 #include <print-info.h>
 #include <xml-io.h>
+#include <gutils.h>
 #include <clipboard.h>
 #include <tools/scenarios.h>
 #include <gnumeric-gconf.h>
@@ -62,7 +63,6 @@
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-opendoc-utils.h>
 #include <gsf/gsf-utils.h>
-#include <locale.h>
 
 typedef struct {
 	WorkbookView const *wb_view;	/* View for the new workbook */
@@ -1141,10 +1141,10 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 		   gconstpointer wb_view, GsfOutput *output)
 {
 	GnmOutputXML state;
-	char *old_num_locale, *old_monetary_locale;
-	char const *extension = NULL;
-	GsfOutput *gzout = NULL;
-	gboolean compress;
+	char const  *extension = NULL;
+	GsfOutput   *gzout = NULL;
+	GnmLocale   *locale;
+	gboolean     compress;
 
 	/* If the suffix is .xml disable compression */
 	if (NULL != gsf_output_name (output))
@@ -1166,11 +1166,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	state.exprconv	= xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	gsf_xml_out_start_element (state.output, GNM "Workbook");
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
@@ -1193,11 +1189,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 	gsf_xml_out_end_element (state.output); /* </Workbook> */
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 
 	g_hash_table_destroy (state.expr_map);
 	gnm_expr_conventions_free (state.exprconv);
@@ -1227,8 +1219,8 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	GnmCellCopy const *cc;
 	GSList       *ptr;
 	GnmParsePos   pp;
-	char	     *old_num_locale, *old_monetary_locale;
 	GsfOutput    *buf = gsf_output_memory_new ();
+	GnmLocale    *locale;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
@@ -1240,11 +1232,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	state.exprconv	= xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	gsf_xml_out_start_element (state.output, GNM "ClipboardRange");
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
@@ -1291,11 +1279,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 
 	gsf_xml_out_end_element (state.output); /* </ClipboardRange> */
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 
 	g_hash_table_destroy (state.expr_map);
 	gnm_expr_conventions_free (state.exprconv);

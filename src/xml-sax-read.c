@@ -54,6 +54,7 @@
 #include "sheet-object-graph.h"
 #include "application.h"
 #include "xml-io.h"
+#include "gutils.h"
 
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
@@ -71,7 +72,6 @@
 #include <libxml/parserInternals.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -1923,7 +1923,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 {
 	XMLSaxParseState state;
 	GsfXMLInDoc     *doc;
-	char *old_num_locale, *old_monetary_locale;
+	GnmLocale       *locale;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
 	g_return_if_fail (GSF_IS_INPUT (input));
@@ -1960,22 +1960,14 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	input = maybe_convert (input, FALSE);
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	if (!gsf_xml_in_doc_parse (doc, input, &state))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.wb);
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 
 	g_object_unref (input);
 

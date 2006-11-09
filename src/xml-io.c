@@ -67,7 +67,6 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input-memory.h>
 
-#include <locale.h>
 #include <errno.h>
 #include <math.h>
 #include <string.h>
@@ -2088,19 +2087,15 @@ GnmCellRegion *
 xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, int length)
 {
 	XmlParseContext *ctxt;
-	xmlNode	   *l, *clipboard;
-	xmlDoc	   *doc;
-	GnmCellRegion *cr = NULL;
+	xmlNode	        *l, *clipboard;
+	xmlDoc	        *doc;
+	GnmCellRegion   *cr = NULL;
+	GnmLocale       *locale;
 	int dummy;
-	char *old_num_locale, *old_monetary_locale;
 
 	g_return_val_if_fail (buffer != NULL, NULL);
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	doc = xmlParseDoc ((guchar *) buffer);
 
@@ -2166,11 +2161,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 	xmlFreeDoc (doc);
 
  err:
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 
 	return cr;
 }
@@ -2296,9 +2287,9 @@ static gboolean
 xml_workbook_read (IOContext *context,
 		   XmlParseContext *ctxt, xmlNodePtr tree)
 {
-	Sheet *sheet;
+	Sheet     *sheet;
+	GnmLocale *locale;
 	xmlNodePtr child, c;
-	char *old_num_locale, *old_monetary_locale;
 
 	if (strcmp (tree->name, "Workbook")){
 		g_warning ("xml_workbook_read: invalid element type %s, 'Workbook' expected`\n",
@@ -2306,11 +2297,7 @@ xml_workbook_read (IOContext *context,
 		return FALSE;
 	}
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("MetaData"));
 	if (child)
@@ -2402,11 +2389,7 @@ xml_workbook_read (IOContext *context,
 			workbook_iteration_tolerance (ctxt->wb, d);
 	}
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 
 	workbook_queue_all_recalc (ctxt->wb);
 

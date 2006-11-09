@@ -42,6 +42,7 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "gutils.h"
 #include <goffice/app/error-info.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
@@ -58,7 +59,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <locale.h>
 
 /*****************************************************************************/
 
@@ -2605,8 +2605,8 @@ void
 xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 		WorkbookView *wb_view, GsfInput *input)
 {
-	char *old_num_locale, *old_monetary_locale;
 	XLSXReadState	 state;
+	GnmLocale       *locale;
 
 	memset (&state, 0, sizeof (XLSXReadState));
 	state.context	= io_context;
@@ -2622,11 +2622,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 		(GDestroyNotify)g_free, (GDestroyNotify) go_format_unref);
 	state.expr_convs = xlsx_expr_conv_new ();
 
-	old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
-	go_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
-	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	locale = gnm_push_C_locale ();
 
 	if (NULL != (state.zip = gsf_infile_zip_new (input, NULL))) {
 		/* optional */
@@ -2649,11 +2645,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 		g_object_unref (G_OBJECT (state.zip));
 	}
 
-	/* go_setlocale restores bools to locale translation */
-	go_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	go_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
+	gnm_pop_C_locale (locale);
 
 	if (NULL != state.sst) {
 		unsigned i = state.sst->len;

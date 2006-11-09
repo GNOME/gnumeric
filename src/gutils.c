@@ -17,6 +17,8 @@
 #include "ranges.h"
 #include "mathfunc.h"
 
+#include <goffice/utils/go-format.h>
+
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
@@ -26,6 +28,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <locale.h>
 #include <gsf/gsf-impl-utils.h>
 
 #ifndef G_OS_WIN32
@@ -192,3 +195,45 @@ gnm_pango_attr_dump (PangoAttrList *list)
 #endif
 
 /* ------------------------------------------------------------------------- */
+
+struct _GnmLocale {
+	char *num_locale;
+	char *monetary_locale;
+};
+/**
+ * gnm_push_C_locale :
+ *
+ * Returns the current locale, and sets the locale and the value-format
+ * engine's locale to 'C'.  The caller must call gnm_pop_C_locale to free the
+ * result and restore the previous locale.
+ **/
+GnmLocale *
+gnm_push_C_locale (void)
+{
+	GnmLocale *old = g_new0 (GnmLocale, 1);
+
+	old->num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+	go_setlocale (LC_NUMERIC, "C");
+	old->monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+	go_setlocale (LC_MONETARY, "C");
+	go_set_untranslated_bools ();
+
+	return old;
+}
+
+/**
+ * gnm_pop_C_locale :
+ * @locale : #GnmLocale
+ *
+ * Frees the result of gnm_push_C_locale and restores the original locale.
+ **/
+void
+gnm_pop_C_locale (GnmLocale *locale)
+{
+	/* go_setlocale restores bools to locale translation */
+	go_setlocale (LC_MONETARY, locale->monetary_locale);
+	g_free (locale->monetary_locale);
+	go_setlocale (LC_NUMERIC, locale->num_locale);
+	g_free (locale->num_locale);
+	g_free (locale);
+}

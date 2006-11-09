@@ -55,7 +55,6 @@
 #include <gsf/gsf-input.h>
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
-#include <locale.h>
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>

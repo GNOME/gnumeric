@@ -21,6 +21,8 @@ Jody:
 	* Rewrite expression relocation logic.
 	* Add accelerator (Alt-=) for auto-sum.
 	* Make paytype handler more flexible.
+	* Fix DIF import/export.
+	* Add accelerator for group/ungroup and inc/dec indent.
 
 Joseph Pingenot:
 	* Add more conditional format types.

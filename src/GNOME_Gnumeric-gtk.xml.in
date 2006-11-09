@@ -118,6 +118,8 @@
     </menu>
     <menu name="Format" action="MenuFormat">
       <menuitem action="FormatCells"/>
+      <menuitem action="FormatDecreaseIndent"/>
+      <menuitem action="FormatIncreaseIndent"/>
       <menu name="FormatColumn" action="MenuFormatColumn">
         <menuitem action="ColumnSize"/>
         <menuitem action="ColumnAutoSize"/>
@@ -313,4 +315,6 @@
   <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
   <accelerator name="Repeat"		 action="Repeat"/>
   <accelerator name="EditSelectAllXL"	 action="EditSelectAllXL"/>
+  <accelerator name="FormatDecreaseIndent" action="FormatDecreaseIndent"/>
+  <accelerator name="FormatIncreaseIndent" action="FormatIncreaseIndent"/>
 </ui>

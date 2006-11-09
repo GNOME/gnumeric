@@ -16,6 +16,7 @@
 #include <sheet.h>
 #include <value.h>
 #include <numbers.h>
+#include <gutils.h>
 #include <goffice/app/io-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
@@ -35,7 +36,7 @@ GNM_PLUGIN_MODULE_HEADER;
 void dif_file_open (GOFileOpener const *fo, IOContext *io_context,
                     WorkbookView *wbv, GsfInput *input);
 void dif_file_save (GOFileSaver const *fs, IOContext *io_context,
-                    WorkbookView const *wbv, GsfOutput *output);
+                    WorkbookView const *wbv, GsfOutput *out);
 
 typedef struct {
 	IOContext *io_context;
@@ -186,11 +187,11 @@ dif_parse_data (DifInputContext *ctxt)
 					v = value_new_float (num);
 				} else if (0 == strcmp (ctxt->line, "NA")) {	/* NA      not available res must be O */
 					v = value_new_error_NA (NULL);
-				} else if (0 == strcmp (ctxt->line, "TRUE")) {	/* ERROR   bool T	 res must be 1 */
+				} else if (0 == strcmp (ctxt->line, "TRUE")) {	/* TRUE    bool T	 res must be 1 */
 					v = value_new_bool (TRUE);
-				} else if (0 == strcmp (ctxt->line, "FALSE")) {	/* TRUE    bool F	 res must be O */
+				} else if (0 == strcmp (ctxt->line, "FALSE")) {	/* FALSE   bool F	 res must be O */
 					v = value_new_bool (TRUE);
-				} else if (0 == strcmp (ctxt->line, "ERROR")) {	/* FALSE   err		 res must be O */
+				} else if (0 == strcmp (ctxt->line, "ERROR")) {	/* ERROR   err		 res must be O */
 					gnm_io_warning (ctxt->io_context,
 							_("Unknown value type '%s' at line %d. Ignoring."),
 							ctxt->line, ctxt->line_no);
@@ -261,6 +262,8 @@ dif_parse_data (DifInputContext *ctxt)
 static void
 dif_parse_sheet (DifInputContext *ctxt)
 {
+	GnmLocale *locale = gnm_push_C_locale ();
+
 	if (!dif_parse_header (ctxt)) {
 		gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
 		_("Unexpected end of file at line %d while reading header."),
@@ -270,6 +273,8 @@ dif_parse_sheet (DifInputContext *ctxt)
 		_("Unexpected end of file at line %d while reading data."),
 		ctxt->line_no));
 	}
+
+	gnm_pop_C_locale (locale);
 }
 
 void
@@ -296,8 +301,9 @@ dif_file_open (GOFileOpener const *fo, IOContext *io_context,
  */
 void
 dif_file_save (GOFileSaver const *fs, IOContext *io_context,
-               WorkbookView const *wbv, GsfOutput *output)
+               WorkbookView const *wbv, GsfOutput *out)
 {
+	GnmLocale *locale;
 	Sheet *sheet;
 	GnmRange r;
 	gint row, col;
@@ -312,32 +318,49 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 	r = sheet_get_extent (sheet, FALSE);
 
 	/* Write out the standard headers */
-	res  = gsf_output_puts (output, "TABLE\n" "0,1\n" "\"GNUMERIC\"\n");
-	if (res) res = gsf_output_printf (output,
-					  "VECTORS\n" "0,%d\n" "\"\"\n",
-					  r.end.row+1);
-	if (res) res = gsf_output_printf (output,
-					  "TUPLES\n" "0,%d\n" "\"\"\n",
-					  r.end.col+1);
-	if (res) res= gsf_output_puts (output, "DATA\n0,0\n" "\"\"\n");
+	gsf_output_puts   (out, "TABLE\n"   "0,1\n" "\"GNUMERIC\"\n");
+	gsf_output_printf (out, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.row+1);
+	gsf_output_printf (out, "TUPLES\n"  "0,%d\n" "\"\"\n", r.end.col+1);
+	gsf_output_puts   (out, "DATA\n"    "0,0\n"  "\"\"\n");
+
+	locale = gnm_push_C_locale ();
 
 	/* Process all cells */
 	for (row = r.start.row; res && row <= r.end.row; row++) {
-		gsf_output_puts (output, "-1,0\n" "BOT\n");
+		gsf_output_puts (out, "-1,0\n" "BOT\n");
 		for (col = r.start.col; col <= r.end.col; col++) {
 			GnmCell *cell = sheet_cell_get (sheet, col, row);
 			if (cell_is_empty (cell)) {
-				gsf_output_puts(output, "1,0\n" "\"\"\n");
-			} else {
+				gsf_output_puts(out, "1,0\n" "\"\"\n");
+			} else if (VALUE_IS_BOOLEAN (cell->value)) {
+				if (value_get_as_checked_bool (cell->value))
+					gsf_output_puts(out, "0,1\n" "TRUE\n");
+				else
+					gsf_output_puts(out, "0,0\n" "FALSE\n");
+			} else if (VALUE_IS_ERROR (cell->value)) {
+				if (value_error_classify (cell->value) == GNM_ERROR_NA)
+					gsf_output_puts(out, "0,0\n" "NA\n");
+				else
+					gsf_output_puts(out, "0,0\n" "ERROR\n");
+			} else if (VALUE_IS_FLOAT (cell->value))
+				gsf_output_printf (out, "0,%" GNM_FORMAT_g "\n" "V\n",
+					value_get_as_float (cell->value));
+			else {
 				gchar *str = cell_get_rendered_text (cell);
-				res = gsf_output_printf (output,
+				res = gsf_output_printf (out,
 							 "1,0\n" "\"%s\"\n",
 							 str);
 				g_free (str);
 			}
 		}
 	}
-	gsf_output_puts (output, "-1,0\n" "EOD\n");
+
+	/* This BOT is not required as far as I can tel, but MS seems to puts
+	 * one here, and it may be useful to be compatible  */
+	gsf_output_puts (out, "-1,0\n" "BOT\n");
+	gsf_output_puts (out, "-1,0\n" "EOD\n");
+
+	gnm_pop_C_locale (locale);
 
 	if (!res)
 		gnumeric_io_error_string (io_context, _("Error while saving DIF file."));

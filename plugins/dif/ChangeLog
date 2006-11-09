@@ -1,9 +1,17 @@
 2006-11-08  Jody Goldberg <jody@gnome.org>
 
-	Get things partially working.  TODO
-	- More error checking on import
-	- set locales in i/o
-	- more value types on export
+	* dif.c (dif_file_save) : export errors, booleans, and values
+	  properly.
+
+2006-11-08  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_parse_sheet) : use the new
+	  gnm_push_C_locale/gnm_pop_C_locale utils.
+	(dif_file_save) : ditto.
+
+2006-11-08  Jody Goldberg <jody@gnome.org>
+
+	Get things partially working.
 	* dif.c (dif_get_line) : inc the line number so that error messages
 	  are more useful.
 	(dif_parse_data) : handle quoted strings properly.
