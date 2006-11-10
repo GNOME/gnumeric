@@ -30,6 +30,7 @@
 #include "sheet.h"
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
+#include <parse-util.h>
 
 #define BLANKS_STRING_FOR_MATCHING " \t\n\r"
 
@@ -177,7 +178,6 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 	return res;
 }
 
-#include <parse-util.h>
 int
 gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 {
@@ -266,13 +266,13 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 					/*This really should be an error, I suspect*/
 					break;
 				case GNM_STYLE_COND_CONTAINS_STR :
-					use_this = (int) strstr (cvstring,valstring);
+					use_this = strstr (cvstring, valstring) != NULL;
 					break;
 				case GNM_STYLE_COND_NOT_CONTAINS_STR :
-					use_this = ! (int) strstr (cvstring,valstring);
+					use_this = strstr (cvstring, valstring) == NULL;
 					break;
 				case GNM_STYLE_COND_BEGINS_WITH_STR :
-					use_this = ! (strncmp (cvstring, valstring, slen));
+					use_this = !strncmp (cvstring, valstring, slen);
 					break;
 				case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
 					use_this = strncmp (cvstring, valstring, slen);
@@ -293,7 +293,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 						/*We compare the *whole* string:
 						 * look for "bar" at the end of "foobarbaz"
 						 */
-						use_this = ! (int) strcmp (ptr2, valstring);
+						use_this = ! strcmp (ptr2, valstring);
 					} else {
 						/*don't match if no match was found.  duh.*/
 						use_this = 0;
@@ -316,7 +316,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 						 *  of this string, and obvioulsy the string does not
 						 *  not-end with cvstring.  Else it didn't and so it
 						 *  does.  :)*/
-						use_this = (int) strcmp (ptr2, valstring);
+						use_this = strcmp (ptr2, valstring);
 					} else {
 						/*No match was found.  We do not-end with cvstring.*/
 						use_this = 1;
@@ -326,13 +326,13 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 					use_this = VALUE_IS_ERROR (cv);
 					break;
 				case GNM_STYLE_COND_NOT_CONTAINS_ERR :
-					use_this = ! (VALUE_IS_ERROR (cv));
+					use_this = !VALUE_IS_ERROR (cv);
 					break;
 				case GNM_STYLE_COND_CONTAINS_BLANKS :
-					use_this = (int) strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
+					use_this = strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING) != NULL;
 					break;
 				case GNM_STYLE_COND_NOT_CONTAINS_BLANKS :
-					use_this = ! (int) strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
+					use_this = strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING) == NULL;
 					break;
 				}
 			}
