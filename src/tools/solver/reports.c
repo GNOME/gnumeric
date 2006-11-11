@@ -87,7 +87,7 @@ get_target_cell_value (SolverResults *res, GnmCell *target_cell,
         GnmCell *var_cell = solver_get_input_var (res, col);
 	*old_value = value_get_as_float (var_cell->value);
 	sheet_cell_set_value (var_cell, value_new_float (x));
-	cell_eval (target_cell);
+	gnm_cell_eval (target_cell);
 	return value_get_as_float (target_cell->value);
 }
 
@@ -169,7 +169,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 					cell = solver_get_target_cell (sheet);
 					get_target_cell_value (res, cell, n,
 							       x, &y);
-					cell_eval (cell);
+					gnm_cell_eval (cell);
 					res->limits[n].lower_result = 
 					        value_get_as_float (cell->value);
 				}
@@ -178,7 +178,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 					cell = solver_get_target_cell (sheet);
 					get_target_cell_value (res, cell, n,
 							       x, &y);
-					cell_eval (cell);
+					gnm_cell_eval (cell);
 					res->limits[n].upper_result =
 					        value_get_as_float (cell->value);
 				}

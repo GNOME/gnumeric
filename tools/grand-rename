@@ -12,12 +12,26 @@ my $doit = ($ARGV[0] && $ARGV[0] =~ /^--doit/ && shift);
 
 my $oldname = $ARGV[0];
 my $newname = $ARGV[1];
+if (defined ($oldname) && !defined ($newname)) {
+    $newname = $oldname;
+    if ($oldname =~ /^_?[A-Z].*[a-z]/) {
+	$newname =~ s/(_*)/$1Gnm/;
+    } elsif ($oldname =~ /^[a-z0-9_]+$/) {
+	$newname =~ s/(_*)/$1gnm_/;
+    } elsif ($oldname =~ /^[A-Z0-9_]+$/) {
+	$newname =~ s/(_*)/$1GNM_/;
+    }
+}
 die "Usage $0 oldname newname\n" unless $oldname && $newname;
+die "$0: oldname and newname must be different\n" if $oldname eq $newname;
 
 my @files = &find_files ();
 
 &do_files (\@files, 1);
-&do_files (\@files, 0) if $doit;
+if ($doit) {
+    print STDERR "Renaming $oldname to $newname\n";
+    &do_files (\@files, 0);
+}
 
 # -----------------------------------------------------------------------------
 

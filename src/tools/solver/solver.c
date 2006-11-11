@@ -259,14 +259,14 @@ get_lp_coeff (GnmCell *target, GnmCell *change)
 {
         gnm_float x0, x1;
 
-	cell_set_value (change, value_new_float (0.0));
+	gnm_cell_set_value (change, value_new_float (0.0));
 	cell_queue_recalc (change);
-	cell_eval (target);
+	gnm_cell_eval (target);
 	x0 = value_get_as_float (target->value);
 
-	cell_set_value (change, value_new_float (1.0));
+	gnm_cell_set_value (change, value_new_float (1.0));
 	cell_queue_recalc (change);
-	cell_eval (target);
+	gnm_cell_eval (target);
 	x1 = value_get_as_float (target->value);
 
 	return x1 - x0;
@@ -364,7 +364,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	target = solver_get_target_cell (sheet);
 	clear_input_vars (param->n_variables, res);
 
-	cell_eval (target);
+	gnm_cell_eval (target);
 
 	if (param->options.model_type == SolverLPModel) {
 	        for (i = 0; i < param->n_variables; i++) {
@@ -394,7 +394,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		if (target) {
-			cell_eval (target);
+			gnm_cell_eval (target);
 			val = target->value;
 		} else
 			val = NULL;
@@ -437,7 +437,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		if (target) {
-			cell_eval (target);
+			gnm_cell_eval (target);
 			val = target->value;
 		} else
 			val = NULL;
