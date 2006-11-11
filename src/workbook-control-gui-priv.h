@@ -114,9 +114,6 @@ typedef struct {
 
 /* Protected functions */
 void	 wbcg_set_toplevel	      (WorkbookControlGUI *wbcg, GtkWidget *w);
-gboolean wbcg_scroll_wheel_support_cb (GtkWidget *ignored,
-				       GdkEventScroll *event,
-				       WorkbookControlGUI *wbcg);
 gboolean wbcg_close_control	      (WorkbookControlGUI *wbcg);
 int 	 wbcg_show_save_dialog	      (WorkbookControlGUI *wbcg, 
 				       Workbook * wb, gboolean exiting);

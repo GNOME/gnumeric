@@ -145,6 +145,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 	WorkbookControlGUI *wbcg = scg->wbcg;
 	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
+	gboolean is_enter = FALSE;
 	int state = gnumeric_filter_modifiers (event->state);
 	void (*movefn) (SheetControlGUI *, int n,
 			gboolean jump, gboolean horiz);
@@ -339,14 +340,12 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 			return gtk_widget_event (
 				GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 				(GdkEvent *) event);
+		is_enter = TRUE;
 		/* fall down */
 
 	case GDK_Tab:
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
-		if (event->state & GDK_MOD1_MASK)
-			return TRUE; /* Alt is used for accelerators */
-
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 
@@ -355,12 +354,19 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 			sheet = wbcg->wb_control.editing_sheet;
 
 		if (wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
-			/* Figure out the direction */
-			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
-			gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
-						     event->keyval == GDK_Return) ? FALSE : TRUE;
-
-			sv_selection_walk_step (sv, direction, horizontal);
+			if ((event->state & GDK_MOD1_MASK) &&
+			    (event->state & GDK_CONTROL_MASK) &&
+			    !is_enter) {
+				if (event->state & GDK_SHIFT_MASK)
+					workbook_cmd_dec_indent (sc->wbc);
+				else
+					workbook_cmd_inc_indent	(sc->wbc);
+			} else {
+				/* Figure out the direction */
+				gboolean forward = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
+				gboolean horizontal = !is_enter;
+				sv_selection_walk_step (sv, forward, horizontal);
+			}
 		}
 		break;
 

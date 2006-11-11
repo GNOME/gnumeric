@@ -1395,47 +1395,8 @@ static GNM_ACTION_DEF (cb_format_dec_precision)
 static GNM_ACTION_DEF (cb_format_with_thousands)
 	{ modify_format (wbcg, &go_format_toggle_1000sep, _("Toggle thousands separator")); }
 
-static GNM_ACTION_DEF (cb_format_inc_indent)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	WorkbookView const *wbv;
-	int i;
-
-	wbv = wb_control_view (wbc);
-	g_return_if_fail (wbv != NULL);
-	g_return_if_fail (wbv->current_format != NULL);
-
-	i = gnm_style_get_indent (wbv->current_format);
-	if (i < 20) {
-		GnmStyle *style = gnm_style_new ();
-
-		if (HALIGN_LEFT != gnm_style_get_align_h (wbv->current_format))
-			gnm_style_set_align_h (style, HALIGN_LEFT);
-		gnm_style_set_indent (style, i+1);
-		cmd_selection_format (wbc, style, NULL,
-			    _("Increase Indent"));
-	}
-}
-
-static GNM_ACTION_DEF (cb_format_dec_indent)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	WorkbookView const *wbv;
-	int i;
-
-	wbv = wb_control_view (wbc);
-	g_return_if_fail (wbv != NULL);
-	g_return_if_fail (wbv->current_format != NULL);
-
-	i = gnm_style_get_indent (wbv->current_format);
-	if (i > 0) {
-		GnmStyle *style = gnm_style_new ();
-
-		gnm_style_set_indent (style, i-1);
-		cmd_selection_format (wbc, style, NULL,
-			    _("Decrease Indent"));
-	}
-}
+static GNM_ACTION_DEF (cb_format_dec_indent) { workbook_cmd_dec_indent (WORKBOOK_CONTROL (wbcg)); }
+static GNM_ACTION_DEF (cb_format_inc_indent) { workbook_cmd_inc_indent (WORKBOOK_CONTROL (wbcg)); }
 
 static GNM_ACTION_DEF (cb_copydown)
 {
@@ -2112,6 +2073,9 @@ static GtkActionEntry const actions[] = {
 	{ "FormatDecreasePrecision", "Gnumeric_FormatRemovePrecision", N_("Decrease Precision"),
 		NULL, N_("Decrease the number of decimals displayed"),
 		G_CALLBACK (cb_format_dec_precision) },
+
+	/* Gtk marks these accelerators as invalid because they use Tab
+	 * enable them manually in gnumeric-canvas.c */
 	{ "FormatDecreaseIndent", GTK_STOCK_UNINDENT, NULL,
 		"<control><alt><shift>Tab", N_("Decrease the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_dec_indent) },

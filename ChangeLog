@@ -1,3 +1,19 @@
+2006-11-11  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_scroll_wheel) : renamed from
+	  wbcg_scroll_wheel_support_cb and make static.
+
+2006-11-11  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml.in : Remove inc/dec indent from the menu.
+	  They do not belong there.  Remove them from the accel list too, gtk
+	  silently invalidates accels for Tab.  Handle them manually.
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : here.  Use the
+	  new functions from ...
+	* src/workbook-cmd-format.c (workbook_cmd_inc_indent) : here.  That
+	  are transfered from ...
+	* src/wbcg-actions.c : here.
+
 2006-11-10  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric.desktop.in: Set component to General.  Bug-buddy

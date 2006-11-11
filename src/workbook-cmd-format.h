@@ -6,6 +6,8 @@
 
 void workbook_cmd_resize_selected_colrow   (WorkbookControl *wbc, Sheet *sheet,
 					    gboolean is_cols, int new_size_pixels);
+void workbook_cmd_inc_indent		   (WorkbookControl *wbc);
+void workbook_cmd_dec_indent		   (WorkbookControl *wbc);
 
 void workbook_cmd_format_column_auto_fit   (GtkWidget *widget, WorkbookControl *wbc);
 void sheet_dialog_set_column_width         (GtkWidget *widget, WorkbookControlGUI *wbcg);

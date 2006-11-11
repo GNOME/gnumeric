@@ -1661,10 +1661,9 @@ wbcg_finalize (GObject *obj)
 	(*parent_class->finalize) (obj);
 }
 
-/* protected */
-gboolean
-wbcg_scroll_wheel_support_cb (GtkWidget *ignored, GdkEventScroll *event,
-			      WorkbookControlGUI *wbcg)
+static gboolean
+cb_scroll_wheel (GtkWidget *ignored, GdkEventScroll *event,
+		 WorkbookControlGUI *wbcg)
 {
 	/* scroll always operates on pane 0 */
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
@@ -2353,7 +2352,7 @@ wbcg_set_toplevel (WorkbookControlGUI *wbcg, GtkWidget *w)
 	g_signal_connect_after (w, "set_focus",
 		G_CALLBACK (cb_set_focus), wbcg);
 	g_signal_connect (w, "scroll-event",
-		G_CALLBACK (wbcg_scroll_wheel_support_cb), wbcg);
+		G_CALLBACK (cb_scroll_wheel), wbcg);
 	g_signal_connect (w, "realize",
 		G_CALLBACK (cb_realize), wbcg);
 

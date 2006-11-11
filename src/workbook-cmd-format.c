@@ -16,6 +16,7 @@
 #include "gui-util.h"
 #include "selection.h"
 #include "workbook-control.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "application.h"
 #include "dialogs.h"
@@ -57,4 +58,41 @@ workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, Sheet *sheet,
 	sv_selection_foreach (sheet_get_view (sheet, wb_control_view (wbc)),
 		&cb_colrow_collect, &closure);
 	cmd_resize_colrow (wbc, sheet, is_cols, closure.selection, new_size_pixels);
+}
+
+void
+workbook_cmd_inc_indent (WorkbookControl *wbc)
+{
+	WorkbookView const *wbv = wb_control_view (wbc);
+	int i;
+
+	g_return_if_fail (wbv != NULL);
+	g_return_if_fail (wbv->current_format != NULL);
+
+	i = gnm_style_get_indent (wbv->current_format);
+	if (i < 20) {
+		GnmStyle *style = gnm_style_new ();
+
+		if (HALIGN_LEFT != gnm_style_get_align_h (wbv->current_format))
+			gnm_style_set_align_h (style, HALIGN_LEFT);
+		gnm_style_set_indent (style, i+1);
+		cmd_selection_format (wbc, style, NULL, _("Increase Indent"));
+	}
+}
+
+void
+workbook_cmd_dec_indent (WorkbookControl *wbc)
+{
+	WorkbookView const *wbv = wb_control_view (wbc);
+	int i;
+
+	g_return_if_fail (wbv != NULL);
+	g_return_if_fail (wbv->current_format != NULL);
+
+	i = gnm_style_get_indent (wbv->current_format);
+	if (i > 0) {
+		GnmStyle *style = gnm_style_new ();
+		gnm_style_set_indent (style, i-1);
+		cmd_selection_format (wbc, style, NULL, _("Decrease Indent"));
+	}
 }
