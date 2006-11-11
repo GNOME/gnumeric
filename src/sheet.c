@@ -138,7 +138,7 @@ cb_re_render_formulas (G_GNUC_UNUSED gpointer unused,
 {
 	if (gnm_cell_has_expr (cell)) {
 		if (cell->rendered_value != NULL) {
-			rendered_value_destroy (cell->rendered_value);
+			gnm_rendered_value_destroy (cell->rendered_value);
 			cell->rendered_value = NULL;
 		}
 		if (cell->row_info != NULL)
@@ -292,7 +292,7 @@ cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
 {
 	if (cell->rendered_value != NULL) {
 		cell->row_info->needs_respan = TRUE;
-		rendered_value_destroy (cell->rendered_value);
+		gnm_rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}
 }
@@ -809,7 +809,7 @@ static GnmValue *
 cb_clear_rendered_values (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
 	if (iter->cell->rendered_value != NULL) {
-		rendered_value_destroy (iter->cell->rendered_value);
+		gnm_rendered_value_destroy (iter->cell->rendered_value);
 		iter->cell->rendered_value = NULL;
 	}
 	return NULL;
@@ -870,7 +870,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 		if (!gnm_cell_has_expr (cell))
 			gnm_cell_render_value ((GnmCell *)cell, TRUE);
 		else if (cell->rendered_value) {
-			rendered_value_destroy (cell->rendered_value);
+			gnm_rendered_value_destroy (cell->rendered_value);
 			cell->rendered_value = NULL;
 		}
 	} else if (resize) {
@@ -2996,7 +2996,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
 
 	if (cell->rendered_value) {
-		rendered_value_destroy (cell->rendered_value);
+		gnm_rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}
 

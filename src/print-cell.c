@@ -41,7 +41,7 @@
 #endif
 
 /*
- * print_make_rectangle_path
+ * gnm_print_make_rect_path
  * @pc      print context
  * @left    left side x coordinate
  * @bottom  bottom side y coordinate
@@ -51,9 +51,9 @@
  * Make a rectangular path.
  */
 void
-print_make_rectangle_path (GnomePrintContext *pc,
-			   double left, double bottom,
-			   double right, double top)
+gnm_print_make_rect_path (GnomePrintContext *pc,
+			  double left, double bottom,
+			  double right, double top)
 {
 	g_return_if_fail (pc != NULL);
 
@@ -97,7 +97,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 		 * Simply create a new GnmRenderedValue at zoom 100% for the
 		 * _screen_ context.
 		 */
-		cell_rv100 = rendered_value_new ((GnmCell *)cell, mstyle,
+		cell_rv100 = gnm_rendered_value_new ((GnmCell *)cell, mstyle,
 			cell_rv->variable_width,
 			pango_layout_get_context (cell_rv->layout),
 			1.0);
@@ -111,14 +111,14 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	cell_finish_layout (cell, cell_rv, width, FALSE);
 
 	/* Now pretend it was made for printing.  */
-	rv = rendered_value_recontext (cell_rv, pcontext);
+	rv = gnm_rendered_value_recontext (cell_rv, pcontext);
 
 	/* Make sure we don't get overflow in print unless we had it in
 	   display.  */
 	rv->might_overflow = rv->numeric_overflow;
 
 	if (cell_rv100)
-		rendered_value_destroy (cell_rv100);
+		gnm_rendered_value_destroy (cell_rv100);
 
 	if (cell_calc_layout (cell, rv, -1,
 			      (int)(width * PANGO_SCALE),
@@ -135,7 +135,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 
 		if (!rv->rotation) {
 			/* We do not clip rotated cells.  */
-			print_make_rectangle_path (context,
+			gnm_print_make_rect_path (context,
 						   x0 - 1, y0 - height,
 						   x0 + width, y0 + 1);
 			gnome_print_clip (context);
@@ -149,7 +149,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 
 		if (rv->rotation) {
 			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
-			const struct RenderedRotatedValueInfo *li = rrv->lines;
+			const struct GnmRenderedRotatedValueInfo *li = rrv->lines;
 			GSList *lines;
 
 			for (lines = pango_layout_get_lines (rv->layout);
@@ -171,10 +171,10 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 		gnome_print_grestore (context);
 	}
 
-	rendered_value_destroy (rv);
+	gnm_rendered_value_destroy (rv);
 }
 
-/* We do not use print_make_rectangle_path here - because we do not want a
+/* We do not use gnm_print_make_rect_path here - because we do not want a
  * new path.  */
 static void
 print_rectangle (GnomePrintContext *context,
@@ -290,10 +290,10 @@ merged_col_cmp (GnmRange const *a, GnmRange const *b)
 }
 
 void
-print_cell_range (GnomePrintContext *context,
-		  Sheet const *sheet, GnmRange *range,
-		  double base_x, double base_y,
-		  gboolean hide_grid)
+gnm_print_cell_range (GnomePrintContext *context,
+		      Sheet const *sheet, GnmRange *range,
+		      double base_x, double base_y,
+		      gboolean hide_grid)
 {
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;

@@ -103,11 +103,11 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 {
 	DialogState *dd = (DialogState *)_dd;
 	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (gtk_tree_view_get_model (dd->matches_table));
-	SearchFilterResult *item = g_ptr_array_index (dd->matches, row);
+	GnmSearchFilterResult *item = g_ptr_array_index (dd->matches, row);
 	GnmCell *cell;
 	GnmComment *comment;
 
-	if (item->locus == SRL_commment) {
+	if (item->locus == GNM_SRL_COMMENT) {
 		cell = NULL;
 		comment = sheet_get_comment (item->ep.sheet, &item->ep.eval);
 	} else {
@@ -132,13 +132,13 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 		return;
 	case COL_TYPE:
 		switch (item->locus) {
-		case SRL_commment:
+		case GNM_SRL_COMMENT:
 			g_value_set_static_string (value, _("Comment"));
 			return;
-		case SRL_value:
+		case GNM_SRL_VALUE:
 			g_value_set_static_string (value, _("Result"));
 			return;
-		case SRL_contents: {
+		case GNM_SRL_CONTENTS: {
 			GnmValue *v = cell ? cell->value : NULL;
 			char const *type;
 
@@ -168,19 +168,19 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 
 	case COL_CONTENTS:
 		switch (item->locus) {
-		case SRL_commment:
+		case GNM_SRL_COMMENT:
 			if (comment)
 				g_value_set_string (value, cell_comment_text_get (comment));
 			else
 				g_value_set_static_string (value, _("Deleted"));
 			return;
-		case SRL_value:
+		case GNM_SRL_VALUE:
 			if (cell && cell->value)
 				g_value_take_string (value, value_get_as_string (cell->value));
 			else
 				g_value_set_static_string (value, _("Deleted"));
 			return;
-		case SRL_contents:
+		case GNM_SRL_CONTENTS:
 			if (cell)
 				g_value_take_string (value, gnm_cell_get_entered_text (cell));
 			else
@@ -217,7 +217,7 @@ make_matches_model (DialogState *dd, int rows)
 static void
 free_state (DialogState *dd)
 {
-	search_filter_matching_free (dd->matches);
+	gnm_search_filter_matching_free (dd->matches);
 	g_object_unref (dd->gui);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
@@ -276,7 +276,7 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 				  matchno >= 0 && matchno < lastmatch);
 
 	if (matchno >= 0 && matchno <= lastmatch) {
-		SearchFilterResult *item = g_ptr_array_index (dd->matches, matchno);
+		GnmSearchFilterResult *item = g_ptr_array_index (dd->matches, matchno);
 		int col = item->ep.eval.col;
 		int row = item->ep.eval.row;
 		WorkbookControl *wbc = WORKBOOK_CONTROL (dd->wbcg);
@@ -348,11 +348,11 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 		/* Clear current table.  */
 		gtk_tree_view_set_model (dd->matches_table, NULL);
-		search_filter_matching_free (dd->matches);
+		gnm_search_filter_matching_free (dd->matches);
 
-		cells = search_collect_cells (sr);
-		dd->matches = search_filter_matching (sr, cells);
-		search_collect_cells_free (cells);
+		cells = gnm_search_collect_cells (sr);
+		dd->matches = gnm_search_filter_matching (sr, cells);
+		gnm_search_collect_cells_free (cells);
 
 		ll = make_matches_model (dd, dd->matches->len);
 		gtk_tree_view_set_model (dd->matches_table, GTK_TREE_MODEL (ll));

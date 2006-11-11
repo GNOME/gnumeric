@@ -92,7 +92,7 @@ pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
 
 	cell = sheet_cell_fetch (pg->sheet, col, row);
 	gnm_cell_set_value (cell, v);
-	cell->rendered_value = rendered_value_new (cell, style,
+	cell->rendered_value = gnm_rendered_value_new (cell, style,
 		TRUE, context, pg->sheet->last_zoom_factor_used);
 
 	return cell;

@@ -187,7 +187,7 @@ cell_render_cairo (cairo_t *cairo, GnmCell *cell,
 		cairo_set_source_rgb (cairo, UINT_RGBA_R(fore_color), UINT_RGBA_G(fore_color),  UINT_RGBA_B(fore_color));
 		if (rv->rotation) {
 			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
-			struct RenderedRotatedValueInfo const *li = rrv->lines;
+			struct GnmRenderedRotatedValueInfo const *li = rrv->lines;
 			GSList *lines;
 			cairo_matrix_t m;
 			m.xx = rrv->rotmat.xx;
@@ -304,7 +304,7 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 	range.start.col = gognm->col_start;
 	range.end.row = gognm->row_end;
 	range.end.col = gognm->col_end;
-	print_cell_range (gpc, gognm->sheet, &range, 0., height, TRUE);
+	gnm_print_cell_range (gpc, gognm->sheet, &range, 0., height, TRUE);
 	/* Now print objects */
 	l = gognm->sheet->sheet_objects;
 	gnome_print_gsave (gpc);

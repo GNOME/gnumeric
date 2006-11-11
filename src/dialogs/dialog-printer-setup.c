@@ -1459,7 +1459,7 @@ cb_do_print_preview (PrinterSetupState *state)
 	fetch_settings (state);
 	old_pi = state->sheet->print_info;
 	state->sheet->print_info = state->pi;
-	sheet_print (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET);
+	gnm_print_sheet (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET);
 	state->sheet->print_info = old_pi;
 }
 
@@ -1495,7 +1495,7 @@ cb_do_print (PrinterSetupState *state)
 
 	cb_do_print_ok (state);
 
-	sheet_print (wbcg, sheet, 
+	gnm_print_sheet (wbcg, sheet, 
 		     FALSE, PRINT_ACTIVE_SHEET);
 }
 

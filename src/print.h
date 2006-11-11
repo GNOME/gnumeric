@@ -11,7 +11,7 @@ typedef enum {
 	PRINT_SHEET_SELECTION
 } PrintRange;
 
-void sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
-		  gboolean preview, PrintRange default_range);
+void gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
+		      gboolean preview, PrintRange default_range);
 
 #endif /* GNUMERIC_PRINT_H */

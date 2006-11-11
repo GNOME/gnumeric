@@ -125,7 +125,7 @@ gnm_common_init (gboolean fast)
 	gnm_sheet_cell_init ();
 	clipboard_init ();
 	dependent_types_init ();
-	rendered_value_init ();
+	gnm_rendered_value_init ();
 	gnumeric_color_init ();
 	style_init ();
 	functions_init ();
@@ -182,7 +182,7 @@ gnm_shutdown (void)
 	functions_shutdown ();
 	style_shutdown ();
 	gnumeric_color_shutdown ();
-	rendered_value_shutdown ();
+	gnm_rendered_value_shutdown ();
 	dependent_types_shutdown ();
 	clipboard_shutdown ();
 	gnm_sheet_cell_shutdown ();

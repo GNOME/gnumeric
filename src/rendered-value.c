@@ -75,7 +75,7 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 
 
 void
-rendered_value_remeasure (GnmRenderedValue *rv)
+gnm_rendered_value_remeasure (GnmRenderedValue *rv)
 {
 	if (rv->rotation) {
 		GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
@@ -94,7 +94,7 @@ rendered_value_remeasure (GnmRenderedValue *rv)
 		pango_layout_context_changed (rv->layout);
 
 		rrv->linecount = pango_layout_get_line_count (rv->layout);
-		rrv->lines = g_new (struct RenderedRotatedValueInfo, rrv->linecount);
+		rrv->lines = g_new (struct GnmRenderedRotatedValueInfo, rrv->linecount);
 		pango_layout_get_size (rv->layout, &lwidth, NULL);
 
 		rv->layout_natural_height = 0;
@@ -159,7 +159,7 @@ rendered_value_remeasure (GnmRenderedValue *rv)
 
 
 /**
- * rendered_value_new:
+ * gnm_rendered_value_new:
  * @cell:   The cell
  * @mstyle: The mstyle associated with the cell
  * @allow_variable_width : Allow format to depend on column width.
@@ -170,7 +170,7 @@ rendered_value_remeasure (GnmRenderedValue *rv)
  * Return value: a new GnmRenderedValue
  **/
 GnmRenderedValue *
-rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
+gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		    gboolean allow_variable_width,
 		    PangoContext *context,
 		    double zoom)
@@ -397,13 +397,13 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	} else
 		res->go_fore_color = fore;
 
-	rendered_value_remeasure (res);
+	gnm_rendered_value_remeasure (res);
 
 	return res;
 }
 
 void
-rendered_value_destroy (GnmRenderedValue *rv)
+gnm_rendered_value_destroy (GnmRenderedValue *rv)
 {
 	if (rv->layout) {
 		g_object_unref (G_OBJECT (rv->layout));
@@ -419,7 +419,7 @@ rendered_value_destroy (GnmRenderedValue *rv)
 }
 
 GnmRenderedValue *
-rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
+gnm_rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
 {
 	GnmRenderedValue *res;
 	PangoLayout *layout, *olayout;
@@ -431,7 +431,7 @@ rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
 
 		*rres = *(GnmRenderedRotatedValue *)rv;
 		rres->lines = g_memdup (rres->lines,
-					rres->linecount * sizeof (struct RenderedRotatedValueInfo));
+					rres->linecount * sizeof (struct GnmRenderedRotatedValueInfo));
 	} else {
 		res = CHUNK_ALLOC (GnmRenderedValue, rendered_value_pool);
 		*res = *rv;
@@ -465,7 +465,7 @@ rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
 		}
 	}
 
-	rendered_value_remeasure (res);
+	gnm_rendered_value_remeasure (res);
 	return res;
 }
 
@@ -473,14 +473,14 @@ rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
 /* Return the value as a single string without format infomation.
  */
 char const *
-rendered_value_get_text (GnmRenderedValue const *rv)
+gnm_rendered_value_get_text (GnmRenderedValue const *rv)
 {
 	g_return_val_if_fail (rv != NULL, "ERROR");
 	return pango_layout_get_text (rv->layout);
 }
 
 void
-rendered_value_init (void)
+gnm_rendered_value_init (void)
 {
 #if USE_RV_POOLS
 	rendered_value_pool =
@@ -505,7 +505,7 @@ cb_rendered_value_pool_leak (gpointer data, gpointer user)
 #endif
 
 void
-rendered_value_shutdown (void)
+gnm_rendered_value_shutdown (void)
 {
 #if USE_RV_POOLS
 	go_mem_chunk_foreach_leak (rendered_value_pool, cb_rendered_value_pool_leak, NULL);

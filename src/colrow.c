@@ -416,7 +416,7 @@ cb_clear_variable_width_content (GnmCellIter const *iter,
 	if (NULL != (rv = iter->cell->rendered_value) &&
 	    rv->variable_width) {
 		iter->ri->needs_respan = TRUE;
-		rendered_value_destroy (rv);
+		gnm_rendered_value_destroy (rv);
 		iter->cell->rendered_value = NULL;
 	}
 	return NULL;

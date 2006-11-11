@@ -1446,7 +1446,7 @@ iterate :
 		 * will handle it.
 		 */
 		if (cell->rendered_value != NULL) {
-			rendered_value_destroy (cell->rendered_value);
+			gnm_rendered_value_destroy (cell->rendered_value);
 			cell->rendered_value = NULL;
 		}
 	}

@@ -62,7 +62,7 @@ gnm_cell_cleanout (GnmCell *cell)
 		cell->value = NULL;
 	}
 	if (cell->rendered_value != NULL) {
-		rendered_value_destroy (cell->rendered_value);
+		gnm_rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}
 	if (cell->row_info != NULL)
@@ -469,12 +469,12 @@ gnm_cell_render_value (GnmCell *cell, gboolean allow_variable_width)
 	g_return_if_fail (cell != NULL);
 
 	sheet = cell->base.sheet;
-	rv = rendered_value_new (cell, gnm_cell_get_style (cell),
+	rv = gnm_rendered_value_new (cell, gnm_cell_get_style (cell),
 				 allow_variable_width,
 				 sheet->context,
 				 sheet->last_zoom_factor_used);
 	if (cell->rendered_value)
-		rendered_value_destroy (cell->rendered_value);
+		gnm_rendered_value_destroy (cell->rendered_value);
 	cell->rendered_value = rv;
 }
 
@@ -494,7 +494,7 @@ gnm_cell_get_rendered_text  (GnmCell *cell)
 	if (cell->rendered_value == NULL)
 		gnm_cell_render_value (cell, TRUE);
 
-	return g_strdup (rendered_value_get_text (cell->rendered_value));
+	return g_strdup (gnm_rendered_value_get_text (cell->rendered_value));
 }
 
 /**

@@ -126,7 +126,7 @@ search_collect_cells_cb (GnmCellIter const *iter, gpointer user)
 
 /* Collect a list of all cells subject to search.  */
 GPtrArray *
-search_collect_cells (GnmSearchReplace *sr)
+gnm_search_collect_cells (GnmSearchReplace *sr)
 {
 	GPtrArray *cells;
 
@@ -169,7 +169,7 @@ search_collect_cells (GnmSearchReplace *sr)
 }
 
 void
-search_collect_cells_free (GPtrArray *cells)
+gnm_search_collect_cells_free (GPtrArray *cells)
 {
 	unsigned i;
 
@@ -181,44 +181,44 @@ search_collect_cells_free (GPtrArray *cells)
 /* ------------------------------------------------------------------------- */
 /*
  * sr: The search spec.
- * cells: An array of GnmEvalPos*, presumably a result of search_collect_cells.
+ * cells: An array of GnmEvalPos*, presumably a result of gnm_search_collect_cells.
  *
- * Returns an array of SearchFilterResult*s, which the caller must free.
+ * Returns an array of GnmSearchFilterResult*s, which the caller must free.
  */
 
 GPtrArray *
-search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
+gnm_search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 {
 	unsigned i;
 	GPtrArray *result = g_ptr_array_new ();
 
 	for (i = 0; i < cells->len; i++) {
-		SearchReplaceCellResult cell_res;
-		SearchReplaceValueResult value_res;
-		SearchReplaceCommentResult comment_res;
+		GnmSearchReplaceCellResult cell_res;
+		GnmSearchReplaceValueResult value_res;
+		GnmSearchReplaceCommentResult comment_res;
 		gboolean found;
 		const GnmEvalPos *ep = g_ptr_array_index (cells, i);
 
 		found = gnm_search_replace_cell (sr, ep, FALSE, &cell_res);
 		g_free (cell_res.old_text);
 		if (found) {
-			SearchFilterResult *item = g_new (SearchFilterResult, 1);
+			GnmSearchFilterResult *item = g_new (GnmSearchFilterResult, 1);
 			item->ep = *ep;
-			item->locus = SRL_contents;
+			item->locus = GNM_SRL_CONTENTS;
 			g_ptr_array_add (result, item);
 		}
 
 		if (gnm_search_replace_value (sr, ep, &value_res)) {
-			SearchFilterResult *item = g_new (SearchFilterResult, 1);
+			GnmSearchFilterResult *item = g_new (GnmSearchFilterResult, 1);
 			item->ep = *ep;
-			item->locus = SRL_value;
+			item->locus = GNM_SRL_VALUE;
 			g_ptr_array_add (result, item);
 		}
 
 		if (gnm_search_replace_comment (sr, ep, FALSE, &comment_res)) {
-			SearchFilterResult *item = g_new (SearchFilterResult, 1);
+			GnmSearchFilterResult *item = g_new (GnmSearchFilterResult, 1);
 			item->ep = *ep;
-			item->locus = SRL_commment;
+			item->locus = GNM_SRL_COMMENT;
 			g_ptr_array_add (result, item);
 		}
 	}
@@ -227,7 +227,7 @@ search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 }
 
 void
-search_filter_matching_free (GPtrArray *matches)
+gnm_search_filter_matching_free (GPtrArray *matches)
 {
 	unsigned i;
 	for (i = 0; i < matches->len; i++)
@@ -241,7 +241,7 @@ gboolean
 gnm_search_replace_comment (GnmSearchReplace *sr,
 			    const GnmEvalPos *ep,
 			    gboolean repl,
-			    SearchReplaceCommentResult *res)
+			    GnmSearchReplaceCommentResult *res)
 {
 	g_return_val_if_fail (res, FALSE);
 
@@ -273,7 +273,7 @@ gboolean
 gnm_search_replace_cell (GnmSearchReplace *sr,
 			 const GnmEvalPos *ep,
 			 gboolean repl,
-			 SearchReplaceCellResult *res)
+			 GnmSearchReplaceCellResult *res)
 {
 	GnmCell *cell;
 	GnmValue *v;
@@ -337,7 +337,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 gboolean
 gnm_search_replace_value (GnmSearchReplace *sr,
 			  const GnmEvalPos *ep,
-			  SearchReplaceValueResult *res)
+			  GnmSearchReplaceValueResult *res)
 {
 	GnmCell *cell;
 

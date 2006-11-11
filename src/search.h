@@ -4,19 +4,18 @@
 #include <gnumeric.h>
 #include <position.h>
 #include <goffice/utils/regutf8.h>
-#include <sys/types.h>
 
 #define GNM_SEARCH_REPLACE_TYPE        (gnm_search_replace_get_type ())
 #define GNM_SEARCH_REPLACE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SEARCH_REPLACE_TYPE, GnmSearchReplace))
-#define GNM_IS_SEARCH_REPLACE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SEARCH_REPLACE_TYPE))
+#define IS_GNM_SEARCH_REPLACE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SEARCH_REPLACE_TYPE))
 
 typedef enum {
-	SRE_fail = 0,
-	SRE_skip,
-	SRE_query,
-	SRE_error,
-	SRE_string
-} SearchReplaceError;
+	GNM_SRE_FAIL = 0,
+	GNM_SRE_SKIP,
+	GNM_SRE_QUERY,
+	GNM_SRE_ERROR,
+	GNM_SRE_STRING
+} GnmSearchReplaceError;
 
 typedef enum {
 	GNM_SRS_WORKBOOK = 0,
@@ -27,18 +26,18 @@ GType gnm_search_replace_scope_get_type (void);
 #define GNM_SEARCH_REPLACE_SCOPE_TYPE (gnm_search_replace_scope_get_type ())
 
 typedef enum {
-	SRQ_fail,
-	SRQ_query,
-	SRQ_querycommment
-} SearchReplaceQuery;
+	GNM_SRQ_FAIL,
+	GNM_SRQ_QUERY,
+	GNM_SRQ_QUERY_COMMENT
+} GnmSearchReplaceQuery;
 
 typedef enum {
-	SRL_contents,
-	SRL_value,
-	SRL_commment
-} SearchReplaceLocus;
+	GNM_SRL_CONTENTS,
+	GNM_SRL_VALUE,
+	GNM_SRL_COMMENT
+} GnmSearchReplaceLocus;
 
-typedef  int (*SearchReplaceQueryFunc) (SearchReplaceQuery q, GnmSearchReplace *sr, ...);
+typedef  int (*GnmSearchReplaceQueryFunc) (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...);
 
 struct _GnmSearchReplace {
 	GoSearchReplace base;
@@ -61,7 +60,7 @@ struct _GnmSearchReplace {
 	gboolean search_expression_results;
 	gboolean search_comments;
 
-	SearchReplaceError error_behaviour;
+	GnmSearchReplaceError error_behaviour;
 	gboolean replace_keep_strings;
 
 	/*
@@ -73,59 +72,59 @@ struct _GnmSearchReplace {
 	/*
 	 * Query and info function.
 	 *
-	 * SRQ_fail (..., GnmCell *cell, char const *old, char const *new)
-	 *   Inform the user that an error occurred in SRE_fail mode.
+	 * GNM_SRQ_FAIL (..., GnmCell *cell, char const *old, char const *new)
+	 *   Inform the user that an error occurred in GNM_SRE_FAIL mode.
 	 *
-	 * SRQ_query (..., GnmCell *cell, char const *old, char const *new)
+	 * GNM_SRQ_QUERY (..., GnmCell *cell, char const *old, char const *new)
 	 *   Ask user whether to change.  GTK_RESPONSE_(YES|NO|CANCEL)
 	 *
-	 * SRQ_querycommment (..., Sheet *sheet, CellPos *cp,
+	 * GNM_SRQ_QUERY_COMMENT (..., Sheet *sheet, CellPos *cp,
 	 *                    char const *old, char const *new)
 	 *   Ask user whether to change.  GTK_RESPONSE_(YES|NO|CANCEL)
 	 */
-	SearchReplaceQueryFunc query_func;
+	GnmSearchReplaceQueryFunc query_func;
 	void *user_data;
 };
 
 GType gnm_search_replace_get_type (void);
 
-char	*gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl);
+char *gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl);
 
-GPtrArray *search_collect_cells (GnmSearchReplace *sr);
-void search_collect_cells_free (GPtrArray *cells);
+GPtrArray *gnm_search_collect_cells (GnmSearchReplace *sr);
+void gnm_search_collect_cells_free (GPtrArray *cells);
 
 typedef struct {
 	GnmEvalPos ep;
-	SearchReplaceLocus locus;
-} SearchFilterResult;
-GPtrArray *search_filter_matching (GnmSearchReplace *sr, GPtrArray const *cells);
-void search_filter_matching_free (GPtrArray *matches);
+	GnmSearchReplaceLocus locus;
+} GnmSearchFilterResult;
+GPtrArray *gnm_search_filter_matching (GnmSearchReplace *sr, GPtrArray const *cells);
+void gnm_search_filter_matching_free (GPtrArray *matches);
 
 typedef struct {
 	GnmComment *comment;
 	char const *old_text;
 	char *new_text; /* Caller must free if replacing and found.  */
-} SearchReplaceCommentResult;
+} GnmSearchReplaceCommentResult;
 gboolean gnm_search_replace_comment (GnmSearchReplace *sr,
-				 GnmEvalPos const *ep,
-				 gboolean repl,
-				 SearchReplaceCommentResult *res);
+				     GnmEvalPos const *ep,
+				     gboolean repl,
+				     GnmSearchReplaceCommentResult *res);
 
 typedef struct {
 	GnmCell *cell;
 	char *old_text; /* Caller must free.  */
 	char *new_text; /* Caller must free if replacing and found.  */
-} SearchReplaceCellResult;
+} GnmSearchReplaceCellResult;
 gboolean gnm_search_replace_cell (GnmSearchReplace *sr,
-			      GnmEvalPos const *ep,
-			      gboolean repl,
-			      SearchReplaceCellResult *res);
+				  GnmEvalPos const *ep,
+				  gboolean repl,
+				  GnmSearchReplaceCellResult *res);
 
 typedef struct {
 	GnmCell *cell;
-} SearchReplaceValueResult;
+} GnmSearchReplaceValueResult;
 gboolean gnm_search_replace_value (GnmSearchReplace *sr,
-			       GnmEvalPos const *ep,
-			       SearchReplaceValueResult *res);
+				   GnmEvalPos const *ep,
+				   GnmSearchReplaceValueResult *res);
 
 #endif

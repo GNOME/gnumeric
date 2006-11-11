@@ -35,25 +35,26 @@ struct _GnmRenderedRotatedValue {
 	GnmRenderedValue rv;
 	PangoMatrix rotmat;
 	int linecount;
-	struct RenderedRotatedValueInfo {
+	struct GnmRenderedRotatedValueInfo {
 		int dx, dy;
 	} *lines;	
 };
 
-GnmRenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
-				       gboolean variable_width,
-				       PangoContext *context,
-				       double zoom);
-void           rendered_value_destroy (GnmRenderedValue *rv);
+GnmRenderedValue *gnm_rendered_value_new       (GnmCell *cell,
+						GnmStyle const *mstyle,
+						gboolean variable_width,
+						PangoContext *context,
+						double zoom);
+void              gnm_rendered_value_destroy   (GnmRenderedValue *rv);
 
-GnmRenderedValue *rendered_value_recontext (GnmRenderedValue *rv,
-					 PangoContext *context);
-void           rendered_value_remeasure (GnmRenderedValue *rv);
+GnmRenderedValue *gnm_rendered_value_recontext (GnmRenderedValue *rv,
+						PangoContext *context);
+void              gnm_rendered_value_remeasure (GnmRenderedValue *rv);
 
 /* Return the value as a single string without format infomation.  */
-char const *rendered_value_get_text (GnmRenderedValue const * rv);
+char const *gnm_rendered_value_get_text (GnmRenderedValue const * rv);
 
-void rendered_value_init (void);
-void rendered_value_shutdown (void);
+void gnm_rendered_value_init (void);
+void gnm_rendered_value_shutdown (void);
 
 #endif /* GNUMERIC_RENDERED_VALUE_H */

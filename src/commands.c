@@ -4045,8 +4045,8 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 {
 	GnmSearchReplace *sr = me->sr;
 
-	SearchReplaceCellResult cell_res;
-	SearchReplaceCommentResult comment_res;
+	GnmSearchReplaceCellResult cell_res;
+	GnmSearchReplaceCommentResult comment_res;
 
 	if (gnm_search_replace_cell (sr, ep, TRUE, &cell_res)) {
 		GnmExprTop const *texpr;
@@ -4071,7 +4071,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		if (err) {
 			if (test_run) {
 				if (sr->query_func)
-					sr->query_func (SRQ_fail,
+					sr->query_func (GNM_SRQ_FAIL,
 							sr,
 							cell_res.cell,
 							cell_res.old_text,
@@ -4081,7 +4081,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 				return TRUE;
 			} else {
 				switch (sr->error_behaviour) {
-				case SRE_error: {
+				case GNM_SRE_ERROR: {
 					GnmExprTop const *ee =
 						gnm_expr_top_new
 						(gnm_expr_new_funcall1
@@ -4096,7 +4096,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 					err = FALSE;
 					break;
 				}
-				case SRE_string: {
+				case GNM_SRE_STRING: {
 					GString *s = g_string_new ("'");
 					g_string_append (s, cell_res.new_text);
 					g_free (cell_res.new_text);
@@ -4104,9 +4104,9 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 					err = FALSE;
 					break;
 				}
-				case SRE_fail:
+				case GNM_SRE_FAIL:
 					g_assert_not_reached ();
-				case SRE_skip:
+				case GNM_SRE_SKIP:
 				default:
 					; /* Nothing */
 				}
@@ -4116,7 +4116,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		if (!err && !test_run) {
 			gboolean doit = TRUE;
 			if (sr->query && sr->query_func) {
-				int res = sr->query_func (SRQ_query,
+				int res = sr->query_func (GNM_SRQ_QUERY,
 							  sr,
 							  cell_res.cell,
 							  cell_res.old_text,
@@ -4152,7 +4152,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		gboolean doit = TRUE;
 
 		if (sr->query && sr->query_func) {
-			int res = sr->query_func (SRQ_querycommment,
+			int res = sr->query_func (GNM_SRQ_QUERY_COMMENT,
 						  sr,
 						  ep->sheet,
 						  &ep->eval,
@@ -4193,19 +4193,19 @@ cmd_search_replace_do (CmdSearchReplace *me, gboolean test_run,
 
 	if (test_run) {
 		switch (sr->error_behaviour) {
-		case SRE_skip:
-		case SRE_query:
-		case SRE_error:
-		case SRE_string:
+		case GNM_SRE_SKIP:
+		case GNM_SRE_QUERY:
+		case GNM_SRE_ERROR:
+		case GNM_SRE_STRING:
 			/* An error is not a problem.  */
 			return FALSE;
 
-		case SRE_fail:
+		case GNM_SRE_FAIL:
 			; /* Nothing.  */
 		}
 	}
 
-	cells = search_collect_cells (sr);
+	cells = gnm_search_collect_cells (sr);
 
 	for (i = 0; i < cells->len; i++) {
 		GnmEvalPos *ep = g_ptr_array_index (cells, i);
@@ -4216,7 +4216,7 @@ cmd_search_replace_do (CmdSearchReplace *me, gboolean test_run,
 		}
 	}
 
-	search_collect_cells_free (cells);
+	gnm_search_collect_cells_free (cells);
 
 	if (!test_run) {
 		/* Cells were added in the wrong order.  Correct.  */

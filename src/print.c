@@ -145,11 +145,11 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range
 		range->start.col, range->end.col + 1);
 	if (sheet->text_is_rtl) {
 		end_x = base_x - len;
-		print_make_rectangle_path (pj->print_context,
+		gnm_print_make_rect_path (pj->print_context,
 			end_x, end_y, base_x, base_y);
 	} else {
 		end_x = base_x + len;
-		print_make_rectangle_path (pj->print_context,
+		gnm_print_make_rect_path (pj->print_context,
 			base_x, base_y, end_x, end_y);
 	}
 #ifndef NO_DEBUG_PRINT
@@ -208,7 +208,7 @@ print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 
 	if (sheet->text_is_rtl)
 		base_x += (pj->width / (pi->scaling.percentage.x / 100.));
-	print_cell_range (pj->print_context, sheet, range,
+	gnm_print_cell_range (pj->print_context, sheet, range,
 			  base_x, base_y, !pi->print_grid_lines);
 	print_sheet_objects (pj, sheet, range, base_x, base_y);
 }
@@ -377,7 +377,7 @@ print_hf_line (PrintJobInfo const *pj, Sheet const *sheet,
 
 	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
 
-	print_make_rectangle_path (pj->print_context,
+	gnm_print_make_rect_path (pj->print_context,
 				   left, bottom, right, top);
 
 #ifndef NO_DEBUG_PRINT
@@ -627,7 +627,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	/* Gnome-print coordinates are lower left based,
 	 * like Postscript */
 	clip_y = 1 + pj->height - y;
-	print_make_rectangle_path (
+	gnm_print_make_rect_path (
 		pj->print_context,
 		x - 1, clip_y,
 		x + pj->x_points + 1,
@@ -1298,8 +1298,8 @@ dialog_response (GtkDialog *dialog, gint id,
 }
 
 void
-sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
-	     gboolean preview, PrintRange default_range)
+gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
+		 gboolean preview, PrintRange default_range)
 {
 	PrintJobInfo *pj;
 	GtkWidget *gnome_print_dialog = NULL;

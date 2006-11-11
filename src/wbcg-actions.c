@@ -151,14 +151,14 @@ static GNM_ACTION_DEF (cb_file_print_area_show) {
 static GNM_ACTION_DEF (cb_file_print)
 {
 #ifdef WITH_GNOME_PRINT
-	sheet_print (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET);
+	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET);
 #endif
 }
 
 static GNM_ACTION_DEF (cb_file_print_preview)
 {
 #ifdef WITH_GNOME_PRINT
-	sheet_print (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET);
+	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET);
 #endif
 }
 
@@ -385,7 +385,7 @@ common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *pos)
 }
 
 static int
-cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
+cb_edit_search_replace_query (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...)
 {
 	int res;
 	va_list pvar;
@@ -394,7 +394,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 	va_start (pvar, sr);
 
 	switch (q) {
-	case SRQ_fail: {
+	case GNM_SRQ_FAIL: {
 		GnmCell *cell = va_arg (pvar, GnmCell *);
 		char const *old_text = va_arg (pvar, char const *);
 		char const *new_text = va_arg (pvar, char const *);
@@ -416,7 +416,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 		break;
 	}
 
-	case SRQ_query: {
+	case GNM_SRQ_QUERY: {
 		GnmCell *cell = va_arg (pvar, GnmCell *);
 		char const *old_text = va_arg (pvar, char const *);
 		char const *new_text = va_arg (pvar, char const *);
@@ -432,7 +432,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 		break;
 	}
 
-	case SRQ_querycommment: {
+	case GNM_SRQ_QUERY_COMMENT: {
 		Sheet *sheet = va_arg (pvar, Sheet *);
 		GnmCellPos *cp = va_arg (pvar, GnmCellPos *);
 		char const *old_text = va_arg (pvar, char const *);

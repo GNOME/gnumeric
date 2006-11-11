@@ -127,7 +127,7 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   NULL);
 
 	i = gnumeric_glade_group_value (gui, error_group);
-	sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
+	sr->error_behaviour = (i == -1) ? GNM_SRE_FAIL : (GnmSearchReplaceError)i;
 
 	err = gnm_search_replace_verify (sr, TRUE);
 	if (err) {

@@ -103,7 +103,7 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 		if (wanted_width != pango_layout_get_width (layout)) {
 			pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
 			pango_layout_set_width (layout, wanted_width);
-			rendered_value_remeasure (rv);
+			gnm_rendered_value_remeasure (rv);
 		}
 	} else {
 		switch (rv->effective_halign) {
@@ -188,7 +188,7 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 				int spacing = (height - rv->layout_natural_height) /
 					(line_count - 1);
 				pango_layout_set_spacing (layout, spacing);
-				rendered_value_remeasure (rv);
+				gnm_rendered_value_remeasure (rv);
 			}
 		}
 		rv->vfilled = TRUE;
@@ -304,7 +304,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		if (rv->rotation) {
 			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
 			PangoContext *context = pango_layout_get_context (rv->layout);
-			struct RenderedRotatedValueInfo const *li = rrv->lines;
+			struct GnmRenderedRotatedValueInfo const *li = rrv->lines;
 			GSList *lines;
 
 			pango_context_set_matrix (context, &rrv->rotmat);
