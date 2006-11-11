@@ -43,6 +43,7 @@ Morten:
 	* Cleanup g_free and g_strdup calls.  [#369661]
 	* Fix undo for sheet object copy.  [#308300]
 	* Fix redo for sheet object copy.  [#308300]
+	* Add a bugzilla component for bug-buddy.  [#348829]
 
 --------------------------------------------------------------------------
 

@@ -1,5 +1,8 @@
 2006-11-10  Morten Welinder  <terra@gnome.org>
 
+	* gnumeric.desktop.in: Set component to General.  Bug-buddy
+	insists on that, even if I don't agree.  Fixes #348829.
+
 	* src/style-conditions.c (gnm_style_conditions_eval): Fix
 	pointer-int screwup.
 
