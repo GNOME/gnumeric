@@ -44,7 +44,7 @@ struct _Sheet {
 	char        *name_unquoted_collate_key;
 	char	    *name_case_insensitive;
 
-	SheetStyleData *style_data; /* See sheet-style.c */
+	GnmSheetStyleData *style_data; /* See sheet-style.c */
 
 	ColRowCollection cols, rows;
 
@@ -279,8 +279,8 @@ void	     sheet_range_set_text   (GnmParsePos const *pos, GnmRange const *r, cha
 void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmStyle *mstyle);
 void	     sheet_apply_border	    (Sheet  *sheet, GnmRange const *range, GnmBorder **borders);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
-void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags);
-void	     sheet_cell_calc_span   (GnmCell *cell, SpanCalcFlags flags);
+void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags);
+void	     sheet_cell_calc_span   (GnmCell *cell, GnmSpanCalcFlags flags);
 
 void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);
 

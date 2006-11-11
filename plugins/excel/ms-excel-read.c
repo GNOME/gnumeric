@@ -2362,7 +2362,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 					   : gnm_expr_list_prepend (args, missing);
 		}
 		texpr = gnm_expr_top_new (gnm_expr_new_funcall (gnm_func_lookup ("table", NULL), args));
-		cell_set_array_formula (esheet->sheet,
+		gnm_cell_set_array_formula (esheet->sheet,
 			r.start.col, r.start.row,
 			r.end.col,   r.end.row,
 			texpr);
@@ -2402,7 +2402,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	g_return_val_if_fail (texpr != NULL, NULL);
 
 	if (is_array) {
-		cell_set_array_formula (esheet->sheet,
+		gnm_cell_set_array_formula (esheet->sheet,
 					r.start.col, r.start.row,
 					r.end.col,   r.end.row,
 					texpr);
@@ -2467,14 +2467,14 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		fprintf (stderr,"FIXME: serious formula error: "
 			"invalid FORMULA (0x%x) record with length %d (should >= %d)\n",
 			q->opcode, q->length, offset);
-		cell_set_value (cell, value_new_error (NULL, "Formula Error"));
+		gnm_cell_set_value (cell, value_new_error (NULL, "Formula Error"));
 		return;
 	}
 	if (q->length < (unsigned)(offset + expr_length)) {
 		fprintf (stderr,"FIXME: serious formula error: "
 			"supposed length 0x%x, real len 0x%x\n",
                         expr_length, q->length - offset);
-		cell_set_value (cell, value_new_error (NULL, "Formula Error"));
+		gnm_cell_set_value (cell, value_new_error (NULL, "Formula Error"));
 		return;
 	}
 
@@ -2569,19 +2569,19 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 			cell_name (cell));
 	}
 
-	if (cell_is_array (cell)) {
+	if (gnm_cell_is_array (cell)) {
 		/* Array expressions were already stored in the cells (without
 		 * recalc), and without a value.  Handle either the first
 		 * instance or the followers.
 		 */
-		cell_assign_value (cell, val);
-	} else if (!cell_has_expr (cell)) {
+		gnm_cell_assign_value (cell, val);
+	} else if (!gnm_cell_has_expr (cell)) {
 		/* Just in case things screwed up, at least save the value */
 		if (texpr != NULL) {
-			cell_set_expr_and_value (cell, texpr, val, TRUE);
+			gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
 			gnm_expr_top_unref (texpr);
 		} else
-			cell_assign_value (cell, val);
+			gnm_cell_assign_value (cell, val);
 	} else {
 		/*
 		 * NOTE: Only the expression is screwed.
@@ -2589,7 +2589,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		 */
 		g_warning ("EXCEL: Multiple expressions for cell %s!%s",
 			   esheet->sheet->name_quoted, cell_name (cell));
-		cell_set_value (cell, val);
+		gnm_cell_set_value (cell, val);
 	}
 
 	/*
@@ -2632,7 +2632,7 @@ excel_sheet_insert_val (ExcelReadSheet *esheet, BiffQuery *q,
 	if (xf != NULL && xf->is_simple_format &&
 	    VALUE_FMT (v) == NULL)
 		value_set_fmt (v, xf->style_format);
-	cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
+	gnm_cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 }
 
 static void
@@ -3483,7 +3483,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 
 			if (v != NULL) {
 				cell = sheet_cell_fetch (sheet, ep.eval.col, ep.eval.row);
-				cell_set_value (cell, v);
+				gnm_cell_set_value (cell, v);
 			}
 		}
 	}
@@ -4166,7 +4166,7 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 			sheet_style_set_pos (esheet->sheet, col, row, mstyle);
 		if (xf->is_simple_format)
 			value_set_fmt (v, xf->style_format);
-		cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
+		gnm_cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 		ptr += 6;
 	}
 }
@@ -5497,7 +5497,7 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 			value_set_fmt (v, fmt);
 			go_format_unref (fmt);
 		}
-		cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
+		gnm_cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 	}
 }
 

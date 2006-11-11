@@ -49,7 +49,7 @@ perl2value(SV *sv)
 }
 
 GnmValue *
-marshal_func (FunctionEvalInfo *ei, GnmValue *argv[])
+marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
 {
     dSP;
     GnmFunc const *func =

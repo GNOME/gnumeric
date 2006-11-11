@@ -120,7 +120,7 @@ excel_gb_range_get_arg (GBRunEvalContext *ec,
 		if (!cell)
 			return gb_value_new_empty ();
 
-		txt = cell_get_rendered_text (cell);
+		txt = gnm_cell_get_rendered_text (cell);
 		val = gb_value_new_string_chars (txt);
 		g_free (txt);
 

@@ -267,9 +267,9 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 		}
 
 		if (texpr != NULL)
-			cell_set_expr_and_value (cell, texpr, val, TRUE);
+			gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
 		else
-			cell_set_value (cell, val);
+			gnm_cell_set_value (cell, val);
 
 		if (style != NULL)
 			oleo_set_style (state->sheet, *ccol, *crow, style);
@@ -280,7 +280,7 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 #endif
 		/* We can still store the expression, even if the value is missing */
 		if (texpr != NULL)
-			cell_set_expr (cell, texpr);
+			gnm_cell_set_expr (cell, texpr);
 	}
 	if (texpr)
 		gnm_expr_top_unref (texpr);

@@ -707,7 +707,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 					cell_coord_name (c, r));
 
 				/* It seems like beta1 requires that <f> precede <v> */
-				if (cell_has_expr (cell)) {
+				if (gnm_cell_has_expr (cell)) {
 					content = gnm_expr_top_as_string (cell->base.texpr,
 						parse_pos_init_cell (&pp, cell), state->expr_conv);
 					gsf_xml_out_start_element (xml, "f");

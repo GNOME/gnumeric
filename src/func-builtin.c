@@ -56,7 +56,7 @@ static GnmFuncHelp const help_sum[] = {
 };
 
 GnmValue *
-gnumeric_sum (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_sum,
@@ -97,7 +97,7 @@ range_bogusproduct (gnm_float const *xs, int n, gnm_float *res)
 }
 
 GnmValue *
-gnumeric_product (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_bogusproduct,
@@ -125,7 +125,7 @@ static GnmFuncHelp const help_gnumeric_version[] = {
 };
 
 static GnmValue *
-gnumeric_version (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_version (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_string (GNUMERIC_VERSION);
 }
@@ -133,7 +133,7 @@ gnumeric_version (FunctionEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static DependentFlags
-gnumeric_table_link (FunctionEvalInfo *ei)
+gnumeric_table_link (GnmFuncEvalInfo *ei)
 {
 	GnmDependent *dep = ei->pos->dep;
 	GnmRangeRef rr;
@@ -160,7 +160,7 @@ gnumeric_table_link (FunctionEvalInfo *ei)
 }
 
 static GnmValue *
-gnumeric_table (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmExpr const *arg;
 	GnmCell       *in[3], *x_iter, *y_iter;
@@ -210,7 +210,7 @@ gnumeric_table (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		if (NULL == x_iter)
 			continue;
 		if (NULL != in[0]) {
-			cell_eval (x_iter);
+			gnm_cell_eval (x_iter);
 			in[0]->value = value_dup (x_iter->value);
 			dependent_queue_recalc (&in[0]->base);
 		}
@@ -219,16 +219,16 @@ gnumeric_table (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				ei->pos->eval.col-1, y + ei->pos->eval.row);
 			if (NULL == y_iter)
 				continue;
-			cell_eval (y_iter);
+			gnm_cell_eval (y_iter);
 			if (NULL != in[1]) {
 				in[1]->value = value_dup (y_iter->value);
 				dependent_queue_recalc (&in[1]->base);
 				if (NULL != in[0]) {
-					cell_eval (in[2]);
+					gnm_cell_eval (in[2]);
 					value_array_set (res, x, y, value_dup (in[2]->value));
 					value_release (in[1]->value);
 				} else {
-					cell_eval (x_iter);
+					gnm_cell_eval (x_iter);
 					value_array_set (res, x, y, value_dup (x_iter->value));
 				}
 			} else
@@ -249,7 +249,7 @@ gnumeric_table (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		}
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x])
-			cell_eval (in[x]);
+			gnm_cell_eval (in[x]);
 
 	return res;
 }

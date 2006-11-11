@@ -322,7 +322,7 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 		 * Explicitly do not check for array subdivision, we may be
 		 * replacing the corner of an array.
 		 */
-		cell_set_expr_unsafe (DEP_TO_CELL (dep), new_texpr);
+		gnm_cell_set_expr_unsafe (GNM_DEP_TO_CELL (dep), new_texpr);
 	} else {
 		GnmDependentClass *klass = g_ptr_array_index (dep_classes, t);
 
@@ -343,7 +343,7 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 static inline GnmCellPos const *
 dependent_pos (GnmDependent const *dep)
 {
-	return dependent_is_cell (dep) ? &DEP_TO_CELL (dep)->pos : &dummy;
+	return dependent_is_cell (dep) ? &GNM_DEP_TO_CELL (dep)->pos : &dummy;
 }
 
 
@@ -401,7 +401,7 @@ dependent_queue_recalc_main (GSList *work)
 		g_slist_free_1 (list);
 
 		if (t == DEPENDENT_CELL) {
-			GSList *deps = cell_list_deps (DEP_TO_CELL (dep));
+			GSList *deps = cell_list_deps (GNM_DEP_TO_CELL (dep));
 			GSList *waste = NULL;
 			GSList *next;
 			for (list = deps; list != NULL ; list = next) {
@@ -995,7 +995,7 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
 			gnm_func_load_stub (tree->func.func);
 		if (tree->func.func->linker) {
-			FunctionEvalInfo fei;
+			GnmFuncEvalInfo fei;
 			fei.pos = ep;
 			fei.func_call = &tree->func;
 			flag = tree->func.func->linker (&fei);
@@ -1087,7 +1087,7 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 		int i;
 		if (tree->func.func->unlinker) {
 			GnmEvalPos ep;
-			FunctionEvalInfo fei;
+			GnmFuncEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = &tree->func;
 			tree->func.func->unlinker (&fei);
@@ -1317,7 +1317,7 @@ dependent_unlink (GnmDependent *dep)
 }
 
 /**
- * cell_eval_content:
+ * gnm_cell_eval_content:
  * @cell: the cell to evaluate.
  *
  * This function evaluates the contents of the cell,
@@ -1325,14 +1325,14 @@ dependent_unlink (GnmDependent *dep)
  * function.
  **/
 gboolean
-cell_eval_content (GnmCell *cell)
+gnm_cell_eval_content (GnmCell *cell)
 {
 	static GnmCell *iterating = NULL;
 	GnmValue   *v;
 	GnmEvalPos	 pos;
 	int	 max_iteration;
 
-	if (!cell_has_expr (cell))
+	if (!gnm_cell_has_expr (cell))
 		return TRUE;
 
 	/* do this here rather than dependent_eval
@@ -1340,7 +1340,7 @@ cell_eval_content (GnmCell *cell)
 	 * directly
 	 */
 	if (cell->base.flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
-		dependent_clear_dynamic_deps (CELL_TO_DEP (cell));
+		dependent_clear_dynamic_deps (GNM_CELL_TO_DEP (cell));
 		cell->base.flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
 	}
 
@@ -1436,7 +1436,7 @@ iterate :
 		g_return_val_if_fail (iterating, TRUE);
 		iterating = NULL;
 	} else {
-		/* do not use cell_assign_value unless you pass in the format */
+		/* do not use gnm_cell_assign_value unless you pass in the format */
 		if (cell->value != NULL)
 			value_release (cell->value);
 		cell->value = v;
@@ -1486,7 +1486,7 @@ dependent_eval (GnmDependent *dep)
 		/* This will clear the dynamic deps too, see comment there
 		 * to explain asymmetry.
 		 */
-		gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
+		gboolean finished = gnm_cell_eval_content (GNM_DEP_TO_CELL (dep));
 
 		/* This should always be the top of the stack */
 		g_return_if_fail (finished);
@@ -1509,11 +1509,11 @@ cell_queue_recalc (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
-	if (!cell_needs_recalc (cell)) {
+	if (!gnm_cell_needs_recalc (cell)) {
 		GSList *deps;
 
-		if (cell_has_expr (cell))
-			dependent_flag_recalc (CELL_TO_DEP (cell));
+		if (gnm_cell_has_expr (cell))
+			dependent_flag_recalc (GNM_CELL_TO_DEP (cell));
 
 		deps = cell_list_deps (cell);
 		dependent_queue_recalc_list (deps);
@@ -1689,7 +1689,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 
 		/* mark the contained depends dirty non recursively */
 		SHEET_FOREACH_DEPENDENT (sheet, dep, {
-			GnmCell *cell = DEP_TO_CELL (dep);
+			GnmCell *cell = GNM_DEP_TO_CELL (dep);
 			if (dependent_is_cell (dep) &&
 			    range_contains (r, cell->pos.col, cell->pos.row))
 				dependent_flag_recalc (dep);
@@ -1868,7 +1868,7 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 
 	/* collect contained cells with expressions */
 	SHEET_FOREACH_DEPENDENT (rinfo->origin_sheet, dep, {
-		GnmCell *cell = DEP_TO_CELL (dep);
+		GnmCell *cell = GNM_DEP_TO_CELL (dep);
 		if (dependent_is_cell (dep) &&
 		    range_contains (r, cell->pos.col, cell->pos.row)) {
 			dependents = g_slist_prepend (dependents, dep);
@@ -1936,7 +1936,7 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 				 * This avoids a link/unlink/link tuple
 				 */
 				if (t == DEPENDENT_CELL) {
-					GnmCellPos const *pos = &DEP_TO_CELL (dep)->pos;
+					GnmCellPos const *pos = &GNM_DEP_TO_CELL (dep)->pos;
 					if (dep->sheet != sheet ||
 					    !range_contains (r, pos->col, pos->row))
 						dependent_link (dep);
@@ -2830,6 +2830,6 @@ dependent_debug_name (GnmDependent const *dep, GString *target)
 		g_return_if_fail (klass);
 		klass->debug_name (dep, target);
 	} else
-		g_string_append (target, cell_name (DEP_TO_CELL (dep)));
+		g_string_append (target, cell_name (GNM_DEP_TO_CELL (dep)));
 }
 

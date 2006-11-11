@@ -844,7 +844,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	StyleBorderType right_border = STYLE_BORDER_NONE;
 
 	/* Print the cell according to its style. */
-	GnmStyle const *style = cell_get_style (cell);
+	GnmStyle const *style = gnm_cell_get_style (cell);
 	gboolean hidden = gnm_style_get_contents_hidden (style);
 
 	g_return_if_fail (style != NULL);
@@ -972,9 +972,9 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			break;
 		}
 
-	if (!cell_is_empty (cell)) {
+	if (!gnm_cell_is_empty (cell)) {
                 /* Check the foreground (text) colour. */
-		GOColor fore = cell_get_render_color (cell);
+		GOColor fore = gnm_cell_get_render_color (cell);
 		if (fore == 0)
 			r = g = b = 0;
 		else {
@@ -1007,7 +1007,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			gsf_output_printf (output, "\\textit{");
 
 
-		cell_format_family = cell_get_format (cell)->family;
+		cell_format_family = gnm_cell_get_format (cell)->family;
 		if (cell_format_family == GO_FORMAT_NUMBER ||
 		    cell_format_family == GO_FORMAT_CURRENCY ||
 		    cell_format_family == GO_FORMAT_PERCENTAGE ||
@@ -1018,7 +1018,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			    gsf_output_printf (output, "\\gnumericmathit{");
 
 			/* Print the cell contents. */
-			rendered_string = cell_get_rendered_text (cell);
+			rendered_string = gnm_cell_get_rendered_text (cell);
 			latex_math_fputs (rendered_string, output);
 			g_free (rendered_string);
 
@@ -1027,7 +1027,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			gsf_output_printf (output, "$");
 		} else {
 			/* Print the cell contents. */
-			rendered_string = cell_get_rendered_text (cell);
+			rendered_string = gnm_cell_get_rendered_text (cell);
 			latex_fputs (rendered_string, output);
 			g_free (rendered_string);
 		}
@@ -1311,7 +1311,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 			/* Check a merge. */
 			merge_range = sheet_merge_is_corner (current_sheet, &pos);
 			if (merge_range == NULL) {
-			        if (cell_is_empty(cell))
+			        if (gnm_cell_is_empty(cell))
 				        latex2e_write_blank_multicolumn_cell(output, col, row,
 									     1, 1,
 							       col - total_range.start.col,
@@ -1328,7 +1328,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 			num_merged_cols = merge_range->end.col - merge_range->start.col + 1;
 			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
 
-			if (cell_is_empty(cell))
+			if (gnm_cell_is_empty(cell))
 				latex2e_write_blank_multicolumn_cell(output, col, row, 
 								     num_merged_cols,
 								     num_merged_rows,
@@ -1393,15 +1393,15 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 static void
 latex2e_table_write_cell (GsfOutput *output, GnmCell *cell, Sheet *sheet)
 {
-	GnmStyle const *style = cell_get_style (cell);
+	GnmStyle const *style = gnm_cell_get_style (cell);
 
 	if (gnm_style_get_contents_hidden (style))
 		return;
 
-	if (!cell_is_empty (cell)) {
+	if (!gnm_cell_is_empty (cell)) {
 		char * rendered_string;
 
-		rendered_string = cell_get_rendered_text (cell);
+		rendered_string = gnm_cell_get_rendered_text (cell);
 		latex_fputs (rendered_string, output);
 		g_free (rendered_string);
 	}
@@ -1470,7 +1470,7 @@ latex_table_file_save (GOFileSaver const *fs, IOContext *io_context,
 			if (col != total_range.start.col)
 				gsf_output_printf (output, "\t&");
 
-			if (cell_is_empty (cell))
+			if (gnm_cell_is_empty (cell))
 				continue;
 
 			latex2e_table_write_cell(output, cell, current_sheet);

@@ -641,12 +641,12 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 		if (texpr != NULL) {
 			if (v != NULL)
-				cell_set_expr_and_value (cell, texpr, v, TRUE);
+				gnm_cell_set_expr_and_value (cell, texpr, v, TRUE);
 			else
-				cell_set_expr (cell, texpr);
+				gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
 		} else if (v != NULL)
-			cell_set_value (cell, v);
+			gnm_cell_set_value (cell, v);
 	}
 
 	return NULL;

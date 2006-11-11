@@ -822,7 +822,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 
 		ptg = FORMULA_PTG_EXPR;
 		if (pd->sheet != NULL) {
-			GnmExprArrayCorner const *corner = cell_is_array_corner (
+			GnmExprArrayCorner const *corner = gnm_cell_is_array_corner (
 				sheet_cell_get (pd->sheet, pd->col - x, pd->row - y));
 			if (NULL != corner &&
 			    gnm_expr_is_data_table (corner->expr, NULL, NULL))

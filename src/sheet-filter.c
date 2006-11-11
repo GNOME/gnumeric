@@ -290,10 +290,10 @@ typedef struct {
 static GnmValue *
 cb_collect_unique (GnmCellIter const *iter, UniqueCollection *uc)
 {
-	if (cell_is_blank (iter->cell))
+	if (gnm_cell_is_blank (iter->cell))
 		uc->has_blank = TRUE;
 	else {
-		GOFormat const *format = cell_get_format (iter->cell);			
+		GOFormat const *format = gnm_cell_get_format (iter->cell);			
 		GnmValue const *v = iter->cell->value;
 		char *str = format_value (format, v, NULL, -1, uc->date_conv);
 		g_hash_table_replace (uc->hash, str, iter->cell);
@@ -705,7 +705,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 	GnmValDiff cmp;
 
 	if (src == NULL) {
-		GOFormat const *format = cell_get_format (cell);			
+		GOFormat const *format = gnm_cell_get_format (cell);			
 		GODateConventions const *date_conv =
 			workbook_date_conv (cell->base.sheet->workbook);
 		char *str = format_value (format, target, NULL, -1, date_conv);
@@ -782,7 +782,7 @@ cb_filter_expr (GnmCellIter const *iter, FilterExpr const *fexpr)
 static GnmValue *
 cb_filter_non_blanks (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	if (cell_is_blank (iter->cell))
+	if (gnm_cell_is_blank (iter->cell))
 		colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
 			iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
@@ -791,7 +791,7 @@ cb_filter_non_blanks (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 static GnmValue *
 cb_filter_blanks (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	if (!cell_is_blank (iter->cell))
+	if (!gnm_cell_is_blank (iter->cell))
 		colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
 			iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;

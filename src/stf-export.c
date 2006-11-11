@@ -164,14 +164,14 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 	if (cell) {
 		switch (stfe->format) {
 		case GNM_STF_FORMAT_PRESERVE:
-			text = tmp = cell_get_rendered_text (cell);
+			text = tmp = gnm_cell_get_rendered_text (cell);
 			break;
 		default:
 		case GNM_STF_FORMAT_AUTO:
 			if (cell->value) {
 				GODateConventions const *date_conv =
 					workbook_date_conv (cell->base.sheet->workbook);
-				GOFormat *format = cell_get_format (cell);
+				GOFormat *format = gnm_cell_get_format (cell);
 				if (format->family == GO_FORMAT_DATE ||
 				    format->family == GO_FORMAT_TIME)
 					text = tmp = try_auto_date (cell->value, format, date_conv);

@@ -222,7 +222,7 @@ walk_for_phi (int p, int v, void *data)
 }
 
 static GnmValue *
-gnumeric_phi (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_phi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int phi = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
@@ -264,7 +264,7 @@ walk_for_mu (int p, int v, void *data)
 }
 
 static GnmValue *
-gnumeric_nt_mu (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_nt_mu (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int mu = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
@@ -301,7 +301,7 @@ walk_for_d (int p, int v, void *data)
 }
 
 static GnmValue *
-gnumeric_d (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_d (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int d = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
@@ -338,7 +338,7 @@ walk_for_sigma (int p, int v, void *data)
 }
 
 static GnmValue *
-gnumeric_sigma (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_sigma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int sigma = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
@@ -368,7 +368,7 @@ static GnmFuncHelp const help_ithprime[] = {
 };
 
 static GnmValue *
-gnumeric_ithprime (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_ithprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int p;
 	gnm_float i = gnm_floor (value_get_as_float (args[0]));
@@ -398,7 +398,7 @@ static GnmFuncHelp const help_isprime[] = {
 };
 
 static GnmValue *
-gnumeric_isprime (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_isprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int yesno;
 	gnm_float i = gnm_floor (value_get_as_float (args[0]));
@@ -458,7 +458,7 @@ static GnmFuncHelp const help_pfactor[] = {
 };
 
 static GnmValue *
-gnumeric_pfactor (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_pfactor (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 	int p;
@@ -493,7 +493,7 @@ static GnmFuncHelp const help_nt_pi[] = {
 };
 
 static GnmValue *
-gnumeric_nt_pi (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_nt_pi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 	int pi;
@@ -527,7 +527,7 @@ static GnmFuncHelp const help_bitor[] = {
 };
 
 static GnmValue *
-func_bitor (FunctionEvalInfo *ei, GnmValue const * const *argv)
+func_bitor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float l = value_get_as_float (argv[0]);
 	gnm_float r = value_get_as_float (argv[1]);
@@ -555,7 +555,7 @@ static GnmFuncHelp const help_bitxor[] = {
 };
 
 static GnmValue *
-func_bitxor (FunctionEvalInfo *ei, GnmValue const * const *argv)
+func_bitxor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float l = value_get_as_float (argv[0]);
 	gnm_float r = value_get_as_float (argv[1]);
@@ -583,7 +583,7 @@ static GnmFuncHelp const help_bitand[] = {
 
 
 static GnmValue *
-func_bitand (FunctionEvalInfo *ei, GnmValue const * const *argv)
+func_bitand (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float l = value_get_as_float (argv[0]);
 	gnm_float r = value_get_as_float (argv[1]);
@@ -611,7 +611,7 @@ static GnmFuncHelp const help_bitlshift[] = {
 };
 
 static GnmValue *
-func_bitlshift (FunctionEvalInfo *ei, GnmValue const * const *argv)
+func_bitlshift (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float l = value_get_as_float (argv[0]);
 	gnm_float r = gnm_floor (value_get_as_float (argv[1]));
@@ -644,7 +644,7 @@ static GnmFuncHelp const help_bitrshift[] = {
 };
 
 static GnmValue *
-func_bitrshift (FunctionEvalInfo *ei, GnmValue const * const *argv)
+func_bitrshift (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float l = value_get_as_float (argv[0]);
 	gnm_float r = gnm_floor (value_get_as_float (argv[1]));

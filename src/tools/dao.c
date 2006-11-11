@@ -333,7 +333,7 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 
 	cell = sheet_cell_fetch (dao->sheet, col, row);
 	texpr = gnm_expr_top_new (expr);
-	cell_set_expr (cell, texpr);
+	gnm_cell_set_expr (cell, texpr);
 	gnm_expr_top_unref (texpr);
 }
 
@@ -998,8 +998,8 @@ dao_convert_to_values (data_analysis_output_t *dao)
 		for (col = 0; col < dao->cols; col++) {
 			GnmCell *cell = sheet_cell_get (dao->sheet,
 				dao->start_col + col, dao->start_row + row);
-			if (cell != NULL && cell_has_expr (cell))
-				cell_convert_expr_to_value (cell);
+			if (cell != NULL && gnm_cell_has_expr (cell))
+				gnm_cell_convert_expr_to_value (cell);
 		}
 	}
 }
@@ -1013,7 +1013,7 @@ dao_redraw_respan (data_analysis_output_t *dao)
 		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
 	sheet_range_calc_spans (dao->sheet, &r,
-				SPANCALC_RESIZE | SPANCALC_RENDER);
+				GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
 	sheet_region_queue_recalc (dao->sheet, &r);
 	dao_convert_to_values (dao);
 	sheet_redraw_range (dao->sheet, &r);

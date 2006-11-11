@@ -40,7 +40,7 @@
 #endif
 
 typedef union _CellTile CellTile;
-struct _SheetStyleData {
+struct _GnmSheetStyleData {
 	GHashTable *style_hash;
 	CellTile   *styles;
 	GnmStyle   *default_style;
@@ -498,7 +498,7 @@ sheet_style_init (Sheet *sheet)
 			     "name.  Expect weirdness."));
 	}
 
-	sheet->style_data = g_new (SheetStyleData, 1);
+	sheet->style_data = g_new (GnmSheetStyleData, 1);
 	sheet->style_data->style_hash =
 		g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
 #warning "FIXME: Allocating a GnmColor here is dubious."
@@ -2149,11 +2149,11 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
  * Applies a list of styles to the sheet with the supplied offset.  Optionally
  * transposing the ranges
  **/
-SpanCalcFlags
+GnmSpanCalcFlags
 sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 		      gboolean transpose, GnmStyleList const *list)
 {
-	SpanCalcFlags spanflags = SPANCALC_SIMPLE;
+	GnmSpanCalcFlags spanflags = GNM_SPANCALC_SIMPLE;
 	GnmStyleList const *l;
 
 	g_return_val_if_fail (IS_SHEET (sheet), spanflags);

@@ -533,7 +533,7 @@ extract_arg_types (GnmFunc *def)
 }
 
 static GnmValue *
-error_function_no_full_info (FunctionEvalInfo *ei,
+error_function_no_full_info (GnmFuncEvalInfo *ei,
 			     int argc,
 			     GnmExprConstPtr const *argv)
 {
@@ -707,7 +707,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 
 /* Handle unknown functions on import without losing their names */
 static GnmValue *
-unknownFunctionHandler (FunctionEvalInfo *ei,
+unknownFunctionHandler (GnmFuncEvalInfo *ei,
 			int argc,
 			GnmExprConstPtr const *argv)
 {
@@ -1023,7 +1023,7 @@ free_values (GnmValue **values, int top)
  * Returns the result.
  **/
 GnmValue *
-function_call_with_exprs (FunctionEvalInfo *ei,
+function_call_with_exprs (GnmFuncEvalInfo *ei,
 			  int argc, GnmExprConstPtr const *argv,
 			  GnmExprEvalFlags flags)
 {
@@ -1278,7 +1278,7 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
 {
 	GnmValue *retval;
 	GnmExprFunction	ef;
-	FunctionEvalInfo fs;
+	GnmFuncEvalInfo fs;
 
 	fs.pos = ep;
 	fs.func_call = &ef;
@@ -1341,15 +1341,15 @@ cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
 		return (*data->callback)(&ep, NULL, data->closure);
 	}
 
-	if (data->ignore_subtotal && cell_has_expr (cell) &&
+	if (data->ignore_subtotal && gnm_cell_has_expr (cell) &&
 	    gnm_expr_top_contains_subtotal (cell->base.texpr))
 		return NULL;
 
-	cell_eval (cell);
+	gnm_cell_eval (cell);
 	eval_pos_init_cell (&ep, cell);
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
-	if (data->strict && (NULL != (res = cell_is_error (cell))))
+	if (data->strict && (NULL != (res = gnm_cell_is_error (cell))))
 		return value_new_error_str (&ep, res->v_err.mesg);
 
 	/* All other cases -- including error -- just call the handler.  */

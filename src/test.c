@@ -94,7 +94,7 @@ thrash_insert (Sheet *sheet)
 
 			cell = sheet_cell_fetch (sheet, i, j);
 
-			cell_set_value (cell, value_new_int (i), NULL);
+			gnm_cell_set_value (cell, value_new_int (i), NULL);
 		}
 
 		r.start.col = 0;
@@ -138,5 +138,5 @@ workbook_style_test (Workbook *wb)
 		sheet_flag_recompute_spans (sheet);
 	}
 	workbook_recalc (wb);
-	workbook_calc_spans (wb, SPANCALC_RENDER);
+	workbook_calc_spans (wb, GNM_SPANCALC_RENDER);
 }

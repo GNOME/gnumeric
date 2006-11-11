@@ -989,7 +989,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 	/* Ensure that we are not splitting up an array */
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
-	if (cell_is_nonsingleton_array (cell)) {
+	if (gnm_cell_is_nonsingleton_array (cell)) {
 		gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
 			_("Set Text"), NULL);
 		return TRUE;
@@ -999,7 +999,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 	if (cell) {
 		const PangoAttrList *old_markup = NULL;
-		char *old_text = cell_get_entered_text (cell);
+		char *old_text = gnm_cell_get_entered_text (cell);
 		same_text = strcmp (old_text, corrected_text) == 0;
 		g_free (old_text);
 
@@ -1157,7 +1157,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 		/* If there is an expression then this was an array */
 		if (texpr != NULL) {
-			cell_set_array_formula (me->cmd.sheet,
+			gnm_cell_set_array_formula (me->cmd.sheet,
 						r->start.col, r->start.row,
 						r->end.col, r->end.row,
 						texpr);
@@ -1809,7 +1809,7 @@ cmd_format_undo (GnmCommand *cmd,
 		for (l1 = rstyles, l2 = rsel; l1; l1 = l1->next, l2 = l2->next) {
 			CmdFormatOldStyle *os = l1->data;
 			GnmRange const *r = l2->data;
-			SpanCalcFlags flags = sheet_style_set_list
+			GnmSpanCalcFlags flags = sheet_style_set_list
 				(me->cmd.sheet,
 				 &os->pos, FALSE, os->styles);
 
@@ -1851,7 +1851,7 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	re_fit_height =	me->new_style &&
-		(SPANCALC_ROW_HEIGHT & required_updates_for_style (me->new_style));
+		(GNM_SPANCALC_ROW_HEIGHT & required_updates_for_style (me->new_style));
 
 	for (l1 = me->old_styles, l2 = me->selection; l2; l1 = l1->next, l2 = l2->next) {
 		CmdFormatOldStyle *os = l1->data;
@@ -3218,7 +3218,7 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			&me->columns, &me->old_widths);
 
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
-	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
+	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, GNM_SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
 
 	r = range_union (&me->dst.range, &me->src);
@@ -3391,7 +3391,7 @@ cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
-	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
+	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, GNM_SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
 
 	/* Select the newly pasted contents  (this queues a redraw) */
@@ -3479,7 +3479,7 @@ typedef struct {
 	GSList         *selection;   /* Selections on the sheet */
 	GSList         *old_styles;  /* Older styles, one style_list per selection range*/
 
-	FormatTemplate *ft;    /* Template that has been applied */
+	GnmFormatTemplate *ft;    /* Template that has been applied */
 } CmdAutoFormat;
 
 static void
@@ -3505,14 +3505,14 @@ cmd_autoformat_undo (GnmCommand *cmd,
 		for (; l1; l1 = l1->next, l2 = l2->next) {
 			GnmRange *r;
 			CmdAutoFormatOldStyle *os = l1->data;
-			SpanCalcFlags flags = sheet_style_set_list (me->cmd.sheet,
+			GnmSpanCalcFlags flags = sheet_style_set_list (me->cmd.sheet,
 					    &os->pos, FALSE, os->styles);
 
 			g_return_val_if_fail (l2 && l2->data, TRUE);
 
 			r = l2->data;
 			sheet_range_calc_spans (me->cmd.sheet, r, flags);
-			if (flags != SPANCALC_SIMPLE)
+			if (flags != GNM_SPANCALC_SIMPLE)
 				rows_height_update (me->cmd.sheet, r, TRUE);
 		}
 	}
@@ -3570,7 +3570,7 @@ cmd_autoformat_finalize (GObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
+cmd_selection_autoformat (WorkbookControl *wbc, GnmFormatTemplate *ft)
 {
 	CmdAutoFormat *me;
 	char      *names;
@@ -3652,7 +3652,7 @@ cmd_unmerge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		GnmRange const *tmp = &(g_array_index (me->unmerged_regions, GnmRange, i));
 		sheet_redraw_range (me->cmd.sheet, tmp);
 		sheet_merge_add (me->cmd.sheet, tmp, TRUE, GO_CMD_CONTEXT (wbc));
-		sheet_range_calc_spans (me->cmd.sheet, tmp, SPANCALC_RE_RENDER);
+		sheet_range_calc_spans (me->cmd.sheet, tmp, GNM_SPANCALC_RE_RENDER);
 	}
 
 	g_array_free (me->unmerged_regions, TRUE);
@@ -3684,7 +3684,7 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			if (cc)
 				cell_comment_set_cell (cc, &(tmp.start));
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
-						SPANCALC_RE_RENDER);
+						GNM_SPANCALC_RE_RENDER);
 		}
 		g_slist_free (merged);
 	}
@@ -4056,7 +4056,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 		parse_pos_init_evalpos (&pp, ep);
 		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &texpr,
-			gnm_style_get_format (cell_get_style (cell_res.cell)),
+			gnm_style_get_format (gnm_cell_get_style (cell_res.cell)),
 			workbook_date_conv (cell_res.cell->base.sheet->workbook));
 
 		/*
@@ -5274,12 +5274,12 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				GnmCell *target_cell = sheet_cell_get ((Sheet *)target_sheet->data,
 								      col_target, row_target);
 				if (target_cell != NULL)
-					cell_assign_value (target_cell,
+					gnm_cell_assign_value (target_cell,
 							   value_new_empty ());
 			} else {
 				GnmCell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data,
 								      col_target, row_target);
-				cell_assign_value (target_cell,
+				gnm_cell_assign_value (target_cell,
 						   value_dup (source_cell->value));
 			}
 			target_sheet = target_sheet->next;

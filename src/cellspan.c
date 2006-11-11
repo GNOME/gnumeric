@@ -179,13 +179,13 @@ cellspan_is_empty (int col, GnmCell const *ok_span_cell)
 	tmp = sheet_cell_get (ok_span_cell->base.sheet,
 		col, ok_span_cell->pos.row);
 
-	/* FIXME : cannot use cell_is_empty until expressions can span.
+	/* FIXME : cannot use gnm_cell_is_empty until expressions can span.
 	 * because cells with expressions start out with value Empty
 	 * existing spans continue to flow through, but never get removed
 	 * because we don't respan expression results.
 	 */
 	return (tmp == NULL || tmp->value == NULL ||
-		(VALUE_IS_EMPTY (tmp->value) && !cell_has_expr(tmp)));
+		(VALUE_IS_EMPTY (tmp->value) && !gnm_cell_has_expr(tmp)));
 }
 
 /*
@@ -211,7 +211,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	g_return_if_fail (cell != NULL);
 
 	sheet = cell->base.sheet;
-	style = cell_get_style (cell);
+	style = gnm_cell_get_style (cell);
 	h_align = style_default_halign (style, cell);
 
         /*
@@ -224,23 +224,23 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	 */
 	if (sheet != NULL &&
 	    h_align != HALIGN_CENTER_ACROSS_SELECTION &&
-	    (cell_is_merged (cell) ||
-	     (!sheet->display_formulas && cell_is_number (cell)))) {
+	    (gnm_cell_is_merged (cell) ||
+	     (!sheet->display_formulas && gnm_cell_is_number (cell)))) {
 		*col1 = *col2 = cell->pos.col;
 		return;
 	}
 
 	v_align = gnm_style_get_align_v (style);
 	row   = cell->pos.row;
-	indented_w = cell_width_pixel = cell_rendered_width (cell);
+	indented_w = cell_width_pixel = gnm_cell_rendered_width (cell);
 	if (h_align == HALIGN_LEFT || h_align == HALIGN_RIGHT) {
-		indented_w += cell_rendered_offset (cell);
+		indented_w += gnm_cell_rendered_offset (cell);
 		if (sheet->text_is_rtl)
 			h_align = (h_align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;
 	}
 
 	ci = sheet_col_get_info	(sheet, cell->pos.col);
-	if (cell_is_empty (cell) ||
+	if (gnm_cell_is_empty (cell) ||
 	    !ci->visible ||
 	    (h_align != HALIGN_CENTER_ACROSS_SELECTION &&
 		 (gnm_style_get_wrap_text (style) ||
@@ -408,9 +408,9 @@ row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 
 		/* render as necessary */
 		if (cell->rendered_value == NULL)
-			cell_render_value ((GnmCell *)cell, TRUE);
+			gnm_cell_render_value ((GnmCell *)cell, TRUE);
 
-		if (cell_is_merged (cell)) {
+		if (gnm_cell_is_merged (cell)) {
 			merged = sheet_merge_is_corner (sheet, &cell->pos);
 			if (NULL != merged) {
 				col = merged->end.col + 1;

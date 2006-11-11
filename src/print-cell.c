@@ -80,7 +80,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	    GnomePrintContext *context, PangoContext *pcontext,
 	    double x1, double y1, double width, double height, double h_center)
 {
-	RenderedValue *rv, *cell_rv = cell->rendered_value, *cell_rv100 = NULL;
+	GnmRenderedValue *rv, *cell_rv = cell->rendered_value, *cell_rv100 = NULL;
 	GOColor fore_color;
 	gint x, y;
 	Sheet *sheet = cell->base.sheet;
@@ -94,7 +94,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	if (sheet->last_zoom_factor_used != 1) {
 		/*
 		 * We're zoomed and we don't want printing to reflect that.
-		 * Simply create a new RenderedValue at zoom 100% for the
+		 * Simply create a new GnmRenderedValue at zoom 100% for the
 		 * _screen_ context.
 		 */
 		cell_rv100 = rendered_value_new ((GnmCell *)cell, mstyle,
@@ -148,7 +148,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 			UINT_RGBA_B (fore_color) / 255.);
 
 		if (rv->rotation) {
-			RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
+			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
 			const struct RenderedRotatedValueInfo *li = rrv->lines;
 			GSList *lines;
 
@@ -522,7 +522,7 @@ print_cell_range (GnomePrintContext *context,
 
 				/* no need to draw blanks */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
-				if (!cell_is_empty (cell))
+				if (!gnm_cell_is_empty (cell))
 					print_cell (cell, style, context, pcontext,
 						x, y, ci->size_pts, ri->size_pts, -1.);
 

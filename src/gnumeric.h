@@ -53,8 +53,8 @@ typedef enum {
 	GNM_ERROR_UNKNOWN
 } GnmStdError;
 
-typedef struct _RenderedValue		RenderedValue;
-typedef struct _RenderedRotatedValue	RenderedRotatedValue;
+typedef struct _GnmRenderedValue	GnmRenderedValue;
+typedef struct _GnmRenderedRotatedValue	GnmRenderedRotatedValue;
 
 typedef GSList 				GnmExprList;
 typedef union  _GnmExpr	 		GnmExpr;
@@ -99,8 +99,8 @@ typedef struct _GnmStyleRow        	GnmStyleRow;
 typedef GSList				GnmStyleList;
 typedef struct _GnmStyleRegion	        GnmStyleRegion;
 typedef struct _GnmStyleConditions	GnmStyleConditions;
-typedef struct _SheetStyleData	        SheetStyleData;
-typedef struct _FormatTemplate          FormatTemplate;	/* does not really belong here */
+typedef struct _GnmSheetStyleData       GnmSheetStyleData;
+typedef struct _GnmFormatTemplate       GnmFormatTemplate; /* does not really belong here */
 
 typedef struct {
 	int col, row;	/* these must be int not unsigned in some places (eg SUMIF ) */
@@ -117,7 +117,7 @@ typedef struct _GnmRangeRef	        GnmRangeRef;	/* abs/rel range with sheet */
 typedef struct _GnmEvalPos		GnmEvalPos;
 typedef struct _GnmParsePos	        GnmParsePos;
 typedef struct _GnmParseError	        GnmParseError;
-typedef struct _FunctionEvalInfo        FunctionEvalInfo;
+typedef struct _GnmFuncEvalInfo         GnmFuncEvalInfo;
 typedef struct _GnmFunc			GnmFunc;
 typedef struct _GnmFuncGroup		GnmFuncGroup;
 typedef struct _GnmFuncDescriptor	GnmFuncDescriptor;
@@ -137,12 +137,12 @@ typedef struct _GnmCellIter GnmCellIter;
 typedef GnmValue *(*CellIterFunc) (GnmCellIter const *iter, gpointer user);
 
 typedef enum {
-	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
-	SPANCALC_RESIZE		= 0x1,	/* Calculate sizes of all cells */
-	SPANCALC_RE_RENDER	= 0x2,	/* Render and Size all cells */
-	SPANCALC_RENDER		= 0x4,	/* Render and Size any unrendered cells */
-	SPANCALC_ROW_HEIGHT	= 0x8	/* Resize the row height */
-} SpanCalcFlags;
+	GNM_SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
+	GNM_SPANCALC_RESIZE	= 0x1,	/* Calculate sizes of all cells */
+	GNM_SPANCALC_RE_RENDER	= 0x2,	/* Render and Size all cells */
+	GNM_SPANCALC_RENDER	= 0x4,	/* Render and Size any unrendered cells */
+	GNM_SPANCALC_ROW_HEIGHT	= 0x8	/* Resize the row height */
+} GnmSpanCalcFlags;
 
 typedef enum {
 	GNM_EXPR_EVAL_SCALAR_NON_EMPTY	= 0,

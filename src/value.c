@@ -1428,7 +1428,7 @@ find_column_of_field (GnmEvalPos const *ep,
 	        cell = sheet_cell_get (sheet, n, row);
 		if (cell == NULL)
 		        continue;
-		cell_eval (cell);
+		gnm_cell_eval (cell);
 
 		txt = cell->value
 			? value_peek_string (cell->value)
@@ -1548,8 +1548,8 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 		for (j = b_col; j <= e_col; j++) {
 		        cell = sheet_cell_get (sheet, j, i);
 			if (cell != NULL)
-				cell_eval (cell);
-			if (cell_is_empty (cell))
+				gnm_cell_eval (cell);
+			if (gnm_cell_is_empty (cell))
 			        continue;
 
 			cond = g_new (GnmCriteria, 1);
@@ -1595,8 +1595,8 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 	        cell = sheet_cell_get (sheet, i, b_row);
 		if (cell == NULL)
 		        continue;
-		cell_eval (cell);
-		if (cell_is_empty (cell))
+		gnm_cell_eval (cell);
+		if (gnm_cell_is_empty (cell))
 		        continue;
 		field_ind[i - b_col] =
 		        find_column_of_field (ep, database, cell->value);
@@ -1632,8 +1632,8 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				cond = cond_ptr->data;
 				test_cell = sheet_cell_get (sheet, cond->column, row);
 				if (test_cell != NULL) {
-					cell_eval (test_cell);
-					if (!cell_is_empty (test_cell) &&
+					gnm_cell_eval (test_cell);
+					if (!gnm_cell_is_empty (test_cell) &&
 					    !cond->fun (test_cell->value, cond->x)) {
 						add_flag = FALSE;
 						break;

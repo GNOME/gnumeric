@@ -451,7 +451,7 @@ gplp_loader_data_fngroup_free (ServiceLoaderDataFunctionGroup *loader_data)
 }
 
 static GnmValue *
-call_python_function_args (FunctionEvalInfo *ei, GnmValue const * const *args)
+call_python_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	GOPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
@@ -481,7 +481,7 @@ call_python_function_args (FunctionEvalInfo *ei, GnmValue const * const *args)
 }
 
 static GnmValue *
-call_python_function_nodes (FunctionEvalInfo *ei,
+call_python_function_nodes (GnmFuncEvalInfo *ei,
 			    int argc, GnmExprConstPtr const *argv)
 {
 	GOPluginService *service;

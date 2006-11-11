@@ -1196,7 +1196,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 				} else {
 					char const *text = g_ptr_array_index (line, lcol);
 					if (text && *text)
-						cell_set_text (
+						gnm_cell_set_text (
 							sheet_cell_fetch (sheet, col, row),
 							text);
 				}

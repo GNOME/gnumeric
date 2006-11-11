@@ -91,7 +91,7 @@ pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
 		v = value_dup (pg->defaults.value);
 
 	cell = sheet_cell_fetch (pg->sheet, col, row);
-	cell_set_value (cell, v);
+	gnm_cell_set_value (cell, v);
 	cell->rendered_value = rendered_value_new (cell, style,
 		TRUE, context, pg->sheet->last_zoom_factor_used);
 
@@ -350,7 +350,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  						      style, col, row, x, y,
  						      colwidths [col], row_height);
 
-			if (!cell_is_empty (cell))
+			if (!gnm_cell_is_empty (cell))
 				cell_draw (cell, pg->gc.cell, drawable,
 					   x, y, colwidths [col], row_height, -1);
 

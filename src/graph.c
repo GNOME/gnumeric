@@ -446,7 +446,7 @@ cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 	double res;
 
 	if (iter->cell != NULL) {
-		cell_eval (iter->cell);
+		gnm_cell_eval (iter->cell);
 		v = iter->cell->value;
 	} else
 		v = NULL;
@@ -647,9 +647,9 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
 		if (cell == NULL)
 			return NULL;
-		cell_eval (cell);
+		gnm_cell_eval (cell);
 		v = cell->value;
-		format = cell_get_format (cell);
+		format = gnm_cell_get_format (cell);
 		date_conv = workbook_date_conv (start_sheet->workbook);
 	} else if (v->type == VALUE_ARRAY)
 		v = vec->as_col
@@ -849,7 +849,7 @@ cb_assign_matrix_val (GnmCellIter const *iter,
 	dat->row = iter->pp.eval.row - dat->first_row;
 
 	if (iter->cell != NULL) {
-		cell_eval (iter->cell);
+		gnm_cell_eval (iter->cell);
 		v = iter->cell->value;
 	} else
 		v = NULL;
@@ -1050,9 +1050,9 @@ gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
 		if (cell == NULL)
 			return NULL;
-		cell_eval (cell);
+		gnm_cell_eval (cell);
 		v = cell->value;
-		format = cell_get_format (cell);
+		format = gnm_cell_get_format (cell);
 		date_conv = workbook_date_conv (start_sheet->workbook);
 	} else if (v->type == VALUE_ARRAY)
 		v = value_area_get_x_y (v, i, j, &ep);

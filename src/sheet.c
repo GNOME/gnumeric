@@ -116,7 +116,7 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 	if (text_is_rtl == sheet->text_is_rtl)
 		return;
 
-	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), SPANCALC_RE_RENDER);
+	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), GNM_SPANCALC_RE_RENDER);
 	sheet->text_is_rtl = text_is_rtl;
 	sheet->priv->reposition_objects.col = 0;
 }
@@ -136,7 +136,7 @@ cb_re_render_formulas (G_GNUC_UNUSED gpointer unused,
 		       GnmCell *cell,
 		       G_GNUC_UNUSED gpointer user)
 {
-	if (cell_has_expr (cell)) {
+	if (gnm_cell_has_expr (cell)) {
 		if (cell->rendered_value != NULL) {
 			rendered_value_destroy (cell->rendered_value);
 			cell->rendered_value = NULL;
@@ -183,8 +183,8 @@ cb_sheet_set_hide_zeros (G_GNUC_UNUSED gpointer unused,
 			 GnmCell *cell,
 			 G_GNUC_UNUSED gpointer user)
 {
-	if (cell->rendered_value && cell_is_zero (cell))
-		cell_render_value (cell, TRUE);
+	if (cell->rendered_value && gnm_cell_is_zero (cell))
+		gnm_cell_render_value (cell, TRUE);
 }
 
 static void	  
@@ -826,10 +826,10 @@ cb_clear_rendered_values (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
  * the cached version of the rendered text in the cell.
  **/
 void
-sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags)
+sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFlags flags)
 {
 	sheet_mark_dirty (sheet);
-	if (flags & SPANCALC_RE_RENDER)
+	if (flags & GNM_SPANCALC_RE_RENDER)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			r->start.col, r->start.row, r->end.col, r->end.row,
 			cb_clear_rendered_values, NULL);
@@ -850,25 +850,25 @@ sheet_redraw_partial_row (Sheet const *sheet, int const row,
 }
 
 void
-sheet_cell_calc_span (GnmCell *cell, SpanCalcFlags flags)
+sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 {
 	CellSpanInfo const * span;
 	int left, right;
 	int min_col, max_col;
-	gboolean render = (flags & SPANCALC_RE_RENDER);
-	gboolean const resize = (flags & SPANCALC_RESIZE);
+	gboolean render = (flags & GNM_SPANCALC_RE_RENDER);
+	gboolean const resize = (flags & GNM_SPANCALC_RESIZE);
 	gboolean existing = FALSE;
 	GnmRange const *merged;
 
 	g_return_if_fail (cell != NULL);
 
 	/* Render & Size any unrendered cells */
-	if ((flags & SPANCALC_RENDER) && cell->rendered_value == NULL)
+	if ((flags & GNM_SPANCALC_RENDER) && cell->rendered_value == NULL)
 		render = TRUE;
 
 	if (render) {
-		if (!cell_has_expr (cell))
-			cell_render_value ((GnmCell *)cell, TRUE);
+		if (!gnm_cell_has_expr (cell))
+			gnm_cell_render_value ((GnmCell *)cell, TRUE);
 		else if (cell->rendered_value) {
 			rendered_value_destroy (cell->rendered_value);
 			cell->rendered_value = NULL;
@@ -957,7 +957,7 @@ sheet_apply_style (Sheet       *sheet,
 		   GnmRange const *range,
 		   GnmStyle      *style)
 {
-	SpanCalcFlags spanflags = required_updates_for_style (style);
+	GnmSpanCalcFlags spanflags = required_updates_for_style (style);
 	sheet_style_apply_range (sheet, range, style);
 	/* This also redraws the range: */
 	sheet_range_calc_spans (sheet, range, spanflags);
@@ -968,7 +968,7 @@ sheet_apply_border (Sheet       *sheet,
 		    GnmRange const *range,
 		    GnmBorder **borders)
 {
-	SpanCalcFlags spanflags = SPANCALC_RE_RENDER | SPANCALC_RESIZE;
+	GnmSpanCalcFlags spanflags = GNM_SPANCALC_RE_RENDER | GNM_SPANCALC_RESIZE;
 	sheet_style_apply_border (sheet, range, borders);
 	/* This also redraws the range: */
 	sheet_range_calc_spans (sheet, range, spanflags);
@@ -1185,7 +1185,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->recompute_spans) {
 		p->recompute_spans = FALSE;
-		/* FIXME : I would prefer to use SPANCALC_RENDER rather than
+		/* FIXME : I would prefer to use GNM_SPANCALC_RENDER rather than
 		 * RE_RENDER.  It only renders those cells which are not
 		 * rendered.  The trouble is that when a col changes size we
 		 * need to rerender, but currently nothing marks that.
@@ -1195,9 +1195,9 @@ sheet_update_only_grid (Sheet const *sheet)
 		 * sheet_calc_span.
 		 */
 #if 0
-		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RE_RENDER |
+		sheet_calc_spans (sheet, GNM_SPANCALC_RESIZE|GNM_SPANCALC_RE_RENDER |
 				  (p->recompute_visibility ?
-				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
+				   SPANCALC_NO_DRAW : GNM_SPANCALC_SIMPLE));
 #endif
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 	}
@@ -1428,7 +1428,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 	GnmCell const *cell = (GnmCell const *) value;
 	struct sheet_extent_data *res = data;
 
-	if (cell_is_empty (cell))
+	if (gnm_cell_is_empty (cell))
 		return;
 
 	/* Remember the first cell is the min & max */
@@ -1445,7 +1445,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 		return;
 
 	/* Cannot span AND merge */
-	if (cell_is_merged (cell)) {
+	if (gnm_cell_is_merged (cell)) {
 		GnmRange const *merged =
 			sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 		res->range = range_union (&res->range, merged);
@@ -1583,16 +1583,16 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 	int width;
 	GnmCell *cell = iter->cell;
 
-	if (cell_is_merged (cell))
+	if (gnm_cell_is_merged (cell))
 		return NULL;
 
 	/*
 	 * Special handling for manual recalc.  We need to eval newly
-	 * entered expressions.  cell_render_value will do that for us,
+	 * entered expressions.  gnm_cell_render_value will do that for us,
 	 * but we want to short-circuit some strings early.
 	 */
-	if (cell->base.flags & CELL_HAS_NEW_EXPR)
-		cell_eval (cell);
+	if (cell->base.flags & GNM_CELL_HAS_NEW_EXPR)
+		gnm_cell_eval (cell);
 
 	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
 		return NULL;
@@ -1600,12 +1600,12 @@ cb_max_cell_width (GnmCellIter const *iter, struct cb_fit *data)
 	/* Variable width cell must be re-rendered */
 	if (cell->rendered_value == NULL ||
 	    cell->rendered_value->variable_width)
-		cell_render_value (cell, FALSE);
+		gnm_cell_render_value (cell, FALSE);
 
 	/* Make sure things are as-if drawn.  */
 	cell_finish_layout (cell, NULL, iter->ci->size_pixels, TRUE);
 
-	width = cell_rendered_width (cell) + cell_rendered_offset (cell);
+	width = gnm_cell_rendered_width (cell) + gnm_cell_rendered_offset (cell);
 	if (width > data->max)
 		data->max = width;
 
@@ -1657,16 +1657,16 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 	int height;
 	GnmCell *cell = iter->cell;
 
-	if (cell_is_merged (cell))
+	if (gnm_cell_is_merged (cell))
 		return NULL;
 
 	/*
 	 * Special handling for manual recalc.  We need to eval newly
-	 * entered expressions.  cell_render_value will do that for us,
+	 * entered expressions.  gnm_cell_render_value will do that for us,
 	 * but we want to short-circuit some strings early.
 	 */
-	if (cell->base.flags & CELL_HAS_NEW_EXPR)
-		cell_eval (cell);
+	if (cell->base.flags & GNM_CELL_HAS_NEW_EXPR)
+		gnm_cell_eval (cell);
 
 	if (data->ignore_strings && VALUE_IS_STRING (cell->value))
 		return NULL;
@@ -1678,17 +1678,17 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 		 * that they are all the same height, more or less.
 		 */
 		const Sheet *sheet = cell->base.sheet;
-		height = gnm_style_get_pango_height (cell_get_style (cell),
+		height = gnm_style_get_pango_height (gnm_cell_get_style (cell),
 						     sheet->context,
 						     sheet->last_zoom_factor_used);
 	} else {
 		if (cell->rendered_value == NULL)
-			cell_render_value (cell, TRUE);
+			gnm_cell_render_value (cell, TRUE);
 
 		/* Make sure things are as-if drawn.  Inhibit #####s.  */
 		cell_finish_layout (cell, NULL, iter->ci->size_pixels, FALSE);
 
-		height = cell_rendered_height (cell);
+		height = gnm_cell_rendered_height (cell);
 	}
 
 	if (height > data->max)
@@ -1822,9 +1822,9 @@ cb_set_cell_content (GnmCellIter const *iter, closure_set_cell_value *info)
 			texpr = gnm_expr_top_relocate (texpr, &rinfo, FALSE);
 		}
 
-		cell_set_expr (cell, texpr);
+		gnm_cell_set_expr (cell, texpr);
 	} else
-		cell_set_value (cell, value_dup (info->val));
+		gnm_cell_set_value (cell, value_dup (info->val));
 	return NULL;
 }
 
@@ -1833,7 +1833,7 @@ cb_clear_non_corner (GnmCellIter const *iter, GnmRange const *merged)
 {
 	if (merged->start.col != iter->pp.eval.col ||
 	    merged->start.row != iter->pp.eval.row)
-		cell_set_value (iter->cell, value_new_empty ());
+		gnm_cell_set_value (iter->cell, value_new_empty ());
 	return NULL;
 }
 
@@ -1929,33 +1929,33 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
-	g_return_if_fail (!cell_is_nonsingleton_array (cell));
+	g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
 		text, &val, &texpr,
-		gnm_style_get_format (cell_get_style (cell)),
+		gnm_style_get_format (gnm_cell_get_style (cell)),
 		workbook_date_conv (cell->base.sheet->workbook));
 
 	/* Queue a redraw before incase the span changes */
 	sheet_redraw_cell (cell);
 
 	if (texpr != NULL) {
-		cell_set_expr (cell, texpr);
+		gnm_cell_set_expr (cell, texpr);
 		gnm_expr_top_unref (texpr);
 
 		/* clear spans from _other_ cells */
-		sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
+		sheet_cell_calc_span (cell, GNM_SPANCALC_SIMPLE);
 	} else {
 		g_return_if_fail (val != NULL);
 
-		cell_set_value (cell, val);
+		gnm_cell_set_value (cell, val);
 		if (markup != NULL && VALUE_IS_STRING (cell->value)) {
 			GOFormat *fmt = go_format_new_markup (markup, TRUE);
 			value_set_fmt (cell->value, fmt);
 			go_format_unref (fmt);
 		}
 
-		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
+		sheet_cell_calc_span (cell, GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
 	}
 
 	cell_queue_recalc (cell);
@@ -1973,10 +1973,10 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 void
 sheet_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 {
-	cell_set_expr (cell, texpr);
+	gnm_cell_set_expr (cell, texpr);
 
 	/* clear spans from _other_ cells */
-	sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
+	sheet_cell_calc_span (cell, GNM_SPANCALC_SIMPLE);
 
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
@@ -1998,8 +1998,8 @@ void
 sheet_cell_set_value (GnmCell *cell, GnmValue *v)
 {
 	/* TODO : if the value is unchanged do not assign it */
-	cell_set_value (cell, v);
-	sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
+	gnm_cell_set_value (cell, v);
+	sheet_cell_calc_span (cell, GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }
@@ -2366,7 +2366,7 @@ cb_check_array_horizontal (GnmColRowIter const *iter, ArrayCheckData *data)
 	gboolean is_array = FALSE;
 
 	if (data->flags & CHECK_AND_LOAD_START  &&	/* Top */
-	    (is_array = cell_array_bound (
+	    (is_array = gnm_cell_array_bound (
 			sheet_cell_get (data->sheet, iter->pos, data->start),
 			&data->error)) &&
 	    data->error.start.row < data->start &&
@@ -2375,7 +2375,7 @@ cb_check_array_horizontal (GnmColRowIter const *iter, ArrayCheckData *data)
 	    return TRUE;
 
 	if (data->flags & LOAD_END)
-		is_array = cell_array_bound (
+		is_array = gnm_cell_array_bound (
 			sheet_cell_get (data->sheet, iter->pos, data->end),
 			&data->error);
 
@@ -2392,7 +2392,7 @@ cb_check_array_vertical (GnmColRowIter const *iter, ArrayCheckData *data)
 	gboolean is_array = FALSE;
 
 	if (data->flags & CHECK_AND_LOAD_START &&	/* Left */
-	    (is_array = cell_array_bound (
+	    (is_array = gnm_cell_array_bound (
 			sheet_cell_get (data->sheet, data->start, iter->pos),
 			&data->error)) &&
 	    data->error.start.col < data->start &&
@@ -2401,7 +2401,7 @@ cb_check_array_vertical (GnmColRowIter const *iter, ArrayCheckData *data)
 	    return TRUE;
 
 	if (data->flags & LOAD_END)
-		is_array = cell_array_bound (
+		is_array = gnm_cell_array_bound (
 			sheet_cell_get (data->sheet, data->end, iter->pos),
 			&data->error);
 
@@ -2559,7 +2559,7 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 static GnmValue *
 cb_cell_is_array (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	return cell_is_array (iter->cell) ? VALUE_TERMINATE : NULL;
+	return gnm_cell_is_array (iter->cell) ? VALUE_TERMINATE : NULL;
 }
 
 /**
@@ -2829,7 +2829,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			ignore = (iter.cell == NULL)
 				? (only_existing || ignore_empty)
 				: (ignore_empty && VALUE_IS_EMPTY (iter.cell->value) &&
-				   !cell_needs_recalc (iter.cell));
+				   !gnm_cell_needs_recalc (iter.cell));
 
 			if (ignore) {
 				if (iter.pp.eval.col == COLROW_SEGMENT_START (iter.pp.eval.col)) {
@@ -2933,7 +2933,7 @@ sheet_cells (Sheet *sheet, gboolean comments)
 static GnmValue *
 cb_fail_if_exist (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
 {
-	return cell_is_empty (iter->cell) ? NULL : VALUE_TERMINATE;
+	return gnm_cell_is_empty (iter->cell) ? NULL : VALUE_TERMINATE;
 }
 
 /**
@@ -2962,7 +2962,7 @@ gboolean
 sheet_is_cell_empty (Sheet *sheet, int col, int row)
 {
 	GnmCell const *cell = sheet_cell_get (sheet, col, row);
-	return cell_is_empty (cell);
+	return gnm_cell_is_empty (cell);
 }
 
 /**
@@ -2980,7 +2980,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	g_return_if_fail (cell->pos.col < SHEET_MAX_COLS);
 	g_return_if_fail (cell->pos.row < SHEET_MAX_ROWS);
 
-	cell->base.flags |= CELL_IN_SHEET_LIST;
+	cell->base.flags |= GNM_CELL_IN_SHEET_LIST;
 	/* NOTE :
 	 *   fetching the col/row here serve 3 functions
 	 *   1) The obvious.  Storing the ptr in the cell.
@@ -3003,7 +3003,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 
 	if (sheet_merge_is_corner (sheet, &cell->pos))
-		cell->base.flags |= CELL_IS_MERGED;
+		cell->base.flags |= GNM_CELL_IS_MERGED;
 }
 
 #define USE_CELL_POOL
@@ -3034,7 +3034,7 @@ cell_free (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
-	cell_cleanout (cell);
+	gnm_cell_cleanout (cell);
 #ifdef USE_CELL_POOL
 	go_mem_chunk_free (cell_pool, cell);
 #else
@@ -3111,10 +3111,10 @@ static void
 sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 {
 	cell_unregister_span (cell);
-	if (cell_expr_is_linked (cell))
-		dependent_unlink (CELL_TO_DEP (cell));
+	if (gnm_cell_expr_is_linked (cell))
+		dependent_unlink (GNM_CELL_TO_DEP (cell));
 	g_hash_table_remove (sheet->cell_hash, &cell->pos);
-	cell->base.flags &= ~(CELL_IN_SHEET_LIST|CELL_IS_MERGED);
+	cell->base.flags &= ~(GNM_CELL_IN_SHEET_LIST|GNM_CELL_IS_MERGED);
 }
 
 /**
@@ -3124,12 +3124,12 @@ sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 static void
 sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 {
-	if (cell_expr_is_linked (cell)) {
+	if (gnm_cell_expr_is_linked (cell)) {
 		/* if it needs recalc then its depends are already queued
 		 * check recalc status before we unlink
 		 */
-		queue_recalc &= !cell_needs_recalc (cell);
-		dependent_unlink (CELL_TO_DEP (cell));
+		queue_recalc &= !gnm_cell_needs_recalc (cell);
+		dependent_unlink (GNM_CELL_TO_DEP (cell));
 	}
 
 	if (queue_recalc)
@@ -3251,7 +3251,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 static void
 cb_remove_allcells (gpointer ignore0, GnmCell *cell, gpointer ignore1)
 {
-	cell->base.flags &= ~CELL_IN_SHEET_LIST;
+	cell->base.flags &= ~GNM_CELL_IN_SHEET_LIST;
 	cell_free (cell);
 }
 
@@ -3480,7 +3480,7 @@ sheet_clear_region (Sheet *sheet,
 	/* Clear the style in the region (new_default will ref the style for us). */
 	if (clear_flags & CLEAR_FORMATS) {
 		sheet_style_set_range (sheet, &r, sheet_style_default (sheet));
-		sheet_range_calc_spans (sheet, &r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
+		sheet_range_calc_spans (sheet, &r, GNM_SPANCALC_RE_RENDER|GNM_SPANCALC_RESIZE);
 		rows_height_update (sheet, &r, TRUE);
 	}
 
@@ -3541,7 +3541,7 @@ cb_collect_cell (GnmCellIter const *iter, gpointer user)
 {
 	GList ** l = user;
 	GnmCell *cell = iter->cell;
-	gboolean needs_recalc = cell_needs_recalc (cell);
+	gboolean needs_recalc = gnm_cell_needs_recalc (cell);
 
 	sheet_cell_remove_from_hash (iter->pp.sheet, cell);
 	*l = g_list_prepend (*l, cell);
@@ -3604,8 +3604,8 @@ colrow_move (Sheet *sheet,
 			cell->pos.row = new_pos;
 
 		sheet_cell_add_to_hash (sheet, cell);
-		if (cell_has_expr (cell))
-			dependent_link (CELL_TO_DEP (cell));
+		if (gnm_cell_has_expr (cell))
+			dependent_link (GNM_CELL_TO_DEP (cell));
 	}
 	sheet_mark_dirty (sheet);
 }
@@ -4119,8 +4119,8 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 		cell->pos.col += rinfo->col_offset;
 		cell->pos.row += rinfo->row_offset;
 		sheet_cell_add_to_hash (rinfo->target_sheet, cell);
-		if (cell_has_expr (cell))
-			dependent_link (CELL_TO_DEP (cell));
+		if (gnm_cell_has_expr (cell))
+			dependent_link (GNM_CELL_TO_DEP (cell));
 	}
 
 	/* 7. Move objects in the range */
@@ -4594,10 +4594,10 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	g_return_if_fail (dst != NULL);
 	g_return_if_fail (cell != NULL);
 
-	array = cell_is_array_corner (cell);
+	array = gnm_cell_is_array_corner (cell);
 	if (array) {
 		unsigned int i, j;
-		cell_set_array_formula (dst,
+		gnm_cell_set_array_formula (dst,
 			cell->pos.col, cell->pos.row,
 			cell->pos.col + array->cols-1,
 			cell->pos.row + array->rows-1,
@@ -4611,18 +4611,18 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 					GnmCell *out = sheet_cell_fetch (dst,
 						cell->pos.col + i,
 						cell->pos.row + j);
-					cell_set_value (out, in->value);
+					gnm_cell_set_value (out, in->value);
 				}
 	} else {
 		GnmCell *new_cell = sheet_cell_create (dst, cell->pos.col, cell->pos.row);
 		GnmValue *value = value_dup (cell->value);
-		if (cell_has_expr (cell))
-			cell_set_expr_and_value (new_cell,
+		if (gnm_cell_has_expr (cell))
+			gnm_cell_set_expr_and_value (new_cell,
 						 cell->base.texpr,
 						 value,
 						 TRUE);
 		else
-			cell_set_value (new_cell, value);
+			gnm_cell_set_value (new_cell, value);
 	}
 }
 
@@ -4897,8 +4897,8 @@ sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,
 
 		/* Look for style differences */
 		if (!ignore_styles &&
-		    !gnm_style_equal_header (cell_get_style (a),
-					     cell_get_style (b), top))
+		    !gnm_style_equal_header (gnm_cell_get_style (a),
+					     gnm_cell_get_style (b), top))
 			return TRUE;
 	}
 

@@ -341,9 +341,9 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 			sv->edit_pos.col, sv->edit_pos.row);
 
 		if (NULL != cell) {
-			text = cell_get_entered_text (cell);
+			text = gnm_cell_get_entered_text (cell);
 
-			if (cell_has_expr (cell)) {
+			if (gnm_cell_has_expr (cell)) {
 				GnmExpr const *expr = cell->base.texpr->expr;
 				GnmCell const *corner;
 				int x = 0, y = 0;
@@ -361,7 +361,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 						cell->pos.row - (y = expr->array_elem.y));
 
 					g_return_if_fail (corner != NULL);
-					g_return_if_fail (cell_has_expr (corner));
+					g_return_if_fail (gnm_cell_has_expr (corner));
 
 					expr = corner->base.texpr->expr;
 
@@ -448,7 +448,7 @@ accumulate_regions (SheetView *sv,  GnmRange const *r, gpointer closure)
 void
 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 {
-	FunctionEvalInfo ei;
+	GnmFuncEvalInfo ei;
 	GnmEvalPos		 ep;
 	GnmExprList	*selection = NULL;
 	GnmValue	*v;

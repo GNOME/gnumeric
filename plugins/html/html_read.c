@@ -247,7 +247,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			if (buf->len > 0) {
 				GnmCell *cell = sheet_cell_fetch (tc->sheet, col + 1, tc->row);
 				sheet_style_set_pos (tc->sheet, col + 1, tc->row, mstyle);
-				cell_set_text (cell, buf->str);
+				gnm_cell_set_text (cell, buf->str);
 			} else
 				gnm_style_unref (mstyle);
 

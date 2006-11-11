@@ -63,7 +63,7 @@ gboolean cmd_selection_outline_change	(WorkbookControl *wbc,
 					 gboolean is_cols, int index, int depth);
 gboolean cmd_selection_group		(WorkbookControl *wbc,
 					 gboolean is_cols, gboolean group);
-gboolean cmd_selection_autoformat	(WorkbookControl *wbc, FormatTemplate *ft);
+gboolean cmd_selection_autoformat	(WorkbookControl *wbc, GnmFormatTemplate *ft);
 
 /******************************************************************************************/
 

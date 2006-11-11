@@ -457,14 +457,14 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 		 * How does it store a user entered date ?
 		 */
 		if (val != NULL)
-			cell_set_expr_and_value (cell, expr, val, TRUE);
+			gnm_cell_set_expr_and_value (cell, expr, val, TRUE);
 		else
-			cell_set_expr (cell, expr);
+			gnm_cell_set_expr (cell, expr);
 	} else if (val != NULL) {
 		/* TODO : is there a notion of parse format ?
 		 * How does it store a user entered date ?
 		 */
-		cell_set_value (cell, val);
+		gnm_cell_set_value (cell, val);
 	} else {
 		/* TODO : send this warning to iocontext with details of
 		 * which sheet and cell.

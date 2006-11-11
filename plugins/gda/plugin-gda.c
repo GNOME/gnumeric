@@ -138,7 +138,7 @@ gnm_value_new_from_gda (GValue const *gval,
 }
 
 static GnmValue *
-display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
+display_recordset (GdaDataModel *recset, GnmFuncEvalInfo *ei)
 {
 	GODateConventions const *date_conv;
 	GnmValue* array = NULL;
@@ -335,7 +335,7 @@ static GnmFuncHelp const help_execSQL[] = {
 };
 
 static GnmValue *
-gnumeric_execSQL (FunctionEvalInfo *ei, GnmValue const  * const *args)
+gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 {
 	GnmValue*         ret;
 	gchar*         dsn_name;
@@ -411,7 +411,7 @@ static GnmFuncHelp const help_readDBTable[] = {
 };
 
 static GnmValue *
-gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	GnmValue*         ret;
 	gchar*         dsn_name;

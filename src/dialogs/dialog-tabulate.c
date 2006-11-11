@@ -151,7 +151,7 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 		if (child->left_attach == x && child->top_attach == y &&
 		    GTK_IS_ENTRY (child->widget)) {
 			*wp = GTK_ENTRY (child->widget);
-			format = gnm_style_get_format (cell_get_style (cell));
+			format = gnm_style_get_format (gnm_cell_get_style (cell));
 			return (with_default ?
 				entry_to_float_with_format_default (GTK_ENTRY (child->widget), number,
 							   TRUE, format, default_float) :
@@ -206,7 +206,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
-		if (cell_has_expr (cells[dims])) {
+		if (gnm_cell_has_expr (cells[dims])) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The dependency cells should not contain an expression"));
@@ -278,7 +278,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			goto error;
 		}
 
-		if (!cell_has_expr (resultcell)) {
+		if (!gnm_cell_has_expr (resultcell)) {
 			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The target cell should contain an expression"));

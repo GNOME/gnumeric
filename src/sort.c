@@ -312,7 +312,7 @@ sort_contents (GnmSortData *data, GOCmdContext *cc)
 	sheet_region_queue_recalc (data->sheet, data->range);
 	sheet_flag_status_update_range (data->sheet, data->range);
 	sheet_range_calc_spans (data->sheet, data->range,
-				data->retain_formats ? SPANCALC_RENDER : SPANCALC_RE_RENDER);
+				data->retain_formats ? GNM_SPANCALC_RENDER : GNM_SPANCALC_RE_RENDER);
 	sheet_redraw_all (data->sheet, FALSE);
 
 	return iperm;

@@ -1162,25 +1162,25 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			gnm_expr_top_unref (state->texpr);
 	} else if (NULL != state->texpr) {
 		if (state->array.start.col >= 0) {
-			cell_set_array_formula (state->sheet,
+			gnm_cell_set_array_formula (state->sheet,
 				state->array.start.col,
 				state->array.start.row,
 				state->array.end.col,
 				state->array.end.row,
 				state->texpr);
 			if (NULL != state->val)
-				cell_assign_value (cell, state->val);
+				gnm_cell_assign_value (cell, state->val);
 		} else if (NULL != state->val) {
-			cell_set_expr_and_value	(cell,
+			gnm_cell_set_expr_and_value	(cell,
 				state->texpr, state->val, TRUE);
 			gnm_expr_top_unref (state->texpr);
 		} else {
-			cell_set_expr (cell, state->texpr);
+			gnm_cell_set_expr (cell, state->texpr);
 			gnm_expr_top_unref (state->texpr);
 		}
 		state->texpr = NULL;
 	} else if (NULL != state->val)
-		cell_assign_value (cell, state->val);
+		gnm_cell_assign_value (cell, state->val);
 	state->val = NULL;
 }
 

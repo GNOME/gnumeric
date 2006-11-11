@@ -743,7 +743,7 @@ cell_set_format_from_lotus_format (GnmCell *cell, guint fmt)
 {
 	char *fmt_string = lotus_format_string (fmt);
 	if (fmt_string[0])
-		cell_set_format (cell, fmt_string);
+		gnm_cell_set_format (cell, fmt_string);
 #ifdef DEBUG_FORMAT
 	g_print ("Format: %s\n", fmt_string);
 #endif
@@ -1463,7 +1463,7 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 
 	cell = sheet_cell_fetch (sheet, col, row);
 
-	cell_set_value (cell, val);
+	gnm_cell_set_value (cell, val);
 
 #if LOTUS_DEBUG > 0
 	printf ("Inserting value at %s:\n",
@@ -1581,7 +1581,7 @@ lotus_read_old (LotusState *state, record_t *r)
 			} else
 				v = lotus_value (gsf_le_get_double (r->data + 5));
 			cell = sheet_cell_fetch (state->sheet, col, row);
-			cell_set_expr_and_value (cell, texpr, v, TRUE);
+			gnm_cell_set_expr_and_value (cell, texpr, v, TRUE);
 
 			gnm_expr_top_unref (texpr);
 			cell_set_format_from_lotus_format (cell, fmt);
@@ -2095,7 +2095,7 @@ lotus_read_new (LotusState *state, record_t *r)
 						     r->data + 12,
 						     r->len - 12);
 			cell = sheet_cell_fetch (sheet, col, row);
-			cell_set_expr_and_value (cell, texpr, curval, TRUE);
+			gnm_cell_set_expr_and_value (cell, texpr, curval, TRUE);
 
 			gnm_expr_top_unref (texpr);
 			break;
@@ -2118,7 +2118,7 @@ lotus_read_new (LotusState *state, record_t *r)
 						     r->data + 14,
 						     r->len - 14);
 			cell = sheet_cell_fetch (sheet, col, row);
-			cell_set_expr_and_value (cell, texpr, curval, TRUE);
+			gnm_cell_set_expr_and_value (cell, texpr, curval, TRUE);
 
 			gnm_expr_top_unref (texpr);
 			break;

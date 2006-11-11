@@ -67,7 +67,7 @@ go_plugin_shutdown (GOPlugin *p, GOCmdContext *cc)
 }
 
 static GnmValue *
-generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
+generic_marshaller (GnmFuncEvalInfo *ei, GList *nodes)
 {
 	GSList  *args = NULL;
 	GList   *l;

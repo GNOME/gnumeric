@@ -1277,7 +1277,7 @@ py_Cell_get_gnm_style_method (py_Cell_object *self, PyObject *args)
 		return NULL;
 	}
 
-	return py_new_Style_const_object (cell_get_style (self->cell));
+	return py_new_Style_const_object (gnm_cell_get_style (self->cell));
 }
 
 static PyObject *
@@ -1320,7 +1320,7 @@ py_Cell_get_rendered_text_method (py_Cell_object *self, PyObject *args)
 		return NULL;
 	}
 
-	text = cell_get_rendered_text (self->cell);
+	text = gnm_cell_get_rendered_text (self->cell);
 	py_text = PyString_FromString (text);
 	g_free (text);
 
@@ -1337,7 +1337,7 @@ py_Cell_get_entered_text_method (py_Cell_object *self, PyObject *args)
 		return NULL;
 	}
 
-	text = cell_get_entered_text (self->cell);
+	text = gnm_cell_get_entered_text (self->cell);
 	py_text = PyString_FromString (text);
 	g_free (text);
 

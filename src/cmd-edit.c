@@ -96,7 +96,7 @@ sv_select_cur_array (SheetView *sv)
 	int const c = sv->edit_pos.col;
 	int const r = sv->edit_pos.row;
 
-	if (!cell_array_bound (sheet_cell_get (sv->sheet, c, r), &a))
+	if (!gnm_cell_array_bound (sheet_cell_get (sv->sheet, c, r), &a))
 		return;
 
 	/* leave the edit pos where it is, select the entire array. */
@@ -238,7 +238,7 @@ sv_select_cur_inputs (SheetView *sv)
 
 	cell = sheet_cell_get (sv->sheet,
 		sv->edit_pos.col, sv->edit_pos.row);
-	if (cell == NULL || !cell_has_expr (cell))
+	if (cell == NULL || !gnm_cell_has_expr (cell))
 		return;
 	ranges = gnm_expr_top_get_ranges (cell->base.texpr);
 	if (ranges == NULL)

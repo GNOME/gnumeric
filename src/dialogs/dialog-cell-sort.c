@@ -148,7 +148,7 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 
 	if (header) {
 		cell = sheet_cell_get (sheet, col, row);
-		if (cell && !cell_is_blank (cell)) {
+		if (cell && !gnm_cell_is_blank (cell)) {
 			gchar *header_str, *generic_str = str;
 			header_str = value_get_as_string (cell->value);
 			str = g_strdup_printf (_("%s (%s)"), header_str, generic_str);

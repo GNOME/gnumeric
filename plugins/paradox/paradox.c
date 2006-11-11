@@ -103,9 +103,9 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 		 */
 		PX_get_data_alpha(pxdoc, str, strlen(str), &str2);
 		fprintf(stderr, "%s\n", str2);
-		cell_set_text (cell, str2);
+		gnm_cell_set_text (cell, str2);
 #else
-		cell_set_text (cell, str);
+		gnm_cell_set_text (cell, str);
 #endif
 		pxf++;
 	}
@@ -221,7 +221,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 					}
 				}
 				if(val)
-					cell_set_value (cell, val);
+					gnm_cell_set_value (cell, val);
 				offset += pxf->px_flen;
 				pxf++;
 			}
@@ -230,23 +230,23 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 				cell = sheet_cell_fetch (sheet, i++, row);
 				if(0 < PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
 					val = value_new_int (value);
-					cell_set_value (cell, val);
+					gnm_cell_set_value (cell, val);
 				}
 				offset += 2;
 				cell = sheet_cell_fetch (sheet, i++, row);
 				if(0 < PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
 					val = value_new_int (value);
-					cell_set_value (cell, val);
+					gnm_cell_set_value (cell, val);
 				}
 				offset += 2;
 				cell = sheet_cell_fetch (sheet, i++, row);
 				if(0 < PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
 					val = value_new_int (value);
-					cell_set_value (cell, val);
+					gnm_cell_set_value (cell, val);
 				}
 				cell = sheet_cell_fetch (sheet, i++, row);
 				val = value_new_int (pxdbinfo.number);
-				cell_set_value (cell, val);
+				gnm_cell_set_value (cell, val);
 			}
 		}
 		row++;

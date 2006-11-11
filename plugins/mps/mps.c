@@ -68,7 +68,7 @@ GNM_PLUGIN_MODULE_HEADER;
 static inline void
 mps_set_cell (Sheet *sheet, int col, int row, const gchar *str)
 {
-        cell_set_value (sheet_cell_fetch (sheet, col, row),
+        gnm_cell_set_value (sheet_cell_fetch (sheet, col, row),
 			value_new_string (str));
 }
 
@@ -76,7 +76,7 @@ mps_set_cell (Sheet *sheet, int col, int row, const gchar *str)
 static inline void
 mps_set_cell_float (Sheet *sheet, int col, int row, const gnm_float f)
 {
-        cell_set_value (sheet_cell_fetch (sheet, col, row), value_new_float (f));
+        gnm_cell_set_value (sheet_cell_fetch (sheet, col, row), value_new_float (f));
 }
 
 static void
@@ -375,7 +375,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			    (value_new_cellrange_r (NULL, &v_range)),
 			    gnm_expr_new_constant
 			    (value_new_cellrange_r (NULL, &range))));
-		  cell_set_expr (cell, texpr);
+		  gnm_cell_set_expr (cell, texpr);
 		  gnm_expr_top_unref (texpr);
 		  cell_queue_recalc (cell);
 
@@ -390,7 +390,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			    (gnm_expr_new_cellref (&ref1),
 			     GNM_EXPR_OP_SUB,
 			     gnm_expr_new_cellref (&ref2))));
-		  cell_set_expr (cell, texpr);
+		  gnm_cell_set_expr (cell, texpr);
 		  gnm_expr_top_unref (texpr);
 		  cell_queue_recalc (cell);
 
@@ -437,7 +437,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  gnm_expr_new_constant
 		  (value_new_cellrange_r (NULL, &range))));
 	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
-	cell_set_expr (cell, texpr);
+	gnm_cell_set_expr (cell, texpr);
 	gnm_expr_top_unref (texpr);
 	cell_queue_recalc (cell);
 

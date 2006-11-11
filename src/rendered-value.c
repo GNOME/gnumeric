@@ -48,7 +48,7 @@
 #endif
 
 #if USE_RV_POOLS
-/* Memory pool for RenderedValue.  */
+/* Memory pool for GnmRenderedValue.  */
 static GOMemChunk *rendered_value_pool;
 static GOMemChunk *rendered_rotated_value_pool;
 #define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
@@ -75,10 +75,10 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 
 
 void
-rendered_value_remeasure (RenderedValue *rv)
+rendered_value_remeasure (GnmRenderedValue *rv)
 {
 	if (rv->rotation) {
-		RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
+		GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
 		PangoContext *context = pango_layout_get_context (rv->layout);
 		double sin_a, abs_sin_a, cos_a;
 		int sdx = 0;
@@ -167,15 +167,15 @@ rendered_value_remeasure (RenderedValue *rv)
  *
  * Formats the value of the cell according to the format style given in @mstyle
  *
- * Return value: a new RenderedValue
+ * Return value: a new GnmRenderedValue
  **/
-RenderedValue *
+GnmRenderedValue *
 rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		    gboolean allow_variable_width,
 		    PangoContext *context,
 		    double zoom)
 {
-	RenderedValue	*res;
+	GnmRenderedValue	*res;
 	GOColor		 fore;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
@@ -191,22 +191,22 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	sheet = cell->base.sheet;
 
 	displayed_formula =
-		cell_has_expr (cell) && sheet->display_formulas;
+		gnm_cell_has_expr (cell) && sheet->display_formulas;
 
 	/* Special handling for manual recalc.
 	 * If a cell has a new expression and something tries to display it we
 	 * need to recalc the value */
-	if (cell->base.flags & CELL_HAS_NEW_EXPR) {
-		cell_eval (cell);
+	if (cell->base.flags & GNM_CELL_HAS_NEW_EXPR) {
+		gnm_cell_eval (cell);
 	}
 
 	rotation = gnm_style_get_rotation (mstyle);
 	if (rotation) {
 		static PangoMatrix const id = PANGO_MATRIX_INIT;
-		RenderedRotatedValue *rrv;
+		GnmRenderedRotatedValue *rrv;
 		GnmStyleElement e;
 
-		rrv = CHUNK_ALLOC (RenderedRotatedValue, rendered_rotated_value_pool);
+		rrv = CHUNK_ALLOC (GnmRenderedRotatedValue, rendered_rotated_value_pool);
 		res = &rrv->rv;
 
 		rrv->rotmat = id;
@@ -224,7 +224,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 			}
 		}
 	} else {
-		res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
+		res = CHUNK_ALLOC (GnmRenderedValue, rendered_value_pool);
 		res->noborders = FALSE;
 	}
 	res->rotation = rotation;
@@ -334,7 +334,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		g_string_free (str, TRUE);
 		fore = 0;
 		res->might_overflow = FALSE;
-	} else if (sheet->hide_zero && cell_is_zero (cell)) {
+	} else if (sheet->hide_zero && gnm_cell_is_zero (cell)) {
 		pango_layout_set_text (layout, "", 0);
 		fore = 0;
 		res->might_overflow = FALSE;
@@ -364,7 +364,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		if (variable && allow_variable_width) {
 			int col_width_pixels;
 
-			if (cell_is_merged (cell)) {
+			if (gnm_cell_is_merged (cell)) {
 				GnmRange const *merged =
 					sheet_merge_is_corner (sheet, &cell->pos);
 
@@ -403,7 +403,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 }
 
 void
-rendered_value_destroy (RenderedValue *rv)
+rendered_value_destroy (GnmRenderedValue *rv)
 {
 	if (rv->layout) {
 		g_object_unref (G_OBJECT (rv->layout));
@@ -411,29 +411,29 @@ rendered_value_destroy (RenderedValue *rv)
 	}
 
 	if (rv->rotation) {
-		RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
+		GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
 		g_free (rrv->lines);
 		CHUNK_FREE (rendered_rotated_value_pool, rrv);
 	} else
 		CHUNK_FREE (rendered_value_pool, rv);
 }
 
-RenderedValue *
-rendered_value_recontext (RenderedValue *rv, PangoContext *context)
+GnmRenderedValue *
+rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
 {
-	RenderedValue *res;
+	GnmRenderedValue *res;
 	PangoLayout *layout, *olayout;
 
 	if (rv->rotation) {
-		RenderedRotatedValue *rres =
-			CHUNK_ALLOC (RenderedRotatedValue, rendered_rotated_value_pool);
-		res = (RenderedValue *)rres;
+		GnmRenderedRotatedValue *rres =
+			CHUNK_ALLOC (GnmRenderedRotatedValue, rendered_rotated_value_pool);
+		res = (GnmRenderedValue *)rres;
 
-		*rres = *(RenderedRotatedValue *)rv;
+		*rres = *(GnmRenderedRotatedValue *)rv;
 		rres->lines = g_memdup (rres->lines,
 					rres->linecount * sizeof (struct RenderedRotatedValueInfo));
 	} else {
-		res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
+		res = CHUNK_ALLOC (GnmRenderedValue, rendered_value_pool);
 		*res = *rv;
 	}
 
@@ -473,7 +473,7 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 /* Return the value as a single string without format infomation.
  */
 char const *
-rendered_value_get_text (RenderedValue const *rv)
+rendered_value_get_text (GnmRenderedValue const *rv)
 {
 	g_return_val_if_fail (rv != NULL, "ERROR");
 	return pango_layout_get_text (rv->layout);
@@ -485,11 +485,11 @@ rendered_value_init (void)
 #if USE_RV_POOLS
 	rendered_value_pool =
 		go_mem_chunk_new ("rendered value pool",
-				  sizeof (RenderedValue),
+				  sizeof (GnmRenderedValue),
 				  16 * 1024 - 128);
 	rendered_rotated_value_pool =
 		go_mem_chunk_new ("rendered rotated value pool",
-				  sizeof (RenderedRotatedValue),
+				  sizeof (GnmRenderedRotatedValue),
 				  16 * 1024 - 128);
 #endif
 }
@@ -498,7 +498,7 @@ rendered_value_init (void)
 static void
 cb_rendered_value_pool_leak (gpointer data, gpointer user)
 {
-	RenderedValue *rendered_value = data;
+	GnmRenderedValue *rendered_value = data;
 	fprintf (stderr, "Leaking rendered value at %p [%s].\n",
 		 rendered_value, pango_layout_get_text (rendered_value->layout));
 }

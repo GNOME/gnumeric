@@ -292,8 +292,8 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 
 	v = cell->value;
 
-	is_expr = cell_has_expr (cell);
-	is_value = !is_expr && !cell_is_empty (cell) && v;
+	is_expr = gnm_cell_has_expr (cell);
+	is_value = !is_expr && !gnm_cell_is_empty (cell) && v;
 	is_string = is_value && (VALUE_IS_STRING (v));
 	is_other = is_value && !is_string;
 
@@ -303,7 +303,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 		char const *actual_src;
 		gboolean initial_quote;
 
-		res->old_text = cell_get_entered_text (cell);
+		res->old_text = gnm_cell_get_entered_text (cell);
 		initial_quote = (is_string && res->old_text[0] == '\'');
 
 		actual_src = res->old_text + (initial_quote ? 1 : 0);
@@ -351,7 +351,7 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 		return FALSE;
 
 	cell = res->cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
-	if (!cell || !cell_has_expr (cell) || !cell->value)
+	if (!cell || !gnm_cell_has_expr (cell) || !cell->value)
 		return FALSE;
 	else {
 		char *val = value_get_as_string (cell->value);

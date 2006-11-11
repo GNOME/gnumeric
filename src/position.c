@@ -68,7 +68,7 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 	g_return_val_if_fail (dep != NULL, NULL);
 
 	if (dependent_is_cell (dep))
-		ep->eval = DEP_TO_CELL (dep)->pos;
+		ep->eval = GNM_DEP_TO_CELL (dep)->pos;
 	else
 		ep->eval.col = ep->eval.row = 0;
 	ep->sheet = dep->sheet;
@@ -86,7 +86,7 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 
 	ep->eval  = cell->pos;
 	ep->sheet = cell->base.sheet;
-	ep->dep   = (GnmDependent *)CELL_TO_DEP (cell);
+	ep->dep   = (GnmDependent *)GNM_CELL_TO_DEP (cell);
 	ep->array = NULL;
 
 	return ep;
@@ -149,7 +149,7 @@ parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 	pp->sheet = dep->sheet;
 	pp->wb = dep->sheet->workbook;
 	if (dependent_is_cell (dep))
-		pp->eval = DEP_TO_CELL (dep)->pos;
+		pp->eval = GNM_DEP_TO_CELL (dep)->pos;
 	else
 		pp->eval.col = pp->eval.row = 0;
 

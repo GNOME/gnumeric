@@ -61,7 +61,7 @@ static GnmFuncHelp const help_rand[] = {
 };
 
 static GnmValue *
-gnumeric_rand (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_rand (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (random_01 ());
 }
@@ -90,7 +90,7 @@ static GnmFuncHelp const help_randuniform[] = {
 };
 
 static GnmValue *
-gnumeric_randuniform (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randuniform (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -150,7 +150,7 @@ cb_randdiscrete (GnmCellIter const *iter, gpointer user)
 	if (p->prob) {
 		if (p->x <= p->prob [p->ind] + p->cum) {
 			if (cell != NULL) {
-				cell_eval (cell);
+				gnm_cell_eval (cell);
 				p->res = value_dup (cell->value);
 			} else
 				p->res = value_new_empty ();
@@ -158,7 +158,7 @@ cb_randdiscrete (GnmCellIter const *iter, gpointer user)
 			p->cum += p->prob [p->ind];
 	} else if (p->ind == p->x_ind) {
 		if (cell != NULL) {
-			cell_eval (cell);
+			gnm_cell_eval (cell);
 			p->res = value_dup (cell->value);
 		} else
 			p->res = value_new_empty ();
@@ -169,7 +169,7 @@ cb_randdiscrete (GnmCellIter const *iter, gpointer user)
 }
 
 static GnmValue *
-gnumeric_randdiscrete (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GnmValue const *value_range = argv[0];
 	GnmValue const *prob_range  = argv[1];
@@ -256,7 +256,7 @@ static GnmFuncHelp const help_randexp[] = {
 };
 
 static GnmValue *
-gnumeric_randexp (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randexp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 
@@ -284,7 +284,7 @@ static GnmFuncHelp const help_randpoisson[] = {
 };
 
 static GnmValue *
-gnumeric_randpoisson (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randpoisson (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 
@@ -316,7 +316,7 @@ static GnmFuncHelp const help_randbinom[] = {
 };
 
 static GnmValue *
-gnumeric_randbinom (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p      = value_get_as_float (argv[0]);
 	gnm_float trials = value_get_as_float (argv[1]);
@@ -352,7 +352,7 @@ static GnmFuncHelp const help_randbetween[] = {
 };
 
 static GnmValue *
-gnumeric_randbetween (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randbetween (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float bottom = value_get_as_float (argv[0]);
 	gnm_float top = value_get_as_float (argv[1]);
@@ -390,7 +390,7 @@ static GnmFuncHelp const help_randnegbinom[] = {
 };
 
 static GnmValue *
-gnumeric_randnegbinom (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randnegbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p = value_get_as_float (argv[0]);
 	gnm_float failures = value_get_as_float (argv[1]);
@@ -422,7 +422,7 @@ static GnmFuncHelp const help_randbernoulli[] = {
 };
 
 static GnmValue *
-gnumeric_randbernoulli (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randbernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p = value_get_as_float (argv[0]);
 
@@ -453,7 +453,7 @@ static GnmFuncHelp const help_randnorm[] = {
 };
 
 static GnmValue *
-gnumeric_randnorm (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float mean  = value_get_as_float (argv[0]);
 	gnm_float stdev = value_get_as_float (argv[1]);
@@ -487,7 +487,7 @@ static GnmFuncHelp const help_randcauchy[] = {
 };
 
 static GnmValue *
-gnumeric_randcauchy (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randcauchy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 
@@ -516,7 +516,7 @@ static GnmFuncHelp const help_randlognorm[] = {
 };
 
 static GnmValue *
-gnumeric_randlognorm (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randlognorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float zeta  = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
@@ -543,7 +543,7 @@ static GnmFuncHelp const help_randweibull[] = {
 };
 
 static GnmValue *
-gnumeric_randweibull (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randweibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -572,7 +572,7 @@ static GnmFuncHelp const help_randlaplace[] = {
 };
 
 static GnmValue *
-gnumeric_randlaplace (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randlaplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 
@@ -598,7 +598,7 @@ static GnmFuncHelp const help_randrayleigh[] = {
 };
 
 static GnmValue *
-gnumeric_randrayleigh (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randrayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float sigma = value_get_as_float (argv[0]);
 
@@ -628,7 +628,7 @@ static GnmFuncHelp const help_randrayleightail[] = {
 };
 
 static GnmValue *
-gnumeric_randrayleightail (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randrayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
@@ -657,7 +657,7 @@ static GnmFuncHelp const help_randgamma[] = {
 };
 
 static GnmValue *
-gnumeric_randgamma (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randgamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -687,7 +687,7 @@ static GnmFuncHelp const help_randpareto[] = {
 };
 
 static GnmValue *
-gnumeric_randpareto (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randpareto (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -714,7 +714,7 @@ static GnmFuncHelp const help_randfdist[] = {
 };
 
 static GnmValue *
-gnumeric_randfdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randfdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float nu1 = value_get_as_float (argv[0]);
 	gnm_float nu2 = value_get_as_float (argv[1]);
@@ -741,7 +741,7 @@ static GnmFuncHelp const help_randbeta[] = {
 };
 
 static GnmValue *
-gnumeric_randbeta (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randbeta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -771,7 +771,7 @@ static GnmFuncHelp const help_randlogistic[] = {
 };
 
 static GnmValue *
-gnumeric_randlogistic (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randlogistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 
@@ -802,7 +802,7 @@ static GnmFuncHelp const help_randgeom[] = {
 };
 
 static GnmValue *
-gnumeric_randgeom (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randgeom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p = value_get_as_float (argv[0]);
 
@@ -836,7 +836,7 @@ static GnmFuncHelp const help_randhyperg[] = {
 };
 
 static GnmValue *
-gnumeric_randhyperg (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randhyperg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float n1 = value_get_as_float (argv[0]);
 	gnm_float n2 = value_get_as_float (argv[1]);
@@ -868,7 +868,7 @@ static GnmFuncHelp const help_randlog[] = {
 };
 
 static GnmValue *
-gnumeric_randlog (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randlog (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p = value_get_as_float (argv[0]);
 
@@ -897,7 +897,7 @@ static GnmFuncHelp const help_randchisq[] = {
 };
 
 static GnmValue *
-gnumeric_randchisq (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randchisq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float nu = value_get_as_float (argv[0]);
 
@@ -923,7 +923,7 @@ static GnmFuncHelp const help_randtdist[] = {
 };
 
 static GnmValue *
-gnumeric_randtdist (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randtdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float nu = value_get_as_float (argv[0]);
 
@@ -954,7 +954,7 @@ static GnmFuncHelp const help_randgumbel[] = {
 };
 
 static GnmValue *
-gnumeric_randgumbel (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randgumbel (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -994,7 +994,7 @@ static GnmFuncHelp const help_randlevy[] = {
 };
 
 static GnmValue *
-gnumeric_randlevy (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randlevy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float c     = value_get_as_float (argv[0]);
 	gnm_float alpha = value_get_as_float (argv[1]);
@@ -1032,7 +1032,7 @@ static GnmFuncHelp const help_randexppow[] = {
 };
 
 static GnmValue *
-gnumeric_randexppow (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randexppow (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
@@ -1066,7 +1066,7 @@ static GnmFuncHelp const help_randlandau[] = {
 };
 
 static GnmValue *
-gnumeric_randlandau (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randlandau (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (random_landau ());
 }
@@ -1102,7 +1102,7 @@ static GnmFuncHelp const help_randnormtail[] = {
 };
 
 static GnmValue *
-gnumeric_randnormtail (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_randnormtail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
@@ -1170,7 +1170,7 @@ callback_function_simtable (GnmEvalPos const *ep, GnmValue const *value, void *c
 }
 
 static GnmValue *
-gnumeric_simtable (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_simtable (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	simtable_t p;
 

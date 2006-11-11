@@ -120,7 +120,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 
 	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
 	if (cell != NULL) {
-		cell->base.flags |= CELL_IS_MERGED;
+		cell->base.flags |= GNM_CELL_IS_MERGED;
 		cell_unregister_span (cell);
 	}
 	sheet_queue_respan (sheet, r->start.row, r->end.row);
@@ -178,7 +178,7 @@ sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 
 	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
 	if (cell != NULL)
-		cell->base.flags &= ~CELL_IS_MERGED;
+		cell->base.flags &= ~GNM_CELL_IS_MERGED;
 
 	comment = sheet_get_comment (sheet, &r->start);
 	if (comment != NULL)

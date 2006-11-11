@@ -238,7 +238,7 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 
 GnmValue *
 float_range_function (int argc, GnmExprConstPtr const *argv,
-		      FunctionEvalInfo *ei,
+		      GnmFuncEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
 		      GnmStdError func_error)
@@ -364,7 +364,7 @@ strip_missing (GArray * data, GSList **missing)
 
 GnmValue *
 float_range_function2 (GnmValue const *val0, GnmValue const *val1,
-		       FunctionEvalInfo *ei,
+		       GnmFuncEvalInfo *ei,
 		       float_range_function2_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)
@@ -530,7 +530,7 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
 
 GnmValue *
 string_range_function (int argc, GnmExprConstPtr const *argv,
-		       FunctionEvalInfo *ei,
+		       GnmFuncEvalInfo *ei,
 		       string_range_function_t func,
 		       CollectFlags flags,
 		       GnmStdError func_error)

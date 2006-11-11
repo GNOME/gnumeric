@@ -47,14 +47,14 @@ roff_fprintf (GsfOutput *output, GnmCell *cell)
 	char * s;
 	GnmStyle const *style;
 
-	if (cell_is_empty (cell))
+	if (gnm_cell_is_empty (cell))
 		return 0;
 
-	style = cell_get_style (cell);
+	style = gnm_cell_get_style (cell);
 	if (style != NULL && gnm_style_get_contents_hidden (style))
 		return 0;
 
-	s = cell_get_rendered_text (cell);
+	s = gnm_cell_get_rendered_text (cell);
 	len = strlen (s);
 	p = s;
 	for (i = 0; i < len; i++) {
@@ -122,7 +122,7 @@ roff_file_save (GOFileSaver const *fs, IOContext *io_context,
 				if (!cell) {
 					gsf_output_printf (output, "l");
 				} else {
-					GnmStyle const *style = cell_get_style (cell);
+					GnmStyle const *style = gnm_cell_get_style (cell);
 					if (!style)
 						break;
 					if (gnm_style_get_align_h (style) & HALIGN_RIGHT)

@@ -1179,14 +1179,14 @@ applix_read_cells (ApplixReadState *state)
 					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
 				} else if (is_array) {
 					gnm_expr_top_ref (texpr);
-					cell_set_array_formula (sheet,
+					gnm_cell_set_array_formula (sheet,
 								r.start.col, r.start.row,
 								r.end.col, r.end.row,
 								texpr);
-					cell_assign_value (cell, val);
+					gnm_cell_assign_value (cell, val);
 					/* Leak? */
 				} else {
-					cell_set_expr_and_value (cell, texpr, val, TRUE);
+					gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
 					/* Leak? */
 				}
 
@@ -1211,7 +1211,7 @@ applix_read_cells (ApplixReadState *state)
 				printf ("Shared '%s'\n", expr_string);
 #endif
 				texpr = g_hash_table_lookup (state->exprs, key);
-				cell_set_expr_and_value (cell, texpr, val, TRUE);
+				gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
 			}
 			break;
 		}
@@ -1229,10 +1229,10 @@ applix_read_cells (ApplixReadState *state)
 			if (val == NULL)
 				val = value_new_string (ptr);
 
-			if (cell_is_array (cell))
-				cell_assign_value (cell, val);
+			if (gnm_cell_is_array (cell))
+				gnm_cell_assign_value (cell, val);
 			else
-				cell_set_value (cell, val);
+				gnm_cell_set_value (cell, val);
 			break;
 		}
 

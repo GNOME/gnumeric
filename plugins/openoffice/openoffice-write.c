@@ -290,7 +290,7 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, G
 		char *rendered_string;
 		GnmExprArrayCorner const *ac = NULL;
 
-		if (cell_has_expr(cell)
+		if (gnm_cell_has_expr(cell)
 		    && ((NULL != (ac = gnm_expr_top_get_array_corner
 				  (cell->base.texpr)))
 			|| !gnm_expr_top_is_array_elem (cell->base.texpr))) {
@@ -322,7 +322,7 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, G
 
 		}
 		
-		rendered_string = cell_get_rendered_text (cell);
+		rendered_string = gnm_cell_get_rendered_text (cell);
 		
 		switch (cell->value->type) {
 		case VALUE_BOOLEAN:
@@ -447,7 +447,7 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 				continue;
 			}
 			if ((merge_range == NULL) && (cc == NULL) &&
-			    cell_is_empty (current_cell)) {
+			    gnm_cell_is_empty (current_cell)) {
 				if (covered_cell > 0)
 					od_write_covered_cell (state, &covered_cell);
 				null_cell++;

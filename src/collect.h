@@ -31,18 +31,18 @@ gnm_float *collect_floats_value (GnmValue const *val,
 				 int *n, GnmValue **error);
 
 GnmValue *float_range_function (int argc, GnmExprConstPtr const *argv,
-				FunctionEvalInfo *ei,
+				GnmFuncEvalInfo *ei,
 				float_range_function_t func,
 				CollectFlags flags,
 				GnmStdError func_error);
 
 GnmValue *float_range_function2 (GnmValue const *val0, GnmValue const *val1,
-				 FunctionEvalInfo *ei,
+				 GnmFuncEvalInfo *ei,
 				 float_range_function2_t func,
 				 CollectFlags flags,
 				 GnmStdError func_error);
 GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
-				 FunctionEvalInfo *ei,
+				 GnmFuncEvalInfo *ei,
 				 string_range_function_t func,
 				 CollectFlags flags,
 				 GnmStdError func_error);

@@ -158,7 +158,7 @@ cell_render_cairo (cairo_t *cairo, GnmCell *cell,
 {
 	GOColor fore_color;
 	int x, y;
-	RenderedValue *rv = cell->rendered_value;
+	GnmRenderedValue *rv = cell->rendered_value;
 
 	int width  = ci->size_pixels - (GNM_COL_MARGIN + GNM_COL_MARGIN + 1);
 	int height = ri->size_pixels - (GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1);
@@ -167,7 +167,7 @@ cell_render_cairo (cairo_t *cairo, GnmCell *cell,
 	int y1 = 1 + GNM_ROW_MARGIN;
 
 	if (!rv) {
-		cell_render_value (cell, FALSE);
+		gnm_cell_render_value (cell, FALSE);
 		rv = cell->rendered_value;
 	}
 
@@ -186,7 +186,7 @@ cell_render_cairo (cairo_t *cairo, GnmCell *cell,
 
 		cairo_set_source_rgb (cairo, UINT_RGBA_R(fore_color), UINT_RGBA_G(fore_color),  UINT_RGBA_B(fore_color));
 		if (rv->rotation) {
-			RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
+			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
 			struct RenderedRotatedValueInfo const *li = rrv->lines;
 			GSList *lines;
 			cairo_matrix_t m;

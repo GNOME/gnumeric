@@ -59,9 +59,9 @@ static GOMemChunk *cell_copy_pool;
 static gboolean
 cell_has_expr_or_number_or_blank (GnmCell const * cell)
 {
-	return (cell_is_empty (cell) ||
-		(cell != NULL && cell_is_number (cell)) ||
-		(cell != NULL && cell_has_expr (cell)));
+	return (gnm_cell_is_empty (cell) ||
+		(cell != NULL && gnm_cell_is_number (cell)) ||
+		(cell != NULL && gnm_cell_has_expr (cell)));
 }
 
 static GnmExpr const *
@@ -115,16 +115,16 @@ paste_cell_with_operation (Sheet *dst_sheet,
 	op = paste_op_to_expr_op (paste_flags);
 	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
 	if ((paste_flags & PASTE_CONTENTS) &&
-	    (NULL != src->texpr || cell_has_expr (dst))) {
+	    (NULL != src->texpr || gnm_cell_has_expr (dst))) {
 		GnmExpr const *old_expr    = contents_as_expr (dst->base.texpr, dst->value);
 		GnmExpr const *copied_expr = contents_as_expr (src->texpr, src->val);
 		GnmExprTop const *res = gnm_expr_top_new (gnm_expr_new_binary (old_expr, op, copied_expr));
 		GnmExprTop const *relo = gnm_expr_top_relocate (res, rinfo, FALSE);
 		if (relo) {
-			cell_set_expr (dst, relo);
+			gnm_cell_set_expr (dst, relo);
 			gnm_expr_top_unref (relo);
 		} else
-			cell_set_expr (dst, res);
+			gnm_cell_set_expr (dst, res);
 		gnm_expr_top_unref (res);
 	} else {
 		GnmValue  *value;
@@ -139,7 +139,7 @@ paste_cell_with_operation (Sheet *dst_sheet,
 		value = gnm_expr_eval (expr, &pos,
 				       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		gnm_expr_free (expr);
-		cell_set_value (dst, value);
+		gnm_cell_set_value (dst, value);
 	}
 }
 
@@ -174,12 +174,12 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 				sheet_cell_fetch (pt->sheet, pos.col, pos.row);
 
 			/* This could easily be made smarter */
-			if (!cell_is_merged (cell) &&
+			if (!gnm_cell_is_merged (cell) &&
 			    sheet_merge_contains_pos (pt->sheet, &pos))
 					continue;
 			source_cell_ref.row = contents->base.row + y;
 			texpr = gnm_expr_top_new (gnm_expr_new_cellref (&source_cell_ref));
-			cell_set_expr (cell, texpr);
+			gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
 		}
 	}
@@ -220,12 +220,12 @@ paste_cell (Sheet *dst_sheet,
 				/* We must not share array expressions.  */
 				relo = gnm_expr_top_new (gnm_expr_copy (src->texpr->expr));
 			}
-			cell_set_expr_and_value (dst, relo ? relo : src->texpr,
+			gnm_cell_set_expr_and_value (dst, relo ? relo : src->texpr,
 						 value_dup (src->val), TRUE);
 			if (NULL != relo)
 				gnm_expr_top_unref (relo);
 		} else
-			cell_set_value (dst, value_dup (src->val));
+			gnm_cell_set_value (dst, value_dup (src->val));
 	}
 }
 
@@ -462,7 +462,7 @@ clipboard_paste_region (GnmCellRegion const *contents,
 			sheet_flag_format_update_range (pt->sheet, r);
 
 		sheet_range_calc_spans (pt->sheet, r,
-					(pt->paste_flags & PASTE_FORMATS) ? SPANCALC_RE_RENDER : SPANCALC_RENDER);
+					(pt->paste_flags & PASTE_FORMATS) ? GNM_SPANCALC_RE_RENDER : GNM_SPANCALC_RENDER);
 		if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
 			rows_height_update (pt->sheet, &pt->range, FALSE);
 		sheet_redraw_all (pt->sheet, FALSE);
@@ -480,12 +480,12 @@ cb_clipboard_prepend_cell (GnmCellIter const *iter, GnmCellRegion *cr)
 		iter->pp.eval.row - cr->base.row);
 	copy->val = value_dup (iter->cell->value);
 
-	if (cell_has_expr (iter->cell)) {
+	if (gnm_cell_has_expr (iter->cell)) {
 		gnm_expr_top_ref (copy->texpr = iter->cell->base.texpr);
 
 		/* Check for array division */
 		if (!cr->not_as_contents &&
-		    cell_array_bound (iter->cell, &a) &&
+		    gnm_cell_array_bound (iter->cell, &a) &&
 		    (a.start.col < cr->base.col ||
 		     a.start.row < cr->base.row ||
 		     a.end.col >= (cr->base.col + cr->cols) ||

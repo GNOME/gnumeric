@@ -82,8 +82,8 @@ typedef struct {
 	GladeXML	   *gui;
 	FooCanvasItem	   *grid[NUM_PREVIEWS];              /* Previewgrid's */
 	FooCanvasItem	   *selrect;                         /* Selection rectangle */
-	GSList             *templates;                       /* List of FormatTemplate's */
-	FormatTemplate     *selected_template;               /* The currently selected template */
+	GSList             *templates;                       /* List of GnmFormatTemplate's */
+	GnmFormatTemplate     *selected_template;               /* The currently selected template */
 	GList              *category_groups;                 /* List of groups of categories */
 
 	FormatTemplateCategoryGroup *current_category_group; /* Currently selected category group */
@@ -126,7 +126,7 @@ typedef struct {
 
 typedef struct {
 	PreviewGrid base;
-	FormatTemplate *ft;
+	GnmFormatTemplate *ft;
 } AutoFormatGrid;
 typedef PreviewGridClass AutoFormatGridClass;
 
@@ -169,7 +169,7 @@ static GSF_CLASS (AutoFormatGrid, auto_format_grid,
 		  preview_grid_get_type())
 
 static FooCanvasItem *
-auto_format_grid_new (AutoFormatState *state, int i, FormatTemplate *ft)
+auto_format_grid_new (AutoFormatState *state, int i, GnmFormatTemplate *ft)
 {
 	FooCanvasItem *item = foo_canvas_item_new (
 		foo_canvas_root (state->canvas[i]),
@@ -223,7 +223,7 @@ templates_load (AutoFormatState *state)
 	state->templates = category_group_get_templates_list (
 		state->current_category_group, GO_CMD_CONTEXT (state->wbcg));
 	for (l = state->templates; l != NULL; l = l->next) {
-		FormatTemplate *ft = l->data;
+		GnmFormatTemplate *ft = l->data;
 		range_init (&ft->dimension,
 			0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
 		ft->invalidate_hash = TRUE;
@@ -322,7 +322,7 @@ previews_load (AutoFormatState *state, int topindex)
 			gtk_widget_hide (GTK_WIDGET (state->canvas[i]));
 			gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_NONE);
 		} else {
-			FormatTemplate *ft = start->data;
+			GnmFormatTemplate *ft = start->data;
 
 			state->grid[i] = auto_format_grid_new (state, i, ft);
 
@@ -410,7 +410,7 @@ cb_canvas_button_press (FooCanvas *canvas,
 			G_GNUC_UNUSED GdkEventButton *event,
 			AutoFormatState *state)
 {
-	FormatTemplate *ft;
+	GnmFormatTemplate *ft;
 	GSList *ptr;
 	int index = 0;
 
@@ -450,7 +450,7 @@ cb_check_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 	int i;
 
 	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next) {
-		FormatTemplate *ft = ptr->data;
+		GnmFormatTemplate *ft = ptr->data;
 
 		ft->number    = state->number->active;
 		ft->border    = state->border->active;

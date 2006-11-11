@@ -865,7 +865,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 				  target_range->v_range.cell.a.row );
 
 	/* Check that the target cell type is number. */
-	if (! cell_is_number (param->target_cell)) {
+	if (! gnm_cell_is_number (param->target_cell)) {
 		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),

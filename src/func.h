@@ -120,11 +120,11 @@ typedef enum {
 	GNM_FUNC_TEST_STATUS_UNDER_DEVELOPMENT
 } GnmFuncTestStatus;
 
-typedef GnmValue 	*(*GnmFuncArgs)	  (FunctionEvalInfo *ei, GnmValue const * const *args);
-typedef GnmValue 	*(*GnmFuncNodes)  (FunctionEvalInfo *ei,
+typedef GnmValue 	*(*GnmFuncArgs)	  (GnmFuncEvalInfo *ei, GnmValue const * const *args);
+typedef GnmValue 	*(*GnmFuncNodes)  (GnmFuncEvalInfo *ei,
 					   int argc, GnmExprConstPtr const *argv);
-typedef DependentFlags	 (*GnmFuncLink)	  (FunctionEvalInfo *ei);
-typedef void		 (*GnmFuncUnlink) (FunctionEvalInfo *ei);
+typedef DependentFlags	 (*GnmFuncLink)	  (GnmFuncEvalInfo *ei);
+typedef void		 (*GnmFuncUnlink) (GnmFuncEvalInfo *ei);
 
 typedef void	 (*GnmFuncRefNotify) (GnmFunc *f, int refcount);
 typedef gboolean (*GnmFuncLoadDesc)  (GnmFunc const *f, GnmFuncDescriptor *fd);
@@ -187,7 +187,7 @@ struct _GnmFunc {
 	gpointer     		 user_data;
 };
 
-struct _FunctionEvalInfo {
+struct _GnmFuncEvalInfo {
 	GnmEvalPos const *pos;
 	GnmExprFunction const *func_call;
 };
@@ -227,7 +227,7 @@ char       *function_def_get_arg_name  (GnmFunc const *fn_def,
 
 /*************************************************************************/
 
-GnmValue *function_call_with_exprs	(FunctionEvalInfo *ei,
+GnmValue *function_call_with_exprs	(GnmFuncEvalInfo *ei,
 					 int argc, GnmExprConstPtr const *argv,
 					 GnmExprEvalFlags flags);
 GnmValue *function_call_with_values     (GnmEvalPos const *ep, char const *name,

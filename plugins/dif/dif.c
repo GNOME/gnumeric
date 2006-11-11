@@ -199,7 +199,7 @@ dif_parse_data (DifInputContext *ctxt)
 
 				if (NULL != v) {
 					cell = sheet_cell_fetch (ctxt->sheet, col, row);
-					cell_set_value (cell, v);
+					gnm_cell_set_value (cell, v);
 				}
 				col++;
 			}
@@ -214,9 +214,9 @@ dif_parse_data (DifInputContext *ctxt)
 			if (ctxt->line_len >= 2 &&
 			    ctxt->line[0] == '"' && ctxt->line[ctxt->line_len - 1] == '"') {
 				ctxt->line[ctxt->line_len - 1] = '\0'; 	 
-				cell_set_text (cell, ctxt->line + 1); 	 
+				gnm_cell_set_text (cell, ctxt->line + 1); 	 
 			} else
-				cell_set_text (cell, ctxt->line);
+				gnm_cell_set_text (cell, ctxt->line);
 			col++;
 		} else if (val_type == -1) {
 			if (!dif_get_line (ctxt))
@@ -330,7 +330,7 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 		gsf_output_puts (out, "-1,0\n" "BOT\n");
 		for (col = r.start.col; col <= r.end.col; col++) {
 			GnmCell *cell = sheet_cell_get (sheet, col, row);
-			if (cell_is_empty (cell)) {
+			if (gnm_cell_is_empty (cell)) {
 				gsf_output_puts(out, "1,0\n" "\"\"\n");
 			} else if (VALUE_IS_BOOLEAN (cell->value)) {
 				if (value_get_as_checked_bool (cell->value))
@@ -346,7 +346,7 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 				gsf_output_printf (out, "0,%" GNM_FORMAT_g "\n" "V\n",
 					value_get_as_float (cell->value));
 			else {
-				gchar *str = cell_get_rendered_text (cell);
+				gchar *str = gnm_cell_get_rendered_text (cell);
 				res = gsf_output_printf (out,
 							 "1,0\n" "\"%s\"\n",
 							 str);

@@ -311,7 +311,7 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
  ***********************************************************************/
 
 static GnmValue *
-func_coup (FunctionEvalInfo *ei, GnmValue const * const *argv,
+func_coup (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
 	   gnm_float (coup_fn) (GDate const *settle, GDate const *mat,
 				GnmCouponConvention const *conv))
 {
@@ -386,7 +386,7 @@ static GnmFuncHelp const help_accrint[] = {
 };
 
 static GnmValue *
-gnumeric_accrint (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate      issue, first_interest, settlement;
 	gnm_float rate, a, d, par, freq;
@@ -465,7 +465,7 @@ static GnmFuncHelp const help_accrintm[] = {
 };
 
 static GnmValue *
-gnumeric_accrintm (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_accrintm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate, a, d, par;
 	int basis;
@@ -530,7 +530,7 @@ static GnmFuncHelp const help_intrate[] = {
 };
 
 static GnmValue *
-gnumeric_intrate (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_intrate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float investment, redemption, a, d;
 	int basis;
@@ -589,7 +589,7 @@ static GnmFuncHelp const help_received[] = {
 };
 
 static GnmValue *
-gnumeric_received (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_received (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float investment, discount, a, d, n;
 	int basis;
@@ -650,7 +650,7 @@ static GnmFuncHelp const help_pricedisc[] = {
 };
 
 static GnmValue *
-gnumeric_pricedisc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_pricedisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float discount, redemption, a, d;
 	int basis;
@@ -706,7 +706,7 @@ static GnmFuncHelp const help_pricemat[] = {
 };
 
 static GnmValue *
-gnumeric_pricemat (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_pricemat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float discount, yield, a, b, dsm, dim, n;
 	int basis;
@@ -769,7 +769,7 @@ static GnmFuncHelp const help_disc[] = {
 };
 
 static GnmValue *
-gnumeric_disc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_disc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float par, redemption, dsm, b;
 	int basis;
@@ -828,7 +828,7 @@ static GnmFuncHelp const help_effect[] = {
 };
 
 static GnmValue *
-gnumeric_effect (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_effect (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float nper = gnm_floor (value_get_as_float (argv[1]));
@@ -869,7 +869,7 @@ static GnmFuncHelp const help_nominal[] = {
 };
 
 static GnmValue *
-gnumeric_nominal (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_nominal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float nper = gnm_floor (value_get_as_float (argv[1]));
@@ -900,7 +900,7 @@ static GnmFuncHelp const help_ispmt[] = {
 };
 
 static GnmValue *
-gnumeric_ispmt (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_ispmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float tmp;
 
@@ -950,7 +950,7 @@ static GnmFuncHelp const help_db[] = {
 };
 
 static GnmValue *
-gnumeric_db (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_db (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate;
 	gnm_float cost, salvage, life, period, month;
@@ -1014,7 +1014,7 @@ static GnmFuncHelp const help_ddb[] = {
 };
 
 static GnmValue *
-gnumeric_ddb (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_ddb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float cost, salvage, life, period, factor;
 	gnm_float total;
@@ -1079,7 +1079,7 @@ static GnmFuncHelp const help_sln[] = {
 
 
 static GnmValue *
-gnumeric_sln (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_sln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float cost,salvage_value,life;
 
@@ -1137,7 +1137,7 @@ static GnmFuncHelp const help_syd[] = {
 };
 
 static GnmValue *
-gnumeric_syd (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_syd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float cost, salvage_value, life, period;
 
@@ -1179,7 +1179,7 @@ static GnmFuncHelp const help_dollarde[] = {
 };
 
 static GnmValue *
-gnumeric_dollarde (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_dollarde (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float f = gnm_floor (value_get_as_float (argv[1]));
@@ -1235,7 +1235,7 @@ static GnmFuncHelp const help_dollarfr[] = {
 };
 
 static GnmValue *
-gnumeric_dollarfr (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_dollarfr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float f = gnm_floor (value_get_as_float (argv[1]));
@@ -1286,7 +1286,7 @@ static GnmFuncHelp const help_mirr[] = {
 };
 
 static GnmValue *
-gnumeric_mirr (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_mirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float frate, rrate, npv_neg, npv_pos;
 	gnm_float *values = NULL, res;
@@ -1357,7 +1357,7 @@ static GnmFuncHelp const help_tbilleq[] = {
 };
 
 static GnmValue *
-gnumeric_tbilleq (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_tbilleq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float settlement, maturity, discount;
 	gnm_float dsm, divisor;
@@ -1407,7 +1407,7 @@ static GnmFuncHelp const help_tbillprice[] = {
 };
 
 static GnmValue *
-gnumeric_tbillprice (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_tbillprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float settlement, maturity, discount;
 	gnm_float res, dsm;
@@ -1453,7 +1453,7 @@ static GnmFuncHelp const help_tbillyield[] = {
 };
 
 static GnmValue *
-gnumeric_tbillyield (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_tbillyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float settlement, maturity, pr;
 	gnm_float res, dsm;
@@ -1530,7 +1530,7 @@ gnumeric_rate_df (gnm_float rate, gnm_float *y, void *user_data)
 
 
 static GnmValue *
-gnumeric_rate (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GoalSeekData    data;
 	GoalSeekStatus  status;
@@ -1664,7 +1664,7 @@ irr_npv_df (gnm_float rate, gnm_float *y, void *user_data)
 }
 
 static GnmValue *
-gnumeric_irr (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_irr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GoalSeekData    data;
 	GoalSeekStatus  status;
@@ -1747,7 +1747,7 @@ static GnmFuncHelp const help_pv[] = {
 };
 
 static GnmValue *
-gnumeric_pv (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_pv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float nper = value_get_as_float (argv[1]);
@@ -1811,7 +1811,7 @@ range_npv (gnm_float const *xs, int n, gnm_float *res)
 }
 
 static GnmValue *
-gnumeric_npv (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_npv (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
 				     range_npv,
@@ -1844,7 +1844,7 @@ static GnmFuncHelp const help_xnpv[] = {
 };
 
 static GnmValue *
-gnumeric_xnpv (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_xnpv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate, *payments = NULL, *dates = NULL;
 	gnm_float sum;
@@ -1949,7 +1949,7 @@ xirr_npv (gnm_float rate, gnm_float *y, void *user_data)
 }
 
 static GnmValue *
-gnumeric_xirr (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GoalSeekData    data;
 	GoalSeekStatus  status;
@@ -2028,7 +2028,7 @@ static GnmFuncHelp const help_fv[] = {
 };
 
 static GnmValue *
-gnumeric_fv (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_fv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float nper = value_get_as_float (argv[1]);
@@ -2076,7 +2076,7 @@ static GnmFuncHelp const help_pmt[] = {
 };
 
 static GnmValue *
-gnumeric_pmt (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_pmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float nper = value_get_as_float (argv[1]);
@@ -2120,7 +2120,7 @@ static GnmFuncHelp const help_ipmt[] = {
 };
 
 static GnmValue *
-gnumeric_ipmt (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_ipmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float per  = value_get_as_float (argv[1]);
@@ -2172,7 +2172,7 @@ static GnmFuncHelp const help_ppmt[] = {
 };
 
 static GnmValue *
-gnumeric_ppmt (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_ppmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate = value_get_as_float (argv[0]);
 	gnm_float per  = value_get_as_float (argv[1]);
@@ -2231,7 +2231,7 @@ static GnmFuncHelp const help_nper[] = {
 };
 
 static GnmValue *
-gnumeric_nper (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_nper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float tmp;
 
@@ -2294,7 +2294,7 @@ static GnmFuncHelp const help_duration[] = {
 };
 
 static GnmValue *
-gnumeric_duration (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     nSettle, nMat;
 	gnm_float fCoup, fYield;
@@ -2345,7 +2345,7 @@ static GnmFuncHelp const help_g_duration[] = {
 };
 
 static GnmValue *
-gnumeric_g_duration (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_g_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate, pv, fv;
 
@@ -2388,7 +2388,7 @@ static GnmFuncHelp const help_fvschedule[] = {
 };
 
 static GnmValue *
-gnumeric_fvschedule (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_fvschedule (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float pv, *schedule = NULL;
 	GnmValue *result = NULL;
@@ -2510,7 +2510,7 @@ one_euro (char const *str)
 }
 
 static GnmValue *
-gnumeric_euro (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_euro (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         char const *str = value_peek_string (argv[0]);
 	gnm_float v    = one_euro (str);
@@ -2559,7 +2559,7 @@ static GnmFuncHelp const help_euroconvert[] = {
 };
 
 static GnmValue *
-gnumeric_euroconvert (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float c1 = one_euro (value_peek_string (argv[1]));
 	gnm_float c2 = one_euro (value_peek_string (argv[2]));
@@ -2605,7 +2605,7 @@ static GnmFuncHelp const help_price[] = {
 };
 
 static GnmValue *
-gnumeric_price (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate      settlement, maturity;
         /* gnm_float a, d, e, n; */
@@ -2689,7 +2689,7 @@ gnumeric_yield_f (gnm_float yield, gnm_float *y, void *user_data)
 
 
 static GnmValue *
-gnumeric_yield (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         gnm_float n;
 	gnumeric_yield_t udata;
@@ -2796,7 +2796,7 @@ static GnmFuncHelp const help_yielddisc[] = {
 };
 
 static GnmValue *
-gnumeric_yielddisc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_yielddisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     settlement, maturity;
 	gnm_float fPrice, fRedemp;
@@ -2859,7 +2859,7 @@ static GnmFuncHelp const help_yieldmat[] = {
 };
 
 static GnmValue *
-gnumeric_yieldmat (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_yieldmat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     nSettle, nMat, nIssue;
 	gnm_float fRate, fPrice;
@@ -3001,7 +3001,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 
 
 static GnmValue *
-gnumeric_oddfprice (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_oddfprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     settlement, maturity, issue, first_coupon;
 	gnm_float rate, yield, redemption;
@@ -3093,7 +3093,7 @@ gnumeric_oddyield_f (gnm_float yield, gnm_float *y, void *user_data)
 }
 
 static GnmValue *
-gnumeric_oddfyield (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_oddfyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	struct gnumeric_oddyield_f udata;
 	GoalSeekData data;
@@ -3208,7 +3208,7 @@ calc_oddlprice (const GDate *settlement, const GDate *maturity,
 
 
 static GnmValue *
-gnumeric_oddlprice (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_oddlprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     settlement, maturity, last_interest;
 	gnm_float rate, yield, redemption;
@@ -3302,7 +3302,7 @@ calc_oddlyield (GDate const *settlement, GDate const *maturity,
 
 
 static GnmValue *
-gnumeric_oddlyield (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_oddlyield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     settlement, maturity, last_interest;
 	gnm_float rate, price, redemption;
@@ -3378,7 +3378,7 @@ static GnmFuncHelp const help_amordegrc[] = {
 
 
 static GnmValue *
-gnumeric_amordegrc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_amordegrc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     nDate, nFirstPer;
 	gnm_float fRestVal, fRate, fCost;
@@ -3442,7 +3442,7 @@ static GnmFuncHelp const help_amorlinc[] = {
 };
 
 static GnmValue *
-gnumeric_amorlinc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_amorlinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     nDate, nFirstPer;
 	gnm_float fCost, fRestVal, fRate;
@@ -3509,7 +3509,7 @@ static GnmFuncHelp const help_coupdaybs[] = {
 };
 
 static GnmValue *
-gnumeric_coupdaybs (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_coupdaybs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return func_coup (ei, argv, coupdaybs);
 }
@@ -3558,7 +3558,7 @@ static GnmFuncHelp const help_coupdays[] = {
 };
 
 static GnmValue *
-gnumeric_coupdays (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_coupdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return func_coup (ei, argv, coupdays);
 }
@@ -3606,7 +3606,7 @@ static GnmFuncHelp const help_coupdaysnc[] = {
 };
 
 static GnmValue *
-gnumeric_coupdaysnc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_coupdaysnc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return func_coup (ei, argv, coupdaysnc);
 }
@@ -3653,7 +3653,7 @@ static GnmFuncHelp const help_coupncd[] = {
 };
 
 static GnmValue *
-gnumeric_coupncd (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_coupncd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *res = func_coup (ei, argv, coupncd);
 	value_set_fmt (res, go_format_default_date ());
@@ -3703,7 +3703,7 @@ static GnmFuncHelp const help_couppcd[] = {
 };
 
 static GnmValue *
-gnumeric_couppcd (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_couppcd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *res = func_coup (ei, argv, couppcd);
 	value_set_fmt (res, go_format_default_date ());
@@ -3749,7 +3749,7 @@ static GnmFuncHelp const help_coupnum[] = {
 };
 
 static GnmValue *
-gnumeric_coupnum (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_coupnum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return func_coup (ei, argv, coupnum);
 }
@@ -3780,7 +3780,7 @@ static GnmFuncHelp const help_cumipmt[] = {
 };
 
 static GnmValue *
-gnumeric_cumipmt (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_cumipmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float fRate, fVal;
 	gint       nNumPeriods, nStartPer, nEndPer, nPayType;
@@ -3833,7 +3833,7 @@ static GnmFuncHelp const help_cumprinc[] = {
 };
 
 static GnmValue *
-gnumeric_cumprinc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_cumprinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float fRate, fVal;
 	gint       nNumPeriods, nStartPer, nEndPer, nPayType;
@@ -3894,7 +3894,7 @@ static GnmFuncHelp const help_mduration[] = {
 };
 
 static GnmValue *
-gnumeric_mduration (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_mduration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate     nSettle, nMat;
 	gnm_float fCoup, fYield;
@@ -3946,7 +3946,7 @@ static GnmFuncHelp const help_vdb[] = {
 };
 
 static GnmValue *
-gnumeric_vdb (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_vdb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float cost, salvage, life, factor, start_period, end_period;
 	gboolean   bflag;

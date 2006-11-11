@@ -135,7 +135,7 @@ find_bound_walk (int l, int h, int start, gboolean up, gboolean reset)
 }
 
 static int
-find_index_linear (FunctionEvalInfo *ei,
+find_index_linear (GnmFuncEvalInfo *ei,
 		   GnmValue const *find, GnmValue const *data,
 		   gint type, gboolean height)
 {
@@ -196,7 +196,7 @@ find_index_linear (FunctionEvalInfo *ei,
 }
 
 static int
-find_index_bisection (FunctionEvalInfo *ei,
+find_index_bisection (GnmFuncEvalInfo *ei,
 		      GnmValue const *find, GnmValue const *data,
 		      gint type, gboolean height)
 {
@@ -361,7 +361,7 @@ static GnmFuncHelp const help_address[] = {
 };
 
 static GnmValue *
-gnumeric_address (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	GnmExprConventions const *conv = gnm_expr_conventions_default;
 	GString		*res;
@@ -442,7 +442,7 @@ static GnmFuncHelp const help_areas[] = {
 
 /* TODO : we need to rethink EXPR_SET as an operator vs a value type */
 static GnmValue *
-gnumeric_areas (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmExpr const *expr;
 	int res = -1;
@@ -523,7 +523,7 @@ static GnmFuncHelp const help_choose[] = {
 };
 
 static GnmValue *
-gnumeric_choose (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_choose (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int     index;
 	GnmValue  *v;
@@ -581,7 +581,7 @@ static GnmFuncHelp const help_vlookup[] = {
 };
 
 static GnmValue *
-gnumeric_vlookup (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int      col_idx, index = -1;
 	gboolean approx;
@@ -643,7 +643,7 @@ static GnmFuncHelp const help_hlookup[] = {
 };
 
 static GnmValue *
-gnumeric_hlookup (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_hlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int row_idx, index = -1;
 	gboolean approx;
@@ -703,7 +703,7 @@ static GnmFuncHelp const help_lookup[] = {
 };
 
 static GnmValue *
-gnumeric_lookup (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_lookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int index = -1;
 	GnmValue const *result = args[2];
@@ -774,7 +774,7 @@ static GnmFuncHelp const help_match[] = {
 };
 
 static GnmValue *
-gnumeric_match (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int type, index = -1;
 	int width = value_area_get_width (args[1], ei->pos);
@@ -826,7 +826,7 @@ static GnmFuncHelp const help_indirect[] = {
 };
 
 static GnmValue *
-gnumeric_indirect (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_indirect (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	GnmParsePos  pp;
 	GnmValue *res = NULL;
@@ -874,7 +874,7 @@ static GnmFuncHelp const help_index[] = {
 };
 
 static GnmValue *
-gnumeric_index (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmExpr const *source;
 	int elem[3] = { 0, 0, 0 };
@@ -945,7 +945,7 @@ static GnmFuncHelp const help_column[] = {
 };
 
 static GnmValue *
-gnumeric_column (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int col, width, height, i, j;
 	GnmValue *res;
@@ -1001,7 +1001,7 @@ static GnmFuncHelp const help_columnnumber[] = {
 };
 
 static GnmValue *
-gnumeric_columnnumber (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_columnnumber (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	char const *name = value_peek_string (args[0]);
 	int colno;
@@ -1037,7 +1037,7 @@ static GnmFuncHelp const help_columns[] = {
 };
 
 static GnmValue *
-gnumeric_columns (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_columns (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	return value_new_int (value_area_get_width (args [0], ei->pos));
 }
@@ -1067,7 +1067,7 @@ static GnmFuncHelp const help_offset[] = {
 };
 
 static GnmValue *
-gnumeric_offset (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int width, height;
 	int row_offset, col_offset;
@@ -1126,7 +1126,7 @@ static GnmFuncHelp const help_row[] = {
 };
 
 static GnmValue *
-gnumeric_row (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_row (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int row, width, height, i, j;
 	GnmValue *res;
@@ -1183,7 +1183,7 @@ static GnmFuncHelp const help_rows[] = {
 };
 
 static GnmValue *
-gnumeric_rows (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_rows (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	return value_new_int (value_area_get_height (args [0], ei->pos));
 }
@@ -1208,7 +1208,7 @@ static GnmFuncHelp const help_hyperlink[] = {
 };
 
 static GnmValue *
-gnumeric_hyperlink (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_hyperlink (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	GnmValue const * v = args[1];
 	if (v == NULL)
@@ -1236,7 +1236,7 @@ static GnmFuncHelp const help_transpose[] = {
 
 
 static GnmValue *
-gnumeric_transpose (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_transpose (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmEvalPos const * const ep = ei->pos;
         GnmValue const * const matrix = argv[0];

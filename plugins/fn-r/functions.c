@@ -27,7 +27,7 @@ static GnmFuncHelp const help_r_dnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_dnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
@@ -53,7 +53,7 @@ static GnmFuncHelp const help_r_pnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_pnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
@@ -80,7 +80,7 @@ static GnmFuncHelp const help_r_qnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_qnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float mu = value_get_as_float (args[1]);
@@ -106,7 +106,7 @@ static GnmFuncHelp const help_r_dlnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_dlnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dlnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
@@ -132,7 +132,7 @@ static GnmFuncHelp const help_r_plnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_plnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_plnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
@@ -159,7 +159,7 @@ static GnmFuncHelp const help_r_qlnorm[] = {
 };
 
 static GnmValue *
-gnumeric_r_qlnorm (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qlnorm (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float logmean = value_get_as_float (args[1]);
@@ -185,7 +185,7 @@ static GnmFuncHelp const help_r_dgamma[] = {
 };
 
 static GnmValue *
-gnumeric_r_dgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dgamma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -211,7 +211,7 @@ static GnmFuncHelp const help_r_pgamma[] = {
 };
 
 static GnmValue *
-gnumeric_r_pgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pgamma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -238,7 +238,7 @@ static GnmFuncHelp const help_r_qgamma[] = {
 };
 
 static GnmValue *
-gnumeric_r_qgamma (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qgamma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -264,7 +264,7 @@ static GnmFuncHelp const help_r_dbeta[] = {
 };
 
 static GnmValue *
-gnumeric_r_dbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dbeta (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
@@ -290,7 +290,7 @@ static GnmFuncHelp const help_r_pbeta[] = {
 };
 
 static GnmValue *
-gnumeric_r_pbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pbeta (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
@@ -317,7 +317,7 @@ static GnmFuncHelp const help_r_qbeta[] = {
 };
 
 static GnmValue *
-gnumeric_r_qbeta (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qbeta (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float a = value_get_as_float (args[1]);
@@ -342,7 +342,7 @@ static GnmFuncHelp const help_r_dt[] = {
 };
 
 static GnmValue *
-gnumeric_r_dt (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dt (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -366,7 +366,7 @@ static GnmFuncHelp const help_r_pt[] = {
 };
 
 static GnmValue *
-gnumeric_r_pt (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pt (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -391,7 +391,7 @@ static GnmFuncHelp const help_r_qt[] = {
 };
 
 static GnmValue *
-gnumeric_r_qt (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qt (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -416,7 +416,7 @@ static GnmFuncHelp const help_r_df[] = {
 };
 
 static GnmValue *
-gnumeric_r_df (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_df (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
@@ -442,7 +442,7 @@ static GnmFuncHelp const help_r_pf[] = {
 };
 
 static GnmValue *
-gnumeric_r_pf (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pf (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
@@ -469,7 +469,7 @@ static GnmFuncHelp const help_r_qf[] = {
 };
 
 static GnmValue *
-gnumeric_r_qf (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qf (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n1 = value_get_as_float (args[1]);
@@ -494,7 +494,7 @@ static GnmFuncHelp const help_r_dchisq[] = {
 };
 
 static GnmValue *
-gnumeric_r_dchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dchisq (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
@@ -518,7 +518,7 @@ static GnmFuncHelp const help_r_pchisq[] = {
 };
 
 static GnmValue *
-gnumeric_r_pchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pchisq (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
@@ -543,7 +543,7 @@ static GnmFuncHelp const help_r_qchisq[] = {
 };
 
 static GnmValue *
-gnumeric_r_qchisq (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qchisq (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float df = value_get_as_float (args[1]);
@@ -568,7 +568,7 @@ static GnmFuncHelp const help_r_dweibull[] = {
 };
 
 static GnmValue *
-gnumeric_r_dweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dweibull (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -594,7 +594,7 @@ static GnmFuncHelp const help_r_pweibull[] = {
 };
 
 static GnmValue *
-gnumeric_r_pweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pweibull (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -621,7 +621,7 @@ static GnmFuncHelp const help_r_qweibull[] = {
 };
 
 static GnmValue *
-gnumeric_r_qweibull (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qweibull (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float shape = value_get_as_float (args[1]);
@@ -646,7 +646,7 @@ static GnmFuncHelp const help_r_dpois[] = {
 };
 
 static GnmValue *
-gnumeric_r_dpois (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dpois (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
@@ -670,7 +670,7 @@ static GnmFuncHelp const help_r_ppois[] = {
 };
 
 static GnmValue *
-gnumeric_r_ppois (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_ppois (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
@@ -695,7 +695,7 @@ static GnmFuncHelp const help_r_qpois[] = {
 };
 
 static GnmValue *
-gnumeric_r_qpois (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qpois (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float lambda = value_get_as_float (args[1]);
@@ -719,7 +719,7 @@ static GnmFuncHelp const help_r_dexp[] = {
 };
 
 static GnmValue *
-gnumeric_r_dexp (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dexp (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
@@ -743,7 +743,7 @@ static GnmFuncHelp const help_r_pexp[] = {
 };
 
 static GnmValue *
-gnumeric_r_pexp (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pexp (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
@@ -768,7 +768,7 @@ static GnmFuncHelp const help_r_qexp[] = {
 };
 
 static GnmValue *
-gnumeric_r_qexp (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qexp (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float scale = value_get_as_float (args[1]);
@@ -793,7 +793,7 @@ static GnmFuncHelp const help_r_dbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_dbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -819,7 +819,7 @@ static GnmFuncHelp const help_r_pbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_pbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -846,7 +846,7 @@ static GnmFuncHelp const help_r_qbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_qbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -872,7 +872,7 @@ static GnmFuncHelp const help_r_dnbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_dnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dnbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -898,7 +898,7 @@ static GnmFuncHelp const help_r_pnbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_pnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pnbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -925,7 +925,7 @@ static GnmFuncHelp const help_r_qnbinom[] = {
 };
 
 static GnmValue *
-gnumeric_r_qnbinom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qnbinom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float n = value_get_as_float (args[1]);
@@ -952,7 +952,7 @@ static GnmFuncHelp const help_r_dhyper[] = {
 };
 
 static GnmValue *
-gnumeric_r_dhyper (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dhyper (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float r = value_get_as_float (args[1]);
@@ -980,7 +980,7 @@ static GnmFuncHelp const help_r_phyper[] = {
 };
 
 static GnmValue *
-gnumeric_r_phyper (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_phyper (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float r = value_get_as_float (args[1]);
@@ -1009,7 +1009,7 @@ static GnmFuncHelp const help_r_qhyper[] = {
 };
 
 static GnmValue *
-gnumeric_r_qhyper (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qhyper (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float r = value_get_as_float (args[1]);
@@ -1035,7 +1035,7 @@ static GnmFuncHelp const help_r_dgeom[] = {
 };
 
 static GnmValue *
-gnumeric_r_dgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dgeom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
@@ -1059,7 +1059,7 @@ static GnmFuncHelp const help_r_pgeom[] = {
 };
 
 static GnmValue *
-gnumeric_r_pgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pgeom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
@@ -1084,7 +1084,7 @@ static GnmFuncHelp const help_r_qgeom[] = {
 };
 
 static GnmValue *
-gnumeric_r_qgeom (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qgeom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float psuc = value_get_as_float (args[1]);
@@ -1109,7 +1109,7 @@ static GnmFuncHelp const help_r_dcauchy[] = {
 };
 
 static GnmValue *
-gnumeric_r_dcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_dcauchy (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);
@@ -1135,7 +1135,7 @@ static GnmFuncHelp const help_r_pcauchy[] = {
 };
 
 static GnmValue *
-gnumeric_r_pcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_pcauchy (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float x = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);
@@ -1162,7 +1162,7 @@ static GnmFuncHelp const help_r_qcauchy[] = {
 };
 
 static GnmValue *
-gnumeric_r_qcauchy (FunctionEvalInfo *ei, GnmValue const * const *args)
+gnumeric_r_qcauchy (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float p = value_get_as_float (args[0]);
 	gnm_float location = value_get_as_float (args[1]);

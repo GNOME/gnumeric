@@ -97,7 +97,7 @@ void	 dependents_link	    (GSList *deps);
 
 void	 cell_queue_recalc	    (GnmCell *cell);
 void	 cell_foreach_dep	    (GnmCell const *cell, DepFunc func, gpointer user);
-gboolean cell_eval_content	    (GnmCell *cell);
+gboolean gnm_cell_eval_content	    (GnmCell *cell);
 
 void sheet_region_queue_recalc	  (Sheet const *sheet, GnmRange const *range);
 void dependents_invalidate_sheet  (Sheet *sheet, gboolean destroy);

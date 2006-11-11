@@ -71,7 +71,7 @@ typedef struct {
 	char *description;
 } FormatTemplateCategory;
 
-struct _FormatTemplate {
+struct _GnmFormatTemplate {
 	FormatTemplateCategory *category;
 	GSList *members;	/* the actual TemplateMembers */
 	char *filename;
@@ -118,28 +118,28 @@ typedef struct {
 } TemplateMember;
 
 /*
- * Functions for FormatTemplate
+ * Functions for GnmFormatTemplate
  */
-void            format_template_free           (FormatTemplate *ft);
-FormatTemplate *format_template_clone          (FormatTemplate const *ft);
-FormatTemplate *format_template_new            (void);
-FormatTemplate *format_template_new_from_file  (char const *filename,
+void            format_template_free           (GnmFormatTemplate *ft);
+GnmFormatTemplate *format_template_clone          (GnmFormatTemplate const *ft);
+GnmFormatTemplate *format_template_new            (void);
+GnmFormatTemplate *format_template_new_from_file  (char const *filename,
 						GOCmdContext *context);
-gboolean        format_template_save           (FormatTemplate const *ft,
+gboolean        format_template_save           (GnmFormatTemplate const *ft,
 						GOCmdContext *cc);
 
 gint                  format_template_compare_name             (gconstpointer a, gconstpointer b);
 
-void                  format_template_attach_member            (FormatTemplate *ft, TemplateMember *member);
-void                  format_template_detach_member            (FormatTemplate *ft, TemplateMember *member);
-GnmStyle               *format_template_get_style                (FormatTemplate *ft, int row, int col);
-void                  format_template_apply_to_sheet_regions   (FormatTemplate *ft, Sheet *sheet, GSList *regions);
-gboolean	      format_template_check_valid	       (FormatTemplate *ft, GSList *regions,
+void                  format_template_attach_member            (GnmFormatTemplate *ft, TemplateMember *member);
+void                  format_template_detach_member            (GnmFormatTemplate *ft, TemplateMember *member);
+GnmStyle               *format_template_get_style                (GnmFormatTemplate *ft, int row, int col);
+void                  format_template_apply_to_sheet_regions   (GnmFormatTemplate *ft, Sheet *sheet, GSList *regions);
+gboolean	      format_template_check_valid	       (GnmFormatTemplate *ft, GSList *regions,
 								GOCmdContext *cc);
 
-void                  format_template_set_name                 (FormatTemplate *ft, char const *name);
-void                  format_template_set_author               (FormatTemplate *ft, char const *author);
-void                  format_template_set_description          (FormatTemplate *ft, char const *description);
+void                  format_template_set_name                 (GnmFormatTemplate *ft, char const *name);
+void                  format_template_set_author               (GnmFormatTemplate *ft, char const *author);
+void                  format_template_set_description          (GnmFormatTemplate *ft, char const *description);
 
 TemplateMember *format_template_member_new (void);
 TemplateMember *format_template_member_clone (TemplateMember *member);

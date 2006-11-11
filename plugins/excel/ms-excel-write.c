@@ -2250,11 +2250,11 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 	GOFormat	*fmt;
 	GnmString	*str;
 
-	if (cell_has_expr (cell) || cell->value == NULL)
+	if (gnm_cell_has_expr (cell) || cell->value == NULL)
 		return;
 
 	if ((fmt = VALUE_FMT (cell->value)) != NULL) {
-		style = cell_get_style (cell);
+		style = gnm_cell_get_style (cell);
 
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
@@ -2966,7 +2966,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	g_return_if_fail (ewb);
 	g_return_if_fail (cell);
 	g_return_if_fail (esheet);
-	g_return_if_fail (cell_has_expr (cell));
+	g_return_if_fail (gnm_cell_has_expr (cell));
 	g_return_if_fail (cell->value);
 
 	col = cell->pos.col;
@@ -3197,7 +3197,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 		GnmParsePos tmp;
 		fprintf (stderr, "Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (cell),
-			(cell_has_expr (cell)
+			(gnm_cell_has_expr (cell)
 			 ?  gnm_expr_top_as_string (cell->base.texpr,
 				parse_pos_init_cell (&tmp, cell),
 				gnm_expr_conventions_default)
@@ -3206,7 +3206,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 			 value_get_as_string (cell->value) : "empty"), xf);
 	});
 
-	if (cell_has_expr (cell))
+	if (gnm_cell_has_expr (cell))
 		excel_write_FORMULA (ewb, esheet, cell, xf);
 	else if ((v = cell->value) != NULL) {
 		if (VALUE_IS_STRING (v) &&

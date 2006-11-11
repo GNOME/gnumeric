@@ -1049,7 +1049,7 @@ xml_cell_set_array_expr (XmlParseContext *ctxt,
 				    ctxt->exprconv, NULL);
 
 	g_return_if_fail (texpr != NULL);
-	cell_set_array_formula (cell->base.sheet,
+	gnm_cell_set_array_formula (cell->base.sheet,
 				cell->pos.col, cell->pos.row,
 				cell->pos.col + cols-1, cell->pos.row + rows-1,
 				texpr);
@@ -1242,12 +1242,12 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		} else if (ctxt->version >= GNM_XML_V3 ||
 			   xml_not_used_old_array_spec (ctxt, cell, XML2C (content))) {
 			if (is_value)
-				cell_set_value (cell,
+				gnm_cell_set_value (cell,
 					value_new_from_string (value_type,
 							       CXML2C (content),
 							       value_fmt, FALSE));
 			else {
-				/* cell_set_text would probably handle this.
+				/* gnm_cell_set_text would probably handle this.
 				 * BUT, be extra careful just incase a sheet
 				 * appears that defines format text on a cell
 				 * with a formula.  Try REALLY REALLY hard
@@ -1266,19 +1266,19 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 								    ctxt->exprconv, NULL);
 				}
 				if (texpr != NULL) {
-					cell_set_expr (cell, texpr);
+					gnm_cell_set_expr (cell, texpr);
 					gnm_expr_top_unref (texpr);
 				} else
-					cell_set_text (cell, CXML2C (content));
+					gnm_cell_set_text (cell, CXML2C (content));
 			}
 		}
 
 		if (shared_expr_index > 0) {
 			if (shared_expr_index == (int)ctxt->shared_exprs->len + 1) {
-				if (!cell_has_expr (cell)) {
+				if (!gnm_cell_has_expr (cell)) {
 					g_warning ("XML-IO: Shared expression with no expession? id = %d\ncontent ='%s'",
 						   shared_expr_index, CXML2C (content));
-					cell_set_expr
+					gnm_cell_set_expr
 						(cell,
 						 gnm_expr_top_new_constant
 						 (value_dup (cell->value)));
@@ -1296,7 +1296,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			GnmExprTop *texpr =
 				g_ptr_array_index (ctxt->shared_exprs,
 						   shared_expr_index - 1);
-			cell_set_expr (cell, texpr);
+			gnm_cell_set_expr (cell, texpr);
 		} else {
 			g_warning ("XML-IO: Missing shared expression");
 		}
@@ -1306,7 +1306,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 * If it was created by a previous array
 		 * we do not want to erase it.
 		 */
-		cell_set_value (cell, value_new_empty ());
+		gnm_cell_set_value (cell, value_new_empty ());
 
 	go_format_unref (value_fmt);
 	return cell;

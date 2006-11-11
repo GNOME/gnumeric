@@ -157,7 +157,7 @@ afa_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	gnm_float f;
 
 	if (value == NULL ||
-	    cell_has_expr (cell) ||
+	    gnm_cell_has_expr (cell) ||
 	    !VALUE_IS_NUMBER (value) ||
 	    VALUE_IS_BOOLEAN (value)) {
 		af->status = AFS_ERROR;
@@ -209,7 +209,7 @@ afa_set_cell (AutoFiller *af, GnmCell *cell, int n)
 {
 	AutoFillerArithmetic *afa = (AutoFillerArithmetic *)af;
 	GnmValue *v = afa_compute (afa, n);
-	cell_set_value (cell, v);
+	gnm_cell_set_value (cell, v);
 }
 
 static char *
@@ -437,7 +437,7 @@ afns_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	char const *s;
 
 	if (value == NULL ||
-	    cell_has_expr (cell) ||
+	    gnm_cell_has_expr (cell) ||
 	    !VALUE_IS_STRING (value)) {
 	bad:
 		af->status = AFS_ERROR;
@@ -471,7 +471,7 @@ afns_set_cell (AutoFiller *af, GnmCell *cell, int n)
 {
 	AutoFillerNumberString *afns = (AutoFillerNumberString *)af;
 	char *s = afns_compute (afns, n);
-	cell_set_value (cell, value_new_string_nocopy (s));
+	gnm_cell_set_value (cell, value_new_string_nocopy (s));
 }
 
 static char *
@@ -538,13 +538,13 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	GDate d;
 	const GOFormat *sf;
 
-	if (value == NULL || cell_has_expr (cell)) {
+	if (value == NULL || gnm_cell_has_expr (cell)) {
 	bad:
 		af->status = AFS_ERROR;
 		return;
 	}
 
-	sf = cell_get_format (cell);
+	sf = gnm_cell_get_format (cell);
 	if (VALUE_IS_NUMBER (value) && sf->family != GO_FORMAT_DATE)
 		goto bad;
 
@@ -613,11 +613,11 @@ afm_set_cell (AutoFiller *af, GnmCell *cell, int n)
 	GnmValue *v = afm_compute (afm, n);
 
 	if (v)
-		cell_set_value (cell, v);
+		gnm_cell_set_value (cell, v);
 	else {
 		GnmEvalPos ep;
 		eval_pos_init_cell (&ep, cell);
-		cell_set_value (cell, value_new_error_VALUE (&ep));
+		gnm_cell_set_value (cell, value_new_error_VALUE (&ep));
 	}
 }
 
@@ -688,7 +688,7 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	int ph;
 
 	if (value == NULL ||
-	    cell_has_expr (cell) ||
+	    gnm_cell_has_expr (cell) ||
 	    !VALUE_IS_STRING (value)) {
 	bad:
 		af->status = AFS_ERROR;
@@ -765,7 +765,7 @@ afl_set_cell (AutoFiller *af, GnmCell *cell, int n)
 	AutoFillerList *afl = (AutoFillerList *)af;
 	char *str = afl_compute (afl, n);
 	GnmValue *val = value_new_string_nocopy (str);
-	cell_set_value (cell, val);
+	gnm_cell_set_value (cell, val);
 }
 
 static char *
@@ -832,7 +832,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 	AutoFillerCopy *afe = (AutoFillerCopy *)af;
 	GnmCell const *src = afe->cells[n % afe->size];
 	char *res = NULL;
-	if (src && cell_has_expr (src)) {
+	if (src && gnm_cell_has_expr (src)) {
 		GnmExprRelocateInfo rinfo;
 		GnmExprTop const *texpr;
 		GnmExprTop const *src_texpr = src->base.texpr;
@@ -868,7 +868,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
                                 aexpr = gnm_expr_copy (array->expr);
 
 			if (doit)
-				cell_set_array_formula
+				gnm_cell_set_array_formula
 					(cell->base.sheet,
 					 pos->col, cell->pos.row,
 					 pos->col + (cols - 1),
@@ -881,26 +881,26 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 			}
 		} else if (texpr) {
 			if (doit)
-				cell_set_expr (cell, texpr);
+				gnm_cell_set_expr (cell, texpr);
 			else
 				res = gnm_expr_top_as_string (texpr,
 					&rinfo.pos, gnm_expr_conventions_default);
 			gnm_expr_top_unref (texpr);
 		} else {
 			if (doit)
-				cell_set_expr (cell, src_texpr);
+				gnm_cell_set_expr (cell, src_texpr);
 			else
 				res = gnm_expr_top_as_string (src_texpr,
 					&rinfo.pos, gnm_expr_conventions_default);
 		}
 	} else if (src) {
 		if (doit)
-			cell_set_value (cell, value_dup (src->value));
+			gnm_cell_set_value (cell, value_dup (src->value));
 		else {
 			Sheet const *sheet = src->base.sheet;
 			GODateConventions const *dateconv =
 				workbook_date_conv (sheet->workbook);
-			GOFormat const *format = cell_get_format (src);
+			GOFormat const *format = gnm_cell_get_format (src);
 			return format_value (format, src->value, NULL, -1,
 					     dateconv);
 		}

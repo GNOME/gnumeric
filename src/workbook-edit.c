@@ -770,8 +770,8 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	cell = sheet_cell_get (sv->sheet, col, row);
 	if (cell &&
 	    warn_on_text_format &&
-	    go_format_is_text (cell_get_format (cell)) &&
-	    (cell_has_expr (cell) || !VALUE_IS_STRING (cell->value))) {
+	    go_format_is_text (gnm_cell_get_format (cell)) &&
+	    (gnm_cell_has_expr (cell) || !VALUE_IS_STRING (cell->value))) {
 		GtkResponseType res;
 		GtkWidget *check;
 		GtkWidget *align;
@@ -825,19 +825,19 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	else if (cell != NULL) {
 		gboolean set_text = FALSE;
 
-		if (cell_is_array (cell)) {
+		if (gnm_cell_is_array (cell)) {
 			/* If this is part of an array we need to remove the
 			 * '{' '}' and the size information from the display.
 			 * That is not actually part of the parsable expression.
 			 */
 			set_text = TRUE;
-		} else if (!cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {
-			GOFormat *fmt = cell_get_format (cell);
+		} else if (!gnm_cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {
+			GOFormat *fmt = gnm_cell_get_format (cell);
 			gnm_float f = value_get_as_float (cell->value);
 
 			switch (fmt->family) {
 			case GO_FORMAT_FRACTION:
-				text = cell_get_entered_text (cell);
+				text = gnm_cell_get_entered_text (cell);
 				g_strchug (text);
 				g_strchomp (text);
 				set_text = TRUE;
@@ -910,7 +910,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		}
 
 		if (!text)
-			text = cell_get_entered_text (cell);
+			text = gnm_cell_get_entered_text (cell);
 
 		if (set_text)
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);

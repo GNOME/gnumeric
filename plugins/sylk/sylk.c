@@ -228,15 +228,15 @@ sylk_rtd_c_parse (SylkReadState *state, char *str)
 
 		if (texpr != NULL) {
 			if (val != NULL)
-				cell_set_expr_and_value
+				gnm_cell_set_expr_and_value
 					(cell, texpr, val, TRUE);
 			else
-				cell_set_expr (cell, texpr);
+				gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
 		} else if (is_array)
-			cell_assign_value (cell, val);
+			gnm_cell_assign_value (cell, val);
 		else
-			cell_set_value (cell, val);
+			gnm_cell_set_value (cell, val);
 	}
 
 	return TRUE;

@@ -53,7 +53,7 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 	int i;
 
 	for (i = 0; i < dims; i++) {
-		cell_set_value (xcells[i], value_new_float (x[i]));
+		gnm_cell_set_value (xcells[i], value_new_float (x[i]));
 		cell_queue_recalc (xcells[i]);
 	}
 	workbook_recalc (wb);
@@ -66,7 +66,7 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 static GOFormat const *
 my_get_format (GnmCell const *cell)
 {
-	GOFormat const *format = gnm_style_get_format (cell_get_style (cell));
+	GOFormat const *format = gnm_style_get_format (gnm_cell_get_style (cell));
 
 	if (go_format_is_general (format) &&
 	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)

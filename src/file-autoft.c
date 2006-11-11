@@ -80,7 +80,7 @@ category_get_templates_list (FormatTemplateCategory *category,
 		name_len = strlen (d_name);
 		if (name_len > 4 && strcmp (d_name + name_len - 4, ".xml") == 0) {
 			gchar *full_entry_name;
-			FormatTemplate *ft;
+			GnmFormatTemplate *ft;
 
 			full_entry_name = g_build_filename (category->directory, d_name, NULL);
 			ft = format_template_new_from_file (full_entry_name, cc);

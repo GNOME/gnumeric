@@ -191,7 +191,7 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	i = 0;
 	for (i = 0 ; i < file->fields ; i++) {
 		cell = sheet_cell_fetch (sheet, i, 0);
-		cell_set_text (cell, file->format [i]->name);
+		gnm_cell_set_text (cell, file->format [i]->name);
 	}
 	{
 		GnmRange r;
@@ -218,7 +218,7 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 				record_get_field (record, i), field, file);
 			cell = sheet_cell_fetch (sheet, i, row);
 			value_set_fmt (val, field->fmt);
-			cell_set_value (cell, val);
+			gnm_cell_set_value (cell, val);
 		}
 		row++;
 	} while (record_seek (record, SEEK_CUR, 1));

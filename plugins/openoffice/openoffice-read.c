@@ -805,19 +805,19 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				array_rows = 1;
 				oo_warning (xin, _("Invalid array expression does not specify number of rows."));
 			}
-			cell_set_array_formula (state->pos.sheet,
+			gnm_cell_set_array_formula (state->pos.sheet,
 				state->pos.eval.col, state->pos.eval.row,
 				state->pos.eval.col + array_cols-1,
 				state->pos.eval.row + array_rows-1,
 				texpr);
 			if (val != NULL)
-				cell_assign_value (cell, val);
+				gnm_cell_assign_value (cell, val);
 		} else {
 			if (val != NULL)
-				cell_set_expr_and_value (cell, texpr, val,
+				gnm_cell_set_expr_and_value (cell, texpr, val,
 							 TRUE);
 			else
-				cell_set_expr (cell, texpr);
+				gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
 		}
 	} else if (val != NULL) {
@@ -825,10 +825,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->pos.eval.col, state->pos.eval.row);
 
 		/* has cell previously been initialized as part of an array */
-		if (cell_is_nonsingleton_array (cell))
-			cell_assign_value (cell, val);
+		if (gnm_cell_is_nonsingleton_array (cell))
+			gnm_cell_assign_value (cell, val);
 		else
-			cell_set_value (cell, val);
+			gnm_cell_set_value (cell, val);
 	} else if (!state->error_content)
 		/* store the content as a string */
 		state->simple_content = TRUE;
@@ -849,13 +849,13 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmCell *cell = sheet_cell_get (state->pos.sheet,
 			state->pos.eval.col, state->pos.eval.row);
 
-		if (!cell_is_empty (cell)) {
+		if (!gnm_cell_is_empty (cell)) {
 			int i = 1;
 			GnmCell *next;
 			for (; i < state->col_inc ; i++) {
 				next = sheet_cell_fetch (state->pos.sheet,
 					state->pos.eval.col + i, state->pos.eval.row);
-				cell_set_value (next, value_dup (cell->value));
+				gnm_cell_set_value (next, value_dup (cell->value));
 			}
 		}
 	}
@@ -907,7 +907,7 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			v = value_new_string (xin->content->str);
 		else
 			v = value_new_error (NULL, xin->content->str);
-		cell_set_value (cell, v);
+		gnm_cell_set_value (cell, v);
 	}
 }
 

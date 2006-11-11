@@ -1298,7 +1298,7 @@ xml_cell_set_array_expr (GnmCell *cell, char const *text,
 		parse_pos_init_cell (&pp, cell));
 
 	g_return_if_fail (texpr != NULL);
-	cell_set_array_formula (cell->base.sheet,
+	gnm_cell_set_array_formula (cell->base.sheet,
 				cell->pos.col, cell->pos.row,
 				cell->pos.col + cols-1, cell->pos.row + rows-1,
 				texpr);
@@ -1401,11 +1401,11 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 				if (v == NULL) {
 					g_warning ("Unable to parse \"%s\" as type %d.",
 						   content, value_type);
-					cell_set_text (cell, content);
+					gnm_cell_set_text (cell, content);
 				} else
-					cell_set_value (cell, v);
+					gnm_cell_set_value (cell, v);
 			} else
-				cell_set_text (cell, content);
+				gnm_cell_set_text (cell, content);
 		}
 
 		if (expr_id > 0) {
@@ -1413,7 +1413,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 			GnmExprTop const *texpr =
 				g_hash_table_lookup (state->expr_map, id);
 			if (texpr == NULL) {
-				if (cell_has_expr (cell))
+				if (gnm_cell_has_expr (cell))
 					g_hash_table_insert (state->expr_map, id,
 							     (gpointer)cell->base.texpr);
 				else
@@ -1426,7 +1426,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 			GINT_TO_POINTER (expr_id));
 
 		if (texpr != NULL)
-			cell_set_expr (cell, texpr);
+			gnm_cell_set_expr (cell, texpr);
 		else
 			g_warning ("XML-IO : Missing shared expression");
 	} else if (is_new_cell)
@@ -1435,7 +1435,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 		 * If it was created by a previous array
 		 * we do not want to erase it.
 		 */
-		cell_set_value (cell, value_new_empty ());
+		gnm_cell_set_value (cell, value_new_empty ());
 
 	if (value_fmt != NULL)
 		go_format_unref (value_fmt);

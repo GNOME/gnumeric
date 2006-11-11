@@ -183,7 +183,7 @@ sc_parse_label (ScParseState *state, char const *cmd, char const *str,
 	if (!cell)
 		goto err_out;
 
-	cell_set_text (cell, s);
+	gnm_cell_set_text (cell, s);
 
 	if (strcmp (cmd, "leftstring") == 0)
 		set_h_align (state->sheet, pos, HALIGN_LEFT);
@@ -350,9 +350,9 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 
 	v = gnm_expr_top_get_constant (texpr);
 	if (v && VALUE_IS_NUMBER (v)) {
-		cell_set_value (cell, value_dup (v));
+		gnm_cell_set_value (cell, value_dup (v));
 	} else {
-		cell_set_expr (cell, texpr);
+		gnm_cell_set_expr (cell, texpr);
 		cell_queue_recalc (cell);
 	}
 

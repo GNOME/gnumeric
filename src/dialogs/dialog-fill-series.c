@@ -201,7 +201,7 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 		cell_start = sheet_cell_get (state->base.sheet, 
 				       sel->start.col, sel->start.row);
 		if (cell_start) {
-			char *content = cell_get_rendered_text (cell_start);
+			char *content = gnm_cell_get_rendered_text (cell_start);
 			if (content) {
 				gtk_entry_set_text (GTK_ENTRY (state->start_entry),
 						    content);
@@ -214,7 +214,7 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 			sheet_cell_get (state->base.sheet, 
 					sel->start.col, sel->end.row);
 		if (cell_end) {
-			char *content = cell_get_rendered_text (cell_end);
+			char *content = gnm_cell_get_rendered_text (cell_end);
 			if (content) {
 				gtk_entry_set_text (GTK_ENTRY (state->stop_entry),
 						    content);

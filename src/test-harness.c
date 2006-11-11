@@ -82,14 +82,14 @@ main (int argc, char const *argv [])
 		sheet_style_set_pos (sheet, 0, 0, style);
 
 		c11 = sheet_cell_fetch (sheet, 0, 0);
-		cell_set_text (c11, "2");
+		gnm_cell_set_text (c11, "2");
 		c22 = sheet_cell_fetch (sheet, 1, 1);
-		cell_set_text (c22, "3");
+		gnm_cell_set_text (c22, "3");
 		c33 = sheet_cell_fetch (sheet, 2, 2);
-		cell_set_text (c33, "=A1*B2");
+		gnm_cell_set_text (c33, "=A1*B2");
 		workbook_recalc_all (wb);
 		value_dump (c33->value);
-		cell_set_text (c11, "3");
+		gnm_cell_set_text (c11, "3");
 		cell_queue_recalc (c11);
 		workbook_recalc (wb);
 		value_dump (c33->value);

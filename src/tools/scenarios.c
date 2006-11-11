@@ -147,7 +147,7 @@ collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
 {
 	GnmCell *cell = sheet_cell_fetch (p->sheet, col, row);
 
-	p->expr_flag |= cell_has_expr (cell);
+	p->expr_flag |= gnm_cell_has_expr (cell);
 
 	return value_dup (cell->value);
 }
@@ -649,7 +649,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 								 i, j);
 					
 					cell_queue_recalc (cell);
-					cell_eval (cell);
+					gnm_cell_eval (cell);
 					dao_set_cell_value (&cb->dao, col++,
 							    3 + cb->row,
 							    value_dup

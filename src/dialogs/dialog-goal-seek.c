@@ -102,7 +102,7 @@ goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 	if (evaldata->update_ui) {
 		sheet_cell_set_value (evaldata->xcell, v);
 	} else {
-		cell_set_value (evaldata->xcell, v);
+		gnm_cell_set_value (evaldata->xcell, v);
 		cell_queue_recalc (evaldata->xcell);
 	}
 	workbook_recalc (evaldata->state->wb);
@@ -357,7 +357,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	r = &target->v_range.cell;
 	state->set_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
-	if (state->set_cell == NULL || !cell_has_expr (state->set_cell)) {
+	if (state->set_cell == NULL || !gnm_cell_has_expr (state->set_cell)) {
 		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
@@ -383,7 +383,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	r = &target->v_range.cell;
 	state->change_cell = sheet_cell_fetch (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
-	if (cell_has_expr (state->change_cell)) {
+	if (gnm_cell_has_expr (state->change_cell)) {
 		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
@@ -394,7 +394,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 
-	format = gnm_style_get_format (cell_get_style (state->set_cell));
+	format = gnm_style_get_format (gnm_cell_get_style (state->set_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->to_value_entry),
 					&state->target_value, TRUE, format)){
 		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
@@ -406,7 +406,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		return;
 	}
 
-	format = gnm_style_get_format (cell_get_style (state->change_cell));
+	format = gnm_style_get_format (gnm_cell_get_style (state->change_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->at_least_entry),
 					 &state->xmin, TRUE, format)) {
 		state->xmin = -max_range_val;

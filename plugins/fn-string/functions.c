@@ -71,7 +71,7 @@ static GnmFuncHelp const help_char[] = {
 };
 
 static GnmValue *
-gnumeric_char (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_char (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float c = value_get_as_float (argv[0]);
 
@@ -118,7 +118,7 @@ static GnmFuncHelp const help_unichar[] = {
 };
 
 static GnmValue *
-gnumeric_unichar (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_unichar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float c = value_get_as_float (argv[0]);
 
@@ -153,7 +153,7 @@ static GnmFuncHelp const help_code[] = {
 };
 
 static GnmValue *
-gnumeric_code (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_code (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *s = value_peek_string (argv[0]);
 	const unsigned char *us = (const unsigned char *)s;
@@ -200,7 +200,7 @@ static GnmFuncHelp const help_unicode[] = {
 };
 
 static GnmValue *
-gnumeric_unicode (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_unicode (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *s = value_peek_string (argv[0]);
 
@@ -232,7 +232,7 @@ static GnmFuncHelp const help_exact[] = {
 };
 
 static GnmValue *
-gnumeric_exact (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_exact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_bool (g_utf8_collate (value_peek_string (argv[0]),
 					       value_peek_string (argv[1])) == 0);
@@ -258,7 +258,7 @@ static GnmFuncHelp const help_len[] = {
 };
 
 static GnmValue *
-gnumeric_len (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_len (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_int (g_utf8_strlen (value_peek_string (argv[0]), -1));
 }
@@ -282,7 +282,7 @@ static GnmFuncHelp const help_lenb[] = {
 };
 
 static GnmValue *
-gnumeric_lenb (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_lenb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_int (strlen (value_peek_string (argv[0])));
 }
@@ -308,7 +308,7 @@ static GnmFuncHelp const help_left[] = {
 };
 
 static GnmValue *
-gnumeric_left (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
@@ -344,7 +344,7 @@ static GnmFuncHelp const help_lower[] = {
 };
 
 static GnmValue *
-gnumeric_lower (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_lower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_string_nocopy (g_utf8_strdown (value_peek_string (argv[0]), -1));
 }
@@ -370,7 +370,7 @@ static GnmFuncHelp const help_mid[] = {
 };
 
 static GnmValue *
-gnumeric_mid (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_mid (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *source = value_peek_string (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
@@ -416,7 +416,7 @@ static GnmFuncHelp const help_right[] = {
 };
 
 static GnmValue *
-gnumeric_right (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_right (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *os = value_peek_string (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
@@ -456,7 +456,7 @@ static GnmFuncHelp const help_upper[] = {
 };
 
 static GnmValue *
-gnumeric_upper (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_upper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_string_nocopy (g_utf8_strup (value_peek_string (argv[0]), -1));
 }
@@ -481,7 +481,7 @@ static GnmFuncHelp const help_concatenate[] = {
 };
 
 static GnmValue *
-gnumeric_concatenate (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_concatenate (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return string_range_function (argc, argv, ei,
 				      range_concatenate,
@@ -508,7 +508,7 @@ static GnmFuncHelp const help_rept[] = {
 };
 
 static GnmValue *
-gnumeric_rept (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_rept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *source = value_peek_string (argv[0]);
 	gnm_float num = value_get_as_float (argv[1]);
@@ -558,7 +558,7 @@ static GnmFuncHelp const help_clean[] = {
 };
 
 static GnmValue *
-gnumeric_clean (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_clean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *s = value_peek_string (argv[0]);
 	GString *res = g_string_sized_new (strlen (s));
@@ -596,7 +596,7 @@ static GnmFuncHelp const help_find[] = {
 };
 
 static GnmValue *
-gnumeric_find (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_find (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *needle   = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
@@ -640,7 +640,7 @@ static GnmFuncHelp const help_fixed[] = {
 };
 
 static GnmValue *
-gnumeric_fixed (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float num = value_get_as_float (argv[0]);
 	gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
@@ -710,7 +710,7 @@ static GnmFuncHelp const help_proper[] = {
  * but this is how Excel does it
  */
 static GnmValue *
-gnumeric_proper (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_proper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *p;
 	GString    *res    = g_string_new (NULL);
@@ -760,7 +760,7 @@ static GnmFuncHelp const help_replace[] = {
 };
 
 static GnmValue *
-gnumeric_replace (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_replace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *old = value_peek_string (argv[0]);
 	gnm_float start = value_get_as_float (argv[1]);
@@ -819,7 +819,7 @@ static GnmFuncHelp const help_t_[] = {
 /* Note: gnumeric_t is a reserved symbol.  */
 
 static GnmValue *
-gnumeric_t_ (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_t_ (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	if (VALUE_IS_STRING (argv[0]))
 		return value_dup (argv[0]);
@@ -847,7 +847,7 @@ static GnmFuncHelp const help_text[] = {
 };
 
 static GnmValue *
-gnumeric_text (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue       *res, *match = NULL;
 	GnmValue const *v  = argv[0];
@@ -890,7 +890,7 @@ static GnmFuncHelp const help_trim[] = {
 };
 
 static GnmValue *
-gnumeric_trim (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_trim (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *s;
 	GString  *res   = g_string_new (NULL);
@@ -944,7 +944,7 @@ static GnmFuncHelp const help_value[] = {
 };
 
 static GnmValue *
-gnumeric_value (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_value (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	if (VALUE_IS_EMPTY (argv[0]) || VALUE_IS_NUMBER (argv[0]))
 		return value_dup (argv[0]);
@@ -986,7 +986,7 @@ static GnmFuncHelp const help_substitute[] = {
 };
 
 static GnmValue *
-gnumeric_substitute (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	/*
 	 * Careful: value_peek_string handle only two live
@@ -1062,7 +1062,7 @@ static GnmFuncHelp const help_dollar[] = {
 };
 
 static GnmValue *
-gnumeric_dollar (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GOFormatDetails info;
 	GOFormat *sf;
@@ -1138,7 +1138,7 @@ static GnmFuncHelp const help_search[] = {
 };
 
 static GnmValue *
-gnumeric_search (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *needle = value_peek_string (argv[0]);
 	char const *haystack = value_peek_string (argv[1]);
@@ -1200,7 +1200,7 @@ static GnmFuncHelp const help_asc[] = {
 };
 
 static GnmValue *
-gnumeric_asc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_string (value_peek_string (argv[0]));
 }

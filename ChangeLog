@@ -1,3 +1,7 @@
+2006-11-11  Morten Welinder  <terra@gnome.org>
+
+	* */*.[ch]: Grand rename for cell identifiers and a few more.
+
 2006-11-11  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_scroll_wheel) : renamed from

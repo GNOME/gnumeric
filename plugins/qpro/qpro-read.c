@@ -625,7 +625,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		val = value_new_float (gsf_le_get_double (data));
 	}
 
-	cell_set_expr_and_value
+	gnm_cell_set_expr_and_value
 		(sheet_cell_fetch (state->cur_sheet, col, row),
 		 texpr, val, TRUE);
 	gnm_expr_top_unref (texpr);
@@ -672,7 +672,7 @@ qpro_read_sheet (QProReadState *state)
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
-				cell_assign_value (sheet_cell_fetch (sheet, col, row),
+				gnm_cell_assign_value (sheet_cell_fetch (sheet, col, row),
 					value_new_int (GSF_LE_GET_GUINT16 (data + 6)));
 			}
 			break;
@@ -683,7 +683,7 @@ qpro_read_sheet (QProReadState *state)
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
-				cell_assign_value (sheet_cell_fetch (sheet, col, row),
+				gnm_cell_assign_value (sheet_cell_fetch (sheet, col, row),
 					value_new_float (gsf_le_get_double (data + 6)));
 			}
 			break;
@@ -694,7 +694,7 @@ qpro_read_sheet (QProReadState *state)
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
-				cell_assign_value (sheet_cell_fetch (sheet, col, row),
+				gnm_cell_assign_value (sheet_cell_fetch (sheet, col, row),
 						   qpro_new_string (state, data + 7));
 			}
 			break;

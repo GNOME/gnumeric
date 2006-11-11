@@ -142,8 +142,8 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			GnmValue *v = cell ? cell->value : NULL;
 			char const *type;
 
-			gboolean is_expr = cell && cell_has_expr (cell);
-			gboolean is_value = !is_expr && !cell_is_empty (cell) && v;
+			gboolean is_expr = cell && gnm_cell_has_expr (cell);
+			gboolean is_value = !is_expr && !gnm_cell_is_empty (cell) && v;
 
 			if (!cell)
 				type = _("Deleted");
@@ -182,7 +182,7 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			return;
 		case SRL_contents:
 			if (cell)
-				g_value_take_string (value, cell_get_entered_text (cell));
+				g_value_take_string (value, gnm_cell_get_entered_text (cell));
 			else
 				g_value_set_static_string (value, _("Deleted"));
 			return;

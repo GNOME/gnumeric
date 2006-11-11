@@ -429,10 +429,10 @@ style_shutdown (void)
  *
  * What changes are required after applying the supplied style.
  */
-SpanCalcFlags
+GnmSpanCalcFlags
 required_updates_for_style (GnmStyle const *style)
 {
-	SpanCalcFlags res = SPANCALC_SIMPLE;
+	GnmSpanCalcFlags res = GNM_SPANCALC_SIMPLE;
 
 	gboolean const row_height =
 		gnm_style_is_element_set (style, MSTYLE_FONT_SIZE) ||
@@ -453,9 +453,9 @@ required_updates_for_style (GnmStyle const *style)
 		gnm_style_is_element_set (style, MSTYLE_FONT_COLOR);
 
 	if (row_height)
-		res |= SPANCALC_ROW_HEIGHT;
+		res |= GNM_SPANCALC_ROW_HEIGHT;
 	if (format_change || size_change)
-		res |= SPANCALC_RE_RENDER | SPANCALC_RESIZE;
+		res |= GNM_SPANCALC_RE_RENDER | GNM_SPANCALC_RESIZE;
 	return res;
 }
 
@@ -478,7 +478,7 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 	g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
 
 	if (c->base.sheet && c->base.sheet->display_formulas &&
-	    cell_has_expr (c))
+	    gnm_cell_has_expr (c))
 		return HALIGN_LEFT;
 
 	for (v = c->value; v != NULL ; )

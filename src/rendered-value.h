@@ -5,9 +5,9 @@
 #include <pango/pango.h>
 
 /**
- * RenderedValue:
+ * GnmRenderedValue:
  */
-struct _RenderedValue {
+struct _GnmRenderedValue {
 	PangoLayout *layout;
 
 	/* In pango units:  */
@@ -31,8 +31,8 @@ struct _RenderedValue {
 	signed int rotation : 10;
 };
 
-struct _RenderedRotatedValue {
-	RenderedValue rv;
+struct _GnmRenderedRotatedValue {
+	GnmRenderedValue rv;
 	PangoMatrix rotmat;
 	int linecount;
 	struct RenderedRotatedValueInfo {
@@ -40,18 +40,18 @@ struct _RenderedRotatedValue {
 	} *lines;	
 };
 
-RenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
+GnmRenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
 				       gboolean variable_width,
 				       PangoContext *context,
 				       double zoom);
-void           rendered_value_destroy (RenderedValue *rv);
+void           rendered_value_destroy (GnmRenderedValue *rv);
 
-RenderedValue *rendered_value_recontext (RenderedValue *rv,
+GnmRenderedValue *rendered_value_recontext (GnmRenderedValue *rv,
 					 PangoContext *context);
-void           rendered_value_remeasure (RenderedValue *rv);
+void           rendered_value_remeasure (GnmRenderedValue *rv);
 
 /* Return the value as a single string without format infomation.  */
-char const *rendered_value_get_text (RenderedValue const * rv);
+char const *rendered_value_get_text (GnmRenderedValue const * rv);
 
 void rendered_value_init (void);
 void rendered_value_shutdown (void);

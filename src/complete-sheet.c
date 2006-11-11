@@ -69,7 +69,7 @@ text_matches (CompleteSheet const *cs)
 
 	if (cs->cell->value == NULL ||
 	    !VALUE_IS_STRING (cs->cell->value) ||
-	    cell_has_expr (cs->cell))
+	    gnm_cell_has_expr (cs->cell))
 		return FALSE;
 
 	text = value_peek_string (cs->cell->value);

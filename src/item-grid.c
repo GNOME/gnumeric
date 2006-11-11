@@ -638,7 +638,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				 * box.  Ignore blanks too.
 				 */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
-				if (!cell_is_empty (cell) && cell != edit_cell)
+				if (!gnm_cell_is_empty (cell) && cell != edit_cell)
 					cell_draw (cell, ig->gc.cell, drawable,
 						   x, y, ci->size_pixels,
 						   ri->size_pixels, -1);

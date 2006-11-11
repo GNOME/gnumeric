@@ -99,7 +99,7 @@ static GnmFuncHelp const help_complex[] = {
 };
 
 static GnmValue *
-gnumeric_complex (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_complex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c;
 	char const *suffix;
@@ -137,7 +137,7 @@ static GnmFuncHelp const help_imaginary[] = {
 };
 
 static GnmValue *
-gnumeric_imaginary (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imaginary (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c;
 	char imunit;
@@ -173,7 +173,7 @@ static GnmFuncHelp const help_imabs[] = {
 
 
 static GnmValue *
-gnumeric_imabs (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imabs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c;
 	char imunit;
@@ -206,7 +206,7 @@ static GnmFuncHelp const help_imreal[] = {
 
 
 static GnmValue *
-gnumeric_imreal (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imreal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c;
 	char imunit;
@@ -242,7 +242,7 @@ static GnmFuncHelp const help_imconjugate[] = {
 };
 
 static GnmValue *
-gnumeric_imconjugate (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imconjugate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -276,7 +276,7 @@ static GnmFuncHelp const help_iminv[] = {
 };
 
 static GnmValue *
-gnumeric_iminv (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_iminv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -310,7 +310,7 @@ static GnmFuncHelp const help_imneg[] = {
 };
 
 static GnmValue *
-gnumeric_imneg (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imneg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -344,7 +344,7 @@ static GnmFuncHelp const help_imcos[] = {
 };
 
 static GnmValue *
-gnumeric_imcos (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imcos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -378,7 +378,7 @@ static GnmFuncHelp const help_imtan[] = {
 };
 
 static GnmValue *
-gnumeric_imtan (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imtan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -413,7 +413,7 @@ static GnmFuncHelp const help_imsec[] = {
 };
 
 static GnmValue *
-gnumeric_imsec (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imsec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -449,7 +449,7 @@ static GnmFuncHelp const help_imcsc[] = {
 };
 
 static GnmValue *
-gnumeric_imcsc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imcsc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -485,7 +485,7 @@ static GnmFuncHelp const help_imcot[] = {
 };
 
 static GnmValue *
-gnumeric_imcot (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imcot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -520,7 +520,7 @@ static GnmFuncHelp const help_imexp[] = {
 };
 
 static GnmValue *
-gnumeric_imexp (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imexp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -556,7 +556,7 @@ static GnmFuncHelp const help_imargument[] = {
 };
 
 static GnmValue *
-gnumeric_imargument (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imargument (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c;
 	char imunit;
@@ -594,7 +594,7 @@ static GnmFuncHelp const help_imln[] = {
 };
 
 static GnmValue *
-gnumeric_imln (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -628,7 +628,7 @@ static GnmFuncHelp const help_imlog2[] = {
 };
 
 static GnmValue *
-gnumeric_imlog2 (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imlog2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -663,7 +663,7 @@ static GnmFuncHelp const help_imlog10[] = {
 };
 
 static GnmValue *
-gnumeric_imlog10 (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imlog10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -700,7 +700,7 @@ static GnmFuncHelp const help_impower[] = {
 };
 
 static GnmValue *
-gnumeric_impower (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_impower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -740,7 +740,7 @@ static GnmFuncHelp const help_imdiv[] = {
 };
 
 static GnmValue *
-gnumeric_imdiv (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imdiv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -779,7 +779,7 @@ static GnmFuncHelp const help_imsin[] = {
 };
 
 static GnmValue *
-gnumeric_imsin (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imsin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -814,7 +814,7 @@ static GnmFuncHelp const help_imsinh[] = {
 };
 
 static GnmValue *
-gnumeric_imsinh (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imsinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -848,7 +848,7 @@ static GnmFuncHelp const help_imcosh[] = {
 };
 
 static GnmValue *
-gnumeric_imcosh (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imcosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -882,7 +882,7 @@ static GnmFuncHelp const help_imtanh[] = {
 };
 
 static GnmValue *
-gnumeric_imtanh (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imtanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -916,7 +916,7 @@ static GnmFuncHelp const help_imsech[] = {
 };
 
 static GnmValue *
-gnumeric_imsech (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imsech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -950,7 +950,7 @@ static GnmFuncHelp const help_imcsch[] = {
 };
 
 static GnmValue *
-gnumeric_imcsch (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imcsch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -984,7 +984,7 @@ static GnmFuncHelp const help_imcoth[] = {
 };
 
 static GnmValue *
-gnumeric_imcoth (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imcoth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1019,7 +1019,7 @@ static GnmFuncHelp const help_imarcsin[] = {
 };
 
 static GnmValue *
-gnumeric_imarcsin (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarcsin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1054,7 +1054,7 @@ static GnmFuncHelp const help_imarccos[] = {
 };
 
 static GnmValue *
-gnumeric_imarccos (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarccos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1089,7 +1089,7 @@ static GnmFuncHelp const help_imarctan[] = {
 };
 
 static GnmValue *
-gnumeric_imarctan (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarctan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1123,7 +1123,7 @@ static GnmFuncHelp const help_imarcsec[] = {
 };
 
 static GnmValue *
-gnumeric_imarcsec (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarcsec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1157,7 +1157,7 @@ static GnmFuncHelp const help_imarccsc[] = {
 };
 
 static GnmValue *
-gnumeric_imarccsc (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarccsc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1191,7 +1191,7 @@ static GnmFuncHelp const help_imarccot[] = {
 };
 
 static GnmValue *
-gnumeric_imarccot (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarccot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1226,7 +1226,7 @@ static GnmFuncHelp const help_imarcsinh[] = {
 };
 
 static GnmValue *
-gnumeric_imarcsinh (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarcsinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1261,7 +1261,7 @@ static GnmFuncHelp const help_imarccosh[] = {
 };
 
 static GnmValue *
-gnumeric_imarccosh (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarccosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1296,7 +1296,7 @@ static GnmFuncHelp const help_imarctanh[] = {
 };
 
 static GnmValue *
-gnumeric_imarctanh (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarctanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1331,7 +1331,7 @@ static GnmFuncHelp const help_imarcsech[] = {
 };
 
 static GnmValue *
-gnumeric_imarcsech (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarcsech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1365,7 +1365,7 @@ static GnmFuncHelp const help_imarccsch[] = {
 };
 
 static GnmValue *
-gnumeric_imarccsch (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarccsch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1400,7 +1400,7 @@ static GnmFuncHelp const help_imarccoth[] = {
 };
 
 static GnmValue *
-gnumeric_imarccoth (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imarccoth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char      imunit;
@@ -1434,7 +1434,7 @@ static GnmFuncHelp const help_imsqrt[] = {
 };
 
 static GnmValue *
-gnumeric_imsqrt (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imsqrt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t c, res;
 	char imunit;
@@ -1468,7 +1468,7 @@ static GnmFuncHelp const help_imsub[] = {
 };
 
 static GnmValue *
-gnumeric_imsub (FunctionEvalInfo *ei, GnmValue const * const *argv)
+gnumeric_imsub (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	complex_t a, b, res;
 	char imunit;
@@ -1541,7 +1541,7 @@ callback_function_imoper (GnmEvalPos const *ep, GnmValue const *value, void *clo
 }
 
 static GnmValue *
-gnumeric_improduct (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_improduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmValue *v;
         eng_imoper_t p;
@@ -1582,7 +1582,7 @@ static GnmFuncHelp const help_imsum[] = {
 };
 
 static GnmValue *
-gnumeric_imsum (FunctionEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_imsum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	GnmValue *v;
         eng_imoper_t p;

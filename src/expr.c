@@ -545,7 +545,7 @@ array_elem_get_corner (GnmExprArrayElem const *elem,
 
 	/* Sanity check incase the corner gets removed for some reason */
 	g_return_val_if_fail (corner != NULL, NULL);
-	g_return_val_if_fail (cell_has_expr (corner), NULL);
+	g_return_val_if_fail (gnm_cell_has_expr (corner), NULL);
 	g_return_val_if_fail (corner->base.texpr != (void *)0xdeadbeef, NULL);
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (corner->base.texpr), NULL);
 
@@ -560,7 +560,7 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 	case GNM_EXPR_OP_FUNCALL : {
 		gboolean failed = TRUE;
 		GnmValue *v;
-		FunctionEvalInfo ei;
+		GnmFuncEvalInfo ei;
 		ei.pos = pos;
 		ei.func_call = &expr->func;
 
@@ -680,7 +680,7 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 				col, row);
 			if (cell == NULL)
 				return value_new_empty ();
-			cell_eval (cell);
+			gnm_cell_eval (cell);
 			return value_dup (cell->value);
 		}
 	}
@@ -1305,7 +1305,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		return res;
 
 	case GNM_EXPR_OP_FUNCALL: {
-		FunctionEvalInfo ei;
+		GnmFuncEvalInfo ei;
 		ei.pos = pos;
 		ei.func_call = &expr->func;
 		res = function_call_with_exprs (&ei,
@@ -1350,7 +1350,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		if (cell == NULL)
 			return handle_empty (NULL, flags);
 
-		cell_eval (cell);
+		gnm_cell_eval (cell);
 
 		return handle_empty (value_dup (cell->value), flags);
 	}
@@ -1397,7 +1397,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		if (corner == NULL)
 			return handle_empty (NULL, flags);
 
-		cell_eval (corner);
+		gnm_cell_eval (corner);
 		a = corner->base.texpr->expr->array_corner.value;
 
 		if ((a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {

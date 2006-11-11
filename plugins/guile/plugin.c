@@ -135,7 +135,7 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 }
 
 static GnmValue*
-func_marshal_func (FunctionEvalInfo *ei, GnmValue *argv[])
+func_marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[])
 {
 	GnmFunc const *fndef;
 	SCM args = SCM_EOL, result, function;

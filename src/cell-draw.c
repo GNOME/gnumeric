@@ -47,7 +47,7 @@ static char const hashes[] =
  *             <= 0 will use width / 2
  */
 gboolean
-cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
+cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 		  int width, int height, int h_center,
 		  GOColor *res_color, gint *res_x, gint *res_y)
 {
@@ -93,7 +93,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	}
 
 	if (rv->rotation && !rv->noborders) {
-		RenderedRotatedValue const *rrv = (RenderedRotatedValue *)rv;
+		GnmRenderedRotatedValue const *rrv = (GnmRenderedRotatedValue *)rv;
 		double sin_a = rrv->rotmat.xy;
 		if (sin_a < 0) {
 			hoffset += (width - indent) - rv->layout_natural_width;
@@ -215,7 +215,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
  * (Doesn't currently handle vertical fill.)
  */
 void
-cell_finish_layout (GnmCell const *cell, RenderedValue *rv,
+cell_finish_layout (GnmCell const *cell, GnmRenderedValue *rv,
 		    int col_width,
 		    gboolean inhibit_overflow)
 {
@@ -257,7 +257,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	GOColor fore_color;
 	gint x;
 	gint y;
-	RenderedValue *rv = cell->rendered_value;
+	GnmRenderedValue *rv = cell->rendered_value;
 
 	/* Get the sizes exclusive of margins and grids */
 	/* Note: +1 because size_pixels includes leading gridline.  */
@@ -302,7 +302,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		gdk_gc_set_rgb_fg_color (gc, &fore_gdk);
 
 		if (rv->rotation) {
-			RenderedRotatedValue *rrv = (RenderedRotatedValue *)rv;
+			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
 			PangoContext *context = pango_layout_get_context (rv->layout);
 			struct RenderedRotatedValueInfo const *li = rrv->lines;
 			GSList *lines;

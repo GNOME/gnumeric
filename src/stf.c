@@ -230,7 +230,7 @@ cb_get_content (GnmCellIter const *iter, GsfOutput *buf)
 
 	if (NULL != (cell = iter->cell)) {
 		char *tmp;
-		if (cell_has_expr (cell))
+		if (gnm_cell_has_expr (cell))
 			tmp = gnm_expr_top_as_string (cell->base.texpr,
 				&iter->pp, iter->pp.sheet->convs);
 		else if (VALUE_FMT (cell->value) != NULL)

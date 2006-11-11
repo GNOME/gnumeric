@@ -485,15 +485,15 @@ xl_xml_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		v = value_new_from_string (state->val_type, xin->content->str, NULL, FALSE);
 	if (NULL != state->texpr) {
 		if (NULL != v)
-			cell_set_expr_and_value (cell, state->texpr, v, TRUE);
+			gnm_cell_set_expr_and_value (cell, state->texpr, v, TRUE);
 		else
-			cell_set_expr (cell, state->texpr);
+			gnm_cell_set_expr (cell, state->texpr);
 		gnm_expr_top_unref (state->texpr);
 		state->texpr = NULL;
 	} else if (NULL != v)
-		cell_set_value (cell, v);
+		gnm_cell_set_value (cell, v);
 	else
-		cell_set_text (cell, xin->content->str);
+		gnm_cell_set_text (cell, xin->content->str);
 }
 
 static void

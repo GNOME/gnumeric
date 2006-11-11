@@ -88,7 +88,7 @@ eval_inputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 		GnmCell *cell = (GnmCell *) cur->data;
 
 		cell_queue_recalc (cell);
-		cell_eval (cell);
+		gnm_cell_eval (cell);
 
 		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {
 			return _("Input variable did not yield to a numeric "
@@ -114,7 +114,7 @@ eval_outputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
 		GnmCell *cell = (GnmCell *) cur->data;
 
-		cell_eval (cell);
+		gnm_cell_eval (cell);
 		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {
 			return _("Output variable did not yield to a numeric "
 				 "value. Check the output variables in your "

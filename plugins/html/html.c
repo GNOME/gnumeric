@@ -116,7 +116,7 @@ html_print_encoded (GsfOutput *output, char const *str)
 static void
 html_get_text_color (GnmCell *cell, GnmStyle const *style, guint *r, guint *g, guint *b)
 {
-	GOColor fore = cell_get_render_color (cell);
+	GOColor fore = gnm_cell_get_render_color (cell);
 
 	if (fore == 0)
 		*r = *g = *b = 0;
@@ -174,7 +174,7 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 					gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
 			}
 
-			rendered_string = cell_get_rendered_text (cell);
+			rendered_string = gnm_cell_get_rendered_text (cell);
 			html_print_encoded (output, rendered_string);
 			g_free (rendered_string);
 		}
