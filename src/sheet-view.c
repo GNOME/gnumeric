@@ -475,7 +475,7 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 	sv->first_tab_col = -1; /* invalidate */
 
 	if (old.col != pos->col || old.row != pos->row) {
-		GnmRange const *merged = sheet_merge_is_corner (sv->sheet, &old);
+		GnmRange const *merged = gnm_sheet_merge_is_corner (sv->sheet, &old);
 
 		sv->edit_pos_changed.location =
 		sv->edit_pos_changed.content =
@@ -491,7 +491,7 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 		sv->edit_pos_real = *pos;
 
 		/* Redraw after change (handling merged cells) */
-		merged = sheet_merge_contains_pos (sv->sheet, &sv->edit_pos_real);
+		merged = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos_real);
 		if (merged == NULL) {
 			GnmRange tmp; tmp.start = tmp.end = *pos;
 			sv_redraw_range (sv, &tmp);

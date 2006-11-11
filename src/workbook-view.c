@@ -292,7 +292,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		r = sv->selections->data;
 
 		if (use_pos || range_is_singleton (r) ||
-		    (NULL != (m = sheet_merge_is_corner (sv->sheet, &r->start)) &&
+		    (NULL != (m = gnm_sheet_merge_is_corner (sv->sheet, &r->start)) &&
 		     range_equal (r, m))) {
 			sel_descr = sheet_names_check (sv->sheet, r);
 			if (sel_descr == NULL)

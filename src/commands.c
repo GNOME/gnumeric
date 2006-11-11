@@ -1786,8 +1786,8 @@ cmd_format_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	if (orig->new_style)
 		gnm_style_ref (orig->new_style);
 	if (orig->borders)
-		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-			style_border_ref (orig->borders [i]);
+		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
+			gnm_style_border_ref (orig->borders [i]);
 
 	cmd_selection_format (wbc, orig->new_style, orig->borders, NULL);
 }
@@ -1889,8 +1889,8 @@ cmd_format_finalize (GObject *cmd)
 	me->new_style = NULL;
 
 	if (me->borders) {
-		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-			style_border_unref (me->borders [i]);
+		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
+			gnm_style_border_unref (me->borders [i]);
 		g_free (me->borders);
 		me->borders = NULL;
 	}
@@ -1975,8 +1975,8 @@ cmd_selection_format (WorkbookControl *wbc,
 	if (borders) {
 		int i;
 
-		me->borders = g_new (GnmBorder *, STYLE_BORDER_EDGE_MAX);
-		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+		me->borders = g_new (GnmBorder *, GNM_STYLE_BORDER_EDGE_MAX);
+		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
 			me->borders [i] = borders [i];
 	} else
 		me->borders = NULL;
@@ -2145,7 +2145,7 @@ cmd_sort_finalize (GObject *cmd)
 	CmdSort *me = CMD_SORT (cmd);
 
 	if (me->data != NULL)
-		sort_data_destroy (me->data);
+		gnm_sort_data_destroy (me->data);
 	g_free (me->perm);
 	if (me->old_contents != NULL)
 		cellregion_unref (me->old_contents);
@@ -2182,12 +2182,12 @@ cmd_sort_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	if (me->perm)
-		sort_position (data, me->perm, GO_CMD_CONTEXT (wbc));
+		gnm_sort_position (data, me->perm, GO_CMD_CONTEXT (wbc));
 	else {
 		me->old_contents =
 			clipboard_copy_range (data->sheet, data->range);
 		me->cmd.size = cellregion_cmd_size (me->old_contents);
-		me->perm = sort_contents (data, GO_CMD_CONTEXT (wbc));
+		me->perm = gnm_sort_contents (data, GO_CMD_CONTEXT (wbc));
 	}
 
 	return FALSE;
@@ -2203,7 +2203,7 @@ cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 
 	desc = g_strdup_printf (_("Sorting %s"), range_as_string (data->range));
 	if (sheet_range_contains_region (data->sheet, data->range, GO_CMD_CONTEXT (wbc), desc)) {
-		sort_data_destroy (data);
+		gnm_sort_data_destroy (data);
 		g_free (desc);
 		return TRUE;
 	}
@@ -3072,7 +3072,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 		if  (cr->cols != 1 || cr->rows != 1) {
 			/* Note: when the source is a single cell, a single target merge is special */
 			/* see clipboard.c (clipboard_paste_region)                                 */
-			GnmRange const *merge = sheet_merge_is_corner (pt->sheet, &r->start);
+			GnmRange const *merge = gnm_sheet_merge_is_corner (pt->sheet, &r->start);
 			if (merge != NULL && range_equal (r, merge)) {
 				/* destination is a single merge */
 				/* enlarge it such that the source fits */
@@ -3205,11 +3205,11 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (me->cmd.size == 1)
 		me->cmd.size += cellregion_cmd_size (me->contents);
 	if (me->inverse_autofill)
-		sheet_autofill (me->dst.sheet, me->default_increment,
+		gnm_autofill_fill (me->dst.sheet, me->default_increment,
 			me->end_col, me->end_row, me->w, me->h,
 			me->base_col, me->base_row);
 	else
-		sheet_autofill (me->dst.sheet, me->default_increment,
+		gnm_autofill_fill (me->dst.sheet, me->default_increment,
 			me->base_col, me->base_row, me->w, me->h,
 			me->end_col, me->end_row);
 
@@ -3651,7 +3651,7 @@ cmd_unmerge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		GnmRange const *tmp = &(g_array_index (me->unmerged_regions, GnmRange, i));
 		sheet_redraw_range (me->cmd.sheet, tmp);
-		sheet_merge_add (me->cmd.sheet, tmp, TRUE, GO_CMD_CONTEXT (wbc));
+		gnm_sheet_merge_add (me->cmd.sheet, tmp, TRUE, GO_CMD_CONTEXT (wbc));
 		sheet_range_calc_spans (me->cmd.sheet, tmp, GNM_SPANCALC_RE_RENDER);
 	}
 
@@ -3672,7 +3672,7 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	me->unmerged_regions = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		GSList *ptr, *merged = sheet_merge_get_overlap (me->cmd.sheet,
+		GSList *ptr, *merged = gnm_sheet_merge_get_overlap (me->cmd.sheet,
 			&(g_array_index (me->ranges, GnmRange, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const tmp = *(GnmRange *)(ptr->data);
@@ -3680,7 +3680,7 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 			cc = sheet_get_comment (me->cmd.sheet, &(tmp.start)); 
 			g_array_append_val (me->unmerged_regions, tmp);
-			sheet_merge_remove (me->cmd.sheet, &tmp, GO_CMD_CONTEXT (wbc));
+			gnm_sheet_merge_remove (me->cmd.sheet, &tmp, GO_CMD_CONTEXT (wbc));
 			if (cc)
 				cell_comment_set_cell (cc, &(tmp.start));
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
@@ -3735,7 +3735,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	me->unmerged_regions = NULL;
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	for ( ; selection != NULL ; selection = selection->next) {
-		GSList *merged = sheet_merge_get_overlap (sheet, selection->data);
+		GSList *merged = gnm_sheet_merge_get_overlap (sheet, selection->data);
 		if (merged != NULL) {
 			g_array_append_val (me->ranges, *(GnmRange *)selection->data);
 			g_slist_free (merged);
@@ -3787,7 +3787,7 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
-		sheet_merge_remove (me->cmd.sheet, r, GO_CMD_CONTEXT (wbc));
+		gnm_sheet_merge_remove (me->cmd.sheet, r, GO_CMD_CONTEXT (wbc));
 	}
 
 	flags = PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS;
@@ -3829,16 +3829,16 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	sheet = me->cmd.sheet;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
-		GSList *ptr, *merged = sheet_merge_get_overlap (sheet, r);
+		GSList *ptr, *merged = gnm_sheet_merge_get_overlap (sheet, r);
 
 		/* save contents before removing contained merged regions */
 		me->old_contents = g_slist_prepend (me->old_contents,
 			clipboard_copy_range (sheet, r));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-			sheet_merge_remove (sheet, ptr->data, GO_CMD_CONTEXT (wbc));
+			gnm_sheet_merge_remove (sheet, ptr->data, GO_CMD_CONTEXT (wbc));
 		g_slist_free (merged);
 
-		sheet_merge_add (sheet, r, TRUE, GO_CMD_CONTEXT (wbc));
+		gnm_sheet_merge_add (sheet, r, TRUE, GO_CMD_CONTEXT (wbc));
 		if (me->center)
 			sheet_apply_style (me->cmd.sheet, r, align_center);
 	}
@@ -3901,7 +3901,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection,
 		GnmRange const *r = selection->data;
 		if (range_is_singleton (selection->data))
 			continue;
-		if (NULL != (exist = sheet_merge_is_corner (sheet, &r->start)) &&
+		if (NULL != (exist = gnm_sheet_merge_is_corner (sheet, &r->start)) &&
 		    range_equal (r, exist))
 			continue;
 		g_array_append_val (me->ranges, *(GnmRange *)selection->data);
@@ -4880,7 +4880,7 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text)
 		else {
 			GnmRange const *mr;
 
-			mr = sheet_merge_contains_pos (sheet, pos);
+			mr = gnm_sheet_merge_contains_pos (sheet, pos);
 
 			if (mr)
 				sheet_objects_clear (sheet, mr, CELL_COMMENT_TYPE);

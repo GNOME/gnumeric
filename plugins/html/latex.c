@@ -74,7 +74,7 @@ typedef struct {
 	char const     *horizontal;
 } latex_border_translator_t;
 
-/* the index into the following array is StyleBorderType */
+/* the index into the following array is GnmStyleBorderType */
 static latex_border_translator_t const border_styles[] = {
 	{LATEX_NO_BORDER,     "",  "~"},
 	{LATEX_SINGLE_BORDER, "|", "-"},
@@ -652,48 +652,48 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
  * Determine the border style
  *
  */
-static StyleBorderType
+static GnmStyleBorderType
 latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border)
 {
 	GnmBorder const	*border;
 	GnmStyle const	*style;
 
 	if (col < 0 || row < 0)
-		return STYLE_BORDER_NONE;
+		return GNM_STYLE_BORDER_NONE;
 
 	style = sheet_style_get (sheet, col, row);
 	border = gnm_style_get_border (style, which_border);
 
-	if (!(style_border_is_blank (border) ||
-	      border->line_type == STYLE_BORDER_NONE))
+	if (!(gnm_style_border_is_blank (border) ||
+	      border->line_type == GNM_STYLE_BORDER_NONE))
 		return border->line_type;
 
 	if (which_border == MSTYLE_BORDER_LEFT) {
 		if (col < 1)
-			return STYLE_BORDER_NONE;
+			return GNM_STYLE_BORDER_NONE;
 		style = sheet_style_get (sheet, col - 1, row);
 		border = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
-		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
+		return ((gnm_style_border_is_blank (border)) ? GNM_STYLE_BORDER_NONE :
 			border->line_type);
 	} else {
 		style = sheet_style_get (sheet, col + 1, row);
 		border = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
-		return ((style_border_is_blank (border)) ? STYLE_BORDER_NONE :
+		return ((gnm_style_border_is_blank (border)) ? GNM_STYLE_BORDER_NONE :
 			border->line_type);
 	}
 
-	return STYLE_BORDER_NONE;
+	return GNM_STYLE_BORDER_NONE;
 }
 
 /**
  * latex2e_print_vert_border:
  *
  * @output : Output stream where the cell contents will be written.
- * @clines:  StyleBorderType indicating the type of border
+ * @clines:  GnmStyleBorderType indicating the type of border
  *
  */
 static void
-latex2e_print_vert_border (GsfOutput *output, StyleBorderType style)
+latex2e_print_vert_border (GsfOutput *output, GnmStyleBorderType style)
 {
 	g_return_if_fail (style >= 0 && style < G_N_ELEMENTS (border_styles));
 
@@ -720,11 +720,11 @@ static void
 latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int start_row,
 				      int num_merged_cols, int num_merged_rows,
 				      gint index,
-				      StyleBorderType *borders, Sheet *sheet)
+				      GnmStyleBorderType *borders, Sheet *sheet)
 {
 	int merge_width = 0;
-	StyleBorderType left_border = STYLE_BORDER_NONE;
-	StyleBorderType right_border = STYLE_BORDER_NONE;
+	GnmStyleBorderType left_border = GNM_STYLE_BORDER_NONE;
+	GnmStyleBorderType right_border = GNM_STYLE_BORDER_NONE;
 
 	if (num_merged_cols > 1 || num_merged_rows > 1) {
 		ColRowInfo const * ci;
@@ -748,7 +748,7 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int star
 		/* Open the multicolumn statement. */
 		gsf_output_printf (output, "\\multicolumn{%d}{", num_merged_cols);
 
-		if (left_border != STYLE_BORDER_NONE)
+		if (left_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, left_border);
 
 		if (num_merged_rows > 1) {
@@ -762,23 +762,23 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int star
 			gsf_output_printf (output, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
 		}
 
-		if (right_border != STYLE_BORDER_NONE)
+		if (right_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
 
 		/*Close the right delimiter, as above. Also open the text delimiter.*/
 		gsf_output_printf (output,"}%%\n\t{");
-	} else if (left_border != STYLE_BORDER_NONE || right_border != STYLE_BORDER_NONE) {
+	} else if (left_border != GNM_STYLE_BORDER_NONE || right_border != GNM_STYLE_BORDER_NONE) {
 
 		/* Open the multicolumn statement. */
 		gsf_output_printf (output, "\\multicolumn{1}{");
 
-		if (left_border != STYLE_BORDER_NONE)
+		if (left_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
 		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(start_col));
 
-		if (right_border != STYLE_BORDER_NONE)
+		if (right_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
 
 		/*Close the right delimiter, as above. Also open the text delimiter.*/
@@ -803,8 +803,8 @@ latex2e_write_blank_multicolumn_cell (GsfOutput *output, int start_col, int star
 	}
 
 	/* Close the multicolumn text bracket. */
-	if (num_merged_cols > 1 || left_border != STYLE_BORDER_NONE
-	    || right_border != STYLE_BORDER_NONE)
+	if (num_merged_cols > 1 || left_border != GNM_STYLE_BORDER_NONE
+	    || right_border != GNM_STYLE_BORDER_NONE)
 		gsf_output_printf (output, "}");
 
 	/* And we are done. */
@@ -833,15 +833,15 @@ static void
 latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 				int num_merged_cols, int num_merged_rows,
 				gint index,
-				StyleBorderType *borders, Sheet *sheet)
+				GnmStyleBorderType *borders, Sheet *sheet)
 {
 	char * rendered_string;
 	gushort r,g,b;
 	gboolean wrap = FALSE;
 	GOFormatFamily cell_format_family;
 	int merge_width = 0;
-	StyleBorderType left_border = STYLE_BORDER_NONE;
-	StyleBorderType right_border = STYLE_BORDER_NONE;
+	GnmStyleBorderType left_border = GNM_STYLE_BORDER_NONE;
+	GnmStyleBorderType right_border = GNM_STYLE_BORDER_NONE;
 
 	/* Print the cell according to its style. */
 	GnmStyle const *style = gnm_cell_get_style (cell);
@@ -871,7 +871,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		/* Open the multicolumn statement. */
 		gsf_output_printf (output, "\\multicolumn{%d}{", num_merged_cols);
 
-		if (left_border != STYLE_BORDER_NONE)
+		if (left_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, left_border);
 
 		if (num_merged_rows > 1) {
@@ -885,23 +885,23 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			gsf_output_printf (output, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
 		}
 
-		if (right_border != STYLE_BORDER_NONE)
+		if (right_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
 
 		/*Close the right delimiter, as above. Also open the text delimiter.*/
 		gsf_output_printf (output,"}%%\n\t{");
-	} else if (left_border != STYLE_BORDER_NONE || right_border != STYLE_BORDER_NONE) {
+	} else if (left_border != GNM_STYLE_BORDER_NONE || right_border != GNM_STYLE_BORDER_NONE) {
 
 		/* Open the multicolumn statement. */
 		gsf_output_printf (output, "\\multicolumn{1}{");
 
-		if (left_border != STYLE_BORDER_NONE)
+		if (left_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, left_border);
 
 		/* Drop in the left hand format delimiter. */
 		gsf_output_printf (output, "p{\\gnumericCol%s}", col_name(start_col));
 
-		if (right_border != STYLE_BORDER_NONE)
+		if (right_border != GNM_STYLE_BORDER_NONE)
 			latex2e_print_vert_border (output, right_border);
 
 		/*Close the right delimiter, as above. Also open the text delimiter.*/
@@ -1056,8 +1056,8 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		gsf_output_printf (output, "\\end{tabular}}");
 
 	/* Close the multicolumn text bracket. */
-	if (num_merged_cols > 1 || left_border != STYLE_BORDER_NONE
-	    || right_border != STYLE_BORDER_NONE)
+	if (num_merged_cols > 1 || left_border != GNM_STYLE_BORDER_NONE
+	    || right_border != GNM_STYLE_BORDER_NONE)
 		gsf_output_printf (output, "}");
 
 	/* And we are done. */
@@ -1068,7 +1068,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 /**
  * latex2e_find_hhlines :
  *
- * @clines:  array of StyleBorderType* indicating the type of border
+ * @clines:  array of GnmStyleBorderType* indicating the type of border
  * @length:  (remaining) positions in clines
  * @col :
  * @row :
@@ -1079,7 +1079,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
  */
 
 static gboolean
-latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
+latex2e_find_hhlines (GnmStyleBorderType *clines, int length, int col, int row,
 		      Sheet *sheet, GnmStyleElement type)
 {
 	GnmStyle const	*style;
@@ -1089,12 +1089,12 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
 
 	style = sheet_style_get (sheet, col, row);
 	border = gnm_style_get_border (style, type);
-	if (style_border_is_blank (border))
+	if (gnm_style_border_is_blank (border))
 		return FALSE;
 	clines[0] = border->line_type;
 	pos.col = col;
 	pos.row = row;
-	merge_range = sheet_merge_is_corner (sheet, &pos);
+	merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
 	if (merge_range != NULL) {
 		int i;
 
@@ -1110,7 +1110,7 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
  * latex2e_print_hhline :
  *
  * @output : output stream where the cell contents will be written.
- * @clines:  an array of StyleBorderType* indicating the type of border
+ * @clines:  an array of GnmStyleBorderType* indicating the type of border
  * @n : the number of elements in clines
  *
  * This procedure prints an hhline command according to the content
@@ -1118,8 +1118,8 @@ latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
  *
  */
 static void
-latex2e_print_hhline (GsfOutput *output, StyleBorderType *clines, int n, StyleBorderType *prev_vert,
-		      StyleBorderType *next_vert)
+latex2e_print_hhline (GsfOutput *output, GnmStyleBorderType *clines, int n, GnmStyleBorderType *prev_vert,
+		      GnmStyleBorderType *next_vert)
 {
 	int col;
 	gsf_output_printf (output, "\\hhline{");
@@ -1183,8 +1183,8 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
  	GnmRange const *merge_range;
 	int row, col, num_cols, length;
 	int num_merged_cols, num_merged_rows;
-	StyleBorderType *clines, *this_clines;
-	StyleBorderType *prev_vert = NULL, *next_vert = NULL, *this_vert;
+	GnmStyleBorderType *clines, *this_clines;
+	GnmStyleBorderType *prev_vert = NULL, *next_vert = NULL, *this_vert;
 	gboolean needs_hline;
 
 	/* This is the preamble of the LaTeX2e file. */
@@ -1251,7 +1251,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 		/* We need to check for horizontal borders at the top of this row */
 		length = num_cols;
-		clines = g_new0 (StyleBorderType, length);
+		clines = g_new0 (GnmStyleBorderType, length);
 		needs_hline = FALSE;
 		this_clines = clines;
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {
@@ -1278,7 +1278,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 		/* We do this here rather than as we output the cells since */
 		/* we need to know the right connectors! */
 		prev_vert = next_vert;
-		next_vert = g_new0 (StyleBorderType, num_cols + 1);
+		next_vert = g_new0 (GnmStyleBorderType, num_cols + 1);
 		this_vert = next_vert;
 		*this_vert = latex2e_find_vline (total_range.start.col, row,
 						current_sheet, MSTYLE_BORDER_LEFT);
@@ -1309,7 +1309,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 				gsf_output_printf (output, "\t ");
 
 			/* Check a merge. */
-			merge_range = sheet_merge_is_corner (current_sheet, &pos);
+			merge_range = gnm_sheet_merge_is_corner (current_sheet, &pos);
 			if (merge_range == NULL) {
 			        if (gnm_cell_is_empty(cell))
 				        latex2e_write_blank_multicolumn_cell(output, col, row,
@@ -1347,7 +1347,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 	}
 
 	/* We need to check for horizontal borders at the bottom  of  the last  row */
-	clines = g_new0 (StyleBorderType, total_range.end.col - total_range.start.col + 1);
+	clines = g_new0 (GnmStyleBorderType, total_range.end.col - total_range.start.col + 1);
 	needs_hline = FALSE;
 	length = num_cols;
 	this_clines = clines;

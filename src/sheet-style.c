@@ -86,11 +86,11 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 /* Place holder until I merge in the new styles too */
 static void
 pstyle_set_border (GnmStyle *st, GnmBorder *border,
-		   StyleBorderLocation side)
+		   GnmStyleBorderLocation side)
 {
 	gnm_style_set_border (st,
-			      STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (side),
-			      style_border_ref (border));
+			      GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (side),
+			      gnm_style_border_ref (border));
 }
 
 /* Amortize the cost of applying a partial style over a large region
@@ -644,8 +644,8 @@ sheet_style_get_auto_pattern_color (Sheet const *sheet)
 }
 
 /**
- * This function updates the color of style_border_none when the sheet to be
- * rendered is known. style_border_none tells how to render the
+ * This function updates the color of gnm_style_border_none when the sheet to be
+ * rendered is known. gnm_style_border_none tells how to render the
  * grid. Because the grid color may be different for different sheets, the
  * functions which render the grid call this function first.  The rule for
  * selecting the grid color, which is the same as in Excel, is: - if the
@@ -665,9 +665,9 @@ sheet_style_update_grid_color (Sheet const *sheet)
 		     ? grid_color : sheet_auto);
 
 	/* Do nothing if we already have the right color */
-	if (style_border_none()->color != new_color) {
+	if (gnm_style_border_none()->color != new_color) {
 		style_color_ref (new_color); /* none_set eats the ref */
-		style_border_none_set_color (new_color);
+		gnm_style_border_none_set_color (new_color);
 	}
 	style_color_unref (grid_color);
 	style_color_unref (sheet_auto);
@@ -1158,7 +1158,7 @@ tail_recursion :
 static inline void
 style_row (GnmStyle *style, int start_col, int end_col, GnmStyleRow *sr, gboolean accept_conditions)
 {
-	GnmBorder const *top, *bottom, *none = style_border_none ();
+	GnmBorder const *top, *bottom, *none = gnm_style_border_none ();
 	GnmBorder const *left, *right, *v;
 	int const end = MIN (end_col, sr->end_col);
 	int i = MAX (start_col, sr->start_col);
@@ -1283,7 +1283,7 @@ sheet_style_get_row (Sheet const *sheet, GnmStyleRow *sr)
 	g_return_if_fail (sr->bottom != NULL);
 
 	sr->sheet = sheet;
-	sr->vertical [sr->start_col] = style_border_none ();
+	sr->vertical [sr->start_col] = gnm_style_border_none ();
 	get_style_row (sheet->style_data->styles, TILE_TOP_LEVEL, 0, 0, sr);
 }
 
@@ -1299,7 +1299,7 @@ style_row_init (GnmBorder const * * *prev_vert,
 		int start_col, int end_col, gpointer mem, gboolean hide_grid)
 {
 	int n, col;
-	GnmBorder const *none = hide_grid ? NULL : style_border_none ();
+	GnmBorder const *none = hide_grid ? NULL : gnm_style_border_none ();
 
 	/* alias the arrays for easy access so that array [col] is valid
 	 * for all elements start_col-1 .. end_col+1 inclusive.
@@ -1354,7 +1354,7 @@ sheet_style_apply_range (Sheet *sheet, GnmRange const *range, GnmStyle *pstyle)
 
 static void
 apply_border (Sheet *sheet, GnmRange const *r,
-	      StyleBorderLocation side,
+	      GnmStyleBorderLocation side,
 	      GnmBorder *border)
 {
 	GnmStyle *pstyle = gnm_style_new ();
@@ -1385,118 +1385,118 @@ sheet_style_apply_border (Sheet       *sheet,
 	if (borders == NULL)
 		return;
 
-	if (borders [STYLE_BORDER_TOP]) {
+	if (borders [GNM_STYLE_BORDER_TOP]) {
 		/* 1.1 top inner */
 		GnmRange r = *range;
 		r.end.row = r.start.row;
-		apply_border (sheet, &r, STYLE_BORDER_TOP,
-			      borders [STYLE_BORDER_TOP]);
+		apply_border (sheet, &r, GNM_STYLE_BORDER_TOP,
+			      borders [GNM_STYLE_BORDER_TOP]);
 
 		/* 1.2 top outer */
 		r.start.row--;
 		if (r.start.row >= 0) {
 			r.end.row = r.start.row;
-			apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
-				      style_border_none ());
+			apply_border (sheet, &r, GNM_STYLE_BORDER_BOTTOM,
+				      gnm_style_border_none ());
 		}
 	}
 
-	if (borders [STYLE_BORDER_BOTTOM]) {
+	if (borders [GNM_STYLE_BORDER_BOTTOM]) {
 		/* 2.1 bottom inner */
 		GnmRange r = *range;
 		r.start.row = r.end.row;
-		apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
-			      borders [STYLE_BORDER_BOTTOM]);
+		apply_border (sheet, &r, GNM_STYLE_BORDER_BOTTOM,
+			      borders [GNM_STYLE_BORDER_BOTTOM]);
 
 		/* 2.2 bottom outer */
 		r.end.row++;
 		if (r.end.row < (SHEET_MAX_ROWS-1)) {
 			r.start.row = r.end.row;
-			apply_border (sheet, &r, STYLE_BORDER_TOP,
-				      style_border_none ());
+			apply_border (sheet, &r, GNM_STYLE_BORDER_TOP,
+				      gnm_style_border_none ());
 		}
 	}
 
-	if (borders [STYLE_BORDER_LEFT]) {
+	if (borders [GNM_STYLE_BORDER_LEFT]) {
 		/* 3.1 left inner */
 		GnmRange r = *range;
 		r.end.col = r.start.col;
-		apply_border (sheet, &r, STYLE_BORDER_LEFT,
-			      borders [STYLE_BORDER_LEFT]);
+		apply_border (sheet, &r, GNM_STYLE_BORDER_LEFT,
+			      borders [GNM_STYLE_BORDER_LEFT]);
 
 		/* 3.2 left outer */
 		r.start.col--;
 		if (r.start.col >= 0) {
 			r.end.col = r.start.col;
-			apply_border (sheet, &r, STYLE_BORDER_RIGHT,
-				      style_border_none ());
+			apply_border (sheet, &r, GNM_STYLE_BORDER_RIGHT,
+				      gnm_style_border_none ());
 		}
 	}
 
-	if (borders [STYLE_BORDER_RIGHT]) {
+	if (borders [GNM_STYLE_BORDER_RIGHT]) {
 		/* 4.1 right inner */
 		GnmRange r = *range;
 		r.start.col = r.end.col;
-		apply_border (sheet, &r, STYLE_BORDER_RIGHT,
-			      borders [STYLE_BORDER_RIGHT]);
+		apply_border (sheet, &r, GNM_STYLE_BORDER_RIGHT,
+			      borders [GNM_STYLE_BORDER_RIGHT]);
 
 		/* 4.2 right outer */
 		r.end.col++;
 		if (r.end.col < (SHEET_MAX_COLS-1)) {
 			r.start.col = r.end.col;
-			apply_border (sheet, &r, STYLE_BORDER_LEFT,
-				      style_border_none ());
+			apply_border (sheet, &r, GNM_STYLE_BORDER_LEFT,
+				      gnm_style_border_none ());
 		}
 	}
 
 	/* Interiors horizontal : prefer top */
-	if (borders [STYLE_BORDER_HORIZ] != NULL) {
+	if (borders [GNM_STYLE_BORDER_HORIZ] != NULL) {
 		/* 5.1 horizontal interior top */
 		if (range->start.row != range->end.row) {
 			GnmRange r = *range;
 			++r.start.row;
-			apply_border (sheet, &r, STYLE_BORDER_TOP,
-				      borders [STYLE_BORDER_HORIZ]);
+			apply_border (sheet, &r, GNM_STYLE_BORDER_TOP,
+				      borders [GNM_STYLE_BORDER_HORIZ]);
 		}
 		/* 5.2 interior bottom */
 		if (range->start.row != range->end.row) {
 			GnmRange r = *range;
 			--r.end.row;
-			apply_border (sheet, &r, STYLE_BORDER_BOTTOM,
-				      style_border_none ());
+			apply_border (sheet, &r, GNM_STYLE_BORDER_BOTTOM,
+				      gnm_style_border_none ());
 		}
 	}
 
 	/* Interiors vertical : prefer left */
-	if (borders [STYLE_BORDER_VERT] != NULL) {
+	if (borders [GNM_STYLE_BORDER_VERT] != NULL) {
 		/* 6.1 vertical interior left */
 		if (range->start.col != range->end.col) {
 			GnmRange r = *range;
 			++r.start.col;
-			apply_border (sheet, &r, STYLE_BORDER_LEFT,
-				      borders [STYLE_BORDER_VERT]);
+			apply_border (sheet, &r, GNM_STYLE_BORDER_LEFT,
+				      borders [GNM_STYLE_BORDER_VERT]);
 		}
 
 		/* 6.2 The vertical interior right */
 		if (range->start.col != range->end.col) {
 			GnmRange r = *range;
 			--r.end.col;
-			apply_border (sheet, &r, STYLE_BORDER_RIGHT,
-				      style_border_none ());
+			apply_border (sheet, &r, GNM_STYLE_BORDER_RIGHT,
+				      gnm_style_border_none ());
 		}
 	}
 
 	/* 7. Diagonals (apply both in one pass) */
-	if (borders [STYLE_BORDER_DIAG] != NULL) {
+	if (borders [GNM_STYLE_BORDER_DIAG] != NULL) {
 		pstyle = gnm_style_new ();
-		pstyle_set_border (pstyle, borders [STYLE_BORDER_DIAG],
-				   STYLE_BORDER_DIAG);
+		pstyle_set_border (pstyle, borders [GNM_STYLE_BORDER_DIAG],
+				   GNM_STYLE_BORDER_DIAG);
 	}
-	if (borders [STYLE_BORDER_REV_DIAG]) {
+	if (borders [GNM_STYLE_BORDER_REV_DIAG]) {
 		if (pstyle == NULL)
 			pstyle = gnm_style_new ();
-		pstyle_set_border (pstyle, borders [STYLE_BORDER_REV_DIAG],
-				   STYLE_BORDER_REV_DIAG);
+		pstyle_set_border (pstyle, borders [GNM_STYLE_BORDER_REV_DIAG],
+				   GNM_STYLE_BORDER_REV_DIAG);
 	}
 	if (pstyle != NULL)
 		sheet_style_apply_range (sheet, range, pstyle);
@@ -1519,40 +1519,40 @@ cb_find_conflicts (GnmStyle *style,
 
 static void
 border_mask_internal (gboolean *known, GnmBorder **borders,
-		      GnmBorder const *b, StyleBorderLocation l)
+		      GnmBorder const *b, GnmStyleBorderLocation l)
 {
 	if (!known [l]) {
 		known [l] = TRUE;
 		borders [l] = (GnmBorder *)b;
-		style_border_ref (borders [l]);
+		gnm_style_border_ref (borders [l]);
 	} else if (borders [l] != b && borders [l] != NULL) {
-		style_border_unref (borders [l]);
+		gnm_style_border_unref (borders [l]);
 		borders [l] = NULL;
 	}
 }
 
 static void
 border_mask (gboolean *known, GnmBorder **borders,
-	     GnmBorder const *b, StyleBorderLocation l)
+	     GnmBorder const *b, GnmStyleBorderLocation l)
 {
 	if (b == NULL)
-		b = style_border_none ();
+		b = gnm_style_border_none ();
 	border_mask_internal (known, borders, b, l);
 }
 
 static void
 border_mask_vec (gboolean *known, GnmBorder **borders,
 		 GnmBorder const * const *vec, int first, int last,
-		 StyleBorderLocation l)
+		 GnmStyleBorderLocation l)
 {
 	GnmBorder const *b = vec [first];
 
 	if (b == NULL)
-		b = style_border_none ();
+		b = gnm_style_border_none ();
 	while (first++ < last) {
 		GnmBorder const *tmp = vec [first];
 		if (tmp == NULL)
-			tmp = style_border_none ();
+			tmp = gnm_style_border_none ();
 		if (b != tmp) {
 			b = NULL;
 			break;
@@ -1578,9 +1578,9 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 {
 	int n, col, row, start_col, end_col;
 	GnmStyleRow sr;
-	StyleBorderLocation i;
-	gboolean known [STYLE_BORDER_EDGE_MAX];
-	GnmBorder const *none = style_border_none ();
+	GnmStyleBorderLocation i;
+	gboolean known [GNM_STYLE_BORDER_EDGE_MAX];
+	GnmBorder const *none = gnm_style_border_none ();
 	FindConflicts user;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
@@ -1592,12 +1592,12 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	if (*style == NULL) {
 		GnmStyle const *tmp = sheet_style_get (sheet, r->start.col, r->start.row);
 		*style = gnm_style_dup (tmp);
-		for (i = STYLE_BORDER_TOP ; i < STYLE_BORDER_EDGE_MAX ; i++) {
+		for (i = GNM_STYLE_BORDER_TOP ; i < GNM_STYLE_BORDER_EDGE_MAX ; i++) {
 			known [i] = FALSE;
-			borders [i] = style_border_ref ((GnmBorder *)none);
+			borders [i] = gnm_style_border_ref ((GnmBorder *)none);
 		}
 	} else {
-		for (i = STYLE_BORDER_TOP ; i < STYLE_BORDER_EDGE_MAX ; i++)
+		for (i = GNM_STYLE_BORDER_TOP ; i < GNM_STYLE_BORDER_EDGE_MAX ; i++)
 			known [i] = TRUE;
 	}
 
@@ -1608,12 +1608,12 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 		      (ForeachTileFunc)cb_find_conflicts, &user);
 
 	/* copy over the diagonals */
-	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++) {
-		GnmStyleElement se = STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (i);
+	for (i = GNM_STYLE_BORDER_REV_DIAG ; i <= GNM_STYLE_BORDER_DIAG ; i++) {
+		GnmStyleElement se = GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (i);
 		if (user.conflicts & (1 << se))
 			borders[i] = NULL;
 		else
-			borders[i] = style_border_ref (
+			borders[i] = gnm_style_border_ref (
 				gnm_style_get_border (*style, se));
 	}
 
@@ -1663,16 +1663,16 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 		sheet_style_get_row (sheet, &sr);
 
 		border_mask (known, borders, sr.vertical [r->start.col],
-			     STYLE_BORDER_LEFT);
+			     GNM_STYLE_BORDER_LEFT);
 		border_mask (known, borders, sr.vertical [r->end.col+1],
-			     STYLE_BORDER_RIGHT);
+			     GNM_STYLE_BORDER_RIGHT);
 		border_mask_vec (known, borders, sr.top,
 				 r->start.col, r->end.col, (row == r->start.row)
-				 ? STYLE_BORDER_TOP : STYLE_BORDER_HORIZ);
+				 ? GNM_STYLE_BORDER_TOP : GNM_STYLE_BORDER_HORIZ);
 		if (r->start.col != r->end.col)
 			border_mask_vec (known, borders, sr.vertical,
 					 r->start.col+1, r->end.col,
-					 STYLE_BORDER_VERT);
+					 GNM_STYLE_BORDER_VERT);
 
 		roller = sr.top; sr.top = sr.bottom; sr.bottom = roller;
 	}
@@ -1683,7 +1683,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 		sheet_style_get_row (sheet, &sr);
 	}
 	border_mask_vec (known, borders, sr.top, r->start.col, r->end.col,
-			 STYLE_BORDER_BOTTOM);
+			 GNM_STYLE_BORDER_BOTTOM);
 
 	return user.conflicts;
 }

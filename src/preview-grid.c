@@ -227,14 +227,14 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, GnmS
 		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
 
-	style_border_draw_diag (mstyle, drawable, x, y, x+w, y+h);
+	gnm_style_border_draw_diag (mstyle, drawable, x, y, x+w, y+h);
 }
 
 #define border_null(b)	((b) == none || (b) == NULL)
 static void
 pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
 {
-	GnmBorder const *top, *bottom, *none = style_border_none ();
+	GnmBorder const *top, *bottom, *none = gnm_style_border_none ();
 	GnmBorder const *left, *right;
 	int const end = sr->end_col, row = sr->row;
 	int col = sr->start_col;
@@ -303,11 +303,11 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	GnmStyleRow sr, next_sr;
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
-	GnmBorder const *none = pg->gridlines ? style_border_none () : NULL;
+	GnmBorder const *none = pg->gridlines ? gnm_style_border_none () : NULL;
 
 	int *colwidths = NULL;
 
-	style_border_none_set_color (style_color_grid ());
+	gnm_style_border_none_set_color (style_color_grid ());
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
@@ -357,7 +357,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  			x += colwidths [col];
  		}
 
-		style_borders_row_draw (prev_vert, &sr,
+		gnm_style_borders_row_draw (prev_vert, &sr,
 					drawable, diff_x, y, y+row_height,
 					colwidths, TRUE, 1 /* cheat dir == 1 for now */);
 

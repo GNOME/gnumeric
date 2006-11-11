@@ -110,7 +110,7 @@ typedef struct {
 	GPtrArray	*dxfs;
 	GPtrArray	*table_styles;
 	GnmStyle	*style_accum;
-	StyleBorderType  border_style;
+	GnmStyleBorderType  border_style;
 	GnmColor	*border_color;
 
 	GPtrArray	*collection;	/* utility for the shared collection handlers */
@@ -1367,7 +1367,7 @@ xlsx_CT_MergeCell (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_range (xin, attrs, XL_NS_SS, "ref", &r))
-			sheet_merge_add (state->sheet, &r, FALSE,
+			gnm_sheet_merge_add (state->sheet, &r, FALSE,
 				GO_CMD_CONTEXT (state->context));
 }
 
@@ -2230,24 +2230,24 @@ static void
 xlsx_border_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const borders[] = {
-		{ "none",		STYLE_BORDER_NONE },
-		{ "thin",		STYLE_BORDER_THIN },
-		{ "medium",		STYLE_BORDER_MEDIUM },
-		{ "dashed",		STYLE_BORDER_DASHED },
-		{ "dotted",		STYLE_BORDER_DOTTED },
-		{ "thick",		STYLE_BORDER_THICK },
-		{ "double",		STYLE_BORDER_DOUBLE },
-		{ "hair",		STYLE_BORDER_HAIR },
-		{ "mediumDashed",	STYLE_BORDER_MEDIUM_DASH },
-		{ "dashDot",		STYLE_BORDER_DASH_DOT },
-		{ "mediumDashDot",	STYLE_BORDER_MEDIUM_DASH_DOT },
-		{ "dashDotDot",		STYLE_BORDER_DASH_DOT_DOT },
-		{ "mediumDashDotDot",	STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
-		{ "slantDashDot",	STYLE_BORDER_SLANTED_DASH_DOT },
+		{ "none",		GNM_STYLE_BORDER_NONE },
+		{ "thin",		GNM_STYLE_BORDER_THIN },
+		{ "medium",		GNM_STYLE_BORDER_MEDIUM },
+		{ "dashed",		GNM_STYLE_BORDER_DASHED },
+		{ "dotted",		GNM_STYLE_BORDER_DOTTED },
+		{ "thick",		GNM_STYLE_BORDER_THICK },
+		{ "double",		GNM_STYLE_BORDER_DOUBLE },
+		{ "hair",		GNM_STYLE_BORDER_HAIR },
+		{ "mediumDashed",	GNM_STYLE_BORDER_MEDIUM_DASH },
+		{ "dashDot",		GNM_STYLE_BORDER_DASH_DOT },
+		{ "mediumDashDot",	GNM_STYLE_BORDER_MEDIUM_DASH_DOT },
+		{ "dashDotDot",		GNM_STYLE_BORDER_DASH_DOT_DOT },
+		{ "mediumDashDotDot",	GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
+		{ "slantDashDot",	GNM_STYLE_BORDER_SLANTED_DASH_DOT },
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int border_style = STYLE_BORDER_NONE;
+	int border_style = GNM_STYLE_BORDER_NONE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, XL_NS_SS, "style", borders, &border_style))
@@ -2260,11 +2260,11 @@ static void
 xlsx_border_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	StyleBorderLocation const loc = xin->node->user_data.v_int;
-	GnmBorder *border = style_border_fetch (state->border_style,
-		state->border_color, style_border_get_orientation (loc));
+	GnmStyleBorderLocation const loc = xin->node->user_data.v_int;
+	GnmBorder *border = gnm_style_border_fetch (state->border_style,
+		state->border_color, gnm_style_border_get_orientation (loc));
 	gnm_style_set_border (state->style_accum,
-		STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (loc),
+		GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (loc),
 		border);
 }
 
@@ -2496,19 +2496,19 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_BORDERS),
     GSF_XML_IN_NODE (BORDERS, BORDER, XL_NS_SS, "border", GSF_XML_NO_CONTENT, &xlsx_col_elem_start, &xlsx_col_elem_end),
       GSF_XML_IN_NODE_FULL (BORDER, LEFT_B, XL_NS_SS, "left", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, STYLE_BORDER_LEFT),
+			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_LEFT),
         GSF_XML_IN_NODE (LEFT_B, LEFT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, RIGHT_B, XL_NS_SS, "right", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, STYLE_BORDER_RIGHT),
+			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_RIGHT),
         GSF_XML_IN_NODE (RIGHT_B, RIGHT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, TOP_B, XL_NS_SS,	"top", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, STYLE_BORDER_TOP),
+			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_TOP),
         GSF_XML_IN_NODE (TOP_B, TOP_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, BOTTOM_B, XL_NS_SS, "bottom", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, STYLE_BORDER_BOTTOM),
+			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_BOTTOM),
         GSF_XML_IN_NODE (BOTTOM_B, BOTTOM_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, DIAG_B, XL_NS_SS, "diagonal", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, STYLE_BORDER_DIAG),
+			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_DIAG),
         GSF_XML_IN_NODE (DIAG_B, DIAG_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
 
       GSF_XML_IN_NODE (BORDER, BORDER_VERT, XL_NS_SS,	"vertical", GSF_XML_NO_CONTENT, NULL, NULL),

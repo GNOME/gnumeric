@@ -785,12 +785,12 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				}
 			} else if (sep[0] == 'T' || sep[0] == 'B' || sep[0] == 'L' || sep[0] == 'R') {
 				/* A map from applix border indicies to gnumeric. */
-				static StyleBorderType const map[] = {0,
-					STYLE_BORDER_THIN,
-					STYLE_BORDER_MEDIUM,
-					STYLE_BORDER_THICK,
-					STYLE_BORDER_DASHED,
-					STYLE_BORDER_DOUBLE
+				static GnmStyleBorderType const map[] = {0,
+					GNM_STYLE_BORDER_THIN,
+					GNM_STYLE_BORDER_MEDIUM,
+					GNM_STYLE_BORDER_THICK,
+					GNM_STYLE_BORDER_DASHED,
+					GNM_STYLE_BORDER_DOUBLE
 				};
 
 				GnmColor *color;
@@ -798,8 +798,8 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					(sep[0] == 'T') ? MSTYLE_BORDER_TOP :
 					(sep[0] == 'B') ? MSTYLE_BORDER_BOTTOM :
 					(sep[0] == 'L') ? MSTYLE_BORDER_LEFT : MSTYLE_BORDER_RIGHT;
-				StyleBorderOrientation const orient = (sep[0] == 'T' || sep[0] == 'B')
-					? STYLE_BORDER_HORIZONTAL : STYLE_BORDER_VERTICAL;
+				GnmStyleBorderOrientation const orient = (sep[0] == 'T' || sep[0] == 'B')
+					? GNM_STYLE_BORDER_HORIZONTAL : GNM_STYLE_BORDER_VERTICAL;
 				char *end;
 				int num = strtol (++sep, &end, 10);
 
@@ -817,7 +817,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					color = style_color_black ();
 
 				gnm_style_set_border (style, type,
-						   style_border_fetch (map[num], color, orient));
+						   gnm_style_border_fetch (map[num], color, orient));
 			}
 
 			if (*sep == ',')

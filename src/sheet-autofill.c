@@ -41,7 +41,7 @@ static char *quarters[4 + 1];
 static gboolean has_quarters;
 
 void
-autofill_init (void)
+gnm_autofill_init (void)
 {
 	GDateMonth m;
 	GDateWeekday wd;
@@ -70,7 +70,7 @@ autofill_init (void)
 }
 
 void
-autofill_shutdown (void)
+gnm_autofill_shutdown (void)
 {
 	GDateMonth m;
 	GDateWeekday wd;
@@ -1157,16 +1157,16 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 
 
 /**
- * sheet_autofill :
+ * gnm_autofill_fill :
  *
  * An internal routine to autofill a region.  It does NOT
  * queue a recalc, flag a status update, or regen spans.
  */
 void
-sheet_autofill (Sheet *sheet, gboolean singleton,
-		int base_col, int base_row,
-		int w, int h,
-		int end_col, int end_row)
+gnm_autofill_fill (Sheet *sheet, gboolean singleton,
+		   int base_col, int base_row,
+		   int w, int h,
+		   int end_col, int end_row)
 {
 	sheet_autofill_internal (sheet, singleton,
 				 base_col, base_row,
@@ -1176,10 +1176,10 @@ sheet_autofill (Sheet *sheet, gboolean singleton,
 }
 
 char *
-sheet_autofill_hint (Sheet *sheet, gboolean default_increment,
-		     int base_col, int base_row,
-		     int w,        int h,
-		     int end_col,  int end_row)
+gnm_autofill_hint (Sheet *sheet, gboolean default_increment,
+		   int base_col, int base_row,
+		   int w,        int h,
+		   int end_col,  int end_row)
 {
 	return sheet_autofill_internal (sheet, default_increment,
 					base_col, base_row,

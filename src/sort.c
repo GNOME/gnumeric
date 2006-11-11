@@ -35,7 +35,7 @@ sort_clause_destroy (GnmSortClause *clause)
 
 /* Data stuff */
 void
-sort_data_destroy (GnmSortData *data)
+gnm_sort_data_destroy (GnmSortData *data)
 {
 	sort_clause_destroy (data->clauses);
 	g_free (data->range);
@@ -43,7 +43,7 @@ sort_data_destroy (GnmSortData *data)
 }
 
 int
-sort_data_length (GnmSortData const *data)
+gnm_sort_data_length (GnmSortData const *data)
 {
 	if (data->top)
 		return range_height (data->range);
@@ -157,7 +157,7 @@ sort_permute_range (GnmSortData const *data, GnmRange *range, int adj)
 }
 
 int *
-sort_permute_invert (int const *perm, int length)
+gnm_sort_permute_invert (int const *perm, int length)
 {
 	int i, *rperm;
 
@@ -190,7 +190,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 	g_printerr ("\n");
 #endif
 
-	rperm = sort_permute_invert (perm, length);
+	rperm = gnm_sort_permute_invert (perm, length);
 
 	for (i = 0; i < length; i++) {
 		GnmRange range1, range2;
@@ -246,23 +246,23 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 }
 
 void
-sort_position (GnmSortData *data, int *perm, GOCmdContext *cc)
+gnm_sort_position (GnmSortData *data, int *perm, GOCmdContext *cc)
 {
 	int length;
 
-	length = sort_data_length (data);
+	length = gnm_sort_data_length (data);
 	sort_permute (data, perm, length, cc);
 }
 
 int *
-sort_contents (GnmSortData *data, GOCmdContext *cc)
+gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 {
 	ColRowInfo const *cra;
 	SortDataPerm *perm;
 	int length, real_length, i, cur, *iperm, *real;
 	int const first = data->top ? data->range->start.row : data->range->start.col;
 
-	length = sort_data_length (data);
+	length = gnm_sort_data_length (data);
 	real_length = 0;
 
 	/* Discern the rows/cols to be actually sorted */

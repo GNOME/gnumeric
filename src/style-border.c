@@ -86,21 +86,21 @@ struct {
 	gint offset;
 	struct LineDotPattern const * pattern;
 } static const style_border_data[] = {
- 	/* 0x0 : STYLE_BORDER_NONE */			{ 0, 0, NULL },
- 	/* 0x1 : STYLE_BORDER_THIN */			{ 0, 0, NULL },
- 	/* 0x2 : STYLE_BORDER_MEDIUM */			{ 2, 0, NULL },
- 	/* 0x3 : STYLE_BORDER_DASHED */			{ 1, 0, &dashed_line },
- 	/* 0x4 : STYLE_BORDER_DOTTED */			{ 1, 0, &dotted_line },
- 	/* 0x5 : STYLE_BORDER_THICK */			{ 3, 0, NULL },
- 	/* 0x6 : STYLE_BORDER_DOUBLE */			{ 0, 0, NULL },
- 	/* 0x7 : STYLE_BORDER_HAIR */			{ 1, 0, &hair_line },
-	/* 0x8 : STYLE_BORDER_MEDIUM_DASH */		{ 2, 9, &med_dashed_line },
-	/* 0x9 : STYLE_BORDER_DASH_DOT */		{ 1, 0, &dash_dot_line },
-	/* 0xa : STYLE_BORDER_MEDIUM_DASH_DOT */	{ 2, 17,&med_dash_dot_line },
-	/* 0xb : STYLE_BORDER_DASH_DOT_DOT */		{ 1, 0, &dash_dot_dot_line },
-	/* 0xc : STYLE_BORDER_MEDIUM_DASH_DOT_DOT */	{ 2, 21,&med_dash_dot_dot_line },
-	/* 0xd : STYLE_BORDER_SLANTED_DASH_DOT */	{ 2, 6, &slant_line },/* How to slant */
-	/* 0xe : STYLE_BORDER_INCONSISTENT */		{ 3, 0, &hair_line },
+ 	/* 0x0 : GNM_STYLE_BORDER_NONE */			{ 0, 0, NULL },
+ 	/* 0x1 : GNM_STYLE_BORDER_THIN */			{ 0, 0, NULL },
+ 	/* 0x2 : GNM_STYLE_BORDER_MEDIUM */			{ 2, 0, NULL },
+ 	/* 0x3 : GNM_STYLE_BORDER_DASHED */			{ 1, 0, &dashed_line },
+ 	/* 0x4 : GNM_STYLE_BORDER_DOTTED */			{ 1, 0, &dotted_line },
+ 	/* 0x5 : GNM_STYLE_BORDER_THICK */			{ 3, 0, NULL },
+ 	/* 0x6 : GNM_STYLE_BORDER_DOUBLE */			{ 0, 0, NULL },
+ 	/* 0x7 : GNM_STYLE_BORDER_HAIR */			{ 1, 0, &hair_line },
+	/* 0x8 : GNM_STYLE_BORDER_MEDIUM_DASH */		{ 2, 9, &med_dashed_line },
+	/* 0x9 : GNM_STYLE_BORDER_DASH_DOT */		{ 1, 0, &dash_dot_line },
+	/* 0xa : GNM_STYLE_BORDER_MEDIUM_DASH_DOT */	{ 2, 17,&med_dash_dot_line },
+	/* 0xb : GNM_STYLE_BORDER_DASH_DOT_DOT */		{ 1, 0, &dash_dot_dot_line },
+	/* 0xc : GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT */	{ 2, 21,&med_dash_dot_dot_line },
+	/* 0xd : GNM_STYLE_BORDER_SLANTED_DASH_DOT */	{ 2, 6, &slant_line },/* How to slant */
+	/* 0xe : GNM_STYLE_BORDER_INCONSISTENT */		{ 3, 0, &hair_line },
 };
 
 static GHashTable *border_hash = NULL;
@@ -135,12 +135,12 @@ style_border_hash (gconstpointer v)
 }
 
 GnmBorder *
-style_border_none (void)
+gnm_style_border_none (void)
 {
 	static GnmBorder * none = NULL;
 	if (none == NULL) {
 		none = g_new0 (GnmBorder, 1);
-		none->line_type = STYLE_BORDER_NONE;
+		none->line_type = GNM_STYLE_BORDER_NONE;
 		none->color = style_color_grid ();
 		none->begin_margin = none->end_margin = none->width = 0;
 		none->ref_count = 1;
@@ -152,11 +152,11 @@ style_border_none (void)
 }
 
 /**
- * style_border_none_set_color:
+ * gnm_style_border_none_set_color:
  * @color :
  *
- * This function updates the color of style_border_none when the wanted grid
- * color is known. style_border_none tells how to render the grid. Because
+ * This function updates the color of gnm_style_border_none when the wanted grid
+ * color is known. gnm_style_border_none tells how to render the grid. Because
  * the grid color may be different for different sheets, the functions which
  * render the grid call this function first.  The rule for selecting the
  * grid color, which is the same as in Excel, is: - if the auto pattern
@@ -166,9 +166,9 @@ style_border_none (void)
  * NOTE : Absorbs a reference to @color.
  */
 void
-style_border_none_set_color (GnmColor *color)
+gnm_style_border_none_set_color (GnmColor *color)
 {
-	GnmBorder *none = style_border_none ();
+	GnmBorder *none = gnm_style_border_none ();
  	GnmColor *nc;
 
 	if (color == none->color) {
@@ -186,7 +186,7 @@ style_border_none_set_color (GnmColor *color)
 }
 
 /**
- * style_border_fetch :
+ * gnm_style_border_fetch :
  *
  * @line_type : dash style
  * @color : colour
@@ -197,22 +197,22 @@ style_border_none_set_color (GnmColor *color)
  * the same pattern depending on whether this is a horizontal or vertical line.
  */
 GnmBorder *
-style_border_fetch (StyleBorderType	         line_type,
-		    GnmColor 			*color,
-		    StyleBorderOrientation	 orientation)
+gnm_style_border_fetch (GnmStyleBorderType	         line_type,
+			GnmColor 			*color,
+			GnmStyleBorderOrientation	 orientation)
 {
 	GnmBorder *border;
 	GnmBorder key;
 
-	if (line_type < STYLE_BORDER_NONE || line_type > STYLE_BORDER_MAX) {
+	if (line_type < GNM_STYLE_BORDER_NONE || line_type > GNM_STYLE_BORDER_MAX) {
 		g_warning ("Invalid border type: %d", line_type);
-		line_type = STYLE_BORDER_NONE;
+		line_type = GNM_STYLE_BORDER_NONE;
 	}
 
-	if (line_type == STYLE_BORDER_NONE) {
+	if (line_type == GNM_STYLE_BORDER_NONE) {
 		if (color)
 			style_color_unref (color);
-		return style_border_ref (style_border_none ());
+		return gnm_style_border_ref (gnm_style_border_none ());
 	}
 
 	g_return_val_if_fail (color != NULL, NULL);
@@ -224,7 +224,7 @@ style_border_fetch (StyleBorderType	         line_type,
 		if (border != NULL) {
 			if (color)
 				style_color_unref (color);
-			return style_border_ref (border);
+			return gnm_style_border_ref (border);
 		}
 	} else
 		border_hash = g_hash_table_new (style_border_hash,
@@ -236,8 +236,8 @@ style_border_fetch (StyleBorderType	         line_type,
 	border->ref_count = 1;
 	border->gc = NULL;
 	border->gc_screen = NULL;
-	border->width = style_border_get_width (line_type);
-	if (border->line_type == STYLE_BORDER_DOUBLE) {
+	border->width = gnm_style_border_get_width (line_type);
+	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
 		border->begin_margin = 1;
 		border->end_margin = 1;
 	} else {
@@ -249,50 +249,50 @@ style_border_fetch (StyleBorderType	         line_type,
 }
 
 gboolean
-style_border_visible_in_blank (GnmBorder const *border)
+gnm_style_border_visible_in_blank (GnmBorder const *border)
 {
 	g_return_val_if_fail (border != NULL, FALSE);
 
-	return border->line_type != STYLE_BORDER_NONE;
+	return border->line_type != GNM_STYLE_BORDER_NONE;
 }
 
 gint
-style_border_get_width (StyleBorderType const line_type)
+gnm_style_border_get_width (GnmStyleBorderType const line_type)
 {
-	g_return_val_if_fail (line_type >= STYLE_BORDER_NONE, 0);
-	g_return_val_if_fail (line_type < STYLE_BORDER_MAX, 0);
+	g_return_val_if_fail (line_type >= GNM_STYLE_BORDER_NONE, 0);
+	g_return_val_if_fail (line_type < GNM_STYLE_BORDER_MAX, 0);
 
-	if (line_type == STYLE_BORDER_NONE)
+	if (line_type == GNM_STYLE_BORDER_NONE)
 		return 0;
 
 	return style_border_data [line_type].width;
 }
 
-StyleBorderOrientation
-style_border_get_orientation (StyleBorderLocation type)
+GnmStyleBorderOrientation
+gnm_style_border_get_orientation (GnmStyleBorderLocation type)
 {
 	switch (type) {
-	case STYLE_BORDER_LEFT:
-	case STYLE_BORDER_RIGHT:
-		return STYLE_BORDER_VERTICAL;
-	case STYLE_BORDER_DIAG:
-	case STYLE_BORDER_REV_DIAG:
-		return STYLE_BORDER_DIAGONAL;
-	case STYLE_BORDER_TOP:
-	case STYLE_BORDER_BOTTOM:
+	case GNM_STYLE_BORDER_LEFT:
+	case GNM_STYLE_BORDER_RIGHT:
+		return GNM_STYLE_BORDER_VERTICAL;
+	case GNM_STYLE_BORDER_DIAG:
+	case GNM_STYLE_BORDER_REV_DIAG:
+		return GNM_STYLE_BORDER_DIAGONAL;
+	case GNM_STYLE_BORDER_TOP:
+	case GNM_STYLE_BORDER_BOTTOM:
 	default:
-		return STYLE_BORDER_HORIZONTAL;
+		return GNM_STYLE_BORDER_HORIZONTAL;
 	}
 }
 
 void
-style_border_set_gc_dash (GdkGC *gc, StyleBorderType const i)
+gnm_style_border_set_gc_dash (GdkGC *gc, GnmStyleBorderType const i)
 {
 	GdkLineStyle style = GDK_LINE_SOLID;
 
 	g_return_if_fail (gc != NULL);
-	g_return_if_fail (i >= STYLE_BORDER_NONE);
-	g_return_if_fail (i < STYLE_BORDER_MAX);
+	g_return_if_fail (i >= GNM_STYLE_BORDER_NONE);
+	g_return_if_fail (i < GNM_STYLE_BORDER_MAX);
 
 	if (style_border_data[i].pattern != NULL)
 		style = GDK_LINE_ON_OFF_DASH;
@@ -333,7 +333,7 @@ style_border_get_gc (GnmBorder const *border, GdkDrawable *drawable)
 		((GnmBorder *)border)->gc = gdk_gc_new (drawable);
 		((GnmBorder *)border)->gc_screen = this_screen;
 		g_object_ref (this_screen);
-		style_border_set_gc_dash (border->gc, border->line_type);
+		gnm_style_border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_rgb_fg_color (border->gc, &border->color->gdk_color);
 	}
 
@@ -342,17 +342,17 @@ style_border_get_gc (GnmBorder const *border, GdkDrawable *drawable)
 
 #ifdef WITH_GNOME_PRINT
 static void
-style_border_set_pc_dash (StyleBorderType const i,
+style_border_set_pc_dash (GnmStyleBorderType const i,
 			  GnomePrintContext *context)
 {
 	GdkLineStyle style = GDK_LINE_SOLID;
 	int w;
 
 	g_return_if_fail (context != NULL);
-	g_return_if_fail (i >= STYLE_BORDER_NONE);
-	g_return_if_fail (i < STYLE_BORDER_MAX);
+	g_return_if_fail (i >= GNM_STYLE_BORDER_NONE);
+	g_return_if_fail (i < GNM_STYLE_BORDER_MAX);
 
-	if (i == STYLE_BORDER_NONE)
+	if (i == GNM_STYLE_BORDER_NONE)
 		return;
 
 	if (style_border_data[i].pattern != NULL)
@@ -389,7 +389,7 @@ style_border_set_pc (GnmBorder const * const border,
 #endif /* WITH_GNOME_PRINT */
 
 GnmBorder *
-style_border_ref (GnmBorder *border)
+gnm_style_border_ref (GnmBorder *border)
 {
 	/* NULL is ok */
 	if (border != NULL)
@@ -398,7 +398,7 @@ style_border_ref (GnmBorder *border)
 }
 
 void
-style_border_unref (GnmBorder *border)
+gnm_style_border_unref (GnmBorder *border)
 {
 	if (border == NULL)
 		return;
@@ -413,7 +413,7 @@ style_border_unref (GnmBorder *border)
 	 * We are allowed to deref the border_none,
 	 * but not to free it.
 	 */
-	g_return_if_fail (border != style_border_none ());
+	g_return_if_fail (border != gnm_style_border_none ());
 
 	/* Remove here, before we mess with the hashed fields.  */
 	g_hash_table_remove (border_hash, border);
@@ -447,44 +447,44 @@ style_border_hmargins (GnmBorder const * const * prev_vert,
 	GnmBorder const *b0 = sr->vertical [col];
 	GnmBorder const *b1 = sr->vertical [col+1];
 
-	if (border->line_type == STYLE_BORDER_DOUBLE) {
+	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
-		if (!style_border_is_blank (t0)) {
-			if (t0->line_type == STYLE_BORDER_DOUBLE)
+		if (!gnm_style_border_is_blank (t0)) {
+			if (t0->line_type == GNM_STYLE_BORDER_DOUBLE)
 				offsets [1][0] =  dir * t0->end_margin;
 			else
 				offsets [1][0] = -dir * t0->begin_margin;
-		} else if (!style_border_is_blank (b0))
+		} else if (!gnm_style_border_is_blank (b0))
 			offsets [1][0] = -dir * b0->begin_margin;
 		else
 			offsets [1][0] = 0;
 
-		if (!style_border_is_blank (t1)) {
-			if (t1->line_type == STYLE_BORDER_DOUBLE)
+		if (!gnm_style_border_is_blank (t1)) {
+			if (t1->line_type == GNM_STYLE_BORDER_DOUBLE)
 				offsets [1][1] = -dir * t1->begin_margin;
 			else
 				offsets [1][1] =  dir * t1->end_margin;
-		} else if (!style_border_is_blank (b1))
+		} else if (!gnm_style_border_is_blank (b1))
 			offsets [1][1] =  dir * b1->end_margin;
 		else
 			offsets [1][1] = 0;
 
-		if (!style_border_is_blank (b0)) {
-			if (b0->line_type == STYLE_BORDER_DOUBLE)
+		if (!gnm_style_border_is_blank (b0)) {
+			if (b0->line_type == GNM_STYLE_BORDER_DOUBLE)
 				offsets [0][0] =  dir * b0->end_margin;
 			else
 				offsets [0][0]= -dir * b0->begin_margin;
-		} else if (!style_border_is_blank (t0))
+		} else if (!gnm_style_border_is_blank (t0))
 			offsets [0][0]= -dir * t0->begin_margin;
 		else
 			offsets [0][0]= 0;
 
-		if (!style_border_is_blank (b1)) {
-			if (b1->line_type == STYLE_BORDER_DOUBLE)
+		if (!gnm_style_border_is_blank (b1)) {
+			if (b1->line_type == GNM_STYLE_BORDER_DOUBLE)
 				offsets [0][1] = -dir * b1->begin_margin;
 			else
 				offsets [0][1] =  dir * b1->end_margin;
-		} else if (!style_border_is_blank (t1))
+		} else if (!gnm_style_border_is_blank (t1))
 			offsets [0][1] =  dir * t1->end_margin;
 		else
 			offsets [0][1] = 0;
@@ -492,30 +492,30 @@ style_border_hmargins (GnmBorder const * const * prev_vert,
 	}
 
 	offsets [0][0] = offsets [0][1] = 0;
-	if (border->line_type == STYLE_BORDER_NONE) {
+	if (border->line_type == GNM_STYLE_BORDER_NONE) {
 		/* No need to check for show grid.  That is done when the
 		 * borders are loaded.  Do not over write background patterns
 		 */
-		if (!style_border_is_blank (b0))
+		if (!gnm_style_border_is_blank (b0))
 			offsets [0][0] = dir *(1 + b0->end_margin);
-		else if (!style_border_is_blank (t0))
+		else if (!gnm_style_border_is_blank (t0))
 			offsets [0][0] = dir *(1 + t0->end_margin);
 		else if (sr->top [col-1] == NULL)
 			offsets [0][0] = dir;
 
-		if (!style_border_is_blank (b1))
+		if (!gnm_style_border_is_blank (b1))
 			offsets [0][1] = -dir * (1 - b1->begin_margin);
-		else if (!style_border_is_blank (t1))
+		else if (!gnm_style_border_is_blank (t1))
 			offsets [0][1] = -dir * (1 - t1->begin_margin);
 		else if (sr->top [col+1] == NULL)
 			offsets [0][1] = -dir;
 	} else {
 		/* pull outwards */
-		if (style_border_is_blank (sr->top [col-1])) {
+		if (gnm_style_border_is_blank (sr->top [col-1])) {
 			int offset = 0;
-			if (!style_border_is_blank (b0))
+			if (!gnm_style_border_is_blank (b0))
 				offset = b0->begin_margin;
-			if (!style_border_is_blank (t0)) {
+			if (!gnm_style_border_is_blank (t0)) {
 				int tmp = t0->begin_margin;
 				if (offset < tmp)
 					offset = tmp;
@@ -523,11 +523,11 @@ style_border_hmargins (GnmBorder const * const * prev_vert,
 			offsets [0][0] = -dir * offset;
 		}
 
-		if (style_border_is_blank (sr->top [col+1])) {
+		if (gnm_style_border_is_blank (sr->top [col+1])) {
 			int offset = 0;
-			if (!style_border_is_blank (b1))
+			if (!gnm_style_border_is_blank (b1))
 				offset = b1->end_margin;
-			if (!style_border_is_blank (t1)) {
+			if (!gnm_style_border_is_blank (t1)) {
 				int tmp = t1->end_margin;
 				if (offset < tmp)
 					offset = tmp;
@@ -549,32 +549,32 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 	GnmBorder const *l1 = sr->bottom [col-1];
 	GnmBorder const *r1 = sr->bottom [col];
 
-	if (border->line_type == STYLE_BORDER_DOUBLE) {
+	if (border->line_type == GNM_STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
-		if (!style_border_is_blank (l0))
+		if (!gnm_style_border_is_blank (l0))
 			offsets [1][0] =  l0->end_margin;
-		else if (!style_border_is_blank (r0))
+		else if (!gnm_style_border_is_blank (r0))
 			offsets [1][0] = -r0->begin_margin;
 		else
 			offsets [1][0] = 0;
 
-		if (!style_border_is_blank (l1))
+		if (!gnm_style_border_is_blank (l1))
 			offsets [1][1] = -l1->begin_margin;
-		else if (!style_border_is_blank (r1))
+		else if (!gnm_style_border_is_blank (r1))
 			offsets [1][1] =  r1->end_margin;
 		else
 			offsets [1][1] = 0;
 
-		if (!style_border_is_blank (r0))
+		if (!gnm_style_border_is_blank (r0))
 			offsets [0][0] = r0->end_margin;
-		else if (!style_border_is_blank (l0))
+		else if (!gnm_style_border_is_blank (l0))
 			offsets [0][0] = -l0->begin_margin;
 		else
 			offsets [0][0] = 0;
 
-		if (!style_border_is_blank (r1))
+		if (!gnm_style_border_is_blank (r1))
 			offsets [0][1] = -r1->begin_margin;
-		else if (!style_border_is_blank (l1))
+		else if (!gnm_style_border_is_blank (l1))
 			offsets [0][1] =  l1->end_margin;
 		else
 			offsets [0][1] = 0;
@@ -582,21 +582,21 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 	}
 
 	offsets [0][0] = offsets [0][1] = 0;
-	if (border->line_type == STYLE_BORDER_NONE) {
+	if (border->line_type == GNM_STYLE_BORDER_NONE) {
 		/* No need to check for show grid.  That is done when the
 		 * borders are loaded.
 		 */
-		if (!style_border_is_blank (r0))
+		if (!gnm_style_border_is_blank (r0))
 			offsets [0][0] = 1 + r0->end_margin;
-		else if (!style_border_is_blank (l0))
+		else if (!gnm_style_border_is_blank (l0))
 			offsets [0][0] = 1 + l0->end_margin;
 		/* Do not over write background patterns */
 		else if (prev_vert [col] == NULL)
 			offsets [0][0] = 1;
 
-		if (!style_border_is_blank (r1))
+		if (!gnm_style_border_is_blank (r1))
 			offsets [0][1] = -1 - r1->begin_margin;
-		else if (!style_border_is_blank (l1))
+		else if (!gnm_style_border_is_blank (l1))
 			offsets [0][1] = -1 - l1->begin_margin;
 		/* Do not over write background patterns */
 		else if (sr->vertical [col] == NULL)
@@ -604,9 +604,9 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 	} else {
 		/* pull inwards */
 		int offset = 0;
-		if (!style_border_is_blank (r0))
+		if (!gnm_style_border_is_blank (r0))
 			offset = 1 + r0->end_margin;
-		if (!style_border_is_blank (l0)) {
+		if (!gnm_style_border_is_blank (l0)) {
 			int tmp = 1 + l0->end_margin;
 			if (offset < tmp)
 				offset = tmp;
@@ -614,9 +614,9 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 		offsets [0][0] = offset;
 
 		offset = 0;
-		if (!style_border_is_blank (r1))
+		if (!gnm_style_border_is_blank (r1))
 			offset = 1 + r1->begin_margin;
-		if (!style_border_is_blank (l1)) {
+		if (!gnm_style_border_is_blank (l1)) {
 			int tmp = 1 + l1->begin_margin;
 			if (offset < tmp)
 				offset = tmp;
@@ -627,17 +627,18 @@ style_border_vmargins (GnmBorder const * const * prev_vert,
 }
 
 /**
- * style_borders_row_draw :
+ * gnm_style_borders_row_draw :
  *
  * TODO : This is not the final resting place for this.
  * It will move into the gui layer eventually.
  */
 void
-style_borders_row_draw (GnmBorder const * const * prev_vert,
-			GnmStyleRow const *sr,
-			GdkDrawable * const drawable,
-			int x, int y1, int y2,
-			int *colwidths, gboolean draw_vertical, int dir)
+gnm_style_borders_row_draw (GnmBorder const * const * prev_vert,
+			    GnmStyleRow const *sr,
+			    GdkDrawable * const drawable,
+			    int x, int y1, int y2,
+			    int *colwidths,
+			    gboolean draw_vertical, int dir)
 {
 	int o[2][2];
 	int col, next_x = x;
@@ -658,7 +659,7 @@ style_borders_row_draw (GnmBorder const * const * prev_vert,
 				++y;
 			}
 
-			/* See note in style_border_set_gc_dash about +1 */
+			/* See note in gnm_style_border_set_gc_dash about +1 */
 			gdk_draw_line (drawable, gc, x + o[0][0], y,
 				       next_x + o[0][1] + dir, y);
 		}
@@ -674,7 +675,7 @@ style_borders_row_draw (GnmBorder const * const * prev_vert,
 					       x-dir, y2 + o[1][1] + 1);
 				x1 += dir;
 			}
-			/* See note in style_border_set_gc_dash about +1 */
+			/* See note in gnm_style_border_set_gc_dash about +1 */
 			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
 				       x1, y2 + o[0][1] + 1);
 		}
@@ -688,7 +689,7 @@ style_borders_row_draw (GnmBorder const * const * prev_vert,
 					       x-dir, y2 + o[1][1] + 1);
 				x1 += dir;
 			}
-			/* See note in style_border_set_gc_dash about +1 */
+			/* See note in gnm_style_border_set_gc_dash about +1 */
 			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
 				       x1, y2 + o[0][1] + 1);
 		}
@@ -696,17 +697,17 @@ style_borders_row_draw (GnmBorder const * const * prev_vert,
 }
 
 void
-style_border_draw_diag (GnmStyle const *style,
-			GdkDrawable *drawable,
-			int x1, int y1, int x2, int y2)
+gnm_style_border_draw_diag (GnmStyle const *style,
+			    GdkDrawable *drawable,
+			    int x1, int y1, int x2, int y2)
 {
 	GnmBorder const *diag;
 	GdkGC *gc;
 
 	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
-	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
 		gc = style_border_get_gc (diag, drawable);
-		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
 			gdk_draw_line (drawable, gc, x1+1, y1+3, x2-3, y2-1);
 			gdk_draw_line (drawable, gc, x1+3, y1+1, x2-1, y2-3);
 		} else
@@ -714,9 +715,9 @@ style_border_draw_diag (GnmStyle const *style,
 	}
 
 	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
-	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
 		gc = style_border_get_gc (diag, drawable);
-		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
 			gdk_draw_line (drawable, gc, x1+1, y2-3, x2-3, y1+1);
 			gdk_draw_line (drawable, gc, x1+3, y2-1, x2-1, y1+3);
 		} else
@@ -752,11 +753,12 @@ print_vline (GnomePrintContext *context,
 }
 
 void
-style_borders_row_print (GnmBorder const * const * prev_vert,
-			 GnmStyleRow const *sr,
-			 GnomePrintContext *context,
-			 float x, float y1, float y2,
-			 Sheet const *sheet, gboolean draw_vertical, int dir)
+gnm_style_borders_row_print (GnmBorder const * const * prev_vert,
+			     GnmStyleRow const *sr,
+			     GnomePrintContext *context,
+			     float x, float y1, float y2,
+			     Sheet const *sheet,
+			     gboolean draw_vertical, int dir)
 {
 	int o[2][2], col;
 	float next_x = x;
@@ -809,7 +811,7 @@ style_borders_row_print (GnmBorder const * const * prev_vert,
 					    y2 - o[1][1], border->width, dir);
 				x1 += dir;
 			}
-			/* See note in style_border_set_gc_dash about +1 */
+			/* See note in gnm_style_border_set_gc_dash about +1 */
 			print_vline (context, x1, y1 - o[0][0],
 				     y2 - o[0][1] - 1, border->width, dir);
 			gnome_print_grestore (context);
@@ -818,16 +820,16 @@ style_borders_row_print (GnmBorder const * const * prev_vert,
 }
 
 void
-style_border_print_diag (GnmStyle const *style,
-			 GnomePrintContext *context,
-			 float x1, float y1, float x2, float y2)
+gnm_style_border_print_diag (GnmStyle const *style,
+			     GnomePrintContext *context,
+			     float x1, float y1, float x2, float y2)
 {
 	GnmBorder const *diag;
 
 	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
-	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
 		style_border_set_pc (diag, context);
-		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
 			gnome_print_moveto (context, x1+1.5,  y1-3.);
 			gnome_print_lineto (context, x2-2.,   y2+ .5);
 			gnome_print_stroke (context);
@@ -842,9 +844,9 @@ style_border_print_diag (GnmStyle const *style,
 	}
 
 	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
-	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
 		style_border_set_pc (diag, context);
-		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
 			gnome_print_moveto (context, x1+1.5, y2+2.);
 			gnome_print_lineto (context, x2-2.,  y1-1.5);
 			gnome_print_stroke (context);
@@ -858,4 +860,5 @@ style_border_print_diag (GnmStyle const *style,
 		gnome_print_grestore (context);
 	}
 }
+
 #endif /* WITH_GNOME_PRINT */

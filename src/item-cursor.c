@@ -554,7 +554,7 @@ item_cursor_setup_auto_fill (ItemCursor *ic, ItemCursor const *parent, int x, in
 	 * We do not have to be too careful, the sheet guarantees that the
 	 * cursor does not split merges, all we need is existence.
 	 */
-	merges = sheet_merge_get_overlap (sheet, &ic->autofill_src);
+	merges = gnm_sheet_merge_get_overlap (sheet, &ic->autofill_src);
 	if (merges != NULL) {
 		g_slist_free (merges);
 		ic->autofill_hsize = range_width (&ic->autofill_src);
@@ -1261,13 +1261,13 @@ cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 		char *hint;
 
 		if (inverse_autofill)
-			hint = sheet_autofill_hint
+			hint = gnm_autofill_hint
 				(sheet, default_increment,
 				 ic->pos.end.col, ic->pos.end.row,
 				 w, h,
 				 ic->pos.start.col, ic->pos.start.row);
 		else
-			hint = sheet_autofill_hint
+			hint = gnm_autofill_hint
 				(sheet, default_increment,
 				 ic->pos.start.col, ic->pos.start.row,
 				 w, h,

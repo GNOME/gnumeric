@@ -1219,13 +1219,13 @@ xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			unknown_attr (gsf_state, attrs);
 	}
 
-	if (pattern >= STYLE_BORDER_NONE) {
+	if (pattern >= GNM_STYLE_BORDER_NONE) {
 		GnmStyleElement const type = gsf_state->node->user_data.v_int;
-		StyleBorderLocation const loc =
-			STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
+		GnmStyleBorderLocation const loc =
+			GNM_STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
 		GnmBorder *border =
-			style_border_fetch ((StyleBorderType)pattern, colour,
-					    style_border_get_orientation (loc));
+			gnm_style_border_fetch ((GnmStyleBorderType)pattern, colour,
+					    gnm_style_border_get_orientation (loc));
 		gnm_style_set_border (state->style, type, border);
 	}
 }
@@ -1450,7 +1450,7 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (gsf_state->content->len > 0);
 
 	if (range_parse (&r, gsf_state->content->str))
-		sheet_merge_add (state->sheet, &r, FALSE,
+		gnm_sheet_merge_add (state->sheet, &r, FALSE,
 			GO_CMD_CONTEXT (state->context));
 }
 

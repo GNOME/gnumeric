@@ -1809,7 +1809,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 		GnmStyle *tmp = mstyle;
 		GnmStyleElement const t = MSTYLE_BORDER_TOP + i;
-		StyleBorderLocation const sbl = STYLE_BORDER_TOP + i;
+		GnmStyleBorderLocation const sbl = GNM_STYLE_BORDER_TOP + i;
 		int const color_index = xf->border_color[i];
 		GnmColor *color;
 
@@ -1835,9 +1835,9 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 			break;
 		}
 		gnm_style_set_border (tmp, t,
-				      style_border_fetch (xf->border_type[i],
+				      gnm_style_border_fetch (xf->border_type[i],
 							  color,
-							  style_border_get_orientation (sbl)));
+							  gnm_style_border_get_orientation (sbl)));
 	}
 
 	/* Set the cache (const_cast) */
@@ -1886,41 +1886,41 @@ excel_set_xf_segment (ExcelReadSheet *esheet,
 	});
 }
 
-static StyleBorderType
+static GnmStyleBorderType
 biff_xf_map_border (int b)
 {
 	switch (b) {
 	case 0: /* None */
-		return STYLE_BORDER_NONE;
+		return GNM_STYLE_BORDER_NONE;
 	case 1: /* Thin */
-		return STYLE_BORDER_THIN;
+		return GNM_STYLE_BORDER_THIN;
 	case 2: /* Medium */
-		return STYLE_BORDER_MEDIUM;
+		return GNM_STYLE_BORDER_MEDIUM;
 	case 3: /* Dashed */
-		return STYLE_BORDER_DASHED;
+		return GNM_STYLE_BORDER_DASHED;
 	case 4: /* Dotted */
-		return STYLE_BORDER_DOTTED;
+		return GNM_STYLE_BORDER_DOTTED;
 	case 5: /* Thick */
-		return STYLE_BORDER_THICK;
+		return GNM_STYLE_BORDER_THICK;
 	case 6: /* Double */
-		return STYLE_BORDER_DOUBLE;
+		return GNM_STYLE_BORDER_DOUBLE;
 	case 7: /* Hair */
-		return STYLE_BORDER_HAIR;
+		return GNM_STYLE_BORDER_HAIR;
 	case 8: /* Medium Dashed */
-		return STYLE_BORDER_MEDIUM_DASH;
+		return GNM_STYLE_BORDER_MEDIUM_DASH;
 	case 9: /* Dash Dot */
-		return STYLE_BORDER_DASH_DOT;
+		return GNM_STYLE_BORDER_DASH_DOT;
 	case 10: /* Medium Dash Dot */
-		return STYLE_BORDER_MEDIUM_DASH_DOT;
+		return GNM_STYLE_BORDER_MEDIUM_DASH_DOT;
 	case 11: /* Dash Dot Dot */
-		return STYLE_BORDER_DASH_DOT_DOT;
+		return GNM_STYLE_BORDER_DASH_DOT_DOT;
 	case 12: /* Medium Dash Dot Dot */
-		return STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
+		return GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
 	case 13: /* Slanted Dash Dot*/
-		return STYLE_BORDER_SLANTED_DASH_DOT;
+		return GNM_STYLE_BORDER_SLANTED_DASH_DOT;
 	}
 	fprintf (stderr,"Unknown border style %d\n", b);
-	return STYLE_BORDER_NONE;
+	return GNM_STYLE_BORDER_NONE;
 }
 
 static int
@@ -2219,9 +2219,9 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 		/* Ok.  Now use the flag from above to assign borders */
 		diagonal_style = biff_xf_map_border (((data & 0x01e00000) >> 21) & 0xf);
 		xf->border_type[STYLE_DIAGONAL] = (has_diagonals & 0x2)
-			?  diagonal_style : STYLE_BORDER_NONE;
+			?  diagonal_style : GNM_STYLE_BORDER_NONE;
 		xf->border_type[STYLE_REV_DIAGONAL] = (has_diagonals & 0x1)
-			?  diagonal_style : STYLE_BORDER_NONE;
+			?  diagonal_style : GNM_STYLE_BORDER_NONE;
 
 		xf->fill_pattern_idx =
 			excel_map_pattern_index_from_excel ((data>>26) & 0x3f);
@@ -4245,17 +4245,17 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
-		overlap = sheet_merge_get_overlap (esheet->sheet, &r);
+		overlap = gnm_sheet_merge_get_overlap (esheet->sheet, &r);
 		if (overlap) {
 			GnmRange *r2 = (GnmRange *) overlap->data;
 			
 			/* Unmerge r2, then merge (r U r2) */
-			sheet_merge_remove (esheet->sheet, r2,
+			gnm_sheet_merge_remove (esheet->sheet, r2,
 				 GO_CMD_CONTEXT (esheet->container.importer->context));
 			r = range_union (&r, r2);
 			g_slist_free (overlap);
 		} 
-		sheet_merge_add (esheet->sheet, &r, FALSE,
+		gnm_sheet_merge_add (esheet->sheet, &r, FALSE,
 			 GO_CMD_CONTEXT (esheet->container.importer->context));
 	}
 }
@@ -4524,14 +4524,14 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 
 static void
 excel_read_CF_border (GnmStyleCond *cond, ExcelReadSheet *esheet,
-		      StyleBorderLocation type,
+		      GnmStyleBorderLocation type,
 		      unsigned xl_pat_index, unsigned xl_color_index)
 {
-	gnm_style_set_border (cond->overlay, STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (type),
-		style_border_fetch (biff_xf_map_border (xl_pat_index),
+	gnm_style_set_border (cond->overlay, GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (type),
+		gnm_style_border_fetch (biff_xf_map_border (xl_pat_index),
 			excel_palette_get (esheet->container.importer,
 					   xl_color_index),
-			style_border_get_orientation (type)));
+			gnm_style_border_get_orientation (type)));
 }
 
 static void
@@ -4678,19 +4678,19 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		guint16 patterns = GSF_LE_GET_GUINT16 (q->data + offset);
 		guint32 colours  = GSF_LE_GET_GUINT32 (q->data + offset + 2);
 		if (0 == (flags & 0x0400))
-			excel_read_CF_border (&cond, esheet, STYLE_BORDER_LEFT,
+			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_LEFT,
 				(patterns >>  0) & 0xf,
 				(colours  >>  0) & 0x7f);
 		if (0 == (flags & 0x0800))
-			excel_read_CF_border (&cond, esheet, STYLE_BORDER_RIGHT,
+			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_RIGHT,
 				(patterns >>  4) & 0xf,
 				(colours  >>  7) & 0x7f);
 		if (0 == (flags & 0x1000))
-			excel_read_CF_border (&cond, esheet, STYLE_BORDER_TOP,
+			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_TOP,
 				(patterns >>  8) & 0xf,
 				(colours  >> 16) & 0x7f);
 		if (0 == (flags & 0x2000))
-			excel_read_CF_border (&cond, esheet, STYLE_BORDER_BOTTOM,
+			excel_read_CF_border (&cond, esheet, GNM_STYLE_BORDER_BOTTOM,
 				(patterns >> 12) & 0xf,
 				(colours  >> 23) & 0x7f);
 

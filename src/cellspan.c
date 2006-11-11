@@ -254,7 +254,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 		return;
 	}
 
-	sheet_merge_get_adjacent (sheet, &cell->pos, &merge_left, &merge_right);
+	gnm_sheet_merge_get_adjacent (sheet, &cell->pos, &merge_left, &merge_right);
 	min_col = (merge_left != NULL) ? merge_left->end.col : -1;
 	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
 
@@ -411,7 +411,7 @@ row_calc_spans (ColRowInfo *ri, int row, Sheet const *sheet)
 			gnm_cell_render_value ((GnmCell *)cell, TRUE);
 
 		if (gnm_cell_is_merged (cell)) {
-			merged = sheet_merge_is_corner (sheet, &cell->pos);
+			merged = gnm_sheet_merge_is_corner (sheet, &cell->pos);
 			if (NULL != merged) {
 				col = merged->end.col + 1;
 				continue;

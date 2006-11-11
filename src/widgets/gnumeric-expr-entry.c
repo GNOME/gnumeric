@@ -695,7 +695,7 @@ gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
 
 		corner.col = MIN (dst->a.col, dst->b.col);
 		corner.row = MIN (dst->a.row, dst->b.row);
-		merge = sheet_merge_is_corner (gee->sheet, &corner);
+		merge = gnm_sheet_merge_is_corner (gee->sheet, &corner);
 		if (merge != NULL &&
 		    merge->end.col == MAX (dst->a.col, dst->b.col) &&
 		    merge->end.row == MAX (dst->a.row, dst->b.row)) {

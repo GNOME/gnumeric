@@ -195,9 +195,9 @@ do_tabulation (WorkbookControl *wbc,
 						   counts[1] : 1);
 				range.end.row   = 0;
 
-				border = style_border_fetch (STYLE_BORDER_MEDIUM,
+				border = gnm_style_border_fetch (GNM_STYLE_BORDER_MEDIUM,
 							     style_color_black (),
-							     STYLE_BORDER_HORIZONTAL);
+							     GNM_STYLE_BORDER_HORIZONTAL);
 
 				gnm_style_set_border (mstyle, MSTYLE_BORDER_BOTTOM, border);
 				sheet_style_apply_range (thissheet, &range, mstyle);
@@ -214,9 +214,9 @@ do_tabulation (WorkbookControl *wbc,
 				range.end.col   = 0;
 				range.end.row   = counts[0];;
 
-				border = style_border_fetch (STYLE_BORDER_MEDIUM,
+				border = gnm_style_border_fetch (GNM_STYLE_BORDER_MEDIUM,
 							     style_color_black (),
-							     STYLE_BORDER_VERTICAL);
+							     GNM_STYLE_BORDER_VERTICAL);
 
 				gnm_style_set_border (mstyle, MSTYLE_BORDER_RIGHT, border);
 				sheet_style_apply_range (thissheet, &range, mstyle);

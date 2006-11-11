@@ -70,13 +70,13 @@ enum {
 /* ------------------------------------------------------------------------- */
 
 /**
- * stf_export_options_sheet_list_clear:
+ * gnm_stf_export_options_sheet_list_clear:
  * @stfe: an export options struct
  *
  * Clears the sheet list.
  **/
 void
-stf_export_options_sheet_list_clear (GnmStfExport *stfe)
+gnm_stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 {
 	g_return_if_fail (stfe != NULL);
 
@@ -87,14 +87,14 @@ stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 
 
 /**
- * stf_export_options_sheet_list_add:
+ * gnm_stf_export_options_sheet_list_add:
  * @stfe: an export options struct
  * @sheet: a gnumeric sheet
  *
  * Appends a @sheet to the list of sheets to be exported
  **/
 void
-stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
+gnm_stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 {
 	g_return_if_fail (stfe != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -227,7 +227,7 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
 }
 
 /**
- * stf_export:
+ * gnm_stf_export:
  * @stfe: an export options struct
  *
  * Exports the sheets given in @stfe
@@ -235,14 +235,14 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
  * Return value: TRUE on success, FALSE otherwise
  **/
 gboolean
-stf_export (GnmStfExport *stfe)
+gnm_stf_export (GnmStfExport *stfe)
 {
 	GSList *ptr;
 	GsfOutput *sink;
 	gboolean result = TRUE;
 	char *old_locale = NULL;
 
-	g_return_val_if_fail (GNM_IS_STF_EXPORT (stfe), FALSE);
+	g_return_val_if_fail (IS_GNM_STF_EXPORT (stfe), FALSE);
 	g_return_val_if_fail (stfe->sheet_list != NULL, FALSE);
 	g_object_get (G_OBJECT (stfe), "sink", &sink, NULL);
 	g_return_val_if_fail (sink != NULL, FALSE);
@@ -302,13 +302,13 @@ stf_export (GnmStfExport *stfe)
 /* ------------------------------------------------------------------------- */
 
 /**
- * stf_export_can_transliterate:
+ * gnm_stf_export_can_transliterate:
  *
  * Return value: TRUE iff //TRANSLIT is supported
  **/
 
 gboolean
-stf_export_can_transliterate (void)
+gnm_stf_export_can_transliterate (void)
 {
 	char const *text = "G\xc3\xbclzow";
 	char *encoded_text;
@@ -375,7 +375,7 @@ gnm_stf_export_finalize (GObject *obj)
 {
 	GnmStfExport *stfe = (GnmStfExport *)obj;
 
-	stf_export_options_sheet_list_clear (stfe);
+	gnm_stf_export_options_sheet_list_clear (stfe);
 	g_free (stfe->charset);
 	g_free (stfe->locale);
 

@@ -70,7 +70,7 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		double scale;
 		int x, y, far_col;
 		FooCanvasPoints *points = foo_canvas_points_new (3);
-		GnmRange const *r = sheet_merge_is_corner (so->sheet,
+		GnmRange const *r = gnm_sheet_merge_is_corner (so->sheet,
 			&so->anchor.cell_bound.start);
 
 		if (r != NULL) {

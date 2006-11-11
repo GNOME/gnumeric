@@ -314,7 +314,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			cell_draw (cell, ig->gc.cell, drawable,
 				l, t, r - l, b - t, -1);
 	}
-	style_border_draw_diag (style, drawable, l, t, r, b);
+	gnm_style_border_draw_diag (style, drawable, l, t, r, b);
 }
 
 static void
@@ -342,7 +342,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
 
-	style_border_draw_diag (style, drawable, x, y, x+w, y+h);
+	gnm_style_border_draw_diag (style, drawable, x, y, x+w, y+h);
 }
 
 static gint
@@ -380,7 +380,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none =
-		sheet->hide_grid ? NULL : style_border_none ();
+		sheet->hide_grid ? NULL : gnm_style_border_none ();
 
 	GnmRange     view;
 	GSList	 *merged_active, *merged_active_seen,
@@ -438,7 +438,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 
 	/* Get ordered list of merged regions */
 	merged_active = merged_active_seen = merged_used = NULL;
-	merged_unused = sheet_merge_get_overlap (sheet,
+	merged_unused = gnm_sheet_merge_get_overlap (sheet,
 		range_init (&view, start_col, start_row, end_col, end_row));
 
 	/*
@@ -696,7 +696,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 			if (dir > 0)
 			x += ci->size_pixels;
 		}
-		style_borders_row_draw (prev_vert, &sr,
+		gnm_style_borders_row_draw (prev_vert, &sr,
 					drawable, start_x, y, y+ri->size_pixels,
 					colwidths, TRUE, dir);
 
@@ -727,7 +727,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 	}
 
 	if (row >= ig->bound.end.row) {
-		style_borders_row_draw (prev_vert, &sr,
+		gnm_style_borders_row_draw (prev_vert, &sr,
 					drawable, start_x, y, y, colwidths, FALSE, dir);
 		if (gcanvas->pane->index >= 2)
 			gdk_draw_line (drawable, ig->gc.bound, start_x, y, x, y);

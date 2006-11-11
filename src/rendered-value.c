@@ -218,7 +218,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		/* Deliberately exclude diagonals.  */
 		for (e = MSTYLE_BORDER_TOP; e <= MSTYLE_BORDER_RIGHT; e++) {
 			GnmBorder *b = gnm_style_get_border (mstyle, e);
-			if (!style_border_is_blank (b)) {
+			if (!gnm_style_border_is_blank (b)) {
 				res->noborders = FALSE;
 				break;
 			}
@@ -366,7 +366,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 			if (gnm_cell_is_merged (cell)) {
 				GnmRange const *merged =
-					sheet_merge_is_corner (sheet, &cell->pos);
+					gnm_sheet_merge_is_corner (sheet, &cell->pos);
 
 				col_width_pixels = sheet_col_get_distance_pixels
 					(sheet,

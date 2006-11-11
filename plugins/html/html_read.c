@@ -170,7 +170,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			/* Check whether we need to skip merges from above */
 			pos.row = tc->row;
 			pos.col = col + 1;
-			while (sheet_merge_contains_pos (tc->sheet, &pos)) {
+			while (gnm_sheet_merge_contains_pos (tc->sheet, &pos)) {
 				col++;
 				pos.col++;
 			}
@@ -267,7 +267,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				GnmRange *r = &range;
 
 				range_init (r, col + 1, tc->row, col + colspan, tc->row + rowspan - 1);
-				sheet_merge_add (tc->sheet, r, FALSE, NULL);
+				gnm_sheet_merge_add (tc->sheet, r, FALSE, NULL);
 			}
 
 			col += colspan;

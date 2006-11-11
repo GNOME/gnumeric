@@ -836,7 +836,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (merge_cols > 1 || merge_rows > 1) {
 		range_init_cellpos_size (&tmp, &state->pos.eval,
 			merge_cols, merge_rows);
-		sheet_merge_add (state->pos.sheet, &tmp, FALSE, NULL);
+		gnm_sheet_merge_add (state->pos.sheet, &tmp, FALSE, NULL);
 	}
 }
 
@@ -1198,9 +1198,9 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 	char *border_color = NULL;
 	char *border_type = NULL;
 	size_t pos = 0;
-	StyleBorderType border_style;
-	StyleBorderLocation const loc =
-		STYLE_BORDER_TOP + (int)(location - MSTYLE_BORDER_TOP);
+	GnmStyleBorderType border_style;
+	GnmStyleBorderLocation const loc =
+		GNM_STYLE_BORDER_TOP + (int)(location - MSTYLE_BORDER_TOP);
 
 	if (end == NULL || end == str)
 		return;
@@ -1217,16 +1217,16 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 
 		if (!strcmp("solid", border_type)) {
 			if (pts <= OD_BORDER_THIN)
-				border_style = STYLE_BORDER_THIN;
+				border_style = GNM_STYLE_BORDER_THIN;
 			else if (pts <= OD_BORDER_MEDIUM)
-				border_style = STYLE_BORDER_MEDIUM;
+				border_style = GNM_STYLE_BORDER_MEDIUM;
 			else
-				border_style = STYLE_BORDER_THICK;
+				border_style = GNM_STYLE_BORDER_THICK;
 		} else
-			border_style = STYLE_BORDER_DOUBLE;
+			border_style = GNM_STYLE_BORDER_DOUBLE;
 
-		border = style_border_fetch (border_style, color,
-					     style_border_get_orientation (loc));
+		border = gnm_style_border_fetch (border_style, color,
+					     gnm_style_border_get_orientation (loc));
 		border->width = pts;
 		gnm_style_set_border (style, location, border);
 		free (border_type);

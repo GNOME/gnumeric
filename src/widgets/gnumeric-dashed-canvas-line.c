@@ -89,7 +89,7 @@ double_line_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			   "GnumericDashedCanvasLine only supports a "
 			   "single line segment.");
 
-		line->dash_style_index = STYLE_BORDER_MEDIUM;
+		line->dash_style_index = GNM_STYLE_BORDER_MEDIUM;
 		gnumeric_dashed_canvas_line_draw
 			(FOO_CANVAS_ITEM (line), drawable, event);
 		return;
@@ -103,8 +103,8 @@ double_line_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	yoffs = xdiff/length;
 	xoffs = -ydiff/length;
 
-	style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
-				  STYLE_BORDER_THIN);
+	gnm_style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
+				  GNM_STYLE_BORDER_THIN);
 	offsetcoords[0] = coords[0] + xoffs;
 	offsetcoords[1] = coords[1] + yoffs;
 	offsetcoords[2] = coords[2] + xoffs;
@@ -130,10 +130,10 @@ gnumeric_dashed_canvas_line_draw (FooCanvasItem *item,
 {
 	GnumericDashedCanvasLine *line = GNUMERIC_DASHED_CANVAS_LINE (item);
 
-	if (line->dash_style_index == STYLE_BORDER_DOUBLE)
+	if (line->dash_style_index == GNM_STYLE_BORDER_DOUBLE)
 		double_line_draw (item, drawable, event);
 	else {
- 		style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
+ 		gnm_style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
 					  line->dash_style_index);
 		gnumeric_dashed_canvas_line_class->
 			real_draw (item, drawable, event);
@@ -156,7 +156,7 @@ gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
 static void
 gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
 {
-	line->dash_style_index = STYLE_BORDER_THIN;
+	line->dash_style_index = GNM_STYLE_BORDER_THIN;
 }
 
 GSF_CLASS (GnumericDashedCanvasLine, gnumeric_dashed_canvas_line,
@@ -165,9 +165,9 @@ GSF_CLASS (GnumericDashedCanvasLine, gnumeric_dashed_canvas_line,
 
 void
 gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
-					    StyleBorderType const indx)
+					    GnmStyleBorderType const indx)
 {
-	gint const width = style_border_get_width (indx);
+	gint const width = gnm_style_border_get_width (indx);
 	line->dash_style_index = indx;
 	foo_canvas_item_set (FOO_CANVAS_ITEM (line),
 			       "width-pixels", width,

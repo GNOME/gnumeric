@@ -57,8 +57,9 @@ void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 
-void sheet_filter_guess_region  (Sheet *sheet, GnmRange *region);
-void sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
-				 int start, int count);
+void gnm_sheet_filter_guess_region  (Sheet *sheet, GnmRange *region);
+void gnm_sheet_filter_insdel_colrow (Sheet *sheet,
+				     gboolean is_cols, gboolean is_insert,
+				     int start, int count);
 
 #endif /* GNUMERIC_FILTER_H */

@@ -115,7 +115,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gnumeric_editable_enters (state->window,
 			gtk_bin_get_child (GTK_BIN (state->format.quotechar)));
 
-	if (stf_export_can_transliterate ()) {
+	if (gnm_stf_export_can_transliterate ()) {
 		gtk_combo_box_set_active (state->format.transliterate,
 			GNM_STF_TRANSLITERATE_MODE_TRANS);
 	} else {
@@ -152,7 +152,7 @@ cb_collect_exported_sheets (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 		STF_EXPORT_COL_SHEET,	 &sheet,
 		-1);
 	if (exported)
-		stf_export_options_sheet_list_add (state->result, sheet);
+		gnm_stf_export_options_sheet_list_add (state->result, sheet);
 	g_object_unref (sheet);
 	return FALSE;
 }
@@ -239,7 +239,7 @@ stf_export_dialog_finish (TextExportState *state)
 		 NULL);
 
 	/* Which sheets */
-	stf_export_options_sheet_list_clear (state->result);
+	gnm_stf_export_options_sheet_list_clear (state->result);
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
 		(GtkTreeModelForeachFunc) cb_collect_exported_sheets, state);
 

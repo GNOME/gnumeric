@@ -511,12 +511,12 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 			GnmBorder const *border;
 			if (gnm_style_is_element_set (style, i) &&
 			    NULL != (border = gnm_style_get_border (style, i))) {
-				StyleBorderType t = border->line_type;
+				GnmStyleBorderType t = border->line_type;
 				GnmColor *col   = border->color;
 				gsf_xml_out_start_element (state->output, 
 					border_names [i - MSTYLE_BORDER_TOP]);
 				gsf_xml_out_add_int (state->output, "Style", t);
-				if (t != STYLE_BORDER_NONE)
+				if (t != GNM_STYLE_BORDER_NONE)
 					gnm_xml_out_add_color (state->output, "Color", col);
 				gsf_xml_out_end_element (state->output);
 			}

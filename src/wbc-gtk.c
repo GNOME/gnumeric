@@ -234,59 +234,59 @@ static void
 cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 {
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
+	GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 	int i;
 	int index = go_action_combo_pixmaps_get_selected (a, NULL);
 	
 	/* Init the list */
-	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+	for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
 		borders[i] = NULL;
 
 	switch (index) {
 	case 11 : /* left */
-		borders[STYLE_BORDER_LEFT] = style_border_fetch (STYLE_BORDER_THIN,
+		borders[GNM_STYLE_BORDER_LEFT] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (STYLE_BORDER_LEFT));
+			 gnm_style_border_get_orientation (GNM_STYLE_BORDER_LEFT));
 		break;
 
 	case 12 : /* none */
-		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-			borders[i] = style_border_ref (style_border_none ());
+		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
+			borders[i] = gnm_style_border_ref (gnm_style_border_none ());
 		break;
 
 	case 13 : /* right */
-		borders[STYLE_BORDER_RIGHT] = style_border_fetch (STYLE_BORDER_THIN,
+		borders[GNM_STYLE_BORDER_RIGHT] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (STYLE_BORDER_RIGHT));
+			 gnm_style_border_get_orientation (GNM_STYLE_BORDER_RIGHT));
 		break;
 
 	case 21 : /* all */
-		for (i = STYLE_BORDER_HORIZ; i <= STYLE_BORDER_VERT; ++i)
-			borders[i] = style_border_fetch (STYLE_BORDER_THIN,
+		for (i = GNM_STYLE_BORDER_HORIZ; i <= GNM_STYLE_BORDER_VERT; ++i)
+			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 				sheet_style_get_auto_pattern_color (sheet),
-				style_border_get_orientation (i));
+				gnm_style_border_get_orientation (i));
 		/* fall through */
 
 	case 22 : /* outside */
-		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders[i] = style_border_fetch (STYLE_BORDER_THIN,
+		for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_RIGHT; ++i)
+			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 				sheet_style_get_auto_pattern_color (sheet),
-				style_border_get_orientation (i));
+				gnm_style_border_get_orientation (i));
 		break;
 
 	case 23 : /* thick_outside */
-		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders[i] = style_border_fetch (STYLE_BORDER_THICK,
+		for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_RIGHT; ++i)
+			borders[i] = gnm_style_border_fetch (GNM_STYLE_BORDER_THICK,
 				sheet_style_get_auto_pattern_color (sheet),
-				style_border_get_orientation (i));
+				gnm_style_border_get_orientation (i));
 		break;
 
 	case 41 : /* top_n_bottom */
 	case 42 : /* top_n_double_bottom */
 	case 43 : /* top_n_thick_bottom */
-		borders[STYLE_BORDER_TOP] = style_border_fetch (STYLE_BORDER_THIN,
+		borders[GNM_STYLE_BORDER_TOP] = gnm_style_border_fetch (GNM_STYLE_BORDER_THIN,
 			sheet_style_get_auto_pattern_color (sheet),
-			style_border_get_orientation (STYLE_BORDER_TOP));
+			gnm_style_border_get_orientation (GNM_STYLE_BORDER_TOP));
 	    /* Fall through */
 
 	case 31 : /* bottom */
@@ -294,14 +294,14 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 	case 33 : /* thick_bottom */
 	{
 		int const tmp = index % 10;
-		StyleBorderType const t =
-		    (tmp == 1) ? STYLE_BORDER_THIN :
-		    (tmp == 2) ? STYLE_BORDER_DOUBLE
-		    : STYLE_BORDER_THICK;
+		GnmStyleBorderType const t =
+		    (tmp == 1) ? GNM_STYLE_BORDER_THIN :
+		    (tmp == 2) ? GNM_STYLE_BORDER_DOUBLE
+		    : GNM_STYLE_BORDER_THICK;
 
-		borders[STYLE_BORDER_BOTTOM] = style_border_fetch (t,
+		borders[GNM_STYLE_BORDER_BOTTOM] = gnm_style_border_fetch (t,
 			sheet_style_get_auto_pattern_color (sheet),
-			style_border_get_orientation (STYLE_BORDER_BOTTOM));
+			gnm_style_border_get_orientation (GNM_STYLE_BORDER_BOTTOM));
 		break;
 	}
 

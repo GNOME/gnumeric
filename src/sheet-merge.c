@@ -46,7 +46,7 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
 }
 
 /**
- * sheet_merge_add :
+ * gnm_sheet_merge_add :
  *
  * @sheet : the sheet which will contain the region
  * @src : The region to merge
@@ -58,8 +58,8 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
  * TRUE if there was an error.  Does not regen spans, redraw or render.
  */
 gboolean
-sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
-		 GOCmdContext *cc)
+gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
+		     GOCmdContext *cc)
 {
 	GSList *test;
 	GnmRange  *r_copy;
@@ -73,7 +73,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 	if (sheet_range_splits_array (sheet, r, NULL, cc, _("Merge")))
 		return TRUE;
 
-	test = sheet_merge_get_overlap (sheet, r);
+	test = gnm_sheet_merge_get_overlap (sheet, r);
 	if (test != NULL) {
 		if (cc != NULL)
 			go_cmd_context_error (cc, g_error_new (go_error_invalid(), 0,
@@ -149,7 +149,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 }
 
 /**
- * sheet_merge_remove :
+ * gnm_sheet_merge_remove :
  *
  * @sheet : the sheet which will contain the region
  * @range : The region
@@ -159,7 +159,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
  * returns TRUE if there was an error.
  */
 gboolean
-sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
+gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 {
 	GnmRange   *r_copy;
 	GnmCell    *cell;
@@ -191,14 +191,14 @@ sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 }
 
 /**
- * sheet_merge_get_overlap :
+ * gnm_sheet_merge_get_overlap :
  *
  * Returns a list of the merged regions that overlap the target region.
  * The list is ordered from top to bottom and RIGHT TO LEFT (by start coord).
  * Caller is responsible for freeing the list, but not the content.
  */
 GSList *
-sheet_merge_get_overlap (Sheet const *sheet, GnmRange const *range)
+gnm_sheet_merge_get_overlap (Sheet const *sheet, GnmRange const *range)
 {
 	GSList *ptr, *res = NULL;
 
@@ -216,13 +216,13 @@ sheet_merge_get_overlap (Sheet const *sheet, GnmRange const *range)
 }
 
 /**
- * sheet_merge_contains_pos :
+ * gnm_sheet_merge_contains_pos :
  *
  * If the GnmCellPos is contained in the a merged region return the range.
  * The GnmRange should NOT be freed.
  */
 GnmRange const *
-sheet_merge_contains_pos (Sheet const *sheet, GnmCellPos const *pos)
+gnm_sheet_merge_contains_pos (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GSList *ptr;
 
@@ -238,7 +238,7 @@ sheet_merge_contains_pos (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * sheet_merge_get_adjacent
+ * gnm_sheet_merge_get_adjacent
  * @sheet : The sheet to look in.
  * @pos : the cell to test for adjacent regions.
  * @left : the return for a region on the left
@@ -247,8 +247,8 @@ sheet_merge_contains_pos (Sheet const *sheet, GnmCellPos const *pos)
  * Returns the nearest regions to either side of @pos.
  */
 void
-sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
-			  GnmRange const **left, GnmRange const **right)
+gnm_sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
+			      GnmRange const **left, GnmRange const **right)
 {
 	GSList *ptr;
 
@@ -275,7 +275,7 @@ sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
 }
 
 /**
- * sheet_merge_is_corner :
+ * gnm_sheet_merge_is_corner :
  *
  * @sheet :
  * @pos : cellpos if top left corner
@@ -284,7 +284,7 @@ sheet_merge_get_adjacent (Sheet const *sheet, GnmCellPos const *pos,
  * The pointer should NOT be freed by the caller.
  */
 GnmRange const *
-sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
+gnm_sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
@@ -293,14 +293,14 @@ sheet_merge_is_corner (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 /**
- * sheet_merge_relocate :
+ * gnm_sheet_merge_relocate :
  *
  * @rinfo : Descriptor of what is moving.
  *
  * Shifts merged regions that need to move.
  */
 void
-sheet_merge_relocate (GnmExprRelocateInfo const *ri)
+gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 {
 	GSList   *ptr, *copy, *to_move = NULL;
 	GnmRange	 dest;
@@ -320,7 +320,7 @@ sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const *r = ptr->data;
 			if (range_contains (&dest, r->start.col, r->start.row))
-				sheet_merge_remove (ri->target_sheet, r, NULL);
+				gnm_sheet_merge_remove (ri->target_sheet, r, NULL);
 		}
 		g_slist_free (copy);
 	}
@@ -332,31 +332,31 @@ sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 			GnmRange tmp = *r;
 
 			/* Toss any merges that would be clipped. */
-			sheet_merge_remove (ri->origin_sheet, r, NULL);
+			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
 			if (!range_translate (&tmp, ri->col_offset, ri->row_offset))
 				to_move = g_slist_prepend (to_move, range_dup (&tmp));
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))
-			sheet_merge_remove (ri->origin_sheet, r, NULL);
+			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
 	}
 	g_slist_free (copy);
 
 	/* move the ranges after removing the previous content in case of overlap */
 	for (ptr = to_move ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange *dest = ptr->data;
-		sheet_merge_add (ri->target_sheet, dest, TRUE, NULL);
+		gnm_sheet_merge_add (ri->target_sheet, dest, TRUE, NULL);
 		g_free (dest);
 	}
 	g_slist_free (to_move);
 }
 
 /**
- * sheet_merge_find_container
+ * gnm_sheet_merge_find_container
  * @sheet : sheet
  * @r     : the range to test
  */
 void
-sheet_merge_find_container (Sheet const *sheet, GnmRange *target)
+gnm_sheet_merge_find_container (Sheet const *sheet, GnmRange *target)
 {
 	gboolean changed;
 	GSList *merged, *ptr;
@@ -364,7 +364,7 @@ sheet_merge_find_container (Sheet const *sheet, GnmRange *target)
 	/* expand to include any merged regions */
 	do {
 		changed = FALSE;
-		merged = sheet_merge_get_overlap (sheet, target);
+		merged = gnm_sheet_merge_get_overlap (sheet, target);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const *r = ptr->data;
 			if (target->start.col > r->start.col) {

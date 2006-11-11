@@ -437,7 +437,7 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 
 			pos.col = col;
 			cc = sheet_get_comment (sheet, &pos);
-			merge_range = sheet_merge_is_corner (sheet, &pos);
+			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
 
 			if (od_cell_is_covered (sheet, current_cell, col, row,
 						merge_range, &sheet_merges)) {

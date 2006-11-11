@@ -425,7 +425,7 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			r.start = r.end = state->pos;
 			r.end.col += across;
 			r.end.row += down;
-			sheet_merge_add (state->sheet, &r, FALSE,
+			gnm_sheet_merge_add (state->sheet, &r, FALSE,
 				GO_CMD_CONTEXT (state->context));
 			sheet_style_set_range (state->sheet, &r, style);
 		} else
@@ -585,27 +585,27 @@ static void
 xl_xml_border (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const sides[] = {
-		{ "Top",		STYLE_BORDER_TOP },
-		{ "Bottom",		STYLE_BORDER_BOTTOM },
-		{ "Right",		STYLE_BORDER_RIGHT },
-		{ "Left",		STYLE_BORDER_LEFT },
-		{ "DiagonalLeft",	STYLE_BORDER_REV_DIAG },
-		{ "DiagonalRight",	STYLE_BORDER_DIAG },
+		{ "Top",		GNM_STYLE_BORDER_TOP },
+		{ "Bottom",		GNM_STYLE_BORDER_BOTTOM },
+		{ "Right",		GNM_STYLE_BORDER_RIGHT },
+		{ "Left",		GNM_STYLE_BORDER_LEFT },
+		{ "DiagonalLeft",	GNM_STYLE_BORDER_REV_DIAG },
+		{ "DiagonalRight",	GNM_STYLE_BORDER_DIAG },
 		{ NULL, 0 }
 	};
 	static EnumVal const line_styles[] = {
-		{ "Continuous",		STYLE_BORDER_HAIR },		/* 1 2 3 */
-		{ "Dash",		STYLE_BORDER_DASHED },		/* 1 2 */
-		{ "DashDot",		STYLE_BORDER_DASH_DOT },	/* 1 2 */
-		{ "DashDotDot",		STYLE_BORDER_DASH_DOT_DOT },	/* 1 2 */
-		{ "Dot",		STYLE_BORDER_DOTTED },		/* 1 */
-		{ "Double",		STYLE_BORDER_DOUBLE },		/* 3 */
-		{ "SlantDashDot",	STYLE_BORDER_SLANTED_DASH_DOT },/* 2 */
+		{ "Continuous",		GNM_STYLE_BORDER_HAIR },		/* 1 2 3 */
+		{ "Dash",		GNM_STYLE_BORDER_DASHED },		/* 1 2 */
+		{ "DashDot",		GNM_STYLE_BORDER_DASH_DOT },	/* 1 2 */
+		{ "DashDotDot",		GNM_STYLE_BORDER_DASH_DOT_DOT },	/* 1 2 */
+		{ "Dot",		GNM_STYLE_BORDER_DOTTED },		/* 1 */
+		{ "Double",		GNM_STYLE_BORDER_DOUBLE },		/* 3 */
+		{ "SlantDashDot",	GNM_STYLE_BORDER_SLANTED_DASH_DOT },/* 2 */
 		{ NULL, 0 }
 	};
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
-	StyleBorderLocation location  = STYLE_BORDER_EDGE_MAX;
-	StyleBorderType	    line_type = STYLE_BORDER_MAX;
+	GnmStyleBorderLocation location  = GNM_STYLE_BORDER_EDGE_MAX;
+	GnmStyleBorderType	    line_type = GNM_STYLE_BORDER_MAX;
 	GnmBorder	   *border;
 	GnmColor 	   *color = NULL, *new_color;
 	int		   weight = 1, tmp;
@@ -627,33 +627,33 @@ xl_xml_border (GsfXMLIn *xin, xmlChar const **attrs)
 	switch (line_type) {
 	default:
 		break;
-	case STYLE_BORDER_HAIR:
+	case GNM_STYLE_BORDER_HAIR:
 		if (weight == 2)
-			line_type = STYLE_BORDER_THIN;
+			line_type = GNM_STYLE_BORDER_THIN;
 		else if (weight >= 3)
-			line_type = STYLE_BORDER_THICK;
+			line_type = GNM_STYLE_BORDER_THICK;
 		break;
-	case STYLE_BORDER_DASHED:
+	case GNM_STYLE_BORDER_DASHED:
 		if (weight >= 2)
-			line_type = STYLE_BORDER_MEDIUM_DASH;
+			line_type = GNM_STYLE_BORDER_MEDIUM_DASH;
 		break;
-	case STYLE_BORDER_DASH_DOT:
+	case GNM_STYLE_BORDER_DASH_DOT:
 		if (weight >= 2)
-			line_type = STYLE_BORDER_MEDIUM_DASH_DOT;
+			line_type = GNM_STYLE_BORDER_MEDIUM_DASH_DOT;
 		break;
-	case STYLE_BORDER_DASH_DOT_DOT:
+	case GNM_STYLE_BORDER_DASH_DOT_DOT:
 		if (weight >= 2)
-			line_type = STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
+			line_type = GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
 		break;
 	}
 
 	if (color != NULL &&
-	    location  != STYLE_BORDER_EDGE_MAX &&
-	    line_type != STYLE_BORDER_MAX) {
-		border = style_border_fetch (line_type,
-			color, style_border_get_orientation (location));
+	    location  != GNM_STYLE_BORDER_EDGE_MAX &&
+	    line_type != GNM_STYLE_BORDER_MAX) {
+		border = gnm_style_border_fetch (line_type,
+			color, gnm_style_border_get_orientation (location));
 		gnm_style_set_border (state->style,
-				      STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (location),
+				      GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (location),
 				      border);
 	} else if (color)
 		    style_color_unref (color);

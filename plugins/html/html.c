@@ -203,43 +203,43 @@ html_get_border_style (GnmBorder *border)
 	char *result;
 
 	switch (border->line_type) {
-	case STYLE_BORDER_THIN:
+	case GNM_STYLE_BORDER_THIN:
 		g_string_append (text, "thin solid");
 		break;
-	case STYLE_BORDER_MEDIUM:
+	case GNM_STYLE_BORDER_MEDIUM:
 		g_string_append (text, "medium solid");
 		break;
-	case STYLE_BORDER_DASHED:
+	case GNM_STYLE_BORDER_DASHED:
 		g_string_append (text, "thin dashed");
 		break;
-	case STYLE_BORDER_DOTTED:
+	case GNM_STYLE_BORDER_DOTTED:
 		g_string_append (text, "thin dotted");
 		break;
-	case STYLE_BORDER_THICK:
+	case GNM_STYLE_BORDER_THICK:
 		g_string_append (text, "thick solid");
 		break;
-	case STYLE_BORDER_DOUBLE:
+	case GNM_STYLE_BORDER_DOUBLE:
 		g_string_append (text, "thick double");
 		break;
-	case STYLE_BORDER_HAIR:
+	case GNM_STYLE_BORDER_HAIR:
 		g_string_append (text, "0.5pt solid");
 		break;
-	case STYLE_BORDER_MEDIUM_DASH:
+	case GNM_STYLE_BORDER_MEDIUM_DASH:
 		g_string_append (text, "medium dashed");
 		break;
-	case STYLE_BORDER_DASH_DOT:
+	case GNM_STYLE_BORDER_DASH_DOT:
 		g_string_append (text, "thin dashed");
 		break;
-	case STYLE_BORDER_MEDIUM_DASH_DOT:
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT:
 		g_string_append (text, "medium dashed");
 		break;
-	case STYLE_BORDER_DASH_DOT_DOT:
+	case GNM_STYLE_BORDER_DASH_DOT_DOT:
 		g_string_append (text, "thin dotted");
 		break;
-	case STYLE_BORDER_MEDIUM_DASH_DOT_DOT:
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT:
 		g_string_append (text, "medium dotted");
 		break;
-	case STYLE_BORDER_SLANTED_DASH_DOT:
+	case GNM_STYLE_BORDER_SLANTED_DASH_DOT:
 		g_string_append (text, "thin dashed");
 		break;
 	default:
@@ -276,16 +276,16 @@ html_write_border_style_40 (GsfOutput *output, GnmStyle const *style)
 	GnmBorder *border;
 
 	border = gnm_style_get_border (style, MSTYLE_BORDER_TOP);
-	if (!style_border_is_blank (border))
+	if (!gnm_style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-top");
 	border = gnm_style_get_border (style, MSTYLE_BORDER_BOTTOM);
-	if (!style_border_is_blank (border))
+	if (!gnm_style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-bottom");
 	border = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
-	if (!style_border_is_blank (border))
+	if (!gnm_style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-left");
 	border = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
-	if (!style_border_is_blank (border))
+	if (!gnm_style_border_is_blank (border))
 		html_write_one_border_style_40 (output, border, "border-right");
 }
 
@@ -408,7 +408,7 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, GnmRange *range, html_vers
 		}
 
                 /* is this covered by a merge */
-		merge_range = sheet_merge_contains_pos	(sheet, &pos);
+		merge_range = gnm_sheet_merge_contains_pos	(sheet, &pos);
 		if (merge_range != NULL) {
 			if (merge_range->start.col != col ||
 			    merge_range->start.row != row)

@@ -2706,7 +2706,7 @@ scg_rangesel_changed (SheetControlGUI *scg,
 
 	/* 3) now double check that all merged regions are fully contained */
 	last_r = *r;
-	sheet_merge_find_container (sheet, r);
+	gnm_sheet_merge_find_container (sheet, r);
 	if (!range_equal (&last_r, r))
 		gnm_expr_entry_load_from_range (expr_entry, sheet, r);
 

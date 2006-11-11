@@ -175,7 +175,7 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 
 			/* This could easily be made smarter */
 			if (!gnm_cell_is_merged (cell) &&
-			    sheet_merge_contains_pos (pt->sheet, &pos))
+			    gnm_sheet_merge_contains_pos (pt->sheet, &pos))
 					continue;
 			source_cell_ref.row = contents->base.row + y;
 			texpr = gnm_expr_top_new (gnm_expr_new_cellref (&source_cell_ref));
@@ -292,7 +292,7 @@ clipboard_paste_region (GnmCellRegion const *contents,
 	/* If the source is a single cell */
 	/* Treat a target of a single merge specially, don't split the merge */
 	if (src_cols == 1 && src_rows == 1) {
-		GnmRange const *merge = sheet_merge_is_corner (pt->sheet, &r->start);
+		GnmRange const *merge = gnm_sheet_merge_is_corner (pt->sheet, &r->start);
 		if (merge != NULL && range_equal (r, merge)) {
 			dst_cols = dst_rows = 1;
 			adjust_merges = FALSE;
@@ -414,7 +414,7 @@ clipboard_paste_region (GnmCellRegion const *contents,
 						x = tmp.end.col; tmp.end.col = tmp.end.row;  tmp.end.row = x;
 					}
 					if (!range_translate (&tmp, left, top))
-						sheet_merge_add (pt->sheet, &tmp, TRUE, cc);
+						gnm_sheet_merge_add (pt->sheet, &tmp, TRUE, cc);
 				}
 			}
 
@@ -540,7 +540,7 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 
 	cr->styles = sheet_style_get_list (sheet, r);
 
-	merged = sheet_merge_get_overlap (sheet, r);
+	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange *tmp = range_dup (ptr->data);
 		range_translate (tmp, -r->start.col, -r->start.row);

@@ -339,10 +339,10 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *style)
 			GnmColor      *color = NULL;
 			GnmBorder    *border;
 			xml_node_get_int (side, "Style", &t);
-			if (t != STYLE_BORDER_NONE)
+			if (t != GNM_STYLE_BORDER_NONE)
 				color = xml_node_get_color (side, "Color");
-			border = style_border_fetch ((StyleBorderType)t, color,
-						     style_border_get_orientation (i));
+			border = gnm_style_border_fetch ((GnmStyleBorderType)t, color,
+						     gnm_style_border_get_orientation (i));
 			gnm_style_set_border (style, i, border);
  		}
 	}
@@ -1730,7 +1730,7 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 			GnmRange r;
 			if (content != NULL) {
 				if (range_parse (&r, CXML2C (content)))
-					sheet_merge_add (ctxt->sheet, &r, FALSE, NULL);
+					gnm_sheet_merge_add (ctxt->sheet, &r, FALSE, NULL);
 				xmlFree (content);
 			}
 		}

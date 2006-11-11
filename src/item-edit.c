@@ -332,7 +332,7 @@ ie_layout (FooCanvasItem *item)
 				col_size += ci->size_pixels;
 		}
 
-	merged = sheet_merge_is_corner (sheet, &ie->pos);
+	merged = gnm_sheet_merge_is_corner (sheet, &ie->pos);
 	if (merged != NULL) {
 		if (end_col < merged->end.col)
 			end_col = merged->end.col;

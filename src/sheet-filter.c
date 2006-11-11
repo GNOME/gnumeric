@@ -1198,13 +1198,13 @@ sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
 }
 
 /**
- * sheet_filter_guess_region :
+ * gnm_sheet_filter_guess_region :
  * @sheet : #Sheet
  * @range : #GnmRange
  *
  **/
 void
-sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
+gnm_sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 {
 	int col;
 	int end_row;
@@ -1253,7 +1253,7 @@ sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 }
 
 /**
- * sheet_filter_insdel_colrow :
+ * gnm_sheet_filter_insdel_colrow :
  * @sheet :
  * @is_cols :
  * @is_insert :
@@ -1263,8 +1263,9 @@ sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
  * Adjust filters as necessary to handle col/row insertions and deletions
  **/
 void
-sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
-			    int start, int count)
+gnm_sheet_filter_insdel_colrow (Sheet *sheet,
+				gboolean is_cols, gboolean is_insert,
+				int start, int count)
 {
 	GSList *ptr, *filters;
 	GnmFilter *filter;

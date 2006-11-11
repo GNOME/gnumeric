@@ -24,7 +24,7 @@ struct _GnumericDashedCanvasLine {
 	FooCanvasLine line;
 
 	/* Public : */
-	StyleBorderType dash_style_index;
+	GnmStyleBorderType dash_style_index;
 };
 
 struct _GnumericDashedCanvasLineClass {
@@ -35,7 +35,7 @@ struct _GnumericDashedCanvasLineClass {
 };
 
 void    gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
-						    StyleBorderType const indx);
+						    GnmStyleBorderType const indx);
 
 /* Standard Gtk function */
 GType gnumeric_dashed_canvas_line_get_type (void);

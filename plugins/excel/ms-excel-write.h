@@ -114,7 +114,7 @@ struct _ExcelWriteState {
 #define FILL_NONE 0
 #define FILL_SOLID 1
 #define FILL_MAGIC FILL_NONE
-#define BORDER_MAGIC STYLE_BORDER_NONE
+#define BORDER_MAGIC GNM_STYLE_BORDER_NONE
 
 typedef enum {
 	STR_NO_LENGTH		= 0,

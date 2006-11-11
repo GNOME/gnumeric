@@ -414,7 +414,7 @@ stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 	}
 
 	g_object_set (G_OBJECT (result), "sink", output, NULL);
-	if (stf_export (result) == FALSE)
+	if (gnm_stf_export (result) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Error while trying to export file as text"));
 	g_object_unref (result);
@@ -429,10 +429,10 @@ stf_write_csv (GOFileSaver const *fs, IOContext *context,
 		 "sink", output,
 		 "quoting-triggers", ", \t\n\"",
 		 NULL);
-	stf_export_options_sheet_list_add (config,
+	gnm_stf_export_options_sheet_list_add (config,
 					   wb_view_cur_sheet (wbv));
 
-	if (stf_export (config) == FALSE)
+	if (gnm_stf_export (config) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("Error while trying to write CSV file"));
 

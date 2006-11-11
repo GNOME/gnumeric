@@ -491,7 +491,7 @@ static GNM_ACTION_DEF (cb_edit_fill_autofill)
 		/* trim is a bit overzealous, it forgets about merges */
 		do {
 			do_loop = FALSE;
-			merges = sheet_merge_get_overlap (sheet, &src);
+			merges = gnm_sheet_merge_get_overlap (sheet, &src);
 			for (ptr = merges ; ptr != NULL ; ptr = ptr->next) {
 				GnmRange const *r = ptr->data;
 				if (src.end.col < r->end.col) {
@@ -796,7 +796,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 		 * filter the region below this row. */
 		region = *src;
 		if (src->start.row == src->end.row)
-			sheet_filter_guess_region  (sv->sheet, &region);
+			gnm_sheet_filter_guess_region  (sv->sheet, &region);
 		if (region.start.row == region.end.row) {
 			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbcg),
 				 _("AutoFilter"), _("Requires more than 1 row"));
@@ -1348,14 +1348,14 @@ static GNM_ACTION_DEF (cb_format_as_date)
 static void
 mutate_borders (WorkbookControlGUI *wbcg, gboolean add)
 {
-	GnmBorder *borders [STYLE_BORDER_EDGE_MAX];
+	GnmBorder *borders [GNM_STYLE_BORDER_EDGE_MAX];
 	int i;
 
-	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; ++i)
-		if (i <= STYLE_BORDER_RIGHT)
-			borders[i] = style_border_fetch (
-				add ? STYLE_BORDER_THIN : STYLE_BORDER_NONE,
-				style_color_black (), style_border_get_orientation (i));
+	for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; ++i)
+		if (i <= GNM_STYLE_BORDER_RIGHT)
+			borders[i] = gnm_style_border_fetch (
+				add ? GNM_STYLE_BORDER_THIN : GNM_STYLE_BORDER_NONE,
+				style_color_black (), gnm_style_border_get_orientation (i));
 		else
 			borders[i] = NULL;
 

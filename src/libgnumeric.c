@@ -130,7 +130,7 @@ gnm_common_init (gboolean fast)
 	style_init ();
 	functions_init ();
 	print_init ();
-	autofill_init ();
+	gnm_autofill_init ();
 	sheet_objects_init ();
 
 	/* make sure that all hlink types are registered */
@@ -177,7 +177,7 @@ gnm_shutdown (void)
 		go_conf_sync (NULL);
 	}
 
-	autofill_shutdown ();
+	gnm_autofill_shutdown ();
 	print_shutdown ();
 	functions_shutdown ();
 	style_shutdown ();

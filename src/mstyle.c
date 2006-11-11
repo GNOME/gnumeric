@@ -116,7 +116,7 @@ gnm_style_update (GnmStyle *style)
 		hash ^= GPOINTER_TO_UINT (style->color.font);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_DIAG; i++) {
+	for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_DIAG; i++) {
 		hash ^= GPOINTER_TO_UINT (style->borders[i]);
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 	}
@@ -254,7 +254,7 @@ elem_assign_contents (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 	case MSTYLE_COLOR_PATTERN :	style_color_ref (dst->color.pattern = src->color.pattern); return;
 	case MSTYLE_ANY_BORDER:
 		elem -= MSTYLE_BORDER_TOP;
-		style_border_ref (dst->borders[elem] = src->borders[elem]);
+		gnm_style_border_ref (dst->borders[elem] = src->borders[elem]);
 		return;
 	case MSTYLE_PATTERN:		dst->pattern = src->pattern; return;
 	case MSTYLE_FONT_COLOR :	style_color_ref (dst->color.font = src->color.font); return;
@@ -309,7 +309,7 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 	case MSTYLE_COLOR_BACK :	style_color_unref (style->color.back); return;
 	case MSTYLE_COLOR_PATTERN :	style_color_unref (style->color.pattern); return;
 	case MSTYLE_ANY_BORDER:
-		style_border_unref (style->borders[elem - MSTYLE_BORDER_TOP]);
+		gnm_style_border_unref (style->borders[elem - MSTYLE_BORDER_TOP]);
 		return;
 	case MSTYLE_FONT_COLOR :	style_color_unref (style->color.font); return;
 	case MSTYLE_FONT_NAME:		gnm_string_unref (style->font_detail.name); return;
@@ -460,7 +460,7 @@ gnm_style_new_default (void)
 
 	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i)
 		gnm_style_set_border (new_style, i,
-			style_border_ref (style_border_none ()));
+			gnm_style_border_ref (gnm_style_border_none ()));
 	gnm_style_set_pattern (new_style, 0);
 
 	return new_style;
@@ -605,25 +605,25 @@ link_border_colors (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
 			color = border->color;
 			if (color->is_auto && auto_color != color) {
 				GnmBorder *new_border;
-				StyleBorderOrientation orientation;
+				GnmStyleBorderOrientation orientation;
 
 				switch (i) {
 				case MSTYLE_BORDER_LEFT:
 				case MSTYLE_BORDER_RIGHT:
-					orientation = STYLE_BORDER_VERTICAL;
+					orientation = GNM_STYLE_BORDER_VERTICAL;
 					break;
 				case MSTYLE_BORDER_REV_DIAGONAL:
 				case MSTYLE_BORDER_DIAGONAL:
-					orientation = STYLE_BORDER_DIAGONAL;
+					orientation = GNM_STYLE_BORDER_DIAGONAL;
 					break;
 				case MSTYLE_BORDER_TOP:
 				case MSTYLE_BORDER_BOTTOM:
 				default:
-					orientation = STYLE_BORDER_HORIZONTAL;
+					orientation = GNM_STYLE_BORDER_HORIZONTAL;
 					break;
 				}
 				style_color_ref (auto_color);
-				new_border = style_border_fetch (
+				new_border = gnm_style_border_fetch (
 					border->line_type, auto_color,
 					orientation);
 
@@ -920,7 +920,7 @@ gnm_style_set_border (GnmStyle *style, GnmStyleElement elem,
 		elem_set (style, elem);
 		elem -= MSTYLE_BORDER_TOP;
 		if (style->borders[elem])
-			style_border_unref (style->borders[elem]);
+			gnm_style_border_unref (style->borders[elem]);
 		style->borders[elem] = border;
 		break;
 	default:
@@ -1443,7 +1443,7 @@ gnm_style_visible_in_blank (GnmStyle const *style)
 
 	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i)
 		if (elem_is_set (style, i) &&
-		    style_border_visible_in_blank (gnm_style_get_border (style, i)))
+		    gnm_style_border_visible_in_blank (gnm_style_get_border (style, i)))
 			return TRUE;
 
 	return FALSE;

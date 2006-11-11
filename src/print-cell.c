@@ -199,7 +199,7 @@ print_cell_background (GnomePrintContext *context,
 	if (gnumeric_background_set_pc (style, context))
 		/* Fill the entire cell (API excludes far pixel) */
 		print_rectangle (context, x, y, w+1, h+1);
-	style_border_print_diag (style, context, x, y, x+w, y-h);
+	gnm_style_border_print_diag (style, context, x, y, x+w, y-h);
 }
 
 /**
@@ -280,7 +280,7 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 			print_cell (cell, style, context, pcontext,
 				l, t, r - l, t - b, -1.);
 	}
-	style_border_print_diag (style, context, l, t, r, b);
+	gnm_style_border_print_diag (style, context, l, t, r, b);
 }
 
 static gint
@@ -304,7 +304,7 @@ gnm_print_cell_range (GnomePrintContext *context,
 	GnmStyle const **styles;
 	GnmBorder const **borders, **prev_vert;
 	GnmBorder const *none =
-		hide_grid ? NULL : style_border_none ();
+		hide_grid ? NULL : gnm_style_border_none ();
 
 	int n, col, row;
 	double x, y, offset;
@@ -342,7 +342,7 @@ gnm_print_cell_range (GnomePrintContext *context,
 
 	/* Get ordered list of merged regions */
 	merged_active = merged_active_seen = merged_used = NULL;
-	merged_unused = sheet_merge_get_overlap (sheet,
+	merged_unused = gnm_sheet_merge_get_overlap (sheet,
 		range_init (&view, start_col, start_row, end_col, end_row));
 
 	/*
@@ -576,7 +576,7 @@ gnm_print_cell_range (GnomePrintContext *context,
 			if (dir > 0)
 			x += ci->size_pts;
 		}
-		style_borders_row_print (prev_vert, &sr,
+		gnm_style_borders_row_print (prev_vert, &sr,
 					 context, base_x, y, y-ri->size_pts,
 					 sheet, TRUE, dir);
 
@@ -604,7 +604,7 @@ gnm_print_cell_range (GnomePrintContext *context,
 
 		y -= ri->size_pts;
 	}
-	style_borders_row_print (prev_vert, &sr,
+	gnm_style_borders_row_print (prev_vert, &sr,
 				 context, base_x, y, y, sheet, FALSE, dir);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */

@@ -19,10 +19,10 @@ struct _GnmSortData {
 	gboolean	 retain_formats;
 };
 
-void sort_data_destroy   (GnmSortData *data);
-void sort_position 	 (GnmSortData *data, int *perm, GOCmdContext *cc);
-int *sort_contents 	 (GnmSortData *data, GOCmdContext *cc);
-int  sort_data_length	 (GnmSortData const *data);
-int *sort_permute_invert (int const *perm, int length);
+void gnm_sort_data_destroy   (GnmSortData *data);
+void gnm_sort_position 	     (GnmSortData *data, int *perm, GOCmdContext *cc);
+int *gnm_sort_contents 	     (GnmSortData *data, GOCmdContext *cc);
+int  gnm_sort_data_length    (GnmSortData const *data);
+int *gnm_sort_permute_invert (int const *perm, int length);
 
 #endif /* GNUMERIC_SORT_H */

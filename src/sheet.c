@@ -904,7 +904,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 	} else
 		min_col = max_col = cell->pos.col;
 
-	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+	merged = gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (NULL != merged) {
 		if (existing) {
 			if (min_col > merged->start.col)
@@ -1447,7 +1447,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 	/* Cannot span AND merge */
 	if (gnm_cell_is_merged (cell)) {
 		GnmRange const *merged =
-			sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+			gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 		res->range = range_union (&res->range, merged);
 	} else {
 		CellSpanInfo const *span;
@@ -1872,7 +1872,7 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 		r->start.col, r->start.row, r->end.col, r->end.row,
 		(CellIterFunc)&cb_set_cell_content, &closure);
 
-	merged = sheet_merge_get_overlap (pos->sheet, r);
+	merged = gnm_sheet_merge_get_overlap (pos->sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const *tmp = ptr->data;
 		sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
@@ -2113,7 +2113,7 @@ sheet_redraw_cell (GnmCell const *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+	merged = gnm_sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
 		SHEET_FOREACH_CONTROL (cell->base.sheet, view, control,
 			sc_redraw_range (control, merged););
@@ -2196,7 +2196,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 		GSList *merged, *ptr;
 
 		lagged_start_col = check_merge.start.col = check_merge.end.col = start_col;
-		merged = sheet_merge_get_overlap (sheet, &check_merge);
+		merged = gnm_sheet_merge_get_overlap (sheet, &check_merge);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const * const r = ptr->data;
 			if (count > 0) {
@@ -2294,7 +2294,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 		GSList *merged, *ptr;
 
 		lagged_start_row = check_merge.start.row = check_merge.end.row = start_row;
-		merged = sheet_merge_get_overlap (sheet, &check_merge);
+		merged = gnm_sheet_merge_get_overlap (sheet, &check_merge);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const * const r = ptr->data;
 			if (count > 0) {
@@ -2509,7 +2509,7 @@ sheet_range_splits_region (Sheet const *sheet,
 	if (sheet_range_splits_array (sheet, r, ignore, cc, cmd_name))
 		return TRUE;
 
-	merged = sheet_merge_get_overlap (sheet, r);
+	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	if (merged) {
 		GSList *ptr;
 
@@ -2581,7 +2581,7 @@ sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	merged = sheet_merge_get_overlap (sheet, r);
+	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	if (merged != NULL) {
 		if (cc != NULL)
 			go_cmd_context_error_invalid (cc, cmd,
@@ -3002,7 +3002,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 
-	if (sheet_merge_is_corner (sheet, &cell->pos))
+	if (gnm_sheet_merge_is_corner (sheet, &cell->pos))
 		cell->base.flags |= GNM_CELL_IS_MERGED;
 }
 
@@ -3506,9 +3506,9 @@ sheet_clear_region (Sheet *sheet,
 
 	if (clear_flags & CLEAR_MERGES) {
 		GSList *merged, *ptr;
-		merged = sheet_merge_get_overlap (sheet, &r);
+		merged = gnm_sheet_merge_get_overlap (sheet, &r);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-			sheet_merge_remove (sheet, ptr->data, cc);
+			gnm_sheet_merge_remove (sheet, ptr->data, cc);
 		g_slist_free (merged);
 	}
 
@@ -3619,7 +3619,7 @@ sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	Sheet *sheet = rinfo->origin_sheet;
 
 	sheet_objects_relocate (rinfo, FALSE, reloc_storage);
-	sheet_merge_relocate (rinfo);
+	gnm_sheet_merge_relocate (rinfo);
 
 	/* Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
@@ -3672,7 +3672,7 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos+count);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols,
 				   colrow_max (is_cols));
-	sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, TRUE,
+	gnm_sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, TRUE,
 				    pos, count);
 
 	/* WARNING WARNING WARNING
@@ -3697,7 +3697,7 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states, reloc_storage);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);
-	sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, FALSE,
+	gnm_sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, FALSE,
 				    pos, count);
 	/* WARNING WARNING WARNING
 	 * This is bad practice and should not really be here.
@@ -4125,7 +4125,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 
 	/* 7. Move objects in the range */
 	sheet_objects_relocate (rinfo, TRUE, reloc_storage);
-	sheet_merge_relocate (rinfo);
+	gnm_sheet_merge_relocate (rinfo);
 
 	/* 8. Notify sheet of pending update */
 	sheet_flag_recompute_spans (rinfo->origin_sheet);
@@ -4567,7 +4567,7 @@ sheet_clone_regions (Sheet const *src, Sheet *dst)
 	GSList *ptr;
 
 	for (ptr = src->list_merged ; ptr != NULL ; ptr = ptr->next)
-		sheet_merge_add (dst, ptr->data, FALSE, NULL);
+		gnm_sheet_merge_add (dst, ptr->data, FALSE, NULL);
 }
 
 static void
@@ -4778,7 +4778,7 @@ sheet_get_comment (Sheet const *sheet, GnmCellPos const *pos)
 
 	GnmRange const *mr;
 	
-	mr = sheet_merge_contains_pos (sheet, pos);
+	mr = gnm_sheet_merge_contains_pos (sheet, pos);
 
 	if (mr)
 		comments = sheet_objects_get (sheet, mr, CELL_COMMENT_TYPE);

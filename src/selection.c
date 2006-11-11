@@ -423,7 +423,7 @@ sheet_selection_set_internal (SheetView *sv,
 	g_return_if_fail (range_is_sane (&new_sel));
 
 	if (sv->sheet != NULL) /* beware initialization */
-		sheet_merge_find_container (sv->sheet, &new_sel);
+		gnm_sheet_merge_find_container (sv->sheet, &new_sel);
 	ss = (GnmRange *)sv->selections->data;
 	if (!just_add_it && range_equal (ss, &new_sel))
 		return;
@@ -1089,7 +1089,7 @@ walk_boundaries (SheetView const *sv, GnmRange const * const bound,
 
 	*res = pos;
 loop :
-	merge = sheet_merge_contains_pos (sv->sheet, &pos);
+	merge = gnm_sheet_merge_contains_pos (sv->sheet, &pos);
 	if (horizontal) {
 		if (merge != NULL)
 			pos.col = (forward) ? merge->end.col : merge->start.col;
@@ -1130,7 +1130,7 @@ loop :
 		goto loop;
 
 	if (smart_merge) {
-		merge = sheet_merge_contains_pos (sv->sheet, &pos);
+		merge = gnm_sheet_merge_contains_pos (sv->sheet, &pos);
 		if (merge != NULL) {
 			if (forward) {
 				if (pos.col != merge->start.col ||
@@ -1179,7 +1179,7 @@ sv_selection_walk_step (SheetView *sv,
 			is_singleton = TRUE;
 		else if (ss->start.col == sv->edit_pos.col &&
 			 ss->start.row == sv->edit_pos.row) {
-			GnmRange const *merge = sheet_merge_is_corner (sv->sheet,
+			GnmRange const *merge = gnm_sheet_merge_is_corner (sv->sheet,
 				&sv->edit_pos);
 			if (merge != NULL && range_equal (merge, ss))
 				is_singleton = TRUE;

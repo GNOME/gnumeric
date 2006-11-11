@@ -123,9 +123,9 @@ typedef struct {
 typedef struct {
 	struct _FormatState *state;
 	GtkToggleButton  *button;
-	StyleBorderType	  pattern_index;
+	GnmStyleBorderType	  pattern_index;
 	gboolean	  is_selected;	/* Is it selected */
-	StyleBorderLocation   index;
+	GnmStyleBorderLocation   index;
 	guint		  rgba;
 	gboolean          is_auto_color;
 	gboolean	  is_set;	/* Has the element been changed */
@@ -149,7 +149,7 @@ typedef struct _FormatState {
 	GnmValue	*value;
 	unsigned int	 conflicts;
 	GnmStyle	*style, *result;
-	GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
+	GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -174,7 +174,7 @@ typedef struct _FormatState {
 		FooCanvasItem	*back;
 		FooCanvasItem *lines[20];
 
-		BorderPicker	 edge[STYLE_BORDER_EDGE_MAX];
+		BorderPicker	 edge[GNM_STYLE_BORDER_EDGE_MAX];
 		ColorPicker      color;
 		guint		 rgba;
 		gboolean         is_auto_color;
@@ -999,7 +999,7 @@ static struct
 {
 	double const			points[4];
 	int const			states;
-	StyleBorderLocation	const	location;
+	GnmStyleBorderLocation	const	location;
 } const line_info[] =
 {
 	/*
@@ -1010,44 +1010,44 @@ static struct
 	*/
 
 	/* 1, 2, 3, 4 */
-	{ { L, T, R, T }, 0xf, STYLE_BORDER_TOP },
-	{ { L, B, R, B }, 0xf, STYLE_BORDER_BOTTOM },
-	{ { L, T, L, B }, 0xf, STYLE_BORDER_LEFT },
-	{ { R, T, R, B }, 0xf, STYLE_BORDER_RIGHT },
+	{ { L, T, R, T }, 0xf, GNM_STYLE_BORDER_TOP },
+	{ { L, B, R, B }, 0xf, GNM_STYLE_BORDER_BOTTOM },
+	{ { L, T, L, B }, 0xf, GNM_STYLE_BORDER_LEFT },
+	{ { R, T, R, B }, 0xf, GNM_STYLE_BORDER_RIGHT },
 
 	/* Only for state 2 & 4 */
-	{ { L, H, R, H }, 0xa, STYLE_BORDER_HORIZ },
+	{ { L, H, R, H }, 0xa, GNM_STYLE_BORDER_HORIZ },
 
 	/* Only for state 3 & 4 */
-	{ { V, T, V, B }, 0xc, STYLE_BORDER_VERT },
+	{ { V, T, V, B }, 0xc, GNM_STYLE_BORDER_VERT },
 
 	/* Only for state 1 & 4 */
-	{ { L, T, R, B }, 0x9, STYLE_BORDER_REV_DIAG },
-	{ { L, B, R, T }, 0x9, STYLE_BORDER_DIAG},
+	{ { L, T, R, B }, 0x9, GNM_STYLE_BORDER_REV_DIAG },
+	{ { L, B, R, T }, 0x9, GNM_STYLE_BORDER_DIAG},
 
 	/* Only for state 2 */
-	{ { L, T, R, H }, 0x2, STYLE_BORDER_REV_DIAG },
-	{ { L, H, R, B }, 0x2, STYLE_BORDER_REV_DIAG },
-	{ { L, H, R, T }, 0x2, STYLE_BORDER_DIAG },
-	{ { L, B, R, H }, 0x2, STYLE_BORDER_DIAG },
+	{ { L, T, R, H }, 0x2, GNM_STYLE_BORDER_REV_DIAG },
+	{ { L, H, R, B }, 0x2, GNM_STYLE_BORDER_REV_DIAG },
+	{ { L, H, R, T }, 0x2, GNM_STYLE_BORDER_DIAG },
+	{ { L, B, R, H }, 0x2, GNM_STYLE_BORDER_DIAG },
 
 	/* Only for state 3 */
-	{ { L, T, V, B }, 0x4, STYLE_BORDER_REV_DIAG },
-	{ { V, T, R, B }, 0x4, STYLE_BORDER_REV_DIAG },
-	{ { L, B, V, T }, 0x4, STYLE_BORDER_DIAG },
-	{ { V, B, R, T }, 0x4, STYLE_BORDER_DIAG },
+	{ { L, T, V, B }, 0x4, GNM_STYLE_BORDER_REV_DIAG },
+	{ { V, T, R, B }, 0x4, GNM_STYLE_BORDER_REV_DIAG },
+	{ { L, B, V, T }, 0x4, GNM_STYLE_BORDER_DIAG },
+	{ { V, B, R, T }, 0x4, GNM_STYLE_BORDER_DIAG },
 
 	/* Only for state 4 */
-	{ { L, H, V, B }, 0x8, STYLE_BORDER_REV_DIAG },
-	{ { V, T, R, H }, 0x8, STYLE_BORDER_REV_DIAG },
-	{ { L, H, V, T }, 0x8, STYLE_BORDER_DIAG },
-	{ { V, B, R, H }, 0x8, STYLE_BORDER_DIAG },
+	{ { L, H, V, B }, 0x8, GNM_STYLE_BORDER_REV_DIAG },
+	{ { V, T, R, H }, 0x8, GNM_STYLE_BORDER_REV_DIAG },
+	{ { L, H, V, T }, 0x8, GNM_STYLE_BORDER_DIAG },
+	{ { V, B, R, H }, 0x8, GNM_STYLE_BORDER_DIAG },
 
 	{ { 0., 0., 0., 0. }, 0, 0 }
 };
 
 static GnmBorder *
-border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
+border_get_mstyle (FormatState const *state, GnmStyleBorderLocation const loc)
 {
 	BorderPicker const *edge = & state->border.edge[loc];
 	GnmColor *color;
@@ -1056,7 +1056,7 @@ border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 		return NULL;
 
 	if (!edge->is_selected)
-		return style_border_ref (style_border_none ());
+		return gnm_style_border_ref (gnm_style_border_none ());
 
 	if (edge->is_auto_color) {
 		color = sheet_style_get_auto_pattern_color (state->sheet);
@@ -1066,9 +1066,9 @@ border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 		guint8 const b = (guint8) (edge->rgba >>  8);
 		color = style_color_new_i8 (r, g, b);
 	}
-	return style_border_fetch
+	return gnm_style_border_fetch
 		(state->border.edge[loc].pattern_index, color,
-		 style_border_get_orientation (loc));
+		 gnm_style_border_get_orientation (loc));
 }
 
 /* See if either the color or pattern for any segment has changed and
@@ -1132,7 +1132,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 	 * However, the compiler is confused and thinks it is not
 	 * so we are forced to pick a random irrelevant value.
 	 */
-	StyleBorderLocation	 which = STYLE_BORDER_LEFT;
+	GnmStyleBorderLocation	 which = GNM_STYLE_BORDER_LEFT;
 
 	if (event->button != 1)
 		return FALSE;
@@ -1148,57 +1148,57 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 	}
 
 	/* The edges are always there */
-	if (x <= L+5.)		which = STYLE_BORDER_LEFT;
-	else if (y <= T+5.)	which = STYLE_BORDER_TOP;
-	else if (y >= B-5.)	which = STYLE_BORDER_BOTTOM;
-	else if (x >= R-5.)	which = STYLE_BORDER_RIGHT;
+	if (x <= L+5.)		which = GNM_STYLE_BORDER_LEFT;
+	else if (y <= T+5.)	which = GNM_STYLE_BORDER_TOP;
+	else if (y >= B-5.)	which = GNM_STYLE_BORDER_BOTTOM;
+	else if (x >= R-5.)	which = GNM_STYLE_BORDER_RIGHT;
 	else switch (state->selection_mask) {
 	case 1:
 		if ((x < V) == (y < H))
-			which = STYLE_BORDER_REV_DIAG;
+			which = GNM_STYLE_BORDER_REV_DIAG;
 		else
-			which = STYLE_BORDER_DIAG;
+			which = GNM_STYLE_BORDER_DIAG;
 		break;
 	case 2:
 		if (H-5. < y  && y < H+5.)
-			which = STYLE_BORDER_HORIZ;
+			which = GNM_STYLE_BORDER_HORIZ;
 		else {
 			/* Map everything back to the top */
 			if (y > H) y -= H-10.;
 
 			if ((x < V) == (y < H/2.))
-				which = STYLE_BORDER_REV_DIAG;
+				which = GNM_STYLE_BORDER_REV_DIAG;
 			else
-				which = STYLE_BORDER_DIAG;
+				which = GNM_STYLE_BORDER_DIAG;
 		}
 		break;
 	case 4:
 		if (V-5. < x  && x < V+5.)
-			which = STYLE_BORDER_VERT;
+			which = GNM_STYLE_BORDER_VERT;
 		else {
 			/* Map everything back to the left */
 			if (x > V) x -= V-10.;
 
 			if ((x < V/2.) == (y < H))
-				which = STYLE_BORDER_REV_DIAG;
+				which = GNM_STYLE_BORDER_REV_DIAG;
 			else
-				which = STYLE_BORDER_DIAG;
+				which = GNM_STYLE_BORDER_DIAG;
 		}
 		break;
 	case 8:
 		if (V-5. < x  && x < V+5.)
-			which = STYLE_BORDER_VERT;
+			which = GNM_STYLE_BORDER_VERT;
 		else if (H-5. < y  && y < H+5.)
-			which = STYLE_BORDER_HORIZ;
+			which = GNM_STYLE_BORDER_HORIZ;
 		else {
 			/* Map everything back to the 1st quadrant */
 			if (x > V) x -= V-10.;
 			if (y > H) y -= H-10.;
 
 			if ((x < V/2.) == (y < H/2.))
-				which = STYLE_BORDER_REV_DIAG;
+				which = GNM_STYLE_BORDER_REV_DIAG;
 			else
-				which = STYLE_BORDER_DIAG;
+				which = GNM_STYLE_BORDER_DIAG;
 		}
 		break;
 
@@ -1311,7 +1311,7 @@ draw_border_preview (FormatState *state)
 		foo_canvas_points_free (points);
 	}
 
-	for (i = 0; i < STYLE_BORDER_EDGE_MAX; ++i) {
+	for (i = 0; i < GNM_STYLE_BORDER_EDGE_MAX; ++i) {
 		BorderPicker *border = &state->border.edge[i];
 		void (*func)(FooCanvasItem *item) = border->is_selected
 			? &foo_canvas_item_show : &foo_canvas_item_hide;
@@ -1330,19 +1330,19 @@ static void
 cb_border_preset_clicked (GtkButton *btn, FormatState *state)
 {
 	gboolean target_state;
-	StyleBorderLocation i, last;
+	GnmStyleBorderLocation i, last;
 
 	if (state->border.preset[BORDER_PRESET_NONE] == btn) {
-		i = STYLE_BORDER_TOP;
-		last = STYLE_BORDER_VERT;
+		i = GNM_STYLE_BORDER_TOP;
+		last = GNM_STYLE_BORDER_VERT;
 		target_state = FALSE;
 	} else if (state->border.preset[BORDER_PRESET_OUTLINE] == btn) {
-		i = STYLE_BORDER_TOP;
-		last = STYLE_BORDER_RIGHT;
+		i = GNM_STYLE_BORDER_TOP;
+		last = GNM_STYLE_BORDER_RIGHT;
 		target_state = TRUE;
 	} else if (state->border.preset[BORDER_PRESET_INSIDE] == btn) {
-		i = STYLE_BORDER_HORIZ;
-		last = STYLE_BORDER_VERT;
+		i = GNM_STYLE_BORDER_HORIZ;
+		last = GNM_STYLE_BORDER_VERT;
 		target_state = TRUE;
 	} else {
 		g_warning ("Unknown border preset button");
@@ -1411,7 +1411,7 @@ cb_border_color (G_GNUC_UNUSED GOComboColor *combo,
 
 typedef struct
 {
-	StyleBorderLocation     t;
+	GnmStyleBorderLocation     t;
 	GnmBorder const *res;
 } check_border_closure_t;
 
@@ -1420,14 +1420,14 @@ typedef struct
  * hide if needed.
  */
 static void
-init_border_button (FormatState *state, StyleBorderLocation const i,
+init_border_button (FormatState *state, GnmStyleBorderLocation const i,
 		    GtkWidget *button,
 		    GnmBorder const * const border)
 {
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
 		state->border.edge[i].is_auto_color = TRUE;
-		state->border.edge[i].pattern_index = STYLE_BORDER_INCONSISTENT;
+		state->border.edge[i].pattern_index = GNM_STYLE_BORDER_INCONSISTENT;
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		GnmColor const *c = border->color;
@@ -1437,7 +1437,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 			c->gdk_color.blue >> 8);
 		state->border.edge[i].is_auto_color = c->is_auto;
 		state->border.edge[i].pattern_index = border->line_type;
-		state->border.edge[i].is_selected = (border->line_type != STYLE_BORDER_NONE);
+		state->border.edge[i].is_selected = (border->line_type != GNM_STYLE_BORDER_NONE);
 	}
 
 	state->border.edge[i].state = state;
@@ -1454,8 +1454,8 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 		"toggled",
 		G_CALLBACK (cb_border_toggle), &state->border.edge[i]);
 
-	if ((i == STYLE_BORDER_HORIZ && !(state->selection_mask & 0xa)) ||
-	    (i == STYLE_BORDER_VERT  && !(state->selection_mask & 0xc)))
+	if ((i == GNM_STYLE_BORDER_HORIZ && !(state->selection_mask & 0xa)) ||
+	    (i == GNM_STYLE_BORDER_VERT  && !(state->selection_mask & 0xc)))
 		gtk_widget_hide (button);
 }
 
@@ -1943,28 +1943,28 @@ static void
 cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 {
 #if 0
-	static StyleBorderLocation const bmap_ltr[] = {
-		STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
-		STYLE_BORDER_LEFT,	STYLE_BORDER_RIGHT,
-		STYLE_BORDER_REV_DIAG,	STYLE_BORDER_DIAG,
-		STYLE_BORDER_HORIZ,	STYLE_BORDER_VERT
+	static GnmStyleBorderLocation const bmap_ltr[] = {
+		GNM_STYLE_BORDER_TOP,	GNM_STYLE_BORDER_BOTTOM,
+		GNM_STYLE_BORDER_LEFT,	GNM_STYLE_BORDER_RIGHT,
+		GNM_STYLE_BORDER_REV_DIAG,	GNM_STYLE_BORDER_DIAG,
+		GNM_STYLE_BORDER_HORIZ,	GNM_STYLE_BORDER_VERT
 	};
-	static StyleBorderLocation const bmap_rtl[] = {
-		STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
+	static GnmStyleBorderLocation const bmap_rtl[] = {
+		GNM_STYLE_BORDER_TOP,	GNM_STYLE_BORDER_BOTTOM,
 		/* reverse */
-		STYLE_BORDER_RIGHT,	STYLE_BORDER_LEFT,
+		GNM_STYLE_BORDER_RIGHT,	GNM_STYLE_BORDER_LEFT,
 		/* reverse */
-		STYLE_BORDER_DIAG,	STYLE_BORDER_REV_DIAG,
-		STYLE_BORDER_HORIZ,	STYLE_BORDER_VERT
+		GNM_STYLE_BORDER_DIAG,	GNM_STYLE_BORDER_REV_DIAG,
+		GNM_STYLE_BORDER_HORIZ,	GNM_STYLE_BORDER_VERT
 	};
-	StyleBorderLocation const *bmap = bmap_ltr;
+	GnmStyleBorderLocation const *bmap = bmap_ltr;
 
 	if (NULL != state->sheet && state->sheet->text_is_rtl)
 		bmap = bmap_rtl;
 #endif
 
 	if (btn == state->apply_button || btn == state->ok_button) {
-		GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
+		GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 		int i;
 
 		if (state->validation.changed)
@@ -1994,7 +1994,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			state->protection.sheet_protected_changed = FALSE;
 		}
 
-		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+		for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
 			borders[i] = border_get_mstyle (state, i);
 
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg),
@@ -2075,28 +2075,28 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 {
 	static struct {
 		char const *const name;
-		StyleBorderType const pattern;
+		GnmStyleBorderType const pattern;
 	} const line_pattern_buttons[] = {
-		{ "line_pattern_none", STYLE_BORDER_NONE },
-		{ "line_pattern_medium_dash_dot_dot", STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
+		{ "line_pattern_none", GNM_STYLE_BORDER_NONE },
+		{ "line_pattern_medium_dash_dot_dot", GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
 
-		{ "line_pattern_hair", STYLE_BORDER_HAIR },
-		{ "line_pattern_slant", STYLE_BORDER_SLANTED_DASH_DOT },
+		{ "line_pattern_hair", GNM_STYLE_BORDER_HAIR },
+		{ "line_pattern_slant", GNM_STYLE_BORDER_SLANTED_DASH_DOT },
 
-		{ "line_pattern_dotted", STYLE_BORDER_DOTTED },
-		{ "line_pattern_medium_dash_dot", STYLE_BORDER_MEDIUM_DASH_DOT },
+		{ "line_pattern_dotted", GNM_STYLE_BORDER_DOTTED },
+		{ "line_pattern_medium_dash_dot", GNM_STYLE_BORDER_MEDIUM_DASH_DOT },
 
-		{ "line_pattern_dash_dot_dot", STYLE_BORDER_DASH_DOT_DOT },
-		{ "line_pattern_medium_dash", STYLE_BORDER_MEDIUM_DASH },
+		{ "line_pattern_dash_dot_dot", GNM_STYLE_BORDER_DASH_DOT_DOT },
+		{ "line_pattern_medium_dash", GNM_STYLE_BORDER_MEDIUM_DASH },
 
-		{ "line_pattern_dash_dot", STYLE_BORDER_DASH_DOT },
-		{ "line_pattern_medium", STYLE_BORDER_MEDIUM },
+		{ "line_pattern_dash_dot", GNM_STYLE_BORDER_DASH_DOT },
+		{ "line_pattern_medium", GNM_STYLE_BORDER_MEDIUM },
 
-		{ "line_pattern_dashed", STYLE_BORDER_DASHED },
-		{ "line_pattern_thick", STYLE_BORDER_THICK },
+		{ "line_pattern_dashed", GNM_STYLE_BORDER_DASHED },
+		{ "line_pattern_thick", GNM_STYLE_BORDER_THICK },
 
-		{ "line_pattern_thin", STYLE_BORDER_THIN },
-		{ "line_pattern_double", STYLE_BORDER_DOUBLE },
+		{ "line_pattern_thin", GNM_STYLE_BORDER_THIN },
+		{ "line_pattern_double", GNM_STYLE_BORDER_DOUBLE },
 
 		{ NULL }
 	};
@@ -2148,7 +2148,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	char const *name;
 	gboolean has_back;
 	GdkColor *default_border_color;
-	int default_border_style = STYLE_BORDER_THIN;
+	int default_border_style = GNM_STYLE_BORDER_THIN;
 
 	GtkWidget *tmp, *dialog = glade_xml_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
@@ -2193,7 +2193,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
 		GnmBorder const *border = gnm_style_get_border (state->style, i);
-		if (!style_border_is_blank (border)) {
+		if (!gnm_style_border_is_blank (border)) {
 			default_border_color = &border->color->gdk_color;
 			default_border_style = border->line_type;
 			break;
@@ -2237,7 +2237,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		if (tmp != NULL) {
 			init_border_button (state, i, tmp,
 					    state->borders[i]);
-			style_border_unref (state->borders[i]);
+			gnm_style_border_unref (state->borders[i]);
 		}
 	}
 
@@ -2343,7 +2343,7 @@ fmt_dialog_selection_type (SheetView *sv,
 			   gpointer user_data)
 {
 	FormatState *state = user_data;
-	GSList *merged = sheet_merge_get_overlap (sv->sheet, range);
+	GSList *merged = gnm_sheet_merge_get_overlap (sv->sheet, range);
 	gboolean allow_multi =
 		merged == NULL ||
 		merged->next != NULL ||

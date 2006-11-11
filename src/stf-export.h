@@ -6,7 +6,7 @@
 
 #define GNM_STF_EXPORT_TYPE        (gnm_stf_export_get_type ())
 #define GNM_STF_EXPORT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_EXPORT_TYPE, GnmStfExport))
-#define GNM_IS_STF_EXPORT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_EXPORT_TYPE))
+#define IS_GNM_STF_EXPORT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_STF_EXPORT_TYPE))
 
 typedef enum {
 	GNM_STF_TRANSLITERATE_MODE_TRANS,  /* Automatically quote where needed */
@@ -26,14 +26,14 @@ GType gnm_stf_format_mode_get_type (void);
 typedef struct _GnmStfExport GnmStfExport;
 GType gnm_stf_export_get_type (void);
 
-void stf_export_options_sheet_list_clear    (GnmStfExport *export_options);
-void stf_export_options_sheet_list_add      (GnmStfExport *export_options, Sheet *sheet);
+void gnm_stf_export_options_sheet_list_clear    (GnmStfExport *export_options);
+void gnm_stf_export_options_sheet_list_add      (GnmStfExport *export_options, Sheet *sheet);
 
-gboolean stf_export_can_transliterate (void);
+gboolean gnm_stf_export_can_transliterate (void);
 
 /*
  * Functions that do the actual thing
  */
-gboolean stf_export (GnmStfExport *export_options);
+gboolean gnm_stf_export (GnmStfExport *export_options);
 
 #endif

@@ -159,15 +159,15 @@ map_pattern_to_xl (int i)
 }
 
 static guint
-map_border_to_xl (StyleBorderType btype, MsBiffVersion ver)
+map_border_to_xl (GnmStyleBorderType btype, MsBiffVersion ver)
 {
 	guint ibtype = btype;
 
-	if (btype <= STYLE_BORDER_NONE)
-		ibtype = STYLE_BORDER_NONE;
+	if (btype <= GNM_STYLE_BORDER_NONE)
+		ibtype = GNM_STYLE_BORDER_NONE;
 
-	if (ver <= MS_BIFF_V7 && btype > STYLE_BORDER_HAIR)
-		ibtype = STYLE_BORDER_MEDIUM;
+	if (ver <= MS_BIFF_V7 && btype > GNM_STYLE_BORDER_HAIR)
+		ibtype = GNM_STYLE_BORDER_MEDIUM;
 
 	return ibtype;
 }
@@ -2477,7 +2477,7 @@ log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 		xfd->pat_foregnd_col, xfd->pat_backgnd_col,
 		xfd->fill_pattern_idx);
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
-		if (xfd->border_type[i] !=  STYLE_BORDER_NONE) {
+		if (xfd->border_type[i] !=  GNM_STYLE_BORDER_NONE) {
 			fprintf (stderr, " border_type[%d] : 0x%x"
 				" border_color[%d] : 0x%x\n",
 				i, xfd->border_type[i],
@@ -2520,7 +2520,7 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
-		xfd->border_type[i]  = STYLE_BORDER_NONE;
+		xfd->border_type[i]  = GNM_STYLE_BORDER_NONE;
 		xfd->border_color[i] = 0;
 		b = gnm_style_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b) {
@@ -2604,34 +2604,34 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		/*********** Byte 10&11 */
 		tmp16 = 0;
 		btype = xfd->border_type[STYLE_LEFT];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 0;
 		btype = xfd->border_type[STYLE_RIGHT];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 4;
 		btype = xfd->border_type[STYLE_TOP];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 8;
 		btype = xfd->border_type[STYLE_BOTTOM];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp16 |= (map_border_to_xl (btype, bp->version) & 0xf) << 12;
 		GSF_LE_SET_GUINT16 (data+10, tmp16);
 
 		/*********** Byte 12&13 */
 		tmp16 = 0;
 		btype = xfd->border_type[STYLE_LEFT];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp16 |= (xfd->border_color[STYLE_LEFT] & 0x7f) << 0;
 		btype = xfd->border_type[STYLE_RIGHT];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp16 |= (xfd->border_color[STYLE_RIGHT] & 0x7f) << 7;
 
 		diag = 0;
 		btype = xfd->border_type[STYLE_DIAGONAL];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			diag |= 1;
 		btype = xfd->border_type[STYLE_REV_DIAGONAL];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			diag |= 2;
 
 		tmp16 |= diag << 14;
@@ -2640,16 +2640,16 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		/*********** Byte 14-17 */
 		tmp32 = 0;
 		btype = xfd->border_type[STYLE_TOP];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp32 |= (xfd->border_color[STYLE_TOP] & 0x7f) << 0;
 		btype = xfd->border_type[STYLE_BOTTOM];
-		if (btype != STYLE_BORDER_NONE)
+		if (btype != GNM_STYLE_BORDER_NONE)
 			tmp32 |= (xfd->border_color[STYLE_BOTTOM] & 0x7f) << 7;
 
 		diag = (diag & 1) ? STYLE_DIAGONAL : ((diag & 2) ? STYLE_REV_DIAGONAL : 0);
 		if (diag != 0) {
 			btype = xfd->border_type [diag];
-			if (btype != STYLE_BORDER_NONE) {
+			if (btype != GNM_STYLE_BORDER_NONE) {
 				tmp32 |= (xfd->border_color[diag] & 0x7f) << 14;
 				tmp32 |= (map_border_to_xl (btype, bp->version) & 0xf) << 21;
 			}
@@ -2702,7 +2702,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 
 		/* Borders */
 		btype = xfd->border_type[STYLE_BOTTOM];
-		if (btype != STYLE_BORDER_NONE) {
+		if (btype != GNM_STYLE_BORDER_NONE) {
 			tmp16 |= (map_border_to_xl (btype, bp->version) << 6)
 				& 0x1c0;
 			tmp16 |= (xfd->border_color[STYLE_BOTTOM] << 9)
@@ -2712,7 +2712,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 
 		tmp16  = 0;
 		btype = xfd->border_type[STYLE_TOP];
-		if (btype != STYLE_BORDER_NONE) {
+		if (btype != GNM_STYLE_BORDER_NONE) {
 			tmp16 |= map_border_to_xl (btype, bp->version) & 0x7;
 			tmp16 |= (xfd->border_color[STYLE_TOP] << 9) & 0xfe00;
 		}
@@ -2725,9 +2725,9 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		GSF_LE_SET_GUINT16(data+12, tmp16);
 
 		tmp16  = 0;
-		if (xfd->border_type[STYLE_LEFT] != STYLE_BORDER_NONE)
+		if (xfd->border_type[STYLE_LEFT] != GNM_STYLE_BORDER_NONE)
 			tmp16  |= xfd->border_color[STYLE_LEFT] & 0x7f;
-		if (xfd->border_type[STYLE_RIGHT] != STYLE_BORDER_NONE)
+		if (xfd->border_type[STYLE_RIGHT] != GNM_STYLE_BORDER_NONE)
 			tmp16 |= (xfd->border_color[STYLE_RIGHT] << 7) & 0x3f80;
 		GSF_LE_SET_GUINT16(data+14, tmp16);
 

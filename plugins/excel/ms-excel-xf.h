@@ -44,7 +44,7 @@ typedef struct _BiffXFData {
 	int indent;
 	GnmTextDir text_dir;
 	guint16 border_color[STYLE_ORIENT_MAX];
-	StyleBorderType border_type[STYLE_ORIENT_MAX];
+	GnmStyleBorderType border_type[STYLE_ORIENT_MAX];
 	guint16 fill_pattern_idx;
 	guint16 pat_foregnd_col;
 	guint16 pat_backgnd_col;
