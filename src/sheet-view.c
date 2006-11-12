@@ -618,7 +618,7 @@ sv_update (SheetView *sv)
 	if (sv->edit_pos_changed.format) {
 		sv->edit_pos_changed.format = FALSE;
 		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
-			wb_view_format_feedback (sv->sv_wbv, TRUE);
+			wb_view_format_feedback (sv->sv_wbv);
 	}
 
 	if (sv->edit_pos_changed.location) {

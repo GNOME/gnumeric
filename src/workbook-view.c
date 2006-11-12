@@ -145,7 +145,7 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 
 		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
-		wb_view_format_feedback (wbv, TRUE);
+		wb_view_format_feedback (wbv);
 		wb_view_menus_update (wbv);
 		wb_view_auto_expr_recalc (wbv, TRUE);
 	}
@@ -214,7 +214,7 @@ wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 }
 
 void
-wb_view_format_feedback (WorkbookView *wbv, gboolean display)
+wb_view_format_feedback (WorkbookView *wbv)
 {
 	SheetView *sv;
 	GnmStyle *style;
@@ -250,10 +250,8 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 		gnm_style_unref (wbv->current_format);
 	wbv->current_format = style;
 
-	if (display) {
-		WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
-			wb_control_style_feedback (control, NULL););
-	}
+	WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
+		wb_control_style_feedback (control, NULL););
 }
 
 void

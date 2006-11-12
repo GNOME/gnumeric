@@ -317,13 +317,14 @@ static void
 wbc_finalize (GObject *obj)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
-	if (wbc->clipboard_changed_signal)
+	if (wbc->clipboard_changed_signal) {
 		g_signal_handler_disconnect (gnm_app_get_app (),
 					     wbc->clipboard_changed_signal);
-	wbc->clipboard_changed_signal = 0;
+		wbc->clipboard_changed_signal = 0;
+	}
 	if (wbc->wb_view != NULL)
 		wb_view_detach_control (wbc);
-	(*parent_klass->finalize) (obj);
+	parent_klass->finalize (obj);
 }
 
 static void

@@ -1,5 +1,8 @@
 2006-11-11  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.c (wb_view_format_feedback): Drop always-TRUE
+	second argument.  All callers changed.
+
 	* */*.[ch]: Grand rename for cell identifiers and a few more.
 
 2006-11-11  Jody Goldberg <jody@gnome.org>
