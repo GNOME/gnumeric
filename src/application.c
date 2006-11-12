@@ -563,6 +563,9 @@ gnm_app_history_add (char const *uri)
 	g_return_if_fail (uri != NULL);
 	g_return_if_fail (app != NULL);
 
+	/* return if file history max length is 0, avoids a critical */
+	if (gnm_app_prefs->file_history_max == 0)
+		return; 
 	/* force a reload in case max_entries has changed */
 	gnm_app_history_get_list (TRUE);
 	exists = g_slist_find_custom (app->history_list,

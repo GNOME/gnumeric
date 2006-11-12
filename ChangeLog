@@ -1,3 +1,10 @@
+2006-11-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/application.c: (gnm_app_history_add): return if max length is 0
+	(avoids a critical).
+	* src/gnm-graph-window.c: (gnm_graph_window_set_graph): set horizontal
+	and vertical resolutions.
+
 2006-11-11  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_format_feedback): Drop always-TRUE

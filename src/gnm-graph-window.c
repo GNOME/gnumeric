@@ -1,6 +1,7 @@
 #include <gnumeric-config.h>
 
 #include "gnm-graph-window.h"
+#include "application.h"
 
 #include <string.h>
 
@@ -267,7 +268,11 @@ gnm_graph_window_set_graph (GnmGraphWindow *window,
 	}
 
 	if (graph != NULL) {
-		window->graph = go_graph_widget_new (graph);
+		window->graph = g_object_new (GO_GRAPH_WIDGET_TYPE,
+									"graph", graph,
+									"hres", gnm_app_display_dpi_get (TRUE),
+									"vres", gnm_app_display_dpi_get (FALSE),
+									NULL);
 		gtk_widget_show (window->graph);
 		gtk_container_add (GTK_CONTAINER (window->scrolled_window), window->graph);
 
