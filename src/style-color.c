@@ -305,7 +305,7 @@ GType
 gnm_style_color_get_type (void)
 {
 	static GType our_type = 0;
-  
+
 	if (our_type == 0)
 		our_type = g_boxed_type_register_static
 			("GnmStyleColor",

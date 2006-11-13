@@ -52,6 +52,7 @@
 #include "dependent.h"
 #include "expr.h"
 #include "expr-impl.h"
+#include "func.h"
 #include "position.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -76,6 +77,7 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-cmd-context-impl.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -1897,13 +1899,20 @@ wbcg_get_font_desc (WorkbookControlGUI *wbcg)
 static void
 cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
 {
+	const GnmFunc *func;
+	const char *descr;
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+
 	if (wbcg->updating_ui)
 		return;
 
-	wb_view_auto_expr (
-		wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		g_object_get_data (G_OBJECT (item), "name"),
-		g_object_get_data (G_OBJECT (item), "expr"));
+	func = g_object_get_data (G_OBJECT (item), "func");
+	descr = g_object_get_data (G_OBJECT (item), "descr");
+
+	g_object_set (wbv,
+		      "auto-expr-func", func,
+		      "auto-expr-descr", descr,
+		      NULL);
 }
 
 static void
@@ -1913,7 +1922,7 @@ cb_auto_expr_precision_toggled (GtkWidget *item, WorkbookControlGUI *wbcg)
 	if (wbcg->updating_ui)
 		return;
 
-	wb_view_auto_expr_precision (wbv, !wbv->auto_expr_use_max_precision);
+	go_object_toggle (wbv, "auto-expr-max-precision");
 }
 
 static gboolean
@@ -1968,8 +1977,10 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WorkbookControlGU
 
 		item = gtk_menu_item_new_with_label (
 			_(quick_compute_routines [i].displayed_name));
-		g_object_set_data (G_OBJECT (item), "expr", (gpointer)expr);
-		g_object_set_data (G_OBJECT (item), "name",
+		g_object_set_data (G_OBJECT (item),
+				   "func",
+				   gnm_func_lookup (expr, NULL));
+		g_object_set_data (G_OBJECT (item), "descr",
 			(gpointer)_(quick_compute_routines [i].displayed_name));
 		g_signal_connect (G_OBJECT (item),
 			"activate",

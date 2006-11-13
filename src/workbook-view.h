@@ -25,8 +25,8 @@ struct _WorkbookView {
 	int preferred_width, preferred_height;
 
 	/* The auto-expression */
-	GnmExpr const *auto_expr;
-	char	  *auto_expr_desc;
+	GnmFunc   *auto_expr_func;
+	char	  *auto_expr_descr;
 	char	  *auto_expr_value_as_string;
 	gboolean  auto_expr_use_max_precision;
 
@@ -74,12 +74,7 @@ void		 wb_view_selection_desc   (WorkbookView *wbv, gboolean use_pos,
 					   WorkbookControl *optional_wbc);
 void		 wb_view_edit_line_set	  (WorkbookView *wbv,
 					   WorkbookControl *optional_wbc);
-void		 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display);
-void		 wb_view_auto_expr	  (WorkbookView *wbv,
-					   char const *name,
-					   char const *func_name);
-void             wb_view_auto_expr_precision (WorkbookView *wbv,
-					      gboolean use_max_precision);
+void		 wb_view_auto_expr_recalc (WorkbookView *wbv);
 
 /* I/O routines */
 gboolean wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs,

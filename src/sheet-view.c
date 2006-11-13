@@ -60,7 +60,7 @@ cb_update_auto_expr (gpointer data)
 	SheetView *sv = (SheetView *) data;
 
 	if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
-		wb_view_auto_expr_recalc (sv->sv_wbv, TRUE);
+		wb_view_auto_expr_recalc (sv->sv_wbv);
 
 	sv->auto_expr_timer = 0;
 	return FALSE;

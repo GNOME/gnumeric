@@ -1,3 +1,20 @@
+2006-11-12  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (cb_auto_expr_changed): Control
+	auto-expression via wbv properties.
+	(cb_auto_expr_precision_toggled): Ditto.
+
+	* src/workbook-view.h (WorkbookView): Replace auto_expr with more
+	sane auto_expr_func member.
+
+	* src/workbook-view.c (wb_view_auto_expr_recalc): Remove
+	always-TRUE second argument.  All callers changed.  Adjust to
+	WorkbookView changes.
+	(wb_view_auto_expr): Remove.
+	(wb_view_auto_expr_precision): Make static.
+	(workbook_view_class_init): Install properties for
+	auto-expressions.
+
 2006-11-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/application.c: (gnm_app_history_add): return if max length is 0
