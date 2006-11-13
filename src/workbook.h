@@ -66,7 +66,7 @@ void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
 GODateConventions const *workbook_date_conv (Workbook const *wb);
 gboolean workbook_set_1904 (Workbook *wb, gboolean flag);
 
-void workbook_attach_view (Workbook *wb, WorkbookView *wbv);
+void workbook_attach_view (WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);
 
 WorkbookSheetState *workbook_sheet_state_new (Workbook const *wb);

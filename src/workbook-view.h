@@ -27,7 +27,7 @@ struct _WorkbookView {
 	/* The auto-expression */
 	GnmFunc   *auto_expr_func;
 	char	  *auto_expr_descr;
-	char	  *auto_expr_value_as_string;
+	char	  *auto_expr_text;
 	gboolean  auto_expr_use_max_precision;
 
 	/* selection */
@@ -52,6 +52,7 @@ GType		 workbook_view_get_type	  (void);
 WorkbookView	*workbook_view_new	  (Workbook *optional_workbook);
 void		 wb_view_attach_control	  (WorkbookView *wbv, WorkbookControl *wbc);
 void		 wb_view_detach_control	  (WorkbookControl *wbc);
+void             wb_view_detach_from_workbook (WorkbookView *wbv);
 
 /* Information */
 GODoc		*wb_view_get_doc	  (WorkbookView const *wbv);

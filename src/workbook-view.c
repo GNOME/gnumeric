@@ -67,7 +67,8 @@ enum {
 	PROP_0,
 	PROP_AUTO_EXPR_FUNC,
 	PROP_AUTO_EXPR_DESCR,
-	PROP_AUTO_EXPR_MAX_PRECISION
+	PROP_AUTO_EXPR_MAX_PRECISION,
+	PROP_AUTO_EXPR_TEXT
 };
 
 /* WorkbookView signals */
@@ -399,13 +400,6 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 }
 
 static void
-wb_view_auto_expr_value_display (WorkbookView *wbv)
-{
-	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-		wb_control_auto_expr_value (control););
-}
-
-static void
 accumulate_regions (SheetView *sv,  GnmRange const *r, gpointer closure)
 {
 	GnmExprList	**selection = closure;
@@ -451,8 +445,6 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 				      ei.func_call->argv,
 				      0);
 
-	g_free (wbv->auto_expr_value_as_string);
-
 	if (v) {
 		GString *str = g_string_new (wbv->auto_expr_descr);
 		GOFormat const *format = NULL;
@@ -480,14 +472,16 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 			g_string_append (str, value_peek_string (v));
 		}
 
-		wbv->auto_expr_value_as_string = g_string_free (str, FALSE);
+		g_object_set (wbv, "auto-expr-text", str->str, NULL);
+
+		g_string_free (str, TRUE);
 		value_release (v);
-	} else
-		wbv->auto_expr_value_as_string = g_strdup (_("Internal ERROR"));
+	} else {
+		g_object_set (wbv, "auto-expr-text", "Internal ERROR", NULL);
+	}
 
 	if (expr)
 		gnm_expr_free (expr);
-	wb_view_auto_expr_value_display (wbv);
 }
 
 /* perform whatever initialization of a control that is necessary when it
@@ -574,6 +568,19 @@ wb_view_auto_expr_precision (WorkbookView *wbv, gboolean use_max_precision)
 }
 
 static void
+wb_view_auto_expr_text (WorkbookView *wbv, const char *text)
+{
+	char *s;
+
+	if (go_str_compare (text, wbv->auto_expr_text) == 0)
+		return;
+
+	s = g_strdup (text);
+	g_free (wbv->auto_expr_text);
+	wbv->auto_expr_text = s;
+}
+
+static void
 wb_view_set_property (GObject *object, guint property_id,
 		      const GValue *value, GParamSpec *pspec)
 {
@@ -588,6 +595,9 @@ wb_view_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_AUTO_EXPR_MAX_PRECISION:
 		wb_view_auto_expr_precision (wbv, g_value_get_boolean (value));
+		break;
+	case PROP_AUTO_EXPR_TEXT:
+		wb_view_auto_expr_text (wbv, g_value_get_string (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -611,9 +621,23 @@ wb_view_get_property (GObject *object, guint property_id,
 	case PROP_AUTO_EXPR_MAX_PRECISION:
 		g_value_set_boolean (value, wbv->auto_expr_use_max_precision);
 		break;
+	case PROP_AUTO_EXPR_TEXT:
+		g_value_set_string (value, wbv->auto_expr_text);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
+	}
+}
+
+void
+wb_view_detach_from_workbook (WorkbookView *wbv)
+{
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	if (wbv->wb) {
+		workbook_detach_view (wbv);
+		wbv->wb = NULL;
 	}
 }
 
@@ -632,8 +656,7 @@ wb_view_finalize (GObject *object)
 			g_warning ("Unexpected left-over controls");
 	}
 
-	if (wbv->wb != NULL)
-		workbook_detach_view (wbv);
+	wb_view_detach_from_workbook (wbv);
 
 	if (wbv->auto_expr_func) {
 		gnm_func_unref (wbv->auto_expr_func);
@@ -643,8 +666,8 @@ wb_view_finalize (GObject *object)
 	g_free (wbv->auto_expr_descr);
 	wbv->auto_expr_descr = NULL;
 
-	g_free (wbv->auto_expr_value_as_string);
-	wbv->auto_expr_value_as_string = NULL;
+	g_free (wbv->auto_expr_text);
+	wbv->auto_expr_text = NULL;
 
 	if (wbv->current_format != NULL) {
 		gnm_style_unref (wbv->current_format);
@@ -690,6 +713,15 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_AUTO_EXPR_TEXT,
+		 g_param_spec_string ("auto-expr-text",
+				      _("Auto-expression text"),
+				      _("Displayed text for the automatically computed sheet function."),
+				      NULL,
+				      GSF_PARAM_STATIC |
+				      G_PARAM_READWRITE));
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 }
@@ -708,7 +740,8 @@ workbook_view_new (Workbook *wb)
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
-	workbook_attach_view (wb, wbv);
+	wbv->wb = wb;
+	workbook_attach_view (wbv);
 
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
@@ -725,7 +758,7 @@ workbook_view_new (Workbook *wb)
 	if (wbv->auto_expr_func)
 		gnm_func_ref (wbv->auto_expr_func);
 	wbv->auto_expr_descr = g_strdup (_("Sum"));
-	wbv->auto_expr_value_as_string = NULL;
+	wbv->auto_expr_text = NULL;
 	wbv->auto_expr_use_max_precision = FALSE;
 
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)

@@ -75,7 +75,6 @@ WBC_VIRTUAL (edit_line_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (selection_descr_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
-WBC_VIRTUAL (auto_expr_value, (WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL_FULL (sheet_remove, sheet.remove,
 	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
@@ -123,7 +122,6 @@ wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			wb_control_sheet_focus (wbc, new_sheet);
 			wb_view_selection_desc (wbv, TRUE, wbc);
 			wb_view_edit_line_set (wbv, wbc);
-			wb_control_auto_expr_value (wbc);
 			wb_control_style_feedback (wbc, NULL);
 			wb_control_menu_state_update (wbc, MS_ALL);
 			wb_control_update_action_sensitivity (wbc);

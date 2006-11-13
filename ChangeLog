@@ -1,3 +1,24 @@
+2006-11-13  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_dispose): Use
+	wb_view_detach_from_workbook.
+	(workbook_detach_view, workbook_attach_view): Don't set wbv->wb
+	here.  Set in caller.
+
+	* src/workbook-view.c (workbook_view_class_init): Install new
+	property: auto-expr-text.
+	(wb_view_get_property, wb_view_set_property,
+	wb_view_auto_expr_text): Handle auto-expr-text.
+	(wb_view_detach_from_workbook): New function.
+	(wb_view_finalize): Use wb_view_detach_from_workbook.
+
+	* src/workbook-control-priv.h (WorkbookControlClass): Remove
+	auto_expr_value member.
+
+	* src/workbook-control-gui.c (wbcg_auto_expr_text_changed): New
+	function hooked up to WorkbookView::auto-expr-text.
+	(wbcg_auto_expr_value): Removed.
+
 2006-11-12  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (cb_auto_expr_changed): Control

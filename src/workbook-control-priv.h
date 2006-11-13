@@ -29,7 +29,6 @@ typedef struct {
 	void (*edit_line_set)	    (WorkbookControl *wbc, char const *text);
 	void (*edit_finish)	    (WorkbookControl *wbc, gboolean accept);
 	void (*selection_descr_set) (WorkbookControl *wbc, char const *text);
-	void (*auto_expr_value)	    (WorkbookControl *wbc);
 	void (*update_action_sensitivity)  (WorkbookControl *wbc);
 	struct {
 		void (*add)	(WorkbookControl *wbc, SheetView *sv);

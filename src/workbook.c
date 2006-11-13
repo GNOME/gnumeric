@@ -119,9 +119,9 @@ workbook_dispose (GObject *wb_object)
 	 */
 	/* Get rid of all the views */
 	if (wb->wb_views != NULL) {
-		WORKBOOK_FOREACH_VIEW (wb, view, {
-			workbook_detach_view (view);
-			g_object_unref (view);
+		WORKBOOK_FOREACH_VIEW (wb, wbv, {
+			wb_view_detach_from_workbook (wbv);
+			g_object_unref (wbv);
 		});
 		if (wb->wb_views != NULL)
 			g_warning ("Unexpected left over views");
@@ -578,16 +578,18 @@ workbook_iteration_tolerance (Workbook *wb, double tolerance)
 }
 
 void
-workbook_attach_view (Workbook *wb, WorkbookView *wbv)
+workbook_attach_view (WorkbookView *wbv)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	Workbook *wb;
+
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
-	g_return_if_fail (wb_view_get_workbook (wbv) == NULL);
+
+	wb = wb_view_get_workbook (wbv);
+	g_return_if_fail (IS_WORKBOOK (wb));
 
 	if (wb->wb_views == NULL)
 		wb->wb_views = g_ptr_array_new ();
 	g_ptr_array_add (wb->wb_views, wbv);
-	wbv->wb = wb;
 }
 
 void
@@ -606,7 +608,6 @@ workbook_detach_view (WorkbookView *wbv)
 		g_ptr_array_free (wbv->wb->wb_views, TRUE);
 		wbv->wb->wb_views = NULL;
 	}
-	wbv->wb = NULL;
 }
 
 /*****************************************************************************/

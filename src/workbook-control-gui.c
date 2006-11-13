@@ -1085,21 +1085,12 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 }
 
 static void
-wbcg_auto_expr_value (WorkbookControl *wbc)
+wbcg_auto_expr_text_changed (WorkbookView *wbv,
+			     G_GNUC_UNUSED GParamSpec *pspec,
+			     WorkbookControlGUI *wbcg)
 {
-	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
-	WorkbookView *wbv = wb_control_view (wbc);
-
-	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (wbv != NULL);
-	g_return_if_fail (wbv->auto_expr_value_as_string != NULL);
-
-	if (wbcg_ui_update_begin (wbcg)) {
-		gtk_label_set_text(
-			 GTK_LABEL (wbcg->auto_expr_label),
-			 wbv->auto_expr_value_as_string);
-		wbcg_ui_update_end (wbcg);
-	}
+	gtk_label_set_text (GTK_LABEL (wbcg->auto_expr_label),
+			    wbv->auto_expr_text ? wbv->auto_expr_text : "");
 }
 
 static void
@@ -2450,35 +2441,47 @@ wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
 }
 
-#define DISCONNECT(field)						\
-	if (wbcg->field) {						\
-		g_signal_handler_disconnect (old_wb, wbcg->field);	\
-		wbcg->field = 0;					\
+#define DISCONNECT(obj,field)					\
+	if (wbcg->field) {					\
+		g_signal_handler_disconnect (obj, wbcg->field);	\
+		wbcg->field = 0;				\
 	}
 
 static void
 wbcg_view_changed (WorkbookControlGUI *wbcg,
 		   G_GNUC_UNUSED GParamSpec *pspec,
-		   Workbook *old_wb)
+		   WorkbookView *old_wbv)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
+	Workbook *old_wb = old_wbv ? wb_view_get_workbook (old_wbv) : NULL;
+	WorkbookView *wbv = wb_control_view (wbc);
 
 	/* Reconnect self because we need to change data.  */
-	if (wbcg->sig_view_changed)
-		g_signal_handler_disconnect (wbc, wbcg->sig_view_changed);
+	DISCONNECT (wbc, sig_view_changed);
 	wbcg->sig_view_changed =
 		g_signal_connect_object
 		(G_OBJECT (wbc),
 		 "notify::view",
 		 G_CALLBACK (wbcg_view_changed),
-		 wb,
+		 wbv,
 		 0);
 
+	if (wbcg->sig_auto_expr_text)
+		DISCONNECT (old_wbv, sig_auto_expr_text);
+	wbcg->sig_auto_expr_text =
+		g_signal_connect_object
+		(G_OBJECT (wbv),
+		 "notify::auto-expr-text",
+		 G_CALLBACK (wbcg_auto_expr_text_changed),
+		 wbcg,
+		 0);
+	wbcg_auto_expr_text_changed (wbv, NULL, wbcg);
+
 	if (old_wb) {
-		DISCONNECT (sig_sheet_order);
-		DISCONNECT (sig_notify_uri);
-		DISCONNECT (sig_notify_dirty);
+		DISCONNECT (old_wb, sig_sheet_order);
+		DISCONNECT (old_wb, sig_notify_uri);
+		DISCONNECT (old_wb, sig_notify_dirty);
 	}
 
 	if (wb) {
@@ -2700,7 +2703,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
-	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
 	wbc_class->update_action_sensitivity = wbcg_update_action_sensitivity;
 
 	wbc_class->sheet.add        = wbcg_sheet_add;
