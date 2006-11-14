@@ -87,6 +87,14 @@
 #include <string.h>
 #include <errno.h>
 
+enum {
+	PROP_0,
+	PROP_AUTOSAVE_PROMPT,
+	PROP_AUTOSAVE_TIME	
+};
+
+guint wbcg_signals[WBCG_LAST_SIGNAL];
+
 #define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
 void wbcg_ ## func arglist					\
@@ -240,11 +248,11 @@ wbcg_cur_scg (WorkbookControlGUI *wbcg)
 
 /****************************************************************************/
 /* Autosave */
+
 static gboolean
-cb_autosave (gpointer *data)
+cb_autosave (WorkbookControlGUI *wbcg)
 {
 	WorkbookView *wb_view;
-        WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
@@ -253,7 +261,7 @@ cb_autosave (gpointer *data)
 	if (wb_view == NULL)
 		return FALSE;
 
-	if (wbcg->autosave &&
+	if (wbcg->autosave_time > 0 &&
 	    go_doc_is_dirty (wb_view_get_doc (wb_view))) {
 	        if (wbcg->autosave_prompt && !dialog_autosave_prompt (wbcg))
 			return TRUE;
@@ -293,32 +301,39 @@ wbcg_is_editing (WorkbookControlGUI const *wbcg)
 	return wbcg->wb_control.editing;
 }
 
-void
+static void
 wbcg_autosave_cancel (WorkbookControlGUI *wbcg)
 {
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
-
 	if (wbcg->autosave_timer != 0) {
 		g_source_remove (wbcg->autosave_timer);
 		wbcg->autosave_timer = 0;
 	}
 }
 
-void
-wbcg_autosave_set (WorkbookControlGUI *wbcg, int minutes, gboolean prompt)
+static void
+wbcg_autosave_activate (WorkbookControlGUI *wbcg)
 {
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	wbcg_autosave_cancel (wbcg);	
 
-	wbcg_autosave_cancel (wbcg);
-
-	wbcg->autosave = (minutes != 0);
-	wbcg->autosave_minutes = minutes;
-	wbcg->autosave_prompt = prompt;
-
-	if (wbcg->autosave)
-		wbcg->autosave_timer = g_timeout_add (minutes * 60000,
-			(GSourceFunc) cb_autosave, wbcg);
+	if (wbcg->autosave_time > 0) {
+		int secs = MIN (wbcg->autosave_time, G_MAXINT / 1000);
+		wbcg->autosave_timer =
+			g_timeout_add (secs * 1000,
+				       (GSourceFunc) cb_autosave,
+				       wbcg);
+	}
 }
+
+static void
+wbcg_set_autosave_time (WorkbookControlGUI *wbcg, int secs)
+{
+	if (secs == wbcg->autosave_time)
+		return;
+
+	wbcg->autosave_time = secs;
+	wbcg_autosave_activate (wbcg);
+}
+
 /****************************************************************************/
 
 static void
@@ -1605,6 +1620,45 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	}
 }
 
+static void
+wbcg_set_property (GObject *object, guint property_id,
+		   const GValue *value, GParamSpec *pspec)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)object;
+
+	switch (property_id) {
+	case PROP_AUTOSAVE_PROMPT:
+		wbcg->autosave_prompt = g_value_get_boolean (value);
+		break;
+	case PROP_AUTOSAVE_TIME:
+		wbcg_set_autosave_time (wbcg, g_value_get_int (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+wbcg_get_property (GObject *object, guint property_id,
+		   GValue *value, GParamSpec *pspec)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)object;
+
+	switch (property_id) {
+	case PROP_AUTOSAVE_PROMPT:
+		g_value_set_boolean (value, wbcg->autosave_prompt);
+		break;
+	case PROP_AUTOSAVE_TIME:
+		g_value_set_int (value, wbcg->autosave_time);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
 static GObjectClass *parent_class;
 static void
 wbcg_finalize (GObject *obj)
@@ -1614,6 +1668,9 @@ wbcg_finalize (GObject *obj)
 	/* Disconnect signals that would attempt to change things during
 	 * destruction.
 	 */
+
+	wbcg_autosave_cancel (wbcg);
+
 	if (wbcg->notebook != NULL)
 		g_signal_handlers_disconnect_by_func (
 			G_OBJECT (wbcg->notebook),
@@ -1651,7 +1708,7 @@ wbcg_finalize (GObject *obj)
 	}
 #endif
 
-	(*parent_class->finalize) (obj);
+	parent_class->finalize (obj);
 }
 
 static gboolean
@@ -2676,7 +2733,6 @@ wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 
 /***************************************************************************/
 
-guint wbcg_signals [WBCG_LAST_SIGNAL];
 static void
 wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
 {
@@ -2689,17 +2745,38 @@ wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
 }
 
 static void
-workbook_control_gui_class_init (GObjectClass *object_class)
+workbook_control_gui_class_init (GObjectClass *gobject_class)
 {
 	WorkbookControlClass *wbc_class =
-		WORKBOOK_CONTROL_CLASS (object_class);
+		WORKBOOK_CONTROL_CLASS (gobject_class);
 	WorkbookControlGUIClass *wbcg_class =
-		WORKBOOK_CONTROL_GUI_CLASS (object_class);
+		WORKBOOK_CONTROL_GUI_CLASS (gobject_class);
 
 	g_return_if_fail (wbc_class != NULL);
 
-	parent_class = g_type_class_peek_parent (object_class);
-	object_class->finalize = wbcg_finalize;
+	parent_class = g_type_class_peek_parent (gobject_class);
+	gobject_class->finalize = wbcg_finalize;
+	gobject_class->get_property = wbcg_get_property;
+	gobject_class->set_property = wbcg_set_property;
+
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_AUTOSAVE_PROMPT,
+		 g_param_spec_boolean ("autosave-prompt",
+				       _("Autosave prompt"),
+				       _("Ask about autosave?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_AUTOSAVE_TIME,
+		 g_param_spec_int ("autosave-time",
+				   _("Autosave time in seconds"),
+				   _("Seconds before autosave"),
+				   0, G_MAXINT, 0,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE));
 
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
@@ -2754,12 +2831,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg)
 	wbcg->toggle_for_fullscreen = g_hash_table_new_full (
 		g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
 
-	/* Autosave */
-	wbcg->autosave_timer = 0;
-	wbcg->autosave_minutes = 0;
 	wbcg->autosave_prompt = FALSE;
+	wbcg->autosave_time = 0;
+	wbcg->autosave_timer = 0;
 
-#warning why is this here ?
+#warning "why is this here ?"
 	wbcg->current_saver = NULL;
 }
 

@@ -44,7 +44,8 @@ Morten:
 	* Fix undo for sheet object copy.  [#308300]
 	* Fix redo for sheet object copy.  [#308300]
 	* Add a bugzilla component for bug-buddy.  [#348829]
-	* Make WorkbookView is more proper gobject.
+	* Make WorkbookView a more proper gobject.
+	* Fix autosave crash.
 
 --------------------------------------------------------------------------
 

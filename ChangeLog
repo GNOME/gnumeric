@@ -1,5 +1,17 @@
 2006-11-13  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_autosave_cancel): Make static.
+	(wbcg_autosave_activate, wbcg_set_autosave_time,
+	wbcg_set_property, wbcg_get_property): New functions.
+	(wbcg_autosave_set): Remove.
+	(wbcg_finalize): Cancel autosave timer.
+	(workbook_control_gui_class_init): Install autosave-time and
+	autosave-prompt properties.
+
+	* src/workbook-control-gui-priv.h (WorkbookControlGUI): Remove
+	redundant autosave member.  Change autosave_minutes to
+	autosave_time and make it seconds-based.
+
 	* src/workbook.c (workbook_dispose): Use
 	wb_view_detach_from_workbook.
 	(workbook_detach_view, workbook_attach_view): Don't set wbv->wb

@@ -27,9 +27,6 @@ void	   wbcg_ui_update_end	  (WorkbookControlGUI *wbcg);
 
 gboolean   wbcg_rangesel_possible (WorkbookControlGUI const *wbcg);
 gboolean   wbcg_is_editing	  (WorkbookControlGUI const *wbcg);
-void       wbcg_autosave_cancel	  (WorkbookControlGUI *wbcg);
-void       wbcg_autosave_set      (WorkbookControlGUI *wbcg,
-				   int minutes, gboolean prompt);
 void	   wbcg_set_status_text	  (WorkbookControlGUI *wbcg,
 				   char const *text);
 void       wbcg_toggle_visibility (WorkbookControlGUI *wbcg,

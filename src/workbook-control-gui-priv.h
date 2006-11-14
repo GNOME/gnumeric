@@ -68,9 +68,8 @@ struct _WorkbookControlGUI {
 	GtkWidget *selection_descriptor;	/* A GtkEntry */
 
 	/* Autosave */
-        gboolean   autosave;
         gboolean   autosave_prompt;
-        gint       autosave_minutes;
+        gint       autosave_time;
         gint       autosave_timer;
 
 	PangoFontDescription *font_desc;

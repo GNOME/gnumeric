@@ -133,17 +133,22 @@ static void
 cb_autosave_ok (G_GNUC_UNUSED GtkWidget *button, autosave_t *state)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off))) {
-		int minutes;
+		gboolean prompt = gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON (state->prompt_cb));
+		int minutes, secs;
 		gboolean minutes_err = entry_to_int (GTK_ENTRY (state->minutes_entry),
 						     &minutes, TRUE);
 
 		g_return_if_fail (!minutes_err); /* Why is ok active? */
 
-		wbcg_autosave_set (state->wbcg, minutes,
-				   gtk_toggle_button_get_active (
-					   GTK_TOGGLE_BUTTON (state->prompt_cb)));
-	} else
-		wbcg_autosave_set (state->wbcg, 0, FALSE);
+		secs = MIN (minutes * 60, G_MAXINT / 60);
+		g_object_set (state->wbcg,
+			      "autosave-time", secs,
+			      "autosave-prompt", prompt,
+			      NULL);
+	} else {
+		g_object_set (state->wbcg, "autosave-time", 0, NULL);
+	}
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -152,6 +157,8 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
 	autosave_t *state;
+	int secs;
+	gboolean prompt;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -162,6 +169,10 @@ dialog_autosave (WorkbookControlGUI *wbcg)
         if (gui == NULL)
                 return;
 
+	g_object_get (wbcg,
+		      "autosave-time", &secs,
+		      "autosave-prompt", &prompt,
+		      NULL);
 
 	state = g_new (autosave_t, 1);
 	state->wbcg = wbcg;
@@ -183,7 +194,8 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 		return;
 	}
 
-	float_to_entry (GTK_ENTRY (state->minutes_entry), wbcg->autosave_minutes);
+	float_to_entry (GTK_ENTRY (state->minutes_entry),
+			secs / 60);
 
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  state->minutes_entry);
@@ -209,9 +221,9 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 		GNUMERIC_HELP_LINK_AUTOSAVE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),
-				      wbcg->autosave);
-	gtk_toggle_button_set_active ((GtkToggleButton *) state->prompt_cb,
-				      wbcg->autosave_prompt);
+				      secs > 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->prompt_cb),
+				      prompt);
 
 	autosave_set_sensitivity (NULL, state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
