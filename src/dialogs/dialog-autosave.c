@@ -28,7 +28,6 @@
 #include "help.h"
 
 #include <workbook.h>
-#include <workbook-control-gui-priv.h>
 #include <gui-util.h>
 #include <goffice/app/go-doc.h>
 #include <glib/gi18n-lib.h>
@@ -141,7 +140,7 @@ cb_autosave_ok (G_GNUC_UNUSED GtkWidget *button, autosave_t *state)
 
 		g_return_if_fail (!minutes_err); /* Why is ok active? */
 
-		secs = MIN (minutes * 60, G_MAXINT / 60);
+		secs = 60 * MIN (minutes, G_MAXINT / 60);
 		g_object_set (state->wbcg,
 			      "autosave-time", secs,
 			      "autosave-prompt", prompt,
