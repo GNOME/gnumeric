@@ -1,0 +1,6 @@
+$Id$
+Histogram enhancement discussion
+* should be general for pivot tables
+* date/time buckets: second minute hour day week month quarter year
+decade day-of-week? 
+* connect to charts
