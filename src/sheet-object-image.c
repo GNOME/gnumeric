@@ -426,7 +426,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	l = g_slist_remove (l, GUINT_TO_POINTER (sel_fmt));
 	l = g_slist_prepend (l, GUINT_TO_POINTER (sel_fmt));
 	
-	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 
 	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt, NULL);
 	if (!uri)

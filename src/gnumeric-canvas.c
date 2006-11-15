@@ -70,7 +70,7 @@ gnm_canvas_object_key_press (GnmCanvas *gcanvas, GdkEventKey *ev)
 
 	switch (ev->keyval) {
 	case GDK_Escape:
-		scg_mode_edit (sc);
+		scg_mode_edit (scg);
 		gnm_app_clipboard_unant ();
 		return TRUE;
 
@@ -320,7 +320,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 		if (state == GDK_SHIFT_MASK) {
-			scg_mode_edit (sc);
+			scg_mode_edit (scg);
 			sv_selection_cut (sv, WORKBOOK_CONTROL (wbcg));
 		} else
 			cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES);
@@ -826,7 +826,7 @@ gnm_canvas_new (SheetControlGUI *scg, GnmPane *pane)
 int
 gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 {
-	Sheet const *sheet = ((SheetControl const *) gcanvas->simple.scg)->sheet;
+	Sheet const *sheet = scg_sheet (gcanvas->simple.scg);
 	int col   = gcanvas->first.col;
 	int pixel = gcanvas->first_offset.col;
 
@@ -879,7 +879,7 @@ gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 int
 gnm_canvas_find_row (GnmCanvas const *gcanvas, int y, int *row_origin)
 {
-	Sheet const *sheet = ((SheetControl const *) gcanvas->simple.scg)->sheet;
+	Sheet const *sheet = scg_sheet (gcanvas->simple.scg);
 	int row   = gcanvas->first.row;
 	int pixel = gcanvas->first_offset.row;
 
@@ -930,7 +930,7 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 				   gboolean const full_recompute)
 {
 	SheetControlGUI const * const scg = gcanvas->simple.scg;
-	Sheet const * const sheet = ((SheetControl *) scg)->sheet;
+	Sheet const *sheet = scg_sheet (scg);
 	FooCanvas   *canvas = FOO_CANVAS (gcanvas);
 	int pixels, col, row, width, height;
 
@@ -1026,7 +1026,7 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 
 	/* Update the scrollbar sizes for the primary pane */
 	if (gcanvas->pane->index == 0)
-		scg_scrollbar_config (SHEET_CONTROL (scg));
+		sc_scrollbar_config (SHEET_CONTROL (scg));
 
 	/* Force the cursor to update its bounds relative to the new visible region */
 	gnm_pane_reposition_cursors (gcanvas->pane);
@@ -1559,7 +1559,7 @@ gnm_canvas_object_autoscroll (GnmCanvas *gcanvas, GdkDragContext *context,
 		dx = 0;
 
 	g_object_set_data (&context->parent_instance,
-		"wbcg", scg_get_wbcg (scg));
+		"wbcg", scg_wbcg (scg));
 	gcanvas->sliding_dx    = dx;
 	gcanvas->sliding_dy    = dy;
 	gcanvas->slide_handler = &cb_obj_autoscroll;

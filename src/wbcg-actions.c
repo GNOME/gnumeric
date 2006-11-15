@@ -50,7 +50,6 @@
 #include "workbook-view.h"
 #include "workbook-edit.h"
 #include "workbook-control-gui-priv.h"
-#include "workbook-control.h"
 #include "workbook-cmd-format.h"
 #include "dialogs/dialogs.h"
 #include "sheet-object-image.h"
@@ -592,7 +591,7 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 
-	scg_mode_edit (SHEET_CONTROL (scg));
+	scg_mode_edit (scg);
 	if (scg->active_panes == 1) {
 		gboolean center = FALSE;
 		GnmCanvas const *gcanvas = scg_pane (scg, 0);
@@ -1083,7 +1082,7 @@ create_object (WorkbookControlGUI *wbcg, GType t,
 	       ...)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	Sheet *sheet = scg_sheet (scg);
 	va_list	args;
 
 	va_start (args, first_property_name);

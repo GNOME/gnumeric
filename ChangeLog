@@ -1,3 +1,10 @@
+2006-11-14  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_wbcg): Rename from scg_get_wbcg.
+	(scg_wbc, scg_sheet, scg_view): New functions.  Use a few hundred
+	places to avoid casts.
+	(scg_class_init): Install ->mode_edit handler(!)
+
 2006-11-13  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_autosave_cancel): Make static.

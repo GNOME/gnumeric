@@ -366,7 +366,7 @@ static void
 sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 {
   	SheetWidgetFrame *swc = SHEET_WIDGET_FRAME (so);
-  	WorkbookControlGUI   *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+  	WorkbookControlGUI   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
   	FrameConfigState *state;
   	GtkWidget *table;
 
@@ -883,7 +883,7 @@ static void
 sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	WorkbookControlGUI   *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	WorkbookControlGUI   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	AdjustmentConfigState *state;
 	GtkWidget *table;
 
@@ -1486,7 +1486,7 @@ static void
 sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	WorkbookControlGUI  *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	WorkbookControlGUI  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	CheckboxConfigState *state;
 	GtkWidget *table;
 

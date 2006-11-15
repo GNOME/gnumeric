@@ -103,9 +103,14 @@ void scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 void scg_drag_data_get      (SheetControlGUI *scg, 
 			     GtkSelectionData *selection_data);
 
+/* Convenience wrappers.  */
+SheetView	*scg_view	(SheetControlGUI const *scg);
+Sheet		*scg_sheet	(SheetControlGUI const *scg);
+WorkbookControl *scg_wbc	(SheetControlGUI const *scg);
+
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
 GnmCanvas	   *scg_pane		(SheetControlGUI *scg, int pane);
 
-WorkbookControlGUI *scg_get_wbcg	(SheetControlGUI const *scg);
+WorkbookControlGUI *scg_wbcg	(SheetControlGUI const *scg);
 
 #endif /* GNUMERIC_SHEET_CONTROL_GUI_H */

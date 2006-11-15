@@ -63,10 +63,9 @@ struct _SheetControlGUI {
 };
 typedef SheetControlClass SheetControlGUIClass;
 
-/* SCG virtual methods are called directly from the GUI layer*/
-void scg_adjust_preferences     (SheetControl *sc);
-void scg_scrollbar_config       (SheetControl const *sc);
-void scg_mode_edit		(SheetControl *sc);
+/* SCG virtual methods called directly from the GUI layer*/
+void scg_adjust_preferences     (SheetControlGUI *scg);
+void scg_mode_edit		(SheetControlGUI *scg);
 
 #define SCG_FOREACH_PANE(scg, pane, code)		\
   do {							\

@@ -12,7 +12,6 @@
 #include "libgnumeric.h"
 #include "gui-util.h"
 
-#include "workbook-control-gui-priv.h"
 #include "gutils.h"
 #include "parse-util.h"
 #include "style.h"
@@ -23,6 +22,7 @@
 #include "application.h"
 #include "workbook.h"
 #include "libgnumeric.h"
+#include "widgets/gnumeric-expr-entry.h"
 
 #include <goffice/app/error-info.h>
 #include <goffice/gtk/go-combo-color.h>

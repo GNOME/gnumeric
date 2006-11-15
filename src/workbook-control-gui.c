@@ -167,7 +167,7 @@ wbcg_get_scg (WorkbookControlGUI *wbcg, Sheet *sheet)
 	w = gtk_notebook_get_nth_page (wbcg->notebook, sheet->index_in_wb);
 	if (w) {
 		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-		if (sc_sheet (SHEET_CONTROL (scg)) == sheet)
+		if (scg_sheet (scg) == sheet)
 			return scg;
 	}
 
@@ -179,7 +179,7 @@ wbcg_get_scg (WorkbookControlGUI *wbcg, Sheet *sheet)
 	for (i = 0; i < npages; i++) {
 		GtkWidget *w = gtk_notebook_get_nth_page (wbcg->notebook, i);
 		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-		if (sc_sheet (SHEET_CONTROL (scg)) == sheet)
+		if (scg_sheet (scg) == sheet)
 			return scg;
 	}
 
@@ -231,7 +231,7 @@ wbcg_focus_cur_scg (WorkbookControlGUI *wbcg)
 	g_return_val_if_fail (scg != NULL, NULL);
 
 	scg_take_focus (scg);
-	return sc_sheet (SHEET_CONTROL (scg));
+	return scg_sheet (scg);
 }
 
 Sheet *
@@ -530,7 +530,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		gboolean inactive =
 			((flags & SHEET_CONTEXT_TEST_SIZE) &&
 			 workbook_sheet_count (sc->sheet->workbook) < 2) ||
-			wbcg_edit_get_guru (scg_get_wbcg (scg)) != NULL;
+			wbcg_edit_get_guru (scg_wbcg (scg)) != NULL;
 
 		if (text == NULL) {
 			item = gtk_separator_menu_item_new ();
@@ -983,7 +983,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	sc = (SheetControl *) scg;
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
 		sc_object_create_view (sc, ptr->data);
-	scg_adjust_preferences (sc);
+	scg_adjust_preferences (scg);
 	if (sheet == wb_control_cur_sheet (wbc))
 		scg_take_focus (scg);
 }
@@ -1717,7 +1717,7 @@ cb_scroll_wheel (GtkWidget *ignored, GdkEventScroll *event,
 {
 	/* scroll always operates on pane 0 */
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet	 	*sheet = sc_sheet (SHEET_CONTROL (scg));
+	Sheet	 	*sheet = scg_sheet (scg);
 	GnmCanvas *gcanvas = scg_pane (scg, 0);
 	gboolean go_horiz = (event->direction == GDK_SCROLL_LEFT ||
 			     event->direction == GDK_SCROLL_RIGHT);
@@ -2129,7 +2129,7 @@ show_gui (WorkbookControlGUI *wbcg)
 
 	/* rehide headers if necessary */
 	if (NULL != scg && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
-		scg_adjust_preferences (SHEET_CONTROL (scg));
+		scg_adjust_preferences (scg);
 
 	return FALSE;
 }
@@ -2579,7 +2579,7 @@ static void
 wbcg_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (WORKBOOK_CONTROL_GUI (dalloc));
-	sv_selection_to_plot (sc_view (SHEET_CONTROL (scg)), plot);
+	sv_selection_to_plot (scg_view (scg), plot);
 }
 
 typedef struct {
@@ -2605,7 +2605,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 		return;
 
 	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
-	sheet = sc_sheet (SHEET_CONTROL (scg));
+	sheet = scg_sheet (scg);
 	g_object_unref (G_OBJECT (scg));
 
 	/* If we are setting something */
@@ -2630,7 +2630,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 			else {
 				g_return_if_fail (perr.err != NULL);
 
-				wb_control_validation_msg (WORKBOOK_CONTROL (scg_get_wbcg (scg)),
+				wb_control_validation_msg (WORKBOOK_CONTROL (scg_wbcg (scg)),
 					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
 				parse_error_free (&perr);
 				return;

@@ -96,14 +96,14 @@ static void
 ie_scan_for_range (ItemEdit *ie)
 {
 	GnmRange  range;
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (ie->scg));
+	Sheet *sheet = scg_sheet (ie->scg);
 	Sheet *parse_sheet;
 	GnmParsePos pp;
 	GnmExprEntry *gee = GNM_EXPR_ENTRY (
 		gtk_widget_get_parent (GTK_WIDGET (ie->entry)));
 
 	gnm_expr_entry_set_parsepos (gee,
-		parse_pos_init_editpos (&pp, sc_view (SHEET_CONTROL (ie->scg))));
+		parse_pos_init_editpos (&pp, scg_view (ie->scg)));
 	if (!ie->feedback_disabled) {
 		gnm_expr_expr_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
@@ -242,7 +242,7 @@ ie_layout (FooCanvasItem *item)
 	GtkWidget const  *canvas = GTK_WIDGET (item->canvas);
 	GnmCanvas const  *gcanvas = GNM_CANVAS (item->canvas);
 	ColRowInfo const *ci;
-	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (ie->scg));
+	Sheet	   const *sheet  = scg_sheet (ie->scg);
 	GnmFont  const *gfont = ie->gfont;
 	GnmRange	   const *merged;
 	int end_col, end_row, tmp, width, height, col_size;
@@ -257,14 +257,14 @@ ie_layout (FooCanvasItem *item)
 	g_return_if_fail (ci != NULL);
 
 	entered_text = gtk_entry_get_text (ie->entry);
-	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
+	text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
 	pango_layout_set_text (ie->layout, text, -1);
 
 	pango_layout_set_font_description (ie->layout, gfont->go.font->desc);
 	pango_layout_set_wrap (ie->layout, PANGO_WRAP_WORD_CHAR);
 	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 
-	attrs = wbcg_edit_get_markup (scg_get_wbcg (ie->scg), TRUE);
+	attrs = wbcg_edit_get_markup (scg_wbcg (ie->scg), TRUE);
 	if (attrs != NULL)
 		attrs = pango_attr_list_copy (attrs);
 	else
@@ -295,7 +295,7 @@ ie_layout (FooCanvasItem *item)
 	pango_layout_set_attributes (ie->layout, attrs);
 	pango_attr_list_unref (attrs);
 
-	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
+	text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
 
 	if (gcanvas->preedit_length) {
 		PangoAttrList *tmp_attrs = pango_attr_list_new ();
@@ -393,7 +393,7 @@ item_edit_realize (FooCanvasItem *item)
 
 	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), NULL);
 	pango_layout_set_alignment (ie->layout,
-		ie->scg->sheet_control.sheet->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
+		scg_sheet (ie->scg)->text_is_rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
 }
 
 static void
@@ -548,10 +548,10 @@ item_edit_set_property (GObject *gobject, guint param_id,
 
 	ie->scg = SHEET_CONTROL_GUI (g_value_get_object (value));
 
-	sv = sc_view (SHEET_CONTROL (ie->scg));
+	sv = scg_view (ie->scg);
 	ie->pos = sv->edit_pos;
-	ie->entry = entry = wbcg_get_entry (scg_get_wbcg (ie->scg));
-	g_signal_connect_object (G_OBJECT (scg_get_wbcg (ie->scg)),
+	ie->entry = entry = wbcg_get_entry (scg_wbcg (ie->scg));
+	g_signal_connect_object (G_OBJECT (scg_wbcg (ie->scg)),
 		"markup-changed",
 		G_CALLBACK (foo_canvas_item_request_update), G_OBJECT (ie), G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
@@ -585,7 +585,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 		item->x1 = 1 + gcanvas->first_offset.col +
 			scg_colrow_distance_get (ie->scg, TRUE,
 				gcanvas->first.col, ie->pos.col);
-		if (ie->scg->sheet_control.sheet->text_is_rtl)
+		if (scg_sheet (ie->scg)->text_is_rtl)
 			/* -1 to remove the above, then 2 more to move from next cell back */
 			item->x1 = 2 + gnm_foo_canvas_x_w2c (item->canvas, item->x1 +
 				scg_colrow_distance_get (ie->scg, TRUE,

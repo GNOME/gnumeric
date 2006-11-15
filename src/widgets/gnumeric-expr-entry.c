@@ -1102,7 +1102,7 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 				   (GWeakNotify) cb_scg_destroy, gee);
 		gee->sheet = sc_sheet (SHEET_CONTROL (scg));
 		parse_pos_init_sheet (&gee->pp, gee->sheet);
-		gee->wbcg = scg_get_wbcg (gee->scg);
+		gee->wbcg = scg_wbcg (gee->scg);
 	} else
 		gee->sheet = NULL;
 #if 0

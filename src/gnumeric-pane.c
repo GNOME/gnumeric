@@ -95,7 +95,7 @@ gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	pane->size_guide.guide  = NULL;
 
 	if (NULL != scg &&
-	    NULL != (sheet = sc_sheet (SHEET_CONTROL (scg))) &&
+	    NULL != (sheet = scg_sheet (scg)) &&
 	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
 		foo_canvas_set_pixels_per_unit (canvas, sheet->last_zoom_factor_used);
 
@@ -139,7 +139,7 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 
 	sheet_object_anchor_cpy	(&anchor, sheet_object_get_anchor (so));
 	scg_object_coords_to_anchor (scg, coords, &anchor);
-	sheet_object_anchor_to_pts (&anchor, sc_sheet (SHEET_CONTROL (scg)), pts);
+	sheet_object_anchor_to_pts (&anchor, scg_sheet (scg), pts);
 	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),
 		MAX (fabs (pts[2] - pts[0]), 0),
 		MAX (fabs (pts[3] - pts[1]), 0),
@@ -211,7 +211,7 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		double wx, wy;
 
 		g_object_set_data (&context->parent_instance,
-			"wbcg", scg_get_wbcg (scg));
+			"wbcg", scg_wbcg (scg));
 		gnm_canvas_window_to_coord (gcanvas, x, y, &wx, &wy);
 
 		gdk_window_get_pointer (gtk_widget_get_parent_window (source_widget),
@@ -255,7 +255,7 @@ cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 
 	source_pane = GNM_CANVAS (source_widget)->pane;
 
-	wbcg = scg_get_wbcg (source_pane->gcanvas->simple.scg);
+	wbcg = scg_wbcg (source_pane->gcanvas->simple.scg);
 	if (wbcg == g_object_get_data (&context->parent_instance, "wbcg"))
 		return;
 
@@ -291,7 +291,7 @@ static void
 cb_pane_init_objs (GnmPane *pane)
 {
 	/* create views for the sheet objects now that we exist */
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (pane->gcanvas->simple.scg));
+	Sheet *sheet = scg_sheet (pane->gcanvas->simple.scg);
 	GSList *ptr;
 
 	if (sheet != NULL)
@@ -319,7 +319,7 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 		G_CALLBACK (cb_pane_init_objs), pane);
 
 	if (NULL != scg &&
-	    NULL != (sheet = sc_sheet (SHEET_CONTROL (scg))) &&
+	    NULL != (sheet = scg_sheet (scg)) &&
 	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
 		foo_canvas_set_pixels_per_unit (FOO_CANVAS (pane->gcanvas),
 						sheet->last_zoom_factor_used);
@@ -589,19 +589,19 @@ void
 gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 {
 	FooCanvasItem *item;
-	SheetControl *sc = (SheetControl *) pane->gcanvas->simple.scg;
+	SheetControlGUI *scg = pane->gcanvas->simple.scg;
 
 	g_return_if_fail (pane->cursor.rangesel == NULL);
 
 	/* Hide the primary cursor while the range selection cursor is visible
 	 * and we are selecting on a different sheet than the expr being edited
 	 */
-	if (sc_sheet (sc) != wb_control_cur_sheet (sc_wbc (sc)))
+	if (scg_sheet (scg) != wb_control_cur_sheet (scg_wbc (scg)))
 		item_cursor_set_visibility (pane->cursor.std, FALSE);
 
 	item = foo_canvas_item_new (pane->gcanvas->grid_items,
 		item_cursor_get_type (),
-		"SheetControlGUI", pane->gcanvas->simple.scg,
+		"SheetControlGUI", scg,
 		"style",	ITEM_CURSOR_ANTED,
 		NULL);
 	pane->cursor.rangesel = ITEM_CURSOR (item);
@@ -679,7 +679,7 @@ void
 gnm_pane_edit_start (GnmPane *pane)
 {
 	GnmCanvas const *gcanvas = pane->gcanvas;
-	SheetView const *sv = sc_view (SHEET_CONTROL (gcanvas->simple.scg));
+	SheetView const *sv = scg_view (gcanvas->simple.scg);
 	GnmCellPos const *edit_pos;
 
 	g_return_if_fail (pane->editor == NULL);
@@ -1057,7 +1057,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 	SheetObject *so;
 	int idx;
 
-	if (wbcg_edit_get_guru (scg_get_wbcg (scg)) != NULL)
+	if (wbcg_edit_get_guru (scg_wbcg (scg)) != NULL)
 		return FALSE;
 
 	so  = g_object_get_data (G_OBJECT (ctrl_pt), "so");

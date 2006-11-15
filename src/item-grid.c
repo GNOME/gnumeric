@@ -17,7 +17,6 @@
 #include "gnumeric-canvas.h"
 #include "workbook-edit.h"
 #include "workbook-view.h"
-#include "workbook-control.h"
 #include "workbook-control-gui-priv.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet.h"
@@ -25,6 +24,7 @@
 #include "sheet-style.h"
 #include "sheet-merge.h"
 #include "sheet-object-impl.h"
+#include "gnumeric-pane.h"
 #include "cell.h"
 #include "cell-draw.h"
 #include "cellspan.h"
@@ -133,7 +133,7 @@ item_grid_finalize (GObject *object)
 static gint
 cb_cursor_motion (ItemGrid *ig)
 {
-	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
+	Sheet const *sheet = scg_sheet (ig->scg);
 	FooCanvas *canvas = ig->canvas_item.canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	int x, y;
@@ -238,7 +238,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 {
 	int l, r, t, b, last;
 	GdkGC *gc = ig->gc.empty;
-	SheetView const *sv = ((SheetControl *) ig->scg)->view;
+	SheetView const *sv = scg_view (ig->scg);
 	Sheet const *sheet  = sv->sheet;
 	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
 	int const dir = sheet->text_is_rtl ? -1 : 1;
@@ -324,7 +324,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 			   gboolean draw_selection)
 {
 	GdkGC           *gc = ig->gc.empty;
-	SheetView const *sv = ((SheetControl *) ig->scg)->view;
+	SheetView const *sv = scg_view (ig->scg);
 	gboolean const is_selected = draw_selection &&
 		(sv->edit_pos.col != col || sv->edit_pos.row != row) &&
 		sv_is_pos_selected (sv, col, row);
@@ -335,7 +335,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 
 #if DEBUG_SELECTION_PAINT
 	if (is_selected) {
-		fprintf (stderr, "x = %d, w = %d\n", x, w+1);
+		g_printerr ("x = %d, w = %d\n", x, w+1);
 	}
 #endif
 	if (has_back || is_selected)
@@ -358,8 +358,9 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	gint height = expose->area.height;
 	FooCanvas *canvas = item->canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
-	Sheet const *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
-	GnmCell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
+	Sheet const *sheet = scg_sheet (gcanvas->simple.scg);
+	WorkbookControlGUI *wbcg = scg_wbcg (gcanvas->simple.scg);
+	GnmCell const * const edit_cell = wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;
@@ -403,8 +404,8 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	g_return_if_fail (start_col <= end_col);
 
 #if 0
-	fprintf (stderr, "%s%s:", col_name(start_col), row_name(start_row));
-	fprintf (stderr, "%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, expose->area.y);
+	g_printerr ("%s%s:", col_name(start_col), row_name(start_row));
+	g_printerr ("%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, expose->area.y);
 #endif
 
 	/* clip to bounds */
@@ -469,7 +470,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 		g_return_if_fail (merged_active == NULL);
 
 #if DEBUG_SELECTION_PAINT
-		fprintf (stderr, "row = %d (startcol = %d)\n", row, start_col);
+		g_printerr ("row = %d (startcol = %d)\n", row, start_col);
 #endif
 		while (merged_active_seen != NULL) {
 			GSList *tmp = merged_active_seen->next;
@@ -540,7 +541,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 
 #if DEBUG_SELECTION_PAINT
-			fprintf (stderr, "col [%d] = %d\n", col, x);
+			g_printerr ("col [%d] = %d\n", col, x);
 #endif
 			if (!ci->visible) {
 				if (merged_active != NULL) {
@@ -769,7 +770,7 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 	sheet_object_anchor_init (&anchor, NULL, NULL, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
 	scg_object_coords_to_anchor (ig->scg, coords, &anchor);
 	sheet_object_set_anchor (so, &anchor);
-	sheet_object_set_sheet (so, sc_sheet (SHEET_CONTROL (ig->scg)));
+	sheet_object_set_sheet (so, scg_sheet (ig->scg));
 	scg_object_select (ig->scg, so);
 	gnm_pane_object_start_resize (gcanvas->pane, event, so, 7, TRUE);
 
@@ -785,8 +786,9 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	FooCanvas    *canvas = item->canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	SheetControlGUI *scg = ig->scg;
-	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
+	WorkbookControlGUI *wbcg = scg_wbcg (scg);
+	SheetControl *sc = (SheetControl *)scg;
+	Sheet *sheet = scg_sheet (scg);
 	GnmCellPos	pos;
 	int x, y;
 	gboolean edit_showed_dialog;
@@ -811,9 +813,9 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	/* If we are not configuring an object then clicking on the sheet
 	 * ends the edit.  */
 	if (scg->selected_objects == NULL)
-		wbcg_focus_cur_scg (scg->wbcg);
-	else if (wbcg_edit_get_guru (scg->wbcg) == NULL)
-		scg_mode_edit (sc);
+		wbcg_focus_cur_scg (wbcg);
+	else if (wbcg_edit_get_guru (wbcg) == NULL)
+		scg_mode_edit (scg);
 
 	/* If we were already selecting a range of cells for a formula,
 	 * reset the location to a new place, or extend the selection.
@@ -834,7 +836,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	/* If the user is editing a formula (wbcg_rangesel_possible) then we
 	 * enable the dynamic cell selection mode.
 	 */
-	if (event->button == 1 && wbcg_rangesel_possible (scg->wbcg)) {
+	if (event->button == 1 && wbcg_rangesel_possible (wbcg)) {
 		scg_rangesel_start (scg, pos.col, pos.row, pos.col, pos.row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_canvas_slide_init (gcanvas);
@@ -845,28 +847,29 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	}
 
 	/* While a guru is up ignore clicks */
-	if (wbcg_edit_get_guru (scg->wbcg) != NULL)
+	if (wbcg_edit_get_guru (wbcg) != NULL)
 		return TRUE;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.
 	 * but only if the entered expression is valid */
-	if (!wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, &edit_showed_dialog))
+	if (!wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, &edit_showed_dialog))
 		return TRUE;
 
 	/* button 1 will always change the selection,  the other buttons will
 	 * only effect things if the target is not already selected.
 	 */
-	already_selected = sv_is_pos_selected (sc->view, pos.col, pos.row);
+	already_selected = sv_is_pos_selected (sc_view (sc), pos.col, pos.row);
 	if (event->button == 1 || !already_selected) {
+		SheetView *sv = sc_view (sc);
 		if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
-			sv_selection_reset (sc->view);
+			sv_selection_reset (sv);
 
 		if (event->button != 1 || !(event->state & GDK_SHIFT_MASK) ||
-		    sc->view->selections == NULL) {
-			sv_selection_add_pos (sc->view, pos.col, pos.row);
-			sv_make_cell_visible (sc->view, pos.col, pos.row, FALSE);
+		    sv->selections == NULL) {
+			sv_selection_add_pos (sv, pos.col, pos.row);
+			sv_make_cell_visible (sv, pos.col, pos.row, FALSE);
 		} else if (event->button != 2)
-			sv_selection_extend_to (sc->view, pos.col, pos.row);
+			sv_selection_extend_to (sv, pos.col, pos.row);
 		sheet_update (sheet);
 	}
 
@@ -887,7 +890,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 				      NULL);
 
 			if ((ig->last_click_time + double_click_time) > event->time &&
-			    wbcg_edit_start (scg->wbcg, FALSE, FALSE)) {
+			    wbcg_edit_start (wbcg, FALSE, FALSE)) {
 				break;
 			}
 		}
@@ -903,7 +906,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 
       	case 2: break;
 
-      	case 3: scg_context_menu (ig->scg, event, FALSE, FALSE);
+      	case 3: scg_context_menu (scg, event, FALSE, FALSE);
 		break;
 	default :
 		break;
@@ -919,8 +922,8 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 static gboolean
 cb_extend_cell_range (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 {
-	sv_selection_extend_to (((SheetControl *) gcanvas->simple.scg)->view,
-		info->col, info->row);
+	sv_selection_extend_to (scg_view (gcanvas->simple.scg),
+				info->col, info->row);
 	return TRUE;
 }
 
@@ -934,7 +937,7 @@ cb_extend_expr_range (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 static gint
 cb_cursor_come_to_rest (ItemGrid *ig)
 {
-	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
+	Sheet const *sheet = scg_sheet (ig->scg);
 	FooCanvas *canvas = ig->canvas_item.canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	GnmHLink *link;
@@ -970,8 +973,7 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	ItemGrid *ig = ITEM_GRID (item);
 	SheetControlGUI *scg = ig->scg;
-	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
+	Sheet *sheet = scg_sheet (scg);
 
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
@@ -1005,7 +1007,7 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 			/* Fall through */
 		case ITEM_GRID_SELECTING_CELL_RANGE :
 			wb_view_selection_desc (
-				wb_control_view (sc->wbc), TRUE, NULL);
+				wb_control_view (scg_wbc (scg)), TRUE, NULL);
 			break;
 
 		default:
@@ -1017,16 +1019,16 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 
 		if (selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 			gnm_expr_entry_signal_update (
-				wbcg_get_entry_logical (scg->wbcg), TRUE);
+				wbcg_get_entry_logical (scg_wbcg (scg)), TRUE);
 
 		if (selecting == ITEM_GRID_SELECTING_CELL_RANGE) {
-			GnmCellPos const *pos = sv_is_singleton_selected (sc_view (sc));
+			GnmCellPos const *pos = sv_is_singleton_selected (scg_view (scg));
 			if (pos != NULL) {
 				GnmHLink *link;
 				/* check for hyper links */
 				link = sheet_hlink_find (sheet, pos);
 				if (link != NULL)
-					gnm_hlink_activate (link, sc->wbc);
+					gnm_hlink_activate (link, scg_wbc (scg));
 			}
 		}
 		return TRUE;

@@ -291,7 +291,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 	selected_format = GPOINTER_TO_UINT (l->data);
 
 #warning "This violates model gui barrier"
-	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format, &resolution);
 	if (!uri)
 		goto out;
@@ -442,7 +442,7 @@ gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (sog != NULL);
 	g_return_if_fail (sc != NULL);
 
-	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	
 	data = g_new0 (gnm_sog_user_config_t, 1);
 	data->so = so;

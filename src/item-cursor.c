@@ -13,7 +13,8 @@
 #include "item-cursor.h"
 
 #include "gnumeric-canvas.h"
-#include "sheet-control-gui-priv.h"
+#include "sheet-control-gui.h"
+#include "gnumeric-pane.h"
 #include "style-color.h"
 #include "cell.h"
 #include "clipboard.h"
@@ -199,7 +200,7 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 	ic->outline.y2 = ic->outline.y1 +
 		scg_colrow_distance_get (scg, FALSE,top, bottom+1);
 
-	if (scg->sheet_control.sheet->text_is_rtl) {
+	if (scg_sheet (scg)->text_is_rtl) {
 		tmp = ic->outline.x1;
 		ic->outline.x1 = gnm_foo_canvas_x_w2c (item->canvas, ic->outline.x2);
 		ic->outline.x2 = gnm_foo_canvas_x_w2c (item->canvas, tmp);
@@ -511,7 +512,7 @@ item_cursor_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 	 * 3) while a guru is up
 	 */
 	if (!ic->visible || ic->style == ITEM_CURSOR_ANTED ||
-	    wbcg_edit_get_guru (ic->scg->wbcg) != NULL)
+	    wbcg_edit_get_guru (scg_wbcg (ic->scg)) != NULL)
 		return DBL_MAX;
 
 	*actual_item = NULL;
@@ -537,7 +538,7 @@ item_cursor_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 static void
 item_cursor_setup_auto_fill (ItemCursor *ic, ItemCursor const *parent, int x, int y)
 {
-	Sheet const *sheet = sc_sheet (SHEET_CONTROL (parent->scg));
+	Sheet const *sheet = scg_sheet (parent->scg);
 	GSList *merges;
 
 	ic->base_x = x;
@@ -694,8 +695,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_2BUTTON_PRESS: {
-		SheetControl *sc = (SheetControl *) ic->scg;
-		Sheet *sheet = sc->sheet;
+		Sheet *sheet = scg_sheet (ic->scg);
 		int final_col = ic->pos.end.col;
 		int final_row = ic->pos.end.row;
 
@@ -834,7 +834,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 		}
 
 		/* fill the row/column */
-		cmd_autofill (sc->wbc, sheet, FALSE,
+		cmd_autofill (scg_wbc (ic->scg), sheet, FALSE,
 			      ic->pos.start.col, ic->pos.start.row,
 			      ic->pos.end.col - ic->pos.start.col + 1,
 			      ic->pos.end.row - ic->pos.start.row + 1,
@@ -870,10 +870,10 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			foo_canvas_w2c (canvas,
 					event->button.x, event->button.y, &x, &y);
 			if (item_cursor_in_drag_handle (ic, x, y))
-				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (ic->scg->wbcg),
+				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
 								     _("Drag to autofill"));
 			else
-				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (ic->scg->wbcg),
+				go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
 								     _("Drag to move"));
 
 			ic->drag_button = event->button.button;
@@ -894,7 +894,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			gnm_simple_canvas_ungrab (item, event->button.time);
 			ic->drag_button = -1;
 		}
-		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (ic->scg->wbcg),
+		go_cmd_context_progress_message_set (GO_CMD_CONTEXT (scg_wbcg (ic->scg)),
 						     " ");
 		return TRUE;
 
@@ -907,16 +907,15 @@ static gboolean
 item_cursor_target_region_ok (ItemCursor *ic)
 {
 	FooCanvasItem *gci = FOO_CANVAS_ITEM (ic);
-	SheetControl	*sc = (SheetControl *) ic->scg;
 
 	g_return_val_if_fail (gci != NULL, FALSE);
 	g_return_val_if_fail (gci->canvas != NULL, FALSE);
 
-	if (sv_is_region_empty_or_selected (sc->view, &ic->pos))
+	if (sv_is_region_empty_or_selected (scg_view (ic->scg), &ic->pos))
 		return TRUE;
 
 	return go_gtk_query_yes_no
-		(wbcg_toplevel (ic->scg->wbcg),
+		(wbcg_toplevel (scg_wbcg (ic->scg)),
 		 TRUE,
 		 _("The cells dragged will overwrite the contents of the\n"
 		   "existing cells in that range.  Do you want me to replace\n"
@@ -938,7 +937,6 @@ typedef enum {
 static void
 item_cursor_do_action (ItemCursor *ic, ActionType action)
 {
-	SheetControl	*sc;
 	SheetView 	*sv;
 	Sheet		*sheet;
 	WorkbookControl *wbc;
@@ -951,10 +949,9 @@ item_cursor_do_action (ItemCursor *ic, ActionType action)
 		return;
 	}
 
-	sc = (SheetControl *) ic->scg;
-	sheet = sc_sheet (sc);
-	sv = sc_view (sc);
-	wbc = sc_wbc (sc);
+	sheet = scg_sheet (ic->scg);
+	sv = scg_view (ic->scg);
+	wbc = scg_wbc (ic->scg);
 
 	switch (action) {
 	case ACTION_COPY_CELLS:
@@ -1059,10 +1056,10 @@ static void
 item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
 	/* Only do the operation if something moved */
-	SheetView const *sv = ((SheetControl *) ic->scg)->view;
+	SheetView const *sv = scg_view (ic->scg);
 	GnmRange const *target = selection_first_range (sv, NULL, NULL);
 
-	wbcg_set_status_text (ic->scg->wbcg, "");
+	wbcg_set_status_text (scg_wbcg (ic->scg), "");
 	if (range_equal (target, &ic->pos)) {
 		scg_special_cursor_stop	(ic->scg);
 		return;
@@ -1256,8 +1253,7 @@ cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 			 ic->pos.start.row < ic->autofill_src.start.row);
 		gboolean default_increment =
 			ic->drag_button_state & GDK_CONTROL_MASK;
-		SheetControl *sc = (SheetControl *) ic->scg;
-		Sheet *sheet = sc->sheet;
+		Sheet *sheet = scg_sheet (ic->scg);
 		char *hint;
 
 		if (inverse_autofill)
@@ -1287,7 +1283,7 @@ static gint
 item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
-	SheetControl *sc = (SheetControl *) ic->scg;
+	SheetControlGUI *scg = ic->scg;
 
 	switch (event->type) {
 	case GDK_BUTTON_RELEASE: {
@@ -1300,14 +1296,14 @@ item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 		gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
-		cmd_autofill (sc->wbc, sc->sheet, default_increment,
+		cmd_autofill (scg_wbc (scg), scg_sheet (scg), default_increment,
 			      ic->pos.start.col, ic->pos.start.row,
 			      range_width (&ic->autofill_src),
 			      range_height (&ic->autofill_src),
 			      ic->pos.end.col, ic->pos.end.row,
 			      inverse_autofill);
 
-		scg_special_cursor_stop	(ic->scg);
+		scg_special_cursor_stop	(scg);
 		return TRUE;
 	}
 
@@ -1326,7 +1322,7 @@ item_cursor_event (FooCanvasItem *item, GdkEvent *event)
 	ItemCursor *ic = ITEM_CURSOR (item);
 
 	/* While editing nothing should be draggable */
-	if (wbcg_is_editing (ic->scg->wbcg))
+	if (wbcg_is_editing (scg_wbcg (ic->scg)))
 		return TRUE;
 
 #if 0

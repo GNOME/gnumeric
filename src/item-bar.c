@@ -14,6 +14,7 @@
 
 #include "style-color.h"
 #include "sheet.h"
+#include "sheet-control-gui.h"
 #include "sheet-control-gui-priv.h"
 #include "application.h"
 #include "selection.h"
@@ -104,10 +105,10 @@ int
 item_bar_calc_size (ItemBar *ib)
 {
 	SheetControlGUI	* const scg = ib->gcanvas->simple.scg;
-	Sheet const *sheet = ((SheetControl *) scg)->sheet;
+	Sheet const *sheet = scg_sheet (scg);
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	PangoContext *context;
-	const PangoFontDescription *src_desc = wbcg_get_font_desc (scg->wbcg);
+	const PangoFontDescription *src_desc = wbcg_get_font_desc (scg_wbcg (scg));
 	PangoFontDescription *desc;
 	int size = pango_font_description_get_size (src_desc);
 	PangoLayout *layout;
@@ -319,8 +320,8 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	ItemBar const         *ib = ITEM_BAR (item);
 	GnmCanvas const	      *gcanvas = ib->gcanvas;
 	SheetControlGUI const *scg    = gcanvas->simple.scg;
-	Sheet const           *sheet  = ((SheetControl *) scg)->sheet;
-	SheetView const	      *sv     = ((SheetControl *) scg)->view;
+	Sheet const           *sheet  = scg_sheet (scg);
+	SheetView const	      *sv     = scg_view (scg);
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
 	ColRowInfo const *cri, *next = NULL;
 	int pixels;
@@ -689,7 +690,7 @@ static ColRowInfo const *
 is_pointer_on_division (ItemBar const *ib, double x, double y,
 			int *the_total, int *the_element, int *minor_pos)
 {
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (ib->gcanvas->simple.scg));
+	Sheet *sheet = scg_sheet (ib->gcanvas->simple.scg);
 	ColRowInfo const *cri;
 	double const scale = ib->base.canvas->pixels_per_unit;
 	int major, minor, i, total = 0;
@@ -721,10 +722,11 @@ is_pointer_on_division (ItemBar const *ib, double x, double y,
 		}
 
 		if (cri->visible) {
+			WorkbookControlGUI *wbcg = scg_wbcg (ib->gcanvas->simple.scg);
 			total += cri->size_pixels;
 
-			if (wbcg_edit_get_guru (ib->gcanvas->simple.scg->wbcg) == NULL &&
-			    !wbcg_is_editing (ib->gcanvas->simple.scg->wbcg) &&
+			if (wbcg_edit_get_guru (wbcg) == NULL &&
+			    !wbcg_is_editing (wbcg) &&
 			    (total - 4 < major) && (major < total + 4)) {
 				if (the_total)
 					*the_total = total;
@@ -805,8 +807,8 @@ cb_extend_selection (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 static gint
 outline_button_press (ItemBar const *ib, int element, int pixel)
 {
-	SheetControl *sc = (SheetControl *) ib->gcanvas->simple.scg;
-	Sheet * const sheet = sc->sheet;
+	SheetControlGUI *scg = ib->gcanvas->simple.scg;
+	Sheet * const sheet = scg_sheet (scg);
 	int inc, step;
 
 	if (ib->is_col_header) {
@@ -821,7 +823,8 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 
 	step = pixel / inc;
 
-	cmd_selection_outline_change (sc->wbc, ib->is_col_header, element, step);
+	cmd_selection_outline_change (scg_wbc (scg), ib->is_col_header,
+				      element, step);
 	return TRUE;
 }
 
@@ -834,8 +837,8 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 	GnmCanvas	* const gcanvas = ib->gcanvas;
 	SheetControlGUI	* const scg = gcanvas->simple.scg;
 	SheetControl	* const sc = (SheetControl *) gcanvas->simple.scg;
-	Sheet		* const sheet = sc->sheet;
-	WorkbookControlGUI * const wbcg = scg->wbcg;
+	Sheet		* const sheet = sc_sheet (sc);
+	WorkbookControlGUI * const wbcg = scg_wbcg (scg);
 	gboolean const is_cols = ib->is_col_header;
 	int pos, minor_pos, start, element, x, y;
 
@@ -917,7 +920,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			return FALSE;
 
 		if (wbcg_edit_get_guru (wbcg) == NULL)
-			scg_mode_edit (sc);
+			scg_mode_edit (scg);
 
 		cri = is_pointer_on_division (ib, e->button.x, e->button.y,
 			&start, &element, &minor_pos);
@@ -932,7 +935,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
 			 */
-			if (!sv_is_colrow_selected (sc->view, element, is_cols))
+			if (!sv_is_colrow_selected (sc_view (sc), element, is_cols))
 				scg_colrow_select (scg, is_cols,
 						   element, e->button.state);
 
@@ -1004,7 +1007,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			needs_ungrab = TRUE;
 			ib->start_selection = -1;
 			gnm_expr_entry_signal_update (
-				wbcg_get_entry_logical (scg->wbcg), TRUE);
+				wbcg_get_entry_logical (wbcg), TRUE);
 		}
 		if (ib->colrow_being_resized >= 0) {
 			if (ib->has_resize_guides) {

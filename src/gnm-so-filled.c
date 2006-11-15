@@ -158,7 +158,7 @@ sof_default_style (void)
 static void
 gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
 {
-	dialog_so_styled (scg_get_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
+	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
 		GNM_SO_FILLED (so)->style, sof_default_style (),
 		_("Filled Object Properties"));
 }

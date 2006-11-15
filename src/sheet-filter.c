@@ -460,8 +460,8 @@ cb_filter_button_pressed (GtkButton *button, FooCanvasItem *view)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (list), column);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
 	g_object_set_data (G_OBJECT (list), FIELD_ID, field);
-	g_object_set_data (G_OBJECT (list), WBCG_ID, scg_get_wbcg (scg));
-	g_signal_connect (G_OBJECT (wbcg_toplevel (scg_get_wbcg (scg))),
+	g_object_set_data (G_OBJECT (list), WBCG_ID, scg_wbcg (scg));
+	g_signal_connect (G_OBJECT (wbcg_toplevel (scg_wbcg (scg))),
 		"notify::has-toplevel-focus",
 		G_CALLBACK (cb_focus_changed), list);
 
