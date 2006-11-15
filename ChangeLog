@@ -1,3 +1,42 @@
+2006-11-12  Jody Goldberg <jody@gnome.org>
+
+	* src/clipboard.c (cellregion_to_string) : support only exporting
+	  visible content.
+
+2006-11-11  Jody Goldberg <jody@gnome.org>
+
+	* src/stf-parse.c (stf_parse_region) : adjust to signature change.
+	* src/xml-io.c (xml_read_clipboard_cell) : ditto.
+	* src/xml-sax-write.c (cb_xml_write_cell_region_cells) : adapt to move
+	  from list to hash of cells.
+
+	* src/clipboard.c (cb_paste_cell) : new. split from ...
+	(clipboard_paste_region) : here.  For the move from a list of cells to
+	  a hash table.
+	(gnm_cell_copy_new) : insert the copy in here rather than forcing
+	  callers to handle it.
+	(cb_clipboard_prepend_cell) :
+	(clipboard_copy_range) : store the col/row states too.  Not used yet.
+	(cellregion_new) : col/row states and cells in a hash.
+	(cellregion_unref) : free the col/row states if they exist.
+	(cellregion_get_content) : new.
+	(cb_invalidate_cellcopy) : split from ...
+	(cellregion_invalidate_sheet) : here.
+	(cellregion_to_string) : move here from gui-clipboard and use the new
+	  hash based layout to avoid the intermediate matrix allocation.
+	(gnm_cell_copy_free) : tidy up and name this.
+	(gnm_cell_copy_new) : assign the copy to a region on creation.
+
+	* src/colrow.c : Make ColRowState and ColRowRLEState public for use in
+	  the clipboard.
+
+2006-11-11  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c : Move the icons from here.
+	* src/wbc-gtk.c (wbc_gtk_setup_icons) : to here.
+	(wbc_gtk_setup_pixmaps) : here.
+	(wbc_gtk_class_init) : and here.
+
 2006-11-14  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_wbcg): Rename from scg_get_wbcg.

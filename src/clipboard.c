@@ -32,9 +32,12 @@
 #include "workbook-control.h"
 #include "workbook.h"
 #include "ranges.h"
+#include "colrow.h"
 #include "expr.h"
 #include "value.h"
+#include "mstyle.h"
 #include "stf-parse.h"
+#include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 
 #include <glib/gi18n-lib.h>
@@ -148,7 +151,7 @@ paste_cell_with_operation (Sheet *dst_sheet,
  */
 static void
 paste_link (GnmPasteTarget const *pt, int top, int left,
-	    GnmCellRegion const *contents)
+	    GnmCellRegion const *cr)
 {
 	GnmCellPos pos;
 	GnmCellRef source_cell_ref;
@@ -156,19 +159,19 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 
 	/* Not possible to link to arbitrary (non gnumeric) sources yet. */
 	/* TODO : eventually support interprocess gnumeric links */
-	if (contents->origin_sheet == NULL)
+	if (cr->origin_sheet == NULL)
 		return;
 
 	/* TODO : support relative links ? */
 	source_cell_ref.col_relative = 0;
 	source_cell_ref.row_relative = 0;
-	source_cell_ref.sheet = (contents->origin_sheet != pt->sheet)
-		? contents->origin_sheet : NULL;
+	source_cell_ref.sheet = (cr->origin_sheet != pt->sheet)
+		? cr->origin_sheet : NULL;
 	pos.col = left;
-	for (x = 0 ; x < contents->cols ; x++, pos.col++) {
-		source_cell_ref.col = contents->base.col + x;
+	for (x = 0 ; x < cr->cols ; x++, pos.col++) {
+		source_cell_ref.col = cr->base.col + x;
 		pos.row = top;
-		for (y = 0 ; y < contents->rows ; y++, pos.row++) {
+		for (y = 0 ; y < cr->rows ; y++, pos.row++) {
 			GnmExprTop const *texpr;
 			GnmCell *cell =
 				sheet_cell_fetch (pt->sheet, pos.col, pos.row);
@@ -177,7 +180,7 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 			if (!gnm_cell_is_merged (cell) &&
 			    gnm_sheet_merge_contains_pos (pt->sheet, &pos))
 					continue;
-			source_cell_ref.row = contents->base.row + y;
+			source_cell_ref.row = cr->base.row + y;
 			texpr = gnm_expr_top_new (gnm_expr_new_cellref (&source_cell_ref));
 			gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
@@ -246,13 +249,49 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 	}
 }
 
+struct paste_cell_data {
+	GnmPasteTarget const *pt;
+	GnmCellRegion const  *cr;
+	GnmCellPos	top_left; 
+	GnmExprRelocateInfo rinfo;
+};
+
+static void
+cb_paste_cell (GnmCellCopy const *src, gconstpointer ignore,
+	       struct paste_cell_data *dat)
+{
+	int target_col = dat->top_left.col;
+	int target_row = dat->top_left.row;
+
+	if (dat->pt->paste_flags & PASTE_TRANSPOSE) {
+		target_col += src->offset.row;
+		target_row += src->offset.col;
+	} else {
+		target_col += src->offset.col;
+		target_row += src->offset.row;
+	}
+
+	dat->rinfo.pos.sheet = dat->pt->sheet;
+	if (dat->pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
+		dat->rinfo.pos.eval.col = dat->cr->base.col + src->offset.col;
+		dat->rinfo.pos.eval.row = dat->cr->base.row + src->offset.row;
+	} else {
+		dat->rinfo.pos.eval.col = target_col;
+		dat->rinfo.pos.eval.row = target_row;
+	}
+
+	paste_cell (dat->pt->sheet, target_col, target_row,
+		    &dat->rinfo, src, dat->pt->paste_flags);
+}
+
+
 /**
  * clipboard_paste_region:
- * @contents : The GnmCellRegion to paste.
+ * @cr : The GnmCellRegion to paste.
  * @pt : Where to paste the values.
  * @cc : The context for error handling.
  *
- * Pastes the supplied GnmCellRegion (@contents) into the supplied
+ * Pastes the supplied GnmCellRegion (@cr) into the supplied
  * GnmPasteTarget (@pt).  This operation is not undoable.  It does not auto grow
  * the destination if the target is a singleton.  This is a simple interface to
  * paste a region.
@@ -260,7 +299,7 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
  * returns : TRUE if there was a problem.
  **/
 gboolean
-clipboard_paste_region (GnmCellRegion const *contents,
+clipboard_paste_region (GnmCellRegion const *cr,
 			GnmPasteTarget const *pt,
 			GOCmdContext *cc)
 {
@@ -272,12 +311,12 @@ clipboard_paste_region (GnmCellRegion const *contents,
 	gboolean has_contents, adjust_merges = TRUE;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
-	g_return_val_if_fail (contents != NULL, TRUE);
+	g_return_val_if_fail (cr != NULL, TRUE);
 
 	/* we do not need any of this fancy stuff when pasting a simple object */
-	if (contents->contents == NULL && contents->objects != NULL) {
+	if (cr->cell_content == NULL && cr->objects != NULL) {
 		if (pt->paste_flags & (PASTE_COMMENTS | PASTE_OBJECTS))
-			for (ptr = contents->objects; ptr; ptr = ptr->next)
+			for (ptr = cr->objects; ptr; ptr = ptr->next)
 				paste_object (pt, ptr->data,
 					pt->range.start.col, pt->range.start.row);
 		return FALSE;
@@ -286,8 +325,8 @@ clipboard_paste_region (GnmCellRegion const *contents,
 	r = &pt->range;
 	dst_cols = range_width (r);
 	dst_rows = range_height (r);
-	src_cols = contents->cols;
-	src_rows = contents->rows;
+	src_cols = cr->cols;
+	src_rows = cr->rows;
 
 	/* If the source is a single cell */
 	/* Treat a target of a single merge specially, don't split the merge */
@@ -309,7 +348,7 @@ clipboard_paste_region (GnmCellRegion const *contents,
 		src_rows = tmp;
 	}
 
-	if (contents->not_as_contents && (pt->paste_flags & PASTE_CONTENTS)) {
+	if (cr->not_as_contents && (pt->paste_flags & PASTE_CONTENTS)) {
 		go_cmd_context_error_invalid (cc,
 					_("Unable to paste"),
 					_("Contents can only be pasted by value or by link."));
@@ -379,34 +418,32 @@ clipboard_paste_region (GnmCellRegion const *contents,
 		for (j = 0; j < repeat_vertical ; j++) {
 			int const left = i * src_cols + pt->range.start.col;
 			int const top = j * src_rows + pt->range.start.row;
-			GnmExprRelocateInfo rinfo;
+			struct paste_cell_data dat;
 
-			rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
-			rinfo.origin_sheet = rinfo.target_sheet = pt->sheet;
+			dat.top_left.col = left; 
+			dat.top_left.row = top; 
+			dat.rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
+			dat.rinfo.origin_sheet = dat.rinfo.target_sheet = pt->sheet;
 			if (pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
-				rinfo.origin.start = contents->base;
-				rinfo.origin.end.col = contents->base.col + contents->cols - 1;
-				rinfo.origin.end.row = contents->base.row + contents->rows - 1;
-				rinfo.col_offset = left - contents->base.col;
-				rinfo.row_offset = top - contents->base.row;
+				dat.rinfo.origin.start = cr->base;
+				dat.rinfo.origin.end.col = cr->base.col + cr->cols - 1;
+				dat.rinfo.origin.end.row = cr->base.row + cr->rows - 1;
+				dat.rinfo.col_offset = left - cr->base.col;
+				dat.rinfo.row_offset = top - cr->base.row;
 			} else {
-				rinfo.origin = pt->range;
-				rinfo.col_offset = 0;
-				rinfo.row_offset = 0;
+				dat.rinfo.origin = pt->range;
+				dat.rinfo.col_offset = 0;
+				dat.rinfo.row_offset = 0;
 			}
 
 			/* Move the styles on here so we get correct formats before recalc */
-			if (pt->paste_flags & PASTE_FORMATS) {
-				GnmCellPos pos;
-				pos.col = left;
-				pos.row = top;
-				sheet_style_set_list (pt->sheet, &pos,
-						      (pt->paste_flags & PASTE_TRANSPOSE),
-						      contents->styles);
-			}
+			if (pt->paste_flags & PASTE_FORMATS)
+				sheet_style_set_list (pt->sheet, &dat.top_left,
+					(pt->paste_flags & PASTE_TRANSPOSE),
+					cr->styles);
 
 			if (has_contents && !(pt->paste_flags & PASTE_DONT_MERGE)) {
-				for (ptr = contents->merged; ptr != NULL ; ptr = ptr->next) {
+				for (ptr = cr->merged; ptr != NULL ; ptr = ptr->next) {
 					GnmRange tmp = *((GnmRange const *)ptr->data);
 					if (pt->paste_flags & PASTE_TRANSPOSE) {
 						int x;
@@ -419,38 +456,18 @@ clipboard_paste_region (GnmCellRegion const *contents,
 			}
 
 			if (has_contents && (pt->paste_flags & PASTE_LINK)) {
-				paste_link (pt, top, left, contents);
+				paste_link (pt, top, left, cr);
 				continue;
 			}
 
-			if (has_contents)
-				for (ptr = contents->contents; ptr; ptr = ptr->next) {
-					GnmCellCopy const *src = ptr->data;
-					int target_col = left;
-					int target_row = top;
+			if (has_contents) {
+				dat.pt = pt;
+				g_hash_table_foreach (cr->cell_content,
+					(GHFunc)cb_paste_cell, &dat);
+			}
 
-					if (pt->paste_flags & PASTE_TRANSPOSE) {
-						target_col += src->row_offset;
-						target_row += src->col_offset;
-					} else {
-						target_col += src->col_offset;
-						target_row += src->row_offset;
-					}
-
-					rinfo.pos.sheet = pt->sheet;
-					if (pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
-						rinfo.pos.eval.col = contents->base.col + src->col_offset;
-						rinfo.pos.eval.row = contents->base.row + src->row_offset;
-					} else {
-						rinfo.pos.eval.col = target_col;
-						rinfo.pos.eval.row = target_row;
-					}
-
-					paste_cell (pt->sheet, target_col, target_row,
-						    &rinfo, src, pt->paste_flags);
-				}
 			if (pt->paste_flags & (PASTE_COMMENTS | PASTE_OBJECTS))
-				for (ptr = contents->objects; ptr; ptr = ptr->next)
+				for (ptr = cr->objects; ptr; ptr = ptr->next)
 					paste_object (pt, ptr->data, left, top);
 		}
 
@@ -475,7 +492,7 @@ static GnmValue *
 cb_clipboard_prepend_cell (GnmCellIter const *iter, GnmCellRegion *cr)
 {
 	GnmRange     a;
-	GnmCellCopy *copy = gnm_cell_copy_new (
+	GnmCellCopy *copy = gnm_cell_copy_new (cr,
 		iter->pp.eval.col - cr->base.col,
 		iter->pp.eval.row - cr->base.row);
 	copy->val = value_dup (iter->cell->value);
@@ -493,7 +510,7 @@ cb_clipboard_prepend_cell (GnmCellIter const *iter, GnmCellRegion *cr)
 			cr->not_as_contents = TRUE;
 	} else
 		copy->texpr = NULL;
-	cr->contents = g_slist_prepend (cr->contents, copy);
+
 	return NULL;
 }
 
@@ -529,6 +546,11 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	cr->base = r->start;
 	cr->cols = range_width (r);
 	cr->rows = range_height (r);
+	cr->rows = range_height (r);
+	cr->col_state = colrow_get_states (sheet,
+		TRUE,  r->start.col, r->end.col);
+	cr->row_state = colrow_get_states (sheet,
+		FALSE, r->start.row, r->end.row);
 
 	sheet_foreach_cell_in_range ( sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		r->start.col, r->start.row,
@@ -623,7 +645,9 @@ cellregion_new (Sheet *origin_sheet)
 	cr->origin_sheet	= origin_sheet;
 	cr->cols = cr->rows	= -1;
 	cr->not_as_contents	= FALSE;
-	cr->contents		= NULL;
+	cr->cell_content	= NULL;
+	cr->col_state		= NULL;
+	cr->row_state		= NULL;
 	cr->styles		= NULL;
 	cr->merged		= NULL;
 	cr->objects		= NULL;
@@ -642,29 +666,22 @@ cellregion_ref (GnmCellRegion *cr)
 void
 cellregion_unref (GnmCellRegion *cr)
 {
-	GSList	*ptr;
-
 	g_return_if_fail (cr != NULL);
+
 	if (cr->ref_count > 1) {
 		cr->ref_count--;
 		return;
 	}
 
-	for (ptr = cr->contents; ptr; ptr = ptr->next) {
-		GnmCellCopy *cc = ptr->data;
-		if (cc->texpr) {
-			gnm_expr_top_unref (cc->texpr);
-			cc->texpr = NULL;
-		}
-		if (cc->val) {
-			value_release (cc->val);
-			cc->val = NULL;
-		}
-		CHUNK_FREE (cell_copy_pool, cc);
+	if (NULL != cr->cell_content) {
+		g_hash_table_destroy (cr->cell_content);
+		cr->cell_content = NULL;
 	}
-	g_slist_free (cr->contents);
-	cr->contents = NULL;
 
+	if (NULL != cr->col_state)
+		cr->col_state = colrow_state_list_destroy (cr->col_state);
+	if (NULL != cr->row_state)
+		cr->row_state = colrow_state_list_destroy (cr->row_state);
 	if (cr->styles != NULL) {
 		style_list_free (cr->styles);
 		cr->styles = NULL;
@@ -687,6 +704,36 @@ cellregion_unref (GnmCellRegion *cr)
 	g_free (cr);
 }
 
+static GnmCellCopy *
+cellregion_get_content (GnmCellRegion const *cr, int col, int row)
+{
+	GnmCellPos pos;
+	pos.col = col;
+	pos.row = row;
+	return g_hash_table_lookup (cr->cell_content, &pos);
+}
+
+static void
+cb_invalidate_cellcopy (GnmCellCopy *cc, gconstpointer ignore,
+			GnmExprRelocateInfo *rinfo)
+{
+	GnmExprTop const *texpr;
+	if (NULL != cc->texpr) {
+		texpr = gnm_expr_top_relocate (cc->texpr, rinfo, FALSE);
+		if (NULL != texpr) {
+			gnm_expr_top_unref (cc->texpr);
+			cc->texpr = texpr;
+		}
+	}
+}
+
+/**
+ * cellregion_invalidate_sheet :
+ * @cr    : #GnmCellRegion
+ * @sheet : #Sheet
+ *
+ * Invalidate references from cell content, objects or style to @sheet.
+ **/
 void
 cellregion_invalidate_sheet (GnmCellRegion *cr,
 			     Sheet *sheet)
@@ -700,44 +747,126 @@ cellregion_invalidate_sheet (GnmCellRegion *cr,
 
 	save_invalidated = sheet->being_invalidated;
 	sheet->being_invalidated = TRUE;
+
 	rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
-	for (ptr = cr->contents; ptr; ptr = ptr->next) {
-		GnmCellCopy *cc = ptr->data;
-		GnmExprTop const *texpr;
-		if (!cc->texpr)
-			continue;
-
-		texpr = gnm_expr_top_relocate (cc->texpr, &rinfo, FALSE);
-		if (!texpr)
-			continue;
-
-		gnm_expr_top_unref (cc->texpr);
-		cc->texpr = texpr;
-	}
+	if (NULL != cr->cell_content)
+		g_hash_table_foreach (cr->cell_content,
+			(GHFunc)cb_invalidate_cellcopy, &rinfo);
 	sheet->being_invalidated = save_invalidated;
 
-	for (ptr = cr->objects; ptr != NULL ; ptr = ptr->next) {
-		SheetObject *so = ptr->data;
-		sheet_object_invalidate_sheet (so, sheet);
+	for (ptr = cr->objects; ptr != NULL ; ptr = ptr->next)
+		sheet_object_invalidate_sheet (ptr->data, sheet);
+}
+
+GString *
+cellregion_to_string (GnmCellRegion const *cr,
+		      gboolean only_visible,
+		      GODateConventions const *date_conv)
+{
+	GString *all, *line;
+	GnmCellCopy const *cc;
+	GnmStyle const	  *style;
+	int cols, rows, col, row, next_col_check, next_row_check;
+	ColRowStateList	const *col_state, *row_state;
+	ColRowRLEState const *rle;
+
+	g_return_val_if_fail (cr != NULL, NULL);
+	g_return_val_if_fail (cr->rows >= 0, NULL);
+	g_return_val_if_fail (cr->cols >= 0, NULL);
+
+	/* pre-allocate rough approximation of buffer */
+	all = g_string_sized_new (20 * g_hash_table_size (cr->cell_content));
+	line = g_string_new (NULL);
+
+	cols = cr->cols;
+	rows = cr->rows;
+	col_state = only_visible ? cr->col_state : NULL;
+	next_col_check = (NULL != col_state) ? 0 : -1;
+	row_state = only_visible ? cr->row_state : NULL;
+	next_row_check = (NULL != row_state) ? 0 : -1;
+
+	for (row = 0; row < rows;) {
+		if (row == next_row_check && NULL != row_state) {
+			rle = row_state->data;
+			row_state = row_state->next;
+			next_row_check += rle->length;
+			if (!rle->state.visible) {
+				row = next_row_check;
+				continue;
+			}
+		}
+
+		g_string_assign (line, "");
+
+		for (col = 0; col < cols;) {
+			if (col == next_col_check && NULL != col_state) {
+				rle = col_state->data;
+				col_state = col_state->next;
+				next_col_check += rle->length;
+				if (!rle->state.visible) {
+					col = next_col_check;
+					continue;
+				}
+			}
+
+			if (NULL != (cc = cellregion_get_content (cr, col, row))) {
+				style = style_list_get_style (cr->styles, col, row);
+				format_value_gstring (line,
+					gnm_style_get_format (style),
+					cc->val, NULL, -1, date_conv);
+			}
+			if (++col < cols)
+				g_string_append_c (line, '\t');
+		}
+		g_string_append_len (all, line->str, line->len);
+		if (++row < rows)
+			g_string_append_c (all, '\n');
 	}
+
+	g_string_free (line, TRUE);
+	return all;
 }
 
 int
-cellregion_cmd_size (GnmCellRegion const *contents)
+cellregion_cmd_size (GnmCellRegion const *cr)
 {
-	return (g_slist_length (contents->contents) +
-		g_slist_length (contents->styles) +
+	return (g_hash_table_size (cr->cell_content) +
+		g_slist_length (cr->styles) +
 		1);
 }
 
+static void
+gnm_cell_copy_free (GnmCellCopy *cc)
+{
+	if (cc->texpr) {
+		gnm_expr_top_unref (cc->texpr);
+		cc->texpr = NULL;
+	}
+	if (cc->val) {
+		value_release (cc->val);
+		cc->val = NULL;
+	}
+	CHUNK_FREE (cell_copy_pool, cc);
+}
+
 GnmCellCopy *
-gnm_cell_copy_new (int col_offset, int row_offset)
+gnm_cell_copy_new (GnmCellRegion *cr, int col_offset, int row_offset)
 {
 	GnmCellCopy *res = CHUNK_ALLOC (GnmCellCopy, cell_copy_pool);
-	res->col_offset = col_offset;
-	res->row_offset = row_offset;
+	((GnmCellPos *)(&res->offset))->col = col_offset;
+	((GnmCellPos *)(&res->offset))->row = row_offset;
 	res->texpr = NULL;
 	res->val = NULL;
+
+	if (NULL == cr->cell_content)
+		cr->cell_content = g_hash_table_new_full (
+			(GHashFunc)&gnm_cellpos_hash,
+			(GCompareFunc)&gnm_cellpos_equal,
+			(GDestroyNotify) gnm_cell_copy_free,
+			NULL);
+
+	g_hash_table_insert (cr->cell_content, res, res);
+
 	return res;
 }
 

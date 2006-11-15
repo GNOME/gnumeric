@@ -23,6 +23,8 @@ Jody:
 	* Make paytype handler more flexible.
 	* Fix DIF import/export.
 	* Add accelerator for group/ungroup and inc/dec indent.
+	* Make clipboard faster.
+	* Support exporting only visible content to clipboard.
 
 Joseph Pingenot:
 	* Add more conditional format types.

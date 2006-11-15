@@ -222,6 +222,16 @@ gnm_format_layout (PangoLayout *result,
 		pango_layout_set_text (result, format_nonnumber (value), -1);
 }
 
+/**
+ * format_value_gstring :
+ * @str : append the result here.
+ * @format : #GOFormat.
+ * @value : #GnmValue to convert
+ * @go_color : return the #GOColor to use
+ * col_width : optional
+ * @date_conv : #GODateConventions.
+ *
+ **/
 void
 format_value_gstring (GString *str, GOFormat const *format,
 		      GnmValue const *value, GOColor *go_color,

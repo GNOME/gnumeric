@@ -177,24 +177,9 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 
 /*****************************************************************************/
 
-typedef struct _ColRowIndex
-{
+typedef struct _ColRowIndex {
 	int first, last;
 } ColRowIndex;
-
-typedef struct _ColRowState {
-	float     size_pts;
-	unsigned  is_default	: 1;
-	unsigned  outline_level : 4;
-	unsigned  is_collapsed  : 1;	/* Does this terminate an outline ? */
-	unsigned  hard_size     : 1;	/* are dimensions explicitly set ? */
-	unsigned  visible       : 1;	/* visible */
-} ColRowState;
-
-typedef struct {
-	int         length;
-	ColRowState state;
-} ColRowRLEState;
 
 ColRowStateList *
 colrow_state_list_destroy (ColRowStateList *list)

@@ -46,7 +46,7 @@ enum {
 #define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
 
 typedef struct {
-	int col_offset, row_offset; /* Position of the cell */
+	GnmCellPos const  offset;	/* must be first element */
 	GnmValue *val;
 	GnmExprTop const *texpr;
 } GnmCellCopy;
@@ -55,11 +55,13 @@ struct _GnmCellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
 	GnmCellPos	 base;
 	int		 cols, rows;
-	GSList		*contents;
+	ColRowStateList *col_state, *row_state;
+	GHashTable	*cell_content;
 	GnmStyleList	*styles;
 	GSList		*merged;
 	GSList		*objects;
 	gboolean	 not_as_contents;
+
 	unsigned	 ref_count;
 };
 
@@ -71,7 +73,7 @@ struct _GnmPasteTarget {
 
 GnmCellRegion  *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 GnmCellRegion  *clipboard_copy_obj     (Sheet *sheet, GSList *objects);
-gboolean        clipboard_paste_region (GnmCellRegion const *contents,
+gboolean        clipboard_paste_region (GnmCellRegion const *cr,
 					GnmPasteTarget const *pt,
 					GOCmdContext *cc);
 GnmPasteTarget *paste_target_init      (GnmPasteTarget *pt,
@@ -79,13 +81,16 @@ GnmPasteTarget *paste_target_init      (GnmPasteTarget *pt,
 					int flags);
 
 GnmCellRegion *cellregion_new	(Sheet *origin_sheet);
-void           cellregion_ref   (GnmCellRegion *contents);
-void           cellregion_unref (GnmCellRegion *contents);
-int            cellregion_cmd_size (GnmCellRegion const *contents);
-void	       cellregion_invalidate_sheet (GnmCellRegion *cr,
-					    Sheet *sheet);
+void           cellregion_ref		(GnmCellRegion *cr);
+void           cellregion_unref		(GnmCellRegion *cr);
+GString	      *cellregion_to_string	(GnmCellRegion const *cr,
+					 gboolean only_visible,
+					 GODateConventions const *date_conv);
+int            cellregion_cmd_size	(GnmCellRegion const *cr);
+void	       cellregion_invalidate_sheet (GnmCellRegion *cr, Sheet *sheet);
 
-GnmCellCopy *gnm_cell_copy_new	(int col_offset, int row_offset);
+GnmCellCopy   *gnm_cell_copy_new (GnmCellRegion *cr,
+				  int col_offset, int row_offset);
 
 void clipboard_init (void);
 void clipboard_shutdown (void);

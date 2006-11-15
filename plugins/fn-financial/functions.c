@@ -1483,6 +1483,7 @@ static GnmFuncHelp const help_rate[] = {
 	   "@DESCRIPTION="
 	   "RATE calculates the rate of an investment.\n"
 	   "\n"
+	   "* If @pmt is ommitted it defaults to 0\n"
 	   "* If @nper <= 0, RATE returns #NUM! error.\n"
 	   "* If @type != 0 and @type != 1, RATE returns #VALUE! error.\n"
 	   "\n"
@@ -1538,7 +1539,8 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float      rate0;
 
 	udata.nper = value_get_as_int (argv[0]);
-	udata.pmt  = value_get_as_float (argv[1]);
+	/* YES ZERO, it's sick but it's XL compatible */
+	udata.pmt  = argv[3] ? value_get_as_float (argv[1]) : 0.0;
 	udata.pv   = value_get_as_float (argv[2]);
 	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0.0;
 	udata.type = value_get_paytype (argv[4]);

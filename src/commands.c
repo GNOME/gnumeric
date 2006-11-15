@@ -3,7 +3,7 @@
 /*
  * commands.c: Handlers to undo & redo commands
  *
- * Copyright (C) 1999-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1999-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2002-2006 Morten Welinder (terra@gnome.org)
  *
  * Contributors : Almer S. Tigelaar (almer@gnome.org)
@@ -578,7 +578,7 @@ void
 command_setup_combos (WorkbookControl *wbc)
 {
 	char const *undo_label = NULL, *redo_label = NULL;
-	GSList *ptr, *tmp;
+	GSList *ptr, *tmp, *ignore;
 	Workbook *wb = wb_control_get_workbook (wbc);
 
 	g_return_if_fail (wb);
@@ -589,7 +589,7 @@ command_setup_combos (WorkbookControl *wbc)
 		undo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, TRUE, undo_label, ptr->data);
 	}
-	(void) g_slist_reverse (tmp);	/* ignore, list is in undo_commands */
+	ignore = g_slist_reverse (tmp);	/* ignore, list is in undo_commands */
 
 	wb_control_undo_redo_truncate (wbc, 0, FALSE);
 	tmp = g_slist_reverse (wb->redo_commands);
@@ -597,7 +597,7 @@ command_setup_combos (WorkbookControl *wbc)
 		redo_label = get_menu_label (ptr);
 		wb_control_undo_redo_push (wbc, FALSE, redo_label, ptr->data);
 	}
-	(void) g_slist_reverse (tmp);	/* ignore, list is in redo_commands */
+	ignore = g_slist_reverse (tmp);	/* ignore, list is in redo_commands */
 
 	/* update the menus too */
 	wb_control_undo_redo_labels (wbc, undo_label, redo_label);

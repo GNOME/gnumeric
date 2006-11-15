@@ -1980,7 +1980,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 
 	g_return_if_fail (0 == strcmp (tree->name, "Cell"));
 
-	cc = gnm_cell_copy_new (
+	cc = gnm_cell_copy_new (cr,
 		(xml_node_get_int (tree, "Col", &col) ? col - cr->base.col : 0),
 		(xml_node_get_int (tree, "Row", &row) ? row - cr->base.row : 0));
 	parse_pos_init (&pp, NULL, sheet, col, row);
@@ -2065,11 +2065,6 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 		}
 	}
 	go_format_unref (value_fmt);
-
-	if (!cc->val)
-		cc->val = value_new_empty ();
-
-	cr->contents = g_slist_prepend (cr->contents, cc);
 }
 
 /**

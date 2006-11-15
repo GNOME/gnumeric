@@ -115,10 +115,12 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 
 	if (oneline) {
 		GODateConventions const *date_conv = workbook_date_conv (wb);
-		GnmCellCopy *cc = gnm_cell_copy_new (0, 0);
-
+		GnmCellCopy *cc = gnm_cell_copy_new (
+			(cr = cellregion_new (NULL)), 0, 0);
 		char *tmp = g_strndup (data, data_len);
+
 		g_free (data_converted);
+
 		cc->val = format_match (tmp, NULL, date_conv);
 		if (cc->val)
 			g_free (tmp);
@@ -126,8 +128,6 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 			cc->val = value_new_string_nocopy (tmp);
 		cc->texpr = NULL;
 
-		cr = cellregion_new (NULL);
-		cr->contents = g_slist_prepend (cr->contents, cc);
 		cr->cols = cr->rows = 1;
 	} else {
 		dialogresult = stf_dialog (wbcg, opt_encoding, fixed_encoding,
@@ -142,9 +142,8 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);
 
 			stf_dialog_result_free (dialogresult);
-		} else {
-			return cellregion_new (NULL);
-		}
+		} else
+			cr = cellregion_new (NULL);
 	}
 
 	return cr;
@@ -600,73 +599,6 @@ graph_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	return ret;
 }
 
-static GString *
-cellregion_to_string (GnmCellRegion const *cr,
-		      GODateConventions const *date_conv)
-{
-	GString *all, *line;
-	GSList	 *ptr;
-	GnmCellCopy const *src;
-	GnmStyle const	  *style;
-	GnmRange extent;
-	char ***data;
-	int cols, rows, col, row, ncells;
-
-	g_return_val_if_fail (cr != NULL, NULL);
-	g_return_val_if_fail (cr->rows >= 0, NULL);
-	g_return_val_if_fail (cr->cols >= 0, NULL);
-
-	cols = cr->cols;
-	rows = cr->rows;
-	if (cr->origin_sheet != NULL) {
-		extent = sheet_get_extent (cr->origin_sheet, FALSE);
-		cols = MIN (cr->cols, 1 + extent.end.col - cr->base.col);
-		cols = MAX (cols, 1);
-		rows = MIN (cr->rows, 1 + extent.end.row - cr->base.row);
-		rows = MAX (rows, 1);
-	}
-	data = g_new0 (char **, rows);
-
-	for (row = 0; row < rows; row++)
-		data[row] = g_new0 (char *, cols);
-
-	for (ptr = cr->contents; ptr; ptr = ptr->next) {
-		src = ptr->data;
-		style = style_list_get_style (cr->styles,
-			src->col_offset, src->row_offset);
-		line = g_string_new (NULL);
-		format_value_gstring (line, gnm_style_get_format (style),
-				src->val, NULL, -1, date_conv);
-		data[src->row_offset][src->col_offset] = 
-			g_string_free (line, FALSE);
-	}
-
-	ncells = g_slist_length (cr->contents);
-	all = g_string_sized_new (20 * ncells + cols * rows);
-	line = g_string_new (NULL);
-	for (row = 0; row < rows;) {
-		g_string_assign (line, "");
-
-		for (col = 0; col < cols;) {
-			if (data[row][col]) {
-				g_string_append (line, data[row][col]);
-				g_free (data[row][col]);
-			}
-			if (++col < cols)
-				g_string_append_c (line, '\t');
-		}
-		g_string_append_len (all, line->str, line->len);
-		if (++row < rows)
-			g_string_append_c (all, '\n');
-	}
-
-	g_string_free (line, TRUE);
-	for (row = 0; row < rows; row++)
-		g_free (data[row]);
-	g_free (data);
-	return all;
-}
-
 /**
  * x_clipboard_get_cb
  *
@@ -747,7 +679,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	} else {
 		Workbook *wb = clipboard->origin_sheet->workbook;
 		GString *res = cellregion_to_string (clipboard,
-			workbook_date_conv (wb));
+			TRUE, workbook_date_conv (wb));
 		if (res != NULL) {
 			gtk_selection_data_set_text (selection_data, 
 				res->str, res->len);

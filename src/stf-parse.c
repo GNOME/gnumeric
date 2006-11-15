@@ -1218,16 +1218,22 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	GODateConventions const *date_conv = wb ? workbook_date_conv (wb) : &default_conv;
 
 	GnmCellRegion *cr;
-	GSList	 *contents = NULL;
 	unsigned int row, colhigh = 0;
+	char *text;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines;
+	GnmCellCopy	*cc;
+	GOFormat	*fmt;
+	GnmValue	*v;
+
 	SETUP_LOCALE_SWITCH;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
 	START_LOCALE_SWITCH;
+
+	cr = cellregion_new (NULL);
 
 	if (!data_end)
 		data_end = data + strlen (data);
@@ -1240,23 +1246,15 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 			if (parseoptions->col_import_array == NULL ||
 			    parseoptions->col_import_array_len <= col ||
 			    parseoptions->col_import_array[col]) {
-				char *text = g_ptr_array_index (line, col);
-
-				if (text) {
-					GnmCellCopy *ccopy;
-					GnmValue *v;
-					GOFormat *fmt = g_ptr_array_index
-						(parseoptions->formats, col);
-
-					v = format_match (text, fmt, date_conv);
-					if (v == NULL) {
+				if (NULL != (text = g_ptr_array_index (line, col))) {
+					fmt = g_ptr_array_index (
+						parseoptions->formats, col);
+					if (NULL == (v = format_match (text, fmt, date_conv)))
 						v = value_new_string (text);
-					}
 
-					ccopy = gnm_cell_copy_new (targetcol, row);
-					ccopy->val  = v;
-					ccopy->texpr = NULL;
-					contents = g_slist_prepend (contents, ccopy);
+					cc = gnm_cell_copy_new (cr, targetcol, row);
+					cc->val  = v;
+					cc->texpr = NULL;
 					targetcol++;
 					if (targetcol > colhigh)
 						colhigh = targetcol;
@@ -1269,8 +1267,6 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 	END_LOCALE_SWITCH;
 
-	cr = cellregion_new (NULL);
-	cr->contents = contents;
 	cr->cols    = (colhigh > 0) ? colhigh : 1;
 	cr->rows    = row;
 

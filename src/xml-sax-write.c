@@ -1203,6 +1203,22 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 /**************************************************************************/
 
+typedef struct {
+	GnmOutputXML  state;
+	GnmCellRegion const *cr;
+	GnmParsePos   pp;
+} XMLCellCopyState;
+
+static void
+cb_xml_write_cell_region_cells (GnmCellCopy *cc, gconstpointer ignore,
+				XMLCellCopyState *state)
+{
+	state->pp.eval.col = state->cr->base.col + cc->offset.col;
+	state->pp.eval.row = state->cr->base.row + cc->offset.row;
+	xml_write_cell_and_position (&state->state,
+		cc->texpr, cc->val, &state->pp);
+}
+
 /**
  * gnm_cellregion_to_xml :
  * @cr  : the content to store.
@@ -1214,76 +1230,72 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 GsfOutputMemory *
 gnm_cellregion_to_xml (GnmCellRegion const *cr)
 {
-	GnmOutputXML  state;
+	XMLCellCopyState state;
 	GnmStyleList *s_ptr;
-	GnmCellCopy const *cc;
 	GSList       *ptr;
-	GnmParsePos   pp;
 	GsfOutput    *buf = gsf_output_memory_new ();
 	GnmLocale    *locale;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
 
-	state.wb_view	= NULL;
-	state.wb	= NULL;
-	state.sheet	= NULL;
-	state.output	= gsf_xml_out_new (buf);
-	state.exprconv	= xml_io_conventions ();
-	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state.state.wb_view	= NULL;
+	state.state.wb	= NULL;
+	state.state.sheet	= NULL;
+	state.state.output	= gsf_xml_out_new (buf);
+	state.state.exprconv	= xml_io_conventions ();
+	state.state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	locale = gnm_push_C_locale ();
 
-	gsf_xml_out_start_element (state.output, GNM "ClipboardRange");
-	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
+	gsf_xml_out_start_element (state.state.output, GNM "ClipboardRange");
+	gsf_xml_out_add_cstr_unchecked (state.state.output, "xmlns:gnm",
 		"http://www.gnumeric.org/v10.dtd");
 
-	gsf_xml_out_add_int (state.output, "Cols", cr->cols);
-	gsf_xml_out_add_int (state.output, "Rows", cr->rows);
-	gsf_xml_out_add_int (state.output, "BaseCol", cr->base.col);
-	gsf_xml_out_add_int (state.output, "BaseRow", cr->base.row);
+	gsf_xml_out_add_int (state.state.output, "Cols", cr->cols);
+	gsf_xml_out_add_int (state.state.output, "Rows", cr->rows);
+	gsf_xml_out_add_int (state.state.output, "BaseCol", cr->base.col);
+	gsf_xml_out_add_int (state.state.output, "BaseRow", cr->base.row);
 	if (cr->not_as_contents)
-		gsf_xml_out_add_bool (state.output, "NotAsContent", TRUE);
+		gsf_xml_out_add_bool (state.state.output, "NotAsContent", TRUE);
 
 	if (cr->styles != NULL) {
-		gsf_xml_out_start_element (state.output, GNM "Styles");
+		gsf_xml_out_start_element (state.state.output, GNM "Styles");
 		for (s_ptr = cr->styles ; s_ptr != NULL ; s_ptr = s_ptr->next)
-			xml_write_style_region (&state, s_ptr->data);
-		gsf_xml_out_end_element (state.output); /* </Styles> */
+			xml_write_style_region (&state.state, s_ptr->data);
+		gsf_xml_out_end_element (state.state.output); /* </Styles> */
 	}
 
 	if (cr->merged != NULL) {
-		gsf_xml_out_start_element (state.output, GNM "MergedRegions");
+		gsf_xml_out_start_element (state.state.output, GNM "MergedRegions");
 		for (ptr = cr->merged ; ptr != NULL ; ptr = ptr->next) {
-			gsf_xml_out_start_element (state.output, GNM "Merge");
-			gsf_xml_out_add_cstr_unchecked (state.output, NULL,
+			gsf_xml_out_start_element (state.state.output, GNM "Merge");
+			gsf_xml_out_add_cstr_unchecked (state.state.output, NULL,
 				range_as_string (ptr->data));
-			gsf_xml_out_end_element (state.output); /* </Merge> */
+			gsf_xml_out_end_element (state.state.output); /* </Merge> */
 		}
 	}
 
-	pp.wb = NULL; /* NOTE SNEAKY : ensure that sheet names have explicit workbooks */
-	pp.sheet = cr->origin_sheet;
-	if (cr->contents != NULL) {
-		gsf_xml_out_start_element (state.output, GNM "Cells");
-		for (ptr = cr->contents; ptr != NULL ; ptr = ptr->next) {
-			cc = ptr->data;
-			pp.eval.col = cr->base.col + cc->col_offset,
-			pp.eval.row = cr->base.row + cc->row_offset;
-			xml_write_cell_and_position (&state, cc->texpr, cc->val, &pp);
-		}
-		gsf_xml_out_end_element (state.output); /* </Cells> */
+	/* NOTE SNEAKY : ensure that sheet names have explicit workbooks */
+	state.pp.wb    = NULL;
+	state.pp.sheet = cr->origin_sheet;
+	state.cr = cr;
+	if (cr->cell_content != NULL) {
+		gsf_xml_out_start_element (state.state.output, GNM "Cells");
+		g_hash_table_foreach (cr->cell_content,
+			(GHFunc) cb_xml_write_cell_region_cells, &state);
+		gsf_xml_out_end_element (state.state.output); /* </Cells> */
 	}
 
-	xml_write_objects (&state, cr->objects);
+	xml_write_objects (&state.state, cr->objects);
 
-	gsf_xml_out_end_element (state.output); /* </ClipboardRange> */
+	gsf_xml_out_end_element (state.state.output); /* </ClipboardRange> */
 
 	gnm_pop_C_locale (locale);
 
-	g_hash_table_destroy (state.expr_map);
-	gnm_expr_conventions_free (state.exprconv);
-	g_object_unref (G_OBJECT (state.output));
+	g_hash_table_destroy (state.state.expr_map);
+	gnm_expr_conventions_free (state.state.exprconv);
+	g_object_unref (G_OBJECT (state.state.output));
 
 	gsf_output_close (buf);
 

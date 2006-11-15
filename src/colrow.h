@@ -47,6 +47,19 @@ struct _ColRowSegment {
 	float	size_pts;
 	int	size_pixels;
 };
+typedef struct _ColRowState {
+	float     size_pts;
+	unsigned  is_default	: 1;
+	unsigned  outline_level : 4;
+	unsigned  is_collapsed  : 1;	/* Does this terminate an outline ? */
+	unsigned  hard_size     : 1;	/* are dimensions explicitly set ? */
+	unsigned  visible       : 1;	/* visible */
+} ColRowState;
+
+typedef struct {
+	int         length;
+	ColRowState state;
+} ColRowRLEState;
 
 #define COL_INTERNAL_WIDTH(col)	\
 	((col)->size_pixels - (GNM_COL_MARGIN + GNM_COL_MARGIN + 1))
