@@ -1933,7 +1933,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
 		text, &val, &texpr,
-		gnm_style_get_format (gnm_cell_get_style (cell)),
+		gnm_cell_get_format (cell),
 		workbook_date_conv (cell->base.sheet->workbook));
 
 	/* Queue a redraw before incase the span changes */

@@ -49,6 +49,8 @@ Morten:
 	* Add a bugzilla component for bug-buddy.  [#348829]
 	* Make WorkbookView a more proper gobject.
 	* Fix autosave crash.
+	* Handle parsing of "2005/12" and "12/2005".
+	* Handle parsing of "1-10" in non-date cells.  [#376090]
 
 --------------------------------------------------------------------------
 

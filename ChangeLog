@@ -1,3 +1,17 @@
+2006-11-16  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_cell_set_text): Use gnm_cell_get_format so
+	current format gets handled properly even if it derives from the
+	value.
+
+	* src/workbook-edit.c (wbcg_edit_finish): Use gnm_cell_get_format
+	here too.
+
+	* src/number-match.c (format_match_datetime): Properly handle
+	"2005/12" and "12/2005".  (Year got set to current year.)
+	Add new presume_date argument and do not allow "1-10" and "1.10"
+	unless that new argument is true.
+
 2006-11-15  Jody Goldberg <jody@gnome.org>
 
 	Fix check buttons.

@@ -10,7 +10,8 @@
  * we have: if a match is found, then we decode the number using a
  * precomputed parallel-list of subexpressions.
  *
- * Author:
+ * Authors:
+ *   Morten Welinder (terra@gnome.org)
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <gnumeric-config.h>
@@ -259,7 +260,7 @@ datetime_locale_setup (char const *lc_time)
 	 * "31/1"     [Jan 31] if !month_before_day
 	 */
 	datetime_locale_setup1 (&datetime_locale.re_mmdd,
-				"^(\\d+)[-/.](\\d+)\\b");
+				"^(\\d+)([-/.])(\\d+)\\b");
 
 	/*
 	 * "15:30:00.3"
@@ -578,7 +579,8 @@ static GnmValue *
 format_match_datetime (char const *text,
 		       GODateConventions const *date_conv,
 		       gboolean month_before_day,
-		       gboolean add_format)
+		       gboolean add_format,
+		       gboolean presume_date)
 {
 	int day, month, year;
 	GDate date;
@@ -686,30 +688,39 @@ format_match_datetime (char const *text,
 		}
 	}
 	    
-	/* ^(\d+)[-/.](\d+)\b */
-	/*  1         2       */
+	/* ^(\d+)([-/.])(\d+)\b */
+	/*  1    2      3       */
 	if (dig1 >= 0 &&
 	    go_regexec (&datetime_locale.re_mmdd, text, G_N_ELEMENTS (match), match, 0) == 0) {
+		/*
+		 * Unless we already have a date format, do not accept
+		 * 1-10, for example.  See bug 376090.
+		 */
+		gboolean good_ddmmsep =
+			presume_date ||
+			text[match[2].rm_so] == '/';
 		if (match[1].rm_eo - match[1].rm_so == 4) {
 			year = handle_year (text, match + 1);
-			month = handle_month (text, match + 2);
+			month = handle_month (text, match + 3);
 			day = 1;
 			date_format = "yyyy/m";
-		} else if (match[2].rm_eo - match[2].rm_so == 4) {
+		} else if (match[3].rm_eo - match[3].rm_so == 4) {
 			month = handle_month (text, match + 1);
-			year = handle_year (text, match + 2);
+			year = handle_year (text, match + 3);
 			day = 1;
 			date_format = "m/yyyy";
-		} else if (month_before_day) {
+		} else if (good_ddmmsep && month_before_day) {
 			month = handle_month (text, match + 1);
-			day = handle_day (text, match + 2);
+			day = handle_day (text, match + 3);
+			year = current_year ();
 			date_format = "m/d/yyyy";
-		} else {
-			month = handle_month (text, match + 2);
+		} else if (good_ddmmsep) {
+			month = handle_month (text, match + 3);
 			day = handle_day (text, match + 1);
+			year = current_year ();
 			date_format = "d/m/yyyy";
-		}
-		year = current_year ();
+		} else
+			year = month = day = -1;
 		if (g_date_valid_dmy (day, month, year)) {
 			text += match[0].rm_eo;
 			goto got_date;
@@ -1101,7 +1112,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 
 			v = format_match_datetime (text, date_conv,
 						   month_before_day,
-						   FALSE);
+						   FALSE,
+						   TRUE);
 			if (!v)
 				v = format_match_decimal_number (text, &fam);
 			if (v)
@@ -1116,6 +1128,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 
 			v = format_match_datetime (text, date_conv,
 						   month_before_day,
+						   FALSE,
 						   FALSE);
 			if (!v)
 				v = format_match_time (text, TRUE, prefer_hour, FALSE);
@@ -1172,7 +1185,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 
 	v = format_match_datetime (text, date_conv,
 				   format_month_before_day (),
-				   TRUE);
+				   TRUE,
+				   FALSE);
 	if (v)
 		return v;
 

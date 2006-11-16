@@ -122,9 +122,9 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 		char const *txt = wbcg_edit_get_display_text (wbcg);
 		GnmStyle const *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
 		char const *expr_txt = NULL;
+		GOFormat *fmt = gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col, sv->edit_pos.row));
 
-		/* BE CAREFUL the standard fmts must not NOT include '@' */
-		GnmValue *value = format_match (txt, gnm_style_get_format (mstyle),
+		GnmValue *value = format_match (txt, fmt,
 						workbook_date_conv (sheet->workbook));
 		if (value != NULL)
 			value_release (value);
