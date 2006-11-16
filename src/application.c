@@ -184,7 +184,7 @@ gnm_app_clipboard_invalidate_sheet (Sheet *sheet)
 		gnm_app_clipboard_clear (TRUE);
 	else if (app->clipboard_copied_contents)
 		cellregion_invalidate_sheet (app->clipboard_copied_contents, sheet);
-	}
+}
 
 void
 gnm_app_clipboard_unant (void)

@@ -25,6 +25,7 @@ Jody:
 	* Add accelerator for group/ungroup and inc/dec indent.
 	* Make clipboard faster.
 	* Support exporting only visible content to clipboard.
+	* Fix checkbox objects.
 
 Joseph Pingenot:
 	* Add more conditional format types.

@@ -1369,7 +1369,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 	case GDK_ENTER_NOTIFY:
 		gnm_widget_set_cursor_type (GTK_WIDGET (view->canvas),
 			(so->flags & SHEET_OBJECT_CAN_PRESS) ? GDK_HAND2 : GDK_ARROW);
-		break;
+		return FALSE;
 
 	case GDK_BUTTON_PRESS:
 		if (event->button.button > 3)
@@ -1377,6 +1377,10 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 
 		/* cb_sheet_object_widget_canvas_event calls even if selected */
 		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
+
+			if (event->button.button != 3)
+				return FALSE;
+
 			if (!(event->button.state & GDK_SHIFT_MASK))
 				scg_object_unselect (pane->gcanvas->simple.scg, NULL);
 			scg_object_select (pane->gcanvas->simple.scg, so);
@@ -1415,13 +1419,6 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 	    (event->type == GDK_BUTTON_PRESS && event->button.button == 3))
 		return cb_sheet_object_canvas_event (view, event,
 			sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)));
-	if (event->type == GDK_2BUTTON_PRESS && event->button.button == 1) {
-		sheet_object_get_editor (
-			sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)),
-			SHEET_CONTROL (GNM_SIMPLE_CANVAS (view->canvas)->scg));
-		return TRUE;
-	}
-
 	return FALSE;
 }
 

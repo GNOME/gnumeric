@@ -1,3 +1,14 @@
+2006-11-15  Jody Goldberg <jody@gnome.org>
+
+	Fix check buttons.
+	* src/gnumeric-pane.c (cb_sheet_object_widget_canvas_event) : do not
+	  bring up an editor on double click for widgets.  Simple clicks are
+	  too easy to confuse.  Use right click only.
+	(cb_sheet_object_canvas_event) : Return FALSE on enter to allow
+	  checkbox handlers to set things up.
+	(cb_sheet_object_canvas_event) : Only change selection on right-button
+	  press.
+
 2006-11-12  Jody Goldberg <jody@gnome.org>
 
 	* src/clipboard.c (cellregion_to_string) : support only exporting

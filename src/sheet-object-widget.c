@@ -3,7 +3,7 @@
 /*
  * sheet-object-widget.c: SheetObject wrappers for simple gtk widgets.
  *
- * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
