@@ -228,7 +228,6 @@ char       *function_def_get_arg_name  (GnmFunc const *fn_def,
 /*************************************************************************/
 
 GnmValue *function_call_with_exprs	(GnmFuncEvalInfo *ei,
-					 int argc, GnmExprConstPtr const *argv,
 					 GnmExprEvalFlags flags);
 GnmValue *function_call_with_values     (GnmEvalPos const *ep, char const *name,
 					 int argc, GnmValue const * const *values);

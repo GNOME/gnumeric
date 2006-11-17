@@ -1,5 +1,11 @@
 2006-11-16  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (function_call_with_exprs): Drop the argc and argv
+	arguments.  They now follow from the eval info.  All callers
+	changed.
+
+2006-11-16  Morten Welinder  <terra@gnome.org>
+
 	* src/sheet.c (sheet_cell_set_text): Use gnm_cell_get_format so
 	current format gets handled properly even if it derives from the
 	value.

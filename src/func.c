@@ -1013,9 +1013,8 @@ free_values (GnmValue **values, int top)
 }
 
 /**
- * function_call_with_list:
+ * function_call_with_exprs:
  * @ei: EvalInfo containing valid fn_def!
- * @args: GnmExprList of GnmExpr args.
  * @flags :
  *
  * Do the guts of calling a function.
@@ -1023,19 +1022,21 @@ free_values (GnmValue **values, int top)
  * Returns the result.
  **/
 GnmValue *
-function_call_with_exprs (GnmFuncEvalInfo *ei,
-			  int argc, GnmExprConstPtr const *argv,
-			  GnmExprEvalFlags flags)
+function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 {
 	GnmFunc const *fn_def;
 	int	  i, iter_count, iter_width = 0, iter_height = 0;
 	char	  arg_type;
 	GnmValue	 **args, *tmp = NULL;
 	int 	 *iter_item = NULL;
+	int argc;
+	GnmExprConstPtr *argv;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
+	argc = ei->func_call->argc;
+	argv = ei->func_call->argv;
 	fn_def = ei->func_call->func;
 	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
 		gnm_func_load_stub ((GnmFunc *) fn_def);

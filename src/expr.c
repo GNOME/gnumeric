@@ -561,13 +561,11 @@ gnm_expr_extract_ref (GnmRangeRef *res, GnmExpr const *expr,
 		gboolean failed = TRUE;
 		GnmValue *v;
 		GnmFuncEvalInfo ei;
+
 		ei.pos = pos;
 		ei.func_call = &expr->func;
+		v = function_call_with_exprs (&ei, flags);
 
-		v = function_call_with_exprs (&ei,
-					      expr->func.argc,
-					      expr->func.argv,
-					      flags);
 		if (v != NULL) {
 			if (v->type == VALUE_CELLRANGE) {
 				*res = v->v_range.cell;
@@ -1308,10 +1306,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		GnmFuncEvalInfo ei;
 		ei.pos = pos;
 		ei.func_call = &expr->func;
-		res = function_call_with_exprs (&ei,
-						expr->func.argc,
-						expr->func.argv,
-						flags);
+		res = function_call_with_exprs (&ei, flags);
 		if (res == NULL)
 			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 			    ? NULL : value_new_int (0);

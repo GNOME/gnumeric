@@ -440,10 +440,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 
 	ei.pos = eval_pos_init_sheet (&ep, wbv->current_sheet);
 	ei.func_call = &expr->func;
-	v = function_call_with_exprs (&ei,
-				      ei.func_call->argc,
-				      ei.func_call->argv,
-				      0);
+	v = function_call_with_exprs (&ei, 0);
 
 	if (v) {
 		GString *str = g_string_new (wbv->auto_expr_descr);
