@@ -1,3 +1,7 @@
+2006-11-18  Djihed Afifi <djihed@gmail.com> 
+
+	* configure.in: Added Arabic Translation.
+
 2006-11-17  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (gnm_func_load_if_stub): New function.
