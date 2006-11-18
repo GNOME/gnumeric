@@ -2319,12 +2319,20 @@ oo_unknown_hander (char const *name,
 		   GnmExprList *args,
 		   GnmExprConventions const *convs)
 {
+	GnmFunc *f;
+
 	if (0 == strncmp ("com.sun.star.sheet.addin.Analysis.get", name, 37)) {
 		GnmFunc *f = gnm_func_lookup (name + 37, NULL);
 		if (f != NULL)
 			return gnm_expr_new_funcall (f, args);
 		g_warning ("unknown function");
-	}
+	} else if (0 == strcmp ("INDIRECT_XL", name))
+		name = "INDIRECT";
+	else if (0 == strcmp ("ADDRESS_XL", name))
+		name = "ADDRESS";
+	f = gnm_func_lookup (name, NULL);
+	if (f != NULL)
+		return gnm_expr_new_funcall (f, args);
 	return gnm_func_placeholder_factory (name, args, convs);
 }
 

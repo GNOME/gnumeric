@@ -1,3 +1,8 @@
+2006-11-17  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_unknown_hander) : add hook for oo-build
+	  specific extensions.
+
 2006-11-09  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (openoffice_file_open) : use the new
