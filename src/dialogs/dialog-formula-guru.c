@@ -86,6 +86,7 @@ typedef struct
 
 	GnumericCellRendererExprEntry *cellrenderer;
 	GtkTreeViewColumn *column;
+	GtkCellEditable *editable;
 } FormulaGuruState;
 
 enum {
@@ -512,6 +513,11 @@ dialog_formula_guru_destroy (FormulaGuruState *state)
 	g_free (state->pos);
 	state->pos = NULL;
 
+	if (state->editable) {
+		g_object_unref (state->editable);
+		state->editable = NULL;
+	}	
+
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
@@ -697,9 +703,9 @@ cb_dialog_formula_guru_row_collapsed (G_GNUC_UNUSED GtkTreeView *treeview,
 
 static void
 cb_dialog_formula_guru_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
-	gchar               *path_string,
-	gchar               *new_text,
-        FormulaGuruState    *state)
+			       gchar               *path_string,
+			       gchar               *new_text,
+			       FormulaGuruState    *state)
 {
 	GtkTreeIter iter;
 	GtkTreePath *path;
@@ -723,6 +729,18 @@ cb_dialog_formula_guru_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 					   0, g_utf8_strlen (new_text, -1));
 }
 
+static void
+cb_dialog_formula_guru_editing_started (GtkCellRenderer *cell,
+					GtkCellEditable *editable,
+					const gchar *path,
+					FormulaGuruState *state)
+{
+	g_object_ref (editable);
+	if (state->editable)
+		g_object_unref (state->editable);
+	state->editable = editable;
+}
+
 /* Bad bad hack to be removed with Gtk2.2 */
 /* The idea to this code is due to Jonathan Blandford */
 
@@ -735,15 +753,21 @@ typedef struct
 static gboolean
 real_start_editing_cb (IdleData *idle_data)
 {
-  gtk_widget_grab_focus (GTK_WIDGET (idle_data->state->treeview));
-  gtk_tree_view_set_cursor (idle_data->state->treeview,
-			    idle_data->path,
-			    idle_data->state->column,
-			    TRUE);
+	FormulaGuruState *state = idle_data->state;
+	GtkTreePath *path = idle_data->path;
 
-  gtk_tree_path_free (idle_data->path);
-  g_free (idle_data);
-  return FALSE;
+	if (state->editable)
+		gtk_cell_editable_editing_done (state->editable);
+
+	gtk_widget_grab_focus (GTK_WIDGET (state->treeview));
+	gtk_tree_view_set_cursor (state->treeview,
+				  path,
+				  state->column,
+				  TRUE);
+
+	gtk_tree_path_free (path);
+	g_free (idle_data);
+	return FALSE;
 }
 
 static gboolean
@@ -751,41 +775,43 @@ start_editing_cb (GtkTreeView      *tree_view,
 		  GdkEventButton   *event,
 		  FormulaGuruState *state)
 {
-  GtkTreePath *path;
-  GtkTreeIter iter;
+	GtkTreePath *path;
+	GtkTreeIter iter;
 
-  if (event->window != gtk_tree_view_get_bin_window (tree_view))
-    return FALSE;
-  if (state->treeview != tree_view)
-    return FALSE;
+	if (event->window != gtk_tree_view_get_bin_window (tree_view))
+		return FALSE;
+	if (state->treeview != tree_view)
+		return FALSE;
 
-  if (gtk_tree_view_get_path_at_pos (tree_view,
-				     (gint) event->x,
-				     (gint) event->y,
-				     &path, NULL,
-				     NULL, NULL) &&
-      gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
-			       &iter, path))
-    {
-      IdleData *idle_data;
-      gboolean is_non_fun;
+	if (gtk_tree_view_get_path_at_pos (tree_view,
+					   (gint) event->x,
+					   (gint) event->y,
+					   &path, NULL,
+					   NULL, NULL) &&
+	    gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
+				     &iter, path))
+	{
+		IdleData *idle_data;
+		gboolean is_non_fun;
 
-      gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-			  IS_NON_FUN, &is_non_fun,
-			  -1);
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+				    IS_NON_FUN, &is_non_fun,
+				    -1);
 
-      if (!is_non_fun)
-	      return FALSE;
+		if (!is_non_fun) {
+			gtk_tree_path_free (path);
+			return FALSE;
+		}
 
-      idle_data = g_new (IdleData, 1);
-      idle_data->path = path;
-      idle_data->state = state;
+		idle_data = g_new (IdleData, 1);
+		idle_data->path = path;
+		idle_data->state = state;
 
-      g_signal_stop_emission_by_name (G_OBJECT (tree_view), "button_press_event");
-      g_idle_add ((GSourceFunc) real_start_editing_cb, idle_data);
-      return TRUE;
-    }
-  return FALSE;
+		g_signal_stop_emission_by_name (G_OBJECT (tree_view), "button_press_event");
+		g_idle_add ((GSourceFunc) real_start_editing_cb, idle_data);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 /* End of bad bad hack*/
@@ -829,6 +855,9 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	state->cellrenderer = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (renderer);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_dialog_formula_guru_edited), state);
+	state->editable = NULL;
+	g_signal_connect (G_OBJECT (renderer), "editing-started",
+			  G_CALLBACK (cb_dialog_formula_guru_editing_started), state);
 	column = gtk_tree_view_column_new_with_attributes (_("Function/Argument"),
 							   renderer,
 							   "text", FUN_ARG_ENTRY,

@@ -1,3 +1,12 @@
+2006-11-18  Morten Welinder  <terra@gnome.org>
+
+	* dialog-formula-guru.c (cb_dialog_formula_guru_editing_started):
+	New function.
+	(real_start_editing_cb): Stop editing in previous cell so we don't
+	lose our edits.
+	(dialog_formula_guru_init): Hook up
+	cb_dialog_formula_guru_editing_started.
+
 2006-11-17  Morten Welinder  <terra@gnome.org>
 
 	* dialog-function-select.c (describe_new_style): New function.
