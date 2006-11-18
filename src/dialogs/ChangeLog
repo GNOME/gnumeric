@@ -1,3 +1,11 @@
+2006-11-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-function-select.c (describe_new_style): New function.
+	(describe_old_style): New function, extracted from
+	cb_dialog_function_select_fun_selection_changed.
+	(cb_dialog_function_select_fun_selection_changed): Handle
+	new-style docs.
+
 2006-10-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-hyperlink.c (dhl_get_target_cur_wb): Kill cast.

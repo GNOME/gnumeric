@@ -62,8 +62,7 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 	Symbol *sym = value;
 	GnmFunc *fd = sym->data;
 	if (sym->type == SYMBOL_FUNCTION && fd->name != NULL) {
-		if (fd->fn_type == GNM_FUNC_TYPE_STUB)
-			gnm_func_load_stub ((GnmFunc *) fd);
+		gnm_func_load_if_stub ((GnmFunc *) fd);
 		if (fd->help != NULL)
 			g_ptr_array_add (array, fd);
 	}
@@ -121,8 +120,7 @@ cb_generate_po (gpointer key, Symbol *sym, gpointer array)
 	GnmFunc const *fd = sym->data;
 	char const *ptr, *tmp;
 
-	if (fd->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub ((GnmFunc *) fd);
+	gnm_func_load_if_stub ((GnmFunc *) fd);
 
 	if (fd->help == NULL) {
 		g_warning ("'%s' : no help defined", fd->name);
@@ -541,6 +539,13 @@ error_function_no_full_info (GnmFuncEvalInfo *ei,
 }
 
 void
+gnm_func_load_if_stub (GnmFunc *func)
+{
+	if (func->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub (func);	
+}
+
+void
 gnm_func_load_stub (GnmFunc *func)
 {
 	GnmFuncDescriptor desc;
@@ -853,8 +858,7 @@ function_def_count_args (GnmFunc const *fn_def,
 	g_return_if_fail (max != NULL);
 	g_return_if_fail (fn_def != NULL);
 
-	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub ((GnmFunc *) fn_def);
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
 	/*
 	 * FIXME: clearly for 'nodes' functions many of
@@ -895,8 +899,7 @@ function_def_get_arg_type (GnmFunc const *fn_def,
 	g_return_val_if_fail (arg_idx >= 0, '?');
 	g_return_val_if_fail (fn_def != NULL, '?');
 
-	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub ((GnmFunc *) fn_def);
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
 	switch (fn_def->fn_type) {
 	case GNM_FUNC_TYPE_ARGS:
@@ -974,8 +977,7 @@ function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 	g_return_val_if_fail (arg_idx >= 0, NULL);
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
-	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub ((GnmFunc *) fn_def);
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
 	if (!fn_def->arg_names)
 		return NULL;
@@ -1038,8 +1040,8 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 	argc = ei->func_call->argc;
 	argv = ei->func_call->argv;
 	fn_def = ei->func_call->func;
-	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub ((GnmFunc *) fn_def);
+
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
 	/* Functions that deal with ExprNodes */
 	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES)
@@ -1285,8 +1287,7 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn_def,
 	fs.func_call = &ef;
 	ef.func = (GnmFunc *)fn_def;
 
-	if (fn_def->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub (ef.func);
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
 	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES) {
 		/*
@@ -1524,8 +1525,7 @@ tokenized_help_new (GnmFunc const *func)
 
 	g_return_val_if_fail (func != NULL, NULL);
 
-	if (func->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub ((GnmFunc *) func);
+	gnm_func_load_if_stub ((GnmFunc *)func);
 
 	tok = g_new (TokenizedHelp, 1);
 	tok->fndef = func;

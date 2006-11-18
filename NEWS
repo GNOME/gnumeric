@@ -51,6 +51,7 @@ Morten:
 	* Fix autosave crash.
 	* Handle parsing of "2005/12" and "12/2005".
 	* Handle parsing of "1-10" in non-date cells.  [#376090]
+	* Handle new documentation format in the function selector.
 
 --------------------------------------------------------------------------
 

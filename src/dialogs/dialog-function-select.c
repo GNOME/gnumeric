@@ -228,130 +228,224 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 
 
 static void
+describe_old_style (GtkTextBuffer *description, GnmFunc const *func)
+{
+	TokenizedHelp *help = tokenized_help_new (func);
+	char const * f_desc = tokenized_help_find (help, "DESCRIPTION");
+	char const *f_syntax = tokenized_help_find (help, "SYNTAX");
+
+	char const * cursor;
+	GString    * buf = g_string_new (NULL);
+	GtkTextIter  start, end;
+	GtkTextTag * tag;
+	int          syntax_length =  g_utf8_strlen (f_syntax,-1);
+
+	g_string_append (buf, f_syntax);
+	g_string_append (buf, "\n\n");
+	g_string_append (buf, f_desc);
+	gtk_text_buffer_set_text (description, buf->str, -1);
+
+	/* Set the syntax Bold */
+	tag = gtk_text_buffer_create_tag (description,
+					  NULL,
+					  "weight",
+					  PANGO_WEIGHT_BOLD,
+					  NULL);
+	gtk_text_buffer_get_iter_at_offset (description,
+					    &start, 0);
+	gtk_text_buffer_get_iter_at_offset (description,
+					    &end, syntax_length);
+	gtk_text_buffer_apply_tag (description, tag,
+				   &start, &end);
+	syntax_length += 2;
+
+	/* Set the arguments and errors Italic */
+	for (cursor = f_desc; *cursor; cursor = g_utf8_next_char (cursor)) {
+		int i;
+		if (*cursor == '@' || *cursor == '#') {
+			int j;
+
+			cursor++;
+			for (i = 0;
+			     *cursor && !g_unichar_isspace (g_utf8_get_char (cursor));
+			     i++)
+				cursor = g_utf8_next_char (cursor);
+
+			j = g_utf8_pointer_to_offset (f_desc, cursor);
+
+			if (i > 0)
+				cursor = g_utf8_prev_char (cursor);
+
+			tag = gtk_text_buffer_create_tag
+				(description,
+				 NULL, "style",
+				 PANGO_STYLE_ITALIC, NULL);
+			gtk_text_buffer_get_iter_at_offset
+				(description, &start,
+				 j - i + syntax_length);
+			gtk_text_buffer_get_iter_at_offset
+				(description, &end,
+				 j + syntax_length);
+			gtk_text_buffer_apply_tag
+				(description, tag,
+				 &start, &end);
+		} else if (*cursor == '\n' &&
+			   cursor[1] == '*' &&
+			   cursor[2] == ' ') {
+			int j = g_utf8_pointer_to_offset (f_desc, cursor);
+			char const *p;
+
+			tag = gtk_text_buffer_create_tag
+				(description, NULL,
+				 "weight", PANGO_WEIGHT_BOLD,
+				 NULL);
+			gtk_text_buffer_get_iter_at_offset
+				(description, &start,
+				 j + 1 + syntax_length);
+			gtk_text_buffer_get_iter_at_offset
+				(description, &end,
+				 j + 2 + syntax_length);
+			gtk_text_buffer_apply_tag
+				(description, tag,
+				 &start, &end);
+
+			/* Make notes to look cooler. */
+			p = cursor + 2;
+			for (i = 0; *p && *p != '\n'; i++)
+				p = g_utf8_next_char (p);
+
+			tag = gtk_text_buffer_create_tag
+				(description, NULL,
+				 "scale", 0.85, NULL);
+
+			gtk_text_buffer_get_iter_at_offset
+				(description,
+				 &start, j + 1 + syntax_length);
+			gtk_text_buffer_get_iter_at_offset
+				(description, &end,
+				 j + i + 1 + syntax_length);
+			gtk_text_buffer_apply_tag
+				(description, tag,
+				 &start, &end);
+		}
+	}
+
+	g_string_free (buf, TRUE);
+	tokenized_help_destroy (help);
+}
+
+#define ADD_LTEXT(text,len) gtk_text_buffer_insert (description, &ti, (text), (len))
+#define ADD_TEXT(text) ADD_LTEXT((text),-1)
+#define ADD_BOLD_TEXT(text,len) gtk_text_buffer_insert_with_tags (description, &ti, (text), (len), bold, NULL)
+
+static void
+describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
+{
+	GnmFuncHelp const *help;
+	GtkTextIter ti;
+	GtkTextTag *bold =
+		gtk_text_buffer_create_tag
+		(description, NULL,
+		 "weight", PANGO_WEIGHT_BOLD,
+		 NULL);
+	gboolean seen_args = FALSE;
+
+	gtk_text_buffer_get_end_iter (description, &ti);
+
+	for (help = func->help; 1; help++) {
+		switch (help->type) {
+		case GNM_FUNC_HELP_NAME: {
+			const char *text = _(help->text);
+			const char *colon = strchr (text, ':');
+			if (!colon)
+				break;
+			ADD_BOLD_TEXT (text, colon - text);
+			ADD_TEXT (": ");
+			ADD_TEXT (colon + 1);
+			ADD_TEXT ("\n\n");
+			break;
+		}
+		case GNM_FUNC_HELP_ARG: {
+			const char *text = _(help->text);
+			const char *colon = strchr (text, ':');
+			if (!colon)
+				break;
+
+			if (!seen_args) {
+				seen_args = TRUE;
+				ADD_TEXT (_("Arguments:"));
+				ADD_TEXT ("\n");
+			}
+
+			ADD_BOLD_TEXT (text, colon - text);
+			ADD_TEXT (": ");
+			ADD_TEXT (colon + 1);
+			ADD_TEXT ("\n");
+			break;
+		}
+		case GNM_FUNC_HELP_DESCRIPTION: {
+			const char *text = _(help->text);
+			ADD_TEXT ("\n");
+			ADD_TEXT (text);
+			ADD_TEXT ("\n");
+			break;
+		}
+		case GNM_FUNC_HELP_SEEALSO: {
+			const char *text = help->text;  /* Not translated */
+
+			ADD_TEXT ("\n");
+			ADD_TEXT (_("See also: "));
+
+			while (*text) {
+				const char *end = strchr (text, ',');
+				if (!end) end = text + strlen (text);
+
+				ADD_LTEXT (text, end - text);
+				ADD_TEXT (", ");
+
+				text = *end ? end + 1 : end;
+			}
+			ADD_TEXT ("\n");
+		}
+		case GNM_FUNC_HELP_END:
+			return;
+		default:
+			break;
+		}
+	}
+}
+
+#undef ADD_TEXT
+#undef ADD_LTEXT
+#undef ADD_BOLD_TEXT
+
+static void
 cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection,
-					     FunctionSelectState *state)
+						 FunctionSelectState *state)
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
 	GnmFunc const *func;
 
+	gtk_text_buffer_set_text (state->description, "", 0);
+
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter,
 				    FUNCTION, &func,
 				    -1);
-		{
-			TokenizedHelp *help = tokenized_help_new (func);
-			char const * f_desc =
-				tokenized_help_find (help, "DESCRIPTION");
-			char const *f_syntax = 
-				tokenized_help_find (help, "SYNTAX");
-				
-			char const * cursor;
-			GString    * buf = g_string_new (NULL);
-			GtkTextIter  start, end;
-			GtkTextTag * tag;
-			int          syntax_length =  g_utf8_strlen (f_syntax,-1);
 
-			g_string_append (buf, f_syntax);
-			g_string_append (buf, "\n\n");
-			g_string_append (buf, f_desc);
-			gtk_text_buffer_set_text (state->description, buf->str,
-						  -1);
+		gnm_func_load_if_stub ((GnmFunc *)func);
 
-			/* Set the syntax Bold */
-			tag = gtk_text_buffer_create_tag (state->description,
-							  NULL,
-							  "weight",
-							  PANGO_WEIGHT_BOLD,
-							  NULL);
-			gtk_text_buffer_get_iter_at_offset (state->description,
-							    &start, 0);
-			gtk_text_buffer_get_iter_at_offset (state->description,
-							    &end, syntax_length);
-			gtk_text_buffer_apply_tag (state->description, tag,
-						   &start, &end);
-			syntax_length += 2;
-
-			/* Set the arguments and errors Italic */
-			for (cursor = f_desc; *cursor; cursor = g_utf8_next_char (cursor)) {
-				int i;
-				if (*cursor == '@' || *cursor == '#') {
-					int j;
-
-					cursor++;
-					for (i = 0;
-					     *cursor && !g_unichar_isspace (g_utf8_get_char (cursor));
-					     i++)
-						cursor = g_utf8_next_char (cursor);
-
-					j = g_utf8_pointer_to_offset (f_desc, cursor);
-
-					if (i > 0)
-						cursor = g_utf8_prev_char (cursor);
-
-					tag = gtk_text_buffer_create_tag
-						(state->description,
-						 NULL, "style",
-						 PANGO_STYLE_ITALIC, NULL);
-					gtk_text_buffer_get_iter_at_offset
-						(state->description, &start,
-						 j - i + syntax_length);
-					gtk_text_buffer_get_iter_at_offset
-						(state->description, &end,
-						 j + syntax_length);
-					gtk_text_buffer_apply_tag
-						(state->description, tag,
-						 &start, &end);
-				} else if (*cursor == '\n' &&
-					   cursor[1] == '*' &&
-					   cursor[2] == ' ') {
-					int j = g_utf8_pointer_to_offset (f_desc, cursor);
-					char const *p;
-
-					tag = gtk_text_buffer_create_tag
-						(state->description, NULL,
-						 "weight", PANGO_WEIGHT_BOLD,
-						 NULL);
-					gtk_text_buffer_get_iter_at_offset
-						(state->description, &start,
-						 j + 1 + syntax_length);
-					gtk_text_buffer_get_iter_at_offset
-						(state->description, &end,
-						 j + 2 + syntax_length);
-					gtk_text_buffer_apply_tag
-						(state->description, tag,
-						 &start, &end);
-
-					/* Make notes to look cooler. */
-					p = cursor + 2;
-					for (i = 0; *p && *p != '\n'; i++)
-						p = g_utf8_next_char (p);
-
-					tag = gtk_text_buffer_create_tag
-						(state->description, NULL,
-						 "scale", 0.85, NULL);
-
-					gtk_text_buffer_get_iter_at_offset
-						(state->description,
-						 &start, j + 1 + syntax_length);
-					gtk_text_buffer_get_iter_at_offset
-						(state->description, &end,
-						 j + i + 1 + syntax_length);
-					gtk_text_buffer_apply_tag
-						(state->description, tag,
-						 &start, &end);
-				}
-			}
-
-			g_string_free (buf, TRUE);
-			tokenized_help_destroy (help);
-		}
+		if (func->help == NULL)
+			gtk_text_buffer_set_text (state->description, "?", -1);
+		else if (func->help[0].type == GNM_FUNC_HELP_OLD)
+			describe_old_style (state->description, func);
+		else
+			describe_new_style (state->description, func);
 		gtk_widget_set_sensitive (state->ok_button, TRUE);
-		return;
+	} else {
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
 	}
-	gtk_widget_set_sensitive (state->ok_button, FALSE);
-	gtk_text_buffer_set_text (state->description, "", 0);
-
 }
 
 static void
@@ -374,7 +468,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			if (cat == GINT_TO_POINTER(-1)) {
 				int i = 0;
 				funcs = NULL;
-				
+
 				while ((cat = gnm_func_group_get_nth (i++)) != NULL)
 					funcs = g_slist_concat (funcs,
 							g_slist_copy (cat->functions));
@@ -384,7 +478,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			} else
 				funcs = g_slist_sort (g_slist_copy (cat->functions),
 						      dialog_function_select_by_name);
-			
+
 			for (ptr = funcs; ptr; ptr = ptr->next) {
 				func = ptr->data;
 				if (!(func->flags & GNM_FUNC_INTERNAL)) {
@@ -408,7 +502,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 		} else {
 			int i = 0;
 			funcs = NULL;
-			
+
 			while ((cat = gnm_func_group_get_nth (i++)) != NULL)
 				funcs = g_slist_concat (funcs, g_slist_copy (cat->functions));
 
