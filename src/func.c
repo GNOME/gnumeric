@@ -966,13 +966,13 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
  *
  * Return value: the name of the argument (must be freed)
  **/
-char*
+char *
 function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 {
-	char **names, **o_names;
-	char *name;
+	const char *start, *end;
 	char *translated_arguments;
-	char delimiter[2];
+	gunichar uc;
+	char delimiter[7];
 
 	g_return_val_if_fail (arg_idx >= 0, NULL);
 	g_return_val_if_fail (fn_def != NULL, NULL);
@@ -983,23 +983,23 @@ function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 		return NULL;
 
 	translated_arguments = _(fn_def->arg_names);
-	delimiter[0] =
-		strcmp (translated_arguments, fn_def->arg_names) == 0
+	uc = (strcmp (translated_arguments, fn_def->arg_names) == 0)
 		? ','
 		: format_get_arg_sep ();
-	delimiter[1] = 0;
-	names = g_strsplit (translated_arguments, delimiter, G_MAXINT);
-	o_names = names;
+	delimiter[g_unichar_to_utf8 (uc, delimiter)] = 0;
 
-	while (arg_idx-- && *names) {
-		names++;
+	start = translated_arguments;
+	while (arg_idx > 0) {
+		const char *del = strstr (start, delimiter);
+		if (!del)
+			return NULL;
+		arg_idx--;
+		start = del + strlen (delimiter);
 	}
+	end = strstr (start, delimiter);
+	if (!end) end = start + strlen (start);
 
-	if (*names == NULL)
-		return NULL;
-	name = g_strdup (*names);
-	g_strfreev (o_names);
-	return name;
+	return g_strndup (start, end - start);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1037,11 +1037,11 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
+
 	argc = ei->func_call->argc;
 	argv = ei->func_call->argv;
 	fn_def = ei->func_call->func;
-
-	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
 	/* Functions that deal with ExprNodes */
 	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES)
