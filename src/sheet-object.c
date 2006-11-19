@@ -220,6 +220,7 @@ sheet_object_class_init (GObjectClass *klass)
 	sheet_object_class->print                = NULL;
 	sheet_object_class->user_config          = NULL;
 	sheet_object_class->rubber_band_directly = FALSE;
+	sheet_object_class->interactive          = FALSE;
 	sheet_object_class->default_size	 = so_default_size;
 	sheet_object_class->xml_export_name 	 = NULL;
 	sheet_object_class->invalidate_sheet     = NULL;

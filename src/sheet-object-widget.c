@@ -117,6 +117,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
 	object_class->set_property	= fn_set_property;				\
 	object_class->get_property	= fn_get_property;				\
 	so_class->user_config		= fn_config;					\
+        so_class->interactive           = TRUE;						\
 	so_class->assign_to_sheet	= fn_set_sheet;					\
 	so_class->remove_from_sheet	= fn_clear_sheet;				\
 	so_class->copy			= fn_copy;					\

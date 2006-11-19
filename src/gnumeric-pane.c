@@ -1377,8 +1377,10 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 
 		/* cb_sheet_object_widget_canvas_event calls even if selected */
 		if (NULL == g_hash_table_lookup (pane->drag.ctrl_pts, so)) {
+			SheetObjectClass *soc =
+				G_TYPE_INSTANCE_GET_CLASS (so, SHEET_OBJECT_TYPE, SheetObjectClass);
 
-			if (event->button.button != 3)
+			if (soc->interactive && event->button.button != 3)
 				return FALSE;
 
 			if (!(event->button.state & GDK_SHIFT_MASK))

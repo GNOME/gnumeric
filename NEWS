@@ -53,6 +53,7 @@ Morten:
 	* Handle parsing of "1-10" in non-date cells.  [#376090]
 	* Handle new documentation format in the function selector.
 	* Improve formula editor a bit.
+	* Fix sheet object selection problem.  [#376866]
 
 --------------------------------------------------------------------------
 

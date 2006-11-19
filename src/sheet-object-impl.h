@@ -89,11 +89,18 @@ typedef struct {
 	void (*func_pad1)	(void);
 	void (*func_pad2)	(void);
 
-	gboolean rubber_band_directly; /* If false, we draw a rectangle where
-					* the object is going to be layed out
-					* If true, we draw the object while
-					* laying it out on the sheet
-					*/
+	/*
+	 * If false, we draw a rectangle where the object is going to
+	 * be layed out If true, we draw the object while laying
+	 * it out on the sheet.
+	 */
+	gboolean rubber_band_directly;
+
+	/*
+	 * If FALSE, a mouse click will select the object.
+	 */
+	gboolean interactive;
+
 	char const *xml_export_name;
 
 	void *data_pad1;
