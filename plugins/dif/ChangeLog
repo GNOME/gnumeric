@@ -1,3 +1,7 @@
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
 2006-11-08  Jody Goldberg <jody@gnome.org>
 
 	* dif.c (dif_file_save) : export errors, booleans, and values

@@ -3194,6 +3194,7 @@ IPMT(per) = amount of interest for period @per
 @SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])
 @DESCRIPTION=RATE calculates the rate of an investment.
 
+* If @pmt is ommitted it defaults to 0
 * If @nper <= 0, RATE returns #NUM! error.
 * If @type != 0 and @type != 1, RATE returns #VALUE! error.
 

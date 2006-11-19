@@ -1,3 +1,7 @@
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
 2006-11-11  Morten Welinder  <terra@gnome.org>
 
 	* grand-rename: Figure out the replacement text automatically.

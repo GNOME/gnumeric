@@ -1,3 +1,7 @@
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
 2006-10-19  Jon K Hellan  <hellan@acm.org>
 
 	* widget-editable-label.[ch] (editable_label_get_editable):

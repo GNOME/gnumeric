@@ -1,3 +1,7 @@
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
 2006-11-17  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_unknown_hander) : add hook for oo-build
