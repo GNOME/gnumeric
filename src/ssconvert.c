@@ -12,6 +12,9 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
+#include "position.h"
+#include "parse-util.h"
+#include "workbook.h"
 #include "libgnumeric.h"
 #include "gnumeric-paths.h"
 #include "gnm-plugin.h"
@@ -29,6 +32,8 @@ static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
+static gboolean ssconvert_recalc = FALSE;
+static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
 static char *ssconvert_export_id = NULL;
@@ -103,10 +108,50 @@ static const GOptionEntry ssconvert_options [] = {
 		NULL
 	},
 
+	{
+		"recalc", 0,
+		0, G_OPTION_ARG_NONE, &ssconvert_recalc,
+		N_("Recalculate all cells before writing the result."),
+		NULL
+	},
+
+	/* For now this is for INTERNAL GNUMERIC ONLY.  */
+	{
+		"export-range", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_range,
+		N_("The range to export"),
+		NULL
+	},
+
 	/* ---------------------------------------- */
 
 	{ NULL } 
 };
+
+static void
+setup_range (Workbook *wb, const char *rtxt)
+{
+	GnmParsePos pp;
+	const char *end;
+	GnmRangeRef rr;
+
+	pp.wb = wb;
+	pp.sheet = NULL;
+	pp.eval.col = 0;
+	pp.eval.row = 0;
+
+	end = rangeref_parse (&rr, rtxt, &pp, gnm_expr_conventions_default);
+	if (!end || end == rtxt || *end != 0) {
+		g_printerr ("Invalid range specified.\n");
+		exit (1);
+	}
+
+	g_object_set_data_full (G_OBJECT (wb),
+				"ssconvert-range",
+				g_memdup (&rr, sizeof (rr)),
+				g_free);
+}
+
 
 typedef GList *(*get_them_f)(void);
 typedef gchar const *(*get_desc_f)(void *);
@@ -201,16 +246,23 @@ convert (char const *inarg, char const *outarg,
 		IOContext *io_context = gnumeric_io_context_new (cc);
 		WorkbookView *wbv = wb_view_new_from_uri (infile, fo,
 			io_context, ssconvert_import_encoding);
-		if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK) {
+		Workbook *wb = wb_view_get_workbook (wbv);
+
+		if (ssconvert_recalc)
+			workbook_recalc_all (wb);
+
+		if (ssconvert_range)
+			setup_range (wb, ssconvert_range);
+		else if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK) {
 			if (ssconvert_one_file_per_sheet) {
 				g_warning ("TODO");
 			} else
 				g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-					      "Only the current sheet will be saved."),
+					      "Only the current sheet will be saved.\n"),
 					    go_file_saver_get_id (fs));
 		}
 		res = !wb_view_save_as (wbv, fs, outfile, cc);
-		g_object_unref (wb_view_get_workbook (wbv));
+		g_object_unref (wb);
 		g_object_unref (io_context);
 	}
 

@@ -208,11 +208,26 @@ stf_export_sheet (GnmStfExport *stfe, Sheet *sheet)
 {
 	int col, row;
 	GnmRange r;
+	GnmRangeRef *range;
 
 	g_return_val_if_fail (stfe != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	r = sheet_get_extent (sheet, FALSE);
+	range = g_object_get_data (G_OBJECT (sheet->workbook), "ssconvert-range");
+	if (range) {
+		Sheet *start_sheet, *end_sheet;
+		GnmEvalPos ep;
+
+		gnm_rangeref_normalize (range,
+					eval_pos_init_sheet (&ep, sheet),
+					&start_sheet, &end_sheet,
+					&r);
+
+		if (start_sheet != sheet)
+			return TRUE;
+	} else
+		r = sheet_get_extent (sheet, FALSE);
+
 	for (row = r.start.row; row <= r.end.row; row++) {
 		for (col = r.start.col; col <= r.end.col; col++) {
 			GnmCell *cell = sheet_cell_get (sheet, col, row);
@@ -280,11 +295,13 @@ gnm_stf_export (GnmStfExport *stfe)
 		go_setlocale (LC_ALL, stfe->locale);
 	}
 
-	for (ptr = stfe->sheet_list; ptr != NULL ; ptr = ptr->next)
-		if (!stf_export_sheet (stfe, ptr->data)) {
+	for (ptr = stfe->sheet_list; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
+		if (!stf_export_sheet (stfe, sheet)) {
 			result = FALSE;
 			break;
 		}
+	}
 
 	if (stfe->locale) {
 		go_setlocale (LC_ALL, old_locale);
