@@ -807,6 +807,9 @@ static GNM_ACTION_DEF (cb_auto_filter)
 		gnm_filter_remove (filter);
 		gnm_filter_free (filter);
 	}
+	/* ensure that the colour changes on the filtered row headers */
+	sheet_redraw_all (sv->sheet, TRUE);
+
 	sheet_mark_dirty (sv->sheet);
 	sheet_update (sv->sheet);
 }

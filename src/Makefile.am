@@ -248,6 +248,7 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-private.h				\
 	sheet-autofill.h			\
 	sheet-filter.h				\
+	sheet-filter-combo.h			\
 	sheet-object.h				\
 	sheet-object-impl.h			\
 	sheet-object-cell-comment.h		\

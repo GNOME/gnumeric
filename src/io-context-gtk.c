@@ -18,6 +18,8 @@
 #include "application.h"
 #include "libgnumeric.h"
 #include "dialogs.h"
+#include "pixmaps/gnumeric-stock-pixbufs.h"
+
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
@@ -116,13 +118,23 @@ cb_realize (GtkWindow *window, void *dummy)
 static void
 icg_show_gui (IOContextGtk *icg)
 {
+	static gboolean init_splash = TRUE;
 	GtkBox *box;
 	GtkWidget *frame;
+
+	if (init_splash ){
+		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
+			(-1, gnumeric_splash, FALSE, NULL);
+		gtk_icon_theme_add_builtin_icon ("GnmSplash",
+			gdk_pixbuf_get_width (pixbuf), pixbuf);
+		g_object_unref (pixbuf);
+		init_splash = FALSE;
+	}
 
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
 	gtk_box_pack_start (box, gtk_image_new_from_pixbuf (
 		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
-					  "gnumeric_splash", 360, 220, NULL)),
+					  "GnmSplash", 360, 220, NULL)),
 			    TRUE, FALSE, 0);
 
 	/* Don't show this unless we need it. */

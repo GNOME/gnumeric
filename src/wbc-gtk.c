@@ -1912,8 +1912,7 @@ wbc_gtk_setup_pixmaps (void)
 		{ right_border, "right_border" },
 		{ top_border, "top_border" },
 		/* Stuff */
-		{ unknown_image, "unknown_image" },
-		{ gnumeric_splash, "gnumeric_splash" }
+		{ unknown_image, "unknown_image" }
 	};
 	unsigned int ui;
 

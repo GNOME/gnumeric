@@ -1,5 +1,10 @@
 Gnumeric 1.7.4
 
+Jody:
+	* Fix splash.
+	* Fix crash.
+	* Make auto filter combo a real widget.
+
 Morten
 	* Fix ssconvert error handling.
 	* Fix RATE.
