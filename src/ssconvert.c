@@ -246,23 +246,29 @@ convert (char const *inarg, char const *outarg,
 		IOContext *io_context = gnumeric_io_context_new (cc);
 		WorkbookView *wbv = wb_view_new_from_uri (infile, fo,
 			io_context, ssconvert_import_encoding);
-		Workbook *wb = wb_view_get_workbook (wbv);
 
-		if (ssconvert_recalc)
-			workbook_recalc_all (wb);
+		if (wbv == NULL || gnumeric_io_error_occurred (io_context)) {
+			gnumeric_io_error_display (io_context);
+			res = 1;
+		} else {
+			Workbook *wb = wb_view_get_workbook (wbv);
 
-		if (ssconvert_range)
-			setup_range (wb, ssconvert_range);
-		else if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK) {
-			if (ssconvert_one_file_per_sheet) {
-				g_warning ("TODO");
-			} else
-				g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-					      "Only the current sheet will be saved.\n"),
-					    go_file_saver_get_id (fs));
+			if (ssconvert_recalc)
+				workbook_recalc_all (wb);
+
+			if (ssconvert_range)
+				setup_range (wb, ssconvert_range);
+			else if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK) {
+				if (ssconvert_one_file_per_sheet) {
+					g_warning ("TODO");
+				} else
+					g_printerr (_("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
+						      "Only the current sheet will be saved.\n"),
+						    go_file_saver_get_id (fs));
+			}
+			res = !wb_view_save_as (wbv, fs, outfile, cc);
+			g_object_unref (wb);
 		}
-		res = !wb_view_save_as (wbv, fs, outfile, cc);
-		g_object_unref (wb);
 		g_object_unref (io_context);
 	}
 

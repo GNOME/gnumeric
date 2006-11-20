@@ -3,6 +3,7 @@
 	* src/ssconvert.c (ssconvert_options): Add new --recalc option.
 	Add internal --export-range option.
 	(convert): Recalc if requested.  Setup range if requested.
+	Fix error handling.
 
 	* src/stf-export.c (stf_export_sheet): Code to handle internal
 	range specification.
