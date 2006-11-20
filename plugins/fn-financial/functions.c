@@ -1540,7 +1540,7 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	udata.nper = value_get_as_int (argv[0]);
 	/* YES ZERO, it's sick but it's XL compatible */
-	udata.pmt  = argv[3] ? value_get_as_float (argv[1]) : 0.0;
+	udata.pmt  = argv[1] ? value_get_as_float (argv[1]) : 0.0;
 	udata.pv   = value_get_as_float (argv[2]);
 	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0.0;
 	udata.type = value_get_paytype (argv[4]);
