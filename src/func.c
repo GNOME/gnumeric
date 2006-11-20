@@ -56,6 +56,13 @@ functions_shutdown (void)
 	global_symbol_table = NULL;
 }
 
+inline void
+gnm_func_load_if_stub (GnmFunc *func)
+{
+	if (func->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub (func);	
+}
+
 static void
 copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 {
@@ -539,13 +546,6 @@ error_function_no_full_info (GnmFuncEvalInfo *ei,
 }
 
 void
-gnm_func_load_if_stub (GnmFunc *func)
-{
-	if (func->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub (func);	
-}
-
-void
 gnm_func_load_stub (GnmFunc *func)
 {
 	GnmFuncDescriptor desc;
@@ -891,8 +891,7 @@ function_def_count_args (GnmFunc const *fn_def,
  * Return value: the type of the argument
  **/
 char
-function_def_get_arg_type (GnmFunc const *fn_def,
-                           int arg_idx)
+function_def_get_arg_type (GnmFunc const *fn_def, int arg_idx)
 {
 	char const *ptr;
 
@@ -1037,11 +1036,11 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
-	gnm_func_load_if_stub ((GnmFunc *)fn_def);
-
 	argc = ei->func_call->argc;
 	argv = ei->func_call->argv;
 	fn_def = ei->func_call->func;
+
+	gnm_func_load_if_stub ((GnmFunc *)fn_def);
 
 	/* Functions that deal with ExprNodes */
 	if (fn_def->fn_type == GNM_FUNC_TYPE_NODES)
