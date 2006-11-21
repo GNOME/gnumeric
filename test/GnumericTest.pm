@@ -4,10 +4,13 @@ use Exporter;
 use File::Basename qw(fileparse);
 
 @GnumericTest::ISA = qw (Exporter);
-@GnumericTest::EXPORT = qw(test_sheet_calc test_importer $samples);
+@GnumericTest::EXPORT = qw(test_sheet_calc test_importer test_valgrind
+			   $ssconvert $samples);
+@GnumericTest::EXPORT_OK = qw(junkfile);
 
-$GnumericTest::samples = "../samples";
-my $ssconvert = "../src/ssconvert";
+use vars qw($samples $ssconvert);
+$samples = "../samples";
+$ssconvert = "../src/ssconvert";
 
 # -----------------------------------------------------------------------------
 
@@ -144,6 +147,7 @@ sub test_importer {
 	if ($sha1 ne $newsha1) {
 	    die "New SHA-1 is $newsha1; expected was $sha1\n";
 	}
+	print STDERR "Pass\n";
     } elsif ($mode eq 'create-db') {
 	if ($sha1 ne $newsha1) {
 	    warn ("New SHA-1 is $newsha1; expected was $sha1\n");
@@ -181,6 +185,27 @@ sub test_importer {
     }
 
     &removejunk ($tmp);
+}
+
+# -----------------------------------------------------------------------------
+
+sub test_valgrind {
+    my ($cmd,$uselibtool) = @_;
+
+    my $suppfile = $0;
+    $suppfile =~ s/\.pl$/.supp/;
+
+    $cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
+    # $cmd = "--show-reachable=yes $cmd";
+    $cmd = "--leak-check=full $cmd";
+    $cmd = "--num-callers=20 $cmd";
+    $cmd = "valgrind $cmd";
+    $cmd = "../libtool --mode=execute $cmd" if $uselibtool;
+
+    local %ENV;
+    $ENV{'G_DEBUG'} = 'gc-friendly';
+    $ENV{'G_SLICE'} = 'always-malloc';
+    system ($cmd);
 }
 
 # -----------------------------------------------------------------------------
