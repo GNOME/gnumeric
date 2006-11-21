@@ -1749,6 +1749,15 @@ gnm_conf_shutdown (void)
 	}
 	g_hash_table_destroy (prefs.toolbars);
 	g_hash_table_destroy (prefs.toolbar_positions);
+
+	go_slist_free_custom ((GSList *)prefs.plugin_file_states,
+			      (GFreeFunc)g_free);
+	prefs.plugin_file_states = NULL;
+
+	go_slist_free_custom ((GSList *)prefs.file_history_files,
+			      (GFreeFunc)g_free);
+	prefs.file_history_files = NULL;
+
 	go_conf_free_node (root);
 	go_conf_shutdown ();
 }
@@ -1766,8 +1775,8 @@ gnm_gconf_set_plugin_file_states (GSList *list)
 
 	/* the const_casts are ok, the const in the header is just to keep
 	 * people for doing stupid things */
-	g_slist_foreach ((GSList *)prefs.plugin_file_states, (GFunc)g_free, NULL);
-	g_slist_free ((GSList *)prefs.plugin_file_states);
+	go_slist_free_custom ((GSList *)prefs.plugin_file_states,
+			      (GFreeFunc)g_free);
 	prefs.plugin_file_states = list;
 
 	go_conf_set_str_list (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_FILE_STATES, list);

@@ -91,7 +91,6 @@ typedef struct _GOConfNode GOConfNode;
 
 void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
-void     gnm_conf_sync (void);
 GOConfNode *gnm_conf_get_root (void);
 
 /* autocorrect */
