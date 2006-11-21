@@ -1,6 +1,3 @@
-
-
-
 # First digit after is the type of test:
 #
 # 1xxx: Evaluation
@@ -10,6 +7,9 @@
 #
 # 5xxx: Importers
 # 59xx:   Minor formats
+#
+# 8xxx: Runs with valgrind and similar tools.
+# 80xx:   Valgrind
 
 TESTS = $(wildcard t[0-9][0-9][0-9][0-9]-*.pl)
 
