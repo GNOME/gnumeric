@@ -324,7 +324,9 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 	GnmCell *cell;
 	GnmParsePos pp;
 	GnmValue const *v;
-	char *str2, *p1, *p2;
+	const char *p1;
+	gboolean infunc;
+	GString *exprstr;
 
 	g_return_val_if_fail (cmd, FALSE);
 	g_return_val_if_fail (str, FALSE);
@@ -333,15 +335,28 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 	if (!cell)
 		return FALSE;
 
-	str2 = g_malloc0 (strlen (str) + 1);
-	for (p1 = (char *) str, p2 = str2; *p1; p1++)
-		if (*p1 != '@')
-			*p2++ = *p1;
-	texpr = gnm_expr_parse_str (str2,
+	exprstr = g_string_sized_new (500);
+	infunc = FALSE;
+	for (p1 = str; *p1; p1++) {
+		char c = *p1;
+		if (infunc) {
+			infunc = g_ascii_isalpha (c);
+			if (!infunc && *p1 != '(')
+				g_string_append_len (exprstr, "()", 2);
+			g_string_append_c (exprstr, c);
+		} else if (*p1 == '@')
+			infunc = TRUE;
+		else
+			g_string_append_c (exprstr, c);
+	}
+	if (infunc)
+		g_string_append_len (exprstr, "()", 2);
+
+	texpr = gnm_expr_parse_str (exprstr->str,
 			parse_pos_init_cell (&pp, cell),
 			GNM_EXPR_PARSE_DEFAULT,
 			state->exprconv, NULL);
-	g_free (str2);
+	g_string_free (exprstr, TRUE);
 	if (!texpr) {
 		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
 			   cmd, str, pos->col, pos->row);
