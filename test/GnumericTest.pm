@@ -136,7 +136,8 @@ sub test_importer {
     my $code = system ("$ssconvert '$file' '$tmp' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
-    my $newsha1 = lc substr (`gzip -dc '$tmp' | sha1sum`, 0, 40);
+    my $htxt = `gzip -dc '$tmp' | grep -v '^ *<gnm:Version .*>' | sha1sum`;
+    my $newsha1 = lc substr ($htxt, 0, 40);
     die "SHA-1 failure\n" unless $newsha1 =~ /^[0-9a-f]{40}$/;
 
     if ($mode eq 'check') {

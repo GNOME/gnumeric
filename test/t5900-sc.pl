@@ -7,5 +7,5 @@ use GnumericTest;
 
 my $mode = ((shift @ARGV) || "check");
 
-&test_importer ("$samples/sc/demo_func", "744772546766f80878879d56a329abfdd95d7c4c", $mode);
-&test_importer ("$samples/sc/demo_math", "b85dcaf33edd349f20f3d2c71329ff994bc99dca", $mode);
+&test_importer ("$samples/sc/demo_func", "8018a950f4b0f4973f40c4bc0a8fda5e0817fb17", $mode);
+&test_importer ("$samples/sc/demo_math", "6a12726fe8d14e2d0140ff3648a43f9a043c284c", $mode);
