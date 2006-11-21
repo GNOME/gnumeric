@@ -2,15 +2,20 @@ package GnumericTest;
 use strict;
 use Exporter;
 use File::Basename qw(fileparse);
+use Config;
 
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_importer test_valgrind
-			   $ssconvert $samples);
+			   test_command
+			   $ssconvert $topsrc $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
-use vars qw($samples $ssconvert);
-$samples = "../samples";
-$ssconvert = "../src/ssconvert";
+use vars qw($topsrc $samples $ssconvert $PERL);
+$topsrc = "..";
+$samples = "$topsrc/samples";
+$ssconvert = "$topsrc/src/ssconvert";
+$PERL = $Config{'perlpath'};
+$PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
 
 # -----------------------------------------------------------------------------
 
@@ -80,6 +85,28 @@ sub update_file {
 
     chmod $stat[2], $fn or
 	die "Cannot chmod $fn: $!\n";
+}
+
+# -----------------------------------------------------------------------------
+
+sub test_command {
+    my ($cmd,$test) = @_;
+
+    my @output = `$cmd 2>&1`;
+    my $err = $?;
+    my $output = join ('', @output);
+    chomp @output;
+    foreach (@output) {
+	print "| $_\n";
+    }
+    die "Failed command: $cmd\n" if $err;
+
+    local $_ = $output;
+    if (&$test ($output)) {
+	print STDERR "Pass\n";
+    } else {
+	die "Fail\n";
+    }
 }
 
 # -----------------------------------------------------------------------------
@@ -195,6 +222,7 @@ sub test_valgrind {
     my $suppfile = $0;
     $suppfile =~ s/\.pl$/.supp/;
 
+    $cmd = "--gen-suppressions=all $cmd";
     $cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
     # $cmd = "--show-reachable=yes $cmd";
     $cmd = "--leak-check=full $cmd";

@@ -10,6 +10,7 @@
 #
 # 8xxx: Runs with valgrind and similar tools.
 # 80xx:   Valgrind
+# 81xx:   Stuff from tools/
 
 TESTS = $(wildcard t[0-9][0-9][0-9][0-9]-*.pl)
 

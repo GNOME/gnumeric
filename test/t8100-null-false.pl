@@ -5,6 +5,5 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-my $tmp = "statfuns.gnumeric";
-&GnumericTest::junkfile ($tmp);
-&test_valgrind ("$ssconvert --recalc $samples/excel/statfuns.xls $tmp", 1);
+&test_command ("cd $topsrc && $PERL tools/check-null-false-returns",
+	       sub { /^$/ });
