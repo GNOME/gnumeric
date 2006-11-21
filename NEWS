@@ -1,3 +1,9 @@
+Gnumeric 1.7.5
+
+Morten:
+	* Fix sc import of functions with no args.
+
+--------------------------------------------------------------------------
 Gnumeric 1.7.4
 
 Jody:
@@ -5,7 +11,7 @@ Jody:
 	* Fix crash.
 	* Make auto filter combo a real widget.
 
-Morten
+Morten:
 	* Fix ssconvert error handling.
 	* Fix RATE.
 
