@@ -1,3 +1,8 @@
+2006-11-21  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_parse_boolean): Add a few "+" to tell the
+	checker that it is ok to mix -1 and TRUE/FALSE.
+
 2006-11-20  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-gconf.c (gnm_conf_shutdown): Plug leaks.

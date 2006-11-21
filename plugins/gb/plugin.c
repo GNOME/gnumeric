@@ -265,8 +265,8 @@ read_ole2_gb (gpointer *jody_broke_the_context, Workbook *wb, MsOle *f)
 {
 	GBLexerStream *proj_stream;
 
-	g_return_val_if_fail (f != NULL, -1);
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (f != NULL, FALSE);
+	g_return_val_if_fail (wb != NULL, FALSE);
 
 	proj_stream = gb_project_stream (jody_broke_the_context, f);
 	if (!proj_stream)

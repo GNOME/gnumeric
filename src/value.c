@@ -424,16 +424,16 @@ value_parse_boolean (char const *str, gboolean translated)
 	if (translated) {
 		/* FIXME: ascii???  */
 		if (0 == g_ascii_strcasecmp (str, format_boolean (TRUE)))
-			return TRUE;
+			return +TRUE;
 		else if (0 == g_ascii_strcasecmp (str, format_boolean (FALSE)))
-			return FALSE;
+			return +FALSE;
 		else
 			return -1;
 	} else {
 		if (0 == g_ascii_strcasecmp (str, "TRUE"))
-			return TRUE;
+			return +TRUE;
 		else if (0 == g_ascii_strcasecmp (str, "FALSE"))
-			return FALSE;
+			return +FALSE;
 		else
 			return -1;
 	}

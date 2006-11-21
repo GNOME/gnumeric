@@ -213,7 +213,7 @@ gsf_outfile_open_pkg_new_child (GsfOutfile *parent,
 	GsfOutput *sink;
 
 	if (!open_pkg->is_dir)
-		return FALSE;
+		return NULL;
 
 	child = (GsfOutfileOpenPkg *)g_object_new_valist (
 		GSF_OUTFILE_OPEN_PKG_TYPE, first_property_name, args);
