@@ -1,5 +1,7 @@
 2006-11-21  Morten Welinder  <terra@gnome.org>
 
+	* t8101-gfree.pl: New checker.
+
 	* t8100-null-false.pl: New checker.
 
 2006-11-20  Morten Welinder  <terra@gnome.org>

@@ -233,7 +233,11 @@ sub test_valgrind {
     local %ENV;
     $ENV{'G_DEBUG'} = 'gc-friendly';
     $ENV{'G_SLICE'} = 'always-malloc';
-    system ($cmd);
+
+    my $code = system ($cmd);
+    &system_failure ('valgrind', $code) if $code;
+    # FIXME: test?
+    print STDERR "Pass\n";
 }
 
 # -----------------------------------------------------------------------------
