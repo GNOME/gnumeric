@@ -1,0 +1,44 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+my @lines;
+my $line = '';
+
+while (<STDIN>) {
+    # "x" out version numbers.
+    if (m|^\s*<gnm:Version\s+Epoch="1"\s+Major="7"\s+Minor="5"\s+Full="1.7.5"/>\s*$|) {
+	s/="[.0-9]+"/="x"/g;
+    }
+
+    if (m|^\s*<gnm:PrintInformation>\s*$| .. m|^\s*</gnm:PrintInformation>\s*$|) {
+	if (m|^\s*<gnm:Margins>\s*$| .. m|^\s*</gnm:Margins>\s*$|) {
+	    # Kill these as they may differ from one setup to the next.
+	    next;	    
+	}
+    }
+
+    # Sort names.
+    if (m|^\s*<gnm:Sheets>\s*$| .. m|^\s*</gnm:Sheets>\s*$|) {
+	if (m|^\s*<gnm:Names>\s*$| .. m|^\s*</gnm:Names>\s*$|) {
+	    if (m|^\s*<gnm:Names>\s*$|) {
+		# Zip.
+	    } elsif (m|^\s*</gnm:Names>\s*$|) {
+		print sort @lines;
+		@lines = ();
+	    } else {
+		s/\n/ /;
+		s/^\s+// if $line ne '';
+		$line .= $_;
+
+		if (m|^\s*</gnm:Name>\s*$|) {
+		    $line =~ s/\s+$/\n/;
+		    push @lines, $line;
+		    $line = '';
+		}
+		next;
+	    }
+	}
+    }
+
+    print;
+}

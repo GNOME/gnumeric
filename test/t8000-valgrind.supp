@@ -3,10 +3,10 @@
    Memcheck:Param
    writev(vector[...])
    fun:do_writev
-   obj:/opt/gnome/lib/libORBit-2.so.0.0.0
+   fun:*
    fun:link_connection_writev
    fun:giop_send_buffer_write
-   obj:/opt/gnome/lib/libORBit-2.so.0.0.0
+   fun:*
    fun:ORBit_small_invoke_stub
    fun:ORBit_small_invoke_stub_n
    fun:ORBit_c_stub_invoke
@@ -35,10 +35,10 @@
    Memcheck:Param
    writev(vector[...])
    fun:do_writev
-   obj:/opt/gnome/lib64/libORBit-2.so.0.0.0
+   fun:*
    fun:link_connection_writev
    fun:giop_send_buffer_write
-   obj:/opt/gnome/lib64/libORBit-2.so.0.0.0
+   fun:*
    fun:ORBit_small_invoke_stub
    # fun:ORBit_small_invoke_stub_n
    # fun:ORBit_c_stub_invoke
