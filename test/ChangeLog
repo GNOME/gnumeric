@@ -1,3 +1,7 @@
+2006-11-22  Morten Welinder  <terra@gnome.org>
+
+	* t8000-valgrind.supp: Add ORBit_gconf_ping_writev_i686_sym.
+
 2006-11-21  Morten Welinder  <terra@gnome.org>
 
 	* t8101-gfree.pl: New checker.
