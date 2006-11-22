@@ -2029,7 +2029,7 @@ gnm_gconf_set_gui_zoom (gnm_float val)
 {
 	prefs.zoom = val;
 	go_conf_set_double (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_WINDOW_Y, val);
+		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ZOOM, val);
 }
 
 void     

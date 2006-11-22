@@ -1,5 +1,8 @@
 Gnumeric 1.7.5
 
+Jon Kåre:
+	* Fix zoom preference. [#378043]
+
 Morten:
 	* Fix sc import of functions with no args.
 	* Add automatic test framework.

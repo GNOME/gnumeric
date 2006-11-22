@@ -1,3 +1,8 @@
+2006-11-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/gnumeric-gconf.c (gnm_gconf_set_gui_zoom): Fix typo that
+	broke the default zoom preference. #378043.
+
 2006-11-21  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (value_parse_boolean): Add a few "+" to tell the
