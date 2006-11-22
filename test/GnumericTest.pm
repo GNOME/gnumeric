@@ -87,20 +87,22 @@ sub update_file {
 	die "Cannot chmod $fn: $!\n";
 }
 
+sub dump_indented {
+    my ($txt) = @_;
+    my @lines = split (/\n/, $txt);
+    print STDERR "| ", join ("\n| ", @lines), "\n";
+}
+
 # -----------------------------------------------------------------------------
 
 sub test_command {
     my ($cmd,$test) = @_;
 
-    my @output = `$cmd 2>&1`;
+    my $output = `$cmd 2>&1`;
     my $err = $?;
-    my $output = join ('', @output);
-    chomp @output;
-    foreach (@output) {
-	print "| $_\n";
-    }
     die "Failed command: $cmd\n" if $err;
 
+    &dump_indented ($output);
     local $_ = $output;
     if (&$test ($output)) {
 	print STDERR "Pass\n";
@@ -216,28 +218,59 @@ sub test_importer {
 
 # -----------------------------------------------------------------------------
 
+my $valgrind_version;
+
 sub test_valgrind {
     my ($cmd,$uselibtool) = @_;
-
-    my $suppfile = $0;
-    $suppfile =~ s/\.pl$/.supp/;
-
-    $cmd = "--gen-suppressions=all $cmd";
-    $cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
-    # $cmd = "--show-reachable=yes $cmd";
-    $cmd = "--leak-check=full $cmd";
-    $cmd = "--num-callers=20 $cmd";
-    $cmd = "valgrind $cmd";
-    $cmd = "../libtool --mode=execute $cmd" if $uselibtool;
 
     local %ENV;
     $ENV{'G_DEBUG'} = 'gc-friendly';
     $ENV{'G_SLICE'} = 'always-malloc';
+    delete $ENV{'VALGRIND_OPTS'};
+
+    if (!defined $valgrind_version) {
+	my $vtxt = `valgrind --version 2>&1`;
+	if ($vtxt =~ /((\d+\.)+\d+)$/) {
+	    $valgrind_version = $1;
+	} else {
+	    die "Cannot determine valgrind version.\n";
+	}
+    }
+
+    my $outfile = 'valgrind.log';
+    unlink $outfile;
+    die "Cannot remove $outfile.\n" if -f $outfile;
+    &junkfile ($outfile);
+
+    my $suppfile = $0;
+    $suppfile =~ s/\.pl$/.supp/;
+
+    # $cmd = "--gen-suppressions=all $cmd";
+    $cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
+    # $cmd = "--show-reachable=yes $cmd";
+    $cmd = "--leak-check=full $cmd";
+    $cmd = "--num-callers=20 $cmd";
+    $cmd = "--error-exitcode=1 $cmd" if $valgrind_version ge "3.2.1";
+    $cmd = "--track-fds=yes $cmd";
+    $cmd = "--log-file-exactly=$outfile $cmd";
+    $cmd = "valgrind $cmd";
+    $cmd = "../libtool --mode=execute $cmd" if $uselibtool;
 
     my $code = system ($cmd);
     &system_failure ('valgrind', $code) if $code;
-    # FIXME: test?
-    print STDERR "Pass\n";
+
+    my $txt = &read_file ($outfile);
+    &removejunk ($outfile);
+    my $errors = ($txt =~ /ERROR SUMMARY: (\d+) errors? from/i)
+	? $1
+	: -1;
+    if ($errors == 0) {
+	print STDERR "Pass\n";
+	return;
+    }
+
+    &dump_indented ($txt);
+    die "Fail\n";
 }
 
 # -----------------------------------------------------------------------------
