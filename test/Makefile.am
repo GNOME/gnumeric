@@ -3,7 +3,7 @@
 # 1xxx: Evaluation
 # 10xx:   Large groups of functions
 # 18xx:   Operators
-# 19xx:   Evaluation modes
+# 19xx:   Evaluation modes, regressions
 #
 # 5xxx: Importers
 # 59xx:   Minor formats
