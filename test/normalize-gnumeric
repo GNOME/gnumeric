@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 # -----------------------------------------------------------------------------
 
-my @lines;
-my $line = '';
+my @items;
+my $item = '';
 
 while (<STDIN>) {
     # "x" out version numbers.
@@ -12,8 +12,7 @@ while (<STDIN>) {
 
     if (m|^\s*<gnm:PrintInformation>\s*$| .. m|^\s*</gnm:PrintInformation>\s*$|) {
 	if (m|^\s*<gnm:Margins>\s*$| .. m|^\s*</gnm:Margins>\s*$|) {
-	    # Kill these as they may differ from one setup to the next.
-	    next;	    
+	    s/="[-.0-9a-zA-Z]+"/="x"/g;
 	}
     }
 
@@ -23,17 +22,14 @@ while (<STDIN>) {
 	    if (m|^\s*<gnm:Names>\s*$|) {
 		# Zip.
 	    } elsif (m|^\s*</gnm:Names>\s*$|) {
-		print sort @lines;
-		@lines = ();
+		print sort @items;
+		@items = ();
 	    } else {
-		s/\n/ /;
-		s/^\s+// if $line ne '';
-		$line .= $_;
+		$item .= $_;
 
 		if (m|^\s*</gnm:Name>\s*$|) {
-		    $line =~ s/\s+$/\n/;
-		    push @lines, $line;
-		    $line = '';
+		    push @items, $item;
+		    $item = '';
 		}
 		next;
 	    }
