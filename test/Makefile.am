@@ -1,4 +1,4 @@
-# First digit after is the type of test:
+# First digit after "t" the type of test:
 #
 # 1xxx: Evaluation
 # 10xx:   Large groups of functions
@@ -16,13 +16,13 @@ TESTS = $(wildcard t[0-9][0-9][0-9][0-9]-*.pl)
 
 testsuite: $(TESTS)
 
-importdb:
+import-db:
 	for t in t5[0-9][0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
 
 $(TESTS):
 	@echo "*** $@ ***" && $(PERL) $@
 
 
-EXTRA_DIST = GnumericTest.pm $(TESTS)
+EXTRA_DIST = GnumericTest.pm normalize-gnumeric $(TESTS)
 .PHONY: testsuite importdb $(TESTS) clean
 .NOTPARALLEL:
