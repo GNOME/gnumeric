@@ -1,6 +1,12 @@
 #!/usr/bin/perl -w
 # -----------------------------------------------------------------------------
 
+# This script tries to normalize gnumeric files, i.e., remove insignificant
+# differences due to versions, environment, or hash ordering.
+#
+# It is a perl script mucking with an xml file.  Think it over.  It is not
+# hard to cheat this, but for purposes of testing code, it is fine.
+
 my @items;
 my $item = '';
 
@@ -10,6 +16,7 @@ while (<STDIN>) {
 	s/="[.0-9]+"/="x"/g;
     }
 
+    # "x" out margins.
     if (m|^\s*<gnm:PrintInformation>\s*$| .. m|^\s*</gnm:PrintInformation>\s*$|) {
 	if (m|^\s*<gnm:Margins>\s*$| .. m|^\s*</gnm:Margins>\s*$|) {
 	    s/="[-.0-9a-zA-Z]+"/="x"/g;
