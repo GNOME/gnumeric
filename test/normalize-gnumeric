@@ -6,7 +6,7 @@ my $item = '';
 
 while (<STDIN>) {
     # "x" out version numbers.
-    if (m|^\s*<gnm:Version\s+Epoch="1"\s+Major="7"\s+Minor="5"\s+Full="1.7.5"/>\s*$|) {
+    if (m|^\s*<gnm:Version\s+Epoch="\d+"\s+Major="\d+"\s+Minor="\d+"\s+Full="[.0-9]+"/>\s*$|) {
 	s/="[.0-9]+"/="x"/g;
     }
 
