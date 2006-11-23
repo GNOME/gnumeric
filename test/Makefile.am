@@ -23,6 +23,6 @@ $(TESTS):
 	@echo "*** $@ ***" && $(PERL) $@
 
 
-EXTRA_DIST = GnumericTest.pm; $(TESTS)
+EXTRA_DIST = GnumericTest.pm $(TESTS)
 .PHONY: testsuite importdb $(TESTS) clean
 .NOTPARALLEL:
