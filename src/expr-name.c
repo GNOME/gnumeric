@@ -173,6 +173,27 @@ gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 }
 
 static void
+cb_list_names (G_GNUC_UNUSED gpointer key,
+	       gpointer value,
+	       gpointer user_data)
+{
+	GSList **pres = user_data;
+	GO_SLIST_PREPEND (*pres, value);
+}
+
+GSList *
+gnm_named_expr_collection_list (GnmNamedExprCollection const *scope)
+{
+	GSList *res = NULL;
+	if (scope && scope->names) {
+		g_hash_table_foreach (scope->names,
+				      cb_list_names,
+				      &res);
+	}
+	return res;
+}
+
+static void
 gnm_named_expr_collection_insert (GnmNamedExprCollection const *scope,
 				  GnmNamedExpr *nexpr)
 {

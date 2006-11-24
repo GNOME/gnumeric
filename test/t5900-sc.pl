@@ -8,5 +8,5 @@ use GnumericTest;
 # See test_importer comments for mode definitions.
 my $mode = ((shift @ARGV) || "check");
 
-&test_importer ("$samples/sc/demo_func", "51068c9f192b82b45ac1619f616794c17029b842", $mode);
-&test_importer ("$samples/sc/demo_math", "d746da48c1d7d1e7540a95650edb53aa6c0ca066", $mode);
+&test_importer ("$samples/sc/demo_func", "82e84c6e21c4aa3e70d9e05eb5d4d08ca1de810f", $mode);
+&test_importer ("$samples/sc/demo_math", "8faad9c99be6a3202cfc5e1ebd77700b2a3264f1", $mode);

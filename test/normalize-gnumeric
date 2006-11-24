@@ -24,7 +24,7 @@ while (<STDIN>) {
     }
 
     # Sort names.
-    if (m|^\s*<gnm:Sheets>\s*$| .. m|^\s*</gnm:Sheets>\s*$|) {
+    if (0 && m|^\s*<gnm:Sheets>\s*$| .. m|^\s*</gnm:Sheets>\s*$|) {
 	if (m|^\s*<gnm:Names>\s*$| .. m|^\s*</gnm:Names>\s*$|) {
 	    if (m|^\s*<gnm:Names>\s*$|) {
 		# Zip.

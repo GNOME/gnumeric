@@ -1,3 +1,12 @@
+2006-11-23  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_styles): Sort style regions so
+	hash order does not matter.
+	(xml_write_named_expressions): Sort names to hash order does not
+	matter.
+
+	* src/expr-name.c (gnm_named_expr_collection_list): New function.
+
 2006-11-22  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-gconf.c (gnm_gconf_set_gui_zoom): Fix typo that

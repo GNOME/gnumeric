@@ -166,7 +166,7 @@ xml_write_sheet_names (GnmOutputXML *state)
 }
 
 static void
-cb_xml_write_name (gpointer key, GnmNamedExpr *nexpr, GnmOutputXML *state)
+xml_write_name (GnmOutputXML *state, GnmNamedExpr *nexpr)
 {
 	char *expr_str;
 
@@ -187,10 +187,18 @@ static void
 xml_write_named_expressions (GnmOutputXML *state, GnmNamedExprCollection *scope)
 {
 	if (scope != NULL) {
+		GSList *names =
+			g_slist_sort (gnm_named_expr_collection_list (scope),
+				      (GCompareFunc)expr_name_cmp_by_name);
+		GSList *p;
+
 		gsf_xml_out_start_element (state->output, GNM "Names");
-		g_hash_table_foreach (scope->names,
-			(GHFunc) cb_xml_write_name, state);
+		for (p = names; p; p = p->next) {
+			GnmNamedExpr *nexpr = p->data;
+			xml_write_name (state, nexpr);
+		}
 		gsf_xml_out_end_element (state->output); /* </gnm:Names> */
+		g_slist_free (names);
 	}
 }
 
@@ -537,16 +545,35 @@ xml_write_style_region (GnmOutputXML *state, GnmStyleRegion const *region)
 	gsf_xml_out_end_element (state->output);
 }
 
+static int
+cb_sheet_style_order (GnmStyleRegion const *a, GnmStyleRegion const *b)
+{
+	GnmRange const *ra = &a->range;
+	GnmRange const *rb = &b->range;
+	int res;
+
+	res = ra->start.col - rb->start.col;
+
+	if (res == 0)
+		res = ra->start.row - rb->start.row;
+
+	return res;
+}
+
 static void
 xml_write_styles (GnmOutputXML *state)
 {
-	GnmStyleList *ptr, *styles = sheet_style_get_list (state->sheet, NULL);
+	GnmStyleList *styles =
+		g_slist_sort (sheet_style_get_list (state->sheet, NULL),
+			      (GCompareFunc)cb_sheet_style_order);
 	if (styles != NULL) {
+		GnmStyleList *ptr;
+
 		gsf_xml_out_start_element (state->output, GNM "Styles");
 		for (ptr = styles; ptr; ptr = ptr->next)
 			xml_write_style_region (state, ptr->data);
-		style_list_free (styles);
 		gsf_xml_out_end_element (state->output);
+		style_list_free (styles);
 	}
 }
 
