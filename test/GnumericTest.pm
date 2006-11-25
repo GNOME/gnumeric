@@ -6,7 +6,7 @@ use Config;
 
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_importer test_valgrind
-			   test_command
+			   test_command message
 			   $ssconvert $topsrc $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
@@ -93,6 +93,18 @@ sub dump_indented {
     return if $txt eq '';
     $txt =~ s/^/| /gm;
     print STDERR $txt;
+}
+
+# -----------------------------------------------------------------------------
+
+sub message {
+    my ($message) = @_;
+    print "-" x 79, "\n";
+    my $me = $0;
+    $me =~ s|^.*/||;
+    foreach (split (/\n/, $message)) {
+	print "$me: $_\n";
+    }
 }
 
 # -----------------------------------------------------------------------------

@@ -5,4 +5,6 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&test_sheet_calc ("$samples/excel/bitwise.xls", "B3:B99", sub { /^(\s*Success)+\s*$/i });
+my $file = "bitwise.xls";
+&message ("Check that $file evaluates correctly.");
+&test_sheet_calc ("$samples/excel/$file", "B3:B99", sub { /^(\s*Success)+\s*$/i });

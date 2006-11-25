@@ -5,4 +5,6 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&test_sheet_calc ("$samples/arrays.xls", "B1", sub { /TRUE/ });
+my $file = "arrays.xls";
+&message ("Check that $file evaluates correctly.");
+&test_sheet_calc ("$samples/$file", "B1", sub { /TRUE/ });

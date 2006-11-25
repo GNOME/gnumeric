@@ -5,4 +5,6 @@ use strict;
 use lib ($0 =~ m|^(.*/)| ? $1 : ".");
 use GnumericTest;
 
-&test_sheet_calc ("$samples/excel/datefuns.xls", "A4", sub { /All ok/i });
+my $file = "datefuns.xls";
+&message ("Check that $file evaluates correctly.");
+&test_sheet_calc ("$samples/excel/$file", "A4", sub { /All ok/i });
