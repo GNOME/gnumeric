@@ -90,6 +90,7 @@ sub update_file {
 # Print a string with each line prefixed by "| ".
 sub dump_indented {
     my ($txt) = @_;
+    return if $txt eq '';
     $txt =~ s/^/| /gm;
     print STDERR $txt;
 }
