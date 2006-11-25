@@ -1,3 +1,7 @@
+2006-11-24  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (convert): Avoid updating the recect-files list.
+
 2006-11-24  Jody Goldberg <jody@gnome.org>
 
 	* src/Makefile.am : add validation-combo.h

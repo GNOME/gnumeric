@@ -221,6 +221,8 @@ convert (char const *inarg, char const *outarg,
 					    outfile);
 				goto out;
 			}
+			g_print ("Using exporter %s\n",
+				 go_file_saver_get_id (fs));
 		}
 	}
 
@@ -267,6 +269,10 @@ convert (char const *inarg, char const *outarg,
 						    go_file_saver_get_id (fs));
 			}
 			res = !wb_view_save_as (wbv, fs, outfile, cc);
+
+			/* This inhibits updating the recent-file list.  */
+			workbook_set_saveinfo (wb, FILE_FL_MANUAL, NULL);
+
 			g_object_unref (wb);
 		}
 		g_object_unref (io_context);

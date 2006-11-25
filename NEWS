@@ -13,6 +13,7 @@ Jody:
 Morten:
 	* Fix sc import of functions with no args.
 	* Add automatic test framework.
+	* Prevent ssconvert from updating the recent-files list.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.4
