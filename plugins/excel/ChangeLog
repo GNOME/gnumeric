@@ -1,3 +1,18 @@
+2006-11-24  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-write.c (xlsx_write_col) : set 'bestFit' if the column has a
+	  size different from the default and it has _not_ been set by the
+	  user.
+	* ms-excel-write.c (excel_write_COLINFO) : ditto.  Set the
+	  undocumented flags customWidth and bestFit based on the OfficeOpen
+	  docs.
+	* ms-excel-read.c (excel_read_COLINFO) : the undocumented bestfit and
+	  customwidth flags are not a perfect match with our hard_size.  Use
+	  customwith && !bestfit == hard_size.  That should match even the
+	  mis-exported xls from older gnumeric's and OOo.
+	* xlsx-read.c (xlsx_CT_Col) : ditto, but there are no worries about
+	  older gnumeric's or OOo mis-generating.
+
 2006-11-20  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.4

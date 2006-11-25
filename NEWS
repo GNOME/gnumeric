@@ -3,6 +3,9 @@ Gnumeric 1.7.5
 Jon Kåre:
 	* Fix zoom preference. [#378043]
 
+Jody:
+	* Improve xls import/export of bestfit column widths.
+
 Morten:
 	* Fix sc import of functions with no args.
 	* Add automatic test framework.

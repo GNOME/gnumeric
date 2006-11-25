@@ -1233,7 +1233,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int first = -1, last = -1, xf_index;
 	double width = -1.;
-	gboolean cust_width = FALSE, collapsed = FALSE;
+	gboolean cust_width = FALSE, best_fit = FALSE, collapsed = FALSE;
 	int i, hidden = -1;
 	int outline = -1;
 	GnmStyle *style = NULL;
@@ -1246,6 +1246,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 			 * the value stored for a column with 130 pixel width*/
 			width *= (130. / 18.5703125) * (72./96.);
 		else if (attr_bool (xin, attrs, XL_NS_SS, "customWidth", &cust_width)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "bestFit", &best_fit)) ;
 		else if (attr_int (xin, attrs, XL_NS_SS, "style", &xf_index))
 			style = xlsx_get_xf (xin, xf_index);
 		else if (attr_int (xin, attrs, XL_NS_SS, "outlineLevel", &outline)) ;
@@ -1270,7 +1271,8 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 		last = SHEET_MAX_COLS - 1;
 	for (i = first; i <= last; i++) {
 		if (width > 4)
-			sheet_col_set_size_pts (state->sheet, i, width, cust_width);
+			sheet_col_set_size_pts (state->sheet, i, width,
+				cust_width && !best_fit);
 		if (outline > 0)
 			colrow_set_outline (sheet_col_fetch (state->sheet, i),
 				outline, collapsed);
@@ -1313,7 +1315,7 @@ xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_sheet_page_setup (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	/* XLSXReadState *state = (XLSXReadState *)xin->user_state; */
 }
 
 static void

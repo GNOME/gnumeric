@@ -3386,12 +3386,19 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet, ColRowInfo const *ci,
 	guint8 *data;
 	guint16 charwidths, options = 0;
 	float   width, scale;
+	float const def_width = esheet->gnum_sheet->cols.default_style.size_pts;
 	XL_font_width const *spec;
 
 	if (NULL != ci) {
 		width = ci->size_pts;		/* pts to avoid problems when zooming */
 		if (!ci->visible)
 			options = 1;
+		if (ci->hard_size)
+			options |= 2;
+		/* not user assigned but width != default is 'bestFit' */
+		else if (fabs (def_width - width) > .1)
+			options |= 6;
+
 		options |= (MIN (ci->outline_level, 0x7) << 8);
 		if (ci->is_collapsed)
 			options |= 0x1000;

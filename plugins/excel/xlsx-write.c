@@ -761,9 +761,11 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 }
 
 static gboolean
-xlsx_write_col (GsfXMLOut *xml, ColRowInfo const *ci, int first, int last,
-		gboolean has_child)
+xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
+		ColRowInfo const *ci, int first, int last, gboolean has_child)
 {
+	float const def_width = state->sheet->cols.default_style.size_pts;
+
 	if (NULL == ci)
 		return has_child;
 
@@ -776,9 +778,13 @@ xlsx_write_col (GsfXMLOut *xml, ColRowInfo const *ci, int first, int last,
 
 	gsf_xml_out_add_float (xml, "width",
 		ci->size_pts / ((130. / 18.5703125) * (72./96.)), 4);
-	if (ci->hard_size) {
+	if (ci->hard_size)
+		gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
+	else if (fabs (def_width - ci->size_pts) > .1) {
+		gsf_xml_out_add_cstr_unchecked (xml, "bestFit", "1");
 		gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
 	}
+
 	if (ci->is_collapsed)
 		gsf_xml_out_add_cstr_unchecked (xml, "collapsed", "1");
 	if (!ci->visible)
@@ -801,12 +807,12 @@ xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 	for (i = extent->start.col+1; i < extent->end.col; i++) {
 		ci = sheet_col_get (state->sheet, i);
 		if (!colrow_equal (info, ci)) {
-			has_child |= xlsx_write_col (xml, info, first_col, i-1, has_child);
+			has_child |= xlsx_write_col (state, xml, info, first_col, i-1, has_child);
 			info	  = ci;
 			first_col = i;
 		}
 	}
-	has_child |= xlsx_write_col (xml, info, first_col, i-1, has_child);
+	has_child |= xlsx_write_col (state, xml, info, first_col, i-1, has_child);
 
 	if (has_child)
 		gsf_xml_out_end_element (xml); /* </cols> */

@@ -3636,8 +3636,10 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	int            charwidths = GSF_LE_GET_GUINT16 (q->data + 4);
 	guint16 const  xf	  = GSF_LE_GET_GUINT16 (q->data + 6);
 	guint16 const  options	  = GSF_LE_GET_GUINT16 (q->data + 8);
-	gboolean       hidden	  = (options & 0x0001) ? TRUE : FALSE;
-	gboolean const collapsed  = (options & 0x1000) ? TRUE : FALSE;
+	gboolean       hidden	  = (options & 0x0001) != 0;
+	gboolean const customWidth= (options & 0x0002) != 0;	/* undocumented */
+	gboolean const bestFit    = (options & 0x0004) != 0;	/* undocumented */
+	gboolean const collapsed  = (options & 0x1000) != 0;
 	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);
 	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
@@ -3678,7 +3680,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS - 1;
 	for (i = firstcol; i <= lastcol; i++) {
-		sheet_col_set_size_pts (esheet->sheet, i, width, TRUE);
+		sheet_col_set_size_pts (esheet->sheet, i, width, customWidth && !bestFit);
 		if (outline_level > 0 || collapsed)
 			colrow_set_outline (sheet_col_fetch (esheet->sheet, i),
 				outline_level, collapsed);
