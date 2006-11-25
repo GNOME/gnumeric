@@ -1139,8 +1139,7 @@ wbcg_set_selection_halign (WorkbookControlGUI *wbcg, GnmHAlign halign)
 	/* This is a toggle button.  If we are already enabled
 	 * then revert to general */
 	wb_view = wb_control_view (wbc);
-	style = wb_view->current_format;
-	if (gnm_style_get_align_h (style) == halign)
+	if (gnm_style_get_align_h (wb_view->current_style) == halign)
 		halign = HALIGN_GENERAL;
 
 	style = gnm_style_new ();
@@ -1170,8 +1169,7 @@ wbcg_set_selection_valign (WorkbookControlGUI *wbcg, GnmVAlign valign)
 	/* This is a toggle button.  If we are already enabled
 	 * then revert to general */
 	wb_view = wb_control_view (wbc);
-	style = wb_view->current_format;
-	if (gnm_style_get_align_v (style) == valign) {
+	if (gnm_style_get_align_v (wb_view->current_style) == valign) {
 		if (valign == VALIGN_BOTTOM)
 			return;
 		valign = VALIGN_BOTTOM;
@@ -1379,9 +1377,9 @@ modify_format (WorkbookControlGUI *wbcg,
 
 	wbv = wb_control_view (wbc);
 	g_return_if_fail (wbv != NULL);
-	g_return_if_fail (wbv->current_format != NULL);
+	g_return_if_fail (wbv->current_style != NULL);
 
-	new_fmt = (*format_modify_fn) (gnm_style_get_format (wbv->current_format));
+	new_fmt = (*format_modify_fn) (gnm_style_get_format (wbv->current_style));
 	if (new_fmt != NULL) {
 		GnmStyle *style = gnm_style_new ();
 		gnm_style_set_format (style, new_fmt);

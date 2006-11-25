@@ -1,3 +1,50 @@
+2006-11-24  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : add validation-combo.h
+
+2006-11-24  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (gnm_style_get_validation) : constify the result.  We
+	  should not modify it while it's part of a style.
+
+	* src/sheet-control-gui.c (cb_collect_objects_to_commit) : handle
+	  no-view case.
+	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip) : ditto.
+
+	* src/sheet-object.c (sheet_object_clear_sheet) : Handle 
+	  so::sheet == NULL (eg when data validation combo is cleared from
+	  wbv::finalize after content_destroy clears the sheet list)
+	  Drop the return flag, nothing was using.
+
+	* src/validation.c (gnm_validation_combo_new) : new.
+	(gnm_validation_combo_class_init) : new.
+	(gnm_validation_combo_finalize) : new.
+	(gnm_validation_combo_init) : new.
+	(validation_ref) : allow the reffing of const objects.
+	(validation_unref) : ditto, this should really be split into a const
+	  and non-const version.  We can do that for all unref routines.
+
+	* src/value.h : create new struct GnmValueIter.
+	* src/value.c (gnm_value_get_type) : Make GnmValue a glib boxed type.
+	* src/value-sheet.c (value_area_foreach) : rework to use GnmValueIter.
+	  All callers changed.
+
+	* src/workbook-view.h : s/::current_format/::current_style/
+	  and make it const.  We have a ref to it, so it's not going away
+	  _but_ we should never change it.
+	  Add validation_combo.  For the sheet object corresponding to an
+	  in cell data validation combo.
+
+	* src/workbook-view.c (wb_view_style_feedback) : renamed from
+	  wb_view_format_feedback all callers changed.  Add a creation
+	  and removal of data validation in cell combo.
+	(wb_view_finalize) : clear the validation combo if it exists.
+	(workbook_view_new) : init the combo.
+
+2006-11-24  Jody Goldberg <jody@gnome.org>
+
+	* tools/xmlunzip : Add the 'macro enabled' formats from office12
+
 2006-11-23  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_styles): Sort style regions so

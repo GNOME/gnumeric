@@ -1105,7 +1105,7 @@ excel_write_conditions (BiffPut *bp, ExcelWriteSheet *esheet)
 /****************************************************************************/
 
 typedef struct {
-	GnmValidation  *v;
+	GnmValidation const *v;
 	GnmInputMsg *msg;
 	GSList	    *ranges;
 } ValInputPair;

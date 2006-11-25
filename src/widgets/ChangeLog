@@ -1,3 +1,11 @@
+2006-11-24  Jody Goldberg <jody@gnome.org>
+
+	* gnm-validation-combo-foo-view.[ch] : new. in cell combo boxes for
+	  data validation.
+	* gnm-filter-combo.[ch] : renamed to
+	* gnm-filter-combo-foo-view.h : this.
+	* Makefile.am : Add the new files.
+
 2006-11-20  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.4

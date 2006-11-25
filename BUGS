@@ -670,6 +670,12 @@ Short Term Goals
     21.27) combo contains start to end of continuous region
            not just the end of the selected region
     21.28) filter changes should dirty things
+    21.29) Enter in combo selects the current val (see 22.3)
+
+22) Validate from List
+    22.1) Implement						(DONE)
+    22.2) Pre-select current value in combo			(DONE)
+    22.3) Enter in combo selects the current val (see 21.29)
 
 29) gconf.
     29.1) Check for errors					(DONE)

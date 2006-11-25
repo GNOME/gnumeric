@@ -16,8 +16,11 @@ case "$1" in
 
 # Office12
     *.xlsx) suffix=.xlsx ;;
+    *.xlsm) suffix=.xlsm ;;
     *.docx) suffix=.docx ;;
+    *.docm) suffix=.docm ;;
     *.pptx) suffix=.pptx ;;
+    *.pptm) suffix=.pptm ;;
 esac
 
 dir=`basename "$1" $suffix`

@@ -1,3 +1,8 @@
+2006-11-24  Jody Goldberg <jody@gnome.org>
+
+	* cell-format.glade : make 'in cell dropdown' visible now that we
+	  support the feature.
+
 2006-11-20  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.4

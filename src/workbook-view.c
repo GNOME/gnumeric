@@ -40,11 +40,14 @@
 #include "ranges.h"
 #include "selection.h"
 #include "mstyle.h"
+#include "validation.h"
+#include "validation-combo.h"
 #include "position.h"
 #include "cell.h"
 #include "gutils.h"
 #include "command-context.h"
 #include "auto-format.h"
+#include "sheet-object.h"
 
 #include <goffice/app/file.h>
 #include <goffice/app/go-doc.h>
@@ -154,7 +157,7 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 
 		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
-		wb_view_format_feedback (wbv);
+		wb_view_style_feedback (wbv);
 		wb_view_menus_update (wbv);
 		wb_view_auto_expr_recalc (wbv);
 	}
@@ -223,11 +226,12 @@ wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 }
 
 void
-wb_view_format_feedback (WorkbookView *wbv)
+wb_view_style_feedback (WorkbookView *wbv)
 {
 	SheetView *sv;
-	GnmStyle *style;
-	GOFormat *sf_style, *sf_cell;
+	GnmStyle const *style;
+	GnmValidation const *val;
+	GOFormat *fmt_style, *fmt_cell;
 	GnmCell *cell;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
@@ -236,28 +240,51 @@ wb_view_format_feedback (WorkbookView *wbv)
 	if (sv == NULL)
 		return;
 
-	style = (GnmStyle *)sheet_style_get (sv->sheet,
+	style = sheet_style_get (sv->sheet,
 		sv->edit_pos.col, sv->edit_pos.row);
-	sf_style = gnm_style_get_format (style);
-	if (go_format_is_general (sf_style) &&
+	fmt_style = gnm_style_get_format (style);
+	if (go_format_is_general (fmt_style) &&
 	    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
 	    cell->value && VALUE_FMT (cell->value))
-		sf_cell = VALUE_FMT (cell->value);
+		fmt_cell = VALUE_FMT (cell->value);
 	else
-		sf_cell = sf_style;
+		fmt_cell = fmt_style;
 
-	if (go_format_eq (sf_cell, sf_style)) {
-		if (style == wbv->current_format)
+	if (go_format_eq (fmt_cell, fmt_style)) {
+		if (style == wbv->current_style)
 			return;
 		gnm_style_ref (style);
 	} else {
-		style = gnm_style_dup (style);
-		gnm_style_set_format (style, sf_cell);
+		GnmStyle *tmp = gnm_style_dup (style);
+		gnm_style_set_format (tmp, fmt_cell);
+		style = tmp;
 	}
 
-	if (wbv->current_format != NULL)
-		gnm_style_unref (wbv->current_format);
-	wbv->current_format = style;
+	if (wbv->current_style != NULL)
+		gnm_style_unref (wbv->current_style);
+	wbv->current_style = style;
+
+	if (wbv->validation_combo != NULL) {
+		sheet_object_clear_sheet (wbv->validation_combo);
+		g_object_unref (wbv->validation_combo);
+		wbv->validation_combo = NULL;
+	}
+
+	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
+	    NULL != (val = gnm_style_get_validation (style)) &&
+	    val->type == VALIDATION_TYPE_IN_LIST &&
+	    val->use_dropdown) {
+		static float const a_offsets [4] = { 0., 0., 1., 1. };
+		SheetObjectAnchor  anchor;
+		GnmRange r;
+		
+		range_init_cellpos_size (&r, &sv->edit_pos, 1, 1);
+		wbv->validation_combo = gnm_validation_combo_new (val, sv);
+		sheet_object_anchor_init (&anchor, &r, a_offsets, NULL,
+			GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_set_anchor (wbv->validation_combo, &anchor);
+		sheet_object_set_sheet (wbv->validation_combo, sv_sheet (sv));
+	}
 
 	WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
 		wb_control_style_feedback (control, NULL););
@@ -666,9 +693,14 @@ wb_view_finalize (GObject *object)
 	g_free (wbv->auto_expr_text);
 	wbv->auto_expr_text = NULL;
 
-	if (wbv->current_format != NULL) {
-		gnm_style_unref (wbv->current_format);
-		wbv->current_format = NULL;
+	if (wbv->current_style != NULL) {
+		gnm_style_unref (wbv->current_style);
+		wbv->current_style = NULL;
+	}
+	if (wbv->validation_combo != NULL) {
+		sheet_object_clear_sheet (wbv->validation_combo);
+		g_object_unref (wbv->validation_combo);
+		wbv->validation_combo = NULL;
 	}
 
 	parent_class->finalize (object);
@@ -746,8 +778,10 @@ workbook_view_new (Workbook *wb)
 	wbv->do_auto_completion = gnm_app_use_auto_complete ();
 	wbv->is_protected = FALSE;
 
-	wbv->current_format = NULL;
-	wbv->current_sheet = NULL;
+	wbv->current_style      = NULL;
+	wbv->validation_combo   = NULL;
+
+	wbv->current_sheet      = NULL;
 	wbv->current_sheet_view = NULL;
 
 	/* Set the default operation to be performed over selections */

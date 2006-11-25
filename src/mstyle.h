@@ -141,7 +141,8 @@ void		 gnm_style_set_contents_hidden (GnmStyle *style, gboolean f);
 gboolean	 gnm_style_get_contents_hidden (GnmStyle const *style);
 
 void		 gnm_style_set_validation	(GnmStyle *style, GnmValidation *v);
-GnmValidation	*gnm_style_get_validation	(GnmStyle const *style);
+GnmValidation const *
+		 gnm_style_get_validation	(GnmStyle const *style);
 
 void		 gnm_style_set_hlink		(GnmStyle *style, GnmHLink *link);
 GnmHLink	*gnm_style_get_hlink		(GnmStyle const *style);

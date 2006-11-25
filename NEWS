@@ -5,6 +5,10 @@ Jon Kåre:
 
 Jody:
 	* Improve xls import/export of bestfit column widths. [#378560]
+	* Implement Validate from List cell combo. [#375620]
+	* Fix xls import of checkboxes with empty labels. [#375620]
+	* Put the style feedback onto an idle handle to improve cursor
+	  responsiveness.
 
 Morten:
 	* Fix sc import of functions with no args.

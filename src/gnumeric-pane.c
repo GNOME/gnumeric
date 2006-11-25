@@ -1260,7 +1260,8 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
 			sov = sheet_object_new_view (so, (SheetObjectViewContainer *)pane);
 
 		coords [0] = l; coords [2] = r; coords [1] = t; coords [3] = b;
-		sheet_object_view_set_bounds (sov, coords, TRUE);
+		if (NULL != sov)
+			sheet_object_view_set_bounds (sov, coords, TRUE);
 		normalize_high_low (r, l);
 		normalize_high_low (b, t);
 	}

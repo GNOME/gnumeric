@@ -252,7 +252,7 @@ void     sheet_redraw_region    (Sheet const *sheet,
 
 void	 sheet_flag_status_update_cell	(GnmCell const *c);
 void	 sheet_flag_status_update_range	(Sheet const *s, GnmRange const *r);
-void     sheet_flag_format_update_range	(Sheet const *s, GnmRange const *r);
+void     sheet_flag_style_update_range	(Sheet const *s, GnmRange const *r);
 void	 sheet_flag_recompute_spans	(Sheet const *s);
 void	 sheet_update_only_grid		(Sheet const *s);
 void     sheet_update                   (Sheet const *s);

@@ -111,8 +111,8 @@ guint32	       ms_obj_attr_get_uint    (MSObjAttrBag *ab, MSObjAttrID id,
 				       guint32 default_value);
 gint32	       ms_obj_attr_get_int     (MSObjAttrBag *ab, MSObjAttrID id,
 				       gint32 default_value);
-gpointer       ms_obj_attr_get_ptr     (MSObjAttrBag *ab, MSObjAttrID id,
-				       gpointer default_value, gboolean steal);
+gboolean       ms_obj_attr_get_ptr     (MSObjAttrBag *ab, MSObjAttrID id,
+				       gpointer *res, gboolean steal);
 GArray	      *ms_obj_attr_get_array  (MSObjAttrBag *ab, MSObjAttrID id,
 				       GArray *default_value, gboolean steal);
 GnmExprTop const *ms_obj_attr_get_expr (MSObjAttrBag *ab, MSObjAttrID id,

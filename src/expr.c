@@ -846,6 +846,7 @@ typedef GnmValue *(*BinOpImplicitIteratorFunc) (GnmEvalPos const *ep,
 						GnmValue const *b,
 						gpointer user_data);
 typedef struct {
+	GnmEvalPos const *ep;
 	GnmValue *res;
 	GnmValue const *a, *b;
 	BinOpImplicitIteratorFunc	func;
@@ -861,21 +862,27 @@ typedef struct {
 } BinOpImplicitIteratorState;
 
 static GnmValue *
-cb_implicit_iter_a_and_b (GnmValue const *v, GnmEvalPos const *ep,
-			 int x, int y, BinOpImplicitIteratorState const *state)
+cb_implicit_iter_a_and_b (GnmValueIter const *v_iter,
+			  BinOpImplicitIteratorState const *state)
 {
-	state->res->v_array.vals [x][y] = (*state->func) (ep,
-		value_area_get_x_y (state->a, state->x.a * x, state->y.a * y, ep),
-		value_area_get_x_y (state->b, state->x.b * x, state->y.b * y, ep),
-		state->user_data);
+	state->res->v_array.vals [v_iter->x][v_iter->y] =
+		(*state->func) (v_iter->ep,
+			value_area_get_x_y (state->a,
+				state->x.a * v_iter->x,
+				state->y.a * v_iter->y, v_iter->ep),
+			value_area_get_x_y (state->b,
+				state->x.b * v_iter->x,
+				state->y.b * v_iter->y, v_iter->ep),
+			state->user_data);
 	return NULL;
 }
 static GnmValue *
-cb_implicit_iter_a_to_scalar_b (GnmValue const *v, GnmEvalPos const *ep,
-				int x, int y, BinOpImplicitIteratorState const *state)
+cb_implicit_iter_a_to_scalar_b (GnmValueIter const *v_iter,
+				BinOpImplicitIteratorState const *state)
 {
-	state->res->v_array.vals [x][y] = (*state->func) (ep,
-		v, state->b, state->user_data);
+	state->res->v_array.vals [v_iter->x][v_iter->y] =
+		(*state->func) (v_iter->ep,
+			v_iter->v, state->b, state->user_data);
 	return NULL;
 }
 
@@ -890,6 +897,7 @@ bin_array_iter_a (GnmEvalPos const *ep,
 	BinOpImplicitIteratorState iter_info;
 	
 	/* a must be a cellrange or array, it can not be NULL */
+	iter_info.ep   = ep;
 	iter_info.func = func;
 	iter_info.user_data = (gpointer) expr;
 	iter_info.a = a;
@@ -922,13 +930,13 @@ bin_array_iter_a (GnmEvalPos const *ep,
 
 		iter_info.res = value_new_array_empty (w, h);
 		value_area_foreach (iter_info.res, ep, CELL_ITER_ALL,
-			(ValueAreaFunc) cb_implicit_iter_a_and_b, &iter_info);
+			(GnmValueIterFunc) cb_implicit_iter_a_and_b, &iter_info);
 	} else {
 		iter_info.res = value_new_array_empty (
 			value_area_get_width  (a, ep),
 			value_area_get_height (a, ep));
 		value_area_foreach (a, ep, CELL_ITER_ALL,
-			(ValueAreaFunc) cb_implicit_iter_a_to_scalar_b, &iter_info);
+			(GnmValueIterFunc) cb_implicit_iter_a_to_scalar_b, &iter_info);
 	}
 
 	value_release (a);
@@ -938,11 +946,12 @@ bin_array_iter_a (GnmEvalPos const *ep,
 }
 
 static GnmValue *
-cb_implicit_iter_b_to_scalar_a (GnmValue const *v, GnmEvalPos const *ep,
-				int x, int y, BinOpImplicitIteratorState const *state)
+cb_implicit_iter_b_to_scalar_a (GnmValueIter const *v_iter,
+				BinOpImplicitIteratorState const *state)
 {
-	state->res->v_array.vals [x][y] = (*state->func) (ep,
-		state->a, v, state->user_data);
+	state->res->v_array.vals [v_iter->x][v_iter->y] =
+		(*state->func) (v_iter->ep,
+			state->a, v_iter->v, state->user_data);
 	return NULL;
 }
 static GnmValue *
@@ -963,7 +972,7 @@ bin_array_iter_b (GnmEvalPos const *ep,
 		value_area_get_width  (b, ep),
 		value_area_get_height (b, ep));
 	value_area_foreach (b, ep, CELL_ITER_ALL,
-		(ValueAreaFunc) cb_implicit_iter_b_to_scalar_a, &iter_info);
+		(GnmValueIterFunc) cb_implicit_iter_b_to_scalar_a, &iter_info);
 	if (a != NULL)
 		value_release (a);
 	value_release (b);
@@ -983,9 +992,9 @@ negate_value (GnmValue const *v)
 }
 
 static GnmValue *
-cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
-		   int x, int y, GnmValue *res)
+cb_iter_unary_neg (GnmValueIter const *v_iter, GnmValue *res)
 {
+	GnmValue const *v = v_iter->v;
 	GnmValue *tmp = NULL;
 
 	if (VALUE_IS_EMPTY (v))
@@ -993,9 +1002,9 @@ cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
 	else if (VALUE_IS_ERROR (v))
 		tmp = value_dup (v);
 	else if (VALUE_IS_STRING (v)) {
-		GnmValue *conv = format_match_number
-			(value_peek_string (v), NULL,
-			 workbook_date_conv (ep->sheet->workbook));
+		GnmValue *conv = format_match_number (
+			value_peek_string (v), NULL,
+			workbook_date_conv (v_iter->ep->sheet->workbook));
 		if (conv != NULL) {
 			tmp = negate_value (conv);
 			value_release (conv);
@@ -1005,17 +1014,16 @@ cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
 		tmp = negate_value (v);
 	}
 
-	if (!tmp)
-		tmp = value_new_error_VALUE (ep);
-
-	res->v_array.vals[x][y] = tmp;
+	if (NULL == tmp)
+		tmp = value_new_error_VALUE (v_iter->ep);
+	res->v_array.vals[v_iter->x][v_iter->y] = tmp;
 	return NULL;
 }
 
 static GnmValue *
-cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
-		    int x, int y, GnmValue *res)
+cb_iter_percentage (GnmValueIter const *v_iter, GnmValue *res)
 {
+	GnmValue const *v = v_iter->v;
 	GnmValue *tmp;
 
 	if (VALUE_IS_EMPTY (v))
@@ -1025,8 +1033,9 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 	else {
 		GnmValue *conv = NULL;
 		if (VALUE_IS_STRING (v)) {
-			conv = format_match_number (value_peek_string (v), NULL,
-						    workbook_date_conv (ep->sheet->workbook));
+			conv = format_match_number (
+				value_peek_string (v), NULL,
+				workbook_date_conv (v_iter->ep->sheet->workbook));
 			if (conv != NULL)
 				v = conv;
 		}
@@ -1035,13 +1044,13 @@ cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 			tmp = value_new_float (value_get_as_float (v) / 100);
 			value_set_fmt (tmp, go_format_default_percentage ());
 		} else
-			tmp = value_new_error_VALUE (ep);
+			tmp = value_new_error_VALUE (v_iter->ep);
 
 		if (conv != NULL)
 			value_release (conv);
 	}
 
-	res->v_array.vals[x][y] = tmp;
+	res->v_array.vals[v_iter->x][v_iter->y] = tmp;
 	return NULL;
 }
 
@@ -1241,7 +1250,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				value_area_get_width  (a, pos),
 				value_area_get_height (a, pos));
 			value_area_foreach (a, pos, CELL_ITER_ALL,
-				(ValueAreaFunc) ((GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_NEG) 
+				(GnmValueIterFunc) ((GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_NEG) 
 					? cb_iter_unary_neg : cb_iter_percentage),
 				res);
 			value_release (a);

@@ -367,24 +367,26 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 
 /**
  * sheet_object_clear_sheet :
- * @so :
+ * @so : #SheetObject
  *
  * Removes @so from it's container, unrealizes all views, disconects the
  * associated data and unrefs the object
- *
- * Returns TRUE if there was a problem
  **/
-gboolean
+void
 sheet_object_clear_sheet (SheetObject *so)
 {
 	GSList *ptr;
 	gpointer view_handler;
 
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
-	g_return_val_if_fail (IS_SHEET (so->sheet), TRUE);
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+
+	if (so->sheet == NULL) /* already removed */
+		return;
+
+	g_return_if_fail (IS_SHEET (so->sheet));
 
 	ptr = g_slist_find (so->sheet->sheet_objects, so);
-	g_return_val_if_fail (ptr != NULL, TRUE);
+	g_return_if_fail (ptr != NULL);
 
 	/* clear any pending attempts to create views */
 	view_handler = g_object_get_data (G_OBJECT (so), "create_view_handler");
@@ -400,7 +402,7 @@ sheet_object_clear_sheet (SheetObject *so)
 
 	if (SO_CLASS (so)->remove_from_sheet &&
 	    SO_CLASS (so)->remove_from_sheet (so))
-		return TRUE;
+		return;
 
 	so->sheet->sheet_objects = g_slist_remove_link (so->sheet->sheet_objects, ptr);
 	g_slist_free (ptr);
@@ -411,8 +413,6 @@ sheet_object_clear_sheet (SheetObject *so)
 
 	so->sheet = NULL;
 	g_object_unref (G_OBJECT (so));
-
-	return FALSE;
 }
 
 void
@@ -449,6 +449,9 @@ sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		return NULL;
 
 	view = SO_CLASS (so)->new_view (so, container);
+
+	if (NULL == view)
+		return NULL;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_VIEW (view), NULL);
 

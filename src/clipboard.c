@@ -476,7 +476,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 			sheet_region_queue_recalc (pt->sheet, r);
 			sheet_flag_status_update_range (pt->sheet, r);
 		} else
-			sheet_flag_format_update_range (pt->sheet, r);
+			sheet_flag_style_update_range (pt->sheet, r);
 
 		sheet_range_calc_spans (pt->sheet, r,
 					(pt->paste_flags & PASTE_FORMATS) ? GNM_SPANCALC_RE_RENDER : GNM_SPANCALC_RENDER);

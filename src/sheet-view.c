@@ -240,7 +240,7 @@ sheet_view_init (GObject *object)
 
 	sv->edit_pos_changed.location = TRUE;
 	sv->edit_pos_changed.content  = TRUE;
-	sv->edit_pos_changed.format   = TRUE;
+	sv->edit_pos_changed.style    = TRUE;
 	sv->selection_content_changed = TRUE;
 	sv->reposition_selection = TRUE;
 	sv->auto_expr_timer = 0;
@@ -479,7 +479,7 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 
 		sv->edit_pos_changed.location =
 		sv->edit_pos_changed.content =
-		sv->edit_pos_changed.format = TRUE;
+		sv->edit_pos_changed.style  = TRUE;
 
 		/* Redraw before change */
 		if (merged == NULL) {
@@ -531,7 +531,7 @@ sv_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
 	 */
 	if (pos->col == sv->edit_pos.col && pos->row == sv->edit_pos.row)
 		sv->edit_pos_changed.content =
-		sv->edit_pos_changed.format = TRUE;
+		sv->edit_pos_changed.style  = TRUE;
 }
 
 /**
@@ -556,7 +556,7 @@ sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 		sv->selection_content_changed = TRUE;
 		sv->edit_pos_changed.location =
 		sv->edit_pos_changed.content =
-		sv->edit_pos_changed.format = TRUE;
+		sv->edit_pos_changed.style  = TRUE;
 		return;
 	}
 
@@ -570,23 +570,23 @@ sv_flag_status_update_range (SheetView *sv, GnmRange const *range)
 	 * and the format toolbar
 	 */
 	if (range_contains (range, sv->edit_pos.col, sv->edit_pos.row))
-		sv->edit_pos_changed.content = sv->edit_pos_changed.format = TRUE;
+		sv->edit_pos_changed.content = sv->edit_pos_changed.style  = TRUE;
 }
 
 /**
- * sv_flag_format_update_range :
+ * sv_flag_style_update_range :
  * @sheet : The sheet being changed
  * @range : the range that is changing.
  *
- * Flag format changes that will require updating the format indicators.
+ * Flag style  changes that will require updating the style  indicators.
  */
 void
-sv_flag_format_update_range (SheetView *sv, GnmRange const *range)
+sv_flag_style_update_range (SheetView *sv, GnmRange const *range)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (range != NULL);
 	if (range_contains (range, sv->edit_pos.col, sv->edit_pos.row))
-		sv->edit_pos_changed.format = TRUE;
+		sv->edit_pos_changed.style  = TRUE;
 }
 
 /**
@@ -615,10 +615,10 @@ sv_update (SheetView *sv)
 			wb_view_edit_line_set (sv->sv_wbv, NULL);
 	}
 
-	if (sv->edit_pos_changed.format) {
-		sv->edit_pos_changed.format = FALSE;
+	if (sv->edit_pos_changed.style ) {
+		sv->edit_pos_changed.style  = FALSE;
 		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
-			wb_view_format_feedback (sv->sv_wbv);
+			wb_view_style_feedback (sv->sv_wbv);
 	}
 
 	if (sv->edit_pos_changed.location) {

@@ -273,6 +273,7 @@ libspreadsheet_include_HEADERS = 	\
 	style-font.h				\
 	symbol.h				\
 	validation.h				\
+	validation-combo.h			\
 	value.h					\
 	workbook.h				\
 	workbook-priv.h				\

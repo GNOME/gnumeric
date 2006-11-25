@@ -33,8 +33,9 @@ struct _WorkbookView {
 	/* selection */
 	char	  *selection_description;
 
-	/* Format for feedback */
-	GnmStyle    *current_format;
+	/* Style for feedback */
+	GnmStyle const	*current_style;
+	SheetObject	*validation_combo;
 };
 
 typedef struct {
@@ -69,7 +70,7 @@ void         	 wb_view_set_attribute	  (WorkbookView *wbv, char const *name,
 					   char const *value);
 void		 wb_view_preferred_size	  (WorkbookView *wbv,
 					   int w_pixels, int h_pixels);
-void		 wb_view_format_feedback  (WorkbookView *wbv);
+void		 wb_view_style_feedback   (WorkbookView *wbv);
 void             wb_view_menus_update     (WorkbookView *wbv);
 void		 wb_view_selection_desc   (WorkbookView *wbv, gboolean use_pos,
 					   WorkbookControl *optional_wbc);

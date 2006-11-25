@@ -47,7 +47,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 #define DAY_SECONDS (3600*24)
-#define DATE_CONV(ep)		workbook_date_conv (ep->sheet->workbook)
+#define DATE_CONV(ep)		workbook_date_conv ((ep)->sheet->workbook)
 
 static GnmValue *
 make_date (GnmValue *res)
@@ -1196,34 +1196,31 @@ get_serial_weekday (int serial, int *offset, GODateConventions const *conv)
 	return serial;
 }
 
-typedef struct
-{
+typedef struct {
 	int start_serial, end_serial;
 	int res;
 } networkdays_holiday_closure;
 
 static GnmValue *
-networkdays_holiday_callback (GnmValue const *v, GnmEvalPos const *ep,
-			      int x, int y, void *user_data)
+cb_networkdays_holiday (GnmValueIter const *v_iter,
+			networkdays_holiday_closure *close)
 {
-	networkdays_holiday_closure * close =
-	    (networkdays_holiday_closure *)user_data;
 	int serial;
 	GDate date;
-	GODateConventions const *conv = DATE_CONV (ep);
+	GODateConventions const *conv = DATE_CONV (v_iter->ep);
 
-	if (VALUE_IS_ERROR (v))
-		return value_dup (v);
-	serial = datetime_value_to_serial (v, conv);
+	if (VALUE_IS_ERROR (v_iter->v))
+		return value_dup (v_iter->v);
+	serial = datetime_value_to_serial (v_iter->v, conv);
         if (serial <= 0)
-		return value_new_error_NUM (ep);
+		return value_new_error_NUM (v_iter->ep);
 
 	if (serial < close->start_serial || close->end_serial < serial)
 		return NULL;
 
 	datetime_serial_to_g (&date, serial, conv);
         if (!g_date_valid (&date))
-		return value_new_error_NUM (ep);
+		return value_new_error_NUM (v_iter->ep);
 	if (g_date_get_weekday (&date) < G_DATE_SATURDAY)
 		++close->res;
 	return NULL;
@@ -1264,10 +1261,8 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	res -= ((res/7)*2);	/* Remove weekends */
 
 	if (argv[2] != NULL)
-		value_area_foreach (argv[2], ei->pos,
-				    CELL_ITER_IGNORE_BLANK,
-				    &networkdays_holiday_callback,
-				    &close);
+		value_area_foreach (argv[2], ei->pos, CELL_ITER_IGNORE_BLANK,
+			(GnmValueIterFunc) &cb_networkdays_holiday, &close);
 
 	res = res - start_offset + end_offset - close.res;
 

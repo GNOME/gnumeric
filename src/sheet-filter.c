@@ -35,7 +35,7 @@
 #include "number-match.h"
 #include "gutils.h"
 #include "sheet-object.h"
-#include "gnm-filter-combo.h"
+#include "gnm-filter-combo-foo-view.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -415,14 +415,10 @@ gnm_filter_combo_finalize (GObject *object)
 {
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (object);
 	GObjectClass *parent;
-
-	g_return_if_fail (fcombo != NULL);
-
 	if (fcombo->cond != NULL) {
 		gnm_filter_condition_unref (fcombo->cond);
 		fcombo->cond = NULL;
 	}
-
 	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
 	parent->finalize (object);
 }

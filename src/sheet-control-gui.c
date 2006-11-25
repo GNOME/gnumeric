@@ -2308,7 +2308,8 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 
 				if (NULL == sov)
 					sov = sheet_object_new_view (so, (SheetObjectViewContainer *)pane);
-				sheet_object_view_set_bounds (sov, pts, TRUE);
+				if (NULL != sov)
+					sheet_object_view_set_bounds (sov, pts, TRUE);
 			}
 		});
 	}

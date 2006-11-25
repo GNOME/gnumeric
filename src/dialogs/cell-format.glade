@@ -3519,6 +3519,7 @@
 
 			      <child>
 				<widget class="GtkCheckButton" id="validation_in_dropdown">
+				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">I_n-cell dropdown</property>
 				  <property name="use_underline">True</property>

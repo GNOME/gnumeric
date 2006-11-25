@@ -23,10 +23,11 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
 #include "gnumeric.h"
-#include "numbers.h"
 #include "validation.h"
+#include "validation-combo.h"
+
+#include "numbers.h"
 #include "expr.h"
 #include "mstyle.h"
 #include "sheet.h"
@@ -35,6 +36,12 @@
 #include "workbook-control.h"
 #include "parse-util.h"
 
+#include "sheet-view.h"
+#include "sheet-object.h"
+#include "gnm-validation-combo-foo-view.h"
+#include <gsf/gsf-impl-utils.h>
+
+#include <glib/gi18n-lib.h>
 
 static const struct {
 	gboolean errors_not_allowed;
@@ -71,15 +78,74 @@ static const struct {
 
 #undef NONE
 
+/***************************************************************************/
+
+static void
+gnm_validation_combo_finalize (GObject *object)
+{
+	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (object);
+	GObjectClass *parent;
+	if (NULL != vcombo->validation) {
+		validation_unref (vcombo->validation);
+		vcombo->validation = NULL;
+	}
+	if (NULL != vcombo->sv) {
+		sv_weak_unref (&vcombo->sv);
+		vcombo->sv = NULL;
+	}
+	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
+	parent->finalize (object);
+}
+
+static void
+gnm_validation_combo_init (SheetObject *so)
+{
+	/* keep the arrows from wandering with their cells */
+	so->flags &= ~SHEET_OBJECT_MOVE_WITH_CELLS;
+}
+
+static void
+gnm_validation_combo_class_init (GObjectClass *gobject_class)
+{
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	gobject_class->finalize = gnm_validation_combo_finalize;
+	so_class->new_view	= gnm_validation_combo_new_foo_view;
+	so_class->read_xml_dom  = NULL;
+	so_class->write_xml_sax = NULL;
+	so_class->print         = NULL;
+	so_class->copy          = NULL;
+}
+
+typedef SheetObjectClass GnmValidationComboClass;
+GSF_CLASS (GnmValidationCombo, gnm_validation_combo,
+	   gnm_validation_combo_class_init, gnm_validation_combo_init,
+	   SHEET_OBJECT_TYPE);
+
+SheetObject *
+gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)
+{
+	GnmValidationCombo *vcombo;
+	
+	g_return_val_if_fail (val != NULL, NULL);
+	g_return_val_if_fail (sv  != NULL, NULL);
+
+	vcombo = g_object_new (GNM_VALIDATION_COMBO_TYPE, NULL);
+	validation_ref (vcombo->validation = val); 
+	sv_weak_ref (vcombo->sv = sv, &vcombo->sv);
+	return SHEET_OBJECT (vcombo);
+}
+
+/***************************************************************************/
 
 /**
  * validation_new :
- *
  * @title : will be copied.
  * @msg   : will be copied.
  * @texpr0 : absorb the reference to the expression.
  * @texpr1 : absorb the reference to the expression.
- */
+ *
+ * Returns a new @GnmValidation object that needs to be unrefed.
+ **/
 GnmValidation *
 validation_new (ValidationStyle style,
 		ValidationType  type,
@@ -138,15 +204,17 @@ validation_new (ValidationStyle style,
 }
 
 void
-validation_ref (GnmValidation *v)
+validation_ref (GnmValidation const *v)
 {
 	g_return_if_fail (v != NULL);
-	v->ref_count++;
+	((GnmValidation *)v)->ref_count++;
 }
 
 void
-validation_unref (GnmValidation *v)
+validation_unref (GnmValidation const *val)
 {
+	GnmValidation *v = (GnmValidation *)val;
+
 	g_return_if_fail (v != NULL);
 
 	v->ref_count--;
@@ -172,25 +240,20 @@ validation_unref (GnmValidation *v)
 }
 
 static ValidationStatus
-validation_barf (WorkbookControl *wbc, GnmValidation *gv, char *def_msg)
+validation_barf (WorkbookControl *wbc, GnmValidation const *gv, char *def_msg)
 {
 	char const *msg = gv->msg ? gv->msg->str : def_msg;
 	char const *title = gv->title ? gv->title->str : _("Gnumeric: Validation");
-	ValidationStatus result =
-		wb_control_validation_msg (wbc, gv->style, title, msg);
-
+	ValidationStatus result = wb_control_validation_msg (wbc,
+		gv->style, title, msg);
 	g_free (def_msg);
 	return result;
 }
 
 static GnmValue *
-cb_validate_custom (GnmValue const *v, GnmEvalPos const *ep,
-		    int x, int y, GnmValue const *target)
+cb_validate_custom (GnmValueIter const *v_iter, GnmValue const *target)
 {
-	if (!v)
-		return NULL;
-
-	if (value_compare (v, target, FALSE) == IS_EQUAL)
+	if (value_compare (v_iter->v, target, FALSE) == IS_EQUAL)
 		return VALUE_TERMINATE;
 	else
 		return NULL;
@@ -214,7 +277,7 @@ ValidationStatus
 validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		 Sheet *sheet, GnmCellPos const *pos, gboolean *showed_dialog)
 {
-	GnmValidation *v;
+	GnmValidation const *v;
 	GnmCell *cell;
 	GnmValue *val;
 	gnm_float x;
@@ -293,13 +356,10 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	case VALIDATION_TYPE_IN_LIST:
 		if (NULL != v->texpr[0]) {
-			GnmValue *list = gnm_expr_top_eval
-				(v->texpr[0], &ep,
+			GnmValue *list = gnm_expr_top_eval (v->texpr[0], &ep,
 				 GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
-			GnmValue *res = value_area_foreach
-				(list, &ep,
-				 CELL_ITER_IGNORE_BLANK,
-				 (ValueAreaFunc) cb_validate_custom, val);
+			GnmValue *res = value_area_foreach (list, &ep, CELL_ITER_IGNORE_BLANK,
+				 (GnmValueIterFunc) cb_validate_custom, val);
 			value_release (list);
 			if (res == NULL) {
 				GnmParsePos pp;

@@ -1823,7 +1823,7 @@ cmd_format_undo (GnmCommand *cmd,
 			}
 
 			sheet_range_calc_spans (me->cmd.sheet, r, flags);
-			sheet_flag_format_update_range (me->cmd.sheet, r);
+			sheet_flag_style_update_range (me->cmd.sheet, r);
 		}
 
 		sheet_redraw_all (me->cmd.sheet, FALSE);
@@ -1868,7 +1868,7 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 						&os->rows, &os->old_heights);
 		}
 
-		sheet_flag_format_update_range (me->cmd.sheet, r);
+		sheet_flag_style_update_range (me->cmd.sheet, r);
 	}
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 	sheet_mark_dirty (me->cmd.sheet);

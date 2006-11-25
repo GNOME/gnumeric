@@ -1689,6 +1689,19 @@ filter_row:
 
 /****************************************************************************/
 
+GType
+gnm_value_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GnmValue",
+			 (GBoxedCopyFunc)value_dup,
+			 (GBoxedFreeFunc)value_release);
+	return t;
+}
+/****************************************************************************/
+
 GnmValueErr const value_terminate_err = { VALUE_ERROR, NULL, NULL };
 static GnmValueFloat const the_value_zero = { VALUE_FLOAT, NULL, 0 };
 GnmValue const *value_zero = (GnmValue const *)&the_value_zero;

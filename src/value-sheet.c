@@ -237,32 +237,34 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 	return NULL;
 }
 
-typedef struct
-{
-	ValueAreaFunc  callback;
-	GnmEvalPos const *ep;
-	gpointer	  real_data;
+typedef struct {
+	GnmValueIter	v_iter;
+	GnmValueIterFunc	func;
 	int base_col, base_row;
+	gpointer  user_data;
 } WrapperClosure;
 
 static GnmValue *
-cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, gpointer user)
+cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
 {
-	WrapperClosure *wrap = (WrapperClosure *)user;
-	GnmValue const *v;
 	if (iter->cell != NULL) {
 		gnm_cell_eval (iter->cell);
-		v = iter->cell->value;
+		wrap->v_iter.v = iter->cell->value;
 	} else
-		v = NULL;
-       	return (*wrap->callback) (v, wrap->ep,
-		iter->pp.eval.col - wrap->base_col,
-		iter->pp.eval.row - wrap->base_row,
-		wrap->real_data);
+		wrap->v_iter.v = NULL;
+	wrap->v_iter.x		= iter->pp.eval.col - wrap->base_col;
+	wrap->v_iter.y		= iter->pp.eval.row - wrap->base_row;
+	wrap->v_iter.cell_iter	= iter;
+       	return (*wrap->func) (&wrap->v_iter, wrap->user_data);
 }
 
 /**
  * value_area_foreach:
+ * @v : const #GnmValue
+ * @ep : const #GnmEvalPos
+ * @flags : #CellIterFlags
+ * @func  : #GnmValueIterFunc
+ * @user_data :
  *
  * For each existing element in an array or range , invoke the
  * callback routine.
@@ -274,13 +276,15 @@ cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, gpointer user)
 GnmValue *
 value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 		    CellIterFlags flags,
-		    ValueAreaFunc callback,
-		    void *closure)
+		    GnmValueIterFunc func,
+		    gpointer user_data)
 {
-	int x, y;
-	GnmValue *tmp;
+	GnmValueIter v_iter;
+	GnmValue    *tmp;
 
-	g_return_val_if_fail (callback != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
+
+	v_iter.ep = ep;
 
         if (v->type == VALUE_CELLRANGE) {
 		WrapperClosure wrap;
@@ -289,25 +293,28 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 
 		gnm_rangeref_normalize (&v->v_range.cell, ep, &start_sheet, &end_sheet, &r);
 
-		wrap.callback = callback;
-		wrap.ep = ep;
-		wrap.real_data = closure;
+		wrap.func = func;
+		wrap.user_data = user_data;
 		wrap.base_col = r.start.col;
 		wrap.base_row = r.start.row;
-		return workbook_foreach_cell_in_range (
-			ep, v, flags,
-			&cb_wrapper_foreach_cell_in_area,
-			(void *)&wrap);
+		return workbook_foreach_cell_in_range (ep, v, flags,
+			(CellIterFunc) cb_wrapper_foreach_cell_in_area, &wrap);
 	}
 
-	/* If not an array, apply callback to singleton */
-        if (v->type != VALUE_ARRAY)
-		return (*callback) (v, ep, 0, 0, closure);
+	/* If not an array, apply func to singleton */
+        if (v->type != VALUE_ARRAY) {
+		v_iter.x = v_iter.y = 0;
+		v_iter.v = v;
+		v_iter.cell_iter = NULL;
+		return (*func) (&v_iter, user_data);
+	}
 
-	for (x = v->v_array.x; --x >= 0;)
-		for (y = v->v_array.y; --y >= 0;)
-			if ((tmp = (*callback)(v->v_array.vals [x][y], ep, x, y, closure)) != NULL)
+	for (v_iter.x = v->v_array.x; v_iter.x-- > 0;)
+		for (v_iter.y = v->v_array.y; v_iter.y-- > 0;) {
+			v_iter.v = v->v_array.vals [v_iter.x][v_iter.y];
+			if ((tmp = (*func)(&v_iter, user_data)) != NULL)
 				return tmp;
+		}
 
 	return NULL;
 }

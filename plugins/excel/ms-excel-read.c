@@ -373,14 +373,8 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
-	static SheetObjectAnchorType const anchor_types[4] = {
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
-	};
 	float offsets[4];
-	char const *label;
+	gpointer label;
 	PangoAttrList *markup;
 	GnmRange range;
 	ExcelReadSheet *esheet;
@@ -416,12 +410,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		((flip_v == NULL) ? GOD_ANCHOR_DIR_DOWN : 0);
 
 	sheet_object_anchor_init (&anchor, &range,
-		offsets, anchor_types, direction);
+		offsets, NULL, direction);
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, esheet->sheet);
 
-	label = ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL, FALSE);
-	if (label != NULL)
+	if (ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, &label, FALSE))
 		g_object_set (G_OBJECT (so), "text", label, NULL);
 
 	markup = ms_obj_attr_get_markup (obj->attrs, MS_OBJ_ATTR_MARKUP, NULL, FALSE);
@@ -581,6 +574,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	SheetObject *so = NULL;
 	Workbook *wb;
 	ExcelReadSheet *esheet;
+	gpointer label;
 
 	if (obj == NULL)
 		return NULL;
@@ -604,9 +598,10 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	case 0x06: /* TextBox */
 	case 0x0E: /* Label */
 		so = g_object_new (GNM_SO_FILLED_TYPE,
-			"text", ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL, FALSE),
 			"is-oval", obj->excel_type == 3,
 			NULL);
+		if (ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, &label, FALSE))
+			g_object_set (G_OBJECT (so), "text", label, NULL);
 		break;
 
 	case 0x05: /* Chart */

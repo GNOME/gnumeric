@@ -54,7 +54,7 @@ struct _SheetView {
 	struct {
 		unsigned char location;
 		unsigned char content; /* entered content NOT value */
-		unsigned char format;
+		unsigned char style;
 	} edit_pos_changed;
 	guint            auto_expr_timer;
 };
@@ -87,7 +87,7 @@ gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
 /* Manipulation */
 void	 sv_flag_status_update_pos   (SheetView *sv, GnmCellPos const *pos);
 void	 sv_flag_status_update_range (SheetView *sv, GnmRange const *r);
-void	 sv_flag_format_update_range (SheetView *sv, GnmRange const *r);
+void	 sv_flag_style_update_range  (SheetView *sv, GnmRange const *r);
 void	 sv_flag_selection_change    (SheetView *sv);
 
 void	 sv_unant		(SheetView *sv);

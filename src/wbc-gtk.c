@@ -91,6 +91,8 @@ struct _WBCgtk {
 
 	GtkWidget *menu_zone, *everything, *toolbar_zones[4];
 	GHashTable *custom_uis;
+
+	guint idle_update_style_feedback;
 };
 typedef WorkbookControlGUIClass WBCgtkClass;
 
@@ -951,7 +953,7 @@ wbc_gtk_init_state (WorkbookControl *wbc)
 }
 
 static void
-wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
+wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 {
 	WorkbookView	*wb_view = wb_control_view (wbc);
 	WBCgtk		*wbcg = (WBCgtk *)wbc;
@@ -962,7 +964,7 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 		return;
 
 	if (changes == NULL)
-		changes = wb_view->current_format;
+		changes = wb_view->current_style;
 
 	if (gnm_style_is_element_set (changes, MSTYLE_FONT_BOLD))
 		gtk_toggle_action_set_active (wbcg->font.bold,
@@ -1022,6 +1024,25 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 			gnm_style_get_font_name (changes), GO_ACTION_COMBO_SEARCH_FROM_TOP);
 
 	wbcg_ui_update_end (WORKBOOK_CONTROL_GUI (wbc));
+}
+
+static gint
+cb_wbc_gtk_style_feedback (WBCgtk *gtk)
+{
+	wbc_gtk_style_feedback_real ((WorkbookControl *)gtk, NULL);
+	gtk->idle_update_style_feedback = 0;
+	return FALSE;
+}
+static void
+wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
+{
+	WBCgtk *wbcg = (WBCgtk *)wbc;
+
+	if (changes)
+		wbc_gtk_style_feedback_real (wbc, changes);
+	else if (0 == wbcg->idle_update_style_feedback)
+		wbcg->idle_update_style_feedback = g_timeout_add (400,
+			(GSourceFunc) cb_wbc_gtk_style_feedback, wbc);
 }
 
 extern void wbcg_register_actions (WorkbookControlGUI *wbcg,
@@ -1675,6 +1696,8 @@ wbc_gtk_init (GObject *obj)
 	gtk->toolbar_zones[GTK_POS_LEFT] = gtk_hbox_new (FALSE, 0);
 	gtk->toolbar_zones[GTK_POS_RIGHT] = gtk_hbox_new (FALSE, 0);
 
+	gtk->idle_update_style_feedback = 0;
+
 #ifdef USE_HILDON
 	if (hildon_program == NULL)
 		hildon_program = HILDON_PROGRAM (hildon_program_get_instance ());
@@ -1834,6 +1857,8 @@ wbc_gtk_finalize (GObject *obj)
 {
 	WBCgtk *gtk = (WBCgtk *)obj;
 
+	if (gtk->idle_update_style_feedback != 0)
+		g_source_remove (gtk->idle_update_style_feedback);
 	if (gtk->file_history.merge_id != 0)
 		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
 	if (gtk->file_history.actions != NULL)

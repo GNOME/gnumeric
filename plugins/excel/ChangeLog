@@ -1,5 +1,15 @@
 2006-11-24  Jody Goldberg <jody@gnome.org>
 
+	* ms-obj.c (ms_obj_attr_get_ptr) : change signature to better
+	  distiguish between NULL and not-specified.
+	* ms-excel-read.c (ms_sheet_realize_obj) : Using NULL as the default
+	  was a bad idea.  We could not differentiate between empty text which
+	  got stored as NULL, and not specified which should use the default.
+	  Use the new signature to ms_obj_attr_get_ptr to handle this
+	  correctly. (test case : checkboxes in 375620 with no labels)
+
+2006-11-24  Jody Goldberg <jody@gnome.org>
+
 	* xlsx-write.c (xlsx_write_col) : set 'bestFit' if the column has a
 	  size different from the default and it has _not_ been set by the
 	  user.

@@ -21,7 +21,7 @@
  */
 
 #include <gnumeric-config.h>
-#include "gnm-filter-combo.h"
+#include "gnm-filter-combo-foo-view.h"
 
 #include "gui-gnumeric.h"
 #include "sheet-filter.h"
@@ -476,16 +476,19 @@ filter_view_destroy (SheetObjectView *sov)
 {
 	gtk_object_destroy (GTK_OBJECT (sov));
 }
+
+/* Somewhat magic.
+ * We do not honour all of the anchor flags.  All that is used is the far corner. */
 static void
 filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
 
 	if (visible) {
-		double h, x;
-		/* clip vertically */
-		h = (coords[3] - coords[1]);
-		if (h > 20.)
+		double x;
+		/* Far point is EXCLUDED so we add 1 */
+		double h = (coords[3] - coords[1]) + 1;
+		if (h > 20.)	/* clip vertically */
 			h = 20.;
 
 		/* maintain squareness horzontally */
@@ -493,10 +496,9 @@ filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vis
 		if (x < coords[0])
 			x = coords[0];
 
-		/* NOTE : far point is EXCLUDED so we add 1 */
 		foo_canvas_item_set (view,
-			"x",	x,
-			"y",	coords [3] - h,
+			"x",	  x,
+			"y",	  coords [3] - h,
 			"width",  coords [2] - x,
 			"height", h + 1.,
 			NULL);

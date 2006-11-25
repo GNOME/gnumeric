@@ -1369,7 +1369,7 @@ gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
 	style->validation = v;
 }
 
-GnmValidation *
+GnmValidation const *
 gnm_style_get_validation (GnmStyle const *style)
 {
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_VALIDATION), NULL);

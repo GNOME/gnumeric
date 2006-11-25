@@ -1089,17 +1089,17 @@ sheet_flag_status_update_range (Sheet const *sheet, GnmRange const *range)
 }
 
 /**
- * sheet_flag_format_update_range :
+ * sheet_flag_style_update_range :
  * @sheet : The sheet being changed
  * @range : the range that is changing.
  *
  * Flag format changes that will require updating the format indicators.
  **/
 void
-sheet_flag_format_update_range (Sheet const *sheet, GnmRange const *range)
+sheet_flag_style_update_range (Sheet const *sheet, GnmRange const *range)
 {
 	SHEET_FOREACH_VIEW (sheet, sv,
-		sv_flag_format_update_range (sv, range););
+		sv_flag_style_update_range (sv, range););
 }
 
 /**

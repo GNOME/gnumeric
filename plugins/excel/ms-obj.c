@@ -181,23 +181,23 @@ ms_obj_attr_get_int  (MSObjAttrBag *attrs, MSObjAttrID id, gint32 default_value)
 	return attr->v.v_int;
 }
 
-gpointer
+gboolean
 ms_obj_attr_get_ptr (MSObjAttrBag *attrs, MSObjAttrID id,
-		     gpointer default_value, gboolean steal)
+		     gpointer *res, gboolean steal)
 {
 	MSObjAttr *attr;
-	gpointer res;
 
-	g_return_val_if_fail (attrs != NULL, default_value);
-	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PTR_MASK, default_value);
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PTR_MASK, FALSE);
 
-	attr = ms_obj_attr_bag_lookup (attrs, id);
-	if (attr == NULL)
-		return default_value;
-	res = attr->v.v_ptr;
+	if (NULL == (attr = ms_obj_attr_bag_lookup (attrs, id)))
+		return FALSE;
+
+	*res = attr->v.v_ptr;
 	if (steal)
 		attr->v.v_ptr = NULL;
-	return res;
+
+	return TRUE;
 }
 
 GArray *
