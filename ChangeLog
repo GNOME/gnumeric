@@ -1,5 +1,10 @@
 2006-11-25  Jody Goldberg <jody@gnome.org>
 
+	* src/value-sheet.c (value_area_foreach) : init ep in the cellrange
+	  case, and region in both cases.
+
+2006-11-25  Jody Goldberg <jody@gnome.org>
+
 	* src/style-conditions.c (gnm_style_conditions_eval) : tidy up a bit.
 
 2006-11-24  Morten Welinder  <terra@gnome.org>

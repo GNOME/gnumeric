@@ -238,8 +238,8 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 }
 
 typedef struct {
-	GnmValueIter	v_iter;
-	GnmValueIterFunc	func;
+	GnmValueIter	 v_iter;
+	GnmValueIterFunc func;
 	int base_col, base_row;
 	gpointer  user_data;
 } WrapperClosure;
@@ -284,8 +284,6 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 
 	g_return_val_if_fail (func != NULL, NULL);
 
-	v_iter.ep = ep;
-
         if (v->type == VALUE_CELLRANGE) {
 		WrapperClosure wrap;
 		GnmRange  r;
@@ -293,15 +291,19 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 
 		gnm_rangeref_normalize (&v->v_range.cell, ep, &start_sheet, &end_sheet, &r);
 
-		wrap.func = func;
-		wrap.user_data = user_data;
-		wrap.base_col = r.start.col;
-		wrap.base_row = r.start.row;
+		wrap.v_iter.ep		= ep;
+		wrap.v_iter.region	= v;
+		wrap.func		= func;
+		wrap.user_data		= user_data;
+		wrap.base_col		= r.start.col;
+		wrap.base_row	= r.start.row;
 		return workbook_foreach_cell_in_range (ep, v, flags,
 			(CellIterFunc) cb_wrapper_foreach_cell_in_area, &wrap);
 	}
 
 	/* If not an array, apply func to singleton */
+	v_iter.ep	= ep;
+	v_iter.region	= v;
         if (v->type != VALUE_ARRAY) {
 		v_iter.x = v_iter.y = 0;
 		v_iter.v = v;
