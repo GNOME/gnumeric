@@ -3,7 +3,7 @@
 /*
  * style-conditions.c: 
  *
- * Copyright (C) 2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2005-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -28,6 +28,7 @@
 #include "cell.h"
 #include "value.h"
 #include "sheet.h"
+#include <parse-util.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <parse-util.h>
@@ -178,6 +179,13 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 	return res;
 }
 
+/**
+ * gnm_style_conditions_eval :
+ * @sc : #GnmStyleConditions 
+ * @ep : #GnmEvalPos
+ *
+ * Returns the condition to use or -1 if none match.
+ **/
 int
 gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 {
@@ -235,106 +243,63 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 				/* fall through */
 			case GNM_STYLE_COND_LTE:	use_this = (diff != IS_GREATER); break;
 			}
-		} else {
-			char const* valstring;
-			char* ptr;
-			char* ptr2;
-			char const* cvstring;
-			int slen;
-			/*Two cases treated here do not need val as a string.*/
-			if(!((cond->op == GNM_STYLE_COND_CONTAINS_ERR) || (cond->op == GNM_STYLE_COND_NOT_CONTAINS_ERR))) {
-				valstring = value_peek_string (val);
-				cvstring = value_peek_string (cv);
-				slen = strlen(cvstring);
-			}else{
-				/*"Safe" values.  If we hosed
-				 *something, we will know about it*/
-				valstring = NULL;
-				cvstring = NULL;
-				slen = -1;
-			}
-			/*We need to know the length of the string for most cases*/
-			/*Make sure the inputs are both strings.
-			 *UPDATE: removed the valstring string check, as it only slows
-			 *  stuff down.  VALUE MUST BE A STRING!*/
-			if((!(VALUE_IS_STRING(cv))) && (cond->op != GNM_STYLE_COND_CONTAINS_ERR) && (cond->op != GNM_STYLE_COND_NOT_CONTAINS_ERR)) {
-				/*Error: one of 'em is not a string.  Obviously fails the test.*/
-				use_this = 0;
-			}else{
-				switch (cond->op) {
-				default :
-					/*This really should be an error, I suspect*/
-					break;
-				case GNM_STYLE_COND_CONTAINS_STR :
-					use_this = strstr (cvstring, valstring) != NULL;
-					break;
-				case GNM_STYLE_COND_NOT_CONTAINS_STR :
-					use_this = strstr (cvstring, valstring) == NULL;
-					break;
-				case GNM_STYLE_COND_BEGINS_WITH_STR :
-					use_this = !strncmp (cvstring, valstring, slen);
-					break;
-				case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
-					use_this = strncmp (cvstring, valstring, slen);
-					break;
-				case GNM_STYLE_COND_ENDS_WITH_STR :
-					/*gedanken experiment: valuestr="foofoo"; cvstring="foo"
-					 * This loop solves the problem.
-					 *First, make sure ptr2 is NULL in case it never gets assigned*/
-					ptr2 = NULL;
-					while ((ptr = strstr (cvstring,valstring))) {
-						/*ptr2 will point to the beginning of the last match*/
-						ptr2 = ptr;
-					}
-					/*If it matches; is it the *end* match?*/
-					/*If so, using strcmp with the pointer to the position of the
-					 *  match will return 0 (lexically equal)*/
-					if (ptr2) {
-						/*We compare the *whole* string:
-						 * look for "bar" at the end of "foobarbaz"
-						 */
-						use_this = ! strcmp (ptr2, valstring);
-					} else {
-						/*don't match if no match was found.  duh.*/
-						use_this = 0;
-					}
-					break;
-				case GNM_STYLE_COND_NOT_ENDS_WITH_STR :
-					/*gedanken experiment: valuestr="foofoo"; cvstring="foo"
-					 * This loop solves the problem.
-					 *First, make sure ptr2 is NULL in case it never gets assigned*/
-					ptr2 = NULL;
-					while ((ptr = strstr (cvstring,valstring))) {
-						/*ptr2 will point to the beginning of the last match*/
-						ptr2 = ptr;
-					}
-					/*If it matches; is it the *end* match?*/
-					/*If so, using strcmp with the pointer to the position of the
-					 *  match will return 0 (lexically equal)*/
-					if (ptr2) {
-						/*If strcmp returns zero, then cvstring was at the end
-						 *  of this string, and obvioulsy the string does not
-						 *  not-end with cvstring.  Else it didn't and so it
-						 *  does.  :)*/
-						use_this = strcmp (ptr2, valstring);
-					} else {
-						/*No match was found.  We do not-end with cvstring.*/
-						use_this = 1;
-					}
-					break;
-				case GNM_STYLE_COND_CONTAINS_ERR :
-					use_this = VALUE_IS_ERROR (cv);
-					break;
-				case GNM_STYLE_COND_NOT_CONTAINS_ERR :
-					use_this = !VALUE_IS_ERROR (cv);
-					break;
-				case GNM_STYLE_COND_CONTAINS_BLANKS :
-					use_this = strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING) != NULL;
-					break;
-				case GNM_STYLE_COND_NOT_CONTAINS_BLANKS :
-					use_this = strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING) == NULL;
-					break;
+		} else if (cond->op != GNM_STYLE_COND_CONTAINS_ERR)
+			use_this = (cv != NULL) && VALUE_IS_ERROR (cv);
+		else if (cond->op != GNM_STYLE_COND_NOT_CONTAINS_ERR)
+			use_this = (cv == NULL) || !VALUE_IS_ERROR (cv);
+		else if (VALUE_IS_STRING (cv)) {
+			char const *valstring;
+			char *ptr;
+			char *ptr2;
+			char const *cvstring = value_peek_string (cv);
+			int slen = strlen (cvstring);
+
+			valstring = value_peek_string (val);
+			switch (cond->op) {
+			default : g_warning ("Unknown condition operator %d", cond->op);
+				break;
+			case GNM_STYLE_COND_CONTAINS_STR :
+				use_this = (NULL != strstr (cvstring, valstring));
+				break;
+			case GNM_STYLE_COND_NOT_CONTAINS_STR :
+				use_this = (NULL == strstr (cvstring, valstring));
+				break;
+			case GNM_STYLE_COND_BEGINS_WITH_STR :
+				use_this = (0 == strncmp (cvstring, valstring, slen));
+				break;
+			case GNM_STYLE_COND_NOT_BEGINS_WITH_STR :
+				use_this = (0 != strncmp (cvstring, valstring, slen));
+				break;
+			case GNM_STYLE_COND_ENDS_WITH_STR :
+				/* gedanken experiment: valuestr="foofoo"; cvstring="foo"
+				 * This loop solves the problem.
+				 * First, make sure ptr2 is NULL in case it never gets assigned*/
+				ptr2 = NULL;
+				while ((ptr = strstr (cvstring,valstring))) {
+					/*ptr2 will point to the beginning of the last match*/
+					ptr2 = ptr;
 				}
+				/*If it matches; is it the *end* match?*/
+				use_this = (ptr != NULL) && (0 == strcmp (ptr2, valstring));
+				break;
+			case GNM_STYLE_COND_NOT_ENDS_WITH_STR :
+				/*gedanken experiment: valuestr="foofoo"; cvstring="foo"
+				 * This loop solves the problem.
+				 *First, make sure ptr2 is NULL in case it never gets assigned*/
+				ptr2 = NULL;
+				while ((ptr = strstr (cvstring,valstring))) {
+					/*ptr2 will point to the beginning of the last match*/
+					ptr2 = ptr;
+				}
+				/*If it matches; is it the *end* match?*/
+				use_this = (ptr == NULL) || (0 != strcmp (ptr2, valstring));
+				break;
+			case GNM_STYLE_COND_CONTAINS_BLANKS :
+				use_this = NULL != strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
+				break;
+			case GNM_STYLE_COND_NOT_CONTAINS_BLANKS :
+				use_this = NULL == strpbrk (cvstring, BLANKS_STRING_FOR_MATCHING);
+				break;
 			}
 		}
 
