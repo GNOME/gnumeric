@@ -4,7 +4,7 @@ Jon Kåre:
 	* Fix zoom preference. [#378043]
 
 Jody:
-	* Improve xls import/export of bestfit column widths.
+	* Improve xls import/export of bestfit column widths. [#378560]
 
 Morten:
 	* Fix sc import of functions with no args.
