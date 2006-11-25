@@ -266,11 +266,61 @@ cb_focus_changed (GtkWindow *toplevel)
 }
 
 static void
-cb_cell_button_pressed (GtkButton *button, FooCanvasItem *view)
+cb_button_pressed (G_GNUC_UNUSED GtkButton *button, FooCanvasItem *view)
 {
-	GnmPane		   *pane = GNM_CANVAS (view->canvas)->pane;
-	SheetControlGUI	   *scg  = pane->gcanvas->simple.scg;
-	SheetObject	   *so   = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
+	gnm_validation_combo_foo_view_popdown (SHEET_OBJECT_VIEW (view));
+}
+
+/* Somewhat magic.
+ * We do not honour all of the anchor flags.  All that is used is the far corner. */
+static void
+vcombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+
+	if (visible) {
+		/* Far point is EXCLUDED so we add 1 */
+		double h = (coords[3] - coords[1]) + 1;
+		if (h > 20.)	/* clip vertically */
+			h = 20.;
+		foo_canvas_item_set (view,
+			"x",	  coords [2],
+			"y",	  coords [3] - h,
+			"width",  h,	/* force a square, use h for width too */
+			"height", h,
+			NULL);
+		foo_canvas_item_show (view);
+	} else
+		foo_canvas_item_hide (view);
+}
+
+static void vcombo_destroy (SheetObjectView *sov) { gtk_object_destroy (GTK_OBJECT (sov)); }
+static void
+gnm_validation_combo_foo_view_init (SheetObjectViewIface *sov_iface)
+{
+	sov_iface->destroy	= vcombo_destroy;
+	sov_iface->set_bounds	= vcombo_set_bounds;
+}
+typedef FooCanvasWidget		GnmValidationComboFooView;
+typedef FooCanvasWidgetClass	GnmValidationComboFooViewClass;
+static GSF_CLASS_FULL (GnmValidationComboFooView, gnm_validation_combo_foo_view,
+	NULL, NULL, NULL, NULL,
+	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
+	GSF_INTERFACE (gnm_validation_combo_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+/**
+ * gnm_validation_combo_foo_view_popdown:
+ * @sov : #SheetObjectView
+ *
+ * Open the popup window
+ **/
+void
+gnm_validation_combo_foo_view_popdown (SheetObjectView *sov)
+{
+	FooCanvasItem	   *view   = FOO_CANVAS_ITEM (sov);
+	GnmPane		   *pane   = GNM_CANVAS (view->canvas)->pane;
+	SheetControlGUI	   *scg    = pane->gcanvas->simple.scg;
+	SheetObject	   *so     = sheet_object_view_get_so (sov);
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (so);
 	GtkWidget *frame,  *popup, *list, *container;
 	int root_x, root_y;
@@ -366,45 +416,14 @@ cb_cell_button_pressed (GtkButton *button, FooCanvasItem *view)
 		NULL, NULL, GDK_CURRENT_TIME);
 }
 
-/* Somewhat magic.
- * We do not honour all of the anchor flags.  All that is used is the far corner. */
-static void
-vcombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
-{
-	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
-
-	if (visible) {
-		/* Far point is EXCLUDED so we add 1 */
-		double h = (coords[3] - coords[1]) + 1;
-		if (h > 20.)	/* clip vertically */
-			h = 20.;
-		foo_canvas_item_set (view,
-			"x",	  coords [2],
-			"y",	  coords [3] - h,
-			"width",  h,	/* force a square, use h for width too */
-			"height", h,
-			NULL);
-		foo_canvas_item_show (view);
-	} else
-		foo_canvas_item_hide (view);
-}
-
-static void vcombo_destroy (SheetObjectView *sov) { gtk_object_destroy (GTK_OBJECT (sov)); }
-static void
-gnm_validation_combo_foo_view_init (SheetObjectViewIface *sov_iface)
-{
-	sov_iface->destroy	= vcombo_destroy;
-	sov_iface->set_bounds	= vcombo_set_bounds;
-}
-typedef FooCanvasWidget		GnmValidationComboFooView;
-typedef FooCanvasWidgetClass	GnmValidationComboFooViewClass;
-static GSF_CLASS_FULL (GnmValidationComboFooView, gnm_validation_combo_foo_view,
-	NULL, NULL, NULL, NULL,
-	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
-	GSF_INTERFACE (gnm_validation_combo_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
-
+/**
+ * gnm_validation_combo_foo_view_new:
+ * @so : #SheetObject
+ * @container : SheetObjectViewContainer (a GnmPane)
+ *
+ **/
 SheetObjectView *
-gnm_validation_combo_new_foo_view (SheetObject *so, SheetObjectViewContainer *container)
+gnm_validation_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GtkWidget *arrow, *view_widget;
 	FooCanvasItem *view_item;
@@ -429,7 +448,7 @@ gnm_validation_combo_new_foo_view (SheetObject *so, SheetObjectViewContainer *co
 	g_object_set_data (G_OBJECT (view_widget), VIEW_ITEM_ID, view_item);
 	g_signal_connect (view_widget,
 		"pressed",
-		G_CALLBACK (cb_cell_button_pressed), view_item);
+		G_CALLBACK (cb_button_pressed), view_item);
 	gtk_widget_show_all (view_widget);
 
 	return gnm_pane_object_register (so, view_item, FALSE);

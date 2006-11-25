@@ -439,7 +439,7 @@ gnm_filter_combo_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize = gnm_filter_combo_finalize;
 
 	/* SheetObject class method overrides */
-	so_class->new_view	  = gnm_filter_combo_new_foo_view;
+	so_class->new_view	  = gnm_filter_combo_foo_view_new;
 	so_class->read_xml_dom  = NULL;
 	so_class->write_xml_sax = NULL;
 	so_class->print         = NULL;

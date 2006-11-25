@@ -1,5 +1,12 @@
 2006-11-25  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-filter.c (gnm_filter_combo_class_init) : adjust to
+	  rename of gnm_filter_combo_foo_view_new.
+	* src/validation.c (gnm_validation_combo_class_init) : adjust to
+	  rename of gnm_validation_combo_foo_view_new.
+
+2006-11-25  Jody Goldberg <jody@gnome.org>
+
 	* src/value-sheet.c (value_area_foreach) : init ep in the cellrange
 	  case, and region in both cases.
 

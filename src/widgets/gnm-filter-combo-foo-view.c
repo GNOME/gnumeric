@@ -522,7 +522,7 @@ static GSF_CLASS_FULL (GnmFilterComboFooView, gnm_filter_combo_foo_view,
 	GSF_INTERFACE (gnm_filter_combo_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
 SheetObjectView *
-gnm_filter_combo_new_foo_view (SheetObject *so, SheetObjectViewContainer *container)
+gnm_filter_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	GtkWidget *arrow, *view_widget = gtk_button_new ();

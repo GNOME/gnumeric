@@ -1,3 +1,15 @@
+2006-11-25  Jody Goldberg <jody@gnome.org>
+
+	* gnm-validation-combo-foo-view.c (gnm_validation_combo_foo_view_new) : 
+	  rename from gnm_validation_combo_new_foo_view_new.
+	(gnm_validation_combo_foo_view_popdown) : new public interface split
+	  out of cb_cell_button_pressed.
+
+2006-11-25  Jody Goldberg <jody@gnome.org>
+
+	* gnm-filter-combo-foo-view.c (gnm_filter_combo_foo_view_new) : rename
+	  from gnm_filter_combo_new_foo_view_new.
+
 2006-11-24  Jody Goldberg <jody@gnome.org>
 
 	* gnm-validation-combo-foo-view.[ch] : new. in cell combo boxes for

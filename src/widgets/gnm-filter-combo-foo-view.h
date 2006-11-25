@@ -3,7 +3,7 @@
 
 #include "gnumeric.h"
 
-SheetObjectView *gnm_filter_combo_new_foo_view (SheetObject *so,
+SheetObjectView *gnm_filter_combo_foo_view_new (SheetObject *so,
 						SheetObjectViewContainer *container);
 
 #endif /* GNM_FILTER_COMBO_FOO_VIEW_H */
