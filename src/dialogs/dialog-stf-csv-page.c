@@ -20,10 +20,10 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric.h>
 #include "dialog-stf.h"
 #include "gnm-format.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <string.h>
 
 /*************************************************************************************************
  * SIGNAL HANDLERS

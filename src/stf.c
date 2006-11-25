@@ -26,6 +26,7 @@
 #include "stf.h"
 
 #include <goffice/app/file.h>
+#include "cell.h"
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-style.h"

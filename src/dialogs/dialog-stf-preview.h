@@ -18,9 +18,7 @@
 
 #include <gui-gnumeric.h>
 #include <stf.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 
 #define LINE_DISPLAY_LIMIT 500
 #define COLUMN_CAPTION N_("Column %d")

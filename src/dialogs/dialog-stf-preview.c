@@ -32,6 +32,7 @@
 #include <style.h>
 #include <gtk/gtk.h>
 #include <widgets/gnumeric-lazy-list.h>
+#include <string.h>
 
 /******************************************************************************************************************
  * ADVANCED DRAWING FUNCTIONS

@@ -24,6 +24,7 @@
 #include "clipboard.h"
 
 #include "sheet.h"
+#include "cell.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
 #include "dependent.h"

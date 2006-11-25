@@ -27,6 +27,7 @@
 #include <workbook.h>
 #include <gtk/gtkframe.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <string.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS

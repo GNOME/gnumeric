@@ -1,12 +1,8 @@
 #ifndef GNUMERIC_STF_PARSE_H
 #define GNUMERIC_STF_PARSE_H
 
-#include <stdlib.h>
-#include <string.h>
 #include <glib.h>
-
-#include "sheet.h"
-#include "cell.h"
+#include <gnumeric.h>
 
 typedef enum {
 	PARSE_TYPE_NOTSET    = 1 << 0,

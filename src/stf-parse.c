@@ -32,6 +32,8 @@
 #include "stf-parse.h"
 
 #include "workbook.h"
+#include "cell.h"
+#include "sheet.h"
 #include "clipboard.h"
 #include "sheet-style.h"
 #include "value.h"
@@ -45,6 +47,7 @@
 
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
 
