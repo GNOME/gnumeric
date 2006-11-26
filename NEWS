@@ -14,6 +14,7 @@ Morten:
 	* Fix sc import of functions with no args.
 	* Add automatic test framework.
 	* Prevent ssconvert from updating the recent-files list.
+	* Fix goal-seek crash.  [#377961]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.4

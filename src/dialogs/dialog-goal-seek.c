@@ -134,6 +134,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	evaldata.ycell = state->set_cell;
 	evaldata.ytarget = state->target_value;
 	evaldata.update_ui = FALSE;
+	evaldata.state = state;
 
 	hadold = !VALUE_IS_EMPTY_OR_ERROR (state->change_cell->value);
 	oldx = hadold ? value_get_as_float (state->change_cell->value) : 0;

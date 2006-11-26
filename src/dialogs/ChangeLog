@@ -1,3 +1,8 @@
+2006-11-26  Morten Welinder  <terra@gnome.org>
+
+	* dialog-goal-seek.c (gnumeric_goal_seek): Set the evaldata.state
+	so we avoid spectacular crashes.  Fixes #377961.
+
 2006-11-24  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : make 'in cell dropdown' visible now that we
