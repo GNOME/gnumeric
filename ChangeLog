@@ -1,5 +1,13 @@
 2006-11-25  Jody Goldberg <jody@gnome.org>
 
+	* src/clipboard.c (clipboard_paste_region) : don't warn when pasting
+	  a cellregion with no cells which can easily happen on undo, where
+	  the old content of a region was empty.  Problem originated in 2006-11-11
+	  move from lists to a hash.
+	(cellregion_cmd_size) : ditto.
+
+2006-11-25  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-filter.c (gnm_filter_combo_class_init) : adjust to
 	  rename of gnm_filter_combo_foo_view_new.
 	* src/validation.c (gnm_validation_combo_class_init) : adjust to

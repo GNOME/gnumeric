@@ -461,7 +461,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 				continue;
 			}
 
-			if (has_contents) {
+			if (has_contents && NULL != cr->cell_content) {
 				dat.pt = pt;
 				g_hash_table_foreach (cr->cell_content,
 					(GHFunc)cb_paste_cell, &dat);
@@ -831,9 +831,14 @@ cellregion_to_string (GnmCellRegion const *cr,
 int
 cellregion_cmd_size (GnmCellRegion const *cr)
 {
-	return (g_hash_table_size (cr->cell_content) +
-		g_slist_length (cr->styles) +
-		1);
+	int res = 1;
+	
+	g_return_val_if_fail (cr != NULL, 1);
+
+	res += g_slist_length (cr->styles);
+	if (NULL != cr->cell_content)
+		res += g_hash_table_size (cr->cell_content);
+	return res;
 }
 
 static void
