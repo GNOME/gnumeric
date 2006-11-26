@@ -5,6 +5,7 @@
 #include "expr.h"
 #include "func.h"
 #include "parse-util.h"
+#include <goffice/utils/go-undo.h>
 
 struct _GnmNamedExpr {
 	int	    ref_count;
@@ -50,6 +51,8 @@ gboolean expr_name_check_for_loop (char const *name, GnmExprTop const *texpr);
 GSList  *gnm_named_expr_collection_list (GnmNamedExprCollection const *scope);
 GList	   *sheet_names_get_available (Sheet const *sheet);
 char const *sheet_names_check	      (Sheet const *sheet, GnmRange const *r);
+
+GOUndo *expr_name_set_expr_undo_new (GnmNamedExpr *ne);
 
 /******************************************************************************/
 

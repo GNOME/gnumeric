@@ -6,6 +6,7 @@
 #include "colrow.h"
 #include "position.h"
 #include <pango/pango.h>
+#include <goffice/utils/go-undo.h>
 
 typedef struct _SheetPrivate SheetPrivate;
 typedef enum {
@@ -28,14 +29,8 @@ struct _Sheet {
 	int         index_in_wb;
 	Workbook    *workbook;
 	gboolean    being_invalidated;
-	struct {
-		/* An alternating list of ref'd names and texpressions.  */
-		GSList *name_texprs;
-		/* An alternating list of deps and ref'd texpressions.  */
-		GSList *dep_texprs;
-		/* A list of deps to relink.  */
-		GSList *relink;
-	} revive;
+
+	GOUndoGroup *revive;
 
 	GPtrArray   *sheet_views;
 

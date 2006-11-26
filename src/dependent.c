@@ -41,6 +41,8 @@
 #include <string.h>
 #include <goffice/utils/go-glib-extras.h>
 
+static void dependent_changed (GnmDependent *dep);
+
 /* ------------------------------------------------------------------------- */
 
 #define USE_POOLS 1
@@ -183,6 +185,34 @@ cset_remove (CSet **list, gpointer datum)
         }						\
   } while (0)
 
+
+/* ------------------------------------------------------------------------- */
+
+static void
+gnm_dep_set_expr_undo_undo (GnmDependent *dep, GnmExprTop const *texpr)
+{
+	dependent_set_expr (dep, texpr);
+	dependent_link (dep);
+	dependent_changed (dep);
+}
+
+static GOUndo *
+gnm_dep_set_expr_undo_new (GnmDependent *dep)
+{
+	gnm_expr_top_ref (dep->texpr);
+	return go_undo_binary_new (dep, (gpointer)dep->texpr,
+				   (GFunc)gnm_dep_set_expr_undo_undo,
+				   NULL,
+				   (GFreeFunc)gnm_expr_top_unref);
+}
+
+static GOUndo *
+gnm_dep_unlink_undo_new (GSList *deps)
+{
+	return go_undo_unary_new (deps,
+				  (GFreeFunc)dependents_link,
+				  (GFreeFunc)g_slist_free);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -1974,11 +2004,12 @@ cb_collect_range (G_GNUC_UNUSED gpointer key,
 }
 
 static void
-dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean destroy)
+dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet)
 {
 	GSList *deps = NULL, *l;
 	GnmExprRelocateInfo rinfo;
 	GSList *deplist = NULL;
+	gboolean destroy = (sheet->revive == NULL);
 
 	/* We collect first because we will be changing the hash.  */
 	if (destroy) {
@@ -2032,20 +2063,15 @@ dep_hash_destroy (GHashTable *hash, GSList **dyn_deps, Sheet *sheet, gboolean de
 		 *    invalidated elsewhere */
 		GnmExprTop const *newtree = gnm_expr_top_relocate (te, &rinfo, FALSE);
 		if (newtree != NULL) {
-			if (!destroy) {
-				gnm_expr_top_ref (te);
-				sheet->revive.dep_texprs =
-					g_slist_prepend
-					(g_slist_prepend (sheet->revive.dep_texprs, (gpointer)te),
-					 dep);
-			}
+			if (sheet->revive)
+				go_undo_group_add
+					(sheet->revive,
+					 gnm_dep_set_expr_undo_new (dep));
 			dependent_set_expr (dep, newtree);
 			gnm_expr_top_unref (newtree);
 		}
 	}
 	g_slist_free (deplist);
-
-
 }
 
 static void
@@ -2077,7 +2103,7 @@ cb_collect_deps_of_names (GnmNamedExpr *nexpr,
 }
 
 static void
-invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
+invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet)
 {
 	GnmExprTop const *old_expr = nexpr->texpr;
 	GnmExprTop const *new_expr = NULL;
@@ -2094,18 +2120,11 @@ invalidate_name (GnmNamedExpr *nexpr, Sheet *sheet, gboolean destroy)
 	}
 
 	if (nexpr->dependents && g_hash_table_size (nexpr->dependents))
-		g_warning ("Left-over name dependencies:\n");
+		g_warning ("Left-over name dependencies\n");
 
-	if (!destroy) {
-		gnm_expr_top_ref (old_expr);
-		sheet->revive.name_texprs =
-			g_slist_prepend (sheet->revive.name_texprs,
-					 (gpointer)old_expr);
-		expr_name_ref (nexpr);
-		sheet->revive.name_texprs =
-			g_slist_prepend (sheet->revive.name_texprs,
-					 nexpr);
-	}
+	if (sheet->revive)
+		go_undo_group_add (sheet->revive,
+				   expr_name_set_expr_undo_new (nexpr));
 
 	expr_name_set_expr (nexpr, new_expr);
 }
@@ -2127,21 +2146,20 @@ handle_dynamic_deps (GSList *dyn_deps)
 }
 
 static void
-handle_referencing_names (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
+handle_referencing_names (GnmDepContainer *deps, Sheet *sheet)
 {
 	GSList *ptr;
 	GHashTable *names = deps->referencing_names;
 	struct cb_collect_deps_of_names accum;
+	gboolean destroy = (sheet->revive == NULL);
 
 	if (!names)
 		return;
 
-	if (destroy) {
-		accum.deps = NULL;
+	if (destroy)
 		deps->referencing_names = NULL;
-	} else
-		accum.deps = sheet->revive.relink;
 
+	accum.deps = NULL;
 	accum.names = NULL;
 	g_hash_table_foreach (names,
 			      (GHFunc)cb_collect_deps_of_names,
@@ -2157,7 +2175,7 @@ handle_referencing_names (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
 	 * change the references in the names to avoid this sheet */
 	for (ptr = accum.names; ptr; ptr = ptr->next) {
 		GnmNamedExpr *nexpr = ptr->data;
-		invalidate_name (nexpr, sheet, destroy);
+		invalidate_name (nexpr, sheet);
 	}
 	g_slist_free (accum.names);
 
@@ -2168,14 +2186,17 @@ handle_referencing_names (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
 	if (destroy) {
 		g_slist_free (accum.deps);
 		g_hash_table_destroy (names);
-	} else
-		sheet->revive.relink = accum.deps;
+	} else {
+		go_undo_group_add (sheet->revive,
+				   gnm_dep_unlink_undo_new (accum.deps));
+	}
 }
 
 static void
-handle_outgoing_references (GnmDepContainer *deps, Sheet *sheet, gboolean destroy)
+handle_outgoing_references (GnmDepContainer *deps, Sheet *sheet)
 {
 	DependentFlags what = DEPENDENT_USES_NAME;
+	GSList *accum = NULL;
 
 	what |= (sheet->workbook && sheet->workbook->during_destruction)
 		? DEPENDENT_GOES_INTERBOOK
@@ -2183,38 +2204,14 @@ handle_outgoing_references (GnmDepContainer *deps, Sheet *sheet, gboolean destro
 	DEPENDENT_CONTAINER_FOREACH_DEPENDENT (deps, dep, {
 		if (dependent_is_linked (dep) && (dep->flags & what)) {
 			dependent_unlink (dep);
-			if (!destroy)
-				sheet->revive.relink = g_slist_prepend (sheet->revive.relink, dep);
+			if (sheet->revive)
+				accum = g_slist_prepend (accum, dep);
 		}
 	});
-}
 
-static void
-clear_revive_info (Sheet *sheet)
-{
-	GSList *l;
-
-	for (l = sheet->revive.name_texprs; l; l = l->next->next) {
-		GnmNamedExpr *nexpr = l->data;
-		GnmExprTop const *texpr = l->next->data;
-
-		expr_name_unref (nexpr);
-		gnm_expr_top_unref (texpr);
-	}
-	g_slist_free (sheet->revive.name_texprs);
-	sheet->revive.name_texprs = NULL;
-
-	for (l = sheet->revive.dep_texprs; l; l = l->next->next) {
-		GnmDependent *dep = l->data;
-		GnmExprTop *texpr = l->next->data;
-		(void)dep;
-		gnm_expr_top_unref (texpr);
-	}
-	g_slist_free (sheet->revive.dep_texprs);
-	sheet->revive.dep_texprs = NULL;
-
-	g_slist_free (sheet->revive.relink);
-	sheet->revive.relink = NULL;
+	if (accum)
+		go_undo_group_add (sheet->revive,
+				   gnm_dep_unlink_undo_new (accum));
 }
 
 /*
@@ -2256,14 +2253,17 @@ do_deps_destroy (Sheet *sheet)
 	 * If required this optimization can be disabled for debugging.
 	 */
 	sheet->deps = NULL;
-	clear_revive_info (sheet);
+	if (sheet->revive) {
+		g_object_unref (sheet->revive);
+		sheet->revive = NULL;
+	}
 
 	for (i = BUCKET_LAST; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
-			dep_hash_destroy (hash, &dyn_deps, sheet, TRUE);
+			dep_hash_destroy (hash, &dyn_deps, sheet);
 	}
-	dep_hash_destroy (deps->single_hash, &dyn_deps, sheet, TRUE);
+	dep_hash_destroy (deps->single_hash, &dyn_deps, sheet);
 
 	g_free (deps->range_hash);
 	deps->range_hash = NULL;
@@ -2281,13 +2281,13 @@ do_deps_destroy (Sheet *sheet)
 	g_hash_table_destroy (deps->dynamic_deps);
 	deps->dynamic_deps = NULL;
 
-	handle_referencing_names (deps, sheet, TRUE);
+	handle_referencing_names (deps, sheet);
 
 	/* Now we remove any links from dependents in this sheet to
 	 * to other containers.  If the entire workbook is going away
 	 * just look for inter-book links.
 	 */
-	handle_outgoing_references (deps, sheet, TRUE);
+	handle_outgoing_references (deps, sheet);
 
 	g_free (deps);
 }
@@ -2305,6 +2305,9 @@ do_deps_invalidate (Sheet *sheet)
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->being_invalidated);
+	g_return_if_fail (sheet->revive == NULL);
+
+	sheet->revive = go_undo_group_new ();
 
 	gnm_named_expr_collection_unlink (sheet->names);
 
@@ -2313,21 +2316,21 @@ do_deps_invalidate (Sheet *sheet)
 	for (i = BUCKET_LAST; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
-			dep_hash_destroy (hash, &dyn_deps, sheet, FALSE);
+			dep_hash_destroy (hash, &dyn_deps, sheet);
 	}
-	dep_hash_destroy (deps->single_hash, &dyn_deps, sheet, FALSE);
+	dep_hash_destroy (deps->single_hash, &dyn_deps, sheet);
 
 	/* Now that we have tossed all deps to this sheet we can queue the
 	 * external dyn deps for recalc and free them */
 	handle_dynamic_deps (dyn_deps);
 
-	handle_referencing_names (deps, sheet, FALSE);
+	handle_referencing_names (deps, sheet);
 
 	/* Now we remove any links from dependents in this sheet to
 	 * to other containers.  If the entire workbook is going away
 	 * just look for inter-book links.
 	 */
-	handle_outgoing_references (deps, sheet, FALSE);
+	handle_outgoing_references (deps, sheet);
 }
 
 static void
@@ -2337,7 +2340,7 @@ cb_tweak_3d (GnmDependent *dep, G_GNUC_UNUSED gpointer value, GSList **deps)
 }
 
 static void
-tweak_3d (Sheet *sheet, gboolean destroy)
+tweak_3d (Sheet *sheet)
 {
 	Workbook *wb = sheet->workbook;
 	GSList *deps = NULL, *l;
@@ -2357,13 +2360,10 @@ tweak_3d (Sheet *sheet, gboolean destroy)
 		GnmExprTop const *newtree = gnm_expr_top_relocate (te, &rinfo, FALSE);
 
 		if (newtree != NULL) {
-			if (!destroy) {
-				gnm_expr_top_ref (te);
-				sheet->revive.dep_texprs =
-					g_slist_prepend
-					(g_slist_prepend (sheet->revive.dep_texprs, (gpointer)te),
-					 dep);
-			}
+			if (sheet->revive)
+				go_undo_group_add
+					(sheet->revive,
+					 gnm_dep_set_expr_undo_new (dep));
 			dependent_set_expr (dep, newtree);
 			gnm_expr_top_unref (newtree);
 			dependent_link (dep);
@@ -2373,20 +2373,7 @@ tweak_3d (Sheet *sheet, gboolean destroy)
 	g_slist_free (deps);
 }
 
-
-void
-dependents_invalidate_sheet (Sheet *sheet, gboolean destroy)
-{
-	GSList l;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	l.next = NULL;
-	l.data = sheet;
-	dependents_invalidate_sheets (&l, destroy);
-}
-
-void
+static void
 dependents_invalidate_sheets (GSList *sheets, gboolean destroy)
 {
 	GSList *tmp;
@@ -2409,7 +2396,7 @@ dependents_invalidate_sheets (GSList *sheets, gboolean destroy)
 		Workbook *wb = sheet->workbook;
 
 		if (wb != last_wb)
-			tweak_3d (sheet, destroy);
+			tweak_3d (sheet);
 		last_wb = wb;
 	}
 
@@ -2427,6 +2414,18 @@ dependents_invalidate_sheets (GSList *sheets, gboolean destroy)
 		Sheet *sheet = tmp->data;
 		sheet->being_invalidated = FALSE;
 	}
+}
+
+void
+dependents_invalidate_sheet (Sheet *sheet, gboolean destroy)
+{
+	GSList l;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	l.next = NULL;
+	l.data = sheet;
+	dependents_invalidate_sheets (&l, destroy);
 }
 
 void
@@ -2460,31 +2459,12 @@ dependents_workbook_destroy (Workbook *wb)
 void
 dependents_revive_sheet (Sheet *sheet)
 {
-	GSList *l;
-
-	/* Restore the expressions of names that got changed.  */
-	for (l = sheet->revive.name_texprs; l; l = l->next->next) {
-		GnmNamedExpr *nexpr = l->data;
-		GnmExprTop const *texpr = l->next->data;
-		gnm_expr_top_ref (texpr);
-		expr_name_set_expr (nexpr, texpr);
-	}
-
-	/* Restore the expressions of deps that got changed.  */
-	for (l = sheet->revive.dep_texprs; l; l = l->next->next) {
-		GnmDependent *dep = l->data;
-		GnmExprTop const *texpr = l->next->data;
-		dependent_set_expr (dep, texpr);
-		dependent_link (dep);
-		dependent_changed (dep);
-	}
-
-	dependents_link (sheet->revive.relink);
+	go_undo_undo (GO_UNDO (sheet->revive));
+	g_object_unref (sheet->revive);
+	sheet->revive = NULL;
 
 	/* Re-link local names.  */
 	gnm_named_expr_collection_relink (sheet->names);
-
-	clear_revive_info (sheet);
 
 	gnm_dep_container_sanity_check (sheet->deps);
 }
@@ -2833,3 +2813,4 @@ dependent_debug_name (GnmDependent const *dep, GString *target)
 		g_string_append (target, cell_name (GNM_DEP_TO_CELL (dep)));
 }
 
+/* ------------------------------------------------------------------------- */

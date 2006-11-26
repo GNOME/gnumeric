@@ -878,8 +878,8 @@ sheet_names_check (Sheet const *sheet, GnmRange const *r)
  **/
 void
 expr_name_perm_add (Sheet *sheet, char const *name,
-				GnmExprTop const *value,
-				gboolean is_editable)
+		    GnmExprTop const *value,
+		    gboolean is_editable)
 {
 	GnmNamedExpr *res;
 	GnmParsePos pp;
@@ -894,3 +894,26 @@ expr_name_perm_add (Sheet *sheet, char const *name,
 
 }
 
+/* ------------------------------------------------------------------------- */
+
+static void
+expr_name_set_expr_ref (GnmNamedExpr *nexpr, GnmExprTop const *texpr)
+{
+	gnm_expr_top_ref (texpr);
+	expr_name_set_expr (nexpr, texpr);
+}
+
+
+GOUndo *
+expr_name_set_expr_undo_new (GnmNamedExpr *ne)
+{
+	expr_name_ref (ne);
+	gnm_expr_top_ref (ne->texpr);
+
+	return go_undo_binary_new (ne, (gpointer)ne->texpr,
+				   (GFunc)expr_name_set_expr_ref,
+				   (GFreeFunc)expr_name_unref,
+				   (GFreeFunc)gnm_expr_top_unref);
+}
+
+/* ------------------------------------------------------------------------- */

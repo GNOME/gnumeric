@@ -1,3 +1,17 @@
+2006-11-25  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (gnm_dep_set_expr_undo_new,
+	gnm_dep_unlink_undo_new): New functions.
+	(dep_hash_destroy, invalidate_name, handle_referencing_names,
+	handle_outgoing_reference, tweak_3ds): Drop destroy argument.  All
+	callers changed.
+	(dependents_invalidate_sheets): Make static.
+	(dependents_revive_sheet): Use go_undo_undo.
+
+	* src/sheet.h: Make ::revive a GOUndoGroup *.
+
+	* src/expr-name.c (expr_name_set_expr_undo_new): New function.
+
 2006-11-25  Jody Goldberg <jody@gnome.org>
 
 	* src/clipboard.c (clipboard_paste_region) : don't warn when pasting
