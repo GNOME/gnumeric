@@ -399,8 +399,6 @@ name_guru_add (NameGuruState *state)
 		return TRUE;
 	}
 
-	g_return_val_if_fail (name[0] != '\0', TRUE);
-
 	texpr = gnm_expr_entry_parse (state->expr_entry,
 		&state->pp, parse_error_init (&perr), FALSE, GNM_EXPR_PARSE_DEFAULT);
 	if (texpr == NULL) {
