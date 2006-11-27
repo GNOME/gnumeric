@@ -1,3 +1,8 @@
+2006-11-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Bumped goffice dependency to reflect that goffice HEAD
+	is needed as building against goffice 0.3.3 now fails.
+
 2006-11-25  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (gnm_dep_set_expr_undo_new,
