@@ -393,9 +393,12 @@ name_guru_add (NameGuruState *state)
 	if (!state->action_possible)
 		return TRUE;
 
-	name  = gtk_entry_get_text (state->name);
+	name = gtk_entry_get_text (state->name);
+	if (name[0] == 0) {
+		/* Empty name -- probably ok/close after add.  */
+		return TRUE;
+	}
 
-	g_return_val_if_fail (name != NULL, TRUE);
 	g_return_val_if_fail (name[0] != '\0', TRUE);
 
 	texpr = gnm_expr_entry_parse (state->expr_entry,

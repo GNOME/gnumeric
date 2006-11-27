@@ -16,6 +16,7 @@ Morten:
 	* Prevent ssconvert from updating the recent-files list.
 	* Fix goal-seek crash.  [#377961]
 	* Minor goal-seek improvements.  [#379234]
+	* Fix critical in name definition dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.4
