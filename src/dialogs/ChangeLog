@@ -1,7 +1,7 @@
 2006-11-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-define-names.c (name_guru_add): If the name is empty,
-	simply do nothing.
+	simply do nothing.  Plug leak.
 
 2006-11-26  Morten Welinder  <terra@gnome.org>
 

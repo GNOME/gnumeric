@@ -420,7 +420,7 @@ name_guru_add (NameGuruState *state)
 			_("Why would you want to define a name to be #NAME?"));
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 		parse_error_free (&perr);
-		/* FIXME: Probable leak.  */
+		gnm_expr_top_unref (texpr);
 		return FALSE;
 	}
 
