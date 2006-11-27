@@ -33,7 +33,7 @@ update_data (gnm_float x, gnm_float y, GoalSeekData *data)
 			if (data->havexneg) {
 				/*
 				 * When we have pos and neg, prefer the new point only
-				 * if it makes the pos-neg x-internal smaller.
+				 * if it makes the pos-neg x-interval smaller.
 				 */
 				if (gnm_abs (x - data->xneg) < gnm_abs (data->xpos - data->xneg)) {
 					data->xpos = x;
@@ -55,7 +55,7 @@ update_data (gnm_float x, gnm_float y, GoalSeekData *data)
 			if (data->havexpos) {
 				/*
 				 * When we have pos and neg, prefer the new point only
-				 * if it makes the pos-neg x-internal smaller.
+				 * if it makes the pos-neg x-interval smaller.
 				 */
 				if (gnm_abs (x - data->xpos) < gnm_abs (data->xpos - data->xneg)) {
 					data->xneg = x;
@@ -209,7 +209,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 	printf ("goal_seek_newton\n");
 #endif
 
-	for (iterations = 0; iterations < 20; iterations++) {
+	for (iterations = 0; iterations < 40; iterations++) {
 		gnm_float x1, y0, df0, stepsize;
 		GoalSeekStatus status;
 
@@ -254,11 +254,15 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		if (df0 == 0)
 			return GOAL_SEEK_ERROR;
 
-		/*
-		 * Overshoot slightly to prevent us from staying on
-		 * just one side of the root.
-		 */
-		x1 = x0 - 1.000001 * y0 / df0;
+		if (data->havexpos && data->havexneg)
+			x1 = x0 - y0 / df0;
+		else
+			/*
+			 * Overshoot slightly to prevent us from staying on
+			 * just one side of the root.
+			 */
+			x1 = x0 - 1.000001 * y0 / df0;
+
 		stepsize = gnm_abs (x1 - x0) / (gnm_abs (x0) + gnm_abs (x1));
 
 #ifdef DEBUG_GOAL_SEEK
