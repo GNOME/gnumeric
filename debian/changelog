@@ -1,6 +1,12 @@
+gnumeric (1.7.4-1) experimental; urgency=medium
+
+  * New upstream development release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 27 Nov 2006 15:52:41 +0100
+
 gnumeric (1.7.3-1) experimental; urgency=medium
 
-  * New upstream release.
+  * New upstream development release.
   * [debian/po/ja.po] Added, courtesy of Shimono Atsushi
     <shimono@kwasan.kyoto-u.ac.jp>. (Closes: #384994).
   * [debian/po/it.po] Added, courtesy of Luca Monducci <luca.mo@tiscali.it>.
