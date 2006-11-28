@@ -428,7 +428,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	
 	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 
-	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt, NULL);
+	uri = go_gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt, NULL);
 	if (!uri)
 		goto out;
 

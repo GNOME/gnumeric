@@ -136,7 +136,7 @@ format_nonnumber (GnmValue const *value)
 		return "";
 
 	case VALUE_BOOLEAN:
-		return format_boolean (value->v_bool.val);
+		return go_format_boolean (value->v_bool.val);
 
 	case VALUE_ERROR:
 	case VALUE_STRING:

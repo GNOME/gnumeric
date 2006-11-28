@@ -261,7 +261,7 @@ couppcd (GDate const *settlement, GDate const *maturity,
 	 GnmCouponConvention const *conv)
 {
 	GDate date;
-	coup_cd (&date, settlement, maturity, conv->freq, conv->eom, FALSE);
+	go_coup_cd (&date, settlement, maturity, conv->freq, conv->eom, FALSE);
 	return datetime_g_to_serial (&date, conv->date_conv);
 }
 
@@ -270,7 +270,7 @@ coupncd (GDate const *settlement, GDate const *maturity,
 	 GnmCouponConvention const *conv)
 {
 	GDate date;
-	coup_cd (&date, settlement, maturity, conv->freq, conv->eom, TRUE);
+	go_coup_cd (&date, settlement, maturity, conv->freq, conv->eom, TRUE);
 	return datetime_g_to_serial (&date, conv->date_conv);
 }
 
@@ -281,9 +281,9 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
 	gnm_float a, d, e, sum, den, basem1, exponent, first_term, last_term;
 	int       n;
 
-	a = coupdaybs (settlement, maturity, conv);
-	d = coupdaysnc (settlement, maturity, conv);
-	e = coupdays (settlement, maturity, conv);
+	a = go_coupdaybs (settlement, maturity, conv);
+	d = go_coupdaysnc (settlement, maturity, conv);
+	e = go_coupdays (settlement, maturity, conv);
 	n = coupnum (settlement, maturity, conv);
 
 	den = 100.0 * rate / conv->freq;
@@ -2718,11 +2718,11 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	n = coupnum (&udata.settlement, &udata.maturity, &udata.conv);
 	if (n <= 1.0) {
-		gnm_float a = coupdaybs (&udata.settlement, &udata.maturity,
+		gnm_float a = go_coupdaybs (&udata.settlement, &udata.maturity,
 					 &udata.conv);
-		gnm_float d = coupdaysnc (&udata.settlement, &udata.maturity,
+		gnm_float d = go_coupdaysnc (&udata.settlement, &udata.maturity,
 					 &udata.conv);
-		gnm_float e = coupdays (&udata.settlement, &udata.maturity,
+		gnm_float e = go_coupdays (&udata.settlement, &udata.maturity,
 					 &udata.conv);
 
 	        gnm_float coeff = udata.conv.freq * e / d;
@@ -2925,21 +2925,21 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 	GDate next_coupon, prev_coupon;
 	gnm_float res;
 
-	coup_cd (&next_coupon, d1, d3, conv->freq, conv->eom, TRUE);
-	coup_cd (&prev_coupon, d1, d3, conv->freq, conv->eom, FALSE);
+	go_coup_cd (&next_coupon, d1, d3, conv->freq, conv->eom, TRUE);
+	go_coup_cd (&prev_coupon, d1, d3, conv->freq, conv->eom, FALSE);
 
 	if (g_date_compare (&next_coupon, d2) >= 0)
 		return days_between_basis (d1, d2, conv->basis) /
-			coupdays (&prev_coupon, &next_coupon, conv);
+			go_coupdays (&prev_coupon, &next_coupon, conv);
 
 	res = days_between_basis (d1, &next_coupon, conv->basis) /
-		coupdays (&prev_coupon, &next_coupon, conv);
+		go_coupdays (&prev_coupon, &next_coupon, conv);
 	while (1) {
 		prev_coupon = next_coupon;
 		g_date_add_months (&next_coupon, 12 / conv->freq);
 		if (g_date_compare (&next_coupon, d2) >= 0) {
 			res += days_between_basis (&prev_coupon, d2, conv->basis) /
-				coupdays (&prev_coupon, &next_coupon, conv);
+				go_coupdays (&prev_coupon, &next_coupon, conv);
 			return res;
 		}
 		res += 1;
@@ -2956,7 +2956,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 	gnm_float a = days_between_basis (issue, settlement, conv->basis);
 	gnm_float ds = days_between_basis (settlement, first_coupon, conv->basis);
 	gnm_float df = days_between_basis (issue, first_coupon, conv->basis);
-	gnm_float e = coupdays (settlement, maturity, conv);
+	gnm_float e = go_coupdays (settlement, maturity, conv);
 	int n = (int)coupnum (settlement, maturity, conv);
 	gnm_float scale = 100.0 * rate / conv->freq;
 	gnm_float f = 1.0 + yield / conv->freq;
@@ -2980,7 +2980,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 				g_date_add_months (&d, 12 / conv->freq);
 				if (g_date_compare (&d, maturity) >= 0) {
 					n += (int)gnm_ceil (days_between_basis (&prev_date, maturity, conv->basis) /
-							    coupdays (&prev_date, &d, conv))
+							    go_coupdays (&prev_date, &d, conv))
 						+ 1;
 					break;
 				}
@@ -3513,7 +3513,7 @@ static GnmFuncHelp const help_coupdaybs[] = {
 static GnmValue *
 gnumeric_coupdaybs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return func_coup (ei, argv, coupdaybs);
+	return func_coup (ei, argv, go_coupdaybs);
 }
 
 /***************************************************************************/
@@ -3562,7 +3562,7 @@ static GnmFuncHelp const help_coupdays[] = {
 static GnmValue *
 gnumeric_coupdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return func_coup (ei, argv, coupdays);
+	return func_coup (ei, argv, go_coupdays);
 }
 
 /***************************************************************************/
@@ -3610,7 +3610,7 @@ static GnmFuncHelp const help_coupdaysnc[] = {
 static GnmValue *
 gnumeric_coupdaysnc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return func_coup (ei, argv, coupdaysnc);
+	return func_coup (ei, argv, go_coupdaysnc);
 }
 
 /***************************************************************************/
@@ -3989,13 +3989,13 @@ GnmFuncDescriptor const financial_functions[] = {
 	  help_amorlinc, gnumeric_amorlinc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupdaybs", "fff|fb", "settlement,maturity,frequency,basis,eom",
+	{ "go_coupdaybs", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  help_coupdaybs, gnumeric_coupdaybs, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupdays", "fff|fb", "settlement,maturity,frequency,basis,eom",
+	{ "go_coupdays", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  help_coupdays, gnumeric_coupdays, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupdaysnc", "fff|fb", "settlement,maturity,frequency,basis,eom",
+	{ "go_coupdaysnc", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  help_coupdaysnc, gnumeric_coupdaysnc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "coupncd", "fff|fb", "settlement,maturity,frequency,basis,eom",

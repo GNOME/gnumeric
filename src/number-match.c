@@ -73,9 +73,9 @@ GnmValue *
 format_match_simple (char const *text)
 {
 	/* Is it a boolean?  */
-	if (0 == g_ascii_strcasecmp (text, format_boolean (TRUE)))
+	if (0 == g_ascii_strcasecmp (text, go_format_boolean (TRUE)))
 		return value_new_bool (TRUE);
-	if (0 == g_ascii_strcasecmp (text, format_boolean (FALSE)))
+	if (0 == g_ascii_strcasecmp (text, go_format_boolean (FALSE)))
 		return value_new_bool (FALSE);
 
 	/* Is it an error?  */
@@ -185,7 +185,7 @@ datetime_locale_setup (char const *lc_time)
 		g_string_append_c (p_MMM, ')');
 	}
 
-	go_regexp_quote (p_decimal, format_get_decimal ()->str);
+	go_regexp_quote (p_decimal, go_format_get_decimal ()->str);
 
 	/*
 	 * "Dec 1, 2000"
@@ -789,7 +789,7 @@ hack_month_before_day (GOFormat const *cur_fmt)
 	if (pos_m && pos_d)
 		res = (pos_m < pos_d);
 	else
-		res = format_month_before_day ();
+		res = go_format_month_before_day ();
 
 	g_free (s);
 	return res;
@@ -897,9 +897,9 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 	gboolean has_percent = FALSE;
 	char sign = 0;
 	GString *numstr = g_string_sized_new (20);
-	GString const *curr = format_get_currency (NULL, NULL);
-	GString const *thousand = format_get_thousand ();
-	GString const *decimal = format_get_decimal ();
+	GString const *curr = go_format_get_currency (NULL, NULL);
+	GString const *thousand = go_format_get_thousand ();
+	GString const *decimal = go_format_get_decimal ();
 	gboolean last_was_digit = FALSE;
 	gboolean allow1000 = (thousand->len != 0);
 
@@ -1184,7 +1184,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 	}
 
 	v = format_match_datetime (text, date_conv,
-				   format_month_before_day (),
+				   go_format_month_before_day (),
 				   TRUE,
 				   FALSE);
 	if (v)

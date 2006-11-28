@@ -662,7 +662,7 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 		return;
 
 	if (gcanvas->insert_decimal) {
-		GString const *s = format_get_decimal ();
+		GString const *s = go_format_get_decimal ();
 		str = s->str;
 		length = s->len;
 	} else

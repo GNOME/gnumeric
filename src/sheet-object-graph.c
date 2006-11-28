@@ -292,7 +292,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 
 #warning "This violates model gui barrier"
 	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
-	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format, &resolution);
+	uri = go_gui_get_image_save_info (wbcg_toplevel (wbcg), l, &selected_format, &resolution);
 	if (!uri)
 		goto out;
 	output = go_file_create (uri, &err);

@@ -33,7 +33,7 @@ value_dump (GnmValue const *value)
 		break;
 
 	case VALUE_BOOLEAN:
-		printf ("BOOLEAN: %s\n", format_boolean (value->v_bool.val));
+		printf ("BOOLEAN: %s\n", go_format_boolean (value->v_bool.val));
 		break;
 
 	case VALUE_STRING:

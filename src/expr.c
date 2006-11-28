@@ -2463,7 +2463,7 @@ gnm_expr_list_as_string (GString *target,
 	if (conv->output_argument_sep)
 		sep = conv->output_argument_sep;
 	else {
-		arg_sep[0] = format_get_arg_sep ();
+		arg_sep[0] = go_format_get_arg_sep ();
 		arg_sep[1] = 0;
 		sep = arg_sep;
 	}

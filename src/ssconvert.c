@@ -322,11 +322,11 @@ main (int argc, char **argv)
 		go_plugins_get_available_plugins (), &plugin_errs);
 
 	if (ssconvert_list_exporters)
-		list_them (&get_file_savers,
+		list_them (&go_get_file_savers,
 			   (get_desc_f) &go_file_saver_get_id,
 			   (get_desc_f) &go_file_saver_get_description);
 	else if (ssconvert_list_importers)
-		list_them (&get_file_openers,
+		list_them (&go_get_file_openers,
 			   (get_desc_f) &go_file_opener_get_id,
 			   (get_desc_f) &go_file_opener_get_description);
 	else if (argc == 2 || argc == 3) {

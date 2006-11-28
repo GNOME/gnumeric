@@ -197,7 +197,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	GOFileOpener *fo = NULL;
 	Workbook *workbook = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
-	openers = g_list_sort (g_list_copy (get_file_openers ()),
+	openers = g_list_sort (g_list_copy (go_get_file_openers ()),
 			       file_opener_description_cmp);
 	/* NULL represents automatic file type recognition */
 	openers = g_list_prepend (openers, NULL);
@@ -370,7 +370,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
-	for (l = get_file_savers (); l; l = l->next) {
+	for (l = go_get_file_savers (); l; l = l->next) {
 		if ((l->data == NULL) || 
 		    (go_file_saver_get_save_scope (GO_FILE_SAVER (l->data)) 
 		     != FILE_SAVE_RANGE))

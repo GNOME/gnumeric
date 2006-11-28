@@ -346,7 +346,7 @@ function_dump_defs (char const *filename, int dump_type)
 					if (first_arg)
 						first_arg = FALSE;
 					else
-						g_string_append_c (syntax, format_get_arg_sep ());
+						g_string_append_c (syntax, go_format_get_arg_sep ());
 					g_string_append (syntax, name);
 					if (desc) {
 						g_string_append_printf (arg_desc,
@@ -984,7 +984,7 @@ function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 	translated_arguments = _(fn_def->arg_names);
 	uc = (strcmp (translated_arguments, fn_def->arg_names) == 0)
 		? ','
-		: format_get_arg_sep ();
+		: go_format_get_arg_sep ();
 	delimiter[g_unichar_to_utf8 (uc, delimiter)] = 0;
 
 	start = translated_arguments;

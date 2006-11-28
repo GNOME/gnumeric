@@ -402,7 +402,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 				case GNM_EXPR_OP_ARRAY_CORNER :
 					tmp = g_strdup_printf ("{%s}(%d%c%d)[%d][%d]", text,
 						expr->array_corner.cols,
-						format_get_arg_sep (),
+						go_format_get_arg_sep (),
 						expr->array_corner.rows,
 						y, x);
 					g_free (text);
@@ -1150,7 +1150,7 @@ wb_view_new_from_input  (GsfInput *input,
 		int input_refs = G_OBJECT (input)->ref_count;
 
 		for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
-			for (l = get_file_openers (); l != NULL; l = l->next) {
+			for (l = go_get_file_openers (); l != NULL; l = l->next) {
 				GOFileOpener const *tmp_fo = GO_FILE_OPENER (l->data);
 				int new_input_refs;
 				/* A name match needs to be a content match too */

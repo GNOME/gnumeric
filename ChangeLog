@@ -1,3 +1,7 @@
+2006-11-27  Morten Welinder  <terra@gnome.org>
+
+	* Catch up with goffice renamings.
+
 2006-11-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Bumped goffice dependency to reflect that goffice HEAD

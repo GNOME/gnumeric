@@ -262,7 +262,7 @@ main (int argc, char **argv)
 		g_object_unref (ioc);
 	} else if (ssindex_list_mime_types) {
 		GList *o;
-		for (o = get_file_openers (); o != NULL ; o = o->next) {
+		for (o = go_get_file_openers (); o != NULL ; o = o->next) {
 			GSList const *mime = go_file_opener_get_mimes (o->data);
 			for (; mime != NULL ; mime = mime->next)
 				g_print ("%s\n", (char const *)mime->data);

@@ -117,7 +117,7 @@ split_char_p (unsigned char const *c)
 	case '^': case '&': case '%': case '!':
 		return TRUE;
 	default :
-		return *c == format_get_arg_sep () || *c == format_get_col_sep ();
+		return *c == go_format_get_arg_sep () || *c == go_format_get_col_sep ();
 	}
 }
 
@@ -476,7 +476,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 	case GDK_KP_Decimal: {
 		GtkEditable *editable = GTK_EDITABLE (entry);
 		gint start, end, l;
-		GString const* s = format_get_decimal ();
+		GString const* s = go_format_get_decimal ();
 		gchar const* decimal = s->str;
 		l = s->len;
 		gtk_editable_get_selection_bounds (editable, &start, &end);
