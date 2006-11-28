@@ -770,13 +770,15 @@ cellregion_to_string (GnmCellRegion const *cr,
 	int cols, rows, col, row, next_col_check, next_row_check;
 	ColRowStateList	const *col_state, *row_state;
 	ColRowRLEState const *rle;
+	int ncells;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (cr->rows >= 0, NULL);
 	g_return_val_if_fail (cr->cols >= 0, NULL);
 
 	/* pre-allocate rough approximation of buffer */
-	all = g_string_sized_new (20 * g_hash_table_size (cr->cell_content));
+	ncells = cr->cell_content ? g_hash_table_size (cr->cell_content) : 0;
+	all = g_string_sized_new (20 * ncells + 1);
 	line = g_string_new (NULL);
 
 	cols = cr->cols;
