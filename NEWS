@@ -17,6 +17,7 @@ Morten:
 	* Fix goal-seek crash.  [#377961]
 	* Minor goal-seek improvements.  [#379234]
 	* Fix critical in name definition dialog.
+	* Improve precision of goal-seek.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.4
@@ -193,7 +194,6 @@ Morten:
 	* Fix ods import of time values.  [#355943]
 
 Shixin Zeng:
-
 	* Add \L{} escape to LaTeX exporter (The content of the 
           braces is being inserted literally into the LaTeX file.) 
 

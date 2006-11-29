@@ -1,5 +1,8 @@
 2006-11-28  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (convert): Call goal seek if requestion (for
+	testing purposes).
+
 	* src/clipboard.c (cellregion_to_string): Fix critical.
 
 2006-11-27  Morten Welinder  <terra@gnome.org>

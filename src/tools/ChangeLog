@@ -1,3 +1,8 @@
+2006-11-28  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_newton_polish): New function for
+	post-processing.
+
 2006-11-26  Morten Welinder  <terra@gnome.org>
 
 	* goal-seek.c (goal_seek_newton): Allow up to 40 iterations.

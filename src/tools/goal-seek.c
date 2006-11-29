@@ -21,9 +21,6 @@
 #include <math.h>
 #include <limits.h>
 
-#ifdef DEBUG_GOAL_SEEK
-#include <stdio.h>
-#endif
 
 static gboolean
 update_data (gnm_float x, gnm_float y, GoalSeekData *data)
@@ -77,6 +74,9 @@ update_data (gnm_float x, gnm_float y, GoalSeekData *data)
 		/* Lucky guess...  */
 		data->have_root = TRUE;
 		data->root = x;
+#ifdef DEBUG_GOAL_SEEK
+		g_print ("update_data: got root %.20" GNM_FORMAT_g "\n", x);
+#endif
 		return TRUE;
 	}
 }
@@ -94,7 +94,7 @@ fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
 	GoalSeekStatus status;
 
 #ifdef DEBUG_GOAL_SEEK
-	printf ("fake_df (x=%.20" GNM_FORMAT_g ", xstep=%.20" GNM_FORMAT_g ")\n",
+	g_print ("fake_df (x=%.20" GNM_FORMAT_g ", xstep=%.20" GNM_FORMAT_g ")\n",
 		x, xstep);
 #endif
 
@@ -108,7 +108,7 @@ fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
 
 	if (xl == xr) {
 #ifdef DEBUG_GOAL_SEEK
-		printf ("==> xl == xr\n");
+		g_print ("==> xl == xr\n");
 #endif
 		return GOAL_SEEK_ERROR;
 	}
@@ -116,30 +116,30 @@ fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
 	status = f (xl, &yl, user_data);
 	if (status != GOAL_SEEK_OK) {
 #ifdef DEBUG_GOAL_SEEK
-		printf ("==> failure at xl\n");
+		g_print ("==> failure at xl\n");
 #endif
 		return status;
 	}
 #ifdef DEBUG_GOAL_SEEK
-	printf ("==> xl=%.20" GNM_FORMAT_g "; yl=%.20" GNM_FORMAT_g "\n",
-		xl, yl);
+	g_print ("==> xl=%.20" GNM_FORMAT_g "; yl=%.20" GNM_FORMAT_g "\n",
+		 xl, yl);
 #endif
 
 	status = f (xr, &yr, user_data);
 	if (status != GOAL_SEEK_OK) {
 #ifdef DEBUG_GOAL_SEEK
-		printf ("==> failure at xr\n");
+		g_print ("==> failure at xr\n");
 #endif
 		return status;
 	}
 #ifdef DEBUG_GOAL_SEEK
-	printf ("==> xr=%.20" GNM_FORMAT_g "; yr=%.20" GNM_FORMAT_g "\n",
-		xr, yr);
+	g_print ("==> xr=%.20" GNM_FORMAT_g "; yr=%.20" GNM_FORMAT_g "\n",
+		 xr, yr);
 #endif
 
 	*dfx = (yr - yl) / (xr - xl);
 #ifdef DEBUG_GOAL_SEEK
-	printf ("==> %.20" GNM_FORMAT_g "\n", *dfx);
+	g_print ("==> %.20" GNM_FORMAT_g "\n", *dfx);
 #endif
 	return gnm_finite (*dfx) ? GOAL_SEEK_OK : GOAL_SEEK_ERROR;
 }
@@ -169,6 +169,10 @@ goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
 	if (data->have_root)
 		return GOAL_SEEK_OK;
 
+#ifdef DEBUG_GOAL_SEEK
+	g_print ("goal_seek_point\n");
+#endif
+
 	if (x0 < data->xmin || x0 > data->xmax)
 		return GOAL_SEEK_ERROR;
 
@@ -180,6 +184,98 @@ goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
 		return GOAL_SEEK_OK;
 
 	return GOAL_SEEK_ERROR;
+}
+
+
+static GoalSeekStatus
+goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
+			 GoalSeekData *data, void *user_data,
+			 gnm_float x0, gnm_float y0)
+{
+	int iterations;
+	gboolean try_newton = TRUE;
+	gboolean try_square = x0 != 0 && gnm_abs (x0) < 1e10;
+
+#ifdef DEBUG_GOAL_SEEK
+	g_print ("goal_seek_newton_polish\n");
+#endif
+
+	for (iterations = 0; iterations < 20; iterations++) {
+		if (try_square) {
+			double x1 = x0 * gnm_abs (x0);
+			double y1, r;
+			GoalSeekStatus status = f (x1, &y1, user_data);
+			if (status != GOAL_SEEK_OK)
+				goto nomore_square;
+
+			if (update_data (x1, y1, data))
+				return GOAL_SEEK_OK;
+
+			r = gnm_abs (y1 / y0);
+			if (r >= 1)
+				goto nomore_square;
+
+			x0 = x1;
+#ifdef DEBUG_GOAL_SEEK	
+			g_print ("polish square: x0=%.20" GNM_FORMAT_g "\n",
+				 x0);
+#endif
+			if (r > 0.5)
+				goto nomore_square;
+
+			continue;
+
+		nomore_square:
+			try_square = FALSE;
+		}
+
+		if (try_newton) {
+			double df0, r, x1, y1;
+			GoalSeekStatus status = df
+				? df (x0, &df0, user_data)
+				: fake_df (f, x0, &df0, gnm_abs (x0) / 1e6, data, user_data);
+			if (status != GOAL_SEEK_OK || df0 == 0)
+				df0 = 1;  /* Bogus */
+
+			x1 = x0 - y0 / df0;
+			if (x1 < data->xmin || x1 > data->xmax)
+				goto nomore_newton;
+
+			status = f (x1, &y1, user_data);
+			if (status != GOAL_SEEK_OK)
+				goto nomore_newton;
+
+			if (update_data (x1, y1, data))
+				return GOAL_SEEK_OK;
+
+			r = gnm_abs (y1 / y0);
+			if (r >= 1)
+				goto nomore_newton;
+
+			x0 = x1;
+#ifdef DEBUG_GOAL_SEEK	
+			g_print ("polish Newton: x0=%.20" GNM_FORMAT_g "\n",
+				 x0);
+#endif
+			if (r > 0.5)
+				goto nomore_newton;
+
+			continue;
+
+		nomore_newton:
+			try_newton = FALSE;
+		}
+
+		/* Nothing left to try.  */
+		break;
+	}
+
+	if (goal_seek_bisection (f, data, user_data) == GOAL_SEEK_OK)
+		return GOAL_SEEK_OK;
+
+	data->root = x0;
+	data->have_root = TRUE;
+	return GOAL_SEEK_OK;
 }
 
 
@@ -206,7 +302,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		return GOAL_SEEK_OK;
 
 #ifdef DEBUG_GOAL_SEEK
-	printf ("goal_seek_newton\n");
+	g_print ("goal_seek_newton\n");
 #endif
 
 	for (iterations = 0; iterations < 40; iterations++) {
@@ -214,7 +310,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		GoalSeekStatus status;
 
 #ifdef DEBUG_GOAL_SEEK	
-		printf ("x0 = %.20" GNM_FORMAT_g "   (i=%d)\n", x0, iterations);
+		g_print ("x0 = %.20" GNM_FORMAT_g "   (i=%d)\n", x0, iterations);
 #endif
 
 		/* Check whether we have left the valid interval.  */
@@ -226,7 +322,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			return status;
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("                                        y0 = %.20" GNM_FORMAT_g "\n", y0);
+		g_print ("                                        y0 = %.20" GNM_FORMAT_g "\n", y0);
 #endif
 
 		if (update_data (x0, y0, data))
@@ -251,8 +347,13 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			return status;
 
 		/* If we hit a flat spot, we are in trouble.  */
-		if (df0 == 0)
-			return GOAL_SEEK_ERROR;
+		if (df0 == 0) {
+			if (iterations == 0)
+				/* Bogus, but ought to get us away from flat spot.  */
+				df0 = 1;
+			else
+				return GOAL_SEEK_ERROR;
+		}
 
 		if (data->havexpos && data->havexneg)
 			x1 = x0 - y0 / df0;
@@ -266,17 +367,16 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		stepsize = gnm_abs (x1 - x0) / (gnm_abs (x0) + gnm_abs (x1));
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("                                        df0 = %.20" GNM_FORMAT_g "\n", df0);
-		printf ("                                        ss = %.20" GNM_FORMAT_g "\n", stepsize);
+		g_print ("                                        df0 = %.20" GNM_FORMAT_g "\n", df0);
+		g_print ("                                        ss = %.20" GNM_FORMAT_g "\n", stepsize);
 #endif
 
-		x0 = x1;
-
 		if (stepsize < precision) {
-			data->root = x0;
-			data->have_root = TRUE;
+			goal_seek_newton_polish (f, df, data, user_data, x0, y0);
 			return GOAL_SEEK_OK;
 		}
+
+		x0 = x1;
 	}
 
 	return GOAL_SEEK_ERROR;
@@ -309,7 +409,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 		return GOAL_SEEK_OK;
 
 #ifdef DEBUG_GOAL_SEEK
-	printf ("goal_seek_bisection\n");
+	g_print ("goal_seek_bisection\n");
 #endif
 
 	if (!data->havexpos || !data->havexneg)
@@ -423,8 +523,8 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			default: themethod = "?";
 			}
 
-			printf ("xmid = %.20" GNM_FORMAT_g " (%s)\n", xmid, themethod);
-			printf ("                                        ymid = %.20" GNM_FORMAT_g "\n", ymid);
+			g_print ("xmid = %.20" GNM_FORMAT_g " (%s)\n", xmid, themethod);
+			g_print ("                                        ymid = %.20" GNM_FORMAT_g "\n", ymid);
 		}
 #endif
 
@@ -436,7 +536,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			/ (gnm_abs (data->xpos) + gnm_abs (data->xneg));
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("                                          ss = %.20" GNM_FORMAT_g "\n", stepsize);
+		g_print ("                                          ss = %.20" GNM_FORMAT_g "\n", stepsize);
 #endif
 
 		if (stepsize < data->precision) {
@@ -468,6 +568,10 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 	if (data->have_root)
 		return GOAL_SEEK_OK;
 
+#ifdef DEBUG_GOAL_SEEK
+	g_print ("goal_seek_trawl_uniformly\n");
+#endif
+
 	if (xmin > xmax || xmin < data->xmin || xmax > data->xmax)
 		return GOAL_SEEK_ERROR;
 
@@ -485,8 +589,8 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 			continue;
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("x = %.20" GNM_FORMAT_g "\n", x);
-		printf ("                                        y = %.20" GNM_FORMAT_g "\n", y);
+		g_print ("x = %.20" GNM_FORMAT_g "\n", x);
+		g_print ("                                        y = %.20" GNM_FORMAT_g "\n", y);
 #endif
 
 		if (update_data (x, y, data))
@@ -509,6 +613,10 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 	if (data->have_root)
 		return GOAL_SEEK_OK;
 
+#ifdef DEBUG_GOAL_SEEK
+	g_print ("goal_seek_trawl_normally\n");
+#endif
+
 	if (sigma <= 0 || mu < data->xmin || mu > data->xmax)
 		return GOAL_SEEK_ERROR;
 
@@ -529,8 +637,8 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 			continue;
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("x = %.20" GNM_FORMAT_g "\n", x);
-		printf ("                                        y = %.20" GNM_FORMAT_g "\n", y);
+		g_print ("x = %.20" GNM_FORMAT_g "\n", x);
+		g_print ("                                        y = %.20" GNM_FORMAT_g "\n", y);
 #endif
 
 		if (update_data (x, y, data))

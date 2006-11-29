@@ -21,6 +21,7 @@
 #include "command-context.h"
 #include "command-context-stderr.h"
 #include "workbook-view.h"
+#include <dialogs/dialogs.h>
 #include <goffice/app/file.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-cmd-context.h>
@@ -37,6 +38,7 @@ static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
 static char *ssconvert_export_id = NULL;
+static char **ssconvert_goal_seek = NULL;
 
 static const GOptionEntry ssconvert_options [] = { 
 	{
@@ -115,11 +117,21 @@ static const GOptionEntry ssconvert_options [] = {
 		NULL
 	},
 
+
+	/* ---------------------------------------- */
+
 	/* For now this is for INTERNAL GNUMERIC ONLY.  */
 	{
 		"export-range", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_range,
 		N_("The range to export"),
+		NULL
+	},
+
+	{
+		"goal-seek", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING_ARRAY, &ssconvert_goal_seek,
+		N_("Goal seek areas"),
 		NULL
 	},
 
@@ -129,7 +141,7 @@ static const GOptionEntry ssconvert_options [] = {
 };
 
 static void
-setup_range (Workbook *wb, const char *rtxt)
+setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 {
 	GnmParsePos pp;
 	const char *end;
@@ -146,8 +158,7 @@ setup_range (Workbook *wb, const char *rtxt)
 		exit (1);
 	}
 
-	g_object_set_data_full (G_OBJECT (wb),
-				"ssconvert-range",
+	g_object_set_data_full (obj, key,
 				g_memdup (&rr, sizeof (rr)),
 				g_free);
 }
@@ -254,12 +265,28 @@ convert (char const *inarg, char const *outarg,
 			res = 1;
 		} else {
 			Workbook *wb = wb_view_get_workbook (wbv);
+			Sheet *sheet = wb_view_cur_sheet (wbv);
+
+			if (ssconvert_goal_seek) {
+				int i;
+
+				for (i = 0; ssconvert_goal_seek[i]; i++) {
+					setup_range (G_OBJECT (sheet),
+						     "ssconvert-goal-seek",
+						     wb,
+						     ssconvert_goal_seek[i]);
+					dialog_goal_seek (NULL, sheet);
+				}
+			}
 
 			if (ssconvert_recalc)
 				workbook_recalc_all (wb);
 
 			if (ssconvert_range)
-				setup_range (wb, ssconvert_range);
+				setup_range (G_OBJECT (wb),
+					     "ssconvert-range",
+					     wb,
+					     ssconvert_range);
 			else if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK) {
 				if (ssconvert_one_file_per_sheet) {
 					g_warning ("TODO");

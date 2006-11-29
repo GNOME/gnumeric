@@ -92,6 +92,7 @@ sub dump_indented {
     my ($txt) = @_;
     return if $txt eq '';
     $txt =~ s/^/| /gm;
+    $txt = "$txt\n" unless substr($txt, -1) eq "\n";
     print STDERR $txt;
 }
 
@@ -128,13 +129,17 @@ sub test_command {
 # -----------------------------------------------------------------------------
 
 sub test_sheet_calc {
-    my ($file,$range,$expected) = @_;
+    my $file = shift @_;
+    my $pargs = (ref $_[0]) ? shift @_ : [];
+    my ($range,$expected) = @_;
 
     my $tmp = fileparse ($file);
     $tmp =~ s/\.[a-zA-Z0-9]+$/.csv/;
     &junkfile ($tmp);
 
-    my $code = system ("$ssconvert --recalc --export-range='$range' '$file' '$tmp' 2>&1 | sed -e 's/^/| /'");
+    my $code = system ("$ssconvert " .
+		       join (" ", @$pargs) .
+		       " --recalc --export-range='$range' '$file' '$tmp' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
     my $actual = &read_file ($tmp);
@@ -152,7 +157,7 @@ sub test_sheet_calc {
     if ($ok) {
 	print STDERR "Pass\n";
     } else {
-	die "Fail.\n$actual\n";
+	die "Fail.\n\n";
     }
 }
 

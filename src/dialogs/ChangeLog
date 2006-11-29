@@ -1,3 +1,9 @@
+2006-11-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-goal-seek.c (dialog_goal_seek): Call
+	dialog_goal_seek_test as appropritate.
+	(dialog_goal_seek_test): New function.
+
 2006-11-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-define-names.c (name_guru_add): If the name is empty,

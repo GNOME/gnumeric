@@ -51,6 +51,9 @@
 #include <gtk/gtktable.h>
 
 #include <math.h>
+#include <string.h>
+
+static const gnm_float max_range_val = GNM_const(1e24);
 
 #define MAX_CELL_NAME_LEN  20
 #define GOALSEEK_KEY            "goal-seek-dialog"
@@ -335,7 +338,6 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 {
 	char *status_str;
 	GoalSeekStatus status;
-  	gnm_float max_range_val = 1e24;
 	GnmValue *target;
 	GnmRangeRef const *r;
 	GOFormat *format;
@@ -609,6 +611,64 @@ dialog_init (GoalSeekState *state)
 	return FALSE;
 }
 
+/*
+ * We need a horizontal strip of 5 cells containing:
+ *
+ * 0. Formula cell.
+ * 1: X value cell.
+ * 2: Y target value.
+ * 3: Min value.
+ * 4: Max value.
+ */
+static void
+dialog_goal_seek_test (Sheet *sheet, const GnmRange *range)
+{
+	GoalSeekState state;
+	GnmCell *cell;
+	int r, c;
+	GoalSeekStatus status;
+
+	g_return_if_fail (range->start.row == range->end.row);
+	g_return_if_fail (range->start.col + 4 == range->end.col);
+
+	memset (&state, 0, sizeof (state));
+	r = range->start.row;
+	c = range->start.col;
+
+	state.wb = sheet->workbook;
+	state.sheet = sheet;
+
+	state.set_cell = sheet_cell_fetch (sheet, c + 0, r);
+	state.change_cell = sheet_cell_fetch (sheet, c + 1, r);
+	state.old_value = state.change_cell->value
+		? value_dup (state.change_cell->value)
+		: NULL;
+
+	cell = sheet_cell_fetch (sheet, c + 2, r);
+	state.target_value = value_get_as_float (cell->value);
+
+	cell = sheet_cell_fetch (sheet, c + 3, r);
+	state.xmin = VALUE_IS_EMPTY (cell->value)
+		? -max_range_val
+		: value_get_as_float (cell->value);
+
+	cell = sheet_cell_fetch (sheet, c + 4, r);
+	state.xmax = VALUE_IS_EMPTY (cell->value)
+		? max_range_val
+		: value_get_as_float (cell->value);
+
+	status = gnumeric_goal_seek (&state);
+	if (status == GOAL_SEEK_OK) {
+		/* Nothing */
+	} else {
+		sheet_cell_set_value (state.change_cell,
+				      value_new_error_VALUE (NULL));
+	}
+
+	if (state.old_value)
+		value_release (state.old_value);
+}
+
 /**
  * dialog_goal_seek:
  * @wbcg:
@@ -622,6 +682,28 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         GoalSeekState *state;
 	GladeXML *gui;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	/* Testing hook.  */
+	if (wbcg == NULL) {
+		GnmRangeRef *range =
+			g_object_get_data (G_OBJECT (sheet), "ssconvert-goal-seek");
+		if (range) {
+			Sheet *start_sheet, *end_sheet;
+			GnmEvalPos ep;
+			GnmRange r;
+
+			gnm_rangeref_normalize (range,
+						eval_pos_init_sheet (&ep, sheet),
+						&start_sheet, &end_sheet,
+						&r);
+			g_return_if_fail (start_sheet == sheet);
+
+			dialog_goal_seek_test (sheet, &r);
+			return;
+		}
+	}
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -652,6 +734,4 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 			       GOALSEEK_KEY);
 
 	gtk_widget_show (state->dialog);
-
-        return;
 }
