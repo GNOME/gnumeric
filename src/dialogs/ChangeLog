@@ -3,6 +3,9 @@
 	* dialog-goal-seek.c (dialog_goal_seek): Call
 	dialog_goal_seek_test as appropritate.
 	(dialog_goal_seek_test): New function.
+	(gnumeric_goal_seek): Use initial guess only if it is actually
+	valid.  Otherwise use midpoint.  For the normal trawls, don't let
+	sigma exceed 1e6.
 
 2006-11-27  Morten Welinder  <terra@gnome.org>
 

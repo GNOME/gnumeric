@@ -146,7 +146,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	{
 		gnm_float x0;
 
-		if (hadold)
+		if (hadold && oldx >= seekdata.xmin && oldx <= seekdata.xmax)
 			x0 = oldx;
 		else
 			x0 = (seekdata.xmin + seekdata.xmax) / 2;
@@ -173,7 +173,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 		gnm_float sigma, mu;
 		int i;
 
-		sigma = seekdata.xmax - seekdata.xmin;
+		sigma = MIN (seekdata.xmax - seekdata.xmin, 1e6);
 		mu = (seekdata.xmax + seekdata.xmin) / 2;
 
 		for (i = 0; i < 5; i++) {
@@ -191,7 +191,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 		gnm_float sigma, mu;
 		int i;
 
-		sigma = seekdata.xmax - seekdata.xmin;
+		sigma = MIN (seekdata.xmax - seekdata.xmin, 1e6);
 		mu = seekdata.xmin;
 
 		for (i = 0; i < 5; i++) {
@@ -209,7 +209,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 		gnm_float sigma, mu;
 		int i;
 
-		sigma = seekdata.xmax - seekdata.xmin;
+		sigma = MIN (seekdata.xmax - seekdata.xmin, 1e6);
 		mu = seekdata.xmax;
 
 		for (i = 0; i < 5; i++) {

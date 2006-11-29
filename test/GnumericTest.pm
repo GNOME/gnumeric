@@ -10,10 +10,11 @@ use Config;
 			   $ssconvert $topsrc $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
-use vars qw($topsrc $samples $ssconvert $PERL);
+use vars qw($topsrc $samples $ssconvert $PERL $verbose);
 $topsrc = "..";
 $samples = "$topsrc/samples";
 $ssconvert = "$topsrc/src/ssconvert";
+$verbose = 0;
 $PERL = $Config{'perlpath'};
 $PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
 
@@ -157,6 +158,8 @@ sub test_sheet_calc {
     if ($ok) {
 	print STDERR "Pass\n";
     } else {
+	$actual =~ s/\s+$//;
+	&dump_indented ($actual);
 	die "Fail.\n\n";
     }
 }
@@ -287,5 +290,10 @@ sub test_valgrind {
 delete $ENV{'LANG'};
 foreach (keys %ENV) { delete $ENV{$_} if /^LC_/; }
 $ENV{'LC_ALL'} = 'C';
+
+if (@ARGV && $ARGV[0] eq '--verbose') {
+    $verbose = 1;
+    scalar shift @ARGV;
+}
 
 1;
