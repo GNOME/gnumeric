@@ -15,6 +15,10 @@ print STDERR "Warning: tests are run using installed plugins.  (\"make install\"
 
 # ----------------------------------------
 
+print STDERR "Warning: goal seek tests use random numbers.  Report sporadic failures.\n";
+
+# ----------------------------------------
+
 print STDERR "Warning: you have a ~/.valgrindrc file that might affect tests.\n"
     if defined ($HOME) && -r "$HOME/.valgrindrc";
 

@@ -193,6 +193,7 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 			 gnm_float x0, gnm_float y0)
 {
 	int iterations;
+	gnm_float last_df0 = 1;
 	gboolean try_newton = TRUE;
 	gboolean try_square = x0 != 0 && gnm_abs (x0) < 1e10;
 
@@ -235,7 +236,9 @@ goal_seek_newton_polish (GoalSeekFunction f, GoalSeekFunction df,
 				? df (x0, &df0, user_data)
 				: fake_df (f, x0, &df0, gnm_abs (x0) / 1e6, data, user_data);
 			if (status != GOAL_SEEK_OK || df0 == 0)
-				df0 = 1;  /* Bogus */
+				df0 = last_df0;  /* Bogus */
+			else
+				last_df0 = df0;
 
 			x1 = x0 - y0 / df0;
 			if (x1 < data->xmin || x1 > data->xmax)
@@ -297,6 +300,8 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 {
 	int iterations;
 	gnm_float precision = data->precision / 2;
+	gnm_float last_df0 = 1;
+	gnm_float step_factor = 1e-6;
 
 	if (data->have_root)
 		return GOAL_SEEK_OK;
@@ -305,9 +310,10 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 	g_print ("goal_seek_newton\n");
 #endif
 
-	for (iterations = 0; iterations < 40; iterations++) {
+	for (iterations = 0; iterations < 100; iterations++) {
 		gnm_float x1, y0, df0, stepsize;
 		GoalSeekStatus status;
+		gboolean flat;
 
 #ifdef DEBUG_GOAL_SEEK	
 		g_print ("x0 = %.20" GNM_FORMAT_g "   (i=%d)\n", x0, iterations);
@@ -339,7 +345,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 				else
 					xstep = (data->xmax - data->xmin) / 1e6;
 			else
-				xstep = gnm_abs (x0) / 1e6;
+				xstep = step_factor * gnm_abs (x0);
 
 			status = fake_df (f, x0, &df0, xstep, data, user_data);
 		}
@@ -347,13 +353,14 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			return status;
 
 		/* If we hit a flat spot, we are in trouble.  */
-		if (df0 == 0) {
-			if (iterations == 0)
-				/* Bogus, but ought to get us away from flat spot.  */
-				df0 = 1;
-			else
+		flat = (df0 == 0);
+		if (flat) {
+			last_df0 /= 2;
+			if (gnm_abs (last_df0) <= GNM_MIN)
 				return GOAL_SEEK_ERROR;
-		}
+			df0 = last_df0;  /* Might be utterly bogus.  */
+		} else
+			last_df0 = df0;
 
 		if (data->havexpos && data->havexneg)
 			x1 = x0 - y0 / df0;
@@ -375,6 +382,30 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			goal_seek_newton_polish (f, df, data, user_data, x0, y0);
 			return GOAL_SEEK_OK;
 		}
+
+		if (flat && iterations > 0) {
+			/*
+			 * Verify that we made progress using our
+			 * potentially bogus df0.
+			 */
+			double y1;
+
+			if (x1 < data->xmin || x1 > data->xmax)
+				return GOAL_SEEK_ERROR;
+
+			status = f (x1, &y1, user_data);
+			if (status != GOAL_SEEK_OK)
+				return status;
+
+#ifdef DEBUG_GOAL_SEEK
+			g_print ("                                        y1 = %.20" GNM_FORMAT_g "\n", y1);
+#endif
+			if (gnm_abs (y1) >= 0.9 * gnm_abs (y0))
+				return GOAL_SEEK_ERROR;
+		}
+
+		if (stepsize < step_factor)
+			step_factor = stepsize;
 
 		x0 = x1;
 	}

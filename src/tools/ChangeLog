@@ -1,3 +1,8 @@
+2006-11-30  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_newton): Improve handling of flat spots,
+	including those that happen because of fake_df.
+
 2006-11-29  Morten Welinder  <terra@gnome.org>
 
 	* goal-seek.c (goal_seek_bisection): Rounding errors can cause the
