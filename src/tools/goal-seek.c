@@ -501,11 +501,14 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			 * just one side of the root.
 			 */
 			xmid = x0 - 1.01 * y0 / df0;
-			if ((xmid < data->xpos && xmid < data->xneg) ||
-			    (xmid > data->xpos && xmid > data->xneg))
-				/* We left the interval.  */
-				continue;
 		}
+		}
+
+		if ((xmid < data->xpos && xmid < data->xneg) ||
+		    (xmid > data->xpos && xmid > data->xneg)) {
+			/* We left the interval.  */
+			xmid = (data->xpos + data->xneg) / 2;
+			method = M_MIDPOINT;
 		}
 
 		status = f (xmid, &ymid, user_data);
@@ -539,7 +542,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 		g_print ("                                          ss = %.20" GNM_FORMAT_g "\n", stepsize);
 #endif
 
-		if (stepsize < data->precision) {
+		if (stepsize < GNM_EPSILON) {
 			if (data->yneg < ymid)
 				ymid = data->yneg, xmid = data->xneg;
 

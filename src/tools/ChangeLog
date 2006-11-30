@@ -1,3 +1,9 @@
+2006-11-29  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_bisection): Rounding errors can cause the
+	Ridder midpoint to leave the interval.  Catch that.  Continue
+	until the bitter end, i.e., ignore desired precision here.
+
 2006-11-28  Morten Welinder  <terra@gnome.org>
 
 	* goal-seek.c (goal_seek_newton_polish): New function for

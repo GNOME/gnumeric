@@ -18,6 +18,7 @@ Morten:
 	* Minor goal-seek improvements.  [#379234]
 	* Fix critical in name definition dialog.
 	* Improve precision of goal-seek.
+	* Fix a case where goal seek went outside the interval.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.4
