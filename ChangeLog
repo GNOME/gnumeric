@@ -1,3 +1,7 @@
+2006-11-30  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (cellregion_get_content): Prevent critical.
+
 2006-11-28  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (convert): Call goal seek if requestion (for

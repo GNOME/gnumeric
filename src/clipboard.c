@@ -708,10 +708,13 @@ cellregion_unref (GnmCellRegion *cr)
 static GnmCellCopy *
 cellregion_get_content (GnmCellRegion const *cr, int col, int row)
 {
-	GnmCellPos pos;
-	pos.col = col;
-	pos.row = row;
-	return g_hash_table_lookup (cr->cell_content, &pos);
+	if (cr->cell_content) {
+		GnmCellPos pos;
+		pos.col = col;
+		pos.row = row;
+		return g_hash_table_lookup (cr->cell_content, &pos);
+	} else
+		return NULL;
 }
 
 static void
