@@ -11,8 +11,8 @@ Jody:
 	  responsiveness.
 
 Morten:
-	* Fix sc import of functions with no args.
 	* Add automatic test framework.
+	* Fix sc import of functions with no args.
 	* Prevent ssconvert from updating the recent-files list.
 	* Fix goal-seek crash.  [#377961]
 	* Minor goal-seek improvements.  [#379234]
