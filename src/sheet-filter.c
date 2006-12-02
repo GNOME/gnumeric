@@ -36,6 +36,7 @@
 #include "gutils.h"
 #include "sheet-object.h"
 #include "gnm-filter-combo-foo-view.h"
+#include "gnm-cell-combo-foo-view.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -72,6 +73,24 @@ gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, unsigned n)
 	return res;
 }
 
+GnmFilterCondition *
+gnm_filter_condition_dup (GnmFilterCondition const *src)
+{
+	GnmFilterCondition *dst;
+
+	if (src == NULL)
+		return NULL;
+
+	dst = g_new0 (GnmFilterCondition, 1);
+	dst->op[0]    = src->op[0];
+	dst->op[1]    = src->op[1];
+	dst->is_and   = src->is_and;
+	dst->count    = src->count;
+	dst->value[0] = value_dup (src->value[0]);
+	dst->value[1] = value_dup (src->value[1]);
+	return dst;
+}
+
 void
 gnm_filter_condition_unref (GnmFilterCondition *cond)
 {
@@ -88,6 +107,7 @@ typedef struct  {
 	GnmFilterCondition const *cond;
 	GnmValue		 *val[2];
 	GORegexp  		  regexp[2];
+	Sheet			 *target_sheet; /* not necessarilly the src */
 } FilterExpr;
 
 static void
@@ -200,7 +220,7 @@ cb_filter_expr (GnmCellIter const *iter, FilterExpr const *fexpr)
 	}
 
  nope:
-	colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+	colrow_set_visibility (fexpr->target_sheet, FALSE, FALSE,
 		iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
@@ -208,19 +228,19 @@ cb_filter_expr (GnmCellIter const *iter, FilterExpr const *fexpr)
 /*****************************************************************************/
 
 static GnmValue *
-cb_filter_non_blanks (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
+cb_filter_non_blanks (GnmCellIter const *iter, Sheet *target_sheet)
 {
 	if (gnm_cell_is_blank (iter->cell))
-		colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+		colrow_set_visibility (target_sheet, FALSE, FALSE,
 			iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 
 static GnmValue *
-cb_filter_blanks (GnmCellIter const *iter, G_GNUC_UNUSED gpointer user)
+cb_filter_blanks (GnmCellIter const *iter, Sheet *target_sheet)
 {
 	if (!gnm_cell_is_blank (iter->cell))
-		colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+		colrow_set_visibility (target_sheet, FALSE, FALSE,
 			iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
@@ -232,6 +252,7 @@ typedef struct {
 	unsigned elements;
 	gboolean find_max;
 	GnmValue const **vals;
+	Sheet	*target_sheet;
 } FilterItems;
 
 static GnmValue *
@@ -270,7 +291,7 @@ cb_hide_unwanted_items (GnmCellIter const *iter, FilterItems const *data)
 			if (data->vals[i] == v)
 				return NULL;
 	}
-	colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+	colrow_set_visibility (data->target_sheet, FALSE, FALSE,
 		iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
@@ -278,8 +299,9 @@ cb_hide_unwanted_items (GnmCellIter const *iter, FilterItems const *data)
 /*****************************************************************************/
 
 typedef struct {
-	gboolean	initialized, find_max;
-	gnm_float	low, high;
+	gboolean	 initialized, find_max;
+	gnm_float	 low, high;
+	Sheet		*target_sheet;
 } FilterPercentage;
 
 static GnmValue *
@@ -315,14 +337,14 @@ cb_hide_unwanted_percentage (GnmCellIter const *iter,
 				return NULL;
 		}
 	}
-	colrow_set_visibility (iter->pp.sheet, FALSE, FALSE,
+	colrow_set_visibility (data->target_sheet, FALSE, FALSE,
 		iter->pp.eval.row, iter->pp.eval.row);
 	return NULL;
 }
 /*****************************************************************************/
 
 static void
-filter_field_apply (GnmFilterCombo *fcombo)
+filter_field_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 {
 	GnmFilter const *filter = fcombo->filter;
 	GnmFilterCondition const *cond = fcombo->cond;
@@ -330,11 +352,11 @@ filter_field_apply (GnmFilterCombo *fcombo)
 	int const start_row = filter->r.start.row + 1;
 	int const end_row = filter->r.end.row;
 
-	if (start_row > end_row)
+	if (start_row > end_row ||
+	    cond == NULL ||
+	    cond->op[0] == GNM_FILTER_UNUSED)
 		return;
 
-	if (cond == NULL || cond->op[0] == GNM_FILTER_UNUSED)
-		return;
 	if (0x10 >= (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
 		FilterExpr data;
 		data.cond = cond;
@@ -354,12 +376,12 @@ filter_field_apply (GnmFilterCombo *fcombo)
 		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
-			cb_filter_blanks, NULL);
+			cb_filter_blanks, target_sheet);
 	else if (cond->op[0] == GNM_FILTER_OP_NON_BLANKS)
 		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
-			cb_filter_non_blanks, NULL);
+			cb_filter_non_blanks, target_sheet);
 	else if (0x30 == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
 		if (cond->op[0] & 0x2) { /* relative */
 			FilterPercentage data;
@@ -374,6 +396,7 @@ filter_field_apply (GnmFilterCombo *fcombo)
 			offset = (data.high - data.low) * cond->count / 100.;
 			data.high -= offset;
 			data.low  += offset;
+			data.target_sheet = target_sheet;
 			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
@@ -388,6 +411,7 @@ filter_field_apply (GnmFilterCombo *fcombo)
 				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_filter_find_items, &data);
+			data.target_sheet = target_sheet;
 			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
@@ -429,7 +453,12 @@ gnm_filter_combo_init (SheetObject *so)
 	/* keep the arrows from wandering with their cells */
 	so->flags &= ~SHEET_OBJECT_MOVE_WITH_CELLS;
 }
-
+static SheetObjectView *
+gnm_filter_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
+{
+	return gnm_cell_combo_foo_view_new (so,
+		gnm_filter_combo_foo_view_get_type (), container);
+}
 static void
 gnm_filter_combo_class_init (GObjectClass *gobject_class)
 {
@@ -439,7 +468,7 @@ gnm_filter_combo_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize = gnm_filter_combo_finalize;
 
 	/* SheetObject class method overrides */
-	so_class->new_view	  = gnm_filter_combo_foo_view_new;
+	so_class->new_view	= gnm_filter_combo_foo_view_new;
 	so_class->read_xml_dom  = NULL;
 	so_class->write_xml_sax = NULL;
 	so_class->print         = NULL;
@@ -464,13 +493,7 @@ static void
 gnm_filter_add_field (GnmFilter *filter, int i)
 {
 	/* pretend to fill the cell, then clip the X start later */
-	static SheetObjectAnchorType const anchor_types [4] = {
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END
-	};
-	static float const offsets [4] = { .0, .0, 0., 0. };
+	static float const a_offsets [4] = { .0, .0, 1., 1. };
 	int n;
 	GnmRange tmp;
 	SheetObjectAnchor anchor;
@@ -479,8 +502,8 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	fcombo->filter = filter;
 	tmp.start.row = tmp.end.row = filter->r.start.row;
 	tmp.start.col = tmp.end.col = filter->r.start.col + i;
-	sheet_object_anchor_init (&anchor, &tmp, offsets, anchor_types,
-				  GOD_ANCHOR_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&anchor, &tmp, a_offsets, NULL,
+		GOD_ANCHOR_DIR_DOWN_RIGHT);
 	sheet_object_set_anchor (SHEET_OBJECT (fcombo), &anchor);
 	sheet_object_set_sheet (SHEET_OBJECT (fcombo), filter->sheet);
 
@@ -497,7 +520,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
  * @sheet :
  * @r :
  *
- * Init a filter
+ * Init a filter and add it to @sheet
  **/
 GnmFilter *
 gnm_filter_new (Sheet *sheet, GnmRange const *r)
@@ -524,6 +547,42 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r)
 	return filter;
 }
 
+/**
+ * gnm_filter_dup :
+ * @src : #GnmFilter
+ * @sheet : #Sheet
+ *
+ * Duplicate @src into @sheet
+ **/
+GnmFilter *
+gnm_filter_dup (GnmFilter const *src, Sheet *sheet)
+{
+	int i;
+	GnmFilter *dst;
+
+	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	dst = g_new0 (GnmFilter, 1);
+	dst->sheet = sheet;
+
+	dst->is_active = src->is_active;
+	dst->r = src->r;
+	dst->fields = g_ptr_array_new ();
+
+	for (i = 0 ; i < range_width (&dst->r); i++) {
+		gnm_filter_add_field (dst, i);
+		gnm_filter_set_condition (dst, i,
+			gnm_filter_condition_dup (
+				gnm_filter_get_condition (src, i)),
+			NULL);
+	}
+
+	sheet->filters = g_slist_prepend (sheet->filters, dst);
+	sheet->priv->filters_changed = TRUE;
+
+	return dst;
+}
 void
 gnm_filter_free	(GnmFilter *filter)
 {
@@ -583,13 +642,16 @@ gnm_filter_get_condition (GnmFilter const *filter, unsigned i)
  * @filter :
  * @i :
  * @cond :
- * @apply :
+ * @target_sheet : #Sheet
  *
+ * Change the @i-th condition of @filter to @cond.
+ * If @target_sheet is non-NULL @filter is used to set the visibility
+ * of it's rows (using the data from @filter->sheet).
  **/
 void
 gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			  GnmFilterCondition *cond,
-			  gboolean apply)
+			  Sheet *target_sheet)
 {
 	GnmFilterCombo *fcombo;
 	gboolean set_infilter = FALSE;
@@ -608,7 +670,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 	fcombo->cond = cond;
 	g_signal_emit (G_OBJECT (fcombo), signals [COND_CHANGED], 0);
 
-	if (apply) {
+	if (target_sheet != NULL) {
 		/* if there was an existing cond then we need to do
 		 * 1) unfilter everything
 		 * 2) reapply all the filters
@@ -619,11 +681,12 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			colrow_set_visibility (filter->sheet, FALSE, TRUE,
 				filter->r.start.row + 1, filter->r.end.row);
 			for (i = 0 ; i < filter->fields->len ; i++)
-				filter_field_apply (g_ptr_array_index (filter->fields, i));
+				filter_field_apply (g_ptr_array_index (filter->fields, i),
+					target_sheet);
 		} else
 			/* When adding a new cond all we need to do is
 			 * apply that filter */
-			filter_field_apply (fcombo);
+			filter_field_apply (fcombo, target_sheet);
 	}
 
 	/* set the activity flag and potentially activate the

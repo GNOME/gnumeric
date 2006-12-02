@@ -126,7 +126,7 @@ typedef struct {
 #define IS_SHEET_OBJECT_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_VIEW_TYPE))
 #define SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
 #define IS_SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE((k), SHEET_OBJECT_VIEW_TYPE))
-#define SHEET_OBJECT_VIEW_GET_CLASS(inst)  (G_TYPE_INSTANCE_GET_INTERFACE ((inst), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
+#define SHEET_OBJECT_VIEW_GET_CLASS(o)  (G_TYPE_INSTANCE_GET_INTERFACE ((o), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
 
 GType	     sheet_object_view_get_type	  (void);
 SheetObject *sheet_object_view_get_so	  (SheetObjectView *sov);

@@ -389,20 +389,15 @@ void
 cell_comment_set_cell (GnmComment *cc, GnmCellPos const *pos)
 {
 	/* top right */
-	static SheetObjectAnchorType const anchor_types [4] = {
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
-	};
+	static float const a_offsets [4] = { 1., 0., 1., 0. };
 	SheetObjectAnchor anchor;
 	GnmRange	  r;
 
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
 	r.start = r.end = *pos;
-	sheet_object_anchor_init (&anchor, &r, NULL,
-		anchor_types, GOD_ANCHOR_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&anchor, &r, a_offsets,
+		NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
 	sheet_object_set_anchor (SHEET_OBJECT (cc), &anchor);
 }
 

@@ -1,3 +1,32 @@
+2006-12-02  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am (libwidgets_la_SOURCES) : add
+	    gnm-cell-combo-foo-view.[ch]
+
+	* gnm-cell-combo-foo-view.h : new.
+	* gnm-cell-combo-foo-view.c : new.
+	  Implementation pulled from validation-combo and generalized to share
+	  between validation and autofilter.  It adds
+	    - autoscroll of the list
+	    - more keybindings in the list
+	    - RTL support for dropdown placement.
+	(gnm_cell_combo_foo_view_new) : create the specified GType (which need
+	  to imlement SheetObjectView and GnmCellComboFooView interfaces).
+	(gnm_cell_combo_foo_view_popdown) : new routine to allow an external
+	  entity to force the combo to populate and open. (eg the alt-down in
+	  a cell)
+	(gnm_cell_combo_foo_view_popdown): set the
+	  cursor in addition to selecting the desired row so that arrows move
+	  from the selected item rather than the 1st.
+
+	* gnm-validation-combo-foo-view.h : all we need to expose now is the GType
+	* gnm-filter-combo-foo-view.h : ditto.
+	* gnm-validation-combo-foo-view.c : split out the content into the new
+	  gnm-cell-combo-foo-view.[ch] and implement GnmCComboFooViewIface
+	(validation_view_set_bounds) : handle RTL placement of combo.
+	* gnm-filter-combo-foo-view.c : ditto.
+	(filter_view_set_bounds) : handle RTL placement of combo.
+
 2006-11-25  Jody Goldberg <jody@gnome.org>
 
 	* gnm-validation-combo-foo-view.c (gnm_validation_combo_foo_view_new) : 

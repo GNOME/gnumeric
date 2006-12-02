@@ -1,9 +1,8 @@
 #ifndef GNM_FILTER_COMBO_FOO_VIEW_H
 #define GNM_FILTER_COMBO_FOO_VIEW_H
 
-#include "gnumeric.h"
+#include <glib-object.h>
 
-SheetObjectView *gnm_filter_combo_foo_view_new (SheetObject *so,
-						SheetObjectViewContainer *container);
+GType gnm_filter_combo_foo_view_get_type (void);
 
 #endif /* GNM_FILTER_COMBO_FOO_VIEW_H */

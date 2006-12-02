@@ -22,18 +22,17 @@ typedef struct _scenario_cmd_t {
         scenario_t *undo;
 } scenario_cmd_t;
 
-
 scenario_t *scenario_by_name      (GList *scenarios, const gchar *name,
 				   gboolean *all_deleted);
-void        scenario_free_all     (GList *list);
 void        scenario_free         (scenario_t *s);
-GList      *scenario_copy_all     (GList *list, Sheet *new);
 
-void        scenario_insert_rows  (GList *list, int row, int count);
-void        scenario_insert_cols  (GList *list, int row, int count);
-void        scenario_delete_rows  (GList *list, int row, int count);
-void        scenario_delete_cols  (GList *list, int row, int count);
-void        scenario_move_range   (GList *list, GnmRange const *origin,
+GList      *scenarios_dup	  (GList *list, Sheet *dst);
+void        scenarios_free	  (GList *list);
+void        scenarios_insert_rows (GList *list, int row, int count);
+void        scenarios_insert_cols (GList *list, int row, int count);
+void        scenarios_delete_rows (GList *list, int row, int count);
+void        scenarios_delete_cols (GList *list, int row, int count);
+void        scenarios_move_range  (GList *list, GnmRange const *origin,
 				   int col_offset, int row_offset);
 
 void        scenario_manager_ok   (Sheet *sheet);

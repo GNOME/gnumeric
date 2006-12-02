@@ -623,14 +623,8 @@ sv_update (SheetView *sv)
 
 	if (sv->edit_pos_changed.location) {
 		sv->edit_pos_changed.location = FALSE;
-		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv) {
-			char const *new_pos = sheet_names_check (sv->sheet,
-				selection_first_range (sv, NULL, NULL));
-			if (new_pos == NULL)
-				new_pos = cellpos_as_string (&sv->edit_pos);
-			SHEET_VIEW_FOREACH_CONTROL (sv, sc,
-				wb_control_selection_descr_set (sc_wbc (sc), new_pos););
-		}
+		if (wb_view_cur_sheet_view (sv->sv_wbv) == sv)
+			wb_view_selection_desc (sv->sv_wbv, TRUE, NULL);
 	}
 
 	if (sv->selection_content_changed) {

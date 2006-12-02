@@ -1427,7 +1427,7 @@ xml_read_filter_field (XmlParseContext *ctxt, xmlNode *field, GnmFilter *filter)
 	xmlFree (type);
 
 	if (cond != NULL)
-		gnm_filter_set_condition (filter, i, cond, FALSE);
+		gnm_filter_set_condition (filter, i, cond, NULL);
 }
 
 static void
@@ -1787,6 +1787,13 @@ xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
 		/* resize flags are already set only need to copy the sizes */
 		for ( ; --val > 0 ; )
 			colrow_copy (sheet_colrow_fetch (ctxt->sheet, ++pos, is_cols), cri);
+	}
+	if (is_cols) {
+		if (ctxt->sheet->cols.max_outline_level < cri->outline_level)
+			ctxt->sheet->cols.max_outline_level = cri->outline_level;
+	} else {
+		if (ctxt->sheet->rows.max_outline_level < cri->outline_level)
+			ctxt->sheet->rows.max_outline_level = cri->outline_level;
 	}
 }
 
@@ -2669,7 +2676,7 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
 	workbook_set_saveinfo (wb_view_get_workbook (ctxt->wb_view),
-		FILE_FL_AUTO, go_file_saver_for_id ("Gnumeric_xml_sax:xml_sax"));
+		FILE_FL_AUTO, go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
@@ -2687,18 +2694,18 @@ xml_init (void)
 	xml_sax_prober.startElement = (startElementSAXFunc) xml_probe_start_element;
 #warning REMOVE for 2.0
 	go_file_opener_register (go_file_opener_new (
-		"Gnumeric_XmlIO:gnum_xml",
+		"Gnumeric_XmlIO:dom",
 		_("Gnumeric XML (*.gnumeric) Old slow importer"),
 		suffixes, mimes,
 		xml_probe, gnumeric_xml_read_workbook), 40);
 
 	go_file_opener_register (go_file_opener_new (
-		"Gnumeric_XmlIO:xml_sax",
+		"Gnumeric_XmlIO:sax",
 		_("EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"),
 		suffixes, mimes,
-		xml_probe, gnm_xml_file_open), 1);
+		xml_probe, gnm_xml_file_open), 50);
 	go_file_saver_register_as_default (go_file_saver_new (
-		"Gnumeric_XmlIO:xml_sax", "gnumeric",
+		"Gnumeric_XmlIO:sax", "gnumeric",
 		_("Gnumeric XML (*.gnumeric)"),
 		FILE_FL_AUTO, gnm_xml_file_save), 50);
 }

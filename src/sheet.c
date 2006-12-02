@@ -3376,7 +3376,7 @@ sheet_finalize (GObject *obj)
 	sheet_destroy (sheet);
 
 	solver_param_destroy (sheet->solver_parameters);
-	scenario_free_all (sheet->scenarios);
+	scenarios_free (sheet->scenarios);
 
 	dependents_invalidate_sheet (sheet, TRUE);
 
@@ -3770,7 +3770,7 @@ sheet_insert_cols (Sheet *sheet,
 			     &sheet->cols, i, i + count);
 
 	solver_insert_cols (sheet, col, count);
-	scenario_insert_cols (sheet->scenarios, col, count);
+	scenarios_insert_cols (sheet->scenarios, col, count);
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count,
 		states, reloc_storage);
 	return FALSE;
@@ -3847,7 +3847,7 @@ sheet_delete_cols (Sheet *sheet,
 			     &sheet->cols, i, i-count);
 
 	solver_delete_cols (sheet, col, count);
-	scenario_delete_cols (sheet->scenarios, col, count);
+	scenarios_delete_cols (sheet->scenarios, col, count);
 	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count,
 		states, reloc_storage);
 	return FALSE;
@@ -3910,7 +3910,7 @@ sheet_insert_rows (Sheet *sheet,
 			     &sheet->rows, i, i+count);
 
 	solver_insert_rows (sheet, row, count);
-	scenario_insert_rows (sheet->scenarios, row, count);
+	scenarios_insert_rows (sheet->scenarios, row, count);
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count,
 		states, reloc_storage);
 	return FALSE;
@@ -3987,7 +3987,7 @@ sheet_delete_rows (Sheet *sheet,
 			     &sheet->rows, i, i-count);
 
 	solver_delete_rows (sheet, row, count);
-	scenario_delete_rows (sheet->scenarios, row, count);
+	scenarios_delete_rows (sheet->scenarios, row, count);
 	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count,
 		states, reloc_storage);
 	return FALSE;
@@ -4133,7 +4133,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 
 	/* 9. Update the data structures of the tools */
 	if (rinfo->origin_sheet == rinfo->target_sheet)
-		scenario_move_range (rinfo->origin_sheet->scenarios,
+		scenarios_move_range (rinfo->origin_sheet->scenarios,
 				     &rinfo->origin, rinfo->col_offset,
 				     rinfo->row_offset);
 }
@@ -4525,7 +4525,7 @@ sheet_clone_colrow_info_item (GnmColRowIter const *iter, void *user_data)
 }
 
 static void
-sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
+sheet_dup_colrows (Sheet const *src, Sheet *dst)
 {
 	closure_clone_colrow closure;
 
@@ -4547,7 +4547,7 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 }
 
 static void
-sheet_clone_styles (Sheet const *src, Sheet *dst)
+sheet_dup_styles (Sheet const *src, Sheet *dst)
 {
 	static GnmCellPos const	corner = { 0, 0 };
 	GnmRange	 r;
@@ -4562,7 +4562,7 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 }
 
 static void
-sheet_clone_regions (Sheet const *src, Sheet *dst)
+sheet_dup_merged_regions (Sheet const *src, Sheet *dst)
 {
 	GSList *ptr;
 
@@ -4571,7 +4571,7 @@ sheet_clone_regions (Sheet const *src, Sheet *dst)
 }
 
 static void
-sheet_clone_names (Sheet const *src, Sheet *dst)
+sheet_dup_names (Sheet const *src, Sheet *dst)
 {
 	static gboolean warned = FALSE;
 
@@ -4627,9 +4627,18 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 }
 
 static void
-sheet_clone_cells (Sheet const *src, Sheet *dst)
+sheet_dup_cells (Sheet const *src, Sheet *dst)
 {
 	sheet_cell_foreach (src, &cb_sheet_cell_copy, dst);
+}
+
+static void
+sheet_dup_filters (Sheet const *src, Sheet *dst)
+{
+	GSList *ptr;
+	for (ptr = src->filters ; ptr != NULL ; ptr = ptr->next)
+		gnm_filter_dup (ptr->data, dst);
+	dst->filters = g_slist_reverse (dst->filters);
 }
 
 /**
@@ -4675,12 +4684,13 @@ sheet_dup (Sheet const *src)
 	print_info_free (dst->print_info);
 	dst->print_info = print_info_dup (src->print_info);
 
-	sheet_clone_styles         (src, dst);
-	sheet_clone_regions	   (src, dst);
-	sheet_clone_colrow_info    (src, dst);
-	sheet_clone_names          (src, dst);
-	sheet_clone_cells          (src, dst);
-	sheet_object_clone_sheet   (src, dst, NULL);
+	sheet_dup_styles         (src, dst);
+	sheet_dup_merged_regions (src, dst);
+	sheet_dup_colrows	 (src, dst);
+	sheet_dup_names		 (src, dst);
+	sheet_dup_cells		 (src, dst);
+	sheet_objects_dup	 (src, dst, NULL);
+	sheet_dup_filters	 (src, dst); /* must be after objects */
 
 #warning selection is in view
 #warning freeze/thaw is in view
@@ -4688,7 +4698,7 @@ sheet_dup (Sheet const *src)
 	solver_param_destroy (dst->solver_parameters);
 	dst->solver_parameters = solver_lp_copy (src->solver_parameters, dst);
 
-	dst->scenarios = scenario_copy_all (src->scenarios, dst);
+	dst->scenarios = scenarios_dup (src->scenarios, dst);
 
 	sheet_mark_dirty (dst);
 	sheet_redraw_all (dst, TRUE);

@@ -33,6 +33,9 @@
 #include "commands.h"
 #include "cmd-edit.h"
 #include "clipboard.h"
+#include "sheet-filter-combo.h"
+#include "widgets/gnm-cell-combo-foo-view.h"
+
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -216,6 +219,27 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event,
 
 	case GDK_KP_Down:
 	case GDK_Down:
+		if ((event->state == GDK_MOD1_MASK)) {
+			SheetObject *so;
+			if (NULL == (so = sv_wbv (sv)->validation_combo)) {
+				GnmRange r;
+				GSList *objs = sheet_objects_get (sheet,
+					range_init_cellpos (&r, &sv->edit_pos),
+					GNM_FILTER_COMBO_TYPE);
+				if (objs != NULL) {
+					so = objs->data,
+					g_slist_free (objs);
+				}
+			}
+
+			if (NULL != so) {
+				SheetObjectView	*sov = sheet_object_get_view (so,
+					(SheetObjectViewContainer *)gcanvas->pane);
+				gnm_cell_combo_foo_view_popdown (sov);
+				break;
+			}
+		}
+
 		if (event->state & SCROLL_LOCK_MASK)
 			scg_set_top_row (scg, gcanvas->first.row + 1);
 		else if (transition_keys && jump_to_bounds) {

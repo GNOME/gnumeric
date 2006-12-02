@@ -1054,6 +1054,17 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmParsePos pp;
+	parse_pos_init_sheet (&pp, state->sheet);
+
+	g_warning ("validation fmla%d : %s", xin->node->user_data.v_int,
+		   xin->content->str);
+}
+
+static void
 xlsx_cell_expr_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -1802,6 +1813,11 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
       GSF_XML_IN_NODE (ROW, CELL, XL_NS_SS, "c", GSF_XML_NO_CONTENT, &xlsx_cell_start, &xlsx_cell_end),
 	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
 	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_start, &xlsx_cell_expr_end),
+
+  GSF_XML_IN_NODE (SHEET, VALIDATIONS, XL_NS_SS, "dataValidations", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (VALIDATIONS, VALIDATION, XL_NS_SS, "dataValidation", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE_FULL (VALIDATION, VAL_FORMULA1, XL_NS_SS, "formula1", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 0),
+      GSF_XML_IN_NODE_FULL (VALIDATION, VAL_FORMULA2, XL_NS_SS, "formula2", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 1),
 
   GSF_XML_IN_NODE (SHEET, MERGES, XL_NS_SS, "mergeCells", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (MERGES, MERGE, XL_NS_SS, "mergeCell", GSF_XML_NO_CONTENT, &xlsx_CT_MergeCell, NULL),

@@ -516,9 +516,6 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
 		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 			x = cell_width * anchor->offset[0];
 			break;
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-			x = cell_width * (1. - anchor->offset[0]);
-			break;
 		case SO_ANCHOR_PTS_FROM_COLROW_START:
 			x = anchor->offset[0];
 			break;
@@ -533,9 +530,6 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
 		case SO_ANCHOR_UNKNOWN:
 		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 			y = cell_height * anchor->offset[1];
-			break;
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-			y = cell_height * (1 - anchor->offset[1]);
 			break;
 		case SO_ANCHOR_PTS_FROM_COLROW_START:
 			y = anchor->offset[1];
@@ -558,9 +552,6 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
 		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 			width -= cell_width * (1. - anchor->offset[2]);
 			break;
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-			width -= cell_width * anchor->offset[2];
-			break;
 		case SO_ANCHOR_PTS_FROM_COLROW_START:
 			width -= cell_width - anchor->offset[2];
 			break;
@@ -577,9 +568,6 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
 		case SO_ANCHOR_UNKNOWN:
 		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 			height -= cell_height * (1 - anchor->offset[3]);
-			break;
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-			height -= cell_height * anchor->offset[3];
 			break;
 		case SO_ANCHOR_PTS_FROM_COLROW_START:
 			height -= cell_height - anchor->offset[3];
@@ -643,8 +631,6 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
-	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
-		return (1. - offset) * cri->size_pts;
 	return offset * cri->size_pts;
 }
 
@@ -879,7 +865,7 @@ sheet_object_dup (SheetObject const *so)
 
 
 /**
- * sheet_object_clone_sheet:
+ * sheet_objects_dup:
  * @src: The source sheet to read the objects from
  * @dst: The destination sheet to attach the objects to
  * @range: Optionally NULL region of interest
@@ -887,7 +873,7 @@ sheet_object_dup (SheetObject const *so)
  * Clones the objects of the src sheet and attaches them into the dst sheet
  **/
 void
-sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
+sheet_objects_dup (Sheet const *src, Sheet *dst, GnmRange *range)
 {
 	SheetObject *so;
 	SheetObject *new_so;

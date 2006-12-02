@@ -1519,7 +1519,7 @@ scg_finalize (GObject *object)
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
 		SCG_FOREACH_PANE (scg, pane,
 			sheet_object_view_destroy (
-				sheet_object_get_view (ptr->data, (gpointer)pane));
+				sheet_object_get_view (ptr->data, (SheetObjectViewContainer *)pane));
 		);
 
 	g_ptr_array_free (scg->col_group.buttons, TRUE);
@@ -2006,8 +2006,6 @@ calc_obj_place (GnmCanvas *gcanvas, int canvas_coord, gboolean is_col,
 
 	/* TODO : handle other anchor types */
 	*offset = ((float) (canvas_coord - origin))/ ((float) cri->size_pixels);
-	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
-		*offset = 1. - *offset;
 	return colrow;
 }
 
@@ -2393,8 +2391,6 @@ cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
-	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
-		return (1. - offset) * cri->size_pixels;
 	return offset * cri->size_pixels;
 }
 

@@ -70,6 +70,14 @@
   <sect2 id="sect-data-modify-filter">
     <title>Filtering Data</title>
 
+ALT+DOWN ARROW:  Display the AutoFilter list for the current column
+DOWN ARROW: Select the next item in the AutoFilter list
+UP ARROW: Select the previous item in the AutoFilter list
+ALT+UP ARROW: Close the AutoFilter list for the current column
+HOME: Select the first item (All) in the AutoFilter list
+END: Select the last item in the AutoFilter list
+ENTER: Filter the list by using the selected item in the AutoFilter list
+
     <para>
       With data filters you can select a subset of rows in the
       worksheet that meet the given criteria.  You can, for example,

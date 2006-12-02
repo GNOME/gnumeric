@@ -1,7 +1,7 @@
 /* vim: set sw=8: */
 
 /*
- * xml-sax-read.c : a sax based parser.  INCOMPLETE
+ * xml-sax-read.c : a sax based parser.
  *
  * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
  *
@@ -28,6 +28,7 @@
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
+#include "sheet-filter.h"
 #include "sheet.h"
 #include "ranges.h"
 #include "style.h"
@@ -280,6 +281,8 @@ typedef struct {
 	int expr_id, array_rows, array_cols;
 	int value_type;
 	GOFormat *value_fmt;
+
+	GnmFilter *filter;
 
 	int display_formulas;
 	int hide_zero;
@@ -817,11 +820,15 @@ xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	if (is_col) {
 		sheet_col_set_size_pts (state->sheet, pos, size, cri->hard_size);
+		if (state->sheet->cols.max_outline_level < cri->outline_level)
+			state->sheet->cols.max_outline_level = cri->outline_level;
 		/* resize flags are already set only need to copy the sizes */
 		while (--count > 0)
 			colrow_copy (sheet_col_fetch (state->sheet, ++pos), cri);
 	} else {
 		sheet_row_set_size_pts (state->sheet, pos, size, cri->hard_size);
+		if (state->sheet->rows.max_outline_level < cri->outline_level)
+			state->sheet->rows.max_outline_level = cri->outline_level;
 		/* resize flags are already set only need to copy the sizes */
 		while (--count > 0)
 			colrow_copy (sheet_row_fetch (state->sheet, ++pos), cri);
@@ -1195,8 +1202,9 @@ xml_sax_input_msg (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			unknown_attr (gsf_state, attrs);
 	}
 
-	gnm_style_set_input_msg (state->style,
-		gnm_input_msg_new (msg, title));
+	if (NULL != title || NULL != msg)
+		gnm_style_set_input_msg (state->style,
+			gnm_input_msg_new (msg, title));
 	g_free (title);
 	g_free (msg);
 }
@@ -1455,6 +1463,101 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xml_sax_filter_operator (XMLSaxParseState *state,
+			 GnmFilterOp *op, xmlChar const *str)
+{
+	static char const *filter_cond_name[] = { "eq", "gt", "lt", "gte", "lte", "ne" };
+	int i;
+
+	for (i = G_N_ELEMENTS (filter_cond_name); i-- ; )
+		if (0 == g_ascii_strcasecmp (str, filter_cond_name[i])) {
+			*op = i;
+			return;
+		}
+
+	gnm_io_warning (state->context, _("Unknown filter operator \"%s\""), str);
+}
+
+static void
+xml_sax_filter_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	xmlChar const *type = NULL;
+	xmlChar const *val0 = NULL;
+	xmlChar const *val1 = NULL;
+	GnmValueType vtype0 = VALUE_EMPTY, vtype1 = VALUE_EMPTY;
+	GnmFilterOp op0, op1;
+	GnmFilterCondition *cond = NULL;
+	gboolean top = TRUE, items = TRUE, is_and = FALSE;
+	int i, tmp, bucket_count = 10, cond_num = 0;
+
+	if (NULL == state->filter) return;
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (!strcmp (attrs[i], "Type"))   type  = attrs[i+1];
+		else if (xml_sax_attr_int (attrs+i, "Index", &cond_num)) ;
+		else if (xml_sax_attr_bool (attrs, "Top", &top)) ;
+		else if (xml_sax_attr_bool (attrs, "Items", &items)) ;
+		else if (xml_sax_attr_int  (attrs, "Count", &bucket_count)) ;
+		else if (xml_sax_attr_bool (attrs, "IsAnd", &is_and)) ;
+		else if (!strcmp (attrs[i], "Value0")) val0  = attrs[i+1];
+		else if (!strcmp (attrs[i], "Value1")) val1  = attrs[i+1];
+		else if (!strcmp (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i+1]);
+		else if (!strcmp (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i+1]);
+		else if (xml_sax_attr_int (attrs+i, "ValueType0", &tmp)) vtype0 = tmp;
+		else if (xml_sax_attr_int (attrs+i, "ValueType1", &tmp)) vtype1 = tmp;
+
+	if (NULL == type) {
+		gnm_io_warning (state->context, _("Missing filter type"));
+	} else if (0 == g_ascii_strcasecmp (type, "expr")) {
+		GnmValue *v0 = NULL, *v1 = NULL;
+		if (val0 != NULL && vtype0 != VALUE_EMPTY)
+			v0 = value_new_from_string (vtype0, val0, NULL, FALSE);
+		if (val1 != NULL && vtype1 != VALUE_EMPTY)
+			v1 = value_new_from_string (vtype1, val1, NULL, FALSE);
+		if (v0 != NULL)
+			cond = gnm_filter_condition_new_double (
+				op0, v0, is_and, op1, v1);
+	} else if (0 == g_ascii_strcasecmp (type, "blanks")) {
+		cond = gnm_filter_condition_new_single (
+			GNM_FILTER_OP_BLANKS, NULL);
+	} else if (0 == g_ascii_strcasecmp (type, "noblanks")) {
+		cond = gnm_filter_condition_new_single (
+			GNM_FILTER_OP_NON_BLANKS, NULL);
+	} else if (0 == g_ascii_strcasecmp (type, "bucket")) {
+		cond = gnm_filter_condition_new_bucket (
+			top, items, bucket_count);
+	} else {
+		gnm_io_warning (state->context, _("Unknown filter type \"%s\""), type);
+	}
+	if (cond != NULL)
+		gnm_filter_set_condition (state->filter, cond_num, cond, FALSE);
+}
+
+static void
+xml_sax_filter_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	GnmRange   r;
+	int i;
+
+	g_return_if_fail (state->filter == NULL);
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
+		if (!strcmp (attrs[i], "Area") && range_parse (&r, attrs[i+1]))
+			state->filter = gnm_filter_new (state->sheet, &r);
+	if (NULL == state->filter)
+		gnm_io_warning (state->context, _("Invalid filter, missing Area"));
+}
+
+static void
+xml_sax_filter_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	state->filter = NULL;
+}
+
+static void
 xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
@@ -1655,7 +1758,8 @@ xml_sax_paper (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 /****************************************************************************/
 
-#define GNM	0
+#define GNM		0
+#define SCHEMA_NS	1
 
 static GsfXMLInNS const content_ns[] = {
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v10.dtd"),
@@ -1668,6 +1772,7 @@ static GsfXMLInNS const content_ns[] = {
 	GSF_XML_IN_NS (GNM, "http://www.gnome.org/gnumeric/v3"),
 	GSF_XML_IN_NS (GNM, "http://www.gnome.org/gnumeric/v2"),
 	GSF_XML_IN_NS (GNM, "http://www.gnome.org/gnumeric/"),
+	GSF_XML_IN_NS (SCHEMA_NS, "http://www.w3.org/2001/XMLSchema-instance"),
 	{ NULL }
 };
 
@@ -1763,7 +1868,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 				    TRUE, FALSE, FALSE, NULL, &xml_sax_validation_expr_end, 1),
 	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_HYPERLINK, GNM, "HyperLink", FALSE, &xml_sax_hlink, NULL),
 	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_INPUT_MSG, GNM, "InputMessage", FALSE, &xml_sax_input_msg, NULL),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_CONDITION, GNM, "Validation", FALSE, &xml_sax_condition, &xml_sax_condition_end),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_CONDITION, GNM, "Condition", FALSE, &xml_sax_condition, &xml_sax_condition_end),
 	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR0, GNM, "Expression0",
 				    TRUE, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 0),
 	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR1, GNM, "Expression1",
@@ -1786,8 +1891,12 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_CELLS, CELL, GNM, "Cell", TRUE, &xml_sax_cell, &xml_sax_cell_content),
 	  GSF_XML_IN_NODE (CELL, CELL_CONTENT, GNM, "Content", TRUE, NULL, &xml_sax_cell_content),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_MERGED_REGION, GNM, "MergedRegions", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_MERGED_REGION, SHEET_MERGE, GNM, "Merge", TRUE, NULL, &xml_sax_merge),
+      GSF_XML_IN_NODE (SHEET, SHEET_MERGED_REGIONS, GNM, "MergedRegions", FALSE, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_MERGED_REGIONS, MERGED_REGION, GNM, "Merge", TRUE, NULL, &xml_sax_merge),
+
+      GSF_XML_IN_NODE (SHEET, SHEET_FILTERS, GNM, "Filters", FALSE, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_FILTERS, FILTER, GNM, "Filter", TRUE, &xml_sax_filter_start, &xml_sax_filter_end),
+	  GSF_XML_IN_NODE (FILTER, FILTER_FIELD, GNM, "Field", TRUE, &xml_sax_filter_condition, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_LAYOUT, GNM, "SheetLayout", FALSE, &xml_sax_sheet_layout, NULL),
 	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", FALSE, &xml_sax_sheet_freezepanes, NULL),
@@ -1949,6 +2058,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.expr_id = -1;
 	state.value_type = -1;
 	state.value_fmt = NULL;
+	state.filter = NULL;
 	state.validation.title = state.validation.msg = NULL;
 	state.validation.texpr[0] = state.validation.texpr[1] = NULL;
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);

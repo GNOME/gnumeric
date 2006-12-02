@@ -345,8 +345,8 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		}
 
 		if (optional_wbc == NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
-			wb_control_selection_descr_set (wbc, sel_descr););
+			WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
+				wb_control_selection_descr_set (wbc, sel_descr););
 		} else
 			wb_control_selection_descr_set (optional_wbc, sel_descr);
 	}

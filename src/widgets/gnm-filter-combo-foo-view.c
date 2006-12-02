@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnm-filter-combo.c: the autofilter combo box
+ * gnm-filter-combo.c: the autofilter combo box for FooCanvas
  *
  * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
  *
@@ -22,6 +22,7 @@
 
 #include <gnumeric-config.h>
 #include "gnm-filter-combo-foo-view.h"
+#include "gnm-cell-combo-foo-view-impl.h"
 
 #include "gui-gnumeric.h"
 #include "sheet-filter.h"
@@ -33,119 +34,45 @@
 #include "workbook.h"
 #include "style-color.h"
 #include "sheet-control-gui.h"
-#include "gnumeric-pane.h"
-#include "gnumeric-canvas.h"
 #include "../dialogs/dialogs.h"
 
 #include <goffice/utils/regutf8.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkevents.h>
-#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkarrow.h>
+#include <gtk/gtktreeselection.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-#define	VIEW_ITEM_ID	"view-item"
-#define	FCOMBO_ID	"fcombo"
-#define	WBCG_ID		"wbcg"
-
 static int
-gnm_filter_combo_index (GnmFilterCombo const *fcombo)
+fcombo_index (GnmFilterCombo const *fcombo)
 {
-	if (NULL != fcombo->filter)
-		return fcombo->parent.anchor.cell_bound.start.col
-			- fcombo->filter->r.start.col;
-	return 0;
-}
-
-/* Cut and paste from gtkwindow.c */
-static void
-do_focus_change (GtkWidget *widget, gboolean in)
-{
-	GdkEventFocus fevent;
-
-	g_object_ref (widget);
-
-	if (in)
-		GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
-	else
-		GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
-
-	fevent.type = GDK_FOCUS_CHANGE;
-	fevent.window = widget->window;
-	fevent.in = in;
-
-	gtk_widget_event (widget, (GdkEvent *)&fevent);
-
-	g_object_notify (G_OBJECT (widget), "has-focus");
-
-	g_object_unref (widget);
+	return fcombo->parent.anchor.cell_bound.start.col
+		- fcombo->filter->r.start.col;
 }
 
 static void
-filter_popup_destroy (GtkWidget *popup, GtkWidget *list)
+fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
+		 WorkbookControlGUI *wbcg)
 {
-	do_focus_change (list, FALSE);
-	gtk_widget_destroy (popup);
-}
+	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
+	GtkTreeIter     iter;
 
-static gint
-cb_filter_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
-{
-	if (event->keyval != GDK_Escape)
-		return FALSE;
-	filter_popup_destroy (popup, list);
-	return TRUE;
-}
-
-static gint
-cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
-			GtkWidget *list)
-{
-	/* A press outside the popup cancels */
-	if (event->window != popup->window) {
-		filter_popup_destroy (popup, list);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-static gint
-cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
-			  GtkTreeView *list)
-{
-	GtkTreeIter  iter;
-	GnmFilterCombo *fcombo;
-	GnmFilterCondition *cond = NULL;
-	WorkbookControlGUI *wbcg;
-	GtkWidget *event_widget = gtk_get_event_widget ((GdkEvent *) event);
-	int field_num;
-
-	/* A release inside list accepts */
-	if (event_widget != GTK_WIDGET (list))
-		return FALSE;
-
-	fcombo = g_object_get_data (G_OBJECT (list), FCOMBO_ID);
-	wbcg  = g_object_get_data (G_OBJECT (list), WBCG_ID);
-	if (fcombo != NULL &&
-	    gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list),
-					     NULL, &iter)) {
-		char    *strval;
-		int	 type;
-		gboolean set_condition = TRUE;
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list), NULL, &iter)) {
+		GnmFilterCondition *cond = NULL;
+		gboolean  set_condition = TRUE;
+		GnmValue *v;
+		int	  field_num, type;
 
 		gtk_tree_model_get (gtk_tree_view_get_model (list), &iter,
-				    1, &strval, 2, &type,
+				    2, &type, 3, &v,
 				    -1);
 
-		field_num = gnm_filter_combo_index (fcombo);
+		field_num = fcombo_index (fcombo);
 		switch (type) {
 		case  0:
 			cond = gnm_filter_condition_new_single (
-				GNM_FILTER_OP_EQUAL,
-				value_new_string_nocopy (strval));
-			strval = NULL;			
+				GNM_FILTER_OP_EQUAL, v);
 			break;
 		case  1: /* unfilter */
 			cond = NULL;
@@ -173,32 +100,12 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 			g_warning ("Unknown type %d", type);
 		}
 
-		g_free (strval);
-
 		if (set_condition) {
 			gnm_filter_set_condition (fcombo->filter, field_num,
-						  cond, TRUE);
+				cond, fcombo->filter->sheet);
 			sheet_update (fcombo->filter->sheet);
 		}
 	}
-	filter_popup_destroy (popup, GTK_WIDGET (list));
-	return TRUE;
-}
-
-static gboolean
-cb_filter_motion_notify_event (GtkWidget *widget, GdkEventMotion *event,
-			       GtkTreeView *list)
-{
-	GtkTreePath *path;
-	if (event->x >= 0 && event->y >= 0 &&
-	    event->x < widget->allocation.width &&
-	    event->y < widget->allocation.height &&
-	    gtk_tree_view_get_path_at_pos (list, event->x, event->y,
-					   &path, NULL, NULL, NULL)) {
-		gtk_tree_selection_select_path (gtk_tree_view_get_selection (list), path);
-		gtk_tree_path_free (path);
-	}
-	return TRUE;
 }
 
 typedef struct {
@@ -208,15 +115,18 @@ typedef struct {
 } UniqueCollection;
 
 static GnmValue *
-cb_collect_unique (GnmCellIter const *iter, UniqueCollection *uc)
+cb_collect_content (GnmCellIter const *iter, UniqueCollection *uc)
 {
+	if (iter->ri->in_filter)
+		return NULL;
 	if (gnm_cell_is_blank (iter->cell))
 		uc->has_blank = TRUE;
 	else {
-		GOFormat const *format = gnm_cell_get_format (iter->cell);			
-		GnmValue const *v = iter->cell->value;
-		char *str = format_value (format, v, NULL, -1, uc->date_conv);
-		g_hash_table_replace (uc->hash, str, iter->cell);
+		GOFormat const *fmt = gnm_cell_get_format (iter->cell);			
+		GnmValue const *v   = iter->cell->value;
+		g_hash_table_replace (uc->hash, 
+			value_dup (v),
+			format_value (fmt, v, NULL, -1, uc->date_conv));
 	}
 
 	return NULL;
@@ -228,18 +138,10 @@ cb_hash_domain (GnmValue *key, gpointer value, gpointer accum)
 	g_ptr_array_add (accum, key);
 }
 
-static int
-order_alphabetically (void const *ptr_a, void const *ptr_b)
-{
-	char const * const *a = ptr_a;
-	char const * const *b = ptr_b;
-	return strcmp (*a, *b);
-}
-
 static GtkListStore *
-collect_unique_elements (GnmFilterCombo *fcombo,
-			 GtkTreePath **clip, GtkTreePath **select)
+fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 {
+	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
 	UniqueCollection uc;
 	GtkTreeIter	 iter;
 	GtkListStore *model;
@@ -247,16 +149,12 @@ collect_unique_elements (GnmFilterCombo *fcombo,
 	unsigned i;
 	gboolean is_custom = FALSE;
 	GnmRange	 r = fcombo->filter->r;
-	GnmValue const *check = NULL;
+	GnmValue const *v;
+	GnmValue const *cur_val = NULL;
 	Sheet *sheet = fcombo->filter->sheet;
 
-	if (fcombo->cond != NULL &&
-	    fcombo->cond->op[0] == GNM_FILTER_OP_EQUAL &&
-	    fcombo->cond->op[1] == GNM_FILTER_UNUSED) {
-		check = fcombo->cond->value[0];
-	}
-
-	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+	model = gtk_list_store_new (4,
+		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, gnm_value_get_type ());
 
 	gtk_list_store_append (model, &iter);
 	gtk_list_store_set (model, &iter, 0, _("(All)"),	   1, NULL, 2, 1, -1);
@@ -279,27 +177,36 @@ collect_unique_elements (GnmFilterCombo *fcombo,
 
 	r.start.row++;
 	/* r.end.row =  XL actually extend to the first non-empty element in the list */
-	r.end.col = r.start.col += gnm_filter_combo_index (fcombo);
+	r.end.col = r.start.col += fcombo_index (fcombo);
 	uc.has_blank = FALSE;
-	uc.hash = g_hash_table_new_full (g_str_hash, g_str_equal,
-					 (GDestroyNotify)g_free,
-					 NULL);
+	uc.hash = g_hash_table_new_full ((GHashFunc)value_hash, (GEqualFunc)value_equal,
+		(GDestroyNotify)value_release, (GDestroyNotify)g_free);
 	uc.date_conv = workbook_date_conv (sheet->workbook);
 
-	sheet_foreach_cell_in_range (sheet,
-		CELL_ITER_ALL,
+	/* We do not want to show items that are filtered by _other_ fields.
+	 * The cleanest way to do that is
+	 * */
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
 		r.start.col, r.start.row, r.end.col, r.end.row,
-		(CellIterFunc)&cb_collect_unique, &uc);
+		(CellIterFunc)&cb_collect_content, &uc);
 
 	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_domain, sorted);
 	qsort (&g_ptr_array_index (sorted, 0),
 	       sorted->len, sizeof (char *),
-	       order_alphabetically);
+	       &value_cmp);
+
+	if (fcombo->cond != NULL &&
+	    fcombo->cond->op[0] == GNM_FILTER_OP_EQUAL &&
+	    fcombo->cond->op[1] == GNM_FILTER_UNUSED) {
+		cur_val = fcombo->cond->value[0];
+	}
+
 	for (i = 0; i < sorted->len ; i++) {
-		char const *str = g_ptr_array_index (sorted, i);
 		char *label = NULL;
-		gsize len = g_utf8_strlen (str, -1);
 		unsigned const max = 50;
+		char const *str = g_hash_table_lookup (uc.hash,
+			(v = g_ptr_array_index (sorted, i)));
+		gsize len = g_utf8_strlen (str, -1);
 
 		if (len > max + 3) {
 			label = g_strdup (str);
@@ -311,16 +218,14 @@ collect_unique_elements (GnmFilterCombo *fcombo,
 				    0, label ? label : str, /* Menu text */
 				    1, str, /* Actual string selected on.  */
 				    2, 0,
+				    3, v,
 				    -1);
 		g_free (label);
 		if (i == 10)
-			*clip = gtk_tree_model_get_path (GTK_TREE_MODEL (model),
-							 &iter);
-		if (check != NULL) {
-			if (strcmp (value_peek_string (check), str) == 0) {
-				gtk_tree_path_free (*select);
-				*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
-			}
+			*clip = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+		if (cur_val != NULL && v != NULL && value_equal	(cur_val, v)) {
+			gtk_tree_path_free (*select);
+			*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 		}
 	}
 
@@ -349,121 +254,17 @@ collect_unique_elements (GnmFilterCombo *fcombo,
 }
 
 static void
-cb_focus_changed (GtkWindow *toplevel)
+fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 {
-#if 0
-	g_warning (gtk_window_has_toplevel_focus (toplevel) ? "focus" : "no focus");
-#endif
-}
-
-static void
-cb_filter_button_pressed (GtkButton *button, FooCanvasItem *view)
-{
-	GnmPane		*pane = GNM_CANVAS (view->canvas)->pane;
-	SheetControlGUI *scg = pane->gcanvas->simple.scg;
-	SheetObject	*so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
-	GnmFilterCombo	*fcombo = GNM_FILTER_COMBO (so);
-	GtkWidget *frame, *popup, *list, *container;
-	int root_x, root_y;
-	GtkListStore  *model;
-	GtkTreeViewColumn *column;
-	GtkTreePath	  *clip = NULL, *select = NULL;
-	GtkRequisition	req;
-
-	popup = gtk_window_new (GTK_WINDOW_POPUP);
-	model = collect_unique_elements (fcombo, &clip, &select);
-	column = gtk_tree_view_column_new_with_attributes ("ID",
-			gtk_cell_renderer_text_new (), "text", 0,
-			NULL);
-	list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (list), FALSE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (list), column);
-	gtk_widget_size_request (GTK_WIDGET (list), &req);
-	g_object_set_data (G_OBJECT (list), FCOMBO_ID, fcombo);
-	g_object_set_data (G_OBJECT (list), WBCG_ID, scg_wbcg (scg));
-	g_signal_connect (G_OBJECT (wbcg_toplevel (scg_wbcg (scg))),
-		"notify::has-toplevel-focus",
-		G_CALLBACK (cb_focus_changed), list);
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
-
-#if 0
-	range_dump (&so->anchor.cell_bound, "");
-	fprintf (stderr, " : so = %p, view = %p\n", so, view);
-#endif
-	if (clip != NULL) {
-		GdkRectangle  rect;
-		GtkWidget *sw = gtk_scrolled_window_new (
-			gtk_tree_view_get_hadjustment (GTK_TREE_VIEW (list)),
-			gtk_tree_view_get_vadjustment (GTK_TREE_VIEW (list)));
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-						GTK_POLICY_AUTOMATIC,
-						GTK_POLICY_ALWAYS);
-		gtk_tree_view_get_background_area (GTK_TREE_VIEW (list),
-						   clip, NULL, &rect);
-		gtk_tree_path_free (clip);
-
-		gtk_widget_set_size_request (list, req.width, rect.y);
-		gtk_container_add (GTK_CONTAINER (sw), list);
-		container = sw;
-	} else
-		container = list;
-
-	gtk_container_add (GTK_CONTAINER (frame), container);
-
-	/* do the popup */
-	gtk_window_set_decorated (GTK_WINDOW (popup), FALSE);
-	gdk_window_get_origin (GTK_WIDGET (pane->gcanvas)->window,
-		&root_x, &root_y);
-	gtk_window_move (GTK_WINDOW (popup),
-		root_x + scg_colrow_distance_get (scg, TRUE,
-			pane->gcanvas->first.col,
-			fcombo->parent.anchor.cell_bound.start.col + 1) - req.width,
-		root_y + scg_colrow_distance_get (scg, FALSE,
-			pane->gcanvas->first.row,
-			fcombo->filter->r.start.row + 1));
-
-	gtk_container_add (GTK_CONTAINER (popup), frame);
-
-	g_signal_connect (popup,
-		"key_press_event",
-		G_CALLBACK (cb_filter_key_press), list);
-	g_signal_connect (popup,
-		"button_press_event",
-		G_CALLBACK (cb_filter_button_press), list);
-	g_signal_connect (popup,
-		"button_release_event",
-		G_CALLBACK (cb_filter_button_release), list);
-	g_signal_connect (list,
-		"motion_notify_event",
-		G_CALLBACK (cb_filter_motion_notify_event), list);
-
-	gtk_widget_show_all (popup);
-
-	/* after we show the window setup the selection (showing the list
-	 * clears the selection) */
-	if (select != NULL) {
-		gtk_tree_selection_select_path (
-			gtk_tree_view_get_selection (GTK_TREE_VIEW (list)),
-			select);
-		gtk_tree_path_free (select);
+	GtkTooltips *tips = gtk_tooltips_new ();
+	if (NULL != arrow->parent) {
+		char *desc = NULL;
+		if (NULL != fcombo->cond) {
+		}
+		gtk_tooltips_set_tip (tips, arrow->parent, desc, NULL);
+		g_free (desc);
 	}
 
-	gtk_widget_grab_focus (GTK_WIDGET (list));
-	do_focus_change (GTK_WIDGET (list), TRUE);
-
-	gtk_grab_add (popup);
-	gdk_pointer_grab (popup->window, TRUE,
-		GDK_BUTTON_PRESS_MASK |
-		GDK_BUTTON_RELEASE_MASK |
-		GDK_POINTER_MOTION_MASK,
-		NULL, NULL, GDK_CURRENT_TIME);
-}
-
-static void
-filter_combo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
-{
 	gtk_arrow_set (GTK_ARROW (arrow),
 		fcombo->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
 		GTK_SHADOW_IN);
@@ -471,11 +272,27 @@ filter_combo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 		fcombo->cond != NULL ? &gs_yellow : &gs_black);
 }
 
-static void
-filter_view_destroy (SheetObjectView *sov)
+static GtkWidget *
+fcombo_create_arrow (SheetObject *so)
 {
-	gtk_object_destroy (GTK_OBJECT (sov));
+	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
+	GtkWidget *arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
+	fcombo_arrow_format (fcombo, arrow);
+	g_signal_connect_object (G_OBJECT (so), 
+		"cond-changed",
+		G_CALLBACK (fcombo_arrow_format), arrow, 0);
+	return arrow;
 }
+
+static void
+fcombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
+{
+	ccombo_iface->fill_model	= fcombo_fill_model;
+	ccombo_iface->activate		= fcombo_activate;
+	ccombo_iface->create_arrow	= fcombo_create_arrow;
+}
+
+/*******************************************************************************/
 
 /* Somewhat magic.
  * We do not honour all of the anchor flags.  All that is used is the far corner. */
@@ -485,68 +302,39 @@ filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vis
 	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
 
 	if (visible) {
-		double x;
-		/* Far point is EXCLUDED so we add 1 */
-		double h = (coords[3] - coords[1]) + 1;
+		double h = (coords[3] - coords[1]) + 1.;
 		if (h > 20.)	/* clip vertically */
 			h = 20.;
-
-		/* maintain squareness horzontally */
-		x = coords[2] - h;
-		if (x < coords[0])
-			x = coords[0];
-
 		foo_canvas_item_set (view,
-			"x",	  x,
-			"y",	  coords [3] - h,
-			"width",  coords [2] - x,
-			"height", h + 1.,
+			/* put it inside the cell */
+			"x",	  ((coords[2] >= 0.) ? (coords[2]-h+1) : coords[0]),
+			"y",	  coords [3] - h + 1.,
+			"width",  h,	/* force a square, use h for width too */
+			"height", h,
 			NULL);
 
 		foo_canvas_item_show (view);
 	} else
 		foo_canvas_item_hide (view);
 }
-
+static void filter_view_destroy (SheetObjectView *sov)
+{
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
 static void
-gnm_filter_combo_foo_view_init (SheetObjectViewIface *sov_iface)
+fcombo_sov_init (SheetObjectViewIface *sov_iface)
 {
 	sov_iface->destroy	= filter_view_destroy;
 	sov_iface->set_bounds	= filter_view_set_bounds;
 }
+
+/****************************************************************************/
+
 typedef FooCanvasWidget		GnmFilterComboFooView;
 typedef FooCanvasWidgetClass	GnmFilterComboFooViewClass;
-static GSF_CLASS_FULL (GnmFilterComboFooView, gnm_filter_combo_foo_view,
+GSF_CLASS_FULL (GnmFilterComboFooView, gnm_filter_combo_foo_view,
 	NULL, NULL, NULL, NULL,
 	NULL, FOO_TYPE_CANVAS_WIDGET, 0,
-	GSF_INTERFACE (gnm_filter_combo_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
-
-SheetObjectView *
-gnm_filter_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
-	GtkWidget *arrow, *view_widget = gtk_button_new ();
-	GnmFilterCombo *fcombo = (GnmFilterCombo *) so;
-	FooCanvasItem *view_item = foo_canvas_item_new (gcanvas->object_views,
-		gnm_filter_combo_foo_view_get_type (),
-		"widget",	view_widget,
-		"size_pixels",	FALSE,
-		NULL);
-
-	GTK_WIDGET_UNSET_FLAGS (view_widget, GTK_CAN_FOCUS);
-	arrow = gtk_arrow_new (fcombo->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
-			       GTK_SHADOW_IN);
-	filter_combo_arrow_format (fcombo, arrow);
-	gtk_container_add (GTK_CONTAINER (view_widget), arrow);
-	g_signal_connect_object (G_OBJECT (so), 
-		"cond-changed",
-		G_CALLBACK (filter_combo_arrow_format), arrow, 0);
-
-	g_object_set_data (G_OBJECT (view_widget), VIEW_ITEM_ID, view_item);
-	g_signal_connect (view_widget,
-		"pressed",
-		G_CALLBACK (cb_filter_button_pressed), view_item);
-	gtk_widget_show_all (view_widget);
-
-	return gnm_pane_object_register (so, view_item, FALSE);
-}
+	GSF_INTERFACE (fcombo_sov_init, SHEET_OBJECT_VIEW_TYPE)
+	GSF_INTERFACE (fcombo_ccombo_init, GNM_CCOMBO_FOO_VIEW_TYPE)
+)

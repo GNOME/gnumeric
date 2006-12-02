@@ -233,11 +233,14 @@ src/tools/solver/reports-write.c
 src/tools/solver/solver.c
 src/tools/tabulate.c
 src/widgets/gnm-dao.c
+src/widgets/gnm-format-sel.c 
+src/widgets/gnm-cell-combo-foo-view.c 
+src/widgets/gnm-filter-combo-foo-view.c 
+src/widgets/gnm-validation-combo-foo-view.c 
 src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c
 src/widgets/gnumeric-expr-entry.c
-src/widgets/gnm-filter-combo.c
 src/widgets/widget-font-selector.c
 src/application.c
 src/cell.c

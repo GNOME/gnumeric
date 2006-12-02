@@ -55,8 +55,7 @@
 GnmRange   *range_init_full_sheet   (GnmRange *r);
 GnmRange   *range_init_rangeref	    (GnmRange *r, GnmRangeRef const *rr);
 GnmRange   *range_init_value	    (GnmRange *r, GnmValue const *v);
-GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *start,
-				     GnmCellPos const *end);
+GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *pos);
 GnmRange   *range_init_cellpos_size (GnmRange *r, GnmCellPos const *start,
 				     int cols, int rows);
 GnmRange   *range_init              (GnmRange *r, int start_col, int start_row,

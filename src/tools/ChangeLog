@@ -1,3 +1,14 @@
+2006-12-02  Jody Goldberg <jody@gnome.org>
+
+	All callers changed.
+	* scenarios.c (scenarios_free) : renamed from scenario_free_all.
+	(scenarios_dup) : renamed from scenario_copy_all.
+	(scenarios_insert_rows) : renamed from scenario_insert_rows.
+	(scenarios_insert_cols) : renamed from scenario_insert_cols.
+	(scenarios_delete_rows) : renamed from scenario_delete_rows.
+	(scenarios_delete_cols) : renamed from scenario_delete_cols.
+	(scenarios_move_range) : renamed from scenario_move_range.
+
 2006-11-30  Morten Welinder  <terra@gnome.org>
 
 	* goal-seek.c (goal_seek_newton): Improve handling of flat spots,

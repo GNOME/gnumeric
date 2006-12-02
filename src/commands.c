@@ -901,7 +901,7 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		}
 	}
 
-	range_init_cellpos (&r, &me->pos.eval, &me->pos.eval);
+	range_init_cellpos (&r, &me->pos.eval);
 	if (texpr || !VALUE_IS_STRING (cell->value))
 		colrow_autofit (me->cmd.sheet, &r, TRUE, TRUE,
 				TRUE, FALSE,
@@ -5243,7 +5243,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
 		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row);
-		sheet_object_clone_sheet (source_sheet, new_sheet, &target_range);
+		sheet_objects_dup (source_sheet, new_sheet, &target_range);
 		clipboard_paste_region (merge_contents,
 			paste_target_init (&pt, new_sheet, &target_range, PASTE_ALL_TYPES),
 			GO_CMD_CONTEXT (wbc));
@@ -6391,7 +6391,7 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 
 	me->cmd.sheet = cell->base.sheet;
 	me->cmd.size = 1;
-	range_init_cellpos (&range, &cell->pos, &cell->pos);
+	range_init_cellpos (&range, &cell->pos);
 	me->cmd.cmd_descriptor = g_strdup_printf 
 		(_("Goal Seek (%s)"), undo_range_name (cell->base.sheet, &range));
 

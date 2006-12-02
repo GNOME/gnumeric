@@ -65,10 +65,10 @@ range_init_value (GnmRange *range, GnmValue const *v)
 }
 
 GnmRange *
-range_init_cellpos (GnmRange *r, GnmCellPos const *start, GnmCellPos const *end)
+range_init_cellpos (GnmRange *r, GnmCellPos const *pos)
 {
-	r->start = *start;
-	r->end = *end;
+	r->start = *pos;
+	r->end = *pos;
 
 	return r;
 }

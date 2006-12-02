@@ -45,7 +45,7 @@
 /* Generic stuff **********************************************************/
 
 scenario_t *
-scenario_by_name (GList *scenarios, const gchar *name, gboolean *all_deleted)
+scenario_by_name (GList *scenarios, gchar const *name, gboolean *all_deleted)
 {
 	scenario_t *s, *res = NULL;
  
@@ -87,7 +87,7 @@ scenario_for_each_value (scenario_t *s, ScenarioValueCB fn, gpointer data)
 /* Scenario: Add ***********************************************************/
 
 static scenario_t *
-scenario_new (Sheet *sheet, const gchar *name, const gchar *comment)
+scenario_new (Sheet *sheet, gchar const *name, gchar const *comment)
 {
 	scenario_t *s;
 	GList      *scenarios = sheet->scenarios;
@@ -177,10 +177,10 @@ collect_values (Sheet *sheet, scenario_t *s, GnmValueRange *range)
 
 /* Doesn't actually add the new scenario into the sheet's scenario list. */
 gboolean
-scenario_add_new (const gchar *name,
+scenario_add_new (gchar const *name,
 		  GnmValue *changing_cells,
-		  const gchar *cell_sel_str,
-		  const gchar *comment,
+		  gchar const *cell_sel_str,
+		  gchar const *comment,
 		  Sheet *sheet,
 		  scenario_t **new_scenario)
 {
@@ -248,16 +248,16 @@ scenario_copy (scenario_t *s, Sheet *new_sheet)
 }
 
 GList *
-scenario_copy_all (GList *list, Sheet *ns)
+scenarios_dup (GList *list, Sheet *ns)
 {
 	GList *cpy = NULL;
 
 	while (list != NULL) {
-		cpy = g_list_append (cpy, scenario_copy (list->data, ns));
+		cpy = g_list_prepend (cpy, scenario_copy (list->data, ns));
 		list = list->next;
 	}
 
-	return cpy;
+	return g_list_reverse (cpy);
 }
 
 /* Scenario: Remove sheet *************************************************/
@@ -292,11 +292,14 @@ cb_free (scenario_t *data, gpointer ignore)
 	scenario_free (data);
 }
 
-/*
- * Frees all scenarios in a list.
- */
+/**
+ * scenarios_free :
+ * @list : #GList
+ *
+ * Free all scenarios in the collection.
+ **/
 void
-scenario_free_all (GList *list)
+scenarios_free (GList *list)
 {
 	g_list_foreach (list, (GFunc) cb_free, NULL);
 	g_list_free (list);
@@ -394,7 +397,7 @@ insert_cols (scenario_t *s, int col, int count)
 }
 
 void
-scenario_insert_cols (GList *list, int col, int count)
+scenarios_insert_cols (GList *list, int col, int count)
 {
 	while (list != NULL) {
 		insert_cols (list->data, col, count);
@@ -416,7 +419,7 @@ insert_rows (scenario_t *s, int row, int count)
 }
 
 void
-scenario_insert_rows (GList *list, int row, int count)
+scenarios_insert_rows (GList *list, int row, int count)
 {
 	while (list != NULL) {
 		insert_rows (list->data, row, count);
@@ -440,7 +443,7 @@ delete_cols (scenario_t *s, int col, int count)
 }
 
 void
-scenario_delete_cols (GList *list, int col, int count)
+scenarios_delete_cols (GList *list, int col, int count)
 {
 	while (list != NULL) {
 		delete_cols (list->data, col, count);
@@ -462,7 +465,7 @@ delete_rows (scenario_t *s, int row, int count)
 }
 
 void
-scenario_delete_rows (GList *list, int row, int count)
+scenarios_delete_rows (GList *list, int row, int count)
 {
 	while (list != NULL) {
 		delete_rows (list->data, row, count);
@@ -475,24 +478,18 @@ move_range (scenario_t *s, GnmRange const *origin, int col_offset, int row_offse
 {
 	/* FIXME when multiple ranges are supported. */
 	if (range_equal (&s->range, origin)) {
-		s->range.start.col += col_offset;
-		s->range.start.row += row_offset;
-		s->range.end.col   += col_offset;
-		s->range.end.row   += row_offset;
+		range_translate (&s->range, col_offset, row_offset);
 		g_free (s->cell_sel_str);
-
 		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
 
 void
-scenario_move_range (GList *list, const GnmRange *origin, int col_offset,
-		     int row_offset)
+scenarios_move_range (GList *list, const GnmRange *origin,
+		      int col_offset, int row_offset)
 {
-	while (list != NULL) {
+	for ( ; list != NULL ; list = list->next)
 		move_range (list->data, origin, col_offset, row_offset);
-		list = list->next;
-	}
 }
 
 /* Scenario Manager: Ok/Cancel buttons************************************/

@@ -16,6 +16,8 @@ libwidgets_la_SOURCES =				\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
 	widget-font-selector.h			\
+	gnm-cell-combo-foo-view.c		\
+	gnm-cell-combo-foo-view.h		\
 	gnm-filter-combo-foo-view.c		\
 	gnm-filter-combo-foo-view.h		\
 	gnm-validation-combo-foo-view.c		\

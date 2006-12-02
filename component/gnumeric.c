@@ -340,9 +340,6 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 				x = cell_width * anchor->offset[0];
 				break;
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-				x = cell_width * (1. - anchor->offset[0]);
-				break;
 			case SO_ANCHOR_PTS_FROM_COLROW_START:
 				x = anchor->offset[0];
 				break;
@@ -357,9 +354,6 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 			case SO_ANCHOR_UNKNOWN:
 			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 				y = cell_height * anchor->offset[1];
-				break;
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-				y = cell_height * (1 - anchor->offset[1]);
 				break;
 			case SO_ANCHOR_PTS_FROM_COLROW_START:
 				y = anchor->offset[1];
@@ -382,9 +376,6 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 				width -= cell_width * (1. - anchor->offset[2]);
 				break;
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-				width -= cell_width * anchor->offset[2];
-				break;
 			case SO_ANCHOR_PTS_FROM_COLROW_START:
 				width -= cell_width - anchor->offset[2];
 				break;
@@ -401,9 +392,6 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 			case SO_ANCHOR_UNKNOWN:
 			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
 				height -= cell_height * (1 - anchor->offset[3]);
-				break;
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_END:
-				height -= cell_height * anchor->offset[3];
 				break;
 			case SO_ANCHOR_PTS_FROM_COLROW_START:
 				height -= cell_height - anchor->offset[3];
@@ -441,7 +429,7 @@ static GtkActionEntry const actions[] = {
 /* File */
 	{ "FileSaveEmbed", GTK_STOCK_SAVE, NULL,
 		NULL, N_("Save the embedded workbook"),
-		G_CALLBACK (cb_gognm_save) },
+		G_CALLBACK (cb_gognm_save) }
 };
 
 static void

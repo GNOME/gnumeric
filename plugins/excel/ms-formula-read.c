@@ -1111,11 +1111,18 @@ excel_parse_formula1 (MSContainer const *container,
 
 		case FORMULA_PTG_STR: {
 			char *str;
-			int len = GSF_LE_GET_GUINT8 (cur);
+			int byte_len, char_len = GSF_LE_GET_GUINT8 (cur);
 
-			if (len <= len_left) {
-				str = excel_get_text (container->importer, cur+1, len, &len);
-				ptg_length = 1 + len;
+			if (char_len <= len_left) {
+				str = excel_get_text (container->importer, cur+1, char_len, &byte_len);
+				ptg_length = 1 + byte_len;
+				/* data validation has a non-standard form of expression
+				 */
+#if 0
+				if (str != NULL && ) {
+					int res_char_len = g_utf8_strlen (str,  byte_len);
+				}
+#endif
 			} else {
 				str = NULL;
 

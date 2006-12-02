@@ -20,7 +20,14 @@ typedef enum {
 	GNM_FILTER_OP_BOTTOM_N		= 0x31,
 	GNM_FILTER_OP_TOP_N_PERCENT	= 0x32,
 	GNM_FILTER_OP_BOTTOM_N_PERCENT	= 0x33,
-	GNM_FILTER_OP_TYPE_MASK		= 0x30
+
+	/* Added in 1.7.5 */
+	GNM_FILTER_OP_GT_AVERAGE	= 0x40,
+	GNM_FILTER_OP_LT_AVERAGE	= 0x41,
+	GNM_FILTER_OP_WITHIN_STDDEV	= 0x50,
+	GNM_FILTER_OP_OUTSIDE_STDDEV	= 0x51,
+
+	GNM_FILTER_OP_TYPE_MASK		= 0x70
 } GnmFilterOp;
 
 struct _GnmFilterCondition {
@@ -45,15 +52,18 @@ GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, GnmValue *
 GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean absolute,
 						     unsigned n);
+GnmFilterCondition *gnm_filter_condition_dup 	    (GnmFilterCondition const *src);
 void		    gnm_filter_condition_unref 	    (GnmFilterCondition *cond);
 
 GnmFilter 		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);
+GnmFilter 		 *gnm_filter_dup	    (GnmFilter const *src,
+						     Sheet *sheet);
 void	   		  gnm_filter_free	    (GnmFilter *filter);
 void	   		  gnm_filter_remove	    (GnmFilter *filter);
 GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, unsigned i);
 void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,
-						     gboolean apply);
+						     Sheet *target_sheet);
 gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 

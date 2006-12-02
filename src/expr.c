@@ -2756,8 +2756,9 @@ gnm_expr_top_relocate (GnmExprTop const *texpr,
 
 	rinfo_tmp.details = rinfo;
 	rinfo_tmp.check_rels = !ignore_rel;
-	rinfo_tmp.from_inside = (rinfo->origin_sheet == rinfo->pos.sheet) &&
-		range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row);
+	if (rinfo->reloc_type != GNM_EXPR_RELOCATE_INVALIDATE_SHEET)
+		rinfo_tmp.from_inside = (rinfo->origin_sheet == rinfo->pos.sheet) &&
+			range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row);
 
 	return gnm_expr_top_new (gnm_expr_relocate (texpr->expr, &rinfo_tmp));
 }

@@ -3675,7 +3675,11 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS - 1;
 	for (i = firstcol; i <= lastcol; i++) {
-		sheet_col_set_size_pts (esheet->sheet, i, width, customWidth && !bestFit);
+		/* Kludge : we should really use
+		 * 	hard_size == customWidth && !bestFit
+		 * but these flags are undocumented and gnumeric < 1.75 && OOo
+		 * export them as 0.  So we are reduced to using */
+		sheet_col_set_size_pts (esheet->sheet, i, width, !bestFit);
 		if (outline_level > 0 || collapsed)
 			colrow_set_outline (sheet_col_fetch (esheet->sheet, i),
 				outline_level, collapsed);
@@ -5224,7 +5228,7 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	gnm_filter_set_condition (filter,
-		GSF_LE_GET_GUINT16 (q->data), cond, FALSE);
+		GSF_LE_GET_GUINT16 (q->data), cond, NULL);
 }
 
 void

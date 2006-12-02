@@ -39,6 +39,7 @@
 #include "sheet-view.h"
 #include "sheet-object.h"
 #include "gnm-validation-combo-foo-view.h"
+#include "gnm-cell-combo-foo-view.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -103,7 +104,12 @@ gnm_validation_combo_init (SheetObject *so)
 	/* keep the arrows from wandering with their cells */
 	so->flags &= ~SHEET_OBJECT_MOVE_WITH_CELLS;
 }
-
+static SheetObjectView *
+gnm_validation_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
+{
+	return gnm_cell_combo_foo_view_new (so,
+		gnm_validation_combo_foo_view_get_type (), container);
+}
 static void
 gnm_validation_combo_class_init (GObjectClass *gobject_class)
 {
