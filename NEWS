@@ -4,11 +4,27 @@ Jon Kåre:
 	* Fix zoom preference. [#378043]
 
 Jody:
-	* Improve xls import/export of bestfit column widths. [#378560]
+	* Improve xls import/export of 'best fit' column widths. [#378560]
 	* Implement Validate from List cell combo. [#375620]
 	* Fix xls import of checkboxes with empty labels. [#375620]
 	* Put the style feedback onto an idle handle to improve cursor
 	  responsiveness.
+	* Improve autofill/validation combos.
+	    - Alt-Down opens a combo in the current cell
+	    - Enter, Alt-Up/Down selects within an open combo
+	    - Drag autoscroll
+	    - set initial selection for validate from list
+	    - Home/End jumps to top bottom.
+	    - Fix in RTL mode.
+	* Fix .gnumeric import of col/row groupings. [#380015]
+	* SAX import for autofilters
+	* Fix XSD schema
+	    - Add autofilters
+	    - Add inputmessages
+	    - Add Workbook Attributes
+	    - Make it validate
+	* Start simplifying the object anchor types for xlsx.
+	* Fix RTL text display.
 
 Morten:
 	* Add automatic test framework.

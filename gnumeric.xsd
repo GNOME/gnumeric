@@ -96,6 +96,17 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:complexType name="Attributes">
+        <xsd:sequence>
+            <xsd:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
+		<xsd:complexType>
+		    <xsd:attribute name="name"   type="xsd:string" use="required"/>
+		    <xsd:attribute name="value"  type="xsd:string" use="required"/>
+		</xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
     <xsd:complexType name="SheetNameIndex">
         <xsd:sequence>
             <xsd:element name="SheetName" minOccurs="0" maxOccurs="unbounded" type="xsd:string"/>
@@ -138,6 +149,7 @@
                         <xsd:element name="Objects"         type="gnm:Objects" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="Cells"           type="gnm:Cells"/>
                         <xsd:element name="MergedRegions"   type="gnm:MergedRegions" minOccurs="0" maxOccurs="1"/>
+                        <xsd:element name="Filters"   	    type="gnm:Filters" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="SheetLayout"     type="gnm:SheetLayout"/>
                         <xsd:element name="Solver"          type="gnm:Solver"/>
                         <xsd:element name="Scenarios"       type="gnm:Scenarios" minOccurs="0" maxOccurs="1"/>
@@ -360,6 +372,12 @@
                             <xsd:attribute name="Expression1"	type="xsd:string"   use="optional"/>
                         </xsd:extension>
                     </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="InputMessage" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+		    <xsd:attribute name="Title"          type="xsd:string"  use="optional"/>
+		    <xsd:attribute name="Message"        type="xsd:string"  use="optional"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -697,7 +715,6 @@
                  each number needs to be one of the following:
                   0 = UNKNOWN
                  16 = PERCENTAGE_FROM_COLROW_START
-                 17 = PERCENTAGE_FROM_COLROW_END
                  32 = PTS_FROM_COLROW_START
                  33 = PTS_FROM_COLROW_END
                  48 = PTS_ABSOLUTE
@@ -749,7 +766,7 @@
                    <!-- ExprID is only used to refer to a shared expression -->
                    <xsd:attribute name="ExprID"      type="xsd:positiveInteger" use="optional"/>
                    <!-- ValueType is not used if the cell contains an expression -->
-                   <xsd:attribute name="ValueType"   type="gnm:cell_type"           use="optional"/>
+                   <xsd:attribute name="ValueType"   type="gnm:ValueType"           use="optional"/>
                    <!-- ValueFormat is apparently used only for cell-by-cell format
                         overrides
                    -->
@@ -763,7 +780,7 @@
        </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:simpleType name="cell_type">
+    <xsd:simpleType name="ValueType">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="10"/> <!-- empty     -->
             <xsd:enumeration value="20"/> <!-- boolean   -->
@@ -776,6 +793,60 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="FilterFieldType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="expr"/>
+            <xsd:enumeration value="blanks"/>
+            <xsd:enumeration value="nonblanks"/>
+            <xsd:enumeration value="bucket"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="FilterFieldOp">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="eq"/>
+            <xsd:enumeration value="gt"/>
+            <xsd:enumeration value="lt"/>
+            <xsd:enumeration value="gte"/>
+            <xsd:enumeration value="lte"/>
+            <xsd:enumeration value="ne"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="Field">
+	<xsd:attribute name="Area"   type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="Filters">
+       <xsd:sequence>
+           <xsd:element name="Filter" minOccurs="0" maxOccurs="unbounded">
+		<xsd:complexType>
+		    <xsd:sequence>
+			<xsd:element name="Field" minOccurs="0" maxOccurs="unbounded">
+			    <xsd:complexType>
+				<xsd:attribute name="Index" type="xsd:nonNegativeInteger" use="required"/>
+				<xsd:attribute name="Type"  type="gnm:FilterFieldType" use="required"/>
+
+				<!-- Only valid for Type=expr -->
+				<xsd:attribute name="ValueType0" type="gnm:ValueType"	  use="optional"/>
+				<xsd:attribute name="Value0"   	 type="xsd:string"	  use="optional"/>
+				<xsd:attribute name="Op0"   	 type="gnm:FilterFieldOp" use="optional"/>
+				<xsd:attribute name="ValueType1" type="gnm:ValueType"	  use="optional"/>
+				<xsd:attribute name="Value1"   	 type="xsd:string"	  use="optional"/>
+				<xsd:attribute name="Op1"   	 type="gnm:FilterFieldOp" use="optional"/>
+
+				<!-- Only valid for Type=bucket -->
+				<xsd:attribute name="Top"   type="xsd:boolean"	use="optional"/> <!-- top vs bottom -->
+				<xsd:attribute name="Items" type="xsd:boolean"	use="optional"/> <!-- top n vs top n% -->
+				<xsd:attribute name="Count" type="xsd:integer"	use="optional"/> <!-- top COUNT -->
+			    </xsd:complexType>
+			</xsd:element>
+		    </xsd:sequence>
+		    <xsd:attribute name="Area"   type="xsd:string" use="required"/>
+		</xsd:complexType>
+            </xsd:element>
+       </xsd:sequence>
+    </xsd:complexType>
+
     <xsd:complexType name="MergedRegions">
        <xsd:sequence>
            <xsd:element name="Merge" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
@@ -784,7 +855,7 @@
 
     <xsd:complexType name="Solver">
         <xsd:sequence>
-            <xsd:element name="Constr" minOccurs="0" maxOccurs="unbounded">
+	    <xsd:element name="Constr" minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
                     <xsd:attribute name="Lcol" type="xsd:nonNegativeInteger" use="required"/>
                     <xsd:attribute name="Lrow" type="xsd:nonNegativeInteger" use="required"/>

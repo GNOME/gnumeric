@@ -17,6 +17,9 @@ Review
 Release Critical
 ----------------
 
+- Audit all calls to gtk_tree_view_new_with_model to ensure that model is
+  unrefed.
+
 http://bugzilla.gnome.org/show_bug.cgi?id=322096
 - mis-export of array expr
 
@@ -30,8 +33,6 @@ Worries
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=317662
-    * Double borders in rtl
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
     - use 2.6 clipboard handling              DONE
 	: gtk_clipboard_set_can_store
@@ -46,9 +47,6 @@ Worries
     - Allow missing arguments that are not '?' for ACCRINT.
 
     - GETPIVOTDATA signature
-    - limit autofilter drop down width to cell width
-	: eg tc45 issue sheet
-	: bugreport0401.xls
 
     - Reading /local/info/test-xls/Desktop\ \&\ Collaboration\ Products\ Weekly\ Invoice.xls
 	: getpivotdata
@@ -73,8 +71,6 @@ Worries
     - operand.xls
     - pivot-edited.xls : odd colours in the 'the range that contains' box
     - hidding col/row headers should not hide outline symbols
-    - with frozen panes that have topleft != A1 there are a few extra pixels
-      between col header and grid.
     - xml persistence of grid colour
     - store and persist view modes
     - fix bogosity of 'ant' cursors being in sheet_view and having the app contact them.
@@ -203,7 +199,7 @@ Architecture Changes
 	    9.1.3.4) diagonal borders				(DONE)
 	    9.1.3.5) spans					(DONE)
 	    9.1.3.5) merges					(DONE)
-	    9.1.3.6) put line on left in RTL mode
+	    9.1.3.6) put line on left in RTL mode		(DONE)
 	9.1.4) item-edit
 	    9.1.4.1) basic					(DONE)
 	    9.1.4.2) at the margins				(DONE)
@@ -243,7 +239,7 @@ Architecture Changes
 	9.3.10) swap action icon depending on state
 	9.3.11) Add entry to format dialog to set text dir
 	9.3.12) Undo/Redo					(DONE)
-    9.4) Persistence
+    9.4) Persistence						(DONE)
 	9.4.1) xml dom						(DONE)
 	    9.4.1.1) in						(DONE)
 	    9.4.1.2) out					(DONE)
@@ -257,11 +253,13 @@ Architecture Changes
 	    9.4.2.2) 97 out					(DONE)
 		9.4.2.2.1) sheet				(DONE)
 		9.4.2.2.2) style/XF				(DONE)
-	9.4.3) csv
-	9.4.4) html
-	9.4.5) latex
-	9.4.6) sylk
-	9.4.7) dif
+	9.4.3) xlsx
+	9.4.4) odf
+	9.4.5) csv
+	9.4.6) html
+	9.4.7) latex
+	9.4.8) sylk
+	9.4.9) dif
     9.5) Printing
 	9.5.1) single cells					(DONE)
 	9.5.2) outline borders					(DONE)
@@ -274,8 +272,8 @@ Architecture Changes
         9.5.9) Patterns
     9.6) Add entry in manage sheet dialog			(DONE)
     9.7) Add entry to tab context menu (do we need ?)
-    9.8) Set default value depending on LC_MESSAGE		(DONE)
-    9.9) autofilters
+    9.8) autofilters (see 21.41)				(DONE)
+    9.9) validate from list (see 22.10)				(DONE)
     9.10) cell comments						(DONE)
     9.11) sheet objects
 	9.11.1) reposition views when direction changes		(DONE)
@@ -287,6 +285,7 @@ Architecture Changes
 	9.11.7) set direction of views
     9.12) preview grid ??
 	9.12.1) do we need/want the autoformat examples to swap dir ?
+    9.13) Set default value depending on LC_MESSAGE		(DONE)
 
 10) Functions
     - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
@@ -343,23 +342,32 @@ Architecture Changes
 	11.1.3) Release						(DONE)
 	11.1.5) Check re-merging on change
 	11.1.6) Check merging of auto pattern colours on link
-    11.2) XLS import						(DONE)
-	11.2.1) CONDFMT						(DONE)
-	11.2.2) CF fonts					(DONE)
-	11.2.3) CF borders					(DONE)
-	11.2.4) CF background					(DONE)
-    11.3) XLS export						(DONE)
-	11.3.1) CONDFMT						(DONE)
-	11.3.2) CF fonts					(DONE)
-	11.3.3) CF borders					(DONE)
-	11.3.4) CF background					(DONE)
-	11.3.5) collect colours					(DONE)
-    11.4) Gnumeric XML import					(DONE)
-	11.4.1) SAX						(DONE)
-	11.4.2) DOM						(DONE)
-    11.5) Gnumeric XML export					(DONE)
-	11.5.1) SAX						(DONE)
-	11.5.2) DOM						(DONE)
+    11.2) Gnumeric XML
+	11.2.1) import						(DONE)
+	    11.2.1.1) SAX					(DONE)
+	    11.2.1.2) DOM					(DONE)
+	11.2.2) Gnumeric XML export				(DONE)
+	    11.2.2.1) SAX					(DONE)
+	    11.2.2.2) DOM					(DONE)
+	11.2.3) Add to .xsd schema
+    11.2) XLS
+	11.2.1) import
+	    11.2.1.1) CONDFMT					(DONE)
+	    11.2.1.2) CF fonts					(DONE)
+	    11.2.1.3) CF borders				(DONE)
+	    11.2.1.4) CF background				(DONE)
+	11.2.2) export						(DONE)
+	    11.2.2.1) CONDFMT					(DONE)
+	    11.2.2.2) CF fonts					(DONE)
+	    11.2.2.3) CF borders				(DONE)
+	    11.2.2.4) CF background				(DONE)
+	    11.2.2.5) collect colours				(DONE)
+    11.3) XLSX
+	11.3.1) import
+	11.3.2) export
+    11.4) ODF
+	11.4.1) import
+	11.4.2) export
     11.6) Evaluation
 	11.6.1) Custom						(DONE)
 	11.6.2) Comparisons
@@ -378,12 +386,23 @@ Architecture Changes
 	12.1.1) Data Structure to store it			(DONE)
 	12.1.2) Display them
     12.2) UI to modify them
-    12.3) XLS Import						(DONE)
-    12.4) XLS Export						(DONE)
-    12.5) SAX Import						(DONE)
-    12.6) SAX Export						(DONE)
-    12.7) DOM Import						(DONE)
-    12.8) DOM Export						(DONE)
+    12.3) Gnumeric XML						(DONE)
+	12.3.1) import						(DONE)
+	    12.3.1.1) SAX					(DONE)
+	    12.3.1.3) DOM					(DONE)
+	12.3.3) Gnumeric XML export				(DONE)
+	    12.3.3.1) SAX					(DONE)
+	    12.3.3.3) DOM					(DONE)
+	12.3.3) Add to .xsd schema				(DONE)
+    12.4) XLS
+	12.4.1) import
+	12.4.2) export						(DONE)
+    12.5) XLSX
+	12.5.1) import
+	12.5.2) export
+    12.6) ODF
+	12.6.1) import
+	12.6.2) export
 
 13) Sheet Objects
     13.1) SheetObjectGroup
@@ -398,14 +417,11 @@ Architecture Changes
 -------------------------------------------------------------------------------
 Target Features
 ---------------
-- validation from list (generalize filter combos)
-- add column selector to autofilter filter dialog ala OOo
+- validation from list (generalize filter combos)		(DONE)
 - insert cut
 - clipboard handlers in plugins
 - load/save of external references
 - all the merged cell singleton bugs
-
-- finish corba plugin
 - scripting
 
 -------------------------------------------------------------------------------
@@ -628,11 +644,6 @@ Short Term Goals
     7.6) Store value formats in table and reference them
     7.7) Store styles in table and reference them from regions
 
-8) Lockdown (from libgnome/schemas/desktop_gnome_lockdown.schemas)
-    8.1) /desktop/gnome/lockdown/disable_save_to_disk
-    8.2) /desktop/gnome/lockdown/disable_printing
-    8.3) /desktop/gnome/lockdown/disable_print_setup
-
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
     14.2) Notice mismatch between suffix and saver		(DONE)
@@ -662,7 +673,7 @@ Short Term Goals
     21.19) Change value entries in expr dialog into combos
     21.20) editable enters for expr dialog value entries
     21.21) 2nd value in expr dialog only if 1st is active
-    21.22) drag scroll for value combos
+    21.22) drag scroll for value combos				(DONE)
     21.23) undo/redo for creation
     21.24) undo/redo for condition set change
     21.25) Undo redo support for ins/del col/row with filters
@@ -670,12 +681,60 @@ Short Term Goals
     21.27) combo contains start to end of continuous region
            not just the end of the selected region
     21.28) filter changes should dirty things
-    21.29) Enter in combo selects the current val (see 22.3)
+    21.29) Enter in combo selects the current val (see 22.3)	(DONE)
+    21.30) Cursor starts at selection not top (see 22.4)	(DONE)
+    21.31) Alt-Down opens an in cell combo (see 22.5)		(DONE)
+    21.31) Alt-Up/Down or Enter activates current selection	(DONE)
+    21.32) Order list by value, not string (eg 1, 10, 11, 2)	(DONE)
+    21.33) limit autofilter drop down width to cell width	(DONE)
+	: eg tc45 issue sheet
+	: bugreport0401.xls
+    21.34) Tooltip on combo with the current filter details
+    21.35) Change icon in combo from arrow to filter instead
+	    of changing colour
+    21.36) Support Office 2007 toggle selection
+    21.37) Add fun new types (std dev)
+    21.38) Add new condition types from style-condition
+    21.39) Look at merging style-condition and filter
+    21.40) col selector to autofilter dialog ala OOo
+    21.41) RTL (see 9.8)					(DONE)
+    21.42) Only list unfiltered results in combo
+    21.43) Gnumeric XML						(DONE)
+	21.43.1) import						(DONE)
+	    21.43.1.1) SAX					(DONE)
+	    21.43.1.2) DOM					(DONE)
+	21.43.2) Gnumeric XML export				(DONE)
+	    21.43.2.1) SAX					(DONE)
+	    21.43.2.2) DOM					(DONE)
+	21.43.3) Add to .xsd schema				(DONE)
+    21.45) XLSX
+	21.45.1) import
+	21.45.2) export
+    21.46) ODF
+	21.46.1) import
+	21.46.2) export
+    21.48) combo should only list unfiltered items
+    21.49) Find Leak						(DONE)
+    21.50) Duplication for sheet copy				(DONE)
 
 22) Validate from List
     22.1) Implement						(DONE)
     22.2) Pre-select current value in combo			(DONE)
-    22.3) Enter in combo selects the current val (see 21.29)
+    22.3) Enter in combo selects the current val (see 21.29)	(DONE)
+    22.4) Cursor starts at selection not top	(see 21.30)	(DONE)
+    22.5) Alt-Down opens an in cell combo	(see 21.31)	(DONE)
+    22.6) Alt-Up/Down or Enter activates current selection	(DONE)
+    22.7) drag scroll in the combo				(DONE)
+    22.8) Order list by value, not string (1,10,11,2)		(DONE)
+    22.9) tune position & width of combo			(DONE)
+    22.10) RTL (see 9.9)					(DONE)
+    22.11) Odd .xls storage of aa,bb,cc
+    22.12) XLSX
+	22.12.1) import
+	22.12.2) export
+    22.13) ODF
+	22.13.1) import
+	22.13.2) export
 
 29) gconf.
     29.1) Check for errors					(DONE)
@@ -685,11 +744,16 @@ Short Term Goals
     	  the use of gconf.
     29.5) update the preference structure on local changes 
           (this is an automatic consequence of 29.2)	
+    29.6) Lockdown
+	    (from libgnome/schemas/desktop_gnome_lockdown.schemas)
+	29.6.1) /desktop/gnome/lockdown/disable_save_to_disk
+	29.6.2) /desktop/gnome/lockdown/disable_printing
+	29.6.3) /desktop/gnome/lockdown/disable_print_setup
 
 30) Cleanup importers/exporters
     30.1) multiple extensions for exporters, with a default
     30.2) flag/virtual for an imp/exp to flag viability with current context
-    30.3) support command line flags via goption (glib-2.5)		(DONE)
+    30.3) support command line flags via goption (glib-2.5)	(DONE)
     30.4) remove bogosity of function pointers that are unused
     	in the base instance.
     30.5) Allow import of multiple views			{jody}
@@ -727,7 +791,7 @@ Short Term Goals
    	   hide them while editing
     32.14) ngettext for insert/delete objects undo message
     32.15) Check the stacking of ctrl pts when moving multiple selections
-    32.16) event handling for check boxes
+    32.16) event handling for check boxes				(DONE)
 
 33) Rotated text
     33.1) Resurrect printing                                            (DONE)
