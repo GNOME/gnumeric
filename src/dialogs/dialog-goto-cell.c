@@ -70,54 +70,25 @@ enum {
 	NUM_COLMNS
 };
 
-/**
- * dialog_destroy:
- * @window:
- * @focus_widget:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-dialog_goto_close_destroy (GtkObject *w, GotoState  *state)
+static void
+cb_dialog_goto_free (GotoState  *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
 
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-	state->dialog = NULL;
+	if (state->model != NULL)
+		g_object_unref (G_OBJECT (state->model));
 	g_free (state);
-
-	return FALSE;
 }
 
-/**
- * cb_dialog_goto_close_clicked:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
 static void
 cb_dialog_goto_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      GotoState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
-/**
- * cb_dialog_goto_go_clicked:
- * @button:
- * @state:
- *
- **/
 static void
 cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   GotoState *state)
@@ -316,10 +287,8 @@ dialog_goto_init (GotoState *state)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GOTO_CELL);
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_goto_close_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_goto_free);
 
 	cb_dialog_goto_update_sensitivity (NULL, state);
 

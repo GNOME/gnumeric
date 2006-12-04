@@ -48,23 +48,13 @@ typedef struct {
 	ColRowCallback_t callback;
 } ColRowState;
 
-static gboolean
-dialog_col_row_destroy (GtkObject *w, ColRowState *state)
+static void
+cb_dialog_col_row_destroy (GtkObject *w, ColRowState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -128,10 +118,8 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GROUP_UNGROUP);
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_col_row_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_col_row_destroy);
 
 	gtk_frame_set_label (GTK_FRAME (glade_xml_get_widget (state->gui, "frame")), operation);
 

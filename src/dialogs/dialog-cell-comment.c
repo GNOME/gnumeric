@@ -45,24 +45,13 @@ typedef struct {
 	GladeXML           *gui;
 } CommentState;
 
-
-static gboolean
-dialog_cell_comment_destroy (GtkObject *w, CommentState *state)
+static void
+cb_dialog_cell_comment_destroy (CommentState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -140,14 +129,11 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *p
 		"clicked",
 		G_CALLBACK (cb_cell_comment_cancel_clicked), state);
 
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_cell_comment_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_CELL_COMMENT);
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_cell_comment_destroy), state);
-
 	gtk_widget_grab_focus (textview);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);

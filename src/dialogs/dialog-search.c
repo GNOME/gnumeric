@@ -234,7 +234,7 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 static void
-dialog_destroy (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
+cb_dialog_destroy (DialogState *dd)
 {
 #ifdef USE_GURU
 	wbcg_edit_detach_guru (dd->wbcg);
@@ -548,9 +548,6 @@ dialog_search (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (close_clicked), dd);
-	g_signal_connect (G_OBJECT (dialog),
-		"destroy",
-		G_CALLBACK (dialog_destroy), dd);
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
@@ -558,6 +555,8 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
+	g_object_set_data_full (G_OBJECT (dialog),
+		"state", dd, (GDestroyNotify) cb_dialog_destroy);
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 

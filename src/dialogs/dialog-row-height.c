@@ -86,23 +86,13 @@ dialog_row_height_button_sensitivity (RowHeightState *state)
 	gtk_widget_set_sensitive (state->apply_button, changed_info);
 }
 
-static gboolean
-dialog_row_height_destroy (GtkObject *w, RowHeightState *state)
+static void
+cb_dialog_row_height_destroy (RowHeightState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -110,7 +100,6 @@ cb_dialog_row_height_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 				     RowHeightState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 
@@ -208,8 +197,6 @@ cb_dialog_row_height_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 			state->sheet, FALSE, size_pixels);
 		dialog_row_height_load_value (state);
 	}
-
-	return;
 }
 
 static void
@@ -217,7 +204,6 @@ cb_dialog_row_height_ok_clicked (GtkWidget *button, RowHeightState *state)
 {
 	cb_dialog_row_height_apply_clicked (button, state);
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 
@@ -296,11 +282,8 @@ dialog_row_height (WorkbookControlGUI *wbcg, gboolean use_default)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_ROW_HEIGHT);
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_row_height_destroy), state);
-
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_row_height_destroy);
 
 	dialog_row_height_set_mode (use_default, state);
 	dialog_row_height_load_value (state);

@@ -260,21 +260,9 @@ gnumeric_goal_seek (GoalSeekState *state)
 	return status;
 }
 
-/**
- * dialog_destroy:
- * @window:
- * @focus_widget:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-dialog_destroy (GtkObject *w, GoalSeekState  *state)
+static void
+cb_dialog_destroy (GoalSeekState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	if (!state->cancelled 
 	    && state->old_value != NULL 
 	    && state->old_cell != NULL) {
@@ -285,23 +273,13 @@ dialog_destroy (GtkObject *w, GoalSeekState  *state)
 
 	wbcg_edit_detach_guru (state->wbcg);
 
-	if (state->old_value != NULL) {
+	if (state->old_value != NULL)
 		value_release (state->old_value);
-		state->old_value = NULL;
-	}
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
 
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
-
-	state->dialog = NULL;
-
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -599,9 +577,8 @@ dialog_init (GoalSeekState *state)
 	g_signal_connect (G_OBJECT (state->dialog),
 		"realize",
 		G_CALLBACK (dialog_realized), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_destroy);
 
 	state->old_value = NULL;
 	state->old_cell = NULL;

@@ -121,7 +121,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 
 
 static void
-dialog_function_select_destroy (FunctionSelectState  *state)
+cb_dialog_function_select_destroy (FunctionSelectState  *state)
 {
 	if (state->formula_guru_key &&
 	    gnumeric_dialog_raise_if_exists (state->wbcg, state->formula_guru_key)) {
@@ -130,12 +130,13 @@ dialog_function_select_destroy (FunctionSelectState  *state)
 		dialog_formula_guru (state->wbcg, NULL);
 	}
 
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
+	if (state->model != NULL)
+		g_object_unref (G_OBJECT (state->model));
+	if (state->model_f != NULL)
+		g_object_unref (G_OBJECT (state->model_f));
 	g_slist_free (state->recent_funcs);
-	state->dialog = NULL;
 	g_free (state);
 }
 
@@ -586,7 +587,7 @@ dialog_function_select_init (FunctionSelectState *state)
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FUNCTION_SELECT);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) dialog_function_select_destroy);
+		"state", state, (GDestroyNotify) cb_dialog_function_select_destroy);
 }
 
 void

@@ -491,38 +491,21 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 	gtk_tree_path_free (path);
 }
 
-
-/**
- * dialog_function_select_destroy:
- * @window:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
 static void
-dialog_formula_guru_destroy (FormulaGuruState *state)
+cb_dialog_formula_guru_destroy (FormulaGuruState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
+	if (state->model != NULL)
+		g_object_unref (G_OBJECT (state->model));
 	g_free (state->prefix);
-	state->prefix = NULL;
 	g_free (state->suffix);
-	state->suffix = NULL;
 	g_free (state->pos);
-	state->pos = NULL;
-
-	if (state->editable) {
+	if (state->editable)
 		g_object_unref (state->editable);
-		state->editable = NULL;
-	}	
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-	state->dialog = NULL;
 	g_free (state);
 }
 
@@ -912,7 +895,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FORMULA_GURU);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) dialog_formula_guru_destroy);
+		"state", state, (GDestroyNotify) cb_dialog_formula_guru_destroy);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
@@ -1051,5 +1034,4 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 	}
 
 	gtk_widget_show_all (state->dialog);
-	return;
 }

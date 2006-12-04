@@ -1,3 +1,19 @@
+2006-12-02  Jody Goldberg <jody@gnome.org>
+
+	* *.c : Move away from the "destroy" handlers and use
+	  g_object_set_data_full instead.  That guarantees being called only
+	  once and does not need to return a flag.
+
+2006-12-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-sheet-order.c (cb_sheet_order_destroy) : we need to manually
+	  unref the model.
+	* dialog-plugin-manager.c (pm_dialog_cleanup) : ditto.
+	* dialog-goto-cell.c (dialog_goto_close_destroy) : ditto.
+	* dialog-function-select.c (dialog_function_select_destroy) : ditto.
+	* dialog-cell-sort.c (dialog_destroy) : ditto.
+	* dialog-formula-guru.c (dialog_formula_guru_destroy) : ditto.
+
 2006-11-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-goal-seek.c (dialog_goal_seek): Call

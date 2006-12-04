@@ -163,10 +163,9 @@ cancel_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 
 static void
-dialog_destroy (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
+cb_dialog_destroy (DialogState *dd)
 {
-	GladeXML *gui = dd->gui;
-	g_object_unref (G_OBJECT (gui));
+	g_object_unref (G_OBJECT (dd->gui));
 	wbcg_edit_detach_guru (dd->wbcg);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
@@ -262,9 +261,6 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cancel_clicked), dd);
-	g_signal_connect (G_OBJECT (dialog),
-		"destroy",
-		G_CALLBACK (dialog_destroy), dd);
 	g_signal_connect (GTK_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
@@ -272,6 +268,8 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SEARCH_REPLACE);
+	g_object_set_data_full (G_OBJECT (dialog),
+		"state", dd, (GDestroyNotify) cb_dialog_destroy);
 
 	gtk_widget_show_all (dialog->vbox);
 	gtk_widget_grab_focus (GTK_WIDGET (dd->search_text));

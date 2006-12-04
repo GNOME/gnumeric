@@ -458,8 +458,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 }
 
 static void
-pm_dialog_cleanup (G_GNUC_UNUSED GObject *dialog,
-		   PluginManagerGUI *pm_gui)
+cb_pm_dialog_free (PluginManagerGUI *pm_gui)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (pm_gui->model_plugins);
 	GtkTreeIter iter;
@@ -478,12 +477,14 @@ pm_dialog_cleanup (G_GNUC_UNUSED GObject *dialog,
 			G_OBJECT (plugin), (GWeakNotify) cb_plugin_destroyed, pm_gui);
 	}
 
-	if (pm_gui->gui != NULL) {
+	if (pm_gui->gui != NULL)
 		g_object_unref (G_OBJECT (pm_gui->gui));
-		pm_gui->gui = NULL;
-	}
-
-	pm_gui->dialog_pm = NULL;
+	if (pm_gui->model_plugins != NULL)
+		g_object_unref (G_OBJECT (pm_gui->model_plugins));
+	if (pm_gui->model_details != NULL)
+		g_object_unref (G_OBJECT (pm_gui->model_details));
+	if (pm_gui->model_directories != NULL)
+		g_object_unref (G_OBJECT (pm_gui->model_directories));
 	g_free (pm_gui);
 }
 
@@ -525,9 +526,6 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_signal_connect (G_OBJECT (pm_gui->checkbutton_install_new),
 		"toggled",
 		G_CALLBACK (cb_pm_checkbutton_install_new_toggled), pm_gui);
-	g_signal_connect (G_OBJECT (pm_gui->dialog_pm),
-		"destroy",
-		G_CALLBACK (pm_dialog_cleanup), pm_gui);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
 				      gnm_app_prefs->activate_new_plugins);
@@ -544,6 +542,8 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_slist_free (sorted_plugin_list);
 
 	cb_pm_selection_changed (pm_gui->selection, pm_gui);
+	g_object_set_data_full (G_OBJECT (pm_gui->dialog_pm),
+		"state", pm_gui, (GDestroyNotify) cb_pm_dialog_free);
 }
 
 static void

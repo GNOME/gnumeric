@@ -808,6 +808,10 @@ cb_sheet_order_destroy (SheetManager *state)
 
 	wbcg_edit_detach_guru (state->wbcg);
 
+	if (state->model != NULL) {
+		g_object_unref (G_OBJECT (state->model));
+		state->model = NULL;
+	}
 	g_object_unref (G_OBJECT (state->gui));
 	g_object_set_data (G_OBJECT (wb), SHEET_ORDER_KEY, NULL);
 	state->gui = NULL;

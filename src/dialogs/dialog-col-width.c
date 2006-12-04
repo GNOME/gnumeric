@@ -86,23 +86,13 @@ dialog_col_width_button_sensitivity (ColWidthState *state)
 	gtk_widget_set_sensitive (state->apply_button, changed_info);
 }
 
-static gboolean
-dialog_col_width_destroy (GtkObject *w, ColWidthState *state)
+static void
+cb_dialog_col_width_destroy (ColWidthState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -298,11 +288,8 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_COL_WIDTH);
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_col_width_destroy), state);
-
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_col_width_destroy);
 
 	dialog_col_width_set_mode (use_default, state);
 	dialog_col_width_load_value (state);

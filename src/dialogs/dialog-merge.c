@@ -308,8 +308,10 @@ static void
 cb_merge_destroy (MergeState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	g_object_unref (G_OBJECT (state->gui));
-	state->gui = NULL;
+	if (state->model != NULL)
+		g_object_unref (G_OBJECT (state->model));
+	if (state->gui != NULL)
+		g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
 }
 

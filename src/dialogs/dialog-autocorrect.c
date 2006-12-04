@@ -192,9 +192,8 @@ ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 		G_CALLBACK (ac_button_toggled), state->features + f);
 }
 
-static gboolean
-cb_autocorrect_destroy (G_GNUC_UNUSED GtkObject *w,
-			AutoCorrectState *state)
+static void
+cb_autocorrect_destroy (AutoCorrectState *state)
 {
 	g_slist_foreach (state->init_caps.exceptions, (GFunc)g_free, NULL);
 	g_slist_free (state->init_caps.exceptions);
@@ -204,15 +203,9 @@ cb_autocorrect_destroy (G_GNUC_UNUSED GtkObject *w,
 	g_slist_free (state->first_letter.exceptions);
 	state->first_letter.exceptions = NULL;
 
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	state->dialog = NULL;
 	g_free (state);
-
-	return TRUE;
 }
 
 static void
@@ -299,9 +292,8 @@ dialog_init (AutoCorrectState *state)
 		"first_letter_entry", "first_letter_list",
 		"first_letter_add", "first_letter_remove");
 
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_autocorrect_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_autocorrect_destroy);
 
 	return FALSE;
 }
@@ -332,7 +324,7 @@ dialog_autocorrect (WorkbookControlGUI *wbcg)
 	if (dialog_init (state)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the AutoCorrect dialog."));
-		cb_autocorrect_destroy (NULL, state);
+		cb_autocorrect_destroy (state);
 		return;
 	}
 

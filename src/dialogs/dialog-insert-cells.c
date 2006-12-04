@@ -51,23 +51,13 @@ typedef struct {
 	GladeXML           *gui;
 } InsertCellState;
 
-static gboolean
-insert_cell_destroy (GtkObject *w, InsertCellState *state)
+static void
+cb_insert_cell_destroy (InsertCellState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -181,10 +171,8 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_INSERT_CELS);
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (insert_cell_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_insert_cell_destroy);
 
 	gtk_toggle_button_set_active 
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget 

@@ -25,7 +25,7 @@
 typedef struct _scenario_state scenario_state_t;
 
 typedef struct _GenericToolState GenericToolState;
-typedef gboolean (*state_destroy_t) (GtkObject *w, GenericToolState *state);
+typedef void (*state_destroy_t) (GenericToolState *state);
 
 struct _GenericToolState {
 	GladeXML  *gui;

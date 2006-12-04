@@ -204,39 +204,17 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str)
 		focus_on_entry (GTK_ENTRY (entry));
 }
 
-/**
- * tool_destroy:
- * @window:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-tool_destroy (GtkObject *w, GenericToolState  *state)
+static void
+cb_tool_destroy (GenericToolState  *state)
 {
-	gboolean res = FALSE;
-
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
 
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
-
-	state->dialog = NULL;
-
 	if (state->state_destroy)
-		res = state->state_destroy (w, state);
-
+		state->state_destroy (state);
 	g_free (state);
-
-	return (FALSE || res);
 }
 
 /**
@@ -413,8 +391,8 @@ dialog_tool_init (GenericToolState *state,
 
 	state->warning = glade_xml_get_widget (state->gui, "warnings");
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog), "destroy",
-			  G_CALLBACK (tool_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_tool_destroy);
 
 	dialog_tool_init_outputs (state, sensitivity_cb);
 

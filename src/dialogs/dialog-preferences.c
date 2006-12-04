@@ -835,27 +835,16 @@ cb_dialog_pref_selection_changed (GtkTreeSelection *selection,
 	}
 }
 
-static gboolean
+static void
 cb_preferences_destroy (PrefState *state)
 {
 	go_conf_sync (state->root);
-
-	if (state->store) {
+	if (state->store)
 		g_object_unref (state->store);
-		state->store = NULL;
-	}
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-	state->dialog = NULL;
-
 	g_free (state);
-
 	gnm_app_set_pref_dialog (NULL);
-
-	return FALSE;
 }
 
 static void
@@ -945,10 +934,8 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PREFERENCES);
-
-	g_signal_connect_swapped (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_preferences_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_preferences_destroy);
 
 	gnm_app_set_pref_dialog (state->dialog);
 

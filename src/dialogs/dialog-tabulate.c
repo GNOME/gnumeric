@@ -163,7 +163,7 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 }
 
 static void
-dialog_destroy (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
+cb_dialog_destroy (DialogState *dd)
 {
 	wbcg_edit_detach_guru (dd->wbcg);
 	free_state (dd);
@@ -384,10 +384,8 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_TABULATE);
-
-	g_signal_connect (G_OBJECT (dialog),
-		"destroy",
-		G_CALLBACK (dialog_destroy), dd);
+	g_object_set_data_full (G_OBJECT (dialog),
+		"state", dd, (GDestroyNotify) cb_dialog_destroy);
 
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);

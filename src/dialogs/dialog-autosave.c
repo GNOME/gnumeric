@@ -82,52 +82,21 @@ dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 	return result == GTK_RESPONSE_YES;
 }
 
-/**
- * dialog_autosave:
- * @window:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-dialog_autosave_destroy (GtkObject *w, autosave_t  *state)
+static void
+cb_dialog_autosave_destroy (autosave_t  *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	if (state->gui != NULL) {
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	state->dialog = NULL;
-
 	g_free (state);
-
-	return FALSE;
 }
 
-/**
- * cb_autosave_cancel:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
 static void
 cb_autosave_cancel (G_GNUC_UNUSED GtkWidget *button,
 		    autosave_t *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
-/**
- * cb_autosave_ok:
- * @button:
- * @state:
- **/
 static void
 cb_autosave_ok (G_GNUC_UNUSED GtkWidget *button, autosave_t *state)
 {
@@ -211,10 +180,9 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_autosave_cancel), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_autosave_destroy), state);
 
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_autosave_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "button3"),
 		GNUMERIC_HELP_LINK_AUTOSAVE);
@@ -228,5 +196,4 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       AUTOSAVE_KEY);
 	gtk_widget_show (state->dialog);
-
 }

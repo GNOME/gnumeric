@@ -434,21 +434,9 @@ cb_update_sensitivity (SortFlowState *state)
 	gtk_widget_set_sensitive (state->clear_button, state->sort_items != 0);
 }
 
-/**
- * dialog_destroy:
- * @window:
- * @focus_widget:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-dialog_destroy (GtkObject *w, SortFlowState  *state)
+static void
+cb_dialog_destroy (SortFlowState  *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	if (state->sel) {
 		value_release (state->sel);
 		state->sel = NULL;
@@ -456,10 +444,10 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
 
 	wbcg_edit_detach_guru (state->wbcg);
 
-	if (state->gui != NULL) {
+	if (state->model != NULL)
+		g_object_unref (G_OBJECT (state->model));
+	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
 
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
@@ -471,17 +459,8 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
 	state->image_descending = NULL;
 
 	g_free (state);
-
-	return FALSE;
 }
 
-/**
- * cb_dialog_ok_clicked:
- * @button:
- * @state:
- *
- * Sort
- **/
 static void
 cb_dialog_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		      SortFlowState *state)
@@ -537,19 +516,11 @@ cb_dialog_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	return;
 }
 
-/**
- * cb_dialog_cancel_clicked:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
 static void
 cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			  SortFlowState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 static void
@@ -1148,14 +1119,12 @@ dialog_init (SortFlowState *state)
 
 /* Finish dialog signals */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_destroy), state);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_destroy);
 	cb_sort_selection_changed (NULL, state);
 	dialog_load_selection (state);
 	cb_update_sensitivity (state);
 	cb_sort_header_check (state);
-
 
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
 	

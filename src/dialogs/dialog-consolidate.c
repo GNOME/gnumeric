@@ -272,18 +272,15 @@ cb_source_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	adjust_source_areas (state);
 }
 
-static gboolean
-cb_dialog_destroy (G_GNUC_UNUSED GtkObject *w, ConsolidateState *state)
+static void
+cb_dialog_destroy (ConsolidateState *state)
 {
-	if (state->pixmap != NULL) {
+	if (state->pixmap != NULL)
 		g_object_unref (G_OBJECT (state->pixmap));
-		state->pixmap = NULL;
-	}
-	if (state->construct_error) {
+	if (state->construct_error != NULL) {
 		g_warning ("The construct error was not freed, this should not happen!");
 		g_free (state->construct_error);
 	}
-	return FALSE;
 }
 
 static void
