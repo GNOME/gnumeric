@@ -63,7 +63,7 @@ void	   		  gnm_filter_remove	    (GnmFilter *filter);
 GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, unsigned i);
 void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,
-						     Sheet *target_sheet);
+						     gboolean apply);
 gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 

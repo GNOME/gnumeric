@@ -343,29 +343,43 @@ cb_hide_unwanted_percentage (GnmCellIter const *iter,
 }
 /*****************************************************************************/
 
-static void
-filter_field_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
+/**
+ * gnm_filter_combo_apply :
+ * @fcombo : #GnmFilterCombo
+ * @target_sheet : @Sheet
+ *
+ **/
+void
+gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 {
 	GnmFilter const *filter = fcombo->filter;
 	GnmFilterCondition const *cond = fcombo->cond;
 	int const col = sheet_object_get_range (SHEET_OBJECT (fcombo))->start.col;
 	int const start_row = filter->r.start.row + 1;
 	int const end_row = filter->r.end.row;
+	CellIterFlags iter_flags = CELL_ITER_IGNORE_HIDDEN;
 
 	if (start_row > end_row ||
 	    cond == NULL ||
 	    cond->op[0] == GNM_FILTER_UNUSED)
 		return;
 
+	/* For the combo we filter a temporary sheet using the data from filter->sheet
+	 * and need to include everything from the source, because it has a
+	 * different set of conditions */
+	if (target_sheet != filter->sheet)
+		iter_flags = CELL_ITER_ALL;
+
 	if (0x10 >= (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
 		FilterExpr data;
 		data.cond = cond;
+		data.target_sheet = target_sheet;
 		filter_expr_init (&data, 0, cond, filter);
 		if (cond->op[1] != GNM_FILTER_UNUSED)
 			filter_expr_init (&data, 1, cond, filter);
 
 		sheet_foreach_cell_in_range (filter->sheet,
-			CELL_ITER_IGNORE_HIDDEN,
+			(target_sheet == filter->sheet) ? CELL_ITER_IGNORE_HIDDEN : CELL_ITER_ALL,
 			col, start_row, col, end_row,
 			(CellIterFunc) cb_filter_expr, &data);
 
@@ -376,12 +390,12 @@ filter_field_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
-			cb_filter_blanks, target_sheet);
+			(CellIterFunc) cb_filter_blanks, target_sheet);
 	else if (cond->op[0] == GNM_FILTER_OP_NON_BLANKS)
 		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
-			cb_filter_non_blanks, target_sheet);
+			(CellIterFunc) cb_filter_non_blanks, target_sheet);
 	else if (0x30 == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
 		if (cond->op[0] & 0x2) { /* relative */
 			FilterPercentage data;
@@ -575,7 +589,7 @@ gnm_filter_dup (GnmFilter const *src, Sheet *sheet)
 		gnm_filter_set_condition (dst, i,
 			gnm_filter_condition_dup (
 				gnm_filter_get_condition (src, i)),
-			NULL);
+			FALSE);
 	}
 
 	sheet->filters = g_slist_prepend (sheet->filters, dst);
@@ -641,17 +655,18 @@ gnm_filter_get_condition (GnmFilter const *filter, unsigned i)
  * gnm_filter_set_condition :
  * @filter :
  * @i :
- * @cond :
- * @target_sheet : #Sheet
+ * @cond : #GnmFilterCondition
+ * @apply :
  *
- * Change the @i-th condition of @filter to @cond.
- * If @target_sheet is non-NULL @filter is used to set the visibility
- * of it's rows (using the data from @filter->sheet).
+ * Change the @i-th condition of @filter to @cond.  If @apply is
+ * TRUE @filter is used to set the visibility of the rows in @filter::sheet
+ *
+ * Absorbs the reference to @cond.
  **/
 void
 gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			  GnmFilterCondition *cond,
-			  Sheet *target_sheet)
+			  gboolean apply)
 {
 	GnmFilterCombo *fcombo;
 	gboolean set_infilter = FALSE;
@@ -670,7 +685,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 	fcombo->cond = cond;
 	g_signal_emit (G_OBJECT (fcombo), signals [COND_CHANGED], 0);
 
-	if (target_sheet != NULL) {
+	if (apply) {
 		/* if there was an existing cond then we need to do
 		 * 1) unfilter everything
 		 * 2) reapply all the filters
@@ -681,12 +696,12 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			colrow_set_visibility (filter->sheet, FALSE, TRUE,
 				filter->r.start.row + 1, filter->r.end.row);
 			for (i = 0 ; i < filter->fields->len ; i++)
-				filter_field_apply (g_ptr_array_index (filter->fields, i),
-					target_sheet);
+				gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i),
+					filter->sheet);
 		} else
 			/* When adding a new cond all we need to do is
 			 * apply that filter */
-			filter_field_apply (fcombo, target_sheet);
+			gnm_filter_combo_apply (fcombo, filter->sheet);
 	}
 
 	/* set the activity flag and potentially activate the

@@ -5228,7 +5228,7 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	gnm_filter_set_condition (filter,
-		GSF_LE_GET_GUINT16 (q->data), cond, NULL);
+		GSF_LE_GET_GUINT16 (q->data), cond, FALSE);
 }
 
 void

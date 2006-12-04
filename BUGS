@@ -17,9 +17,6 @@ Review
 Release Critical
 ----------------
 
-- Audit all calls to gtk_tree_view_new_with_model to ensure that model is
-  unrefed.
-
 http://bugzilla.gnome.org/show_bug.cgi?id=322096
 - mis-export of array expr
 
@@ -394,8 +391,8 @@ Architecture Changes
 	    12.3.3.1) SAX					(DONE)
 	    12.3.3.3) DOM					(DONE)
 	12.3.3) Add to .xsd schema				(DONE)
-    12.4) XLS
-	12.4.1) import
+    12.4) XLS							(DONE)
+	12.4.1) import						(DONE)
 	12.4.2) export						(DONE)
     12.5) XLSX
 	12.5.1) import
@@ -698,7 +695,7 @@ Short Term Goals
     21.39) Look at merging style-condition and filter
     21.40) col selector to autofilter dialog ala OOo
     21.41) RTL (see 9.8)					(DONE)
-    21.42) Only list unfiltered results in combo
+    21.42) Only list unfiltered results in combo		(DONE)
     21.43) Gnumeric XML						(DONE)
 	21.43.1) import						(DONE)
 	    21.43.1.1) SAX					(DONE)
@@ -707,15 +704,17 @@ Short Term Goals
 	    21.43.2.1) SAX					(DONE)
 	    21.43.2.2) DOM					(DONE)
 	21.43.3) Add to .xsd schema				(DONE)
+    21.44) XLS							(DONE)
+	21.44.1) import						(DONE)
+	21.44.2) export						(DONE)
     21.45) XLSX
 	21.45.1) import
 	21.45.2) export
     21.46) ODF
 	21.46.1) import
 	21.46.2) export
-    21.48) combo should only list unfiltered items
-    21.49) Find Leak						(DONE)
-    21.50) Duplication for sheet copy				(DONE)
+    21.47) Find Leak						(DONE)
+    21.48) Duplication for sheet copy				(DONE)
 
 22) Validate from List
     22.1) Implement						(DONE)

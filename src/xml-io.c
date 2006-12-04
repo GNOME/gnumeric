@@ -1427,7 +1427,7 @@ xml_read_filter_field (XmlParseContext *ctxt, xmlNode *field, GnmFilter *filter)
 	xmlFree (type);
 
 	if (cond != NULL)
-		gnm_filter_set_condition (filter, i, cond, NULL);
+		gnm_filter_set_condition (filter, i, cond, FALSE);
 }
 
 static void

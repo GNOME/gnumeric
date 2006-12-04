@@ -16,6 +16,7 @@ Jody:
 	    - set initial selection for validate from list
 	    - Home/End jumps to top bottom.
 	    - Fix in RTL mode.
+	    - List items unfiltered by other active conditions in combo.
 	* Fix .gnumeric import of col/row groupings. [#380015]
 	* SAX import for autofilters
 	* Fix XSD schema
@@ -25,6 +26,7 @@ Jody:
 	    - Make it validate
 	* Start simplifying the object anchor types for xlsx.
 	* Fix RTL text display.
+	* Fix a collection of dialog leaks.
 
 Morten:
 	* Add automatic test framework.

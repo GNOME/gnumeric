@@ -15,5 +15,6 @@ typedef struct {
 #define GNM_FILTER_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_FILTER_COMBO_TYPE, GnmFilterCombo))
 
 GType gnm_filter_combo_get_type (void);
+void  gnm_filter_combo_apply    (GnmFilterCombo *fcombo, Sheet *target_sheet);
 
 #endif /* GNM_SHEET_FILTER_COMBO_H */

@@ -167,7 +167,7 @@ filter_show_all (Sheet *sheet)
 	for (; ptr != NULL ; ptr = ptr->next) {
 		filter = ptr->data;
 		for (i = filter->fields->len; i-- > 0 ;)
-			gnm_filter_set_condition (filter, i, NULL, NULL);
+			gnm_filter_set_condition (filter, i, NULL, FALSE);
 	}
 
 	/* FIXME: This is slow. We should probably have a linked list

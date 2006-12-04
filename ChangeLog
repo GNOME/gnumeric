@@ -1,3 +1,13 @@
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (gnm_filter_combo_apply) : make public and init
+	  target_sheet in the expr case too.
+	(gnm_filter_set_condition) : revert the earlier change from apply ->
+	  target_sheet.  We do not need that flexibility here.
+	* src/widgets/gnm-filter-combo-foo-view.c (fcombo_fill_model) : Create
+	  a temporary sheet and apply the filter to that so that we can list
+	  only the elements filtered by other fields.
+
 2006-12-02  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (gnm_expr_top_relocate) : don't init rinfo::from_inside

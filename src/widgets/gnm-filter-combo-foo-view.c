@@ -102,7 +102,7 @@ fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 
 		if (set_condition) {
 			gnm_filter_set_condition (fcombo->filter, field_num,
-				cond, fcombo->filter->sheet);
+				cond, TRUE);
 			sheet_update (fcombo->filter->sheet);
 		}
 	}
@@ -112,18 +112,21 @@ typedef struct {
 	gboolean has_blank;
 	GHashTable *hash;
 	GODateConventions const *date_conv;
+	Sheet *src_sheet;
 } UniqueCollection;
 
 static GnmValue *
 cb_collect_content (GnmCellIter const *iter, UniqueCollection *uc)
 {
-	if (iter->ri->in_filter)
-		return NULL;
-	if (gnm_cell_is_blank (iter->cell))
+	GnmCell const *cell = (iter->pp.sheet == uc->src_sheet) ? iter->cell
+		: sheet_cell_get (uc->src_sheet,
+			iter->pp.eval.col, iter->pp.eval.row);
+
+	if (gnm_cell_is_blank (cell))
 		uc->has_blank = TRUE;
 	else {
-		GOFormat const *fmt = gnm_cell_get_format (iter->cell);			
-		GnmValue const *v   = iter->cell->value;
+		GOFormat const *fmt = gnm_cell_get_format (cell);			
+		GnmValue const *v   = cell->value;
 		g_hash_table_replace (uc->hash, 
 			value_dup (v),
 			format_value (fmt, v, NULL, -1, uc->date_conv));
@@ -141,17 +144,18 @@ cb_hash_domain (GnmValue *key, gpointer value, gpointer accum)
 static GtkListStore *
 fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 {
-	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
+	GnmFilterCombo  *fcombo = GNM_FILTER_COMBO (so);
+	GnmFilter const *filter = fcombo->filter;
+	GnmRange	 r = filter->r;
+	Sheet 		*filtered_sheet;
 	UniqueCollection uc;
 	GtkTreeIter	 iter;
 	GtkListStore *model;
 	GPtrArray    *sorted = g_ptr_array_new ();
-	unsigned i;
+	unsigned i, field_num = fcombo_index (fcombo);
 	gboolean is_custom = FALSE;
-	GnmRange	 r = fcombo->filter->r;
 	GnmValue const *v;
 	GnmValue const *cur_val = NULL;
-	Sheet *sheet = fcombo->filter->sheet;
 
 	model = gtk_list_store_new (4,
 		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, gnm_value_get_type ());
@@ -177,18 +181,27 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 
 	r.start.row++;
 	/* r.end.row =  XL actually extend to the first non-empty element in the list */
-	r.end.col = r.start.col += fcombo_index (fcombo);
+	r.end.col = r.start.col += field_num;
 	uc.has_blank = FALSE;
 	uc.hash = g_hash_table_new_full ((GHashFunc)value_hash, (GEqualFunc)value_equal,
 		(GDestroyNotify)value_release, (GDestroyNotify)g_free);
-	uc.date_conv = workbook_date_conv (sheet->workbook);
+	uc.src_sheet = filter->sheet;
+	uc.date_conv = workbook_date_conv (uc.src_sheet->workbook);
 
 	/* We do not want to show items that are filtered by _other_ fields.
-	 * The cleanest way to do that is
-	 * */
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_ALL,
+	 * The cleanest way to do that is to create a temporary sheet, apply
+	 * all of the other conditions to it and use that as the source of visibility. */
+	if (filter->fields->len > 1)
+		filtered_sheet = sheet_new (uc.src_sheet->workbook, "_DummyFilterPopulate");
+	else
+		g_object_ref (filtered_sheet = filter->sheet);
+	for (i = 0 ; i < filter->fields->len ; i++)
+		if (i != field_num)
+			gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i), filtered_sheet);
+	sheet_foreach_cell_in_range (filtered_sheet, CELL_ITER_IGNORE_HIDDEN,
 		r.start.col, r.start.row, r.end.col, r.end.row,
 		(CellIterFunc)&cb_collect_content, &uc);
+	g_object_unref (filtered_sheet);
 
 	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_domain, sorted);
 	qsort (&g_ptr_array_index (sorted, 0),
