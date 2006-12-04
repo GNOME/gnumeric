@@ -18,6 +18,7 @@ libwidgets_la_SOURCES =				\
 	widget-font-selector.h			\
 	gnm-cell-combo-foo-view.c		\
 	gnm-cell-combo-foo-view.h		\
+	gnm-cell-combo-foo-view-impl.h		\
 	gnm-filter-combo-foo-view.c		\
 	gnm-filter-combo-foo-view.h		\
 	gnm-validation-combo-foo-view.c		\

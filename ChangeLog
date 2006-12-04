@@ -1,5 +1,9 @@
 2006-12-04  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.7.5
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-filter.c (gnm_filter_combo_apply) : make public and init
 	  target_sheet in the expr case too.
 	(gnm_filter_set_condition) : revert the earlier change from apply ->

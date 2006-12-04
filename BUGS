@@ -20,6 +20,7 @@ Release Critical
 http://bugzilla.gnome.org/show_bug.cgi?id=322096
 - mis-export of array expr
 
+
 Worries
 -------
     : honour r1c1 for position in sv_update
@@ -410,6 +411,9 @@ Architecture Changes
 14) Zoom
     14.1) Add a 'global' flag for the zoom dialog
     14.2) Zoom to selection
+
+15) Keep a .swp style log of user actions
+     15.1) X-GNOME-Bugzilla-ExtraInfoScript=myscript
 
 -------------------------------------------------------------------------------
 Target Features

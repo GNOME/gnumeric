@@ -1,3 +1,7 @@
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
 2006-11-20  Morten Welinder  <terra@gnome.org>
 
 	* sc.c (sc_parse_let): Handle functions with no args.

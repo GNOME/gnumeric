@@ -1,3 +1,7 @@
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
 2006-12-02  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am (libwidgets_la_SOURCES) : add
