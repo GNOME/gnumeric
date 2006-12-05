@@ -2,6 +2,8 @@ Gnumeric 1.7.6
 
 Morten:
 	* Fix title problem.  [#382643]
+	* Fix sax loading of comments.
+	* Fix scaling and rtl orientation of comment marker.  [#381700]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.5

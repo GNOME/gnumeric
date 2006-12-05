@@ -1,5 +1,11 @@
 2006-12-05  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-cell-comment.c (cell_comment_prep_sax_parser):
+	Read the comment text(!) and author.
+	(cell_comment_class_init): Hook up cell_comment_prep_sax_parser.
+	(comment_view_set_bounds): Do not scale triangle size.  Flip
+	triangle in rtl.
+
 	* src/workbook-control-gui.c (wbcg_view_changed): Change back to
 	using a workbook as data argument.  Keep the old view in a weak
 	pointer.  Fixes #382643 (caused by the view disappearing and

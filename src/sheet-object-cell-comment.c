@@ -34,6 +34,7 @@
 #include "gui-util.h"
 #include <goffice/utils/go-libxml-extras.h>
 
+#include <string.h>
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
@@ -68,10 +69,12 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		SheetObject *so = sheet_object_view_get_so (sov);
 		SheetControlGUI const *scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 		double scale;
-		int x, y, far_col;
+		int x, y, dx, far_col;
 		FooCanvasPoints *points = foo_canvas_points_new (3);
 		GnmRange const *r = gnm_sheet_merge_is_corner (so->sheet,
 			&so->anchor.cell_bound.start);
+
+		scale = 1. / view->canvas->pixels_per_unit;
 
 		if (r != NULL) {
 			so->anchor.cell_bound.end.col = r->end.col;
@@ -83,17 +86,19 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		/* Add 1 to y because we measure from start, x is measured from end, so
 		 * it does not need it */
 		y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
-		x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
+		points->coords[1] = scale * y;
+		points->coords[3] = scale * y;
+		points->coords[5] = scale * y + TRIANGLE_WIDTH;
 
-		scale = 1. / view->canvas->pixels_per_unit;
-		points->coords [1] = scale * y;
-		points->coords [3] = scale * y;
-		points->coords [5] = scale * (y + TRIANGLE_WIDTH);
-		if (so->sheet->text_is_rtl)
-			scale *= -1;
-		points->coords [0] = scale * (x - TRIANGLE_WIDTH);
-		points->coords [2] = scale * x;
-		points->coords [4] = scale * x;
+		dx = TRIANGLE_WIDTH;
+		if (so->sheet->text_is_rtl) {
+			dx = -dx;
+			scale = -scale;
+		}
+		x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
+		points->coords[0] = scale * x - dx;
+		points->coords[2] = scale * x;
+		points->coords[4] = scale * x;
 
 		foo_canvas_item_set (view, "points", points, NULL);
 		foo_canvas_points_free (points);
@@ -285,6 +290,19 @@ cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 		gsf_xml_out_add_cstr (output, "Text", cc->text);
 }
 
+static void
+cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	GnmComment *cc = CELL_COMMENT (so);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (attrs[0], "Text"))
+			cc->text = g_strdup (attrs[1]);
+		else if (!strcmp (attrs[0], "Author"))
+			cc->author = g_strdup (attrs[1]);
+	}
+}
+
 #ifdef WITH_GNOME_PRINT
 static void
 cell_comment_print (SheetObject const *so, GnomePrintContext *ctx,
@@ -329,6 +347,7 @@ cell_comment_class_init (GObjectClass *gobject_class)
 	sheet_object_class->new_view		= &cell_comment_new_view;
 	sheet_object_class->read_xml_dom	= &cell_comment_read_xml_dom;
 	sheet_object_class->write_xml_sax	= &cell_comment_write_xml_sax;
+	sheet_object_class->prep_sax_parser	= &cell_comment_prep_sax_parser;
 	sheet_object_class->print		= NULL;
 
 #ifdef WITH_GNOME_PRINT
