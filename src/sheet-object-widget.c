@@ -279,7 +279,7 @@ sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
-		g_warning ("Could not read a SheetWidgetFrame beacause it lacks a label property.");
+		g_warning ("Could not read a SheetWidgetFrame because it lacks a label property.");
 		return TRUE;
 	}
 
