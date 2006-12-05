@@ -1,3 +1,10 @@
+2006-12-05  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_view_changed): Change back to
+	using a workbook as data argument.  Keep the old view in a weak
+	pointer.  Fixes #382643 (caused by the view disappearing and
+	killing the signal handler with it).
+
 2006-12-04  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

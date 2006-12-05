@@ -79,6 +79,7 @@ struct _WorkbookControlGUI {
 	gulong sig_view_changed;
 	gulong sig_auto_expr_text;
 	gulong sig_sheet_order, sig_notify_uri, sig_notify_dirty;
+	gpointer sig_wbv;
 };
 
 typedef struct {

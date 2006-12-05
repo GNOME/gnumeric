@@ -2498,20 +2498,20 @@ wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
 }
 
-#define DISCONNECT(obj,field)					\
-	if (wbcg->field) {					\
-		g_signal_handler_disconnect (obj, wbcg->field);	\
-		wbcg->field = 0;				\
+#define DISCONNECT(obj,field)						\
+	if (wbcg->field) {						\
+		if (obj)						\
+			g_signal_handler_disconnect (obj, wbcg->field);	\
+		wbcg->field = 0;					\
 	}
 
 static void
 wbcg_view_changed (WorkbookControlGUI *wbcg,
 		   G_GNUC_UNUSED GParamSpec *pspec,
-		   WorkbookView *old_wbv)
+		   Workbook *old_wb)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
-	Workbook *old_wb = old_wbv ? wb_view_get_workbook (old_wbv) : NULL;
 	WorkbookView *wbv = wb_control_view (wbc);
 
 	/* Reconnect self because we need to change data.  */
@@ -2521,25 +2521,30 @@ wbcg_view_changed (WorkbookControlGUI *wbcg,
 		(G_OBJECT (wbc),
 		 "notify::view",
 		 G_CALLBACK (wbcg_view_changed),
-		 wbv,
+		 wb,
 		 0);
 
-	if (wbcg->sig_auto_expr_text)
-		DISCONNECT (old_wbv, sig_auto_expr_text);
-	wbcg->sig_auto_expr_text =
-		g_signal_connect_object
-		(G_OBJECT (wbv),
-		 "notify::auto-expr-text",
-		 G_CALLBACK (wbcg_auto_expr_text_changed),
-		 wbcg,
-		 0);
-	wbcg_auto_expr_text_changed (wbv, NULL, wbcg);
-
-	if (old_wb) {
-		DISCONNECT (old_wb, sig_sheet_order);
-		DISCONNECT (old_wb, sig_notify_uri);
-		DISCONNECT (old_wb, sig_notify_dirty);
+	DISCONNECT (wbcg->sig_wbv, sig_auto_expr_text);
+	if (wbcg->sig_wbv)
+		g_object_remove_weak_pointer (wbcg->sig_wbv,
+					      &wbcg->sig_wbv);
+	wbcg->sig_wbv = wbv;
+	if (wbv) {
+		g_object_add_weak_pointer (wbcg->sig_wbv,
+					   &wbcg->sig_wbv);
+		wbcg->sig_auto_expr_text =
+			g_signal_connect_object
+			(G_OBJECT (wbv),
+			 "notify::auto-expr-text",
+			 G_CALLBACK (wbcg_auto_expr_text_changed),
+			 wbcg,
+			 0);
+		wbcg_auto_expr_text_changed (wbv, NULL, wbcg);
 	}
+
+	DISCONNECT (old_wb, sig_sheet_order);
+	DISCONNECT (old_wb, sig_notify_uri);
+	DISCONNECT (old_wb, sig_notify_dirty);
 
 	if (wb) {
 		wbcg->sig_sheet_order =
