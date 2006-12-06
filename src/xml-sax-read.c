@@ -2033,6 +2033,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	XMLSaxParseState state;
 	GsfXMLInDoc     *doc;
 	GnmLocale       *locale;
+	gboolean         ok;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
 	g_return_if_fail (GSF_IS_INPUT (input));
@@ -2071,13 +2072,18 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
 	locale = gnm_push_C_locale ();
-
-	if (!gsf_xml_in_doc_parse (doc, input, &state))
-		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
-	else
-		workbook_queue_all_recalc (state.wb);
-
+	ok = gsf_xml_in_doc_parse (doc, input, &state);
 	gnm_pop_C_locale (locale);
+
+	if (ok) {
+		workbook_queue_all_recalc (state.wb);
+		workbook_set_saveinfo
+			(state.wb,
+			 FILE_FL_AUTO,
+			 go_file_saver_for_id ("Gnumeric_XmlIO:sax"));
+	} else {
+		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
+	}
 
 	g_object_unref (input);
 

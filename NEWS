@@ -4,6 +4,7 @@ Morten:
 	* Fix title problem.  [#382643]
 	* Fix sax loading of comments.
 	* Fix scaling and rtl orientation of comment marker.  [#381700]
+	* Set a saver after loading with the sax loader.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.5
