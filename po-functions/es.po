@@ -1,26 +1,18 @@
-# translation of es.po to Spanish
-# translation of es.po to
-# Spanish translation of es
-# translation of es.po to
-# translation of es.po to
 # Spanish translation of gnumeric
 # Copyright © 1998,2003, 2006 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnumeric package.
-#
-#
 # Alfonso  Pedereño García-LaPuya, 2002.
 # Federico Mena Quintero,Pregonero <federico@casiopea.quartic.org>, 1998.
 # Pablo Saratxaga <pablo@mandrakesoft.com>, 1999-2000.
 # Germán Poo Caamaño <gpoo@ubiobio.cl>, 2001.
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
-# Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005, 2006.
 # Francisco Javier F. Serrador <serrador@tecknolabs.com>, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-05 17:21+0100\n"
-"PO-Revision-Date: 2006-11-05 17:25+0100\n"
+"POT-Creation-Date: 2006-12-06 22:58+0100\n"
+"PO-Revision-Date: 2006-12-06 22:59+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@tecknolabs.com>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4547,7 +4539,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: ../plugins/fn-date/functions.c:1284
+#: ../plugins/fn-date/functions.c:1279
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -4584,7 +4576,7 @@ msgstr ""
 "Si A1 contiene 21/12/00 entonces ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM"
 
-#: ../plugins/fn-date/functions.c:1321
+#: ../plugins/fn-date/functions.c:1316
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -4620,7 +4612,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: ../plugins/fn-date/functions.c:1371
+#: ../plugins/fn-date/functions.c:1366
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date[,method])\n"
@@ -4664,7 +4656,7 @@ msgstr ""
 "Si A1 contiene 21/12/00, entonces WEEKNUM(A1,2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: ../plugins/fn-date/functions.c:1419
+#: ../plugins/fn-date/functions.c:1414
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=YEARFRAC (start_date, end_date [,basis])\n"
@@ -5725,7 +5717,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 
-#: ../plugins/fn-financial/functions.c:353
+#: ../plugins/fn-financial/functions.c:346
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -5805,7 +5797,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: ../plugins/fn-financial/functions.c:442
+#: ../plugins/fn-financial/functions.c:435
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -5863,7 +5855,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINT"
 
-#: ../plugins/fn-financial/functions.c:500
+#: ../plugins/fn-financial/functions.c:493
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -5932,7 +5924,7 @@ msgstr ""
 "=INTRATE(36631, 36799, 100000, 103525, 1) que es igual a 0,0648 o 6,48%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: ../plugins/fn-financial/functions.c:565
+#: ../plugins/fn-financial/functions.c:558
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -5990,7 +5982,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTRATE"
 
-#: ../plugins/fn-financial/functions.c:627
+#: ../plugins/fn-financial/functions.c:620
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -6049,7 +6041,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEMAT"
 
-#: ../plugins/fn-financial/functions.c:684
+#: ../plugins/fn-financial/functions.c:677
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -6106,7 +6098,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: ../plugins/fn-financial/functions.c:748
+#: ../plugins/fn-financial/functions.c:741
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -6164,7 +6156,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:804
+#: ../plugins/fn-financial/functions.c:797
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -6217,7 +6209,7 @@ msgstr ""
 "que pagará como arrendamiento.\n"
 "@SEEALSO=NOMINAL"
 
-#: ../plugins/fn-financial/functions.c:854
+#: ../plugins/fn-financial/functions.c:847
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -6260,7 +6252,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: ../plugins/fn-financial/functions.c:895
+#: ../plugins/fn-financial/functions.c:888
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -6281,7 +6273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: ../plugins/fn-financial/functions.c:935
+#: ../plugins/fn-financial/functions.c:928
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -6321,7 +6313,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: ../plugins/fn-financial/functions.c:999
+#: ../plugins/fn-financial/functions.c:992
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -6361,7 +6353,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: ../plugins/fn-financial/functions.c:1055
+#: ../plugins/fn-financial/functions.c:1048
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -6413,7 +6405,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SYD"
 
-#: ../plugins/fn-financial/functions.c:1108
+#: ../plugins/fn-financial/functions.c:1101
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -6482,7 +6474,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN"
 
-#: ../plugins/fn-financial/functions.c:1169
+#: ../plugins/fn-financial/functions.c:1162
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -6514,7 +6506,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: ../plugins/fn-financial/functions.c:1228
+#: ../plugins/fn-financial/functions.c:1221
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -6540,7 +6532,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: ../plugins/fn-financial/functions.c:1282
+#: ../plugins/fn-financial/functions.c:1275
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -6558,7 +6550,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: ../plugins/fn-financial/functions.c:1345
+#: ../plugins/fn-financial/functions.c:1338
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -6595,7 +6587,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: ../plugins/fn-financial/functions.c:1396
+#: ../plugins/fn-financial/functions.c:1389
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -6627,7 +6619,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: ../plugins/fn-financial/functions.c:1442
+#: ../plugins/fn-financial/functions.c:1435
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -6659,12 +6651,13 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
-#: ../plugins/fn-financial/functions.c:1488
+#: ../plugins/fn-financial/functions.c:1481
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
 "@DESCRIPTION=RATE calculates the rate of an investment.\n"
 "\n"
+"* If @pmt is ommitted it defaults to 0\n"
 "* If @nper <= 0, RATE returns #NUM! error.\n"
 "* If @type != 0 and @type != 1, RATE returns #VALUE! error.\n"
 "\n"
@@ -6676,14 +6669,16 @@ msgstr ""
 "@SYNTAX=RATE(nper,pmt,pv[,fv,tipo,previsión])\n"
 "@DESCRIPTION=RATE calcula la tasa de una inversión.\n"
 "\n"
+"* Si @pmt se omite, toma como valor predeterminado 0\n"
 "* Si @nper <= 0, RATE devuelve un error #NÚM!.\n"
 "* Si @type != 0 y @type != 1, RATE devuelve un error #VALOR!\n"
+"\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV,FV"
 
-#: ../plugins/fn-financial/functions.c:1602
+#: ../plugins/fn-financial/functions.c:1597
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -6726,7 +6721,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV,NPV,PV"
 
-#: ../plugins/fn-financial/functions.c:1736
+#: ../plugins/fn-financial/functions.c:1731
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -6754,7 +6749,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: ../plugins/fn-financial/functions.c:1784
+#: ../plugins/fn-financial/functions.c:1779
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -6779,7 +6774,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: ../plugins/fn-financial/functions.c:1835
+#: ../plugins/fn-financial/functions.c:1830
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -6809,7 +6804,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: ../plugins/fn-financial/functions.c:1897
+#: ../plugins/fn-financial/functions.c:1892
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -6859,7 +6854,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IRR,XNPV"
 
-#: ../plugins/fn-financial/functions.c:2017
+#: ../plugins/fn-financial/functions.c:2012
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -6891,7 +6886,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: ../plugins/fn-financial/functions.c:2061
+#: ../plugins/fn-financial/functions.c:2056
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -6933,7 +6928,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2104
+#: ../plugins/fn-financial/functions.c:2099
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
@@ -6975,7 +6970,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2156
+#: ../plugins/fn-financial/functions.c:2151
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -7014,7 +7009,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2212
+#: ../plugins/fn-financial/functions.c:2207
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
@@ -7057,7 +7052,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2272
+#: ../plugins/fn-financial/functions.c:2267
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
@@ -7107,7 +7102,7 @@ msgstr ""
 "\n"
 "@SEEALSO=G_DURATION,MDURATION"
 
-#: ../plugins/fn-financial/functions.c:2334
+#: ../plugins/fn-financial/functions.c:2329
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -7138,7 +7133,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 
-#: ../plugins/fn-financial/functions.c:2378
+#: ../plugins/fn-financial/functions.c:2373
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -7167,7 +7162,7 @@ msgstr ""
 "FVSCHEDULE(3000,A1:A5) es igual a 4942,7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: ../plugins/fn-financial/functions.c:2425
+#: ../plugins/fn-financial/functions.c:2420
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -7223,7 +7218,7 @@ msgstr ""
 "EURO(\"DEM\") es igual a 1,95583.\n"
 "@SEEALSO=EUROCONVERT"
 
-#: ../plugins/fn-financial/functions.c:2535
+#: ../plugins/fn-financial/functions.c:2530
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
@@ -7279,7 +7274,7 @@ msgstr ""
 "EUROCONVERT(\"DEM\") es igual a 1,95583.\n"
 "@SEEALSO=EURO"
 
-#: ../plugins/fn-financial/functions.c:2585
+#: ../plugins/fn-financial/functions.c:2580
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
@@ -7329,7 +7324,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2652
+#: ../plugins/fn-financial/functions.c:2647
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,"
@@ -7379,7 +7374,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2775
+#: ../plugins/fn-financial/functions.c:2770
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -7431,7 +7426,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2839
+#: ../plugins/fn-financial/functions.c:2834
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -7481,7 +7476,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:2895
+#: ../plugins/fn-financial/functions.c:2890
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -7537,7 +7532,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3052
+#: ../plugins/fn-financial/functions.c:3047
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -7590,7 +7585,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3163
+#: ../plugins/fn-financial/functions.c:3158
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -7643,7 +7638,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3257
+#: ../plugins/fn-financial/functions.c:3252
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -7696,7 +7691,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3351
+#: ../plugins/fn-financial/functions.c:3346
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7762,7 +7757,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORLINC"
 
-#: ../plugins/fn-financial/functions.c:3418
+#: ../plugins/fn-financial/functions.c:3413
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7824,7 +7819,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 
-#: ../plugins/fn-financial/functions.c:3480
+#: ../plugins/fn-financial/functions.c:3475
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
@@ -7891,7 +7886,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3528
+#: ../plugins/fn-financial/functions.c:3523
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -7960,7 +7955,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3577
+#: ../plugins/fn-financial/functions.c:3572
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -8027,7 +8022,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3625
+#: ../plugins/fn-financial/functions.c:3620
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -8093,7 +8088,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3674
+#: ../plugins/fn-financial/functions.c:3669
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -8159,7 +8154,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3724
+#: ../plugins/fn-financial/functions.c:3719
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -8223,7 +8218,7 @@ msgstr ""
 "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSO) = 5\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3768
+#: ../plugins/fn-financial/functions.c:3763
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8259,7 +8254,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3821
+#: ../plugins/fn-financial/functions.c:3816
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8295,7 +8290,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-financial/functions.c:3874
+#: ../plugins/fn-financial/functions.c:3869
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8346,7 +8341,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DURATION,G_DURATION"
 
-#: ../plugins/fn-financial/functions.c:3935
+#: ../plugins/fn-financial/functions.c:3930
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -9303,7 +9298,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IF"
 
-#: ../plugins/fn-lookup/functions.c:559
+#: ../plugins/fn-lookup/functions.c:560
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -9340,7 +9335,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HLOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:620
+#: ../plugins/fn-lookup/functions.c:621
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -9377,7 +9372,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:682
+#: ../plugins/fn-lookup/functions.c:683
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
@@ -9410,7 +9405,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:748
+#: ../plugins/fn-lookup/functions.c:749
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -9454,7 +9449,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:806
+#: ../plugins/fn-lookup/functions.c:807
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -9485,7 +9480,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AREAS,INDEX,CELL"
 
-#: ../plugins/fn-lookup/functions.c:855
+#: ../plugins/fn-lookup/functions.c:856
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -9517,7 +9512,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-lookup/functions.c:926
+#: ../plugins/fn-lookup/functions.c:927
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -9546,7 +9541,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:985
+#: ../plugins/fn-lookup/functions.c:986
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -9572,7 +9567,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADDRESS"
 
-#: ../plugins/fn-lookup/functions.c:1020
+#: ../plugins/fn-lookup/functions.c:1021
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -9600,7 +9595,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1048
+#: ../plugins/fn-lookup/functions.c:1049
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -9629,7 +9624,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 
-#: ../plugins/fn-lookup/functions.c:1109
+#: ../plugins/fn-lookup/functions.c:1110
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -9658,7 +9653,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1166
+#: ../plugins/fn-lookup/functions.c:1167
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9686,7 +9681,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROW"
 
-#: ../plugins/fn-lookup/functions.c:1194
+#: ../plugins/fn-lookup/functions.c:1195
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -9708,7 +9703,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-lookup/functions.c:1222
+#: ../plugins/fn-lookup/functions.c:1223
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -10461,12 +10456,16 @@ msgstr "x:valor."
 
 #: ../plugins/fn-math/functions.c:1051
 msgid "significance:base multiple (defaults to 1 for @x > 0 and -1 for @x <0)"
-msgstr "significancia: multiplo de la base (predeterminado a 1 para @x > 0 y -1 para @x < 0)"
+msgstr ""
+"significancia: multiplo de la base (predeterminado a 1 para @x > 0 y -1 para "
+"@x < 0)"
 
 #: ../plugins/fn-math/functions.c:1054
 msgid ""
 "FLOOR function rounds @x down to the next nearest multiple of @significance."
-msgstr "La función FLOOR redondea @x hacia abajo al siguente entero múltiplo más cercano de @significancia"
+msgstr ""
+"La función FLOOR redondea @x hacia abajo al siguente entero múltiplo más "
+"cercano de @significancia"
 
 #: ../plugins/fn-math/functions.c:1056
 msgid "FLOOR(0.5) equals 0."
