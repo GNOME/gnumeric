@@ -7632,7 +7632,7 @@ msgstr "<span weight=\"bold\">その他</span>"
 
 #: ../src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr "<span weidht=\"bold\">検索テキストタイプ</span>"
+msgstr "<span weight=\"bold\">検索テキストタイプ</span>"
 
 #: ../src/dialogs/search-replace.glade.h:6
 msgid "Ask before each change"
