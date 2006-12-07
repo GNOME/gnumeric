@@ -28,6 +28,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "analysis-tools.h"
+#include "analysis-histogram.h"
 
 #include <workbook.h>
 #include <workbook-control.h>

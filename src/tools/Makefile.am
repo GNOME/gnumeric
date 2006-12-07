@@ -18,6 +18,8 @@ AM_CPPFLAGS = 						\
 noinst_LTLIBRARIES = libtools.la
 
 libtools_la_SOURCES =					\
+	analysis-histogram.c				\
+	analysis-histogram.h				\
 	analysis-tools.c				\
 	analysis-tools.h				\
 	random-generator.c				\
