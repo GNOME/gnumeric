@@ -1,3 +1,9 @@
+2006-12-07  Christian Neumair  <chris@gnome-de.org>
+
+	* src/widgets/gnumeric-expr-entry.c (cb_icon_clicked):
+	Don't g_assert, always assume that
+	gtk_container_class_list_child_properties returns a non-NULL value.
+
 2006-12-05 Joseph Pingenot <gnumerichacker@digitasaru.net>
 
 	* src/tools/analysis-{tools,histogram}.[ch]: split out all histogram

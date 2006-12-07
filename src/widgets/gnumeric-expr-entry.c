@@ -196,10 +196,9 @@ cb_icon_clicked (GtkButton *icon,
 
 			container_props_pspec = gtk_container_class_list_child_properties
 					(G_OBJECT_GET_CLASS (old_entry_parent), &n);
-			if (container_props_pspec != NULL) {
-				int i;
 
-				g_assert (n >= 1);
+			if (container_props_pspec[0] != NULL) {
+				int i;
 
 				container_props = g_value_array_new (n);
 
@@ -247,15 +246,10 @@ cb_icon_clicked (GtkButton *icon,
 			container_props = g_object_get_data (G_OBJECT (entry), "container_props");
 			container_props_pspec = g_object_get_data (G_OBJECT (entry), "container_props_pspec");
 
-			g_assert (!(container_props != NULL && container_props_pspec == NULL));
-			g_assert (!(container_props == NULL && container_props_pspec != NULL));
-
-			if (container_props_pspec != NULL) {
-				for (i = 0; container_props_pspec[i] != NULL; i++) {
-					gtk_container_child_set_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
-									  g_param_spec_get_name (container_props_pspec[i]),
-									  g_value_array_get_nth (container_props, i));
-				}
+			for (i = 0; container_props_pspec[i] != NULL; i++) {
+				gtk_container_child_set_property (GTK_CONTAINER (old_entry_parent), GTK_WIDGET (entry),
+								  g_param_spec_get_name (container_props_pspec[i]),
+								  g_value_array_get_nth (container_props, i));
 			}
 
 			gtk_window_resize (GTK_WINDOW (toplevel),
