@@ -1,3 +1,17 @@
+2006-12-05 Joseph Pingenot <gnumerichacker@digitasaru.net>
+
+	* src/tools/analysis-{tools,histogram}.[ch]: split out all histogram
+	stuff in preparation for larger work with histograms.  Nothing else
+	should have changed at this point.
+
+	* src/tools/Makefile.am: Added new files.
+
+	* src/dialogs/dialog-analysis-tools.h: Added header include for
+	analysis-histogram.h so that it compiles.
+
+	* tools/check-files: complain if a filename line contains 
+	leading/trailing whitespace, and ignore the whitespace.
+
 2006-12-05  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (gnm_xml_file_open): Do as little as possible

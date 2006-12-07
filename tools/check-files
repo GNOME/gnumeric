@@ -44,6 +44,14 @@ my %pot_files;
 	next if /^\s*\#/ || /^\s*$/;
 	next if /^\s*\[encoding/;
 	chomp;
+	if(/^\s+/) {
+		print STDERR "WARNING: leading whitespace detected in line ($_)\n";
+		s/^\s+//;
+	}
+	if(/\s+$/) {
+		print STDERR "WARNING: trailing whitespace detected in line ($_)\n";
+		s/\s+$//;
+	}
 	push @pot_files, $_;
 	$pot_files{$_} = 1;
     }
