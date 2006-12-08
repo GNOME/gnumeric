@@ -826,12 +826,15 @@
 				<xsd:attribute name="Index" type="xsd:nonNegativeInteger" use="required"/>
 				<xsd:attribute name="Type"  type="gnm:FilterFieldType" use="required"/>
 
+				<!-- WARNING WARNING WARNING
+					Value and ValueType have their senses
+					reversed due to an old typo -->
 				<!-- Only valid for Type=expr -->
-				<xsd:attribute name="ValueType0" type="gnm:ValueType"	  use="optional"/>
-				<xsd:attribute name="Value0"   	 type="xsd:string"	  use="optional"/>
+				<xsd:attribute name="Value0"     type="gnm:ValueType"	  use="optional"/>
+				<xsd:attribute name="ValueType0" type="xsd:string"	  use="optional"/>
 				<xsd:attribute name="Op0"   	 type="gnm:FilterFieldOp" use="optional"/>
-				<xsd:attribute name="ValueType1" type="gnm:ValueType"	  use="optional"/>
-				<xsd:attribute name="Value1"   	 type="xsd:string"	  use="optional"/>
+				<xsd:attribute name="Value1" 	 type="gnm:ValueType"	  use="optional"/>
+				<xsd:attribute name="ValueType1" type="xsd:string"	  use="optional"/>
 				<xsd:attribute name="Op1"   	 type="gnm:FilterFieldOp" use="optional"/>
 
 				<!-- Only valid for Type=bucket -->

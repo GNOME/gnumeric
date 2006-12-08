@@ -1,5 +1,9 @@
 Gnumeric 1.7.6
 
+Jody:
+	* Fix sax import of autofilters. [#383400]
+	* Fix autofilter lists with only 1 combo. [#383400]
+
 Morten:
 	* Fix title problem.  [#382643]
 	* Fix sax loading of comments.
@@ -25,7 +29,7 @@ Jody:
 	    - set initial selection for validate from list
 	    - Home/End jumps to top bottom.
 	    - Fix in RTL mode.
-	    - List items unfiltered by other active conditions in combo.
+	    - List items unfiltered by other active conditions. [#114307]
 	* Fix .gnumeric import of col/row groupings. [#380015]
 	* SAX import for autofilters
 	* Fix XSD schema

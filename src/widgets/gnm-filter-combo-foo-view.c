@@ -191,17 +191,20 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 	/* We do not want to show items that are filtered by _other_ fields.
 	 * The cleanest way to do that is to create a temporary sheet, apply
 	 * all of the other conditions to it and use that as the source of visibility. */
-	if (filter->fields->len > 1)
+	if (filter->fields->len > 1) {
 		filtered_sheet = sheet_new (uc.src_sheet->workbook, "_DummyFilterPopulate");
-	else
-		g_object_ref (filtered_sheet = filter->sheet);
-	for (i = 0 ; i < filter->fields->len ; i++)
-		if (i != field_num)
-			gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i), filtered_sheet);
-	sheet_foreach_cell_in_range (filtered_sheet, CELL_ITER_IGNORE_HIDDEN,
-		r.start.col, r.start.row, r.end.col, r.end.row,
-		(CellIterFunc)&cb_collect_content, &uc);
-	g_object_unref (filtered_sheet);
+		for (i = 0 ; i < filter->fields->len ; i++)
+			if (i != field_num)
+				gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i),
+							filtered_sheet);
+		sheet_foreach_cell_in_range (filtered_sheet, CELL_ITER_IGNORE_HIDDEN,
+			r.start.col, r.start.row, r.end.col, r.end.row,
+			(CellIterFunc)&cb_collect_content, &uc);
+		g_object_unref (filtered_sheet);
+	} else
+		sheet_foreach_cell_in_range (filter->sheet, CELL_ITER_ALL,
+			r.start.col, r.start.row, r.end.col, r.end.row,
+			(CellIterFunc)&cb_collect_content, &uc);
 
 	g_hash_table_foreach (uc.hash, (GHFunc)cb_hash_domain, sorted);
 	qsort (&g_ptr_array_index (sorted, 0),

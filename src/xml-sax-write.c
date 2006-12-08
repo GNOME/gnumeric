@@ -798,6 +798,10 @@ xml_write_filter_expr (GnmOutputXML *state,
 		       GnmFilterCondition const *cond, unsigned i)
 {
 	static char const *filter_cond_name[] = { "eq", "gt", "lt", "gte", "lte", "ne" };
+	/*
+	 * WARNING WARNING WARING
+	 * Value and ValueType are _reversed !!!
+	 */
 	static struct { char const *op, *valtype, *val; } filter_expr_attrs[] = {
 		{ "Op0", "Value0", "ValueType0" },
 		{ "Op1", "Value1", "ValueType1" }

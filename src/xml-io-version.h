@@ -14,10 +14,12 @@ typedef enum
 	GNM_XML_V7,	/* >= 0.66 */
 	GNM_XML_V8,	/* >= 0.71 */
 	GNM_XML_V9,	/* >= 0.73 add print scaling */
-	GNM_XML_V10,	/* >= 1.03 remove useless Content node in cells */
+	GNM_XML_V10,	/* >= 1.0.3 remove useless Content node in cells */
+	GNM_XML_V11,	/* >= 1.7.0 jump to sax exporter */
+	GNM_XML_V12,	/* >= 1.7.3 Fix swapping of Value and ValueType in sax exporter */
 
 	/* NOTE : Keep this up to date (and in sync with the schema) */
-	GNM_XML_LATEST = GNM_XML_V10
+	GNM_XML_LATEST = GNM_XML_V12
 } GnumericXMLVersion;
 
 #endif /* GNUMERIC_XML_IO_VERSION_H */

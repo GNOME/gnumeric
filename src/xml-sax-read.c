@@ -369,6 +369,27 @@ xml_sax_wb (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
+xml_sax_version (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	int epoch = -1;
+	int major = -1;
+	int minor = -1;
+	int version;
+
+	state->version = GNM_XML_V11;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_int (attrs, "Epoch", &major)) ;
+		else if (xml_sax_attr_int (attrs, "Major", &major)) ;
+		else if (xml_sax_attr_int (attrs, "Minor", &minor)) ;
+
+	version = (epoch * 100 + major) * 100 + minor;
+
+	if (version >= 10705)
+		state->version = GNM_XML_V11;
+}
+
+static void
 xml_sax_wb_sheetname (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
@@ -1500,10 +1521,15 @@ xml_sax_filter_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_bool (attrs, "Items", &items)) ;
 		else if (xml_sax_attr_int  (attrs, "Count", &bucket_count)) ;
 		else if (xml_sax_attr_bool (attrs, "IsAnd", &is_and)) ;
-		else if (!strcmp (attrs[i], "Value0")) val0  = attrs[i+1];
-		else if (!strcmp (attrs[i], "Value1")) val1  = attrs[i+1];
 		else if (!strcmp (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i+1]);
 		else if (!strcmp (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i+1]);
+
+		/*
+		 * WARNING WARNING WARING
+		 * Value and ValueType are _reversed !!!
+		 */
+		else if (!strcmp (attrs[i], "ValueType0")) val0  = attrs[i+1];
+		else if (!strcmp (attrs[i], "ValueType1")) val1  = attrs[i+1];
 		else if (xml_sax_attr_int (attrs+i, "ValueType0", &tmp)) vtype0 = tmp;
 		else if (xml_sax_attr_int (attrs+i, "ValueType1", &tmp)) vtype1 = tmp;
 
@@ -1777,154 +1803,155 @@ static GsfXMLInNS const content_ns[] = {
 };
 
 static GsfXMLInNode gnumeric_1_0_dtd[] = {
-GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_wb, NULL, 0),
-  GSF_XML_IN_NODE (WB, WB_VERSION, GNM, "Version", FALSE, NULL, NULL),
-  GSF_XML_IN_NODE (WB, WB_ATTRIBUTES, GNM, "Attributes", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (WB_ATTRIBUTES, WB_ATTRIBUTE, GNM, "Attribute", FALSE, NULL, &xml_sax_finish_parse_wb_attr),
-      GSF_XML_IN_NODE_FULL (WB_ATTRIBUTE, WB_ATTRIBUTE_NAME, GNM, "name",   TRUE, FALSE, FALSE, NULL, &xml_sax_attr_elem, 0),
-      GSF_XML_IN_NODE_FULL (WB_ATTRIBUTE, WB_ATTRIBUTE_VALUE, GNM, "value", TRUE, FALSE, FALSE, NULL, &xml_sax_attr_elem, 1),
-      GSF_XML_IN_NODE (WB_ATTRIBUTE, WB_ATTRIBUTE_TYPE, GNM, "type", FALSE, NULL, NULL),
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALSE, &xml_sax_wb, NULL, 0),
+  GSF_XML_IN_NODE (WB, WB_VERSION, GNM, "Version", GSF_XML_NO_CONTENT, &xml_sax_version, NULL),
+  GSF_XML_IN_NODE (WB, WB_ATTRIBUTES, GNM, "Attributes", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (WB_ATTRIBUTES, WB_ATTRIBUTE, GNM, "Attribute", GSF_XML_NO_CONTENT, NULL, &xml_sax_finish_parse_wb_attr),
+      GSF_XML_IN_NODE_FULL (WB_ATTRIBUTE, WB_ATTRIBUTE_NAME, GNM, "name",   GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_attr_elem, 0),
+      GSF_XML_IN_NODE_FULL (WB_ATTRIBUTE, WB_ATTRIBUTE_VALUE, GNM, "value", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_attr_elem, 1),
+      GSF_XML_IN_NODE (WB_ATTRIBUTE, WB_ATTRIBUTE_TYPE, GNM, "type", GSF_XML_NO_CONTENT, NULL, NULL),
 
-  GSF_XML_IN_NODE (WB, WB_SUMMARY, GNM, "Summary", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (WB_SUMMARY, WB_SUMMARY_ITEM, GNM, "Item", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_NAME, GNM, "name", TRUE, NULL, NULL),
-	GSF_XML_IN_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_VALUE_STR, GNM, "val-string", TRUE, NULL, NULL),
-	GSF_XML_IN_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_VALUE_INT, GNM, "val-int", TRUE, NULL, NULL),
+  /* The old 'SummaryItem' Metadata.  Removed in 1.7.x */
+  GSF_XML_IN_NODE (WB, WB_SUMMARY, GNM, "Summary", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (WB_SUMMARY, WB_SUMMARY_ITEM, GNM, "Item", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_NAME, GNM, "name", GSF_XML_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_VALUE_STR, GNM, "val-string", GSF_XML_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_VALUE_INT, GNM, "val-int", GSF_XML_CONTENT, NULL, NULL),
 
-  GSF_XML_IN_NODE (WB, WB_SHEETNAME_INDEX, GNM, "SheetNameIndex", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (WB_SHEETNAME_INDEX, WB_SHEETNAME, GNM, "SheetName", TRUE, NULL, &xml_sax_wb_sheetname),
+  GSF_XML_IN_NODE (WB, WB_SHEETNAME_INDEX, GNM, "SheetNameIndex", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (WB_SHEETNAME_INDEX, WB_SHEETNAME, GNM, "SheetName", GSF_XML_CONTENT, NULL, &xml_sax_wb_sheetname),
 
-  GSF_XML_IN_NODE (WB, WB_NAMED_EXPRS, GNM, "Names", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (WB_NAMED_EXPRS, WB_NAMED_EXPR, GNM, "Name", FALSE, NULL, &xml_sax_named_expr_end),
-      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_NAME,	   GNM, "name",	    TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 0),
-      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_VALUE,	   GNM, "value",    TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 1),
-      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_POSITION, GNM, "position", TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 2),
+  GSF_XML_IN_NODE (WB, WB_NAMED_EXPRS, GNM, "Names", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (WB_NAMED_EXPRS, WB_NAMED_EXPR, GNM, "Name", GSF_XML_NO_CONTENT, NULL, &xml_sax_named_expr_end),
+      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_NAME,	   GNM, "name",	    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 0),
+      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_VALUE,	   GNM, "value",    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 1),
+      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_POSITION, GNM, "position", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 2),
       /* sometimes not namespaced */
-      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_NAME_NS,     -1, "name",     TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 0),
-      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_VALUE_NS,    -1, "value",    TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 1),
-      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_POSITION_NS, -1, "position", TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 2),
+      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_NAME_NS,     -1, "name",     GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 0),
+      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_VALUE_NS,    -1, "value",    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 1),
+      GSF_XML_IN_NODE_FULL (WB_NAMED_EXPR, WB_NAMED_EXPR_POSITION_NS, -1, "position", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 2),
 
-  GSF_XML_IN_NODE (WB, WB_SHEETS, GNM, "Sheets", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (WB_SHEETS, SHEET, GNM, "Sheet", FALSE, &xml_sax_sheet_start, &xml_sax_sheet_end),
-      GSF_XML_IN_NODE (SHEET, SHEET_NAME, GNM, "Name", TRUE, NULL, &xml_sax_sheet_name),
-      GSF_XML_IN_NODE (SHEET, SHEET_MAXCOL, GNM, "MaxCol", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (SHEET, SHEET_MAXROW, GNM, "MaxRow", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (SHEET, SHEET_ZOOM, GNM, "Zoom", TRUE, NULL, &xml_sax_sheet_zoom),
-      GSF_XML_IN_NODE (SHEET, SHEET_NAMED_EXPRS, GNM, "Names", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_NAMED_EXPRS, SHEET_NAMED_EXPR, GNM, "Name", FALSE, NULL, &xml_sax_named_expr_end),
-	  GSF_XML_IN_NODE_FULL (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_NAME,     GNM, "name",     TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 0),
-	  GSF_XML_IN_NODE_FULL (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_VALUE,    GNM, "value",    TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 1),
-	  GSF_XML_IN_NODE_FULL (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_POSITION, GNM, "position", TRUE, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 2),
+  GSF_XML_IN_NODE (WB, WB_SHEETS, GNM, "Sheets", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (WB_SHEETS, SHEET, GNM, "Sheet", GSF_XML_NO_CONTENT, &xml_sax_sheet_start, &xml_sax_sheet_end),
+      GSF_XML_IN_NODE (SHEET, SHEET_NAME, GNM, "Name", GSF_XML_CONTENT, NULL, &xml_sax_sheet_name),
+      GSF_XML_IN_NODE (SHEET, SHEET_MAXCOL, GNM, "MaxCol", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_MAXROW, GNM, "MaxRow", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_ZOOM, GNM, "Zoom", GSF_XML_CONTENT, NULL, &xml_sax_sheet_zoom),
+      GSF_XML_IN_NODE (SHEET, SHEET_NAMED_EXPRS, GNM, "Names", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_NAMED_EXPRS, SHEET_NAMED_EXPR, GNM, "Name", GSF_XML_NO_CONTENT, NULL, &xml_sax_named_expr_end),
+	  GSF_XML_IN_NODE_FULL (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_NAME,     GNM, "name",     GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 0),
+	  GSF_XML_IN_NODE_FULL (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_VALUE,    GNM, "value",    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 1),
+	  GSF_XML_IN_NODE_FULL (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_POSITION, GNM, "position", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 2),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_PRINTINFO, GNM, "PrintInformation", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MARGINS, GNM, "Margins", FALSE, NULL, NULL),
-	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_TOP,    GNM, "top",	  TRUE, FALSE, FALSE, &xml_sax_print_margins, NULL, 0),
-	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_BOTTOM, GNM, "bottom",TRUE, FALSE, FALSE, &xml_sax_print_margins, NULL, 1),
-	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_LEFT,   GNM, "left",  TRUE, FALSE, FALSE, &xml_sax_print_margins, NULL, 2),
-	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_RIGHT,  GNM, "right", TRUE, FALSE, FALSE, &xml_sax_print_margins, NULL, 3),
-	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_HEADER, GNM, "header",TRUE, FALSE, FALSE, &xml_sax_print_margins, NULL, 4),
-	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_FOOTER, GNM, "footer",TRUE, FALSE, FALSE, &xml_sax_print_margins, NULL, 5),
+      GSF_XML_IN_NODE (SHEET, SHEET_PRINTINFO, GNM, "PrintInformation", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MARGINS, GNM, "Margins", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_TOP,    GNM, "top",	  GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 0),
+	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_BOTTOM, GNM, "bottom",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 1),
+	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_LEFT,   GNM, "left",  GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 2),
+	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_RIGHT,  GNM, "right", GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 3),
+	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_HEADER, GNM, "header",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 4),
+	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_FOOTER, GNM, "footer",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 5),
 
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_SCALE,	    GNM, "Scale",	TRUE, &xml_sax_print_scale, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_VCENTER,    GNM, "vcenter",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HCENTER,    GNM, "hcenter",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_GRID,	    GNM, "grid",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_TOP, GNM, "repeat_top", 	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_LEFT,GNM, "repeat_left",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Footer",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_FOOTER,	    GNM, "Header",	FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORDER,	    GNM, "order",	TRUE,  NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	TRUE,  NULL, &xml_sax_paper),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	TRUE,  NULL, &xml_sax_orientation),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", TRUE, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_SCALE,	    GNM, "Scale",	GSF_XML_CONTENT, &xml_sax_print_scale, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_VCENTER,    GNM, "vcenter",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HCENTER,    GNM, "hcenter",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_GRID,	    GNM, "grid",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_TOP, GNM, "repeat_top", 	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_LEFT,GNM, "repeat_left",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Footer",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_FOOTER,	    GNM, "Header",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORDER,	    GNM, "order",	GSF_XML_CONTENT,  NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	GSF_XML_CONTENT,  NULL, &xml_sax_paper),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	GSF_XML_CONTENT,  NULL, &xml_sax_orientation),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", GSF_XML_CONTENT, NULL, NULL),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_STYLES, GNM, "Styles", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_STYLES, STYLE_REGION, GNM, "StyleRegion", FALSE, &xml_sax_style_region_start, &xml_sax_style_region_end),
-	  GSF_XML_IN_NODE (STYLE_REGION, STYLE_STYLE, GNM, "Style", FALSE, &xml_sax_styleregion_start, NULL),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_FONT, GNM, "Font", TRUE, &xml_sax_styleregion_font, &xml_sax_styleregion_font_end),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_BORDER, GNM, "StyleBorder", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_STYLES, GNM, "Styles", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_STYLES, STYLE_REGION, GNM, "StyleRegion", GSF_XML_NO_CONTENT, &xml_sax_style_region_start, &xml_sax_style_region_end),
+	  GSF_XML_IN_NODE (STYLE_REGION, STYLE_STYLE, GNM, "Style", GSF_XML_NO_CONTENT, &xml_sax_styleregion_start, NULL),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_FONT, GNM, "Font", GSF_XML_CONTENT, &xml_sax_styleregion_font, &xml_sax_styleregion_font_end),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_BORDER, GNM, "StyleBorder", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_TOP,     GNM, "Top",
-				    FALSE, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_TOP),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_TOP),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_BOTTOM,  GNM, "Bottom",
-				    FALSE, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_BOTTOM),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_BOTTOM),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_LEFT,    GNM, "Left",
-				    FALSE, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_LEFT),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_LEFT),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_RIGHT,   GNM, "Right",
-				    FALSE, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_RIGHT),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_RIGHT),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_DIAG,    GNM, "Diagonal",
-				    FALSE, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_DIAGONAL),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_DIAGONAL),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_REV_DIAG,GNM, "Rev-Diagonal",
-				    FALSE, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_REV_DIAGONAL),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_REV_DIAGONAL),
 
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_VALIDATION, GNM, "Validation", FALSE, &xml_sax_validation, &xml_sax_validation_end),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_VALIDATION, GNM, "Validation", GSF_XML_NO_CONTENT, &xml_sax_validation, &xml_sax_validation_end),
 	      GSF_XML_IN_NODE_FULL (STYLE_VALIDATION, STYLE_VALIDATION_EXPR0, GNM, "Expression0",
-				    TRUE, FALSE, FALSE, NULL, &xml_sax_validation_expr_end, 0),
+				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_validation_expr_end, 0),
 	      GSF_XML_IN_NODE_FULL (STYLE_VALIDATION, STYLE_VALIDATION_EXPR1, GNM, "Expression1",
-				    TRUE, FALSE, FALSE, NULL, &xml_sax_validation_expr_end, 1),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_HYPERLINK, GNM, "HyperLink", FALSE, &xml_sax_hlink, NULL),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_INPUT_MSG, GNM, "InputMessage", FALSE, &xml_sax_input_msg, NULL),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_CONDITION, GNM, "Condition", FALSE, &xml_sax_condition, &xml_sax_condition_end),
+				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_validation_expr_end, 1),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_HYPERLINK, GNM, "HyperLink", GSF_XML_NO_CONTENT, &xml_sax_hlink, NULL),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_INPUT_MSG, GNM, "InputMessage", GSF_XML_NO_CONTENT, &xml_sax_input_msg, NULL),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_CONDITION, GNM, "Condition", GSF_XML_NO_CONTENT, &xml_sax_condition, &xml_sax_condition_end),
 	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR0, GNM, "Expression0",
-				    TRUE, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 0),
+				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 0),
 	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR1, GNM, "Expression1",
-				    TRUE, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 1),
+				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 1),
 
       GSF_XML_IN_NODE_FULL (SHEET, SHEET_COLS, GNM, "Cols",
-			    FALSE, FALSE, FALSE, &xml_sax_cols_rows, NULL, TRUE),
+			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, NULL, TRUE),
 	GSF_XML_IN_NODE_FULL (SHEET_COLS, COL, GNM, "ColInfo",
-			      FALSE, FALSE, FALSE, &xml_sax_colrow, NULL, TRUE),
+			      GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_colrow, NULL, TRUE),
 
       GSF_XML_IN_NODE_FULL (SHEET, SHEET_ROWS, GNM, "Rows",
-			    FALSE, FALSE, FALSE, &xml_sax_cols_rows, NULL, FALSE),
+			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, NULL, FALSE),
 	GSF_XML_IN_NODE_FULL (SHEET_ROWS, ROW, GNM, "RowInfo",
-			      FALSE, FALSE, FALSE, &xml_sax_colrow, NULL, FALSE),
+			      GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_colrow, NULL, FALSE),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_SELECTIONS, GNM, "Selections", FALSE, &xml_sax_selection, &xml_sax_selection_end),
-	GSF_XML_IN_NODE (SHEET_SELECTIONS, SELECTION, GNM, "Selection", FALSE, &xml_sax_selection_range, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_SELECTIONS, GNM, "Selections", GSF_XML_NO_CONTENT, &xml_sax_selection, &xml_sax_selection_end),
+	GSF_XML_IN_NODE (SHEET_SELECTIONS, SELECTION, GNM, "Selection", GSF_XML_NO_CONTENT, &xml_sax_selection_range, NULL),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_CELLS, GNM, "Cells", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_CELLS, CELL, GNM, "Cell", TRUE, &xml_sax_cell, &xml_sax_cell_content),
-	  GSF_XML_IN_NODE (CELL, CELL_CONTENT, GNM, "Content", TRUE, NULL, &xml_sax_cell_content),
+      GSF_XML_IN_NODE (SHEET, SHEET_CELLS, GNM, "Cells", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_CELLS, CELL, GNM, "Cell", GSF_XML_CONTENT, &xml_sax_cell, &xml_sax_cell_content),
+	  GSF_XML_IN_NODE (CELL, CELL_CONTENT, GNM, "Content", GSF_XML_CONTENT, NULL, &xml_sax_cell_content),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_MERGED_REGIONS, GNM, "MergedRegions", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_MERGED_REGIONS, MERGED_REGION, GNM, "Merge", TRUE, NULL, &xml_sax_merge),
+      GSF_XML_IN_NODE (SHEET, SHEET_MERGED_REGIONS, GNM, "MergedRegions", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_MERGED_REGIONS, MERGED_REGION, GNM, "Merge", GSF_XML_CONTENT, NULL, &xml_sax_merge),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_FILTERS, GNM, "Filters", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_FILTERS, FILTER, GNM, "Filter", TRUE, &xml_sax_filter_start, &xml_sax_filter_end),
-	  GSF_XML_IN_NODE (FILTER, FILTER_FIELD, GNM, "Field", TRUE, &xml_sax_filter_condition, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_FILTERS, GNM, "Filters", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_FILTERS, FILTER, GNM, "Filter", GSF_XML_NO_CONTENT, &xml_sax_filter_start, &xml_sax_filter_end),
+	  GSF_XML_IN_NODE (FILTER, FILTER_FIELD, GNM, "Field", GSF_XML_NO_CONTENT, &xml_sax_filter_condition, NULL),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_LAYOUT, GNM, "SheetLayout", FALSE, &xml_sax_sheet_layout, NULL),
-	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", FALSE, &xml_sax_sheet_freezepanes, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_LAYOUT, GNM, "SheetLayout", GSF_XML_NO_CONTENT, &xml_sax_sheet_layout, NULL),
+	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", GSF_XML_NO_CONTENT, &xml_sax_sheet_freezepanes, NULL),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (SHEET, SHEET_SCENARIOS, GNM, "Scenarios", FALSE, NULL, NULL),
-        GSF_XML_IN_NODE (SHEET_SCENARIOS, SHEET_SCENARIO, GNM, "Scenario", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_SCENARIOS, GNM, "Scenarios", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHEET_SCENARIOS, SHEET_SCENARIO, GNM, "Scenario", GSF_XML_NO_CONTENT, NULL, NULL),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_OBJECTS, GNM, "Objects", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_OBJECTS, GNM, "Objects", GSF_XML_NO_CONTENT, NULL, NULL),
         /* Old crufty IO */
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_RECTANGLE, GNM, "Rectangle", FALSE, &xml_sax_object_start, &xml_sax_object_end),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_ELLIPSE, GNM, "Ellipse", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_ARROW, GNM, "Arrow", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_LINE, GNM, "Line", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_RECT, GNM, "Rectangle", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_ELLIPSE, GNM, "Ellipse", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_ARROW, GNM, "Arrow", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_ANCIENT_LINE, GNM, "Line", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	/* Class renamed between 1.0.x and 1.2.x */
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_GRAPH, GNM,	"GnmGraph", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_GRAPH, GNM,	"GnmGraph", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	/* Class renamed in 1.2.2 */
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_COMMENT, GNM, "CellComment", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_COMMENT, GNM, "CellComment", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	/* Class renamed in 1.3.91 */
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_LINE, GNM, "SheetObjectGraphic", FALSE, &xml_sax_object_start, &xml_sax_object_end),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_FILLED, GNM, "SheetObjectFilled", FALSE, &xml_sax_object_start, &xml_sax_object_end),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_TEXT, GNM, "SheetObjectText", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_GRAPH, GNM, "SheetObjectGraph", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
-	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_IMAGE, GNM, "SheetObjectImage", FALSE,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_LINE, GNM, "SheetObjectGraphic", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_FILLED, GNM, "SheetObjectFilled", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_OLD_TEXT, GNM, "SheetObjectText", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_GRAPH, GNM, "SheetObjectGraph", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_IMAGE, GNM, "SheetObjectImage", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 
-  GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", FALSE, &xml_sax_wb_view, NULL),
-  GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", FALSE, &xml_sax_wb_view, NULL),
-  GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", FALSE, &xml_sax_calculation, NULL),
+  GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
+  GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
+  GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", GSF_XML_NO_CONTENT, &xml_sax_calculation, NULL),
   { NULL }
 };
 

@@ -245,13 +245,15 @@ cb_ccombo_button_release (GtkWidget *popup, GdkEventButton *event,
 	return FALSE;
 }
 
-static void
-cb_focus_changed (GtkWindow *toplevel)
-{
 #if 0
+static void
+cb_focus_changed (GtkWindow *toplevel,
+		  G_GNUC_UNUSED GParamSpec *pspec,
+		  SheetObjectView *sov)
+{
 	g_warning (gtk_window_has_toplevel_focus (toplevel) ? "focus" : "no focus");
-#endif
 }
+#endif
 
 static void
 cb_ccombo_button_pressed (G_GNUC_UNUSED GtkButton *button,
@@ -292,9 +294,11 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (list), column);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
 	g_object_set_data (G_OBJECT (list), SOV_ID, sov);
-	g_signal_connect (G_OBJECT (wbcg_toplevel (scg_wbcg (scg))),
+#if 0
+	id = g_signal_connect (G_OBJECT (wbcg_toplevel (scg_wbcg (scg))),
 		"notify::has-toplevel-focus",
-		G_CALLBACK (cb_focus_changed), list);
+		G_CALLBACK (cb_focus_changed), sov);
+#endif
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
