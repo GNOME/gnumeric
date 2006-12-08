@@ -1523,15 +1523,16 @@ xml_sax_filter_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_bool (attrs, "IsAnd", &is_and)) ;
 		else if (!strcmp (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i+1]);
 		else if (!strcmp (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i+1]);
-
 		/*
 		 * WARNING WARNING WARING
-		 * Value and ValueType are _reversed !!!
+		 * Value and ValueType are _reversed_ !!!
+		 * An error in the DOM exporter was propogated to the SAX
+		 * exporter and fixing this reversal would break all old files.
 		 */
 		else if (!strcmp (attrs[i], "ValueType0")) val0  = attrs[i+1];
 		else if (!strcmp (attrs[i], "ValueType1")) val1  = attrs[i+1];
-		else if (xml_sax_attr_int (attrs+i, "ValueType0", &tmp)) vtype0 = tmp;
-		else if (xml_sax_attr_int (attrs+i, "ValueType1", &tmp)) vtype1 = tmp;
+		else if (xml_sax_attr_int (attrs+i, "Value0", &tmp)) vtype0 = tmp;
+		else if (xml_sax_attr_int (attrs+i, "Value1", &tmp)) vtype1 = tmp;
 
 	if (NULL == type) {
 		gnm_io_warning (state->context, _("Missing filter type"));
