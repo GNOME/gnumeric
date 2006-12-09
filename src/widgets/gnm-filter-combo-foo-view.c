@@ -141,6 +141,13 @@ cb_hash_domain (GnmValue *key, gpointer value, gpointer accum)
 	g_ptr_array_add (accum, key);
 }
 
+/* Distinguish between the same value with different formats */
+static gboolean
+formatted_value_equal (GnmValue const *a, GnmValue const *b)
+{
+	return value_equal (a, b) && (VALUE_FMT(a) == VALUE_FMT(b));
+}
+
 static GtkListStore *
 fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 {
@@ -183,7 +190,7 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 	/* r.end.row =  XL actually extend to the first non-empty element in the list */
 	r.end.col = r.start.col += field_num;
 	uc.has_blank = FALSE;
-	uc.hash = g_hash_table_new_full ((GHashFunc)value_hash, (GEqualFunc)value_equal,
+	uc.hash = g_hash_table_new_full ((GHashFunc)value_hash, (GEqualFunc)formatted_value_equal,
 		(GDestroyNotify)value_release, (GDestroyNotify)g_free);
 	uc.src_sheet = filter->sheet;
 	uc.date_conv = workbook_date_conv (uc.src_sheet->workbook);
