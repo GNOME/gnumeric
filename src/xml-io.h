@@ -55,8 +55,12 @@ void gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c);
 void gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p);
 
 /* Gnumeric specific SAX import */
-gboolean gnm_xml_attr_double (xmlChar const * const *attrs,
-			      char const *name, double * res);
-SheetObject *gnm_xml_in_cur_obj (GsfXMLIn const *xin);
+gboolean gnm_xml_attr_int     (xmlChar const * const *attrs,
+			       char const *name, int * res);
+gboolean gnm_xml_attr_double  (xmlChar const * const *attrs,
+			       char const *name, double * res);
+
+SheetObject *gnm_xml_in_cur_obj   (GsfXMLIn const *xin);
+Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
 
 #endif /* GNUMERIC_XML_IO_H */

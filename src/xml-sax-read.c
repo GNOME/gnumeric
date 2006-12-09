@@ -123,8 +123,8 @@ xml_sax_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res
 	return TRUE;
 }
 
-static gboolean
-xml_sax_attr_int (xmlChar const * const *attrs, char const *name, int *res)
+gboolean
+gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 {
 	char *end;
 	int tmp;
@@ -167,7 +167,7 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 
 	ev = g_enum_get_value_by_name (eclass, attrs[1]);
 	if (!ev) ev = g_enum_get_value_by_nick (eclass, attrs[1]);
-	if (!ev && xml_sax_attr_int (attrs, name, &i))
+	if (!ev && gnm_xml_attr_int (attrs, name, &i))
 		/* Check that the value is valid.  */
 		ev = g_enum_get_value (eclass, i);
 	if (!ev) return FALSE;
@@ -221,13 +221,13 @@ xml_sax_attr_range (xmlChar const * const *attrs, GnmRange *res)
 {
 	int flags = 0;
 	for (; attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_int (attrs, "startCol", &res->start.col))
+		if (gnm_xml_attr_int (attrs, "startCol", &res->start.col))
 			flags |= 0x1;
-		else if (xml_sax_attr_int (attrs, "startRow", &res->start.row))
+		else if (gnm_xml_attr_int (attrs, "startRow", &res->start.row))
 			flags |= 0x2;
-		else if (xml_sax_attr_int (attrs, "endCol", &res->end.col))
+		else if (gnm_xml_attr_int (attrs, "endCol", &res->end.col))
 			flags |= 0x4;
-		else if (xml_sax_attr_int (attrs, "endRow", &res->end.row))
+		else if (gnm_xml_attr_int (attrs, "endRow", &res->end.row))
 			flags |= 0x8;
 		else
 			return FALSE;
@@ -309,27 +309,42 @@ gnm_xml_in_cur_obj (GsfXMLIn const *xin)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	return state->so;
 }
+Sheet *
+gnm_xml_in_cur_sheet (GsfXMLIn const *xin)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	return state->sheet;
+}
+
+static void
+gnm_xml_finish_obj (GsfXMLIn *xin)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	sheet_object_set_sheet (state->so, state->sheet);
+	g_object_unref (state->so);
+	state->so = NULL;
+}
 
 /****************************************************************************/
 
 static void
-unknown_attr (GsfXMLIn *gsf_state, xmlChar const * const *attrs)
+unknown_attr (GsfXMLIn *xin, xmlChar const * const *attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	if (state->version == GNM_XML_LATEST)
 		gnm_io_warning (state->context,
 			_("Unexpected attribute %s::%s == '%s'."),
-			(NULL != gsf_state->node &&
-			 NULL != gsf_state->node->name) ?
-			gsf_state->node->name : "<unknow name>",
+			(NULL != xin->node &&
+			 NULL != xin->node->name) ?
+			xin->node->name : "<unknow name>",
 			attrs[0], attrs[1]);
 }
 
 static void
-xml_sax_wb (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (strcmp (attrs[0], "xmlns:gmr") == 0 ||
@@ -365,13 +380,13 @@ xml_sax_wb (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		} else if (!strcmp (attrs[0], "xmlns:xsi")) {
 		} else if (!strcmp (attrs[0], "xsi:schemaLocation")) {
 		} else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 }
 
 static void
-xml_sax_version (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	int epoch = -1;
 	int major = -1;
 	int minor = -1;
@@ -379,21 +394,24 @@ xml_sax_version (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	state->version = GNM_XML_V11;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_int (attrs, "Epoch", &major)) ;
-		else if (xml_sax_attr_int (attrs, "Major", &major)) ;
-		else if (xml_sax_attr_int (attrs, "Minor", &minor)) ;
+		if (gnm_xml_attr_int (attrs, "Epoch", &major)) ;
+		else if (gnm_xml_attr_int (attrs, "Major", &major)) ;
+		else if (gnm_xml_attr_int (attrs, "Minor", &minor)) ;
 
 	version = (epoch * 100 + major) * 100 + minor;
-
-	if (version >= 10705)
-		state->version = GNM_XML_V11;
+	if (major >= 7) {
+		if (version >= 10705)
+			state->version = GNM_XML_V12;
+		else if (version >= 10700)
+			state->version = GNM_XML_V11;
+	}
 }
 
 static void
-xml_sax_wb_sheetname (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
-	char const *name = gsf_state->content->str;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	char const *name = xin->content->str;
 	
 	g_return_if_fail (name != NULL);
 
@@ -402,32 +420,32 @@ xml_sax_wb_sheetname (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_wb_view (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_wb_view (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	int sheet_index;
 	int width = -1, height = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_int (attrs, "SelectedTab", &sheet_index)) {
+		if (gnm_xml_attr_int (attrs, "SelectedTab", &sheet_index)) {
 			Sheet *sheet = workbook_sheet_by_index (state->wb, 
 								sheet_index);
 			if (sheet)
 				wb_view_sheet_focus (state->wb_view, sheet);
 		} 
-		else if (xml_sax_attr_int (attrs, "Width", &width)) ;
-		else if (xml_sax_attr_int (attrs, "Height", &height)) ;
+		else if (gnm_xml_attr_int (attrs, "Width", &width)) ;
+		else if (gnm_xml_attr_int (attrs, "Height", &height)) ;
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 
 	if (width > 0 && height > 0)
 		wb_view_preferred_size (state->wb_view, width, height);
 }
 static void
-xml_sax_calculation (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	gboolean b;
 	int 	 i;
 	double	 d;
@@ -437,18 +455,18 @@ xml_sax_calculation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			workbook_autorecalc_enable (state->wb, !b);
 		else if (xml_sax_attr_bool (attrs, "EnableIteration", &b))
 			workbook_iteration_enabled (state->wb, b);
-		else if (xml_sax_attr_int  (attrs, "MaxIterations", &i))
+		else if (gnm_xml_attr_int  (attrs, "MaxIterations", &i))
 			workbook_iteration_max_number (state->wb, i);
 		else if (gnm_xml_attr_double (attrs, "IterationTolerance", &d))
 			workbook_iteration_tolerance (state->wb, d);
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 }
 
 static void
-xml_sax_finish_parse_wb_attr (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_finish_parse_wb_attr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	g_return_if_fail (state->attribute.name != NULL);
 	g_return_if_fail (state->attribute.value != NULL);
@@ -461,14 +479,14 @@ xml_sax_finish_parse_wb_attr (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blo
 }
 
 static void
-xml_sax_attr_elem (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_attr_elem (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	char const *content = gsf_state->content->str;
-	int const len = gsf_state->content->len;
+	char const *content = xin->content->str;
+	int const len = xin->content->len;
 
-	switch (gsf_state->node->user_data.v_int) {
+	switch (xin->node->user_data.v_int) {
 	case 0 :
 		g_return_if_fail (state->attribute.name == NULL);
 		state->attribute.name = g_strndup (content, len);
@@ -485,9 +503,9 @@ xml_sax_attr_elem (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	gboolean tmp;
 	gint tmpi;
@@ -528,13 +546,13 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 }
 
 static void
-xml_sax_sheet_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_sheet_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	g_return_if_fail (state->sheet != NULL);
 
@@ -545,11 +563,11 @@ xml_sax_sheet_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	char const * content = gsf_state->content->str;
+	char const * content = xin->content->str;
 	g_return_if_fail (state->sheet == NULL);
 
 	/* * FIXME: Pull this out at some point, so we don't
@@ -589,11 +607,11 @@ xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_sheet_zoom (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_sheet_zoom (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	char const * content = gsf_state->content->str;
+	char const * content = xin->content->str;
 	double zoom;
 
 	g_return_if_fail (state->sheet != NULL);
@@ -603,20 +621,20 @@ xml_sax_sheet_zoom (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static double
-xml_sax_print_margins_get_double (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_print_margins_get_double (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_double (attrs, "Points", &points))
 			return points;
 		else if (strcmp (attrs[0], "PrefUnit"))
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 	return 0.0;
 }
 
 static void
-xml_sax_print_margins_unit (GsfXMLIn *gsf_state, xmlChar const **attrs, PrintUnit *pu)
+xml_sax_print_margins_unit (GsfXMLIn *xin, xmlChar const **attrs, PrintUnit *pu)
 {
 	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -627,14 +645,14 @@ xml_sax_print_margins_unit (GsfXMLIn *gsf_state, xmlChar const **attrs, PrintUni
 			pu->desired_display = unit_name_to_unit (attrs[1]);
 #endif
 		} else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 }
 
 static void
-xml_sax_print_margins (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_print_margins (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	PrintInformation *pi;
 
@@ -642,24 +660,24 @@ xml_sax_print_margins (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->sheet->print_info != NULL);
 
 	pi = state->sheet->print_info;
-	switch (gsf_state->node->user_data.v_int) {
-	case 0: xml_sax_print_margins_unit (gsf_state, attrs,
+	switch (xin->node->user_data.v_int) {
+	case 0: xml_sax_print_margins_unit (xin, attrs,
 			&pi->margin.top);
 		break;
-	case 1: xml_sax_print_margins_unit (gsf_state, attrs,
+	case 1: xml_sax_print_margins_unit (xin, attrs,
 			&pi->margin.bottom);
 		break;
 	case 2: print_info_set_margin_left (pi,
-			xml_sax_print_margins_get_double (gsf_state, attrs));
+			xml_sax_print_margins_get_double (xin, attrs));
 		break;
 	case 3: print_info_set_margin_right (pi,
-			xml_sax_print_margins_get_double (gsf_state, attrs));
+			xml_sax_print_margins_get_double (xin, attrs));
 		break;
 	case 4: print_info_set_margin_header (pi,
-			xml_sax_print_margins_get_double (gsf_state, attrs));
+			xml_sax_print_margins_get_double (xin, attrs));
 		break;
 	case 5: print_info_set_margin_footer (pi,
-			xml_sax_print_margins_get_double (gsf_state, attrs));
+			xml_sax_print_margins_get_double (xin, attrs));
 		break;
 	default:
 		return;
@@ -670,9 +688,9 @@ xml_sax_print_margins (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 
 static void
-xml_sax_print_scale (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	PrintInformation *pi;
 	double percentage;
@@ -688,17 +706,17 @@ xml_sax_print_scale (GsfXMLIn *gsf_state, xmlChar const **attrs)
 				? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE;
 		else if (gnm_xml_attr_double (attrs, "percentage", &percentage))
 			pi->scaling.percentage.x = pi->scaling.percentage.y = percentage;
-		else if (xml_sax_attr_int (attrs, "cols", &cols))
+		else if (gnm_xml_attr_int (attrs, "cols", &cols))
 			pi->scaling.dim.cols = cols;
-		else if (xml_sax_attr_int (attrs, "rows", &rows))
+		else if (gnm_xml_attr_int (attrs, "rows", &rows))
 			pi->scaling.dim.rows = rows;
 	}
 }
 
 static void
-xml_sax_selection_range (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_selection_range (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	GnmRange r;
 	if (xml_sax_attr_range (attrs, &r))
@@ -707,19 +725,19 @@ xml_sax_selection_range (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_selection (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	int col = -1, row = -1;
 
 	sv_selection_reset (sheet_get_view (state->sheet, state->wb_view));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_int (attrs, "CursorCol", &col)) ;
-		else if (xml_sax_attr_int (attrs, "CursorRow", &row)) ;
+		if (gnm_xml_attr_int (attrs, "CursorCol", &col)) ;
+		else if (gnm_xml_attr_int (attrs, "CursorRow", &row)) ;
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
@@ -730,9 +748,9 @@ xml_sax_selection (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_selection_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	GnmCellPos const pos = state->cell;
 	state->cell.col = state->cell.row = -1;
@@ -740,9 +758,9 @@ xml_sax_selection_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_sheet_layout (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_sheet_layout (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	GnmCellPos tmp;
 
@@ -752,13 +770,13 @@ xml_sax_sheet_layout (GsfXMLIn *gsf_state, xmlChar const **attrs)
 				sheet_get_view (state->sheet, state->wb_view),
 				tmp.col, tmp.row);
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 }
 
 static void
-xml_sax_sheet_freezepanes (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_sheet_freezepanes (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	GnmCellPos frozen_tl, unfrozen_tl;
 	int flags = 0;
@@ -769,7 +787,7 @@ xml_sax_sheet_freezepanes (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_cellpos (attrs, "UnfrozenTopLeft", &unfrozen_tl))
 			flags |= 2;
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 
 	if (flags == 3)
 		sv_freeze_panes (sheet_get_view (state->sheet, state->wb_view),
@@ -777,12 +795,12 @@ xml_sax_sheet_freezepanes (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_cols_rows (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_cols_rows (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	double def_size;
-	gboolean const is_col = gsf_state->node->user_data.v_bool;
+	gboolean const is_col = xin->node->user_data.v_bool;
 
 	g_return_if_fail (state->sheet != NULL);
 
@@ -796,20 +814,20 @@ xml_sax_cols_rows (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	ColRowInfo *cri = NULL;
 	double size = -1.;
 	int pos, val;
 	int count = 1;
-	gboolean const is_col = gsf_state->node->user_data.v_bool;
+	gboolean const is_col = xin->node->user_data.v_bool;
 
 	g_return_if_fail (state->sheet != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_int (attrs, "No", &pos)) {
+		if (gnm_xml_attr_int (attrs, "No", &pos)) {
 			g_return_if_fail (cri == NULL);
 
 			cri = is_col
@@ -819,21 +837,21 @@ xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			g_return_if_fail (cri != NULL);
 
 			if (gnm_xml_attr_double (attrs, "Unit", &size)) ;
-			else if (xml_sax_attr_int (attrs, "Count", &count)) ;
-			else if (xml_sax_attr_int (attrs, "HardSize", &val))
+			else if (gnm_xml_attr_int (attrs, "Count", &count)) ;
+			else if (gnm_xml_attr_int (attrs, "HardSize", &val))
 				cri->hard_size = val;
-			else if (xml_sax_attr_int (attrs, "Hidden", &val))
+			else if (gnm_xml_attr_int (attrs, "Hidden", &val))
 				cri->visible = !val;
-			else if (xml_sax_attr_int (attrs, "Collapsed", &val))
+			else if (gnm_xml_attr_int (attrs, "Collapsed", &val))
 				cri->is_collapsed = val;
-			else if (xml_sax_attr_int (attrs, "OutlineLevel", &val))
+			else if (gnm_xml_attr_int (attrs, "OutlineLevel", &val))
 				cri->outline_level = val;
-			else if (xml_sax_attr_int (attrs, "MarginA", &val))
+			else if (gnm_xml_attr_int (attrs, "MarginA", &val))
 				; /* deprecated in 1.7.1 */
-			else if (xml_sax_attr_int (attrs, "MarginB", &val))
+			else if (gnm_xml_attr_int (attrs, "MarginB", &val))
 				; /* deprecated in 1.7.1 */
 			else
-				unknown_attr (gsf_state, attrs);
+				unknown_attr (xin, attrs);
 		}
 	}
 
@@ -857,9 +875,9 @@ xml_sax_colrow (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_style_region_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_style_region_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
@@ -873,9 +891,9 @@ xml_sax_style_region_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_style_region_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	g_return_if_fail (state->style_range_init);
 	g_return_if_fail (state->style != NULL);
@@ -888,9 +906,9 @@ xml_sax_style_region_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_styleregion_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	int val;
 	GnmColor *colour;
@@ -898,29 +916,29 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_int (attrs, "HAlign", &val))
+		if (gnm_xml_attr_int (attrs, "HAlign", &val))
 			gnm_style_set_align_h (state->style, val);
-		else if (xml_sax_attr_int (attrs, "VAlign", &val))
+		else if (gnm_xml_attr_int (attrs, "VAlign", &val))
 			gnm_style_set_align_v (state->style, val);
 
 		/* Pre version V6 */
-		else if (xml_sax_attr_int (attrs, "Fit", &val))
+		else if (gnm_xml_attr_int (attrs, "Fit", &val))
 			gnm_style_set_wrap_text (state->style, val);
 
-		else if (xml_sax_attr_int (attrs, "WrapText", &val))
+		else if (gnm_xml_attr_int (attrs, "WrapText", &val))
 			gnm_style_set_wrap_text (state->style, val);
 		else if (xml_sax_attr_bool (attrs, "ShrinkToFit", &val))
 			gnm_style_set_shrink_to_fit (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Rotation", &val)) {
+		else if (gnm_xml_attr_int (attrs, "Rotation", &val)) {
 			/* Work around a bug pre 1.5.1 that would allow
 			 * negative rotations.  -1 == vertical, map everything
 			 * else back onto 0..359 */
 			if (val < -1)
 				val += 360;
 			gnm_style_set_rotation (state->style, val);
-		} else if (xml_sax_attr_int (attrs, "Shade", &val))
+		} else if (gnm_xml_attr_int (attrs, "Shade", &val))
 			gnm_style_set_pattern (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Indent", &val))
+		else if (gnm_xml_attr_int (attrs, "Indent", &val))
 			gnm_style_set_indent (state->style, val);
 		else if (xml_sax_attr_color (attrs, "Fore", &colour))
 			gnm_style_set_font_color (state->style, colour);
@@ -930,21 +948,21 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			gnm_style_set_pattern_color (state->style, colour);
 		else if (!strcmp (attrs[0], "Format"))
 			gnm_style_set_format_text (state->style, (char *)attrs[1]);
-		else if (xml_sax_attr_int (attrs, "Hidden", &val))
+		else if (gnm_xml_attr_int (attrs, "Hidden", &val))
 			gnm_style_set_contents_hidden (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Locked", &val))
+		else if (gnm_xml_attr_int (attrs, "Locked", &val))
 			gnm_style_set_contents_locked (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Orient", &val))
+		else if (gnm_xml_attr_int (attrs, "Orient", &val))
 			; /* ignore old useless attribute */
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 }
 
 static void
-xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_styleregion_font (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	double size_pts = 10.;
 	int val;
@@ -954,15 +972,15 @@ xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_double (attrs, "Unit", &size_pts))
 			gnm_style_set_font_size (state->style, size_pts);
-		else if (xml_sax_attr_int (attrs, "Bold", &val))
+		else if (gnm_xml_attr_int (attrs, "Bold", &val))
 			gnm_style_set_font_bold (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Italic", &val))
+		else if (gnm_xml_attr_int (attrs, "Italic", &val))
 			gnm_style_set_font_italic (state->style, val);
-		else if (xml_sax_attr_int (attrs, "Underline", &val))
+		else if (gnm_xml_attr_int (attrs, "Underline", &val))
 			gnm_style_set_font_uline (state->style, (GnmUnderline)val);
-		else if (xml_sax_attr_int (attrs, "StrikeThrough", &val))
+		else if (gnm_xml_attr_int (attrs, "StrikeThrough", &val))
 			gnm_style_set_font_strike (state->style, val ? TRUE : FALSE);
-		else if (xml_sax_attr_int (attrs, "Script", &val)) {
+		else if (gnm_xml_attr_int (attrs, "Script", &val)) {
 			if (val == 0)
 				gnm_style_set_font_script (state->style, GO_FONT_SCRIPT_STANDARD);
 			else if (val < 0)
@@ -970,7 +988,7 @@ xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			else
 				gnm_style_set_font_script (state->style, GO_FONT_SCRIPT_SUPER);
 		} else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 }
 
@@ -1021,12 +1039,12 @@ style_font_read_from_x11 (GnmStyle *mstyle, char const *fontname)
 }
 
 static void
-xml_sax_styleregion_font_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_styleregion_font_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	if (gsf_state->content->len > 0) {
-		char const * content = gsf_state->content->str;
+	if (xin->content->len > 0) {
+		char const * content = xin->content->str;
 		if (*content == '-')
 			style_font_read_from_x11 (state->style, content);
 		else
@@ -1035,9 +1053,9 @@ xml_sax_styleregion_font_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blo
 }
 
 static void
-xml_sax_validation (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	int dummy;
 	gboolean b_dummy;
@@ -1054,11 +1072,11 @@ xml_sax_validation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	state->validation.use_dropdown = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_int (attrs, "Style", &dummy)) {
+		if (gnm_xml_attr_int (attrs, "Style", &dummy)) {
 			state->validation.style = dummy;
-		} else if (xml_sax_attr_int (attrs, "Type", &dummy)) {
+		} else if (gnm_xml_attr_int (attrs, "Type", &dummy)) {
 			state->validation.type = dummy;
-		} else if (xml_sax_attr_int (attrs, "Operator", &dummy)) {
+		} else if (gnm_xml_attr_int (attrs, "Operator", &dummy)) {
 			state->validation.op = dummy;
 		} else if (!strcmp (attrs[0], "Title")) {
 			state->validation.title = g_strdup ((gchar *)attrs[1]);
@@ -1069,14 +1087,14 @@ xml_sax_validation (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		} else if (xml_sax_attr_bool (attrs, "UseDropdown", &b_dummy)) {
 			state->validation.use_dropdown = b_dummy;
 		} else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 }
 
 static void
-xml_sax_validation_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_validation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	g_return_if_fail (state->style != NULL);
 
@@ -1099,17 +1117,17 @@ xml_sax_validation_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_validation_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_validation_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	int const i = gsf_state->node->user_data.v_int;
+	int const i = xin->node->user_data.v_int;
 	GnmExprTop const *texpr;
 	GnmParsePos pos;
 
 	g_return_if_fail (state->validation.texpr[i] == NULL);
 
-	texpr = gnm_expr_parse_str_simple (gsf_state->content->str,
+	texpr = gnm_expr_parse_str_simple (xin->content->str,
 		parse_pos_init_sheet (&pos, state->sheet));
 
 	g_return_if_fail (texpr != NULL);
@@ -1118,9 +1136,9 @@ xml_sax_validation_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob
 }
 
 static void
-xml_sax_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	int dummy;
 
@@ -1129,16 +1147,16 @@ xml_sax_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	state->cond.op = GNM_STYLE_COND_CUSTOM;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_int (attrs, "Operator", &dummy))
+		if (gnm_xml_attr_int (attrs, "Operator", &dummy))
 			state->cond.op = dummy;
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 }
 
 static void
-xml_sax_condition_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	GnmStyleConditions *sc;
 
 	g_return_if_fail (state->style != NULL);
@@ -1153,17 +1171,17 @@ xml_sax_condition_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_condition_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	int const i = gsf_state->node->user_data.v_int;
+	int const i = xin->node->user_data.v_int;
 	GnmExprTop const *texpr;
 	GnmParsePos pos;
 
 	g_return_if_fail (state->cond.texpr[i] == NULL);
 
-	texpr = gnm_expr_parse_str_simple (gsf_state->content->str,
+	texpr = gnm_expr_parse_str_simple (xin->content->str,
 		parse_pos_init_sheet (&pos, state->sheet));
 
 	g_return_if_fail (texpr != NULL);
@@ -1172,9 +1190,9 @@ xml_sax_condition_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_hlink (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	char *type = NULL;
 	char *target = NULL;
 	char *tip = NULL;
@@ -1189,7 +1207,7 @@ xml_sax_hlink (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (!strcmp (attrs[0], "tip"))
 			target = g_strdup ((gchar *)attrs[1]);
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 
 	if (NULL != type && NULL != target) {
@@ -1206,9 +1224,9 @@ xml_sax_hlink (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_input_msg (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_input_msg (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	char *title = NULL;
 	char *msg = NULL;
 
@@ -1220,7 +1238,7 @@ xml_sax_input_msg (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (!strcmp (attrs[0], "Message"))
 			msg = g_strdup ((gchar *)attrs[1]);
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 
 	if (NULL != title || NULL != msg)
@@ -1231,9 +1249,9 @@ xml_sax_input_msg (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_style_region_borders (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	int pattern = -1;
 	GnmColor *colour = NULL;
@@ -1243,13 +1261,13 @@ xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	/* Colour is optional */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml_sax_attr_color (attrs, "Color", &colour)) ;
-		else if (xml_sax_attr_int (attrs, "Style", &pattern)) ;
+		else if (gnm_xml_attr_int (attrs, "Style", &pattern)) ;
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 
 	if (pattern >= GNM_STYLE_BORDER_NONE) {
-		GnmStyleElement const type = gsf_state->node->user_data.v_int;
+		GnmStyleElement const type = xin->node->user_data.v_int;
 		GnmStyleBorderLocation const loc =
 			GNM_STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
 		GnmBorder *border =
@@ -1260,9 +1278,9 @@ xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
@@ -1278,16 +1296,16 @@ xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->value_type == -1);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_int (attrs, "Col", &col)) ;
-		else if (xml_sax_attr_int (attrs, "Row", &row)) ;
-		else if (xml_sax_attr_int (attrs, "Cols", &cols)) ;
-		else if (xml_sax_attr_int (attrs, "Rows", &rows)) ;
-		else if (xml_sax_attr_int (attrs, "ExprID", &expr_id)) ;
-		else if (xml_sax_attr_int (attrs, "ValueType", &value_type)) ;
+		if (gnm_xml_attr_int (attrs, "Col", &col)) ;
+		else if (gnm_xml_attr_int (attrs, "Row", &row)) ;
+		else if (gnm_xml_attr_int (attrs, "Cols", &cols)) ;
+		else if (gnm_xml_attr_int (attrs, "Rows", &rows)) ;
+		else if (gnm_xml_attr_int (attrs, "ExprID", &expr_id)) ;
+		else if (gnm_xml_attr_int (attrs, "ValueType", &value_type)) ;
 		else if (!strcmp (attrs[0], "ValueFormat"))
 			value_fmt = go_format_new_from_XL ((char *)attrs[1], FALSE);
 		else
-			unknown_attr (gsf_state, attrs);
+			unknown_attr (xin, attrs);
 	}
 
 	g_return_if_fail (col >= 0);
@@ -1381,9 +1399,9 @@ xml_not_used_old_array_spec (GnmCell *cell, char const *content)
 }
 
 static void
-xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	gboolean is_new_cell, is_post_52_array = FALSE;
 	GnmCell *cell;
@@ -1415,8 +1433,8 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	is_post_52_array = (array_cols > 0) && (array_rows > 0);
 
-	if (gsf_state->content->len > 0) {
-		char const * content = gsf_state->content->str;
+	if (xin->content->len > 0) {
+		char const * content = xin->content->str;
 
 		if (is_post_52_array) {
 			g_return_if_fail (content[0] == '=');
@@ -1471,14 +1489,14 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_merge (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	GnmRange r;
-	g_return_if_fail (gsf_state->content->len > 0);
+	g_return_if_fail (xin->content->len > 0);
 
-	if (range_parse (&r, gsf_state->content->str))
+	if (range_parse (&r, xin->content->str))
 		gnm_sheet_merge_add (state->sheet, &r, FALSE,
 			GO_CMD_CONTEXT (state->context));
 }
@@ -1500,9 +1518,9 @@ xml_sax_filter_operator (XMLSaxParseState *state,
 }
 
 static void
-xml_sax_filter_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	xmlChar const *type = NULL;
 	xmlChar const *val0 = NULL;
 	xmlChar const *val1 = NULL;
@@ -1516,10 +1534,10 @@ xml_sax_filter_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
 		if (!strcmp (attrs[i], "Type"))   type  = attrs[i+1];
-		else if (xml_sax_attr_int (attrs+i, "Index", &cond_num)) ;
+		else if (gnm_xml_attr_int (attrs+i, "Index", &cond_num)) ;
 		else if (xml_sax_attr_bool (attrs, "Top", &top)) ;
 		else if (xml_sax_attr_bool (attrs, "Items", &items)) ;
-		else if (xml_sax_attr_int  (attrs, "Count", &bucket_count)) ;
+		else if (gnm_xml_attr_int  (attrs, "Count", &bucket_count)) ;
 		else if (xml_sax_attr_bool (attrs, "IsAnd", &is_and)) ;
 		else if (!strcmp (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i+1]);
 		else if (!strcmp (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i+1]);
@@ -1531,8 +1549,8 @@ xml_sax_filter_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		 */
 		else if (!strcmp (attrs[i], "ValueType0")) val0  = attrs[i+1];
 		else if (!strcmp (attrs[i], "ValueType1")) val1  = attrs[i+1];
-		else if (xml_sax_attr_int (attrs+i, "Value0", &tmp)) vtype0 = tmp;
-		else if (xml_sax_attr_int (attrs+i, "Value1", &tmp)) vtype1 = tmp;
+		else if (gnm_xml_attr_int (attrs+i, "Value0", &tmp)) vtype0 = tmp;
+		else if (gnm_xml_attr_int (attrs+i, "Value1", &tmp)) vtype1 = tmp;
 
 	if (NULL == type) {
 		gnm_io_warning (state->context, _("Missing filter type"));
@@ -1562,9 +1580,9 @@ xml_sax_filter_condition (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_filter_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_filter_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	GnmRange   r;
 	int i;
 
@@ -1578,17 +1596,17 @@ xml_sax_filter_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_filter_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_filter_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	state->filter = NULL;
 }
 
 static void
-xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
+xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
+		  char const *type_name, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
-	char const *type_name = gsf_state->node->name;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	int tmp_int, i;
 	SheetObject *so;
 	SheetObjectClass *klass;
@@ -1635,8 +1653,12 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		so = g_object_new (type, NULL);
 		if (so == NULL)
 			return;
-
 	}
+
+	g_return_if_fail (so != NULL);
+	klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
+	g_return_if_fail (klass != NULL);
+
 	state->so = so;
 
 	so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
@@ -1655,32 +1677,47 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 			for (count = 4; count-- > 0 ; )
 				so->anchor.type[count] = n[count];
-		} else if (xml_sax_attr_int (attrs+i, "Direction", &tmp_int))
+		} else if (gnm_xml_attr_int (attrs+i, "Direction", &tmp_int))
 			so->anchor.base.direction = tmp_int;
 #if 0 /* There may be extra attributes that are handled by the objects */
 		else
-			unknown_attr (gsf_state, attrs+i);
+			unknown_attr (xin, attrs+i);
 #endif
 	}
 
-	klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
-	if (klass->prep_sax_parser)
-		(klass->prep_sax_parser) (so, gsf_state, attrs);
+	if (NULL != klass->prep_sax_parser)
+		(klass->prep_sax_parser) (so, xin, attrs);
+	if (needs_cleanup) {
+		/* Put in something to get gnm_xml_finish_obj called */
+		static GsfXMLInNode const dtd[] = {
+		  GSF_XML_IN_NODE (STYLE, STYLE, -1, "", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE_END
+		};
+		static GsfXMLInDoc *doc = NULL;
+		if (NULL == doc)
+			doc = gsf_xml_in_doc_new (dtd, NULL);
+		gsf_xml_in_push_state (xin, doc, NULL,
+			(GsfXMLInExtDtor) gnm_xml_finish_obj, attrs);
+	}
 }
 
 static void
-xml_sax_object_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_object_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
-	sheet_object_set_sheet (state->so, state->sheet);
-	g_object_unref (state->so);
-	state->so = NULL;
+	char const *type_name = xin->node->name;
+	xml_sax_read_obj (xin, FALSE, type_name, attrs);
 }
 
 static void
-xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	gnm_xml_finish_obj (xin);
+}
+
+static void
+xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	GnmParseError  perr;
 	GnmParsePos    pos;
@@ -1734,14 +1771,14 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_named_expr_prop (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_named_expr_prop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	char const * content = gsf_state->content->str;
-	int const len = gsf_state->content->len;
+	char const * content = xin->content->str;
+	int const len = xin->content->len;
 
-	switch (gsf_state->node->user_data.v_int) {
+	switch (xin->node->user_data.v_int) {
 	case 0:
 		g_return_if_fail (state->name.name == NULL);
 		state->name.name = g_strndup (content, len);
@@ -1760,27 +1797,27 @@ xml_sax_named_expr_prop (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_orientation (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_orientation (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
 
 	pi = state->sheet->print_info;
-	pi->portrait_orientation = (strcmp (gsf_state->content->str, "portrait") == 0);
+	pi->portrait_orientation = (strcmp (xin->content->str, "portrait") == 0);
 }
 
 static void
-xml_sax_paper (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_paper (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
 
-	print_info_set_paper (state->sheet->print_info, gsf_state->content->str);
+	print_info_set_paper (state->sheet->print_info, xin->content->str);
 }
 
 /****************************************************************************/
@@ -1956,26 +1993,23 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
   { NULL }
 };
 
-#if 0
-I do not like this interface
-- We may want per node unknown handlers although I am not sure the space is worth the time
-- We need a link from the new nodes added to the plugin that supplied them
-
 static gboolean
-xml_sax_unknown (GsfXMLIn *state, xmlChar const *elem, xmlChar const **attrs)
+xml_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 {
-	g_return_val_if_fail (state != NULL, FALSE);
-	g_return_val_if_fail (state->doc != NULL, FALSE);
-	g_return_val_if_fail (state->node != NULL, FALSE);
+	g_return_val_if_fail (xin != NULL, FALSE);
+	g_return_val_if_fail (xin->doc != NULL, FALSE);
+	g_return_val_if_fail (xin->node != NULL, FALSE);
 
-	if (GNM == state->node->ns_id &&
-	    0 == strcmp (state->node->id, "SHEET_OBJECTS")) {
-		g_warning ("unknown : %s", state->node->name);
-		return TRUE;
+	if (GNM == xin->node->ns_id &&
+	    0 == strcmp (xin->node->id, "SHEET_OBJECTS")) {
+		xmlChar const *type_name = gsf_xml_in_check_ns (xin, elem, GNM);
+		if (type_name != NULL) {
+			xml_sax_read_obj (xin, TRUE, type_name, attrs);
+			return gnm_xml_in_cur_obj (xin) != NULL;
+		}
 	}
 	return FALSE;
 }
-#endif
 
 static GsfInput *
 maybe_gunzip (GsfInput *input)
@@ -2069,9 +2103,8 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
 	if (doc == NULL)
 		return;
-#if 0
-	gsf_xml_in_doc_set_unknown_handler (gnm_sax_in_doc, &xml_sax_unknown);
-#endif
+	gsf_xml_in_doc_set_unknown_handler (doc, &xml_sax_unknown);
+
 	/* init */
 	state.context = io_context;
 	state.wb_view = wb_view;

@@ -3,7 +3,7 @@
 /*
  * gnm-so-filled.c: Boxes, Ovals and Polygons
  *
- * Copyright (C) 2004-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -443,6 +443,8 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	GnmSOFilled const *sof = GNM_SO_FILLED (so);
 	gsf_xml_out_add_int	(output, "Type", sof->is_oval ? 102 : 101);
+
+	/* Old 1.0 and 1.2 */
 	gsf_xml_out_add_float   (output, "Width", sof->style->outline.width, 2);
 	gnm_xml_out_add_gocolor (output, "OutlineColor", sof->style->outline.color);
 	gnm_xml_out_add_gocolor (output, "FillColor",	 sof->style->fill.pattern.back);
@@ -452,6 +454,45 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	gsf_xml_out_start_element (output, "Style");
 	gog_persist_sax_save (GOG_PERSIST (sof->style), output);
 	gsf_xml_out_end_element (output); /* </Style> */
+}
+
+static void
+sof_sax_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetObject *so = gnm_xml_in_cur_obj (xin);
+	GnmSOFilled *sof = GNM_SO_FILLED (so);
+	gog_persist_prep_sax (GOG_PERSIST (sof->style), xin, attrs);
+}
+
+static void
+gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (STYLE, STYLE, -1, "Style",	GSF_XML_NO_CONTENT, &sof_sax_style, NULL),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc = NULL;
+	GnmSOFilled *sof = GNM_SO_FILLED (so);
+	double tmp;
+	int type;
+
+	if (NULL == doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0],  "Label"))
+			g_object_set (G_OBJECT (sof), "text", attrs[1], NULL);
+		else if (gnm_xml_attr_int     (attrs, "Type", &type))
+			sof->is_oval = (type == 102);
+
+		/* Old 1.0 and 1.2 */
+		else if (gnm_xml_attr_double  (attrs, "Width", &tmp))
+			sof->style->outline.width = tmp;
+		else if (0 == strcmp (attrs[0], "OutlineColor"))
+			go_color_from_str (attrs[1], &sof->style->outline.color);
+		else if (0 == strcmp (attrs[0], "FillColor"))
+			go_color_from_str (attrs[1], &sof->style->fill.pattern.back);
 }
 
 static void
@@ -560,6 +601,7 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property	= gnm_so_filled_get_property;
 	so_class->read_xml_dom		= gnm_so_filled_read_xml_dom;
 	so_class->write_xml_sax		= gnm_so_filled_write_xml_sax;
+	so_class->prep_sax_parser	= gnm_so_filled_prep_sax_parser;
 	so_class->copy			= gnm_so_filled_copy;
 	so_class->rubber_band_directly	= TRUE;
 	so_class->xml_export_name	= "SheetObjectFilled";

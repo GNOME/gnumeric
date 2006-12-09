@@ -114,12 +114,13 @@ static void
 gnm_validation_combo_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
-	gobject_class->finalize = gnm_validation_combo_finalize;
-	so_class->new_view	= gnm_validation_combo_foo_view_new;
-	so_class->read_xml_dom  = NULL;
-	so_class->write_xml_sax = NULL;
-	so_class->print         = NULL;
-	so_class->copy          = NULL;
+	gobject_class->finalize	= gnm_validation_combo_finalize;
+	so_class->new_view	  = gnm_validation_combo_foo_view_new;
+	so_class->read_xml_dom	  = NULL;
+	so_class->write_xml_sax	  = NULL;
+	so_class->prep_sax_parser = NULL;
+	so_class->print		  = NULL;
+	so_class->copy            = NULL;
 }
 
 typedef SheetObjectClass GnmValidationComboClass;

@@ -56,7 +56,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <math.h>
-
+#include <string.h>
 
 /****************************************************************************/
 
@@ -106,7 +106,7 @@ static GSF_CLASS_FULL (SOWidgetFooView, so_widget_foo_view,
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,			\
-		      fn_copy, fn_read_dom, fn_write_sax,				\
+		      fn_copy, fn_read_dom, fn_write_sax, fn_prep_sax_parser,		\
 	              fn_get_property, fn_set_property, class_init_code)		\
 static void										\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
@@ -123,6 +123,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
 	so_class->copy			= fn_copy;					\
 	so_class->read_xml_dom		= fn_read_dom;					\
 	so_class->write_xml_sax		= fn_write_sax;					\
+	so_class->prep_sax_parser	= fn_prep_sax_parser;				\
 	sow_class->create_widget     	= &sheet_widget_ ## n1 ## _create_widget;	\
         { class_init_code; }								\
 }											\
@@ -154,6 +155,28 @@ sax_write_dep (GsfXMLOut *output, GnmDependent const *dep, char const *id)
 		gsf_xml_out_add_cstr (output, id, val);
 		g_free (val);
 	}
+}
+
+static gboolean
+sax_read_dep (xmlChar const * const *attrs, char const *name,
+	      GnmDependent *dep, GsfXMLIn *xin)
+{
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], name))
+		return FALSE;
+
+	dep->sheet = NULL;
+	if (attrs[1] != NULL && *attrs[1] != '\0') {
+		GnmParsePos pp;
+		dep->texpr = gnm_expr_parse_str_simple (attrs[1],
+			parse_pos_init_sheet (&pp, gnm_xml_in_cur_sheet (xin)));
+	} else
+		dep->texpr = NULL;
+
+	return TRUE;
 }
 
 static void
@@ -271,6 +294,19 @@ sheet_widget_frame_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
+sheet_widget_frame_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "Label")) {
+			g_free (swf->label);
+			swf->label = g_strdup (attrs[1]);
+		}
+
+	return TRUE;
+}
+
+static gboolean
 sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *context,
 				 xmlNodePtr tree)
@@ -283,12 +319,12 @@ sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
 		return TRUE;
 	}
 
+	g_free (swf->label);
 	swf->label = g_strdup (label);
 	xmlFree (label);
 
 	return FALSE;
 }
-
 
 typedef struct {
   	GladeXML           *gui;
@@ -353,9 +389,10 @@ cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
 
   	text = gtk_entry_get_text(GTK_ENTRY(entry));
   	swc = state->swc;
-	g_free (swc->label);
 
+	g_free (swc->label);
 	swc->label = g_strdup (text);
+
   	for (ptr = swc->sow.realized_list; ptr != NULL; ptr = ptr->next) {
 		gtk_frame_set_label
 			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
@@ -430,6 +467,7 @@ SOW_MAKE_TYPE (frame, Frame,
 	       &sheet_widget_frame_copy,
 	       &sheet_widget_frame_read_xml_dom,
 	       &sheet_widget_frame_write_xml_sax,
+	       &sheet_widget_frame_prep_sax_parser,
 	       NULL,
 	       NULL,
 	       {})
@@ -501,6 +539,16 @@ sheet_widget_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	// FIXME: markup
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gsf_xml_out_add_cstr (output, "Label", swb->label);
+}
+
+static gboolean
+sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "Label"))
+			g_object_set (G_OBJECT (swb), "label", attrs[1], NULL);
+	return TRUE;
 }
 
 static gboolean
@@ -614,6 +662,7 @@ SOW_MAKE_TYPE (button, Button,
 	       sheet_widget_button_copy,
 	       sheet_widget_button_read_xml_dom,
 	       sheet_widget_button_write_xml_sax,
+	       sheet_widget_button_prep_sax_parser,
 	       sheet_widget_button_get_property,
 	       sheet_widget_button_set_property,
 	       {
@@ -998,6 +1047,32 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
+sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	double tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_double (attrs, "Min", &tmp))
+			swa->adjustment->lower = tmp;
+		else if (gnm_xml_attr_double (attrs, "Max", &tmp))
+			swa->adjustment->upper = tmp;  /* allow scrolling to max */
+		else if (gnm_xml_attr_double (attrs, "Inc", &tmp))
+			swa->adjustment->step_increment = tmp;
+		else if (gnm_xml_attr_double (attrs, "Page", &tmp))
+			swa->adjustment->page_increment = tmp;
+		else if (gnm_xml_attr_double (attrs, "Value", &tmp))
+			swa->adjustment->value = tmp;
+		else if (sax_read_dep (attrs, "Input", &swa->dep, xin))
+			;
+
+	swa->dep.flags = adjustment_get_dep_type ();
+	gtk_adjustment_changed	(swa->adjustment);
+
+	return TRUE;
+}
+
+static gboolean
 sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 				      XmlParseContext const *context,
 				      xmlNodePtr tree)
@@ -1059,6 +1134,7 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       &sheet_widget_adjustment_copy,
 	       &sheet_widget_adjustment_read_xml_dom,
 	       &sheet_widget_adjustment_write_xml_sax,
+	       &sheet_widget_adjustment_prep_sax_parser,
 	       NULL,
 	       NULL,
 	       {})
@@ -1592,6 +1668,22 @@ sheet_widget_checkbox_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
+sheet_widget_checkbox_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "Label")) {
+			g_free (swc->label);
+			swc->label = g_strdup (attrs[1]);
+		} else if (gnm_xml_attr_int (attrs, "Value", &swc->value))
+			;
+		else if (sax_read_dep (attrs, "Input", &swc->dep, xin))
+			;
+	return TRUE;
+}
+
+static gboolean
 sheet_widget_checkbox_read_xml_dom (SheetObject *so, char const *typename,
 				    XmlParseContext const *context,
 				    xmlNodePtr tree)
@@ -1653,6 +1745,7 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_copy,
 	       &sheet_widget_checkbox_read_xml_dom,
 	       &sheet_widget_checkbox_write_xml_sax,
+	       &sheet_widget_checkbox_prep_sax_parser,
 	       &sheet_widget_checkbox_get_property,
 	       &sheet_widget_checkbox_set_property,
 	       {
@@ -1878,6 +1971,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       NULL,
 	       NULL,
+	       NULL,
 	       &sheet_widget_radio_button_get_property,
 	       &sheet_widget_radio_button_set_property,
 	       {
@@ -2028,6 +2122,19 @@ sheet_widget_list_base_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static gboolean
+sheet_widget_list_base_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (sax_read_dep (attrs, "Content", &swl->content_dep, xin))
+			;
+		else if (sax_read_dep (attrs, "Output", &swl->output_dep, xin))
+			;
+	return TRUE;
+}
+
+static gboolean
 sheet_widget_list_base_read_xml_dom (SheetObject *so, char const *typename,
 				     XmlParseContext const *context,
 				     xmlNodePtr tree)
@@ -2057,6 +2164,7 @@ SOW_MAKE_TYPE (list_base, ListBase,
 	       NULL,
 	       &sheet_widget_list_base_read_xml_dom,
 	       &sheet_widget_list_base_write_xml_sax,
+	       &sheet_widget_list_base_prep_sax_parser,
 	       NULL,
 	       NULL,
 	       {})

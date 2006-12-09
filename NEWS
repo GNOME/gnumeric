@@ -3,6 +3,7 @@ Gnumeric 1.7.6
 Jody:
 	* Fix sax import of autofilters. [#383400]
 	* Fix autofilter lists with only 1 combo. [#383400]
+	* Implement sax import of sheet objects.
 
 Morten:
 	* Fix title problem.  [#382643]

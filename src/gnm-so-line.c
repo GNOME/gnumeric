@@ -407,6 +407,46 @@ gnm_so_line_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static void
+sol_sax_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetObject *so = gnm_xml_in_cur_obj (xin);
+	GnmSOLine *sol = GNM_SO_LINE (so);
+	gog_persist_prep_sax (GOG_PERSIST (sol->style), xin, attrs);
+}
+
+static void
+gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (STYLE, STYLE, -1, "Style",	GSF_XML_NO_CONTENT, &sol_sax_style, NULL),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc = NULL;
+	GnmSOLine *sol = GNM_SO_LINE (so);
+	double tmp, arrow_a = -1., arrow_b = -1., arrow_c = -1.;
+	int type;
+
+	if (NULL == doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		/* Old 1.0 and 1.2 */
+		if (gnm_xml_attr_double (attrs, "Width", &tmp))
+			sol->style->line.width = tmp;
+		else if (0 == strcmp (attrs[0], "FillColor"))
+			go_color_from_str (attrs[1], &sol->style->line.color);
+		else if (gnm_xml_attr_int (attrs, "Type", &type)) ;
+		else if (gnm_xml_attr_double (attrs, "ArrowShapeA", &arrow_a)) ;
+		else if (gnm_xml_attr_double (attrs, "ArrowShapeB", &arrow_b)) ;
+		else if (gnm_xml_attr_double (attrs, "ArrowShapeC", &arrow_c)) ;
+
+	/* 2 == arrow */
+	if (type == 2 && arrow_a >= 0. && arrow_b >= 0. && arrow_c >= 0.)
+		go_arrow_init (&sol->end_arrow, arrow_a, arrow_b, arrow_c);
+}
+
+static void
 gnm_so_line_copy (SheetObject *dst, SheetObject const *src)
 {
 	GnmSOLine const *sol = GNM_SO_LINE (src);
@@ -493,6 +533,7 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property	= gnm_so_line_get_property;
 	so_class->read_xml_dom		= gnm_so_line_read_xml_dom;
 	so_class->write_xml_sax		= gnm_so_line_write_xml_sax;
+	so_class->prep_sax_parser	= gnm_so_line_prep_sax_parser;
 	so_class->copy			= gnm_so_line_copy;
 	so_class->rubber_band_directly  = TRUE;
 	so_class->xml_export_name	= "SheetObjectGraphic";

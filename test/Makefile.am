@@ -8,6 +8,11 @@
 # 5xxx: Importers
 # 59xx:   Minor formats
 #
+# 6xxx: Exporters
+# 69xx:   Minor formats
+#
+# 7xxx: Features
+#
 # 8xxx: Runs with valgrind and similar tools.
 # 80xx:   Valgrind
 # 81xx:   Stuff from tools/
