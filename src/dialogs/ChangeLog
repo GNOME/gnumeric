@@ -1,3 +1,11 @@
+2006-12-09  Jody Goldberg <jody@gnome.org>
+
+	* dialog-col-row.c (cb_dialog_col_row_destroy) : fix signature from
+	  recent 'destroy' handler change.
+	(dialog_col_row) : Set dialog title rather than non-HIG frame title.
+
+	* colrow.glade : remove the frame.
+
 2006-12-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.5

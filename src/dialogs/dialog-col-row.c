@@ -1,10 +1,11 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * dialog-col-row.c:  group/ungroup dialog
  *
  * Author:
  *        Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
- * (c) Copyright 2002 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * (c) Copyright 2002-2006 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +50,7 @@ typedef struct {
 } ColRowState;
 
 static void
-cb_dialog_col_row_destroy (GtkObject *w, ColRowState *state)
+cb_dialog_col_row_destroy (ColRowState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL)
@@ -61,8 +62,7 @@ static void
 cb_dialog_col_row_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 				  ColRowState *state)
 {
-	gtk_widget_destroy (state->dialog);
-	return;
+    gtk_widget_destroy (state->dialog);
 }
 
 
@@ -76,9 +76,7 @@ cb_dialog_col_row_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 									      "cols"))),
 			 state->data);
 	gtk_widget_destroy (state->dialog);
-	return;
 }
-
 
 GtkWidget *
 dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
@@ -121,7 +119,7 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_col_row_destroy);
 
-	gtk_frame_set_label (GTK_FRAME (glade_xml_get_widget (state->gui, "frame")), operation);
+	gtk_window_set_title (GTK_WINDOW (state->dialog), operation);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
