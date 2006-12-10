@@ -6685,3 +6685,77 @@ cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet)
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }
+
+/******************************************************************/
+
+#define CMD_SO_SET_VALUE_TYPE (cmd_so_set_value_get_type ())
+#define CMD_SO_SET_VALUE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_VALUE_TYPE, CmdSOSetValue))
+
+typedef struct {
+	GnmCommand cmd;
+	GnmCellRef ref;
+	GnmValue *val;
+	GOUndo *undo;
+} CmdSOSetValue;
+
+MAKE_GNM_COMMAND (CmdSOSetValue, cmd_so_set_value, NULL);
+
+static gboolean
+cmd_so_set_value_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetValue *me = CMD_SO_SET_VALUE (cmd);
+	Sheet *sheet = me->ref.sheet;
+	GnmCell *cell = sheet_cell_fetch (sheet, me->ref.col, me->ref.row);
+
+	sheet_cell_set_value (cell, value_dup (me->val));
+	workbook_recalc (sheet->workbook);
+	sheet_update (sheet);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_so_set_value_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetValue *me = CMD_SO_SET_VALUE (cmd);
+
+	go_undo_undo (me->undo);
+
+	return FALSE;
+}
+
+static void
+cmd_so_set_value_finalize (GObject *cmd)
+{
+	CmdSOSetValue *me = CMD_SO_SET_VALUE (cmd);
+
+	value_release (me->val);
+	g_object_unref (me->undo);
+
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_set_value (WorkbookControl *wbc,
+		  const char *text,
+		  const GnmCellRef *pref,
+		  GnmValue *new_val)
+{
+	CmdSOSetValue *me;
+	GnmRange r;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+
+	r.start.col = r.end.col = pref->col;
+	r.start.row = r.end.row = pref->row;
+
+	me = g_object_new (CMD_SO_SET_VALUE_TYPE, NULL);
+	me->cmd.sheet = pref->sheet;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (text);
+	me->ref = *pref;
+	me->val = new_val;
+	me->undo = clipboard_copy_range_undo (pref->sheet, &r);
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}

@@ -150,4 +150,9 @@ gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
 gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 
+gboolean cmd_so_set_value (WorkbookControl *wbc,
+			   const char *text,
+			   const GnmCellRef *pref,
+			   GnmValue *new_val);
+
 #endif /* GNUMERIC_COMMANDS_H */

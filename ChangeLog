@@ -1,3 +1,12 @@
+2006-12-09  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (cb_checkbox_toggled): Make action
+	undoable.
+
+	* src/commands.c (cmd_so_set_value): New function.
+
+	* src/clipboard.c (clipboard_copy_range_undo): New function.
+
 2006-12-09  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-widget.c : Add sax parsers.

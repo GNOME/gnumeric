@@ -46,6 +46,7 @@
 #include "dialogs.h"
 #include "dialogs/help.h"
 #include "xml-io.h"
+#include "commands.h"
 
 #include <goffice/gtk/go-combo-text.h>
 #include <goffice/utils/go-libxml-extras.h>
@@ -1433,24 +1434,28 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 	sheet_widget_checkbox_set_active (swc);
 
 	if (sheet_widget_checkbox_get_ref (swc, &ref, TRUE) != NULL) {
-		gboolean const new_val = gtk_toggle_button_get_active (button);
-		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
-		sheet_cell_set_value (cell, value_new_bool (new_val));
-		workbook_recalc (ref.sheet->workbook);
-		sheet_update (ref.sheet);
+		WorkbookControl *wbc =
+			g_object_get_data (G_OBJECT (button), "wbc");
+		gboolean new_val = gtk_toggle_button_get_active (button);
+		cmd_so_set_value (wbc,
+				  _("Clicking checkbox"),
+				  &ref, value_new_bool (new_val));
 	}
 }
 
 static GtkWidget *
 sheet_widget_checkbox_create_widget (SheetObjectWidget *sow,
-				     G_GNUC_UNUSED SheetObjectViewContainer *container)
+				     SheetObjectViewContainer *container)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
+	WorkbookControl *wbc =
+		scg_wbc (((GnmPane *)container)->gcanvas->simple.scg);
 	GtkWidget *button;
 
 	g_return_val_if_fail (swc != NULL, NULL);
 
 	button = gtk_check_button_new_with_label (swc->label);
+	g_object_set_data (G_OBJECT (button), "wbc", wbc);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	g_signal_connect (G_OBJECT (button),
