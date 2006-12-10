@@ -575,10 +575,10 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 }
 
 static void
-cb_clipboard_copy_range_undo (GnmCellRegion *cr, GnmSheetRange *sr)
+cb_clipboard_copy_range_undo (GnmCellRegion *cr, GnmSheetRange *sr,
+			      GOCmdContext *cc)
 {
 	GnmPasteTarget pt;
-	GOCmdContext *cc = NULL;  /* FIXME */
 
 	clipboard_paste_region
 		(cr,
@@ -596,7 +596,7 @@ clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r)
 	GnmCellRegion *cr = clipboard_copy_range (sheet, r);
 	g_return_val_if_fail (cr != NULL, NULL);
 	return go_undo_binary_new (cr, gnm_sheet_range_new (sheet, r),
-				   (GFunc)cb_clipboard_copy_range_undo,
+				   (GOUndoBinaryFunc)cb_clipboard_copy_range_undo,
 				   (GFreeFunc)cellregion_unref,
 				   (GFreeFunc)g_free);
 }

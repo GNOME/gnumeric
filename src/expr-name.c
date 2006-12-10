@@ -911,7 +911,7 @@ expr_name_set_expr_undo_new (GnmNamedExpr *ne)
 	gnm_expr_top_ref (ne->texpr);
 
 	return go_undo_binary_new (ne, (gpointer)ne->texpr,
-				   (GFunc)expr_name_set_expr_ref,
+				   (GOUndoBinaryFunc)expr_name_set_expr_ref,
 				   (GFreeFunc)expr_name_unref,
 				   (GFreeFunc)gnm_expr_top_unref);
 }

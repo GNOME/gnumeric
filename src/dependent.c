@@ -201,7 +201,7 @@ gnm_dep_set_expr_undo_new (GnmDependent *dep)
 {
 	gnm_expr_top_ref (dep->texpr);
 	return go_undo_binary_new (dep, (gpointer)dep->texpr,
-				   (GFunc)gnm_dep_set_expr_undo_undo,
+				   (GOUndoBinaryFunc)gnm_dep_set_expr_undo_undo,
 				   NULL,
 				   (GFreeFunc)gnm_expr_top_unref);
 }
@@ -210,7 +210,7 @@ static GOUndo *
 gnm_dep_unlink_undo_new (GSList *deps)
 {
 	return go_undo_unary_new (deps,
-				  (GFreeFunc)dependents_link,
+				  (GOUndoUnaryFunc)dependents_link,
 				  (GFreeFunc)g_slist_free);
 }
 

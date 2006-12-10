@@ -6715,11 +6715,11 @@ cmd_so_set_value_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_so_set_value_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_so_set_value_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSOSetValue *me = CMD_SO_SET_VALUE (cmd);
 
-	go_undo_undo (me->undo);
+	go_undo_undo_with_data (me->undo, GO_CMD_CONTEXT (wbc));
 
 	return FALSE;
 }
