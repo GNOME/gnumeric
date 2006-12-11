@@ -1,3 +1,8 @@
+2006-12-11  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (log_put_color): Remove "inline" -- it's
+	pointless and triggers a gcc bug.  (gcc bug #30153)
+
 2006-12-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.5

@@ -11,6 +11,7 @@ Morten:
 	* Fix scaling and rtl orientation of comment marker.  [#381700]
 	* Set a saver after loading with the sax loader.
 	* Implement undo for sheet object widgets. [#384136]
+	* Work around a gcc bug.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.5

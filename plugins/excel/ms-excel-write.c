@@ -1500,7 +1500,7 @@ palette_color_to_int (ExcelPaletteEntry const *c)
 
 }
 
-inline static void
+static void
 log_put_color (guint c, gboolean was_added, gint index, char const *tmpl)
 {
 	d(2, if (was_added) fprintf (stderr, tmpl, index, c););
