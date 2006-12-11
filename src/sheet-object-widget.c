@@ -302,7 +302,7 @@ sheet_widget_frame_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	gsf_xml_out_add_cstr (output, "Label", swf->label);
 }
 
-static gboolean
+static void
 sheet_widget_frame_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
@@ -311,8 +311,6 @@ sheet_widget_frame_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar cons
 			g_free (swf->label);
 			swf->label = g_strdup (attrs[1]);
 		}
-
-	return TRUE;
 }
 
 static gboolean
@@ -550,14 +548,13 @@ sheet_widget_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	gsf_xml_out_add_cstr (output, "Label", swb->label);
 }
 
-static gboolean
+static void
 sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "Label"))
 			g_object_set (G_OBJECT (swb), "label", attrs[1], NULL);
-	return TRUE;
 }
 
 static gboolean
@@ -754,12 +751,6 @@ sheet_widget_adjustment_get_ref (SheetWidgetAdjustment const *swa,
 	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swa));
 	return res;
-}
-
-static void
-cb_adjustment_value_changed (GtkAdjustment *adjustment,
-			     SheetWidgetAdjustment *swa)
-{
 }
 
 static void
@@ -1058,7 +1049,7 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	sax_write_dep (output, &swa->dep, "Input");
 }
 
-static gboolean
+static void
 sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
@@ -1080,8 +1071,6 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar
 
 	swa->dep.flags = adjustment_get_dep_type ();
 	gtk_adjustment_changed	(swa->adjustment);
-
-	return TRUE;
 }
 
 static gboolean
@@ -1687,7 +1676,7 @@ sheet_widget_checkbox_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	sax_write_dep (output, &swc->dep, "Input");
 }
 
-static gboolean
+static void
 sheet_widget_checkbox_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
@@ -1697,10 +1686,9 @@ sheet_widget_checkbox_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar c
 			g_free (swc->label);
 			swc->label = g_strdup (attrs[1]);
 		} else if (gnm_xml_attr_int (attrs, "Value", &swc->value))
-			;
+			; /* ??? */
 		else if (sax_read_dep (attrs, "Input", &swc->dep, xin))
-			;
-	return TRUE;
+			; /* ??? */
 }
 
 static gboolean
@@ -2141,17 +2129,16 @@ sheet_widget_list_base_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	sax_write_dep (output, &swl->output_dep, "Output");
 }
 
-static gboolean
+static void
 sheet_widget_list_base_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (sax_read_dep (attrs, "Content", &swl->content_dep, xin))
-			;
+			; /* ??? */
 		else if (sax_read_dep (attrs, "Output", &swl->output_dep, xin))
-			;
-	return TRUE;
+			; /* ??? */
 }
 
 static gboolean
