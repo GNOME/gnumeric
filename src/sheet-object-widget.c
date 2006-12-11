@@ -241,6 +241,14 @@ static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 		  sheet_object_widget_class_init,
 		  sheet_object_widget_init,
 		  SHEET_OBJECT_TYPE);
+
+static WorkbookControl *
+widget_wbc (GtkWidget *widget)
+{
+	return scg_wbc (GNM_SIMPLE_CANVAS (widget->parent)->scg);
+}
+
+
 /****************************************************************************/
 #define SHEET_WIDGET_FRAME_TYPE     (sheet_widget_frame_get_type ())
 #define SHEET_WIDGET_FRAME(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_FRAME_TYPE, SheetWidgetFrame))
@@ -562,7 +570,7 @@ sheet_widget_button_read_xml_dom (SheetObject *so, char const *typename,
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
-		g_warning ("Could not read a SheetWidgetButton beacause it lacks a label property.");
+		g_warning ("Could not read a SheetWidgetButton because it lacks a label property.");
 		return TRUE;
 	}
 
@@ -752,6 +760,12 @@ static void
 cb_adjustment_value_changed (GtkAdjustment *adjustment,
 			     SheetWidgetAdjustment *swa)
 {
+}
+
+static void
+cb_adjustment_widget_value_changed (GtkWidget *widget,
+				    SheetWidgetAdjustment *swa)
+{
 	GnmCellRef ref;
 
 	if (swa->being_updated)
@@ -767,10 +781,9 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 			return;
 
 		swa->being_updated = TRUE;
-		sheet_cell_set_value (cell, value_new_int (new_val));
-
-		workbook_recalc (ref.sheet->workbook);
-		sheet_update (ref.sheet);
+		cmd_so_set_value (widget_wbc (widget),
+				  _("Change adjustment"),
+				  &ref, value_new_int (new_val));
 		swa->being_updated = FALSE;
 	}
 }
@@ -794,9 +807,6 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, GnmCellRef const 
 	swa->dep.texpr = (ref != NULL)
 		? gnm_expr_top_new (gnm_expr_new_cellref (ref))
 		: NULL;
-	g_signal_connect (G_OBJECT (swa->adjustment),
-		"value_changed",
-		G_CALLBACK (cb_adjustment_value_changed), swa);
 }
 
 static void
@@ -1157,7 +1167,7 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow,
 	GtkWidget *bar;
 
 	/* TODO : this is not exactly accurate, but should catch the worst of it
-	 * Howver we do not have a way to handle resizes.
+	 * However we do not have a way to handle resizes.
 	 */
 	gboolean is_horizontal = range_width (&so->anchor.cell_bound) > range_height (&so->anchor.cell_bound);
 
@@ -1166,6 +1176,9 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow,
 		? gtk_hscrollbar_new (swa->adjustment)
 		: gtk_vscrollbar_new (swa->adjustment);
 	GTK_WIDGET_UNSET_FLAGS (bar, GTK_CAN_FOCUS);
+	g_signal_connect (G_OBJECT (bar),
+		"value_changed",
+		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
 	swa->being_updated = FALSE;
 
 	return bar;
@@ -1200,6 +1213,9 @@ sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow,
 	spinbutton = gtk_spin_button_new (swa->adjustment,
 		swa->adjustment->step_increment, 0);
 	GTK_WIDGET_UNSET_FLAGS (spinbutton, GTK_CAN_FOCUS);
+	g_signal_connect (G_OBJECT (spinbutton),
+		"value_changed",
+		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
 	swa->being_updated = FALSE;
 	return spinbutton;
 }
@@ -1230,7 +1246,7 @@ sheet_widget_slider_create_widget (SheetObjectWidget *sow,
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (sow);
 	GtkWidget *slider;
 	/* TODO : this is not exactly accurate, but should catch the worst of it
-	 * Howver we do not have a way to handle resizes.
+	 * However we do not have a way to handle resizes.
 	 */
 	gboolean is_horizontal = range_width (&so->anchor.cell_bound) > range_height (&so->anchor.cell_bound);
 
@@ -1240,6 +1256,9 @@ sheet_widget_slider_create_widget (SheetObjectWidget *sow,
 		: gtk_vscale_new (swa->adjustment);
 	gtk_scale_set_draw_value (GTK_SCALE (slider), FALSE);
 	GTK_WIDGET_UNSET_FLAGS (slider, GTK_CAN_FOCUS);
+	g_signal_connect (G_OBJECT (slider),
+		"value_changed",
+		G_CALLBACK (cb_adjustment_widget_value_changed), swa);
 	swa->being_updated = FALSE;
 
 	return slider;
@@ -1434,10 +1453,8 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 	sheet_widget_checkbox_set_active (swc);
 
 	if (sheet_widget_checkbox_get_ref (swc, &ref, TRUE) != NULL) {
-		WorkbookControl *wbc =
-			g_object_get_data (G_OBJECT (button), "wbc");
 		gboolean new_val = gtk_toggle_button_get_active (button);
-		cmd_so_set_value (wbc,
+		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  _("Clicking checkbox"),
 				  &ref, value_new_bool (new_val));
 	}
@@ -1448,14 +1465,11 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow,
 				     SheetObjectViewContainer *container)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
-	WorkbookControl *wbc =
-		scg_wbc (((GnmPane *)container)->gcanvas->simple.scg);
 	GtkWidget *button;
 
 	g_return_val_if_fail (swc != NULL, NULL);
 
 	button = gtk_check_button_new_with_label (swc->label);
-	g_object_set_data (G_OBJECT (button), "wbc", wbc);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	g_signal_connect (G_OBJECT (button),
