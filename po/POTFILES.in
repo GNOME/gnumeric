@@ -223,6 +223,7 @@ src/dialogs/variance-tests.glade
 src/dialogs/view.glade
 src/dialogs/workbook-attr.glade
 src/tools/analysis-tools.c
+src/tools/analysis-histogram.c
 src/tools/dao.c
 src/tools/fill-series.c
 src/tools/random-generator.c
