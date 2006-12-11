@@ -219,10 +219,11 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 
-	if (v != NULL) {
-		w = glade_xml_get_widget (state->gui, val_widget);
+	w = glade_xml_get_widget (state->gui, val_widget);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog), w);
+	if (v != NULL)
 		gtk_entry_set_text (GTK_ENTRY (w), content ? content : str);
-	}
+
 	g_free (content);
 }
 
@@ -262,6 +263,7 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 			G_CALLBACK (cb_top10_type_changed), state);
 	}
 
+	state->dialog = glade_xml_get_widget (state->gui, "dialog");
 	if (cond != NULL) {
 		GnmFilterOp const op = cond->op[0];
 		if (is_expr && 0 == (op & GNM_FILTER_OP_TYPE_MASK)) {
@@ -297,8 +299,6 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
 		}
 	}
-
-	state->dialog = glade_xml_get_widget (state->gui, "dialog");
 
 	w = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w),

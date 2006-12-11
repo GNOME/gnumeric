@@ -672,7 +672,7 @@ Short Term Goals
     21.17) Link filters to Show All menu			(DONE)
     21.18) Have the show all action clear filter conditions	(DONE)
     21.19) Change value entries in expr dialog into combos
-    21.20) editable enters for expr dialog value entries
+    21.20) editable enters for expr dialog value entries	(DONE)
     21.21) 2nd value in expr dialog only if 1st is active
     21.22) drag scroll for value combos				(DONE)
     21.23) undo/redo for creation
@@ -721,7 +721,8 @@ Short Term Goals
     21.48) Duplication for sheet copy				(DONE)
     21.49) http://bugzilla.gnome.org/show_bug.cgi?id=322389
     21.50) http://bugzilla.gnome.org/show_bug.cgi?id=346002
-    22.51) Clipboard
+    21.51) http://bugzilla.gnome.org/show_bug.cgi?id=383400
+    22.52) Clipboard ?? do we want this ?
 
 22) Validate from List
     22.1) Implement						(DONE)
