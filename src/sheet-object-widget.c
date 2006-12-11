@@ -782,7 +782,8 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 
 		swa->being_updated = TRUE;
 		cmd_so_set_value (widget_wbc (widget),
-				  _("Change adjustment"),
+				  /* FIXME: This text sucks:  */
+				  _("Change widget"),
 				  &ref, value_new_int (new_val));
 		swa->being_updated = FALSE;
 	}
