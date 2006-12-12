@@ -1,5 +1,12 @@
 2006-12-11  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-object-widget.c (sheet_widget_button_set_label,
+	sheet_widget_checkbox_set_label,
+	sheet_widget_radio_button_set_label): Use go_str_compare and
+	handle overlapping strings.
+
+2006-12-11  Morten Welinder  <terra@gnome.org>
+
 	* src/sheet-object-widget.c (cb_adjustment_value_changed): Make
 	action undoable.
 	(sheet_widget_adjustment_init_full): Don't set signal handler here

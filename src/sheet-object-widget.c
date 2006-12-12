@@ -50,6 +50,7 @@
 
 #include <goffice/gtk/go-combo-text.h>
 #include <goffice/utils/go-libxml-extras.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
@@ -378,7 +379,7 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 
 	g_free (swc->label);
 
-  	swc->label = g_strdup(state->old_label);
+  	swc->label = g_strdup (state->old_label);
   	for (ptr = swc->sow.realized_list; ptr != NULL ; ptr = ptr->next)
 		gtk_frame_set_label
 			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
@@ -388,7 +389,7 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 }
 
 static void
-cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
+cb_frame_label_changed (GtkWidget *entry, FrameConfigState *state)
 {
   	GList *ptr;
   	SheetWidgetFrame *swc;
@@ -582,12 +583,14 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 {
 	GList *ptr;
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
+	char *new_label;
 
-	if (str == swb->label)
+	if (go_str_compare (str, swb->label) == 0)
 		return;
 
+	new_label = g_strdup (str);
 	g_free (swb->label);
-	swb->label = g_strdup (str);
+	swb->label = new_label;
 
  	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
  		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
@@ -1557,15 +1560,15 @@ static void
 cb_checkbox_config_cancel_clicked (GtkWidget *button, CheckboxConfigState *state)
 {
 	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
-		state->old_label);
+					 state->old_label);
 	gtk_widget_destroy (state->dialog);
 }
 
 static void
-cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
+cb_checkbox_label_changed (GtkEntry *entry, CheckboxConfigState *state)
 {
 	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
-		gtk_entry_get_text (GTK_ENTRY (entry)));
+					 gtk_entry_get_text (entry));
 }
 
 static void
@@ -1732,12 +1735,14 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 {
 	GList *list;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+	char *new_label;
 
-	if (str == swc->label)
+	if (go_str_compare (str, swc->label) == 0)
 		return;
 
+	new_label = g_strdup (str);
 	g_free (swc->label);
-	swc->label = g_strdup (str);
+	swc->label = new_label;
 
  	list = swc->sow.realized_list;
  	for (; list != NULL; list = list->next) {
@@ -1910,12 +1915,14 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 {
 	GList *list;
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	char *new_label;
 
-	if (str == swrb->label)
+	if (go_str_compare (str, swrb->label) == 0)
 		return;
 
+	new_label = g_strdup (str);
 	g_free (swrb->label);
-	swrb->label = g_strdup (str);
+	swrb->label = new_label;
 
  	list = swrb->sow.realized_list;
  	for (; list != NULL; list = list->next) {
