@@ -1,6 +1,9 @@
 2006-12-12  Morten Welinder  <terra@gnome.org>
 
+	* t9000-ssindex.pl: New test.
+
 	* GnumericTest.pm: Turn on fatal_criticals.
+	(test_ssindex): New test helper for ssindex.
 
 2006-12-04  Jody Goldberg <jody@gnome.org>
 

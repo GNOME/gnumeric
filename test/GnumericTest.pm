@@ -3,17 +3,20 @@ use strict;
 use Exporter;
 use File::Basename qw(fileparse);
 use Config;
+use XML::Parser;
 
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_importer test_valgrind
-			   test_command message
+			   test_ssindex test_command message
 			   $ssconvert $topsrc $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
-use vars qw($topsrc $samples $ssconvert $PERL $verbose);
+use vars qw($topsrc $samples $ssconvert $ssindex $PERL $verbose);
 $topsrc = "..";
 $samples = "$topsrc/samples";
+# FIXME.  The binaries might not be in the source tree.
 $ssconvert = "$topsrc/src/ssconvert";
+$ssindex = "$topsrc/src/ssindex";
 $verbose = 0;
 $PERL = $Config{'perlpath'};
 $PERL .= $Config{'_exe'} if $^O ne 'VMS' && $PERL !~ m/$Config{'_exe'}$/i;
@@ -282,6 +285,64 @@ sub test_valgrind {
 
     &dump_indented ($txt);
     die "Fail\n";
+}
+
+# -----------------------------------------------------------------------------
+
+sub test_ssindex {
+    my ($file,$test) = @_;
+
+    my $xmlfile = fileparse ($file);
+    $xmlfile =~ s/\.[a-zA-Z0-9]+$/.xml/;
+    unlink $xmlfile;
+    die "Cannot remove $xmlfile.\n" if -f $xmlfile;
+    &junkfile ($xmlfile);
+
+    {
+	my $cmd = "$ssindex --index '$file'";
+	my $output = `$cmd 2>&1 >'$xmlfile'`;
+	my $err = $?;
+	&dump_indented ($output);
+	die "Failed command: $cmd\n" if $err;
+    }
+
+    my $parser = new XML::Parser ('Style' => 'Tree');
+    my $tree = $parser->parsefile ($xmlfile);
+    &removejunk ($xmlfile);
+
+    my @items;
+
+    die "$0: Invalid parse tree from ssindex.\n"
+	unless (ref ($tree) eq 'ARRAY' && $tree->[0] eq "gnumeric");
+    my @children = @{$tree->[1]};
+    my $attrs = shift @children;
+
+    while (@children) {
+	my $tag = shift @children;
+	my $content = shift @children;
+
+	if ($tag eq '0') {
+	    # A text node
+	    goto FAIL unless $content =~ /^\s*$/;
+	} elsif ($tag eq 'data') {
+	    my @dchildren = @$content;
+	    my $dattrs = shift @dchildren;
+	    die "$0: Unexpected attributes in data tag\n" if keys %$dattrs;
+	    die "$0: Unexpected data tag content.\n" if @dchildren != 2;
+	    die "$0: Unexpected data tag content.\n" if $dchildren[0] ne '0';
+	    my $data = $dchildren[1];
+	    push @items, $data;
+	} else {
+	    die "$0: Unexpected tag \"$tag\".\n";
+	}
+    }
+
+    local $_ = \@items;;
+    if (&$test ($_)) {
+	print STDERR "Pass\n";
+    } else {
+	die "Fail\n";
+    }
 }
 
 # -----------------------------------------------------------------------------

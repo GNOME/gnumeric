@@ -107,6 +107,7 @@ src/dialogs/dialog-view.c
 src/dialogs/dialog-workbook-attr.c
 src/dialogs/dialog-zoom.c
 src/tools/analysis-tools.c
+src/tools/analysis-histogram.c
 src/tools/dao.c
 src/tools/fill-series.c
 src/tools/random-generator.c

@@ -230,8 +230,8 @@ main (int argc, char **argv)
 	}
 
 	if (ssindex_show_version) {
-		g_print (_("ssindex version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
+		g_printerr (_("ssindex version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
+			    GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	} else if (!ssindex_run_indexer && !ssindex_list_mime_types) {
 		g_printerr (_("Usage: %s [OPTION...] %s\n"),
@@ -256,7 +256,6 @@ main (int argc, char **argv)
 		for (i = 1; i < argc; i++) {
 			char const *file = argv[i];
 			gnm_io_context_processing_file (ioc, file);
-			g_print ("-> %s\n", file);
 			res |= ssindex (file, ioc);
 		}
 		g_object_unref (ioc);

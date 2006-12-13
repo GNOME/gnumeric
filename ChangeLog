@@ -1,3 +1,12 @@
+2006-12-12  Morten Welinder  <terra@gnome.org>
+
+	* src/ssindex.c (main): Don't print debug stuff on stdout.  That's
+	where our output is supposed to go.
+
+	* configure.in (set_more_warnings): Turn on ssindex by default.
+	SuSE ships it and uses it, so we might as well start testing it
+	more.
+
 2006-12-11  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_button_set_label,
