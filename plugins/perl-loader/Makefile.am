@@ -11,7 +11,7 @@ xmldir = $(gnumeric_plugin_perl_loaderdir)
 gnumeric_plugin_perl_loader_LTLIBRARIES = perl_loader.la
 
 perl_loader_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS) $(PERL_LDDLFLAGS)
-perl_loader_la_LIBADD = $(PERL_LDOPTS)
+perl_loader_la_LIBADD = $(PERL_LDOPTS) $(GTK_LIBS)
 perl_loader_la_SOURCES = \
 	boot.c \
 	perl-loader.c \
@@ -28,10 +28,6 @@ dist_noinst_SCRIPTS=perl-cc-wrapper
 COMPILE=$(PERL) $(srcdir)/perl-cc-wrapper $(PERL_CC) $(PERL_CCOPTS) \
 	$(PERL_CCCDLFLAGS) $(AM_CPPFLAGS) --sanitize=1 $(GNUMERIC_CFLAGS)
 LTCOMPILE=$(LIBTOOL) --tag=CC --mode=compile $(COMPILE)
-
-# This doesn't actually work.  Someone who needs it will have to figure
-# things out.
-# LINK=$(LIBTOOL) --mode=link $(PERL_LD) $(PERL_LDDLFLAGS) $(PERL_LDOPTS) -o $@
 
 xsinit.c:
 	$(PERL) -MExtUtils::Embed -e xsinit -- -o xsinit.c
