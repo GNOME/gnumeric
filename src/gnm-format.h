@@ -8,19 +8,22 @@
 char  *format_value	    (GOFormat const *format,
 			     GnmValue const *value, GOColor *go_color,
 			     double col_width, GODateConventions const *date_conv);
-void   format_value_gstring (GString *result,
-			     GOFormat const *format,
-			     GnmValue const *value, GOColor *go_color,
-			     double col_width,
-			     GODateConventions const *date_conv);
 
-void   gnm_format_layout    (PangoLayout *result,
-			     GOFontMetrics *metrics,
-			     GOFormat const *format,
-			     GnmValue const *value, GOColor *go_color,
-			     int col_width,
-			     GODateConventions const *date_conv,
-			     gboolean unicode_minus);
+GOFormatNumberError format_value_gstring (GString *result,
+					  GOFormat const *format,
+					  GnmValue const *value,
+					  GOColor *go_color,
+					  double col_width,
+					  GODateConventions const *date_conv);
+
+GOFormatNumberError gnm_format_layout    (PangoLayout *result,
+					  GOFontMetrics *metrics,
+					  GOFormat const *format,
+					  GnmValue const *value,
+					  GOColor *go_color,
+					  int col_width,
+					  GODateConventions const *date_conv,
+					  gboolean unicode_minus);
 
 /*
  * http://www.unicode.org/charts/PDF/U0080.pdf

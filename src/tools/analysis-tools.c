@@ -112,7 +112,7 @@ cb_store_data (GnmCellIter const *iter, gpointer user)
  *  @format: char*              format string for default label
  *  @i: guint                    index for default label
  */
-data_set_t *
+static data_set_t *
 new_data_set (GnmValue *range, gboolean ignore_non_num, gboolean read_label,
 	      char *format, gint i, Sheet* sheet)
 {

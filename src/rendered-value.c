@@ -347,6 +347,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		GnmFont *font = gnm_style_get_font (mstyle, context, zoom);
 		gboolean is_rotated = (rotation != 0);
 		gboolean variable;
+		GOFormatNumberError err;
 
 		if (go_format_is_general (format) && VALUE_FMT (cell->value))
 			format = VALUE_FMT (cell->value);
@@ -358,6 +359,8 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 			variable = !is_rotated && VALUE_IS_FLOAT (cell->value);
 		else
 			variable = !is_rotated && go_format_is_var_width (format);
+
+	retry:
 		if (variable)
 			res->variable_width = TRUE;
 
@@ -379,8 +382,14 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 			col_width = col_width_pixels * PANGO_SCALE;
 		}
 
-		gnm_format_layout (layout, font->go.metrics, format, cell->value,
-				   &fore, col_width, date_conv, TRUE);
+		err = gnm_format_layout (layout, font->go.metrics, format,
+					 cell->value,
+					 &fore, col_width, date_conv, TRUE);
+
+		if (err && !variable) {
+			variable = TRUE;
+			goto retry;
+		}
 	}
 
 	/* ---------------------------------------- */

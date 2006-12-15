@@ -1,3 +1,7 @@
+2006-12-14  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_text): Handle errors from formatting.
+
 2006-12-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.5

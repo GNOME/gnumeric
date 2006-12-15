@@ -28,6 +28,7 @@
 #include "value.h"
 
 #include <goffice/utils/format-impl.h>
+#include <goffice/utils/go-font.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -164,7 +165,23 @@ format_value (GOFormat const *format, GnmValue const *value, GOColor *go_color,
 	return g_string_free (result, FALSE);
 }
 
-void
+static void
+hash_fill (PangoLayout *result, GOFontMetrics *metrics, int col_width)
+{
+	if (col_width <= 0)
+		pango_layout_set_text (result, "", -1);
+	else if (metrics->hash_width > 0) {
+		int l = col_width / metrics->hash_width;
+		char *s = g_new (char, l + 1);
+		memset (s, '#', l);
+		s[l] = 0;
+		pango_layout_set_text (result, s, -1);
+		g_free (s);
+	} else
+		pango_layout_set_text (result, "#", -1);
+}
+
+GOFormatNumberError
 gnm_format_layout (PangoLayout *result,
 		   GOFontMetrics *metrics,
 		   GOFormat const *format,
@@ -176,7 +193,7 @@ gnm_format_layout (PangoLayout *result,
 	GOFormatElement const *entry;
 	gboolean need_abs, empty;
 
-	g_return_if_fail (value != NULL);
+	g_return_val_if_fail (value != NULL, (GOFormatNumberError)-1);
 
 	if (!format)
 		format = VALUE_FMT (value);
@@ -191,7 +208,7 @@ gnm_format_layout (PangoLayout *result,
 	/* Empty formats should be ignored */
 	if (empty) {
 		pango_layout_set_text (result, "", 0);
-		return;
+		return GO_FORMAT_NUMBER_OK;
 	}
 
 	if (VALUE_IS_FLOAT (value)) {
@@ -199,7 +216,7 @@ gnm_format_layout (PangoLayout *result,
 
 		if (!gnm_finite (val)) {
 			pango_layout_set_text (result, value_error_name (GNM_ERROR_VALUE, TRUE), -1);
-			return;
+			return GO_FORMAT_NUMBER_OK;
 		}
 
 		if (need_abs)
@@ -214,12 +231,29 @@ gnm_format_layout (PangoLayout *result,
 		} else {
 			GString *str = g_string_sized_new (100);
 			/* FIXME: -1 kills filling here.  */
-			gnm_format_number (str, val, -1, entry, date_conv, unicode_minus);
-			pango_layout_set_text (result, str->str, str->len);
+			GOFormatNumberError err =
+				gnm_format_number (str, val, -1, entry,
+						   date_conv, unicode_minus);
+			switch (err) {
+			case GO_FORMAT_NUMBER_OK:
+				pango_layout_set_text (result, str->str, str->len);
+				break;
+			case GO_FORMAT_NUMBER_INVALID_FORMAT:
+				pango_layout_set_text (result, "", -1);
+				break;
+			case GO_FORMAT_NUMBER_DATE_ERROR:
+				hash_fill (result, metrics, col_width);
+				break;
+			default:
+				g_assert_not_reached ();
+			}
 			g_string_free (str, TRUE);
+			return err;
 		}
 	} else
 		pango_layout_set_text (result, format_nonnumber (value), -1);
+
+	return GO_FORMAT_NUMBER_OK;
 }
 
 /**
@@ -232,7 +266,7 @@ gnm_format_layout (PangoLayout *result,
  * @date_conv : #GODateConventions.
  *
  **/
-void
+GOFormatNumberError
 format_value_gstring (GString *str, GOFormat const *format,
 		      GnmValue const *value, GOColor *go_color,
 		      double col_width,
@@ -242,7 +276,7 @@ format_value_gstring (GString *str, GOFormat const *format,
 	gboolean need_abs, empty;
 	gboolean unicode_minus = FALSE;
 
-	g_return_if_fail (value != NULL);
+	g_return_val_if_fail (value != NULL, (GOFormatNumberError)-1);
 
 	if (format == NULL)
 		format = VALUE_FMT (value);
@@ -256,20 +290,34 @@ format_value_gstring (GString *str, GOFormat const *format,
 
 	/* Empty formats should be ignored */
 	if (empty)
-		return;
+		return GO_FORMAT_NUMBER_OK;
 
 	if (VALUE_IS_FLOAT (value)) {
+		GOFormatNumberError err;
+		size_t oldlen = str->len;
 		gnm_float val = value_get_as_float (value);
+
+		if (need_abs)
+			val = gnm_abs (val);
 
 		if (!gnm_finite (val)) {
 			g_string_append (str, value_error_name (GNM_ERROR_VALUE, TRUE));
-			return;
+			return GO_FORMAT_NUMBER_OK;
 		}
 
-		go_format_value_gstring (format, str, val,
-					 col_width, date_conv,
-					 unicode_minus);
+		err = go_format_value_gstring (format, str, val,
+					       col_width, date_conv,
+					       unicode_minus);
+		if (err) {
+			if (col_width < 0)
+				col_width = 0;
+			g_string_set_size (str, oldlen + col_width);
+			memset (str->str + oldlen, '#', col_width);
+			return err;
+		}
 	} else {
 		g_string_append (str, format_nonnumber (value));
 	}
+
+	return GO_FORMAT_NUMBER_OK;
 }

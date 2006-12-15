@@ -12,6 +12,7 @@ Morten:
 	* Set a saver after loading with the sax loader.
 	* Implement undo for sheet object widgets. [#384136]
 	* Work around a gcc bug.
+	* Improve number formatting.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.5
