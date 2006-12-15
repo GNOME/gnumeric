@@ -857,11 +857,14 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GString *str;
 	GOFormatNumberError err;
 
+	/* Why do we have to do these here?  */
 	if (VALUE_IS_STRING (v)) {
 		match = format_match (value_peek_string (v), NULL, conv);
 		if (match != NULL)
 			v = match;
-	}
+	} else if (VALUE_IS_EMPTY (v))
+		v = value_zero;
+
 	fmt = go_format_new_from_XL (value_peek_string (argv[1]), TRUE);
 	str = g_string_sized_new (80);
 	err = format_value_gstring (str, fmt, v, NULL, -1, conv);
