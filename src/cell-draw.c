@@ -56,12 +56,14 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 	int indent;
 	int hoffset;
 	int rect_x, rect_y;
+	gboolean was_drawn;
 
 	g_return_val_if_fail (rv != NULL, FALSE);
 
 	layout = rv->layout;
 	indent = (rv->indent_left + rv->indent_right) * PANGO_SCALE;
 
+	was_drawn = rv->drawn;
 	rv->drawn = TRUE;
 
 	if (width <= 0 || height <= 0)
@@ -88,6 +90,13 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 		pango_layout_set_text (layout, hashes,
 				       MIN (sizeof (hashes) - 1, 2 * textlen));
 		rv->numeric_overflow = TRUE;
+		rv->variable_width = TRUE;
+		rv->hfilled = TRUE;
+	}
+
+	/* Special handling of error dates.  */
+	if (!was_drawn && rv->numeric_overflow) {
+		pango_layout_set_text (layout, hashes, -1);
 		rv->variable_width = TRUE;
 		rv->hfilled = TRUE;
 	}

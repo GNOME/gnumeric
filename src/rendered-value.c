@@ -360,7 +360,6 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		else
 			variable = !is_rotated && go_format_is_var_width (format);
 
-	retry:
 		if (variable)
 			res->variable_width = TRUE;
 
@@ -386,9 +385,15 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 					 cell->value,
 					 &fore, col_width, date_conv, TRUE);
 
-		if (err && !variable) {
-			variable = TRUE;
-			goto retry;
+		switch (err) {
+		case GO_FORMAT_NUMBER_DATE_ERROR:
+			pango_layout_set_text (layout, "", -1);
+			pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+			res->numeric_overflow = TRUE;
+			res->effective_halign = HALIGN_LEFT;
+			break;
+		default:
+			break;
 		}
 	}
 
