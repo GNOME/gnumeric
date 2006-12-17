@@ -338,6 +338,9 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	x1 = MIN (x1, expose->area.x + expose->area.width + CLIP_SAFETY_MARGIN);
 	y1 = MIN (y1, expose->area.y + expose->area.height + CLIP_SAFETY_MARGIN);
 
+	if (x0 >= x1 || y0 >= y1)
+		draw_handle = 0;
+
 	gdk_gc_set_line_attributes (ic->gc, 1,
 		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
 	gdk_gc_set_rgb_fg_color (ic->gc, &gs_white);
