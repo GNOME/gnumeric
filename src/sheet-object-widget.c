@@ -2047,8 +2047,13 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 {
 	GnmCellRef ref;
 
-	if (selection < 0)
+	if (selection >= 0 && swl->model != NULL) {
+		int n = gtk_tree_model_iter_n_children (swl->model, NULL);
+		if (selection > n)
+			selection = n;
+	} else
 		selection = 0;
+	
 	if (swl->selection != selection) {
 		swl->selection = selection;
 		if (NULL!= wbc &&

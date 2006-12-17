@@ -1,5 +1,11 @@
 2006-12-17  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object-widget.c (sheet_widget_list_base_set_selection) :
+	  if the selection is greater than the number of elements select the
+	  last item.
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=135966
 	* src/gnumeric-pane.c (gnm_pane_widget_register) : Callers can call
 	  gnm_pane_object_register themselves, but we need to interpose an

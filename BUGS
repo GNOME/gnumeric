@@ -823,17 +823,17 @@ Short Term Goals
 	    32.17.4.2) export
 	32.17.5) Populate list						(DONE)
 	32.17.6) Update list on source change				(DONE)
-	32.17.7) Link cell change updates selection
+	32.17.7) Link cell change updates selection			(DONE)
 	    32.17.7.1) in range						(DONE)
 	    32.17.7.2) truncate floats					(DONE)
 	    32.17.7.3) less than or eq 0 implies no selection		(DONE)
-	    32.17.7.4) gte list size selects last element
+	    32.17.7.4) gte list size selects last element		(DONE)
 	32.17.8) Selection change updates cell link			(DONE)
 	32.17.9) Use GtkComboBoxEntry					(DONE)
 	32.17.10) Make Entry non-focusable				(DONE)
 	32.17.11) update entry on model content change			(DONE)
-	32.17.12) http://bugzilla.gnome.org/show_bug.cgi?id=156762
-	32.17.13) http://bugzilla.gnome.org/show_bug.cgi?id=135966	(DONE)
+	32.17.12) Write a prop dialog #156762
+	32.17.13) Right click for context menu #135966			(DONE)
     32.18) Lists
 	32.18.1) Gnumeric						(DONE)
 	    32.18.1.1) DOM import					(DONE)
@@ -850,12 +850,13 @@ Short Term Goals
 	    32.18.4.2) export
 	32.18.5) Populate list						(DONE)
 	32.18.6) Update list on source change				(DONE)
-	32.18.7) Link cell change updates selection
+	32.18.7) Link cell change updates selection			(DONE)
 	    32.18.7.1) in range						(DONE)
 	    32.18.7.2) truncate floats					(DONE)
 	    32.18.7.3) less than or eq 0 implies no selection		(DONE)
-	    32.18.7.4) gte list size selects last element
+	    32.18.7.4) gte list size selects last element		(DONE)
 	32.18.8) Selection change updates cell link			(DONE)
+	32.18.9) Write a prop dialog #156762
 
 33) Rotated text
     33.1) Resurrect printing                                            (DONE)
