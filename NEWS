@@ -5,6 +5,7 @@ Jody:
 	* Fix autofilter lists with only 1 combo. [#383400]
 	* Implement sax import of sheet objects.
 	* Implement List and Combo objects.
+	* Avoid pixel dirt when drawing hidden cursor. [#365960]
 	* XLSX support for import and export of autofilters.
 
 Morten:
