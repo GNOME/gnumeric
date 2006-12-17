@@ -69,6 +69,7 @@ typedef enum {
     /* Expressions */
 	MS_OBJ_ATTR_IS_EXPR_MASK = 0x20000,
 	MS_OBJ_ATTR_LINKED_TO_CELL,
+	MS_OBJ_ATTR_INPUT_FROM,
 
     /* GObjects */
 	MS_OBJ_ATTR_IS_GOBJECT_MASK = 0x40000,

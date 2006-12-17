@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnm-valudation-combo-foo-view.c: A foocanvas object for Validate from list
+ * gnm-validation-combo-foo-view.c: A foocanvas object for Validate from list
  * 				in cell combos
  *
  * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)

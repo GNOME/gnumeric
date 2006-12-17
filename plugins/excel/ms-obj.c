@@ -1061,6 +1061,12 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			break;
 
 		case GR_LISTBOX_DATA : {
+			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+6);
+			GnmExprTop const *ref = ms_container_parse_expr (c, data+12, expr_len);
+			if (ref != NULL)
+				ms_obj_attr_bag_insert (obj->attrs,
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_INPUT_FROM, ref));
+
 			/* FIXME : find some docs for this
 			 * It seems as if list box data does not conform to
 			 * the docs.  It acts like an end and has no size.

@@ -545,10 +545,11 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
 		break;
 
-	case 0x12:
-		break;
-
-	case 0x14:
+	case 0x12: /* List */
+	case 0x14: /* Combo  */
+		sheet_widget_list_base_set_links (obj->gnum_obj,
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE),
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_INPUT_FROM, NULL, FALSE));
 		break;
 
 	case 0x19:

@@ -1,3 +1,10 @@
+2006-12-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_realize_obj) : link in the content
+	  expression, and the linked cell for combo and list objects.
+	* ms-obj.c (ms_obj_read_biff8_obj) : read ListboxData which seems to
+	  contain the content expression.
+
 2006-12-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (log_put_color): Remove "inline" -- it's
