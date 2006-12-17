@@ -1273,6 +1273,14 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	else
 		s->style->line.dash_type = GO_LINE_SOLID;
 
+	if (BC_R(ver)(s) >= MS_BIFF_V8 && s->currentSeries != NULL) {
+		guint16 const fore = GSF_LE_GET_GUINT16 (q->data+10);
+		d (0, fprintf (stderr, "color index == %hd.\n", fore););
+		/* Excel assumes that the color is automatic if it is the same
+		as the automatic one whatever the auto flag value is */
+		s->style->line.auto_color = (fore == 31 + s->series->len);
+	}
+
 	s->style->outline = s->style->line;
 
 	if (s->prev_opcode == BIFF_CHART_chartline) {

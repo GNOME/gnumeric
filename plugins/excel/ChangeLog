@@ -1,3 +1,8 @@
+2006-12-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (lineformat): use auto color for series only when
+	the color index is equal to the series index. [#166820]
+
 2006-12-16  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_COLINFO) : silence warning due to
