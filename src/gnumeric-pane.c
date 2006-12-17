@@ -1470,11 +1470,16 @@ gnm_pane_object_register (SheetObject *so, FooCanvasItem *view, gboolean selecta
  * Setup some standard callbacks for manipulating widgets as views of sheet
  * objects.
  **/
-SheetObjectView *
+void
 gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view)
 {
-	g_signal_connect (G_OBJECT (w),
-		"event",
+	g_signal_connect (G_OBJECT (w), "event",
 		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
-	return gnm_pane_object_register (so, view, TRUE);
+
+	if (GTK_IS_CONTAINER (w)) {
+		GList *ptr, *children = gtk_container_get_children (GTK_CONTAINER (w));
+		for (ptr = children ; ptr != NULL; ptr = ptr->next)
+			gnm_pane_widget_register (so, ptr->data, view);
+		g_list_free (children);
+	}
 }

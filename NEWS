@@ -7,6 +7,7 @@ Jody:
 	* Implement List and Combo objects.
 	* Avoid pixel dirt when drawing hidden cursor. [#365960]
 	* XLSX support for import and export of autofilters.
+	* Right click on combos/list always brings up popup. [#135966]
 
 Morten:
 	* Fix title problem.  [#382643]

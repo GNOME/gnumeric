@@ -832,6 +832,8 @@ Short Term Goals
 	32.17.9) Use GtkComboBoxEntry					(DONE)
 	32.17.10) Make Entry non-focusable				(DONE)
 	32.17.11) update entry on model content change			(DONE)
+	32.17.12) http://bugzilla.gnome.org/show_bug.cgi?id=156762
+	32.17.13) http://bugzilla.gnome.org/show_bug.cgi?id=135966	(DONE)
     32.18) Lists
 	32.18.1) Gnumeric						(DONE)
 	    32.18.1.1) DOM import					(DONE)

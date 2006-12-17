@@ -212,7 +212,8 @@ sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *contain
 	/* g_warning ("%p is widget for so %p", view_widget, so);*/
 	gtk_widget_show_all (view_widget);
 	foo_canvas_item_hide (view_item);
-	return gnm_pane_widget_register (so, view_widget, view_item);
+	gnm_pane_widget_register (so, view_widget, view_item);
+	return gnm_pane_object_register (so, view_item, TRUE);
 }
 
 static void
