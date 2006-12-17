@@ -1,3 +1,7 @@
+2006-12-16  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c : implement combos and lists.
+
 2006-12-15  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (gnm_rendered_value_new): Improve handling

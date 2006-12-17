@@ -20,7 +20,6 @@ Release Critical
 http://bugzilla.gnome.org/show_bug.cgi?id=322096
 - mis-export of array expr
 
-
 Worries
 -------
     : honour r1c1 for position in sv_update
@@ -713,7 +712,15 @@ Short Term Goals
 	21.44.2) export						(DONE)
     21.45) XLSX
 	21.45.1) import
+	    21.45.1.1) top10					(DONE)
+	    21.45.1.2) items
+	    21.45.1.3) custom
+	    21.45.1.4) dynamic
 	21.45.2) export
+	    21.45.2.1) top10					(DONE)
+	    21.45.2.2) items
+	    21.45.2.3) custom
+	    21.45.2.4) dynamic
     21.46) ODF
 	21.46.1) import
 	21.46.2) export
@@ -723,6 +730,7 @@ Short Term Goals
     21.50) http://bugzilla.gnome.org/show_bug.cgi?id=346002
     21.51) http://bugzilla.gnome.org/show_bug.cgi?id=383400
     22.52) Clipboard ?? do we want this ?
+    21.53) Support Office 2007 toggle date based buckets
 
 22) Validate from List
     22.1) Implement						(DONE)
@@ -799,6 +807,53 @@ Short Term Goals
     32.14) ngettext for insert/delete objects undo message
     32.15) Check the stacking of ctrl pts when moving multiple selections
     32.16) event handling for check boxes				(DONE)
+    32.17) Combos
+	32.17.1) Gnumeric						(DONE)
+	    32.17.1.1) DOM import					(DONE)
+	    32.17.1.2) SAX import					(DONE)
+	    32.17.1.3) SAX export					(DONE)
+	32.17.2) XLS
+	    32.17.2.1) import						(DONE)
+	    32.17.2.2) export
+	32.17.3) XLSX
+	    32.17.3.1) import
+	    32.17.3.2) export
+	32.17.4) ODF
+	    32.17.4.1) import
+	    32.17.4.2) export
+	32.17.5) Populate list						(DONE)
+	32.17.6) Update list on source change				(DONE)
+	32.17.7) Link cell change updates selection
+	    32.17.7.1) in range						(DONE)
+	    32.17.7.2) truncate floats					(DONE)
+	    32.17.7.3) less than or eq 0 implies no selection		(DONE)
+	    32.17.7.4) gte list size selects last element
+	32.17.8) Selection change updates cell link			(DONE)
+	32.17.9) Use GtkComboBoxEntry					(DONE)
+	32.17.10) Make Entry non-focusable				(DONE)
+	32.17.11) update entry on model content change			(DONE)
+    32.18) Lists
+	32.18.1) Gnumeric						(DONE)
+	    32.18.1.1) DOM import					(DONE)
+	    32.18.1.2) SAX import					(DONE)
+	    32.18.1.3) SAX export					(DONE)
+	32.18.2) XLS
+	    32.18.2.1) import						(DONE)
+	    32.18.2.2) export
+	32.18.3) XLSX
+	    32.18.3.1) import
+	    32.18.3.2) export
+	32.18.4) ODF
+	    32.18.4.1) import
+	    32.18.4.2) export
+	32.18.5) Populate list						(DONE)
+	32.18.6) Update list on source change				(DONE)
+	32.18.7) Link cell change updates selection
+	    32.18.7.1) in range						(DONE)
+	    32.18.7.2) truncate floats					(DONE)
+	    32.18.7.3) less than or eq 0 implies no selection		(DONE)
+	    32.18.7.4) gte list size selects last element
+	32.18.8) Selection change updates cell link			(DONE)
 
 33) Rotated text
     33.1) Resurrect printing                                            (DONE)
@@ -812,17 +867,23 @@ Short Term Goals
     as a template
 
 36) OpenDocument                                              (Andreas)
-    36.1 missing features in importer that we in fact export
-         36.1.1  Cell Comments
-    36.2 incorrect import 
-         36.2.1  We fail to do proper white space handling on import, see
+    36.1) missing features in importer that we in fact export
+         36.1.1)  Cell Comments
+    36.2) incorrect import 
+         36.2.1)  We fail to do proper white space handling on import, see
                  5.1.1 of the OpenDocument Standard. (It is only a minor
                  issue since files created by OOo or us work correctly. 
                  In fact because of 36.3.1, we depend currently on this to
                  read our own files.)  
-    36.3 incorrect export
-         36.3.1  We don't handle whitespace correctly. See OpenDocument
+    36.3) incorrect export
+         36.3.1)  We don't handle whitespace correctly. See OpenDocument
                  format 5.1.1
+    36.4) See 11.4
+    36.5) See 12.6
+    36.6) See 21.46
+    36.7) See 22.13
+    36.8) See 32.17.4
+    36.9) See 32.18.4
 
 Misc stuff that should be fixed
 -------------------------------
