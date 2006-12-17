@@ -159,9 +159,9 @@
            Gnumeric version is. Some examples:
 
            <itemizedlist>
-             <listitem><para>1.1.20</para></listitem>
-             <listitem><para>1.1.20-bonobo</para></listitem>
-             <listitem><para>1.1.90</para></listitem>
+             <listitem><para>1.4.20</para></listitem>
+             <listitem><para>1.6.20</para></listitem>
+             <listitem><para>1.7.90</para></listitem>
            </itemizedlist>
          </para>
        </listitem>
@@ -783,8 +783,8 @@ foo
 				<step><para><literal>mkdir ~/.gnumeric/&lt;version&gt;</literal></para></step>
 			  </substeps>
 			</step>
-			<step><para><literal>mkdir ~/.gnumeric/&lt;version&gt;/myfuncs/</literal></para></step>
-			<step><para><literal>cd ~/.gnumeric/&lt;version&gt;/myfuncs/</literal></para></step>
+			<step><para><literal>mkdir ~/.gnumeric/&lt;version&gt;/plugins/myfuncs/</literal></para></step>
+			<step><para><literal>cd ~/.gnumeric/&lt;version&gt;/plugins/myfuncs/</literal></para></step>
 		  </substeps>
 		</step>
 

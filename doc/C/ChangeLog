@@ -1,3 +1,7 @@
+2006-12-16  Jody Goldberg <jody@gnome.org>
+
+	* extending-python.xml : Fix the python plugin path. [#382321]
+
 2006-12-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.5
