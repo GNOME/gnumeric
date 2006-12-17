@@ -1528,7 +1528,8 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmFilterOp op0, op1;
 	GnmFilterCondition *cond = NULL;
 	gboolean top = TRUE, items = TRUE, is_and = FALSE;
-	int i, tmp, bucket_count = 10, cond_num = 0;
+	int i, tmp, cond_num = 0;
+	double bucket_count = 10.;
 
 	if (NULL == state->filter) return;
 
@@ -1537,7 +1538,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs+i, "Index", &cond_num)) ;
 		else if (xml_sax_attr_bool (attrs, "Top", &top)) ;
 		else if (xml_sax_attr_bool (attrs, "Items", &items)) ;
-		else if (gnm_xml_attr_int  (attrs, "Count", &bucket_count)) ;
+		else if (gnm_xml_attr_double  (attrs, "Count", &bucket_count)) ;
 		else if (xml_sax_attr_bool (attrs, "IsAnd", &is_and)) ;
 		else if (!strcmp (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i+1]);
 		else if (!strcmp (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i+1]);

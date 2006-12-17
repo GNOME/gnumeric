@@ -3633,7 +3633,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 const  xf	  = GSF_LE_GET_GUINT16 (q->data + 6);
 	guint16 const  options	  = GSF_LE_GET_GUINT16 (q->data + 8);
 	gboolean       hidden	  = (options & 0x0001) != 0;
-	gboolean const customWidth= (options & 0x0002) != 0;	/* undocumented */
+	/*gboolean const customWidth= (options & 0x0002) != 0;	/* undocumented */
 	gboolean const bestFit    = (options & 0x0004) != 0;	/* undocumented */
 	gboolean const collapsed  = (options & 0x1000) != 0;
 	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);

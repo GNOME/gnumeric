@@ -1421,11 +1421,11 @@ xml_read_filter_field (XmlParseContext *ctxt, xmlNode *field, GnmFilter *filter)
 				  GNM_FILTER_OP_NON_BLANKS, NULL);
 	else if (!g_ascii_strcasecmp (type, "bucket")) {
 		gboolean top, items;
-		int count;
+		double count;
 
 		if (xml_node_get_bool (field, CC2XML ("Top"), &top) &&
 		    xml_node_get_bool (field, CC2XML ("Items"), &items) &&
-		    xml_node_get_int (field, CC2XML ("Count"), &count))
+		    xml_node_get_double (field, CC2XML ("Count"), &count))
 			cond = gnm_filter_condition_new_bucket (
 					top, items, count);
 	}

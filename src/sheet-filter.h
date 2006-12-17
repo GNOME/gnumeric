@@ -20,6 +20,8 @@ typedef enum {
 	GNM_FILTER_OP_BOTTOM_N		= 0x31,
 	GNM_FILTER_OP_TOP_N_PERCENT	= 0x32,
 	GNM_FILTER_OP_BOTTOM_N_PERCENT	= 0x33,
+	GNM_FILTER_OP_BOTTOM_MASK	= 0x01,
+	GNM_FILTER_OP_PERCENT_MASK	= 0x02,
 
 	/* Added in 1.7.5 */
 	GNM_FILTER_OP_GT_AVERAGE	= 0x40,
@@ -34,7 +36,7 @@ struct _GnmFilterCondition {
 	GnmFilterOp  op[2];
 	GnmValue    *value[2];
 	gboolean is_and;
-	int	 count;
+	float	 count;
 };
 
 struct _GnmFilter {
@@ -51,7 +53,7 @@ GnmFilterCondition *gnm_filter_condition_new_double (GnmFilterOp op1, GnmValue *
 						     GnmFilterOp op2, GnmValue *v2);
 GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean absolute,
-						     unsigned n);
+						     float n);
 GnmFilterCondition *gnm_filter_condition_dup 	    (GnmFilterCondition const *src);
 void		    gnm_filter_condition_unref 	    (GnmFilterCondition *cond);
 

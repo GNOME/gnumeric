@@ -1,5 +1,17 @@
 2006-12-16  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-filter.h : add GNM_FILTER_OP_BOTTOM_MASK, and 
+	  GNM_FILTER_OP_PERCENT_MASK.
+
+	* src/xml-sax-read.c (xml_sax_filter_condition) : make bucket count a
+	  float.
+	* src/xml-sax-write.c (xml_write_filter_field) : ditto.
+	* src/xml-io.c (xml_read_filter_field) : ditto.
+	* src/sheet-filter.c (gnm_filter_condition_new_bucket) : ditto.
+	* gnumeric.xsd : ditto.
+
+2006-12-16  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-object-widget.c : implement combos and lists.
 
 2006-12-15  Morten Welinder  <terra@gnome.org>

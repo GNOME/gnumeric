@@ -38,6 +38,7 @@
 #include "print-info.h"
 #include "validation.h"
 #include "value.h"
+#include "sheet-filter.h"
 #include "selection.h"
 #include "command-context.h"
 #include "workbook-view.h"
@@ -120,6 +121,10 @@ typedef struct {
 	GnmStyleConditions *conditions;
 	GSList		   *cond_regions;
 	GnmStyleCond	    cond;
+
+	GnmFilter	   *filter;
+	int		    filter_cur_field;
+	GSList		   *filter_items; /* an accumulator */
 } XLSXReadState;
 typedef struct {
 	GnmString	*str;
@@ -181,7 +186,7 @@ gsf_open_pkg_rel_free (GsfOpenPkgRel *rel)
 }
 
 static void
-xlsx_pkg_rel_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	GsfOpenPkgRels *rels = xin->user_state;
 	GsfOpenPkgRel *rel;
@@ -213,7 +218,7 @@ xlsx_pkg_rel_start (GsfXMLIn *xin, xmlChar const **attrs)
 static GsfXMLInNode const open_pkg_rel_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, RELS, XL_NS_PKG_REL, "Relationships", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (RELS, REL, XL_NS_PKG_REL, "Relationship", GSF_XML_NO_CONTENT, xlsx_pkg_rel_start, NULL),
+  GSF_XML_IN_NODE (RELS, REL, XL_NS_PKG_REL, "Relationship", GSF_XML_NO_CONTENT, xlsx_pkg_rel_begin, NULL),
 
 GSF_XML_IN_NODE_END
 };
@@ -1054,18 +1059,7 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmParsePos pp;
-	parse_pos_init_sheet (&pp, state->sheet);
-
-	g_warning ("validation fmla%d : %s", xin->node->user_data.v_int,
-		   xin->content->str);
-}
-
-static void
-xlsx_cell_expr_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_cell_expr_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean has_range = FALSE, is_array = FALSE;
@@ -1122,7 +1116,7 @@ xlsx_cell_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_cell_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const types[] = {
 		{ "n",		XLXS_TYPE_NUM },
@@ -1373,6 +1367,186 @@ xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmParsePos pp;
+	parse_pos_init_sheet (&pp, state->sheet);
+
+	g_warning ("validation fmla%d : %s", xin->node->user_data.v_int,
+		   xin->content->str);
+}
+
+static void
+xlsx_CT_AutoFilter_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmRange r;
+
+	g_return_if_fail (state->filter == NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_range (xin, attrs, XL_NS_SS, "ref", &r))
+			state->filter = gnm_filter_new (state->sheet, &r);
+}
+
+static void
+xlsx_CT_AutoFilter_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	g_return_if_fail (state->filter != NULL);
+	state->filter = NULL;
+}
+
+static void
+xlsx_CT_FilterColumn_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int id = -1;
+	gboolean hidden = FALSE;
+	gboolean show = TRUE;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int  (xin, attrs, XL_NS_SS, "colId", &id)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "hiddenButton", &hidden)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "showButton", &show)) ;
+
+	state->filter_cur_field = id;
+}
+
+static void
+xlsx_CT_Filters_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val")) {
+		}
+	state->filter_items = NULL;
+}
+static void
+xlsx_CT_Filters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->filter_items = NULL;
+}
+static void
+xlsx_CT_Filter (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val")) {
+		}
+}
+
+static void
+xlsx_CT_CustomFilters_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val")) {
+		}
+	state->filter_items = NULL;
+}
+static void
+xlsx_CT_CustomFilters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->filter_items = NULL;
+}
+
+static void
+xlsx_CT_CustomFilter (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const ops[] = {
+		{ "lessThan",		GNM_STYLE_COND_LT },
+		{ "lessThanOrEqual",	GNM_STYLE_COND_LTE },
+		{ "equal",		GNM_STYLE_COND_EQUAL },
+		{ "notEqual",		GNM_STYLE_COND_NOT_EQUAL },
+		{ "greaterThanOrEqual",	GNM_STYLE_COND_GTE },
+		{ "greaterThan",	GNM_STYLE_COND_GT },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int tmp;
+	GnmFilterOp op = GNM_STYLE_COND_EQUAL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val")) {
+		} else if (attr_enum (xin, attrs, XL_NS_SS, "operator", ops, &tmp))
+			op = tmp;
+}
+
+static void
+xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean top = TRUE;
+	gboolean percent = FALSE;
+	double val = -1.;
+	GnmFilterCondition *cond;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_float (xin, attrs, XL_NS_SS, "val", &val)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "top", &top)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "percent", &percent)) ;
+
+	if (NULL != (cond = gnm_filter_condition_new_bucket (top, !percent, val)))
+		gnm_filter_set_condition (state->filter, state->filter_cur_field,
+			cond, FALSE);
+}
+
+static void
+xlsx_CT_DynamicFilter (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const types[] = {
+		{ "null", 0 },
+		{ "aboveAverage", 0 },
+		{ "belowAverage", 0 },
+		{ "tomorrow", 0 },
+		{ "today", 0 },
+		{ "yesterday", 0 },
+		{ "nextWeek", 0 },
+		{ "thisWeek", 0 },
+		{ "lastWeek", 0 },
+		{ "nextMonth", 0 },
+		{ "thisMonth", 0 },
+		{ "lastMonth", 0 },
+		{ "nextQuarter", 0 },
+		{ "thisQuarter", 0 },
+		{ "lastQuarter", 0 },
+		{ "nextYear", 0 },
+		{ "thisYear", 0 },
+		{ "lastYear", 0 },
+		{ "yearToDate", 0 },
+		{ "Q1", 0 },
+		{ "Q2", 0 },
+		{ "Q3", 0 },
+		{ "Q4", 0 },
+		{ "M1", 0 },
+		{ "M2", 0 },
+		{ "M3", 0 },
+		{ "M4", 0 },
+		{ "M5", 0 },
+		{ "M6", 0 },
+		{ "M7", 0 },
+		{ "M8", 0 },
+		{ "M9", 0 },
+		{ "M10", 0 },
+		{ "M11", 0 },
+		{ "M12", 0 },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int type = -1;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, XL_NS_SS, "type", types, &type)) ;
+}
+
+static void
 xlsx_CT_MergeCell (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -1396,7 +1570,7 @@ xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_cond_fmt_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_cond_fmt_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmRange  r;
@@ -1474,7 +1648,7 @@ typedef enum {
 	XLSX_CF_TYPE_ABOVEAVERAGE
 } XlsxCFTypes;
 static void
-xlsx_cond_fmt_rule_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const ops[] = {
 		{ "lessThan",		GNM_STYLE_COND_LT },
@@ -1586,7 +1760,7 @@ xlsx_cond_fmt_formula_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_CT_SheetView_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const view_types[] = {
 		{ "normal", 		GNM_SHEET_VIEW_NORMAL_MODE },
@@ -1799,7 +1973,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
     GSF_XML_IN_NODE (PROPS, PAGE_SETUP, XL_NS_SS, "pageSetUpPr", GSF_XML_NO_CONTENT, &xlsx_sheet_page_setup, NULL),
   GSF_XML_IN_NODE (SHEET, DIMENSION, XL_NS_SS, "dimension", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, VIEWS, XL_NS_SS, "sheetViews", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (VIEWS, VIEW, XL_NS_SS, "sheetView",  GSF_XML_NO_CONTENT, &xlsx_CT_SheetView_start, &xlsx_CT_SheetView_end),
+    GSF_XML_IN_NODE (VIEWS, VIEW, XL_NS_SS, "sheetView",  GSF_XML_NO_CONTENT, &xlsx_CT_SheetView_begin, &xlsx_CT_SheetView_end),
       GSF_XML_IN_NODE (VIEW, SELECTION, XL_NS_SS, "selection",  GSF_XML_NO_CONTENT, &xlsx_CT_Selection, NULL),
       GSF_XML_IN_NODE (VIEW, PANE, XL_NS_SS, "pane",  GSF_XML_NO_CONTENT, &xlsx_CT_Pane, NULL),
 
@@ -1810,9 +1984,28 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 
   GSF_XML_IN_NODE (SHEET, CONTENT, XL_NS_SS, "sheetData", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CONTENT, ROW, XL_NS_SS, "row", GSF_XML_NO_CONTENT, &xlsx_CT_Row, NULL),
-      GSF_XML_IN_NODE (ROW, CELL, XL_NS_SS, "c", GSF_XML_NO_CONTENT, &xlsx_cell_start, &xlsx_cell_end),
+      GSF_XML_IN_NODE (ROW, CELL, XL_NS_SS, "c", GSF_XML_NO_CONTENT, &xlsx_cell_begin, &xlsx_cell_end),
 	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
-	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_start, &xlsx_cell_expr_end),
+	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_begin, &xlsx_cell_expr_end),
+
+  GSF_XML_IN_NODE (SHEET, CT_SortState, XL_NS_SS, "sortState", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CT_SortState, CT_SortCondition, XL_NS_SS, "sortCondition", GSF_XML_NO_CONTENT, NULL, NULL),
+
+  GSF_XML_IN_NODE (SHEET, CT_AutoFilter, XL_NS_SS, "autoFilter", GSF_XML_NO_CONTENT,
+		   &xlsx_CT_AutoFilter_begin, &xlsx_CT_AutoFilter_end),
+    GSF_XML_IN_NODE (CT_AutoFilter, CT_SortState, XL_NS_SS, "sortState", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
+    GSF_XML_IN_NODE (CT_AutoFilter, CT_FilterColumn, XL_NS_SS,    "filterColumn", GSF_XML_NO_CONTENT,
+		     &xlsx_CT_FilterColumn_begin, NULL),
+      GSF_XML_IN_NODE (CT_FilterColumn, CT_Filters, XL_NS_SS, "filters", GSF_XML_NO_CONTENT,
+		       &xlsx_CT_Filters_begin, &xlsx_CT_Filters_end),
+        GSF_XML_IN_NODE (CT_Filters, CT_Filter, XL_NS_SS, "filter", GSF_XML_NO_CONTENT, &xlsx_CT_Filter, NULL),
+      GSF_XML_IN_NODE (CT_FilterColumn, CT_CustomFilters, XL_NS_SS, "customFilters", GSF_XML_NO_CONTENT, 
+		       &xlsx_CT_CustomFilters_begin, &xlsx_CT_CustomFilters_end),
+        GSF_XML_IN_NODE (CT_CustomFilters, CT_CustomFilter, XL_NS_SS, "customFilter", GSF_XML_NO_CONTENT, &xlsx_CT_CustomFilter, NULL),
+      GSF_XML_IN_NODE (CT_FilterColumn, CT_Top10, XL_NS_SS, "top10", GSF_XML_NO_CONTENT, &xlsx_CT_Top10, NULL),
+      GSF_XML_IN_NODE (CT_FilterColumn, CT_DynamicFilter, XL_NS_SS, "dynamicFilter", GSF_XML_NO_CONTENT, &xlsx_CT_DynamicFilter, NULL),
+      GSF_XML_IN_NODE (CT_FilterColumn, CT_ColorFilter, XL_NS_SS, "colorFilter", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (CT_FilterColumn, CT_IconFilter, XL_NS_SS, "iconFilter", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (SHEET, VALIDATIONS, XL_NS_SS, "dataValidations", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (VALIDATIONS, VALIDATION, XL_NS_SS, "dataValidation", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1827,9 +2020,9 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
   GSF_XML_IN_NODE (SHEET, PROTECTION, XL_NS_SS, "sheetProtection", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, PHONETIC, XL_NS_SS, "phoneticPr", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, COND_FMTS, XL_NS_SS, "conditionalFormatting", GSF_XML_NO_CONTENT,
-		   &xlsx_cond_fmt_start, &xlsx_cond_fmt_end),
+		   &xlsx_cond_fmt_begin, &xlsx_cond_fmt_end),
     GSF_XML_IN_NODE (COND_FMTS, COND_RULE, XL_NS_SS, "cfRule", GSF_XML_NO_CONTENT,
-		   &xlsx_cond_fmt_rule_start, &xlsx_cond_fmt_rule_end),
+		   &xlsx_cond_fmt_rule_begin, &xlsx_cond_fmt_rule_end),
       GSF_XML_IN_NODE (COND_RULE, COND_FMLA, XL_NS_SS, "formula", GSF_XML_CONTENT, NULL, &xlsx_cond_fmt_formula_end),
       GSF_XML_IN_NODE (COND_RULE, COND_COLOR_SCALE, XL_NS_SS, "colorScale", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (COND_RULE, COND_DATA_BAR, XL_NS_SS, "dataBar", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1851,7 +2044,7 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 
 static void
-xlsx_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char const *name = NULL;
@@ -1922,7 +2115,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
   GSF_XML_IN_NODE (WORKBOOK, VIEWS,	 XL_NS_SS, "bookViews",	GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (VIEWS,  VIEW,	 XL_NS_SS, "workbookView",  GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, SHEETS,	 XL_NS_SS, "sheets", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SHEETS, SHEET,	 XL_NS_SS, "sheet", GSF_XML_NO_CONTENT, &xlsx_sheet_start, NULL),
+    GSF_XML_IN_NODE (SHEETS, SHEET,	 XL_NS_SS, "sheet", GSF_XML_NO_CONTENT, &xlsx_sheet_begin, NULL),
   GSF_XML_IN_NODE (WORKBOOK, WEB_PUB,	 XL_NS_SS, "webPublishing", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, EXTERNS,	 XL_NS_SS, "externalReferences", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (EXTERNS, EXTERN,	 XL_NS_SS, "externalReference", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1936,7 +2129,7 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 
 static void
-xlsx_sst_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_sst_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int count;
@@ -1970,7 +2163,7 @@ xlsx_sstitem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 static GsfXMLInNode const xlsx_shared_strings_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, SST, XL_NS_SS, "sst", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_sst_start, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, SST, XL_NS_SS, "sst", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_sst_begin, NULL, 0),
   GSF_XML_IN_NODE (SST, ITEM, XL_NS_SS, "si", GSF_XML_NO_CONTENT, NULL, &xlsx_sstitem_end),		/* beta2 */
     GSF_XML_IN_NODE (ITEM, TEXT, XL_NS_SS, "t", GSF_XML_SHARED_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (ITEM, RICH, XL_NS_SS, "r", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2035,7 +2228,7 @@ enum {
 };
 
 static void
-xlsx_collection_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_collection_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int count = 0;
@@ -2072,7 +2265,7 @@ xlsx_collection_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xlsx_col_elem_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_col_elem_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
@@ -2245,7 +2438,7 @@ xlsx_pattern_bg (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_border_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const borders[] = {
 		{ "none",		GNM_STYLE_BORDER_NONE },
@@ -2297,7 +2490,7 @@ xlsx_border_color (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_xf_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmStyle *style;
@@ -2437,7 +2630,7 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xlsx_dxf_start (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_dxf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
@@ -2482,8 +2675,8 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
     GSF_XML_IN_NODE (NUM_FMTS, NUM_FMT, XL_NS_SS, "numFmt", GSF_XML_NO_CONTENT, &xlsx_style_numfmt, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, FONTS, XL_NS_SS, "fonts", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_FONT),
-    GSF_XML_IN_NODE (FONTS, FONT, XL_NS_SS, "font", GSF_XML_NO_CONTENT, &xlsx_col_elem_start, &xlsx_col_elem_end),
+			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_FONT),
+    GSF_XML_IN_NODE (FONTS, FONT, XL_NS_SS, "font", GSF_XML_NO_CONTENT, &xlsx_col_elem_begin, &xlsx_col_elem_end),
       GSF_XML_IN_NODE (FONT, FONT_NAME,	     XL_NS_SS, "name",	    GSF_XML_NO_CONTENT, &xlsx_font_name, NULL),
       GSF_XML_IN_NODE (FONT, FONT_CHARSET,   XL_NS_SS, "charset",   GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FONT, FONT_FAMILY,    XL_NS_SS, "family",    GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2501,8 +2694,8 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
       GSF_XML_IN_NODE (FONT, FONT_SCHEME,    XL_NS_SS, "scheme",    GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, FILLS, XL_NS_SS, "fills", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_FILLS),
-    GSF_XML_IN_NODE (FILLS, FILL, XL_NS_SS, "fill", GSF_XML_NO_CONTENT, &xlsx_col_elem_start, &xlsx_col_elem_end),
+			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_FILLS),
+    GSF_XML_IN_NODE (FILLS, FILL, XL_NS_SS, "fill", GSF_XML_NO_CONTENT, &xlsx_col_elem_begin, &xlsx_col_elem_end),
       GSF_XML_IN_NODE (FILL, PATTERN_FILL, XL_NS_SS, "patternFill", GSF_XML_NO_CONTENT, &xlsx_pattern, NULL),
 	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_fg, NULL),
 	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_bg, NULL),
@@ -2511,22 +2704,22 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 	GSF_XML_IN_NODE (GRADIENT_FILL, GRADIENT_STOPS, XL_NS_SS, "stop", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, BORDERS, XL_NS_SS, "borders", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_BORDERS),
-    GSF_XML_IN_NODE (BORDERS, BORDER, XL_NS_SS, "border", GSF_XML_NO_CONTENT, &xlsx_col_elem_start, &xlsx_col_elem_end),
+			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_BORDERS),
+    GSF_XML_IN_NODE (BORDERS, BORDER, XL_NS_SS, "border", GSF_XML_NO_CONTENT, &xlsx_col_elem_begin, &xlsx_col_elem_end),
       GSF_XML_IN_NODE_FULL (BORDER, LEFT_B, XL_NS_SS, "left", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_LEFT),
+			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_LEFT),
         GSF_XML_IN_NODE (LEFT_B, LEFT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, RIGHT_B, XL_NS_SS, "right", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_RIGHT),
+			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_RIGHT),
         GSF_XML_IN_NODE (RIGHT_B, RIGHT_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, TOP_B, XL_NS_SS,	"top", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_TOP),
+			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_TOP),
         GSF_XML_IN_NODE (TOP_B, TOP_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, BOTTOM_B, XL_NS_SS, "bottom", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_BOTTOM),
+			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_BOTTOM),
         GSF_XML_IN_NODE (BOTTOM_B, BOTTOM_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
       GSF_XML_IN_NODE_FULL (BORDER, DIAG_B, XL_NS_SS, "diagonal", GSF_XML_NO_CONTENT, FALSE, FALSE,
-			    &xlsx_border_start, &xlsx_border_end, GNM_STYLE_BORDER_DIAG),
+			    &xlsx_border_begin, &xlsx_border_end, GNM_STYLE_BORDER_DIAG),
         GSF_XML_IN_NODE (DIAG_B, DIAG_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, &xlsx_border_color, NULL),
 
       GSF_XML_IN_NODE (BORDER, BORDER_VERT, XL_NS_SS,	"vertical", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2535,14 +2728,14 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
         GSF_XML_IN_NODE (BORDER_HORIZ, HORIZ_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, XFS, XL_NS_SS, "cellXfs", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_XFS),
-    GSF_XML_IN_NODE (XFS, XF, XL_NS_SS, "xf", GSF_XML_NO_CONTENT, &xlsx_xf_start, &xlsx_xf_end),
+			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_XFS),
+    GSF_XML_IN_NODE (XFS, XF, XL_NS_SS, "xf", GSF_XML_NO_CONTENT, &xlsx_xf_begin, &xlsx_xf_end),
       GSF_XML_IN_NODE (XF, ALIGNMENT, XL_NS_SS, "alignment", GSF_XML_NO_CONTENT, &xlsx_xf_align, NULL),
       GSF_XML_IN_NODE (XF, PROTECTION, XL_NS_SS, "protection", GSF_XML_NO_CONTENT, &xlsx_xf_protect, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, STYLE_XFS, XL_NS_SS, "cellStyleXfs", GSF_XML_NO_CONTENT,
-		   FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_STYLE_XFS),
-    GSF_XML_IN_NODE (STYLE_XFS, STYLE_XF, XL_NS_SS, "xf", GSF_XML_NO_CONTENT, &xlsx_xf_start, &xlsx_xf_end),
+		   FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_STYLE_XFS),
+    GSF_XML_IN_NODE (STYLE_XFS, STYLE_XF, XL_NS_SS, "xf", GSF_XML_NO_CONTENT, &xlsx_xf_begin, &xlsx_xf_end),
       GSF_XML_IN_NODE (STYLE_XF, STYLE_ALIGNMENT, XL_NS_SS, "alignment", GSF_XML_NO_CONTENT, &xlsx_xf_align, NULL),
       GSF_XML_IN_NODE (STYLE_XF, STYLE_PROTECTION, XL_NS_SS, "protection", GSF_XML_NO_CONTENT, &xlsx_xf_protect, NULL),
 
@@ -2550,8 +2743,8 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
     GSF_XML_IN_NODE (STYLE_NAMES, STYLE_NAME, XL_NS_SS, "cellStyle", GSF_XML_NO_CONTENT, &xlsx_cell_style, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, PARTIAL_XFS, XL_NS_SS, "dxfs", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_DXFS),
-    GSF_XML_IN_NODE (PARTIAL_XFS, PARTIAL_XF, XL_NS_SS, "dxf", GSF_XML_NO_CONTENT, &xlsx_dxf_start, &xlsx_dxf_end),
+			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_DXFS),
+    GSF_XML_IN_NODE (PARTIAL_XFS, PARTIAL_XF, XL_NS_SS, "dxf", GSF_XML_NO_CONTENT, &xlsx_dxf_begin, &xlsx_dxf_end),
 
       GSF_XML_IN_NODE (PARTIAL_XF, NUM_FMT, XL_NS_SS, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (PARTIAL_XF, FONT,    XL_NS_SS, "font", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2566,7 +2759,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
       GSF_XML_IN_NODE (PARTIAL_XF, DXF_FSB, XL_NS_SS, "fsb", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, TABLE_STYLES, XL_NS_SS, "tableStyles", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_collection_start, &xlsx_collection_end, XLSX_COLLECT_TABLE_STYLES),
+			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_TABLE_STYLES),
     GSF_XML_IN_NODE (TABLE_STYLES, TABLE_STYLE, XL_NS_SS, "tableStyle", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (STYLE_INFO, COLORS, XL_NS_SS, "colors", GSF_XML_NO_CONTENT, NULL, NULL),

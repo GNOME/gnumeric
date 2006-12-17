@@ -845,7 +845,7 @@ xml_write_filter_field (GnmOutputXML *state,
 			cond->op[0] & 1 ? TRUE : FALSE);
 		gsf_xml_out_add_bool (state->output, "items",
 			cond->op[0] & 2 ? TRUE : FALSE);
-		gsf_xml_out_add_int (state->output, "count", cond->count);
+		gsf_xml_out_add_float (state->output, "count", cond->count, 4);
 		break;
 	}
 

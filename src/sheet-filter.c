@@ -65,7 +65,7 @@ gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 }
 
 GnmFilterCondition *
-gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, unsigned n)
+gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, float n)
 {
 	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) | (absolute ? 0 : 2);

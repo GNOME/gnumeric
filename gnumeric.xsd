@@ -840,7 +840,7 @@
 				<!-- Only valid for Type=bucket -->
 				<xsd:attribute name="Top"   type="xsd:boolean"	use="optional"/> <!-- top vs bottom -->
 				<xsd:attribute name="Items" type="xsd:boolean"	use="optional"/> <!-- top n vs top n% -->
-				<xsd:attribute name="Count" type="xsd:integer"	use="optional"/> <!-- top COUNT -->
+				<xsd:attribute name="Count" type="xsd:double"	use="optional"/> <!-- top COUNT -->
 			    </xsd:complexType>
 			</xsd:element>
 		    </xsd:sequence>
