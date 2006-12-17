@@ -2,6 +2,10 @@
 
 	* Release 1.7.5
 
+2006-11-22  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_file_save) : fix un-initialized mem usage.
+
 2006-11-20  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.4

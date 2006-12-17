@@ -307,7 +307,7 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 	Sheet *sheet;
 	GnmRange r;
 	gint row, col;
-	gboolean res;
+	gboolean ok = TRUE;
 
 	sheet = wb_view_cur_sheet (wbv);
 	if (sheet == NULL) {
@@ -326,7 +326,7 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 	locale = gnm_push_C_locale ();
 
 	/* Process all cells */
-	for (row = r.start.row; res && row <= r.end.row; row++) {
+	for (row = r.start.row; ok && row <= r.end.row; row++) {
 		gsf_output_puts (out, "-1,0\n" "BOT\n");
 		for (col = r.start.col; col <= r.end.col; col++) {
 			GnmCell *cell = sheet_cell_get (sheet, col, row);
@@ -347,7 +347,7 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 					value_get_as_float (cell->value));
 			else {
 				gchar *str = gnm_cell_get_rendered_text (cell);
-				res = gsf_output_printf (out,
+				ok = gsf_output_printf (out,
 							 "1,0\n" "\"%s\"\n",
 							 str);
 				g_free (str);
@@ -362,6 +362,6 @@ dif_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 	gnm_pop_C_locale (locale);
 
-	if (!res)
+	if (!ok)
 		gnumeric_io_error_string (io_context, _("Error while saving DIF file."));
 }
