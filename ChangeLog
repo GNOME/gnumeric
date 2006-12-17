@@ -1,5 +1,11 @@
 2006-12-17  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object-widget.c (cb_combo_model_changed) : set text column
+	  here.
+	(sheet_widget_combo_create_widget) : accept loading with no model.
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
 	* src/item-cursor.c (item_cursor_draw) : don't draw an autofill handle
 	  for hidden cursors. [#365960]
 

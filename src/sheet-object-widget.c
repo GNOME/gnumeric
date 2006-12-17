@@ -2378,6 +2378,7 @@ static void
 cb_combo_model_changed (SheetWidgetListBase *swl, GtkComboBox *combo)
 {
 	gtk_combo_box_set_model (GTK_COMBO_BOX (combo), swl->model);
+	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (combo), 0);
 	cb_combo_selection_changed (swl, combo); /* for entry to reload */
 }
 
@@ -2392,18 +2393,23 @@ cb_combo_changed (GtkComboBox *combo, SheetWidgetListBase *swl)
 static GtkWidget *
 sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 {
-	SheetWidgetListBase *swc = SHEET_WIDGET_LIST_BASE (sow);
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (sow);
 	GtkWidget *combo;
 
-	combo = gtk_combo_box_entry_new_with_model (swc->model, 0);
+	combo = g_object_new (gtk_combo_box_entry_get_type (), NULL);
 	GTK_WIDGET_UNSET_FLAGS ((GTK_BIN (combo)->child), GTK_CAN_FOCUS);
+	if (swl->model != NULL)
+		g_object_set (G_OBJECT (combo),
+                      "model",		swl->model,
+                      "text-column",	0,
+                      NULL);
 
-  	g_signal_connect_object (G_OBJECT (swc), "model-changed",
+  	g_signal_connect_object (G_OBJECT (swl), "model-changed",
 		G_CALLBACK (cb_combo_model_changed), combo, 0);
-  	g_signal_connect_object (G_OBJECT (swc), "selection-changed",
+  	g_signal_connect_object (G_OBJECT (swl), "selection-changed",
 		G_CALLBACK (cb_combo_selection_changed), combo, 0);
 	g_signal_connect (G_OBJECT (combo), "changed",
-		G_CALLBACK (cb_combo_changed), swc);
+		G_CALLBACK (cb_combo_changed), swl);
 
 	return combo;
 }
