@@ -1,3 +1,7 @@
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
 2006-12-15  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (perl_loader_la_LIBADD): Add GTK_LIBS so we load the

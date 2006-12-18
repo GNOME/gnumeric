@@ -1,3 +1,7 @@
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
 2006-12-08  Jody Goldberg <jody@gnome.org>
 
 	* gnm-filter-combo-foo-view.c (formatted_value_equal) : differentiate
