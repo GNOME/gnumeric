@@ -50,9 +50,9 @@ features+= --without-gda --without-gnomedb
 # contains security vulnerabilities."
 features+= --without-gb
 
-# Debian's psiconv packages are not recent enough for gnumeric; see
-# http://bugs.debian.org/268576
-#	Tue,  9 Aug 2005 17:36:09 +0200
+# We can't build with psiconv support as psiconv-config is missing; see
+# 	http://bugs.debian.org/401362
+#	Mon, 18 Dec 2006 09:02:18 +0100
 features+= --without-psiconv
 
 # Paradox database files plugin

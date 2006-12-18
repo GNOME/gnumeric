@@ -1,3 +1,10 @@
+gnumeric (1.7.6-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/control] Bumped goffice build dependency per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 18 Dec 2006 09:02:59 +0100
+
 gnumeric (1.7.5-1) experimental; urgency=medium
 
   * New upstream development release.
