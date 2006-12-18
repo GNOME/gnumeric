@@ -77,6 +77,6 @@ void gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 
 /* A convenience api */
 SheetObjectView *gnm_pane_object_register (SheetObject *so, FooCanvasItem *view, gboolean selectable);
-SheetObjectView *gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view);
+void		 gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view);
 
 #endif /* GNUMERIC_PANE_H */
