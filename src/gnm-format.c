@@ -297,7 +297,7 @@ format_value_gstring (GString *str, GOFormat const *format,
 		size_t oldlen = str->len;
 		gnm_float val = value_get_as_float (value);
 
-		if (need_abs)
+		if (0 && need_abs)
 			val = gnm_abs (val);
 
 		if (!gnm_finite (val)) {
