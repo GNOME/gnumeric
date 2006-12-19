@@ -660,7 +660,7 @@ indexed_color (gint idx)
 	idx -= 8;
 	if (idx < 0 || (int) G_N_ELEMENTS (excel_default_palette_v8) <= idx) {
 		g_warning ("EXCEL: color index (%d) is out of range (8..%d). Defaulting to black",
-			   idx + 8, G_N_ELEMENTS (excel_default_palette_v8) + 8);
+			   idx + 8, (int)G_N_ELEMENTS (excel_default_palette_v8) + 8);
 		return style_color_black ();
 	}
 
