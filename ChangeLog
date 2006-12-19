@@ -1,3 +1,15 @@
+2006-12-18  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-format.c: Don't include goffice's format-impl.h,
+	(format_value_common): New function, mostly
+	extracted from gnm_format_layout, but using
+	go_format_value_gstring.
+	(find_entry, gnm_style_format_condition): Remove.
+	(hash_fill): Generalize to handle layouts and strings alike.
+	(format_value_gstring): Simplify using format_value_common.
+
+	* src/workbook-edit.c: Don't include goffice's format-impl.h,
+
 2006-12-18  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release bump

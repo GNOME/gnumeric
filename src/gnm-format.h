@@ -7,13 +7,14 @@
 
 char  *format_value	    (GOFormat const *format,
 			     GnmValue const *value, GOColor *go_color,
-			     double col_width, GODateConventions const *date_conv);
+			     int col_width,
+			     GODateConventions const *date_conv);
 
 GOFormatNumberError format_value_gstring (GString *result,
 					  GOFormat const *format,
 					  GnmValue const *value,
 					  GOColor *go_color,
-					  double col_width,
+					  int col_width,
 					  GODateConventions const *date_conv);
 
 GOFormatNumberError gnm_format_layout    (PangoLayout *result,

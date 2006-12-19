@@ -418,7 +418,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		GOFormat *format = go_format_general ();
 		GnmValue *error_value = value_new_float (state->target_value -
 						      value_get_as_float (state->set_cell->value));
-  		char *target_str = format_value (format, error_value, NULL, 0,
+  		char *target_str = format_value (format, error_value, NULL, -1,
 						 workbook_date_conv (state->wb));
 		gtk_label_set_text (GTK_LABEL (state->target_value_label), target_str);
 		g_free (target_str);

@@ -27,107 +27,12 @@
 #include "gnm-format.h"
 #include "value.h"
 
-#include <goffice/utils/format-impl.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdio.h>
 #include <style-font.h>
-
-#undef DEBUG_GENERAL
-
-static gboolean
-gnm_style_format_condition (GOFormatElement const *entry, GnmValue const *value)
-{
-	if (entry->restriction_type == '*')
-		return TRUE;
-
-	switch (value->type) {
-	case VALUE_BOOLEAN:
-	case VALUE_STRING:
-		return entry->restriction_type == '@';
-
-	case VALUE_FLOAT: {
-		gnm_float f = value_get_as_float (value);
-		switch (entry->restriction_type) {
-		case '<': return f < entry->restriction_value;
-		case '>': return f > entry->restriction_value;
-		case '=': return f == entry->restriction_value;
-		case ',': return f <= entry->restriction_value;
-		case '.': return f >= entry->restriction_value;
-		case '+': return f != entry->restriction_value;
-		default:
-			return FALSE;
-		}
-	}
-
-	case VALUE_ERROR:
-	default:
-		return FALSE;
-	}
-}
-
-static GOFormatElement const *
-find_entry (GOFormat const *format, GnmValue const *value,
-	    GOColor *go_color, gboolean *need_abs, gboolean *empty)
-{
-	GOFormatElement const *entry = NULL;
-
-	if (go_color)
-		*go_color = 0;
-
-	if (format) {
-		GSList *ptr;
-		GOFormatElement const *last_entry = NULL;
-
-		for (ptr = format->entries; ptr; ptr = ptr->next) {
-			last_entry = ptr->data;			
-			/* 142474 : only set entry if it matches */
-			if (gnm_style_format_condition (ptr->data, value)) {
-				entry = last_entry;
-				break;
-			}
-		}
-
-		/*
-		 * 356140: floating point values need to use the last format
-		 * if nothing else matched.
-		 */
-		if (entry == NULL && VALUE_IS_FLOAT (value))
-			entry = last_entry;
-
-		if (entry != NULL) {
-			/* Empty formats should be ignored */
-			if (entry->format[0] == '\0') {
-				*empty = TRUE;
-				return entry;
-			}
-
-			if (go_color && entry->go_color != 0)
-				*go_color = entry->go_color;
-
-			if (strcmp (entry->format, "@") == 0) {
-				/* FIXME : Formatting a value as a text returns
-				 * the entered text.  We need access to the
-				 * parse format */
-				entry = NULL;
-
-			/* FIXME : Just containing General is enough to be
-			 * general for now.  We'll ignore prefixes and suffixes
-			 * for the time being */
-			} else if (strstr (entry->format, "General") != NULL)
-				entry = NULL;
-		}
-	}
-
-	/* More than one format? -- abs the value.  */
-	*need_abs = entry && format->entries->next;
-	*empty = FALSE;
-
-	return entry;
-}
-
 
 static char const *
 format_nonnumber (GnmValue const *value)
@@ -154,48 +59,48 @@ format_nonnumber (GnmValue const *value)
 	return "";
 }
 
-
-gchar *
-format_value (GOFormat const *format, GnmValue const *value, GOColor *go_color,
-	      double col_width, GODateConventions const *date_conv)
-{
-	GString *result = g_string_sized_new (20);
-	format_value_gstring (result, format, value, go_color,
-			      col_width, date_conv);
-	return g_string_free (result, FALSE);
-}
-
 static void
-hash_fill (PangoLayout *result, GOFontMetrics *metrics, int col_width)
+hash_fill (PangoLayout *layout, GString *str, const GOFontMetrics *metrics, int col_width)
 {
-	if (col_width <= 0)
-		pango_layout_set_text (result, "", -1);
-	else if (metrics->hash_width > 0) {
+	if (col_width <= 0) {
+		if (layout) pango_layout_set_text (layout, "", -1);
+	} else if (metrics->hash_width > 0) {
 		int l = col_width / metrics->hash_width;
 		char *s = g_new (char, l + 1);
 		memset (s, '#', l);
 		s[l] = 0;
-		pango_layout_set_text (result, s, -1);
+		if (layout)
+			pango_layout_set_text (layout, s, -1);
+		else
+			g_string_append (str, s);
 		g_free (s);
-	} else
-		pango_layout_set_text (result, "#", -1);
+	} else {
+		const char *text = "#";
+		if (layout)
+			pango_layout_set_text (layout, text, -1);
+		else
+			g_string_append (str, text);
+	}
 }
 
-GOFormatNumberError
-gnm_format_layout (PangoLayout *result,
-		   GOFontMetrics *metrics,
-		   GOFormat const *format,
-		   GnmValue const *value, GOColor *go_color,
-		   int col_width,
-		   GODateConventions const *date_conv,
-		   gboolean unicode_minus)
+static GOFormatNumberError
+format_value_common (PangoLayout *layout, GString *str,
+		     const GOFormatMeasure measure,
+		     const GOFontMetrics *metrics,
+		     GOFormat const *format,
+		     GnmValue const *value, GOColor *go_color,
+		     int col_width,
+		     GODateConventions const *date_conv,
+		     gboolean unicode_minus)
 {
-	GOFormatElement const *entry;
-	gboolean need_abs, empty;
+	GOFormatNumberError err;
+	gnm_float val;
+	const char *sval;
+	char type;
 
 	g_return_val_if_fail (value != NULL, (GOFormatNumberError)-1);
 
-	if (!format)
+	if (format == NULL)
 		format = VALUE_FMT (value);
 
 	/* Use top left corner of an array result.  This will not work for
@@ -203,57 +108,59 @@ gnm_format_layout (PangoLayout *result,
 	if (value->type == VALUE_ARRAY)
 		value = value_area_fetch_x_y (value, 0, 0, NULL);
 
-	entry = find_entry (format, value, go_color, &need_abs, &empty);
+	if (VALUE_IS_FLOAT (value)) {
+		val = value_get_as_float (value);
+		type = 'F';
+		sval = NULL;
+	} else {
+		val = 0;
+		/* Close enough: */
+		type = VALUE_IS_ERROR (value) ? 'E': 'S';
+		sval = format_nonnumber (value);
+	}
+	err = go_format_value_gstring (layout, str, measure, metrics,
+				       format,
+				       val, type, sval,
+				       col_width, date_conv, unicode_minus);
 
-	/* Empty formats should be ignored */
-	if (empty) {
-		pango_layout_set_text (result, "", 0);
-		return GO_FORMAT_NUMBER_OK;
+	switch (err) {
+	case GO_FORMAT_NUMBER_OK:
+		break;
+	case GO_FORMAT_NUMBER_INVALID_FORMAT:
+		break;
+	case GO_FORMAT_NUMBER_DATE_ERROR:
+		hash_fill (layout, str, metrics, col_width);
+		break;
+	default:
+		g_assert_not_reached ();
 	}
 
-	if (VALUE_IS_FLOAT (value)) {
-		gnm_float val = value_get_as_float (value);
+	return err;
+}
 
-		if (!gnm_finite (val)) {
-			pango_layout_set_text (result, value_error_name (GNM_ERROR_VALUE, TRUE), -1);
-			return GO_FORMAT_NUMBER_OK;
-		}
 
-		if (need_abs)
-			val = gnm_abs (val);
+GOFormatNumberError
+gnm_format_layout (PangoLayout *layout,
+		   GOFontMetrics *metrics,
+		   GOFormat const *format,
+		   GnmValue const *value, GOColor *go_color,
+		   int col_width,
+		   GODateConventions const *date_conv,
+		   gboolean unicode_minus)
+{
+	GString *tmp_str = g_string_sized_new (100);
+	GOFormatNumberError err;
 
-		if (entry == NULL) {
-			GString *str = g_string_sized_new (G_ASCII_DTOSTR_BUF_SIZE + GNM_DIG);
-			gnm_render_general (result, str, go_format_measure_pango,
-					    metrics, val,
-					    col_width, unicode_minus);
-			g_string_free (str, TRUE);
-		} else {
-			GString *str = g_string_sized_new (100);
-			/* FIXME: -1 kills filling here.  */
-			GOFormatNumberError err =
-				gnm_format_number (str, val, -1, entry,
-						   date_conv, unicode_minus);
-			switch (err) {
-			case GO_FORMAT_NUMBER_OK:
-				pango_layout_set_text (result, str->str, str->len);
-				break;
-			case GO_FORMAT_NUMBER_INVALID_FORMAT:
-				pango_layout_set_text (result, "", -1);
-				break;
-			case GO_FORMAT_NUMBER_DATE_ERROR:
-				hash_fill (result, metrics, col_width);
-				break;
-			default:
-				g_assert_not_reached ();
-			}
-			g_string_free (str, TRUE);
-			return err;
-		}
-	} else
-		pango_layout_set_text (result, format_nonnumber (value), -1);
+	err = format_value_common (layout, tmp_str,
+				   go_format_measure_pango,
+				   metrics,
+				   format,
+				   value, go_color,
+				   col_width, date_conv, unicode_minus);
 
-	return GO_FORMAT_NUMBER_OK;
+	g_string_free (tmp_str, TRUE);
+
+	return err;
 }
 
 /**
@@ -269,55 +176,35 @@ gnm_format_layout (PangoLayout *result,
 GOFormatNumberError
 format_value_gstring (GString *str, GOFormat const *format,
 		      GnmValue const *value, GOColor *go_color,
-		      double col_width,
+		      int col_width,
 		      GODateConventions const *date_conv)
 {
-	GOFormatElement const *entry;
-	gboolean need_abs, empty;
 	gboolean unicode_minus = FALSE;
+	GString *tmp_str = str->len ? g_string_sized_new (100) : NULL;
+	GOFormatNumberError err;
 
-	g_return_val_if_fail (value != NULL, (GOFormatNumberError)-1);
+	err = format_value_common (NULL, tmp_str ? tmp_str : str,
+				   go_format_measure_strlen,
+				   go_font_metrics_unit,
+				   format,
+				   value, go_color,
+				   col_width, date_conv, unicode_minus);
 
-	if (format == NULL)
-		format = VALUE_FMT (value);
-
-	/* Use top left corner of an array result.  This will not work for
-	 * ranges because we dont't have a location */
-	if (value->type == VALUE_ARRAY)
-		value = value_area_fetch_x_y (value, 0, 0, NULL);
-
-	entry = find_entry (format, value, go_color, &need_abs, &empty);
-
-	/* Empty formats should be ignored */
-	if (empty)
-		return GO_FORMAT_NUMBER_OK;
-
-	if (VALUE_IS_FLOAT (value)) {
-		GOFormatNumberError err;
-		size_t oldlen = str->len;
-		gnm_float val = value_get_as_float (value);
-
-		if (0 && need_abs)
-			val = gnm_abs (val);
-
-		if (!gnm_finite (val)) {
-			g_string_append (str, value_error_name (GNM_ERROR_VALUE, TRUE));
-			return GO_FORMAT_NUMBER_OK;
-		}
-
-		err = go_format_value_gstring (format, str, val,
-					       col_width, date_conv,
-					       unicode_minus);
-		if (err) {
-			if (col_width < 0)
-				col_width = 0;
-			g_string_set_size (str, oldlen + col_width);
-			memset (str->str + oldlen, '#', col_width);
-			return err;
-		}
-	} else {
-		g_string_append (str, format_nonnumber (value));
+	if (tmp_str) {
+		if (!err)
+			go_string_append_gstring (str, tmp_str);
+		g_string_free (tmp_str, TRUE);
 	}
 
-	return GO_FORMAT_NUMBER_OK;
+	return err;
+}
+
+gchar *
+format_value (GOFormat const *format, GnmValue const *value, GOColor *go_color,
+	      int col_width, GODateConventions const *date_conv)
+{
+	GString *result = g_string_sized_new (20);
+	format_value_gstring (result, format, value, go_color,
+			      col_width, date_conv);
+	return g_string_free (result, FALSE);
 }
