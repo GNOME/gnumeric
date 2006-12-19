@@ -226,11 +226,11 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				if (NULL != in[0]) {
 					gnm_cell_eval (in[2]);
 					value_array_set (res, x, y, value_dup (in[2]->value));
-					value_release (in[1]->value);
 				} else {
 					gnm_cell_eval (x_iter);
 					value_array_set (res, x, y, value_dup (x_iter->value));
 				}
+				value_release (in[1]->value);
 			} else
 				value_array_set (res, x, y, value_dup (y_iter->value));
 		}
@@ -275,8 +275,8 @@ func_builtin_init (void)
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
 		{	"gnumeric_version",	"",	"",
-			help_gnumeric_version,	gnumeric_version,
-			NULL, NULL, NULL, NULL, GNM_FUNC_SIMPLE,
+			help_gnumeric_version,	gnumeric_version, NULL,
+			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},

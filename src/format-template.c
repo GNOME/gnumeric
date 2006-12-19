@@ -415,7 +415,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate *ft, 
 {
 	xmlNode *child;
 
-	g_return_val_if_fail (!strcmp (tree->name, "GnmFormatTemplate"), FALSE);
+	g_return_val_if_fail (!strcmp (tree->name, "FormatTemplate"), FALSE);
 
 	child = e_xml_get_child_by_name_by_lang (tree, "Information");
 	if (child) {
@@ -474,7 +474,7 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 	if (doc->xmlRootNode != NULL) {
 		xmlNs *ns = xmlSearchNsByHref (doc, doc->xmlRootNode,
 			CC2XML ("http://www.gnome.org/gnumeric/format-template/v1"));
-		if (ns != NULL && !strcmp (doc->xmlRootNode->name, "GnmFormatTemplate")) {
+		if (ns != NULL && !strcmp (doc->xmlRootNode->name, "FormatTemplate")) {
 			XmlParseContext *ctxt = xml_parse_ctx_new (doc, ns, NULL);
 
 			ft = format_template_new ();
@@ -552,7 +552,7 @@ xml_write_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate cons
 	xmlNs   *ns;
 	GSList  *member;
 
-	root = xmlNewDocNode (ctxt->doc, NULL, CC2XML ("GnmFormatTemplate"), NULL);
+	root = xmlNewDocNode (ctxt->doc, NULL, CC2XML ("FormatTemplate"), NULL);
 	if (root == NULL)
 		return NULL;
 
