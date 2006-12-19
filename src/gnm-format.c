@@ -100,6 +100,10 @@ format_value_common (PangoLayout *layout, GString *str,
 
 	g_return_val_if_fail (value != NULL, (GOFormatNumberError)-1);
 
+#warning FIXME FIXME : where is this supposed to come from now ?
+	if (NULL != go_color)
+		*go_color = 0;
+
 	if (format == NULL)
 		format = VALUE_FMT (value);
 
