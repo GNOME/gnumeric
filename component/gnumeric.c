@@ -335,35 +335,9 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 			cell_height = sheet_row_get_distance_pts (so->sheet,
 						anchor->cell_bound.start.row,
 						anchor->cell_bound.start.row + 1);
-			switch (anchor->type[0]) {
-			case SO_ANCHOR_UNKNOWN:
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-				x = cell_width * anchor->offset[0];
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_START:
-				x = anchor->offset[0];
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_END:
-				x = cell_width - anchor->offset[0];
-				break;
-			default:
-				break;
-			}
+			x = cell_width * anchor->offset[0];
 			width -= x;	
-			switch (anchor->type[1]) {
-			case SO_ANCHOR_UNKNOWN:
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-				y = cell_height * anchor->offset[1];
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_START:
-				y = anchor->offset[1];
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_END:
-				y = cell_height - anchor->offset[1];
-				break;
-			default:
-				break;
-			}	
+			y = cell_height * anchor->offset[1];
 			height -= y;
 			cell_width = sheet_col_get_distance_pts (so->sheet,
 						anchor->cell_bound.end.col,
@@ -371,40 +345,9 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 			cell_height = sheet_row_get_distance_pts (so->sheet,
 						anchor->cell_bound.end.row,
 						anchor->cell_bound.end.row + 1);
-			switch (anchor->type[2]) {
-			case SO_ANCHOR_UNKNOWN:
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-				width -= cell_width * (1. - anchor->offset[2]);
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_START:
-				width -= cell_width - anchor->offset[2];
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_END:
-				width -= anchor->offset[2];
-				break;
-			case SO_ANCHOR_PTS_ABSOLUTE:
-				width = anchor->offset[2];
-				break;
-			default:
-				break;
-			}		
-			switch (anchor->type[3]) {
-			case SO_ANCHOR_UNKNOWN:
-			case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-				height -= cell_height * (1 - anchor->offset[3]);
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_START:
-				height -= cell_height - anchor->offset[3];
-				break;
-			case SO_ANCHOR_PTS_FROM_COLROW_END:
-				height -= anchor->offset[3];
-				break;
-			case SO_ANCHOR_PTS_ABSOLUTE:
-				height = anchor->offset[3];
-				break;
-			default:
-				break;
-			}
+			width -= cell_width * (1. - anchor->offset[2]);
+			height -= cell_height * (1 - anchor->offset[3]);
+
 			gnome_print_gsave (gpc);
 			gnome_print_translate (gpc, xoffset + x, - yoffset - y);
 			sheet_object_print (so, gpc, width, height);

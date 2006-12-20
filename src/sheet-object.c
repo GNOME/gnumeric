@@ -195,10 +195,8 @@ sheet_object_init (GObject *object)
 	so->anchor.cell_bound.end.col = so->anchor.cell_bound.end.row = 1;
 	so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
 
-	for (i = 4; i-- > 0 ;) {
+	for (i = 4; i-- > 0 ;)
 		so->anchor.offset [i] = 0.;
-		so->anchor.type [i] = SO_ANCHOR_UNKNOWN;
-	}
 }
 
 static void
@@ -511,35 +509,10 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
 		cell_height = sheet_row_get_distance_pts (so->sheet,
 					anchor->cell_bound.start.row,
 					anchor->cell_bound.start.row + 1);
-		switch (anchor->type[0]) {
-		case SO_ANCHOR_UNKNOWN:
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-			x = cell_width * anchor->offset[0];
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_START:
-			x = anchor->offset[0];
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_END:
-			x = cell_width - anchor->offset[0];
-			break;
-		default:
-			break;
-		}
+		x = cell_width * anchor->offset[0];
 		width -= x;	
-		switch (anchor->type[1]) {
-		case SO_ANCHOR_UNKNOWN:
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-			y = cell_height * anchor->offset[1];
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_START:
-			y = anchor->offset[1];
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_END:
-			y = cell_height - anchor->offset[1];
-			break;
-		default:
-			break;
-		}	
+
+		y = cell_height * anchor->offset[1];
 		height -= y;
 		cell_width = sheet_col_get_distance_pts (so->sheet,
 					anchor->cell_bound.end.col,
@@ -547,40 +520,9 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
 		cell_height = sheet_row_get_distance_pts (so->sheet,
 					anchor->cell_bound.end.row,
 					anchor->cell_bound.end.row + 1);
-		switch (anchor->type[2]) {
-		case SO_ANCHOR_UNKNOWN:
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-			width -= cell_width * (1. - anchor->offset[2]);
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_START:
-			width -= cell_width - anchor->offset[2];
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_END:
-			width -= anchor->offset[2];
-			break;
-		case SO_ANCHOR_PTS_ABSOLUTE:
-			width = anchor->offset[2];
-			break;
-		default:
-			break;
-		}		
-		switch (anchor->type[3]) {
-		case SO_ANCHOR_UNKNOWN:
-		case SO_ANCHOR_PERCENTAGE_FROM_COLROW_START:
-			height -= cell_height * (1 - anchor->offset[3]);
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_START:
-			height -= cell_height - anchor->offset[3];
-			break;
-		case SO_ANCHOR_PTS_FROM_COLROW_END:
-			height -= anchor->offset[3];
-			break;
-		case SO_ANCHOR_PTS_ABSOLUTE:
-			height = anchor->offset[3];
-			break;
-		default:
-			break;
-		}
+		width -= cell_width * (1. - anchor->offset[2]);
+		height -= cell_height * (1 - anchor->offset[3]);
+
 		/* we don't need to save/restore cairo, the caller must do it */
 		cairo_translate (cairo, x, y);
 		SO_CLASS (so)->draw_cairo (so, cairo, width, height);
@@ -627,10 +569,9 @@ sheet_object_anchor_cpy	(SheetObjectAnchor *dst, SheetObjectAnchor const *src)
 
 static double
 cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
-		     SheetObjectAnchorType anchor_type, float offset)
+		     float offset)
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
-	/* TODO : handle other anchor types */
 	return offset * cri->size_pts;
 }
 
@@ -688,13 +629,13 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
 		r->start.row, r->end.row);
 
 	res_pts [0] += cell_offset_calc_pt (sheet, r->start.col,
-		TRUE, anchor->type [0], anchor->offset [0]);
+		TRUE, anchor->offset [0]);
 	res_pts [1] += cell_offset_calc_pt (sheet, r->start.row,
-		FALSE, anchor->type [1], anchor->offset [1]);
+		FALSE, anchor->offset [1]);
 	res_pts [2] += cell_offset_calc_pt (sheet, r->end.col,
-		TRUE, anchor->type [2], anchor->offset [2]);
+		TRUE, anchor->offset [2]);
 	res_pts [3] += cell_offset_calc_pt (sheet, r->end.row,
-		FALSE, anchor->type [3], anchor->offset [3]);
+		FALSE, anchor->offset [3]);
 }
 
 /**
@@ -937,14 +878,17 @@ sheet_object_rubber_band_directly (SheetObject const *so)
 
 /**
  * sheet_object_anchor_init :
+ * @anchor : #SheetObjectAnchor
+ * @r : #GnmRange
+ * @offsets : float[4]
+ * @direction : #GODrawingAnchorDir
  *
- * A utility routine to initialize an anchor.  Useful in case we add
- * fields in the future and want to ensure that everything is initialized.
+ * A utility routine to initialize an anchor.  Useful in case we change fields
+ * in the future and want to ensure that everything is initialized.
  **/
 void
 sheet_object_anchor_init (SheetObjectAnchor *anchor,
 			  GnmRange const *r, float const *offsets,
-			  SheetObjectAnchorType const *types,
 			  GODrawingAnchorDir direction)
 {
 	int i;
@@ -961,18 +905,6 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 	}
 	for (i = 4; i-- > 0 ; )
 		anchor->offset [i] = offsets [i];
-
-	if (types == NULL) {
-		static SheetObjectAnchorType const defaultVal [4] = {
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
-		};
-		types = defaultVal;
-	}
-	for (i = 4; i-- > 0 ; )
-		anchor->type [i] = types [i];
 
 	anchor->base.direction = direction;
 	/* TODO : add sanity checking to handle offsets past edges of col/row */

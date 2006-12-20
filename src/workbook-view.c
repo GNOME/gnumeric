@@ -280,7 +280,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 		
 		range_init_cellpos_size (&r, &sv->edit_pos, 1, 1);
 		wbv->validation_combo = gnm_validation_combo_new (val, sv);
-		sheet_object_anchor_init (&anchor, &r, a_offsets, NULL,
+		sheet_object_anchor_init (&anchor, &r, a_offsets,
 			GOD_ANCHOR_DIR_DOWN_RIGHT);
 		sheet_object_set_anchor (wbv->validation_combo, &anchor);
 		sheet_object_set_sheet (wbv->validation_combo, sv_sheet (sv));

@@ -573,7 +573,7 @@
     <xsd:attributeGroup name="ObjectAnchor">
 	<xsd:attribute name="ObjectBound"      type="xsd:string"	use="required"/>
 	<xsd:attribute name="ObjectOffset"     type="gnm:offsets"	use="required"/>
-	<xsd:attribute name="ObjectAnchorType" type="gnm:anchor_type"	use="required"/>
+	<xsd:attribute name="ObjectAnchorType" type="gnm:anchor_type"	use="optional"/>
 	<xsd:attribute name="Direction"        type="gnm:direction"	use="required"/>
     </xsd:attributeGroup>
 
@@ -707,6 +707,7 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <!-- As of 1.7.7 this is deprecated -->
     <xsd:simpleType name="anchor_type">
         <xsd:restriction base="xsd:string">
             <!-- if this seems hard to read, it purportedly describes 4

@@ -1,3 +1,11 @@
+2006-12-19  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.h (SheetObjectAnchor::types) : simplfy to remove
+	  the vector 'type' the offsets are now always as percentages of cell
+	  size relative to the cell_bound.  The parent, GODrawingAnchor will
+	  eventually have the absolute positions, and the sheet object itself
+	  will specify how which set of coords in normative.
+
 2006-12-18  Jody Goldberg <jody@gnome.org>
 
 	* src/format-template.c (xml_read_format_template_members) : revert

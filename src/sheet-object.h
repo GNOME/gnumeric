@@ -32,23 +32,11 @@ typedef struct _GODrawingAnchor {
 } GODrawingAnchor;
 /***********************************************************/
 
-typedef enum {
-	SO_ANCHOR_UNKNOWN			= 0x00,
-	SO_ANCHOR_PERCENTAGE_FROM_COLROW_START	= 0x10,
-
-	/* TODO : implement these */
-	SO_ANCHOR_PTS_FROM_COLROW_START		= 0x20,
-	SO_ANCHOR_PTS_FROM_COLROW_END		= 0x21,
-
-	/* only allowed for Anchors 2-3 to support fixed size */
-	SO_ANCHOR_PTS_ABSOLUTE			= 0x30
-} SheetObjectAnchorType;
 struct _SheetObjectAnchor {
 	GODrawingAnchor	base;
 
-	GnmRange		cell_bound; /* cellpos containg corners */
-	float			offset [4];
-	SheetObjectAnchorType	type [4];
+	GnmRange cell_bound; /* cellpos containing corners */
+	float	 offset [4]; /* offsets from the top left (in LTR of cell_bound) */
 };
 
 #define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
@@ -118,7 +106,6 @@ void sheet_object_anchor_to_pts	(SheetObjectAnchor const *anchor,
 void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GnmRange const *cell_bound,
 				 float const	offset [4],
-				 SheetObjectAnchorType const type [4],
 				 GODrawingAnchorDir direction);
 void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
 				 SheetObjectAnchor const *src);

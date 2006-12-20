@@ -409,8 +409,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		((flip_h == NULL) ? GOD_ANCHOR_DIR_RIGHT : 0) |
 		((flip_v == NULL) ? GOD_ANCHOR_DIR_DOWN : 0);
 
-	sheet_object_anchor_init (&anchor, &range,
-		offsets, NULL, direction);
+	sheet_object_anchor_init (&anchor, &range, offsets, direction);
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, esheet->sheet);
 
@@ -3633,7 +3632,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 const  xf	  = GSF_LE_GET_GUINT16 (q->data + 6);
 	guint16 const  options	  = GSF_LE_GET_GUINT16 (q->data + 8);
 	gboolean       hidden	  = (options & 0x0001) != 0;
-	/*gboolean const customWidth= (options & 0x0002) != 0;	/* undocumented */
+	/*gboolean const customWidth= (options & 0x0002) != 0;	   undocumented */
 	gboolean const bestFit    = (options & 0x0004) != 0;	/* undocumented */
 	gboolean const collapsed  = (options & 0x1000) != 0;
 	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);
@@ -3678,7 +3677,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	for (i = firstcol; i <= lastcol; i++) {
 		/* Kludge : we should really use
 		 * 	hard_size == customWidth && !bestFit
-		 * but these flags are undocumented and gnumeric < 1.75 && OOo
+		 * but these flags are undocumented and gnumeric < 1.7.5 && OOo
 		 * export them as 0.  So we are reduced to using */
 		sheet_col_set_size_pts (esheet->sheet, i, width, !bestFit);
 		if (outline_level > 0 || collapsed)

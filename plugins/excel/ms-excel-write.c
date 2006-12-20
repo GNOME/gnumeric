@@ -3682,12 +3682,6 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
 /* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
 	};
-	static SheetObjectAnchorType const anchor_types[] = {
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
-	};
 	static float offsets[] = { 0., 0., 0., 0. };
 
 	guint8 *data, buf [sizeof obj_v8];
@@ -3708,7 +3702,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 		cond = gnm_filter_get_condition (filter, i);
 
 		r.end.col = 1 + (r.start.col = filter->r.start.col + i);
-		sheet_object_anchor_init (&anchor, &r, offsets, anchor_types,
+		sheet_object_anchor_init (&anchor, &r, offsets,
 			GOD_ANCHOR_DIR_DOWN_RIGHT);
 		if (bp->version >= MS_BIFF_V8) {
 			guint32 id = excel_write_start_drawing (esheet);

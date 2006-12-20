@@ -3292,8 +3292,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	if (full_page != NULL) {
 		static GnmRange const fixed_size = { { 1, 1 }, { 12, 32 } };
 		SheetObjectAnchor anchor;
-		sheet_object_anchor_init (&anchor,
-			&fixed_size, NULL, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_anchor_init (&anchor, &fixed_size, NULL,
+			GOD_ANCHOR_DIR_DOWN_RIGHT);
 		sheet_object_set_anchor (sog, &anchor);
 		sheet_object_set_sheet (sog, full_page);
 		g_object_unref (sog);

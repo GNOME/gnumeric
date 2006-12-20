@@ -1697,6 +1697,8 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 		xmlFree (tmp);
 	}
 
+	/* DEPRECATED : There was once an 'AnchorType' but it is now ignored */
+#if 0
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectAnchorType");
 	if (tmp != NULL) {
 		int i[4], count;
@@ -1706,6 +1708,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 			so->anchor.type[count] = i[count];
 		xmlFree (tmp);
 	}
+#endif
 
 	if (xml_node_get_int (tree, "Direction", &tmp_int))
 		so->anchor.base.direction = tmp_int;

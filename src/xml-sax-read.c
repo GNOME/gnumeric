@@ -1611,6 +1611,10 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	int tmp_int, i;
 	SheetObject *so;
 	SheetObjectClass *klass;
+	GnmRange		anchor_r;
+	GODrawingAnchorDir	anchor_dir;
+	SheetObjectAnchor	anchor;
+	float			f_tmp[4], *anchor_offset = NULL;
 
 	g_return_if_fail (state->so == NULL);
 
@@ -1662,29 +1666,26 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 
 	state->so = so;
 
-	so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
+	anchor_dir = GOD_ANCHOR_DIR_UNKNOWN;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2) {
-		if (!strcmp (attrs[i], "ObjectBound")) {
-			GnmRange r;
-			if (range_parse (&r, attrs[i+1]))
-				so->anchor.cell_bound = r;
-		} else if (!strcmp (attrs[i], "ObjectOffset")) {
-			sscanf (attrs[i+1], "%g %g %g %g",
-				so->anchor.offset +0, so->anchor.offset +1,
-				so->anchor.offset +2, so->anchor.offset +3);
-		} else if (!strcmp (attrs[i], "ObjectAnchorType")) {
-			int n[4], count;
-			sscanf (attrs[i+1], "%d %d %d %d", n+0, n+1, n+2, n+3);
-
-			for (count = 4; count-- > 0 ; )
-				so->anchor.type[count] = n[count];
-		} else if (gnm_xml_attr_int (attrs+i, "Direction", &tmp_int))
-			so->anchor.base.direction = tmp_int;
-#if 0 /* There may be extra attributes that are handled by the objects */
+		if (!strcmp (attrs[i], "ObjectBound"))
+			range_parse (&anchor_r, attrs[i+1]);
+		else if (!strcmp (attrs[i], "ObjectOffset") &&
+			4 == sscanf (attrs[i+1], "%g %g %g %g",
+				     f_tmp + 0, f_tmp + 1, f_tmp + 2, f_tmp + 3))
+			anchor_offset = f_tmp;
+		else if (gnm_xml_attr_int (attrs+i, "Direction", &tmp_int))
+			anchor_dir = tmp_int;
+#if 0
+		/* Deprecated in 1.7.7 */
+		else if (!strcmp (attrs[i], "ObjectAnchorType"))
+		/* There may be extra attributes that are handled by the objects */
 		else
 			unknown_attr (xin, attrs+i);
 #endif
 	}
+	sheet_object_anchor_init (&anchor, &anchor_r, anchor_offset, anchor_dir);
+	sheet_object_set_anchor (so, &anchor);
 
 	if (NULL != klass->prep_sax_parser)
 		(klass->prep_sax_parser) (so, xin, attrs);

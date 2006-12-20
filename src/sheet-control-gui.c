@@ -1985,7 +1985,7 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 
 static int
 calc_obj_place (GnmCanvas *gcanvas, int canvas_coord, gboolean is_col,
-		SheetObjectAnchorType anchor_type, float *offset)
+		float *offset)
 {
 	int origin, colrow;
 	ColRowInfo const *cri;
@@ -2376,21 +2376,19 @@ scg_object_coords_to_anchor (SheetControlGUI const *scg,
 		tmp[2], tmp[3],
 		pixels + 2, pixels + 3);
 	in_out->cell_bound.start.col = calc_obj_place (gcanvas, pixels[0], TRUE,
-		in_out->type[0], in_out->offset + 0);
+		in_out->offset + 0);
 	in_out->cell_bound.start.row = calc_obj_place (gcanvas, pixels[1], FALSE,
-		in_out->type[1], in_out->offset + 1);
+		in_out->offset + 1);
 	in_out->cell_bound.end.col = calc_obj_place (gcanvas, pixels[2], TRUE,
-		in_out->type[2], in_out->offset + 2);
+		in_out->offset + 2);
 	in_out->cell_bound.end.row = calc_obj_place (gcanvas, pixels[3], FALSE,
-		in_out->type[3], in_out->offset + 3);
+		in_out->offset + 3);
 }
 
 static double
-cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
-			SheetObjectAnchorType anchor_type, float offset)
+cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col, float offset)
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
-	/* TODO : handle other anchor types */
 	return offset * cri->size_pixels;
 }
 
@@ -2417,13 +2415,13 @@ scg_object_anchor_to_coords (SheetControlGUI const *scg,
 	pixels[3] = pixels[1] + scg_colrow_distance_get (scg, FALSE,
 		r->start.row, r->end.row);
 	pixels[0] += cell_offset_calc_pixel (sheet, r->start.col,
-		TRUE, anchor->type[0], anchor->offset[0]);
+		TRUE, anchor->offset[0]);
 	pixels[1] += cell_offset_calc_pixel (sheet, r->start.row,
-		FALSE, anchor->type[1], anchor->offset[1]);
+		FALSE, anchor->offset[1]);
 	pixels[2] += cell_offset_calc_pixel (sheet, r->end.col,
-		TRUE, anchor->type[2], anchor->offset[2]);
+		TRUE, anchor->offset[2]);
 	pixels[3] += cell_offset_calc_pixel (sheet, r->end.row,
-		FALSE, anchor->type[3], anchor->offset[3]);
+		FALSE, anchor->offset[3]);
 
 	direction = anchor->base.direction;
 	if (direction == GOD_ANCHOR_DIR_UNKNOWN)
@@ -3183,8 +3181,8 @@ scg_paste_image (SheetControlGUI *scg, GnmRange *where,
 {
 	SheetObjectAnchor anchor;
 
-	sheet_object_anchor_init (&anchor, where, NULL, NULL,
-				  GOD_ANCHOR_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&anchor, where, NULL,
+		GOD_ANCHOR_DIR_DOWN_RIGHT);
 	scg_image_create (scg, &anchor, data, len);
 }
 
@@ -3192,11 +3190,11 @@ static void
 scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y,
 			   guint8 const *data, unsigned len)
 {
-	SheetObjectAnchor anchor;
 	double coords[4];
+	SheetObjectAnchor anchor;
 
-	sheet_object_anchor_init (&anchor, NULL, NULL, NULL,
-				  GOD_ANCHOR_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&anchor, NULL, NULL,
+		GOD_ANCHOR_DIR_DOWN_RIGHT);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);
@@ -3263,8 +3261,8 @@ scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 	SheetObjectAnchor anchor;
 	double coords[4];
 
-	sheet_object_anchor_init (&anchor, NULL, NULL, NULL,
-				  GOD_ANCHOR_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&anchor, NULL, NULL,
+		GOD_ANCHOR_DIR_DOWN_RIGHT);
 	coords[0] = coords[2] = x;
 	coords[1] = coords[3] = y;
 	scg_object_coords_to_anchor (scg, coords, &anchor);

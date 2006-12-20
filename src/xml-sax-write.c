@@ -1032,10 +1032,6 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 			  so->anchor.offset [0], so->anchor.offset [1],
 			  so->anchor.offset [2], so->anchor.offset [3]);
 		gsf_xml_out_add_cstr (state->output, "ObjectOffset", buffer);
-		snprintf (buffer, sizeof (buffer), "%d %d %d %d",
-			  so->anchor.type [0], so->anchor.type [1],
-			  so->anchor.type [2], so->anchor.type [3]);
-		gsf_xml_out_add_cstr (state->output, "ObjectAnchorType", buffer);
 
 		gsf_xml_out_add_int (state->output, "Direction",
 			so->anchor.base.direction);

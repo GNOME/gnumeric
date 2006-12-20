@@ -1,5 +1,10 @@
 2006-12-19  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-write.c (excel_write_autofilter_objs) : minor
+	  simplification.
+
+2006-12-19  Jody Goldberg <jody@gnome.org>
+
 	* xlsx-read.c (xlsx_get_num_fmt) : handle the standard builtins
 	  and paste over the unicode variants of the documented locale
 	  specific variants.

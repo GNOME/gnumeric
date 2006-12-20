@@ -767,7 +767,7 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 
 	coords[0] = coords[2] = event->x;
 	coords[1] = coords[3] = event->y;
-	sheet_object_anchor_init (&anchor, NULL, NULL, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
+	sheet_object_anchor_init (&anchor, NULL, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
 	scg_object_coords_to_anchor (ig->scg, coords, &anchor);
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, scg_sheet (ig->scg));

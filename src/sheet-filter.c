@@ -516,7 +516,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	fcombo->filter = filter;
 	tmp.start.row = tmp.end.row = filter->r.start.row;
 	tmp.start.col = tmp.end.col = filter->r.start.col + i;
-	sheet_object_anchor_init (&anchor, &tmp, a_offsets, NULL,
+	sheet_object_anchor_init (&anchor, &tmp, a_offsets,
 		GOD_ANCHOR_DIR_DOWN_RIGHT);
 	sheet_object_set_anchor (SHEET_OBJECT (fcombo), &anchor);
 	sheet_object_set_sheet (SHEET_OBJECT (fcombo), filter->sheet);
