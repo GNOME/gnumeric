@@ -973,17 +973,142 @@ xlsx_get_dxf (GsfXMLIn *xin, int dxf)
 static GOFormat *
 xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 {
+	static char const * const std_builtins[] = {
+		/* 0 */	 "General",
+		/* 1 */	 "0",
+		/* 2 */	 "0.00",
+		/* 3 */	 "#,##0",
+		/* 4 */	 "#,##0.00",
+		/* 5 */	 NULL,
+		/* 6 */	 NULL,
+		/* 7 */	 NULL,
+		/* 8 */	 NULL,
+		/* 9 */  "0%",
+		/* 10 */ "0.00%",
+		/* 11 */ "0.00E+00",
+		/* 12 */ "# ?/?",
+		/* 13 */ "# ?""?/?""?",	/* silly trick to avoid using a trigraph */
+		/* 14 */ "mm-dd-yy",
+		/* 15 */ "d-mmm-yy",
+		/* 16 */ "d-mmm",
+		/* 17 */ "mmm-yy",
+		/* 18 */ "h:mm AM/PM",
+		/* 19 */ "h:mm:ss AM/PM",
+		/* 20 */ "h:mm",
+		/* 21 */ "h:mm:ss",
+		/* 22 */ "m/d/yy h:mm",
+		/* 23 */ NULL,
+		/* 24 */ NULL,
+		/* 25 */ NULL,
+		/* 26 */ NULL,
+		/* 27 */ NULL,
+		/* 28 */ NULL,
+		/* 29 */ NULL,
+		/* 30 */ NULL,
+		/* 31 */ NULL,
+		/* 32 */ NULL,
+		/* 33 */ NULL,
+		/* 34 */ NULL,
+		/* 35 */ NULL,
+		/* 36 */ NULL,
+		/* 37 */ "#,##0 ;(#,##0)",
+		/* 38 */ "#,##0 ;[Red](#,##0)",
+		/* 39 */ "#,##0.00;(#,##0.00)",
+		/* 40 */ "#,##0.00;[Red](#,##0.00)",
+		/* 41 */ NULL,
+		/* 42 */ NULL,
+		/* 43 */ NULL,
+		/* 44 */ NULL,
+		/* 45 */ "mm:ss",
+		/* 46 */ "[h]:mm:ss",
+		/* 47 */ "mmss.0",
+		/* 48 */ "##0.0E+0",
+		/* 49 */ "@"
+	};
+
+#if 0
+	CHT						CHS
+27 [$-404]e/m/d					yyyy"5E74"m"6708"
+28 [$-404]e"5E74"m"6708"d"65E5"			m"6708"d"65E5"
+29 [$-404]e"5E74"m"6708"d"65E5"			m"6708"d"65E5"
+30 m/d/yy					m-d-yy
+31 yyyy"5E74"m"6708"d"65E5"			yyyy"5E74"m"6708"d"65E5"
+32 hh"6642"mm"5206"				h"65F6"mm"5206"
+33 hh"6642"mm"5206"ss"79D2"			h"65F6"mm"5206"ss"79D2"
+34 4E0A5348/4E0B5348hh"6642"mm"5206"      	4E0A5348/4E0B5348h"65F6"mm"5206"
+35 4E0A5348/4E0B5348hh"6642"mm"5206"ss"79D2"	4E0A5348/4E0B5348h"65F6"mm"5206"ss"79D2"
+36 [$-404]e/m/d					yyyy"5E74"m"6708"
+50 [$-404]e/m/d					yyyy"5E74"m"6708"
+51 [$-404]e"5E74"m"6708"d"65E5"           	m"6708"d"65E5"
+52 4E0A5348/4E0B5348hh"6642"mm"5206"      	yyyy"5E74"m"6708"
+53 4E0A5348/4E0B5348hh"6642"mm"5206"ss"79D2" 	m"6708"d"65E5"
+54 [$-404]e"5E74"m"6708"d"65E5"			m"6708"d"65E5"
+55 4E0A5348/4E0B5348hh"6642"mm"5206"		4E0A5348/4E0B5348h"65F6"mm"5206"
+56 4E0A5348/4E0B5348hh"6642"mm"5206"ss"79D2"	4E0A5348/4E0B5348h"65F6"mm"5206"ss"79D2"
+57 [$-404]e/m/d                           	yyyy"5E74"m"6708"
+58 [$-404]e"5E74"m"6708"d"65E5"           	m"6708"d"65E5"
+
+	JPN						KOR
+27 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
+28 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
+29 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
+30 m/d/yy                         		mm-dd-yy
+31 yyyy"5E74"m"6708"d"65E5"       		yyyy"B144" mm"C6D4" dd"C77C"
+32 h"6642"mm"5206"                		h"C2DC" mm"BD84"
+33 h"6642"mm"5206"ss"79D2"        		h"C2DC" mm"BD84" ss"CD08"
+34 yyyy"5E74"m"6708"              		yyyy-mm-dd
+35 m"6708"d"65E5"                 		yyyy-mm-dd
+36 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
+50 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
+51 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
+52 yyyy"5E74"m"6708"              		yyyy-mm-dd
+53 m"6708"d"65E5"                 		yyyy-mm-dd
+54 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
+55 yyyy"5E74"m"6708"              		yyyy-mm-dd
+56 m"6708"d"65E5"                 		yyyy-mm-dd
+57 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
+58 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
+
+	THA
+59 "t0"
+60 "t0.00"
+61 "t#,##0"
+62 "t#,##0.00"
+67 "t0%"
+68 "t0.00%"
+69 "t# ?/?"
+70 "t# ?""?/?""?"" /* silly trick to avoid using a trigraph */
+71 0E27/0E14/0E1B0E1B0E1B0E1B
+72 0E27-0E140E140E14-0E1B0E1B
+73 0E27-0E140E140E14
+74 0E140E140E14-0E1B0E1B
+75 0E0A:0E190E19
+76 0E0A:0E190E19:0E170E17
+77 0E27/0E14/0E1B0E1B0E1B0E1B 0E0A:0E190E19
+78 0E190E19:0E170E17
+79 [0E0A]:0E190E19:0E170E17
+80 0E190E19:0E170E17.0
+81 d/m/bb
+#endif
+
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	GOFormat *res = g_hash_table_lookup (state->num_fmts, id);
+	char *end;
+	int i;
+
 	if (NULL != res)
 		return res;
 
-	/* TODO : other builtins ?? */
-	if (0 == strcmp ("0", id))
-		return go_format_general ();
-
+	/* builtins */
+	i = strtol (id, &end, 10);
+	if (end != id && *end == '\0' &&
+	    i >= 0 && i < (int) G_N_ELEMENTS (std_builtins) &&
+	    std_builtins[i] != NULL) {
+		res = go_format_new_from_XL (std_builtins[i], FALSE);
+		g_hash_table_replace (state->num_fmts, g_strdup (id), res);
+	} else
 	xlsx_warning (xin, _("Undefined number format id '%s'"), id);
-	return NULL;
+	return res;
 }
 
 static GnmExprTop const *

@@ -1,5 +1,10 @@
 Gnumeric 1.7.7
 
+Jody:
+	* Patch a leak in DataTables.
+	* Fix AutoFormat loading.
+	* Add support for the standard builtin formats in xlsx.
+
 Morten:
 	* Unify layout and string value formatting.
 

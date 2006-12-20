@@ -1,3 +1,9 @@
+2006-12-19  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_get_num_fmt) : handle the standard builtins
+	  and paste over the unicode variants of the documented locale
+	  specific variants.
+
 2006-12-18  Jody Goldberg <jody@gnome.org>
 
 	* ms-container.c (ms_container_parse_expr) : handle 0 length
