@@ -98,11 +98,7 @@ format_value_common (PangoLayout *layout, GString *str,
 	const char *sval;
 	char type;
 
-	g_return_val_if_fail (value != NULL, (GOFormatNumberError)-1);
-
-#warning FIXME FIXME : where is this supposed to come from now ?
-	if (NULL != go_color)
-		*go_color = 0;
+	g_return_val_if_fail (value != NULL, GO_FORMAT_NUMBER_INVALID_FORMAT);
 
 	if (format == NULL)
 		format = VALUE_FMT (value);
@@ -119,12 +115,13 @@ format_value_common (PangoLayout *layout, GString *str,
 	} else {
 		val = 0;
 		/* Close enough: */
-		type = VALUE_IS_ERROR (value) ? 'E': 'S';
+		type = VALUE_IS_ERROR (value) ? 'E' : 'S';
 		sval = format_nonnumber (value);
 	}
 	err = go_format_value_gstring (layout, str, measure, metrics,
 				       format,
 				       val, type, sval,
+				       go_color,
 				       col_width, date_conv, unicode_minus);
 
 	switch (err) {
