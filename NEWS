@@ -4,6 +4,7 @@ Jody:
 	* Patch a leak in DataTables.
 	* Fix AutoFormat loading.
 	* Add support for the standard builtin formats in xlsx.
+	* Fix col/row grouping deletion. [#388505]
 
 Morten:
 	* Unify layout and string value formatting.

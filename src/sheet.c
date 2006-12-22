@@ -1116,10 +1116,10 @@ sheet_flag_recompute_spans (Sheet const *sheet)
 }
 
 static gboolean
-cb_outline_level (ColRowInfo *info, int *outline_level)
+cb_outline_level (GnmColRowIter const *iter, int *outline_level)
 {
-	if (*outline_level  < info->outline_level)
-		*outline_level  = info->outline_level;
+	if (*outline_level < iter->cri->outline_level)
+		*outline_level  = iter->cri->outline_level;
 	return FALSE;
 }
 
