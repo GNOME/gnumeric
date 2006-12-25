@@ -195,9 +195,8 @@
         <menuitem action="DataFilterAdvancedfilter"/>
       </menu>
       <menuitem action="DataValidate"/>
-      <separator/>
-      <menuitem action="DataTextToColumns"/>
       <menuitem action="DataConsolidate"/>
+      <menuitem action="DataTable"/>
 <!--      <menuitem action="DataSlice"/> -->
       <menu name="Outline" action="MenuOutline">
         <menuitem action="DataOutlineHideDetail"/>
@@ -209,6 +208,8 @@
         <menuitem action="SheetOutlineBelow"/>
         <menuitem action="SheetOutlineRight"/>
       </menu>
+      <separator/>
+      <menuitem action="DataTextToColumns"/>
       <menu name="ExternalData" action="MenuExternalData">
         <menuitem action="DataImportText"/>
       </menu>

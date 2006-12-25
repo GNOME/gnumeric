@@ -18,9 +18,10 @@
 #define GNUMERIC_HELP_H
 
 /* ../sheet-object-widget.c    */
-#define GNUMERIC_HELP_LINK_SO_FRAME "sect-graphics-drawings"
+#define GNUMERIC_HELP_LINK_SO_FRAME	 "sect-graphics-drawings"
 #define GNUMERIC_HELP_LINK_SO_ADJUSTMENT "sect-graphics-drawings"
-#define GNUMERIC_HELP_LINK_SO_CHECKBOX "sect-graphics-drawings"
+#define GNUMERIC_HELP_LINK_SO_CHECKBOX	 "sect-graphics-drawings"
+#define GNUMERIC_HELP_LINK_SO_LIST	 "sect-graphics-drawings"
 
 /* dialog-autocorrect.c        */
 #define GNUMERIC_HELP_LINK_AUTOCORRECT "sect-data-entry"
@@ -52,6 +53,11 @@
 
 /* dialog-define-names.c       */
 #define GNUMERIC_HELP_LINK_DEFINE_NAMES "sect-workbooks-names"
+/* dialog-paste-names.c       */
+#define GNUMERIC_HELP_LINK_PASTE_NAMES "sect-workbooks-names-paste"
+
+/* dialog-define-table.c       */
+#define GNUMERIC_HELP_LINK_DATA_TABLE "sect-data-table"
 
 /* dialog-delete-cells.c       */
 #define GNUMERIC_HELP_LINK_DELETE_CELLS "sect-data-delete"

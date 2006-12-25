@@ -35,6 +35,7 @@ base_files =					\
 	dialog-col-width.c			\
 	dialog-col-row.c			\
 	dialog-consolidate.c			\
+	dialog-data-table.c			\
 	dialog-fill-series.c			\
 	dialog-function-select.c		\
 	dialog-formula-guru.c			\
@@ -59,6 +60,7 @@ base_files =					\
 	dialog-sheet-order.c			\
 	dialog-shuffle.c			\
 	dialog-simulation.c			\
+	dialog-so-list.c			\
 	dialog-so-styled.c			\
 	dialog-stf.c				\
 	dialog-stf.h				\
@@ -101,6 +103,7 @@ glade_DATA = 				\
 	correlation.glade		\
 	covariance.glade		\
 	dao.glade			\
+	data-table.glade		\
 	define-name.glade		\
 	delete-cells.glade		\
 	descriptive-stats.glade		\
@@ -140,6 +143,7 @@ glade_DATA = 				\
 	shuffle.glade			\
 	so-checkbox.glade		\
 	so-frame.glade			\
+	so-list.glade			\
 	so-scrollbar.glade		\
 	simulation.glade		\
 	solver.glade			\

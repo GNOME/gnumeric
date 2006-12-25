@@ -23,8 +23,9 @@ typedef enum {
 } GnmExprEntryFlags;
 
 GType gnm_expr_entry_get_type (void);
-GnmExprEntry *gnm_expr_entry_new (WorkbookControlGUI *wbcg,
-				       gboolean with_icon);
+GnmExprEntry *gnm_expr_entry_new       (WorkbookControlGUI *wbcg,
+					gboolean with_icon);
+GtkWidget    *gnm_expr_entry_new_glade (void);
 
 /* Widget specific methods */
 void	  gnm_expr_entry_freeze 	(GnmExprEntry *e);

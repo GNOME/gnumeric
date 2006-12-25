@@ -47,6 +47,7 @@ void	 dialog_advanced_filter	(WorkbookControlGUI *wbcg);
 void	 dialog_shuffle	        (WorkbookControlGUI *wbcg);
 void     dialog_scenario_add    (WorkbookControlGUI *wbcg);
 void     dialog_scenarios       (WorkbookControlGUI *wbcg);
+void     dialog_data_table	(WorkbookControlGUI *wbcg);
 void	 dialog_auto_filter	(WorkbookControlGUI *wbcg, GnmFilter *f, int i,
 				 gboolean is_expr, GnmFilterCondition *cur);
 void	 dialog_autosave	(WorkbookControlGUI *wbcg);
@@ -114,6 +115,7 @@ void	dialog_new_view (WorkbookControlGUI *wbcg);
 void	dialog_so_styled (WorkbookControlGUI *wbcg, GObject *so,
 			  GogStyle *orig, GogStyle *default_style,
 			  char const *title);
+void	dialog_so_list	 (WorkbookControlGUI *wbcg, GObject *so);
 
 void	dialog_doc_metadata_new  (WorkbookControlGUI *wbcg);
 

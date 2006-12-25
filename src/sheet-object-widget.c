@@ -2092,12 +2092,16 @@ static GnmValue *
 cb_collect (GnmValueIter const *iter, GtkListStore *model)
 {
 	GtkTreeIter list_iter;
-	GOFormat const *fmt = (NULL != iter->cell_iter)
-		? gnm_cell_get_format (iter->cell_iter->cell) : NULL;
-	char *label = format_value (fmt, iter->v, NULL, -1, NULL);
+
 	gtk_list_store_append (model, &list_iter);
-	gtk_list_store_set (model, &list_iter, 0, label, -1);
-	g_free (label);
+	if (NULL != iter->v) {
+		GOFormat const *fmt = (NULL != iter->cell_iter)
+			? gnm_cell_get_format (iter->cell_iter->cell) : NULL;
+		char *label = format_value (fmt, iter->v, NULL, -1, NULL);
+		gtk_list_store_set (model, &list_iter, 0, label, -1);
+		g_free (label);
+	} else
+		gtk_list_store_set (model, &list_iter, 0, "", -1);
 
 	return NULL;
 }
@@ -2162,6 +2166,11 @@ sheet_widget_list_base_finalize (GObject *obj)
 	(*sheet_object_widget_class->finalize) (obj);
 }
 
+static void
+sheet_widget_list_base_user_config (SheetObject *so, SheetControl *sc)
+{
+	dialog_so_list (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so));
+}
 static gboolean
 sheet_widget_list_base_set_sheet (SheetObject *so, Sheet *sheet)
 {
@@ -2233,7 +2242,7 @@ sheet_widget_list_base_create_widget (SheetObjectWidget *sow)
 }
 
 SOW_MAKE_TYPE (list_base, ListBase,
-	       NULL,
+	       &sheet_widget_list_base_user_config,
 	       &sheet_widget_list_base_set_sheet,
 	       &sheet_widget_list_base_clear_sheet,
 	       NULL,

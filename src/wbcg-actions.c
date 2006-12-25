@@ -103,7 +103,8 @@ static GNM_ACTION_DEF (cb_file_page_setup)
 #endif
 }
 
-static GNM_ACTION_DEF (cb_file_print_area_set) {
+static GNM_ACTION_DEF (cb_file_print_area_set)
+{
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
 	SheetView *sv = sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	GnmParsePos pp;
@@ -124,7 +125,8 @@ static GNM_ACTION_DEF (cb_file_print_area_set) {
 	}
 }
 
-static GNM_ACTION_DEF (cb_file_print_area_clear) {
+static GNM_ACTION_DEF (cb_file_print_area_clear)
+{
 	GnmParsePos pp;
 	GnmRange r;
 	
@@ -136,7 +138,8 @@ static GNM_ACTION_DEF (cb_file_print_area_clear) {
 			 _("Clear Print Area"));
 }
 
-static GNM_ACTION_DEF (cb_file_print_area_show) {
+static GNM_ACTION_DEF (cb_file_print_area_show)
+{
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
 	SheetView *sv = sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	GnmRange r = sheet_get_nominal_printarea (sheet);
@@ -819,6 +822,7 @@ static GNM_ACTION_DEF (cb_data_filter)		{ dialog_advanced_filter (wbcg); }
 static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION); }
 static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_data_consolidate)	{ dialog_consolidate (wbcg); }
+static GNM_ACTION_DEF (cb_data_table)		{ dialog_data_table (wbcg); }
 #ifdef DATA_SLICER
 static GNM_ACTION_DEF (cb_data_slicer)		{ dialog_data_slicer (wbcg); }
 #endif
@@ -1485,7 +1489,7 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "MenuData",		NULL, N_("_Data") },
 		{ "MenuFilter",		NULL,	N_("_Filter") },
 		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
-		{ "MenuExternalData",	NULL,	N_("Get _External Data") },
+		{ "MenuExternalData",	NULL,	N_("Get External _Data") },
 	{ "MenuHelp",	NULL,	N_("_Help") },
 
 	{ "FileSave", GTK_STOCK_SAVE, NULL,
@@ -1925,12 +1929,15 @@ static GtkActionEntry const actions[] = {
 	{ "DataValidate", NULL, N_("_Validate..."),
 		NULL, N_("Validate input with preset criteria"),
 		G_CALLBACK (cb_data_validate) },
-	{ "DataTextToColumns", NULL, N_("_Text to Columns..."),
+	{ "DataTextToColumns", NULL, N_("T_ext to Columns..."),
 		NULL, N_("Parse the text in the selection into data"),
 		G_CALLBACK (cb_data_text_to_columns) },
 	{ "DataConsolidate", NULL, N_("_Consolidate..."),
 		NULL, N_("Consolidate regions using a function"),
 		G_CALLBACK (cb_data_consolidate) },
+	{ "DataTable", NULL, N_("_Table..."),
+		NULL, N_("Create a Data Table to evaluate a function with multiple inputs"),
+		G_CALLBACK (cb_data_table) },
 #ifdef DATA_SLICER
 	{ "DataSlice", "Gnumeric_DataSlice", N_("_Data Slice..."),
 		NULL, N_("Create a Data Slice"),

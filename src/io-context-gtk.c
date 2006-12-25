@@ -113,6 +113,7 @@ cb_realize (GtkWindow *window, void *dummy)
 		GDK_HINT_USER_SIZE;
 
 	gtk_window_set_geometry_hints (window, NULL, &geom, hints);
+	gtk_window_set_decorated (window, FALSE);
 }
 
 static void
@@ -285,10 +286,6 @@ icg_processing_file (IOContext *ioc, char const *file)
 	if (icg->window != NULL && icg->file_bar != NULL) {
 		int len = strlen (file);
 		int maxlen = 40;
-
-		/* If not iconified raise to the top */
-		if (GTK_WIDGET_VISIBLE (icg->window))
-			gtk_window_present (icg->window);
 
 		if (icg->files_total > 0)
 			gtk_progress_bar_set_fraction (icg->file_bar,

@@ -991,6 +991,8 @@ gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 
 /**
  * gnm_expr_entry_new:
+ * @wbcg : #WorkbookControlGUI non-NULL
+ * @with_icon : append a rollup icon to the end of the entry
  *
  * Creates a new #GnmExprEntry, which is an entry widget with support
  * for range selections.
@@ -1006,6 +1008,24 @@ gnm_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 			     "scg",	  wbcg_cur_scg (wbcg),
 			     "with-icon", with_icon,
 			     NULL);
+}
+
+/**
+ * gnm_expr_entry_new_glade:
+ *
+ * Creates a new #GnmExprEntry, which is an entry widget with support
+ * for range selections.
+ * The entry is created with default flag settings which are suitable for use
+ * in many dialogs, but see #gnm_expr_entry_set_flags.
+ *
+ * Useful for use in .glade files.  The user must assign a scg before use.
+ *
+ * Return value: a new #GnmExprEntry.
+ **/
+GtkWidget *
+gnm_expr_entry_new_glade (void)
+{
+	return g_object_new (GNM_EXPR_ENTRY_TYPE, NULL);
 }
 
 void

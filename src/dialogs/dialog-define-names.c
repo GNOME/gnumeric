@@ -533,18 +533,16 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	GtkTable *definition_table;
 	GtkTreeViewColumn *column;
 
-	state->wbcg  = wbcg;
-	state->wb   = wb;
-	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
-	state->sheet = sv_sheet (state->sv);
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"define-name.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;
 
-	parse_pos_init (&state->pp, state->wb, state->sheet,
-			state->sv->edit_pos.col,
-			state->sv->edit_pos.row);
+	state->wbcg  = wbcg;
+	state->wb   = wb;
+	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sv_sheet (state->sv);
+	parse_pos_init_editpos (&state->pp, state->sv);
 
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	definition_table = GTK_TABLE (glade_xml_get_widget (state->gui, "definition_table"));
