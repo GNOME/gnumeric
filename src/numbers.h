@@ -75,6 +75,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_floor floorl
 #define gnm_fmod fmodl
 #define gnm_format_number go_format_numberl
+#define gnm_format_value_gstring go_format_value_gstringl
 #define gnm_frexp frexpl
 #define gnm_hypot hypotl
 #define gnm_isnan isnanl
@@ -143,6 +144,7 @@ typedef double gnm_float;
 #define gnm_floor floor
 #define gnm_fmod fmod
 #define gnm_format_number go_format_number
+#define gnm_format_value_gstring go_format_value_gstring
 #define gnm_frexp frexp
 #define gnm_hypot hypot
 #define gnm_isnan isnan

@@ -118,11 +118,11 @@ format_value_common (PangoLayout *layout, GString *str,
 		type = VALUE_IS_ERROR (value) ? 'E' : 'S';
 		sval = format_nonnumber (value);
 	}
-	err = go_format_value_gstring (layout, str, measure, metrics,
-				       format,
-				       val, type, sval,
-				       go_color,
-				       col_width, date_conv, unicode_minus);
+	err = gnm_format_value_gstring (layout, str, measure, metrics,
+					format,
+					val, type, sval,
+					go_color,
+					col_width, date_conv, unicode_minus);
 
 	switch (err) {
 	case GO_FORMAT_NUMBER_OK:
