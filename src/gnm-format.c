@@ -64,22 +64,14 @@ hash_fill (PangoLayout *layout, GString *str, const GOFontMetrics *metrics, int 
 {
 	if (col_width <= 0) {
 		if (layout) pango_layout_set_text (layout, "", -1);
-	} else if (metrics->hash_width > 0) {
-		int l = col_width / metrics->hash_width;
-		char *s = g_new (char, l + 1);
-		memset (s, '#', l);
-		s[l] = 0;
-		if (layout)
-			pango_layout_set_text (layout, s, -1);
-		else
-			g_string_append (str, s);
-		g_free (s);
 	} else {
-		const char *text = "#";
+		int l = metrics->hash_width > 0
+			? col_width / metrics->hash_width
+			: 1;
+		g_string_set_size (str, l);
+		memset (str->str, '#', str->len);
 		if (layout)
-			pango_layout_set_text (layout, text, -1);
-		else
-			g_string_append (str, text);
+			pango_layout_set_text (layout, str->str, -1);
 	}
 }
 
