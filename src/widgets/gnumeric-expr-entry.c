@@ -284,7 +284,7 @@ gee_set_property (GObject      *object,
 				gee->icon = gtk_toggle_button_new ();
 				gtk_container_add (GTK_CONTAINER (gee->icon),
 						   gtk_image_new_from_stock ("Gnumeric_ExprEntry",
-							   		     GTK_ICON_SIZE_BUTTON));
+							   		     GTK_ICON_SIZE_MENU));
 				gtk_box_pack_start (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
 				gtk_widget_show_all (gee->icon);
 				g_signal_connect (gee->icon, "clicked",
