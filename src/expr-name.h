@@ -68,4 +68,7 @@ void gnm_named_expr_collection_free (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_unlink (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_relink (GnmNamedExprCollection *names);
 
+GnmNamedExpr *gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
+						char const *name);
+
 #endif /* GNUMERIC_EXPR_NAME_H */

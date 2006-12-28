@@ -159,7 +159,7 @@ gnm_named_expr_collection_relink (GnmNamedExprCollection *names)
 	}
 }
 
-static GnmNamedExpr *
+GnmNamedExpr *
 gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 				  char const *name)
 {

@@ -8,6 +8,7 @@ Jody:
 
 Morten:
 	* Unify layout and string value formatting.
+	* Make sheet duplication handle sheet-local names.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

@@ -4573,15 +4573,70 @@ sheet_dup_merged_regions (Sheet const *src, Sheet *dst)
 static void
 sheet_dup_names (Sheet const *src, Sheet *dst)
 {
-	static gboolean warned = FALSE;
+	GSList *names = gnm_named_expr_collection_list (src->names);
+	GSList *l;
+	GnmParsePos src_pp, dst_pp;
 
-	if (src->names == NULL)
+	if (names == NULL)
 		return;
 
-	if (!warned) {
-		g_warning ("We are not duplicating names yet. Function not implemented.");
-		warned = TRUE;
+	parse_pos_init_sheet (&src_pp, (Sheet *)src);
+	parse_pos_init_sheet (&dst_pp, dst);
+
+	/* Pass 1: add placeholders.  */
+	for (l = names; l; l = l->next) {
+		GnmNamedExpr *src_nexpr = l->data;
+		const char *name = src_nexpr->name->str;
+		GnmNamedExpr *dst_nexpr =
+			gnm_named_expr_collection_lookup (dst->names, name);
+
+		if (dst_nexpr)
+			continue;
+
+		expr_name_add (&dst_pp, name, NULL, NULL, TRUE, NULL);
 	}
+
+	/* Pass 2: assign the right expression.  */
+	for (l = names; l; l = l->next) {
+		GnmNamedExpr *src_nexpr = l->data;
+		const char *name = src_nexpr->name->str;
+		GnmNamedExpr *dst_nexpr =
+			gnm_named_expr_collection_lookup (dst->names, name);
+		char *str;
+		GnmExprTop const *texpr;
+		GnmParseError perr;
+
+		if (!dst_nexpr) {
+			g_warning ("Trouble while duplicating name %s", name);
+			continue;
+		}
+
+		if (dst_nexpr->is_permanent || !dst_nexpr->is_editable)
+			continue;
+
+		/*
+		 * Go via strings to make sure name references point to
+		 * names in the new sheet.
+		 */
+		str = expr_name_as_string (src_nexpr, &src_pp,
+					   gnm_expr_conventions_default);
+		parse_error_init (&perr);
+		texpr = gnm_expr_parse_str (str, &dst_pp,
+					    GNM_EXPR_PARSE_DEFAULT,
+					    gnm_expr_conventions_default,
+					    &perr);
+		parse_error_free (&perr);
+		g_free (str);
+
+		if (texpr == NULL) {
+			g_warning ("Trouble while duplicating name %s", name);
+			continue;
+		}
+
+		expr_name_add (&dst_pp, name, texpr, NULL, TRUE, NULL);
+	}
+
+	g_slist_free (names);
 }
 
 static void

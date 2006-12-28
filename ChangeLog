@@ -1,3 +1,9 @@
+2006-12-27  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (gnm_named_expr_collection_lookup): Make public.
+
+	* src/sheet.c (sheet_dup_names): First cut at this.
+
 2006-12-26  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-format.c (format_value_common): Use long double version
