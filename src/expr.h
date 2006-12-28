@@ -142,6 +142,9 @@ struct _GnmExprRelocateInfo {
 GnmExprTop const *gnm_expr_top_relocate	 (GnmExprTop const *texpr,
 					  GnmExprRelocateInfo const *rinfo,
 					  gboolean include_rel);
+GnmExprTop const * gnm_expr_top_relocate_sheet (GnmExprTop const *texpr,
+						Sheet const *src,
+						Sheet const *dst);
 
 GnmValue *gnm_expr_top_eval	  (GnmExprTop const *texpr,
 				   GnmEvalPos const *pos,

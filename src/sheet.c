@@ -4575,12 +4575,11 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 {
 	GSList *names = gnm_named_expr_collection_list (src->names);
 	GSList *l;
-	GnmParsePos src_pp, dst_pp;
+	GnmParsePos dst_pp;
 
 	if (names == NULL)
 		return;
 
-	parse_pos_init_sheet (&src_pp, (Sheet *)src);
 	parse_pos_init_sheet (&dst_pp, dst);
 
 	/* Pass 1: add placeholders.  */
@@ -4589,11 +4588,13 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 		const char *name = src_nexpr->name->str;
 		GnmNamedExpr *dst_nexpr =
 			gnm_named_expr_collection_lookup (dst->names, name);
+		GnmExprTop const *texpr;
 
 		if (dst_nexpr)
 			continue;
 
-		expr_name_add (&dst_pp, name, NULL, NULL, TRUE, NULL);
+		texpr = gnm_expr_top_new_constant (value_new_empty ());
+		expr_name_add (&dst_pp, name, texpr , NULL, TRUE, NULL);
 	}
 
 	/* Pass 2: assign the right expression.  */
@@ -4602,38 +4603,18 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 		const char *name = src_nexpr->name->str;
 		GnmNamedExpr *dst_nexpr =
 			gnm_named_expr_collection_lookup (dst->names, name);
-		char *str;
 		GnmExprTop const *texpr;
-		GnmParseError perr;
 
 		if (!dst_nexpr) {
 			g_warning ("Trouble while duplicating name %s", name);
 			continue;
 		}
 
-		if (dst_nexpr->is_permanent || !dst_nexpr->is_editable)
+		if (!dst_nexpr->is_editable)
 			continue;
 
-		/*
-		 * Go via strings to make sure name references point to
-		 * names in the new sheet.
-		 */
-		str = expr_name_as_string (src_nexpr, &src_pp,
-					   gnm_expr_conventions_default);
-		parse_error_init (&perr);
-		texpr = gnm_expr_parse_str (str, &dst_pp,
-					    GNM_EXPR_PARSE_DEFAULT,
-					    gnm_expr_conventions_default,
-					    &perr);
-		parse_error_free (&perr);
-		g_free (str);
-
-		if (texpr == NULL) {
-			g_warning ("Trouble while duplicating name %s", name);
-			continue;
-		}
-
-		expr_name_add (&dst_pp, name, texpr, NULL, TRUE, NULL);
+		texpr = gnm_expr_top_relocate_sheet (src_nexpr->texpr, src, dst);
+		expr_name_set_expr (dst_nexpr, texpr);
 	}
 
 	g_slist_free (names);

@@ -2726,7 +2726,7 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
 
 /*
  * gnm_expr_top_relocate :
- * @expr   : #GnmExprTop to fixup
+ * @texpr : #GnmExprTop to fixup
  * @rinfo : #GnmExprRelocateInfo details of relocation
  * @ignore_rel : Do not adjust relative refs (for internal use when
  *		  relocating named expressions.   Most callers will want FALSE.
@@ -2761,6 +2761,40 @@ gnm_expr_top_relocate (GnmExprTop const *texpr,
 			range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row);
 
 	return gnm_expr_top_new (gnm_expr_relocate (texpr->expr, &rinfo_tmp));
+}
+
+/*
+ * Convenience function to change an expression from one sheet to another.
+ */
+GnmExprTop const *
+gnm_expr_top_relocate_sheet (GnmExprTop const *texpr,
+			     Sheet const *src,
+			     Sheet const *dst)
+{
+	GnmExprRelocateInfo rinfo;
+	GnmExprTop const *res;
+
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
+	g_return_val_if_fail (IS_SHEET (src), NULL);
+	g_return_val_if_fail (IS_SHEET (dst), NULL);
+
+	rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
+	rinfo.origin_sheet = (Sheet *)src;
+	rinfo.target_sheet = (Sheet *)dst;
+	rinfo.col_offset = rinfo.row_offset = 0;
+	range_init_full_sheet (&rinfo.origin);
+	/* Not sure what sheet to use, but it doesn't seem to matter.  */
+	parse_pos_init_sheet (&rinfo.pos, rinfo.target_sheet);
+
+	res = gnm_expr_top_relocate (texpr, &rinfo, FALSE);
+	if (!res) {
+		if (gnm_expr_top_get_array_corner (texpr))
+			res = gnm_expr_top_new (gnm_expr_copy (texpr->expr));
+		else
+			gnm_expr_top_ref ((res = texpr));
+	}
+
+	return res;
 }
 
 gboolean
