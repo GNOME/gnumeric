@@ -172,7 +172,7 @@ gnm_cell_set_value (GnmCell *cell, GnmValue *v)
  */
 void
 gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v,
-			 gboolean link_expr)
+			     gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (texpr != NULL);

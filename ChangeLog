@@ -3,6 +3,8 @@
 	* src/sheet.c (sheet_dup_names): Properly relocate expressions to
 	the new sheet.  Copy permanent names too, as long as they are
 	editable.
+	(cb_sheet_cell_copy): Relocate expressions from source to target
+	sheet.
 
 	* src/expr.c (gnm_expr_top_relocate_sheet): New convenience
 	function.

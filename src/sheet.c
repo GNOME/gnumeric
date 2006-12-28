@@ -4625,23 +4625,30 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 {
 	GnmCell const *cell = key;
 	Sheet *dst = new_sheet_param;
+	Sheet *src;
 	GnmExprArrayCorner const *array;
 
 	g_return_if_fail (dst != NULL);
 	g_return_if_fail (cell != NULL);
 
+	src = cell->base.sheet;
 	array = gnm_cell_is_array_corner (cell);
+
 	if (array) {
 		unsigned int i, j;
+		GnmExprTop const *texpr =
+			gnm_expr_top_relocate_sheet (cell->base.texpr, src, dst);
+
 		gnm_cell_set_array_formula (dst,
 			cell->pos.col, cell->pos.row,
 			cell->pos.col + array->cols-1,
 			cell->pos.row + array->rows-1,
-			gnm_expr_top_new (gnm_expr_copy (array->expr)));
+			texpr);
+
 		for (i = 0; i < array->cols ; i++)
 			for (j = 0; j < array->rows ; j++)
 				if (i != 0 || j != 0) {
-					GnmCell const *in = sheet_cell_fetch (cell->base.sheet,
+					GnmCell const *in = sheet_cell_fetch (src,
 						cell->pos.col + i,
 						cell->pos.row + j);
 					GnmCell *out = sheet_cell_fetch (dst,
@@ -4652,12 +4659,12 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	} else {
 		GnmCell *new_cell = sheet_cell_create (dst, cell->pos.col, cell->pos.row);
 		GnmValue *value = value_dup (cell->value);
-		if (gnm_cell_has_expr (cell))
-			gnm_cell_set_expr_and_value (new_cell,
-						 cell->base.texpr,
-						 value,
-						 TRUE);
-		else
+		if (gnm_cell_has_expr (cell)) {
+			GnmExprTop const *texpr =
+				gnm_expr_top_relocate_sheet (cell->base.texpr, src, dst);
+			gnm_cell_set_expr_and_value (new_cell, texpr, value, TRUE);
+			gnm_expr_top_unref (texpr);
+		} else
 			gnm_cell_set_value (new_cell, value);
 	}
 }
