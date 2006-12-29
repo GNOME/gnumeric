@@ -399,8 +399,14 @@ name_guru_add (NameGuruState *state)
 		return TRUE;
 	}
 
-	texpr = gnm_expr_entry_parse (state->expr_entry,
-		&state->pp, parse_error_init (&perr), FALSE, GNM_EXPR_PARSE_DEFAULT);
+	parse_pos_init (&pp, state->wb,
+			name_guru_scope_is_sheet (state) ? state->sheet : NULL,
+			state->pp.eval.col, state->pp.eval.row);
+
+	texpr = gnm_expr_entry_parse (state->expr_entry, &pp,
+				      parse_error_init (&perr),
+				      FALSE,
+				      GNM_EXPR_PARSE_DEFAULT | GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID);
 	if (texpr == NULL) {
 		if (perr.err == NULL)
 			return TRUE;
@@ -424,10 +430,6 @@ name_guru_add (NameGuruState *state)
 		return FALSE;
 	}
 
-	parse_pos_init (&pp, NULL, state->sheet,
-		state->pp.eval.col, state->pp.eval.row);
-	if (!name_guru_scope_is_sheet (state))
-		pp.sheet = NULL;
 	res = !cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name, &pp,
 				texpr, NULL);
 

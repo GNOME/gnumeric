@@ -205,6 +205,7 @@ typedef struct {
 	gboolean force_absolute_row_references;
 	gboolean force_explicit_sheet_references;
 	gboolean unknown_names_are_strings;
+	gboolean unknown_names_are_invalid;
 
 	GnmExprConventions const *convs;
 
@@ -431,15 +432,21 @@ parse_string_as_value (GnmExpr *str)
 static GnmExpr *
 parser_simple_val_or_name (GnmExpr *str_expr)
 {
-	GnmExpr const	*res;
-	char const	*str = str_expr->constant.value->v_str.val->str;
-	GnmValue		*v   = format_match_simple (str);
+	GnmExpr const *res;
+	char const *str = str_expr->constant.value->v_str.val->str;
+	GnmValue *v = format_match_simple (str);
 
 	/* if it is not a simple value see if it is a name */
 	if (v == NULL) {
 		GnmNamedExpr *nexpr = expr_name_lookup (state->pos, str);
 		if (nexpr == NULL) {
-			if (state->unknown_names_are_strings) {
+			if (state->unknown_names_are_invalid) {
+				report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
+								_("Name '%s' does not exist"),
+								str),
+					    state->ptr, 0);
+				res = NULL;
+			} else if (state->unknown_names_are_strings) {
 				res = gnm_expr_new_constant (value_new_string (str));
 			} else {
 				GnmParsePos pp = *state->pos;
@@ -546,7 +553,10 @@ opt_exp : opt_exp exp  SEPARATOR {
 
 exp:	  CONSTANT 	{ $$ = $1; }
 	| QUOTED_STRING { $$ = $1; }
-	| STRING        { $$ = parser_simple_val_or_name ($1); }
+	| STRING        {
+		$$ = parser_simple_val_or_name ($1);
+		if ($$ == NULL) { YYERROR; }
+	}
         | cellref       { $$ = $1; }
 	| exp '+' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_ADD,	$3); }
 	| exp '-' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_SUB,	$3); }
@@ -1386,6 +1396,7 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
 	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
 	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 	pstate.unknown_names_are_strings		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
+	pstate.unknown_names_are_invalid		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID;
 	pstate.convs                                    =
 		(NULL != convs) ? convs : ((NULL != pp->sheet) ? pp->sheet->convs : gnm_expr_conventions_default);
 

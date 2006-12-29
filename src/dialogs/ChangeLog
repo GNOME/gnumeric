@@ -1,3 +1,9 @@
+2006-12-29  Morten Welinder  <terra@gnome.org>
+
+	* dialog-define-names.c (name_guru_add): When defining a global
+	name, parse in global scope.  Fixes #306686.
+	(name_guru_add): Don't allow the use of undefined names.
+
 2006-12-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.6

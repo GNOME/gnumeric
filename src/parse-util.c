@@ -1285,10 +1285,11 @@ std_name_parser (char const *str,
 GnmExprConventions *
 gnm_expr_conventions_new_full (unsigned size)
 {
-	GnmExprConventions *res = g_malloc0 (size);
+	GnmExprConventions *res;
 
 	g_return_val_if_fail (size >= sizeof (GnmExprConventions), NULL);
 
+	res = g_malloc0 (size);
 	res->expr_name_handler = def_expr_name_handler;
 	res->cell_ref_handler = cellref_as_string;
 	res->range_ref_handler = rangeref_as_string;

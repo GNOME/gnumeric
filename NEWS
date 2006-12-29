@@ -11,6 +11,8 @@ Morten:
 	* Make sheet duplication handle sheet-local names.
 	* Make sheet duplication change sheet references to point to
 	  the new sheet.  [#158825, #158691]
+	* Fix parsing of new workbook-level named expresions.  [#306686]
+	* Fix xml loading of names that refer to other names.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

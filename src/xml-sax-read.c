@@ -76,6 +76,8 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+#define CXML2C(s) ((char const *)(s))
+
 /*****************************************************************************/
 
 gboolean
@@ -88,10 +90,10 @@ gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * re
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	tmp = g_strtod ((gchar *)attrs[1], &end);
+	tmp = g_strtod (CXML2C (attrs[1]), &end);
 	if (*end) {
 		g_warning ("Invalid attribute '%s', expected double, received '%s'",
 			   name, attrs[1]);
@@ -100,11 +102,12 @@ gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * re
 	*res = tmp;
 	return TRUE;
 }
+
 static gboolean
 xml_sax_double (xmlChar const *chars, double *res)
 {
 	char *end;
-	*res = g_strtod ((gchar *)chars, &end);
+	*res = g_strtod (CXML2C (chars), &end);
 	return *end == '\0';
 }
 
@@ -115,10 +118,10 @@ xml_sax_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	*res = g_ascii_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
+	*res = g_ascii_strcasecmp (CXML2C (attrs[1]), "false") && strcmp (attrs[1], "0");
 
 	return TRUE;
 }
@@ -133,10 +136,10 @@ gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	tmp = strtol ((gchar *)attrs[1], &end, 10);
+	tmp = strtol (CXML2C (attrs[1]), &end, 10);
 	if (*end) {
 		g_warning ("Invalid attribute '%s', expected integer, received '%s'",
 			   name, attrs[1]);
@@ -160,7 +163,7 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
 	eclass = G_ENUM_CLASS (g_type_class_peek (etype));
@@ -184,10 +187,10 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	if (cellpos_parse ((gchar *)attrs[1], val, TRUE) == NULL) {
+	if (cellpos_parse (CXML2C (attrs[1]), val, TRUE) == NULL) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -204,10 +207,10 @@ xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **r
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	if (sscanf ((gchar *)attrs[1], "%X:%X:%X", &red, &green, &blue) != 3){
+	if (sscanf (CXML2C (attrs[1]), "%X:%X:%X", &red, &green, &blue) != 3){
 		g_warning ("Invalid attribute '%s', expected colour, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -347,8 +350,8 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (strcmp (attrs[0], "xmlns:gmr") == 0 ||
-		    strcmp (attrs[0], "xmlns:gnm") == 0) {
+		if (strcmp (CXML2C (attrs[0]), "xmlns:gmr") == 0 ||
+		    strcmp (CXML2C (attrs[0]), "xmlns:gnm") == 0) {
 			static struct {
 				char const * const id;
 				GnumericXMLVersion const version;
@@ -377,8 +380,8 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 						break;
 					}
 				}
-		} else if (!strcmp (attrs[0], "xmlns:xsi")) {
-		} else if (!strcmp (attrs[0], "xsi:schemaLocation")) {
+		} else if (!strcmp (CXML2C (attrs[0]), "xmlns:xsi")) {
+		} else if (!strcmp (CXML2C (attrs[0]), "xsi:schemaLocation")) {
 		} else
 			unknown_attr (xin, attrs);
 }
@@ -412,7 +415,7 @@ xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	char const *name = xin->content->str;
-	
+
 	g_return_if_fail (name != NULL);
 
 	if (NULL == workbook_sheet_by_name (state->wb, name))
@@ -429,11 +432,11 @@ xml_sax_wb_view (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "SelectedTab", &sheet_index)) {
-			Sheet *sheet = workbook_sheet_by_index (state->wb, 
+			Sheet *sheet = workbook_sheet_by_index (state->wb,
 								sheet_index);
 			if (sheet)
 				wb_view_sheet_focus (state->wb_view, sheet);
-		} 
+		}
 		else if (gnm_xml_attr_int (attrs, "Width", &width)) ;
 		else if (gnm_xml_attr_int (attrs, "Height", &height)) ;
 		else
@@ -623,11 +626,11 @@ xml_sax_sheet_zoom (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static double
 xml_sax_print_margins_get_double (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		double points;
 		if (gnm_xml_attr_double (attrs, "Points", &points))
 			return points;
-		else if (strcmp (attrs[0], "PrefUnit"))
+		else if (strcmp (CXML2C (attrs[0]), "PrefUnit"))
 			unknown_attr (xin, attrs);
 	}
 	return 0.0;
@@ -636,12 +639,12 @@ xml_sax_print_margins_get_double (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xml_sax_print_margins_unit (GsfXMLIn *xin, xmlChar const **attrs, PrintUnit *pu)
 {
-	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		double points;
 		if (gnm_xml_attr_double (attrs, "Points", &points)) {
 			pu->points = points;
+		} else if (!strcmp (CXML2C (attrs[0]), "PrefUnit")) {
 #ifdef WITH_GNOME_PRINT
-		} else if (!strcmp (attrs[0], "PrefUnit")) {
 			pu->desired_display = unit_name_to_unit (attrs[1]);
 #endif
 		} else
@@ -701,7 +704,7 @@ xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 
 	pi = state->sheet->print_info;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "type"))
+		if (!strcmp (CXML2C (attrs[0]), "type"))
 			pi->scaling.type = strcmp (attrs[1], "percentage")
 				? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE;
 		else if (gnm_xml_attr_double (attrs, "percentage", &percentage))
@@ -946,8 +949,8 @@ xml_sax_styleregion_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_back_color (state->style, colour);
 		else if (xml_sax_attr_color (attrs, "PatternColor", &colour))
 			gnm_style_set_pattern_color (state->style, colour);
-		else if (!strcmp (attrs[0], "Format"))
-			gnm_style_set_format_text (state->style, (char *)attrs[1]);
+		else if (!strcmp (CXML2C (attrs[0]), "Format"))
+			gnm_style_set_format_text (state->style, CXML2C (attrs[1]));
 		else if (gnm_xml_attr_int (attrs, "Hidden", &val))
 			gnm_style_set_contents_hidden (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Locked", &val))
@@ -1078,10 +1081,10 @@ xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 			state->validation.type = dummy;
 		} else if (gnm_xml_attr_int (attrs, "Operator", &dummy)) {
 			state->validation.op = dummy;
-		} else if (!strcmp (attrs[0], "Title")) {
-			state->validation.title = g_strdup ((gchar *)attrs[1]);
-		} else if (!strcmp (attrs[0], "Message")) {
-			state->validation.msg = g_strdup ((gchar *)attrs[1]);
+		} else if (!strcmp (CXML2C (attrs[0]), "Title")) {
+			state->validation.title = g_strdup (CXML2C (attrs[1]));
+		} else if (!strcmp (CXML2C (attrs[0]), "Message")) {
+			state->validation.msg = g_strdup (CXML2C (attrs[1]));
 		} else if (xml_sax_attr_bool (attrs, "AllowBlank", &b_dummy)) {
 			state->validation.allow_blank = b_dummy;
 		} else if (xml_sax_attr_bool (attrs, "UseDropdown", &b_dummy)) {
@@ -1200,12 +1203,12 @@ xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "type"))
-			type = g_strdup ((gchar *)attrs[1]);
-		else if (!strcmp (attrs[0], "target"))
-			target = g_strdup ((gchar *)attrs[1]);
-		else if (!strcmp (attrs[0], "tip"))
-			target = g_strdup ((gchar *)attrs[1]);
+		if (!strcmp (CXML2C (attrs[0]), "type"))
+			type = g_strdup (CXML2C (attrs[1]));
+		else if (!strcmp (CXML2C (attrs[0]), "target"))
+			target = g_strdup (CXML2C (attrs[1]));
+		else if (!strcmp (CXML2C (attrs[0]), "tip"))
+			target = g_strdup (CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
 	}
@@ -1233,10 +1236,10 @@ xml_sax_input_msg (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "Title"))
-			title = g_strdup ((gchar *)attrs[1]);
-		else if (!strcmp (attrs[0], "Message"))
-			msg = g_strdup ((gchar *)attrs[1]);
+		if (!strcmp (CXML2C (attrs[0]), "Title"))
+			title = g_strdup (CXML2C (attrs[1]));
+		else if (!strcmp (CXML2C (attrs[0]), "Message"))
+			msg = g_strdup (CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
 	}
@@ -1302,8 +1305,8 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "Rows", &rows)) ;
 		else if (gnm_xml_attr_int (attrs, "ExprID", &expr_id)) ;
 		else if (gnm_xml_attr_int (attrs, "ValueType", &value_type)) ;
-		else if (!strcmp (attrs[0], "ValueFormat"))
-			value_fmt = go_format_new_from_XL ((char *)attrs[1], FALSE);
+		else if (!strcmp (CXML2C (attrs[0]), "ValueFormat"))
+			value_fmt = go_format_new_from_XL (CXML2C (attrs[1]), FALSE);
 		else
 			unknown_attr (xin, attrs);
 	}
@@ -1645,7 +1648,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
 
 	else {
-		GType type = g_type_from_name ((gchar *)type_name);
+		GType type = g_type_from_name (type_name);
 
 		if (type == 0) {
 			char *str = g_strdup_printf (_("Unsupported object type '%s'"),
@@ -1720,47 +1723,33 @@ static void
 xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
-	GnmParseError  perr;
-	GnmParsePos    pos;
-	GnmExprTop const *texpr;
+	GnmParsePos *pos;
+	GnmNamedExpr *nexpr;
 
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
-	parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
+	pos = g_new (GnmParsePos, 1);
+	parse_pos_init (pos, state->wb, state->sheet, 0, 0);
 	if (state->name.position) {
 		GnmCellRef tmp;
-		char const *res = cellref_parse (&tmp, state->name.position, &pos.eval);
+		char const *res = cellref_parse (&tmp, state->name.position, &pos->eval);
 		if (res != NULL && *res == '\0') {
-			pos.eval.col = tmp.col;
-			pos.eval.row = tmp.row;
+			pos->eval.col = tmp.col;
+			pos->eval.row = tmp.row;
 		}
 	}
 
-	parse_error_init (&perr);
-	texpr = gnm_expr_parse_str (state->name.value, &pos,
-				    GNM_EXPR_PARSE_DEFAULT,
-				    gnm_expr_conventions_default, &perr);
-	if (texpr != NULL) {
-		char *err = NULL;
-		expr_name_add (&pos, state->name.name,
-			       texpr,
-			       &err, TRUE, NULL);
-		if (err != NULL) {
-			gnm_io_warning (state->context, err);
-			g_free (err);
-		}
-	} else
-		state->delayed_names =
-			g_list_prepend (state->delayed_names,
-			expr_name_add (&pos,
-				       state->name.name, 
-				       gnm_expr_top_new_constant
-				       (value_new_string (state->name.value)),
-				       NULL, TRUE, NULL));
+	nexpr = expr_name_add (pos, state->name.name,
+			       gnm_expr_top_new_constant (value_new_empty ()),
+			       NULL,
+			       TRUE,
+			       NULL);
 
-	parse_error_free (&perr);
+	state->delayed_names = g_list_prepend (state->delayed_names, state->name.value);
+	state->name.value = NULL;
+	state->delayed_names = g_list_prepend (state->delayed_names, pos);
+	state->delayed_names = g_list_prepend (state->delayed_names, nexpr);
 
 	g_free (state->name.position);
 	state->name.position = NULL;
@@ -1820,6 +1809,37 @@ xml_sax_paper (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->sheet->print_info != NULL);
 
 	print_info_set_paper (state->sheet->print_info, xin->content->str);
+}
+
+static void
+handle_delayed_names (XMLSaxParseState *state)
+{
+	GList *l;
+
+	for (l = state->delayed_names; l; l = l->next->next->next) {
+		GnmNamedExpr *nexpr = l->data;
+		GnmParsePos *pos = l->next->data;
+		char *expr_str = l->next->next->data;
+		GnmParseError perr;
+		GnmExprTop const *texpr;
+
+		parse_error_init (&perr);
+		texpr = gnm_expr_parse_str (expr_str, pos,
+					    GNM_EXPR_PARSE_DEFAULT,
+					    gnm_expr_conventions_default,
+					    &perr);
+		if (texpr)
+			expr_name_set_expr (nexpr, texpr);
+		else
+			gnm_io_warning (state->context, perr.err->message);
+
+		parse_error_free (&perr);
+		g_free (expr_str);
+		g_free (pos);
+	}
+
+	g_list_free (state->delayed_names);
+	state->delayed_names = NULL;
 }
 
 /****************************************************************************/
@@ -2136,6 +2156,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	locale = gnm_push_C_locale ();
 	ok = gsf_xml_in_doc_parse (doc, input, &state);
+	handle_delayed_names (&state);
 	gnm_pop_C_locale (locale);
 
 	if (ok) {
