@@ -51,14 +51,17 @@ gnm_go_data_dup (GOData const *src)
 	GnmDependent *dst_dep = gnm_go_data_get_dep (dst);
 
 	dst_dep->texpr = src_dep->texpr;
+	if (dst_dep->texpr)
+		gnm_expr_top_ref (dst_dep->texpr);
+
 	if (src_dep->sheet)
 		dependent_set_sheet (dst_dep, src_dep->sheet);
+
 	if (dst_dep->texpr == NULL) {
 		char const *str = g_object_get_data (G_OBJECT (src), "from-str");
 		g_object_set_data_full (G_OBJECT (dst),
 			"from-str", g_strdup (str), g_free);
-	} else
-		gnm_expr_top_ref (dst_dep->texpr);
+	}
 
 	return GO_DATA (dst);
 }
@@ -911,7 +914,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 				r.start.col + dat->size.columns - 1,
 				r.start.row + dat->size.rows - 1,
 				(CellIterFunc)cb_assign_matrix_val, &closure);
-#warning Should we clip the matrix?
+#warning "Should we clip the matrix?"
 			minimum = closure.minimum;
 			maximum = closure.maximum;
 			if (minimum > maximum)
