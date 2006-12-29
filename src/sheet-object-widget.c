@@ -107,7 +107,7 @@ static GSF_CLASS_FULL (SOWidgetFooView, so_widget_foo_view,
 #define IS_SHEET_WIDGET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
-#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,			\
+#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep,	\
 		      fn_copy, fn_read_dom, fn_write_sax, fn_prep_sax_parser,		\
 	              fn_get_property, fn_set_property, class_init_code)		\
 static void										\
@@ -122,6 +122,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
         so_class->interactive           = TRUE;						\
 	so_class->assign_to_sheet	= fn_set_sheet;					\
 	so_class->remove_from_sheet	= fn_clear_sheet;				\
+	so_class->foreach_dep		= fn_foreach_dep;				\
 	so_class->copy			= fn_copy;					\
 	so_class->read_xml_dom		= fn_read_dom;					\
 	so_class->write_xml_sax		= fn_write_sax;					\
@@ -472,6 +473,7 @@ SOW_MAKE_TYPE (frame, Frame,
 	       &sheet_widget_frame_user_config,
 	       NULL,
 	       NULL,
+	       NULL,
 	       &sheet_widget_frame_copy,
 	       &sheet_widget_frame_read_xml_dom,
 	       &sheet_widget_frame_write_xml_sax,
@@ -664,6 +666,7 @@ sheet_widget_button_set_property (GObject *obj, guint param_id,
 }
 
 SOW_MAKE_TYPE (button, Button,
+	       NULL,
 	       NULL,
 	       NULL,
 	       NULL,
@@ -1040,6 +1043,15 @@ sheet_widget_adjustment_clear_sheet (SheetObject *so)
 }
 
 static void
+sheet_widget_adjustment_foreach_dep (SheetObject *so,
+				     SheetObjectForeachDepFunc func,
+				     gpointer user)
+{
+	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	func (&swa->dep, so, user);
+}
+
+static void
 sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	SheetWidgetAdjustment const *swa = SHEET_WIDGET_ADJUSTMENT (so);
@@ -1128,13 +1140,14 @@ sheet_widget_adjustment_create_widget (SheetObjectWidget *sow)
 }
 
 SOW_MAKE_TYPE (adjustment, Adjustment,
-	       &sheet_widget_adjustment_user_config,
-	       &sheet_widget_adjustment_set_sheet,
-	       &sheet_widget_adjustment_clear_sheet,
-	       &sheet_widget_adjustment_copy,
-	       &sheet_widget_adjustment_read_xml_dom,
-	       &sheet_widget_adjustment_write_xml_sax,
-	       &sheet_widget_adjustment_prep_sax_parser,
+	       sheet_widget_adjustment_user_config,
+	       sheet_widget_adjustment_set_sheet,
+	       sheet_widget_adjustment_clear_sheet,
+	       sheet_widget_adjustment_foreach_dep,
+	       sheet_widget_adjustment_copy,
+	       sheet_widget_adjustment_read_xml_dom,
+	       sheet_widget_adjustment_write_xml_sax,
+	       sheet_widget_adjustment_prep_sax_parser,
 	       NULL,
 	       NULL,
 	       {})
@@ -1663,6 +1676,15 @@ sheet_widget_checkbox_clear_sheet (SheetObject *so)
 }
 
 static void
+sheet_widget_checkbox_foreach_dep (SheetObject *so,
+				   SheetObjectForeachDepFunc func,
+				   gpointer user)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+	func (&swc->dep, so, user);
+}
+
+static void
 sheet_widget_checkbox_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	SheetWidgetCheckbox const *swc = SHEET_WIDGET_CHECKBOX (so);
@@ -1741,15 +1763,16 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 }
 
 SOW_MAKE_TYPE (checkbox, Checkbox,
-	       &sheet_widget_checkbox_user_config,
-	       &sheet_widget_checkbox_set_sheet,
-	       &sheet_widget_checkbox_clear_sheet,
-	       &sheet_widget_checkbox_copy,
-	       &sheet_widget_checkbox_read_xml_dom,
-	       &sheet_widget_checkbox_write_xml_sax,
-	       &sheet_widget_checkbox_prep_sax_parser,
-	       &sheet_widget_checkbox_get_property,
-	       &sheet_widget_checkbox_set_property,
+	       sheet_widget_checkbox_user_config,
+	       sheet_widget_checkbox_set_sheet,
+	       sheet_widget_checkbox_clear_sheet,
+	       sheet_widget_checkbox_foreach_dep,
+	       sheet_widget_checkbox_copy,
+	       sheet_widget_checkbox_read_xml_dom,
+	       sheet_widget_checkbox_write_xml_sax,
+	       sheet_widget_checkbox_prep_sax_parser,
+	       sheet_widget_checkbox_get_property,
+	       sheet_widget_checkbox_set_property,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOC_PROP_TEXT,
@@ -1897,6 +1920,15 @@ sheet_widget_radio_button_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
+static void
+sheet_widget_radio_button_foreach_dep (SheetObject *so,
+				       SheetObjectForeachDepFunc func,
+				       gpointer user)
+{
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
+	func (&swrb->dep, so, user);
+}
+
 void
 sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 {
@@ -1968,14 +2000,15 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 
 SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
-	       &sheet_widget_radio_button_set_sheet,
-	       &sheet_widget_radio_button_clear_sheet,
+	       sheet_widget_radio_button_set_sheet,
+	       sheet_widget_radio_button_clear_sheet,
+	       sheet_widget_radio_button_foreach_dep,
 	       NULL,
 	       NULL,
 	       NULL,
 	       NULL,
-	       &sheet_widget_radio_button_get_property,
-	       &sheet_widget_radio_button_set_property,
+	       sheet_widget_radio_button_get_property,
+	       sheet_widget_radio_button_set_property,
 	       {
 		       g_object_class_install_property
 			       (object_class, SOR_PROP_TEXT,
@@ -2202,6 +2235,16 @@ sheet_widget_list_base_clear_sheet (SheetObject *so)
 }
 
 static void
+sheet_widget_list_base_foreach_dep (SheetObject *so,
+				    SheetObjectForeachDepFunc func,
+				    gpointer user)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+	func (&swl->content_dep, so, user);
+	func (&swl->output_dep, so, user);
+}
+
+static void
 sheet_widget_list_base_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	SheetWidgetListBase const *swl = SHEET_WIDGET_LIST_BASE (so);
@@ -2242,13 +2285,14 @@ sheet_widget_list_base_create_widget (SheetObjectWidget *sow)
 }
 
 SOW_MAKE_TYPE (list_base, ListBase,
-	       &sheet_widget_list_base_user_config,
-	       &sheet_widget_list_base_set_sheet,
-	       &sheet_widget_list_base_clear_sheet,
+	       sheet_widget_list_base_user_config,
+	       sheet_widget_list_base_set_sheet,
+	       sheet_widget_list_base_clear_sheet,
+	       sheet_widget_list_base_foreach_dep,
 	       NULL,
-	       &sheet_widget_list_base_read_xml_dom,
-	       &sheet_widget_list_base_write_xml_sax,
-	       &sheet_widget_list_base_prep_sax_parser,
+	       sheet_widget_list_base_read_xml_dom,
+	       sheet_widget_list_base_write_xml_sax,
+	       sheet_widget_list_base_prep_sax_parser,
 	       NULL,
 	       NULL,
 	       {

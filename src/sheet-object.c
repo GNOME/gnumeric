@@ -14,6 +14,7 @@
 #include "sheet-object.h"
 
 #include "sheet.h"
+#include "dependent.h"
 #include "sheet-view.h"
 #include "sheet-control.h"
 #include "sheet-private.h"
@@ -221,7 +222,7 @@ sheet_object_class_init (GObjectClass *klass)
 	sheet_object_class->interactive          = FALSE;
 	sheet_object_class->default_size	 = so_default_size;
 	sheet_object_class->xml_export_name 	 = NULL;
-	sheet_object_class->invalidate_sheet     = NULL;
+	sheet_object_class->foreach_dep          = NULL;
 
 	signals [BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
 		SHEET_OBJECT_TYPE,
@@ -413,12 +414,50 @@ sheet_object_clear_sheet (SheetObject *so)
 	g_object_unref (G_OBJECT (so));
 }
 
+static void
+cb_sheet_object_invalidate_sheet (GnmDependent *dep, SheetObject *so, gpointer user)
+{
+	Sheet *sheet = user;
+	GnmExprRelocateInfo rinfo;
+	GnmExprTop const *texpr;
+	gboolean save_invalidated = sheet->being_invalidated;
+
+	if (!dep->texpr)
+		return;
+
+	sheet->being_invalidated = TRUE;
+	rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
+	texpr = gnm_expr_top_relocate (dep->texpr, &rinfo, FALSE);
+	sheet->being_invalidated = save_invalidated;
+
+	if (texpr) {
+		gboolean was_linked = dependent_is_linked (dep);
+		dependent_set_expr (dep, texpr);
+		gnm_expr_top_unref (texpr);
+		if (was_linked)
+			dependent_link (dep);
+	}
+}
+
 void
 sheet_object_invalidate_sheet (SheetObject *so, Sheet const *sheet)
 {
-	if (SO_CLASS (so)->invalidate_sheet)
-		SO_CLASS (so)->invalidate_sheet (so, sheet);
+	sheet_object_foreach_dep (so, cb_sheet_object_invalidate_sheet,
+				  (gpointer)sheet);
 }
+
+/*
+ * Loops over each dependent contained in a sheet object and call the handler.
+ */
+void
+sheet_object_foreach_dep (SheetObject *so,
+			  SheetObjectForeachDepFunc func,
+			  gpointer user)
+{
+	if (SO_CLASS (so)->foreach_dep)
+		SO_CLASS (so)->foreach_dep (so, func, user);
+}
+
 
 static void
 cb_sheet_object_view_finalized (SheetObject *so, GObject *view)
@@ -804,6 +843,26 @@ sheet_object_dup (SheetObject const *so)
 	return new_so;
 }
 
+static void
+cb_sheet_objects_dup (GnmDependent *dep, SheetObject *so, gpointer user)
+{
+	Sheet *src = user;
+	Sheet *dst = sheet_object_get_sheet (so);
+	GnmExprTop const *texpr;
+
+	if (!dep->texpr)
+		return;
+
+	texpr = gnm_expr_top_relocate_sheet (dep->texpr, src, dst);
+	if (texpr != dep->texpr) {
+		gboolean was_linked= dependent_is_linked (dep);
+		dependent_set_expr (dep, texpr);
+		if (was_linked)
+			dependent_link (dep);
+	}
+	gnm_expr_top_unref (texpr);
+}
+
 
 /**
  * sheet_objects_dup:
@@ -829,6 +888,8 @@ sheet_objects_dup (Sheet const *src, Sheet *dst, GnmRange *range)
 			new_so = sheet_object_dup (so);
 			if (new_so != NULL) {
 				sheet_object_set_sheet (new_so, dst);
+				sheet_object_foreach_dep (new_so, cb_sheet_objects_dup,
+							  (gpointer)src);
 				g_object_unref (new_so);
 			}
 		}

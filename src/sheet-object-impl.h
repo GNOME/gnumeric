@@ -84,7 +84,9 @@ typedef struct {
 	void	       (*draw_cairo) (SheetObject const *so, gpointer data,
 				      double width, double height);
 
-	void     (*invalidate_sheet) (SheetObject *so, Sheet const *sheet);
+	void          (*foreach_dep) (SheetObject *so,
+				      SheetObjectForeachDepFunc func,
+				      gpointer user);
 
 	void (*func_pad1)	(void);
 	void (*func_pad2)	(void);

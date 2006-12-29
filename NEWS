@@ -9,6 +9,8 @@ Jody:
 Morten:
 	* Unify layout and string value formatting.
 	* Make sheet duplication handle sheet-local names.
+	* Make sheet duplication change sheet references to point to
+	  the new sheet.  [#158825, #158691]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

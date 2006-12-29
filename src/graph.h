@@ -3,6 +3,7 @@
 #define GNUMERIC_GRAPH_H
 
 #include "gnumeric.h"
+#include "sheet-object.h"
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/data/goffice-data.h>
 #include <glib-object.h>
@@ -10,7 +11,8 @@
 void	 gnm_go_data_set_sheet (GOData *dat, Sheet *sheet);
 Sheet   *gnm_go_data_get_sheet (GOData const *dat);
 GnmExprTop const *gnm_go_data_get_expr (GOData const *dat);
-void	 gnm_go_data_invalidate_sheet (GOData *dat, Sheet const *sheet);
+void	 gnm_go_data_foreach_dep (GOData *dat, SheetObject *so,
+				  SheetObjectForeachDepFunc func, gpointer user);
 
 #define GNM_GO_DATA_SCALAR_TYPE	 (gnm_go_data_scalar_get_type ())
 #define GNM_GO_DATA_SCALAR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_GO_DATA_SCALAR_TYPE, GnmGODataScalar))

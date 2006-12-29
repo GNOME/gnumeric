@@ -174,31 +174,12 @@ gnm_go_data_get_expr (GOData const *dat)
 }
 
 void
-gnm_go_data_invalidate_sheet (GOData *dat, Sheet const *sheet)
+gnm_go_data_foreach_dep (GOData *dat, SheetObject *so,
+			 SheetObjectForeachDepFunc func, gpointer user)
 {
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
-
-	if (dep == NULL)
-		return;
-
-	if (dep->texpr) {
-		GnmExprRelocateInfo rinfo;
-		GnmExprTop const *texpr;
-		gboolean save_invalidated = sheet->being_invalidated;
-
-		((Sheet *)sheet)->being_invalidated = TRUE;
-		rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
-		texpr = gnm_expr_top_relocate (dep->texpr, &rinfo, FALSE);
-		((Sheet *)sheet)->being_invalidated = save_invalidated;
-
-		if (texpr) {
-			gboolean was_linked = dependent_is_linked (dep);
-			dependent_set_expr (dep, texpr);
-			gnm_expr_top_unref (texpr);
-			if (was_linked)
-				dependent_link (dep);
-		}
-	}
+	if (dep)
+		func (dep, so, user);
 }
 
 /**************************************************************************/

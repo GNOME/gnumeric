@@ -132,10 +132,10 @@ sog_data_set_sheet (G_GNUC_UNUSED SheetObjectGraph *sog,
 }
 
 static void
-sog_data_invalidate_sheet (G_GNUC_UNUSED SheetObjectGraph *sog,
-			   GOData *data, Sheet const *sheet)
+sog_data_foreach_dep (SheetObject *so, GOData *data,
+		      SheetObjectForeachDepFunc func, gpointer user)
 {
-	gnm_go_data_invalidate_sheet (data, sheet);
+	gnm_go_data_foreach_dep (data, so, func, user);
 }
 
 static void
@@ -456,12 +456,14 @@ gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 }
 
 static void
-gnm_sog_invalidate_sheet (SheetObject *so, Sheet const *sheet)
+gnm_sog_foreach_dep (SheetObject *so,
+		     SheetObjectForeachDepFunc func,
+		     gpointer user)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	GSList *ptr = gog_graph_get_data (sog->graph);
 	for (; ptr != NULL ; ptr = ptr->next)
-		sog_data_invalidate_sheet (sog, ptr->data, sheet);
+		sog_data_foreach_dep (so, ptr->data, func, user);
 }
 
 static gboolean
@@ -532,7 +534,7 @@ gnm_sog_class_init (GObjectClass *klass)
 
 	so_class->default_size		= gnm_sog_default_size;
 	so_class->draw_cairo		= gnm_sog_draw_cairo;
-	so_class->invalidate_sheet	= gnm_sog_invalidate_sheet;
+	so_class->foreach_dep		= gnm_sog_foreach_dep;
 
 	so_class->rubber_band_directly = FALSE;
 }

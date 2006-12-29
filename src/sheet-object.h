@@ -90,6 +90,14 @@ void sheet_object_position_pts_get (SheetObject const *so, double *coords);
 void sheet_object_invalidate_sheet       (SheetObject *so,
 					  Sheet const *sheet);
 
+typedef void (*SheetObjectForeachDepFunc) (GnmDependent *dep,
+					   SheetObject *so,
+					   gpointer user);
+void sheet_object_foreach_dep            (SheetObject *so,
+					  SheetObjectForeachDepFunc func,
+					  gpointer user);
+
+
 /* Object Management */
 void	sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo, gboolean update,
 				  GnmRelocUndo *undo);
