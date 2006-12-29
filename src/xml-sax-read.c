@@ -1740,8 +1740,8 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	parse_error_init (&perr);
 	texpr = gnm_expr_parse_str (state->name.value, &pos,
-				   GNM_EXPR_PARSE_DEFAULT,
-				   gnm_expr_conventions_default, &perr);
+				    GNM_EXPR_PARSE_DEFAULT,
+				    gnm_expr_conventions_default, &perr);
 	if (texpr != NULL) {
 		char *err = NULL;
 		expr_name_add (&pos, state->name.name,
