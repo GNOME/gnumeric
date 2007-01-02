@@ -340,7 +340,7 @@ unknown_attr (GsfXMLIn *xin, xmlChar const * const *attrs)
 			_("Unexpected attribute %s::%s == '%s'."),
 			(NULL != xin->node &&
 			 NULL != xin->node->name) ?
-			xin->node->name : "<unknow name>",
+			xin->node->name : "<unknown name>",
 			attrs[0], attrs[1]);
 }
 
@@ -579,9 +579,12 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->version >= GNM_XML_V7) {
 		state->sheet = workbook_sheet_by_name (state->wb, content);
 
-		if (!state->sheet)
+		if (!state->sheet) {
 			gnumeric_io_error_string (state->context,
 				_("File has inconsistent SheetNameIndex element."));
+			state->sheet = sheet_new (state->wb, content);
+			workbook_sheet_attach (state->wb, state->sheet);
+		}
 	} else {
 		state->sheet = sheet_new (state->wb, content);
 		workbook_sheet_attach (state->wb, state->sheet);
