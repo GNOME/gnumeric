@@ -281,6 +281,7 @@ typedef struct {
 	GnmStyle   *style;
 
 	GnmCellPos cell;
+	gboolean seen_cell_contents;
 	int expr_id, array_rows, array_cols;
 	int value_type;
 	GOFormat *value_fmt;
@@ -1418,6 +1419,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
 	int const value_type = state->value_type;
+	gboolean const seen_contents = state->seen_cell_contents;
 	GOFormat *value_fmt = state->value_fmt;
 
 	/* Clean out the state before any error checking */
@@ -1426,6 +1428,12 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->expr_id = -1;
 	state->value_type = -1;
 	state->value_fmt = NULL;
+	state->seen_cell_contents = strcmp (xin->node->id, "CELL_CONTENT") == 0;
+
+	if (seen_contents)
+		return;
+
+	g_print ("[%s]\n", xin->content->str);
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
