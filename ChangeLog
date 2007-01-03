@@ -1,5 +1,10 @@
 2007-01-02  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c (main): Call g_thread_init. Fixes #392050.
+	* src/ssindex.c (main): Ditto.
+	* src/ssconvert.c (main): Ditto.  Also increase stack
+	size, if needed.
+
 	* src/xml-sax-read.c (xml_sax_sheet_name): Handle missing sheet
 	index better.  [#392054]
 

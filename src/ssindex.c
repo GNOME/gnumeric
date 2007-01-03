@@ -215,6 +215,8 @@ main (int argc, char **argv)
 	GOptionContext *ocontext;
 	GError *error = NULL;	
 
+	g_thread_init (NULL);
+
 	gnm_pre_parse_init (argv[0]);
 
 	ocontext = g_option_context_new (_("INFILE..."));

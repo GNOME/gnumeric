@@ -28,6 +28,9 @@
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
+#ifdef HAVE_SYS_RESOURCE_H
+#include <sys/resource.h>
+#endif
 
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
@@ -320,6 +323,32 @@ main (int argc, char **argv)
 	GOCmdContext	*cc;
 	GOptionContext *ocontext;
 	GError *error = NULL;	
+
+/*
+ * NO CODE BEFORE THIS POINT, PLEASE!
+ *
+ * Using threads (by way of libraries) makes our stack too small in some
+ * circumstances.  It is hard to control directly, but setting the stack
+ * limit to something not unlimited seems to work.
+ *
+ * See http://bugzilla.gnome.org/show_bug.cgi?id=92131
+ */
+#ifdef HAVE_SYS_RESOURCE_H
+	struct rlimit rlim;
+
+	if (getrlimit (RLIMIT_STACK, &rlim) == 0) {
+		rlim_t our_lim = 64 * 1024 * 1024;
+		if (rlim.rlim_max != RLIM_INFINITY)
+			our_lim = MIN (our_lim, rlim.rlim_max);
+		if (rlim.rlim_cur != RLIM_INFINITY &&
+		    rlim.rlim_cur < our_lim) {
+			rlim.rlim_cur = our_lim;
+			(void)setrlimit (RLIMIT_STACK, &rlim);
+		}
+	}
+#endif
+
+	g_thread_init (NULL);
 
 	gnm_pre_parse_init (argv[0]);
 

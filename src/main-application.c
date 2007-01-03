@@ -387,6 +387,8 @@ main (int argc, char **argv)
 	}
 #endif
 
+	g_thread_init (NULL);
+
 #ifdef USE_HILDON
 	osso_context = osso_initialize ("gnumeric", "1.7.0", TRUE, NULL);
 #endif
