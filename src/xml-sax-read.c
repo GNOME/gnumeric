@@ -1433,8 +1433,6 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (seen_contents)
 		return;
 
-	g_print ("[%s]\n", xin->content->str);
-
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
 
