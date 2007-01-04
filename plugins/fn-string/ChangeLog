@@ -1,3 +1,8 @@
+2007-01-03  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_dollar): Build XL format by hand.  We
+	don't need the colour and we don't want the spacing.
+
 2006-12-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.6

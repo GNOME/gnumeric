@@ -14,7 +14,9 @@ Morten:
 	* Fix parsing of new workbook-level named expresions.  [#306686]
 	* Fix xml loading of names that refer to other names.
 	* Fix crash from old-style file.  [#392054]
+	* Fix cell contents reading from old v7 files.  [#392054]
 	* Make sure we call g_thread_init early.  [#392050]
+	* Fix CRITICALs with DOLLAR.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

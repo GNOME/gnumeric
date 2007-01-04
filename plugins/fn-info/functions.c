@@ -162,14 +162,6 @@ translate_cell_format (GOFormat const *format)
 	return value_new_string ("G");
 }
 
-static GOFormatDetails
-retrieve_format_info (const Sheet *sheet, int col, int row)
-{
-	GnmStyle const *mstyle = sheet_style_get (sheet, col, row);
-	GOFormat const *format = gnm_style_get_format (mstyle);
-	return format->family_info;
-}
-
 /* TODO : turn this into a range based routine */
 static GnmValue *
 gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -226,12 +218,8 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * Another place where Excel doesn't conform to its documentation!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "color")) {
-		GOFormatDetails const info =
-			retrieve_format_info (sheet, ref->col, ref->row);
-
-		/* 0x01 = first bit (1) indicating negative colors */
-		return (info.negative_fmt & 0x01) ? value_new_int (1) :
-			value_new_int (0);
+		/* See 1.7.6 for old version.  */
+		return value_new_int (0);
 
 	/* absolutely pointless - compatibility only */
 	} else if (!g_ascii_strcasecmp (info_type, "contents") ||
@@ -266,12 +254,8 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "parentheses")) {
-		GOFormatDetails const info =
-			retrieve_format_info (sheet, ref->col, ref->row);
-
-		/* 0x02 = second bit (2) indicating parentheses */
-		return (info.negative_fmt & 0x02) ? value_new_int (1) :
-			value_new_int (0);
+		/* See 1.7.6 for old version.  */
+		return value_new_int (0);
 
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */

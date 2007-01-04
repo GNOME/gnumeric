@@ -43,6 +43,7 @@
 #include <gsf/gsf-msole-utils.h>
 #include <gnm-i18n.h>
 #include <goffice/app/go-plugin.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gnm-plugin.h>
 
 #include <limits.h>
@@ -1075,13 +1076,15 @@ static GnmFuncHelp const help_dollar[] = {
 static GnmValue *
 gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	GOFormatDetails info;
 	GOFormat *sf;
 	gnm_float p10;
 	GnmValue *v;
-	char *s, *end;
+	char *s;
         gnm_float number = value_get_as_float (argv[0]);
         gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
+	gboolean precedes, space_sep;
+	const GString *curr = go_format_get_currency (&precedes, &space_sep);
+	GString *fmt_str;
 
 	/* This is what Excel appears to do.  */
 	if (decimals >= 128)
@@ -1095,21 +1098,39 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	else
 		number = gnm_fake_round (number * p10) / p10;
 
-	info = go_format_default_money ()->family_info;
-	info.num_decimals = (int)MAX (decimals, 0);
-	info.negative_fmt = 2;
+	fmt_str = g_string_sized_new (150);
+	if (precedes) {
+		g_string_append_c (fmt_str, '"');
+		go_string_append_gstring (fmt_str, curr);
+		g_string_append (fmt_str, space_sep ? "\" " : "\"");
+	}
+	g_string_append (fmt_str, "#,##0");
+	if (decimals > 0) {
+		int idecs = (int)decimals;
+		g_string_append_c (fmt_str, '.');
+		g_string_set_size (fmt_str, fmt_str->len + idecs);
+		memset (fmt_str->str + fmt_str->len - idecs, '0', idecs);
+	}
+	if (!precedes) {
+		g_string_append (fmt_str, space_sep ? " \"" : "\"");
+		go_string_append_gstring (fmt_str, curr);
+		g_string_append_c (fmt_str, '"');
+	}
 
-	sf = go_format_new (GO_FORMAT_CURRENCY, &info);
+	/* No color and no space-for-parenthesis.  */
+	g_string_append (fmt_str, ";(");
+	g_string_append_len (fmt_str, fmt_str->str, fmt_str->len - 2);
+	g_string_append_c (fmt_str, ')');
+
+	sf = go_format_new_from_XL (fmt_str->str, FALSE);
+
 	v = value_new_float (number);
 	s = format_value (sf, v, NULL, -1,
 		workbook_date_conv (ei->pos->sheet->workbook));
 	value_release (v);
 	go_format_unref (sf);
 
-	/* Trim terminal space.  */
-	end = s + strlen (s);
-	if (end != s && end[-1] == ' ')
-		end[-1] = 0;
+	g_string_free (fmt_str, TRUE);
 
 	return value_new_string_nocopy (s);
 }
