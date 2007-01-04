@@ -17,6 +17,7 @@ Morten:
 	* Fix cell contents reading from old v7 files.  [#392054]
 	* Make sure we call g_thread_init early.  [#392050]
 	* Fix CRITICALs with DOLLAR.
+	* Fix progress display for .gnumeric and thus splash.  [#392546]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

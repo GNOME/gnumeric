@@ -2,6 +2,10 @@
 
 	* src/xml-sax-read.c (xml_sax_cell_content): Handle v7 contents.
 	Fixes #392054.
+	(gnm_xml_file_open): Set up progress feedback.  Fixes #392546.
+	(maybe_update_progress): New function.
+	(xml_sax_style_region_end): Call maybe_update_progress.
+	(xml_sax_cell_content): Ditto.
 
 2007-01-02  Morten Welinder  <terra@gnome.org>
 

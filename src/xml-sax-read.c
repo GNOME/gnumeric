@@ -247,6 +247,7 @@ typedef struct {
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
 	GnumericXMLVersion version;
+	gsf_off_t last_progress_update;
 
 	Sheet *sheet;
 	double sheet_zoom;
@@ -306,6 +307,17 @@ typedef struct {
 	GList *delayed_names;
 	SheetObject *so;
 } XMLSaxParseState;
+
+static void
+maybe_update_progress (XMLSaxParseState *state, GsfInput *input)
+{
+	gsf_off_t pos = gsf_input_tell (input);
+
+	if (pos >= state->last_progress_update + 10000) {
+		value_io_progress_update (state->context, pos);
+		state->last_progress_update = pos;
+	}
+}
 
 SheetObject *
 gnm_xml_in_cur_obj (GsfXMLIn const *xin)
@@ -910,6 +922,8 @@ xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	state->style_range_init = FALSE;
 	state->style = NULL;
+
+	maybe_update_progress (state, gsf_xml_in_get_input (xin));
 }
 
 static void
@@ -1435,6 +1449,8 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
+
+	maybe_update_progress (state, gsf_xml_in_get_input (xin));
 
 	cell = sheet_cell_get (state->sheet, col, row);
 	if ((is_new_cell = (cell == NULL)))
@@ -2163,10 +2179,15 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	input = maybe_convert (input, FALSE);
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
+	io_progress_message (state.context, _("Reading file..."));
+	value_io_progress_set (state.context, gsf_input_size (input), 0);
+
 	locale = gnm_push_C_locale ();
 	ok = gsf_xml_in_doc_parse (doc, input, &state);
 	handle_delayed_names (&state);
 	gnm_pop_C_locale (locale);
+
+	io_progress_unset (state.context);
 
 	if (ok) {
 		workbook_queue_all_recalc (state.wb);
