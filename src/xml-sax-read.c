@@ -309,8 +309,10 @@ typedef struct {
 } XMLSaxParseState;
 
 static void
-maybe_update_progress (XMLSaxParseState *state, GsfInput *input)
+maybe_update_progress (GsfXMLIn *xin)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	GsfInput *input = gsf_xml_in_get_input (xin);
 	gsf_off_t pos = gsf_input_tell (input);
 
 	if (pos >= state->last_progress_update + 10000) {
@@ -845,6 +847,8 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (state->sheet != NULL);
 
+	maybe_update_progress (xin);
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "No", &pos)) {
 			g_return_if_fail (cri == NULL);
@@ -923,7 +927,7 @@ xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->style_range_init = FALSE;
 	state->style = NULL;
 
-	maybe_update_progress (state, gsf_xml_in_get_input (xin));
+	maybe_update_progress (xin);
 }
 
 static void
@@ -1450,7 +1454,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
 
-	maybe_update_progress (state, gsf_xml_in_get_input (xin));
+	maybe_update_progress (xin);
 
 	cell = sheet_cell_get (state->sheet, col, row);
 	if ((is_new_cell = (cell == NULL)))
@@ -1742,6 +1746,7 @@ static void
 xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	gnm_xml_finish_obj (xin);
+	maybe_update_progress (xin);
 }
 
 static void
