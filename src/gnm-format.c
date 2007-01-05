@@ -201,3 +201,31 @@ format_value (GOFormat const *format, GnmValue const *value, GOColor *go_color,
 			      col_width, date_conv);
 	return g_string_free (result, FALSE);
 }
+
+int
+gnm_format_is_date_for_value (GOFormat const *fmt,
+			      GnmValue const *value)
+{
+	char type;
+	gnm_float val;
+
+	g_return_val_if_fail (fmt != NULL, -1);
+	g_return_val_if_fail (value != NULL, -1);
+
+	if (VALUE_IS_FLOAT (value)) {
+		val = value_get_as_float (value);
+		type = 'F';
+	} else {
+		val = 0;
+		/* Close enough: */
+		type = VALUE_IS_ERROR (value) ? 'E' : 'S';
+	}
+
+	return
+#ifdef WITH_LONG_DOUBLE
+		go_format_is_date_for_valuel
+#else
+		go_format_is_date_for_value
+#endif
+		(fmt, val, type);
+}

@@ -83,7 +83,7 @@ static gboolean
 is_date (GnmFuncFlags typ, GOFormat *explicit)
 {
 	return (typ == GNM_FUNC_AUTO_DATE ||
-		(typ == AF_EXPLICIT && explicit->family == GO_FORMAT_DATE));
+		(typ == AF_EXPLICIT && go_format_is_date (explicit)));
 }
 
 static GnmFuncFlags

@@ -26,6 +26,9 @@ GOFormatNumberError gnm_format_layout    (PangoLayout *result,
 					  GODateConventions const *date_conv,
 					  gboolean unicode_minus);
 
+int gnm_format_is_date_for_value         (GOFormat const *fmt,
+					  GnmValue const *value);
+
 /*
  * http://www.unicode.org/charts/PDF/U0080.pdf
  * http://www.unicode.org/charts/PDF/U2000.pdf

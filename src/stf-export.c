@@ -113,20 +113,27 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	GOFormat *actual;
 	char *res;
 	gboolean needs_date, needs_time, needs_frac_sec;
+	gboolean is_date, is_time;
 	GString *xlfmt;
+
+	is_date = gnm_format_is_date_for_value (format, value) > 0;
+	is_time = (format->family == GO_FORMAT_TIME);
+
+	if (!is_date && !is_time)
+		return NULL;
 
 	if (!VALUE_IS_NUMBER (value))
 		return NULL;
 	v = value_get_as_float (value);
 	if (v >= 2958466)
 		return NULL;  /* Year 10000 or beyond.  */
-	if (v < -693594)
-		return NULL;  /* Before year 1 (whatever that is!)  */
+	if (v < 0)
+		return NULL;
 	vr = gnm_fake_round (v);
 	vs = (24 * 60 * 60) * gnm_abs (v - vr);
 
-	needs_date = (format->family == GO_FORMAT_DATE) || gnm_abs (v) >= 1;
-	needs_time = (format->family == GO_FORMAT_TIME) || gnm_abs (v - vr) > 1e-9;
+	needs_date = is_date || v >= 1;
+	needs_time = is_time || gnm_abs (v - vr) > 1e-9;
 	needs_frac_sec = needs_time && gnm_abs (vs - gnm_fake_trunc (vs)) > 1e-6;
 
 	xlfmt = g_string_new (NULL);
@@ -172,9 +179,7 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 				GODateConventions const *date_conv =
 					workbook_date_conv (cell->base.sheet->workbook);
 				GOFormat *format = gnm_cell_get_format (cell);
-				if (format->family == GO_FORMAT_DATE ||
-				    format->family == GO_FORMAT_TIME)
-					text = tmp = try_auto_date (cell->value, format, date_conv);
+				text = tmp = try_auto_date (cell->value, format, date_conv);
 				if (!text)
 					text = value_peek_string (cell->value);
 			}

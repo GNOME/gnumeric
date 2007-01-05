@@ -545,7 +545,7 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	}
 
 	sf = gnm_cell_get_format (cell);
-	if (VALUE_IS_NUMBER (value) && sf->family != GO_FORMAT_DATE)
+	if (gnm_format_is_date_for_value (sf, value) > 0)
 		goto bad;
 
 	afm->dateconv = workbook_date_conv (cell->base.sheet->workbook);
