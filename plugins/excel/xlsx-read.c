@@ -1150,7 +1150,7 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	switch (state->pos_type) {
 	case XLXS_TYPE_NUM :
 		if (*xin->content->str)
-			state->val = value_new_float (strtod (xin->content->str, &end));
+			state->val = value_new_float (gnm_strto (xin->content->str, &end));
 		break;
 	case XLXS_TYPE_SST_STR :
 		i = strtol (xin->content->str, &end, 10);

@@ -709,11 +709,11 @@ cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 {
 	char const *new_size = go_action_combo_text_get_entry (gtk->font_size);
 	char *end;
-	float size;
+	double size;
 
 	errno = 0; /* strtol sets errno, but does not clear it.  */
 	size = strtod (new_size, &end);
-	size = ((int)floor ((size * 20.) + .5)) / 20.;	/* round .05 */
+	size = floor ((size * 20.) + .5) / 20.;	/* round .05 */
 
 	if (new_size != end && errno != ERANGE && 1. <= size && size <= 400.) {
 		if (wbcg_is_editing (WORKBOOK_CONTROL_GUI (gtk))) {

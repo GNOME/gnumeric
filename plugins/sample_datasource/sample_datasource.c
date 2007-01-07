@@ -55,7 +55,7 @@ static GHashTable *watchers = NULL;
 
 typedef struct {
 	char	   *name;
-	float	    value;
+	gnm_float   value;
 	gboolean    valid;
 	GHashTable *deps;
 } WatchedValue;
@@ -119,13 +119,13 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 		char *value_str = strchr (buf, ':');
 
 		if (value_str != NULL) {
-			float val;
+			gnm_float val;
 			char *end;
 			*value_str++ = '\0';
 
-			/* pre clear incase something left a mess */
+			/* pre-clear in case something left a mess */
 			errno = 0;
-			val = strtod (value_str, &end);
+			val = gnm_strto (value_str, &end);
 			if (sym != end && errno == 0) {
 				WatchedValue *wv = watched_value_fetch (sym);
 				wv->valid = TRUE;

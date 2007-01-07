@@ -1,3 +1,7 @@
+2007-01-06  Morten Welinder  <terra@gnome.org>
+
+	* sample_datasource.c (cb_atl_input): Use gnm_float.
+
 2006-12-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.6
