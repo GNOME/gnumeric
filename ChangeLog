@@ -1,5 +1,11 @@
 2007-01-09  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: No need to reset errno before go_strtod and gnm_strto.
+
+	* src/xml-sax-read.c (xml_sax_double): Don't use g_strtod.  We do
+	not need or want dual-locale semantics.
+	(gnm_xml_attr_double): Ditto.
+
 	* src/sheet.c (sheet_range_bounding_box): Respan as needed.
 	Fixes #393359.
 

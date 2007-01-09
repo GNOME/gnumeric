@@ -462,7 +462,6 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		char *end;
 		gnm_float d;
 
-		errno = 0;
 		d = gnm_strto (str, &end);
 		if (str != end && *end == '\0' && errno != ERANGE)
 			res = value_new_float (d);

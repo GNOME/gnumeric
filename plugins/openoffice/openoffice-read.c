@@ -309,7 +309,7 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 		return str + 4;
 	}
 
-	num = strtod (str, &end);
+	num = go_strtod (str, &end);
 	if (str != (xmlChar const *)end) {
 		if (0 == strncmp (end, "mm", 2)) {
 			num = GO_CM_TO_PT (num/10.);
@@ -1439,12 +1439,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "overlap")) {
 				prop->name = g_strdup ("overlap-percentage");
 				prop->value = g_value_init (prop->value, G_TYPE_INT);
-				g_value_set_int (prop->value, g_strtod(attrs[1], NULL));
+				g_value_set_int (prop->value, go_strtod(attrs[1], NULL));
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "gap-width")) {
 				prop->name = g_strdup ("gap-percentage");
 				prop->value = g_value_init (prop->value, G_TYPE_INT);
-				g_value_set_int (prop->value, g_strtod(attrs[1], NULL));
+				g_value_set_int (prop->value, go_strtod(attrs[1], NULL));
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "series-source")) {
 			if (!strcmp(attrs[1], "rows"))

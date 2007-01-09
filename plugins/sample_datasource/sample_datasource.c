@@ -123,8 +123,6 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 			char *end;
 			*value_str++ = '\0';
 
-			/* pre-clear in case something left a mess */
-			errno = 0;
 			val = gnm_strto (value_str, &end);
 			if (sym != end && errno == 0) {
 				WatchedValue *wv = watched_value_fetch (sym);

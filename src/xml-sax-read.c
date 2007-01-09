@@ -93,7 +93,7 @@ gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * re
 	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	tmp = g_strtod (CXML2C (attrs[1]), &end);
+	tmp = go_strtod (CXML2C (attrs[1]), &end);
 	if (*end) {
 		g_warning ("Invalid attribute '%s', expected double, received '%s'",
 			   name, attrs[1]);
@@ -107,7 +107,7 @@ static gboolean
 xml_sax_double (xmlChar const *chars, double *res)
 {
 	char *end;
-	*res = g_strtod (CXML2C (chars), &end);
+	*res = go_strtod (CXML2C (chars), &end);
 	return *end == '\0';
 }
 

@@ -126,7 +126,6 @@ gnumeric_reqs="$libspreadsheet_reqs
 libspreadsheet_gtk_reqs="
 	libglade-2.0		>= 2.3.6
 	gtk+-2.0		>= 2.6.0
-	libart-2.0		>= 2.3.11
 "
 
 gnumeric_gtk_reqs="$libspreadsheet_gtk_reqs"
@@ -138,7 +137,7 @@ libspreadsheet_gnome_reqs="
 gnumeric_gnome_reqs="$libspreadsheet_gnome_reqs
 	libbonoboui-2.0		>= 2.2.0
 	libgnome-2.0		>= 2.0.0
-	libgsf-gnome-1		>= 1.13.0
+	libgsf-gnome-1		>= 1.14.2
 "
 
 ui_msg=

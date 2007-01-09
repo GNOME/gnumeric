@@ -150,7 +150,7 @@ afg_get_cell_value (G_GNUC_UNUSED PreviewGrid *pg, int col, int row)
 		return NULL;
 
 	text = _(demotable[row][col]);
-	tmp = g_strtod (text, &endptr);
+	tmp = go_strtod (text, &endptr);
 
 	if (*endptr == '\0')
 		return value_new_float (tmp);

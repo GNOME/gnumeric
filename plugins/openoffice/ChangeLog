@@ -1,3 +1,8 @@
+2007-01-09  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (od_style_prop_chart): Don't use g_strtod.  We
+	do not want dual-locale semantics.
+
 2006-12-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.6

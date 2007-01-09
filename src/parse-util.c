@@ -689,7 +689,6 @@ gnm_expr_char_start_p (char const * c)
 		 * numbers to be treated as formulae.  FIXME: this really
 		 * just checks for C-syntax numbers.
 		 */
-		errno = 0;
 		(void) gnm_strto (c, &end);
 		if (errno || *end != 0 || end == c)
 			return (c0 == '+') ? c + 1 : c;

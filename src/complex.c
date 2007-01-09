@@ -94,7 +94,6 @@ complex_from_string (complex_t *dst, char const *src, char *imunit)
 		return 0;
 	}
 
-	errno = 0;
 	x = gnm_strto (src, &end);
 	if (src == end || errno == ERANGE)
 		return -1;

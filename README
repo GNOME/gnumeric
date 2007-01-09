@@ -18,16 +18,15 @@ You need:				Debian package name
 	gtk+		>= 2.6.0	libgtk2.0-dev
 	libgnomeprint	>= 2.8.2	libgnomeprint2.2-dev
 	libgnomeprintui	>= 2.8.2	libgnomeprintui2.2-dev
-	libgsf		>= 1.13.2	libgsf-1-dev
-	libgoffice	>= 0.2.0	libgoffice-1-dev
+	libgsf		>= 1.14.2	libgsf-1-dev
+	libgoffice	>= 0.3.6	libgoffice-1-dev
 	libglade	>= 2.3.6	libglade2-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
-	libart   	>= 2.3.11	libart-2.0-dev
 	pango		>= 1.8.1	libpango1.0-dev
 	NOTE: gnome-xml is also known as libxml
 
 Optionally:
-	libgsf-gnome	>= 1.13.0	libgsf-gnome-1-dev
+	libgsf-gnome	>= 1.14.2	libgsf-gnome-1-dev
 	libgnome	>= 2.0.0	libgnome2-dev
 	libgnomeui	>= 2.0.0	libgnomeui-dev
 	libbonobo	>= 2.2.0	libbonobo2-dev

@@ -711,8 +711,7 @@ cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 	char *end;
 	double size;
 
-	errno = 0; /* strtol sets errno, but does not clear it.  */
-	size = strtod (new_size, &end);
+	size = go_strtod (new_size, &end);
 	size = floor ((size * 20.) + .5) / 20.;	/* round .05 */
 
 	if (new_size != end && errno != ERANGE && 1. <= size && size <= 400.) {

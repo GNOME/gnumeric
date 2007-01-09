@@ -694,7 +694,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 			case 'P' : {
 				char *start = ++sep;
-				double size = strtod (start, &sep);
+				double size = go_strtod (start, &sep);
 
 				if (start != sep && size > 0.) {
 					gnm_style_set_font_size (style, size / gnm_app_dpi_to_pixels ());

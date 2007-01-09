@@ -90,7 +90,6 @@ format_match_simple (char const *text)
 		char *end;
 		gnm_float d;
 
-		errno = 0; /* gnm_strto sets errno, but does not clear it.  */
 		d = gnm_strto (text, &end);
 		if (text != end && errno != ERANGE && gnm_finite (d)) {
 			/* Allow and ignore spaces at the end.  */
@@ -837,7 +836,6 @@ format_match_fraction (char const *text, int *denlen)
 	if (*text == '/') {
 		whole = 0;
 	} else {
-		errno = 0;
 		whole = gnm_strto (start, NULL);
 		if (errno == ERANGE)
 			return NULL;
@@ -857,7 +855,6 @@ format_match_fraction (char const *text, int *denlen)
 			return NULL;
 	}
 
-	errno = 0;
 	num = gnm_strto (start, NULL);
 	if (errno == ERANGE)
 		return NULL;
@@ -872,7 +869,6 @@ format_match_fraction (char const *text, int *denlen)
 	if (*text != 0)
 		return NULL;
 
-	errno = 0;
 	den = gnm_strto (start, NULL);
 	if (errno == ERANGE)
 		return NULL;
@@ -1037,7 +1033,6 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 		char *end;
 		gboolean bad;
 
-		errno = 0;
 		f = gnm_strto (numstr->str, &end);
 		bad = *end || errno == ERANGE;
 		g_string_free (numstr, TRUE);
