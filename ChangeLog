@@ -1,3 +1,8 @@
+2007-01-09  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (gnm_xml_file_open): Initialize
+	seen_cell_contents.
+
 2007-01-08  Morten Welinder  <terra@gnome.org>
 
 	* src/numbers.h (gnm_strto): Map this to go_strtod or go_strtold.

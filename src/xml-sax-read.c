@@ -2168,6 +2168,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.style_range_init = FALSE;
 	state.style = NULL;
 	state.cell.row = state.cell.col = -1;
+	state.seen_cell_contents = FALSE;
 	state.array_rows = state.array_cols = -1;
 	state.expr_id = -1;
 	state.value_type = -1;
