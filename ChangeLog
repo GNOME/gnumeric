@@ -1,5 +1,15 @@
 2007-01-09  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_range_bounding_box): Respan as needed.
+	Fixes #393359.
+
+	* src/item-grid.c (item_grid_draw): Handle respans outside the
+	loop, not inside.
+
+	* src/dependent.c (gnm_cell_eval_content): Optimize the
+	value-didn't-change case.
+	(workbook_recalc): Don't force full-sheet redraws here.
+
 	* src/xml-sax-read.c (gnm_xml_file_open): Initialize
 	seen_cell_contents.
 

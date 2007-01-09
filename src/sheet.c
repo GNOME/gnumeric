@@ -929,7 +929,7 @@ sheet_cell_calc_span (GnmCell *cell, GnmSpanCalcFlags flags)
 			if (left != span->left || right != span->right)
 				cell_unregister_span (cell);
 			else
-				/* unchaged, short curcuit adding the span again */
+				/* unchanged, short curcuit adding the span again */
 				left = right;
 		}
 
@@ -1936,7 +1936,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 		gnm_cell_get_format (cell),
 		workbook_date_conv (cell->base.sheet->workbook));
 
-	/* Queue a redraw before incase the span changes */
+	/* Queue a redraw before in case the span changes */
 	sheet_redraw_cell (cell);
 
 	if (texpr != NULL) {
@@ -2020,8 +2020,8 @@ void
 sheet_range_bounding_box (Sheet const *sheet, GnmRange *bound)
 {
 	GSList *ptr;
-	int	row;
-	GnmRange	r = *bound;
+	int row;
+	GnmRange r = *bound;
 
 	g_return_if_fail (range_is_sane	(bound));
 
@@ -2029,11 +2029,15 @@ sheet_range_bounding_box (Sheet const *sheet, GnmRange *bound)
 	 * include the maximum extent.
 	 */
 	for (row = r.start.row; row <= r.end.row; row++){
-		ColRowInfo const * const ri = sheet_row_get (sheet, row);
+		ColRowInfo const *ri = sheet_row_get (sheet, row);
 
 		if (ri != NULL) {
-			CellSpanInfo const * span0 =
-			    row_span_get (ri, r.start.col);
+			CellSpanInfo const * span0;
+
+			if (ri->needs_respan)
+				row_calc_spans ((ColRowInfo *)ri, row, sheet);
+
+			span0 = row_span_get (ri, r.start.col);
 
 			if (span0 != NULL) {
 				if (bound->start.col > span0->left)

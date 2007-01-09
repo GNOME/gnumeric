@@ -19,6 +19,7 @@ Morten:
 	* Fix CRITICALs with DOLLAR.
 	* Fix progress display for .gnumeric and thus splash.  [#392546]
 	* Don't allow "1D2" [win32] or "0x1234p1" as numbers.  [#393347]
+	* Fix redraw problem.  [#393359]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

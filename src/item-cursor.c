@@ -242,7 +242,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	gboolean draw_stippled, draw_center, draw_external, draw_internal;
 
 #if 0
-	fprintf (stderr, "draw[%d] %d,%d %d,%d\n",
+	g_print ("draw[%d] %d,%d %d,%d\n",
 		 GNM_CANVAS (item->canvas)->pane->index, 
 		 ic->outline.x1,
 		 ic->outline.y1,

@@ -404,8 +404,10 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	g_return_if_fail (start_col <= end_col);
 
 #if 0
-	g_printerr ("%s%s:", col_name(start_col), row_name(start_row));
-	g_printerr ("%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, expose->area.y);
+	g_printerr ("%s:", cell_coord_name (start_col, start_row));
+	g_printerr ("%s <= %d vs %d", cell_coord_name(end_col, end_row), y, expose->area.y);
+	g_printerr (" [%s]\n", cell_coord_name (ig->bound.end.col, ig->bound.end.row));
+	
 #endif
 
 	/* clip to bounds */
@@ -430,6 +432,13 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	if (end_col < ig->bound.start.col || start_col > ig->bound.end.col ||
 	    end_row < ig->bound.start.row || start_row > ig->bound.end.row)
 		return;
+
+	/* Respan all rows that need it.  */
+	for (row = start_row; row <= end_row; row++) {
+		ColRowInfo const *ri = sheet_row_get_info (sheet, row);
+		if (ri->visible && ri->needs_respan)
+			row_calc_spans ((ColRowInfo *)ri, row, sheet);
+	}
 
 	sheet_style_update_grid_color (sheet);
 
@@ -496,12 +505,6 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 				break;
 			}
 		}
-
-		/* it is safe to const_cast because only the a non-default row
-		 * will ever get flagged.
-		 */
-		if (ri->needs_respan)
-			row_calc_spans ((ColRowInfo *)ri, row, sheet);
 
 		/* look for merges that start on this row, on the first painted row
 		 * also check for merges that start above. */

@@ -171,9 +171,9 @@ gnm_rendered_value_remeasure (GnmRenderedValue *rv)
  **/
 GnmRenderedValue *
 gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
-		    gboolean allow_variable_width,
-		    PangoContext *context,
-		    double zoom)
+			gboolean allow_variable_width,
+			PangoContext *context,
+			double zoom)
 {
 	GnmRenderedValue	*res;
 	GOColor		 fore;

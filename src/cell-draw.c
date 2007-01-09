@@ -71,6 +71,10 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
 
 	hoffset = rv->indent_left * PANGO_SCALE;
 
+#if 0
+	g_print ("%s: w=%d  h=%d\n", cell_name (cell), width, height);
+#endif
+
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
 	rect_x = PANGO_SCALE * (1 + GNM_COL_MARGIN);

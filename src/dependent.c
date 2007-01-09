@@ -1466,18 +1466,25 @@ iterate :
 		g_return_val_if_fail (iterating, TRUE);
 		iterating = NULL;
 	} else {
-		/* do not use gnm_cell_assign_value unless you pass in the format */
-		if (cell->value != NULL)
-			value_release (cell->value);
-		cell->value = v;
+		gboolean had_value = (cell->value != NULL);
+		if (had_value && value_equal (v, cell->value)) {
+			/* Value didn't change.  */
+			value_release (v);
+		} else {
+			gboolean was_string = had_value && VALUE_IS_STRING (cell->value);
+			gboolean is_string = VALUE_IS_STRING (v);
 
-		/* Optimization : Since we don't span calculated cells
-		 * it is ok, to wipe rendered values.  The drawing routine
-		 * will handle it.
-		 */
-		if (cell->rendered_value != NULL) {
-			gnm_rendered_value_destroy (cell->rendered_value);
-			cell->rendered_value = NULL;
+			if ((was_string || is_string) && cell->row_info)
+				cell->row_info->needs_respan = TRUE;
+
+			if (had_value)
+				value_release (cell->value);
+			cell->value = v;
+
+			if (cell->rendered_value) {
+				gnm_rendered_value_destroy (cell->rendered_value);
+				cell->rendered_value = NULL;
+			}
 		}
 	}
 
@@ -1488,7 +1495,6 @@ iterate :
 	g_print ("} (%d)\n", iterating == NULL);
 #endif
 	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
-	cell->row_info->needs_respan = TRUE;
 	return iterating == NULL;
 }
 
@@ -2488,21 +2494,13 @@ workbook_queue_all_recalc (Workbook *wb)
 void
 workbook_recalc (Workbook *wb)
 {
-	gboolean redraw = FALSE;
-
 	g_return_if_fail (IS_WORKBOOK (wb));
 
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
 		if (dependent_needs_recalc (dep)) {
 			dependent_eval (dep);
-			redraw = TRUE;
 		}
 	});
-	if (redraw) {
-		WORKBOOK_FOREACH_SHEET (wb, sheet, {
-			SHEET_FOREACH_VIEW (sheet, sv, sv_flag_selection_change (sv););
-			sheet_redraw_all (sheet, FALSE);});
-	}
 }
 
 /**
