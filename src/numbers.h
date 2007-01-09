@@ -97,7 +97,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_sin sinl
 #define gnm_sinh sinhl
 #define gnm_sqrt sqrtl
-#define gnm_strto strtold
+#define gnm_strto go_strtold
 #define gnm_sub_epsilon go_sub_epsilonl
 #define gnm_tan tanl
 #define gnm_tanh tanhl
@@ -166,7 +166,7 @@ typedef double gnm_float;
 #define gnm_sin sin
 #define gnm_sinh sinh
 #define gnm_sqrt sqrt
-#define gnm_strto strtod
+#define gnm_strto go_strtod
 #define gnm_sub_epsilon go_sub_epsilon
 #define gnm_tan tan
 #define gnm_tanh tanh
