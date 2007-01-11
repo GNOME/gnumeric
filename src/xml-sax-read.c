@@ -2088,6 +2088,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	char *converted;
 	char const *encoding;
 	gboolean ok;
+	gboolean any_numbered = FALSE;
 
 	buf = gsf_input_read (input, strlen (noencheader), NULL);
 	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
@@ -2121,10 +2122,15 @@ maybe_convert (GsfInput *input, gboolean quiet)
 				g_string_erase (buffer, start + 1, ui - start);
 				ui = start;
 			}
+			any_numbered = TRUE;
 		}
 	}
 
 	encoding = go_guess_encoding (buffer->str, buffer->len, NULL, &converted);
+	if (encoding && !any_numbered &&
+	    converted && strcmp (buffer->str, converted) == 0)
+		quiet = TRUE;
+
 	g_string_free (buffer, TRUE);
 
 	if (encoding) {

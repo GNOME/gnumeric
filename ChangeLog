@@ -1,3 +1,9 @@
+2007-01-10  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (maybe_convert): Always be quiet if no
+	conversion actually takes place, e.g., if everything is plain
+	ASCII.
+
 2007-01-09  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: No need to reset errno before go_strtod and gnm_strto.
