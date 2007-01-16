@@ -1825,8 +1825,9 @@ od_plot_area(GsfXMLIn *xin, xmlChar const **attrs)
 	texpr = oo_expr_parse_str (graph_range, &state->pos, 0, &perr);
 	if (texpr == NULL) {
 		oo_warning (xin, _("Unable to parse '%s' because '%s'"),
-				    attrs[1], perr.err->message);
+				    graph_range, perr.err->message);
 		parse_error_free (&perr);
+		return;
 	}
 	actual_range = gnm_expr_top_get_range (texpr);
 	cur_col = actual_range->v_range.cell.a.col;

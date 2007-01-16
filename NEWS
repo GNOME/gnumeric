@@ -22,6 +22,7 @@ Morten:
 	* Fix redraw problem.  [#393359]
 	* Don't complain over encoding-less documents unless there is a reason.
 	* Don't pull in popt. [#396329]
+	* Fix OO import crash.  [#396200]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6
