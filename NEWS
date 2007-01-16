@@ -21,6 +21,7 @@ Morten:
 	* Don't allow "1D2" [win32] or "0x1234p1" as numbers.  [#393347]
 	* Fix redraw problem.  [#393359]
 	* Don't complain over encoding-less documents unless there is a reason.
+	* Don't pull in popt. [#396329]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

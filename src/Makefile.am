@@ -303,7 +303,6 @@ gnumeric_SOURCES =				\
 
 gnumeric_LDADD =				\
 	libspreadsheet.la			\
-	-lpopt					\
 	$(INTLLIBS)
 
 gnumeric_LDFLAGS = -export-dynamic
