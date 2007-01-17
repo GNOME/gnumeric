@@ -774,7 +774,8 @@ gnm_pixbuf_tile (GdkPixbuf const *src, int w, int h)
 	GdkPixbuf *dst = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src),
 					 gdk_pixbuf_get_has_alpha (src),
 					 gdk_pixbuf_get_bits_per_sample (src),
-					 w, h);
+					 MAX (w, 1),
+					 MAX (h, 1));
 
 	for (stripe_y = -1; stripe_y <= tile_y; stripe_y++) {
 		int dst_x = 0;
