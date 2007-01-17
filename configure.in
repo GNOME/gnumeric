@@ -120,6 +120,7 @@ gnumeric_reqs="$libspreadsheet_reqs
 	glib-2.0		>= 2.6.0
 	gobject-2.0		>= 2.6.0
 	gmodule-2.0		>= 2.6.0
+	gthread-2.0		>= 2.6.0
 	pango			>= 1.8.1
 	pangoft2		>= 1.8.1
 "
