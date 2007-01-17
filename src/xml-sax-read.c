@@ -276,6 +276,7 @@ typedef struct {
 		gboolean	 use_dropdown;
 	} validation;
 	GnmStyleCond	cond;
+	GnmStyle *cond_save_style;
 
 	gboolean  style_range_init;
 	GnmRange	  style_range;
@@ -1215,6 +1216,30 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xml_sax_style_condition_style_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	g_return_if_fail (state->cond_save_style == NULL);
+
+	state->cond_save_style = state->style;
+	state->style = gnm_style_new_default ();
+	xml_sax_styleregion_start (xin, attrs);
+}
+
+static void
+xml_sax_style_condition_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	g_return_if_fail (state->cond_save_style != NULL);
+
+	state->cond.overlay = state->style;
+	state->style = state->cond_save_style;
+	state->cond_save_style = NULL;
+}
+
+static void
 xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
@@ -1990,6 +2015,23 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 0),
 	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR1, GNM, "Expression1",
 				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 1),
+	      GSF_XML_IN_NODE (STYLE_CONDITION, STYLE_CONDITION_STYLE, GNM, "Style",
+			       GSF_XML_NO_CONTENT, &xml_sax_style_condition_style_start, &xml_sax_style_condition_style_end),
+                /* NOT PRETTY: A partial copy of the above.  */
+		GSF_XML_IN_NODE (STYLE_CONDITION_STYLE, STYLE_CONDITION_FONT, GNM, "Font", GSF_XML_CONTENT, &xml_sax_styleregion_font, &xml_sax_styleregion_font_end),
+		GSF_XML_IN_NODE (STYLE_CONDITION_STYLE, STYLE_CONDITION_BORDER, GNM, "StyleBorder", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_TOP,     GNM, "Top",
+					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_TOP),
+		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_BOTTOM,  GNM, "Bottom",
+					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_BOTTOM),
+		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_LEFT,    GNM, "Left",
+					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_LEFT),
+		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_RIGHT,   GNM, "Right",
+					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_RIGHT),
+		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_DIAG,    GNM, "Diagonal",
+					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_DIAGONAL),
+		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_REV_DIAG,GNM, "Rev-Diagonal",
+					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_REV_DIAGONAL),
 
       GSF_XML_IN_NODE_FULL (SHEET, SHEET_COLS, GNM, "Cols",
 			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, NULL, TRUE),
@@ -2183,7 +2225,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.validation.title = state.validation.msg = NULL;
 	state.validation.texpr[0] = state.validation.texpr[1] = NULL;
 	state.cond.texpr[0] = state.cond.texpr[1] = NULL;
-	state.cond.overlay = NULL;
+	state.cond_save_style = NULL;
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.delayed_names = NULL;
 	state.so = NULL;

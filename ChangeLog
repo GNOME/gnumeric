@@ -1,6 +1,8 @@
 2007-01-17  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (gnm_xml_file_open): Clear state->cond.
+	(xml_sax_style_condition_style_start,
+	xml_sax_style_condition_style_end): New functions.
 	Fixes part of #397679.
 
 2007-01-16  Morten Welinder  <terra@gnome.org>
