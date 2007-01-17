@@ -2182,6 +2182,8 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.filter = NULL;
 	state.validation.title = state.validation.msg = NULL;
 	state.validation.texpr[0] = state.validation.texpr[1] = NULL;
+	state.cond.texpr[0] = state.cond.texpr[1] = NULL;
+	state.cond.overlay = NULL;
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.delayed_names = NULL;
 	state.so = NULL;
