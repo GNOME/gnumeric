@@ -1,5 +1,15 @@
 2007-01-17  Morten Welinder  <terra@gnome.org>
 
+	* src/graph.c (gnm_go_data_preferred_fmt): Handle the case of a
+	missing expression in the dep.
+
+	* src/xml-sax-read.c (xml_sax_condition): Merge
+	xml_sax_style_condition_style_start into here.
+	(xml_sax_condition_end): Merge xml_sax_style_condition_style_end
+	into here.  Rearrange parser to use recursive entry.
+	(xml_sax_object_start): Update progress here.
+	(xml_sax_object_end): Not here.  Object isn't ready yet.
+
 	* src/gui-util.c (gnm_pixbuf_tile): Round sizes up to 1 pixel, if
 	needed.
 

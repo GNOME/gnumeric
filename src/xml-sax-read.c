@@ -1170,6 +1170,10 @@ xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (state->cond.texpr[0] == NULL);
 	g_return_if_fail (state->cond.texpr[1] == NULL);
+	g_return_if_fail (state->cond_save_style == NULL);
+
+	state->cond_save_style = state->style;
+	state->style = gnm_style_new_default ();
 
 	state->cond.op = GNM_STYLE_COND_CUSTOM;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1206,6 +1210,11 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmParsePos pos;
 
 	g_return_if_fail (state->cond.texpr[i] == NULL);
+	g_return_if_fail (state->cond_save_style != NULL);
+
+	state->cond.overlay = state->style;
+	state->style = state->cond_save_style;
+	state->cond_save_style = NULL;
 
 	texpr = gnm_expr_parse_str_simple (xin->content->str,
 		parse_pos_init_sheet (&pos, state->sheet));
@@ -1213,30 +1222,6 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (texpr != NULL);
 
 	state->cond.texpr[i] = texpr;
-}
-
-static void
-xml_sax_style_condition_style_start (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
-	g_return_if_fail (state->cond_save_style == NULL);
-
-	state->cond_save_style = state->style;
-	state->style = gnm_style_new_default ();
-	xml_sax_styleregion_start (xin, attrs);
-}
-
-static void
-xml_sax_style_condition_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-
-	g_return_if_fail (state->cond_save_style != NULL);
-
-	state->cond.overlay = state->style;
-	state->style = state->cond_save_style;
-	state->cond_save_style = NULL;
 }
 
 static void
@@ -1764,6 +1749,7 @@ static void
 xml_sax_object_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	char const *type_name = xin->node->name;
+	maybe_update_progress (xin);
 	xml_sax_read_obj (xin, FALSE, type_name, attrs);
 }
 
@@ -1771,7 +1757,12 @@ static void
 xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	gnm_xml_finish_obj (xin);
-	maybe_update_progress (xin);
+	/*
+	 * WARNING: the object is not completely finished at this
+	 * time.  Any handler installed by gog_object_sax_push_parser
+	 * has not yet been called.  As a consequence, we cannot
+	 * update the GUI here.
+	 */
 }
 
 static void
@@ -2015,23 +2006,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 0),
 	      GSF_XML_IN_NODE_FULL (STYLE_CONDITION, STYLE_CONDITION_EXPR1, GNM, "Expression1",
 				    GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_condition_expr_end, 1),
-	      GSF_XML_IN_NODE (STYLE_CONDITION, STYLE_CONDITION_STYLE, GNM, "Style",
-			       GSF_XML_NO_CONTENT, &xml_sax_style_condition_style_start, &xml_sax_style_condition_style_end),
-                /* NOT PRETTY: A partial copy of the above.  */
-		GSF_XML_IN_NODE (STYLE_CONDITION_STYLE, STYLE_CONDITION_FONT, GNM, "Font", GSF_XML_CONTENT, &xml_sax_styleregion_font, &xml_sax_styleregion_font_end),
-		GSF_XML_IN_NODE (STYLE_CONDITION_STYLE, STYLE_CONDITION_BORDER, GNM, "StyleBorder", GSF_XML_NO_CONTENT, NULL, NULL),
-		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_TOP,     GNM, "Top",
-					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_TOP),
-		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_BOTTOM,  GNM, "Bottom",
-					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_BOTTOM),
-		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_LEFT,    GNM, "Left",
-					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_LEFT),
-		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_RIGHT,   GNM, "Right",
-					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_RIGHT),
-		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_DIAG,    GNM, "Diagonal",
-					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_DIAGONAL),
-		  GSF_XML_IN_NODE_FULL (STYLE_CONDITION_BORDER, CONDITION_BORDER_REV_DIAG,GNM, "Rev-Diagonal",
-					GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_REV_DIAGONAL),
+	      GSF_XML_IN_NODE (STYLE_CONDITION, STYLE_STYLE, GNM, "Style", GSF_XML_NO_CONTENT, NULL, NULL),
 
       GSF_XML_IN_NODE_FULL (SHEET, SHEET_COLS, GNM, "Cols",
 			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, NULL, TRUE),

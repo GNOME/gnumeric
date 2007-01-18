@@ -88,8 +88,14 @@ gnm_go_data_preferred_fmt (GOData const *dat)
 {
 	GnmEvalPos ep;
 	GnmDependent const *dep = gnm_go_data_get_dep (dat);
-	return auto_style_format_suggest (dep->texpr,
-		eval_pos_init_dep (&ep, dep));
+
+	g_return_val_if_fail (dep != NULL, NULL);
+	g_return_val_if_fail (dep->sheet != NULL, NULL);
+
+	eval_pos_init_dep (&ep, dep);
+	return dep->texpr
+		? auto_style_format_suggest (dep->texpr, &ep)
+		: NULL;
 }
 
 static char *
