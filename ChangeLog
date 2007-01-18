@@ -1,5 +1,7 @@
 2007-01-17  Morten Welinder  <terra@gnome.org>
 
+	* src/cell-draw.c (cell_draw): Render as necessary.
+
 	* src/graph.c (gnm_go_data_preferred_fmt): Handle the case of a
 	missing expression in the dep.
 

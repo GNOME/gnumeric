@@ -270,12 +270,18 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	GOColor fore_color;
 	gint x;
 	gint y;
-	GnmRenderedValue *rv = cell->rendered_value;
+	GnmRenderedValue *rv;
 
 	/* Get the sizes exclusive of margins and grids */
 	/* Note: +1 because size_pixels includes leading gridline.  */
 	height -= GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
 	width  -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
+
+	/* render as necessary */
+	if (cell->rendered_value == NULL)
+		gnm_cell_render_value ((GnmCell *)cell, TRUE);
+
+	rv = cell->rendered_value;
 
 	if (cell_calc_layout (cell, rv, +1,
 			      width * PANGO_SCALE,
