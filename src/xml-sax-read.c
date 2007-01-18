@@ -1190,6 +1190,11 @@ xml_sax_condition_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmStyleConditions *sc;
 
 	g_return_if_fail (state->style != NULL);
+	g_return_if_fail (state->cond_save_style != NULL);
+
+	state->cond.overlay = state->style;
+	state->style = state->cond_save_style;
+	state->cond_save_style = NULL;
 
 	if (!gnm_style_is_element_set (state->style, MSTYLE_CONDITIONS) ||
 	    NULL == (sc = gnm_style_get_conditions (state->style)))
@@ -1210,11 +1215,6 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmParsePos pos;
 
 	g_return_if_fail (state->cond.texpr[i] == NULL);
-	g_return_if_fail (state->cond_save_style != NULL);
-
-	state->cond.overlay = state->style;
-	state->style = state->cond_save_style;
-	state->cond_save_style = NULL;
 
 	texpr = gnm_expr_parse_str_simple (xin->content->str,
 		parse_pos_init_sheet (&pos, state->sheet));
