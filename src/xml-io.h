@@ -46,7 +46,8 @@ GnmColor  *xml_node_get_color	(xmlNodePtr node, char const *name);
 void       xml_node_set_color	(xmlNodePtr node, char const *name, GnmColor const *color);
 
 xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, GnmStyle *style);
-GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
+GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree,
+				   gboolean leave_empty);
 
 void      xml_init (void);
 /* Gnumeric specific SAX utilities */

@@ -1,3 +1,11 @@
+2007-01-18  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_condition) : use gnm_style_new rather
+	  than gnm_style_new_default.  We only want to fill in the required
+	  fields, not all of them.
+	* src/xml-io.c (xml_read_style) : fix the original here by adding an
+	  'leave_empty' argument that can force the use of style_new.
+
 2007-01-17  Morten Welinder  <terra@gnome.org>
 
 	* src/cell-draw.c (cell_draw): Render as necessary.

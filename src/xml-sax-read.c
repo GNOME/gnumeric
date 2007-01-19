@@ -1173,7 +1173,7 @@ xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->cond_save_style == NULL);
 
 	state->cond_save_style = state->style;
-	state->style = gnm_style_new_default ();
+	state->style = gnm_style_new ();
 
 	state->cond.op = GNM_STYLE_COND_CUSTOM;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)

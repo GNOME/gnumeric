@@ -396,7 +396,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, GnmFormatTemplate *ft, x
 			found |= 1;
 		} else if (!strcmp (child->name, "Style")) {
 			if (found & 2) { g_warning ("Multiple Styles"); }
-			member->mstyle = xml_read_style (ctxt, child);
+			member->mstyle = xml_read_style (ctxt, child, FALSE);
 			found |= 2;
 		}
 	}

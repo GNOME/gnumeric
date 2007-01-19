@@ -740,7 +740,7 @@ style_font_read_from_x11 (GnmStyle *style, char const *fontname)
  * Create a Style equivalent to the XML subtree of doc.
  */
 GnmStyle *
-xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
+xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree, gboolean leave_empty)
 {
 	xmlNode *e_node, *child;
 	xmlChar *prop;
@@ -751,8 +751,9 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	GnmParsePos  pp;
 	GnmStyleConditions *sc = NULL;
 
-	style = (ctxt->version >= GNM_XML_V6 ||
-		  ctxt->version <= GNM_XML_V2)
+	style = (!leave_empty &&
+		 (ctxt->version >= GNM_XML_V6 ||
+		  ctxt->version <= GNM_XML_V2))
 		? gnm_style_new_default ()
 		: gnm_style_new ();
 
@@ -967,7 +968,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			} else
 				cond.texpr[1] = NULL;
 			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Style"))))
-				cond.overlay = xml_read_style (ctxt, e_node);
+				cond.overlay = xml_read_style (ctxt, e_node, TRUE);
 			if (NULL == sc)
 				sc = gnm_style_conditions_new ();
 			gnm_style_conditions_insert (sc, &cond, -1);
@@ -1002,7 +1003,7 @@ xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, GnmRange *rang
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Style"));
 	if (child)
-		style = xml_read_style (ctxt, child);
+		style = xml_read_style (ctxt, child, FALSE);
 
 	return style;
 }
@@ -1194,7 +1195,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			 * This is even older backwards compatibility than 0.41 - 0.42
 			 */
 			if (!style_read && !strcmp (child->name, "Style")) {
-				GnmStyle *style = xml_read_style (ctxt, child);
+				GnmStyle *style = xml_read_style (ctxt, child, FALSE);
 				if (style)
 					sheet_style_set_pos (ctxt->sheet, col, row, style);
 			/* This is a pre version 1.0.3 file */
@@ -1858,7 +1859,7 @@ xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	for (styles = child->xmlChildrenNode; styles; styles = styles->next) {
 		if (!xmlIsBlankNode (styles) &&
 		    xml_node_get_int (styles, "No", &style_idx)) {
-			style = xml_read_style (ctxt, styles);
+			style = xml_read_style (ctxt, styles, FALSE);
 			g_hash_table_insert (
 				ctxt->style_table,
 				GINT_TO_POINTER (style_idx),
@@ -2331,7 +2332,7 @@ xml_workbook_read (IOContext *context,
 
 /*	child = xml_search_child (tree, "Style");
 	if (child != NULL)
-	xml_read_style (ctxt, child, &wb->style);*/
+	xml_read_style (ctxt, child, &wb->style, FALSE);*/
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Sheets"));
 	if (child == NULL)
