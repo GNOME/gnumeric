@@ -5,6 +5,7 @@
  *
  * Copyright (C) 2002-2006 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2006 Luciano Miguel Wolf (luciano.wolf@indt.org.br)
+ * Copyright (C) 2007 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -67,6 +68,15 @@
 #include <graph.h>
 
 GNM_PLUGIN_MODULE_HEADER;
+
+#define CXML2C(s) ((char const *)(s))
+#define CC2XML(s) ((xmlChar const *)(s))
+
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
 
 /* Filter Type */
 #define mime_openofficeorg1	"application/vnd.sun.xml.calc"
@@ -209,9 +219,10 @@ oo_attr_bool (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
-	*res = g_ascii_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
+	*res = (g_ascii_strcasecmp (CXML2C (attrs[1]), "false") &&
+		strcmp (CXML2C (attrs[1]), "0"));
 
 	return TRUE;
 }
@@ -227,10 +238,10 @@ oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
-	tmp = strtol ((gchar *)attrs[1], &end, 10);
+	tmp = strtol (CXML2C (attrs[1]), &end, 10);
 	if (*end)
 		return oo_warning (xin, "Invalid attribute '%s', expected integer, received '%s'",
 				   name, attrs[1]);
@@ -250,10 +261,10 @@ oo_attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
-	tmp = gnm_strto ((gchar *)attrs[1], &end);
+	tmp = gnm_strto (CXML2C (attrs[1]), &end);
 	if (*end)
 		return oo_warning (xin, "Invalid attribute '%s', expected number, received '%s'",
 				   name, attrs[1]);
@@ -270,10 +281,10 @@ oo_parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 
 	g_return_val_if_fail (str != NULL, NULL);
 
-	if (3 == sscanf (str, "#%2x%2x%2x", &r, &g, &b))
+	if (3 == sscanf (CXML2C (str), "#%2x%2x%2x", &r, &g, &b))
 		return style_color_new_i8 (r, g, b);
 
-	if (0 == strcmp (str, "transparent")) {
+	if (0 == strcmp (CXML2C (str), "transparent")) {
 		no_color = style_color_auto_back ();
 		no_color->name = g_new (gchar, 1);
 		no_color->name = g_strdup ("transparent");
@@ -290,7 +301,7 @@ oo_attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return NULL;
 	return oo_parse_color (xin, attrs[1], name);
 }
@@ -304,13 +315,13 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 
 	g_return_val_if_fail (str != NULL, NULL);
 
-	if (0 == strncmp (str, "none", 2)) {
+	if (0 == strncmp (CXML2C (str), "none", 4)) {
 		*pts = 0;
-		return str + 4;
+		return CXML2C (str) + 4;
 	}
 
-	num = go_strtod (str, &end);
-	if (str != (xmlChar const *)end) {
+	num = go_strtod (CXML2C (str), &end);
+	if (CXML2C (str) != end) {
 		if (0 == strncmp (end, "mm", 2)) {
 			num = GO_CM_TO_PT (num/10.);
 			end += 2;
@@ -354,6 +365,7 @@ oo_parse_distance (GsfXMLIn *xin, xmlChar const *str,
 	*pts = num;
 	return end;
 }
+
 /* returns pts */
 static char const *
 oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
@@ -363,7 +375,7 @@ oo_attr_distance (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
 	g_return_val_if_fail (attrs[1] != NULL, NULL);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return NULL;
 	return oo_parse_distance (xin, attrs[1], name, pts);
 }
@@ -381,11 +393,11 @@ oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
 	for (; enums->name != NULL ; enums++)
-		if (!strcmp (enums->name, attrs[1])) {
+		if (!strcmp (enums->name, CXML2C (attrs[1]))) {
 			*res = enums->val;
 			return TRUE;
 		}
@@ -406,8 +418,8 @@ oo_date_convention (GsfXMLIn *xin, xmlChar const **attrs)
 	/* <table:null-date table:date-value="1904-01-01"/> */
 	OOParseState *state = (OOParseState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "date-value")) {
-			if (!strncmp (attrs[1], "1904", 4))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "date-value")) {
+			if (!strncmp (CXML2C (attrs[1]), "1904", 4))
 				workbook_set_1904 (state->pos.wb, TRUE);
 		}
 }
@@ -424,17 +436,18 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->extent.row = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "name")) {
-			state->pos.sheet = workbook_sheet_by_name (state->pos.wb, attrs[1]);
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name")) {
+			const char *name = CXML2C (attrs[1]);
+			state->pos.sheet = workbook_sheet_by_name (state->pos.wb, name);
 			if (NULL == state->pos.sheet) {
-				state->pos.sheet = sheet_new (state->pos.wb, attrs[1]);
+				state->pos.sheet = sheet_new (state->pos.wb, name);
 				workbook_sheet_attach (state->pos.wb, state->pos.sheet);
 			}
 
 			/* store a list of the sheets in the correct order */
 			state->sheet_order = g_slist_prepend (state->sheet_order,
 							      state->pos.sheet);
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))  {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))  {
 			/* hidden & rtl vs ltr */
 		}
 }
@@ -474,14 +487,14 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean  hidden = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "default-cell-style-name"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name"))
 			style = g_hash_table_lookup (state->cell_styles, attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			width_pts = g_hash_table_lookup (state->col_row_styles, attrs[1]);
 		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &repeat_count))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "visibility"))
-			hidden = 0 != strcmp (attrs[1], "visible");
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
+			hidden = !attr_eq (attrs[1], "visible");
 
 	if (hidden)
 		colrow_set_visibility (state->pos.sheet, TRUE, FALSE, state->pos.eval.col,
@@ -523,12 +536,12 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			height_pts = g_hash_table_lookup (state->col_row_styles, attrs[1]);
 		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-repeated", &repeat_count))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "visibility"))
-			hidden = 0 != strcmp (attrs[1], "visible");
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "visibility"))
+			hidden = !attr_eq (attrs[1], "visible");
 	}
 	if (hidden)
 		colrow_set_visibility (state->pos.sheet, FALSE, FALSE, state->pos.eval.row,
@@ -688,13 +701,13 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "formula")) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
 			if (attrs[1] == NULL) {
 				oo_warning (xin, _("Missing expression"));
 				continue;
 			}
 
-			expr_string = attrs[1];
+			expr_string = CXML2C (attrs[1]);
 			if (state->ver == OOO_VER_OPENDOC) {
 				if (strncmp (expr_string, "oooc:", 5)) {
 					oo_warning (xin, _("Missing expression namespace"));
@@ -729,12 +742,12 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					 (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 					 "boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
-		else if (gsf_xml_in_namecmp (xin, attrs[0],
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 			"date-value")) {
 			unsigned y, m, d, h, mi;
 			float s;
-			unsigned n = sscanf (attrs[1], "%u-%u-%uT%u:%u:%g",
+			unsigned n = sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%g",
 					     &y, &m, &d, &h, &mi, &s);
 
 			if (n >= 3) {
@@ -750,16 +763,16 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 						val = value_new_int (d_serial);
 				}
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0],
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 					       "time-value")) {
 			unsigned h, m, s;
-			if (3 == sscanf (attrs[1], "PT%uH%uM%uS", &h, &m, &s)) {
+			if (3 == sscanf (CXML2C (attrs[1]), "PT%uH%uM%uS", &h, &m, &s)) {
 				unsigned secs = h * 3600 + m * 60 + s;
 				val = value_new_float (secs / (gnm_float)86400);
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "string-value"))
-			val = value_new_string (attrs[1]);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "string-value"))
+			val = value_new_string (CXML2C (attrs[1]));
 		else if (oo_attr_float (xin, attrs,
 			(state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 			"value", &float_val))
@@ -772,7 +785,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-rows-spanned", &merge_rows))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "style-name")) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name")) {
 			style = g_hash_table_lookup (state->cell_styles, attrs[1]);
 		}
 	}
@@ -874,7 +887,7 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 #if 0
 		/* why bother it is covered ? */
-		else if (!strcmp (attrs[0], OO_NS_TABLE, "style-name"))
+		else if (!strcmp (CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			style = g_hash_table_lookup (state->cell_styles, attrs[1]);
 
 	if (style != NULL) {
@@ -928,8 +941,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 
 	OOParseState *state = (OOParseState *)xin->user_state;
-	xmlChar const *name = NULL;
-	xmlChar const *parent_name = NULL;
+	char const *name = NULL;
+	char const *parent_name = NULL;
 	GnmStyle *style;
 	GOFormat *fmt = NULL;
 	int tmp;
@@ -940,11 +953,11 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "family", style_types, &tmp))
 			state->cur_style_type = tmp;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "name"))
-			name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "parent-style-name"))
-			parent_name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "data-style-name")) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "parent-style-name"))
+			parent_name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "data-style-name")) {
 			GOFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
 			if (tmp != NULL)
 				fmt = tmp;
@@ -1029,11 +1042,12 @@ oo_date_day (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
-			is_short = 0 == strcmp (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
+			is_short = (attr_eq (attrs[1], "short"));
 
 	g_string_append (state->accum_fmt, is_short ? "d" : "dd");
 }
+
 static void
 oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -1045,8 +1059,8 @@ oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
-			is_short = 0 == strcmp (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
+			is_short = attr_eq (attrs[1], "short");
 		else if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "textual", &as_text))
 			;
 	g_string_append (state->accum_fmt, as_text
@@ -1063,8 +1077,8 @@ oo_date_year (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
-			is_short = 0 == strcmp (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
+			is_short = attr_eq (attrs[1], "short");
 	g_string_append (state->accum_fmt, is_short ? "yy" : "yyyy");
 }
 static void
@@ -1081,8 +1095,8 @@ oo_date_day_of_week (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
-			is_short = 0 == strcmp (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
+			is_short = attr_eq (attrs[1], "short");
 	g_string_append (state->accum_fmt, is_short ? "ddd" : "dddd");
 }
 static void
@@ -1103,8 +1117,8 @@ oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
-			is_short = 0 == strcmp (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
+			is_short = attr_eq (attrs[1], "short");
 	g_string_append (state->accum_fmt, is_short ? "h" : "hh");
 }
 static void
@@ -1117,8 +1131,8 @@ oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
-			is_short = 0 == strcmp (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
+			is_short = attr_eq (attrs[1], "short");
 	g_string_append (state->accum_fmt, is_short ? "m" : "mm");
 }
 static void
@@ -1131,8 +1145,8 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
-			is_short = 0 == strcmp (attrs[1], "short");
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
+			is_short = attr_eq (attrs[1], "short");
 	g_string_append (state->accum_fmt, is_short ? "s" : "ss");
 }
 static void
@@ -1161,10 +1175,10 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "name"))
-			name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "family") &&
-			 0 != strcmp (attrs[1], "data-style"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "family") &&
+			 !attr_eq (attrs[1], "data-style"))
 			return;
 
 	g_return_if_fail (state->accum_fmt == NULL);
@@ -1189,7 +1203,7 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 static void
 oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
-		 char const *str, GnmStyleElement location)
+		 xmlChar const *str, GnmStyleElement location)
 {
 	double pts;
 	char const *end = oo_parse_distance (xin, str, "border", &pts);
@@ -1202,7 +1216,7 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 	GnmStyleBorderLocation const loc =
 		GNM_STYLE_BORDER_TOP + (int)(location - MSTYLE_BORDER_TOP);
 
-	if (end == NULL || end == str)
+	if (end == NULL || end == CXML2C (str))
 		return;
 	if (*end == ' ')
 		end++;
@@ -1213,9 +1227,9 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 		border_type = (char *)malloc(pos);
 		memset (border_type, '\0', pos);
 		strncpy (border_type, end, pos-1);
-		color = oo_parse_color (xin, border_color, "color");
+		color = oo_parse_color (xin, CC2XML (border_color), "color");
 
-		if (!strcmp("solid", border_type)) {
+		if (!strcmp ("solid", border_type)) {
 			if (pts <= OD_BORDER_THIN)
 				border_style = GNM_STYLE_BORDER_THIN;
 			else if (pts <= OD_BORDER_MEDIUM)
@@ -1271,66 +1285,66 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_pattern (style, 1);
 		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "color")))
 			gnm_style_set_font_color (style, color);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "cell-protect"))
-			gnm_style_set_contents_locked (style, !strcmp (attrs[1], "protected"));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "cell-protect"))
+			gnm_style_set_contents_locked (style, attr_eq (attrs[1], "protected"));
 		else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_FO : OO_NS_STYLE,
 				       "text-align", h_alignments, &tmp))
 			gnm_style_set_align_h (style, state->h_align_is_valid
 					       ? (state->repeat_content ? HALIGN_FILL : tmp)
 					       : HALIGN_GENERAL);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-align-source"))
-			state->h_align_is_valid = !strcmp (attrs[1], "fix");
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-align-source"))
+			state->h_align_is_valid = attr_eq (attrs[1], "fix");
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "repeat-content", &btmp))
 			state->repeat_content = btmp;
 		else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_STYLE : OO_NS_FO,
 				       "vertical-align", v_alignments, &tmp))
 			gnm_style_set_align_v (style, tmp);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "wrap-option"))
-			gnm_style_set_wrap_text (style, !strcmp (attrs[1], "wrap"));
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-bottom"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "wrap-option"))
+			gnm_style_set_wrap_text (style, attr_eq (attrs[1], "wrap"));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "border-bottom"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_BOTTOM);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-left"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "border-left"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_LEFT);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-right"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "border-right"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-top"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "border-top"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border")) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "border")) {
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_BOTTOM);
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_LEFT);
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "diagonal-tr-bl"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tr-bl"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_DIAGONAL);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "diagonal-tl-br"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tl-br"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "font-name"))
-			gnm_style_set_font_name (style, attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "font-name"))
+			gnm_style_set_font_name (style, CXML2C (attrs[1]));
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "shrink-to-fit", &btmp))
 			gnm_style_set_shrink_to_fit (style, btmp);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "cell-protect"))
-			gnm_style_set_contents_locked (style, !strcmp (attrs[1], "protected"));
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "direction"))
-			gnm_style_set_text_dir (style, strcmp (attrs[1], "rtl") ? GNM_TEXT_DIR_LTR : GNM_TEXT_DIR_RTL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "cell-protect"))
+			gnm_style_set_contents_locked (style, attr_eq (attrs[1], "protected"));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "direction"))
+			gnm_style_set_text_dir (style, attr_eq (attrs[1], "rtl") ? GNM_TEXT_DIR_RTL : GNM_TEXT_DIR_LTR);
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp))
 			gnm_style_set_rotation	(style, tmp);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-size")) {
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-size")) {
 			float size;
-			if (1 == sscanf (attrs[1], "%fpt", &size))
+			if (1 == sscanf (CXML2C (attrs[1]), "%fpt", &size))
 				gnm_style_set_font_size (style, size);
 
 		/* TODO : get specs on how these relate */
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-underline-style") ||
-			   gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-underline-type") ||
-			   gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "text-underline"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline-style") ||
+			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline-type") ||
+			   gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-underline"))
 			/* cheesy simple support for now */
-			gnm_style_set_font_uline (style, strcmp (attrs[1], "none") ? UNDERLINE_SINGLE : UNDERLINE_NONE);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-style"))
-			gnm_style_set_font_italic (style, 0 == strcmp (attrs[1], "italic"));
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-weight"))
-			gnm_style_set_font_bold (style, 0 == strcmp (attrs[1], "bold"));
+			gnm_style_set_font_uline (style, attr_eq (attrs[1], "none") ? UNDERLINE_NONE : UNDERLINE_SINGLE);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
+			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight"))
+			gnm_style_set_font_bold (style, attr_eq (attrs[1], "bold"));
 #if 0
 		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
 				gnm_style_set_font_bold (style, TRUE);
@@ -1372,11 +1386,11 @@ static void
 oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "condition")) /* "cell-content()=1" */
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition")) /* "cell-content()=1" */
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "apply-style-name"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "base-cell-address"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "base-cell-address"))
 			;
 }
 
@@ -1408,46 +1422,46 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		prop = g_new0 (ODProps, 1);
 		prop->value = g_new0 (GValue, 1);
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "logarithmic")) {
-			if (!strcmp(attrs[1], "true")){
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "logarithmic")) {
+			if (attr_eq (attrs[1], "true")){
 				prop->name = g_strdup ("map-name");
 				prop->value = g_value_init (prop->value, G_TYPE_STRING);
 				g_value_set_string (prop->value, "Log");
 				style->axis = g_slist_append (style->axis, dup_prop(prop));
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "vertical")) {
-			if (!strcmp(attrs[1], "true")){
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "vertical")) {
+			if (attr_eq (attrs[1], "true")){
 				prop->name = g_strdup ("horizontal");
 				prop->value = g_value_init (prop->value, G_TYPE_BOOLEAN);
 				g_value_set_boolean (prop->value, TRUE);
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "stacked")) {
-			if (!strcmp(attrs[1], "true")){
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "stacked")) {
+			if (attr_eq (attrs[1], "true")){
 				prop->name = g_strdup ("type");
 				prop->value = g_value_init (prop->value, G_TYPE_STRING);
 				g_value_set_string (prop->value, "stacked");
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "percentage")) {
-			if (!strcmp(attrs[1], "true")){
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "percentage")) {
+			if (attr_eq (attrs[1], "true")){
 				prop->name = g_strdup ("type");
 				prop->value = g_value_init (prop->value, G_TYPE_STRING);
 				g_value_set_string (prop->value, "as_percentage");
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "overlap")) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "overlap")) {
 				prop->name = g_strdup ("overlap-percentage");
 				prop->value = g_value_init (prop->value, G_TYPE_INT);
-				g_value_set_int (prop->value, go_strtod(attrs[1], NULL));
+				g_value_set_int (prop->value, go_strtod (CXML2C (attrs[1]), NULL));
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "gap-width")) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "gap-width")) {
 				prop->name = g_strdup ("gap-percentage");
 				prop->value = g_value_init (prop->value, G_TYPE_INT);
-				g_value_set_int (prop->value, go_strtod(attrs[1], NULL));
+				g_value_set_int (prop->value, go_strtod (CXML2C (attrs[1]), NULL));
 				style->chart = g_slist_append (style->chart, dup_prop(prop));
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "series-source")) {
-			if (!strcmp(attrs[1], "rows"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "series-source")) {
+			if (attr_eq (attrs[1], "rows"))
 				style->row_src = TRUE;
 		}
 		if (G_IS_VALUE (prop->value)) {
@@ -1478,20 +1492,20 @@ static void
 oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	xmlChar const *name      = NULL;
-	xmlChar const *base_str  = NULL;
-	xmlChar const *expr_str  = NULL;
+	char const *name      = NULL;
+	char const *base_str  = NULL;
+	char const *expr_str  = NULL;
 	char *range_str = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "name"))
-			name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "base-cell-address"))
-			base_str = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "expression"))
-			expr_str = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "cell-range-address"))
-			expr_str = range_str = g_strconcat ("[", attrs[1], "]", NULL);
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "base-cell-address"))
+			base_str = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "expression"))
+			expr_str = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
+			expr_str = range_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
 
 	if (name != NULL && base_str != NULL && expr_str != NULL) {
 		GnmParseError perr;
@@ -1546,13 +1560,13 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 	ColRowInfo const *col, *row;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_SVG, "width"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "width"))
 			aux = oo_parse_distance (xin, attrs[1], "width", &width);
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_SVG, "height"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "height"))
 			aux = oo_parse_distance (xin, attrs[1], "height", &height);
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_SVG, "x"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
 			aux = oo_parse_distance (xin, attrs[1], "x", &x);
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "y"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "y"))
 			aux = oo_parse_distance (xin, attrs[1], "y", &y);
 	}
 	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
@@ -1583,9 +1597,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	g_object_unref (sog);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_XLINK, "href") &&
-		    strncmp (attrs[1], "./", 2) == 0) {
-			name = attrs[1] + 2;
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href") &&
+		    strncmp (CXML2C (attrs[1]), "./", 2) == 0) {
+			name = CXML2C (attrs[1]) + 2;
 			break;
 		}
 
@@ -1621,9 +1635,9 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 	SheetObject *so;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_XLINK, "href") &&
-		    strncmp (attrs[1], "Pictures/", 9) == 0) {
-			file = attrs[1] + 9;
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href") &&
+		    strncmp (CXML2C (attrs[1]), "Pictures/", 9) == 0) {
+			file = CXML2C (attrs[1]) + 9;
 			break;
 		}
 
@@ -1673,10 +1687,10 @@ od_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	state->cur_frame.cur_axis = GOG_AXIS_UNKNOWN;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "style-name"))
-			name = attrs[1];
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "dimension")) {
-			if (!strcmp(attrs[1],"x"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			name = CXML2C (attrs[1]);
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "dimension")) {
+			if (attr_eq (attrs[1], "x"))
 				state->cur_frame.cur_axis = GOG_AXIS_X;
 			else
 				state->cur_frame.cur_axis = GOG_AXIS_Y;
@@ -1744,17 +1758,17 @@ od_plot_area(GsfXMLIn *xin, xmlChar const **attrs)
 	GogObject *legend;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "style-name")) {
-			name = attrs[1];
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name")) {
+			name = CXML2C (attrs[1]);
 			style = g_hash_table_lookup (state->cur_frame.graph_styles, name);
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "cell-range-address"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			graph_range = g_strdup_printf("[%s]",attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "data-source-has-labels")) {
-			if (!strcmp(attrs[1], "both"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "data-source-has-labels")) {
+			if (attr_eq (attrs[1], "both"))
 				v_offset = h_offset = 1;
-			else if (!strcmp(attrs[1], "column"))
+			else if (attr_eq (attrs[1], "column"))
 				h_offset = 1;
-			else if (!strcmp(attrs[1], "row"))
+			else if (attr_eq (attrs[1], "row"))
 				v_offset = 1;
 		}
 	flag = !(v_offset || h_offset);
@@ -1872,24 +1886,32 @@ od_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar const *chart_type = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "class"))
-			chart_type = attrs[1]+6; /* removes the "chart:" */
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "class")) {
+			chart_type = CXML2C (attrs[1]);
+			if (strlen (chart_type) >= 6)
+				chart_type += 6; /* removes the "chart:" */
+		}
 
-	if (!strcmp(chart_type, "area"))
+	if (!chart_type) {
+		g_warning ("Missing chart type.");
+		chart_type = "area";		
+	}
+
+	if (!strcmp (chart_type, "area"))
 		state->cur_frame.chart_type = AREA;
-	else if (!strcmp(chart_type, "bar"))
+	else if (!strcmp (chart_type, "bar"))
 		state->cur_frame.chart_type = BAR;
-	else if (!strcmp(chart_type, "circle"))
+	else if (!strcmp (chart_type, "circle"))
 		state->cur_frame.chart_type = CIRCLE;
-	else if (!strcmp(chart_type, "line"))
+	else if (!strcmp (chart_type, "line"))
 		state->cur_frame.chart_type = LINE;
-	else if (!strcmp(chart_type, "radar"))
+	else if (!strcmp (chart_type, "radar"))
 		state->cur_frame.chart_type = RADAR;
-	else if (!strcmp(chart_type, "ring"))
+	else if (!strcmp (chart_type, "ring"))
 		state->cur_frame.chart_type = RING;
-	else if (!strcmp(chart_type, "scatter"))
+	else if (!strcmp (chart_type, "scatter"))
 		state->cur_frame.chart_type = SCATTER;
-	else if (!strcmp(chart_type, "stock"))
+	else if (!strcmp (chart_type, "stock"))
 		state->cur_frame.chart_type = STOCK;
 
 	state->cur_frame.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT(state->cur_frame.graph), "Chart", NULL));
@@ -1902,12 +1924,12 @@ od_legend (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->cur_frame.has_legend = TRUE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "legend-position")) {
-			if (!strcmp (attrs[1], "top"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "legend-position")) {
+			if (attr_eq (attrs[1], "top"))
 				state->cur_frame.legend = GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER;
-			else if (!strcmp (attrs[1], "bottom"))
+			else if (attr_eq (attrs[1], "bottom"))
 				state->cur_frame.legend = GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER;
-			else if (!strcmp (attrs[1], "end"))
+			else if (attr_eq (attrs[1], "end"))
 				state->cur_frame.legend = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER;
 			else
 				state->cur_frame.legend = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER;
@@ -1931,11 +1953,11 @@ od_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 		g_slist_free (axes);
 
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_CHART, "class"))
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "class"))
 			{
-				if (!strcmp(attrs[1], "major"))
+				if (attr_eq (attrs[1], "major"))
 					gog_object_add_by_name (GOG_OBJECT(axis), "MajorGrid", NULL);
-				else if (!strcmp(attrs[1], "minor"))
+				else if (attr_eq (attrs[1], "minor"))
 					gog_object_add_by_name (GOG_OBJECT(axis), "MinorGrid", NULL);
 			}
 	}
@@ -2397,10 +2419,11 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	} else {
 		gsf_off_t size = gsf_input_size (mimetype);
-		guint8 const *header = gsf_input_read (mimetype, size, NULL);
-		if (!strncmp (mime_openofficeorg1, header, size))
+		const char *header =
+			(const char *)gsf_input_read (mimetype, size, NULL);
+		if (header && !strncmp (mime_openofficeorg1, header, size))
 			state.ver = OOO_VER_1;
-		else if (!strncmp (mime_opendocument, header, size))
+		else if (header && !strncmp (mime_opendocument, header, size))
 			state.ver = OOO_VER_OPENDOC;
 		else {
 			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
