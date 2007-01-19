@@ -78,6 +78,12 @@ GNM_PLUGIN_MODULE_HEADER;
 
 #define CXML2C(s) ((char const *)(s))
 
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
+
 /*****************************************************************************/
 
 gboolean
@@ -121,7 +127,7 @@ xml_sax_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res
 	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	*res = g_ascii_strcasecmp (CXML2C (attrs[1]), "false") && strcmp (attrs[1], "0");
+	*res = g_ascii_strcasecmp (CXML2C (attrs[1]), "false") && !attr_eq (attrs[1], "0");
 
 	return TRUE;
 }
@@ -168,8 +174,8 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 
 	eclass = G_ENUM_CLASS (g_type_class_peek (etype));
 
-	ev = g_enum_get_value_by_name (eclass, attrs[1]);
-	if (!ev) ev = g_enum_get_value_by_nick (eclass, attrs[1]);
+	ev = g_enum_get_value_by_name (eclass, CXML2C (attrs[1]));
+	if (!ev) ev = g_enum_get_value_by_nick (eclass, CXML2C (attrs[1]));
 	if (!ev && gnm_xml_attr_int (attrs, name, &i))
 		/* Check that the value is valid.  */
 		ev = g_enum_get_value (eclass, i);
@@ -386,7 +392,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 			};
 			int i;
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
-				if (strcmp (attrs[1], GnumericVersions [i].id) == 0) {
+				if (attr_eq (attrs[1], GnumericVersions [i].id)) {
 					if (state->version != GNM_XML_UNKNOWN)
 						gnm_io_warning (state->context,
 							_("Multiple version specifications.  Assuming %d"),
@@ -396,8 +402,8 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 						break;
 					}
 				}
-		} else if (!strcmp (CXML2C (attrs[0]), "xmlns:xsi")) {
-		} else if (!strcmp (CXML2C (attrs[0]), "xsi:schemaLocation")) {
+		} else if (attr_eq (attrs[0], "xmlns:xsi")) {
+		} else if (attr_eq (attrs[0], "xsi:schemaLocation")) {
 		} else
 			unknown_attr (xin, attrs);
 }
@@ -662,9 +668,9 @@ xml_sax_print_margins_unit (GsfXMLIn *xin, xmlChar const **attrs, PrintUnit *pu)
 		double points;
 		if (gnm_xml_attr_double (attrs, "Points", &points)) {
 			pu->points = points;
-		} else if (!strcmp (CXML2C (attrs[0]), "PrefUnit")) {
+		} else if (attr_eq (attrs[0], "PrefUnit")) {
 #ifdef WITH_GNOME_PRINT
-			pu->desired_display = unit_name_to_unit (attrs[1]);
+			pu->desired_display = unit_name_to_unit (CXML2C (attrs[1]));
 #endif
 		} else
 			unknown_attr (xin, attrs);
@@ -723,9 +729,9 @@ xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 
 	pi = state->sheet->print_info;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (CXML2C (attrs[0]), "type"))
-			pi->scaling.type = strcmp (attrs[1], "percentage")
-				? PRINT_SCALE_FIT_PAGES : PRINT_SCALE_PERCENTAGE;
+		if (attr_eq (attrs[0], "type"))
+			pi->scaling.type = attr_eq (attrs[1], "percentage")
+				? PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES;
 		else if (gnm_xml_attr_double (attrs, "percentage", &percentage))
 			pi->scaling.percentage.x = pi->scaling.percentage.y = percentage;
 		else if (gnm_xml_attr_int (attrs, "cols", &cols))
@@ -972,7 +978,7 @@ xml_sax_styleregion_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_back_color (state->style, colour);
 		else if (xml_sax_attr_color (attrs, "PatternColor", &colour))
 			gnm_style_set_pattern_color (state->style, colour);
-		else if (!strcmp (CXML2C (attrs[0]), "Format"))
+		else if (attr_eq (attrs[0], "Format"))
 			gnm_style_set_format_text (state->style, CXML2C (attrs[1]));
 		else if (gnm_xml_attr_int (attrs, "Hidden", &val))
 			gnm_style_set_contents_hidden (state->style, val);
@@ -1104,9 +1110,9 @@ xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 			state->validation.type = dummy;
 		} else if (gnm_xml_attr_int (attrs, "Operator", &dummy)) {
 			state->validation.op = dummy;
-		} else if (!strcmp (CXML2C (attrs[0]), "Title")) {
+		} else if (attr_eq (attrs[0], "Title")) {
 			state->validation.title = g_strdup (CXML2C (attrs[1]));
-		} else if (!strcmp (CXML2C (attrs[0]), "Message")) {
+		} else if (attr_eq (attrs[0], "Message")) {
 			state->validation.msg = g_strdup (CXML2C (attrs[1]));
 		} else if (xml_sax_attr_bool (attrs, "AllowBlank", &b_dummy)) {
 			state->validation.allow_blank = b_dummy;
@@ -1235,11 +1241,11 @@ xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (CXML2C (attrs[0]), "type"))
+		if (attr_eq (attrs[0], "type"))
 			type = g_strdup (CXML2C (attrs[1]));
-		else if (!strcmp (CXML2C (attrs[0]), "target"))
+		else if (attr_eq (attrs[0], "target"))
 			target = g_strdup (CXML2C (attrs[1]));
-		else if (!strcmp (CXML2C (attrs[0]), "tip"))
+		else if (attr_eq (attrs[0], "tip"))
 			target = g_strdup (CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
@@ -1268,9 +1274,9 @@ xml_sax_input_msg (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (CXML2C (attrs[0]), "Title"))
+		if (attr_eq (attrs[0], "Title"))
 			title = g_strdup (CXML2C (attrs[1]));
-		else if (!strcmp (CXML2C (attrs[0]), "Message"))
+		else if (attr_eq (attrs[0], "Message"))
 			msg = g_strdup (CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
@@ -1337,7 +1343,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "Rows", &rows)) ;
 		else if (gnm_xml_attr_int (attrs, "ExprID", &expr_id)) ;
 		else if (gnm_xml_attr_int (attrs, "ValueType", &value_type)) ;
-		else if (!strcmp (CXML2C (attrs[0]), "ValueFormat"))
+		else if (attr_eq (attrs[0], "ValueFormat"))
 			value_fmt = go_format_new_from_XL (CXML2C (attrs[1]), FALSE);
 		else
 			unknown_attr (xin, attrs);
@@ -1551,7 +1557,7 @@ xml_sax_filter_operator (XMLSaxParseState *state,
 	int i;
 
 	for (i = G_N_ELEMENTS (filter_cond_name); i-- ; )
-		if (0 == g_ascii_strcasecmp (str, filter_cond_name[i])) {
+		if (0 == g_ascii_strcasecmp (CXML2C (str), filter_cond_name[i])) {
 			*op = i;
 			return;
 		}
@@ -1563,9 +1569,9 @@ static void
 xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	xmlChar const *type = NULL;
-	xmlChar const *val0 = NULL;
-	xmlChar const *val1 = NULL;
+	char const *type = NULL;
+	char const *val0 = NULL;
+	char const *val1 = NULL;
 	GnmValueType vtype0 = VALUE_EMPTY, vtype1 = VALUE_EMPTY;
 	GnmFilterOp op0, op1;
 	GnmFilterCondition *cond = NULL;
@@ -1575,23 +1581,23 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL == state->filter) return;
 
-	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (!strcmp (attrs[i], "Type"))   type  = attrs[i+1];
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
+		if (attr_eq (attrs[i], "Type"))   type = CXML2C (attrs[i + 1]);
 		else if (gnm_xml_attr_int (attrs+i, "Index", &cond_num)) ;
 		else if (xml_sax_attr_bool (attrs, "Top", &top)) ;
 		else if (xml_sax_attr_bool (attrs, "Items", &items)) ;
 		else if (gnm_xml_attr_double  (attrs, "Count", &bucket_count)) ;
 		else if (xml_sax_attr_bool (attrs, "IsAnd", &is_and)) ;
-		else if (!strcmp (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i+1]);
-		else if (!strcmp (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i+1]);
+		else if (attr_eq (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i + 1]);
+		else if (attr_eq (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i + 1]);
 		/*
 		 * WARNING WARNING WARING
 		 * Value and ValueType are _reversed_ !!!
 		 * An error in the DOM exporter was propogated to the SAX
 		 * exporter and fixing this reversal would break all old files.
 		 */
-		else if (!strcmp (attrs[i], "ValueType0")) val0  = attrs[i+1];
-		else if (!strcmp (attrs[i], "ValueType1")) val1  = attrs[i+1];
+		else if (attr_eq (attrs[i], "ValueType0")) val0 = CXML2C (attrs[i + 1]);
+		else if (attr_eq (attrs[i], "ValueType1")) val1 = CXML2C (attrs[i + 1]);
 		else if (gnm_xml_attr_int (attrs+i, "Value0", &tmp)) vtype0 = tmp;
 		else if (gnm_xml_attr_int (attrs+i, "Value1", &tmp)) vtype1 = tmp;
 
@@ -1631,8 +1637,8 @@ xml_sax_filter_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (state->filter == NULL);
 
-	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (!strcmp (attrs[i], "Area") && range_parse (&r, attrs[i+1]))
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
+		if (attr_eq (attrs[i], "Area") && range_parse (&r, CXML2C (attrs[i + 1])))
 			state->filter = gnm_filter_new (state->sheet, &r);
 	if (NULL == state->filter)
 		gnm_io_warning (state->context, _("Invalid filter, missing Area"));
@@ -1709,18 +1715,18 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	state->so = so;
 
 	anchor_dir = GOD_ANCHOR_DIR_UNKNOWN;
-	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2) {
-		if (!strcmp (attrs[i], "ObjectBound"))
-			range_parse (&anchor_r, attrs[i+1]);
-		else if (!strcmp (attrs[i], "ObjectOffset") &&
-			4 == sscanf (attrs[i+1], "%g %g %g %g",
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
+		if (attr_eq (attrs[i], "ObjectBound"))
+			range_parse (&anchor_r, CXML2C (attrs[i + 1]));
+		else if (attr_eq (attrs[i], "ObjectOffset") &&
+			4 == sscanf (CXML2C (attrs[i + 1]), "%g %g %g %g",
 				     f_tmp + 0, f_tmp + 1, f_tmp + 2, f_tmp + 3))
 			anchor_offset = f_tmp;
 		else if (gnm_xml_attr_int (attrs+i, "Direction", &tmp_int))
 			anchor_dir = tmp_int;
 #if 0
 		/* Deprecated in 1.7.7 */
-		else if (!strcmp (attrs[i], "ObjectAnchorType"))
+		else if (attr_eq (attrs[i], "ObjectAnchorType"))
 		/* There may be extra attributes that are handled by the objects */
 		else
 			unknown_attr (xin, attrs+i);
@@ -2071,7 +2077,7 @@ xml_sax_unknown (GsfXMLIn *xin, xmlChar const *elem, xmlChar const **attrs)
 
 	if (GNM == xin->node->ns_id &&
 	    0 == strcmp (xin->node->id, "SHEET_OBJECTS")) {
-		xmlChar const *type_name = gsf_xml_in_check_ns (xin, elem, GNM);
+		char const *type_name = gsf_xml_in_check_ns (xin, CXML2C (elem), GNM);
 		if (type_name != NULL) {
 			xml_sax_read_obj (xin, TRUE, type_name, attrs);
 			return gnm_xml_in_cur_obj (xin) != NULL;
@@ -2108,13 +2114,13 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	gboolean any_numbered = FALSE;
 
 	buf = gsf_input_read (input, strlen (noencheader), NULL);
-	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
+	if (!buf || strncmp (noencheader, (const char *)buf, strlen (noencheader)) != 0)
 		return input;
 
 	input_size = gsf_input_remaining (input);
 	buffer = g_string_sized_new (input_size + strlen (encheader));
 	g_string_append (buffer, encheader);
-	ok = gsf_input_read (input, input_size, buffer->str + strlen (encheader)) != NULL;
+	ok = gsf_input_read (input, input_size, (guint8 *)buffer->str + strlen (encheader)) != NULL;
 	gsf_input_seek (input, 0, G_SEEK_SET);
 	if (!ok) {
 		g_string_free (buffer, TRUE);
@@ -2155,7 +2161,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 		if (!quiet)
 			g_warning ("Converted xml document with no explicit encoding from transliterated %s to UTF-8.",
 				   encoding);
-		return gsf_input_memory_new (converted, strlen (converted), TRUE);
+		return gsf_input_memory_new ((void *)converted, strlen (converted), TRUE);
 	} else {
 		if (!quiet)
 			g_warning ("Failed to convert xml document with no explicit encoding to UTF-8.");

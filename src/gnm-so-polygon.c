@@ -34,6 +34,14 @@
 #include <string.h>
 #include <math.h>
 
+#define CXML2C(s) ((char const *)(s))
+
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
+
 #define GNM_SO_POLYGON(o)       (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SO_POLYGON_TYPE, GnmSOPolygon))
 #define GNM_SO_POLYGON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),	GNM_SO_POLYGON_TYPE, GnmSOPolygonClass))
 
@@ -213,7 +221,7 @@ gnm_so_polygon_read_xml_dom (SheetObject *so, char const *typename,
 	g_array_set_size (sop->points, 0);
 	for (ptr = node->xmlChildrenNode; ptr != NULL ; ptr = ptr->next)
 		if (!xmlIsBlankNode (ptr) && ptr->name &&
-		    !strcmp (ptr->name, "Point") &&
+		    attr_eq (ptr->name, "Point") &&
 		    xml_node_get_double	(ptr, "x", vals + 0) &&
 		    xml_node_get_double	(ptr, "y", vals + 1))
 			g_array_append_vals (sop->points, vals, 2);

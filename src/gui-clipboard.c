@@ -73,7 +73,7 @@ typedef struct {
 
 static GnmCellRegion *
 text_to_cell_region (WorkbookControlGUI *wbcg,
-		     guchar const *data, int data_len,
+		     gchar const *data, int data_len,
 		     char const *opt_encoding,
 		     gboolean fixed_encoding)
 {
@@ -163,17 +163,17 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	if (sel->length < 0) {
 		;
 	} else if (sel->target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
-		content = text_to_cell_region (wbcg, sel->data, sel->length, "UTF-8", TRUE);
+		content = text_to_cell_region (wbcg, (const char *)sel->data, sel->length, "UTF-8", TRUE);
 	} else if (sel->target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
 		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
-		char *data_utf8 = gtk_selection_data_get_text (sel);
+		char *data_utf8 = (char *)gtk_selection_data_get_text (sel);
 		content = text_to_cell_region (wbcg, data_utf8, strlen (data_utf8), "UTF-8", TRUE);
 		g_free (data_utf8);
 	} else if (sel->target == gdk_atom_intern (STRING_ATOM_NAME, FALSE)) {
 		char const *locale_encoding;
 		g_get_charset (&locale_encoding);
 
-		content = text_to_cell_region (wbcg, sel->data, sel->length, locale_encoding, FALSE);
+		content = text_to_cell_region (wbcg, (const char *)sel->data, sel->length, locale_encoding, FALSE);
 	}
 	if (content) {
 		/*
@@ -287,7 +287,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 						   FALSE)) {
 		/* The data is the gnumeric specific XML interchange format */
 		content = xml_cellregion_read (wbc, pt->sheet,
-					       sel->data, sel->length);
+					       (const char *)sel->data, sel->length);
 	} else if ((sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE)) ||
 		   (sel->target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE))) {
 		content = table_cellregion_read (wbc, "Gnumeric_OpenCalc:openoffice",

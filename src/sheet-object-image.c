@@ -41,6 +41,13 @@
 #endif
 
 #define CC2XML(s) ((xmlChar const *)(s))
+#define CXML2C(s) ((char const *)(s))
+
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
 
 static void
 so_image_view_destroy (SheetObjectView *sov)
@@ -476,8 +483,8 @@ gnm_soi_read_xml_dom (SheetObject *so, char const *typename,
 		xmlFree (type);
 		return FALSE;
 	}
-	soi->type       = g_strdup (type);
-	soi->bytes.len  = gsf_base64_decode_simple (content, strlen (content));
+	soi->type       = g_strdup (CXML2C (type));
+	soi->bytes.len  = gsf_base64_decode_simple (content, strlen (CXML2C (content)));
 	soi->bytes.data = g_memdup (content, soi->bytes.len);
 	xmlFree (type);
 	xmlFree (content);
@@ -490,11 +497,11 @@ content_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetObject *so = gnm_xml_in_cur_obj (xin);
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	xmlChar const *image_type = NULL;
+	char const *image_type = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "image-type"))
-			image_type = attrs[1];
+		if (attr_eq (attrs[0], "image-type"))
+			image_type = CXML2C (attrs[1]);
 
 	soi->type = g_strdup (image_type);
 }

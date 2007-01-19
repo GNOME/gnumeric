@@ -100,7 +100,7 @@ gnm_hlink_init (GObject *obj)
 GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 		    gnm_hlink_class_init, gnm_hlink_init, G_TYPE_OBJECT)
 
-guchar const *
+gchar const *
 gnm_hlink_get_target (GnmHLink const *lnk)
 {
 	g_return_val_if_fail (IS_GNM_HLINK (lnk), NULL);
@@ -108,9 +108,9 @@ gnm_hlink_get_target (GnmHLink const *lnk)
 }
 
 void
-gnm_hlink_set_target (GnmHLink *lnk, guchar const *target)
+gnm_hlink_set_target (GnmHLink *lnk, gchar const *target)
 {
-	guchar *tmp;
+	gchar *tmp;
 
 	g_return_if_fail (IS_GNM_HLINK (lnk));
 
@@ -119,7 +119,7 @@ gnm_hlink_set_target (GnmHLink *lnk, guchar const *target)
 	lnk->target = tmp;
 }
 
-guchar const *
+gchar const *
 gnm_hlink_get_tip (GnmHLink const *l)
 {
 	g_return_val_if_fail (IS_GNM_HLINK (l), NULL);
@@ -127,9 +127,9 @@ gnm_hlink_get_tip (GnmHLink const *l)
 }
 
 void
-gnm_hlink_set_tip (GnmHLink *l, guchar const *tip)
+gnm_hlink_set_tip (GnmHLink *l, gchar const *tip)
 {
-	guchar *tmp;
+	gchar *tmp;
 
 	g_return_if_fail (IS_GNM_HLINK (l));
 

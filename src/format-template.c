@@ -41,6 +41,12 @@
 #define CC2XML(s) ((xmlChar const *)(s))
 #define CXML2C(s) ((char const *)(s))
 
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
+
 #define ROW_COL_KEY(row,col) GINT_TO_POINTER (row * SHEET_MAX_COLS + col)
 
 /******************************************************************************
@@ -352,12 +358,12 @@ xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent)
 	for (child = parent->xmlChildrenNode; child != NULL ; child = child->next) {
 		if (xmlIsBlankNode (child) || child->name == NULL)
 			continue;
-		if (!strcmp (child->name, "Placement")) {
+		if (attr_eq (child->name, "Placement")) {
 			g_return_if_fail (!(found & 1));
 			xml_node_get_int  (child, "offset", &info->offset);
 			xml_node_get_int  (child, "offset_gravity", &info->offset_gravity);
 			found |= 1;
-		} else if (!strcmp (child->name, "Dimensions")) {
+		} else if (attr_eq (child->name, "Dimensions")) {
 			g_return_if_fail (!(found & 2));
 			xml_node_get_int (child, "size", &info->size);
 			found |= 2;
@@ -373,17 +379,17 @@ xml_read_format_template_member (XmlParseContext *ctxt, GnmFormatTemplate *ft, x
 	TemplateMember *member;
 	int tmp, found = 0;
 
-	g_return_val_if_fail (!strcmp (tree->name, "Member"), FALSE);
+	g_return_val_if_fail (attr_eq (tree->name, "Member"), FALSE);
 	member = format_template_member_new ();
 
 	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
 		if (xmlIsBlankNode (child) || child->name == NULL)
 			continue;
-		if (!strcmp (child->name, "Col"))
+		if (attr_eq (child->name, "Col"))
 			xml_read_format_col_row_info (&member->col, child);
-		else if (!strcmp (child->name, "Row"))
+		else if (attr_eq (child->name, "Row"))
 			xml_read_format_col_row_info (&member->row, child);
-		else if (!strcmp (child->name, "Frequency")) {
+		else if (attr_eq (child->name, "Frequency")) {
 			if (found & 1) { g_warning ("Multiple Frequency specs"); }
 			if (xml_node_get_int (child, "direction", &tmp))
 				format_template_member_set_direction (member, tmp);
@@ -394,7 +400,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, GnmFormatTemplate *ft, x
 			if (xml_node_get_int (child, "edge", &tmp))
 				format_template_member_set_edge (member, tmp);
 			found |= 1;
-		} else if (!strcmp (child->name, "Style")) {
+		} else if (attr_eq (child->name, "Style")) {
 			if (found & 2) { g_warning ("Multiple Styles"); }
 			member->mstyle = xml_read_style (ctxt, child, FALSE);
 			found |= 2;
@@ -415,7 +421,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate *ft, 
 {
 	xmlNode *child;
 
-	g_return_val_if_fail (!strcmp (tree->name, "FormatTemplate"), FALSE);
+	g_return_val_if_fail (attr_eq (tree->name, "FormatTemplate"), FALSE);
 
 	child = e_xml_get_child_by_name_by_lang (tree, "Information");
 	if (child) {
@@ -433,7 +439,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, GnmFormatTemplate *ft, 
 	} else
 		return FALSE;
 
-	child = e_xml_get_child_by_name (tree, CC2XML ("Members"));
+	child = e_xml_get_child_by_name (tree, "Members");
 	if (child == NULL)
 		return FALSE;
 	for (child = child->xmlChildrenNode; child != NULL ; child = child->next)
@@ -474,7 +480,7 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 	if (doc->xmlRootNode != NULL) {
 		xmlNs *ns = xmlSearchNsByHref (doc, doc->xmlRootNode,
 			CC2XML ("http://www.gnome.org/gnumeric/format-template/v1"));
-		if (ns != NULL && !strcmp (doc->xmlRootNode->name, "FormatTemplate")) {
+		if (ns != NULL && attr_eq (doc->xmlRootNode->name, "FormatTemplate")) {
 			XmlParseContext *ctxt = xml_parse_ctx_new (doc, ns, NULL);
 
 			ft = format_template_new ();

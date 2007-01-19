@@ -34,6 +34,13 @@
 #include <string.h>
 #include <math.h>
 
+#define CXML2C(s) ((char const *)(s))
+
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
 
 #define GNM_SO_FILLED(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_SO_FILLED_TYPE, GnmSOFilled))
 #define GNM_SO_FILLED_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k),   GNM_SO_FILLED_TYPE, GnmSOFilledClass))
@@ -417,7 +424,7 @@ gnm_so_filled_read_xml_dom (SheetObject *so, char const *typename,
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	double	 width;
-	char	*label;
+	xmlChar	*label;
 	int	 type;
 	xmlNode	*child;
 
@@ -484,7 +491,7 @@ gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **a
 	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0],  "Label"))
+		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (sof), "text", attrs[1], NULL);
 		else if (gnm_xml_attr_int     (attrs, "Type", &type))
 			sof->is_oval = (type == 102);
@@ -492,10 +499,10 @@ gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **a
 		/* Old 1.0 and 1.2 */
 		else if (gnm_xml_attr_double  (attrs, "Width", &tmp))
 			sof->style->outline.width = tmp;
-		else if (0 == strcmp (attrs[0], "OutlineColor"))
-			go_color_from_str (attrs[1], &sof->style->outline.color);
-		else if (0 == strcmp (attrs[0], "FillColor"))
-			go_color_from_str (attrs[1], &sof->style->fill.pattern.back);
+		else if (attr_eq (attrs[0], "OutlineColor"))
+			go_color_from_str (CXML2C (attrs[1]), &sof->style->outline.color);
+		else if (attr_eq (attrs[0], "FillColor"))
+			go_color_from_str (CXML2C (attrs[1]), &sof->style->fill.pattern.back);
 }
 
 static void

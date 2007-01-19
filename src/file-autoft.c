@@ -40,6 +40,8 @@
 #include <errno.h>
 #include <unistd.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 static gint
 category_compare_name_and_dir (gconstpointer a, gconstpointer b)
 {
@@ -117,7 +119,7 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 	doc = xmlParseFile (file_name);
 	if (doc != NULL && doc->xmlRootNode != NULL
 	    && xmlSearchNsByHref (doc, doc->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
-	    && strcmp (doc->xmlRootNode->name, "FormatTemplateCategory") == 0
+	    && strcmp (CXML2C (doc->xmlRootNode->name), "FormatTemplateCategory") == 0
 	    && (node = e_xml_get_child_by_name (doc->xmlRootNode, "Information")) != NULL) {
 		xmlChar *name = xmlGetProp (node, (xmlChar *)"name");
 		if (name != NULL) {

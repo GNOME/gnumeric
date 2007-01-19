@@ -3274,7 +3274,7 @@ scg_paste_cellregion (SheetControlGUI *scg, double x, double y,
 
 static void
 scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y,
-			     guint8 const *data, unsigned len)
+			     const char *data, unsigned len)
 {
 	GnmCellRegion *content;
 
@@ -3287,7 +3287,7 @@ scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y,
 
 static void
 scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
-			   guint8 const *data, unsigned len)
+			   const char *data, unsigned len)
 {
 	char *cdata = g_strndup (data, len);
 	GSList *urls = go_file_split_urls (cdata);
@@ -3433,47 +3433,38 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 			double x, double y, GtkSelectionData *selection_data)
 {
 	gchar *target_type = gdk_atom_name (selection_data->target);
+	const char *sel_data = (const char *)selection_data->data;
+	gsize sel_len = selection_data->length;
 
 	if (!strcmp (target_type, "text/uri-list")) {
-		scg_drag_receive_uri_list (scg, x, y,
-					   selection_data->data,
-					   selection_data->length);
+		scg_drag_receive_uri_list (scg, x, y, sel_data, sel_len);
 
 	} else if (!strncmp (target_type, "image/", 6)) {
-		scg_drag_receive_img_data (scg, x, y,
-					   selection_data->data,
-					   selection_data->length);
+		scg_drag_receive_img_data (scg, x, y, selection_data->data, sel_len);
 	} else if (!strcmp (target_type, "GNUMERIC_SAME_PROC")) {
 		scg_drag_receive_same_process (scg, source_widget, x, y);
 	} else if (!strcmp (target_type, "application/x-gnumeric")) {
-		scg_drag_receive_cellregion (scg, x, y,
-					     selection_data->data,
-					     selection_data->length);
+		scg_drag_receive_cellregion (scg, x, y, sel_data, sel_len);
 #ifdef DEBUG_DND
 	} else if (!strcmp (target_type, "x-special/gnome-copied-files")) {
-		char *cdata = g_strndup (selection_data->data,
-					 selection_data->length);
-		printf ("data length: %d, data: %s\n",
-			selection_data->length, cdata);
+		char *cdata = g_strndup (sel_data, sel_len);
+		g_print ("data length: %d, data: %s\n",
+			 (int)sel_len, cdata);
 		g_free (cdata);
 	} else if (!strcmp (target_type, "_NETSCAPE_URL")) {
-		char *cdata = g_strndup (selection_data->data,
-					 selection_data->length);
-		printf ("data length: %d, data: %s\n",
-			selection_data->length, cdata);
+		char *cdata = g_strndup (sel_data, sel_len);
+		g_print ("data length: %d, data: %s\n",
+			 (int)sel_len, cdata);
 		g_free (cdata);
 	} else if (is_text_target (target_type)) {
-		char *cdata = g_strndup (selection_data->data,
-					 selection_data->length);
-		printf ("data length: %d, data: %s\n",
-			selection_data->length, cdata);
+		char *cdata = g_strndup (sel_data, sel_len);
+		g_print ("data length: %d, data: %s\n",
+			 (int)sel_len, cdata);
 		g_free (cdata);
 	} else if (!strcmp (target_type, "text/html")) {
-		char *cdata = g_strndup (selection_data->data,
-					 selection_data->length);
+		char *cdata = g_strndup (sel_data, sel_len);
 		/* For mozilla, need to convert the encoding */
-		printf ("data length: %d, data: %s\n",
-			selection_data->length, cdata);
+		g_print ("data length: %d, data: %s\n", (int)sel_len, cdata);
 		g_free (cdata);
 #endif
 	} else
@@ -3589,7 +3580,7 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 	if (strcmp (target_name, "GNUMERIC_SAME_PROC") == 0) {
 		/* Set dummy selection for process internal dnd */
 		gtk_selection_data_set
-			(selection_data, selection_data->target, 8, "", 1);
+			(selection_data, selection_data->target, 8, (const guint8 *)"", 1);
 	} else if (strcmp (target_name, "application/x-gnumeric") == 0) {
 		scg_drag_send_clipboard_objects (SHEET_CONTROL (scg),
 			selection_data, objects);

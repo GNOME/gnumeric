@@ -2095,7 +2095,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
  * returns a GnmCellRegion on success or NULL on failure.
  */
 GnmCellRegion *
-xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, int length)
+xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int length)
 {
 	XmlParseContext *ctxt;
 	xmlNode	        *l, *clipboard;
@@ -2108,7 +2108,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 
 	locale = gnm_push_C_locale ();
 
-	doc = xmlParseDoc ((guchar *) buffer);
+	doc = xmlParseDoc (CC2XML (buffer));
 
 	if (doc == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),

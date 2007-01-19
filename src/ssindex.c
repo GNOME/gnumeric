@@ -118,7 +118,7 @@ static void
 cb_index_styles (GnmStyle *style, gconstpointer dummy, IndexerState *state)
 {
 	if (gnm_style_is_element_set (style, MSTYLE_HLINK)) {
-		guchar const *str;
+		gchar const *str;
 		GnmHLink const *lnk = gnm_style_get_hlink (style);
 		if (lnk != NULL) {
 			if (NULL != (str = gnm_hlink_get_target (lnk)))

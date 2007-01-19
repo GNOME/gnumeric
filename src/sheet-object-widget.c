@@ -60,6 +60,14 @@
 #include <math.h>
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
+
 /****************************************************************************/
 
 static void
@@ -168,13 +176,13 @@ sax_read_dep (xmlChar const * const *attrs, char const *name,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
 	dep->sheet = NULL;
 	if (attrs[1] != NULL && *attrs[1] != '\0') {
 		GnmParsePos pp;
-		dep->texpr = gnm_expr_parse_str_simple (attrs[1],
+		dep->texpr = gnm_expr_parse_str_simple (CXML2C (attrs[1]),
 			parse_pos_init_sheet (&pp, gnm_xml_in_cur_sheet (xin)));
 	} else
 		dep->texpr = NULL;
@@ -309,9 +317,9 @@ sheet_widget_frame_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar cons
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "Label")) {
+		if (attr_eq (attrs[0], "Label")) {
 			g_free (swf->label);
-			swf->label = g_strdup (attrs[1]);
+			swf->label = g_strdup (CXML2C (attrs[1]));
 		}
 }
 
@@ -555,7 +563,7 @@ sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar con
 {
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "Label"))
+		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (swb), "label", attrs[1], NULL);
 }
 
@@ -1700,9 +1708,9 @@ sheet_widget_checkbox_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar c
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "Label")) {
+		if (attr_eq (attrs[0], "Label")) {
 			g_free (swc->label);
-			swc->label = g_strdup (attrs[1]);
+			swc->label = g_strdup (CXML2C (attrs[1]));
 		} else if (gnm_xml_attr_int (attrs, "Value", &swc->value))
 			; /* ??? */
 		else if (sax_read_dep (attrs, "Input", &swc->dep, xin))

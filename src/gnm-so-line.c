@@ -33,6 +33,14 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
+
 #define GNM_SO_LINE(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_SO_LINE_TYPE, GnmSOLine))
 #define GNM_SO_LINE_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k),   GNM_SO_LINE_TYPE, GnmSOLineClass))
 
@@ -434,8 +442,8 @@ gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **att
 		/* Old 1.0 and 1.2 */
 		if (gnm_xml_attr_double (attrs, "Width", &tmp))
 			sol->style->line.width = tmp;
-		else if (0 == strcmp (attrs[0], "FillColor"))
-			go_color_from_str (attrs[1], &sol->style->line.color);
+		else if (attr_eq (attrs[0], "FillColor"))
+			go_color_from_str (CXML2C (attrs[1]), &sol->style->line.color);
 		else if (gnm_xml_attr_int (attrs, "Type", &type)) ;
 		else if (gnm_xml_attr_double (attrs, "ArrowShapeA", &arrow_a)) ;
 		else if (gnm_xml_attr_double (attrs, "ArrowShapeB", &arrow_b)) ;

@@ -218,7 +218,7 @@ xml_write_print_unit (GnmOutputXML *state, char const *name,
 	gsf_xml_out_start_element (state->output, name);
 	xml_out_add_points (state->output, "Points", pu->points);
 #ifdef WITH_GNOME_PRINT
-	gsf_xml_out_add_cstr_unchecked (state->output, "PrefUnit", pu->desired_display->abbr);
+	gsf_xml_out_add_cstr_unchecked (state->output, "PrefUnit", (const char *)pu->desired_display->abbr);
 #endif
 	gsf_xml_out_end_element (state->output);
 }
