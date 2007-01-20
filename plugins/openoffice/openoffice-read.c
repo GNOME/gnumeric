@@ -30,6 +30,7 @@
 #include <workbook.h>
 #include <sheet.h>
 #include <sheet-merge.h>
+#include <sheet-filter.h>
 #include <ranges.h>
 #include <cell.h>
 #include <value.h>
@@ -170,6 +171,7 @@ typedef struct {
 	int	 	 richtext_len;
 	GString		*accum_fmt;
 	char		*fmt_name;
+	GnmFilter	*filter;
 
 	GnmExprConventions *exprconv;
 } OOParseState;
@@ -475,6 +477,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
 	}
+	state->pos.eval.col = state->pos.eval.row = 0;
 }
 
 static void
@@ -652,7 +655,7 @@ two_quotes :
 
 static char const *
 oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
-		   GnmExprConventions const *convention)
+		   G_GNUC_UNUSED GnmExprConventions const *exprconv)
 {
 	char const *ptr;
 
@@ -1550,6 +1553,125 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gboolean buttons = TRUE;
+	GnmRangeRef ref;
+	GnmRange r;
+
+	g_return_if_fail (state->filter == NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "target-range-address")) {
+			char const *ptr = oo_cellref_parse (&ref.a, attrs[1], &state->pos);
+			if (':' == *ptr &&
+			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos))
+				state->filter = gnm_filter_new (ref.a.sheet, range_init_rangeref (&r, &ref));
+			else
+				oo_warning (xin, _("Invalid DB range '%s'"), attrs[1]);
+		} else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display-filter-buttons", &buttons))
+			/* ignore this */;
+}
+
+static void
+oo_db_range_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->filter = NULL;
+}
+
+static void
+oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static OOEnum const datatypes [] = {
+		{ "text",	  VALUE_STRING },
+		{ "number",	  VALUE_FLOAT },
+		{ NULL,	0 },
+	};
+	static OOEnum const operators [] = {
+		{ "=",			GNM_FILTER_OP_EQUAL },
+		{ "!=",			GNM_FILTER_OP_NOT_EQUAL },
+		{ "<",			GNM_FILTER_OP_LT },
+		{ "<=",			GNM_FILTER_OP_LTE },
+		{ ">",			GNM_FILTER_OP_GT },
+		{ ">=",			GNM_FILTER_OP_GTE },
+
+		{ "match",		GNM_FILTER_OP_MATCH },
+		{ "!match",		GNM_FILTER_OP_NO_MATCH },
+		{ "empty",		GNM_FILTER_OP_BLANKS },
+		{ "!empty",		GNM_FILTER_OP_NON_BLANKS },
+		{ "bottom percent",  	GNM_FILTER_OP_BOTTOM_N_PERCENT },
+		{ "bottom values",  	GNM_FILTER_OP_BOTTOM_N },
+		{ "top percent",  	GNM_FILTER_OP_TOP_N_PERCENT },
+		{ "top values",  	GNM_FILTER_OP_TOP_N },
+
+		{ NULL,	0 },
+	};
+	OOParseState *state = (OOParseState *)xin->user_state;
+	int field_num = 0, type = -1, op = -1;
+	xmlChar const *val_str = NULL;
+
+	if (NULL == state->filter)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "field-number", &field_num)) ;
+		else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "data-type", datatypes, &type)) ;
+		else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "operator", operators, &op)) ;
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "value"))
+			val_str = attrs[1];
+
+	if (field_num >= 0 && op >= 0) {
+		GnmFilterCondition *cond = NULL;
+		GnmValue *v = NULL;
+
+		if (type >= 0 &&  val_str != NULL)
+			v = value_new_from_string (type, val_str, NULL, FALSE);
+
+		switch (op) {
+		case GNM_FILTER_OP_EQUAL:
+		case GNM_FILTER_OP_NOT_EQUAL:
+		case GNM_FILTER_OP_LT:
+		case GNM_FILTER_OP_LTE:
+		case GNM_FILTER_OP_GT:
+		case GNM_FILTER_OP_GTE:
+		case GNM_FILTER_OP_MATCH:
+		case GNM_FILTER_OP_NO_MATCH:
+			if (NULL != v) {
+				cond = gnm_filter_condition_new_single (op, v);
+				v = NULL;
+			}
+			break;
+
+		case GNM_FILTER_OP_BLANKS:
+			cond = gnm_filter_condition_new_single (
+				GNM_FILTER_OP_BLANKS, NULL);
+			break;
+		case GNM_FILTER_OP_NON_BLANKS:
+			cond = gnm_filter_condition_new_single (
+				GNM_FILTER_OP_NON_BLANKS, NULL);
+			break;
+
+		case GNM_FILTER_OP_BOTTOM_N_PERCENT:
+		case GNM_FILTER_OP_BOTTOM_N:
+		case GNM_FILTER_OP_TOP_N_PERCENT:
+		case GNM_FILTER_OP_TOP_N:
+			if (VALUE_IS_NUMBER(v))
+				cond = gnm_filter_condition_new_bucket (
+					0 == (op & GNM_FILTER_OP_BOTTOM_MASK),
+					0 == (op & GNM_FILTER_OP_PERCENT_MASK),
+					v->v_float.val);
+			break;
+		}
+		if (NULL != v)
+			value_release (v);
+		if (NULL != cond)
+			gnm_filter_set_condition  (state->filter, field_num, cond, FALSE);
+	}
+}
+
+static void
 od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -2270,10 +2392,9 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 	      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, NULL, NULL),
 
 	GSF_XML_IN_NODE (OFFICE, OFFICE_BODY, OO_NS_OFFICE, "body", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (OFFICE_BODY, TABLE_SETTINGS, OO_NS_OFFICE, "spreadsheet", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (TABLE_SETTINGS, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (TABLE_SETTINGS, CHART, OO_NS_CHART, "chart", FALSE, NULL, NULL),
-
+	  GSF_XML_IN_NODE (OFFICE_BODY, SPREADSHEET, OO_NS_OFFICE, "spreadsheet", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (SPREADSHEET, CHART, OO_NS_CHART, "chart", FALSE, NULL, NULL),
 		GSF_XML_IN_NODE (OFFICE_BODY, OFFICE_CHART, OO_NS_OFFICE, "chart", FALSE, NULL, NULL),
 		GSF_XML_IN_NODE (OFFICE_CHART, CHART_CHART, OO_NS_CHART, "chart", FALSE, &od_chart, NULL),
 		GSF_XML_IN_NODE (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", FALSE, NULL, NULL),
@@ -2285,7 +2406,7 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", TRUE, &od_chart_wall, NULL),
 		GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", TRUE, &od_chart_grid, NULL),
 
-	    GSF_XML_IN_NODE (TABLE_SETTINGS, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
+	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
@@ -2315,11 +2436,15 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (TABLE, TABLE_ROW_GROUP,	      OO_NS_TABLE, "table-row-group", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
-	  GSF_XML_IN_NODE (TABLE_SETTINGS, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
+
+	  GSF_XML_IN_NODE (SPREADSHEET, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
 	    GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_RANGE, OO_NS_TABLE, "named-range", GSF_XML_NO_CONTENT, &oo_named_expr, NULL),
-	GSF_XML_IN_NODE (OFFICE_BODY, DB_RANGES, OO_NS_TABLE, "database-ranges", GSF_XML_NO_CONTENT, NULL, NULL),
-	  GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, NULL, NULL),
+
+	  GSF_XML_IN_NODE (SPREADSHEET, DB_RANGES, OO_NS_TABLE, "database-ranges", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, &oo_db_range_start, &oo_db_range_end),
+	      GSF_XML_IN_NODE (DB_RANGE, FILTER, OO_NS_TABLE, "filter", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (FILTER, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, &oo_filter_cond, NULL),
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -2480,6 +2605,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.sheet_order = NULL;
 	state.exprconv = oo_conventions ();
 	state.accum_fmt = NULL;
+	state.filter = NULL;
 	state.cur_frame.has_legend = FALSE;
 
 	if (state.ver == OOO_VER_OPENDOC) {

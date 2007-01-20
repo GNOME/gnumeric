@@ -1,21 +1,22 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_FILTER_H
-#define GNUMERIC_FILTER_H
+#ifndef GNM_SHEET_FILTER_H
+#define GNM_SHEET_FILTER_H
 
 #include "gnumeric.h"
 
 typedef enum {
 	GNM_FILTER_UNUSED	= -1,
 
-	GNM_FILTER_OP_EQUAL	= 0,
+	GNM_FILTER_OP_EQUAL	= 0,	/* exact match, no regecxp */
 	GNM_FILTER_OP_GT,
 	GNM_FILTER_OP_LT,
 	GNM_FILTER_OP_GTE,
 	GNM_FILTER_OP_LTE,
-	GNM_FILTER_OP_NOT_EQUAL,
+	GNM_FILTER_OP_NOT_EQUAL,	/* exact match, no regecxp */
 
 	GNM_FILTER_OP_BLANKS		= 0x20,
 	GNM_FILTER_OP_NON_BLANKS	= 0x21,
+
 	GNM_FILTER_OP_TOP_N		= 0x30,
 	GNM_FILTER_OP_BOTTOM_N		= 0x31,
 	GNM_FILTER_OP_TOP_N_PERCENT	= 0x32,
@@ -23,12 +24,21 @@ typedef enum {
 	GNM_FILTER_OP_BOTTOM_MASK	= 0x01,
 	GNM_FILTER_OP_PERCENT_MASK	= 0x02,
 
-	/* Added in 1.7.5 */
+	/* Added in 1.7.7 */
 	GNM_FILTER_OP_GT_AVERAGE	= 0x40,
 	GNM_FILTER_OP_LT_AVERAGE	= 0x41,
 	GNM_FILTER_OP_WITHIN_STDDEV	= 0x50,
 	GNM_FILTER_OP_OUTSIDE_STDDEV	= 0x51,
 
+	GNM_FILTER_OP_MATCH		= 0x60,	/* regexp */
+	GNM_FILTER_OP_NO_MATCH		= 0x61,	/* regexp */
+
+	GNM_FILTER_OP_TYPE_OP		= 0x00,
+	GNM_FILTER_OP_TYPE_BLANKS	= 0x20,
+	GNM_FILTER_OP_TYPE_BUCKETS	= 0x30,
+	GNM_FILTER_OP_TYPE_AVERAGE	= 0x40,
+	GNM_FILTER_OP_TYPE_STDDEV	= 0x50,
+	GNM_FILTER_OP_TYPE_MATCH	= 0x60,
 	GNM_FILTER_OP_TYPE_MASK		= 0x70
 } GnmFilterOp;
 
@@ -74,4 +84,4 @@ void gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				     gboolean is_cols, gboolean is_insert,
 				     int start, int count);
 
-#endif /* GNUMERIC_FILTER_H */
+#endif /* GNM_SHEET_FILTER_H */

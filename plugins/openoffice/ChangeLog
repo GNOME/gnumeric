@@ -1,3 +1,19 @@
+2007-01-19  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c : re-prefix things s/oo_/odf_/ for consistency.
+	(odf_add_bool) : new,  the stock gsf_xml_out_add_bool uses 1, but OOo
+	  doesn't support it.
+	(odf_write_filter_cond) : new.
+	(odf_write_autofilter) : new.
+	(odf_write_content) : write the autofilters.
+
+	* openoffice-read.c (oo_db_range_start) : new.
+	(oo_db_range_end) : new.
+	(oo_filter_cond) : new.
+	(oo_table_end) : clear the cell pos at the end.
+	(oo_rangeref_parse) : mark unused arg.
+	(openoffice_file_open) : init filter.
+
 2007-01-19  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c: Cleanups.

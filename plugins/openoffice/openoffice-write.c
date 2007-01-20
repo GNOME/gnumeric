@@ -3,7 +3,7 @@
 /*
  * openoffice-write.c : export OpenOffice OASIS .ods files
  *
- * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
  *
  * Copyright (C) 2006 Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
@@ -126,14 +126,8 @@ typedef struct {
 		{ "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" },
 	};
 
-
-
-
-void	openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
-			      WorkbookView const *wbv, GsfOutput *output);
-
 static void
-oo_write_mimetype (GnmOOExport *state, GsfOutput *child)
+odf_write_mimetype (GnmOOExport *state, GsfOutput *child)
 {
 	gsf_output_puts (child, "application/vnd.oasis.opendocument.spreadsheet");
 }
@@ -141,27 +135,33 @@ oo_write_mimetype (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
-oo_start_style (GsfXMLOut *xml, char const *name, char const *family)
+odf_add_bool (GsfXMLOut *xml, char const *id, gboolean val)
+{
+	gsf_xml_out_add_cstr_unchecked (xml, id, val ? "true" : "false");
+}
+
+static void
+odf_start_style (GsfXMLOut *xml, char const *name, char const *family)
 {
 	gsf_xml_out_start_element (xml, STYLE "style");
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "name", name);
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "family", family);
 }
 static void
-oo_write_table_styles (GnmOOExport *state)
+odf_write_table_styles (GnmOOExport *state)
 {
-	oo_start_style (state->xml, "ta1", "table");
+	odf_start_style (state->xml, "ta1", "table");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "master-page-name", "Default");
 
 	gsf_xml_out_start_element (state->xml, STYLE "properties");
-	gsf_xml_out_add_bool (state->xml, TABLE "display", TRUE);
+	odf_add_bool (state->xml, TABLE "display", TRUE);
 	gsf_xml_out_end_element (state->xml); /* </style:properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
 
 static void
-oo_cellref_as_string (GString *target, GnmExprConventions const *conv,
+odf_cellref_as_string (GString *target, GnmExprConventions const *conv,
 			GnmCellRef const *cell_ref,
 			GnmParsePos const *pp, gboolean no_sheetname)
 {
@@ -173,24 +173,22 @@ oo_cellref_as_string (GString *target, GnmExprConventions const *conv,
 }
 
 static void
-oo_rangeref_as_string (GString *target, GnmExprConventions const *conv,
+odf_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 			 GnmRangeRef const *ref, GnmParsePos const *pp)
 {
 	g_string_append (target, "[");
 	if (ref->a.sheet == NULL)
 		g_string_append (target, conv->output_sheet_name_sep);
-	cellref_as_string (target, conv,
-			      &(ref->a), pp, FALSE);
+	cellref_as_string (target, conv, &(ref->a), pp, FALSE);
 	g_string_append (target, ":");
 	g_string_append (target, conv->output_sheet_name_sep);
-	cellref_as_string (target, conv,
-			      &(ref->b), pp, TRUE);	
+	cellref_as_string (target, conv, &(ref->b), pp, TRUE);	
 	g_string_append (target, "]");
 }
 
 
 static GnmExprConventions *
-oo_expr_conventions_new (void)
+odf_expr_conventions_new (void)
 {
 	GnmExprConventions *conv;
 
@@ -199,15 +197,14 @@ oo_expr_conventions_new (void)
 	conv->output_argument_sep = ";";
 	conv->argument_sep_semicolon = TRUE;
 	conv->decimal_sep_dot = TRUE;
-	conv->cell_ref_handler = oo_cellref_as_string;
-	conv->range_ref_handler = oo_rangeref_as_string;
+	conv->cell_ref_handler = odf_cellref_as_string;
+	conv->range_ref_handler = odf_rangeref_as_string;
 	
 	return conv;
 }
 
-
 static gboolean
-od_cell_is_covered (Sheet const *sheet, GnmCell *current_cell, 
+odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell, 
 		    int col, int row, GnmRange const *merge_range,
 		    GSList **merge_ranges)
 {
@@ -242,7 +239,7 @@ od_cell_is_covered (Sheet const *sheet, GnmCell *current_cell,
 }
 
 static void 
-od_write_empty_cell (GnmOOExport *state, int *num)
+odf_write_empty_cell (GnmOOExport *state, int *num)
 {
 	if (*num > 0) {
 		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
@@ -256,7 +253,7 @@ od_write_empty_cell (GnmOOExport *state, int *num)
 }
 
 static void 
-od_write_covered_cell (GnmOOExport *state, int *num)
+odf_write_covered_cell (GnmOOExport *state, int *num)
 {
 	if (*num > 0) {
 		gsf_xml_out_start_element (state->xml, TABLE "covered-table-cell");
@@ -270,7 +267,8 @@ od_write_covered_cell (GnmOOExport *state, int *num)
 }
 
 static void 
-od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, GnmComment const *cc)
+odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
+		GnmComment const *cc)
 {
 	int rows_spanned = 0, cols_spanned = 0;
 
@@ -328,9 +326,8 @@ od_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range, G
 		case VALUE_BOOLEAN:
 			gsf_xml_out_add_cstr_unchecked (state->xml, 
 							OFFICE "value-type", "boolean");
-			gsf_xml_out_add_bool (state->xml, OFFICE "boolean-value", 
-					       value_get_as_bool
-					       (cell->value, NULL));
+			odf_add_bool (state->xml, OFFICE "boolean-value", 
+				value_get_as_bool (cell->value, NULL));
 			break;
 		case VALUE_FLOAT:
 			gsf_xml_out_add_cstr_unchecked (state->xml, 
@@ -383,7 +380,7 @@ cb_sheet_merges_free (gpointer data, gpointer user_data)
 }
 
 static void
-oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
+odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
 	GnmStyle *col_styles [SHEET_MAX_COLS];
 	GnmRange  extent;
@@ -439,30 +436,30 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			cc = sheet_get_comment (sheet, &pos);
 			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
 
-			if (od_cell_is_covered (sheet, current_cell, col, row,
+			if (odf_cell_is_covered (sheet, current_cell, col, row,
 						merge_range, &sheet_merges)) {
 				if (null_cell >0)
-					od_write_empty_cell (state, &null_cell);
+					odf_write_empty_cell (state, &null_cell);
 				covered_cell++;
 				continue;
 			}
 			if ((merge_range == NULL) && (cc == NULL) &&
 			    gnm_cell_is_empty (current_cell)) {
 				if (covered_cell > 0)
-					od_write_covered_cell (state, &covered_cell);
+					odf_write_covered_cell (state, &covered_cell);
 				null_cell++;
 				continue;
 			}
 
 			if (null_cell > 0)
-				od_write_empty_cell (state, &null_cell);
+				odf_write_empty_cell (state, &null_cell);
 			if (covered_cell > 0)
-				od_write_covered_cell (state, &covered_cell);
-			od_write_cell (state, current_cell, merge_range, cc);
+				odf_write_covered_cell (state, &covered_cell);
+			odf_write_cell (state, current_cell, merge_range, cc);
 			
 		}
 		if (covered_cell > 0)
-			od_write_covered_cell (state, &covered_cell);
+			odf_write_covered_cell (state, &covered_cell);
 		
 		gsf_xml_out_end_element (state->xml);   /* table-row */
 	}
@@ -474,9 +471,92 @@ oo_write_sheet (GnmOOExport *state, Sheet const *sheet)
 }
 
 static void
-oo_write_content (GnmOOExport *state, GsfOutput *child)
+odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
+{
+	GnmFilterCondition const *cond = gnm_filter_get_condition (filter, i);
+	char const *op, *type = NULL;
+	char *val_str = NULL;
+
+	if (cond == NULL)
+		return;
+
+	switch (cond->op[0]) {
+	case GNM_FILTER_OP_EQUAL:	op = "="; break;
+	case GNM_FILTER_OP_GT:		op = ">"; break;
+	case GNM_FILTER_OP_LT:		op = "<"; break;
+	case GNM_FILTER_OP_GTE:		op = ">="; break;
+	case GNM_FILTER_OP_LTE:		op = "<="; break;
+	case GNM_FILTER_OP_NOT_EQUAL:	op = "!="; break;
+	case GNM_FILTER_OP_MATCH:	op = "match"; break;
+	case GNM_FILTER_OP_NO_MATCH:	op = "!match"; break;
+
+	case GNM_FILTER_OP_BLANKS:		op = "empty"; break;
+	case GNM_FILTER_OP_NON_BLANKS:		op = "!empty"; break;
+	case GNM_FILTER_OP_TOP_N:		op = "top values"; break;
+	case GNM_FILTER_OP_BOTTOM_N:		op = "bottom values"; break;
+	case GNM_FILTER_OP_TOP_N_PERCENT:	op = "top percent"; break;
+	case GNM_FILTER_OP_BOTTOM_N_PERCENT:	op = "bottom percent"; break;
+	/* remainder are not supported in ODF */
+	default :
+		return;
+	}
+
+	if (GNM_FILTER_OP_TYPE_BUCKETS == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+		type = "number";
+		val_str = g_strdup_printf ("%g", cond->count);
+	} else if (GNM_FILTER_OP_TYPE_BLANKS  != (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+		type = VALUE_IS_FLOAT (cond->value[0]) ? "number" : "text";
+		val_str = value_get_as_string (cond->value[0]);
+	}
+
+	gsf_xml_out_start_element (state->xml, TABLE "filter-condition");
+	gsf_xml_out_add_int (state->xml, TABLE "field-number", i);
+	if (NULL != type) {
+		gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "data-type", type);
+		gsf_xml_out_add_cstr (state->xml, TABLE "value", val_str);
+	}
+	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "operator", op);
+	gsf_xml_out_end_element (state->xml); /* </table:filter-condition> */
+
+	g_free (val_str);
+}
+
+static void
+odf_write_autofilter (GnmOOExport *state, GnmFilter const *filter)
+{
+	GString *buf;
+	unsigned i;
+
+	gsf_xml_out_start_element (state->xml, TABLE "database-range");
+
+	/* manually create a ref string with no '[]' bracing */
+	buf = g_string_new (filter->sheet->name_quoted);
+	g_string_append_c (buf, '.');
+	g_string_append	  (buf, cellpos_as_string (&filter->r.start));
+	g_string_append_c (buf, ':');
+	g_string_append   (buf, filter->sheet->name_quoted);
+	g_string_append_c (buf, '.');
+	g_string_append   (buf, cellpos_as_string (&filter->r.end));
+	gsf_xml_out_add_cstr (state->xml, TABLE "target-range-address", buf->str);
+	g_string_free (buf, TRUE);
+
+	odf_add_bool (state->xml, TABLE "display-filter-buttons", TRUE);
+
+	if (filter->is_active) {
+		gsf_xml_out_start_element (state->xml, TABLE "filter");
+		for (i = 0 ; i < filter->fields->len ; i++)
+			odf_write_filter_cond (state, filter, i);
+		gsf_xml_out_end_element (state->xml); /* </table:filter> */
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </table:database-range> */
+}
+
+static void
+odf_write_content (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
+	gboolean has_autofilters = FALSE;
 
 	state->xml = gsf_xml_out_new (child);
 	gsf_xml_out_set_doc_type (state->xml, "\n");
@@ -492,7 +572,7 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_end_element (state->xml); /* </office:font-face-decls> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
- 	oo_write_table_styles (state); 
+ 	odf_write_table_styles (state); 
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
@@ -503,9 +583,23 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", "ta1");
-		oo_write_sheet (state, sheet);
+		odf_write_sheet (state, sheet);
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
+
+		has_autofilters |= (sheet->filters != NULL);
 	}
+	if (has_autofilters) {
+		gsf_xml_out_start_element (state->xml, TABLE "database-ranges");
+		for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+			Sheet *sheet = workbook_sheet_by_index (state->wb, i);
+			GSList *ptr;
+			for (ptr = sheet->filters ; ptr != NULL ; ptr = ptr->next)
+				odf_write_autofilter (state, ptr->data);
+		}
+
+		gsf_xml_out_end_element (state->xml); /* </table:database-ranges> */  
+	}
+
   	gsf_xml_out_end_element (state->xml); /* </office:spreadsheet> */  
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
 
@@ -517,7 +611,7 @@ oo_write_content (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
-oo_write_styles (GnmOOExport *state, GsfOutput *child)
+odf_write_styles (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
 
@@ -534,7 +628,7 @@ oo_write_styles (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
-oo_write_meta (GnmOOExport *state, GsfOutput *child)
+odf_write_meta (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
 	gsf_opendoc_metadata_write (xml, 
@@ -545,7 +639,7 @@ oo_write_meta (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
-oo_write_settings (GnmOOExport *state, GsfOutput *child)
+odf_write_settings (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
 
@@ -562,7 +656,7 @@ oo_write_settings (GnmOOExport *state, GsfOutput *child)
 /**********************************************************************************/
 
 static void
-oo_file_entry (GsfXMLOut *out, char const *type, char const *name)
+odf_file_entry (GsfXMLOut *out, char const *type, char const *name)
 {
 	gsf_xml_out_start_element (out, MANIFEST "file-entry");
 	gsf_xml_out_add_cstr (out, MANIFEST "media-type", type);
@@ -571,19 +665,19 @@ oo_file_entry (GsfXMLOut *out, char const *type, char const *name)
 }
 
 static void
-oo_write_manifest (GnmOOExport *state, GsfOutput *child)
+odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
 	gsf_xml_out_set_doc_type (xml, "\n");
 	gsf_xml_out_start_element (xml, MANIFEST "manifest");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
 		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
-	oo_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
-	oo_file_entry (xml, "", "Pictures/");
-	oo_file_entry (xml, "text/xml", "content.xml");
-	oo_file_entry (xml, "text/xml", "styles.xml");
-	oo_file_entry (xml, "text/xml", "meta.xml");
-	oo_file_entry (xml, "text/xml", "settings.xml");
+	odf_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
+	odf_file_entry (xml, "", "Pictures/");
+	odf_file_entry (xml, "text/xml", "content.xml");
+	odf_file_entry (xml, "text/xml", "styles.xml");
+	odf_file_entry (xml, "text/xml", "meta.xml");
+	odf_file_entry (xml, "text/xml", "settings.xml");
 	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
 	g_object_unref (xml);
 }
@@ -592,18 +686,22 @@ oo_write_manifest (GnmOOExport *state, GsfOutput *child)
 
 void
 openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
+		      WorkbookView const *wbv, GsfOutput *output);
+
+G_MODULE_EXPORT void
+openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 		      WorkbookView const *wbv, GsfOutput *output)
 {
 	static struct {
 		void (*func) (GnmOOExport *state, GsfOutput *child);
 		char const *name;
 	} const streams[] = {
-		{ oo_write_mimetype,	"mimetype" },
-		{ oo_write_content,	"content.xml" },
-		{ oo_write_styles,	"styles.xml" },
-		{ oo_write_meta,	"meta.xml" },
-		{ oo_write_settings,	"settings.xml" },
-		{ oo_write_manifest,	"META-INF/manifest.xml" }
+		{ odf_write_mimetype,	"mimetype" },
+		{ odf_write_content,	"content.xml" },
+		{ odf_write_styles,	"styles.xml" },
+		{ odf_write_meta,	"meta.xml" },
+		{ odf_write_settings,	"settings.xml" },
+		{ odf_write_manifest,	"META-INF/manifest.xml" }
 	};
 
 	GnmOOExport state;
@@ -620,7 +718,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.ioc = ioc;
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
-	state.conv = oo_expr_conventions_new ();
+	state.conv = odf_expr_conventions_new ();
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child  (outfile, streams[i].name, FALSE);
 		streams[i].func (&state, child);
