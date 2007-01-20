@@ -2494,13 +2494,30 @@ workbook_queue_all_recalc (Workbook *wb)
 void
 workbook_recalc (Workbook *wb)
 {
+	gboolean redraw = FALSE;
+
 	g_return_if_fail (IS_WORKBOOK (wb));
 
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
 		if (dependent_needs_recalc (dep)) {
+			if (dependent_is_cell (dep) &&
+			    GNM_DEP_TO_CELL (dep)->rendered_value)
+				redraw = TRUE;
 			dependent_eval (dep);
 		}
 	});
+
+	/*
+	 * This is a bit of a band-aid.  If anything is recalculated, we
+	 * force a full redraw.  The alternative is to ask for updates
+	 * of every cell that is changed and that is probably more
+	 * expensive.
+	 */
+	if (redraw) {
+		WORKBOOK_FOREACH_SHEET (wb, sheet, {
+			SHEET_FOREACH_VIEW (sheet, sv, sv_flag_selection_change (sv););
+			sheet_redraw_all (sheet, FALSE);});
+	}
 }
 
 /**

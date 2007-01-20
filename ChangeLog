@@ -1,3 +1,9 @@
+2007-01-19  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (workbook_recalc): Reinstate a version of
+	redraw-after-recalc.  I don't like it, but the alternative is to
+	ask for redraw on a per-cell basis.
+
 2007-01-18  Morten Welinder <terra@gnome.org>
 
 	* */*.c: clean up interface between xmlChar and char.
