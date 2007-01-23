@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-03 07:08+0000\n"
-"PO-Revision-Date: 2007-01-03 07:08-0000\n"
+"POT-Creation-Date: 2007-01-23 07:09+0000\n"
+"PO-Revision-Date: 2007-01-23 07:09-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: English/GB <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,8 @@ msgstr "Functions related to financial derivatives"
 #: ../plugins/dif/dif.c:70
 #: ../plugins/excel/ms-excel-read.c:6134
 #: ../plugins/mps/mps.c:534
-#: ../src/xml-io.c:2630
+#: ../src/xml-io.c:2631
+#: ../src/xml-sax-read.c:2219
 msgid "Reading file..."
 msgstr "Reading file..."
 
@@ -304,14 +305,14 @@ msgid "Saving file..."
 msgstr "Saving file..."
 
 #: ../plugins/excel/excel-xml-read.c:130
-#: ../src/xml-sax-read.c:340
+#: ../src/xml-sax-read.c:362
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:993
-#: ../plugins/openoffice/openoffice-read.c:2507
-#: ../src/xml-sax-read.c:2172
+#: ../plugins/openoffice/openoffice-read.c:2657
+#: ../src/xml-sax-read.c:2236
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
@@ -405,11 +406,11 @@ msgstr ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to encoding problems."
 
-#: ../plugins/excel/ms-excel-write.c:5386
+#: ../plugins/excel/ms-excel-write.c:5391
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Couldn't open stream 'Book' for writing\n"
 
-#: ../plugins/excel/ms-excel-write.c:5406
+#: ../plugins/excel/ms-excel-write.c:5411
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Couldn't open stream 'Workbook' for writing\n"
 
@@ -810,21 +811,21 @@ msgstr "Interest rate calculations"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
+#: ../plugins/fn-info/functions.c:1291
 #: ../plugins/fn-info/functions.c:1307
-#: ../plugins/fn-info/functions.c:1323
 msgid "Unimplemented"
 msgstr "Unimplemented"
 
-#: ../plugins/fn-info/functions.c:1331
+#: ../plugins/fn-info/functions.c:1315
 msgid "Unknown version"
 msgstr "Unknown version"
 
-#: ../plugins/fn-info/functions.c:1333
+#: ../plugins/fn-info/functions.c:1317
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: ../plugins/fn-info/functions.c:1348
+#: ../plugins/fn-info/functions.c:1332
 #: ../src/dialogs/dialog-cell-format.c:2219
 #: ../src/dialogs/dialog-cell-format.c:2223
 #: ../src/dialogs/dialog-cell-format.c:2231
@@ -832,73 +833,73 @@ msgstr "%s version %s"
 msgid "Automatic"
 msgstr "Automatic"
 
-#: ../plugins/fn-info/functions.c:1348
+#: ../plugins/fn-info/functions.c:1332
 msgid "Manual"
 msgstr "Manual"
 
-#: ../plugins/fn-info/functions.c:1358
+#: ../plugins/fn-info/functions.c:1342
 msgid "Unknown system"
 msgstr "Unknown system"
 
-#: ../plugins/fn-info/functions.c:1374
+#: ../plugins/fn-info/functions.c:1358
 msgid "Unknown info_type"
 msgstr "Unknown info_type"
 
-#: ../plugins/fn-info/functions.c:1730
+#: ../plugins/fn-info/functions.c:1714
 msgid "Invalid number of arguments"
 msgstr "Invalid number of arguments"
 
-#: ../plugins/fn-info/functions.c:1883
+#: ../plugins/fn-info/functions.c:1867
 msgid "info_type, cell"
 msgstr "info_type, cell"
 
-#: ../plugins/fn-info/functions.c:1886
-#: ../plugins/fn-info/functions.c:1892
-#: ../plugins/fn-info/functions.c:1895
-#: ../plugins/fn-info/functions.c:1898
-#: ../plugins/fn-info/functions.c:1901
-#: ../plugins/fn-info/functions.c:1904
-#: ../plugins/fn-info/functions.c:1907
-#: ../plugins/fn-info/functions.c:1910
-#: ../plugins/fn-info/functions.c:1913
-#: ../plugins/fn-info/functions.c:1916
-#: ../plugins/fn-info/functions.c:1919
-#: ../plugins/fn-info/functions.c:1922
-#: ../plugins/fn-info/functions.c:1925
-#: ../plugins/fn-info/functions.c:1931
-#: ../plugins/fn-string/functions.c:1287
+#: ../plugins/fn-info/functions.c:1870
+#: ../plugins/fn-info/functions.c:1876
+#: ../plugins/fn-info/functions.c:1879
+#: ../plugins/fn-info/functions.c:1882
+#: ../plugins/fn-info/functions.c:1885
+#: ../plugins/fn-info/functions.c:1888
+#: ../plugins/fn-info/functions.c:1891
+#: ../plugins/fn-info/functions.c:1894
+#: ../plugins/fn-info/functions.c:1897
+#: ../plugins/fn-info/functions.c:1900
+#: ../plugins/fn-info/functions.c:1903
+#: ../plugins/fn-info/functions.c:1906
+#: ../plugins/fn-info/functions.c:1909
+#: ../plugins/fn-info/functions.c:1915
+#: ../plugins/fn-string/functions.c:1308
 msgid "value"
 msgstr "value"
 
-#: ../plugins/fn-info/functions.c:1889
+#: ../plugins/fn-info/functions.c:1873
 msgid "info_type"
 msgstr "info_type"
 
 #. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1936
+#: ../plugins/fn-info/functions.c:1920
 msgid "range"
 msgstr "range"
 
-#: ../plugins/fn-info/functions.c:1940
-#: ../plugins/fn-string/functions.c:1230
-#: ../plugins/fn-string/functions.c:1233
-#: ../plugins/fn-string/functions.c:1236
+#: ../plugins/fn-info/functions.c:1924
+#: ../plugins/fn-string/functions.c:1251
+#: ../plugins/fn-string/functions.c:1254
 #: ../plugins/fn-string/functions.c:1257
-#: ../plugins/fn-string/functions.c:1260
-#: ../plugins/fn-string/functions.c:1263
-#: ../plugins/fn-string/functions.c:1269
-#: ../plugins/fn-string/functions.c:1293
-#: ../plugins/fn-string/functions.c:1296
-#: ../plugins/fn-string/functions.c:1299
+#: ../plugins/fn-string/functions.c:1278
+#: ../plugins/fn-string/functions.c:1281
+#: ../plugins/fn-string/functions.c:1284
+#: ../plugins/fn-string/functions.c:1290
+#: ../plugins/fn-string/functions.c:1314
+#: ../plugins/fn-string/functions.c:1317
+#: ../plugins/fn-string/functions.c:1320
 msgid "text"
 msgstr "text"
 
-#: ../plugins/fn-info/functions.c:1943
+#: ../plugins/fn-info/functions.c:1927
 msgid "cell"
 msgstr "cell"
 
-#: ../plugins/fn-info/functions.c:1946
-#: ../plugins/fn-string/functions.c:1221
+#: ../plugins/fn-info/functions.c:1930
+#: ../plugins/fn-string/functions.c:1242
 msgid "string"
 msgstr "string"
 
@@ -993,8 +994,8 @@ msgstr "number,number,"
 #: ../plugins/fn-stat/functions.c:5885
 #: ../plugins/fn-stat/functions.c:5903
 #: ../plugins/fn-stat/functions.c:5981
-#: ../plugins/fn-string/functions.c:1224
-#: ../plugins/fn-string/functions.c:1227
+#: ../plugins/fn-string/functions.c:1245
+#: ../plugins/fn-string/functions.c:1248
 msgid "number"
 msgstr "number"
 
@@ -1493,52 +1494,52 @@ msgstr "function_nbr,ref,ref,"
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
-#: ../plugins/fn-string/functions.c:1239
+#: ../plugins/fn-string/functions.c:1260
 msgid "text,text,"
 msgstr "text,text,"
 
-#: ../plugins/fn-string/functions.c:1242
+#: ../plugins/fn-string/functions.c:1263
 msgid "num,decimals"
 msgstr "num,decimals"
 
-#: ../plugins/fn-string/functions.c:1245
+#: ../plugins/fn-string/functions.c:1266
 msgid "text1,text2"
 msgstr "text1,text2"
 
-#: ../plugins/fn-string/functions.c:1248
+#: ../plugins/fn-string/functions.c:1269
 msgid "text1,text2,num"
 msgstr "text1,text2,num"
 
-#: ../plugins/fn-string/functions.c:1251
+#: ../plugins/fn-string/functions.c:1272
 msgid "num,decs,no_commas"
 msgstr "num,decs,no_commas"
 
-#: ../plugins/fn-string/functions.c:1254
-#: ../plugins/fn-string/functions.c:1278
+#: ../plugins/fn-string/functions.c:1275
+#: ../plugins/fn-string/functions.c:1299
 msgid "text,num_chars"
 msgstr "text,num_chars"
 
-#: ../plugins/fn-string/functions.c:1266
+#: ../plugins/fn-string/functions.c:1287
 msgid "text,pos,num"
 msgstr "text,pos,num"
 
-#: ../plugins/fn-string/functions.c:1272
+#: ../plugins/fn-string/functions.c:1293
 msgid "old,start,num,new"
 msgstr "old,start,num,new"
 
-#: ../plugins/fn-string/functions.c:1275
+#: ../plugins/fn-string/functions.c:1296
 msgid "text,num"
 msgstr "text,num"
 
-#: ../plugins/fn-string/functions.c:1281
+#: ../plugins/fn-string/functions.c:1302
 msgid "search_string,text,start_num"
 msgstr "search_string,text,start_num"
 
-#: ../plugins/fn-string/functions.c:1284
+#: ../plugins/fn-string/functions.c:1305
 msgid "text,old,new,num"
 msgstr "text,old,new,num"
 
-#: ../plugins/fn-string/functions.c:1290
+#: ../plugins/fn-string/functions.c:1311
 msgid "value,format_text"
 msgstr "value,format_text"
 
@@ -1715,7 +1716,7 @@ msgstr "Constraints:"
 #: ../src/tools/solver/reports-write.c:400
 #: ../src/tools/solver/reports-write.c:668
 #: ../src/commands.c:5680
-#: ../src/format-template.c:251
+#: ../src/format-template.c:257
 #: ../src/sheet.c:546
 msgid "Name"
 msgstr "Name"
@@ -1813,25 +1814,25 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Imports GNU Oleo documents"
 
-#: ../plugins/openoffice/openoffice-read.c:520
+#: ../plugins/openoffice/openoffice-read.c:536
 #, c-format
 msgid "Content past the maxium number of rows supported in this build (%u).  Please recompile with larger limits."
 msgstr "Content past the maxium number of rows supported in this build (%u).  Please recompile with larger limits."
 
-#: ../plugins/openoffice/openoffice-read.c:693
+#: ../plugins/openoffice/openoffice-read.c:709
 msgid "Missing expression"
 msgstr "Missing expression"
 
-#: ../plugins/openoffice/openoffice-read.c:700
+#: ../plugins/openoffice/openoffice-read.c:716
 msgid "Missing expression namespace"
 msgstr "Missing expression namespace"
 
-#: ../plugins/openoffice/openoffice-read.c:708
+#: ../plugins/openoffice/openoffice-read.c:724
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Expression '%s' does not start with a recognised character"
 
-#: ../plugins/openoffice/openoffice-read.c:723
+#: ../plugins/openoffice/openoffice-read.c:739
 #, c-format
 msgid ""
 "Unable to parse\n"
@@ -1842,46 +1843,51 @@ msgstr ""
 "\t'%s'\n"
 "because '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:803
+#: ../plugins/openoffice/openoffice-read.c:819
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Invalid array expression does not specify number of columns."
 
-#: ../plugins/openoffice/openoffice-read.c:806
+#: ../plugins/openoffice/openoffice-read.c:822
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Invalid array expression does not specify number of rows."
 
-#: ../plugins/openoffice/openoffice-read.c:1511
+#: ../plugins/openoffice/openoffice-read.c:1528
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Unable to parse position for expression '%s' @ '%s' because '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1524
+#: ../plugins/openoffice/openoffice-read.c:1541
 #, c-format
 msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Unable to parse position for expression '%s' with value '%s' because '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:1827
+#: ../plugins/openoffice/openoffice-read.c:1572
+#, c-format
+msgid "Invalid DB range '%s'"
+msgstr "Invalid DB range '%s'"
+
+#: ../plugins/openoffice/openoffice-read.c:1963
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Unable to parse '%s' because '%s'"
 
-#: ../plugins/openoffice/openoffice-read.c:2394
+#: ../plugins/openoffice/openoffice-read.c:2542
 msgid "No stream named mimetype found."
 msgstr "No stream named mimetype found."
 
-#: ../plugins/openoffice/openoffice-read.c:2406
+#: ../plugins/openoffice/openoffice-read.c:2555
 msgid "Unknown mimetype for openoffice file."
 msgstr "Unknown mimetype for openoffice file."
 
-#: ../plugins/openoffice/openoffice-read.c:2417
+#: ../plugins/openoffice/openoffice-read.c:2566
 msgid "No stream named content.xml found."
 msgstr "No stream named content.xml found."
 
-#: ../plugins/openoffice/openoffice-read.c:2425
+#: ../plugins/openoffice/openoffice-read.c:2574
 msgid "No stream named styles.xml found."
 msgstr "No stream named styles.xml found."
 
-#: ../plugins/openoffice/openoffice-read.c:2468
+#: ../plugins/openoffice/openoffice-read.c:2618
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Invalid metadata '%s'"
@@ -2279,7 +2285,7 @@ msgstr "Error while opening xbase file."
 #: ../src/print-info.c:403
 #: ../src/search.c:607
 #: ../src/workbook.c:850
-#: ../src/xml-io.c:2235
+#: ../src/xml-io.c:2236
 msgid "Sheet"
 msgstr "Sheet"
 
@@ -4867,7 +4873,7 @@ msgstr "The validation criteria are unusable. Disable validation?"
 #: ../src/wbc-gtk.c:582
 #: ../src/wbc-gtk.c:593
 #: ../src/wbc-gtk.c:700
-#: ../src/wbc-gtk.c:765
+#: ../src/wbc-gtk.c:764
 msgid "Foreground"
 msgstr "Foreground"
 
@@ -6255,7 +6261,7 @@ msgid "Fixed"
 msgstr "Fixed"
 
 #: ../src/dialogs/dialog-stf.glade.h:24
-#: ../src/stf-export.c:508
+#: ../src/stf-export.c:513
 msgid "Format"
 msgstr "Format"
 
@@ -9389,13 +9395,13 @@ msgstr "Ins/Del Column/Row"
 
 #: ../src/commands.c:1385
 #: ../src/commands.c:1390
-#: ../src/sheet.c:3814
+#: ../src/sheet.c:3818
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
 #: ../src/commands.c:1385
 #: ../src/commands.c:1390
-#: ../src/sheet.c:3954
+#: ../src/sheet.c:3958
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
@@ -9442,7 +9448,7 @@ msgstr "Deleting row %s"
 #. Check for locked cells
 #: ../src/commands.c:1649
 #: ../src/commands.c:1653
-#: ../src/sheet.c:3471
+#: ../src/sheet.c:3475
 msgid "Clear"
 msgstr "Clear"
 
@@ -9828,38 +9834,38 @@ msgstr "'%s' is already defined in sheet"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s' is already defined in workbook"
 
-#: ../src/file-autoft.c:88
+#: ../src/file-autoft.c:90
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Invalid template file: %s"
 
-#: ../src/format-template.c:471
+#: ../src/format-template.c:477
 msgid "Error while trying to load autoformat template"
 msgstr "Error while trying to load autoformat template"
 
-#: ../src/format-template.c:488
+#: ../src/format-template.c:494
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Error while trying to build tree from autoformat template file"
 
-#: ../src/format-template.c:494
+#: ../src/format-template.c:500
 msgid "Is not an autoformat template file"
 msgstr "Is not an autoformat template file"
 
-#: ../src/format-template.c:497
+#: ../src/format-template.c:503
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Invalid xml file. Tree is empty?"
 
-#: ../src/format-template.c:787
+#: ../src/format-template.c:793
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr "The target region is too small.  It should be at least %d rows by %d columns"
 
-#: ../src/format-template.c:791
+#: ../src/format-template.c:797
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "The target region is too small.  It should be at least %d columns wide"
 
-#: ../src/format-template.c:795
+#: ../src/format-template.c:801
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "The target region is too small.  It should be at least %d rows high"
@@ -10043,19 +10049,19 @@ msgstr "Module file \"%s\" has invalid format."
 msgid "File doesn't contain \"%s\" array."
 msgstr "File doesn't contain \"%s\" array."
 
-#: ../src/gnm-so-filled.c:165
+#: ../src/gnm-so-filled.c:172
 msgid "Label Properties"
 msgstr "Label Properties"
 
-#: ../src/gnm-so-filled.c:166
+#: ../src/gnm-so-filled.c:173
 msgid "Filled Object Properties"
 msgstr "Filled Object Properties"
 
-#: ../src/gnm-so-line.c:151
+#: ../src/gnm-so-line.c:159
 msgid "Line/Arrow Properties"
 msgstr "Line/Arrow Properties"
 
-#: ../src/gnm-so-polygon.c:184
+#: ../src/gnm-so-polygon.c:192
 msgid "Polygon Properties"
 msgstr "Polygon Properties"
 
@@ -10813,23 +10819,23 @@ msgstr "Zoom Factor"
 msgid "The level of zoom used for this sheet."
 msgstr "The level of zoom used for this sheet."
 
-#: ../src/sheet.c:2527
+#: ../src/sheet.c:2531
 msgid "Target region contains merged cells"
 msgstr "Target region contains merged cells"
 
-#: ../src/sheet.c:2588
+#: ../src/sheet.c:2592
 msgid "cannot operate on merged cells"
 msgstr "cannot operate on merged cells"
 
-#: ../src/sheet.c:2598
+#: ../src/sheet.c:2602
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: ../src/sheet.c:3743
+#: ../src/sheet.c:3747
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: ../src/sheet.c:3886
+#: ../src/sheet.c:3890
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
@@ -10977,7 +10983,7 @@ msgid "Pus_h to Back"
 msgstr "Pus_h to Back"
 
 #: ../src/sheet-object-graph.c:253
-#: ../src/sheet-object-image.c:404
+#: ../src/sheet-object-image.c:411
 msgid "Unknown failure while saving image"
 msgstr "Unknown failure while saving image"
 
@@ -10989,42 +10995,42 @@ msgstr "_Save as Image"
 msgid "Open in _New Window"
 msgstr "Open in _New Window"
 
-#: ../src/sheet-object-image.c:457
+#: ../src/sheet-object-image.c:464
 msgid "_Save as image"
 msgstr "_Save as image"
 
-#: ../src/sheet-object-widget.c:273
+#: ../src/sheet-object-widget.c:281
 #: ../src/wbcg-actions.c:1995
 msgid "Frame"
 msgstr "Frame"
 
-#: ../src/sheet-object-widget.c:508
+#: ../src/sheet-object-widget.c:516
 #: ../src/wbcg-actions.c:2028
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Button"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:782
+#: ../src/sheet-object-widget.c:790
 msgid "Change widget"
 msgstr "Change widget"
 
-#: ../src/sheet-object-widget.c:1391
+#: ../src/sheet-object-widget.c:1399
 #, c-format
 msgid "CheckBox %d"
 msgstr "CheckBox %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1458
+#: ../src/sheet-object-widget.c:1466
 msgid "Clicking checkbox"
 msgstr "Clicking checkbox"
 
-#: ../src/sheet-object-widget.c:1859
+#: ../src/sheet-object-widget.c:1867
 #: ../src/wbcg-actions.c:2031
 msgid "RadioButton"
 msgstr "RadioButton"
 
-#: ../src/sheet-object-widget.c:2095
+#: ../src/sheet-object-widget.c:2103
 msgid "Clicking in list"
 msgstr "Clicking in list"
 
@@ -11244,31 +11250,31 @@ msgstr "Text export (configurable)"
 msgid "Comma separated values (CSV)"
 msgstr "Comma separated values (CSV)"
 
-#: ../src/stf-export.c:480
+#: ../src/stf-export.c:485
 msgid "Character set"
 msgstr "Character set"
 
-#: ../src/stf-export.c:481
+#: ../src/stf-export.c:486
 msgid "The character encoding of the output."
 msgstr "The character encoding of the output."
 
-#: ../src/stf-export.c:489
+#: ../src/stf-export.c:494
 msgid "Locale"
 msgstr "Locale"
 
-#: ../src/stf-export.c:490
+#: ../src/stf-export.c:495
 msgid "The locale to use for number and date formatting."
 msgstr "The locale to use for number and date formatting."
 
-#: ../src/stf-export.c:498
+#: ../src/stf-export.c:503
 msgid "Transliterate mode"
 msgstr "Transliterate mode"
 
-#: ../src/stf-export.c:499
+#: ../src/stf-export.c:504
 msgid "What to do with unrepresentable characters."
 msgstr "What to do with unrepresentable characters."
 
-#: ../src/stf-export.c:509
+#: ../src/stf-export.c:514
 msgid "How should cells be formatted?"
 msgstr "How should cells be formatted?"
 
@@ -13076,17 +13082,17 @@ msgstr "Set Background Colour"
 msgid "Font Name %s"
 msgstr "Font Name %s"
 
-#: ../src/wbc-gtk.c:724
+#: ../src/wbc-gtk.c:723
 #, c-format
 msgid "Font Size %f"
 msgstr "Font Size %f"
 
+#: ../src/wbc-gtk.c:741
 #: ../src/wbc-gtk.c:742
-#: ../src/wbc-gtk.c:743
 msgid "Font Size"
 msgstr "Font Size"
 
-#: ../src/wbc-gtk.c:805
+#: ../src/wbc-gtk.c:804
 #, c-format
 msgid "Open %s"
 msgstr "Open %s"
@@ -13097,32 +13103,32 @@ msgstr "Open %s"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:1122
+#: ../src/wbc-gtk.c:1121
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 
-#: ../src/wbc-gtk.c:1391
+#: ../src/wbc-gtk.c:1390
 msgid "Display above sheets"
 msgstr "Display above sheets"
 
-#: ../src/wbc-gtk.c:1392
+#: ../src/wbc-gtk.c:1391
 msgid "Display to the left of sheets"
 msgstr "Display to the left of sheets"
 
-#: ../src/wbc-gtk.c:1393
+#: ../src/wbc-gtk.c:1392
 msgid "Display to the right of sheets"
 msgstr "Display to the right of sheets"
 
-#: ../src/wbc-gtk.c:1397
+#: ../src/wbc-gtk.c:1396
 msgid "Reattach to main window"
 msgstr "Reattach to main window"
 
-#: ../src/wbc-gtk.c:1429
+#: ../src/wbc-gtk.c:1428
 msgid "Hide"
 msgstr "Hide"
 
-#: ../src/wbc-gtk.c:1491
+#: ../src/wbc-gtk.c:1490
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Show/Hide toolbar %s"
@@ -13439,64 +13445,64 @@ msgstr "Unsupported file format."
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
 
-#: ../src/xml-io.c:1662
-#: ../src/xml-sax-read.c:1657
+#: ../src/xml-io.c:1663
+#: ../src/xml-sax-read.c:1699
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Unsupported object type '%s'"
 
-#: ../src/xml-io.c:2114
+#: ../src/xml-io.c:2115
 msgid "Unparsable xml in clipboard"
 msgstr "Unparsable xml in clipboard"
 
-#: ../src/xml-io.c:2121
+#: ../src/xml-io.c:2122
 msgid "Clipboard is in unknown format"
 msgstr "Clipboard is in unknown format"
 
-#: ../src/xml-io.c:2340
+#: ../src/xml-io.c:2341
 msgid "Processing file..."
 msgstr "Processing file..."
 
-#: ../src/xml-io.c:2678
+#: ../src/xml-io.c:2679
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "The file is not a Gnumeric Workbook file"
 
-#: ../src/xml-io.c:2706
+#: ../src/xml-io.c:2707
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "Gnumeric XML (*.gnumeric) Old slow importer"
 
-#: ../src/xml-io.c:2712
+#: ../src/xml-io.c:2713
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 
-#: ../src/xml-io.c:2717
+#: ../src/xml-io.c:2718
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-read.c:376
+#: ../src/xml-sax-read.c:398
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Multiple version specifications.  Assuming %d"
 
-#: ../src/xml-sax-read.c:584
+#: ../src/xml-sax-read.c:606
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "File has inconsistent SheetNameIndex element."
 
-#: ../src/xml-sax-read.c:1523
+#: ../src/xml-sax-read.c:1565
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Unknown filter operator \"%s\""
 
-#: ../src/xml-sax-read.c:1563
+#: ../src/xml-sax-read.c:1605
 msgid "Missing filter type"
 msgstr "Missing filter type"
 
-#: ../src/xml-sax-read.c:1583
+#: ../src/xml-sax-read.c:1625
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Unknown filter type \"%s\""
 
-#: ../src/xml-sax-read.c:1602
+#: ../src/xml-sax-read.c:1644
 msgid "Invalid filter, missing Area"
 msgstr "Invalid filter, missing Area"
 
