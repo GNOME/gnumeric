@@ -995,7 +995,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
       		 */
 
 		if (hidden)
-		  gsf_output_printf (output, "\\phantom{");
+			gsf_output_printf (output, "\\phantom{");
 
 		if (font_is_monospaced (style))
 			gsf_output_printf (output, "\\texttt{");
@@ -1007,7 +1007,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			gsf_output_printf (output, "\\textit{");
 
 
-		cell_format_family = gnm_cell_get_format (cell)->family;
+		cell_format_family = go_format_get_family (gnm_cell_get_format (cell));
 		if (cell_format_family == GO_FORMAT_NUMBER ||
 		    cell_format_family == GO_FORMAT_CURRENCY ||
 		    cell_format_family == GO_FORMAT_PERCENTAGE ||
@@ -1042,7 +1042,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		else if (font_is_sansserif (style))
 			gsf_output_printf (output, "}");
 		if (hidden)
-		  gsf_output_printf (output, "}");
+			gsf_output_printf (output, "}");
 		if (r != 0 || g != 0 || b != 0)
 			gsf_output_printf (output, "}");
 	}

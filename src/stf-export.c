@@ -117,7 +117,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	GString *xlfmt;
 
 	is_date = gnm_format_is_date_for_value (format, value) > 0;
-	is_time = (format->family == GO_FORMAT_TIME);
+	is_time = (go_format_get_family (format) == GO_FORMAT_TIME);
 
 	if (!is_date && !is_time)
 		return NULL;

@@ -259,7 +259,9 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		if (fmt != NULL && go_format_is_markup (fmt)) {
 			PangoAttrList *orig = attrs;
 			attrs = pango_attr_list_copy (attrs);
-			pango_attr_list_splice (attrs, fmt->markup, 0, 0);
+			pango_attr_list_splice (attrs,
+						go_format_get_markup (fmt),
+						0, 0);
 			pango_attr_list_unref (orig);
 		}
 	}

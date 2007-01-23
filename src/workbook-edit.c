@@ -834,7 +834,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			GOFormat *fmt = gnm_cell_get_format (cell);
 			gnm_float f = value_get_as_float (cell->value);
 
-			switch (fmt->family) {
+			switch (go_format_get_family (fmt)) {
 			case GO_FORMAT_FRACTION:
 				text = gnm_cell_get_entered_text (cell);
 				g_strchug (text);
@@ -918,7 +918,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			GOFormat *fmt = VALUE_FMT (cell->value);
 			if (fmt != NULL && go_format_is_markup (fmt))
 				wbcg_edit_init_markup (wbcg,
-					pango_attr_list_copy (fmt->markup));
+					pango_attr_list_copy (go_format_get_markup (fmt)));
 		}
 	}
 

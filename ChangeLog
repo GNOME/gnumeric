@@ -1,5 +1,9 @@
 2007-01-22  Morten Welinder  <terra@gnome.org>
 
+	* src/number-match.c (format_match): Don't compare a pointer to
+	GO_FORMAT_GENERAL, even if the latter is zero.
+	*/*.c: Deal with GOFormat now being opaque.
+
 	* libspreadsheet-1.7.pc.in (GOffice_plugins_dir): Fix undefined
 	variables.  [#399550]
 	Eliminate EXTRA_LIBS and EXTRA_INCLUDES now in goffice.

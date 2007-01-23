@@ -1950,7 +1950,7 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 	xf->style_format = (xf->format_idx > 0)
 		? excel_wb_get_fmt (importer, xf->format_idx) : NULL;
 	xf->is_simple_format = xf->style_format == NULL ||
-		g_slist_length (xf->style_format->entries) <= 1;
+		go_format_is_simple (xf->style_format);
 
         if (importer->ver >= MS_BIFF_V3) {
 		xf->locked = (q->data[2] & 0x1) != 0;
@@ -2076,7 +2076,7 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	xf->style_format = (xf->format_idx > 0)
 		? excel_wb_get_fmt (importer, xf->format_idx) : NULL;
 	xf->is_simple_format = xf->style_format == NULL ||
-		g_slist_length (xf->style_format->entries) <= 1;
+		go_format_is_simple (xf->style_format);
 
 	data = GSF_LE_GET_GUINT16 (q->data + 4);
 	xf->locked = (data & 0x0001) != 0;

@@ -1006,7 +1006,7 @@ cmd_set_text (WorkbookControl *wbc,
 		if (same_text && cell->value && VALUE_IS_STRING (cell->value)) {
 			const GOFormat *fmt = VALUE_FMT (cell->value);
 			if (fmt && go_format_is_markup (fmt))
-				old_markup = fmt->markup;
+				old_markup = go_format_get_markup (fmt);
 		}
 
 		same_markup = gnm_pango_attr_list_equal (old_markup, markup);

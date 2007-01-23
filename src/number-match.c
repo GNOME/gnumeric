@@ -1085,67 +1085,65 @@ format_match (char const *text, GOFormat *cur_fmt,
 	if (text[0] == '\'')
 		return value_new_string (text + 1);
 
-	fam = cur_fmt ? cur_fmt->family : GO_FORMAT_GENERAL;
-	if (cur_fmt != GO_FORMAT_GENERAL) {
-		switch (cur_fmt->family) {
-		case GO_FORMAT_TEXT:
-			return value_new_string (text);
+	fam = cur_fmt ? go_format_get_family (cur_fmt) : GO_FORMAT_GENERAL;
+	switch (fam) {
+	case GO_FORMAT_TEXT:
+		return value_new_string (text);
 
-		case GO_FORMAT_NUMBER:
-		case GO_FORMAT_CURRENCY:
-		case GO_FORMAT_ACCOUNTING:
-		case GO_FORMAT_PERCENTAGE:
-		case GO_FORMAT_SCIENTIFIC:
+	case GO_FORMAT_NUMBER:
+	case GO_FORMAT_CURRENCY:
+	case GO_FORMAT_ACCOUNTING:
+	case GO_FORMAT_PERCENTAGE:
+	case GO_FORMAT_SCIENTIFIC:
+		v = format_match_decimal_number (text, &fam);
+		if (v)
+			value_set_fmt (v, cur_fmt);
+		return v;
+
+	case GO_FORMAT_DATE: {
+		gboolean month_before_day =
+			hack_month_before_day (cur_fmt);
+
+		v = format_match_datetime (text, date_conv,
+					   month_before_day,
+					   FALSE,
+					   TRUE);
+		if (!v)
 			v = format_match_decimal_number (text, &fam);
-			if (v)
-				value_set_fmt (v, cur_fmt);
-			return v;
+		if (v)
+			value_set_fmt (v, cur_fmt);
+		return v;
+	}
 
-		case GO_FORMAT_DATE: {
-			gboolean month_before_day =
-				hack_month_before_day (cur_fmt);
+	case GO_FORMAT_TIME: {
+		gboolean month_before_day =
+			hack_month_before_day (cur_fmt);
+		gboolean prefer_hour = hack_prefer_hour (cur_fmt);
 
-			v = format_match_datetime (text, date_conv,
-						   month_before_day,
-						   FALSE,
-						   TRUE);
-			if (!v)
-				v = format_match_decimal_number (text, &fam);
-			if (v)
-				value_set_fmt (v, cur_fmt);
-			return v;
-		}
+		v = format_match_datetime (text, date_conv,
+					   month_before_day,
+					   FALSE,
+					   FALSE);
+		if (!v)
+			v = format_match_time (text, TRUE, prefer_hour, FALSE);
+		if (!v)
+			v = format_match_decimal_number (text, &fam);
+		if (v)
+			value_set_fmt (v, cur_fmt);
+		return v;
+	}
 
-		case GO_FORMAT_TIME: {
-			gboolean month_before_day =
-				hack_month_before_day (cur_fmt);
-			gboolean prefer_hour = hack_prefer_hour (cur_fmt);
+	case GO_FORMAT_FRACTION:
+		v = format_match_fraction (text, &denlen);
+		if (!v)
+			v = format_match_decimal_number (text, &fam);
 
-			v = format_match_datetime (text, date_conv,
-						   month_before_day,
-						   FALSE,
-						   FALSE);
-			if (!v)
-				v = format_match_time (text, TRUE, prefer_hour, FALSE);
-			if (!v)
-				v = format_match_decimal_number (text, &fam);
-			if (v)
-				value_set_fmt (v, cur_fmt);
-			return v;
-		}
+		if (v)
+			value_set_fmt (v, cur_fmt);
+		return v;
 
-		case GO_FORMAT_FRACTION:
-			v = format_match_fraction (text, &denlen);
-			if (!v)
-				v = format_match_decimal_number (text, &fam);
-
-			if (v)
-				value_set_fmt (v, cur_fmt);
-			return v;
-
-		default:
-			; /* Nothing */
-		}
+	default:
+		; /* Nothing */
 	}
 
 	/* Check basic types */

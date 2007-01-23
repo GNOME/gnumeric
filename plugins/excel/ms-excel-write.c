@@ -2200,9 +2200,12 @@ xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 }
 
 static GArray *
-txomarkup_new (ExcelWriteState *ewb, PangoAttrList *markup, GnmStyle const *style)
+txomarkup_new (ExcelWriteState *ewb,
+	       const PangoAttrList *markup,
+	       GnmStyle const *style)
 {
-	PangoAttrIterator *iter = pango_attr_list_get_iterator (markup);
+	PangoAttrIterator *iter =
+		pango_attr_list_get_iterator ((PangoAttrList*)markup);
 	GArray *txo = g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
 	gboolean noattrs = TRUE;
 
@@ -2259,8 +2262,10 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
 		    go_format_is_markup (fmt)) {
-			GArray *txo = txomarkup_new (ewb, 
-						     fmt->markup, style);
+			GArray *txo = txomarkup_new
+				(ewb, 
+				 go_format_get_markup (fmt),
+				 style);
 
 			g_hash_table_insert (ewb->cell_markup, 
 					     (gpointer)cell, txo);
