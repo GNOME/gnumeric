@@ -37,6 +37,7 @@
 #include "gnm-format.h"
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-impl-utils.h>
+#include <goffice/utils/go-locale.h>
 
 #include <stdio.h>
 #include <string.h>

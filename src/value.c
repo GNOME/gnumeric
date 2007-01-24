@@ -32,6 +32,7 @@
 #include <cell.h>
 #include <number-match.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-locale.h>
 
 #ifndef USE_VALUE_POOLS
 #define USE_VALUE_POOLS 1

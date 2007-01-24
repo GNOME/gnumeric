@@ -40,6 +40,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-locale.h>
 #include <string.h>
 
 #define SCROLL_LOCK_MASK GDK_MOD5_MASK

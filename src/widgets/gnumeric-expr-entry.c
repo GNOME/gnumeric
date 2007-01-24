@@ -28,13 +28,10 @@
 #include <selection.h>
 #include <commands.h>
 #include <gnm-format.h>
+#include <goffice/utils/go-locale.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkcelleditable.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 

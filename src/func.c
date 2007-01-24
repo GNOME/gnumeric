@@ -28,7 +28,7 @@
 #include "value.h"
 #include "number-match.h"
 #include "func-builtin.h"
-#include <goffice/utils/go-format.h>
+#include <goffice/utils/go-locale.h>
 
 #include <string.h>
 #include <glib.h>

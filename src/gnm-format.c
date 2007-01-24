@@ -29,6 +29,7 @@
 
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-locale.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdio.h>

@@ -38,6 +38,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-locale.h>
 
 #define GNM_RESPONSE_REMOVE -1000
 

@@ -1,5 +1,7 @@
 2007-01-24  Morten Welinder  <terra@gnome.org>
 
+	*/*.c: Include new go-locale.h as needed.
+
 	* src/numbers.h (gnm_render_number): Remove.
 
 2007-01-22  Morten Welinder  <terra@gnome.org>

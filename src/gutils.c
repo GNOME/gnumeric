@@ -18,6 +18,7 @@
 #include "mathfunc.h"
 
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-locale.h>
 
 #include <stdlib.h>
 #include <math.h>

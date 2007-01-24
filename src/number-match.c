@@ -29,6 +29,7 @@
 #include <goffice/utils/regutf8.h>
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-locale.h>
 
 #include <stdio.h>
 #include <string.h>

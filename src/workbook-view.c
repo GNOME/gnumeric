@@ -54,6 +54,7 @@
 #include <goffice/app/io-context.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-locale.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
