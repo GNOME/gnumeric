@@ -1,3 +1,7 @@
+2007-01-24  Morten Welinder  <terra@gnome.org>
+
+	* src/numbers.h (gnm_render_number): Remove.
+
 2007-01-22  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (format_match): Don't compare a pointer to

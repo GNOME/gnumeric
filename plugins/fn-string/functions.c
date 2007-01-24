@@ -646,10 +646,10 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float num = value_get_as_float (argv[0]);
 	gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
 	gboolean commas = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
-	GONumberFormat fmt;
-	GString *str;
-
-	memset (&fmt, 0, sizeof (fmt));
+	GString *format;
+	GOFormat *fmt;
+	GnmValue *v;
+	char *res;
 
 	decimals = gnm_fake_trunc (decimals);
 	if (decimals >= 128)
@@ -662,28 +662,31 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			num = 0;  /* Underflow */
 		else
 			num = gnm_fake_round (num * mult) / mult;
-		fmt.right_req = fmt.right_allowed = 0;
-	} else /* decimal point format */
-		fmt.right_req = fmt.right_allowed = (int)decimals;
-
-	fmt.right_optional	   = 0;
-	fmt.right_spaces	   = 0;
-	fmt.left_spaces		   = 0;
-	fmt.left_req		   = 0;
-	fmt.decimal_separator_seen = (decimals > 0);
-	fmt.group_thousands	   = commas;
-	fmt.has_fraction	   = FALSE;
-	fmt.unicode_minus          = FALSE;
-
-	str = g_string_new (NULL);
-	if (num < 0.) {
-		num = -num;
-		g_string_append_c (str, '-');
 	}
-	gnm_render_number (str, num, &fmt);
-	if (str->len == 0)
-		g_string_append_c (str, '0');
-	return value_new_string_nocopy (g_string_free (str, FALSE));
+	v = value_new_float (num);
+
+	format = g_string_sized_new (200);
+	if (commas)
+		g_string_append (format, "#,##0");
+	else
+		g_string_append_c (format, '0');
+	if (decimals > 0) {
+		static const char zeros[128 + 1] = ".00000000000000000000000000000000"
+			"00000000000000000000000000000000"
+			"00000000000000000000000000000000"
+			"00000000000000000000000000000000";
+		g_string_append_len (format, zeros, 1 + (int)decimals);
+	}
+
+	fmt = go_format_new_from_XL (format->str, FALSE);
+	g_string_free (format, TRUE);
+
+	res = format_value (fmt, v, NULL, -1, workbook_date_conv (ei->pos->sheet->workbook));
+
+	go_format_unref (fmt);
+	value_release (v);
+
+	return value_new_string_nocopy (res);
 }
 
 /***************************************************************************/

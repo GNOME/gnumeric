@@ -1,3 +1,7 @@
+2007-01-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_fixed): Avoid using gnm_render_number.
+
 2007-01-03  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_dollar): Build XL format by hand.  We

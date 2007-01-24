@@ -93,7 +93,6 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_pow10 go_pow10l
 #define gnm_pow2 go_pow2l
 #define gnm_render_general go_render_generall
-#define gnm_render_number go_render_numberl
 #define gnm_sin sinl
 #define gnm_sinh sinhl
 #define gnm_sqrt sqrtl
@@ -162,7 +161,6 @@ typedef double gnm_float;
 #define gnm_pow10 go_pow10
 #define gnm_pow2 go_pow2
 #define gnm_render_general go_render_general
-#define gnm_render_number go_render_number
 #define gnm_sin sin
 #define gnm_sinh sinh
 #define gnm_sqrt sqrt

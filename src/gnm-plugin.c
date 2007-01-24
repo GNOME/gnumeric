@@ -23,6 +23,8 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 typedef PluginServiceSimpleClass	PluginServiceFunctionGroupClass;
 struct _PluginServiceFunctionGroup {
 	PluginServiceSimple	base;
@@ -94,7 +96,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		for (node = functions_node->xmlChildrenNode; node != NULL; node = node->next) {
 			gchar *func_name;
 
-			if (strcmp (node->name, "function") != 0 ||
+			if (strcmp (CXML2C (node->name), "function") != 0 ||
 			    (func_name = xml_node_get_cstr (node, "name")) == NULL) {
 				continue;
 			}
@@ -313,7 +315,7 @@ static void
 plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
-	char *file_name;
+	xmlChar *file_name;
 	xmlNode *verbs_node;
 	GSList *actions = NULL;
 
@@ -333,7 +335,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 
 		for (ptr = verbs_node->xmlChildrenNode; ptr != NULL; ptr = ptr->next) {
 			if (xmlIsBlankNode (ptr) || ptr->name == NULL ||
-			    strcmp (ptr->name, "action"))
+			    strcmp (CXML2C (ptr->name), "action"))
 				continue;
 			name  = xml_node_get_cstr (ptr, "name");
 			label = xml_node_get_cstr (ptr, "label");

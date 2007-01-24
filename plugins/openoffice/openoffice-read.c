@@ -1563,8 +1563,8 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->filter == NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "target-range-address")) {
-			char const *ptr = oo_cellref_parse (&ref.a, attrs[1], &state->pos);
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "target-range-address")) {
+			char const *ptr = oo_cellref_parse (&ref.a, CXML2C (attrs[1]), &state->pos);
 			if (':' == *ptr &&
 			    '\0' == *oo_cellref_parse (&ref.b, ptr+1, &state->pos))
 				state->filter = gnm_filter_new (ref.a.sheet, range_init_rangeref (&r, &ref));
@@ -1610,7 +1610,7 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int field_num = 0, type = -1, op = -1;
-	xmlChar const *val_str = NULL;
+	char const *val_str = NULL;
 
 	if (NULL == state->filter)
 		return;
@@ -1619,14 +1619,14 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "field-number", &field_num)) ;
 		else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "data-type", datatypes, &type)) ;
 		else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "operator", operators, &op)) ;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "value"))
-			val_str = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "value"))
+			val_str = CXML2C (attrs[1]);
 
 	if (field_num >= 0 && op >= 0) {
 		GnmFilterCondition *cond = NULL;
 		GnmValue *v = NULL;
 
-		if (type >= 0 &&  val_str != NULL)
+		if (type >= 0 && val_str != NULL)
 			v = value_new_from_string (type, val_str, NULL, FALSE);
 
 		switch (op) {
