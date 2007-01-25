@@ -1404,13 +1404,13 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
 
 	pstate.decimal_point = pstate.convs->decimal_sep_dot
 		? '.'
-		: g_utf8_get_char (go_format_get_decimal ()->str); /* FIXME: one char handled.  */
+		: g_utf8_get_char (go_locale_get_decimal ()->str); /* FIXME: one char handled.  */
 	pstate.separator = pstate.convs->argument_sep_semicolon
 		? ';'
-		: go_format_get_arg_sep ();
+		: go_locale_get_arg_sep ();
 	pstate.array_col_separator = pstate.convs->array_col_sep_comma
 		? ','
-		: go_format_get_col_sep ();
+		: go_locale_get_col_sep ();
 
 	pstate.result = NULL;
 	pstate.error = error;

@@ -869,7 +869,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			}
 
 			case GO_FORMAT_DATE: {
-				GString *fstr = g_string_new (go_format_month_before_day ()
+				GString *fstr = g_string_new (go_locale_month_before_day ()
 							      ? "m/d/yyyy"
 							      : "d/m/yyyy");
 				GOFormat *new_fmt;

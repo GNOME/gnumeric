@@ -1086,7 +1086,7 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         gnm_float number = value_get_as_float (argv[0]);
         gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
 	gboolean precedes, space_sep;
-	const GString *curr = go_format_get_currency (&precedes, &space_sep);
+	const GString *curr = go_locale_get_currency (&precedes, &space_sep);
 	GString *fmt_str;
 
 	/* This is what Excel appears to do.  */

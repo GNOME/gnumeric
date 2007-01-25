@@ -217,7 +217,7 @@ gnm_push_C_locale (void)
 	go_setlocale (LC_NUMERIC, "C");
 	old->monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
 	go_setlocale (LC_MONETARY, "C");
-	go_set_untranslated_bools ();
+	go_locale_untranslated_booleans ();
 
 	return old;
 }

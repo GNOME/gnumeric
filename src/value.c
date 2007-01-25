@@ -424,9 +424,9 @@ value_parse_boolean (char const *str, gboolean translated)
 {
 	if (translated) {
 		/* FIXME: ascii???  */
-		if (0 == g_ascii_strcasecmp (str, go_format_boolean (TRUE)))
+		if (0 == g_ascii_strcasecmp (str, go_locale_boolean_name (TRUE)))
 			return +TRUE;
-		else if (0 == g_ascii_strcasecmp (str, go_format_boolean (FALSE)))
+		else if (0 == g_ascii_strcasecmp (str, go_locale_boolean_name (FALSE)))
 			return +FALSE;
 		else
 			return -1;
@@ -844,7 +844,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		gboolean b = v->v_bool.val;
 		g_string_append (target,
 				 conv->output_translated
-				 ? go_format_boolean (b)
+				 ? go_locale_boolean_name (b)
 				 : (b ? "TRUE" : "FALSE"));
 		return;
 	}
@@ -866,7 +866,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		if (conv->output_array_row_sep)
 			row_sep = conv->output_array_row_sep;
 		else {
-			locale_row_sep[0] = go_format_get_row_sep ();
+			locale_row_sep[0] = go_locale_get_row_sep ();
 			locale_row_sep[1] = 0;
 			row_sep = locale_row_sep;
 		}
@@ -874,7 +874,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		if (conv->output_array_col_sep)
 			col_sep = conv->output_array_col_sep;
 		else {
-			locale_col_sep[0] = go_format_get_col_sep ();
+			locale_col_sep[0] = go_locale_get_col_sep ();
 			locale_col_sep[1] = 0;
 			col_sep = locale_col_sep;
 		}

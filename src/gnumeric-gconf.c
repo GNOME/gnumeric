@@ -363,7 +363,7 @@ go_conf_get_value_as_str (GOConfNode *node, gchar const *key)
 		value_string = g_strdup_printf ("%f", go_conf_get_double (node, key));
 		break;
 	case G_TYPE_BOOLEAN:
-		value_string = g_strdup (go_format_boolean (go_conf_get_bool (node, key)));
+		value_string = g_strdup (go_locale_boolean_name (go_conf_get_bool (node, key)));
 		break;
 	default:
 		value_string = g_strdup ("ERROR FIXME");
@@ -995,7 +995,7 @@ go_conf_get_value_as_str (GOConfNode *node, gchar const *key)
 		value_string = go_conf_get_string (node, key);
 		break;
 	case G_TYPE_BOOLEAN:
-		value_string = g_strdup (go_format_boolean (go_conf_get_bool (node, key)));
+		value_string = g_strdup (go_locale_boolean_name (go_conf_get_bool (node, key)));
 		break;
 	default:
 		value_string = g_strdup ("ERROR FIXME");

@@ -403,7 +403,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 				case GNM_EXPR_OP_ARRAY_CORNER :
 					tmp = g_strdup_printf ("{%s}(%d%c%d)[%d][%d]", text,
 						expr->array_corner.cols,
-						go_format_get_arg_sep (),
+						go_locale_get_arg_sep (),
 						expr->array_corner.rows,
 						y, x);
 					g_free (text);
