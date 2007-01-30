@@ -28,6 +28,7 @@
 #include <selection.h>
 #include <sheet.h>
 #include <sheet-view.h>
+#include <sheet-object-widget.h>
 #include <workbook.h>
 #include <workbook-control.h>
 #include <workbook-edit.h>
@@ -46,6 +47,7 @@ typedef struct {
 	GnmExprEntry	*content_entry, *link_entry;
 
 	WorkbookControlGUI	*wbcg;
+	SheetObject		*so;
 } GnmDialogSOList;
 
 static void
@@ -58,19 +60,24 @@ cb_so_list_destroy (GnmDialogSOList *state)
 }
 
 static GnmExprEntry *
-init_entry (GnmDialogSOList *state, char const *name)
+init_entry (GnmDialogSOList *state, char const *name,
+	    GnmDependent const *dep)
 {
+	GnmExprEntry *gee;
 	GtkWidget *w = glade_xml_get_widget (state->gui, name);
 
 	g_return_val_if_fail (w != NULL, NULL);
 
-	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (w),
-		GNM_EE_SINGLE_RANGE, GNM_EE_SINGLE_RANGE);
+	gee = GNM_EXPR_ENTRY (w);
 	g_object_set (G_OBJECT (w),
 		"scg", wbcg_cur_scg (state->wbcg),
 		"with-icon", TRUE,
 		NULL);
-	return GNM_EXPR_ENTRY (w);
+	gnm_expr_entry_set_flags (gee,
+		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
+		GNM_EE_MASK);
+	gnm_expr_entry_load_from_dep (gee, dep);
+	return gee;
 }
 
 static void
@@ -85,21 +92,24 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 }
 
 static gboolean
-so_list_init (GnmDialogSOList *state, WorkbookControlGUI *wbcg)
+so_list_init (GnmDialogSOList *state, WorkbookControlGUI *wbcg, SheetObject *so)
 {
 	GtkTable *table;
 
-	state->wbcg  = wbcg;
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"so-list.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;
 
+	state->wbcg   = wbcg;
+	state->so     = so;
 	state->dialog = glade_xml_get_widget (state->gui, "SOList");
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "table"));
 
-	state->content_entry = init_entry (state, "content-entry");
-	state->link_entry = init_entry (state, "link-entry");
+	state->content_entry = init_entry (state, "content-entry",
+		sheet_widget_list_base_get_content_dep (so));
+	state->link_entry = init_entry (state, "link-entry",
+		sheet_widget_list_base_get_result_dep (so));
 
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_so_list_response), state);
@@ -132,7 +142,7 @@ dialog_so_list (WorkbookControlGUI *wbcg, GObject *so)
 		return;
 
 	state = g_new0 (GnmDialogSOList, 1);
-	if (so_list_init (state, wbcg)) {
+	if (so_list_init (state, wbcg, SHEET_OBJECT (so))) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 			_("Could not create the List Property dialog."));
 		g_free (state);

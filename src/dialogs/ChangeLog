@@ -1,3 +1,9 @@
+2007-01-29  Jody Goldberg <jody@gnome.org>
+
+	* dialog-so-list.c (init_entry) : take a dep to load from.
+	(so_list_init) : init the entries with the initial content of the
+	  content and result deps.
+
 2007-01-09  Morten Welinder  <terra@gnome.org>
 
 	* dialog-autoformat.c (afg_get_cell_value): Don't use g_strtod.
