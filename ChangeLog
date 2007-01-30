@@ -1,5 +1,10 @@
 2007-01-29  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object-widget.c (sheet_widget_list_base_get_result_dep) : new.
+	(sheet_widget_list_base_get_content_dep) : new.
+
+2007-01-29  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-filter.c : improve some docs
 
 2007-01-24  Morten Welinder  <terra@gnome.org>

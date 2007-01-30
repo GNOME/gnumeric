@@ -2335,6 +2335,19 @@ sheet_widget_list_base_set_links (SheetObject *so,
 		list_content_eval (&swl->content_dep); /* populate the list */
 	}
 }
+GnmDependent const *
+sheet_widget_list_base_get_result_dep  (SheetObject const *so)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+	return &swl->output_dep;
+}
+
+GnmDependent const *
+sheet_widget_list_base_get_content_dep (SheetObject const *so)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+	return &swl->content_dep;
+}
 
 /****************************************************************************/
 #define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
