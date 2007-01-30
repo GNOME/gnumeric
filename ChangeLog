@@ -1,3 +1,7 @@
+2007-01-29  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c : improve some docs
+
 2007-01-24  Morten Welinder  <terra@gnome.org>
 
 	*/*.c: Include new go-locale.h as needed.

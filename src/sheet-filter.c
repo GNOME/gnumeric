@@ -43,6 +43,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * gnm_filter_condition_new_single :
+ * @op : #GnmFilterOp
+ * @v : #GnmValue
+ *
+ * Create a new condition with 1 value.
+ * Absorbs the reference to @v.
+ **/
 GnmFilterCondition *
 gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 {
@@ -52,6 +60,17 @@ gnm_filter_condition_new_single (GnmFilterOp op, GnmValue *v)
 	return res;
 }
 
+/**
+ * gnm_filter_condition_new_double :
+ * @op0 : #GnmFilterOp
+ * @v0 : #GnmValue
+ * @join_with_and :
+ * @op1 : #GnmFilterOp
+ * @v1 : #GnmValue
+ *
+ * Create a new condition with 2 value.
+ * Absorbs the reference to @v0 and @v1.
+ **/
 GnmFilterCondition *
 gnm_filter_condition_new_double (GnmFilterOp op0, GnmValue *v0,
 				 gboolean join_with_and,
@@ -106,6 +125,7 @@ gnm_filter_condition_unref (GnmFilterCondition *cond)
 typedef struct  {
 	GnmFilterCondition const *cond;
 	GnmValue		 *val[2];
+	GnmValue		 *alt_val[2];
 	GORegexp  		  regexp[2];
 	Sheet			 *target_sheet; /* not necessarilly the src */
 } FilterExpr;
@@ -485,6 +505,7 @@ gnm_filter_combo_class_init (GObjectClass *gobject_class)
 	so_class->new_view	= gnm_filter_combo_foo_view_new;
 	so_class->read_xml_dom  = NULL;
 	so_class->write_xml_sax = NULL;
+	so_class->prep_sax_parser = NULL;
 	so_class->print         = NULL;
 	so_class->copy          = NULL;
 
