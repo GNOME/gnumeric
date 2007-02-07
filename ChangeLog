@@ -1,3 +1,9 @@
+2007-02-07  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (workbook_recalc): For now, any recalc needs to
+	lead to a redraw.  This is highly suboptimal, but will have to do
+	for now.
+
 2007-01-29  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_list_base_get_result_dep) : new.

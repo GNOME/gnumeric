@@ -2500,9 +2500,7 @@ workbook_recalc (Workbook *wb)
 
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
 		if (dependent_needs_recalc (dep)) {
-			if (dependent_is_cell (dep) &&
-			    GNM_DEP_TO_CELL (dep)->rendered_value)
-				redraw = TRUE;
+			redraw = TRUE;
 			dependent_eval (dep);
 		}
 	});
