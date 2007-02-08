@@ -18,6 +18,8 @@ GType sheet_widget_combo_get_type	 (void);
 void  sheet_widget_list_base_set_links	 (SheetObject *so,
 					  GnmExprTop const *result_link,
 					  GnmExprTop const *content);
+GnmDependent const *sheet_widget_list_base_get_result_dep  (SheetObject const *so);
+GnmDependent const *sheet_widget_list_base_get_content_dep (SheetObject const *so);
 
 /*Descendents of the adjustment sheet widget object*/
 GType sheet_widget_scrollbar_get_type	 (void);
