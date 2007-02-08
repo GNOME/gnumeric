@@ -25,6 +25,7 @@ Morten:
 	* Fix OO import crash.  [#396200]
 	* Fix part of problem loading style conditions.  [#397679]
 	* Fix generated libspreadsheet-1.7.pc [#399550]
+	* Fix tsv import problem.  [#404264]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.6

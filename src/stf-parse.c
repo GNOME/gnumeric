@@ -591,6 +591,10 @@ stf_parse_csv_cell (GString *text, Source_t *src, StfParseOptions_t *parseoption
 		if ((parseoptions->trim_spaces & TRIM_TYPE_LEFT) == 0)
 			break;
 
+		if (stf_parse_csv_is_separator (cur, parseoptions->sep.chr,
+						parseoptions->sep.str))
+			break;
+
 		if (!g_unichar_isspace (g_utf8_get_char (cur)))
 			break;
 		cur = g_utf8_next_char (cur);
@@ -684,8 +688,10 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 	while (1) {
 		GString *text = g_string_sized_new (30);
-
-		switch (stf_parse_csv_cell (text, src, parseoptions)) {
+		StfParseCellRes res =
+			stf_parse_csv_cell (text, src, parseoptions);
+		trim_spaces_inplace (text->str, parseoptions);
+		switch (res) {
 		case STF_CELL_FIELD_NO_SEP:
 			g_ptr_array_add (line, g_string_free (text, FALSE));
 			cont = FALSE;

@@ -1,5 +1,9 @@
 2007-02-07  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_csv_cell): Don't drop whitespace that
+	happens to be separators.
+	(stf_parse_csv_line): Trim fields as requested.
+
 	* src/dependent.c (workbook_recalc): For now, any recalc needs to
 	lead to a redraw.  This is highly suboptimal, but will have to do
 	for now.
