@@ -1,0 +1,43 @@
+# Italian (it) translation of debconf templates for gnumeric
+# Copyright (C) 2006 Software in the Public Interest
+# This file is distributed under the same license as the gnumeric package.
+# Luca Monducci <luca.mo@tiscali.it>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric 1.6.3 italian debconf templates\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-26 04:35+0200\n"
+"PO-Revision-Date: 2006-11-02 21:04+0100\n"
+"Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid "Are you sure you want to upgrade gnumeric right now?"
+msgstr "Si è sicuri di voler aggiornare gnumeric adesso?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid ""
+"It appears there is an instance of gnumeric running currently. If you "
+"upgrade gnumeric now, that instance may not be able to save its data anymore."
+msgstr ""
+"Sembra che sia in esecuzione almento una istanza di gnumeric. Se si aggiorna "
+"adesso questa istanza potrebbe non essere più in grado di salvare i propri "
+"dati."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid ""
+"You are strongly recommended to close the running instances of gnumeric "
+"prior to upgrading this package."
+msgstr ""
+"Si raccomanda di chiudere le istanze di gnumeric in esecuzione prima di "
+"aggiornare questo pacchetto."
