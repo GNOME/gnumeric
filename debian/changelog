@@ -1,3 +1,15 @@
+gnumeric (1.6.3-5) unstable; urgency=low
+
+  * [doc/C/gnumeric.1] Typos/grammar glitches. (Closes: #410249)
+  * [debian/po/it.po] Added, courtesy of Luca Monducci <luca.mo@tiscali.it>.
+    (Closes: #396946)
+  * [debian/po/es.po] Added, courtesy of Carlos Valdivia Yagüe
+    <valyag@dat.etsit.upm.es>. (Closes: #383359)
+  * [debian/po/gl.po] Added, courtesy of Jacobo Tarrio <jtarrio@debian.org>.
+    (Closes: #407955)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 11 Feb 2007 21:18:59 +0100
+
 gnumeric (1.6.3-4) unstable; urgency=low
 
   * Pulled in core code and translation changes from upstream CVS branch.
