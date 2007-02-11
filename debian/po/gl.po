@@ -1,0 +1,42 @@
+# Galician translation of gnumeric's debconf templates
+# This file is distributed under the same license as the gnumeric package.
+# Jacobo Tarrio <jtarrio@debian.org>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-01-13 19:21+0100\n"
+"PO-Revision-Date: 2007-01-22 16:04+0100\n"
+"Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
+"Language-Team: Galician <proxecto@trasno.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid "Are you sure you want to upgrade gnumeric right now?"
+msgstr "¿Está seguro de querer actualizar gnumeric agora mesmo?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid ""
+"It appears there is an instance of gnumeric running currently. If you "
+"upgrade gnumeric now, that instance may not be able to save its data anymore."
+msgstr ""
+"Semella que hai unha instancia de gnumeric en execución. Se actualiza "
+"gnumeric agora, é posible que esa instancia xa non poida gravar os seus "
+"datos."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:1001
+msgid ""
+"You are strongly recommended to close the running instances of gnumeric "
+"prior to upgrading this package."
+msgstr ""
+"Recoméndase vivamente que peche as instancias de gnumeric que estean a se "
+"executar antes de actualizar este paquete."
