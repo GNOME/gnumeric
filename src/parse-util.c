@@ -594,18 +594,30 @@ cellref_parse (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 
 /****************************************************************************/
 
+static char const *
+cell_coord_name2 (int col, int row, gboolean r1c1)
+{
+	static GString *buffer = NULL;
+	if (buffer)
+		g_string_truncate (buffer, 0);
+	else
+		buffer = g_string_new (NULL);
+
+	if (r1c1) {
+		r1c1_add_index (buffer, 'R', row, FALSE);
+		r1c1_add_index (buffer, 'C', col, FALSE);
+	} else {
+		col_name_internal (buffer, col);
+		row_name_internal (buffer, row);
+	}
+
+	return buffer->str;
+}
+
 char const *
 cell_coord_name (int col, int row)
 {
-	static GString *buffer = NULL;
-	if (!buffer)
-		buffer = g_string_new (NULL);
-	g_string_truncate (buffer, 0);
-
-	col_name_internal (buffer, col);
-	row_name_internal (buffer, row);
-
-	return buffer->str;
+	return cell_coord_name2 (col, row, FALSE);
 }
 
 char const *
@@ -617,11 +629,23 @@ cellpos_as_string (GnmCellPos const *pos)
 }
 
 char const *
+parsepos_as_string (GnmParsePos const *pp)
+{
+	g_return_val_if_fail (pp != NULL, "ERROR");
+
+	return cell_coord_name2 (pp->eval.col,
+				 pp->eval.row,
+				 pp->sheet && pp->sheet->r1c1_addresses);
+}
+
+char const *
 cell_name (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, "ERROR");
 
-	return cell_coord_name (cell->pos.col, cell->pos.row);
+	return cell_coord_name2 (cell->pos.col,
+				 cell->pos.row,
+				 cell->base.sheet->r1c1_addresses);
 }
 
 /**

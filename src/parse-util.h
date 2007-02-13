@@ -33,6 +33,8 @@ char const *sheetref_parse	(char const *start, Sheet **sheet,
 char const *cell_coord_name	(int col, int row);
 char const *cell_name		(GnmCell const *cell);
 
+char const *parsepos_as_string	(GnmParsePos const *pp);
+
 /* backwards compatibility version */
 void gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 				 GnmRangeRef const *ref, GnmParsePos const *pp);

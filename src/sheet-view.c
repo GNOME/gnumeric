@@ -88,6 +88,15 @@ sv_sheet_visibility_changed (Sheet *sheet,
 		wb_view_sheet_focus (sv->sv_wbv, sheet);
 }
 
+static void
+sv_sheet_r1c1_changed (Sheet *sheet,
+		       G_GNUC_UNUSED GParamSpec *pspec,
+		       SheetView *sv)
+{
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	sv->edit_pos_changed.location = TRUE;
+}
+
 Sheet *
 sv_sheet (SheetView const *sv)
 {
@@ -206,6 +215,7 @@ sv_real_dispose (GObject *object)
 		g_ptr_array_remove (sheet->sheet_views, sv);
 		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_name_changed, sv);
 		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_visibility_changed, sv);
+		g_signal_handlers_disconnect_by_func (sheet, sv_sheet_r1c1_changed, sv);
 		g_object_unref (sv);
 		g_object_unref (sheet);
 	}
@@ -277,6 +287,11 @@ sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 	g_signal_connect (G_OBJECT (sheet),
 			  "notify::visibility",
 			  G_CALLBACK (sv_sheet_visibility_changed),
+			  sv);
+
+	g_signal_connect (G_OBJECT (sheet),
+			  "notify::use-r1c1",
+			  G_CALLBACK (sv_sheet_r1c1_changed),
 			  sv);
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,

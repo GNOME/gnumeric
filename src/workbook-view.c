@@ -330,8 +330,11 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		    (NULL != (m = gnm_sheet_merge_is_corner (sv->sheet, &r->start)) &&
 		     range_equal (r, m))) {
 			sel_descr = sheet_names_check (sv->sheet, r);
-			if (sel_descr == NULL)
-				sel_descr = cellpos_as_string (&sv->edit_pos);
+			if (sel_descr == NULL) {
+				GnmParsePos pp;
+				parse_pos_init_editpos (&pp, sv);
+				sel_descr = parsepos_as_string (&pp);
+			}
 		} else {
 			int rows = r->end.row - r->start.row + 1;
 			int cols = r->end.col - r->start.col + 1;

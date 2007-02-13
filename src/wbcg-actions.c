@@ -408,7 +408,7 @@ cb_edit_search_replace_query (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...
 			   "which is invalid.\n\n"
 			   "The replace has been aborted "
 			   "and nothing has been changed."),
-			 cellpos_as_string (&cell->pos),
+			 cell_name (cell),
 			 old_text,
 			 new_text);
 

@@ -1,5 +1,19 @@
 2007-02-13  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-view.c (sheet_view_new): Add handler for r1c1 changes.
+	(sv_real_dispose): Remove handler.
+	(sv_sheet_r1c1_changed): New function.
+
+	* src/workbook-view.c (wb_view_selection_desc): Use
+	parsepos_as_string to get R1C1 right.  Fixes #407247.
+
+	* src/parse-util.c (cell_name): Use R1C1 notation as appropriate.
+	(parsepos_as_string): New function.
+
+	* src/wbcg-actions.c (cb_edit_search_replace_query): Use cell_name,
+	not cellpos_as_string.
+	* src/sheet.c (cb_cell_pool_leak): Ditto.
+
 	* src/workbook-control.c (wb_control_parse_and_jump): Resolve
 	relative references.  Fixes #407274.
 
