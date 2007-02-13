@@ -199,11 +199,13 @@ wb_control_cur_sheet_view (WorkbookControl const *wbc)
 gboolean
 wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 {
-	GnmRangeRef const *r;
+	GnmRangeRef r;
 	GnmCellPos tmp;
 	Sheet *sheet  = wb_control_cur_sheet (wbc);
 	SheetView *sv;
 	GnmValue *target;
+	const GnmRange *first_range;
+	GnmEvalPos ep;
 
 	if (text == NULL || *text == '\0')
 		return FALSE;
@@ -250,15 +252,23 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		}
 	}
 
-	r = &target->v_range.cell;
-	if (r->a.sheet)
-		sheet = r->a.sheet;
-	sv = sheet_get_view (sheet, wb_control_view (wbc)),
-	tmp.col = r->a.col;
-	tmp.row = r->a.row;
-	sv_selection_set (sv, &tmp, r->a.col, r->a.row, r->b.col, r->b.row);
-	sv_make_cell_visible (sv, r->b.col, r->b.row, FALSE);
-	sv_make_cell_visible (sv, r->a.col, r->a.row, FALSE);
+	sv = sheet_get_view (sheet, wb_control_view (wbc));
+	first_range = selection_first_range (sv, NULL, NULL);
+	eval_pos_init_pos (&ep, sheet, &first_range->start);
+
+	gnm_cellref_make_abs (&r.a, &target->v_range.cell.a, &ep);
+	gnm_cellref_make_abs (&r.b, &target->v_range.cell.b, &ep);
+
+	if (r.a.sheet) {
+		sheet = r.a.sheet;
+		sv = sheet_get_view (sheet, wb_control_view (wbc));
+	}
+
+	tmp.col = r.a.col;
+	tmp.row = r.a.row;
+	sv_selection_set (sv, &tmp, r.a.col, r.a.row, r.b.col, r.b.row);
+	sv_make_cell_visible (sv, r.b.col, r.b.row, FALSE);
+	sv_make_cell_visible (sv, r.a.col, r.a.row, FALSE);
 	sv_update (sv);
 	if (wb_control_cur_sheet (wbc) != sheet)
 		wb_view_sheet_focus (wbc->wb_view, sheet);
