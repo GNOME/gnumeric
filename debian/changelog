@@ -1,3 +1,16 @@
+gnumeric (1.7.7-1) experimental; urgency=low
+
+  * New upstream development release.
+  * Fixes integrated upstream:
+    * [doc/C/gnumeric.1] Typos/grammar glitches. (Closes: #410249)
+  * [debian/control] Bumped goffice build dependency per configure.in .
+  * [debian/po/es.po] Added, courtesy of Carlos Valdivia Yagüe
+    <valyag@dat.etsit.upm.es>. (Closes: #383359)
+  * [debian/po/gl.po] Added, courtesy of Jacobo Tarrio <jtarrio@debian.org>.
+    (Closes: #407955)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 17 Feb 2007 17:07:17 +0100
+
 gnumeric (1.7.6-1) experimental; urgency=low
 
   * New upstream development release.
