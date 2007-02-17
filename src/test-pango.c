@@ -10,6 +10,7 @@
 #include "workbook-control-gui.h"
 #include "workbook-view.h"
 #include <goffice/app/go-plugin.h>
+#include <goffice/app/go-doc.h>
 #include "selection.h"
 #include "sheet-view.h"
 #include "commands.h"

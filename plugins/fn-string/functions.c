@@ -39,6 +39,7 @@
 #include <rangefunc-strings.h>
 #include <collect.h>
 #include <goffice/utils/regutf8.h>
+#include <goffice/utils/go-locale.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
 #include <gnm-i18n.h>
