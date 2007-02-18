@@ -31,6 +31,8 @@ tmpfile=".dumper-$$.xml"
 files=`find . -name \*.xml -o -name \*.rels`
 
 for f in $files ; do
-    xmllint --format "$f" > "$tmpfile"
-    mv "$tmpfile" "$f"
+    if [ -s "$f" ] ; then
+	xmllint --format "$f" > "$tmpfile"
+	mv "$tmpfile" "$f"
+    fi
 done
