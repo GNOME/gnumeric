@@ -1077,7 +1077,7 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 67 "t0%"
 68 "t0.00%"
 69 "t# ?/?"
-70 "t# ?""?/?""?"" /* silly trick to avoid using a trigraph */
+70 "t# ?""?/?""?" /* silly trick to avoid using a trigraph */
 71 0E27/0E14/0E1B0E1B0E1B0E1B
 72 0E27-0E140E140E14-0E1B0E1B
 73 0E27-0E140E140E14
