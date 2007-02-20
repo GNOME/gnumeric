@@ -934,9 +934,9 @@ gnumeric_fact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (x_is_integer)
 		return value_new_float (fact (x));
 	else {
-		int sign;
-		gnm_float tmp = gnm_lgamma_r (x + 1, &sign);
-		gnm_float res = sign * gnm_exp (tmp);
+		gnm_float res = gnm_exp (lgamma1p (x));
+		if (x < 0 && gnm_fmod (gnm_floor (-x), 2.0) != 0.0)
+			res = 0 - res;
 		return value_new_float (res);
 	}
 }

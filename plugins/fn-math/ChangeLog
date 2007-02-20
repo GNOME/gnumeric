@@ -2,6 +2,7 @@
 
 	* functions.c (gnumeric_fact): Simply use fact() for integers.
 	Fixes #410005.
+	(gnumeric_fact): Improve precision for arguments very near zero.
 
 2007-02-16  Morten Welinder <terra@gnome.org>
 
