@@ -931,15 +931,14 @@ gnumeric_fact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (x < 0 && x_is_integer)
 		return value_new_error_NUM (ei->pos);
 
-	if (x > 12 || !x_is_integer) {
+	if (x_is_integer)
+		return value_new_float (fact (x));
+	else {
 		int sign;
 		gnm_float tmp = gnm_lgamma_r (x + 1, &sign);
 		gnm_float res = sign * gnm_exp (tmp);
-		if (x_is_integer)
-			res = gnm_floor (res + 0.5);  /* Round, just in case. */
 		return value_new_float (res);
-	} else
-		return value_new_int (fact (x));
+	}
 }
 
 /***************************************************************************/
