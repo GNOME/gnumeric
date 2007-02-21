@@ -279,6 +279,8 @@ void	     sheet_cell_calc_span   (GnmCell *cell, GnmSpanCalcFlags flags);
 
 void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);
 
+GnmExprConventions const *sheet_expr_conventions (const Sheet *sheet);
+
 /* Implementation for commands, no undo */
 struct _GnmRelocUndo {
 	GSList *exprs;

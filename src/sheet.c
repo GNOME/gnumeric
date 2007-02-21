@@ -4772,6 +4772,16 @@ sheet_set_outline_direction (Sheet *sheet, gboolean is_cols)
 		sheet_colrow_set_collapse (sheet, is_cols, i);
 }
 
+GnmExprConventions const *
+sheet_expr_conventions (const Sheet *sheet)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), gnm_expr_conventions_default);
+
+	return sheet->r1c1_addresses
+		? gnm_expr_conventions_r1c1
+		: gnm_expr_conventions_default;
+}
+
 /**
  * sheet_get_view :
  * @sheet :

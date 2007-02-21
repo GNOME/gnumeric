@@ -3,6 +3,9 @@ Gnumeric 1.7.8
 Morten:
 	* Fix FACT.  [#410005]
 
+Oliver Burnett-Hall:
+	* Fix R1C1 problem in formula guru.
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.7
 
