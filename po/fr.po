@@ -12748,7 +12748,7 @@ msgstr "Comparaison de la variance de deux populations"
 #. Data
 #: ../src/wbcg-actions.c:1940
 msgid "_Sort..."
-msgstr "_Trier..."
+msgstr "T_rier..."
 
 #: ../src/wbcg-actions.c:1941
 msgid "Sort the selected region"
