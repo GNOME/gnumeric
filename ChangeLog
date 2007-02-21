@@ -1,5 +1,9 @@
 2007-02-21  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_sheet_add): When the first
+	sheet is attached, make sure to update rtl, zoom, etc.  Fixes
+	#410365 and #410371.
+
 	* src/sheet.c (sheet_expr_conventions): New function.
 
 2007-02-16  Morten Welinder <terra@gnome.org>

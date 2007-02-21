@@ -2,6 +2,7 @@ Gnumeric 1.7.8
 
 Morten:
 	* Fix FACT.  [#410005]
+	* Fix gui problems after replacing pristine book.  [#410365] [#410371].
 
 Oliver Burnett-Hall:
 	* Fix R1C1 problem in formula guru.
