@@ -557,13 +557,17 @@ static char const *
 cellref_r1c1_get (GnmCellRef *out, char const *in, GnmCellPos const *pos)
 {
 	out->sheet = NULL;
-	if (*in != 'R')
+	if (*in != 'R' && *in != 'r')
 		return NULL;
 	if (NULL == (in = r1c1_get_index (in, &out->row, &out->row_relative, FALSE)))
 		return NULL;
-	if (*in != 'C')
+	if (*in != 'C' && *in != 'c')
 		return NULL;
-	return r1c1_get_index (in, &out->col, &out->col_relative, TRUE);
+	if (NULL == (in = r1c1_get_index (in, &out->col, &out->col_relative, TRUE)))
+		return NULL;
+	if (g_ascii_isalpha (*in))
+		return NULL;
+	return in;
 }
 
 /**
@@ -958,11 +962,14 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 	if (*ptr == 'R' || *ptr == 'r') {
 		if (NULL == (ptr = r1c1_get_index (ptr, &res->a.row, &res->a.row_relative, FALSE)))
 			return NULL;
-		if (*ptr != 'C' && *ptr != 'c') { /* full row R# */
-			res->a.col_relative = res->b.col_relative = FALSE;
-			res->a.col = 0; res->b.col = SHEET_MAX_COLS-1;
-			res->b.row_relative = res->a.row_relative;
-			res->b.row = res->a.row;
+		if (*ptr != 'C' && *ptr != 'c') {
+			if (g_ascii_isalpha (*ptr))
+				return NULL;
+			/* full row R# */
+			res->a.col_relative = FALSE;
+			res->a.col = 0;
+			res->b = res->a;
+			res->b.col = SHEET_MAX_COLS - 1;
 			if (ptr[0] != ':' || (ptr[1] != 'R' && ptr[1] != 'r'))
 				return ptr;
 			if (NULL == (tmp = r1c1_get_index (ptr+1, &res->b.row, &res->b.row_relative, FALSE)))
@@ -978,13 +985,16 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 		    NULL == (tmp = r1c1_get_index (tmp, &res->b.col, &res->b.col_relative, FALSE)))
 			return ptr;
 		return tmp;
-	} else if (*ptr == 'C' || *ptr == 'c') { /* full col C[#] */
+	} else if (*ptr == 'C' || *ptr == 'c') {
 		if (NULL == (ptr = r1c1_get_index (ptr, &res->a.col, &res->a.col_relative, TRUE)))
 			return NULL;
-		res->a.row_relative = res->b.row_relative = FALSE;
-		res->a.row = 0; res->b.row = SHEET_MAX_ROWS-1;
-		res->b.col_relative = res->a.col_relative;
-		res->b.col = res->a.col;
+		if (g_ascii_isalpha (*ptr))
+			return NULL;
+		 /* full col C[#] */
+		res->a.row_relative = FALSE;
+		res->a.row = 0; 
+		res->b = res->a;
+		res->b.row = SHEET_MAX_ROWS - 1;
 		if (ptr[0] != ':' || (ptr[1] != 'C' && ptr[1] != 'c'))
 			return ptr;
 		if (NULL == (tmp = r1c1_get_index (ptr, &res->b.col, &res->b.col_relative, TRUE)))
