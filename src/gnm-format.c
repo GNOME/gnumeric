@@ -64,7 +64,8 @@ static void
 hash_fill (PangoLayout *layout, GString *str, const GOFontMetrics *metrics, int col_width)
 {
 	if (col_width <= 0) {
-		if (layout) pango_layout_set_text (layout, "", -1);
+		g_string_truncate (str, 0);
+		if (layout) pango_layout_set_text (layout, str->str, -1);
 	} else {
 		int l = metrics->hash_width > 0
 			? col_width / metrics->hash_width

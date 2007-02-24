@@ -824,6 +824,8 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		gtk_entry_set_text (wbcg_get_entry (wbcg), "");
 	else if (cell != NULL) {
 		gboolean set_text = FALSE;
+		GODateConventions const *date_conv =
+			workbook_date_conv (sv->sheet->workbook);
 
 		if (gnm_cell_is_array (cell)) {
 			/* If this is part of an array we need to remove the
@@ -881,8 +883,15 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 				new_fmt = go_format_new_from_XL (fstr->str, FALSE);
 				g_string_free (fstr, TRUE);
 
-				text = format_value (new_fmt, cell->value, NULL, -1,
-						     workbook_date_conv (sv->sheet->workbook));
+				text = format_value (new_fmt, cell->value,
+						     NULL, -1, date_conv);
+				if (!text || text[0] == 0) {
+					g_free (text);
+					text = format_value (go_format_general (),
+							     cell->value,
+							     NULL, -1,
+							     date_conv);
+				}
 				set_text = TRUE;
 				go_format_unref (new_fmt);
 				break;

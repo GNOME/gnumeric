@@ -4,6 +4,7 @@ Morten:
 	* Fix FACT.  [#410005]
 	* Fix gui problems after replacing pristine book.  [#410365] [#410371].
 	* Fix R1C1 preventing the use of, e.g., COS and RADIANS.  [#410609]
+	* Fix editing of out-of-range numbers with date format.
 
 Oliver Burnett-Hall:
 	* Fix R1C1 problem in formula guru.

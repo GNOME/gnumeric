@@ -1,3 +1,10 @@
+2007-02-24  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-edit.c (wbcg_edit_start): If formatting as date
+	fails, revert to number.
+
+	* src/gnm-format.c (hash_fill): Clear the string.
+
 2007-02-22  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (cellref_r1c1_get): Allow lowercase "r" and
