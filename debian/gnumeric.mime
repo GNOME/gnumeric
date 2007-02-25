@@ -19,7 +19,6 @@ application/x-mps; gnumeric '%s'; edit=gnumeric '%s'; description="MPS (Mathemat
 application/x-oleo; gnumeric '%s'; edit=gnumeric '%s'; description="GNU Oleo spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.oleo
 application/x-planperfect; gnumeric '%s'; edit=gnumeric '%s'; description="PlanPerfect spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.pln
 application/x-quattropro; gnumeric '%s'; edit=gnumeric '%s'; description="Quattro Pro spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.wb1
-application/x-sc;
-gnumeric '%s'; edit=gnumeric '%s'; description="SC/XSpread spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.sc
+application/x-sc; gnumeric '%s'; edit=gnumeric '%s'; description="SC/XSpread spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.sc
 application/x-sylk; gnumeric '%s'; edit=gnumeric '%s'; description="Multiplan SYLK spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.slk
 application/x-xbase; gnumeric '%s'; edit=gnumeric '%s'; description="Xbase spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.dbf
