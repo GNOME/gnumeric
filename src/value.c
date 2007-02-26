@@ -35,15 +35,31 @@
 #include <goffice/utils/go-locale.h>
 
 #ifndef USE_VALUE_POOLS
+#ifdef HAVE_G_SLICE_ALLOC
+#define USE_VALUE_POOLS 0
+#else
 #define USE_VALUE_POOLS 1
+#endif
 #endif
 
 #if USE_VALUE_POOLS
+static GOMemChunk *value_bool_pool;
+static GOMemChunk *value_float_pool;
+static GOMemChunk *value_error_pool;
+static GOMemChunk *value_string_pool;
+static GOMemChunk *value_range_pool;
+static GOMemChunk *value_array_pool;
 #define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
-#define CHUNK_ALLOC(T,c) g_new (T,1)
-#define CHUNK_FREE(p,v) g_free ((v))
+static int value_allocations = 0;
+#ifdef HAVE_G_SLICE_ALLOC
+#define CHUNK_ALLOC(T,c) (value_allocations++, g_slice_new (T))
+#define CHUNK_FREE(p,v) (value_allocations--, g_slice_free1 (sizeof(*v),(v)))
+#else
+#define CHUNK_ALLOC(T,c) (value_allocations++, g_new (T,1))
+#define CHUNK_FREE(p,v) (value_allocations--, g_free ((v)))
+#endif
 #endif
 
 
@@ -70,8 +86,6 @@ value_new_empty (void)
 	return (GnmValue *)&v;
 }
 
-/* Memory pool for bools.  */
-static GOMemChunk *value_bool_pool;
 GnmValue *
 value_new_bool (gboolean b)
 {
@@ -88,7 +102,6 @@ value_new_int (int i)
 	return value_new_float (i);
 }
 
-static GOMemChunk *value_float_pool;
 GnmValue *
 value_new_float (gnm_float f)
 {
@@ -104,8 +117,6 @@ value_new_float (gnm_float f)
 	}
 }
 
-/* Memory pool for error values.  */
-static GOMemChunk *value_error_pool;
 GnmValue *
 value_new_error (GnmEvalPos const *ep, char const *mesg)
 {
@@ -225,8 +236,6 @@ value_error_classify (GnmValue const *v)
 }
 
 
-static GOMemChunk *value_string_pool;
-
 /* NOTE : absorbs the reference */
 GnmValue *
 value_new_string_str (GnmString *str)
@@ -250,7 +259,6 @@ value_new_string_nocopy (char *str)
 	return value_new_string_str (gnm_string_get_nocopy (str));
 }
 
-static GOMemChunk *value_range_pool;
 GnmValue *
 value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b)
 {
@@ -375,7 +383,6 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
 }
 
 
-static GOMemChunk *value_array_pool;
 GnmValue *
 value_new_array_non_init (guint cols, guint rows)
 {
@@ -517,11 +524,11 @@ value_release (GnmValue *value)
 		return;
 
 	case VALUE_BOOLEAN:
-		CHUNK_FREE (value_bool_pool, value);
+		CHUNK_FREE (value_bool_pool, &value->v_bool);
 		return;
 
 	case VALUE_FLOAT:
-		CHUNK_FREE (value_float_pool, value);
+		CHUNK_FREE (value_float_pool, &value->v_float);
 		return;
 
 	case VALUE_ERROR:
@@ -532,16 +539,16 @@ value_release (GnmValue *value)
 		}
 
 		gnm_string_unref (value->v_err.mesg);
-		CHUNK_FREE (value_error_pool, value);
+		CHUNK_FREE (value_error_pool, &value->v_err);
 		return;
 
 	case VALUE_STRING:
 		gnm_string_unref (value->v_str.val);
-		CHUNK_FREE (value_string_pool, value);
+		CHUNK_FREE (value_string_pool, &value->v_str);
 		return;
 
 	case VALUE_ARRAY: {
-		GnmValueArray *v = (GnmValueArray *)value;
+		GnmValueArray *v = &value->v_array;
 		int x, y;
 
 		for (x = 0; x < v->x; x++) {
@@ -553,12 +560,12 @@ value_release (GnmValue *value)
 		}
 
 		g_free (v->vals);
-		CHUNK_FREE (value_array_pool, value);
+		CHUNK_FREE (value_array_pool, v);
 		return;
 	}
 
 	case VALUE_CELLRANGE:
-		CHUNK_FREE (value_range_pool, value);
+		CHUNK_FREE (value_range_pool, &value->v_range);
 		return;
 
 	default:
@@ -1778,6 +1785,9 @@ value_shutdown (void)
 
 	go_mem_chunk_destroy (value_array_pool, FALSE);
 	value_array_pool = NULL;
+#else
+	if (value_allocations)
+		g_printerr ("Leaking %d values.\n", value_allocations);
 #endif
 }
 

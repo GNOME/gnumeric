@@ -32,7 +32,6 @@
 #include <goffice/utils/go-locale.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
-#include <stdio.h>
 #include <style-font.h>
 
 static char const *

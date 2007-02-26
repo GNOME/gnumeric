@@ -1101,8 +1101,8 @@ gnm_canvas_redraw_range (GnmCanvas *gcanvas, GnmRange const *r)
 		: INT_MAX;
 
 #if 0
-	fprintf (stderr, "%s%s:", col_name (min_col), row_name (first_row));
-	fprintf (stderr, "%s%s\n", col_name (max_col), row_name (last_row));
+	g_printerr ("%s%s:", col_name (min_col), row_name (first_row));
+	g_printerr ("%s%s\n", col_name (max_col), row_name (last_row));
 #endif
 
 	if (sheet->text_is_rtl)  {

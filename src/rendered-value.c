@@ -512,11 +512,11 @@ gnm_rendered_value_init (void)
 
 #if USE_RV_POOLS
 static void
-cb_rendered_value_pool_leak (gpointer data, gpointer user)
+cb_rendered_value_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 {
 	GnmRenderedValue *rendered_value = data;
-	fprintf (stderr, "Leaking rendered value at %p [%s].\n",
-		 rendered_value, pango_layout_get_text (rendered_value->layout));
+	g_printerr ("Leaking rendered value at %p [%s].\n",
+		    rendered_value, pango_layout_get_text (rendered_value->layout));
 }
 #endif
 

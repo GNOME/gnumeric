@@ -11,7 +11,6 @@
 #include "style-color.h"
 #include "style-border.h"
 #include <gtk/gtk.h>
-#include <stdio.h>
 
 /* Public _unallocated_ colours, i.e., no valid .pixel.  */
 GdkColor gs_black      = { 0, 0x0000, 0x0000, 0x0000 };    /* "Black" */
@@ -266,8 +265,11 @@ cb_color_leak (gpointer key, gpointer value, gpointer user_data)
 {
 	GnmColor *color = value;
 
-	fprintf (stderr, "Leaking style-color at %p [%04x:%04x:%04x].\n",
-		 color, color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
+	g_printerr ("Leaking style-color at %p [%04x:%04x:%04x].\n",
+		    color,
+		    color->gdk_color.red,
+		    color->gdk_color.green,
+		    color->gdk_color.blue);
 }
 
 void

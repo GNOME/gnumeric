@@ -4,7 +4,7 @@
  * commands.c: Handlers to undo & redo commands
  *
  * Copyright (C) 1999-2006 Jody Goldberg (jody@gnome.org)
- * Copyright (C) 2002-2006 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2002-2007 Morten Welinder (terra@gnome.org)
  *
  * Contributors : Almer S. Tigelaar (almer@gnome.org)
  *                Andreas J. Guelzow (aguelzow@taliesin.ca)
@@ -653,7 +653,7 @@ truncate_undo_info (Workbook *wb)
 	max_num   = gnm_app_prefs->undo_max_number;
 
 #ifdef DEBUG_TRUNCATE_UNDO
-	fprintf (stderr, "Undo sizes:");
+	g_printerr ("Undo sizes:");
 #endif
 
 	for (l = wb->undo_commands, prev = NULL, ok_count = 0;
@@ -673,7 +673,7 @@ truncate_undo_info (Workbook *wb)
 		}
 
 #ifdef DEBUG_TRUNCATE_UNDO
-			fprintf (stderr, " %d", size);
+			g_printerr (" %d", size);
 #endif
 
 		/* Keep at least one undo item.  */
@@ -685,7 +685,7 @@ truncate_undo_info (Workbook *wb)
 			else
 				wb->undo_commands = NULL;
 #ifdef DEBUG_TRUNCATE_UNDO
-			fprintf (stderr, "[trunc]\n");
+			g_printerr ("[trunc]\n");
 #endif
 			return ok_count;
 		}
@@ -699,7 +699,7 @@ truncate_undo_info (Workbook *wb)
 	}
 
 #ifdef DEBUG_TRUNCATE_UNDO
-	fprintf (stderr, "\n");
+	g_printerr ("\n");
 #endif
 	return -1;
 }
@@ -3327,7 +3327,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 typedef struct {
 	GnmCommand cmd;
 
-	GnmCellRegion *contents;
+	GOUndo *undo;
 	GnmPasteTarget dst, src;
 	int dx, dy;
 	char const *name;
@@ -3345,18 +3345,12 @@ static gboolean
 cmd_copyrel_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdCopyRel *me = CMD_COPYREL (cmd);
-	gboolean res;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->contents != NULL, TRUE);
+	g_return_val_if_fail (me->undo != NULL, TRUE);
 
-	res = clipboard_paste_region (me->contents, &me->dst, GO_CMD_CONTEXT (wbc));
-	cellregion_unref (me->contents);
-	me->contents = NULL;
-
-	if (res)
-		return TRUE;
+	go_undo_undo (me->undo);
 
 	/* Select the newly pasted contents  (this queues a redraw) */
 	select_range (me->dst.sheet, &me->dst.range, wbc);
@@ -3372,11 +3366,6 @@ cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	gboolean res;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->contents == NULL, TRUE);
-
-	me->contents = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-
-	g_return_val_if_fail (me->contents != NULL, TRUE);
 
 	sheet_clear_region (me->dst.sheet,
 		me->dst.range.start.col, me->dst.range.start.row,
@@ -3405,10 +3394,9 @@ cmd_copyrel_finalize (GObject *cmd)
 {
 	CmdCopyRel *me = CMD_COPYREL (cmd);
 
-	if (me->contents) {
-		cellregion_unref (me->contents);
-		me->contents = NULL;
-	}
+	if (me->undo)
+		g_object_unref (me->undo);
+
 	gnm_command_finalize (cmd);
 }
 
@@ -3421,18 +3409,34 @@ cmd_copyrel (WorkbookControl *wbc,
 	GnmRange target, src;
 	SheetView *sv  = wb_control_cur_sheet_view (wbc);
 	Sheet *sheet = sv->sheet;
-	GnmCellPos const *pos = sv_is_singleton_selected (sv);
+	GnmRange const *selr =
+		selection_first_range (sv, GO_CMD_CONTEXT (wbc), name);
 
-	if (!pos)
+	g_return_val_if_fail (dx == 0 || dy == 0, TRUE);
+
+	if (!selr)
 		return FALSE;
 
-	target.start = target.end = *pos;
+	target = *selr;
+	range_normalize (&target);
+	src.start = src.end = target.start;
 
-	src = target;
-	src.start.col += dx;
-	src.end.col += dx;
-	src.start.row += dy;
-	src.end.row += dy;
+	if (dy) {
+		src.end.col = target.end.col;
+		if (target.start.row != target.end.row)
+			target.start.row++;
+		else
+			src.start.row = src.end.row = (target.start.row + dy);
+	}
+
+	if (dx) {
+		src.end.row = target.end.row;
+		if (target.start.col != target.end.col)
+			target.start.col++;
+		else
+			src.start.col = src.end.col = (target.start.col + dx);
+	}
+
 	if (src.start.col < 0 || src.start.col >= SHEET_MAX_COLS ||
 	    src.start.row < 0 || src.start.row >= SHEET_MAX_ROWS)
 		return FALSE;
@@ -3444,7 +3448,6 @@ cmd_copyrel (WorkbookControl *wbc,
 
 	me = g_object_new (CMD_COPYREL_TYPE, NULL);
 
-	me->contents = NULL;
 	me->dst.sheet = sheet;
 	me->dst.paste_flags = PASTE_CONTENTS | PASTE_FORMATS;
 	me->dst.range = target;
@@ -3454,6 +3457,7 @@ cmd_copyrel (WorkbookControl *wbc,
 	me->dx = dx;
 	me->dy = dy;
 	me->name = name;
+	me->undo = clipboard_copy_range_undo (me->dst.sheet, &me->dst.range);
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;

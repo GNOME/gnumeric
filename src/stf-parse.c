@@ -47,6 +47,7 @@
 #include <goffice/utils/go-format.h>
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <locale.h>
 #include <string.h>
 

@@ -536,7 +536,7 @@ static void
 cb_tile_pool_leak (gpointer data, gpointer user)
 {
 	CellTile *tile = data;
-	fprintf (stderr, "Leaking tile at %p.\n", tile);
+	g_printerr ("Leaking tile at %p.\n", tile);
 }
 #endif
 
@@ -2024,12 +2024,12 @@ sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
 		      TILE_TOP_LEVEL, 0, 0, r,
 		      cb_style_list_add_node, &mi);
 #ifdef DEBUG_STYLE_LIST
-	fprintf(stderr, "=========\n");
+	g_printerr ("=========\n");
 #endif
 	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
 	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
 #ifdef DEBUG_STYLE_LIST
-	fprintf(stderr, "=========\n");
+	g_printerr ("=========\n");
 #endif
 	g_hash_table_destroy (mi.cache);
 
@@ -2074,12 +2074,12 @@ sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
 		      TILE_TOP_LEVEL, 0, 0, r,
 		      cb_style_list_add_conditions, &mi);
 #ifdef DEBUG_STYLE_LIST
-	fprintf(stderr, "=========\n");
+	g_printerr ("=========\n");
 #endif
 	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
 	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
 #ifdef DEBUG_STYLE_LIST
-	fprintf(stderr, "=========\n");
+	g_printerr ("=========\n");
 #endif
 	g_hash_table_destroy (mi.cache);
 
@@ -2126,12 +2126,12 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 		      TILE_TOP_LEVEL, 0, 0, r,
 		      cb_style_list_add_validation, &mi);
 #ifdef DEBUG_STYLE_LIST
-	fprintf(stderr, "=========\n");
+	g_printerr ("=========\n");
 #endif
 	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
 	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
 #ifdef DEBUG_STYLE_LIST
-	fprintf(stderr, "=========\n");
+	g_printerr ("=========\n");
 #endif
 	g_hash_table_destroy (mi.cache);
 

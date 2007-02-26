@@ -327,9 +327,8 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *style)
 	int        i;
 
 	if (strcmp (tree->name, "StyleBorder")){
-		fprintf (stderr,
-			 "xml_read_style_border: invalid element type %s, "
-			 "'StyleBorder' expected`\n", tree->name);
+		g_printerr ("xml_read_style_border: invalid element type %s, "
+			    "'StyleBorder' expected`\n", tree->name);
 	}
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
@@ -758,9 +757,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree, gboolean leave_empty)
 		: gnm_style_new ();
 
 	if (strcmp (tree->name, "Style")) {
-		fprintf (stderr,
-			 "xml_read_style: invalid element type %s, 'Style' expected\n",
-			 tree->name);
+		g_printerr ("xml_read_style: invalid element type %s, 'Style' expected\n",
+			    tree->name);
 	}
 
 	if (xml_node_get_int (tree, "HAlign", &val))
@@ -973,7 +971,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree, gboolean leave_empty)
 				sc = gnm_style_conditions_new ();
 			gnm_style_conditions_insert (sc, &cond, -1);
 		} else
-			fprintf (stderr, "xml_read_style: unknown type '%s'\n",
+			g_printerr ("xml_read_style: unknown type '%s'\n",
 				 child->name);
 	}
 
@@ -994,9 +992,8 @@ xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, GnmRange *rang
 	GnmStyle    *style = NULL;
 
 	if (strcmp (tree->name, "StyleRegion")){
-		fprintf (stderr,
-			 "xml_read_style_region_ex: invalid element type %s, 'StyleRegion' expected`\n",
-			 tree->name);
+		g_printerr ("xml_read_style_region_ex: invalid element type %s, 'StyleRegion' expected`\n",
+			    tree->name);
 		return NULL;
 	}
 	xml_node_get_range (tree, range);
@@ -1124,9 +1121,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	GOFormat *value_fmt = NULL;
 
 	if (strcmp (tree->name, "Cell")) {
-		fprintf (stderr,
-		 "xml_read_cell: invalid element type %s, 'Cell' expected`\n",
-			 tree->name);
+		g_printerr ("xml_read_cell: invalid element type %s, 'Cell' expected`\n",
+			    tree->name);
 		return NULL;
 	}
 	xml_node_get_int (tree, "Col", &col);
@@ -1883,9 +1879,8 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	int tmpi;
 
 	if (strcmp (tree->name, "Sheet")){
-		fprintf (stderr,
-			 "xml_sheet_read: invalid element type %s, 'Sheet' expected\n",
-			 tree->name);
+		g_printerr ("xml_sheet_read: invalid element type %s, 'Sheet' expected\n",
+			    tree->name);
 	}
 
 	/*
@@ -2224,9 +2219,8 @@ static void
 xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr node)
 {
 	if (strcmp (node->name, "Sheet")) {
-		fprintf (stderr,
-			 "xml_sheet_create: invalid element type %s, 'Sheet' expected\n",
-			 node->name);
+		g_printerr ("xml_sheet_create: invalid element type %s, 'Sheet' expected\n",
+			    node->name);
 	} else {
 		xmlChar *name = xml_node_get_cstr (
 			e_xml_get_child_by_name (node, CC2XML ("Name")), NULL);

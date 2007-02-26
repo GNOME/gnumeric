@@ -101,7 +101,7 @@ check_name_match (char const *name, char const *description, char const *tag)
 	char *desc_name, *up_name;
 
 	if (NULL == (tmp = strstr (description, tag))) {
-		fprintf (stderr, "'%s' : missing '%s' section.  text = '%s'\n", name, tag, description);
+		g_printerr ("'%s' : missing '%s' section.  text = '%s'\n", name, tag, description);
 		return NULL;
 	}
 
@@ -111,7 +111,7 @@ check_name_match (char const *name, char const *description, char const *tag)
 	desc_name = g_strndup (description, tmp-description);
 	up_name = g_ascii_strup (name, -1);
 	if (strcmp (desc_name, up_name)) {
-		fprintf (stderr, "'%s' : does not match '%s' in @FUNCTION\n", desc_name, up_name);
+		g_printerr ("'%s' : does not match '%s' in @FUNCTION\n", desc_name, up_name);
 		g_free (up_name);
 		g_free (desc_name);
 		return NULL;
@@ -150,14 +150,14 @@ cb_generate_po (gpointer key, Symbol *sym, gpointer array)
 		return;
 
 	if (NULL == (tmp = strstr (ptr, "@DESCRIPTION="))) {
-		fprintf (stderr, "'%s' : missing @DESCRIPTION section\n", fd->name);
+		g_printerr ("'%s' : missing @DESCRIPTION section\n", fd->name);
 		return;
 	}
 	if (NULL == (tmp = strstr (ptr, "@EXAMPLES="))) {
 		return;
 	}
 	if (NULL == (tmp = strstr (ptr, "@SEEALSO="))) {
-		fprintf (stderr, "'%s' : missing @SEEALSO section\n", fd->name);
+		g_printerr ("'%s' : missing @SEEALSO section\n", fd->name);
 		return;
 	}
 }

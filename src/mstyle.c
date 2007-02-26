@@ -21,8 +21,6 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-font.h>
 
-#include <stdio.h>
-
 #define DEBUG_STYLES
 #ifndef USE_MSTYLE_POOL
 #define USE_MSTYLE_POOL 1
@@ -1628,22 +1626,22 @@ static void
 gnm_style_dump_color (GnmColor *color, GnmStyleElement elem)
 {
 	if (color)
-		fprintf (stderr, "\t%s: %hx:%hx:%hx\n", gnm_style_element_name [elem],
+		g_printerr ("\t%s: %hx:%hx:%hx\n", gnm_style_element_name [elem],
 			 color->gdk_color.red,
 			 color->gdk_color.green,
 			 color->gdk_color.blue);
 	else
-		fprintf (stderr, "\t%s: (NULL)\n", gnm_style_element_name [elem]);
+		g_printerr ("\t%s: (NULL)\n", gnm_style_element_name [elem]);
 }
 
 static void
 gnm_style_dump_border (GnmBorder *border, GnmStyleElement elem)
 {
-	fprintf (stderr, "\t%s: ", gnm_style_element_name[elem]);
+	g_printerr ("\t%s: ", gnm_style_element_name[elem]);
 	if (border)
-		fprintf (stderr, "%d\n", border->line_type);
+		g_printerr ("%d\n", border->line_type);
 	else
-		fprintf (stderr, "blank\n");
+		g_printerr ("blank\n");
 }
 
 void
@@ -1651,7 +1649,7 @@ gnm_style_dump (GnmStyle const *style)
 {
 	int i;
 
-	fprintf (stderr, "Style Refs %d\n", style->ref_count);
+	g_printerr ("Style Refs %d\n", style->ref_count);
 	if (elem_is_set (style, MSTYLE_COLOR_BACK))
 		gnm_style_dump_color (style->color.back, MSTYLE_COLOR_BACK);
 	if (elem_is_set (style, MSTYLE_COLOR_PATTERN))
@@ -1662,70 +1660,70 @@ gnm_style_dump (GnmStyle const *style)
 			gnm_style_dump_border (style->borders[i-MSTYLE_BORDER_TOP], i);
 
 	if (elem_is_set (style, MSTYLE_PATTERN))
-		fprintf (stderr, "\tpattern %d\n", style->pattern);
+		g_printerr ("\tpattern %d\n", style->pattern);
 	if (elem_is_set (style, MSTYLE_FONT_COLOR))
 		gnm_style_dump_color (style->color.font, MSTYLE_FONT_COLOR);
 	if (elem_is_set (style, MSTYLE_FONT_NAME))
-		fprintf (stderr, "\tname '%s'\n", style->font_detail.name->str);
+		g_printerr ("\tname '%s'\n", style->font_detail.name->str);
 	if (elem_is_set (style, MSTYLE_FONT_BOLD))
-		fprintf (stderr, style->font_detail.bold ? "\tbold\n" : "\tnot bold\n");
+		g_printerr (style->font_detail.bold ? "\tbold\n" : "\tnot bold\n");
 	if (elem_is_set (style, MSTYLE_FONT_ITALIC))
-		fprintf (stderr, style->font_detail.italic ? "\titalic\n" : "\tnot italic\n");
+		g_printerr (style->font_detail.italic ? "\titalic\n" : "\tnot italic\n");
 	if (elem_is_set (style, MSTYLE_FONT_UNDERLINE))
 		switch (style->font_detail.underline) {
 		default :
 		case UNDERLINE_NONE :
-			fprintf (stderr, "\tno underline\n"); break;
+			g_printerr ("\tno underline\n"); break;
 		case UNDERLINE_SINGLE :
-			fprintf (stderr, "\tsingle underline\n"); break;
+			g_printerr ("\tsingle underline\n"); break;
 		case UNDERLINE_DOUBLE :
-			fprintf (stderr, "\tdouble underline\n"); break;
+			g_printerr ("\tdouble underline\n"); break;
 		}
 	if (elem_is_set (style, MSTYLE_FONT_STRIKETHROUGH))
-		fprintf (stderr, style->font_detail.strikethrough ? "\tstrikethrough\n" : "\tno strikethrough\n");
+		g_printerr (style->font_detail.strikethrough ? "\tstrikethrough\n" : "\tno strikethrough\n");
 	if (elem_is_set (style, MSTYLE_FONT_SCRIPT))
 		switch (style->font_detail.script) {
 		case GO_FONT_SCRIPT_SUB :
-			fprintf (stderr, "\tsubscript\n"); break;
+			g_printerr ("\tsubscript\n"); break;
 		default :
 		case GO_FONT_SCRIPT_STANDARD :
-			fprintf (stderr, "\tno super or sub\n"); break;
+			g_printerr ("\tno super or sub\n"); break;
 		case GO_FONT_SCRIPT_SUPER :
-			fprintf (stderr, "\tsuperscript\n"); break;
+			g_printerr ("\tsuperscript\n"); break;
 		}
 	if (elem_is_set (style, MSTYLE_FONT_SIZE))
-		fprintf (stderr, "\tsize %f\n", style->font_detail.size);
+		g_printerr ("\tsize %f\n", style->font_detail.size);
 	if (elem_is_set (style, MSTYLE_FORMAT)) {
 		char *fmt = go_format_as_XL (style->format, FALSE);
-		fprintf (stderr, "\tformat '%s'\n", fmt);
+		g_printerr ("\tformat '%s'\n", fmt);
 		g_free (fmt);
 	}
 	if (elem_is_set (style, MSTYLE_ALIGN_V))
-		fprintf (stderr, "\tvalign %hd\n", style->v_align);
+		g_printerr ("\tvalign %hd\n", style->v_align);
 	if (elem_is_set (style, MSTYLE_ALIGN_H))
-		fprintf (stderr, "\thalign %hd\n", style->h_align);
+		g_printerr ("\thalign %hd\n", style->h_align);
 	if (elem_is_set (style, MSTYLE_INDENT))
-		fprintf (stderr, "\tindent %d\n", style->indent);
+		g_printerr ("\tindent %d\n", style->indent);
 	if (elem_is_set (style, MSTYLE_ROTATION))
-		fprintf (stderr, "\trotation %d\n", style->rotation);
+		g_printerr ("\trotation %d\n", style->rotation);
 	if (elem_is_set (style, MSTYLE_TEXT_DIR))
-		fprintf (stderr, "\ttext dir %d\n", style->text_dir);
+		g_printerr ("\ttext dir %d\n", style->text_dir);
 	if (elem_is_set (style, MSTYLE_WRAP_TEXT))
-		fprintf (stderr, "\twrap text %d\n", style->wrap_text);
+		g_printerr ("\twrap text %d\n", style->wrap_text);
 	if (elem_is_set (style, MSTYLE_SHRINK_TO_FIT))
-		fprintf (stderr, "\tshrink to fit %d\n", style->shrink_to_fit);
+		g_printerr ("\tshrink to fit %d\n", style->shrink_to_fit);
 	if (elem_is_set (style, MSTYLE_CONTENTS_LOCKED))
-		fprintf (stderr, "\tlocked %d\n", style->contents_locked);
+		g_printerr ("\tlocked %d\n", style->contents_locked);
 	if (elem_is_set (style, MSTYLE_CONTENTS_HIDDEN))
-		fprintf (stderr, "\thidden %d\n", style->contents_hidden);
+		g_printerr ("\thidden %d\n", style->contents_hidden);
 	if (elem_is_set (style, MSTYLE_VALIDATION))
-		fprintf (stderr, "\tvalidation %p\n", style->validation);
+		g_printerr ("\tvalidation %p\n", style->validation);
 	if (elem_is_set (style, MSTYLE_HLINK))
-		fprintf (stderr, "\thlink %p\n", style->hlink);
+		g_printerr ("\thlink %p\n", style->hlink);
 	if (elem_is_set (style, MSTYLE_INPUT_MSG))
-		fprintf (stderr, "\tinput msg %p\n", style->input_msg);
+		g_printerr ("\tinput msg %p\n", style->input_msg);
 	if (elem_is_set (style, MSTYLE_CONDITIONS))
-		fprintf (stderr, "\tconditions %p\n", style->conditions);
+		g_printerr ("\tconditions %p\n", style->conditions);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1746,7 +1744,7 @@ static void
 cb_gnm_style_pool_leak (gpointer data, gpointer user)
 {
 	GnmStyle *style = data;
-	fprintf (stderr, "Leaking style at %p.\n", style);
+	g_printerr ("Leaking style at %p.\n", style);
 	gnm_style_dump (style);
 }
 #endif

@@ -9,7 +9,6 @@
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
-#include <stdio.h>
 #include "gnumeric.h"
 #include "command-context-stderr.h"
 #include <gsf/gsf-impl-utils.h>
@@ -55,7 +54,7 @@ ccs_error_error (GOCmdContext *cc, GError *error)
 {
 	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
 
-	fprintf (stderr, "Error: %s\n", error->message);
+	g_printerr ("Error: %s\n", error->message);
 	ccs->status = -1;
 }
 static void

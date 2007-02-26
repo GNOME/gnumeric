@@ -25,7 +25,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #define PARENT_TYPE (G_TYPE_OBJECT)

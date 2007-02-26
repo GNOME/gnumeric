@@ -39,7 +39,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/utils/go-locale.h>
 
-#include <stdio.h>
 #include <string.h>
 #include <locale.h>
 

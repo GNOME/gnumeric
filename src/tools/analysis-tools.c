@@ -55,12 +55,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-#undef DEBUG_ANALYSIS_TOOLS
-#ifdef DEBUG_ANALYSIS_TOOLS
-#include <stdio.h>
-#endif
-
-
 typedef struct {
 	char *format;
 	GPtrArray *data_lists;

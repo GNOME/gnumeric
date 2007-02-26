@@ -25,10 +25,10 @@
 #include "gnumeric-gconf.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
+#include <stdio.h>
 
 #undef RANGE_DEBUG
 
@@ -170,29 +170,29 @@ range_dump (GnmRange const *src, char const *suffix)
 	 * keep these as 2 print statements, because
 	 * col_name and row_name use a static buffer
 	 */
-	fprintf (stderr, "%s%s",
+	g_printerr ("%s%s",
 		col_name (src->start.col),
 		row_name (src->start.row));
 
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row)
-		fprintf (stderr, ":%s%s",
+		g_printerr (":%s%s",
 			col_name (src->end.col),
 			row_name (src->end.row));
-	fprintf (stderr, suffix);
+	g_printerr (suffix);
 }
 
 #ifdef RANGE_DEBUG
 static void
 ranges_dump (GList *l, char const *txt)
 {
-	fprintf (stderr, "%s: ", txt);
+	g_printerr ("%s: ", txt);
 	for (; l; l = l->next) {
 		range_dump (l->data, "");
 		if (l->next)
-			fprintf (stderr, ", ");
+			g_printerr (", ");
 	}
-	fprintf (stderr, "\n");
+	g_printerr ("\n");
 }
 #endif
 

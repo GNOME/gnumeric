@@ -53,7 +53,6 @@
 #include <gtk/gtkicontheme.h>
 #include <gtk/gtkbox.h>
 #include <string.h>
-#include <stdio.h>
 
 #define SHEET_ORDER_KEY          "sheet-order-dialog"
 

@@ -679,7 +679,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 #undef DEBUG_SELECTION
 #ifdef DEBUG_SELECTION
-	fprintf (stderr, "============================\n");
+	g_printerr ("============================\n");
 #endif
 
 	/*
@@ -718,7 +718,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 			}
 
 #ifdef DEBUG_SELECTION
-			fprintf (stderr, "a = ");
+			g_printerr ("a = ");
 			range_dump (a, "; b = ");
 			range_dump (b, "\n");
 #endif
@@ -728,14 +728,14 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 						    b->start.col, b->end.col);
 
 #ifdef DEBUG_SELECTION
-			fprintf (stderr, "col = %d\na = %s", col_intersect, col_name(a->start.col));
+			g_printerr ("col = %d\na = %s", col_intersect, col_name(a->start.col));
 			if (a->start.col != a->end.col)
-				fprintf (stderr, " -> %s", col_name(a->end.col));
-			fprintf (stderr, "\nb = %s", col_name(b->start.col));
+				g_printerr (" -> %s", col_name(a->end.col));
+			g_printerr ("\nb = %s", col_name(b->start.col));
 			if (b->start.col != b->end.col)
-				fprintf (stderr, " -> %s\n", col_name(b->end.col));
+				g_printerr (" -> %s\n", col_name(b->end.col));
 			else
-				fputc ('\n', stderr);
+				g_printerr ("\n");
 #endif
 
 			/* No intersection */
@@ -748,14 +748,14 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 				segments_intersect (a->start.row, a->end.row,
 						    b->start.row, b->end.row);
 #ifdef DEBUG_SELECTION
-			fprintf (stderr, "row = %d\na = %s", row_intersect, row_name (a->start.row));
+			g_printerr ("row = %d\na = %s", row_intersect, row_name (a->start.row));
 			if (a->start.row != a->end.row)
-				fprintf (stderr, " -> %s", row_name (a->end.row));
-			fprintf (stderr, "\nb = %s", row_name (b->start.row));
+				g_printerr (" -> %s", row_name (a->end.row));
+			g_printerr ("\nb = %s", row_name (b->start.row));
 			if (b->start.row != b->end.row)
-				fprintf (stderr, " -> %s\n", row_name (b->end.row));
+				g_printerr (" -> %s\n", row_name (b->end.row));
 			else
-				fputc ('\n', stderr);
+				g_printerr ("\n");
 #endif
 
 			/* No intersection */

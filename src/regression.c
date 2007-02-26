@@ -16,7 +16,6 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #undef DEBUG_NEAR_SINGULAR
 
@@ -54,8 +53,8 @@
 	for (_i = 0; _i < _d1; _i++)					\
 	  {								\
 	    for (_j = 0; _j < _d2; _j++)				\
-	      fprintf (stderr, " %19.10" GNM_FORMAT_g, (var)[_i][_j]);	\
-	    fprintf (stderr, "\n");					\
+	      g_printerr (" %19.10" GNM_FORMAT_g, (var)[_i][_j]);	\
+	    g_printerr ("\n");						\
 	  }								\
   } while (0)
 
@@ -118,8 +117,8 @@ rescale (gnm_float **A, gnm_float *b, int n, gnm_float *pdet)
 		(void)gnm_frexp (gnm_sqrt (max), &expn);
 		scale = gnm_ldexp (1, expn);
 #ifdef DEBUG_NEAR_SINGULAR
-		printf ("scale[%d]=%" GNM_FORMAT_g "\n",
-			i, scale);
+		g_print ("scale[%d]=%" GNM_FORMAT_g "\n",
+			 i, scale);
 #endif
 
 		*pdet *= scale;
@@ -180,8 +179,8 @@ LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled,
 			}
 #ifdef DEBUG_NEAR_SINGULAR
 		PRINT_MATRIX (LU, n, n);
-		printf ("max[%d]=%" GNM_FORMAT_g " at %d\n",
-			i, max, mov);
+		g_print ("max[%d]=%" GNM_FORMAT_g " at %d\n",
+			 i, max, mov);
 #endif
 		if (max == 0)
 			return REG_singular;
@@ -218,7 +217,7 @@ LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled,
 
 	cond = (gnm_log (highest) - gnm_log (lowest)) / gnm_log (2);
 #ifdef DEBUG_NEAR_SINGULAR
-	printf ("cond=%.20" GNM_FORMAT_g "\n", cond);
+	g_print ("cond=%.20" GNM_FORMAT_g "\n", cond);
 #endif
 
 	/* FIXME: make some science out of this.  */
@@ -1003,9 +1002,9 @@ derivative (RegressionFunction f,
 	}
 
 #ifdef DEBUG
-	printf ("y1 = %lf\n", y1);
-	printf ("y2 = %lf\n", y2);
-	printf ("DELTA = %lf\n",DELTA);
+	g_print ("y1 = %lf\n", y1);
+	g_print ("y2 = %lf\n", y2);
+	g_print ("DELTA = %lf\n",DELTA);
 #endif
 
 	*df = (y2 - y1) / (2 * DELTA);
@@ -1096,9 +1095,9 @@ chi_derivative (RegressionFunction f,
 	}
 
 #ifdef DEBUG
-	printf ("y1 = %lf\n", y1);
-	printf ("y2 = %lf\n", y2);
-	printf ("DELTA = %lf\n", DELTA);
+	g_print ("y1 = %lf\n", y1);
+	g_print ("y2 = %lf\n", y2);
+	g_print ("DELTA = %lf\n", DELTA);
 #endif
 
 	*dchi = (y2 - y1) / (2 * DELTA);
@@ -1280,7 +1279,7 @@ non_linear_regression (RegressionFunction f,
 	tmp_par = g_new (gnm_float, p_dim);
 	b       = g_new (gnm_float, p_dim);
 #ifdef DEBUG
-	printf ("Chi Squared : %lf", chi_pre);
+	g_print ("Chi Squared : %lf", chi_pre);
 #endif
 
 	for (count = 0; count < MAX_STEPS; count++) {
@@ -1317,9 +1316,9 @@ non_linear_regression (RegressionFunction f,
 			goto out;
 
 #ifdef DEBUG
-		printf ("Chi Squared : %lf", chi_pre);
-		printf ("Chi Squared : %lf", chi_pos);
-		printf ("r  :  %lf", r);
+		g_print ("Chi Squared : %lf", chi_pre);
+		g_print ("Chi Squared : %lf", chi_pos);
+		g_print ("r  :  %lf", r);
 #endif
 
 		if (chi_pos <= chi_pre + DELTA / 2) {

@@ -1,20 +1,24 @@
 /*
  * String management for the Gnumeric Spreadsheet
  *
- * Author:
- *   Miguel de Icaza (miguel@kernel.org)
+ * Authors:
+ *  Miguel de Icaza (miguel@kernel.org)
+ *  Copyright 2007 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "str.h"
 #include "gutils.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <goffice/utils/go-glib-extras.h>
 
 #ifndef USE_STRING_POOLS
+#ifdef HAVE_G_SLICE_ALLOC
+#define USE_STRING_POOLS 0
+#else
 #define USE_STRING_POOLS 1
+#endif
 #endif
 
 #if USE_STRING_POOLS
@@ -23,8 +27,13 @@ static GOMemChunk *string_pool;
 #define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
+#ifdef HAVE_G_SLICE_ALLOC
+#define CHUNK_ALLOC(T,c) g_slice_new (T)
+#define CHUNK_FREE(p,v) g_slice_free1 (sizeof(*v),(v))
+#else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
+#endif
 #endif
 
 static GHashTable *string_hash_table;
@@ -40,7 +49,7 @@ GnmString *
 gnm_string_get (char const *s)
 {
 	GnmString *string = gnm_string_lookup (s);
-	if (string){
+	if (string) {
 		gnm_string_ref (string);
 		return string;
 	}
@@ -97,7 +106,7 @@ gnm_string_unref (GnmString *string)
 	g_return_if_fail (string != NULL);
 	g_return_if_fail (string->ref_count > 0);
 
-	if (--(string->ref_count) == 0){
+	if (--(string->ref_count) == 0) {
 		g_hash_table_remove (string_hash_table, string->str);
 		g_free (string->str);
 		CHUNK_FREE (string_pool, string);
@@ -162,23 +171,26 @@ gnm_string_init (void)
 #endif
 }
 
-#if USE_STRING_POOLS
-static void
-cb_string_pool_leak (gpointer data, gpointer user)
+static gboolean
+cb_string_pool_leak (G_GNUC_UNUSED gpointer key,
+		     gpointer value,
+		     G_GNUC_UNUSED gpointer user)
 {
-	GnmString *string = data;
-	fprintf (stderr, "Leaking string [%s] with ref_count=%d.\n",
+	const GnmString *string = value;
+	g_printerr ("Leaking string [%s] with ref_count=%d.\n",
 		 string->str, string->ref_count);
+	return TRUE;
 }
-#endif
 
 void
 gnm_string_shutdown (void)
 {
+	g_hash_table_foreach_remove (string_hash_table,
+				     cb_string_pool_leak,
+				     NULL);
 	g_hash_table_destroy (string_hash_table);
 	string_hash_table = NULL;
 #if USE_STRING_POOLS
-	go_mem_chunk_foreach_leak (string_pool, cb_string_pool_leak, NULL);
 	go_mem_chunk_destroy (string_pool, FALSE);
 	string_pool = NULL;
 #endif

@@ -3,7 +3,6 @@
 
 #include "gnumeric.h"
 #include <goffice/utils/goffice-utils.h>
-#include <stdio.h>
 
 struct _GnmDependent {
 	guint	  flags;

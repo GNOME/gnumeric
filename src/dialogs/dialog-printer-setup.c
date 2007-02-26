@@ -57,7 +57,6 @@
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcellrenderertext.h>
 /*#include <gtk/gtkmenuitem.h>*/
-#include <stdio.h>
 
 /* FIXME: do not hardcode pixel counts.  */
 #define PREVIEW_X 170

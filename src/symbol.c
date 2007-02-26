@@ -11,7 +11,6 @@
 #include "gutils.h"
 
 #include <string.h>
-#include <stdio.h>
 #include <goffice/utils/go-glib-extras.h>
 
 /**
@@ -89,7 +88,7 @@ symbol_unref (Symbol *sym)
 	g_return_if_fail (sym != NULL);
 	g_return_if_fail (sym->ref_count > 0);
 
-	if (--(sym->ref_count) == 0){
+	if (--(sym->ref_count) == 0) {
 		g_hash_table_remove (sym->st->hash, sym->str);
 		g_free (sym->str);
 		g_free (sym);

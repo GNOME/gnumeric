@@ -34,7 +34,6 @@
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
 #include <string.h>
-#include <stdio.h>
 
 static gboolean ssindex_show_version = FALSE;
 static gboolean ssindex_list_mime_types = FALSE;

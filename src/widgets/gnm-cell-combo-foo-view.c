@@ -305,7 +305,7 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 
 #if 0
 	range_dump (&so->anchor.cell_bound, "");
-	fprintf (stderr, " : so = %p, view = %p\n", so, view);
+	g_printerr (" : so = %p, view = %p\n", so, view);
 #endif
 	if (clip != NULL) {
 		GdkRectangle  rect;

@@ -57,7 +57,6 @@
 #include <math.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <float.h>
 #include <fcntl.h>
 #include <unistd.h>

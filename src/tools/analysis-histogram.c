@@ -58,11 +58,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-#undef DEBUG_ANALYSIS_TOOLS
-#ifdef DEBUG_ANALYSIS_TOOLS
-#include <stdio.h>
-#endif
-
 /************* Histogram Tool *********************************************
  *
  * The results are given in a table which can be printed out in a new

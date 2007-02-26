@@ -58,7 +58,6 @@
 #include <gtk/gtkmenuitem.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
-#include <stdio.h>
 
 #define CELL_SORT_KEY "cell-sort-dialog"
 
