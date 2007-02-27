@@ -45,20 +45,44 @@ static void dependent_changed (GnmDependent *dep);
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Note: we unconditionally use pools for
+ *   deps->range_pool
+ *   deps->single_pool
+ * since we need the ability to free en masse.
+ */
+
+#ifndef USE_STRING_POOLS
+#ifdef HAVE_G_SLICE_ALLOC
+#define USE_POOLS 0
+#else
 #define USE_POOLS 1
+#endif
+#endif
 
 #if USE_POOLS
 static GOMemChunk *micro_few_pool;
 static GOMemChunk *cset_pool;
 #define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
 #define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
+#define MICRO_HASH_FEW 3 /* Odd and small. */
+#define NEW_FEW CHUNK_ALLOC (gpointer, micro_few_pool)
+#define FREE_FEW(p) CHUNK_FREE (micro_few_pool, p)
+#else
+#ifdef HAVE_G_SLICE_ALLOC
+#define CHUNK_ALLOC(T,c) g_slice_new (T)
+#define CHUNK_FREE(p,v) g_slice_free1 (sizeof(*v),(v))
+#define MICRO_HASH_FEW 4 /* Even and small. */
+#define NEW_FEW (gpointer *)g_slice_alloc (MICRO_HASH_FEW * sizeof (gpointer))
+#define FREE_FEW(p) g_slice_free1 (MICRO_HASH_FEW * sizeof (gpointer), p)
 #else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
+#define MICRO_HASH_FEW 3 /* Who cares?  */
+#define NEW_FEW g_new (gpointer, MICRO_HASH_FEW)
+#define FREE_FEW(p) CHUNK_FREE (micro_few_pool, p)
 #endif
-
-/* Odd and small.  */
-#define MICRO_HASH_FEW 3
+#endif
 
 /* ------------------------------------------------------------------------- */
 /* Maps between row numbers and bucket numbers.  */
@@ -518,9 +542,7 @@ micro_hash_many_to_few (MicroHash *hash_table)
 	int nbuckets = hash_table->num_buckets;
 	int i = 0;
 
-	hash_table->u.few = USE_POOLS
-		? CHUNK_ALLOC (gpointer, micro_few_pool)
-		: g_new (gpointer, MICRO_HASH_FEW);
+	hash_table->u.few = NEW_FEW;
 
 	while (nbuckets-- > 0 ) {
 		gpointer datum;
@@ -596,7 +618,7 @@ micro_hash_few_to_many (MicroHash *hash_table)
 		guint bucket = MICRO_HASH_hash (datum) % nbuckets;
 		cset_insert (&(buckets[bucket]), datum);
 	}
-	CHUNK_FREE (micro_few_pool, hash_table->u.few);
+	FREE_FEW (hash_table->u.few);
 	hash_table->u.many = buckets;
 }
 
@@ -616,9 +638,7 @@ micro_hash_insert (MicroHash *hash_table, gpointer key)
 		if (key == key0)
 			return;
 		/* one --> few */
-		hash_table->u.few = USE_POOLS
-			? CHUNK_ALLOC (gpointer, micro_few_pool)
-			: g_new (gpointer, MICRO_HASH_FEW);
+		hash_table->u.few = NEW_FEW;
 		hash_table->u.few[0] = key0;
 		hash_table->u.few[1] = key;
 		memset (hash_table->u.few + 2, 0, (MICRO_HASH_FEW - 2) * sizeof (gpointer));
@@ -685,7 +705,7 @@ micro_hash_remove (MicroHash *hash_table, gpointer key)
 					return;
 				/* few -> one */
 				key = hash_table->u.few[0];
-				CHUNK_FREE (micro_few_pool, hash_table->u.few);
+				FREE_FEW (hash_table->u.few);
 				hash_table->u.one = key;
 				return;
 			}
@@ -714,7 +734,7 @@ micro_hash_release (MicroHash *hash_table)
 	if (N <= 1)
 		; /* Nothing */
 	else if (N <= MICRO_HASH_FEW)
-		CHUNK_FREE (micro_few_pool, hash_table->u.few);
+		FREE_FEW (hash_table->u.few);
 	else {
 		guint i = hash_table->num_buckets;
 		while (i-- > 0)
@@ -2273,10 +2293,18 @@ do_deps_destroy (Sheet *sheet)
 
 	g_free (deps->range_hash);
 	deps->range_hash = NULL;
+	/*
+	 * Note: we have not freed the elements in the pool.  This call
+	 * frees everything in one go.
+	 */
 	go_mem_chunk_destroy (deps->range_pool, TRUE);
 	deps->range_pool = NULL;
 
 	deps->single_hash = NULL;
+	/*
+	 * Note: we have not freed the elements in the pool.  This call
+	 * frees everything in one go.
+	 */
 	go_mem_chunk_destroy (deps->single_pool, TRUE);
 	deps->single_pool = NULL;
 

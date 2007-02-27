@@ -1,5 +1,11 @@
 2007-02-26  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (gnm_rendered_value_shutdown): Use slice
+	allocator when available.
+
+	* src/dependent.c (dependent_types_shutdown): Use slice allocator,
+	when available, for some of the pools.
+
 	* src/str.c (gnm_string_shutdown): Use the hash table to report
 	leaked strings.  Use slice allocator when available.
 
