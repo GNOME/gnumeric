@@ -615,7 +615,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 					data->format.index);
 		go_format_unref (sf);
 
-		sf = go_format_new_from_XL (fmt, FALSE);
+		sf = go_format_new_from_XL (fmt);
 		gtk_label_set_text (GTK_LABEL (w), 
 				    go_format_sel_format_classification (sf));
 		g_ptr_array_index (data->format.formats, data->format.index) =
@@ -645,7 +645,7 @@ stf_dialog_format_page_prepare (StfDialogData *data)
 	/* If necessary add new items (non-visual) */
 	while ((int)data->format.formats->len < data->format.renderdata->colcount)
 		g_ptr_array_add (data->format.formats,
-			go_format_new_from_XL (go_format_builtins[0][0], FALSE));
+			go_format_new_from_XL (go_format_builtins[0][0]));
 
 	data->format.manual_change = TRUE;
 	activate_column (data, 0);

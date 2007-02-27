@@ -1344,7 +1344,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "ExprID", &expr_id)) ;
 		else if (gnm_xml_attr_int (attrs, "ValueType", &value_type)) ;
 		else if (attr_eq (attrs[0], "ValueFormat"))
-			value_fmt = go_format_new_from_XL (CXML2C (attrs[1]), FALSE);
+			value_fmt = go_format_new_from_XL (CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
 	}

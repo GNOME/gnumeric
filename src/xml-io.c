@@ -1173,7 +1173,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 				fmt = xmlGetProp (tree, CC2XML ("ValueFormat"));
 				if (fmt != NULL) {
-					value_fmt = go_format_new_from_XL (CXML2C (fmt), FALSE);
+					value_fmt = go_format_new_from_XL (CXML2C (fmt));
 					xmlFree (fmt);
 				}
 			}
@@ -2011,7 +2011,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		fmt = xmlGetProp (tree, CC2XML ("ValueFormat"));
 		if (fmt != NULL) {
-			value_fmt = go_format_new_from_XL (CXML2C (fmt), FALSE);
+			value_fmt = go_format_new_from_XL (CXML2C (fmt));
 			xmlFree (fmt);
 		}
 	}

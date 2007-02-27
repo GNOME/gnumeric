@@ -26,6 +26,9 @@ GOFormatNumberError gnm_format_layout    (PangoLayout *result,
 					  GODateConventions const *date_conv,
 					  gboolean unicode_minus);
 
+GOFormat const * gnm_format_specialize (GOFormat const *fmt,
+					GnmValue const *value);
+
 int gnm_format_is_date_for_value         (GOFormat const *fmt,
 					  GnmValue const *value);
 

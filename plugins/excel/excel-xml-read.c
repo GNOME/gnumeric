@@ -713,9 +713,9 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 			if (NULL != fmt) 
 				go_format_ref (fmt);
 			else if (!strcmp (attrs[1], "Fixed"))
-				fmt = go_format_new_from_XL ("0.00", FALSE);
+				fmt = go_format_new_from_XL ("0.00");
 			else
-				fmt = go_format_new_from_XL (attrs[1], FALSE);
+				fmt = go_format_new_from_XL (attrs[1]);
 			gnm_style_set_format (state->style, fmt);
 			go_format_unref (fmt);
 		} else

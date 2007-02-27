@@ -384,9 +384,8 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	if (gnm_style_is_element_set (style, MSTYLE_COLOR_PATTERN))
 		gnm_xml_out_add_color (state->output, "PatternColor", gnm_style_get_pattern_color (style));
 	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
-		char *fmt = go_format_as_XL (gnm_style_get_format (style), FALSE);
+		const char *fmt = go_format_as_XL (gnm_style_get_format (style));
 		gsf_xml_out_add_cstr (state->output, "Format", fmt);
-		g_free (fmt);
 	}
 
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME) ||
@@ -725,9 +724,8 @@ xml_write_cell_and_position (GnmOutputXML *state,
 			if (val != NULL) {
 				gsf_xml_out_add_int (state->output, "ValueType", val->type);
 				if (VALUE_FMT (val) != NULL) {
-					char *fmt = go_format_as_XL (VALUE_FMT (val), FALSE);
+					const char *fmt = go_format_as_XL (VALUE_FMT (val));
 					gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
-					g_free (fmt);
 				}
 				value_get_as_gstring (val, str, state->exprconv);
 			} else {

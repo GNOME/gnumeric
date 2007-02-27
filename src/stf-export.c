@@ -145,7 +145,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 		if (needs_frac_sec)
 			g_string_append (xlfmt, ".000000");
 	}
-	actual = go_format_new_from_XL (xlfmt->str, FALSE);
+	actual = go_format_new_from_XL (xlfmt->str);
 	g_string_free (xlfmt, TRUE);
 	res = format_value (actual, value, NULL, -1, date_conv);
 	go_format_unref (actual);

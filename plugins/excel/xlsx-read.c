@@ -1104,7 +1104,7 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 	if (end != id && *end == '\0' &&
 	    i >= 0 && i < (int) G_N_ELEMENTS (std_builtins) &&
 	    std_builtins[i] != NULL) {
-		res = go_format_new_from_XL (std_builtins[i], FALSE);
+		res = go_format_new_from_XL (std_builtins[i]);
 		g_hash_table_replace (state->num_fmts, g_strdup (id), res);
 	} else
 	xlsx_warning (xin, _("Undefined number format id '%s'"), id);
@@ -2339,7 +2339,7 @@ xlsx_style_numfmt (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL != id && NULL != fmt)
 		g_hash_table_replace (state->num_fmts, g_strdup (id),
-			go_format_new_from_XL (fmt, FALSE));
+			go_format_new_from_XL (fmt));
 }
 
 enum {

@@ -254,7 +254,7 @@ sylk_rtd_p_parse (SylkReadState *state, char *str)
 		case 'P' : /* format */
 			tmp = sylk_parse_string (str+1);
 			g_ptr_array_add (state->formats,
-				go_format_new_from_XL (tmp, FALSE));
+				go_format_new_from_XL (tmp));
 			g_free (tmp);
 			break;
 

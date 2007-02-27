@@ -1165,7 +1165,7 @@ gnm_style_set_format_text (GnmStyle *style, char const *format)
 	 * I am not sure people are feeding us only translated formats.
 	 * This entire function should be deleted.
 	 */
-	sf = go_format_new_from_XL (format, FALSE);
+	sf = go_format_new_from_XL (format);
 	gnm_style_set_format (style, sf);
 	go_format_unref (sf);
 }
@@ -1694,9 +1694,8 @@ gnm_style_dump (GnmStyle const *style)
 	if (elem_is_set (style, MSTYLE_FONT_SIZE))
 		g_printerr ("\tsize %f\n", style->font_detail.size);
 	if (elem_is_set (style, MSTYLE_FORMAT)) {
-		char *fmt = go_format_as_XL (style->format, FALSE);
+		const char *fmt = go_format_as_XL (style->format);
 		g_printerr ("\tformat '%s'\n", fmt);
-		g_free (fmt);
 	}
 	if (elem_is_set (style, MSTYLE_ALIGN_V))
 		g_printerr ("\tvalign %hd\n", style->v_align);

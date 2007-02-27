@@ -130,13 +130,13 @@ static GnmValue *
 translate_cell_format (GOFormat const *format)
 {
 	int i;
-	char *fmt;
+	const char *fmt;
 	const int translate_table_count = G_N_ELEMENTS (translate_table);
 
 	if (format == NULL)
 		return value_new_string ("G");
 
-	fmt = go_format_as_XL (format, FALSE);
+	fmt = go_format_as_XL (format);
 
 	/*
 	 * TODO : What does this do in different locales ??
@@ -145,7 +145,6 @@ translate_cell_format (GOFormat const *format)
 		const translate_t *t = &translate_table[i];
 
 		if (!g_ascii_strcasecmp (fmt, t->format)) {
-			g_free (fmt);
 			return value_new_string (t->output);
 		}
 	}
@@ -158,7 +157,6 @@ translate_cell_format (GOFormat const *format)
 	 * 3. We should add a dash if there are more alternatives.
 	 */
 
-	g_free (fmt);
 	return value_new_string ("G");
 }
 

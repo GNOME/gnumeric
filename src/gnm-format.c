@@ -2,7 +2,7 @@
 /* format.c - attempts to emulate excel's number formatting ability.
  *
  * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
- * Copyright (C) 2006 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2006-2007 Morten Welinder (terra@gnome.org)
  *
  * Redid the format parsing routine to make it accept more of the Excel
  * formats.  The number rendeing code from Chris has not been touched,
@@ -203,15 +203,14 @@ format_value (GOFormat const *format, GnmValue const *value, GOColor *go_color,
 	return g_string_free (result, FALSE);
 }
 
-int
-gnm_format_is_date_for_value (GOFormat const *fmt,
-			      GnmValue const *value)
+GOFormat const *
+gnm_format_specialize (GOFormat const *fmt, GnmValue const *value)
 {
 	char type;
 	gnm_float val;
 
-	g_return_val_if_fail (fmt != NULL, -1);
-	g_return_val_if_fail (value != NULL, -1);
+	g_return_val_if_fail (fmt != NULL, go_format_general ());
+	g_return_val_if_fail (value != NULL, fmt);
 
 	if (VALUE_IS_FLOAT (value)) {
 		val = value_get_as_float (value);
@@ -222,11 +221,17 @@ gnm_format_is_date_for_value (GOFormat const *fmt,
 		type = VALUE_IS_ERROR (value) ? 'E' : 'S';
 	}
 
-	return
 #ifdef WITH_LONG_DOUBLE
-		go_format_is_date_for_valuel
+	return go_format_specializel (fmt, val, type, NULL);
 #else
-		go_format_is_date_for_value
+	return go_format_specialize (fmt, val, type, NULL);
 #endif
-		(fmt, val, type);
+}
+
+int
+gnm_format_is_date_for_value (GOFormat const *fmt,
+			      GnmValue const *value)
+{
+	fmt = gnm_format_specialize (fmt, value);
+	return go_format_is_date (fmt);
 }

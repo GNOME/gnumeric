@@ -224,7 +224,7 @@ excel_wb_get_fmt (GnmXLImporter *importer, unsigned idx)
 		fprintf (stderr,"Unknown format: 0x%x\n", idx);
 
 	if (ans)
-		return go_format_new_from_XL (ans, FALSE);
+		return go_format_new_from_XL (ans);
 	else
 		return NULL;
 }

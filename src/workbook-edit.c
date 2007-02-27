@@ -880,7 +880,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 					g_string_append_c (fstr, ' ');
 					guess_time_format (fstr, f - gnm_floor (f));
 				}
-				new_fmt = go_format_new_from_XL (fstr->str, FALSE);
+				new_fmt = go_format_new_from_XL (fstr->str);
 				g_string_free (fstr, TRUE);
 
 				text = format_value (new_fmt, cell->value,
@@ -903,7 +903,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 					GOFormat *new_fmt;
 
 					guess_time_format (fstr, f);
-					new_fmt = go_format_new_from_XL (fstr->str, FALSE);
+					new_fmt = go_format_new_from_XL (fstr->str);
 					g_string_free (fstr, TRUE);
 
 					text = format_value (new_fmt, cell->value, NULL, -1,

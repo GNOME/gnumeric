@@ -567,7 +567,7 @@ format_match_time (char const *text, gboolean allow_elapsed,
 	v = value_new_float (time_val);
 
 	if (add_format) {
-		GOFormat *fmt = go_format_new_from_XL (time_format, FALSE);
+		GOFormat *fmt = go_format_new_from_XL (time_format);
 		value_set_fmt (v, fmt);
 		go_format_unref (fmt);
 	}
@@ -591,7 +591,7 @@ format_match_datetime (char const *text,
 	int dig1;
 	char const *date_format = NULL;
 	GnmValue *v = NULL;
-	char *time_format = NULL;
+	const char *time_format = NULL;
 
 	if (lc_time != datetime_locale.lc_time &&
 	    (lc_time == NULL ||
@@ -747,7 +747,7 @@ format_match_datetime (char const *text,
 		time_val = value_get_as_float (v);
 		fmt = VALUE_FMT (v);
 		if (fmt)
-			time_format = go_format_as_XL (fmt, FALSE);
+			time_format = go_format_as_XL (fmt);
 		value_release (v);
 	} else
 		time_val = 0;
@@ -760,11 +760,10 @@ format_match_datetime (char const *text,
 						    " ",
 						    time_format,
 						    NULL);
-			fmt = go_format_new_from_XL (format, FALSE);
+			fmt = go_format_new_from_XL (format);
 			g_free (format);
-			g_free (time_format);
 		} else
-			fmt = go_format_new_from_XL (date_format, FALSE);
+			fmt = go_format_new_from_XL (date_format);
 		value_set_fmt (v, fmt);
 		go_format_unref (fmt);
 	}
@@ -775,7 +774,7 @@ format_match_datetime (char const *text,
 static gboolean
 hack_month_before_day (GOFormat const *cur_fmt)
 {
-	char *s = go_format_as_XL (cur_fmt, FALSE);
+	char *s = g_strdup (go_format_as_XL (cur_fmt));
 	char *p;
 	char const *pos_m, *pos_d;
 	gboolean res;
@@ -798,9 +797,8 @@ hack_month_before_day (GOFormat const *cur_fmt)
 static gboolean
 hack_prefer_hour (GOFormat const *cur_fmt)
 {
-	char *s = go_format_as_XL (cur_fmt, FALSE);
+	const char *s = go_format_as_XL (cur_fmt);
 	gboolean res = (strchr (s, 'h') != NULL);
-	g_free (s);
 	return res;
 }
 
@@ -1164,7 +1162,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 		case GO_FORMAT_ACCOUNTING: {
 			GOFormat *fmt =
 				go_format_new_from_XL
-				(go_format_builtins[fam][2], FALSE);
+				(go_format_builtins[fam][2]);
 			value_set_fmt (v, fmt);
 			go_format_unref (fmt);
 			break;
@@ -1196,7 +1194,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 
 		denlen = MIN (denlen, 5);
 		sprintf (fmtstr, "# %s/%s", qqq - denlen, qqq - denlen);
-		fmt = go_format_new_from_XL (fmtstr, FALSE);
+		fmt = go_format_new_from_XL (fmtstr);
 		value_set_fmt (v, fmt);
 		go_format_unref (fmt);
 		return v;

@@ -2062,7 +2062,7 @@ formats_init (ExcelWriteState *ewb)
 		if (!fmt || strlen (fmt) == 0)
 			fmt = "General";
 		two_way_table_put (ewb->formats.two_way_table,
-				   go_format_new_from_XL (fmt, FALSE),
+				   go_format_new_from_XL (fmt),
 				   FALSE, /* Not unique */
 				   (AfterPutFunc) after_put_format,
 				   "Magic format %d - 0x%x\n");
@@ -2104,7 +2104,7 @@ excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 	guint8 data[64];
 	GOFormat const *sf = formats_get_format (ewb, fidx);
 
-	char *format = go_format_as_XL (sf, FALSE);
+	const char *format = go_format_as_XL (sf);
 
 	d (1, fprintf (stderr, "Writing format 0x%x: %s\n", fidx, format););
 
@@ -2118,7 +2118,6 @@ excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 	excel_write_string (ewb->bp, (ewb->bp->version >= MS_BIFF_V8)
 		? STR_TWO_BYTE_LENGTH : STR_ONE_BYTE_LENGTH, format);
 	ms_biff_put_commit (ewb->bp);
-	g_free (format);
 }
 
 /**
@@ -2466,30 +2465,28 @@ log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 {
 	int i;
 	ExcelWriteFont *f = fonts_get_font (ewb, xfd->font_idx);
-
 	/* Formats are saved using the 'C' locale number format */
-	char * desc = go_format_as_XL (xfd->style_format, FALSE);
+	const char *desc = go_format_as_XL (xfd->style_format);
 
-	fprintf (stderr, "Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
+	g_printerr ("Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
 		idx, xfd->font_idx, excel_font_to_string (f),
 		xfd->format_idx, desc);
-	g_free (desc);
 
-	fprintf (stderr, " hor align 0x%x, ver align 0x%x, wrap_text %s\n",
+	g_printerr (" hor align 0x%x, ver align 0x%x, wrap_text %s\n",
 		xfd->halign, xfd->valign, xfd->wrap_text ? "on" : "off");
-	fprintf (stderr, " fill fg color idx %d, fill bg color idx %d"
+	g_printerr (" fill fg color idx %d, fill bg color idx %d"
 		", pattern (Excel) %d\n",
 		xfd->pat_foregnd_col, xfd->pat_backgnd_col,
 		xfd->fill_pattern_idx);
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
 		if (xfd->border_type[i] !=  GNM_STYLE_BORDER_NONE) {
-			fprintf (stderr, " border_type[%d] : 0x%x"
+			g_printerr (" border_type[%d] : 0x%x"
 				" border_color[%d] : 0x%x\n",
 				i, xfd->border_type[i],
 				i, xfd->border_color[i]);
 		}
 	}
-	fprintf (stderr, " difference bits: 0x%x\n", xfd->differences);
+	g_printerr (" difference bits: 0x%x\n", xfd->differences);
 
 	gnm_style_dump (xfd->mstyle);
 }
@@ -5456,7 +5453,7 @@ extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
 		char *fmt_str;
 		g_object_get (G_OBJECT (obj), "assigned-format-string-XL", &fmt_str, NULL);
 		if (fmt_str != NULL) {
-			GOFormat *fmt = go_format_new_from_XL (fmt_str, FALSE);
+			GOFormat *fmt = go_format_new_from_XL (fmt_str);
 			if (!go_format_is_general (fmt))
 				two_way_table_put (ewb->formats.two_way_table,
 						   (gpointer)fmt, TRUE,

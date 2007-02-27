@@ -672,14 +672,11 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	else
 		g_string_append_c (format, '0');
 	if (decimals > 0) {
-		static const char zeros[128 + 1] = ".00000000000000000000000000000000"
-			"00000000000000000000000000000000"
-			"00000000000000000000000000000000"
-			"00000000000000000000000000000000";
-		g_string_append_len (format, zeros, 1 + (int)decimals);
+		g_string_append_c (format, '.');
+		go_string_append_c_n (format, '0', decimals);
 	}
 
-	fmt = go_format_new_from_XL (format->str, FALSE);
+	fmt = go_format_new_from_XL (format->str);
 	g_string_free (format, TRUE);
 
 	res = format_value (fmt, v, NULL, -1, workbook_date_conv (ei->pos->sheet->workbook));
@@ -861,6 +858,7 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		workbook_date_conv (ei->pos->sheet->workbook);
 	GString *str;
 	GOFormatNumberError err;
+	char *lfmt;
 
 	/* Why do we have to do these here?  */
 	if (VALUE_IS_STRING (v)) {
@@ -870,7 +868,9 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	} else if (VALUE_IS_EMPTY (v))
 		v = value_zero;
 
-	fmt = go_format_new_from_XL (value_peek_string (argv[1]), TRUE);
+	lfmt = go_format_str_delocalize (value_peek_string (argv[1]));
+	fmt = go_format_new_from_XL (lfmt);
+	g_free (lfmt);
 	str = g_string_sized_new (80);
 	err = format_value_gstring (str, fmt, v, NULL, -1, conv);
 	if (err) {
@@ -1110,10 +1110,8 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 	g_string_append (fmt_str, "#,##0");
 	if (decimals > 0) {
-		int idecs = (int)decimals;
 		g_string_append_c (fmt_str, '.');
-		g_string_set_size (fmt_str, fmt_str->len + idecs);
-		memset (fmt_str->str + fmt_str->len - idecs, '0', idecs);
+		go_string_append_c_n (fmt_str, '0', (int)decimals);
 	}
 	if (!precedes) {
 		g_string_append (fmt_str, space_sep ? " \"" : "\"");
@@ -1126,7 +1124,7 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	g_string_append_len (fmt_str, fmt_str->str, fmt_str->len - 2);
 	g_string_append_c (fmt_str, ')');
 
-	sf = go_format_new_from_XL (fmt_str->str, FALSE);
+	sf = go_format_new_from_XL (fmt_str->str);
 
 	v = value_new_float (number);
 	s = format_value (sf, v, NULL, -1,

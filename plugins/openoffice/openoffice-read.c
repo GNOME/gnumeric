@@ -1198,7 +1198,7 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->accum_fmt != NULL);
 
 	g_hash_table_insert (state->formats, state->fmt_name,
-		go_format_new_from_XL (state->accum_fmt->str, FALSE));
+		go_format_new_from_XL (state->accum_fmt->str));
 	g_string_free (state->accum_fmt, TRUE);
 	state->accum_fmt = NULL;
 	state->fmt_name = NULL;
