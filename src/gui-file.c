@@ -178,6 +178,20 @@ file_opener_find_by_id (GList *openers, char const *id)
 	return 0;
 }
 
+static void
+advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
+{
+	GtkWidget *extra = g_object_get_data (G_OBJECT (advanced), "extra");
+
+	if (gtk_file_chooser_get_extra_widget (fsel)) {
+		gtk_button_set_label (advanced, _("Simple"));
+		gtk_file_chooser_set_extra_widget (fsel, NULL);
+	} else {
+		gtk_button_set_label (advanced, _("Advanced"));
+		gtk_file_chooser_set_extra_widget (fsel, extra);
+	}
+}
+
 /*
  * Suggests automatic file type recognition, but lets the user choose an
  * import filter for selected file.
@@ -187,6 +201,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 {
 	GList *openers;
 	GtkFileChooser *fsel;
+	GtkWidget *advanced_button;
 	GtkComboBox *format_combo;
 	GtkWidget *go_charmap_sel;
 	file_format_changed_cb_data data;
@@ -231,6 +246,11 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 			       "local-only", FALSE,
 			       "title", _("Select a file"),
 			       NULL));
+
+	advanced_button = gtk_button_new_from_stock (_("Advanced"));
+	gtk_widget_show (advanced_button);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->action_area),
+			    advanced_button, FALSE, TRUE, 6);
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
@@ -307,7 +327,14 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->vbox), box, FALSE, TRUE, 6);
 #else
 		gtk_widget_show_all (box);
-		gtk_file_chooser_set_extra_widget (fsel, box);
+		g_object_set_data_full (G_OBJECT (advanced_button),
+					"extra",
+					g_object_ref (box),
+					g_object_unref);
+		g_signal_connect (G_OBJECT (advanced_button),
+				  "clicked",
+				  G_CALLBACK (advanced_clicked),
+				  fsel);
 #endif
 	}
 
