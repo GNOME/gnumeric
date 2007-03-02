@@ -110,7 +110,7 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 	gchar *full_module_file_name = NULL;
 	FILE *f;
 	GOPlugin *plugin = go_plugin_loader_get_plugin (loader);
-	ErrorInfo *open_error;
+	ErrorInfo *open_error = NULL;
 	PyObject *modules, *main_module, *main_module_dict;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
