@@ -196,10 +196,13 @@ typedef struct {
 	/* Location where the parsing is taking place */
 	GnmParsePos const *pos;
 
-	/* Locale info. */
+	/* loaded from convs with locale specific mappings */
 	gunichar decimal_point;
-	gunichar separator;
-	gunichar array_col_separator;
+	gunichar arg_sep;
+	gunichar array_col_sep;
+	gunichar array_row_sep;
+	/* if arg_sep conflicts with array_col_sep or array_row_sep */
+	int in_array_sep_is;	/* token id */
 
 	/* flags */
 	gboolean force_absolute_col_references;
@@ -210,6 +213,8 @@ typedef struct {
 
 	GnmExprConventions const *convs;
 
+	/* dynamic state */
+	int in_array; /* toggled in the lexer for '{' and '}' */
 	GnmExprList *result;
 
 	GnmParseError *error;
@@ -486,8 +491,7 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 		/* TODO : length is broken in the context of quoted names or
 		 * names with escaped character */
 		/* -1 is a kludge.  We know that this routine is only called
-		 * when the last token was SHEET_SEP
-		 */
+		 * when the last token was SHEET_SEP */
 		report_err (state, g_error_new (1, PERR_UNKNOWN_SHEET,
 			_("Unknown sheet '%s'"), name),
 			state->ptr-1, strlen (name));
@@ -508,11 +512,10 @@ int yyparse (void);
 	Sheet		*sheet;
 	Workbook	*wb;
 }
-%type  <list>	opt_exp arg_list
-%type  <list>	array_row_comma array_row_bslash array_cols_comma array_cols_bslash
+%type  <list>	opt_exp arg_list array_row array_rows
 %type  <expr>	exp array_exp function string_opt_quote cellref
 %token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF GTE LTE NE AND OR NOT INTERSECT
-%token		SEPARATOR SHEET_SEP INVALID_TOKEN ARRAY_START_COMMA ARRAY_START_BSLASH
+%token		ARG_SEP ARRAY_COL_SEP ARRAY_ROW_SEP SHEET_SEP INVALID_TOKEN
 %type  <sheet>	sheetref
 %type  <wb>	workbookref
 
@@ -543,7 +546,7 @@ line:	opt_exp exp {
 	}
 	;
 
-opt_exp : opt_exp exp  SEPARATOR {
+opt_exp : opt_exp exp  ARG_SEP {
 	       unregister_allocation ($2);
 	       unregister_allocation ($1);
 	       $$ = gnm_expr_list_prepend ($1, $2);
@@ -609,12 +612,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			}
 		}
 	}
-        | ARRAY_START_COMMA array_cols_comma '}' {
-		unregister_allocation ($2);
-		$$ = build_array ($2);
-		free_expr_list_list ($2);
-	}
-        | ARRAY_START_BSLASH array_cols_bslash '}' {
+        | '{' array_rows '}' {
 		unregister_allocation ($2);
 		$$ = build_array ($2);
 		free_expr_list_list ($2);
@@ -662,25 +660,10 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 function : STRING '(' arg_list ')' {
 		char const *name = $1->constant.value->v_str.val->str;
-		GnmFunc *f;
-		GnmExpr const *f_call = NULL;
-		GnmParseFunctionHandler h = NULL;
+		GnmExpr const *f_call = (*state->convs->input.func) (
+			state->convs, state->pos->wb, name, $3);
 
 		$$ = NULL;
-
-		if (state->convs->function_rewriter_hash)
-			h = g_hash_table_lookup (state->convs->function_rewriter_hash, name);
-
-		if (h) {
-			f_call = h (name, $3, state->convs);
-		} else if ((f = gnm_func_lookup (name, state->pos->wb))) {
-			f_call = gnm_expr_new_funcall (f, $3);
-		} else {
-			h = state->convs->unknown_function_handler;
-			if (h)
-				f_call = h (name, $3, state->convs);
-		}
-
 		if (f_call) {
 			/* We're done with the function name.  */
 			unregister_allocation ($1); gnm_expr_free ($1);
@@ -769,7 +752,7 @@ arg_list: exp {
 		$$ = gnm_expr_list_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
-	| exp SEPARATOR arg_list {
+	| exp ARG_SEP arg_list {
 		GSList *tmp = $3;
 		unregister_allocation ($3);
 		unregister_allocation ($1);
@@ -780,7 +763,7 @@ arg_list: exp {
 		$$ = gnm_expr_list_prepend (tmp, $1);
 		register_expr_list_allocation ($$);
 	}
-	| SEPARATOR arg_list {
+	| ARG_SEP arg_list {
 		GSList *tmp = $2;
 		unregister_allocation ($2);
 
@@ -808,15 +791,13 @@ array_exp:     CONSTANT		{ $$ = $1; }
 	 ;
 
 
-/* Some locales use {1\2\3;4\5\6} rather than {1,2,3;4,5,6}
- * but the lexer will call ',' or ';' SEPARATOR depending on locale */
-array_row_comma : { $$ = NULL; }
+array_row : { $$ = NULL; }
 	| array_exp {
 		unregister_allocation ($1);
 		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
-	| array_exp SEPARATOR array_row_comma {
+	| array_exp ARRAY_COL_SEP array_row {
 		unregister_allocation ($3);
 		unregister_allocation ($1);
 		$$ = g_slist_prepend ($3, $1);
@@ -824,12 +805,12 @@ array_row_comma : { $$ = NULL; }
 	}
 	;
 
-array_cols_comma: array_row_comma {
+array_rows: array_row {
 		unregister_allocation ($1);
 		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_list_allocation ($$);
         }
-        | array_row_comma ';' array_cols_comma {
+        | array_row ARRAY_ROW_SEP array_rows {
 		unregister_allocation ($3);
 		unregister_allocation ($1);
 		$$ = g_slist_prepend ($3, $1);
@@ -837,32 +818,6 @@ array_cols_comma: array_row_comma {
 	}
 	;
 
-array_row_bslash : { $$ = NULL; }
-	| array_exp {
-		unregister_allocation ($1);
-		$$ = g_slist_prepend (NULL, $1);
-		register_expr_list_allocation ($$);
-        }
-	| array_exp '\\' array_row_bslash {
-		unregister_allocation ($3);
-		unregister_allocation ($1);
-		$$ = g_slist_prepend ($3, $1);
-		register_expr_list_allocation ($$);
-	}
-	;
-
-array_cols_bslash: array_row_bslash {
-		unregister_allocation ($1);
-		$$ = g_slist_prepend (NULL, $1);
-		register_expr_list_list_allocation ($$);
-        }
-        | array_row_bslash SEPARATOR array_cols_bslash {
-		unregister_allocation ($3);
-		unregister_allocation ($1);
-		$$ = g_slist_prepend ($3, $1);
-		register_expr_list_list_allocation ($$);
-	}
-	;
 %%
 
 static char const *
@@ -896,8 +851,8 @@ find_matching_close (char const *str, char const **res)
 static inline int
 eat_space (ParserState *state, int res)
 {
-	/* help the user by ignoring pointless spaces after a
-	 * separator.  We know they are going to be errors and
+	/* help the user by ignoring pointless spaces after an
+	 * arg_sep.  We know they are going to be errors and
 	 * the spaces can not be operators in this context */
 	while (*state->ptr == ' ')
 		state->ptr++;
@@ -1091,16 +1046,13 @@ yylex (void)
 	if (c == ':' && state->convs->range_sep_colon)
 		return eat_space (state, RANGE_SEP);
 
-	if (c == '!' && state->convs->sheet_sep_exclamation)
+	if (c == state->convs->sheet_name_sep)
 		return eat_space (state, SHEET_SEP);
 
 	if (c == '.' && *state->ptr == '.' && state->convs->range_sep_dotdot) {
 		state->ptr++;
 		return RANGE_SEP;
 	}
-
-	if (c == ':' && state->convs->sheet_sep_colon)
-		return SHEET_SEP;
 
 	if (c == '#' && state->convs->accept_hash_logicals) {
 		if (!strncmp (state->ptr, "NOT#", 4)) {
@@ -1117,10 +1069,14 @@ yylex (void)
 		}
 	}
 
-	if (c == state->separator)
-		return eat_space (state, SEPARATOR);
+	if (c == state->arg_sep)
+		return eat_space (state, state->in_array ? state->in_array_sep_is : ARG_SEP);
+	if (c == state->array_col_sep)
+		return eat_space (state, ARRAY_COL_SEP);
+	if (c == state->array_row_sep)
+		return eat_space (state, ARRAY_ROW_SEP);
 
-	if (start != (end = state->convs->ref_parser (&ref, start, state->pos, state->convs))) {
+	if (start != (end = state->convs->input.range_ref (&ref, start, state->pos, state->convs))) {
 		state->ptr = end;
 		if (state->force_absolute_col_references) {
 			if (ref.a.col_relative) {
@@ -1306,7 +1262,7 @@ yylex (void)
 	}
 	}
 
-	if ((end = state->convs->name_parser (start, state->convs))) {
+	if ((end = state->convs->input.name (start, state->convs))) {
 		state->ptr = end;
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
 			value_new_string_nocopy (g_strndup (start, state->ptr - start))));
@@ -1335,8 +1291,11 @@ yylex (void)
 	case '\n': return 0;
 
 	case '{' :
-		return (state->array_col_separator == ',')
-			? ARRAY_START_COMMA : ARRAY_START_BSLASH;
+		state->in_array++;
+		return c;
+	case '}' :
+		state->in_array--;
+		return c;
 
 	case UNICODE_LOGICAL_NOT_C: return NOT;
 	case UNICODE_MINUS_SIGN_C: return '-';
@@ -1405,12 +1364,34 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
 	pstate.decimal_point = pstate.convs->decimal_sep_dot
 		? '.'
 		: g_utf8_get_char (go_locale_get_decimal ()->str); /* FIXME: one char handled.  */
-	pstate.separator = pstate.convs->argument_sep_semicolon
-		? ';'
-		: go_locale_get_arg_sep ();
-	pstate.array_col_separator = pstate.convs->array_col_sep_comma
-		? ','
-		: go_locale_get_col_sep ();
+
+	if (pstate.convs->arg_sep != 0)
+		pstate.arg_sep = pstate.convs->arg_sep;
+	else
+		pstate.arg_sep = go_locale_get_arg_sep ();
+	if (pstate.convs->array_col_sep != 0)
+		pstate.array_col_sep = pstate.convs->array_col_sep;
+	else
+		pstate.array_col_sep = go_locale_get_col_sep ();
+	if (pstate.convs->array_row_sep != 0)
+		pstate.array_row_sep = pstate.convs->array_row_sep;
+	else
+		pstate.array_row_sep = go_locale_get_row_sep ();
+
+	/* Some locales/conventions have ARG_SEP == ARRAY_ROW_SEP
+	 * 	eg {1\2\3;4\5\6} for XL style with ',' as a decimal
+	 * some have ARG_SEP == ARRAY_COL_SEPARATOR
+	 * 	eg {1,2,3;4,5,6} for XL style with '.' as a decimal
+	 * 	or {1;2;3|4;5;6} for OOo/
+	 * keep track of whether we are in an array to allow the lexer to
+	 * dis-ambiguate. */
+	if (pstate.arg_sep == pstate.array_col_sep)
+		pstate.in_array_sep_is = ARRAY_COL_SEP;
+	else if (pstate.arg_sep == pstate.array_row_sep)
+		pstate.in_array_sep_is = ARRAY_ROW_SEP;
+	else
+		pstate.in_array_sep_is = ARG_SEP;
+	pstate.in_array = 0;
 
 	pstate.result = NULL;
 	pstate.error = error;

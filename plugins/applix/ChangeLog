@@ -1,3 +1,8 @@
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_func_map_in) : Adapt to the new func_map
+	  approach to renaming.
+
 2007-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.8

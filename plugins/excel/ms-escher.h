@@ -28,10 +28,18 @@ MSObjAttrBag *ms_escher_parse (BiffQuery  *q, MSContainer *container,
 
 void ms_escher_blip_free (MSEscherBlip *blip);
 
-#if 0
-typedef struct _MSEscherWriter MSEscherWriter;
-MSEscherWriter *ms_escher_writer_new (BiffPut *bp);
-void		ms_escher_writer_commit (MSEscherWriter *ew);
-#endif
+/******************************************************/
+
+typedef struct _MSEscherSp MSEscherSp;
+MSEscherSp *ms_escher_sp_new        (void);
+void	    ms_escher_sp_free	    (MSEscherSp *sp);
+guint32	    ms_escher_sp_len        (MSEscherSp const *sp);
+void	    ms_escher_sp_add_OPT    (MSEscherSp *sp, guint16 id, guint32 val,
+				     gpointer complex_val);
+void	    ms_escher_sp_set_anchor (MSEscherSp *sp,
+				     SheetObjectAnchor const *anchor,
+				     guint16 anchor_flags);
+void	    ms_escher_sp_write      (MSEscherSp *sp, BiffPut *bp,
+				     guint16 shape, guint32 spid);
 
 #endif /* GNM_MS_OFFICE_ESCHER_H */

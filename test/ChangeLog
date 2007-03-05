@@ -1,3 +1,7 @@
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* t5902-applix.pl : new.
+
 2007-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.8

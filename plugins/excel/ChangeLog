@@ -1,3 +1,37 @@
+2007-03-05  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-utils.c (xlsx_cellref_as_string) : no need to use the
+	  convention for the sheet_sep, hard code it.
+	(xlsx_rangeref_as_string) : ditto.
+	(xlsx_expr_conv_new) : adapt to changes.
+
+2007-01-11  Jody Goldberg <jody@gnome.org>
+
+	* ms-escher.c (ms_escher_read_OPT_bools) : improve debug stream.
+	(ms_escher_read_OPT) : add a few more properties based on the results
+	  of the test file that fills in as many properties as I could find
+	  samples/excel/objs.xls.
+	(ms_escher_sp_new) : new. unused as yet.
+	(ms_escher_sp_free) : ditto.
+	(ms_escher_sp_len) : ditto.
+	(ms_escher_sp_add_OPT) : ditto.
+	(ms_escher_sp_set_anchor) : ditto.
+	(ms_escher_sp_write) : ditto.
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : do not generate a warning for
+	  combos with no link, or the special autofilter combos.
+	(ms_obj_read_biff8_obj) : include the id in the debug spew.
+	(ms_obj_read_biff8_obj) : Do not warn about unknown flags that we know
+	  are unknown :-)
+	(ms_objv8_write_note) : new basic stub.
+
+	* ms-excel-write.c (excel_write_textbox_v8) : cheap hack to handle
+	  comments somewhat at an invented anchor.
+	(cb_NOTE_v8) : new.
+	(excel_write_objs_v8) : keep track of the number of comments too.
+	(excel_sheet_new) : count comments too.  General tidyup in prep for
+	  moving to generated escher.
+
 2007-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.8

@@ -167,7 +167,7 @@ odf_cellref_as_string (GString *target, GnmExprConventions const *conv,
 {
 	g_string_append (target, "[");
 	if (cell_ref->sheet == NULL)
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_c (target, '.');
 	cellref_as_string (target, conv, cell_ref, pp, FALSE);
 	g_string_append (target, "]");
 }
@@ -178,10 +178,9 @@ odf_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 {
 	g_string_append (target, "[");
 	if (ref->a.sheet == NULL)
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_c (target, '.');
 	cellref_as_string (target, conv, &(ref->a), pp, FALSE);
-	g_string_append (target, ":");
-	g_string_append (target, conv->output_sheet_name_sep);
+	g_string_append (target, ":.");
 	cellref_as_string (target, conv, &(ref->b), pp, TRUE);	
 	g_string_append (target, "]");
 }
@@ -193,12 +192,13 @@ odf_expr_conventions_new (void)
 	GnmExprConventions *conv;
 
 	conv = gnm_expr_conventions_new ();
-	conv->output_sheet_name_sep = ".";
-	conv->output_argument_sep = ";";
-	conv->argument_sep_semicolon = TRUE;
-	conv->decimal_sep_dot = TRUE;
-	conv->cell_ref_handler = odf_cellref_as_string;
-	conv->range_ref_handler = odf_rangeref_as_string;
+	conv->sheet_name_sep		= '.';
+	conv->arg_sep			= ';';
+	conv->array_col_sep		= ';';
+	conv->array_row_sep		= '|';
+	conv->decimal_sep_dot		= TRUE;
+	conv->output.cell_ref		= odf_cellref_as_string;
+	conv->output.range_ref		= odf_rangeref_as_string;
 	
 	return conv;
 }
@@ -310,7 +310,9 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 						      state->conv);
 			eq_formula = g_strdup_printf ("oooc:=%s", formula);
 
-			g_warning ("Writing: %s", eq_formula);
+#if 0
+			g_warning ("Writing: %s", eq_formula); 
+#endif
 			
 			gsf_xml_out_add_cstr (state->xml,
 					      TABLE "formula",

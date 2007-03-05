@@ -458,69 +458,62 @@ sc_parse_sheet (ScParseState *state)
 	return NULL;
 }
 
-static struct {
-	char const *scname;
-	char const *gnumericname;
-} const simple_renames[] = {
-	{ "AVG",    "AVERAGE" },
-	{ "DTR",    "RADIANS" },
-	{ "FABS",   "ABS" },
-	{ "COLS",   "COLUMNS" },
-	{ "AVG",    "AVERAGE" },
-	{ "POW",    "POWER" },
-	{ "PROD",   "PRODUCT" },
-	{ "RND",    "ROUND" },
-	{ "RTD",    "DEGREES" },
-	{ "STDDEV", "STDEV" },
-	{ "STON",   "INT" },
-	{ "SUBSTR", "MID" },
-	{ NULL, NULL }
-};
-
-
 static GnmExpr const *
-function_renamer (char const *name,
-		  GnmExprList *args,
-		  GnmExprConventions *convs)
+sc_func_map_in (GnmExprConventions const *conv, Workbook *scope,
+		char const *name, GnmExprList *args)
 {
-	Workbook *wb = NULL;
+	static struct {
+		char const *sc_name;
+		char const *gnm_name;
+	} const sc_func_renames[] = {
+		{ "AVG",    "AVERAGE" },
+		{ "DTR",    "RADIANS" },
+		{ "FABS",   "ABS" },
+		{ "COLS",   "COLUMNS" },
+		{ "AVG",    "AVERAGE" },
+		{ "POW",    "POWER" },
+		{ "PROD",   "PRODUCT" },
+		{ "RND",    "ROUND" },
+		{ "RTD",    "DEGREES" },
+		{ "STDDEV", "STDEV" },
+		{ "STON",   "INT" },
+		{ "SUBSTR", "MID" },
+		{ NULL, NULL }
+	};
+	static GHashTable *namemap = NULL;
+
+	GnmFunc  *f;
+	char const *new_name;
 	int i;
-	GnmFunc *f;
 
-	for (i = 0; simple_renames[i].scname; i++)
-		if (strcasecmp (name, simple_renames[i].scname) == 0) {
-			name = simple_renames[i].gnumericname;
-			break;
-		}
+	if (NULL == namemap) {
+		namemap = g_hash_table_new (go_ascii_strcase_hash, 
+					    go_ascii_strcase_equal);
+		for (i = 0; sc_func_renames[i].sc_name; i++)
+			g_hash_table_insert (namemap,
+				(gchar *) sc_func_renames[i].sc_name,
+				(gchar *) sc_func_renames[i].gnm_name);
+	}
 
-	f = gnm_func_lookup (name, wb);
-	if (f)
-		return gnm_expr_new_funcall (f, args);
-
-	return gnm_func_placeholder_factory (name, args, convs);
+	if (NULL != namemap &&
+	    NULL != (new_name = g_hash_table_lookup (namemap, name)))
+		name = new_name;
+	if (NULL == (f = gnm_func_lookup (name, scope)))
+		f = gnm_func_add_placeholder (scope, name, "", TRUE);
+	return gnm_expr_new_funcall (f, args);
 }
-
 
 static GnmExprConventions *
 sc_conventions (void)
 {
-	GnmExprConventions *convs = gnm_expr_conventions_new ();
-	int i;
+	GnmExprConventions *conv = gnm_expr_conventions_new ();
 
-	convs->decimal_sep_dot = TRUE;
-	convs->ref_parser = sc_rangeref_parse;
-	convs->range_sep_colon = TRUE;
-	convs->sheet_sep_exclamation	= TRUE;
-	convs->unknown_function_handler = gnm_func_placeholder_factory;
-	convs->function_rewriter_hash =
-		g_hash_table_new (go_ascii_strcase_hash, 
-				  go_ascii_strcase_equal);
-	for (i = 0; simple_renames[i].scname; i++)
-		g_hash_table_insert (convs->function_rewriter_hash,
-				     (gchar *) simple_renames[i].scname,
-				     function_renamer);
+	conv->decimal_sep_dot		= TRUE;
+	conv->range_sep_colon		= TRUE;
+	conv->input.range_ref		= sc_rangeref_parse;
+	conv->input.func		= sc_func_map_in;
 
-	return convs;
+	return conv;
 }
 
 

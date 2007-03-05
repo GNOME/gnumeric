@@ -843,14 +843,14 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 			g_string_append_c (target, '#');
 			go_strescape (target, v->v_err.mesg->str);
 		} else
-			g_string_append (target, value_error_name (e, conv->output_translated));
+			g_string_append (target, value_error_name (e, conv->output.translated));
 		return;
 	}
 
 	case VALUE_BOOLEAN: {
 		gboolean b = v->v_bool.val;
 		g_string_append (target,
-				 conv->output_translated
+				 conv->output.translated
 				 ? go_locale_boolean_name (b)
 				 : (b ? "TRUE" : "FALSE"));
 		return;
@@ -866,36 +866,29 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		return;
 
 	case VALUE_ARRAY: {
-		char const *row_sep, *col_sep;
-		char locale_row_sep[2], locale_col_sep[2];
+		GnmValue const *val;
+		gunichar row_sep, col_sep;
 		int x, y;
 
-		if (conv->output_array_row_sep)
-			row_sep = conv->output_array_row_sep;
-		else {
-			locale_row_sep[0] = go_locale_get_row_sep ();
-			locale_row_sep[1] = 0;
-			row_sep = locale_row_sep;
-		}
-
-		if (conv->output_array_col_sep)
-			col_sep = conv->output_array_col_sep;
-		else {
-			locale_col_sep[0] = go_locale_get_col_sep ();
-			locale_col_sep[1] = 0;
-			col_sep = locale_col_sep;
-		}
+		if (conv->array_row_sep)
+			row_sep = conv->array_row_sep;
+		else
+			row_sep = go_locale_get_row_sep ();
+		if (conv->array_col_sep)
+			col_sep = conv->array_col_sep;
+		else
+			col_sep = go_locale_get_col_sep ();
 
 		g_string_append_c (target, '{');
 		for (y = 0; y < v->v_array.y; y++){
 			if (y)
-				g_string_append (target, row_sep);
+				g_string_append_unichar (target, row_sep);
 
 			for (x = 0; x < v->v_array.x; x++){
-				GnmValue const *val = v->v_array.vals[x][y];
+				val = v->v_array.vals[x][y];
 
 				if (x)
-					g_string_append (target, col_sep);
+					g_string_append_unichar (target, col_sep);
 
 				/* quote strings */
 				if (VALUE_IS_STRING (val))

@@ -353,16 +353,14 @@ oleo_new_sheet (Workbook *wb, int idx)
 static GnmExprConventions *
 oleo_conventions (void)
 {
-	GnmExprConventions *res = gnm_expr_conventions_new ();
+	GnmExprConventions *conv = gnm_expr_conventions_new ();
 
-	res->decimal_sep_dot = TRUE;
-	res->ref_parser = rangeref_parse;
-	res->range_sep_colon = TRUE;
-	res->sheet_sep_exclamation = TRUE;
-	res->intersection_char = 0;
-	res->unknown_function_handler = gnm_func_placeholder_factory;
+	conv->decimal_sep_dot		= TRUE;
+	conv->input.range_ref			= rangeref_parse;
+	conv->range_sep_colon		= TRUE;
+	conv->intersection_char		= 0;
 
-	return res;
+	return conv;
 }
 
 void

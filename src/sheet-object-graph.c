@@ -215,11 +215,9 @@ gnm_sog_get_target_list (SheetObject const *so)
 static GtkTargetList *
 gnm_sog_get_object_target_list (SheetObject const *so)
 {
-	GtkTargetList *tl, *tl2;
-	GtkTargetPair *pair;
-	tl = gtk_target_list_new (NULL, 0);
-	gtk_target_list_add (tl, gdk_atom_intern
-					("application/x-goffice-graph", FALSE), 0, 0);
+	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add (tl,
+		gdk_atom_intern ("application/x-goffice-graph", FALSE), 0, 0);
 	return tl;
 }
 

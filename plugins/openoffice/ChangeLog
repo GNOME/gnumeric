@@ -1,3 +1,9 @@
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (odf_func_map_in) : adapt to the new mechanism of
+	  function renaming.
+	(oo_conventions) : handle inline arrays.
+
 2007-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.8

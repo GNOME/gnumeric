@@ -63,7 +63,7 @@ xlsx_cellref_as_string (GString *target, GnmExprConventions const *conv,
 		if (pp->wb != NULL && sheet->workbook != pp->wb)
 			g_string_append (target, xlsx_extern_id (conv, sheet->workbook));
 		g_string_append (target, sheet->name_quoted);
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_c (target, '!');
 	}
 	cellref_as_string (target, conv, cell_ref, pp, TRUE);
 }
@@ -83,7 +83,7 @@ xlsx_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append_c (target, ':');
 			g_string_append (target, ref->b.sheet->name_quoted);
 		}
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_c (target, '!');
 	}
 	rangeref_as_string (target, conv, &tmp, pp);
 }
@@ -96,17 +96,15 @@ xlsx_expr_conv_new ()
 	XLSXExprConventions *xconv = (XLSXExprConventions *)conv;
 
 	conv->decimal_sep_dot		= TRUE;
-	conv->ref_parser		= rangeref_parse;
-	conv->cell_ref_handler		= xlsx_cellref_as_string;
-	conv->range_ref_handler		= xlsx_rangeref_as_string;
+	conv->input.range_ref		= rangeref_parse;
+	conv->output.cell_ref		= xlsx_cellref_as_string;
+	conv->output.range_ref		= xlsx_rangeref_as_string;
 	conv->range_sep_colon		= TRUE;
-	conv->sheet_sep_exclamation	= TRUE;
-	conv->output_sheet_name_sep	= "!";
-	conv->output_argument_sep	= ",";
-	conv->output_array_col_sep	= ",";
-	conv->output_array_row_sep	= ";";
-	conv->output_translated		= FALSE;
-	conv->unknown_function_handler	= gnm_func_placeholder_factory;
+	conv->sheet_name_sep		= '!';
+	conv->arg_sep			= ',';
+	conv->array_col_sep		= ',';
+	conv->array_row_sep		= ';';
+	conv->output.translated		= FALSE;
 	xconv->extern_ids = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		(GDestroyNotify) g_object_unref, g_free);
 

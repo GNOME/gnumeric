@@ -1567,11 +1567,11 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 	}
 
 	case GNM_EXPR_OP_NAME:
-		conv->expr_name_handler (target, pp, &expr->name, conv);
+		conv->output.name (target, pp, &expr->name, conv);
 		return;
 
 	case GNM_EXPR_OP_CELLREF:
-		conv->cell_ref_handler (target, conv, &expr->cellref.ref, pp, FALSE);
+		conv->output.cell_ref (target, conv, &expr->cellref.ref, pp, FALSE);
 		return;
 
 	case GNM_EXPR_OP_CONSTANT: {
@@ -1584,7 +1584,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		}
 
 		if (v->type == VALUE_CELLRANGE) {
-			conv->range_ref_handler (target, conv, &v->v_range.cell, pp);
+			conv->output.range_ref (target, conv, &v->v_range.cell, pp);
 			return;
 		}
 
@@ -2459,20 +2459,16 @@ gnm_expr_list_as_string (GString *target,
 			 GnmExprConventions const *conv)
 {
 	int i;
-	char const *sep;
-	char arg_sep[2];
-	if (conv->output_argument_sep)
-		sep = conv->output_argument_sep;
-	else {
-		arg_sep[0] = go_locale_get_arg_sep ();
-		arg_sep[1] = 0;
-		sep = arg_sep;
-	}
+	gunichar arg_sep;
+	if (conv->arg_sep)
+		arg_sep = conv->arg_sep;
+	else
+		arg_sep = go_locale_get_arg_sep ();
 
 	g_string_append_c (target, '(');
 	for (i = 0; i < argc; i++) {
 		if (i != 0)
-			g_string_append (target, sep);
+			g_string_append_unichar (target, arg_sep);
 		do_expr_as_string (target, argv[i], pp, 0, conv);
 	}
 	g_string_append_c (target, ')');

@@ -1146,17 +1146,14 @@ xml_io_conventions (void)
 {
 	GnmExprConventions *res = gnm_expr_conventions_new ();
 
-	res->decimal_sep_dot = TRUE;
-	res->ref_parser = rangeref_parse;
-	res->range_ref_handler = gnm_1_0_rangeref_as_string;
-	res->range_sep_colon = TRUE;
-	res->sheet_sep_exclamation = TRUE;
-	res->output_sheet_name_sep = "!";
-	res->output_argument_sep  = ",";
-	res->output_array_col_sep = ",";
-	res->output_array_row_sep = ";";
-	res->output_translated = FALSE;
-	res->unknown_function_handler = gnm_func_placeholder_factory;
+	res->decimal_sep_dot		= TRUE;
+	res->input.range_ref		= rangeref_parse;
+	res->output.range_ref		= gnm_1_0_rangeref_as_string;
+	res->range_sep_colon		= TRUE;
+	res->arg_sep			= ',';
+	res->array_col_sep		= ',';
+	res->array_row_sep		= ';';
+	res->output.translated		= FALSE;
 
 	return res;
 }

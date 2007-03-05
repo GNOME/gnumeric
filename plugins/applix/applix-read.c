@@ -55,6 +55,7 @@
 
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gsf/gsf-input-textline.h>
 #include <string.h>
 #include <stdlib.h>
@@ -1544,57 +1545,55 @@ cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
-static struct {
-	char const *applixname;
-	char const *gnumericname;
-} const simple_renames[] = {
-	{ "IPAYMT", "IPMT" },
-	{ "PAYMT", "PMT" },
-	{ "PPAYMT", "PPMT" },
-	{ NULL, NULL }
-};
-
 static GnmExpr const *
-function_renamer (char const *name,
-		  GnmExprList *args,
-		  GnmExprConventions *convs)
+applix_func_map_in (GnmExprConventions const *conv, Workbook *scope,
+		    char const *name, GnmExprList *args)
 {
-	Workbook *wb = NULL;
+	static struct {
+		char const *applix_name;
+		char const *gnm_name;
+	} const sc_func_renames[] = {
+		{ "IPAYMT",	"IPMT" },
+		{ "PAYMT",	"PMT" },
+		{ "PPAYMT",	"PPMT" },
+		{ NULL, NULL }
+	};
+	static GHashTable *namemap = NULL;
+
+	GnmFunc  *f;
+	char const *new_name;
 	int i;
-	GnmFunc *f;
 
-	for (i = 0; simple_renames[i].applixname; i++)
-		if (strcmp (name, simple_renames[i].applixname) == 0) {
-			name = simple_renames[i].gnumericname;
-			break;
-		}
+	if (NULL == namemap) {
+		namemap = g_hash_table_new (go_ascii_strcase_hash, 
+					    go_ascii_strcase_equal);
+		for (i = 0; sc_func_renames[i].applix_name; i++)
+			g_hash_table_insert (namemap,
+				(gchar *) sc_func_renames[i].applix_name,
+				(gchar *) sc_func_renames[i].gnm_name);
+	}
 
-	f = gnm_func_lookup (name, wb);
-	if (f)
-		return gnm_expr_new_funcall (f, args);
-
-	return gnm_func_placeholder_factory (name, args, convs);
+	if (NULL != namemap &&
+	    NULL != (new_name = g_hash_table_lookup (namemap, name)))
+		name = new_name;
+	if (NULL == (f = gnm_func_lookup (name, scope)))
+		f = gnm_func_add_placeholder (scope, name, "", TRUE);
+	return gnm_expr_new_funcall (f, args);
 }
 
 static GnmExprConventions *
 applix_conventions (void)
 {
-	GnmExprConventions *res = gnm_expr_conventions_new ();
+	GnmExprConventions *conv = gnm_expr_conventions_new ();
 
-	res->intersection_char = 0;
-	res->accept_hash_logicals = TRUE;
-	res->allow_absolute_sheet_references = TRUE;
-	res->range_sep_dotdot = TRUE;
-	res->unknown_function_handler = gnm_func_placeholder_factory;
-	res->ref_parser = applix_rangeref_parse;
+	conv->intersection_char		= 0;
+	conv->accept_hash_logicals	= TRUE;
+	conv->allow_absolute_sheet_references = TRUE;
+	conv->range_sep_dotdot		= TRUE;
+	conv->input.range_ref		= applix_rangeref_parse;
+	conv->input.func		= applix_func_map_in;
 
-	res->function_rewriter_hash =
-		g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (res->function_rewriter_hash,
-			     (gchar *)"IPAYMT",
-			     function_renamer);
-
-	return res;
+	return conv;
 }
 
 void

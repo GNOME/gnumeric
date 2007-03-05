@@ -57,6 +57,7 @@ typedef enum {
 	MS_OBJ_ATTR_ANCHOR,
 	MS_OBJ_ATTR_TEXT,	/* just the text, no markup */
 	MS_OBJ_ATTR_OBJ_NAME,
+	MS_OBJ_ATTR_OBJ_ALT_TEXT,
 
     /* GArrays */
 	MS_OBJ_ATTR_IS_GARRAY_MASK = 0x4000,
@@ -148,5 +149,6 @@ char  *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 void ms_objv8_write_common	(BiffPut *bp, int id, int type, guint16 flags);
 void ms_objv8_write_scrollbar	(BiffPut *bp);
 void ms_objv8_write_listbox	(BiffPut *bp, gboolean filtered);
+void ms_objv8_write_note	(BiffPut *bp);
 
 #endif /* GNM_MS_OBJ_H */

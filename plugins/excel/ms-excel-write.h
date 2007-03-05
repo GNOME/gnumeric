@@ -49,7 +49,8 @@ typedef struct {
 	GnmStyle	*col_style [SHEET_MAX_COLS];
 	GnmStyleList 	*conditions, *validations;
 	GSList           *blips, *textboxes;
-	unsigned	 cur_obj, num_objs, num_blips;
+	GHashTable	*comments;
+	unsigned	 cur_obj, num_objs;
 } ExcelWriteSheet;
 
 struct _ExcelWriteState {

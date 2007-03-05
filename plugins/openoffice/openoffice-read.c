@@ -64,6 +64,7 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/data/go-data-simple.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <graph.h>
@@ -2454,59 +2455,66 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 
 static GnmExpr const *
-errortype_renamer (char const *name, GnmExprList *args, GnmExprConventions *convs)
+odf_func_map_in (GnmExprConventions const *convs, Workbook *scope,
+		 char const *name, GnmExprList *args)
 {
-	GnmFunc *f = gnm_func_lookup ("ERROR.TYPE", NULL);
-	if (f != NULL)
-		return gnm_expr_new_funcall (f, args);
-	return gnm_func_placeholder_factory (name, args, convs);
-}
+	static struct {
+		char const *odf_name;
+		char const *gnm_name;
+	} const sc_func_renames[] = {
+		{ "INDIRECT_XL",	"INDIRECT" },
+		{ "ADDRESS_XL",		"ADDRESS" },
+		{ "ERRORTYPE",		"ERROR.TYPE" },
+		{ NULL, NULL }
+	};
+	static char const OOoAnalysisPrefix[] = "com.sun.star.sheet.addin.Analysis.get";
+	static GHashTable *namemap = NULL;
 
-static GnmExpr const *
-oo_unknown_hander (char const *name,
-		   GnmExprList *args,
-		   GnmExprConventions const *convs)
-{
-	GnmFunc *f;
+	GnmFunc  *f;
+	char const *new_name;
+	int i;
 
-	if (0 == strncmp ("com.sun.star.sheet.addin.Analysis.get", name, 37)) {
-		GnmFunc *f = gnm_func_lookup (name + 37, NULL);
-		if (f != NULL)
-			return gnm_expr_new_funcall (f, args);
-		g_warning ("unknown function");
-	} else if (0 == strcmp ("INDIRECT_XL", name))
-		name = "INDIRECT";
-	else if (0 == strcmp ("ADDRESS_XL", name))
-		name = "ADDRESS";
-	f = gnm_func_lookup (name, NULL);
-	if (f != NULL)
-		return gnm_expr_new_funcall (f, args);
-	return gnm_func_placeholder_factory (name, args, convs);
+#warning "TODO : OO adds a 'mode' parm to floor/ceiling"
+#warning "TODO : OO missing 'A1' parm for address"
+	if (NULL == namemap) {
+		namemap = g_hash_table_new (go_ascii_strcase_hash, 
+					    go_ascii_strcase_equal);
+		for (i = 0; sc_func_renames[i].odf_name; i++)
+			g_hash_table_insert (namemap,
+				(gchar *) sc_func_renames[i].odf_name,
+				(gchar *) sc_func_renames[i].gnm_name);
+	}
+
+	if (0 != strncmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
+		if (NULL != namemap &&
+		    NULL != (new_name = g_hash_table_lookup (namemap, name)))
+			name = new_name;
+		f = gnm_func_lookup (name, scope);
+	} else 
+		f = gnm_func_lookup (name+sizeof (OOoAnalysisPrefix)-1, scope);
+
+	if (NULL == f)
+		f = gnm_func_add_placeholder (scope, name, "", TRUE);
+	return gnm_expr_new_funcall (f, args);
 }
 
 static GnmExprConventions *
 oo_conventions (void)
 {
-	GnmExprConventions *res = gnm_expr_conventions_new ();
+	GnmExprConventions *conv = gnm_expr_conventions_new ();
 
-	res->decode_ampersands = TRUE;
-	res->intersection_char = '!';
-	res->decimal_sep_dot = TRUE;
-	res->argument_sep_semicolon = TRUE;
-	res->array_col_sep_comma = TRUE;
-	res->range_sep_colon = TRUE;
-	res->output_argument_sep = ";";
-	res->output_array_col_sep = ",";
-	res->unknown_function_handler = oo_unknown_hander;
-	res->ref_parser = oo_rangeref_parse;
+	conv->decode_ampersands	= TRUE;
 
-#warning "TODO : OO adds a 'mode' parm to floor/ceiling"
-#warning "TODO : OO missing 'A1' parm for address"
-	res->function_rewriter_hash =
-		g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (res->function_rewriter_hash,
-		(gchar *)"ERRORTYPE", errortype_renamer);
-	return res;
+	conv->intersection_char	= '!';
+	conv->decimal_sep_dot	= TRUE;
+	conv->range_sep_colon	= TRUE;
+	conv->arg_sep		= ';';
+	conv->array_col_sep	= ';';
+	conv->array_row_sep	= '|';
+	conv->input.func	= odf_func_map_in;
+	conv->input.range_ref	= oo_rangeref_parse;
+
+	return conv;
 }
 
 void

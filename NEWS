@@ -1,5 +1,9 @@
 Gnumeric 1.7.9
 
+Jody:
+	* Import and Export for inline arrays in ODF. (now patched in OOo)
+	* Export cell comments to xls.
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.8
 
@@ -22,6 +26,8 @@ Jody:
 	* Fix AutoFormat loading.
 	* Add support for the standard builtin formats in xlsx.
 	* Fix col/row grouping deletion. [#388505]
+	* Basic ODF AutoFilter partial import/export.
+	* Some property dialogs for combos and lists.
 
 Morten:
 	* Unify layout and string value formatting.

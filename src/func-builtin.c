@@ -171,9 +171,9 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	/* evaluation clears the dynamic deps */
 	gnumeric_table_link (ei);
 
-	/* FIXME: This looks b-o-g-u-s!  */
-	if (argc != 2 &&
-	    ei->pos->eval.col > 0 && ei->pos->eval.row > 0)
+	if (argc != 2 ||
+	    ei->pos->eval.col < 1 ||
+	    ei->pos->eval.row < 1)
 		return value_new_error_REF (ei->pos);
 
 	for (x = 0; x < 2 ; x++) {

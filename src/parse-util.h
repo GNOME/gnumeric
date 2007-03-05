@@ -86,13 +86,14 @@ typedef char const *(*GnmRangeRefParse) (GnmRangeRef *res, char const *in,
 typedef char const *(*GnmNameParse) (char const *in,
 				     GnmExprConventions const *convs);
 
-/*
- * On success, this functions should return a non-NULL value and
- * absorb the args, including the list.
- */
-typedef GnmExpr const *(*GnmParseFunctionHandler) (char const *name,
-						   GnmExprList *args,
-						   GnmExprConventions const *convs);
+/* Must return non-NULL, and absorb the args, including the list. */
+typedef GnmExpr const *(*GnmParseFuncMap) (GnmExprConventions const *convs,
+					   /* make scope more useful, eg a
+					    * ParsePos * to allow for
+					    * sheet/object specific functions
+					    * */
+					   Workbook *scope,
+					   char const *name, GnmExprList *args);
 
 typedef void (*GnmParseExprNameHandler) (GString *target,
 					 GnmParsePos const *pp,
@@ -122,6 +123,13 @@ struct _GnmExprConventions {
 #endif
 	gboolean r1c1_addresses;
 
+	/* Separate elements in lists, 0 will use go_locale. */
+	gunichar arg_sep;
+	/* Separate array columns, 0 will use go_locale. */
+	gunichar array_col_sep;
+	/* Separate array rows, 0 will use go_locale.  */
+	gunichar array_row_sep;
+
 	/* What character denotes range intersection?  */
 	gunichar intersection_char;
 
@@ -129,9 +137,8 @@ struct _GnmExprConventions {
 	gboolean range_sep_colon;  /* A1:B2 */
 	gboolean range_sep_dotdot; /* A1..B2 */
 
-	/* What characters are sheet separators?  */
-	gboolean sheet_sep_exclamation;  /* Sheet!... */
-	gboolean sheet_sep_colon; /* Sheet:... */
+	/* Separates sheet name from the cell ref */
+	gunichar sheet_name_sep;
 
 	/* Formerly USE_APPLIX_CONVENTIONS.  */
 	gboolean ignore_whitespace;
@@ -145,59 +152,38 @@ struct _GnmExprConventions {
 	/* Is the decimal separator "." (as opposed to locale's)?  */
 	gboolean decimal_sep_dot;
 
-	/* Is the argument separator ";" (as opposed to locale's)?  */
-	gboolean argument_sep_semicolon;
-
-	/* Is the array column separator "," (as opposed to locale's)?  */
-	gboolean array_col_sep_comma;
-
 	/* Accept prefix #NOT# and infixs #AND# and #OR#.  */
 	gboolean accept_hash_logicals;
 
-	/* Called a lot for anything that might be a reference.  */
-	GnmRangeRefParse ref_parser;
+/* Import specific functions ------------------------------------- */
+	struct {
+		/* Called a lot for anything that might be a reference.  */
+		GnmRangeRefParse	range_ref;
 
-	/* Called a lot for anything that might be a function name or defined
-	   name.  */
-	GnmNameParse name_parser;
+		/* Called a lot for anything that might be a function name or
+		 * defined name.  */
+		GnmNameParse		name;
 
-	/*
-	 * Optional name->GnmParseFunctionHandler hash.  When a name is
-	 * present in this hash, unknown_function_handler will not be
-	 * called even if the name is unknown.
-	 */
-	GHashTable *function_rewriter_hash;
+		/* Must be non-NULL, and return non-NULL */
+		GnmParseFuncMap		func;
+	} input;
 
-	/* Called for unknown functions if non-NULL.  */
-	GnmParseFunctionHandler unknown_function_handler;
+/* Export specific functions ----------------------------------- */
+	struct {
+		gboolean translated;
 
-	/* ----------------------------------------------------------------- */
+		/* Called to make strings of names.  */
+		GnmParseExprNameHandler		name;
 
-	/* Called to make strings of names.  */
-	GnmParseExprNameHandler expr_name_handler;
+		/* Called to make strings of cell refs.  */
+		GnmParseCellRefHandler		cell_ref;
 
-	/* Called to make strings of cell refs.  */
-	GnmParseCellRefHandler cell_ref_handler;
+		/* Called to make strings of range refs.  */
+		GnmParseRangeRefHandler		range_ref;
 
-	/* Called to make strings of range refs.  */
-	GnmParseRangeRefHandler range_ref_handler;
-
-	/* Called to optionally quote a sheet name.  */
-	GnmSheetNameQuoteHandler sheet_name_quote;
-
-	/* Used to separate sheet from name when both are needed.  */
-	char const *output_sheet_name_sep;
-
-	/* If non-null, used to separate elements in lists. */
-	char const *output_argument_sep;
-
-	/* If non-null, used to separate array columns. */
-	char const *output_array_col_sep;
-
-	/* If non-null, used to separate array columns.  */
-	char const *output_array_row_sep;
-
-	gboolean output_translated;
+		/* Called to optionally quote a sheet name.  */
+		GnmSheetNameQuoteHandler	sheet_name_quote;
+	} output;
 };
 
 GnmExprConventions *gnm_expr_conventions_new	  (void);

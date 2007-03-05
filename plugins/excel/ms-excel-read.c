@@ -328,7 +328,11 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 	 */
 	int	i;
 
-	d (0, fprintf (stderr,"%s\n", sheet->name_unquoted););
+	d (0,
+	{
+		fprintf (stderr,"anchored to %s\n", sheet->name_unquoted);
+		gsf_mem_dump (raw_anchor, 18);
+	});
 
 	/* Ignore the first 2 bytes.  What are they ? */
 	/* Dec/1/2000 JEG: I have not researched it, but this may have some

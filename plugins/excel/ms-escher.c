@@ -1259,22 +1259,26 @@ ms_escher_read_OPT_bools (MSEscherHeader *h,
 	g_return_if_fail (n_bools > 0);
 	g_return_if_fail (bools[n_bools-1].pid == pid);
 
-	d (2, printf ("BOOLS %s(%d) = 0x%08x;\n",
+	d (2, printf ("Set of Bools %s(%d) = 0x%08x;\n{\n",
 		      bools[n_bools-1].name, bools[n_bools-1].pid, val););
 
 	for (; i-- > 0 ; mask <<= 1, bit <<= 1) {
 		if (!(val & mask))	/* the value is set */
 			continue;
-		/* If the value is not the default, and we give a damn */
-		if ((((val & bit) == bit) ^ bools[i].default_val) && bools[i].id != 0) {
+		/* If the value is not the default */
+		if ((((val & bit) == bit) ^ bools[i].default_val)) {
+			d (0, printf ("bool %s = %s; /* gnm attr id = %d */\n",
+				      bools[i].name,
+				      /* only exported if they != default_val */
+				      bools[i].default_val ? "false" : "true",
+				      bools[i].id););
+
+			if (bools[i].id != 0)
 			ms_escher_header_add_attr (h,
 				ms_obj_attr_new_flag (bools[i].id));
-			d (0, printf ("bool %s(%d) ==%s;\n",
-				      bools[i].name, bools[i].id,
-				      /* only exported if they != default_val */
-				      bools[i].default_val ? "false" : "true"););
 		}
 	}
+	d (2, printf ("};\n"););
 }
 
 static gboolean
@@ -1843,7 +1847,10 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			   name = "wchar* wzName";
 			   break;
 		/* NULL : alternate text */
-		case 897 : name = "wchar* wzDescription"; break;
+		case 897 : id = MS_OBJ_ATTR_OBJ_ALT_TEXT;
+			   name = "wchar* wzDescription";
+			   break;
+
 		/* NULL : The hyperlink in the shape. */
 		case 898 : name = "IHlink* pihlShape"; break;
 		/* NULL : The polygon that text will be wrapped around (Word) */
@@ -1866,12 +1873,15 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 				pid, val);
 			break;
 
-		default : name = "";
+		default : name = "UnknownID";
 		}
 
-		d (0, printf ("%s %d = 0x%08x (=%d) %s%s;\n", name, pid, val, val,
+		d (0, {
+			if (NULL != name)
+				   printf ("%s %d = 0x%08x (=%d) %s%s;\n", name, pid, val, val,
 			      is_blip ? " is blip" : "",
-			      is_complex ? " is complex" : ""););
+					   is_complex ? " is complex" : "");
+		});
 
 		/* TODO : use this for something */
 		if (is_complex) {
@@ -1879,7 +1889,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			g_return_val_if_fail (extra + val - data + COMMON_HEADER_LEN <= h->len, TRUE);
 
 			d (5, gsf_mem_dump (extra, val););
-			d (7, { 
+			d (11, { 
 				static int count = 0;
 				char *name = g_strdup_printf ("gnumeric-complex-opt-[%d]-%d", pid, count++);
 				FILE *f = g_fopen (name, "w");
@@ -2154,3 +2164,154 @@ ms_escher_parse (BiffQuery *q, MSContainer *container, gboolean return_attrs)
 	ms_escher_header_release (&fake_header);
 	return res;
 }
+
+/*********************************************************************/
+
+static guint8 const Sp_header[] = {
+/* SpContainer */
+	0xf,   0,	/* ver = f, inst = 0 */
+	0x04, 0xf0,	/* type = SpContainer */
+	0, 0, 0, 0,	/* 	store total len */
+
+/* Sp */
+	0, 0,		/* 	store (shape type << 4) | 2 */
+	0x0a, 0xf0,	/* type = Sp */
+	8, 0, 0, 0,	/* len = 8 */
+	0, 0, 0, 0,	/* 	store spid */
+	0, 0xa, 0, 0,
+
+/* OPT */
+	0, 0,		/* 	store (count << 4) | 0x3) */
+	0x0b, 0xf0,	/* type = OPT */
+	0, 0, 0, 0,	/* 	store (count * 6) + complex sizes */
+};
+
+static guint8 const Sp_footer[] = {
+/* ClientAnchor */
+	0, 0,		/* ver = inst = 0 */
+	0x10, 0xf0,	/* type = ClientAnchor */
+	0x12, 0, 0, 0,	/* len = 0x12 */
+	0, 0,		/*  anchor flags */
+	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
+
+/* ClientData */
+	0, 0,		/* ver = inst = 0 */
+	0x11, 0xf0,	/* type = ClientAnchor */
+	0, 0, 0, 0
+};
+
+typedef struct {
+	guint16	 id;
+	guint32	 val;
+	gpointer complex_val;
+} MSEscherSpOPT;
+
+struct _MSEscherSp {
+	GArray	*opts;
+	int	 opt_size;
+	guint8	 anchor[9 * 2];
+};
+
+MSEscherSp *
+ms_escher_sp_new (void)
+{
+	MSEscherSp *sp = g_new0 (MSEscherSp, 1);
+	sp->opts    = g_array_new (FALSE, FALSE, sizeof (MSEscherSpOPT));
+	return sp;
+}
+
+void
+ms_escher_sp_free (MSEscherSp *sp)
+{
+	g_array_free (sp->opts, TRUE);
+	g_free (sp);
+}
+
+unsigned int
+ms_escher_sp_len (MSEscherSp const *sp)
+{
+	return sizeof Sp_header + sp->opt_size + sizeof Sp_footer;
+}
+
+void
+ms_escher_sp_add_OPT (MSEscherSp *sp, guint16 id, guint32 val,
+		      gpointer complex_val)
+{
+	MSEscherSpOPT opt = { id, val, complex_val };
+	g_array_append_val (sp->opts, opt);
+}
+
+#include <sheet-object.h>
+void
+ms_escher_sp_set_anchor (MSEscherSp *sp, 
+			 SheetObjectAnchor const *anchor,
+			 guint16 anchor_flags)
+{
+	GSF_LE_SET_GUINT16 (sp->anchor +  0, anchor_flags);
+	GSF_LE_SET_GUINT16 (sp->anchor +  2, anchor->cell_bound.start.col);
+	GSF_LE_SET_GUINT16 (sp->anchor +  4, (guint16)(anchor->offset[0]*1024. + .5));
+	GSF_LE_SET_GUINT16 (sp->anchor +  6, anchor->cell_bound.start.row);
+	GSF_LE_SET_GUINT16 (sp->anchor +  8, (guint16)(anchor->offset[1]*256. + .5));
+	GSF_LE_SET_GUINT16 (sp->anchor + 10, anchor->cell_bound.end.col);
+	GSF_LE_SET_GUINT16 (sp->anchor + 12, (guint16)(anchor->offset[2]*1024. + .5));
+	GSF_LE_SET_GUINT16 (sp->anchor + 14, anchor->cell_bound.end.row);
+	GSF_LE_SET_GUINT16 (sp->anchor + 16, (guint16)(anchor->offset[3]*256. + .5));
+}
+
+void
+ms_escher_sp_write (MSEscherSp *sp, BiffPut *bp,
+		    guint16 shape, guint32 spid)
+{
+	guint8 buf[sizeof Sp_header + sizeof Sp_footer];
+	MSEscherSpOPT const *opt;
+	guint32 len;
+	unsigned int i;
+
+	len = ms_escher_sp_len (sp);
+	memcpy (buf, Sp_header, sizeof Sp_header);
+/* SpContainer */
+	/* 0xf,   0,					 * ver = f, inst = 0 */
+	/* 0x04, 0xf0,	 				 * type = SpContainer */
+	GSF_LE_SET_GUINT32 (buf + 4, len);		/* total len */
+/* Sp */
+	GSF_LE_SET_GUINT16 (buf + 8, (shape << 4) | 2);
+	/* 0x0a, 0xf0,					 * type = Sp */
+	/* 8, 0, 0, 0,					 * len = 8 */
+	GSF_LE_SET_GUINT32 (buf + 16, spid);		/* store spid */
+	/* 0, 0xa, 0, 0,				   */
+
+/* OPT */
+	GSF_LE_SET_GUINT16 (buf + 20, (sp->opts->len << 4) | 3);
+	/* 0x0b, 0xf0,					 * type = OPT */
+	GSF_LE_SET_GUINT32 (buf + 24, sp->opt_size);
+	ms_biff_put_var_write (bp, buf, sizeof Sp_header);
+
+	/* write the basic values */
+	for (i = 0 ; i < sp->opts->len ; i++) {
+		opt = &g_array_index (sp->opts, MSEscherSpOPT, i);
+		GSF_LE_SET_GUINT16 (buf + 0, opt->id);
+		GSF_LE_SET_GUINT32 (buf + 2, opt->val);
+		ms_biff_put_var_write (bp, buf, 6);
+	}
+
+	/* write the complex content */
+	for (i = 0 ; i < sp->opts->len ; i++) {
+		opt = &g_array_index (sp->opts, MSEscherSpOPT, i);
+		if (opt->complex_val != NULL)
+			ms_biff_put_var_write (bp, opt->complex_val, opt->val);
+	}
+
+	memcpy (buf, Sp_footer, sizeof Sp_footer);
+/* ClientAnchor */
+	/* 0, 0,	 * ver = inst = 0 */
+	/* 0x10, 0xf0,	 * type = ClientAnchor */
+	/* 0x12, 0, 0, 0 * len = 0x12 */
+	memcpy (buf+8, sp->anchor, 9*2);
+
+/* ClientData */
+	/* 0, 0,	 * ver = inst = 0 */
+	/* 0x11, 0xf0,	 * type = ClientAnchor */
+	/* 0, 0, 0, 0 */
+	ms_biff_put_var_write (bp, buf, sizeof Sp_footer);
+}
+

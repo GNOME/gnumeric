@@ -90,21 +90,19 @@
 static GnmExprConventions *
 xml_io_conventions (void)
 {
-	GnmExprConventions *res = gnm_expr_conventions_new ();
+	GnmExprConventions *conv = gnm_expr_conventions_new ();
 
-	res->decimal_sep_dot = TRUE;
-	res->range_ref_handler = gnm_1_0_rangeref_as_string;
-	res->ref_parser = rangeref_parse;
-	res->range_sep_colon = TRUE;
-	res->sheet_sep_exclamation = TRUE;
-	res->output_sheet_name_sep = "!";
-	res->output_argument_sep = ",";
-	res->output_array_col_sep = ",";
-	res->output_array_row_sep = ";";
-	res->output_translated = FALSE;
-	res->unknown_function_handler = gnm_func_placeholder_factory;
+	conv->decimal_sep_dot		= TRUE;
+	conv->output.range_ref		= gnm_1_0_rangeref_as_string;
+	conv->input.range_ref		= rangeref_parse;
+	conv->range_sep_colon		= TRUE;
 
-	return res;
+	conv->arg_sep			= ',';
+	conv->array_col_sep		= ',';
+	conv->array_row_sep		= ';';
+	conv->output.translated		= FALSE;
+
+	return conv;
 }
 
 

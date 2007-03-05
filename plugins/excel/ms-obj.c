@@ -466,9 +466,8 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 }
 
 #ifndef NO_DEBUG_EXCEL
-#define ms_obj_dump(data, len, data_left, name) ms_obj_dump_impl (data, len, data_left, name)
 static void
-ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
+ms_obj_dump (guint8 const *data, int len, int data_left, char const *name)
 {
 	if (ms_excel_object_debug < 2)
 		return;
@@ -484,7 +483,7 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 	printf ("}; /* %s */\n", name);
 }
 #else
-#define ms_obj_dump (data, len, data_left, name)
+#define ms_obj_dump (data, len, data_left, name) do { } while (0)
 #endif
 
 static gboolean
@@ -1060,23 +1059,23 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "CheckBoxData");
 			break;
 
-		case GR_LISTBOX_DATA : {
-			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+6);
-			GnmExprTop const *ref = ms_container_parse_expr (c, data+12, expr_len);
-			if (ref != NULL)
-				ms_obj_attr_bag_insert (obj->attrs,
-					ms_obj_attr_new_expr (MS_OBJ_ATTR_INPUT_FROM, ref));
+		case GR_LISTBOX_DATA :
+			if (!obj->combo_in_autofilter) {
+				guint16 const expr_len = GSF_LE_GET_GUINT16 (data+6);
+				GnmExprTop const *ref = ms_container_parse_expr (c, data+12, expr_len);
+				if (ref != NULL)
+					ms_obj_attr_bag_insert (obj->attrs,
+						ms_obj_attr_new_expr (MS_OBJ_ATTR_INPUT_FROM, ref));
+			}
 
-			/* FIXME : find some docs for this
+			/* UNDOCUMENTED :
 			 * It seems as if list box data does not conform to
-			 * the docs.  It acts like an end and has no size.
-			 */
+			 * the docs.  It acts like an end and has no size.  */
 			hit_end = TRUE;
 			len = data_len_left - 4;
 
 			ms_obj_dump (data, len, data_len_left, "ListBoxData");
 			break;
-		}
 
 		case GR_CHECKBOX_FORMULA : {
 			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
@@ -1108,7 +1107,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			if (ms_excel_object_debug == 0)
 				break;
 
-			printf ("OBJECT TYPE = %d\n", obj->excel_type);
+			printf ("OBJECT TYPE = %d, id = %d;\n", obj->excel_type, obj->id);
 			if (options&0x0001)
 				printf ("Locked;\n");
 			if (options&0x0010)
@@ -1122,11 +1121,10 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 				/* According to the docs this should not fail
 				 * but there appears to be a flag at 0x200 for
 				 * scrollbars and 0x100 for combos associated
-				 * with filters.
-				 */
-				if ((options & 0x9fee) != 0)
-					printf ("WARNING : Why is option not 0 (%x)\n",
-						options & 0x9fee);
+				 * with filters.  */
+				if ((options & 0x9eee) != 0)
+					printf ("Unknown ooption flag : %x;\n",
+						options & 0x9eee);
 			}
 #endif
 		}
@@ -1338,5 +1336,24 @@ ms_objv8_write_listbox (BiffPut *bp, gboolean filtered)
 	memcpy (buf, data, sizeof data);
 	if (filtered)
 		GSF_LE_SET_GUINT16 (buf + 14, 0xa);
+	ms_biff_put_var_write (bp, buf, sizeof data);
+}
+
+void
+ms_objv8_write_note (BiffPut *bp)
+{
+	static guint8 const data[] = {
+		0x0d, 0,	/* Note */
+		0x16, 0,	/* length 0x16 */
+#if 0
+		/* no idea, and no docs */
+		54 80 79 64 08 0a 77 4f b3 d2 6b 26 88 2a 22 1a 00 00 10 00 00 00
+		46 2d 5a 01 10 5c e7 46 9b 97 e2 7e 49 7f 08 b8 00 00 bf 00 08 00
+#endif
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	};
+
+	guint8 buf[sizeof data];
+	memcpy (buf, data, sizeof data);
 	ms_biff_put_var_write (bp, buf, sizeof data);
 }

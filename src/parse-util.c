@@ -35,7 +35,7 @@
 #include "gnm-format.h"
 #include "expr-name.h"
 #include "str.h"
-/* For def_expr_name_handler: */
+/* For std_expr_name_handler: */
 #include "expr-impl.h"
 #include "gutils.h"
 #include <goffice/app/go-doc.h>
@@ -283,7 +283,7 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append (target, sheet->name_quoted);
 			g_free (rel_uri);
 		}
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_unichar (target, conv->sheet_name_sep);
 	}
 
 	if (conv->r1c1_addresses) { /* R1C1 handler */
@@ -353,7 +353,7 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append_c (target, ':');
 			g_string_append (target, ref->b.sheet->name_quoted);
 		}
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_unichar (target, conv->sheet_name_sep);
 	}
 
 	if (conv->r1c1_addresses) { /* R1C1 handler */
@@ -463,7 +463,7 @@ gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append_c (target, ':');
 			g_string_append (target, ref->b.sheet->name_quoted);
 		}
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_unichar (target, conv->sheet_name_sep);
 	}
 
 	if (!ref->a.col_relative)
@@ -1169,7 +1169,7 @@ gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *
 /* ------------------------------------------------------------------------- */
 
 static void
-def_expr_name_handler (GString *target,
+std_expr_name_handler (GString *target,
 		       GnmParsePos const *pp,
 		       GnmExprName const *name,
 		       GnmExprConventions const *conv)
@@ -1178,7 +1178,7 @@ def_expr_name_handler (GString *target,
 
 	if (!thename->active) {
 		g_string_append (target,
-				 value_error_name (GNM_ERROR_REF, conv->output_translated));
+			value_error_name (GNM_ERROR_REF, conv->output.translated));
 		return;
 	}
 
@@ -1191,13 +1191,13 @@ def_expr_name_handler (GString *target,
 			g_free (rel_uri);
 		} else {
 			g_string_append (target, name->optional_scope->name_quoted);
-			g_string_append (target, conv->output_sheet_name_sep);
+			g_string_append_unichar (target, conv->sheet_name_sep);
 		}
 	} else if (pp->sheet != NULL &&
 		   thename->pos.sheet != NULL &&
 		   thename->pos.sheet != pp->sheet) {
 		g_string_append (target, thename->pos.sheet->name_quoted);
-		g_string_append (target, conv->output_sheet_name_sep);
+		g_string_append_unichar (target, conv->sheet_name_sep);
 	}
 
 	g_string_append (target, thename->name->str);
@@ -1305,6 +1305,17 @@ std_name_parser (char const *str,
 	return str;
 }
 
+static GnmExpr const *
+std_func_map (GnmExprConventions const *convs, Workbook *scope,
+	      char const *name, GnmExprList *args)
+{
+	GnmFunc *f;
+
+	if (NULL == (f = gnm_func_lookup (name, scope)))
+		f = gnm_func_add_placeholder (scope, name, "", TRUE);
+	return gnm_expr_new_funcall (f, args);
+}
+
 /**
  * gnm_expr_conventions_new_full :
  * @size :
@@ -1317,20 +1328,23 @@ std_name_parser (char const *str,
 GnmExprConventions *
 gnm_expr_conventions_new_full (unsigned size)
 {
-	GnmExprConventions *res;
+	GnmExprConventions *conv;
 
 	g_return_val_if_fail (size >= sizeof (GnmExprConventions), NULL);
 
-	res = g_malloc0 (size);
-	res->expr_name_handler = def_expr_name_handler;
-	res->cell_ref_handler = cellref_as_string;
-	res->range_ref_handler = rangeref_as_string;
-	res->sheet_name_quote = std_sheet_name_quote;
-	res->name_parser = std_name_parser;
-	res->intersection_char = ' ';
-	res->output_sheet_name_sep = "!";
-	res->output_translated = TRUE;
-	return res;
+	conv = g_malloc0 (size);
+
+	conv->sheet_name_sep		= '!';
+	conv->intersection_char		= ' ';
+	conv->input.name		= std_name_parser;
+	conv->input.func		= std_func_map;
+
+	conv->output.translated		= TRUE;
+	conv->output.name		= std_expr_name_handler;
+	conv->output.cell_ref		= cellref_as_string;
+	conv->output.range_ref		= rangeref_as_string;
+	conv->output.sheet_name_quote	= std_sheet_name_quote;
+	return conv;
 }
 
 /**
@@ -1351,9 +1365,6 @@ gnm_expr_conventions_new (void)
 void
 gnm_expr_conventions_free (GnmExprConventions *c)
 {
-	if (c->function_rewriter_hash)
-		g_hash_table_destroy (c->function_rewriter_hash);
-
 	g_free (c);
 }
 
@@ -1480,16 +1491,14 @@ parse_util_init (void)
 #endif
 
 	convs = gnm_expr_conventions_new ();
-	convs->ref_parser = rangeref_parse;
+	convs->input.range_ref = rangeref_parse;
 	convs->range_sep_colon		 = TRUE;
-	convs->sheet_sep_exclamation	 = TRUE;
 	convs->r1c1_addresses		 = FALSE;
 	gnm_expr_conventions_default	 = convs;
 
 	convs = gnm_expr_conventions_new ();
-	convs->ref_parser = rangeref_parse;
+	convs->input.range_ref = rangeref_parse;
 	convs->range_sep_colon		 = TRUE;
-	convs->sheet_sep_exclamation	 = TRUE;
 	convs->r1c1_addresses		 = TRUE;
 	gnm_expr_conventions_r1c1	 = convs;
 }
@@ -1525,9 +1534,9 @@ gnm_expr_conv_quote (GnmExprConventions const *convs,
 		     char const *str)
 {
 	g_return_val_if_fail (convs != NULL, NULL);
-	g_return_val_if_fail (convs->sheet_name_quote != NULL, NULL);
+	g_return_val_if_fail (convs->output.sheet_name_quote != NULL, NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 	g_return_val_if_fail (str[0] != 0, NULL);
 
-	return convs->sheet_name_quote (convs, str);
+	return convs->output.sheet_name_quote (convs, str);
 }

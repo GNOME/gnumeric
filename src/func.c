@@ -639,7 +639,7 @@ gnm_func_unref (GnmFunc *func)
 }
 
 GnmFunc *
-gnm_func_lookup (char const *name, Workbook const *scope)
+gnm_func_lookup (char const *name, Workbook *scope)
 {
 	Symbol *sym = symbol_lookup (global_symbol_table, name);
 	if (sym != NULL)
@@ -797,17 +797,6 @@ gnm_func_add_placeholder (Workbook *scope,
 
 	return func;
 }
-
-/* See type GnmParseFunctionHandler */
-GnmExpr const *
-gnm_func_placeholder_factory (char const *name,
-			      GnmExprList *args,
-			      G_GNUC_UNUSED GnmExprConventions const *convs)
-{
-	GnmFunc *f = gnm_func_add_placeholder (NULL, name, "", TRUE);
-	return gnm_expr_new_funcall (f, args);
-}
-
 
 gpointer
 gnm_func_get_user_data (GnmFunc const *func)

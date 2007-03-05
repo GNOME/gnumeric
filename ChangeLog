@@ -1,3 +1,42 @@
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* src/func-builtin.c (gnumeric_table) : patch logic.
+
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (gnm_expr_conventions_new_full) : Start
+	  homogenizing the structure so that parsing and formating use shared
+	  gunichar, rather than a semi-random collection of booleans on
+	  import and char * on export.
+	  - ::name_parser renamed ::input.name
+	  - ::unknown_function_handler replaced by ::input.func which is
+	      called for all functions not just unknown.
+	  - ::function_rewriter_hash deleted.  This was not 64bit clean
+	  - ::output_sheet_name_sep => a gunichar and renamed ::sheet_name_sep.
+	  - ::cell_ref_handler => ::output.cell_ref
+	  - ::range_ref_handler => ::output.range_ref
+	  - ::sheet_name_quote => ::output.sheet_name_quote
+
+	(cellref_as_string) : ditto.
+	(std_expr_name_handler) : ditto.
+	(std_func_map) : new.
+
+	* src/xml-sax-write.c (xml_io_conventions) : adapt to changes.
+	* src/xml-io.c (xml_io_conventions) : ditto.
+	* src/value.c (value_get_as_gstring) : ditto.
+	* src/expr.c (do_expr_as_string) : ditto.
+
+	* src/parser.y : s/SEPARATOR/ARG_SEP/
+	Remove the ARRAY_START_COMMA and ARRAY_START_BSLASH tokens
+	Remove the duplicate comma/bslash productions for arrays.
+	Use an 'in_array' flag in the state to allow the lexer to
+	differentiate an ARG_SEP from an ARRAY_COL_SEP and an ARRAY_ROW_SEP.
+
+	* src/sheet-object-graph.c (gnm_sog_get_object_target_list) : compiler
+	  warnings.
+
+	* src/func.c (gnm_func_placeholder_factory) : delete.
+
 2007-03-04  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post-release bump.
