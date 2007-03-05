@@ -1,3 +1,11 @@
+gnumeric (1.7.8-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/gnumeric.mime] Fixed broken entry. (Closes: #412193)
+  * [debian/control] Bumped goffice build dependency per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon,  5 Mar 2007 07:01:26 +0100
+
 gnumeric (1.7.7-1) experimental; urgency=low
 
   * New upstream development release.
