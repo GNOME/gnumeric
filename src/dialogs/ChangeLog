@@ -1,3 +1,7 @@
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
 2007-02-21  Morten Welinder  <terra@gnome.org>
 
 	* dialog-formula-guru.c (dialog_formula_guru): Fix R1C1 problem.
