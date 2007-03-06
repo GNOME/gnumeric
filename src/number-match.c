@@ -937,7 +937,9 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 		if (last_was_digit &&
 		    allow1000 &&
 		    strncmp (thousand->str, text, thousand->len) == 0 &&
-		    g_ascii_isdigit (text[thousand->len])) {
+		    g_ascii_isdigit (text[thousand->len]) &&
+		    g_ascii_isdigit (text[thousand->len + 1]) &&
+		    g_ascii_isdigit (text[thousand->len + 2])) {
 			text += thousand->len;
 			continue;			
 		}

@@ -4,6 +4,10 @@ Jody:
 	* Import and Export for inline arrays in ODF. (now patched in OOo)
 	* Export cell comments to xls.
 
+Morten:
+	* Require three digits after a thousands separator in order to
+	  accept it as a number. [#415007]
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.8
 
