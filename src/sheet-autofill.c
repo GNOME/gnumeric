@@ -182,9 +182,11 @@ afa_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 		af->status = AFS_READY;
 		break;
 	default: {
-		gnm_float step2 = f - (afa->base + n * afa->step);
-		gnm_float err = (afa->step - step2) /
-			(gnm_abs (afa->step) + gnm_abs (step2));
+		gnm_float step2 = (f - afa->base) / n;
+		gnm_float step_sum = gnm_abs (afa->step) + gnm_abs (step2);
+		gnm_float err = step_sum
+			? gnm_abs (afa->step - step2) / step_sum
+			: 0;
 		/* Be fairly lenient: */
 		if (err > (n + 64) * GNM_EPSILON) {
 			af->status = AFS_ERROR;
@@ -545,7 +547,7 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 	}
 
 	sf = gnm_cell_get_format (cell);
-	if (gnm_format_is_date_for_value (sf, value) > 0)
+	if (gnm_format_is_date_for_value (sf, value) != 1)
 		goto bad;
 
 	afm->dateconv = workbook_date_conv (cell->base.sheet->workbook);
