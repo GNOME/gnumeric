@@ -1,3 +1,9 @@
+2007-03-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (afm_teach_cell): Use
+	gnm_format_is_date_for_value correctly.  Fixes #414815.
+	(afa_teach_cell): Fix tests for n >= 2.
+
 2007-03-05  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (format_match_decimal_number): Require three

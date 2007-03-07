@@ -7,6 +7,7 @@ Jody:
 Morten:
 	* Require three digits after a thousands separator in order to
 	  accept it as a number. [#415007]
+	* Fix autofill issue.  [#414815]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.8
