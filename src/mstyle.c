@@ -433,7 +433,7 @@ gnm_style_new_default (void)
 	gnm_style_set_font_bold	  (new_style, gnm_app_prefs->default_font.is_bold);
 	gnm_style_set_font_italic (new_style, gnm_app_prefs->default_font.is_italic);
 
-	gnm_style_set_format_text (new_style, "General");
+	gnm_style_set_format      (new_style, go_format_general ());
 	gnm_style_set_align_v     (new_style, VALIGN_BOTTOM);
 	gnm_style_set_align_h     (new_style, HALIGN_GENERAL);
 	gnm_style_set_indent      (new_style, 0);
@@ -1153,6 +1153,12 @@ gnm_style_set_format (GnmStyle *style, GOFormat *format)
 	style->format = format;
 }
 
+/*
+ * gnm_style_set_format_text:
+ *
+ * @style: mstyle to change.
+ * @format: An *untranslated* format string.
+ */
 void
 gnm_style_set_format_text (GnmStyle *style, char const *format)
 {
@@ -1161,10 +1167,6 @@ gnm_style_set_format_text (GnmStyle *style, char const *format)
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
 
-	/* FIXME FIXME FIXME : This is a potential problem
-	 * I am not sure people are feeding us only translated formats.
-	 * This entire function should be deleted.
-	 */
 	sf = go_format_new_from_XL (format);
 	gnm_style_set_format (style, sf);
 	go_format_unref (sf);

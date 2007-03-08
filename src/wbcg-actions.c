@@ -1294,53 +1294,68 @@ static void cb_font_superscript (GtkToggleAction *act, WorkbookControlGUI *wbcg)
 
 static void
 apply_number_format (WorkbookControlGUI *wbcg,
-		     char const *translated_format, char const *descriptor)
+		     GOFormat const *format,
+		     char const *descriptor)
 {
 	GnmStyle *mstyle = gnm_style_new ();
-	gnm_style_set_format_text (mstyle, translated_format);
+	gnm_style_set_format (mstyle, format);
 	cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, descriptor);
 }
 
 static GNM_ACTION_DEF (cb_format_as_general)
 {
 	apply_number_format (wbcg,
-		go_format_builtins [GO_FORMAT_GENERAL][0], _("Format as General"));
+			     go_format_general (),
+			     _("Format as General"));
 }
+
 static GNM_ACTION_DEF (cb_format_as_number)
 {
-	apply_number_format (wbcg,
-		go_format_builtins [GO_FORMAT_NUMBER][0], _("Format as Number"));
+	GOFormat *fmt = go_format_new_from_XL ("0");
+	apply_number_format (wbcg, fmt, _("Format as Number"));
+	go_format_unref (fmt);
 }
+
 static GNM_ACTION_DEF (cb_format_as_currency)
 {
-	apply_number_format (wbcg,
-		go_format_builtins [GO_FORMAT_CURRENCY][0], _("Format as Currency"));
+	GOFormat *fmt = go_format_new_from_XL (go_format_builtins[GO_FORMAT_CURRENCY][0]);
+	apply_number_format (wbcg, fmt, _("Format as Currency"));
+	go_format_unref (fmt);
 }
+
 static GNM_ACTION_DEF (cb_format_as_accounting)
 {
-	apply_number_format (wbcg,
-		go_format_builtins[GO_FORMAT_ACCOUNTING][2], _("Format as Accounting"));
+	GOFormat *fmt = go_format_new_from_XL (go_format_builtins[GO_FORMAT_ACCOUNTING][2]);
+	apply_number_format (wbcg, fmt, _("Format as Accounting"));
+	go_format_unref (fmt);
 }
 
 static GNM_ACTION_DEF (cb_format_as_percentage)
 {
-	apply_number_format (wbcg,
-		go_format_builtins [GO_FORMAT_PERCENTAGE][0], _("Format as Percentage"));
+	GOFormat *fmt = go_format_new_from_XL ("0%");
+	apply_number_format (wbcg, fmt, _("Format as Percentage"));
+	go_format_unref (fmt);
 }
+
 static GNM_ACTION_DEF (cb_format_as_scientific)
 {
-	apply_number_format (wbcg,
-		go_format_builtins [GO_FORMAT_SCIENTIFIC][0], _("Format as Scientific"));
+	GOFormat *fmt = go_format_new_from_XL ("0.00E+00");
+	apply_number_format (wbcg, fmt, _("Format as Percentage"));
+	go_format_unref (fmt);
 }
+
 static GNM_ACTION_DEF (cb_format_as_time)
 {
 	apply_number_format (wbcg,
-		go_format_builtins [GO_FORMAT_DATE][0], _("Format as Date"));
+			     go_format_default_time (),
+			     _("Format as Time"));
 }
+
 static GNM_ACTION_DEF (cb_format_as_date)
 {
 	apply_number_format (wbcg,
-		go_format_builtins [GO_FORMAT_TIME][0], _("Format as Time"));
+			     go_format_default_date (),
+			     _("Format as Date"));
 }
 
 /* Adds borders to all the selected regions on the sheet.

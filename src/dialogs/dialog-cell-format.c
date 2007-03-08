@@ -440,7 +440,7 @@ init_button_image (GladeXML *gui, char const *name)
 
 static void
 cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
-			  const char *fmt,
+			  const char *lfmt,
 			  FormatState *state)
 {
 	gboolean changed = FALSE;
@@ -449,8 +449,12 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 	if (!state->enable_edit)
 		return;
 
-	if (fmt) {
-	  	gnm_style_set_format_text (state->result, fmt);
+	if (lfmt) {
+		char *fmt = go_format_str_delocalize (lfmt);
+		GOFormat *format = go_format_new_from_XL (fmt);
+	  	gnm_style_set_format (state->result, format);
+		go_format_unref (format);
+		g_free (fmt);
 		changed =  TRUE;
 	}
 

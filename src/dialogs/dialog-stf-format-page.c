@@ -638,14 +638,14 @@ void
 stf_dialog_format_page_prepare (StfDialogData *data)
 {
 	GOFormat *sf;
+	GOFormat *general = go_format_general ();
 
 	/* Set the trim.  */
 	format_page_trim_menu_changed (NULL, data);
 
 	/* If necessary add new items (non-visual) */
 	while ((int)data->format.formats->len < data->format.renderdata->colcount)
-		g_ptr_array_add (data->format.formats,
-			go_format_new_from_XL (go_format_builtins[0][0]));
+		g_ptr_array_add (data->format.formats, go_format_ref (general));
 
 	data->format.manual_change = TRUE;
 	activate_column (data, 0);

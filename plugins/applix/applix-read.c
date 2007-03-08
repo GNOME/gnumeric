@@ -582,7 +582,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					break;
 				}
 				case 'G' : /* general */
-					gnm_style_set_format_text (style, "General");
+					gnm_style_set_format (style, go_format_general ());
 
 					/* What is 'Gf' ? */
 					if (sep[1] == 'f')

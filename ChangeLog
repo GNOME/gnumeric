@@ -1,3 +1,23 @@
+2007-03-08  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_new_default): Use gnm_style_set_format,
+	not gnm_style_set_format_text.
+	(gnm_style_set_format_text): Change comments to make it clear that
+	this takes an untranslated format string.
+
+	* src/wbcg-actions.c (apply_number_format): Take a format, not a
+	string.
+	(apply_number_format): New function taking an actual format.
+	(cb_format_as_general): Use go_format_general directly.
+	(cb_format_as_date): Use go_format_default_date directly.  Fix
+	swapped descriptors.
+	(cb_format_as_time): Use go_format_default_time directly.  Fix
+	swapped descriptors.
+	(cb_format_as_number, cb_format_as_percentage,
+	cb_format_as_scientific): Build a format here.
+	(cb_format_as_currency, cb_format_as_accounting): Ditto.  This
+	still relies on go_format_builtins, though.
+
 2007-03-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-view.c (sv_panes_insdel_colrow): Fix corrections for
