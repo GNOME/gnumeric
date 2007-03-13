@@ -156,31 +156,97 @@ color_to_string (PangoColor color)
 	return result;
 }
 
+static const char *
+enum_name (GType typ, int i)
+{
+	static char result[100];
+	GEnumClass *ec = g_type_class_ref (typ);
+
+	if (ec) {
+		GEnumValue *ev = g_enum_get_value (ec, i);
+		g_type_class_unref (ec);
+
+		if (ev && ev->value_nick)
+			return ev->value_nick;
+		if (ev && ev->value_name)
+			return ev->value_name;
+	}
+
+	sprintf (result, "%d", i);
+	return result;	
+}
+
 static gboolean
 cb_gnm_pango_attr_dump (PangoAttribute *attr, gpointer user_data)
 {
 	g_print ("  start=%u; end=%u\n", attr->start_index, attr->end_index);
 	switch (attr->klass->type) {
-	case PANGO_ATTR_FAMILY: g_print ("    family=\"%s\"\n", ((PangoAttrString *)attr)->value); break;
-	case PANGO_ATTR_LANGUAGE: g_print ("    language=\"%s\"\n", pango_language_to_string (((PangoAttrLanguage *)attr)->value)); break;
-	case PANGO_ATTR_STYLE: g_print ("    style=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_WEIGHT: g_print ("    weight=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_VARIANT: g_print ("    variant=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_STRETCH: g_print ("    stretch=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_UNDERLINE: g_print ("    underline=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_STRIKETHROUGH: g_print ("    strikethrough=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_RISE: g_print ("    rise=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_FALLBACK: g_print ("    fallback=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_LETTER_SPACING: g_print ("    letter_spacing=%d\n", ((PangoAttrInt *)attr)->value); break;
-	case PANGO_ATTR_SIZE: g_print ("    size=%d%s\n",
-				       ((PangoAttrSize *)attr)->size,
-				       ((PangoAttrSize *)attr)->absolute ? " abs" : ""); break;
-	case PANGO_ATTR_SCALE: g_print ("    scale=%g\n", ((PangoAttrFloat *)attr)->value); break;
-	case PANGO_ATTR_FOREGROUND: g_print ("    foreground=%s\n", color_to_string (((PangoAttrColor *)attr)->color)); break;
-	case PANGO_ATTR_BACKGROUND: g_print ("    background=%s\n", color_to_string (((PangoAttrColor *)attr)->color)); break;
-	case PANGO_ATTR_UNDERLINE_COLOR: g_print ("    underline_color=%s\n", color_to_string (((PangoAttrColor *)attr)->color)); break;
-	case PANGO_ATTR_STRIKETHROUGH_COLOR: g_print ("    strikethrough_color=%s\n", color_to_string (((PangoAttrColor *)attr)->color)); break;
-	default: g_print ("    type=%d\n", attr->klass->type);
+	case PANGO_ATTR_FAMILY:
+		g_print ("    family=\"%s\"\n", ((PangoAttrString *)attr)->value);
+		break;
+	case PANGO_ATTR_LANGUAGE:
+		g_print ("    language=\"%s\"\n", pango_language_to_string (((PangoAttrLanguage *)attr)->value));
+		break;
+	case PANGO_ATTR_STYLE:
+		g_print ("    style=%s\n",
+			 enum_name (PANGO_TYPE_STYLE, ((PangoAttrInt *)attr)->value));
+		break;
+	case PANGO_ATTR_WEIGHT:
+		g_print ("    weight=%s\n",
+			 enum_name (PANGO_TYPE_WEIGHT, ((PangoAttrInt *)attr)->value));
+		break;
+	case PANGO_ATTR_VARIANT:
+		g_print ("    variant=%s\n",
+			 enum_name (PANGO_TYPE_VARIANT, ((PangoAttrInt *)attr)->value));
+		break;
+	case PANGO_ATTR_STRETCH:
+		g_print ("    stretch=%s\n",
+			 enum_name (PANGO_TYPE_STRETCH, ((PangoAttrInt *)attr)->value));
+		break;
+	case PANGO_ATTR_UNDERLINE:
+		g_print ("    underline=%s\n",
+			 enum_name (PANGO_TYPE_UNDERLINE, ((PangoAttrInt *)attr)->value));
+		break;
+	case PANGO_ATTR_STRIKETHROUGH:
+		g_print ("    strikethrough=%d\n", ((PangoAttrInt *)attr)->value);
+		break;
+	case PANGO_ATTR_RISE:
+		g_print ("    rise=%d\n", ((PangoAttrInt *)attr)->value);
+		break;
+	case PANGO_ATTR_FALLBACK:
+		g_print ("    fallback=%d\n", ((PangoAttrInt *)attr)->value);
+		break;
+	case PANGO_ATTR_LETTER_SPACING:
+		g_print ("    letter_spacing=%d\n", ((PangoAttrInt *)attr)->value);
+		break;
+	case PANGO_ATTR_SIZE:
+		g_print ("    size=%d%s\n",
+			 ((PangoAttrSize *)attr)->size,
+			 ((PangoAttrSize *)attr)->absolute ? " abs" : "");
+		break;
+	case PANGO_ATTR_SCALE:
+		g_print ("    scale=%g\n", ((PangoAttrFloat *)attr)->value);
+		break;
+	case PANGO_ATTR_FOREGROUND:
+		g_print ("    foreground=%s\n", color_to_string (((PangoAttrColor *)attr)->color));
+		break;
+	case PANGO_ATTR_BACKGROUND:
+		g_print ("    background=%s\n", color_to_string (((PangoAttrColor *)attr)->color));
+		break;
+	case PANGO_ATTR_UNDERLINE_COLOR:
+		g_print ("    underline_color=%s\n", color_to_string (((PangoAttrColor *)attr)->color));
+		break;
+	case PANGO_ATTR_STRIKETHROUGH_COLOR:
+		g_print ("    strikethrough_color=%s\n", color_to_string (((PangoAttrColor *)attr)->color));
+		break;
+	case PANGO_ATTR_FONT_DESC: {
+		char *desc = pango_font_description_to_string (((PangoAttrFontDesc*)attr)->desc);
+		g_print  ("    font=\"%s\"\n", desc);
+		g_free (desc);
+		break;
+	}
+	default:
+		g_print ("    type=%s\n", enum_name (PANGO_TYPE_ATTR_TYPE, attr->klass->type));
 	}
 
 	return FALSE;

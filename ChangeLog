@@ -1,3 +1,10 @@
+2007-03-13  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-format.c (format_value_common): Ignore markup formats
+	here.  Fixes #417632
+
+	* src/gutils.c (cb_gnm_pango_attr_dump): Be smarter about enums.
+
 2007-03-08  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (gnm_style_new_default): Use gnm_style_set_format,

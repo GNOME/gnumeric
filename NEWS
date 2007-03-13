@@ -9,6 +9,7 @@ Morten:
 	  accept it as a number. [#415007]
 	* Fix autofill issue.  [#414815]
 	* Fix criticals with frozen panes.  [#308562]
+	* Fix rich text problem.  [#417632]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.8
