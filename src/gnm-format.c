@@ -95,7 +95,7 @@ format_value_common (PangoLayout *layout, GString *str,
 
 	if (format == NULL)
 		format = VALUE_FMT (value);
-	if (go_format_is_markup (format))
+	if (format && go_format_is_markup (format))
 		format = NULL;
 
 	/* Use top left corner of an array result.  This will not work for
