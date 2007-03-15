@@ -83,6 +83,15 @@ workbook_dispose (GObject *wb_object)
 
 	wb->during_destruction = TRUE;
 
+	/* It isn't clear to me that this needs to be at dispose time.  */
+	if (wb->doc.uri && wb->file_format_level >= FILE_FL_MANUAL_REMEMBER) {
+		char *mimetype = NULL;
+		if (wb->file_saver)
+			mimetype = g_strdup (go_file_saver_get_mime_type (wb->file_saver));
+		gnm_app_history_add (wb->doc.uri, mimetype);
+		g_free (mimetype);
+	}
+
 	if (wb->file_saver)
 		workbook_set_saveinfo (wb, wb->file_format_level, NULL);
 
@@ -126,10 +135,6 @@ workbook_dispose (GObject *wb_object)
 		if (wb->wb_views != NULL)
 			g_warning ("Unexpected left over views");
 	}
-
-	if (wb->doc.uri &&
-	    wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
-		gnm_app_history_add (wb->doc.uri);
 
 	workbook_parent_class->dispose (wb_object);
 }

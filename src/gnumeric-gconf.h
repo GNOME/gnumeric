@@ -19,8 +19,6 @@ typedef struct {
 		gboolean is_bold, is_italic;
 	} default_font;
 
-	gint     	 file_history_max;
-	GSList const	*file_history_files;
 	guint    	 num_of_recent_funcs;
 	GSList const	*recent_funcs;
 
@@ -105,10 +103,6 @@ void     gnm_gconf_set_autocomplete (gboolean val);
 /* autoformat */
 void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
 void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
-
-/* file history */
-void     gnm_gconf_set_file_history_files (GSList *list);
-void     gnm_gconf_set_file_history_number (gint value);
 
 /* plugins */
 void     gnm_gconf_set_plugin_file_states (GSList *list);

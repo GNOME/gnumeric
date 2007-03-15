@@ -31,8 +31,7 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkselection.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
@@ -64,9 +63,6 @@ struct _GnmApp {
 	SheetView	*clipboard_sheet_view;
 	GnmCellRegion	*clipboard_copied_contents;
 	GnmRange	*clipboard_cut_range;
-
-	/* History for file menu */
-	GSList           *history_list;
 
 	/* Others */
 	GtkWidget       *pref_dialog;
@@ -476,36 +472,85 @@ gnm_app_dpi_to_pixels (void)
 		    gnm_app_prefs->vertical_dpi) / 72.;
 }
 
+/* GtkFileFilter */
+void *
+gnm_app_create_opener_filter (void)
+{
+	GtkFileFilter *filter = gtk_file_filter_new ();
+
+	GList *openers;
+
+	for (openers = go_get_file_openers ();
+	     openers;
+	     openers = openers->next) {
+		GOFileOpener *opener = openers->data;
+		const GSList *mimes = go_file_opener_get_mimes (opener);
+		const GSList *suffixes = go_file_opener_get_suffixes (opener);
+
+		while (mimes) {
+			gtk_file_filter_add_mime_type (filter, mimes->data);
+			mimes = mimes->next;
+		}
+
+		while (suffixes) {
+			char *pattern = g_strconcat ("*.", suffixes->data, NULL);
+			gtk_file_filter_add_pattern (filter, pattern);
+			g_free (pattern);
+			suffixes = suffixes->next;
+		}
+	}
+
+	return filter;
+}
+
+
 /**
  * gnm_app_history_get_list:
  *
  * creating it if necessary.
  *
- * Return value: the list./
+ * Return value: the list, which must be freed along with the strings in it.
  **/
-GSList const *
+GSList *
 gnm_app_history_get_list (gboolean force_reload)
 {
-        gint max_entries;
-	GSList const *ptr;
+	GtkRecentManager *manager = gtk_recent_manager_get_default ();
 	GSList *res = NULL;
+	GList *items, *l;
+	GtkFileFilter *filter = gnm_app_create_opener_filter ();
 
-	g_return_val_if_fail (app != NULL, NULL);
+	items = gtk_recent_manager_get_items (manager);
+	for (l = items; l; l = l->next) {
+		GtkRecentInfo *ri = l->data;
+		const char *uri = gtk_recent_info_get_uri (ri);
+		gboolean want_it = FALSE;
 
-	if (app->history_list != NULL) {
-		if (force_reload) {
-			GSList *tmp = app->history_list;
-			app->history_list = NULL;
-			go_slist_free_custom (tmp, g_free);
-		} else
-			return app->history_list;
+		if (gtk_recent_info_has_application (ri, g_get_application_name ())) {
+			want_it = TRUE;
+		} else {
+			GtkFileFilterInfo fi;
+			char *display_name = g_filename_display_basename (uri);
+
+			memset (&fi, 0, sizeof (fi));
+			fi.contains = (GTK_FILE_FILTER_MIME_TYPE |
+				       GTK_FILE_FILTER_URI |
+				       GTK_FILE_FILTER_DISPLAY_NAME);
+			fi.uri = uri;
+			fi.mime_type = gtk_recent_info_get_mime_type (ri);
+			fi.display_name = display_name;
+			want_it = gtk_file_filter_filter (filter, &fi);
+			g_free (display_name);
+		}
+
+		if (want_it)
+			res = g_slist_prepend (res, g_strdup (uri));
 	}
 
-	max_entries = gnm_app_prefs->file_history_max;
-	for (ptr = gnm_app_prefs->file_history_files;
-	     ptr != NULL && max_entries-- > 0 ; ptr = ptr->next)
-		res = g_slist_prepend (res, g_strdup (ptr->data));
-	return app->history_list = g_slist_reverse (res);;
+	go_list_free_custom (items, (GFreeFunc)gtk_recent_info_unref);
+	g_object_ref_sink (filter);
+	g_object_unref (filter);
+
+	return g_slist_reverse (res);
 }
 
 /**
@@ -515,49 +560,29 @@ gnm_app_history_get_list (gboolean force_reload)
  * Adds @uri to the application's history of files.
  **/
 void
-gnm_app_history_add (char const *uri)
+gnm_app_history_add (char const *uri, const char *mimetype)
 {
-        gint max_entries;
-	GSList *exists;
-	GSList **ptr;
+	GtkRecentData rd;
+	gboolean retval;
+	GtkRecentManager *manager = gtk_recent_manager_get_default ();
 
-	g_return_if_fail (uri != NULL);
-	g_return_if_fail (app != NULL);
+	memset (&rd, 0, sizeof (rd));
 
-	/* return if file history max length is 0, avoids a critical */
-	if (gnm_app_prefs->file_history_max == 0)
-		return; 
-	/* force a reload in case max_entries has changed */
-	gnm_app_history_get_list (TRUE);
-	exists = g_slist_find_custom (app->history_list,
-				      uri, go_str_compare);
+        rd.mime_type =
+		g_strdup (mimetype ? mimetype : "application/octet-stream");
 
-	if (exists != NULL) {
-		/* its already the top of the stack no need to do anything */
-		if (exists == app->history_list)
-			return;
+	rd.app_name = g_strdup (g_get_application_name ());
+	rd.app_exec = g_strjoin (" ", g_get_prgname (), "%u", NULL);
+	rd.groups = NULL;
+	rd.is_private = FALSE;
 
-		/* remove the other instance */
-		g_free (exists->data);
-		app->history_list = g_slist_delete_link (app->history_list, exists);
-	}
+	retval = gtk_recent_manager_add_full (manager, uri, &rd);
 
-	app->history_list = g_slist_prepend (app->history_list, g_strdup (uri));
-
-	/* clip the list if it is too long */
-	max_entries = gnm_app_prefs->file_history_max;
-	ptr = &(app->history_list);
-	while (*ptr != NULL && max_entries-- > 0)
-		ptr = &((*ptr)->next);
-	if (*ptr != NULL) {
-		go_slist_free_custom (*ptr, g_free);
-		*ptr = NULL;
-	}
+	g_free (rd.mime_type);
+	g_free (rd.app_name);
+	g_free (rd.app_exec);
 
 	g_object_notify (G_OBJECT (app), "file-history-list");
-	gnm_gconf_set_file_history_files (
-		go_string_slist_copy (app->history_list));
-	go_conf_sync (NULL);
 }
 
 gboolean gnm_app_use_auto_complete	  (void) { return gnm_app_prefs->auto_complete; }
@@ -596,10 +621,6 @@ gnumeric_application_finalize (GObject *obj)
 {
 	GnmApp *application = GNM_APP (obj);
 
-	g_slist_foreach (application->history_list, (GFunc)g_free, NULL);
-	g_slist_free (application->history_list);
-	application->history_list = NULL;
-
 	g_free (application->clipboard_cut_range);
 	application->clipboard_cut_range = NULL;
 
@@ -611,10 +632,12 @@ static void
 gnumeric_application_get_property (GObject *obj, guint param_id,
 				   GValue *value, GParamSpec *pspec)
 {
+#if 0
 	GnmApp *application = GNM_APP (obj);
+#endif
 	switch (param_id) {
 	case APPLICATION_PROP_FILE_HISTORY_LIST:
-		g_value_set_pointer (value, application->history_list);
+		g_value_set_pointer (value, gnm_app_history_get_list (FALSE));
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -630,9 +653,9 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize = gnumeric_application_finalize;
 	gobject_klass->get_property = gnumeric_application_get_property;
 	g_object_class_install_property (gobject_klass, APPLICATION_PROP_FILE_HISTORY_LIST,
-		g_param_spec_pointer ("file-history-list", "File History List",
-			"A GSlist of filenames that have been read recently",
-			GSF_PARAM_STATIC | G_PARAM_READABLE));
+		g_param_spec_pointer ("file-history-list", _("File History List"),
+				      _("A GSlist of filenames that have been read recently"),
+				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 	signals [WORKBOOK_ADDED] = g_signal_new ("workbook_added",
 		GNM_APP_TYPE,

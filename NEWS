@@ -10,6 +10,7 @@ Morten:
 	* Fix autofill issue.  [#414815]
 	* Fix criticals with frozen panes.  [#308562]
 	* Fix rich text problem.  [#417632]
+	* Use GtkRecentManager.  Fixes #115112.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.8

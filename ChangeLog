@@ -1,3 +1,21 @@
+2007-03-15  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_history_get_list,
+	gnm_app_history_add): Base on GtkRecentManager.  Fixes #115112.
+	(gnm_app_create_opener_filter): New function.
+	(gnm_app_history_add): Take extra mimetype argument.  All callers
+	changed.
+
+	* src/gui-file.c (gui_file_open): Use
+	gnm_app_create_opener_filter.
+
+	* src/gnumeric-gconf.c: Remove functions related to file history.
+
+	* schemas/gnumeric-general.schemas.in: Remove entries related to
+	file history.
+
+	* configure.in: Require gtk+ 2.12.0
+
 2007-03-13  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-format.c (format_value_common): Ignore markup formats

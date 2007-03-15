@@ -624,10 +624,6 @@ pref_file_page_initializer (PrefState *state,
 	GOConfNode *node;
 
 	node = go_conf_get_node (state->root, GNM_CONF_FILE_DIR);
-	int_pref_create_widget (node, GNM_CONF_FILE_HISTORY_N,
-				page, row++, 4, 0, 40, 1, 
-				gnm_gconf_set_file_history_number,
-				_("Length of File History"));
 	int_pref_create_widget (state->root, GNM_CONF_XML_COMPRESSION,
 				page, row++, 9, 0, 9, 1, 
 				gnm_gconf_set_xml_compression,

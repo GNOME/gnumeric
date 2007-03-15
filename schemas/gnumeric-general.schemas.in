@@ -113,28 +113,6 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/file/history/n</key>
-        <applyto>/apps/gnumeric/core/file/history/n</applyto>
-        <owner>Gnumeric</owner>
-        <type>int</type>
-	<default>5</default>
-        <locale name="C">
-        <short>Length of File History</short>
-        <long>The number of files kept in the `recent' section of the file menu.</long>
-        </locale>
-      </schema>
-      <schema>
-        <key>/schemas/apps/gnumeric/core/file/history/files</key>
-        <applyto>/apps/gnumeric/file/history/files</applyto>
-        <owner>Gnumeric</owner>
-        <type>list</type>
-	<list_type>string</list_type>
-        <locale name="C">
-        <short>List of recently used files</short>
-        <long>The file menu shows a list of recently used functions. This is that list.</long>
-        </locale>
-      </schema>
-      <schema>
         <key>/schemas/apps/gnumeric/core/gui/screen/horizontaldpi</key>
         <applyto>/apps/gnumeric/core/gui/screen/horizontaldpi</applyto>
         <owner>Gnumeric</owner>

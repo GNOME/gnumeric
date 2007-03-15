@@ -24,21 +24,14 @@
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"
+#include "application.h"
 
 #include <goffice/gtk/go-charmap-sel.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-file.h>
 
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkfilechooserdialog.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <unistd.h>
 #include <errno.h>
@@ -272,28 +265,14 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	/* Filters */
 	{	
 		GtkFileFilter *filter;
-		GList *l;
 
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_set_name (filter, _("All Files"));
 		gtk_file_filter_add_pattern (filter, "*");
 		gtk_file_chooser_add_filter (fsel, filter);
 
-		filter = gtk_file_filter_new ();
+		filter = gnm_app_create_opener_filter ();
 		gtk_file_filter_set_name (filter, _("Spreadsheets"));
-		for (l = openers->next; l; l = l->next) {
-			GOFileOpener const *o = l->data;
-			GSList const *ptr;
-			for (ptr = go_file_opener_get_suffixes	(o); ptr != NULL ; ptr = ptr->next) {
-				char *pattern = g_strconcat ("*.", ptr->data, NULL);
-				gtk_file_filter_add_pattern (filter, pattern);
-				g_free (pattern);
-			}
-			for (ptr = go_file_opener_get_mimes	(o); ptr != NULL ; ptr = ptr->next)
-				gtk_file_filter_add_mime_type (filter, ptr->data);
-
-		}
-
 		gtk_file_chooser_add_filter (fsel, filter);
 		/* Make this filter the default */
 		gtk_file_chooser_set_filter (fsel, filter);

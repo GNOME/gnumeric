@@ -1543,12 +1543,6 @@ gnm_conf_init_essential (void)
 		node, CONF_DEFAULT_FONT_ITALIC, FALSE);
 	go_conf_free_node (node);
 
-	node = go_conf_get_node (root, GNM_CONF_FILE_DIR);
-	prefs.file_history_max = go_conf_load_int (
-		node, GNM_CONF_FILE_HISTORY_N, 0, 20, 4);
-	prefs.file_history_files = go_conf_load_str_list (node, GNM_CONF_FILE_HISTORY_FILES);
-	go_conf_free_node (node);
-
 	node = go_conf_get_node (root, PLUGIN_GCONF_DIR);
 	prefs.plugin_file_states = go_conf_load_str_list (node, PLUGIN_GCONF_FILE_STATES);
 	prefs.plugin_extra_dirs = go_conf_load_str_list (node, PLUGIN_GCONF_EXTRA_DIRS);
@@ -1755,10 +1749,6 @@ gnm_conf_shutdown (void)
 			      (GFreeFunc)g_free);
 	prefs.plugin_file_states = NULL;
 
-	go_slist_free_custom ((GSList *)prefs.file_history_files,
-			      (GFreeFunc)g_free);
-	prefs.file_history_files = NULL;
-
 	go_conf_free_node (root);
 	go_conf_shutdown ();
 }
@@ -1830,29 +1820,6 @@ gnm_gconf_set_num_recent_functions (gint val)
 	prefs.num_of_recent_funcs = val;
 	go_conf_set_int (root, FUNCTION_SELECT_GCONF_DIR "/" FUNCTION_SELECT_GCONF_NUM_OF_RECENT, val);
 }
-
-void
-gnm_gconf_set_file_history_files (GSList *list)
-{
-	g_return_if_fail (prefs.file_history_files != list);
-
-	/* the const_casts are ok, the const in the header is just to keep
-	 * people for doing stupid things */
-	g_slist_foreach ((GSList *)prefs.file_history_files, (GFunc)g_free, NULL);
-	g_slist_free ((GSList *)prefs.file_history_files);
-	prefs.file_history_files = list;
-	go_conf_set_str_list (root, GNM_CONF_FILE_DIR "/" GNM_CONF_FILE_HISTORY_FILES, list);
-}
-
-void
-gnm_gconf_set_file_history_number (gint val)
-{
-	if (val < 0)
-		val = 0;
-	prefs.file_history_max = val; 
-	go_conf_set_int (root, GNM_CONF_FILE_DIR "/" GNM_CONF_FILE_HISTORY_N, val);
-}
-
 
 void
 gnm_gconf_set_undo_size (gint val)
