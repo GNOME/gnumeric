@@ -523,12 +523,9 @@ gnm_app_history_get_list (gboolean force_reload)
 	for (l = items; l; l = l->next) {
 		GtkRecentInfo *ri = l->data;
 		const char *uri = gtk_recent_info_get_uri (ri);
-		char *filename = go_filename_from_uri (uri);
 		gboolean want_it;
 
-		if (filename && !g_file_test (filename, G_FILE_TEST_EXISTS)) {
-			want_it = FALSE;
-		} else if (gtk_recent_info_has_application (ri, g_get_application_name ())) {
+		if (gtk_recent_info_has_application (ri, g_get_application_name ())) {
 			want_it = TRUE;
 		} else {
 			GtkFileFilterInfo fi;
@@ -543,6 +540,13 @@ gnm_app_history_get_list (gboolean force_reload)
 			fi.display_name = display_name;
 			want_it = gtk_file_filter_filter (filter, &fi);
 			g_free (display_name);
+		}
+
+		if (want_it) {
+			char *filename = go_filename_from_uri (uri);
+			if (filename && !g_file_test (filename, G_FILE_TEST_EXISTS))
+				want_it = FALSE;
+			g_free (filename);
 		}
 
 		if (want_it)
