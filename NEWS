@@ -11,6 +11,7 @@ Morten:
 	* Fix criticals with frozen panes.  [#308562]
 	* Fix rich text problem.  [#417632]
 	* Use GtkRecentManager.  Fixes #115112.
+	* Ignore local files that no longer exist.  [#67453]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.8

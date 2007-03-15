@@ -5,6 +5,8 @@
 	(gnm_app_create_opener_filter): New function.
 	(gnm_app_history_add): Take extra mimetype argument.  All callers
 	changed.
+	(gnm_app_history_get_list): Ignore local files that no longer
+	exist.
 
 	* src/gui-file.c (gui_file_open): Use
 	gnm_app_create_opener_filter.

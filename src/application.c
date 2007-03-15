@@ -523,9 +523,12 @@ gnm_app_history_get_list (gboolean force_reload)
 	for (l = items; l; l = l->next) {
 		GtkRecentInfo *ri = l->data;
 		const char *uri = gtk_recent_info_get_uri (ri);
-		gboolean want_it = FALSE;
+		char *filename = go_filename_from_uri (uri);
+		gboolean want_it;
 
-		if (gtk_recent_info_has_application (ri, g_get_application_name ())) {
+		if (filename && !g_file_test (filename, G_FILE_TEST_EXISTS)) {
+			want_it = FALSE;
+		} else if (gtk_recent_info_has_application (ri, g_get_application_name ())) {
 			want_it = TRUE;
 		} else {
 			GtkFileFilterInfo fi;
