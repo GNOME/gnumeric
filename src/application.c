@@ -503,6 +503,12 @@ gnm_app_create_opener_filter (void)
 	return filter;
 }
 
+static gint
+compare_mru (GtkRecentInfo *a,
+	     GtkRecentInfo *b)
+{
+  return (gtk_recent_info_get_modified (a) < gtk_recent_info_get_modified (b));
+}
 
 /**
  * gnm_app_history_get_list:
@@ -520,6 +526,8 @@ gnm_app_history_get_list (gboolean force_reload)
 	GtkFileFilter *filter = gnm_app_create_opener_filter ();
 
 	items = gtk_recent_manager_get_items (manager);
+	items = g_list_sort (items, (GCompareFunc)compare_mru);
+
 	for (l = items; l; l = l->next) {
 		GtkRecentInfo *ri = l->data;
 		const char *uri = gtk_recent_info_get_uri (ri);
