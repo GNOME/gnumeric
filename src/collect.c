@@ -215,7 +215,7 @@ collect_floats_value (GnmValue const *val, GnmEvalPos const *ep,
 /* ------------------------------------------------------------------------- */
 /* Like collect_floats_value, but keeps info on missing values */
 
-static gnm_float *
+gnm_float *
 collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 				CollectFlags flags, int *n, GSList **info,
 				GnmValue **error)
@@ -302,7 +302,7 @@ cb_int_descending (gconstpointer a, gconstpointer b)
  *  @list_2:
  *
  */
-static GSList*
+GSList*
 union_of_int_sets (GSList * list_1, GSList * list_2)
 {
 	GSList *list_res = NULL;
@@ -345,7 +345,7 @@ cb_remove_missing_el (gpointer data, gpointer user_data)
  * Note this implementation returns the same array as passed in!
  * The order of the elements in the list may be changed.
  */
-static GArray*
+GArray*
 strip_missing (GArray * data, GSList **missing)
 {
 	GArray *new_data = data;

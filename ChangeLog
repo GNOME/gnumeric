@@ -1,3 +1,10 @@
+2007-03-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/collect.c: made some functions public:
+	collect_floats_value_with_info, union_of_int_sets,
+	and strip_missing.
+	* src/collect.h: ditto.
+
 2007-03-15  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_history_get_list,

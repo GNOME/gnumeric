@@ -25,10 +25,18 @@ typedef int (*float_range_function_t) (gnm_float const *, int, gnm_float *);
 typedef int (*float_range_function2_t) (gnm_float const *, gnm_float const *, int, gnm_float *);
 typedef int (*string_range_function_t) (GSList *, char**);
 
+/*gnm_float *collect_floats (int argc, GnmExprConstPtr const *argv,
+				GnmEvalPos const *ep, CollectFlags flags,
+				int *n, GnmValue **error, GSList **info);*/
+
 gnm_float *collect_floats_value (GnmValue const *val,
 				 GnmEvalPos const *ep,
 				 CollectFlags flags,
 				 int *n, GnmValue **error);
+
+gnm_float *collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
+				CollectFlags flags, int *n, GSList **info,
+				GnmValue **error);
 
 GnmValue *float_range_function (int argc, GnmExprConstPtr const *argv,
 				GnmFuncEvalInfo *ei,
@@ -46,5 +54,9 @@ GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 				 string_range_function_t func,
 				 CollectFlags flags,
 				 GnmStdError func_error);
+
+GSList *union_of_int_sets (GSList * list_1, GSList * list_2);
+
+GArray *strip_missing (GArray * data, GSList **missing);
 
 #endif
