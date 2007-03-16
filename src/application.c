@@ -503,12 +503,14 @@ gnm_app_create_opener_filter (void)
 	return filter;
 }
 
+#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 static gint
 compare_mru (GtkRecentInfo *a,
 	     GtkRecentInfo *b)
 {
   return (gtk_recent_info_get_modified (a) < gtk_recent_info_get_modified (b));
 }
+#endif
 
 /**
  * gnm_app_history_get_list:
@@ -520,6 +522,7 @@ compare_mru (GtkRecentInfo *a,
 GSList *
 gnm_app_history_get_list (gboolean force_reload)
 {
+#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentManager *manager = gtk_recent_manager_get_default ();
 	GSList *res = NULL;
 	GList *items, *l;
@@ -566,6 +569,9 @@ gnm_app_history_get_list (gboolean force_reload)
 	g_object_unref (filter);
 
 	return g_slist_reverse (res);
+#else
+	return NULL;
+#endif
 }
 
 /**
@@ -577,6 +583,7 @@ gnm_app_history_get_list (gboolean force_reload)
 void
 gnm_app_history_add (char const *uri, const char *mimetype)
 {
+#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentData rd;
 	gboolean retval;
 	GtkRecentManager *manager = gtk_recent_manager_get_default ();
@@ -596,6 +603,7 @@ gnm_app_history_add (char const *uri, const char *mimetype)
 	g_free (rd.mime_type);
 	g_free (rd.app_name);
 	g_free (rd.app_exec);
+#endif
 
 	g_object_notify (G_OBJECT (app), "file-history-list");
 }

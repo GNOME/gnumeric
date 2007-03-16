@@ -126,7 +126,7 @@ gnumeric_reqs="$libspreadsheet_reqs
 "
 libspreadsheet_gtk_reqs="
 	libglade-2.0		>= 2.3.6
-	gtk+-2.0		>= 2.10.0
+	gtk+-2.0		>= 2.8.0
 "
 
 gnumeric_gtk_reqs="$libspreadsheet_gtk_reqs"
@@ -695,7 +695,7 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
 LIBS="$GNUMERIC_LIBS $LIBS"
-AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc)
+AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc gtk_recent_manager_get_default)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 
