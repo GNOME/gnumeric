@@ -1380,6 +1380,11 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 	}
 	fd->color_idx &= 0x7f; /* Undocumented but a good idea */
 
+	if (fd->fontname == NULL) {
+		/* Note sure why -- see #418868.  */
+		fd->fontname = g_strdup ("Arial");
+	}
+
 	fd->attrs = NULL;
 	fd->go_font = NULL;
 
@@ -1718,7 +1723,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	fd = excel_font_get (esheet->container.importer, xf->font_idx);
 	if (fd != NULL) {
 		GnmUnderline underline = UNDERLINE_NONE;
-			gnm_style_set_font_name   (mstyle, fd->fontname);
+		gnm_style_set_font_name   (mstyle, fd->fontname);
 		gnm_style_set_font_size   (mstyle, fd->height / 20.0);
 		gnm_style_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
 		gnm_style_set_font_italic (mstyle, fd->italic);

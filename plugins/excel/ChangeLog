@@ -1,3 +1,8 @@
+2007-03-16  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_FONT): In case we get a NULL
+	fontname, assume "Arial".  Fixes #418868.
+
 2007-03-05  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-utils.c (xlsx_cellref_as_string) : no need to use the
