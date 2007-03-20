@@ -1,3 +1,37 @@
+2007-03-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-cell.c (print_cell_gtk): new
+	(gnm_gtk_print_cell_range): new
+	* src/print-cell.h (gnm_gtk_print_cell_range): new
+	* src/print.c (PrintingInstance): new struct type
+	(printing_instance_new) : new
+	(pi_free): new
+	(printing_instance_delete): new
+	(print_page_cells): Switch to GtkPrintContext & Cairo
+	(print_page): ditto
+	(compute_sheet_pages): ditto
+	(compute_pages): ditto
+	(compute_group): drop PrintJobInfo
+	(print_range_*_then_*): delete
+	(compute_sheet_pages_add_range): new
+	(compute_sheet_pages_across_then_down): new
+	(print_page_repeated_rows): disable temporarily
+	(print_page_repeated_cols): ditto
+	(gnm_begin_print_cb): new
+	(gnm_end_print_cb): new
+	(gnm_draw_page_cb): new
+	(gnm_print_sheet): use GtkPrintOperation
+	* src/print-info.h (_PrintInformation): add page_setup
+	(print_info_get_page_setup): new
+	(print_info_set_page_setup): new
+	* src/print-info.c (print_info_free): handle page_setup
+	(print_info_new): ditto
+	(print_info_dup): ditto
+	(print_info_get_page_setup): new
+	(print_info_set_page_setup): new
+	* gnumeric.spec.in: require gtk 2.10
+	* configure.in: require gtk 2.10
+
 2007-03-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/collect.c: made some functions public:

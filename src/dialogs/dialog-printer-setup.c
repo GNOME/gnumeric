@@ -23,6 +23,8 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
+#include <gtk/gtk.h>
+
 #include "dialogs.h"
 #include "help.h"
 
@@ -164,6 +166,14 @@ typedef struct {
 	HFPreviewInfo *pi_header;
 	HFPreviewInfo *pi_footer;
 } PrinterSetupState;
+
+typedef struct {
+	WorkbookControlGUI  *wbcg;
+	Sheet            *sheet;
+	PrintInformation *pi;
+} PrinterSetupStateNew;
+
+
 
 typedef struct {
 	PrinterSetupState *state;
@@ -1639,6 +1649,18 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	return state;
 }
 
+static PrinterSetupStateNew *
+printer_setup_state_new_new (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+	PrinterSetupStateNew *state;
+
+	state = g_new0 (PrinterSetupStateNew, 1);
+	state->wbcg  = wbcg;
+	state->sheet = sheet;
+	state->pi    = print_info_dup (sheet->print_info);
+	return state;
+}
+
 static void
 do_fetch_page (PrinterSetupState *state)
 {
@@ -1750,27 +1772,57 @@ fetch_settings (PrinterSetupState *state)
 	do_fetch_page_info (state);
 }
 
+static void
+dialog_printer_setup_done_cb (GtkPageSetup *page_setup,
+			      gpointer data)
+{
+	PrinterSetupStateNew *state = data;
+
+	if (page_setup) {
+		print_info_set_page_setup (state->pi, page_setup);
+		cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
+				 state->sheet, state->pi);
+	}
+	print_info_free (state->pi);
+	g_free (state);
+}
+
 void
 dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-	PrinterSetupState *state;
+	PrinterSetupStateNew *state = printer_setup_state_new_new (wbcg, sheet);
+	GtkPageSetup *page_setup = print_info_get_page_setup (state->pi);
+	
+	gtk_print_run_page_setup_dialog_async
+		(wbcg_toplevel (wbcg),
+		 page_setup,
+		 NULL,
+		 dialog_printer_setup_done_cb,
+		 state);
 
-	/* Only one guru per workbook. */
-	if (wbcg_edit_get_guru (wbcg))
-		return;
+	if (page_setup)
+		g_object_unref (page_setup);
 
-	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY))
-		return;
 
-	state = printer_setup_state_new (wbcg, sheet);
-	if (!state)
-		return;
+	
+/* 	PrinterSetupState *state; */
 
-	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "help_button"),
-		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
-	gnumeric_keyed_dialog (
-		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY);
-	gtk_widget_show (state->dialog);
+/* 	/\* Only one guru per workbook. *\/ */
+/* 	if (wbcg_edit_get_guru (wbcg)) */
+/* 		return; */
+
+/* 	/\* Only pop up one copy per workbook *\/ */
+/* 	if (gnumeric_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY)) */
+/* 		return; */
+
+/* 	state = printer_setup_state_new (wbcg, sheet); */
+/* 	if (!state) */
+/* 		return; */
+
+/* 	gnumeric_init_help_button ( */
+/* 		glade_xml_get_widget (state->gui, "help_button"), */
+/* 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL); */
+/* 	gnumeric_keyed_dialog ( */
+/* 		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY); */
+/* 	gtk_widget_show (state->dialog); */
 }

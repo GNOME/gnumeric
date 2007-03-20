@@ -130,6 +130,10 @@ print_info_free (PrintInformation *pi)
 	g_free (pi->paper_width);
 	g_free (pi->paper_height);
 	g_free (pi->gp_config_str);
+
+	if (pi->page_setup)
+		g_object_unref (pi->page_setup);
+	
 	g_free (pi);
 }
 
@@ -274,6 +278,8 @@ print_info_new (void)
 	res->paper_width   = NULL;
 	res->paper_height  = NULL;
 
+	res->page_setup = NULL;
+	
 	return res;
 }
 
@@ -611,6 +617,9 @@ print_info_dup (PrintInformation const *src)
 	dst->header	   = print_hf_copy (src->header);
 	dst->footer	   = print_hf_copy (src->footer);
 
+	if (src->page_setup)
+		dst->page_setup = gtk_page_setup_copy (src->page_setup);
+	
 	return dst;
 }
 
@@ -794,3 +803,21 @@ print_info_load_config (PrintInformation *pi, GnomePrintConfig *config)
 	}
 }
 #endif /* WITH_GNOME_PRINT */
+
+GtkPageSetup
+*print_info_get_page_setup (PrintInformation const *pi)
+{
+	if (pi->page_setup)
+		return g_object_ref (pi->page_setup);
+	else
+		return NULL;
+}
+
+void
+print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
+{
+	if (pi->page_setup)
+		g_object_unref (pi->page_setup);
+	pi->page_setup = page_setup;
+}
+

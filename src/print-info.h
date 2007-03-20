@@ -2,6 +2,7 @@
 #define GNM_PRINT_INFO_H
 
 #include "gnumeric.h"
+#include <gtk/gtk.h>
 
 #ifdef WITH_GNOME_PRINT
 #include <libgnomeprint/gnome-print-config.h>	/* for typedef of GnomePrintConfig */
@@ -92,6 +93,8 @@ struct _PrintInformation {
 	char		 *paper_width, *paper_height;
 
 	char		 *gp_config_str;
+  
+        GtkPageSetup     *page_setup;
 };
 
 typedef enum {
@@ -114,6 +117,9 @@ void              print_info_save        (PrintInformation const *pi);
 GnomePrintConfig *print_info_make_config (PrintInformation const *pi);
 void		  print_info_load_config (PrintInformation *pi, GnomePrintConfig *config);
 #endif
+
+GtkPageSetup     *print_info_get_page_setup (PrintInformation const *pi);
+void              print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup);
 
 PrintHF          *print_hf_new           (char const *left,
 					  char const *middle,

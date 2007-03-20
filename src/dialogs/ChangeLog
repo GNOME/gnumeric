@@ -1,3 +1,10 @@
+2007-03-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (PrinterSetupStateNew): new
+	(printer_setup_state_new_new): new
+	(dialog_printer_setup_done_cb): new
+	(dialog_printer_setup): use gtk dialog
+
 2007-03-08  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (cb_number_format_changed): Use
