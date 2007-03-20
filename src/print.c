@@ -555,6 +555,13 @@ print_page (GtkPrintOperation *operation,
 
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);
+	text_height  = gtk_print_context_get_height (context);
+
+	cairo_save (cr);
+	/*  We should be clipping on the margin but this seems to create a huge performance hit  */
+/* 	cairo_new_path (cr); */
+/* 	cairo_rectangle (cr, 0, 0, width, text_height); */
+/* 	cairo_clip (cr); */
 
 	/* 	/\* FIXME: Can col / row space calculation be factored out? *\/ */
 
@@ -719,8 +726,9 @@ print_page (GtkPrintOperation *operation,
 /* 		x += repeat_cols_used_x; */
 /* 	} */
 
-		print_page_cells (context, pi, cr, sheet, range, x, y); 
+		print_page_cells (context, pi, cr, sheet, range, x, y);
 		
+	cairo_restore (cr);
 	return 1;
 }
 

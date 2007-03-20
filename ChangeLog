@@ -1,3 +1,10 @@
+2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	* src/print-cell.c (print_cell_gtk): set up clipping
+	and some sort of rotated printing
+	* src/print.c (print_page): prepare for clipping of whole 
+	page (currently disabled since it involves a heavy
+	performance hit).
+
 2007-03-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_cell_gtk): new

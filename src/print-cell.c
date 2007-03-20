@@ -230,44 +230,35 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		double px = x1 + x / (double)PANGO_SCALE;
 		double py = y1 + y / (double)PANGO_SCALE;
 
-/* 		/\* Clip the printed rectangle *\/ */
-/* 		gnome_print_gsave (context); */
+ 		/* Clip the printed rectangle */
+ 		cairo_save (context); 
 
-/* 		if (!rv->rotation) { */
-/* 			/\* We do not clip rotated cells.  *\/ */
-/* 			gnm_print_make_rect_path (context, */
-/* 						   x0 - 1, y0 - height, */
-/* 						   x0 + width, y0 + 1); */
-/* 			gnome_print_clip (context); */
-/* 		} */
+		if (!rv->rotation) {
+			/* We do not clip rotated cells.  */
+			cairo_new_path (context);
+			cairo_rectangle (context, x0 - 1, y0 -1,
+					 width + 1, height + 1);
+			cairo_clip (context);
+		}
 
-/* 		/\* Set the font colour *\/ */
-/* 		gnome_print_setrgbcolor (context, */
-/* 			UINT_RGBA_R (fore_color) / 255., */
-/* 			UINT_RGBA_G (fore_color) / 255., */
-/* 			UINT_RGBA_B (fore_color) / 255.); */
+		/* Set the font colour */
+		cairo_set_source_rgb (context,
+			 UINT_RGBA_R (fore_color) / 255.,
+			 UINT_RGBA_G (fore_color) / 255.,
+			 UINT_RGBA_B (fore_color) / 255.);
 
 		if (rv->rotation) {
-/* 			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv; */
-/* 			const struct GnmRenderedRotatedValueInfo *li = rrv->lines; */
-/* 			GSList *lines; */
-
-/* 			for (lines = pango_layout_get_lines (rv->layout); */
-/* 			     lines; */
-/* 			     lines = lines->next, li++) { */
-/* 				gnome_print_gsave (context); */
-/* 				gnome_print_moveto (context, */
-/* 						    px + li->dx / (double)PANGO_SCALE, */
-/* 						    py - li->dy / (double)PANGO_SCALE); */
-/* 				gnome_print_rotate (context, rv->rotation); */
-/* 				gnome_print_pango_layout_line (context, lines->data); */
-/* 				gnome_print_grestore (context); */
-/* 			} */
+			cairo_save (context);
+			cairo_translate (context, x1, y1);
+			cairo_rotate (context, - rv->rotation/180.*3.14159);
+			cairo_move_to (context, 0.,0.);
+			pango_cairo_show_layout (context, rv->layout);
+			cairo_restore (context);
 		} else {
 			cairo_move_to (context, px, py);
 			pango_cairo_show_layout (context, rv->layout);
 		}
-
+		cairo_restore(context);
 	}
 
 	gnm_rendered_value_destroy (rv);
