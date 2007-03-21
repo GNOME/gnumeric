@@ -53,13 +53,9 @@ typedef struct {
 	unsigned	 cur_obj, num_objs;
 } ExcelWriteSheet;
 
-struct _ExcelWriteState {
-	BiffPut	      *bp;
-
-	IOContext     *io_context;
-	Workbook      const *gnum_wb;
-	WorkbookView  const *gnum_wb_view;
-	GPtrArray     *sheets;
+typedef struct {
+	Workbook      const *wb;
+	WorkbookView  const *wb_view;
 
 	struct {
 		TwoWayTable *two_way_table;
@@ -76,7 +72,15 @@ struct _ExcelWriteState {
 	struct {
 		TwoWayTable *two_way_table;
 	} formats;
+} XLExportBase;
 
+struct _ExcelWriteState {
+	XLExportBase	base;
+
+	IOContext     *io_context;
+	BiffPut	      *bp;
+
+	GPtrArray     *esheets;
 	GHashTable    *function_map;
 	GHashTable    *sheet_pairs;
 	GHashTable    *cell_markup;
@@ -135,7 +139,7 @@ unsigned excel_write_BOF	(BiffPut *bp, MsBiffFileType type);
 void	 excel_write_SETUP	(BiffPut *bp, ExcelWriteSheet *esheet);
 void	 excel_write_SCL	(BiffPut *bp, double zoom, gboolean force);
 
-gint palette_get_index (ExcelWriteState const *ewb, guint c);
+int palette_get_index (XLExportBase const *ewb, guint c);
 int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,
 				     Sheet *gnum_sheetb);

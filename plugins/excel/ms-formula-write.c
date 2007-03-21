@@ -393,7 +393,7 @@ excel_formula_write_CELLREF (PolishData *pd, GnmCellRef const *ref,
 			gint16 ixals;
 
 			/* FIXME no external references for now */
-			g_return_if_fail (pd->ewb->gnum_wb == ref->sheet->workbook);
+			g_return_if_fail (pd->ewb->base.wb == ref->sheet->workbook);
 
 			idx_a = ref->sheet->index_in_wb;
 			idx_b = (sheet_b != NULL) ? sheet_b->index_in_wb : idx_a;
@@ -459,7 +459,7 @@ excel_formula_write_AREA (PolishData *pd, GnmCellRef const *a, GnmCellRef const 
 			gint16 ixals;
 
 			/* FIXME no external references for now */
-			g_return_if_fail (pd->ewb->gnum_wb == a->sheet->workbook);
+			g_return_if_fail (pd->ewb->base.wb == a->sheet->workbook);
 
 			idx_a = a->sheet->index_in_wb;
 			idx_b = (b->sheet != NULL)
@@ -515,7 +515,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 				/* The Magic Addin entry is after the real sheets
 				 * for globals (names that call addins) and
 				 * for locals (fomulas that call addins) */
-				push_gint16  (pd, pd->ewb->sheets->len + 1);
+				push_gint16  (pd, pd->ewb->esheets->len + 1);
 				ms_biff_put_var_write (pd->ewb->bp, zeros, 8);
 				push_guint16 (pd, ef->idx);
 				ms_biff_put_var_write (pd->ewb->bp, zeros, 12);
@@ -627,7 +627,7 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr,
 		ms_biff_put_var_write (pd->ewb->bp, data, 15);
 	} else {
 		int externsheet = (pd->sheet == expr->name.optional_scope)
-			? (int) (pd->ewb->sheets->len + 1)
+			? (int) (pd->ewb->esheets->len + 1)
 			: expr->name.optional_scope->index_in_wb;
 
 		GSF_LE_SET_GUINT8  (data +  0, FORMULA_PTG_NAME_X +

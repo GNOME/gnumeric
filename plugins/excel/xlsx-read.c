@@ -141,9 +141,10 @@ enum {
 };
 
 static GsfXMLInNS const xlsx_ns[] = {
-	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.microsoft.com/office/excel/2006/2"), 			  /* Office 12 BETA-1 Technical Refresh */
-	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main"),		  /* Office 12 BETA-2 */
+	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/main"),		  /* Office 12 */
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/7/main"),		  /* Office 12 BETA-2 Technical Refresh */
+	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main"),		  /* Office 12 BETA-2 */
+	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.microsoft.com/office/excel/2006/2"), 			  /* Office 12 BETA-1 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_SS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"),	  /* Office 12 BETA-2 */
 	GSF_XML_IN_NS (XL_NS_SS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/3/spreadsheetDrawing"), /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_CHART,	"http://schemas.openxmlformats.org/drawingml/2006/3/chart"),		  /* Office 12 BETA-2 */
@@ -2935,17 +2936,17 @@ xlsx_style_array_free (GPtrArray *styles)
 
 G_MODULE_EXPORT void
 xlsx_file_open (GOFileOpener const *fo, IOContext *context,
-		WorkbookView *wbv, GsfInput *input);
+		WorkbookView *wb_view, GsfInput *input);
 
 void
-xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
+xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 		WorkbookView *wb_view, GsfInput *input)
 {
 	XLSXReadState	 state;
 	GnmLocale       *locale;
 
 	memset (&state, 0, sizeof (XLSXReadState));
-	state.context	= io_context;
+	state.context	= context;
 	state.wb_view	= wb_view;
 	state.wb	= wb_view_get_workbook (wb_view);
 	state.sheet	= NULL;
@@ -2977,7 +2978,9 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
 			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
 
 			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
-		}
+		} else
+			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
+				_("No workbook stream found."));
 		g_object_unref (G_OBJECT (state.zip));
 	}
 
@@ -3015,7 +3018,6 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
  * Named expressions
  * rich text
  * validation
- * autofilters
  * workbook/calc properties
  * more print settings
  * comments
@@ -3025,7 +3027,14 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *io_context,
  * 	- column widths : Don't use hard coded font side
  * 	- share colours
  * 	- conditional formats
-* 		: why do we need to flip fg and bg for solid in xf but not for dxf
-* 		: other condition types
-* 		: check binary operators
- **/
+ * 		: why do we need to flip fg and bg for solid in xf but not for dxf
+ * 		: other condition types
+ * 		: check binary operators
+ *
+ * ".xlam",	"application/vnd.ms-excel.addin.macroEnabled.12" ,
+ * ".xlsb",	"application/vnd.ms-excel.sheet.binary.macroEnabled.12" ,
+ * ".xlsm",	"application/vnd.ms-excel.sheet.macroEnabled.12" ,
+ * ".xlsx",	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ,
+ * ".xltm",	"application/vnd.ms-excel.template.macroEnabled.12" ,
+ * ".xltx",	"application/vnd.openxmlformats-officedocument.spreadsheetml.template"
+**/

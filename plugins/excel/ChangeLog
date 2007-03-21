@@ -1,3 +1,26 @@
+2007-03-19  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-write.c (xlsx_write_cells) : keep f before v, but do not try to
+	  export an attribute of c once we have started the f or v.
+	(xlsx_write_cells) : export array formulas.
+	(xlsx_write_cells) : export bool values a "1" "0" rather than
+	  value_get_as_string.
+
+2007-03-18  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_file_open) : Visible error if no workbook is
+	  found.
+
+	* xlsx-write.c (xlsx_write_sheet) : Define some new constants for the
+	  spreadsheet, and relationship namespaces.  Then update them to the
+	  versions used in the official 2007 release.
+	(xlsx_write_shared_strings) : ditto.
+	(xlsx_write_styles) : ditto.
+	(xlsx_write_workbook) : ditto.
+	(xlsx_write_col) : up the accuracy of width export to match XL 2007.
+	  put hidden before other flags to ease visual inspection of xml.
+	(xlsx_write_cols) : skip initial empty cols, and include the last col. 
+
 2007-03-16  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_FONT): In case we get a NULL

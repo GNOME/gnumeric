@@ -173,12 +173,12 @@ map_border_to_xl (GnmStyleBorderType btype, MsBiffVersion ver)
 }
 
 static guint16
-map_color_to_palette (ExcelWriteState const *ewb,
+map_color_to_palette (XLExportBase const *xle,
 		      GnmColor const *c, guint16 auto_index)
 {
 	if (NULL == c || c->is_auto)
 		return auto_index;
-	return palette_get_index (ewb, gnm_color_to_bgr (c));
+	return palette_get_index (xle, gnm_color_to_bgr (c));
 }
 
 void
@@ -503,13 +503,13 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x3a };
 	static guint8 const magic_self[]  = { 0x01, 0x04 };
-	unsigned i, num_sheets = ewb->sheets->len;
+	unsigned i, num_sheets = ewb->esheets->len;
 	GnmFunc *func;
 
 	ms_biff_put_2byte (ewb->bp, BIFF_EXTERNCOUNT, num_sheets + 2);
 
 	for (i = 0; i < num_sheets; i++) {
-		ExcelWriteSheet const *esheet = g_ptr_array_index (ewb->sheets, i);
+		ExcelWriteSheet const *esheet = g_ptr_array_index (ewb->esheets, i);
 		unsigned len;
 		guint8 data[2];
 
@@ -592,7 +592,7 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 		ewb->supbook_idx = 0;
 
 	ms_biff_put_var_next (ewb->bp, BIFF_SUPBOOK);
-	GSF_LE_SET_GUINT16 (data, ewb->sheets->len);
+	GSF_LE_SET_GUINT16 (data, ewb->esheets->len);
 	ms_biff_put_var_write (ewb->bp, data, 2);
 	ms_biff_put_var_write (ewb->bp, magic_self, sizeof (magic_self));
 	ms_biff_put_commit (ewb->bp);
@@ -705,11 +705,11 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 	if (!style_color_equal (sheet_auto, default_auto)) {
 		biff_pat_col = gnm_color_to_bgr (sheet_auto);
 		if (bp->version > MS_BIFF_V7)
-			biff_pat_col = palette_get_index (esheet->ewb,
+			biff_pat_col = palette_get_index (&esheet->ewb->base,
 							  biff_pat_col);
 		options &= ~0x0020;
 	}
-	if (sheet == wb_view_cur_sheet (esheet->ewb->gnum_wb_view))
+	if (sheet == wb_view_cur_sheet (esheet->ewb->base.wb_view))
 		options |= 0x600; /* Excel ignores this and uses WINDOW1 */
 
 	if (bp->version <= MS_BIFF_V7) {
@@ -833,7 +833,9 @@ write_border (ExcelWriteSheet const *esheet,
 
 	*patterns |= (map_border_to_xl (b->line_type, esheet->ewb->bp->version)
 		     << pat_offset);
-	c = map_color_to_palette (esheet->ewb, b->color, PALETTE_AUTO_PATTERN);
+
+	c = map_color_to_palette (&esheet->ewb->base,
+		b->color, PALETTE_AUTO_PATTERN);
 	*colours |= (c << colour_offset);
 
 	return FALSE;
@@ -956,7 +958,7 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 			GSF_LE_SET_GUINT16 (fbuf+116, 1); /* dunno ? */
 
 			if (gnm_style_is_element_set (s, MSTYLE_FONT_COLOR))
-				tmp = map_color_to_palette (esheet->ewb, 
+				tmp = map_color_to_palette (&esheet->ewb->base, 
 					gnm_style_get_font_color (s), PALETTE_AUTO_FONT);
 			else
 				tmp = 0xFFFFFFFF;
@@ -1002,14 +1004,14 @@ cb_write_condition (GnmStyleConditions const *sc, CondDetails *cd,
 			else
 				flags |= 0x10000;
 			if (gnm_style_is_element_set (s, MSTYLE_COLOR_PATTERN)) {
-				unsigned idx = palette_get_index (esheet->ewb,
+				unsigned idx = palette_get_index (&esheet->ewb->base,
 					gnm_color_to_bgr (
 						gnm_style_get_pattern_color (s)));
 				background |= idx << 16;
 			} else
 				flags |= 0x20000;
 			if (gnm_style_is_element_set (s, MSTYLE_COLOR_BACK)) {
-				unsigned idx = palette_get_index (esheet->ewb,
+				unsigned idx = palette_get_index (&esheet->ewb->base,
 					gnm_color_to_bgr (
 						gnm_style_get_back_color (s)));
 				background |= idx << 23;
@@ -1507,7 +1509,7 @@ log_put_color (guint c, gboolean was_added, gint index, char const *tmpl)
 }
 
 static void
-palette_init (ExcelWriteState *ewb)
+palette_init (XLExportBase *ewb)
 {
 	int i;
 	ExcelPaletteEntry const *epe;
@@ -1535,7 +1537,7 @@ palette_init (ExcelWriteState *ewb)
 }
 
 static void
-palette_free (ExcelWriteState *ewb)
+palette_free (XLExportBase *ewb)
 {
 	if (ewb->pal.two_way_table != NULL) {
 		two_way_table_free (ewb->pal.two_way_table);
@@ -1545,15 +1547,15 @@ palette_free (ExcelWriteState *ewb)
 
 /**
  * palette_get_index
- * @ewb workbook
- * @c  color
+ * @ewb : #XLExportBase
+ * @c   : color
  *
  * Get index of color
  * The color index to use is *not* simply the index into the palette.
  * See comment to ms_excel_palette_get in ms-excel-read.c
  **/
 gint
-palette_get_index (ExcelWriteState const *ewb, guint c)
+palette_get_index (XLExportBase const *ewb, guint c)
 {
 	gint idx;
 
@@ -1576,7 +1578,7 @@ palette_get_index (ExcelWriteState const *ewb, guint c)
 }
 
 static void
-put_color_bgr (ExcelWriteState *ewb, guint32 bgr)
+put_color_bgr (XLExportBase *ewb, guint32 bgr)
 {
 	TwoWayTable *twt = ewb->pal.two_way_table;
 	gpointer pc = GUINT_TO_POINTER (bgr);
@@ -1588,16 +1590,21 @@ put_color_bgr (ExcelWriteState *ewb, guint32 bgr)
 }
 
 static void
-put_color_gnm (ExcelWriteState *ewb, GnmColor const *c)
+put_color_gnm (XLExportBase *ewb, GnmColor const *c)
 {
 	put_color_bgr (ewb, gnm_color_to_bgr (c));
 }
 
+static void
+put_color_go_color (XLExportBase *ewb, GOColor c)
+{
+	put_color_bgr (ewb, go_color_to_bgr (c));
+}
 /**
  * Add colors in mstyle to palette
  **/
 static void
-put_colors (GnmStyle const *st, gconstpointer dummy, ExcelWriteState *ewb)
+put_colors (GnmStyle const *st, gconstpointer dummy, XLExportBase *ewb)
 {
 	unsigned i, j;
 	GnmBorder const *b;
@@ -1654,29 +1661,29 @@ put_colors (GnmStyle const *st, gconstpointer dummy, ExcelWriteState *ewb)
  * default palette. The causes seem to be elsewhere in gnumeric and gnome.
  **/
 static void
-gather_palette (ExcelWriteState *ewb)
+gather_palette (XLExportBase *xle)
 {
-	TwoWayTable *twt = ewb->xf.two_way_table;
+	TwoWayTable *twt = xle->xf.two_way_table;
 	int i, j;
 	int upper_limit = EXCEL_DEF_PAL_LEN;
 	guint color;
 
 	/* For each color in each style, get color index from hash. If
            none, it is not there yet, and we enter it. */
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_colors, ewb);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_colors, xle);
 
-	twt = ewb->pal.two_way_table;
+	twt = xle->pal.two_way_table;
 	for (i = twt->idx_to_key->len - 1; i >= EXCEL_DEF_PAL_LEN; i--) {
 		color = GPOINTER_TO_UINT (two_way_table_idx_to_key (twt, i));
 		for (j = upper_limit - 1; j > 1; j--) {
-			if (!ewb->pal.entry_in_use[j]) {
+			if (!xle->pal.entry_in_use[j]) {
 				/* Replace table entry with color. */
 				d (2, fprintf (stderr, "Custom color %d (0x%x)"
 						" moved to unused index %d\n",
 					      i, color, j););
 				two_way_table_move (twt, j, i);
 				upper_limit = j;
-				ewb->pal.entry_in_use[j] = TRUE;
+				xle->pal.entry_in_use[j] = TRUE;
 				break;
 			}
 		}
@@ -1697,7 +1704,7 @@ gather_palette (ExcelWriteState *ewb)
 static void
 write_palette (BiffPut *bp, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = ewb->pal.two_way_table;
+	TwoWayTable *twt = ewb->base.pal.two_way_table;
 	guint8  data[8];
 	guint   num, i;
 
@@ -1896,7 +1903,7 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 }
 
 static ExcelWriteFont *
-fonts_get_font (ExcelWriteState *ewb, gint idx)
+fonts_get_font (XLExportBase *ewb, gint idx)
 {
 	return two_way_table_idx_to_key (ewb->fonts.two_way_table, idx);
 }
@@ -1914,16 +1921,16 @@ after_put_font (ExcelWriteFont *f, gboolean was_added, gint index, gconstpointer
 /**
  * put_efont :
  * @efont : #ExcelWriteFont
- * @ewb : #ExcelWriteState
+ * @xle : #XLExportBase
  *
  * Absorbs ownership of @efont potentially freeing it.
  *
  * Returns the index of the font
  **/
 static inline gint
-put_efont (ExcelWriteFont *efont, ExcelWriteState *ewb)
+put_efont (ExcelWriteFont *efont, XLExportBase *xle)
 {
-	TwoWayTable *twt = ewb->fonts.two_way_table;
+	TwoWayTable *twt = xle->fonts.two_way_table;
 
 	d (2, fprintf (stderr, "adding %s\n", excel_font_to_string (efont)););
 
@@ -1934,9 +1941,9 @@ put_efont (ExcelWriteFont *efont, ExcelWriteState *ewb)
 	return two_way_table_put (twt, efont, TRUE, (AfterPutFunc) after_put_font, NULL);
 }
 static void
-put_style_font (GnmStyle const *style, gconstpointer dummy, ExcelWriteState *ewb)
+put_style_font (GnmStyle const *style, gconstpointer dummy, XLExportBase *xle)
 {
-	put_efont (excel_font_new (style), ewb);
+	put_efont (excel_font_new (style), xle);
 }
 
 static void
@@ -1961,7 +1968,7 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelWriteFont const *f)
 
 	color = f->is_auto
 		? PALETTE_AUTO_FONT
-		: palette_get_index (ewb, f->color);
+		: palette_get_index (&ewb->base, f->color);
 	d (1, fprintf (stderr, "Writing font %s, color idx %u\n",
 		      excel_font_to_string (f), color););
 
@@ -1999,21 +2006,21 @@ excel_write_FONT (ExcelWriteState *ewb, ExcelWriteFont const *f)
 static void
 excel_write_FONTs (BiffPut *bp, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = ewb->fonts.two_way_table;
+	TwoWayTable *twt = ewb->base.fonts.two_way_table;
 	int nfonts = twt->idx_to_key->len;
 	int i;
 	ExcelWriteFont *f;
 
 	for (i = 0; i < nfonts; i++) {
 		if (i != FONT_SKIP) {	/* FONT_SKIP is invalid, skip it */
-			f = fonts_get_font (ewb, i);
+			f = fonts_get_font (&ewb->base, i);
 			excel_write_FONT (ewb, f);
 		}
 	}
 
 	if (nfonts < FONTS_MINIMUM + 1) { /* Add 1 to account for skip */
 		/* Fill up until we've got the minimum number */
-		f = fonts_get_font (ewb, 0);
+		f = fonts_get_font (&ewb->base, 0);
 		for (; i < FONTS_MINIMUM + 1; i++) {
 			if (i != FONT_SKIP) {
 				/* FONT_SKIP is invalid, skip it */
@@ -2047,7 +2054,7 @@ after_put_format (GOFormat *format, gboolean was_added, gint index,
 }
 
 static void
-formats_init (ExcelWriteState *ewb)
+formats_init (XLExportBase *ewb)
 {
 	int i;
 	char const *fmt;
@@ -2070,7 +2077,7 @@ formats_init (ExcelWriteState *ewb)
 }
 
 static void
-formats_free (ExcelWriteState *ewb)
+formats_free (XLExportBase *ewb)
 {
 	if (ewb->formats.two_way_table != NULL) {
 		two_way_table_free (ewb->formats.two_way_table);
@@ -2079,20 +2086,20 @@ formats_free (ExcelWriteState *ewb)
 }
 
 static GOFormat const *
-formats_get_format (ExcelWriteState *ewb, gint idx)
+formats_get_format (XLExportBase *ewb, gint idx)
 {
 	return two_way_table_idx_to_key (ewb->formats.two_way_table, idx);
 }
 
 static gint
-formats_get_index (ExcelWriteState *ewb, GOFormat const *format)
+formats_get_index (XLExportBase *xle, GOFormat const *format)
 {
-	return two_way_table_key_to_idx (ewb->formats.two_way_table, format);
+	return two_way_table_key_to_idx (xle->formats.two_way_table, format);
 }
 static void
-put_format (GnmStyle const *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
+put_format (GnmStyle const *mstyle, gconstpointer dummy, XLExportBase *xle)
 {
-	two_way_table_put (ewb->formats.two_way_table,
+	two_way_table_put (xle->formats.two_way_table,
 		go_format_ref (gnm_style_get_format (mstyle)), TRUE,
 		(AfterPutFunc) after_put_format,
 		"Found unique format %d - 0x%x\n");
@@ -2102,7 +2109,7 @@ static void
 excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 {
 	guint8 data[64];
-	GOFormat const *sf = formats_get_format (ewb, fidx);
+	GOFormat const *sf = formats_get_format (&ewb->base, fidx);
 
 	const char *format = go_format_as_XL (sf);
 
@@ -2131,7 +2138,7 @@ excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 static void
 excel_write_FORMATs (ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = ewb->formats.two_way_table;
+	TwoWayTable *twt = ewb->base.formats.two_way_table;
 	guint nformats = twt->idx_to_key->len;
 	int magic_num [] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
 	guint i;
@@ -2152,10 +2159,10 @@ excel_write_FORMATs (ExcelWriteState *ewb)
  * written to file.
  **/
 static void
-xf_init (ExcelWriteState *ewb)
+xf_init (XLExportBase *xle)
 {
 	/* Excel starts at XF_RESERVED for user defined xf */
-	ewb->xf.two_way_table = two_way_table_new (gnm_style_hash_XL,
+	xle->xf.two_way_table = two_way_table_new (gnm_style_hash_XL,
 		(GCompareFunc) gnm_style_equal_XL, XF_RESERVED, NULL);
 
 	/* We store the default style for the workbook on xls import, use it if
@@ -2164,24 +2171,24 @@ xf_init (ExcelWriteState *ewb)
 	 *
 	 * NOTE : This is extremely important to get right.  Columns use
 	 * the font from the default style (which becomes XF 0) for sizing */
-	ewb->xf.default_style = g_object_get_data (G_OBJECT (ewb->gnum_wb),
+	xle->xf.default_style = g_object_get_data (G_OBJECT (xle->wb),
 						   "xls-default-style");
-	if (ewb->xf.default_style == NULL)
-		ewb->xf.default_style = gnm_style_new_default ();
+	if (xle->xf.default_style == NULL)
+		xle->xf.default_style = gnm_style_new_default ();
 	else
-		gnm_style_ref (ewb->xf.default_style);
+		gnm_style_ref (xle->xf.default_style);
 
-	ewb->xf.value_fmt_styles = g_hash_table_new_full (
+	xle->xf.value_fmt_styles = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)gnm_style_unlink);
 	/* Register default style, its font and format */
-	two_way_table_put (ewb->xf.two_way_table, ewb->xf.default_style,
+	two_way_table_put (xle->xf.two_way_table, xle->xf.default_style,
 		TRUE, NULL, NULL);
-	put_style_font (ewb->xf.default_style, NULL, ewb);
-	put_format (ewb->xf.default_style, NULL, ewb);
+	put_style_font (xle->xf.default_style, NULL, xle);
+	put_format (xle->xf.default_style, NULL, xle);
 }
 
 static void
-xf_free (ExcelWriteState *ewb)
+xf_free (XLExportBase *ewb)
 {
 	if (ewb->xf.two_way_table != NULL) {
 		two_way_table_free (ewb->xf.two_way_table);
@@ -2193,9 +2200,9 @@ xf_free (ExcelWriteState *ewb)
 }
 
 static GnmStyle *
-xf_get_mstyle (ExcelWriteState *ewb, gint idx)
+xf_get_mstyle (XLExportBase *xle, gint idx)
 {
-	return two_way_table_idx_to_key (ewb->xf.two_way_table, idx);
+	return two_way_table_idx_to_key (xle->xf.two_way_table, idx);
 }
 
 static GArray *
@@ -2230,7 +2237,7 @@ txomarkup_new (ExcelWriteState *ewb,
 
 			excel_font_overlay_pango (efont, attrs);
 			tmp[0] = start;
-			tmp[1] = put_efont (efont, ewb);
+			tmp[1] = put_efont (efont, &ewb->base);
 			g_array_append_vals (txo, (gpointer)tmp, 2);
 		}
 	} while (pango_attr_iterator_next (iter));
@@ -2261,13 +2268,12 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
 		    go_format_is_markup (fmt)) {
-			GArray *txo = txomarkup_new
-				(ewb, 
-				 go_format_get_markup (fmt),
-				 style);
+			GArray *txo = txomarkup_new (ewb, 
+				go_format_get_markup (fmt),
+				style);
 
 			g_hash_table_insert (ewb->cell_markup, 
-					     (gpointer)cell, txo);
+				(gpointer)cell, txo);
 			return; /* we use RSTRING, no need to add to SST */
 		}
 
@@ -2278,7 +2284,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		else if (go_format_is_general (gnm_style_get_format (style))) {
 			GnmStyle *tmp = gnm_style_dup (style);
 			gnm_style_set_format (tmp, fmt);
-			g_hash_table_insert (ewb->xf.value_fmt_styles,
+			g_hash_table_insert (ewb->base.xf.value_fmt_styles,
 				(gpointer)cell,
 				sheet_style_find (cell->base.sheet, tmp));
 		}
@@ -2297,9 +2303,9 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 }
 
 static void
-cb_accum_styles (GnmStyle const *st, gconstpointer dummy, ExcelWriteState *ewb)
+cb_accum_styles (GnmStyle const *st, gconstpointer dummy, XLExportBase *xle)
 {
-	two_way_table_put (ewb->xf.two_way_table, (gpointer)st, TRUE, NULL, NULL);
+	two_way_table_put (xle->xf.two_way_table, (gpointer)st, TRUE, NULL, NULL);
 }
 static void
 gather_styles (ExcelWriteState *ewb)
@@ -2308,15 +2314,15 @@ gather_styles (ExcelWriteState *ewb)
 	int	 col;
 	ExcelWriteSheet *esheet;
 
-	for (i = 0; i < ewb->sheets->len; i++) {
-		esheet = g_ptr_array_index (ewb->sheets, i);
+	for (i = 0; i < ewb->esheets->len; i++) {
+		esheet = g_ptr_array_index (ewb->esheets, i);
 		sheet_cell_foreach (esheet->gnum_sheet,
-			(GHFunc) cb_cell_pre_pass, ewb);
+			(GHFunc) cb_cell_pre_pass, &ewb->base);
 		sheet_style_foreach (esheet->gnum_sheet,
-			(GHFunc) cb_accum_styles, ewb);
+			(GHFunc) cb_accum_styles, &ewb->base);
 		for (col = 0; col < esheet->max_col; col++)
-			esheet->col_xf [col] = two_way_table_key_to_idx (ewb->xf.two_way_table,
-									 esheet->col_style [col]);
+			esheet->col_xf [col] = two_way_table_key_to_idx (
+				ewb->base.xf.two_way_table, esheet->col_style [col]);
 	}
 }
 
@@ -2426,7 +2432,7 @@ rotation_to_excel_v8 (int rotation)
  * others. Can we use the actual default style as XF 0?
  **/
 static void
-get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle const *parentst)
+get_xf_differences (BiffXFData *xfd, GnmStyle const *parentst)
 {
 	int i;
 
@@ -2461,10 +2467,10 @@ get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle const *paren
  * Log XF data for a record about to be written
  **/
 static void
-log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
+log_xf_data (XLExportBase *xle, BiffXFData *xfd, int idx)
 {
 	int i;
-	ExcelWriteFont *f = fonts_get_font (ewb, xfd->font_idx);
+	ExcelWriteFont *f = fonts_get_font (xle, xfd->font_idx);
 	/* Formats are saved using the 'C' locale number format */
 	const char *desc = go_format_as_XL (xfd->style_format);
 
@@ -2493,7 +2499,7 @@ log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 #endif
 
 static void
-build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
+build_xf_data (XLExportBase *xle, BiffXFData *xfd, GnmStyle *st)
 {
 	ExcelWriteFont *f;
 	GnmBorder const *b;
@@ -2505,11 +2511,11 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 	xfd->mstyle       = st;
 
 	f = excel_font_new (st);
-	xfd->font_idx = two_way_table_key_to_idx (ewb->fonts.two_way_table, f);
+	xfd->font_idx = two_way_table_key_to_idx (xle->fonts.two_way_table, f);
 	excel_font_free (f);
 
 	xfd->style_format = gnm_style_get_format (st);
-	xfd->format_idx   = formats_get_index (ewb, xfd->style_format);
+	xfd->format_idx   = formats_get_index (xle, xfd->style_format);
 
 	xfd->locked	= gnm_style_get_contents_locked (st);
 	xfd->hidden	= gnm_style_get_contents_hidden (st);
@@ -2527,15 +2533,15 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 		b = gnm_style_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b) {
 			xfd->border_type[i] = b->line_type;
-			xfd->border_color[i] = map_color_to_palette (ewb,
+			xfd->border_color[i] = map_color_to_palette (xle,
 				b->color, PALETTE_AUTO_PATTERN);
 		}
 	}
 
 	xfd->fill_pattern_idx = map_pattern_to_xl (gnm_style_get_pattern (st));
-	xfd->pat_foregnd_col  = map_color_to_palette (ewb,
+	xfd->pat_foregnd_col  = map_color_to_palette (xle,
 		gnm_style_get_pattern_color (st), PALETTE_AUTO_PATTERN);
-	xfd->pat_backgnd_col  = map_color_to_palette (ewb,
+	xfd->pat_backgnd_col  = map_color_to_palette (xle,
 		gnm_style_get_back_color (st), PALETTE_AUTO_BACK);
 
 	/* Solid patterns seem to reverse the meaning */
@@ -2545,7 +2551,7 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 		xfd->pat_foregnd_col = c;
 	}
 
-	get_xf_differences (ewb, xfd, ewb->xf.default_style);
+	get_xf_differences (xfd, xle->xf.default_style);
 }
 
 static void
@@ -2741,7 +2747,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 static void
 excel_write_XFs (ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = ewb->xf.two_way_table;
+	TwoWayTable *twt = ewb->base.xf.two_way_table;
 	unsigned nxf = twt->idx_to_key->len;
 	unsigned i;
 	BiffXFData xfd;
@@ -2817,8 +2823,8 @@ excel_write_XFs (ExcelWriteState *ewb)
 
 	/* now write our styles */
 	for (; i < nxf + twt->base; i++) {
-		build_xf_data (ewb, &xfd, xf_get_mstyle (ewb, i));
-		d (3, log_xf_data (ewb, &xfd, i););
+		build_xf_data (&ewb->base, &xfd, xf_get_mstyle (&ewb->base, i));
+		d (3, log_xf_data (&ewb->base, &xfd, i););
 		excel_write_XF (ewb->bp, ewb, &xfd);
 	}
 
@@ -3347,7 +3353,7 @@ static XL_font_width const *
 xl_find_fontspec (ExcelWriteSheet *esheet, float *scale)
 {
 	/* Use the 'Normal' Style which is by definition the 0th */
-	GnmStyle const *def_style = esheet->ewb->xf.default_style;
+	GnmStyle const *def_style = esheet->ewb->base.xf.default_style;
 	*scale = gnm_style_get_font_size (def_style) / 10.;
 	return xl_lookup_font_specs (gnm_style_get_font_name (def_style));
 }
@@ -3601,8 +3607,8 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 	nexpr.name = gnm_string_get ("_FilterDatabase");
 	nexpr.is_hidden = TRUE;
 	nexpr.is_placeholder = FALSE;
-	for (i = 0; i < ewb->sheets->len; i++) {
-		esheet = g_ptr_array_index (ewb->sheets, i);
+	for (i = 0; i < ewb->esheets->len; i++) {
+		esheet = g_ptr_array_index (ewb->esheets, i);
 		sheet = esheet->gnum_sheet;
 		if (sheet->filters != NULL) {
 			filter = sheet->filters->data;
@@ -4410,7 +4416,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	GnmCell const	*cell;
 	Sheet		*sheet = esheet->gnum_sheet;
 	int	    xf;
-	TwoWayTable *twt = esheet->ewb->xf.two_way_table;
+	TwoWayTable *twt = esheet->ewb->base.xf.two_way_table;
 	gboolean has_content = FALSE;
 
 	if (nrows > esheet->max_row - (int) begin) /* Incomplete final block? */
@@ -4440,7 +4446,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			cell = sheet_cell_get (sheet, col, row);
 
 			/* check for a magic value_fmt override*/
-			style = g_hash_table_lookup (ewb->xf.value_fmt_styles, cell);
+			style = g_hash_table_lookup (ewb->base.xf.value_fmt_styles, cell);
 			if (style == NULL)
 				style = sheet_style_get (sheet, col, row);
 			xf = two_way_table_key_to_idx (twt, style);
@@ -4570,7 +4576,7 @@ excel_write_objs_v8 (ExcelWriteSheet *esheet)
 	g_slist_free (charts);
 
 	for (ptr = esheet->blips; ptr != NULL ; ptr = ptr->next)
-			excel_write_image_v8 (esheet, ptr->data);
+		excel_write_image_v8 (esheet, ptr->data);
 
 	for (ptr = esheet->textboxes; ptr != NULL ; ptr = ptr->next)
 		excel_write_textbox_v8 (esheet, ptr->data);
@@ -4763,31 +4769,23 @@ excel_sheet_free (ExcelWriteSheet *esheet)
 	g_free (esheet);
 }
 
-/**
- * pre_pass
- * @context:  Command context.
- * @ewb:   The workbook to scan
- *
- * Scans all the workbook items. Adds all styles, fonts, formats and
- * colors to tables. Resolves any referencing problems before they
- * occur, hence the records can be written in a linear order.
- **/
+/* Scans all the workbook items. Adds all styles, fonts, formats and colors to
+ * tables. Resolves any referencing problems before they occur, hence the
+ * records can be written in a linear order. */
 static void
 pre_pass (ExcelWriteState *ewb)
 {
-	TwoWayTable *twt;
-
-	if (ewb->sheets->len == 0)
-		return;
+	TwoWayTable  *twt;
+	XLExportBase *xle = &ewb->base;
 
 	gather_styles (ewb);     /* (and cache cells) */
 
 	/* Gather Info from styles */
-	twt = ewb->xf.two_way_table;
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_style_font, ewb);
-	twt = ewb->xf.two_way_table;
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, ewb);
-	gather_palette (ewb);
+	twt = xle->xf.two_way_table;
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_style_font, xle);
+	twt = xle->xf.two_way_table;
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, xle);
+	gather_palette (xle);
 }
 
 typedef struct {
@@ -4950,7 +4948,7 @@ excel_write_WRITEACCESS (BiffPut *bp)
 static void
 excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
 {
-	Workbook const *wb = ewb->gnum_wb;
+	Workbook const *wb = ewb->base.wb;
 	Sheet const *sheet;
 	unsigned i, num_sheets = workbook_sheet_count (wb);
 
@@ -5208,8 +5206,8 @@ excel_write_blips (ExcelWriteState *ewb, guint32 bliplen)
 		ExcelWriteSheet const *s;
 		guint i, nblips;
 
-		for (i = 0, nblips = 0; i < ewb->sheets->len; i++) {
-			s = g_ptr_array_index (ewb->sheets, i);
+		for (i = 0, nblips = 0; i < ewb->esheets->len; i++) {
+			s = g_ptr_array_index (ewb->esheets, i);
 			for (b = s->blips; b != NULL; b = b->next)
 					nblips++;
 		}
@@ -5219,8 +5217,8 @@ excel_write_blips (ExcelWriteState *ewb, guint32 bliplen)
 		GSF_LE_SET_GUINT32 (buf +  4, bliplen);
 		ms_biff_put_var_write (bp, buf, sizeof header_obj_v8);
 
-		for (i = 0; i < ewb->sheets->len; i++) {
-			s = g_ptr_array_index (ewb->sheets, i);
+		for (i = 0; i < ewb->esheets->len; i++) {
+			s = g_ptr_array_index (ewb->esheets, i);
 			for (b = s->blips; b != NULL; b = b->next)
 				excel_write_blip (ewb, b->data);
 		}
@@ -5260,7 +5258,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 		ms_biff_put_2byte (ewb->bp, BIFF_DSF, ewb->double_stream_file ? 1 : 0);
 		ms_biff_put_empty (ewb->bp, BIFF_XL9FILE);
 
-		n = ewb->sheets->len;
+		n = ewb->esheets->len;
 		data = ms_biff_put_len_next (bp, BIFF_TABID, n * 2);
 		for (i = 0; i < n; i++)
 			GSF_LE_SET_GUINT16 (data + i*2, i + 1);
@@ -5268,7 +5266,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 		if (ewb->export_macros) {
 			ms_biff_put_empty (ewb->bp, BIFF_OBPROJ);
-			excel_write_CODENAME (ewb, G_OBJECT (ewb->gnum_wb));
+			excel_write_CODENAME (ewb, G_OBJECT (ewb->base.wb));
 		}
 	}
 
@@ -5285,7 +5283,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 	}
 
 	ms_biff_put_2byte (ewb->bp, BIFF_WINDOWPROTECT, 0);
-	ms_biff_put_2byte (ewb->bp, BIFF_PROTECT, ewb->gnum_wb_view->is_protected ? 1 : 0);
+	ms_biff_put_2byte (ewb->bp, BIFF_PROTECT, ewb->base.wb_view->is_protected ? 1 : 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_PASSWORD, 0);
 
 	if (bp->version >= MS_BIFF_V8) {
@@ -5293,13 +5291,13 @@ excel_write_workbook (ExcelWriteState *ewb)
 		ms_biff_put_2byte (ewb->bp, BIFF_PROT4REVPASS, 0);
 	}
 
-	WORKBOOK_FOREACH_VIEW (ewb->gnum_wb, view,
+	WORKBOOK_FOREACH_VIEW (ewb->base.wb, view,
 		excel_write_WINDOW1 (bp, view););
 
 	ms_biff_put_2byte (ewb->bp, BIFF_BACKUP, 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_HIDEOBJ, 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_1904,
-		workbook_date_conv (ewb->gnum_wb)->use_1904 ? 1 : 0);
+		workbook_date_conv (ewb->base.wb)->use_1904 ? 1 : 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_PRECISION, 0x0001);
 	ms_biff_put_2byte (ewb->bp, BIFF_REFRESHALL, 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_BOOKBOOL, 0);
@@ -5312,8 +5310,8 @@ excel_write_workbook (ExcelWriteState *ewb)
 		ms_biff_put_2byte (ewb->bp, BIFF_USESELFS, 0x01);
 	write_palette (bp, ewb);
 
-	for (i = 0; i < ewb->sheets->len; i++) {
-		s = g_ptr_array_index (ewb->sheets, i);
+	for (i = 0; i < ewb->esheets->len; i++) {
+		s = g_ptr_array_index (ewb->esheets, i);
 	        s->boundsheetPos = excel_write_BOUNDSHEET (bp, s->gnum_sheet);
 	}
 
@@ -5330,10 +5328,10 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 		/* If there are any objects in the workbook add a header */
 		num_objs = max_obj_id = 0;
-		for (i = 0; i < ewb->sheets->len; i++) {
+		for (i = 0; i < ewb->esheets->len; i++) {
 			GSList *b;
 
-			s = g_ptr_array_index (ewb->sheets, i);
+			s = g_ptr_array_index (ewb->esheets, i);
 			if (s->num_objs > 0) {
 				ewb->num_obj_groups++;
 				max_obj_id = 0x400 * (ewb->num_obj_groups) | s->num_objs;
@@ -5379,8 +5377,8 @@ excel_write_workbook (ExcelWriteState *ewb)
 			ms_biff_put_var_write (bp, buf, 4*4);
 
 			ewb->cur_obj_group = 0;
-			for (i = 0; i < ewb->sheets->len; i++) {
-				s = g_ptr_array_index (ewb->sheets, i);
+			for (i = 0; i < ewb->esheets->len; i++) {
+				s = g_ptr_array_index (ewb->esheets, i);
 				if (s->num_objs > 0) {
 					ewb->cur_obj_group++;
 					GSF_LE_SET_GUINT32 (buf+0, ewb->cur_obj_group);	/* dgid - DG owning the SPIDs in this cluster */
@@ -5403,17 +5401,17 @@ excel_write_workbook (ExcelWriteState *ewb)
 	ms_biff_put_empty (ewb->bp, BIFF_EOF);
 
 	n = 0;
-	for (i = workbook_sheet_count (ewb->gnum_wb) ; i-- > 0 ;)
-		n += sheet_cells_count (workbook_sheet_by_index (ewb->gnum_wb, i));
+	for (i = workbook_sheet_count (ewb->base.wb) ; i-- > 0 ;)
+		n += sheet_cells_count (workbook_sheet_by_index (ewb->base.wb, i));
 	count_io_progress_set (ewb->io_context,
 		n, N_CELLS_BETWEEN_UPDATES);
-	for (i = 0; i < ewb->sheets->len; i++)
-		excel_write_sheet (ewb, g_ptr_array_index (ewb->sheets, i));
+	for (i = 0; i < ewb->esheets->len; i++)
+		excel_write_sheet (ewb, g_ptr_array_index (ewb->esheets, i));
 	io_progress_unset (ewb->io_context);
 
 	/* Finalise Workbook stuff */
-	for (i = 0; i < ewb->sheets->len; i++) {
-		ExcelWriteSheet *s = g_ptr_array_index (ewb->sheets, i);
+	for (i = 0; i < ewb->esheets->len; i++) {
+		ExcelWriteSheet *s = g_ptr_array_index (ewb->esheets, i);
 		excel_fix_BOUNDSHEET (bp->output, s->boundsheetPos,
 				      s->streamPos);
 	}
@@ -5434,7 +5432,7 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 
 	content = gsf_outfile_new_child (outfile, "Book", FALSE);
 	if (content != NULL) {
-		tmp = g_object_get_data (G_OBJECT (ewb->gnum_wb), "excel-codepage");
+		tmp = g_object_get_data (G_OBJECT (ewb->base.wb), "excel-codepage");
 		if (tmp != NULL)
 			codepage = GPOINTER_TO_INT (tmp);
 		ewb->bp = ms_biff_put_new (content, MS_BIFF_V7, codepage);
@@ -5476,16 +5474,16 @@ cb_check_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 }
 
 static void
-extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
+extract_gog_object_style (XLExportBase *ewb, GogObject *obj)
 {
 	GSList *ptr = obj->children;
 
 	if (IS_GOG_STYLED_OBJECT (obj)) {
 		GogStyle const *style = GOG_STYLED_OBJECT (obj)->style;
 		if (style->interesting_fields & GOG_STYLE_OUTLINE)
-			put_color_bgr (ewb, go_color_to_bgr (style->outline.color));
+			put_color_go_color (ewb, style->outline.color);
 		else if (style->interesting_fields & GOG_STYLE_LINE)
-			put_color_bgr (ewb, go_color_to_bgr (style->line.color));
+			put_color_go_color (ewb, style->line.color);
 		if (style->interesting_fields & GOG_STYLE_FILL)
 			switch (style->fill.type) {
 			default :
@@ -5493,15 +5491,15 @@ extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
 			case GOG_FILL_STYLE_IMAGE :
 				break;
 			case GOG_FILL_STYLE_PATTERN :
-				put_color_bgr (ewb, go_color_to_bgr (style->fill.pattern.fore));
-				put_color_bgr (ewb, go_color_to_bgr (style->fill.pattern.back));
+				put_color_go_color (ewb, style->fill.pattern.fore);
+				put_color_go_color (ewb, style->fill.pattern.back);
 				break;
 			case GOG_FILL_STYLE_GRADIENT :
-				put_color_bgr (ewb, go_color_to_bgr (style->fill.pattern.fore));
+				put_color_go_color (ewb, style->fill.pattern.fore);
 			}
 		if (style->interesting_fields & GOG_STYLE_MARKER) {
-				put_color_bgr (ewb, go_color_to_bgr (go_marker_get_outline_color (style->marker.mark)));
-				put_color_bgr (ewb, go_color_to_bgr (go_marker_get_fill_color (style->marker.mark)));
+			put_color_go_color (ewb, go_marker_get_outline_color (style->marker.mark));
+			put_color_go_color (ewb, go_marker_get_fill_color (style->marker.mark));
 		}
 
 		if (style->interesting_fields & GOG_STYLE_FONT) {
@@ -5536,9 +5534,11 @@ extract_txomarkup (ExcelWriteState *ewb, SheetObject *so)
 	GArray *txo;
 
 	g_object_get (G_OBJECT (so), "markup", &markup, NULL);
-	if (!markup) return;
+	if (!markup)
+		return;
 
-	txo = txomarkup_new (ewb, markup, ewb->xf.default_style);
+	txo = txomarkup_new (ewb, markup, ewb->base.xf.default_style);
+
 	/* It isn't a cell, but that doesn't matter here */
 	g_hash_table_insert (ewb->cell_markup, (gpointer)so, txo);
 	
@@ -5546,7 +5546,7 @@ extract_txomarkup (ExcelWriteState *ewb, SheetObject *so)
 
 static void cb_g_array_free (GArray *array) { g_array_free (array, TRUE); }
 ExcelWriteState *
-excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
+excel_write_state_new (IOContext *context, WorkbookView const *wb_view,
 		       gboolean biff7, gboolean biff8)
 {
 	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
@@ -5557,11 +5557,12 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 
 	g_return_val_if_fail (ewb != NULL, NULL);
 
+	ewb->base.wb      = wb_view_get_workbook (wb_view);
+	ewb->base.wb_view = wb_view;
+
 	ewb->bp   	  = NULL;
 	ewb->io_context   = context;
-	ewb->gnum_wb      = wb_view_get_workbook (gwb_view);
-	ewb->gnum_wb_view = gwb_view;
-	ewb->sheets	  = g_ptr_array_new ();
+	ewb->esheets	  = g_ptr_array_new ();
 	ewb->names	  = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ewb->externnames  = g_ptr_array_new ();
 	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
@@ -5572,24 +5573,24 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	ewb->double_stream_file = biff7 && biff8;
 	ewb->num_obj_groups = ewb->cur_obj_group = ewb->cur_blip = 0;
 
-	ewb->fonts.two_way_table = two_way_table_new (
+	ewb->base.fonts.two_way_table = two_way_table_new (
 		excel_font_hash, excel_font_equal, 0,
 		(GDestroyNotify) excel_font_free);
-	formats_init (ewb);
-	palette_init (ewb);
-	xf_init (ewb);
+	formats_init (&ewb->base);
+	palette_init (&ewb->base);
+	xf_init (&ewb->base);
 
 	/* look for externsheet references in */
 	excel_write_prep_expressions (ewb);			/* dependents */
-	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep,
+	WORKBOOK_FOREACH_DEPENDENT (ewb->base.wb, dep,
 		excel_write_prep_expr (ewb, dep->texpr););
 	excel_foreach_name (ewb, (GHFunc) cb_check_names);	/* names */
 
-	for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {
-		sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
+	for (i = 0 ; i < workbook_sheet_count (ewb->base.wb) ; i++) {
+		sheet = workbook_sheet_by_index (ewb->base.wb, i);
 		esheet = excel_sheet_new (ewb, sheet, biff7, biff8);
 		if (esheet != NULL)
-			g_ptr_array_add (ewb->sheets, esheet);
+			g_ptr_array_add (ewb->esheets, esheet);
 
 		if (sheet->sheet_type != GNM_SHEET_DATA)
 			continue;
@@ -5603,7 +5604,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		objs = sheet_objects_get (sheet,
 			NULL, SHEET_OBJECT_GRAPH_TYPE);
 		for (ptr = objs ; ptr != NULL ; ptr = ptr->next)
-			extract_gog_object_style (ewb,
+			extract_gog_object_style (&ewb->base,
 				(GogObject *)sheet_object_graph_get_gog (ptr->data));
 		g_slist_free (objs);
 		for (ptr = esheet->textboxes ; ptr != NULL ; ptr = ptr->next)
@@ -5617,7 +5618,9 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		ewb->sst.strings  = NULL;
 		ewb->sst.indicies = NULL;
 	}
-	pre_pass (ewb);
+
+	if (ewb->esheets->len != 0)
+		pre_pass (ewb);
 
 	return ewb;
 }
@@ -5627,18 +5630,18 @@ excel_write_state_free (ExcelWriteState *ewb)
 {
 	unsigned i;
 
-	if (ewb->fonts.two_way_table != NULL) {
-		two_way_table_free (ewb->fonts.two_way_table);
-		ewb->fonts.two_way_table = NULL;
+	if (ewb->base.fonts.two_way_table != NULL) {
+		two_way_table_free (ewb->base.fonts.two_way_table);
+		ewb->base.fonts.two_way_table = NULL;
 	}
-	formats_free (ewb);
-	palette_free (ewb);
-	xf_free  (ewb);
+	formats_free (&ewb->base);
+	palette_free (&ewb->base);
+	xf_free  (&ewb->base);
 
-	for (i = 0; i < ewb->sheets->len; i++)
-		excel_sheet_free (g_ptr_array_index (ewb->sheets, i));
+	for (i = 0; i < ewb->esheets->len; i++)
+		excel_sheet_free (g_ptr_array_index (ewb->esheets, i));
 
-	g_ptr_array_free (ewb->sheets, TRUE);
+	g_ptr_array_free (ewb->esheets, TRUE);
 	g_hash_table_destroy (ewb->names);
 	g_ptr_array_free (ewb->externnames, TRUE);
 	g_hash_table_destroy (ewb->function_map);

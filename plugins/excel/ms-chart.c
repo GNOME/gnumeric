@@ -3408,7 +3408,7 @@ chart_write_color (XLChartWriteState *s, guint8 *data, GOColor c)
 	abgr |= UINT_RGBA_B(c) << 16;
 	GSF_LE_SET_GUINT32 (data, abgr);
 
-	return palette_get_index (s->ewb, abgr & 0xffffff);
+	return palette_get_index (&s->ewb->base, abgr & 0xffffff);
 }
 
 static void

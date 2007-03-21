@@ -37,6 +37,7 @@
 #include "value.h"
 #include "cell.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "func.h"
 #include "str.h"
 #include "style-color.h"
@@ -465,16 +466,24 @@ gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
 
 /**************************************************************************/
 
+static char const *ns_ss  = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+static char const *ns_rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+
 typedef struct {
-	IOContext	   *io_context;
-	WorkbookView const *wb_view;	/* View for the new workbook */
-	Workbook const	   *wb;		/* The new workbook */
+	XLExportBase base;
+
 	Sheet const 	   *sheet;
 	GHashTable	   *shared_string_hash;
 	GPtrArray	   *shared_string_array;
 	GnmExprConventions *expr_conv;
+	IOContext	   *io_context;
 } XLSXWriteState;
 
+static void
+xlsx_add_bool (GsfXMLOut *xml, char const *id, gboolean val)
+{
+	gsf_xml_out_add_cstr_unchecked (xml, id, val ? "1" : "0");
+}
 static void
 xlsx_add_rgb (GsfXMLOut *xml, char const *id, GOColor c)
 {
@@ -524,8 +533,7 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *w
 		GsfXMLOut *xml = gsf_xml_out_new (part);
 
 		gsf_xml_out_start_element (xml, "sst");
-		gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-			"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 		gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 		gsf_xml_out_add_int (xml, "uniqueCount", state->shared_string_array->len);
 		gsf_xml_out_add_int (xml, "count", state->shared_string_array->len);
@@ -548,6 +556,28 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *w
 }
 
 static void
+xlsx_write_fonts (XLSXWriteState *state, GsfXMLOut *xml)
+{
+}
+static void
+xlsx_write_fills (XLSXWriteState *state, GsfXMLOut *xml)
+{
+}
+static void
+xlsx_write_borders (XLSXWriteState *state, GsfXMLOut *xml)
+{
+}
+
+/*
+cellStyleXfs
+cellXfs
+cellStyles
+dxfs
+tableStyles
+colors
+*/
+
+static void
 xlsx_write_styles (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part)
 {
 	GsfOutput *part = gsf_outfile_open_pkg_add_rel (dir, "styles.xml",
@@ -557,9 +587,12 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part)
 	GsfXMLOut *xml = gsf_xml_out_new (part);
 
 	gsf_xml_out_start_element (xml, "styleSheet");
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-		"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+
+	xlsx_write_fonts (state, xml);
+	xlsx_write_fills (state, xml);
+	xlsx_write_borders (state, xml);
 
 	gsf_xml_out_end_element (xml); /* </styleSheet> */
 
@@ -601,7 +634,8 @@ xlsx_write_sheet_view (GsfXMLOut *xml, SheetView const *sv)
 	}
 
 	gsf_xml_out_start_element (xml, "sheetView");
-	xlsx_add_pos (xml, "topLeftCell", &topLeft);
+	if (topLeft.col > 0 || topLeft.row > 0) /* A1 is the default */
+		xlsx_add_pos (xml, "topLeftCell", &topLeft);
 	gsf_xml_out_add_int (xml, "workbookViewId",
 		wb_view_get_index_in_wb (sv_wbv (sv)));
 
@@ -676,16 +710,21 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 	int r, c;
 	char const *type;
 	char *content;
+	int   str_id = -1;
 	GnmParsePos pp;
 	GnmCell const *cell;
+	GnmExprTop const *texpr;
+	GnmExprArrayCorner const *array;
 	ColRowInfo const *ri;
 	GnmValue const *val;
 	gpointer tmp;
+	char *cheesy_span = g_strdup_printf ("%d:%d", extent->start.col+1, extent->end.col+1);
 
 	gsf_xml_out_start_element (xml, "sheetData");
 	for (r = extent->start.row ; r <= extent->end.row ; r++) {
 		gsf_xml_out_start_element (xml, "row");
 		gsf_xml_out_add_int (xml, "r", r+1);
+		gsf_xml_out_add_cstr_unchecked (xml, "spans", cheesy_span);;
 
 		if (NULL != (ri = sheet_row_get (state->sheet, r))) {
 			if (ri->hard_size) {
@@ -707,38 +746,21 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 				gsf_xml_out_add_cstr_unchecked (xml, "r",
 					cell_coord_name (c, r));
 
-				/* It seems like beta1 requires that <f> precede <v> */
-				if (gnm_cell_has_expr (cell)) {
-					content = gnm_expr_top_as_string (cell->base.texpr,
-						parse_pos_init_cell (&pp, cell), state->expr_conv);
-					gsf_xml_out_start_element (xml, "f");
-
-					/* FIXME : XL Beta1 requires this ? What is it for ? */
-					gsf_xml_out_add_cstr_unchecked (xml, "ce", "1");
-
-					gsf_xml_out_add_cstr (xml, NULL, content);
-					gsf_xml_out_end_element (xml); /* </f> */
-					g_free (content);
-				}
-
 				switch (val->type) {
 				default :
 				case VALUE_EMPTY :	type = NULL; break; /* FIXME : what to do ? */
 				case VALUE_BOOLEAN :	type = "b"; break;
-				case VALUE_FLOAT :	type = "n"; break;
+				case VALUE_FLOAT :	type = ""; break; /* "n" is the default */
 				case VALUE_ERROR :	type = "e"; break;
 				case VALUE_STRING :
 					if (val->v_str.val->ref_count > 1) {
-						gsf_xml_out_add_cstr_unchecked (xml, "t", "s");
-						gsf_xml_out_start_element (xml, "v");
 						if (NULL == (tmp = g_hash_table_lookup (state->shared_string_hash, val->v_str.val))) {
 							tmp = GINT_TO_POINTER (state->shared_string_array->len);
 							g_ptr_array_add (state->shared_string_array, val->v_str.val);
 							g_hash_table_insert (state->shared_string_hash, val->v_str.val, tmp);
 						}
-						gsf_xml_out_add_int (xml, NULL, GPOINTER_TO_INT (tmp));
-						gsf_xml_out_end_element (xml); /* </v> */
-						type = NULL;
+						str_id = GPOINTER_TO_INT (tmp);
+						type = "s";
 					} else
 						type = "str";
 					break;
@@ -746,11 +768,42 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 				case VALUE_ARRAY :	type = NULL; break;	/* FIXME */
 				}
 
-				if (NULL != type) {
+				if (NULL != type && *type)
 					gsf_xml_out_add_cstr_unchecked (xml, "t", type);
-					content = value_get_as_string (cell->value);
-					gsf_xml_out_simple_element (xml, "v", content);
-					g_free (content);
+
+				if (gnm_cell_has_expr (cell)) {
+					texpr = cell->base.texpr;
+					if (!gnm_expr_top_is_array_elem (texpr)) {
+						gsf_xml_out_start_element (xml, "f");
+
+						array = gnm_expr_top_get_array_corner (texpr);
+						if (NULL != array) {
+							GnmRange r;
+							range_init_cellpos_size (&r, &cell->pos,
+								array->cols, array->rows);
+							gsf_xml_out_add_cstr_unchecked (xml, "t", "array");
+							xlsx_add_range (xml, "ref", &r);
+						}
+						content = gnm_expr_top_as_string (cell->base.texpr,
+							parse_pos_init_cell (&pp, cell), state->expr_conv);
+						gsf_xml_out_add_cstr (xml, NULL, content);
+						g_free (content);
+
+						gsf_xml_out_end_element (xml); /* </f> */
+					}
+				}
+				if (NULL != type) {
+					gsf_xml_out_start_element (xml, "v");
+					if (str_id >= 0) {
+						gsf_xml_out_add_int (xml, NULL, str_id);
+						str_id = -1;
+					} else if (val->type != VALUE_BOOLEAN) {
+						content = value_get_as_string (cell->value);
+						gsf_xml_out_add_cstr_unchecked (xml, NULL, content);
+						g_free (content);
+					} else
+						xlsx_add_bool (xml, NULL, val->v_bool.val);
+					gsf_xml_out_end_element (xml); /* </v> */
 				}
 
 				gsf_xml_out_end_element (xml); /* </c> */
@@ -759,6 +812,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 		gsf_xml_out_end_element (xml); /* </row> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheetData> */
+	g_free (cheesy_span);;
 }
 
 static gboolean
@@ -778,7 +832,9 @@ xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 	gsf_xml_out_add_int (xml, "max", last+1) ;
 
 	gsf_xml_out_add_float (xml, "width",
-		ci->size_pts / ((130. / 18.5703125) * (72./96.)), 4);
+		ci->size_pts / ((130. / 18.5703125) * (72./96.)), 7);
+	if (!ci->visible)
+		gsf_xml_out_add_cstr_unchecked (xml, "hidden", "1");
 	if (ci->hard_size)
 		gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
 	else if (fabs (def_width - ci->size_pts) > .1) {
@@ -786,12 +842,10 @@ xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 		gsf_xml_out_add_cstr_unchecked (xml, "customWidth", "1");
 	}
 
-	if (ci->is_collapsed)
-		gsf_xml_out_add_cstr_unchecked (xml, "collapsed", "1");
-	if (!ci->visible)
-		gsf_xml_out_add_cstr_unchecked (xml, "hidden", "1");
 	if (ci->outline_level > 0)
 		gsf_xml_out_add_int (xml, "outlineLevel", ci->outline_level);
+	if (ci->is_collapsed)
+		gsf_xml_out_add_cstr_unchecked (xml, "collapsed", "1");
 	gsf_xml_out_end_element (xml); /* </col> */
 
 	return TRUE;
@@ -802,10 +856,15 @@ xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 {
 	ColRowInfo const *ci, *info;
 	gboolean has_child = FALSE;
-	int first_col = extent->start.col, i;
+	int first_col = 0, i;
 
-	info = sheet_col_get (state->sheet, 0);
-	for (i = extent->start.col+1; i < extent->end.col; i++) {
+	info = sheet_col_get (state->sheet, first_col);
+	while (info == NULL && first_col <= extent->end.col)
+		info = sheet_col_get (state->sheet, ++first_col);
+	if (info == NULL)
+		return;
+
+	for (i = first_col + 1 ; i <= extent->end.col ; i++) {
 		ci = sheet_col_get (state->sheet, i);
 		if (!colrow_equal (info, ci)) {
 			has_child |= xlsx_write_col (state, xml, info, first_col, i-1, has_child);
@@ -920,25 +979,26 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	GnmStyle *col_styles [MIN (XLSX_MAX_COLS, SHEET_MAX_COLS)];
 	GSList *ptr;
 
-	state->sheet = workbook_sheet_by_index (state->wb, i);
+	state->sheet = workbook_sheet_by_index (state->base.wb, i);
 	excel_sheet_extent (state->sheet, &extent, col_styles,
 		MIN (XLSX_MAX_COLS, SHEET_MAX_COLS),
 		MIN (XLSX_MAX_ROWS, SHEET_MAX_ROWS), state->io_context);
 
 	gsf_xml_out_start_element (xml, "worksheet");
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-		"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r",
-		"http://schemas.openxmlformats.org/officeDocument/2006/relationships");
-	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
 
-	gsf_xml_out_start_element (xml, "sheetPr");
+	/* for now we only use tabColor, move sheetPr outside when we add more
+	 * features */
 	if (NULL != state->sheet->tab_color) {
+		gsf_xml_out_start_element (xml, "sheetPr");
+
 		gsf_xml_out_start_element (xml, "tabColor");
 		xlsx_add_rgb (xml, "rgb", state->sheet->tab_color->go_color);
 		gsf_xml_out_end_element (xml); /* </tabColor> */
+
+		gsf_xml_out_end_element (xml); /* </sheetPr> */
 	}
-	gsf_xml_out_end_element (xml); /* </sheetPr> */
 
 	gsf_xml_out_start_element (xml, "dimension");
 	xlsx_add_range (xml, "ref", &extent);
@@ -1006,8 +1066,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	state->shared_string_array = g_ptr_array_new ();
 	state->expr_conv	 = xlsx_expr_conv_new ();
 
-	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->wb));
-	for (i = 0 ; i < workbook_sheet_count (state->wb); i++)
+	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->base.wb));
+	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++)
 		g_ptr_array_index (sheetIds, i) =
 			(gpointer) xlsx_write_sheet (state, sheet_dir, wb_part, i);
 
@@ -1016,10 +1076,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 
 	xml = gsf_xml_out_new (GSF_OUTPUT (wb_part));
 	gsf_xml_out_start_element (xml, "workbook");
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-		"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main");
-	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r",
-		"http://schemas.openxmlformats.org/officeDocument/2006/relationships");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
 	gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
 
 	gsf_xml_out_start_element (xml, "fileVersion");
@@ -1031,7 +1089,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gsf_xml_out_simple_element (xml, "workbookPr", NULL);
 
 	gsf_xml_out_start_element (xml, "bookViews");
-	WORKBOOK_FOREACH_VIEW (state->wb, view, {
+	WORKBOOK_FOREACH_VIEW (state->base.wb, view, {
 		gsf_xml_out_start_element (xml, "workbookView");
 		gsf_xml_out_add_int (xml, "activeTab",
 			view->current_sheet->index_in_wb);
@@ -1040,8 +1098,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gsf_xml_out_end_element (xml);
 
 	gsf_xml_out_start_element (xml, "sheets");
-	for (i = 0 ; i < workbook_sheet_count (state->wb); i++) {
-		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->base.wb, i);
 		gsf_xml_out_start_element (xml, "sheet");
 		gsf_xml_out_add_cstr (xml, "name", sheet->name_unquoted);
 		gsf_xml_out_add_int (xml, "sheetId", i+1);	/* FIXME What is this ?? */
@@ -1079,10 +1137,9 @@ xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 	locale = gnm_push_C_locale ();
 
-	state.io_context = io_context;
-	state.wb_view	 = wb_view;
-	state.wb	 = wb_view_get_workbook (state.wb_view);
-	root_part	 = gsf_outfile_open_pkg_new (
+	state.io_context	= io_context;
+	state.base.wb	 	= wb_view_get_workbook (wb_view);
+	root_part = gsf_outfile_open_pkg_new (
 		gsf_outfile_zip_new (output, NULL));
 
 	xlsx_write_workbook (&state, root_part);
