@@ -13,6 +13,9 @@
 gboolean    gnumeric_background_set_gc	(GnmStyle const *style,
 					 GdkGC *gc, FooCanvas *canvas,
 					 gboolean const is_selected);
+gboolean    gnumeric_background_set_gtk	(GnmStyle const *style,
+					 cairo_t *context);
+
 #ifdef WITH_GNOME_PRINT
 gboolean    gnumeric_background_set_pc	(GnmStyle const *style,
 					 GnomePrintContext *context);

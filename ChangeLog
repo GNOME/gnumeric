@@ -1,4 +1,15 @@
 2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/pattern.h (gnumeric_background_set_gtk): new
+	* src/pattern.c (gnumeric_background_set_gtk): new
+	* src/print-cell.c (print_cell_gtk): fix vertical alignment
+	(print_rectangle_gtk): new
+	(print_cell_background_gtk): new
+	(print_merged_range_gtk): new
+	(gnm_gtk_print_cell_range): Enable merged and background printing.
+	
+2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-cell.c (print_cell_gtk): set up clipping
 	and some sort of rotated printing
 	* src/print.c (print_page): prepare for clipping of whole 

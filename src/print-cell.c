@@ -226,9 +226,9 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 			      (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
 		double x0 = x1 + (1 + GNM_COL_MARGIN);
-		double y0 = y1 - (1 + GNM_ROW_MARGIN);
+		double y0 = y1 + (1 + GNM_ROW_MARGIN);
 		double px = x1 + x / (double)PANGO_SCALE;
-		double py = y1 + y / (double)PANGO_SCALE;
+		double py = y1 - y / (double)PANGO_SCALE;
 
  		/* Clip the printed rectangle */
  		cairo_save (context); 
@@ -291,6 +291,27 @@ print_cell_background (GnomePrintContext *context,
 		print_rectangle (context, x, y, w+1, h+1);
 	gnm_style_border_print_diag (style, context, x, y, x+w, y-h);
 }
+
+
+static void
+print_rectangle_gtk (cairo_t *context,
+		 double x, double y, double w, double h)
+{
+	cairo_new_path (context);
+	cairo_rectangle (context, x, y, w, h);
+	cairo_fill (context);
+}
+
+static void
+print_cell_background_gtk (cairo_t *context,
+		       GnmStyle const *style, int col, int row,
+		       float x, float y, float w, float h)
+{
+	if (gnumeric_background_set_gtk (style, context))
+		print_rectangle_gtk (context, x, y, w, h);
+/* 	gnm_style_border_print_diag (style, context, x, y, x+w, y-h); */
+}
+
 
 /**
  * print_merged_range:
@@ -371,6 +392,80 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 				l, t, r - l, t - b, -1.);
 	}
 	gnm_style_border_print_diag (style, context, l, t, r, b);
+}
+
+static void
+print_merged_range_gtk (cairo_t *context, PangoContext *pcontext,
+		    Sheet const *sheet,
+		    double start_x, double start_y,
+		    GnmRange const *view, GnmRange const *range)
+{
+	float l, r, t, b;
+	int last;
+	GnmCell  const *cell  = sheet_cell_get (sheet, range->start.col, range->start.row);
+	int const dir = sheet->text_is_rtl ? -1 : 1;
+
+	/* load style from corner which may not be visible */
+	GnmStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
+
+	l = r = start_x;
+	if (view->start.col < range->start.col)
+		l += dir * sheet_col_get_distance_pts (sheet,
+			view->start.col, range->start.col);
+	if (range->end.col <= (last = view->end.col))
+		last = range->end.col;
+	r += dir * sheet_col_get_distance_pts (sheet, view->start.col, last+1);
+
+	t = b = start_y;
+	if (view->start.row < range->start.row)
+		t -= sheet_row_get_distance_pts (sheet,
+			view->start.row, range->start.row);
+	if (range->end.row <= (last = view->end.row))
+		last = range->end.row;
+	b -= sheet_row_get_distance_pts (sheet, view->start.row, last+1);
+
+	if (l == r || t == b)
+		return;
+
+	if (style->conditions) {
+		GnmEvalPos ep;
+		int res;
+		eval_pos_init (&ep, (Sheet *)sheet, range->start.col, range->start.row);
+		if ((res = gnm_style_conditions_eval (style->conditions, &ep)) >= 0)
+			style = g_ptr_array_index (style->cond_styles, res);
+	}
+
+	if (gnumeric_background_set_gtk (style, context))
+		/* Remember api excludes the far pixels */
+		print_rectangle_gtk (context, l, t, r-l+1, t-b+1);
+
+	if (range->start.col < view->start.col)
+		l -= dir * sheet_col_get_distance_pts (sheet,
+			range->start.col, view->start.col);
+	if (view->end.col < range->end.col)
+		r += dir * sheet_col_get_distance_pts (sheet,
+			view->end.col+1, range->end.col+1);
+	if (range->start.row < view->start.row)
+		t += sheet_row_get_distance_pts (sheet,
+			range->start.row, view->start.row);
+	if (view->end.row < range->end.row)
+		b -= sheet_row_get_distance_pts (sheet,
+			view->end.row+1, range->end.row+1);
+
+	if (cell != NULL) {
+		ColRowInfo const * const ri = cell->row_info;
+
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
+
+		if (sheet->text_is_rtl)
+			print_cell_gtk (cell, style, context, pcontext,
+				r, t, l - r, t - b, -1.);
+		else
+			print_cell_gtk (cell, style, context, pcontext,
+				l, t, r - l, t - b, -1.);
+	}
+/* 	gnm_style_border_print_diag (style, context, l, t, r, b); */
 }
 
 static gint
@@ -511,9 +606,9 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 									       (GCompareFunc)merged_col_cmp);
 					MERGE_DEBUG (r, " : unused -> active\n");
 
-/* 				if (ci->visible) */
-/* 					print_merged_range (context, pcontext, sheet, */
-/* 							    base_x, y, &view, r); */
+				if (ci->visible)
+					print_merged_range_gtk (context, pcontext, sheet,
+								base_x, y, &view, r);
 				}
 			} else {
 				lag = &(ptr->next);
@@ -598,8 +693,8 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 			if (dir < 0)
 				x -= ci->size_pts;
 			style = sr.styles [col];
-/* 			print_cell_background (context, style, col, row, x, y, */
-/* 					       ci->size_pts, ri->size_pts); */
+			print_cell_background_gtk (context, style, col, row, x, y,
+					       ci->size_pts, ri->size_pts);
 
 			/* Is this part of a span?
 			 * 1) There are cells allocated in the row
