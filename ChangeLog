@@ -1,4 +1,4 @@
-2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2007-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_cell_background_gtk): Enable diagonal
 	  border
@@ -13,7 +13,7 @@
 	(print_hline_gtk): new
 	(print_vline_gtk): new
 	
-2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2007-03-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/pattern.h (gnumeric_background_set_gtk): new
 	* src/pattern.c (gnumeric_background_set_gtk): new
