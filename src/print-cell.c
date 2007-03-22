@@ -309,7 +309,7 @@ print_cell_background_gtk (cairo_t *context,
 {
 	if (gnumeric_background_set_gtk (style, context))
 		print_rectangle_gtk (context, x, y, w, h);
-/* 	gnm_style_border_print_diag (style, context, x, y, x+w, y-h); */
+	gnm_style_border_print_diag_gtk (style, context, x, y, x+w, y+h);
 }
 
 
@@ -422,7 +422,7 @@ print_merged_range_gtk (cairo_t *context, PangoContext *pcontext,
 			view->start.row, range->start.row);
 	if (range->end.row <= (last = view->end.row))
 		last = range->end.row;
-	b -= sheet_row_get_distance_pts (sheet, view->start.row, last+1);
+	b += sheet_row_get_distance_pts (sheet, view->start.row, last+1);
 
 	if (l == r || t == b)
 		return;
@@ -446,10 +446,10 @@ print_merged_range_gtk (cairo_t *context, PangoContext *pcontext,
 		r += dir * sheet_col_get_distance_pts (sheet,
 			view->end.col+1, range->end.col+1);
 	if (range->start.row < view->start.row)
-		t += sheet_row_get_distance_pts (sheet,
+		t -= sheet_row_get_distance_pts (sheet,
 			range->start.row, view->start.row);
 	if (view->end.row < range->end.row)
-		b -= sheet_row_get_distance_pts (sheet,
+		b += sheet_row_get_distance_pts (sheet,
 			view->end.row+1, range->end.row+1);
 
 	if (cell != NULL) {
@@ -460,12 +460,12 @@ print_merged_range_gtk (cairo_t *context, PangoContext *pcontext,
 
 		if (sheet->text_is_rtl)
 			print_cell_gtk (cell, style, context, pcontext,
-				r, t, l - r, t - b, -1.);
+				r, t, l - r, b - t, -1.);
 		else
 			print_cell_gtk (cell, style, context, pcontext,
-				l, t, r - l, t - b, -1.);
+				l, t, r - l, b - t, -1.);
 	}
-/* 	gnm_style_border_print_diag (style, context, l, t, r, b); */
+	gnm_style_border_print_diag_gtk (style, context, l, t, r, b);
 }
 
 static gint
@@ -765,9 +765,9 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 			if (dir > 0)
 			x += ci->size_pts;
 		}
-/* 		gnm_style_borders_row_print (prev_vert, &sr, */
-/* 					 context, base_x, y, y-ri->size_pts, */
-/* 					 sheet, TRUE, dir); */
+		gnm_style_borders_row_print_gtk (prev_vert, &sr,
+					 context, base_x, y, y+ri->size_pts,
+					 sheet, TRUE, dir);
 
 		/* In case there were hidden merges that trailed off the end */
 		while (merged_active != NULL) {
@@ -793,8 +793,8 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 
 		y += ri->size_pts;
 	}
-/* 	gnm_style_borders_row_print (prev_vert, &sr, */
-/* 				 context, base_x, y, y, sheet, FALSE, dir); */
+	gnm_style_borders_row_print_gtk (prev_vert, &sr,
+				 context, base_x, y, y, sheet, FALSE, dir);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */

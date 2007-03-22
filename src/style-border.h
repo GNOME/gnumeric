@@ -95,6 +95,16 @@ void gnm_style_border_draw_diag  (GnmStyle const *style,
 				  GdkDrawable *drawable,
 				  int x1, int y1, int x2, int y2);
 
+void gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
+				      GnmStyleRow const *sr,
+				      cairo_t *context,
+				      float x, float y1, float y2,
+				      Sheet const *sheet,
+				      gboolean draw_vertical, int dir);
+void gnm_style_border_print_diag_gtk (GnmStyle const *style,
+				      cairo_t *context,
+				      float x1, float y1, float x2, float y2);
+
 #ifdef WITH_GNOME_PRINT
 void gnm_style_borders_row_print (GnmBorder const * const * prev_vert,
 				  GnmStyleRow const *sr,

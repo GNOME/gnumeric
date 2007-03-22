@@ -862,3 +862,194 @@ gnm_style_border_print_diag (GnmStyle const *style,
 }
 
 #endif /* WITH_GNOME_PRINT */
+
+static void
+style_border_set_gtk_dash (GnmStyleBorderType const i,
+			   cairo_t *context)
+{
+	GdkLineStyle style = GDK_LINE_SOLID;
+	int w;
+
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (i >= GNM_STYLE_BORDER_NONE);
+	g_return_if_fail (i < GNM_STYLE_BORDER_MAX);
+
+	if (i == GNM_STYLE_BORDER_NONE)
+		return;
+
+	if (style_border_data[i].pattern != NULL)
+		style = GDK_LINE_ON_OFF_DASH;
+
+	w = style_border_data[i].width;
+	if (w == 0)
+		w = 1;
+	cairo_set_line_width (context,((double) w));
+
+ 	if (style_border_data[i].pattern != NULL) { 
+ 		struct LineDotPattern const * const pat = 
+ 			style_border_data[i].pattern; 
+ 		cairo_set_dash (context, pat->pattern_d, pat->elements, 
+ 				style_border_data[i].offset); 
+ 	} else 
+		cairo_set_dash (context, NULL, 0, 0); 
+}
+
+static inline gboolean
+style_border_set_gtk (GnmBorder const * const border,
+		      cairo_t *context)
+{
+	if (border == NULL)
+		return FALSE;
+
+	style_border_set_gtk_dash (border->line_type, context);
+	cairo_set_source_rgb (context,
+			      border->color->gdk_color.red   / (double) 0xffff,
+			      border->color->gdk_color.green / (double) 0xffff,
+			      border->color->gdk_color.blue  / (double) 0xffff);
+	return TRUE;
+}
+
+static inline void
+print_hline_gtk (cairo_t *context,
+		 float x1, float x2, float y, int width)
+{
+	if (width == 0 || width % 2)
+		y += .5;
+
+	/* exclude far pixel to match gdk */
+	cairo_move_to (context, x1, y);
+	cairo_line_to (context, x2, y);
+	cairo_stroke (context);
+}
+
+static inline void
+print_vline_gtk (cairo_t *context,
+		 float x, float y1, float y2, int width, int dir)
+{
+	if (width == 0 || width % 2)
+		x += .5*dir;
+
+	/* exclude far pixel to match gdk */
+	cairo_move_to (context, x, y1);
+	cairo_line_to (context, x, y2);
+	cairo_stroke (context);
+}
+
+void
+gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
+				 GnmStyleRow const *sr,
+				 cairo_t *context,
+				 float x, float y1, float y2,
+				 Sheet const *sheet,
+				 gboolean draw_vertical, int dir)
+{
+	int o[2][2], col;
+	float next_x = x;
+	GnmBorder const *border;
+
+	cairo_save (context);
+
+	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
+		/* TODO : make this sheet agnostic.  Pass in an array of
+		 * widths and a flag for whether or not to draw grids.
+		 */
+		ColRowInfo const *cri = sheet_col_get_info (sheet, col);
+		if (!cri->visible)
+			continue;
+		next_x = x + dir * cri->size_pts;
+
+		border = sr->top [col];
+
+		if (style_border_set_gtk (border, context)) {
+			float y = y1;
+			if (style_border_hmargins (prev_vert, sr, col, o, dir)) {
+				print_hline_gtk (context, x + o[1][0],
+						 next_x + o[1][1] + dir, y1-1.,
+						 border->width);
+				++y;
+			}
+
+			print_hline_gtk (context, x + o[0][0],
+					 next_x + o[0][1] + dir, y, border->width);
+		}
+
+		if (!draw_vertical)
+			continue;
+
+		
+		border = sr->vertical [col];
+		if (style_border_set_gtk (border, context)) {
+			float x1 = x;
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
+				print_vline_gtk (context, x-dir, y1 + o[1][0],
+						 y2 + o[1][1] + 1., border->width, dir);
+				x1 += dir;
+			}
+			print_vline_gtk (context, x1, y1 + o[0][0],
+					 y2 + o[0][1] + 1., border->width, dir);
+		}
+	}
+	if (draw_vertical) {
+		border = sr->vertical [col];
+		if (style_border_set_gtk (border, context)) {
+			float x1 = x;
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
+				print_vline_gtk (context, x-dir, y1 + o[1][0] + 1.,
+						 y2 + o[1][1], border->width, dir);
+				x1 += dir;
+			}
+			/* See note in gnm_style_border_set_gc_dash about +1 */
+			print_vline_gtk (context, x1, y1 + o[0][0],
+					 y2 + o[0][1] + 1, border->width, dir);
+		}
+	}
+
+	cairo_restore (context);
+}
+
+void
+gnm_style_border_print_diag_gtk (GnmStyle const *style,
+			     cairo_t *context,
+			     float x1, float y1, float x2, float y2)
+{
+	GnmBorder const *diag;
+
+
+	cairo_save (context);
+
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
+		style_border_set_gtk (diag, context);
+		g_warning ("x1 %f x2 %f y1 %f y2 %f", x1, x2, y1, y2);
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
+			cairo_move_to (context, x1+1.5,  y1+3.);
+			cairo_line_to (context, x2-2.,   y2- .5);
+			cairo_stroke (context);
+			cairo_move_to (context, x1+ 3.,  y1+1.5);
+			cairo_line_to (context, x2-  .5, y2-2.);
+		} else {
+			cairo_move_to (context, x1+.5, y1+.5);
+			cairo_line_to (context, x2+.5, y2+.5);
+		}
+		cairo_stroke (context);
+	}
+
+	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
+	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
+		style_border_set_gtk (diag, context);
+		g_warning ("x1 %f x2 %f y1 %f y2 %f", x1, x2, y1, y2);
+		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
+			cairo_move_to (context, x1+1.5, y2-2.);
+			cairo_line_to (context, x2-2.,  y1+1.5);
+			cairo_stroke (context);
+			cairo_move_to (context, x1+3.,  y2- .5);
+			cairo_line_to (context, x2- .5, y1+3.);
+		} else {
+			cairo_move_to (context, x1+.5, y2+.5);
+			cairo_line_to (context, x2+.5, y1+.5);
+		}
+		cairo_stroke (context);
+	}
+	
+	cairo_restore (context);
+}

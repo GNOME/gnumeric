@@ -1,5 +1,20 @@
 2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print-cell.c (print_cell_background_gtk): Enable diagonal
+	  border
+	(print_merged_range_gtk): handle borders
+	(gnm_gtk_print_cell_range): ditto
+	* src/style-border.h (gnm_style_borders_row_print_gtk): new
+	(gnm_style_border_print_diag_gtk): new
+	* src/style-border.c (gnm_style_borders_row_print_gtk): new
+	(gnm_style_border_print_diag_gtk): new
+	(style_border_set_gtk_dash): new
+	(style_border_set_gtk): new
+	(print_hline_gtk): new
+	(print_vline_gtk): new
+	
+2007-03-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/pattern.h (gnumeric_background_set_gtk): new
 	* src/pattern.c (gnumeric_background_set_gtk): new
 	* src/print-cell.c (print_cell_gtk): fix vertical alignment
