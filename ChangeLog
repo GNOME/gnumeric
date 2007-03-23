@@ -1,3 +1,12 @@
+2007-03-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/style-border.c (gnm_style_border_print_diag_gtk): remove
+	  debug spew
+	* src/print.c (print_sheet_objects): use gtkprint
+	(print_page_cells): enable sheet object printing and prepare
+	  clipping region
+	(print_page): clipping should happen in print_page_cells
+	
 2007-03-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_cell_background_gtk): Enable diagonal

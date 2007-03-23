@@ -1020,7 +1020,6 @@ gnm_style_border_print_diag_gtk (GnmStyle const *style,
 	diag = gnm_style_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
 	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
 		style_border_set_gtk (diag, context);
-		g_warning ("x1 %f x2 %f y1 %f y2 %f", x1, x2, y1, y2);
 		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
 			cairo_move_to (context, x1+1.5,  y1+3.);
 			cairo_line_to (context, x2-2.,   y2- .5);
@@ -1037,7 +1036,6 @@ gnm_style_border_print_diag_gtk (GnmStyle const *style,
 	diag = gnm_style_get_border (style, MSTYLE_BORDER_DIAGONAL);
 	if (diag != NULL && diag->line_type != GNM_STYLE_BORDER_NONE) {
 		style_border_set_gtk (diag, context);
-		g_warning ("x1 %f x2 %f y1 %f y2 %f", x1, x2, y1, y2);
 		if (diag->line_type == GNM_STYLE_BORDER_DOUBLE) {
 			cairo_move_to (context, x1+1.5, y2-2.);
 			cairo_line_to (context, x2-2.,  y1+1.5);

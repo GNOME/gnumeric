@@ -166,75 +166,54 @@ print_titles (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 }
 
 static void
-print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
+print_sheet_objects (GtkPrintContext   *context,
+		     cairo_t *cr,
+		     Sheet const *sheet,
+		     GnmRange *range,
 		     double base_x, double base_y)
 {
 	GSList *ptr;
-	double end_x, end_y, len;
 
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (pj != NULL);
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (cr != NULL);
 	g_return_if_fail (range != NULL);
-
-	gnome_print_gsave (pj->print_context);
-
-	/* Make sure the object doesn't go beyond the specified cells. */
-	end_y = base_y - sheet_row_get_distance_pts (sheet, range->start.row,
-						     range->end.row + 1);
-	len = sheet_col_get_distance_pts (sheet,
-		range->start.col, range->end.col + 1);
-	if (sheet->text_is_rtl) {
-		end_x = base_x - len;
-		gnm_print_make_rect_path (pj->print_context,
-			end_x, end_y, base_x, base_y);
-	} else {
-		end_x = base_x + len;
-		gnm_print_make_rect_path (pj->print_context,
-			base_x, base_y, end_x, end_y);
-	}
-#ifndef NO_DEBUG_PRINT
-	if (print_debugging > 0) {
-		gnome_print_gsave (pj->print_context);
-		gnome_print_stroke (pj->print_context);
-		gnome_print_moveto (pj->print_context, base_x, base_y);
-		gnome_print_lineto (pj->print_context, end_x, end_y);
-		gnome_print_stroke (pj->print_context);
-		gnome_print_grestore (pj->print_context);
-	}
-#endif
-	gnome_print_clip (pj->print_context);
 
 	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
-		double coords [4];
-
+		GnmRange const *r = &so->anchor.cell_bound;
+		
 		if (!sheet_object_can_print (so) ||
 		    !range_overlap (range, &so->anchor.cell_bound))
 			continue;
 
-		sheet_object_position_pts_get (so, coords);
-		gnome_print_gsave (pj->print_context);
+		cairo_save (cr);
 		/* move to top left */
 		if (sheet->text_is_rtl)
-			gnome_print_translate (pj->print_context,
-				base_x - (MAX (coords [0], coords [2])
-				    - sheet_col_get_distance_pts (sheet, 0, range->start.col)),
-				base_y - (MIN (coords [3], coords [1])
-				    - sheet_row_get_distance_pts (sheet, 0, range->start.row)));
+			cairo_translate (cr,
+					 - base_x
+					 - sheet_col_get_distance_pts (sheet, 0, r->start.col)
+					 + sheet_col_get_distance_pts (sheet, 0,
+								       range->start.col),
+					 - base_y
+					 + sheet_row_get_distance_pts (sheet, 0, r->start.row)
+					 - sheet_row_get_distance_pts (sheet, 0,
+								       range->start.row));
 		else
-			gnome_print_translate (pj->print_context,
-				base_x + (MIN (coords [0], coords [2])
-				    - sheet_col_get_distance_pts (sheet, 0, range->start.col)),
-				base_y - (MIN (coords [3], coords [1])
-				    - sheet_row_get_distance_pts (sheet, 0, range->start.row)));
+			cairo_translate (cr,
+					 - base_x
+					 + sheet_col_get_distance_pts (sheet, 0, r->start.col)
+					 - sheet_col_get_distance_pts (sheet, 0,
+								       range->start.col),
+					 - base_y
+					 + sheet_row_get_distance_pts (sheet, 0, r->start.row)
+					 - sheet_row_get_distance_pts (sheet, 0,
+								       range->start.row));
 
-		sheet_object_print (so, pj->print_context,
-			fabs (coords[2] - coords[0]),
-			fabs (coords[3] - coords[1]));
-		gnome_print_grestore (pj->print_context);
+		sheet_object_draw_cairo (so, (gpointer)cr);
+		cairo_restore (cr);
 	}
 
-	gnome_print_grestore (pj->print_context);
 }
 
 static void
@@ -243,15 +222,37 @@ print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 		  double base_x, double base_y)
 {
 	PrintInformation const *pinfo = sheet->print_info;
+	double width, height;
 
-/* 	/\* Invert PostScript Y coordinates to make X&Y cases the same *\/ */
+	/* Make sure the printing doesn't go beyond the specified cells. */
+	cairo_save (cr);
+
+	width = sheet_row_get_distance_pts (sheet, range->start.row,
+					    range->end.row + 1);
+	height = sheet_col_get_distance_pts (sheet,
+					     range->start.col, range->end.col + 1);
+
+	/* FIXME:  the following clipping rectangle is not wide enough: */
+/* 	if (sheet->text_is_rtl) */
+/* 		cairo_rectangle (cr, */
+/* 				 base_x - width, base_y, */
+/* 				 width, height); */
+/* 	else */
+/* 		cairo_rectangle (cr, */
+/* 				 base_x, base_y, */
+/* 				 width, height); */
+/* 	cairo_clip (cr); */
+
+	/* 	/\* Invert PostScript Y coordinates to make X&Y cases the same *\/ */
 /* 	base_y = (pj->height / (pinfo->scaling.percentage.y / 100.)) - base_y; */
 
 /* 	if (sheet->text_is_rtl) */
 /* 		base_x += (pj->width / (pinfo->scaling.percentage.x / 100.)); */
 	gnm_gtk_print_cell_range (context, cr, sheet, range,
 				  base_x, base_y, !pinfo->print_grid_lines);
-/* 	print_sheet_objects (pj, sheet, range, base_x, base_y); */
+	print_sheet_objects (context, cr, sheet, range, base_x, base_y);
+
+	cairo_restore (cr);
 }
 
 /*
@@ -558,10 +559,6 @@ print_page (GtkPrintOperation *operation,
 	text_height  = gtk_print_context_get_height (context);
 
 	cairo_save (cr);
-	/*  We should be clipping on the margin but this seems to create a huge performance hit  */
-/* 	cairo_new_path (cr); */
-/* 	cairo_rectangle (cr, 0, 0, width, text_height); */
-/* 	cairo_clip (cr); */
 
 	/* 	/\* FIXME: Can col / row space calculation be factored out? *\/ */
 
