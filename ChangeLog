@@ -1,3 +1,14 @@
+2007-03-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object.h (sheet_object_draw_cairo): add rtl argument 
+	* src/sheet-object.c (sheet_object_draw_cairo): add rtl argument 
+	* src/print.c (print_sheet_objects): clip to cell range and handle
+	rtl sheets
+	(print_page_cells): Rows are determining the height and cols the width!
+	(gnm_print_sheet): enable progress reporting
+	* component/gnumeric.c (go_gnm_component_draw): add rtl argument to
+	  sheet_object_draw_cairo
+
 2007-03-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/style-border.c (gnm_style_border_print_diag_gtk): remove

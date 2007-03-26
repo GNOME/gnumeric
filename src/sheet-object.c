@@ -526,9 +526,16 @@ sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
  * sheet_object_draw_cairo :
  *
  * Draw a sheet object using cairo.
+ *
+ *
+ * We are assuming that the cairo context is set up so that the top
+ * left of the bounds is (0,0). Note that this
+ * is the real top left cell, not necessarily the cell with to which we are
+ * anchored.
+ *
  **/
 void
-sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
+sheet_object_draw_cairo (SheetObject const *so, gpointer *data, gboolean rtl)
 {
 #ifdef GOFFICE_WITH_CAIRO
 	if (SO_CLASS (so)->draw_cairo) {
@@ -561,6 +568,10 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data)
 					anchor->cell_bound.end.row + 1);
 		width -= cell_width * (1. - anchor->offset[2]);
 		height -= cell_height * (1 - anchor->offset[3]);
+
+		if (rtl) {
+			x = cell_width * (1 - anchor->offset[2]);
+		}
 
 		/* we don't need to save/restore cairo, the caller must do it */
 		cairo_translate (cairo, x, y);

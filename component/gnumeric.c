@@ -278,7 +278,7 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 				anchor->cell_bound.start.row);
 			cairo_save (cairo);
 			cairo_translate (cairo, xoffset, yoffset);
-			sheet_object_draw_cairo (so, (gpointer) cairo);
+			sheet_object_draw_cairo (so, (gpointer) cairo, TRUE);
 			cairo_restore (cairo);
 		}
 		l = l->next;

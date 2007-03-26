@@ -133,7 +133,7 @@ void sheet_object_write_object 	(SheetObject const *so,
 				 GsfOutput *output, GError **err);
 
 /* cairo rendering */
-void sheet_object_draw_cairo (SheetObject const *so, gpointer *data);
+void sheet_object_draw_cairo (SheetObject const *so, gpointer *data, gboolean rtl);
 
 /* management routine to register all the builtin object types */
 void sheet_objects_init (void);

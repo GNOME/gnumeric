@@ -173,11 +173,29 @@ print_sheet_objects (GtkPrintContext   *context,
 		     double base_x, double base_y)
 {
 	GSList *ptr;
+	double width, height;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (cr != NULL);
 	g_return_if_fail (range != NULL);
+
+	cairo_save (cr);
+
+	height = sheet_row_get_distance_pts (sheet, range->start.row,
+					    range->end.row + 1);
+	width = sheet_col_get_distance_pts (sheet,
+					     range->start.col, range->end.col + 1);
+
+	if (sheet->text_is_rtl)
+		cairo_rectangle (cr,
+				 base_x - width, base_y,
+				 width, height);
+	else
+		cairo_rectangle (cr,
+				 base_x, base_y,
+				 width, height);
+	cairo_clip (cr);
 
 	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
@@ -189,17 +207,18 @@ print_sheet_objects (GtkPrintContext   *context,
 
 		cairo_save (cr);
 		/* move to top left */
-		if (sheet->text_is_rtl)
-			cairo_translate (cr,
-					 - base_x
-					 - sheet_col_get_distance_pts (sheet, 0, r->start.col)
-					 + sheet_col_get_distance_pts (sheet, 0,
-								       range->start.col),
-					 - base_y
-					 + sheet_row_get_distance_pts (sheet, 0, r->start.row)
-					 - sheet_row_get_distance_pts (sheet, 0,
-								       range->start.row));
-		else
+		if (sheet->text_is_rtl) {
+			double tr_x, tr_y;
+			tr_x =  base_x
+				- sheet_col_get_distance_pts (sheet, 0, r->end.col+1)
+				+ sheet_col_get_distance_pts (sheet, 0,
+							      range->start.col);
+			tr_y = - base_y
+				+ sheet_row_get_distance_pts (sheet, 0, r->start.row)
+				- sheet_row_get_distance_pts (sheet, 0,
+							      range->start.row);
+			cairo_translate (cr, tr_x, tr_y);
+		} else
 			cairo_translate (cr,
 					 - base_x
 					 + sheet_col_get_distance_pts (sheet, 0, r->start.col)
@@ -210,10 +229,10 @@ print_sheet_objects (GtkPrintContext   *context,
 					 - sheet_row_get_distance_pts (sheet, 0,
 								       range->start.row));
 
-		sheet_object_draw_cairo (so, (gpointer)cr);
+		sheet_object_draw_cairo (so, (gpointer)cr, sheet->text_is_rtl);
 		cairo_restore (cr);
 	}
-
+	cairo_restore (cr);
 }
 
 static void
@@ -227,27 +246,27 @@ print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 	/* Make sure the printing doesn't go beyond the specified cells. */
 	cairo_save (cr);
 
-	width = sheet_row_get_distance_pts (sheet, range->start.row,
+	height = sheet_row_get_distance_pts (sheet, range->start.row,
 					    range->end.row + 1);
-	height = sheet_col_get_distance_pts (sheet,
+	width = sheet_col_get_distance_pts (sheet,
 					     range->start.col, range->end.col + 1);
 
-	/* FIXME:  the following clipping rectangle is not wide enough: */
-/* 	if (sheet->text_is_rtl) */
+/*      The next 8 lines create a huge performance hit. We have to figure out why that is */
+/*      Not that we are essentially not using this since we have additional clip paths    */
+/*      defined later but calculating the intersection of those paths seems time consuming */
+
+ 	if (sheet->text_is_rtl) { 
+		base_x += gtk_print_context_get_width (context);
 /* 		cairo_rectangle (cr, */
 /* 				 base_x - width, base_y, */
 /* 				 width, height); */
+	}
 /* 	else */
 /* 		cairo_rectangle (cr, */
 /* 				 base_x, base_y, */
 /* 				 width, height); */
 /* 	cairo_clip (cr); */
 
-	/* 	/\* Invert PostScript Y coordinates to make X&Y cases the same *\/ */
-/* 	base_y = (pj->height / (pinfo->scaling.percentage.y / 100.)) - base_y; */
-
-/* 	if (sheet->text_is_rtl) */
-/* 		base_x += (pj->width / (pinfo->scaling.percentage.x / 100.)); */
 	gnm_gtk_print_cell_range (context, cr, sheet, range,
 				  base_x, base_y, !pinfo->print_grid_lines);
 	print_sheet_objects (context, cr, sheet, range, base_x, base_y);
@@ -679,24 +698,6 @@ print_page (GtkPrintOperation *operation,
 /* 		x += sheet->cols.default_style.size_pts; */
 /* 		y += sheet->rows.default_style.size_pts; */
 /* 	} */
-
-/* 	/\* Clip the page *\/ */
-/* 	/\* Gnome-print coordinates are lower left based, */
-/* 	 * like Postscript *\/ */
-/* 	clip_y = 1 + pj->height - y; */
-/* 	gnm_print_make_rect_path ( */
-/* 		pj->print_context, */
-/* 		x - 1, clip_y, */
-/* 		x + pj->x_points + 1, */
-/* 		clip_y - pj->y_points - 2); */
-/* #ifndef NO_DEBUG_PRINT */
-/* 	if (print_debugging > 0) { */
-/* 		gnome_print_gsave (pj->print_context); */
-/* 		gnome_print_stroke  (pj->print_context); */
-/* 		gnome_print_grestore (pj->print_context); */
-/* 	} */
-/* #endif */
-/* 	gnome_print_clip (pj->print_context); */
 
 /* 	/\* Start a new path because the background fill function does not *\/ */
 /* 	gnome_print_newpath (pj->print_context); */
@@ -1313,7 +1314,6 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   pi = printing_instance_new ();
   pi->wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
   pi->sheet = sheet;
-
   
 /*   FIXME: handle saving of print settings  */
 /*   if (settings != NULL)  */
@@ -1325,6 +1325,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
 
   gtk_print_operation_set_use_full_page (print, FALSE);
   gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
+  gtk_print_operation_set_show_progress (print, TRUE);
   
   res = gtk_print_operation_run (print,
 				 preview ? GTK_PRINT_OPERATION_ACTION_PREVIEW
