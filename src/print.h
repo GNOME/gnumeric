@@ -4,11 +4,17 @@
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
 
+#define GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY "GnumericPrintRange"
+#define GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY "GnumericPrintFromSheet"
+#define GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY "GnumericPrintToSheet"
+
 typedef enum {
 	PRINT_ACTIVE_SHEET,
 	PRINT_ALL_SHEETS,
 	PRINT_SHEET_RANGE,
-	PRINT_SHEET_SELECTION
+	PRINT_SHEET_SELECTION,
+	PRINT_IGNORE_PRINTAREA,
+	PRINT_SHEET_SELECTION_IGNORE_PRINTAREA
 } PrintRange;
 
 void gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,

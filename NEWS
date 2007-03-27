@@ -2,7 +2,7 @@ Gnumeric 1.7.9
 
 Andreas:
 	* Switch to gtk print from gnome print
-	  (severe feature regression)
+	  (some feature regression)
 
 Jody:
 	* Import and Export for inline arrays in ODF. (now patched in OOo)

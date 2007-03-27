@@ -57,14 +57,17 @@ typedef struct {
 	GList *gnmSheetRanges;
 	Workbook *wb;
 	Sheet *sheet;
+	GtkWidget *button_all_sheets, *button_selected_sheet,
+		*button_spec_sheets;
+	GtkWidget *button_selection, *button_ignore_printarea;
+	GtkWidget *spin_from, *spin_to;
+	PrintRange pr;
+	guint to, from;
 } PrintingInstance;
 
 static PrintingInstance *
 printing_instance_new (void) {
-	PrintingInstance * pi = g_new (PrintingInstance,1);
-
-	pi->gnmSheetRanges = NULL;
-	pi->wb = NULL;
+	PrintingInstance * pi = g_new0 (PrintingInstance,1);
 
 	return pi;
 }
@@ -983,28 +986,17 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 
 static void
 compute_sheet_pages (GtkPrintContext   *context,
-		     PrintingInstance * pi, Sheet const *sheet)
+		     PrintingInstance * pi,
+		     Sheet const *sheet,
+		     gboolean selection,
+		     gboolean ignore_printarea)
 {
 	PrintInformation const *pinfo = sheet->print_info;
-/* 	PrintJobInfo *pj = pc->pj; */
 	GnmRange r;
 
-	/* only count pages we are printing */
-/* 	if (pj->range == PRINT_SHEET_RANGE) { */
-/* 		pc->current_output_sheet++; */
-/* 		if (!(pc->current_output_sheet-1 >= pj->start_page && */
-/* 		      pc->current_output_sheet-1 <= pj->end_page)) */
-/* 			return; */
-/* 	} */
-
-/* 	if (pj->range != PRINT_SHEET_SELECTION) { */
 	r = sheet_get_printarea	(sheet,
 				 pinfo->print_even_if_only_styles);
-/* 	} else */
-/* 		r = pc->r; */
 
-/* 	print_job_info_init_sheet (pi, sheet); */
-	
  	if (sheet->print_info->print_across_then_down)
 		return compute_sheet_pages_across_then_down (context, pi, sheet, &r);
 	else
@@ -1021,14 +1013,49 @@ compute_sheet_pages (GtkPrintContext   *context,
 static void
 compute_pages (GtkPrintOperation *operation,
 	       GtkPrintContext   *context,
-	       PrintingInstance * pi)
+	       PrintingInstance * pi,
+	       PrintRange pr,
+	       guint from,
+	       guint to)
 {
 	Workbook * wb = pi->wb;
-	int i;
+	guint i;
+	guint n;
 
-	for (i = 0; i < workbook_sheet_count (wb); i++)
-		compute_sheet_pages (context, pi, workbook_sheet_by_index (wb, i));
-	
+	switch (pr) {
+	case PRINT_ACTIVE_SHEET:
+		compute_sheet_pages (context, pi,
+			   pi->sheet, FALSE, FALSE);
+		break;
+	case PRINT_ALL_SHEETS:
+		n =  workbook_sheet_count (wb);
+		for (i = 0; i < n; i++)
+			compute_sheet_pages (context, pi,
+					     workbook_sheet_by_index (wb, i),
+					     FALSE, FALSE);
+		break;
+	case PRINT_SHEET_RANGE:
+		n =  workbook_sheet_count (wb);
+		if (to > n)
+			to = n;
+		for (i = from - 1; i < to; i++)
+			compute_sheet_pages (context, pi,
+					     workbook_sheet_by_index (wb, i),
+					     FALSE, FALSE);
+		break;
+	case PRINT_SHEET_SELECTION:
+		compute_sheet_pages (context, pi,
+				     pi->sheet, TRUE, FALSE);
+		break;
+	case PRINT_IGNORE_PRINTAREA:
+		compute_sheet_pages (context, pi,
+				     pi->sheet, FALSE, TRUE);
+		break;
+	case PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
+		compute_sheet_pages (context, pi,
+				     pi->sheet, TRUE, TRUE);
+		break;
+	}
 	return;
 }
 
@@ -1109,150 +1136,6 @@ print_job_info_destroy (PrintJobInfo *pj)
 	g_free (pj);
 }
 
-typedef struct {
-	GtkWidget *dialog;
-	WorkbookControlGUI  *wbcg;
-	PrintJobInfo *pj;
-	Sheet *sheet;
-} PrintDialogState;
-
-
-/**
- * dialog_destroy:
- * @window:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-dialog_destroy (GtkObject *w, PrintDialogState  *state)
-{
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	wbcg_edit_detach_guru (state->wbcg);
-
-	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
-
-	state->dialog = NULL;
-
-	print_job_info_destroy (state->pj);
-	g_free (state);
-
-	return FALSE;
-}
-
-static void
-sheet_print_real (WorkbookControlGUI *wbcg, Sheet *sheet,
-		  gboolean preview, PrintJobInfo *pj, 
-		  PrintRange default_range)
-{
-	int i;
-	Workbook const *wb = sheet->workbook;
-	GnomePrintJob *gpm = gnome_print_job_new (pj->gp_config);
-	pj->print_context = gnome_print_job_get_context (gpm);
-	pj->range = default_range;
-	
-	/* perform actual printing */
-	switch (pj->range) {
-		
-	default:
-		g_error ("mis-enumerated print type");
-		/* Falling through */
-	case PRINT_ACTIVE_SHEET:
-/* 		pj->render_info->pages = compute_pages (pj, NULL, sheet, NULL); */
-		print_sheet (pj, sheet);
-		break;
-
-	case PRINT_ALL_SHEETS:
-	case PRINT_SHEET_RANGE:
-/* 		pj->render_info->pages = compute_pages (pj, wb, NULL, NULL); */
-		for (i = 0; i < workbook_sheet_count (wb); i++)
-			print_sheet (pj, workbook_sheet_by_index (wb, i));
-		break;
-		
-	case PRINT_SHEET_SELECTION:
-		sheet_print_selection (pj, sheet, WORKBOOK_CONTROL (wbcg));
-		break;
-	}
-	
-	gnome_print_job_close (gpm);
-	
-	if (preview) {
-		GtkWidget *w = gnome_print_job_preview_new (gpm, _("Print preview"));
-		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
-		gtk_window_set_screen (GTK_WINDOW (gtk_widget_get_toplevel (w)), screen);
-		gtk_widget_show (w);
-	} else {
-		int result = gnome_print_job_print (gpm);
-		if (result == -1) {
-			/*
-			 * FIXME: not a great message, but at this point we don't
-			 * know *what* went wrong.
-			 */
-			go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
-				_("Printing failed"));
-		}
-	}
-	
-	if (gpm)
-		g_object_unref (G_OBJECT (gpm));	
-}
-
-static void        
-dialog_response (GtkDialog *dialog, gint id,
-		 PrintDialogState *state)
-{
-	PrintRange default_range = PRINT_ACTIVE_SHEET;
-	int range = GNOME_PRINT_RANGE_CURRENT;
- 	int first = 1;
-	int end = workbook_sheet_count (state->sheet->workbook);
-
-	switch (id) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		state->pj->render_info->page = 1;
-		state->sheet = wbcg_cur_sheet (state->wbcg);
-		range = gnome_print_dialog_get_range_page (
-			GNOME_PRINT_DIALOG (state->dialog), &first, &end);
-		
-		switch (range) {
-		case GNOME_PRINT_RANGE_CURRENT:
-			default_range = PRINT_ACTIVE_SHEET;
-			break;
-		case GNOME_PRINT_RANGE_ALL:
-			default_range = PRINT_ALL_SHEETS;
-			break;
-		case GNOME_PRINT_RANGE_SELECTION:
-			default_range = PRINT_SHEET_SELECTION;
-			break;
-		case GNOME_PRINT_RANGE_RANGE:
-			default_range = PRINT_SHEET_RANGE;
-			break;
-		}
-
-		if (default_range == PRINT_SHEET_RANGE) {
-			state->pj->start_page = first-1;
-			state->pj->end_page = end-1;
-		}
-		
-		sheet_print_real (state->wbcg, state->sheet, 
-				  GNOME_PRINT_DIALOG_RESPONSE_PREVIEW == id, 
-				  state->pj, default_range);
-
-		if (id == GNOME_PRINT_DIALOG_RESPONSE_PRINT)
-			gtk_widget_destroy (state->dialog);
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
-		gtk_widget_destroy (state->dialog);
-		break;
-	case GTK_RESPONSE_DELETE_EVENT:
-		break;
-	default:
-		break;
-	}
-}
 
 
 static void
@@ -1261,8 +1144,34 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 	            gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
+	PrintRange pr;
+	guint from, to;
+	GtkPrintSettings * settings;
 
-	compute_pages (operation, context, pi);
+	settings =  gtk_print_operation_get_print_settings (operation);
+
+	from = gtk_print_settings_get_int_with_default
+		(settings, GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY, 1);
+	to = gtk_print_settings_get_int_with_default
+		(settings, GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY, workbook_sheet_count (pi->wb));
+	pr = gtk_print_settings_get_int_with_default
+		(settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY, PRINT_ACTIVE_SHEET);
+	if (from != pi->from || to != pi->to || pr != pi->pr) {
+		g_warning ("Working around gtk+ bug 423484.");
+		gtk_print_settings_set_int
+			(settings, GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY,
+			 pi->from);
+		gtk_print_settings_set_int
+			(settings, GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY,
+			 pi->to);
+		gtk_print_settings_set_int
+			(settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY, pi->pr);
+		from = pi->from;
+		to = pi->to;
+		pr = pi->pr;
+	}
+
+	compute_pages (operation, context, pi, pr, from, to);
 	
 	gtk_print_operation_set_n_pages (operation, g_list_length (pi->gnmSheetRanges));
 	gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
@@ -1293,6 +1202,197 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 			    gsr->sheet, &(gsr->range), TRUE);	
 }
 
+static void
+widget_button_cb (GtkToggleButton *togglebutton, GtkWidget *check)
+{
+	gtk_widget_set_sensitive (check, gtk_toggle_button_get_active (togglebutton));
+}
+
+static GObject*
+gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
+{
+	PrintingInstance * pi = (PrintingInstance *) user_data;
+	GtkWidget *frame, *table;
+	GtkWidget *button_all_sheets, *button_selected_sheet, *button_spec_sheets;
+	GtkWidget *button_selection, *button_ignore_printarea;
+	GtkWidget *label_from, *label_to;
+	GtkWidget *spin_from, *spin_to;
+	GtkPrintSettings * settings;
+	guint n_sheets = workbook_sheet_count (pi->wb);
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
+	gtk_container_set_border_width (GTK_CONTAINER (frame), 5);
+	
+	table = gtk_table_new (7, 6, FALSE);
+	gtk_table_set_col_spacing (GTK_TABLE (table), 1,20);
+	gtk_container_add (GTK_CONTAINER (frame), table);
+	
+
+	button_all_sheets = gtk_radio_button_new_with_mnemonic (NULL,
+								_("_All workbook sheets"));
+	gtk_table_attach (GTK_TABLE (table), button_all_sheets, 1, 3, 1, 2,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	button_selected_sheet = gtk_radio_button_new_with_mnemonic_from_widget 
+		(GTK_RADIO_BUTTON (button_all_sheets), _("A_ctive workbook sheet"));
+	gtk_table_attach (GTK_TABLE (table), button_selected_sheet, 1, 3, 2, 3,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	button_spec_sheets = gtk_radio_button_new_with_mnemonic_from_widget
+		(GTK_RADIO_BUTTON (button_all_sheets), _("_Workbook sheets:"));
+	gtk_table_attach (GTK_TABLE (table), button_spec_sheets, 1, 3, 5, 6,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	button_selection = gtk_check_button_new_with_mnemonic
+		(_("Current _selection only"));
+	gtk_table_attach (GTK_TABLE (table), button_selection, 2, 7, 3, 4,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	button_ignore_printarea  = gtk_check_button_new_with_mnemonic
+		(_("_Ignore defined print area")); 
+	gtk_table_attach (GTK_TABLE (table), button_ignore_printarea, 2, 7, 4, 5,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	label_from = gtk_label_new (_("from:"));
+	gtk_table_attach (GTK_TABLE (table), label_from, 3, 4, 5, 6,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	spin_from = gtk_spin_button_new_with_range (1, n_sheets, 1);
+	gtk_table_attach (GTK_TABLE (table), spin_from, 4, 5, 5, 6,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	label_to = gtk_label_new (_("to:"));
+	gtk_table_attach (GTK_TABLE (table), label_to, 5, 6, 5, 6,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
+	spin_to = gtk_spin_button_new_with_range (1, n_sheets, 1);
+	gtk_table_attach (GTK_TABLE (table), spin_to, 6, 7, 5, 6,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_to), n_sheets);
+
+	g_signal_connect_after (G_OBJECT (button_selected_sheet), "toggled",
+		G_CALLBACK (widget_button_cb), button_selection);
+	g_signal_connect_after (G_OBJECT (button_selected_sheet), "toggled",
+		G_CALLBACK (widget_button_cb), button_ignore_printarea);
+
+	g_signal_connect_after (G_OBJECT (button_spec_sheets), "toggled",
+		G_CALLBACK (widget_button_cb), label_from);
+	g_signal_connect_after (G_OBJECT (button_spec_sheets), "toggled",
+		G_CALLBACK (widget_button_cb), label_to);
+	g_signal_connect_after (G_OBJECT (button_spec_sheets), "toggled",
+		G_CALLBACK (widget_button_cb), spin_from);
+	g_signal_connect_after (G_OBJECT (button_spec_sheets), "toggled",
+		G_CALLBACK (widget_button_cb), spin_to);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selected_sheet), TRUE);
+
+	settings =  gtk_print_operation_get_print_settings (operation);
+
+	if (settings) {
+		switch (gtk_print_settings_get_int_with_default
+			(settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
+			 PRINT_ACTIVE_SHEET)) {
+		case PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_printarea), TRUE);
+			/* no break */
+		case PRINT_SHEET_SELECTION:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selection), TRUE);
+			/* no break */
+		case PRINT_ACTIVE_SHEET:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selected_sheet), TRUE);
+			break;
+		case PRINT_IGNORE_PRINTAREA:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_printarea), TRUE);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selected_sheet), TRUE);
+			break;			
+		case PRINT_SHEET_RANGE:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_spec_sheets), TRUE);
+			break;
+		case PRINT_ALL_SHEETS:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_all_sheets), TRUE);
+			break;
+		}
+
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_from),
+					   gtk_print_settings_get_int_with_default
+					   (settings, GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY,
+					    1));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_to),
+					   gtk_print_settings_get_int_with_default
+					   (settings, GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY,
+					    n_sheets));
+	}
+
+	/* We are sending toggled signals to ensure that all widgets are */
+	/* correctly enabled or disabled.                                */
+	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (button_selected_sheet));
+	gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (button_spec_sheets));
+
+	gtk_widget_show_all (frame);
+
+	/* Let's save the widgets */
+	pi->button_all_sheets = button_all_sheets;
+	pi->button_selected_sheet = button_selected_sheet;
+	pi->button_spec_sheets = button_spec_sheets;
+	pi->button_selection = button_selection;
+	pi->button_ignore_printarea = button_ignore_printarea;
+	pi->spin_from = spin_from;
+	pi->spin_to = spin_to;
+	
+	return G_OBJECT (frame);
+}
+
+static void
+gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
+			GtkWidget         *widget,
+			gpointer           user_data)
+{
+	PrintingInstance * pi = (PrintingInstance *) user_data;
+	GtkPrintSettings * settings;
+	PrintRange pr = PRINT_ACTIVE_SHEET;
+	guint from, to;
+	
+	settings =  gtk_print_operation_get_print_settings (operation);
+
+	g_return_if_fail (settings != NULL);
+
+	from = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (pi->spin_from));
+	to = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (pi->spin_to));
+
+	gtk_print_settings_set_int (settings,
+				    GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY,
+				    from);
+	gtk_print_settings_set_int (settings,
+				    GNUMERIC_PRINT_SETTING_PRINT_TO_SHEET_KEY,
+				    to);
+	pi->from = from;
+	pi->to = to;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_all_sheets))) {
+		pr = PRINT_ALL_SHEETS;
+	} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_spec_sheets))) {
+		pr = PRINT_SHEET_RANGE;
+	} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_selected_sheet))) {
+		gboolean ignore_printarea = gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON (pi->button_ignore_printarea));
+		gboolean selection = gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON (pi->button_selection));
+		if (selection && ignore_printarea)
+			pr = PRINT_SHEET_SELECTION_IGNORE_PRINTAREA;
+		else if (selection)
+			pr = PRINT_SHEET_SELECTION;
+		else if (ignore_printarea)
+			pr = PRINT_IGNORE_PRINTAREA;
+		else
+			pr = PRINT_ACTIVE_SHEET;
+	}
+
+	gtk_print_settings_set_int (settings,
+				    GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY, pr);
+	pi->pr = pr;
+}
+
 void
 gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
 		 gboolean preview, PrintRange default_range)
@@ -1302,7 +1402,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   GtkPrintOperationResult res;
   GtkPageSetup *page_setup;
   PrintingInstance *pi;
-
+  GtkPrintSettings* settings;
   
   page_setup = print_info_get_page_setup (sheet->print_info);
   print = gtk_print_operation_new ();
@@ -1318,15 +1418,23 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
 /*   FIXME: handle saving of print settings  */
 /*   if (settings != NULL)  */
 /*     gtk_print_operation_set_print_settings (print, settings); */
+  settings = gtk_print_settings_new ();
+  gtk_print_settings_set_int (settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
+			      default_range);
+  pi->pr = default_range;
+  gtk_print_operation_set_print_settings (print, settings);
 
   g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi); 
   g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi); 
   g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
+  g_signal_connect (print, "create-custom-widget", G_CALLBACK (gnm_create_widget_cb), pi);
+  g_signal_connect (print, "custom-widget-apply", G_CALLBACK (gnm_custom_widget_apply_cb), pi);
 
   gtk_print_operation_set_use_full_page (print, FALSE);
   gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
   gtk_print_operation_set_show_progress (print, TRUE);
-  
+  gtk_print_operation_set_custom_tab_label (print, _("Gnumeric Print Range"));
+
   res = gtk_print_operation_run (print,
 				 preview ? GTK_PRINT_OPERATION_ACTION_PREVIEW
 				         : GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,

@@ -1,3 +1,21 @@
+2007-03-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.h: add keys
+	(PrintRange): add further options
+	* src/print.c (PrintingInstance): add more fields
+	(compute_sheet_pages): add selection and ignore_printarea args & 
+	  clean up
+	(compute_pages): handle various print ranges
+	(PrintDialogState): deleted
+	(dialog_destroy): deleted
+	(sheet_print_real): deleted
+	(dialog_response): deleted
+	(gnm_begin_print_cb): discover print range
+	(widget_button_cb): new
+	(gnm_create_widget_cb): new signal handler
+	(gnm_custom_widget_apply_cb): new signal handler
+	(gnm_print_sheet): prepare custom widget to handle print ranges
+
 2007-03-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object.h (sheet_object_draw_cairo): add rtl argument 
