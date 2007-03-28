@@ -153,7 +153,7 @@ static GnmValue *
 gnumeric_varp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_var_pop,
+				     gnm_range_var_pop,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -190,7 +190,7 @@ static GnmValue *
 gnumeric_var (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_var_est,
+				     gnm_range_var_est,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -229,7 +229,7 @@ static GnmValue *
 gnumeric_stdev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_stddev_est,
+				     gnm_range_stddev_est,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -263,7 +263,7 @@ static GnmValue *
 gnumeric_stdevp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_stddev_pop,
+				     gnm_range_stddev_pop,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -405,7 +405,7 @@ range_trimmean (gnm_float const *xs, int n, gnm_float *res)
 	/* OK, so we ignore the constness here.  Tough.  */
 	qsort ((gnm_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
 
-	return range_average (xs + tc, c, res);
+	return gnm_range_average (xs + tc, c, res);
 }
 
 static GnmValue *
@@ -448,7 +448,7 @@ gnumeric_covar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
-				      range_covar,
+				      gnm_range_covar,
 				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
@@ -484,7 +484,7 @@ gnumeric_correl (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
-				      range_correl_pop,
+				      gnm_range_correl_pop,
 				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
@@ -735,7 +735,7 @@ static GnmValue *
 gnumeric_mode (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_mode,
+				     gnm_range_mode,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -769,7 +769,7 @@ static GnmValue *
 gnumeric_harmean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_harmonic_mean,
+				     gnm_range_harmonic_mean,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -802,7 +802,7 @@ static GnmValue *
 gnumeric_geomean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_geometric_mean,
+				     gnm_range_geometric_mean,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -925,7 +925,7 @@ static GnmValue *
 gnumeric_average (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_average,
+				     gnm_range_average,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -962,7 +962,7 @@ range_min0 (gnm_float const *xs, int n, gnm_float *res)
 		*res = 0;
 		return 0;
 	} else
-		return range_min (xs, n, res);
+		return gnm_range_min (xs, n, res);
 }
 
 static GnmValue *
@@ -1006,7 +1006,7 @@ range_max0 (gnm_float const *xs, int n, gnm_float *res)
 		*res = 0;
 		return 0;
 	} else
-		return range_max (xs, n, res);
+		return gnm_range_max (xs, n, res);
 }
 
 static GnmValue *
@@ -1053,7 +1053,7 @@ static GnmValue *
 gnumeric_skew (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_skew_est,
+				     gnm_range_skew_est,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -1088,7 +1088,7 @@ static GnmValue *
 gnumeric_skewp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_skew_pop,
+				     gnm_range_skew_pop,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -2343,7 +2343,7 @@ static GnmValue *
 gnumeric_kurt (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_kurtosis_m3_est,
+				     gnm_range_kurtosis_m3_est,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -2378,7 +2378,7 @@ static GnmValue *
 gnumeric_kurtp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_kurtosis_m3_pop,
+				     gnm_range_kurtosis_m3_pop,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -2411,7 +2411,7 @@ static GnmValue *
 gnumeric_avedev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_avedev,
+				     gnm_range_avedev,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -2446,7 +2446,7 @@ static GnmValue *
 gnumeric_devsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_devsq,
+				     gnm_range_devsq,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -2588,7 +2588,7 @@ gnumeric_rsq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
-				      range_rsq_pop,
+				      gnm_range_rsq_pop,
 				      COLLECT_IGNORE_BLANKS |
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
@@ -2624,7 +2624,7 @@ static GnmValue *
 gnumeric_median (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     (float_range_function_t)range_median_inter_nonconst,
+				     (float_range_function_t)gnm_range_median_inter_nonconst,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -2772,7 +2772,7 @@ range_large (gnm_float *xs, int n, gnm_float *res)
 		return 1;
 
 	k = (int)xs[--n];
-	return range_min_k_nonconst (xs, n, res, n - k);
+	return gnm_range_min_k_nonconst (xs, n, res, n - k);
 }
 
 static GnmValue *
@@ -2821,7 +2821,7 @@ range_small (gnm_float *xs, int n, gnm_float *res)
 		return 1;
 
 	k = (int)xs[--n];
-	return range_min_k_nonconst (xs, n, res, k - 1);
+	return gnm_range_min_k_nonconst (xs, n, res, k - 1);
 }
 
 static GnmValue *
@@ -3147,9 +3147,9 @@ range_ztest (gnm_float const *xs, int n, gnm_float *res)
 		return 1;
 
 	x = xs[--n];
-	if (range_average (xs, n, &m))
+	if (gnm_range_average (xs, n, &m))
 		return 1;
-	if (range_stddev_est (xs, n, &s) || s == 0)
+	if (gnm_range_stddev_est (xs, n, &s) || s == 0)
 	        return 1;
 
 	*res = pnorm (x, m, s / gnm_sqrt (n), TRUE, FALSE);
@@ -3198,7 +3198,7 @@ static GnmValue *
 gnumeric_averagea (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_average,
+				     gnm_range_average,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3236,7 +3236,7 @@ static GnmValue *
 gnumeric_maxa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_max,
+				     gnm_range_max,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3274,7 +3274,7 @@ static GnmValue *
 gnumeric_mina (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_min,
+				     gnm_range_min,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3318,7 +3318,7 @@ static GnmValue *
 gnumeric_vara (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_var_est,
+				     gnm_range_var_est,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3357,7 +3357,7 @@ static GnmValue *
 gnumeric_varpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_var_pop,
+				     gnm_range_var_pop,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3402,7 +3402,7 @@ static GnmValue *
 gnumeric_stdeva (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_stddev_est,
+				     gnm_range_stddev_est,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3442,7 +3442,7 @@ static GnmValue *
 gnumeric_stdevpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_stddev_pop,
+				     gnm_range_stddev_pop,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3604,7 +3604,7 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gnm_float p = value_get_as_float (argv[1]);
 		gnm_float res;
 
-		if (range_fractile_inter_nonconst (data, n, &res, p))
+		if (gnm_range_fractile_inter_nonconst (data, n, &res, p))
 			result = value_new_error_NUM (ei->pos);
 		else
 			result = value_new_float (res);
@@ -3663,7 +3663,7 @@ gnumeric_quartile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		int q = value_get_as_int (argv[1]);
 		gnm_float res;
 
-		if (range_fractile_inter_nonconst (data, n, &res, q / 4.0))
+		if (gnm_range_fractile_inter_nonconst (data, n, &res, q / 4.0))
 			result = value_new_error_NUM (ei->pos);
 		else
 			result = value_new_float (res);
@@ -4046,9 +4046,9 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		SINGLE_ROW = 3,
 		OTHER      = 4
 	}                 ytype;
-	regression_stat_t *extra_stat;
+	gnm_regression_stat_t *extra_stat;
 
-	extra_stat = regression_stat_new ();
+	extra_stat = gnm_regression_stat_new ();
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
@@ -4205,7 +4205,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	linres = g_new (gnm_float, dim + 1);
 
-	if (linear_regression (xss, dim, ys, nx, affine,
+	if (gnm_linear_regression (xss, dim, ys, nx, affine,
 			       linres, extra_stat) != REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
@@ -4247,7 +4247,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 	g_free (ys);
 	g_free (linres);
-	regression_stat_destroy (extra_stat);
+	gnm_regression_stat_destroy (extra_stat);
 
 	return result;
 }
@@ -4326,9 +4326,9 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		SINGLE_ROW = 3,
 		OTHER      = 4
 	}                 ytype;
-	regression_stat_t *extra_stat;
+	gnm_regression_stat_t *extra_stat;
 
-	extra_stat = regression_stat_new ();
+	extra_stat = gnm_regression_stat_new ();
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
@@ -4485,7 +4485,7 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	logreg_res = g_new (gnm_float, dim + 1);
 
-	if (logarithmic_regression (xss, dim, ys, nx, affine,
+	if (gnm_logarithmic_regression (xss, dim, ys, nx, affine,
 				    logreg_res, extra_stat) != REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
@@ -4527,7 +4527,7 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 	g_free (ys);
 	g_free (logreg_res);
-	regression_stat_destroy (extra_stat);
+	gnm_regression_stat_destroy (extra_stat);
 
 	return result;
 }
@@ -4618,7 +4618,7 @@ numbers */
 
 	logfit_res = g_new (gnm_float, 5);
 
-	if (logarithmic_fit (xs, ys, nx, logfit_res) != REG_ok) {
+	if (gnm_logarithmic_fit (xs, ys, nx, logfit_res) != REG_ok) {
 	        result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -4735,7 +4735,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dim = 1;
 
-	if (linear_regression (&xs, dim, ys, nx, affine, linres, NULL) !=
+	if (gnm_linear_regression (&xs, dim, ys, nx, affine, linres, NULL) !=
 	    REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
@@ -4800,7 +4800,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int               xarg = 0;
 	gnm_float        *expres = NULL;
 	gboolean          stat, err;
-	regression_stat_t *extra_stat;
+	gnm_regression_stat_t *extra_stat;
 	enum {
 		ARRAY      = 1,
 		SINGLE_COL = 2,
@@ -4808,7 +4808,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		OTHER      = 4
 	}                 ytype;
 
-	extra_stat = regression_stat_new ();
+	extra_stat = gnm_regression_stat_new ();
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
@@ -4963,7 +4963,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		stat = FALSE;
 
 	expres = g_new (gnm_float, dim + 1);
-	if (exponential_regression (xss, dim, ys, nx, affine,
+	if (gnm_exponential_regression (xss, dim, ys, nx, affine,
 				    expres, extra_stat) != REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
@@ -5004,7 +5004,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 	g_free (ys);
 	g_free (expres);
-	regression_stat_destroy (extra_stat);
+	gnm_regression_stat_destroy (extra_stat);
 
 	return result;
 }
@@ -5105,7 +5105,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dim = 1;
 
-	if (exponential_regression (&xs, dim,
+	if (gnm_exponential_regression (&xs, dim,
 				    ys, nx, affine, expres, NULL) != REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
@@ -5185,7 +5185,7 @@ gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	dim = 1;
 
-	if (linear_regression (&xs, dim, ys, nx, 1, linres, NULL) != REG_ok) {
+	if (gnm_linear_regression (&xs, dim, ys, nx, 1, linres, NULL) != REG_ok) {
 		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -5232,7 +5232,7 @@ range_intercept (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res
 	gnm_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((gnm_float **)&xs, dim,
+	if (gnm_linear_regression ((gnm_float **)&xs, dim,
 			       ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
@@ -5280,7 +5280,7 @@ range_slope (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 	gnm_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((gnm_float **)&xs, dim,
+	if (gnm_linear_regression ((gnm_float **)&xs, dim,
 			       ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
@@ -5382,19 +5382,19 @@ gnumeric_subtotal (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			 CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_SUBTOTAL);
 		return value_new_int (res);
 
-	case  1: func = range_average;		break;
+	case  1: func = gnm_range_average;	break;
 	case  4: err = GNM_ERROR_VALUE;
 		 func = range_max0;		break;
 	case  5: err = GNM_ERROR_VALUE;
 		 func = range_min0;		break;
 	case  6: err = GNM_ERROR_VALUE;
-		 func = range_product;		break;
-	case  7: func = range_stddev_est;	break;
-	case  8: func = range_stddev_pop;	break;
+		 func = gnm_range_product;	break;
+	case  7: func = gnm_range_stddev_est;	break;
+	case  8: func = gnm_range_stddev_pop;	break;
 	case  9: err = GNM_ERROR_VALUE;
-		 func = range_sum;		break;
-	case 10: func = range_var_est;		break;
-	case 11: func = range_var_pop;		break;
+		 func = gnm_range_sum;		break;
+	case 10: func = gnm_range_var_est;	break;
+	case 11: func = gnm_range_var_pop;	break;
 
 	default:
 		return value_new_error_NUM (ei->pos);
@@ -5481,7 +5481,7 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	for (i = 0; i < argc; i++) {
 		GnmValue *fl_val =
 			float_range_function (1, argv + i, ei,
-					      range_var_pop, 0,
+					      gnm_range_var_pop, 0,
 					      GNM_ERROR_VALUE);
 		if (!VALUE_IS_NUMBER (fl_val))
 			return fl_val;
@@ -5512,7 +5512,7 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			GnmValue *fl_val;
 			fl_val = float_range_function2 (values[i], values[j],
 							ei,
-							range_covar, 0,
+							gnm_range_covar, 0,
 							GNM_ERROR_VALUE);
 			if (!VALUE_IS_NUMBER (fl_val)) {
 				free_values (values, argc);

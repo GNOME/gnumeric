@@ -233,7 +233,7 @@ static GnmValue *
 gnumeric_hypot (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_hypot,
+				     gnm_range_hypot,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -1498,7 +1498,7 @@ static GnmValue *
 gnumeric_suma (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_sum,
+				     gnm_range_sum,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -1532,7 +1532,7 @@ static GnmValue *
 gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_sumsq,
+				     gnm_range_sumsq,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -1564,7 +1564,7 @@ static GnmValue *
 gnumeric_multinomial (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_multinomial,
+				     gnm_range_multinomial,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -1595,7 +1595,7 @@ static GnmValue *
 gnumeric_g_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_product,
+				     gnm_range_product,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3022,7 +3022,7 @@ gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 
 	matrix = value_to_matrix (values, cols, rows, ep);
-	if (!matrix_invert (matrix, rows)) {
+	if (!gnm_matrix_invert (matrix, rows)) {
 		free_matrix (matrix, cols, rows);
 		return value_new_error_NUM (ei->pos);
 	}
@@ -3160,7 +3160,7 @@ gnumeric_mdeterm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 
 	matrix = value_to_matrix (values, cols, rows, ep);
-	res = matrix_determinant (matrix, rows);
+	res = gnm_matrix_determinant (matrix, rows);
 	free_matrix (matrix, cols, rows);
 
 	return value_new_float (res);

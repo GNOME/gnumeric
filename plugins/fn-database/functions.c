@@ -331,7 +331,7 @@ gnumeric_daverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_average,
+					      gnm_range_average,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -407,7 +407,7 @@ gnumeric_dcount (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_count,
+					      gnm_range_count,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -483,7 +483,7 @@ gnumeric_dcounta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_count,
+					      gnm_range_count,
 					      COLLECT_IGNORE_BLANKS,
 					      GNM_ERROR_UNKNOWN,
 					      GNM_ERROR_NUM);
@@ -645,7 +645,7 @@ gnumeric_dmax (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_max,
+					      gnm_range_max,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -720,7 +720,7 @@ gnumeric_dmin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_min,
+					      gnm_range_min,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -795,7 +795,7 @@ gnumeric_dproduct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_product,
+					      gnm_range_product,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -871,7 +871,7 @@ gnumeric_dstdev (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_stddev_est,
+					      gnm_range_stddev_est,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -947,7 +947,7 @@ gnumeric_dstdevp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_stddev_pop,
+					      gnm_range_stddev_pop,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -1023,7 +1023,7 @@ gnumeric_dsum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_sum,
+					      gnm_range_sum,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -1099,7 +1099,7 @@ gnumeric_dvar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_var_est,
+					      gnm_range_var_est,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
@@ -1175,7 +1175,7 @@ gnumeric_dvarp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					      argv[0],
 					      argv[1],
 					      argv[2],
-					      range_var_pop,
+					      gnm_range_var_pop,
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
