@@ -1550,7 +1550,8 @@ sheet_get_nominal_printarea	(Sheet const *sheet)
 
 GnmRange
 sheet_get_printarea	(Sheet const *sheet,
-			 gboolean include_styles)
+			 gboolean include_styles,
+			 gboolean ignore_printarea)
 {
 	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
 	GnmRange r;
@@ -1563,6 +1564,9 @@ sheet_get_printarea	(Sheet const *sheet,
 	if (include_styles)
 		sheet_style_get_extent (sheet, &r, NULL);
 
+	if (ignore_printarea)
+		return r;
+	
 	print_area = sheet_get_nominal_printarea (sheet);
 
 	if (range_intersection (&intersect, &r, &print_area))

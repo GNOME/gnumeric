@@ -56,6 +56,7 @@
 typedef struct {
 	GList *gnmSheetRanges;
 	Workbook *wb;
+	WorkbookControlGUI *wbcg;
 	Sheet *sheet;
 	GtkWidget *button_all_sheets, *button_selected_sheet,
 		*button_spec_sheets;
@@ -993,10 +994,28 @@ compute_sheet_pages (GtkPrintContext   *context,
 {
 	PrintInformation const *pinfo = sheet->print_info;
 	GnmRange r;
+	GnmRange const *selection_range;
+	GnmRange print_area;
 
-	r = sheet_get_printarea	(sheet,
-				 pinfo->print_even_if_only_styles);
+	print_area = sheet_get_printarea	(sheet,
+					 pinfo->print_even_if_only_styles,
+					 ignore_printarea);
+	if (selection) {
+		selection_range = selection_first_range
+			(sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (pi->wbcg))),
+			  GO_CMD_CONTEXT (WORKBOOK_CONTROL (pi->wbcg)), _("Print Selection"));
+	}
 
+	if (selection && !ignore_printarea) {
+		if (!selection_range || !range_intersection (&r, selection_range, &print_area))
+			return;
+	} else if (selection && ignore_printarea) {
+		if (selection_range == NULL)
+			return;
+		r = *selection_range;
+	} else
+		r = print_area;
+	
  	if (sheet->print_info->print_across_then_down)
 		return compute_sheet_pages_across_then_down (context, pi, sheet, &r);
 	else
@@ -1057,28 +1076,6 @@ compute_pages (GtkPrintOperation *operation,
 		break;
 	}
 	return;
-}
-
-static void
-print_sheet (PrintJobInfo *pj, Sheet const *sheet)
-{
-	PrintInformation const *pi = sheet->print_info;
-	GnmRange extent;
-
-	g_return_if_fail (pj != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* if printing a range, check we are in range, otherwise iterate */
-	if (pj->range == PRINT_SHEET_RANGE) {
-		pj->current_output_sheet++;
-		if (!(pj->current_output_sheet-1 >= pj->start_page
-		      && pj->current_output_sheet-1 <= pj->end_page))
-			return;
-	}
-
-	extent = sheet_get_printarea (sheet,
-				      pi->print_even_if_only_styles);
-/* 	print_sheet_range (pj, sheet, &extent, TRUE); */
 }
 
 /* should this print a selection over any range of pages? */
@@ -1147,6 +1144,7 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 	PrintRange pr;
 	guint from, to;
 	GtkPrintSettings * settings;
+	gint n_pages;	
 
 	settings =  gtk_print_operation_get_print_settings (operation);
 
@@ -1173,7 +1171,11 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 
 	compute_pages (operation, context, pi, pr, from, to);
 	
-	gtk_print_operation_set_n_pages (operation, g_list_length (pi->gnmSheetRanges));
+	n_pages = g_list_length (pi->gnmSheetRanges);
+	if (n_pages == 0) /* gtk+ cannot handle 0 pages */
+		n_pages = 1;
+
+	gtk_print_operation_set_n_pages (operation, n_pages);
 	gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
 }
 
@@ -1413,6 +1415,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   
   pi = printing_instance_new ();
   pi->wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+  pi->wbcg = wbcg;
   pi->sheet = sheet;
   
 /*   FIXME: handle saving of print settings  */

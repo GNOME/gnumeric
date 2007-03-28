@@ -257,7 +257,8 @@ void     sheet_mark_dirty	(Sheet *sheet);
 GnmRange    sheet_get_extent	(Sheet const *sheet,
 				 gboolean spans_and_merges_extend);
 GnmRange    sheet_get_printarea	(Sheet const *sheet,
-				 gboolean include_styles);
+				 gboolean include_styles,
+				 gboolean ignore_printarea);
 GnmRange    sheet_get_nominal_printarea	(Sheet const *sheet);
 
 /*

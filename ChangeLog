@@ -1,3 +1,13 @@
+2007-03-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (PrintingInstance): add wbcg
+	(compute_sheet_pages): handle selection & printarea
+	(gnm_begin_print_cb): ditto
+	(print_sheet): deleted
+	* src/sheet.h (sheet_get_printarea): add arguments
+	* src/sheet.c (sheet_get_printarea): add arguments and ignore 
+	  printarea if requested
+
 2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/Makefile.am: removed regression.c
