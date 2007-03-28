@@ -1,3 +1,13 @@
+2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/Makefile.am: removed regression.c
+	* src/func-builtin.c: use new names for range functions.
+	* src/rangefunc.c: changed names of functions, and use the versions in
+	goffice when available.
+	* src/rangefunc.h: ditto.
+	* src/regression.h: ditto.
+	* src/regression.c: removed obsolete.
+
 2007-03-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.h: add keys

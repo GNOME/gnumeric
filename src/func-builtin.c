@@ -59,7 +59,7 @@ GnmValue *
 gnumeric_sum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     range_sum,
+				     gnm_range_sum,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -93,7 +93,7 @@ range_bogusproduct (gnm_float const *xs, int n, gnm_float *res)
 		*res = 0;  /* Severe Excel brain damange.  */
 		return 0;
 	} else
-		return range_product (xs, n, res);
+		return gnm_range_product (xs, n, res);
 }
 
 GnmValue *

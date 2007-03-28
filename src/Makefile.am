@@ -110,7 +110,6 @@ libspreadsheet_la_SOURCES =			\
 	rangefunc.c				\
 	rangefunc-strings.c			\
 	ranges.c				\
-	regression.c				\
 	rendered-value.c			\
 	search.c				\
 	selection.c				\
