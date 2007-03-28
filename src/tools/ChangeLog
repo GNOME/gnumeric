@@ -1,3 +1,9 @@
+2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-histogram.c: use new names for range and regression functions.
+	* analysis-tools.h: ditto.
+	* simulation.c: ditto.
+
 2007-03-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.8

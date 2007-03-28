@@ -3072,7 +3072,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GArray       *cleaned       = NULL;
 	char         *text          = NULL;
 	char         *format;
-	regression_stat_t   *regression_stat = NULL;
+	gnm_regression_stat_t   *regression_stat = NULL;
 	gnm_float   r;
 	gnm_float   *res,  **xss;
 	int          i;
@@ -3130,14 +3130,14 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		xss[i] = (gnm_float *)(this_data->data->data);
 	}
 
-	regression_stat = regression_stat_new ();
-	regerr = linear_regression (xss, xdim,
+	regression_stat = gnm_regression_stat_new ();
+	regerr = gnm_linear_regression (xss, xdim,
 				    (gnm_float *)(y_data->data->data),
 				    y_data->data->len,
 				    info->intercept, res, regression_stat);
 
 	if (regerr != REG_ok && regerr != REG_near_singular_good) {
-		regression_stat_destroy (regression_stat);
+		gnm_regression_stat_destroy (regression_stat);
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
 		g_free (xss);
@@ -3238,7 +3238,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			      _("Probability of an observation's absolute value being larger than the t-value's"));
 
 	if (xdim == 1)
-		cor_err =  range_correl_pop (xss[0], (gnm_float *)(y_data->data->data),
+		cor_err =  gnm_range_correl_pop (xss[0], (gnm_float *)(y_data->data->data),
 					     y_data->data->len, &r);
 	else r = gnm_sqrt (regression_stat->sqr_r);
 
@@ -3335,7 +3335,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_float (dao, 6, 17 + i, this_res + t * this_se);
 	}
 
-	regression_stat_destroy (regression_stat);
+	gnm_regression_stat_destroy (regression_stat);
 	destroy_data_set (y_data);
 	destroy_data_set_list (x_data);
 	g_free (xss);
@@ -4245,16 +4245,16 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 
 		dao_set_cell (dao, 0, i + 3, data_set->label);
 		dao_set_cell_int (dao, 1, i + 3, data_set->data->len);
-		error = range_sum (the_data, data_set->data->len, &v);
+		error = gnm_range_sum (the_data, data_set->data->len, &v);
 		sum +=  v;
 		ss_r += v * v/ data_set->data->len;
 		dao_set_cell_float_na (dao, 2, i + 3, v, error == 0);
 		dao_set_cell_float_na (dao, 3, i + 3,  v / data_set->data->len,
 				   error == 0 && data_set->data->len != 0);
-		error = range_var_est (the_data, data_set->data->len , &v);
+		error = gnm_range_var_est (the_data, data_set->data->len , &v);
 		dao_set_cell_float_na (dao, 4, i + 3, v, error == 0);
 
-		error = range_sumsq (the_data, data_set->data->len, &v);
+		error = gnm_range_sumsq (the_data, data_set->data->len, &v);
 		ss_t += v;
 	}
 
@@ -4265,12 +4265,12 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 
 		dao_set_cell (dao, 0, i + 4 + rows, data_set->label);
 		dao_set_cell_int (dao, 1, i + 4 + rows, data_set->data->len);
-		error = range_sum (the_data, data_set->data->len, &v);
+		error = gnm_range_sum (the_data, data_set->data->len, &v);
 		ss_c += v * v/ data_set->data->len;
 		dao_set_cell_float_na (dao, 2, i + 4 + rows, v, error == 0);
 		dao_set_cell_float_na (dao, 3, i + 4 + rows, v / data_set->data->len,
 				   error == 0 && data_set->data->len != 0);
-		error = range_var_est (the_data, data_set->data->len , &v);
+		error = gnm_range_var_est (the_data, data_set->data->len , &v);
 		dao_set_cell_float_na (dao, 4, i + 4 + rows, v, error == 0);
 	}
 
@@ -4502,16 +4502,16 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			row_cnt += num;
 
 			dao_set_cell_int (dao, 1 + i_c, 4 + i_r * 6, num);
-			error = range_sum (the_data, num, &v);
+			error = gnm_range_sum (the_data, num, &v);
 			row_sum += v;
 			ss_rc += v * v / num;
 			dao_set_cell_float_na (dao, 1 + i_c, 5 + i_r * 6, v, error == 0);
 			dao_set_cell_float_na (dao, 1 + i_c, 6 + i_r * 6, v / num,
 					   error == 0 && num > 0);
-			error = range_var_est (the_data, num , &v);
+			error = gnm_range_var_est (the_data, num , &v);
 			dao_set_cell_float_na (dao, 1 + i_c, 7 + i_r * 6, v, error == 0);
 
-			error = range_sumsq (the_data, num, &v);
+			error = gnm_range_sumsq (the_data, num, &v);
 			row_sum_sq += v;
 		}
 		cm += row_sum;
@@ -4542,10 +4542,10 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			the_data = (gnm_float *)cell_data->data->data;
 
 			col_cnt += cell_data->data->len;
-			error = range_sum (the_data, cell_data->data->len, &v);
+			error = gnm_range_sum (the_data, cell_data->data->len, &v);
 			col_sum += v;
 
-			error = range_sumsq (the_data, cell_data->data->len, &v);
+			error = gnm_range_sumsq (the_data, cell_data->data->len, &v);
 			col_sum_sq += v;
 		}
 		ss_c += col_sum * col_sum / col_cnt;
@@ -4592,7 +4592,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 					guint i;
 
 					the_data = (gnm_float *)cell_data->data->data;
-					error = range_average (the_data, num, &v);
+					error = gnm_range_average (the_data, num, &v);
 					for (i = num; i < max_sample_size; i++)
 						g_array_append_val (cell_data->data, v);
 				}
@@ -4627,11 +4627,11 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 				num = cell_data->data->len;
 				row_cnt += num;
 
-				error = range_sum (the_data, num, &v);
+				error = gnm_range_sum (the_data, num, &v);
 				row_sum += v;
 				ss_rc += v * v / num;
 
-				error = range_sumsq (the_data, num, &v);
+				error = gnm_range_sumsq (the_data, num, &v);
 				row_sum_sq += v;
 			}
 			cm += row_sum;
@@ -4656,7 +4656,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 				the_data = (gnm_float *)cell_data->data->data;
 
 				col_cnt += cell_data->data->len;
-				error = range_sum (the_data, cell_data->data->len, &v);
+				error = gnm_range_sum (the_data, cell_data->data->len, &v);
 				col_sum += v;
 			}
 			ss_c += col_sum * col_sum / col_cnt;

@@ -154,19 +154,19 @@ create_stats (simulation_t *sim, gnm_float **outputs, simstats_t *stats)
 	/* Calculate stats. */
 	for (i = 0; i < sim->n_vars; i++) {
 		/* Min */
-		error = range_min (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_min (outputs [i], sim->n_iterations, &x);
 		stats->min [i] = x;
 
 		/* Mean */
-		error = range_average (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_average (outputs [i], sim->n_iterations, &x);
 		stats->mean [i] = x;
 
 		/* Max */
-		error = range_max (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_max (outputs [i], sim->n_iterations, &x);
 		stats->max [i] = x;
 
 		/* Median */
-		error = range_median_inter (outputs [i], sim->n_iterations,
+		error = gnm_range_median_inter (outputs [i], sim->n_iterations,
 					    &x);
 		if (error)
 			stats->errmask [i] |= MedianErr;
@@ -174,35 +174,35 @@ create_stats (simulation_t *sim, gnm_float **outputs, simstats_t *stats)
 			stats->median [i] = x;
 
 		/* Mode */
-		error = range_mode (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_mode (outputs [i], sim->n_iterations, &x);
 		if (error)
 			stats->errmask [i] |= ModeErr;
 		else
 			stats->mode [i] = x;
 
 		/* Standard deviation */
-		error = range_stddev_pop (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_stddev_pop (outputs [i], sim->n_iterations, &x);
 		if (error)
 			stats->errmask [i] |= VarErr;
 		else
 			stats->stddev [i] = x;
 
 		/* Variance */
-		error = range_var_pop (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_var_pop (outputs [i], sim->n_iterations, &x);
 		if (error)
 			stats->errmask [i] |= VarErr;
 		else
 			stats->var [i] = x;
 
 		/* Skewness */
-		error = range_skew_est (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_skew_est (outputs [i], sim->n_iterations, &x);
 		if (error)
 			stats->errmask [i] |= SkewErr;
 		else
 			stats->skew [i] = x;
 
 		/* Kurtosis */
-		error = range_kurtosis_m3_est (outputs [i], sim->n_iterations,
+		error = gnm_range_kurtosis_m3_est (outputs [i], sim->n_iterations,
 					       &x);
 		if (error)
 			stats->errmask [i] |= KurtosisErr;

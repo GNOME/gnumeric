@@ -168,7 +168,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 				GArray * the_data;
 				gnm_float a_max;
 				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == range_max ((gnm_float *)the_data->data, the_data->len,
+				if (0 == gnm_range_max ((gnm_float *)the_data->data, the_data->len,
 						    &a_max)) {
 					if (value_set) {
 						if (a_max > info->max)
@@ -188,7 +188,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 				GArray * the_data;
 				gnm_float a_min;
 				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == range_min ((gnm_float *)the_data->data, the_data->len,
+				if (0 == gnm_range_min ((gnm_float *)the_data->data, the_data->len,
 						    &a_min)) {
 					if (value_set) {
 						if (a_min < info->min)
