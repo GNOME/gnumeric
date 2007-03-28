@@ -2341,6 +2341,28 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }
 
+static GnmValue *
+cb_check_cell_format (GnmCellIter const *iter, gpointer user)
+{
+	FormatState *state = user;
+	GnmValue const *value = iter->cell->value;
+	GOFormat const *common = gnm_style_get_format (state->style);
+
+	if (!value || !VALUE_FMT (value))
+		return NULL;
+
+	if (go_format_eq (common, VALUE_FMT (value)))
+		return NULL;
+
+	if (go_format_is_general (common)) {
+		gnm_style_set_format (state->style, VALUE_FMT (value));
+		return NULL;
+	} else {
+		state->conflicts |= MSTYLE_FORMAT;
+		return VALUE_TERMINATE;
+	}
+}
+
 static gboolean
 fmt_dialog_selection_type (SheetView *sv,
 			   GnmRange const *range,
@@ -2363,6 +2385,15 @@ fmt_dialog_selection_type (SheetView *sv,
 
 	state->conflicts = sheet_style_find_conflicts (state->sheet, range,
 		&(state->style), state->borders);
+
+	if ((state->conflicts & MSTYLE_FORMAT) == 0 &&
+	    go_format_is_general (gnm_style_get_format (state->style))) {
+		sheet_foreach_cell_in_range (state->sheet, CELL_ITER_IGNORE_BLANK,
+					     range->start.col, range->start.row,
+					     range->end.col, range->end.row,
+					     cb_check_cell_format,
+					     state);
+	}
 
 	return TRUE;
 }

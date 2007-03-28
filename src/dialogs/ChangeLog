@@ -1,3 +1,9 @@
+2007-03-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_selection_type): Properly
+	extract format from General-formatted values.  Fixes part of
+	#423603.
+
 2007-03-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (PrinterSetupStateNew): new
