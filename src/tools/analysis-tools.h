@@ -6,6 +6,7 @@
 #include "dao.h"
 #include "tools.h"
 #include "regression.h"
+#include "complex.h"
 
 /*******************************************************************/
 /* Section 1: gui utility functions for the tools                  */
@@ -278,5 +279,9 @@ destroy_data_set_list (GPtrArray * the_list);
 gnm_float *
 range_sort (gnm_float const *xs, int n);
 
+gboolean gnm_check_input_range_list_homogeneity (GSList *input_range);
+
+void gnm_fourier_fft (complex_t const *in, int n, int skip,
+					  complex_t **fourier, gboolean inverse);
 
 #endif

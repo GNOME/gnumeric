@@ -35,7 +35,6 @@
 #include "func.h"
 #include "expr.h"
 #include "position.h"
-#include "complex.h"
 #include "rangefunc.h"
 #include "tools.h"
 #include "value.h"
@@ -610,14 +609,14 @@ cb_check_hom (gpointer data, gpointer user_data)
 }
 
 /*
- *  check_input_range_list_homogeneity:
+ *  gnm_check_input_range_list_homogeneity:
  *  @input_range:
  *
  *  Check that all columns have the same size
  *
  */
-static gboolean
-check_input_range_list_homogeneity (GSList *input_range)
+gboolean
+gnm_check_input_range_list_homogeneity (GSList *input_range)
 {
 	homogeneity_check_t state = { FALSE, 0, TRUE };
 
@@ -907,7 +906,7 @@ analysis_tool_correlation_engine (data_analysis_output_t *dao, gpointer specs,
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
 		prepare_input_range (&info->input, info->group_by);
-		if (!check_input_range_list_homogeneity (info->input)) {
+		if (!gnm_check_input_range_list_homogeneity (info->input)) {
 			info->err = info->group_by + 1;
 			return TRUE;
 		}
@@ -961,7 +960,7 @@ analysis_tool_covariance_engine (data_analysis_output_t *dao, gpointer specs,
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
 		prepare_input_range (&info->input, info->group_by);
-		if (!check_input_range_list_homogeneity (info->input)) {
+		if (!gnm_check_input_range_list_homogeneity (info->input)) {
 			info->err = info->group_by + 1;
 			return TRUE;
 		}
@@ -3362,7 +3361,7 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
 		prepare_input_range (&info->base.input, info->base.group_by);
-		if (!check_input_range_list_homogeneity (info->base.input)) {
+		if (!gnm_check_input_range_list_homogeneity (info->base.input)) {
 			info->base.err = analysis_tools_REG_invalid_dimensions;
 			return TRUE;
 		}
@@ -4810,8 +4809,8 @@ analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer spe
  *
  **/
 
-static void
-fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboolean inverse)
+void
+gnm_fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboolean inverse)
 {
 	complex_t  *fourier_1, *fourier_2;
 	int        i;
@@ -4825,8 +4824,8 @@ fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboolean
 		return;
 	}
 
-	fourier_fft (in, nhalf, skip * 2, &fourier_1, inverse);
-	fourier_fft (in + skip, nhalf, skip * 2, &fourier_2, inverse);
+	gnm_fourier_fft (in, nhalf, skip * 2, &fourier_1, inverse);
+	gnm_fourier_fft (in + skip, nhalf, skip * 2, &fourier_2, inverse);
 
 	argstep = (inverse ? M_PIgnum : -M_PIgnum) / nhalf;
 	for (i = 0; i < nhalf; i++) {
@@ -4882,7 +4881,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 			complex_real (&in[i],
 				      ((gnm_float const *)current->data->data)[i]);
 
-		fourier_fft (in, desired_length, 1, &fourier, info->inverse);
+		gnm_fourier_fft (in, desired_length, 1, &fourier, info->inverse);
 		g_free (in);
 
 		if (fourier) {

@@ -1,3 +1,8 @@
+2007-03-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-tools.c: make two new functions public.
+	* analysis-tools.h: ditto.
+
 2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* analysis-histogram.c: use new names for range and regression functions.
