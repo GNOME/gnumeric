@@ -78,11 +78,8 @@ base_files =					\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
 	dialogs.h				\
-	tool-dialogs.h
-
-if WITH_GNOME_PRINT
-base_files += dialog-printer-setup.c
-endif
+	tool-dialogs.h				\
+	dialog-printer-setup.c
 
 gladedir   = $(gnumeric_datadir)/glade
 glade_DATA = 				\
@@ -150,10 +147,7 @@ glade_DATA = 				\
 	tabulate.glade			\
 	variance-tests.glade		\
 	view.glade			\
-	workbook-attr.glade
+	workbook-attr.glade		\
+	print.glade
 
-if WITH_GNOME_PRINT
-glade_DATA += print.glade
-endif
-	
 EXTRA_DIST = $(glade_DATA)

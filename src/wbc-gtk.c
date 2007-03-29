@@ -1818,12 +1818,6 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_ui_manager_ensure_update (gtk->ui);
 
-#ifndef WITH_GNOME_PRINT
-	wbc_gtk_set_action_sensitivity (wbcg, "FilePageSetup", FALSE);
-	wbc_gtk_set_action_sensitivity (wbcg, "FilePrint", FALSE);
-	wbc_gtk_set_action_sensitivity (wbcg, "FilePrintPreview", FALSE);
-#endif
-
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
 
 	/*

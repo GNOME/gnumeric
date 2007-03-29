@@ -8,10 +8,6 @@
 #include <glib-object.h>
 #include <gtk/gtkmenu.h>
 
-#ifdef WITH_GNOME_PRINT
-#include <libgnomeprint/gnome-print.h>
-#endif
-
 typedef enum {
 	SHEET_OBJECT_IS_VISIBLE	= 1 << 0,	/* user selectable */
 	SHEET_OBJECT_PRINT	= 1 << 1,
@@ -65,16 +61,6 @@ typedef struct {
 	void      (*prep_sax_parser) (SheetObject *so,
 				      GsfXMLIn *xin, xmlChar const **attrs);
 	void        (*write_xml_sax) (SheetObject const *so, GsfXMLOut *output);
-
-	/* Called with 0,0 set to the top, left corner of the object, and the
-	 * graphics context saved */
-#ifdef WITH_GNOME_PRINT
-	void                (*print) (SheetObject const *so,
-				      GnomePrintContext *ctx,
-				      double width, double height);
-#else
-	void                *print;
-#endif
 	void		    (*copy)  (SheetObject *dst,
 				      SheetObject const *src);
 

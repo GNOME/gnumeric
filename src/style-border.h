@@ -4,10 +4,6 @@
 #include "gnumeric.h"
 #include <gdk/gdkgc.h>
 
-#ifdef WITH_GNOME_PRINT
-#include <libgnomeprint/gnome-print.h>
-#endif
-
 typedef enum {
 	GNM_STYLE_BORDER_HORIZONTAL,
 	GNM_STYLE_BORDER_VERTICAL,
@@ -104,17 +100,5 @@ void gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 void gnm_style_border_print_diag_gtk (GnmStyle const *style,
 				      cairo_t *context,
 				      float x1, float y1, float x2, float y2);
-
-#ifdef WITH_GNOME_PRINT
-void gnm_style_borders_row_print (GnmBorder const * const * prev_vert,
-				  GnmStyleRow const *sr,
-				  GnomePrintContext *context,
-				  float x, float y1, float y2,
-				  Sheet const *sheet,
-				  gboolean draw_vertical, int dir);
-void gnm_style_border_print_diag (GnmStyle const *style,
-				  GnomePrintContext *context,
-				  float x1, float y1, float x2, float y2);
-#endif
 
 #endif /* GNUMERIC_STYLE_BORDER_H */

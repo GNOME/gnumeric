@@ -192,14 +192,6 @@ gnm_so_polygon_user_config (SheetObject *so, SheetControl *sc)
 		_("Polygon Properties"));
 }
 
-#ifdef WITH_GNOME_PRINT
-static void
-gnm_so_polygon_print (SheetObject const *so, GnomePrintContext *gp_context,
-		      double base_x, double base_y)
-{
-}
-#endif /* WITH_GNOME_PRINT */
-
 #endif /* WITH_GTK */
 
 static void
@@ -334,12 +326,6 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 #ifdef WITH_GTK
 	so_class->new_view		= gnm_so_polygon_new_view;
 	so_class->user_config		= gnm_so_polygon_user_config;
-	so_class->print			= NULL;
-
-#ifdef WITH_GNOME_PRINT
-	so_class->print			= gnm_so_polygon_print;
-#endif /* WITH_GNOME_PRINT */
-
 #endif /* WITH_GTK */
 	so_class->draw_cairo	= gnm_so_polygon_draw_cairo;
 

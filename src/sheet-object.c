@@ -216,7 +216,6 @@ sheet_object_class_init (GObjectClass *klass)
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = sheet_object_finalize;
 	sheet_object_class->populate_menu        = sheet_object_populate_menu_real;
-	sheet_object_class->print                = NULL;
 	sheet_object_class->user_config          = NULL;
 	sheet_object_class->rubber_band_directly = FALSE;
 	sheet_object_class->interactive          = FALSE;
@@ -509,18 +508,8 @@ sheet_object_can_print (SheetObject const *so)
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
 	return  (so->flags & SHEET_OBJECT_IS_VISIBLE) &&
 		(so->flags & SHEET_OBJECT_PRINT) &&
-		SO_CLASS (so)->print != NULL;
+		SO_CLASS (so)->draw_cairo != NULL;
 }
-
-#ifdef WITH_GNOME_PRINT
-void
-sheet_object_print (SheetObject const *so, GnomePrintContext *ctx,
-		    double width, double height)
-{
-	if (SO_CLASS (so)->print)
-		SO_CLASS (so)->print (so, ctx, width, height);
-}
-#endif
 
 /**
  * sheet_object_draw_cairo :

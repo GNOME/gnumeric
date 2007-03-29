@@ -4,10 +4,6 @@
 #include "style.h"
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 
-#ifdef WITH_GNOME_PRINT
-#include <libgnomeprint/gnome-print.h>
-#endif
-
 #define GNUMERIC_SHEET_PATTERNS 25
 
 gboolean    gnumeric_background_set_gc	(GnmStyle const *style,
@@ -15,10 +11,5 @@ gboolean    gnumeric_background_set_gc	(GnmStyle const *style,
 					 gboolean const is_selected);
 gboolean    gnumeric_background_set_gtk	(GnmStyle const *style,
 					 cairo_t *context);
-
-#ifdef WITH_GNOME_PRINT
-gboolean    gnumeric_background_set_pc	(GnmStyle const *style,
-					 GnomePrintContext *context);
-#endif
 
 #endif /* GNUMERIC_PATTERN_H */

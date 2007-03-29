@@ -39,7 +39,6 @@
 #include <selection.h>
 #include <sheet.h>
 #include <sheet-object-impl.h>
-#include <print-cell.h>
 #include <sheet-object.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
@@ -289,6 +288,7 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 #endif
 }
 
+#if 0
 static void
 go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 												double width, double height)
@@ -357,6 +357,8 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 	}
 	gnome_print_grestore (gpc);
 }
+
+#endif
 
 static void
 cb_gognm_save (GtkAction *a, WorkbookControlGUI *wbcg)
@@ -453,7 +455,7 @@ go_gnm_component_class_init (GOComponentClass *klass)
 	klass->get_data = go_gnm_component_get_data;
 	klass->set_data = go_gnm_component_set_data;
 	klass->draw = go_gnm_component_draw;
-	klass->print = go_gnm_component_print;
+	klass->print= NULL;
 	klass->edit = go_gnm_component_edit;
 }
 

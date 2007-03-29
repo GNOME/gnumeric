@@ -39,11 +39,6 @@
 #include <style.h>
 #include <gnumeric-gconf.h>
 
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprint/gnome-print-unit.h>
-#include <libgnomeprintui/gnome-print-paper-selector.h>
-#include <libgnomeprintui/gnome-print-unit-selector.h>
-
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
@@ -80,6 +75,8 @@
 #define PRINTER_SETUP_KEY "printer-setup-dialog"
 
 #define HF_PAGE 1
+
+#if 0
 
 /* FIXME: Now that we have added a header/footer sample
  * preview widget, we should rename the preview widget for the margins
@@ -167,13 +164,15 @@ typedef struct {
 	HFPreviewInfo *pi_footer;
 } PrinterSetupState;
 
+#endif
+
 typedef struct {
 	WorkbookControlGUI  *wbcg;
 	Sheet            *sheet;
 	PrintInformation *pi;
-} PrinterSetupStateNew;
+} PrinterSetupState;
 
-
+#if 0
 
 typedef struct {
 	PrinterSetupState *state;
@@ -1619,6 +1618,7 @@ do_setup_main_dialog (PrinterSetupState *state)
 
 }
 
+
 static PrinterSetupState *
 printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
@@ -1648,18 +1648,21 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	return state;
 }
+#endif
 
-static PrinterSetupStateNew *
-printer_setup_state_new_new (WorkbookControlGUI *wbcg, Sheet *sheet)
+static PrinterSetupState *
+printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-	PrinterSetupStateNew *state;
+	PrinterSetupState *state;
 
-	state = g_new0 (PrinterSetupStateNew, 1);
+	state = g_new0 (PrinterSetupState, 1);
 	state->wbcg  = wbcg;
 	state->sheet = sheet;
 	state->pi    = print_info_dup (sheet->print_info);
 	return state;
 }
+
+#if 0
 
 static void
 do_fetch_page (PrinterSetupState *state)
@@ -1772,11 +1775,13 @@ fetch_settings (PrinterSetupState *state)
 	do_fetch_page_info (state);
 }
 
+#endif
+
 static void
 dialog_printer_setup_done_cb (GtkPageSetup *page_setup,
 			      gpointer data)
 {
-	PrinterSetupStateNew *state = data;
+	PrinterSetupState *state = data;
 
 	if (page_setup) {
 		print_info_set_page_setup (state->pi, page_setup);
@@ -1790,7 +1795,7 @@ dialog_printer_setup_done_cb (GtkPageSetup *page_setup,
 void
 dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-	PrinterSetupStateNew *state = printer_setup_state_new_new (wbcg, sheet);
+	PrinterSetupState *state = printer_setup_state_new (wbcg, sheet);
 	GtkPageSetup *page_setup = print_info_get_page_setup (state->pi);
 	
 	gtk_print_run_page_setup_dialog_async

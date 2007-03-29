@@ -195,42 +195,6 @@ fi
 AM_CONDITIONAL(WITH_GTK,   $gnumeric_with_gtk)
 AM_CONDITIONAL(WITH_GNOME, $gnumeric_with_gnome)
 
-dnl ========= Check for libgnomeprintui
-gnome_print_reqs="
-	libgnomeprint-2.2 	>= 2.8.2
-	libgnomeprintui-2.2 	>= 2.8.2
-"
-
-AC_ARG_ENABLE(gnome-print,
-  	[AC_HELP_STRING([--disable-gnome-print], [Compile without print support])],
-	enable_gnome_print="$enableval",
-	enable_gnome_print=yes)
-
-LIBGNOMEPRINT_REQUIRED=2.8.2
-LIBGNOMEPRINTUI_REQUIRED=2.8.2
-
-if test x$enable_gnome_print = xyes; then
-	PKG_CHECK_MODULES(GNOME_PRINT,
-		$gnome_print_reqs,
-		HAVE_GNOME_PRINT=yes, HAVE_GNOME_PRINT=no)
-else
-	HAVE_GNOME_PRINT=no
-fi
-
-AC_SUBST(GNOME_PRINT_CFLAGS)
-AC_SUBST(GNOME_PRINT_LIBS)
-
-if test "x$HAVE_GNOME_PRINT" = "xyes"; then
- 	AC_DEFINE([WITH_GNOME_PRINT],[1],[Enable Print Support.])
-	gnumeric_reqs="$gnumeric_reqs $gnome_print_reqs"
-else
-	if test "x$enable_gnome_print" = "xyes"; then
-		AC_MSG_ERROR([gnome print libs not found])
-	fi
-fi 
-
-AM_CONDITIONAL(WITH_GNOME_PRINT, test "x$HAVE_GNOME_PRINT" = "xyes")
-
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
 dnl shot so that we can have a nice neat compile/link line
@@ -273,10 +237,6 @@ if test "x$gnumeric_with_gnome" = "xtrue"; then
 	CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
 	CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
 	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
-fi
-
-if test "x$HAVE_GNOME_PRINT" = "xyes"; then
-	CFLAGS="$CFLAGS -DWITH_GNOME_PRINT"
 fi
 
 dnl ==============================================
@@ -1092,7 +1052,6 @@ Configuration:
 
 	UI:			${ui_msg}
 
-	Print Support:		${HAVE_GNOME_PRINT}
 	Perl Support:		${perl_msg}
 	Python Support:		${python_msg}
 

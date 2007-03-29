@@ -61,10 +61,7 @@
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
 #include "expr.h"
-
-#ifdef WITH_GNOME_PRINT
 #include "print.h"
-#endif
 
 #include <goffice/app/io-context.h>
 #include <goffice/graph/gog-guru.h>
@@ -98,9 +95,7 @@ static GNM_ACTION_DEF (cb_file_sendto)	{
 	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_file_page_setup)
 { 
-#ifdef WITH_GNOME_PRINT
 	dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg));
-#endif
 }
 
 static GNM_ACTION_DEF (cb_file_print_area_set)
@@ -152,16 +147,12 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 
 static GNM_ACTION_DEF (cb_file_print)
 {
-#ifdef WITH_GNOME_PRINT
 	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET);
-#endif
 }
 
 static GNM_ACTION_DEF (cb_file_print_preview)
 {
-#ifdef WITH_GNOME_PRINT
 	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET);
-#endif
 }
 
 static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg); }

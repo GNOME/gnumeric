@@ -1611,20 +1611,6 @@ gnm_conf_init_essential (void)
 		(node, PRINTSETUP_GCONF_MARGIN_TOP, 0.0, 10000.0, 120.0);
 	prefs.print_margin_bottom.points = go_conf_load_double 
 		(node, PRINTSETUP_GCONF_MARGIN_BOTTOM, 0.0, 10000.0, 120.0);
-
-#ifdef WITH_GNOME_PRINT
-	{
-		/* Note: the desired display unit is stored in the  */
-		/* printer config. So we are never using this field */
-		/* inside the margin structure, but only setting it */
-		/* in various input routines.                       */
-		prefs.print_margin_top.desired_display 
-			= gnome_print_unit_get_by_abbreviation ("cm");
-		prefs.print_margin_bottom.desired_display 
-			= prefs.print_margin_top.desired_display;
-	}
-#endif
-
 	prefs.print_all_sheets = go_conf_load_bool (
 		node, PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
 	prefs.printer_header = go_conf_load_str_list (node, PRINTSETUP_GCONF_HEADER);

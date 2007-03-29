@@ -669,7 +669,7 @@ xml_sax_print_margins_unit (GsfXMLIn *xin, xmlChar const **attrs, PrintUnit *pu)
 		if (gnm_xml_attr_double (attrs, "Points", &points)) {
 			pu->points = points;
 		} else if (attr_eq (attrs[0], "PrefUnit")) {
-#ifdef WITH_GNOME_PRINT
+#if 0
 			pu->desired_display = unit_name_to_unit (CXML2C (attrs[1]));
 #endif
 		} else

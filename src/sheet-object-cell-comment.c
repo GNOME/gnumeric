@@ -303,18 +303,6 @@ cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **at
 	}
 }
 
-#ifdef WITH_GNOME_PRINT
-static void
-cell_comment_print (SheetObject const *so, GnomePrintContext *ctx,
-		    double base_x, double base_y)
-{
-	/*
-	 * Nothing in here. This function is here to suppress a warning
-	 * about an unprintable sheet object.
-	 */
-}
-#endif
-
 static void
 cell_comment_copy (SheetObject *dst, SheetObject const *src)
 {
@@ -348,12 +336,6 @@ cell_comment_class_init (GObjectClass *gobject_class)
 	sheet_object_class->read_xml_dom	= &cell_comment_read_xml_dom;
 	sheet_object_class->write_xml_sax	= &cell_comment_write_xml_sax;
 	sheet_object_class->prep_sax_parser	= &cell_comment_prep_sax_parser;
-	sheet_object_class->print		= NULL;
-
-#ifdef WITH_GNOME_PRINT
-	sheet_object_class->print		= &cell_comment_print;
-#endif
-
 	sheet_object_class->copy		= &cell_comment_copy;
 	sheet_object_class->xml_export_name = "CellComment";
 }

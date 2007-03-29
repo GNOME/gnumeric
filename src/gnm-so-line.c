@@ -203,87 +203,6 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, item, TRUE);
 }
 
-#ifdef WITH_GNOME_PRINT
-static void
-gnm_so_line_print (SheetObject const *so, GnomePrintContext *ctx,
-		   double width, double height)
-{
-	GnmSOLine *sol = GNM_SO_LINE (so);
-	GogStyleLine const *style = &sol->style->line;
-	double x1, y1, x2, y2;
-
-	if (style->color == 0 || style->width < 0 || style->pattern == 0)
-		return;
-
-	switch (so->anchor.base.direction) {
-	case GOD_ANCHOR_DIR_UP_RIGHT:
-	case GOD_ANCHOR_DIR_DOWN_RIGHT:
-		x1 = 0.;
-		x2 = width;
-		break;
-	case GOD_ANCHOR_DIR_UP_LEFT:
-	case GOD_ANCHOR_DIR_DOWN_LEFT:
-		x1 = width;
-		x2 = 0.;
-		break;
-	default:
-		g_warning ("Cannot guess direction!");
-		return;
-	}
-
-	switch (so->anchor.base.direction) {
-	case GOD_ANCHOR_DIR_UP_LEFT:
-	case GOD_ANCHOR_DIR_UP_RIGHT:
-		y1 = -height;
-		y2 = 0.;
-		break;
-	case GOD_ANCHOR_DIR_DOWN_LEFT:
-	case GOD_ANCHOR_DIR_DOWN_RIGHT:
-		y1 = 0.;
-		y2 = -height;
-		break;
-	default:
-		g_warning ("Cannot guess direction!");
-		return;
-	}
-
-	gnome_print_setrgbcolor (ctx,
-		DOUBLE_RGBA_R (style->color),
-		DOUBLE_RGBA_G (style->color),
-		DOUBLE_RGBA_B (style->color));
-
-	if (sol->end_arrow.c > 0.) {
-		double phi;
-
-		phi = atan2 (y2 - y1, x2 - x1) - M_PI_2;
-
-		gnome_print_gsave (ctx);
-		gnome_print_translate (ctx, x2, y2);
-		gnome_print_rotate (ctx, phi / (2 * M_PI) * 360);
-		gnome_print_setlinewidth (ctx, 1.0);
-		gnome_print_newpath (ctx);
-		gnome_print_moveto (ctx, 0.0, 0.0);
-		gnome_print_lineto (ctx, -sol->end_arrow.c, -sol->end_arrow.b);
-		gnome_print_lineto (ctx, 0.0, -sol->end_arrow.a);
-		gnome_print_lineto (ctx, sol->end_arrow.c, -sol->end_arrow.b);
-		gnome_print_closepath (ctx);
-		gnome_print_fill (ctx);
-		gnome_print_grestore (ctx);
-
-		/* Make the line shorter so that the arrow won't be
-		 * on top of a (perhaps quite fat) line.  */
-		x2 += sol->end_arrow.a * sin (phi);
-		y2 -= sol->end_arrow.a * cos (phi);
-	}
-
-	gnome_print_setlinewidth (ctx, style->width);
-	gnome_print_newpath (ctx);
-	gnome_print_moveto (ctx, x1, y1);
-	gnome_print_lineto (ctx, x2, y2);
-	gnome_print_stroke (ctx);
-}
-#endif /* WITH_GNOME_PRINT */
-
 #endif /* WITH_GTK */
 
 static void
@@ -550,12 +469,6 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 	so_class->draw_cairo	= gnm_so_line_draw_cairo;
 	so_class->user_config		= gnm_so_line_user_config;
 	so_class->new_view		= gnm_so_line_new_view;
-	so_class->print			= NULL;
-
-#ifdef WITH_GNOME_PRINT
-	so_class->print			= gnm_so_line_print;
-#endif /* WITH_GNOME_PRINT */
-
 #endif /* WITH_GTK */
 
         g_object_class_install_property (gobject_class, SOL_PROP_STYLE,

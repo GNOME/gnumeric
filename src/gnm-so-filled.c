@@ -245,131 +245,6 @@ gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, FOO_CANVAS_ITEM (group), TRUE);
 }
 
-#ifdef WITH_GNOME_PRINT
-static void
-make_rect (GnomePrintContext *gp_context, double x1, double x2, double y1, double y2)
-{
-	gnome_print_moveto (gp_context, x1, y1);
-	gnome_print_lineto (gp_context, x2, y1);
-	gnome_print_lineto (gp_context, x2, y2);
-	gnome_print_lineto (gp_context, x1, y2);
-	gnome_print_lineto (gp_context, x1, y1);
-}
-
-/*
- * The following lines are copy and paste from dia. The ellipse logic has been
- * slightly adapted. I have _no_ idea what's going on...
- */
-
-/* This constant is equal to sqrt(2)/3*(8*cos(pi/8) - 4 - 1/sqrt(2)) - 1.
- * Its use should be quite obvious.
- */
-#define ELLIPSE_CTRL1 0.26521648984
-/* this constant is equal to 1/sqrt(2)*(1-ELLIPSE_CTRL1).
- * Its use should also be quite obvious.
- */
-#define ELLIPSE_CTRL2 0.519570402739
-#define ELLIPSE_CTRL3 M_SQRT1_2
-/* this constant is equal to 1/sqrt(2)*(1+ELLIPSE_CTRL1).
- * Its use should also be quite obvious.
- */
-#define ELLIPSE_CTRL4 0.894643159635
-
-static void
-make_ellipse (GnomePrintContext *gp_context,
-	      double x1, double x2, double y1, double y2)
-{
-	double width  = x2 - x1;
-	double height = y2 - y1;
-	double center_x = x1 + width / 2.0;
-	double center_y = y1 + height / 2.0;
-	double cw1 = ELLIPSE_CTRL1 * width / 2.0;
-	double cw2 = ELLIPSE_CTRL2 * width / 2.0;
-	double cw3 = ELLIPSE_CTRL3 * width / 2.0;
-	double cw4 = ELLIPSE_CTRL4 * width / 2.0;
-	double ch1 = ELLIPSE_CTRL1 * height / 2.0;
-	double ch2 = ELLIPSE_CTRL2 * height / 2.0;
-	double ch3 = ELLIPSE_CTRL3 * height / 2.0;
-	double ch4 = ELLIPSE_CTRL4 * height / 2.0;
-
-	gnome_print_moveto (gp_context, x1, center_y);
-	gnome_print_curveto (gp_context,
-			     x1,             center_y - ch1,
-			     center_x - cw4, center_y - ch2,
-			     center_x - cw3, center_y - ch3);
-	gnome_print_curveto (gp_context,
-			     center_x - cw2, center_y - ch4,
-			     center_x - cw1, y1,
-			     center_x,       y1);
-	gnome_print_curveto (gp_context,
-			     center_x + cw1, y1,
-			     center_x + cw2, center_y - ch4,
-			     center_x + cw3, center_y - ch3);
-	gnome_print_curveto (gp_context,
-			     center_x + cw4, center_y - ch2,
-			     x2,             center_y - ch1,
-			     x2,             center_y);
-	gnome_print_curveto (gp_context,
-			     x2,             center_y + ch1,
-			     center_x + cw4, center_y + ch2,
-			     center_x + cw3, center_y + ch3);
-	gnome_print_curveto (gp_context,
-			     center_x + cw2, center_y + ch4,
-			     center_x + cw1, y2,
-			     center_x,       y2);
-	gnome_print_curveto (gp_context,
-			     center_x - cw1, y2,
-			     center_x - cw2, center_y + ch4,
-			     center_x - cw3, center_y + ch3);
-	gnome_print_curveto (gp_context,
-			     center_x - cw4, center_y + ch2,
-			     x1,             center_y + ch1,
-			     x1,             center_y);
-}
-
-static void
-set_color (GnomePrintContext *gp_context, GOColor color)
-{
-	double r = ((double) UINT_RGBA_R (color)) / 255.;
-	double g = ((double) UINT_RGBA_G (color)) / 255.;
-	double b = ((double) UINT_RGBA_B (color)) / 255.;
-	double a = ((double) UINT_RGBA_A (color)) / 255.;
-	gnome_print_setrgbcolor (gp_context, r, g, b);
-	gnome_print_setopacity (gp_context, a);
-}
-static void
-gnm_so_filled_print (SheetObject const *so, GnomePrintContext *gp_context,
-			   double width, double height)
-{
-	GnmSOFilled *sof = GNM_SO_FILLED (so);
-	GogStyle const *style = sof->style;
-	GOColor c;
-
-	gnome_print_newpath (gp_context);
-	if (sof->is_oval)
-		make_ellipse (gp_context, 0., width, 0., -height);
-	else
-		make_rect (gp_context, 0., width, 0., -height);
-	gnome_print_closepath (gp_context);
-
-	if (style->fill.type == GOG_FILL_STYLE_PATTERN &&
-	    go_pattern_is_solid (&style->fill.pattern, &c)) {
-		gnome_print_gsave (gp_context);
-		set_color (gp_context, c);
-		gnome_print_fill (gp_context);
-		gnome_print_grestore (gp_context);
-	}
-
-	if (style->outline.color != 0 &&
-	    style->outline.width >= 0 &&
-	    style->outline.pattern != 0) {
-		gnome_print_setlinewidth (gp_context, style->outline.width);
-		set_color (gp_context, style->outline.color);
-		gnome_print_stroke (gp_context);
-	}
-}
-#endif /* WITH_GNOME_PRINT*/
-
 #endif /* WITH_GTK */
 
 static void
@@ -619,13 +494,8 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 #ifdef WITH_GTK
 	so_class->new_view		= gnm_so_filled_new_view;
 	so_class->user_config		= gnm_so_filled_user_config;
-	so_class->print			= NULL;
-
-#ifdef WITH_GNOME_PRINT
-	so_class->print			= gnm_so_filled_print;
-#endif /* WITH_GNOME_PRINT */
-
 #endif /* WITH_GTK */
+
 	so_class->draw_cairo	= gnm_so_filled_draw_cairo;
 
         g_object_class_install_property (gobject_class, SOF_PROP_STYLE,

@@ -506,7 +506,6 @@ gnm_filter_combo_class_init (GObjectClass *gobject_class)
 	so_class->read_xml_dom  = NULL;
 	so_class->write_xml_sax = NULL;
 	so_class->prep_sax_parser = NULL;
-	so_class->print         = NULL;
 	so_class->copy          = NULL;
 
 	signals[COND_CHANGED] = g_signal_new ("cond-changed",

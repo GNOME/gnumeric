@@ -573,35 +573,6 @@ gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 	new_soi->crop_right	= soi->crop_right;
 }
 
-#ifdef WITH_GNOME_PRINT
-static void
-gnm_soi_print (SheetObject const *so, GnomePrintContext *ctx,
-			  double width, double height)
-{
-	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
-	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.);
-
-	if (pixbuf != NULL) {
-		const guchar *raw_image = gdk_pixbuf_get_pixels (pixbuf);
-		gint rowstride	= gdk_pixbuf_get_rowstride (pixbuf);
-		gint w	= gdk_pixbuf_get_width  (pixbuf);
-		gint h	= gdk_pixbuf_get_height (pixbuf);
-
-		gnome_print_gsave (ctx);
-		gnome_print_translate (ctx, 0, -height);
-		gnome_print_scale (ctx, width, height);
-
-		if (gdk_pixbuf_get_has_alpha (pixbuf))
-			gnome_print_rgbaimage (ctx, raw_image, w, h, rowstride);
-		else
-			gnome_print_rgbimage (ctx, raw_image, w, h, rowstride);
-
-		g_object_unref (G_OBJECT (pixbuf));
-		gnome_print_grestore (ctx);
-	}
-}
-#endif
-
 static void
 gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 {
@@ -657,12 +628,6 @@ gnm_soi_class_init (GObjectClass *object_class)
 	so_class->prep_sax_parser	= gnm_soi_prep_sax_parser;
 	so_class->copy			= gnm_soi_copy;
 	so_class->user_config		= NULL;
-
-	so_class->print			= NULL;
-#ifdef WITH_GNOME_PRINT
-	so_class->print			= gnm_soi_print;
-#endif
-
 	so_class->default_size		= gnm_soi_default_size;
 	so_class->rubber_band_directly	= TRUE;
 

@@ -1,5 +1,65 @@
 2007-03-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* delete the "print" field from all sheet objects. We
+	are now using the draw_cairo method
+	* src/print-cell.c (gnm_print_make_rect_path): delete
+	(print_cell): delete
+	(print_rectangle): delete
+	(print_cell_background): delete
+	(print_merged_range): delete
+	(gnm_print_cell_range): delete
+	* src/sheet-object.c (sheet_object_print): delete
+	* src/print-cell.h (gnm_print_make_rect_path): delete
+	(gnm_print_cell_range): delete
+	* src/sheet-object.h (sheet_object_print): delete
+	* src/sheet-object-cell-comment.c (cell_comment_print): delete
+	* src/dialogs/dialog-printer-setup.c: comment out all currently 
+	  unused functions
+	(PrinterSetupStateNew): rename to PrinterSetupState
+	(printer_setup_state_new_new): rename to printer_setup_state_new
+	* src/dialogs/dialogs.h (dialog_printer_setup): does not depend on 
+	gnomeprint
+	* src/dialogs/Makefile.am: remove libgnomeprint condition
+	* src/style-font.h: remove libgnomeprint include
+	* src/xml-sax-read.c: comment out gnomeprint dependency
+	* src/xml-sax-write.c: ditto
+	* src/xml-io.c: ditto
+	* src/gnumeric-gconf.c (gnm_conf_init_extras): remove libgnomeprint 
+	dependency
+	* src/sheet-object-graph.c (gnm_sog_print): delete
+	* src/pattern.c (gnumeric_background_set_pc): delete
+	* src/pattern.h (gnumeric_background_set_pc): delete
+	* src/gnm-so-line.c (gnm_so_line_print): delete
+	* src/Makefile.am: remove libgnomeprint condition
+	* src/sheet-filter.c: remove "print" field
+	* src/validation.c: ditto
+	* src/sheet-object-image.c (gnm_soi_print): delete
+	* src/gnm-so-filled.c (make_rect): delete
+	(make_ellipse): delete
+	(gnm_so_filled_print): delete
+	(set_color): delete
+	* src/style-border.c (style_border_set_pc_dash): delete
+	(style_border_set_pc): delete
+	(print_hline): delete
+	(print_vline): delete
+	(gnm_style_borders_row_print): delete
+	(gnm_style_border_print_diag): delete
+	* src/style-border.h (style_border_set_pc_dash): delete
+	(style_border_set_pc): delete
+	(gnm_style_borders_row_print): delete
+	(gnm_style_border_print_diag): delete
+	* src/wbcg-actions.c: enable print commands
+	* src/print-info.c: comment out libgnomeprint dependencies
+	* src/print-info.h: ditto
+	* src/wbc-gtk.c: remove print menu disabling
+	* src/sheet-object-impl.h:  remove "print" field
+	* src/gnm-so-polygon.c (gnm_so_polygon_print): delete
+	* plugins/excel/ms-excel-read.c: comment out gnomeprint dependency
+	* configure.in: remove libgnomeprint tests
+	* component/gnumeric.c: comment out gnomeprint dependency
+
+2007-03-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print.c: uncomment (#if 0 ... #endif)
 	  currently unused code and gemove gnomeprint includes
 	(sheet_print_selection): deleted

@@ -156,13 +156,10 @@ libspreadsheet_la_SOURCES =			\
 	xml-sax-read.c				\
 	xml-sax-write.c				\
 	gnumeric-gconf.c			\
-	gnumeric-gconf-priv.h
-
-if WITH_GNOME_PRINT
-libspreadsheet_la_SOURCES +=			\
+	gnumeric-gconf-priv.h			\
 	print.c					\
 	print-cell.c
-endif
+
 
 # When we switch to subversion fix this to nest as
 # libspreadsheet-ver/ssheet/header
@@ -287,13 +284,10 @@ libspreadsheet_include_HEADERS = 	\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
-	gnumeric-gconf.h
-
-if WITH_GNOME_PRINT
-libspreadsheet_include_HEADERS +=		\
+	gnumeric-gconf.h			\
 	print.h					\
 	print-cell.h
-endif
+
 
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\

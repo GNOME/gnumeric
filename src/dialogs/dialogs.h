@@ -39,9 +39,7 @@ void	 dialog_workbook_attr	(WorkbookControlGUI *wbcg);
 void	 dialog_goal_seek	(WorkbookControlGUI *wbcg, Sheet *sheet);
 void	 dialog_solver		(WorkbookControlGUI *wbcg, Sheet *sheet);
 void     dialog_simulation	(WorkbookControlGUI *wbcg, Sheet *sheet);
-#ifdef WITH_GNOME_PRINT
 void	 dialog_printer_setup	(WorkbookControlGUI *wbcg, Sheet *sheet);
-#endif
 void     dialog_autocorrect	(WorkbookControlGUI *wbcg);
 void	 dialog_advanced_filter	(WorkbookControlGUI *wbcg);
 void	 dialog_shuffle	        (WorkbookControlGUI *wbcg);
