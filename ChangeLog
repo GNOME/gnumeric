@@ -1,3 +1,12 @@
+2007-03-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c: uncomment (#if 0 ... #endif)
+	  currently unused code and gemove gnomeprint includes
+	(sheet_print_selection): deleted
+	(PrintingInstance): change wbcg to wbc
+	(compute_sheet_pages): adjust for wbcg -> wbc change
+	(gnm_print_sheet): ditto
+
 2007-03-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (PrintingInstance): add wbcg

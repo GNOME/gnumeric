@@ -42,12 +42,6 @@
 #include "gnumeric-gconf.h"
 #include <goffice/utils/go-font.h>
 
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprint/gnome-print-config.h>
-#include <libgnomeprint/gnome-print-pango.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-
 
 #define PRINT_DIALOG_KEY "Gnumeric_Print_Dialog"
 
@@ -56,7 +50,7 @@
 typedef struct {
 	GList *gnmSheetRanges;
 	Workbook *wb;
-	WorkbookControlGUI *wbcg;
+	WorkbookControl *wbc;
 	Sheet *sheet;
 	GtkWidget *button_all_sheets, *button_selected_sheet,
 		*button_spec_sheets;
@@ -87,7 +81,7 @@ printing_instance_delete (PrintingInstance *pi) {
 
 
 
-
+#if 0
 
 /*
  * Margins
@@ -168,6 +162,8 @@ print_titles (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 {
 #warning TODO
 }
+
+#endif
 
 static void
 print_sheet_objects (GtkPrintContext   *context,
@@ -278,6 +274,8 @@ print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 	cairo_restore (cr);
 }
 
+#if 0
+
 /*
  * print_page_repeated_rows
  *
@@ -297,6 +295,7 @@ print_page_repeated_rows (PrintJobInfo const *pj, Sheet const *sheet,
 			    end_col,   MAX (r->start.row, r->end.row));
 	//print_page_cells (pj, sheet, &range, base_x, base_y);
 }
+
 
 /*
  * print_page_repeated_cols
@@ -541,6 +540,8 @@ cb_range_empty (GnmCellIter const *iter, gpointer flags)
 	return (iter->ci->visible && iter->ri->visible) ? VALUE_TERMINATE : NULL;
 }
 
+#endif
+
 /**
  * print_page:
  * @pj:        printing context
@@ -763,6 +764,8 @@ compute_group (Sheet const *sheet,
 	return count;
 }
 
+#if 0
+
 /* computer_scale_fit_to
  * Computes the scaling needed to fit all the rows or columns into the @usable
  * area.
@@ -814,10 +817,12 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
 	return (scale < 100.) ? scale : 100.;
 }
 
+#endif
+
 #define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
 
-
+#if 0
 
 static double
 print_range_used_units (Sheet const *sheet, gboolean compute_rows,
@@ -878,6 +883,8 @@ typedef struct _PageCountInfo {
 	GnmRange r;
 	int current_output_sheet;
 } PageCountInfo;
+
+#endif
 
 static void
 compute_sheet_pages_add_range (PrintingInstance * pi, Sheet const *sheet,
@@ -1002,8 +1009,8 @@ compute_sheet_pages (GtkPrintContext   *context,
 					 ignore_printarea);
 	if (selection) {
 		selection_range = selection_first_range
-			(sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (pi->wbcg))),
-			  GO_CMD_CONTEXT (WORKBOOK_CONTROL (pi->wbcg)), _("Print Selection"));
+			(sheet_get_view (sheet, wb_control_view (pi->wbc)),
+			  GO_CMD_CONTEXT (pi->wbc), _("Print Selection"));
 	}
 
 	if (selection && !ignore_printarea) {
@@ -1078,23 +1085,7 @@ compute_pages (GtkPrintOperation *operation,
 	return;
 }
 
-/* should this print a selection over any range of pages? */
-static void
-sheet_print_selection (PrintJobInfo *pj, Sheet const *sheet,
-		       WorkbookControl *wbc)
-{
-	GnmRange const *sel;
-	GnmRange extent;
-
-	if (!(sel = selection_first_range (sheet_get_view (sheet, wb_control_view (wbc)),
-					   GO_CMD_CONTEXT (wbc), _("Print Region"))))
-		return;
-
-	extent = *sel;
-/* 	pj->render_info->pages = compute_pages (pj, sheet->workbook, NULL, &extent); */
-
-/* 	print_sheet_range (pj, sheet, &extent, TRUE); */
-}
+#if 0
 
 static PrintJobInfo *
 print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
@@ -1133,7 +1124,7 @@ print_job_info_destroy (PrintJobInfo *pj)
 	g_free (pj);
 }
 
-
+#endif
 
 static void
 gnm_begin_print_cb (GtkPrintOperation *operation,
@@ -1415,7 +1406,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   
   pi = printing_instance_new ();
   pi->wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
-  pi->wbcg = wbcg;
+  pi->wbc = WORKBOOK_CONTROL (wbcg);
   pi->sheet = sheet;
   
 /*   FIXME: handle saving of print settings  */
