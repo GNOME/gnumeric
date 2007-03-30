@@ -3,7 +3,7 @@
  * Gnumeric GOffice component
  * gnumeric.c
  *
- * Copyright (C) 2006
+ * Copyright (C) 2006-2007
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -455,7 +455,6 @@ go_gnm_component_class_init (GOComponentClass *klass)
 	klass->get_data = go_gnm_component_get_data;
 	klass->set_data = go_gnm_component_set_data;
 	klass->draw = go_gnm_component_draw;
-	klass->print= NULL;
 	klass->edit = go_gnm_component_edit;
 }
 
