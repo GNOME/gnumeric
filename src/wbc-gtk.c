@@ -44,6 +44,7 @@
 #include <goffice/gtk/go-action-combo-color.h>
 #include <goffice/gtk/go-action-combo-text.h>
 #include <goffice/gtk/go-action-combo-pixmaps.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-file.h>
