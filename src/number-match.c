@@ -1061,6 +1061,24 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 #undef SKIP_SPACES
 #undef SKIP_DIGITS
 
+static void
+set_money_format (GnmValue *v)
+{
+	gnm_float f = value_get_as_float (v);
+
+	value_set_fmt (v, go_format_default_money ());
+
+	if (f != gnm_floor (f)) {
+		int i;
+		for (i = 0; i < 2; i++) {
+			GOFormat *fmt =
+				go_format_inc_precision (VALUE_FMT (v));
+			value_set_fmt (v, fmt);
+			go_format_unref (fmt);
+		}
+	}
+}
+
 
 /**
  * format_match :
@@ -1159,7 +1177,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 			value_set_fmt (v, go_format_default_percentage ());
 			break;
 		case GO_FORMAT_CURRENCY:
-			value_set_fmt (v, go_format_default_money ());
+			set_money_format (v);
 			break;
 		case GO_FORMAT_ACCOUNTING: {
 			GOFormat *fmt =

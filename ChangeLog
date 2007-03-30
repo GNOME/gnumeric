@@ -1,3 +1,9 @@
+2007-03-29  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (set_money_format): New function to select an
+	appropriate money format for a given number.  Fixes rest of
+	#423603.
+
 2007-03-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* delete the "print" field from all sheet objects. We
