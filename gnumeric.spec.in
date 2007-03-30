@@ -24,8 +24,6 @@ BuildRequires:	libxml2-devel		>= 2.4.12
 BuildRequires:	libglade2-devel		>= 2.3.6
 BuildRequires:	libgnome-devel		>= 2.0.0
 BuildRequires:	libgnomeui-devel	>= 2.0.0
-BuildRequires:	libgnomeprint22-devel	>= 2.8.2
-BuildRequires:	libgnomeprintui22	>= 2.8.2
 # What about libart requirement?
 %if %{?_with_bonobo:1}%{!?_with_bonobo:0}
 BuildRequires: libbonobo-devel		>= 2.0.0
