@@ -16,8 +16,6 @@ Requirements
 You need:				Debian package name
 	glib		>= 2.6.0	libglib2.0-dev
 	gtk+		>= 2.6.0	libgtk2.0-dev
-	libgnomeprint	>= 2.8.2	libgnomeprint2.2-dev
-	libgnomeprintui	>= 2.8.2	libgnomeprintui2.2-dev
 	libgsf		>= 1.14.2	libgsf-1-dev
 	libgoffice	>= 0.3.6	libgoffice-1-dev
 	libglade	>= 2.3.6	libglade2-dev
