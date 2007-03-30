@@ -1,3 +1,7 @@
+2007-03-29  Pema Geyleg <pema.geyleg@gmail.com>
+
+	* configure.in: Added 'dz' to ALL_LINGUAS
+
 2007-03-29  Jody Goldberg <jody@gnome.org>
 
 	* component/gnumeric.c (go_gnm_component_class_init) : the print
