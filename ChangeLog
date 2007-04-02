@@ -1,3 +1,10 @@
+2007-04-02  Morten Welinder  <terra@gnome.org>
+
+	* src/search.c (gnm_search_replace_cell): Normalize strings before
+	matching.
+	(gnm_search_replace_value): Ditto.
+	(gnm_search_replace_comment): Ditto.
+
 2007-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnumeric-gconf.c (gnm_gconf_set_print_settings): new

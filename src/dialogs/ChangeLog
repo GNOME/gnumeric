@@ -1,3 +1,9 @@
+2007-04-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search.c (search_clicked): Normalize search text here.
+	* dialog-search-replace.c (ok_clicked): Ditto.  And do replacement
+	text also so we leave more things normalized.
+
 2007-03-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_selection_type): Properly

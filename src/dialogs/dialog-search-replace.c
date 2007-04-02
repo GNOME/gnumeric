@@ -102,16 +102,20 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	char *err;
 	int i;
 	GnmSearchReplaceScope scope;
+	char *search_text, *replace_text;
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	scope = (i == -1) ? GNM_SRS_SHEET : (GnmSearchReplaceScope)i;
+
+	search_text = g_utf8_normalize (gtk_entry_get_text (dd->search_text), -1, G_NORMALIZE_DEFAULT);
+	replace_text = g_utf8_normalize (gtk_entry_get_text (dd->replace_text), -1, G_NORMALIZE_DEFAULT);
 
 	sr = g_object_new (GNM_SEARCH_REPLACE_TYPE,
 			   "sheet", wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
 			   "scope", scope,
 			   "range-text", gnm_expr_entry_get_text (dd->rangetext),
-			   "search-text", gtk_entry_get_text (dd->search_text),
-			   "replace-text", gtk_entry_get_text (dd->replace_text),
+			   "search-text", search_text,
+			   "replace-text", replace_text,
 			   "is-regexp", gnumeric_glade_group_value (gui, search_type_group) == 1,
 			   "ignore-case", is_checked (gui, "ignore_case"),
 			   "match-words", is_checked (gui, "match_words"),
@@ -125,6 +129,9 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   "search-comments", is_checked (gui, "search_comments"),
 			   "by-row", gnumeric_glade_group_value (gui, direction_group) == 0,
 			   NULL);
+
+	g_free (search_text);
+	g_free (replace_text);
 
 	i = gnumeric_glade_group_value (gui, error_group);
 	sr->error_behaviour = (i == -1) ? GNM_SRE_FAIL : (GnmSearchReplaceError)i;

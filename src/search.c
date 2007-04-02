@@ -243,8 +243,11 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 			    gboolean repl,
 			    GnmSearchReplaceCommentResult *res)
 {
-	g_return_val_if_fail (res, FALSE);
+	gboolean found;
+	char *norm_text;
 
+	g_return_val_if_fail (res, FALSE);
+	
 	res->comment = NULL;
 	res->old_text = NULL;
 	res->new_text = NULL;
@@ -258,13 +261,19 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 
 	res->old_text = cell_comment_text_get (res->comment);
 
+	norm_text = g_utf8_normalize (res->old_text, -1, G_NORMALIZE_DEFAULT);
+
 	if (repl) {
 		res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
-							  res->old_text);
-		return (res->new_text != NULL);
+							  norm_text);
+		found = (res->new_text != NULL);
 	} else
-		return go_search_match_string (GO_SEARCH_REPLACE (sr),
-					       res->old_text);
+		found = go_search_match_string (GO_SEARCH_REPLACE (sr),
+						norm_text);
+
+	g_free (norm_text);
+
+	return found;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -278,6 +287,7 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 	GnmCell *cell;
 	GnmValue *v;
 	gboolean is_expr, is_value, is_string, is_other;
+	gboolean found = FALSE;
 
 	g_return_val_if_fail (res, FALSE);
 
@@ -300,13 +310,14 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 	if ((is_expr && sr->search_expressions) ||
 	    (is_string && sr->search_strings) ||
 	    (is_other && sr->search_other_values)) {
-		char const *actual_src;
+		char *actual_src;
 		gboolean initial_quote;
 
 		res->old_text = gnm_cell_get_entered_text (cell);
 		initial_quote = (is_string && res->old_text[0] == '\'');
 
-		actual_src = res->old_text + (initial_quote ? 1 : 0);
+		actual_src = g_utf8_normalize (res->old_text + (initial_quote ? 1 : 0),
+					       -1, G_NORMALIZE_DEFAULT);
 
 		if (repl) {
 			res->new_text = go_search_replace_string (GO_SEARCH_REPLACE (sr),
@@ -323,13 +334,15 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 					g_free (res->new_text);
 					res->new_text = tmp;
 				}
-				return TRUE;
+				found = TRUE;
 			}
 		} else
-			return go_search_match_string (GO_SEARCH_REPLACE (sr), actual_src);
+			found = go_search_match_string (GO_SEARCH_REPLACE (sr), actual_src);
+
+		g_free (actual_src);
 	}
 
-	return FALSE;
+	return found;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -354,7 +367,7 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 	if (!cell || !gnm_cell_has_expr (cell) || !cell->value)
 		return FALSE;
 	else {
-		char *val = value_get_as_string (cell->value);
+		char *val = g_utf8_normalize (value_peek_string (cell->value), -1, G_NORMALIZE_DEFAULT);
 		gboolean res = go_search_match_string (GO_SEARCH_REPLACE (sr), val);
 		g_free (val);
 		return res;

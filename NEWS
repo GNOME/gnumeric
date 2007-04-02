@@ -18,6 +18,7 @@ Morten:
 	* Ignore local files that no longer exist.  [#67453]
 	* Fix XL load crash.  [#418868]
 	* Fix format guessed for $123,456.78  [#423603]
+	* Perform UTF-8 normalization during search.  [#421678]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.8
