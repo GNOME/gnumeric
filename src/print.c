@@ -1409,10 +1409,10 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   pi->wbc = WORKBOOK_CONTROL (wbcg);
   pi->sheet = sheet;
   
-/*   FIXME: handle saving of print settings  */
-/*   if (settings != NULL)  */
-/*     gtk_print_operation_set_print_settings (print, settings); */
-  settings = gtk_print_settings_new ();
+  if (gnm_app_prefs->print_settings != NULL)  
+	  settings =  gnm_app_prefs->print_settings;
+  else
+	  settings = gtk_print_settings_new ();
   gtk_print_settings_set_int (settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
 			      default_range);
   pi->pr = default_range;
@@ -1435,11 +1435,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
                                  wbcg_toplevel (wbcg), NULL);
 
   if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
-    {
-/*       if (settings != NULL) */
-/*         g_object_unref (settings); */
-/*       settings = g_object_ref (gtk_print_operation_get_print_settings (print)); */
-    }
+    	gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
 
   g_object_unref (print);
 }

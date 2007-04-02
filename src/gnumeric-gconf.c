@@ -1503,6 +1503,33 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 #endif
 
 static void
+gnm_conf_init_print_settings ()
+{
+	GOConfNode *node;
+	GSList *list, *item;
+	char const *key;
+	char const *value;
+	
+	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
+	
+	prefs.print_settings =  gtk_print_settings_new ();
+
+	item = list = go_conf_load_str_list (node, PRINTSETUP_GCONF_GTKSETTING);
+
+	while (item) {
+		value = item->data;
+		item = item->next;
+		if (item) {
+			key = item->data;
+			item = item->next;
+			gtk_print_settings_set (prefs.print_settings, key, value);
+		}
+	}
+	
+	go_slist_free_custom (list, g_free);
+}
+
+static void
 gnm_conf_init_printer_decoration_font (void)
 {
 	GOConfNode *node;
@@ -1701,6 +1728,8 @@ gnm_conf_init_extras (void)
 
 	gnm_conf_init_printer_decoration_font ();
 
+	gnm_conf_init_print_settings ();
+
 	return FALSE;
 }
 
@@ -1743,6 +1772,29 @@ GOConfNode *
 gnm_conf_get_root (void)
 {
 	return root;
+}
+
+static void
+gnm_gconf_set_print_settings_cb (const gchar *key, const gchar *value, gpointer user_data)
+{
+	GSList **list = user_data;
+
+	*list = g_slist_prepend (*list, g_strdup (key));
+	*list = g_slist_prepend (*list, g_strdup (value));
+}
+
+void     
+gnm_gconf_set_print_settings (GtkPrintSettings *settings)
+{
+	GSList *list = NULL;
+	
+	if (prefs.print_settings != NULL)
+		g_object_unref (prefs.print_settings);
+	prefs.print_settings = g_object_ref (settings);
+
+	gtk_print_settings_foreach (settings, gnm_gconf_set_print_settings_cb, &list);
+	go_conf_set_str_list (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_GTKSETTING, list);
+	go_slist_free_custom (list, g_free);
 }
 
 void

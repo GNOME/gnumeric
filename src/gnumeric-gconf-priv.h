@@ -61,6 +61,7 @@
 #define PRINTSETUP_GCONF_HEADER_FORMAT_LEFT	"hf-left"
 #define PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE	"hf-middle"
 #define PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT	"hf-right"
+#define PRINTSETUP_GCONF_GTKSETTING	        "gtk-setting"
 
 #define DIALOGS_GCONF_DIR		"dialogs"
 #define DIALOGS_GCONF_UNFOCUSED_RS	"rs/unfocused"

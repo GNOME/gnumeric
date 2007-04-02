@@ -1,3 +1,15 @@
+2007-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnumeric-gconf.c (gnm_gconf_set_print_settings): new
+	(gnm_conf_init_print_settings): new
+	(gnm_gconf_set_print_settings_cb): new
+	(gnm_conf_init_extras): call gnm_conf_init_print_settings
+	* src/gnumeric-gconf.h (gnm_gconf_set_print_settings): new
+	(gnm_app_prefs): add print_settings field
+	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_GTKSETTING):
+	new key 
+	* src/print.c (gnm_print_sheet): save/restore printsettings
+
 2007-03-29  Pema Geyleg <pema.geyleg@gmail.com>
 
 	* configure.in: Added 'dz' to ALL_LINGUAS
