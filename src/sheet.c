@@ -494,7 +494,7 @@ gnm_sheet_init (Sheet *sheet)
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS - 1) + 1);
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
-	sheet->print_info = print_info_new ();
+	sheet->print_info = print_info_new (FALSE);
 
 	sheet->filters = NULL;
 	sheet->pivottables = NULL;

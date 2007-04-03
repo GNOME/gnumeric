@@ -48,7 +48,6 @@ typedef struct {
 	gint     	 sort_max_initial_clauses;
 
 	gboolean	 print_all_sheets; /* vs print only selected */
-	gchar           *printer_config;
 	GSList const    *printer_header;
 	GSList const    *printer_footer;
 	GSList const    *printer_header_formats_left;
@@ -70,7 +69,11 @@ typedef struct {
 	gchar           *print_repeat_left;
 	PrintUnit	 print_margin_top;
 	PrintUnit	 print_margin_bottom;
-	GtkPrintSettings *print_settings;
+  
+  /* Also acts as flag whether the print defaults are loaded  */
+        GtkPrintSettings *print_settings;
+        GtkPageSetup     *page_setup;
+
 	
 	float		 horizontal_dpi;
 	float		 vertical_dpi;
@@ -124,8 +127,9 @@ void     gnm_gconf_set_file_overwrite (gboolean value);
 void     gnm_gconf_set_file_single_sheet_save (gboolean value);
 
 /* print-setup & printing */
+void     gnm_gconf_init_printer_defaults (void);
+
 void     gnm_gconf_set_all_sheets (gboolean val);
-void     gnm_gconf_set_printer_config (gchar const *str);
 void     gnm_gconf_set_printer_header (gchar const *left, gchar const *middle, 
 				       gchar const *right);
 void     gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle, 
@@ -143,6 +147,9 @@ void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm);
 void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
 					     GSList *right);
 void	 gnm_gconf_set_print_settings (GtkPrintSettings *settings);
+void     gnm_gconf_set_page_setup (GtkPageSetup *setup);
+GtkPrintSettings  *gnm_gconf_get_print_settings (void);
+GtkPageSetup      *gnm_gconf_get_page_setup (void);
 
 /* gui */
 void     gnm_gconf_set_gui_window_x (gnm_float val);

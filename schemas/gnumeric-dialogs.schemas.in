@@ -188,14 +188,14 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/printsetup/printer-config</key>
-        <applyto>/apps/gnumeric/printsetup/printer-config</applyto>
+        <key>/schemas/apps/gnumeric/printsetup/gtk-setting</key>
+        <applyto>/apps/gnumeric/printsetup/gtk-setting</applyto>
         <owner>Gnumeric</owner>
         <type>string</type>
 	<default></default>
         <locale name="C">
-        <short>Print Config</short>
-        <long>The configuration of gnome-print. Do not edit this variable.</long>
+        <short>GTKPrintSetting</short>
+        <long>The configuration of GTKPrintSetting. Do not edit this variable.</long>
         </locale>
       </schema>
       <schema>

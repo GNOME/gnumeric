@@ -261,6 +261,10 @@ static void
 xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 {
 	char const *paper_name;
+	double header;
+	double footer;
+	double left;
+	double right;
 
 	g_return_if_fail (pi != NULL);
 
@@ -269,14 +273,11 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	gsf_xml_out_start_element (state->output, GNM "Margins");
 	xml_write_print_unit (state, GNM "top",    &pi->margin.top);
 	xml_write_print_unit (state, GNM "bottom", &pi->margin.bottom);
-	if (pi->margin.left >= 0.)
-		xml_write_print_margin (state, GNM "left", pi->margin.left);
-	if (pi->margin.right >= 0.)
-		xml_write_print_margin (state, GNM "right", pi->margin.right);
-	if (pi->margin.header >= 0.)
-		xml_write_print_margin (state, GNM "header", pi->margin.header);
-	if (pi->margin.footer >= 0.)
-		xml_write_print_margin (state, GNM "footer", pi->margin.footer);
+	print_info_get_margins (pi, &header, &footer, &left, &right);
+	xml_write_print_margin (state, GNM "left", left);
+	xml_write_print_margin (state, GNM "right", right);
+	xml_write_print_margin (state, GNM "header", header);
+	xml_write_print_margin (state, GNM "footer", footer);
 	gsf_xml_out_end_element (state->output);
 
 	gsf_xml_out_start_element (state->output, GNM "Scale");

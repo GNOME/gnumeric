@@ -110,7 +110,8 @@ print_hf_copy (PrintHF const *source)
 void
 print_hf_free (PrintHF *print_hf)
 {
-	g_return_if_fail (print_hf != NULL);
+	if (print_hf == NULL)
+		return;
 
 	g_free (print_hf->left_format);
 	g_free (print_hf->middle_format);
@@ -125,11 +126,6 @@ print_info_free (PrintInformation *pi)
 
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
-
-	g_free (pi->paper);
-	g_free (pi->paper_width);
-	g_free (pi->paper_height);
-	g_free (pi->gp_config_str);
 
 	if (pi->page_setup)
 		g_object_unref (pi->page_setup);
@@ -213,19 +209,23 @@ load_formats (void)
 }
 
 /**
- * print_info_new:
+ * print_info_load_defaults:
  *
- * Returns a newly allocated PrintInformation buffer
  *
  * NOTE: This reads from a globally stored configuration. If a
  *       configuration is stored along with a sheet then that will
  *       override these global defaults.
  */
+
 PrintInformation *
-print_info_new (void)
+print_info_load_defaults (PrintInformation *res)
 {
 	GSList *list;
-	PrintInformation *res = g_new0 (PrintInformation, 1);
+
+	if (res->page_setup != NULL)
+		return res;
+
+	res->page_setup = gtk_page_setup_copy (gnm_gconf_get_page_setup ());
 
 	res->scaling.type = gnm_app_prefs->print_scale_percentage
 		? PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES;
@@ -233,9 +233,7 @@ print_info_new (void)
 		= gnm_app_prefs->print_scale_percentage_value;
 	res->scaling.dim.cols = gnm_app_prefs->print_scale_width;
 	res->scaling.dim.rows = gnm_app_prefs->print_scale_height;
-	res->margin.top       = gnm_app_prefs->print_margin_top;
-	res->margin.bottom    = gnm_app_prefs->print_margin_bottom;
-	res->margin.left = res->margin.right = res->margin.header = res->margin.footer = -1.;
+	res->margin.top.points = res->margin.bottom.points = -1.;
 
 	res->repeat_top.use   = load_range (gnm_app_prefs->print_repeat_top,
 					    &res->repeat_top.range);
@@ -247,16 +245,10 @@ print_info_new (void)
 	res->print_grid_lines      = gnm_app_prefs->print_grid_lines;
 	res->print_titles          = gnm_app_prefs->print_titles;
 	res->print_black_and_white = gnm_app_prefs->print_black_and_white;
-	res->print_as_draft	   = FALSE;
-	res->portrait_orientation  = TRUE;
-
-	res->invert_orientation    = FALSE;
 	res->print_even_if_only_styles 
 		= gnm_app_prefs->print_even_if_only_styles;
 
 	res->print_across_then_down = gnm_app_prefs->print_order_across_then_down;
-	res->comment_placement = PRINT_COMMENTS_IN_PLACE;
-	res->error_display     = PRINT_ERRORS_AS_DISPLAYED;
 
 	list = (GSList *) gnm_app_prefs->printer_header;
 	res->header = list ?
@@ -271,16 +263,36 @@ print_info_new (void)
 			      (char *)g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("Page &[PAGE]"), "");
 
-	res->n_copies	   = 1;
+	return res;
+}
+
+/**
+ * print_info_new:
+ *
+ * Returns a newly allocated PrintInformation buffer
+ *
+ */
+PrintInformation *
+print_info_new (gboolean load_defaults)
+{
+	PrintInformation *res = g_new0 (PrintInformation, 1);
+
+	res->print_as_draft	   = FALSE;
+	res->portrait_orientation  = TRUE;
+
+	res->invert_orientation    = FALSE;
+	res->comment_placement = PRINT_COMMENTS_IN_PLACE;
+	res->error_display     = PRINT_ERRORS_AS_DISPLAYED;
+
 	res->start_page	   = -1;
-	res->gp_config_str = NULL;
-	res->paper	   = NULL;
-	res->paper_width   = NULL;
-	res->paper_height  = NULL;
+	res->n_copies	   = 0;
 
 	res->page_setup = NULL;
-	
-	return res;
+
+	if (load_defaults)
+		return print_info_load_defaults (res);
+	else
+		return res;
 }
 
 /*
@@ -330,7 +342,7 @@ destroy_formats (void)
 }
 
 void
-print_info_save (PrintInformation const *pi)
+print_info_save (PrintInformation *pi)
 {
 	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), PRINTSETUP_GCONF_DIR);
 
@@ -356,14 +368,14 @@ print_info_save (PrintInformation const *pi)
 
 	save_formats ();
 
-	if (NULL != pi->gp_config_str)
-		gnm_gconf_set_printer_config (pi->gp_config_str);
 	gnm_gconf_set_printer_header (pi->header->left_format,
 				      pi->header->middle_format,
 				      pi->header->right_format);
 	gnm_gconf_set_printer_footer (pi->footer->left_format,
 				      pi->footer->middle_format,
 				      pi->footer->right_format);
+
+	gnm_gconf_set_page_setup (pi->page_setup);
 
 	go_conf_free_node (node);
 }
@@ -595,217 +607,189 @@ print_shutdown (void)
 }
 
 PrintInformation *
-print_info_dup (PrintInformation const *src)
+print_info_dup (PrintInformation *src)
 {
-	PrintInformation *dst = print_info_new ();
+	PrintInformation *dst = print_info_new (TRUE);
 
+	print_info_load_defaults (src);
+	
 	/* clear the refs in the new obj */
-	g_free (dst->gp_config_str);
-	g_free (dst->paper);
-	g_free (dst->paper_width);
-	g_free (dst->paper_height);
 	print_hf_free (dst->header);
 	print_hf_free (dst->footer);
-
+	if (dst->page_setup)
+		g_object_unref (dst->page_setup);
+	
+	
 	*dst = *src; /* bit bash */
-
+	
 	/* setup the refs for new content */
-	dst->gp_config_str = g_strdup (src->gp_config_str);
-	dst->paper	   = g_strdup (src->paper);
-	dst->paper_width   = g_strdup (src->paper_width);
-	dst->paper_height  = g_strdup (src->paper_height);
 	dst->header	   = print_hf_copy (src->header);
 	dst->footer	   = print_hf_copy (src->footer);
-
-	if (src->page_setup)
-		dst->page_setup = gtk_page_setup_copy (src->page_setup);
+	dst->page_setup    = gtk_page_setup_copy (src->page_setup);
 	
 	return dst;
 }
 
 void
-print_info_get_margins (PrintInformation const *pi,
+print_info_get_margins (PrintInformation *pi,
 			double *top, double *bottom, double *left, double *right)
 {
 	g_return_if_fail (pi != NULL);
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
 
 	if (NULL != top)
-		*top = (pi->margin.header > 0.) ? pi->margin.header : 0.;
+		*top = gtk_page_setup_get_top_margin (pi->page_setup, GTK_UNIT_POINTS);
 	if (NULL != bottom)
-		*bottom = (pi->margin.footer > 0.) ? pi->margin.footer : 0.;
+		*bottom = gtk_page_setup_get_bottom_margin (pi->page_setup, GTK_UNIT_POINTS);
 	if (NULL != left)
-		*left = (pi->margin.left > 0.) ? pi->margin.left : 0.;
+		*left = gtk_page_setup_get_left_margin (pi->page_setup, GTK_UNIT_POINTS);
 	if (NULL != right)
-		*right = (pi->margin.right > 0.) ? pi->margin.right : 0.;
+		*right = gtk_page_setup_get_right_margin (pi->page_setup, GTK_UNIT_POINTS);
 }
 
 void
 print_info_set_margin_header (PrintInformation *pi, double header)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margin.header = header;
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
+
+	gtk_page_setup_set_top_margin (pi->page_setup, header, GTK_UNIT_POINTS);
 }
+
 void
 print_info_set_margin_footer (PrintInformation *pi, double footer)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margin.footer = footer;
+	print_info_load_defaults (pi);
+        g_return_if_fail (pi->page_setup != NULL);
+
+        gtk_page_setup_set_bottom_margin (pi->page_setup, footer, GTK_UNIT_POINTS);
 }
+
 void
 print_info_set_margin_left (PrintInformation *pi, double left)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margin.left = left;
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
+
+	gtk_page_setup_set_left_margin (pi->page_setup, left, GTK_UNIT_POINTS);
 }
+
 void
 print_info_set_margin_right (PrintInformation *pi, double right)
 {
 	g_return_if_fail (pi != NULL);
-	pi->margin.right = right;
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
+
+	gtk_page_setup_set_right_margin (pi->page_setup, right, GTK_UNIT_POINTS);
 }
 
 void
 print_info_set_margins (PrintInformation *pi,
-			double top, double bottom, double left, double right)
+			double header, double footer, double left, double right)
 {
-	print_info_set_margin_header (pi, top);
-	print_info_set_margin_footer (pi, bottom);
-	print_info_set_margin_left (pi, left);
-	print_info_set_margin_right (pi, right);
+	g_return_if_fail (pi != NULL);
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
+
+	if (header >= 0)
+		gtk_page_setup_set_top_margin (pi->page_setup,
+					       header, GTK_UNIT_POINTS);
+	if (footer >= 0)
+		gtk_page_setup_set_bottom_margin (pi->page_setup,
+						  footer, GTK_UNIT_POINTS);
+	if (left >= 0)
+		gtk_page_setup_set_left_margin (pi->page_setup,
+						left, GTK_UNIT_POINTS);
+	if (right >= 0)
+		gtk_page_setup_set_right_margin (pi->page_setup,
+						 right, GTK_UNIT_POINTS);
 }
 
 void
 print_info_set_paper (PrintInformation *pi, char const *paper)
 {
+	GtkPaperSize* gtk_paper;
+
 	g_return_if_fail (pi != NULL);
-	g_free (pi->paper);
-	pi->paper = g_strdup (paper);
-}
-void
-print_info_set_paper_width (PrintInformation *pi, char const *paper_width)
-{
-	g_return_if_fail (pi != NULL);
-	g_free (pi->paper_width);
-	pi->paper_width = g_strdup (paper_width);
-}
-void
-print_info_set_paper_height (PrintInformation *pi, char const *paper_height)
-{
-	g_return_if_fail (pi != NULL);
-	g_free (pi->paper_height);
-	pi->paper_height = g_strdup (paper_height);
-}
-char const *
-print_info_get_paper (PrintInformation const *pi)
-{
-	g_return_val_if_fail (pi != NULL, "A4");
-	return pi->paper;
-}
-char const *
-print_info_get_paper_width (PrintInformation const *pi)
-{
-	g_return_val_if_fail (pi != NULL, "210mm");
-	return pi->paper_width;
-}
-char const *
-print_info_get_paper_height (PrintInformation const *pi)
-{
-	g_return_val_if_fail (pi != NULL, "297mm");
-	return pi->paper_height;
-}
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
 
-#if 0
-GnomePrintConfig *
-print_info_make_config (PrintInformation const *pi)
-{
-	GnomePrintConfig *res = (NULL != pi->gp_config_str)
-		? gnome_print_config_from_string (pi->gp_config_str, 0)
-		: ((NULL != gnm_app_prefs->printer_config)
-			? gnome_print_config_from_string (gnm_app_prefs->printer_config, 0)
-			: gnome_print_config_default ());
+/* We are now using the standard paper names given by PWG 5101.1-2002 */
+/* We are trying to map some old gnome-print paper names.                  */
 
-	if (NULL != pi->paper) {
-		gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_SIZE, pi->paper);
-	} else {
-		if ((NULL != pi->paper_width) && (NULL != pi->paper_height)) {
-			gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_SIZE, "Custom");
-			gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_WIDTH, pi->paper_width);
-			gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_HEIGHT, pi->paper_height);
-		}
-	}
-	if (pi->margin.header >= 0)
-		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
-			pi->margin.header, GNOME_PRINT_PS_UNIT);
-	if (pi->margin.footer >= 0)
-		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
-			pi->margin.footer, GNOME_PRINT_PS_UNIT);
-	if (pi->margin.left >= 0)
-		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
-			pi->margin.left, GNOME_PRINT_PS_UNIT);
-	if (pi->margin.right >= 0)
-		gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
-			pi->margin.right, GNOME_PRINT_PS_UNIT);
+/*  
+ "A4" -> GTK_PAPER_NAME_A4
+ "USLetter" -> GTK_PAPER_NAME_LETTER
+ "USLegal" -> GTK_PAPER_NAME_LEGAL
+ "Executive" -> GTK_PAPER_NAME_EXECUTIVE
+ "A3" -> GTK_PAPER_NAME_A3
+ "A5" -> GTK_PAPER_NAME_A5
+ "B5" -> GTK_PAPER_NAME_B5
+ *  */
 
-	gnome_print_config_set_int (res, GNOME_PRINT_KEY_NUM_COPIES, pi->n_copies);
-	gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, pi->portrait_orientation
-		? (pi->invert_orientation ? "R180" : "R0")
-		: (pi->invert_orientation ? "R180" : "R90"));
+	if (g_ascii_strncasecmp ("A4", paper, 2) == 0)
+		paper = GTK_PAPER_NAME_A4;
+	if (g_ascii_strncasecmp ("A3", paper, 2) == 0)
+	        paper = GTK_PAPER_NAME_A3;
+	if (g_ascii_strncasecmp ("A5", paper, 2) == 0)
+		paper = GTK_PAPER_NAME_A5;
+	if (g_ascii_strncasecmp ("B5", paper, 2) == 0)
+		paper = GTK_PAPER_NAME_B5;
+	if (g_ascii_strncasecmp ("USLetter", paper, 8) == 0)
+		paper = GTK_PAPER_NAME_LETTER;
+	if (g_ascii_strncasecmp ("USLegal", paper, 7) == 0)
+		paper = GTK_PAPER_NAME_LEGAL;
+	if (g_ascii_strncasecmp ("Executive", paper, 9) == 0)
+		paper = GTK_PAPER_NAME_EXECUTIVE;
 
-	return res;
+	gtk_paper = gtk_paper_size_new (paper);
+	gtk_page_setup_set_paper_size (pi->page_setup, gtk_paper);
+	gtk_paper_size_free (gtk_paper);
 }
 
 void
-print_info_load_config (PrintInformation *pi, GnomePrintConfig *config)
+print_info_set_paper_width_height (PrintInformation *pi,
+				   double paper_width, double paper_height,
+				   GtkUnit unit)
 {
-	guchar *str = NULL;
-	double d_tmp;
-	int tmp;
-
-	g_return_if_fail (pi != NULL);
-	g_return_if_fail (config != NULL);
-
-	g_free (pi->gp_config_str);
-	pi->gp_config_str = gnome_print_config_to_string (config, 0);
-
-	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &d_tmp, NULL))
-		pi->margin.header = d_tmp;
-	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &d_tmp, NULL))
-		pi->margin.footer = d_tmp;
-	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &d_tmp, NULL))
-		pi->margin.left = d_tmp;
-	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &d_tmp, NULL))
-		pi->margin.right = d_tmp;
-
-	if (gnome_print_config_get_int (config, GNOME_PRINT_KEY_NUM_COPIES, &tmp))
-		pi->n_copies = tmp;
-	else
-		pi->n_copies = 1;
-
-	g_free (pi->paper);
-	pi->paper = gnome_print_config_get (config, GNOME_PRINT_KEY_PAPER_SIZE);
-
-	str = gnome_print_config_get (config, GNOME_PRINT_KEY_ORIENTATION);
-	if (str != NULL) {
-		if (strcmp (str, "R0") == 0) {
-			pi->portrait_orientation = TRUE;
-			pi->invert_orientation   = FALSE;
-		} else if (strcmp (str, "R180") == 0) {
-			pi->portrait_orientation = TRUE;
-			pi->invert_orientation   = TRUE;
-		} else if (strcmp (str, "R90") == 0) {
-			pi->portrait_orientation = FALSE;
-			pi->invert_orientation   = FALSE;
-		} else if (strcmp (str, "R270") == 0) {
-			pi->portrait_orientation = FALSE;
-			pi->invert_orientation   = TRUE;
-		}
-		g_free (str);
-	}
+	
 }
-#endif
 
-GtkPageSetup
-*print_info_get_page_setup (PrintInformation const *pi)
+char const *
+print_info_get_paper (PrintInformation *pi)
+{
+	g_return_val_if_fail (pi != NULL, GTK_PAPER_NAME_A4);
+	print_info_load_defaults (pi);
+	g_return_val_if_fail (pi->page_setup != NULL, GTK_PAPER_NAME_A4);
+
+	return gtk_paper_size_get_name (gtk_page_setup_get_paper_size (pi->page_setup));
+}
+
+double
+print_info_get_paper_width (PrintInformation *pi, GtkUnit unit)
+{
+	g_return_val_if_fail (pi != NULL, 0.);
+	print_info_load_defaults (pi);
+	
+	return gtk_page_setup_get_paper_width (pi->page_setup, unit);
+}
+
+double
+print_info_get_paper_height (PrintInformation *pi, GtkUnit unit)
+{
+	g_return_val_if_fail (pi != NULL, 0);
+	print_info_load_defaults (pi);
+	
+	return gtk_page_setup_get_paper_height (pi->page_setup, unit);
+}
+
+GtkPageSetup*
+print_info_get_page_setup (PrintInformation const *pi)
 {
 	if (pi->page_setup)
 		return g_object_ref (pi->page_setup);
@@ -820,4 +804,3 @@ print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
 		g_object_unref (pi->page_setup);
 	pi->page_setup = page_setup;
 }
-

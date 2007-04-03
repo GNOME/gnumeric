@@ -1,3 +1,56 @@
+2007-04-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: replace 
+	/schemas/apps/gnumeric/printsetup/printer-config with
+	/schemas/apps/gnumeric/printsetup/gtk-setting
+	* src/sheet.c (gnm_sheet_init): add new argument to 
+	print_info_new
+	* src/gnumeric-gconf.c (gnm_conf_init_print_settings): add argument
+	(gnm_gconf_init_printer_defaults): new
+	(gnm_conf_init_extras): use gnm_gconf_init_printer_defaults
+	(gnm_conf_init_essentials): move stuff to gnm_gconf_init_printer_defaults
+	(gnm_gconf_set_page_setup): new
+	(gnm_gconf_get_page_setup): new
+	(gnm_gconf_get_print_settings): new
+	(gnm_gconf_set_printer_config): deleted
+	* src/gnumeric-gconf.h (gnm_gconf_init_printer_defaults): new
+	(gnm_gconf_set_page_setup): new
+	(gnm_gconf_get_page_setup): new
+	* src/xml-sax-write.c (xml_write_print_info): use print_info_get_margins
+	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_PRINTER_CONFIG): deleted
+	* src/print.c (gnm_print_sheet): use gnm_gconf_[gs]et_print_settings
+	* src/xml-io.c (xml_print_info_fix_margins): deleted
+	(xml_read_print_margins): use print_info_set_margins
+	* src/print-info.c (print_hf_free): It is now normal to be called with NULL.
+	(print_info_free): drop unneeded items
+	(print_info_dup): ditto
+	(print_info_load_defaults): new
+	(print_info_new): add argument and defer initialization
+	(print_info_save): we may have to modify the pi by loading defaults
+	(print_info_get_margins): use GtkPageSetup
+	(print_info_set_margin_*): ditto
+	(print_info_set_paper): ditto
+	(print_info_set_margins): use gtk_page_setup_set_*
+	(print_info_[sg]et_paper_width): deleted
+	(print_info_[sg]et_paper_height): deleted
+	(print_info_make_config): deleted
+	(print_info_[gs]et_paper): use GtkPageSetup
+	(print_info_set_paper_width_height): new stub
+	(print_info_get_paper_width): new return type and use GtkPageSetup
+	(print_info_get_paper_height): ditto
+	* src/print-info.h (PrintMargins): move items to GtkPageSetup
+	(_PrintInformation): drop unneeded items
+	(print_info_new): add argument
+	(print_info_load_defaults): new
+	(print_info_make_config): deleted
+	(print_info_load_config): deleted
+	(print_info_get_paper_width): deleted
+	(print_info_get_paper_height): deleted
+	(print_info_set_paper_width_height): new
+	(print_info_get_paper_width): change return type
+	(print_info_get_paper_height): change return type
+	
+
 2007-04-02  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (gnm_search_replace_cell): Normalize strings before

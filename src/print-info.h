@@ -16,7 +16,6 @@ typedef struct {
  */
 typedef struct {
 	PrintUnit top, bottom;     /* see print.c for the definition (these are header/footer) */
-	double	  left, right, header, footer;
 } PrintMargins;
 
 /* Header/Footer definition */
@@ -83,13 +82,10 @@ struct _PrintInformation {
 	PrintHF          *header;
 	PrintHF          *footer;
 
-	unsigned	  n_copies;
 	int		  start_page; /* < 0 implies auto */
-	char		 *paper;
-	char		 *paper_width, *paper_height;
+        int              n_copies;
 
-	char		 *gp_config_str;
-  
+  /* page_setup doubles as a flag whether the defaults are loaded */
         GtkPageSetup     *page_setup;
 };
 
@@ -104,15 +100,11 @@ typedef struct {
 	GnmValue *date_time;
 } HFRenderInfo;
 
-PrintInformation *print_info_new         (void);
-PrintInformation *print_info_dup	 (PrintInformation const *pi);
+PrintInformation *print_info_new         (gboolean load_defaults);
+PrintInformation *print_info_load_defaults (PrintInformation *pi);
+PrintInformation *print_info_dup	 (PrintInformation *pi);
 void              print_info_free        (PrintInformation *pi);
-void              print_info_save        (PrintInformation const *pi);
-
-#if 0
-GnomePrintConfig *print_info_make_config (PrintInformation const *pi);
-void		  print_info_load_config (PrintInformation *pi, GnomePrintConfig *config);
-#endif
+void              print_info_save        (PrintInformation *pi);
 
 GtkPageSetup     *print_info_get_page_setup (PrintInformation const *pi);
 void              print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup);
@@ -142,12 +134,14 @@ void        print_init               (void);
 void        print_shutdown           (void);
 
 void	    print_info_set_paper     	   (PrintInformation *pi, char const *paper);
-void	    print_info_set_paper_width     (PrintInformation *pi, char const *paper_width);
-void	    print_info_set_paper_height    (PrintInformation *pi, char const *paper_height);
-char const *print_info_get_paper     	   (PrintInformation const *pi);
-char const *print_info_get_paper_width     (PrintInformation const *pi);
-char const *print_info_get_paper_height    (PrintInformation const *pi);
-void        print_info_get_margins   (PrintInformation const *pi,
+void        print_info_set_paper_width_height (PrintInformation *pi,
+					       double paper_width,
+					       double paper_height,
+					       GtkUnit unit);
+char const *print_info_get_paper     	   (PrintInformation *pi);
+double      print_info_get_paper_width     (PrintInformation *pi, GtkUnit unit);
+double      print_info_get_paper_height    (PrintInformation *pi, GtkUnit unit);
+void        print_info_get_margins   (PrintInformation *pi,
 				      double *header, double *footer, double *left, double *right);
 void        print_info_set_margins   (PrintInformation *pi,
 				      double header, double footer, double left, double right);

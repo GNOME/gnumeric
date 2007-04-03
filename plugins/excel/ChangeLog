@@ -1,3 +1,10 @@
+2007-04-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-write.c (write_sheet_head): use print_info_get_margins
+	* ms-excel-read.c (paper_size_table): use PWG 5101.1-2002
+	(excel_read_SETUP): use modified paper_size_table
+	* xlsx-write.c (xlsx_write_print_info): use print_info_get_margins
+
 2007-03-19  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-write.c (xlsx_write_cells) : keep f before v, but do not try to

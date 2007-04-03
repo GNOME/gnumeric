@@ -36,7 +36,6 @@
 
 #define PRINTSETUP_GCONF_DIR			"printsetup"
 #define PRINTSETUP_GCONF_ALL_SHEETS		"all-sheets"
-#define PRINTSETUP_GCONF_PRINTER_CONFIG		"printer-config"
 #define PRINTSETUP_GCONF_HEADER			"header"
 #define PRINTSETUP_GCONF_FOOTER			"footer"
 #define PRINTSETUP_GCONF_HF_FONT_NAME		"hf-font-name"

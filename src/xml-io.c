@@ -505,32 +505,17 @@ xml_read_wbv_attributes (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 }
 
-/*
- * Earlier versions of Gnumeric confused top margin with header, bottom margin
- * with footer (see comment at top of print.c). We fix this by making sure
- * that top > header and bottom > footer.
- */
-static void
-xml_print_info_fix_margins (PrintInformation *pi)
-{
-	if (pi->margin.top.points < pi->margin.header) {
-		double tmp = pi->margin.top.points;
-		pi->margin.top.points = pi->margin.header;
-		pi->margin.header = tmp;
-	}
-	if (pi->margin.bottom.points < pi->margin.footer) {
-		double tmp = pi->margin.bottom.points;
-		pi->margin.bottom.points = pi->margin.footer;
-		pi->margin.footer = tmp;
-	}
-}
-
 static void
 xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	PrintInformation *pi;
+	double header = -1.;
+	double footer = -1.;
+	double left = -1.;
+	double right = -1.;
 
+	
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (IS_SHEET (ctxt->sheet));
@@ -544,14 +529,15 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("bottom"))))
 		xml_node_get_print_unit (child, &pi->margin.bottom);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("left"))))
-		xml_node_get_print_margin (child, &pi->margin.left);
+		xml_node_get_print_margin (child, &left);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("right"))))
-		xml_node_get_print_margin (child, &pi->margin.right);
+		xml_node_get_print_margin (child, &right);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("header"))))
-		xml_node_get_print_margin (child, &pi->margin.header);
+		xml_node_get_print_margin (child, &header);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("footer"))))
-		xml_node_get_print_margin (child, &pi->margin.footer);
-	xml_print_info_fix_margins (pi);
+		xml_node_get_print_margin (child, &footer);
+
+	print_info_set_margins (pi, header, footer, left, right);
 }
 
 static void

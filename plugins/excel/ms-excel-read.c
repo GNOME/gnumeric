@@ -3946,123 +3946,122 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
  * (http://freshmeat.net/projects/writeexcel/).
  */
 typedef struct {
-	/* libgnomeprint's name for a physical paper size,
-	 * or its width and height in gnomeprint units */
-	char const *gp_name, *gp_width, *gp_height;
+	/* PWG 5101.1-2002 name for a physical paper size,
+	 * and a boolean to indicate the paper is turned */
+	char const *gp_name;
+	gboolean const rotated;
 } paper_size_table_entry;
 
 static paper_size_table_entry const paper_size_table[] = {
-	{ NULL, NULL, NULL },		/* printer default / undefined */
+	{ NULL, FALSE},		/* printer default / undefined */
 
-	{ "USLetter", NULL, NULL },
-	{ "USLetter", NULL, NULL },	/* Letter small */
-	{ NULL, "11in", "17in" },	/* Tabloid */
-	{ NULL, "17in", "11in" },	/* Ledger */
-	{ "USLegal", NULL, NULL },	/* Legal */
+	{ "na_letter_8.5x11in", FALSE },
+	{ "na_letter_8.5x11in", FALSE },	/* Letter small */
+	{ "na_ledger_11x17in", FALSE  },	/* Tabloid */
+	{ "na_ledger_11x17in", TRUE },	/* Ledger ROTATED*/
+	{ "na_legal_8.5x14in", FALSE },	/* Legal */
 
-	{ NULL, "5.5in", "8.5in" },	/* Statement */
-	{ NULL, "7.25in", "10.5in" },	/* Executive */
-	{ "A3", NULL, NULL },
-	{ "A4", NULL, NULL },
-	{ "A4", NULL, NULL },		/* A4 small */
+	{ "na_invoice_5.5x8.5in", FALSE },	/* Statement */
+	{ "na_executive_7.25x10.5in", FALSE },	/* Executive */
+	{ "iso_a3_297x420mm", FALSE },
+	{ "iso_a4_210x297mm", FALSE },
+	{ "iso_a4_210x297mm", FALSE },		/* A4 small */
 
-	{ "A5", NULL, NULL },
-	{ "B4", NULL, NULL },
-	{ "B5", NULL, NULL },
-	{ NULL, "8.5in", "13in" },	/* Folio */
-	{ NULL, "215mm", "275mm" },	/* Quarto */
+	{ "iso_a5_148x210mm", FALSE },
+	{ "iso_b4_250x353mm", FALSE },
+	{ "iso_b5_176x250mm", FALSE },
+	{ "na_foolscap_8.5x13in", FALSE },	/* Folio */
+	{ "na_quarto_8.5x10.83in", FALSE },	/* Quarto */
 
-	{ NULL, "10in", "14in" },	/* 10x14 */
-	{ NULL, "11in", "17in" },	/* 11x17 */
-	{ NULL, "8.5in", "11in" },	/* Note */
-	{ NULL, "3.875in", "8.875in" },	/* Envelope #9 */
-	{ NULL, "4.125in", "9.5in" },	/* Envelope #10 */
-		/* FIXME: is this "Envelope_No10"? */
+	{ "na_10x14_10x14in",  FALSE },	/* 10x14 */
+	{ "na_ledger_11x17in", FALSE },	/* 11x17 */
+	{ "na_letter_8.5x11in", FALSE },	/* Note */
+	{ "na_number-9_3.875x8.875in", FALSE},	/* Envelope #9 */
+	{ "na_number-10_4.125x9.5in", FALSE},	/* Envelope #10 */
+	{ "na_number-11_4.5x10.375in", FALSE},	/* Envelope #11 */
+	{ "na_number-12_4.75x11in", FALSE },	/* Envelope #12 */
+	{ "na_number-14_5x11.5in", FALSE },	/* Envelope #14 */
+	{ "na_c_17x22in", FALSE },	/* C */
+	{ "na_d_22x34in", FALSE },	/* D */
+	{ "na_e_34x44in", FALSE },	/* E */
 
-	{ NULL, "4.5in", "10.375in" },	/* Envelope #11 */
-	{ NULL, "4.75in", "11in" },	/* Envelope #12 */
-	{ NULL, "5in", "11.5in" },	/* Envelope #14 */
-	{ NULL, "17in", "22in" },	/* C */
-	{ NULL, "22in", "34in" },	/* D */
+	{ "iso_dl_110x220mm", FALSE },		/* Envelope DL */
+	{ "iso_c5_162x229mm", FALSE },		/* Envelope C5 */
+	{ "iso_c3_324x458mm", FALSE },		/* Envelope C3 */
+	{ "iso_c4_229x324mm", FALSE },		/* Envelope C4 */
 
-	{ NULL, "34in", "44in" },	/* E */
-	{ "DL", NULL, NULL },		/* Envelope DL */
-	{ "C5", NULL, NULL },		/* Envelope C5 */
-	{ "C3", NULL, NULL },		/* Envelope C3 */
-	{ "C4", NULL, NULL },		/* Envelope C4 */
+	{ "iso_c6_114x162mm", FALSE },		/* Envelope C6 */
+	{ "iso_c6c5_114x229mm", FALSE },	/* Envelope C6/C5 */
+	{ "iso_b4_250x353mm", FALSE },
+	{ "iso_b5_176x250mm", FALSE },
+	{ "iso_b6_125x176mm", FALSE },
 
-	{ "C6", NULL, NULL },		/* Envelope C6 */
-	{ "C6_C5", NULL, NULL },	/* Envelope C6/C5 */
-	{ "B4", NULL, NULL },
-	{ "B5", NULL, NULL },
-	{ "B6", NULL, NULL },
+	{ "om_italian_110x230mm", FALSE },	/* Envelope Italy */
+	{ "na_monarch_3.875x7.5in", FALSE },	/* Envelope Monarch */
+	{ "na_personal_3.625x6.5in", FALSE },	/* 6 1/2 Envelope */
+	{ "na_fanfold-us_11x14.875in", TRUE },	/* US Standard Fanfold ROTATED */
+	{ "na_fanfold-eur_8.5x12in", FALSE },	/* German Std Fanfold */
 
-	{ NULL, "110mm", "230mm" },	/* Envelope Italy */
-	{ NULL, "3.875in", "7.5in" },	/* Envelope Monarch */
-	{ NULL, "3.625in", "6.5in" },	/* 6 1/2 Envelope */
-	{ NULL, "14.875in", "11in" },	/* US Standard Fanfold */
-	{ NULL, "8.5in", "12in" },	/* German Std Fanfold */
+	{ "na_foolscap_8.5x13in", FALSE },	/* German Legal Fanfold */
+	{ "iso_b4_250x353mm", FALSE },		/* Yes, twice... */
+	{ "jpn_hagaki_100x148mm", FALSE },	/* Japanese Postcard */
+	{ "na_9x11_9x11in", FALSE },	/* 9x11 */
+	{ "na_10x11_10x11in", FALSE },	/* 10x11 */
 
-	{ NULL, "8.5in", "13in" },	/* German Legal Fanfold */
-	{ "B4", NULL, NULL },		/* Yes, twice... */
-	{ NULL, "100mm", "148mm" },	/* Japanese Postcard */
-	{ NULL, "9in", "11in" },	/* 9x11 */
-	{ NULL, "10in", "11in" },	/* 10x11 */
+	{ "na_11x15_11x15in", FALSE },	/* 15x11 switch landscape */
+	{ "om_invite_220x220mm", FALSE },	/* Envelope Invite */
+	{ NULL, FALSE},		/* undefined */
+	{ NULL, FALSE },		/* undefined */
+	{ "na_letter-extra_9.5x12in", FALSE },	/* Letter Extra */
 
-	{ NULL, "15in", "11in" },	/* 15x11 */
-	{ NULL, "220mm", "220mm" },	/* Envelope Invite */
-	{ NULL, NULL, NULL },		/* undefined */
-	{ NULL, NULL, NULL },		/* undefined */
-	{ NULL, "9.5", "12in" },	/* Letter Extra */
+	{ "na_legal-extra_9.5x15in", FALSE },	/* Legal Extra */
+	{ "na_arch-b_12x18in", FALSE },	/* Tabloid Extra */
+	{ "iso_a4_extra_235.5x322.3mm", FALSE },	/* A4 Extra */
+	{ "na_letter_8.5x11in", FALSE },	/* Letter Transverse */
+	{ "iso_a4_210x297mm", FALSE },		/* A4 Transverse */
 
-	{ NULL, "9.5", "15in" },	/* Legal Extra */
-	{ NULL, "11.6875in", "18in" },	/* Tabloid Extra */
-	{ NULL, "235mm", "232mm" },	/* A4 Extra */
-	{ "USLetter", NULL, NULL },	/* Letter Transverse */
-	{ "A4", NULL, NULL },		/* A4 Transverse */
+	{ "na_letter-extra_9.5x12in", FALSE },	/* Letter Extra Transverse */
+	{ "custom_super-aa4_227x356mm", FALSE },	/* Super A/A4 */
+	{ "custom_super-ba3_305x487mm", FALSE },	/* Super B/A3 */
+	{ "na_letter-plus_8.5x12.69in", FALSE },	/* Letter Plus */
+	{ "om_folio_210x330mm", FALSE },	/* A4 Plus */
 
-	{ NULL, "9.5", "12in" },	/* Letter Extra Transverse */
-	{ NULL, "227mm", "356mm" },	/* Super A/A4 */
-	{ NULL, "305mm", "487mm" },	/* Super B/A3 */
-	{ NULL, "8.5in", "12.6876in" },	/* Letter Plus */
-	{ NULL, "210mm", "330mm" },	/* A4 Plus */
+	{ "iso_a5_148x210mm", FALSE },		/* A5 Transverse */
+	{ "jis_b5_182x257mm", FALSE },		/* B5 (JIS) Transverse */
+	{ "iso_a3-extra_322x455mm", FALSE },	/* A3 Extra */
+	{ "iso_a5-extra_174x235mm", FALSE },	/* A5 Extra */
+	{ "iso_b5-extra_201x276mm", FALSE },	/* B5 (ISO) Extra */
 
-	{ "A5",	NULL, NULL },		/* A5 Transverse */
-	{ "B5", NULL, NULL },		/* B5 (JIS) Transverse */
-	{ NULL, "322mm", "445mm" },	/* A3 Extra */
-	{ NULL, "174mm", "235mm" },	/* A5 Extra */
-	{ NULL, "201mm", "276mm" },	/* B5 (ISO) Extra */
+	{ "iso_a2_420x594mm", FALSE },
+	{ "iso_a3_297x420mm", FALSE },		/* A3 Transverse */
+	{ "iso_a3-extra_322x455mm", FALSE },	/* A3 Extra Transverse */
+	{ "jpn_oufuku_148x200mm", TRUE },	/* Dbl. Japanese Postcard ROTATED */
+	{ "iso_a6_105x148mm", FALSE },
 
-	{ "A2", NULL, NULL },
-	{ "A3", NULL, NULL },		/* A3 Transverse */
-	{ NULL, "322mm", "445mm" },	/* A3 Extra Transverse */
-	{ NULL, "200mm", "148mm" },	/* Dbl. Japanese Postcard */
-	{ "A6", NULL, NULL },
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ "na_letter_8.5x11in", TRUE },	/* Letter Rotated */
 
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
-	{ NULL, "11in", "8.5in" },	/* Letter Rotated */
+	{ "iso_a3_297x420mm", TRUE },	/* A3 Rotated */
+	{ "iso_a4_210x297mm", TRUE },	/* A4 Rotated */
+	{ "iso_a5_148x210mm", TRUE },	/* A5 Rotated */
+	{ "jis_b4_257x364mm", TRUE },	/* B4 (JIS) Rotated */
+	{ "jis_b5_182x257mm", TRUE },	/* B5 (JIS) Rotated */
 
-	{ NULL, "420mm", "297mm" },	/* A3 Rotated */
-	{ NULL, "297mm", "210mm" },	/* A4 Rotated */
-	{ NULL, "210mm", "148mm" },	/* A5 Rotated */
-	{ NULL, "364mm", "257mm" },	/* B4 (JIS) Rotated */
-	{ NULL, "257mm", "182mm" },	/* B5 (JIS) Rotated */
-
-	{ NULL, "148mm", "100mm" },	/* Japanese Postcard Rot. */
-	{ NULL, "148mm", "200mm" },	/* Dbl. Jap. Postcard Rot. */
-	{ NULL, "148mm", "105mm" },	/* A6 Rotated */
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ "jpn_hagaki_100x148mm", TRUE },	/* Japanese Postcard Rotated */
+	{ "jpn_oufuku_148x200mm", FALSE },	/* Dbl. Jap. Postcard*/
+	{ "iso_a6_105x148mm", TRUE },	/* A6 Rotated */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
 
 
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
-	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
-	{ "B6", NULL, NULL },		/* B6 (JIS) */
-	{ NULL, "182mm", "128mm" },	/* B6 (JIS) Rotated */
-	{ NULL, "12in", "11in" },	/* 12x11 */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ NULL, FALSE },		/* FIXME: No documentation found */
+	{ "jis_b6_128x182mm", FALSE },		/* B6 (JIS) */
+	{ "jis_b6_128x182mm", TRUE },	/* B6 (JIS) Rotated */
+	{ "na_11x12_11x12in", TRUE },	/* 12x11 ROTATED */
 };
 
 static void
@@ -4070,6 +4069,7 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	PrintInformation *pi = esheet->sheet->print_info;
 	guint16  flags;
+	gboolean rotate_paper = FALSE;
 
 	XL_CHECK_CONDITION (q->length >= 12);
 
@@ -4084,13 +4084,9 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 
 		if (papersize < G_N_ELEMENTS (paper_size_table)) {
 			guchar *paper_name = (guchar *)paper_size_table[papersize].gp_name;
-			guchar *paper_width = (guchar *)paper_size_table[papersize].gp_width;
-			guchar *paper_height = (guchar *)paper_size_table[papersize].gp_height;
+			rotate_paper = paper_size_table[papersize].rotated;
 			if (paper_name != NULL) {
 				print_info_set_paper (pi, paper_name);
-			} else if ((paper_width != NULL) && (paper_height != NULL)) {
-				print_info_set_paper_width (pi, paper_width);
-				print_info_set_paper_height (pi, paper_height);
 			}
 		}
 
@@ -4110,6 +4106,8 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 	if (esheet_ver (esheet) == MS_BIFF_V4 || 0 == (flags & 0x40))
 		pi->portrait_orientation = (flags & 0x2) != 0;
+	if (rotate_paper)
+		pi->portrait_orientation = !pi->portrait_orientation;
 
 	if (esheet_ver (esheet) > MS_BIFF_V4) {
 		XL_CHECK_CONDITION (q->length >= 34);

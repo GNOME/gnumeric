@@ -4138,6 +4138,8 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	PrintInformation const *pi;
 	Sheet const *sheet = esheet->gnum_sheet;
 	Workbook const *wb = sheet->workbook;
+	double left;
+	double right;
 
 	pi = sheet->print_info;
 	g_return_if_fail (pi != NULL);
@@ -4170,10 +4172,9 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	ms_biff_put_2byte (bp, BIFF_HCENTER, pi->center_horizontally ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_VCENTER, pi->center_vertically ? 1 : 0);
 
-	if (pi->margin.left >= 0.)
-		excel_write_margin (bp, BIFF_LEFT_MARGIN,   pi->margin.left);
-	if (pi->margin.right >= 0.)
-		excel_write_margin (bp, BIFF_RIGHT_MARGIN,  pi->margin.right);
+	print_info_get_margins (pi, NULL, NULL, &left, &right);
+	excel_write_margin (bp, BIFF_LEFT_MARGIN,   left);
+	excel_write_margin (bp, BIFF_RIGHT_MARGIN,  right);
 	excel_write_margin (bp, BIFF_TOP_MARGIN,    pi->margin.top.points);
 	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margin.bottom.points);
 

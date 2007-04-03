@@ -1503,14 +1503,11 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 #endif
 
 static void
-gnm_conf_init_print_settings ()
+gnm_conf_init_print_settings (GOConfNode *node)
 {
-	GOConfNode *node;
 	GSList *list, *item;
 	char const *key;
 	char const *value;
-	
-	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
 	
 	prefs.print_settings =  gtk_print_settings_new ();
 
@@ -1604,12 +1601,22 @@ gnm_conf_init_essential (void)
 		 (GDestroyNotify)g_free,
 		 NULL);
 	go_conf_free_node (node);
+}
 
-	/* Unfortunately we need the printing stuff in essentials since the */
-	/* first pi is created for the new sheet before the idle loop has a */
-	/* chance to run                                                    */
+void
+gnm_gconf_init_printer_defaults (void)
+{
+	GOConfNode *node;
+
+	if (prefs.print_settings != NULL)
+		return;
+	
 	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
-	prefs.printer_config = go_conf_load_string (node, PRINTSETUP_GCONF_PRINTER_CONFIG);
+
+	gnm_conf_init_print_settings (node);
+
+	prefs.page_setup = gtk_page_setup_new ();
+	
 	prefs.print_center_horizontally = go_conf_load_bool 
 		(node, PRINTSETUP_GCONF_CENTER_HORIZONTALLY, FALSE); 
 	prefs.print_center_vertically = go_conf_load_bool 
@@ -1647,6 +1654,7 @@ gnm_conf_init_essential (void)
 	prefs.printer_header_formats_right = go_conf_load_str_list (node, PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT);
 	go_conf_free_node (node);
 }
+
 
 static gboolean
 gnm_conf_init_extras (void)
@@ -1728,7 +1736,7 @@ gnm_conf_init_extras (void)
 
 	gnm_conf_init_printer_decoration_font ();
 
-	gnm_conf_init_print_settings ();
+	gnm_gconf_init_printer_defaults ();
 
 	return FALSE;
 }
@@ -1764,6 +1772,16 @@ gnm_conf_shutdown (void)
 			      (GFreeFunc)g_free);
 	prefs.plugin_file_states = NULL;
 
+	if (prefs.print_settings != NULL) {
+		g_object_unref (prefs.print_settings);
+		prefs.print_settings = NULL;
+	}
+	if (prefs.page_setup != NULL) {
+		g_object_unref (prefs.page_setup);
+		prefs.page_setup = NULL;
+	}
+		
+
 	go_conf_free_node (root);
 	go_conf_shutdown ();
 }
@@ -1783,6 +1801,18 @@ gnm_gconf_set_print_settings_cb (const gchar *key, const gchar *value, gpointer 
 	*list = g_slist_prepend (*list, g_strdup (value));
 }
 
+GtkPrintSettings *
+gnm_gconf_get_print_settings (void) {
+	gnm_gconf_init_printer_defaults ();
+	return prefs.print_settings;
+}
+
+GtkPageSetup *
+gnm_gconf_get_page_setup (void) {
+	gnm_gconf_init_printer_defaults ();
+	return prefs.page_setup;
+}
+
 void     
 gnm_gconf_set_print_settings (GtkPrintSettings *settings)
 {
@@ -1795,6 +1825,16 @@ gnm_gconf_set_print_settings (GtkPrintSettings *settings)
 	gtk_print_settings_foreach (settings, gnm_gconf_set_print_settings_cb, &list);
 	go_conf_set_str_list (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_GTKSETTING, list);
 	go_slist_free_custom (list, g_free);
+}
+
+void     
+gnm_gconf_set_page_setup (GtkPageSetup *setup)
+{
+	g_return_if_fail (setup != NULL);
+	
+	if (prefs.page_setup != NULL)
+		g_object_unref (prefs.page_setup);
+	prefs.page_setup = gtk_page_setup_copy (setup);
 }
 
 void
@@ -1894,16 +1934,6 @@ void
 gnm_gconf_set_all_sheets (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_ALL_SHEETS, val);
-}
-
-void
-gnm_gconf_set_printer_config (gchar const *str)
-{
-	go_conf_set_string (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PRINTER_CONFIG, str);
-	if (prefs.printer_config != str) {
-		g_free (prefs.printer_config);
-		prefs.printer_config = g_strdup (str);
-	}
 }
 
 void

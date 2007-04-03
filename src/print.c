@@ -43,8 +43,6 @@
 #include <goffice/utils/go-font.h>
 
 
-#define PRINT_DIALOG_KEY "Gnumeric_Print_Dialog"
-
 /*  The following structure is used by the printing system */
 
 typedef struct {
@@ -1397,26 +1395,26 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   PrintingInstance *pi;
   GtkPrintSettings* settings;
   
-  page_setup = print_info_get_page_setup (sheet->print_info);
   print = gtk_print_operation_new ();
-  if (page_setup) {
-	  gtk_print_operation_set_default_page_setup (print, page_setup);
-	  g_object_unref (page_setup);
-  }
   
   pi = printing_instance_new ();
   pi->wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
   pi->wbc = WORKBOOK_CONTROL (wbcg);
   pi->sheet = sheet;
-  
-  if (gnm_app_prefs->print_settings != NULL)  
-	  settings =  gnm_app_prefs->print_settings;
-  else
-	  settings = gtk_print_settings_new ();
+
+  gnm_gconf_init_printer_defaults ();
+
+  settings = gnm_gconf_get_print_settings ();
   gtk_print_settings_set_int (settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
 			      default_range);
   pi->pr = default_range;
   gtk_print_operation_set_print_settings (print, settings);
+
+  page_setup = print_info_get_page_setup (sheet->print_info);
+  if (page_setup) {
+	  gtk_print_operation_set_default_page_setup (print, page_setup);
+	  g_object_unref (page_setup);
+  }
 
   g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi); 
   g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi); 
