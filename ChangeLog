@@ -1,3 +1,10 @@
+2007-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/xml-sax-write.c (xml_write_print_info): free paper name string
+	* src/print-info.c (print_info_get_paper): create importable name for 
+	custom paper sizes.
+	* src/print-info.h (print_info_get_paper): change return type
+	
 2007-04-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Bumped goffice dependency to reflect that goffice trunk

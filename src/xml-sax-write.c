@@ -334,6 +334,7 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	paper_name = print_info_get_paper (pi);
 	if (paper_name)
 		gsf_xml_out_simple_element (state->output, GNM "paper", paper_name);
+	g_free (paper_name);
 
 	gsf_xml_out_end_element (state->output);
 }

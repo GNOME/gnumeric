@@ -760,14 +760,28 @@ print_info_set_paper_width_height (PrintInformation *pi,
 	
 }
 
-char const *
+char  *
 print_info_get_paper (PrintInformation *pi)
 {
+	char const *name;
+	GtkPaperSize* paper;
+	
 	g_return_val_if_fail (pi != NULL, GTK_PAPER_NAME_A4);
 	print_info_load_defaults (pi);
 	g_return_val_if_fail (pi->page_setup != NULL, GTK_PAPER_NAME_A4);
 
-	return gtk_paper_size_get_name (gtk_page_setup_get_paper_size (pi->page_setup));
+	paper = gtk_page_setup_get_paper_size (pi->page_setup);
+	
+	if (gtk_paper_size_is_custom (paper)) {
+		double width = gtk_paper_size_get_width (paper, GTK_UNIT_MM);
+		double height = gtk_paper_size_get_height (paper, GTK_UNIT_MM);
+		name = g_strdup_printf ("custom_Gnm-%.0fx%.0fmm_%.0fx%.0fmm",
+					width, height, width, height);
+		return name;
+	}
+
+	name =  gtk_paper_size_get_name (gtk_page_setup_get_paper_size (pi->page_setup));
+	return g_strdup (name);
 }
 
 double

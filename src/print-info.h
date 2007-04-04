@@ -138,7 +138,9 @@ void        print_info_set_paper_width_height (PrintInformation *pi,
 					       double paper_width,
 					       double paper_height,
 					       GtkUnit unit);
-char const *print_info_get_paper     	   (PrintInformation *pi);
+char       *print_info_get_paper     	   (PrintInformation *pi);
+/* Note that the string returned by print_info_get_paper must be freed */
+
 double      print_info_get_paper_width     (PrintInformation *pi, GtkUnit unit);
 double      print_info_get_paper_height    (PrintInformation *pi, GtkUnit unit);
 void        print_info_get_margins   (PrintInformation *pi,
