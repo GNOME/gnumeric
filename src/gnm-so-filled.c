@@ -256,7 +256,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
 	cairo_t *cairo = (cairo_t*) data;
 	GogStyle const *style = sof->style;
 	cairo_pattern_t *pat = NULL;
-	gpointer obj;
+	gpointer obj = NULL;
 
 	cairo_new_path (cairo);
 	if (sof->is_oval) {

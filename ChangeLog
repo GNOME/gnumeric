@@ -1,5 +1,9 @@
 2007-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): initialize obj
+
+2007-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/xml-sax-write.c (xml_write_print_info): free paper name string
 	* src/print-info.c (print_info_get_paper): create importable name for 
 	custom paper sizes.
