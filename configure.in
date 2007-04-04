@@ -112,7 +112,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 
 dnl *****************************
 libspreadsheet_reqs="
-	libgoffice-0.3		>= 0.3.7
+	libgoffice-0.3		>= 0.3.8
 	libgsf-1		>= 1.14.2
 	libxml-2.0		>= 2.4.12
 "
