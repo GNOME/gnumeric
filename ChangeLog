@@ -1,3 +1,14 @@
+2007-04-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (PrintingInstance): add fields
+	(SheetPrintInfo): new struct
+	(printing_instance_delete): handle new fields
+	(compute_sheet_pages_add_sheet): new
+	(compute_pages): only set up the list of sheets to paginate
+	(gnm_paginate_cb): new callback
+	(gnm_begin_print_cb): don't paginate here
+	(gnm_print_sheet): hook up gnm_paginate_cb callback
+
 2007-04-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): initialize obj

@@ -46,6 +46,7 @@
 /*  The following structure is used by the printing system */
 
 typedef struct {
+	GList *gnmSheets;
 	GList *gnmSheetRanges;
 	Workbook *wb;
 	WorkbookControl *wbc;
@@ -56,7 +57,15 @@ typedef struct {
 	GtkWidget *spin_from, *spin_to;
 	PrintRange pr;
 	guint to, from;
+	guint last_pagination;
 } PrintingInstance;
+
+typedef struct {
+	Sheet *sheet;
+	gboolean selection;
+        gboolean ignore_printarea;	
+} SheetPrintInfo;
+
 
 static PrintingInstance *
 printing_instance_new (void) {
@@ -72,6 +81,8 @@ pi_free (gpointer data, gpointer user_data) {
 
 static void
 printing_instance_delete (PrintingInstance *pi) {
+	g_list_foreach (pi->gnmSheets, pi_free, NULL);
+	g_list_free (pi->gnmSheets);
 	g_list_foreach (pi->gnmSheetRanges, pi_free, NULL);
 	g_list_free (pi->gnmSheetRanges);
 	g_free (pi);
@@ -885,6 +896,17 @@ typedef struct _PageCountInfo {
 #endif
 
 static void
+compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboolean selection,
+                     gboolean ignore_printarea)
+{
+	SheetPrintInfo *spi = g_new (SheetPrintInfo, 1);
+	spi->sheet = sheet;
+	spi->selection = selection;
+	spi->ignore_printarea = ignore_printarea;
+	pi->gnmSheets = g_list_append(pi->gnmSheets, spi);
+}
+
+static void
 compute_sheet_pages_add_range (PrintingInstance * pi, Sheet const *sheet,
 			       GnmRange *r)
 {
@@ -1036,7 +1058,6 @@ compute_sheet_pages (GtkPrintContext   *context,
  */
 static void
 compute_pages (GtkPrintOperation *operation,
-	       GtkPrintContext   *context,
 	       PrintingInstance * pi,
 	       PrintRange pr,
 	       guint from,
@@ -1048,13 +1069,13 @@ compute_pages (GtkPrintOperation *operation,
 
 	switch (pr) {
 	case PRINT_ACTIVE_SHEET:
-		compute_sheet_pages (context, pi,
+		compute_sheet_pages_add_sheet (pi,
 			   pi->sheet, FALSE, FALSE);
 		break;
 	case PRINT_ALL_SHEETS:
 		n =  workbook_sheet_count (wb);
 		for (i = 0; i < n; i++)
-			compute_sheet_pages (context, pi,
+			compute_sheet_pages_add_sheet (pi,
 					     workbook_sheet_by_index (wb, i),
 					     FALSE, FALSE);
 		break;
@@ -1063,20 +1084,20 @@ compute_pages (GtkPrintOperation *operation,
 		if (to > n)
 			to = n;
 		for (i = from - 1; i < to; i++)
-			compute_sheet_pages (context, pi,
+			compute_sheet_pages_add_sheet (pi,
 					     workbook_sheet_by_index (wb, i),
 					     FALSE, FALSE);
 		break;
 	case PRINT_SHEET_SELECTION:
-		compute_sheet_pages (context, pi,
+		compute_sheet_pages_add_sheet (pi,
 				     pi->sheet, TRUE, FALSE);
 		break;
 	case PRINT_IGNORE_PRINTAREA:
-		compute_sheet_pages (context, pi,
+		compute_sheet_pages_add_sheet (pi,
 				     pi->sheet, FALSE, TRUE);
 		break;
 	case PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
-		compute_sheet_pages (context, pi,
+		compute_sheet_pages_add_sheet (pi,
 				     pi->sheet, TRUE, TRUE);
 		break;
 	}
@@ -1124,6 +1145,32 @@ print_job_info_destroy (PrintJobInfo *pj)
 
 #endif
 
+static gboolean
+gnm_paginate_cb (GtkPrintOperation *operation,
+                    GtkPrintContext   *context,
+                    gpointer           user_data)
+{
+	PrintingInstance * pi = (PrintingInstance *) user_data;
+	guint paginate = (pi->last_pagination)++;
+	SheetPrintInfo *spi;
+	gint n_pages;
+
+	spi = g_list_nth_data (pi->gnmSheets, paginate);
+	if (spi == NULL) { /*We are done paginating */
+		n_pages = g_list_length (pi->gnmSheetRanges);
+		if (n_pages == 0) /* gtk+ cannot handle 0 pages */
+			n_pages = 1;
+		
+		gtk_print_operation_set_n_pages (operation, n_pages);
+		gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
+		
+		return TRUE;
+	}
+	
+	compute_sheet_pages (context, pi, spi->sheet, spi->selection, spi->ignore_printarea);
+	return FALSE;
+}
+
 static void
 gnm_begin_print_cb (GtkPrintOperation *operation,
                     GtkPrintContext   *context,
@@ -1133,7 +1180,6 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 	PrintRange pr;
 	guint from, to;
 	GtkPrintSettings * settings;
-	gint n_pages;	
 
 	settings =  gtk_print_operation_get_print_settings (operation);
 
@@ -1158,14 +1204,7 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 		pr = pi->pr;
 	}
 
-	compute_pages (operation, context, pi, pr, from, to);
-	
-	n_pages = g_list_length (pi->gnmSheetRanges);
-	if (n_pages == 0) /* gtk+ cannot handle 0 pages */
-		n_pages = 1;
-
-	gtk_print_operation_set_n_pages (operation, n_pages);
-	gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
+	compute_pages (operation, pi, pr, from, to);
 }
 
 static void
@@ -1417,6 +1456,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   }
 
   g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi); 
+  g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
   g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi); 
   g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
   g_signal_connect (print, "create-custom-widget", G_CALLBACK (gnm_create_widget_cb), pi);
