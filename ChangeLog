@@ -1,3 +1,7 @@
+2007-04-06  Pema Geyleg  <pema.geyleg@gmail.com>
+
+	* configure.in: Added 'dz' to ALL_LINGUAS.
+
 2007-04-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (PrintingInstance): add fields
