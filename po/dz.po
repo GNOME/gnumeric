@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-08 03:38+0000\n"
-"PO-Revision-Date: 2007-03-30 11:12+0530\n"
-"Last-Translator: norbu <nor_den@hotmail.com>\n"
+"POT-Creation-Date: 2007-04-04 03:47+0100\n"
+"PO-Revision-Date: 2007-04-05 22:53+0530\n"
+"Last-Translator: translator <pemai_jurmey@hotmail.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,7 @@ msgstr "དངོས་པོའི་ལག་ལཆས་ཕྲ་རིང་
 msgid "StandardToolbar"
 msgstr "ཚད་ལྡན་ལག་ཆས་ཕར་རིང་"
 
-#: ../component/gnumeric.c:374
+#: ../component/gnumeric.c:376
 msgid "Save the embedded workbook"
 msgstr "གནས་འདྲེན་འབད་འབད་བའི་ལཱ་གཡོག་ཀི་དེབ་འདི་སྲུང་བཞག་འབད་"
 
@@ -60,8 +60,8 @@ msgid "Component : Gnumeric"
 msgstr "ཆ་ཤས་ : ཇི་ནུ་མི་རིཀ་"
 
 #: ../component/plugin.xml.in.h:2
-#: ../src/gui-file.c:283
-#: ../src/gui-file.c:436
+#: ../src/gui-file.c:275
+#: ../src/gui-file.c:415
 msgid "Spreadsheets"
 msgstr "ཤོག་ཁྲམ་ཚུ་"
 
@@ -223,9 +223,9 @@ msgid "Functions related to financial derivatives"
 msgstr "དངུལ་རྩིས་ཀྱི་འགྱུར་བ་ཚུ་ལུ་འབྲེལ་བ་ཡོད་པའི་ལས་འགན་ཚུ་"
 
 #: ../plugins/dif/dif.c:70
-#: ../plugins/excel/ms-excel-read.c:6138
+#: ../plugins/excel/ms-excel-read.c:6137
 #: ../plugins/mps/mps.c:534
-#: ../src/xml-io.c:2623
+#: ../src/xml-io.c:2609
 #: ../src/xml-sax-read.c:2219
 msgid "Reading file..."
 msgstr "ཡིག་སྣོད་ལྷག་དོ་..."
@@ -318,15 +318,15 @@ msgstr "རེ་བ་མེད་པའི་ཁྱད་ཆོས་ %s::%s =
 msgid "XML document not well formed!"
 msgstr "ཨེགསི་ཨེམ་ཨེལ་ཡིག་ཆ་ ལེགས་ཤོམ་སྦེ་མ་སྒྲིག་པས་!"
 
-#: ../plugins/excel/ms-excel-read.c:1103
+#: ../plugins/excel/ms-excel-read.c:1099
 #: ../src/value.c:78
 msgid "#UNKNOWN!"
 msgstr "#མ་ཤེསཔ་!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1185
-#: ../plugins/excel/ms-excel-read.c:1197
+#: ../plugins/excel/ms-excel-read.c:1181
+#: ../plugins/excel/ms-excel-read.c:1193
 #: ../plugins/oleo/oleo.c:343
 #: ../plugins/psiconv/psiconv-read.c:509
 #: ../src/dialogs/dialog-sheet-order.c:519
@@ -335,32 +335,32 @@ msgstr "#མ་ཤེསཔ་!"
 msgid "Sheet%d"
 msgstr "ལེབ་གྲངས་%d"
 
-#: ../plugins/excel/ms-excel-read.c:1201
+#: ../plugins/excel/ms-excel-read.c:1197
 #, c-format
 msgid "Macro%d"
 msgstr "མེཀ་རོ་%d"
 
-#: ../plugins/excel/ms-excel-read.c:1205
+#: ../plugins/excel/ms-excel-read.c:1201
 #, c-format
 msgid "Chart%d"
 msgstr "དཔེ་རིས་%d"
 
-#: ../plugins/excel/ms-excel-read.c:1208
+#: ../plugins/excel/ms-excel-read.c:1204
 #, c-format
 msgid "Module%d"
 msgstr "ཚད་གཞི་%d"
 
-#: ../plugins/excel/ms-excel-read.c:3064
+#: ../plugins/excel/ms-excel-read.c:3065
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "མིང་ '%s' མིང་དཔྱད་འབདཝ་ད་འཐུས་ཤོར་"
 
-#: ../plugins/excel/ms-excel-read.c:3167
+#: ../plugins/excel/ms-excel-read.c:3168
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "མིང་ '%s' གི་དོན་ལས་ བདེན་མེད་གསལ་བརྗོད་: ནང་དོན་འདི་བརླག་སྟོར་ཞུགས་འོང་།\n"
 
-#: ../plugins/excel/ms-excel-read.c:3177
+#: ../plugins/excel/ms-excel-read.c:3178
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -369,7 +369,7 @@ msgstr ""
 "ཌི་ཌི་ཨི་འབྲེལ་ལམ་ཚུ་རྒྱབ་སྐྱོར་མ་འབད་བས།\n"
 "མིང་ '%s' འདི་བརླག་སྟོར་ཞུགས་འོང་།\n"
 
-#: ../plugins/excel/ms-excel-read.c:3183
+#: ../plugins/excel/ms-excel-read.c:3184
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -378,11 +378,11 @@ msgstr ""
 "ཨོ་ཨེལ་ཨི་འབྲེལ་ལམ་ཚུ་རྒྱབ་སྐྱོར་མ་འབད་བས།\n"
 "མིང་ '%s' འདི་བརླག་སྟོར་ཞུགས་འོང་།\n"
 
-#: ../plugins/excel/ms-excel-read.c:5436
+#: ../plugins/excel/ms-excel-read.c:5435
 msgid "external references"
 msgstr "ཕྱིའི་གཞི་བསྟུན་ཚུ་"
 
-#: ../plugins/excel/ms-excel-read.c:5462
+#: ../plugins/excel/ms-excel-read.c:5461
 msgid "No password supplied"
 msgstr "ཆོག་ཡིག་བཀྲམ་སྤེལ་མ་འབད་བས་"
 
@@ -408,11 +408,11 @@ msgstr ""
 "འ་ནི་འདི་ཨ་ཙི་ཅིག་ངན་ཅན་ཨིན་པས།\n"
 "ང་བཅས་ཀྱིས་ ཨིན་ཀོ་ཌིང་དཀའ་ངལ་ཚུ་གིས་འབད་ཆུང་ཀུ་བཟོ་ཡོད་མི་ ཡིག་རྒྱུན་ཅིག་གི་དོན་ལུ་ ཧེ་མ་ལས་རིང་ཚད་ཅིག་འབྲི་ཡོད།"
 
-#: ../plugins/excel/ms-excel-write.c:5446
+#: ../plugins/excel/ms-excel-write.c:5445
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "འབྲི་ནིའི་དོན་ལུ་ རྒྱུན་རིམ་གྱི་'ཀི་དེབ་'ཁ་ཕྱེ་མ་ཚུགས་\n"
 
-#: ../plugins/excel/ms-excel-write.c:5466
+#: ../plugins/excel/ms-excel-write.c:5465
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "འབྲི་ནིའི་དོན་ལུ་ རྒྱུན་རིམ་གྱི་'ལཱ་གཡོག་ཀི་དེབ་'ཁ་ཕྱེ་མ་ཚུགས་\n"
 
@@ -425,119 +425,122 @@ msgstr "ཆད་ཡོད་པའི་ལས་འགན་"
 msgid "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr "ལས་འགན་ '%s' གི་དོན་ལུ་ སྒྲུབ་རྟགས་ལེ་ཤ་ ཨེམ་ཨེསི་ཨེགསི་སེལ་གྱིས་  %d མེན་པར་  %d རྐྱངམ་ཅིག་ལེགས་སྐྱོང་འཐབ་ཚུགས་"
 
-#: ../plugins/excel/xlsx-read.c:362
+#: ../plugins/excel/xlsx-read.c:363
 #, c-format
 msgid "Missing id for part in '%s'"
 msgstr "'%s' ནང་ཡན་ལག་གི་དོན་ལུ་ བརླག་སྟོར་ཞུགས་ཡོད་པའི་ཨའི་ཌི་"
 
-#: ../plugins/excel/xlsx-read.c:373
+#: ../plugins/excel/xlsx-read.c:374
 #, c-format
 msgid "Part '%s' in '%s' from '%s' is corrupt!"
 msgstr " '%s' ལས་ཀྱི་  '%s' ནང་གི་ཡན་ལག་ '%s' འདི་ངན་ཅན་ཨིན་པས་!"
 
-#: ../plugins/excel/xlsx-read.c:382
+#: ../plugins/excel/xlsx-read.c:383
 #, c-format
 msgid "Unable to find part '%s' for '%s'"
 msgstr " '%s' གི་དོན་ལུ་ ཡན་ལག་ '%s' འཚོལ་མ་འཐོབ་"
 
-#: ../plugins/excel/xlsx-read.c:399
+#: ../plugins/excel/xlsx-read.c:400
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr " '%s' འདི་ངན་ཅན་ཨིན་པས་!"
 
-#: ../plugins/excel/xlsx-read.c:468
+#: ../plugins/excel/xlsx-read.c:469
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ མ་ཤེས་པའི་ཨི་ནམ་གནས་གོང་ '%s' "
 
-#: ../plugins/excel/xlsx-read.c:511
+#: ../plugins/excel/xlsx-read.c:512
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ ཧྲིལ་གྲངས་ '%s' འདི་ཁྱབ་ཚད་ཀྱི་ཕྱི་ཁ་ཨིན་པས་"
 
-#: ../plugins/excel/xlsx-read.c:515
+#: ../plugins/excel/xlsx-read.c:516
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ ནུས་མེད་ཧྲིལ་གྲངས་ '%s' "
 
-#: ../plugins/excel/xlsx-read.c:540
+#: ../plugins/excel/xlsx-read.c:541
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ ནུས་མེད་ཨང་ '%s'"
 
-#: ../plugins/excel/xlsx-read.c:564
+#: ../plugins/excel/xlsx-read.c:565
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ ནུས་མེད་ནང་ཐིག་གི་གནས་ས་ '%s'"
 
-#: ../plugins/excel/xlsx-read.c:583
+#: ../plugins/excel/xlsx-read.c:584
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "ཁྱད་ཆོས་ %s གི་དོན་ལུ་ ནུས་མེད་ཁྱབ་ཚད་ '%s'"
 
-#: ../plugins/excel/xlsx-read.c:938
+#: ../plugins/excel/xlsx-read.c:939
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "ཁྱད་ཆོས་ཨར་ཇི་བི་གི་དོན་ལུ་ ནུས་མེད་ཚོས་གཞི་ '%s' "
 
-#: ../plugins/excel/xlsx-read.c:961
+#: ../plugins/excel/xlsx-read.c:962
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "ངེས་འཛིན་མ་འབད་བའི་བཟོ་རྣམ་སྒྲ་བཟུང་ '%d'"
 
-#: ../plugins/excel/xlsx-read.c:970
+#: ../plugins/excel/xlsx-read.c:971
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "ངེས་འཛིན་མ་འབད་བའི་ཆ་ཤས་བཟོ་རྣམ་གྱི་སྒྲ་བཟུང་ '%d'"
 
-#: ../plugins/excel/xlsx-read.c:1110
+#: ../plugins/excel/xlsx-read.c:1111
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "ངེས་འཛིན་མའབད་བའི་ཨང་གི་རྩ་སྒྲིག་ཨའི་ཌི་ '%s'"
 
-#: ../plugins/excel/xlsx-read.c:1165
+#: ../plugins/excel/xlsx-read.c:1166
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "ནུས་མེད་ཨེསི་ཨེསི་ཊི་རེཕ་ '%s'"
 
-#: ../plugins/excel/xlsx-read.c:1287
+#: ../plugins/excel/xlsx-read.c:1288
 #, c-format
 msgid "Invalid cell %s"
 msgstr "ནུས་མེད་ནང་ཐིག་ %s"
 
-#: ../plugins/excel/xlsx-read.c:1388
+#: ../plugins/excel/xlsx-read.c:1389
 msgid "Ignoring column information that does not specify first or last."
 msgstr "དང་པ་ཡང་ན་མཇུག་གསལ་བཀོད་མ་འབད་མི་ ཀེར་ཐིག་བརྡ་དོན་སྣང་མེད་བཞག་དོ།"
 
-#: ../plugins/excel/xlsx-read.c:1827
+#: ../plugins/excel/xlsx-read.c:1828
 msgid "Undefined"
 msgstr "ངེས་འཛིན་མ་འབད་མི་"
 
-#: ../plugins/excel/xlsx-read.c:1859
+#: ../plugins/excel/xlsx-read.c:1860
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "དབྱེ་བ་ '%s' གི་ ལེགས་སྐྱོང་མ་འཐབ་པའི་གནས་སྟངས་ཀྱི་རྩ་སྒྲིག་སྣང་མེད་བཞག་དོ་"
 
-#: ../plugins/excel/xlsx-read.c:2186
+#: ../plugins/excel/xlsx-read.c:2187
 msgid "Ignoring a sheet without a name"
 msgstr "མིང་མེད་པའི་ལེབ་གྲངས་ཅིག་སྣང་མེད་བཞག་དོ་"
 
-#: ../plugins/excel/xlsx-read.c:2214
+#: ../plugins/excel/xlsx-read.c:2215
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "ལེབ་གྲངས་ '%s' གི་དོན་ལུ་ བརླག་སྟོར་ཞུགས་ཡོད་པའི་ཡན་ལག་ཨའི་ཌི་"
 
-#: ../plugins/excel/xlsx-read.c:2648
+#: ../plugins/excel/xlsx-read.c:2649
 #, c-format
 msgid "Undefined font record '%d'"
 msgstr "ངེས་འཛིན་འབད་བའི་ཡིག་གཟུགས་སྒྲ་བཟུང་ '%d'"
+
+#: ../plugins/excel/xlsx-read.c:2983
+msgid "No workbook stream found."
+msgstr "ལཱ་དེབ་རྒྱུན་རིམ་མ་ཐོབ།"
 
 #. TODO * TODO * TODO
 #. *
 #. * Named expressions
 #. * rich text
 #. * validation
-#. * autofilters
 #. * workbook/calc properties
 #. * more print settings
 #. * comments
@@ -550,6 +553,13 @@ msgstr "ངེས་འཛིན་འབད་བའི་ཡིག་གཟུ
 #. * 		: why do we need to flip fg and bg for solid in xf but not for dxf
 #. * 		: other condition types
 #. * 		: check binary operators
+#. *
+#. * ".xlam",	"application/vnd.ms-excel.addin.macroEnabled.12" ,
+#. * ".xlsb",	"application/vnd.ms-excel.sheet.binary.macroEnabled.12" ,
+#. * ".xlsm",	"application/vnd.ms-excel.sheet.macroEnabled.12" ,
+#. * ".xlsx",	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ,
+#. * ".xltm",	"application/vnd.ms-excel.template.macroEnabled.12" ,
+#. * ".xltx",	"application/vnd.openxmlformats-officedocument.spreadsheetml.template"
 #. *
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -703,7 +713,7 @@ msgstr "date1,date2,interval"
 #: ../plugins/fn-date/functions.c:1526
 #: ../plugins/fn-date/functions.c:1539
 #: ../plugins/fn-date/functions.c:1543
-#: ../src/print-info.c:486
+#: ../src/print-info.c:504
 msgid "date"
 msgstr "ཚེས་གྲངས་"
 
@@ -722,7 +732,7 @@ msgstr "start_date,months"
 #: ../plugins/fn-date/functions.c:1474
 #: ../plugins/fn-date/functions.c:1478
 #: ../plugins/fn-date/functions.c:1494
-#: ../src/print-info.c:487
+#: ../src/print-info.c:505
 msgid "time"
 msgstr "ཆུ་ཚོད་"
 
@@ -828,10 +838,10 @@ msgid "%s version %s"
 msgstr "%s ཐོན་རིམ་ %s"
 
 #: ../plugins/fn-info/functions.c:1330
-#: ../src/dialogs/dialog-cell-format.c:2219
 #: ../src/dialogs/dialog-cell-format.c:2223
-#: ../src/dialogs/dialog-cell-format.c:2231
-#: ../src/wbc-gtk.c:579
+#: ../src/dialogs/dialog-cell-format.c:2227
+#: ../src/dialogs/dialog-cell-format.c:2235
+#: ../src/wbc-gtk.c:580
 msgid "Automatic"
 msgstr "རང་བཞིན་"
 
@@ -1738,7 +1748,7 @@ msgstr "གནས་གོང་"
 #.
 #: ../plugins/mps/mps.c:271
 #: ../src/dialogs/dialog-formula-guru.c:835
-#: ../src/dialogs/dialog-search.c:418
+#: ../src/dialogs/dialog-search.c:423
 #: ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "དབྱེ་བ་"
@@ -2281,13 +2291,13 @@ msgstr "ཨེགསི་གཞི་རྟེན་ཡིག་སྣོད་
 
 #: ../plugins/xbase/boot.c:186
 #: ../src/dialogs/dialog-goto-cell.c:260
-#: ../src/dialogs/dialog-search.c:416
+#: ../src/dialogs/dialog-search.c:421
 #: ../src/dialogs/dialog-stf-export.c:463
 #: ../src/dialogs/print.glade.h:23
-#: ../src/print-info.c:403
-#: ../src/search.c:607
-#: ../src/workbook.c:850
-#: ../src/xml-io.c:2228
+#: ../src/print-info.c:421
+#: ../src/search.c:620
+#: ../src/workbook.c:855
+#: ../src/xml-io.c:2214
 msgid "Sheet"
 msgstr "ལེབ་གྲངས་"
 
@@ -2325,7 +2335,7 @@ msgid "Activate New Plugins"
 msgstr "པ་ལག་ཨིན་གསརཔ་ཚུ་ཤུགས་ལྡན་བཟོ་"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:734
+#: ../src/dialogs/dialog-preferences.c:730
 msgid "Allow Unfocused Range Selections"
 msgstr "ཆེད་དམིགས་མ་འབད་བའི་ཁྱབ་ཚད་སེལ་འཐུ་འབད་ནི་ཚུ་འབད་བཅུག་"
 
@@ -2418,72 +2428,72 @@ msgid "Default header/footer font name"
 msgstr "སྔོན་སྒྲིག་མོག་ཡིག་/མཇུག་ཡིག་ ཡིག་གཟུགས་ཀྱི་མིང་"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:27
+msgid "GTKPrintSetting"
+msgstr "ཇི་ཊི་ཀེ་ དཔར་བསྐྲུན་སྒྲིག་སྟངས་"
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:28
 msgid "Header/Footer Format (Left Portion)"
 msgstr "མགོ་ཡིག་/མཇུག་ཡིག་རྩ་སྒྲིག་་(གཡོན་གྱི་ཡན་ལག་)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:28
+#: ../schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "Header/Footer Format (Middle Portion)"
 msgstr "མགོ་ཡིག་/མཇུག་ཡིག་རྩ་སྒྲིག་ (བར་གྱི་ཡན་ལག་)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:29
+#: ../schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "Header/Footer Format (Right Portion)"
 msgstr "མགོ་ཡིག་/མཇུག་ཡིག་རྩ་སྒྲིག་ (གཡས་ཀྱི་ཡན་ལག་)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:30
+#: ../schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "List of Active Plugins."
 msgstr "ཤུགས་ལྡན་པ་ལག་ཨིན་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:31
+#: ../schemas/gnumeric-dialogs.schemas.in.h:32
 msgid "List of Extra Autoformat Directories."
 msgstr "རང་བཞིན་རྩ་སྒྲིག་སྣོད་ཐོ་ཐེབས་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:32
+#: ../schemas/gnumeric-dialogs.schemas.in.h:33
 msgid "List of Extra Plugin Directories."
 msgstr "པ་ལག་ཨིན་སྣོད་ཐོ་ཐེབས་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:33
+#: ../schemas/gnumeric-dialogs.schemas.in.h:34
 msgid "List of First Letter Exceptions"
 msgstr "ཡི་གུ་དམིགས་བསལ་དང་པའི་ཐོ་ཡིག་"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:34
+#: ../schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "List of Init Caps Exceptions"
 msgstr "འགོ་ཐོག་ཚུགས་ཡིག་དམིགས་བསལ་ཚུ་གི་ཐོ་ཡིག་"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:35
+#: ../schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "List of Known Plugins."
 msgstr "ཤེས་པའི་པ་ལག་ཨིན་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:36
+#: ../schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "List of Plugin File States."
 msgstr "པ་ལག་ཨིན་ཡིག་སྣོད་གནས་ལུགས་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:37
+#: ../schemas/gnumeric-dialogs.schemas.in.h:38
 msgid "List of recently used functions."
 msgstr "འཕྲལ་ཁམས་ལག་ལེན་འཐབ་ཡོད་པའི་ལས་འགན་ཚུ་གི་ཐོ་ཡིག"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:38
-#: ../src/dialogs/dialog-preferences.c:723
+#: ../schemas/gnumeric-dialogs.schemas.in.h:39
+#: ../src/dialogs/dialog-preferences.c:719
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "འཕྲལ་ཁམས་ལག་ལེན་འཐབ་ཡོད་པའི་ ལས་འགན་ཚུ་གི་ཐོ་ཡིག་གི་ མང་མཐའ་རིང་ཚད་"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:39
+#: ../schemas/gnumeric-dialogs.schemas.in.h:40
 msgid "Page Footer"
 msgstr "ཤོག་ལེབ་ཀྱི་མཇུག་ཡིག་"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:40
+#: ../schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Page Header"
 msgstr "ཤོག་ལེབ་ཀྱི་མགོ་ཡིག་"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:41
+#: ../schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Please use the Print Setup dialog to edit this value."
 msgstr "འ་ནི་གནས་གོང་འདི་ཞུན་དག་འབད་ནིའི་དོན་ལས་ དཔར་བསྐྲུན་གཞི་སྒྲིག་འབད་ནི་འདི་ལག་ལེན་འཐབ་གནང་།"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:42
-msgid "Print Config"
-msgstr "དཔར་བསྐྲུན་རིམ་སྒྲིག་"
-
 #: ../schemas/gnumeric-dialogs.schemas.in.h:43
-#: ../schemas/gnumeric-general.schemas.in.h:24
+#: ../schemas/gnumeric-general.schemas.in.h:22
 msgid "Sans"
 msgstr "སཱནསི་"
 
@@ -2504,8 +2514,8 @@ msgid "The autocorrect engine does not correct the initial caps for words in thi
 msgstr "རང་བཞིན་ནོར་བཅོས་མ་འཕྲུལ་འདི་གིས་ ཐོ་ཡིག་དེ་ནང་གི་མིང་ཚིག་ཚུ་གི་དོན་ལུ་ འགོ་ཐོག་ཚུགས་ཡིག་ཚུ་ ནོར་བཅོས་མི་འབད།"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
-msgid "The configuration of gnome-print. Do not edit this variable."
-msgstr "ཇི་ནོམ་-དཔར་བཀྲུན་གྱི་རིམ་སྒྲིག་འབད་ནི། འ་ནི་འགྱུར་ཅན་འདི་ཞུན་དག་མ་འབད།"
+msgid "The configuration of GTKPrintSetting. Do not edit this variable."
+msgstr "ཇི་ཊི་ཀེ་དཔར་བསྐྲུན་རིམ་སྒྲིག འགྱུར་ཅན་འདི་ ཞུན་དག་མ་འབད།"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:49
 msgid "The default font name for headers and footers."
@@ -2644,7 +2654,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "རང་བཞིན་གསལ་བརྗོད་ སླར་རྩིས་སྟོན་ནིའི་ལེག་"
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:729
+#: ../src/dialogs/dialog-preferences.c:725
 msgid "Autocomplete"
 msgstr "རང་བཞིན་ཡོངས་སྒྲུབ་"
 
@@ -2653,7 +2663,7 @@ msgid "Before an existing file is being overwritten, gnumeric will present a war
 msgstr "ཡོད་བཞིན་པའི་ཡིག་སྣོད་ཅིག་ཚབ་སྲུང་མ་འབད་བའི་ཧེ་མ་ ཇི་ནུ་མིརིཀ་གིས་ཉེན་བརྡའི་ཌའི་ལོག་ཅིག་སྔོན་གཏང་འབད་འོང་། འ་ནི་གདམ་ཁ་གཞི་སྒྲིག་འབད་ནི་འདི་གིས་ སྔོན་སྒྲིག་དེ་ནང་གི་ ཚབ་སྲུང་ཨེབ་རྟ་འདི་ སྔོན་སྒྲིག་ཨེབ་རྟ་བཟོ་འོང་།"
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:634
+#: ../src/dialogs/dialog-preferences.c:630
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "ཇི་པུ་མིརིཀ་ཡིག་སྣོད་ཚུ་གི་དོན་ལུ་ སྔོན་སྒྲིག་ཨེབ་བཙུགས་གནས་རིམ་"
 
@@ -2672,7 +2682,7 @@ msgid "Default Number of Sheets"
 msgstr "ལེབ་གྲངས་ཀྱི་སྔོན་སྒྲིག་ཨང་"
 
 #: ../schemas/gnumeric-general.schemas.in.h:8
-#: ../src/dialogs/dialog-preferences.c:639
+#: ../src/dialogs/dialog-preferences.c:635
 msgid "Default To Overwriting Files"
 msgstr "ཚབ་སྲུང་འབད་ནིའི་ཡིག་སྣོད་ཚུ་ལུ་ སྔོན་སྒྲིག་"
 
@@ -2695,7 +2705,7 @@ msgid "Format toolbar visible"
 msgstr "ལག་ཆས་ཕྲ་རིང་མཐོང་ཚུགས་མི་རྩ་སྒྲིག་འབད་"
 
 #: ../schemas/gnumeric-general.schemas.in.h:13
-#: ../src/dialogs/dialog-preferences.c:684
+#: ../src/dialogs/dialog-preferences.c:680
 msgid "Horizontal DPI"
 msgstr "ཐད་སྙོམས་ཌི་པི་ཨའི་"
 
@@ -2704,239 +2714,222 @@ msgid "If `lag' is 0, gnumeric recalculates all auto expressions immediately aft
 msgstr "`lag' འདི་ ༠་ ཨིན་པ་ཅིན་ ཇི་ནུ་མིརིཀ་གིས་ བསྒྱུར་བཅོས་རེ་རེ་བཞིན་གྱི་བཤུལ་མ་ དེ་འཕྲལ་ལས་ རང་བཞིན་གསལ་བརྗོད་ཚུ་ སླར་རྩིས་སྟོན་འབདཝ་ཨིན།  `lag' གི་ཀླད་ཀོར་མེན་པའི་གནས་གོང་གིས་ ཇི་ནུ་མིརིཀ་ལུ་ སླར་རྩིས་སྟོན་འབད་ནི་རེ་རེ་གི་ཧེ་མ་བསྒྱུར་བཅོས་ལེ་ཤ་སྤུང་གསོག་འབད་ནིའི་དོན་ལས་འབད་བཅུགཔ་ཨིན། `lag' འདི་ཡོད་ཆ་ཨིན་པ་ཅིན་ བསྒྱུར་བཅོས་ཚུ་ནམ་རང་འབྱུང་རུང་ ཇི་ནུ་མིརིཀ་གིས་ `lag' མི་ལི་སྐར་ཆ་བསྒུག་ཞིནམ་ལས་ སླར་རྩིས་སྟོན་འབདཝ་ཨིན་  འ་ནི་དུས་ཡུན་འདི་གི་སྐབས་ལུ་བསྒྱུར་བཅོས་ལེ་ཤ་འབྱུང་པ་ཅིན་ དེ་ཚུ་ཡང་ འ་ནི་ཆུ་ཚོད་འདི་ལུ་ལས་སྦྱོར་འབདཝ་ཨིན། `lag' འདི་མེད་ཆ་ཨིན་པ་ཅིན་ སླར་རྩིས་སྟོན་འབད་ནི་འདི་  |lag| མི་ལི་སྐར་ཆ་ཚུ་གི་ དུས་ཡུན་ཁ་སིམ་སིམ་ཅིག་གི་ཤུལ་ལས་རྐྱངམ་ཅིག་འབྱུངམ་ཨིན།"
 
 #: ../schemas/gnumeric-general.schemas.in.h:15
-#: ../src/dialogs/dialog-preferences.c:630
-msgid "Length of File History"
-msgstr "ཡིག་སྣོད་ལོས་རྒྱུས་ཀྱི་རིང་ཚད་"
-
-#: ../schemas/gnumeric-general.schemas.in.h:16
 msgid "Length of the Undo Descriptors"
 msgstr "འབད་བཤོལ་འགྲེལ་བཤད་པའི་རིང་ཚད་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:17
-msgid "List of recently used files"
-msgstr "འཕྲལ་ཁམས་ལག་ལེན་འཐབ་ཡོད་པའི་ཡིག་སྣོད་ཚུ་གི་ཐོ་ཡིག་"
-
-#: ../schemas/gnumeric-general.schemas.in.h:18
+#: ../schemas/gnumeric-general.schemas.in.h:16
 #: ../src/dialogs/dialog-preferences.c:595
 msgid "Live Scrolling"
 msgstr "དངོས་མཐོང་བཤུད་བསྒྲིལ་འབད་ནི་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:19
+#: ../schemas/gnumeric-general.schemas.in.h:17
 #: ../src/dialogs/dialog-preferences.c:479
 msgid "Maximal Undo Size"
 msgstr "མང་མཐའ་འབད་བཤོལ་གྱི་ཚད་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:20
+#: ../schemas/gnumeric-general.schemas.in.h:18
 #: ../src/dialogs/dialog-preferences.c:523
 msgid "Number of Automatic Clauses"
 msgstr "རང་བཞིན་གྱི་དབྱེ་དོན་ཚུ་གི་ཨང་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:21
+#: ../schemas/gnumeric-general.schemas.in.h:19
 #: ../src/dialogs/dialog-preferences.c:483
 msgid "Number of Undo Items"
 msgstr "འབད་བཤོལ་རྣམ་གྲངས་ཚུ་གི་ཨང་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:22
+#: ../schemas/gnumeric-general.schemas.in.h:20
 msgid "Object toolbar visible"
 msgstr "དངོས་པོ་ལག་ཆས་ཕྲ་རིང་མཐོང་ཚུགསཔ་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:23
-#: ../src/dialogs/dialog-preferences.c:768
+#: ../schemas/gnumeric-general.schemas.in.h:21
+#: ../src/dialogs/dialog-preferences.c:764
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "གཞི་རིམ་སེལ་འཐུ་འབད་ནི་གི་ལྟག་ལས་ འཛིན་པང་གདམ་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:25
+#: ../schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
 msgstr "ཐད་སྙོམས༌ཁ་ཕྱོགས་དེ་ནང་ གསལ་གཞི་ཧུམ་ཆ།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:26
+#: ../schemas/gnumeric-general.schemas.in.h:24
 msgid "Screen resolution in the vertical direction."
 msgstr "ཀེར་ཕྲང་ཁ་ཕྱོགས་དེ་ནང་ གསལ་གཞི་ཧུམ་ཆ།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:27
+#: ../schemas/gnumeric-general.schemas.in.h:25
 msgid "Setting this option will cause the sort buttons on the toolbar to assume that the area to be sorted has a header and determine the initial state of the has-header checkbox in the sort dialog."
 msgstr "འ་ནི་གདམ་ཁ་གཞི་སྒྲིག་འམད་ནི་འདི་གིས་ ལག་ཆས་ཕྲ་རུང་གུའི་དབྱེ་སེལ་ཨེབ་རྟ་ཚུ་ལུ་ མངའ་ཁོངས་ཚུ་མགོ་ཡིག་ཅིག་སྦེ་དབྱེ་སེལ་འབད་དགོཔ་ཚོད་དཔག་བཅུགཔ་ཨིན་ དེ་ལས་ དབྱེ་སེལ་ཌའི་ལོག་ནང་གི་ མགོ་ཡིག་དཔྱད་སྒྲོམ་ཡིག་མི་གི་འགོ་ཐོག་གནས་ལུགས་འདི་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:28
+#: ../schemas/gnumeric-general.schemas.in.h:26
 msgid "Setting this option will cause the sort buttons on the toolbar to perform a case-sensitive sort and determine the initial state of the case-sensitive checkbox in the sort dialog."
 msgstr "འ་ནི་གདམ་ཁ་གཞི་སྒྲིག་འབད་ནི་འདི་གིས་ ལག་ཆས་ཕྲ་རིང་གུའི་དབྱེ་སེལ་ཨེབ་རྟ་ཚུ་ལུ་ ཡི་གུ་ཆེ་ཆུང་གི་ཉེན་ཁུའི་དབྱེ་སེལ་ཅིག་ལཱ་འགན་འགྲུབ་བཅུགཔ་ཨིན་ དེ་ལས་ དབྱེ་སེལ་ཌའི་ལོག་ནང་གི་ ཡི་གུ་ཆེ་ཆུང་གི་དཔྱད་སྒྲོམ་འདི་གི་ འགོ་ཐོག་གནས་ལུགས་འདི་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:29
+#: ../schemas/gnumeric-general.schemas.in.h:27
 msgid "Setting this option will cause the sort buttons on the toolbar to preserve the cell formats while sorting and determines the initial state of the preserve-formats checkbox in the sort dialog."
 msgstr "འ་ནི་གདམ་ཁ་གཞི་སྒྲིག་འབད་ནི་འདི་གིས་ ལག་ཆས་ཕྲ་རིང་གུའི་དབྱེ་སེལ་ཨེབ་རྟ་ཚུ་ལུ་ དབྱེ་སེལ་འབད་བའི་སྐབས་ ནང་ཐིག་རྩ་སྒྲིག་ཚུ་ཉམས་སྲུང་འབད་བཅུགཔ་ཨིན་ དེ་ལས་ དབྱེ་སེལ་ཌའི་ལོག་ནང་གི་ རྩསྒྲིག་ཉམས་སྲུང་དཔྱད་སྒྲོམ་འདི་གི་ འགོ་ཐོག་གནས་ལུགས་འདི་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:30
+#: ../schemas/gnumeric-general.schemas.in.h:28
 #: ../src/dialogs/dialog-preferences.c:487
 msgid "Show Sheet Name in Undo List"
 msgstr "འབད་བཤོལ་ཐོ་ཡིག་ནང་ལུ་ ལེབ་གྲངས་ཀྱི་མིང་སྟོན་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:31
+#: ../schemas/gnumeric-general.schemas.in.h:29
 msgid "Some file formats can contain only a single sheet. This variable determines whether the user will be warned if only a single sheet of a multi-sheet workbook is being saved."
 msgstr "ཡིག་སྣོད་ཀྱི་རྩ་སྒྲིག་ལ་ལུ་ཅིག་ནང་ ལེབ་གྲངས་རྐྱང་པ་ཅིག་རྐྱངམ་ཅིག་འོངམ་ཨིན། འ་ནི་མི་མཐུན་པ་འདི་གིས་ ལག་ལེན་པ་འདི་ཡང་ཅིན་ སྣ་མང་ཤོག་ལེབ་འདི་གི་ལཱ་གཡོག་ཀི་དེབ་འདི་གི་ལེབ་གྲངས་རྐྱང་པ་ཅིག་རྐྱངམ་ཅིག་སྲུང་བཞག་འབད་ཡོདཔ་ཨིན་པ་ཅིན་ ཉེན་བརྡ་འབད་ཡོདཔ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:32
+#: ../schemas/gnumeric-general.schemas.in.h:30
 msgid "Sort Area Has Header"
 msgstr "དབྱེ་སེལ་མངའ་ཁོངས་ལུ་མགོ་ཡིག་འདུག"
 
-#: ../schemas/gnumeric-general.schemas.in.h:33
+#: ../schemas/gnumeric-general.schemas.in.h:31
 #: ../src/dialogs/dialog-preferences.c:535
-#: ../src/wbcg-actions.c:1984
+#: ../src/wbcg-actions.c:1990
 msgid "Sort Ascending"
 msgstr "དབྱེ་སེལ་ཡར་འཛེགས་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:34
+#: ../schemas/gnumeric-general.schemas.in.h:32
 msgid "Sort is Case-Sensitive"
 msgstr "དབྱེ་སཻླ་འདི་ཡི་གུ་ཆེ་ཆུང་གི་ཉེན་ཁ་ཨིན་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:35
+#: ../schemas/gnumeric-general.schemas.in.h:33
 #: ../src/dialogs/dialog-preferences.c:527
 msgid "Sorting Preserves Formats"
 msgstr "དབྱེ་སེལ་འབད་ནིའི་འདི་གིས་ རྩ་སྒྲིག་ཚུ་ཉམས་སྲུང་འབདཝ་ཨིན་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:36
+#: ../schemas/gnumeric-general.schemas.in.h:34
 msgid "Standard toolbar position"
 msgstr "ཚད་ལྡན་ལག་ཆས་ཕྲ་རིང་གི་གནས་ས་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:37
+#: ../schemas/gnumeric-general.schemas.in.h:35
 msgid "Standard toolbar visible"
 msgstr "ཚད་ལྡན་ལག་ཆས་ཕྲ་རིང་མཐོང་ཚུགསཔ་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:38
+#: ../schemas/gnumeric-general.schemas.in.h:36
 msgid "The default font is bold."
 msgstr "སྔོན་སྒྲིག་ཡིག་གཟུགས་འདི་རྒྱགས་པ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:39
+#: ../schemas/gnumeric-general.schemas.in.h:37
 msgid "The default font is italic."
 msgstr "སྔོན་སྒྲིག་ཡིག་གཟུགས་འདི་ཨའི་ཊ་ལིཀ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:40
+#: ../schemas/gnumeric-general.schemas.in.h:38
 msgid "The default font name for new workbooks."
 msgstr "ལཱ་གཡོག་ཀི་དེབ་གསརཔ་ཚུ་གི་དོན་ལུ་ སྔོན་སྒྲིག་ཡིག་གཟུགས་ཀྱི་མིང་།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:41
+#: ../schemas/gnumeric-general.schemas.in.h:39
 msgid "The default font size for new workbooks."
 msgstr "ལཱ་གཡོག་གི་དེབ་གསརཔ་ཚུ་གི་དོན་ལུ་ སྔོན་སྒྲིག་ཡིག་གཟུགས་ཀྱི་ཚད།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:42
-msgid "The file menu shows a list of recently used functions. This is that list."
-msgstr "ཡིག་སྣོད་དཀའ་ཆག་འདི་གིས་ འཕྲལ་ཁམས་ལག་ལེན་འཐབ་ཡོད་པའི་ལས་འགན་ཚུ་གི་ ཐོ་ཡིག་ཅིག་སྟོནམ་ཨིན། འ་ནི་འདི་འ་ཕི་ཐོ་ཡིག་འདི་ཨིན།"
-
-#: ../schemas/gnumeric-general.schemas.in.h:43
+#: ../schemas/gnumeric-general.schemas.in.h:40
 msgid "The initial zoom factor for new workbooks."
 msgstr "ལཱ་གཡོག་ཀི་དེབ་གསརཔ་ཚུ་གི་དོན་ལུ་ འགོ་ཐོག་རྒྱས་བཟུམ་ཆ་རྐྱེན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:44
-msgid "The number of files kept in the `recent' section of the file menu."
-msgstr "ཡིག་སྣོད་དཀར་ཆག་འདི་གི་  `འཕྲལ་གྱི་' དབྱེ་ཚན་འདི་ནང་བཞག་ཡོད་པའི་ ཡིག་སྣོད་ཚུ་གི་གྲངས།"
-
-#: ../schemas/gnumeric-general.schemas.in.h:45
+#: ../schemas/gnumeric-general.schemas.in.h:41
 msgid "The number of sheets initially created in a new workbook."
 msgstr "ལཱ་གཡོག་ཀི་དེབ་གསརཔ་ཅིག་ནང་ འགོ་ཐོག་གསར་བསྐྲུན་འབད་ཡོད་པའི་ ལེབ་གྲངས་ཚུ་གི་གྲངས།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:46
+#: ../schemas/gnumeric-general.schemas.in.h:42
 msgid "This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is minimal compression while 9 is maximal compression."
 msgstr "འ་ནི་ཧྲིལ་གྲངས་(༠ དང ༩ གི་བར་ན་)འདི་གིས་ སྔོན་སྒྲིག་ཡིག་སྣོད་ཀྱི་རྩ་སྒྲིག་ནང་ཡིག་སྣོད་ཚུ་སྲུང་བཞག་འབད་བའི་སྐབས་ ཇི་ནུ་མིརིཀ་གིས་ལཱ་འགན་འགྲུབ་ཡོད་མི་ ཨེབ་བཙུགས་ཀྱི་བསྡོམས་འདི་གསལ་བཀོད་འབདཝ་ཨིན། ༠ འདི་ཨེབ་བཙུགས་ཉུང་ཤོས་ཨིན་ ༩ འདི་ཨེབ་བཙུགས་མང་ཤོས་ཨིན།་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:47
+#: ../schemas/gnumeric-general.schemas.in.h:43
 msgid "This number (between 0.25 and 1.00) gives the horizontal fraction of the screen size covered by the default window."
 msgstr "འ་ནི་ཨང་ (༠.༢༥ དང་ ༡.༠༠ གི་བར་ན་) གིས་སྔོན་སྒྲིག་སྒོ་སྒྲིག་གིས་སྤུབས་ཡོད་པའི་གསལ་གཞིའི་ཚད་འདི་གི་ ཐད་སྙོམས་དཔྱ་ཕྲན་འདི་བྱིནམ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:48
+#: ../schemas/gnumeric-general.schemas.in.h:44
 msgid "This number (between 0.25 and 1.00) gives the vertical fraction of the screen size covered by the default window."
 msgstr "འ་ནི་ཨང་ (༠.༢༥ དང་ ༡.༠༠ གི་བར་ན་) གིས་སྔོན་སྒྲིག་སྒོ་སྒྲིག་གིས་སྤུབས་ཡོད་པའི་གསལ་གཞིའི་ཚད་འདི་གི་ ཀེར་ཕྲང་དཔྱ་ཕྲན་འདི་བྱིནམ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:49
+#: ../schemas/gnumeric-general.schemas.in.h:45
 msgid "This option determines the initial state of the sort-order button in the sort dialog."
 msgstr "འ་ནི་གདམ་ཁ་འདི་གིས་ དབྱེ་སེལ་ཌའི་ལོག་འདི་ནང་ དབྱེ་སེལ་གོ་རིམ་གྱི་ཨེབ་རྟ་འདི་གི་ འགོ་ཐོག་གནས་ལུགས་འདི་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:50
+#: ../schemas/gnumeric-general.schemas.in.h:46
 msgid "This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value."
 msgstr "འ་ནི་གནས་གོང་འདི་གིས་ འབད་བཤོལ་རྒྱུན་ཐག་འདི་གི་ རིང་ཚད་འདི་གཏན་འབེབས་བཟོཝ་ཨིན། ཞུན་དག་འབད་ནིའི་བྱ་བ་རེ་རེ་ལུ་ འམཇ་སམ་ནང་ཐིག་གཅིག་ཞུན་དག་འབད་ནི་་(༡ གི་ཚད་) ཅིག་གི་དྲན་ཚད་དགོས་མཁོ་འདི་དང་གཅིག་ཁར་ད་བསྡུར་རྐྱབས་ནིའི་དོན་ལས་ དེ་དང་འབྲེལབ་ཡོད་མི་རེ་ཡོདཔ་ཨིན། འབད་བཤོལ་ཐོ་ཡིག་འདི་ ཁོ་རའི་ཚད་ཀྱི་བསྡོམས་འདི་ རིམ་སྒྲིག་འབད་བཏུབ་པའི་གནས་གོང་ལྷགཔ་དང་ ཆུང་ཀུ་བཟོ་འོང་།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:51
+#: ../schemas/gnumeric-general.schemas.in.h:47
 msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr "་འ་ནི་གནས་གོང་འདི་གིས་ འབད་བཤོལ་/ལོག་འབད་ཐོ་ཡིག་འདི་ནང་གི་རྣམ་གྲངས་ཚུ་གི་ མང་མཐའ་གྲངས་འདི་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:52
+#: ../schemas/gnumeric-general.schemas.in.h:48
 msgid "This value determines whether the default font for a new workbook is bold."
 msgstr "འ་ནི་གནས་གོང་འདི་གིས་ ལཱ་གཡོག་ཀི་དེབ་གསརཔ་ཅིག་གི་དོན་ལུ་ སྔོན་སྒྲིག་ཡིག་གཟུགས་འདི་རྒྱགས་པ་ཨིན་ན་མེན་ན་ གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:53
+#: ../schemas/gnumeric-general.schemas.in.h:49
 msgid "This value determines whether the default font for a new workbook is italic."
 msgstr "འ་ནི་གནས་གོང་འདི་གིས་ ལཱ་གཡོག་ཀི་དེབ་གསརཔ་ཅིག་གི་དོན་ལུ་ སྔོན་སྒྲིག་ཡིག་གཟུགས་འདི་ ཨའི་ཊ་ལིཀ་ཨིན་ན་མེན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:54
+#: ../schemas/gnumeric-general.schemas.in.h:50
 msgid "This value determines whether to show the sheet names in the undo and redo lists."
 msgstr "འ་ནི་གནས་གོང་འདི་གིས་ འབད་བཤོལ་དང་ལོག་འབད་ཐོ་ཡིག་ཚུ་ནང་ ལེབ་གྲངས་ཀྱི་མིང་འདི་ཚུ་ སྟོན་ནི་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:55
+#: ../schemas/gnumeric-general.schemas.in.h:51
 msgid "This value is indicative of the maximum length of the command descriptors in the undo and redo chains."
 msgstr "འ་ནི་གནས་གོང་འདི་ འབད་བཤོལ་དང་ལོག་འབད་རྒྱུན་ཐག་ནང་གི་ བརྡ་བཀོད་འགྲེལ་བཤདཔ་ཚུ་གི་ མང་ཐའམ་རིང་ཚད་འདི་གི་ བརྡ་སྟོན་འབད་བཏུབ་ཅིག་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:56
+#: ../schemas/gnumeric-general.schemas.in.h:52
 msgid "This variable determines where the format toolbar should be shown. 0 is left, 1 is right, 2 is top."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ རྩ་སྒྲིག་ལག་ཆས་ཕྲ་རིང་འདི་ ག་སྟེ་སྟོན་དགོཔ་ཨིན་ན་ གཏན་འབེབས་བཟོཝ་ཨིན། ༠ འདི་གཡོན་ ༡ འདི་གཡས་ ༢ འདི་མགོ་ལུ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:57
+#: ../schemas/gnumeric-general.schemas.in.h:53
 msgid "This variable determines where the object toolbar should be shown. 0 is left, 1 is right, 2 is top."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ དངོས་པོ་ལག་ཆས་ཕྲ་རིང་འདི་ ག་སྟེ་སྟོན་དགོཔ་ཨིན་ན་ གཏན་འབེབས་བཟོཝ་ཨིན། ༠ འདི་གཡོན་ ༡ འདི་གཡས་ ༢ འདི་མགོ་ལུ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:58
+#: ../schemas/gnumeric-general.schemas.in.h:54
 msgid "This variable determines where the standard toolbar should be shown. 0 is left, 1 is right, 2 is top."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ ཚད་ལྡན་ལག་ཆས་ཕྲ་རིང་འདི་ ག་སྟེ་སྟོན་དགོཔ་ཨིན་ན་ གཏན་འབེབས་བཟོཝ་ཨིན། ༠ འདི་གཡོན་ ༡ འདི་གཡས་ ༢ འདི་མགོ་ལུ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:59
+#: ../schemas/gnumeric-general.schemas.in.h:55
 msgid "This variable determines whether autocompletion is set on."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ རང་བཞིན་ཡོངས་སྒྲུབ་འདི་ཨཱོན་འབད་ཡོདཔ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:60
+#: ../schemas/gnumeric-general.schemas.in.h:56
 msgid "This variable determines whether live (versus delayed) scrolling is performed."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ དངོས་མཐོང་(ཕྱིར་འགྱངས་འབད་ཡོད་མི་དང) བཤུད་བསྒྲིལ་འབད་ནི་འདི་ ལཱ་འགན་གྲུབ་ཡོདཔ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:61
+#: ../schemas/gnumeric-general.schemas.in.h:57
 msgid "This variable determines whether the format toolbar should be visible initially."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ རྩ་སྒྲིག་ལག་ཆས་ཕྲ་རིང་འདི་ འགོ་ཐོག་བསྒང་མཐོང་ཚུགས་དགོཔ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:62
+#: ../schemas/gnumeric-general.schemas.in.h:58
 msgid "This variable determines whether the object toolbar should be visible initially."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ དངོས་པོ་ལག་ཆས་ཕྲ་རིང་འདི་ འགོ་ཐོག་བསྒང་མཐོང་ཚུགས་དགོཔ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:63
+#: ../schemas/gnumeric-general.schemas.in.h:59
 msgid "This variable determines whether the standard toolbar should be visible initially."
 msgstr "འ་ནི་འགྱུར་ཅན་འདི་གིས་ ཚད་ལྡན་ལག་ཆས་ཕྲ་རིང་འདི་ འགོ་ཐོག་བསྒང་མཐོང་ཚུགས་དགོཔ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:64
+#: ../schemas/gnumeric-general.schemas.in.h:60
 msgid "This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series."
 msgstr "འ་ནི་གནས་གོང་འདི་གིས་ འགྱུར་བའི་ལྡེ་མིག་ཚུ་གཞི་སྒྲིག་འབད་ཡོདཔ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན། འགྱུར་བའི་ལྡེ་མིག་ཚུ་ 1-2-3 བཟོ་རྣམ་བྱུང་ལས་ལེགས་སྐྱོང་འཐབ་ནི་ལུ་ ལོག་བཀོག་ཡོད་མི་ཅིག་ཨིན། དེ་ཚུ་གི་ ཚད་འཛིན་མདའ་རྟགས་འདི་ རྒྱུན་རིམ་ཚུ་གི་ འགོ་/མཇུག་འདི་ལུ་མཆོང་ནི་ལས་ ཤོག་ལེབ་སྤོ་བཤུད་ནང་ལུ་བསྐྱིརཝ་ཨིན།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:65
+#: ../schemas/gnumeric-general.schemas.in.h:61
 msgid "Toolbar Style"
 msgstr "ལག་ཆས་ཕྲ་རིང་གི་བཟོ་རྣམ་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:66
+#: ../schemas/gnumeric-general.schemas.in.h:62
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr "ལག་ཆས་ཕྲ་རིང་གི་བཟོ་རྣམ། ནུས་ལྡན་གནས་གོང་ཚུ་གཉིས་ཆ་རང་  ཐད་སྙོམས་གཉིས་ཆ་རང་  ངོས་དཔར་ དང་ཚིག་ཡིག་ (_h)"
 
-#: ../schemas/gnumeric-general.schemas.in.h:67
+#: ../schemas/gnumeric-general.schemas.in.h:63
 #: ../src/dialogs/dialog-preferences.c:591
 msgid "Transition Keys"
 msgstr "འགྱུར་བའི་ལྡེ་མིག་ཚུ་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:68
-#: ../src/dialogs/dialog-preferences.c:688
+#: ../schemas/gnumeric-general.schemas.in.h:64
+#: ../src/dialogs/dialog-preferences.c:684
 msgid "Vertical DPI"
 msgstr "ཀེར་ཕྲང་ཌི་པི་ཨའི་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:69
-#: ../src/dialogs/dialog-preferences.c:643
+#: ../schemas/gnumeric-general.schemas.in.h:65
+#: ../src/dialogs/dialog-preferences.c:639
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "རྐྱང་པའི་ལེབ་གྲངས་རྩ་སྒྲིག་ནང་ལུ་ ཕྱིར་འདྲེན་འབད་བའི་སྐབས་ ཉེན་བརྡ་འབད་"
 
-#: ../schemas/gnumeric-general.schemas.in.h:70
+#: ../schemas/gnumeric-general.schemas.in.h:66
 msgid "When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the legacy PRIMARY selections. Set to FALSE if you have to deal with older applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr "བདེན་པ་ཨིན་པའི་སྐབས་ ཇི་ནུ་མིརིཀ་གིས་དེང་སང་འཛིན་པང་སེལ་འཐུ་འབད་ནི་འདི་ སྔོན་བཤུལ་གཞི་རིམ་སེལ་འཐུ་འབད་ནི་ཚུ་ལས་ གདམ་འོང་། ཁྱོད་ལུ་གློག་རིམ་རྙིངམ་ཚུ་དང་གཅིག་ཁར་བཀྲམ་དགོཔ་ཨིན་པ་ཅིན་ བདེན་པ་ལུ་གཞི་སྒྲིག་འབད་ དཔེར་ན་ ཨེགསི་ཐ་སྙད་ ཡང་ན་ ཨི་མེཀསི་ གཞི་རིམ་སེལ་འཐུ་འབད་ནི་རྐྱངམ་ཅིག་གཞི་སྒྲིག་འབད་མི།"
 
-#: ../schemas/gnumeric-general.schemas.in.h:71
+#: ../schemas/gnumeric-general.schemas.in.h:67
 msgid "When selecting a sort region in the sort dialog, search clauses are automatically added. This number determines the maximum number of clauses to be added automatically."
 msgstr "དབྱེ་སེལ་ཌའི་ལོག་དེ་ནང་ དབྱེ་སེལ་ལུངས་ཕྱོགས་ཅིག་སེལ་འཐུ་འབད་བའི་སྐབས་ འཚོལ་ཞིབ་དབྱེ་དོན་ཚུ་ རང་བཞིན་གྱིས་ཁ་སྐོང་རྐྱབས་ཨིན། འ་ནི་ཨང་འདི་གིས་ རང་བཞིན་གྱིས་ཁ་སྐོང་རྐྱབས་ནི་གི་ དབྱེ་དོན་ཚུ་གི་མང་མཐའ་ཨང་འདི་གཏན་འབེབས་བཟོཝ་ཨིན།"
 
@@ -2945,7 +2938,7 @@ msgid "This setting determines whether created LaTeX files use UTF-8 (unicode) o
 msgstr "འ་ནི་སྒྲིག་སྟངས་འདི་གིས་ གསར་བསྐྲུན་འབད་ཡོད་པའི་ལེ་ཊེགསི་ཡིག་སྣོད་ཚུ་གིས་ ཡུ་ཊི་ཨེཕ་-༨ (ཡུ་ནི་ཀོཌི་)ཡང་ན་ ཨའི་ཨེསི་ཨོ་-༨༨༥༩-༡ (ལེ་ཊིན་༡) ལག་ལེན་འཐབ་ཨིན་ན་མེན་ན་གཏན་འབེབས་བཟོཝ་ཨིན། ཡུ་ཊི་ཨེཕ་-༨ ཡིག་སྣོད་ཚུ་ལག་ལེན་འཐབ་ནིའི་དོན་ལས་ ཁྱོད་ལུ་ ཡུ་སི་ཨེསི་ ལེ་ཊེགསི་ཐུམ་སྒྲིལ་གཞི་བཙུགས་འབད་འབདཝ་དགོ།"
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:649
+#: ../src/dialogs/dialog-preferences.c:645
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "ལ་ཊེགསི་ཕྱིར་འདྲེན་ནང་ ཡུ་ཊི་ཨེཕ་-༨ ལག་ལེན་འཐབ་"
 
@@ -3061,8 +3054,8 @@ msgstr "མངའ་ཁོངས་ཚུ་(_A)"
 #: ../src/dialogs/regression.glade.h:8
 #: ../src/dialogs/sampling.glade.h:11
 #: ../src/dialogs/shuffle.glade.h:5
-#: ../src/wbcg-actions.c:1613
-#: ../src/wbcg-actions.c:1740
+#: ../src/wbcg-actions.c:1619
+#: ../src/wbcg-actions.c:1746
 msgid "_Columns"
 msgstr "ཀེར་ཐིག་ཚུ་(_C)"
 
@@ -3108,8 +3101,8 @@ msgstr "ཁ་ཡིག་ཚུ་(_L)"
 #: ../src/dialogs/regression.glade.h:13
 #: ../src/dialogs/sampling.glade.h:18
 #: ../src/dialogs/shuffle.glade.h:6
-#: ../src/wbcg-actions.c:1610
-#: ../src/wbcg-actions.c:1743
+#: ../src/wbcg-actions.c:1616
+#: ../src/wbcg-actions.c:1749
 msgid "_Rows"
 msgstr "གྲལ་ཐིག་ཚུ་(_R)"
 
@@ -3194,7 +3187,7 @@ msgid "First Letter"
 msgstr "ཡི་གུ་དང་པ་"
 
 #: ../src/dialogs/autocorrect.glade.h:8
-#: ../src/wbcg-actions.c:2043
+#: ../src/wbcg-actions.c:2049
 msgid "General"
 msgstr "ཡོངས་ཁྱབ་"
 
@@ -3509,20 +3502,20 @@ msgstr ""
 "སྲོལ་སྒྲིག་"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2227
-#: ../src/wbc-gtk.c:632
+#: ../src/dialogs/dialog-cell-format.c:2231
 #: ../src/wbc-gtk.c:633
-#: ../src/wbc-gtk.c:642
+#: ../src/wbc-gtk.c:634
+#: ../src/wbc-gtk.c:643
 msgid "Background"
 msgstr "རྒྱབ་གཞི་"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2219
+#: ../src/dialogs/dialog-cell-format.c:2223
 msgid "Border"
 msgstr "མཐའ་མཚམས་"
 
 #: ../src/dialogs/cell-format.glade.h:35
-#: ../src/wbc-gtk.c:224
+#: ../src/wbc-gtk.c:225
 msgid "Bottom"
 msgstr "མཇུག་"
 
@@ -3567,8 +3560,8 @@ msgid "Diagonal Stripe"
 msgstr "གསེག་ཐིག་ཅན་ཐིག་ཁྲ་"
 
 #: ../src/dialogs/cell-format.glade.h:46
-#: ../src/dialogs/dialog-preferences.c:790
-#: ../src/wbc-gtk.c:683
+#: ../src/dialogs/dialog-preferences.c:786
+#: ../src/wbc-gtk.c:684
 msgid "Font"
 msgstr "ཡིག་གཟུགས་"
 
@@ -3577,7 +3570,7 @@ msgid "Foreground Solid"
 msgstr "གདོང་གཞི་རགས་པ་"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-cell-format.c:2156
+#: ../src/dialogs/dialog-cell-format.c:2160
 msgid "Format Cells"
 msgstr "ནང་ཐིག་ཚུ་རྩ་སྒྲིག་འབད་"
 
@@ -3622,7 +3615,7 @@ msgid "Large Circles"
 msgstr "སྒོར་ཐིག་སྦོམ་ཚུ་"
 
 #: ../src/dialogs/cell-format.glade.h:59
-#: ../src/wbc-gtk.c:216
+#: ../src/wbc-gtk.c:217
 msgid "Left"
 msgstr "གཡོན་"
 
@@ -3654,7 +3647,7 @@ msgid "Reverse Diagonal Stripe"
 msgstr "རིམ་ལོག་གསེག་ཐིག་ཅན་ཐིག་ཁྲ་"
 
 #: ../src/dialogs/cell-format.glade.h:66
-#: ../src/wbc-gtk.c:218
+#: ../src/wbc-gtk.c:219
 msgid "Right"
 msgstr "གཡས་"
 
@@ -3954,15 +3947,15 @@ msgid "_Source areas:"
 msgstr "འབྱུང་ཁུངས་མངའ་ཁོངས་ཚུ་:(_S)"
 
 #: ../src/dialogs/correlation.glade.h:1
-#: ../src/tools/analysis-tools.c:922
-#: ../src/tools/analysis-tools.c:925
+#: ../src/tools/analysis-tools.c:921
+#: ../src/tools/analysis-tools.c:924
 msgid "Correlation"
 msgstr "མཐུན་མོས་ཀྱི་འབྲེལ་བ་"
 
 #: ../src/dialogs/covariance.glade.h:1
-#: ../src/tools/analysis-tools.c:976
-#: ../src/tools/analysis-tools.c:979
-#: ../src/wbcg-actions.c:1898
+#: ../src/tools/analysis-tools.c:975
+#: ../src/tools/analysis-tools.c:978
+#: ../src/wbcg-actions.c:1904
 msgid "Covariance"
 msgstr "མཉམ་འགྱུར་ཅན་"
 
@@ -4082,8 +4075,8 @@ msgid "Confidence Interval for the _Mean"
 msgstr "སེར་སྣ་འདི་གི་དོན་ལུ་ བློ་གཏད་བར་མཚམས་(_M)"
 
 #: ../src/dialogs/descriptive-stats.glade.h:5
-#: ../src/tools/analysis-tools.c:1363
-#: ../src/tools/analysis-tools.c:1366
+#: ../src/tools/analysis-tools.c:1362
+#: ../src/tools/analysis-tools.c:1365
 msgid "Descriptive Statistics"
 msgstr "འགྲེལ་བཤད་ཅན་ཚད་རྩིས་"
 
@@ -4624,8 +4617,8 @@ msgid "Could not create the Sampling Tool dialog."
 msgstr "དཔེ་ཚད་བཟོ་ནིའི་ལག་ཆས་ཌའི་ལོག་འདི་གསར་བསྐྲུན་འབད་མ་ཚུགས།"
 
 #: ../src/dialogs/dialog-analysis-tools.c:1976
-#: ../src/tools/analysis-tools.c:3095
-#: ../src/tools/analysis-tools.c:3174
+#: ../src/tools/analysis-tools.c:3094
+#: ../src/tools/analysis-tools.c:3173
 msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "རི་གེ་རེ་ཤཱན་དེ་ནང་ འགྱུར་ཅན་རེ་རེ་གི་དོན་ལུ་ ཐོ་བཀོད་ཚུ་གི་གྲངས་མཉམ་པ་ཅིག་འོང་དགོ"
 
@@ -4713,9 +4706,9 @@ msgstr "སྤྱི་ཟླ་གསུམ་པ་"
 
 #: ../src/dialogs/dialog-autoformat.c:72
 #: ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4458
-#: ../src/tools/analysis-tools.c:4468
-#: ../src/tools/analysis-tools.c:4476
+#: ../src/tools/analysis-tools.c:4457
+#: ../src/tools/analysis-tools.c:4467
+#: ../src/tools/analysis-tools.c:4475
 msgid "Total"
 msgstr "བསྡོམས་"
 
@@ -4817,74 +4810,74 @@ msgstr "རྐྱང་པ་"
 msgid "Double"
 msgstr "ལོག་བལྟབ་"
 
-#: ../src/dialogs/dialog-cell-format.c:471
+#: ../src/dialogs/dialog-cell-format.c:475
 #: ../src/dialogs/dialog-search.c:155
 #: ../src/func.c:927
-#: ../src/wbcg-actions.c:2046
+#: ../src/wbcg-actions.c:2052
 msgid "Number"
 msgstr "ཨང་"
 
-#: ../src/dialogs/dialog-cell-format.c:1645
+#: ../src/dialogs/dialog-cell-format.c:1649
 msgid "Source"
 msgstr "འབྱུང་ཁུངས་"
 
-#: ../src/dialogs/dialog-cell-format.c:1646
+#: ../src/dialogs/dialog-cell-format.c:1650
 msgid "Criteria"
 msgstr "ཁྱད་ཚད་"
 
-#: ../src/dialogs/dialog-cell-format.c:1661
-#: ../src/dialogs/dialog-cell-format.c:1670
+#: ../src/dialogs/dialog-cell-format.c:1665
+#: ../src/dialogs/dialog-cell-format.c:1674
 #: ../src/dialogs/so-scrollbar.glade.h:4
 msgid "Min:"
 msgstr "ཉུང་མཐའ་:"
 
-#: ../src/dialogs/dialog-cell-format.c:1662
-#: ../src/dialogs/dialog-cell-format.c:1674
+#: ../src/dialogs/dialog-cell-format.c:1666
+#: ../src/dialogs/dialog-cell-format.c:1678
 #: ../src/dialogs/so-scrollbar.glade.h:3
 msgid "Max:"
 msgstr "མང་མཐའ་:"
 
-#: ../src/dialogs/dialog-cell-format.c:1666
+#: ../src/dialogs/dialog-cell-format.c:1670
 msgid "Value:"
 msgstr "གནས་གོང་:"
 
-#: ../src/dialogs/dialog-cell-format.c:1758
+#: ../src/dialogs/dialog-cell-format.c:1762
 msgid "None          (silently accept invalid input)"
 msgstr "ཅི་མེད་          (ཁུ་སིམ་སིམ་སྦེ་ནུས་མེད་ཨིན་པུཏི་དང་ལེན་འབད་)"
 
-#: ../src/dialogs/dialog-cell-format.c:1766
+#: ../src/dialogs/dialog-cell-format.c:1770
 msgid "Stop            (never allow invalid input)"
 msgstr "བཀག་            (ནུས་མེད་ཨིན་པུཊི་ནམ་ཡང་འབད་མ་བཅུག་)          "
 
-#: ../src/dialogs/dialog-cell-format.c:1774
+#: ../src/dialogs/dialog-cell-format.c:1778
 msgid "Warning     (accept/discard invalid input)"
 msgstr "ཉེན་བརྡ་            (ནུས་མེད་ཨིན་པུཊི་དང་ལེན་འབད་/བཏོན་བཀོག་)"
 
-#: ../src/dialogs/dialog-cell-format.c:1782
+#: ../src/dialogs/dialog-cell-format.c:1786
 msgid "Information (allow invalid input)"
 msgstr "བརྡ་དོན་(ནུས་མེད་ཨིན་པུཊི་འབད་བཅུག་)"
 
-#: ../src/dialogs/dialog-cell-format.c:1977
+#: ../src/dialogs/dialog-cell-format.c:1981
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "ནུས་ལྡན་དུས་ཚོད་ཀྱི་ཁྱད་ཚད་འདི་ལག་ལེན་འཐབ་མ་བཏུབ་ཨིན། ནུས་ལྡན་དུས་ཚོད་ལྕོགས་མིན་བཟོ?"
 
-#: ../src/dialogs/dialog-cell-format.c:2223
-#: ../src/wbc-gtk.c:194
-#: ../src/wbc-gtk.c:329
-#: ../src/wbc-gtk.c:581
+#: ../src/dialogs/dialog-cell-format.c:2227
+#: ../src/wbc-gtk.c:195
+#: ../src/wbc-gtk.c:330
 #: ../src/wbc-gtk.c:582
-#: ../src/wbc-gtk.c:593
-#: ../src/wbc-gtk.c:700
-#: ../src/wbc-gtk.c:764
+#: ../src/wbc-gtk.c:583
+#: ../src/wbc-gtk.c:594
+#: ../src/wbc-gtk.c:701
+#: ../src/wbc-gtk.c:765
 msgid "Foreground"
 msgstr "གདོང་གཞི་"
 
-#: ../src/dialogs/dialog-cell-format.c:2227
-#: ../src/wbc-gtk.c:630
+#: ../src/dialogs/dialog-cell-format.c:2231
+#: ../src/wbc-gtk.c:631
 msgid "Clear Background"
 msgstr "རྒྱབ་གཞི་བསལ་"
 
-#: ../src/dialogs/dialog-cell-format.c:2231
+#: ../src/dialogs/dialog-cell-format.c:2235
 msgid "Pattern"
 msgstr "དཔེ་གཞི་"
 
@@ -4975,8 +4968,8 @@ msgstr "མིང་གུ་རུ་འདི་གསར་བསྐརུན
 
 #: ../src/dialogs/dialog-delete-cells.c:126
 #: ../src/dialogs/scenario-manager.glade.h:8
-#: ../src/wbcg-actions.c:270
-#: ../src/wbcg-actions.c:284
+#: ../src/wbcg-actions.c:261
+#: ../src/wbcg-actions.c:275
 msgid "Delete"
 msgstr "བཏོན་གཏང་"
 
@@ -5078,7 +5071,7 @@ msgstr "ལཱ་གཡོག་ཀི་དེབ་ཀྱི་གནས་ར
 #. * Fill in the labels of `Constraints' section.
 #.
 #: ../src/dialogs/dialog-goto-cell.c:266
-#: ../src/dialogs/dialog-search.c:417
+#: ../src/dialogs/dialog-search.c:422
 #: ../src/dialogs/tabulate.glade.h:2
 #: ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
@@ -5201,7 +5194,7 @@ msgstr "ཆོག་ཡིག་:"
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
 #: ../src/dialogs/dialog-paste-special.c:67
-#: ../src/wbcg-actions.c:1596
+#: ../src/wbcg-actions.c:1602
 msgid "_All"
 msgstr "ཆ་མཉམ་(_A)"
 
@@ -5214,12 +5207,12 @@ msgid "As _Value"
 msgstr "གནས་གོང་སྦེ་(_V)"
 
 #: ../src/dialogs/dialog-paste-special.c:70
-#: ../src/wbcg-actions.c:1599
+#: ../src/wbcg-actions.c:1605
 msgid "_Formats"
 msgstr "རྩ་སྒྲིག་ཚུ་(_F)"
 
 #: ../src/dialogs/dialog-paste-special.c:71
-#: ../src/wbcg-actions.c:1602
+#: ../src/wbcg-actions.c:1608
 msgid "Co_mments"
 msgstr "བསམ་བཀོད་ཚུ་(_m)"
 
@@ -5370,64 +5363,64 @@ msgstr "འ་ནི་ཤོག་ལེབ་འདི་གུའི་རྣ
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "འ་ནི་ཤོག་ལེབ་འདི་གུའི་རྣམ་གྲངས་ཚུ་ ཡིག་སྣོད་ཚུ་སྲུང་བཞག་དང་ཁ་ཕྱེ་ནི་ལུ་འབྲེལ་བ་ཡོདཔ་ཨིན།"
 
-#: ../src/dialogs/dialog-preferences.c:666
+#: ../src/dialogs/dialog-preferences.c:662
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr "འ་ནི་ཤོག་ལེབ་འདི་གུའི་རྣམ་གྲངས་འདི་ཚུ་ གསལ་གཞི་སྒྲིག་བཀོད་དང་ཧུམ་ཆ་ལུ་འབྲེལ་བ་ཡོདཔ་ཨིན།"
 
-#: ../src/dialogs/dialog-preferences.c:705
+#: ../src/dialogs/dialog-preferences.c:701
 msgid "The items on this page and its subpages are related to various gnumeric tools."
 msgstr "འ་ནི་ཤོག་ལེབ་འདི་གུའི་རྣམ་གྲངས་དང་དེའི་ཡན་ལག་ཤོག་ལེབ་འདི་ཚུ་ ཇི་ནུ་མིརིཀ་གི་ལག་ཆས་འདྲ་མིན་སྣ་ཚོགས་ལུ་འབྲེལ་བ་ཡོདཔ་ཨིན།"
 
-#: ../src/dialogs/dialog-preferences.c:750
+#: ../src/dialogs/dialog-preferences.c:746
 msgid "The items on this page are related to copy, cut and paste."
 msgstr "འ་ནི་ཤོག་ལེབ་འདི་གུའི་རྣམ་གྲངས་འདི་ཚུ་ འདྲ་བཤུས་ བཏོག་ནི་དང་སྦྱར་ནི་ལུ་འབྲེལ་བ་ཡོདཔ་ཨིན།"
 
-#: ../src/dialogs/dialog-preferences.c:791
+#: ../src/dialogs/dialog-preferences.c:787
 msgid "Copy and Paste"
 msgstr "འདྲ་བཤུས་རྐྱབས་ དེ་ལས་སྦྱར་"
 
-#: ../src/dialogs/dialog-preferences.c:792
+#: ../src/dialogs/dialog-preferences.c:788
 msgid "Files"
 msgstr "ཡིག་སྣོད་ཚུ་"
 
-#: ../src/dialogs/dialog-preferences.c:793
+#: ../src/dialogs/dialog-preferences.c:789
 msgid "Tools"
 msgstr "ལག་ཆས་ཚུ་"
 
-#: ../src/dialogs/dialog-preferences.c:794
+#: ../src/dialogs/dialog-preferences.c:790
 msgid "Undo"
 msgstr "འབད་བཤོལ་"
 
-#: ../src/dialogs/dialog-preferences.c:795
+#: ../src/dialogs/dialog-preferences.c:791
 msgid "Windows"
 msgstr "སྒོ་སྒྲིག་ཚུ་"
 
-#: ../src/dialogs/dialog-preferences.c:796
+#: ../src/dialogs/dialog-preferences.c:792
 msgid "Header/Footer"
 msgstr "མགོ་ཡིག་/མཇུག་ཡིག་"
 
-#: ../src/dialogs/dialog-preferences.c:797
+#: ../src/dialogs/dialog-preferences.c:793
 #: ../src/commands.c:2181
 msgid "Sorting"
 msgstr "དབྱེ་སེལ་འབད་དོ་"
 
-#: ../src/dialogs/dialog-preferences.c:798
+#: ../src/dialogs/dialog-preferences.c:794
 msgid "Screen"
 msgstr "གསལ་གཞི་"
 
-#: ../src/dialogs/dialog-printer-setup.c:863
+#: ../src/dialogs/dialog-printer-setup.c:872
 msgid "Customize header"
 msgstr "མགོ་ཡིག་སྲོལ་སྒྲིག་འབད་"
 
-#: ../src/dialogs/dialog-printer-setup.c:865
+#: ../src/dialogs/dialog-printer-setup.c:874
 msgid "Customize footer"
 msgstr "མཇུག་ཡིག་སྲོལ་སྒྲིག་འབད་"
 
-#: ../src/dialogs/dialog-printer-setup.c:1003
+#: ../src/dialogs/dialog-printer-setup.c:1012
 msgid "Custom header configuration"
 msgstr "སྲོལ་སྒྲིག་མོག་ཡིག་རིམ་སྒྲིག་འབད་ནི་"
 
-#: ../src/dialogs/dialog-printer-setup.c:1008
+#: ../src/dialogs/dialog-printer-setup.c:1017
 msgid "Custom footer configuration"
 msgstr "སྲོལ་སྒྲིག་མཇུག་ཡིག་རིམ་སྒྲིག་འབད་ནི་"
 
@@ -5735,12 +5728,12 @@ msgstr "གསལ་བརྗོད་"
 msgid "Other value"
 msgstr "གཞན་མི་གནས་གོང་"
 
-#: ../src/dialogs/dialog-search.c:340
-#: ../src/dialogs/dialog-search-replace.c:144
+#: ../src/dialogs/dialog-search.c:345
+#: ../src/dialogs/dialog-search-replace.c:151
 msgid "You must select some cell types to search."
 msgstr "འཚོལ་ཞིབ་འབད་ནིའི་དོན་ལས་ ཁྱོད་ཀྱིས་ནང་ཐིག་གི་དབྱེ་བ་ལ་ལུ་ཅིག་སེལ་འཐུ་འབད་དགོ"
 
-#: ../src/dialogs/dialog-search.c:419
+#: ../src/dialogs/dialog-search.c:424
 msgid "Content"
 msgstr "ནང་དོན་"
 
@@ -5971,7 +5964,7 @@ msgstr ""
 "ནམ་ཡང་"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:11
-#: ../src/gui-file.c:229
+#: ../src/gui-file.c:222
 msgid "Character _encoding:"
 msgstr "ཡིག་འབྲུའི་ཨིན་ཀོ་ཌིང་:(_e)"
 
@@ -6031,8 +6024,8 @@ msgstr "ཅི་ཡང་སེལ་འཐུ་མ་འབད་(_o)"
 #. *	Otherwise input methods would steal them
 #. A duplicate that should not go into the menus, used only for the accelerator
 #: ../src/dialogs/dialog-stf-export.glade.h:24
-#: ../src/wbcg-actions.c:1628
-#: ../src/wbcg-actions.c:1632
+#: ../src/wbcg-actions.c:1634
+#: ../src/wbcg-actions.c:1638
 msgid "Select _All"
 msgstr "ཆ་མཉམ་སེལ་འཐུ་འབད་(_A)"
 
@@ -6432,7 +6425,7 @@ msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "གནད་སྡུད་འདི་ ཨིན་ཀོ་ཌིང་ %s ནང་ནུས་ལྡན་མེན་པས་ ཨིན་ཀོ་ཌིང་གཞན་མི་ཅིག་སེལ་འཐུ་འབད་གནང་།"
 
 #: ../src/dialogs/dialog-stf-main-page.c:384
-#: ../src/wbcg-actions.c:2016
+#: ../src/wbcg-actions.c:2022
 msgid "Line"
 msgstr "གྲལ་ཐིག་"
 
@@ -6518,7 +6511,7 @@ msgid "Sheets"
 msgstr "ལེབ་གྲངས་ཚུ་"
 
 #: ../src/dialogs/dialog-zoom.glade.h:5
-#: ../src/wbc-gtk.c:182
+#: ../src/wbc-gtk.c:183
 msgid "Zoom"
 msgstr "རྒྱས་བཟུམ་"
 
@@ -6699,8 +6692,8 @@ msgid "0.2"
 msgstr "༠.༢"
 
 #: ../src/dialogs/exp-smoothing.glade.h:3
-#: ../src/tools/analysis-tools.c:3633
-#: ../src/tools/analysis-tools.c:3636
+#: ../src/tools/analysis-tools.c:3632
+#: ../src/tools/analysis-tools.c:3635
 msgid "Exponential Smoothing"
 msgstr "བསྒྱུར་གྲངས་ཧུམ་ཆ་བཟོ་བ་"
 
@@ -6770,7 +6763,7 @@ msgstr "ཟླཝ་(_M)"
 
 #: ../src/dialogs/fill-series.glade.h:17
 #: ../src/dialogs/pivottable.glade.h:13
-#: ../src/wbcg-actions.c:1481
+#: ../src/wbcg-actions.c:1487
 msgid "_Row"
 msgstr "གྲལ་ཐིག་(_R)"
 
@@ -6807,7 +6800,7 @@ msgid "Formula Guru"
 msgstr "མན་ངག་གུ་རུ་"
 
 #: ../src/dialogs/fourier-analysis.glade.h:1
-#: ../src/wbcg-actions.c:1904
+#: ../src/wbcg-actions.c:1910
 msgid "Fourier Analysis"
 msgstr "ཕོ་རི་ཡར་ དཔྱད་ཞིབ་"
 
@@ -6820,7 +6813,7 @@ msgid "Category"
 msgstr "དབྱེ་རིམ་"
 
 #: ../src/dialogs/function-select.glade.h:3
-#: ../src/wbcg-actions.c:1980
+#: ../src/wbcg-actions.c:1986
 msgid "Function"
 msgstr "ལས་འགན་"
 
@@ -6833,8 +6826,8 @@ msgid "Select a function to insert:"
 msgstr "བཙུགས་ནིའི་དོན་ལས་ ལས་འགན་ཅིག་སེལ་འཐུ་འབད་:"
 
 #: ../src/dialogs/function-select.glade.h:6
-#: ../src/wbcg-actions.c:1476
-#: ../src/wbcg-actions.c:1673
+#: ../src/wbcg-actions.c:1482
+#: ../src/wbcg-actions.c:1679
 msgid "_Insert"
 msgstr "བཙུགས་(_I)"
 
@@ -7132,8 +7125,8 @@ msgid "C_olumns"
 msgstr "ཀེར་ཐིག་ཚུ་(_o)"
 
 #: ../src/dialogs/moving-averages.glade.h:6
-#: ../src/tools/analysis-tools.c:3500
-#: ../src/tools/analysis-tools.c:3503
+#: ../src/tools/analysis-tools.c:3499
+#: ../src/tools/analysis-tools.c:3502
 msgid "Moving Average"
 msgstr "འགུལ་བསྐྱོད་ཆ་སྙོམ་"
 
@@ -7170,7 +7163,7 @@ msgid "_Add:"
 msgstr "ཁ་སྐོང་རྐྱབས་:(_A)"
 
 #: ../src/dialogs/pivottable.glade.h:8
-#: ../src/wbcg-actions.c:1489
+#: ../src/wbcg-actions.c:1495
 msgid "_Data"
 msgstr "གནད་སྡུད་(_D)"
 
@@ -7187,7 +7180,7 @@ msgid "_Page"
 msgstr "ཤོག་ལེབ་(_P)"
 
 #: ../src/dialogs/pivottable.glade.h:12
-#: ../src/wbcg-actions.c:1686
+#: ../src/wbcg-actions.c:1692
 msgid "_Remove"
 msgstr "རྩ་བསྐྲད་གཏང་(_R)"
 
@@ -7417,8 +7410,8 @@ msgid "Confidence level:"
 msgstr "བློ་གཏད་གནས་རིམ་:"
 
 #: ../src/dialogs/regression.glade.h:6
-#: ../src/tools/analysis-tools.c:3378
-#: ../src/tools/analysis-tools.c:3381
+#: ../src/tools/analysis-tools.c:3377
+#: ../src/tools/analysis-tools.c:3380
 msgid "Regression"
 msgstr "རི་གེ་རེ་ཤཱན་"
 
@@ -7531,8 +7524,8 @@ msgstr "མཐོང་སྣང་"
 
 #: ../src/dialogs/search.glade.h:1
 #: ../src/dialogs/search-replace.glade.h:4
-#: ../src/gui-file.c:190
-#: ../src/gui-file.c:250
+#: ../src/gui-file.c:183
+#: ../src/gui-file.c:243
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
 msgstr "མཐོ་རིམ་"
@@ -7798,7 +7791,7 @@ msgid "Replacing"
 msgstr "ཚབ་བཙུགས་ནི་"
 
 #: ../src/dialogs/search-replace.glade.h:28
-#: ../src/search.c:616
+#: ../src/search.c:629
 msgid "Scope"
 msgstr "འོས་སྐབས་"
 
@@ -7877,7 +7870,7 @@ msgid "Manage Sheets..."
 msgstr "ལེབ་གྲངས་ཚུ་འཛིན་སྐྱོང་འཐབ་..."
 
 #: ../src/dialogs/sheet-order.glade.h:2
-#: ../src/wbcg-actions.c:1683
+#: ../src/wbcg-actions.c:1689
 msgid "_Duplicate"
 msgstr "རྫུན་མ་(_D)"
 
@@ -8292,51 +8285,51 @@ msgstr "ལཱ་གཡོག་ཀི་དེབ་ཉེན་སྐྱོབ
 msgid "_Vertical Scrollbar"
 msgstr "ཀེར་ཕྲང་བཤུད་ཕྲ་(_V)"
 
-#: ../src/tools/analysis-tools.c:193
-#: ../src/tools/analysis-tools.c:382
-#: ../src/tools/analysis-tools.c:4402
+#: ../src/tools/analysis-tools.c:192
+#: ../src/tools/analysis-tools.c:381
+#: ../src/tools/analysis-tools.c:4401
 #, c-format
 msgid "Row %i"
 msgstr "གྲལ་ཐིག་ %i"
 
-#: ../src/tools/analysis-tools.c:196
-#: ../src/tools/analysis-tools.c:385
-#: ../src/tools/analysis-tools.c:4394
+#: ../src/tools/analysis-tools.c:195
+#: ../src/tools/analysis-tools.c:384
+#: ../src/tools/analysis-tools.c:4393
 #, c-format
 msgid "Column %i"
 msgstr "ཀེར་ཐིག་ %i"
 
-#: ../src/tools/analysis-tools.c:199
-#: ../src/tools/analysis-tools.c:388
+#: ../src/tools/analysis-tools.c:198
+#: ../src/tools/analysis-tools.c:387
 #, c-format
 msgid "Bin %i"
 msgstr "ཧོད་ %i"
 
-#: ../src/tools/analysis-tools.c:203
-#: ../src/tools/analysis-tools.c:392
+#: ../src/tools/analysis-tools.c:202
+#: ../src/tools/analysis-tools.c:391
 #, c-format
 msgid "Area %i"
 msgstr "མངའ་ཁོངས་ %i"
 
-#: ../src/tools/analysis-tools.c:432
+#: ../src/tools/analysis-tools.c:431
 #, c-format
 msgid "Variable %i"
 msgstr "འགྱུར་ཅན་ %i"
 
-#: ../src/tools/analysis-tools.c:895
+#: ../src/tools/analysis-tools.c:894
 msgid "Correlations"
 msgstr "མཐུན་འབྲེལ་"
 
-#: ../src/tools/analysis-tools.c:906
+#: ../src/tools/analysis-tools.c:905
 #, c-format
 msgid "Correlation (%s)"
 msgstr "མཐུན་འབྲེལ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:949
+#: ../src/tools/analysis-tools.c:948
 msgid "Covariances"
 msgstr "མི་མཐུན་པ་"
 
-#: ../src/tools/analysis-tools.c:960
+#: ../src/tools/analysis-tools.c:959
 #, c-format
 msgid "Covariance (%s)"
 msgstr "མི་མཐུན་པ་ (%s)"
@@ -8348,110 +8341,110 @@ msgstr "མི་མཐུན་པ་ (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:1061
+#: ../src/tools/analysis-tools.c:1060
 msgid "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 
-#: ../src/tools/analysis-tools.c:1196
+#: ../src/tools/analysis-tools.c:1195
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% སེར་སྣ་ ལས་/ལུ་ འདི་གི་དོན་ལུ་ སི་ཨའི་"
 
-#: ../src/tools/analysis-tools.c:1324
+#: ../src/tools/analysis-tools.c:1323
 #, c-format
 msgid "Largest (%d)"
 msgstr "སྦོམ་ཤོས་ (%d)"
 
-#: ../src/tools/analysis-tools.c:1331
+#: ../src/tools/analysis-tools.c:1330
 #, c-format
 msgid "Smallest (%d)"
 msgstr "ཆུང་ཤོས་ (%d)"
 
-#: ../src/tools/analysis-tools.c:1348
+#: ../src/tools/analysis-tools.c:1347
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "འགྲེལ་བཤད་ཅན་ཚད་རྩིས་ (%s)"
 
-#: ../src/tools/analysis-tools.c:1426
+#: ../src/tools/analysis-tools.c:1425
 msgid "The requested sample size is too large for a periodic sample."
 msgstr "ཞུ་བ་འབད་མི་དཔེ་ཚད་ཀྱི་ཚད་འདི་ དུས་མཚམས་དཔེ་ཚད་ཅིག་གི་དོན་ལུ་ སྦོམ་དྲགས་པས།"
 
-#: ../src/tools/analysis-tools.c:1473
+#: ../src/tools/analysis-tools.c:1472
 #, c-format
 msgid "Sampling (%s)"
 msgstr "དཔེ་ཚད་བཟོ་དོ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:1485
-#: ../src/tools/analysis-tools.c:1488
+#: ../src/tools/analysis-tools.c:1484
+#: ../src/tools/analysis-tools.c:1487
 msgid "Sample"
 msgstr "དཔེ་ཚད་"
 
-#: ../src/tools/analysis-tools.c:1526
+#: ../src/tools/analysis-tools.c:1525
 msgid "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 msgstr "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 
-#: ../src/tools/analysis-tools.c:1741
+#: ../src/tools/analysis-tools.c:1740
 #, c-format
 msgid "z-Test (%s)"
 msgstr "ཛེཊི་-བརྟག་ཞིབ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:1751
-#: ../src/tools/analysis-tools.c:1754
+#: ../src/tools/analysis-tools.c:1750
+#: ../src/tools/analysis-tools.c:1753
 msgid "z-Test"
 msgstr "ཛེཊི་-བརྟག་ཞིབ་"
 
-#: ../src/tools/analysis-tools.c:1794
+#: ../src/tools/analysis-tools.c:1793
 msgid "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
-#: ../src/tools/analysis-tools.c:2009
+#: ../src/tools/analysis-tools.c:2008
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "ཊི་-བརྟག་ཞིབ་ ཟུང་བཟོ་ཡོདཔ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:2019
-#: ../src/tools/analysis-tools.c:2022
-#: ../src/tools/analysis-tools.c:2360
-#: ../src/tools/analysis-tools.c:2363
-#: ../src/tools/analysis-tools.c:2696
-#: ../src/tools/analysis-tools.c:2699
+#: ../src/tools/analysis-tools.c:2018
+#: ../src/tools/analysis-tools.c:2021
+#: ../src/tools/analysis-tools.c:2359
+#: ../src/tools/analysis-tools.c:2362
+#: ../src/tools/analysis-tools.c:2695
+#: ../src/tools/analysis-tools.c:2698
 msgid "t-Test"
 msgstr "ཊི་-བརྟག་ཞིབ་"
 
-#: ../src/tools/analysis-tools.c:2057
+#: ../src/tools/analysis-tools.c:2056
 msgid "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
-#: ../src/tools/analysis-tools.c:2350
-#: ../src/tools/analysis-tools.c:2686
+#: ../src/tools/analysis-tools.c:2349
+#: ../src/tools/analysis-tools.c:2685
 #, c-format
 msgid "t-Test (%s)"
 msgstr "ཊི་-བརྟག་ཞིབ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:2395
+#: ../src/tools/analysis-tools.c:2394
 msgid "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
-#: ../src/tools/analysis-tools.c:2734
-#: ../src/tools/analysis-tools.c:3012
-#: ../src/tools/analysis-tools.c:3015
+#: ../src/tools/analysis-tools.c:2733
+#: ../src/tools/analysis-tools.c:3011
+#: ../src/tools/analysis-tools.c:3014
 msgid "F-Test"
 msgstr "ཨེཕ་-བརྟག་ཞིབ་"
 
-#: ../src/tools/analysis-tools.c:2736
+#: ../src/tools/analysis-tools.c:2735
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
-#: ../src/tools/analysis-tools.c:3002
+#: ../src/tools/analysis-tools.c:3001
 #, c-format
 msgid "F-Test (%s)"
 msgstr "ཨེཕ་-བརྟག་ཞིབ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:3089
+#: ../src/tools/analysis-tools.c:3088
 msgid "Y Variable"
 msgstr "ཝའི་འགྱུར་ཅན་"
 
-#: ../src/tools/analysis-tools.c:3148
+#: ../src/tools/analysis-tools.c:3147
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -8459,7 +8452,7 @@ msgstr ""
 "འ་ནི་རི་གེ་རེ་ཤཱན་འནི་འགོ་འདྲེན་འཐབ་ནིའི་དོན་ལས་ གནད་སྡུད་ཡིག་ཚད་དག་པ་ཅིག་འདུག།\n"
 "རང་དབང་འགྱུར་ཅན་སྦེ་ ཉུང་མཐའ་ གནད་སྡུད་ཀྱི་ཡིག་ཚད་ལེ་ཤ་ཡོད་དགོ།"
 
-#: ../src/tools/analysis-tools.c:3156
+#: ../src/tools/analysis-tools.c:3155
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -8467,7 +8460,7 @@ msgstr ""
 "གཉིས་ཡང་ན་དེ་ལས་ལྷག་མི་རང་དབང་འགྱུར་ཅན་ཚུ་ གྲལ་ཐིག་སྦེ་\n"
 "རྟེན་འབྲེལ་ཨིན་། ཨང་གྲངས་ཀྲིག་ཀྲི་ཆ་མཉམ་ རྩིས་རྐྱབས་ནི་ནང་ལུ་བརླག་སྟོན་ཞུགས་ཡོད།"
 
-#: ../src/tools/analysis-tools.c:3164
+#: ../src/tools/analysis-tools.c:3163
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -8485,24 +8478,24 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: ../src/tools/analysis-tools.c:3191
+#: ../src/tools/analysis-tools.c:3190
 msgid "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 
-#: ../src/tools/analysis-tools.c:3214
+#: ../src/tools/analysis-tools.c:3213
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/ཨེཕ་གི་རྩ་ཅན་"
 
-#: ../src/tools/analysis-tools.c:3221
+#: ../src/tools/analysis-tools.c:3220
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%%%"
 msgstr "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%%%"
 
-#: ../src/tools/analysis-tools.c:3238
+#: ../src/tools/analysis-tools.c:3237
 msgid "Probability of an observation's absolute value being larger than the t-value's"
 msgstr "ཞིབ་བལྟའི་ཡང་དག་གནས་གོང་འདི་ ཊི་གནས་གོང་ཚུ་ལས་ སྦོམ་ཨིན་པའི་འབྱུང་ངེས་"
 
-#: ../src/tools/analysis-tools.c:3346
+#: ../src/tools/analysis-tools.c:3345
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
@@ -8510,148 +8503,148 @@ msgstr ""
 "གཉིས་ཡང་ན་དེ་ལས་ལྷག་མི་རང་དབང་འགྱུར་ཅན་ཚུ་ གྲལ་ཐིག་སྦེ་\n"
 "རྟེན་འབྲེལ་ཨིན། རི་གེ་རེ་ཤཱན་གྱི་གྲུབ་འབྲས་འདི་ བྱམས་བརྩེའི་སྒོ་ལས་བརྩི་འཇོག་འབད་!"
 
-#: ../src/tools/analysis-tools.c:3361
+#: ../src/tools/analysis-tools.c:3360
 #, c-format
 msgid "Regression (%s)"
 msgstr "རི་གེ་རེ་ཤཱན་ (%s)"
 
-#: ../src/tools/analysis-tools.c:3425
+#: ../src/tools/analysis-tools.c:3424
 msgid "Standard Error"
 msgstr "ཚད་ལྡན་འཛོལ་བ་"
 
-#: ../src/tools/analysis-tools.c:3487
+#: ../src/tools/analysis-tools.c:3486
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "འགུལ་བསྐྱོད་ཆ་སྙོམ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:3620
+#: ../src/tools/analysis-tools.c:3619
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "བསྒྱུར་གྲངས་ཧུམ་ཆ་བཟོ་བ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:3688
+#: ../src/tools/analysis-tools.c:3687
 msgid "Point"
 msgstr "ཡིག་ཚད་"
 
-#: ../src/tools/analysis-tools.c:3690
+#: ../src/tools/analysis-tools.c:3689
 msgid "Rank"
 msgstr "གོ་རིམ་"
 
-#: ../src/tools/analysis-tools.c:3691
+#: ../src/tools/analysis-tools.c:3690
 msgid "Percentile"
 msgstr "བརྒྱ་ཆ་བཟོ་བ་"
 
-#: ../src/tools/analysis-tools.c:3751
+#: ../src/tools/analysis-tools.c:3750
 #, c-format
 msgid "Ranks (%s)"
 msgstr "གོ་རིམ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:3763
-#: ../src/tools/analysis-tools.c:3766
+#: ../src/tools/analysis-tools.c:3762
+#: ../src/tools/analysis-tools.c:3765
 msgid "Ranks"
 msgstr "གོ་རིམ་"
 
-#: ../src/tools/analysis-tools.c:3797
+#: ../src/tools/analysis-tools.c:3796
 msgid "Anova: Single Factor"
 msgstr "ཨེ་ནོ་བ་: ཆ་རྐྱེན་རྐྱང་པ་"
 
-#: ../src/tools/analysis-tools.c:3798
-#: ../src/tools/analysis-tools.c:4454
+#: ../src/tools/analysis-tools.c:3797
+#: ../src/tools/analysis-tools.c:4453
 #: ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "བཅུད་དོན་"
 
-#: ../src/tools/analysis-tools.c:3801
+#: ../src/tools/analysis-tools.c:3800
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groups/Count/Sum/Average/Variance"
 
-#: ../src/tools/analysis-tools.c:3869
+#: ../src/tools/analysis-tools.c:3868
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 
-#: ../src/tools/analysis-tools.c:3875
-#: ../src/tools/analysis-tools.c:4304
-#: ../src/tools/analysis-tools.c:4478
+#: ../src/tools/analysis-tools.c:3874
+#: ../src/tools/analysis-tools.c:4303
+#: ../src/tools/analysis-tools.c:4477
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-value/F critical"
 
-#: ../src/tools/analysis-tools.c:4105
+#: ../src/tools/analysis-tools.c:4104
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "ཆ་རྐྱེན་རྐྱང་པ་ཨེ་ནོ་བ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:4116
-#: ../src/tools/analysis-tools.c:4785
+#: ../src/tools/analysis-tools.c:4115
+#: ../src/tools/analysis-tools.c:4784
 msgid "Anova"
 msgstr "ཨོ་ནོ་བ་"
 
-#: ../src/tools/analysis-tools.c:4119
+#: ../src/tools/analysis-tools.c:4118
 msgid "Single Factor ANOVA"
 msgstr "ཆ་རྐྱེན་རྐྱང་པ་ཨེ་ནོ་བ་"
 
-#: ../src/tools/analysis-tools.c:4226
+#: ../src/tools/analysis-tools.c:4225
 msgid "The input range contains non-numeric data."
 msgstr "ཨིན་པུཊི་ཁྱབ་ཚད་འདི་ནང་ ཨང་གྲངས་མེན་པའི་གནད་སྡུད་འདུག"
 
-#: ../src/tools/analysis-tools.c:4234
+#: ../src/tools/analysis-tools.c:4233
 msgid "Anova: Two-Factor Without Replication"
 msgstr "ཨེ་ནོ་བ་: ངོ་འདྲ་མེད་པར་ ཆ་རྐྱེན་གཉིས་"
 
-#: ../src/tools/analysis-tools.c:4235
+#: ../src/tools/analysis-tools.c:4234
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Count/Sum/Average/Variance"
 
-#: ../src/tools/analysis-tools.c:4298
+#: ../src/tools/analysis-tools.c:4297
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 
-#: ../src/tools/analysis-tools.c:4444
+#: ../src/tools/analysis-tools.c:4443
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "ཆ་རྐྱེན་མཉམ་མཐུད་ཚུ་ལས་གཅིག་གི་ནང་ལུ་ ཞིབ་བལྟ་ག་ནི་ཡང་མིན་འདུག་!"
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4453
+#: ../src/tools/analysis-tools.c:4452
 msgid "Anova: Two-Factor With Replication"
 msgstr "ཨེ་ནོ་བ་: ངོ་འདྲ་དང་གཅིག་ཁར་ཆ་་རྐྱེན་གཉིས་"
 
-#: ../src/tools/analysis-tools.c:4460
+#: ../src/tools/analysis-tools.c:4459
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Count/Sum/Average/Variance"
 
-#: ../src/tools/analysis-tools.c:4470
+#: ../src/tools/analysis-tools.c:4469
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 
-#: ../src/tools/analysis-tools.c:4769
+#: ../src/tools/analysis-tools.c:4768
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "ཨེ་ནོ་བ་ཆ་རྐྱེན་གཉིས་ (%s) ངོ་འདྲ་མེད་"
 
-#: ../src/tools/analysis-tools.c:4770
+#: ../src/tools/analysis-tools.c:4769
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "ཨེ་ནོ་བ་ཆ་རྐྱེན་གཉིས་ (%s) ངོ་འདྲ་དང་གཅིག་ཁར་"
 
-#: ../src/tools/analysis-tools.c:4788
+#: ../src/tools/analysis-tools.c:4787
 msgid "Two Factor ANOVA"
 msgstr "ཨེ་ནོ་བ་ཆ་རྐྱེན་གཉིས་"
 
-#: ../src/tools/analysis-tools.c:4877
+#: ../src/tools/analysis-tools.c:4876
 #: ../src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "ངོ་མ་"
 
-#: ../src/tools/analysis-tools.c:4878
+#: ../src/tools/analysis-tools.c:4877
 msgid "Imaginary"
 msgstr "བློའི་འཆར་ཚུལ་"
 
-#: ../src/tools/analysis-tools.c:4938
+#: ../src/tools/analysis-tools.c:4937
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "ཕོ་རི་ཡར་རྒྱུན་རིམ་ཚུ་ (%s)"
 
-#: ../src/tools/analysis-tools.c:4950
-#: ../src/tools/analysis-tools.c:4953
+#: ../src/tools/analysis-tools.c:4949
+#: ../src/tools/analysis-tools.c:4952
 msgid "Fourier Series"
 msgstr "ཕོ་རི་ཡར་རྒྱུན་རིམ་ཚུ"
 
@@ -9259,7 +9252,7 @@ msgstr "ཁྱབ་ཚད་རྐྱང་པ་ཅིག་རེ་བ་བ
 
 #. ALSO "<control>2"
 #: ../src/widgets/widget-font-selector.c:209
-#: ../src/wbcg-actions.c:2194
+#: ../src/wbcg-actions.c:2200
 msgid "Bold"
 msgstr "རྒྱགས་པ་"
 
@@ -9269,13 +9262,21 @@ msgstr "རྒྱགས་པ་ཨའི་ཊ་ལིཀ་"
 
 #. ALSO "<control>3"
 #: ../src/widgets/widget-font-selector.c:211
-#: ../src/wbcg-actions.c:2197
+#: ../src/wbcg-actions.c:2203
 msgid "Italic"
 msgstr "ཨའི་ཊ་ལིཀ་"
 
-#: ../src/application.c:276
+#: ../src/application.c:272
 msgid "Cut Object"
 msgstr "བཏོག་ནིའི་དངོས་པོ་"
+
+#: ../src/application.c:679
+msgid "File History List"
+msgstr "ཡིག་སྣོད་ཀྱི་ལོ་རྒྱུས་ཐོ་ཡིག་"
+
+#: ../src/application.c:680
+msgid "A GSlist of filenames that have been read recently"
+msgstr "འཕྲལ་སྐབས་ཅིག་ཁར་ལྷག་ཡོད་པའི་ཡིག་སྣོད་མིང་ཚུའི་ཇི་ཨེསི་ལིསཊི་ཅིག་"
 
 #: ../src/clipboard.c:354
 #: ../src/clipboard.c:366
@@ -9399,13 +9400,13 @@ msgstr "Ins/Del Column/Row"
 
 #: ../src/commands.c:1385
 #: ../src/commands.c:1390
-#: ../src/sheet.c:3818
+#: ../src/sheet.c:3822
 msgid "Delete Columns"
 msgstr "ཀེར་ཐིག་ཚུ་བཏོན་གཏང་"
 
 #: ../src/commands.c:1385
 #: ../src/commands.c:1390
-#: ../src/sheet.c:3958
+#: ../src/sheet.c:3962
 msgid "Delete Rows"
 msgstr "གྲལ་ཐིག་ཚུ་བཏོན་གཏང་"
 
@@ -9452,7 +9453,7 @@ msgstr "གྲལ་ཐིག་ %s བཏོན་གཏང་དོ་"
 #. Check for locked cells
 #: ../src/commands.c:1649
 #: ../src/commands.c:1653
-#: ../src/sheet.c:3475
+#: ../src/sheet.c:3479
 msgid "Clear"
 msgstr "བས་ལ་"
 
@@ -9653,7 +9654,7 @@ msgstr "%s ནང་ལུ་སྦྱར་དོ་"
 #: ../src/commands.c:3293
 #: ../src/commands.c:3294
 #: ../src/item-cursor.c:1252
-#: ../src/wbcg-actions.c:484
+#: ../src/wbcg-actions.c:475
 msgid "Autofill"
 msgstr "རང་བཞིན་བཀང་"
 
@@ -10082,37 +10083,37 @@ msgstr ""
 msgid "clipboard"
 msgstr "འཛིན་པང་"
 
-#: ../src/gui-file.c:87
+#: ../src/gui-file.c:80
 msgid "Automatically detected"
 msgstr "རང་བཞིན་གྱིས་སྐྱོན་འཛིན་བྱུང་ཡོདཔ་"
 
-#: ../src/gui-file.c:187
+#: ../src/gui-file.c:180
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "Simple"
 msgstr "འཇམ་སམ་"
 
-#: ../src/gui-file.c:221
+#: ../src/gui-file.c:214
 msgid "Load file"
 msgstr "ཡིག་སྣོད་མངོན་གསལ་འབད་"
 
-#: ../src/gui-file.c:247
-#: ../src/gui-file.c:415
+#: ../src/gui-file.c:240
+#: ../src/gui-file.c:394
 msgid "Select a file"
 msgstr "ཡིག་སྣོད་ཅིག་སེལ་འའཐུ་འབད་"
 
-#: ../src/gui-file.c:278
-#: ../src/gui-file.c:431
+#: ../src/gui-file.c:270
+#: ../src/gui-file.c:410
 msgid "All Files"
 msgstr "ཡིག་སྣོད་ཚུ་ཆ་མཉམ་"
 
-#: ../src/gui-file.c:309
-#: ../src/gui-file.c:460
+#: ../src/gui-file.c:288
+#: ../src/gui-file.c:439
 msgid "File _type:"
 msgstr "ཡིག་སྣོད་དབྱེ་བ་:(_t)"
 
-#: ../src/gui-file.c:372
+#: ../src/gui-file.c:351
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select different file format.\n"
@@ -10122,7 +10123,7 @@ msgstr ""
 "ཁྱོད་ཀྱིས་ལེབ་གྲངས་ཚུ་ཆ་མཉམ་སྲུང་བཞག་འབད་དགོ་ནི་ཨིན་པ་ཅིན་ འདི་ཚུ་ཡིག་སྣོད་སོ་སོ་ཡང་ན་སྲུང་བཞག་འབད་ཡང་ན་ ཡིག་སྣོད་རྩ་སྒྲིག་སོ་སོ་ཅིག་སེལ་འཐུ་འབད།\n"
 "ཁྱོད་ཀྱིས་ད་ལྟོའི་ལེབ་གྲངས་ཚུ་རྐྱངམ་ཅིག་སྲུང་བཞག་འབད་ནི་ཨིན་ན?"
 
-#: ../src/gui-file.c:517
+#: ../src/gui-file.c:496
 msgid "The given file extension does not match the chosen file type. Do you want to use this name anyway?"
 msgstr "བྱིན་ཡོད་པའི་ཡིག་སྣོད་རྒྱ་བསྐྱེད་འདི་ གདམ་ཁ་རྐྱབས་ཡོད་པའི་ཡིག་སྣོད་ཀྱི་དབྱེ་བ་དང་མི་མཐུན་པས། ཁྱོད་ཀྱིས་འ་ནི་མིང་འདི་གང་རུང་སྦེ་ལང་ལེན་འཐབ་ནི་ཨིན་ན?"
 
@@ -10482,40 +10483,46 @@ msgstr "ནུས་མེད་གསལ་བརྗོད་"
 msgid "Unexpected token %c"
 msgstr "རེ་བ་མེད་པའི་ངོ་རྟགས་ %c"
 
-#. Note: we cannot have spaces in page numbers.
-#: ../src/print.c:607
-msgid "&[PAGE]"
-msgstr "&[ཤོག་ལེབ་]"
+#: ../src/print.c:1011
+msgid "Print Selection"
+msgstr "དཔར་བསྐྲུན་སེལ་འཐུ་"
 
-#: ../src/print.c:1109
-msgid "Print Region"
-msgstr "དཔར་བསྐྲུན་ལུངས་ཕྱོགས་"
+#: ../src/print.c:1224
+msgid "_All workbook sheets"
+msgstr "ལཱ་དེབ་ལེབ་གྲངས་ཆ་མཉམ་(_A)"
 
-#: ../src/print.c:1226
-#: ../src/wbcg-actions.c:1572
-msgid "Print preview"
-msgstr "དཔར་བསྐྲུན་སྔོན་ལྟ་"
+#: ../src/print.c:1229
+msgid "A_ctive workbook sheet"
+msgstr "ཤུགས་ལྡན་གྱི་ལཱ་དེབ་ལེབ་གྲངས་(_c)"
 
-#: ../src/print.c:1238
-msgid "Printing failed"
-msgstr "དཔར་བསྐྲུན་འབད་ནི་འཐུས་ཤོར་འབྱུང་ཡོདཔ་"
+#: ../src/print.c:1234
+msgid "_Workbook sheets:"
+msgstr "ལཱ་དེབ་ལེབ་གྲངས་:(_W)"
 
-#: ../src/print.c:1342
-msgid "Print Sheets"
-msgstr "དཔར་བསྐྲུན་ལེབ་གྲངས་ཚུ་"
+#: ../src/print.c:1239
+msgid "Current _selection only"
+msgstr "ད་ལྟོའི་སེལ་འཐུ་རྐྱངམ་ཅིག་(_s)"
 
-#: ../src/print.c:1351
-msgid "Act_ive sheet"
-msgstr "ཤུགས་ལྡན་ལེབ་གྲངས་(_i)"
+#: ../src/print.c:1244
+msgid "_Ignore defined print area"
+msgstr "ངེས་འཛིན་འབད་ཡོད་པའི་དཔར་བསྐྲུན་མངའ་ཁོངས་ སྣང་མེད་སྦེ་བཞག་(_I)"
 
-#: ../src/print.c:1351
-msgid "S_heets"
-msgstr "ལེབ་གྲངས་ཚུ་(_h)"
+#: ../src/print.c:1248
+msgid "from:"
+msgstr "ལས་:"
+
+#: ../src/print.c:1256
+msgid "to:"
+msgstr "ལུ་:"
+
+#: ../src/print.c:1428
+msgid "Gnumeric Print Range"
+msgstr "ཇི་ནིའུ་མེ་རིག་ དཔར་བསྐྲུན་ཁྱབ་ཚད་"
 
 #: ../src/print-info.c:151
 #: ../src/print-info.c:154
 #: ../src/print-info.c:155
-#: ../src/print-info.c:268
+#: ../src/print-info.c:264
 msgid "Page &[PAGE]"
 msgstr "ཤོག་ལེབ་ &[ཤོག་ལེབ་]"
 
@@ -10528,7 +10535,7 @@ msgstr "ཤོག་ལེབ་ &[ཤོག་ལེབ་ཚུ་] གི་ 
 #: ../src/print-info.c:154
 #: ../src/print-info.c:155
 #: ../src/print-info.c:157
-#: ../src/print-info.c:262
+#: ../src/print-info.c:258
 msgid "&[TAB]"
 msgstr "&[མཆོང་ལྡེ་]"
 
@@ -10538,31 +10545,31 @@ msgstr "&[མཆོང་ལྡེ་]"
 msgid "&[DATE]"
 msgstr "&[ཚེས་གྲངས་]"
 
-#: ../src/print-info.c:463
+#: ../src/print-info.c:481
 msgid "File Name"
 msgstr "ཡིག་སྣོད་མིང་"
 
-#: ../src/print-info.c:475
+#: ../src/print-info.c:493
 msgid "Path "
 msgstr "འགྲུལ་ལམ་"
 
-#: ../src/print-info.c:483
+#: ../src/print-info.c:501
 msgid "tab"
 msgstr "མཆོང་ལྡེ་"
 
-#: ../src/print-info.c:484
+#: ../src/print-info.c:502
 msgid "page"
 msgstr "ཤོག་ལེབ་"
 
-#: ../src/print-info.c:485
+#: ../src/print-info.c:503
 msgid "pages"
 msgstr "ཤོག་ལེབ་ཚུ་"
 
-#: ../src/print-info.c:488
+#: ../src/print-info.c:506
 msgid "file"
 msgstr "ཡིག་སྣོད་"
 
-#: ../src/print-info.c:489
+#: ../src/print-info.c:507
 msgid "path"
 msgstr "འགྲུལ་ལམ་"
 
@@ -10581,83 +10588,83 @@ msgstr "ཁྱོད་ཀྱིས་འཚོལ་ཞིབ་འབད་ན
 msgid "The search range is invalid."
 msgstr "འཚོལ་ཞིབ་ཁྱབ་ཚད་འདི་ནུས་མེད་ཨིན་པས།"
 
-#: ../src/search.c:535
+#: ../src/search.c:548
 msgid "Search Strings"
 msgstr "ཡིག་རྒྱུན་ཚུ་འཚོལ་ཞིབ་འབད་"
 
-#: ../src/search.c:536
+#: ../src/search.c:549
 msgid "Should strings be searched?"
 msgstr "ཡིག་རྒྱུན་ཚུ་འཚོལ་ཞིབ་འབད་དགོཔ་ཨིན་ན?"
 
-#: ../src/search.c:544
+#: ../src/search.c:557
 msgid "Search Other Values"
 msgstr "གཞན་མི་གནས་གོང་ཚུ་འཚོལ་ཞིབ་འབད་"
 
-#: ../src/search.c:545
+#: ../src/search.c:558
 msgid "Should non-strings be searched?"
 msgstr "ཡིག་རྒྱུན་མེན་མི་ཚུ་འཚོལ་ཞིབ་འབད་དགོཔ་ཨིན་ན?"
 
-#: ../src/search.c:553
+#: ../src/search.c:566
 msgid "Search Expressions"
 msgstr "གསལ་བརྗོད་ཚུ་འཚོལ་ཞིབ་འབད་"
 
-#: ../src/search.c:554
+#: ../src/search.c:567
 msgid "Should expressions be searched?"
 msgstr "གསལ་བརྗོད་ཚུ་འཚོལ་ཞིབ་འབད་དགོཔ་ཨིན་ན?"
 
-#: ../src/search.c:562
+#: ../src/search.c:575
 msgid "Search Expression Results"
 msgstr "འཚོལ་ཞིབ་གསལ་བརྗོད་ཀྱི་གྲུབ་འབྲས་ཚུ་"
 
-#: ../src/search.c:563
+#: ../src/search.c:576
 msgid "Should the results of expressions be searched?"
 msgstr "གསལ་བརྗོད་ཚུ་གི་གྲུབ་འབྲས་འདི་འཚོལ་ཞིབ་འབད་དགོཔ་ཨིན་ན?"
 
-#: ../src/search.c:571
+#: ../src/search.c:584
 msgid "Search Comments"
 msgstr "བསམ་བཀོད་ཚུ་འཚོལ་ཞིབ་འབད་"
 
-#: ../src/search.c:572
+#: ../src/search.c:585
 msgid "Should cell comments be searched?"
 msgstr "ནང་ཐིག་གི་བསམ་བཀོད་ཚུ་འཚོལ་ཞིབ་འབད་དགོཔ་ཨིན་ན?"
 
-#: ../src/search.c:580
+#: ../src/search.c:593
 msgid "By Row"
 msgstr "གྲལ་ཐིག་གིས་སྦེ་"
 
-#: ../src/search.c:581
+#: ../src/search.c:594
 msgid "Is the search order by row?"
 msgstr "འཚོལ་ཞིབ་གོ་རིམ་འདི་གྲལ་ཐིག་གིས་སྦེ་ཨིན་ན?"
 
-#: ../src/search.c:589
+#: ../src/search.c:602
 msgid "Query"
 msgstr "འདྲི་དཔྱད་"
 
-#: ../src/search.c:590
+#: ../src/search.c:603
 msgid "Should we query for each replacement?"
 msgstr "ཚབ་བཙུགས་རེ་རེ་གི་དོན་ལུ་ ང་བཅས་ཀྱིས་འདྲི་དཔྱད་འབད་དགོཔ་ཨིན་ན?"
 
-#: ../src/search.c:598
+#: ../src/search.c:611
 msgid "Keep Strings"
 msgstr "ཡིག་རྒྱུན་ཚུ་བཞག་"
 
-#: ../src/search.c:599
+#: ../src/search.c:612
 msgid "Should replacement keep strings as strings?"
 msgstr "ཚབ་བཙུགས་ནི་གིས་ ཡིག་རྒྱུན་ཚུ་ཡིག་རྒྱུན་སྦེ་བཞག་དགོཔ་ཨིན་ན?"
 
-#: ../src/search.c:608
+#: ../src/search.c:621
 msgid "The sheet in which to search."
 msgstr "ག་ནང་འཚོལ་ཞིབ་འབད་ནི་ཨིན་ན་གི་ལེབ་གྲངས།"
 
-#: ../src/search.c:617
+#: ../src/search.c:630
 msgid "Where to search."
 msgstr "ག་ཏེ་འཚོལ་ནི་ཨིན་ན།"
 
-#: ../src/search.c:626
+#: ../src/search.c:639
 msgid "Range as Text"
 msgstr "ཚིག་ཡིག་སྦེ་གྲ་སྒྲིག་འབད་"
 
-#: ../src/search.c:627
+#: ../src/search.c:640
 msgid "The range in which to search."
 msgstr "ག་ཏེ་འཚོལ་ཞིབ་འབད་ནི་ཨིན་ན་གི་ ཁྱབ་ཚད།"
 
@@ -10829,23 +10836,23 @@ msgstr "རྒྱས་བཟུམ་ཆ་རྐྱེན་"
 msgid "The level of zoom used for this sheet."
 msgstr "འ་ནི་ལེབ་གྲངས་འདི་གི་དོན་ལུ་ལག་ལེན་འཐབ་ཡོད་པའི་ རྒྱས་བཟུམ་གྱི་གནས་རིམ།"
 
-#: ../src/sheet.c:2531
+#: ../src/sheet.c:2535
 msgid "Target region contains merged cells"
 msgstr "དམིགས་གཏད་ལུངས་ཕྱོགས་ནང་ མཉམ་བསྡོམས་འབད་ཡོད་པའི་ནང་ཐིག་ཚུ་ཡོདཔ་ཨིན་"
 
-#: ../src/sheet.c:2592
+#: ../src/sheet.c:2596
 msgid "cannot operate on merged cells"
 msgstr "མཉམ་བསྡོམས་འབད་ཡོད་པའི་ནང་ཐིག་ཚུ་གུ་བཀོལ་སྤྱོད་འབད་མི་ཚུགས་"
 
-#: ../src/sheet.c:2602
+#: ../src/sheet.c:2606
 msgid "cannot operate on array formulae"
 msgstr "ཨེ་རེ་མན་ངག་གུ་བཀོལ་སྤྱོད་འབད་མི་ཚུགས་"
 
-#: ../src/sheet.c:3747
+#: ../src/sheet.c:3751
 msgid "Insert Columns"
 msgstr "ཀེར་ཐིག་ཚུ་བཙུགས་"
 
-#: ../src/sheet.c:3890
+#: ../src/sheet.c:3894
 msgid "Insert Rows"
 msgstr "གྲལ་ཐིག་ཚུ་བཙུགས་"
 
@@ -10911,15 +10918,15 @@ msgstr "ཀེར་ཐིག་གི་རྒྱ་ཚད་...(_W)"
 
 #: ../src/sheet-control-gui.c:1815
 #: ../src/sheet-control-gui.c:1823
-#: ../src/wbcg-actions.c:1804
-#: ../src/wbcg-actions.c:1821
+#: ../src/wbcg-actions.c:1810
+#: ../src/wbcg-actions.c:1827
 msgid "_Hide"
 msgstr "སྦ་བཞག་(_H)"
 
 #: ../src/sheet-control-gui.c:1817
 #: ../src/sheet-control-gui.c:1825
-#: ../src/wbcg-actions.c:1807
-#: ../src/wbcg-actions.c:1824
+#: ../src/wbcg-actions.c:1813
+#: ../src/wbcg-actions.c:1830
 msgid "_Unhide"
 msgstr "སྦ་མ་བཞག་(_U)"
 
@@ -10959,7 +10966,7 @@ msgstr "དངོས་པོ་ཚད་བསྐྱར་བཟོ་འབད
 
 #. Format toolbar
 #: ../src/sheet-merge.c:73
-#: ../src/wbcg-actions.c:2036
+#: ../src/wbcg-actions.c:2042
 msgid "Merge"
 msgstr "མཉམ་བསྡོམས་འབད་"
 
@@ -10992,16 +10999,16 @@ msgstr "རྒྱབ་བསྐྱོད་འཕུལ་(_B)"
 msgid "Pus_h to Back"
 msgstr "རྒྱབ་ཁ་ལུ་འཕུལ་(_h)"
 
-#: ../src/sheet-object-graph.c:251
+#: ../src/sheet-object-graph.c:247
 #: ../src/sheet-object-image.c:411
 msgid "Unknown failure while saving image"
 msgstr "གཟུགས་བརྙན་སྲུང་བཞག་འབད་བའི་སྐབས་ མ་ཤེས་པའི་འཐུས་ཤོར་"
 
-#: ../src/sheet-object-graph.c:335
+#: ../src/sheet-object-graph.c:331
 msgid "_Save as Image"
 msgstr "གཟུགས་བརྙན་སྦེ་སྲུང་བཞག་འབད་(_S)"
 
-#: ../src/sheet-object-graph.c:336
+#: ../src/sheet-object-graph.c:332
 msgid "Open in _New Window"
 msgstr "སྒོ་སྒྲིག་གསརཔ་ནང་ཁ་ཕྱེ་(_N)"
 
@@ -11010,12 +11017,12 @@ msgid "_Save as image"
 msgstr "གཟུགས་བརྙན་སྦེ་སྲུང་བཞག་འབད་(_S)"
 
 #: ../src/sheet-object-widget.c:281
-#: ../src/wbcg-actions.c:1995
+#: ../src/wbcg-actions.c:2001
 msgid "Frame"
 msgstr "གཞི་ཁྲམ་"
 
 #: ../src/sheet-object-widget.c:516
-#: ../src/wbcg-actions.c:2028
+#: ../src/wbcg-actions.c:2034
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "ཨེབ་རྟ་"
@@ -11036,7 +11043,7 @@ msgid "Clicking checkbox"
 msgstr "དཔྱད་སྒྲོམ་ཨེབ་གཏང་འབད་དོ་"
 
 #: ../src/sheet-object-widget.c:1867
-#: ../src/wbcg-actions.c:2031
+#: ../src/wbcg-actions.c:2037
 msgid "RadioButton"
 msgstr "རེ་ཌིའོ་ཨེབ་རྟ་"
 
@@ -11292,46 +11299,46 @@ msgstr "ནང་ཐིག་ཚུ་ག་དེ་འབད་རྩ་སྒ
 msgid "There are more columns of data than there is room for in the sheet.  Extra columns will be ignored."
 msgstr "ལེབ་གྲངས་དེ་ནང་ཁང་མིག་ལས་ཡང་ གནད་སྡུད་ཀྱི་ཀེར་ཐིག་ལེ་ཤ་འདུག ཀེར་ཐིག་ཐེབས་ཚུ་སྣང་མེད་བཞག་འོང་།"
 
-#: ../src/validation.c:253
+#: ../src/validation.c:252
 msgid "Gnumeric: Validation"
 msgstr "ཇི་པུ་མིརིཀ་: ནུས་ལྡན་དུས་ཚོད་"
 
-#: ../src/validation.c:310
+#: ../src/validation.c:309
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "ནང་ཐིག་ %s འདི་སྟོངམ་ཨིན་ནི་སྦེ་གནང་བ་མ་བྱིན་པས་"
 
-#: ../src/validation.c:318
+#: ../src/validation.c:317
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "ནང་ཐིག་ %s འདི་འཛོལ་བའི་གནས་གོང་ཚུ་ཡོད་དགོཔ་སྦེ་གནང་བ་མ་བྱིན་པས་"
 
-#: ../src/validation.c:329
+#: ../src/validation.c:328
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "ནང་ཐིག་ %s འདི་ཡིག་རྒྱུན་ཡོད་དགོཔ་སྦེ་གནང་བ་མ་བྱིན་པས་"
 
-#: ../src/validation.c:345
+#: ../src/validation.c:344
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' འདི་ཧྲིལ་གྲངས་ཅིག་མེན་"
 
-#: ../src/validation.c:355
+#: ../src/validation.c:354
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "'%s' འདི་ནུས་ལྡན་ཚེས་གྲངས་ཅིག་མེན་"
 
-#: ../src/validation.c:377
+#: ../src/validation.c:376
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s ནང་ལུ་གནས་གོང་གསརཔ་འདི་མེད།"
 
-#: ../src/validation.c:411
+#: ../src/validation.c:410
 #, c-format
 msgid "%s is not true."
 msgstr "%s བདེན་པ་མེན།"
 
-#: ../src/validation.c:448
+#: ../src/validation.c:447
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s འདི་གནང་བ་བྱིན་ཡོད་པའི་ཁྱབ་ཚད་ཀྱི་ཕྱི་ཁར་ཨིན་པས་"
@@ -11365,22 +11372,22 @@ msgid "#N/A"
 msgstr "#N/A"
 
 #. File->PrintArea
-#: ../src/wbcg-actions.c:114
-#: ../src/wbcg-actions.c:1585
+#: ../src/wbcg-actions.c:109
+#: ../src/wbcg-actions.c:1591
 msgid "Set Print Area"
 msgstr "དཔར་བསྐྲུན་གྱི་མངའ་ཁོངས་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:118
+#: ../src/wbcg-actions.c:113
 #, c-format
 msgid "Set Print Area to %s"
 msgstr "དཔར་བསྐྲུན་གྱི་མངའ་ཁོངས་འདི་ %s ལུ་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:138
-#: ../src/wbcg-actions.c:1588
+#: ../src/wbcg-actions.c:133
+#: ../src/wbcg-actions.c:1594
 msgid "Clear Print Area"
 msgstr "དཔར་བསྐརུན་གྱི་མངའ་ཁོངས་བསལ་"
 
-#: ../src/wbcg-actions.c:404
+#: ../src/wbcg-actions.c:395
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -11399,7 +11406,7 @@ msgstr ""
 "\n"
 "ཚབ་བཙུགས་ནི་འདི་ བར་བཤོལ་འབད་ཡོད་ དེ་ལས་ག་ཅི་ཡང་བསྒྱུར་བཅོས་མ་འབད།"
 
-#: ../src/wbcg-actions.c:442
+#: ../src/wbcg-actions.c:433
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "བསམ་བཀོད་འདི་ ནང་ཐིག་ %s!%s ནང་"
@@ -11408,1701 +11415,1702 @@ msgstr "བསམ་བཀོད་འདི་ ནང་ཐིག་ %s!%s ན�
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbcg-actions.c:698
+#: ../src/wbcg-actions.c:689
 msgid "Insert rows"
 msgstr "གྲལ་ཐིག་ཚུ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:715
+#: ../src/wbcg-actions.c:706
 msgid "Insert columns"
 msgstr "ཀེར་ཐིག་ཚུ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:792
+#: ../src/wbcg-actions.c:783
 msgid "Add Filter"
 msgstr "ཚགས་མ་ཁ་སྐོང་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:804
+#: ../src/wbcg-actions.c:795
 msgid "AutoFilter"
 msgstr "རང་བཞིན་ཚགས་མ་"
 
-#: ../src/wbcg-actions.c:804
+#: ../src/wbcg-actions.c:795
 msgid "Requires more than 1 row"
 msgstr "གྲལ་ཐིག་ ༡ ལས་ལྷག་སྟེ་དགོཔ་ཨིན་"
 
-#: ../src/wbcg-actions.c:835
-#: ../src/wbcg-actions.c:854
+#: ../src/wbcg-actions.c:826
+#: ../src/wbcg-actions.c:845
 msgid "Show Detail"
 msgstr "རྒྱས་བཤད་སྟོན་"
 
-#: ../src/wbcg-actions.c:835
-#: ../src/wbcg-actions.c:854
+#: ../src/wbcg-actions.c:826
+#: ../src/wbcg-actions.c:845
 msgid "Hide Detail"
 msgstr "རྒྱས་བཤད་སྦ་བཞག་"
 
-#: ../src/wbcg-actions.c:842
+#: ../src/wbcg-actions.c:833
 msgid "can only be performed on an existing group"
 msgstr "ཡོད་བཞིན་སྡེ་ཚན་ཅིག་ལུ་རྐྱངམ་ཅིག་ལཱ་འགན་འགྲུབ་ཚུགས་"
 
-#: ../src/wbcg-actions.c:882
+#: ../src/wbcg-actions.c:873
 msgid "Group"
 msgstr "སྡེ་ཚན་"
 
-#: ../src/wbcg-actions.c:882
+#: ../src/wbcg-actions.c:873
 msgid "Ungroup"
 msgstr "སྡེ་ཚད་མ་བཟོ་"
 
-#: ../src/wbcg-actions.c:1026
+#: ../src/wbcg-actions.c:1017
 msgid "Sort"
 msgstr "དབྱེ་སེལ་"
 
-#: ../src/wbcg-actions.c:1151
+#: ../src/wbcg-actions.c:1142
 msgid "Set Horizontal Alignment"
 msgstr "ཐད་སྙོམས་ཕྲང་སྒྲིག་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1184
+#: ../src/wbcg-actions.c:1175
 msgid "Set Vertical Alignment"
 msgstr "ཀེར་ཕྲང་ཕྲང་སྒྲིག་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1277
+#: ../src/wbcg-actions.c:1268
 msgid "Set Font Style"
 msgstr "ཡིག་གཟུགས་ཀྱི་བཟོ་རྣམ་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1307
+#: ../src/wbcg-actions.c:1300
 msgid "Format as General"
 msgstr "སྤྱིར་བཏང་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1312
+#: ../src/wbcg-actions.c:1306
 msgid "Format as Number"
 msgstr "ཨང་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1317
+#: ../src/wbcg-actions.c:1313
 msgid "Format as Currency"
 msgstr "དངུལ་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1322
+#: ../src/wbcg-actions.c:1320
 msgid "Format as Accounting"
 msgstr "རྩིས་ཐོ་བཀོད་ནི་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1328
+#: ../src/wbcg-actions.c:1327
+#: ../src/wbcg-actions.c:1334
 msgid "Format as Percentage"
 msgstr "བརྒྱ་ཆ་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1333
-msgid "Format as Scientific"
-msgstr "ཚན་རིག་སྦེ་རྩ་སྒྲིག་འབད་"
-
-#: ../src/wbcg-actions.c:1338
-msgid "Format as Date"
-msgstr "ཚེས་གྲངས་སྦེ་རྩ་སྒྲིག་འབད་"
-
-#: ../src/wbcg-actions.c:1343
+#: ../src/wbcg-actions.c:1342
 msgid "Format as Time"
 msgstr "ཆུ་ཚོད་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1367
+#: ../src/wbcg-actions.c:1349
+msgid "Format as Date"
+msgstr "ཚེས་གྲངས་སྦེ་རྩ་སྒྲིག་འབད་"
+
+#: ../src/wbcg-actions.c:1373
 msgid "Add Borders"
 msgstr "མཐའ་མཚམས་ཚུ་ཁ་སྐོང་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:1367
+#: ../src/wbcg-actions.c:1373
 msgid "Remove borders"
 msgstr "མཐའ་མཚམས་ཚུ་རྩ་བསྐྲད་གཏང་"
 
-#: ../src/wbcg-actions.c:1396
+#: ../src/wbcg-actions.c:1402
 msgid "Increase precision"
 msgstr "ཀྲིག་ཀྲི་ཡར་འཕར་འབད་"
 
-#: ../src/wbcg-actions.c:1398
+#: ../src/wbcg-actions.c:1404
 msgid "Decrease precision"
 msgstr "ཀྲིག་ཀྲི་མར་ཕབ་འབད་"
 
-#: ../src/wbcg-actions.c:1400
+#: ../src/wbcg-actions.c:1406
 msgid "Toggle thousands separator"
 msgstr "སྟོང་ཕྲག་དབྱེ་བྱེད་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:1408
+#: ../src/wbcg-actions.c:1414
 msgid "Copy down"
 msgstr "མར་འདྲ་བཤུས་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:1414
+#: ../src/wbcg-actions.c:1420
 msgid "Copy right"
 msgstr "གཡས་འདྲ་བཤུས་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:1465
+#: ../src/wbcg-actions.c:1471
 msgid "_File"
 msgstr "ཡིག་སྣོད་(_F)"
 
-#: ../src/wbcg-actions.c:1466
+#: ../src/wbcg-actions.c:1472
 msgid "Print Area"
 msgstr "དཔར་བསྐྲུན་མངའ་ཁོངས་"
 
-#: ../src/wbcg-actions.c:1467
+#: ../src/wbcg-actions.c:1473
 msgid "_Edit"
 msgstr "ཞུན་དག་(_E)"
 
-#: ../src/wbcg-actions.c:1468
+#: ../src/wbcg-actions.c:1474
 msgid "C_lear"
 msgstr "བསལ་(_l)"
 
-#: ../src/wbcg-actions.c:1469
+#: ../src/wbcg-actions.c:1475
 msgid "_Delete"
 msgstr "བཏོན་གཏང་(_D)"
 
-#: ../src/wbcg-actions.c:1470
+#: ../src/wbcg-actions.c:1476
 msgid "S_heet"
 msgstr "ལེབ་གྲངས་(_h)"
 
-#: ../src/wbcg-actions.c:1471
+#: ../src/wbcg-actions.c:1477
 msgid "_Select"
 msgstr "སེལ་འཐུ་འབད་(_S)"
 
-#: ../src/wbcg-actions.c:1472
+#: ../src/wbcg-actions.c:1478
 msgid "F_ill"
 msgstr "བཀང་(_i)"
 
-#: ../src/wbcg-actions.c:1473
+#: ../src/wbcg-actions.c:1479
 msgid "_View"
 msgstr "སྟོན་(_V)"
 
-#: ../src/wbcg-actions.c:1474
+#: ../src/wbcg-actions.c:1480
 msgid "_Windows"
 msgstr "སྒོ་སྒྲིག་ཚུ་(_W)"
 
-#: ../src/wbcg-actions.c:1475
+#: ../src/wbcg-actions.c:1481
 msgid "_Toolbars"
 msgstr "ལག་ཆས་ཕྲ་རིང་ཚུ་(_T)"
 
-#: ../src/wbcg-actions.c:1477
+#: ../src/wbcg-actions.c:1483
 msgid "_Names"
 msgstr "མིང་ཚུ་(_N)"
 
-#: ../src/wbcg-actions.c:1478
+#: ../src/wbcg-actions.c:1484
 msgid "S_pecial"
 msgstr "དམིགས་བསལ་(_p)"
 
-#: ../src/wbcg-actions.c:1479
+#: ../src/wbcg-actions.c:1485
 msgid "F_ormat"
 msgstr "རྩ་སྒྲིག་(_o)"
 
-#: ../src/wbcg-actions.c:1480
+#: ../src/wbcg-actions.c:1486
 msgid "C_olumn"
 msgstr "ཀེར་ཐིག་(_o)"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: ../src/wbcg-actions.c:1482
-#: ../src/wbcg-actions.c:1677
+#: ../src/wbcg-actions.c:1488
+#: ../src/wbcg-actions.c:1683
 msgid "_Sheet"
 msgstr "ལེབ་གྲངས་(_S)"
 
-#: ../src/wbcg-actions.c:1483
+#: ../src/wbcg-actions.c:1489
 msgid "_Tools"
 msgstr "ལག་ཆས་ཚུ་(_T)"
 
-#: ../src/wbcg-actions.c:1484
+#: ../src/wbcg-actions.c:1490
 msgid "Sce_narios"
 msgstr "འཆར་བཤད་ཚུ་(_n)"
 
-#: ../src/wbcg-actions.c:1485
+#: ../src/wbcg-actions.c:1491
 msgid "Statistical Anal_ysis"
 msgstr "ཚད་རྩིས་དཔྱད་ཞིབ་(_y)"
 
-#: ../src/wbcg-actions.c:1486
+#: ../src/wbcg-actions.c:1492
 msgid "_ANOVA"
 msgstr "ཨེ་ནོ་བ་(_A)"
 
-#: ../src/wbcg-actions.c:1487
+#: ../src/wbcg-actions.c:1493
 msgid "F_orecast"
 msgstr "སྔོན་བཤད་(_o)"
 
-#: ../src/wbcg-actions.c:1488
+#: ../src/wbcg-actions.c:1494
 msgid "Two _Means"
 msgstr "སེར་སྣ་གཉིས་(_M)"
 
-#: ../src/wbcg-actions.c:1490
+#: ../src/wbcg-actions.c:1496
 msgid "_Filter"
 msgstr "ཚགས་མ་(_F)"
 
-#: ../src/wbcg-actions.c:1491
+#: ../src/wbcg-actions.c:1497
 msgid "_Group and Outline"
 msgstr "སྡེ་ཚན་དང་མཐའ་ཐིག་(_G)"
 
-#: ../src/wbcg-actions.c:1492
+#: ../src/wbcg-actions.c:1498
 msgid "Get External _Data"
 msgstr "ཕྱིའི་གནད་སྡུད་ལེན་(_D)"
 
-#: ../src/wbcg-actions.c:1493
+#: ../src/wbcg-actions.c:1499
 msgid "_Help"
 msgstr "གྲོགས་རམ་(_H)"
 
-#: ../src/wbcg-actions.c:1496
+#: ../src/wbcg-actions.c:1502
 msgid "Save the current workbook"
 msgstr "ད་ལྟོའི་ལཱ་གཡོག་ཀི་དེབ་འདི་སྲུང་བཞག་འབད་"
 
-#: ../src/wbcg-actions.c:1499
+#: ../src/wbcg-actions.c:1505
 msgid "Save the current workbook with a different name"
 msgstr "ད་ལྟོའི་ལཱ་གཡོག་ཀི་དེབ་་འདི་ མིང་སོ་སོ་ཅིག་གིས་སྦེ་སྲུང་བཞག་འབད་"
 
-#: ../src/wbcg-actions.c:1502
+#: ../src/wbcg-actions.c:1508
 msgid "Close the current file"
 msgstr "ད་ལྟོའི་ཡིག་སྣོད་འདི་ཁ་བསྡམ་"
 
-#: ../src/wbcg-actions.c:1505
+#: ../src/wbcg-actions.c:1511
 msgid "Quit the application"
 msgstr "གློག་རིམ་འདི་སྤང་"
 
-#: ../src/wbcg-actions.c:1509
+#: ../src/wbcg-actions.c:1515
 msgid "Cut the selection"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་བཏོག་"
 
-#: ../src/wbcg-actions.c:1512
+#: ../src/wbcg-actions.c:1518
 msgid "Copy the selection"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་འདྲ་བཤུས་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:1515
+#: ../src/wbcg-actions.c:1521
 msgid "Paste the clipboard"
 msgstr "འཛིན་པང་འདི་སྦྱར་"
 
-#: ../src/wbcg-actions.c:1517
+#: ../src/wbcg-actions.c:1523
 #: ../src/workbook-control-gui.c:1197
 msgid "_Undo"
 msgstr "འབད་བཤོལ་(_U)"
 
-#: ../src/wbcg-actions.c:1518
-#: ../src/wbc-gtk.c:516
+#: ../src/wbcg-actions.c:1524
+#: ../src/wbc-gtk.c:517
 msgid "Undo the last action"
 msgstr "མཇུག་གི་བྱ་བ་འདི་འབད་བཤོལ་"
 
-#: ../src/wbcg-actions.c:1520
+#: ../src/wbcg-actions.c:1526
 #: ../src/workbook-control-gui.c:1198
 msgid "_Redo"
 msgstr "ལོག་འབད་(_R)"
 
-#: ../src/wbcg-actions.c:1521
-#: ../src/wbc-gtk.c:528
+#: ../src/wbcg-actions.c:1527
+#: ../src/wbc-gtk.c:529
 msgid "Redo the undone action"
 msgstr "མ་འབད་བའི་བྱ་བ་འདི་ལོག་འབད་"
 
-#: ../src/wbcg-actions.c:1524
-#: ../src/wbcg-actions.c:1605
+#: ../src/wbcg-actions.c:1530
+#: ../src/wbcg-actions.c:1611
 msgid "_Contents"
 msgstr "ནང་དོན་ཚུ་(_C)"
 
-#: ../src/wbcg-actions.c:1525
+#: ../src/wbcg-actions.c:1531
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "ཇི་ནུ་མིརིཀ་གི་ཡིག་ཐོག་བཀོད་ནིའི་དོན་ལུ་ མཐོང་བྱེད་ཅིག་ཁ་ཕྱེ་"
 
-#: ../src/wbcg-actions.c:1527
+#: ../src/wbcg-actions.c:1533
 msgid "Gnumeric on the _Web"
 msgstr "ཝེབ་གུའི་ཇི་ནུ་མིརིཀ་(_W)"
 
-#: ../src/wbcg-actions.c:1528
+#: ../src/wbcg-actions.c:1534
 msgid "Browse to Gnumeric's website"
 msgstr "ཇི་ནུ་མིརིཀ་གི་ཝེབ་ས་ཁོངས་ལུ་བརྡ་འཚོལ་འབད་"
 
-#: ../src/wbcg-actions.c:1530
+#: ../src/wbcg-actions.c:1536
 msgid "_Live Assistance"
 msgstr "དངོས་མཐོང་ཕན་གྲོགས་(_L)"
 
-#: ../src/wbcg-actions.c:1531
+#: ../src/wbcg-actions.c:1537
 msgid "See if anyone is available to answer questions"
 msgstr "དྲི་བ་འདི་ལག་རྐྱབས་ནིའི་དོན་ལས་ ག་འཐོབ་ཚུགསཔ་འདུག་ག་བལྟ་"
 
-#: ../src/wbcg-actions.c:1533
+#: ../src/wbcg-actions.c:1539
 msgid "Report a _Problem"
 msgstr "དཀའ་ངལ་ཅིག་སྙན་ཞུ་འབད་(_P)"
 
-#: ../src/wbcg-actions.c:1534
+#: ../src/wbcg-actions.c:1540
 msgid "Report problem "
 msgstr "དཀའ་ངལ་སྙན་ཞུ་འབད་"
 
-#: ../src/wbcg-actions.c:1536
+#: ../src/wbcg-actions.c:1542
 msgid "_About"
 msgstr "སྐོར་ལས་(_A)"
 
-#: ../src/wbcg-actions.c:1537
+#: ../src/wbcg-actions.c:1543
 msgid "About this application"
 msgstr "གློག་རིམ་འདི་གི་སྐོར་ལས་"
 
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: ../src/wbcg-actions.c:1542
+#: ../src/wbcg-actions.c:1548
 msgid "Repeat"
 msgstr "ཡང་བསྐྱར་འབད་"
 
-#: ../src/wbcg-actions.c:1543
+#: ../src/wbcg-actions.c:1549
 msgid "Repeat the previous action"
 msgstr "ཧེ་མའི་བྱ་བ་འདི་ཡང་བསྐྱར་འབད་"
 
-#: ../src/wbcg-actions.c:1560
+#: ../src/wbcg-actions.c:1566
 msgid "Create a new workbook"
 msgstr "ལཱ་གཡོག་ཀི་དེབ་གསརཔ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:1563
+#: ../src/wbcg-actions.c:1569
 msgid "Open a file"
 msgstr "ཡིག་སྣོད་ཅིག་ཁ་ཕྱེ་"
 
-#: ../src/wbcg-actions.c:1565
+#: ../src/wbcg-actions.c:1571
 msgid "Sen_d To..."
 msgstr "ལུ་གཏང་(_d)"
 
-#: ../src/wbcg-actions.c:1566
+#: ../src/wbcg-actions.c:1572
 msgid "Send the current file via email"
 msgstr "ད་ལྟོའི་ཡིག་སྣོད་འདི་ གློག་འཕྲིན་བརྒྱུད་དེ་གཏང་"
 
-#: ../src/wbcg-actions.c:1568
+#: ../src/wbcg-actions.c:1574
 msgid "Page Set_up..."
 msgstr "ཤོག་ལེབ་གཞི་སྒྲིག་...(_u)"
 
-#: ../src/wbcg-actions.c:1569
+#: ../src/wbcg-actions.c:1575
 msgid "Setup the page settings for your current printer"
 msgstr "ཁྱོད་རའི་ད་ལྟོའི་དཔར་འཕྲུལ་གྱི་དོན་ལུ་ ཤོག་ལེབ་སྒྲིག་སྟངས་འདི་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:1575
+#: ../src/wbcg-actions.c:1578
+msgid "Print preview"
+msgstr "དཔར་བསྐྲུན་སྔོན་ལྟ་"
+
+#: ../src/wbcg-actions.c:1581
 msgid "Print the current file"
 msgstr "ད་ལྟོའི་ཡིག་སྣོད་འདི་དཔར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:1577
+#: ../src/wbcg-actions.c:1583
 msgid "Proper_ties..."
 msgstr "རྒྱུ་དངོས་ཚུ་...(_t)"
 
-#: ../src/wbcg-actions.c:1578
+#: ../src/wbcg-actions.c:1584
 msgid "Edit descriptive information"
 msgstr "འགྲེལ་བཤད་ཅན་གྱི་བརྡ་དོན་ཞུན་དག་འབད་"
 
-#: ../src/wbcg-actions.c:1580
+#: ../src/wbcg-actions.c:1586
 msgid "Pre_ferences..."
 msgstr "དགའ་གདམ་ཚུ་...(_f)"
 
-#: ../src/wbcg-actions.c:1581
+#: ../src/wbcg-actions.c:1587
 msgid "Change Gnumeric Preferences"
 msgstr "ཇི་ནུ་མིརིཀ་གི་དགའ་གདམ་ཚུ་བསྒྱུར་བཅོས་འབད་"
 
-#: ../src/wbcg-actions.c:1586
+#: ../src/wbcg-actions.c:1592
 msgid "Use the current selection as print area"
 msgstr "ད་ལྟོའི་སེལ་འཐུ་འབད་ནི་འདི་ དཔར་བསྐྲུན་མངའ་ཁོངས་སྦེ་ལག་ལེན་འཐབ་"
 
-#: ../src/wbcg-actions.c:1589
+#: ../src/wbcg-actions.c:1595
 msgid "Undefine the print area"
 msgstr "དཔར་བསྐྲུན་མངའ་ཁོངས་འདི་ངེས་འཛིན་མ་འབད་"
 
-#: ../src/wbcg-actions.c:1591
+#: ../src/wbcg-actions.c:1597
 msgid "Show Print Area"
 msgstr "དཔར་བསྐྲུན་མངའ་ཁོངས་སྟོན་"
 
-#: ../src/wbcg-actions.c:1592
+#: ../src/wbcg-actions.c:1598
 msgid "Select the print area"
 msgstr "དཔར་བསྐྲུན་མངའ་ཁོངས་འདི་སེལ་འཐུ་འབད་"
 
-#: ../src/wbcg-actions.c:1597
+#: ../src/wbcg-actions.c:1603
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་གི་རྩ་སྒྲིག་ཚུ་ བསམ་བཀོད་ཚུ་ དང་ནང་དོན་ཚུ་བསལ་གཏང་"
 
-#: ../src/wbcg-actions.c:1600
+#: ../src/wbcg-actions.c:1606
 msgid "Clear the selected cells' formats"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་གི་རྩ་སྒྲིག་ཚུ་བསལ་"
 
-#: ../src/wbcg-actions.c:1603
+#: ../src/wbcg-actions.c:1609
 msgid "Clear the selected cells' comments"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་གི་བསམ་བཀོད་ཚུ་བསལ་"
 
-#: ../src/wbcg-actions.c:1606
+#: ../src/wbcg-actions.c:1612
 msgid "Clear the selected cells' contents"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་གི་ནང་དོན་ཚུ་བསལ་"
 
-#: ../src/wbcg-actions.c:1611
+#: ../src/wbcg-actions.c:1617
 msgid "Delete the row(s) containing the selected cells"
 msgstr "གྲལ་ཐིག་(ཚུ་) ནང་ན་སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་ཚུ་ཡོད་མི་བཏོན་གཏང་"
 
-#: ../src/wbcg-actions.c:1614
+#: ../src/wbcg-actions.c:1620
 msgid "Delete the column(s) containing the selected cells"
 msgstr "ཀེར་ཐིག་(ཚུ་) ནང་ན་སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་ཡོད་མི་ཚུ་བཏོན་གཏང་"
 
 #. Insert
-#: ../src/wbcg-actions.c:1616
-#: ../src/wbcg-actions.c:1737
+#: ../src/wbcg-actions.c:1622
+#: ../src/wbcg-actions.c:1743
 msgid "C_ells..."
 msgstr "ནང་ཐིག་ཚུ་...(_e)"
 
-#: ../src/wbcg-actions.c:1617
+#: ../src/wbcg-actions.c:1623
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "གཞན་མི་ཚུ་ཁོང་རའི་ས་སྒོ་ནང་བཤུད་ཐོག་ སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་འདི་ཚུ་བཏོན་གཏང་"
 
-#: ../src/wbcg-actions.c:1629
-#: ../src/wbcg-actions.c:1633
+#: ../src/wbcg-actions.c:1635
+#: ../src/wbcg-actions.c:1639
 msgid "Select all cells in the spreadsheet"
 msgstr "ཤོག་ཁྲམ་ནང་གི་ནང་ཐིག་ཚུ་ཆ་མཉམ་སེལ་འཐུ་འབད་"
 
-#: ../src/wbcg-actions.c:1635
+#: ../src/wbcg-actions.c:1641
 msgid "Select _Column"
 msgstr "ཀེར་ཐིག་སེལ་འཐུ་འབད་(_C)"
 
-#: ../src/wbcg-actions.c:1636
+#: ../src/wbcg-actions.c:1642
 msgid "Select an entire column"
 msgstr "ཀེར་ཐིག་ཧྲིལ་བུམ་ཅིག་སེལ་འཐུ་འབད་"
 
-#: ../src/wbcg-actions.c:1638
+#: ../src/wbcg-actions.c:1644
 msgid "Select _Row"
 msgstr "གྲལ་ཐིག་སེལ་འཐུ་འབད་(_R)"
 
-#: ../src/wbcg-actions.c:1639
+#: ../src/wbcg-actions.c:1645
 msgid "Select an entire row"
 msgstr "གྲལ་ཐིག་ཧྲིལ་བུམ་ཅིག་སེལ་འཐུ་འབད་"
 
-#: ../src/wbcg-actions.c:1642
+#: ../src/wbcg-actions.c:1648
 msgid "Select Arra_y"
 msgstr "ཨེ་རེ་སེལ་འཐུ་འབད་(_y)"
 
-#: ../src/wbcg-actions.c:1643
+#: ../src/wbcg-actions.c:1649
 msgid "Select an array of cells"
 msgstr "ནང་ཐིག་ཚུ་གི་ཨེ་རེ་ཅིག་སེལ་འཐུ་འབད་"
 
-#: ../src/wbcg-actions.c:1645
+#: ../src/wbcg-actions.c:1651
 msgid "Select _Depends"
 msgstr "རྟེན་མི་ཚུ་སེལ་འཐུ་འབད་(_D)"
 
-#: ../src/wbcg-actions.c:1646
+#: ../src/wbcg-actions.c:1652
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "ད་ལྟོའི་ཞུན་དག་ནང་ཐིག་ལུ་རྟེན་མི་ནང་ཐིག་ཚུ་ཆ་མཉམ་སེལ་འཐུ་འབད་"
 
-#: ../src/wbcg-actions.c:1648
+#: ../src/wbcg-actions.c:1654
 msgid "Select _Inputs"
 msgstr "ཨིན་པུཊིསི་སེལ་འཐུ་འབད་(_I)"
 
-#: ../src/wbcg-actions.c:1649
+#: ../src/wbcg-actions.c:1655
 msgid "Select all the cells are used by the current edit cell"
 msgstr "ད་ལྟོའི་ཞུན་དག་ནང་ཐིག་འདི་གིས་ ལག་ལེན་འཐབ་ཡོད་མི་ནང་ཐིག་ཚུ་ཆ་ཉམ་སེལ་འཐུ་འབད་"
 
 #. Edit -> Fill
-#: ../src/wbcg-actions.c:1653
+#: ../src/wbcg-actions.c:1659
 msgid "Auto_fill"
 msgstr "རང་བཞིན་གྱིས་བཀང་(_f)"
 
-#: ../src/wbcg-actions.c:1654
+#: ../src/wbcg-actions.c:1660
 msgid "Automatically fill the current selection"
 msgstr "རང་བཞིན་གྱིས་ད་ལྟོའི་སེལ་འཐུ་འབད་ནི་འདི་བཀང་"
 
-#: ../src/wbcg-actions.c:1656
+#: ../src/wbcg-actions.c:1662
 msgid "_Merge..."
 msgstr "མཉམ་བསྡོམས་འབད་...(_M)"
 
-#: ../src/wbcg-actions.c:1657
+#: ../src/wbcg-actions.c:1663
 msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr "ཀེར་ཐིག་གི་གནད་སྡུད་དེ་ ལེབ་གྲངས་ཅིག་ནང་ལུ་ གྲལ་ཐིག་རེའི་དོན་ལུ་ ལེབ་གྲངས་རྫུན་མ་ཅིག་གསར་བསྐྲུན་འབད་ཐོག་ མཉམ་བསྡོམས་འབདཝ་ཨིན་"
 
-#: ../src/wbcg-actions.c:1659
+#: ../src/wbcg-actions.c:1665
 msgid "_Tabulate Dependency..."
 msgstr "རེའུ་མིག་རྟེན་འབྲེལ་...(_T)"
 
-#: ../src/wbcg-actions.c:1660
+#: ../src/wbcg-actions.c:1666
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "གཞན་མི་ནང་ཐིག་ཚུ་གི་ལས་འགན་ཅིག་སྦེ་ ནང་ཐིག་གི་གནས་གོང་ཅིག་གི་ཐིག་ཁྲམ་བཟོ་"
 
-#: ../src/wbcg-actions.c:1662
+#: ../src/wbcg-actions.c:1668
 msgid "_Series..."
 msgstr "རྒྱུན་རིམ་ཚུ་...(_S)"
 
-#: ../src/wbcg-actions.c:1663
+#: ../src/wbcg-actions.c:1669
 msgid "Fill according to a linear or exponential series"
 msgstr "ཐིག་ཡང་ན་བསྒྱུར་གྲངས་རྒྱུན་རིམ་ཚུ་དང་འཁྲིལ་ཏེ་བཀང་"
 
-#: ../src/wbcg-actions.c:1665
+#: ../src/wbcg-actions.c:1671
 msgid "_Random Generator..."
 msgstr "གང་འབྱུང་བཟོ་བཏོན་པ་...(_R)"
 
-#: ../src/wbcg-actions.c:1666
+#: ../src/wbcg-actions.c:1672
 msgid "Generate random numbers of a selection of distributions"
 msgstr "བགོ་བཀྲམ་འབད་ནིའི་ སེལ་འཐུ་འབད་ནི་ཅིག་གི་ གང་འབྱུང་ཨང་བཟོ་བཏོན་འབད་"
 
 #. Edit -> Sheet
-#: ../src/wbcg-actions.c:1670
+#: ../src/wbcg-actions.c:1676
 msgid "_Manage Sheets..."
 msgstr "ལེབ་གྲངས་ཚུ་འཛིན་སྐྱོང་འཐབ་...(_M)"
 
-#: ../src/wbcg-actions.c:1671
+#: ../src/wbcg-actions.c:1677
 msgid "Manage the sheets in this workbook"
 msgstr "འ་ནི་ལཱ་གཡོག་ཀི་དེབ་ནང་གི་ལེབ་གྲངས་འདི་ཚུ་འཛིན་སྐྱོང་འཐབ་"
 
-#: ../src/wbcg-actions.c:1674
-#: ../src/wbcg-actions.c:1678
+#: ../src/wbcg-actions.c:1680
+#: ../src/wbcg-actions.c:1684
 msgid "Insert a new sheet"
 msgstr "ལེབ་གྲངས་གསརཔ་ཅིག་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1680
+#: ../src/wbcg-actions.c:1686
 msgid "_Append"
 msgstr "མཇུག་བསྣོན་འབད་(_A)"
 
-#: ../src/wbcg-actions.c:1681
+#: ../src/wbcg-actions.c:1687
 msgid "Append a new sheet"
 msgstr "ལེབ་གྲངས་གསརཔ་ཅིག་མཇུག་བསྣོན་འབད་"
 
-#: ../src/wbcg-actions.c:1684
+#: ../src/wbcg-actions.c:1690
 msgid "Make a copy of the current sheet"
 msgstr "ད་ལྟོའི་ལེབ་གྲངས་འདི་གི་འདྲ་བཤུས་ཅིག་བཟོ་"
 
-#: ../src/wbcg-actions.c:1687
+#: ../src/wbcg-actions.c:1693
 msgid "Irrevocably remove an entire sheet"
 msgstr "ལེབ་གྲངས་ཧྲིལ་བུ་ཅིག་ སླར་གསོ་འབད་མ་བཏུབ་སྦེ་རྩ་བསྐྲད་གཏང་"
 
-#: ../src/wbcg-actions.c:1689
+#: ../src/wbcg-actions.c:1695
 msgid "Re_name"
 msgstr "བསྐྱར་མིང་བཏགས་(_n)"
 
-#: ../src/wbcg-actions.c:1690
+#: ../src/wbcg-actions.c:1696
 msgid "Rename the current sheet"
 msgstr "ད་ལྟོའི་ལེབ་གྲངས་འདི་བསྐྱར་མིང་བཏགས་"
 
 #. Edit
-#: ../src/wbcg-actions.c:1694
+#: ../src/wbcg-actions.c:1700
 msgid "P_aste special..."
 msgstr "དམིགས་བསལ་སྦྱར་...(_a)"
 
-#: ../src/wbcg-actions.c:1695
+#: ../src/wbcg-actions.c:1701
 msgid "Paste with optional filters and transformations"
 msgstr "གདམ་ཁ་ཅན་གྱི་ཚགས་མ་དང་བཟོ་བསྒྱུར་དང་གཅིག་ཁར་སྦྱར་"
 
-#: ../src/wbcg-actions.c:1698
+#: ../src/wbcg-actions.c:1704
 msgid "Co_mment..."
 msgstr "བསམ་བཀོད་...(_m)"
 
-#: ../src/wbcg-actions.c:1699
+#: ../src/wbcg-actions.c:1705
 msgid "Edit the selected cell's comment"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་གི་བསམ་བཀོད་འདི་ཞུན་དག་འབད་"
 
-#: ../src/wbcg-actions.c:1702
+#: ../src/wbcg-actions.c:1708
 msgid "_Find..."
 msgstr "འཚོལ་༌...(_F)"
 
-#: ../src/wbcg-actions.c:1703
+#: ../src/wbcg-actions.c:1709
 msgid "Search for something"
 msgstr "ག་ཅི་ཅིག་གི་དོན་ལུ་འཚོལ་ཞིབ་འབད་"
 
-#: ../src/wbcg-actions.c:1705
+#: ../src/wbcg-actions.c:1711
 msgid "R_eplace..."
 msgstr "ཚབ་བཙུགས་...(_e)"
 
-#: ../src/wbcg-actions.c:1706
+#: ../src/wbcg-actions.c:1712
 msgid "Search for something and replace it with something else"
 msgstr "ག་ཅི་ཅིག་གི་དོན་ལུ་འཚོལ་ཞིབ་འབད་ཞིནམ་ལས་ དེ་ག་ཅི་ཅིག་གིས་ཚབ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1708
+#: ../src/wbcg-actions.c:1714
 msgid "_Goto cell..."
 msgstr "ནང་ཐིག་ལུ་འགྱོ་...(_G)"
 
-#: ../src/wbcg-actions.c:1709
+#: ../src/wbcg-actions.c:1715
 msgid "Jump to a specified cell"
 msgstr "གསལ་བཀོད་འབད་ཡོད་པའི་ནང་ཐིག་ལུ་མཆོང་"
 
-#: ../src/wbcg-actions.c:1712
+#: ../src/wbcg-actions.c:1718
 msgid "Recalculate"
 msgstr "སླར་རྩིས་བཏོན་"
 
-#: ../src/wbcg-actions.c:1713
+#: ../src/wbcg-actions.c:1719
 msgid "Recalculate the spreadsheet"
 msgstr "ཤོག་ཁྲམ་འདི་སླར་རྩིས་སྟོན་འབད་"
 
 #. View
-#: ../src/wbcg-actions.c:1717
+#: ../src/wbcg-actions.c:1723
 msgid "_New View..."
 msgstr "མཐོང་སྣང་གསརཔ་...(_N)"
 
-#: ../src/wbcg-actions.c:1718
+#: ../src/wbcg-actions.c:1724
 msgid "Create a new view of the workbook"
 msgstr "ལཱ་གཡོག་ཀི་དེབ་འདི་གི་མཐོང་སྣང་གསརཔ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:1720
+#: ../src/wbcg-actions.c:1726
 #: ../src/workbook-control-gui.c:1172
 msgid "_Freeze Panes"
 msgstr "པེན་ཚུ་ཐོགས་བཞག་(_F)"
 
-#: ../src/wbcg-actions.c:1721
+#: ../src/wbcg-actions.c:1727
 #: ../src/workbook-control-gui.c:1175
 msgid "Freeze the top left of the sheet"
 msgstr "ལེབ་གྲངས་འདི་གི་ མགོའི་གཡོན་འདི་ཐོགས་བཞག་"
 
-#: ../src/wbcg-actions.c:1723
+#: ../src/wbcg-actions.c:1729
 msgid "_Zoom..."
 msgstr "རྒྱས་ཟུམ་...(_Z)"
 
-#: ../src/wbcg-actions.c:1724
+#: ../src/wbcg-actions.c:1730
 msgid "Zoom the spreadsheet in or out"
 msgstr "ཤོག་ཁྲམ་འདི་ ནང་ན་ཡང་ན་ཕྱི་ཁ་ར་རྒྱས་བཟུམ་འབད་"
 
-#: ../src/wbcg-actions.c:1726
+#: ../src/wbcg-actions.c:1732
 msgid "Zoom _In"
 msgstr "ཕྱིར་རྒྱས་(_I)"
 
-#: ../src/wbcg-actions.c:1727
+#: ../src/wbcg-actions.c:1733
 msgid "Increase the zoom to make things larger"
 msgstr "ཅ་ལ་ཚུ་སྦོམ་བཟོ་ནིའི་དོན་ལས་ རྒྱས་བཟུམ་འབད་ནིའི་དོན་ལས་ཡར་འཕར་འབད་"
 
-#: ../src/wbcg-actions.c:1729
+#: ../src/wbcg-actions.c:1735
 msgid "Zoom _Out"
 msgstr "ནང་བཟུམ་(_O)"
 
-#: ../src/wbcg-actions.c:1730
+#: ../src/wbcg-actions.c:1736
 msgid "Decrease the zoom to make things smaller"
 msgstr "ཅ་ལ་ཚུ་ཆུང་ཀུ་བཟོ་ནིའི་དོན་ལས་ རྒྱས་བཟུམ་འདི་མར་ཕབ་འབད་"
 
-#: ../src/wbcg-actions.c:1732
+#: ../src/wbcg-actions.c:1738
 msgid "Direction"
 msgstr "ཁ་ཕྱོགས་"
 
-#: ../src/wbcg-actions.c:1733
+#: ../src/wbcg-actions.c:1739
 msgid "Toggle sheet direction, left to right vs right to left"
 msgstr "ལེབ་གྲངས་ཀྱི་ཕྱོགས་འདི་ གཡོན་ལས་གཡས་ལུ་ དེ་ལས་ གཡས་ལས་གཡོན་ལུ་ སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:1738
+#: ../src/wbcg-actions.c:1744
 msgid "Insert new cells"
 msgstr "ནང་ཐིག་གསརཔ་ཚུ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1741
+#: ../src/wbcg-actions.c:1747
 msgid "Insert new columns"
 msgstr "ཀེར་ཐིག་གསརཔ་ཚུ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1744
+#: ../src/wbcg-actions.c:1750
 msgid "Insert new rows"
 msgstr "གྲལ་ཐིག་གསརཔ་ཚུ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1747
+#: ../src/wbcg-actions.c:1753
 msgid "C_hart..."
 msgstr "དཔེ་རིས་...(_h)"
 
-#: ../src/wbcg-actions.c:1748
+#: ../src/wbcg-actions.c:1754
 msgid "Insert a Chart"
 msgstr "དཔེ་རིས་ཅིག་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1750
+#: ../src/wbcg-actions.c:1756
 msgid "_Image..."
 msgstr "གཟུགས་བརྙན་...(_I)"
 
-#: ../src/wbcg-actions.c:1751
+#: ../src/wbcg-actions.c:1757
 msgid "Insert an image"
 msgstr "གཟུགས་བརྙན་ཅིག་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1754
+#: ../src/wbcg-actions.c:1760
 msgid "Hyper_link..."
 msgstr "ཚད་བརྒལ་འབྲེལ་ལམ་...(_l)"
 
-#: ../src/wbcg-actions.c:1755
+#: ../src/wbcg-actions.c:1761
 msgid "Insert a Hyperlink"
 msgstr "ཚད་བརྒལ་འབྲེལ་ལམ་ཅིག་བཙུགས་"
 
 #. Insert -> Special
-#: ../src/wbcg-actions.c:1758
+#: ../src/wbcg-actions.c:1764
 msgid "Current _date"
 msgstr "ད་ལྟོའི་ཚེས་གྲངས་(_d)"
 
-#: ../src/wbcg-actions.c:1759
+#: ../src/wbcg-actions.c:1765
 msgid "Insert the current date into the selected cell(s)"
 msgstr "ད་ལྟོའི་ཚེས་གྲངས་འདི་ སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་(ཚུ་)ནང་ལུ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1762
+#: ../src/wbcg-actions.c:1768
 msgid "Current _time"
 msgstr "ད་ལྟོའི་ཆུ་ཚོད་(_t)"
 
-#: ../src/wbcg-actions.c:1763
+#: ../src/wbcg-actions.c:1769
 msgid "Insert the current time into the selected cell(s)"
 msgstr "ད་ལྟོའི་ཆུ་ཚོད་འདི་ སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་(ཚུ་)ནང་ལུ་བཙུགས་"
 
-#: ../src/wbcg-actions.c:1766
+#: ../src/wbcg-actions.c:1772
 msgid "Current d_ate and time"
 msgstr "ད་ལྟོའི་ཚེས་གྲངས་དང་ཆུ་ཚོད་(_a)"
 
-#: ../src/wbcg-actions.c:1767
+#: ../src/wbcg-actions.c:1773
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "ད་ལྟོའི་ཚེས་གྲངས་དང་ཆུ་ཚོད་འདི་ སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་(ཚུ་)ནང་ལུ་བཙུགས་"
 
 #. Insert -> Name
-#: ../src/wbcg-actions.c:1771
+#: ../src/wbcg-actions.c:1777
 msgid "_Define..."
 msgstr "ངེས་འཛིན་འབད་...(_D)"
 
-#: ../src/wbcg-actions.c:1772
+#: ../src/wbcg-actions.c:1778
 msgid "Edit sheet and workbook names"
 msgstr "ལེབ་གྲངས་དང་ལཱ་གཡོག་ཀི་དེབ་ཀྱི་མིང་ཚུ་ཞུན་དག་འབད་"
 
-#: ../src/wbcg-actions.c:1775
+#: ../src/wbcg-actions.c:1781
 msgid "Paste the definition of a name or names"
 msgstr "མིང་ཡང་ན་མིང་ཚུ་གི་ངེས་ཚིག་འདི་སྦྱར་"
 
-#: ../src/wbcg-actions.c:1778
+#: ../src/wbcg-actions.c:1784
 msgid "_Auto generate names..."
 msgstr "རང་བཞིན་བཟོ་བཏོན་གྱི་མིང་ཚུ་...(_A)"
 
-#: ../src/wbcg-actions.c:1779
+#: ../src/wbcg-actions.c:1785
 msgid "Use the current selection to create names"
 msgstr "ད་ལྟོའི་སེལ་འཐུ་འབད་ནི་འདི་ མིང་ཚུ་གསར་བསྐྲུན་འབད་ནིའི་དོན་ལས་ལག་ལེན་འཐབ་"
 
 #. Format
-#: ../src/wbcg-actions.c:1784
+#: ../src/wbcg-actions.c:1790
 msgid "_Cells..."
 msgstr "ནང་ཐིག་ཚུ་...(_C)"
 
-#: ../src/wbcg-actions.c:1785
+#: ../src/wbcg-actions.c:1791
 msgid "Modify the formatting of the selected cells"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་ཚུ་གི་རྩ་སྒྲིག་འབད་ནི་འདི་ལེགས་བཅོས་འབད་"
 
-#: ../src/wbcg-actions.c:1787
+#: ../src/wbcg-actions.c:1793
 msgid "_Workbook..."
 msgstr "ལཱ་གཡོག་ཀི་དེབ་...(_W)"
 
-#: ../src/wbcg-actions.c:1788
+#: ../src/wbcg-actions.c:1794
 msgid "Modify the workbook attributes"
 msgstr "ལཱ་གཡོག་ཀི་དེབ་ཀྱི་ཁྱད་ཆོས་ཚུ་ལེགས་བཅོས་འབད་"
 
-#: ../src/wbcg-actions.c:1790
+#: ../src/wbcg-actions.c:1796
 msgid "_Gnumeric..."
 msgstr "ཇི་ནུ་མིརིཀ་...(_G)"
 
-#: ../src/wbcg-actions.c:1791
+#: ../src/wbcg-actions.c:1797
 msgid "Edit the Gnumeric Preferences"
 msgstr "ཇི་ནུ་མིརིཀ་གི་དགའ་གདམ་འདི་ཞུན་དག་འབད་"
 
-#: ../src/wbcg-actions.c:1793
+#: ../src/wbcg-actions.c:1799
 msgid "_Autoformat..."
 msgstr "རང་བཞིན་རྩ་སྒྲིག་...(_A)"
 
-#: ../src/wbcg-actions.c:1794
+#: ../src/wbcg-actions.c:1800
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "སྔར་ངེས་འཛིན་འབད་ཡོད་པའི་ཊེམ་པེ་ལེཊི་ཅིག་དང་འཁྲིལ་ཏེ་ ནང་ཐིག་ཚུ་གི་ལུངས་ཕྱོགས་ཅིག་རྩ་སྒྲིག་འབད་"
 
 #. Format -> Col
-#: ../src/wbcg-actions.c:1798
+#: ../src/wbcg-actions.c:1804
 msgid "_Width..."
 msgstr "རྒྱ་ཚད་...(_W)"
 
-#: ../src/wbcg-actions.c:1799
+#: ../src/wbcg-actions.c:1805
 msgid "Change width of the selected columns"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཀེར་ཐིག་དེ་ཚུ་གི་ རྒྱ་ཚད་བསྒྱུར་བཅོས་འབད་"
 
-#: ../src/wbcg-actions.c:1801
-#: ../src/wbcg-actions.c:1818
+#: ../src/wbcg-actions.c:1807
+#: ../src/wbcg-actions.c:1824
 msgid "_Auto fit selection"
 msgstr "རང་བཞིན་ཚུད་སྒྲིག་སེལ་འཐུ་འབད་ནི་(_A)"
 
-#: ../src/wbcg-actions.c:1802
+#: ../src/wbcg-actions.c:1808
 msgid "Ensure columns are just wide enough to display content"
 msgstr "ཀེར་ཐིག་ཚུ་ ནང་དོན་བཀྲམ་སྟོན་འབད་ནིའི་དོན་ལས་ རྒྱ་ཅན་ཨིནམ་ངེས་གཏན་བཟོ་"
 
-#: ../src/wbcg-actions.c:1805
+#: ../src/wbcg-actions.c:1811
 msgid "Hide the selected columns"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཀེར་ཐིག་ཚུ་སྦ་བཞག་"
 
-#: ../src/wbcg-actions.c:1808
+#: ../src/wbcg-actions.c:1814
 msgid "Make any hidden columns in the selection visible"
 msgstr "སེལ་འཐུ་འབད་ནི་ནང་གི་ སྦ་བཞག་ཡོད་པའི་ཀེར་ཐིག་ཚུ་ག་ཅི་འབད་རུང་ མཐོང་ཚུགསཔ་བཟོ་"
 
-#: ../src/wbcg-actions.c:1810
+#: ../src/wbcg-actions.c:1816
 msgid "_Standard Width"
 msgstr "ཚད་ལྡན་རྒྱ་ཚད་(_S)"
 
-#: ../src/wbcg-actions.c:1811
+#: ../src/wbcg-actions.c:1817
 msgid "Change the default column width"
 msgstr "སྔོན་སྒྲིག་ཀེར་ཐིག་གི་རྒྱ་ཚད་འདི་བསྒྱུར་བཅོས་འབད་"
 
 #. Format -> Row
-#: ../src/wbcg-actions.c:1815
+#: ../src/wbcg-actions.c:1821
 msgid "H_eight..."
 msgstr "མཐོ་ཚད་...(_e)"
 
-#: ../src/wbcg-actions.c:1816
+#: ../src/wbcg-actions.c:1822
 msgid "Change height of the selected rows"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གྲལ་ཐིག་ཚུ་གི་མཐོ་ཚད་བསྒྱུར་བཅོས་འབད་"
 
-#: ../src/wbcg-actions.c:1819
+#: ../src/wbcg-actions.c:1825
 msgid "Ensure rows are just tall enough to display content"
 msgstr "གྲལ་ཐིག་ཚུ་ ནང་དོན་བཀྲམ་སྟོན་འབད་ནིའི་དོན་ལས་ རིངམ་ཨིནམ་ངེས་གཏན་བཟོ་"
 
-#: ../src/wbcg-actions.c:1822
+#: ../src/wbcg-actions.c:1828
 msgid "Hide the selected rows"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གྲལ་ཐིག་ཚུ་སྦ་བཞག་"
 
-#: ../src/wbcg-actions.c:1825
+#: ../src/wbcg-actions.c:1831
 msgid "Make any hidden rows in the selection visible"
 msgstr "སེལ་འཐུ་འབད་ནི་ནང་གི་སྦ་བཞག་ཡོད་པའི་གྲལ་ཐིག་ག་ཅི་རང་འབད་རུང་ མཐོང་ཚུགསཔ་བཟོ་"
 
-#: ../src/wbcg-actions.c:1827
+#: ../src/wbcg-actions.c:1833
 msgid "_Standard Height"
 msgstr "ཚད་ལྡན་མཐོ་ཚད་(_S)"
 
-#: ../src/wbcg-actions.c:1828
+#: ../src/wbcg-actions.c:1834
 msgid "Change the default row height"
 msgstr "སྔོན་སྒྲིག་གྲལ་ཐིག་གི་མཐོ་ཚད་བསྒྱུར་བཅོས་འབད་"
 
 #. Tools
-#: ../src/wbcg-actions.c:1832
+#: ../src/wbcg-actions.c:1838
 msgid "_Plug-ins..."
 msgstr "པ་ལག་ཨིནསི་...(_P)"
 
-#: ../src/wbcg-actions.c:1833
+#: ../src/wbcg-actions.c:1839
 msgid "Manage available plugin modules"
 msgstr "འཐོབ་ཚུགས་པའི་པ་ལག་ཨིན་ཚད་གཞི་ཚུ་འཛིན་སྐྱོང་འཐབ་"
 
-#: ../src/wbcg-actions.c:1835
+#: ../src/wbcg-actions.c:1841
 msgid "Auto _Correct..."
 msgstr "རང་བཞིན་ནོར་བཅོས་...(_C)"
 
-#: ../src/wbcg-actions.c:1836
+#: ../src/wbcg-actions.c:1842
 msgid "Automatically perform simple spell checking"
 msgstr "རང་བཞིན་གྱིས་ འཇམ་སམ་སྡེབ་དཔྱད་འབད་ནི་ལས་འགན་འགྲུབ་"
 
-#: ../src/wbcg-actions.c:1838
+#: ../src/wbcg-actions.c:1844
 msgid "_Auto Save..."
 msgstr "རང་བཞིན་སྲུང་བཞག་...(_A)"
 
-#: ../src/wbcg-actions.c:1839
+#: ../src/wbcg-actions.c:1845
 msgid "Automatically save the current document at regular intervals"
 msgstr "དུས་རྒྱུན་བར་མཚམས་ཚུ་ལུ་ ད་ལྟོའི་ཡིག་ཆ་འདི་ རང་བཞིན་གྱིས་སྲུང་བཞག་འབད་"
 
-#: ../src/wbcg-actions.c:1841
+#: ../src/wbcg-actions.c:1847
 msgid "_Goal Seek..."
 msgstr "དམིགས་གཏད་འཚོལ་ནི་...(_G)"
 
-#: ../src/wbcg-actions.c:1842
+#: ../src/wbcg-actions.c:1848
 msgid "Iteratively recalculate to find a target value"
 msgstr "དམིགས་གཏད་གནས་གོང་ཅིག་འཚོལ་ནིའི་དོན་ལས་ ཁས་ལེན་སྦེ་སླར་རྩིས་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:1844
+#: ../src/wbcg-actions.c:1850
 msgid "_Solver..."
 msgstr "དཀའ་ངལ་སེལ་མི་...(_S)"
 
-#: ../src/wbcg-actions.c:1845
+#: ../src/wbcg-actions.c:1851
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "དམིགས་གཏད་གནས་གོང་ཅིག་ལྷོད་ནིའི་དོན་ལས་ བར་ཆད་དང་གཅིག་ཁར་ ཁས་ལེན་སྦེ་སླར་རྩིས་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:1847
+#: ../src/wbcg-actions.c:1853
 msgid "Si_mulation..."
 msgstr "མཚུངས་བཟོ་...(_m)"
 
-#: ../src/wbcg-actions.c:1848
+#: ../src/wbcg-actions.c:1854
 msgid "Test decision alternatives by using Monte Carlo simulation to find out probable outputs and risks related to them"
 msgstr "འབྱུང་ངེས་ཨའུཊི་པུཊིསི་དང་ དེ་དང་འབྲེལ་བའི་ཉེན་ཁ་ཚུ་འཚོལ་ནིའི་དོན་ལས་ མཱོན་ཊི་ ཀཱར་ལོ་མཚུངས་བཟོ་ལག་ལེན་འཐབ་ཐོག་ གྲོས་ཐག་ཐབས་གཞན་བརྟག་ཞིབ་འབད་"
 
 #. Tools -> Scenarios
-#: ../src/wbcg-actions.c:1853
+#: ../src/wbcg-actions.c:1859
 msgid "_View..."
 msgstr "སྟོན་...(_V)"
 
-#: ../src/wbcg-actions.c:1854
+#: ../src/wbcg-actions.c:1860
 msgid "View, delete and report different scenarios"
 msgstr "འཆར་བཤད་སོ་སོ་ཚུ་ སྟོན་ བཏོན་གཏང་ དེ་ལས་སྙན་ཞུ་འབད་"
 
-#: ../src/wbcg-actions.c:1856
+#: ../src/wbcg-actions.c:1862
 msgid "_Add..."
 msgstr "ཁ་སྐོང་...(_A)"
 
-#: ../src/wbcg-actions.c:1857
+#: ../src/wbcg-actions.c:1863
 msgid "Add a new scenario"
 msgstr "འཆར་བཤད་གསརཔ་ཅིག་ཁ་སྐོང་རྐྱབས་"
 
 #. Tools -> ANOVA
-#: ../src/wbcg-actions.c:1861
+#: ../src/wbcg-actions.c:1867
 msgid "_One Factor..."
 msgstr "ཆ་རྐྱེན་གཅིག་...(_O)"
 
-#: ../src/wbcg-actions.c:1862
+#: ../src/wbcg-actions.c:1868
 msgid "One Factor Analysis of Variance..."
 msgstr "མི་མཐུན་པ་གི་ཆ་རྐྱེན་དཔྱད་ཞིབ་གཅིག་..."
 
-#: ../src/wbcg-actions.c:1864
+#: ../src/wbcg-actions.c:1870
 msgid "_Two Factor..."
 msgstr "ཆ་རྐྱེན་གཉིས་...(_T)"
 
-#: ../src/wbcg-actions.c:1865
+#: ../src/wbcg-actions.c:1871
 msgid "Two Factor Analysis of Variance..."
 msgstr "མི་མཐུན་པ་གི་ཆ་རྐྱེན་དཔྱད་ཞིབ་གཉིས་..."
 
 #. Tools -> Forecasting
-#: ../src/wbcg-actions.c:1869
+#: ../src/wbcg-actions.c:1875
 msgid "_Exponential Smoothing..."
 msgstr "བསྒྱུར་གྲངས་ཧུམ་ཆ་བཟོ་ནི་...(_E)"
 
-#: ../src/wbcg-actions.c:1870
+#: ../src/wbcg-actions.c:1876
 msgid "Exponential smoothing..."
 msgstr "བསྒྱུར་གྲངས་ཧུམ་ཆ་བམཟོ་ནི་..."
 
-#: ../src/wbcg-actions.c:1872
+#: ../src/wbcg-actions.c:1878
 msgid "_Moving Average..."
 msgstr "ཆ་སྙོམ་བཤུད་དོ་...(_M)"
 
-#: ../src/wbcg-actions.c:1873
+#: ../src/wbcg-actions.c:1879
 msgid "Moving average..."
 msgstr "ཆ་སྙོམ་བཤུད་དོ་..."
 
 #. Tools -> Two Means
-#: ../src/wbcg-actions.c:1877
+#: ../src/wbcg-actions.c:1883
 msgid "_Paired Samples: T-Test..."
 msgstr "ཟུང་བཟོ་ཡོད་པའི་དཔེ་ཚད་ཚུ་: ཊི་-བརྟག་ཞིབ་...(_P)"
 
-#: ../src/wbcg-actions.c:1878
+#: ../src/wbcg-actions.c:1884
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr "ཟུང་བཟོ་ཡོད་པའི་དཔེ་ཚད་གཉིས་ཀྱི་དོན་ལུ་ མི་རློབས་ཀྱི་སེར་སྣ་གཉིས་ག་བསྡུར་རྐྱབས་དོ་: ཊི་-བརྟག་ཞིབ་..."
 
-#: ../src/wbcg-actions.c:1881
+#: ../src/wbcg-actions.c:1887
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "ཟུང་མ་བའོ་བཡི་དཔེ་ཚད་ཚུ་ མཉམ་པའི་མི་མཐུན་པ་ཚུ་: ཊི་-བརྟག་ཞིབ་...(_E)"
 
-#: ../src/wbcg-actions.c:1882
+#: ../src/wbcg-actions.c:1888
 msgid "Comparing two population means for two unpaired samples from populations with equal variances: t-test..."
 msgstr "མཉམ་པའི་མི་མཐུན་པ་ཚུ་དང་གཅིག་ཁར་ མི་རློབས་ཚུ་ལས་ ཟུང་མ་བཟོ་བའི་དཔེ་ཚད་གཉིས་ཀྱི་དོན་ལུ་ མི་རློབས་ཀྱི་སེར་སྣ་གཉིས་ག་བསྡུར་རྐྱབས་: ཊི་-བརྟག་ཞིབ་..."
 
-#: ../src/wbcg-actions.c:1885
+#: ../src/wbcg-actions.c:1891
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "ཟུང་མ་བཟོ་བའི་དཔེ་ཚད་ཚུ་  མི་མཉམ་པའི་མི་མཐུན་པ་ཚུ་: ཊི་བརྟག་ཞིབ་...(_U)"
 
-#: ../src/wbcg-actions.c:1886
+#: ../src/wbcg-actions.c:1892
 msgid "Comparing two population means for two unpaired samples from populations with unequal variances: t-test..."
 msgstr "མི་མཉམ་པའི་མི་མཐུན་པ་ཚུ་དང་གཅིག་ཁར་ མི་རློབས་ཚུ་ལས་ ཟུང་མ་བཟོ་བའི་དཔེ་ཚད་གཉིས་ཀྱི་དོན་ལུ་ མི་རློབས་ཀྱི་སེར་སྣ་གཉིས་ག་བསྡུར་རྐྱབས་དོ་: ཛེཊི་-བརྟག་ཞིབ་"
 
-#: ../src/wbcg-actions.c:1889
+#: ../src/wbcg-actions.c:1895
 msgid "_Known Variances: Z-Test..."
 msgstr "ཤེས་པའི་མི་མཐུན་པ་ཚུ་: ཛེཊི་-བརྟག་ཞིབ་...(_K)"
 
-#: ../src/wbcg-actions.c:1890
+#: ../src/wbcg-actions.c:1896
 msgid "Comparing two population means from populations with known variances: z-test..."
 msgstr "ཤེས་པའི་མི་མཐུན་པ་གཉིས་དང་གཅིག་ཁར་མི་རློབས་ཚུ་ལས་ མི་རློབས་ཀྱི་སེར་སྣ་གཉིས་ག་བསྡུར་རྐྱབས་དོ་: ཛེཊི་-བརྟག་ཞིབ་..."
 
 #. Tools -> Analysis
-#: ../src/wbcg-actions.c:1894
+#: ../src/wbcg-actions.c:1900
 msgid "_Correlation..."
 msgstr "མཐུན་མོས་ཀྱི་འབྲེལ་བ་...(_C)"
 
-#: ../src/wbcg-actions.c:1895
+#: ../src/wbcg-actions.c:1901
 msgid "Pearson Correlation"
 msgstr "པི་ཡར་སཱོན་མཐུན་མོས་ཀྱི་འབྲེལ་བ་"
 
-#: ../src/wbcg-actions.c:1897
+#: ../src/wbcg-actions.c:1903
 msgid "Co_variance..."
 msgstr "མི་མཐུན་པ་...(_v)"
 
-#: ../src/wbcg-actions.c:1900
+#: ../src/wbcg-actions.c:1906
 msgid "_Descriptive Statistics..."
 msgstr "འགྲེལ་བཤད་ཅན་ཚད་རྩིས་...(_D)"
 
-#: ../src/wbcg-actions.c:1901
+#: ../src/wbcg-actions.c:1907
 msgid "Various summary statistics"
 msgstr "བཅུད་དོན་ཚད་རྩིས་འདྲ་མིན་སྣ་ཚོགས་"
 
-#: ../src/wbcg-actions.c:1903
+#: ../src/wbcg-actions.c:1909
 msgid "_Fourier Analysis..."
 msgstr "ཕོ་རི་ཡར་དཔྱད་ཞིབ་...(_F)"
 
-#: ../src/wbcg-actions.c:1906
+#: ../src/wbcg-actions.c:1912
 msgid "_Histogram..."
 msgstr "ཧིསི་ཊོ་ག་རམ་...(_H)"
 
-#: ../src/wbcg-actions.c:1907
+#: ../src/wbcg-actions.c:1913
 msgid "Various frequency tables"
 msgstr "འབྱུང་ཐེངས་ཀྱི་ཐིག་ཁྲམ་འདྲ་མིན་སྣ་ཚོགས་ཚུ་"
 
-#: ../src/wbcg-actions.c:1909
+#: ../src/wbcg-actions.c:1915
 msgid "Ranks And _Percentiles..."
 msgstr "གོ་རིམ་ཚུ་དང་བརྒྱ་ཆ་བཟོ་ནི་ཚུ་...(_P)"
 
-#: ../src/wbcg-actions.c:1910
+#: ../src/wbcg-actions.c:1916
 msgid "Ranks, placements and percentiles"
 msgstr "གོ་རིམ་ བཙུགས་བཞག་ཚུ་དང་བརྒྱ་ཆ་བཟོ་ནི་"
 
-#: ../src/wbcg-actions.c:1912
+#: ../src/wbcg-actions.c:1918
 msgid "_Regression..."
 msgstr "རི་གེ་རེ་ཤཱན་...(_R)"
 
-#: ../src/wbcg-actions.c:1913
+#: ../src/wbcg-actions.c:1919
 msgid "Regression Analysis"
 msgstr "རི་གེ་རེ་ཤཱན་དཔྱད་ཞིབ་"
 
-#: ../src/wbcg-actions.c:1915
+#: ../src/wbcg-actions.c:1921
 msgid "_Sampling..."
 msgstr "དཔེ་ཚད་བཟོ་དོ་...(_S)"
 
-#: ../src/wbcg-actions.c:1916
+#: ../src/wbcg-actions.c:1922
 msgid "Periodic and random samples"
 msgstr "དུས་མཚམས་དང་གང་འབྱུང་དཔེ་ཚད་ཚུ་"
 
-#: ../src/wbcg-actions.c:1918
+#: ../src/wbcg-actions.c:1924
 msgid "_Two Variances: FTest..."
 msgstr "མི་མཐུན་པ་གཉིས་: ཨེཕ་བརྟག་ཞིབ་...(_T)"
 
-#: ../src/wbcg-actions.c:1919
+#: ../src/wbcg-actions.c:1925
 msgid "Comparing two population variances"
 msgstr "མི་རློབས་ཀྱི་མི་མཐུན་པ་གཉིས་ག་བསྡུར་རྐྱབས་"
 
 #. Data
-#: ../src/wbcg-actions.c:1923
+#: ../src/wbcg-actions.c:1929
 msgid "_Sort..."
 msgstr "དབྱེ་སེལ་...(_S)"
 
-#: ../src/wbcg-actions.c:1924
+#: ../src/wbcg-actions.c:1930
 msgid "Sort the selected region"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ལུངས་ཕྱོགས་འདི་དབྱེ་སེལ་འབད་"
 
-#: ../src/wbcg-actions.c:1926
+#: ../src/wbcg-actions.c:1932
 msgid "Sh_uffle..."
 msgstr "རིམ་དཀྲུགས་...(_u)"
 
-#: ../src/wbcg-actions.c:1927
+#: ../src/wbcg-actions.c:1933
 msgid "Shuffle cells, rows or columns"
 msgstr "ནང་ཐིག་ གྲལ་ཐིག་ ཡང་ན་ཀེར་ཐིག་ཚུ་རིམ་དཀྲུགས་འབད་"
 
-#: ../src/wbcg-actions.c:1929
+#: ../src/wbcg-actions.c:1935
 msgid "_Validate..."
 msgstr "ནུས་ལྡན་བཟོ་...(_V)"
 
-#: ../src/wbcg-actions.c:1930
+#: ../src/wbcg-actions.c:1936
 msgid "Validate input with preset criteria"
 msgstr "སྔར་སྒྲིག་ཁྱད་ཚད་ཡོད་མི་ཨིན་པུཊི་ནུས་ལྡན་བཟོ་"
 
-#: ../src/wbcg-actions.c:1932
+#: ../src/wbcg-actions.c:1938
 msgid "T_ext to Columns..."
 msgstr "ཀེར་ཐིག་ཚུ་ལུ་ཚིག་ཡིག་(_e)"
 
-#: ../src/wbcg-actions.c:1933
+#: ../src/wbcg-actions.c:1939
 msgid "Parse the text in the selection into data"
 msgstr "སེལ་འཐུ་འབད་ནི་ནང་གི་ཚིག་ཡིག་འདི་གནད་སྡུད་ནང་ལུ་མིང་དཔྱད་འབད་"
 
-#: ../src/wbcg-actions.c:1935
+#: ../src/wbcg-actions.c:1941
 msgid "_Consolidate..."
 msgstr "རྩ་བརྟན་བཟོ་...(_C)"
 
-#: ../src/wbcg-actions.c:1936
+#: ../src/wbcg-actions.c:1942
 msgid "Consolidate regions using a function"
 msgstr "ལས་འགན་ཅིག་ལག་ལེན་འཐབ་མི་ རྩ་གཏད་བཟོ་ཡོད་པའི་ལུངས་ཕྱོགས་"
 
-#: ../src/wbcg-actions.c:1938
+#: ../src/wbcg-actions.c:1944
 msgid "_Table..."
 msgstr "ཐིག་ཁྲམ་...(_T)"
 
-#: ../src/wbcg-actions.c:1939
+#: ../src/wbcg-actions.c:1945
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr "གནད་སྡུད་ཐིག་ཁྲམ་འདི་ ལས་འགན་ཅིད་སྣ་མང་ཨིན་པུཊིསི་དང་གཅིག་ཁར་བརྟག་ཞིབ་འབད་ནིའི་དོན་ལས་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:1942
+#: ../src/wbcg-actions.c:1948
 msgid "_Data Slice..."
 msgstr "གནད་སྡུད་བགོ་བཤའ་...(_D)"
 
-#: ../src/wbcg-actions.c:1943
+#: ../src/wbcg-actions.c:1949
 msgid "Create a Data Slice"
 msgstr "གནད་སྡུད་བགོ་བཤའ་ཅིག་གསར་བསྐྲུན་འབད་"
 
 #. Data -> Outline
-#: ../src/wbcg-actions.c:1948
+#: ../src/wbcg-actions.c:1954
 msgid "_Hide Detail"
 msgstr "རྒྱས་བཤད་སྦ་(_H)"
 
-#: ../src/wbcg-actions.c:1949
+#: ../src/wbcg-actions.c:1955
 msgid "Collapse an outline group"
 msgstr "མཐའ་ཐིག་སྡེ་ཚན་ཅིག་ཧྲམ་"
 
-#: ../src/wbcg-actions.c:1951
+#: ../src/wbcg-actions.c:1957
 msgid "_Show Detail"
 msgstr "རྒྱས་བཤད་སྟོན་(_S)"
 
-#: ../src/wbcg-actions.c:1952
+#: ../src/wbcg-actions.c:1958
 msgid "Uncollapse an outline group"
 msgstr "མཐའ་ཐིག་སྡེ་ཚན་ཅིག་མ་ཧྲམ་"
 
-#: ../src/wbcg-actions.c:1954
+#: ../src/wbcg-actions.c:1960
 msgid "_Group..."
 msgstr "སྡེ་ཚན་...(_G)"
 
-#: ../src/wbcg-actions.c:1955
+#: ../src/wbcg-actions.c:1961
 msgid "Add an outline group"
 msgstr "མཐའ་ཐིག་སྡེ་ཚན་ཅིག་ཁ་སྐོང་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:1957
+#: ../src/wbcg-actions.c:1963
 msgid "_Ungroup..."
 msgstr "སྡེ་ཚན་མ་བཟོ་...(_U)"
 
-#: ../src/wbcg-actions.c:1958
+#: ../src/wbcg-actions.c:1964
 msgid "Remove an outline group"
 msgstr "མཐའ་ཐིག་སྡེ་ཚན་ཅིག་རྩ་བསྐྲད་གཏང་"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1962
+#: ../src/wbcg-actions.c:1968
 #: ../src/workbook-control-gui.c:1183
 msgid "Add _Auto Filter"
 msgstr "རང་བཞིན་ཚགས་མ་ཁ་སྐོང་རྐྱབས་(_A)"
 
-#: ../src/wbcg-actions.c:1963
+#: ../src/wbcg-actions.c:1969
 msgid "Add or remove a filter"
 msgstr "ཚགས་མ་ཅིག་ཁ་སྐོང་རྐྱབས་ཡང་ན་རྩ་བསྐྲད་གཏང་"
 
-#: ../src/wbcg-actions.c:1965
+#: ../src/wbcg-actions.c:1971
 msgid "_Show All"
 msgstr "ཆ་མཉམ་སྟོན་(_S)"
 
-#: ../src/wbcg-actions.c:1966
+#: ../src/wbcg-actions.c:1972
 msgid "Show all filtered and hidden rows"
 msgstr "བཙགས་ཡོད་མི་དང་སྦ་ཡོད་པའི་གྲལ་ཐིག་ཚུ་ཆ་མཉམ་སྟོན་"
 
-#: ../src/wbcg-actions.c:1968
+#: ../src/wbcg-actions.c:1974
 msgid "Advanced _Filter..."
 msgstr "མཐོ་རིམ་ཚགས་མ་...(_F)"
 
-#: ../src/wbcg-actions.c:1969
+#: ../src/wbcg-actions.c:1975
 msgid "Filter data with given criteria"
 msgstr "གནད་སྡུད་འདི་བྱིན་ཡོད་པའི་ཁྱད་ཚད་དང་གཅིག་ཁར་བཙགས་"
 
 #. Data -> External
-#: ../src/wbcg-actions.c:1972
+#: ../src/wbcg-actions.c:1978
 msgid "Import _Text File..."
 msgstr "ཚིག་ཡིག་གི་ཡིག་ནང་འདྲེན་འབད་...(_T)"
 
-#: ../src/wbcg-actions.c:1973
+#: ../src/wbcg-actions.c:1979
 msgid "Import the text from a file"
 msgstr "ཚིག་ཡིག་འདི་ཡིག་སྣོད་ཅིག་ལས་ནང་འདྲེན་འབད་"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1977
+#: ../src/wbcg-actions.c:1983
 #: ../src/workbook-control-gui.c:2001
 #: ../src/workbook-view.c:795
 msgid "Sum"
 msgstr "དངུལ་བསྡོམས་"
 
-#: ../src/wbcg-actions.c:1978
+#: ../src/wbcg-actions.c:1984
 msgid "Sum into the current cell"
 msgstr "ད་ལྟོའི་ནང་ཐིག་འདིནང་བསྡོམས་"
 
-#: ../src/wbcg-actions.c:1981
+#: ../src/wbcg-actions.c:1987
 msgid "Edit a function in the current cell"
 msgstr "ད་ལྟོའི་ནང་ཐིག་དེ་ནང་ལས་འགན་ཅིག་ཞུན་དག་འབད་"
 
-#: ../src/wbcg-actions.c:1985
+#: ../src/wbcg-actions.c:1991
 msgid "Sort the selected region in ascending order based on the first column selected"
 msgstr "སེལ་འཐུ་འབད་ཡོད་མི་ཀེར་ཐིག་དང་པ་འདི་དང་འཁྲིལ་ཏེ་ ཡར་འཛེགས་གོ་རིམ་ནང་སེལ་འཐུ་འབད་ཡོད་པའི་ལུངས་ཕྱོགས་འདི་དབྱེ་སེལ་འབད་"
 
-#: ../src/wbcg-actions.c:1987
+#: ../src/wbcg-actions.c:1993
 msgid "Sort Descending"
 msgstr "མར་འབབ་དབྱེ་སེལ་འབད་"
 
-#: ../src/wbcg-actions.c:1988
+#: ../src/wbcg-actions.c:1994
 msgid "Sort the selected region in descending order based on the first column selected"
 msgstr "སེལ་འཐུ་འབད་ཡོད་མི་ཀེར་ཐིག་དང་པ་འདི་དང་འཁྲིལ་ཏེ་ མར་འབབ་གོ་རིམ་ནང་སེལ་འཐུ་འབད་ཡོད་པའི་ལུངས་ཕྱོགས་འདི་དབྱེ་སེལ་འབད་"
 
 #. Object Toolbar
-#: ../src/wbcg-actions.c:1992
+#: ../src/wbcg-actions.c:1998
 msgid "Label"
 msgstr "ཁ་ཡིག་"
 
-#: ../src/wbcg-actions.c:1993
+#: ../src/wbcg-actions.c:1999
 msgid "Create a label"
 msgstr "ཁ་ཡིག་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:1996
+#: ../src/wbcg-actions.c:2002
 msgid "Create a frame"
 msgstr "གཞི་ཁྲམ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:1998
+#: ../src/wbcg-actions.c:2004
 msgid "Checkbox"
 msgstr "དཔྱད་སྒྲོམ་"
 
-#: ../src/wbcg-actions.c:1999
+#: ../src/wbcg-actions.c:2005
 msgid "Create a checkbox"
 msgstr "དཔྱད་སྒྲོམ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2001
+#: ../src/wbcg-actions.c:2007
 msgid "Scrollbar"
 msgstr "བཤུད་ཕྲ་"
 
-#: ../src/wbcg-actions.c:2002
+#: ../src/wbcg-actions.c:2008
 msgid "Create a scrollbar"
 msgstr "བཤུད་ཕྲ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2004
+#: ../src/wbcg-actions.c:2010
 msgid "Slider"
 msgstr "བཤུད་བྱེད་"
 
-#: ../src/wbcg-actions.c:2005
+#: ../src/wbcg-actions.c:2011
 msgid "Create a slider"
 msgstr "བཤུད་བྱེད་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2007
+#: ../src/wbcg-actions.c:2013
 msgid "SpinButton"
 msgstr "བསྒྱིར་རྟ་"
 
-#: ../src/wbcg-actions.c:2008
+#: ../src/wbcg-actions.c:2014
 msgid "Create a spin button"
 msgstr "བསྒྱིར་རྟ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2010
+#: ../src/wbcg-actions.c:2016
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "ཐོ་ཡིག་"
 
-#: ../src/wbcg-actions.c:2011
+#: ../src/wbcg-actions.c:2017
 msgid "Create a list"
 msgstr "ཐོ་ཡིག་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2013
+#: ../src/wbcg-actions.c:2019
 msgid "Combo Box"
 msgstr "བརྟག་སྒྲོམ་"
 
-#: ../src/wbcg-actions.c:2014
+#: ../src/wbcg-actions.c:2020
 msgid "Create a combo box"
 msgstr "ཀོམ་བོ་སྒྲོམ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2017
+#: ../src/wbcg-actions.c:2023
 msgid "Create a line object"
 msgstr "གྲལ་ཐིག་གི་དངོས་པོ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2019
+#: ../src/wbcg-actions.c:2025
 msgid "Arrow"
 msgstr "མདའ་རྟགས་"
 
-#: ../src/wbcg-actions.c:2020
+#: ../src/wbcg-actions.c:2026
 msgid "Create an arrow object"
 msgstr "མདའ་རྟགས་ཀྱི་དངོས་པོ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2022
+#: ../src/wbcg-actions.c:2028
 msgid "Rectangle"
 msgstr "གྲུ་བཞི་ནར་མོ་"
 
-#: ../src/wbcg-actions.c:2023
+#: ../src/wbcg-actions.c:2029
 msgid "Create a rectangle object"
 msgstr "གྲུ་བཞི་ནར་མོའི་དངོས་པོ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2025
+#: ../src/wbcg-actions.c:2031
 msgid "Ellipse"
 msgstr "སྒོང་དབྱིབས་"
 
-#: ../src/wbcg-actions.c:2026
+#: ../src/wbcg-actions.c:2032
 msgid "Create an ellipse object"
 msgstr "སྒོང་དབྱིབས་ཀྱི་དངོས་པོ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2029
+#: ../src/wbcg-actions.c:2035
 msgid "Create a button"
 msgstr "ཨེབ་རྟ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2032
+#: ../src/wbcg-actions.c:2038
 msgid "Create a radio button"
 msgstr "རེཌིའོ་གི་ཨེབ་རྟ་ཅིག་གསར་བསྐྲུན་འབད་"
 
-#: ../src/wbcg-actions.c:2037
+#: ../src/wbcg-actions.c:2043
 msgid "Merge a range of cells"
 msgstr "ནང་ཐིག་ཚུ་གི་ཁྱབ་ཚད་ཅིག་མཉམ་བསྡོམས་འབད་"
 
-#: ../src/wbcg-actions.c:2039
+#: ../src/wbcg-actions.c:2045
 msgid "Split"
 msgstr "བཤག་"
 
-#: ../src/wbcg-actions.c:2040
+#: ../src/wbcg-actions.c:2046
 msgid "Split merged ranges of cells"
 msgstr "ནང་ཐིག་ཚུ་གི་མཉམ་བསྡོམས་འབད་ཡོད་པའི་ཁྱབ་ཚད་ཚུ་བཤག་"
 
-#: ../src/wbcg-actions.c:2044
+#: ../src/wbcg-actions.c:2050
 msgid "Format the selection as General"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་སྤྱིར་བཏང་སྦེ་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2047
+#: ../src/wbcg-actions.c:2053
 msgid "Format the selection as numbers"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་ཨང་སྦེ་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2049
+#: ../src/wbcg-actions.c:2055
 msgid "Currency"
 msgstr "དངུལ་"
 
-#: ../src/wbcg-actions.c:2050
+#: ../src/wbcg-actions.c:2056
 msgid "Format the selection as currency"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་དངུལ་སྦེ་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2052
+#: ../src/wbcg-actions.c:2058
 msgid "Accounting"
 msgstr "རྩི་ཁྲ་"
 
-#: ../src/wbcg-actions.c:2053
+#: ../src/wbcg-actions.c:2059
 msgid "Format the selection as accounting"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་རྩིས་ཐོ་བཀོད་ནི་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2055
+#: ../src/wbcg-actions.c:2061
 msgid "Percentage"
 msgstr "བརྒྱ་ཆ་"
 
-#: ../src/wbcg-actions.c:2056
+#: ../src/wbcg-actions.c:2062
 msgid "Format the selection as percentage"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་བརྒྱ་ཆ་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2058
+#: ../src/wbcg-actions.c:2064
 msgid "Scientific"
 msgstr "ཚད་རིག་གི་"
 
-#: ../src/wbcg-actions.c:2059
+#: ../src/wbcg-actions.c:2065
 msgid "Format the selection as scientific"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་ཚན་རིག་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2061
+#: ../src/wbcg-actions.c:2067
 msgid "Date"
 msgstr "ཚེས་གྲངས་"
 
-#: ../src/wbcg-actions.c:2062
+#: ../src/wbcg-actions.c:2068
 msgid "Format the selection as date"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་ཚེས་གྲངས་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2064
+#: ../src/wbcg-actions.c:2070
 msgid "Time"
 msgstr "ཆུ་ཚོད་"
 
-#: ../src/wbcg-actions.c:2065
+#: ../src/wbcg-actions.c:2071
 msgid "Format the selection as time"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་ཆུ་ཚོད་སྦེ་རྩ་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2067
+#: ../src/wbcg-actions.c:2073
 msgid "AddBorders"
 msgstr "མཐའ་མཚམས་ཚུ་ཁ་སྐོང་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:2068
+#: ../src/wbcg-actions.c:2074
 msgid "Add a border around the selection"
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་མཐའ་སྐོར་ཏེ་ མཐའ་མཚམས་ཅིག་ཁ་སྐོང་རྐྱབས་"
 
-#: ../src/wbcg-actions.c:2070
+#: ../src/wbcg-actions.c:2076
 msgid "ClearBorders"
 msgstr "མཐའ་མཚམས་ཚུ་བསལ་"
 
-#: ../src/wbcg-actions.c:2071
+#: ../src/wbcg-actions.c:2077
 msgid "Clear the border around the selection"
 msgstr "སེལ་འཐུ་འབད་ནི་གི་མཐའ་སྐོར་མཐའ་མཚམས་འདི་བསལ་"
 
-#: ../src/wbcg-actions.c:2074
+#: ../src/wbcg-actions.c:2080
 msgid "Thousands Separator"
 msgstr "སྟོང་ཕྲག་དབྱེ་བྱེད་"
 
-#: ../src/wbcg-actions.c:2075
+#: ../src/wbcg-actions.c:2081
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ནང་ཐིག་ཚུ་གི་རྩ་སྒྲིག་འདི་ དབྱེ་བྱེད་སྟོང་ཕྲག་གྲངས་སུ་བཙུགས་ནིའི་དོན་ལས་ གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2077
+#: ../src/wbcg-actions.c:2083
 msgid "Increase Precision"
 msgstr "ཀྲིག་ཀྲི་ཡར་སེང་འབད་"
 
-#: ../src/wbcg-actions.c:2078
+#: ../src/wbcg-actions.c:2084
 msgid "Increase the number of decimals displayed"
 msgstr "བཀྲམ་སྟོན་འབད་ཡོད་པའི་བཅུ་ཚག་ཚུ་གི་ཨང་འདི་ཡར་འཕར་འབད་"
 
-#: ../src/wbcg-actions.c:2080
+#: ../src/wbcg-actions.c:2086
 msgid "Decrease Precision"
 msgstr "ཀྲིག་ཀྲི་མར་ཕབ་འབད་"
 
-#: ../src/wbcg-actions.c:2081
+#: ../src/wbcg-actions.c:2087
 msgid "Decrease the number of decimals displayed"
 msgstr "བཀྲམ་སྟོན་འབད་ཡོད་པའི་བཅུ་ཚག་ཚུ་གི་ཨང་འདི་མར་ཕབ་འབད་"
 
-#: ../src/wbcg-actions.c:2087
+#: ../src/wbcg-actions.c:2093
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "འགོ་མཚམས་འདི་མལ་ཕབ་འབད་ དེ་ལས་ནང་དོན་ཚུ་ གཡོན་ཁ་ཐུག་ལུ་ཕྲང་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2090
+#: ../src/wbcg-actions.c:2096
 msgid "Increase the indent, and align the contents to the left"
 msgstr "འགོ་མཚམས་ཅིག་ཡར་འཕར་འབད་ དེ་ལས་ ནང་དོན་ཚུ་གཡོན་ཁ་ཐུག་ལུ་ཕྲང་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2121
+#: ../src/wbcg-actions.c:2127
 msgid "Display _Outlines"
 msgstr "མཐའ་ཐིག་ཚུ་བཀྲམ་སྟོན་འབད་(_O)"
 
-#: ../src/wbcg-actions.c:2122
+#: ../src/wbcg-actions.c:2128
 msgid "Toggle whether or not to display outline groups"
 msgstr "མཐའ་ཐིག་གི་སྡེ་ཚན་ཚུ་ ཡང་ཅིན་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་མེན་ན་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2124
+#: ../src/wbcg-actions.c:2130
 msgid "Outlines _Below"
 msgstr "མཐའ་ཐིག་ཚུ་འོག་ལུ་ (_B)"
 
-#: ../src/wbcg-actions.c:2125
+#: ../src/wbcg-actions.c:2131
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "གྲལ་ཐིག་གི་མཐའ་ཐིག་ཚུ་ མགོ་ལུ་ཡང་ན་མཇུག་ལུ་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2127
+#: ../src/wbcg-actions.c:2133
 msgid "Outlines _Right"
 msgstr "མཐའ་ཐིག་གི་གཡས་(_R)"
 
-#: ../src/wbcg-actions.c:2128
+#: ../src/wbcg-actions.c:2134
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "ཀེར་ཐིག་གི་མཐའ་ཐིག་ཚུ་ གཡོན་ཡང་ན་གཡས་ཁ་ཐུག་ལུ་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2130
+#: ../src/wbcg-actions.c:2136
 msgid "Display _Formulas"
 msgstr "མན་ངག་ཚུ་བཀྲམ་སྟོན་འབད་(_F)"
 
-#: ../src/wbcg-actions.c:2131
+#: ../src/wbcg-actions.c:2137
 msgid "Display the value of a formula or the formula itself"
 msgstr "མན་ངག་ཅིག་གི་གནས་གོང་ཡང་ན་ མན་ངག་དེ་རང་བཀྲམ་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2133
+#: ../src/wbcg-actions.c:2139
 msgid "Hide _Zeros"
 msgstr "ཀླད་ཀོར་ཚུ་སྦ་བཞག་(_Z)"
 
-#: ../src/wbcg-actions.c:2134
+#: ../src/wbcg-actions.c:2140
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "ཀླད་ཀོར་ཚུ་སྟོངམ་སྦེ་ བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་མེན་ན་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2136
+#: ../src/wbcg-actions.c:2142
 msgid "Hide _Gridlines"
 msgstr "གིརིཌི་གྲལ་ཐིག་ཚུ་སྦ་བཞག་(_G)"
 
-#: ../src/wbcg-actions.c:2137
+#: ../src/wbcg-actions.c:2143
 msgid "Toggle whether or not to display gridlines"
 msgstr "གིརིཌི་གྲལ་ཐིག་ཚུ་ ཡང་ཅིན་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་མེན་ན་ སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2139
+#: ../src/wbcg-actions.c:2145
 msgid "Hide _Column Headers"
 msgstr "ཀེར་ཐིག་མགོ་ཡིག་ཚུ་སྦ་བཞག་(_C)"
 
-#: ../src/wbcg-actions.c:2140
+#: ../src/wbcg-actions.c:2146
 msgid "Toggle whether or not to display column headers"
 msgstr "ཀེར་ཐིག་མགོ་ཡིག་ཚུ་ ཡང་ཅིན་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་མེན་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2142
+#: ../src/wbcg-actions.c:2148
 msgid "Hide _Row Headers"
 msgstr "གྲལ་ཐིག་མགོ་ཡིག་ཚུ་སྦ་བཞག་(_R)"
 
-#: ../src/wbcg-actions.c:2143
+#: ../src/wbcg-actions.c:2149
 msgid "Toggle whether or not to display row headers"
 msgstr "གྲལ་ཐིག་མགོ་ཡིག་ཚུ་ ཡང་ཅིན་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་མེན་ན་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2145
+#: ../src/wbcg-actions.c:2151
 msgid "Use R1C1 N_otation "
 msgstr "ཨར་༡་སི་༡་ དབྱངས་རྟགས་ལག་ལེན་འཐབ་(_o)"
 
-#: ../src/wbcg-actions.c:2146
+#: ../src/wbcg-actions.c:2152
 msgid "Display addresses as R1C1 or A1"
 msgstr "ཁ་བྱང་ཚུ་ ཨར་༡་སི༡ ཡང་ན་ ཨེ་༡ བཟུམ་སྦེ་བཀྲམ་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2150
+#: ../src/wbcg-actions.c:2156
 msgid "_Left Align"
 msgstr "གཡོན་ཕྲང་སྒྲིག་(_L)"
 
-#: ../src/wbcg-actions.c:2151
-#: ../src/wbc-gtk.c:341
+#: ../src/wbcg-actions.c:2157
+#: ../src/wbc-gtk.c:342
 msgid "Align left"
 msgstr "གཡོན་ཕྲང་"
 
-#: ../src/wbcg-actions.c:2153
+#: ../src/wbcg-actions.c:2159
 msgid "_Center"
 msgstr "དབུས་(_C)"
 
-#: ../src/wbcg-actions.c:2154
-#: ../src/wbc-gtk.c:342
+#: ../src/wbcg-actions.c:2160
+#: ../src/wbc-gtk.c:343
 msgid "Center horizontally"
 msgstr "ཐད་སྙོམ་སྦེ་དབུས་སྒྲིག་"
 
-#: ../src/wbcg-actions.c:2156
+#: ../src/wbcg-actions.c:2162
 msgid "_Right Align"
 msgstr "གཡས་ཕྲང་སྒྲིག་(_R)"
 
-#: ../src/wbcg-actions.c:2157
-#: ../src/wbc-gtk.c:343
+#: ../src/wbcg-actions.c:2163
+#: ../src/wbc-gtk.c:344
 msgid "Align right"
 msgstr "གཡས་ཕྲང་"
 
-#: ../src/wbcg-actions.c:2159
+#: ../src/wbcg-actions.c:2165
 msgid "_Center Across Selection"
 msgstr "སེལ་འཐུ་འབད་ནི་བརྒྱུད་དེ་དབུས་སྒྲིག་འབད་(_C)"
 
-#: ../src/wbcg-actions.c:2160
-#: ../src/wbc-gtk.c:346
+#: ../src/wbcg-actions.c:2166
+#: ../src/wbc-gtk.c:347
 msgid "Center horizontally across the selection"
 msgstr "སེལ་འཐུ་འབད་ནི་བརྒྱུད་དེ་ ཐད་སྙོམས་སྦེ་དབུས་སྒྲིག་འབད་"
 
-#: ../src/wbcg-actions.c:2163
+#: ../src/wbcg-actions.c:2169
 msgid "_Merge and Center"
 msgstr "མཉམ་བསྡོམས་དང་དབུས་སྒྲིག་་འབད་(_M)"
 
-#: ../src/wbcg-actions.c:2164
+#: ../src/wbcg-actions.c:2170
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་ ནང་ཐིག་ ༡ ནང་མཉམ་བསྡོམས་འབད་ དངེ་ལས་ ཐད་སྙོམས་སྦེ་དབུས་སྒྲིག་འབད།"
 
-#: ../src/wbcg-actions.c:2171
+#: ../src/wbcg-actions.c:2177
 msgid "Align _Top"
 msgstr "མགོ་ཕྲང་(_T)"
 
-#: ../src/wbcg-actions.c:2172
-#: ../src/wbc-gtk.c:353
+#: ../src/wbcg-actions.c:2178
+#: ../src/wbc-gtk.c:354
 msgid "Align Top"
 msgstr "མགོ་ཕྲང་"
 
-#: ../src/wbcg-actions.c:2174
+#: ../src/wbcg-actions.c:2180
 msgid "_Vertically Center"
 msgstr "ཀེར་ཕྲང་སྦེ་དབུས་སྒྲིག་(_V)"
 
-#: ../src/wbcg-actions.c:2175
+#: ../src/wbcg-actions.c:2181
 msgid "Vertically Center"
 msgstr "ཀེར་ཕྲང་སྦེ་དབུས་སྒྲིག་"
 
-#: ../src/wbcg-actions.c:2177
+#: ../src/wbcg-actions.c:2183
 msgid "Align _Bottom"
 msgstr "མཇུག་ཕྲང་(_B)"
 
-#: ../src/wbcg-actions.c:2178
-#: ../src/wbc-gtk.c:355
+#: ../src/wbcg-actions.c:2184
+#: ../src/wbc-gtk.c:356
 msgid "Align Bottom"
 msgstr "མཇུག་ཕྲང་"
 
-#: ../src/wbcg-actions.c:2181
+#: ../src/wbcg-actions.c:2187
 msgid "View _Statusbar"
 msgstr "གནས་ཚད་ཕྲ་རིང་སྟོན་(_S)"
 
-#: ../src/wbcg-actions.c:2182
+#: ../src/wbcg-actions.c:2188
 msgid "Toggle visibility of statusbar"
 msgstr "གནད་ཚད་ཕྲ་རིང་གི་མཐོང་ཚུགས་མི་སོར་སྟོན་འབད་"
 
-#: ../src/wbcg-actions.c:2186
+#: ../src/wbcg-actions.c:2192
 msgid "F_ull Screen"
 msgstr "གསལ་གཞི་གང་(_u)"
 
-#: ../src/wbcg-actions.c:2187
+#: ../src/wbcg-actions.c:2193
 msgid "Switch to or from full screen mode"
 msgstr "གསལ་གཞི་གང་གི་ཐབས་ལམ་ལུ་ཡང་ན་ལས་སོར་བསྒྱུར་འབད་"
 
-#: ../src/wbcg-actions.c:2193
+#: ../src/wbcg-actions.c:2199
 msgid "_Bold"
 msgstr "རྒྱགས་པ་(_B)"
 
-#: ../src/wbcg-actions.c:2196
+#: ../src/wbcg-actions.c:2202
 msgid "_Italic"
 msgstr "ཨའི་ཊ་ལིཀ་(_I)"
 
-#: ../src/wbcg-actions.c:2199
+#: ../src/wbcg-actions.c:2205
 msgid "_Underline"
 msgstr "འོག་ཐིག་(_U)"
 
 #. ALSO "<control>4"
-#: ../src/wbcg-actions.c:2200
+#: ../src/wbcg-actions.c:2206
 msgid "Underline"
 msgstr "འོག་ཐིག་"
 
-#: ../src/wbcg-actions.c:2202
+#: ../src/wbcg-actions.c:2208
 msgid "_Strike Through"
 msgstr "སྦུག་འབྲེག་(_S)"
 
-#: ../src/wbcg-actions.c:2203
+#: ../src/wbcg-actions.c:2209
 msgid "Strike Through"
 msgstr "སྦུག་འབྲེག་"
 
 #. from icon theme
-#: ../src/wbcg-actions.c:2205
+#: ../src/wbcg-actions.c:2211
 msgid "_Double Underline"
 msgstr "ལོག་བལྟབ་འོག་ཐིག་(_D)"
 
-#: ../src/wbcg-actions.c:2206
+#: ../src/wbcg-actions.c:2212
 msgid "Double Underline"
 msgstr "ལོག་བལྟབ་འོག་ཐིག་"
 
 #. from icon theme
-#: ../src/wbcg-actions.c:2208
+#: ../src/wbcg-actions.c:2214
 msgid "Su_perscript"
 msgstr "སྟེང་ཡིག་(_p)"
 
-#: ../src/wbcg-actions.c:2209
+#: ../src/wbcg-actions.c:2215
 msgid "Superscript"
 msgstr "སྟེང་ཡིག་"
 
 #. from icon theme
-#: ../src/wbcg-actions.c:2211
+#: ../src/wbcg-actions.c:2217
 msgid "Subscrip_t"
 msgstr "འོག་ཡིག་(_t)"
 
-#: ../src/wbcg-actions.c:2212
+#: ../src/wbcg-actions.c:2218
 msgid "Subscript"
 msgstr "འོག་ཡིག་"
 
-#: ../src/wbc-gtk.c:180
+#: ../src/wbc-gtk.c:181
 msgid "_Zoom"
 msgstr "རྒྱས་ཟུམ་(_Z)"
 
-#: ../src/wbc-gtk.c:217
+#: ../src/wbc-gtk.c:218
 msgid "Clear Borders"
 msgstr "མཐའ་མཚམས་ཚུ་བསལ་"
 
-#: ../src/wbc-gtk.c:220
+#: ../src/wbc-gtk.c:221
 msgid "All Borders"
 msgstr "མཐའ་མཚམས་ཚུ་ཆ་མཉམ་"
 
-#: ../src/wbc-gtk.c:221
+#: ../src/wbc-gtk.c:222
 msgid "Outside Borders"
 msgstr "ཕྱིའི་མཐའ་མཚམས་ཚུ་"
 
-#: ../src/wbc-gtk.c:222
+#: ../src/wbc-gtk.c:223
 msgid "Thick Outside Borders"
 msgstr "སྟུག་དྲགས་ཕྱི་ཁའི་མཐའ་མཚམས་ཚུ་"
 
-#: ../src/wbc-gtk.c:225
+#: ../src/wbc-gtk.c:226
 msgid "Double Bottom"
 msgstr "ལོག་བལྟབ་མཇུག་"
 
-#: ../src/wbc-gtk.c:226
+#: ../src/wbc-gtk.c:227
 msgid "Thick Bottom"
 msgstr "སྟུག་དྲགས་མཇུག་"
 
-#: ../src/wbc-gtk.c:228
+#: ../src/wbc-gtk.c:229
 msgid "Top and Bottom"
 msgstr "མགོ་དང་མཇུག་"
 
-#: ../src/wbc-gtk.c:229
+#: ../src/wbc-gtk.c:230
 msgid "Top and Double Bottom"
 msgstr "མགོ་དང་ལོག་བལྟབ་མཇུག་"
 
-#: ../src/wbc-gtk.c:230
+#: ../src/wbc-gtk.c:231
 msgid "Top and Thick Bottom"
 msgstr "མགོ་དང་སྟུག་དྲགས་མཇུག་"
 
-#: ../src/wbc-gtk.c:315
+#: ../src/wbc-gtk.c:316
 msgid "Set Borders"
 msgstr "མཐའ་མཚམས་ཚུ་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbc-gtk.c:323
 #: ../src/wbc-gtk.c:324
+#: ../src/wbc-gtk.c:325
 msgid "Borders"
 msgstr "མཐའ་མཚམས་ཚུ་"
 
-#: ../src/wbc-gtk.c:344
+#: ../src/wbc-gtk.c:345
 msgid "Fill Horizontally"
 msgstr "ཐད་སྙོམ་སྦེ་བཀང་"
 
-#: ../src/wbc-gtk.c:345
+#: ../src/wbc-gtk.c:346
 msgid "Justify Horizontally"
 msgstr "ཐད་སྙོམ་སྦེ་བདེན་ཁུངས་བཀལ་"
 
-#: ../src/wbc-gtk.c:348
+#: ../src/wbc-gtk.c:349
 msgid "Align numbers right, and text left"
 msgstr "ཨང་ཚུ་གཡས་ཁ་ཐུག་དང་ཚིག་ཡིག་ཚུ་གཡོན་ཁ་ཐུག་ ཕྲང་སྒྲིག་འབད་"
 
-#: ../src/wbc-gtk.c:354
+#: ../src/wbc-gtk.c:355
 msgid "Center Vertically"
 msgstr "ཀེར་ཕྲང་སྦེ་དབུས་སྒྲིག་འབད་"
 
-#: ../src/wbc-gtk.c:377
 #: ../src/wbc-gtk.c:378
-#: ../src/wbc-gtk.c:381
-#: ../src/wbc-gtk.c:396
+#: ../src/wbc-gtk.c:379
+#: ../src/wbc-gtk.c:382
+#: ../src/wbc-gtk.c:397
 msgid "Horizontal Alignment"
 msgstr "ཐད་སྙོམ་ཕྲང་སྒྲིག་"
 
-#: ../src/wbc-gtk.c:392
 #: ../src/wbc-gtk.c:393
+#: ../src/wbc-gtk.c:394
 msgid "Vertical Alignment"
 msgstr "ཀེར་ཕྲང་ཕྲང་སྒྲིག་"
 
-#: ../src/wbc-gtk.c:568
+#: ../src/wbc-gtk.c:569
 msgid "Set Foreground Color"
 msgstr "གདོང་གཞིའི་ཚོས་གཞི་གཞི་སྒྲིག་འབད་"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:623
+#: ../src/wbc-gtk.c:624
 msgid "Set Background Color"
 msgstr "རྒྱབ་གཞིའི་ཚོས་གཞི་གཞི་སྒྲིག་འབད་"
 
-#: ../src/wbc-gtk.c:662
+#: ../src/wbc-gtk.c:663
 #, c-format
 msgid "Font Name %s"
 msgstr "ཡིག་གཟུགས་ཀྱི་མིང་ %s"
 
-#: ../src/wbc-gtk.c:723
+#: ../src/wbc-gtk.c:724
 #, c-format
 msgid "Font Size %f"
 msgstr "ཡིག་གཟུགས་ཀྱི་ཚད་ %f"
 
-#: ../src/wbc-gtk.c:741
 #: ../src/wbc-gtk.c:742
+#: ../src/wbc-gtk.c:743
 msgid "Font Size"
 msgstr "ཡིག་གཟུགས་ཀྱི་ཚད་"
 
-#: ../src/wbc-gtk.c:804
+#: ../src/wbc-gtk.c:805
 #, c-format
 msgid "Open %s"
 msgstr "%s ཁ་ཕྱེ་"
@@ -13113,90 +13121,90 @@ msgstr "%s ཁ་ཕྱེ་"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:1121
+#: ../src/wbc-gtk.c:1124
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "`%s' དཀར་ཆག་དེ་ནང་ལུ་ ལྡེ་མིག་ `%s' འདི་  `%s' དང་ `%s' གཉིས་ཆ་རའི་དོན་ལུ་ལག་ལེན་འཐབ་ཡོད།"
 
-#: ../src/wbc-gtk.c:1390
+#: ../src/wbc-gtk.c:1393
 msgid "Display above sheets"
 msgstr "ལེབ་གྲངས་ཚུ་གི་ལྟག་ལུ་བཀྲམ་སྟོན་འབད་"
 
-#: ../src/wbc-gtk.c:1391
+#: ../src/wbc-gtk.c:1394
 msgid "Display to the left of sheets"
 msgstr "ལེབ་གྲངས་ཚུ་གཡོན་ཕྱོགས་ལུ་བཀྲམ་སྟོན་འབད་"
 
-#: ../src/wbc-gtk.c:1392
+#: ../src/wbc-gtk.c:1395
 msgid "Display to the right of sheets"
 msgstr "ལེབ་གྲངས་ཚུ་གི་གཡས་ཕྱོགས་ལུ་བཀྲམ་སྟོན་འབད་"
 
-#: ../src/wbc-gtk.c:1396
+#: ../src/wbc-gtk.c:1399
 msgid "Reattach to main window"
 msgstr "སྒོ་སྒྲིག་གཙོ་བོ་ལུ་ལོག་མཉམ་སྦྲགས་འབད་"
 
-#: ../src/wbc-gtk.c:1428
+#: ../src/wbc-gtk.c:1431
 msgid "Hide"
 msgstr "སྦ་"
 
-#: ../src/wbc-gtk.c:1490
+#: ../src/wbc-gtk.c:1493
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "ལག་ཆས་ཕྲ་རིང་ %s སྟོན་/སྦ་"
 
-#: ../src/workbook.c:294
+#: ../src/workbook.c:299
 #, c-format
 msgid "Book%d.%s"
 msgstr "ཀི་དེབ་%d.%s"
 
-#: ../src/workbook.c:1321
+#: ../src/workbook.c:1326
 msgid "Renaming sheet"
 msgstr "ལེབ་གྲངས་བསྐྱར་མིང་བཏགས་དོ་"
 
-#: ../src/workbook.c:1322
+#: ../src/workbook.c:1327
 #, c-format
 msgid "Renaming %d sheets"
 msgstr "%d ལེབ་གྲངས་ཚུ་བསྐྱར་མིང་བཏགས་དོ་"
 
-#: ../src/workbook.c:1325
+#: ../src/workbook.c:1330
 msgid "Adding sheet"
 msgstr "ལེབ་གྲངས་ཁ་སྐོང་རྐྱབས་དོ་"
 
-#: ../src/workbook.c:1326
+#: ../src/workbook.c:1331
 #, c-format
 msgid "Adding %d sheets"
 msgstr "%d ལེབ་གྲངས་ཚུ་ཁ་སྐོང་རྐྱབས་དོ་"
 
-#: ../src/workbook.c:1333
+#: ../src/workbook.c:1338
 msgid "Inserting sheet"
 msgstr "ལེབ་གྲངས་བཙུགས་དོ་"
 
-#: ../src/workbook.c:1334
+#: ../src/workbook.c:1339
 #, c-format
 msgid "Inserting %d sheets"
 msgstr "%d ལེབ་གྲངས་ཚུ་བཙུགས་དོ་"
 
-#: ../src/workbook.c:1336
+#: ../src/workbook.c:1341
 msgid "Changing sheet tab colors"
 msgstr "ལེབ་གྲངས་མཆོང་ལྡེ་གི་ཚོས་གཞི་ཚུ་བསྒྱུར་བཅོས་འབད་དོ་"
 
-#: ../src/workbook.c:1338
+#: ../src/workbook.c:1343
 msgid "Changing sheet properties"
 msgstr "ལེབ་གྲངས་ཀྱི་རྒྱུ་དངོས་ཚུ་བསྒྱུར་བཅོས་འབད་དོ་"
 
-#: ../src/workbook.c:1346
+#: ../src/workbook.c:1351
 msgid "Deleting sheet"
 msgstr "ལེབ་གྲངས་བཏོན་གཏང་དོ་"
 
-#: ../src/workbook.c:1347
+#: ../src/workbook.c:1352
 #, c-format
 msgid "Deleting %d sheets"
 msgstr "%d ལེབ་གྲངས་ཚུ་བཏོན་གཏང་དོ་"
 
-#: ../src/workbook.c:1349
+#: ../src/workbook.c:1354
 msgid "Changing sheet order"
 msgstr "ལེབ་གྲངས་ཀྱི་གོ་རིམ་བསྒྱུར་བཅོས་འབད་དོ་"
 
-#: ../src/workbook.c:1351
+#: ../src/workbook.c:1356
 msgid "Reorganizing Sheets"
 msgstr "ལེབ་གྲངས་ཚུ་ངོས་འཛིན་འབད་དོ་"
 
@@ -13455,37 +13463,37 @@ msgstr "རྒྱབ་སྐྱོར་མ་འབད་བའི་ཡིག
 msgid "An unexplained error happened while opening %s"
 msgstr "གསལ་བཤད་མ་འབད་བའི་འཛོལ་བ་ཅིག་  %s ཁ་ཕྱེ་བའི་སྐབས་འབྱུང་ཡོད་"
 
-#: ../src/xml-io.c:1657
+#: ../src/xml-io.c:1643
 #: ../src/xml-sax-read.c:1699
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "རྒྱབ་སྐྱོར་མ་འབད་བའི་དངོས་པོ་དབྱེ་བ་ '%s'"
 
-#: ../src/xml-io.c:2108
+#: ../src/xml-io.c:2094
 msgid "Unparsable xml in clipboard"
 msgstr "འཛིན་པང་ནང་ མིང་དཔྱད་འབད་མ་བཏུབ་པའི་ཨེགསི་ཨེམ་ཨེལ་"
 
-#: ../src/xml-io.c:2115
+#: ../src/xml-io.c:2101
 msgid "Clipboard is in unknown format"
 msgstr "འཛིན་པང་འདི་ མ་ཤེས་པའི་རྩ་སྒྲིག་ཅིག་ནང་ཨིན་པས་"
 
-#: ../src/xml-io.c:2333
+#: ../src/xml-io.c:2319
 msgid "Processing file..."
 msgstr "ཡིག་སྣོད་ལས་སྦྱོར་འབད་དོ་..."
 
-#: ../src/xml-io.c:2671
+#: ../src/xml-io.c:2657
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "ཡིག་སྣོད་འདི་ཇི་ནུ་མི་རིཀ་ལཱ་གཡོག་ཀི་དེབ་ཀྱི་ཡིག་སྣོད་ཅིག་མེན་"
 
-#: ../src/xml-io.c:2699
+#: ../src/xml-io.c:2685
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "ཇི་ནུ་མི་རིཀ་ཨེགསི་ཨེམ་ཨེལ་ (*.gnumeric) ནང་འདྲེན་པ་རྙིངམ་ལྷོད་མི་"
 
-#: ../src/xml-io.c:2705
+#: ../src/xml-io.c:2691
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "མོ་བཏབ་ཀྱི་ཨེསི་ཨེ་ཨེགསི་ བརྟེན་པའི་ཇི་ནུ་མིརིཀ་(*.gnumeric)"
 
-#: ../src/xml-io.c:2710
+#: ../src/xml-io.c:2696
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "ཇི་ནུ་མིརིཀ་ ཨེགསི་ཨེམ་ཨེལ་ (*.gnumeric)"
 
@@ -13698,4 +13706,28 @@ msgstr "ལི་ལ་ཊེམ་པེལེཊི་གི་ཐོ་ཡི
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "འཇམ་སམ་ཊེམ་པེལེཊི་གི་ཐོ་ཡིག་"
+
+#~ msgid "Print Config"
+#~ msgstr "དཔར་བསྐྲུན་རིམ་སྒྲིག་"
+#~ msgid "List of recently used files"
+#~ msgstr "འཕྲལ་ཁམས་ལག་ལེན་འཐབ་ཡོད་པའི་ཡིག་སྣོད་ཚུ་གི་ཐོ་ཡིག་"
+#~ msgid ""
+#~ "The file menu shows a list of recently used functions. This is that list."
+#~ msgstr ""
+#~ "ཡིག་སྣོད་དཀའ་ཆག་འདི་གིས་ འཕྲལ་ཁམས་ལག་ལེན་འཐབ་ཡོད་པའི་ལས་འགན་ཚུ་གི་ ཐོ་ཡིག་ཅིག་སྟོནམ་ཨིན། འ་"
+#~ "ནི་འདི་འ་ཕི་ཐོ་ཡིག་འདི་ཨིན།"
+#~ msgid "The number of files kept in the `recent' section of the file menu."
+#~ msgstr "ཡིག་སྣོད་དཀར་ཆག་འདི་གི་  `འཕྲལ་གྱི་' དབྱེ་ཚན་འདི་ནང་བཞག་ཡོད་པའི་ ཡིག་སྣོད་ཚུ་གི་གྲངས།"
+#~ msgid "&[PAGE]"
+#~ msgstr "&[ཤོག་ལེབ་]"
+#~ msgid "Print Region"
+#~ msgstr "དཔར་བསྐྲུན་ལུངས་ཕྱོགས་"
+#~ msgid "Printing failed"
+#~ msgstr "དཔར་བསྐྲུན་འབད་ནི་འཐུས་ཤོར་འབྱུང་ཡོདཔ་"
+#~ msgid "Print Sheets"
+#~ msgstr "དཔར་བསྐྲུན་ལེབ་གྲངས་ཚུ་"
+#~ msgid "S_heets"
+#~ msgstr "ལེབ་གྲངས་ཚུ་(_h)"
+#~ msgid "Format as Scientific"
+#~ msgstr "ཚན་རིག་སྦེ་རྩ་སྒྲིག་འབད་"
 
