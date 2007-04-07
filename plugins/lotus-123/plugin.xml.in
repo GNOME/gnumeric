@@ -19,6 +19,10 @@
 				<suffix>wks</suffix>
 				<suffix>123</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/vnd.lotus-1-2-3</mime-type>
+				<mime-type>application/x-123</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

@@ -16,6 +16,12 @@
 				<suffix>sxc</suffix>
 				<suffix>ods</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>vnd.oasis.opendocument.spreadsheet</mime-type>
+				<mime-type>vnd.oasis.opendocument.spreadsheet-template</mime-type>
+				<mime-type>application/vnd.sun.xml.calc</mime-type>
+				<mime-type>application/vnd.sun.xml.calc.template</mime-type>
+			</mime-types>
 		</service>
 		<service type="file_saver" id="openoffice" file_extension="ods"
 		         format_level="auto" overwrite_files="TRUE">

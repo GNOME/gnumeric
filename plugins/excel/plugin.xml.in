@@ -18,6 +18,18 @@
 				<suffix>xlw</suffix>
 				<suffix>xlt</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/vnd.ms-excel</mime-type>
+				<mime-type>application/excel</mime-type>
+				<mime-type>application/msexcel</mime-type>
+				<mime-type>application/x-excel</mime-type>
+				<mime-type>application/x-ms-excel</mime-type>
+				<mime-type>application/x-msexcel</mime-type>
+				<mime-type>application/x-xls</mime-type>
+				<mime-type>application/xls</mime-type>
+				<mime-type>application/x-dos_ms_excel</mime-type>
+				<mime-type>zz-application/zz-winassoc-xls</mime-type>
+			</mime-types>
 		</service>
 
 		<service type="file_saver" id="excel_biff7" file_extension="xls"
@@ -60,14 +72,28 @@
 			<suffixes>
 				<suffix>xlsx</suffix>
 				<suffix>xltx</suffix>
+				<suffix>xlsb</suffix>
+				<suffix>xlsm</suffix>
+				<suffix>xlsx</suffix>
+				<suffix>xltm</suffix>
+				<suffix>xltx</suffix>
 			</suffixes>
+<!--
+			<mime-types>
+				<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mime-type>
+				<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.template</mime-type>
+				<mime-type>application/vnd.ms-excel.sheet.binary.macroEnabled.12</mime-type>
+				<mime-type>application/vnd.ms-excel.sheet.macroEnabled.12</mime-type>
+				<mime-type>application/vnd.ms-excel.template.macroEnabled.12</mime-type>
+			<mime-types>
+  -->
 		</service>
+
 		<service type="file_saver" id="xlsx" file_extension="xlsx"
 		         format_level="auto" overwrite_files="TRUE">
 			<information>
 				<_description>MS Excel (tm) 12</_description>
 			</information>
 		</service>
-
 	</services>
 </plugin>

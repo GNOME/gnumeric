@@ -17,6 +17,10 @@
 				<suffix>wb2</suffix>
 				<suffix>wb3</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/x-quattropro</mime-type>
+				<mime-type>application/x-quattro-pro</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

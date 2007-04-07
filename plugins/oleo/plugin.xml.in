@@ -15,6 +15,9 @@
 			<suffixes>
 				<suffix>oleo</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/x-oleo</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

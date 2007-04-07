@@ -15,6 +15,9 @@
 			<suffixes>
 				<suffix>pln</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/x-planperfect</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

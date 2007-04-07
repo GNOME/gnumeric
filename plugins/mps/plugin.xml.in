@@ -15,6 +15,9 @@
 			<suffixes>
 				<suffix>mps</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/x-mps</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

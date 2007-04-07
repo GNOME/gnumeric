@@ -15,7 +15,7 @@ Requirements
 
 You need:				Debian package name
 	glib		>= 2.6.0	libglib2.0-dev
-	gtk+		>= 2.6.0	libgtk2.0-dev
+	gtk+		>= 2.10.0	libgtk2.0-dev
 	libgsf		>= 1.14.2	libgsf-1-dev
 	libgoffice	>= 0.3.6	libgoffice-1-dev
 	libglade	>= 2.3.6	libglade2-dev
@@ -108,19 +108,20 @@ documentation for these:
 		- Array formulas
 
 	- Filters
-		- MS Excel (95 -> XP)	Read/Write
+		- MS OfficeOpenXML 	Read/Write
+		- MS Excel (95 -> 2003)	Read/Write
 		- MS Excel (v2 -> v4)	Read
 		- Applix (v4 & v5)	Read
 		- Quattro Pro (v1-v3)	Read
 		- Planperfect		Read
 		- Lotus (wk1)		Read
-		- OpenCalc/StarCalc	Read
+		- OpenOffice.org/ODF	Read/Write
 		- html (3.2 & 4.0)	Read
 		- html (4.0, xhtml)	Write
 		- Latex 		Write
 		- Troff 		Write
 		- DIF			Read
-		- SYLK			Read
+		- SYLK			Read/Write
 		- Oleo			Read
 		- SC			Read
 		- MPS Optimizer files	Read

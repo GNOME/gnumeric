@@ -12,6 +12,9 @@
 			<information>
 				<_description>SC/xspread</_description>
 			</information>
+			<mime-types>
+				<mime-type>application/x-sc</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

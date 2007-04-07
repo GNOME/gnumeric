@@ -41,6 +41,25 @@ range_init_full_sheet (GnmRange *r)
 	r->end.row = SHEET_MAX_ROWS - 1;
 	return r;
 }
+GnmRange *
+range_init_cols (GnmRange *r, int start_col, int end_col)
+{
+	r->start.col = start_col;
+	r->start.row = 0;
+	r->end.col = end_col;
+	r->end.row = SHEET_MAX_ROWS - 1;
+	return r;
+}
+
+GnmRange *
+range_init_rows (GnmRange *r, int start_row, int end_row)
+{
+	r->start.col = 0;
+	r->start.row = start_row;
+	r->end.col = SHEET_MAX_COLS - 1;
+	r->end.row = end_row;
+	return r;
+}
 
 GnmRange *
 range_init_rangeref (GnmRange *range, GnmRangeRef const *rr)

@@ -15,6 +15,9 @@
 			<suffixes>
 				<suffix>as</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/x-applix-spreadsheet</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

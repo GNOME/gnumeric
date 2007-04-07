@@ -1043,7 +1043,7 @@ tail_recursion :
  *
  * @sheet :
  * @range :
- * @style
+ * @style : #GnmStyle
  *
  * Change the complete style for a region.
  * This function absorbs a reference to the new @style.
@@ -1063,6 +1063,105 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
 	rstyle_dtor (&rs);
 }
 
+/**
+ * sheet_style_set_col
+ * @sheet :
+ * @col :
+ * @style : #GnmStyle
+ *
+ * NOTE : This is a simple wrapper for now.  When we support col/row styles it
+ * 	will make life easier.
+ *
+ * Change the complete style for a full col.
+ * This function absorbs a reference to the new @style.
+ **/
+void
+sheet_style_set_col (Sheet *sheet, int col, GnmStyle *style)
+{
+	GnmRange r;
+	sheet_style_set_range (sheet, range_init_cols (&r, col, col), style);
+}
+
+/**
+ * sheet_style_apply_col
+ * @sheet :
+ * @col :
+ * @pstyle : #GnmStyle
+ *
+ * NOTE : This is a simple wrapper for now.  When we support col/row styles it
+ * 	will make life easier.
+ *
+ * Apply a partial style to a full col.
+ * The routine absorbs a reference to the partial style.
+ **/
+void
+sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
+{
+	GnmRange r;
+	sheet_style_apply_range (sheet, range_init_cols (&r, col, col), pstyle);
+}
+
+/**
+ * sheet_style_set_row
+ * @sheet :
+ * @row :
+ * @style : #GnmStyle
+ *
+ * NOTE : This is a simple wrapper for now.  When we support col/row styles it
+ * 	will make life easier.
+ *
+ * Change the complete style for a full row.
+ * This function absorbs a reference to the new @style.
+ **/
+void
+sheet_style_set_row (Sheet  *sheet, int row, GnmStyle *style)
+{
+	GnmRange r;
+	sheet_style_set_range (sheet, range_init_rows (&r, row, row), style);
+}
+
+/**
+ * sheet_style_apply_row
+ * @sheet :
+ * @row :
+ * @pstyle : #GnmStyle
+ *
+ * NOTE : This is a simple wrapper for now.  When we support col/row styles it
+ * 	will make life easier.
+ *
+ * Apply a partial style to a full col.
+ * The routine absorbs a reference to the partial style.
+ **/
+void
+sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
+{
+	GnmRange r;
+	sheet_style_apply_range (sheet, range_init_rows (&r, row, row), pstyle);
+}
+
+/**
+ * sheet_style_apply_pos :
+ * @sheet :
+ * @col   :
+ * @row   :
+ * @pstyle : #GnmStyle
+ *
+ * Apply a partial style to a single cell
+ * This function absorbs a reference to the the new @style.
+ **/
+void
+sheet_style_apply_pos (Sheet *sheet, int col, int row,
+		       GnmStyle *pstyle)
+{
+	ReplacementStyle rs;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	cell_tile_apply_pos (&sheet->style_data->styles,
+			     TILE_TOP_LEVEL, col, row,
+			     rstyle_ctor (&rs, NULL, pstyle, sheet));
+	rstyle_dtor (&rs);
+}
 /**
  * sheet_style_set_pos :
  * @sheet :
@@ -1866,14 +1965,14 @@ sheet_style_get_extent (Sheet const *sheet, GnmRange *res,
 /****************************************************************************/
 
 static GnmStyleRegion *
-style_region_new (GnmRange const *range, GnmStyle *mstyle)
+style_region_new (GnmRange const *range, GnmStyle *style)
 {
 	GnmStyleRegion *sr;
 
 	sr = g_new (GnmStyleRegion, 1);
 	sr->range = *range;
-	sr->style = mstyle;
-	gnm_style_ref (mstyle);
+	sr->style = style;
+	gnm_style_ref (style);
 
 	return sr;
 }

@@ -22,14 +22,24 @@ GnmStyle *sheet_style_default		(Sheet const *sheet);
 GnmStyle const *sheet_style_get		(Sheet const *sheet, int col, int row);
 GnmStyle *sheet_style_find   		(Sheet const *sheet, GnmStyle *st);
 void	 sheet_style_get_row		(Sheet const *sheet, GnmStyleRow *sr);
-void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,
-					 GnmStyle *style);
 void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *r,
 					 GnmBorder **borders);
+void	 sheet_style_apply_range	(Sheet *sheet, GnmRange const *r,
+					 GnmStyle *style);
 void	 sheet_style_set_range		(Sheet  *sheet, GnmRange const *range,
-					 GnmStyle *mstyle);
+					 GnmStyle *style);
+void	 sheet_style_set_col		(Sheet  *sheet, int col,
+					 GnmStyle *style);
+void	 sheet_style_apply_col		(Sheet  *sheet, int col,
+					 GnmStyle *style);
+void	 sheet_style_set_row		(Sheet  *sheet, int row,
+					 GnmStyle *style);
+void	 sheet_style_apply_row		(Sheet  *sheet, int row,
+					 GnmStyle *style);
 void	 sheet_style_set_pos		(Sheet  *sheet, int col, int row,
-					 GnmStyle *mstyle);
+					 GnmStyle *style);
+void	 sheet_style_apply_pos		(Sheet  *sheet, int col, int row,
+					 GnmStyle *style);
 
 void	 sheet_style_insert_colrow	(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_relocate		(GnmExprRelocateInfo const *rinfo);

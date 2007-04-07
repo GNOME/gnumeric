@@ -53,6 +53,8 @@
 				 (r)->start.row <= (r)->end.row)
 
 GnmRange   *range_init_full_sheet   (GnmRange *r);
+GnmRange   *range_init_cols   	    (GnmRange *r, int start_col, int end_col);
+GnmRange   *range_init_rows         (GnmRange *r, int start_row, int end_row);
 GnmRange   *range_init_rangeref	    (GnmRange *r, GnmRangeRef const *rr);
 GnmRange   *range_init_value	    (GnmRange *r, GnmValue const *v);
 GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *pos);

@@ -15,6 +15,14 @@
 			<suffixes>
 				<suffix>dbf</suffix>
 			</suffixes>
+			<mime-types>
+				<mime-type>application/dbase</mime-type>
+				<mime-type>application/dbf</mime-type>
+				<mime-type>application/x-dbase</mime-type>
+				<mime-type>application/x-dbf</mime-type>
+				<mime-type>application/x-xbase</mime-type>
+				<mime-type>zz-application/zz-winassoc-dbf</mime-type>
+			</mime-types>
 		</service>
 	</services>
 </plugin>

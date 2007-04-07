@@ -115,6 +115,18 @@
 
 2007-03-29  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-style.c (sheet_style_set_col) : new.  placeholder to
+	  simplify future extensions when cols/rows have styles.
+	(sheet_style_set_row) : ditto.
+	(sheet_style_apply_col) : ditto.
+	(sheet_style_apply_row) : ditto.
+	(sheet_style_apply_pos) : new convenience.
+
+	* src/ranges.c (range_init_cols) : new.
+	(range_init_rows) : new.
+
+2007-03-29  Jody Goldberg <jody@gnome.org>
+
 	* component/gnumeric.c (go_gnm_component_class_init) : the print
 	  method is now gone.
 
