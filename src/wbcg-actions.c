@@ -905,7 +905,7 @@ static GNM_ACTION_DEF (cb_help_docs)
 
 #ifndef G_OS_WIN32
 	argv[0] = (char *)"yelp";
-	argv[1] = (char *)"help:gnumeric";
+	argv[1] = (char *)"ghelp:gnumeric";
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, &error);
 #else

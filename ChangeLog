@@ -1,3 +1,11 @@
+2007-04-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/wbcg-actions.c (cb_help_docs): Use 'ghelp' rather than 'help'
+	  as the URI scheme when calling yelp. The 'ghelp' URI scheme is
+	  implemented directly in yelp, whereas 'help' causes yelp to search
+	  for a libvfs-help.so helper module which doesn't exist on my system
+	  anymore.
+
 2007-04-06  Pema Geyleg  <pema.geyleg@gmail.com>
 
 	* configure.in: Added 'dz' to ALL_LINGUAS.
