@@ -177,10 +177,10 @@ advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
 	GtkWidget *extra = g_object_get_data (G_OBJECT (advanced), "extra");
 
 	if (gtk_file_chooser_get_extra_widget (fsel)) {
-		gtk_button_set_label (advanced, _("Simple"));
+		gtk_button_set_label (advanced, _("Advanced"));
 		gtk_file_chooser_set_extra_widget (fsel, NULL);
 	} else {
-		gtk_button_set_label (advanced, _("Advanced"));
+		gtk_button_set_label (advanced, _("Simple"));
 		gtk_file_chooser_set_extra_widget (fsel, extra);
 	}
 }
