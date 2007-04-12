@@ -1,12 +1,12 @@
 # Lithuanian translation of gnumeric-functions.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # Tomas Kuliavas <tokul@users.sourceforge.net>, 2007.
-# $Id: $
+# $Id$
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-12 09:20+0300\n"
+"POT-Creation-Date: 2007-04-12 10:46+0300\n"
 "PO-Revision-Date: 2007-03-17 20:13+0200\n"
 "Last-Translator: Tomas Kuliavas <tokul@users.sourceforge.net>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
