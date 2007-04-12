@@ -1,3 +1,7 @@
+2007-04-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: fix schema for gtk-setting
+
 2007-04-10  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (advanced_clicked): Labels were flipped.  [#428225]

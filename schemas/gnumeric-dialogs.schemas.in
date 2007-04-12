@@ -191,8 +191,8 @@
         <key>/schemas/apps/gnumeric/printsetup/gtk-setting</key>
         <applyto>/apps/gnumeric/printsetup/gtk-setting</applyto>
         <owner>Gnumeric</owner>
-        <type>string</type>
-	<default></default>
+        <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>GTKPrintSetting</short>
         <long>The configuration of GTKPrintSetting. Do not edit this variable.</long>
