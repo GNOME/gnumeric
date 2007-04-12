@@ -7,14 +7,14 @@
 # Gintautas Miliauskas <gintas@akl.lt>, 2006.
 # Tomas Kuliavas <tokul@users.sourceforge.net>, 2007.
 # Internal translation version: 0.6 (2007-03-17)
-# $Id: lt.po,v 1.4 2006/06/17 20:37:14 gintas Exp $
+# $Id$
 # Palaiminti užsispyrę, nes jie pasiekia tai, ko nori.
 # Arba bent jau tai, ką nusprendžia pasiekti.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-22 16:13+0200\n"
+"POT-Creation-Date: 2007-04-12 10:44+0300\n"
 "PO-Revision-Date: 2007-03-17 17:04+0200\n"
 "Last-Translator: Tomas Kuliavas <tokul@users.sourceforge.net>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -52,7 +52,7 @@ msgstr "ObjektųĮrankinė"
 msgid "StandardToolbar"
 msgstr "ĮprastaĮrankinė"
 
-#: ../component/gnumeric.c:374
+#: ../component/gnumeric.c:376
 msgid "Save the embedded workbook"
 msgstr "Išsaugoti įterptą darbo knygą"
 
@@ -235,8 +235,8 @@ msgstr "Finansiniai derivatyvai"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcijosč susijusios su finansiniais skaičiavimais"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6143
-#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2623 ../src/xml-sax-read.c:2219
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6137
+#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2609 ../src/xml-sax-read.c:2219
 msgid "Reading file..."
 msgstr "Skaitoma byla..."
 
@@ -337,13 +337,13 @@ msgstr "Netikėtas atributas %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Netvarkingas XML dokumento formatas!"
 
-#: ../plugins/excel/ms-excel-read.c:1103 ../src/value.c:78
+#: ../plugins/excel/ms-excel-read.c:1099 ../src/value.c:78
 msgid "#UNKNOWN!"
 msgstr "#NEŽINOMAS!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1185 ../plugins/excel/ms-excel-read.c:1197
+#: ../plugins/excel/ms-excel-read.c:1181 ../plugins/excel/ms-excel-read.c:1193
 #: ../plugins/oleo/oleo.c:343 ../plugins/psiconv/psiconv-read.c:509
 #: ../src/dialogs/dialog-sheet-order.c:519
 #: ../src/dialogs/dialog-sheet-order.c:523
@@ -351,32 +351,32 @@ msgstr "#NEŽINOMAS!"
 msgid "Sheet%d"
 msgstr "Lentelė%d"
 
-#: ../plugins/excel/ms-excel-read.c:1201
+#: ../plugins/excel/ms-excel-read.c:1197
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1205
+#: ../plugins/excel/ms-excel-read.c:1201
 #, c-format
 msgid "Chart%d"
 msgstr "Diagrama%d"
 
-#: ../plugins/excel/ms-excel-read.c:1208
+#: ../plugins/excel/ms-excel-read.c:1204
 #, c-format
 msgid "Module%d"
 msgstr "Modulis%d"
 
-#: ../plugins/excel/ms-excel-read.c:3069
+#: ../plugins/excel/ms-excel-read.c:3065
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Nepavyko apdoroti vardo %s"
 
-#: ../plugins/excel/ms-excel-read.c:3172
+#: ../plugins/excel/ms-excel-read.c:3168
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Klaidinga '%s' vardo išraiška: duomenys bus prarasti.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3182
+#: ../plugins/excel/ms-excel-read.c:3178
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -385,7 +385,7 @@ msgstr ""
 "DDE nuorodos nepalaikomos.\n"
 "Įvardijimas '%s' bus prarastas.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3188
+#: ../plugins/excel/ms-excel-read.c:3184
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -394,11 +394,11 @@ msgstr ""
 "OLE nuorodos nepalaikomos.\n"
 "Įvardijimas '%s' bus prarastas.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5441
+#: ../plugins/excel/ms-excel-read.c:5435
 msgid "external references"
 msgstr "išorinės nuorodos"
 
-#: ../plugins/excel/ms-excel-read.c:5467
+#: ../plugins/excel/ms-excel-read.c:5461
 msgid "No password supplied"
 msgstr "Nepateiktas slaptažodis"
 
@@ -448,11 +448,11 @@ msgstr ""
 "Sistema jau išsaugojo simbolių sekos ilgį, kuris pakito dėl perkodavimo "
 "problemų."
 
-#: ../plugins/excel/ms-excel-write.c:5444
+#: ../plugins/excel/ms-excel-write.c:5445
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepavyko atverti „Book“ srauto rašymui\n"
 
-#: ../plugins/excel/ms-excel-write.c:5464
+#: ../plugins/excel/ms-excel-write.c:5465
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepavyko atverti „Workbook“ srauto rašymui\n"
 
@@ -753,7 +753,7 @@ msgstr "data1,data2,intervalas"
 #: ../plugins/fn-date/functions.c:1510 ../plugins/fn-date/functions.c:1514
 #: ../plugins/fn-date/functions.c:1522 ../plugins/fn-date/functions.c:1526
 #: ../plugins/fn-date/functions.c:1539 ../plugins/fn-date/functions.c:1543
-#: ../src/print-info.c:492
+#: ../src/print-info.c:504
 msgid "date"
 msgstr "data"
 
@@ -770,7 +770,7 @@ msgid "start_date,months"
 msgstr "pradinė_data,mėnesiai"
 
 #: ../plugins/fn-date/functions.c:1474 ../plugins/fn-date/functions.c:1478
-#: ../plugins/fn-date/functions.c:1494 ../src/print-info.c:493
+#: ../plugins/fn-date/functions.c:1494 ../src/print-info.c:505
 msgid "time"
 msgstr "laikas"
 
@@ -878,7 +878,7 @@ msgstr "%s versija %s"
 #: ../plugins/fn-info/functions.c:1330
 #: ../src/dialogs/dialog-cell-format.c:2223
 #: ../src/dialogs/dialog-cell-format.c:2227
-#: ../src/dialogs/dialog-cell-format.c:2235 ../src/wbc-gtk.c:579
+#: ../src/dialogs/dialog-cell-format.c:2235 ../src/wbc-gtk.c:580
 msgid "Automatic"
 msgstr "Automatinis"
 
@@ -1688,7 +1688,7 @@ msgstr "Vertė"
 #. * Fill in the labels of `General Info' section.
 #.
 #: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:835
-#: ../src/dialogs/dialog-search.c:418 ../src/tools/solver/reports-write.c:515
+#: ../src/dialogs/dialog-search.c:423 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Tipas"
 
@@ -2207,24 +2207,27 @@ msgstr "Klaida apdorojant eilutę"
 #. *
 #.
 #: ../plugins/sylk/plugin.xml.in.h:1
-msgid "Imports MultiPlan (SYLK) files"
+#, fuzzy
+msgid "Import/Export for MultiPlan (SYLK) files"
 msgstr "Importuoja MultiPlan (SYLK) bylas"
 
 #: ../plugins/sylk/plugin.xml.in.h:2
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: ../plugins/sylk/sylk.c:461
-msgid "Not SYLK file"
-msgstr "Ne SYLK byla"
+#: ../plugins/sylk/sylk.c:176
+msgid "Multiple values in the same cell"
+msgstr ""
 
-#: ../plugins/sylk/sylk.c:474
-msgid "error parsing line\n"
-msgstr "klaida apdorojant eilutę\n"
+#: ../plugins/sylk/sylk.c:185 ../plugins/sylk/sylk.c:194
+#, fuzzy
+msgid "Multiple expressions in the same cell"
+msgstr "Šiuo atveju negalima naudoti kelių formulių"
 
-#: ../plugins/sylk/sylk.c:522
-msgid "Error while reading sheet."
-msgstr "Įvyko klaida skaitant lentelę."
+#: ../plugins/sylk/sylk.c:726
+#, fuzzy
+msgid "Missing closing 'E'"
+msgstr "Tarp „%s“ trūksta dalies id požymio"
 
 #: ../plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
@@ -2244,9 +2247,9 @@ msgid "Error while opening xbase file."
 msgstr "Įvyko klaida atidarant xbase bylą."
 
 #: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:260
-#: ../src/dialogs/dialog-search.c:416 ../src/dialogs/dialog-stf-export.c:463
-#: ../src/dialogs/print.glade.h:23 ../src/print-info.c:409 ../src/search.c:607
-#: ../src/workbook.c:855 ../src/xml-io.c:2228
+#: ../src/dialogs/dialog-search.c:421 ../src/dialogs/dialog-stf-export.c:463
+#: ../src/dialogs/print.glade.h:23 ../src/print-info.c:421 ../src/search.c:620
+#: ../src/workbook.c:855 ../src/xml-io.c:2214
 msgid "Sheet"
 msgstr "Lentelė"
 
@@ -2394,70 +2397,70 @@ msgid "Default header/footer font name"
 msgstr "Įprastas antraštės/poraštės šrifto pavadinimas"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:27
+msgid "GTKPrintSetting"
+msgstr ""
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:28
 msgid "Header/Footer Format (Left Portion)"
 msgstr "Antraštės/poraštės formatas (kairioji dalis)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:28
+#: ../schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "Header/Footer Format (Middle Portion)"
 msgstr "Antraštės/poraštės formatas (vidurinė dalis)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:29
+#: ../schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "Header/Footer Format (Right Portion)"
 msgstr "Antraštės/poraštės formatas (dešinioji dalis)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:30
+#: ../schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "List of Active Plugins."
 msgstr "Įjungtų priedų sąrašas."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:31
+#: ../schemas/gnumeric-dialogs.schemas.in.h:32
 msgid "List of Extra Autoformat Directories."
 msgstr "Papildomų automatinio formatavimo katalogų sąrašas."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:32
+#: ../schemas/gnumeric-dialogs.schemas.in.h:33
 msgid "List of Extra Plugin Directories."
 msgstr "Papildomų priedų katalogų sąrašas."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:33
+#: ../schemas/gnumeric-dialogs.schemas.in.h:34
 msgid "List of First Letter Exceptions"
 msgstr "Pirmos raidės išimčių sąrašas"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:34
+#: ../schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "List of Init Caps Exceptions"
 msgstr "Parodyti visas pradinių didžiųjų raidžių išimtis"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:35
+#: ../schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "List of Known Plugins."
 msgstr "Žinomų priedų sąrašas."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:36
+#: ../schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "List of Plugin File States."
 msgstr "Priedų bylų būklės sąrašas."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:37
+#: ../schemas/gnumeric-dialogs.schemas.in.h:38
 msgid "List of recently used functions."
 msgstr "Neseniai naudotų funkcijų sąrašas."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:38
+#: ../schemas/gnumeric-dialogs.schemas.in.h:39
 #: ../src/dialogs/dialog-preferences.c:719
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Didžiausias neseniai panaudotų funkcijų sąrašo ilgis"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:39
+#: ../schemas/gnumeric-dialogs.schemas.in.h:40
 msgid "Page Footer"
 msgstr "Puslapio poraštė"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:40
+#: ../schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Page Header"
 msgstr "Puslapio antraštė"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:41
+#: ../schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Please use the Print Setup dialog to edit this value."
 msgstr ""
 "Norėdami pakeisti šią reikšmę naudokite Spausdinimo Nustatymų dialogo langą."
-
-#: ../schemas/gnumeric-dialogs.schemas.in.h:42
-msgid "Print Config"
-msgstr "Spausdinimo nustatymai"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:43
 #: ../schemas/gnumeric-general.schemas.in.h:22
@@ -2496,7 +2499,8 @@ msgstr ""
 "didžiųjų raidžių."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:48
-msgid "The configuration of gnome-print. Do not edit this variable."
+#, fuzzy
+msgid "The configuration of GTKPrintSetting. Do not edit this variable."
 msgstr "Gnome print nustatymai. Nekeiskite šio kintamojo."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:49
@@ -2916,7 +2920,7 @@ msgid "Sort Area Has Header"
 msgstr "Rikiuojama sritis turi antraštę"
 
 #: ../schemas/gnumeric-general.schemas.in.h:31
-#: ../src/dialogs/dialog-preferences.c:535 ../src/wbcg-actions.c:1999
+#: ../src/dialogs/dialog-preferences.c:535 ../src/wbcg-actions.c:1990
 msgid "Sort Ascending"
 msgstr "Rikiuoti didėjančiai"
 
@@ -3254,8 +3258,8 @@ msgstr "_Sritys"
 #: ../src/dialogs/fourier-analysis.glade.h:6
 #: ../src/dialogs/histogram.glade.h:16 ../src/dialogs/rank.glade.h:9
 #: ../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:11
-#: ../src/dialogs/shuffle.glade.h:5 ../src/wbcg-actions.c:1628
-#: ../src/wbcg-actions.c:1755
+#: ../src/dialogs/shuffle.glade.h:5 ../src/wbcg-actions.c:1619
+#: ../src/wbcg-actions.c:1746
 msgid "_Columns"
 msgstr "_Stulpeliai"
 
@@ -3289,8 +3293,8 @@ msgstr "_Žymės"
 #: ../src/dialogs/histogram.glade.h:23
 #: ../src/dialogs/moving-averages.glade.h:12 ../src/dialogs/rank.glade.h:12
 #: ../src/dialogs/regression.glade.h:13 ../src/dialogs/sampling.glade.h:18
-#: ../src/dialogs/shuffle.glade.h:6 ../src/wbcg-actions.c:1625
-#: ../src/wbcg-actions.c:1758
+#: ../src/dialogs/shuffle.glade.h:6 ../src/wbcg-actions.c:1616
+#: ../src/wbcg-actions.c:1749
 msgid "_Rows"
 msgstr "_Eilutės"
 
@@ -3365,7 +3369,7 @@ msgstr "_Netaisyti:"
 msgid "First Letter"
 msgstr "Pirma raidė"
 
-#: ../src/dialogs/autocorrect.glade.h:8 ../src/wbcg-actions.c:2058
+#: ../src/dialogs/autocorrect.glade.h:8 ../src/wbcg-actions.c:2049
 msgid "General"
 msgstr "Bendrinis"
 
@@ -3672,8 +3676,8 @@ msgstr ""
 "Specialus"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2231 ../src/wbc-gtk.c:632
-#: ../src/wbc-gtk.c:633 ../src/wbc-gtk.c:642
+#: ../src/dialogs/dialog-cell-format.c:2231 ../src/wbc-gtk.c:633
+#: ../src/wbc-gtk.c:634 ../src/wbc-gtk.c:643
 msgid "Background"
 msgstr "Fonas"
 
@@ -3682,7 +3686,7 @@ msgstr "Fonas"
 msgid "Border"
 msgstr "Rėmelis"
 
-#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:224
+#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:225
 msgid "Bottom"
 msgstr "Apačia"
 
@@ -3727,7 +3731,7 @@ msgid "Diagonal Stripe"
 msgstr "Įžambi Juosta"
 
 #: ../src/dialogs/cell-format.glade.h:46
-#: ../src/dialogs/dialog-preferences.c:786 ../src/wbc-gtk.c:683
+#: ../src/dialogs/dialog-preferences.c:786 ../src/wbc-gtk.c:684
 msgid "Font"
 msgstr "Šriftas"
 
@@ -3780,7 +3784,7 @@ msgstr "_Išlyginti"
 msgid "Large Circles"
 msgstr "Dideli apskritimai"
 
-#: ../src/dialogs/cell-format.glade.h:59 ../src/wbc-gtk.c:216
+#: ../src/dialogs/cell-format.glade.h:59 ../src/wbc-gtk.c:217
 msgid "Left"
 msgstr "Kairėje"
 
@@ -3812,7 +3816,7 @@ msgstr "Atvirkčia Įžambinė"
 msgid "Reverse Diagonal Stripe"
 msgstr "Atvirštinė įžambi juosta"
 
-#: ../src/dialogs/cell-format.glade.h:66 ../src/wbc-gtk.c:218
+#: ../src/dialogs/cell-format.glade.h:66 ../src/wbc-gtk.c:219
 msgid "Right"
 msgstr "Dešinėje"
 
@@ -4119,13 +4123,13 @@ msgstr "_Funkcija:"
 msgid "_Source areas:"
 msgstr "Pradinės _sritys:"
 
-#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:922
-#: ../src/tools/analysis-tools.c:925
+#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:921
+#: ../src/tools/analysis-tools.c:924
 msgid "Correlation"
 msgstr "Koreliacija"
 
-#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:976
-#: ../src/tools/analysis-tools.c:979 ../src/wbcg-actions.c:1913
+#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:975
+#: ../src/tools/analysis-tools.c:978 ../src/wbcg-actions.c:1904
 msgid "Covariance"
 msgstr "Kovariacija"
 
@@ -4242,7 +4246,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Vidurkio patiki_mumo intervalas"
 
 #: ../src/dialogs/descriptive-stats.glade.h:5
-#: ../src/tools/analysis-tools.c:1363 ../src/tools/analysis-tools.c:1366
+#: ../src/tools/analysis-tools.c:1362 ../src/tools/analysis-tools.c:1365
 msgid "Descriptive Statistics"
 msgstr "Aprašanti statistika"
 
@@ -4785,7 +4789,7 @@ msgid "Could not create the Sampling Tool dialog."
 msgstr "Nepavyko atverti generavimo įrankio lango."
 
 #: ../src/dialogs/dialog-analysis-tools.c:1976
-#: ../src/tools/analysis-tools.c:3095 ../src/tools/analysis-tools.c:3174
+#: ../src/tools/analysis-tools.c:3094 ../src/tools/analysis-tools.c:3173
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -4889,8 +4893,8 @@ msgid "Mar"
 msgstr "Kov"
 
 #: ../src/dialogs/dialog-autoformat.c:72 ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4458 ../src/tools/analysis-tools.c:4468
-#: ../src/tools/analysis-tools.c:4476
+#: ../src/tools/analysis-tools.c:4457 ../src/tools/analysis-tools.c:4467
+#: ../src/tools/analysis-tools.c:4475
 msgid "Total"
 msgstr "Suma"
 
@@ -4992,7 +4996,7 @@ msgid "Double"
 msgstr "Dvigubas"
 
 #: ../src/dialogs/dialog-cell-format.c:475 ../src/dialogs/dialog-search.c:155
-#: ../src/func.c:927 ../src/wbcg-actions.c:2061
+#: ../src/func.c:927 ../src/wbcg-actions.c:2052
 msgid "Number"
 msgstr "Skaičius"
 
@@ -5040,13 +5044,13 @@ msgstr "Informacija (leisti netinkamą įvedimą)"
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Netinkami tikrinimo kriterijai. Atjungti tikrinimą?"
 
-#: ../src/dialogs/dialog-cell-format.c:2227 ../src/wbc-gtk.c:194
-#: ../src/wbc-gtk.c:329 ../src/wbc-gtk.c:581 ../src/wbc-gtk.c:582
-#: ../src/wbc-gtk.c:593 ../src/wbc-gtk.c:700 ../src/wbc-gtk.c:764
+#: ../src/dialogs/dialog-cell-format.c:2227 ../src/wbc-gtk.c:195
+#: ../src/wbc-gtk.c:330 ../src/wbc-gtk.c:582 ../src/wbc-gtk.c:583
+#: ../src/wbc-gtk.c:594 ../src/wbc-gtk.c:701 ../src/wbc-gtk.c:765
 msgid "Foreground"
 msgstr "Priekinis planas"
 
-#: ../src/dialogs/dialog-cell-format.c:2231 ../src/wbc-gtk.c:630
+#: ../src/dialogs/dialog-cell-format.c:2231 ../src/wbc-gtk.c:631
 msgid "Clear Background"
 msgstr "Išvalyti foną"
 
@@ -5143,8 +5147,8 @@ msgid "Could not create the Name Guru."
 msgstr "Nepavyko išvesti vardų guru."
 
 #: ../src/dialogs/dialog-delete-cells.c:126
-#: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbcg-actions.c:270
-#: ../src/wbcg-actions.c:284
+#: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbcg-actions.c:261
+#: ../src/wbcg-actions.c:275
 msgid "Delete"
 msgstr "Ištrinti"
 
@@ -5245,7 +5249,7 @@ msgstr "Darbo knygos lygis"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:266 ../src/dialogs/dialog-search.c:417
+#: ../src/dialogs/dialog-goto-cell.c:266 ../src/dialogs/dialog-search.c:422
 #: ../src/dialogs/tabulate.glade.h:2 ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
 #: ../src/tools/solver/reports-write.c:127
@@ -5370,7 +5374,7 @@ msgstr "Slaptažodis:"
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: ../src/dialogs/dialog-paste-special.c:67 ../src/wbcg-actions.c:1611
+#: ../src/dialogs/dialog-paste-special.c:67 ../src/wbcg-actions.c:1602
 msgid "_All"
 msgstr "_Visus"
 
@@ -5382,11 +5386,11 @@ msgstr "_Turinys"
 msgid "As _Value"
 msgstr "Kaip _reikšmė"
 
-#: ../src/dialogs/dialog-paste-special.c:70 ../src/wbcg-actions.c:1614
+#: ../src/dialogs/dialog-paste-special.c:70 ../src/wbcg-actions.c:1605
 msgid "_Formats"
 msgstr "_Formatai"
 
-#: ../src/dialogs/dialog-paste-special.c:71 ../src/wbcg-actions.c:1617
+#: ../src/dialogs/dialog-paste-special.c:71 ../src/wbcg-actions.c:1608
 msgid "Co_mments"
 msgstr "Ko_mentarai"
 
@@ -5591,19 +5595,19 @@ msgstr "Rikiuojama"
 msgid "Screen"
 msgstr "Ekranas"
 
-#: ../src/dialogs/dialog-printer-setup.c:873
+#: ../src/dialogs/dialog-printer-setup.c:872
 msgid "Customize header"
 msgstr "Keisti antraštę"
 
-#: ../src/dialogs/dialog-printer-setup.c:875
+#: ../src/dialogs/dialog-printer-setup.c:874
 msgid "Customize footer"
 msgstr "Keisti poraštę"
 
-#: ../src/dialogs/dialog-printer-setup.c:1013
+#: ../src/dialogs/dialog-printer-setup.c:1012
 msgid "Custom header configuration"
 msgstr "Speciali antraštės konfiguracija"
 
-#: ../src/dialogs/dialog-printer-setup.c:1018
+#: ../src/dialogs/dialog-printer-setup.c:1017
 msgid "Custom footer configuration"
 msgstr "Speciali poraštės konfiguracija"
 
@@ -5916,12 +5920,12 @@ msgstr "Išraiška"
 msgid "Other value"
 msgstr "Kita reikšmė"
 
-#: ../src/dialogs/dialog-search.c:340
-#: ../src/dialogs/dialog-search-replace.c:144
+#: ../src/dialogs/dialog-search.c:345
+#: ../src/dialogs/dialog-search-replace.c:151
 msgid "You must select some cell types to search."
 msgstr "Pasirinkite ieškomų laukelių tipą."
 
-#: ../src/dialogs/dialog-search.c:419
+#: ../src/dialogs/dialog-search.c:424
 msgid "Content"
 msgstr "Turinys"
 
@@ -6246,8 +6250,8 @@ msgstr "Nepasirinkti niek_o"
 #. *	with the rest of the key movement and rangeselection.
 #. *	Otherwise input methods would steal them
 #. A duplicate that should not go into the menus, used only for the accelerator
-#: ../src/dialogs/dialog-stf-export.glade.h:24 ../src/wbcg-actions.c:1643
-#: ../src/wbcg-actions.c:1647
+#: ../src/dialogs/dialog-stf-export.glade.h:24 ../src/wbcg-actions.c:1634
+#: ../src/wbcg-actions.c:1638
 msgid "Select _All"
 msgstr "P_asirinkti visas"
 
@@ -6672,7 +6676,7 @@ msgstr[2] "įkeliama %d iš %d eilučių"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Duomenys neatitinka %s koduotės. Pasirinkite kitą koduotę."
 
-#: ../src/dialogs/dialog-stf-main-page.c:384 ../src/wbcg-actions.c:2031
+#: ../src/dialogs/dialog-stf-main-page.c:384 ../src/wbcg-actions.c:2022
 msgid "Line"
 msgstr "Linija"
 
@@ -6757,7 +6761,7 @@ msgstr "Mąstelis"
 msgid "Sheets"
 msgstr "Lentelės"
 
-#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:182
+#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:183
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -6937,8 +6941,8 @@ msgstr "Vertė: "
 msgid "0.2"
 msgstr "0,2"
 
-#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3633
-#: ../src/tools/analysis-tools.c:3636
+#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3632
+#: ../src/tools/analysis-tools.c:3635
 msgid "Exponential Smoothing"
 msgstr "Eksponentinis Glotninimas"
 
@@ -7005,7 +7009,7 @@ msgid "_Month"
 msgstr "_Mėnuo"
 
 #: ../src/dialogs/fill-series.glade.h:17 ../src/dialogs/pivottable.glade.h:13
-#: ../src/wbcg-actions.c:1496
+#: ../src/wbcg-actions.c:1487
 msgid "_Row"
 msgstr "_Eilutė"
 
@@ -7041,7 +7045,7 @@ msgstr "Įvesti kaip masyvo funkciją"
 msgid "Formula Guru"
 msgstr "Formulių guru"
 
-#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbcg-actions.c:1919
+#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbcg-actions.c:1910
 msgid "Fourier Analysis"
 msgstr "Furjė analizė"
 
@@ -7053,7 +7057,7 @@ msgstr "_Atvirkštinė"
 msgid "Category"
 msgstr "Kategorija"
 
-#: ../src/dialogs/function-select.glade.h:3 ../src/wbcg-actions.c:1995
+#: ../src/dialogs/function-select.glade.h:3 ../src/wbcg-actions.c:1986
 msgid "Function"
 msgstr "Funkcija"
 
@@ -7065,8 +7069,8 @@ msgstr "Funkcijų pasirinkimas"
 msgid "Select a function to insert:"
 msgstr "Pasirinkite įterpiamą funkciją:"
 
-#: ../src/dialogs/function-select.glade.h:6 ../src/wbcg-actions.c:1491
-#: ../src/wbcg-actions.c:1688
+#: ../src/dialogs/function-select.glade.h:6 ../src/wbcg-actions.c:1482
+#: ../src/wbcg-actions.c:1679
 msgid "_Insert"
 msgstr "Įterpt_i"
 
@@ -7355,8 +7359,8 @@ msgstr "3"
 msgid "C_olumns"
 msgstr "_Stulpeliai"
 
-#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3500
-#: ../src/tools/analysis-tools.c:3503
+#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3499
+#: ../src/tools/analysis-tools.c:3502
 msgid "Moving Average"
 msgstr "Kintamas vidurkis"
 
@@ -7392,7 +7396,7 @@ msgstr "Tarpinė suma pagal"
 msgid "_Add:"
 msgstr "_Pridėti:"
 
-#: ../src/dialogs/pivottable.glade.h:8 ../src/wbcg-actions.c:1504
+#: ../src/dialogs/pivottable.glade.h:8 ../src/wbcg-actions.c:1495
 msgid "_Data"
 msgstr "_Duomenys"
 
@@ -7408,7 +7412,7 @@ msgstr "_Formatas"
 msgid "_Page"
 msgstr "_Puslapis"
 
-#: ../src/dialogs/pivottable.glade.h:12 ../src/wbcg-actions.c:1701
+#: ../src/dialogs/pivottable.glade.h:12 ../src/wbcg-actions.c:1692
 msgid "_Remove"
 msgstr "Pa_šalinti"
 
@@ -7643,8 +7647,8 @@ msgstr "0,95"
 msgid "Confidence level:"
 msgstr "Pasitikėjimo lygis:"
 
-#: ../src/dialogs/regression.glade.h:6 ../src/tools/analysis-tools.c:3378
-#: ../src/tools/analysis-tools.c:3381
+#: ../src/dialogs/regression.glade.h:6 ../src/tools/analysis-tools.c:3377
+#: ../src/tools/analysis-tools.c:3380
 msgid "Regression"
 msgstr "Regresija"
 
@@ -7754,7 +7758,7 @@ msgid "View"
 msgstr "Žiūrėti"
 
 #: ../src/dialogs/search.glade.h:1 ../src/dialogs/search-replace.glade.h:4
-#: ../src/gui-file.c:183 ../src/gui-file.c:243
+#: ../src/gui-file.c:180 ../src/gui-file.c:243
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
 msgstr "Išsamus"
@@ -8003,7 +8007,7 @@ msgstr "_Sritis"
 msgid "Replacing"
 msgstr "Keičiama"
 
-#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:616
+#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:629
 msgid "Scope"
 msgstr "Sritis"
 
@@ -8084,7 +8088,7 @@ msgstr "_Ieškoti"
 msgid "Manage Sheets..."
 msgstr "Tvarkyti lenteles..."
 
-#: ../src/dialogs/sheet-order.glade.h:2 ../src/wbcg-actions.c:1698
+#: ../src/dialogs/sheet-order.glade.h:2 ../src/wbcg-actions.c:1689
 msgid "_Duplicate"
 msgstr "_Kopijuoti"
 
@@ -8495,47 +8499,47 @@ msgstr "_Apsaugoti darbo knygą"
 msgid "_Vertical Scrollbar"
 msgstr "_Vertikalus persukimas"
 
-#: ../src/tools/analysis-tools.c:193 ../src/tools/analysis-tools.c:382
-#: ../src/tools/analysis-tools.c:4402
+#: ../src/tools/analysis-tools.c:192 ../src/tools/analysis-tools.c:381
+#: ../src/tools/analysis-tools.c:4401
 #, c-format
 msgid "Row %i"
 msgstr "Eilutė %i"
 
-#: ../src/tools/analysis-tools.c:196 ../src/tools/analysis-tools.c:385
-#: ../src/tools/analysis-tools.c:4394
+#: ../src/tools/analysis-tools.c:195 ../src/tools/analysis-tools.c:384
+#: ../src/tools/analysis-tools.c:4393
 #, c-format
 msgid "Column %i"
 msgstr "Stulpelis %i"
 
-#: ../src/tools/analysis-tools.c:199 ../src/tools/analysis-tools.c:388
+#: ../src/tools/analysis-tools.c:198 ../src/tools/analysis-tools.c:387
 #, c-format
 msgid "Bin %i"
 msgstr "Dvejetainis %i"
 
-#: ../src/tools/analysis-tools.c:203 ../src/tools/analysis-tools.c:392
+#: ../src/tools/analysis-tools.c:202 ../src/tools/analysis-tools.c:391
 #, c-format
 msgid "Area %i"
 msgstr "Laukas %i"
 
-#: ../src/tools/analysis-tools.c:432
+#: ../src/tools/analysis-tools.c:431
 #, c-format
 msgid "Variable %i"
 msgstr "Kintamasis %i"
 
-#: ../src/tools/analysis-tools.c:895
+#: ../src/tools/analysis-tools.c:894
 msgid "Correlations"
 msgstr "Koreliacijos"
 
-#: ../src/tools/analysis-tools.c:906
+#: ../src/tools/analysis-tools.c:905
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Koreliacija (%s)"
 
-#: ../src/tools/analysis-tools.c:949
+#: ../src/tools/analysis-tools.c:948
 msgid "Covariances"
 msgstr "Kovariacijos"
 
-#: ../src/tools/analysis-tools.c:960
+#: ../src/tools/analysis-tools.c:959
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Kovariacija (%s)"
@@ -8547,7 +8551,7 @@ msgstr "Kovariacija (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:1061
+#: ../src/tools/analysis-tools.c:1060
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -8555,40 +8559,40 @@ msgstr ""
 "/Vidurkis/Standartinė klaida/Mediana/Moda/Standartinis nuokrypis/Bandomoji "
 "dispersija/Ekscesas/Asimetrija/Diapazonas/Minimumas/Maksimumas/Suma/Kiekis"
 
-#: ../src/tools/analysis-tools.c:1196
+#: ../src/tools/analysis-tools.c:1195
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% vidurkio CI nuo/į"
 
-#: ../src/tools/analysis-tools.c:1324
+#: ../src/tools/analysis-tools.c:1323
 #, c-format
 msgid "Largest (%d)"
 msgstr "Didžiausias (%d)"
 
-#: ../src/tools/analysis-tools.c:1331
+#: ../src/tools/analysis-tools.c:1330
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Mažiausias (%d)"
 
-#: ../src/tools/analysis-tools.c:1348
+#: ../src/tools/analysis-tools.c:1347
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Aprašanti statistika (%s)"
 
-#: ../src/tools/analysis-tools.c:1426
+#: ../src/tools/analysis-tools.c:1425
 msgid "The requested sample size is too large for a periodic sample."
 msgstr "Reikalaujamas pavyzdžio dydis yra per didelis periodiniam pavyzdžiui."
 
-#: ../src/tools/analysis-tools.c:1473
+#: ../src/tools/analysis-tools.c:1472
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Apdorojama (%s)"
 
-#: ../src/tools/analysis-tools.c:1485 ../src/tools/analysis-tools.c:1488
+#: ../src/tools/analysis-tools.c:1484 ../src/tools/analysis-tools.c:1487
 msgid "Sample"
 msgstr "Pavyzdys"
 
-#: ../src/tools/analysis-tools.c:1526
+#: ../src/tools/analysis-tools.c:1525
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -8598,16 +8602,16 @@ msgstr ""
 "Aptiktas vidurkio skirtumas/z/P (Z<=z) vienpusis/z krtinis vienpusis/P "
 "(Z<=z) dvipusis/z kritinis dvipusis"
 
-#: ../src/tools/analysis-tools.c:1741
+#: ../src/tools/analysis-tools.c:1740
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-Testas (%s)"
 
-#: ../src/tools/analysis-tools.c:1751 ../src/tools/analysis-tools.c:1754
+#: ../src/tools/analysis-tools.c:1750 ../src/tools/analysis-tools.c:1753
 msgid "z-Test"
 msgstr "z-Testas"
 
-#: ../src/tools/analysis-tools.c:1794
+#: ../src/tools/analysis-tools.c:1793
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -8618,18 +8622,18 @@ msgstr ""
 "Stat/P (T<=t) vienpusis/t krtinis vienpusis/P (T<=t) dvipusis/t kritinis "
 "dvipusis"
 
-#: ../src/tools/analysis-tools.c:2009
+#: ../src/tools/analysis-tools.c:2008
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "t-Testas, suporuotas (%s)"
 
-#: ../src/tools/analysis-tools.c:2019 ../src/tools/analysis-tools.c:2022
-#: ../src/tools/analysis-tools.c:2360 ../src/tools/analysis-tools.c:2363
-#: ../src/tools/analysis-tools.c:2696 ../src/tools/analysis-tools.c:2699
+#: ../src/tools/analysis-tools.c:2018 ../src/tools/analysis-tools.c:2021
+#: ../src/tools/analysis-tools.c:2359 ../src/tools/analysis-tools.c:2362
+#: ../src/tools/analysis-tools.c:2695 ../src/tools/analysis-tools.c:2698
 msgid "t-Test"
 msgstr "t-Testas"
 
-#: ../src/tools/analysis-tools.c:2057
+#: ../src/tools/analysis-tools.c:2056
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -8639,12 +8643,12 @@ msgstr ""
 "skirtumas/Aptiktas vidurkio skirtumas/laisvės laipsnis/t Stat/P (T<=t) "
 "vienpusis/t kritinis vienpusis/P (T<=t) dvipusis/t kritinis dvipusis"
 
-#: ../src/tools/analysis-tools.c:2350 ../src/tools/analysis-tools.c:2686
+#: ../src/tools/analysis-tools.c:2349 ../src/tools/analysis-tools.c:2685
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-Testas (%s)"
 
-#: ../src/tools/analysis-tools.c:2395
+#: ../src/tools/analysis-tools.c:2394
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -8654,12 +8658,12 @@ msgstr ""
 "vidurkio skirtumas/laisvės laipsnis/t Stat/P (T<=t) vienpusis/t kritinis "
 "vienpusis/P (T<=t) dvipusis/t kritinis dvipusis"
 
-#: ../src/tools/analysis-tools.c:2734 ../src/tools/analysis-tools.c:3012
-#: ../src/tools/analysis-tools.c:3015
+#: ../src/tools/analysis-tools.c:2733 ../src/tools/analysis-tools.c:3011
+#: ../src/tools/analysis-tools.c:3014
 msgid "F-Test"
 msgstr "F-Testas"
 
-#: ../src/tools/analysis-tools.c:2736
+#: ../src/tools/analysis-tools.c:2735
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -8668,16 +8672,16 @@ msgstr ""
 "kritinis dešininis/P (f<=F) kairinis/F kritinis kairinis/P dvipusis/F "
 "kritinis dvipusis"
 
-#: ../src/tools/analysis-tools.c:3002
+#: ../src/tools/analysis-tools.c:3001
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-Testas (%s)"
 
-#: ../src/tools/analysis-tools.c:3089
+#: ../src/tools/analysis-tools.c:3088
 msgid "Y Variable"
 msgstr "Y Kintamasis"
 
-#: ../src/tools/analysis-tools.c:3148
+#: ../src/tools/analysis-tools.c:3147
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -8685,7 +8689,7 @@ msgstr ""
 "Per mažai duomenų taškų būtinų paskaičiuoti šią regresiją.\n"
 "Duomenų taškų kiekis turi būti ne mažesnis už laisvų kintamųjų kiekį."
 
-#: ../src/tools/analysis-tools.c:3156
+#: ../src/tools/analysis-tools.c:3155
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -8693,7 +8697,7 @@ msgstr ""
 "Du ar daugiau nepriklausomų kintamųjų yra beveik tiesiogiai\n"
 "susiję. Skaičiavimo metu prarastas skaičiavimo tikslumas."
 
-#: ../src/tools/analysis-tools.c:3164
+#: ../src/tools/analysis-tools.c:3163
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -8711,7 +8715,7 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: ../src/tools/analysis-tools.c:3191
+#: ../src/tools/analysis-tools.c:3190
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -8720,11 +8724,11 @@ msgstr ""
 "koeficientas/Patikslintas tikslumo koeficientas/Standartinė klaida/"
 "Stabėjimai//Dispersinė analizė//Regresija/Likučiai/Suma///Sankirta"
 
-#: ../src/tools/analysis-tools.c:3214
+#: ../src/tools/analysis-tools.c:3213
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/laisvės laipsnis/Kvadratų suma/Vidutinis kvadratas/F/F reikšmingumas"
 
-#: ../src/tools/analysis-tools.c:3221
+#: ../src/tools/analysis-tools.c:3220
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
@@ -8733,13 +8737,13 @@ msgstr ""
 "/Koeficientai/Standartinė klaida/t Stat/P reikšmė/Žemiau %%0.0%s%%%%/"
 "Aukščiau %%0.0%s%%%%"
 
-#: ../src/tools/analysis-tools.c:3238
+#: ../src/tools/analysis-tools.c:3237
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr "Stebėjimo absoliučios reikšmės tikimybė yra didesnė už t reikšmę"
 
-#: ../src/tools/analysis-tools.c:3346
+#: ../src/tools/analysis-tools.c:3345
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
@@ -8747,145 +8751,145 @@ msgstr ""
 "Du ar daugiau nepriklausomų kintamųjų kinta beveik tolygiai.\n"
 "Atsargiai vertinkite regresijos rezultatus!"
 
-#: ../src/tools/analysis-tools.c:3361
+#: ../src/tools/analysis-tools.c:3360
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regresija (%s)"
 
-#: ../src/tools/analysis-tools.c:3425
+#: ../src/tools/analysis-tools.c:3424
 msgid "Standard Error"
 msgstr "Įprasta Klaida"
 
-#: ../src/tools/analysis-tools.c:3487
+#: ../src/tools/analysis-tools.c:3486
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Kintamas vidurkis (%s)"
 
-#: ../src/tools/analysis-tools.c:3620
+#: ../src/tools/analysis-tools.c:3619
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Eksponentinis glotninimas (%s)"
 
-#: ../src/tools/analysis-tools.c:3688
+#: ../src/tools/analysis-tools.c:3687
 msgid "Point"
 msgstr "Taškas"
 
-#: ../src/tools/analysis-tools.c:3690
+#: ../src/tools/analysis-tools.c:3689
 msgid "Rank"
 msgstr "Rangas"
 
-#: ../src/tools/analysis-tools.c:3691
+#: ../src/tools/analysis-tools.c:3690
 msgid "Percentile"
 msgstr "Procentai"
 
-#: ../src/tools/analysis-tools.c:3751
+#: ../src/tools/analysis-tools.c:3750
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangai (%s)"
 
-#: ../src/tools/analysis-tools.c:3763 ../src/tools/analysis-tools.c:3766
+#: ../src/tools/analysis-tools.c:3762 ../src/tools/analysis-tools.c:3765
 msgid "Ranks"
 msgstr "Rangai"
 
-#: ../src/tools/analysis-tools.c:3797
+#: ../src/tools/analysis-tools.c:3796
 msgid "Anova: Single Factor"
 msgstr "Dispersinė analizė: vienas faktorius"
 
-#: ../src/tools/analysis-tools.c:3798 ../src/tools/analysis-tools.c:4454
+#: ../src/tools/analysis-tools.c:3797 ../src/tools/analysis-tools.c:4453
 #: ../src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "SANTRAUKA"
 
-#: ../src/tools/analysis-tools.c:3801
+#: ../src/tools/analysis-tools.c:3800
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupės/Kiekis/Suma/Vidurkis/Dispersija"
 
-#: ../src/tools/analysis-tools.c:3869
+#: ../src/tools/analysis-tools.c:3868
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 "/Dispersinė analizė/Dispersijos šaltinis/Tarp grupių/Grupių viduje/Suma"
 
-#: ../src/tools/analysis-tools.c:3875 ../src/tools/analysis-tools.c:4304
-#: ../src/tools/analysis-tools.c:4478
+#: ../src/tools/analysis-tools.c:3874 ../src/tools/analysis-tools.c:4303
+#: ../src/tools/analysis-tools.c:4477
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 "/Kvadratų suma/laisvės laipsnis/Vidutinio kvadratas/F/P-reikšmė/F kritinis"
 
-#: ../src/tools/analysis-tools.c:4105
+#: ../src/tools/analysis-tools.c:4104
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Vieno faktoriaus dispersinė analizė (%s)"
 
-#: ../src/tools/analysis-tools.c:4116 ../src/tools/analysis-tools.c:4785
+#: ../src/tools/analysis-tools.c:4115 ../src/tools/analysis-tools.c:4784
 msgid "Anova"
 msgstr "Dispersinė analizė"
 
-#: ../src/tools/analysis-tools.c:4119
+#: ../src/tools/analysis-tools.c:4118
 msgid "Single Factor ANOVA"
 msgstr "Vieno faktoriaus dispersinė analizė"
 
-#: ../src/tools/analysis-tools.c:4226
+#: ../src/tools/analysis-tools.c:4225
 msgid "The input range contains non-numeric data."
 msgstr "Įvedimo srityje yra ne skaitmeniniai duomenys."
 
-#: ../src/tools/analysis-tools.c:4234
+#: ../src/tools/analysis-tools.c:4233
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Dispersinė analizė: du nesusiję faktoriai"
 
-#: ../src/tools/analysis-tools.c:4235
+#: ../src/tools/analysis-tools.c:4234
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SANTRAUKA/Kiekis/Suma/Vidurkis/Dispersija"
 
-#: ../src/tools/analysis-tools.c:4298
+#: ../src/tools/analysis-tools.c:4297
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Dispersinė analizė/Dispersijų šaltinis/Eilutės/Stulpeliai/Klaida/Suma"
 
-#: ../src/tools/analysis-tools.c:4444
+#: ../src/tools/analysis-tools.c:4443
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Viena iš faktorių kombinacijų neturi jokių įvertinimų!"
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4453
+#: ../src/tools/analysis-tools.c:4452
 msgid "Anova: Two-Factor With Replication"
 msgstr "Dispersinė analizė: du susiję faktoriai"
 
-#: ../src/tools/analysis-tools.c:4460
+#: ../src/tools/analysis-tools.c:4459
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Kiekis/Suma/Vidurkis/Dispersija"
 
-#: ../src/tools/analysis-tools.c:4470
+#: ../src/tools/analysis-tools.c:4469
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 "/Dispersinė analizė/Dispersijų šaltinis/Eilutės/Stulpeliai/Saveika/Tarp"
 
-#: ../src/tools/analysis-tools.c:4769
+#: ../src/tools/analysis-tools.c:4768
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Dviejų faktorių dispersinė analizė (%s), be sąsajos"
 
-#: ../src/tools/analysis-tools.c:4770
+#: ../src/tools/analysis-tools.c:4769
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Dviejų faktorių dispersinė analizė (%s), su sąsaja"
 
-#: ../src/tools/analysis-tools.c:4788
+#: ../src/tools/analysis-tools.c:4787
 msgid "Two Factor ANOVA"
 msgstr "Dviejų faktorių dispersinė analizė"
 
-#: ../src/tools/analysis-tools.c:4877 ../src/tools/solver/reports-write.c:644
+#: ../src/tools/analysis-tools.c:4876 ../src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "Realus"
 
-#: ../src/tools/analysis-tools.c:4878
+#: ../src/tools/analysis-tools.c:4877
 msgid "Imaginary"
 msgstr "Įsivaizduojamas"
 
-#: ../src/tools/analysis-tools.c:4938
+#: ../src/tools/analysis-tools.c:4937
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Furjė eilutė (%s)"
 
-#: ../src/tools/analysis-tools.c:4950 ../src/tools/analysis-tools.c:4953
+#: ../src/tools/analysis-tools.c:4949 ../src/tools/analysis-tools.c:4952
 msgid "Fourier Series"
 msgstr "Furjė eilutė"
 
@@ -9527,7 +9531,7 @@ msgid "Expecting a single range"
 msgstr "Reikalinga tik viena sritis"
 
 #. ALSO "<control>2"
-#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2209
+#: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2200
 msgid "Bold"
 msgstr "Pastorintas"
 
@@ -9536,7 +9540,7 @@ msgid "Bold italic"
 msgstr "Pastorintas kursyvas"
 
 #. ALSO "<control>3"
-#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2212
+#: ../src/widgets/widget-font-selector.c:211 ../src/wbcg-actions.c:2203
 msgid "Italic"
 msgstr "Kursyvas"
 
@@ -9672,11 +9676,11 @@ msgstr "Įvedama „%s%s“"
 msgid "Ins/Del Column/Row"
 msgstr "Įterpti/ištrinti stulpelį/eilutę"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3818
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3822
 msgid "Delete Columns"
 msgstr "Ištrinti stulpelius"
 
-#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3958
+#: ../src/commands.c:1385 ../src/commands.c:1390 ../src/sheet.c:3962
 msgid "Delete Rows"
 msgstr "Ištrinti eilutes"
 
@@ -9721,7 +9725,7 @@ msgid "Deleting row %s"
 msgstr "Trinama eilutė %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3475
+#: ../src/commands.c:1649 ../src/commands.c:1653 ../src/sheet.c:3479
 msgid "Clear"
 msgstr "Išvalyti"
 
@@ -9918,7 +9922,7 @@ msgstr "Įterpiama į %s"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3138 ../src/commands.c:3293 ../src/commands.c:3294
-#: ../src/item-cursor.c:1252 ../src/wbcg-actions.c:484
+#: ../src/item-cursor.c:1252 ../src/wbcg-actions.c:475
 msgid "Autofill"
 msgstr "Autoužpildymas"
 
@@ -10366,7 +10370,7 @@ msgstr "atmintinė"
 msgid "Automatically detected"
 msgstr "Automatiškai nustatyta"
 
-#: ../src/gui-file.c:180
+#: ../src/gui-file.c:183
 #: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
@@ -10728,68 +10732,100 @@ msgstr "Klaidinga formulė"
 msgid "Unexpected token %c"
 msgstr "Netikėta žymė %c"
 
-#: ../src/print.c:1068
-msgid "Print Region"
-msgstr "Spausdinama Ssitis"
+#: ../src/print.c:1033
+#, fuzzy
+msgid "Print Selection"
+msgstr "_Tilpti pasirinkime"
 
-#: ../src/print.c:1185 ../src/wbcg-actions.c:1587
-msgid "Print preview"
-msgstr "Spaudinio peržiūra"
+#: ../src/print.c:1263
+msgid "_All workbook sheets"
+msgstr ""
 
-#: ../src/print.c:1197
-msgid "Printing failed"
-msgstr "Nepavyko atspausdinti"
+#: ../src/print.c:1268
+#, fuzzy
+msgid "A_ctive workbook sheet"
+msgstr "Aktyv_i lentelė"
 
-#: ../src/print-info.c:155 ../src/print-info.c:158 ../src/print-info.c:159
-#: ../src/print-info.c:272
+#: ../src/print.c:1273
+#, fuzzy
+msgid "_Workbook sheets:"
+msgstr "Darbo lentelė:"
+
+#: ../src/print.c:1278
+#, fuzzy
+msgid "Current _selection only"
+msgstr "Stulpelių pasirinkimas"
+
+#: ../src/print.c:1283
+#, fuzzy
+msgid "_Ignore defined print area"
+msgstr "Pašalinti spausdinimo sritį"
+
+#: ../src/print.c:1287
+#, fuzzy
+msgid "from:"
+msgstr "Apriboti:"
+
+#: ../src/print.c:1295
+#, fuzzy
+msgid "to:"
+msgstr "Autorius:"
+
+#: ../src/print.c:1468
+#, fuzzy
+msgid "Gnumeric Print Range"
+msgstr "Gnumeric Python terminalas"
+
+#: ../src/print-info.c:151 ../src/print-info.c:154 ../src/print-info.c:155
+#: ../src/print-info.c:264
 msgid "Page &[PAGE]"
 msgstr "Puslapis &[PAGE]"
 
-#: ../src/print-info.c:156 ../src/print-info.c:161
+#: ../src/print-info.c:152 ../src/print-info.c:157
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Puslapis &[PAGE] iš &[PAGES]"
 
-#: ../src/print-info.c:157 ../src/print-info.c:158 ../src/print-info.c:159
-#: ../src/print-info.c:161 ../src/print-info.c:266
+#: ../src/print-info.c:153 ../src/print-info.c:154 ../src/print-info.c:155
+#: ../src/print-info.c:157 ../src/print-info.c:258
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: ../src/print-info.c:159 ../src/print-info.c:160 ../src/print-info.c:161
+#: ../src/print-info.c:155 ../src/print-info.c:156 ../src/print-info.c:157
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: ../src/print-info.c:469
+#: ../src/print-info.c:481
 msgid "File Name"
 msgstr "Bylos vardas"
 
-#: ../src/print-info.c:481
+#: ../src/print-info.c:493
 msgid "Path "
 msgstr "Kelias"
 
-#: ../src/print-info.c:489
+#: ../src/print-info.c:501
 msgid "tab"
 msgstr "kortelė"
 
-#: ../src/print-info.c:490
+#: ../src/print-info.c:502
 msgid "page"
 msgstr "puslapis"
 
-#: ../src/print-info.c:491
+#: ../src/print-info.c:503
 msgid "pages"
 msgstr "puslapiai"
 
-#: ../src/print-info.c:494
+#: ../src/print-info.c:506
 msgid "file"
 msgstr "byla"
 
-#: ../src/print-info.c:495
+#: ../src/print-info.c:507
 msgid "path"
 msgstr "kelias"
 
 #. Actually we can get slightly more than max_width here.
 #. * But max_width was computed as an estimate, anyway, so we don't care.
 #.
-#: ../src/ranges.c:976
+#: ../src/ranges.c:995
 msgid "..."
 msgstr "..."
 
@@ -10801,83 +10837,83 @@ msgstr "Nurodykite paieškos sritį."
 msgid "The search range is invalid."
 msgstr "Klaidinga paieškos sritis."
 
-#: ../src/search.c:535
+#: ../src/search.c:548
 msgid "Search Strings"
 msgstr "Paieškos eilutės"
 
-#: ../src/search.c:536
+#: ../src/search.c:549
 msgid "Should strings be searched?"
 msgstr "Ar ieškoti tik tekstų?"
 
-#: ../src/search.c:544
+#: ../src/search.c:557
 msgid "Search Other Values"
 msgstr "Kitos paieškos reikšmės"
 
-#: ../src/search.c:545
+#: ../src/search.c:558
 msgid "Should non-strings be searched?"
 msgstr "Ar ieškoti tarp ne tekstinių reikšmių?"
 
-#: ../src/search.c:553
+#: ../src/search.c:566
 msgid "Search Expressions"
 msgstr "Paieškos išraiškos"
 
-#: ../src/search.c:554
+#: ../src/search.c:567
 msgid "Should expressions be searched?"
 msgstr "Ar ieškoti formulėse?"
 
-#: ../src/search.c:562
+#: ../src/search.c:575
 msgid "Search Expression Results"
 msgstr "Paieškos išraiškos rezultatai"
 
-#: ../src/search.c:563
+#: ../src/search.c:576
 msgid "Should the results of expressions be searched?"
 msgstr "Ar ieškoti formulių rezultatuose?"
 
-#: ../src/search.c:571
+#: ../src/search.c:584
 msgid "Search Comments"
 msgstr "Paieškos komentarai"
 
-#: ../src/search.c:572
+#: ../src/search.c:585
 msgid "Should cell comments be searched?"
 msgstr "Ar ieškoti laukelių komentaruose?"
 
-#: ../src/search.c:580
+#: ../src/search.c:593
 msgid "By Row"
 msgstr "Eilutėmi"
 
-#: ../src/search.c:581
+#: ../src/search.c:594
 msgid "Is the search order by row?"
 msgstr "Ar rūšiuoti paiešką eilutėmis?"
 
-#: ../src/search.c:589
+#: ../src/search.c:602
 msgid "Query"
 msgstr "Užklausa"
 
-#: ../src/search.c:590
+#: ../src/search.c:603
 msgid "Should we query for each replacement?"
 msgstr "Ar klausti patvirtinimo kiekvieno pakeitimo metu?"
 
-#: ../src/search.c:598
+#: ../src/search.c:611
 msgid "Keep Strings"
 msgstr "Išsaugoti tekstą"
 
-#: ../src/search.c:599
+#: ../src/search.c:612
 msgid "Should replacement keep strings as strings?"
 msgstr "Ar pakeitimo metu turi būti išsaugotas tekstinis formatas?"
 
-#: ../src/search.c:608
+#: ../src/search.c:621
 msgid "The sheet in which to search."
 msgstr "Lentelė, kurioje vykdoma paieška."
 
-#: ../src/search.c:617
+#: ../src/search.c:630
 msgid "Where to search."
 msgstr "Kur ieškoti."
 
-#: ../src/search.c:626
+#: ../src/search.c:639
 msgid "Range as Text"
 msgstr "Tekstinis diapazonas"
 
-#: ../src/search.c:627
+#: ../src/search.c:640
 msgid "The range in which to search."
 msgstr "Paieškos diapazonas."
 
@@ -11050,23 +11086,23 @@ msgstr "Mąstelis"
 msgid "The level of zoom used for this sheet."
 msgstr "Lentelėje naudojamas mastelis."
 
-#: ../src/sheet.c:2531
+#: ../src/sheet.c:2535
 msgid "Target region contains merged cells"
 msgstr "Tikslinėje srityje yra sujungtų laukų"
 
-#: ../src/sheet.c:2592
+#: ../src/sheet.c:2596
 msgid "cannot operate on merged cells"
 msgstr "negalima vykdyti veiksmų su sujungtais laukais"
 
-#: ../src/sheet.c:2602
+#: ../src/sheet.c:2606
 msgid "cannot operate on array formulae"
 msgstr "negalima vykdyti veiksmų su masyvo formule"
 
-#: ../src/sheet.c:3747
+#: ../src/sheet.c:3751
 msgid "Insert Columns"
 msgstr "Įterpti Stulpelius"
 
-#: ../src/sheet.c:3890
+#: ../src/sheet.c:3894
 msgid "Insert Rows"
 msgstr "Įterpti eilutes"
 
@@ -11131,12 +11167,12 @@ msgid "Column _Width..."
 msgstr "Stulpelio _plotis..."
 
 #: ../src/sheet-control-gui.c:1815 ../src/sheet-control-gui.c:1823
-#: ../src/wbcg-actions.c:1819 ../src/wbcg-actions.c:1836
+#: ../src/wbcg-actions.c:1810 ../src/wbcg-actions.c:1827
 msgid "_Hide"
 msgstr "_Slėpti"
 
 #: ../src/sheet-control-gui.c:1817 ../src/sheet-control-gui.c:1825
-#: ../src/wbcg-actions.c:1822 ../src/wbcg-actions.c:1839
+#: ../src/wbcg-actions.c:1813 ../src/wbcg-actions.c:1830
 msgid "_Unhide"
 msgstr "_Rodyti paslėptas"
 
@@ -11175,7 +11211,7 @@ msgid "Resize Object"
 msgstr "Keisti objekto dydį"
 
 #. Format toolbar
-#: ../src/sheet-merge.c:73 ../src/wbcg-actions.c:2051
+#: ../src/sheet-merge.c:73 ../src/wbcg-actions.c:2042
 msgid "Merge"
 msgstr "Sujungti"
 
@@ -11208,15 +11244,15 @@ msgstr "Perstumti _atgal"
 msgid "Pus_h to Back"
 msgstr "Perstumti į _galą"
 
-#: ../src/sheet-object-graph.c:251 ../src/sheet-object-image.c:411
+#: ../src/sheet-object-graph.c:247 ../src/sheet-object-image.c:411
 msgid "Unknown failure while saving image"
 msgstr "Nežinoma klaida įrašant paveikslėlį"
 
-#: ../src/sheet-object-graph.c:335
+#: ../src/sheet-object-graph.c:331
 msgid "_Save as Image"
 msgstr "Iš_saugoti kaip paveikslėlį"
 
-#: ../src/sheet-object-graph.c:336
+#: ../src/sheet-object-graph.c:332
 msgid "Open in _New Window"
 msgstr "Atverti _naujame lange"
 
@@ -11224,11 +11260,11 @@ msgstr "Atverti _naujame lange"
 msgid "_Save as image"
 msgstr "Iš_saugoti kaip paveikslėlį"
 
-#: ../src/sheet-object-widget.c:281 ../src/wbcg-actions.c:2010
+#: ../src/sheet-object-widget.c:281 ../src/wbcg-actions.c:2001
 msgid "Frame"
 msgstr "Rėmelis"
 
-#: ../src/sheet-object-widget.c:516 ../src/wbcg-actions.c:2043
+#: ../src/sheet-object-widget.c:516 ../src/wbcg-actions.c:2034
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Mygtukas"
@@ -11248,7 +11284,7 @@ msgstr "ŽymimasisLangelis %d"
 msgid "Clicking checkbox"
 msgstr "Paspaudus akutę"
 
-#: ../src/sheet-object-widget.c:1867 ../src/wbcg-actions.c:2046
+#: ../src/sheet-object-widget.c:1867 ../src/wbcg-actions.c:2037
 msgid "RadioButton"
 msgstr "ŽymimojiAkutė"
 
@@ -11514,46 +11550,46 @@ msgstr ""
 "Duomenys turi daugiau stulpelių nei leidžia lentelė. Papildomi stulpeliai "
 "bus neįkelti."
 
-#: ../src/validation.c:253
+#: ../src/validation.c:252
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: tikrinimas"
 
-#: ../src/validation.c:310
+#: ../src/validation.c:309
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Laukelis %s negali būti tuščias"
 
-#: ../src/validation.c:318
+#: ../src/validation.c:317
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Laukelis %s negali saugoti klaidų reikšmių"
 
-#: ../src/validation.c:329
+#: ../src/validation.c:328
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Laukelis %s negali saugoti tekstinių reikšmių"
 
-#: ../src/validation.c:345
+#: ../src/validation.c:344
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' nėra sveikas skaičius"
 
-#: ../src/validation.c:355
+#: ../src/validation.c:354
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "'%s' nėra data"
 
-#: ../src/validation.c:377
+#: ../src/validation.c:376
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s nėra naujos reikšmės."
 
-#: ../src/validation.c:411
+#: ../src/validation.c:410
 #, c-format
 msgid "%s is not true."
 msgstr "%s nėra teigiamas."
 
-#: ../src/validation.c:448
+#: ../src/validation.c:447
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s viršija leistinas ribas"
@@ -11587,20 +11623,20 @@ msgid "#N/A"
 msgstr "#N/A"
 
 #. File->PrintArea
-#: ../src/wbcg-actions.c:114 ../src/wbcg-actions.c:1600
+#: ../src/wbcg-actions.c:109 ../src/wbcg-actions.c:1591
 msgid "Set Print Area"
 msgstr "Nustatyti spausdinimo sritį"
 
-#: ../src/wbcg-actions.c:118
+#: ../src/wbcg-actions.c:113
 #, c-format
 msgid "Set Print Area to %s"
 msgstr "Nustatyti spausdinimo sritį į %s"
 
-#: ../src/wbcg-actions.c:138 ../src/wbcg-actions.c:1603
+#: ../src/wbcg-actions.c:133 ../src/wbcg-actions.c:1594
 msgid "Clear Print Area"
 msgstr "Atšaukti spausdinimo sritį"
 
-#: ../src/wbcg-actions.c:404
+#: ../src/wbcg-actions.c:395
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -11619,7 +11655,7 @@ msgstr ""
 "\n"
 "Pakeitimo operacija nutraukta ir niekas nepakeista."
 
-#: ../src/wbcg-actions.c:442
+#: ../src/wbcg-actions.c:433
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Komentaras laukelyje %s!%s"
@@ -11628,857 +11664,861 @@ msgstr "Komentaras laukelyje %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: ../src/wbcg-actions.c:698
+#: ../src/wbcg-actions.c:689
 msgid "Insert rows"
 msgstr "Įterpti eilutes"
 
-#: ../src/wbcg-actions.c:715
+#: ../src/wbcg-actions.c:706
 msgid "Insert columns"
 msgstr "Įterpti stulpelius"
 
-#: ../src/wbcg-actions.c:792
+#: ../src/wbcg-actions.c:783
 msgid "Add Filter"
 msgstr "Pridėti filtrą"
 
-#: ../src/wbcg-actions.c:804
+#: ../src/wbcg-actions.c:795
 msgid "AutoFilter"
 msgstr "AutoFiltras"
 
-#: ../src/wbcg-actions.c:804
+#: ../src/wbcg-actions.c:795
 msgid "Requires more than 1 row"
 msgstr "Reikia daugiau nei vienos eilutės"
 
-#: ../src/wbcg-actions.c:835 ../src/wbcg-actions.c:854
+#: ../src/wbcg-actions.c:826 ../src/wbcg-actions.c:845
 msgid "Show Detail"
 msgstr "Rodyti detales"
 
-#: ../src/wbcg-actions.c:835 ../src/wbcg-actions.c:854
+#: ../src/wbcg-actions.c:826 ../src/wbcg-actions.c:845
 msgid "Hide Detail"
 msgstr "Slėpti detales"
 
-#: ../src/wbcg-actions.c:842
+#: ../src/wbcg-actions.c:833
 msgid "can only be performed on an existing group"
 msgstr "galima tai padaryti tik su egzistuojančia grupe"
 
-#: ../src/wbcg-actions.c:882
+#: ../src/wbcg-actions.c:873
 msgid "Group"
 msgstr "Grupė"
 
-#: ../src/wbcg-actions.c:882
+#: ../src/wbcg-actions.c:873
 msgid "Ungroup"
 msgstr "Išgrupuoti"
 
-#: ../src/wbcg-actions.c:1026
+#: ../src/wbcg-actions.c:1017
 msgid "Sort"
 msgstr "Rikiuoti"
 
-#: ../src/wbcg-actions.c:1151
+#: ../src/wbcg-actions.c:1142
 msgid "Set Horizontal Alignment"
 msgstr "Nustatyti horizontalų lygiavimą"
 
-#: ../src/wbcg-actions.c:1184
+#: ../src/wbcg-actions.c:1175
 msgid "Set Vertical Alignment"
 msgstr "Nustatyti vertikalų lygiavimą"
 
-#: ../src/wbcg-actions.c:1277
+#: ../src/wbcg-actions.c:1268
 msgid "Set Font Style"
 msgstr "Nustatyti šrifto stilių"
 
-#: ../src/wbcg-actions.c:1309
+#: ../src/wbcg-actions.c:1300
 msgid "Format as General"
 msgstr "Formatuoti bendriniu formatu"
 
-#: ../src/wbcg-actions.c:1315
+#: ../src/wbcg-actions.c:1306
 msgid "Format as Number"
 msgstr "Formatuoti kaip skaičius"
 
-#: ../src/wbcg-actions.c:1322
+#: ../src/wbcg-actions.c:1313
 msgid "Format as Currency"
 msgstr "Formatuoti kaip pinigus"
 
-#: ../src/wbcg-actions.c:1329
+#: ../src/wbcg-actions.c:1320
 msgid "Format as Accounting"
 msgstr "Formatuoti apskaitai"
 
-#: ../src/wbcg-actions.c:1336 ../src/wbcg-actions.c:1343
+#: ../src/wbcg-actions.c:1327 ../src/wbcg-actions.c:1334
 msgid "Format as Percentage"
 msgstr "Formatuoti kaip procentus"
 
-#: ../src/wbcg-actions.c:1351
+#: ../src/wbcg-actions.c:1342
 msgid "Format as Time"
 msgstr "Formatuoti kaip laiką"
 
-#: ../src/wbcg-actions.c:1358
+#: ../src/wbcg-actions.c:1349
 msgid "Format as Date"
 msgstr "Formatuoti kaip datą"
 
-#: ../src/wbcg-actions.c:1382
+#: ../src/wbcg-actions.c:1373
 msgid "Add Borders"
 msgstr "Pridėti rėmelius"
 
-#: ../src/wbcg-actions.c:1382
+#: ../src/wbcg-actions.c:1373
 msgid "Remove borders"
 msgstr "Pašalinti rėmelius"
 
-#: ../src/wbcg-actions.c:1411
+#: ../src/wbcg-actions.c:1402
 msgid "Increase precision"
 msgstr "Didinti tikslumą"
 
-#: ../src/wbcg-actions.c:1413
+#: ../src/wbcg-actions.c:1404
 msgid "Decrease precision"
 msgstr "Sumažinti tikslumą"
 
-#: ../src/wbcg-actions.c:1415
+#: ../src/wbcg-actions.c:1406
 msgid "Toggle thousands separator"
 msgstr "Perjungti tūkstančių skirtuką"
 
-#: ../src/wbcg-actions.c:1423
+#: ../src/wbcg-actions.c:1414
 msgid "Copy down"
 msgstr "Kopijuoti žemyn"
 
-#: ../src/wbcg-actions.c:1429
+#: ../src/wbcg-actions.c:1420
 msgid "Copy right"
 msgstr "Kopijuoti dešinėn"
 
-#: ../src/wbcg-actions.c:1480
+#: ../src/wbcg-actions.c:1471
 msgid "_File"
 msgstr "_Byla"
 
-#: ../src/wbcg-actions.c:1481
+#: ../src/wbcg-actions.c:1472
 msgid "Print Area"
 msgstr "Spausdinimo sritis"
 
-#: ../src/wbcg-actions.c:1482
+#: ../src/wbcg-actions.c:1473
 msgid "_Edit"
 msgstr "_Keisti"
 
-#: ../src/wbcg-actions.c:1483
+#: ../src/wbcg-actions.c:1474
 msgid "C_lear"
 msgstr "Iš_valyti"
 
-#: ../src/wbcg-actions.c:1484
+#: ../src/wbcg-actions.c:1475
 msgid "_Delete"
 msgstr "_Trinti"
 
-#: ../src/wbcg-actions.c:1485
+#: ../src/wbcg-actions.c:1476
 msgid "S_heet"
 msgstr "Le_ntelė"
 
-#: ../src/wbcg-actions.c:1486
+#: ../src/wbcg-actions.c:1477
 msgid "_Select"
 msgstr "_Pasirinkti"
 
-#: ../src/wbcg-actions.c:1487
+#: ../src/wbcg-actions.c:1478
 msgid "F_ill"
 msgstr "U_žpildyti"
 
-#: ../src/wbcg-actions.c:1488
+#: ../src/wbcg-actions.c:1479
 msgid "_View"
 msgstr "_Rodyti"
 
-#: ../src/wbcg-actions.c:1489
+#: ../src/wbcg-actions.c:1480
 msgid "_Windows"
 msgstr "_Langai"
 
-#: ../src/wbcg-actions.c:1490
+#: ../src/wbcg-actions.c:1481
 msgid "_Toolbars"
 msgstr "Įran_kių juostos"
 
-#: ../src/wbcg-actions.c:1492
+#: ../src/wbcg-actions.c:1483
 msgid "_Names"
 msgstr "_Vardai"
 
-#: ../src/wbcg-actions.c:1493
+#: ../src/wbcg-actions.c:1484
 msgid "S_pecial"
 msgstr "Spe_cialus"
 
-#: ../src/wbcg-actions.c:1494
+#: ../src/wbcg-actions.c:1485
 msgid "F_ormat"
 msgstr "F_ormatas"
 
-#: ../src/wbcg-actions.c:1495
+#: ../src/wbcg-actions.c:1486
 msgid "C_olumn"
 msgstr "_Stulpelis"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: ../src/wbcg-actions.c:1497 ../src/wbcg-actions.c:1692
+#: ../src/wbcg-actions.c:1488 ../src/wbcg-actions.c:1683
 msgid "_Sheet"
 msgstr "Le_ntelė"
 
-#: ../src/wbcg-actions.c:1498
+#: ../src/wbcg-actions.c:1489
 msgid "_Tools"
 msgstr "_Įrankiai"
 
-#: ../src/wbcg-actions.c:1499
+#: ../src/wbcg-actions.c:1490
 msgid "Sce_narios"
 msgstr "Sce_narijai"
 
-#: ../src/wbcg-actions.c:1500
+#: ../src/wbcg-actions.c:1491
 msgid "Statistical Anal_ysis"
 msgstr "Statistinė anal_izė"
 
-#: ../src/wbcg-actions.c:1501
+#: ../src/wbcg-actions.c:1492
 msgid "_ANOVA"
 msgstr "_Dispersinė analizė"
 
-#: ../src/wbcg-actions.c:1502
+#: ../src/wbcg-actions.c:1493
 msgid "F_orecast"
 msgstr "_Prognozė"
 
-#: ../src/wbcg-actions.c:1503
+#: ../src/wbcg-actions.c:1494
 msgid "Two _Means"
 msgstr "Du _vidurkiai"
 
-#: ../src/wbcg-actions.c:1505
+#: ../src/wbcg-actions.c:1496
 msgid "_Filter"
 msgstr "_Filtras"
 
-#: ../src/wbcg-actions.c:1506
+#: ../src/wbcg-actions.c:1497
 msgid "_Group and Outline"
 msgstr "_Grupuoti ir išskirti"
 
-#: ../src/wbcg-actions.c:1507
+#: ../src/wbcg-actions.c:1498
 msgid "Get External _Data"
 msgstr "Gauti išorinius _duomenis"
 
-#: ../src/wbcg-actions.c:1508
+#: ../src/wbcg-actions.c:1499
 msgid "_Help"
 msgstr "_Pagalba"
 
-#: ../src/wbcg-actions.c:1511
+#: ../src/wbcg-actions.c:1502
 msgid "Save the current workbook"
 msgstr "Išsaugoti esamą darbo knygą"
 
-#: ../src/wbcg-actions.c:1514
+#: ../src/wbcg-actions.c:1505
 msgid "Save the current workbook with a different name"
 msgstr "Išsaugoti esamą darbo knygą kitu vardu"
 
-#: ../src/wbcg-actions.c:1517
+#: ../src/wbcg-actions.c:1508
 msgid "Close the current file"
 msgstr "Užverti esamąją bylą"
 
-#: ../src/wbcg-actions.c:1520
+#: ../src/wbcg-actions.c:1511
 msgid "Quit the application"
 msgstr "Išeiti iš programos"
 
-#: ../src/wbcg-actions.c:1524
+#: ../src/wbcg-actions.c:1515
 msgid "Cut the selection"
 msgstr "Iškirpti pažymėjimą"
 
-#: ../src/wbcg-actions.c:1527
+#: ../src/wbcg-actions.c:1518
 msgid "Copy the selection"
 msgstr "Kopijuoti pažymėjimą"
 
-#: ../src/wbcg-actions.c:1530
+#: ../src/wbcg-actions.c:1521
 msgid "Paste the clipboard"
 msgstr "Įkelti iš atmintinės"
 
-#: ../src/wbcg-actions.c:1532 ../src/workbook-control-gui.c:1197
+#: ../src/wbcg-actions.c:1523 ../src/workbook-control-gui.c:1197
 msgid "_Undo"
 msgstr "_Atšaukti"
 
-#: ../src/wbcg-actions.c:1533 ../src/wbc-gtk.c:516
+#: ../src/wbcg-actions.c:1524 ../src/wbc-gtk.c:517
 msgid "Undo the last action"
 msgstr "Atšaukti paskutinį veiksmą"
 
-#: ../src/wbcg-actions.c:1535 ../src/workbook-control-gui.c:1198
+#: ../src/wbcg-actions.c:1526 ../src/workbook-control-gui.c:1198
 msgid "_Redo"
 msgstr "Paka_rtoti"
 
-#: ../src/wbcg-actions.c:1536 ../src/wbc-gtk.c:528
+#: ../src/wbcg-actions.c:1527 ../src/wbc-gtk.c:529
 msgid "Redo the undone action"
 msgstr "Pakartoti atšauktą veiksmą"
 
-#: ../src/wbcg-actions.c:1539 ../src/wbcg-actions.c:1620
+#: ../src/wbcg-actions.c:1530 ../src/wbcg-actions.c:1611
 msgid "_Contents"
 msgstr "_Turinys"
 
-#: ../src/wbcg-actions.c:1540
+#: ../src/wbcg-actions.c:1531
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Paleisti Gnumeric dokumentacijos peržiūros programą."
 
-#: ../src/wbcg-actions.c:1542
+#: ../src/wbcg-actions.c:1533
 msgid "Gnumeric on the _Web"
 msgstr "_Gnumeric tinklalapis"
 
-#: ../src/wbcg-actions.c:1543
+#: ../src/wbcg-actions.c:1534
 msgid "Browse to Gnumeric's website"
 msgstr "Apsilankyti Gnumeric svetainėje"
 
-#: ../src/wbcg-actions.c:1545
+#: ../src/wbcg-actions.c:1536
 msgid "_Live Assistance"
 msgstr "_Interaktyvi pagalba"
 
-#: ../src/wbcg-actions.c:1546
+#: ../src/wbcg-actions.c:1537
 msgid "See if anyone is available to answer questions"
 msgstr "Patikrinti, ar kas nors gali atsakyti į klausimus"
 
-#: ../src/wbcg-actions.c:1548
+#: ../src/wbcg-actions.c:1539
 msgid "Report a _Problem"
 msgstr "_Pranešti apie problemą"
 
-#: ../src/wbcg-actions.c:1549
+#: ../src/wbcg-actions.c:1540
 msgid "Report problem "
 msgstr "Pranešti apie problemą "
 
-#: ../src/wbcg-actions.c:1551
+#: ../src/wbcg-actions.c:1542
 msgid "_About"
 msgstr "_Apie"
 
-#: ../src/wbcg-actions.c:1552
+#: ../src/wbcg-actions.c:1543
 msgid "About this application"
 msgstr "Apie šią programą"
 
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: ../src/wbcg-actions.c:1557
+#: ../src/wbcg-actions.c:1548
 msgid "Repeat"
 msgstr "Kartoti"
 
-#: ../src/wbcg-actions.c:1558
+#: ../src/wbcg-actions.c:1549
 msgid "Repeat the previous action"
 msgstr "Pakartoti ankstesnį veiksmą"
 
-#: ../src/wbcg-actions.c:1575
+#: ../src/wbcg-actions.c:1566
 msgid "Create a new workbook"
 msgstr "Sukurti naują darbo knygą"
 
-#: ../src/wbcg-actions.c:1578
+#: ../src/wbcg-actions.c:1569
 msgid "Open a file"
 msgstr "Atverti bylą"
 
-#: ../src/wbcg-actions.c:1580
+#: ../src/wbcg-actions.c:1571
 msgid "Sen_d To..."
 msgstr "S_iųsti ..."
 
-#: ../src/wbcg-actions.c:1581
+#: ../src/wbcg-actions.c:1572
 msgid "Send the current file via email"
 msgstr "Išsiųsti esamą bylą elektroninio paštu"
 
-#: ../src/wbcg-actions.c:1583
+#: ../src/wbcg-actions.c:1574
 msgid "Page Set_up..."
 msgstr "Pus_lapio nuostatos..."
 
-#: ../src/wbcg-actions.c:1584
+#: ../src/wbcg-actions.c:1575
 msgid "Setup the page settings for your current printer"
 msgstr "Nustato puslapio savybes naudojamam spausdintuvui"
 
-#: ../src/wbcg-actions.c:1590
+#: ../src/wbcg-actions.c:1578
+msgid "Print preview"
+msgstr "Spaudinio peržiūra"
+
+#: ../src/wbcg-actions.c:1581
 msgid "Print the current file"
 msgstr "Spausdinti esamąją bylą"
 
-#: ../src/wbcg-actions.c:1592
+#: ../src/wbcg-actions.c:1583
 msgid "Proper_ties..."
 msgstr "Sav_ybės..."
 
-#: ../src/wbcg-actions.c:1593
+#: ../src/wbcg-actions.c:1584
 msgid "Edit descriptive information"
 msgstr "Keisti aprašymo informaciją"
 
-#: ../src/wbcg-actions.c:1595
+#: ../src/wbcg-actions.c:1586
 msgid "Pre_ferences..."
 msgstr "Nustaty_mai..."
 
-#: ../src/wbcg-actions.c:1596
+#: ../src/wbcg-actions.c:1587
 msgid "Change Gnumeric Preferences"
 msgstr "Keisti Gnumeric nuostatas"
 
-#: ../src/wbcg-actions.c:1601
+#: ../src/wbcg-actions.c:1592
 msgid "Use the current selection as print area"
 msgstr "Naudoti pasirinktus laukus kaip spausdinimo sritį"
 
-#: ../src/wbcg-actions.c:1604
+#: ../src/wbcg-actions.c:1595
 msgid "Undefine the print area"
 msgstr "Pašalinti spausdinimo sritį"
 
-#: ../src/wbcg-actions.c:1606
+#: ../src/wbcg-actions.c:1597
 msgid "Show Print Area"
 msgstr "Rodyti spausdinimo sritį"
 
-#: ../src/wbcg-actions.c:1607
+#: ../src/wbcg-actions.c:1598
 msgid "Select the print area"
 msgstr "Pasirinkti spausdinimo sritį"
 
-#: ../src/wbcg-actions.c:1612
+#: ../src/wbcg-actions.c:1603
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Išvalyti pasirinktų laukelių formatus, komentarus ir turinį"
 
-#: ../src/wbcg-actions.c:1615
+#: ../src/wbcg-actions.c:1606
 msgid "Clear the selected cells' formats"
 msgstr "Išvalyti pasirinktų laukelių formatus"
 
-#: ../src/wbcg-actions.c:1618
+#: ../src/wbcg-actions.c:1609
 msgid "Clear the selected cells' comments"
 msgstr "Išvalyti pasirinktų laukelių komentarus"
 
-#: ../src/wbcg-actions.c:1621
+#: ../src/wbcg-actions.c:1612
 msgid "Clear the selected cells' contents"
 msgstr "Išvalyti pasirinktų laukelių turinį"
 
-#: ../src/wbcg-actions.c:1626
+#: ../src/wbcg-actions.c:1617
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Ištrinti eilutę(es) su nurodytu laukeliu(iais)"
 
-#: ../src/wbcg-actions.c:1629
+#: ../src/wbcg-actions.c:1620
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Ištrinti stulpelį(ius) su nurodytu laukeliu(iais)"
 
 #. Insert
-#: ../src/wbcg-actions.c:1631 ../src/wbcg-actions.c:1752
+#: ../src/wbcg-actions.c:1622 ../src/wbcg-actions.c:1743
 msgid "C_ells..."
 msgstr "_Laukeliai..."
 
-#: ../src/wbcg-actions.c:1632
+#: ../src/wbcg-actions.c:1623
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Ištrinti pasirinktus laukelius, perkeliant kitus į jų vietą"
 
-#: ../src/wbcg-actions.c:1644 ../src/wbcg-actions.c:1648
+#: ../src/wbcg-actions.c:1635 ../src/wbcg-actions.c:1639
 msgid "Select all cells in the spreadsheet"
 msgstr "Pažymėti visus lentelės laukelius"
 
-#: ../src/wbcg-actions.c:1650
+#: ../src/wbcg-actions.c:1641
 msgid "Select _Column"
 msgstr "Pažymėti _stulpelį"
 
-#: ../src/wbcg-actions.c:1651
+#: ../src/wbcg-actions.c:1642
 msgid "Select an entire column"
 msgstr "Pažymėti visą stulpelį"
 
-#: ../src/wbcg-actions.c:1653
+#: ../src/wbcg-actions.c:1644
 msgid "Select _Row"
 msgstr "Pažymėti _eilutę"
 
-#: ../src/wbcg-actions.c:1654
+#: ../src/wbcg-actions.c:1645
 msgid "Select an entire row"
 msgstr "Pažymėti visą eilutę"
 
-#: ../src/wbcg-actions.c:1657
+#: ../src/wbcg-actions.c:1648
 msgid "Select Arra_y"
 msgstr "Pažymėti mas_yvą"
 
-#: ../src/wbcg-actions.c:1658
+#: ../src/wbcg-actions.c:1649
 msgid "Select an array of cells"
 msgstr "Pažymėti laukelių masyvą"
 
-#: ../src/wbcg-actions.c:1660
+#: ../src/wbcg-actions.c:1651
 msgid "Select _Depends"
 msgstr "Parinkti _priklausomus"
 
-#: ../src/wbcg-actions.c:1661
+#: ../src/wbcg-actions.c:1652
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Pasirinkti visus laukus, kurie priklauso nuo dabar keičiamo laukelio"
 
-#: ../src/wbcg-actions.c:1663
+#: ../src/wbcg-actions.c:1654
 msgid "Select _Inputs"
 msgstr "Parinkti į_vestis"
 
-#: ../src/wbcg-actions.c:1664
+#: ../src/wbcg-actions.c:1655
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Pasirinkti visus laukelius naudojamas dabar keičiamo laukelio"
 
 #. Edit -> Fill
-#: ../src/wbcg-actions.c:1668
+#: ../src/wbcg-actions.c:1659
 msgid "Auto_fill"
 msgstr "Auto_pildymas"
 
-#: ../src/wbcg-actions.c:1669
+#: ../src/wbcg-actions.c:1660
 msgid "Automatically fill the current selection"
 msgstr "Automatiškai užpildyti pažymėtą sritį"
 
-#: ../src/wbcg-actions.c:1671
+#: ../src/wbcg-actions.c:1662
 msgid "_Merge..."
 msgstr "Su_lieti..."
 
-#: ../src/wbcg-actions.c:1672
+#: ../src/wbcg-actions.c:1663
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Perkelia stulpelių duomenys į lentelę ir sukuria kiekvieną eilutę "
 "atitinkančias lenteles."
 
-#: ../src/wbcg-actions.c:1674
+#: ../src/wbcg-actions.c:1665
 msgid "_Tabulate Dependency..."
 msgstr "_Tabuliacijos priklausomybė..."
 
-#: ../src/wbcg-actions.c:1675
+#: ../src/wbcg-actions.c:1666
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Naudoti laukelio reikšmę kaip kitų laukelių funkciją"
 
-#: ../src/wbcg-actions.c:1677
+#: ../src/wbcg-actions.c:1668
 msgid "_Series..."
 msgstr "_Serijos..."
 
-#: ../src/wbcg-actions.c:1678
+#: ../src/wbcg-actions.c:1669
 msgid "Fill according to a linear or exponential series"
 msgstr "Užpildyti linijinėmis arba eksponentinėmis serijomis"
 
-#: ../src/wbcg-actions.c:1680
+#: ../src/wbcg-actions.c:1671
 msgid "_Random Generator..."
 msgstr "_Atsitiktinumų generatorius.."
 
-#: ../src/wbcg-actions.c:1681
+#: ../src/wbcg-actions.c:1672
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Sugeneruoti atsitiktinius skaičius iš distribucijų rinkinio"
 
 #. Edit -> Sheet
-#: ../src/wbcg-actions.c:1685
+#: ../src/wbcg-actions.c:1676
 msgid "_Manage Sheets..."
 msgstr "Valdyti _lenteles..."
 
-#: ../src/wbcg-actions.c:1686
+#: ../src/wbcg-actions.c:1677
 msgid "Manage the sheets in this workbook"
 msgstr "Valdyti darbo knygos lenteles"
 
-#: ../src/wbcg-actions.c:1689 ../src/wbcg-actions.c:1693
+#: ../src/wbcg-actions.c:1680 ../src/wbcg-actions.c:1684
 msgid "Insert a new sheet"
 msgstr "Įterpti naują lentelę"
 
-#: ../src/wbcg-actions.c:1695
+#: ../src/wbcg-actions.c:1686
 msgid "_Append"
 msgstr "_Pridurti"
 
-#: ../src/wbcg-actions.c:1696
+#: ../src/wbcg-actions.c:1687
 msgid "Append a new sheet"
 msgstr "Pridėti naują lentelę"
 
-#: ../src/wbcg-actions.c:1699
+#: ../src/wbcg-actions.c:1690
 msgid "Make a copy of the current sheet"
 msgstr "Sukurti esamos lentelės kopiją"
 
-#: ../src/wbcg-actions.c:1702
+#: ../src/wbcg-actions.c:1693
 msgid "Irrevocably remove an entire sheet"
 msgstr "Galutinai pašalinti visą lentelę"
 
-#: ../src/wbcg-actions.c:1704
+#: ../src/wbcg-actions.c:1695
 msgid "Re_name"
 msgstr "Per_vardinti"
 
-#: ../src/wbcg-actions.c:1705
+#: ../src/wbcg-actions.c:1696
 msgid "Rename the current sheet"
 msgstr "Pervardinti aktyvią lentelę"
 
 #. Edit
-#: ../src/wbcg-actions.c:1709
+#: ../src/wbcg-actions.c:1700
 msgid "P_aste special..."
 msgstr "_Specialus įdėjimas..."
 
-#: ../src/wbcg-actions.c:1710
+#: ../src/wbcg-actions.c:1701
 msgid "Paste with optional filters and transformations"
 msgstr "Įterpti su papildomais filtrais ir transformacijomis"
 
-#: ../src/wbcg-actions.c:1713
+#: ../src/wbcg-actions.c:1704
 msgid "Co_mment..."
 msgstr "Ko_mentaras..."
 
-#: ../src/wbcg-actions.c:1714
+#: ../src/wbcg-actions.c:1705
 msgid "Edit the selected cell's comment"
 msgstr "Taisyti pasirinkto laukelio komentarus"
 
-#: ../src/wbcg-actions.c:1717
+#: ../src/wbcg-actions.c:1708
 msgid "_Find..."
 msgstr "Paie_ška..."
 
-#: ../src/wbcg-actions.c:1718
+#: ../src/wbcg-actions.c:1709
 msgid "Search for something"
 msgstr "Ko nors paieška"
 
-#: ../src/wbcg-actions.c:1720
+#: ../src/wbcg-actions.c:1711
 msgid "R_eplace..."
 msgstr "Pak_eisti..."
 
-#: ../src/wbcg-actions.c:1721
+#: ../src/wbcg-actions.c:1712
 msgid "Search for something and replace it with something else"
 msgstr "Ieškoti ko nors ir pakeisti į kitą nurodytą reikšmę"
 
-#: ../src/wbcg-actions.c:1723
+#: ../src/wbcg-actions.c:1714
 msgid "_Goto cell..."
 msgstr "Eiti _į laukelį..."
 
-#: ../src/wbcg-actions.c:1724
+#: ../src/wbcg-actions.c:1715
 msgid "Jump to a specified cell"
 msgstr "Eiti į nurodytą laukelį"
 
-#: ../src/wbcg-actions.c:1727
+#: ../src/wbcg-actions.c:1718
 msgid "Recalculate"
 msgstr "Perskaičiuoti"
 
-#: ../src/wbcg-actions.c:1728
+#: ../src/wbcg-actions.c:1719
 msgid "Recalculate the spreadsheet"
 msgstr "Perskaičiuoti skaičialentę"
 
 #. View
-#: ../src/wbcg-actions.c:1732
+#: ../src/wbcg-actions.c:1723
 msgid "_New View..."
 msgstr "_Naujas vaizdas..."
 
-#: ../src/wbcg-actions.c:1733
+#: ../src/wbcg-actions.c:1724
 msgid "Create a new view of the workbook"
 msgstr "Sukurti naują darbo knygos vaizdą"
 
-#: ../src/wbcg-actions.c:1735 ../src/workbook-control-gui.c:1172
+#: ../src/wbcg-actions.c:1726 ../src/workbook-control-gui.c:1172
 msgid "_Freeze Panes"
 msgstr "_Užfiksuoti laukelius"
 
-#: ../src/wbcg-actions.c:1736 ../src/workbook-control-gui.c:1175
+#: ../src/wbcg-actions.c:1727 ../src/workbook-control-gui.c:1175
 msgid "Freeze the top left of the sheet"
 msgstr "Užfiksuoja viršutinę kairę lentelės dalį"
 
-#: ../src/wbcg-actions.c:1738
+#: ../src/wbcg-actions.c:1729
 msgid "_Zoom..."
 msgstr "_Mastelis..."
 
-#: ../src/wbcg-actions.c:1739
+#: ../src/wbcg-actions.c:1730
 msgid "Zoom the spreadsheet in or out"
 msgstr "Keisti darbo lentelės mastelį"
 
-#: ../src/wbcg-actions.c:1741
+#: ../src/wbcg-actions.c:1732
 msgid "Zoom _In"
 msgstr "Pr_itraukti"
 
-#: ../src/wbcg-actions.c:1742
+#: ../src/wbcg-actions.c:1733
 msgid "Increase the zoom to make things larger"
 msgstr "Padidinti mąstelį, kad vaizdas būtų didesnis"
 
-#: ../src/wbcg-actions.c:1744
+#: ../src/wbcg-actions.c:1735
 msgid "Zoom _Out"
 msgstr "_Atitraukti"
 
-#: ../src/wbcg-actions.c:1745
+#: ../src/wbcg-actions.c:1736
 msgid "Decrease the zoom to make things smaller"
 msgstr "Sumažinti mąstelį, kad vaizdas būtų mažesnis"
 
-#: ../src/wbcg-actions.c:1747
+#: ../src/wbcg-actions.c:1738
 msgid "Direction"
 msgstr "Kryptis"
 
-#: ../src/wbcg-actions.c:1748
+#: ../src/wbcg-actions.c:1739
 msgid "Toggle sheet direction, left to right vs right to left"
 msgstr "Keisti lentelės kryptį iš kairės į dešinę ir atvirkščiai"
 
-#: ../src/wbcg-actions.c:1753
+#: ../src/wbcg-actions.c:1744
 msgid "Insert new cells"
 msgstr "Įterpti naujus laukelius"
 
-#: ../src/wbcg-actions.c:1756
+#: ../src/wbcg-actions.c:1747
 msgid "Insert new columns"
 msgstr "Įterpti naujus stulpelius"
 
-#: ../src/wbcg-actions.c:1759
+#: ../src/wbcg-actions.c:1750
 msgid "Insert new rows"
 msgstr "Įterpti naujas eilutes"
 
-#: ../src/wbcg-actions.c:1762
+#: ../src/wbcg-actions.c:1753
 msgid "C_hart..."
 msgstr "_Diagrama..."
 
-#: ../src/wbcg-actions.c:1763
+#: ../src/wbcg-actions.c:1754
 msgid "Insert a Chart"
 msgstr "Įterpti Diagramą"
 
-#: ../src/wbcg-actions.c:1765
+#: ../src/wbcg-actions.c:1756
 msgid "_Image..."
 msgstr "_Piešinys..."
 
-#: ../src/wbcg-actions.c:1766
+#: ../src/wbcg-actions.c:1757
 msgid "Insert an image"
 msgstr "Įterpti piešinį"
 
-#: ../src/wbcg-actions.c:1769
+#: ../src/wbcg-actions.c:1760
 msgid "Hyper_link..."
 msgstr "N_uoroda..."
 
-#: ../src/wbcg-actions.c:1770
+#: ../src/wbcg-actions.c:1761
 msgid "Insert a Hyperlink"
 msgstr "Įterpti Nuorodą"
 
 #. Insert -> Special
-#: ../src/wbcg-actions.c:1773
+#: ../src/wbcg-actions.c:1764
 msgid "Current _date"
 msgstr "Esama _data"
 
-#: ../src/wbcg-actions.c:1774
+#: ../src/wbcg-actions.c:1765
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Įterpti esamą datą į pasirinktą laukelį(ius)"
 
-#: ../src/wbcg-actions.c:1777
+#: ../src/wbcg-actions.c:1768
 msgid "Current _time"
 msgstr "Esamas _laikas"
 
-#: ../src/wbcg-actions.c:1778
+#: ../src/wbcg-actions.c:1769
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Įterpti esamą laiką į pasirinktą laukelį(ius)"
 
-#: ../src/wbcg-actions.c:1781
+#: ../src/wbcg-actions.c:1772
 msgid "Current d_ate and time"
 msgstr "Esama d_ata ir laikas"
 
-#: ../src/wbcg-actions.c:1782
+#: ../src/wbcg-actions.c:1773
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Įterpti esamą datą ir laiką į pasirinktą laukelį(ius)"
 
 #. Insert -> Name
-#: ../src/wbcg-actions.c:1786
+#: ../src/wbcg-actions.c:1777
 msgid "_Define..."
 msgstr "_Nustatyti..."
 
-#: ../src/wbcg-actions.c:1787
+#: ../src/wbcg-actions.c:1778
 msgid "Edit sheet and workbook names"
 msgstr "Taisyti lentelės ir darbo knygos pavadinimus"
 
-#: ../src/wbcg-actions.c:1790
+#: ../src/wbcg-actions.c:1781
 msgid "Paste the definition of a name or names"
 msgstr "Įterpti vardo ar vardų nustatymus"
 
-#: ../src/wbcg-actions.c:1793
+#: ../src/wbcg-actions.c:1784
 msgid "_Auto generate names..."
 msgstr "Generuoti vardus _automatiškai..."
 
-#: ../src/wbcg-actions.c:1794
+#: ../src/wbcg-actions.c:1785
 msgid "Use the current selection to create names"
 msgstr "Naudoti pasirinktą sritį vardų kūrimui"
 
 #. Format
-#: ../src/wbcg-actions.c:1799
+#: ../src/wbcg-actions.c:1790
 msgid "_Cells..."
 msgstr "_Laukeliai..."
 
-#: ../src/wbcg-actions.c:1800
+#: ../src/wbcg-actions.c:1791
 msgid "Modify the formatting of the selected cells"
 msgstr "Pakeisti pasirinktų laukelių savybes"
 
-#: ../src/wbcg-actions.c:1802
+#: ../src/wbcg-actions.c:1793
 msgid "_Workbook..."
 msgstr "_Darbo knyga..."
 
-#: ../src/wbcg-actions.c:1803
+#: ../src/wbcg-actions.c:1794
 msgid "Modify the workbook attributes"
 msgstr "Keisti darbo knygos požymius"
 
-#: ../src/wbcg-actions.c:1805
+#: ../src/wbcg-actions.c:1796
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: ../src/wbcg-actions.c:1806
+#: ../src/wbcg-actions.c:1797
 msgid "Edit the Gnumeric Preferences"
 msgstr "Keisti Gnumeric nuostatas"
 
-#: ../src/wbcg-actions.c:1808
+#: ../src/wbcg-actions.c:1799
 msgid "_Autoformat..."
 msgstr "_Autoformatavimas..."
 
-#: ../src/wbcg-actions.c:1809
+#: ../src/wbcg-actions.c:1800
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatuoti laukelių sritį pagal nustatytą šabloną"
 
 #. Format -> Col
-#: ../src/wbcg-actions.c:1813
+#: ../src/wbcg-actions.c:1804
 msgid "_Width..."
 msgstr "_Plotis..."
 
-#: ../src/wbcg-actions.c:1814
+#: ../src/wbcg-actions.c:1805
 msgid "Change width of the selected columns"
 msgstr "Pakeisti pasirinktų stulpelių plotį"
 
-#: ../src/wbcg-actions.c:1816 ../src/wbcg-actions.c:1833
+#: ../src/wbcg-actions.c:1807 ../src/wbcg-actions.c:1824
 msgid "_Auto fit selection"
 msgstr "_Tilpti pažymėjime"
 
-#: ../src/wbcg-actions.c:1817
+#: ../src/wbcg-actions.c:1808
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Garantuoja, kad stulpelių plotis bus pakankamas atvaizduoti jų turinį"
 
-#: ../src/wbcg-actions.c:1820
+#: ../src/wbcg-actions.c:1811
 msgid "Hide the selected columns"
 msgstr "Paslėpti pasirinktus stulpelius"
 
-#: ../src/wbcg-actions.c:1823
+#: ../src/wbcg-actions.c:1814
 msgid "Make any hidden columns in the selection visible"
 msgstr "Atšaukti stulpelių slėpimą pasirinktoje srityje"
 
-#: ../src/wbcg-actions.c:1825
+#: ../src/wbcg-actions.c:1816
 msgid "_Standard Width"
 msgstr "_Įprastas plotis"
 
-#: ../src/wbcg-actions.c:1826
+#: ../src/wbcg-actions.c:1817
 msgid "Change the default column width"
 msgstr "Pakeisti įprastą stulpelio plotį"
 
 #. Format -> Row
-#: ../src/wbcg-actions.c:1830
+#: ../src/wbcg-actions.c:1821
 msgid "H_eight..."
 msgstr "_Aukštis..."
 
-#: ../src/wbcg-actions.c:1831
+#: ../src/wbcg-actions.c:1822
 msgid "Change height of the selected rows"
 msgstr "Pakeisti pasirinktų eilučių aukštį"
 
-#: ../src/wbcg-actions.c:1834
+#: ../src/wbcg-actions.c:1825
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Garantuoja, kad eilučių aukštis bus pakankamas atvaizduoti jų turinį"
 
-#: ../src/wbcg-actions.c:1837
+#: ../src/wbcg-actions.c:1828
 msgid "Hide the selected rows"
 msgstr "Paslėpti pasirinktas eilutes"
 
-#: ../src/wbcg-actions.c:1840
+#: ../src/wbcg-actions.c:1831
 msgid "Make any hidden rows in the selection visible"
 msgstr "Atšaukti eilučių slėpimą pasirinktoje srityje"
 
-#: ../src/wbcg-actions.c:1842
+#: ../src/wbcg-actions.c:1833
 msgid "_Standard Height"
 msgstr "_Įprastas aukštis"
 
-#: ../src/wbcg-actions.c:1843
+#: ../src/wbcg-actions.c:1834
 msgid "Change the default row height"
 msgstr "Pakeisti įprastą eilučių aukštį"
 
 #. Tools
-#: ../src/wbcg-actions.c:1847
+#: ../src/wbcg-actions.c:1838
 msgid "_Plug-ins..."
 msgstr "_Priedai..."
 
-#: ../src/wbcg-actions.c:1848
+#: ../src/wbcg-actions.c:1839
 msgid "Manage available plugin modules"
 msgstr "Valdyti prieinamų priedų modulius"
 
-#: ../src/wbcg-actions.c:1850
+#: ../src/wbcg-actions.c:1841
 msgid "Auto _Correct..."
 msgstr "Auto _taisymas..."
 
-#: ../src/wbcg-actions.c:1851
+#: ../src/wbcg-actions.c:1842
 msgid "Automatically perform simple spell checking"
 msgstr "Automatiškai atlikti paprastą rašybos tikrinimą"
 
-#: ../src/wbcg-actions.c:1853
+#: ../src/wbcg-actions.c:1844
 msgid "_Auto Save..."
 msgstr "_Auto saugojimas"
 
-#: ../src/wbcg-actions.c:1854
+#: ../src/wbcg-actions.c:1845
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatiškai saugoti aktyvų dokumentą pastoviais intervalais"
 
-#: ../src/wbcg-actions.c:1856
+#: ../src/wbcg-actions.c:1847
 msgid "_Goal Seek..."
 msgstr "Ti_kslo paieška..."
 
-#: ../src/wbcg-actions.c:1857
+#: ../src/wbcg-actions.c:1848
 msgid "Iteratively recalculate to find a target value"
 msgstr "Perskaičiuoti variantus siekiant aptikti reikiamą rezultatą"
 
-#: ../src/wbcg-actions.c:1859
+#: ../src/wbcg-actions.c:1850
 msgid "_Solver..."
 msgstr "_Sprendimų paieška..."
 
-#: ../src/wbcg-actions.c:1860
+#: ../src/wbcg-actions.c:1851
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Perskaičiuoti variantus siekiant aptikti reikšmę, esančią numatytose ribose"
 
-#: ../src/wbcg-actions.c:1862
+#: ../src/wbcg-actions.c:1853
 msgid "Si_mulation..."
 msgstr "Si_muliacija..."
 
-#: ../src/wbcg-actions.c:1863
+#: ../src/wbcg-actions.c:1854
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -12487,72 +12527,72 @@ msgstr ""
 "aptikti galimas išvestis ir su jomis susijusią riziką"
 
 #. Tools -> Scenarios
-#: ../src/wbcg-actions.c:1868
+#: ../src/wbcg-actions.c:1859
 msgid "_View..."
 msgstr "_Rodyti..."
 
-#: ../src/wbcg-actions.c:1869
+#: ../src/wbcg-actions.c:1860
 msgid "View, delete and report different scenarios"
 msgstr "Peržiūrėti, ištrinti ir informuoti apie įvairius scenarijus"
 
-#: ../src/wbcg-actions.c:1871
+#: ../src/wbcg-actions.c:1862
 msgid "_Add..."
 msgstr "_Pridėti..."
 
-#: ../src/wbcg-actions.c:1872
+#: ../src/wbcg-actions.c:1863
 msgid "Add a new scenario"
 msgstr "Sukurti naują scenarijų"
 
 #. Tools -> ANOVA
-#: ../src/wbcg-actions.c:1876
+#: ../src/wbcg-actions.c:1867
 msgid "_One Factor..."
 msgstr "_Vienas faktorius..."
 
-#: ../src/wbcg-actions.c:1877
+#: ../src/wbcg-actions.c:1868
 msgid "One Factor Analysis of Variance..."
 msgstr "Dispersijos vieno faktoriaus analizė..."
 
-#: ../src/wbcg-actions.c:1879
+#: ../src/wbcg-actions.c:1870
 msgid "_Two Factor..."
 msgstr "_Du faktoriai..."
 
-#: ../src/wbcg-actions.c:1880
+#: ../src/wbcg-actions.c:1871
 msgid "Two Factor Analysis of Variance..."
 msgstr "Dispersijos dviejų faktorių analizė..."
 
 #. Tools -> Forecasting
-#: ../src/wbcg-actions.c:1884
+#: ../src/wbcg-actions.c:1875
 msgid "_Exponential Smoothing..."
 msgstr "_Eksponentinis glotninimas..."
 
-#: ../src/wbcg-actions.c:1885
+#: ../src/wbcg-actions.c:1876
 msgid "Exponential smoothing..."
 msgstr "Eksponentinis glotninimas..."
 
-#: ../src/wbcg-actions.c:1887
+#: ../src/wbcg-actions.c:1878
 msgid "_Moving Average..."
 msgstr "_Kintamas vidurkis..."
 
-#: ../src/wbcg-actions.c:1888
+#: ../src/wbcg-actions.c:1879
 msgid "Moving average..."
 msgstr "Kintamas vidurkis..."
 
 #. Tools -> Two Means
-#: ../src/wbcg-actions.c:1892
+#: ../src/wbcg-actions.c:1883
 msgid "_Paired Samples: T-Test..."
 msgstr "_Poruoti pavyzdžiai: T-Testas..."
 
-#: ../src/wbcg-actions.c:1893
+#: ../src/wbcg-actions.c:1884
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 "Du populiacijos vidurkiai lyginami su dviem suporuotais pavyzdžiais: t-"
 "testas..."
 
-#: ../src/wbcg-actions.c:1896
+#: ../src/wbcg-actions.c:1887
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "N_esuporuoti pavyzdžiai, lygios dispersijos: T-testas..."
 
-#: ../src/wbcg-actions.c:1897
+#: ../src/wbcg-actions.c:1888
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -12560,11 +12600,11 @@ msgstr ""
 "Du populiacijos vidurkiai lyginami su dviem nesuporuotais pavyzdžiais iš "
 "lygių dispersijų populiacijų: t-testas..."
 
-#: ../src/wbcg-actions.c:1900
+#: ../src/wbcg-actions.c:1891
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Nes_uporuoti pavyzdžiai, nelygios dispersijos: T-testas..."
 
-#: ../src/wbcg-actions.c:1901
+#: ../src/wbcg-actions.c:1892
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -12572,11 +12612,11 @@ msgstr ""
 "Du populiacijos vidurkiai lyginami su dviem nesuporuotais pavyzdžiais iš "
 "nelygių dispersijų populiacijų: t-testas..."
 
-#: ../src/wbcg-actions.c:1904
+#: ../src/wbcg-actions.c:1895
 msgid "_Known Variances: Z-Test..."
 msgstr "_Žinomos dispersijos: Z-testas..."
 
-#: ../src/wbcg-actions.c:1905
+#: ../src/wbcg-actions.c:1896
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -12585,741 +12625,741 @@ msgstr ""
 "testas..."
 
 #. Tools -> Analysis
-#: ../src/wbcg-actions.c:1909
+#: ../src/wbcg-actions.c:1900
 msgid "_Correlation..."
 msgstr "_Koreliacija..."
 
-#: ../src/wbcg-actions.c:1910
+#: ../src/wbcg-actions.c:1901
 msgid "Pearson Correlation"
 msgstr "Pirsono koreliacija"
 
-#: ../src/wbcg-actions.c:1912
+#: ../src/wbcg-actions.c:1903
 msgid "Co_variance..."
 msgstr "K_ovariacija..."
 
-#: ../src/wbcg-actions.c:1915
+#: ../src/wbcg-actions.c:1906
 msgid "_Descriptive Statistics..."
 msgstr "_Deskriptyvi statistika..."
 
-#: ../src/wbcg-actions.c:1916
+#: ../src/wbcg-actions.c:1907
 msgid "Various summary statistics"
 msgstr "Įvairi santraukos statistika"
 
-#: ../src/wbcg-actions.c:1918
+#: ../src/wbcg-actions.c:1909
 msgid "_Fourier Analysis..."
 msgstr "_Furje analizė..."
 
-#: ../src/wbcg-actions.c:1921
+#: ../src/wbcg-actions.c:1912
 msgid "_Histogram..."
 msgstr "_Histograma..."
 
-#: ../src/wbcg-actions.c:1922
+#: ../src/wbcg-actions.c:1913
 msgid "Various frequency tables"
 msgstr "Įvairios dažnių lentelės"
 
-#: ../src/wbcg-actions.c:1924
+#: ../src/wbcg-actions.c:1915
 msgid "Ranks And _Percentiles..."
 msgstr "Ra_ngai ir procentiliai..."
 
-#: ../src/wbcg-actions.c:1925
+#: ../src/wbcg-actions.c:1916
 msgid "Ranks, placements and percentiles"
 msgstr "Įvertinimai, padėtys ir procentai"
 
-#: ../src/wbcg-actions.c:1927
+#: ../src/wbcg-actions.c:1918
 msgid "_Regression..."
 msgstr "_Regresija..."
 
-#: ../src/wbcg-actions.c:1928
+#: ../src/wbcg-actions.c:1919
 msgid "Regression Analysis"
 msgstr "Regresinė analizė"
 
-#: ../src/wbcg-actions.c:1930
+#: ../src/wbcg-actions.c:1921
 msgid "_Sampling..."
 msgstr "_Generuojama..."
 
-#: ../src/wbcg-actions.c:1931
+#: ../src/wbcg-actions.c:1922
 msgid "Periodic and random samples"
 msgstr "Periodiniai ir atsitiktiniai pavyzdžiai"
 
-#: ../src/wbcg-actions.c:1933
+#: ../src/wbcg-actions.c:1924
 msgid "_Two Variances: FTest..."
 msgstr "Dv_i dispersijos: F-Testas..."
 
-#: ../src/wbcg-actions.c:1934
+#: ../src/wbcg-actions.c:1925
 msgid "Comparing two population variances"
 msgstr "Lyginamos dvi populiacijų dispersijos"
 
 #. Data
-#: ../src/wbcg-actions.c:1938
+#: ../src/wbcg-actions.c:1929
 msgid "_Sort..."
 msgstr "_Rūšiuoti..."
 
-#: ../src/wbcg-actions.c:1939
+#: ../src/wbcg-actions.c:1930
 msgid "Sort the selected region"
 msgstr "Rūšiuoti pasirinktą sritį"
 
-#: ../src/wbcg-actions.c:1941
+#: ../src/wbcg-actions.c:1932
 msgid "Sh_uffle..."
 msgstr "Iš_maišyti..."
 
-#: ../src/wbcg-actions.c:1942
+#: ../src/wbcg-actions.c:1933
 msgid "Shuffle cells, rows or columns"
 msgstr "Sumainyti laukelius, eilutes ar stulpelius"
 
-#: ../src/wbcg-actions.c:1944
+#: ../src/wbcg-actions.c:1935
 msgid "_Validate..."
 msgstr "_Tikrinti..."
 
-#: ../src/wbcg-actions.c:1945
+#: ../src/wbcg-actions.c:1936
 msgid "Validate input with preset criteria"
 msgstr "Tikrinti įvesti pagal nustatytas sąlygas"
 
-#: ../src/wbcg-actions.c:1947
+#: ../src/wbcg-actions.c:1938
 msgid "T_ext to Columns..."
 msgstr "Tekstą į _stulpelius…"
 
-#: ../src/wbcg-actions.c:1948
+#: ../src/wbcg-actions.c:1939
 msgid "Parse the text in the selection into data"
 msgstr "Paversti pasirinktos srities tekstą į duomenis"
 
-#: ../src/wbcg-actions.c:1950
+#: ../src/wbcg-actions.c:1941
 msgid "_Consolidate..."
 msgstr "_Apjungti..."
 
-#: ../src/wbcg-actions.c:1951
+#: ../src/wbcg-actions.c:1942
 msgid "Consolidate regions using a function"
 msgstr "Sujungti sritis naudojant funkciją"
 
-#: ../src/wbcg-actions.c:1953
+#: ../src/wbcg-actions.c:1944
 msgid "_Table..."
 msgstr "_Lentelė..."
 
-#: ../src/wbcg-actions.c:1954
+#: ../src/wbcg-actions.c:1945
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr ""
 "Sukurti duomenų lentelę, kad būtų galima įvertinti funkciją su keliais "
 "parametrais"
 
-#: ../src/wbcg-actions.c:1957
+#: ../src/wbcg-actions.c:1948
 msgid "_Data Slice..."
 msgstr "_Duomenų blokas…"
 
-#: ../src/wbcg-actions.c:1958
+#: ../src/wbcg-actions.c:1949
 msgid "Create a Data Slice"
 msgstr "Sukurti duomenų bloką"
 
 #. Data -> Outline
-#: ../src/wbcg-actions.c:1963
+#: ../src/wbcg-actions.c:1954
 msgid "_Hide Detail"
 msgstr "_Slėpti detales"
 
-#: ../src/wbcg-actions.c:1964
+#: ../src/wbcg-actions.c:1955
 msgid "Collapse an outline group"
 msgstr "Sutraukti grupę"
 
-#: ../src/wbcg-actions.c:1966
+#: ../src/wbcg-actions.c:1957
 msgid "_Show Detail"
 msgstr "_Rodyti detales"
 
-#: ../src/wbcg-actions.c:1967
+#: ../src/wbcg-actions.c:1958
 msgid "Uncollapse an outline group"
 msgstr "Išskleisti grupę"
 
-#: ../src/wbcg-actions.c:1969
+#: ../src/wbcg-actions.c:1960
 msgid "_Group..."
 msgstr "_Grupė..."
 
-#: ../src/wbcg-actions.c:1970
+#: ../src/wbcg-actions.c:1961
 msgid "Add an outline group"
 msgstr "Pridėti naują grupę"
 
-#: ../src/wbcg-actions.c:1972
+#: ../src/wbcg-actions.c:1963
 msgid "_Ungroup..."
 msgstr "_Išgrupuoti..."
 
-#: ../src/wbcg-actions.c:1973
+#: ../src/wbcg-actions.c:1964
 msgid "Remove an outline group"
 msgstr "Pašalinti grupę"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1977 ../src/workbook-control-gui.c:1183
+#: ../src/wbcg-actions.c:1968 ../src/workbook-control-gui.c:1183
 msgid "Add _Auto Filter"
 msgstr "Pridėti _auto filtrą"
 
-#: ../src/wbcg-actions.c:1978
+#: ../src/wbcg-actions.c:1969
 msgid "Add or remove a filter"
 msgstr "Pridėti arba pašalinti filtrus"
 
-#: ../src/wbcg-actions.c:1980
+#: ../src/wbcg-actions.c:1971
 msgid "_Show All"
 msgstr "Rodyti vi_sus"
 
-#: ../src/wbcg-actions.c:1981
+#: ../src/wbcg-actions.c:1972
 msgid "Show all filtered and hidden rows"
 msgstr "Rodyti visas nufiltruotas ar paslėptas eilutes"
 
-#: ../src/wbcg-actions.c:1983
+#: ../src/wbcg-actions.c:1974
 msgid "Advanced _Filter..."
 msgstr "Specialus _filtras..."
 
-#: ../src/wbcg-actions.c:1984
+#: ../src/wbcg-actions.c:1975
 msgid "Filter data with given criteria"
 msgstr "Filtruoti duomenis pagal pasirinktus kriterijus"
 
 #. Data -> External
-#: ../src/wbcg-actions.c:1987
+#: ../src/wbcg-actions.c:1978
 msgid "Import _Text File..."
 msgstr "Įkelti _tekstinę bylą..."
 
-#: ../src/wbcg-actions.c:1988
+#: ../src/wbcg-actions.c:1979
 msgid "Import the text from a file"
 msgstr "Įkelti tekstą iš bylos"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1992 ../src/workbook-control-gui.c:2001
+#: ../src/wbcg-actions.c:1983 ../src/workbook-control-gui.c:2001
 #: ../src/workbook-view.c:795
 msgid "Sum"
 msgstr "Suma"
 
-#: ../src/wbcg-actions.c:1993
+#: ../src/wbcg-actions.c:1984
 msgid "Sum into the current cell"
 msgstr "Sumuoti aktyviame laukelyje"
 
-#: ../src/wbcg-actions.c:1996
+#: ../src/wbcg-actions.c:1987
 msgid "Edit a function in the current cell"
 msgstr "Taisyti funkciją aktyviame laukelyje"
 
-#: ../src/wbcg-actions.c:2000
+#: ../src/wbcg-actions.c:1991
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "Surūšiuoti pasirinktą sritį didėjant pagal pirmą pasirinktą stulpelį"
 
-#: ../src/wbcg-actions.c:2002
+#: ../src/wbcg-actions.c:1993
 msgid "Sort Descending"
 msgstr "Rikiuoti mažėjančiai"
 
-#: ../src/wbcg-actions.c:2003
+#: ../src/wbcg-actions.c:1994
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr "Surūšiuoti pasirinktą sritį mažėjant pagal pirmą pasirinktą stulpelį"
 
 #. Object Toolbar
-#: ../src/wbcg-actions.c:2007
+#: ../src/wbcg-actions.c:1998
 msgid "Label"
 msgstr "Užrašas"
 
-#: ../src/wbcg-actions.c:2008
+#: ../src/wbcg-actions.c:1999
 msgid "Create a label"
 msgstr "Sukurti Žymę"
 
-#: ../src/wbcg-actions.c:2011
+#: ../src/wbcg-actions.c:2002
 msgid "Create a frame"
 msgstr "Sukurti rėmelį"
 
-#: ../src/wbcg-actions.c:2013
+#: ../src/wbcg-actions.c:2004
 msgid "Checkbox"
 msgstr "Pažymėjimo laukas"
 
-#: ../src/wbcg-actions.c:2014
+#: ../src/wbcg-actions.c:2005
 msgid "Create a checkbox"
 msgstr "Sukurti pažymėjimo lauką"
 
-#: ../src/wbcg-actions.c:2016
+#: ../src/wbcg-actions.c:2007
 msgid "Scrollbar"
 msgstr "Persukimo juosta"
 
-#: ../src/wbcg-actions.c:2017
+#: ../src/wbcg-actions.c:2008
 msgid "Create a scrollbar"
 msgstr "Sukurti persukimo juostą"
 
-#: ../src/wbcg-actions.c:2019
+#: ../src/wbcg-actions.c:2010
 msgid "Slider"
 msgstr "Šliaužiklis"
 
-#: ../src/wbcg-actions.c:2020
+#: ../src/wbcg-actions.c:2011
 msgid "Create a slider"
 msgstr "Sukurti šliaužiklį"
 
-#: ../src/wbcg-actions.c:2022
+#: ../src/wbcg-actions.c:2013
 msgid "SpinButton"
 msgstr "SukimoMygtukas"
 
-#: ../src/wbcg-actions.c:2023
+#: ../src/wbcg-actions.c:2014
 msgid "Create a spin button"
 msgstr "Sukurti sukimo mygtuką"
 
-#: ../src/wbcg-actions.c:2025
+#: ../src/wbcg-actions.c:2016
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Sąrašas"
 
-#: ../src/wbcg-actions.c:2026
+#: ../src/wbcg-actions.c:2017
 msgid "Create a list"
 msgstr "Sukurti sąrašą"
 
-#: ../src/wbcg-actions.c:2028
+#: ../src/wbcg-actions.c:2019
 msgid "Combo Box"
 msgstr "Laukas-su-sąrašu"
 
-#: ../src/wbcg-actions.c:2029
+#: ../src/wbcg-actions.c:2020
 msgid "Create a combo box"
 msgstr "Sukurti lauką su pasirinkimo sąrašu"
 
-#: ../src/wbcg-actions.c:2032
+#: ../src/wbcg-actions.c:2023
 msgid "Create a line object"
 msgstr "Sukurti linijinį objektą"
 
-#: ../src/wbcg-actions.c:2034
+#: ../src/wbcg-actions.c:2025
 msgid "Arrow"
 msgstr "Rodyklė"
 
-#: ../src/wbcg-actions.c:2035
+#: ../src/wbcg-actions.c:2026
 msgid "Create an arrow object"
 msgstr "Sukurti rodyklinį objektą"
 
-#: ../src/wbcg-actions.c:2037
+#: ../src/wbcg-actions.c:2028
 msgid "Rectangle"
 msgstr "Stačiakampis"
 
-#: ../src/wbcg-actions.c:2038
+#: ../src/wbcg-actions.c:2029
 msgid "Create a rectangle object"
 msgstr "Sukurti stačiakampį objektą"
 
-#: ../src/wbcg-actions.c:2040
+#: ../src/wbcg-actions.c:2031
 msgid "Ellipse"
 msgstr "Elipsė"
 
-#: ../src/wbcg-actions.c:2041
+#: ../src/wbcg-actions.c:2032
 msgid "Create an ellipse object"
 msgstr "Sukurti ovalinį oobjektą"
 
-#: ../src/wbcg-actions.c:2044
+#: ../src/wbcg-actions.c:2035
 msgid "Create a button"
 msgstr "Sukurti mygtuką"
 
-#: ../src/wbcg-actions.c:2047
+#: ../src/wbcg-actions.c:2038
 msgid "Create a radio button"
 msgstr "Sukurti perjungėją"
 
-#: ../src/wbcg-actions.c:2052
+#: ../src/wbcg-actions.c:2043
 msgid "Merge a range of cells"
 msgstr "Sujungti laukelių sritį"
 
-#: ../src/wbcg-actions.c:2054
+#: ../src/wbcg-actions.c:2045
 msgid "Split"
 msgstr "Padalinti"
 
-#: ../src/wbcg-actions.c:2055
+#: ../src/wbcg-actions.c:2046
 msgid "Split merged ranges of cells"
 msgstr "Išskaidyti sujungtus laukelius"
 
-#: ../src/wbcg-actions.c:2059
+#: ../src/wbcg-actions.c:2050
 msgid "Format the selection as General"
 msgstr "Formatuoti pažymėjimą bendriniu formatu"
 
-#: ../src/wbcg-actions.c:2062
+#: ../src/wbcg-actions.c:2053
 msgid "Format the selection as numbers"
 msgstr "Formatuoti pažymėjimą kaip skaičius"
 
-#: ../src/wbcg-actions.c:2064
+#: ../src/wbcg-actions.c:2055
 msgid "Currency"
 msgstr "Valiuta"
 
-#: ../src/wbcg-actions.c:2065
+#: ../src/wbcg-actions.c:2056
 msgid "Format the selection as currency"
 msgstr "Formatuoti pažymėjimą kaip pinigines reikšmes"
 
-#: ../src/wbcg-actions.c:2067
+#: ../src/wbcg-actions.c:2058
 msgid "Accounting"
 msgstr "Apskaitos"
 
-#: ../src/wbcg-actions.c:2068
+#: ../src/wbcg-actions.c:2059
 msgid "Format the selection as accounting"
 msgstr "Suformatuoti pasirinktą sritį kaip apskaitinę"
 
-#: ../src/wbcg-actions.c:2070
+#: ../src/wbcg-actions.c:2061
 msgid "Percentage"
 msgstr "Procentai"
 
-#: ../src/wbcg-actions.c:2071
+#: ../src/wbcg-actions.c:2062
 msgid "Format the selection as percentage"
 msgstr "Formatuoti pažymėjimą kaip procentus"
 
-#: ../src/wbcg-actions.c:2073
+#: ../src/wbcg-actions.c:2064
 msgid "Scientific"
 msgstr "Mokslinės"
 
-#: ../src/wbcg-actions.c:2074
+#: ../src/wbcg-actions.c:2065
 msgid "Format the selection as scientific"
 msgstr "Formatuoti pažymėjimą moksliniu formatu"
 
-#: ../src/wbcg-actions.c:2076
+#: ../src/wbcg-actions.c:2067
 msgid "Date"
 msgstr "Data"
 
-#: ../src/wbcg-actions.c:2077
+#: ../src/wbcg-actions.c:2068
 msgid "Format the selection as date"
 msgstr "Formatuoti pažymėjimą kaip datą"
 
-#: ../src/wbcg-actions.c:2079
+#: ../src/wbcg-actions.c:2070
 msgid "Time"
 msgstr "Laikas"
 
-#: ../src/wbcg-actions.c:2080
+#: ../src/wbcg-actions.c:2071
 msgid "Format the selection as time"
 msgstr "Formatuoti pažymėjimą kaip laiką"
 
-#: ../src/wbcg-actions.c:2082
+#: ../src/wbcg-actions.c:2073
 msgid "AddBorders"
 msgstr "PridėtiRėmelius"
 
-#: ../src/wbcg-actions.c:2083
+#: ../src/wbcg-actions.c:2074
 msgid "Add a border around the selection"
 msgstr "Pridėti rėmelį apie pasirinktą sritį"
 
-#: ../src/wbcg-actions.c:2085
+#: ../src/wbcg-actions.c:2076
 msgid "ClearBorders"
 msgstr "IšvalytiRėmelius"
 
-#: ../src/wbcg-actions.c:2086
+#: ../src/wbcg-actions.c:2077
 msgid "Clear the border around the selection"
 msgstr "Pašalinti pasirinktos srities rėmelį"
 
-#: ../src/wbcg-actions.c:2089
+#: ../src/wbcg-actions.c:2080
 msgid "Thousands Separator"
 msgstr "Tūkstančių skirtukas"
 
-#: ../src/wbcg-actions.c:2090
+#: ../src/wbcg-actions.c:2081
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Įjungti tūkstančių skirtuko rodymą pasirinktuose laukeliuose"
 
-#: ../src/wbcg-actions.c:2092
+#: ../src/wbcg-actions.c:2083
 msgid "Increase Precision"
 msgstr "Padidinti tikslumą"
 
-#: ../src/wbcg-actions.c:2093
+#: ../src/wbcg-actions.c:2084
 msgid "Increase the number of decimals displayed"
 msgstr "Padidinti rodomų skaičių po kablelio kiekį"
 
-#: ../src/wbcg-actions.c:2095
+#: ../src/wbcg-actions.c:2086
 msgid "Decrease Precision"
 msgstr "Sumažinti tikslumą"
 
-#: ../src/wbcg-actions.c:2096
+#: ../src/wbcg-actions.c:2087
 msgid "Decrease the number of decimals displayed"
 msgstr "Sumažinti skaičių po kablelio kiekį"
 
-#: ../src/wbcg-actions.c:2102
+#: ../src/wbcg-actions.c:2093
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Sumažinti paraštę bei išlyginti duomenis pagal kairę pusę"
 
-#: ../src/wbcg-actions.c:2105
+#: ../src/wbcg-actions.c:2096
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Padidinti paraštę ir išlyginti duomenis pagal kairę pusę"
 
-#: ../src/wbcg-actions.c:2136
+#: ../src/wbcg-actions.c:2127
 msgid "Display _Outlines"
 msgstr "Rodyti rė_melius"
 
-#: ../src/wbcg-actions.c:2137
+#: ../src/wbcg-actions.c:2128
 msgid "Toggle whether or not to display outline groups"
 msgstr "Perjungia susietų grupių rodymą"
 
-#: ../src/wbcg-actions.c:2139
+#: ../src/wbcg-actions.c:2130
 msgid "Outlines _Below"
 msgstr "Grupuoti _žemiau"
 
-#: ../src/wbcg-actions.c:2140
+#: ../src/wbcg-actions.c:2131
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Perjungia eilučių grupių rodymą apačioje / viršuje"
 
-#: ../src/wbcg-actions.c:2142
+#: ../src/wbcg-actions.c:2133
 msgid "Outlines _Right"
 msgstr "Grupuoti _dešinėje"
 
-#: ../src/wbcg-actions.c:2143
+#: ../src/wbcg-actions.c:2134
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Perjungia stulpelių grupių rodymą kairėje / dešinėje"
 
-#: ../src/wbcg-actions.c:2145
+#: ../src/wbcg-actions.c:2136
 msgid "Display _Formulas"
 msgstr "Rodyti _formules"
 
-#: ../src/wbcg-actions.c:2146
+#: ../src/wbcg-actions.c:2137
 msgid "Display the value of a formula or the formula itself"
 msgstr "Rodyti formulės rezultatą arba pačią formulę"
 
-#: ../src/wbcg-actions.c:2148
+#: ../src/wbcg-actions.c:2139
 msgid "Hide _Zeros"
 msgstr "Nerodyti _nulių"
 
-#: ../src/wbcg-actions.c:2149
+#: ../src/wbcg-actions.c:2140
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Perjungti nulinių reikšmių rodymą"
 
-#: ../src/wbcg-actions.c:2151
+#: ../src/wbcg-actions.c:2142
 msgid "Hide _Gridlines"
 msgstr "Nerodyti _tinklelio"
 
-#: ../src/wbcg-actions.c:2152
+#: ../src/wbcg-actions.c:2143
 msgid "Toggle whether or not to display gridlines"
 msgstr "Perjungti tinklelio rodymą"
 
-#: ../src/wbcg-actions.c:2154
+#: ../src/wbcg-actions.c:2145
 msgid "Hide _Column Headers"
 msgstr "_Slėpti stulpelių antraštes"
 
-#: ../src/wbcg-actions.c:2155
+#: ../src/wbcg-actions.c:2146
 msgid "Toggle whether or not to display column headers"
 msgstr "Perjungti stulpelių antraščių rodymą"
 
-#: ../src/wbcg-actions.c:2157
+#: ../src/wbcg-actions.c:2148
 msgid "Hide _Row Headers"
 msgstr "Slėpti _eilučių antraštes"
 
-#: ../src/wbcg-actions.c:2158
+#: ../src/wbcg-actions.c:2149
 msgid "Toggle whether or not to display row headers"
 msgstr "Perjungti eilučių antraščių rodymą"
 
-#: ../src/wbcg-actions.c:2160
+#: ../src/wbcg-actions.c:2151
 msgid "Use R1C1 N_otation "
 msgstr "_Naudoti R1C1 žymėjimą "
 
-#: ../src/wbcg-actions.c:2161
+#: ../src/wbcg-actions.c:2152
 msgid "Display addresses as R1C1 or A1"
 msgstr "Rodyti adresus R1C1 arba A1 formatu"
 
-#: ../src/wbcg-actions.c:2165
+#: ../src/wbcg-actions.c:2156
 msgid "_Left Align"
 msgstr "_Lygiuoti kairėje"
 
-#: ../src/wbcg-actions.c:2166 ../src/wbc-gtk.c:341
+#: ../src/wbcg-actions.c:2157 ../src/wbc-gtk.c:342
 msgid "Align left"
 msgstr "Lygiuoti kairėje"
 
-#: ../src/wbcg-actions.c:2168
+#: ../src/wbcg-actions.c:2159
 msgid "_Center"
 msgstr "_Centruoti"
 
-#: ../src/wbcg-actions.c:2169 ../src/wbc-gtk.c:342
+#: ../src/wbcg-actions.c:2160 ../src/wbc-gtk.c:343
 msgid "Center horizontally"
 msgstr "Centruoti horizontaliai"
 
-#: ../src/wbcg-actions.c:2171
+#: ../src/wbcg-actions.c:2162
 msgid "_Right Align"
 msgstr "Lygiuoti _dešinėje"
 
-#: ../src/wbcg-actions.c:2172 ../src/wbc-gtk.c:343
+#: ../src/wbcg-actions.c:2163 ../src/wbc-gtk.c:344
 msgid "Align right"
 msgstr "Lygiuoti dešinėje"
 
-#: ../src/wbcg-actions.c:2174
+#: ../src/wbcg-actions.c:2165
 msgid "_Center Across Selection"
 msgstr "_Centruoti pažymėtoje srityje"
 
-#: ../src/wbcg-actions.c:2175 ../src/wbc-gtk.c:346
+#: ../src/wbcg-actions.c:2166 ../src/wbc-gtk.c:347
 msgid "Center horizontally across the selection"
 msgstr "Centruoti horizontaliai"
 
-#: ../src/wbcg-actions.c:2178
+#: ../src/wbcg-actions.c:2169
 msgid "_Merge and Center"
 msgstr "_Sujungti ir centruoti"
 
-#: ../src/wbcg-actions.c:2179
+#: ../src/wbcg-actions.c:2170
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Sujungti pasirinktą sritį į vieną lauką ir centruoti horizontaliai."
 
-#: ../src/wbcg-actions.c:2186
+#: ../src/wbcg-actions.c:2177
 msgid "Align _Top"
 msgstr "Išlygin_ti pagal viršų"
 
-#: ../src/wbcg-actions.c:2187 ../src/wbc-gtk.c:353
+#: ../src/wbcg-actions.c:2178 ../src/wbc-gtk.c:354
 msgid "Align Top"
 msgstr "Išlyginti pagal viršų"
 
-#: ../src/wbcg-actions.c:2189
+#: ../src/wbcg-actions.c:2180
 msgid "_Vertically Center"
 msgstr "Centruoti _vertikaliai"
 
-#: ../src/wbcg-actions.c:2190
+#: ../src/wbcg-actions.c:2181
 msgid "Vertically Center"
 msgstr "Centruoti vertikaliai"
 
-#: ../src/wbcg-actions.c:2192
+#: ../src/wbcg-actions.c:2183
 msgid "Align _Bottom"
 msgstr "Lygiuoti _apačioje"
 
-#: ../src/wbcg-actions.c:2193 ../src/wbc-gtk.c:355
+#: ../src/wbcg-actions.c:2184 ../src/wbc-gtk.c:356
 msgid "Align Bottom"
 msgstr "Lygiuoti apačioje"
 
-#: ../src/wbcg-actions.c:2196
+#: ../src/wbcg-actions.c:2187
 msgid "View _Statusbar"
 msgstr "Rodyti būklė_s juostą"
 
-#: ../src/wbcg-actions.c:2197
+#: ../src/wbcg-actions.c:2188
 msgid "Toggle visibility of statusbar"
 msgstr "Keisti būklės juostos matomumą"
 
-#: ../src/wbcg-actions.c:2201
+#: ../src/wbcg-actions.c:2192
 msgid "F_ull Screen"
 msgstr "_Pilnaekranis"
 
-#: ../src/wbcg-actions.c:2202
+#: ../src/wbcg-actions.c:2193
 msgid "Switch to or from full screen mode"
 msgstr "Persijungti iš arba į pilnaekranę veikseną"
 
-#: ../src/wbcg-actions.c:2208
+#: ../src/wbcg-actions.c:2199
 msgid "_Bold"
 msgstr "_Pastorintas"
 
-#: ../src/wbcg-actions.c:2211
+#: ../src/wbcg-actions.c:2202
 msgid "_Italic"
 msgstr "_Kursyvas"
 
-#: ../src/wbcg-actions.c:2214
+#: ../src/wbcg-actions.c:2205
 msgid "_Underline"
 msgstr "_Pabrauktas"
 
 #. ALSO "<control>4"
-#: ../src/wbcg-actions.c:2215
+#: ../src/wbcg-actions.c:2206
 msgid "Underline"
 msgstr "Pabrauktas"
 
-#: ../src/wbcg-actions.c:2217
+#: ../src/wbcg-actions.c:2208
 msgid "_Strike Through"
 msgstr "Perbrau_ktas"
 
-#: ../src/wbcg-actions.c:2218
+#: ../src/wbcg-actions.c:2209
 msgid "Strike Through"
 msgstr "Perbrauktas"
 
 #. from icon theme
-#: ../src/wbcg-actions.c:2220
+#: ../src/wbcg-actions.c:2211
 msgid "_Double Underline"
 msgstr "_Dvigubas pabraukimas"
 
-#: ../src/wbcg-actions.c:2221
+#: ../src/wbcg-actions.c:2212
 msgid "Double Underline"
 msgstr "Dvigubas pabraukimas"
 
 #. from icon theme
-#: ../src/wbcg-actions.c:2223
+#: ../src/wbcg-actions.c:2214
 msgid "Su_perscript"
 msgstr "_Rodiklis"
 
-#: ../src/wbcg-actions.c:2224
+#: ../src/wbcg-actions.c:2215
 msgid "Superscript"
 msgstr "Rodiklis"
 
 #. from icon theme
-#: ../src/wbcg-actions.c:2226
+#: ../src/wbcg-actions.c:2217
 msgid "Subscrip_t"
 msgstr "_Indeksas"
 
-#: ../src/wbcg-actions.c:2227
+#: ../src/wbcg-actions.c:2218
 msgid "Subscript"
 msgstr "Indeksas"
 
-#: ../src/wbc-gtk.c:180
+#: ../src/wbc-gtk.c:181
 msgid "_Zoom"
 msgstr "_Mąstelis"
 
-#: ../src/wbc-gtk.c:217
+#: ../src/wbc-gtk.c:218
 msgid "Clear Borders"
 msgstr "Pašalinti rėmelius"
 
-#: ../src/wbc-gtk.c:220
+#: ../src/wbc-gtk.c:221
 msgid "All Borders"
 msgstr "Visi rėmeliai"
 
-#: ../src/wbc-gtk.c:221
+#: ../src/wbc-gtk.c:222
 msgid "Outside Borders"
 msgstr "Išoriniai rėmeliai"
 
-#: ../src/wbc-gtk.c:222
+#: ../src/wbc-gtk.c:223
 msgid "Thick Outside Borders"
 msgstr "Ploni išoriniai rėmeliai"
 
-#: ../src/wbc-gtk.c:225
+#: ../src/wbc-gtk.c:226
 msgid "Double Bottom"
 msgstr "Dviguba apačia"
 
-#: ../src/wbc-gtk.c:226
+#: ../src/wbc-gtk.c:227
 msgid "Thick Bottom"
 msgstr "Pastorinta apačia"
 
-#: ../src/wbc-gtk.c:228
+#: ../src/wbc-gtk.c:229
 msgid "Top and Bottom"
 msgstr "Viršus ir apačia"
 
-#: ../src/wbc-gtk.c:229
+#: ../src/wbc-gtk.c:230
 msgid "Top and Double Bottom"
 msgstr "Viršus ir dviguba apačia"
 
-#: ../src/wbc-gtk.c:230
+#: ../src/wbc-gtk.c:231
 msgid "Top and Thick Bottom"
 msgstr "Viršus ir pastorinta apačia"
 
-#: ../src/wbc-gtk.c:315
+#: ../src/wbc-gtk.c:316
 msgid "Set Borders"
 msgstr "Nustatyti rėmelius"
 
-#: ../src/wbc-gtk.c:323 ../src/wbc-gtk.c:324
+#: ../src/wbc-gtk.c:324 ../src/wbc-gtk.c:325
 msgid "Borders"
 msgstr "Rėmeliai"
 
-#: ../src/wbc-gtk.c:344
+#: ../src/wbc-gtk.c:345
 msgid "Fill Horizontally"
 msgstr "Užpildyti horizontaliai"
 
-#: ../src/wbc-gtk.c:345
+#: ../src/wbc-gtk.c:346
 msgid "Justify Horizontally"
 msgstr "Lygiuoti horizontaliai"
 
-#: ../src/wbc-gtk.c:348
+#: ../src/wbc-gtk.c:349
 msgid "Align numbers right, and text left"
 msgstr "Skaičius lygiuoti pagal dešinį, o tekstą pagal kairį kraštą"
 
-#: ../src/wbc-gtk.c:354
+#: ../src/wbc-gtk.c:355
 msgid "Center Vertically"
 msgstr "Centruoti vertikaliai"
 
-#: ../src/wbc-gtk.c:377 ../src/wbc-gtk.c:378 ../src/wbc-gtk.c:381
-#: ../src/wbc-gtk.c:396
+#: ../src/wbc-gtk.c:378 ../src/wbc-gtk.c:379 ../src/wbc-gtk.c:382
+#: ../src/wbc-gtk.c:397
 msgid "Horizontal Alignment"
 msgstr "Horizontalus lygiavimas"
 
-#: ../src/wbc-gtk.c:392 ../src/wbc-gtk.c:393
+#: ../src/wbc-gtk.c:393 ../src/wbc-gtk.c:394
 msgid "Vertical Alignment"
 msgstr "Vertikalus lygiavimas"
 
-#: ../src/wbc-gtk.c:568
+#: ../src/wbc-gtk.c:569
 msgid "Set Foreground Color"
 msgstr "Nustatyti raidžių spalvą"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:623
+#: ../src/wbc-gtk.c:624
 msgid "Set Background Color"
 msgstr "Nustatyti fono spalvą"
 
-#: ../src/wbc-gtk.c:662
+#: ../src/wbc-gtk.c:663
 #, c-format
 msgid "Font Name %s"
 msgstr "Šrifto Pavadinimas %s"
 
-#: ../src/wbc-gtk.c:723
+#: ../src/wbc-gtk.c:724
 #, c-format
 msgid "Font Size %f"
 msgstr "Šrifto Dydis %f"
 
-#: ../src/wbc-gtk.c:741 ../src/wbc-gtk.c:742
+#: ../src/wbc-gtk.c:742 ../src/wbc-gtk.c:743
 msgid "Font Size"
 msgstr "Šrifto Dydis"
 
-#: ../src/wbc-gtk.c:804
+#: ../src/wbc-gtk.c:805
 #, c-format
 msgid "Open %s"
 msgstr "Atidaryti %s"
@@ -13330,33 +13370,33 @@ msgstr "Atidaryti %s"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:1123
+#: ../src/wbc-gtk.c:1124
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 "Vertimo klaida. Tarp menu `%s', raktas `%s' naudojamas tarp `%s' ir `%s'."
 
-#: ../src/wbc-gtk.c:1392
+#: ../src/wbc-gtk.c:1393
 msgid "Display above sheets"
 msgstr "Rodyti virš lentelių"
 
-#: ../src/wbc-gtk.c:1393
+#: ../src/wbc-gtk.c:1394
 msgid "Display to the left of sheets"
 msgstr "Rodyti kairėje lentelių pusėje"
 
-#: ../src/wbc-gtk.c:1394
+#: ../src/wbc-gtk.c:1395
 msgid "Display to the right of sheets"
 msgstr "Rodyti dešinėje lentelių pusėje"
 
-#: ../src/wbc-gtk.c:1398
+#: ../src/wbc-gtk.c:1399
 msgid "Reattach to main window"
 msgstr "Prijungti prie pagrindinio lango"
 
-#: ../src/wbc-gtk.c:1430
+#: ../src/wbc-gtk.c:1431
 msgid "Hide"
 msgstr "Slėpti"
 
-#: ../src/wbc-gtk.c:1492
+#: ../src/wbc-gtk.c:1493
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Rodyti/slėpti įrankių juostą %s"
@@ -13671,36 +13711,36 @@ msgstr "Nepalaikomas bylos formatas."
 msgid "An unexplained error happened while opening %s"
 msgstr "Atidarant %s įvyko nepaaiškinama klaida"
 
-#: ../src/xml-io.c:1657 ../src/xml-sax-read.c:1699
+#: ../src/xml-io.c:1643 ../src/xml-sax-read.c:1699
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nepalaikomas objekto tipas '%s'"
 
-#: ../src/xml-io.c:2108
+#: ../src/xml-io.c:2094
 msgid "Unparsable xml in clipboard"
 msgstr "Nepavyko apdoroti atmintinėje esančio xml"
 
-#: ../src/xml-io.c:2115
+#: ../src/xml-io.c:2101
 msgid "Clipboard is in unknown format"
 msgstr "Atmintinėje yra nežinomo formato duomenys"
 
-#: ../src/xml-io.c:2333
+#: ../src/xml-io.c:2319
 msgid "Processing file..."
 msgstr "Apdorojama byla..."
 
-#: ../src/xml-io.c:2671
+#: ../src/xml-io.c:2657
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Tai nėra Gnumeric skaičiuoklės byla"
 
-#: ../src/xml-io.c:2699
+#: ../src/xml-io.c:2685
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "Gnumeric XML (*.gnumeric) Lėtas seno formato importas"
 
-#: ../src/xml-io.c:2705
+#: ../src/xml-io.c:2691
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "EKSPERIMENTINIS SAX paremtas Gnumeric (*.gnumeric)"
 
-#: ../src/xml-io.c:2710
+#: ../src/xml-io.c:2696
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -13914,6 +13954,24 @@ msgstr "Lelijų spalvos sąrašo šablonas"
 msgid "A simple list template"
 msgstr "Paprastas sąrašo šablonas"
 
+#~ msgid "Not SYLK file"
+#~ msgstr "Ne SYLK byla"
+
+#~ msgid "error parsing line\n"
+#~ msgstr "klaida apdorojant eilutę\n"
+
+#~ msgid "Error while reading sheet."
+#~ msgstr "Įvyko klaida skaitant lentelę."
+
+#~ msgid "Print Config"
+#~ msgstr "Spausdinimo nustatymai"
+
+#~ msgid "Print Region"
+#~ msgstr "Spausdinama Ssitis"
+
+#~ msgid "Printing failed"
+#~ msgstr "Nepavyko atspausdinti"
+
 #~ msgid "List of recently used files"
 #~ msgstr "Neseniai naudotų bylų sąrašas"
 
@@ -13939,9 +13997,6 @@ msgstr "Paprastas sąrašo šablonas"
 
 #~ msgid "Print Sheets"
 #~ msgstr "Spausdinti lenteles"
-
-#~ msgid "Act_ive sheet"
-#~ msgstr "Aktyv_i lentelė"
 
 #~ msgid "S_heets"
 #~ msgstr "_Lentelės"
