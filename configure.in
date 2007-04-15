@@ -577,7 +577,7 @@ ifelse([
   po/ and po-functions/ have .po files that correspond to your language.
   If you only add one to po/, the build will break in po-functions/.
 ])
-AC_SUBST(ALL_LINGUAS, "am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv lt ml mr ms nb nl nn pl pt pt_BR ro ru rw sk sr sr@Latn sv te tr uk vi zh_CN zh_TW")
+AC_SUBST(ALL_LINGUAS, "am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv lt ml mr ms nb nl nn oc pl pt pt_BR ro ru rw sk sr sr@Latn sv te tr uk vi zh_CN zh_TW")
 
 POFILES_FULL=
 for lang in $ALL_LINGUAS; do

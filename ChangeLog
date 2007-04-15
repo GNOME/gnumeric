@@ -1,3 +1,7 @@
+2007-04-15  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* configure.in: Added "oc" (Occitan) to ALL_LINGUAS.
+
 2006-06-29  Ivan, Wong Yat Cheung <ivanwong@gnome.org>
 
 	* plugins/excel/ms-excel-read.c (excel_read_LABEL): use opcode instead
