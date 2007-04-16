@@ -17,7 +17,7 @@
 #include "value.h"
 #include "sheet.h"
 #include "ranges.h"
-
+#include <goffice/utils/go-locale.h>
 #include <stdlib.h>
 
 typedef struct {
@@ -26,19 +26,13 @@ typedef struct {
 } SortDataPerm;
 
 
-/* Clause stuff */
-static void
-sort_clause_destroy (GnmSortClause *clause)
-{
-	g_free (clause);
-}
-
 /* Data stuff */
 void
 gnm_sort_data_destroy (GnmSortData *data)
 {
-	sort_clause_destroy (data->clauses);
+	g_free (data->clauses);
 	g_free (data->range);
+	g_free (data->locale);
 	g_free (data);
 }
 
@@ -290,8 +284,21 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 		}
 	}
 
-	if (real_length > 1)
+	if (real_length > 1) {
+		char *old_locale = NULL;
+
+		if (data->locale) {
+			old_locale = g_strdup (go_setlocale (LC_ALL, NULL));
+			go_setlocale (LC_ALL, data->locale);
+		}
+
 		qsort (perm, real_length, sizeof (SortDataPerm), sort_qsort_compare);
+
+		if (old_locale) {
+			go_setlocale (LC_ALL, old_locale);
+			g_free (old_locale);
+		}
+	}
 
 	cur = 0;
 	iperm = g_new (int, length);

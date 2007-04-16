@@ -46,18 +46,10 @@
 #include <value.h>
 
 #include <glade/glade.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderer.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
+#include <goffice/gtk/go-locale-sel.h>
 
 #define CELL_SORT_KEY "cell-sort-dialog"
 
@@ -91,6 +83,7 @@ typedef struct {
 	GtkWidget *retain_format_check;
 	GdkPixbuf *image_ascending;
 	GdkPixbuf *image_descending;
+	GOLocaleSel *locale_selector;
 
 	GnmValue  *sel;
 	gboolean   header;
@@ -508,6 +501,7 @@ cb_dialog_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	data->top = state->is_cols;
 	data->retain_formats = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->retain_format_check));
+	data->locale = go_locale_sel_get_locale (state->locale_selector);
 
 	cmd_sort (WORKBOOK_CONTROL (state->wbcg), data);
 
@@ -947,8 +941,7 @@ dialog_init (SortFlowState *state)
 	GtkCellRenderer *renderer;
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_options_table"));
-
-/* setup range entry */
+	/* setup range entry */
 	state->range_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->range_entry,
 				  GNM_EE_SINGLE_RANGE,
@@ -965,9 +958,15 @@ dialog_init (SortFlowState *state)
 		"changed",
 		G_CALLBACK (cb_update_sensitivity), state);
 
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_spec_table"));
+	state->locale_selector = GO_LOCALE_SEL (go_locale_sel_new ());
+	gtk_widget_show_all (GTK_WIDGET (state->locale_selector));
+	gtk_table_attach (table, GTK_WIDGET (state->locale_selector),
+			  2, 3, 5, 6,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
 
-/* setup add entry */
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_spec_table"));
+	/* setup add entry */
 	state->add_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->add_entry,
 				  GNM_EE_SINGLE_RANGE,

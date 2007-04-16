@@ -1028,7 +1028,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
 
 	numclause = range_width (sel);
 	clause = g_new0 (GnmSortClause, numclause);
-	for (i=0; i < numclause; i++) {
+	for (i = 0; i < numclause; i++) {
 		clause[i].offset = i;
 		clause[i].asc = descending;
 		clause[i].cs = gnm_app_prefs->sort_default_by_case;
@@ -1040,6 +1040,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
 	data->range = sel;
 	data->num_clause = numclause;
 	data->clauses = clause;
+	data->locale = NULL;
 
 	data->retain_formats = gnm_app_prefs->sort_default_retain_formats;
 

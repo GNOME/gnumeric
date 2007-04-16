@@ -1,3 +1,10 @@
+2007-04-15  Morten Welinder  <terra@gnome.org>
+
+	* src/sort.c (gnm_sort_contents): Set locale around sorting, if
+	needed.
+	* src/wbcg-actions.c (sort_by_rows): Set NULL locale.
+	* configure.in: revert previous change.
+
 2007-04-15  Christophe Merlet  <redfox@redfoxcenter.org>
 
 	* configure.in: Added "oc" (Occitan) to ALL_LINGUAS.

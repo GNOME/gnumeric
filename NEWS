@@ -19,6 +19,7 @@ Morten:
 	* Fix XL load crash.  [#418868]
 	* Fix format guessed for $123,456.78  [#423603]
 	* Perform UTF-8 normalization during search.  [#421678]
+	* Allow selecting a locale for sorting.  [#427019]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.8

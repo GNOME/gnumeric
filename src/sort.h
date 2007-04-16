@@ -17,6 +17,7 @@ struct _GnmSortData {
 	GnmSortClause	*clauses;
 	gboolean	 top;
 	gboolean	 retain_formats;
+	char            *locale;
 };
 
 void gnm_sort_data_destroy   (GnmSortData *data);
