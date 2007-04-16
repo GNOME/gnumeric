@@ -1,3 +1,11 @@
+2007-04-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (print_page): handle scaling
+	(compute_n_pages): new
+	(compute_scale_fit_to): rewrite to approximate best scaling factor
+	(compute_sheet_pages_add_sheet): avoid warning
+	(compute_sheet_pages_across_then_down): handle scaling
+
 2007-04-15  Morten Welinder  <terra@gnome.org>
 
 	* src/sort.c (gnm_sort_contents): Set locale around sorting, if

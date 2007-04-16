@@ -586,12 +586,23 @@ print_page (GtkPrintOperation *operation,
 	gdouble width, text_height;
 	gint layout_height;
 	PangoFontDescription *desc;
+	gdouble px, py;
+
+	px = pinfo->scaling.percentage.x / 100.;
+	py = pinfo->scaling.percentage.y / 100.;
+
+	if (px <= 0.)
+		px = 1.;
+	if (py <= 0.)
+		py = 1.;
 
 	cr = gtk_print_context_get_cairo_context (context);
-	width = gtk_print_context_get_width (context);
-	text_height  = gtk_print_context_get_height (context);
+	width = gtk_print_context_get_width (context)/px;
+	text_height  = gtk_print_context_get_height (context)/py;
 
 	cairo_save (cr);
+
+	cairo_scale (cr, px, py);
 
 	/* 	/\* FIXME: Can col / row space calculation be factored out? *\/ */
 
@@ -773,7 +784,20 @@ compute_group (Sheet const *sheet,
 	return count;
 }
 
-#if 0
+static int
+compute_n_pages (Sheet const *sheet,
+	       int start, int end, double usable,
+	       ColRowInfo const *(get_info)(Sheet const *sheet, int const p))
+{
+	int count = 0;
+
+	while (start <= end) {
+		start += compute_group (sheet, start, end, usable, get_info);
+		count++;
+	}
+
+	return count;
+}
 
 /* computer_scale_fit_to
  * Computes the scaling needed to fit all the rows or columns into the @usable
@@ -784,49 +808,65 @@ compute_group (Sheet const *sheet,
  * It will only reduce the scaling to fit inside a page, not enlarge.
  */
 static double
-compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
+compute_scale_fit_to (Sheet const *sheet,
 		      int start, int end, double usable,
 		      ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
-		      gint pages)
+		      gint pages, double max_percent, double extent)
 {
-	double size_pts; /* The initial grid line on each page*/
-	int idx;
-	double scale;
-	double max_unit = 0;
+	double max_p, min_p;
+	gint   max_pages, min_pages; 
 
 	/* This means to take whatever space is needed.  */
 	if (pages <= 0)
-		return 100;
+		return max_percent;
 
-	size_pts =  1. * pages;
+	/* We can handle a single page easily: */
+	if (pages == 1) {
+		max_p = usable/(extent + 2.);
+		return ((max_p > max_percent) ? max_percent : max_p);
+	}
 
-	/* Work how much space the sheet requires. */
-	for (idx = start; idx <= end; idx++) {
-		ColRowInfo const *info = (*get_info) (sheet, idx);
-		if (info->visible) {
-			size_pts += info->size_pts;
-			if (info->size_pts > max_unit)
-				max_unit = (info->size_pts > usable) ?
-					usable : info->size_pts;
+	/* There is no easy way to calculate really which percentage is needed */
+	/* without in fact allocating the cols/rows to pages.                  */
+
+	/* We first calculate the max percentage needed */
+
+	max_p = (pages * usable)/extent;
+	if (max_p > max_percent)
+		max_p = max_percent;
+
+	max_pages = compute_n_pages (sheet, start, end, usable/max_p, get_info);
+
+	if (max_pages == pages)
+		return max_p;
+
+	/* The we calculate the min percentage */
+
+	min_p = usable/extent;
+	if (min_p > max_percent)
+		min_p = max_percent;
+
+	min_pages = compute_n_pages (sheet, start, end, usable/min_p, get_info);
+
+	
+	/* And then we pick the middle until the percentage is within 0.1% of */
+	/* the desired percentage */
+
+	while (max_p - min_p > 0.001) {
+		double cur_p = (max_p + min_p) / 2.;
+		int cur_pages = compute_n_pages (sheet, start, end, usable/cur_p, get_info);
+		
+		if (cur_pages > pages) {
+			max_pages = cur_pages;
+			max_p = cur_p;
+		} else {
+			min_pages = cur_pages;
+			min_p = cur_p;
 		}
 	}
 
-	usable *= pages; /* Our usable area is this big. */
-
-	/* What scale is required to fit the sheet onto this usable area? */
-	/* Note that on each page but the last we may loose space that can */
-	/* be nearly as large as the largest unit. */
-	scale = usable / (size_pts + (pages - 1) * max_unit) * 100.;
-
-	/* If the sheet needs to be shrunk, we update the scale.
-	 * If it already fits, we simply leave the scale at 100.
-	 * Another feature might be to enlarge a sheet so that it fills
-	 * the page. But this is not a requested feature yet.
-	 */
-	return (scale < 100.) ? scale : 100.;
+	return min_p;
 }
-
-#endif
 
 #define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
@@ -900,7 +940,7 @@ compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboole
                      gboolean ignore_printarea)
 {
 	SheetPrintInfo *spi = g_new (SheetPrintInfo, 1);
-	spi->sheet = sheet;
+	spi->sheet = (Sheet *) sheet;
 	spi->selection = selection;
 	spi->ignore_printarea = ignore_printarea;
 	pi->gnmSheets = g_list_append(pi->gnmSheets, spi);
@@ -924,20 +964,55 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 				      Sheet const *sheet,
 				      GnmRange const *r)
 {
-/* 	PrintInformation *pi = sheet->print_info; */
+	PrintInformation *pinfo = sheet->print_info;
 	double usable_x, usable_x_initial, usable_x_repeating;
 	double usable_y, usable_y_initial, usable_y_repeating;
 	int row = r->start.row;
 	gboolean printed = TRUE;
+	gdouble px, py;
+	gdouble page_width, page_height;
 
-/* 	usable_x_initial   = pj->x_points - pj->titles_used_x; */
+	page_width = gtk_print_context_get_width (context);
+	page_height = gtk_print_context_get_height (context);
+
+	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
+		gdouble pxy;
+
+		pxy = compute_scale_fit_to (sheet, r->start.row, r->end.row,
+					    page_height, sheet_row_get_info,
+					    pinfo->scaling.dim.rows, 1., 
+					    sheet_row_get_distance_pts (sheet, 
+									r->start.row, 
+									r->end.row+1));
+		pxy = compute_scale_fit_to (sheet, r->start.col, r->end.col,
+					    page_width, sheet_col_get_info,
+					    pinfo->scaling.dim.cols, pxy,
+					    sheet_col_get_distance_pts (sheet, 
+									r->start.col, 
+									r->end.col+1));
+		
+		pinfo->scaling.percentage.x = pxy * 100.;
+		pinfo->scaling.percentage.y = pxy * 100.;
+
+		g_warning ("scale to fit: p=%f%%", pxy * 100.);
+	}
+
+	px = pinfo->scaling.percentage.x / 100.;
+	py = pinfo->scaling.percentage.y / 100.;
+
+	if (px <= 0.)
+		px = 1.;
+	if (py <= 0.)
+		py = 1.;
+
+	/* 	usable_x_initial   = pj->x_points - pj->titles_used_x; */
 /* 	usable_x_repeating = usable_x_initial - pj->repeat_cols_used_x; */
 /* 	usable_y_initial   = pj->y_points - pj->titles_used_y; */
 /* 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y; */
 
-	usable_x_initial   = gtk_print_context_get_width (context);
+	usable_x_initial   = page_width / px;
 	usable_x_repeating = usable_x_initial;
-	usable_y_initial   = gtk_print_context_get_height (context);
+	usable_y_initial   = page_height / py;
 	usable_y_repeating = usable_y_initial;
 
 /* 	if (pi->scaling.type == PRINT_SCALE_FIT_PAGES) { */
