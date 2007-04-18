@@ -4842,12 +4842,17 @@ cmd_rename_sheet (WorkbookControl *wbc,
 	g_return_val_if_fail (new_name != NULL, TRUE);
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	if (*new_name == 0)
+	if (*new_name == 0) {
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Name"), _("Sheet names must be non-empty."));
 		return TRUE;
+	}
 
 	collision = workbook_sheet_by_name (sheet->workbook, new_name);
 	if (collision && collision != sheet) {
-		g_warning ("Sheet name collision.\n");
+		GError *err = g_error_new (go_error_invalid(), 0,
+					   _("A workbook cannot have two sheets with the same name."));
+		go_cmd_context_error (GO_CMD_CONTEXT (wbc), err);
+		g_error_free (err);
 		return TRUE;
 	}
 

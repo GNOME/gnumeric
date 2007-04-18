@@ -1,3 +1,8 @@
+2007-04-18  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_rename_sheet): Send errors to the command
+	context [==gui], not just stderr.
+
 2007-04-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (print_page): handle scaling
