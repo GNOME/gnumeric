@@ -193,9 +193,9 @@ load_formats (void)
 			PrintHF *format;
 
 			format = print_hf_new 
-				(left->data ? (char *)(left->data) : "",
-				 middle->data ? (char *)(middle->data) : "",
-				 right->data ? (char *)(right->data) : "");
+				(left->data ? left->data : "",
+				 middle->data ? middle->data : "",
+				 right->data ? right->data : "");
 
 			hf_formats = g_list_prepend (hf_formats, format);
 			
@@ -252,15 +252,15 @@ print_info_load_defaults (PrintInformation *res)
 
 	list = (GSList *) gnm_app_prefs->printer_header;
 	res->header = list ?
-		print_hf_new ((char *)g_slist_nth_data (list, 0),
-			      (char *)g_slist_nth_data (list, 1),
-			      (char *)g_slist_nth_data (list, 2)) :
+		print_hf_new (g_slist_nth_data (list, 0),
+			      g_slist_nth_data (list, 1),
+			      g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("&[TAB]"), "");
 	list = (GSList *) gnm_app_prefs->printer_footer;
 	res->footer = list ?
-		print_hf_new ((char *)g_slist_nth_data (list, 0),
-			      (char *)g_slist_nth_data (list, 1),
-			      (char *)g_slist_nth_data (list, 2)) :
+		print_hf_new (g_slist_nth_data (list, 0),
+			      g_slist_nth_data (list, 1),
+			      g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("Page &[PAGE]"), "");
 
 	return res;
@@ -766,17 +766,17 @@ print_info_get_paper (PrintInformation *pi)
 	char const *name;
 	GtkPaperSize* paper;
 	
-	g_return_val_if_fail (pi != NULL, GTK_PAPER_NAME_A4);
+	g_return_val_if_fail (pi != NULL, g_strdup (GTK_PAPER_NAME_A4));
 	print_info_load_defaults (pi);
-	g_return_val_if_fail (pi->page_setup != NULL, GTK_PAPER_NAME_A4);
+	g_return_val_if_fail (pi->page_setup != NULL, g_strdup (GTK_PAPER_NAME_A4));
 
 	paper = gtk_page_setup_get_paper_size (pi->page_setup);
 	
 	if (gtk_paper_size_is_custom (paper)) {
 		double width = gtk_paper_size_get_width (paper, GTK_UNIT_MM);
 		double height = gtk_paper_size_get_height (paper, GTK_UNIT_MM);
-		name = g_strdup_printf ("custom_Gnm-%.0fx%.0fmm_%.0fx%.0fmm",
-					width, height, width, height);
+		char *name = g_strdup_printf ("custom_Gnm-%.0fx%.0fmm_%.0fx%.0fmm",
+					      width, height, width, height);
 		return name;
 	}
 

@@ -1,5 +1,7 @@
 2007-04-18  Morten Welinder  <terra@gnome.org>
 
+	* src/print-info.c (print_info_get_paper): Fix return types.
+
 	* src/commands.c (cmd_rename_sheet): Send errors to the command
 	context [==gui], not just stderr.
 
