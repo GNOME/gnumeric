@@ -16,11 +16,14 @@ while (<STDIN>) {
 	s/="[.0-9]+"/="x"/g;
     }
 
-    # "x" out margins.
     if (m|^\s*<gnm:PrintInformation>\s*$| .. m|^\s*</gnm:PrintInformation>\s*$|) {
+        # "x" out margins.
 	if (m|^\s*<gnm:Margins>\s*$| .. m|^\s*</gnm:Margins>\s*$|) {
 	    s/="[-.0-9a-zA-Z]+"/="x"/g;
 	}
+
+	# "x" out information from cups.
+	s{(<gnm:(paper|orientation)>).*(</gnm:\2>)}{$1xxx$3};
     }
 
     # Sort names.
