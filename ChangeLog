@@ -1,3 +1,7 @@
+2007-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/ssindex.c (ssindex): Avoid updating the recect-files list.
+
 2007-04-18  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (print_info_get_paper): Fix return types.
