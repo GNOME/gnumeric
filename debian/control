@@ -5,9 +5,9 @@ Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
 Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5), dh-buildinfo, 
  po-debconf, gettext, bison, flex, scrollkeeper, libxml-parser-perl,
  zlib1g-dev, libglib2.0-dev (>= 2.6.0), libgsf-1-dev (>= 1.14.2),
- libgoffice-0-dev (>= 0.3.7), libxml2-dev (>= 2.6.10-2),
+ libgoffice-0-dev (>= 0.3.8), libxml2-dev (>= 2.6.10-2),
  libpango1.0-dev (>= 1.8.1),
- libgtk2.0-dev (>= 2.6.0), libglade2-dev (>= 1:2.4.0-1),
+ libgtk2.0-dev (>= 2.10.0), libglade2-dev (>= 1:2.4.0-1),
  libart-2.0-dev (>= 2.3.16-5),
  libgconf2-dev (>= 2.6.2-1), libbonobo2-dev (>= 2.6.2-4),
  libbonoboui2-dev (>= 2.6.1-1),
@@ -19,8 +19,9 @@ Standards-Version: 3.7.2
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, gsfonts, gnumeric-common (= ${Source-Version}), ${misc:Depends}
-Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra
+Depends: ${shlibs:Depends}, procps, gsfonts, gnumeric-common (= ${Source-Version}), ${misc:Depends}
+Recommends: evince
+Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra, epiphany-browser
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
 XS-Python-Version: current

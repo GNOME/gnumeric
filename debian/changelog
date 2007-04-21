@@ -1,3 +1,20 @@
+gnumeric (1.7.9-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/control]
+    * Bumped libgtk2.0-dev build dependencies and removed gnomeprint build
+      dependency per configure.in .
+    * Added gnumeric Depends: procps for pgrep (used in the preinst script).
+    * Added gnumeric Recommends: evince (called by the print preview
+      implementation in libgtk).
+    * Added gnumeric Suggests: epiphany-browser (default browser used by the
+      library functions called for Help -> Gnumeric on the Web and Help ->
+      Report a Problem).
+  * [debian/po/pt_BR.po] Added, courtesy of Eder L. Marques
+    <frolic@debian-ce.org>. (Closes: #417350)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 21 Apr 2007 19:47:30 +0200
+
 gnumeric (1.7.8-1) experimental; urgency=low
 
   * New upstream development release.
