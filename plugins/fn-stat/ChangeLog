@@ -1,3 +1,7 @@
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
 2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* functions.c: use new names for range and regression functions.

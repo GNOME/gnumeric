@@ -1,3 +1,7 @@
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
 2007-04-15  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-sort.c (dialog_init): Attach locale selector.
