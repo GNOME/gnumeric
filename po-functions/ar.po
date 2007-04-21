@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric functions HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-17 21:15+0000\n"
-"PO-Revision-Date: 2006-11-17 22:27+0100\n"
+"PO-Revision-Date: 2007-04-21 12:45+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
@@ -6079,7 +6079,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:973
 #: ../plugins/fn-r/functions.c:1002
 msgid "b:the number of black balls"
-msgstr ""
+msgstr "b:عدد الكرات السوداء"
 
 #: ../plugins/fn-r/functions.c:947
 #: ../plugins/fn-r/functions.c:974
