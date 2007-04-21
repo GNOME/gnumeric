@@ -1,5 +1,9 @@
 2007-04-21  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
 	* Release 1.7.9
 
 2007-04-20  Morten Welinder  <terra@gnome.org>
