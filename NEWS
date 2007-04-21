@@ -21,6 +21,7 @@ Morten:
 	* Perform UTF-8 normalization during search.  [#421678]
 	* Allow selecting a locale for sorting.  [#427019]
 	* Make sure ssindex doesn't update the recent-files list.
+	* Update recent-files on load and save.  [#152584]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.8

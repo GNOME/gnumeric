@@ -75,6 +75,17 @@ cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
 	wb->file_saver = NULL;
 }
 
+void
+workbook_update_history (Workbook *wb)
+{
+	if (wb->doc.uri && wb->file_format_level >= FILE_FL_MANUAL_REMEMBER) {
+		const char *mimetype = wb->file_saver
+			? go_file_saver_get_mime_type (wb->file_saver)
+			: NULL;
+		gnm_app_history_add (wb->doc.uri, mimetype);
+	}
+}
+
 static void
 workbook_dispose (GObject *wb_object)
 {
@@ -82,15 +93,6 @@ workbook_dispose (GObject *wb_object)
 	GList *sheets, *ptr;
 
 	wb->during_destruction = TRUE;
-
-	/* It isn't clear to me that this needs to be at dispose time.  */
-	if (wb->doc.uri && wb->file_format_level >= FILE_FL_MANUAL_REMEMBER) {
-		char *mimetype = NULL;
-		if (wb->file_saver)
-			mimetype = g_strdup (go_file_saver_get_mime_type (wb->file_saver));
-		gnm_app_history_add (wb->doc.uri, mimetype);
-		g_free (mimetype);
-	}
 
 	if (wb->file_saver)
 		workbook_set_saveinfo (wb, wb->file_format_level, NULL);

@@ -300,9 +300,6 @@ convert (char const *inarg, char const *outarg,
 			}
 			res = !wb_view_save_as (wbv, fs, outfile, cc);
 
-			/* This inhibits updating the recent-file list.  */
-			workbook_set_saveinfo (wb, FILE_FL_MANUAL, NULL);
-
 			g_object_unref (wb);
 		}
 		g_object_unref (io_context);

@@ -1,5 +1,12 @@
 2007-04-20  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_update_history): New function,
+	extracted from workbook_dispose.
+	(workbook_dispose): Don't update file history here.
+
+	* src/gui-file.c (gui_file_read, gui_file_save_as, gui_file_save):
+	Call workbook_update_history on success.
+
 	* src/ssindex.c (ssindex): Avoid updating the recect-files list.
 
 2007-04-18  Morten Welinder  <terra@gnome.org>

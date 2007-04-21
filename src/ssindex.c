@@ -201,9 +201,6 @@ ssindex (char const *file, IOContext *ioc)
 	gsf_output_close (gsf_stdout);
 	g_object_unref (gsf_stdout);
 
-	/* This inhibits updating the recent-file list.  */
-	workbook_set_saveinfo (wb, FILE_FL_MANUAL, NULL);
-
 	g_object_unref (wb);
 
 	return res;

@@ -42,6 +42,7 @@ GnmExprSharer *workbook_share_expressions (Workbook *wb, gboolean freeit);
 /* IO Routines */
 gboolean       workbook_set_saveinfo	(Workbook *wb,
 					 FileFormatLevel, GOFileSaver *);
+void           workbook_update_history  (Workbook *wb);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 
 /* See also sheet_cell_foreach_range */

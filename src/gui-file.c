@@ -135,6 +135,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 
 	if (wbv != NULL) {
 		gui_wb_view_show (wbcg, wbv);
+		workbook_update_history (wb_view_get_workbook (wbv));
 		return TRUE;
 	}
 	return FALSE;
@@ -521,8 +522,10 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		gtk_widget_destroy (GTK_WIDGET (fsel));
 		fsel = NULL;
 		success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
-		if (success)
+		if (success) {
 			wbcg->current_saver = fs;
+			workbook_update_history (wb_view_get_workbook (wb_view));
+		}
 	}
 
 	g_free (uri);
@@ -547,6 +550,10 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	wb = wb_view_get_workbook (wb_view);
 	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
-	else
-		return wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
+	else {
+		gboolean ok = wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
+		if (ok)
+			workbook_update_history (wb);
+		return ok;
+	}
 }
