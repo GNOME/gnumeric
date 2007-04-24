@@ -659,8 +659,11 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("orientation")))) {
 		xmlChar *txt = xmlNodeGetContent (child);
-		/* this was once an enum */
-		pi->portrait_orientation = !strcmp (CXML2C (txt), "portrait");
+#warning TODO: we should also handle inversion
+		print_info_set_paper_orientation (pi,
+						  strcmp (CXML2C (txt), "portrait")
+						  ? GTK_PAGE_ORIENTATION_LANDSCAPE
+						  : GTK_PAGE_ORIENTATION_PORTRAIT);
 		xmlFree (txt);
 	}
 

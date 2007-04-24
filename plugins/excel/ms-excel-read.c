@@ -4070,6 +4070,7 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 	PrintInformation *pi = esheet->sheet->print_info;
 	guint16  flags;
 	gboolean rotate_paper = FALSE;
+	gboolean portrait_orientation = TRUE;
 
 	XL_CHECK_CONDITION (q->length >= 12);
 
@@ -4105,10 +4106,15 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		}
 	}
 	if (esheet_ver (esheet) == MS_BIFF_V4 || 0 == (flags & 0x40))
-		pi->portrait_orientation = (flags & 0x2) != 0;
+		portrait_orientation = (flags & 0x2) != 0;
 	if (rotate_paper)
-		pi->portrait_orientation = !pi->portrait_orientation;
+		portrait_orientation = !portrait_orientation;
 
+	print_info_set_paper_orientation (pi, portrait_orientation
+					  ? GTK_PAGE_ORIENTATION_PORTRAIT
+					  : GTK_PAGE_ORIENTATION_LANDSCAPE);
+	
+	
 	if (esheet_ver (esheet) > MS_BIFF_V4) {
 		XL_CHECK_CONDITION (q->length >= 34);
 

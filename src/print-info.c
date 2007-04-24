@@ -278,9 +278,6 @@ print_info_new (gboolean load_defaults)
 	PrintInformation *res = g_new0 (PrintInformation, 1);
 
 	res->print_as_draft	   = FALSE;
-	res->portrait_orientation  = TRUE;
-
-	res->invert_orientation    = FALSE;
 	res->comment_placement = PRINT_COMMENTS_IN_PLACE;
 	res->error_display     = PRINT_ERRORS_AS_DISPLAYED;
 
@@ -784,6 +781,19 @@ print_info_get_paper (PrintInformation *pi)
 	return g_strdup (name);
 }
 
+char  const*
+print_info_get_paper_display_name (PrintInformation *pi)
+{
+	GtkPaperSize* paper;
+	
+	g_return_val_if_fail (pi != NULL, "ERROR: No printinformation specified");
+	print_info_load_defaults (pi);
+	g_return_val_if_fail (pi->page_setup != NULL, "ERROR: No pagesetup loaded");
+
+	paper = gtk_page_setup_get_paper_size (pi->page_setup);
+	return gtk_paper_size_get_display_name (paper);
+}
+
 double
 print_info_get_paper_width (PrintInformation *pi, GtkUnit unit)
 {
@@ -803,8 +813,11 @@ print_info_get_paper_height (PrintInformation *pi, GtkUnit unit)
 }
 
 GtkPageSetup*
-print_info_get_page_setup (PrintInformation const *pi)
+print_info_get_page_setup (PrintInformation *pi)
 {
+	g_return_val_if_fail (pi != NULL, NULL);
+	print_info_load_defaults (pi);
+
 	if (pi->page_setup)
 		return g_object_ref (pi->page_setup);
 	else
@@ -814,7 +827,33 @@ print_info_get_page_setup (PrintInformation const *pi)
 void
 print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
 {
+	g_return_if_fail (pi != NULL);
+	print_info_load_defaults (pi);
+
 	if (pi->page_setup)
 		g_object_unref (pi->page_setup);
 	pi->page_setup = page_setup;
+}
+
+GtkPageOrientation
+print_info_get_paper_orientation (PrintInformation *pi)
+{
+	GtkPageOrientation orientation;
+	
+	g_return_val_if_fail (pi != NULL, GTK_PAGE_ORIENTATION_PORTRAIT);
+	print_info_load_defaults (pi);
+	g_return_val_if_fail (pi->page_setup != NULL, GTK_PAGE_ORIENTATION_PORTRAIT);
+
+	orientation = gtk_page_setup_get_orientation (pi->page_setup);
+	return orientation;
+}
+
+void
+print_info_set_paper_orientation (PrintInformation *pi,
+				  GtkPageOrientation orientation)
+{
+	g_return_if_fail (pi != NULL);
+	print_info_load_defaults (pi);
+
+	gtk_page_setup_set_orientation (pi->page_setup, orientation);
 }

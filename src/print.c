@@ -993,8 +993,6 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 		
 		pinfo->scaling.percentage.x = pxy * 100.;
 		pinfo->scaling.percentage.y = pxy * 100.;
-
-		g_warning ("scale to fit: p=%f%%", pxy * 100.);
 	}
 
 	px = pinfo->scaling.percentage.x / 100.;

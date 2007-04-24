@@ -1849,7 +1849,12 @@ xml_sax_orientation (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->sheet->print_info != NULL);
 
 	pi = state->sheet->print_info;
-	pi->portrait_orientation = (strcmp (xin->content->str, "portrait") == 0);
+
+#warning TODO: we should also handle inversion
+	print_info_set_paper_orientation (pi,
+					  strcmp (xin->content->str, "portrait")
+					  ? GTK_PAGE_ORIENTATION_LANDSCAPE
+					  : GTK_PAGE_ORIENTATION_PORTRAIT);
 }
 
 static void

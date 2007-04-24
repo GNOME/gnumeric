@@ -1,3 +1,29 @@
+2007-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.glade: we don't use gnomeprint anymore. Change
+	  scaling selection and paper selection
+	* dialog-printer-setup.c (PrinterSetupState): adjust fields
+	(get_paper_pswidth): deleted
+	(get_paper_psheight): deleted
+	(notebook_flipped): turn into stub
+	(do_update_page): new
+	(do_setup_page): rewrite
+	(scaling_percent_changed): new
+	(scaling_fit_to_h_changed): new
+	(scaling_fit_to_v_changed): new
+	(scaling_fit_to_changed): new
+	(do_setup_scale): new
+	(cb_do_print_destroy ): we don't use gnomeprint anymore,
+	  comment out unimplemented items
+	(printer_setup_state_new): ditto
+	(do_fetch_page): ditto
+	(fetch_settings): ditto
+	(do_fetch_scale): new
+	(dialog_printer_setup_done_cb): don't commit changes yet
+	(dialog_printer_setup): rename to dialog_gtk_printer_setup_cb and
+	  make this dialog modal with respect to the large pagesetup dialog
+	(dialog_printer_setup): reenable the implemented portion
+
 2007-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.9

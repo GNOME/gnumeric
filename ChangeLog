@@ -1,3 +1,27 @@
+2007-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_print_setup): print_info_dup might load the pi
+	* src/xml-sax-read.c (xml_sax_orientation): use 
+	  print_info_set_paper_orientation
+	* src/xml-sax-write.c (xml_write_print_info): use 
+	  print_info_get_paper_orientation
+	* src/print.c (compute_sheet_pages_across_then_down): remove debug 
+	  spew
+	* src/xml-io.c (xml_read_print_info): use 
+	  print_info_set_paper_orientation
+	* src/print-info.c (print_info_set_paper_orientation): new
+	(print_info_get_paper_orientation): new
+	(print_info_get_page_setup): print-info is not constant, also verify
+	  arguments
+	(print_info_set_page_setup): verify arguments
+	(print_info_get_paper_display_name): new
+	* src/print-info.h (portrait_orientation): remove field
+	(invert_orientation): remove field
+	(print_info_set_paper_orientation): new
+	(print_info_get_paper_orientation): new
+	(print_info_get_page_setup): print-info is not constant
+	(print_info_get_paper_display_name): new
+	
 2007-04-21  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

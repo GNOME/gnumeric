@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * ms-excel-write.c: MS Excel support for Gnumeric
  *
@@ -441,7 +441,7 @@ points_to_inches (double pts)
 void
 excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	PrintInformation const *pi = NULL;
+	PrintInformation *pi = NULL;
 	double header = 0., footer = 0., dummy;
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
 	guint16 flags = 0;
@@ -450,10 +450,13 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (NULL != esheet)
 		pi = esheet->gnum_sheet->print_info;
 	if (NULL != pi) {
+	        GtkPageOrientation orient;
 		if (pi->print_across_then_down)
 			flags |= 0x01;
-		if (pi->portrait_orientation)
-			flags |= 0x02;
+		orient = print_info_get_paper_orientation (pi);
+		if (orient == GTK_PAGE_ORIENTATION_PORTRAIT
+		    || orient == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT)
+		        flags |= 0x02;
 		if (pi->print_black_and_white)
 			flags |= 0x08;
 		if (pi->print_as_draft)
@@ -4135,7 +4138,7 @@ static void
 write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *data;
-	PrintInformation const *pi;
+	PrintInformation *pi;
 	Sheet const *sheet = esheet->gnum_sheet;
 	Workbook const *wb = sheet->workbook;
 	double left;

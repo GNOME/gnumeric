@@ -61,10 +61,8 @@ struct _PrintInformation {
 	unsigned int     print_titles:1;	/* col/row headers */
 	unsigned int     print_black_and_white:1;
 	unsigned int     print_as_draft:1;
-	unsigned int     portrait_orientation:1;
 
 	/* Gnumeric specific */
-	unsigned int     invert_orientation:1;	/* gnome print offers R0 & R180 or R90 & R270 */
 	unsigned int     print_even_if_only_styles:1;
 
 	enum {
@@ -106,7 +104,7 @@ PrintInformation *print_info_dup	 (PrintInformation *pi);
 void              print_info_free        (PrintInformation *pi);
 void              print_info_save        (PrintInformation *pi);
 
-GtkPageSetup     *print_info_get_page_setup (PrintInformation const *pi);
+GtkPageSetup     *print_info_get_page_setup (PrintInformation *pi);
 void              print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup);
 
 PrintHF          *print_hf_new           (char const *left,
@@ -138,11 +136,16 @@ void        print_info_set_paper_width_height (PrintInformation *pi,
 					       double paper_width,
 					       double paper_height,
 					       GtkUnit unit);
+void	    print_info_set_paper_orientation   (PrintInformation *pi,
+						GtkPageOrientation orientation);
 char       *print_info_get_paper     	   (PrintInformation *pi);
 /* Note that the string returned by print_info_get_paper must be freed */
 
+char const *print_info_get_paper_display_name (PrintInformation *pi);
+
 double      print_info_get_paper_width     (PrintInformation *pi, GtkUnit unit);
 double      print_info_get_paper_height    (PrintInformation *pi, GtkUnit unit);
+GtkPageOrientation print_info_get_paper_orientation   (PrintInformation *pi);
 void        print_info_get_margins   (PrintInformation *pi,
 				      double *header, double *footer, double *left, double *right);
 void        print_info_set_margins   (PrintInformation *pi,

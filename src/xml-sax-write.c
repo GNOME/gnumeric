@@ -260,11 +260,12 @@ xml_write_print_hf (GnmOutputXML *state, char const *name,
 static void
 xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 {
-	char const *paper_name;
+	char  *paper_name;
 	double header;
 	double footer;
 	double left;
 	double right;
+	GtkPageOrientation orient;
 
 	g_return_if_fail (pi != NULL);
 
@@ -325,8 +326,13 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	/* this was once an enum, hence the silly strings */
 	gsf_xml_out_simple_element (state->output, GNM "order",
 		pi->print_across_then_down ? "r_then_d" :"d_then_r");
+
+	orient = print_info_get_paper_orientation (pi);
 	gsf_xml_out_simple_element (state->output, GNM "orientation",
-		pi->portrait_orientation ? "portrait" : "landscape");
+		(orient == GTK_PAGE_ORIENTATION_PORTRAIT
+		 || orient == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT)
+				    ? "portrait" : "landscape");
+#warning TODO: we should also handle inversion
 
 	xml_write_print_hf (state, GNM "Header", pi->header);
 	xml_write_print_hf (state, GNM "Footer", pi->footer);

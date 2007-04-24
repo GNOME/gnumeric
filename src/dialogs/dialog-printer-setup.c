@@ -2,9 +2,10 @@
 /**
  * dialog-printer-setup.c: Printer setup dialog box
  *
- * Author:
+ * Authors:
  *  Wayne Schuller (k_wayne@linuxpower.org)
  *  Miguel de Icaza (miguel@gnu.org)
+ *  Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,7 +75,8 @@
 
 #define PRINTER_SETUP_KEY "printer-setup-dialog"
 
-#define HF_PAGE 1
+#define SCALE_PAGE 1
+#define HF_PAGE 2
 
 #if 0
 
@@ -128,48 +130,49 @@ typedef struct {
 	PreviewInfo *pi;
 } UnitInfo;
 
-typedef struct {
-	WorkbookControlGUI  *wbcg;
-	Sheet            *sheet;
-	GladeXML         *gui;
-	PrintInformation *pi;
-	GnomePrintConfig *gp_config;
-	GtkWidget        *dialog;
-	GtkWidget        *sheet_selector;
-	GtkWidget        *unit_selector;
-
-	struct {
-		UnitInfo top, bottom, left, right;
-		UnitInfo header, footer;
-	} margins;
-
-	PreviewInfo preview;
-
-	GtkWidget *icon_rd;
-	GtkWidget *icon_dr;
-	GnmExprEntry *area_entry;
-	GnmExprEntry *top_entry;
-	GnmExprEntry *left_entry;
-
-	/* The header and footer data. */
-	PrintHF *header;
-	PrintHF *footer;
-
-	/* The header and footer customize dialogs. */
-	GtkWidget *customize_header;
-	GtkWidget *customize_footer;
-
-	/* The header and footer preview widgets. */
-	HFPreviewInfo *pi_header;
-	HFPreviewInfo *pi_footer;
-} PrinterSetupState;
-
 #endif
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;
 	Sheet            *sheet;
+	GladeXML         *gui;
 	PrintInformation *pi;
+	GtkWidget        *dialog;
+	GtkWidget        *sheet_selector;
+
+	GtkWidget        *scale_percent_radio;
+	GtkWidget        *scale_fit_to_radio;
+	GtkWidget        *scale_no_radio;
+	
+
+/* 	GtkWidget        *unit_selector; */
+
+/* 	struct { */
+/* 		UnitInfo top, bottom, left, right; */
+/* 		UnitInfo header, footer; */
+/* 	} margins; */
+
+/* 	PreviewInfo preview; */
+
+/* 	GtkWidget *icon_rd; */
+/* 	GtkWidget *icon_dr; */
+/* 	GnmExprEntry *area_entry; */
+/* 	GnmExprEntry *top_entry; */
+/* 	GnmExprEntry *left_entry; */
+
+/* 	/\* The header and footer data. *\/ */
+/* 	PrintHF *header; */
+/* 	PrintHF *footer; */
+
+/* 	/\* The header and footer customize dialogs. *\/ */
+/* 	GtkWidget *customize_header; */
+/* 	GtkWidget *customize_footer; */
+
+/* 	/\* The header and footer preview widgets. *\/ */
+/* 	HFPreviewInfo *pi_header; */
+/* 	HFPreviewInfo *pi_footer; */
+
+/* 	GnomePrintConfig *gp_config; */
 } PrinterSetupState;
 
 #if 0
@@ -179,7 +182,13 @@ typedef struct {
 	UnitInfo *target;
 } UnitInfo_cbdata;
 
+#endif
+
+static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
 static void fetch_settings (PrinterSetupState *state);
+
+#if 0
+
 static void do_hf_customize (gboolean header, PrinterSetupState *state);
 
 /**
@@ -205,40 +214,6 @@ spin_button_set_bound (UnitInfo *unit, double space_to_grow)
 	gtk_spin_button_set_range (unit->spin, 0, value);
 
 	return;
-}
-
-/**
- * get_paper_width
- * @state :
- *
- * Return paper width in points, taking page orientation into account.
- */
-static double
-get_paper_pswidth (PrinterSetupState *state)
-{
-	double height;
-	double width;
-	if (gnome_print_config_get_page_size (state->gp_config, &width, &height))
-		return width;
-	else
-		return 1.0;
-}
-
-/**
- * get_paper_psheight
- * @state :
- *
- * Return paper height in points, taking page orientation into account.
- */
-static double
-get_paper_psheight (PrinterSetupState *state)
-{
-	double height;
-	double width;
-	if (gnome_print_config_get_page_size (state->gp_config, &width, &height))
-		return height;
-	else
-		return 0.0;
 }
 
 /**
@@ -562,15 +537,19 @@ canvas_update (PrinterSetupState *state)
 	}
 }
 
+#endif
+
 static void
 notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
 		  G_GNUC_UNUSED GtkNotebookPage *page,
 		  gint page_num,
 		  PrinterSetupState *state)
 {
-	if (page_num == HF_PAGE)
-		canvas_update (state);
+/* 	if (page_num == HF_PAGE) */
+/* 		canvas_update (state); */
 }
+
+#if 0
 
 static void
 cb_unit_changed (UnitInfo_cbdata *data)
@@ -1361,88 +1340,171 @@ do_setup_page_info (PrinterSetupState *state)
 			&state->pi->repeat_left.range);
 }
 
+#endif
+
 static void
-scaling_type_changed (GtkToggleButton *scale_percentage, PrinterSetupState *state)
+do_update_page (PrinterSetupState *state)
 {
-       if (gtk_toggle_button_get_active (scale_percentage)) {
-               state->pi->scaling.type = PRINT_SCALE_PERCENTAGE;
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-spin")), TRUE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-label")), TRUE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-width-spin")), FALSE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-height-spin")), FALSE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-wide-label")), FALSE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-tall-label")), FALSE);
-       } else {
-               state->pi->scaling.type = PRINT_SCALE_FIT_PAGES;
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-spin")), FALSE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-label")), FALSE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-width-spin")), TRUE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-height-spin")), TRUE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-wide-label")), TRUE);
-               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-tall-label")), TRUE);
-       }
+	PrintInformation *pi = state->pi;
+	GladeXML *gui;
+	double height, width;
+	char *text;
+
+	gui = state->gui;
+
+	gtk_label_set_text (GTK_LABEL (glade_xml_get_widget (gui,
+							     "paper-type-label")),
+			    print_info_get_paper_display_name (pi));
+	/* FIXME: use preferred display unit */
+	height = print_info_get_paper_height (pi,GTK_UNIT_MM);
+	width  = print_info_get_paper_width  (pi,GTK_UNIT_MM);
+	text = g_strdup_printf (_("%.0f mm wide by %.0f mm tall"), width, height);
+	gtk_label_set_text (GTK_LABEL (glade_xml_get_widget (gui,
+							     "paper-size-label")),
+			    text);
+	g_free (text);
 }
+
 
 static void
 do_setup_page (PrinterSetupState *state)
 {
-	PrintInformation *pi = state->pi;
-	GtkWidget *scale_percent_spin, *scale_width_spin, *scale_height_spin;
-	GtkWidget *paper_selector;
-	GtkTable *table;
+/* 	GtkTable *table; */
 	GladeXML *gui;
-	const char *toggle;
 
 	gui = state->gui;
-	table = GTK_TABLE (glade_xml_get_widget (gui, "table-paper-selector"));
+/* 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-paper-selector")); */
 
-	paper_selector = gnome_paper_selector_new_with_flags (
-		state->gp_config, GNOME_PAPER_SELECTOR_MARGINS);
-	gtk_widget_show (paper_selector);
-	gtk_table_attach_defaults (table, paper_selector, 0, 1, 0, 1);
+	do_update_page (state);
+	
+ 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "paper-button")), 
+ 		"clicked", 
+ 		G_CALLBACK (dialog_gtk_printer_setup_cb), state); 
+}
 
-	/*
-	 * Set the scale
-	 */
-	g_signal_connect (G_OBJECT (glade_xml_get_widget 
-				    (gui, "scale-percent-radio")),
-		"toggled",
-		G_CALLBACK (scaling_type_changed), state);
 
-	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) {
-		toggle = "scale-percent-radio";
-		gtk_toggle_button_set_active 
-			(GTK_TOGGLE_BUTTON 
-			 (glade_xml_get_widget (gui, "scale-percent-radio")), 
-			 TRUE);
+static void
+scaling_percent_changed (GtkToggleButton *toggle, PrinterSetupState *state)
+{
+	gboolean scale_percent = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-spin")), scale_percent);
+	gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-label")), scale_percent);
+}
+
+static void
+scaling_fit_to_h_changed (GtkToggleButton *toggle, PrinterSetupState *state)
+{
+	gboolean scale_fit_to_h   = gtk_toggle_button_get_active (toggle);
+	gtk_widget_set_sensitive 
+		(GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-h-spin")), 
+		 scale_fit_to_h);
+	gtk_widget_set_sensitive 
+		(GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-h-check-label")), 
+		 scale_fit_to_h);
+}
+
+static void
+scaling_fit_to_v_changed (GtkToggleButton *toggle, PrinterSetupState *state)
+{
+	gboolean scale_fit_to_v   = gtk_toggle_button_get_active (toggle);
+        gtk_widget_set_sensitive
+                (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-v-spin")),
+                 scale_fit_to_v);
+        gtk_widget_set_sensitive
+                (GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-v-check-label")),
+                 scale_fit_to_v);
+}                           
+
+static void
+scaling_fit_to_changed (GtkToggleButton *toggle, PrinterSetupState *state)
+{
+	gboolean scale_fit_to  = gtk_toggle_button_get_active (toggle);
+
+	if (scale_fit_to) {
+		scaling_fit_to_h_changed (GTK_TOGGLE_BUTTON 
+					  (glade_xml_get_widget (state->gui, "fit-h-check")), state);
+		scaling_fit_to_v_changed (GTK_TOGGLE_BUTTON
+					  (glade_xml_get_widget (state->gui, "fit-v-check")), state);
 	} else {
-		toggle = "scale-size-fit-radio";
-		gtk_toggle_button_set_active 
-			(GTK_TOGGLE_BUTTON 
-			 (glade_xml_get_widget (gui, "scale-size-fit-radio")), 
-			 TRUE);
+		gtk_widget_set_sensitive
+			(GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-v-spin")), FALSE);
+		gtk_widget_set_sensitive
+			(GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-v-check-label")), FALSE);
+		gtk_widget_set_sensitive
+			(GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-h-spin")), FALSE);
+		gtk_widget_set_sensitive
+			(GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-h-check-label")), FALSE);
 	}
+	gtk_widget_set_sensitive
+		(GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-h-check")), scale_fit_to);
+	gtk_widget_set_sensitive
+		(GTK_WIDGET (glade_xml_get_widget (state->gui, "fit-v-check")), scale_fit_to);
+}
 
+static void
+do_setup_scale (PrinterSetupState *state)
+{
+	PrintInformation *pi = state->pi;
+	GtkWidget *scale_percent_spin, *scale_width_spin, *scale_height_spin;
+	GladeXML *gui;
+
+	gui = state->gui;
+
+	state->scale_percent_radio = glade_xml_get_widget (gui, "scale-percent-radio");
+	state->scale_fit_to_radio = glade_xml_get_widget (gui, "scale-fit-to-radio");
+	state->scale_no_radio = glade_xml_get_widget (gui, "scale-no-radio");
+
+	g_signal_connect (G_OBJECT (state->scale_percent_radio), "toggled",
+			  G_CALLBACK (scaling_percent_changed), state);
+	g_signal_connect (G_OBJECT (state->scale_fit_to_radio), "toggled",
+			  G_CALLBACK (scaling_fit_to_changed), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "fit-h-check")),
+			  "toggled", G_CALLBACK (scaling_fit_to_h_changed), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "fit-v-check")),
+			  "toggled", G_CALLBACK (scaling_fit_to_v_changed), state);
+
+	scaling_percent_changed (GTK_TOGGLE_BUTTON (state->scale_percent_radio), state);
+	scaling_fit_to_changed (GTK_TOGGLE_BUTTON (state->scale_fit_to_radio), state);
+	
+
+ 	if (pi->scaling.type == PRINT_SCALE_PERCENTAGE) { 
+		if (pi->scaling.percentage.x  == 100.)
+			gtk_toggle_button_set_active
+				(GTK_TOGGLE_BUTTON (state->scale_no_radio), TRUE);
+		else
+			gtk_toggle_button_set_active
+				(GTK_TOGGLE_BUTTON (state->scale_percent_radio), TRUE);
+ 	} else { 
+ 		gtk_toggle_button_set_active  
+ 			(GTK_TOGGLE_BUTTON (state->scale_fit_to_radio), TRUE); 
+	} 
+	
 	scale_percent_spin = glade_xml_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage.x);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_percent_spin));
 
-	scale_width_spin = glade_xml_get_widget (gui, "scale-width-spin");
+	scale_width_spin = glade_xml_get_widget (gui, "scale-h-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_width_spin), pi->scaling.dim.cols);
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "fit-h-check")),
+		 pi->scaling.dim.cols > 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_width_spin));
 
-	scale_height_spin = glade_xml_get_widget (gui, "scale-height-spin");
+	scale_height_spin = glade_xml_get_widget (gui, "scale-v-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_height_spin), pi->scaling.dim.rows);
+	gtk_toggle_button_set_active
+	        (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "fit-v-check")),
+		 pi->scaling.dim.rows > 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_height_spin));
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-		gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (gui, "first-page-combo"))));
 }
+
 
 static Sheet *
 print_setup_get_sheet (PrinterSetupState *state)
@@ -1513,20 +1575,20 @@ cb_do_print_destroy (PrinterSetupState *state)
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
-	if (state->customize_header)
-		gtk_widget_destroy (state->customize_header);
+/* 	if (state->customize_header) */
+/* 		gtk_widget_destroy (state->customize_header); */
 
-	if (state->customize_footer)
-		gtk_widget_destroy (state->customize_footer);
+/* 	if (state->customize_footer) */
+/* 		gtk_widget_destroy (state->customize_footer); */
 
 	g_object_unref (state->gui);
-	g_object_unref (state->gp_config);
+/* 	g_object_unref (state->gp_config); */
 
-	print_hf_free (state->header);
-	print_hf_free (state->footer);
+/* 	print_hf_free (state->header); */
+/* 	print_hf_free (state->footer); */
 	print_info_free (state->pi);
-	g_free (state->pi_header);
-	g_free (state->pi_footer);
+/* 	g_free (state->pi_header); */
+/* 	g_free (state->pi_footer); */
 	g_free (state);
 }
 
@@ -1587,14 +1649,14 @@ do_setup_main_dialog (PrinterSetupState *state)
 
 	state->dialog = glade_xml_get_widget (state->gui, "print-setup");
 
-	w = glade_xml_get_widget (state->gui, "ok");
-	g_signal_connect_swapped (G_OBJECT (w),
-		"clicked",
-		G_CALLBACK (cb_do_print_ok), state);
-	w = glade_xml_get_widget (state->gui, "print");
-	g_signal_connect_swapped (G_OBJECT (w),
-		"clicked",
-		G_CALLBACK (cb_do_print), state);
+ 	w = glade_xml_get_widget (state->gui, "ok"); 
+ 	g_signal_connect_swapped (G_OBJECT (w), 
+ 		"clicked", 
+ 		G_CALLBACK (cb_do_print_ok), state); 
+ 	w = glade_xml_get_widget (state->gui, "print"); 
+ 	g_signal_connect_swapped (G_OBJECT (w), 
+ 		"clicked", 
+ 		G_CALLBACK (cb_do_print), state);
 	w = glade_xml_get_widget (state->gui, "preview");
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
@@ -1603,15 +1665,13 @@ do_setup_main_dialog (PrinterSetupState *state)
 	g_signal_connect_swapped (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_cancel), state);
+	
 	w = glade_xml_get_widget (state->gui, "print-setup-notebook");
 	g_signal_connect (G_OBJECT (w),
 		"switch-page",
 		G_CALLBACK (notebook_flipped), state);
-
-	/* Hide non-functional buttons for now */
-	w = glade_xml_get_widget (state->gui, "options");
-	gtk_widget_hide (w);
-
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), 0);
+	
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_do_print_destroy);
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
@@ -1619,11 +1679,14 @@ do_setup_main_dialog (PrinterSetupState *state)
 }
 
 
+
 static PrinterSetupState *
 printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	PrinterSetupState *state;
 	GladeXML *gui;
+
+	GtkWidget *page, *notebook;
 
 	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"print.glade", NULL, NULL);
@@ -1635,57 +1698,70 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->pi    = print_info_dup (sheet->print_info);
-	state->gp_config = print_info_make_config (state->pi);
-	state->customize_header = NULL;
-	state->customize_footer = NULL;
+/* 	state->gp_config = print_info_make_config (state->pi); */
+/* 	state->customize_header = NULL; */
+/* 	state->customize_footer = NULL; */
 
 	do_setup_main_dialog (state);
 	do_setup_sheet_selector (state);
-	do_setup_margin (state);
-	do_setup_hf (state);
-	do_setup_page_info (state);
+/* 	do_setup_margin (state); */
+/* 	do_setup_hf (state); */
+/* 	do_setup_page_info (state); */
 	do_setup_page (state);
+	do_setup_scale (state);
+
+	
+	notebook = glade_xml_get_widget (state->gui, "print-setup-notebook");
+	while ((page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2)) != NULL)
+		gtk_widget_destroy (page);
 
 	return state;
 }
-#endif
-
-static PrinterSetupState *
-printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-	PrinterSetupState *state;
-
-	state = g_new0 (PrinterSetupState, 1);
-	state->wbcg  = wbcg;
-	state->sheet = sheet;
-	state->pi    = print_info_dup (sheet->print_info);
-	return state;
-}
-
-#if 0
 
 static void
 do_fetch_page (PrinterSetupState *state)
 {
+
+}
+
+static void
+do_fetch_scale (PrinterSetupState *state)
+{
 	GtkWidget *w;
 	GladeXML *gui = state->gui;
 
-	w = glade_xml_get_widget (gui, "scale-percent-radio");
-	if (GTK_TOGGLE_BUTTON (w)->active)
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->scale_no_radio))) {
+		state->pi->scaling.percentage.x = state->pi->scaling.percentage.y = 100.;
 		state->pi->scaling.type = PRINT_SCALE_PERCENTAGE;
-	else
-		state->pi->scaling.type = PRINT_SCALE_FIT_PAGES;
-
-	w = glade_xml_get_widget (gui, "scale-percent-spin");
-	state->pi->scaling.percentage.x = state->pi->scaling.percentage.y
-		= GTK_SPIN_BUTTON (w)->adjustment->value;
-
-	w = glade_xml_get_widget (gui, "scale-width-spin");
-	state->pi->scaling.dim.cols = GTK_SPIN_BUTTON (w)->adjustment->value;
-
-	w = glade_xml_get_widget (gui, "scale-height-spin");
-	state->pi->scaling.dim.rows = GTK_SPIN_BUTTON (w)->adjustment->value;
+	} else {
+		w = glade_xml_get_widget (gui, "scale-percent-spin");
+		state->pi->scaling.percentage.x = state->pi->scaling.percentage.y
+			= gtk_spin_button_get_value (GTK_SPIN_BUTTON (w));
+		state->pi->scaling.type =
+			((gtk_toggle_button_get_active
+			  (GTK_TOGGLE_BUTTON (state->scale_percent_radio))) ?
+			   PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES);
+	}
+	w = glade_xml_get_widget (gui, "fit-h-check");
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+		state->pi->scaling.dim.cols = 0;
+	else {
+		w = glade_xml_get_widget (gui, "scale-h-spin");
+		state->pi->scaling.dim.cols =
+			gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (w));
+	}
+	
+	w = glade_xml_get_widget (gui, "fit-v-check");
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+		state->pi->scaling.dim.rows = 0;
+	else {
+		w = glade_xml_get_widget (gui, "scale-v-spin");
+		state->pi->scaling.dim.rows =
+			gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (w));
+	}
 }
+
+#if 0
 
 static PrintUnit
 unit_info_to_print_unit (UnitInfo *ui, PrinterSetupState *state)
@@ -1765,41 +1841,37 @@ do_fetch_page_info (PrinterSetupState *state)
 		&pi->repeat_left.range, NULL);
 }
 
+#endif
+
 static void
 fetch_settings (PrinterSetupState *state)
 {
-	print_info_load_config (state->pi, state->gp_config);
 	do_fetch_page (state);
-	do_fetch_margins (state);
-	do_fetch_hf (state);
-	do_fetch_page_info (state);
+	do_fetch_scale (state);
+/* 	do_fetch_margins (state); */
+/* 	do_fetch_hf (state); */
+/* 	do_fetch_page_info (state); */
 }
 
-#endif
 
 static void
 dialog_printer_setup_done_cb (GtkPageSetup *page_setup,
 			      gpointer data)
 {
-	PrinterSetupState *state = data;
-
 	if (page_setup) {
+		PrinterSetupState *state = data;
 		print_info_set_page_setup (state->pi, page_setup);
-		cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
-				 state->sheet, state->pi);
+		do_update_page (state);
 	}
-	print_info_free (state->pi);
-	g_free (state);
 }
 
-void
-dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
+static void
+dialog_gtk_printer_setup_cb (PrinterSetupState *state)
 {
-	PrinterSetupState *state = printer_setup_state_new (wbcg, sheet);
 	GtkPageSetup *page_setup = print_info_get_page_setup (state->pi);
 	
 	gtk_print_run_page_setup_dialog_async
-		(wbcg_toplevel (wbcg),
+		(GTK_WINDOW (state->dialog),
 		 page_setup,
 		 NULL,
 		 dialog_printer_setup_done_cb,
@@ -1807,27 +1879,31 @@ dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (page_setup)
 		g_object_unref (page_setup);
+}
 
 
-	
-/* 	PrinterSetupState *state; */
 
-/* 	/\* Only one guru per workbook. *\/ */
-/* 	if (wbcg_edit_get_guru (wbcg)) */
-/* 		return; */
+void
+dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+	PrinterSetupState *state;
 
-/* 	/\* Only pop up one copy per workbook *\/ */
-/* 	if (gnumeric_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY)) */
-/* 		return; */
+	/* Only one guru per workbook. */
+	if (wbcg_edit_get_guru (wbcg))
+		return;
 
-/* 	state = printer_setup_state_new (wbcg, sheet); */
-/* 	if (!state) */
-/* 		return; */
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, PRINTER_SETUP_KEY))
+		return;
 
-/* 	gnumeric_init_help_button ( */
-/* 		glade_xml_get_widget (state->gui, "help_button"), */
-/* 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL); */
-/* 	gnumeric_keyed_dialog ( */
-/* 		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY); */
-/* 	gtk_widget_show (state->dialog); */
+	state = printer_setup_state_new (wbcg, sheet);
+	if (!state)
+		return;
+
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
+	gnumeric_keyed_dialog (
+		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY);
+	gtk_widget_show (state->dialog);
 }

@@ -5630,7 +5630,7 @@ cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi)
 	else
 		me->cmd.cmd_descriptor = g_strdup (_("Page Setup For All Sheets"));
 	me->old_pi = NULL;
-	me->new_pi = print_info_dup (pi);
+	me->new_pi = print_info_dup ((PrintInformation *) pi);
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }

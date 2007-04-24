@@ -1,3 +1,11 @@
+2007-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-write.c (excel_write_SETUP): use
+	  print_info_get_paper_orientation
+	(write_sheet_head): print_info might be modified
+	* ms-excel-read.c (excel_read_SETUP): use 
+	  print_info_set_paper_orientation
+
 2007-04-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.9
