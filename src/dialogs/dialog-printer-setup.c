@@ -75,16 +75,10 @@
 
 #define PRINTER_SETUP_KEY "printer-setup-dialog"
 
+#define PAPER_PAGE 0
 #define SCALE_PAGE 1
 #define HF_PAGE 2
 
-#if 0
-
-/* FIXME: Now that we have added a header/footer sample
- * preview widget, we should rename the preview widget for the margins
- * to be more specific.
- * eg: PreviewInfo should become MarginPreviewInfo.
- */
 typedef struct {
 	/* The Canvas object */
 	GtkWidget        *canvas;
@@ -95,7 +89,9 @@ typedef struct {
 	/* Values for the scaling of the nice preview */
 	int offset_x, offset_y;	/* For centering the small page preview */
 	double scale;
-} PreviewInfo;
+} MarginPreviewInfo;
+
+#if 0
 
 typedef struct {
 	/* The Canvas object for the header/footer sample preview */
@@ -124,10 +120,10 @@ typedef struct {
 	GtkAdjustment *adj;
 
 	FooCanvasItem *line;
-	GnomePrintUnit const *unit;
+/* 	GnomePrintUnit const *unit; */
 	MarginOrientation orientation;
 	double bound_x1, bound_y1, bound_x2, bound_y2;
-	PreviewInfo *pi;
+	MarginPreviewInfo *pi;
 } UnitInfo;
 
 #endif
@@ -152,7 +148,7 @@ typedef struct {
 /* 		UnitInfo header, footer; */
 /* 	} margins; */
 
-/* 	PreviewInfo preview; */
+	MarginPreviewInfo preview;
 
 /* 	GtkWidget *icon_rd; */
 /* 	GtkWidget *icon_dr; */
@@ -260,14 +256,18 @@ set_vertical_bounds (PrinterSetupState *state)
 			       MAX (0, printable_height) + footer);
 }
 
+#endif
+
 static void
-preview_page_destroy (PrinterSetupState *state)
+margin_preview_page_destroy (PrinterSetupState *state)
 {
 	if (state->preview.group) {
 		gtk_object_destroy (GTK_OBJECT (state->preview.group));
 		state->preview.group = NULL;
 	}
 }
+
+#if 0
 
 static void
 move_line (FooCanvasItem *item,
@@ -414,15 +414,17 @@ draw_margins (PrinterSetupState *state, double x1, double y1, double x2, double 
 		       x1, y1, x2, y2);
 }
 
+#endif
+
 static void
-preview_page_create (PrinterSetupState *state)
+margin_preview_page_create (PrinterSetupState *state)
 {
 	double x1, y1, x2, y2;
 	double width, height;
-	PreviewInfo *pi = &state->preview;
+	MarginPreviewInfo *pi = &state->preview;
 
-	width  = get_paper_pswidth  (state);
-	height = get_paper_psheight (state);
+	width = print_info_get_paper_width (state->pi, GTK_UNIT_MM);
+	height = print_info_get_paper_height (state->pi, GTK_UNIT_MM);
 
 	if (width < height)
 		pi->scale = PAGE_Y / height;
@@ -466,8 +468,10 @@ preview_page_create (PrinterSetupState *state)
 		"width-pixels",   1,
 		NULL);
 
-	draw_margins (state, x1, y1, x2, y2);
+/* 	draw_margins (state, x1, y1, x2, y2); */
 }
+
+#if 0
 
 /**
  * spin_button_adapt_to_unit
@@ -514,30 +518,31 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, const GnomePrintUnit *new_unit)
 	gtk_spin_button_set_digits (spin, digits);
 }
 
+#endif
+
 static void
 canvas_update (PrinterSetupState *state)
 {
-	guchar *unit_txt;
+/* 	guchar *unit_txt; */
 
-	preview_page_destroy (state);
-	preview_page_create (state);
-	set_vertical_bounds (state);
+	margin_preview_page_destroy (state);
+	margin_preview_page_create (state);
+/* 	set_vertical_bounds (state); */
 
-	unit_txt = gnome_print_config_get (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT);
-	if (unit_txt) {
-		GnomePrintUnitSelector *sel =
-			GNOME_PRINT_UNIT_SELECTOR (state->unit_selector);
-		const GnomePrintUnit *unit =
-			gnome_print_unit_get_by_abbreviation (unit_txt);
+/* 	unit_txt = gnome_print_config_get (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT); */
+/* 	if (unit_txt) { */
+/* 		GnomePrintUnitSelector *sel = */
+/* 			GNOME_PRINT_UNIT_SELECTOR (state->unit_selector); */
+/* 		const GnomePrintUnit *unit = */
+/* 			gnome_print_unit_get_by_abbreviation (unit_txt); */
 
-		g_free (unit_txt);
-		gnome_print_unit_selector_set_unit (sel, unit);
-		spin_button_adapt_to_unit (state->margins.header.spin, unit);
-		spin_button_adapt_to_unit (state->margins.footer.spin, unit);
-	}
+/* 		g_free (unit_txt); */
+/* 		gnome_print_unit_selector_set_unit (sel, unit); */
+/* 		spin_button_adapt_to_unit (state->margins.header.spin, unit); */
+/* 		spin_button_adapt_to_unit (state->margins.footer.spin, unit); */
+/* 	} */
 }
 
-#endif
 
 static void
 notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
@@ -545,7 +550,7 @@ notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
 		  gint page_num,
 		  PrinterSetupState *state)
 {
-/* 	if (page_num == HF_PAGE) */
+/* 	if (page_num == PAPER_PAGE) */
 /* 		canvas_update (state); */
 }
 
@@ -643,6 +648,7 @@ cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 	}
 }
 
+#endif
 
 /**
  * Each margin is stored with a unit. We use the top margin unit for display
@@ -657,18 +663,18 @@ cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 static void
 do_setup_margin (PrinterSetupState *state)
 {
-	GtkWidget *table;
+/* 	GtkWidget *table; */
 	GtkBox *container;
-	PrintMargins const *pm;
-	GnomePrintUnit const *displayed_unit;
-	double header = 0, footer = 0, left = 0, right = 0;
+/* 	PrintMargins const *pm; */
+/* 	GnomePrintUnit const *displayed_unit; */
+/* 	double header = 0, footer = 0, left = 0, right = 0; */
 
 	g_return_if_fail (state && state->pi);
 
-	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
+/* 	print_info_get_margins   (state->pi, &header, &footer, &left, &right); */
 
-	pm = &state->pi->margin;
-	displayed_unit = pm->top.desired_display;
+/* 	pm = &state->pi->margin; */
+/* 	displayed_unit = pm->top.desired_display; */
 
 	state->preview.canvas = foo_canvas_new ();
 	foo_canvas_set_scroll_region (
@@ -677,35 +683,38 @@ do_setup_margin (PrinterSetupState *state)
 	gtk_widget_set_size_request (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (state->preview.canvas);
 
-	table = glade_xml_get_widget (state->gui, "margin-table");
-	state->unit_selector = gnome_print_unit_selector_new (GNOME_PRINT_UNIT_ABSOLUTE);
-	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 4, 5,
-			  GTK_FILL, GTK_FILL | GTK_SHRINK, 0, 0);
-	g_signal_connect (G_OBJECT (state->unit_selector), "modified",
-			  G_CALLBACK (cb_unit_selector_changed), state);
-	gtk_widget_show (state->unit_selector);
+/* 	table = glade_xml_get_widget (state->gui, "margin-table"); */
+/* 	state->unit_selector = gnome_print_unit_selector_new (GNOME_PRINT_UNIT_ABSOLUTE); */
+/* 	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 4, 5, */
+/* 			  GTK_FILL, GTK_FILL | GTK_SHRINK, 0, 0); */
+/* 	g_signal_connect (G_OBJECT (state->unit_selector), "modified", */
+/* 			  G_CALLBACK (cb_unit_selector_changed), state); */
+/* 	gtk_widget_show (state->unit_selector); */
 
-	unit_editor_configure (&state->margins.header, state, "spin-header",
-			       MAX (pm->top.points - header, 0.0));
-	unit_editor_configure (&state->margins.footer, state, "spin-footer",
-			       MAX (pm->bottom.points - footer, 0.0));
+/* 	unit_editor_configure (&state->margins.header, state, "spin-header", */
+/* 			       MAX (pm->top.points - header, 0.0)); */
+/* 	unit_editor_configure (&state->margins.footer, state, "spin-footer", */
+/* 			       MAX (pm->bottom.points - footer, 0.0)); */
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
-						   "container-margin-page"));
+						   "container-paper-sample"));
 	gtk_box_pack_start (container, state->preview.canvas, TRUE, TRUE, 0);
 
-	if (state->pi->center_vertically)
-		gtk_toggle_button_set_active (
-			GTK_TOGGLE_BUTTON (
-				glade_xml_get_widget (state->gui, "center-vertical")),
-			TRUE);
+/* 	if (state->pi->center_vertically) */
+/* 		gtk_toggle_button_set_active ( */
+/* 			GTK_TOGGLE_BUTTON ( */
+/* 				glade_xml_get_widget (state->gui, "center-vertical")), */
+/* 			TRUE); */
 
-	if (state->pi->center_horizontally)
-		gtk_toggle_button_set_active (
-			GTK_TOGGLE_BUTTON (
-				glade_xml_get_widget (state->gui, "center-horizontal")),
-			TRUE);
+/* 	if (state->pi->center_horizontally) */
+/* 		gtk_toggle_button_set_active ( */
+/* 			GTK_TOGGLE_BUTTON ( */
+/* 				glade_xml_get_widget (state->gui, "center-horizontal")), */
+/* 			TRUE); */
+
 }
+
+#if 0
 
 /* Display the header or footer preview in the print setup dialog.
  * Use the canvas widget in the HFPreviewInfo struct.
@@ -1363,6 +1372,8 @@ do_update_page (PrinterSetupState *state)
 							     "paper-size-label")),
 			    text);
 	g_free (text);
+
+	canvas_update (state);
 }
 
 
@@ -1375,11 +1386,14 @@ do_setup_page (PrinterSetupState *state)
 	gui = state->gui;
 /* 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-paper-selector")); */
 
-	do_update_page (state);
-	
  	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "paper-button")), 
  		"clicked", 
  		G_CALLBACK (dialog_gtk_printer_setup_cb), state); 
+
+	do_setup_margin (state);
+	
+	do_update_page (state);
+	
 }
 
 
@@ -1704,7 +1718,6 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	do_setup_main_dialog (state);
 	do_setup_sheet_selector (state);
-/* 	do_setup_margin (state); */
 /* 	do_setup_hf (state); */
 /* 	do_setup_page_info (state); */
 	do_setup_page (state);

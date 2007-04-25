@@ -3,6 +3,7 @@ Gnumeric 1.7.10
 Andreas:
 	* Reimplement scaling
 	* Save orientation
+	* Show paper preview
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.9

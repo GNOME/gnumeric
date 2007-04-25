@@ -209,7 +209,7 @@
 			  <child>
 			    <widget class="GtkTable" id="table-paper-selector">
 			      <property name="visible">True</property>
-			      <property name="n_rows">8</property>
+			      <property name="n_rows">9</property>
 			      <property name="n_columns">4</property>
 			      <property name="homogeneous">False</property>
 			      <property name="row_spacing">0</property>
@@ -376,6 +376,25 @@
 				  <property name="bottom_attach">2</property>
 				  <property name="x_options">fill</property>
 				  <property name="y_options"></property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkHBox" id="container-paper-sample">
+				  <property name="visible">True</property>
+				  <property name="homogeneous">False</property>
+				  <property name="spacing">0</property>
+
+				  <child>
+				    <placeholder/>
+				  </child>
+				</widget>
+				<packing>
+				  <property name="left_attach">1</property>
+				  <property name="right_attach">2</property>
+				  <property name="top_attach">2</property>
+				  <property name="bottom_attach">9</property>
+				  <property name="x_options">fill</property>
 				</packing>
 			      </child>
 			    </widget>
