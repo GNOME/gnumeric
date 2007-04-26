@@ -1,6 +1,18 @@
+2007-04-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (PrinterSetupState): add fields
+	(margin_preview_page_create): use preferred units
+	(cb_unit_selector_changed): rewrite
+	(unit_sort_func): new
+	(do_setup_margin): create unit_selector
+	(do_update_page): use preferred units
+	(cb_do_print_destroy): free unit_model
+	(printer_setup_state_new): initialize display unit
+	* print.glade: add unit selector
+
 2007-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* /print.glade: add paper preview container
+	* print.glade: add paper preview container
 	* dialog-printer-setup.c (PreviewInfo) rename to MarginPreviewInfo
 	(preview_page_destroy): rename to margin_preview_page_destroy
 	(preview_page_create): rename to margin_preview_page_create and enable the

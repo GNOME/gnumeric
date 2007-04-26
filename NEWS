@@ -4,6 +4,7 @@ Andreas:
 	* Reimplement scaling
 	* Save orientation
 	* Show paper preview
+	* Show unit selector in print dialog
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.9

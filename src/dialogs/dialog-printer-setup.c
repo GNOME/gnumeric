@@ -141,7 +141,9 @@ typedef struct {
 	GtkWidget        *scale_no_radio;
 	
 
-/* 	GtkWidget        *unit_selector; */
+ 	GtkWidget        *unit_selector;
+	GtkTreeModel     *unit_model;
+	GtkUnit		  display_unit;
 
 /* 	struct { */
 /* 		UnitInfo top, bottom, left, right; */
@@ -182,6 +184,7 @@ typedef struct {
 
 static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
 static void fetch_settings (PrinterSetupState *state);
+static void do_update_page (PrinterSetupState *state);
 
 #if 0
 
@@ -423,8 +426,8 @@ margin_preview_page_create (PrinterSetupState *state)
 	double width, height;
 	MarginPreviewInfo *pi = &state->preview;
 
-	width = print_info_get_paper_width (state->pi, GTK_UNIT_MM);
-	height = print_info_get_paper_height (state->pi, GTK_UNIT_MM);
+	width = print_info_get_paper_width (state->pi, state->display_unit);
+	height = print_info_get_paper_height (state->pi, state->display_unit);
 
 	if (width < height)
 		pi->scale = PAGE_Y / height;
@@ -433,7 +436,6 @@ margin_preview_page_create (PrinterSetupState *state)
 
 	pi->offset_x = (PREVIEW_X - (width  * pi->scale)) / 2;
 	pi->offset_y = (PREVIEW_Y - (height * pi->scale)) / 2;
-/*	pi->offset_x = pi->offset_y = 0; */
 	x1 = pi->offset_x + 0 * pi->scale;
 	y1 = pi->offset_y + 0 * pi->scale;
 	x2 = pi->offset_x + width * pi->scale;
@@ -632,28 +634,44 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 
 }
 
-static void
-cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
-{
-	const GnomePrintUnit *unit;
+#endif
 
+static void
+cb_unit_selector_changed (GtkComboBox *widget, PrinterSetupState *state)
+{
+	GtkTreeIter iter;
+	GtkUnit unit;
+	
 	g_return_if_fail (state != NULL);
 
-	unit = gnome_print_unit_selector_get_unit (sel);
-	if (unit) {
-		gnome_print_config_set (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT,
-					unit->abbr);
-		spin_button_adapt_to_unit (state->margins.header.spin, unit);
-		spin_button_adapt_to_unit (state->margins.footer.spin, unit);
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->unit_selector), &iter)) {
+		gtk_tree_model_get (state->unit_model, &iter, 1, &unit, -1);
+
+		state->display_unit = unit;
+		do_update_page (state);
 	}
 }
 
-#endif
+static gint
+unit_sort_func (GtkTreeModel *model,
+		GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
+{
+	char *str_a;
+	char *str_b;
+	gint result;
+
+	gtk_tree_model_get (model, a, 0, &str_a, -1);
+	gtk_tree_model_get (model, b, 0, &str_b, -1);
+	
+	result = g_utf8_collate (str_a, str_b);
+
+	g_free (str_a);
+	g_free (str_b);
+	return result;
+}
+
 
 /**
- * Each margin is stored with a unit. We use the top margin unit for display
- * and ignore desired display for the others.
- *
  * Header and footer are stored with Excel semantics, but displayed with
  * more natural semantics. In Excel, both top margin and header are measured
  * from top of sheet. The Gnumeric user interface presents header as the
@@ -663,18 +681,13 @@ cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 static void
 do_setup_margin (PrinterSetupState *state)
 {
-/* 	GtkWidget *table; */
+ 	GtkWidget *table; 
 	GtkBox *container;
-/* 	PrintMargins const *pm; */
-/* 	GnomePrintUnit const *displayed_unit; */
 /* 	double header = 0, footer = 0, left = 0, right = 0; */
 
 	g_return_if_fail (state && state->pi);
 
 /* 	print_info_get_margins   (state->pi, &header, &footer, &left, &right); */
-
-/* 	pm = &state->pi->margin; */
-/* 	displayed_unit = pm->top.desired_display; */
 
 	state->preview.canvas = foo_canvas_new ();
 	foo_canvas_set_scroll_region (
@@ -683,13 +696,56 @@ do_setup_margin (PrinterSetupState *state)
 	gtk_widget_set_size_request (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (state->preview.canvas);
 
-/* 	table = glade_xml_get_widget (state->gui, "margin-table"); */
-/* 	state->unit_selector = gnome_print_unit_selector_new (GNOME_PRINT_UNIT_ABSOLUTE); */
-/* 	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 4, 5, */
-/* 			  GTK_FILL, GTK_FILL | GTK_SHRINK, 0, 0); */
-/* 	g_signal_connect (G_OBJECT (state->unit_selector), "modified", */
-/* 			  G_CALLBACK (cb_unit_selector_changed), state); */
-/* 	gtk_widget_show (state->unit_selector); */
+	{
+		GtkListStore *list_store;
+		GtkTreeIter iter;
+		GtkTreeIter current;
+		GtkCellRenderer *text_renderer;
+  
+		list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+		/* GTK does not support this unit it seems  */
+/* 		gtk_list_store_append (list_store, &iter); */
+/* 		gtk_list_store_set (list_store, &iter, 0, (_("pixels")), 1, GTK_UNIT_PIXEL, -1); */
+/* 		if (GTK_UNIT_PIXEL == state->display_unit) */
+/* 			current = iter; */
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter, 0, (_("points")), 1, GTK_UNIT_POINTS, -1);
+		if (GTK_UNIT_POINTS == state->display_unit)
+			current = iter;
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter, 0, (_("inches")), 1, GTK_UNIT_INCH, -1);
+		if (GTK_UNIT_INCH == state->display_unit)
+			current = iter;
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter, 0, (_("mm")), 1, GTK_UNIT_MM, -1);
+		if (GTK_UNIT_MM == state->display_unit)
+			current = iter;
+
+		gtk_tree_sortable_set_default_sort_func
+			(GTK_TREE_SORTABLE (list_store),
+			 unit_sort_func, NULL, NULL);
+		gtk_tree_sortable_set_sort_column_id
+			(GTK_TREE_SORTABLE (list_store),
+			 GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+			 GTK_SORT_ASCENDING);
+
+		state->unit_selector = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
+		state->unit_model    = GTK_TREE_MODEL (list_store);
+		text_renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(state->unit_selector), 
+					    text_renderer, TRUE);
+		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT(state->unit_selector),
+					       text_renderer, "text", 0);  
+ 
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (state->unit_selector), &current);
+	}
+	table = glade_xml_get_widget (state->gui, "table-paper-selector");
+	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 3, 4, 8, 9,
+	                                GTK_FILL | GTK_EXPAND, 0, 0, 0);
+
+ 	g_signal_connect (G_OBJECT (state->unit_selector), "changed", 
+ 			  G_CALLBACK (cb_unit_selector_changed), state); 
+ 	gtk_widget_show (state->unit_selector); 
 
 /* 	unit_editor_configure (&state->margins.header, state, "spin-header", */
 /* 			       MAX (pm->top.points - header, 0.0)); */
@@ -1358,6 +1414,7 @@ do_update_page (PrinterSetupState *state)
 	GladeXML *gui;
 	double height, width;
 	char *text;
+	char const *format;
 
 	gui = state->gui;
 
@@ -1365,9 +1422,26 @@ do_update_page (PrinterSetupState *state)
 							     "paper-type-label")),
 			    print_info_get_paper_display_name (pi));
 	/* FIXME: use preferred display unit */
-	height = print_info_get_paper_height (pi,GTK_UNIT_MM);
-	width  = print_info_get_paper_width  (pi,GTK_UNIT_MM);
-	text = g_strdup_printf (_("%.0f mm wide by %.0f mm tall"), width, height);
+	height = print_info_get_paper_height (pi,state->display_unit);
+	width  = print_info_get_paper_width  (pi,state->display_unit);
+	switch (state->display_unit) {
+	case GTK_UNIT_PIXEL:
+		format = _("%.0f pixels wide by %.0f pixels tall");
+		break;
+	case GTK_UNIT_POINTS:
+		format = _("%.0f points wide by %.0f points tall");
+		break;
+	case GTK_UNIT_INCH:
+		format = _("%.1f in wide by %.1f in tall");
+		break;
+	case GTK_UNIT_MM:
+		format = _("%.0f mm wide by %.0f mm tall");
+		break;
+	default:
+		format = _("%.1f wide by %.1f tall");
+		break;
+	}
+	text = g_strdup_printf (format, width, height);
 	gtk_label_set_text (GTK_LABEL (glade_xml_get_widget (gui,
 							     "paper-size-label")),
 			    text);
@@ -1603,6 +1677,7 @@ cb_do_print_destroy (PrinterSetupState *state)
 	print_info_free (state->pi);
 /* 	g_free (state->pi_header); */
 /* 	g_free (state->pi_footer); */
+	g_object_unref (state->unit_model);
 	g_free (state);
 }
 
@@ -1712,7 +1787,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->pi    = print_info_dup (sheet->print_info);
-/* 	state->gp_config = print_info_make_config (state->pi); */
+	state->display_unit = GTK_UNIT_MM;
 /* 	state->customize_header = NULL; */
 /* 	state->customize_footer = NULL; */
 
