@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-25 07:17+0100\n"
-"PO-Revision-Date: 2007-04-25 07:18-0000\n"
+"POT-Creation-Date: 2007-04-27 07:09+0100\n"
+"PO-Revision-Date: 2007-04-27 07:10-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: English/GB <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1196,7 +1196,7 @@ msgstr "array,matrix_type,bandsize"
 
 #: ../plugins/fn-math/plugin.xml.in.h:1
 msgid "Math Functions"
-msgstr "Math Functions"
+msgstr "Maths Functions"
 
 #: ../plugins/fn-math/plugin.xml.in.h:2
 msgid "Mathematical Functions"
@@ -5411,26 +5411,58 @@ msgstr "Sorting"
 msgid "Screen"
 msgstr "Screen"
 
-#: ../src/dialogs/dialog-printer-setup.c:860
+#: ../src/dialogs/dialog-printer-setup.c:712
+msgid "points"
+msgstr "points"
+
+#: ../src/dialogs/dialog-printer-setup.c:716
+msgid "inches"
+msgstr "inches"
+
+#: ../src/dialogs/dialog-printer-setup.c:720
+msgid "mm"
+msgstr "mm"
+
+#: ../src/dialogs/dialog-printer-setup.c:916
 msgid "Customize header"
 msgstr "Customise header"
 
-#: ../src/dialogs/dialog-printer-setup.c:862
+#: ../src/dialogs/dialog-printer-setup.c:918
 msgid "Customize footer"
 msgstr "Customise footer"
 
-#: ../src/dialogs/dialog-printer-setup.c:1000
+#: ../src/dialogs/dialog-printer-setup.c:1056
 msgid "Custom header configuration"
 msgstr "Custom header configuration"
 
-#: ../src/dialogs/dialog-printer-setup.c:1005
+#: ../src/dialogs/dialog-printer-setup.c:1061
 msgid "Custom footer configuration"
 msgstr "Custom footer configuration"
 
-#: ../src/dialogs/dialog-printer-setup.c:1370
+#: ../src/dialogs/dialog-printer-setup.c:1429
+#, c-format
+msgid "%.0f pixels wide by %.0f pixels tall"
+msgstr "%.0f pixels wide by %.0f pixels tall"
+
+#: ../src/dialogs/dialog-printer-setup.c:1432
+#, c-format
+msgid "%.0f points wide by %.0f points tall"
+msgstr "%.0f points wide by %.0f points tall"
+
+#: ../src/dialogs/dialog-printer-setup.c:1435
+#, c-format
+msgid "%.1f in wide by %.1f in tall"
+msgstr "%.1f in wide by %.1f in tall"
+
+#: ../src/dialogs/dialog-printer-setup.c:1438
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm wide by %.0f mm tall"
+
+#: ../src/dialogs/dialog-printer-setup.c:1441
+#, c-format
+msgid "%.1f wide by %.1f tall"
+msgstr "%.1f wide by %.1f tall"
 
 #: ../src/dialogs/dialog-random-generator.c:111
 msgid "Uniform"
@@ -7346,62 +7378,66 @@ msgid "Styles with no content"
 msgstr "Styles with no content"
 
 #: ../src/dialogs/print.glade.h:30
+msgid "Unit:"
+msgstr "Unit:"
+
+#: ../src/dialogs/print.glade.h:31
 msgid "_Automatic scaling:"
 msgstr "_Automatic scaling:"
 
-#: ../src/dialogs/print.glade.h:31
+#: ../src/dialogs/print.glade.h:32
 msgid "_Black and white"
 msgstr "_Black and white"
 
-#: ../src/dialogs/print.glade.h:32
+#: ../src/dialogs/print.glade.h:33
 msgid "_Columns to repeat on the left side:"
 msgstr "_Columns to repeat on the left side:"
 
-#: ../src/dialogs/print.glade.h:33
+#: ../src/dialogs/print.glade.h:34
 msgid "_Down, then right"
 msgstr "_Down, then right"
 
-#: ../src/dialogs/print.glade.h:34
+#: ../src/dialogs/print.glade.h:35
 msgid "_Fixed scaling:"
 msgstr "_Fixed scaling:"
 
-#: ../src/dialogs/print.glade.h:35
+#: ../src/dialogs/print.glade.h:36
 msgid "_Footer:"
 msgstr "_Footer:"
 
-#: ../src/dialogs/print.glade.h:36
+#: ../src/dialogs/print.glade.h:37
 msgid "_Grid lines"
 msgstr "_Grid lines"
 
-#: ../src/dialogs/print.glade.h:37
+#: ../src/dialogs/print.glade.h:38
 msgid "_Header:"
 msgstr "_Header:"
 
-#: ../src/dialogs/print.glade.h:38
+#: ../src/dialogs/print.glade.h:39
 msgid "_Horizontally"
 msgstr "_Horizontally"
 
-#: ../src/dialogs/print.glade.h:39
+#: ../src/dialogs/print.glade.h:40
 msgid "_No scaling\t"
 msgstr "_No scaling\t"
 
-#: ../src/dialogs/print.glade.h:40
+#: ../src/dialogs/print.glade.h:41
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Rows to repeat on the upper region:"
 
-#: ../src/dialogs/print.glade.h:41
+#: ../src/dialogs/print.glade.h:42
 msgid "_Units:"
 msgstr "_Units:"
 
-#: ../src/dialogs/print.glade.h:42
+#: ../src/dialogs/print.glade.h:43
 msgid "_Vertically"
 msgstr "_Vertically"
 
-#: ../src/dialogs/print.glade.h:43
+#: ../src/dialogs/print.glade.h:44
 msgid "letter"
 msgstr "letter"
 
-#: ../src/dialogs/print.glade.h:44
+#: ../src/dialogs/print.glade.h:45
 msgid "page(s)"
 msgstr "page(s)"
 
