@@ -6,6 +6,9 @@ Andreas:
 	* Show paper preview
 	* Show unit selector in print dialog
 
+Jody:
+	* Fix inadvertent relocation of reference on other sheets. [#433907]
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.9
 

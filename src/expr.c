@@ -1698,7 +1698,8 @@ reloc_range (GnmExprRelocateInfo const *rinfo,
 	GnmRange t, b, l, r;
 	gboolean start, end;
 
-	if (start_sheet != end_sheet)
+	if (start_sheet != end_sheet ||		/* ignore 3d refs */
+	    start_sheet != rinfo->origin_sheet)	/* ref is to a different sheet */
 		return FALSE;
 
 	t.start.col = b.start.col = l.start.col = l.end.col   = rng->start.col;
@@ -1761,7 +1762,7 @@ static void
 reloc_normalize_cellref (RelocInfoInternal const *rinfo, GnmCellRef const *ref,
 			 Sheet **sheet, GnmCellPos *res)
 {
-	*sheet = eval_sheet (ref->sheet, rinfo->details->origin_sheet);
+	*sheet = eval_sheet (ref->sheet, rinfo->details->pos.sheet);
 	res->col = ref->col;
 	if (ref->col_relative) {
 		if (rinfo->check_rels)

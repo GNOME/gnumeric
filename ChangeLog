@@ -1,3 +1,11 @@
+2007-04-27  Jody Goldberg <jody@gnome.org>
+
+	Fixes #433907.
+	* src/expr.c (reloc_range) : do not attempt to relocate a reference to
+	  something not on the origin sheet.
+	(reloc_normalize_cellref) : use the ParsePos (initialized from the
+	  dep) to select the default sheet, not the origin_sheet.
+
 2007-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_print_setup): print_info_dup might load the pi
