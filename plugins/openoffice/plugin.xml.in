@@ -15,6 +15,7 @@
 			<suffixes>
 				<suffix>sxc</suffix>
 				<suffix>ods</suffix>
+				<suffix>odt</suffix>
 			</suffixes>
 			<mime-types>
 				<mime-type>vnd.oasis.opendocument.spreadsheet</mime-type>
