@@ -1,3 +1,7 @@
+2007-04-29  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : remove duplicate xlsx entry
+
 2007-04-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-write.c (excel_write_SETUP): use
