@@ -211,7 +211,7 @@ typedef struct {
 	gboolean unknown_names_are_strings;
 	gboolean unknown_names_are_invalid;
 
-	GnmExprConventions const *convs;
+	GnmConventions const *convs;
 
 	/* dynamic state */
 	int in_array; /* toggled in the lexer for '{' and '}' */
@@ -1328,7 +1328,7 @@ yyerror (char const *s)
  * @expr_text   : The string to parse.
  * @pp		: #GnmParsePos
  * @flags       : See parse-utils for descriptions
- * @convs	: optionally NULL #GnmExprConventions
+ * @convs	: optionally NULL #GnmConventions
  * @error       : optionally NULL ptr to store details of error.
  *
  * Parse a string. if @error is non-null it will be assumed that the
@@ -1340,7 +1340,7 @@ yyerror (char const *s)
 GnmExprTop const *
 gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
 		    GnmExprParseFlags flags,
-		    GnmExprConventions const *convs,
+		    GnmConventions const *convs,
 		    GnmParseError *error)
 {
 	GnmExpr const *expr;
@@ -1358,7 +1358,7 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
 	pstate.unknown_names_are_strings		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
 	pstate.unknown_names_are_invalid		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID;
 	pstate.convs                                    =
-		(NULL != convs) ? convs : ((NULL != pp->sheet) ? pp->sheet->convs : gnm_expr_conventions_default);
+		(NULL != convs) ? convs : ((NULL != pp->sheet) ? pp->sheet->convs : gnm_conventions_default);
 
 
 	pstate.decimal_point = pstate.convs->decimal_sep_dot

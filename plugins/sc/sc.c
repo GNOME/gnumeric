@@ -43,12 +43,11 @@ void sc_file_open (GOFileOpener const *fo, IOContext *io_context,
                    WorkbookView *wb_view, GsfInput *input);
 
 typedef struct {
-	GsfInputTextline   *textline;
-	Sheet              *sheet;
-	GIConv             converter;
-	GnmExprConventions *exprconv;
+	GsfInputTextline *textline;
+	Sheet            *sheet;
+	GIConv            converter;
+	GnmConventions	 *convs;
 } ScParseState;
-
 
 typedef enum {
 	LABEL,
@@ -277,7 +276,7 @@ sc_row_parse (char const *str, int *res, unsigned char *relative)
 
 static char const *
 sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
-			G_GNUC_UNUSED GnmExprConventions const *convs)
+		   G_GNUC_UNUSED GnmConventions const *convs)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 
@@ -355,7 +354,7 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 	texpr = gnm_expr_parse_str (exprstr->str,
 			parse_pos_init_cell (&pp, cell),
 			GNM_EXPR_PARSE_DEFAULT,
-			state->exprconv, NULL);
+			state->convs, NULL);
 	g_string_free (exprstr, TRUE);
 	if (!texpr) {
 		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
@@ -459,7 +458,7 @@ sc_parse_sheet (ScParseState *state)
 }
 
 static GnmExpr const *
-sc_func_map_in (GnmExprConventions const *conv, Workbook *scope,
+sc_func_map_in (GnmConventions const *conv, Workbook *scope,
 		char const *name, GnmExprList *args)
 {
 	static struct {
@@ -503,10 +502,10 @@ sc_func_map_in (GnmExprConventions const *conv, Workbook *scope,
 	return gnm_expr_new_funcall (f, args);
 }
 
-static GnmExprConventions *
+static GnmConventions *
 sc_conventions (void)
 {
-	GnmExprConventions *conv = gnm_expr_conventions_new ();
+	GnmConventions *conv = gnm_conventions_new ();
 
 	conv->decimal_sep_dot		= TRUE;
 	conv->range_sep_colon		= TRUE;
@@ -535,7 +534,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	/* This should probably come from import dialog.  */
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
 	
-	state.exprconv = sc_conventions ();
+	state.convs = sc_conventions ();
 	state.textline = (GsfInputTextline *) gsf_input_textline_new (input);
 	error = sc_parse_sheet (&state);
 	if (error != NULL) {
@@ -544,7 +543,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 	}
 	g_object_unref (G_OBJECT (state.textline));
 	g_iconv_close (state.converter);
-	gnm_expr_conventions_free (state.exprconv);
+	gnm_conventions_free (state.convs);
 }
 
 

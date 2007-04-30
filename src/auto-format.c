@@ -98,7 +98,7 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat **explicit)
 		g_printerr ("Suggesting format for [%s]\n",
 			    gnm_expr_as_string (expr,
 						&pp,
-						gnm_expr_conventions_default));
+						gnm_conventions_default));
 	}
 #endif
 

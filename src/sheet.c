@@ -170,8 +170,8 @@ sheet_set_use_r1c1 (Sheet *sheet, gboolean use_r1c1)
 		return;
 	sheet->r1c1_addresses = use_r1c1;
 	sheet->convs = sheet->r1c1_addresses
-		? gnm_expr_conventions_r1c1
-		: gnm_expr_conventions_default;
+		? gnm_conventions_xls_r1c1
+		: gnm_conventions_default;
 	if (sheet->display_formulas)
 		re_render_formulas (sheet);
 	SHEET_FOREACH_VIEW (sheet, sv,
@@ -245,7 +245,7 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 	g_free (sheet->name_case_insensitive);
 	sheet->name_unquoted = new_name_unquoted;
 	sheet->name_quoted = g_string_free (gnm_expr_conv_quote (
-		gnm_expr_conventions_default, new_name_unquoted), FALSE);
+		gnm_conventions_default, new_name_unquoted), FALSE);
 	sheet->name_unquoted_collate_key =
 		g_utf8_collate_key (new_name_unquoted, -1);
 	sheet->name_case_insensitive =
@@ -326,7 +326,7 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 static void
 gnm_sheet_set_property (GObject *object, guint property_id,
-			const GValue *value, GParamSpec *pspec)
+			GValue const *value, GParamSpec *pspec)
 {
 	Sheet *sheet = (Sheet *)object;
 
@@ -519,7 +519,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->priv->enable_showhide_detail = TRUE;
 
 	sheet->names = NULL;
-	sheet->convs = gnm_expr_conventions_default;
+	sheet->convs = gnm_conventions_default;
 
 	sheet_style_init (sheet);
 
@@ -709,7 +709,7 @@ gnm_sheet_visibility_get_type (void)
 {
   static GType etype = 0;
   if (etype == 0) {
-	  static const GEnumValue values[] = {
+	  static GEnumValue const values[] = {
 		  { GNM_SHEET_VISIBILITY_VISIBLE, (char*)"GNM_SHEET_VISIBILITY_VISIBLE", (char*)"visible" },
 		  { GNM_SHEET_VISIBILITY_HIDDEN, (char*)"GNM_SHEET_VISIBILITY_HIDDEN", (char*)"hidden" },
 		  { GNM_SHEET_VISIBILITY_VERY_HIDDEN, (char*)"GNM_SHEET_VISIBILITY_VERY_HIDDEN", (char*)"very-hidden" },
@@ -746,7 +746,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
 	sheet->name_quoted = g_string_free (gnm_expr_conv_quote (
-		gnm_expr_conventions_default, name), FALSE);
+		gnm_conventions_default, name), FALSE);
 	sheet->name_unquoted_collate_key =
 		g_utf8_collate_key (sheet->name_unquoted, -1);
 	sheet->name_case_insensitive =
@@ -1681,7 +1681,7 @@ cb_max_cell_height (GnmCellIter const *iter, struct cb_fit *data)
 		 * 359392.  This assumes that non-strings do not wrap and
 		 * that they are all the same height, more or less.
 		 */
-		const Sheet *sheet = cell->base.sheet;
+		Sheet const *sheet = cell->base.sheet;
 		height = gnm_style_get_pango_height (gnm_cell_get_style (cell),
 						     sheet->context,
 						     sheet->last_zoom_factor_used);
@@ -4361,8 +4361,8 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 {
 	ColRowSegment const *segment;
 	ColRowInfo const *ri;
-	double const default_size = sheet->rows.default_style.size_pts;
-	double pts = 0., sign = 1.;
+	float const default_size = sheet->rows.default_style.size_pts;
+	float pts = 0., sign = 1.;
 	int i;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 1.);
@@ -4593,7 +4593,7 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 	/* Pass 1: add placeholders.  */
 	for (l = names; l; l = l->next) {
 		GnmNamedExpr *src_nexpr = l->data;
-		const char *name = src_nexpr->name->str;
+		char const *name = src_nexpr->name->str;
 		GnmNamedExpr *dst_nexpr =
 			gnm_named_expr_collection_lookup (dst->names, name);
 		GnmExprTop const *texpr;
@@ -4608,7 +4608,7 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 	/* Pass 2: assign the right expression.  */
 	for (l = names; l; l = l->next) {
 		GnmNamedExpr *src_nexpr = l->data;
-		const char *name = src_nexpr->name->str;
+		char const *name = src_nexpr->name->str;
 		GnmNamedExpr *dst_nexpr =
 			gnm_named_expr_collection_lookup (dst->names, name);
 		GnmExprTop const *texpr;
@@ -4776,14 +4776,14 @@ sheet_set_outline_direction (Sheet *sheet, gboolean is_cols)
 		sheet_colrow_set_collapse (sheet, is_cols, i);
 }
 
-GnmExprConventions const *
-sheet_expr_conventions (const Sheet *sheet)
+GnmConventions const *
+sheet_conventions (Sheet const *sheet)
 {
-	g_return_val_if_fail (IS_SHEET (sheet), gnm_expr_conventions_default);
+	g_return_val_if_fail (IS_SHEET (sheet), gnm_conventions_default);
 
 	return sheet->r1c1_addresses
-		? gnm_expr_conventions_r1c1
-		: gnm_expr_conventions_default;
+		? gnm_conventions_xls_r1c1
+		: gnm_conventions_default;
 }
 
 /**

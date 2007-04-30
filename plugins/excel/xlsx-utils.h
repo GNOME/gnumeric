@@ -26,7 +26,7 @@
 
 #include <gnumeric.h>
 
-GnmExprConventions *xlsx_expr_conv_new (void);
-void		    xlsx_expr_conv_free (GnmExprConventions *conv);
+GnmConventions *xlsx_conventions_new  (void);
+void		xlsx_conventions_free (GnmConventions *conv);
 
 #endif /* GNM_XLSX_UTILS_H */

@@ -533,12 +533,14 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 
 	if (gnm_cell_has_expr (cell)) {
 		GnmParsePos pp;
-		GString *res = g_string_new ("=");
+		GnmConventionsOut out;
 
-		gnm_expr_top_as_gstring (res, cell->base.texpr,
-					 parse_pos_init_cell (&pp, cell),
-					 cell->base.sheet->convs);
-		return g_string_free (res, FALSE);
+		out.accum = g_string_new ("=");
+		out.pp = parse_pos_init_cell (&pp, cell);
+		out.convs = cell->base.sheet->convs;
+
+		gnm_expr_top_as_gstring (cell->base.texpr, &out);
+		return g_string_free (out.accum, FALSE);
 	}
 
 	if (cell->value != NULL) {

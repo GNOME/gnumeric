@@ -761,7 +761,7 @@ lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 
 #if FORMULA_DEBUG > 0
 	{
-		char *txt = gnm_expr_top_as_string (result, pos, gnm_expr_conventions_default);
+		char *txt = gnm_expr_top_as_string (result, pos, gnm_conventions_default);
 		g_print ("Lotus: %s!%s: %s\n",
 			 pos->sheet->name_unquoted,
 			 cell_coord_name (pos->eval.col, pos->eval.row),

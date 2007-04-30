@@ -155,7 +155,7 @@ setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 	pp.eval.col = 0;
 	pp.eval.row = 0;
 
-	end = rangeref_parse (&rr, rtxt, &pp, gnm_expr_conventions_default);
+	end = rangeref_parse (&rr, rtxt, &pp, gnm_conventions_default);
 	if (!end || end == rtxt || *end != 0) {
 		g_printerr ("Invalid range specified.\n");
 		exit (1);

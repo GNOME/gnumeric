@@ -472,11 +472,11 @@ static char const *ns_rel = "http://schemas.openxmlformats.org/officeDocument/20
 typedef struct {
 	XLExportBase base;
 
-	Sheet const 	   *sheet;
-	GHashTable	   *shared_string_hash;
-	GPtrArray	   *shared_string_array;
-	GnmExprConventions *expr_conv;
-	IOContext	   *io_context;
+	Sheet const 	*sheet;
+	GHashTable	*shared_string_hash;
+	GPtrArray	*shared_string_array;
+	GnmConventions	*convs;
+	IOContext	*io_context;
 } XLSXWriteState;
 
 static void
@@ -785,7 +785,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 							xlsx_add_range (xml, "ref", &r);
 						}
 						content = gnm_expr_top_as_string (cell->base.texpr,
-							parse_pos_init_cell (&pp, cell), state->expr_conv);
+							parse_pos_init_cell (&pp, cell), state->convs);
 						gsf_xml_out_add_cstr (xml, NULL, content);
 						g_free (content);
 
@@ -939,7 +939,7 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 static void
 xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 {
-	PrintInformation const *pi = state->sheet->print_info;
+	PrintInformation *pi = state->sheet->print_info;
 	double h_margin, f_margin;
 	double left;
 	double right;
@@ -1066,7 +1066,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
-	state->expr_conv	 = xlsx_expr_conv_new ();
+	state->convs	 = xlsx_conventions_new ();
 
 	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->base.wb));
 	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++)
@@ -1118,7 +1118,7 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	gsf_xml_out_end_element (xml); /* </workbook> */
 	g_object_unref (xml);
 
-	xlsx_expr_conv_free (state->expr_conv);
+	xlsx_conventions_free (state->convs);
 	g_hash_table_destroy (state->shared_string_hash);
 	g_ptr_array_free (state->shared_string_array, TRUE);
 

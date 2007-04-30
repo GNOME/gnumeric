@@ -1,3 +1,19 @@
+2007-04-29  Jody Goldberg <jody@gnome.org>
+
+	Begin generalizing the conventions to properly support ODF-1.2 output.
+	s/GnmExprConventions/GnmConventions/
+	s/gnm_expr_conventions_new_full/gnm_conventions_new_full/
+	s/gnm_expr_conventions_new/gnm_conventions_new/
+	s/gnm_expr_conventions_free/gnm_conventions_free/
+	s/gnm_expr_conventions_default/gnm_conventions_default/
+	s/gnm_expr_conventions_r1c1/gnm_conventions_xls_r1c1/
+
+	* src/parse-util.c (cellref_as_string) : Take the new
+	  'GnmConventionsOut' to combine the various args.
+	(rangeref_as_string) : ditto.
+	(gnm_1_0_rangeref_as_string) : ditto.
+	(std_expr_name_handler) : ditto.
+
 2007-04-27  Jody Goldberg <jody@gnome.org>
 
 	Fixes #433907.

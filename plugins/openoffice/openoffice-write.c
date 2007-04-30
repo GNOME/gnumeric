@@ -80,7 +80,7 @@ typedef struct {
 	IOContext *ioc;
 	WorkbookView const *wbv;
 	Workbook const	   *wb;
-	GnmExprConventions *conv;
+	GnmConventions *conv;
 } GnmOOExport;
 
 	static struct {
@@ -161,37 +161,43 @@ odf_write_table_styles (GnmOOExport *state)
 }
 
 static void
-odf_cellref_as_string (GString *target, GnmExprConventions const *conv,
-			GnmCellRef const *cell_ref,
-			GnmParsePos const *pp, gboolean no_sheetname)
+odf_cellref_as_string (GnmConventionsOut *out,
+		       GnmCellRef const *cell_ref,
+		       gboolean no_sheetname)
 {
-	g_string_append (target, "[");
+	g_string_append (out->accum, "[");
 	if (cell_ref->sheet == NULL)
-		g_string_append_c (target, '.');
-	cellref_as_string (target, conv, cell_ref, pp, FALSE);
-	g_string_append (target, "]");
+		g_string_append_c (out->accum, '.');
+	cellref_as_string (out, cell_ref, FALSE);
+	g_string_append (out->accum, "]");
 }
+
+#warning Check on external ref syntax
 
 static void
-odf_rangeref_as_string (GString *target, GnmExprConventions const *conv,
-			 GnmRangeRef const *ref, GnmParsePos const *pp)
+odf_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 {
-	g_string_append (target, "[");
+	g_string_append (out->accum, "[");
 	if (ref->a.sheet == NULL)
-		g_string_append_c (target, '.');
-	cellref_as_string (target, conv, &(ref->a), pp, FALSE);
-	g_string_append (target, ":.");
-	cellref_as_string (target, conv, &(ref->b), pp, TRUE);	
-	g_string_append (target, "]");
+		g_string_append_c (out->accum, '.');
+	cellref_as_string (out, &(ref->a), FALSE);
+
+	if (ref->a.sheet == NULL)
+		g_string_append (out->accum, ":.");
+	else
+		g_string_append_c (out->accum, ':');
+
+	cellref_as_string (out, &(ref->b), FALSE);	
+	g_string_append (out->accum, "]");
 }
 
 
-static GnmExprConventions *
+static GnmConventions *
 odf_expr_conventions_new (void)
 {
-	GnmExprConventions *conv;
+	GnmConventions *conv;
 
-	conv = gnm_expr_conventions_new ();
+	conv = gnm_conventions_new ();
 	conv->sheet_name_sep		= '.';
 	conv->arg_sep			= ';';
 	conv->array_col_sep		= ';';

@@ -3211,7 +3211,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 			(gnm_cell_has_expr (cell)
 			 ?  gnm_expr_top_as_string (cell->base.texpr,
 				parse_pos_init_cell (&tmp, cell),
-				gnm_expr_conventions_default)
+				gnm_conventions_default)
 			 : "none"),
 			(cell->value ?
 			 value_get_as_string (cell->value) : "empty"), xf);

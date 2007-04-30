@@ -171,33 +171,25 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
 		GnmParsePos pp;
-		GString *str = g_string_new (NULL);
-
-		cellref_as_string (
-			str,
-			gnm_expr_conventions_default,
-			ref,
-			parse_pos_init_evalpos (&pp, ei->pos),
-			TRUE);
-		return value_new_string_nocopy (g_string_free (str, FALSE));
+		GnmConventionsOut out;
+		out.accum = g_string_new (NULL);
+		out.pp    = parse_pos_init_evalpos (&pp, ei->pos);
+		out.convs = gnm_conventions_default;
+		cellref_as_string (&out, ref, TRUE);
+		return value_new_string_nocopy (g_string_free (out.accum, FALSE));
 
 	} else if (!g_ascii_strcasecmp(info_type, "sheetname")) {
 		return value_new_string (sheet->name_unquoted);
+
 	/* from later 123 versions - USEFUL! */
 	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
 		GnmParsePos pp;
-		GnmCellRef tmp = *ref;
-		GString *str = g_string_new (NULL);
-
-		tmp.sheet = (Sheet *)sheet;
-		cellref_as_string (
-			str,
-			gnm_expr_conventions_default,
-			&tmp,
-			parse_pos_init_evalpos (&pp, ei->pos),
-			FALSE);
-
-		return value_new_string_nocopy (g_string_free (str, FALSE));
+		GnmConventionsOut out;
+		out.accum = g_string_new (NULL);
+		out.pp    = parse_pos_init_evalpos (&pp, ei->pos);
+		out.convs = gnm_conventions_default;
+		cellref_as_string (&out, ref, TRUE);
+		return value_new_string_nocopy (g_string_free (out.accum, FALSE));
 
 	/* from CELL - pointless - use COLUMN instead! */
 	} else if (!g_ascii_strcasecmp (info_type, "col") ||
@@ -1188,7 +1180,7 @@ gnumeric_expression (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			char *expr_string = gnm_expr_top_as_string
 				(cell->base.texpr,
 				 parse_pos_init_cell (&pos, cell),
-				 gnm_expr_conventions_default);
+				 gnm_conventions_default);
 			return value_new_string_nocopy (expr_string);
 		}
 	}

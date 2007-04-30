@@ -3,7 +3,7 @@
  * parse-util.c: Various utility routines to parse or produce
  *     string representations of common reference types.
  *
- * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -252,8 +252,8 @@ wb_rel_uri (Workbook *wb, Workbook *ref_wb)
 
 /**
  * cellref_as_string :
+ * @out : #GnmConventionsOut
  * @ref :
- * @pp  :
  * @no_sheetname :
  *
  * Returns a string that the caller needs to free containing the A1 format
@@ -261,37 +261,38 @@ wb_rel_uri (Workbook *wb, Workbook *ref_wb)
  * suppress the addition of the sheetname for non-local references.
  **/
 void
-cellref_as_string (GString *target, GnmExprConventions const *conv,
+cellref_as_string (GnmConventionsOut *out,
 		   GnmCellRef const *cell_ref,
-		   GnmParsePos const *pp, gboolean no_sheetname)
+		   gboolean no_sheetname)
 {
 	int col, row;
+	GString *target = out->accum;
 	Sheet const *sheet = cell_ref->sheet;
 
 	/* If it is a non-local reference, add the path to the external sheet */
 	if (sheet != NULL && !no_sheetname) {
-		if (pp->wb == NULL && pp->sheet == NULL)
+		if (out->pp->wb == NULL && out->pp->sheet == NULL)
 			/* For the expression leak printer.  */
 			g_string_append (target, "'?'");
-		else if (pp->wb == NULL || sheet->workbook == pp->wb)
+		else if (NULL == out->pp->wb || sheet->workbook == out->pp->wb)
 			g_string_append (target, sheet->name_quoted);
 		else {
-			char *rel_uri = wb_rel_uri (sheet->workbook, pp->wb);
+			char *rel_uri = wb_rel_uri (sheet->workbook, out->pp->wb);
 			g_string_append_c (target, '[');
 			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
 			g_string_append (target, sheet->name_quoted);
 			g_free (rel_uri);
 		}
-		g_string_append_unichar (target, conv->sheet_name_sep);
+		g_string_append_unichar (target, out->convs->sheet_name_sep);
 	}
 
-	if (conv->r1c1_addresses) { /* R1C1 handler */
+	if (out->convs->r1c1_addresses) { /* R1C1 handler */
 		r1c1_add_index (target, 'R', cell_ref->row, cell_ref->row_relative);
 		r1c1_add_index (target, 'C', cell_ref->col, cell_ref->col_relative);
 	} else {
 		if (cell_ref->col_relative)
-			col = pp->eval.col + cell_ref->col;
+			col = out->pp->eval.col + cell_ref->col;
 		else {
 			g_string_append_c (target, '$');
 			col = cell_ref->col;
@@ -304,7 +305,7 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 		col_name_internal (target, col);
 
 		if (cell_ref->row_relative)
-			row = pp->eval.row + cell_ref->row;
+			row = out->pp->eval.row + cell_ref->row;
 		else {
 			g_string_append_c (target, '$');
 			row = cell_ref->row;
@@ -320,31 +321,31 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 
 /**
  * rangeref_as_string :
- * @ref :
- * @pp :
+ * @out : #GnmConventionsOut
+ * @ref : #GnmRangeRef
  *
  **/
 void
-rangeref_as_string (GString *target, GnmExprConventions const *conv,
-		    GnmRangeRef const *ref, GnmParsePos const *pp)
+rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 {
 	GnmRange r;
+	GString *target = out->accum;
 
-	r.start.col = cellref_abs_col (&ref->a, pp);
-	r.end.col   = cellref_abs_col (&ref->b, pp);
-	r.start.row = cellref_abs_row (&ref->a, pp);
-	r.end.row   = cellref_abs_row (&ref->b, pp);
+	r.start.col = cellref_abs_col (&ref->a, out->pp);
+	r.end.col   = cellref_abs_col (&ref->b, out->pp);
+	r.start.row = cellref_abs_row (&ref->a, out->pp);
+	r.end.row   = cellref_abs_row (&ref->b, out->pp);
 
 	if (ref->a.sheet) {
-		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
-			char *rel_uri = wb_rel_uri (ref->a.sheet->workbook, pp->wb);
+		if (NULL != out->pp->wb && ref->a.sheet->workbook != out->pp->wb) {
+			char *rel_uri = wb_rel_uri (ref->a.sheet->workbook, out->pp->wb);
 			g_string_append_c (target, '[');
 			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
 			g_free (rel_uri);
 		}
-		if (pp->wb == NULL && pp->sheet == NULL)
-			/* For the expression leak printer. */
+		if (out->pp->wb == NULL && out->pp->sheet == NULL)
+			/* For the expression leak printer.  */
 			g_string_append (target, "'?'");
 		else if (ref->b.sheet == NULL || ref->a.sheet == ref->b.sheet)
 			g_string_append (target, ref->a.sheet->name_quoted);
@@ -353,10 +354,10 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append_c (target, ':');
 			g_string_append (target, ref->b.sheet->name_quoted);
 		}
-		g_string_append_unichar (target, conv->sheet_name_sep);
+		g_string_append_unichar (target, out->convs->sheet_name_sep);
 	}
 
-	if (conv->r1c1_addresses) { /* R1C1 handler */
+	if (out->convs->r1c1_addresses) { /* R1C1 handler */
 		/* be sure to use else if so that a1:iv65535 does not vanish */
 		if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
 			r1c1_add_index (target, 'R', ref->a.row, ref->a.row_relative);
@@ -428,32 +429,33 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 
 /**
  * gnm_1_0_rangeref_as_string :
- * @ref :
- * @pp :
+ * @out : #GnmConventionsOut
+ * @ref : #GnmRangeRef
  *
- * Simplified variant of rangeref_as_string that old version of gnumeric can
- * read.  It drops support for full col/row references.  We can remap them on import.
+ * Simplified variant of rangeref_as_string that old versions of gnumeric can
+ * read.  It drops support for full col/row references.  We can remap them on
+ * import.
  **/
 void
-gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
-			    GnmRangeRef const *ref, GnmParsePos const *pp)
+gnm_1_0_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 {
 	GnmRange r;
+	GString *target = out->accum;
 
-	r.start.col = cellref_abs_col (&ref->a, pp);
-	r.end.col   = cellref_abs_col (&ref->b, pp);
-	r.start.row = cellref_abs_row (&ref->a, pp);
-	r.end.row   = cellref_abs_row (&ref->b, pp);
+	r.start.col = cellref_abs_col (&ref->a, out->pp);
+	r.end.col   = cellref_abs_col (&ref->b, out->pp);
+	r.start.row = cellref_abs_row (&ref->a, out->pp);
+	r.end.row   = cellref_abs_row (&ref->b, out->pp);
 
 	if (ref->a.sheet) {
-		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
-			char *rel_uri = wb_rel_uri (ref->a.sheet->workbook, pp->wb);
+		if (NULL != out->pp->wb && ref->a.sheet->workbook != out->pp->wb) {
+			char *rel_uri = wb_rel_uri (ref->a.sheet->workbook, out->pp->wb);
 			g_string_append_c (target, '[');
 			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
 			g_free (rel_uri);
 		}
-		if (pp->wb == NULL && pp->sheet == NULL)
+		if (out->pp->wb == NULL && out->pp->sheet == NULL)
 			/* For the expression leak printer. */
 			g_string_append (target, "'?'");
 		else if (ref->b.sheet == NULL || ref->a.sheet == ref->b.sheet)
@@ -463,7 +465,7 @@ gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append_c (target, ':');
 			g_string_append (target, ref->b.sheet->name_quoted);
 		}
-		g_string_append_unichar (target, conv->sheet_name_sep);
+		g_string_append_unichar (target, out->convs->sheet_name_sep);
 	}
 
 	if (!ref->a.col_relative)
@@ -1014,7 +1016,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
  **/
 char const *
 rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
-		GnmExprConventions const *convs)
+		GnmConventions const *convs)
 {
 	char const *ptr = start, *start_sheet, *tmp1, *tmp2;
 	Workbook *wb;
@@ -1114,7 +1116,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 /* Do we even need this anymore ? */
 char const *
 gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
-			G_GNUC_UNUSED GnmExprConventions const *convs)
+			G_GNUC_UNUSED GnmConventions const *convs)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb;
@@ -1169,35 +1171,33 @@ gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *
 /* ------------------------------------------------------------------------- */
 
 static void
-std_expr_name_handler (GString *target,
-		       GnmParsePos const *pp,
-		       GnmExprName const *name,
-		       GnmExprConventions const *conv)
+std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 {
 	GnmNamedExpr const *thename = name->name;
+	GString *target = out->accum;
 
 	if (!thename->active) {
 		g_string_append (target,
-			value_error_name (GNM_ERROR_REF, conv->output.translated));
+			value_error_name (GNM_ERROR_REF, out->convs->output.translated));
 		return;
 	}
 
 	if (name->optional_scope != NULL) {
-		if (name->optional_scope->workbook != pp->wb) {
-			char *rel_uri = wb_rel_uri (name->optional_wb_scope, pp->wb);
+		if (name->optional_scope->workbook != out->pp->wb) {
+			char *rel_uri = wb_rel_uri (name->optional_wb_scope, out->pp->wb);
 			g_string_append_c (target, '[');
 			g_string_append (target, rel_uri);
 			g_string_append_c (target, ']');
 			g_free (rel_uri);
 		} else {
 			g_string_append (target, name->optional_scope->name_quoted);
-			g_string_append_unichar (target, conv->sheet_name_sep);
+			g_string_append_unichar (target, out->convs->sheet_name_sep);
 		}
-	} else if (pp->sheet != NULL &&
+	} else if (out->pp->sheet != NULL &&
 		   thename->pos.sheet != NULL &&
-		   thename->pos.sheet != pp->sheet) {
+		   thename->pos.sheet != out->pp->sheet) {
 		g_string_append (target, thename->pos.sheet->name_quoted);
-		g_string_append_unichar (target, conv->sheet_name_sep);
+		g_string_append_unichar (target, out->convs->sheet_name_sep);
 	}
 
 	g_string_append (target, thename->name->str);
@@ -1206,7 +1206,7 @@ std_expr_name_handler (GString *target,
 /* ------------------------------------------------------------------------- */
 
 static GString *
-std_sheet_name_quote (GnmExprConventions const *convs,
+std_sheet_name_quote (GnmConventions const *convs,
 		      char const *str)
 {
 	gunichar uc = g_utf8_get_char (str);
@@ -1286,7 +1286,7 @@ std_sheet_name_quote (GnmExprConventions const *convs,
 
 static char const *
 std_name_parser (char const *str,
-		 G_GNUC_UNUSED GnmExprConventions const *convs)
+		 G_GNUC_UNUSED GnmConventions const *convs)
 {
 	gunichar uc = g_utf8_get_char (str);
 
@@ -1306,7 +1306,7 @@ std_name_parser (char const *str,
 }
 
 static GnmExpr const *
-std_func_map (GnmExprConventions const *convs, Workbook *scope,
+std_func_map (GnmConventions const *convs, Workbook *scope,
 	      char const *name, GnmExprList *args)
 {
 	GnmFunc *f;
@@ -1317,53 +1317,53 @@ std_func_map (GnmExprConventions const *convs, Workbook *scope,
 }
 
 /**
- * gnm_expr_conventions_new_full :
+ * gnm_conventions_new_full :
  * @size :
  *
- * Construct a GnmExprConventions of @size.
+ * Construct a GnmConventions of @size.
  *
- * Returns a GnmExprConventions with default values.  Caller is responsible for
+ * Returns a GnmConventions with default values.  Caller is responsible for
  * freeing the result.
  **/
-GnmExprConventions *
-gnm_expr_conventions_new_full (unsigned size)
+GnmConventions *
+gnm_conventions_new_full (unsigned size)
 {
-	GnmExprConventions *conv;
+	GnmConventions *convs;
 
-	g_return_val_if_fail (size >= sizeof (GnmExprConventions), NULL);
+	g_return_val_if_fail (size >= sizeof (GnmConventions), NULL);
 
-	conv = g_malloc0 (size);
+	convs = g_malloc0 (size);
 
-	conv->sheet_name_sep		= '!';
-	conv->intersection_char		= ' ';
-	conv->input.name		= std_name_parser;
-	conv->input.func		= std_func_map;
+	convs->sheet_name_sep		= '!';
+	convs->intersection_char		= ' ';
+	convs->input.name		= std_name_parser;
+	convs->input.func		= std_func_map;
 
-	conv->output.translated		= TRUE;
-	conv->output.name		= std_expr_name_handler;
-	conv->output.cell_ref		= cellref_as_string;
-	conv->output.range_ref		= rangeref_as_string;
-	conv->output.sheet_name_quote	= std_sheet_name_quote;
-	return conv;
+	convs->output.translated		= TRUE;
+	convs->output.name		= std_expr_name_handler;
+	convs->output.cell_ref		= cellref_as_string;
+	convs->output.range_ref		= rangeref_as_string;
+	convs->output.quote_sheet_name	= std_sheet_name_quote;
+	return convs;
 }
 
 /**
- * gnm_expr_conventions_new :
+ * gnm_conventions_new :
  *
- * A convenience wrapper around gnm_expr_conventions_new_full
- * that constructs a GnmExprConventions of std size.
+ * A convenience wrapper around gnm_conventions_new_full
+ * that constructs a GnmConventions of std size.
  *
- * Returns a GnmExprConventions with default values.  Caller is responsible for
+ * Returns a GnmConventions with default values.  Caller is responsible for
  * freeing the result.
  **/
-GnmExprConventions *
-gnm_expr_conventions_new (void)
+GnmConventions *
+gnm_conventions_new (void)
 {
-	return gnm_expr_conventions_new_full (sizeof (GnmExprConventions));
+	return gnm_conventions_new_full (sizeof (GnmConventions));
 }
 
 void
-gnm_expr_conventions_free (GnmExprConventions *c)
+gnm_conventions_free (GnmConventions *c)
 {
 	g_free (c);
 }
@@ -1477,39 +1477,39 @@ test_cellpos_stuff (void)
 
 #endif
 
-GnmExprConventions const *gnm_expr_conventions_default;
-GnmExprConventions const *gnm_expr_conventions_r1c1;
+GnmConventions const *gnm_conventions_default;
+GnmConventions const *gnm_conventions_xls_r1c1;
 
 void
 parse_util_init (void)
 {
-	GnmExprConventions *convs;
+	GnmConventions *convs;
 #ifdef TEST
 	test_row_stuff ();
 	test_col_stuff ();
 	test_cellpos_stuff ();
 #endif
 
-	convs = gnm_expr_conventions_new ();
+	convs = gnm_conventions_new ();
 	convs->input.range_ref = rangeref_parse;
 	convs->range_sep_colon		 = TRUE;
 	convs->r1c1_addresses		 = FALSE;
-	gnm_expr_conventions_default	 = convs;
+	gnm_conventions_default	 = convs;
 
-	convs = gnm_expr_conventions_new ();
+	convs = gnm_conventions_new ();
 	convs->input.range_ref = rangeref_parse;
 	convs->range_sep_colon		 = TRUE;
 	convs->r1c1_addresses		 = TRUE;
-	gnm_expr_conventions_r1c1	 = convs;
+	gnm_conventions_xls_r1c1	 = convs;
 }
 
 void
 parse_util_shutdown (void)
 {
-	gnm_expr_conventions_free ((GnmExprConventions *)gnm_expr_conventions_default);
-	gnm_expr_conventions_default = NULL;
-	gnm_expr_conventions_free ((GnmExprConventions *)gnm_expr_conventions_r1c1);
-	gnm_expr_conventions_r1c1 = NULL;
+	gnm_conventions_free ((GnmConventions *)gnm_conventions_default);
+	gnm_conventions_default = NULL;
+	gnm_conventions_free ((GnmConventions *)gnm_conventions_xls_r1c1);
+	gnm_conventions_xls_r1c1 = NULL;
 }
 
 GnmExprTop const *
@@ -1521,22 +1521,22 @@ gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp)
 /* ------------------------------------------------------------------------- */
 /**
  * gnm_expr_conv_quote:
- * @convs : #GnmExprConventions
+ * @convs : #GnmConventions
  * @str   : string to quote
  *
- * Quotes @str according to the convention @conv if necessary. 
+ * Quotes @str according to the convention @convs if necessary. 
  * or returns a literal copy of @str if no quoting was needed.
  *
  * Return value: caller is responsible for the resulting GString 
  **/
 GString *
-gnm_expr_conv_quote (GnmExprConventions const *convs,
+gnm_expr_conv_quote (GnmConventions const *convs,
 		     char const *str)
 {
 	g_return_val_if_fail (convs != NULL, NULL);
-	g_return_val_if_fail (convs->output.sheet_name_quote != NULL, NULL);
+	g_return_val_if_fail (convs->output.quote_sheet_name != NULL, NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 	g_return_val_if_fail (str[0] != 0, NULL);
 
-	return convs->output.sheet_name_quote (convs, str);
+	return convs->output.quote_sheet_name (convs, str);
 }

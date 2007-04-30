@@ -28,7 +28,7 @@ struct _XmlParseContext {
 				 */
 	GnumericXMLVersion    version;
 
-	GnmExprConventions *exprconv;
+	GnmConventions *convs;
 };
 
 XmlParseContext *xml_parse_ctx_new     (xmlDoc		*doc,

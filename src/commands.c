@@ -4092,11 +4092,14 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 						 (gnm_func_lookup ("ERROR", NULL),
 						  gnm_expr_new_constant 
 						  (value_new_string_nocopy (cell_res.new_text))));
-					GString *s = g_string_new ("=");
-					gnm_expr_top_as_gstring
-						(s, ee, &pp, gnm_expr_conventions_default);
+					GnmConventionsOut out;
+
+					out.accum = g_string_new ("=");
+					out.pp = &pp;
+					out.convs = gnm_conventions_default;
+					gnm_expr_top_as_gstring (ee, &out);
 					gnm_expr_top_unref (ee);
-					cell_res.new_text = g_string_free (s, FALSE);
+					cell_res.new_text = g_string_free (out.accum, FALSE);
 					err = FALSE;
 					break;
 				}

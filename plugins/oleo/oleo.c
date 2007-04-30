@@ -34,14 +34,12 @@
 
 
 typedef struct {
-	GsfInputTextline   *textline;
-	Sheet              *sheet;
-	GIConv             converter;
-	GnmExprConventions *exprconv;
-} OleoParseState;
+	GnmConventions	 *convs;
+	GnmParsePos	  pp;
 
-#define OLEO_TO_GNUMERIC(a) ((a) - 1)
-#define GNUMERIC_TO_OLEO(a) ((a) + 1)
+	GsfInputTextline *textline;
+	GIConv            converter;
+} OleoReader;
 
 static void
 append_zeros (GString *s, int n)
@@ -51,26 +49,6 @@ append_zeros (GString *s, int n)
 		g_string_set_size (s, oldlen + n);
 		memset (s->str+oldlen, '0', n);
 	}
-}
-
-
-static void
-oleo_set_style (Sheet *sheet, int col, int row, GnmStyle *mstyle)
-{
-	GnmRange range;
-
-	if (!sheet)
-		return;
-
-	range_init_full_sheet (&range);
-	if (col >= 0)
-		range.start.col = range.end.col = OLEO_TO_GNUMERIC (col);
-	if (row >= 0)
-		range.start.row = range.end.row = OLEO_TO_GNUMERIC (row);
-
-	/* sheet_style_set_range absorbs our reference */
-	gnm_style_ref (mstyle);
-	sheet_style_set_range (sheet, &range, mstyle);
 }
 
 /* adapted from Oleo */
@@ -86,124 +64,36 @@ astol (char **ptr)
 	return res;
 }
 
+
 static void
-oleo_get_ref_value (int *start, unsigned char *start_relative,
-		    int *end, unsigned char *end_relative,
-		    char const **spec)
+oleo_set_style (OleoReader *state, GnmStyle *style)
 {
-	char *s = (char *)*spec;
-
-	if (*s == '[') {		/* Relative row or col */
-		*start_relative = TRUE;
-		s++;
-		*start = astol (&s);
-		s++;			/* Skip ']' */
-	} else if (g_ascii_isdigit (*s) || *s == '-') {
-		*start_relative = FALSE;
-		*start = OLEO_TO_GNUMERIC (astol (&s));
-	} else {
-		*start_relative = TRUE;
-		*start = 0;
-	}
-
-	if (*s == ':') {
-		s++;
-		if (*s == '[') {
-			*end_relative = TRUE;
-			s++;
-			*end = astol (&s);
-			s++;			/* Skip ']' */
-		} else {
-			*end_relative = FALSE;
-			*end = OLEO_TO_GNUMERIC (astol (&s));
-		}
-	} else {
-		*end = *start;
-		*end_relative = *start_relative;
-	}
-	*spec = s;
+	/* sheet_style_set_range absorbs our reference */
+	gnm_style_ref (style);
+	sheet_style_set_pos (state->pp.sheet,
+		state->pp.eval.col, state->pp.eval.row, style);
 }
-
-
-static char *
-oleo_get_gnumeric_expr (char const *o_expr,
-			GnmParsePos const *cur_pos)
-{
-	char const *from = o_expr;
-	GString *gres = g_string_sized_new (1024);
-
-	while (*from) {
-		if (*from == 'r') {
-			GnmCellRef start, end;
-
-			from++;
-			oleo_get_ref_value (&start.row, &start.row_relative,
-					    &end.row, &end.row_relative, &from);
-
-			if (*from == 'c') {
-				from++;
-				oleo_get_ref_value (&start.col, &start.col_relative,
-						    &end.col, &end.col_relative, &from);
-			} else {
-				start.col = 0;
-				start.col_relative = TRUE;
-				end.col = start.col;
-				end.col_relative = start.col_relative;
-			}
-
-			cellref_as_string (gres, gnm_expr_conventions_default,
-					   &start, cur_pos, TRUE);
-
-			if (!gnm_cellref_equal (&start, &end)) {
-				g_string_append_c (gres, ':');
-				cellref_as_string (gres, gnm_expr_conventions_default,
-						   &end, cur_pos, TRUE);
-			}
-		} else {
-			g_string_append_c (gres, *from);
-			from++;
-		}
-	}
-
-#if OLEO_DEBUG > 0
-	g_warning ("\"%s\"->\"%s\".", o_expr, gres->str);
-#endif /* OLEO_DEBUG */
-
-	return g_string_free (gres, FALSE);
-}
-
 
 static GnmExprTop const *
-oleo_parse_formula (OleoParseState *state, char const *text, int col, int row)
+oleo_parse_formula (OleoReader *state, char const *expr_str)
 {
-	GnmParsePos pos;
 	GnmParseError error;
-	GnmExprTop const *texpr;
-	char *gnumeric_text;
-
-	GnmCell const *cell = sheet_cell_fetch (state->sheet,
-		OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row));
-
-	parse_pos_init_cell (&pos, cell);
-
-	gnumeric_text = oleo_get_gnumeric_expr (text, &pos);
-	texpr = gnm_expr_parse_str (gnumeric_text,
-				   &pos, GNM_EXPR_PARSE_DEFAULT,
-				   state->exprconv, parse_error_init (&error));
+	GnmExprTop const *texpr = gnm_expr_parse_str (expr_str,
+		&state->pp, GNM_EXPR_PARSE_DEFAULT,
+		state->convs, parse_error_init (&error));
 
 	if (error.err != NULL) {
-		g_warning ("%s \"%s\" at %s!%s.",  error.err->message, gnumeric_text,
-			   state->sheet->name_unquoted,
-			   cell_coord_name (OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row)));
+		g_warning ("%s \"%s\" at %s!%s.",  error.err->message, expr_str,
+			   state->pp.sheet->name_unquoted,
+			   cell_coord_name (state->pp.eval.col, state->pp.eval.row));
 	}
-	g_free (gnumeric_text);
 	parse_error_free (&error);
 
 	return texpr;
 }
 
 static void
-oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, GnmStyle *style)
+oleo_parse_cell (OleoReader *state, guint8 *str, GnmStyle *style)
 {
 	GnmCell *cell;
 	GnmExprTop const *texpr = NULL;
@@ -219,8 +109,8 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 		}
 		*ptr++ = '\0';
 		switch (*ptr++) {
-		case 'c' : *ccol = astol (&ptr); break;
-		case 'r' : *crow = astol (&ptr); break;
+		case 'c' : state->pp.eval.col = astol (&ptr) - 1; break;
+		case 'r' : state->pp.eval.row = astol (&ptr) - 1; break;
 		case 'K' :
 			cval = ptr;
 			quotes = 0;
@@ -248,11 +138,11 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 			break;
 	}
 
-	cell = sheet_cell_fetch (state->sheet,
-		OLEO_TO_GNUMERIC (*ccol), OLEO_TO_GNUMERIC (*crow));
+	cell = sheet_cell_fetch (state->pp.sheet,
+		state->pp.eval.col, state->pp.eval.row);
 
 	if (formula != NULL)
-		texpr = oleo_parse_formula (state, formula, *ccol, *crow);
+		texpr = oleo_parse_formula (state, formula);
 
 	if (cval != NULL) {
 		GnmValue *val = format_match_simple (cval);
@@ -272,7 +162,7 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 			gnm_cell_set_value (cell, val);
 
 		if (style != NULL)
-			oleo_set_style (state->sheet, *ccol, *crow, style);
+			oleo_set_style (state, style);
 
 	} else {
 #if OLEO_DEBUG > 0
@@ -286,24 +176,21 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
 		gnm_expr_top_unref (texpr);
 }
 
-
 /* NOTE : We don't care to much about formatting as such, but we need to
- * parse the command as it may update current row/column
- */
+ * parse the command as it may update current row/column */
 static void
-oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
-		       GnmStyle **style)
+oleo_parse_style (OleoReader *state, guint8 *str, GnmStyle **res)
 {
 	char *ptr = str + 1;
-	GnmStyle *mstyle = gnm_style_new_default ();
-	GString *fmt_string = g_string_new (NULL);
+	GnmStyle *style = gnm_style_new_default ();
+	GString  *fmt_string = g_string_new (NULL);
 
 	while (*ptr) {
 		char c = *ptr++;
 
 		switch (c) {
-		case 'c' : *ccol = astol (&ptr); break;
-		case 'r' : *crow = astol (&ptr); break;
+		case 'c' : state->pp.eval.col = astol (&ptr) - 1; break;
+		case 'r' : state->pp.eval.row = astol (&ptr) - 1; break;
 		case 'F': case 'G':
 			c = *ptr++;
 
@@ -322,19 +209,19 @@ oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
 			}
 			break;
 		case 'L':
-			gnm_style_set_align_h (mstyle, HALIGN_LEFT);
+			gnm_style_set_align_h (style, HALIGN_LEFT);
 			break;
 		case 'R':
-			gnm_style_set_align_h (mstyle, HALIGN_RIGHT);
+			gnm_style_set_align_h (style, HALIGN_RIGHT);
 		}
 	}
 	if (fmt_string->len)
-		gnm_style_set_format_text (mstyle, fmt_string->str);
+		gnm_style_set_format_text (style, fmt_string->str);
 	g_string_free (fmt_string, TRUE);
 
-	if (*style)
-		gnm_style_unref (*style);
-	*style = mstyle;
+	if (*res)
+		gnm_style_unref (*res);
+	*res = style;
 }
 
 static Sheet *
@@ -350,33 +237,33 @@ oleo_new_sheet (Workbook *wb, int idx)
 	return sheet;
 }
 
-static GnmExprConventions *
-oleo_conventions (void)
+static GnmConventions *
+oleo_conventions_new (void)
 {
-	GnmExprConventions *conv = gnm_expr_conventions_new ();
+	GnmConventions *convs = gnm_conventions_new ();
 
-	conv->decimal_sep_dot		= TRUE;
-	conv->input.range_ref			= rangeref_parse;
-	conv->range_sep_colon		= TRUE;
-	conv->intersection_char		= 0;
+	convs->decimal_sep_dot	 = TRUE;
+	convs->intersection_char = 0;
+	convs->r1c1_addresses	 = TRUE;
 
-	return conv;
+	return convs;
 }
 
 void
 oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
 	int sheetidx = 0;
-	int ccol = 0, crow = 0;
 	GnmStyle *style = NULL;
 	guint8 *line;
-	OleoParseState state;
+	OleoReader state;
 
-	state.textline = (GsfInputTextline *) gsf_input_textline_new (input);
-	/* This should probably come from import dialog.  */
+	state.convs = oleo_conventions_new ();
+	parse_pos_init (&state.pp,
+		wb, oleo_new_sheet (wb, ++sheetidx), 0, 0);
+
+	/* Does this need to come from the import dialog ? */
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
-	state.sheet = oleo_new_sheet (wb, ++sheetidx);
-	state.exprconv = oleo_conventions ();
+	state.textline  = (GsfInputTextline *) gsf_input_textline_new (input);
 
 	while (NULL != (line = gsf_input_textline_ascii_gets (state.textline))) {
 		char *utf8line =
@@ -386,10 +273,10 @@ oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 		case '#': /* Comment */
 			break;
 
-		case 'C': oleo_deal_with_cell (&state, utf8line, &ccol, &crow, style);
+		case 'C': oleo_parse_cell (&state, utf8line, style);
 			break;
 
-		case 'F': oleo_deal_with_format (&state, utf8line, &ccol, &crow, &style);
+		case 'F': oleo_parse_style (&state, utf8line, &style);
 			break;
 
 		default: /* unknown */
@@ -404,6 +291,6 @@ oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 	}
 
 	g_iconv_close (state.converter);
-	gnm_expr_conventions_free (state.exprconv);
+	gnm_conventions_free (state.convs);
 	g_object_unref (G_OBJECT (state.textline));
 }

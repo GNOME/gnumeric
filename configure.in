@@ -6,7 +6,7 @@ AC_PREREQ(2.54)
 m4_define([gnumeric_version_epoch], [1])
 m4_define([gnumeric_version_major], [7])
 m4_define([gnumeric_version_minor], [10])
-m4_define([gnumeric_version_extra], [])
+m4_define([gnumeric_version_extra], [-parser])
 m4_define([gnumeric_full_version],
     [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
 

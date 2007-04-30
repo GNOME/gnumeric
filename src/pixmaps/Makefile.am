@@ -338,6 +338,6 @@ CLEANFILES = $(noinst_DATA)
 
 $(pixbuf_file): $(IMAGES)
 	@echo $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) '>$@'
-	@     $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$@
+	@     $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$@ || rm $@
 
 EXTRA_DIST = $(IMAGES)

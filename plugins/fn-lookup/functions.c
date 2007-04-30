@@ -363,8 +363,7 @@ static GnmFuncHelp const help_address[] = {
 static GnmValue *
 gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	GnmExprConventions const *conv = gnm_expr_conventions_default;
-	GString		*res;
+	GnmConventionsOut out;
 	GnmCellRef	 ref;
 	GnmParsePos	 pp;
 	gboolean	 err;
@@ -389,11 +388,13 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	ref.sheet = NULL;
 	row = ref.row = value_get_as_int (args[0]) - 1;
 	col = ref.col = value_get_as_int (args[1]) - 1;
-	parse_pos_init_evalpos (&pp, ei->pos);
+	out.pp = parse_pos_init_evalpos (&pp, ei->pos);
+	out.convs = gnm_conventions_default;
+
 	if (NULL != args[3]) {
 		/* MS Excel is ridiculous.  This is a special case */
 		if (!value_get_as_bool (args[3], &err)) {
-			conv = gnm_expr_conventions_r1c1;
+			out.convs = gnm_conventions_xls_r1c1;
 			if (ref.col_relative)
 				col = ei->pos->eval.col + (++ref.col);
 			if (ref.row_relative)
@@ -407,17 +408,18 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (row < 0 || row >= SHEET_MAX_ROWS)
 		return value_new_error_VALUE (ei->pos);
 
-	if (NULL != args[4]) {
-		res = gnm_expr_conv_quote (gnm_expr_conventions_default,
-			value_peek_string (args[4]));
-		g_string_append_c (res, '!');
-	} else
-		res = g_string_new (NULL);
-	if (conv != gnm_expr_conventions_r1c1)
+	if (!out.convs->r1c1_addresses)
 		pp.eval.col = pp.eval.row = 0;
-	cellref_as_string (res, conv, &ref, &pp, TRUE);
 
-	return value_new_string_nocopy (g_string_free (res, FALSE));
+	if (NULL != args[4]) {
+		out.accum = gnm_expr_conv_quote (gnm_conventions_default,
+			value_peek_string (args[4]));
+		g_string_append_c (out.accum, '!');
+	} else
+		out.accum = g_string_new (NULL);
+	cellref_as_string (&out, &ref, TRUE);
+
+	return value_new_string_nocopy (g_string_free (out.accum, FALSE));
 }
 
 /***************************************************************************/
@@ -832,10 +834,10 @@ gnumeric_indirect (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmValue *res = NULL;
 	GnmExprTop const *texpr;
 	char const *text = value_peek_string (args[0]);
-	GnmExprConventions const *convs = gnm_expr_conventions_default;
+	GnmConventions const *convs = gnm_conventions_default;
 
 	if (args[1] && !value_get_as_checked_bool (args[1]))
-		convs = gnm_expr_conventions_r1c1;
+		convs = gnm_conventions_xls_r1c1;
 
 	texpr = gnm_expr_parse_str (text,
 		parse_pos_init_evalpos (&pp, ei->pos),

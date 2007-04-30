@@ -85,7 +85,7 @@ struct _Sheet {
 	GnmColor	 *tab_color;
 	GnmColor	 *tab_text_color;
 	GnmSheetType	  sheet_type;
-	GnmExprConventions const *convs;
+	GnmConventions const *convs;
 
 	/* This needs to move elsewhere and get shared.  */
 	PangoContext *context;
@@ -280,7 +280,7 @@ void	     sheet_cell_calc_span   (GnmCell *cell, GnmSpanCalcFlags flags);
 
 void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);
 
-GnmExprConventions const *sheet_expr_conventions (const Sheet *sheet);
+GnmConventions const *sheet_conventions (Sheet const *sheet);
 
 /* Implementation for commands, no undo */
 struct _GnmRelocUndo {

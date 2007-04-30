@@ -87,10 +87,10 @@
 
 /* ------------------------------------------------------------------------- */
 
-static GnmExprConventions *
-xml_io_conventions (void)
+static GnmConventions *
+gnm_xml_conventions_new (void)
 {
-	GnmExprConventions *conv = gnm_expr_conventions_new ();
+	GnmConventions *conv = gnm_conventions_new ();
 
 	conv->decimal_sep_dot		= TRUE;
 	conv->output.range_ref		= gnm_1_0_rangeref_as_string;
@@ -127,7 +127,7 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	ctxt->shared_exprs = g_ptr_array_new ();
 	ctxt->wb_view      = wb_view;
 	ctxt->wb	   = (wb_view != NULL) ? wb_view_get_workbook (wb_view) : NULL;
-	ctxt->exprconv     = xml_io_conventions ();
+	ctxt->convs        = gnm_xml_conventions_new ();
 
 	return ctxt;
 }
@@ -139,7 +139,7 @@ xml_parse_ctx_destroy (XmlParseContext *ctxt)
 
 	g_hash_table_destroy (ctxt->expr_map);
 	g_ptr_array_free (ctxt->shared_exprs, TRUE);
-	gnm_expr_conventions_free (ctxt->exprconv);
+	gnm_conventions_free (ctxt->convs);
 
 	g_free (ctxt);
 }
@@ -395,12 +395,12 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		parse_error_init (&perr);
 		texpr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
 					   GNM_EXPR_PARSE_DEFAULT,
-					   ctxt->exprconv, &perr);
+					   ctxt->convs, &perr);
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=317427 */
 		if (!texpr)
 			texpr = gnm_expr_parse_str (CXML2C (expr_str), &pp,
 						   GNM_EXPR_PARSE_DEFAULT,
-						   gnm_expr_conventions_default,
+						   gnm_conventions_default,
 						   NULL);
 
 		if (texpr != NULL) {
@@ -891,7 +891,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree, gboolean leave_empty)
 				texpr0 = gnm_expr_parse_str
 					(CXML2C (content), &pp,
 					 GNM_EXPR_PARSE_DEFAULT,
-					 ctxt->exprconv, NULL);
+					 ctxt->convs, NULL);
 				xmlFree (content);
 			}
 			if (NULL != (e_node = e_xml_get_child_by_name (child, CC2XML ("Expression1"))) &&
@@ -899,7 +899,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree, gboolean leave_empty)
 				texpr1 = gnm_expr_parse_str
 					(CXML2C (content), &pp,
 					 GNM_EXPR_PARSE_DEFAULT,
-					 ctxt->exprconv, NULL);
+					 ctxt->convs, NULL);
 				xmlFree (content);
 			}
 
@@ -939,7 +939,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree, gboolean leave_empty)
 				cond.texpr[0] = gnm_expr_parse_str
 					(CXML2C (content), &pp,
 					 GNM_EXPR_PARSE_DEFAULT,
-					 ctxt->exprconv, NULL);
+					 ctxt->convs, NULL);
 				xmlFree (content);
 			} else
 				cond.texpr[0] = NULL;
@@ -948,7 +948,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree, gboolean leave_empty)
 				cond.texpr[1] = gnm_expr_parse_str
 					(CXML2C (content), &pp,
 					 GNM_EXPR_PARSE_DEFAULT,
-					 ctxt->exprconv, NULL);
+					 ctxt->convs, NULL);
 				xmlFree (content);
 			} else
 				cond.texpr[1] = NULL;
@@ -1031,7 +1031,7 @@ xml_cell_set_array_expr (XmlParseContext *ctxt,
 		gnm_expr_parse_str (text,
 				    parse_pos_init_cell (&pp, cell),
 				    GNM_EXPR_PARSE_DEFAULT,
-				    ctxt->exprconv, NULL);
+				    ctxt->convs, NULL);
 
 	g_return_if_fail (texpr != NULL);
 	gnm_cell_set_array_formula (cell->base.sheet,
@@ -1247,7 +1247,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 					texpr = gnm_expr_parse_str (expr_start,
 								    parse_pos_init_cell (&pos, cell),
 								    GNM_EXPR_PARSE_DEFAULT,
-								    ctxt->exprconv, NULL);
+								    ctxt->convs, NULL);
 				}
 				if (texpr != NULL) {
 					gnm_cell_set_expr (cell, texpr);
@@ -2012,7 +2012,7 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 			cc->texpr =
 				gnm_expr_parse_str (CXML2C (content), &pp,
 						    GNM_EXPR_PARSE_DEFAULT,
-						    ctxt->exprconv, NULL);
+						    ctxt->convs, NULL);
 
 			g_return_if_fail (cc->texpr != NULL);
 #warning TODO : arrays

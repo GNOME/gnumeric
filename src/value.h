@@ -139,7 +139,7 @@ guint       value_hash		   (GnmValue const *v);
 char const *value_peek_string	   (GnmValue const *v);
 char       *value_get_as_string	   (GnmValue const *v);
 void        value_get_as_gstring   (GnmValue const *v, GString *target,
-				    GnmExprConventions const *conv);
+				    GnmConventions const *conv);
 
 int         value_get_as_int	   (GnmValue const *v);
 gnm_float   value_get_as_float	   (GnmValue const *v);

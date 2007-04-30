@@ -107,7 +107,7 @@ gnm_go_data_as_str (GOData const *dat)
 		return g_strdup ("No sheet for GnmGOData");
 	return gnm_expr_top_as_string (dep->texpr,
 		parse_pos_init_dep (&pp, dep),
-		gnm_expr_conventions_default);
+		gnm_conventions_default);
 }
 
 static  gboolean

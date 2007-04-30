@@ -35,6 +35,7 @@
 #include "sheet-merge.h"
 #include "gnm-format.h"
 #include "value.h"
+#include "parse-util.h"
 #include "workbook.h"
 
 #include <string.h>
@@ -338,12 +339,16 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	if (displayed_formula) {
 		GnmParsePos pp;
-		GString *str = g_string_new ("=");
-		gnm_expr_top_as_gstring (str, cell->base.texpr,
-					 parse_pos_init_cell (&pp, cell),
-					 sheet->convs);
-		pango_layout_set_text (layout, str->str, str->len);
-		g_string_free (str, TRUE);
+		GnmConventionsOut out;
+
+		out.accum = g_string_new ("=");
+		out.convs = sheet->convs;
+		out.pp    = &pp;
+
+		parse_pos_init_cell (&pp, cell),
+		gnm_expr_top_as_gstring (cell->base.texpr, &out);
+		pango_layout_set_text (layout, out.accum->str, out.accum->len);
+		g_string_free (out.accum, TRUE);
 		fore = 0;
 		res->might_overflow = FALSE;
 	} else if (sheet->hide_zero && gnm_cell_is_zero (cell)) {

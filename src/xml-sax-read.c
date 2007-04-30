@@ -1883,7 +1883,7 @@ handle_delayed_names (XMLSaxParseState *state)
 		parse_error_init (&perr);
 		texpr = gnm_expr_parse_str (expr_str, pos,
 					    GNM_EXPR_PARSE_DEFAULT,
-					    gnm_expr_conventions_default,
+					    gnm_conventions_default,
 					    &perr);
 		if (texpr)
 			expr_name_set_expr (nexpr, texpr);

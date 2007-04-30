@@ -703,11 +703,15 @@ static char *
 gee_rangesel_make_text (GnmExprEntry const *gee)
 {
 	GnmRangeRef ref;
-	GString *target = g_string_new (NULL);
+	GnmConventionsOut out;
 
 	gee_prepare_range (gee, &ref);
-	rangeref_as_string (target, gee->sheet->convs, &ref, &gee->pp);
-	return g_string_free (target, FALSE);
+
+	out.accum = g_string_new (NULL);
+	out.pp    = &gee->pp;
+	out.convs = gee->sheet->convs;
+	rangeref_as_string (&out, &ref);
+	return g_string_free (out.accum, FALSE);
 }
 
 static void
@@ -1163,7 +1167,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 
 	if (dep->texpr != NULL) {
 		char *text = gnm_expr_top_as_string (dep->texpr,
-			parse_pos_init_dep (&pp, dep), gnm_expr_conventions_default);
+			parse_pos_init_dep (&pp, dep), gnm_conventions_default);
 
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
@@ -1193,7 +1197,7 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 
 	if (texpr != NULL) {
 		char *text = gnm_expr_top_as_string (texpr, pp,
-				gnm_expr_conventions_default);
+				gnm_conventions_default);
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
@@ -1418,7 +1422,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	}
 
 	/* Reset the entry in case something changed */
-	str = gnm_expr_top_as_string (texpr, pp, gnm_expr_conventions_default);
+	str = gnm_expr_top_as_string (texpr, pp, gnm_conventions_default);
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;

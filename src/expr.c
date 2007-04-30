@@ -1453,10 +1453,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 }
 
 static void
-gnm_expr_list_as_string (GString *target,
-			 int argc, GnmExprConstPtr const *argv,
-			 GnmParsePos const *pp,
-			 GnmExprConventions const *fmt);
+gnm_expr_list_as_string (int argc, GnmExprConstPtr const *argv,
+			 GnmConventionsOut *out);
 
 
 /*
@@ -1467,8 +1465,8 @@ gnm_expr_list_as_string (GString *target,
  * appends a string representation to the target.
  */
 static void
-do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
-		   int paren_level, GnmExprConventions const *conv)
+do_expr_as_string (GnmExpr const *expr, int paren_level,
+		   GnmConventionsOut *out)
 {
 	static struct {
 		char const name[4];
@@ -1502,6 +1500,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		{ " ",  8, 1, 0, 0 }  /* Intersection */
 	};
 	GnmExprOp const op = GNM_EXPR_GET_OPER (expr);
+	GString *target = out->accum;
 
 	switch (op) {
 	case GNM_EXPR_OP_RANGE_CTOR:
@@ -1513,8 +1512,8 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		size_t prelen = target->len;
 
 		if (need_par) g_string_append_c (target, '(');
-		do_expr_as_string (target, expr->binary.value_a, pp,
-				   prec - operations[op].assoc_left, conv);
+		do_expr_as_string (expr->binary.value_a,
+			prec - operations[op].assoc_left, out);
 
 		/*
 		 * Avoid getting "-2^2".  We want to make sure files do not contain
@@ -1531,12 +1530,12 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		/* Instead of this we ought to move the whole operations
 		   table into the conventions.  */
 		if (op == GNM_EXPR_OP_INTERSECT)
-			g_string_append_unichar (target, conv->intersection_char);
+			g_string_append_unichar (target, out->convs->intersection_char);
 		else
 			g_string_append (target, opname);
 
-		do_expr_as_string (target, expr->binary.value_b, pp,
-				   prec - operations[op].assoc_right, conv);
+		do_expr_as_string (expr->binary.value_b,
+			prec - operations[op].assoc_right, out);
 		if (need_par) g_string_append_c (target, ')');
 		return;
 	}
@@ -1549,7 +1548,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 
 		if (need_par) g_string_append_c (target, '(');
 		if (is_prefix) g_string_append (target, opname);
-		do_expr_as_string (target, expr->unary.value, pp, prec, conv);
+		do_expr_as_string (expr->unary.value, prec, out);
 		if (!is_prefix) g_string_append (target, opname);
 		if (need_par) g_string_append_c (target, ')');
 		return;
@@ -1561,17 +1560,16 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 
 		g_string_append (target, name);
 		/* FIXME: possibly a space here.  */
-		gnm_expr_list_as_string (target, func->argc, func->argv,
-					 pp, conv);
+		gnm_expr_list_as_string (func->argc, func->argv, out);
 		return;
 	}
 
 	case GNM_EXPR_OP_NAME:
-		conv->output.name (target, pp, &expr->name, conv);
+		out->convs->output.name (out, &expr->name);
 		return;
 
 	case GNM_EXPR_OP_CELLREF:
-		conv->output.cell_ref (target, conv, &expr->cellref.ref, pp, FALSE);
+		out->convs->output.cell_ref (out, &expr->cellref.ref, FALSE);
 		return;
 
 	case GNM_EXPR_OP_CONSTANT: {
@@ -1584,11 +1582,11 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		}
 
 		if (v->type == VALUE_CELLRANGE) {
-			conv->output.range_ref (target, conv, &v->v_range.cell, pp);
+			out->convs->output.range_ref (out, &v->v_range.cell);
 			return;
 		}
 
-		value_get_as_gstring (v, target, conv);
+		value_get_as_gstring (v, target, out->convs);
 
 		/* If the number has a sign, pretend that it is the result of
 		 * OPER_UNARY_{NEG,PLUS}.
@@ -1602,47 +1600,59 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 	}
 
 	case GNM_EXPR_OP_ARRAY_CORNER: 
-		do_expr_as_string ( target,
-			expr->array_corner.expr, pp, 0, conv);
+		do_expr_as_string (expr->array_corner.expr, 0, out);
 		return;
 
 	case GNM_EXPR_OP_ARRAY_ELEM: {
 		GnmCell const *corner = array_elem_get_corner (&expr->array_elem,
-			pp->sheet, &pp->eval);
+			out->pp->sheet, &out->pp->eval);
 		if (NULL != corner) {
-			GnmParsePos tmp_pos = *pp;
-			tmp_pos.eval.col -= expr->array_elem.x;
-			tmp_pos.eval.row -= expr->array_elem.y;
-			do_expr_as_string (target,
+			GnmParsePos const *real_pp = out->pp;
+			GnmParsePos  pp = *real_pp;
+
+			pp.eval.col -= expr->array_elem.x;
+			pp.eval.row -= expr->array_elem.y;
+			out->pp = &pp;
+			do_expr_as_string (
 				corner->base.texpr->expr->array_corner.expr,
-				&tmp_pos, 0, conv);
+				0, out);
+			out->pp = real_pp;
 			return;
 		}
 		break;
 	}
 
 	case GNM_EXPR_OP_SET:
-		gnm_expr_list_as_string (target,
-					 expr->set.argc,
-					 expr->set.argv,
-					 pp, conv);
+		gnm_expr_list_as_string (expr->set.argc, expr->set.argv, out);
 		return;
 	}
 
 	g_string_append (target, "<ERROR>");
 }
 
+void
+gnm_expr_as_gstring (GnmExpr const *expr, GnmConventionsOut *out)
+{
+	g_return_if_fail (expr != NULL);
+	g_return_if_fail (out  != NULL);
+
+	do_expr_as_string (expr, 0, out);
+}
+
 char *
 gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
-		    GnmExprConventions const *fmt)
+		    GnmConventions const *convs)
 {
-	GString *res;
+	GnmConventionsOut out;
+
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	res = g_string_new (NULL);
-	do_expr_as_string (res, expr, pp, 0, fmt);
-	return g_string_free (res, FALSE);
+	out.accum = g_string_new (NULL);
+	out.pp    = pp;
+	out.convs = convs;
+	do_expr_as_string (expr, 0, &out);
+	return g_string_free (out.accum, FALSE);
 }
 
 /****************************************************************************/
@@ -2454,25 +2464,24 @@ gnm_expr_list_unref (GnmExprList *list)
 }
 
 static void
-gnm_expr_list_as_string (GString *target,
-			 int argc, GnmExprConstPtr const *argv,
-			 GnmParsePos const *pp,
-			 GnmExprConventions const *conv)
+gnm_expr_list_as_string (int argc,
+			 GnmExprConstPtr const *argv,
+			 GnmConventionsOut *out)
 {
 	int i;
 	gunichar arg_sep;
-	if (conv->arg_sep)
-		arg_sep = conv->arg_sep;
+	if (out->convs->arg_sep)
+		arg_sep = out->convs->arg_sep;
 	else
 		arg_sep = go_locale_get_arg_sep ();
 
-	g_string_append_c (target, '(');
+	g_string_append_c (out->accum, '(');
 	for (i = 0; i < argc; i++) {
 		if (i != 0)
-			g_string_append_unichar (target, arg_sep);
-		do_expr_as_string (target, argv[i], pp, 0, conv);
+			g_string_append_unichar (out->accum, arg_sep);
+		do_expr_as_string (argv[i], 0, out);
 	}
-	g_string_append_c (target, ')');
+	g_string_append_c (out->accum, ')');
 }
 
 static guint
@@ -2674,23 +2683,21 @@ gnm_expr_top_get_range (GnmExprTop const *texpr)
 char *
 gnm_expr_top_as_string (GnmExprTop const *texpr,
 			GnmParsePos const *pp,
-			GnmExprConventions const *fmt)
+			GnmConventions const *convs)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
 
-	return gnm_expr_as_string (texpr->expr, pp, fmt);
+	return gnm_expr_as_string (texpr->expr, pp, convs);
 }
 
 void
-gnm_expr_top_as_gstring (GString *target,
-			 GnmExprTop const *texpr,
-			 GnmParsePos const *pp,
-			 GnmExprConventions const *fmt)
+gnm_expr_top_as_gstring (GnmExprTop const *texpr,
+			 GnmConventionsOut *out)
 {
 	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
-	g_return_if_fail (pp != NULL);
+	g_return_if_fail (out != NULL);
 
-	do_expr_as_string (target, texpr->expr, pp, 0, fmt);
+	do_expr_as_string (texpr->expr, 0, out);
 }
 
 guint
@@ -2995,7 +3002,7 @@ cb_expression_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 	pp.eval.row = 0;
 	pp.sheet = NULL;
 	pp.wb = NULL;
-	s = gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default);
+	s = gnm_expr_as_string (expr, &pp, gnm_conventions_default);
 	g_printerr ("Leaking expression at %p: %s.\n", expr, s);
 	g_free (s);
 }

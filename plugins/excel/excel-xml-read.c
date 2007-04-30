@@ -265,7 +265,7 @@ xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 	while (' ' == *(++expr_str))
 		;
 	texpr = gnm_expr_parse_str (expr_str, pp,
-		GNM_EXPR_PARSE_DEFAULT, gnm_expr_conventions_r1c1,
+		GNM_EXPR_PARSE_DEFAULT, gnm_conventions_xls_r1c1,
 		parse_error_init (&err));
 	if (NULL == texpr)
 		xl_xml_warning (xin, "'%s' %s", expr_str, err.err->message);
@@ -406,7 +406,7 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ArrayRange")) {
 			GnmRangeRef rr;
-			xmlChar const *end = rangeref_parse (&rr, attrs[1], &pp, gnm_expr_conventions_r1c1);
+			xmlChar const *end = rangeref_parse (&rr, attrs[1], &pp, gnm_conventions_xls_r1c1);
 			if (end != attrs[1] && *end == '\0')
 				range_init_rangeref (&state->array_range, &rr);
 		} else if (attr_int (xin, attrs, XL_NS_SS, "MergeAcross", &across))
@@ -857,7 +857,7 @@ xl_xml_selection (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	parse_pos_init_sheet (&pp, state->sheet);
 	sv_selection_reset (sv);
 	for (ptr = xin->content->str; ptr && *ptr ; ) {
-		end = rangeref_parse (&rr, ptr, &pp, gnm_expr_conventions_r1c1);
+		end = rangeref_parse (&rr, ptr, &pp, gnm_conventions_xls_r1c1);
 		if (end != ptr) {
 			range_init_rangeref (&r, &rr);
 			sv_selection_add_full (sv,

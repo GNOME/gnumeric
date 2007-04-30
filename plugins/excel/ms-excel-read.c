@@ -246,7 +246,7 @@ ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int le
 
 		tmp = gnm_expr_top_as_string (texpr,
 					      parse_pos_init (&pp, wb, sheet, 0, 0),
-					      gnm_expr_conventions_default);
+					      gnm_conventions_default);
 		puts (tmp);
 		g_free (tmp);
 	}
@@ -3070,7 +3070,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 
 			tmp = gnm_expr_top_as_string (texpr,
 						      parse_pos_init (&pp, importer->wb, NULL, 0, 0),
-						      gnm_expr_conventions_default);
+						      gnm_conventions_default);
 			fprintf (stderr, "%s\n", tmp);
 			g_free (tmp);
 		});

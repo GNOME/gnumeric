@@ -208,7 +208,7 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 						&ret);
 
 		/* Check that the cumulative probability equals to one. */
-		range_sum (rd.prob, n, &sum);
+		go_range_sum (rd.prob, n, &sum);
 		if (sum != 1) {
 			g_free (rd.prob);
 			return value_new_error_NUM (ei->pos);

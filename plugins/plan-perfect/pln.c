@@ -281,7 +281,7 @@ pln_get_addr (GnmParsePos const *pp, guint8 const *ch)
 	guint16 r = GSF_LE_GET_GUINT16 (ch);
 	guint16 c = GSF_LE_GET_GUINT16 (ch+2);
 	GnmCellRef ref;
-	GString *str = g_string_new (NULL);
+	GnmConventionsOut out;
 
 	ref.sheet = NULL;
 	ref.col_relative = ref.row_relative = FALSE;
@@ -303,9 +303,12 @@ pln_get_addr (GnmParsePos const *pp, guint8 const *ch)
 		break;
 	}
 
-	cellref_as_string (str, gnm_expr_conventions_default, &ref, pp, TRUE);
+	out.accum = g_string_new (NULL);
+	out.pp    = pp;
+	out.convs = gnm_conventions_default;
+	cellref_as_string (&out, &ref, TRUE);
 
-	return g_string_free (str, FALSE);
+	return g_string_free (out.accum, FALSE);
 }
 
 static char *
@@ -627,7 +630,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 				if (expr_txt != NULL) {
 					texpr = gnm_expr_parse_str (expr_txt, &pp,
 								   GNM_EXPR_PARSE_DEFAULT,
-								   gnm_expr_conventions_default,
+								   gnm_conventions_default,
 								   NULL);
 					if (texpr == NULL) {
 						if (v != NULL)

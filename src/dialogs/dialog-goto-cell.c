@@ -204,7 +204,7 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 				sheet = wb_control_cur_sheet ( WORKBOOK_CONTROL (state->wbcg));
 
 			parse_pos_init_sheet (&pp, sheet);
-			where_to = expr_name_as_string  (name, &pp, gnm_expr_conventions_default);
+			where_to = expr_name_as_string  (name, &pp, gnm_conventions_default);
 			if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), where_to))
 				gtk_entry_set_text (state->goto_text,
 						    where_to);

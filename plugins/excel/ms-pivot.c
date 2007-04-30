@@ -104,9 +104,9 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 			q->data + 20, GSF_LE_GET_GUINT16 (q->data + 18), NULL);
 		fprintf (stderr, "num_rec = %u;\nstream_id = %hu;\n"
 			 "rec per block = %hu;\nbase fields = %hu;\ntotal fields = %hu;\n"
-			 "last modified by = '%s';\n",
+			 "last modified by = '%s';type = 0x%x, flags = 0x%x;\n",
 			 s->num_records, stream_id, rec_per_block, base_fields,
-			 s->num_fields, who);
+			 s->num_fields, who, type, flags);
 		g_free (who);
 	});
 

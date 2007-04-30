@@ -68,7 +68,7 @@ typedef struct {
 	WorkbookView const *wb_view;	/* View for the new workbook */
 	Workbook const	   *wb;		/* The new workbook */
 	Sheet const 	   *sheet;
-	GnmExprConventions *exprconv;
+	GnmConventions	   *convs;
 	GHashTable	   *expr_map;
 
 	GsfXMLOut *output;
@@ -175,7 +175,7 @@ xml_write_name (GnmOutputXML *state, GnmNamedExpr *nexpr)
 	gsf_xml_out_start_element (state->output, GNM "Name");
 	gsf_xml_out_simple_element (state->output, GNM "name",
 		nexpr->name->str);
-	expr_str = expr_name_as_string (nexpr, NULL, state->exprconv);
+	expr_str = expr_name_as_string (nexpr, NULL, state->convs);
 	gsf_xml_out_simple_element (state->output, GNM "value", expr_str);
 	g_free (expr_str);
 	gsf_xml_out_simple_element (state->output, GNM "position",
@@ -467,12 +467,12 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 
 		parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
 		if (v->texpr[0] != NULL &&
-		    (tmp = gnm_expr_top_as_string (v->texpr[0], &pp, state->exprconv)) != NULL) {
+		    (tmp = gnm_expr_top_as_string (v->texpr[0], &pp, state->convs)) != NULL) {
 			gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
 			g_free (tmp);
 		}
 		if (v->texpr[1] != NULL &&
-		    (tmp = gnm_expr_top_as_string (v->texpr[1], &pp, state->exprconv)) != NULL) {
+		    (tmp = gnm_expr_top_as_string (v->texpr[1], &pp, state->convs)) != NULL) {
 			gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
 			g_free (tmp);
 		}
@@ -500,12 +500,12 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 				gsf_xml_out_add_int (state->output, "Operator", cond->op);
 				parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
 				if (cond->texpr[0] != NULL &&
-				    (tmp = gnm_expr_top_as_string (cond->texpr[0], &pp, state->exprconv)) != NULL) {
+				    (tmp = gnm_expr_top_as_string (cond->texpr[0], &pp, state->convs)) != NULL) {
 					gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
 					g_free (tmp);
 				}
 				if (cond->texpr[1] != NULL &&
-				    (tmp = gnm_expr_top_as_string (cond->texpr[1], &pp, state->exprconv)) != NULL) {
+				    (tmp = gnm_expr_top_as_string (cond->texpr[1], &pp, state->convs)) != NULL) {
 					gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
 					g_free (tmp);
 				}
@@ -735,13 +735,18 @@ xml_write_cell_and_position (GnmOutputXML *state,
 					const char *fmt = go_format_as_XL (VALUE_FMT (val));
 					gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
 				}
-				value_get_as_gstring (val, str, state->exprconv);
+				value_get_as_gstring (val, str, state->convs);
 			} else {
 				g_warning ("%s has no value ?", cellpos_as_string (&pp->eval));
 			}
 		} else {
+			GnmConventionsOut out;
+			out.accum = str;
+			out.pp    = pp;
+			out.convs = state->convs;
+
 			g_string_append_c (str, '=');
-			gnm_expr_top_as_gstring (str, texpr, pp, state->exprconv);
+			gnm_expr_top_as_gstring (texpr, &out);
 		}
 
 		gsf_xml_out_add_cstr (state->output, NULL, str->str);
@@ -814,7 +819,7 @@ xml_write_filter_expr (GnmOutputXML *state,
 	};
 
 	GString *text = g_string_new (NULL);
-	value_get_as_gstring (cond->value[i], text, state->exprconv);
+	value_get_as_gstring (cond->value[i], text, state->convs);
 	gsf_xml_out_add_cstr_unchecked (state->output,
 		filter_expr_attrs[i].op, filter_cond_name [cond->op[i]]);
 	gsf_xml_out_add_int (state->output,
@@ -1149,10 +1154,10 @@ xml_write_calculation (GnmOutputXML *state)
 	gsf_xml_out_end_element (state->output); /* </gnm:Calculation> */
 }
 
-static GnmExprConventions *
+static GnmConventions *
 xml_io_conventions (void)
 {
-	GnmExprConventions *res = gnm_expr_conventions_new ();
+	GnmConventions *res = gnm_conventions_new ();
 
 	res->decimal_sep_dot		= TRUE;
 	res->input.range_ref		= rangeref_parse;
@@ -1193,7 +1198,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	state.wb	= wb_view_get_workbook (wb_view);
 	state.sheet	= NULL;
 	state.output	= gsf_xml_out_new (output);
-	state.exprconv	= xml_io_conventions ();
+	state.convs	= xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	locale = gnm_push_C_locale ();
@@ -1222,7 +1227,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	gnm_pop_C_locale (locale);
 
 	g_hash_table_destroy (state.expr_map);
-	gnm_expr_conventions_free (state.exprconv);
+	gnm_conventions_free (state.convs);
 	g_object_unref (G_OBJECT (state.output));
 
 	if (gzout) {
@@ -1273,7 +1278,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	state.state.wb	= NULL;
 	state.state.sheet	= NULL;
 	state.state.output	= gsf_xml_out_new (buf);
-	state.state.exprconv	= xml_io_conventions ();
+	state.state.convs	= xml_io_conventions ();
 	state.state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	locale = gnm_push_C_locale ();
@@ -1324,7 +1329,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	gnm_pop_C_locale (locale);
 
 	g_hash_table_destroy (state.state.expr_map);
-	gnm_expr_conventions_free (state.state.exprconv);
+	gnm_conventions_free (state.state.convs);
 	g_object_unref (G_OBJECT (state.state.output));
 
 	gsf_output_close (buf);

@@ -592,7 +592,7 @@ expr_name_remove (GnmNamedExpr *nexpr)
  */
 char *
 expr_name_as_string (GnmNamedExpr const *nexpr, GnmParsePos const *pp,
-		     GnmExprConventions const *fmt)
+		     GnmConventions const *fmt)
 {
 	if (pp == NULL)
 		pp = &nexpr->pos;

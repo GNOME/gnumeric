@@ -1670,7 +1670,7 @@ excel_parse_formula1 (MSContainer const *container,
 		GnmParsePos pp;
 		GnmExpr const *expr = stack->data;
 		parse_pos_init (&pp, NULL, esheet->sheet, fn_col, fn_row);
-		g_printerr ("%s\n",  gnm_expr_as_string (expr, &pp, gnm_expr_conventions_default));
+		g_printerr ("%s\n",  gnm_expr_as_string (expr, &pp, gnm_conventions_default));
 	}
 #endif
 	return parse_list_pop (&stack);

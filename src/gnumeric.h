@@ -73,7 +73,6 @@ typedef struct _GnmExprTop		GnmExprTop;
 typedef struct _GnmExprSharer		GnmExprSharer;
 
 typedef struct _GnmExprRelocateInfo	GnmExprRelocateInfo;
-typedef struct _GnmExprConventions      GnmExprConventions;
 
 typedef struct _GnmNamedExpr		GnmNamedExpr;
 typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
@@ -117,6 +116,8 @@ typedef struct _GnmRangeRef	        GnmRangeRef;	/* abs/rel range with sheet */
 typedef struct _GnmEvalPos		GnmEvalPos;
 typedef struct _GnmParsePos	        GnmParsePos;
 typedef struct _GnmParseError	        GnmParseError;
+typedef struct _GnmConventions		GnmConventions;
+typedef struct _GnmConventionsOut	GnmConventionsOut;
 typedef struct _GnmFuncEvalInfo         GnmFuncEvalInfo;
 typedef struct _GnmFunc			GnmFunc;
 typedef struct _GnmFuncGroup		GnmFuncGroup;

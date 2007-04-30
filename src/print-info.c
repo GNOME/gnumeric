@@ -772,9 +772,8 @@ print_info_get_paper (PrintInformation *pi)
 	if (gtk_paper_size_is_custom (paper)) {
 		double width = gtk_paper_size_get_width (paper, GTK_UNIT_MM);
 		double height = gtk_paper_size_get_height (paper, GTK_UNIT_MM);
-		char *name = g_strdup_printf ("custom_Gnm-%.0fx%.0fmm_%.0fx%.0fmm",
-					      width, height, width, height);
-		return name;
+		return g_strdup_printf ("custom_Gnm-%.0fx%.0fmm_%.0fx%.0fmm",
+					width, height, width, height);
 	}
 
 	name =  gtk_paper_size_get_name (gtk_page_setup_get_paper_size (pi->page_setup));

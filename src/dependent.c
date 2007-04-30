@@ -1398,7 +1398,7 @@ gnm_cell_eval_content (GnmCell *cell)
 	{
 		GnmParsePos pp;
 		char *str = gnm_expr_top_as_string (cell->base.texpr,
-			parse_pos_init_cell (&pp, cell), gnm_expr_conventions_default);
+			parse_pos_init_cell (&pp, cell), gnm_conventions_default);
 		g_print ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
 		g_free (str);
 	}
@@ -2676,37 +2676,41 @@ dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	GnmDependent *dep = key;
 	DynamicDep *dyn = value;
 	GSList *l;
-	GString *target = g_string_new (NULL);
 	GnmParsePos pp;
+	GnmConventionsOut out;
 
-	pp.eval = *dependent_pos (dyn->container);
+	out.accum = g_string_new (NULL);
+	out.pp    = &pp;
+	out.convs = gnm_conventions_default;
+
+	pp.wb    = dep->sheet->workbook;
 	pp.sheet = dep->sheet;
-	pp.wb = dep->sheet->workbook;
+	pp.eval  = *dependent_pos (dyn->container);
 
-	g_string_append (target, "    ");
-	dependent_debug_name (dep, target);
-	g_string_append (target, " -> ");
-	dependent_debug_name (&dyn->base, target);
-	g_string_append (target, " { c=");
-	dependent_debug_name (dyn->container, target);
+	g_string_append (out.accum, "    ");
+	dependent_debug_name (dep, out.accum);
+	g_string_append (out.accum, " -> ");
+	dependent_debug_name (&dyn->base, out.accum);
+	g_string_append (out.accum, " { c=");
+	dependent_debug_name (dyn->container, out.accum);
 
-	g_string_append (target, ", s=[");
+	g_string_append (out.accum, ", s=[");
 	for (l = dyn->singles; l; l = l->next) {
-		rangeref_as_string (target, gnm_expr_conventions_default, l->data, &pp);
+		rangeref_as_string (&out, l->data);
 		if (l->next)
-			g_string_append (target, ", ");
+			g_string_append (out.accum, ", ");
 	}
 
-	g_string_append (target, "], r=[");
+	g_string_append (out.accum, "], r=[");
 	for (l = dyn->ranges; l; l = l->next) {
-		rangeref_as_string (target, gnm_expr_conventions_default, l->data, &pp);
+		rangeref_as_string (&out, l->data);
 		if (l->next)
-			g_string_append (target, ", ");
+			g_string_append (out.accum, ", ");
 	}
 
-	g_string_append (target, "] }");
-	g_print ("%s\n", target->str);
-	g_string_free (target, TRUE);
+	g_string_append (out.accum, "] }");
+	g_print ("%s\n", out.accum->str);
+	g_string_free (out.accum, TRUE);
 }
 
 static void

@@ -174,7 +174,7 @@ typedef struct {
 	char		*fmt_name;
 	GnmFilter	*filter;
 
-	GnmExprConventions *exprconv;
+	GnmConventions  *convs;
 } OOParseState;
 
 static GsfXMLInNode const opendoc_content_dtd [];
@@ -411,7 +411,7 @@ oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 #warning "FIXME: expand this later."
 #define oo_expr_parse_str(str, pp, flags, err)	\
 	gnm_expr_parse_str (str, pp,		\
-		flags, state->exprconv, err)
+		flags, state->convs, err)
 
 /****************************************************************************/
 
@@ -656,7 +656,7 @@ two_quotes :
 
 static char const *
 oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
-		   G_GNUC_UNUSED GnmExprConventions const *exprconv)
+		   G_GNUC_UNUSED GnmConventions const *convs)
 {
 	char const *ptr;
 
@@ -2455,7 +2455,7 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 
 static GnmExpr const *
-odf_func_map_in (GnmExprConventions const *convs, Workbook *scope,
+odf_func_map_in (GnmConventions const *convs, Workbook *scope,
 		 char const *name, GnmExprList *args)
 {
 	static struct {
@@ -2498,10 +2498,10 @@ odf_func_map_in (GnmExprConventions const *convs, Workbook *scope,
 	return gnm_expr_new_funcall (f, args);
 }
 
-static GnmExprConventions *
-oo_conventions (void)
+static GnmConventions *
+odf_conventions_new (void)
 {
-	GnmExprConventions *conv = gnm_expr_conventions_new ();
+	GnmConventions *conv = gnm_conventions_new ();
 
 	conv->decode_ampersands	= TRUE;
 
@@ -2611,7 +2611,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.default_style_cell = NULL;
 	state.cur_style_type   = OO_STYLE_UNKNOWN;
 	state.sheet_order = NULL;
-	state.exprconv = oo_conventions ();
+	state.convs = odf_conventions_new ();
 	state.accum_fmt = NULL;
 	state.filter = NULL;
 	state.cur_frame.has_legend = FALSE;
@@ -2679,7 +2679,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	while (i-- > 0)
 		sheet_flag_recompute_spans (workbook_sheet_by_index (state.pos.wb, i));
 
-	gnm_expr_conventions_free (state.exprconv);
+	gnm_conventions_free (state.convs);
 
 	gnm_pop_C_locale (locale);
 }

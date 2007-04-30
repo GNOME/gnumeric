@@ -73,8 +73,11 @@ GnmExpr const *gnm_expr_copy         (GnmExpr const *expr);
 gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_data_table     (GnmExpr const *expr,
 				      GnmCellPos *c_in, GnmCellPos *r_in);
+
+void	  gnm_expr_as_gstring	     (GnmExpr const *expr,
+				      GnmConventionsOut *out);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
-				      GnmExprConventions const *fmt);
+				      GnmConventions const *convs);
 gboolean  gnm_expr_contains_subtotal (GnmExpr const *expr);
 
 GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
@@ -151,11 +154,9 @@ GnmValue *gnm_expr_top_eval	  (GnmExprTop const *texpr,
 				   GnmExprEvalFlags flags);
 char	 *gnm_expr_top_as_string  (GnmExprTop const *texpr,
 				   GnmParsePos const *pp,
-				   GnmExprConventions const *fmt);
-void	  gnm_expr_top_as_gstring (GString *target,
-				   GnmExprTop const *texpr,
-				   GnmParsePos const *pp,
-				   GnmExprConventions const *fmt);
+				   GnmConventions const *convs);
+void	  gnm_expr_top_as_gstring (GnmExprTop const *texpr,
+				   GnmConventionsOut *out);
 
 /*****************************************************************************/
 

@@ -14,17 +14,17 @@ char const *row_parse (char const *str, int *res, unsigned char *relative);
 char const *cellpos_as_string	(GnmCellPos const *pos);
 char const *cellpos_parse	(char const *cell_str, GnmCellPos *res,
 				 gboolean strict);
-void        cellref_as_string   (GString *target, GnmExprConventions const *convs,
+void        cellref_as_string   (GnmConventionsOut *out,
 				 GnmCellRef const *cell_ref,
-				 GnmParsePos const *pp, gboolean no_sheetname);
+				 gboolean no_sheetname);
 char const *cellref_parse	(GnmCellRef *out, char const *in,
 				 GnmCellPos const *pos);
 
-void        rangeref_as_string (GString *target, GnmExprConventions const *convs,
-				GnmRangeRef const *ref, GnmParsePos const *pp);
+void        rangeref_as_string  (GnmConventionsOut *out,
+				 GnmRangeRef const *ref);
 char const *rangeref_parse	(GnmRangeRef *res, char const *in,
 				 GnmParsePos const *pp,
-				 GnmExprConventions const *convs);
+				 GnmConventions const *convs);
 				 /* GError **err); */
 
 char const *sheetref_parse	(char const *start, Sheet **sheet,
@@ -36,8 +36,15 @@ char const *cell_name		(GnmCell const *cell);
 char const *parsepos_as_string	(GnmParsePos const *pp);
 
 /* backwards compatibility version */
-void gnm_1_0_rangeref_as_string (GString *target, GnmExprConventions const *conv,
-				 GnmRangeRef const *ref, GnmParsePos const *pp);
+void gnm_1_0_rangeref_as_string (GnmConventionsOut *out,
+				 GnmRangeRef const *ref);
+
+
+struct _GnmConventionsOut {
+	GString	*accum;
+	GnmParsePos const *pp;
+	GnmConventions const *convs;
+};
 
 typedef enum {
 	PERR_NONE,
@@ -79,42 +86,7 @@ typedef enum {
 	GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID	   = 1 << 5
 } GnmExprParseFlags;
 
-typedef char const *(*GnmRangeRefParse) (GnmRangeRef *res, char const *in,
-					 GnmParsePos const *pp,
-					 GnmExprConventions const *convs);
-					 /* GError **err); */
-typedef char const *(*GnmNameParse) (char const *in,
-				     GnmExprConventions const *convs);
-
-/* Must return non-NULL, and absorb the args, including the list. */
-typedef GnmExpr const *(*GnmParseFuncMap) (GnmExprConventions const *convs,
-					   /* make scope more useful, eg a
-					    * ParsePos * to allow for
-					    * sheet/object specific functions
-					    * */
-					   Workbook *scope,
-					   char const *name, GnmExprList *args);
-
-typedef void (*GnmParseExprNameHandler) (GString *target,
-					 GnmParsePos const *pp,
-					 GnmExprName const *name,
-					 GnmExprConventions const *convs);
-
-typedef void (*GnmParseCellRefHandler) (GString *target,
-					GnmExprConventions const *convs,
-					GnmCellRef const *cell_ref,
-					GnmParsePos const *pp,
-					gboolean no_sheetname);
-
-typedef void (*GnmParseRangeRefHandler) (GString *target,
-					 GnmExprConventions const *convs,
-					 GnmRangeRef const *cell_ref,
-					 GnmParsePos const *pp);
-
-typedef GString * (*GnmSheetNameQuoteHandler) (GnmExprConventions const *convs,
-					       char const *name);
-
-struct _GnmExprConventions {
+struct _GnmConventions {
 #if 0
 	/* Not yet.  */
 	gboolean force_absolute_col_references;
@@ -158,46 +130,60 @@ struct _GnmExprConventions {
 /* Import specific functions ------------------------------------- */
 	struct {
 		/* Called a lot for anything that might be a reference.  */
-		GnmRangeRefParse	range_ref;
+		char const *(*range_ref) (GnmRangeRef *res, char const *in,
+					  GnmParsePos const *pp,
+					  GnmConventions const *convs);
+					/* GError **err); */
 
 		/* Called a lot for anything that might be a function name or
 		 * defined name.  */
-		GnmNameParse		name;
+		char const *(*name) (char const *in,
+				     GnmConventions const *convs);
 
-		/* Must be non-NULL, and return non-NULL */
-		GnmParseFuncMap		func;
+
+		/* Must return non-NULL, and absorb the args, including the list. */
+		GnmExpr const *(*func) (GnmConventions const *convs,
+				        /* make scope more useful, eg a
+					 * ParsePos * to allow for
+					 * sheet/object specific functions
+					 * */
+					Workbook *scope,
+					char const *name,
+					GnmExprList *args);
+
 	} input;
 
 /* Export specific functions ----------------------------------- */
 	struct {
 		gboolean translated;
 
-		/* Called to make strings of names.  */
-		GnmParseExprNameHandler		name;
+		void (*name)	  (GnmConventionsOut *out,
+				   GnmExprName const *name);
+		void (*cell_ref)  (GnmConventionsOut *out,
+				   GnmCellRef const *cell_ref,
+				   gboolean no_sheetname);
+		void (*range_ref) (GnmConventionsOut *out,
+				   GnmRangeRef const *range_ref);
 
-		/* Called to make strings of cell refs.  */
-		GnmParseCellRefHandler		cell_ref;
-
-		/* Called to make strings of range refs.  */
-		GnmParseRangeRefHandler		range_ref;
-
-		/* Called to optionally quote a sheet name.  */
-		GnmSheetNameQuoteHandler	sheet_name_quote;
+		GString * (*quote_sheet_name) (GnmConventions const *convs,
+					       char const *name);
 	} output;
 };
+GnmConventions *gnm_conventions_new	 (void);
+GnmConventions *gnm_conventions_new_full (unsigned size);
+void		gnm_conventions_free	 (GnmConventions *c);
 
-GnmExprConventions *gnm_expr_conventions_new	  (void);
-GnmExprConventions *gnm_expr_conventions_new_full (unsigned size);
-void gnm_expr_conventions_free (GnmExprConventions *c);
+extern GnmConventions const *gnm_conventions_default;
+extern GnmConventions const *gnm_conventions_xls_r1c1;
 
-extern GnmExprConventions const *gnm_expr_conventions_default;
-extern GnmExprConventions const *gnm_expr_conventions_r1c1;
+/**********************************************/
+
 void parse_util_init (void);
 void parse_util_shutdown (void);
 
 GnmExprTop const *gnm_expr_parse_str (char const *expr, GnmParsePos const *pp,
 				      GnmExprParseFlags flags,
-				      GnmExprConventions const *convs,
+				      GnmConventions const *convs,
 				      GnmParseError *error);
 
 GnmExprTop const *gnm_expr_parse_str_simple (char const *expr,
@@ -213,6 +199,6 @@ void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      GOFormat *current_format,
 				      GODateConventions const *date_conv);
 
-GString	*gnm_expr_conv_quote (GnmExprConventions const *conv, char const *str);
+GString	*gnm_expr_conv_quote (GnmConventions const *conv, char const *str);
 
 #endif /* GNM_PARSE_UTIL_H */

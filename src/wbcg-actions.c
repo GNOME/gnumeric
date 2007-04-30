@@ -1286,7 +1286,7 @@ static void cb_font_superscript (GtkToggleAction *act, WorkbookControlGUI *wbcg)
 
 static void
 apply_number_format (WorkbookControlGUI *wbcg,
-		     GOFormat const *format,
+		     GOFormat *format,
 		     char const *descriptor)
 {
 	GnmStyle *mstyle = gnm_style_new ();

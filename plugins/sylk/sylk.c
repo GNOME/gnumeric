@@ -57,7 +57,7 @@ typedef struct {
 	unsigned	  line_no;
 	gboolean	  finished;
 
-	GnmExprConventions const *convs;
+	GnmConventions const *convs;
 	GnmParsePos	  pp;
 
 	GPtrArray	*formats;
@@ -759,7 +759,7 @@ sylk_file_open (GOFileOpener const *fo,
 	g_free (name);
 
 	state.pp.eval.col = state.pp.eval.row = 1;
-	state.convs = gnm_expr_conventions_r1c1;
+	state.convs = gnm_conventions_xls_r1c1;
 
 	state.formats	= g_ptr_array_new ();
 	state.fonts	= g_ptr_array_new ();

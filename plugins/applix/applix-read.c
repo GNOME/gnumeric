@@ -55,8 +55,11 @@
 
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
+#include <goffice/utils/go-format.h>
 #include <goffice/utils/go-glib-extras.h>
+
 #include <gsf/gsf-input-textline.h>
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -77,7 +80,7 @@ typedef struct {
 	GSList *sheet_order;
 	GSList *std_names, *real_names;
 
-	GnmExprConventions *exprconv;
+	GnmConventions *convs;
 } ApplixReadState;
 
 /* #define NO_DEBUG_APPLIX */
@@ -235,7 +238,7 @@ applix_sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb)
 
 static char const *
 applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
-		       GnmExprConventions const *convention)
+		       GnmConventions const *convention)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb = pp->wb;
@@ -1169,7 +1172,7 @@ applix_read_cells (ApplixReadState *state)
 					texpr = gnm_expr_parse_str (expr_string+1,
 						parse_pos_init_cell (&pos, cell),
 								   GNM_EXPR_PARSE_DEFAULT,
-								   state->exprconv,
+								   state->convs,
 								   parse_error_init (&perr));
 
 				if (texpr == NULL) {
@@ -1347,7 +1350,7 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 		return TRUE;
 	applix_rangeref_parse (&ref, end+2,
 		parse_pos_init (&pp, state->wb, NULL, 0, 0),
-		state->exprconv);
+		state->convs);
 	ref.a.col_relative = ref.b.col_relative =
 		ref.a.row_relative = ref.b.row_relative = FALSE;
 
@@ -1546,7 +1549,7 @@ cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 }
 
 static GnmExpr const *
-applix_func_map_in (GnmExprConventions const *conv, Workbook *scope,
+applix_func_map_in (GnmConventions const *conv, Workbook *scope,
 		    char const *name, GnmExprList *args)
 {
 	static struct {
@@ -1581,10 +1584,10 @@ applix_func_map_in (GnmExprConventions const *conv, Workbook *scope,
 	return gnm_expr_new_funcall (f, args);
 }
 
-static GnmExprConventions *
-applix_conventions (void)
+static GnmConventions *
+applix_conventions_new (void)
 {
-	GnmExprConventions *conv = gnm_expr_conventions_new ();
+	GnmConventions *conv = gnm_conventions_new ();
 
 	conv->intersection_char		= 0;
 	conv->accept_hash_logicals	= TRUE;
@@ -1620,7 +1623,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.sheet_order = NULL;
 	state.std_names   = NULL;
 	state.real_names  = NULL;
-	state.exprconv    = applix_conventions ();
+	state.convs       = applix_conventions_new ();
 
 	/* Actually read the workbook */
 	res = applix_read_impl (&state);
@@ -1668,5 +1671,5 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	if (state.parse_error != NULL)
 		gnumeric_io_error_info_set (io_context, state.parse_error);
 
-	gnm_expr_conventions_free (state.exprconv);
+	gnm_conventions_free (state.convs);
 }

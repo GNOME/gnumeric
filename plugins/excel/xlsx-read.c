@@ -94,7 +94,7 @@ typedef struct {
 	GnmRange	  array;
 	char		 *shared_id;
 	GHashTable	 *shared_exprs;
-	GnmExprConventions *expr_convs;
+	GnmConventions   *convs;
 
 	SheetView	*sv;		/* current sheetview */
 
@@ -1129,7 +1129,7 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 		expr_str++;
 
 	texpr = gnm_expr_parse_str (expr_str, pp,
-		GNM_EXPR_PARSE_DEFAULT, state->expr_convs,
+		GNM_EXPR_PARSE_DEFAULT, state->convs,
 		parse_error_init (&err));
 	if (NULL == texpr)
 		xlsx_warning (xin, "'%s' %s", expr_str, err.err->message);
@@ -2957,7 +2957,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 		(GDestroyNotify)g_free, (GDestroyNotify) gnm_style_unref);
 	state.num_fmts = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) go_format_unref);
-	state.expr_convs = xlsx_expr_conv_new ();
+	state.convs = xlsx_conventions_new ();
 
 	locale = gnm_push_C_locale ();
 
@@ -2997,7 +2997,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 		}
 		g_array_free (state.sst, TRUE);
 	}
-	xlsx_expr_conv_free (state.expr_convs);
+	xlsx_conventions_free (state.convs);
 	g_hash_table_destroy (state.num_fmts);
 	g_hash_table_destroy (state.cell_styles);
 	g_hash_table_destroy (state.shared_exprs);

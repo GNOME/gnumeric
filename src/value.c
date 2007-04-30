@@ -828,7 +828,7 @@ value_get_as_checked_bool (GnmValue const *v)
 
 void
 value_get_as_gstring (GnmValue const *v, GString *target,
-		      GnmExprConventions const *conv)
+		      GnmConventions const *conv)
 {
 	if (v == NULL)
 		return;
@@ -934,7 +934,7 @@ char *
 value_get_as_string (GnmValue const *v)
 {
 	GString *res = g_string_sized_new (10);
-	value_get_as_gstring (v, res, gnm_expr_conventions_default);
+	value_get_as_gstring (v, res, gnm_conventions_default);
 	return g_string_free (res, FALSE);
 }
 
