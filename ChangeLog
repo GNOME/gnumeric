@@ -1,3 +1,8 @@
+2007-05-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Bumped goffice dependency to reflect that goffice trunk
+	is needed for the new tsa plugin.
+
 2007-05-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: add new tsa plugin.
