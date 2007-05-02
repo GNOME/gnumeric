@@ -13,7 +13,7 @@ endif
 
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-erlang \
 	fn-financial fn-info fn-logical fn-complex fn-lookup fn-math \
-	fn-r fn-stat fn-string fn-random derivatives
+	fn-r fn-stat fn-string fn-random fn-tsa derivatives
 
 if WITH_GDA
   SUBDIRS_FUNCTIONS += gda

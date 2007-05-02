@@ -6,6 +6,9 @@ Andreas:
 	* Show paper preview
 	* Show unit selector in print dialog
 
+Jean:
+	* New Time Series Analysis plugin.
+
 Jody:
 	* Fix inadvertent relocation of reference on other sheets. [#433907]
 

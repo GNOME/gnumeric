@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnTimeSeriesAnalysis">
+	<information>
+		<_name>Time Series Analysis Functions</_name>
+		<_description>Time Series Analysis Functions</_description>
+                <require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="TimeSeriesAnalysis">
+			<_category>Time Series Analysis</_category>
+			<functions>
+            	<function name="interpolation"/>
+            	<function name="periodogram"/>
+			</functions>
+		</service>
+	</services> 
+</plugin>

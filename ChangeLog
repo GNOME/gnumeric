@@ -1,3 +1,12 @@
+2007-05-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: add new tsa plugin.
+	* plugins/Makefile.am: ditto.
+	* plugins/fn-tsa/Makefile.am: ditto.
+	* plugins/fn-tsa/functions.c: add two sheet functions:
+	interpolation and periodogram
+	* plugins/fn-tsa/plugin.xml.in: ditto.
+
 2007-04-29  Jody Goldberg <jody@gnome.org>
 
 	Begin generalizing the conventions to properly support ODF-1.2 output.
