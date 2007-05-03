@@ -1,3 +1,25 @@
+2007-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: add preferred-unit schema
+	* src/xml-sax-read.c (xml_sax_print_margins_get_double): deleted
+	(xml_sax_print_margins_unit): rewritten
+	(xml_sax_print_margins): add arguments to xml_sax_print_margins_unit
+	* src/gnumeric-gconf.c (gnm_gconf_init_printer_defaults): add preferred unit
+	(gnm_gconf_set_print_tb_margins): add argument
+	* src/gnumeric-gconf.h (gnm_gconf_set_print_tb_margins): add argument
+	(gnm_app_prefs): add fields
+	* src/xml-sax-write.c (xml_write_print_unit): rewrite to handle unit
+	(xml_write_print_margin): delete
+	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_PREFERRED_UNIT): new
+	* src/xml-io.c (xml_node_get_print_unit): deleted
+	(xml_node_get_print_margin): rewrite and replace xml_node_get_print_unit with 
+	xml_node_get_print_margin
+	* src/print-info.c (unit_name_to_unit): new
+	(unit_convert): deleted
+	(unit_to_unit_name): new
+	* src/print-info.h (unit_name_to_unit): new
+	(unit_to_unit_name): new
+
 2007-05-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	*  plugins/fn-tsa/Makefile.am: Do not needlessly try to link against

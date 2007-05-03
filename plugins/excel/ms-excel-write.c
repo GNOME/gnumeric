@@ -4178,8 +4178,8 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	print_info_get_margins (pi, NULL, NULL, &left, &right);
 	excel_write_margin (bp, BIFF_LEFT_MARGIN,   left);
 	excel_write_margin (bp, BIFF_RIGHT_MARGIN,  right);
-	excel_write_margin (bp, BIFF_TOP_MARGIN,    pi->margin.top.points);
-	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margin.bottom.points);
+	excel_write_margin (bp, BIFF_TOP_MARGIN,    pi->margin.top);
+	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margin.bottom);
 
 	excel_write_SETUP (bp, esheet);
 	if (bp->version < MS_BIFF_V8) {

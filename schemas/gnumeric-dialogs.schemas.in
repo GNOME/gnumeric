@@ -423,6 +423,17 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/printsetup/preferred-unit</key>
+        <applyto>/apps/gnumeric/printsetup/preferred-unit</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>mm</default>
+        <locale name="C">
+        <short>Preferred Display Unit</short>
+        <long>This string gives the default unit to be used in the page setup dialog.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/printsetup/margin-top</key>
         <applyto>/apps/gnumeric/printsetup/margin-top</applyto>
         <owner>Gnumeric</owner>

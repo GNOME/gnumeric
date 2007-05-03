@@ -1641,10 +1641,20 @@ gnm_gconf_init_printer_defaults (void)
 		(node, PRINTSETUP_GCONF_SCALE_HEIGHT, 0, 100, 1);
 	prefs.print_repeat_top = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_TOP);
 	prefs.print_repeat_left = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_LEFT);
-	prefs.print_margin_top.points = go_conf_load_double 
+	prefs.print_margin_top = go_conf_load_double 
 		(node, PRINTSETUP_GCONF_MARGIN_TOP, 0.0, 10000.0, 120.0);
-	prefs.print_margin_bottom.points = go_conf_load_double 
+	prefs.print_margin_bottom = go_conf_load_double 
 		(node, PRINTSETUP_GCONF_MARGIN_BOTTOM, 0.0, 10000.0, 120.0);
+	{
+		char *str;
+		str = go_conf_load_string
+			(node,PRINTSETUP_GCONF_PREFERRED_UNIT);
+		if (str != NULL) {
+			prefs.desired_display = unit_name_to_unit (str);
+			g_free (str);
+		} else
+			prefs.desired_display = GTK_UNIT_MM;
+	}
 	prefs.print_all_sheets = go_conf_load_bool (
 		node, PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
 	prefs.printer_header = go_conf_load_str_list (node, PRINTSETUP_GCONF_HEADER);
@@ -2019,14 +2029,14 @@ gnm_gconf_set_print_scale_percentage_value (gnm_float val)
 }
 
 void     
-gnm_gconf_set_print_tb_margins (PrintMargins const *pm)
+gnm_gconf_set_print_tb_margins (PrintMargins const *pm, GtkUnit unit)
 {
-	/* We are not saving the GnomePrintUnits since they are */
-	/* duplicated in the gnomeprintconfig                   */
 	go_conf_set_double (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_TOP, pm->top.points);
+		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_TOP, pm->top);
 	go_conf_set_double (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_BOTTOM, pm->bottom.points);
+		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_BOTTOM, pm->bottom);
+	go_conf_set_string (
+		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PREFERRED_UNIT, unit_to_unit_name (unit));
 }
 
 void     

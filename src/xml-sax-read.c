@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * xml-sax-read.c : a sax based parser.
@@ -648,30 +648,16 @@ xml_sax_sheet_zoom (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->sheet_zoom = zoom;
 }
 
-static double
-xml_sax_print_margins_get_double (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		double points;
-		if (gnm_xml_attr_double (attrs, "Points", &points))
-			return points;
-		else if (strcmp (CXML2C (attrs[0]), "PrefUnit"))
-			unknown_attr (xin, attrs);
-	}
-	return 0.0;
-}
-
 static void
-xml_sax_print_margins_unit (GsfXMLIn *xin, xmlChar const **attrs, PrintUnit *pu)
+xml_sax_print_margins_unit (GsfXMLIn *xin, xmlChar const **attrs,
+				  double *points, GtkUnit *desired_display)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		double points;
-		if (gnm_xml_attr_double (attrs, "Points", &points)) {
-			pu->points = points;
+		double pts;
+		if (gnm_xml_attr_double (attrs, "Points", &pts)) {
+			*points = pts;
 		} else if (attr_eq (attrs[0], "PrefUnit")) {
-#if 0
-			pu->desired_display = unit_name_to_unit (CXML2C (attrs[1]));
-#endif
+			*desired_display = unit_name_to_unit (CXML2C (attrs[1]));
 		} else
 			unknown_attr (xin, attrs);
 	}
@@ -683,6 +669,7 @@ xml_sax_print_margins (GsfXMLIn *xin, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
 	PrintInformation *pi;
+	double points = -1.;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
@@ -690,22 +677,34 @@ xml_sax_print_margins (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 	switch (xin->node->user_data.v_int) {
 	case 0: xml_sax_print_margins_unit (xin, attrs,
-			&pi->margin.top);
+			&pi->margin.top, &pi->desired_display.header);
 		break;
 	case 1: xml_sax_print_margins_unit (xin, attrs,
-			&pi->margin.bottom);
+			&pi->margin.bottom, &pi->desired_display.footer);
 		break;
-	case 2: print_info_set_margin_left (pi,
-			xml_sax_print_margins_get_double (xin, attrs));
+	case 2:
+		xml_sax_print_margins_unit (xin, attrs,
+					    &points, &pi->desired_display.left);
+		if (points >= 0.)
+			print_info_set_margin_left (pi, points);
 		break;
-	case 3: print_info_set_margin_right (pi,
-			xml_sax_print_margins_get_double (xin, attrs));
+	case 3:
+		xml_sax_print_margins_unit (xin, attrs,
+					    &points, &pi->desired_display.right);
+		if (points >= 0.)
+			print_info_set_margin_right (pi, points);
 		break;
-	case 4: print_info_set_margin_header (pi,
-			xml_sax_print_margins_get_double (xin, attrs));
+	case 4:
+		xml_sax_print_margins_unit (xin, attrs,
+					    &points, &pi->desired_display.top);
+		if (points >= 0.)
+			print_info_set_margin_header (pi, points);
 		break;
-	case 5: print_info_set_margin_footer (pi,
-			xml_sax_print_margins_get_double (xin, attrs));
+	case 5:
+		xml_sax_print_margins_unit (xin, attrs,
+					    &points, &pi->desired_display.bottom);
+		if (points >= 0.)
+			print_info_set_margin_footer (pi, points);
 		break;
 	default:
 		return;

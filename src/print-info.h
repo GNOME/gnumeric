@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNM_PRINT_INFO_H
 #define GNM_PRINT_INFO_H
 
@@ -5,17 +6,14 @@
 #include <gtk/gtk.h>
 
 typedef struct {
-	double    points;
-#if 0
-	GnomePrintUnit const *desired_display;
-#endif
-} PrintUnit;
+  GtkUnit   top, bottom, left, right, header, footer;
+} DesiredDisplay;
 
 /*
  * Margins.  In Points
  */
 typedef struct {
-	PrintUnit top, bottom;     /* see print.c for the definition (these are header/footer) */
+	double top, bottom;     /* see print.c for the definition (these are header/footer) */
 } PrintMargins;
 
 /* Header/Footer definition */
@@ -53,6 +51,7 @@ struct _PrintInformation {
 		} dim;
 	} scaling;
 	PrintMargins     margin;
+        DesiredDisplay   desired_display;
 	PrintRepeatRange repeat_top, repeat_left;
 	unsigned int	 print_across_then_down;
 	unsigned int     center_vertically:1;
@@ -121,12 +120,9 @@ char             *hf_format_render       (char const *format,
 HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
-#if 0
-GnomePrintUnit const *unit_name_to_unit    (char const *name);
-double      unit_convert             (double value,
-				      GnomePrintUnit const *source,
-				      GnomePrintUnit const *target);
-#endif
+
+GtkUnit     unit_name_to_unit    (char const *name);
+char const *unit_to_unit_name (GtkUnit unit);
 
 void        print_init               (void);
 void        print_shutdown           (void);

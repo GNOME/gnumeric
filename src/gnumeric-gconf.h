@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 #ifndef GNM_CONF_H
 #define GNM_CONF_H
 
@@ -67,8 +69,9 @@ typedef struct {
 	gint             print_scale_height;
 	gchar           *print_repeat_top;
 	gchar           *print_repeat_left;
-	PrintUnit	 print_margin_top;
-	PrintUnit	 print_margin_bottom;
+	double	         print_margin_top;
+	double       	 print_margin_bottom;
+	GtkUnit          desired_display;
   
   /* Also acts as flag whether the print defaults are loaded  */
         GtkPrintSettings *print_settings;
@@ -143,7 +146,7 @@ void     gnm_gconf_set_print_titles (gboolean val);
 void     gnm_gconf_set_print_order_across_then_down (gboolean val);
 void     gnm_gconf_set_print_scale_percentage (gboolean val);
 void     gnm_gconf_set_print_scale_percentage_value (gnm_float val);
-void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm);
+void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm, GtkUnit unit);
 void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
 					     GSList *right);
 void	 gnm_gconf_set_print_settings (GtkPrintSettings *settings);

@@ -241,29 +241,20 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, GnmCellPos *val)
 }
 
 static void
-xml_node_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
+xml_node_get_print_margin (xmlNodePtr node, double *points, GtkUnit *unit)
 {
 	gchar       *txt;
 
-	g_return_if_fail (pu != NULL);
 	g_return_if_fail (node != NULL);
-
-	xml_node_get_double (node, "Points", &pu->points);
-	txt = (gchar *)xmlGetProp  (node, CC2XML ("PrefUnit"));
-	if (txt) {
-#if 0
-		pu->desired_display = unit_name_to_unit (txt);
-#endif
-		xmlFree (txt);
-	}
-}
-
-static void
-xml_node_get_print_margin (xmlNodePtr node, double *points)
-{
-	g_return_if_fail (node != NULL);
+	g_return_if_fail (points != NULL);
+	g_return_if_fail (unit != NULL);
 
 	xml_node_get_double (node, "Points", points);
+	txt = (gchar *)xmlGetProp  (node, CC2XML ("PrefUnit"));
+	if (txt) {
+		*unit = unit_name_to_unit (txt);
+		xmlFree (txt);
+	}
 }
 
 static gboolean
@@ -525,17 +516,23 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 	g_return_if_fail (pi != NULL);
 
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("top"))))
-		xml_node_get_print_unit (child, &pi->margin.top);
+		xml_node_get_print_margin (child, &pi->margin.top,
+					   &pi->desired_display.header);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("bottom"))))
-		xml_node_get_print_unit (child, &pi->margin.bottom);
+		xml_node_get_print_margin (child, &pi->margin.bottom,
+					   &pi->desired_display.footer);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("left"))))
-		xml_node_get_print_margin (child, &left);
+		xml_node_get_print_margin (child, &left,
+					   &pi->desired_display.left);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("right"))))
-		xml_node_get_print_margin (child, &right);
+		xml_node_get_print_margin (child, &right,
+					   &pi->desired_display.right);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("header"))))
-		xml_node_get_print_margin (child, &header);
+		xml_node_get_print_margin (child, &header,
+					   &pi->desired_display.top);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("footer"))))
-		xml_node_get_print_margin (child, &footer);
+		xml_node_get_print_margin (child, &footer,
+					   &pi->desired_display.bottom);
 
 	print_info_set_margins (pi, header, footer, left, right);
 }

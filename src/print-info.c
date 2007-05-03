@@ -233,8 +233,15 @@ print_info_load_defaults (PrintInformation *res)
 		= gnm_app_prefs->print_scale_percentage_value;
 	res->scaling.dim.cols = gnm_app_prefs->print_scale_width;
 	res->scaling.dim.rows = gnm_app_prefs->print_scale_height;
-	res->margin.top.points = res->margin.bottom.points = -1.;
-
+	res->margin.top = gnm_app_prefs->print_margin_top;
+	res->margin.bottom = gnm_app_prefs->print_margin_bottom;
+	res->desired_display.top = gnm_app_prefs->desired_display;
+	res->desired_display.bottom = gnm_app_prefs->desired_display;
+	res->desired_display.left = gnm_app_prefs->desired_display;
+	res->desired_display.right = gnm_app_prefs->desired_display;
+	res->desired_display.footer = gnm_app_prefs->desired_display;
+	res->desired_display.header = gnm_app_prefs->desired_display;
+	
 	res->repeat_top.use   = load_range (gnm_app_prefs->print_repeat_top,
 					    &res->repeat_top.range);
 	res->repeat_left.use  = load_range (gnm_app_prefs->print_repeat_left,
@@ -348,7 +355,7 @@ print_info_save (PrintInformation *pi)
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
 
-	gnm_gconf_set_print_tb_margins (&pi->margin);
+	gnm_gconf_set_print_tb_margins (&pi->margin, pi->desired_display.top);
 
 	gnm_gconf_set_print_center_horizontally (pi->center_horizontally);
 	gnm_gconf_set_print_center_vertically (pi->center_vertically);
@@ -377,37 +384,40 @@ print_info_save (PrintInformation *pi)
 	go_conf_free_node (node);
 }
 
-#if 0
-const GnomePrintUnit *
+GtkUnit
 unit_name_to_unit (char const *name)
 {
-	GList *units = gnome_print_unit_get_list (GNOME_PRINT_UNITS_ALL);
-	GList *l;
-	GnomePrintUnit const *res = NULL;
-
-	for (l = units; l; l = l->next) {
-		GnomePrintUnit const *u = l->data;
-		if (g_ascii_strcasecmp (name, u->name) == 0 ||
-		    g_ascii_strcasecmp (name, u->plural) == 0 ||
-		    g_ascii_strcasecmp (name, u->abbr) == 0 ||
-		    g_ascii_strcasecmp (name, u->abbr_plural) == 0) {
-			res = u;
-			break;
-		}
-	}
-
-	g_list_free (units);
-	return res;
+	if (g_ascii_strcasecmp (name, "cm"))
+		return GTK_UNIT_MM;
+	if (g_ascii_strcasecmp (name, "mm"))
+		return GTK_UNIT_MM;
+	if (g_ascii_strcasecmp (name, "centimeter"))
+		return GTK_UNIT_MM;
+	if (g_ascii_strcasecmp (name, "millimeter"))
+		return GTK_UNIT_MM;
+	if (g_ascii_strcasecmp (name, "inch"))
+		return GTK_UNIT_INCH;
+	if (g_ascii_strcasecmp (name, "in"))
+		return GTK_UNIT_INCH;
+	if (g_ascii_strcasecmp (name, "inches"))
+		return GTK_UNIT_INCH;
+	
+	return GTK_UNIT_POINTS;
 }
 
-double
-unit_convert (double value, GnomePrintUnit const *src, GnomePrintUnit const *dst)
+char const *
+unit_to_unit_name (GtkUnit unit)
 {
-	gboolean ok = gnome_print_convert_distance (&value, src, dst);
-	g_assert (ok);
-	return value;
+	switch (unit) {
+	case GTK_UNIT_MM:
+		return "mm";
+	case GTK_UNIT_INCH:
+		return "inch";
+	default:
+		return "points";
+	}
 }
-#endif
+
 
 static void
 render_tab (GString *target, HFRenderInfo *info, char const *args)

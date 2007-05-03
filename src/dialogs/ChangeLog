@@ -1,3 +1,22 @@
+2007-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.glade: add margin spin buttons
+	* dialog-printer-setup.c (PrinterSetupState): new fields
+	(UnitInfo): ditto
+	(UnitInfo_cbdata): deleted
+	(get_conversion_factor): new
+	(spin_button_adapt_to_unit): deleted
+	(cb_unit_changed): deleted
+	(configure_bounds_*): new
+	(value_changed_*_cb): new
+	(margin_spin_configure): new
+	(do_setup_margin): handle margin spin buttons
+	(do_update_margin): new
+	(do_update_page): call do_update_margin and configure_bounds_* 
+	(do_fetch_unit): new
+	(do_fetch_margins): rewrite
+	(fetch_settings): add new do_fetch_*
+
 2007-04-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (PrinterSetupState): add fields

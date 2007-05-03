@@ -1,3 +1,11 @@
+2007-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-write.c (write_sheet_head): change PrintUnit content
+	* ms-excel-read.c (excel_print_unit_init_inch): deleted
+	(excel_init_margins): use GO_IN_TO_PT
+	(excel_read_sheet): ditto
+	* xlsx-write.c (xlsx_write_print_info): change PrintUnit content
+
 2007-04-29  Jody Goldberg <jody@gnome.org>
 
 	* plugin.xml.in : remove duplicate xlsx entry

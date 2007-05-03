@@ -213,23 +213,12 @@ xml_write_geometry (GnmOutputXML *state)
 
 static void
 xml_write_print_unit (GnmOutputXML *state, char const *name,
-		      PrintUnit const *pu)
-{
-	gsf_xml_out_start_element (state->output, name);
-	xml_out_add_points (state->output, "Points", pu->points);
-#if 0
-	gsf_xml_out_add_cstr_unchecked (state->output, "PrefUnit", (const char *)pu->desired_display->abbr);
-#endif
-	gsf_xml_out_end_element (state->output);
-}
-
-static void
-xml_write_print_margin (GnmOutputXML *state, char const *name,
-			double points)
+		      double points, GtkUnit unit)
 {
 	gsf_xml_out_start_element (state->output, name);
 	xml_out_add_points (state->output, "Points", points);
-	gsf_xml_out_add_cstr_unchecked (state->output, "PrefUnit", "Pt");
+	gsf_xml_out_add_cstr_unchecked (state->output, "PrefUnit",
+					unit_to_unit_name (unit));
 	gsf_xml_out_end_element (state->output);
 }
 
@@ -272,13 +261,19 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	gsf_xml_out_start_element (state->output, GNM "PrintInformation");
 
 	gsf_xml_out_start_element (state->output, GNM "Margins");
-	xml_write_print_unit (state, GNM "top",    &pi->margin.top);
-	xml_write_print_unit (state, GNM "bottom", &pi->margin.bottom);
+	xml_write_print_unit (state, GNM "top",    pi->margin.top,
+			      pi->desired_display.header);
+	xml_write_print_unit (state, GNM "bottom", pi->margin.bottom,
+			      pi->desired_display.footer);
 	print_info_get_margins (pi, &header, &footer, &left, &right);
-	xml_write_print_margin (state, GNM "left", left);
-	xml_write_print_margin (state, GNM "right", right);
-	xml_write_print_margin (state, GNM "header", header);
-	xml_write_print_margin (state, GNM "footer", footer);
+	xml_write_print_unit (state, GNM "left", left,
+			      pi->desired_display.left);
+	xml_write_print_unit (state, GNM "right", right,
+			      pi->desired_display.right);
+	xml_write_print_unit (state, GNM "header", header,
+			      pi->desired_display.top);
+	xml_write_print_unit (state, GNM "footer", footer,
+			      pi->desired_display.bottom);
 	gsf_xml_out_end_element (state->output);
 
 	gsf_xml_out_start_element (state->output, GNM "Scale");

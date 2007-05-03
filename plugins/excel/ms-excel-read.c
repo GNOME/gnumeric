@@ -656,12 +656,6 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	return so;
 }
 
-static void
-excel_print_unit_init_inch (PrintUnit *pu, double val)
-{
-	pu->points = GO_IN_TO_PT (val);
-}
-
 /*
  * excel_init_margins
  * @esheet ExcelReadSheet
@@ -685,8 +679,8 @@ excel_init_margins (ExcelReadSheet *esheet)
 	g_return_if_fail (esheet->sheet->print_info != NULL);
 
 	pi = esheet->sheet->print_info;
-	excel_print_unit_init_inch (&pi->margin.top, 1.0);
-	excel_print_unit_init_inch (&pi->margin.bottom, 1.0);
+	pi->margin.top = GO_IN_TO_PT (1.0);
+	pi->margin.bottom = GO_IN_TO_PT (1.0);
 
 	points = GO_IN_TO_PT (0.75);
 	short_points = GO_IN_TO_PT (0.5);
@@ -5720,11 +5714,11 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 				(pi, GO_IN_TO_PT (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_TOP_MARGIN:
-			excel_print_unit_init_inch (&pi->margin.top,
+			pi->margin.top = GO_IN_TO_PT (
 				gsf_le_get_double (q->data));
 			break;
 		case BIFF_BOTTOM_MARGIN:
-			excel_print_unit_init_inch (&pi->margin.bottom,
+			pi->margin.bottom = GO_IN_TO_PT (
 				gsf_le_get_double (q->data));
 			break;
 

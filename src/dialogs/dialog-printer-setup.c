@@ -114,21 +114,23 @@ typedef enum {
 	MARGIN_FOOTER
 } MarginOrientation;
 
+#endif
+
+typedef struct _PrinterSetupState PrinterSetupState;
 typedef struct {
 	double     value;
 	GtkSpinButton *spin;
-	GtkAdjustment *adj;
+/* 	GtkAdjustment *adj; */
 
-	FooCanvasItem *line;
+/* 	FooCanvasItem *line; */
 /* 	GnomePrintUnit const *unit; */
-	MarginOrientation orientation;
-	double bound_x1, bound_y1, bound_x2, bound_y2;
+/* 	MarginOrientation orientation; */
+/* 	double bound_x1, bound_y1, bound_x2, bound_y2; */
 	MarginPreviewInfo *pi;
+	PrinterSetupState *state;
 } UnitInfo;
 
-#endif
-
-typedef struct {
+struct _PrinterSetupState {
 	WorkbookControlGUI  *wbcg;
 	Sheet            *sheet;
 	GladeXML         *gui;
@@ -145,12 +147,14 @@ typedef struct {
 	GtkTreeModel     *unit_model;
 	GtkUnit		  display_unit;
 
-/* 	struct { */
-/* 		UnitInfo top, bottom, left, right; */
-/* 		UnitInfo header, footer; */
-/* 	} margins; */
+	struct {
+		UnitInfo top, bottom, left, right;
+		UnitInfo header, footer;
+	} margins;
 
 	MarginPreviewInfo preview;
+
+	double height, width;
 
 /* 	GtkWidget *icon_rd; */
 /* 	GtkWidget *icon_dr; */
@@ -171,20 +175,27 @@ typedef struct {
 /* 	HFPreviewInfo *pi_footer; */
 
 /* 	GnomePrintConfig *gp_config; */
-} PrinterSetupState;
-
-#if 0
-
-typedef struct {
-	PrinterSetupState *state;
-	UnitInfo *target;
-} UnitInfo_cbdata;
-
-#endif
+};
 
 static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
 static void fetch_settings (PrinterSetupState *state);
 static void do_update_page (PrinterSetupState *state);
+static void do_fetch_margins (PrinterSetupState *state);
+
+static double
+get_conversion_factor (GtkUnit unit)
+{
+	switch (unit) {
+	case GTK_UNIT_MM:
+		return (72./25.4);
+	case GTK_UNIT_INCH:
+		return 72.;
+	case GTK_UNIT_PIXEL:
+	case GTK_UNIT_POINTS:
+	default:
+		return 1.0;
+	}
+}
 
 #if 0
 
@@ -426,8 +437,8 @@ margin_preview_page_create (PrinterSetupState *state)
 	double width, height;
 	MarginPreviewInfo *pi = &state->preview;
 
-	width = print_info_get_paper_width (state->pi, state->display_unit);
-	height = print_info_get_paper_height (state->pi, state->display_unit);
+	width = state->width;
+	height = state->height;
 
 	if (width < height)
 		pi->scale = PAGE_Y / height;
@@ -473,55 +484,6 @@ margin_preview_page_create (PrinterSetupState *state)
 /* 	draw_margins (state, x1, y1, x2, y2); */
 }
 
-#if 0
-
-/**
- * spin_button_adapt_to_unit
- * @spin      spinbutton
- * @new_unit  new unit
- *
- * Select suitable increments and number of digits for the unit.
- *
- * The increments are not scaled linearly. We assume that if you are using a
- * fine grained unit - pts or mm - you want to fine tune the margin. For cm
- * and in, a useful coarse increment is used, which is a round number in that
- * unit.
- *
- * NOTE: According to docs, we should be using gtk_spin_button_configure
- * here. But as of gtk+ 1.2.7, climb_rate has no effect for that call.
- */
-static void
-spin_button_adapt_to_unit (GtkSpinButton *spin, const GnomePrintUnit *new_unit)
-{
-	GtkAdjustment *adjustment;
-	gfloat step_increment;
-	guint digits;
-
-	g_return_if_fail (GTK_IS_SPIN_BUTTON (spin));
-	adjustment = gtk_spin_button_get_adjustment (spin);
-	g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
-
-	if (new_unit->unittobase <= 3) {
-		/* "mm" and "pt" */
-		step_increment = 1.0;
-		digits = 1;
-	} else if (new_unit->unittobase <= 30) {
-		/* "cm" */
-		step_increment = 0.5;
-		digits = 2;
-	} else {
-		step_increment = 0.25;
-		digits = 2;
-	}
-
-	adjustment->step_increment = step_increment;
-	adjustment->page_increment = step_increment * 10;
-	gtk_adjustment_changed (adjustment);
-	gtk_spin_button_set_digits (spin, digits);
-}
-
-#endif
-
 static void
 canvas_update (PrinterSetupState *state)
 {
@@ -557,17 +519,6 @@ notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
 }
 
 #if 0
-
-static void
-cb_unit_changed (UnitInfo_cbdata *data)
-{
-	data->target->value = gtk_adjustment_get_value (data->target->adj);
-	data->target->unit = gnome_print_unit_selector_get_unit (
-		GNOME_PRINT_UNIT_SELECTOR (data->state->unit_selector));
-	set_vertical_bounds (data->state);
-	/* Adjust the display to the current values */
-	draw_margin (data->target, data->state);
-}
 
 static gboolean
 cb_unit_activated (UnitInfo_cbdata *data)
@@ -637,6 +588,136 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 #endif
 
 static void
+configure_bounds_header (PrinterSetupState *state)
+{
+	double max = state->height - state->margins.top.value
+		- state->margins.footer.value - state->margins.bottom.value;
+	gtk_spin_button_set_range (state->margins.header.spin, 0., max);
+}
+
+static void
+configure_bounds_footer (PrinterSetupState *state)
+{
+	double max = state->height - state->margins.header.value
+		- state->margins.top.value - state->margins.bottom.value;
+	gtk_spin_button_set_range (state->margins.footer.spin, 0., max);
+}
+
+static void
+configure_bounds_bottom (PrinterSetupState *state)
+{
+	double max = state->height - state->margins.header.value
+		- state->margins.footer.value - state->margins.top.value;
+	gtk_spin_button_set_range (state->margins.bottom.spin, 0., max);
+}
+
+static void
+configure_bounds_top (PrinterSetupState *state)
+{
+	double max = state->height - state->margins.header.value
+		- state->margins.footer.value - state->margins.bottom.value;
+	gtk_spin_button_set_range (state->margins.top.spin, 0., max);
+}
+
+static void
+configure_bounds_left (PrinterSetupState *state)
+{
+	double max = state->width - state->margins.right.value;
+	gtk_spin_button_set_range (state->margins.left.spin, 0., max);
+}
+
+static void
+configure_bounds_right (PrinterSetupState *state)
+{
+	double max = state->width - state->margins.left.value;
+	gtk_spin_button_set_range (state->margins.right.spin, 0., max);
+}
+
+static void
+value_changed_header_cb (gpointer user_data)
+{
+	UnitInfo *target = user_data;
+
+	target->value = gtk_spin_button_get_value (target->spin);
+
+	configure_bounds_top (target->state);
+	configure_bounds_bottom (target->state);
+	configure_bounds_footer (target->state);
+}
+
+static void
+value_changed_footer_cb (gpointer user_data)
+{
+	UnitInfo *target = user_data;
+
+	target->value = gtk_spin_button_get_value (target->spin);
+
+	configure_bounds_top (target->state);
+	configure_bounds_bottom (target->state);
+	configure_bounds_header (target->state);
+}
+
+static void
+value_changed_top_cb (gpointer user_data)
+{
+	UnitInfo *target = user_data;
+
+	target->value = gtk_spin_button_get_value (target->spin);
+
+	configure_bounds_header (target->state);
+	configure_bounds_bottom (target->state);
+	configure_bounds_footer (target->state);
+}
+
+
+static void
+value_changed_bottom_cb (gpointer user_data)
+{
+	UnitInfo *target = user_data;
+
+	target->value = gtk_spin_button_get_value (target->spin);
+
+	configure_bounds_header (target->state);
+	configure_bounds_top (target->state);
+	configure_bounds_footer (target->state);
+}
+
+static void
+value_changed_left_cb (gpointer user_data)
+{
+	UnitInfo *target = user_data;
+
+	target->value = gtk_spin_button_get_value (target->spin);
+
+	configure_bounds_right (target->state);
+}
+
+static void
+value_changed_right_cb (gpointer user_data)
+{
+	UnitInfo *target = user_data;
+
+	target->value = gtk_spin_button_get_value (target->spin);
+
+	configure_bounds_left (target->state);
+}
+
+static void
+margin_spin_configure (UnitInfo *target, PrinterSetupState *state,
+		       const char *spin_name, void (*value_changed_cb) (gpointer user_data))
+{
+	target->value = 0.;
+	target->pi = &state->preview;
+	target->spin = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, spin_name));
+	target->state = state;
+	gtk_spin_button_set_update_policy (target->spin, GTK_UPDATE_IF_VALID);
+	g_signal_connect_swapped (G_OBJECT (target->spin),
+		"value_changed",
+		G_CALLBACK (value_changed_cb), target);
+	
+}
+
+static void
 cb_unit_selector_changed (GtkComboBox *widget, PrinterSetupState *state)
 {
 	GtkTreeIter iter;
@@ -647,6 +728,7 @@ cb_unit_selector_changed (GtkComboBox *widget, PrinterSetupState *state)
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (state->unit_selector), &iter)) {
 		gtk_tree_model_get (state->unit_model, &iter, 1, &unit, -1);
 
+		do_fetch_margins (state);
 		state->display_unit = unit;
 		do_update_page (state);
 	}
@@ -745,12 +827,14 @@ do_setup_margin (PrinterSetupState *state)
 
  	g_signal_connect (G_OBJECT (state->unit_selector), "changed", 
  			  G_CALLBACK (cb_unit_selector_changed), state); 
- 	gtk_widget_show (state->unit_selector); 
+ 	gtk_widget_show (state->unit_selector);
 
-/* 	unit_editor_configure (&state->margins.header, state, "spin-header", */
-/* 			       MAX (pm->top.points - header, 0.0)); */
-/* 	unit_editor_configure (&state->margins.footer, state, "spin-footer", */
-/* 			       MAX (pm->bottom.points - footer, 0.0)); */
+	margin_spin_configure  (&state->margins.header, state, "spin-header", value_changed_header_cb);
+	margin_spin_configure  (&state->margins.footer, state, "spin-footer", value_changed_footer_cb);
+	margin_spin_configure  (&state->margins.top, state, "spin-top", value_changed_top_cb);
+	margin_spin_configure  (&state->margins.bottom, state, "spin-bottom", value_changed_bottom_cb);
+	margin_spin_configure  (&state->margins.left, state, "spin-left", value_changed_left_cb);
+	margin_spin_configure  (&state->margins.right, state, "spin-right", value_changed_right_cb);
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
 						   "container-paper-sample"));
@@ -1408,11 +1492,36 @@ do_setup_page_info (PrinterSetupState *state)
 #endif
 
 static void
+do_update_margin (UnitInfo *margin, double value, GtkUnit unit)
+{
+	margin->value = value;
+	gtk_spin_button_set_range (margin->spin, 0. , 2. * value);
+	gtk_spin_button_set_value (margin->spin, value);
+	switch (unit) {
+	case GTK_UNIT_MM:
+		gtk_spin_button_set_digits (margin->spin, 1);
+		gtk_spin_button_set_increments (margin->spin, 1., 0.);
+		break;
+	case GTK_UNIT_INCH:
+		gtk_spin_button_set_digits (margin->spin, 3);
+		gtk_spin_button_set_increments (margin->spin, 0.125, 0.);
+		break;
+	case GTK_UNIT_POINTS:
+		gtk_spin_button_set_digits (margin->spin, 1);
+		gtk_spin_button_set_increments (margin->spin, 1., 0.);
+		break;
+	case GTK_UNIT_PIXEL:
+		break;
+	}
+}
+
+static void
 do_update_page (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
+	GtkPageSetup     *ps = print_info_get_page_setup (pi);
 	GladeXML *gui;
-	double height, width;
+	double top, bottom;
 	char *text;
 	char const *format;
 
@@ -1421,9 +1530,8 @@ do_update_page (PrinterSetupState *state)
 	gtk_label_set_text (GTK_LABEL (glade_xml_get_widget (gui,
 							     "paper-type-label")),
 			    print_info_get_paper_display_name (pi));
-	/* FIXME: use preferred display unit */
-	height = print_info_get_paper_height (pi,state->display_unit);
-	width  = print_info_get_paper_width  (pi,state->display_unit);
+	state->height = print_info_get_paper_height (pi,state->display_unit);
+	state->width  = print_info_get_paper_width  (pi,state->display_unit);
 	switch (state->display_unit) {
 	case GTK_UNIT_PIXEL:
 		format = _("%.0f pixels wide by %.0f pixels tall");
@@ -1441,11 +1549,37 @@ do_update_page (PrinterSetupState *state)
 		format = _("%.1f wide by %.1f tall");
 		break;
 	}
-	text = g_strdup_printf (format, width, height);
+	text = g_strdup_printf (format, state->width, state->height);
 	gtk_label_set_text (GTK_LABEL (glade_xml_get_widget (gui,
 							     "paper-size-label")),
 			    text);
 	g_free (text);
+
+	top = gtk_page_setup_get_top_margin (ps, state->display_unit);
+	do_update_margin (&state->margins.top, top,
+			  state->display_unit);
+	bottom = gtk_page_setup_get_bottom_margin (ps, state->display_unit);
+	do_update_margin (&state->margins.bottom, bottom,
+			  state->display_unit);
+	do_update_margin (&state->margins.left,
+			  gtk_page_setup_get_left_margin (ps, state->display_unit),
+			  state->display_unit);
+	do_update_margin (&state->margins.right,
+			  gtk_page_setup_get_right_margin (ps, state->display_unit),
+			  state->display_unit);
+	do_update_margin (&state->margins.header,
+			  state->pi->margin.top / get_conversion_factor (state->display_unit) - top,
+			  state->display_unit);
+	do_update_margin (&state->margins.footer,
+			  state->pi->margin.bottom / get_conversion_factor (state->display_unit) - bottom,
+			  state->display_unit);
+
+	configure_bounds_top (state);
+	configure_bounds_header (state);
+	configure_bounds_left (state);
+	configure_bounds_right (state);
+	configure_bounds_footer (state);
+	configure_bounds_bottom (state);
 
 	canvas_update (state);
 }
@@ -1458,7 +1592,6 @@ do_setup_page (PrinterSetupState *state)
 	GladeXML *gui;
 
 	gui = state->gui;
-/* 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-paper-selector")); */
 
  	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "paper-button")), 
  		"clicked", 
@@ -1787,7 +1920,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->pi    = print_info_dup (sheet->print_info);
-	state->display_unit = GTK_UNIT_MM;
+	state->display_unit = state->pi->desired_display.top;
 /* 	state->customize_header = NULL; */
 /* 	state->customize_footer = NULL; */
 
@@ -1810,6 +1943,19 @@ static void
 do_fetch_page (PrinterSetupState *state)
 {
 
+}
+
+static void
+do_fetch_unit (PrinterSetupState *state)
+{
+	if (state->display_unit != state->pi->desired_display.top) {
+		state->pi->desired_display.top = state->display_unit;
+		state->pi->desired_display.bottom = state->display_unit;
+		state->pi->desired_display.header = state->display_unit;
+		state->pi->desired_display.footer = state->display_unit;
+		state->pi->desired_display.left = state->display_unit;
+		state->pi->desired_display.right = state->display_unit;
+	}
 }
 
 static void
@@ -1849,20 +1995,12 @@ do_fetch_scale (PrinterSetupState *state)
 	}
 }
 
-#if 0
-
-static PrintUnit
-unit_info_to_print_unit (UnitInfo *ui, PrinterSetupState *state)
+static double
+get_margin (UnitInfo *ui)
 {
-	PrintUnit u;
-	const GnomePrintUnit *gp_unit = gnome_print_unit_selector_get_unit (
-		GNOME_PRINT_UNIT_SELECTOR (state->unit_selector));
-
-        u.points = ui->value;
-	gnome_print_convert_distance (&u.points, gp_unit, GNOME_PRINT_PS_UNIT);
-	u.desired_display = gp_unit;
-	return u;
+	return ui->value;
 }
+
 
 /**
  * Header and footer are stored with Excel semantics, but displayed with
@@ -1874,23 +2012,37 @@ unit_info_to_print_unit (UnitInfo *ui, PrinterSetupState *state)
 static void
 do_fetch_margins (PrinterSetupState *state)
 {
-	PrintMargins *m = &state->pi->margin;
-	GtkToggleButton *t;
-	double header = 0, footer = 0, left = 0, right = 0;
+/* 	GtkToggleButton *t; */
+	double header, footer, top, bottom, left, right;
+	GtkPageSetup     *ps = print_info_get_page_setup (state->pi);
+	double factor = get_conversion_factor (state->display_unit);
 
-	print_info_get_margins (state->pi, &header, &footer, &left, &right);
+	header = state->margins.header.value;
+	footer = state->margins.footer.value;
+	top = state->margins.top.value;
+	bottom = state->margins.bottom.value;
+	left = state->margins.left.value;
+	right = state->margins.right.value;
 
-	m->top    = unit_info_to_print_unit (&state->margins.header, state);
-	m->top.points    += header;
-	m->bottom = unit_info_to_print_unit (&state->margins.footer, state);
-	m->bottom.points += footer;
+	gtk_page_setup_set_top_margin (ps, top, state->display_unit);
+	gtk_page_setup_set_bottom_margin (ps, bottom, state->display_unit);
+	gtk_page_setup_set_left_margin (ps, left, state->display_unit);
+	gtk_page_setup_set_right_margin (ps, right, state->display_unit);
+	
+	header += top;
+	footer += bottom;
 
-	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-horizontal"));
-	state->pi->center_horizontally = t->active;
+	state->pi->margin.top = header * factor;
+	state->pi->margin.bottom = footer * factor;
 
-	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-vertical"));
-	state->pi->center_vertically = t->active;
+/* 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-horizontal")); */
+/* 	state->pi->center_horizontally = t->active; */
+
+/* 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-vertical")); */
+/* 	state->pi->center_vertically = t->active; */
 }
+
+#if 0
 
 static void
 do_fetch_hf (PrinterSetupState *state)
@@ -1936,7 +2088,8 @@ fetch_settings (PrinterSetupState *state)
 {
 	do_fetch_page (state);
 	do_fetch_scale (state);
-/* 	do_fetch_margins (state); */
+	do_fetch_margins (state);
+	do_fetch_unit (state);
 /* 	do_fetch_hf (state); */
 /* 	do_fetch_page_info (state); */
 }
