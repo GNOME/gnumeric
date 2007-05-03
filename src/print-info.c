@@ -387,19 +387,19 @@ print_info_save (PrintInformation *pi)
 GtkUnit
 unit_name_to_unit (char const *name)
 {
-	if (g_ascii_strcasecmp (name, "cm"))
+	if (!g_ascii_strcasecmp (name, "cm"))
 		return GTK_UNIT_MM;
-	if (g_ascii_strcasecmp (name, "mm"))
+	if (!g_ascii_strcasecmp (name, "mm"))
 		return GTK_UNIT_MM;
-	if (g_ascii_strcasecmp (name, "centimeter"))
+	if (!g_ascii_strcasecmp (name, "centimeter"))
 		return GTK_UNIT_MM;
-	if (g_ascii_strcasecmp (name, "millimeter"))
+	if (!g_ascii_strcasecmp (name, "millimeter"))
 		return GTK_UNIT_MM;
-	if (g_ascii_strcasecmp (name, "inch"))
+	if (!g_ascii_strcasecmp (name, "inch"))
 		return GTK_UNIT_INCH;
-	if (g_ascii_strcasecmp (name, "in"))
+	if (!g_ascii_strcasecmp (name, "in"))
 		return GTK_UNIT_INCH;
-	if (g_ascii_strcasecmp (name, "inches"))
+	if (!g_ascii_strcasecmp (name, "inches"))
 		return GTK_UNIT_INCH;
 	
 	return GTK_UNIT_POINTS;

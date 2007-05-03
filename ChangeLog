@@ -1,5 +1,9 @@
 2007-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print-info.c (unit_name_to_unit): correct the sense of the tests.
+
+2007-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* schemas/gnumeric-dialogs.schemas.in: add preferred-unit schema
 	* src/xml-sax-read.c (xml_sax_print_margins_get_double): deleted
 	(xml_sax_print_margins_unit): rewritten
