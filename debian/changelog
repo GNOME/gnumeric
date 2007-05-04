@@ -1,3 +1,12 @@
+gnumeric (1.7.10-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/rules, debian/control, debian/gnumeric-plugins-extra.install]
+    Enabled Psion files support.
+  * [debian/control] Bumped goffice build dependency per configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  4 May 2007 20:19:21 +0200
+
 gnumeric (1.7.9-1) experimental; urgency=low
 
   * New upstream development release.

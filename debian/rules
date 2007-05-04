@@ -50,10 +50,8 @@ features+= --without-gda --without-gnomedb
 # contains security vulnerabilities."
 features+= --without-gb
 
-# We can't build with psiconv support as psiconv-config is missing; see
-# 	http://bugs.debian.org/401362
-#	Mon, 18 Dec 2006 09:02:18 +0100
-features+= --without-psiconv
+# Psion files support
+features+= --with-psiconv
 
 # Paradox database files plugin
 features+= --with-paradox

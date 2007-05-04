@@ -3,6 +3,7 @@
 /usr/lib/gnumeric/*/plugins/gnome-glossary/*
 /usr/lib/gnumeric/*/plugins/paradox/*
 /usr/lib/gnumeric/*/plugins/perl*/*
+/usr/lib/gnumeric/*/plugins/psiconv/*
 /usr/lib/gnumeric/*/plugins/py-func/*
 /usr/lib/gnumeric/*/plugins/python-loader/*
 /usr/lib/gnumeric/*/plugins/python/*
