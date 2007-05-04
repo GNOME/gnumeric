@@ -511,6 +511,17 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/printsetup/paper-orientation</key>
+        <applyto>/apps/gnumeric/printsetup/paper-orientation</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Paper</short>
+        <long>This is the default paper orientation. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/printsetup/hf-left</key>
         <applyto>/apps/gnumeric/printsetup/hf-left</applyto>
         <owner>Gnumeric</owner>

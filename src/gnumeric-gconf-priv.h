@@ -62,6 +62,7 @@
 #define PRINTSETUP_GCONF_MARGIN_GTK_LEFT	"margin-gtk-left"
 #define PRINTSETUP_GCONF_MARGIN_GTK_RIGHT	"margin-gtk-right"
 #define PRINTSETUP_GCONF_PAPER          	"paper"
+#define PRINTSETUP_GCONF_PAPER_ORIENTATION     	"paper-orientation"
 #define PRINTSETUP_GCONF_PREFERRED_UNIT		"preferred-unit"
 #define PRINTSETUP_GCONF_HEADER_FORMAT_LEFT	"hf-left"
 #define PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE	"hf-middle"

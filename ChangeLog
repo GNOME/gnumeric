@@ -1,3 +1,10 @@
+2007-05-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: new paper-orientation schema
+	* src/gnumeric-gconf.c (gnm_conf_init_page_setup): initialize orientation
+	(gnm_gconf_set_page_setup): save orientation
+	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_PAPER_ORIENTATION): new
+	
 2007-05-04  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (main): Install a PDF exporter.

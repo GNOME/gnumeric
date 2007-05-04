@@ -1508,6 +1508,7 @@ gnm_conf_init_page_setup (GOConfNode *node)
 	if (prefs.page_setup == NULL) {
 		gchar *paper;
 		double margin;
+		GtkPageOrientation orient;
 				
 		prefs.page_setup = gtk_page_setup_new ();
 
@@ -1524,6 +1525,12 @@ gnm_conf_init_page_setup (GOConfNode *node)
 			}
 			g_free (paper);
 		}
+
+		orient = go_conf_load_int (node, PRINTSETUP_GCONF_PAPER_ORIENTATION,
+					   GTK_PAGE_ORIENTATION_PORTRAIT,
+					   GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE,
+					   GTK_PAGE_ORIENTATION_PORTRAIT);
+		gtk_page_setup_set_orientation (prefs.page_setup, orient);
 
 		margin = go_conf_load_double
 			(node, PRINTSETUP_GCONF_MARGIN_GTK_TOP,
@@ -1899,6 +1906,11 @@ gnm_gconf_set_page_setup (GtkPageSetup *setup)
 			    PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PAPER,
 			    paper);
 	g_free (paper);
+
+	go_conf_set_int
+		(root,
+		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PAPER_ORIENTATION,
+		 gtk_page_setup_get_orientation (setup));
 
 	go_conf_set_double
 		(root,
