@@ -43,6 +43,8 @@
 #include <goffice/utils/go-font.h>
 #include <unistd.h>
 #include <glib/gstdio.h>
+#include <glib/gfileutils.h>
+#include <errno.h>
 
 /*  The following structure is used by the printing system */
 
@@ -69,19 +71,22 @@ typedef struct {
 
 
 static PrintingInstance *
-printing_instance_new (void) {
+printing_instance_new (void)
+{
 	PrintingInstance * pi = g_new0 (PrintingInstance,1);
 
 	return pi;
 }
 
 static void
-pi_free (gpointer data, gpointer user_data) {
+pi_free (gpointer data, gpointer user_data)
+{
 	g_free(data);
 }
 
 static void
-printing_instance_delete (PrintingInstance *pi) {
+printing_instance_delete (PrintingInstance *pi)
+{
 	g_list_foreach (pi->gnmSheets, pi_free, NULL);
 	g_list_free (pi->gnmSheets);
 	g_list_foreach (pi->gnmSheetRanges, pi_free, NULL);
@@ -1120,10 +1125,7 @@ compute_sheet_pages (GtkPrintContext   *context,
  	if (sheet->print_info->print_across_then_down)
 		return compute_sheet_pages_across_then_down (context, pi, sheet, &r);
 	else
-/* 		return compute_sheet_pages_down_then_across (context, pi, sheet, &r, output); */
 		return compute_sheet_pages_across_then_down (context, pi, sheet, &r);
-
-	
 }
 
 /*
@@ -1221,8 +1223,8 @@ print_job_info_destroy (PrintJobInfo *pj)
 
 static gboolean
 gnm_paginate_cb (GtkPrintOperation *operation,
-                    GtkPrintContext   *context,
-                    gpointer           user_data)
+		 GtkPrintContext   *context,
+		 gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	guint paginate = (pi->last_pagination)++;
@@ -1449,8 +1451,8 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 
 static void
 gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
-			GtkWidget         *widget,
-			gpointer           user_data)
+			    GtkWidget         *widget,
+			    gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	GtkPrintSettings * settings;
@@ -1516,7 +1518,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
 
   pi = printing_instance_new ();
   pi->wb = sheet->workbook;
-  pi->wbc = WORKBOOK_CONTROL (wbcg);
+  pi->wbc = wbcg ? WORKBOOK_CONTROL (wbcg) : NULL;
   pi->sheet = sheet;
 
   gnm_gconf_init_printer_defaults ();
@@ -1542,14 +1544,15 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
 
   if (export_dst) {
-	  tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, NULL);
+	  GError *err = NULL;
 
-	  if (tmp_file_fd < 0) {
-		  g_warning ("Ugh");
+	  tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, &err);
+	  if (err) {
+		  gsf_output_set_error (export_dst, 0, err->message);
+		  g_error_free (err);
 		  goto out;
-	  } else {
-		  gtk_print_operation_set_export_filename (print, tmp_file_name);		  
 	  }
+	  gtk_print_operation_set_export_filename (print, tmp_file_name);		  
 
 	  action = GTK_PRINT_OPERATION_ACTION_EXPORT;
 	  parent = NULL;
@@ -1566,27 +1569,34 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   }
 
   res = gtk_print_operation_run (print, action, parent, NULL);
-  
+
   if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
     	gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
-
- out:
 
   if (tmp_file_name) {
 	  char buffer[64 * 1024];
 	  size_t bytes_read;
 
-	  /* FIXME: Check result?  */
-	  lseek (tmp_file_fd, 0, SEEK_SET);
-
-	  while ((bytes_read = read (tmp_file_fd, buffer, sizeof (buffer))) > 0) {
-		  gsf_output_write (export_dst, bytes_read, buffer);
+	  if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)
+		  bytes_read = -1;
+	  else {
+		  while ((bytes_read = read (tmp_file_fd, buffer, sizeof (buffer))) > 0) {
+			  gsf_output_write (export_dst, bytes_read, buffer);
+		  }
 	  }
 	  if (bytes_read < 0) {
-		  g_warning ("Ugh");
+		  int save_errno = errno;
+		  if (!gsf_output_error (export_dst))
+			  gsf_output_set_error (export_dst,
+						g_file_error_from_errno (save_errno),
+						g_strerror (save_errno));
 	  }
-	  close (tmp_file_fd);
+  }
 
+ out:
+  if (tmp_file_fd >= 0)
+	  close (tmp_file_fd);
+  if (tmp_file_name) {
 	  g_unlink (tmp_file_name);
 	  g_free (tmp_file_name);
   }
