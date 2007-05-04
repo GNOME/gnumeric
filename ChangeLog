@@ -1,5 +1,9 @@
 2007-05-03  Morten Welinder <terra@gnome.org>
 
+	* configure.in: Post-release bump.
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
 	* Release 1.7.10
 
 2007-05-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
