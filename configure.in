@@ -112,7 +112,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 
 dnl *****************************
 libspreadsheet_reqs="
-	libgoffice-0.3		>= 0.3.9
+	libgoffice-0.4		>= 0.4.0
 	libgsf-1		>= 1.14.2
 	libxml-2.0		>= 2.4.12
 "
@@ -942,7 +942,7 @@ AC_SUBST(MONO_LIBS)
 dnl **************************************************
 dnl * Goffice component stuff
 dnl **************************************************
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.3`
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.4`
 AC_SUBST(GOFFICE_PLUGINS_DIR)
 
 dnl **************************************************
