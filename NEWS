@@ -3,6 +3,9 @@ Gnumeric 1.7.11
 Andreas:
 	* Save and restore default paper and margins
 
+Morten:
+	* Make ssconvert able to export to pdf.  [#381965]
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.10
 

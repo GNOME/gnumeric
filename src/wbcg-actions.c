@@ -147,12 +147,12 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 
 static GNM_ACTION_DEF (cb_file_print)
 {
-	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET);
+	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET, NULL);
 }
 
 static GNM_ACTION_DEF (cb_file_print_preview)
 {
-	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET);
+	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET, NULL);
 }
 
 static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg); }

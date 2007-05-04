@@ -41,7 +41,8 @@
 #include "style-font.h"
 #include "gnumeric-gconf.h"
 #include <goffice/utils/go-font.h>
-
+#include <unistd.h>
+#include <glib/gstdio.h>
 
 /*  The following structure is used by the printing system */
 
@@ -1498,19 +1499,23 @@ gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
 
 void
 gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
-		 gboolean preview, PrintRange default_range)
+		 gboolean preview, PrintRange default_range,
+		 GsfOutput *export_dst)
 {
-
   GtkPrintOperation *print;
   GtkPrintOperationResult res;
   GtkPageSetup *page_setup;
   PrintingInstance *pi;
   GtkPrintSettings* settings;
-  
+  GtkWindow *parent;
+  GtkPrintOperationAction action;
+  gchar *tmp_file_name = NULL;
+  int tmp_file_fd = -1;
+
   print = gtk_print_operation_new ();
-  
+
   pi = printing_instance_new ();
-  pi->wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+  pi->wb = sheet->workbook;
   pi->wbc = WORKBOOK_CONTROL (wbcg);
   pi->sheet = sheet;
 
@@ -1532,21 +1537,59 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
   g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi); 
   g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
-  g_signal_connect (print, "create-custom-widget", G_CALLBACK (gnm_create_widget_cb), pi);
-  g_signal_connect (print, "custom-widget-apply", G_CALLBACK (gnm_custom_widget_apply_cb), pi);
 
   gtk_print_operation_set_use_full_page (print, FALSE);
   gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);
-  gtk_print_operation_set_show_progress (print, TRUE);
-  gtk_print_operation_set_custom_tab_label (print, _("Gnumeric Print Range"));
 
-  res = gtk_print_operation_run (print,
-				 preview ? GTK_PRINT_OPERATION_ACTION_PREVIEW
-				         : GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-                                 wbcg_toplevel (wbcg), NULL);
+  if (export_dst) {
+	  tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, NULL);
 
+	  if (tmp_file_fd < 0) {
+		  g_warning ("Ugh");
+		  goto out;
+	  } else {
+		  gtk_print_operation_set_export_filename (print, tmp_file_name);		  
+	  }
+
+	  action = GTK_PRINT_OPERATION_ACTION_EXPORT;
+	  parent = NULL;
+	  gtk_print_operation_set_show_progress (print, FALSE);
+  } else {
+	  parent = wbcg_toplevel (wbcg);
+	  action = preview
+		  ? GTK_PRINT_OPERATION_ACTION_PREVIEW
+		  : GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	  gtk_print_operation_set_show_progress (print, TRUE);
+	  gtk_print_operation_set_custom_tab_label (print, _("Gnumeric Print Range"));
+	  g_signal_connect (print, "create-custom-widget", G_CALLBACK (gnm_create_widget_cb), pi);
+	  g_signal_connect (print, "custom-widget-apply", G_CALLBACK (gnm_custom_widget_apply_cb), pi);
+  }
+
+  res = gtk_print_operation_run (print, action, parent, NULL);
+  
   if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
     	gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
+
+ out:
+
+  if (tmp_file_name) {
+	  char buffer[64 * 1024];
+	  size_t bytes_read;
+
+	  /* FIXME: Check result?  */
+	  lseek (tmp_file_fd, 0, SEEK_SET);
+
+	  while ((bytes_read = read (tmp_file_fd, buffer, sizeof (buffer))) > 0) {
+		  gsf_output_write (export_dst, bytes_read, buffer);
+	  }
+	  if (bytes_read < 0) {
+		  g_warning ("Ugh");
+	  }
+	  close (tmp_file_fd);
+
+	  g_unlink (tmp_file_name);
+	  g_free (tmp_file_name);
+  }
 
   g_object_unref (print);
 }

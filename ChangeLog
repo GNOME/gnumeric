@@ -1,3 +1,10 @@
+2007-05-04  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (main): Install a PDF exporter.
+
+	* src/print.c (gnm_print_sheet): Add parameter export_dst for pdf
+	file generation.  All callers changed.
+
 2007-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: add new schemas for margins

@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
+#include <gsf/gsf-output.h>
 
 #define GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY "GnumericPrintRange"
 #define GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY "GnumericPrintFromSheet"
@@ -18,6 +19,7 @@ typedef enum {
 } PrintRange;
 
 void gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
-		      gboolean preview, PrintRange default_range);
+		      gboolean preview, PrintRange default_range,
+		      GsfOutput *export_dst);
 
 #endif /* GNUMERIC_PRINT_H */
