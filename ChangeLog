@@ -1,3 +1,25 @@
+2007-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: add new schemas for margins
+	and paper
+	* src/gnumeric-gconf-priv.h (PRINTSETUP_GCONF_MARGIN_GTK_TOP): new
+	(PRINTSETUP_GCONF_MARGIN_GTK_BOTTOM): new
+	(PRINTSETUP_GCONF_MARGIN_GTK_LEFT): new
+	(PRINTSETUP_GCONF_MARGIN_GTK_RIGHT): new
+	(PRINTSETUP_GCONF_PAPER): new
+	* src/gnumeric-gconf.c (gnm_conf_init_page_setup): new
+	(gnm_conf_init_print_settings): call gnm_conf_init_page_setup
+	(gnm_gconf_set_page_setup): save page setup
+	* src/print-info.h (page_setup_set_paper): new
+	(print_info_set_paper_width_height): delete
+	(page_setup_get_paper): new
+	* src/print-info.c (page_setup_set_paper): new
+	(print_info_set_paper_width_height): delete
+	(page_setup_get_paper): new
+	(print_info_set_paper): use page_setup_set_paper
+	(print_info_get_paper): use page_setup_get_paper
+	(print_info_set_page_setup): preserve margins
+	
 2007-05-03  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

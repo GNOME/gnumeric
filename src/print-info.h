@@ -127,13 +127,12 @@ char const *unit_to_unit_name (GtkUnit unit);
 void        print_init               (void);
 void        print_shutdown           (void);
 
+void	    page_setup_set_paper	(GtkPageSetup *page_setup, char const *paper);
 void	    print_info_set_paper     	   (PrintInformation *pi, char const *paper);
-void        print_info_set_paper_width_height (PrintInformation *pi,
-					       double paper_width,
-					       double paper_height,
-					       GtkUnit unit);
 void	    print_info_set_paper_orientation   (PrintInformation *pi,
 						GtkPageOrientation orientation);
+char 	   *page_setup_get_paper (GtkPageSetup *page_setup);
+/* Note that the string returned by page_setup_get_paper must be freed */
 char       *print_info_get_paper     	   (PrintInformation *pi);
 /* Note that the string returned by print_info_get_paper must be freed */
 

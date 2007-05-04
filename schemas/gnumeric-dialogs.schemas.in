@@ -456,6 +456,61 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-bottom</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-bottom</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Bottom Outside Margin</short>
+        <long>This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-top</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-top</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Top Outside Margin</short>
+        <long>This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-left</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-left</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Left Margin</short>
+        <long>This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-right</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-right</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Bottom Margin</short>
+        <long>This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/paper</key>
+        <applyto>/apps/gnumeric/printsetup/paper</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default></default>
+        <locale name="C">
+        <short>Paper</short>
+        <long>This is the default paper specification. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/printsetup/hf-left</key>
         <applyto>/apps/gnumeric/printsetup/hf-left</applyto>
         <owner>Gnumeric</owner>

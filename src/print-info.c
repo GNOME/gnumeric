@@ -717,14 +717,12 @@ print_info_set_margins (PrintInformation *pi,
 						 right, GTK_UNIT_POINTS);
 }
 
-void
-print_info_set_paper (PrintInformation *pi, char const *paper)
+void 
+page_setup_set_paper        (GtkPageSetup *page_setup, char const *paper)
 {
 	GtkPaperSize* gtk_paper;
 
-	g_return_if_fail (pi != NULL);
-	print_info_load_defaults (pi);
-	g_return_if_fail (pi->page_setup != NULL);
+	g_return_if_fail (page_setup != NULL);
 
 /* We are now using the standard paper names given by PWG 5101.1-2002 */
 /* We are trying to map some old gnome-print paper names.                  */
@@ -755,30 +753,28 @@ print_info_set_paper (PrintInformation *pi, char const *paper)
 		paper = GTK_PAPER_NAME_EXECUTIVE;
 
 	gtk_paper = gtk_paper_size_new (paper);
-	gtk_page_setup_set_paper_size (pi->page_setup, gtk_paper);
+	gtk_page_setup_set_paper_size (page_setup, gtk_paper);
 	gtk_paper_size_free (gtk_paper);
 }
 
 void
-print_info_set_paper_width_height (PrintInformation *pi,
-				   double paper_width, double paper_height,
-				   GtkUnit unit)
+print_info_set_paper (PrintInformation *pi, char const *paper)
 {
-	
+	g_return_if_fail (pi != NULL);
+	print_info_load_defaults (pi);
+	page_setup_set_paper (pi->page_setup, paper);
 }
 
-char  *
-print_info_get_paper (PrintInformation *pi)
+char *
+page_setup_get_paper (GtkPageSetup *page_setup)
 {
-	char const *name;
 	GtkPaperSize* paper;
-	
-	g_return_val_if_fail (pi != NULL, g_strdup (GTK_PAPER_NAME_A4));
-	print_info_load_defaults (pi);
-	g_return_val_if_fail (pi->page_setup != NULL, g_strdup (GTK_PAPER_NAME_A4));
+	char const *name;
 
-	paper = gtk_page_setup_get_paper_size (pi->page_setup);
-	
+	g_return_val_if_fail (page_setup != NULL, g_strdup (GTK_PAPER_NAME_A4));
+
+	paper = gtk_page_setup_get_paper_size (page_setup);
+
 	if (gtk_paper_size_is_custom (paper)) {
 		double width = gtk_paper_size_get_width (paper, GTK_UNIT_MM);
 		double height = gtk_paper_size_get_height (paper, GTK_UNIT_MM);
@@ -786,8 +782,17 @@ print_info_get_paper (PrintInformation *pi)
 					width, height, width, height);
 	}
 
-	name =  gtk_paper_size_get_name (gtk_page_setup_get_paper_size (pi->page_setup));
+	name =  gtk_paper_size_get_name (gtk_page_setup_get_paper_size (page_setup));
 	return g_strdup (name);
+}
+
+char  *
+print_info_get_paper (PrintInformation *pi)
+{
+	g_return_val_if_fail (pi != NULL, g_strdup (GTK_PAPER_NAME_A4));
+	print_info_load_defaults (pi);
+
+	return page_setup_get_paper (pi->page_setup);
 }
 
 char  const*
@@ -836,12 +841,17 @@ print_info_get_page_setup (PrintInformation *pi)
 void
 print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
 {
+	double header, footer, left, right;
+	
 	g_return_if_fail (pi != NULL);
 	print_info_load_defaults (pi);
 
-	if (pi->page_setup)
+	if (pi->page_setup) {
 		g_object_unref (pi->page_setup);
-	pi->page_setup = page_setup;
+		print_info_get_margins (pi, &header, &footer, &left, &right);
+		pi->page_setup = page_setup;
+		print_info_set_margins (pi, header, footer, left, right);
+	} else pi->page_setup = page_setup;
 }
 
 GtkPageOrientation

@@ -1503,6 +1503,53 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 #endif
 
 static void
+gnm_conf_init_page_setup (GOConfNode *node)
+{
+	if (prefs.page_setup == NULL) {
+		gchar *paper;
+		double margin;
+				
+		prefs.page_setup = gtk_page_setup_new ();
+
+		paper = go_conf_load_string (node, PRINTSETUP_GCONF_PAPER);
+
+		if (paper != NULL) {
+			if (*paper != 0) {
+				GtkPaperSize *size
+					= gtk_paper_size_new (paper);
+				gtk_page_setup_set_paper_size
+					(prefs.page_setup,
+					 size);
+				gtk_paper_size_free (size);
+			}
+			g_free (paper);
+		}
+
+		margin = go_conf_load_double
+			(node, PRINTSETUP_GCONF_MARGIN_GTK_TOP,
+			 0., 720. , 72.);
+		gtk_page_setup_set_top_margin (prefs.page_setup, margin,
+					       GTK_UNIT_POINTS);
+		margin = go_conf_load_double
+			(node, PRINTSETUP_GCONF_MARGIN_GTK_BOTTOM,
+			 0., 720. , 72.);
+		gtk_page_setup_set_bottom_margin (prefs.page_setup, margin,
+						  GTK_UNIT_POINTS);
+		margin = go_conf_load_double
+			(node, PRINTSETUP_GCONF_MARGIN_GTK_LEFT,
+			 0., 720. , 72.);
+		gtk_page_setup_set_left_margin (prefs.page_setup, margin,
+						GTK_UNIT_POINTS);
+		margin = go_conf_load_double
+			(node, PRINTSETUP_GCONF_MARGIN_GTK_RIGHT,
+			 0., 720. , 72.);
+		gtk_page_setup_set_right_margin (prefs.page_setup, margin,
+						 GTK_UNIT_POINTS);
+		
+	}
+}
+
+static void
 gnm_conf_init_print_settings (GOConfNode *node)
 {
 	GSList *list, *item;
@@ -1614,8 +1661,7 @@ gnm_gconf_init_printer_defaults (void)
 	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
 
 	gnm_conf_init_print_settings (node);
-
-	prefs.page_setup = gtk_page_setup_new ();
+	gnm_conf_init_page_setup (node);
 	
 	prefs.print_center_horizontally = go_conf_load_bool 
 		(node, PRINTSETUP_GCONF_CENTER_HORIZONTALLY, FALSE); 
@@ -1840,11 +1886,36 @@ gnm_gconf_set_print_settings (GtkPrintSettings *settings)
 void     
 gnm_gconf_set_page_setup (GtkPageSetup *setup)
 {
+	char * paper;
+	
 	g_return_if_fail (setup != NULL);
 	
 	if (prefs.page_setup != NULL)
 		g_object_unref (prefs.page_setup);
 	prefs.page_setup = gtk_page_setup_copy (setup);
+
+	paper = page_setup_get_paper (setup);
+	go_conf_set_string (root,
+			    PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PAPER,
+			    paper);
+	g_free (paper);
+
+	go_conf_set_double
+		(root,
+		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_TOP,
+		 gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS));
+	go_conf_set_double
+		(root,
+		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_BOTTOM,
+		 gtk_page_setup_get_bottom_margin (setup, GTK_UNIT_POINTS));
+	go_conf_set_double
+		(root,
+		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_LEFT,
+		 gtk_page_setup_get_left_margin (setup, GTK_UNIT_POINTS));
+	go_conf_set_double
+		(root,
+		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_RIGHT,
+		 gtk_page_setup_get_right_margin (setup, GTK_UNIT_POINTS));
 }
 
 void
