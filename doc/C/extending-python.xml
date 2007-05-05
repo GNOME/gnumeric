@@ -871,7 +871,7 @@ foo
 # my-func.py
 #
 
-from Gnumeric import GnumericError GnumericErrorVALUE
+from Gnumeric import GnumericError, GnumericErrorVALUE
 import Gnumeric
 import string
 	
