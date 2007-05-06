@@ -1,5 +1,24 @@
 2007-05-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	dialog-printer-setup.c (MarginOrientation): deleted
+	(UnitInfo): adjust fields
+	(draw_margin): deleted
+	(draw_margin_top): new
+	(draw_margin_bottom): new
+	(draw_margin_left): new
+	(draw_margin_right): new
+	(draw_margin_header): new
+	(draw_margin_footer): new
+	(create_margin): don't draw the correct margins here, drop
+	  an argument
+	(draw_margins): adjust calls to create_margin and call
+	draw_margin_*
+	(margin_preview_page_create): enable call to draw_margins
+	(value_changed_*_cb): move line
+	(do_setup_margin): cleanup
+
+2007-05-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* print.glade: widen sample paper
 
 2007-05-03  Morten Welinder <terra@gnome.org>

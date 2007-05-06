@@ -64,8 +64,8 @@
 #define PAGE_X (PREVIEW_X - PREVIEW_MARGIN_X)
 #define PAGE_Y (PREVIEW_Y - PREVIEW_MARGIN_Y)
 
-#define MARGIN_COLOR_DEFAULT "gray"
-#define MARGIN_COLOR_ACTIVE "black"
+#define MARGIN_COLOR_DEFAULT "darkgray"
+#define MARGIN_COLOR_ACTIVE "red"
 
 #define HF_PREVIEW_X 350
 #define HF_PREVIEW_Y 50
@@ -104,16 +104,6 @@ typedef struct {
 
 } HFPreviewInfo;
 
-typedef enum {
-	MARGIN_NONE,
-	MARGIN_LEFT,
-	MARGIN_RIGHT,
-	MARGIN_TOP,
-	MARGIN_BOTTOM,
-	MARGIN_HEADER,
-	MARGIN_FOOTER
-} MarginOrientation;
-
 #endif
 
 typedef struct _PrinterSetupState PrinterSetupState;
@@ -122,10 +112,8 @@ typedef struct {
 	GtkSpinButton *spin;
 /* 	GtkAdjustment *adj; */
 
-/* 	FooCanvasItem *line; */
-/* 	GnomePrintUnit const *unit; */
-/* 	MarginOrientation orientation; */
-/* 	double bound_x1, bound_y1, bound_x2, bound_y2; */
+	FooCanvasItem *line;
+	double bound_x1, bound_y1, bound_x2, bound_y2;
 	MarginPreviewInfo *pi;
 	PrinterSetupState *state;
 } UnitInfo;
@@ -281,8 +269,6 @@ margin_preview_page_destroy (PrinterSetupState *state)
 	}
 }
 
-#if 0
-
 static void
 move_line (FooCanvasItem *item,
 	   double x1, double y1,
@@ -326,109 +312,132 @@ make_line (FooCanvasGroup *g, double x1, double y1, double x2, double y2)
 }
 
 static void
-draw_margin (UnitInfo *uinfo, PrinterSetupState *state)
+draw_margin_top (UnitInfo *uinfo)
 {
-	double x1, y1, x2, y2, value;
-	GnomePrintUnit const *gp_unit = gnome_print_unit_selector_get_unit (
-		GNOME_PRINT_UNIT_SELECTOR (state->unit_selector));
-	double top = 0, bottom = 0, left = 0, right = 0;
-	print_info_get_margins (state->pi, &top, &bottom, &left, &right);
+	double x1, x2, y1;
 
 	x1 = uinfo->bound_x1;
+	x2 = uinfo->bound_x2;
+	y1 = uinfo->bound_y1;
+
+	y1 += uinfo->pi->scale * uinfo->value;
+	move_line (uinfo->line, x1, y1, x2, y1);
+}
+
+static void
+draw_margin_bottom (UnitInfo *uinfo)
+{
+	double x1, x2, y2;
+
+	x1 = uinfo->bound_x1;
+	x2 = uinfo->bound_x2;
+	y2 = uinfo->bound_y2;
+
+	y2 -= uinfo->pi->scale * uinfo->value;
+	move_line (uinfo->line, x1, y2, x2, y2);
+}
+
+static void
+draw_margin_left (UnitInfo *uinfo)
+{
+	double x1, y1, y2;
+
+	x1 = uinfo->bound_x1;
+	y1 = uinfo->bound_y1;
+	y2 = uinfo->bound_y2;
+
+	x1 += uinfo->pi->scale * uinfo->value;
+	move_line (uinfo->line, x1, y1, x1, y2);
+}
+
+static void
+draw_margin_right (UnitInfo *uinfo)
+{
+	double y1, x2, y2;
+
 	y1 = uinfo->bound_y1;
 	x2 = uinfo->bound_x2;
 	y2 = uinfo->bound_y2;
 
-	switch (uinfo->orientation)
-	{
-	case MARGIN_LEFT:
-		x1 += uinfo->pi->scale * left;
-		if (x1 < x2)
-			x2 = x1;
-		else
-			x1 = x2;
-		break;
-	case MARGIN_RIGHT:
-		x2 -= uinfo->pi->scale * right;
-		if (x2 < x1)
-			x2 = x1;
-		else
-			x1 = x2;
-		break;
-	case MARGIN_TOP:
-		y1 += uinfo->pi->scale * top;
-		if (y1 < y2)
-			y2 = y1;
-		else
-			y1 = y2;
-		break;
-	case MARGIN_BOTTOM:
-		y2 -= uinfo->pi->scale * bottom;
-		if (y2 < y1)
-			y2 = y1;
-		else
-			y1 = y2;
-		break;
-	case MARGIN_HEADER:
-		value = uinfo->value;
-		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);
-		y1 += (uinfo->pi->scale * top + uinfo->pi->scale * value);
-		y2 = y1;
-		break;
-	case MARGIN_FOOTER:
-		value = uinfo->value;
-		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);
-		y2 -= (uinfo->pi->scale * bottom + uinfo->pi->scale * value);
-		y1 = y2;
-		break;
-	default:
-		return;
-	}
-
-	move_line (uinfo->line, x1, y1, x2, y2);
+	x2 -= uinfo->pi->scale * uinfo->value;
+	move_line (uinfo->line, x2, y1, x2, y2);
 }
 
 static void
-create_margin (PrinterSetupState *state,
-	       UnitInfo *uinfo,
-	       MarginOrientation orientation,
+draw_margin_header (UnitInfo *uinfo)
+{
+	double x1, y1, x2;
+	double outside = uinfo->pi->scale *
+		uinfo->state->margins.top.value;
+	double inside = uinfo->pi->scale * uinfo->value;
+
+	x1 = uinfo->bound_x1;
+	y1 = uinfo->bound_y1;
+	x2 = uinfo->bound_x2;
+
+	if (inside < 1.0)
+		inside = 1.0; 
+	y1 += outside + inside ;
+	
+	move_line (uinfo->line, x1, y1, x2, y1);
+}
+
+static void
+draw_margin_footer (UnitInfo *uinfo)
+{
+	double x1, x2, y2;
+	double outside = uinfo->pi->scale *
+		uinfo->state->margins.bottom.value;
+	double inside = uinfo->pi->scale * uinfo->value;
+	
+	x1 = uinfo->bound_x1;
+	x2 = uinfo->bound_x2;
+	y2 = uinfo->bound_y2;
+
+	if (inside < 1.0)
+		inside = 1.0; 
+	y2 -= outside + inside ;
+	move_line (uinfo->line, x1, y2, x2, y2);
+}
+
+static void
+create_margin (UnitInfo *uinfo,
 	       double x1, double y1,
 	       double x2, double y2)
 {
-	FooCanvasGroup *g = FOO_CANVAS_GROUP (state->preview.group);
+	FooCanvasGroup *g = FOO_CANVAS_GROUP (uinfo->state->preview.group);
 
-	uinfo->pi = &state->preview;
 	uinfo->line = make_line (g, x1 + 8, y1, x1 + 8, y2);
-	uinfo->orientation = orientation;
 	uinfo->bound_x1 = x1;
 	uinfo->bound_y1 = y1;
 	uinfo->bound_x2 = x2;
 	uinfo->bound_y2 = y2;
-
-	draw_margin (uinfo, state);
 }
 
 static void
 draw_margins (PrinterSetupState *state, double x1, double y1, double x2, double y2)
 {
 	/* Margins */
-	create_margin (state, &state->margins.left, MARGIN_LEFT,
-		       x1, y1, x2, y2);
-	create_margin (state, &state->margins.right, MARGIN_RIGHT,
-		       x1, y1, x2, y2);
-	create_margin (state, &state->margins.top, MARGIN_TOP,
-		       x1, y1, x2, y2);
-	create_margin (state, &state->margins.bottom, MARGIN_BOTTOM,
-		       x1, y1, x2, y2);
+	create_margin (&state->margins.left, x1, y1, x2, y2);
+	create_margin (&state->margins.right, x1, y1, x2, y2);
+	create_margin (&state->margins.top, x1, y1, x2, y2);
+	create_margin (&state->margins.bottom, x1, y1, x2, y2);
 
 	/* Headers & footers */
-	create_margin (state, &state->margins.header, MARGIN_HEADER,
-		       x1, y1, x2, y2);
-	create_margin (state, &state->margins.footer, MARGIN_FOOTER,
-		       x1, y1, x2, y2);
+	create_margin (&state->margins.header, x1, y1, x2, y2);
+	create_margin (&state->margins.footer, x1, y1, x2, y2);
+
+	/* Margins */
+	draw_margin_left (&state->margins.left);
+	draw_margin_right (&state->margins.right);
+	draw_margin_top (&state->margins.top);
+	draw_margin_bottom (&state->margins.bottom);
+
+	/* Headers & footers */
+	draw_margin_header (&state->margins.header);
+	draw_margin_footer (&state->margins.footer);
 }
 
-#endif
 
 static void
 margin_preview_page_create (PrinterSetupState *state)
@@ -481,7 +490,7 @@ margin_preview_page_create (PrinterSetupState *state)
 		"width-pixels",   1,
 		NULL);
 
-/* 	draw_margins (state, x1, y1, x2, y2); */
+	draw_margins (state, x1, y1, x2, y2);
 }
 
 static void
@@ -643,6 +652,8 @@ value_changed_header_cb (gpointer user_data)
 	configure_bounds_top (target->state);
 	configure_bounds_bottom (target->state);
 	configure_bounds_footer (target->state);
+
+	draw_margin_header (target);
 }
 
 static void
@@ -655,6 +666,8 @@ value_changed_footer_cb (gpointer user_data)
 	configure_bounds_top (target->state);
 	configure_bounds_bottom (target->state);
 	configure_bounds_header (target->state);
+
+	draw_margin_footer (target);
 }
 
 static void
@@ -667,6 +680,9 @@ value_changed_top_cb (gpointer user_data)
 	configure_bounds_header (target->state);
 	configure_bounds_bottom (target->state);
 	configure_bounds_footer (target->state);
+
+	draw_margin_top (target);
+	draw_margin_header (&target->state->margins.header);
 }
 
 
@@ -680,6 +696,9 @@ value_changed_bottom_cb (gpointer user_data)
 	configure_bounds_header (target->state);
 	configure_bounds_top (target->state);
 	configure_bounds_footer (target->state);
+
+	draw_margin_bottom (target);
+	draw_margin_footer (&target->state->margins.header);
 }
 
 static void
@@ -690,6 +709,8 @@ value_changed_left_cb (gpointer user_data)
 	target->value = gtk_spin_button_get_value (target->spin);
 
 	configure_bounds_right (target->state);
+
+	draw_margin_left (target);
 }
 
 static void
@@ -700,11 +721,14 @@ value_changed_right_cb (gpointer user_data)
 	target->value = gtk_spin_button_get_value (target->spin);
 
 	configure_bounds_left (target->state);
+
+	draw_margin_right (target);
 }
 
 static void
 margin_spin_configure (UnitInfo *target, PrinterSetupState *state,
-		       const char *spin_name, void (*value_changed_cb) (gpointer user_data))
+		       const char *spin_name,
+		       void (*value_changed_cb) (gpointer user_data))
 {
 	target->value = 0.;
 	target->pi = &state->preview;
@@ -765,11 +789,8 @@ do_setup_margin (PrinterSetupState *state)
 {
  	GtkWidget *table; 
 	GtkBox *container;
-/* 	double header = 0, footer = 0, left = 0, right = 0; */
 
 	g_return_if_fail (state && state->pi);
-
-/* 	print_info_get_margins   (state->pi, &header, &footer, &left, &right); */
 
 	state->preview.canvas = foo_canvas_new ();
 	foo_canvas_set_scroll_region (
@@ -785,11 +806,7 @@ do_setup_margin (PrinterSetupState *state)
 		GtkCellRenderer *text_renderer;
   
 		list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
-		/* GTK does not support this unit it seems  */
-/* 		gtk_list_store_append (list_store, &iter); */
-/* 		gtk_list_store_set (list_store, &iter, 0, (_("pixels")), 1, GTK_UNIT_PIXEL, -1); */
-/* 		if (GTK_UNIT_PIXEL == state->display_unit) */
-/* 			current = iter; */
+
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter, 0, (_("points")), 1, GTK_UNIT_POINTS, -1);
 		if (GTK_UNIT_POINTS == state->display_unit)
@@ -829,12 +846,18 @@ do_setup_margin (PrinterSetupState *state)
  			  G_CALLBACK (cb_unit_selector_changed), state); 
  	gtk_widget_show (state->unit_selector);
 
-	margin_spin_configure  (&state->margins.header, state, "spin-header", value_changed_header_cb);
-	margin_spin_configure  (&state->margins.footer, state, "spin-footer", value_changed_footer_cb);
-	margin_spin_configure  (&state->margins.top, state, "spin-top", value_changed_top_cb);
-	margin_spin_configure  (&state->margins.bottom, state, "spin-bottom", value_changed_bottom_cb);
-	margin_spin_configure  (&state->margins.left, state, "spin-left", value_changed_left_cb);
-	margin_spin_configure  (&state->margins.right, state, "spin-right", value_changed_right_cb);
+	margin_spin_configure  (&state->margins.header, state, "spin-header",
+				value_changed_header_cb);
+	margin_spin_configure  (&state->margins.footer, state, "spin-footer",
+				value_changed_footer_cb);
+	margin_spin_configure  (&state->margins.top, state, "spin-top",
+				value_changed_top_cb);
+	margin_spin_configure  (&state->margins.bottom, state, "spin-bottom",
+				value_changed_bottom_cb);
+	margin_spin_configure  (&state->margins.left, state, "spin-left",
+				value_changed_left_cb);
+	margin_spin_configure  (&state->margins.right, state, "spin-right",
+				value_changed_right_cb);
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
 						   "container-paper-sample"));
