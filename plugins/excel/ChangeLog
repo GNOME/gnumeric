@@ -1,3 +1,10 @@
+2007-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (axis), (catserrange), (lineformat), (valuerange),
+	(end), (ms_excel_chart_read), (chart_write_axis),
+	(chart_write_axis_sets), (ms_excel_chart_write): fix import/export
+	of axis sets. [#318610]
+
 2007-05-03  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.10
