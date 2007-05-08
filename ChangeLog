@@ -1,3 +1,28 @@
+2007-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/xml-sax-read.c (xml_sax_print_margins): use 
+	  print_info_set_edge_to_*
+	* src/gnumeric-gconf.h (gnm_gconf_set_print_tb_margins): new 
+	  arguments
+	* src/gnumeric-gconf.c (gnm_gconf_set_print_tb_margins): new
+	  individual arguments
+	* src/xml-sax-write.c (xml_write_print_info): adjust 
+	  print_info_get_margins for new arguments
+	* src/xml-io.c (xml_sax_print_margins): use
+	  print_info_set_edge_to_*
+	* src/print-info.h (PrintMargins): delete
+	(PrintInformation): new fields
+	(print_info_get_margins): new arguments
+	(print_info_set_edge_to_above_footer): new
+	(print_info_set_edge_to_below_header): new
+	* src/print-info.c (print_info_get_margins): new arguments
+	(print_info_set_edge_to_above_footer): new
+	(print_info_set_edge_to_below_header): new
+	(print_info_load_defaults): handle new fields
+	(page_setup_get_paper): work around gtk bug 426416
+	(print_info_set_page_setup): adjust for new arguments of 
+	  print_info_get_margins
+
 2007-05-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: new paper-orientation schema

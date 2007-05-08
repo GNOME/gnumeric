@@ -505,7 +505,8 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 	double footer = -1.;
 	double left = -1.;
 	double right = -1.;
-
+	double edge_to_above_footer = -1.;
+	double edge_to_below_header = -1.;
 	
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
@@ -516,10 +517,10 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 	g_return_if_fail (pi != NULL);
 
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("top"))))
-		xml_node_get_print_margin (child, &pi->margin.top,
+		xml_node_get_print_margin (child, &edge_to_below_header,
 					   &pi->desired_display.header);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("bottom"))))
-		xml_node_get_print_margin (child, &pi->margin.bottom,
+		xml_node_get_print_margin (child, &edge_to_above_footer,
 					   &pi->desired_display.footer);
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("left"))))
 		xml_node_get_print_margin (child, &left,
@@ -535,6 +536,11 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 					   &pi->desired_display.bottom);
 
 	print_info_set_margins (pi, header, footer, left, right);
+	if (!(edge_to_below_header < 0))
+		print_info_set_edge_to_below_header (pi, edge_to_below_header);
+	if (!(edge_to_above_footer < 0))
+		print_info_set_edge_to_above_footer (pi, edge_to_above_footer);
+	
 }
 
 static void

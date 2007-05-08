@@ -1,3 +1,13 @@
+2007-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-write.c (excel_write_SETUP): adjust for new
+	  arguments of print_info_get_margins
+	(excel_write_WSBOOL): ditto
+	* ms-excel-read.c (excel_init_margins): use print_info_set_edge_to_*
+	(excel_read_sheet): use print_info_set_edge_to_*
+	* xlsx-write.c (xlsx_write_print_info): adjust for new
+	  arguments of print_info_get_margin
+
 2007-05-07  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (axis), (catserrange), (lineformat), (valuerange),

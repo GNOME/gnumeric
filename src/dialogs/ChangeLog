@@ -1,6 +1,23 @@
+2007-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.glade: enable header/footer and center buttons
+	* dialog-printer-setup.c (spin_button_set_bound): delete
+	(get_printable_height): delete
+	(set_vertical_bounds): delete
+	(move_line): only move existing lines
+	(cb_unit_activated): rename to cb_spin_activated and enable
+	(cb_unit_deactivated): rename to cb_spin_deactivated and
+	  enable
+	(unit_editor_configure): delete
+	(value_changed_bottom_cb): move the footer not the header line
+	(margin_spin_configure): connect cb_spin_*activated
+	(do_update_page): adjust for changed arguments to
+	  print_info_get_margins
+	(do_fetch_margins): use print_info_set_edge_to_*
+
 2007-05-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	dialog-printer-setup.c (MarginOrientation): deleted
+	* dialog-printer-setup.c (MarginOrientation): deleted
 	(UnitInfo): adjust fields
 	(draw_margin): deleted
 	(draw_margin_top): new

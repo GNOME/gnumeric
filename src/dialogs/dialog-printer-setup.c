@@ -169,6 +169,9 @@ static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
 static void fetch_settings (PrinterSetupState *state);
 static void do_update_page (PrinterSetupState *state);
 static void do_fetch_margins (PrinterSetupState *state);
+#if 0
+static void do_hf_customize (gboolean header, PrinterSetupState *state);
+#endif
 
 static double
 get_conversion_factor (GtkUnit unit)
@@ -185,81 +188,6 @@ get_conversion_factor (GtkUnit unit)
 	}
 }
 
-#if 0
-
-static void do_hf_customize (gboolean header, PrinterSetupState *state);
-
-/**
- * spin_button_set_bound
- * @spin           spinbutton
- * @space_to_grow  how much higher value may go
-  *
- * Allow the value in spin button to increase by at most space_to_grow.
- * If space_to_grow is negative, e.g. after paper size change,
- * spin_button_set_bound adjusts the margin and returns a less
- *  negative space_to_grow.
- */
-static void
-spin_button_set_bound (UnitInfo *unit, double space_to_grow)
-{
-	double value;
-
-	g_return_if_fail (unit != NULL);
-	g_return_if_fail (GTK_IS_SPIN_BUTTON (unit->spin));
-
-	value = space_to_grow;
-	gnome_print_convert_distance (&value, GNOME_PRINT_PS_UNIT, unit->unit);
-	gtk_spin_button_set_range (unit->spin, 0, value);
-
-	return;
-}
-
-/**
- * get_printable_height (in points)
- * @state :
- *
- */
-static double
-get_printable_height (PrinterSetupState *state)
-{
-	double top = 0, bottom = 0, left = 0, right = 0, height;
-	double header = state->margins.header.value;
-	double footer = state->margins.footer.value;
-
-	print_info_get_margins   (state->pi, &top, &bottom, &left, &right);
-	gnome_print_convert_distance (&header, state->margins.header.unit, GNOME_PRINT_PS_UNIT);
-	gnome_print_convert_distance (&footer, state->margins.footer.unit, GNOME_PRINT_PS_UNIT);
-
-	height = get_paper_psheight (state) - top - bottom - header - footer;
-
-	return height;
-}
-
-/**
- * set_vertical_bounds
- * @state :
- * @unit          unit
- *
- * Set the upper bounds for headers and footers.
- */
-static void
-set_vertical_bounds (PrinterSetupState *state)
-{
-	double printable_height = get_printable_height (state);
-	double header = state->margins.header.value;
-	double footer = state->margins.footer.value;
-
-	gnome_print_convert_distance (&header, state->margins.header.unit, GNOME_PRINT_PS_UNIT);
-	gnome_print_convert_distance (&footer, state->margins.footer.unit, GNOME_PRINT_PS_UNIT);
-
-	spin_button_set_bound (&state->margins.header,
-			       MAX (0, printable_height) + header);
-	spin_button_set_bound (&state->margins.footer,
-			       MAX (0, printable_height) + footer);
-}
-
-#endif
-
 static void
 margin_preview_page_destroy (PrinterSetupState *state)
 {
@@ -274,18 +202,20 @@ move_line (FooCanvasItem *item,
 	   double x1, double y1,
 	   double x2, double y2)
 {
-	FooCanvasPoints *points;
+	if (item != NULL) {
+		FooCanvasPoints *points;
 
-	points = foo_canvas_points_new (2);
-	points->coords[0] = x1;
-	points->coords[1] = y1;
-	points->coords[2] = x2;
-	points->coords[3] = y2;
-
-	foo_canvas_item_set (item,
-			       "points", points,
-			       NULL);
-	foo_canvas_points_unref (points);
+		points = foo_canvas_points_new (2);
+		points->coords[0] = x1;
+		points->coords[1] = y1;
+		points->coords[2] = x2;
+		points->coords[3] = y2;
+		
+		foo_canvas_item_set (item,
+				     "points", points,
+				     NULL);
+		foo_canvas_points_unref (points);
+	}
 }
 
 static FooCanvasItem *
@@ -500,7 +430,6 @@ canvas_update (PrinterSetupState *state)
 
 	margin_preview_page_destroy (state);
 	margin_preview_page_create (state);
-/* 	set_vertical_bounds (state); */
 
 /* 	unit_txt = gnome_print_config_get (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT); */
 /* 	if (unit_txt) { */
@@ -523,78 +452,26 @@ notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
 		  gint page_num,
 		  PrinterSetupState *state)
 {
-/* 	if (page_num == PAPER_PAGE) */
-/* 		canvas_update (state); */
 }
 
-#if 0
 
 static gboolean
-cb_unit_activated (UnitInfo_cbdata *data)
+cb_spin_activated (UnitInfo *target)
 {
-	foo_canvas_item_set (data->target->line,
+	foo_canvas_item_set (target->line,
 			     "fill-color", MARGIN_COLOR_ACTIVE,
 			     NULL);
 	return FALSE;
 }
 
 static gboolean
-cb_unit_deactivated (UnitInfo_cbdata *data)
+cb_spin_deactivated (UnitInfo *target)
 {
-	foo_canvas_item_set (data->target->line,
+	foo_canvas_item_set (target->line,
 			     "fill-color", MARGIN_COLOR_DEFAULT,
 			     NULL);
 	return FALSE;
 }
-
-static void
-unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
-		       const char *spin_name,
-		       double init_points)
-{
-	GtkSpinButton *spin;
-	UnitInfo_cbdata *cbdata;
-	int len;
-
-	spin = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, spin_name));
-
-	target->value = init_points;
-	target->unit = GNOME_PRINT_PS_UNIT                               ;
-
-	target->adj = GTK_ADJUSTMENT (gtk_adjustment_new (
-		target->value,
-		0.0, 100000.0, 0.5, 1.0, 0));
-	target->spin = spin;
-	gtk_spin_button_configure (spin, target->adj, 1, 1);
-	gtk_widget_ensure_style (GTK_WIDGET (spin));
-	len = go_pango_measure_string (
-		gtk_widget_get_pango_context (gtk_widget_get_toplevel (GTK_WIDGET (spin))),
-		GTK_WIDGET (spin)->style->font_desc,
-		"123.45XXX");
-	gtk_widget_set_size_request (GTK_WIDGET (spin), len, -1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (spin));
-
-	cbdata = g_new (UnitInfo_cbdata, 1);
-	cbdata->state = state;
-	cbdata->target = target;
-	g_signal_connect_swapped (G_OBJECT (target->spin),
-		"focus_in_event",
-		G_CALLBACK (cb_unit_activated), cbdata);
-	g_signal_connect_swapped (G_OBJECT (target->spin),
-		"focus_out_event",
-		G_CALLBACK (cb_unit_deactivated), cbdata);
-	gnome_print_unit_selector_add_adjustment (GNOME_PRINT_UNIT_SELECTOR (state->unit_selector),
-						  target->adj);
-	g_signal_connect_swapped (G_OBJECT (target->spin),
-		"value_changed",
-		G_CALLBACK (cb_unit_changed), cbdata);
-	g_object_set_data_full (G_OBJECT (target->spin),
-		"cbdata", cbdata, g_free); /* avoid a leak */
-
-}
-
-#endif
 
 static void
 configure_bounds_header (PrinterSetupState *state)
@@ -698,7 +575,7 @@ value_changed_bottom_cb (gpointer user_data)
 	configure_bounds_footer (target->state);
 
 	draw_margin_bottom (target);
-	draw_margin_footer (&target->state->margins.header);
+	draw_margin_footer (&target->state->margins.footer);
 }
 
 static void
@@ -738,7 +615,12 @@ margin_spin_configure (UnitInfo *target, PrinterSetupState *state,
 	g_signal_connect_swapped (G_OBJECT (target->spin),
 		"value_changed",
 		G_CALLBACK (value_changed_cb), target);
-	
+	g_signal_connect_swapped (G_OBJECT (target->spin),
+                "focus_in_event",
+                G_CALLBACK (cb_spin_activated), target);
+	g_signal_connect_swapped (G_OBJECT (target->spin),
+		"focus_out_event",
+		G_CALLBACK (cb_spin_deactivated), target);
 }
 
 static void
@@ -1542,11 +1424,13 @@ static void
 do_update_page (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
-	GtkPageSetup     *ps = print_info_get_page_setup (pi);
 	GladeXML *gui;
 	double top, bottom;
+	double left, right;
+	double edge_to_below_header, edge_to_above_footer;
 	char *text;
 	char const *format;
+	double scale;
 
 	gui = state->gui;
 
@@ -1578,25 +1462,26 @@ do_update_page (PrinterSetupState *state)
 			    text);
 	g_free (text);
 
-	top = gtk_page_setup_get_top_margin (ps, state->display_unit);
-	do_update_margin (&state->margins.top, top,
+	print_info_get_margins (state->pi,
+				&top, &bottom,
+				&left, &right,
+				&edge_to_below_header,
+				&edge_to_above_footer);
+	scale = get_conversion_factor (state->display_unit);
+	do_update_margin (&state->margins.top, top / scale,
 			  state->display_unit);
-	bottom = gtk_page_setup_get_bottom_margin (ps, state->display_unit);
-	do_update_margin (&state->margins.bottom, bottom,
+	do_update_margin (&state->margins.bottom, bottom / scale,
 			  state->display_unit);
-	do_update_margin (&state->margins.left,
-			  gtk_page_setup_get_left_margin (ps, state->display_unit),
+	do_update_margin (&state->margins.left, left / scale,
 			  state->display_unit);
-	do_update_margin (&state->margins.right,
-			  gtk_page_setup_get_right_margin (ps, state->display_unit),
+	do_update_margin (&state->margins.right, right / scale,
 			  state->display_unit);
 	do_update_margin (&state->margins.header,
-			  state->pi->margin.top / get_conversion_factor (state->display_unit) - top,
+			  (edge_to_below_header - top) / scale,
 			  state->display_unit);
 	do_update_margin (&state->margins.footer,
-			  state->pi->margin.bottom / get_conversion_factor (state->display_unit) - bottom,
+			  (edge_to_above_footer - bottom) / scale,
 			  state->display_unit);
-
 	configure_bounds_top (state);
 	configure_bounds_header (state);
 	configure_bounds_left (state);
@@ -2054,9 +1939,9 @@ do_fetch_margins (PrinterSetupState *state)
 	header += top;
 	footer += bottom;
 
-	state->pi->margin.top = header * factor;
-	state->pi->margin.bottom = footer * factor;
-
+	print_info_set_edge_to_above_footer (state->pi, footer * factor);
+	print_info_set_edge_to_below_header (state->pi, header * factor);
+	
 /* 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-horizontal")); */
 /* 	state->pi->center_horizontally = t->active; */
 

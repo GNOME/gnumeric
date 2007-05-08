@@ -943,6 +943,7 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	double h_margin, f_margin;
 	double left;
 	double right;
+	double t_margin, b_margin;
 
 	g_return_if_fail (pi != NULL);
 
@@ -950,11 +951,12 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_end_element (xml); /* </printOptions> */
 
 	gsf_xml_out_start_element (xml, "pageMargins");
-	print_info_get_margins (pi, &h_margin, &f_margin, &left, &right);
+	print_info_get_margins (pi, &h_margin, &f_margin, &left, &right,
+				&t_margin, &b_margin);
 	gsf_xml_out_add_float (xml, "left",	left / 72., 4);
 	gsf_xml_out_add_float (xml, "right",	right / 72., 4);
-	gsf_xml_out_add_float (xml, "top",	pi->margin.top / 72., 4);
-	gsf_xml_out_add_float (xml, "bottom",	pi->margin.bottom / 72., 4);
+	gsf_xml_out_add_float (xml, "top",	t_margin / 72., 4);
+	gsf_xml_out_add_float (xml, "bottom",	b_margin / 72., 4);
 	gsf_xml_out_add_float (xml, "header",	h_margin / 72., 4);
 	gsf_xml_out_add_float (xml, "footer",	f_margin / 72., 4);
 	gsf_xml_out_end_element (xml); /* </pageMargins> */

@@ -679,8 +679,8 @@ excel_init_margins (ExcelReadSheet *esheet)
 	g_return_if_fail (esheet->sheet->print_info != NULL);
 
 	pi = esheet->sheet->print_info;
-	pi->margin.top = GO_IN_TO_PT (1.0);
-	pi->margin.bottom = GO_IN_TO_PT (1.0);
+	print_info_set_edge_to_below_header (pi,GO_IN_TO_PT (1.0));
+	print_info_set_edge_to_above_footer (pi,GO_IN_TO_PT (1.0));
 
 	points = GO_IN_TO_PT (0.75);
 	short_points = GO_IN_TO_PT (0.5);
@@ -5714,12 +5714,14 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 				(pi, GO_IN_TO_PT (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_TOP_MARGIN:
-			pi->margin.top = GO_IN_TO_PT (
-				gsf_le_get_double (q->data));
+			print_info_set_edge_to_below_header
+				(pi,
+				 GO_IN_TO_PT (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_BOTTOM_MARGIN:
-			pi->margin.bottom = GO_IN_TO_PT (
-				gsf_le_get_double (q->data));
+			print_info_set_edge_to_above_footer
+				(pi,
+				 GO_IN_TO_PT (gsf_le_get_double (q->data)));
 			break;
 
 		case BIFF_PRINTHEADERS:

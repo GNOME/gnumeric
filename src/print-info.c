@@ -233,8 +233,8 @@ print_info_load_defaults (PrintInformation *res)
 		= gnm_app_prefs->print_scale_percentage_value;
 	res->scaling.dim.cols = gnm_app_prefs->print_scale_width;
 	res->scaling.dim.rows = gnm_app_prefs->print_scale_height;
-	res->margin.top = gnm_app_prefs->print_margin_top;
-	res->margin.bottom = gnm_app_prefs->print_margin_bottom;
+	res->edge_to_below_header = gnm_app_prefs->print_margin_top;
+	res->edge_to_above_footer = gnm_app_prefs->print_margin_bottom;
 	res->desired_display.top = gnm_app_prefs->desired_display;
 	res->desired_display.bottom = gnm_app_prefs->desired_display;
 	res->desired_display.left = gnm_app_prefs->desired_display;
@@ -355,7 +355,9 @@ print_info_save (PrintInformation *pi)
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
 
-	gnm_gconf_set_print_tb_margins (&pi->margin, pi->desired_display.top);
+	gnm_gconf_set_print_tb_margins (pi->edge_to_below_header,
+					pi->edge_to_above_footer,
+					pi->desired_display.top);
 
 	gnm_gconf_set_print_center_horizontally (pi->center_horizontally);
 	gnm_gconf_set_print_center_vertically (pi->center_vertically);
@@ -639,7 +641,10 @@ print_info_dup (PrintInformation *src)
 
 void
 print_info_get_margins (PrintInformation *pi,
-			double *top, double *bottom, double *left, double *right)
+			double *top, double *bottom,
+			double *left, double *right,
+			double *edge_to_below_header,
+			double *edge_to_above_footer)
 {
 	g_return_if_fail (pi != NULL);
 	print_info_load_defaults (pi);
@@ -653,6 +658,10 @@ print_info_get_margins (PrintInformation *pi,
 		*left = gtk_page_setup_get_left_margin (pi->page_setup, GTK_UNIT_POINTS);
 	if (NULL != right)
 		*right = gtk_page_setup_get_right_margin (pi->page_setup, GTK_UNIT_POINTS);
+	if (NULL != edge_to_below_header)
+		*edge_to_below_header = pi->edge_to_below_header;
+	if (NULL != edge_to_above_footer)
+		*edge_to_above_footer = pi->edge_to_above_footer;
 }
 
 void
@@ -694,6 +703,27 @@ print_info_set_margin_right (PrintInformation *pi, double right)
 
 	gtk_page_setup_set_right_margin (pi->page_setup, right, GTK_UNIT_POINTS);
 }
+
+void
+print_info_set_edge_to_above_footer (PrintInformation *pi, double e_f)
+{
+	g_return_if_fail (pi != NULL);
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
+
+	pi->edge_to_above_footer = e_f;
+}
+
+void
+print_info_set_edge_to_below_header (PrintInformation *pi, double e_h)
+{
+	g_return_if_fail (pi != NULL);
+	print_info_load_defaults (pi);
+	g_return_if_fail (pi->page_setup != NULL);
+
+	pi->edge_to_below_header = e_h;
+}
+
 
 void
 print_info_set_margins (PrintInformation *pi,
@@ -783,6 +813,14 @@ page_setup_get_paper (GtkPageSetup *page_setup)
 	}
 
 	name =  gtk_paper_size_get_name (gtk_page_setup_get_paper_size (page_setup));
+
+/* Working around gtk bug 426416 */
+	if (strncmp (name, "custom", 6) == 0) {
+		double width = gtk_paper_size_get_width (paper, GTK_UNIT_MM);
+		double height = gtk_paper_size_get_height (paper, GTK_UNIT_MM);
+		return g_strdup_printf ("custom_Gnm-%.0fx%.0fmm_%.0fx%.0fmm",
+					width, height, width, height);
+	}
 	return g_strdup (name);
 }
 
@@ -848,7 +886,8 @@ print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
 
 	if (pi->page_setup) {
 		g_object_unref (pi->page_setup);
-		print_info_get_margins (pi, &header, &footer, &left, &right);
+		print_info_get_margins (pi, &header, &footer, &left, &right,
+					NULL, NULL);
 		pi->page_setup = page_setup;
 		print_info_set_margins (pi, header, footer, left, right);
 	} else pi->page_setup = page_setup;

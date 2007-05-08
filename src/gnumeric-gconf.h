@@ -146,7 +146,9 @@ void     gnm_gconf_set_print_titles (gboolean val);
 void     gnm_gconf_set_print_order_across_then_down (gboolean val);
 void     gnm_gconf_set_print_scale_percentage (gboolean val);
 void     gnm_gconf_set_print_scale_percentage_value (gnm_float val);
-void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm, GtkUnit unit);
+void     gnm_gconf_set_print_tb_margins (double edge_to_header,
+					 double edge_to_footer,
+					 GtkUnit unit);
 void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
 					     GSList *right);
 void	 gnm_gconf_set_print_settings (GtkPrintSettings *settings);

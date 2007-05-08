@@ -2112,12 +2112,16 @@ gnm_gconf_set_print_scale_percentage_value (gnm_float val)
 }
 
 void     
-gnm_gconf_set_print_tb_margins (PrintMargins const *pm, GtkUnit unit)
+gnm_gconf_set_print_tb_margins (double edge_to_header,
+				double edge_to_footer,
+				GtkUnit unit)
 {
 	go_conf_set_double (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_TOP, pm->top);
+		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_TOP,
+		edge_to_header);
 	go_conf_set_double (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_BOTTOM, pm->bottom);
+		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_BOTTOM,
+		edge_to_footer);
 	go_conf_set_string (
 		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PREFERRED_UNIT, unit_to_unit_name (unit));
 }

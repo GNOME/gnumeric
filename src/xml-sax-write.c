@@ -254,6 +254,8 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	double footer;
 	double left;
 	double right;
+	double edge_to_above_footer;
+	double edge_to_below_header;
 	GtkPageOrientation orient;
 
 	g_return_if_fail (pi != NULL);
@@ -261,11 +263,13 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	gsf_xml_out_start_element (state->output, GNM "PrintInformation");
 
 	gsf_xml_out_start_element (state->output, GNM "Margins");
-	xml_write_print_unit (state, GNM "top",    pi->margin.top,
+
+	print_info_get_margins (pi, &header, &footer, &left, &right,
+				&edge_to_below_header, &edge_to_above_footer);
+	xml_write_print_unit (state, GNM "top", edge_to_below_header,
 			      pi->desired_display.header);
-	xml_write_print_unit (state, GNM "bottom", pi->margin.bottom,
+	xml_write_print_unit (state, GNM "bottom", edge_to_above_footer,
 			      pi->desired_display.footer);
-	print_info_get_margins (pi, &header, &footer, &left, &right);
 	xml_write_print_unit (state, GNM "left", left,
 			      pi->desired_display.left);
 	xml_write_print_unit (state, GNM "right", right,

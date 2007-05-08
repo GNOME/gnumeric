@@ -9,13 +9,6 @@ typedef struct {
   GtkUnit   top, bottom, left, right, header, footer;
 } DesiredDisplay;
 
-/*
- * Margins.  In Points
- */
-typedef struct {
-	double top, bottom;     /* see print.c for the definition (these are header/footer) */
-} PrintMargins;
-
 /* Header/Footer definition */
 typedef struct {
 	char *left_format;
@@ -50,7 +43,8 @@ struct _PrintInformation {
 			int rows;
 		} dim;
 	} scaling;
-	PrintMargins     margin;
+	double           edge_to_below_header;
+	double           edge_to_above_footer; 
         DesiredDisplay   desired_display;
 	PrintRepeatRange repeat_top, repeat_left;
 	unsigned int	 print_across_then_down;
@@ -142,13 +136,20 @@ double      print_info_get_paper_width     (PrintInformation *pi, GtkUnit unit);
 double      print_info_get_paper_height    (PrintInformation *pi, GtkUnit unit);
 GtkPageOrientation print_info_get_paper_orientation   (PrintInformation *pi);
 void        print_info_get_margins   (PrintInformation *pi,
-				      double *header, double *footer, double *left, double *right);
+				      double *top, double *bottom,
+				      double *left, double *right,
+				      double *edge_to_below_header,
+				      double *edge_to_above_footer);
 void        print_info_set_margins   (PrintInformation *pi,
 				      double header, double footer, double left, double right);
 void        print_info_set_margin_header (PrintInformation *pi, double header);
 void        print_info_set_margin_footer (PrintInformation *pi, double footer);
 void        print_info_set_margin_left   (PrintInformation *pi, double left);
 void        print_info_set_margin_right  (PrintInformation *pi, double right);
+void        print_info_set_edge_to_above_footer (PrintInformation *pi,
+						 double e_f);
+void        print_info_set_edge_to_below_header (PrintInformation *pi,
+						 double e_h);
 
 /* Formats known */
 extern GList *hf_formats;

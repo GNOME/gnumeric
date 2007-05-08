@@ -442,7 +442,7 @@ void
 excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	PrintInformation *pi = NULL;
-	double header = 0., footer = 0., dummy;
+	double header = 0., footer = 0.;
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
 	guint16 flags = 0;
 	guint16 scale = 100;
@@ -478,7 +478,8 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 
 		if (pi->scaling.percentage.x < USHRT_MAX)
 			scale = pi->scaling.percentage.x + .5;
-		print_info_get_margins (pi, &header, &footer, &dummy, &dummy);
+		print_info_get_margins (pi, &header, &footer,
+					NULL, NULL, NULL, NULL);
 	} else
 		flags |= 0x44;  /* mark orientation, copies, and start page as being invalid */
 	header = points_to_inches (header);
@@ -4143,6 +4144,8 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	Workbook const *wb = sheet->workbook;
 	double left;
 	double right;
+	double edge_to_below_header;
+	double edge_to_above_footer;
 
 	pi = sheet->print_info;
 	g_return_if_fail (pi != NULL);
@@ -4175,11 +4178,12 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	ms_biff_put_2byte (bp, BIFF_HCENTER, pi->center_horizontally ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_VCENTER, pi->center_vertically ? 1 : 0);
 
-	print_info_get_margins (pi, NULL, NULL, &left, &right);
+	print_info_get_margins (pi, NULL, NULL, &left, &right,
+				&edge_to_below_header, &edge_to_above_footer);
 	excel_write_margin (bp, BIFF_LEFT_MARGIN,   left);
 	excel_write_margin (bp, BIFF_RIGHT_MARGIN,  right);
-	excel_write_margin (bp, BIFF_TOP_MARGIN,    pi->margin.top);
-	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margin.bottom);
+	excel_write_margin (bp, BIFF_TOP_MARGIN,    edge_to_below_header);
+	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, edge_to_above_footer);
 
 	excel_write_SETUP (bp, esheet);
 	if (bp->version < MS_BIFF_V8) {

@@ -676,11 +676,19 @@ xml_sax_print_margins (GsfXMLIn *xin, xmlChar const **attrs)
 
 	pi = state->sheet->print_info;
 	switch (xin->node->user_data.v_int) {
-	case 0: xml_sax_print_margins_unit (xin, attrs,
-			&pi->margin.top, &pi->desired_display.header);
+	case 0:
+		xml_sax_print_margins_unit (xin, attrs,
+					    &points,
+					    &pi->desired_display.header);
+		if (points >= 0.)
+			print_info_set_edge_to_below_header (pi, points);
 		break;
-	case 1: xml_sax_print_margins_unit (xin, attrs,
-			&pi->margin.bottom, &pi->desired_display.footer);
+	case 1:
+		xml_sax_print_margins_unit (xin, attrs,
+					    &points,
+					    &pi->desired_display.footer);
+		if (points >= 0.)
+			print_info_set_edge_to_above_footer (pi, points);
 		break;
 	case 2:
 		xml_sax_print_margins_unit (xin, attrs,
