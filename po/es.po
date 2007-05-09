@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-05 03:36+0100\n"
-"PO-Revision-Date: 2007-05-05 19:02+0200\n"
+"POT-Creation-Date: 2007-05-09 03:37+0100\n"
+"PO-Revision-Date: 2007-05-09 11:41+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -258,8 +258,8 @@ msgstr "Derivadas financieras"
 msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6137
-#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2609 ../src/xml-sax-read.c:2223
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6139
+#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2615 ../src/xml-sax-read.c:2231
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -357,7 +357,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:993
-#: ../plugins/openoffice/openoffice-read.c:2665 ../src/xml-sax-read.c:2240
+#: ../plugins/openoffice/openoffice-read.c:2665 ../src/xml-sax-read.c:2248
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -466,11 +466,11 @@ msgstr ""
 "Ya escribimos una longitud para una cadena que ha sido truncada debido a "
 "problemas de codificación."
 
-#: ../plugins/excel/ms-excel-write.c:5448
+#: ../plugins/excel/ms-excel-write.c:5452
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No se pudo el flujo «Libro» para escritura\n"
 
-#: ../plugins/excel/ms-excel-write.c:5468
+#: ../plugins/excel/ms-excel-write.c:5472
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
 
@@ -768,7 +768,7 @@ msgstr "fecha1,fecha2,intervalo"
 #: ../plugins/fn-date/functions.c:1510 ../plugins/fn-date/functions.c:1514
 #: ../plugins/fn-date/functions.c:1522 ../plugins/fn-date/functions.c:1526
 #: ../plugins/fn-date/functions.c:1539 ../plugins/fn-date/functions.c:1543
-#: ../src/print-info.c:511
+#: ../src/print-info.c:513
 msgid "date"
 msgstr "fecha"
 
@@ -785,7 +785,7 @@ msgid "start_date,months"
 msgstr "fecha_inicio,meses"
 
 #: ../plugins/fn-date/functions.c:1474 ../plugins/fn-date/functions.c:1478
-#: ../plugins/fn-date/functions.c:1494 ../src/print-info.c:512
+#: ../plugins/fn-date/functions.c:1494 ../src/print-info.c:514
 msgid "time"
 msgstr "hora"
 
@@ -2264,8 +2264,8 @@ msgstr "Error al abrir archivo xbase."
 
 #: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:260
 #: ../src/dialogs/dialog-search.c:421 ../src/dialogs/dialog-stf-export.c:463
-#: ../src/dialogs/print.glade.h:32 ../src/print-info.c:428 ../src/search.c:620
-#: ../src/workbook.c:857 ../src/xml-io.c:2214
+#: ../src/dialogs/print.glade.h:31 ../src/print-info.c:430 ../src/search.c:620
+#: ../src/workbook.c:857 ../src/xml-io.c:2220
 msgid "Sheet"
 msgstr "Hoja"
 
@@ -2598,13 +2598,17 @@ msgstr "Este directorio contiene las plantillas de autoformato preinstaladas."
 msgid ""
 "This is the default paper orientation. Please use the Print Setup dialog to "
 "edit this value."
-msgstr "Esta es la orientación del papel predeterminada. Por favor, use el diálogo «Configuración de impresión» para editar este valor."
+msgstr ""
+"Esta es la orientación del papel predeterminada. Por favor, use el diálogo "
+"«Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
 "This is the default paper specification. Please use the Print Setup dialog "
 "to edit this value."
-msgstr "Esta es la especificación de papel predeterminada. Por favor, use el diálogo «Configuración de impresión» para editar este valor."
+msgstr ""
+"Esta es la especificación de papel predeterminada. Por favor, use el diálogo "
+"«Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:66
 msgid "This list contains all extra directories containing autoformat templates."
@@ -2654,7 +2658,9 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:73
 msgid "This string gives the default unit to be used in the page setup dialog."
-msgstr "Esta cadena proporciona la unidad predeterminada a usar en el diálogo «Configuración de impresión»."
+msgstr ""
+"Esta cadena proporciona la unidad predeterminada a usar en el diálogo "
+"«Configuración de impresión»."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
@@ -2778,31 +2784,46 @@ msgstr ""
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the footer. Please use the Print Setup dialog to edit this value."
-msgstr "Este valor da el número de puntos predeterminado desde la parte inferior de una página hasta final del pie de página. Por favor, use el diálogo de «Configuración de impresión» para editar este valor."
+msgstr ""
+"Este valor da el número de puntos predeterminado desde la parte inferior de "
+"una página hasta final del pie de página. Por favor, use el diálogo de "
+"«Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:87
 msgid ""
 "This value gives the default number of points from the left of a page to the "
 "left of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Este valor da el número de puntos predeterminado desde la parte izquierda de una página hasta la parte izquierda del del cuerpo. Por favor, use el diálogo «Configuración de impresión» para editar este valor."
+msgstr ""
+"Este valor da el número de puntos predeterminado desde la parte izquierda de "
+"una página hasta la parte izquierda del del cuerpo. Por favor, use el "
+"diálogo «Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:88
 msgid ""
 "This value gives the default number of points from the right of a page to "
 "the right of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Este valor da el número de puntos predeterminado desde la parte derecha de una página hasta la parte derecha del cuerpo. Por favor, use el diálogo «Configuración de impresión» para editar este valor."
+msgstr ""
+"Este valor da el número de puntos predeterminado desde la parte derecha de "
+"una página hasta la parte derecha del cuerpo. Por favor, use el diálogo "
+"«Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:89
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Este valor da el número de puntos predeterminado desde la parte superior de una página al inicio del cuerpo. Por favor, use el diálogo «Configuración de impresión» para editar este valor."
+msgstr ""
+"Este valor da el número de puntos predeterminado desde la parte superior de "
+"una página al inicio del cuerpo. Por favor, use el diálogo «Configuración de "
+"impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:90
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "top of the header. Please use the Print Setup dialog to edit this value."
-msgstr "Este valor da el número de puntos predeterminado desde la parte superior de una página hasta el inicio de la cabecera. Por favor, use el diálogo «Configuración de impresión» para editar este valor."
+msgstr ""
+"Este valor da el número de puntos predeterminado desde la parte superior de "
+"una página hasta el inicio de la cabecera. Por favor, use el diálogo "
+"«Configuración de impresión» para editar este valor."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:91
 msgid ""
@@ -5698,55 +5719,55 @@ msgstr "Ordenar"
 msgid "Screen"
 msgstr "Pantalla"
 
-#: ../src/dialogs/dialog-printer-setup.c:794
+#: ../src/dialogs/dialog-printer-setup.c:693
 msgid "points"
 msgstr "puntos"
 
-#: ../src/dialogs/dialog-printer-setup.c:798
+#: ../src/dialogs/dialog-printer-setup.c:697
 msgid "inches"
 msgstr "pulgadas"
 
-#: ../src/dialogs/dialog-printer-setup.c:802
+#: ../src/dialogs/dialog-printer-setup.c:701
 msgid "mm"
 msgstr "mm"
 
-#: ../src/dialogs/dialog-printer-setup.c:1000
+#: ../src/dialogs/dialog-printer-setup.c:905
 msgid "Customize header"
 msgstr "Personalizar encabezado"
 
-#: ../src/dialogs/dialog-printer-setup.c:1002
+#: ../src/dialogs/dialog-printer-setup.c:907
 msgid "Customize footer"
 msgstr "Personalizar el pié de página"
 
-#: ../src/dialogs/dialog-printer-setup.c:1140
+#: ../src/dialogs/dialog-printer-setup.c:1045
 msgid "Custom header configuration"
 msgstr "Configuración de cabezal personalizado"
 
-#: ../src/dialogs/dialog-printer-setup.c:1145
+#: ../src/dialogs/dialog-printer-setup.c:1050
 msgid "Custom footer configuration"
 msgstr "Configuración de pié de página personalizado"
 
-#: ../src/dialogs/dialog-printer-setup.c:1537
+#: ../src/dialogs/dialog-printer-setup.c:1444
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr "%.0f píxeles de ancho por %.0f píxeles de alto"
 
-#: ../src/dialogs/dialog-printer-setup.c:1540
+#: ../src/dialogs/dialog-printer-setup.c:1447
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr "%.0f puntos de ancho por %.0f puntos de alto"
 
-#: ../src/dialogs/dialog-printer-setup.c:1543
+#: ../src/dialogs/dialog-printer-setup.c:1450
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr "%.1f pulgadas de ancho por %.1f pulgadas de alto"
 
-#: ../src/dialogs/dialog-printer-setup.c:1546
+#: ../src/dialogs/dialog-printer-setup.c:1453
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm de ancho por %.0f mm de alto"
 
-#: ../src/dialogs/dialog-printer-setup.c:1549
+#: ../src/dialogs/dialog-printer-setup.c:1456
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f de ancho por %.1f de alto"
@@ -7615,182 +7636,178 @@ msgid "8.5 in wide by 11.0 in high"
 msgstr "8.5 pulgadas de ancho por 11.0 pulgadas de alto"
 
 #: ../src/dialogs/print.glade.h:4
-msgid "<b>Center on Page</b>"
-msgstr "<b>Centrar en la página</b>"
+msgid "<b>Center on page:</b>"
+msgstr "<b>Centrar en la página:</b>"
 
 #: ../src/dialogs/print.glade.h:5
 msgid "<b>Content</b>"
 msgstr "<b>Contenido</b>"
 
 #: ../src/dialogs/print.glade.h:6
-msgid "<b>Layout</b>"
-msgstr "<b>Distribución</b>"
-
-#: ../src/dialogs/print.glade.h:7
 msgid "<b>Page Order</b>"
 msgstr "<b>Orden de páginas</b>"
 
-#: ../src/dialogs/print.glade.h:8
+#: ../src/dialogs/print.glade.h:7
 msgid "<b>Paper:</b>"
 msgstr "<b>Papel:</b>"
 
-#: ../src/dialogs/print.glade.h:9
+#: ../src/dialogs/print.glade.h:8
 msgid "<b>Print</b>"
 msgstr "<b>Imprimir</b>"
 
-#: ../src/dialogs/print.glade.h:10
+#: ../src/dialogs/print.glade.h:9
 msgid "<b>Scale</b>"
 msgstr "<b>Escala</b>"
 
-#: ../src/dialogs/print.glade.h:11
+#: ../src/dialogs/print.glade.h:10
 msgid "<b>Titles To Print</b>"
 msgstr "<b>Títulos a imprimir</b>"
 
-#: ../src/dialogs/print.glade.h:12
+#: ../src/dialogs/print.glade.h:11
 msgid "Apply _to:"
 msgstr "Aplicar _a:"
 
-#: ../src/dialogs/print.glade.h:13
+#: ../src/dialogs/print.glade.h:12
 msgid "Apply to all sheets of this _workbook."
 msgstr "Aplicar a _todas las hojas de este libro de cuentas."
 
-#: ../src/dialogs/print.glade.h:14
+#: ../src/dialogs/print.glade.h:13
 msgid "Bottom margin:"
 msgstr "Margen inferior:"
 
-#: ../src/dialogs/print.glade.h:15
+#: ../src/dialogs/print.glade.h:14
 msgid "Change Paper Type"
 msgstr "Cambiar el tipo de papel"
 
-#: ../src/dialogs/print.glade.h:16
+#: ../src/dialogs/print.glade.h:15
 msgid "Co_mments:"
 msgstr "Co_mentarios:"
 
-#: ../src/dialogs/print.glade.h:17
+#: ../src/dialogs/print.glade.h:16
 msgid "Fi_rst page number:"
 msgstr "_Primer página:"
 
-#: ../src/dialogs/print.glade.h:18
+#: ../src/dialogs/print.glade.h:17
 msgid "Footer:"
 msgstr "Pie de página:"
 
-#: ../src/dialogs/print.glade.h:19
+#: ../src/dialogs/print.glade.h:18
 msgid "Header:"
 msgstr "Encabezado:"
 
-#: ../src/dialogs/print.glade.h:20
+#: ../src/dialogs/print.glade.h:19
 msgid "Headers and Footers"
 msgstr "Encabezados y pies de página"
 
-#: ../src/dialogs/print.glade.h:21
+#: ../src/dialogs/print.glade.h:20
 msgid "Left margin:"
 msgstr "Margen izquierdo:"
 
-#: ../src/dialogs/print.glade.h:22
+#: ../src/dialogs/print.glade.h:21
 msgid "Page"
 msgstr "Página"
 
-#: ../src/dialogs/print.glade.h:23
+#: ../src/dialogs/print.glade.h:22
 msgid "Page Setup"
 msgstr "Configuración de página"
 
-#: ../src/dialogs/print.glade.h:24
+#: ../src/dialogs/print.glade.h:23
 msgid "Print _area:"
 msgstr "Imprimir _área:"
 
-#: ../src/dialogs/print.glade.h:25
+#: ../src/dialogs/print.glade.h:24
 msgid "R_ight, then down"
 msgstr "A la _derecha y luego abajo"
 
-#: ../src/dialogs/print.glade.h:26
+#: ../src/dialogs/print.glade.h:25
 msgid "Right margin:"
 msgstr "Margen derecho:"
 
-#: ../src/dialogs/print.glade.h:27
+#: ../src/dialogs/print.glade.h:26
 msgid "Row and co_lumn headings"
 msgstr "_Encabezados de las filas y columnas"
 
-#: ../src/dialogs/print.glade.h:28
+#: ../src/dialogs/print.glade.h:27
 msgid "Save as default settings"
 msgstr "Guardar como ajustes predeterminados"
 
-#: ../src/dialogs/print.glade.h:29
+#: ../src/dialogs/print.glade.h:28
 msgid "Scale"
 msgstr "Escala"
 
-#: ../src/dialogs/print.glade.h:30
+#: ../src/dialogs/print.glade.h:29
 msgid "Scale to fit _horizontally on"
 msgstr "Escalar para ajustar _horizontalmente"
 
-#: ../src/dialogs/print.glade.h:31
+#: ../src/dialogs/print.glade.h:30
 msgid "Scale to fit _vertically on"
 msgstr "Escalar para ajustar _verticalmente"
 
-#: ../src/dialogs/print.glade.h:33
+#: ../src/dialogs/print.glade.h:32
 msgid "Styles with no content"
 msgstr "Estilos sin contenido"
 
-#: ../src/dialogs/print.glade.h:34
+#: ../src/dialogs/print.glade.h:33
 msgid "Top margin:"
 msgstr "Margen superior:"
 
-#: ../src/dialogs/print.glade.h:35
+#: ../src/dialogs/print.glade.h:34
 msgid "Unit:"
 msgstr "Unidad:"
 
-#: ../src/dialogs/print.glade.h:36
+#: ../src/dialogs/print.glade.h:35
 msgid "_Automatic scaling:"
 msgstr "Escalado _automático:"
 
-#: ../src/dialogs/print.glade.h:37
+#: ../src/dialogs/print.glade.h:36
 msgid "_Black and white"
 msgstr "_Blanco y negro"
 
-#: ../src/dialogs/print.glade.h:38
+#: ../src/dialogs/print.glade.h:37
 msgid "_Columns to repeat on the left side:"
 msgstr "_Columnas a repetir en el lado izquierdo:"
 
-#: ../src/dialogs/print.glade.h:39
+#: ../src/dialogs/print.glade.h:38
 msgid "_Down, then right"
 msgstr "_Abajo y luego a la derecha"
 
-#: ../src/dialogs/print.glade.h:40
+#: ../src/dialogs/print.glade.h:39
 msgid "_Fixed scaling:"
 msgstr "Escalado _fijo:"
 
-#: ../src/dialogs/print.glade.h:41
+#: ../src/dialogs/print.glade.h:40
 msgid "_Footer:"
 msgstr "_Pie de página:"
 
-#: ../src/dialogs/print.glade.h:42
+#: ../src/dialogs/print.glade.h:41
 msgid "_Grid lines"
 msgstr "Líneas de la re_jilla"
 
-#: ../src/dialogs/print.glade.h:43
+#: ../src/dialogs/print.glade.h:42
 msgid "_Header:"
 msgstr "_Encabezado:"
 
-#: ../src/dialogs/print.glade.h:44
+#: ../src/dialogs/print.glade.h:43
 msgid "_Horizontally"
 msgstr "_Horizontalmente"
 
-#: ../src/dialogs/print.glade.h:45
+#: ../src/dialogs/print.glade.h:44
 msgid "_No scaling\t"
 msgstr "_Sin escalar\t"
 
-#: ../src/dialogs/print.glade.h:46
+#: ../src/dialogs/print.glade.h:45
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Filas a repetir en la región superior:"
 
-#: ../src/dialogs/print.glade.h:47
+#: ../src/dialogs/print.glade.h:46
 msgid "_Vertically"
 msgstr "_Verticalmente"
 
-#: ../src/dialogs/print.glade.h:48
+#: ../src/dialogs/print.glade.h:47
 msgid "letter"
 msgstr "carta"
 
-#: ../src/dialogs/print.glade.h:49
+#: ../src/dialogs/print.glade.h:48
 msgid "page(s)"
 msgstr "página(s"
 
@@ -10941,39 +10958,39 @@ msgstr "Expresión inválida"
 msgid "Unexpected token %c"
 msgstr "Señal (token) inesperada %c"
 
-#: ../src/print.c:1112
+#: ../src/print.c:1078
 msgid "Print Selection"
 msgstr "Selección de impresión"
 
-#: ../src/print.c:1339
+#: ../src/print.c:1305
 msgid "_All workbook sheets"
 msgstr "_Todas las hojas del libro de cuentas"
 
-#: ../src/print.c:1344
+#: ../src/print.c:1310
 msgid "A_ctive workbook sheet"
 msgstr "Hoja a_ctiva del libro de cuentas"
 
-#: ../src/print.c:1349
+#: ../src/print.c:1315
 msgid "_Workbook sheets:"
 msgstr "Hojas del _libro de cuentas"
 
-#: ../src/print.c:1354
+#: ../src/print.c:1320
 msgid "Current _selection only"
 msgstr "Sólo la _selección actual"
 
-#: ../src/print.c:1359
+#: ../src/print.c:1325
 msgid "_Ignore defined print area"
 msgstr "_Ignorar el área de impresión definido"
 
-#: ../src/print.c:1363
+#: ../src/print.c:1329
 msgid "from:"
 msgstr "de:"
 
-#: ../src/print.c:1371
+#: ../src/print.c:1337
 msgid "to:"
 msgstr "a:"
 
-#: ../src/print.c:1566
+#: ../src/print.c:1532
 msgid "Gnumeric Print Range"
 msgstr "Rango de impresión de Gnumeric"
 
@@ -10995,31 +11012,31 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: ../src/print-info.c:488
+#: ../src/print-info.c:490
 msgid "File Name"
 msgstr "Nombre de archivo"
 
-#: ../src/print-info.c:500
+#: ../src/print-info.c:502
 msgid "Path "
 msgstr "Ruta"
 
-#: ../src/print-info.c:508
+#: ../src/print-info.c:510
 msgid "tab"
 msgstr "tabulación"
 
-#: ../src/print-info.c:509
+#: ../src/print-info.c:511
 msgid "page"
 msgstr "página"
 
-#: ../src/print-info.c:510
+#: ../src/print-info.c:512
 msgid "pages"
 msgstr "páginas"
 
-#: ../src/print-info.c:513
+#: ../src/print-info.c:515
 msgid "file"
 msgstr "archivo"
 
-#: ../src/print-info.c:514
+#: ../src/print-info.c:516
 msgid "path"
 msgstr "ruta"
 
@@ -13918,36 +13935,36 @@ msgstr "Formato de archivo no soportado."
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocurrió un error no explicado mientras se abría %s"
 
-#: ../src/xml-io.c:1643 ../src/xml-sax-read.c:1698
+#: ../src/xml-io.c:1649 ../src/xml-sax-read.c:1706
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipo de objeto no soportado «%s»"
 
-#: ../src/xml-io.c:2094
+#: ../src/xml-io.c:2100
 msgid "Unparsable xml in clipboard"
 msgstr "No se puede procesar el texto XML del portapapeles"
 
-#: ../src/xml-io.c:2101
+#: ../src/xml-io.c:2107
 msgid "Clipboard is in unknown format"
 msgstr "El portapapeles tiene un formato desconocido"
 
-#: ../src/xml-io.c:2319
+#: ../src/xml-io.c:2325
 msgid "Processing file..."
 msgstr "Procesando el archivo…"
 
-#: ../src/xml-io.c:2657
+#: ../src/xml-io.c:2663
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "El archivo no es un Libro de Cuentas Gnumeric"
 
-#: ../src/xml-io.c:2685
+#: ../src/xml-io.c:2691
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "Importador antiguo de Gnumeric XML  (*.gnumeric)"
 
-#: ../src/xml-io.c:2691
+#: ../src/xml-io.c:2697
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "SAX basado en Gnumeric (*.gnumeric) (EXPERIMENTAL)"
 
-#: ../src/xml-io.c:2696
+#: ../src/xml-io.c:2702
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML  (*.gnumeric)"
 
@@ -13960,21 +13977,21 @@ msgstr "Especificaciones correspondientes a múltiples versiones. Se asume %d"
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "El archivo tiene un elemento SheetNameIndex inconsistente."
 
-#: ../src/xml-sax-read.c:1564
+#: ../src/xml-sax-read.c:1572
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Operador de filtro desconocido «%s»"
 
-#: ../src/xml-sax-read.c:1604
+#: ../src/xml-sax-read.c:1612
 msgid "Missing filter type"
 msgstr "Falta el tipo de filtro"
 
-#: ../src/xml-sax-read.c:1624
+#: ../src/xml-sax-read.c:1632
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Falta el tipo de filtro «%s»"
 
-#: ../src/xml-sax-read.c:1643
+#: ../src/xml-sax-read.c:1651
 msgid "Invalid filter, missing Area"
 msgstr "Filtro inválido, falta el área"
 
