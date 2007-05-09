@@ -586,10 +586,10 @@ print_page (GtkPrintOperation *operation,
 	char *pagenotxt;
 	gboolean printed;
 	GSList *ptr;
-	double header = 0, footer = 0, left = 0, right = 0;
+	double header, footer, left, right;
+	double edge_to_below_header, edge_to_above_footer;
 	cairo_t *cr;
 	PangoLayout *layout;
-	gdouble width, text_height;
 	gint layout_height;
 	PangoFontDescription *desc;
 	gdouble px, py;
@@ -603,14 +603,20 @@ print_page (GtkPrintOperation *operation,
 		py = 1.;
 
 	cr = gtk_print_context_get_cairo_context (context);
-	width = gtk_print_context_get_width (context)/px;
-	text_height  = gtk_print_context_get_height (context)/py;
+	print_info_get_margins (pinfo, &header, &footer, &left, &right,
+				&edge_to_below_header, &edge_to_above_footer);
 
+/* printing header  */
+
+
+/* printing footer  */
+
+
+/* printing page content  */
 	cairo_save (cr);
 
+	cairo_translate (cr, 0, edge_to_below_header - header);
 	cairo_scale (cr, px, py);
-
-	/* 	/\* FIXME: Can col / row space calculation be factored out? *\/ */
 
 /* 	/\* Space for repeated rows depends on whether we print them or not *\/ */
 /* 	if (pinfo->repeat_top.use && */
@@ -977,9 +983,15 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 	gboolean printed = TRUE;
 	gdouble px, py;
 	gdouble page_width, page_height;
+	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
 
 	page_width = gtk_print_context_get_width (context);
 	page_height = gtk_print_context_get_height (context);
+
+	print_info_get_margins (pinfo, &top_margin, &bottom_margin, NULL, NULL,
+				&edge_to_below_header, &edge_to_above_footer);
+	page_height -= ((edge_to_below_header - top_margin) 
+			+ (edge_to_above_footer - bottom_margin));
 
 	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
 		gdouble pxy;
@@ -1009,53 +1021,16 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 	if (py <= 0.)
 		py = 1.;
 
-	/* 	usable_x_initial   = pj->x_points - pj->titles_used_x; */
-/* 	usable_x_repeating = usable_x_initial - pj->repeat_cols_used_x; */
-/* 	usable_y_initial   = pj->y_points - pj->titles_used_y; */
-/* 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y; */
-
 	usable_x_initial   = page_width / px;
 	usable_x_repeating = usable_x_initial;
 	usable_y_initial   = page_height / py;
 	usable_y_repeating = usable_y_initial;
 
-/* 	if (pi->scaling.type == PRINT_SCALE_FIT_PAGES) { */
-/* 		int col = r->start.col; */
-/* 		int row = r->start.row; */
-
-/* 		if (col < pi->repeat_left.range.end.col) { */
-/* 			usable_x = usable_x_initial; */
-/* 			col = MIN (col, pi->repeat_left.range.end.col); */
-/* 		} else */
-/* 			usable_x = usable_x_repeating; */
-/* 		pi->scaling.percentage.x = compute_scale_fit_to (pj, sheet, col, r->end.col, */
-/* 			usable_x, sheet_col_get_info, pi->scaling.dim.cols); */
-
-/* 		if (row < pi->repeat_top.range.end.row) { */
-/* 			usable_y = usable_y_initial; */
-/* 			row = MIN (row, pi->repeat_top.range.end.row); */
-/* 		} else */
-/* 			usable_y = usable_y_repeating; */
-/* 		pi->scaling.percentage.y = compute_scale_fit_to (pj, sheet, row, r->end.row, */
-/* 			usable_y, sheet_row_get_info, pi->scaling.dim.rows); */
-
-/* 		if (pi->scaling.percentage.y > pi->scaling.percentage.x) */
-/* 			pi->scaling.percentage.y = pi->scaling.percentage.x; */
-/* 		else */
-/* 			pi->scaling.percentage.x = pi->scaling.percentage.y; */
-/* 	} */
-
 	while (row <= r->end.row) {
 		int row_count;
 		int col = r->start.col;
 
-/* 		if (row <= pi->repeat_top.range.end.row) { */
-/* 			usable_y = usable_y_initial; */
-/* 			row = MIN (row, pi->repeat_top.range.end.row); */
-/* 		} else */
 		usable_y = usable_y_repeating;
-
-/* 		usable_y /= pi->scaling.percentage.y / 100.; */
 		row_count = compute_group (sheet, row, r->end.row,
 					   usable_y, sheet_row_get_info);
 
@@ -1063,21 +1038,12 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 			GnmRange range;
 			int col_count;
 
-/* 			if (col <= pi->repeat_left.range.end.col) { */
-/* 				usable_x = usable_x_initial; */
-/* 				col = MIN (col, */
-/* 					   pi->repeat_left.range.end.col); */
-/* 			} else */
 			usable_x = usable_x_repeating;
-
-/* 			usable_x /= pi->scaling.percentage.x / 100.; */
 			col_count = compute_group (sheet, col, r->end.col,
 						   usable_x, sheet_col_get_info);
 			range_init (&range, COL_FIT (col), ROW_FIT (row),
 				    COL_FIT (col + col_count - 1),
 				    ROW_FIT (row + row_count - 1));
-/* 			printed = print_page (pj, sheet, &range, output); */
-
 			col += col_count;
 
 			if (printed)

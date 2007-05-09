@@ -1,5 +1,10 @@
 2007-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (print_page): leave space for headers and footers
+	(compute_sheet_pages_across_then_down): ditto
+
+2007-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/xml-sax-read.c (xml_sax_print_margins): use 
 	  print_info_set_edge_to_*
 	* src/gnumeric-gconf.h (gnm_gconf_set_print_tb_margins): new 
