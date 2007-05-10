@@ -1,3 +1,8 @@
+2007-05-09  Morten Welinder  <terra@gnome.org>
+
+	* src/cell-draw.c (cell_finish_layout): Fix problem with
+	non-expanded format fillers.
+
 2007-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (print_page): leave space for headers and footers

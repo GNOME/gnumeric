@@ -228,7 +228,7 @@ cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_direction,
  * (Doesn't currently handle vertical fill.)
  */
 void
-cell_finish_layout (GnmCell const *cell, GnmRenderedValue *rv,
+cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
 		    int col_width,
 		    gboolean inhibit_overflow)
 {
@@ -240,8 +240,29 @@ cell_finish_layout (GnmCell const *cell, GnmRenderedValue *rv,
 
 	if (!rv)
 		rv = cell->rendered_value;
+
 	if (rv->drawn)
 		return;
+
+	if (rv->variable_width && rv == cell->rendered_value) {
+		GnmStyle const *mstyle = gnm_cell_get_style (cell);
+		GOFormat const *fmt = gnm_cell_get_format (cell);
+		if (!go_format_is_general (fmt)) {
+			/*
+			 * We get here when entering a new value in a cell
+			 * with a format that has a filler, for example
+			 * one of the standard accounting formats.  We need
+			 * to rerender such that the filler gets a chance
+			 * to expand.
+			 */
+			cell->rendered_value =
+				gnm_rendered_value_new (cell, mstyle, TRUE,
+							pango_layout_get_context (rv->layout),
+							cell->base.sheet->last_zoom_factor_used);
+			gnm_rendered_value_destroy (rv);
+			rv = cell->rendered_value;
+		}
+	}
 
 	might_overflow = rv->might_overflow;
 	if (inhibit_overflow) rv->might_overflow = FALSE;

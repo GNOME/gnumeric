@@ -8,7 +8,7 @@ gboolean cell_calc_layout (GnmCell const *cell, GnmRenderedValue *rv, int y_dire
 			   int width, int height, int h_center,
 			   GOColor *res_color, gint *res_x, gint *res_y);
 
-void cell_finish_layout (GnmCell const *cell, GnmRenderedValue *rv,
+void cell_finish_layout (GnmCell *cell, GnmRenderedValue *rv,
 			 int col_width,
 			 gboolean inhibit_overflow);
 
