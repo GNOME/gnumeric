@@ -144,6 +144,9 @@ struct _PrinterSetupState {
 
 	double height, width;
 
+	GtkWidget * check_center_v;
+	GtkWidget * check_center_h;	
+
 /* 	GtkWidget *icon_rd; */
 /* 	GtkWidget *icon_dr; */
 /* 	GnmExprEntry *area_entry; */
@@ -161,8 +164,6 @@ struct _PrinterSetupState {
 /* 	/\* The header and footer preview widgets. *\/ */
 /* 	HFPreviewInfo *pi_header; */
 /* 	HFPreviewInfo *pi_footer; */
-
-/* 	GnomePrintConfig *gp_config; */
 };
 
 static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
@@ -741,21 +742,20 @@ do_setup_margin (PrinterSetupState *state)
 	margin_spin_configure  (&state->margins.right, state, "spin-right",
 				value_changed_right_cb);
 
+	state->check_center_h = glade_xml_get_widget (state->gui,
+						      "check_center_h");
+	state->check_center_v = glade_xml_get_widget (state->gui,
+						      "check_center_v");
+	gtk_toggle_button_set_active (
+				      GTK_TOGGLE_BUTTON (state->check_center_v),
+				      state->pi->center_vertically == 1);
+	gtk_toggle_button_set_active (
+				      GTK_TOGGLE_BUTTON (state->check_center_h),
+				      state->pi->center_horizontally == 1);
+
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
 						   "container-paper-sample"));
 	gtk_box_pack_start (container, state->preview.canvas, TRUE, TRUE, 0);
-
-/* 	if (state->pi->center_vertically) */
-/* 		gtk_toggle_button_set_active ( */
-/* 			GTK_TOGGLE_BUTTON ( */
-/* 				glade_xml_get_widget (state->gui, "center-vertical")), */
-/* 			TRUE); */
-
-/* 	if (state->pi->center_horizontally) */
-/* 		gtk_toggle_button_set_active ( */
-/* 			GTK_TOGGLE_BUTTON ( */
-/* 				glade_xml_get_widget (state->gui, "center-horizontal")), */
-/* 			TRUE); */
 
 }
 
@@ -1849,7 +1849,10 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 do_fetch_page (PrinterSetupState *state)
 {
-
+	state->pi->center_horizontally = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (state->check_center_h));
+	state->pi->center_vertically = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (state->check_center_v));
 }
 
 static void
@@ -1941,12 +1944,6 @@ do_fetch_margins (PrinterSetupState *state)
 
 	print_info_set_edge_to_above_footer (state->pi, footer * factor);
 	print_info_set_edge_to_below_header (state->pi, header * factor);
-	
-/* 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-horizontal")); */
-/* 	state->pi->center_horizontally = t->active; */
-
-/* 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-vertical")); */
-/* 	state->pi->center_vertically = t->active; */
 }
 
 #if 0

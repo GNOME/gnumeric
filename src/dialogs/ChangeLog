@@ -1,3 +1,9 @@
+2007-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (_PrinterSetupState): new fields
+	(do_setup_margin): setup center check buttons
+	(do_fetch_page): retrieve info from center check buttons
+
 2007-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.glade: enable header/footer and center buttons

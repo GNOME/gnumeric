@@ -576,8 +576,7 @@ print_page (GtkPrintOperation *operation,
 	    GnmRange *range,
 	    gboolean output)
 {
-	PrintInformation const *pinfo = sheet->print_info;
-/* 	PrintMargins const *pm = &pinfo->margin; */
+	PrintInformation *pinfo = sheet->print_info;
 /* 	/\* print_height/width are sizes of the regular grid, */
 /* 	 * not including repeating rows and columns *\/ */
 	double print_height, print_width;
@@ -593,6 +592,8 @@ print_page (GtkPrintOperation *operation,
 	gint layout_height;
 	PangoFontDescription *desc;
 	gdouble px, py;
+	gdouble width;
+	gdouble height;
 
 	px = pinfo->scaling.percentage.x / 100.;
 	py = pinfo->scaling.percentage.y / 100.;
@@ -606,16 +607,33 @@ print_page (GtkPrintOperation *operation,
 	print_info_get_margins (pinfo, &header, &footer, &left, &right,
 				&edge_to_below_header, &edge_to_above_footer);
 
+	width = gtk_print_context_get_width (context);
+	height = print_info_get_paper_height (pinfo,GTK_UNIT_POINTS)
+		- edge_to_below_header - edge_to_above_footer;
+
+	print_height = sheet_row_get_distance_pts (sheet, range->start.row,
+	                                           range->end.row + 1);
+	print_width = sheet_col_get_distance_pts (sheet, range->start.col,
+	                                          range->end.col + 1);
 /* printing header  */
 
 
 /* printing footer  */
 
-
+	
 /* printing page content  */
 	cairo_save (cr);
-
 	cairo_translate (cr, 0, edge_to_below_header - header);
+	if (pinfo->center_horizontally == 1 || pinfo->center_vertically == 1) {
+		double shift_x = 0;
+		double shift_y = 0;
+		
+		if (pinfo->center_horizontally == 1)
+			shift_x = (width - print_width * px)/2;
+		if (pinfo->center_vertically == 1)
+			shift_y = (height - print_height * py)/2;
+		cairo_translate (cr, shift_x, shift_y);
+	}
 	cairo_scale (cr, px, py);
 
 /* 	/\* Space for repeated rows depends on whether we print them or not *\/ */
@@ -677,8 +695,6 @@ print_page (GtkPrintOperation *operation,
 	x = 0.;
 	y = 0.;
 
-	print_height = sheet_row_get_distance_pts (sheet, range->start.row,
-						   range->end.row + 1);
 /* 	if (pinfo->center_vertically){ */
 /* 		double h = print_height; */
 
@@ -689,8 +705,6 @@ print_page (GtkPrintOperation *operation,
 /* 		y = (pj->y_points - h)/2; */
 /* 	} */
 
-	print_width = sheet_col_get_distance_pts (sheet, range->start.col,
-						  range->end.col + 1);
 /* 	if (pinfo->center_horizontally){ */
 /* 		double w = print_width; */
 

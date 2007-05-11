@@ -1,3 +1,10 @@
+2007-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* xml-sax-read.c (xml_sax_print_vcenter): new
+	(xml_sax_print_hcenter): new
+	(GsfXMLInNode): hook up above functions
+	* print.c (print_page): center printout if requested
+
 2007-05-09  Morten Welinder  <terra@gnome.org>
 
 	* src/cell-draw.c (cell_finish_layout): Fix problem with

@@ -749,6 +749,46 @@ xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xml_sax_print_vcenter (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	PrintInformation *pi;
+	int center;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "value", &center))
+			pi->center_vertically = center;	
+		else
+			unknown_attr (xin, attrs);
+	}
+}
+
+static void
+xml_sax_print_hcenter (GsfXMLIn *xin, xmlChar const **attrs)
+{
+        XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	PrintInformation *pi;
+	int center;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+	        if (gnm_xml_attr_int (attrs, "value", &center))
+		        pi->center_horizontally = center;
+		else
+			unknown_attr (xin, attrs);
+	}
+}
+
+static void
 xml_sax_selection_range (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
@@ -1978,8 +2018,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_FOOTER, GNM, "footer",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 5),
 
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_SCALE,	    GNM, "Scale",	GSF_XML_CONTENT, &xml_sax_print_scale, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_VCENTER,    GNM, "vcenter",	GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HCENTER,    GNM, "hcenter",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_VCENTER,    GNM, "vcenter",	GSF_XML_CONTENT, &xml_sax_print_vcenter, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HCENTER,    GNM, "hcenter",	GSF_XML_CONTENT, &xml_sax_print_hcenter, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_GRID,	    GNM, "grid",	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	GSF_XML_NO_CONTENT, NULL, NULL),
