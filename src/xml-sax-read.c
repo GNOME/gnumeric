@@ -308,6 +308,7 @@ typedef struct {
 	int is_protected;
 	GnmSheetVisibility visibility;
 	GnmColor *tab_color;
+	GnmColor *tab_text_color;
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
@@ -543,6 +544,7 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->text_is_rtl = state->is_protected = -1;
 	state->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 	state->tab_color = NULL;
+	state->tab_text_color = NULL;
 	state->sheet_zoom = 1.; /* default */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -570,6 +572,8 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->is_protected = tmp;
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
+		else if (xml_sax_attr_color (attrs, "TabTextColor", &color))
+			state->tab_text_color = color;
 		else
 			unknown_attr (xin, attrs);
 }
@@ -632,6 +636,7 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		g_object_set (state->sheet, "text-is-rtl", state->text_is_rtl, NULL);
 	g_object_set (state->sheet, "visibility", state->visibility, NULL);
 	state->sheet->tab_color = state->tab_color;
+	state->sheet->tab_text_color = state->tab_text_color;
 }
 
 static void
