@@ -683,7 +683,7 @@ AC_ARG_WITH(long_double,
 
 		AC_CHECK_HEADERS(sunmath.h)
 
-		AC_CHECK_FUNCS(go_render_numberl,
+		AC_CHECK_FUNCS(go_render_generall,
 			       ,
 			       AC_MSG_ERROR([libgoffice needs to be compiled with long double support.]))
 
