@@ -1273,6 +1273,40 @@ gnm_end_print_cb (GtkPrintOperation *operation,
 }	
 
 static void
+cp_gtk_page_setup (GtkPageSetup *from, GtkPageSetup *to)
+{
+	gtk_page_setup_set_paper_size (to, gtk_page_setup_get_paper_size (from));
+	gtk_page_setup_set_orientation (to,gtk_page_setup_get_orientation  (from));
+	gtk_page_setup_set_top_margin
+		(to, gtk_page_setup_get_top_margin (from, GTK_UNIT_MM), GTK_UNIT_MM);
+	gtk_page_setup_set_bottom_margin
+		(to, gtk_page_setup_get_bottom_margin (from, GTK_UNIT_MM), GTK_UNIT_MM);
+	gtk_page_setup_set_left_margin
+		(to, gtk_page_setup_get_left_margin (from, GTK_UNIT_MM), GTK_UNIT_MM);
+	gtk_page_setup_set_right_margin
+		(to, gtk_page_setup_get_right_margin (from, GTK_UNIT_MM), GTK_UNIT_MM);
+}
+
+static void
+gnm_request_page_setup_cb (GtkPrintOperation *operation,
+                           GtkPrintContext   *context,
+			   gint               page_nr,
+			   GtkPageSetup      *setup,
+			   gpointer           user_data)
+{
+	PrintingInstance * pi = (PrintingInstance *) user_data;
+	GnmSheetRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
+	                                               page_nr);
+	GtkPrintSettings* settings = gtk_print_operation_get_print_settings
+	                             (operation);
+
+	gtk_print_settings_set_use_color (settings, !gsr->sheet->print_info->print_black_and_white);
+	if (gsr->sheet->print_info->page_setup == NULL)
+		print_info_load_defaults (gsr->sheet->print_info->page_setup);
+	cp_gtk_page_setup (gsr->sheet->print_info->page_setup, setup);
+}
+
+static void
 gnm_draw_page_cb (GtkPrintOperation *operation,
                   GtkPrintContext   *context,
 		  gint               page_nr,
@@ -1280,7 +1314,6 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 {
 
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-
 	GnmSheetRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
 					       page_nr);
 	if (gsr)
@@ -1507,6 +1540,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   gtk_print_settings_set_int (settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
 			      default_range);
   pi->pr = default_range;
+  gtk_print_settings_set_use_color (settings, !sheet->print_info->print_black_and_white);
   gtk_print_operation_set_print_settings (print, settings);
 
   page_setup = print_info_get_page_setup (sheet->print_info);
@@ -1519,6 +1553,7 @@ gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
   g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
   g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi); 
   g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
+  g_signal_connect (print, "request-page-setup", G_CALLBACK (gnm_request_page_setup_cb), pi);
 
   gtk_print_operation_set_use_full_page (print, FALSE);
   gtk_print_operation_set_unit (print, GTK_UNIT_POINTS);

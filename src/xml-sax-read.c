@@ -758,40 +758,72 @@ xml_sax_print_vcenter (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
-	int center;
+	int val;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
 
 	pi = state->sheet->print_info;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_int (attrs, "value", &center))
-			pi->center_vertically = center;	
-		else
-			unknown_attr (xin, attrs);
-	}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_int (attrs, "value", &val))
+			pi->center_vertically = val;	
 }
 
 static void
 xml_sax_print_hcenter (GsfXMLIn *xin, xmlChar const **attrs)
 {
-        XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
-	int center;
+	int val;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
 
 	pi = state->sheet->print_info;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-	        if (gnm_xml_attr_int (attrs, "value", &center))
-		        pi->center_horizontally = center;
-		else
-			unknown_attr (xin, attrs);
-	}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_int (attrs, "value", &val))
+			pi->center_horizontally = val;	
 }
+
+static void
+xml_sax_monochrome (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	PrintInformation *pi;
+	int val;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_int (attrs, "value", &val))
+			pi->print_black_and_white = val;	
+}
+
+
+static void
+xml_sax_even_if_only_styles (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	PrintInformation *pi;
+	int val;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_int (attrs, "value", &val))
+			pi->print_even_if_only_styles = val;	
+}
+
+
+
 
 static void
 xml_sax_selection_range (GsfXMLIn *xin, xmlChar const **attrs)
@@ -1896,6 +1928,7 @@ xml_sax_orientation (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
+	GtkPageOrientation orient = GTK_PAGE_ORIENTATION_PORTRAIT;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
@@ -1903,10 +1936,12 @@ xml_sax_orientation (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	pi = state->sheet->print_info;
 
 #warning TODO: we should also handle inversion
-	print_info_set_paper_orientation (pi,
-					  strcmp (xin->content->str, "portrait")
-					  ? GTK_PAGE_ORIENTATION_LANDSCAPE
-					  : GTK_PAGE_ORIENTATION_PORTRAIT);
+	if (strcmp (xin->content->str, "portrait") == 0)
+			orient = GTK_PAGE_ORIENTATION_PORTRAIT;
+	else if (strcmp (xin->content->str, "landscape") == 0)
+			orient = GTK_PAGE_ORIENTATION_LANDSCAPE;
+
+	print_info_set_paper_orientation (pi, orient);
 }
 
 static void
@@ -2026,7 +2061,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_VCENTER,    GNM, "vcenter",	GSF_XML_CONTENT, &xml_sax_print_vcenter, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HCENTER,    GNM, "hcenter",	GSF_XML_CONTENT, &xml_sax_print_hcenter, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_GRID,	    GNM, "grid",	GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, &xml_sax_monochrome, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2037,7 +2072,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORDER,	    GNM, "order",	GSF_XML_CONTENT,  NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	GSF_XML_CONTENT,  NULL, &xml_sax_paper),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	GSF_XML_CONTENT,  NULL, &xml_sax_orientation),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", GSF_XML_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", GSF_XML_CONTENT, &xml_sax_even_if_only_styles, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_STYLES, GNM, "Styles", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_STYLES, STYLE_REGION, GNM, "StyleRegion", GSF_XML_NO_CONTENT, &xml_sax_style_region_start, &xml_sax_style_region_end),

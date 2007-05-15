@@ -1,3 +1,18 @@
+2007-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/xml-sax-read.c (xml_sax_print_vcenter): simplify
+	(ml_sax_print_hcenter): simplify
+	(xml_sax_monochrome): new
+	(xml_sax_even_if_only_styles):
+	(xml_sax_orientation): explicitly mention "landscape" but default
+	  portrait
+	(GsfXMLInNode): hook up xml_sax_monochrome and 
+	  xml_sax_even_if_only_styles
+	* src/print.c (cp_gtk_page_setup): new
+	(gnm_request_page_setup_cb): new
+	(gnm_print_sheet) set monochrome if required and hook up
+	  gnm_request_page_setup_cb
+	
 2007-05-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: test for go_render_generall instead

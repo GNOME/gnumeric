@@ -1,7 +1,10 @@
 Gnumeric 1.7.11
 
 Andreas:
-	* Save and restore default paper and margins
+	* Save and restore default paper, margins and various
+	  other print settings
+	* Handle differences in page setup between sheets when
+	  printing multiple sheets
 
 Jean:
 	* Fix check for long double support in goffice.
