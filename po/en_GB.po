@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-27 07:09+0100\n"
-"PO-Revision-Date: 2007-04-27 07:10-0000\n"
+"POT-Creation-Date: 2007-05-15 23:17+0100\n"
+"PO-Revision-Date: 2007-05-15 23:31-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: English/GB <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -67,25 +67,25 @@ msgstr "Spreadsheets"
 msgid "Spreadsheets component engine"
 msgstr "Spreadsheets component engine"
 
-#: ../plugins/applix/applix-read.c:107
+#: ../plugins/applix/applix-read.c:110
 msgid "Parse error while reading Applix file."
 msgstr "Parse error while reading Applix file."
 
-#: ../plugins/applix/applix-read.c:310
+#: ../plugins/applix/applix-read.c:313
 msgid "Missing characters for character encoding"
 msgstr "Missing characters for character encoding"
 
-#: ../plugins/applix/applix-read.c:314
+#: ../plugins/applix/applix-read.c:317
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
 msgstr "Invalid characters for encoding '%c%c'"
 
-#: ../plugins/applix/applix-read.c:1165
+#: ../plugins/applix/applix-read.c:1168
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr "Expression did not start with '=' ? '%s'"
 
-#: ../plugins/applix/applix-read.c:1176
+#: ../plugins/applix/applix-read.c:1179
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -221,10 +221,10 @@ msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
 #: ../plugins/dif/dif.c:70
-#: ../plugins/excel/ms-excel-read.c:6143
+#: ../plugins/excel/ms-excel-read.c:6139
 #: ../plugins/mps/mps.c:534
-#: ../src/xml-io.c:2612
-#: ../src/xml-sax-read.c:2224
+#: ../src/xml-io.c:2615
+#: ../src/xml-sax-read.c:2311
 msgid "Reading file..."
 msgstr "Reading file..."
 
@@ -305,27 +305,27 @@ msgid "Saving file..."
 msgstr "Saving file..."
 
 #: ../plugins/excel/excel-xml-read.c:130
-#: ../src/xml-sax-read.c:362
+#: ../src/xml-sax-read.c:363
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:993
 #: ../plugins/openoffice/openoffice-read.c:2665
-#: ../src/xml-sax-read.c:2241
+#: ../src/xml-sax-read.c:2328
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
-#: ../plugins/excel/ms-excel-read.c:1099
+#: ../plugins/excel/ms-excel-read.c:1093
 #: ../src/value.c:78
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1181
-#: ../plugins/excel/ms-excel-read.c:1193
-#: ../plugins/oleo/oleo.c:343
+#: ../plugins/excel/ms-excel-read.c:1175
+#: ../plugins/excel/ms-excel-read.c:1187
+#: ../plugins/oleo/oleo.c:230
 #: ../plugins/psiconv/psiconv-read.c:509
 #: ../src/dialogs/dialog-sheet-order.c:519
 #: ../src/dialogs/dialog-sheet-order.c:523
@@ -333,54 +333,54 @@ msgstr "#UNKNOWN!"
 msgid "Sheet%d"
 msgstr "Sheet%d"
 
-#: ../plugins/excel/ms-excel-read.c:1197
+#: ../plugins/excel/ms-excel-read.c:1191
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1201
+#: ../plugins/excel/ms-excel-read.c:1195
 #, c-format
 msgid "Chart%d"
 msgstr "Chart%d"
 
-#: ../plugins/excel/ms-excel-read.c:1204
+#: ../plugins/excel/ms-excel-read.c:1198
 #, c-format
 msgid "Module%d"
 msgstr "Module%d"
 
-#: ../plugins/excel/ms-excel-read.c:3065
+#: ../plugins/excel/ms-excel-read.c:3059
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Failure parsing name '%s'"
 
-#: ../plugins/excel/ms-excel-read.c:3168
+#: ../plugins/excel/ms-excel-read.c:3162
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Incorrect expression for name '%s': content will be lost.\n"
 
+#: ../plugins/excel/ms-excel-read.c:3172
+#, c-format
+msgid ""
+"DDE links are not supported.\n"
+"Name '%s' will be lost.\n"
+msgstr ""
+"DDE links are not supported.\n"
+"Name '%s' will be lost.\n"
+
 #: ../plugins/excel/ms-excel-read.c:3178
 #, c-format
 msgid ""
-"DDE links are not supported.\n"
-"Name '%s' will be lost.\n"
-msgstr ""
-"DDE links are not supported.\n"
-"Name '%s' will be lost.\n"
-
-#: ../plugins/excel/ms-excel-read.c:3184
-#, c-format
-msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5441
+#: ../plugins/excel/ms-excel-read.c:5435
 msgid "external references"
 msgstr "external references"
 
-#: ../plugins/excel/ms-excel-read.c:5467
+#: ../plugins/excel/ms-excel-read.c:5461
 msgid "No password supplied"
 msgstr "No password supplied"
 
@@ -406,11 +406,11 @@ msgstr ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to encoding problems."
 
-#: ../plugins/excel/ms-excel-write.c:5448
+#: ../plugins/excel/ms-excel-write.c:5452
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Couldn't open stream 'Book' for writing\n"
 
-#: ../plugins/excel/ms-excel-write.c:5468
+#: ../plugins/excel/ms-excel-write.c:5472
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Couldn't open stream 'Workbook' for writing\n"
 
@@ -711,7 +711,7 @@ msgstr "date1,date2,interval"
 #: ../plugins/fn-date/functions.c:1526
 #: ../plugins/fn-date/functions.c:1539
 #: ../plugins/fn-date/functions.c:1543
-#: ../src/print-info.c:501
+#: ../src/print-info.c:513
 msgid "date"
 msgstr "date"
 
@@ -730,7 +730,7 @@ msgstr "start_date,months"
 #: ../plugins/fn-date/functions.c:1474
 #: ../plugins/fn-date/functions.c:1478
 #: ../plugins/fn-date/functions.c:1494
-#: ../src/print-info.c:502
+#: ../src/print-info.c:514
 msgid "time"
 msgstr "time"
 
@@ -821,21 +821,21 @@ msgstr "Interest rate calculations"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1289
-#: ../plugins/fn-info/functions.c:1305
+#: ../plugins/fn-info/functions.c:1281
+#: ../plugins/fn-info/functions.c:1297
 msgid "Unimplemented"
 msgstr "Unimplemented"
 
-#: ../plugins/fn-info/functions.c:1313
+#: ../plugins/fn-info/functions.c:1305
 msgid "Unknown version"
 msgstr "Unknown version"
 
-#: ../plugins/fn-info/functions.c:1315
+#: ../plugins/fn-info/functions.c:1307
 #, c-format
 msgid "%s version %s"
 msgstr "%s version %s"
 
-#: ../plugins/fn-info/functions.c:1330
+#: ../plugins/fn-info/functions.c:1322
 #: ../src/dialogs/dialog-cell-format.c:2223
 #: ../src/dialogs/dialog-cell-format.c:2227
 #: ../src/dialogs/dialog-cell-format.c:2235
@@ -843,54 +843,54 @@ msgstr "%s version %s"
 msgid "Automatic"
 msgstr "Automatic"
 
-#: ../plugins/fn-info/functions.c:1330
+#: ../plugins/fn-info/functions.c:1322
 msgid "Manual"
 msgstr "Manual"
 
-#: ../plugins/fn-info/functions.c:1340
+#: ../plugins/fn-info/functions.c:1332
 msgid "Unknown system"
 msgstr "Unknown system"
 
-#: ../plugins/fn-info/functions.c:1356
+#: ../plugins/fn-info/functions.c:1348
 msgid "Unknown info_type"
 msgstr "Unknown info_type"
 
-#: ../plugins/fn-info/functions.c:1712
+#: ../plugins/fn-info/functions.c:1704
 msgid "Invalid number of arguments"
 msgstr "Invalid number of arguments"
 
-#: ../plugins/fn-info/functions.c:1865
+#: ../plugins/fn-info/functions.c:1857
 msgid "info_type, cell"
 msgstr "info_type, cell"
 
-#: ../plugins/fn-info/functions.c:1868
-#: ../plugins/fn-info/functions.c:1874
-#: ../plugins/fn-info/functions.c:1877
-#: ../plugins/fn-info/functions.c:1880
-#: ../plugins/fn-info/functions.c:1883
-#: ../plugins/fn-info/functions.c:1886
-#: ../plugins/fn-info/functions.c:1889
-#: ../plugins/fn-info/functions.c:1892
-#: ../plugins/fn-info/functions.c:1895
-#: ../plugins/fn-info/functions.c:1898
-#: ../plugins/fn-info/functions.c:1901
-#: ../plugins/fn-info/functions.c:1904
-#: ../plugins/fn-info/functions.c:1907
-#: ../plugins/fn-info/functions.c:1913
+#: ../plugins/fn-info/functions.c:1860
+#: ../plugins/fn-info/functions.c:1866
+#: ../plugins/fn-info/functions.c:1869
+#: ../plugins/fn-info/functions.c:1872
+#: ../plugins/fn-info/functions.c:1875
+#: ../plugins/fn-info/functions.c:1878
+#: ../plugins/fn-info/functions.c:1881
+#: ../plugins/fn-info/functions.c:1884
+#: ../plugins/fn-info/functions.c:1887
+#: ../plugins/fn-info/functions.c:1890
+#: ../plugins/fn-info/functions.c:1893
+#: ../plugins/fn-info/functions.c:1896
+#: ../plugins/fn-info/functions.c:1899
+#: ../plugins/fn-info/functions.c:1905
 #: ../plugins/fn-string/functions.c:1310
 msgid "value"
 msgstr "value"
 
-#: ../plugins/fn-info/functions.c:1871
+#: ../plugins/fn-info/functions.c:1863
 msgid "info_type"
 msgstr "info_type"
 
 #. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1918
+#: ../plugins/fn-info/functions.c:1910
 msgid "range"
 msgstr "range"
 
-#: ../plugins/fn-info/functions.c:1922
+#: ../plugins/fn-info/functions.c:1914
 #: ../plugins/fn-string/functions.c:1253
 #: ../plugins/fn-string/functions.c:1256
 #: ../plugins/fn-string/functions.c:1259
@@ -904,11 +904,11 @@ msgstr "range"
 msgid "text"
 msgstr "text"
 
-#: ../plugins/fn-info/functions.c:1925
+#: ../plugins/fn-info/functions.c:1917
 msgid "cell"
 msgstr "cell"
 
-#: ../plugins/fn-info/functions.c:1928
+#: ../plugins/fn-info/functions.c:1920
 #: ../plugins/fn-string/functions.c:1244
 msgid "string"
 msgstr "string"
@@ -1025,59 +1025,59 @@ msgstr "Logic"
 msgid "Logic Functions"
 msgstr "Logic Functions"
 
-#: ../plugins/fn-lookup/functions.c:1269
+#: ../plugins/fn-lookup/functions.c:1271
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "row_num,col_num,abs_num,a1,text"
 
-#: ../plugins/fn-lookup/functions.c:1272
+#: ../plugins/fn-lookup/functions.c:1274
 msgid "reference"
 msgstr "reference"
 
-#: ../plugins/fn-lookup/functions.c:1275
+#: ../plugins/fn-lookup/functions.c:1277
 msgid "index,value,"
 msgstr "index,value,"
 
-#: ../plugins/fn-lookup/functions.c:1278
-#: ../plugins/fn-lookup/functions.c:1284
-#: ../plugins/fn-lookup/functions.c:1308
-#: ../plugins/fn-lookup/functions.c:1311
+#: ../plugins/fn-lookup/functions.c:1280
+#: ../plugins/fn-lookup/functions.c:1286
+#: ../plugins/fn-lookup/functions.c:1310
+#: ../plugins/fn-lookup/functions.c:1313
 msgid "ref"
 msgstr "ref"
 
-#: ../plugins/fn-lookup/functions.c:1281
+#: ../plugins/fn-lookup/functions.c:1283
 msgid "colname"
 msgstr "colname"
 
-#: ../plugins/fn-lookup/functions.c:1287
-#: ../plugins/fn-lookup/functions.c:1317
+#: ../plugins/fn-lookup/functions.c:1289
+#: ../plugins/fn-lookup/functions.c:1319
 msgid "val,range,col_idx,approx,as_index"
 msgstr "val,range,col_idx,approx,as_index"
 
-#: ../plugins/fn-lookup/functions.c:1290
+#: ../plugins/fn-lookup/functions.c:1292
 msgid "link_location, label"
 msgstr "link_location, label"
 
-#: ../plugins/fn-lookup/functions.c:1293
+#: ../plugins/fn-lookup/functions.c:1295
 msgid "ref_string,format"
 msgstr "ref_string,format"
 
-#: ../plugins/fn-lookup/functions.c:1296
+#: ../plugins/fn-lookup/functions.c:1298
 msgid "reference,row,col,area"
 msgstr "reference,row,col,area"
 
-#: ../plugins/fn-lookup/functions.c:1299
+#: ../plugins/fn-lookup/functions.c:1301
 msgid "val,range,range"
 msgstr "val,range,range"
 
-#: ../plugins/fn-lookup/functions.c:1302
+#: ../plugins/fn-lookup/functions.c:1304
 msgid "val,range,approx"
 msgstr "val,range,approx"
 
-#: ../plugins/fn-lookup/functions.c:1305
+#: ../plugins/fn-lookup/functions.c:1307
 msgid "ref,row,col,height,width"
 msgstr "ref,row,col,height,width"
 
-#: ../plugins/fn-lookup/functions.c:1314
+#: ../plugins/fn-lookup/functions.c:1316
 #: ../plugins/fn-math/functions.c:3495
 msgid "array"
 msgstr "array"
@@ -1725,8 +1725,8 @@ msgstr "Constraints:"
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
 #: ../src/tools/solver/reports-write.c:668
-#: ../src/commands.c:4846
-#: ../src/commands.c:5689
+#: ../src/commands.c:4849
+#: ../src/commands.c:5692
 #: ../src/format-template.c:257
 #: ../src/sheet.c:546
 msgid "Name"
@@ -1983,16 +1983,16 @@ msgstr "Perl plugin loader"
 msgid "This plugin provides support for Perl plugins"
 msgstr "This plugin provides support for Perl plugins"
 
-#: ../plugins/plan-perfect/pln.c:503
+#: ../plugins/plan-perfect/pln.c:506
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN : Spreadsheet is password encrypted"
 
-#: ../plugins/plan-perfect/pln.c:572
+#: ../plugins/plan-perfect/pln.c:575
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr "Ignoring data that claims to be in row %u which is > max row %u"
 
-#: ../plugins/plan-perfect/pln.c:576
+#: ../plugins/plan-perfect/pln.c:579
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr "Ignoring data that claims to be in column %u which is > max column %u"
@@ -2238,7 +2238,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: ../plugins/sc/sc.c:452
+#: ../plugins/sc/sc.c:451
 msgid "Error parsing line"
 msgstr "Error parsing line"
 
@@ -2293,11 +2293,11 @@ msgstr "Error while opening xbase file."
 #: ../src/dialogs/dialog-goto-cell.c:260
 #: ../src/dialogs/dialog-search.c:421
 #: ../src/dialogs/dialog-stf-export.c:463
-#: ../src/dialogs/print.glade.h:28
-#: ../src/print-info.c:418
+#: ../src/dialogs/print.glade.h:31
+#: ../src/print-info.c:430
 #: ../src/search.c:620
 #: ../src/workbook.c:857
-#: ../src/xml-io.c:2217
+#: ../src/xml-io.c:2220
 msgid "Sheet"
 msgstr "Sheet"
 
@@ -2368,284 +2368,332 @@ msgid "Default Bottom Margin"
 msgstr "Default Bottom Margin"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:12
+msgid "Default Bottom Outside Margin"
+msgstr "Default Bottom Outside Margin"
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "Default Grid Line Printing"
 msgstr "Default Grid Line Printing"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:13
+#: ../schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "Default Header/Footer Font Size"
 msgstr "Default Header/Footer Font Size"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:14
+#: ../schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "Default Horizontal Centering"
 msgstr "Default Horizontal Centering"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:15
+#: ../schemas/gnumeric-dialogs.schemas.in.h:16
+msgid "Default Left Margin"
+msgstr "Default Left Margin"
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Default Print Cells with Only Styles"
 msgstr "Default Print Cells with Only Styles"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:16
+#: ../schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "Default Print Direction"
 msgstr "Default Print Direction"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:17
+#: ../schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Default Repeated Left Region"
 msgstr "Default Repeated Left Region"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:18
+#: ../schemas/gnumeric-dialogs.schemas.in.h:20
 msgid "Default Repeated Top Region"
 msgstr "Default Repeated Top Region"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:19
+#: ../schemas/gnumeric-dialogs.schemas.in.h:21
 msgid "Default Scale Percentage"
 msgstr "Default Scale Percentage"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:20
+#: ../schemas/gnumeric-dialogs.schemas.in.h:22
 msgid "Default Scale Type"
 msgstr "Default Scale Type"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:21
+#: ../schemas/gnumeric-dialogs.schemas.in.h:23
 msgid "Default Scaling Height"
 msgstr "Default Scaling Height"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:22
+#: ../schemas/gnumeric-dialogs.schemas.in.h:24
 msgid "Default Scaling Width"
 msgstr "Default Scaling Width"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:23
+#: ../schemas/gnumeric-dialogs.schemas.in.h:25
 msgid "Default Title Printing"
 msgstr "Default Title Printing"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:24
+#: ../schemas/gnumeric-dialogs.schemas.in.h:26
 msgid "Default Top Margin"
 msgstr "Default Top Margin"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:25
+#: ../schemas/gnumeric-dialogs.schemas.in.h:27
+msgid "Default Top Outside Margin"
+msgstr "Default Top Outside Margin"
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:28
 msgid "Default Vertical Centering"
 msgstr "Default Vertical Centering"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:26
+#: ../schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "Default header/footer font name"
 msgstr "Default header/footer font name"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:27
+#: ../schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "GTKPrintSetting"
 msgstr "GTKPrintSetting"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:28
+#: ../schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "Header/Footer Format (Left Portion)"
 msgstr "Header/Footer Format (Left Portion)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:29
+#: ../schemas/gnumeric-dialogs.schemas.in.h:32
 msgid "Header/Footer Format (Middle Portion)"
 msgstr "Header/Footer Format (Middle Portion)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:30
+#: ../schemas/gnumeric-dialogs.schemas.in.h:33
 msgid "Header/Footer Format (Right Portion)"
 msgstr "Header/Footer Format (Right Portion)"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:31
+#: ../schemas/gnumeric-dialogs.schemas.in.h:34
 msgid "List of Active Plugins."
 msgstr "List of Active Plugins."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:32
+#: ../schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "List of Extra Autoformat Directories."
 msgstr "List of Extra Autoformat Directories."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:33
+#: ../schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "List of Extra Plugin Directories."
 msgstr "List of Extra Plugin Directories."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:34
+#: ../schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "List of First Letter Exceptions"
 msgstr "List of First Letter Exceptions"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:35
+#: ../schemas/gnumeric-dialogs.schemas.in.h:38
 msgid "List of Init Caps Exceptions"
 msgstr "List of Init Caps Exceptions"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:36
+#: ../schemas/gnumeric-dialogs.schemas.in.h:39
 msgid "List of Known Plugins."
 msgstr "List of Known Plugins."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:37
+#: ../schemas/gnumeric-dialogs.schemas.in.h:40
 msgid "List of Plugin File States."
 msgstr "List of Plugin File States."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:38
+#: ../schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "List of recently used functions."
 msgstr "List of recently used functions."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:39
+#: ../schemas/gnumeric-dialogs.schemas.in.h:42
 #: ../src/dialogs/dialog-preferences.c:719
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximum Length of Recently Used Functions List"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:40
+#: ../schemas/gnumeric-dialogs.schemas.in.h:43
 msgid "Page Footer"
 msgstr "Page Footer"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:41
+#: ../schemas/gnumeric-dialogs.schemas.in.h:44
 msgid "Page Header"
 msgstr "Page Header"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:42
+#: ../schemas/gnumeric-dialogs.schemas.in.h:45
+msgid "Paper"
+msgstr "Paper"
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:46
 msgid "Please use the Print Setup dialog to edit this value."
 msgstr "Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:43
+#: ../schemas/gnumeric-dialogs.schemas.in.h:47
+msgid "Preferred Display Unit"
+msgstr "Preferred Display Unit"
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:48
 #: ../schemas/gnumeric-general.schemas.in.h:22
 msgid "Sans"
 msgstr "Sans"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:44
+#: ../schemas/gnumeric-dialogs.schemas.in.h:49
 msgid "Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus."
 msgstr "Some dialogues contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:45
+#: ../schemas/gnumeric-dialogs.schemas.in.h:50
 msgid "System Directory for Autoformats"
 msgstr "System Directory for Autoformats"
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:46
+#: ../schemas/gnumeric-dialogs.schemas.in.h:51
 msgid "The autocorrect engine does not correct the first letter for words in this list."
 msgstr "The autocorrect engine does not correct the first letter for words in this list."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:47
+#: ../schemas/gnumeric-dialogs.schemas.in.h:52
 msgid "The autocorrect engine does not correct the initial caps for words in this list."
 msgstr "The autocorrect engine does not correct the initial caps for words in this list."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:48
+#: ../schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "The configuration of GTKPrintSetting. Do not edit this variable."
 msgstr "The configuration of GTKPrintSetting. Do not edit this variable."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:49
+#: ../schemas/gnumeric-dialogs.schemas.in.h:54
 msgid "The default font name for headers and footers."
 msgstr "The default font name for headers and footers."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:50
+#: ../schemas/gnumeric-dialogs.schemas.in.h:55
 msgid "The default font size for headers and footers."
 msgstr "The default font size for headers and footers."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:51
+#: ../schemas/gnumeric-dialogs.schemas.in.h:56
 msgid "The default header/footer font is bold."
 msgstr "The default header/footer font is bold."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:52
+#: ../schemas/gnumeric-dialogs.schemas.in.h:57
 msgid "The default header/footer font is italic."
 msgstr "The default header/footer font is italic."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:53
+#: ../schemas/gnumeric-dialogs.schemas.in.h:58
 msgid "The default page footer for new documents that can be modified using the page setup dialog."
 msgstr "The default page footer for new documents that can be modified using the page setup dialogue."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:54
+#: ../schemas/gnumeric-dialogs.schemas.in.h:59
 msgid "The default page header for new documents that can be modified using the page setup dialog."
 msgstr "The default page header for new documents that can be modified using the page setup dialogue."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:55
+#: ../schemas/gnumeric-dialogs.schemas.in.h:60
 msgid "The function selector keeps a list of recently used functions. This is that list."
 msgstr "The function selector keeps a list of recently used functions. This is that list."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:56
+#: ../schemas/gnumeric-dialogs.schemas.in.h:61
 msgid "The function selector keeps a list of recently used functions. This is the maximum length of that list."
 msgstr "The function selector keeps a list of recently used functions. This is the maximum length of that list."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:57
+#: ../schemas/gnumeric-dialogs.schemas.in.h:62
 msgid "The main directory for user specific autoformat templates."
 msgstr "The main directory for user specific autoformat templates."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:58
+#: ../schemas/gnumeric-dialogs.schemas.in.h:63
 msgid "This directory contains the pre-installed autoformat templates."
 msgstr "This directory contains the pre-installed autoformat templates."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:59
+#: ../schemas/gnumeric-dialogs.schemas.in.h:64
+msgid "This is the default paper orientation. Please use the Print Setup dialog to edit this value."
+msgstr "This is the default paper orientation. Please use the Print Setup dialogue to edit this value."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:65
+msgid "This is the default paper specification. Please use the Print Setup dialog to edit this value."
+msgstr "This is the default paper specification. Please use the Print Setup dialogue to edit this value."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:66
 msgid "This list contains all extra directories containing autoformat templates."
 msgstr "This list contains all extra directories containing autoformat templates."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:60
+#: ../schemas/gnumeric-dialogs.schemas.in.h:67
 msgid "This list contains all extra directories containing plugins."
 msgstr "This list contains all extra directories containing plugins."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:61
+#: ../schemas/gnumeric-dialogs.schemas.in.h:68
 msgid "This list contains all known plugins."
 msgstr "This list contains all known plugins."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:62
+#: ../schemas/gnumeric-dialogs.schemas.in.h:69
 msgid "This list contains all plugin file states."
 msgstr "This list contains all plugin file states."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:63
+#: ../schemas/gnumeric-dialogs.schemas.in.h:70
 msgid "This list contains all plugins that are supposed to be automatically activated."
 msgstr "This list contains all plugins that are supposed to be automatically activated."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:64
+#: ../schemas/gnumeric-dialogs.schemas.in.h:71
 msgid "This string gives the default region to be repeated at the left of each printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr "This string gives the default region to be repeated at the left of each printed sheet. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:65
+#: ../schemas/gnumeric-dialogs.schemas.in.h:72
 msgid "This string gives the default region to be repeated at the top of each printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr "This string gives the default region to be repeated at the top of each printed sheet. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:66
+#: ../schemas/gnumeric-dialogs.schemas.in.h:73
+msgid "This string gives the default unit to be used in the page setup dialog."
+msgstr "This string gives the default unit to be used in the page setup dialogue."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid "This value determines the default number of pages a printout of the current sheet is supposed to be high. 0 disables scaling. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default number of pages a printout of the current sheet is supposed to be high. 0 disables scaling. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:67
+#: ../schemas/gnumeric-dialogs.schemas.in.h:75
 msgid "This value determines the default number of pages a printout of the current sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default number of pages a printout of the current sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:68
+#: ../schemas/gnumeric-dialogs.schemas.in.h:76
 msgid "This value determines the default setting in the Print Setup dialog whether to print empty but formatted cells. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default setting in the Print Setup dialogue whether to print empty but formatted cells. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:69
+#: ../schemas/gnumeric-dialogs.schemas.in.h:77
 msgid "This value determines the default setting in the Print Setup dialog whether to print first right then down. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default setting in the Print Setup dialogue whether to print first right then down. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:70
+#: ../schemas/gnumeric-dialogs.schemas.in.h:78
 msgid "This value determines the default setting in the Print Setup dialog whether to print in only black and white. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default setting in the Print Setup dialogue whether to print in only black and white. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:71
+#: ../schemas/gnumeric-dialogs.schemas.in.h:79
 msgid "This value determines the default setting in the Print Setup dialog whether to print row and column headers. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default setting in the Print Setup dialogue whether to print row and column headers. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:72
+#: ../schemas/gnumeric-dialogs.schemas.in.h:80
 msgid "This value determines the default setting in the Print Setup dialog whether to scale pages by a given percentage. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default setting in the Print Setup dialogue whether to scale pages by a given percentage. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:73
+#: ../schemas/gnumeric-dialogs.schemas.in.h:81
 msgid "This value determines the default setting in the Print Setup dialog: whether to center pages horizontally. Please use the Print Setup dialog to edit this value."
 msgstr "This value determines the default setting in the Print Setup dialogue: whether to centre pages horizontally. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:74
+#: ../schemas/gnumeric-dialogs.schemas.in.h:82
 msgid "This value determines whether by default the print set-up dialog applies to all sheets simultaneously."
 msgstr "This value determines whether by default the print set-up dialogue applies to all sheets simultaneously."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:75
+#: ../schemas/gnumeric-dialogs.schemas.in.h:83
 msgid "This value determines whether the default font for headers and footers is bold."
 msgstr "This value determines whether the default font for headers and footers is bold."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:76
+#: ../schemas/gnumeric-dialogs.schemas.in.h:84
 msgid "This value determines whether the default font for headers and footers is italic."
 msgstr "This value determines whether the default font for headers and footers is italic."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:77
+#: ../schemas/gnumeric-dialogs.schemas.in.h:85
 msgid "This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialog to edit this value."
 msgstr "This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:78
+#: ../schemas/gnumeric-dialogs.schemas.in.h:86
+msgid "This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialog to edit this value."
+msgstr "This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialogue to edit this value."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:87
+msgid "This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialog to edit this value."
+msgstr "This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialogue to edit this value."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:88
+msgid "This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value."
+msgstr "This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialogue to edit this value."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:89
 msgid "This value gives the default number of points from the top of a page to the start of the body. Please use the Print Setup dialog to edit this value."
 msgstr "This value gives the default number of points from the top of a page to the start of the body. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:79
+#: ../schemas/gnumeric-dialogs.schemas.in.h:90
+msgid "This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialog to edit this value."
+msgstr "This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialogue to edit this value."
+
+#: ../schemas/gnumeric-dialogs.schemas.in.h:91
 msgid "This value gives the percentage by which to scale each printed page. Please use the Print Setup dialog to edit this value."
 msgstr "This value gives the percentage by which to scale each printed page. Please use the Print Setup dialogue to edit this value."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:80
+#: ../schemas/gnumeric-dialogs.schemas.in.h:92
 msgid "This variable determines whether to activate every new encountered plugin."
 msgstr "This variable determines whether to activate every new encountered plugin."
 
-#: ../schemas/gnumeric-dialogs.schemas.in.h:81
+#: ../schemas/gnumeric-dialogs.schemas.in.h:93
 msgid "User Directory for Autoformats"
 msgstr "User Directory for Autoformats"
 
@@ -5329,8 +5377,8 @@ msgid "Description"
 msgstr "Description"
 
 #: ../src/dialogs/dialog-plugin-manager.c:729
-#: ../src/ssconvert.c:83
-#: ../src/ssconvert.c:99
+#: ../src/ssconvert.c:84
+#: ../src/ssconvert.c:100
 msgid "ID"
 msgstr "ID"
 
@@ -5411,55 +5459,55 @@ msgstr "Sorting"
 msgid "Screen"
 msgstr "Screen"
 
-#: ../src/dialogs/dialog-printer-setup.c:712
+#: ../src/dialogs/dialog-printer-setup.c:694
 msgid "points"
 msgstr "points"
 
-#: ../src/dialogs/dialog-printer-setup.c:716
+#: ../src/dialogs/dialog-printer-setup.c:698
 msgid "inches"
 msgstr "inches"
 
-#: ../src/dialogs/dialog-printer-setup.c:720
+#: ../src/dialogs/dialog-printer-setup.c:702
 msgid "mm"
 msgstr "mm"
 
-#: ../src/dialogs/dialog-printer-setup.c:916
+#: ../src/dialogs/dialog-printer-setup.c:905
 msgid "Customize header"
 msgstr "Customise header"
 
-#: ../src/dialogs/dialog-printer-setup.c:918
+#: ../src/dialogs/dialog-printer-setup.c:907
 msgid "Customize footer"
 msgstr "Customise footer"
 
-#: ../src/dialogs/dialog-printer-setup.c:1056
+#: ../src/dialogs/dialog-printer-setup.c:1045
 msgid "Custom header configuration"
 msgstr "Custom header configuration"
 
-#: ../src/dialogs/dialog-printer-setup.c:1061
+#: ../src/dialogs/dialog-printer-setup.c:1050
 msgid "Custom footer configuration"
 msgstr "Custom footer configuration"
 
-#: ../src/dialogs/dialog-printer-setup.c:1429
+#: ../src/dialogs/dialog-printer-setup.c:1442
 #, c-format
 msgid "%.0f pixels wide by %.0f pixels tall"
 msgstr "%.0f pixels wide by %.0f pixels tall"
 
-#: ../src/dialogs/dialog-printer-setup.c:1432
+#: ../src/dialogs/dialog-printer-setup.c:1445
 #, c-format
 msgid "%.0f points wide by %.0f points tall"
 msgstr "%.0f points wide by %.0f points tall"
 
-#: ../src/dialogs/dialog-printer-setup.c:1435
+#: ../src/dialogs/dialog-printer-setup.c:1448
 #, c-format
 msgid "%.1f in wide by %.1f in tall"
 msgstr "%.1f in wide by %.1f in tall"
 
-#: ../src/dialogs/dialog-printer-setup.c:1438
+#: ../src/dialogs/dialog-printer-setup.c:1451
 #, c-format
 msgid "%.0f mm wide by %.0f mm tall"
 msgstr "%.0f mm wide by %.0f mm tall"
 
-#: ../src/dialogs/dialog-printer-setup.c:1441
+#: ../src/dialogs/dialog-printer-setup.c:1454
 #, c-format
 msgid "%.1f wide by %.1f tall"
 msgstr "%.1f wide by %.1f tall"
@@ -7278,44 +7326,44 @@ msgid "8.5 in wide by 11.0 in high"
 msgstr "8.5 in wide by 11.0 in high"
 
 #: ../src/dialogs/print.glade.h:4
-msgid "<b>Center on Page</b>"
-msgstr "<b>Centre on Page</b>"
+msgid "<b>Center on page:</b>"
+msgstr "<b>Centre on page:</b>"
 
 #: ../src/dialogs/print.glade.h:5
 msgid "<b>Content</b>"
 msgstr "<b>Content</b>"
 
 #: ../src/dialogs/print.glade.h:6
-msgid "<b>Layout</b>"
-msgstr "<b>Layout</b>"
-
-#: ../src/dialogs/print.glade.h:7
 msgid "<b>Page Order</b>"
 msgstr "<b>Page Order</b>"
 
-#: ../src/dialogs/print.glade.h:8
+#: ../src/dialogs/print.glade.h:7
 msgid "<b>Paper:</b>"
 msgstr "<b>Paper:</b>"
 
-#: ../src/dialogs/print.glade.h:9
+#: ../src/dialogs/print.glade.h:8
 msgid "<b>Print</b>"
 msgstr "<b>Print</b>"
 
-#: ../src/dialogs/print.glade.h:10
+#: ../src/dialogs/print.glade.h:9
 msgid "<b>Scale</b>"
 msgstr "<b>Scale</b>"
 
-#: ../src/dialogs/print.glade.h:11
+#: ../src/dialogs/print.glade.h:10
 msgid "<b>Titles To Print</b>"
 msgstr "<b>Titles To Print</b>"
 
-#: ../src/dialogs/print.glade.h:12
+#: ../src/dialogs/print.glade.h:11
 msgid "Apply _to:"
 msgstr "Apply _to:"
 
-#: ../src/dialogs/print.glade.h:13
+#: ../src/dialogs/print.glade.h:12
 msgid "Apply to all sheets of this _workbook."
 msgstr "Apply to all sheets of this _workbook."
+
+#: ../src/dialogs/print.glade.h:13
+msgid "Bottom margin:"
+msgstr "Bottom margin:"
 
 #: ../src/dialogs/print.glade.h:14
 msgid "Change Paper Type"
@@ -7330,114 +7378,126 @@ msgid "Fi_rst page number:"
 msgstr "Fi_rst page number:"
 
 #: ../src/dialogs/print.glade.h:17
-msgid "He_ader:"
-msgstr "He_ader:"
+msgid "Footer:"
+msgstr "Footer:"
 
 #: ../src/dialogs/print.glade.h:18
+msgid "Header:"
+msgstr "Header:"
+
+#: ../src/dialogs/print.glade.h:19
 msgid "Headers and Footers"
 msgstr "Headers and Footers"
 
-#: ../src/dialogs/print.glade.h:19
+#: ../src/dialogs/print.glade.h:20
+msgid "Left margin:"
+msgstr "Left margin:"
+
+#: ../src/dialogs/print.glade.h:21
 msgid "Page"
 msgstr "Page"
 
-#: ../src/dialogs/print.glade.h:20
+#: ../src/dialogs/print.glade.h:22
 msgid "Page Setup"
 msgstr "Page Setup"
 
-#: ../src/dialogs/print.glade.h:21
+#: ../src/dialogs/print.glade.h:23
 msgid "Print _area:"
 msgstr "Print _area:"
 
-#: ../src/dialogs/print.glade.h:22
+#: ../src/dialogs/print.glade.h:24
 msgid "R_ight, then down"
 msgstr "R_ight, then down"
 
-#: ../src/dialogs/print.glade.h:23
+#: ../src/dialogs/print.glade.h:25
+msgid "Right margin:"
+msgstr "Right margin:"
+
+#: ../src/dialogs/print.glade.h:26
 msgid "Row and co_lumn headings"
 msgstr "Row and co_lumn headings"
 
-#: ../src/dialogs/print.glade.h:24
+#: ../src/dialogs/print.glade.h:27
 msgid "Save as default settings"
 msgstr "Save as default settings"
 
-#: ../src/dialogs/print.glade.h:25
+#: ../src/dialogs/print.glade.h:28
 msgid "Scale"
 msgstr "Scale"
 
-#: ../src/dialogs/print.glade.h:26
+#: ../src/dialogs/print.glade.h:29
 msgid "Scale to fit _horizontally on"
 msgstr "Scale to fit _horizontally on"
 
-#: ../src/dialogs/print.glade.h:27
+#: ../src/dialogs/print.glade.h:30
 msgid "Scale to fit _vertically on"
 msgstr "Scale to fit _vertically on"
 
-#: ../src/dialogs/print.glade.h:29
+#: ../src/dialogs/print.glade.h:32
 msgid "Styles with no content"
 msgstr "Styles with no content"
 
-#: ../src/dialogs/print.glade.h:30
+#: ../src/dialogs/print.glade.h:33
+msgid "Top margin:"
+msgstr "Top margin:"
+
+#: ../src/dialogs/print.glade.h:34
 msgid "Unit:"
 msgstr "Unit:"
 
-#: ../src/dialogs/print.glade.h:31
+#: ../src/dialogs/print.glade.h:35
 msgid "_Automatic scaling:"
 msgstr "_Automatic scaling:"
 
-#: ../src/dialogs/print.glade.h:32
+#: ../src/dialogs/print.glade.h:36
 msgid "_Black and white"
 msgstr "_Black and white"
 
-#: ../src/dialogs/print.glade.h:33
+#: ../src/dialogs/print.glade.h:37
 msgid "_Columns to repeat on the left side:"
 msgstr "_Columns to repeat on the left side:"
 
-#: ../src/dialogs/print.glade.h:34
+#: ../src/dialogs/print.glade.h:38
 msgid "_Down, then right"
 msgstr "_Down, then right"
 
-#: ../src/dialogs/print.glade.h:35
+#: ../src/dialogs/print.glade.h:39
 msgid "_Fixed scaling:"
 msgstr "_Fixed scaling:"
 
-#: ../src/dialogs/print.glade.h:36
+#: ../src/dialogs/print.glade.h:40
 msgid "_Footer:"
 msgstr "_Footer:"
 
-#: ../src/dialogs/print.glade.h:37
+#: ../src/dialogs/print.glade.h:41
 msgid "_Grid lines"
 msgstr "_Grid lines"
 
-#: ../src/dialogs/print.glade.h:38
+#: ../src/dialogs/print.glade.h:42
 msgid "_Header:"
 msgstr "_Header:"
 
-#: ../src/dialogs/print.glade.h:39
+#: ../src/dialogs/print.glade.h:43
 msgid "_Horizontally"
 msgstr "_Horizontally"
 
-#: ../src/dialogs/print.glade.h:40
+#: ../src/dialogs/print.glade.h:44
 msgid "_No scaling\t"
 msgstr "_No scaling\t"
 
-#: ../src/dialogs/print.glade.h:41
+#: ../src/dialogs/print.glade.h:45
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Rows to repeat on the upper region:"
 
-#: ../src/dialogs/print.glade.h:42
-msgid "_Units:"
-msgstr "_Units:"
-
-#: ../src/dialogs/print.glade.h:43
+#: ../src/dialogs/print.glade.h:46
 msgid "_Vertically"
 msgstr "_Vertically"
 
-#: ../src/dialogs/print.glade.h:44
+#: ../src/dialogs/print.glade.h:47
 msgid "letter"
 msgstr "letter"
 
-#: ../src/dialogs/print.glade.h:45
+#: ../src/dialogs/print.glade.h:48
 msgid "page(s)"
 msgstr "page(s)"
 
@@ -7873,7 +7933,7 @@ msgstr "Search"
 
 #. Corrected below.
 #: ../src/dialogs/search-replace.glade.h:30
-#: ../src/commands.c:4282
+#: ../src/commands.c:4285
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
@@ -8130,7 +8190,7 @@ msgstr "Solve"
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
 #: ../src/tools/solver/reports-write.c:958
-#: ../src/commands.c:6323
+#: ../src/commands.c:6326
 msgid "Solver"
 msgstr "Solver"
 
@@ -9318,7 +9378,7 @@ msgstr "(Blanks...)"
 msgid "(Non Blanks...)"
 msgstr "(Non Blanks...)"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1411
+#: ../src/widgets/gnumeric-expr-entry.c:1415
 msgid "Expecting a single range"
 msgstr "Expecting a single range"
 
@@ -9756,136 +9816,136 @@ msgstr "Merge and Center %s"
 msgid "Merging %s"
 msgstr "Merging %s"
 
-#: ../src/commands.c:4375
+#: ../src/commands.c:4378
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: ../src/commands.c:4376
+#: ../src/commands.c:4379
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: ../src/commands.c:4485
+#: ../src/commands.c:4488
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: ../src/commands.c:4581
+#: ../src/commands.c:4584
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: ../src/commands.c:4738
+#: ../src/commands.c:4741
 msgid "Format Object"
 msgstr "Format Object"
 
-#: ../src/commands.c:4846
+#: ../src/commands.c:4849
 msgid "Sheet names must be non-empty."
 msgstr "Sheet names must be non-empty."
 
-#: ../src/commands.c:4853
+#: ../src/commands.c:4856
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "A workbook cannot have two sheets with the same name."
 
-#: ../src/commands.c:4964
+#: ../src/commands.c:4967
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: ../src/commands.c:4965
+#: ../src/commands.c:4968
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: ../src/commands.c:5341
+#: ../src/commands.c:5344
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: ../src/commands.c:5433
+#: ../src/commands.c:5436
 msgid "Changing workbook properties"
 msgstr "Changing workbook properties"
 
-#: ../src/commands.c:5507
+#: ../src/commands.c:5510
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: ../src/commands.c:5510
+#: ../src/commands.c:5513
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: ../src/commands.c:5513
+#: ../src/commands.c:5516
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: ../src/commands.c:5516
+#: ../src/commands.c:5519
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: ../src/commands.c:5629
+#: ../src/commands.c:5632
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: ../src/commands.c:5631
+#: ../src/commands.c:5634
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: ../src/commands.c:5747
+#: ../src/commands.c:5750
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: ../src/commands.c:5781
+#: ../src/commands.c:5784
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: ../src/commands.c:5784
+#: ../src/commands.c:5787
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: ../src/commands.c:5877
+#: ../src/commands.c:5880
 #, c-format
 msgid "Remove Name %s"
 msgstr "Remove Name %s"
 
-#: ../src/commands.c:5939
+#: ../src/commands.c:5942
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: ../src/commands.c:6012
+#: ../src/commands.c:6015
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: ../src/commands.c:6074
+#: ../src/commands.c:6077
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: ../src/commands.c:6178
+#: ../src/commands.c:6181
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
 
-#: ../src/commands.c:6405
+#: ../src/commands.c:6408
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: ../src/commands.c:6575
+#: ../src/commands.c:6578
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: ../src/commands.c:6649
+#: ../src/commands.c:6652
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
-#: ../src/commands.c:6693
+#: ../src/commands.c:6696
 msgid "Left to Right"
 msgstr "Left to Right"
 
-#: ../src/commands.c:6693
+#: ../src/commands.c:6696
 msgid "Right to Left"
 msgstr "Right to Left"
 
@@ -10305,22 +10365,22 @@ msgid "Display Gnumeric's version"
 msgstr "Display Gnumeric's version"
 
 #: ../src/main-application.c:84
-#: ../src/ssconvert.c:59
+#: ../src/ssconvert.c:60
 #: ../src/ssindex.c:56
 msgid "Set the root library directory"
 msgstr "Set the root library directory"
 
 #: ../src/main-application.c:85
 #: ../src/main-application.c:91
-#: ../src/ssconvert.c:60
-#: ../src/ssconvert.c:67
+#: ../src/ssconvert.c:61
+#: ../src/ssconvert.c:68
 #: ../src/ssindex.c:57
 #: ../src/ssindex.c:64
 msgid "DIR"
 msgstr "DIR"
 
 #: ../src/main-application.c:90
-#: ../src/ssconvert.c:66
+#: ../src/ssconvert.c:67
 #: ../src/ssindex.c:63
 msgid "Adjust the root data directory"
 msgstr "Adjust the root data directory"
@@ -10407,7 +10467,7 @@ msgstr ""
 "-- The Gnumeric Team."
 
 #: ../src/main-application.c:282
-#: ../src/ssconvert.c:358
+#: ../src/ssconvert.c:368
 #: ../src/ssindex.c:228
 #, c-format
 msgid ""
@@ -10564,46 +10624,46 @@ msgstr "Invalid expression"
 msgid "Unexpected token %c"
 msgstr "Unexpected token %c"
 
-#: ../src/print.c:1106
+#: ../src/print.c:1092
 msgid "Print Selection"
 msgstr "Print Selection"
 
-#: ../src/print.c:1336
+#: ../src/print.c:1352
 msgid "_All workbook sheets"
 msgstr "_All workbook sheets"
 
-#: ../src/print.c:1341
+#: ../src/print.c:1357
 msgid "A_ctive workbook sheet"
 msgstr "A_ctive workbook sheet"
 
-#: ../src/print.c:1346
+#: ../src/print.c:1362
 msgid "_Workbook sheets:"
 msgstr "_Workbook sheets:"
 
-#: ../src/print.c:1351
+#: ../src/print.c:1367
 msgid "Current _selection only"
 msgstr "Current _selection only"
 
-#: ../src/print.c:1356
+#: ../src/print.c:1372
 msgid "_Ignore defined print area"
 msgstr "_Ignore defined print area"
 
-#: ../src/print.c:1360
+#: ../src/print.c:1376
 msgid "from:"
 msgstr "from:"
 
-#: ../src/print.c:1368
+#: ../src/print.c:1384
 msgid "to:"
 msgstr "to:"
 
-#: ../src/print.c:1541
+#: ../src/print.c:1581
 msgid "Gnumeric Print Range"
 msgstr "Gnumeric Print Range"
 
 #: ../src/print-info.c:151
 #: ../src/print-info.c:154
 #: ../src/print-info.c:155
-#: ../src/print-info.c:264
+#: ../src/print-info.c:271
 msgid "Page &[PAGE]"
 msgstr "Page &[PAGE]"
 
@@ -10616,7 +10676,7 @@ msgstr "Page &[PAGE] of &[PAGES]"
 #: ../src/print-info.c:154
 #: ../src/print-info.c:155
 #: ../src/print-info.c:157
-#: ../src/print-info.c:258
+#: ../src/print-info.c:265
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -10626,31 +10686,31 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: ../src/print-info.c:478
+#: ../src/print-info.c:490
 msgid "File Name"
 msgstr "File Name"
 
-#: ../src/print-info.c:490
+#: ../src/print-info.c:502
 msgid "Path "
 msgstr "Path "
 
-#: ../src/print-info.c:498
+#: ../src/print-info.c:510
 msgid "tab"
 msgstr "tab"
 
-#: ../src/print-info.c:499
+#: ../src/print-info.c:511
 msgid "page"
 msgstr "page"
 
-#: ../src/print-info.c:500
+#: ../src/print-info.c:512
 msgid "pages"
 msgstr "pages"
 
-#: ../src/print-info.c:503
+#: ../src/print-info.c:515
 msgid "file"
 msgstr "file"
 
-#: ../src/print-info.c:504
+#: ../src/print-info.c:516
 msgid "path"
 msgstr "path"
 
@@ -11154,54 +11214,54 @@ msgstr "Copy"
 msgid "Cut"
 msgstr "Cut"
 
-#: ../src/ssconvert.c:50
+#: ../src/ssconvert.c:51
 #: ../src/ssindex.c:47
 msgid "Display program version"
 msgstr "Display program version"
 
-#: ../src/ssconvert.c:75
+#: ../src/ssconvert.c:76
 #: ../src/ssindex.c:86
 msgid "Optionally specify an encoding for imported content"
 msgstr "Optionally specify an encoding for imported content"
 
-#: ../src/ssconvert.c:76
+#: ../src/ssconvert.c:77
 #: ../src/ssindex.c:87
 msgid "ENCODING"
 msgstr "ENCODING"
 
-#: ../src/ssconvert.c:82
+#: ../src/ssconvert.c:83
 msgid "Optionally specify which importer to use"
 msgstr "Optionally specify which importer to use"
 
-#: ../src/ssconvert.c:89
+#: ../src/ssconvert.c:90
 msgid "List the available importers"
 msgstr "List the available importers"
 
-#: ../src/ssconvert.c:98
+#: ../src/ssconvert.c:99
 msgid "Optionally specify which exporter to use"
 msgstr "Optionally specify which exporter to use"
 
-#: ../src/ssconvert.c:105
+#: ../src/ssconvert.c:106
 msgid "List the available exporters"
 msgstr "List the available exporters"
 
-#: ../src/ssconvert.c:112
+#: ../src/ssconvert.c:113
 msgid "Export a file for each sheet if the exporter only supports one sheet at a time."
 msgstr "Export a file for each sheet if the exporter only supports one sheet at a time."
 
-#: ../src/ssconvert.c:119
+#: ../src/ssconvert.c:120
 msgid "Recalculate all cells before writing the result."
 msgstr "Recalculate all cells before writing the result."
 
-#: ../src/ssconvert.c:130
+#: ../src/ssconvert.c:131
 msgid "The range to export"
 msgstr "The range to export"
 
-#: ../src/ssconvert.c:137
+#: ../src/ssconvert.c:138
 msgid "Goal seek areas"
 msgstr "Goal seek areas"
 
-#: ../src/ssconvert.c:214
+#: ../src/ssconvert.c:215
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -11210,7 +11270,7 @@ msgstr ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 
-#: ../src/ssconvert.c:233
+#: ../src/ssconvert.c:234
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -11219,7 +11279,7 @@ msgstr ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 
-#: ../src/ssconvert.c:244
+#: ../src/ssconvert.c:245
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
@@ -11227,7 +11287,7 @@ msgstr ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 
-#: ../src/ssconvert.c:254
+#: ../src/ssconvert.c:255
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -11236,7 +11296,7 @@ msgstr ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 
-#: ../src/ssconvert.c:297
+#: ../src/ssconvert.c:298
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -11245,12 +11305,12 @@ msgstr ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved.\n"
 
-#: ../src/ssconvert.c:352
-#: ../src/ssconvert.c:390
+#: ../src/ssconvert.c:362
+#: ../src/ssconvert.c:406
 msgid "INFILE [OUTFILE]"
 msgstr "INFILE [OUTFILE]"
 
-#: ../src/ssconvert.c:365
+#: ../src/ssconvert.c:375
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -11261,7 +11321,11 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: ../src/ssconvert.c:388
+#: ../src/ssconvert.c:390
+msgid "PDF export"
+msgstr "PDF export"
+
+#: ../src/ssconvert.c:404
 #: ../src/ssindex.c:239
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
@@ -13544,64 +13608,64 @@ msgstr "Unsupported file format."
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
 
-#: ../src/xml-io.c:1646
-#: ../src/xml-sax-read.c:1699
+#: ../src/xml-io.c:1649
+#: ../src/xml-sax-read.c:1783
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Unsupported object type '%s'"
 
-#: ../src/xml-io.c:2097
+#: ../src/xml-io.c:2100
 msgid "Unparsable xml in clipboard"
 msgstr "Unparsable xml in clipboard"
 
-#: ../src/xml-io.c:2104
+#: ../src/xml-io.c:2107
 msgid "Clipboard is in unknown format"
 msgstr "Clipboard is in unknown format"
 
-#: ../src/xml-io.c:2322
+#: ../src/xml-io.c:2325
 msgid "Processing file..."
 msgstr "Processing file..."
 
-#: ../src/xml-io.c:2660
+#: ../src/xml-io.c:2663
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "The file is not a Gnumeric Workbook file"
 
-#: ../src/xml-io.c:2688
+#: ../src/xml-io.c:2691
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
 msgstr "Gnumeric XML (*.gnumeric) Old slow importer"
 
-#: ../src/xml-io.c:2694
+#: ../src/xml-io.c:2697
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 
-#: ../src/xml-io.c:2699
+#: ../src/xml-io.c:2702
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-read.c:398
+#: ../src/xml-sax-read.c:399
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Multiple version specifications.  Assuming %d"
 
-#: ../src/xml-sax-read.c:606
+#: ../src/xml-sax-read.c:610
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "File has inconsistent SheetNameIndex element."
 
-#: ../src/xml-sax-read.c:1565
+#: ../src/xml-sax-read.c:1649
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Unknown filter operator \"%s\""
 
-#: ../src/xml-sax-read.c:1605
+#: ../src/xml-sax-read.c:1689
 msgid "Missing filter type"
 msgstr "Missing filter type"
 
-#: ../src/xml-sax-read.c:1625
+#: ../src/xml-sax-read.c:1709
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Unknown filter type \"%s\""
 
-#: ../src/xml-sax-read.c:1644
+#: ../src/xml-sax-read.c:1728
 msgid "Invalid filter, missing Area"
 msgstr "Invalid filter, missing Area"
 
@@ -13788,6 +13852,10 @@ msgstr "Lila list template"
 msgid "A simple list template"
 msgstr "A simple list template"
 
+#~ msgid "<b>Layout</b>"
+#~ msgstr "<b>Layout</b>"
+#~ msgid "_Units:"
+#~ msgstr "_Units:"
 #~ msgid "Not SYLK file"
 #~ msgstr "Not SYLK file"
 #~ msgid "error parsing line\n"
