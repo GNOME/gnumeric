@@ -3,6 +3,9 @@ Gnumeric 1.7.11
 Andreas:
 	* Save and restore default paper and margins
 
+Jean:
+	* Fix check for long double support in goffice.
+
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]
 	* Fix loading of tab text colour.  [#437743]
