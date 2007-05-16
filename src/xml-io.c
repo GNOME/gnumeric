@@ -2694,7 +2694,7 @@ xml_init (void)
 
 	go_file_opener_register (go_file_opener_new (
 		"Gnumeric_XmlIO:sax",
-		_("EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"),
+		_("Gnumeric XML (*.gnumeric)"),
 		suffixes, mimes,
 		xml_probe, gnm_xml_file_open), 50);
 	go_file_saver_register_as_default (go_file_saver_new (

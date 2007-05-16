@@ -476,6 +476,14 @@ gnm_app_dpi_to_pixels (void)
 void *
 gnm_app_create_opener_filter (void)
 {
+	/* See below.  */
+	static const char *const bad_suffixes[] = {
+		"txt",
+		"html", "htm",
+		"xml",
+		NULL
+	};
+
 	GtkFileFilter *filter = gtk_file_filter_new ();
 
 	GList *openers;
@@ -488,18 +496,38 @@ gnm_app_create_opener_filter (void)
 		const GSList *suffixes = go_file_opener_get_suffixes (opener);
 
 		while (mimes) {
-			gtk_file_filter_add_mime_type (filter, mimes->data);
+#if 0
+			const char *mime = mimes->data;
+			/*
+			 * This needs rethink, see 438918.  Too many things
+			 * like *.xml and *.txt get added.
+			 */
+			gtk_file_filter_add_mime_type (filter, mime);
+			if (0)
+				g_print ("%s: Adding mime %s\n", go_file_opener_get_description (opener), mime);
+#endif
 			mimes = mimes->next;
 		}
 
 		while (suffixes) {
-			char *pattern = g_strconcat ("*.", suffixes->data, NULL);
+			const char *suffix = suffixes->data;
+			char *pattern;
+			int i;
+
+			for (i = 0; bad_suffixes[i]; i++)
+				if (strcmp (suffix, bad_suffixes[i]) == 0)
+					goto bad_suffix;
+
+			pattern = g_strconcat ("*.", suffix, NULL);
 			gtk_file_filter_add_pattern (filter, pattern);
+			if (0)
+				g_print ("%s: Adding %s\n", go_file_opener_get_description (opener), pattern);
 			g_free (pattern);
+
+		bad_suffix:
 			suffixes = suffixes->next;
 		}
 	}
-
 	return filter;
 }
 
@@ -508,7 +536,7 @@ static gint
 compare_mru (GtkRecentInfo *a,
 	     GtkRecentInfo *b)
 {
-  return (gtk_recent_info_get_modified (a) < gtk_recent_info_get_modified (b));
+  return (gtk_recent_info_get_visited (a) < gtk_recent_info_get_visited (b));
 }
 #endif
 

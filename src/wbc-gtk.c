@@ -794,7 +794,7 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 
 	/* create the actions */
 	history = gnm_app_history_get_list (FALSE);
-	for (i = 1, ptr = history; ptr != NULL ; ptr = ptr->next, i++) {
+	for (i = 1, ptr = history; i < 10 && ptr != NULL ; ptr = ptr->next, i++) {
 		GtkActionEntry entry;
 		GtkAction *action;
 		char const *uri = ptr->data;

@@ -12,6 +12,7 @@ Jean:
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]
 	* Fix loading of tab text colour.  [#437743]
+	* Improve handling of foreign recently-used files.  [#438918]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.10

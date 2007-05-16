@@ -1,3 +1,16 @@
+2007-05-16  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_create_opener_filter): Don't add
+	mimes.  Avoid adding very generic suffixes.
+
+	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Show no more
+	than 9 entries.
+
+	* src/xml-io.c (xml_init): The sax importer is no longer
+	experimental.
+
+	* src/application.c (compare_mru): Sort by last-visited.
+
 2007-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/xml-sax-read.c (xml_sax_print_vcenter): simplify
