@@ -1,5 +1,8 @@
 2007-05-16  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c (main): Put files from the command line
+	into the history.
+
 	* src/application.c (gnm_app_create_opener_filter): Don't add
 	mimes.  Avoid adding very generic suffixes.
 

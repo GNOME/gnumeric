@@ -533,10 +533,12 @@ gnm_app_create_opener_filter (void)
 
 #ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 static gint
-compare_mru (GtkRecentInfo *a,
-	     GtkRecentInfo *b)
+compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
 {
-  return (gtk_recent_info_get_visited (a) < gtk_recent_info_get_visited (b));
+	time_t ta = MAX (gtk_recent_info_get_visited (a), gtk_recent_info_get_modified (a));
+	time_t tb = MAX (gtk_recent_info_get_visited (b), gtk_recent_info_get_modified (b));
+
+	return ta < tb;
 }
 #endif
 

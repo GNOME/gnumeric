@@ -479,6 +479,8 @@ main (int argc, char **argv)
 			wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
 			g_free (uri);
 
+			workbook_update_history (wb_view_get_workbook (wbv));
+
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);
