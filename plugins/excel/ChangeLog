@@ -1,3 +1,8 @@
+2007-05-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (fontx), (tick), (end): import legend and
+	axis labels font. [#437858]
+
 2007-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-write.c (excel_write_SETUP): adjust for new

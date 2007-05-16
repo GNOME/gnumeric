@@ -954,17 +954,13 @@ static gboolean
 BC_R(fontx)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-	if (s->style != NULL) {
-		/* Child of TEXT, index into FONT table */
-		ExcelFont const *font = excel_font_get (s->container.importer, 
-			GSF_LE_GET_GUINT16 (q->data));
-		GOFont const *gfont = excel_font_get_gofont (font);
-		go_font_ref (gfont);
-		gog_style_set_font (s->style, gfont);
-		d (2, fprintf (stderr, "apply font;"););
-	} else {
-		d (2, fprintf (stderr, "ignore font;"););
-	}
+	ExcelFont const *font = excel_font_get (s->container.importer, 
+		GSF_LE_GET_GUINT16 (q->data));
+	GOFont const *gfont = excel_font_get_gofont (font);
+	go_font_ref (gfont);
+	BC_R(get_style) (s);
+	gog_style_set_font (s->style, gfont);
+	d (2, fprintf (stderr, "apply font %s;", go_font_as_str (gfont)););
 	return FALSE;
 }
 
@@ -2030,6 +2026,7 @@ BC_R(tick)(XLChartHandler const *handle,
 	guint16 const major = GSF_LE_GET_GUINT8 (q->data);
 	guint16 const minor = GSF_LE_GET_GUINT8 (q->data+1);
 	guint16 const label = GSF_LE_GET_GUINT8 (q->data+2);
+	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+24);
 
 	if (s->axis != NULL)
 		g_object_set (G_OBJECT (s->axis),
@@ -2040,6 +2037,10 @@ BC_R(tick)(XLChartHandler const *handle,
 			"minor-tick-in",	((minor & 1) ? TRUE : FALSE),
 			"minor-tick-out",	((minor >= 2) ? TRUE : FALSE),
 			NULL);
+	if (!(flags & 0x01)) {
+		BC_R(get_style) (s);
+		s->style->font.color = BC_R(color) (q->data+4, "LabelColour");
+	}
 	d (1, {
 	guint16 const flags = GSF_LE_GET_GUINT8 (q->data+24);
 
@@ -2268,6 +2269,11 @@ BC_R(end)(XLChartHandler const *handle,
 	case BIFF_CHART_axisparent :
 		break;
 	case BIFF_CHART_axis :
+		if (s->style) {
+			g_object_set (s->axis, "style", s->style, NULL);
+			g_object_unref (s->style);
+			s->style = NULL;
+		}
 		s->axis = NULL;
 		break;
 
@@ -2718,8 +2724,17 @@ not_a_matrix:
 		s->text = NULL;
 
 		if (s->style != NULL) {
-			g_object_unref (s->style);
-			s->style = NULL;
+			/* do not destroy the style if it belongs to the
+			parent object, applies only to legend at the moment,
+			what should be done for CHART and DEFAULTEXT? */
+			switch (BC_R(top_state) (s, 0)) {
+			case BIFF_CHART_legend :
+				break;
+			default :
+				g_object_unref (s->style);
+				s->style = NULL;
+				break;
+			}
 		}
 		break;
 
@@ -2736,6 +2751,7 @@ not_a_matrix:
 		break;
 
 	default :
+puts("default end");
 		break;
 	}
 	return FALSE;
