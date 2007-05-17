@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * border.c: Managing drawing and printing cell borders
@@ -688,9 +688,6 @@ style_border_set_gtk_dash (GnmStyleBorderType const i,
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (i >= GNM_STYLE_BORDER_NONE);
 	g_return_if_fail (i < GNM_STYLE_BORDER_MAX);
-
-	if (i == GNM_STYLE_BORDER_NONE)
-		return;
 
 	if (style_border_data[i].pattern != NULL)
 		style = GDK_LINE_ON_OFF_DASH;

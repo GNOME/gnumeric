@@ -1,3 +1,7 @@
+2007-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.glade: show gridline checkbox
+
 2007-05-17  Morten Welinder  <terra@gnome.org>
 
 	* dialog-recent.c: New file.
