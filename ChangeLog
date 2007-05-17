@@ -1,3 +1,10 @@
+2007-05-17  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_history_get_list): Take max-length
+	argument to avoid potential stat-storm.  All callers changed.
+
+	* src/wbcg-actions.c: Hook up FileHistoryFull.
+
 2007-05-16  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Put files from the command line

@@ -550,18 +550,19 @@ compare_mru (GtkRecentInfo *a, GtkRecentInfo *b)
  * Return value: the list, which must be freed along with the strings in it.
  **/
 GSList *
-gnm_app_history_get_list (gboolean force_reload)
+gnm_app_history_get_list (int max_elements)
 {
 #ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentManager *manager = gtk_recent_manager_get_default ();
 	GSList *res = NULL;
 	GList *items, *l;
 	GtkFileFilter *filter = gnm_app_create_opener_filter ();
+	int n_elements = 0;
 
 	items = gtk_recent_manager_get_items (manager);
 	items = g_list_sort (items, (GCompareFunc)compare_mru);
 
-	for (l = items; l; l = l->next) {
+	for (l = items; l && n_elements < max_elements; l = l->next) {
 		GtkRecentInfo *ri = l->data;
 		const char *uri = gtk_recent_info_get_uri (ri);
 		gboolean want_it;
@@ -590,8 +591,10 @@ gnm_app_history_get_list (gboolean force_reload)
 			g_free (filename);
 		}
 
-		if (want_it)
+		if (want_it) {
 			res = g_slist_prepend (res, g_strdup (uri));
+			n_elements++;
+		}
 	}
 
 	go_list_free_custom (items, (GFreeFunc)gtk_recent_info_unref);
@@ -690,7 +693,7 @@ gnumeric_application_get_property (GObject *obj, guint param_id,
 #endif
 	switch (param_id) {
 	case APPLICATION_PROP_FILE_HISTORY_LIST:
-		g_value_set_pointer (value, gnm_app_history_get_list (FALSE));
+		g_value_set_pointer (value, gnm_app_history_get_list (G_MAXINT));
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;

@@ -793,8 +793,8 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 	gtk->file_history.actions = gtk_action_group_new ("FileHistory");
 
 	/* create the actions */
-	history = gnm_app_history_get_list (FALSE);
-	for (i = 1, ptr = history; i < 10 && ptr != NULL ; ptr = ptr->next, i++) {
+	history = gnm_app_history_get_list (9);
+	for (i = 1, ptr = history; ptr != NULL ; ptr = ptr->next, i++) {
 		GtkActionEntry entry;
 		GtkAction *action;
 		char const *uri = ptr->data;
@@ -823,7 +823,6 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 		g_free (filename_utf8);
 		g_free (tooltip);		
 	}
-
 	go_slist_free_custom (history, (GFreeFunc)g_free);
 
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history.actions, 0);

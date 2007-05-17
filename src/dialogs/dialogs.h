@@ -108,6 +108,7 @@ char *dialog_get_password (GtkWindow *parent, char const *filename);
 /* Modeless dialogs */
 void	dialog_edit_meta_data  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
 void	dialog_preferences (WorkbookControlGUI *wbcg, gint page);
+void    dialog_recent_used (WorkbookControlGUI *wbcg);
 
 void	dialog_new_view (WorkbookControlGUI *wbcg);
 void	dialog_so_styled (WorkbookControlGUI *wbcg, GObject *so,

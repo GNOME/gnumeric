@@ -1,3 +1,7 @@
+2007-05-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-recent.c: New file.
+
 2007-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (do_setup_page_info): enable

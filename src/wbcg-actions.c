@@ -157,6 +157,7 @@ static GNM_ACTION_DEF (cb_file_print_preview)
 
 static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg); }
 static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, 0); }
+static GNM_ACTION_DEF (cb_file_history_full)    { dialog_recent_used (wbcg); }
 static GNM_ACTION_DEF (cb_file_close)		{ wbcg_close_control (wbcg); }
 
 static GNM_ACTION_DEF (cb_file_quit)
@@ -235,6 +236,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 	g_list_free (workbooks);
 	g_list_free (clean_no_closed);
 }
+
 /****************************************************************************/
 
 static GNM_ACTION_DEF (cb_edit_clear_all)
@@ -1587,6 +1589,9 @@ static GtkActionEntry const actions[] = {
 	{ "FilePreferences", GTK_STOCK_PREFERENCES, N_("Pre_ferences..."),
 		NULL, N_("Change Gnumeric Preferences"),
 		G_CALLBACK (cb_file_preferences) },
+	{ "FileHistoryFull", NULL, N_("Full _History..."),
+		NULL, N_("Access previously used file"),
+		G_CALLBACK (cb_file_history_full) },
 
 /* File->PrintArea */
         { "FilePrintAreaSet", NULL, N_("Set Print Area"),

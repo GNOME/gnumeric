@@ -21,7 +21,7 @@ Workbook    *gnm_app_workbook_get_by_name  (char const *name,
 Workbook    *gnm_app_workbook_get_by_index (int i);
 gboolean     gnm_app_workbook_foreach	   (GnmWbIterFunc func, gpointer data);
 
-GSList      *gnm_app_history_get_list	   (gboolean force_reload);
+GSList      *gnm_app_history_get_list	   (int max_elements);
 void	     gnm_app_history_add	   (char const *filename, const char *mimetype);
 
 /* GtkFileFilter */

@@ -53,6 +53,7 @@ base_files =					\
 	dialog-plugin-manager.c 		\
 	dialog-preferences.c			\
 	dialog-random-generator.c		\
+	dialog-recent.c				\
 	dialog-row-height.c			\
 	dialog-scenarios.c			\
 	dialog-search.c				\
