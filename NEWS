@@ -5,6 +5,7 @@ Andreas:
 	  other print settings
 	* Handle differences in page setup between sheets when
 	  printing multiple sheets
+	* Fix handling of "print even if only style". [#438743]
 
 Jean:
 	* Fix check for long double support in goffice.

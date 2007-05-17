@@ -1,3 +1,8 @@
+2007-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-style.c (cb_style_extent): also adjust top left
+	(sheet_style_get_extent): fix description
+
 2007-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_history_get_list): Take max-length

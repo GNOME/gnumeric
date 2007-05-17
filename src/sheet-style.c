@@ -1913,6 +1913,8 @@ cb_style_extent (GnmStyle *style,
 		int i = corner_col;
 		if (data->res->end.col < tmp)
 			data->res->end.col = tmp;
+		if (data->res->start.col > corner_col)
+			data->res->start.col = corner_col;
 
 		/* only check the row if the style is not the most common in
 		 * all of the columns in the tile */
@@ -1926,6 +1928,8 @@ cb_style_extent (GnmStyle *style,
 		tmp = corner_row+height-1;
 		if (data->res->end.row < tmp)
 			data->res->end.row = tmp;
+		if (data->res->start.row > corner_row)
+			data->res->start.row = corner_row;
 	}
 }
 
@@ -1936,8 +1940,8 @@ cb_style_extent (GnmStyle *style,
  * @r     :
  * most_common_in_cols : optionally NULL.
  *
- * A simple implementation that find the max lower and right styles that are
- * visible.  If @most_common_in_cols is specified it finds the most common
+ * A simple implementation that finds the smallest range containing all visible styles
+ * and containing res. x If @most_common_in_cols is specified it finds the most common
  * style for each column (0..SHEET_MAX_COLS-1) and ignores that style in
  * boundary calculations.
  */
