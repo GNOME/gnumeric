@@ -822,6 +822,22 @@ xml_sax_monochrome (GsfXMLIn *xin, xmlChar const **attrs)
 			pi->print_black_and_white = val;	
 }
 
+static void
+xml_sax_print_titles (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	PrintInformation *pi;
+	int val;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_int (attrs, "value", &val))
+			pi->print_titles = val;
+}
 
 static void
 xml_sax_even_if_only_styles (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2082,7 +2098,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MONO,	    GNM, "monochrome",	GSF_XML_NO_CONTENT, &xml_sax_monochrome, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,   GNM, "draft",	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,   GNM, "comments",	GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	GSF_XML_NO_CONTENT, &xml_sax_print_titles, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_TOP, GNM, "repeat_top", 	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_LEFT,GNM, "repeat_left",	GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Footer",	GSF_XML_NO_CONTENT, NULL, NULL),
