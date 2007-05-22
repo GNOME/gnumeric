@@ -374,8 +374,13 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gboolean success  = FALSE;
 	gchar const *wb_uri;
 	char *uri;
+	Workbook *wb;
+	WorkbookControlGUI *wbcg2;
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
+
+	wb = wb_view_get_workbook (wb_view);
+	wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
 	for (l = go_get_file_savers (); l; l = l->next) {
 		if ((l->data == NULL) || 
@@ -455,16 +460,16 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	}
 
 	/* Set default file saver */
-	fs = wbcg->current_saver;
-	if (fs == NULL)
-		fs = workbook_get_file_saver (wb_view_get_workbook (wb_view));
-	if (fs == NULL || g_list_find (savers, fs) == NULL)
+	fs = wbcg2 ? wbcg2->current_saver : NULL;
+	if (!fs)
+		fs = workbook_get_file_saver (wb);
+	if (!fs || g_list_find (savers, fs) == NULL)
 		fs = go_file_saver_get_default ();
 
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	wb_uri = go_doc_get_uri (GO_DOC (wb_view_get_workbook (wb_view)));
+	wb_uri = go_doc_get_uri (GO_DOC (wb));
 	if (wb_uri != NULL) {
 		char *basename = go_basename_from_uri (wb_uri);
 		char *dot = basename ? strrchr (basename, '.') : NULL;
@@ -513,8 +518,12 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		g_free (uri);
 	}
 
-	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
-				GTK_WIDGET (wbcg->notebook)->allocation.height);
+	if (wbcg2) {
+		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook);
+		wb_view_preferred_size (wb_view,
+					nb->allocation.width,
+					nb->allocation.height);
+        }
 
 	success = check_multiple_sheet_support_if_needed (fs, GTK_WINDOW (fsel), wb_view);
 	if (success) {
@@ -523,8 +532,9 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		fsel = NULL;
 		success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
 		if (success) {
-			wbcg->current_saver = fs;
-			workbook_update_history (wb_view_get_workbook (wb_view));
+			if (wbcg2)
+				wbcg2->current_saver = fs;
+			workbook_update_history (wb);
 		}
 	}
 
@@ -541,13 +551,17 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 gboolean
 gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
-	Workbook *wb;
+	Workbook *wb = wb_view_get_workbook (wb_view);
+	WorkbookControlGUI *wbcg2 =
+		wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
-	wb_view_preferred_size (wb_view,
-	                        GTK_WIDGET (wbcg->notebook)->allocation.width,
-	                        GTK_WIDGET (wbcg->notebook)->allocation.height);
+	if (wbcg2) {
+		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook);
+		wb_view_preferred_size (wb_view,
+					nb->allocation.width,
+					nb->allocation.height);
+	}
 
-	wb = wb_view_get_workbook (wb_view);
 	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else {

@@ -40,4 +40,11 @@ void	   wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window);
 
 PangoFontDescription *wbcg_get_font_desc (WorkbookControlGUI *wbcg);
 
+
+
+WorkbookControlGUI *wbcg_find_for_workbook (Workbook *wb,
+					    WorkbookControlGUI *candidate,
+					    GdkScreen *pref_screen,
+					    GdkDisplay *pref_display);
+
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_H */

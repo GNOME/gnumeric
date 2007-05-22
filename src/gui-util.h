@@ -123,6 +123,5 @@ typedef enum {
 void gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 					WorkbookControlGUI *wbcg,
 					GnmDialogDestroyOptions what);
-	
 
 #endif /* GNUMERIC_GUI_UTIL_H */

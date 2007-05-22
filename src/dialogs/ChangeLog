@@ -1,3 +1,8 @@
+2007-05-21  Morten Welinder  <terra@gnome.org>
+
+	* dialog-quit.c: New file.
+	* Makefile.am (base_files): Hook it up.
+
 2007-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.glade: show row/col headings checkbox

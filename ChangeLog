@@ -1,3 +1,17 @@
+2007-05-21  Morten Welinder  <terra@gnome.org>
+
+	* src/wbcg-actions.c (cb_file_quit): Call new dialog_quit.
+
+	* src/gui-file.c (gui_file_save): Grab the size from a wbcg that
+	refers to the right workbook.
+	(gui_file_save_as): Ditto.  Also refer to the right wbcg when
+	looking for saver type.
+
+	* src/workbook-control-gui.c (wbcg_close_if_user_permits): Make
+	static.
+	(wbcg_show_save_dialog): Make static.
+	(wbcg_find_for_workbook): New function.
+
 2007-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xml-sax-read.c (xml_sax_print_titles): new

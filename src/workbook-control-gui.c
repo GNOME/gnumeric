@@ -1232,7 +1232,7 @@ wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
 		wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)), error);
 }
 
-int
+static int
 wbcg_show_save_dialog (WorkbookControlGUI *wbcg, 
 		       Workbook *wb, gboolean exiting)
 {
@@ -1303,7 +1303,7 @@ wbcg_show_save_dialog (WorkbookControlGUI *wbcg,
  * 3) save any future dirty
  * 4) do not save any future dirty
  */
-int
+static int
 wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 			    WorkbookView *wb_view, gboolean close_clean,
 			    gboolean exiting, gboolean ask_user)
@@ -1947,6 +1947,51 @@ wbcg_get_font_desc (WorkbookControlGUI *wbcg)
 	}
 	return wbcg->font_desc;
 }
+
+WorkbookControlGUI *
+wbcg_find_for_workbook (Workbook *wb,
+			WorkbookControlGUI *candidate,
+			GdkScreen *pref_screen,
+			GdkDisplay *pref_display)
+{
+	gboolean has_screen, has_display;
+
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (candidate == NULL || IS_WORKBOOK_CONTROL_GUI (candidate), NULL);
+
+	if (candidate && wb_control_get_workbook (WORKBOOK_CONTROL (candidate)) == wb)
+		return candidate;
+
+	if (!pref_screen && candidate)
+		pref_screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (candidate)));
+
+	if (!pref_display && pref_screen)
+		pref_display = gdk_screen_get_display (pref_screen);
+
+	candidate = NULL;
+	has_screen = FALSE;
+	has_display = FALSE;
+	WORKBOOK_FOREACH_CONTROL(wb, wbv, wbc, {
+		if (IS_WORKBOOK_CONTROL_GUI (wbc)) {
+			WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
+			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (wbcg)));
+			GdkDisplay *display = gdk_screen_get_display (screen);
+
+			if (pref_screen == screen && !has_screen) {
+				has_screen = has_display = TRUE;
+				candidate = wbcg;
+			} else if (pref_display == display && !has_display) {
+				has_display = TRUE;
+				candidate = wbcg;
+			} else if (!candidate)
+				candidate = wbcg;
+		}
+	});
+
+	return candidate;
+}
+
+/* ------------------------------------------------------------------------- */
 
 static void
 cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)

@@ -118,4 +118,6 @@ void	dialog_so_list	 (WorkbookControlGUI *wbcg, GObject *so);
 
 void	dialog_doc_metadata_new  (WorkbookControlGUI *wbcg);
 
+void    dialog_quit (WorkbookControlGUI *wbcg);
+
 #endif /* GNUMERIC_DIALOGS_H */

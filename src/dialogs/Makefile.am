@@ -55,6 +55,7 @@ base_files =					\
 	dialog-random-generator.c		\
 	dialog-recent.c				\
 	dialog-row-height.c			\
+	dialog-quit.c				\
 	dialog-scenarios.c			\
 	dialog-search.c				\
 	dialog-search-replace.c			\

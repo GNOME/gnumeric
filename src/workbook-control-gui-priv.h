@@ -117,11 +117,6 @@ typedef struct {
 /* Protected functions */
 void	 wbcg_set_toplevel	      (WorkbookControlGUI *wbcg, GtkWidget *w);
 gboolean wbcg_close_control	      (WorkbookControlGUI *wbcg);
-int 	 wbcg_show_save_dialog	      (WorkbookControlGUI *wbcg, 
-				       Workbook * wb, gboolean exiting);
-int	 wbcg_close_if_user_permits   (WorkbookControlGUI *wbcg,
-				       WorkbookView *wb_view, gboolean close_clean,
-				       gboolean exiting, gboolean ask_user);
 void	 scg_delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg);
 void	 wbcg_insert_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
 void	 wbcg_append_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);

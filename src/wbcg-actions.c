@@ -162,12 +162,6 @@ static GNM_ACTION_DEF (cb_file_close)		{ wbcg_close_control (wbcg); }
 
 static GNM_ACTION_DEF (cb_file_quit)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	GList *ptr, *workbooks, *clean_no_closed = NULL;
-	gboolean ok = TRUE;
-	gboolean ask_user = TRUE;
-	gboolean discard_all = FALSE;
-
 	/* If we are still loading initial files, short circuit */
 	if (!initial_workbook_open_complete) {
 		initial_workbook_open_complete = TRUE;
@@ -177,64 +171,7 @@ static GNM_ACTION_DEF (cb_file_quit)
 	/* If we were editing when the quit request came in abort the edit. */
 	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 
-	/* list is modified during workbook destruction */
-	workbooks = g_list_copy (gnm_app_workbook_list ());
-
-	for (ptr = workbooks; ok && ptr != NULL ; ptr = ptr->next) {
-		Workbook *wb = ptr->data;
-		WorkbookView *wb_view;
-		GList *old_ptr;
-
-		g_return_if_fail (IS_WORKBOOK (wb));
-		g_return_if_fail (wb->wb_views != NULL);
-
-		if (wb_control_get_workbook (wbc) == wb)
-			continue;
-		if (discard_all) {
-
-		} else {
-			wb_view = g_ptr_array_index (wb->wb_views, 0);
-			switch (wbcg_close_if_user_permits (wbcg, wb_view, FALSE,
-								TRUE, ask_user)) {
-			case 0 : ok = FALSE;	/* canceled */
-				break;
-			case 1 :		/* closed */
-				break;
-			case 2 : clean_no_closed = g_list_prepend (clean_no_closed, wb);
-				break;
-			case 3 :		/* save_all */
-				ask_user = FALSE;
-				break;
-			case 4 :		/* discard_all */
-				discard_all = TRUE;
-				old_ptr = ptr;
-				for (ptr = ptr->next; ptr != NULL ; ptr = ptr->next) {
-					GODoc *wb = ptr->data;
-					old_ptr = ptr;
-					if (wb_control_get_doc (wbc) == wb)
-						continue;
-					go_doc_set_dirty (wb, FALSE);
-					g_object_unref (wb);
-				}
-				ptr = old_ptr;
-				break;
-			}
-		}
-	}
-
-	if (discard_all) {
-		go_doc_set_dirty (wb_control_get_doc (wbc), FALSE);
-		g_object_unref (wb_control_get_doc (wbc));
-		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
-			g_object_unref (ptr->data);
-	} else if (ok && wbcg_close_if_user_permits (wbcg, wb_control_view (wbc),
-						     TRUE, TRUE, ask_user) > 0)
-		/* only close pristine books if nothing was canceled. */
-		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
-			g_object_unref (ptr->data);
-
-	g_list_free (workbooks);
-	g_list_free (clean_no_closed);
+	dialog_quit (wbcg);
 }
 
 /****************************************************************************/
