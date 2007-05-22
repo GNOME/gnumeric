@@ -362,14 +362,14 @@ dialog_quit (WorkbookControlGUI *wbcg)
 		if (go_doc_is_dirty (GO_DOC (doc)))
 			dirty = g_list_prepend (dirty, doc);
 	}
-	if (!dirty)
-		return;
 
-	dirty = g_list_sort (dirty, doc_order);
-	quit = show_quit_dialog (dirty, wbcg);
-	g_list_free (dirty);
-	if (!quit)
-		return;
+	if (dirty) {
+		dirty = g_list_sort (dirty, doc_order);
+		quit = show_quit_dialog (dirty, wbcg);
+		g_list_free (dirty);
+		if (!quit)
+			return;
+	}
 
 	x_store_clipboard_if_needed (wb_control_get_workbook (wbc));
 

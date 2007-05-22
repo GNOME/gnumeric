@@ -623,6 +623,10 @@ gnm_app_history_add (char const *uri, const char *mimetype)
 
 	memset (&rd, 0, sizeof (rd));
 
+#if 0
+	g_print ("uri: %s\nmime: %s\n\n", uri, mimetype ? mimetype : "-");
+#endif
+
         rd.mime_type =
 		g_strdup (mimetype ? mimetype : "application/octet-stream");
 
