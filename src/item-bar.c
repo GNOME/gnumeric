@@ -157,9 +157,11 @@ item_bar_calc_size (ItemBar *ib)
 	g_object_unref (layout);
 
 	ib->pango.item->analysis.font = g_object_ref (ib->normal_font);
+	ib->pango.item->analysis.language =
+		pango_context_get_language (context);
 	ib->pango.item->analysis.shape_engine =
 		pango_font_find_shaper (ib->normal_font,
-					pango_context_get_language (context),
+					ib->pango.item->analysis.language,
 					'A');
 
 	ib->indent = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
@@ -1092,7 +1094,7 @@ item_bar_init (ItemBar *ib)
 
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
-	ib->pango.item   = pango_item_new ();
+	ib->pango.item = pango_item_new ();
 	ib->pango.glyphs = pango_glyph_string_new ();
 }
 

@@ -16,6 +16,7 @@ Morten:
 	* Improve handling of foreign recently-used files.  [#438918]
 	* Improve save-on-exit dialog.
 	* Fix potentially confusing save-in-wrong-format-on-exit bug.
+	* Tentatively fix issue with recent Pango.  [#440514]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.10
