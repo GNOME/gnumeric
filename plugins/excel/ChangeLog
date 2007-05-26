@@ -1,3 +1,7 @@
+2007-05-25  Morten Welinder  <terra@gnome.org>
+
+	* plugin.xml.in: Add mime types for most of the savers.
+
 2007-05-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (fontx), (tick), (end): import legend and

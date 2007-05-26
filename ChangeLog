@@ -1,3 +1,8 @@
+2007-05-25  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_init): Install a mime type for the saver if
+	goffice supports it.
+
 2007-05-22  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (item_bar_calc_size): Tentative fix for Pango

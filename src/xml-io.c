@@ -2678,6 +2678,7 @@ gnumeric_xml_read_workbook (GOFileOpener const *fo,
 void
 xml_init (void)
 {
+	GOFileSaver *saver;
 	GSList *suffixes = go_slist_create (g_strdup ("gnumeric"), g_strdup ("xml"), NULL);
 	GSList *mimes = go_slist_create (g_strdup ("application/x-gnumeric"), NULL);
 	xml_sax_prober.comment    = NULL;
@@ -2697,8 +2698,23 @@ xml_init (void)
 		_("Gnumeric XML (*.gnumeric)"),
 		suffixes, mimes,
 		xml_probe, gnm_xml_file_open), 50);
-	go_file_saver_register_as_default (go_file_saver_new (
-		"Gnumeric_XmlIO:sax", "gnumeric",
-		_("Gnumeric XML (*.gnumeric)"),
-		FILE_FL_AUTO, gnm_xml_file_save), 50);
+
+	saver = go_file_saver_new ("Gnumeric_XmlIO:sax",
+				   "gnumeric",
+				   _("Gnumeric XML (*.gnumeric)"),
+				   FILE_FL_AUTO, gnm_xml_file_save);
+	/*
+	 * The following avoids a hard dep on goffice trunk.  When we
+	 * otherwise require that, just do the g_object_set.
+	 */
+	{
+		GParamSpec *pspec = g_object_class_find_property
+			(G_OBJECT_GET_CLASS (saver), "mime-type");
+		if (pspec)
+			g_object_set (G_OBJECT (saver),
+				      "mime-type", "application/x-gnumeric",
+				      NULL);
+	}
+
+	go_file_saver_register_as_default (saver, 50);
 }

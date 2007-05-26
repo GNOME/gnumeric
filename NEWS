@@ -17,6 +17,7 @@ Morten:
 	* Improve save-on-exit dialog.
 	* Fix potentially confusing save-in-wrong-format-on-exit bug.
 	* Tentatively fix issue with recent Pango.  [#440514]
+	* Provide good mime type for recent documents.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.10

@@ -33,13 +33,15 @@
 		</service>
 
 		<service type="file_saver" id="excel_biff7" file_extension="xls"
-		         format_level="auto" overwrite_files="TRUE">
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.ms-excel">
 			<information>
 				<_description>MS Excel (tm) 5.0/95</_description>
 			</information>
 		</service>
 		<service type="file_saver" id="excel_biff8" file_extension="xls"
-		         format_level="auto" overwrite_files="TRUE">
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.ms-excel">
 			     <!-- Add default_saver_priority="100"  to make
 			     this the default -->
 			<information>
@@ -47,7 +49,8 @@
 			</information>
 		</service>
 		<service type="file_saver" id="excel_dsf" file_extension="xls"
-		         format_level="auto" overwrite_files="TRUE">
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.ms-excel">
 			<information>
 				<_description>MS Excel (tm) 97/2000/XP &amp; 5.0/95</_description>
 			</information>
