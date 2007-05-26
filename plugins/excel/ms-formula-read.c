@@ -1111,7 +1111,8 @@ excel_parse_formula1 (MSContainer const *container,
 
 		case FORMULA_PTG_STR: {
 			char *str;
-			int byte_len, char_len = GSF_LE_GET_GUINT8 (cur);
+			guint32 byte_len;
+			int char_len = GSF_LE_GET_GUINT8 (cur);
 
 			if (char_len <= len_left) {
 				str = excel_get_text (container->importer, cur+1, char_len, &byte_len);
