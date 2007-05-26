@@ -203,7 +203,7 @@ validation_new (ValidationStyle style,
 	for (i = nops; i < 2; i++)
 		if (v->texpr[i]) {
 			gnm_expr_top_unref (v->texpr[i]);
-			v->texpr[i] = 0;
+			v->texpr[i] = NULL;
 		}
 
 	return v;
