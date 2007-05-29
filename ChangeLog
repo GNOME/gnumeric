@@ -1,3 +1,16 @@
+2007-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (print_titles): deleted
+	(print_header_gtk): new
+	(print_page_col_headers): new
+	(print_page_row_headers): new
+	(setup_scale): deleted
+	(print_page): some cleanup
+	(compute_scale_fit_to): some simplification
+	  and handle header
+	(compute_sheet_pages_across_then_down): handle headers
+	(compute_sheet_pages): ditto
+
 2007-05-25  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (xml_init): Install a mime type for the saver if

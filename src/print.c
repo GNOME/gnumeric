@@ -38,6 +38,7 @@
 #include "application.h"
 #include "sheet-style.h"
 #include "ranges.h"
+#include "parse-util.h"
 #include "style-font.h"
 #include "gnumeric-gconf.h"
 #include <goffice/utils/go-font.h>
@@ -66,7 +67,7 @@ typedef struct {
 typedef struct {
 	Sheet *sheet;
 	gboolean selection;
-        gboolean ignore_printarea;	
+        gboolean ignore_printarea;
 } SheetPrintInfo;
 
 
@@ -93,92 +94,6 @@ printing_instance_delete (PrintingInstance *pi)
 	g_list_free (pi->gnmSheetRanges);
 	g_free (pi);
 }
-
-
-
-#if 0
-
-/*
- * Margins
- *
- * In the internal format, top and bottom margins, header and footer have
- * the same semantics as in Excel.  That is:
- *
- * +----------------------------------------+
- * |   ^            ^                       |
- * |   | top        |header                 |
- * |   |margin      v                       |
- * |-- |-------------                       |
- * |   v           header text              |
- * |------+--------------------------+------|
- * |      |                          |      |
- * |<---->|                          |<---->| ^
- * | left |           Cell           |right | |Increasing
- * |margin|                          |margin| |y
- * |      |           Grid           |      | |
- *
- * ~      ~                          ~      ~
- *
- * |      |                          |      |
- * |------+--------------------------+------|
- * |   ^           footer text              |
- * |-- |------------------------------------|
- * |   |bottom      ^                       |
- * |   |margin      |footer                 |
- * |   v            v                       |
- * +----------------------------------------+
- *
- * In the GUI on the other hand, top margin means the empty space above the
- * header text, and header area means the area from the top of the header
- * text to the top of the cell grid.  */
-
-typedef struct {
-	/*
-	 * Part 1: The information the user configures on the Print Dialog
-	 */
-	PrintRange range;
-	int start_page, end_page; /* Interval */
-	gboolean sorted_print;
-	gboolean is_preview;
-
-	int current_output_sheet;		/* current sheet number during output */
-
-	/*
-	 * Part 2: Handy pre-computed information passed around
-	 */
-	double width, height;	/* total dimensions */
-	double x_points;	/* real usable X (ie, width - margins) */
-	double y_points;	/* real usable Y (ie, height - margins) */
-	double titles_used_x;	/* points used by the X titles */
-	double titles_used_y;	/* points used by the Y titles */
-
-	/* The repeat columns/rows ranges used space */
-	double repeat_cols_used_x;
-	double repeat_rows_used_y;
-
-	/*
-	 * Part 3: Handy pointers
-	 */
-	GnomePrintContext *print_context;
-
-	/*
-	 * Part 5: Headers and footers
-	 */
-	HFRenderInfo *render_info;
-	PangoLayout *decoration_layout;
-
-	/* 6: The config */
-	GnomePrintConfig *gp_config;
-} PrintJobInfo;
-
-static void
-print_titles (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
-	      double base_x, double base_y)
-{
-#warning TODO
-}
-
-#endif
 
 static void
 print_sheet_objects (GtkPrintContext   *context,
@@ -266,17 +181,13 @@ print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 	width = sheet_col_get_distance_pts (sheet,
 					     range->start.col, range->end.col + 1);
 
-/*      The next 8 lines create a huge performance hit. We have to figure out why that is */
-/*      Not that we are essentially not using this since we have additional clip paths    */
-/*      defined later but calculating the intersection of those paths seems time consuming */
-
  	if (sheet->text_is_rtl) { 
 		base_x += gtk_print_context_get_width (context);
 /* 		cairo_rectangle (cr, */
 /* 				 base_x - width, base_y, */
 /* 				 width, height); */
 	}
-/* 	else */
+/*	else  */
 /* 		cairo_rectangle (cr, */
 /* 				 base_x, base_y, */
 /* 				 width, height); */
@@ -287,6 +198,115 @@ print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 	print_sheet_objects (context, cr, sheet, range, base_x, base_y);
 
 	cairo_restore (cr);
+}
+
+static void
+print_header_gtk (GtkPrintContext   *context, cairo_t *cr,
+		  float x, float y, float w, float h,
+		  char const *name,
+		  PangoFontDescription *desc)
+{
+	PangoLayout *layout;
+	gint layout_height;
+	gdouble text_height;
+	
+	cairo_rectangle (cr, x, y, w, h);
+	cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
+	cairo_fill (cr);
+
+	cairo_set_source_rgb (cr, 0., 0., 0.);
+	layout = gtk_print_context_create_pango_layout (context);
+	pango_layout_set_font_description (layout, desc);
+	
+	pango_layout_set_text (layout, name, -1);
+	pango_layout_set_width (layout, w);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+	
+	pango_layout_get_size (layout, NULL, &layout_height);
+	text_height = (gdouble)layout_height / PANGO_SCALE;
+	
+	cairo_move_to (cr, x + w/2,  y + (h - text_height) / 2);
+	pango_cairo_show_layout (cr, layout);
+	
+	g_object_unref (layout);
+
+}
+
+static void
+print_page_col_headers (GtkPrintContext   *context, PrintingInstance * pi,
+		  cairo_t *cr, Sheet const *sheet, GnmRange *range,
+		  double row_header_width, double col_header_height)
+{
+	int start_col, end_col;
+	int col;
+	double x;
+	PangoFontDescription *desc;
+
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (range != NULL);
+	g_return_if_fail (range->start.col <= range->end.col);
+
+	desc = pango_font_description_from_string ("sans 12");
+	
+	start_col = range->start.col;
+	end_col = range->end.col;
+
+	/* FIXME: In rtl x is not right */
+	
+	for (col = start_col, x = row_header_width - GNM_COL_MARGIN; col <= end_col ; col++) {
+		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
+
+		if (ci->visible) {
+			if (sheet->text_is_rtl)
+				x -= ci->size_pts;
+			
+			print_header_gtk (context, cr,
+					  x + 0.5, 0,
+					  ci->size_pts - 1,
+					  col_header_height - 0.5,
+					  col_name (col), desc);
+			
+			if (!sheet->text_is_rtl)
+				x += ci->size_pts;
+		}
+	}
+	
+	pango_font_description_free (desc);
+}
+
+static void
+print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
+		  cairo_t *cr, Sheet const *sheet, GnmRange *range,
+		  double row_header_width, double col_header_height)
+{
+	int start_row, end_row;
+	int row;
+	double y;
+	PangoFontDescription *desc;
+
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (range != NULL);
+	g_return_if_fail (range->start.row <= range->end.row);
+
+	desc = pango_font_description_from_string ("sans 12");
+	
+	start_row = range->start.row;
+	end_row = range->end.row;
+
+	for (row = start_row, y = col_header_height; row <= end_row ; row++) {
+		ColRowInfo const *ri = sheet_row_get_info (sheet, row);
+
+		if (ri->visible) {
+			print_header_gtk (context, cr,
+					  0, y + 0.5,
+					  row_header_width - 0.5,
+					  ri->size_pts - 1,
+					  row_name (row), desc);
+			y += ri->size_pts;
+		}
+	}
+	
+	pango_font_description_free (desc);
 }
 
 #if 0
@@ -537,24 +557,6 @@ print_footers (PrintJobInfo const *pj, Sheet const *sheet)
 		       TRUE);
 }
 
-static void
-setup_scale (PrintJobInfo const *pj, Sheet const *sheet)
-{
-	PrintInformation const *pi = sheet->print_info;
-	double affine [6];
-	double x_scale = pi->scaling.percentage.x / 100.;
-	double y_scale = pi->scaling.percentage.y / 100.;
-
-	art_affine_scale (affine, x_scale, y_scale);
-	gnome_print_concat (pj->print_context, affine);
-}
-
-static GnmValue *
-cb_range_empty (GnmCellIter const *iter, gpointer flags)
-{
-	return (iter->ci->visible && iter->ri->visible) ? VALUE_TERMINATE : NULL;
-}
-
 #endif
 
 /**
@@ -573,27 +575,18 @@ print_page (GtkPrintOperation *operation,
 	    GtkPrintContext   *context,
 	    PrintingInstance * pi,
 	    Sheet const *sheet,
-	    GnmRange *range,
-	    gboolean output)
+	    GnmRange *range)
 {
 	PrintInformation *pinfo = sheet->print_info;
-/* 	/\* print_height/width are sizes of the regular grid, */
-/* 	 * not including repeating rows and columns *\/ */
 	double print_height, print_width;
-	double repeat_cols_used_x = 0., repeat_rows_used_y = 0.;
-	double x, y, clip_y;
-	char *pagenotxt;
-	gboolean printed;
-	GSList *ptr;
 	double header, footer, left, right;
 	double edge_to_below_header, edge_to_above_footer;
 	cairo_t *cr;
-	PangoLayout *layout;
-	gint layout_height;
-	PangoFontDescription *desc;
 	gdouble px, py;
 	gdouble width;
 	gdouble height;
+	gdouble col_header_height = 0.;
+	gdouble row_header_width = 0.;
 
 	px = pinfo->scaling.percentage.x / 100.;
 	py = pinfo->scaling.percentage.y / 100.;
@@ -607,14 +600,21 @@ print_page (GtkPrintOperation *operation,
 	print_info_get_margins (pinfo, &header, &footer, &left, &right,
 				&edge_to_below_header, &edge_to_above_footer);
 
+	if (sheet->print_info->print_titles) {
+		col_header_height = sheet->rows.default_style.size_pts;
+		row_header_width = sheet->cols.default_style.size_pts;
+	}
+
 	width = gtk_print_context_get_width (context);
 	height = print_info_get_paper_height (pinfo,GTK_UNIT_POINTS)
 		- edge_to_below_header - edge_to_above_footer;
 
 	print_height = sheet_row_get_distance_pts (sheet, range->start.row,
-	                                           range->end.row + 1);
+	                                           range->end.row + 1) 
+		+ col_header_height;
 	print_width = sheet_col_get_distance_pts (sheet, range->start.col,
-	                                          range->end.col + 1);
+	                                          range->end.col + 1)
+		+ row_header_width;
 /* printing header  */
 
 
@@ -636,146 +636,18 @@ print_page (GtkPrintOperation *operation,
 	}
 	cairo_scale (cr, px, py);
 
-/* 	/\* Space for repeated rows depends on whether we print them or not *\/ */
-/* 	if (pinfo->repeat_top.use && */
-/* 	    range->start.row > pinfo->repeat_top.range.start.row) { */
-/* 		repeat_rows_used_y = pj->repeat_rows_used_y; */
-/* 		/\* Make sure start_row never is inside the repeated range *\/ */
-/* 		range->start.row = MAX (range->start.row, */
-/* 				        pinfo->repeat_top.range.end.row + 1); */
-/* 	} else */
-		repeat_rows_used_y = 0;
+	if (sheet->print_info->print_titles) {
+		print_page_col_headers (context, pi, cr, sheet, range, row_header_width, col_header_height);
+		print_page_row_headers (context, pi, cr, sheet, range, row_header_width, col_header_height);
+		if (sheet->text_is_rtl) {
+			cairo_translate (cr, 0, col_header_height);
+			/* FIXME:  We have to avoid overprinting the row headers */
+		}
+		else
+			cairo_translate (cr, row_header_width, col_header_height);
+	}
 
-/* 	/\* Space for repeated cols depends on whether we print them or not *\/ */
-/* 	if (pinfo->repeat_left.use && */
-/* 	    range->start.col > pinfo->repeat_left.range.start.col) { */
-/* 		repeat_cols_used_x = pj->repeat_cols_used_x; */
-/* 		/\* Make sure start_col never is inside the repeated range *\/ */
-/* 		range->start.col = MAX (range->start.col, */
-/* 				        pinfo->repeat_left.range.end.col + 1); */
-/* 	} else */
-		repeat_cols_used_x = 0;
-
-	/* If there are no cells in the area check for spans */
-/* 	printed = (NULL != sheet_foreach_cell_in_range ((Sheet *)sheet, */
-/* 							CELL_ITER_IGNORE_NONEXISTENT, */
-/* 							range->start.col, */
-/* 							range->start.row, */
-/* 							range->end.col, */
-/* 							range->end.row, */
-/* 							cb_range_empty, NULL)); */
-/* 	if (!printed) { */
-/* 		int i = range->start.row; */
-/* 		for (; i <= range->end.row ; ++i) { */
-/* 			ColRowInfo const *ri = sheet_row_get_info (sheet, i); */
-/* 			if (ri->visible && */
-/* 			    (NULL != row_span_get (ri, range->start.col) || */
-/* 			     NULL != row_span_get (ri, range->end.col))) { */
-/* 				printed = TRUE; */
-/* 				break; */
-/* 			} */
-/* 		} */
-/* 	} */
-/* 	if (!printed && pinfo->print_even_if_only_styles) */
-/* 		printed = sheet_style_has_visible_content (sheet, range); */
-
-/* 	/\* Check for sheet objects if nothing has been found so far *\/ */
-/* 	if (!printed) */
-/* 		for (ptr = sheet->sheet_objects; ptr && !printed; ptr = ptr->next) { */
-/* 			SheetObject *so = SHEET_OBJECT (ptr->data); */
-/* 			printed = range_overlap (range, &so->anchor.cell_bound); */
-/* 		} */
-
-/* 	if (!output) */
-/* 		return printed; */
-
-/* 	if (!printed) */
-/* 		return 0; */
-
-	x = 0.;
-	y = 0.;
-
-/* 	if (pinfo->center_vertically){ */
-/* 		double h = print_height; */
-
-/* 		if (pinfo->print_titles) */
-/* 			h += sheet->rows.default_style.size_pts; */
-/* 		h += repeat_rows_used_y; */
-/* 		h *= pinfo->scaling.percentage.y / 100.; */
-/* 		y = (pj->y_points - h)/2; */
-/* 	} */
-
-/* 	if (pinfo->center_horizontally){ */
-/* 		double w = print_width; */
-
-/* 		if (pinfo->print_titles) */
-/* 			w += sheet->cols.default_style.size_pts; */
-/* 		w += repeat_cols_used_x; */
-/* 		w *= pinfo->scaling.percentage.x / 100.; */
-/* 		x = (pj->x_points - w)/2; */
-/* 	} */
-
-/* 	print_info_get_margins (pinfo, &header, &footer, &left, &right); */
-	/* Margins */
-/* 	x += left; */
-/* 	y += MAX (pm->top.points, header); */
-/* 	if (pinfo->print_grid_lines) { */
-/* 		/\* the initial grid lines *\/ */
-/* 		x += 1.; */
-/* 		y += 1.; */
-/* 	} else { */
-		/* If there are no grids alias back to avoid a penalty for the
-		 * margins of the leading gridline */
-		x -= GNM_COL_MARGIN;
-		y -= GNM_ROW_MARGIN;
-/* 	} */
-
-/* 	/\* Note: we cannot have spaces in page numbers.  *\/ */
-/* 	pagenotxt = hf_format_render (_("&[PAGE]"), */
-/* 				      pj->render_info, HF_RENDER_PRINT); */
-/* 	if (!pagenotxt) */
-/* 		pagenotxt = g_strdup_printf ("%d", pj->render_info->page); */
-/* 	gnome_print_beginpage (pj->print_context, pagenotxt); */
-/* 	g_free (pagenotxt); */
-
-/* 	print_headers (pj, sheet); */
-/* 	print_footers (pj, sheet); */
-
-/* 	/\* */
-/* 	 * Print any titles that might be used */
-/* 	 *\/ */
-/* 	if (pinfo->print_titles) { */
-/* 		print_titles (pj, sheet, range, x, y); */
-/* 		x += sheet->cols.default_style.size_pts; */
-/* 		y += sheet->rows.default_style.size_pts; */
-/* 	} */
-
-/* 	/\* Start a new path because the background fill function does not *\/ */
-/* 	gnome_print_newpath (pj->print_context); */
-
-/* 	setup_scale (pj, sheet); */
-/* 	x /= pinfo->scaling.percentage.x / 100.; */
-/* 	y /= pinfo->scaling.percentage.y / 100.; */
-
-/* 	if (pinfo->repeat_top.use && repeat_rows_used_y > 0.) { */
-/* 		/\* Intersection of repeated rows and columns *\/ */
-/* 		if (pinfo->repeat_left.use && repeat_cols_used_x > 0.) */
-/* 			print_page_repeated_intersect (pj, sheet, */
-/* 				x, y, repeat_cols_used_x, repeat_rows_used_y); */
-
-/* 		print_page_repeated_rows (pj, sheet, range->start.col, */
-/* 					  range->end.col, */
-/* 					  x + repeat_cols_used_x, y); */
-/* 		y += repeat_rows_used_y; */
-/* 	} */
-
-/* 	if (pinfo->repeat_left.use && repeat_cols_used_x > 0. ) { */
-/* 		print_page_repeated_cols (pj, sheet, range->start.row, */
-/* 					  range->end.row, x, y); */
-/* 		x += repeat_cols_used_x; */
-/* 	} */
-
-		print_page_cells (context, pi, cr, sheet, range, x, y);
+	print_page_cells (context, pi, cr, sheet, range, -GNM_COL_MARGIN, -GNM_ROW_MARGIN);
 		
 	cairo_restore (cr);
 	return 1;
@@ -837,7 +709,7 @@ static double
 compute_scale_fit_to (Sheet const *sheet,
 		      int start, int end, double usable,
 		      ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
-		      gint pages, double max_percent, double extent)
+		      gint pages, double max_percent, double extent, double header)
 {
 	double max_p, min_p;
 	gint   max_pages, min_pages; 
@@ -848,7 +720,7 @@ compute_scale_fit_to (Sheet const *sheet,
 
 	/* We can handle a single page easily: */
 	if (pages == 1) {
-		max_p = usable/(extent + 2.);
+		max_p = usable/(header + extent + 2.);
 		return ((max_p > max_percent) ? max_percent : max_p);
 	}
 
@@ -857,22 +729,22 @@ compute_scale_fit_to (Sheet const *sheet,
 
 	/* We first calculate the max percentage needed */
 
-	max_p = (pages * usable)/extent;
+	max_p = (pages * usable)/(extent + pages * header);
 	if (max_p > max_percent)
 		max_p = max_percent;
 
-	max_pages = compute_n_pages (sheet, start, end, usable/max_p, get_info);
+	max_pages = compute_n_pages (sheet, start, end, usable/max_p - header, get_info);
 
 	if (max_pages == pages)
 		return max_p;
 
 	/* The we calculate the min percentage */
 
-	min_p = usable/extent;
+	min_p = usable/(extent + header);
 	if (min_p > max_percent)
 		min_p = max_percent;
 
-	min_pages = compute_n_pages (sheet, start, end, usable/min_p, get_info);
+	min_pages = compute_n_pages (sheet, start, end, usable/min_p - header, get_info);
 
 	
 	/* And then we pick the middle until the percentage is within 0.1% of */
@@ -880,7 +752,7 @@ compute_scale_fit_to (Sheet const *sheet,
 
 	while (max_p - min_p > 0.001) {
 		double cur_p = (max_p + min_p) / 2.;
-		int cur_pages = compute_n_pages (sheet, start, end, usable/cur_p, get_info);
+		int cur_pages = compute_n_pages (sheet, start, end, usable/cur_p - header, get_info);
 		
 		if (cur_pages > pages) {
 			max_pages = cur_pages;
@@ -966,6 +838,7 @@ compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboole
                      gboolean ignore_printarea)
 {
 	SheetPrintInfo *spi = g_new (SheetPrintInfo, 1);
+	
 	spi->sheet = (Sheet *) sheet;
 	spi->selection = selection;
 	spi->ignore_printarea = ignore_printarea;
@@ -988,7 +861,9 @@ static void
 compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 				      PrintingInstance * pi,
 				      Sheet const *sheet,
-				      GnmRange const *r)
+				      GnmRange const *r,
+				      double col_header_height,
+				      double row_header_width)
 {
 	PrintInformation *pinfo = sheet->print_info;
 	double usable_x, usable_x_initial, usable_x_repeating;
@@ -1015,13 +890,15 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 					    pinfo->scaling.dim.rows, 1., 
 					    sheet_row_get_distance_pts (sheet, 
 									r->start.row, 
-									r->end.row+1));
+									r->end.row+1),
+					    col_header_height);
 		pxy = compute_scale_fit_to (sheet, r->start.col, r->end.col,
 					    page_width, sheet_col_get_info,
 					    pinfo->scaling.dim.cols, pxy,
 					    sheet_col_get_distance_pts (sheet, 
 									r->start.col, 
-									r->end.col+1));
+									r->end.col+1),
+					    row_header_width);
 		
 		pinfo->scaling.percentage.x = pxy * 100.;
 		pinfo->scaling.percentage.y = pxy * 100.;
@@ -1046,7 +923,7 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 
 		usable_y = usable_y_repeating;
 		row_count = compute_group (sheet, row, r->end.row,
-					   usable_y, sheet_row_get_info);
+					   usable_y - col_header_height, sheet_row_get_info);
 
 		while (col <= r->end.col) {
 			GnmRange range;
@@ -1054,7 +931,7 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 
 			usable_x = usable_x_repeating;
 			col_count = compute_group (sheet, col, r->end.col,
-						   usable_x, sheet_col_get_info);
+						   usable_x - row_header_width, sheet_col_get_info);
 			range_init (&range, COL_FIT (col), ROW_FIT (row),
 				    COL_FIT (col + col_count - 1),
 				    ROW_FIT (row + row_count - 1));
@@ -1074,38 +951,45 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 static void
 compute_sheet_pages (GtkPrintContext   *context,
 		     PrintingInstance * pi,
-		     Sheet const *sheet,
-		     gboolean selection,
-		     gboolean ignore_printarea)
+		     SheetPrintInfo *spi)
 {
+	Sheet *sheet = spi->sheet;
 	PrintInformation const *pinfo = sheet->print_info;
 	GnmRange r;
 	GnmRange const *selection_range;
 	GnmRange print_area;
+	gdouble col_header_height = 0.;
+	gdouble row_header_width = 0.;
 
-	print_area = sheet_get_printarea	(sheet,
-					 pinfo->print_even_if_only_styles,
-					 ignore_printarea);
-	if (selection) {
+	if (pinfo->print_titles) {
+		col_header_height = sheet->rows.default_style.size_pts;
+		row_header_width = sheet->cols.default_style.size_pts;
+	}
+
+	print_area = sheet_get_printarea (sheet,
+					  pinfo->print_even_if_only_styles,
+					  spi->ignore_printarea);
+	if (spi->selection) {
 		selection_range = selection_first_range
 			(sheet_get_view (sheet, wb_control_view (pi->wbc)),
 			  GO_CMD_CONTEXT (pi->wbc), _("Print Selection"));
-	}
-
-	if (selection && !ignore_printarea) {
-		if (!selection_range || !range_intersection (&r, selection_range, &print_area))
-			return;
-	} else if (selection && ignore_printarea) {
 		if (selection_range == NULL)
 			return;
-		r = *selection_range;
+		if (spi->ignore_printarea) {
+			r = *selection_range;
+		} else {
+			if (!range_intersection (&r, selection_range, &print_area))
+				return;
+		}
 	} else
 		r = print_area;
-	
+
  	if (sheet->print_info->print_across_then_down)
-		return compute_sheet_pages_across_then_down (context, pi, sheet, &r);
+		return compute_sheet_pages_across_then_down (context, pi, sheet, &r,
+							     col_header_height,  row_header_width);
 	else
-		return compute_sheet_pages_across_then_down (context, pi, sheet, &r);
+		return compute_sheet_pages_across_then_down (context, pi, sheet, &r,
+							     col_header_height,  row_header_width);
 }
 
 /*
@@ -1223,7 +1107,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 		return TRUE;
 	}
 	
-	compute_sheet_pages (context, pi, spi->sheet, spi->selection, spi->ignore_printarea);
+	compute_sheet_pages (context, pi, spi);
 	return FALSE;
 }
 
@@ -1302,7 +1186,7 @@ gnm_request_page_setup_cb (GtkPrintOperation *operation,
 
 	gtk_print_settings_set_use_color (settings, !gsr->sheet->print_info->print_black_and_white);
 	if (gsr->sheet->print_info->page_setup == NULL)
-		print_info_load_defaults (gsr->sheet->print_info->page_setup);
+		print_info_load_defaults (gsr->sheet->print_info);
 	cp_gtk_page_setup (gsr->sheet->print_info->page_setup, setup);
 }
 
@@ -1318,7 +1202,7 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 					       page_nr);
 	if (gsr)
 		print_page (operation, context, pi,
-			    gsr->sheet, &(gsr->range), TRUE);	
+			    gsr->sheet, &(gsr->range));	
 }
 
 static void
