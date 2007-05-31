@@ -6,6 +6,7 @@ Andreas:
 	* Handle differences in page setup between sheets when
 	  printing multiple sheets
 	* Fix handling of "print even if only style". [#438743]
+	* Implement printing of row and column headers
 
 Jean:
 	* Fix check for long double support in goffice.

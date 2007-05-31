@@ -1,3 +1,10 @@
+2007-05-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (print_page_cells): remove unused clipping
+	(print_page_col_headers): fix rtl case
+	(print_page_row_headers): fix rtl case
+	(print_page): fix rtl case
+
 2007-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (print_titles): deleted

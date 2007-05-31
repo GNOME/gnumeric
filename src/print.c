@@ -169,35 +169,11 @@ static void
 print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 		  cairo_t *cr, Sheet const *sheet, GnmRange *range,
 		  double base_x, double base_y)
-{
-	PrintInformation const *pinfo = sheet->print_info;
-	double width, height;
-
-	/* Make sure the printing doesn't go beyond the specified cells. */
-	cairo_save (cr);
-
-	height = sheet_row_get_distance_pts (sheet, range->start.row,
-					    range->end.row + 1);
-	width = sheet_col_get_distance_pts (sheet,
-					     range->start.col, range->end.col + 1);
-
- 	if (sheet->text_is_rtl) { 
-		base_x += gtk_print_context_get_width (context);
-/* 		cairo_rectangle (cr, */
-/* 				 base_x - width, base_y, */
-/* 				 width, height); */
-	}
-/*	else  */
-/* 		cairo_rectangle (cr, */
-/* 				 base_x, base_y, */
-/* 				 width, height); */
-/* 	cairo_clip (cr); */
+{	PrintInformation const *pinfo = sheet->print_info;
 
 	gnm_gtk_print_cell_range (context, cr, sheet, range,
 				  base_x, base_y, !pinfo->print_grid_lines);
 	print_sheet_objects (context, cr, sheet, range, base_x, base_y);
-
-	cairo_restore (cr);
 }
 
 static void
@@ -251,9 +227,9 @@ print_page_col_headers (GtkPrintContext   *context, PrintingInstance * pi,
 	start_col = range->start.col;
 	end_col = range->end.col;
 
-	/* FIXME: In rtl x is not right */
+	x = (row_header_width + GNM_COL_MARGIN) * (sheet->text_is_rtl ? -1. : 1.);
 	
-	for (col = start_col, x = row_header_width - GNM_COL_MARGIN; col <= end_col ; col++) {
+	for (col = start_col; col <= end_col ; col++) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 
 		if (ci->visible) {
@@ -281,7 +257,7 @@ print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
 {
 	int start_row, end_row;
 	int row;
-	double y;
+	double x = 0, y;
 	PangoFontDescription *desc;
 
 	g_return_if_fail (IS_SHEET (sheet));
@@ -293,12 +269,15 @@ print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
 	start_row = range->start.row;
 	end_row = range->end.row;
 
+	if (sheet->text_is_rtl)
+		x = - (row_header_width - 0.5);
+
 	for (row = start_row, y = col_header_height; row <= end_row ; row++) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, row);
 
 		if (ri->visible) {
 			print_header_gtk (context, cr,
-					  0, y + 0.5,
+					  x, y + 0.5,
 					  row_header_width - 0.5,
 					  ri->size_pts - 1,
 					  row_name (row), desc);
@@ -587,6 +566,7 @@ print_page (GtkPrintOperation *operation,
 	gdouble height;
 	gdouble col_header_height = 0.;
 	gdouble row_header_width = 0.;
+	gdouble dir = (sheet->text_is_rtl ? -1. : 1.);
 
 	px = pinfo->scaling.percentage.x / 100.;
 	py = pinfo->scaling.percentage.y / 100.;
@@ -623,7 +603,7 @@ print_page (GtkPrintOperation *operation,
 	
 /* printing page content  */
 	cairo_save (cr);
-	cairo_translate (cr, 0, edge_to_below_header - header);
+	cairo_translate (cr, sheet->text_is_rtl ? width : 0, edge_to_below_header - header);
 	if (pinfo->center_horizontally == 1 || pinfo->center_vertically == 1) {
 		double shift_x = 0;
 		double shift_y = 0;
@@ -632,22 +612,17 @@ print_page (GtkPrintOperation *operation,
 			shift_x = (width - print_width * px)/2;
 		if (pinfo->center_vertically == 1)
 			shift_y = (height - print_height * py)/2;
-		cairo_translate (cr, shift_x, shift_y);
+		cairo_translate (cr, dir * shift_x, shift_y);
 	}
 	cairo_scale (cr, px, py);
 
 	if (sheet->print_info->print_titles) {
 		print_page_col_headers (context, pi, cr, sheet, range, row_header_width, col_header_height);
 		print_page_row_headers (context, pi, cr, sheet, range, row_header_width, col_header_height);
-		if (sheet->text_is_rtl) {
-			cairo_translate (cr, 0, col_header_height);
-			/* FIXME:  We have to avoid overprinting the row headers */
-		}
-		else
-			cairo_translate (cr, row_header_width, col_header_height);
+		cairo_translate (cr, dir * row_header_width, col_header_height);
 	}
 
-	print_page_cells (context, pi, cr, sheet, range, -GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+	print_page_cells (context, pi, cr, sheet, range, dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
 		
 	cairo_restore (cr);
 	return 1;
