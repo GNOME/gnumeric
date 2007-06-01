@@ -105,6 +105,7 @@ typedef struct {
 	GogPlot		*plot;
 	GogStyle	*default_plot_style;
 	GogObject	*axis, *xaxis;
+	guint8		axislineflags;
 	GogStyle	*style;
 	GogStyle	*chartline_style[3];
 	GogStyle	*dropbar_style;
@@ -576,14 +577,21 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 	if (s->axis != NULL)
 		switch (type) {
 		case 0:
-			g_object_set (G_OBJECT (s->axis),
-				"style", s->style,
-				NULL);
-			/* deleted axis sets flag here, rather than in TICK */
-			if (0 == (0x4 & GSF_LE_GET_GUINT16 (q->data+8)))
+			if (s->axislineflags == 8) {
+				/* axis has no ticks, it is a dummy axis, just delete it */
+				gog_object_clear_parent (GOG_OBJECT (s->axis));
+				g_object_unref (s->axis);
+				s->axis = NULL;
+			} else {
 				g_object_set (G_OBJECT (s->axis),
-					"major-tick-labeled",	FALSE,
+					"style", s->style,
 					NULL);
+				/* deleted axis sets flag here, rather than in TICK */
+				if (0 == (0x4 & GSF_LE_GET_GUINT16 (q->data+8)))
+					g_object_set (G_OBJECT (s->axis),
+						"major-tick-labeled",	FALSE,
+						NULL);
+			}
 			break;
 		case 1: {
 			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_GRID_LINE_TYPE,
@@ -1276,13 +1284,9 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		else
 			g_object_unref (s->style);
 		s->style = NULL;
-	} else if (s->axis != NULL && flags == 8) {
-		/* axis has no ticks, it is a dummy axis, just delete it */
-		gog_object_clear_parent (GOG_OBJECT (s->axis));
-		g_object_unref (s->axis);
-		s->axis = NULL;
-	}
-		
+	} else if (s->axis != NULL
+		s->axislineflags = flags;
+
 	return FALSE;
 }
 

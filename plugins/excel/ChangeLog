@@ -1,3 +1,7 @@
+2007-06-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: don't delete a valid axis.
+
 2006-09-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (end): Don't use auto_shape or auto_dash when plot has
