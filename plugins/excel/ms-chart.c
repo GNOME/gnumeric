@@ -1284,7 +1284,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		else
 			g_object_unref (s->style);
 		s->style = NULL;
-	} else if (s->axis != NULL
+	} else if (s->axis != NULL)
 		s->axislineflags = flags;
 
 	return FALSE;
