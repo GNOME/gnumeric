@@ -1,3 +1,8 @@
+2007-06-01  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (cb_number_format_changed): The signal
+	argument is the unlocalized format string.  Fixes #442657.
+
 2007-05-22  Morten Welinder  <terra@gnome.org>
 
 	* dialog-quit.c (dialog_quit): Actually quit in the all-clean
