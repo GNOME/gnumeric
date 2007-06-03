@@ -1,0 +1,6 @@
+2007-06-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c: (callback_function_collect), (_collect_floats),
+	(gnumeric_interpolation), (gnumeric_periodogram): fix various
+	issues.
+

@@ -337,7 +337,8 @@ static GnmFuncHelp const help_interpolation[] = {
 	   "@abscissas are the absicssas of the data to interpolate.\n"
 	   "@ordinates are the ordinates of the data to interpolate.\n"
 	   "* Strings and empty cells in @abscissas and @ordinates are simply ignored.\n"
-	   "@targets are the abscissas of the interpolated data.\n"
+	   "@targets are the abscissas of the interpolated data. If several data\n"
+	   "are provided, they must be in the same column, in consecutive cells\n"
 	   "@interpolation is the method to be used for the interpolation;\n"
 	   "possible values are:\n"
 	   "- 0: linear;\n"
@@ -355,6 +356,85 @@ static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_END } 
 };
 
+typedef struct {
+	guint		alloc_count;
+	guint		count;
+	guint		data_count;
+	gnm_float	*data;
+	guint		values_allocated;
+	guint		values_count;
+	GnmValue	**values;
+} collect_floats_t;
+
+static GnmValue *
+callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
+			   void *closure)
+{
+	gnm_float x;
+	GnmValue *val = NULL;
+	collect_floats_t *cl = (collect_floats_t *) closure;
+
+	if (value == NULL) {
+		cl->count++;
+		return NULL;
+	} else switch (value->type) {
+	case VALUE_EMPTY:
+		cl->count++;
+		return NULL;
+
+	case VALUE_ERROR:
+		val = value_dup (value);
+		break;
+
+	case VALUE_FLOAT:
+		x = value_get_as_float (value);
+		if (cl->data_count == cl->alloc_count) {
+			cl->alloc_count *= 2;
+			cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
+		}
+
+		cl->data[cl->data_count++] = x;
+		break;
+
+	default:
+		val = value_new_error_VALUE (ep);
+	}
+
+	while (cl->count >= cl->values_allocated) {
+		cl->values_allocated *= 2;
+		cl->values = g_realloc (cl->values, cl->values_allocated * sizeof (GnmValue*));
+	}
+	while (cl->count > cl->values_count)
+		cl->values[cl->values_count++] = value_new_error_NA (ep);
+	cl->values[cl->values_count++] = val;
+	cl->count++;
+
+	return NULL;
+}
+
+static gnm_float *
+_collect_floats (int argc, GnmExprConstPtr const *argv,
+		GnmEvalPos const *ep, int *n, int *max, GnmValue ***values)
+{
+	collect_floats_t cl;
+	CellIterFlags iter_flags = CELL_ITER_ALL;
+
+	cl.alloc_count = 20;
+	cl.data = g_new (gnm_float, cl.alloc_count);
+	cl.count = cl.data_count = cl.values_count = 0;
+	cl.values_allocated = 20;
+	cl.values = g_new (GnmValue*, cl.values_allocated);
+
+	function_iterate_argument_values
+		(ep, &callback_function_collect, &cl,
+		 argc, argv,
+		 FALSE, iter_flags);
+
+	*n = cl.data_count;
+	*values = cl.values;
+	*max = cl.values_count;
+	return cl.data;
+}
 
 static GnmValue *
 gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -364,10 +444,11 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int interp; 
 	GnmValue *error = NULL;
 	GnmValue *res;
+	GnmValue **values;
 	CollectFlags flags;
 	GnmEvalPos const * const ep = ei->pos;
 	GnmValue const * const PtInterpolation = argv[2];
-	int	r, i, j;
+	int	r, i;
 	GSList *missing0 = NULL;
 	GSList *missing1 = NULL;
 	INTERPPROC(interpproc) = NULL;
@@ -375,19 +456,17 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int const cols = value_area_get_width (PtInterpolation, ep);
 	int const rows = value_area_get_height (PtInterpolation, ep);
 
-	if (cols == 1)
-		nb = rows;
-	else if (rows == 1)
-		nb = cols;
-	else
-		nb = 0;
+	/* Collect related variables */
+	GnmExpr expr_val;
+	GnmExprConstPtr argv_[1] = { &expr_val };
+	/* end of collect related variables */
 
-	if (nb == 0) {
+	if (rows == 0 || cols != 1) {
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 		return res;
 	}
 
-	flags=COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
+	flags = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
 	
 	vals0 = collect_floats_value_with_info (argv[0], ei->pos, flags,
 						&n0, &missing0, &error);
@@ -406,15 +485,11 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return error;
 	}
 
-	vals2 = collect_floats_value (argv[2], ei->pos, flags,
-					&n2, &error);
-	if (error) {
-		g_slist_free (missing0);
-		g_slist_free (missing1);
-		g_free (vals0);
-		g_free (vals1);
-		return error;
-	}
+	flags |= COLLECT_IGNORE_ERRORS;
+
+	/* start collecting targets */
+	gnm_expr_constant_init (&expr_val.constant, argv[2]);
+	vals2 = _collect_floats (1, argv_, ei->pos, &n2, &nb, &values);
 
 	if (argv[3]) {
 		interp = (int) gnm_floor (value_get_as_float (argv[3]));
@@ -434,37 +509,39 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		break;
 	case INTERPOLATION_LINEAR_AVG:
 		interpproc = linear_averaging;
-		nb--;
+		n2--;
 		break;
 	case INTERPOLATION_STAIRCASE:
 		interpproc = staircase_interpolation;
 		break;
 	case INTERPOLATION_STAIRCASE_AVG:
 		interpproc = staircase_averaging;
-		nb--;
+		n2--;
 		break;
 	case INTERPOLATION_SPLINE:
 		interpproc = spline_interpolation;
 		break;
 	case INTERPOLATION_SPLINE_AVG:
 		interpproc = spline_averaging;
-		nb--;
+		n2--;
 		break;
 	}
 
-	if (n0 != n1 || n0 == 0 || nb==0) {
+	if (n0 != n1 || n0 == 0 || n2==0) {
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-	}
-	else {
+		for (i = 0; i < nb; i++)
+			if (values[i])
+				value_release (values[i]);
+	} else {
 		if (missing0 || missing1) {
 			GSList *missing ;
 			GArray *gval;
 
-			missing = union_of_int_sets (missing0, missing1);
+			missing = gnm_slist_sort_merge (missing0, missing1);
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals0, n0);
 			g_free (vals0);
-			gval = strip_missing (gval, &missing);
+			gval = gnm_strip_missing (gval, &missing);
 			vals0 = (gnm_float *) gval->data;
 			n0 = gval->len;
 			g_array_free (gval, FALSE);
@@ -472,13 +549,11 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals1, n1);
 			g_free (vals1);
-			gval = strip_missing (gval, &missing);
+			gval = gnm_strip_missing (gval, &missing);
 			vals1 = (gnm_float *) gval->data;
 			n1 = gval->len;
 			g_array_free (gval, FALSE);
 
-			g_slist_free (missing0);
-			g_slist_free (missing1);
 			g_slist_free (missing);
 
 			if (n0 != n1) {
@@ -489,25 +564,41 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 		/* here we test if there is abscissas are always increasing, if not,
 		an error is returned */
-		if (!go_range_increasing (vals0, n0) || nb==0) {
+		if (!go_range_increasing (vals0, n0) || n2==0) {
 			res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+			for (i = 0; i < nb; i++)
+				if (values[i])
+					value_release (values[i]);
+			g_free (values);
+			g_free (vals0);
+			g_free (vals1);
+			g_free (vals2);
 			return res;
 		}
 		res = value_new_array_non_init (1 , nb);
 		i = 0;
-		j = 0;
 
 		res->v_array.vals[0] = g_new (GnmValue *, nb);
 		
 		fres = interpproc (vals0, vals1, n0, vals2, n2);
 		if (fres) {
+			i = 0;
 			for( r = 0 ; r < nb; ++r)
-				res->v_array.vals[0][r] = value_new_float (fres[r]);
+				if (values[r])
+					res->v_array.vals[0][r] = values[r];
+				else {
+					res->v_array.vals[0][r] = value_new_float (fres[i++]);
+				}
 			g_free (fres);
-		} else
+		} else {
 			for( r = 0 ; r < nb; ++r)
 				res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+			for (i = 0; i < nb; i++)
+				if (values[i])
+					value_release (values[i]);
+		}
 	}
+	g_free (values);
 	g_free (vals0);
 	g_free (vals1);
 	g_free (vals2);
@@ -645,11 +736,11 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			GSList *missing ;
 			GArray *gval;
 
-			missing = union_of_int_sets (missing0, missing1);
+			missing = gnm_slist_sort_merge (missing0, missing1);
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, ord, n0);
 			g_free (ord);
-			gval = strip_missing (gval, &missing);
+			gval = gnm_strip_missing (gval, &missing);
 			ord = (gnm_float *) gval->data;
 			n0 = gval->len;
 			g_array_free (gval, FALSE);
@@ -657,13 +748,11 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, absc, n1);
 			g_free (absc);
-			gval = strip_missing (gval, &missing);
+			gval = gnm_strip_missing (gval, &missing);
 			absc = (gnm_float *) gval->data;
 			n1 = gval->len;
 			g_array_free (gval, FALSE);
 
-			g_slist_free (missing0);
-			g_slist_free (missing1);
 			g_slist_free (missing);
 
 			if (n0 != n1)
@@ -673,8 +762,6 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		/* here we test if there is abscissas are always increasing, if not,
 		an error is returned */
 		if (!go_range_increasing (absc, n0) || n0 == 0) {
-			g_slist_free (missing0);
-			g_slist_free (missing1);
 			g_free (absc);
 			g_free (ord);
 			return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
@@ -682,8 +769,6 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		if (argv[4]) {
 			n1 = (int) gnm_floor (value_get_as_float (argv[4]));
 			if (n1 < n0) {
-				g_slist_free (missing0);
-				g_slist_free (missing1);
 				g_free (absc);
 				g_free (ord);
 				return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
@@ -727,8 +812,6 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			n1++;
 			break;
 		default:
-			g_slist_free (missing0);
-			g_slist_free (missing1);
 			g_free (absc);
 			g_free (ord);
 			return value_new_error_std (ei->pos, GNM_ERROR_NA);
@@ -747,7 +830,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, ord, n0);
 			g_free (ord);
-			gval = strip_missing (gval, &missing0);
+			gval = gnm_strip_missing (gval, &missing0);
 			ord = (gnm_float *) gval->data;
 			n0 = gval->len;
 			g_array_free (gval, FALSE);
