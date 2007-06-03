@@ -1,3 +1,10 @@
+2007-06-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/collect.c: (gnm_slist_sort_merge), (gnm_strip_missing),
+	(float_range_function2): replace union_of_int_sets by a more
+	performant functon, and rename strip_missing.
+	* src/collect.h: ditto.
+
 2007-05-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (print_page_cells): remove unused clipping

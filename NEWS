@@ -10,6 +10,10 @@ Andreas:
 
 Jean:
 	* Fix check for long double support in goffice.
+	* Import legend and axis labels fonts from excel
+	in charts. [#437858]
+	* Fix performance issues in float_range_function2 and
+	fn-tsa plugin.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

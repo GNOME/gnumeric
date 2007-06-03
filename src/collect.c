@@ -263,23 +263,6 @@ float_range_function (int argc, GnmExprConstPtr const *argv,
 /* ------------------------------------------------------------------------- */
 
 /*
- *  cb_insert_diff_elements :
- *  @data:
- *  @user_data: really a GSList **
- *
- */
-static void
-cb_insert_diff_elements (gpointer data, gpointer user_data)
-{
-	GSList **the_list = (GSList **) (user_data);
-
-	if (g_slist_find (*the_list, data) == NULL) {
-		*the_list = g_slist_prepend (*the_list, data);
-	}
-	return;
-}
-
-/*
  *  cb_int_descending:
  *  @a:
  *  @b:
@@ -297,26 +280,43 @@ cb_int_descending (gconstpointer a, gconstpointer b)
 }
 
 /*
- *  union_of_int_sets:
- *  @list_1:
- *  @list_2:
+ *  gnm_slist_sort_merge:
+ *  @list_1: a sorted list of ints with no duplicates
+ *  @list_2: another one
  *
+ *  gnm_slist_sort_merge returns a new sorted list with all elements
+ *  from both @list_1 and @list_2. Duplicates are destroyed. @list1 and @list2
+ *  are not anymore valid afterwards since their elements are in the new list
+ *  or have been destroyed, in case of duplicates.
  */
-GSList*
-union_of_int_sets (GSList * list_1, GSList * list_2)
+
+GSList *
+gnm_slist_sort_merge (GSList   *l1, 
+		    GSList   *l2)
 {
-	GSList *list_res = NULL;
+	GSList list, *l, *m;
 
-	if ((list_1 == NULL) || (g_slist_length (list_1) == 0))
-		return ((list_2 == NULL) ? NULL :
-			g_slist_copy (list_2));
-	if ((list_2 == NULL) || (g_slist_length (list_2) == 0))
-		return g_slist_copy (list_1);
+	l=&list;
 
-	list_res = g_slist_copy (list_1);
-	g_slist_foreach (list_2, cb_insert_diff_elements, &list_res);
-
-	return list_res;
+	while (l1 && l2) {
+		if (l1->data <= l2->data) {
+			if (l1->data == l2->data) {
+				/* remove duplicates */
+				m = l2;
+				l2 = l2->next;
+				m->next = NULL;
+				g_slist_free_1 (m);
+			}
+			l = l->next = l1;
+			l1 = l1->next;
+		} else {
+			l = l->next = l2;
+			l2 = l2->next;
+		}
+	}
+	l->next = l1 ? l1 : l2;
+ 
+	return list.next;
 }
 
 /*
@@ -346,7 +346,7 @@ cb_remove_missing_el (gpointer data, gpointer user_data)
  * The order of the elements in the list may be changed.
  */
 GArray*
-strip_missing (GArray * data, GSList **missing)
+gnm_strip_missing (GArray * data, GSList **missing)
 {
 	GArray *new_data = data;
 
@@ -360,7 +360,6 @@ strip_missing (GArray * data, GSList **missing)
 
 	return new_data;
 }
-
 
 GnmValue *
 float_range_function2 (GnmValue const *val0, GnmValue const *val1,
@@ -398,13 +397,12 @@ float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 		gnm_float fres;
 
 		if (missing0 || missing1) {
-			GSList *missing = union_of_int_sets (missing0, missing1);
+			GSList *missing = gnm_slist_sort_merge (missing0, missing1);
 			GArray *gval;
-
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals0, n0);
 			g_free (vals0);
-			gval = strip_missing (gval, &missing);
+			gval = gnm_strip_missing (gval, &missing);
 			vals0 = (gnm_float *)gval->data;
 			n0 = gval->len;
 			g_array_free (gval, FALSE);
@@ -412,13 +410,11 @@ float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals1, n1);
 			g_free (vals1);
-			gval = strip_missing (gval, &missing);
+			gval = gnm_strip_missing (gval, &missing);
 			vals1 = (gnm_float *)gval->data;
 			n1 = gval->len;
 			g_array_free (gval, FALSE);
 
-			g_slist_free (missing0);
-			g_slist_free (missing1);
 			g_slist_free (missing);
 
 			if (n0 != n1) {

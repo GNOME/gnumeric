@@ -55,8 +55,8 @@ GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 				 CollectFlags flags,
 				 GnmStdError func_error);
 
-GSList *union_of_int_sets (GSList * list_1, GSList * list_2);
+GSList *gnm_slist_sort_merge (GSList * list_1, GSList * list_2);
 
-GArray *strip_missing (GArray * data, GSList **missing);
+GArray *gnm_strip_missing (GArray * data, GSList **missing);
 
 #endif
