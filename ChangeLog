@@ -1,3 +1,8 @@
+2007-06-04  Morten Welinder  <terra@gnome.org>
+
+	* src/selection.c (cb_range_to_string): Use rangeref_as_string to
+	get r1c1 right.  [#443832]
+
 2007-06-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/collect.c: (gnm_slist_sort_merge), (gnm_strip_missing),

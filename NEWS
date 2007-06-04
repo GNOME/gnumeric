@@ -24,6 +24,7 @@ Morten:
 	* Tentatively fix issue with recent Pango.  [#440514]
 	* Provide good mime type for recent documents.
 	* Fix localized-format problem in cell format dialog.  [#442657]
+	* Fix R1C1 problem.  [#443832]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.10
