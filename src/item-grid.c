@@ -250,6 +250,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 		 sv->edit_pos.row != range->start.row) &&
 		sv_is_full_range_selected (sv, range);
 
+	/* Get the coordinates of the visible region */
 	l = r = start_x;
 	if (view->start.col < range->start.col)
 		l += dir * scg_colrow_distance_get (ig->scg, TRUE,
@@ -279,15 +280,17 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 
 	/* Check for background THEN selection */
 	if (gnumeric_background_set_gc (style, gc,
-			ig->canvas_item.canvas, is_selected) ||
+		ig->canvas_item.canvas, is_selected) ||
 	    is_selected) {
 		/* Remember X excludes the far pixels */
-		if (sheet->text_is_rtl)
-			gdk_draw_rectangle (drawable, gc, TRUE, r, t, l-r+1, b-t+1);
-		else
+		if (dir > 0)
 			gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
+		else
+			gdk_draw_rectangle (drawable, gc, TRUE, r, t, l-r+1, b-t+1);
 	}
 
+	/* Expand the coords to include non-visible areas too.  The clipped
+	 * region is only necessary when drawing the background */
 	if (range->start.col < view->start.col)
 		l -= dir * scg_colrow_distance_get (ig->scg, TRUE,
 			range->start.col, view->start.col);
@@ -307,14 +310,17 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 		if (ri->needs_respan)
 			row_calc_spans ((ColRowInfo *)ri, cell->pos.row, sheet);
 
-		if (sheet->text_is_rtl)
-			cell_draw (cell, ig->gc.cell, drawable,
-				r, t, l - r, b - t, -1);
-		else
+		if (dir > 0)
 			cell_draw (cell, ig->gc.cell, drawable,
 				l, t, r - l, b - t, -1);
+		else
+			cell_draw (cell, ig->gc.cell, drawable,
+				r, t, l - r, b - t, -1);
 	}
-	gnm_style_border_draw_diag (style, drawable, l, t, r, b);
+	if (dir > 0)
+		gnm_style_border_draw_diag (style, drawable, l, t, r, b);
+	else
+		gnm_style_border_draw_diag (style, drawable, r, t, l, b);
 }
 
 static void
@@ -592,7 +598,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 							clear_bottom = TRUE;
 					}
 
-					x += scg_colrow_distance_get (
+					x += dir * scg_colrow_distance_get (
 						gcanvas->simple.scg, TRUE, col, last+1);
 					col = last;
 
@@ -698,7 +704,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				sr.vertical [col] = NULL;
 
 			if (dir > 0)
-			x += ci->size_pixels;
+				x += ci->size_pixels;
 		}
 		gnm_style_borders_row_draw (prev_vert, &sr,
 					drawable, start_x, y, y+ri->size_pixels,
@@ -732,7 +738,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 
 	if (row >= ig->bound.end.row) {
 		gnm_style_borders_row_draw (prev_vert, &sr,
-					drawable, start_x, y, y, colwidths, FALSE, dir);
+			drawable, start_x, y, y, colwidths, FALSE, dir);
 		if (gcanvas->pane->index >= 2)
 			gdk_draw_line (drawable, ig->gc.bound, start_x, y, x, y);
 	}

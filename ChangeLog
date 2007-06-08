@@ -1,5 +1,12 @@
 2007-06-08  Jody Goldberg <jody@gnome.org>
 
+	* src/item-grid.c (item_grid_draw) : offset needs to know about RTL
+	  when skipping a merged region. [#442463]
+	(item_grid_draw_merged_range) : drawing diagonals needs to respect
+	  RTL.  [442467]
+
+2007-06-08  Jody Goldberg <jody@gnome.org>
+
 	* src/item-cursor.c (item_cursor_reposition) : simplify slightly.
 	(item_cursor_bound_set) : patch logic error.
 	(cb_move_cursor) : now that we do not need to clip, handle the
