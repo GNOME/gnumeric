@@ -1,3 +1,12 @@
+2007-06-08  Jody Goldberg <jody@gnome.org>
+
+	* src/item-cursor.c (item_cursor_reposition) : simplify slightly.
+	(item_cursor_bound_set) : patch logic error.
+	(cb_move_cursor) : now that we do not need to clip, handle the
+	  make-visible here...
+	(cb_autofill_scroll) : and here.
+	(item_cursor_update) : remove the clip here. [#444610]
+
 2007-06-04  Morten Welinder  <terra@gnome.org>
 
 	* src/selection.c (cb_range_to_string): Use rangeref_as_string to

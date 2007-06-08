@@ -74,7 +74,9 @@ struct _ItemCursor {
 	GnmRange autofill_src;
 	int   autofill_hsize, autofill_vsize;
 
-	struct { /* cursor outline in canvas coords (bounding box is larger) */
+	/* cursor outline in canvas coords, the bounding box (Item::[xy][01])
+	 * is slightly larger ) */
+	struct {
 		int x1, x2, y1, y2;
 	} outline;
 	int drag_button;
@@ -150,9 +152,6 @@ item_cursor_realize (FooCanvasItem *item)
 	}
 }
 
-/*
- * Release all of the resources we allocated
- */
 static void
 item_cursor_unrealize (FooCanvasItem *item)
 {
@@ -183,11 +182,10 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 	SheetControlGUI const * const scg = ic->scg;
 	int tmp;
 
-	/* Clip the bounds of the cursor to the visible region of cells */
-	int const left = MAX (gcanvas->first.col-1, ic->pos.start.col);
-	int const right = MIN (gcanvas->last_visible.col+1, ic->pos.end.col);
-	int const top = MAX (gcanvas->first.row-1, ic->pos.start.row);
-	int const bottom = MIN (gcanvas->last_visible.row+1, ic->pos.end.row);
+	int const left	 = ic->pos.start.col;
+	int const right	 = ic->pos.end.col;
+	int const top	 = ic->pos.start.row;
+	int const bottom = ic->pos.end.row;
 
 	foo_canvas_item_request_redraw (item); /* Erase the old cursor */
 
@@ -222,12 +220,6 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 		(*parent_class->update) (item, i2w_dx, i2w_dy, flags);
 }
 
-/*
- * Draw an item of this type.  (x, y) are the upper-left canvas pixel
- * coordinates of the drawable, a temporary pixmap, where things get
- * drawn.  (width, height) are the dimensions of the drawable.
- * In other words - a clipping region.
- */
 static void
 item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		  GdkEventExpose *expose)
@@ -475,7 +467,7 @@ item_cursor_bound_set (ItemCursor *ic, GnmRange const *new_bound)
 	g_return_val_if_fail (IS_ITEM_CURSOR (ic), FALSE);
 	g_return_val_if_fail (range_is_sane (new_bound), FALSE);
 
-	if (range_equal (&ic->pos, new_bound) && ic->pos_initialized)
+	if (ic->pos_initialized && range_equal (&ic->pos, new_bound))
 		return FALSE;
 
 	ic->pos = *new_bound;
@@ -491,16 +483,12 @@ item_cursor_bound_set (ItemCursor *ic, GnmRange const *new_bound)
  *
  * When a sheet is zoomed.  The pixel coords shift slightly.  The item cursor
  * must regenerate to stay in sync.
- */
+ **/
 void
 item_cursor_reposition (ItemCursor *ic)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
-
-	g_return_if_fail (item != NULL);
-
-	/* Request an update */
-	foo_canvas_item_request_update (item);
+	g_return_if_fail (ic != NULL);
+	foo_canvas_item_request_update (&ic->canvas_item);
 }
 
 static double
@@ -1052,9 +1040,6 @@ item_cursor_popup_menu (ItemCursor *ic, GdkEventButton *event)
 				    0, 0, event);
 }
 
-/*
- * Invoked when the item has been dropped
- */
 static void
 item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
@@ -1074,33 +1059,6 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 		item_cursor_do_action (ic, (event->state & GDK_CONTROL_MASK)
 				       ? ACTION_COPY_CELLS
 				       : ACTION_MOVE_CELLS);
-}
-
-static void
-item_cursor_set_bounds_visibly (ItemCursor *ic,
-				int visible_col,int visible_row,
-				GnmCellPos const *corner,
-				int end_col, int end_row)
-{
-	FooCanvasItem *item = FOO_CANVAS_ITEM (ic);
-	GnmCanvas  *gcanvas = GNM_CANVAS (item->canvas);
-	GnmRange r;
-
-	/* Handle visibility here rather than in the slide handler because we
-	 * need to constrain movement some times.  eg no sense scrolling the
-	 * canvas if the autofill cursor is not changing size.
-	 */
-	scg_make_cell_visible (ic->scg, visible_col, visible_row, FALSE, TRUE);
-
-	/* FIXME FIXME FIXME
-	 * Ideally we would update the bounds BEFORE we scroll, this would
-	 * decrease the flicker.  Unfortunately, our optimization of clipping
-	 * the cursor to the currently visible region is getting in the way.
-	 * We are forced to make the region visible before we move the cursor.
-	 */
-	range_init (&r, corner->col, corner->row, end_col, end_row);
-	if (scg_special_cursor_bound_set (ic->scg, &r))
-		foo_canvas_update_now (FOO_CANVAS (gcanvas));
 }
 
 void
@@ -1134,25 +1092,26 @@ cb_move_cursor (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 	ItemCursor *ic = info->user_data;
 	int const w = (ic->pos.end.col - ic->pos.start.col);
 	int const h = (ic->pos.end.row - ic->pos.start.row);
-	GnmCellPos corner;
+	GnmRange r;
 
-	corner.col = info->col - ic->col_delta;
-	if (corner.col < 0)
-		corner.col = 0;
-	else if (corner.col >= (SHEET_MAX_COLS - w))
-		corner.col = SHEET_MAX_COLS - w - 1;
+	r.start.col = info->col - ic->col_delta;
+	if (r.start.col < 0)
+		r.start.col = 0;
+	else if (r.start.col >= (SHEET_MAX_COLS - w))
+		r.start.col = SHEET_MAX_COLS - w - 1;
 
-	corner.row = info->row - ic->row_delta;
-	if (corner.row < 0)
-		corner.row = 0;
-	else if (corner.row >= (SHEET_MAX_ROWS - h))
-		corner.row = SHEET_MAX_ROWS - h - 1;
+	r.start.row = info->row - ic->row_delta;
+	if (r.start.row < 0)
+		r.start.row = 0;
+	else if (r.start.row >= (SHEET_MAX_ROWS - h))
+		r.start.row = SHEET_MAX_ROWS - h - 1;
 
 	item_cursor_tip_setlabel (ic, range_as_string (&ic->pos));
 
-	/* Make target cell visible, and adjust the cursor size */
-	item_cursor_set_bounds_visibly (ic, info->col, info->row, &corner,
-		corner.col + w, corner.row + h);
+	r.end.col = r.start.col + w;
+	r.end.row = r.start.row + h;
+	scg_special_cursor_bound_set (ic->scg, &r);
+	scg_make_cell_visible (ic->scg, info->col, info->row, FALSE, TRUE);
 	return FALSE;
 }
 
@@ -1242,8 +1201,8 @@ cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 	ic->last_tip_pos.col = col;
 	ic->last_tip_pos.row = row;
 
-	item_cursor_set_bounds_visibly (ic, col, row,
-		&r.start, r.end.col, r.end.row);
+	scg_special_cursor_bound_set (ic->scg, &r);
+	scg_make_cell_visible (ic->scg, col, row, FALSE, TRUE);
 
 	w = range_width (&ic->autofill_src);
 	h = range_height (&ic->autofill_src);
