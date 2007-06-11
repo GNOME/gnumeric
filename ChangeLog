@@ -1,5 +1,17 @@
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
+	* src/item-grid.c (item_grid_button_press) : Limit mouse button
+	  selection capability in protected sheets.
+
+	* src/selection.c (sheet_selection_is_allowed) : new.
+	(walk_boundaries) : some initial work on walking only permissible
+	  cells in a protected sheet.  There are still some performance issues
+	  when wrapping.
+	* src/selection.c (sv_selection_walk_step) : when protected, we can
+	  wrap into other rows and columns.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
 	* src/print-info.c (pdf_write_workbook) : move here from sscovert.
 	(print_init) : and register the saver here.
 

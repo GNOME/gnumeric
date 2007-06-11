@@ -796,8 +796,9 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	SheetControlGUI *scg = ig->scg;
 	WorkbookControlGUI *wbcg = scg_wbcg (scg);
-	SheetControl *sc = (SheetControl *)scg;
-	Sheet *sheet = scg_sheet (scg);
+	SheetControl	*sc = (SheetControl *)scg;
+	SheetView	*sv = sc_view (sc);
+	Sheet		*sheet = sv_sheet (sv);
 	GnmCellPos	pos;
 	int x, y;
 	gboolean edit_showed_dialog;
@@ -864,12 +865,13 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	if (!wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, &edit_showed_dialog))
 		return TRUE;
 
+	if (event->button == 1 && !sheet_selection_is_allowed (sheet, &pos))
+		return TRUE;
+
 	/* button 1 will always change the selection,  the other buttons will
-	 * only effect things if the target is not already selected.
-	 */
-	already_selected = sv_is_pos_selected (sc_view (sc), pos.col, pos.row);
+	 * only effect things if the target is not already selected.  */
+	already_selected = sv_is_pos_selected (sv, pos.col, pos.row);
 	if (event->button == 1 || !already_selected) {
-		SheetView *sv = sc_view (sc);
 		if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 			sv_selection_reset (sv);
 

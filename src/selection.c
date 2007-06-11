@@ -16,6 +16,7 @@
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-merge.h"
+#include "sheet-style.h"
 #include "sheet-private.h"
 #include "sheet-control.h"
 #include "parse-util.h"
@@ -1070,6 +1071,22 @@ sv_selection_foreach (SheetView *sv,
 	return TRUE;
 }
 
+/* A protected sheet can limit whether locked and unlocked cells can be
+ * selected */
+gboolean
+sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos)
+{
+	GnmStyle const *style;
+	
+	if (!sheet->is_protected)
+		return TRUE;
+	style = sheet_style_get	(sheet, pos->col, pos->row);
+	if (gnm_style_get_contents_locked (style))
+		return sheet->protected_allow.select_locked_cells;
+	else
+		return sheet->protected_allow.select_unlocked_cells;
+}
+
 /**
  * walk_boundaries : Iterates through a region by row then column.
  *
@@ -1090,6 +1107,7 @@ walk_boundaries (SheetView const *sv, GnmRange const * const bound,
 	ColRowInfo const *cri;
 	int const step = forward ? 1 : -1;
 	GnmCellPos pos = sv->edit_pos_real;
+	GnmCellPos const origin = pos;
 	GnmRange const *merge;
 
 	*res = pos;
@@ -1132,6 +1150,9 @@ loop :
 		goto loop;
 	cri = sheet_row_get (sv->sheet, pos.row);
 	if (cri != NULL && !cri->visible)
+		goto loop;
+
+	if (!sheet_selection_is_allowed (sv->sheet, &pos))
 		goto loop;
 
 	if (smart_merge) {
@@ -1194,22 +1215,24 @@ sv_selection_walk_step (SheetView *sv,
 	if (is_singleton) {
 		int const first_tab_col = sv->first_tab_col;
 		int const cur_col = sv->edit_pos.col;
-		GnmRange full_sheet;
+		GnmRange bound;
 
-		if (horizontal) {
-			full_sheet.start.col = 0;
-			full_sheet.end.col   = SHEET_MAX_COLS-1;
-			full_sheet.start.row =
-				full_sheet.end.row   = ss->start.row;
-		} else {
-			full_sheet.start.col =
-				full_sheet.end.col   = ss->start.col;
-			full_sheet.start.row = 0;
-			full_sheet.end.row   = SHEET_MAX_ROWS-1;
-		}
+		/* Interesting :  Normally we bound the movement to the current
+		 * 	col/row.  However, if a sheet is protected, and
+		 * 	differentiates between selecting locked vs
+		 * 	unlocked cells, then we do not bound things, and allow
+		 * 	movement to any cell that is acceptable. */
+		if (sv->sheet->is_protected &&
+		    (sv->sheet->protected_allow.select_locked_cells ^
+		     sv->sheet->protected_allow.select_unlocked_cells))
+			range_init_full_sheet (&bound);
+		else if (horizontal)
+			range_init_rows (&bound, ss->start.row, ss->start.row);
+		else
+			range_init_cols (&bound, ss->start.col, ss->start.col);
 
 		/* Ignore attempts to move outside the boundary region */
-		if (!walk_boundaries (sv, &full_sheet, forward, horizontal,
+		if (!walk_boundaries (sv, &bound, forward, horizontal,
 				      FALSE, &destination)) {
 			if (!horizontal && first_tab_col >= 0)
 				destination.col = first_tab_col;
