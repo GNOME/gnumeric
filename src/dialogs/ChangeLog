@@ -1,3 +1,8 @@
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_selection_type) : if the current
+	  region is a merged cell only look at the style in the top left.
+
 2007-06-01  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (cb_number_format_changed): The signal

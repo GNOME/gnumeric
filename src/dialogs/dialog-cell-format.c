@@ -2368,27 +2368,38 @@ fmt_dialog_selection_type (SheetView *sv,
 {
 	FormatState *state = user_data;
 	GSList *merged = gnm_sheet_merge_get_overlap (sv->sheet, range);
+	GnmRange r = *range;
 	gboolean allow_multi =
 		merged == NULL ||
 		merged->next != NULL ||
 		!range_equal ((GnmRange *)merged->data, range);
 	g_slist_free (merged);
 
-	if (allow_multi) {
-		if (range->start.col != range->end.col)
+	/* allow_multi == FALSE && !is_singleton (range) means that we are in
+	 * an merge cell, use only the top left */
+	if (r.start.col != r.end.col)
+	{
+		if (allow_multi)
 			state->selection_mask |= 2;
-		if (range->start.row != range->end.row)
+		else
+			r.end.col = r.start.col;
+	}
+	if (range->start.row != range->end.row)
+	{
+		if (allow_multi)
 			state->selection_mask |= 1;
+		else
+			r.end.row = r.start.row;
 	}
 
-	state->conflicts = sheet_style_find_conflicts (state->sheet, range,
+	state->conflicts = sheet_style_find_conflicts (state->sheet, &r,
 		&(state->style), state->borders);
 
 	if ((state->conflicts & MSTYLE_FORMAT) == 0 &&
 	    go_format_is_general (gnm_style_get_format (state->style))) {
 		sheet_foreach_cell_in_range (state->sheet, CELL_ITER_IGNORE_BLANK,
-					     range->start.col, range->start.row,
-					     range->end.col, range->end.row,
+					     r.start.col, r.start.row,
+					     r.end.col,	  r.end.row,
 					     cb_check_cell_format,
 					     state);
 	}
