@@ -1,5 +1,10 @@
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-view.c (wb_view_style_feedback) : fix placement when
+	  applied to merged cells.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : bump the gsf req to get the OpenPkg code that just
 	  moved there from our excel plugin.
 

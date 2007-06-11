@@ -277,11 +277,13 @@ wb_view_style_feedback (WorkbookView *wbv)
 	    val->use_dropdown) {
 		static float const a_offsets [4] = { 0., 0., 1., 1. };
 		SheetObjectAnchor  anchor;
-		GnmRange r;
-		
-		range_init_cellpos_size (&r, &sv->edit_pos, 1, 1);
+		GnmRange corner;
+		GnmRange const *r;
+
+		if (NULL == (r = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos)))
+			r = range_init_cellpos_size (&corner, &sv->edit_pos, 1, 1);
 		wbv->validation_combo = gnm_validation_combo_new (val, sv);
-		sheet_object_anchor_init (&anchor, &r, a_offsets,
+		sheet_object_anchor_init (&anchor, r, a_offsets,
 			GOD_ANCHOR_DIR_DOWN_RIGHT);
 		sheet_object_set_anchor (wbv->validation_combo, &anchor);
 		sheet_object_set_sheet (wbv->validation_combo, sv_sheet (sv));
