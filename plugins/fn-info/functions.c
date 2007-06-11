@@ -168,6 +168,22 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmCellRef const *ref = &argv [1]->v_range.cell.a;
 	const Sheet *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 
+	/*
+	 * CELL translates it's keywords (ick)
+	  adresse	- address
+	  colonne	- col
+	  contenu	- contents
+	  couleur	- color
+	  format	- format
+	  largeur	- width
+	  ligne		- row
+	  nomfichier	- filename
+	  parentheses	- parentheses
+	  prefixe	- prefix
+	  protege	- protect
+	  type		- type
+	  */
+
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
 		GnmParsePos pp;
