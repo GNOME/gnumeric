@@ -60,6 +60,24 @@ struct _Sheet {
 	gboolean    hide_col_header;
 	gboolean    hide_row_header;
 	gboolean    is_protected;
+	struct {
+		gboolean edit_objects;		/* TODO */
+		gboolean edit_scenarios;	/* TODO */
+		gboolean cell_formatting;	/* TODO */
+		gboolean column_formatting;	/* TODO */
+		gboolean row_formatting;	/* TODO */
+		gboolean insert_columns;	/* TODO */
+		gboolean insert_rows;		/* TODO */
+		gboolean insert_hyperlinks;	/* TODO */
+		gboolean delete_columns;	/* TODO */
+		gboolean delete_rows;		/* TODO */
+		gboolean select_locked_cells;	/* Partial : TODO range selection */
+		gboolean sort_ranges;		/* TODO */
+		gboolean edit_auto_filters;	/* TODO */
+		gboolean edit_pivottable;	/* TODO */
+		gboolean select_unlocked_cells;	/* Partial : TODO range selection */
+	} protected_allow;
+
 	GnmSheetVisibility visibility;
 
 	gboolean    display_outlines;
@@ -279,6 +297,7 @@ void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, GnmSpanCalcFl
 void	     sheet_cell_calc_span   (GnmCell *cell, GnmSpanCalcFlags flags);
 
 void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);
+gboolean     sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos);
 
 GnmConventions const *sheet_conventions (Sheet const *sheet);
 

@@ -18,6 +18,7 @@ Jean:
 Jody:
 	* Fix drawing of large cursor while sheet scrolls. [#444610]
 	* Fix drawing of merged cells in RTL. [#442463], [442467]
+	* Add more detailed control of capabilities in protected sheets.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

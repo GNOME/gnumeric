@@ -88,7 +88,6 @@ enum {
 	PROP_NAME,
 	PROP_RTL,
 	PROP_VISIBILITY,
-	PROP_PROTECTED,
 	PROP_DISPLAY_FORMULAS,
 	PROP_DISPLAY_ZEROS,
 	PROP_DISPLAY_GRID,
@@ -97,6 +96,24 @@ enum {
 	PROP_DISPLAY_OUTLINES,
 	PROP_DISPLAY_OUTLINES_BELOW,
 	PROP_DISPLAY_OUTLINES_RIGHT,
+
+	PROP_PROTECTED,
+	PROP_PROTECTED_ALLOW_EDIT_OBJECTS,
+	PROP_PROTECTED_ALLOW_EDIT_SCENARIOS,
+	PROP_PROTECTED_ALLOW_CELL_FORMATTING,
+	PROP_PROTECTED_ALLOW_COLUMN_FORMATTING,
+	PROP_PROTECTED_ALLOW_ROW_FORMATTING,
+	PROP_PROTECTED_ALLOW_INSERT_COLUMNS,
+	PROP_PROTECTED_ALLOW_INSERT_ROWS,
+	PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS,
+	PROP_PROTECTED_ALLOW_DELETE_COLUMNS,
+	PROP_PROTECTED_ALLOW_DELETE_ROWS,
+	PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS,
+	PROP_PROTECTED_ALLOW_SORT_RANGES,
+	PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS,
+	PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE,
+	PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS,
+
 	PROP_USE_R1C1,
 	PROP_TAB_FOREGROUND,
 	PROP_TAB_BACKGROUND,
@@ -340,9 +357,6 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	case PROP_VISIBILITY:
 		sheet_set_visibility (sheet, g_value_get_enum (value));
 		break;
-	case PROP_PROTECTED:
-		sheet->is_protected = !!g_value_get_boolean (value);
-		break;
 	case PROP_DISPLAY_FORMULAS:
 		sheet_set_display_formulas (sheet, g_value_get_boolean (value));
 		break;
@@ -367,6 +381,56 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	case PROP_DISPLAY_OUTLINES_RIGHT:
 		sheet->outline_symbols_right = !!g_value_get_boolean (value);
 		break;
+
+	case PROP_PROTECTED :
+		sheet->is_protected = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_OBJECTS :
+		sheet->protected_allow.edit_objects = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_SCENARIOS :
+		sheet->protected_allow.edit_scenarios = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_CELL_FORMATTING :
+		sheet->protected_allow.cell_formatting = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_COLUMN_FORMATTING :
+		sheet->protected_allow.column_formatting = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_ROW_FORMATTING :
+		sheet->protected_allow.row_formatting = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_INSERT_COLUMNS :
+		sheet->protected_allow.insert_columns = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_INSERT_ROWS :
+		sheet->protected_allow.insert_rows = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS :
+		sheet->protected_allow.insert_hyperlinks = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_DELETE_COLUMNS :
+		sheet->protected_allow.delete_columns = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_DELETE_ROWS :
+		sheet->protected_allow.delete_rows = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS :
+		sheet->protected_allow.select_locked_cells = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_SORT_RANGES :
+		sheet->protected_allow.sort_ranges = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS :
+		sheet->protected_allow.edit_auto_filters = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE :
+		sheet->protected_allow.edit_pivottable = !!g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS :
+		sheet->protected_allow.select_unlocked_cells = !!g_value_get_boolean (value);
+		break;
+
 	case PROP_USE_R1C1:
 		sheet_set_use_r1c1 (sheet, g_value_get_boolean (value));
 		break;
@@ -407,9 +471,6 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_VISIBILITY:
 		g_value_set_enum (value, sheet->visibility);
 		break;
-	case PROP_PROTECTED:
-		g_value_set_boolean (value, sheet->is_protected);
-		break;
 	case PROP_DISPLAY_FORMULAS:
 		g_value_set_boolean (value, sheet->display_formulas);
 		break;
@@ -434,6 +495,56 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_DISPLAY_OUTLINES_RIGHT:
 		g_value_set_boolean (value, sheet->outline_symbols_right);
 		break;
+
+	case PROP_PROTECTED :
+		g_value_set_boolean (value, sheet->is_protected);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_OBJECTS :
+		g_value_set_boolean (value, sheet->protected_allow.edit_objects);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_SCENARIOS :
+		g_value_set_boolean (value, sheet->protected_allow.edit_scenarios);
+		break;
+	case PROP_PROTECTED_ALLOW_CELL_FORMATTING :
+		g_value_set_boolean (value, sheet->protected_allow.cell_formatting);
+		break;
+	case PROP_PROTECTED_ALLOW_COLUMN_FORMATTING :
+		g_value_set_boolean (value, sheet->protected_allow.column_formatting);
+		break;
+	case PROP_PROTECTED_ALLOW_ROW_FORMATTING :
+		g_value_set_boolean (value, sheet->protected_allow.row_formatting);
+		break;
+	case PROP_PROTECTED_ALLOW_INSERT_COLUMNS :
+		g_value_set_boolean (value, sheet->protected_allow.insert_columns);
+		break;
+	case PROP_PROTECTED_ALLOW_INSERT_ROWS :
+		g_value_set_boolean (value, sheet->protected_allow.insert_rows);
+		break;
+	case PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS :
+		g_value_set_boolean (value, sheet->protected_allow.insert_hyperlinks);
+		break;
+	case PROP_PROTECTED_ALLOW_DELETE_COLUMNS :
+		g_value_set_boolean (value, sheet->protected_allow.delete_columns);
+		break;
+	case PROP_PROTECTED_ALLOW_DELETE_ROWS :
+		g_value_set_boolean (value, sheet->protected_allow.delete_rows);
+		break;
+	case PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS :
+		g_value_set_boolean (value, sheet->protected_allow.select_locked_cells);
+		break;
+	case PROP_PROTECTED_ALLOW_SORT_RANGES :
+		g_value_set_boolean (value, sheet->protected_allow.sort_ranges);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS :
+		g_value_set_boolean (value, sheet->protected_allow.edit_auto_filters);
+		break;
+	case PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE :
+		g_value_set_boolean (value, sheet->protected_allow.edit_pivottable);
+		break;
+	case PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS :
+		g_value_set_boolean (value, sheet->protected_allow.select_unlocked_cells);
+		break;
+
 	case PROP_USE_R1C1:
 		g_value_set_boolean (value, sheet->r1c1_addresses);
 		break;
@@ -467,6 +578,21 @@ gnm_sheet_init (Sheet *sheet)
 	range_init_full_sheet (&sheet->priv->unhidden_region);
 
 	sheet->is_protected = FALSE;
+	sheet->protected_allow.edit_scenarios		= FALSE;
+	sheet->protected_allow.cell_formatting		= FALSE;
+	sheet->protected_allow.column_formatting	= FALSE;
+	sheet->protected_allow.row_formatting		= FALSE;
+	sheet->protected_allow.insert_columns		= FALSE;
+	sheet->protected_allow.insert_rows		= FALSE;
+	sheet->protected_allow.insert_hyperlinks	= FALSE;
+	sheet->protected_allow.delete_columns		= FALSE;
+	sheet->protected_allow.delete_rows		= FALSE;
+	sheet->protected_allow.select_locked_cells	=TRUE;
+	sheet->protected_allow.sort_ranges		= FALSE;
+	sheet->protected_allow.edit_auto_filters	= FALSE;
+	sheet->protected_allow.edit_pivottable		= FALSE;
+	sheet->protected_allow.select_unlocked_cells	=TRUE;
+
 	sheet->display_outlines = TRUE;
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
@@ -539,148 +665,161 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property	= gnm_sheet_get_property;
 	gobject_class->finalize         = sheet_finalize;
 
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_NAME,
-		 g_param_spec_string ("name",
-				      _("Name"),
+        g_object_class_install_property (gobject_class, PROP_NAME,
+		 g_param_spec_string ("name", _("Name"),
 				      _("The name of the sheet."),
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_RTL,
-		 g_param_spec_boolean ("text-is-rtl",
-				       _("text-is-rtl"),
+        g_object_class_install_property (gobject_class, PROP_RTL,
+		 g_param_spec_boolean ("text-is-rtl", _("text-is-rtl"),
 				       _("Text goes from right to left."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_VISIBILITY,
-		 g_param_spec_enum ("visibility",
-				    _("Visibility"),
+        g_object_class_install_property (gobject_class, PROP_VISIBILITY,
+		 g_param_spec_enum ("visibility", _("Visibility"),
 				    _("How visible the sheet is."),
 				    GNM_SHEET_VISIBILITY_TYPE,
 				    GNM_SHEET_VISIBILITY_VISIBLE,
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE));
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_PROTECTED,
-		 g_param_spec_boolean ("protected",
-				       _("Protected"),
-				       _("Sheet is protected."),
-				       FALSE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_FORMULAS,
-		 g_param_spec_boolean ("display-formulas",
-				       _("Display Formulas"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_FORMULAS,
+		 g_param_spec_boolean ("display-formulas", _("Display Formulas"),
 				       _("Control whether formulas are shown instead of values."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_ZEROS,
-		 g_param_spec_boolean ("display-zeros",
-				       _("Display Zeros"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_ZEROS,
+		 g_param_spec_boolean ("display-zeros", _("Display Zeros"),
 				       _("Control whether zeros are shown are blanked out."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_GRID,
-		 g_param_spec_boolean ("display-grid",
-				       _("Display Grid"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_GRID,
+		 g_param_spec_boolean ("display-grid", _("Display Grid"),
 				       _("Control whether the grid is shown."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_COLUMN_HEADER,
-		 g_param_spec_boolean ("display-column-header",
-				       _("Display Column Headers"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_COLUMN_HEADER,
+		 g_param_spec_boolean ("display-column-header", _("Display Column Headers"),
 				       _("Control whether column headers are shown."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_ROW_HEADER,
-		 g_param_spec_boolean ("display-row-header",
-				       _("Display Row Headers"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_ROW_HEADER,
+		 g_param_spec_boolean ("display-row-header", _("Display Row Headers"),
 				       _("Control whether row headers are shown."),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_OUTLINES,
-		 g_param_spec_boolean ("display-outlines",
-				       _("Display Outlines"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_OUTLINES,
+		 g_param_spec_boolean ("display-outlines", _("Display Outlines"),
 				       _("Control whether outlines are shown."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_OUTLINES_BELOW,
-		 g_param_spec_boolean ("display-outlines-below",
-				       _("Display Outlines Below"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_OUTLINES_BELOW,
+		 g_param_spec_boolean ("display-outlines-below", _("Display Outlines Below"),
 				       _("Control whether outline symbols are shown below."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_DISPLAY_OUTLINES_RIGHT,
-		 g_param_spec_boolean ("display-outlines-right",
-				       _("Display Outlines Right"),
+	g_object_class_install_property (gobject_class, PROP_DISPLAY_OUTLINES_RIGHT,
+		 g_param_spec_boolean ("display-outlines-right", _("Display Outlines Right"),
 				       _("Control whether outline symbols are shown to the right."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_USE_R1C1,
-		 g_param_spec_boolean ("use-r1c1",
-				       _("Use R1C1 notation rather than A1"),
+
+        g_object_class_install_property (gobject_class, PROP_PROTECTED,
+		 g_param_spec_boolean ("protected", _("Protected"),
+				       _("Sheet is protected."),
+				       FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_OBJECTS,
+		g_param_spec_boolean ("protected-allow-edit-objects", _("Protected Allow Edit objects"),
+				      _("Allow objects to be edited while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_SCENARIOS,
+		g_param_spec_boolean ("protected-allow-edit-scenarios", _("Protected allow edit scenarios"),
+				      _("Allow scenarios to be edited while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_CELL_FORMATTING,
+		g_param_spec_boolean ("protected-allow-cell-formatting", _("Protected allow cell formatting"),
+				      _("Allow cell format changes while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_COLUMN_FORMATTING,
+		g_param_spec_boolean ("protected-allow-column-formatting", _("Protected allow column formatting"),
+				      _("Allow column formatting while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_ROW_FORMATTING,
+		g_param_spec_boolean ("protected-allow-row-formatting", _("Protected allow row formatting"),
+				      _("Allow row formatting while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_INSERT_COLUMNS,
+		g_param_spec_boolean ("protected-allow-insert-columns", _("Protected allow insert columns"),
+				      _("Allow columns to be inserted while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_INSERT_ROWS,
+		g_param_spec_boolean ("protected-allow-insert-rows", _("Protected allow insert rows"),
+				      _("Allow rows to be inserted while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_INSERT_HYPERLINKS,
+		g_param_spec_boolean ("protected-allow-insert-hyperlinks", _("Protected allow insert hyperlinks"),
+				      _("Allow hyperlinks to be inserted while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_DELETE_COLUMNS,
+		g_param_spec_boolean ("protected-allow-delete-columns", _("Protected allow delete columns"),
+				      _("Allow columns to be deleted while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_DELETE_ROWS,
+		g_param_spec_boolean ("protected-allow-delete-rows", _("Protected allow delete rows"),
+				      _("Allow rows to be deleted while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_SELECT_LOCKED_CELLS,
+		g_param_spec_boolean ("protected-allow-select-locked-cells", _("Protected allow select locked cells"),
+				      _("Allow the user to select locked cells while a sheet is protected"),
+				      TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_SORT_RANGES,
+		g_param_spec_boolean ("protected-allow-sort-ranges", _("Protected allow sort ranges"),
+				      _("Allow ranges to be sorted while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_AUTO_FILTERS,
+		g_param_spec_boolean ("protected-allow-edit-auto-filters", _("Protected allow edit auto filters"),
+				      _("Allow auto filters to be edited while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE,
+		g_param_spec_boolean ("protected-allow-edit-pivottable", _("Protected allow edit pivottable"),
+				      _("Allow pivottable to be edited  while a sheet is protected"),
+				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS,
+		g_param_spec_boolean ("protected-allow-select-unlocked-cells", _("Protected allow select unlocked cells"),
+				      _("Allow the user to select unlocked cells while a sheet is protected"),
+				      TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property (gobject_class, PROP_USE_R1C1,
+		 g_param_spec_boolean ("use-r1c1", _("Use R1C1 notation rather than A1"),
 				       _("Display cell addresses using R1C1 notion rather than the more common A1."),
 				       TRUE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_TAB_FOREGROUND,
-		 g_param_spec_boxed ("tab-foreground",
-				     _("Tab Foreground"),
+	g_object_class_install_property (gobject_class, PROP_TAB_FOREGROUND,
+		 g_param_spec_boxed ("tab-foreground", _("Tab Foreground"),
 				     _("The foreground color of the tab."),
 				     GNM_STYLE_COLOR_TYPE,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_TAB_BACKGROUND,
-		 g_param_spec_boxed ("tab-background",
-				     _("Tab Background"),
+	g_object_class_install_property (gobject_class, PROP_TAB_BACKGROUND,
+		 g_param_spec_boxed ("tab-background", _("Tab Background"),
 				     _("The background color of the tab."),
 				     GNM_STYLE_COLOR_TYPE,
 				     GSF_PARAM_STATIC |
 				     G_PARAM_READWRITE));
+
 	/* What is this doing in sheet?  */
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_ZOOM_FACTOR,
-		 g_param_spec_double ("zoom-factor",
-				      _("Zoom Factor"),
+	g_object_class_install_property (gobject_class, PROP_ZOOM_FACTOR,
+		 g_param_spec_double ("zoom-factor", _("Zoom Factor"),
 				      _("The level of zoom used for this sheet."),
 				      0.1, 5.0,
 				      1.0,
@@ -4329,6 +4468,7 @@ void
 sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (width_pts > 0.);
 
 	sheet_colrow_default_calc (sheet, width_pts, TRUE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
@@ -4714,22 +4854,23 @@ sheet_dup (Sheet const *src)
 	dst = sheet_new (wb, name);
 	g_free (name);
 
+	dst->protected_allow = src->protected_allow;
 	g_object_set (dst,
-		"zoom-factor",		   src->last_zoom_factor_used,
-		"text-is-rtl",		   src->text_is_rtl,
-		"visibility",		   src->visibility,
-		"protected",		   src->is_protected,
-		"display-formulas",	   src->display_formulas,
-		"display-zeros",	  !src->hide_zero,
-		"display-grid",		  !src->hide_grid,
-		"display-column-header",  !src->hide_col_header,
-		"display-row-header",	  !src->hide_row_header,
-		"display-outlines",	  !src->display_outlines,
-		"display-outlines-below",  src->outline_symbols_below,
-		"display-outlines-right",  src->outline_symbols_right,
-		"use-r1c1",		   src->r1c1_addresses,
-		"tab-foreground",	   src->tab_text_color,
-		"tab-background",	   src->tab_color,
+		"zoom-factor",		    src->last_zoom_factor_used,
+		"text-is-rtl",		    src->text_is_rtl,
+		"visibility",		    src->visibility,
+		"protected",		    src->is_protected,
+		"display-formulas",	    src->display_formulas,
+		"display-zeros",	   !src->hide_zero,
+		"display-grid",		   !src->hide_grid,
+		"display-column-header",   !src->hide_col_header,
+		"display-row-header",	   !src->hide_row_header,
+		"display-outlines",	   !src->display_outlines,
+		"display-outlines-below",   src->outline_symbols_below,
+		"display-outlines-right",   src->outline_symbols_right,
+		"use-r1c1",		    src->r1c1_addresses,
+		"tab-foreground",	    src->tab_text_color,
+		"tab-background",	    src->tab_color,
 		NULL);
 
 	print_info_free (dst->print_info);

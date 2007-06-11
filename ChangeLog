@@ -1,3 +1,14 @@
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (gnm_sheet_set_property) : Support the XL style sheet
+	  protection capabilities.
+	(gnm_sheet_get_property) : ditto.
+	(gnm_sheet_init) : ditto.
+	(gnm_sheet_class_init) : ditto.
+	(sheet_dup) : ditto.
+
+	(sheet_col_set_default_size_pts) : add some validation just in case.
+
 2007-06-08  Jody Goldberg <jody@gnome.org>
 
 	* src/item-grid.c (item_grid_draw) : offset needs to know about RTL
@@ -123,8 +134,8 @@
 	  xml_sax_even_if_only_styles
 	* src/print.c (cp_gtk_page_setup): new
 	(gnm_request_page_setup_cb): new
-	(gnm_print_sheet) set monochrome if required and hook up
-	  gnm_request_page_setup_cb
+	(gnm_print_sheet) : set monochrome if required and hook up
+	  gnm_request_page_setup_cb.
 	
 2007-05-15  Jean Brefort  <jean.brefort@normalesup.org>
 
