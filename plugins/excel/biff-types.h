@@ -338,4 +338,5 @@
 
 /* BIFF types specific to gnumeric */
 #define BIFF_CHART_trendlimits	0x10C0
+
 #endif /* GNM_EXCEL_BIFF_TYPES_H */

@@ -7,7 +7,7 @@
  *    Jon K Hellan  (hellan@acm.org)
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998-2006 Michael Meeks, Jon K Hellan, Jody Goldberg
+ * (C) 1998-2007 Michael Meeks, Jon K Hellan, Jody Goldberg
  **/
 
 /*
@@ -1308,6 +1308,45 @@ excel_write_DVALs (BiffPut *bp, ExcelWriteSheet *esheet)
 	style_list_free (esheet->validations);
 	esheet->validations = NULL;
 }
+
+static void
+excel_write_SHEETPROTECTION (BiffPut *bp, Sheet *sheet)
+{
+	static guint8 const data[] = {
+		0x67, 0x08,
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 2, 0,
+		1,
+		0xff, 0xff, 0xff, 0xff
+	};
+	guint16 flags;
+	guint8 *buf =ms_biff_put_len_next (bp, BIFF_SHEETPROTECTION, sizeof(data) + 4);
+
+	flags = 0;
+	if (sheet->protected_allow.edit_objects)	  flags |= (1 << 0);
+	if (sheet->protected_allow.edit_scenarios)	  flags |= (1 << 1);
+	if (sheet->protected_allow.cell_formatting)	  flags |= (1 << 2);
+	if (sheet->protected_allow.column_formatting)	  flags |= (1 << 3);
+	if (sheet->protected_allow.row_formatting)	  flags |= (1 << 4);
+	if (sheet->protected_allow.insert_columns)	  flags |= (1 << 5);
+	if (sheet->protected_allow.insert_rows)		  flags |= (1 << 6);
+	if (sheet->protected_allow.insert_hyperlinks)	  flags |= (1 << 7);
+	if (sheet->protected_allow.delete_columns)	  flags |= (1 << 8);
+	if (sheet->protected_allow.delete_rows)		  flags |= (1 << 9);
+	if (sheet->protected_allow.select_locked_cells)	  flags |= (1 << 10);
+	if (sheet->protected_allow.sort_ranges)		  flags |= (1 << 11);
+	if (sheet->protected_allow.edit_auto_filters)	  flags |= (1 << 12);
+	if (sheet->protected_allow.edit_pivottable)	  flags |= (1 << 13);
+	if (sheet->protected_allow.select_unlocked_cells) flags |= (1 << 14);
+
+	memcpy (buf, data, sizeof data);
+	GSF_LE_SET_GUINT16 (buf + sizeof (data) + 0, flags);
+	GSF_LE_SET_GUINT16 (buf + sizeof (data) + 2, 0);
+
+	ms_biff_put_commit (bp);
+}
+
+/******************************************************************/
 
 /* Look for sheet references in conditional formats */
 static void
@@ -4680,6 +4719,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	excel_write_MERGECELLs (ewb->bp, esheet);
 	excel_write_conditions (ewb->bp, esheet);
 	excel_write_DVALs (ewb->bp, esheet);
+	excel_write_SHEETPROTECTION (ewb->bp, esheet->gnum_sheet);
 
 /* See: Global Column Widths...  not cricual.
 	data = ms_biff_put_len_next (ewb->bp, BIFF_GCW, 34);

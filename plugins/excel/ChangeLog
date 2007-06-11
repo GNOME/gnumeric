@@ -1,3 +1,11 @@
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_SHEETPROTECTION) : new.
+	(excel_read_sheet) : called here.
+
+	* ms-excel-write.c (excel_write_SHEETPROTECTION) : new.
+	(excel_write_sheet) : called here after the validations.
+
 2007-06-01  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: do not delete a valid axis.

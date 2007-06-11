@@ -7,7 +7,7 @@
  *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998-2001 Michael Meeks
- * (C) 2002-2006 Jody Goldberg
+ * (C) 2002-2007 Jody Goldberg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -4303,8 +4303,7 @@ excel_read_sheet_PROTECT (BiffQuery *q, ExcelReadSheet *esheet)
 
 	/* MS Docs fail to mention that in some stream this
 	 * record can have size zero.  I assume the in that
-	 * case its existence is the flag.
-	 */
+	 * case its existence is the flag.  */
 	if (q->length >= 2)
 		is_protected = (1 == GSF_LE_GET_GUINT16 (q->data));
 
@@ -4320,8 +4319,7 @@ excel_read_workbook_PROTECT (BiffQuery *q, WorkbookView *wb_view)
 
 	/* MS Docs fail to mention that in some stream this
 	 * record can have size zero.  I assume the in that
-	 * case its existence is the flag.
-	 */
+	 * case its existence is the flag.  */
 	if (q->length >= 2)
 		is_protected = (1 == GSF_LE_GET_GUINT16 (q->data));
 
@@ -4976,6 +4974,35 @@ excel_read_DVAL (BiffQuery *q, ExcelReadSheet *esheet)
 		excel_read_DV (q, esheet);
 	}
 }
+
+static void
+excel_read_SHEETPROTECTION (BiffQuery *q, Sheet *sheet)
+{
+	guint16 flags;
+
+	g_return_if_fail (sheet != NULL);
+
+	XL_CHECK_CONDITION (q->length == 23);
+
+	flags = GSF_LE_GET_GUINT16 (q->data + 19);
+	sheet->protected_allow.edit_objects		= (flags & (1 << 0))  != 0;
+	sheet->protected_allow.edit_scenarios		= (flags & (1 << 1))  != 0;
+	sheet->protected_allow.cell_formatting		= (flags & (1 << 2))  != 0;
+	sheet->protected_allow.column_formatting	= (flags & (1 << 3))  != 0;
+	sheet->protected_allow.row_formatting		= (flags & (1 << 4))  != 0;
+	sheet->protected_allow.insert_columns		= (flags & (1 << 5))  != 0;
+	sheet->protected_allow.insert_rows		= (flags & (1 << 6))  != 0;
+	sheet->protected_allow.insert_hyperlinks	= (flags & (1 << 7))  != 0;
+	sheet->protected_allow.delete_columns		= (flags & (1 << 8))  != 0;
+	sheet->protected_allow.delete_rows		= (flags & (1 << 9))  != 0;
+	sheet->protected_allow.select_locked_cells	= (flags & (1 << 10)) != 0;
+	sheet->protected_allow.sort_ranges		= (flags & (1 << 11)) != 0;
+	sheet->protected_allow.edit_auto_filters	= (flags & (1 << 12)) != 0;
+	sheet->protected_allow.edit_pivottable		= (flags & (1 << 13)) != 0;
+	sheet->protected_allow.select_unlocked_cells	= (flags & (1 << 14)) != 0;
+}
+
+/***********************************************************************/
 
 static guchar *
 read_utf16_str (int word_len, guint8 const *data)
@@ -5870,7 +5897,12 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			break;
 
 		case BIFF_PIVOT_AUTOFORMAT:
-			/* samples/excel/dbfuns.xls has as sample of this record */
+			/* samples/excel/dbfuns.xls has as sample of this record
+			 * and I added code in OOo */
+			break;
+
+		case BIFF_SHEETPROTECTION:
+			excel_read_SHEETPROTECTION (q, esheet->sheet);
 			break;
 
 		/* HACK: it seems that in older versions of XL the
