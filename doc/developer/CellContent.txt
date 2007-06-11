@@ -15,9 +15,6 @@ Content
 
     renderedvalue : A placeholder for future use.
 
-    parse_format : Expressions store the results of autoformat and values store the
-    	           format used to parse the value that was entered.
-
 LifeCycle
 
     When a cell is first created it is initialized to have value_empty and no location.
@@ -35,6 +32,6 @@ Actions
     - Recalc the auto expression
 
 Future plans
-    - just in time rendering and span calculation
+    - just in span calculation
     - span ovelap
     - Have spans use run length encoding

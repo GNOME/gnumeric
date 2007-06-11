@@ -275,7 +275,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 	    NULL != (val = gnm_style_get_validation (style)) &&
 	    val->type == VALIDATION_TYPE_IN_LIST &&
 	    val->use_dropdown) {
-		static float const a_offsets [4] = { 0., 0., 1., 1. };
+		float const a_offsets [4] = { 0., 0., 1., 1. };
 		SheetObjectAnchor  anchor;
 		GnmRange corner;
 		GnmRange const *r;
