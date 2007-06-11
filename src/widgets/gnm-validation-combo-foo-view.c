@@ -34,6 +34,7 @@
 #include "sheet-view.h"
 #include "sheet.h"
 #include "cell.h"
+#include "expr-impl.h"
 #include "expr.h"
 #include "value.h"
 
@@ -100,6 +101,7 @@ vcombo_fill_model (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 	GnmValue	*v;
 	GnmValue const	*cur_val;
 	GnmValidation const *val = vcombo->validation;
+	GnmExprArrayCorner array = { GNM_EXPR_OP_ARRAY_CORNER, 1, 1, NULL, NULL };
 
 	model = gtk_list_store_new (3,
 		G_TYPE_STRING, G_TYPE_STRING, gnm_value_get_type ());
@@ -110,6 +112,8 @@ vcombo_fill_model (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 	g_return_val_if_fail (vcombo->sv != NULL, model);
 
 	eval_pos_init_pos (&ep, sv_sheet (vcombo->sv), &vcombo->sv->edit_pos);
+	/* Force into 'array' mode by supplying a fake corner */
+	ep.array = &array;
 	v = gnm_expr_top_eval (val->texpr[0], &ep,
 		 GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 	if (NULL == v)
@@ -199,7 +203,8 @@ vcombo_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 	} else
 		foo_canvas_item_hide (view);
 }
-static void vcombo_destroy (SheetObjectView *sov)
+static void
+vcombo_destroy (SheetObjectView *sov)
 {
 	gtk_object_destroy (GTK_OBJECT (sov));
 }

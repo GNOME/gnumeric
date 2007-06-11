@@ -22,6 +22,7 @@ Jody:
 	* Read/Write of protected sheet capabilities for XLS/XLSX.
 	* Move the OpenPkg support code into libgsf from our xlsx plugin.
 	* Fix placement of validation combo in merged cells.
+	* Eval validation functions as arrays.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]
