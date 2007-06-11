@@ -28,7 +28,6 @@
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
-#include <print.h>
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
@@ -313,15 +312,6 @@ convert (char const *inarg, char const *outarg,
 	return res;
 }
 
-static void
-pdf_write_workbook (GOFileSaver const *fs, IOContext *context,
-		    gconstpointer wbv_, GsfOutput *output)
-{
-	const WorkbookView *wbv = wbv_;
-	gnm_print_sheet (NULL, wb_view_cur_sheet (wbv), FALSE,
-			 PRINT_ALL_SHEETS, output);
-}
-
 int
 main (int argc, char **argv)
 {
@@ -383,12 +373,6 @@ main (int argc, char **argv)
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
 	go_plugin_db_activate_plugin_list (
 		go_plugins_get_available_plugins (), &plugin_errs);
-
-	/* Install a pdf saver.  */
-	go_file_saver_register (go_file_saver_new (
-		"Gnumeric_pdf:pdf_assistant", "pdf",
-		_("PDF export"),
-		FILE_FL_WRITE_ONLY, pdf_write_workbook));
 
 	if (ssconvert_list_exporters)
 		list_them (&go_get_file_savers,

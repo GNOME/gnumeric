@@ -1,5 +1,12 @@
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
+	* src/print-info.c (pdf_write_workbook) : move here from sscovert.
+	(print_init) : and register the saver here.
+
+	* src/ssconvert.c (main) : moved registration from here.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-view.c (wb_view_style_feedback) : fix placement when
 	  applied to merged cells.
 

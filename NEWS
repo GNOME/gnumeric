@@ -23,6 +23,7 @@ Jody:
 	* Move the OpenPkg support code into libgsf from our xlsx plugin.
 	* Fix placement of validation combo in merged cells.
 	* Eval validation functions as arrays.
+	* Make Morten's pdf exporter available from gnumeric too.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

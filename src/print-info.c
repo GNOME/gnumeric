@@ -13,6 +13,7 @@
 #include "gnumeric.h"
 #include "print-info.h"
 
+#include "print.h"
 #include "gutils.h"
 #include "ranges.h"
 #include "gnm-format.h"
@@ -20,6 +21,7 @@
 #include "sheet.h"
 #include "value.h"
 #include "workbook.h"
+#include "workbook-view.h"
 #include "gnumeric-gconf.h"
 #include "gnumeric-gconf-priv.h"
 
@@ -602,9 +604,24 @@ hf_render_info_destroy (HFRenderInfo *hfi)
 	g_free (hfi);
 }
 
+static void
+pdf_write_workbook (GOFileSaver const *fs, IOContext *context,
+		    gconstpointer wbv_, GsfOutput *output)
+{
+	WorkbookView const *wbv = wbv_;
+	gnm_print_sheet (NULL, wb_view_cur_sheet (wbv), FALSE,
+			 PRINT_ALL_SHEETS, output);
+}
+
 void
 print_init (void)
 {
+	/* Install a pdf saver.  */
+	go_file_saver_register (go_file_saver_new (
+		"Gnumeric_pdf:pdf_assistant", "pdf",
+		_("PDF export"),
+		FILE_FL_WRITE_ONLY, pdf_write_workbook));
+
 	load_formats ();
 }
 
