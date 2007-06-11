@@ -1,5 +1,16 @@
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
+	* xlsx-write.c : Move the OpenPkg support out of here and into libgsf.
+	* xlsx-read.c : ditto.
+	(xlsx_parse_rel_by_id) : new wrapper to handle errors from
+	  gsf_open_pkg_parse_rel_by_id.
+
+2007-06-10  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_CT_SheetProtection) : new.
+	* xlsx-write.c (xlsx_write_protection) : new.
+	(xlsx_write_sheet) : called from here.
+
 	* ms-excel-read.c (excel_read_SHEETPROTECTION) : new.
 	(excel_read_sheet) : called here.
 

@@ -2,7 +2,7 @@
 /*
  * xlsx-write.c : export MS Office Open xlsx files.
  *
- * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -47,424 +47,13 @@
 #include <goffice/app/file.h>
 #include <goffice/utils/go-format.h>
 #include <gsf/gsf-output.h>
-#include <gsf/gsf-outfile-impl.h>
+#include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-zip.h>
+#include <gsf/gsf-open-pkg-utils.h>
 #include <gsf/gsf-utils.h>
-#include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-libxml.h>
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
-
-/*************************************************************/
-typedef struct _GsfOutfileOpenPkg GsfOutfileOpenPkg;
-
-#define GSF_OUTFILE_OPEN_PKG_TYPE	(gsf_outfile_open_pkg_get_type ())
-#define GSF_OUTFILE_OPEN_PKG(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GSF_OUTFILE_OPEN_PKG_TYPE, GsfOutfileOpenPkg))
-#define GSF_IS_OUTFILE_OPEN_PKG(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GSF_OUTFILE_OPEN_PKG_TYPE))
-
-static GType	    gsf_outfile_open_pkg_get_type (void);
-static GsfOutfile *gsf_outfile_open_pkg_new	  (GsfOutfile *sink);
-
-struct _GsfOutfileOpenPkg {
-	GsfOutfile  parent;
-
-	GsfOutput  *sink;
-	gboolean    is_dir;
-	char	   *content_type;
-	GSList	   *children;
-	GSList	   *relations;
-};
-typedef struct {
-	char *id, *type, *target;
-} GsfOutfileOpenPkgRel;
-
-/*************************************************************/
-#undef G_LOG_DOMAIN
-#define G_LOG_DOMAIN "libgsf:open_pkg"
-
-typedef GsfOutfileClass GsfOutfileOpenPkgClass;
-
-enum {
-	PROP_0,
-	PROP_SINK,
-	PROP_CONTENT_TYPE,
-	PROP_IS_DIR,
-	PROP_IS_ROOT
-};
-
-static GObjectClass *parent_class;
-static void
-gsf_outfile_open_pkg_set_sink (GsfOutfileOpenPkg *open_pkg, GsfOutput *sink)
-{
-	if (sink)
-		g_object_ref (sink);
-	if (open_pkg->sink)
-		g_object_unref (open_pkg->sink);
-	open_pkg->sink = sink;
-}
-
-static void
-gsf_outfile_open_pkg_set_content_type (GsfOutfileOpenPkg *open_pkg,
-				       char const *content_type)
-{
-	g_return_if_fail (content_type != NULL);
-
-	if (open_pkg->content_type != content_type) {
-		g_free (open_pkg->content_type);
-		open_pkg->content_type = g_strdup (content_type);
-	}
-}
-
-static void
-gsf_outfile_open_pkg_get_property (GObject     *object,
-				   guint        property_id,
-				   GValue      *value,
-				   GParamSpec  *pspec)
-{
-	GsfOutfileOpenPkg *open_pkg = (GsfOutfileOpenPkg *)object;
-
-	switch (property_id) {
-	case PROP_SINK:
-		g_value_set_object (value, open_pkg->sink);
-		break;
-	case PROP_CONTENT_TYPE:
-		g_value_set_string (value, open_pkg->content_type);
-		break;
-	case PROP_IS_DIR:
-		g_value_set_boolean (value, open_pkg->is_dir);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-gsf_outfile_open_pkg_set_property (GObject      *object,
-				   guint         property_id,
-				   GValue const *value,
-				   GParamSpec   *pspec)
-{
-	GsfOutfileOpenPkg *open_pkg = (GsfOutfileOpenPkg *)object;
-
-	switch (property_id) {
-	case PROP_SINK:
-		gsf_outfile_open_pkg_set_sink (open_pkg, g_value_get_object (value));
-		break;
-	case PROP_CONTENT_TYPE:
-		gsf_outfile_open_pkg_set_content_type (open_pkg, g_value_get_string (value));
-		break;
-	case PROP_IS_DIR:
-		open_pkg->is_dir = g_value_get_boolean (value);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-gsf_outfile_open_pkg_init (GObject *obj)
-{
-	GsfOutfileOpenPkg *open_pkg = GSF_OUTFILE_OPEN_PKG (obj);
-
-	open_pkg->sink = NULL;
-	open_pkg->content_type = NULL;
-	open_pkg->is_dir = FALSE;
-	open_pkg->children = NULL;
-	open_pkg->relations = NULL;
-}
-
-static void
-gsf_outfile_open_pkg_finalize (GObject *obj)
-{
-	GsfOutfileOpenPkg *open_pkg = GSF_OUTFILE_OPEN_PKG (obj);
-	GSList *ptr;
-
-	if (open_pkg->sink != NULL) {
-		g_object_unref (open_pkg->sink);
-		open_pkg->sink = NULL;
-	}
-	g_free (open_pkg->content_type);
-	open_pkg->content_type = NULL;
-
-	for (ptr = open_pkg->children ; ptr != NULL ; ptr = ptr->next)
-		g_object_unref (ptr->data);
-	g_slist_free (open_pkg->children);
-	parent_class->finalize (obj);
-}
-
-static gboolean
-gsf_outfile_open_pkg_write (GsfOutput *output, size_t num_bytes, guint8 const *data)
-{
-	GsfOutfileOpenPkg *open_pkg = GSF_OUTFILE_OPEN_PKG (output);
-	return gsf_output_write (open_pkg->sink, num_bytes, data);
-}
-static gboolean
-gsf_outfile_open_pkg_seek (GsfOutput *output, gsf_off_t offset, GSeekType whence)
-{
-	GsfOutfileOpenPkg *open_pkg = GSF_OUTFILE_OPEN_PKG (output);
-	return gsf_output_seek (open_pkg->sink, offset, whence);
-}
-static GsfOutput *
-gsf_outfile_open_pkg_new_child (GsfOutfile *parent,
-				char const *name, gboolean is_dir,
-				char const *first_property_name, va_list args)
-{
-	GsfOutfileOpenPkg *child, *open_pkg = GSF_OUTFILE_OPEN_PKG (parent);
-	GsfOutput *sink;
-
-	if (!open_pkg->is_dir)
-		return NULL;
-
-	child = (GsfOutfileOpenPkg *)g_object_new_valist (
-		GSF_OUTFILE_OPEN_PKG_TYPE, first_property_name, args);
-	gsf_output_set_name (GSF_OUTPUT (child), name);
-	gsf_output_set_container (GSF_OUTPUT (child), parent);
-	child->is_dir = is_dir;
-
-	sink = gsf_outfile_new_child (GSF_OUTFILE (open_pkg->sink), name, is_dir);
-	gsf_outfile_open_pkg_set_sink (child, sink);
-	g_object_unref (sink);
-
-	open_pkg->children = g_slist_prepend (open_pkg->children, child);
-	g_object_ref (child);
-
-	return GSF_OUTPUT (child);
-}
-
-static void
-gsf_open_pkg_write_content_default (GsfXMLOut *xml, char const *ext, char const *type)
-{
-	gsf_xml_out_start_element (xml, "Default");
-	gsf_xml_out_add_cstr (xml, "Extension", ext);
-	gsf_xml_out_add_cstr (xml, "ContentType", type);
-	gsf_xml_out_end_element (xml); /* </Default> */
-}
-static void
-gsf_open_pkg_write_content_override (GsfOutfileOpenPkg const *open_pkg,
-				     char const *base,
-				     GsfXMLOut *xml)
-{
-	GsfOutfileOpenPkg const *child;
-	char   *path;
-	GSList *ptr;
-
-	for (ptr = open_pkg->children ; ptr != NULL ; ptr = ptr->next) {
-		child = ptr->data;
-		if (child->is_dir) {
-			path = g_strconcat (base, gsf_output_name (GSF_OUTPUT (child)), "/", NULL);
-			gsf_open_pkg_write_content_override (child, path, xml);
-		} else {
-			path = g_strconcat (base, gsf_output_name (GSF_OUTPUT (child)), NULL);
-			/* rels files do need content types, the defaults handle them */
-			if (NULL != child->content_type) {
-				gsf_xml_out_start_element (xml, "Override");
-				gsf_xml_out_add_cstr (xml, "PartName", path);
-				gsf_xml_out_add_cstr (xml, "ContentType", child->content_type);
-				gsf_xml_out_end_element (xml); /* </Override> */
-			}
-		}
-		g_free (path);
-	}
-}
-
-static gboolean
-gsf_outfile_open_pkg_close (GsfOutput *output)
-{
-	GsfOutfileOpenPkg *open_pkg = GSF_OUTFILE_OPEN_PKG (output);
-	GsfOutput *dir;
-	gboolean res = FALSE;
-	char *rels_name;
-
-	if (NULL == open_pkg->sink || gsf_output_is_closed (open_pkg->sink))
-		return TRUE;
-
-	/* Generate [Content_types].xml when we close the root dir */
-	if (NULL == gsf_output_name (output)) {
-		GsfOutput *out = gsf_outfile_new_child (GSF_OUTFILE (open_pkg->sink),
-			"[Content_Types].xml", FALSE);
-		GsfXMLOut *xml = gsf_xml_out_new (out);
-
-		gsf_xml_out_start_element (xml, "Types");
-		gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-			"http://schemas.openxmlformats.org/package/2006/content-types");
-		gsf_open_pkg_write_content_default (xml, "rels",
-			"application/vnd.openxmlformats-package.relationships+xml");
-		gsf_open_pkg_write_content_default (xml, "xlbin",
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings");
-		gsf_open_pkg_write_content_default (xml, "xml",
-			"application/xml");
-		gsf_open_pkg_write_content_override (open_pkg, "/", xml);
-		gsf_xml_out_end_element (xml); /* </Types> */
-		g_object_unref (xml);
-
-		gsf_output_close (out);
-		g_object_unref (out);
-
-		dir = open_pkg->sink;
-		rels_name = g_strdup (".rels");
-	} else {
-		res = gsf_output_close (open_pkg->sink);
-
-		dir = (GsfOutput *)gsf_output_container (open_pkg->sink);
-		rels_name = g_strconcat (gsf_output_name (output), ".rels", NULL);
-	}
-
-	if (NULL != open_pkg->relations) {
-		GsfOutput *rels;
-		GsfXMLOut *xml;
-		GsfOutfileOpenPkgRel *rel;
-		GSList *ptr;
-
-		dir = gsf_outfile_new_child (GSF_OUTFILE (dir), "_rels", TRUE);
-		rels = gsf_outfile_new_child (GSF_OUTFILE (dir), rels_name, FALSE);
-		xml = gsf_xml_out_new (rels);
-
-		gsf_xml_out_start_element (xml, "Relationships");
-		gsf_xml_out_add_cstr_unchecked (xml, "xmlns",
-			"http://schemas.openxmlformats.org/package/2006/relationships");
-
-		for (ptr = open_pkg->relations ; ptr != NULL ; ptr = ptr->next) {
-			rel = ptr->data;
-			gsf_xml_out_start_element (xml, "Relationship");
-			gsf_xml_out_add_cstr (xml, "Id", rel->id);
-			gsf_xml_out_add_cstr (xml, "Type", rel->type);
-			gsf_xml_out_add_cstr (xml, "Target", rel->target);
-			gsf_xml_out_end_element (xml); /* </Relationship> */
-
-			g_free (rel->id);
-			g_free (rel->type);
-			g_free (rel->target);
-			g_free (rel);
-		}
-		g_slist_free (open_pkg->relations);
-
-		gsf_xml_out_end_element (xml); /* </Relationships> */
-		g_object_unref (xml);
-		gsf_output_close (rels);
-		g_object_unref (rels);
-		g_object_unref (dir);
-	}
-	g_free (rels_name);
-
-	/* close the container */
-	if (NULL == gsf_output_name (output))
-		return gsf_output_close (open_pkg->sink);
-	return res;
-}
-
-static void
-gsf_outfile_open_pkg_class_init (GObjectClass *gobject_class)
-{
-	GsfOutputClass  *output_class  = GSF_OUTPUT_CLASS (gobject_class);
-	GsfOutfileClass *outfile_class = GSF_OUTFILE_CLASS (gobject_class);
-
-	gobject_class->finalize		= gsf_outfile_open_pkg_finalize;
-	gobject_class->get_property     = gsf_outfile_open_pkg_get_property;
-	gobject_class->set_property     = gsf_outfile_open_pkg_set_property;
-
-	output_class->Write		= gsf_outfile_open_pkg_write;
-	output_class->Seek		= gsf_outfile_open_pkg_seek;
-	output_class->Close		= gsf_outfile_open_pkg_close;
-	outfile_class->new_child	= gsf_outfile_open_pkg_new_child;
-
-	parent_class = g_type_class_peek_parent (gobject_class);
-
-	g_object_class_install_property (gobject_class, PROP_SINK,
-		 g_param_spec_object ("sink", "Sink", "The GsfOutput that stores the Open Package content.",
-			GSF_OUTFILE_TYPE, GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
-	g_object_class_install_property (gobject_class, PROP_CONTENT_TYPE,
-		 g_param_spec_string ("content-type", "ContentType", "The ContentType stored in the root [Content_Types].xml file.",
-			"", GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
-	g_object_class_install_property (gobject_class, PROP_IS_DIR,
-		 g_param_spec_boolean ("is-dir", "IsDir", "Can the outfile have children.",
-			FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
-}
-
-GSF_CLASS (GsfOutfileOpenPkg, gsf_outfile_open_pkg,
-	   gsf_outfile_open_pkg_class_init, gsf_outfile_open_pkg_init,
-	   GSF_OUTFILE_TYPE)
-
-/**
- * gsf_outfile_open_pkg_new :
- * @sink : #GsfOutfile
- *
- * Convenience routine to create a GsfOutfileOpenPkg inside @sink.
- * Returns a GsfOutfile that the caller is responsible for.
- **/
-static GsfOutfile *
-gsf_outfile_open_pkg_new (GsfOutfile *sink)
-{
-	return g_object_new (GSF_OUTFILE_OPEN_PKG_TYPE,
-		"sink", sink,	"is-dir", TRUE,
-		NULL);
-}
-
-/**
- * gsf_outfile_open_pkg_relate:
- * @child : #GsfOutfileOpenPkg
- * @parent : #GsfOutfileOpenPkg
- * @type : 
- *
- * Create a relationship between @child and @parent of @type.
- * Return the relID which the caller does not owm but will live as long as
- * @parent.
- **/
-static char const *
-gsf_outfile_open_pkg_relate (GsfOutfileOpenPkg *child,
-			     GsfOutfileOpenPkg *parent,
-			     char const *type)
-{
-	GsfOutfileOpenPkgRel *rel = g_new (GsfOutfileOpenPkgRel, 1);
-	char *tmp, *path = g_strdup (gsf_output_name (GSF_OUTPUT (child)));
-	GsfOutfile *ptr, *base = parent->is_dir ? GSF_OUTFILE (parent)
-		: gsf_output_container (GSF_OUTPUT (parent));
-
-	ptr = GSF_OUTFILE (child);
-	while (NULL != (ptr = gsf_output_container (GSF_OUTPUT (ptr))) &&
-	       ptr != base) {
-		path = g_strconcat (gsf_output_name (GSF_OUTPUT (ptr)), "/",
-			(tmp = path), NULL);
-		g_free (tmp);
-	}
-
-	/* Calculate the path from @child to @parent */
-	rel->id = g_strdup_printf ("rId%u", g_slist_length (parent->relations) + 1);
-	rel->type = g_strdup (type);
-	rel->target = path;
-	parent->relations = g_slist_prepend (parent->relations, rel);
-	return rel->id;
-}
-
-/**
- * gsf_outfile_open_pkg_add_rel:
- * @dir : #GsfOutfile
- * @name : 
- * @content_type :
- * @parent : #GsfOutfile
- * @type :
- *
- * A convenience wrapper to create a child in @dir of @content_type then create
- * a @type relation to @parent
- * Returns the new part.
- **/
-static GsfOutput *
-gsf_outfile_open_pkg_add_rel (GsfOutfile *dir,
-			      char const *name,
-			      char const *content_type,
-			      GsfOutfile *parent,
-			      char const *type)
-{
-	GsfOutput *part = gsf_outfile_new_child_full (dir, name, FALSE,
-		"content-type", content_type,
-		NULL);
-	(void) gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (part),
-		GSF_OUTFILE_OPEN_PKG (parent), type);
-	return part;
-}
-
-/**************************************************************************/
 
 static char const *ns_ss  = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 static char const *ns_rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -937,6 +526,66 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 }
 
 static void
+xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
+{
+	gboolean sheet;
+	gboolean objects;
+	gboolean scenarios;
+	gboolean formatCells;
+	gboolean formatColumns;
+	gboolean formatRows;
+	gboolean insertColumns;
+	gboolean insertRows;
+	gboolean insertHyperlinks;
+	gboolean deleteColumns;
+	gboolean deleteRows;
+	gboolean selectLockedCells;
+	gboolean sort;
+	gboolean autoFilter;
+	gboolean pivotTables;
+	gboolean selectUnlockedCells;
+
+	g_object_get (G_OBJECT (state->sheet),
+		"is-protected", 			 &sheet,
+		"protected-allow-edit-objects", 	 &objects,
+		"protected-allow-edit-scenarios", 	 &scenarios,
+		"protected-allow-cell-formatting", 	 &formatCells,
+		"protected-allow-column-formatting", 	 &formatColumns,
+		"protected-allow-row-formatting", 	 &formatRows,
+		"protected-allow-insert-columns", 	 &insertColumns,
+		"protected-allow-insert-rows", 		 &insertRows,
+		"protected-allow-insert-hyperlinks", 	 &insertHyperlinks,
+		"protected-allow-delete-columns", 	 &deleteColumns,
+		"protected-allow-delete-rows", 		 &deleteRows,
+		"protected-allow-select-locked-cells", 	 &selectLockedCells,
+		"protected-allow-sort-ranges", 		 &sort,
+		"protected-allow-edit-auto-filters", 	 &autoFilter,
+		"protected-allow-edit-pivottable", 	 &pivotTables,
+		"protected-allow-select-unlocked-cells", &selectUnlockedCells,
+		NULL);
+
+	gsf_xml_out_start_element (xml, "sheetProtection");
+	if ( sheet) 		  xlsx_add_bool (xml, "sheet",			TRUE);
+	if ( objects)		  xlsx_add_bool (xml, "objects",		TRUE);
+	if ( scenarios)		  xlsx_add_bool (xml, "scenarios",		TRUE);
+	if (!formatCells)	  xlsx_add_bool (xml, "formatCells",		FALSE);
+	if (!formatColumns)	  xlsx_add_bool (xml, "formatColumns",		FALSE);
+	if (!formatRows)	  xlsx_add_bool (xml, "formatRows",		FALSE);
+	if (!insertColumns)	  xlsx_add_bool (xml, "insertColumns",		FALSE);
+	if (!insertRows)	  xlsx_add_bool (xml, "insertRows",		FALSE);
+	if (!insertHyperlinks)	  xlsx_add_bool (xml, "insertHyperlinks",	FALSE);
+	if (!deleteColumns)	  xlsx_add_bool (xml, "deleteColumns",		FALSE);
+	if (!deleteRows)	  xlsx_add_bool (xml, "deleteRows",		FALSE);
+	if ( selectLockedCells)	  xlsx_add_bool (xml, "selectLockedCells",	TRUE);
+	if (!sort)		  xlsx_add_bool (xml, "sort",			FALSE);
+	if (!autoFilter)	  xlsx_add_bool (xml, "autoFilter",		FALSE);
+	if (!pivotTables)	  xlsx_add_bool (xml, "pivotTables",		FALSE);
+	if ( selectUnlockedCells) xlsx_add_bool (xml, "selectUnlockedCells",	TRUE);
+
+	gsf_xml_out_end_element (xml); /* sheetProtection */
+}
+
+static void
 xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 {
 	PrintInformation *pi = state->sheet->print_info;
@@ -1041,6 +690,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	}
 
 	xlsx_write_autofilters (state, xml);
+	xlsx_write_protection (state, xml);
 	xlsx_write_print_info (state, xml);
 	gsf_xml_out_end_element (xml); /* </worksheet> */
 

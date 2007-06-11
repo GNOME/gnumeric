@@ -3,7 +3,7 @@
 /*
  * boot.c: the external interface to the MS Excel import/export
  *
- * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 1998-2001 Michael Meeks (miguel@kernel.org)
  *
  * This program is free software; you can redistribute it and/or

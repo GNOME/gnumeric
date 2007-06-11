@@ -18,7 +18,9 @@ Jean:
 Jody:
 	* Fix drawing of large cursor while sheet scrolls. [#444610]
 	* Fix drawing of merged cells in RTL. [#442463], [442467]
-	* Add more detailed control of capabilities in protected sheets.
+	* Properties to store fine tuned capabilities in protected sheets.
+	* Read/Write of protected sheet capabilities for XLS/XLSX.
+	* Move the OpenPkg support code into libgsf from our xlsx plugin.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

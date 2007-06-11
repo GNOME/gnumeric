@@ -2,7 +2,7 @@
 /*
  * xlsx-read.c : Read MS Excel 2007 Office Open xml
  *
- * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -54,6 +54,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-zip.h>
+#include <gsf/gsf-open-pkg-utils.h>
 
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
@@ -156,235 +157,6 @@ static GsfXMLInNS const xlsx_ns[] = {
 	{ NULL }
 };
 
-/****************************************************************************/
-/* some utilities for Open Packaging format.
- * Move to gsf when the set of useful functionality clarifies */
-typedef struct _GsfOpenPkgRel	GsfOpenPkgRel;
-typedef struct _GsfOpenPkgRels	GsfOpenPkgRels;
-
-struct _GsfOpenPkgRel {
-	char *id, *type, *target;
-};
-struct _GsfOpenPkgRels {
-	GHashTable	*by_id;
-	GHashTable	*by_type;
-};
-static void
-gsf_open_pkg_rels_free (GsfOpenPkgRels *rels)
-{
-	g_hash_table_destroy (rels->by_id);
-	g_hash_table_destroy (rels->by_type);
-	g_free (rels);
-}
-
-static void
-gsf_open_pkg_rel_free (GsfOpenPkgRel *rel)
-{
-	g_free (rel->id);	rel->id = NULL;
-	g_free (rel->type);	rel->type = NULL;
-	g_free (rel->target);	rel->target = NULL;
-	g_free (rel);
-}
-
-static void
-xlsx_pkg_rel_begin (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	GsfOpenPkgRels *rels = xin->user_state;
-	GsfOpenPkgRel *rel;
-	xmlChar const *id = NULL;
-	xmlChar const *type = NULL;
-	xmlChar const *target = NULL;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "Id"))
-			id = attrs[1];
-		else if (0 == strcmp (attrs[0], "Type"))
-			type = attrs[1];
-		else if (0 == strcmp (attrs[0], "Target"))
-			target = attrs[1];
-
-	g_return_if_fail (id != NULL);
-	g_return_if_fail (type != NULL);
-	g_return_if_fail (target != NULL);
-
-	rel = g_new (GsfOpenPkgRel, 1);
-	rel->id		= g_strdup (id);
-	rel->type	= g_strdup (type);
-	rel->target	= g_strdup (target);
-
-	g_hash_table_replace (rels->by_id, rel->id, rel);
-	g_hash_table_replace (rels->by_type, rel->type, rel);
-}
-
-static GsfXMLInNode const open_pkg_rel_dtd[] = {
-GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, RELS, XL_NS_PKG_REL, "Relationships", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (RELS, REL, XL_NS_PKG_REL, "Relationship", GSF_XML_NO_CONTENT, xlsx_pkg_rel_begin, NULL),
-
-GSF_XML_IN_NODE_END
-};
-
-/**
- * gsf_open_pkg_get_rels :
- * @in : #GsfInput
- *
- * Returns a hashtable of the relationships associated with @in
- **/
-static GsfOpenPkgRels *
-gsf_open_pkg_get_rels (GsfInput *in)
-{
-	GsfOpenPkgRels *rels;
-
-	g_return_val_if_fail (in != NULL, NULL);
-
-	if (NULL == (rels = g_object_get_data (G_OBJECT (in), "OpenPkgRels"))) {
-		char const *part_name = gsf_input_name (in);
-		GsfXMLInDoc *rel_doc;
-		GsfInput *rel_stream;
-
-		if (NULL != part_name) {
-			GsfInfile *container = gsf_input_container (in);
-			char *rel_name;
-
-			g_return_val_if_fail (container != NULL, NULL);
-
-			rel_name = g_strconcat (part_name, ".rels", NULL);
-			rel_stream = gsf_infile_child_by_vname (container, "_rels", rel_name, NULL);
-			g_free (rel_name);
-		} else /* the root */
-			rel_stream = gsf_infile_child_by_vname (GSF_INFILE (in), "_rels", ".rels", NULL);
-
-		g_return_val_if_fail (rel_stream != NULL, NULL);
-
-		rels = g_new (GsfOpenPkgRels, 1);
-		rels->by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
-			NULL, (GDestroyNotify)gsf_open_pkg_rel_free);
-		rels->by_type = g_hash_table_new (g_str_hash, g_str_equal);
-
-		rel_doc = gsf_xml_in_doc_new (open_pkg_rel_dtd, xlsx_ns);
-		(void) gsf_xml_in_doc_parse (rel_doc, rel_stream, rels);
-
-		gsf_xml_in_doc_free (rel_doc);
-		g_object_unref (G_OBJECT (rel_stream));
-
-		g_object_set_data_full (G_OBJECT (in), "OpenPkgRels", rels,
-			(GDestroyNotify) gsf_open_pkg_rels_free);
-	}
-
-	return rels;
-}
-
-static GsfInput *
-gsf_open_pkg_open_rel (GsfInput *in, GsfOpenPkgRel *rel)
-{
-	GsfInfile *container, *prev;
-	gchar **elems;
-	unsigned i;
-
-	g_return_val_if_fail (rel != NULL, NULL);
-	g_return_val_if_fail (in != NULL, NULL);
-
-	container = gsf_input_name (in)
-		? gsf_input_container (in) : GSF_INFILE (in);
-
-	/* parts can not have '/' in their names ? TODO : PROVE THIS
-	 * right now the only test is that worksheets can not have it
-	 * in their names */
-	elems = g_strsplit (rel->target, "/", 0);
-	for (i = 0 ; elems[i] ; i++) {
-		prev = container;
-		if (0 == strcmp (elems[i], "..")) {
-			container = gsf_input_container (GSF_INPUT (container));
-
-			g_return_val_if_fail (container != NULL, NULL);
-
-			g_object_ref (container);
-			in = NULL;
-		} else if (0 == strcmp (elems[i], ".")) {
-			in = NULL; /* Be pedantic and ignore '.' */
-			continue;
-		} else {
-			in = gsf_infile_child_by_name (container, elems[i]);
-
-			if (NULL != elems[i+1]) {
-				g_return_val_if_fail (GSF_IS_INFILE (in), NULL);
-				container = GSF_INFILE (in);
-			}
-		}
-		if (i > 0)
-			g_object_unref (G_OBJECT (prev));
-
-	}
-	g_strfreev (elems);
-
-	return in;
-}
-
-static GsfInput *
-gsf_open_pkg_get_rel_by_id (GsfInput *in, char const *id)
-{
-	GsfOpenPkgRel *rel = NULL;
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
-
-	g_return_val_if_fail (rels != NULL, NULL);
-
-	if (NULL != (rel = g_hash_table_lookup (rels->by_id, id)))
-		return gsf_open_pkg_open_rel (in, rel);
-	return NULL;
-}
-
-static GsfInput *
-gsf_open_pkg_get_rel_by_type (GsfInput *in, char const *type)
-{
-	GsfOpenPkgRel *rel = NULL;
-	GsfOpenPkgRels *rels = gsf_open_pkg_get_rels (in);
-
-	g_return_val_if_fail (rels != NULL, NULL);
-
-	if (NULL != (rel = g_hash_table_lookup (rels->by_type, type)))
-		return gsf_open_pkg_open_rel (in, rel);
-	return NULL;
-}
-
-static void
-gsf_open_pkg_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
-			      GsfXMLInNode const *dtd,
-			      GsfXMLInNS const *ns)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GsfInput *cur_stream, *part_stream;
-
-	g_return_if_fail (xin != NULL);
-
-	cur_stream = gsf_xml_in_get_input (xin);
-
-	if (NULL == part_id) {
-		gnm_io_warning (state->context,
-			_("Missing id for part in '%s'"),
-			gsf_input_name (cur_stream) );
-		return;
-	}
-
-	part_stream = gsf_open_pkg_get_rel_by_id (cur_stream, part_id);
-	if (NULL != part_stream) {
-		GsfXMLInDoc *doc = gsf_xml_in_doc_new (dtd, ns);
-
-		if (!gsf_xml_in_doc_parse (doc, part_stream, state))
-			gnm_io_warning (state->context,
-				_("Part '%s' in '%s' from '%s' is corrupt!"),
-				part_id,
-				gsf_input_name (part_stream),
-				gsf_input_name (cur_stream) );
-		gsf_xml_in_doc_free (doc);
-
-		g_object_unref (G_OBJECT (part_stream));
-	} else {
-		gnm_io_warning (state->context,
-			_("Unable to find part '%s' for '%s'"),
-			part_id, gsf_input_name (cur_stream) );
-	}
-}
-
 static gboolean
 xlsx_parse_stream (XLSXReadState *state, GsfInput *in, GsfXMLInNode const *dtd)
 {
@@ -404,6 +176,18 @@ xlsx_parse_stream (XLSXReadState *state, GsfInput *in, GsfXMLInNode const *dtd)
 		g_object_unref (G_OBJECT (in));
 	}
 	return success;
+}
+static void
+xlsx_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
+		      GsfXMLInNode const *dtd,
+		      GsfXMLInNS const *ns)
+{
+	GError *err = gsf_open_pkg_parse_rel_by_id (xin, part_id, dtd, ns);
+	if (NULL != err) {
+		XLSXReadState *state = (XLSXReadState *)xin->user_state;
+		gnm_io_warning (state->context, "%s", err->message);
+		g_error_free (err);
+	}
 }
 
 
@@ -885,7 +669,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 	if (NULL != part_id)
-		gsf_open_pkg_parse_rel_by_id (xin, part_id, xlsx_chart_dtd, xlsx_ns);
+		xlsx_parse_rel_by_id (xin, part_id, xlsx_chart_dtd, xlsx_ns);
 }
 
 static GsfXMLInNode const xlsx_drawing_dtd[] = {
@@ -1685,6 +1469,64 @@ xlsx_CT_MergeCell (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean sheet		 	= FALSE;
+	gboolean objects		= FALSE;
+	gboolean scenarios		= FALSE;
+	gboolean formatCells		= TRUE;
+	gboolean formatColumns		= TRUE;
+	gboolean formatRows		= TRUE;
+	gboolean insertColumns		= TRUE;
+	gboolean insertRows		= TRUE;
+	gboolean insertHyperlinks	= TRUE;
+	gboolean deleteColumns		= TRUE;
+	gboolean deleteRows		= TRUE;
+	gboolean selectLockedCells	= FALSE;
+	gboolean sort			= TRUE;
+	gboolean autoFilter		= TRUE;
+	gboolean pivotTables		= TRUE;
+	gboolean selectUnlockedCells	= FALSE;
+
+	if (attr_bool (xin, attrs, XL_NS_SS, "sheet", &sheet)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "objects", &objects)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "scenarios", &scenarios)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "formatCells", &formatCells)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "formatColumns", &formatColumns)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "formatRows", &formatRows)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "insertColumns", &insertColumns)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "insertRows", &insertRows)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "insertHyperlinks", &insertHyperlinks)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "deleteColumns", &deleteColumns)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "deleteRows", &deleteRows)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "selectLockedCells", &selectLockedCells)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "sort", &sort)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "autoFilter", &autoFilter)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "pivotTables", &pivotTables)) ;
+	else if (attr_bool (xin, attrs, XL_NS_SS, "selectUnlockedCells", &selectUnlockedCells)) ;
+
+	g_object_set (state->sheet,
+		"is-protected", 			 sheet,
+		"protected-allow-edit-objects", 	 objects,
+		"protected-allow-edit-scenarios", 	 scenarios,
+		"protected-allow-cell-formatting", 	 formatCells,
+		"protected-allow-column-formatting", 	 formatColumns,
+		"protected-allow-row-formatting", 	 formatRows,
+		"protected-allow-insert-columns", 	 insertColumns,
+		"protected-allow-insert-rows", 		 insertRows,
+		"protected-allow-insert-hyperlinks", 	 insertHyperlinks,
+		"protected-allow-delete-columns", 	 deleteColumns,
+		"protected-allow-delete-rows", 		 deleteRows,
+		"protected-allow-select-locked-cells", 	 selectLockedCells,
+		"protected-allow-sort-ranges", 		 sort,
+		"protected-allow-edit-auto-filters", 	 autoFilter,
+		"protected-allow-edit-pivottable", 	 pivotTables,
+		"protected-allow-select-unlocked-cells", selectUnlockedCells,
+		NULL);
+}
+
+static void
 xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	xmlChar const *part_id = NULL;
@@ -1692,7 +1534,7 @@ xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 	if (NULL != part_id)
-		gsf_open_pkg_parse_rel_by_id (xin, part_id, xlsx_drawing_dtd, xlsx_ns);
+		xlsx_parse_rel_by_id (xin, part_id, xlsx_drawing_dtd, xlsx_ns);
 }
 
 static void
@@ -2143,7 +1985,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 
   GSF_XML_IN_NODE (SHEET, DRAWING, XL_NS_SS, "drawing", GSF_XML_NO_CONTENT, &xlsx_sheet_drawing, NULL),
 
-  GSF_XML_IN_NODE (SHEET, PROTECTION, XL_NS_SS, "sheetProtection", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, PROTECTION, XL_NS_SS, "sheetProtection", GSF_XML_NO_CONTENT, &xlsx_CT_SheetProtection, NULL),
   GSF_XML_IN_NODE (SHEET, PHONETIC, XL_NS_SS, "phoneticPr", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, COND_FMTS, XL_NS_SS, "conditionalFormatting", GSF_XML_NO_CONTENT,
 		   &xlsx_cond_fmt_begin, &xlsx_cond_fmt_end),
@@ -2225,7 +2067,7 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				range_init_full_sheet (&r), style);
 		}
 
-		gsf_open_pkg_parse_rel_by_id (xin, part_id, xlsx_sheet_dtd, xlsx_ns);
+		xlsx_parse_rel_by_id (xin, part_id, xlsx_sheet_dtd, xlsx_ns);
 
 		/* Flag a respan here in case nothing else does */
 		sheet_flag_recompute_spans (state->sheet);
