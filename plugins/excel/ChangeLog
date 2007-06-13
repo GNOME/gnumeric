@@ -1,3 +1,8 @@
+2007-06-12  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in  : Use 'Office 2007' as the description for the writer
+	  too.
+
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-write.c : Move the OpenPkg support out of here and into libgsf.

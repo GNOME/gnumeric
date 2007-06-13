@@ -67,7 +67,7 @@
 			</suffixes>
 		</service>
 
-		<!-- Office Open XML packages from Office 12 -->
+		<!-- Office Open XML packages from Office 2007 -->
 		<service type="file_opener" id="xlsx" priority="100" probe="TRUE">
 			<information>
 				<_description>MS Excel (tm) 2007</_description>
@@ -94,7 +94,7 @@
 		<service type="file_saver" id="xlsx" file_extension="xlsx"
 		         format_level="auto" overwrite_files="TRUE">
 			<information>
-				<_description>MS Excel (tm) 12</_description>
+				<_description>MS Excel (tm) 2007</_description>
 			</information>
 		</service>
 	</services>
