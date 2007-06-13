@@ -1,3 +1,8 @@
+2007-06-13  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Prevent crash if we fail to load
+	the workbook.
+
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
 	* src/item-grid.c (item_grid_button_press) : Limit mouse button

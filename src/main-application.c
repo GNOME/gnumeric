@@ -479,8 +479,6 @@ main (int argc, char **argv)
 			wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
 			g_free (uri);
 
-			workbook_update_history (wb_view_get_workbook (wbv));
-
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);
@@ -488,6 +486,8 @@ main (int argc, char **argv)
 			}
 			if (wbv != NULL) {
 				WorkbookControlGUI *wbcg;
+
+				workbook_update_history (wb_view_get_workbook (wbv));
 
 				wbcg = WORKBOOK_CONTROL_GUI
 					(workbook_control_gui_new (wbv, NULL, NULL));
@@ -497,7 +497,7 @@ main (int argc, char **argv)
 						       wbcg_toplevel (wbcg));
 				if (immediate_exit_flag)
 					wbcgs_to_kill = g_slist_prepend (wbcgs_to_kill,
-									   wbcg);
+									 wbcg);
 			}
 			/* cheesy attempt to keep the ui from freezing during
 			   load */

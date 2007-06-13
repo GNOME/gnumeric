@@ -78,6 +78,8 @@ cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
 void
 workbook_update_history (Workbook *wb)
 {
+	g_return_if_fail (IS_WORKBOOK (wb));
+
 	if (wb->doc.uri && wb->file_format_level >= FILE_FL_MANUAL_REMEMBER) {
 		const char *mimetype = wb->file_saver
 			? go_file_saver_get_mime_type (wb->file_saver)
