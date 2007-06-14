@@ -5,24 +5,29 @@ issues that need to be addressed.  Divided into, things that will prevent
 release, and longer term bugs.
 
 -------------------------------------------------------------------------------
-Pending Patches
----------------
-    http://bugzilla.gnome.org/show_bug.cgi?id=310354
-    - autopackage patches		{rob}
-    - fwd & backwards eval		{morten}
+Release Critical
+----------------
+    - Write page break syncronizer or disable xls/xlsx export.
+    - Export expressions to sylk ("foo" is a bad idea)
+
+In Progress
+-----------
+    Jody
+	- Pref for which direction <enter> moves the editpos
+	- Enum prefs
+
+	- mis-export of array expr
+	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
+	- Explicit col/row page break import/export
+	- sylk export
+	- Fix shrinking ranges on cell deletion. [#439347]
 
 Review
 ------
 
-Release Critical
-----------------
-
-http://bugzilla.gnome.org/show_bug.cgi?id=322096
-- mis-export of array expr
-
 Worries
 -------
-    : honour r1c1 for position in sv_update
+    : Add bounds checking of integers on the xml based importers
     : do bounds check in excel_get_text
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
@@ -38,7 +43,7 @@ Worries
 	: add a ui
     - Conditional formats
 	: draw & print long spans
-    - Save as ps/pdf
+    - Save as ps
 
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
@@ -73,6 +78,13 @@ Worries
     - fix bogosity of 'ant' cursors being in sheet_view and having the app contact them.
 
 -------------------------------------------------------------------------------
+
+Pending Patches
+---------------
+    http://bugzilla.gnome.org/show_bug.cgi?id=310354
+    - autopackage patches		{rob}
+    - fwd & backwards eval		{morten}
+
 Blocked Patches
 ---------------
 
@@ -418,20 +430,21 @@ Architecture Changes
      15.1) X-GNOME-Bugzilla-ExtraInfoScript=myscript
 
 16) Protection limits for selection
-    16.1) I/O
-	16.1.1) gnumeric
-	    16.1.1.1) sax import
-	    16.1.1.2) export
-	    16.1.1.3) add to schema
-	16.1.2) xls						(DONE)
-	    16.1.2.1) import					(DONE)
-	    16.1.2.2) export					(DONE)
-	16.1.3) xlsx						(DONE)
-	    16.1.3.1) import					(DONE)
-	    16.1.3.2) export					(DONE)
-    16.2) Add flags to sheet					(DONE)
-	16.2.1) in header					(DONE)
-	16.2.2) sheet_dup					(DONE)
+    16.1) Add flags to sheet					(DONE)
+	16.1.1) in header					(DONE)
+	16.1.2) sheet_dup					(DONE)
+    16.2) I/O
+	16.2.1) Gnumeric
+	    16.2.1.1) Extend XSD
+	    16.2.1.2) SAX Export			{partial}
+	    16.2.1.3) SAX Import
+	    16.2.2.4) DOM Import
+	16.2.3) XLS						(DONE)
+	    16.2.3.1) Import					(DONE)
+	    16.2.3.2) Export					(DONE)
+	16.2.4) XLSX						(DONE)
+	    16.2.4.1) Import					(DONE)
+	    16.2.4.2) Export					(DONE)
     16.3) Honour flags for Return/Tab
 	16.3.1) Return/Tab
 	    16.3.1.1) Initial					(DONE)
@@ -442,6 +455,27 @@ Architecture Changes
 	16.3.4) keyboard range extension
 	16.3.4) select all
 	16.3.5) cols/rows
+
+17) Explicit Page Breaks
+    17.1) Store them in PrintInfo				(DONE)
+    17.2) I/O
+	17.2.1) Gnumeric
+	    17.2.1.1) Extend XSD
+	    17.2.1.2) SAX Export			{partial}
+	    17.2.1.3) SAX Import
+	    17.2.2.4) DOM Import
+	17.2.3) XLS						(DONE)
+	    17.2.3.1) Import					(DONE)
+	    17.2.3.2) Export					(DONE)
+		17.2.3.2.1) pre-Biff8				(DONE)
+		17.2.3.2.2) Biff8				(DONE)
+	17.2.4) XLSX						(DONE)
+	    17.2.4.1) Import					(DONE)
+	    17.2.4.2) Export					(DONE)
+	17.2.5) ODF
+	    17.2.5.1) Import
+	    17.2.5.2) Export
+	17.2.6) Lotus ?
 
 -------------------------------------------------------------------------------
 Target Features
@@ -457,32 +491,9 @@ Target Features
 Short Term Goals
 ----------------
 
-- validate expression names to ensure that they are not simple values (eg TRUE)
-
-0) UI
-    0.1)  Missing toolbar borders for color and stack combos	(DONE)
-    0.2)  Add keynav for autoformat canvases			(DONE)
-    0.3)  Make the 'apply' behavior of the color combo optional	(DONE)
-          so that we can do just selection.
-    0.4)  Add keynav for color combo                            (DONE)
-    0.5)  center color combo swatches in the buttons		(DONE)
-    0.6)  alpha channel support for color combos		(DONE)
-    0.7)  Add mnemonic_activate for color combos		(DONE)
-    0.8)  Add mnemonic_activate for ExprEntry			(DONE)
-    0.9)  Queue update for changed/deleted in ExprEntry ?
-    0.10) Menu mnemonics for Edit -> Fill -> merge & series	(DONE)
-    0.11) Fix warning on destruction of torn off combo		(DONE)
-    0.12) Use 'Chart' in the ui to be compatible		(DONE)
-    0.13) giving focus to an expr entry with a single rangeref
-    	  in another sheet should make that range visible.
-    0.14) Convert dialog-consolidate to TreeView                (DONE)
-    0.15) Enter ''123 in a cell and expr entry will show only   (DONE)
-          one quote.
-    0.16) Add a tooltip to the edit line showing all of the
-   	 content (for cases where it needs to scroll)
-    0.17) Fix format selector widget to not emit		(DONE)
-	fmt-changed "", fmt-changed "new-format"
-
+- validate names to ensure that they are not :
+    : simple values (eg TRUE)
+    : Range refs (even in other conventions) eg 'A1' or 'R'
 
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)
@@ -664,15 +675,6 @@ Short Term Goals
 	6.19.1) import parsing					(DONE)
 	6.19.2) export						(DONE)
 
-7) Improve import/export
-    7.1) move DOM code into plugin (easy)
-    7.2) sax-ish exporter					(DONE)
-    7.3) convert xml-sax to use gsf sax helper			(DONE)
-    7.4) Namespace support for xml import			(DONE)
-    7.5) Store cell value as content, with expr as attr
-    7.6) Store value formats in table and reference them
-    7.7) Store styles in table and reference them from regions
-
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
     14.2) Notice mismatch between suffix and saver		(DONE)
@@ -755,9 +757,9 @@ Short Term Goals
 	21.46.2) export
     21.47) Find Leak						(DONE)
     21.48) Duplication for sheet copy				(DONE)
-    21.49) http://bugzilla.gnome.org/show_bug.cgi?id=322389
-    21.50) http://bugzilla.gnome.org/show_bug.cgi?id=346002
-    21.51) http://bugzilla.gnome.org/show_bug.cgi?id=383400
+    21.49) http://bugzilla.gnome.org/show_bug.cgi?id=322389	(DONE)
+    21.50) #346002 : tooltip of matching rows
+    21.51) #383400 : '95' should match 95
     22.52) Clipboard ?? do we want this ?
     21.53) Support Office 2007 toggle date based buckets
 
@@ -806,18 +808,33 @@ Short Term Goals
 31) sylk
     31.1) importer
 	31.1.1) constants						(DONE)
-	31.1.2) expressions (needs r1c1 parser)
-	31.1.3) array expressions
+	31.1.2) expressions						(DONE)
+	31.1.3) array expressions					(DONE)
 	31.1.4) column widths						(DONE)
 	31.1.5) formats							(DONE)
-	31.1.6) fonts 					{partial}
+	31.1.6) fonts							(DONE)
 	31.1.7) styles							(DONE)
+	31.1.8) sheet/wb options					(DONE)
+	31.1.9) hidden cells
+	31.1.10) cell protection
+	31.1.11) comments
     31.2) exporter
+	31.2.1) constants						(DONE)
+	31.2.2) expressions
+	31.2.3) array expressions
+	31.2.4) column widths
+	31.2.5) formats	
+	31.2.6) fonts
+	31.2.7) styles
+	31.2.8) sheet/wb options					(DONE)
+	31.2.9) hidden cells
+	31.2.10) cell protection
+	31.2.11) comments
 
 32) SheetObjects
-    32.1) SheetView specific objects	{partial}
+    32.1) SheetView specific objects					(DONE)
     32.2) Add acetate_create virtual to handle shaped objects.
-    32.3) Other anchor types for sheet objects
+    32.3) Other anchor types for sheet objects				(DONE)
     32.4) Add keyboard controls for the control points			(DONE)
 	32.4.1) Arrows move						(DONE)
 	32.4.2) Ctrl Arrows expand					(DONE)
@@ -861,7 +878,7 @@ Short Term Goals
 	32.17.9) Use GtkComboBoxEntry					(DONE)
 	32.17.10) Make Entry non-focusable				(DONE)
 	32.17.11) update entry on model content change			(DONE)
-	32.17.12) Write a prop dialog #156762
+	32.17.12) Write a prop dialog #156762				(DONE)
 	32.17.13) Right click for context menu #135966			(DONE)
     32.18) Lists
 	32.18.1) Gnumeric						(DONE)
@@ -885,7 +902,7 @@ Short Term Goals
 	    32.18.7.3) less than or eq 0 implies no selection		(DONE)
 	    32.18.7.4) gte list size selects last element		(DONE)
 	32.18.8) Selection change updates cell link			(DONE)
-	32.18.9) Write a prop dialog #156762
+	32.18.9) Write a prop dialog #156762				(DON)
 
 33) Rotated text
     33.1) Resurrect printing                                            (DONE)

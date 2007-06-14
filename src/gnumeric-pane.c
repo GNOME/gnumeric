@@ -678,32 +678,16 @@ gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 void
 gnm_pane_edit_start (GnmPane *pane)
 {
-	GnmCanvas const *gcanvas = pane->gcanvas;
-	SheetView const *sv = scg_view (gcanvas->simple.scg);
-	GnmCellPos const *edit_pos;
+	FooCanvas *canvas = FOO_CANVAS (pane->gcanvas);
 
 	g_return_if_fail (pane->editor == NULL);
 
-	/* TODO : this could be slicker.
-	 * Rather than doing a visibility check here.
-	 * we could make item-edit smarter, and have it bound check on the
-	 * entire region rather than only its canvas.
-	 */
-	edit_pos = &sv->edit_pos;
-	if (edit_pos->col >= gcanvas->first.col &&
-	    edit_pos->col <= gcanvas->last_visible.col &&
-	    edit_pos->row >= gcanvas->first.row &&
-	    edit_pos->row <= gcanvas->last_visible.row) {
-		FooCanvas *canvas = FOO_CANVAS (gcanvas);
-		FooCanvasItem *item;
-
-		item = foo_canvas_item_new (FOO_CANVAS_GROUP (canvas->root),
-			item_edit_get_type (),
-			"SheetControlGUI", gcanvas->simple.scg,
-			NULL);
-
-		pane->editor = ITEM_EDIT (item);
-	}
+	/* edit item handles visibility checks */
+	pane->editor = (ItemEdit *)foo_canvas_item_new (
+		FOO_CANVAS_GROUP (canvas->root),
+		item_edit_get_type (),
+		"SheetControlGUI",	pane->gcanvas->simple.scg,
+		NULL);
 }
 
 void

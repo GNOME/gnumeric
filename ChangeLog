@@ -1,3 +1,18 @@
+2007-06-14  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (ie_layout) : Fix RTL mode and cleanup the handling
+	  of merges and margins.
+	(get_top_left) : We handle the +1 extension to get inclusion of the
+	  bounds when drawing not when measuring.
+	(item_edit_set_property) : Merges in RTL need special handling.
+
+	* src/gnumeric-pane.c (gnm_pane_edit_start) : remove visibility check
+	  on creation.  That is wrong in multiple ways that would seemingly
+	  disable editing for no obvious reason.
+	    - editing a merged cell with corner outside the visible range
+	    - editing a position where the user had scrolled away from the
+	      editpos
+
 2007-06-13  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Prevent crash if we fail to load

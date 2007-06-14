@@ -139,8 +139,8 @@ get_top_left (ItemEdit const *ie, int *top, int *left)
 		int text_height, height = (int)(ie->item.y2 - ie->item.y1);
 		pango_layout_get_pixel_size (ie->layout, NULL, &text_height);
 		*top += (align != VALIGN_BOTTOM)
-			? (height - text_height + 1)/2
-			: (height - text_height + 1);
+			? (height - text_height)/2
+			: (height - text_height);
 	}
 }
 
@@ -242,19 +242,14 @@ ie_layout (FooCanvasItem *item)
 	GtkWidget const  *canvas = GTK_WIDGET (item->canvas);
 	GnmCanvas const  *gcanvas = GNM_CANVAS (item->canvas);
 	ColRowInfo const *ci;
-	Sheet	   const *sheet  = scg_sheet (ie->scg);
-	GnmFont  const *gfont = ie->gfont;
-	GnmRange	   const *merged;
-	int end_col, end_row, tmp, width, height, col_size;
+	Sheet const 	 *sheet  = scg_sheet (ie->scg);
+	GnmFont  const   *gfont = ie->gfont;
+	GnmRange const   *merged;
+	int col, tmp, width, height, col_size;
 	char const *text, *entered_text;
 	PangoAttrList	*attrs;
 	PangoAttribute  *attr;
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
-
-	end_col = ie->pos.col;
-	ci = sheet_col_get_info (sheet, end_col);
-
-	g_return_if_fail (ci != NULL);
 
 	entered_text = gtk_entry_get_text (ie->entry);
 	text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
@@ -309,59 +304,60 @@ ie_layout (FooCanvasItem *item)
 	pango_layout_set_width (ie->layout, -1);
 	pango_layout_get_pixel_size (ie->layout, &width, &height);
 
-	/* Start after the grid line and the left margin */
-	col_size = ci->size_pixels - GNM_COL_MARGIN - 1;
-	if (sheet->text_is_rtl)
-		while (col_size < width &&
-		       end_col > gcanvas->first.col &&
-		       end_col > 0) {
-			end_col--;
-			ci = sheet_col_get_info (sheet, end_col);
-			g_return_if_fail (ci != NULL);
-			if (ci->visible)
-				col_size += ci->size_pixels;
-		}
-	else
-		while (col_size < width &&
-		       end_col <= gcanvas->last_full.col &&
-		       end_col < SHEET_MAX_COLS-1) {
-			end_col++;
-			ci = sheet_col_get_info (sheet, end_col);
-			g_return_if_fail (ci != NULL);
-			if (ci->visible)
-				col_size += ci->size_pixels;
-		}
-
-	merged = gnm_sheet_merge_is_corner (sheet, &ie->pos);
-	if (merged != NULL) {
-		if (end_col < merged->end.col)
-			end_col = merged->end.col;
-		end_row = merged->end.row;
+	col = ie->pos.col;
+	if (NULL == (merged = gnm_sheet_merge_is_corner (sheet, &ie->pos))) {
+		ci = sheet_col_get_info (sheet, col);
+		g_return_if_fail (ci != NULL);
+		col_size = ci->size_pixels;
 	} else
-		end_row = ie->pos.row;
+		col_size = scg_colrow_distance_get (ie->scg, TRUE,
+			merged->start.col, merged->end.col+1);
 
-	/* The lower right is based on the span size excluding the grid lines
-	 * Recall that the bound excludes the far point */
+	/* both margins and the gridline */
+	col_size -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
+	/* far corner based on the span size
+	 * 	- margin on each end
+	 * 	- the bound excludes the far point => +1 */
 	if (sheet->text_is_rtl) {
+		while (col_size < width && col >= gcanvas->first.col) {
+			ci = sheet_col_get_info (sheet, col--);
+
+			g_return_if_fail (ci != NULL);
+
+			if (ci->visible)
+				col_size += ci->size_pixels;
+		}
+
 		tmp = gnm_foo_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
-		item->x2 = 1 + item->x1 +
-			scg_colrow_distance_get (ie->scg, TRUE, end_col, ie->pos.col+1) - 2;
 	} else {
+		if (merged != NULL)
+			col = merged->end.col;
+
+		while (col_size < width &&
+		       col <= gcanvas->last_full.col &&
+		       col < SHEET_MAX_COLS-1) {
+			ci = sheet_col_get_info (sheet, ++col);
+
+			g_return_if_fail (ci != NULL);
+
+			if (ci->visible)
+				col_size += ci->size_pixels;
+		}
 		tmp = gcanvas->first_offset.col + canvas->allocation.width;
-		item->x2 = 1 + item->x1 +
-			scg_colrow_distance_get (ie->scg, TRUE, ie->pos.col, end_col+1) - 2;
 	}
+	item->x2 = item->x1 + col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
+
 	if (item->x2 >= tmp) {
 		item->x2 = tmp;
 		pango_layout_set_width (ie->layout, (item->x2 - item->x1 + 1)*PANGO_SCALE);
 		pango_layout_get_pixel_size (ie->layout, &width, &height);
 	}
 
-	tmp = scg_colrow_distance_get (ie->scg, FALSE, ie->pos.row, end_row+1) - 2;
-	item->y2 = item->y1 + MAX (height-1, tmp);
+	tmp = scg_colrow_distance_get (ie->scg, FALSE, ie->pos.row,
+		(merged ? merged->end.row : ie->pos.row) + 1) - 2 + 1;
+	item->y2 = item->y1 + MAX (height, tmp);
 }
-
 
 static void
 item_edit_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
@@ -447,15 +443,13 @@ item_edit_cursor_blink_start (ItemEdit *ie)
 			(GSourceFunc) cb_item_edit_cursor_blink, ie);
 }
 
-/*
- * Instance initialization
- */
 static void
 item_edit_init (ItemEdit *ie)
 {
 	FooCanvasItem *item = FOO_CANVAS_ITEM (ie);
 	int i;
 
+	/* Apply an arbitrary size/pos for now.  Init when we get the scg */
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = 1;
@@ -585,11 +579,17 @@ item_edit_set_property (GObject *gobject, guint param_id,
 		item->x1 = 1 + gcanvas->first_offset.col +
 			scg_colrow_distance_get (ie->scg, TRUE,
 				gcanvas->first.col, ie->pos.col);
-		if (scg_sheet (ie->scg)->text_is_rtl)
+		if (sv_sheet (sv)->text_is_rtl) {
+			GnmRange const *merged = gnm_sheet_merge_is_corner (sheet, &ie->pos);
+			int end_col = ie->pos.col;
+			if (merged != NULL)
+				end_col = merged->end.col;
+
 			/* -1 to remove the above, then 2 more to move from next cell back */
-			item->x1 = 2 + gnm_foo_canvas_x_w2c (item->canvas, item->x1 +
+			item->x1 = 1 + gnm_foo_canvas_x_w2c (item->canvas, item->x1 +
 				scg_colrow_distance_get (ie->scg, TRUE,
-					ie->pos.col, ie->pos.col + 1) - 1);
+					ie->pos.col, end_col + 1) - 1);
+		}
 
 		item->x2 = item->x1 + 1;
 		item->y2 = item->y2 + 1;
@@ -617,7 +617,11 @@ item_edit_class_init (GObjectClass *gobject_class)
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
 			"the sheet control gui controlling the item",
 			SHEET_CONTROL_GUI_TYPE,
-			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
+			/* resist the urge to use G_PARAM_CONSTRUCT_ONLY
+			 * We are going through foo_canvas_item_new, which
+			 * calls g_object_new assigns the parent pointer before
+			 * setting the construction parameters */
+			 GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	/* FooCanvasItem method overrides */
 	item_class->update      = item_edit_update;

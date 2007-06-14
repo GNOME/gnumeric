@@ -18,6 +18,7 @@ Jean:
 Jody:
 	* Fix drawing of large cursor while sheet scrolls. [#444610]
 	* Fix drawing of merged cells in RTL. [#442463], [442467]
+	* Fix editing in RTL, and for merged cells.
 	* Properties to store fine tuned capabilities in protected sheets.
 	* Read/Write of protected sheet capabilities for XLS/XLSX.
 	* Move the OpenPkg support code into libgsf from our xlsx plugin.
@@ -25,6 +26,7 @@ Jody:
 	* Eval validation functions as arrays.
 	* Make Morten's pdf exporter available from gnumeric too.
 	* Start to implement limits to selection in protected sheets.
+	* Handle array expressions in SYLK importer.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]
