@@ -1,3 +1,12 @@
+2007-06-15  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-view.c (sv_redraw_range): Restrict to drawing to what
+	is visible.  Fixes #445617.
+
+	* src/sheet-control-gui.c (scg_recompute_visible_region): Renamed
+	from scg_compute_visible_region.  All users changed.
+	(scg_get_visible_region): New virtual.
+
 2007-06-14  Jody Goldberg <jody@gnome.org>
 
 	* src/item-edit.c (ie_layout) : Fix RTL mode and cleanup the handling

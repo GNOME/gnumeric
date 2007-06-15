@@ -1107,7 +1107,6 @@ walk_boundaries (SheetView const *sv, GnmRange const * const bound,
 	ColRowInfo const *cri;
 	int const step = forward ? 1 : -1;
 	GnmCellPos pos = sv->edit_pos_real;
-	GnmCellPos const origin = pos;
 	GnmRange const *merge;
 
 	*res = pos;

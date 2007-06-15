@@ -34,7 +34,8 @@ void sc_scrollbar_config	(SheetControl const *sc);
 void sc_mode_edit		(SheetControl *sc);
 
 void sc_set_top_left       	(SheetControl *sc, int col, int row);
-void sc_compute_visible_region	(SheetControl *sc, gboolean full_recompute);
+void sc_recompute_visible_region(SheetControl *sc, gboolean full_recompute);
+void sc_get_visible_region      (SheetControl *sc, GnmRange *r);
 void sc_make_cell_visible      	(SheetControl *sc, int col, int row,
 				 gboolean couple_panes);
 

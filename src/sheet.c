@@ -1373,7 +1373,7 @@ sheet_update_only_grid (Sheet const *sheet)
 		p->recompute_visibility = FALSE;
 		p->resize_scrollbar = FALSE; /* compute_visible_region does this */
 		SHEET_FOREACH_CONTROL(sheet, view, control,
-			sc_compute_visible_region (control, TRUE););
+			sc_recompute_visible_region (control, TRUE););
 		sheet_redraw_all (sheet, TRUE);
 	}
 

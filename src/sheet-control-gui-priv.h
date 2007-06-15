@@ -70,9 +70,8 @@ void scg_mode_edit		(SheetControlGUI *scg);
 #define SCG_FOREACH_PANE(scg, pane, code)		\
   do {							\
 	int i;						\
-	GnmPane *pane;					\
 	for (i = scg->active_panes; i-- > 0 ; ) {	\
-		pane = scg->pane + i;			\
+		GnmPane *pane = scg->pane + i;		\
 		if (pane->is_active) {			\
 			code				\
 		}					\

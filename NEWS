@@ -11,9 +11,9 @@ Andreas:
 Jean:
 	* Fix check for long double support in goffice.
 	* Import legend and axis labels fonts from excel
-	in charts. [#437858]
+	  in charts. [#437858]
 	* Fix performance issues in float_range_function2 and
-	fn-tsa plugin.
+	  fn-tsa plugin.
 
 Jody:
 	* Fix drawing of large cursor while sheet scrolls. [#444610]
@@ -38,6 +38,7 @@ Morten:
 	* Provide good mime type for recent documents.
 	* Fix localized-format problem in cell format dialog.  [#442657]
 	* Fix R1C1 problem.  [#443832]
+	* Fix performance problem when selecting large areas.  [#445617]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.10

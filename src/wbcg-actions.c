@@ -1663,7 +1663,7 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_edit_recalc) },
 
 /* View */
-	{ "ViewNew", NULL, N_("_New View..."),
+	{ "ViewNew", GTK_STOCK_NEW, N_("_New View..."),
 		NULL, N_("Create a new view of the workbook"),
 		G_CALLBACK (cb_view_new) },
 	{ "ViewFreezeThawPanes", NULL, N_("_Freeze Panes"),

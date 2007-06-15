@@ -2630,13 +2630,37 @@ scg_cursor_bound (SheetControl *sc, GnmRange const *r)
 }
 
 static void
-scg_compute_visible_region (SheetControl *sc, gboolean full_recompute)
+scg_recompute_visible_region (SheetControl *sc, gboolean full_recompute)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
 
 	SCG_FOREACH_PANE (scg, pane,
 		gnm_canvas_compute_visible_region (pane->gcanvas,
 						   full_recompute););
+}
+
+static void
+scg_get_visible_region (SheetControl *sc, GnmRange *r)
+{
+	SheetControlGUI *scg = (SheetControlGUI *) sc;
+	gboolean first = TRUE;
+	
+	SCG_FOREACH_PANE (scg, pane, {
+		GnmRange vis;
+		vis.start = pane->gcanvas->first;
+		vis.end = pane->gcanvas->last_visible;
+		if (first) {
+			first = FALSE;
+			*r = vis;
+		} else
+			*r = range_union (r, &vis);
+	});
+
+	if (first) {
+		/* This probably shouldn't happen.  */
+		r->start.col = r->end.col = 0;
+		r->start.row = r->end.row = 0;
+	}
 }
 
 void
@@ -3059,21 +3083,22 @@ scg_class_init (GObjectClass *object_class)
 	scg_parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = scg_finalize;
 
-	sc_class->resize                 = scg_resize_virt;
-	sc_class->redraw_all             = scg_redraw_all;
-	sc_class->redraw_range     	 = scg_redraw_range;
-	sc_class->redraw_headers         = scg_redraw_headers;
-	sc_class->ant                    = scg_ant;
-	sc_class->unant                  = scg_unant;
-	sc_class->scrollbar_config       = scg_scrollbar_config;
-	sc_class->mode_edit              = scg_mode_edit_virt;
-	sc_class->set_top_left		 = scg_set_top_left;
-	sc_class->compute_visible_region = scg_compute_visible_region;
-	sc_class->make_cell_visible      = scg_make_cell_visible_virt;
-	sc_class->cursor_bound           = scg_cursor_bound;
-	sc_class->set_panes		 = scg_set_panes;
-	sc_class->object_create_view	 = scg_object_create_view;
-	sc_class->scale_changed		 = scg_scale_changed;
+	sc_class->resize                   = scg_resize_virt;
+	sc_class->redraw_all               = scg_redraw_all;
+	sc_class->redraw_range     	   = scg_redraw_range;
+	sc_class->redraw_headers           = scg_redraw_headers;
+	sc_class->ant                      = scg_ant;
+	sc_class->unant                    = scg_unant;
+	sc_class->scrollbar_config         = scg_scrollbar_config;
+	sc_class->mode_edit                = scg_mode_edit_virt;
+	sc_class->set_top_left		   = scg_set_top_left;
+	sc_class->recompute_visible_region = scg_recompute_visible_region;
+	sc_class->get_visible_region       = scg_get_visible_region;
+	sc_class->make_cell_visible        = scg_make_cell_visible_virt;
+	sc_class->cursor_bound             = scg_cursor_bound;
+	sc_class->set_panes		   = scg_set_panes;
+	sc_class->object_create_view	   = scg_object_create_view;
+	sc_class->scale_changed		   = scg_scale_changed;
 }
 
 GSF_CLASS (SheetControlGUI, sheet_control_gui,

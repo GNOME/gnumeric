@@ -25,8 +25,9 @@ typedef struct {
 	void (*scrollbar_config)	(SheetControl const *sc);
 	void (*mode_edit)		(SheetControl *sc);
 	void (*set_top_left)		(SheetControl *sc, int col, int row);
-	void (*compute_visible_region)	(SheetControl *sc,
+	void (*recompute_visible_region)(SheetControl *sc,
 					 gboolean full_recompute);
+	void (*get_visible_region)      (SheetControl *sc, GnmRange *r);
 	void (*make_cell_visible)	(SheetControl  *sc, int col, int row,
 					 gboolean couple_panes);
 	void (*cursor_bound)		(SheetControl *sc, GnmRange const *r);
