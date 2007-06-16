@@ -1,3 +1,27 @@
+2007-06-15  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_expr_parse_str) : make this a real function
+	  and centralize the error handling.
+	(oo_cell_start) : simplify expr parse error handling.
+	(oo_named_expr) : ditto.
+	(od_plot_area) : ditto.
+	(oo_table_start) : apply the table style.
+	(oo_col_start) : make the col/row style smarter in prep for page breaks.
+	(oo_row_start) : ditto.
+	(oo_style) : handle table styles.
+	(oo_style_end) : ditto.
+	(oo_style_prop) : ditto.
+	(oo_page_break_type) : new.
+	(oo_style_prop_col_row) : merge oo_style_prop_row and
+	  oo_style_prop_col and add support for page breaks.
+	(oo_style_prop_table) : new.
+	(openoffice_file_open) : init the table styles.
+
+	* openoffice-write.c (odf_write_table_style) : new.
+	(table_style_name) : new.
+	(odf_write_table_styles) : generate the styles based on the sheets.
+	(odf_write_content) : write a style appropriate for the sheet.
+
 2007-05-03  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.10

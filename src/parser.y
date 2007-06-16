@@ -1325,11 +1325,11 @@ yyerror (char const *s)
 /**
  * gnm_expr_parse_str:
  *
- * @expr_text   : The string to parse.
- * @pp		: #GnmParsePos
- * @flags       : See parse-utils for descriptions
- * @convs	: optionally NULL #GnmConventions
- * @error       : optionally NULL ptr to store details of error.
+ * @str   : The string to parse.
+ * @pp	  : #GnmParsePos
+ * @flags : See parse-utils for descriptions
+ * @convs : optionally NULL #GnmConventions
+ * @error : optionally NULL ptr to store details of error.
  *
  * Parse a string. if @error is non-null it will be assumed that the
  * caller has passed a pointer to a GnmParseError struct AND that it will
@@ -1338,7 +1338,7 @@ yyerror (char const *s)
  * If @convs is NULL use the conventions from @pp.
  **/
 GnmExprTop const *
-gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
+gnm_expr_parse_str (char const *str, GnmParsePos const *pp,
 		    GnmExprParseFlags flags,
 		    GnmConventions const *convs,
 		    GnmParseError *error)
@@ -1346,10 +1346,10 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pp,
 	GnmExpr const *expr;
 	ParserState pstate;
 
-	g_return_val_if_fail (expr_text != NULL, NULL);
+	g_return_val_if_fail (str != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	pstate.start = pstate.ptr = expr_text;
+	pstate.start = pstate.ptr = str;
 	pstate.pos   = pp;
 
 	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;

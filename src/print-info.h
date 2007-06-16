@@ -21,6 +21,25 @@ typedef struct {
 	GnmRange range;
 } PrintRepeatRange;
 
+typedef enum {
+	GNM_PAGE_BREAK_MANUAL,
+	GNM_PAGE_BREAK_AUTO,
+	GNM_PAGE_BREAK_DATA_SLICE
+} GnmPageBreakType;
+
+typedef struct {
+	int		 pos;  /* break before this 0 based position */
+	GnmPageBreakType type;
+
+	/* cached based on the other breaks */
+	int first, last; /* bounds of secondary dimension. */
+} GnmPageBreak;
+
+typedef struct {
+	gboolean is_vert;
+	GArray	*details; /* ordered array of GnmPageBreaks */
+} GnmPageBreaks;
+
 struct _PrintInformation {
 	struct {
 		enum {
@@ -70,8 +89,8 @@ struct _PrintInformation {
 		PRINT_ERRORS_AS_NA
 	} error_display;
 
-	PrintHF          *header;
-	PrintHF          *footer;
+	GnmPageBreaks	*h_breaks, *v_breaks;
+	PrintHF		*header, *footer;
 
 	int		  start_page; /* < 0 implies auto */
         int              n_copies;
@@ -150,6 +169,14 @@ void        print_info_set_edge_to_above_footer (PrintInformation *pi,
 						 double e_f);
 void        print_info_set_edge_to_below_header (PrintInformation *pi,
 						 double e_h);
+void        print_info_set_breaks (PrintInformation *pi, GnmPageBreaks *breaks);
+
+GnmPageBreaks	*gnm_page_breaks_new		(int len, gboolean is_vert);
+GnmPageBreaks	*gnm_page_breaks_dup		(GnmPageBreaks const *src);
+void		 gnm_page_breaks_free		(GnmPageBreaks *breaks);
+gboolean	 gnm_page_breaks_append_break	(GnmPageBreaks *breaks,
+						 int pos,
+						 GnmPageBreakType type);
 
 /* Formats known */
 extern GList *hf_formats;

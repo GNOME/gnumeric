@@ -1513,9 +1513,9 @@ parse_util_shutdown (void)
 }
 
 GnmExprTop const *
-gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp)
+gnm_expr_parse_str_simple (char const *str, GnmParsePos const *pp)
 {
-	return gnm_expr_parse_str (expr, pp, GNM_EXPR_PARSE_DEFAULT, NULL, NULL);
+	return gnm_expr_parse_str (str, pp, GNM_EXPR_PARSE_DEFAULT, NULL, NULL);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -43,7 +43,6 @@ Worries
 	: add a ui
     - Conditional formats
 	: draw & print long spans
-    - Save as ps
 
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
@@ -219,6 +218,7 @@ Architecture Changes
 	    9.1.4.4) right alignment editing
 	    9.1.4.4) center alignment editing
 	    9.1.4.5) rotation
+	    9.1.4.6) merges					(DONE)
 	9.1.5) wbcg/scg/pane
 	    9.1.5.1) init scroll regions for rtl		(DONE)
 	    9.1.5.2) set_top_left				(DONE)
@@ -265,7 +265,9 @@ Architecture Changes
 	    9.4.2.2) 97 out					(DONE)
 		9.4.2.2.1) sheet				(DONE)
 		9.4.2.2.2) style/XF				(DONE)
-	9.4.3) xlsx
+	9.4.3) xlsx						(DONE)
+	    9.4.3.1) In						(DONE)
+	    9.4.3.2) Out					(DONE)
 	9.4.4) odf
 	9.4.5) csv
 	9.4.6) html
@@ -473,9 +475,10 @@ Architecture Changes
 	    17.2.4.1) Import					(DONE)
 	    17.2.4.2) Export					(DONE)
 	17.2.5) ODF
-	    17.2.5.1) Import
+	    17.2.5.1) Import				{partial}
 	    17.2.5.2) Export
 	17.2.6) Lotus ?
+    17.3) figure out the semantics of XL's min/max
 
 -------------------------------------------------------------------------------
 Target Features
@@ -486,6 +489,7 @@ Target Features
 - load/save of external references
 - all the merged cell singleton bugs
 - scripting
+- Save as ps
 
 -------------------------------------------------------------------------------
 Short Term Goals

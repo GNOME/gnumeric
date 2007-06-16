@@ -181,12 +181,12 @@ extern GnmConventions const *gnm_conventions_xls_r1c1;
 void parse_util_init (void);
 void parse_util_shutdown (void);
 
-GnmExprTop const *gnm_expr_parse_str (char const *expr, GnmParsePos const *pp,
+GnmExprTop const *gnm_expr_parse_str (char const *str, GnmParsePos const *pp,
 				      GnmExprParseFlags flags,
 				      GnmConventions const *convs,
 				      GnmParseError *error);
 
-GnmExprTop const *gnm_expr_parse_str_simple (char const *expr,
+GnmExprTop const *gnm_expr_parse_str_simple (char const *str,
 					     GnmParsePos const *pp);
 
 /* Is this string potentially the start of an expression */

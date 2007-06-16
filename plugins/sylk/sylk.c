@@ -246,16 +246,21 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 			value_set_fmt (val, gnm_style_get_format (style));
 		}
 
-		if (texpr != NULL) {
-			if (val != NULL)
-				gnm_cell_set_expr_and_value
-					(cell, texpr, val, TRUE);
+		if (is_array) {
+			if (NULL != texpr)
+				gnm_cell_set_array_formula (state->pp.sheet,
+					state->pp.eval.col, state->pp.eval.row,
+					state->pp.eval.col+c-1, state->pp.eval.row+r-1,
+					texpr);
+			if (NULL != val)
+				gnm_cell_assign_value (cell, val);
+		} else if (NULL != texpr) {
+			if (NULL != val)
+				gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
 			else
 				gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
-		} else if (is_array)
-			gnm_cell_assign_value (cell, val);
-		else
+		} else if (NULL != val)
 			gnm_cell_set_value (cell, val);
 	}
 

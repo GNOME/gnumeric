@@ -2397,12 +2397,12 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 	if (is_array) {
 		gnm_cell_set_array_formula (esheet->sheet,
-					r.start.col, r.start.row,
-					r.end.col,   r.end.row,
-					texpr);
-		texpr = NULL;
-	}
-	return texpr;
+					    r.start.col, r.start.row,
+					    r.end.col,   r.end.row,
+					    texpr);
+		return NULL;
+	} else
+		return texpr;
 }
 
 /*
@@ -2496,7 +2496,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	texpr = excel_parse_formula (&esheet->container, esheet, col, row,
 		(q->data + offset), expr_length, FALSE, &array_elem);
 #if 0
-	/* dump the trailing array data */
+	/* dump the trailing array and natural language data */
 	gsf_mem_dump (q->data + offset + expr_length,
 		      q->length - offset - expr_length);
 #endif
@@ -5605,6 +5605,22 @@ excel_read_REFMODE (BiffQuery *q, ExcelReadSheet *esheet)
 	g_object_set (esheet->sheet, "use-r1c1", mode == 0, NULL);
 }
 
+static void
+excel_read_PAGE_BREAK (BiffQuery *q, ExcelReadSheet *esheet, gboolean is_vert)
+{
+	unsigned i;
+	unsigned step = (esheet_ver (esheet) >= MS_BIFF_V8) ? 6 : 2;
+	guint16  count = GSF_LE_GET_GUINT16 (q->data);
+	GnmPageBreaks *breaks = gnm_page_breaks_new (count, is_vert);
+
+	/* 1) Ignore the first/last info for >= biff8
+	 * 2) Assume breaks are manual in the absence of any information  */
+	for (i = 0; i < count ; i++)
+		gnm_page_breaks_append_break (breaks,
+			GSF_LE_GET_GUINT16 (q->data + 2 + i*step), GNM_PAGE_BREAK_MANUAL);
+	print_info_set_breaks (esheet->sheet->print_info, breaks);
+}
+
 static gboolean
 excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		  WorkbookView *wb_view, ExcelReadSheet *esheet)
@@ -5718,8 +5734,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			excel_read_EXTERNSHEET_v7 (q, &esheet->container);
 			break;
 
-		case BIFF_VERTICALPAGEBREAKS:	break;
-		case BIFF_HORIZONTALPAGEBREAKS:	break;
+		case BIFF_VERTICALPAGEBREAKS:	excel_read_PAGE_BREAK (q, esheet, TRUE); break;
+		case BIFF_HORIZONTALPAGEBREAKS:	excel_read_PAGE_BREAK (q, esheet, FALSE); break;
 
 		case BIFF_NOTE:		excel_read_NOTE (q, esheet);	  	break;
 		case BIFF_SELECTION:	excel_read_SELECTION (q, esheet);	break;

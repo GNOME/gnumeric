@@ -586,6 +586,35 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 }
 
 static void
+xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
+{
+	GArray const *details = breaks->details;
+	GnmPageBreak const *binfo;
+	unsigned i;
+
+	gsf_xml_out_start_element (xml,
+		(breaks->is_vert) ? "colBreaks" : "rowBreaks");
+	for (i = 0 ; i < details->len ; i++) {
+		binfo = &g_array_index (details, GnmPageBreak, i);
+		gsf_xml_out_start_element (xml, "brk");
+		gsf_xml_out_add_int (xml, "id", binfo->pos);
+
+		if (binfo->first != 0)
+			gsf_xml_out_add_int (xml, "min", binfo->first);
+		if (binfo->last != 0)
+			gsf_xml_out_add_int (xml, "max", binfo->first);
+
+		switch (binfo->type) {
+		case GNM_PAGE_BREAK_MANUAL :	gsf_xml_out_add_bool (xml, "man", TRUE); break;
+		case GNM_PAGE_BREAK_AUTO :	break;
+		case GNM_PAGE_BREAK_DATA_SLICE :gsf_xml_out_add_bool (xml, "pt", TRUE); break;
+		}
+		gsf_xml_out_end_element (xml); /* </brk> */
+	}
+	gsf_xml_out_end_element (xml);
+}
+
+static void
 xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 {
 	PrintInformation *pi = state->sheet->print_info;
@@ -609,6 +638,11 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_add_float (xml, "header",	h_margin / 72., 4);
 	gsf_xml_out_add_float (xml, "footer",	f_margin / 72., 4);
 	gsf_xml_out_end_element (xml); /* </pageMargins> */
+
+	if (NULL != pi->h_breaks && NULL != pi->v_breaks) {
+		xlsx_write_breaks (state, xml, pi->h_breaks);
+		xlsx_write_breaks (state, xml, pi->v_breaks);
+	}
 
 	gsf_xml_out_start_element (xml, "pageSetup");
 	gsf_xml_out_end_element (xml); /* </pageSetup> */

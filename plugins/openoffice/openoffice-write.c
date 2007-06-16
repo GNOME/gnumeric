@@ -83,48 +83,34 @@ typedef struct {
 	GnmConventions *conv;
 } GnmOOExport;
 
-	static struct {
-		char const *key;
-		char const *url;
-	} const ns[] = {
-		{ "xmlns:office",
-		  "urn:oasis:names:tc:opendocument:xmlns:office:1.0" },
-		{ "xmlns:style",
-		  "urn:oasis:names:tc:opendocument:xmlns:style:1.0"},
-		{ "xmlns:text",
-		  "urn:oasis:names:tc:opendocument:xmlns:text:1.0" },
-		{ "xmlns:table",
-		  "urn:oasis:names:tc:opendocument:xmlns:table:1.0" },
-		{ "xmlns:draw",
-		  "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" },
-		{ "xmlns:fo",
-		  "urn:oasis:names:tc:opendocument:xmlns:"
-		  "xsl-fo-compatible:1.0"},
-		{ "xmlns:xlink", "http://www.w3.org/1999/xlink" },
-		{ "xmlns:dc", "http://purl.org/dc/elements/1.1/" },
-		{ "xmlns:meta",
-		  "urn:oasis:names:tc:opendocument:xmlns:meta:1.0" },
-		{ "xmlns:number",
-		  "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" },
-		{ "xmlns:svg",
-		  "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" },
-		{ "xmlns:chart",
-		  "urn:oasis:names:tc:opendocument:xmlns:chart:1.0" },
-		{ "xmlns:dr3d",
-		  "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" },
-		{ "xmlns:math", "http://www.w3.org/1998/Math/MathML" },
-		{ "xmlns:form",
-		  "urn:oasis:names:tc:opendocument:xmlns:form:1.0" },
-		{ "xmlns:script",
-		  "urn:oasis:names:tc:opendocument:xmlns:script:1.0" },
-		{ "xmlns:ooo", "http://openoffice.org/2004/office" },
-		{ "xmlns:ooow", "http://openoffice.org/2004/writer" },
-		{ "xmlns:oooc", "http://openoffice.org/2004/calc" },
-		{ "xmlns:dom", "http://www.w3.org/2001/xml-events" },
-		{ "xmlns:xforms", "http://www.w3.org/2002/xforms" },
-		{ "xmlns:xsd", "http://www.w3.org/2001/XMLSchema" },
-		{ "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance" },
-	};
+static struct {
+	char const *key;
+	char const *url;
+} const ns[] = {
+	{ "xmlns:office",	"urn:oasis:names:tc:opendocument:xmlns:office:1.0" },
+	{ "xmlns:style",	"urn:oasis:names:tc:opendocument:xmlns:style:1.0"},
+	{ "xmlns:text",		"urn:oasis:names:tc:opendocument:xmlns:text:1.0" },
+	{ "xmlns:table",	"urn:oasis:names:tc:opendocument:xmlns:table:1.0" },
+	{ "xmlns:draw",		"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" },
+	{ "xmlns:fo",		"urn:oasis:names:tc:opendocument:xmlns:" "xsl-fo-compatible:1.0"},
+	{ "xmlns:xlink",	"http://www.w3.org/1999/xlink" },
+	{ "xmlns:dc",		"http://purl.org/dc/elements/1.1/" },
+	{ "xmlns:meta",		"urn:oasis:names:tc:opendocument:xmlns:meta:1.0" },
+	{ "xmlns:number",	"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" },
+	{ "xmlns:svg",		"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" },
+	{ "xmlns:chart",	"urn:oasis:names:tc:opendocument:xmlns:chart:1.0" },
+	{ "xmlns:dr3d",		"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" },
+	{ "xmlns:math",		"http://www.w3.org/1998/Math/MathML" },
+	{ "xmlns:form",		"urn:oasis:names:tc:opendocument:xmlns:form:1.0" },
+	{ "xmlns:script",	"urn:oasis:names:tc:opendocument:xmlns:script:1.0" },
+	{ "xmlns:ooo",		"http://openoffice.org/2004/office" },
+	{ "xmlns:ooow",		"http://openoffice.org/2004/writer" },
+	{ "xmlns:oooc",		"http://openoffice.org/2004/calc" },
+	{ "xmlns:dom",		"http://www.w3.org/2001/xml-events" },
+	{ "xmlns:xforms",	"http://www.w3.org/2002/xforms" },
+	{ "xmlns:xsd",		"http://www.w3.org/2001/XMLSchema" },
+	{ "xmlns:xsi",		"http://www.w3.org/2001/XMLSchema-instance" },
+};
 
 static void
 odf_write_mimetype (GnmOOExport *state, GsfOutput *child)
@@ -148,16 +134,46 @@ odf_start_style (GsfXMLOut *xml, char const *name, char const *family)
 	gsf_xml_out_add_cstr_unchecked (xml, STYLE "family", family);
 }
 static void
-odf_write_table_styles (GnmOOExport *state)
+odf_write_table_style (GnmOOExport *state,
+		       Sheet const *sheet, char const *name)
 {
-	odf_start_style (state->xml, "ta1", "table");
+	odf_start_style (state->xml, name, "table");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "master-page-name", "Default");
 
 	gsf_xml_out_start_element (state->xml, STYLE "properties");
-	odf_add_bool (state->xml, TABLE "display", TRUE);
+	odf_add_bool (state->xml, TABLE "display",
+		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode", 
+		sheet->text_is_rtl ? "rl-tb" : "lr-tb");
 	gsf_xml_out_end_element (state->xml); /* </style:properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
+}
+
+static char *
+table_style_name (Sheet const *sheet)
+{
+	return g_strdup_printf ("ta-%c-%s",
+		(sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) ? 'v' : 'h',
+		sheet->text_is_rtl ? "rl" : "lr");
+}
+
+static void
+odf_write_table_styles (GnmOOExport *state)
+{
+	int i;
+	GHashTable *known = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free, NULL);
+
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+		char *name = table_style_name (sheet);
+		if (NULL == g_hash_table_lookup (known, name)) {
+			g_hash_table_replace (known, name, name);
+			odf_write_table_style (state, sheet, name);
+		} else
+			g_free (name);
+	}
 }
 
 static void
@@ -586,11 +602,16 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
   	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");  
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
-		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+		char *style_name;
 
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
-		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", "ta1");
+
+		style_name = table_style_name (sheet);
+		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", style_name);
+		g_free (style_name);
+
 		odf_write_sheet (state, sheet);
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
 

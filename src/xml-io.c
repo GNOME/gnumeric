@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * xml-io.c: save/read gnumeric workbooks using gnumeric-1.0 style xml.
+ * xml-io.c: Old slow DOM based gnumeric-1.0 format importer.
  *
  * Authors:
  *   Daniel Veillard <Daniel.Veillard@w3.org>

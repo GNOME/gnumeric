@@ -126,12 +126,17 @@ print_info_free (PrintInformation *pi)
 {
 	g_return_if_fail (pi != NULL);
 
+	if (NULL != pi->v_breaks)
+		gnm_page_breaks_free (pi->v_breaks);
+	if (NULL != pi->h_breaks)
+		gnm_page_breaks_free (pi->h_breaks);
+
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
 
 	if (pi->page_setup)
 		g_object_unref (pi->page_setup);
-	
+
 	g_free (pi);
 }
 
@@ -178,14 +183,14 @@ load_formats (void)
 			hf_formats = g_list_prepend (hf_formats, format);
 			hf_formats_base_num++;
 		}
-	} 
+	}
 
 	/* Now append the custom formats */
 	{
 		GSList const *left;
 		GSList const *middle;
 		GSList const *right;
-		
+
 		left = gnm_app_prefs->printer_header_formats_left;
 		middle = gnm_app_prefs->printer_header_formats_middle;
 		right = gnm_app_prefs->printer_header_formats_right;
@@ -194,13 +199,13 @@ load_formats (void)
 		{
 			PrintHF *format;
 
-			format = print_hf_new 
+			format = print_hf_new
 				(left->data ? left->data : "",
 				 middle->data ? middle->data : "",
 				 right->data ? right->data : "");
 
 			hf_formats = g_list_prepend (hf_formats, format);
-			
+
 			left = left->next;
 			middle = middle->next;
 			right = right->next;
@@ -231,7 +236,7 @@ print_info_load_defaults (PrintInformation *res)
 
 	res->scaling.type = gnm_app_prefs->print_scale_percentage
 		? PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES;
-	res->scaling.percentage.x = res->scaling.percentage.y 
+	res->scaling.percentage.x = res->scaling.percentage.y
 		= gnm_app_prefs->print_scale_percentage_value;
 	res->scaling.dim.cols = gnm_app_prefs->print_scale_width;
 	res->scaling.dim.rows = gnm_app_prefs->print_scale_height;
@@ -243,7 +248,7 @@ print_info_load_defaults (PrintInformation *res)
 	res->desired_display.right = gnm_app_prefs->desired_display;
 	res->desired_display.footer = gnm_app_prefs->desired_display;
 	res->desired_display.header = gnm_app_prefs->desired_display;
-	
+
 	res->repeat_top.use   = load_range (gnm_app_prefs->print_repeat_top,
 					    &res->repeat_top.range);
 	res->repeat_left.use  = load_range (gnm_app_prefs->print_repeat_left,
@@ -254,11 +259,13 @@ print_info_load_defaults (PrintInformation *res)
 	res->print_grid_lines      = gnm_app_prefs->print_grid_lines;
 	res->print_titles          = gnm_app_prefs->print_titles;
 	res->print_black_and_white = gnm_app_prefs->print_black_and_white;
-	res->print_even_if_only_styles 
+	res->print_even_if_only_styles
 		= gnm_app_prefs->print_even_if_only_styles;
 
 	res->print_across_then_down = gnm_app_prefs->print_order_across_then_down;
 
+	res->v_breaks = NULL;
+	res->h_breaks = NULL;
 	list = (GSList *) gnm_app_prefs->printer_header;
 	res->header = list ?
 		print_hf_new (g_slist_nth_data (list, 0),
@@ -368,7 +375,7 @@ print_info_save (PrintInformation *pi)
 	gnm_gconf_set_print_even_if_only_styles (pi->print_even_if_only_styles);
 	gnm_gconf_set_print_black_and_white (pi->print_black_and_white);
 	gnm_gconf_set_print_order_across_then_down (pi->print_across_then_down);
-	
+
 	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP,
 		pi->repeat_top.use ? range_as_string (&pi->repeat_top.range) : "");
 	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_LEFT,
@@ -405,7 +412,7 @@ unit_name_to_unit (char const *name)
 		return GTK_UNIT_INCH;
 	if (!g_ascii_strcasecmp (name, "inches"))
 		return GTK_UNIT_INCH;
-	
+
 	return GTK_UNIT_POINTS;
 }
 
@@ -488,7 +495,7 @@ render_file (GString *target, HFRenderInfo *info, char const *args)
 			go_doc_get_uri (GO_DOC (info->sheet->workbook)));
 		g_string_append (target, name);
 		g_free (name);
-	} else 
+	} else
 		g_string_append (target, _("File Name"));
 }
 
@@ -500,7 +507,7 @@ render_path (GString *target, HFRenderInfo *info, char const *args)
 			go_doc_get_uri (GO_DOC (info->sheet->workbook)), TRUE);
 		g_string_append (target, path);
 		g_free (path);
-	} else 
+	} else
 		g_string_append (target, _("Path "));
 }
 
@@ -542,7 +549,7 @@ render_opcode (GString *target, char /* non-const */ *opcode,
 		if (render_ops [i].name_trans == NULL) {
 			render_ops [i].name_trans = g_utf8_casefold (_(render_ops [i].name), -1);
 		}
-		
+
 		if ((g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) ||
 		    (g_utf8_collate (render_ops [i].name_trans, opcode_trans) == 0)) {
 			(*render_ops [i].render)(target, info, args);
@@ -638,21 +645,24 @@ print_info_dup (PrintInformation *src)
 	PrintInformation *dst = print_info_new (TRUE);
 
 	print_info_load_defaults (src);
-	
+
 	/* clear the refs in the new obj */
 	print_hf_free (dst->header);
 	print_hf_free (dst->footer);
 	if (dst->page_setup)
 		g_object_unref (dst->page_setup);
-	
-	
+
+
 	*dst = *src; /* bit bash */
-	
+
+	dst->v_breaks = gnm_page_breaks_dup (src->v_breaks);
+	dst->h_breaks = gnm_page_breaks_dup (src->h_breaks);
+
 	/* setup the refs for new content */
 	dst->header	   = print_hf_copy (src->header);
 	dst->footer	   = print_hf_copy (src->footer);
 	dst->page_setup    = gtk_page_setup_copy (src->page_setup);
-	
+
 	return dst;
 }
 
@@ -764,7 +774,7 @@ print_info_set_margins (PrintInformation *pi,
 						 right, GTK_UNIT_POINTS);
 }
 
-void 
+void
 page_setup_set_paper        (GtkPageSetup *page_setup, char const *paper)
 {
 	GtkPaperSize* gtk_paper;
@@ -774,7 +784,7 @@ page_setup_set_paper        (GtkPageSetup *page_setup, char const *paper)
 /* We are now using the standard paper names given by PWG 5101.1-2002 */
 /* We are trying to map some old gnome-print paper names.                  */
 
-/*  
+/*
  "A4" -> GTK_PAPER_NAME_A4
  "USLetter" -> GTK_PAPER_NAME_LETTER
  "USLegal" -> GTK_PAPER_NAME_LEGAL
@@ -854,7 +864,7 @@ char  const*
 print_info_get_paper_display_name (PrintInformation *pi)
 {
 	GtkPaperSize* paper;
-	
+
 	g_return_val_if_fail (pi != NULL, "ERROR: No printinformation specified");
 	print_info_load_defaults (pi);
 	g_return_val_if_fail (pi->page_setup != NULL, "ERROR: No pagesetup loaded");
@@ -868,7 +878,7 @@ print_info_get_paper_width (PrintInformation *pi, GtkUnit unit)
 {
 	g_return_val_if_fail (pi != NULL, 0.);
 	print_info_load_defaults (pi);
-	
+
 	return gtk_page_setup_get_paper_width (pi->page_setup, unit);
 }
 
@@ -877,7 +887,7 @@ print_info_get_paper_height (PrintInformation *pi, GtkUnit unit)
 {
 	g_return_val_if_fail (pi != NULL, 0);
 	print_info_load_defaults (pi);
-	
+
 	return gtk_page_setup_get_paper_height (pi->page_setup, unit);
 }
 
@@ -897,7 +907,7 @@ void
 print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
 {
 	double header, footer, left, right;
-	
+
 	g_return_if_fail (pi != NULL);
 	print_info_load_defaults (pi);
 
@@ -914,7 +924,7 @@ GtkPageOrientation
 print_info_get_paper_orientation (PrintInformation *pi)
 {
 	GtkPageOrientation orientation;
-	
+
 	g_return_val_if_fail (pi != NULL, GTK_PAGE_ORIENTATION_PORTRAIT);
 	print_info_load_defaults (pi);
 	g_return_val_if_fail (pi->page_setup != NULL, GTK_PAGE_ORIENTATION_PORTRAIT);
@@ -931,4 +941,107 @@ print_info_set_paper_orientation (PrintInformation *pi,
 	print_info_load_defaults (pi);
 
 	gtk_page_setup_set_orientation (pi->page_setup, orientation);
+}
+
+/**
+ * print_info_set_breaks :
+ * @pi : #PrintInformation
+ * @breaks : #GnmPageBreaks
+ * @is_col : Do @breaks split between columns or rows ?
+ *
+ * NOTE : Takes ownership of @breaks.  DO NOT FREE after calling.
+ **/
+void
+print_info_set_breaks (PrintInformation *pi,
+		       GnmPageBreaks    *breaks)
+{
+	GnmPageBreaks **target;
+
+	g_return_if_fail (pi != NULL);
+
+	target = breaks->is_vert ? &pi->v_breaks : &pi->h_breaks;
+
+	if (*target == breaks) /* just in case something silly happens */
+		return;
+
+	if (NULL != *target)
+		gnm_page_breaks_free (*target);
+	*target = breaks;
+}
+
+/********************************************************************
+ * Simple data structure to store page breaks defined as a wrapper in case we
+ * need something more extensive later. */
+
+/**
+ * gnm_page_breaks_new :
+ * @len : optional estimate of number of breaks that will be in the collection
+ * @is_vert :
+ *
+ * Allocate a collection of page breaks and provide some sanity checking for
+ * @len.
+ **/
+GnmPageBreaks *
+gnm_page_breaks_new (int len, gboolean is_vert)
+{
+	GnmPageBreaks *res = g_new (GnmPageBreaks, 1);
+
+	if (len < 0 || len > colrow_max (is_vert))
+		len = 0;
+	res->is_vert = is_vert;
+	res->details = g_array_sized_new (FALSE, FALSE,
+		sizeof (GnmPageBreak), len);
+
+	return res;
+}
+
+GnmPageBreaks *
+gnm_page_breaks_dup (GnmPageBreaks const *src)
+{
+	GnmPageBreaks *dst = gnm_page_breaks_new (src->details->len, src->is_vert);
+	GArray       *d_details = dst->details;
+	GArray const *s_details = src->details;
+	unsigned i;
+
+	/* no need to validate through gnm_page_breaks_append_break, just dup */
+	for (i = 0; i < s_details->len ; i++)
+		g_array_append_val (d_details,
+			g_array_index (s_details, GnmPageBreak, i));
+
+	return dst;
+}
+void
+gnm_page_breaks_free (GnmPageBreaks *breaks)
+{
+	g_array_free (breaks->details, TRUE);
+	g_free (breaks);
+}
+
+gboolean
+gnm_page_breaks_append_break (GnmPageBreaks *breaks,
+			      int pos,
+			      GnmPageBreakType type)
+{
+	GnmPageBreak const *prev;
+	GnmPageBreak info;
+
+	g_return_val_if_fail (breaks != NULL, FALSE);
+
+	/* Do some simple validation */
+	if (pos < 0)
+		return FALSE;
+	if (breaks->details->len > 0) {
+		prev = &g_array_index (breaks->details, GnmPageBreak,
+			breaks->details->len-1);
+		if (prev->pos >= pos)
+			return FALSE;
+	}
+
+	info.pos   = pos;
+	info.type  = type;
+	info.first = -1;
+	info.last  = -1;
+	g_array_append_val (breaks->details, info);
+
+	return TRUE;
 }

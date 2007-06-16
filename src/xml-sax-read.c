@@ -314,6 +314,8 @@ typedef struct {
 	GHashTable *expr_map;
 	GList *delayed_names;
 	SheetObject *so;
+
+	GnmPageBreaks *page_breaks;
 } XMLSaxParseState;
 
 static void
@@ -725,7 +727,55 @@ xml_sax_print_margins (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 
+static void
+xml_sax_page_break (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	GnmPageBreakType  type = GNM_PAGE_BREAK_AUTO;
+	gboolean tmp;
+	int	 pos;
 
+	if (NULL == state->page_breaks)
+		return;
+
+	pos = 0;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_int  (attrs, "pos", &pos)) ;
+		else if (xml_sax_attr_bool (attrs, "manual", &tmp)) { if (tmp) type = GNM_PAGE_BREAK_MANUAL; }
+#if 0 /* Ignored */
+		else if (gnm_xml_attr_int  (attrs, "first", &first)) ;
+		else if (gnm_xml_attr_int  (attrs, "last", &last)) ;
+#endif
+
+	gnm_page_breaks_append_break (state->page_breaks, pos, type);
+}
+
+static void
+xml_sax_page_breaks_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	int count = 0;
+
+	g_return_if_fail (state->page_breaks == NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gnm_xml_attr_int  (attrs, "count", &count)) ;
+
+	state->page_breaks = gnm_page_breaks_new (count,
+		xin->node->user_data.v_int);
+}
+
+static void
+xml_sax_page_breaks_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	if (NULL != state->page_breaks) {
+		print_info_set_breaks (state->sheet->print_info,
+			state->page_breaks);
+		state->page_breaks = NULL;
+	}
+}
 
 static void
 xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2090,6 +2140,15 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_RIGHT,  GNM, "right", GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 3),
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_HEADER, GNM, "header",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 4),
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_FOOTER, GNM, "footer",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 5),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, V_BREAKS, GNM, "vBreaks", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHEET_PRINTINFO, H_BREAKS, GNM, "hBreaks", GSF_XML_NO_CONTENT, NULL, NULL),
+
+	GSF_XML_IN_NODE_FULL (SHEET_PRINTINFO, V_PAGE_BREAKS, GNM, "vPageBreaks", GSF_XML_NO_CONTENT,
+			      FALSE, FALSE, &xml_sax_page_breaks_begin, &xml_sax_page_breaks_end, 0),
+	  GSF_XML_IN_NODE (V_PAGE_BREAKS, PAGE_BREAK, GNM, "brk", GSF_XML_NO_CONTENT, &xml_sax_page_break, NULL),
+	GSF_XML_IN_NODE_FULL (SHEET_PRINTINFO, H_PAGE_BREAKS, GNM, "hPageBreaks", GSF_XML_NO_CONTENT,
+			      FALSE, FALSE, &xml_sax_page_breaks_begin, &xml_sax_page_breaks_end, 0),
+	  GSF_XML_IN_NODE (H_PAGE_BREAKS, PAGE_BREAK, GNM, "brk", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_SCALE,	    GNM, "Scale",	GSF_XML_CONTENT, &xml_sax_print_scale, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_VCENTER,    GNM, "vcenter",	GSF_XML_CONTENT, &xml_sax_print_vcenter, NULL),

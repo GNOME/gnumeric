@@ -1,3 +1,20 @@
+2007-06-15  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.c (print_info_free) : release the page breaks.
+	(print_info_load_defaults) : init them.
+	(print_info_dup) : dup them.
+	(print_info_set_breaks) : new.
+	(gnm_page_breaks_new) : new.
+	(gnm_page_breaks_dup) : new.
+	(gnm_page_breaks_free) : new.
+	(gnm_page_breaks_append_break) : new.
+
+	* src/print-info.h (GnmPageBreakType) : new.
+	(GnmPageBreak) : new.
+
+	* src/parse-util.c (gnm_expr_parse_str_simple) : rename arg to be more
+	  consistent.
+
 2007-06-15  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-view.c (sv_redraw_range): Restrict to drawing to what

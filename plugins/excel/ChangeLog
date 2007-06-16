@@ -1,3 +1,22 @@
+2007-06-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_PAGE_BREAK) : new.
+	(excel_read_sheet) : called from here.
+
+	* ms-excel-write.c (excel_write_PAGE_BREAK) : new.
+	(write_sheet_head) : called from here.
+
+	* xlsx-read.c (xlsx_CT_PageBreak) : new.
+	(xlsx_CT_PageBreaks_begin) : new.
+	(xlsx_CT_PageBreaks_end) : new.
+
+	* xlsx-write.c (xlsx_write_breaks) : new.
+	(xlsx_write_print_info) : called from here.
+
+2007-06-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (init_xl_font_widths) : add Calibri.
+
 2007-06-12  Jody Goldberg <jody@gnome.org>
 
 	* plugin.xml.in  : Use 'Office 2007' as the description for the writer

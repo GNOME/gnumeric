@@ -4150,7 +4150,36 @@ excel_write_WSBOOL (BiffPut *bp, ExcelWriteSheet *esheet)
 }
 
 static void
-writer_header_footer (BiffPut *bp, PrintHF const *hf, int id)
+excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
+{
+	GArray const *details = breaks->details;
+	unsigned i, n, step = (bp->version < MS_BIFF_V8) ? 2 : 6;
+	GnmPageBreak const *binfo;
+	guint8 *data;
+
+	/* limit size to ensure no CONTINUE (do we need this ? ) */
+	if (((n = breaks->details->len)*step + 2 + 2) >= ms_biff_max_record_len (bp))
+		n = (ms_biff_max_record_len (bp) - 2 - 2) / step;
+
+	data = ms_biff_put_len_next (bp, breaks->is_vert
+		? BIFF_VERTICALPAGEBREAKS : BIFF_HORIZONTALPAGEBREAKS,
+		2 + step * n);
+
+	GSF_LE_SET_GUINT16 (data, (guint16)n);
+	for (data += 2, i = 0 ; i < n ; data += step, i++) {
+		binfo = &g_array_index (details, GnmPageBreak, i);
+		GSF_LE_SET_GUINT16 (data, (guint16)binfo->pos);
+		if (step > 2) {
+			GSF_LE_SET_GUINT16 (data + 2, (guint16)binfo->first);
+			GSF_LE_SET_GUINT16 (data + 4, (guint16)binfo->last);
+		}
+	}
+
+	ms_biff_put_commit (bp);
+}
+
+static void
+excel_write_HEADER_FOOTER (BiffPut *bp, PrintHF const *hf, int id)
 {
 	GString *res = g_string_new (NULL);
 
@@ -4209,10 +4238,15 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 		excel_write_COUNTRY (bp);
 	excel_write_WSBOOL (bp, esheet);
 
+	if (pi->h_breaks != NULL && pi->v_breaks != NULL) {
+		excel_write_PAGE_BREAK (bp, pi->h_breaks);
+		excel_write_PAGE_BREAK (bp, pi->v_breaks);
+	}
+
 	if (pi->header != NULL)
-		writer_header_footer (bp, pi->header, BIFF_HEADER);
+		excel_write_HEADER_FOOTER (bp, pi->header, BIFF_HEADER);
 	if (pi->footer != NULL)
-		writer_header_footer (bp, pi->footer, BIFF_FOOTER);
+		excel_write_HEADER_FOOTER (bp, pi->footer, BIFF_FOOTER);
 
 	ms_biff_put_2byte (bp, BIFF_HCENTER, pi->center_horizontally ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_VCENTER, pi->center_vertically ? 1 : 0);

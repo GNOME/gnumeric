@@ -240,6 +240,7 @@ init_xl_font_widths (void)
 		{ "Bitstream Vera Serif",	 9,	0x0900,	32.0 },
 		{ "Book Antiqua",		 8,	0x0924,	36.5 },
 		{ "Bookman Old Style",		 9,	0x0900,	32.0 },
+		{ "Calibri",			 9,	0x0900,	32.0 },
 		{ "Century Gothic",		 8,	0x0924,	36.5 },
 		{ "Comic Sans MS",		 9,	0x0900,	32.0 },
 		{ "Courier New",		 9,	0x0900,	32.0 },

@@ -126,6 +126,8 @@ typedef struct {
 	GnmFilter	   *filter;
 	int		    filter_cur_field;
 	GSList		   *filter_items; /* an accumulator */
+
+	GnmPageBreaks	   *page_breaks;
 } XLSXReadState;
 typedef struct {
 	GnmString	*str;
@@ -1256,8 +1258,8 @@ static void
 xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	PrintInformation *pi = state->sheet->print_info;
 	double margin;
+	PrintInformation *pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_float (xin, attrs, XL_NS_SS, "left", &margin))
@@ -1274,6 +1276,61 @@ xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 			print_info_set_margin_header (pi, margin);
 		else if (attr_float (xin, attrs, XL_NS_SS, "footer", &margin))
 			print_info_set_margin_footer (pi, margin);
+}
+
+static void
+xlsx_CT_PageBreak (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState    *state = (XLSXReadState *)xin->user_state;
+	GnmPageBreakType  type = GNM_PAGE_BREAK_AUTO;
+	gboolean tmp;
+	int	 pos;
+
+	if (NULL == state->page_breaks)
+		return;
+
+	pos = 0;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int  (xin, attrs, XL_NS_SS, "id", &pos)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "man", &tmp)) { if (tmp) type = GNM_PAGE_BREAK_MANUAL; }
+		else if (attr_bool (xin, attrs, XL_NS_SS, "pt", &tmp))  { if (tmp) type = GNM_PAGE_BREAK_DATA_SLICE; }
+#if 0 /* Ignored */
+		else if (attr_int  (xin, attrs, XL_NS_SS, "min", &first)) ;
+		else if (attr_int  (xin, attrs, XL_NS_SS, "max", &last)) ;
+#endif
+
+	gnm_page_breaks_append_break (state->page_breaks, pos, type);
+}
+
+static void
+xlsx_CT_PageBreaks_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int count = 0;
+
+	g_return_if_fail (state->page_breaks == NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int  (xin, attrs, XL_NS_SS, "count", &count)) ;
+#if 0 /* Ignored */
+		else if (attr_int  (xin, attrs, XL_NS_SS, "manualBreakCount", &manual_count)) ;
+#endif
+
+	state->page_breaks = gnm_page_breaks_new (count,
+		xin->node->user_data.v_int);
+}
+
+static void
+xlsx_CT_PageBreaks_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	if (NULL != state->page_breaks) {
+		print_info_set_breaks (state->sheet->print_info,
+			state->page_breaks);
+		state->page_breaks = NULL;
+	}
 }
 
 static void
@@ -1343,11 +1400,13 @@ xlsx_CT_Filters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_CT_Filter (GsfXMLIn *xin, xmlChar const **attrs)
 {
+#if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "val")) {
 		}
+#endif
 }
 
 static void
@@ -1355,9 +1414,11 @@ xlsx_CT_CustomFilters_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
+#if 0
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "val")) {
 		}
+#endif
 	state->filter_items = NULL;
 }
 static void
@@ -1370,6 +1431,7 @@ xlsx_CT_CustomFilters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_CT_CustomFilter (GsfXMLIn *xin, xmlChar const **attrs)
 {
+#if 0
 	static EnumVal const ops[] = {
 		{ "lessThan",		GNM_STYLE_COND_LT },
 		{ "lessThanOrEqual",	GNM_STYLE_COND_LTE },
@@ -1387,6 +1449,7 @@ xlsx_CT_CustomFilter (GsfXMLIn *xin, xmlChar const **attrs)
 		if (0 == strcmp (attrs[0], "val")) {
 		} else if (attr_enum (xin, attrs, XL_NS_SS, "operator", ops, &tmp))
 			op = tmp;
+#endif
 }
 
 static void
@@ -1411,6 +1474,7 @@ xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_CT_DynamicFilter (GsfXMLIn *xin, xmlChar const **attrs)
 {
+#if 0
 	static EnumVal const types[] = {
 		{ "null", 0 },
 		{ "aboveAverage", 0 },
@@ -1454,6 +1518,7 @@ xlsx_CT_DynamicFilter (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_enum (xin, attrs, XL_NS_SS, "type", types, &type)) ;
+#endif
 }
 
 static void
@@ -2003,6 +2068,13 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
   GSF_XML_IN_NODE (SHEET, PRINT_MARGINS, XL_NS_SS, "pageMargins", GSF_XML_NO_CONTENT, &xlsx_CT_PageMargins, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_SETUP, XL_NS_SS, "pageSetup", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_HEADER_FOOTER, XL_NS_SS, "headerFooter", GSF_XML_NO_CONTENT, NULL, NULL),
+
+  GSF_XML_IN_NODE_FULL (SHEET, ROW_BREAKS, XL_NS_SS, "rowBreaks", GSF_XML_NO_CONTENT,
+			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 0),
+    GSF_XML_IN_NODE (ROW_BREAKS, CT_PageBreak, XL_NS_SS, "brk", GSF_XML_NO_CONTENT, &xlsx_CT_PageBreak, NULL),
+  GSF_XML_IN_NODE_FULL (SHEET, COL_BREAKS, XL_NS_SS, "colBreaks", GSF_XML_NO_CONTENT,
+			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 0),
+    GSF_XML_IN_NODE (COL_BREAKS, CT_PageBreak, XL_NS_SS, "brk", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 
   GSF_XML_IN_NODE (SHEET, LEGACY_DRAW, XL_NS_SS, "legacyDrawing", GSF_XML_NO_CONTENT, NULL, NULL),
 

@@ -27,6 +27,7 @@ Jody:
 	* Make Morten's pdf exporter available from gnumeric too.
 	* Start to implement limits to selection in protected sheets.
 	* Handle array expressions in SYLK importer.
+	* ODF import/export for hidden and RTL sheets.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

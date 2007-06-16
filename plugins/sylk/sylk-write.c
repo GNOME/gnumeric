@@ -40,6 +40,8 @@
 typedef struct {
 	GsfOutput *output;
 
+	GnmConventions const *convs;
+
 	Workbook *wb;
 	Sheet	 *sheet;
 
