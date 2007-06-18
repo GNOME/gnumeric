@@ -2377,6 +2377,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.wb = wb_view_get_workbook (wb_view);
 	state.sheet = NULL;
 	state.version = GNM_XML_UNKNOWN;
+	state.last_progress_update = 0;
 	state.attribute.name = state.attribute.value = NULL;
 	state.name.name = state.name.value = state.name.position = NULL;
 	state.style_range_init = FALSE;
