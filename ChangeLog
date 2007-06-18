@@ -1,5 +1,8 @@
 2007-06-18  Morten Welinder  <terra@gnome.org>
 
+	* src/print-cell.c (print_cell_gtk): Tentatively fix crash.
+	[#448864]
+
 	* src/xml-sax-read.c (xml_sax_cell_content): Use gnm_cell_set_text
 	only as a last resort.
 	(struct XMLSaxParseState): Add convs member.

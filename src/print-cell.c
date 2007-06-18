@@ -73,6 +73,12 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		 * Simply create a new GnmRenderedValue at zoom 100% for the
 		 * _screen_ context.
 		 */
+
+		if (!cell_rv) {
+			gnm_cell_render_value ((GnmCell *)cell, TRUE);
+			cell_rv = cell->rendered_value;
+		}
+
 		cell_rv100 = gnm_rendered_value_new ((GnmCell *)cell, mstyle,
 			cell_rv->variable_width,
 			pango_layout_get_context (cell_rv->layout),
@@ -84,7 +90,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 	 * Since some layout decisions are taken during cell_calc_layout
 	 * we need to make sure that has been called.
 	 */
-	cell_finish_layout (cell, cell_rv, width, FALSE);
+	cell_finish_layout ((GnmCell*)cell, cell_rv, width, FALSE);
 
 	/* Now pretend it was made for printing.  */
 	rv = gnm_rendered_value_recontext (cell_rv, pcontext);
