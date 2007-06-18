@@ -1,10 +1,22 @@
 2007-06-18  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_cell_content): Use gnm_cell_set_text
+	only as a last resort.
+	(struct XMLSaxParseState): Add convs member.
+	(xml_sax_validation_expr_end, xml_sax_condition_expr_end,
+	xml_cell_set_array_expr, xml_sax_cell_content,
+	handle_delayed_names): Use conventions.
+	(xml_sax_sheet_name): Handle forgotten "protected" attribute.
+	(xml_sax_sheet_start, xml_sax_sheet_start, xml_sax_sheet_name):
+	Handle R1C1.  Fixes #448714.
+
 	* src/xml-sax-write.c (xml_write_sheet): Save R1C1 flag when set.
+	(gnm_xml_io_conventions): Globalize and rename from
+	xml_io_conventions.
 
 2007-06-17  Jody Goldberg <jody@gnome.org>
 
-	* src/xml-sax-read.c (gnm_xml_file_open) : init progress counter to
+	* src/xml-sax-read.c (gnm_xml_file_open): Init progress counter to
 	  avoid use of uninitialized memory.
 
 2007-06-17  Morten Welinder  <terra@gnome.org>

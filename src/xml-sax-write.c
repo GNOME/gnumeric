@@ -1156,19 +1156,19 @@ xml_write_calculation (GnmOutputXML *state)
 	gsf_xml_out_end_element (state->output); /* </gnm:Calculation> */
 }
 
-static GnmConventions *
-xml_io_conventions (void)
+GnmConventions *
+gnm_xml_io_conventions (void)
 {
 	GnmConventions *res = gnm_conventions_new ();
 
-	res->decimal_sep_dot		= TRUE;
-	res->input.range_ref		= rangeref_parse;
-	res->output.range_ref		= gnm_1_0_rangeref_as_string;
-	res->range_sep_colon		= TRUE;
-	res->arg_sep			= ',';
-	res->array_col_sep		= ',';
-	res->array_row_sep		= ';';
-	res->output.translated		= FALSE;
+	res->decimal_sep_dot	= TRUE;
+	res->input.range_ref	= rangeref_parse;
+	res->output.range_ref	= gnm_1_0_rangeref_as_string;
+	res->range_sep_colon	= TRUE;
+	res->arg_sep		= ',';
+	res->array_col_sep	= ',';
+	res->array_row_sep	= ';';
+	res->output.translated	= FALSE;
 
 	return res;
 }
@@ -1200,7 +1200,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	state.wb	= wb_view_get_workbook (wb_view);
 	state.sheet	= NULL;
 	state.output	= gsf_xml_out_new (output);
-	state.convs	= xml_io_conventions ();
+	state.convs	= gnm_xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	locale = gnm_push_C_locale ();
@@ -1280,7 +1280,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	state.state.wb	= NULL;
 	state.state.sheet	= NULL;
 	state.state.output	= gsf_xml_out_new (buf);
-	state.state.convs	= xml_io_conventions ();
+	state.state.convs	= gnm_xml_io_conventions ();
 	state.state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	locale = gnm_push_C_locale ();

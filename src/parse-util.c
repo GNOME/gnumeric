@@ -435,6 +435,8 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
  * Simplified variant of rangeref_as_string that old versions of gnumeric can
  * read.  It drops support for full col/row references.  We can remap them on
  * import.
+ *
+ * This function also ignores R1C1 settings.
  **/
 void
 gnm_1_0_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)

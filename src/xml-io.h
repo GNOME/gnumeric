@@ -64,4 +64,6 @@ gboolean gnm_xml_attr_double  (xmlChar const * const *attrs,
 SheetObject *gnm_xml_in_cur_obj   (GsfXMLIn const *xin);
 Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
 
+GnmConventions *gnm_xml_io_conventions (void);
+
 #endif /* GNUMERIC_XML_IO_H */

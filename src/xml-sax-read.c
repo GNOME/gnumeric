@@ -254,6 +254,7 @@ typedef struct {
 	Workbook	*wb;		/* The new workbook */
 	GnumericXMLVersion version;
 	gsf_off_t last_progress_update;
+	GnmConventions *convs;
 
 	Sheet *sheet;
 	double sheet_zoom;
@@ -306,6 +307,7 @@ typedef struct {
 	int outline_symbols_right;
 	int text_is_rtl;
 	int is_protected;
+	int r1c1_addresses;
 	GnmSheetVisibility visibility;
 	GnmColor *tab_color;
 	GnmColor *tab_text_color;
@@ -543,7 +545,8 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->display_formulas = state->hide_zero =
 		state->hide_grid = state->display_outlines =
 		state->outline_symbols_below = state->outline_symbols_right =
-		state->text_is_rtl = state->is_protected = -1;
+		state->text_is_rtl = state->is_protected =
+		state->r1c1_addresses = -1;
 	state->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 	state->tab_color = NULL;
 	state->tab_text_color = NULL;
@@ -572,6 +575,8 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->text_is_rtl = tmp;
 		else if (xml_sax_attr_bool (attrs, "Protected", &tmp))
 			state->is_protected = tmp;
+		else if (xml_sax_attr_bool (attrs, "R1C1", &tmp))
+			state->r1c1_addresses = tmp;
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
 		else if (xml_sax_attr_color (attrs, "TabTextColor", &color))
@@ -597,6 +602,7 @@ static void
 xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	Sheet *sheet;
 
 	char const * content = xin->content->str;
 	g_return_if_fail (state->sheet == NULL);
@@ -605,40 +611,45 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	 * have to support < GNM_XML_V7 anymore
 	 */
 	if (state->version >= GNM_XML_V7) {
-		state->sheet = workbook_sheet_by_name (state->wb, content);
+		sheet = workbook_sheet_by_name (state->wb, content);
 
-		if (!state->sheet) {
+		if (!sheet) {
 			gnumeric_io_error_string (state->context,
 				_("File has inconsistent SheetNameIndex element."));
-			state->sheet = sheet_new (state->wb, content);
-			workbook_sheet_attach (state->wb, state->sheet);
+			sheet = sheet_new (state->wb, content);
+			workbook_sheet_attach (state->wb, sheet);
 		}
 	} else {
-		state->sheet = sheet_new (state->wb, content);
-		workbook_sheet_attach (state->wb, state->sheet);
+		sheet = sheet_new (state->wb, content);
+		workbook_sheet_attach (state->wb, sheet);
 	}
+	state->sheet = sheet;
 
 	if (state->display_formulas >= 0)
-		g_object_set (state->sheet, "display-formulas", state->display_formulas, NULL);
+		g_object_set (sheet, "display-formulas", state->display_formulas, NULL);
 	if (state->hide_zero >= 0)
-		g_object_set (state->sheet, "display-zeros", !state->hide_zero, NULL);
+		g_object_set (sheet, "display-zeros", !state->hide_zero, NULL);
 	if (state->hide_grid >= 0)
-		g_object_set (state->sheet, "display-grid", !state->hide_grid, NULL);
+		g_object_set (sheet, "display-grid", !state->hide_grid, NULL);
 	if (state->hide_col_header >= 0)
-		g_object_set (state->sheet, "display-column-header", !state->hide_col_header, NULL);
+		g_object_set (sheet, "display-column-header", !state->hide_col_header, NULL);
 	if (state->hide_row_header >= 0)
-		g_object_set (state->sheet, "display-row-header", !state->hide_row_header, NULL);
+		g_object_set (sheet, "display-row-header", !state->hide_row_header, NULL);
 	if (state->display_outlines >= 0)
-		g_object_set (state->sheet, "display-outlines", state->display_outlines, NULL);
+		g_object_set (sheet, "display-outlines", state->display_outlines, NULL);
 	if (state->outline_symbols_below >= 0)
-		g_object_set (state->sheet, "display-outlines-below", state->outline_symbols_below, NULL);
+		g_object_set (sheet, "display-outlines-below", state->outline_symbols_below, NULL);
 	if (state->outline_symbols_right >= 0)
-		g_object_set (state->sheet, "display-outlines-right", state->outline_symbols_right, NULL);
+		g_object_set (sheet, "display-outlines-right", state->outline_symbols_right, NULL);
 	if (state->text_is_rtl >= 0)
-		g_object_set (state->sheet, "text-is-rtl", state->text_is_rtl, NULL);
-	g_object_set (state->sheet, "visibility", state->visibility, NULL);
-	state->sheet->tab_color = state->tab_color;
-	state->sheet->tab_text_color = state->tab_text_color;
+		g_object_set (sheet, "text-is-rtl", state->text_is_rtl, NULL);
+	if (state->is_protected >= 0)
+		g_object_set (sheet, "protected", state->is_protected, NULL);
+	if (state->r1c1_addresses >= 0)
+		g_object_set (sheet, "use-r1c1", state->r1c1_addresses, NULL);
+	g_object_set (sheet, "visibility", state->visibility, NULL);
+	sheet->tab_color = state->tab_color;
+	sheet->tab_text_color = state->tab_text_color;
 }
 
 static void
@@ -1327,8 +1338,11 @@ xml_sax_validation_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_return_if_fail (state->validation.texpr[i] == NULL);
 
-	texpr = gnm_expr_parse_str_simple (xin->content->str,
-		parse_pos_init_sheet (&pos, state->sheet));
+	texpr = gnm_expr_parse_str (xin->content->str,
+				    parse_pos_init_sheet (&pos, state->sheet),
+				    GNM_EXPR_PARSE_DEFAULT,
+				    state->convs,
+				    NULL);
 
 	g_return_if_fail (texpr != NULL);
 
@@ -1390,8 +1404,11 @@ xml_sax_condition_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_return_if_fail (state->cond.texpr[i] == NULL);
 
-	texpr = gnm_expr_parse_str_simple (xin->content->str,
-		parse_pos_init_sheet (&pos, state->sheet));
+	texpr = gnm_expr_parse_str (xin->content->str,
+				    parse_pos_init_sheet (&pos, state->sheet),
+				    GNM_EXPR_PARSE_DEFAULT,
+				    state->convs,
+				    NULL);
 
 	g_return_if_fail (texpr != NULL);
 
@@ -1546,18 +1563,23 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
  * @cols : The number of columns.
  */
 static void
-xml_cell_set_array_expr (GnmCell *cell, char const *text,
+xml_cell_set_array_expr (XMLSaxParseState *state,
+			 GnmCell *cell, char const *text,
 			 int const cols, int const rows)
 {
 	GnmParsePos pp;
-	GnmExprTop const *texpr = gnm_expr_parse_str_simple (text,
-		parse_pos_init_cell (&pp, cell));
+	GnmExprTop const *texpr =
+		gnm_expr_parse_str (text,
+				    parse_pos_init_cell (&pp, cell),
+				    GNM_EXPR_PARSE_DEFAULT,
+				    state->convs,
+				    NULL);
 
 	g_return_if_fail (texpr != NULL);
 	gnm_cell_set_array_formula (cell->base.sheet,
-				cell->pos.col, cell->pos.row,
-				cell->pos.col + cols-1, cell->pos.row + rows-1,
-				texpr);
+				    cell->pos.col, cell->pos.row,
+				    cell->pos.col + cols-1, cell->pos.row + rows-1,
+				    texpr);
 }
 
 /**
@@ -1568,7 +1590,8 @@ xml_cell_set_array_expr (GnmCell *cell, char const *text,
  *     If it is not a member of an array return TRUE.
  */
 static gboolean
-xml_not_used_old_array_spec (GnmCell *cell, char const *content)
+xml_not_used_old_array_spec (XMLSaxParseState *state, GnmCell *cell,
+			     char const *content)
 {
 	int rows, cols, row, col;
 
@@ -1601,7 +1624,7 @@ xml_not_used_old_array_spec (GnmCell *cell, char const *content)
 
 	if (row == 0 && col == 0) {
 		*expr_end = '\0';
-		xml_cell_set_array_expr (cell, content+2, rows, cols);
+		xml_cell_set_array_expr (state, cell, content+2, rows, cols);
 	}
 
 	return FALSE;
@@ -1655,10 +1678,10 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (is_post_52_array) {
 			g_return_if_fail (content[0] == '=');
 
-			xml_cell_set_array_expr (cell, content+1,
+			xml_cell_set_array_expr (state, cell, content+1,
 						 array_cols, array_rows);
 		} else if (state->version >= GNM_XML_V3 ||
-			   xml_not_used_old_array_spec (cell, content)) {
+			   xml_not_used_old_array_spec (state, cell, content)) {
 			if (value_type > 0) {
 				GnmValue *v = value_new_from_string (value_type, content, value_fmt, FALSE);
 				if (v == NULL) {
@@ -1667,8 +1690,21 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					gnm_cell_set_text (cell, content);
 				} else
 					gnm_cell_set_value (cell, v);
-			} else
-				gnm_cell_set_text (cell, content);
+			} else {
+				const char *expr_start = gnm_expr_char_start_p (content);
+				if (expr_start && *expr_start) {
+					GnmParsePos pos;
+					GnmExprTop const *texpr =
+						gnm_expr_parse_str (expr_start,
+								    parse_pos_init_cell (&pos, cell),
+								    GNM_EXPR_PARSE_DEFAULT,
+								    state->convs,
+								    NULL);
+					gnm_cell_set_expr (cell, texpr);
+					gnm_expr_top_unref (texpr);
+				} else
+					gnm_cell_set_text (cell, content);
+			}
 		}
 
 		if (expr_id > 0) {
@@ -2054,7 +2090,7 @@ handle_delayed_names (XMLSaxParseState *state)
 		parse_error_init (&perr);
 		texpr = gnm_expr_parse_str (expr_str, pos,
 					    GNM_EXPR_PARSE_DEFAULT,
-					    gnm_conventions_default,
+					    state->convs,
 					    &perr);
 		if (texpr)
 			expr_name_set_expr (nexpr, texpr);
@@ -2378,6 +2414,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.sheet = NULL;
 	state.version = GNM_XML_UNKNOWN;
 	state.last_progress_update = 0;
+	state.convs = gnm_xml_io_conventions ();
 	state.attribute.name = state.attribute.value = NULL;
 	state.name.name = state.name.value = state.name.position = NULL;
 	state.style_range_init = FALSE;
@@ -2426,6 +2463,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	/* cleanup */
 	g_hash_table_destroy (state.expr_map);
+	gnm_conventions_free (state.convs);
 
 	gsf_xml_in_doc_free (doc);
 }
