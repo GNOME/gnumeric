@@ -40,6 +40,7 @@ Morten:
 	* Fix localized-format problem in cell format dialog.  [#442657]
 	* Fix R1C1 problem.  [#443832]
 	* Fix performance problem when selecting large areas.  [#445617]
+	* Fix loading/saving of R1C1 attribute.  [#448714]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.10
