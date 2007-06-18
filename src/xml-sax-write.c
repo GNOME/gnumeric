@@ -1084,6 +1084,9 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	if (sheet->is_protected)
 		gsf_xml_out_add_bool (state->output,
 			"Protected", sheet->is_protected);
+	if (sheet->r1c1_addresses)
+		gsf_xml_out_add_bool (state->output,
+				      "R1C1", sheet->r1c1_addresses);
 	gsf_xml_out_add_enum (state->output,
 		"Visibility", GNM_SHEET_VISIBILITY_TYPE, sheet->visibility);
 
