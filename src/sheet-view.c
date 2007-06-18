@@ -358,28 +358,9 @@ sv_make_cell_visible (SheetView *sv, int col, int row,
 void
 sv_redraw_range	(SheetView *sv, GnmRange const *r)
 {
-	GnmRange tmp, visible;
-	gboolean first = TRUE;
-
 	g_return_if_fail (IS_SHEET_VIEW (sv));
-	if (sv->sheet == NULL) /* beware initialization */
-		return;
 
-	SHEET_VIEW_FOREACH_CONTROL (sv, control, {
-		GnmRange vis;
-		sc_get_visible_region (control, &vis);
-		if (first) {
-			first = FALSE;
-			visible = vis;
-		} else
-			visible = range_union (&visible, &vis);
-	});
-
-	if (!first && range_intersection (&tmp, r, &visible)) {
-		sheet_range_bounding_box (sv->sheet, &tmp);
-		SHEET_VIEW_FOREACH_CONTROL (sv, control,
-					    sc_redraw_range (control, &tmp););
-	}
+	SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_redraw_range (sc, r););
 }
 
 void

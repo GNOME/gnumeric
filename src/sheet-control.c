@@ -107,9 +107,6 @@ SC_VIRTUAL (set_top_left,
 SC_VIRTUAL (recompute_visible_region,
 	    (SheetControl *sc, gboolean full_recompute),
 	    (sc, full_recompute))
-SC_VIRTUAL (get_visible_region,
-	    (SheetControl *sc, GnmRange *r),
-	    (sc, r))
 SC_VIRTUAL (make_cell_visible,
 	    (SheetControl *sc, int col, int row, gboolean couple_panes),
 	    (sc, col, row, couple_panes));

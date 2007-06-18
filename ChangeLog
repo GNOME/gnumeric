@@ -1,3 +1,9 @@
+2007-06-17  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_redraw_range): Restrict to visible
+	pane area here.
+	* src/sheet-view.c (sv_redraw_range): Not hee.
+
 2007-06-15  Jody Goldberg <jody@gnome.org>
 
 	* src/print-info.c (print_info_free) : release the page breaks.

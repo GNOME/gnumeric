@@ -143,9 +143,18 @@ static void
 scg_redraw_range (SheetControl *sc, GnmRange const *r)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
+	Sheet const *sheet = scg_sheet (scg);
+	GnmRange visible, area;
 
-	SCG_FOREACH_PANE (scg, pane,
-		gnm_canvas_redraw_range (pane->gcanvas, r););
+	SCG_FOREACH_PANE (scg, pane, {
+		visible.start = pane->gcanvas->first;
+		visible.end = pane->gcanvas->last_visible;
+
+		if (range_intersection (&area, r, &visible)) {
+			sheet_range_bounding_box (sheet, &area);
+			gnm_canvas_redraw_range (pane->gcanvas, &area);
+		}
+	};);
 }
 
 /* A rough guess of the trade off point between of redrawing all
@@ -2639,30 +2648,6 @@ scg_recompute_visible_region (SheetControl *sc, gboolean full_recompute)
 						   full_recompute););
 }
 
-static void
-scg_get_visible_region (SheetControl *sc, GnmRange *r)
-{
-	SheetControlGUI *scg = (SheetControlGUI *) sc;
-	gboolean first = TRUE;
-	
-	SCG_FOREACH_PANE (scg, pane, {
-		GnmRange vis;
-		vis.start = pane->gcanvas->first;
-		vis.end = pane->gcanvas->last_visible;
-		if (first) {
-			first = FALSE;
-			*r = vis;
-		} else
-			*r = range_union (r, &vis);
-	});
-
-	if (first) {
-		/* This probably shouldn't happen.  */
-		r->start.col = r->end.col = 0;
-		r->start.row = r->end.row = 0;
-	}
-}
-
 void
 scg_edit_start (SheetControlGUI *scg)
 {
@@ -3093,7 +3078,6 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->mode_edit                = scg_mode_edit_virt;
 	sc_class->set_top_left		   = scg_set_top_left;
 	sc_class->recompute_visible_region = scg_recompute_visible_region;
-	sc_class->get_visible_region       = scg_get_visible_region;
 	sc_class->make_cell_visible        = scg_make_cell_visible_virt;
 	sc_class->cursor_bound             = scg_cursor_bound;
 	sc_class->set_panes		   = scg_set_panes;

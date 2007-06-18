@@ -27,7 +27,6 @@ typedef struct {
 	void (*set_top_left)		(SheetControl *sc, int col, int row);
 	void (*recompute_visible_region)(SheetControl *sc,
 					 gboolean full_recompute);
-	void (*get_visible_region)      (SheetControl *sc, GnmRange *r);
 	void (*make_cell_visible)	(SheetControl  *sc, int col, int row,
 					 gboolean couple_panes);
 	void (*cursor_bound)		(SheetControl *sc, GnmRange const *r);
