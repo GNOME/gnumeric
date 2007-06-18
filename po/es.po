@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-17 05:01+0100\n"
-"PO-Revision-Date: 2007-06-17 14:20+0200\n"
+"POT-Creation-Date: 2007-06-18 04:48+0100\n"
+"PO-Revision-Date: 2007-06-18 20:22+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -260,7 +260,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6187
-#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2615 ../src/xml-sax-read.c:2404
+#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2615 ../src/xml-sax-read.c:2405
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -358,7 +358,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:993
-#: ../plugins/openoffice/openoffice-read.c:2739 ../src/xml-sax-read.c:2421
+#: ../plugins/openoffice/openoffice-read.c:2739 ../src/xml-sax-read.c:2422
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -5403,7 +5403,7 @@ msgstr "Añadir hiperenlace"
 msgid "Edit Hyperlink"
 msgstr "Editar hiperenlace"
 
-#: ../src/dialogs/dialog-hyperlink.c:357 ../src/sheet-control-gui.c:1741
+#: ../src/dialogs/dialog-hyperlink.c:357 ../src/sheet-control-gui.c:1750
 msgid "Remove Hyperlink"
 msgstr "Eliminar hiperenlace"
 
@@ -10654,7 +10654,7 @@ msgstr ""
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../src/item-cursor.c:1011 ../src/sheet-control-gui.c:1772
+#: ../src/item-cursor.c:1011 ../src/sheet-control-gui.c:1781
 msgid "_Copy"
 msgstr "_Copiar"
 
@@ -11335,7 +11335,9 @@ msgstr "Protegido permite seleccionar celdas bloqueadas"
 
 #: ../src/sheet.c:782
 msgid "Allow the user to select locked cells while a sheet is protected"
-msgstr "Permitir al usuario que seleccione celdas bloqueadas cuando una hoja está protegida"
+msgstr ""
+"Permitir al usuario que seleccione celdas bloqueadas cuando una hoja está "
+"protegida"
 
 #: ../src/sheet.c:785
 msgid "Protected allow sort ranges"
@@ -11355,11 +11357,11 @@ msgstr "Permitir editar los autofiltros cuando una hoja está protegida"
 
 #: ../src/sheet.c:793
 msgid "Protected allow edit pivottable"
-msgstr ""
+msgstr "Protegido permite editar tablas pivote"
 
 #: ../src/sheet.c:794
 msgid "Allow pivottable to be edited  while a sheet is protected"
-msgstr ""
+msgstr "Permitir editar las tablas pivote cuando una hoja está protegida"
 
 #: ../src/sheet.c:797
 msgid "Protected allow select unlocked cells"
@@ -11367,7 +11369,9 @@ msgstr "Protegido permite seleccionar celdas no bloqueadas"
 
 #: ../src/sheet.c:798
 msgid "Allow the user to select unlocked cells while a sheet is protected"
-msgstr "Permitir al usuario que seleccione celdas no bloqueadas cuando una hoja está protegida"
+msgstr ""
+"Permitir al usuario que seleccione celdas no bloqueadas cuando una hoja está "
+"protegida"
 
 #: ../src/sheet.c:802
 msgid "Use R1C1 notation rather than A1"
@@ -11423,15 +11427,15 @@ msgstr "Insertar columnas"
 msgid "Insert Rows"
 msgstr "Insertar filas"
 
-#: ../src/sheet-control-gui.c:1770
+#: ../src/sheet-control-gui.c:1779
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: ../src/sheet-control-gui.c:1774
+#: ../src/sheet-control-gui.c:1783
 msgid "_Paste"
 msgstr "_Pegar"
 
-#: ../src/sheet-control-gui.c:1776
+#: ../src/sheet-control-gui.c:1785
 msgid "Paste _Special"
 msgstr "Pegado _especial"
 
@@ -11442,88 +11446,88 @@ msgstr "Pegado _especial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1788
+#: ../src/sheet-control-gui.c:1797
 msgid "_Insert Cells..."
 msgstr "_Insertar celdas…"
 
-#: ../src/sheet-control-gui.c:1790
+#: ../src/sheet-control-gui.c:1799
 msgid "_Delete Cells..."
 msgstr "_Borrar celdas…"
 
-#: ../src/sheet-control-gui.c:1792
+#: ../src/sheet-control-gui.c:1801
 msgid "_Insert Column(s)"
 msgstr "_Insertar columna(s)"
 
-#: ../src/sheet-control-gui.c:1794
+#: ../src/sheet-control-gui.c:1803
 msgid "_Delete Column(s)"
 msgstr "Borrar _columna(s)"
 
-#: ../src/sheet-control-gui.c:1796
+#: ../src/sheet-control-gui.c:1805
 msgid "_Insert Row(s)"
 msgstr "_Insertar fila(s)"
 
-#: ../src/sheet-control-gui.c:1798
+#: ../src/sheet-control-gui.c:1807
 msgid "_Delete Row(s)"
 msgstr "Borrar _fila(s)"
 
-#: ../src/sheet-control-gui.c:1801
+#: ../src/sheet-control-gui.c:1810
 msgid "Clear Co_ntents"
 msgstr "_Limpiar el contenido"
 
-#: ../src/sheet-control-gui.c:1803
+#: ../src/sheet-control-gui.c:1812
 msgid "Edit Co_mment..."
 msgstr "E_ditar comentario…"
 
-#: ../src/sheet-control-gui.c:1809
+#: ../src/sheet-control-gui.c:1818
 msgid "_Format Cells..."
 msgstr "_Formatear celdas…"
 
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1813
+#: ../src/sheet-control-gui.c:1822
 msgid "Column _Width..."
 msgstr "_Anchura de la columna…"
 
-#: ../src/sheet-control-gui.c:1815 ../src/sheet-control-gui.c:1823
+#: ../src/sheet-control-gui.c:1824 ../src/sheet-control-gui.c:1832
 #: ../src/wbcg-actions.c:1753 ../src/wbcg-actions.c:1770
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../src/sheet-control-gui.c:1817 ../src/sheet-control-gui.c:1825
+#: ../src/sheet-control-gui.c:1826 ../src/sheet-control-gui.c:1834
 #: ../src/wbcg-actions.c:1756 ../src/wbcg-actions.c:1773
 msgid "_Unhide"
 msgstr "_Mostrar"
 
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1821
+#: ../src/sheet-control-gui.c:1830
 msgid "_Row Height..."
 msgstr "Altura de la _Fila…"
 
-#: ../src/sheet-control-gui.c:1828
+#: ../src/sheet-control-gui.c:1837
 msgid "_Hyperlink"
 msgstr "_Hiperenlace"
 
-#: ../src/sheet-control-gui.c:1831
+#: ../src/sheet-control-gui.c:1840
 msgid "Edit _Hyperlink"
 msgstr "Editar _hiperenlace"
 
-#: ../src/sheet-control-gui.c:1834
+#: ../src/sheet-control-gui.c:1843
 msgid "_Remove Hyperlink"
 msgstr "_Eliminar hiperenlace"
 
 #. This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2328
+#: ../src/sheet-control-gui.c:2337
 msgid "Duplicate Object"
 msgstr "Duplicar objeto"
 
-#: ../src/sheet-control-gui.c:2328
+#: ../src/sheet-control-gui.c:2337
 msgid "Insert Object"
 msgstr "Insertar objeto"
 
-#: ../src/sheet-control-gui.c:2329
+#: ../src/sheet-control-gui.c:2338
 msgid "Move Object"
 msgstr "Mover objeto"
 
-#: ../src/sheet-control-gui.c:2329
+#: ../src/sheet-control-gui.c:2338
 msgid "Resize Object"
 msgstr "Redimensionar objeto"
 
@@ -11622,11 +11626,11 @@ msgstr ""
 "columna nombrada TRUE puede crear conflictos con la\n"
 "constante del mismo nombre. Espere comportamientos anómalos."
 
-#: ../src/sheet-view.c:402
+#: ../src/sheet-view.c:383
 msgid "Copy"
 msgstr "Copiar"
 
-#: ../src/sheet-view.c:427 ../src/sheet-view.c:430
+#: ../src/sheet-view.c:408 ../src/sheet-view.c:411
 msgid "Cut"
 msgstr "Cortar"
 
