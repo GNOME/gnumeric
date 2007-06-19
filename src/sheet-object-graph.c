@@ -24,9 +24,8 @@
 #include "gnumeric.h"
 #include "sheet-object-graph.h"
 
+#include "gnm-pane-impl.h"
 #include "sheet-control-gui.h"
-#include "gnumeric-canvas.h"
-#include "gnumeric-pane.h"
 #include "str.h"
 #include "gui-util.h"
 #include "gui-file.h"
@@ -175,9 +174,9 @@ gnm_sog_finalize (GObject *obj)
 static SheetObjectView *
 gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
+	GnmPane *pane = GNM_PANE (container);
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	FooCanvasItem *view = foo_canvas_item_new (gcanvas->object_views,
+	FooCanvasItem *view = foo_canvas_item_new (pane->object_views,
 		so_graph_foo_view_get_type (),
 		"renderer",	sog->renderer,
 		NULL);

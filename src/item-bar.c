@@ -11,6 +11,7 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "item-bar.h"
+#include "gnm-pane-impl.h"
 
 #include "style-color.h"
 #include "sheet.h"
@@ -18,7 +19,6 @@
 #include "sheet-control-gui-priv.h"
 #include "application.h"
 #include "selection.h"
-#include "gnumeric-canvas.h"
 #include "workbook-edit.h"
 #include "gui-util.h"
 #include "parse-util.h"
@@ -34,7 +34,7 @@
 struct _ItemBar {
 	FooCanvasItem	 base;
 
-	GnmCanvas	*gcanvas;
+	GnmPane		*pane;
 	GdkGC           *text_gc, *filter_gc, *lines, *shade;
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
@@ -61,7 +61,7 @@ static FooCanvasItemClass *parent_class;
 
 enum {
 	ITEM_BAR_PROP_0,
-	ITEM_BAR_PROP_GNUMERIC_CANVAS,
+	ITEM_BAR_PROP_PANE,
 	ITEM_BAR_PROP_IS_COL_HEADER
 };
 
@@ -104,7 +104,7 @@ ib_fonts_unref (ItemBar *ib)
 int
 item_bar_calc_size (ItemBar *ib)
 {
-	SheetControlGUI	* const scg = ib->gcanvas->simple.scg;
+	SheetControlGUI	* const scg = ib->pane->simple.scg;
 	Sheet const *sheet = scg_sheet (scg);
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	PangoContext *context;
@@ -117,7 +117,7 @@ item_bar_calc_size (ItemBar *ib)
 
 	ib_fonts_unref (ib);
 
-	context = gtk_widget_get_pango_context (GTK_WIDGET (ib->gcanvas));
+	context = gtk_widget_get_pango_context (GTK_WIDGET (ib->pane));
 	desc = pango_font_description_copy (src_desc);
 	pango_font_description_set_size (desc, zoom_factor * size);
 	layout = pango_layout_new (context);
@@ -320,8 +320,8 @@ static void
 item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expose)
 {
 	ItemBar const         *ib = ITEM_BAR (item);
-	GnmCanvas const	      *gcanvas = ib->gcanvas;
-	SheetControlGUI const *scg    = gcanvas->simple.scg;
+	GnmPane	 const	      *pane = ib->pane;
+	SheetControlGUI const *scg    = pane->simple.scg;
 	Sheet const           *sheet  = scg_sheet (scg);
 	SheetView const	      *sv     = scg_view (scg);
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
@@ -343,7 +343,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		int const base_pos = .2 * inc;
 		int const len = (inc > 4) ? 4 : inc;
 		int end = expose->area.x;
-		int total, col = gcanvas->first.col;
+		int total, col = pane->first.col;
 		gboolean const char_label = !sheet->r1c1_addresses;
 
 		/* shadow type selection must be keep in sync with code in ib_draw_cell */
@@ -353,9 +353,9 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 			? GTK_SHADOW_IN : GTK_SHADOW_OUT;
 
 		if (rtl)
-			total = gnm_foo_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
+			total = gnm_foo_canvas_x_w2c (item->canvas, pane->first_offset.col);
 		else {
-			total = gcanvas->first_offset.col;
+			total = pane->first_offset.col;
 			end += expose->area.width;
 		}
 
@@ -511,8 +511,8 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		int const end = expose->area.y + expose->area.height;
 		int const dir = rtl ? -1 : 1;
 
-		int total = gcanvas->first_offset.row;
-		int row = gcanvas->first.row;
+		int total = pane->first_offset.row;
+		int row = pane->first.row;
 
 		if (rtl) {
 			base_pos = ib->indent + ib->cell_width - base_pos;
@@ -684,7 +684,7 @@ item_bar_point (FooCanvasItem *item, double x, double y, int cx, int cy,
  * @minor_pos :
  *
  * NOTE : this could easily be optimized.  We need not start at 0 every time.
- *        We could potentially use the routines in gnumeric-canvas.
+ *        We could potentially use the routines in gnm-pane.
  *
  * Returns non-NULL if point (@x,@y) is on a division
  **/
@@ -692,7 +692,7 @@ static ColRowInfo const *
 is_pointer_on_division (ItemBar const *ib, double x, double y,
 			int *the_total, int *the_element, int *minor_pos)
 {
-	Sheet *sheet = scg_sheet (ib->gcanvas->simple.scg);
+	Sheet *sheet = scg_sheet (ib->pane->simple.scg);
 	ColRowInfo const *cri;
 	double const scale = ib->base.canvas->pixels_per_unit;
 	int major, minor, i, total = 0;
@@ -724,7 +724,7 @@ is_pointer_on_division (ItemBar const *ib, double x, double y,
 		}
 
 		if (cri->visible) {
-			WorkbookControlGUI *wbcg = scg_wbcg (ib->gcanvas->simple.scg);
+			WorkbookControlGUI *wbcg = scg_wbcg (ib->pane->simple.scg);
 			total += cri->size_pixels;
 
 			if (wbcg_edit_get_guru (wbcg) == NULL &&
@@ -783,12 +783,12 @@ static void
 item_bar_resize_stop (ItemBar *ib, int new_size)
 {
 	if (new_size != 0 && ib->colrow_being_resized >= 0)
-		scg_colrow_size_set (ib->gcanvas->simple.scg,
+		scg_colrow_size_set (ib->pane->simple.scg,
 				     ib->is_col_header,
 				     ib->colrow_being_resized, new_size);
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
-	scg_size_guide_stop (ib->gcanvas->simple.scg);
+	scg_size_guide_stop (ib->pane->simple.scg);
 
 	if (ib->tip != NULL) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ib->tip));
@@ -797,11 +797,11 @@ item_bar_resize_stop (ItemBar *ib, int new_size)
 }
 
 static gboolean
-cb_extend_selection (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
+cb_extend_selection (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
 	ItemBar * const ib = info->user_data;
 	gboolean const is_cols = ib->is_col_header;
-	scg_colrow_select (gcanvas->simple.scg,
+	scg_colrow_select (pane->simple.scg,
 		is_cols, is_cols ? info->col : info->row, GDK_SHIFT_MASK);
 	return TRUE;
 }
@@ -809,7 +809,7 @@ cb_extend_selection (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 static gint
 outline_button_press (ItemBar const *ib, int element, int pixel)
 {
-	SheetControlGUI *scg = ib->gcanvas->simple.scg;
+	SheetControlGUI *scg = ib->pane->simple.scg;
 	Sheet * const sheet = scg_sheet (scg);
 	int inc, step;
 
@@ -836,9 +836,9 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 	ColRowInfo const *cri;
 	FooCanvas	* const canvas = item->canvas;
 	ItemBar		* const ib = ITEM_BAR (item);
-	GnmCanvas	* const gcanvas = ib->gcanvas;
-	SheetControlGUI	* const scg = gcanvas->simple.scg;
-	SheetControl	* const sc = (SheetControl *) gcanvas->simple.scg;
+	GnmPane		* const pane = ib->pane;
+	SheetControlGUI	* const scg = pane->simple.scg;
+	SheetControl	* const sc = (SheetControl *) pane->simple.scg;
 	Sheet		* const sheet = sc_sheet (sc);
 	WorkbookControlGUI * const wbcg = scg_wbcg (scg);
 	gboolean const is_cols = ib->is_col_header;
@@ -861,7 +861,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			int new_size;
 			if (!ib->has_resize_guides) {
 				ib->has_resize_guides = TRUE;
-				scg_size_guide_start (ib->gcanvas->simple.scg,
+				scg_size_guide_start (ib->pane->simple.scg,
 					ib->is_col_header, ib->colrow_being_resized, 1);
 
 				gnm_simple_canvas_grab (item,
@@ -881,18 +881,18 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			if (is_cols) {
 				if (new_size <= (GNM_COL_MARGIN + GNM_COL_MARGIN)) {
 					new_size = GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
-					pos = gcanvas->first_offset.col +
+					pos = pane->first_offset.col +
 						scg_colrow_distance_get (scg, TRUE,
-							gcanvas->first.col,
+							pane->first.col,
 							ib->colrow_being_resized);
 					pos += new_size;
 				}
 			} else {
 				if (new_size <= (GNM_ROW_MARGIN + GNM_ROW_MARGIN)) {
 					new_size = GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1;
-					pos = gcanvas->first_offset.row +
+					pos = pane->first_offset.row +
 						scg_colrow_distance_get (scg, FALSE,
-							gcanvas->first.row,
+							pane->first.row,
 							ib->colrow_being_resized);
 					pos += new_size;
 				}
@@ -907,10 +907,10 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 
 		} else if (ib->start_selection != -1) {
 
-			gnm_canvas_handle_motion (ib->gcanvas,
+			gnm_pane_handle_motion (ib->pane,
 				canvas, &e->motion,
-				GNM_CANVAS_SLIDE_AT_COLROW_BOUND |
-					(is_cols ? GNM_CANVAS_SLIDE_X : GNM_CANVAS_SLIDE_Y),
+				GNM_PANE_SLIDE_AT_COLROW_BOUND |
+					(is_cols ? GNM_PANE_SLIDE_X : GNM_PANE_SLIDE_Y),
 				cb_extend_selection, ib);
 		} else
 			ib_set_cursor (ib, e->motion.x, e->motion.y);
@@ -977,7 +977,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 				break;
 
 			ib->start_selection = element;
-			gnm_canvas_slide_init (gcanvas);
+			gnm_pane_slide_init (pane);
 			gnm_simple_canvas_grab (item,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
@@ -1003,7 +1003,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		gnm_canvas_slide_stop (ib->gcanvas);
+		gnm_pane_slide_stop (ib->pane);
 
 		if (ib->start_selection >= 0) {
 			needs_ungrab = TRUE;
@@ -1040,8 +1040,8 @@ item_bar_set_property (GObject *obj, guint param_id,
 	ItemBar *ib = ITEM_BAR (obj);
 
 	switch (param_id){
-	case ITEM_BAR_PROP_GNUMERIC_CANVAS:
-		ib->gcanvas = g_value_get_object (value);
+	case ITEM_BAR_PROP_PANE:
+		ib->pane = g_value_get_object (value);
 		break;
 	case ITEM_BAR_PROP_IS_COL_HEADER:
 		ib->is_col_header = g_value_get_boolean (value);
@@ -1107,10 +1107,10 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 
 	gobject_klass->dispose = item_bar_dispose;
 	gobject_klass->set_property = item_bar_set_property;
-	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_GNUMERIC_CANVAS,
-		g_param_spec_object ("GnumericCanvas", "GnumericCanvas",
-			"the canvas of the associated grid",
-			GNM_CANVAS_TYPE,
+	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_PANE,
+		g_param_spec_object ("pane", "pane",
+			"The pane containing the associated grid",
+			GNM_PANE_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_IS_COL_HEADER,
 		g_param_spec_boolean ("IsColHeader", "IsColHeader",

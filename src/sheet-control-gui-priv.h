@@ -3,7 +3,6 @@
 
 #include "sheet-control-gui.h"
 #include "sheet-control-priv.h"
-#include "gnumeric-pane.h"
 #include "sheet-object.h"
 #include <gtk/gtktable.h>
 #include <gtk/gtkpaned.h>
@@ -25,7 +24,7 @@ struct _SheetControlGUI {
 		GtkWidget	*button_box;
 	} col_group, row_group;
 
-	GnmPane	 pane [SCG_NUM_PANES];
+	GnmPane	*pane [SCG_NUM_PANES];
 	int	 active_panes;
 
 	int grab_stack; /* utility to keep track of grabs in the various canvases */
@@ -71,8 +70,8 @@ void scg_mode_edit		(SheetControlGUI *scg);
   do {							\
 	int i;						\
 	for (i = scg->active_panes; i-- > 0 ; ) {	\
-		GnmPane *pane = scg->pane + i;		\
-		if (pane->is_active) {			\
+		GnmPane *pane = scg->pane[i];		\
+		if (pane) {				\
 			code				\
 		}					\
 	}						\

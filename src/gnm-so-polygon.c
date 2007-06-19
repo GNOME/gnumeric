@@ -53,8 +53,7 @@ typedef struct {
 typedef SheetObjectClass GnmSOPolygonClass;
 
 #ifdef WITH_GTK
-#include "gnumeric-canvas.h"
-#include "gnumeric-pane.h"
+#include "gnm-pane.h"
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
 static void
@@ -171,9 +170,10 @@ cb_gnm_so_polygon_style_changed (FooCanvasItem *view, GnmSOPolygon const *sop)
 static SheetObjectView *
 gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
+	GnmPane *pane = GNM_PANE (container);
 	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
-	FooCanvasItem *item = foo_canvas_item_new (gcanvas->object_views,
+	FooCanvasItem *item = foo_canvas_item_new (
+		gnm_pane_object_group (GNM_PANE (container)),
 		so_polygon_foo_view_get_type (),
 		/* "join_style",	GDK_JOIN_ROUND, */
 		NULL);

@@ -13,6 +13,7 @@
 #include "gnumeric.h"
 #include "workbook-edit.h"
 
+#include "gnm-pane-impl.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook-priv.h"

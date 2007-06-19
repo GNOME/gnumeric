@@ -3,7 +3,7 @@
 /*
  * gnm-so-line.c: Lines, arrows, arcs
  *
- * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2004-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -146,9 +146,8 @@ sol_default_style (void)
 #ifdef WITH_GTK
 #include <sheet-control-gui.h>
 #include <dialogs/dialogs.h>
-#include <gnumeric-pane.h>
 #include <gnumeric-simple-canvas.h>
-#include <gnumeric-canvas.h>
+#include <gnm-pane.h>
 #include <goffice/utils/go-color.h>
 
 static void
@@ -191,8 +190,9 @@ static SheetObjectView *
 gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOLine const *sol = GNM_SO_LINE (so);
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
-	FooCanvasItem *item = foo_canvas_item_new (gcanvas->object_views,
+	GnmPane *pane = GNM_PANE (container);
+	FooCanvasItem *item = foo_canvas_item_new (
+		gnm_pane_object_group (GNM_PANE (container)),
 		so_line_foo_view_get_type (),
 		"last_arrowhead",	(sol->end_arrow.a != 0.),
 		NULL);

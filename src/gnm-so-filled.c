@@ -155,9 +155,8 @@ sof_default_style (void)
 #ifdef WITH_GTK
 #include <sheet-control-gui.h>
 #include <dialogs/dialogs.h>
-#include <gnumeric-pane.h>
 #include <gnumeric-simple-canvas.h>
-#include <gnumeric-canvas.h>
+#include <gnm-pane.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
@@ -230,7 +229,7 @@ gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	FooCanvasGroup *group = (FooCanvasGroup *) foo_canvas_item_new (
-		((GnmPane *)container)->gcanvas->object_views,
+		gnm_pane_object_group (GNM_PANE (container)),
 		so_filled_foo_view_get_type (),
 		NULL);
 

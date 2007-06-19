@@ -25,10 +25,10 @@
 #include "gnumeric.h"
 #include "sheet-object-widget.h"
 
+#include "gnm-pane.h"
+#include "gnumeric-simple-canvas.h"
 #include "gui-util.h"
 #include "dependent.h"
-#include "gnumeric-canvas.h"
-#include "gnumeric-pane.h"
 #include "sheet-control-gui.h"
 #include "sheet-object-impl.h"
 #include "expr.h"
@@ -209,11 +209,10 @@ read_dep (GnmDependent *dep, char const *name,
 static SheetObjectView *
 sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	GtkWidget *view_widget =
 		SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so));
 	FooCanvasItem *view_item = foo_canvas_item_new (
-		gcanvas->object_views,
+		gnm_pane_object_group (GNM_PANE (container)),
 		so_widget_foo_view_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,

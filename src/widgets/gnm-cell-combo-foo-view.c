@@ -26,8 +26,7 @@
 
 #include "sheet.h"
 #include "sheet-control-gui.h"
-#include "gnumeric-pane.h"
-#include "gnumeric-canvas.h"
+#include "gnm-pane-impl.h"
 #include "sheet-object-impl.h"
 
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
@@ -53,11 +52,11 @@ ccombo_activate (GtkWidget *popup, GtkTreeView *list)
 {
 	SheetObjectView		*sov    = g_object_get_data (G_OBJECT (list), SOV_ID);
 	FooCanvasItem		*view   = FOO_CANVAS_ITEM (sov);
-	GnmPane			*pane   = GNM_CANVAS (view->canvas)->pane;
+	GnmPane			*pane   = GNM_PANE (view->canvas);
 	GnmCComboFooViewIface	*iface  = GNM_CCOMBO_FOO_VIEW_GET_CLASS (sov);
 
 	(iface->activate) (sheet_object_view_get_so (sov), popup, list,
-			   scg_wbcg (pane->gcanvas->simple.scg));
+			   scg_wbcg (pane->simple.scg));
 	ccombo_popup_destroy (popup, GTK_WIDGET (list));
 }
 
@@ -272,8 +271,8 @@ void
 gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 {
 	FooCanvasItem	   *view   = FOO_CANVAS_ITEM (sov);
-	GnmPane		   *pane   = GNM_CANVAS (view->canvas)->pane;
-	SheetControlGUI	   *scg    = pane->gcanvas->simple.scg;
+	GnmPane		   *pane   = GNM_PANE (view->canvas);
+	SheetControlGUI	   *scg    = pane->simple.scg;
 	SheetObject	   *so     = sheet_object_view_get_so (sov);
 	Sheet const	   *sheet  = sheet_object_get_sheet (so);
 	GtkWidget *frame,  *popup, *list, *container;
@@ -329,20 +328,20 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 
 	/* do the popup */
 	gtk_window_set_decorated (GTK_WINDOW (popup), FALSE);
-	gdk_window_get_origin (GTK_WIDGET (pane->gcanvas)->window,
+	gdk_window_get_origin (GTK_WIDGET (pane)->window,
 		&root_x, &root_y);
 	if (sheet->text_is_rtl) {
-		root_x += GTK_WIDGET(pane->gcanvas)->allocation.width;
+		root_x += GTK_WIDGET (pane)->allocation.width;
 		root_x -= scg_colrow_distance_get (scg, TRUE,
-			pane->gcanvas->first.col,
+			pane->first.col,
 			so->anchor.cell_bound.start.col + 1);
 	} else
 		root_x += scg_colrow_distance_get (scg, TRUE,
-			pane->gcanvas->first.col,
+			pane->first.col,
 			so->anchor.cell_bound.start.col);
 	gtk_window_move (GTK_WINDOW (popup), root_x,
 		root_y + scg_colrow_distance_get (scg, FALSE,
-			pane->gcanvas->first.row,
+			pane->first.row,
 			so->anchor.cell_bound.start.row + 1));
 
 	gtk_container_add (GTK_CONTAINER (popup), frame);
@@ -394,9 +393,9 @@ SheetObjectView *
 gnm_cell_combo_foo_view_new (SheetObject *so, GType type,
 			     SheetObjectViewContainer *container)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
+	GnmPane *pane = GNM_PANE (container);
 	GtkWidget *view_widget = gtk_button_new ();
-	FooCanvasItem *ccombo = foo_canvas_item_new (gcanvas->object_views, type,
+	FooCanvasItem *ccombo = foo_canvas_item_new (pane->object_views, type,
 		"widget",	view_widget,
 		"size_pixels",	FALSE,
 		NULL);

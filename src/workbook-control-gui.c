@@ -38,7 +38,6 @@
 #include "sheet-filter.h"
 #include "sheet-private.h"
 #include "sheet-control-gui-priv.h"
-#include "gnumeric-canvas.h"
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "commands.h"
@@ -71,6 +70,7 @@
 #include "stf.h"
 #include "rendered-value.h"
 #include "sort.h"
+#include "gnm-pane-impl.h"
 
 #include <goffice/app/error-info.h>
 #include <goffice/app/io-context.h>
@@ -1722,7 +1722,7 @@ cb_scroll_wheel (GtkWidget *ignored, GdkEventScroll *event,
 	/* scroll always operates on pane 0 */
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	Sheet	 	*sheet = scg_sheet (scg);
-	GnmCanvas *gcanvas = scg_pane (scg, 0);
+	GnmPane *pane = scg_pane (scg, 0);
 	gboolean go_horiz = (event->direction == GDK_SCROLL_LEFT ||
 			     event->direction == GDK_SCROLL_RIGHT);
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
@@ -1754,23 +1754,23 @@ cb_scroll_wheel (GtkWidget *ignored, GdkEventScroll *event,
 	} else if ((event->state & GDK_SHIFT_MASK)) {
 		/* XL sort of shows/hides groups */
 	} else if (go_horiz) {
-		int col = (gcanvas->last_full.col - gcanvas->first.col) / 4;
+		int col = (pane->last_full.col - pane->first.col) / 4;
 		if (col < 1)
 			col = 1;
 		if (go_back)
-			col = gcanvas->first.col - col;
+			col = pane->first.col - col;
 		else
-			col = gcanvas->first.col + col;
-		scg_set_left_col (gcanvas->simple.scg, col);
+			col = pane->first.col + col;
+		scg_set_left_col (pane->simple.scg, col);
 	} else {
-		int row = (gcanvas->last_full.row - gcanvas->first.row) / 4;
+		int row = (pane->last_full.row - pane->first.row) / 4;
 		if (row < 1)
 			row = 1;
 		if (go_back)
-			row = gcanvas->first.row - row;
+			row = pane->first.row - row;
 		else
-			row = gcanvas->first.row + row;
-		scg_set_top_row (gcanvas->simple.scg, row);
+			row = pane->first.row + row;
+		scg_set_top_row (pane->simple.scg, row);
 	}
 	return TRUE;
 }
@@ -2234,7 +2234,7 @@ static gboolean
 wbcg_is_local_drag (WorkbookControlGUI *wbcg, GtkWidget *source_widget)
 {
 	GtkWidget *top = (GtkWidget *)wbcg_toplevel (wbcg);
-	return IS_GNM_CANVAS (source_widget) &&
+	return IS_GNM_PANE (source_widget) &&
 		gtk_widget_get_toplevel (source_widget) == top;
 }
 static gboolean
@@ -2250,7 +2250,7 @@ cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		GtkWidget *label = wbcg_get_label_for_position (wbcg, source_widget, x);
 		return cb_sheet_label_drag_motion (label, context, x, y, time, wbcg);
 	} else if (wbcg_is_local_drag (wbcg, source_widget))
-		gnm_canvas_object_autoscroll (GNM_CANVAS (source_widget),
+		gnm_pane_object_autoscroll (GNM_PANE (source_widget),
 			context, x, y, time);
 
 	return TRUE;
@@ -2268,7 +2268,7 @@ cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
 		gtk_widget_hide (
 			g_object_get_data (G_OBJECT (source_widget), "arrow"));
 	else if (wbcg_is_local_drag (wbcg, source_widget))
-		gnm_canvas_slide_stop (GNM_CANVAS (source_widget));
+		gnm_pane_slide_stop (GNM_PANE (source_widget));
 }
 
 static void

@@ -15,9 +15,9 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "item-edit.h"
+#include "gnm-pane-impl.h"
 
 #include "item-cursor.h"
-#include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -111,7 +111,7 @@ ie_scan_for_range (ItemEdit *ie)
 			SCG_FOREACH_PANE (ie->scg, pane, {
 				if (ie->feedback_cursor[i] == NULL)
 					ie->feedback_cursor[i] = foo_canvas_item_new (
-						FOO_CANVAS_GROUP (FOO_CANVAS (pane->gcanvas)->root),
+						FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
 					item_cursor_get_type (),
 					"SheetControlGUI",	ie->scg,
 					"style",		ITEM_CURSOR_BLOCK,
@@ -208,7 +208,7 @@ item_edit_event (FooCanvasItem *item, GdkEvent *event)
 			if (pango_layout_xy_to_index (ie->layout,
 						      x * PANGO_SCALE, y * PANGO_SCALE,
 						      &target_index, &trailing)) {
-				int preedit = GNM_CANVAS (item->canvas)->preedit_length;
+				int preedit = GNM_PANE (item->canvas)->preedit_length;
 				char const *text = pango_layout_get_text (ie->layout);
 				gint cur_index = gtk_editable_get_position (ed);
 				cur_index = g_utf8_offset_to_pointer (text, cur_index) - text;
@@ -240,7 +240,7 @@ ie_layout (FooCanvasItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
 	GtkWidget const  *canvas = GTK_WIDGET (item->canvas);
-	GnmCanvas const  *gcanvas = GNM_CANVAS (item->canvas);
+	GnmPane	 const  *pane = GNM_PANE (item->canvas);
 	ColRowInfo const *ci;
 	Sheet const 	 *sheet  = scg_sheet (ie->scg);
 	GnmFont  const   *gfont = ie->gfont;
@@ -292,11 +292,11 @@ ie_layout (FooCanvasItem *item)
 
 	text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
 
-	if (gcanvas->preedit_length) {
+	if (pane->preedit_length) {
 		PangoAttrList *tmp_attrs = pango_attr_list_new ();
-		pango_attr_list_splice (tmp_attrs, gcanvas->preedit_attrs,
+		pango_attr_list_splice (tmp_attrs, pane->preedit_attrs,
 			g_utf8_offset_to_pointer (text, cursor_pos) - text,
-			g_utf8_offset_to_pointer (text, cursor_pos + gcanvas->preedit_length) - text);
+			g_utf8_offset_to_pointer (text, cursor_pos + pane->preedit_length) - text);
 		pango_layout_set_attributes (ie->layout, tmp_attrs);
 		pango_attr_list_unref (tmp_attrs);
 	}
@@ -320,7 +320,7 @@ ie_layout (FooCanvasItem *item)
 	 * 	- margin on each end
 	 * 	- the bound excludes the far point => +1 */
 	if (sheet->text_is_rtl) {
-		while (col_size < width && col >= gcanvas->first.col) {
+		while (col_size < width && col >= pane->first.col) {
 			ci = sheet_col_get_info (sheet, col--);
 
 			g_return_if_fail (ci != NULL);
@@ -329,13 +329,13 @@ ie_layout (FooCanvasItem *item)
 				col_size += ci->size_pixels;
 		}
 
-		tmp = gnm_foo_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
+		tmp = gnm_foo_canvas_x_w2c (item->canvas, pane->first_offset.col);
 	} else {
 		if (merged != NULL)
 			col = merged->end.col;
 
 		while (col_size < width &&
-		       col <= gcanvas->last_full.col &&
+		       col <= pane->last_full.col &&
 		       col < SHEET_MAX_COLS-1) {
 			ci = sheet_col_get_info (sheet, ++col);
 
@@ -344,7 +344,7 @@ ie_layout (FooCanvasItem *item)
 			if (ci->visible)
 				col_size += ci->size_pixels;
 		}
-		tmp = gcanvas->first_offset.col + canvas->allocation.width;
+		tmp = pane->first_offset.col + canvas->allocation.width;
 	}
 	item->x2 = item->x1 + col_size + GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
@@ -532,7 +532,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 {
 	FooCanvasItem *item      = FOO_CANVAS_ITEM (gobject);
 	ItemEdit        *ie = ITEM_EDIT (gobject);
-	GnmCanvas	*gcanvas   = GNM_CANVAS (item->canvas);
+	GnmPane		*pane = GNM_PANE (item->canvas);
 	SheetView const	*sv;
 	GtkEntry        *entry;
 
@@ -573,12 +573,12 @@ item_edit_set_property (GObject *gobject, guint param_id,
 			gnm_style_set_align_h (ie->style, HALIGN_LEFT);
 
 		/* move inwards 1 pixel from the grid line */
-		item->y1 = 1 + gcanvas->first_offset.row +
+		item->y1 = 1 + pane->first_offset.row +
 			scg_colrow_distance_get (ie->scg, FALSE,
-					  gcanvas->first.row, ie->pos.row);
-		item->x1 = 1 + gcanvas->first_offset.col +
+				pane->first.row, ie->pos.row);
+		item->x1 = 1 + pane->first_offset.col +
 			scg_colrow_distance_get (ie->scg, TRUE,
-				gcanvas->first.col, ie->pos.col);
+				pane->first.col, ie->pos.col);
 		if (sv_sheet (sv)->text_is_rtl) {
 			GnmRange const *merged = gnm_sheet_merge_is_corner (sheet, &ie->pos);
 			int end_col = ie->pos.col;

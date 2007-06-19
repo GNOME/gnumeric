@@ -14,7 +14,7 @@
 #include "gnumeric.h"
 #include "item-grid.h"
 
-#include "gnumeric-canvas.h"
+#include "gnm-pane-impl.h"
 #include "workbook-edit.h"
 #include "workbook-view.h"
 #include "workbook-control-gui-priv.h"
@@ -24,7 +24,6 @@
 #include "sheet-style.h"
 #include "sheet-merge.h"
 #include "sheet-object-impl.h"
-#include "gnumeric-pane.h"
 #include "cell.h"
 #include "cell-draw.h"
 #include "cellspan.h"
@@ -135,21 +134,21 @@ cb_cursor_motion (ItemGrid *ig)
 {
 	Sheet const *sheet = scg_sheet (ig->scg);
 	FooCanvas *canvas = ig->canvas_item.canvas;
-	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
+	GnmPane *pane = GNM_PANE (canvas);
 	int x, y;
 	GdkCursor *cursor;
 	GnmCellPos pos;
 	GnmHLink *old_link;
 
 	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
-	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
-	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
+	pos.col = gnm_pane_find_col (pane, x, NULL);
+	pos.row = gnm_pane_find_row (pane, y, NULL);
 
 	old_link = ig->cur_link;
 	ig->cur_link = sheet_hlink_find (sheet, &pos);
 	cursor = (ig->cur_link != NULL) ? ig->cursor_link : ig->cursor_cross;
-	if (gcanvas->pane->mouse_cursor != cursor) {
-		gnm_pane_mouse_cursor_set (gcanvas->pane, cursor);
+	if (pane->mouse_cursor != cursor) {
+		gnm_pane_mouse_cursor_set (pane, cursor);
 		scg_set_display_cursor (ig->scg);
 	}
 
@@ -363,9 +362,9 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	gint width  = expose->area.width;
 	gint height = expose->area.height;
 	FooCanvas *canvas = item->canvas;
-	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
-	Sheet const *sheet = scg_sheet (gcanvas->simple.scg);
-	WorkbookControlGUI *wbcg = scg_wbcg (gcanvas->simple.scg);
+	GnmPane *pane = GNM_PANE (canvas);
+	Sheet const *sheet = scg_sheet (pane->simple.scg);
+	WorkbookControlGUI *wbcg = scg_wbcg (pane->simple.scg);
 	GnmCell const * const edit_cell = wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
@@ -379,8 +378,8 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	 * However, that feels like more hassle that it is worth.  Look into this someday.
 	 */
 	int x, y, col, row, n, start_col, end_col, start_x, offset;
-	int start_row = gnm_canvas_find_row (gcanvas, expose->area.y-2, &y);
-	int end_row = gnm_canvas_find_row (gcanvas, expose->area.y+height+2, NULL);
+	int start_row = gnm_pane_find_row (pane, expose->area.y-2, &y);
+	int end_row = gnm_pane_find_row (pane, expose->area.y+height+2, NULL);
 	int const start_y = y;
 
 	GnmStyleRow sr, next_sr;
@@ -400,11 +399,11 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 		ig->scg->new_object == NULL;
 
 	if (dir < 0) {
-		start_col = gnm_canvas_find_col (gcanvas, expose->area.x+width+2, &start_x);
-		end_col   = gnm_canvas_find_col (gcanvas, expose->area.x-2, NULL);
+		start_col = gnm_pane_find_col (pane, expose->area.x+width+2, &start_x);
+		end_col   = gnm_pane_find_col (pane, expose->area.x-2, NULL);
 	} else {
-		start_col = gnm_canvas_find_col (gcanvas, expose->area.x-2, &start_x);
-		end_col   = gnm_canvas_find_col (gcanvas, expose->area.x+width+2, NULL);
+		start_col = gnm_pane_find_col (pane, expose->area.x-2, &start_x);
+		end_col   = gnm_pane_find_col (pane, expose->area.x+width+2, NULL);
 	}
 
 	g_return_if_fail (start_col <= end_col);
@@ -599,7 +598,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 					}
 
 					x += dir * scg_colrow_distance_get (
-						gcanvas->simple.scg, TRUE, col, last+1);
+						pane->simple.scg, TRUE, col, last+1);
 					col = last;
 
 					if (first < start_col) {
@@ -676,12 +675,12 @@ plain_draw : /* a quick hack to deal with 142267 */
 				 * justify or center justify) compute the pixel difference */
 				if (start_span_col != cell->pos.col)
 					center_offset += scg_colrow_distance_get (
-						gcanvas->simple.scg, TRUE,
+						pane->simple.scg, TRUE,
 						start_span_col, cell->pos.col);
 
 				if (start_span_col != col) {
 					offset = scg_colrow_distance_get (
-						gcanvas->simple.scg, TRUE,
+						pane->simple.scg, TRUE,
 						start_span_col, col);
 					tmp_width += offset;
 					if (dir > 0)
@@ -690,7 +689,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				}
 				if (end_span_col != col) {
 					offset = scg_colrow_distance_get (
-						gcanvas->simple.scg, TRUE,
+						pane->simple.scg, TRUE,
 						col+1, end_span_col + 1);
 					tmp_width += offset;
 					if (dir < 0)
@@ -739,12 +738,12 @@ plain_draw : /* a quick hack to deal with 142267 */
 	if (row >= ig->bound.end.row) {
 		gnm_style_borders_row_draw (prev_vert, &sr,
 			drawable, start_x, y, y, colwidths, FALSE, dir);
-		if (gcanvas->pane->index >= 2)
+		if (pane->index >= 2)
 			gdk_draw_line (drawable, ig->gc.bound, start_x, y, x, y);
 	}
 	if (col >= ig->bound.end.col &&
 	    /* TODO : Add pane flags to avoid hard coding pane numbers */
-	    (gcanvas->pane->index == 1 || gcanvas->pane->index == 2))
+	    (pane->index == 1 || pane->index == 2))
 		gdk_draw_line (drawable, ig->gc.bound, x, start_y, x, y);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
@@ -766,7 +765,7 @@ item_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 static gboolean
 ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 {
-	GnmCanvas *gcanvas = GNM_CANVAS (FOO_CANVAS_ITEM (ig)->canvas);
+	GnmPane *pane = GNM_PANE (FOO_CANVAS_ITEM (ig)->canvas);
 	SheetObject *so = ig->scg->new_object;
 	SheetObjectAnchor anchor;
 	double coords[4];
@@ -781,7 +780,7 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, scg_sheet (ig->scg));
 	scg_object_select (ig->scg, so);
-	gnm_pane_object_start_resize (gcanvas->pane, event, so, 7, TRUE);
+	gnm_pane_object_start_resize (pane, event, so, 7, TRUE);
 
 	return TRUE;
 }
@@ -793,7 +792,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 {
 	FooCanvasItem *item = FOO_CANVAS_ITEM (ig);
 	FooCanvas    *canvas = item->canvas;
-	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
+	GnmPane *pane = GNM_PANE (canvas);
 	SheetControlGUI *scg = ig->scg;
 	WorkbookControlGUI *wbcg = scg_wbcg (scg);
 	SheetControl	*sc = (SheetControl *)scg;
@@ -804,11 +803,11 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	gboolean edit_showed_dialog;
 	gboolean already_selected;
 
-	gnm_canvas_slide_stop (gcanvas);
+	gnm_pane_slide_stop (pane);
 
 	foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
-	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
-	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
+	pos.col = gnm_pane_find_col (pane, x, NULL);
+	pos.row = gnm_pane_find_row (pane, y, NULL);
 
 	/* GnmRange check first */
 	if (pos.col >= SHEET_MAX_COLS)
@@ -836,7 +835,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 			scg_rangesel_extend_to (scg, pos.col, pos.row);
 		else
 			scg_rangesel_bound (scg, pos.col, pos.row, pos.col, pos.row);
-		gnm_canvas_slide_init (gcanvas);
+		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
@@ -849,7 +848,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	if (event->button == 1 && wbcg_rangesel_possible (wbcg)) {
 		scg_rangesel_start (scg, pos.col, pos.row, pos.col, pos.row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
-		gnm_canvas_slide_init (gcanvas);
+		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
@@ -908,7 +907,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 
 		ig->last_click_time = event->time;
 		ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
-		gnm_canvas_slide_init (gcanvas);
+		gnm_pane_slide_init (pane);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
@@ -931,17 +930,17 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
  */
 
 static gboolean
-cb_extend_cell_range (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
+cb_extend_cell_range (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
-	sv_selection_extend_to (scg_view (gcanvas->simple.scg),
+	sv_selection_extend_to (scg_view (pane->simple.scg),
 				info->col, info->row);
 	return TRUE;
 }
 
 static gboolean
-cb_extend_expr_range (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
+cb_extend_expr_range (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
-	scg_rangesel_extend_to (gcanvas->simple.scg, info->col, info->row);
+	scg_rangesel_extend_to (pane->simple.scg, info->col, info->row);
 	return TRUE;
 }
 
@@ -950,7 +949,7 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 {
 	Sheet const *sheet = scg_sheet (ig->scg);
 	FooCanvas *canvas = ig->canvas_item.canvas;
-	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
+	GnmPane *pane = GNM_PANE (canvas);
 	GnmHLink *link;
 	int x, y;
 	GnmCellPos pos;
@@ -959,8 +958,8 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 	/* Be anal and look it up in case something has destroyed the link
 	 * since the last motion */
 	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
-	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
-	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
+	pos.col = gnm_pane_find_col (pane, x, NULL);
+	pos.row = gnm_pane_find_row (pane, y, NULL);
 
 	link = sheet_hlink_find (sheet, &pos);
 	if (link != NULL && (tiptext = gnm_hlink_get_tip (link)) != NULL) {
@@ -981,8 +980,8 @@ static gint
 item_grid_event (FooCanvasItem *item, GdkEvent *event)
 {
 	FooCanvas *canvas = item->canvas;
-	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
-	ItemGrid *ig = ITEM_GRID (item);
+	GnmPane   *pane = GNM_PANE (canvas);
+	ItemGrid  *ig = ITEM_GRID (item);
 	SheetControlGUI *scg = ig->scg;
 	Sheet *sheet = scg_sheet (scg);
 
@@ -1004,7 +1003,7 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 		if (event->button.button != 1)
 			return FALSE;
 
-		gnm_canvas_slide_stop (gcanvas);
+		gnm_pane_slide_stop (pane);
 
 		switch (selecting) {
 		case ITEM_GRID_NO_SELECTION:
@@ -1046,7 +1045,7 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_MOTION_NOTIFY: {
-		GnmCanvasSlideHandler slide_handler = NULL;
+		GnmPaneSlideHandler slide_handler = NULL;
 		switch (ig->selecting) {
 		case ITEM_GRID_NO_SELECTION:
 			if (ig->cursor_timer == 0)
@@ -1069,9 +1068,9 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 			g_assert_not_reached ();
 		}
 
-		gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
-			GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y |
-			GNM_CANVAS_SLIDE_AT_COLROW_BOUND,
+		gnm_pane_handle_motion (pane, canvas, &event->motion,
+			GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y |
+			GNM_PANE_SLIDE_AT_COLROW_BOUND,
 			slide_handler, NULL);
 		return TRUE;
 	}

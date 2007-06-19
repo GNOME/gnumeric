@@ -9,21 +9,16 @@
 #include "gnumeric.h"
 #include "item-acetate.h"
 
-#include "gnumeric-canvas.h"
-
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
+
 #define GNUMERIC_ITEM "ACETATE"
 #include "item-debug.h"
 
 #define MARGIN	10
 
-typedef struct {
-	FooCanvasRect parent;
-} ItemAcetate;
-typedef struct {
-	FooCanvasRectClass parent;
-} ItemAcetateClass;
+typedef FooCanvasRect		ItemAcetate;
+typedef FooCanvasRectClass	ItemAcetateClass;
 
 static double
 item_acetate_point (FooCanvasItem *item, double x, double y, int cx, int cy,

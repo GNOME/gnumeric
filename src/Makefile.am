@@ -76,12 +76,11 @@ libspreadsheet_la_SOURCES =			\
 	format-template.c			\
 	func.c					\
 	func-builtin.c				\
-	gnm-format.c				\
 	gnm-datetime.c				\
+	gnm-format.c				\
 	gnm-graph-window.c			\
+	gnm-pane.c				\
 	gnumeric-simple-canvas.c		\
-	gnumeric-canvas.c			\
-	gnumeric-pane.c				\
 	graph.c					\
 	gutils.c				\
 	gui-clipboard.c				\
@@ -190,14 +189,13 @@ libspreadsheet_include_HEADERS = 	\
 	format-template.h			\
 	func.h					\
 	func-builtin.h				\
+	gnm-datetime.h				\
 	gnm-format.h				\
 	gnm-graph-window.h			\
-	gnm-datetime.h				\
+	gnm-pane.h				\
 	gnm-style-impl.h			\
 	gnumeric.h				\
 	gnumeric-simple-canvas.h		\
-	gnumeric-canvas.h			\
-	gnumeric-pane.h				\
 	graph.h					\
 	gutils.h				\
 	gui-clipboard.h				\

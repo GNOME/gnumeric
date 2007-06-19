@@ -24,7 +24,7 @@
 #include "gnumeric.h"
 #include "sheet-object-cell-comment.h"
 
-#include "gnumeric-canvas.h"
+#include "gnm-pane-impl.h"
 #include "sheet-object-impl.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -214,7 +214,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, GnmPane *pane)
 		break;
 	}
 
-	scg = pane->gcanvas->simple.scg;
+	scg = pane->simple.scg;
 	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
 	cc = CELL_COMMENT (so);
 
@@ -248,8 +248,8 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, GnmPane *pane)
 static SheetObjectView *
 cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmCanvas	*gcanvas = ((GnmPane *)container)->gcanvas;
-	FooCanvasItem	*view = foo_canvas_item_new (gcanvas->grid_items,
+	GnmPane	*pane = GNM_PANE (container);
+	FooCanvasItem	*view = foo_canvas_item_new (pane->grid_items,
 		comment_foo_view_get_type (),
 		"fill-color",	"red",
 		NULL);

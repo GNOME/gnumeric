@@ -1,3 +1,12 @@
+2007-06-18  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c : Merge with
+	* src/gnumeric-canvas.c : into
+	* src/gnm-pane.c : this new amalgamated file.  The difference between
+	  the old GnmCanvas and GnumericPane was arbitrary and more of a
+	  result of history than design.  Their state was co-mingled and it
+	  was long past time to cleanup the mess and merge them.
+
 2007-06-18  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell_gtk): Tentatively fix crash.

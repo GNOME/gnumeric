@@ -11,10 +11,9 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "item-cursor.h"
+#include "gnm-pane-impl.h"
 
-#include "gnumeric-canvas.h"
 #include "sheet-control-gui.h"
-#include "gnumeric-pane.h"
 #include "style-color.h"
 #include "cell.h"
 #include "clipboard.h"
@@ -177,8 +176,8 @@ item_cursor_unrealize (FooCanvasItem *item)
 static void
 item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 {
-	ItemCursor    *ic = ITEM_CURSOR (item);
-	GnmCanvas *gcanvas = GNM_CANVAS (item->canvas);
+	ItemCursor	*ic = ITEM_CURSOR (item);
+	GnmPane		*pane = GNM_PANE (item->canvas);
 	SheetControlGUI const * const scg = ic->scg;
 	int tmp;
 
@@ -189,12 +188,12 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 
 	foo_canvas_item_request_redraw (item); /* Erase the old cursor */
 
-	ic->outline.x1 = gcanvas->first_offset.col +
-		scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, left);
+	ic->outline.x1 = pane->first_offset.col +
+		scg_colrow_distance_get (scg, TRUE, pane->first.col, left);
 	ic->outline.x2 = ic->outline.x1 +
 		scg_colrow_distance_get (scg, TRUE, left, right+1);
-	ic->outline.y1 = gcanvas->first_offset.row +
-		scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, top);
+	ic->outline.y1 = pane->first_offset.row +
+		scg_colrow_distance_get (scg, FALSE, pane->first.row, top);
 	ic->outline.y2 = ic->outline.y1 +
 		scg_colrow_distance_get (scg, FALSE,top, bottom+1);
 
@@ -235,7 +234,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 #if 0
 	g_print ("draw[%d] %d,%d %d,%d\n",
-		 GNM_CANVAS (item->canvas)->pane->index, 
+		 GNM_PANE (item->canvas)->index, 
 		 ic->outline.x1,
 		 ic->outline.y1,
 		 ic->outline.x2,
@@ -279,21 +278,21 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		draw_internal = TRUE;
 		draw_external = TRUE;
 		{
-			GnmCanvas const *gcanvas = GNM_CANVAS (item->canvas);
-			GnmCanvas const *gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
+			GnmPane const *pane = GNM_PANE (item->canvas);
+			GnmPane const *pane0 = scg_pane (pane->simple.scg, 0);
 
 			/* In pane */
-			if (ic->pos.end.row <= gcanvas->last_full.row)
+			if (ic->pos.end.row <= pane->last_full.row)
 				draw_handle = 1;
 			/* In pane below */
-			else if ((gcanvas->pane->index == 2 || gcanvas->pane->index == 3) &&
-				 ic->pos.end.row >= gcanvas0->first.row &&
-				 ic->pos.end.row <= gcanvas0->last_full.row)
+			else if ((pane->index == 2 || pane->index == 3) &&
+				 ic->pos.end.row >= pane0->first.row &&
+				 ic->pos.end.row <= pane0->last_full.row)
 				draw_handle = 1;
 			/* TODO : do we want to add checking for pane above ? */
-			else if (ic->pos.start.row < gcanvas->first.row)
+			else if (ic->pos.start.row < pane->first.row)
 				draw_handle = 0;
-			else if (ic->pos.start.row != gcanvas->first.row)
+			else if (ic->pos.start.row != pane->first.row)
 				draw_handle = 2;
 			else
 				draw_handle = 3;
@@ -590,7 +589,7 @@ static gint
 item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 {
 	FooCanvas  *canvas = item->canvas;
-	GnmCanvas  *gcanvas = GNM_CANVAS (canvas);
+	GnmPane  *pane = GNM_PANE (canvas);
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int x, y;
 
@@ -627,7 +626,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
 		scg_special_cursor_start (ic->scg, style, button);
-		special_cursor = gcanvas->pane->cursor.special;
+		special_cursor = pane->cursor.special;
 		special_cursor->drag_button_state = ic->drag_button_state;
 		if (style == ITEM_CURSOR_AUTOFILL)
 			item_cursor_setup_auto_fill (
@@ -645,9 +644,9 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 		 * selection was offset by one.
 		 */
 		{
-			int d_col = gnm_canvas_find_col (gcanvas, x, NULL) -
+			int d_col = gnm_pane_find_col (pane, x, NULL) -
 				ic->pos.start.col;
-			int d_row = gnm_canvas_find_row (gcanvas, y, NULL) -
+			int d_row = gnm_pane_find_row (pane, y, NULL) -
 				ic->pos.start.row;
 
 			if (d_col >= 0) {
@@ -673,7 +672,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 		gnm_simple_canvas_grab (FOO_CANVAS_ITEM (special_cursor),
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
 			NULL, event->button.time);
-		gnm_canvas_slide_init (gcanvas);
+		gnm_pane_slide_init (pane);
 
 		/*
 		 * We flush after the grab to ensure that the new item-cursor
@@ -1087,7 +1086,7 @@ item_cursor_tip_setlabel (ItemCursor *ic, char const *text)
 }
 
 static gboolean
-cb_move_cursor (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
+cb_move_cursor (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
 	ItemCursor *ic = info->user_data;
 	int const w = (ic->pos.end.col - ic->pos.start.col);
@@ -1117,13 +1116,13 @@ cb_move_cursor (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
 
 static void
 item_cursor_handle_motion (ItemCursor *ic, GdkEvent *event,
-			   GnmCanvasSlideHandler slide_handler)
+			   GnmPaneSlideHandler slide_handler)
 {
 	FooCanvas *canvas = FOO_CANVAS_ITEM (ic)->canvas;
 
-	gnm_canvas_handle_motion (GNM_CANVAS (canvas),
+	gnm_pane_handle_motion (GNM_PANE (canvas),
 		canvas, &event->motion,
-		GNM_CANVAS_SLIDE_X | GNM_CANVAS_SLIDE_Y | GNM_CANVAS_SLIDE_AT_COLROW_BOUND,
+		GNM_PANE_SLIDE_X | GNM_PANE_SLIDE_Y | GNM_PANE_SLIDE_AT_COLROW_BOUND,
 		slide_handler, ic);
 }
 
@@ -1136,7 +1135,7 @@ item_cursor_drag_event (FooCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		/* Note : see comment below, and bug 30507 */
 		if ((int)event->button.button == ic->drag_button) {
-			gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
+			gnm_pane_slide_stop (GNM_PANE (item->canvas));
 			gnm_simple_canvas_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
@@ -1160,7 +1159,7 @@ item_cursor_drag_event (FooCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-cb_autofill_scroll (GnmCanvas *gcanvas, GnmCanvasSlideInfo const *info)
+cb_autofill_scroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 {
 	ItemCursor *ic = info->user_data;
 	GnmRange r = ic->autofill_src;
@@ -1255,7 +1254,7 @@ item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 		gboolean default_increment =
 			ic->drag_button_state & GDK_CONTROL_MASK;
 
-		gnm_canvas_slide_stop (GNM_CANVAS (item->canvas));
+		gnm_pane_slide_stop (GNM_PANE (item->canvas));
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
 		cmd_autofill (scg_wbc (scg), scg_sheet (scg), default_increment,

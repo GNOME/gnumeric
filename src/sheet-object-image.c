@@ -10,10 +10,10 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "sheet-object-image.h"
+
+#include "gnm-pane.h"
 #include "sheet-object-impl.h"
 #include "sheet-control-gui.h"
-#include "gnumeric-canvas.h"
-#include "gnumeric-pane.h"
 #include "gui-file.h"
 #include "application.h"
 #include "xml-io.h"
@@ -309,7 +309,6 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 static SheetObjectView *
 gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	FooCanvasItem *item = NULL;
 	GdkPixbuf *pixbuf, *placeholder = NULL;
@@ -323,7 +322,8 @@ gnm_soi_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		pixbuf = gdk_pixbuf_copy (placeholder);
 	}
 
-	item = foo_canvas_item_new (gcanvas->object_views,
+	item = foo_canvas_item_new (
+		gnm_pane_object_group (GNM_PANE (container)),
 		so_image_foo_view_get_type (),
 		"pixbuf", pixbuf,
 		"visible", FALSE,

@@ -45,7 +45,6 @@
 #include "sheet-control-gui-priv.h"
 #include "sheet-view.h"
 #include "cmd-edit.h"
-#include "gnumeric-canvas.h"
 #include "workbook-priv.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
@@ -62,6 +61,7 @@
 #include "gnumeric-gconf.h"
 #include "expr.h"
 #include "print.h"
+#include "gnm-pane-impl.h"
 
 #include <goffice/app/io-context.h>
 #include <goffice/graph/gog-guru.h>
@@ -527,31 +527,31 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 	scg_mode_edit (scg);
 	if (scg->active_panes == 1) {
 		gboolean center = FALSE;
-		GnmCanvas const *gcanvas = scg_pane (scg, 0);
+		GnmPane const *pane = scg_pane (scg, 0);
 		GnmCellPos frozen_tl, unfrozen_tl;
 
-		frozen_tl = gcanvas->first;
+		frozen_tl = pane->first;
 		unfrozen_tl = sv->edit_pos;
 
 		/* If edit pos is out of visible range */
-		if (unfrozen_tl.col < gcanvas->first.col ||
-		    unfrozen_tl.col > gcanvas->last_visible.col ||
-		    unfrozen_tl.row < gcanvas->first.row ||
-		    unfrozen_tl.row > gcanvas->last_visible.row)
+		if (unfrozen_tl.col < pane->first.col ||
+		    unfrozen_tl.col > pane->last_visible.col ||
+		    unfrozen_tl.row < pane->first.row ||
+		    unfrozen_tl.row > pane->last_visible.row)
 			center = TRUE;
 
-		if (unfrozen_tl.col == gcanvas->first.col) {
+		if (unfrozen_tl.col == pane->first.col) {
 			/* or edit pos is in top left visible cell */
-			if (unfrozen_tl.row == gcanvas->first.row)
+			if (unfrozen_tl.row == pane->first.row)
 				center = TRUE;
 			else
 				unfrozen_tl.col = frozen_tl.col = 0;
-		} else if (unfrozen_tl.row == gcanvas->first.row)
+		} else if (unfrozen_tl.row == pane->first.row)
 			unfrozen_tl.row = frozen_tl.row = 0;
 
 		if (center) {
-			unfrozen_tl.col = (gcanvas->first.col + gcanvas->last_visible.col) / 2;
-			unfrozen_tl.row = (gcanvas->first.row + gcanvas->last_visible.row) / 2;
+			unfrozen_tl.col = (pane->first.col + pane->last_visible.col) / 2;
+			unfrozen_tl.row = (pane->first.row + pane->last_visible.row) / 2;
 		}
 
 		g_return_if_fail (unfrozen_tl.col > frozen_tl.col ||
@@ -1571,7 +1571,7 @@ static GtkActionEntry const actions[] = {
 
 	/* Note : The accelerators involving space are just for display
 	 * 	purposes.  We actually handle this in
-	 * 		gnumeric-canvas.c:gnm_canvas_key_mode_sheet
+	 * 		gnm-pane.c:gnm_pane_key_mode_sheet
 	 *	with the rest of the key movement and rangeselection.
 	 *	Otherwise input methods would steal them */
 	{ "EditSelectAll", NULL, N_("Select _All"),
@@ -2031,7 +2031,7 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_format_dec_precision) },
 
 	/* Gtk marks these accelerators as invalid because they use Tab
-	 * enable them manually in gnumeric-canvas.c */
+	 * enable them manually in gnm-pane.c */
 	{ "FormatDecreaseIndent", GTK_STOCK_UNINDENT, NULL,
 		"<control><alt><shift>Tab", N_("Decrease the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_dec_indent) },
