@@ -133,9 +133,9 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 	if (text_is_rtl == sheet->text_is_rtl)
 		return;
 
-	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), GNM_SPANCALC_RE_RENDER);
 	sheet->text_is_rtl = text_is_rtl;
 	sheet->priv->reposition_objects.col = 0;
+	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), GNM_SPANCALC_RE_RENDER);
 }
 
 static void	  

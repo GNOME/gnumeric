@@ -198,8 +198,10 @@ item_edit_event (FooCanvasItem *item, GdkEvent *event)
 		if (event->button.button == 1) {
 			ItemEdit *ie = ITEM_EDIT (item);
 			GtkEditable *ed = GTK_EDITABLE (ie->entry);
-			double x = event->button.x, y = event->button.y;
-			int target_index, trailing, top, left;
+			int x, y, target_index, trailing, top, left;
+
+			foo_canvas_w2c (item->canvas,
+				event->button.x, event->button.y, &x, &y);
 
 			get_top_left (ie, &top, &left);
 			y -= top;
@@ -562,7 +564,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 
 	/* set the font and the upper left corner if this is the first pass */
 	if (ie->gfont == NULL) {
-		Sheet *sheet = sv->sheet;
+		Sheet const *sheet = sv->sheet;
 		ie->style = gnm_style_dup (
 			sheet_style_get (sheet, ie->pos.col, ie->pos.row));
 		ie->gfont = gnm_style_get_font (ie->style,

@@ -115,6 +115,7 @@ Architecture Changes
 
 - Merge wb_control_init_state and wb_control_set_view
 - Use gtk_window_group_new to keep wbcg's distinct 
+- merge GnmPane and GnmCanva					(DONE)
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog
@@ -145,8 +146,10 @@ Architecture Changes
     5.3) ODF
     5.4) Look at swivel.com
 6) Undo/redo improvements
-    6.1) transaction file				{Jody}
+    6.1) Keep a .swp style log of user actions
     6.2) Restore Row heights in CmdFormat::undo
+    6.3) X-GNOME-Bugzilla-ExtraInfoScript=myscript
+
 7) Drag and Drop					{Jon Kare}
     7.1) Common code framework for dnd and X/W32 clipboard
     7.2) Find a better place than SheetControlGUI for dnd code
@@ -204,7 +207,7 @@ Architecture Changes
 	    9.1.2.2) motion					(DONE)
 	    9.1.2.3) drag autoscroll				(DONE)
 	    9.1.2.4) re-position the autofill handle
-	9.1.3) item-grid
+	9.1.3) item-grid					(DONE)
 	    9.1.3.1) single cells				(DONE)
 	    9.1.3.2) outline borders				(DONE)
 	    9.1.3.4) diagonal borders				(DONE)
@@ -214,7 +217,7 @@ Architecture Changes
 	9.1.4) item-edit
 	    9.1.4.1) basic					(DONE)
 	    9.1.4.2) at the margins				(DONE)
-	    9.1.4.3) mouse events
+	    9.1.4.3) mouse events				(DONE)
 	    9.1.4.4) right alignment editing
 	    9.1.4.4) center alignment editing
 	    9.1.4.5) rotation
@@ -418,19 +421,6 @@ Architecture Changes
 	12.6.1) import
 	12.6.2) export
 
-13) Sheet Objects
-    13.1) SheetObjectGroup
-    13.2) editing text boxes (do a derived FooCanvasEditableTextItem) we can
-          steal some of the xim support from item-edit.
-    13.3) rich text for objects
-
-14) Zoom
-    14.1) Add a 'global' flag for the zoom dialog
-    14.2) Zoom to selection
-
-15) Keep a .swp style log of user actions
-     15.1) X-GNOME-Bugzilla-ExtraInfoScript=myscript
-
 16) Protection limits for selection
     16.1) Add flags to sheet					(DONE)
 	16.1.1) in header					(DONE)
@@ -479,6 +469,16 @@ Architecture Changes
 	    17.2.5.2) Export
 	17.2.6) Lotus ?
     17.3) figure out the semantics of XL's min/max
+
+13) Sheet Objects
+    13.1) SheetObjectGroup
+    13.2) editing text boxes (do a derived FooCanvasEditableTextItem) we can
+          steal some of the xim support from item-edit.
+    13.3) rich text for objects
+
+14) Zoom
+    14.1) Add a 'global' flag for the zoom dialog
+    14.2) Zoom to selection
 
 -------------------------------------------------------------------------------
 Target Features

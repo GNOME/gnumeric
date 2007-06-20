@@ -998,18 +998,22 @@ gnm_page_breaks_new (int len, gboolean is_vert)
 GnmPageBreaks *
 gnm_page_breaks_dup (GnmPageBreaks const *src)
 {
-	GnmPageBreaks *dst = gnm_page_breaks_new (src->details->len, src->is_vert);
-	GArray       *d_details = dst->details;
-	GArray const *s_details = src->details;
-	unsigned i;
+	if (src != NULL) {
+		GnmPageBreaks *dst = gnm_page_breaks_new (src->details->len, src->is_vert);
+		GArray       *d_details = dst->details;
+		GArray const *s_details = src->details;
+		unsigned i;
 
-	/* no need to validate through gnm_page_breaks_append_break, just dup */
-	for (i = 0; i < s_details->len ; i++)
-		g_array_append_val (d_details,
-			g_array_index (s_details, GnmPageBreak, i));
+		/* no need to validate through gnm_page_breaks_append_break, just dup */
+		for (i = 0; i < s_details->len ; i++)
+			g_array_append_val (d_details,
+				g_array_index (s_details, GnmPageBreak, i));
 
-	return dst;
+		return dst;
+	} else
+		return NULL;
 }
+
 void
 gnm_page_breaks_free (GnmPageBreaks *breaks)
 {
