@@ -7,8 +7,8 @@ release, and longer term bugs.
 -------------------------------------------------------------------------------
 Release Critical
 ----------------
-    - Write page break syncronizer or disable xls/xlsx export.
     - Export expressions to sylk ("foo" is a bad idea)
+    - Finish the Data -> Table dialog
 
 In Progress
 -----------
@@ -21,9 +21,11 @@ In Progress
 	- Explicit col/row page break import/export
 	- sylk export
 	- Fix shrinking ranges on cell deletion. [#439347]
+	- default col/row compression on OOo import.
 
 Review
 ------
+    - func name translation		{Manny}
 
 Worries
 -------
