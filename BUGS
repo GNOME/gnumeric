@@ -129,7 +129,9 @@ Architecture Changes
     1.3) Insert hyperlink dialog
 	1.3.1) Integration with evo address book
     1.4) move password dialog to goffice
+
 2) Font handling (move to GOFont)
+
 3) Charting Enhancements					(DONE)
     3.1) SheetObject editing					(DONE)
 	3.1.1) Connect SheetObject::user_config handler		(DONE)
@@ -138,8 +140,10 @@ Architecture Changes
     3.2) Extend sheet object anchor assignment to call object	(DONE)
           specfic handlers so that we can set the logical size
 	  of the graph.
+
 4) Function docs
     4.1) Use multiple tagged paragraphs
+
 5) Pivot tables
     5.1) xls
 	5.1.1) import pivot cache streams		 {Jody}
@@ -147,6 +151,7 @@ Architecture Changes
     5.2) xlsx
     5.3) ODF
     5.4) Look at swivel.com
+
 6) Undo/redo improvements
     6.1) Keep a .swp style log of user actions
     6.2) Restore Row heights in CmdFormat::undo
@@ -159,6 +164,7 @@ Architecture Changes
     7.4) Advertise SVG for graphs, as the preferred format      (DONE)
     7.5) Autoscroll for sheet object movement			(DONE)
     7.6) Autoscroll in 1 dimension and movement in other
+
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
     8.2) accumulate markup from toolbar while editing		(DONE)
@@ -183,6 +189,7 @@ Architecture Changes
 	    8.13.3.2) text boxes
 	8.13.4) export RSTRING (95 & 97)			(DONE)
     8.14) editing while zoomed					(DONE)
+
 9) RTL
     9.1) Drawing
 	9.1.1) item-bar						(DONE)
@@ -481,6 +488,10 @@ Architecture Changes
 14) Zoom
     14.1) Add a 'global' flag for the zoom dialog
     14.2) Zoom to selection
+
+18) UI
+    18.1) Item Edit
+	18.1.1) Mouse select range
 
 -------------------------------------------------------------------------------
 Target Features
