@@ -37,14 +37,8 @@ Worries
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
 
-    http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286131
-    - use 2.6 clipboard handling              DONE
-	: gtk_clipboard_set_can_store
-	: gtk_clipboard_store
     - Finish Data -> Table 
 	: add a ui
-    - Conditional formats
-	: draw & print long spans
 
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.
@@ -96,28 +90,9 @@ Blocked Patches
 Architecture Changes
 --------------------
 
-- Histogram enhancements
-    : Add connection to charts
-    : Add option to bucket by date/time
-	* second
-	* minute
-	* hour
-	* day
-	* week
-	* month
-	* quarter
-	* year
-	* decade
-	* century ??
-    : generalize for use with pivot tables
-- GnmRanges interface
-    : implement it in SheetView
-- Error reporting interface
-- Add 'send a frown/smile' button
-
 - Merge wb_control_init_state and wb_control_set_view
 - Use gtk_window_group_new to keep wbcg's distinct 
-- merge GnmPane and GnmCanva					(DONE)
+- merge GnmPane and GnmCanvas					(DONE)
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog
@@ -405,6 +380,12 @@ Architecture Changes
 	11.7.3) font and font colour
 	11.7.4) Merged cells					(DONE)
 	11.7.5) Long spans
+    11.8) Printing
+	11.8.1) background
+	11.8.2) borders
+	11.8.3) font and font colour
+	11.8.4) Merged cells
+	11.8.5) Long spans
     11.8) UI to modify
 
 12) Input Messages
@@ -465,53 +446,19 @@ Architecture Changes
 	    17.2.1.2) SAX Export			{partial}
 	    17.2.1.3) SAX Import
 	    17.2.2.4) DOM Import
-	17.2.3) XLS						(DONE)
+	17.2.3) XLS
 	    17.2.3.1) Import					(DONE)
 	    17.2.3.2) Export					(DONE)
 		17.2.3.2.1) pre-Biff8				(DONE)
 		17.2.3.2.2) Biff8				(DONE)
+	    17.2.3.3) figure out the semantics of XL's min/max
 	17.2.4) XLSX						(DONE)
 	    17.2.4.1) Import					(DONE)
 	    17.2.4.2) Export					(DONE)
 	17.2.5) ODF
-	    17.2.5.1) Import				{partial}
+	    17.2.5.1) Import					(DONE)
 	    17.2.5.2) Export
 	17.2.6) Lotus ?
-    17.3) figure out the semantics of XL's min/max
-
-13) Sheet Objects
-    13.1) SheetObjectGroup
-    13.2) editing text boxes (do a derived FooCanvasEditableTextItem) we can
-          steal some of the xim support from item-edit.
-    13.3) rich text for objects
-
-14) Zoom
-    14.1) Add a 'global' flag for the zoom dialog
-    14.2) Zoom to selection
-
-18) UI
-    18.1) Item Edit
-	18.1.1) Mouse select range
-
--------------------------------------------------------------------------------
-Target Features
----------------
-- validation from list (generalize filter combos)		(DONE)
-- insert cut
-- clipboard handlers in plugins
-- load/save of external references
-- all the merged cell singleton bugs
-- scripting
-- Save as ps
-
--------------------------------------------------------------------------------
-Short Term Goals
-----------------
-
-- validate names to ensure that they are not :
-    : simple values (eg TRUE)
-    : Range refs (even in other conventions) eg 'A1' or 'R'
-
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)
     2.2) User specifiable character encoding                    (DONE)
@@ -691,6 +638,15 @@ Short Term Goals
     6.19) print header/footer					(DONE)
 	6.19.1) import parsing					(DONE)
 	6.19.2) export						(DONE)
+
+13) UI
+    13.1) Zoom
+	13.1.1) Add a 'global' flag for the zoom dialog
+	13.1.2) Zoom to selection
+    13.2) Formula Guru
+	13.2.1) Fix keyboard interface
+    13.3.1) Item Edit
+	13.3.1) Mouse select range
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
@@ -920,6 +876,10 @@ Short Term Goals
 	    32.18.7.4) gte list size selects last element		(DONE)
 	32.18.8) Selection change updates cell link			(DONE)
 	32.18.9) Write a prop dialog #156762				(DON)
+    32.19) SheetObjectGroup
+    32.20) editing text boxes (do a derived FooCanvasEditableTextItem) we can
+          steal some of the xim support from item-edit.
+    32.21) rich text for objects
 
 33) Rotated text
     33.1) Resurrect printing                                            (DONE)
@@ -935,21 +895,65 @@ Short Term Goals
 36) OpenDocument                                              (Andreas)
     36.1) missing features in importer that we in fact export
          36.1.1)  Cell Comments
-    36.2) incorrect import 
+    36.2) Import 
          36.2.1)  We fail to do proper white space handling on import, see
                  5.1.1 of the OpenDocument Standard. (It is only a minor
                  issue since files created by OOo or us work correctly. 
                  In fact because of 36.3.1, we depend currently on this to
                  read our own files.)  
-    36.3) incorrect export
+	36.2.2) after a table pick a default col/row style and restore the
+		defaultness of the cols/rows that use it.
+    36.3) Export
          36.3.1)  We don't handle whitespace correctly. See OpenDocument
                  format 5.1.1
-    36.4) See 11.4
-    36.5) See 12.6
-    36.6) See 21.46
-    36.7) See 22.13
-    36.8) See 32.17.4
-    36.9) See 32.18.4
+    36.4) See 11.4 (Conditionals)
+    36.5) See 12.6 (Input Messages)
+    36.6) See 21.46 (Autofilters)
+    36.7) See 22.13 (Validation)
+    36.8) See 32.17.4 (Sheet Object Combos)
+    36.9) See 32.18.4 (Sheet Object Lists)
+    36.10) See 5.3 (pivots)
+    36.11) See 17.2.5 (page breaks)
+
+-------------------------------------------------------------------------------
+Target Features
+---------------
+- validation from list (generalize filter combos)		(DONE)
+- insert cut
+- clipboard handlers in plugins
+- load/save of external references
+- all the merged cell singleton bugs
+- scripting
+- Save as ps
+
+-------------------------------------------------------------------------------
+Short Term Goals
+----------------
+
+- validate names to ensure that they are not :
+    : simple values (eg TRUE)
+    : Range refs (even in other conventions) eg 'A1' or 'R'
+
+>>>>>>> .r15618
+-------------------------------------------------------------------------------
+Target Features
+---------------
+- validation from list (generalize filter combos)		(DONE)
+- insert cut
+- clipboard handlers in plugins
+- load/save of external references
+- all the merged cell singleton bugs
+- scripting
+- Save as ps
+
+-------------------------------------------------------------------------------
+Short Term Goals
+----------------
+
+- validate names to ensure that they are not :
+    : simple values (eg TRUE)
+    : Range refs (even in other conventions) eg 'A1' or 'R'
+
 
 Misc stuff that should be fixed
 -------------------------------
@@ -1008,11 +1012,6 @@ auto-fill
 	: Borders
 	    * use new border code for cell format dialog (possibly preview-grid)
 
-Dialogs
--------
-- Formula Guru
-    : Fix keyboard interface
-
 Printing
 --------
 - cell text wraps differently when printing than displaying due to scaling
@@ -1034,3 +1033,4 @@ General Ideas
 -------------
     - A connection to swivel (www.swivel.com)
     - Sugar/OLPC UI & collab
+    - Add 'send a frown/smile' button
