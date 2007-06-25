@@ -1,3 +1,12 @@
+2007-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.glade: enable buttons and rearrange items on sheet page
+	* dialog-printer-setup.c (_PrinterSetupState): add icon fields
+	(display_order_icon): enable
+	(do_setup_page_info): setup order icons
+	(do_setup_main_dialog): enable order buttons
+	
+
 2007-06-10  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_selection_type) : if the current
