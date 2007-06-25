@@ -2034,9 +2034,9 @@ gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
 			      gchar const *right)
 {
 	GSList *list = NULL;
-	list = g_slist_prepend (list, g_strdup (right));
-	list = g_slist_prepend (list, g_strdup (middle));
-	list = g_slist_prepend (list, g_strdup (left));
+	list = g_slist_prepend (list, g_strdup (right ? right : ""));
+	list = g_slist_prepend (list, g_strdup (middle ? middle : ""));
+	list = g_slist_prepend (list, g_strdup (left ? left : ""));
 	go_conf_set_str_list (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HEADER, list);
 	go_slist_free_custom ((GSList *)prefs.printer_header, g_free);
 	prefs.printer_header = list;
@@ -2047,9 +2047,9 @@ gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 			      gchar const *right)
 {
 	GSList *list = NULL;
-	list = g_slist_prepend (list, g_strdup (right));
-	list = g_slist_prepend (list, g_strdup (middle));
-	list = g_slist_prepend (list, g_strdup (left));
+	list = g_slist_prepend (list, g_strdup (right ? right : ""));
+	list = g_slist_prepend (list, g_strdup (middle ? middle : ""));
+	list = g_slist_prepend (list, g_strdup (left ? left : ""));
 	go_conf_set_str_list (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_FOOTER, list);
 	go_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
 	prefs.printer_footer = list;

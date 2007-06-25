@@ -7,6 +7,7 @@ Andreas:
 	  printing multiple sheets
 	* Fix handling of "print even if only style". [#438743]
 	* Implement printing of row and column headers
+	* Fix saving of null header/footer items [#449836]
 
 Jean:
 	* Fix check for long double support in goffice.
