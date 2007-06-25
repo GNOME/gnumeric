@@ -960,11 +960,16 @@ compute_sheet_pages (GtkPrintContext   *context,
 		r = print_area;
 
  	if (sheet->print_info->print_across_then_down)
-		return compute_sheet_pages_across_then_down (context, pi, sheet, &r,
-							     col_header_height,  row_header_width);
-	else
-		return compute_sheet_pages_across_then_down (context, pi, sheet, &r,
-							     col_header_height,  row_header_width);
+		return compute_sheet_pages_across_then_down
+			(context, pi, sheet, &r, col_header_height,
+			 row_header_width);
+	else {
+		g_warning ("Down and across requested, "
+			   "but printing across then down.");
+		return compute_sheet_pages_across_then_down
+			(context, pi, sheet, &r, col_header_height,
+			 row_header_width);
+	}
 }
 
 /*

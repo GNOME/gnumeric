@@ -1,5 +1,11 @@
 2007-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/xml-sax-read.c (xml_sax_print_order): new
+	(GsfXMLInNode): hook up xml_sax_print_order
+	* src/print.c (compute_sheet_pages): add warning
+
+2007-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gnumeric-gconf.c (gnm_gconf_set_printer_header): do not call
 	  go_conf_set_str_list with null arguments
 

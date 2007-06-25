@@ -147,8 +147,8 @@ struct _PrinterSetupState {
 	GtkWidget * check_center_v;
 	GtkWidget * check_center_h;	
 
-/* 	GtkWidget *icon_rd; */
-/* 	GtkWidget *icon_dr; */
+	GtkWidget *icon_rd;
+	GtkWidget *icon_dr;
 /* 	GnmExprEntry *area_entry; */
 /* 	GnmExprEntry *top_entry; */
 /* 	GnmExprEntry *left_entry; */
@@ -1279,6 +1279,7 @@ do_setup_hf (PrinterSetupState *state)
 	display_hf_preview (state, TRUE);
 	display_hf_preview (state, FALSE);
 }
+#endif
 
 static void
 display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
@@ -1297,7 +1298,6 @@ display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
 	gtk_widget_hide (hide);
 }
 
-#endif
 
 static void
 do_setup_page_info (PrinterSetupState *state)
@@ -1310,10 +1310,10 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkWidget *onlystyles= glade_xml_get_widget (state->gui, "check-only-styles");
 	GtkWidget *bw        = glade_xml_get_widget (state->gui, "check-black-white");
 	GtkWidget *titles    = glade_xml_get_widget (state->gui, "check-print-titles");
-/* 	GtkWidget *order_rd  = glade_xml_get_widget (state->gui, "radio-order-right"); */
-/* 	GtkWidget *order_dr  = glade_xml_get_widget (state->gui, "radio-order-down"); */
-/* 	GtkWidget *order_table = glade_xml_get_widget (state->gui, "page-order-table"); */
-/* 	GtkWidget *order; */
+	GtkWidget *order_rd  = glade_xml_get_widget (state->gui, "radio-order-right");
+	GtkWidget *order_dr  = glade_xml_get_widget (state->gui, "radio-order-down");
+	GtkWidget *order_table = glade_xml_get_widget (state->gui, "page-order-table");
+	GtkWidget *order;
 
 /* 	state->area_entry = gnm_expr_entry_new (state->wbcg, TRUE); */
 /* 	gnm_expr_entry_set_flags (state->area_entry, */
@@ -1343,20 +1343,20 @@ do_setup_page_info (PrinterSetupState *state)
 /* 			  GTK_EXPAND|GTK_FILL, 0, 0, 0); */
 /* 	gtk_widget_show (GTK_WIDGET (state->left_entry)); */
 
-/* 	state->icon_rd = gnumeric_load_image ("right-down.png"); */
-/* 	state->icon_dr = gnumeric_load_image ("down-right.png"); */
+	state->icon_rd = gnumeric_load_image ("right-down.png");
+	state->icon_dr = gnumeric_load_image ("down-right.png");
 
-/* 	gtk_widget_hide (state->icon_dr); */
-/* 	gtk_widget_hide (state->icon_rd); */
+	gtk_widget_hide (state->icon_dr);
+	gtk_widget_hide (state->icon_rd);
 
-/* 	gtk_table_attach ( */
-/* 		GTK_TABLE (order_table), state->icon_rd, */
-/* 		1, 2, 0, 2, GTK_FILL, GTK_FILL, 0, 0); */
-/* 	gtk_table_attach ( */
-/* 		GTK_TABLE (order_table), state->icon_dr, */
-/* 		1, 2, 0, 2, GTK_FILL, GTK_FILL, 0, 0); */
+	gtk_table_attach (
+		GTK_TABLE (order_table), state->icon_rd,
+		2, 3, 0, 2, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (order_table), state->icon_dr,
+		2, 3, 0, 2, GTK_FILL, GTK_FILL, 0, 0);
 
-/* 	g_signal_connect (G_OBJECT (order_rd), "toggled", G_CALLBACK (display_order_icon), state); */
+	g_signal_connect (G_OBJECT (order_rd), "toggled", G_CALLBACK (display_order_icon), state);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gridlines), 
 				      state->pi->print_grid_lines);
@@ -1367,9 +1367,9 @@ do_setup_page_info (PrinterSetupState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles), 
 				      state->pi->print_titles);
 
-/* 	order = state->pi->print_across_then_down ? order_rd : order_dr; */
-/* 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE); */
-/* 	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), state); */
+	order = state->pi->print_across_then_down ? order_rd : order_dr;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
+	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), state);
 
 /* 	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
 /* 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->area_entry))); */
@@ -1971,9 +1971,8 @@ do_fetch_page_info (PrinterSetupState *state)
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-black-white")));
 	pi->print_titles = gtk_toggle_button_get_active 
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-print-titles")));
-
-/* 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right")); */
-/* 	state->pi->print_across_then_down = t->active; */
+	pi->print_across_then_down = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right")));
 
 /* 	pi->repeat_top.use = gnm_expr_entry_get_rangesel (state->top_entry, */
 /* 		&pi->repeat_top.range, NULL); */
