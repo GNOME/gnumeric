@@ -9,6 +9,7 @@ Release Critical
 ----------------
     - Export expressions to sylk ("foo" is a bad idea)
     - Finish the Data -> Table dialog
+    - Convention sax export format
 
 In Progress
 -----------
@@ -18,10 +19,8 @@ In Progress
 
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
-	- Explicit col/row page break import/export
 	- sylk export
 	- Fix shrinking ranges on cell deletion. [#439347]
-	- default col/row compression on OOo import.
 
 Review
 ------
@@ -772,7 +771,7 @@ Architecture Changes
 30) Cleanup importers/exporters
     30.1) multiple extensions for exporters, with a default
     30.2) flag/virtual for an imp/exp to flag viability with current context
-    30.3) support command line flags via goption (glib-2.5)	(DONE)
+    30.3) support command line flags via goption (glib-2.5)		(DONE)
     30.4) remove bogosity of function pointers that are unused
     	in the base instance.
     30.5) Allow import of multiple views			{jody}
@@ -892,7 +891,7 @@ Architecture Changes
 	http://bugzilla.gnome.org/attachment.cgi?id=47315&action=view
     as a template
 
-36) OpenDocument                                              (Andreas)
+36) OpenDocument (ODF)
     36.1) missing features in importer that we in fact export
          36.1.1)  Cell Comments
     36.2) Import 
@@ -901,8 +900,9 @@ Architecture Changes
                  issue since files created by OOo or us work correctly. 
                  In fact because of 36.3.1, we depend currently on this to
                  read our own files.)  
-	36.2.2) after a table pick a default col/row style and restore the
-		defaultness of the cols/rows that use it.
+	36.2.2) default col/row compression on OOo import.	(DONE)
+	36.2.3) table styles					(DONE)
+	36.2.4) col/row manual vs auto
     36.3) Export
          36.3.1)  We don't handle whitespace correctly. See OpenDocument
                  format 5.1.1
@@ -933,27 +933,6 @@ Short Term Goals
 - validate names to ensure that they are not :
     : simple values (eg TRUE)
     : Range refs (even in other conventions) eg 'A1' or 'R'
-
->>>>>>> .r15618
--------------------------------------------------------------------------------
-Target Features
----------------
-- validation from list (generalize filter combos)		(DONE)
-- insert cut
-- clipboard handlers in plugins
-- load/save of external references
-- all the merged cell singleton bugs
-- scripting
-- Save as ps
-
--------------------------------------------------------------------------------
-Short Term Goals
-----------------
-
-- validate names to ensure that they are not :
-    : simple values (eg TRUE)
-    : Range refs (even in other conventions) eg 'A1' or 'R'
-
 
 Misc stuff that should be fixed
 -------------------------------
