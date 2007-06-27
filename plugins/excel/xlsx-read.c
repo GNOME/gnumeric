@@ -1572,7 +1572,7 @@ xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
 	else if (attr_bool (xin, attrs, XL_NS_SS, "selectUnlockedCells", &selectUnlockedCells)) ;
 
 	g_object_set (state->sheet,
-		"is-protected", 			 sheet,
+		"protected", 			 	 sheet,
 		"protected-allow-edit-objects", 	 objects,
 		"protected-allow-edit-scenarios", 	 scenarios,
 		"protected-allow-cell-formatting", 	 formatCells,

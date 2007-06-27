@@ -224,7 +224,7 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 			break;
 		}
 	/* include collapsed or hidden rows */
-	for (i = 256 ; i-- > extent->end.col ; )
+	for (i = XLS_MaxCol ; i-- > extent->end.col ; )
 		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
 			extent->end.col = i;
 			break;
@@ -812,9 +812,9 @@ static void
 xl_le_set_range (guint8 *data, GnmRange const *r)
 {
 	GSF_LE_SET_GUINT16 (data+0, r->start.row);
-	GSF_LE_SET_GUINT16 (data+2, r->end.row >= MsBiffMaxRowsV8 ? (MsBiffMaxRowsV8-1) : r->end.row);
+	GSF_LE_SET_GUINT16 (data+2, r->end.row >= XLS_MaxRow_V8 ? (XLS_MaxRow_V8-1) : r->end.row);
 	GSF_LE_SET_GUINT16 (data+4, r->start.col);
-	GSF_LE_SET_GUINT16 (data+6, r->end.col >= 256 ? 255 : r->end.col);
+	GSF_LE_SET_GUINT16 (data+6, r->end.col >= XLS_MaxCol ? XLS_MaxCol-1 : r->end.col);
 }
 
 typedef struct {
@@ -2600,7 +2600,7 @@ build_xf_data (XLExportBase *xle, BiffXFData *xfd, GnmStyle *st)
 static void
 excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 {
-	guint8 data[256];
+	guint8 data[XLS_MaxCol];
 	guint16 tmp16;
 	guint32 tmp32;
 	int btype;
@@ -4154,6 +4154,7 @@ excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
 {
 	GArray const *details = breaks->details;
 	unsigned i, n, step = (bp->version < MS_BIFF_V8) ? 2 : 6;
+	guint16 const maxima = breaks->is_vert ? XLS_MaxRow_V8 : XLS_MaxCol;
 	GnmPageBreak const *binfo;
 	guint8 *data;
 
@@ -4170,8 +4171,9 @@ excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
 		binfo = &g_array_index (details, GnmPageBreak, i);
 		GSF_LE_SET_GUINT16 (data, (guint16)binfo->pos);
 		if (step > 2) {
-			GSF_LE_SET_GUINT16 (data + 2, (guint16)binfo->first);
-			GSF_LE_SET_GUINT16 (data + 4, (guint16)binfo->last);
+			/* seems to be constant */
+			GSF_LE_SET_GUINT16 (data + 2, 0);
+			GSF_LE_SET_GUINT16 (data + 4, maxima);
 		}
 	}
 
@@ -4238,9 +4240,9 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 		excel_write_COUNTRY (bp);
 	excel_write_WSBOOL (bp, esheet);
 
-	if (pi->h_breaks != NULL && pi->v_breaks != NULL) {
-		excel_write_PAGE_BREAK (bp, pi->h_breaks);
-		excel_write_PAGE_BREAK (bp, pi->v_breaks);
+	if (pi->page_breaks.h != NULL && pi->page_breaks.v != NULL) {
+		excel_write_PAGE_BREAK (bp, pi->page_breaks.h);
+		excel_write_PAGE_BREAK (bp, pi->page_breaks.v);
 	}
 
 	if (pi->header != NULL)
@@ -4776,7 +4778,7 @@ static ExcelWriteSheet *
 excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		 gboolean biff7, gboolean biff8)
 {
-	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
+	int const maxrows = biff7 ? XLS_MaxRow_V7 : XLS_MaxRow_V8;
 	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
 	GnmRange extent;
 	GSList *objs, *img;
@@ -4785,7 +4787,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	g_return_val_if_fail (ewb, NULL);
 
 	excel_sheet_extent (sheet, &extent, esheet->col_style,
-		256, maxrows, ewb->io_context);
+		XLS_MaxCol, maxrows, ewb->io_context);
 
 	esheet->gnum_sheet = sheet;
 	esheet->streamPos  = 0x0deadbee;
@@ -4801,8 +4803,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		: NULL;
 
 	/* It is ok to have formatting out of range, we can disregard that. */
-	if (esheet->max_col > 256)
-		esheet->max_col = 256;
+	if (esheet->max_col > XLS_MaxCol)
+		esheet->max_col = XLS_MaxCol;
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
 

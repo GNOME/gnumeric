@@ -1,3 +1,15 @@
+2007-06-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.h : delete MsBiffFontUnderline, there was no need for
+	  an intermediate type.
+
+	* ms-excel-write.c (excel_write_PAGE_BREAK) : just hard code the
+	  min/max.  The values seem constant in all my tests.
+
+	* ms-excel-biff.h : Start some cleanup, and begin to follow the naming
+	  convention 'XLS_...' for binary and 'XLSX_...' for oox.
+	  Define some Maximas.
+
 2007-06-16  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_PAGE_BREAK) : new.

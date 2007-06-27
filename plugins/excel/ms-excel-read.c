@@ -1304,14 +1304,8 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 	fd->struck_out = (data & 0x8) == 0x8;
 	if (ver <= MS_BIFF_V2) {
 		guint16 opcode;
-		if (data & 0x4)
-			fd->underline = MS_BIFF_F_U_SINGLE;
-		else
-			fd->underline = MS_BIFF_F_U_NONE;
-		if (data & 0x1)
-			fd->boldness = 0x2bc;
-		else
-			fd->boldness = 0x190;
+		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
+		fd->underline = (data & 0x4) ? UNDERLINE_SINGLE : UNDERLINE_NONE;
 		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_get_text (importer, q->data + 5,
 			GSF_LE_GET_GUINT8 (q->data + 4), NULL);
@@ -1323,14 +1317,8 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 			fd->color_idx  = 0x7f;
 	} else if (ver <= MS_BIFF_V4) /* Guess */ {
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
-		if (data & 0x4)
-			fd->underline = MS_BIFF_F_U_SINGLE;
-		else
-			fd->underline = MS_BIFF_F_U_NONE;
-		if (data & 0x1)
-			fd->boldness = 0x2bc;
-		else
-			fd->boldness = 0x190;
+		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
+		fd->underline = (data & 0x4) ? UNDERLINE_SINGLE : UNDERLINE_NONE;
 		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_get_text (importer, q->data + 7,
 			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
@@ -1349,21 +1337,11 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 
 		data1 = GSF_LE_GET_GUINT8 (q->data + 10);
 		switch (data1) {
-		case 0:
-			fd->underline = MS_BIFF_F_U_NONE;
-			break;
-		case 1:
-			fd->underline = MS_BIFF_F_U_SINGLE;
-			break;
-		case 2:
-			fd->underline = MS_BIFF_F_U_DOUBLE;
-			break;
-		case 0x21:
-			fd->underline = MS_BIFF_F_U_SINGLE_ACC;
-			break;
-		case 0x22:
-			fd->underline = MS_BIFF_F_U_DOUBLE_ACC;
-			break;
+		case 0:    fd->underline = UNDERLINE_NONE; break;
+		case 1:    fd->underline = UNDERLINE_SINGLE; break;
+		case 2:	   fd->underline = UNDERLINE_DOUBLE; break;
+		case 0x21: fd->underline = UNDERLINE_SINGLE; break;	/* single accounting */
+		case 0x22: fd->underline = UNDERLINE_DOUBLE; break;	/* double accounting */
 		}
 		fd->fontname = excel_get_text (importer, q->data + 15,
 			GSF_LE_GET_GUINT8 (q->data + 14), NULL);
@@ -1712,29 +1690,13 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	/* Font */
 	fd = excel_font_get (esheet->container.importer, xf->font_idx);
 	if (fd != NULL) {
-		GnmUnderline underline = UNDERLINE_NONE;
 		gnm_style_set_font_name   (mstyle, fd->fontname);
 		gnm_style_set_font_size   (mstyle, fd->height / 20.0);
 		gnm_style_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
 		gnm_style_set_font_italic (mstyle, fd->italic);
 		gnm_style_set_font_strike (mstyle, fd->struck_out);
 		gnm_style_set_font_script (mstyle, fd->script);
-		switch (fd->underline) {
-		case MS_BIFF_F_U_SINGLE:
-		case MS_BIFF_F_U_SINGLE_ACC:
-			underline = UNDERLINE_SINGLE;
-			break;
-
-		case MS_BIFF_F_U_DOUBLE:
-		case MS_BIFF_F_U_DOUBLE_ACC:
-			underline = UNDERLINE_DOUBLE;
-			break;
-
-		case MS_BIFF_F_U_NONE:
-		default:
-			underline = UNDERLINE_NONE;
-		}
-		gnm_style_set_font_uline  (mstyle, underline);
+		gnm_style_set_font_uline  (mstyle, fd->underline);
 
 		font_index = fd->color_idx;
 	} else
@@ -2773,13 +2735,13 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 		PangoUnderline underline = PANGO_UNDERLINE_NONE;
 
 		switch (fd->underline) {
-		case MS_BIFF_F_U_SINGLE:
-		case MS_BIFF_F_U_SINGLE_ACC:
+		case XLS_ULINE_SINGLE:
+		case XLS_ULINE_SINGLE_ACC:
 			underline = PANGO_UNDERLINE_SINGLE;
 			break;
 
-		case MS_BIFF_F_U_DOUBLE:
-		case MS_BIFF_F_U_DOUBLE_ACC:
+		case XLS_ULINE_DOUBLE:
+		case XLS_ULINE_DOUBLE_ACC:
 			underline = PANGO_UNDERLINE_DOUBLE;
 			break;
 
@@ -5615,9 +5577,16 @@ excel_read_PAGE_BREAK (BiffQuery *q, ExcelReadSheet *esheet, gboolean is_vert)
 
 	/* 1) Ignore the first/last info for >= biff8
 	 * 2) Assume breaks are manual in the absence of any information  */
-	for (i = 0; i < count ; i++)
+	for (i = 0; i < count ; i++) {
 		gnm_page_breaks_append_break (breaks,
 			GSF_LE_GET_GUINT16 (q->data + 2 + i*step), GNM_PAGE_BREAK_MANUAL);
+#if 0
+		g_print ("%d  %d:%d\n",
+			 GSF_LE_GET_GUINT16 (q->data + 2 + i*step),
+			 GSF_LE_GET_GUINT16 (q->data + 2 + i*step + 2),
+			 GSF_LE_GET_GUINT16 (q->data + 2 + i*step + 4));
+#endif
+	}
 	print_info_set_breaks (esheet->sheet->print_info, breaks);
 }
 

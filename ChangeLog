@@ -1,5 +1,14 @@
 2007-06-27  Jody Goldberg <jody@gnome.org>
 
+	* src/print-info.c (print_info_load_defaults) : Do _not_ clear the
+	  page breaks here, that wipes out any that already existed.
+	(print_info_new) : do it here instead.
+
+	* src/print-info.h : rename from v_pagebreak/h_pagebreak ->
+	  pagebreak.{v,h}.  Remove first/last until we know what they do.
+
+2007-06-27  Jody Goldberg <jody@gnome.org>
+
 	* src/colrow.c (colrow_reset_defaults) : new utility routine for the
 	  ODF importer to search for cols/rows that are effectively the same
 	  as the defaults and to reset their default status.

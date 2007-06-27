@@ -58,6 +58,9 @@
 static char const *ns_ss  = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 static char const *ns_rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
 
+#define XLSX_MaxCol	16383
+#define XLSX_MaxRow	1048575
+
 typedef struct {
 	XLExportBase base;
 
@@ -546,7 +549,7 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 	gboolean selectUnlockedCells;
 
 	g_object_get (G_OBJECT (state->sheet),
-		"is-protected", 			 &sheet,
+		"protected", 			 	 &sheet,
 		"protected-allow-edit-objects", 	 &objects,
 		"protected-allow-edit-scenarios", 	 &scenarios,
 		"protected-allow-cell-formatting", 	 &formatCells,
@@ -588,6 +591,7 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 static void
 xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 {
+	unsigned const maxima = breaks->is_vert ? XLSX_MaxRow : XLSX_MaxCol;
 	GArray const *details = breaks->details;
 	GnmPageBreak const *binfo;
 	unsigned i;
@@ -599,10 +603,8 @@ xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 		gsf_xml_out_start_element (xml, "brk");
 		gsf_xml_out_add_int (xml, "id", binfo->pos);
 
-		if (binfo->first != 0)
-			gsf_xml_out_add_int (xml, "min", binfo->first);
-		if (binfo->last != 0)
-			gsf_xml_out_add_int (xml, "max", binfo->first);
+		/* hard code min=0 max=dir */
+		gsf_xml_out_add_int (xml, "max", maxima);
 
 		switch (binfo->type) {
 		case GNM_PAGE_BREAK_MANUAL :	gsf_xml_out_add_bool (xml, "man", TRUE); break;
@@ -639,9 +641,9 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_add_float (xml, "footer",	f_margin / 72., 4);
 	gsf_xml_out_end_element (xml); /* </pageMargins> */
 
-	if (NULL != pi->h_breaks && NULL != pi->v_breaks) {
-		xlsx_write_breaks (state, xml, pi->h_breaks);
-		xlsx_write_breaks (state, xml, pi->v_breaks);
+	if (NULL != pi->page_breaks.h && NULL != pi->page_breaks.v) {
+		xlsx_write_breaks (state, xml, pi->page_breaks.h);
+		xlsx_write_breaks (state, xml, pi->page_breaks.v);
 	}
 
 	gsf_xml_out_start_element (xml, "pageSetup");
@@ -709,9 +711,6 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	xlsx_write_cols (state, xml, &extent);
 
 	xlsx_write_cells (state, xml, &extent);
-
-	gsf_xml_out_start_element (xml, "sheetProtection");
-	gsf_xml_out_end_element (xml); /* </sheetProtection> */
 
 	if (NULL != (ptr = state->sheet->list_merged)) {
 		gsf_xml_out_start_element (xml, "mergeCells");

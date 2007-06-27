@@ -43,6 +43,7 @@
 #include <mstyle.h>
 #include <style-border.h>
 #include <gnm-format.h>
+#include <print-info.h>
 #include <command-context.h>
 #include <gutils.h>
 #include <goffice/app/io-context.h>
@@ -75,7 +76,7 @@ GNM_PLUGIN_MODULE_HEADER;
 #define CC2XML(s) ((xmlChar const *)(s))
 
 static inline gboolean
-attr_eq (const xmlChar *a, const char *s)
+attr_eq (xmlChar const *a, char const *s)
 {
 	return !strcmp (CXML2C (a), s);
 }
@@ -150,7 +151,10 @@ typedef enum {
 	ODF_PAGE_BREAK_MANUAL
 } ODFPageBreakType;
 typedef struct {
-	float	size_pts;
+	float	 size_pts;
+	int	 col_count;
+	int	 row_count;
+	gboolean manual;
 	ODFPageBreakType break_before, break_after;
 } ODFColRowStyle;
 typedef struct {
@@ -165,7 +169,8 @@ typedef struct {
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	ODFrameProperties cur_frame;
 	GnmParsePos 	pos;
-	GnmCellPos 	extent;
+	GnmCellPos 	data_extent;
+	GnmCellPos 	style_extent;
 
 	int 		 col_inc, row_inc;
 	gboolean 	 simple_content;
@@ -194,6 +199,9 @@ typedef struct {
 	GnmFilter	*filter;
 
 	GnmConventions  *convs;
+	struct {
+		GnmPageBreaks *h, *v;
+	} page_breaks;
 } OOParseState;
 
 static GsfXMLInNode const opendoc_content_dtd [];
@@ -469,12 +477,12 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->pos.eval.col = 0;
 	state->pos.eval.row = 0;
-	state->extent.col = -1;
-	state->extent.row = -1;
+	state->data_extent.col = state->style_extent.col = 0;
+	state->data_extent.row = state->style_extent.row = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name")) {
-			const char *name = CXML2C (attrs[1]);
+			char const *name = CXML2C (attrs[1]);
 			state->pos.sheet = workbook_sheet_by_name (state->pos.wb, name);
 			if (NULL == state->pos.sheet) {
 				state->pos.sheet = sheet_new (state->pos.wb, name);
@@ -493,31 +501,112 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 				NULL);
 		}
 }
+
+typedef struct {
+	ODFColRowStyle *cri;
+	gboolean is_cols;
+} FindDefaultColRowStyle;
+
+static void
+cb_find_default_colrow_style (gpointer *key, ODFColRowStyle *val,
+			      FindDefaultColRowStyle *data)
+{
+	if (data->cri == NULL ||
+	    (data->is_cols ? (data->cri->col_count < val->col_count)
+			   : (data->cri->row_count < val->row_count)))
+		data->cri = val;
+}
+
+/* To make life even more fun, ODF has no clear notion of a default style for
+ * cols/rows and frequently ends up specifying a row style for real_extent..MAX
+ * in order to make the styles work as above.  To avoid the miserable
+ * performance of pretending to have 64k rows, we now need to go back and reset
+ * the 'default'ness of any othewise empty rows, and assign the most common row
+ * format as the default.  */
+static void
+oo_colrow_reset_defaults (OOParseState *state, gboolean is_cols)
+{
+	FindDefaultColRowStyle data = { NULL, is_cols} ;
+	g_hash_table_foreach (state->styles.col_row, 
+		(GHFunc)cb_find_default_colrow_style, &data);
+	if (NULL != data.cri) {
+		if (is_cols)
+			sheet_col_set_default_size_pts (state->pos.sheet,
+				data.cri->size_pts);
+		else
+			sheet_row_set_default_size_pts (state->pos.sheet,
+				data.cri->size_pts);
+		colrow_reset_defaults (state->pos.sheet, is_cols, 1 + is_cols
+			? state->data_extent.col
+			: state->data_extent.row);
+	}
+}
+
 static void
 oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange r;
 
-	if (state->extent.col < 0 || state->extent.row < 0)
-		return;
+	if (NULL != state->page_breaks.h) {
+		print_info_set_breaks (state->pos.sheet->print_info,
+			state->page_breaks.h);
+		state->page_breaks.h = NULL;
+	}
+	if (NULL != state->page_breaks.v) {
+		print_info_set_breaks (state->pos.sheet->print_info,
+			state->page_breaks.v);
+		state->page_breaks.v = NULL;
+	}
 
 	/* default cell styles are applied only to cells that are specified
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
-	if (state->extent.col < SHEET_MAX_COLS) {
-		range_init (&r, state->extent.col, 0,
+	if (state->style_extent.col < SHEET_MAX_COLS) {
+		range_init (&r, state->style_extent.col, 0,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
 	}
-	if (state->extent.row < SHEET_MAX_ROWS) {
-		range_init (&r, 0, state->extent.row,
+	if (state->style_extent.row < SHEET_MAX_ROWS) {
+		range_init (&r, 0, state->style_extent.row,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
 	}
+
+	oo_colrow_reset_defaults (state, TRUE);
+	oo_colrow_reset_defaults (state, FALSE);
+
 	state->pos.eval.col = state->pos.eval.row = 0;
+}
+
+static void
+odf_append_page_break (OOParseState *state, int pos, gboolean is_vert)
+{
+	GnmPageBreaks *breaks;
+
+	if (is_vert) {
+		if (NULL == (breaks = state->page_breaks.v))
+			breaks = state->page_breaks.v = gnm_page_breaks_new (0, TRUE);
+	} else {
+		if (NULL == (breaks = state->page_breaks.h))
+			breaks = state->page_breaks.h = gnm_page_breaks_new (0, FALSE);
+	}
+
+	gnm_page_breaks_append_break (breaks, pos, GNM_PAGE_BREAK_MANUAL);
+}
+
+static void
+odf_col_row_style_apply_breaks (OOParseState *state, ODFColRowStyle *cr_style,
+				int pos, gboolean is_vert)
+{
+	/* AUTO seems to denote the possibility, of a break, rather than an
+	 * actual break, ignore it*/
+	if (cr_style->break_before == ODF_PAGE_BREAK_MANUAL)
+		odf_append_page_break (state, pos, is_vert);
+	if (cr_style->break_after  == ODF_PAGE_BREAK_MANUAL)
+		odf_append_page_break (state, pos+1, is_vert);
 }
 
 static void
@@ -554,10 +643,15 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		sheet_style_set_range (state->pos.sheet, &r, style);
 	}
 	if (col_info != NULL) {
-		for (i = repeat_count; i-- > 0 ; )
-			sheet_col_set_size_pts (state->pos.sheet,
-				state->pos.eval.col + i,
-				col_info->size_pts, TRUE);
+		int const last = state->pos.eval.col + repeat_count;
+		for (i = state->pos.eval.col ; i < last; i++ ) {
+			/* I can not find a listing for the default but will
+			 * assume it is TRUE to keep the files rational */
+			sheet_col_set_size_pts (state->pos.sheet, i,
+				col_info->size_pts, col_info->manual);
+			odf_col_row_style_apply_breaks (state, col_info, i, TRUE);
+		}
+		col_info->col_count += repeat_count;
 	}
 
 	state->pos.eval.col += repeat_count;
@@ -604,10 +698,13 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	if (row_info != NULL){
-		for (i = repeat_count; i-- > 0 ; )
-			sheet_row_set_size_pts (state->pos.sheet,
-				state->pos.eval.row + i,
-				row_info->size_pts, TRUE);
+		int const last = state->pos.eval.row + repeat_count;
+		for (i = state->pos.eval.row ; i < last; i++ ) {
+			sheet_row_set_size_pts (state->pos.sheet, i,
+				row_info->size_pts, row_info->manual);
+			odf_col_row_style_apply_breaks (state, row_info, i, FALSE);
+		}
+		row_info->row_count += repeat_count;
 	}
 
 	state->row_inc = repeat_count;
@@ -618,10 +715,10 @@ oo_row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	state->pos.eval.row += state->row_inc;
 
-	if (state->extent.col < state->pos.eval.col)
-		state->extent.col = state->pos.eval.col;
-	if (state->extent.row < state->pos.eval.row)
-		state->extent.row = state->pos.eval.row;
+	if (state->style_extent.col < state->pos.eval.col)
+		state->style_extent.col = state->pos.eval.col;
+	if (state->style_extent.row < state->pos.eval.row)
+		state->style_extent.row = state->pos.eval.row;
 }
 
 static char const *
@@ -909,7 +1006,6 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			}
 		}
 	}
-
 	state->pos.eval.col += state->col_inc;
 }
 
@@ -959,6 +1055,11 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			v = value_new_error (NULL, xin->content->str);
 		gnm_cell_set_value (cell, v);
 	}
+
+	if (state->data_extent.col < state->pos.eval.col)
+		state->data_extent.col = state->pos.eval.col;
+	if (state->data_extent.row < state->pos.eval.row)
+		state->data_extent.row = state->pos.eval.row;
 }
 
 static void
@@ -1419,7 +1520,10 @@ oo_style_prop_col_row (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const * const size_tag = (state->cur_style_type == OO_STYLE_COL)
 		? "column-width" :  "row-height";
+	char const * const use_optimal = (state->cur_style_type == OO_STYLE_COL)
+		? "use-optimal-column-width" : "use-optimal-row-height";
 	double pts;
+	gboolean auto_size;
 
 	g_return_if_fail (state->cur_style.col_rows != NULL);
 
@@ -1432,6 +1536,8 @@ oo_style_prop_col_row (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "break-after"))
 			state->cur_style.col_rows->break_after =
 				oo_page_break_type (xin, attrs[1]);
+		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, use_optimal, &auto_size))
+			state->cur_style.col_rows->manual = !auto_size;
 }
 
 static void
@@ -2342,7 +2448,6 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
       GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
       GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
-	GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &oo_covered_cell_start, &oo_covered_cell_end),
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_cell_content_end),
 	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &oo_cell_content_span_start, &oo_cell_content_span_end),
@@ -2350,6 +2455,7 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 	    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
 	    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
+	GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &oo_covered_cell_start, &oo_covered_cell_end),
       GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */
@@ -2621,15 +2727,14 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	} else {
 		gsf_off_t size = gsf_input_size (mimetype);
-		const char *header =
-			(const char *)gsf_input_read (mimetype, size, NULL);
+		char const *header = gsf_input_read (mimetype, size, NULL);
 		if (header && !strncmp (mime_openofficeorg1, header, size))
 			state.ver = OOO_VER_1;
 		else if (header && !strncmp (mime_opendocument, header, size))
 			state.ver = OOO_VER_OPENDOC;
 		else {
 			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
-						     _("Unknown mimetype for openoffice file."));
+				_("Unknown mimetype for openoffice file."));
 			g_object_unref (mimetype);
 			g_object_unref (zip);
 			return;
@@ -2688,6 +2793,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.convs = odf_conventions_new ();
 	state.accum_fmt = NULL;
 	state.filter = NULL;
+	state.page_breaks.h = state.page_breaks.v = NULL;
 	state.cur_frame.has_legend = FALSE;
 
 	if (state.ver == OOO_VER_OPENDOC) {

@@ -1,3 +1,23 @@
+2007-06-27  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_table_start) : keep track of the extent of
+	  col/row styling and the extent of cell content seperately.
+	(cb_find_default_colrow_style) : new.
+	(oo_colrow_reset_defaults) : pick a default style and recompress the
+	  available cols/rows by using it.
+	(oo_table_end) : assign the page breaks.  And restore the col/row
+	  defaults.
+	(odf_append_page_break) : new.
+	(odf_col_row_style_apply_breaks) : new.
+	(oo_col_start) : keep a counter of style use to find the default.
+	  Handle manual vs auto (kludged, no default is specified in the the
+	  std).
+	(oo_row_start) : ditto.
+	(oo_cell_content_end) : simple mechanism to track extent of cells
+	  with data.
+	(oo_style_prop_col_row) : parse 'use-optimal-....' flags.  Cols seem
+	  to have a different default than rows ???
+
 2007-06-15  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_expr_parse_str) : make this a real function
