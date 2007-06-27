@@ -18,7 +18,7 @@ struct _ColRowInfo {
 
 	/* TODO : Add per row/col min/max */
 
-	void *spans;	/* Only used for rows */
+	gpointer spans;	/* Only used for rows */
 };
 
 struct _ColRowCollection {
@@ -73,6 +73,7 @@ gboolean colrow_is_default (ColRowInfo const *cri);
 gboolean colrow_is_empty   (ColRowInfo const *cri);
 gboolean colrow_equal	   (ColRowInfo const *a, ColRowInfo const *b);
 void     colrow_copy	   (ColRowInfo *dst, ColRowInfo const *src);
+#define  colrow_free	   g_free
 
 typedef struct {
 	int	pos;
@@ -122,13 +123,14 @@ void		 colrow_set_visibility		(Sheet *sheet, gboolean is_cols,
 void		 colrow_get_global_outline	(Sheet const *sheet, gboolean is_cols, int depth,
 						 ColRowVisList	**show, ColRowVisList	**hide);
 ColRowVisList	*colrow_vis_list_destroy	(ColRowVisList *list);
-void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_col,
+void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_cols,
 						 gboolean visible,
 						 ColRowVisList *list);
 
 /* Misc */
 #define		 colrow_max(is_cols)		((is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS)
-int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean is_col,
+void             colrow_reset_defaults		(Sheet *sheet, gboolean is_cols, int maxima);
+int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean is_cols,
 						 int index, gboolean forward);
 
 void             rows_height_update		(Sheet *sheet, GnmRange const *range,

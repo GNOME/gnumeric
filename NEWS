@@ -30,6 +30,7 @@ Jody:
 	* Handle array expressions in SYLK importer.
 	* ODF import/export for hidden and RTL sheets.
 	* Fix redraw of spanning cells when toggling RTL.
+	* Work around ODF's lack of a default col/row style.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

@@ -3344,7 +3344,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 			&cb_free_cell, NULL);
 
 	(*segment)->info[sub] = NULL;
-	g_free (ci);
+	colrow_free (ci);
 
 	/* Use >= just in case things are screwed up */
 	if (col >= sheet->cols.max_used) {
@@ -3384,7 +3384,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 	row_destroy_span (ri);
 
 	(*segment)->info[sub] = NULL;
-	g_free (ri);
+	colrow_free (ri);
 
 	/* Use >= just in case things are screwed up */
 	if (row >= sheet->rows.max_used) {

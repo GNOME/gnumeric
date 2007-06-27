@@ -2,7 +2,7 @@
 /*
  * colrow.c: Utilities for Rows and Columns
  *
- * Copyright (C) 1999-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1999-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -144,7 +144,7 @@ colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
  **/
 gboolean
 colrow_foreach (ColRowCollection const *infos, int first, int last,
-		ColRowHandler callback, void *user_data)
+		ColRowHandler callback, gpointer user_data)
 {
 	GnmColRowIter iter;
 	ColRowSegment const *segment;
@@ -378,7 +378,7 @@ struct resize_closure {
 };
 
 static gboolean
-cb_set_colrow_size (GnmColRowIter const *iter, void *userdata)
+cb_set_colrow_size (GnmColRowIter const *iter, gpointer userdata)
 {
 	if (iter->cri->visible) {
 		struct resize_closure const *c = userdata;
@@ -630,7 +630,7 @@ struct cb_autofit {
 };
 
 static gboolean
-cb_autofit_col (GnmColRowIter const *iter, void *data_)
+cb_autofit_col (GnmColRowIter const *iter, gpointer data_)
 {
 	struct cb_autofit *data = data_;
 	int size, min, max;
@@ -658,7 +658,7 @@ cb_autofit_col (GnmColRowIter const *iter, void *data_)
 }
 
 static gboolean
-cb_autofit_row (GnmColRowIter const *iter, void *data_)
+cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
 {
 	struct cb_autofit *data = data_;
 	int size, min, max;
@@ -819,7 +819,7 @@ colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visibl
 }
 
 static void
-cb_colrow_visibility (SheetView *sv, GnmRange const *r, void *closure)
+cb_colrow_visibility (SheetView *sv, GnmRange const *r, gpointer closure)
 {
 	ColRowVisiblity * const dat = (ColRowVisiblity *)closure;
 	int first, last;
@@ -924,7 +924,7 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
 {
 	ColRowInfo * (*get) (Sheet const *sheet, int pos) = is_cols
 		? &sheet_col_get : &sheet_row_get;
-	int const max = is_cols ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
+	int const max = colrow_max (is_cols);
 	int const step = inc ? 1 : -1;
 
 	while (1) {
@@ -944,23 +944,23 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
 
 /**
  * colrow_find_adjacent_visible:
- * @sheet: Sheet to search on.
- * @is_col: If true find next column else find next row.
- * @index: The col/row index to start at.
+ * @sheet:   Sheet to search on.
+ * @is_cols: If true find next column else find next row.
+ * @index:   The col/row index to start at.
  * @forward: If set seek forward otherwise seek backwards.
  *
  * Return value: The index of the next visible col/row or -1 if
  *               there are no more visible cols/rows left.
  **/
 int
-colrow_find_adjacent_visible (Sheet *sheet, gboolean is_col,
+colrow_find_adjacent_visible (Sheet *sheet, gboolean is_cols,
 			      int index, gboolean forward)
 {
-	int const max = colrow_max (is_col);
+	int const max = colrow_max (is_cols);
 	int i         = index; /* To avoid trouble at edges */
 
 	do {
-		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_col);
+		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
 
 		if (cri->visible)
 			return i;
@@ -1131,3 +1131,47 @@ colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,
 	*hide = g_slist_reverse (*hide);
 }
 
+/**
+ * colrow_reset_defaults :
+ * @sheet : #Sheet
+ * @is_cols :
+ * @maxima : The maximum col/row with cell content (this argument can go away
+ *		 once we stop using col/row data to limit iteration)
+ *
+ * Find empty cols/rows that are equivalent to the default
+ * and replace them with the default.
+ **/
+void
+colrow_reset_defaults (Sheet *sheet, gboolean is_cols,
+		       int maxima)
+{
+	ColRowCollection *infos = is_cols ? &sheet->cols : &sheet->rows;
+	ColRowInfo const *default_cri = &infos->default_style;
+	ColRowSegment *segment;
+	ColRowInfo *cri;
+	int const end = colrow_max (is_cols);
+	int inner, inner_start, inner_last, i;
+
+	i = COLROW_SEGMENT_START(maxima);
+	inner_start = maxima - i;
+	for ( ; i < end ; i += COLROW_SEGMENT_SIZE) {
+		segment = COLROW_GET_SEGMENT (infos, i);
+		if (segment == NULL)
+			continue;
+		inner_last = COLROW_SEGMENT_SIZE;
+		for (inner = inner_start ; inner < inner_last; inner++) {
+			cri = segment->info[inner];
+			if (colrow_equal (cri, default_cri)) {
+				segment->info[inner] = NULL;
+				colrow_free (cri);
+			} else
+				maxima = inner + i;
+		}
+		if (maxima <= i) {
+			g_free (segment);
+			COLROW_GET_SEGMENT (infos, i) = NULL;
+		}
+		inner_start = 0;
+	}
+	infos->max_used = maxima;
+}

@@ -1,3 +1,15 @@
+2007-06-27  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_reset_defaults) : new utility routine for the
+	  ODF importer to search for cols/rows that are effectively the same
+	  as the defaults and to reset their default status.
+
+	* src/colrow.h (colrow_free) : new, to help clarify the code.
+
+	* src/sheet.c (sheet_col_destroy) : use colrow_free instead of a
+	  direct call to g_free.
+	(sheet_row_destroy) : ditto.
+
 2007-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/xml-sax-read.c (xml_sax_print_order): new
