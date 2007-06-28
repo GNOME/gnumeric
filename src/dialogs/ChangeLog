@@ -1,3 +1,9 @@
+2007-06-27  Jody Goldberg <jody@gnome.org> 
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=450676
+	* dialog-analysis-tools.c (dialog_ttest_tool) : don't set a 'state'
+	  object a 2nd time.  That clear the original.
+
 2007-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.glade: enable buttons and rearrange items on sheet page

@@ -588,7 +588,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, CORRELATION_KEY))
 		return 0;
 
-	state = g_new (GenericToolState, 1);
+	state = g_new0 (GenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet, 
 			      GNUMERIC_HELP_LINK_CORRELATION,
@@ -707,7 +707,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, COVARIANCE_KEY))
 		return 0;
 
-	state = g_new (GenericToolState, 1);
+	state = g_new0 (GenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_COVARIANCE,
@@ -797,7 +797,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, RANK_PERCENTILE_KEY))
 		return 0;
 
-	state = g_new (GenericToolState, 1);
+	state = g_new0 (GenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_RANKING,
@@ -888,7 +888,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, FOURIER_KEY))
 		return 0;
 
-	state = g_new (GenericToolState, 1);
+	state = g_new0 (GenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_FOURIER_ANALYSIS,
@@ -1099,9 +1099,9 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
 		return 0;
 
-	state = g_new (DescriptiveStatState, 1);
+	state = g_new0 (DescriptiveStatState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_DESCRIPTIVE_STATS,
 			      "descriptive-stats.glade", "DescStats",
 			      _("Could not create the Descriptive Statistics "
@@ -1468,10 +1468,10 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 		return 0;
 	}
 
-	state = g_new (TTestState, 1);
+	state = g_new0 (TTestState, 1);
 	state->invocation = test;
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_MEAN_TESTS,
 			      "mean-tests.glade", "MeanTests",
 			      _("Could not create the Mean Tests Tool dialog."),
@@ -1480,8 +1480,6 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 			      G_CALLBACK (ttest_update_sensitivity_cb),
 			      GNM_EE_SINGLE_RANGE))
 		return 0;
-
-	g_object_set_data (G_OBJECT (state->base.dialog), "state", state);
 
 	state->paired_button  = glade_xml_get_widget (state->base.gui, "paired-button");
 	state->unpaired_button  = glade_xml_get_widget (state->base.gui, "unpaired-button");
@@ -1658,9 +1656,9 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, FTEST_KEY))
 		return 0;
 
-	state = g_new (FTestToolState, 1);
+	state = g_new0 (FTestToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_F_TEST_TWO_SAMPLE,
 			      "variance-tests.glade", "VarianceTests",
 			      _("Could not create the FTest Tool dialog."),
@@ -1852,9 +1850,9 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 	}
 
-	state = g_new (SamplingState, 1);
+	state = g_new0 (SamplingState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_SAMPLING,
 			      "sampling.glade", "Sampling",
 			      _("Could not create the Sampling Tool dialog."),
@@ -2062,9 +2060,9 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, REGRESSION_KEY))
 		return 0;
 
-	state = g_new (RegressionToolState, 1);
+	state = g_new0 (RegressionToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_REGRESSION,
 			      "regression.glade", "Regression",
 			      _("Could not create the Regression Tool dialog."),
@@ -2189,9 +2187,9 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, EXP_SMOOTHING_KEY))
 		return 0;
 
-	state = g_new (ExpSmoothToolState, 1);
+	state = g_new0 (ExpSmoothToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_EXP_SMOOTHING,
 			      "exp-smoothing.glade",
 			      "ExpSmoothing",
@@ -2322,9 +2320,9 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, AVERAGE_KEY))
 		return 0;
 
-	state = g_new (AverageToolState, 1);
+	state = g_new0 (AverageToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_MOVING_AVERAGES,
 			      "moving-averages.glade",
 			      "MovAverages",
@@ -2534,9 +2532,9 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
 		return 0;
 
-	state = g_new (HistogramToolState, 1);
+	state = g_new0 (HistogramToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_HISTOGRAM,
 			      "histogram.glade", "Histogram",
 			      _("Could not create the Histogram Tool dialog."),
@@ -2716,9 +2714,9 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, ANOVA_SINGLE_KEY))
 		return 0;
 
-	state = g_new (AnovaSingleToolState, 1);
+	state = g_new0 (AnovaSingleToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR,
 			      "anova-one.glade", "ANOVA",
 			      _("Could not create the ANOVA (single factor) "
@@ -2940,9 +2938,9 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, ANOVA_TWO_FACTOR_KEY))
 		return 0;
 
-	state = g_new (AnovaTwoFactorToolState, 1);
+	state = g_new0 (AnovaTwoFactorToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+	if (dialog_tool_init (&state->base, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR,
 			      "anova-two.glade", "ANOVA",
 			      _("Could not create the ANOVA (two factor) "

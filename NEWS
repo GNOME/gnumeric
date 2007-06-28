@@ -31,6 +31,7 @@ Jody:
 	* ODF import/export for hidden and RTL sheets.
 	* Fix redraw of spanning cells when toggling RTL.
 	* Work around ODF's lack of a default col/row style.
+	* Fix crash in t-test. [#450676].
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]
