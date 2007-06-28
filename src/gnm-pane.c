@@ -708,6 +708,8 @@ gnm_pane_dispose (GObject *obj)
 	pane->size_guide.guide = NULL;
 	pane->size_guide.start = NULL;
 	pane->size_guide.points = NULL;
+
+	G_OBJECT_CLASS (parent_klass)->dispose (obj);
 }
 
 static void

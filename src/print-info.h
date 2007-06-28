@@ -30,9 +30,6 @@ typedef enum {
 typedef struct {
 	int		 pos;  /* break before this 0 based position */
 	GnmPageBreakType type;
-
-	/* cached based on the other breaks */
-	int first, last; /* bounds of secondary dimension. */
 } GnmPageBreak;
 
 typedef struct {
@@ -89,7 +86,9 @@ struct _PrintInformation {
 		PRINT_ERRORS_AS_NA
 	} error_display;
 
-	GnmPageBreaks	*h_breaks, *v_breaks;
+	struct {
+		GnmPageBreaks *h, *v;
+	} page_breaks;
 	PrintHF		*header, *footer;
 
 	int		  start_page; /* < 0 implies auto */

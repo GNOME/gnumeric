@@ -1,5 +1,10 @@
 2007-06-27  Jody Goldberg <jody@gnome.org>
 
+	* src/gnm-pane.c (gnm_pane_dispose) : chain up properly to avoid
+	  crashing on exit with canvas widgets.
+
+2007-06-27  Jody Goldberg <jody@gnome.org>
+
 	* src/print-info.c (print_info_load_defaults) : Do _not_ clear the
 	  page breaks here, that wipes out any that already existed.
 	(print_info_new) : do it here instead.

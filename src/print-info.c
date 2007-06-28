@@ -126,10 +126,10 @@ print_info_free (PrintInformation *pi)
 {
 	g_return_if_fail (pi != NULL);
 
-	if (NULL != pi->v_breaks)
-		gnm_page_breaks_free (pi->v_breaks);
-	if (NULL != pi->h_breaks)
-		gnm_page_breaks_free (pi->h_breaks);
+	if (NULL != pi->page_breaks.v)
+		gnm_page_breaks_free (pi->page_breaks.v);
+	if (NULL != pi->page_breaks.h)
+		gnm_page_breaks_free (pi->page_breaks.h);
 
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
@@ -264,8 +264,6 @@ print_info_load_defaults (PrintInformation *res)
 
 	res->print_across_then_down = gnm_app_prefs->print_order_across_then_down;
 
-	res->v_breaks = NULL;
-	res->h_breaks = NULL;
 	list = (GSList *) gnm_app_prefs->printer_header;
 	res->header = list ?
 		print_hf_new (g_slist_nth_data (list, 0),
@@ -301,6 +299,8 @@ print_info_new (gboolean load_defaults)
 	res->n_copies	   = 0;
 
 	res->page_setup = NULL;
+	res->page_breaks.v = NULL;
+	res->page_breaks.h = NULL;
 
 	if (load_defaults)
 		return print_info_load_defaults (res);
@@ -655,8 +655,8 @@ print_info_dup (PrintInformation *src)
 
 	*dst = *src; /* bit bash */
 
-	dst->v_breaks = gnm_page_breaks_dup (src->v_breaks);
-	dst->h_breaks = gnm_page_breaks_dup (src->h_breaks);
+	dst->page_breaks.v = gnm_page_breaks_dup (src->page_breaks.v);
+	dst->page_breaks.h = gnm_page_breaks_dup (src->page_breaks.h);
 
 	/* setup the refs for new content */
 	dst->header	   = print_hf_copy (src->header);
@@ -959,7 +959,7 @@ print_info_set_breaks (PrintInformation *pi,
 
 	g_return_if_fail (pi != NULL);
 
-	target = breaks->is_vert ? &pi->v_breaks : &pi->h_breaks;
+	target = breaks->is_vert ? &pi->page_breaks.v : &pi->page_breaks.h;
 
 	if (*target == breaks) /* just in case something silly happens */
 		return;
@@ -1043,8 +1043,6 @@ gnm_page_breaks_append_break (GnmPageBreaks *breaks,
 
 	info.pos   = pos;
 	info.type  = type;
-	info.first = -1;
-	info.last  = -1;
 	g_array_append_val (breaks->details, info);
 
 	return TRUE;
