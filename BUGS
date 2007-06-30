@@ -10,6 +10,9 @@ Release Critical
     - Export expressions to sylk ("foo" is a bad idea)
     - Finish the Data -> Table dialog
     - Convention sax export format
+    - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
+    - dialog open wrapper to store previous size/position of dialog
+    - tango icons
 
 In Progress
 -----------
