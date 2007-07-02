@@ -267,6 +267,7 @@ dnl GNOME Specific extensions
 
 dnl The following conditional is set in AM_GCONF_SOURCE_2.
 dnl Because we may skip its execution, we have to set a default here.
+m4_pattern_allow([^AM_GCONF_SOURCE_2$])
 AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
 
 with_corba=false
