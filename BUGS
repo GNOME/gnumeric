@@ -7,9 +7,8 @@ release, and longer term bugs.
 -------------------------------------------------------------------------------
 Release Critical
 ----------------
-    - Export expressions to sylk ("foo" is a bad idea)
-    - Finish the Data -> Table dialog
     - Convention sax export format
+    - Finish the Data -> Table dialog
     - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
     - dialog open wrapper to store previous size/position of dialog
     - tango icons
@@ -22,7 +21,6 @@ In Progress
 
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
-	- sylk export
 	- Fix shrinking ranges on cell deletion. [#439347]
 
 Review
@@ -257,12 +255,14 @@ Architecture Changes
 	9.4.3) xlsx						(DONE)
 	    9.4.3.1) In						(DONE)
 	    9.4.3.2) Out					(DONE)
-	9.4.4) odf
+	9.4.4) odf						(DONE)
+	    9.4.4.1) In						(DONE)
+	    9.4.4.2) Out					(DONE)
 	9.4.5) csv
 	9.4.6) html
 	9.4.7) latex
-	9.4.8) sylk
-	9.4.9) dif
+	9.4.8) sylk (unsupported in format)			(DONE)
+	9.4.9) dif (unsupported in format)			(DONE)
     9.5) Printing
 	9.5.1) single cells					(DONE)
 	9.5.2) outline borders					(DONE)
@@ -793,10 +793,12 @@ Architecture Changes
 	31.1.9) hidden cells
 	31.1.10) cell protection
 	31.1.11) comments
+	31.1.12) array row sep ';;'					(DONE)
+	31.1.13) escaping in expression string				(DONE)
     31.2) exporter
 	31.2.1) constants						(DONE)
-	31.2.2) expressions
-	31.2.3) array expressions
+	31.2.2) expressions						(DONE)
+	31.2.3) array expressions					(DONE)
 	31.2.4) column widths
 	31.2.5) formats	
 	31.2.6) fonts
@@ -805,6 +807,8 @@ Architecture Changes
 	31.2.9) hidden cells
 	31.2.10) cell protection
 	31.2.11) comments
+	31.2.12) array row sep ';;'
+	31.2.13) escaping in expression string				(DONE)
 
 32) SheetObjects
     32.1) SheetView specific objects					(DONE)
