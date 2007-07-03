@@ -410,7 +410,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 						expr->array_corner.cols,
 						go_locale_get_arg_sep (),
 						expr->array_corner.rows,
-						y, x);
+						x, y);
 					g_free (text);
 					text = tmp;
 					break;
