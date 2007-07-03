@@ -1,6 +1,6 @@
 # Vietnamese translation for Gnumeric.
 # Copyright © 2007 Gnome i18n Project for Vietnamese.
-# Nguyễn Thái Ngọc Duy <pclouds@gmx.net>, 2002.
+# Nguyễn Thái Ngọc Duy <pclouds@gmail.com>, 2002,2007.
 # Clytie Siddall <clytie@riverland.net.au>, 2005-2007.
 # 
 msgid ""
@@ -474,7 +474,7 @@ msgstr "Không biết giá trị đếm « %s » cho thuộc tính %s"
 #: ../plugins/excel/xlsx-read.c:298
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
-msgstr "Số nguyên « %s » ở ngoại phạm vị cho thuộc tính %s"
+msgstr "Số nguyên « %s » ở ngoài phạm vi cho thuộc tính %s"
 
 #: ../plugins/excel/xlsx-read.c:302
 #, c-format
@@ -494,7 +494,7 @@ msgstr "Vị trí ô không hợp lệ « %s » cho thuộc tính %s"
 #: ../plugins/excel/xlsx-read.c:370
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
-msgstr "Phạm vị không hợp lệ « %s » cho thuộc tính %s"
+msgstr "Phạm vi không hợp lệ « %s » cho thuộc tính %s"
 
 #: ../plugins/excel/xlsx-read.c:725
 #, c-format
@@ -890,7 +890,7 @@ msgstr "kiểu_thông_tin"
 #. XL stores this in statistical ?
 #: ../plugins/fn-info/functions.c:1926
 msgid "range"
-msgstr "phạm_vị"
+msgstr "phạm vi"
 
 #: ../plugins/fn-info/functions.c:1930 ../plugins/fn-string/functions.c:1253
 #: ../plugins/fn-string/functions.c:1256 ../plugins/fn-string/functions.c:1259
@@ -1040,7 +1040,7 @@ msgstr "mảng"
 
 #: ../plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
-msgstr "Hàm tra cứu giá trị trong phạm vị"
+msgstr "Hàm tra cứu giá trị trong phạm vi"
 
 #: ../plugins/fn-lookup/plugin.xml.in.h:2
 msgid "Lookup"
@@ -1586,7 +1586,7 @@ msgstr "XHTML (*.html)"
 
 #: ../plugins/html/plugin.xml.in.h:11
 msgid "XHTML range - for export to clipboard"
-msgstr "Phạm vị XHTML — xuất vào khay"
+msgstr "Phạm vi XHTML — xuất vào khay"
 
 #: ../plugins/lotus-123/boot.c:85
 msgid "Error while reading lotus workbook."
@@ -1692,7 +1692,7 @@ msgstr "Phần BPh (bên phải) không hợp lệ trong tập tin."
 
 #: ../plugins/mps/parser.c:568
 msgid "Invalid RANGES section in the file."
-msgstr "Phần PHẠM VỊ không hợp lệ trong tập tin."
+msgstr "Phần PHẠM VI không hợp lệ trong tập tin."
 
 #: ../plugins/mps/parser.c:573
 msgid "Invalid BOUNDS section in the file."
@@ -1793,7 +1793,7 @@ msgstr "biểu thức « %s » @ « %s » không phải là một tham chiếu �
 #: ../plugins/openoffice/openoffice-read.c:1751
 #, c-format
 msgid "Invalid DB range '%s'"
-msgstr "Phạm vị cơ sở dữ liệu không hợp lệ « %s »"
+msgstr "Phạm vi cơ sở dữ liệu không hợp lệ « %s »"
 
 #: ../plugins/openoffice/openoffice-read.c:2725
 msgid "No stream named mimetype found."
@@ -2264,7 +2264,7 @@ msgstr "Kích hoạt các bổ sung mới"
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
 #: ../src/dialogs/dialog-preferences.c:730
 msgid "Allow Unfocused Range Selections"
-msgstr "Cho phép việc chọn phạm vị không có tiêu điểm"
+msgstr "Cho phép việc chọn phạm vi không có tiêu điểm"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:5
 msgid "Apply print-setup to all sheets"
@@ -2449,8 +2449,7 @@ msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
-msgstr ""
-"Một số hộp thoại chứa chỉ một mục nhập riêng lẻ mà cho phép lựa chọn phạm vị "
+msgstr "Một số hộp thoại chứa chỉ một mục nhập riêng lẻ mà cho phép lựa chọn phạm vi "
 "trong sổ làm việc. Lập biến này là TRUE (đúng) thì chuyển tiếp lựa chọn vào "
 "mục nhập này, thậm chí nếu mục nhập này không có tiêu điểm bàn phím."
 
@@ -3218,11 +3217,11 @@ msgstr "Xuất"
 
 #: ../src/dialogs/advanced-filter.glade.h:4
 msgid "_Criteria range:"
-msgstr "Phạm vị tiêu _chuẩn:"
+msgstr "Phạm vi tiêu _chuẩn:"
 
 #: ../src/dialogs/advanced-filter.glade.h:5
 msgid "_List range:"
-msgstr "Phạm vị _danh sách:"
+msgstr "Phạm vi _danh sách:"
 
 #: ../src/dialogs/advanced-filter.glade.h:6
 msgid "_Unique records only"
@@ -3286,7 +3285,7 @@ msgstr "_Cột"
 #: ../src/dialogs/fourier-analysis.glade.h:7
 #: ../src/dialogs/moving-averages.glade.h:9 ../src/dialogs/rank.glade.h:10
 msgid "_Input range:"
-msgstr "Phạm vị _gõ :"
+msgstr "Phạm vi _gõ :"
 
 #: ../src/dialogs/anova-one.glade.h:10 ../src/dialogs/anova-two.glade.h:10
 #: ../src/dialogs/correlation.glade.h:8 ../src/dialogs/covariance.glade.h:8
@@ -3347,7 +3346,7 @@ msgstr "ANOVA — Hệ số đôi"
 
 #: ../src/dialogs/anova-two.glade.h:5 ../src/dialogs/histogram.glade.h:7
 msgid "Input _range:"
-msgstr "Phạm vị _gõ:"
+msgstr "Phạm vi _gõ:"
 
 #: ../src/dialogs/anova-two.glade.h:8
 msgid "Rows per _sample:"
@@ -3992,8 +3991,7 @@ msgstr "<span weight=\"bold\">Đặc tả sắp xếp</span>"
 msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
-msgstr ""
-"Thêm bất cứ trường nào trong hộp phạm vị bên trái vào những tiêu chuẩn sắp "
+msgstr "Thêm bất cứ trường nào trong hộp phạm vi bên trái vào những tiêu chuẩn sắp "
 "xếp, hoặc cho phép chọn trường từ trình đơn."
 
 #: ../src/dialogs/cell-sort.glade.h:4
@@ -4018,7 +4016,7 @@ msgstr "Chuyển trường đã chọn xuống thứ tự sắp xếp"
 
 #: ../src/dialogs/cell-sort.glade.h:9
 msgid "Range:"
-msgstr "Phạm vị:"
+msgstr "Phạm vi:"
 
 #: ../src/dialogs/cell-sort.glade.h:10
 msgid "Remove the selected field from the sort specification"
@@ -4168,7 +4166,7 @@ msgstr "Tự động _vừa cột"
 
 #: ../src/dialogs/dao.glade.h:4
 msgid "C_lear output range"
-msgstr "_Xoá phạm vị xuất"
+msgstr "_Xoá phạm vi xuất"
 
 #: ../src/dialogs/dao.glade.h:5 ../src/dialogs/dialog-advanced-filter.c:197
 msgid "Filter _in-place"
@@ -4184,15 +4182,15 @@ msgstr "Sách làm _việc mới"
 
 #: ../src/dialogs/dao.glade.h:8
 msgid "Output _range:"
-msgstr "_Phạm vị xuất:"
+msgstr "_Phạm vi xuất:"
 
 #: ../src/dialogs/dao.glade.h:9
 msgid "Retain output range _formatting"
-msgstr "_Giữ định dạng phạm vị xuất"
+msgstr "_Giữ định dạng phạm vi xuất"
 
 #: ../src/dialogs/dao.glade.h:10
 msgid "Retain output range co_mments"
-msgstr "Giữ chú thích phạ_m vị xuất"
+msgstr "Giữ chú thích phạ_m vi xuất"
 
 #: ../src/dialogs/dao.glade.h:11
 msgid "_Enter into cells:"
@@ -4212,7 +4210,7 @@ msgstr "Định nghĩa tên"
 
 #: ../src/dialogs/define-name.glade.h:5
 msgid "Switch _Scope"
-msgstr "Chuyển đổi _phạm vị"
+msgstr "Chuyển đổi _phạm vi"
 
 #: ../src/dialogs/define-name.glade.h:6
 msgid "Workbook"
@@ -4228,7 +4226,7 @@ msgstr "Tê_n: "
 
 #: ../src/dialogs/define-name.glade.h:9
 msgid "_Scope:"
-msgstr "_Phạm vị:"
+msgstr "_Phạm vi:"
 
 #: ../src/dialogs/define-name.glade.h:10
 msgid "_Update"
@@ -4685,16 +4683,16 @@ msgstr "Giới thiệu Gnumeric"
 
 #: ../src/dialogs/dialog-advanced-filter.c:71
 msgid "The list range is invalid."
-msgstr "Phạm vị danh sách không hợp lệ."
+msgstr "Phạm vi danh sách không hợp lệ."
 
 #: ../src/dialogs/dialog-advanced-filter.c:81
 msgid "The criteria range is invalid."
-msgstr "Phạm vị tiêu chuẩn không hợp lệ."
+msgstr "Phạm vi tiêu chuẩn không hợp lệ."
 
 #: ../src/dialogs/dialog-advanced-filter.c:89
 #: ../src/dialogs/dialog-simulation.c:93
 msgid "The output range is invalid."
-msgstr "Phạm vị xuất không hợp lệ."
+msgstr "Phạm vi xuất không hợp lệ."
 
 #: ../src/dialogs/dialog-advanced-filter.c:144
 msgid "The given criteria are invalid."
@@ -4723,7 +4721,7 @@ msgstr "Không tạo được hộp thoại Bộ lọc Nâng cao."
 #: ../src/dialogs/dialog-analysis-tools.c:2877
 #: ../src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
-msgstr "Phạm vị gõ không hợp lệ."
+msgstr "Phạm vi gõ không hợp lệ."
 
 #: ../src/dialogs/dialog-analysis-tools.c:483
 #: ../src/dialogs/dialog-analysis-tools.c:1067
@@ -4843,35 +4841,34 @@ msgstr "Không tạo được hộp thoại Công cụ ANOVA (hệ số đơn)."
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
-msgstr ""
-"Phạm vị gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu và "
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu và "
 "nhãn."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2805
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột và hai hàng dữ liệu."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2811
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai cột dữ liệu và nhãn."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột dữ liệu và nhãn."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2814
 msgid "The given input range should contain at least two columns of data."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai cột dữ liệu."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai cột dữ liệu."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2820
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu và nhãn."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu và nhãn."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2823
 msgid "The given input range should contain at least two rows of data."
-msgstr "Phạm vị gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu."
+msgstr "Phạm vi gõ cho trước thì nên chứa ít nhất hai hàng dữ liệu."
 
 #: ../src/dialogs/dialog-analysis-tools.c:2830
 msgid "The number of data rows must be a multiple of the replication number."
@@ -5145,7 +5142,7 @@ msgstr "Vùng nguồn %s đè lên vùng đích."
 
 #: ../src/dialogs/dialog-consolidate.c:330
 msgid "The output range overlaps with the input ranges."
-msgstr "Phạm vị xuất đè lên những phạm vị gõ."
+msgstr "Phạm vi xuất đè lên những phạm vi gõ."
 
 #: ../src/dialogs/dialog-consolidate.c:554
 msgid "Could not create the Consolidate dialog."
@@ -5281,7 +5278,7 @@ msgstr "Không tạo được hộp thoại Đi đến."
 
 #: ../src/dialogs/dialog-hyperlink.c:144
 msgid "Not a range or name"
-msgstr "Không phải phạm vị hoặc tên."
+msgstr "Không phải phạm vi hoặc tên."
 
 #: ../src/dialogs/dialog-hyperlink.c:260
 msgid "Internal Link"
@@ -5289,8 +5286,7 @@ msgstr "Liên kết nội bộ"
 
 #: ../src/dialogs/dialog-hyperlink.c:262
 msgid "Jump to specific cells or named range in the current workbook"
-msgstr ""
-"Nhảy đến ô dứt khoát hoặc phạm vị tên đặc biệt trong sổ làm việc hiện có."
+msgstr "Nhảy đến ô dứt khoát hoặc phạm vi tên đặc biệt trong sổ làm việc hiện có."
 
 #: ../src/dialogs/dialog-hyperlink.c:266
 msgid "External Link"
@@ -5700,7 +5696,7 @@ msgstr "Rời rạc"
 
 #: ../src/dialogs/dialog-random-generator.c:118
 msgid "_Value And Probability Input Range:"
-msgstr "Phạm vị gõ _giá trị và xác suất:"
+msgstr "Phạm vi gõ _giá trị và xác suất:"
 
 #: ../src/dialogs/dialog-random-generator.c:124
 msgid "Bernoulli"
@@ -6034,11 +6030,11 @@ msgstr "Không tạo được hộp thoại Xáo trộn Dữ liệu."
 
 #: ../src/dialogs/dialog-simulation.c:75
 msgid "The input variable range is invalid."
-msgstr "Phạm vị biến gõ không hợp lệ."
+msgstr "Phạm vi biến gõ không hợp lệ."
 
 #: ../src/dialogs/dialog-simulation.c:85
 msgid "The output variable range is invalid."
-msgstr "Phạm vị biến xuất không hợp lệ."
+msgstr "Phạm vi biến xuất không hợp lệ."
 
 #: ../src/dialogs/dialog-simulation.c:158
 msgid "Simulations"
@@ -6084,7 +6080,7 @@ msgstr "Tối đa"
 
 #: ../src/dialogs/dialog-simulation.c:321
 msgid "Invalid variable range was given"
-msgstr "Đã cho phạm vị biến không hợp lệ."
+msgstr "Đã cho phạm vi biến không hợp lệ."
 
 #: ../src/dialogs/dialog-simulation.c:335
 msgid ""
@@ -7171,7 +7167,7 @@ msgstr "_Nhãn bin"
 
 #: ../src/dialogs/histogram.glade.h:3
 msgid "Bin _range:"
-msgstr "_Phạm vị bin:"
+msgstr "_Phạm vi bin:"
 
 #: ../src/dialogs/histogram.glade.h:4
 msgid "C_umulative percentages"
@@ -7251,7 +7247,7 @@ msgstr "_Kiểu :"
 
 #: ../src/dialogs/hyperlink.glade.h:6
 msgid "Target _Range:"
-msgstr "_Phạm vị đích:"
+msgstr "_Phạm vi đích:"
 
 #: ../src/dialogs/hyperlink.glade.h:7
 msgid "_File:"
@@ -7319,7 +7315,7 @@ msgstr "Phương sai dân số biến _1:"
 
 #: ../src/dialogs/mean-tests.glade.h:9 ../src/dialogs/variance-tests.glade.h:7
 msgid "Variable _1 range:"
-msgstr "Phạm vị biến _1:"
+msgstr "Phạm vi biến _1:"
 
 #: ../src/dialogs/mean-tests.glade.h:10
 msgid "Variable _2 population variance:"
@@ -7328,7 +7324,7 @@ msgstr "Phương sai dân số biến _2:"
 #: ../src/dialogs/mean-tests.glade.h:11
 #: ../src/dialogs/variance-tests.glade.h:8
 msgid "Variable _2 range:"
-msgstr "Phạm vị biến _2:"
+msgstr "Phạm vi biến _2:"
 
 #: ../src/dialogs/mean-tests.glade.h:12
 msgid "Variables are:"
@@ -7368,7 +7364,7 @@ msgstr "Chư_a cặp"
 
 #: ../src/dialogs/merge.glade.h:1
 msgid "Merge _Range:"
-msgstr "Phạm vị t_rộn:"
+msgstr "Phạm vi t_rộn:"
 
 #: ../src/dialogs/merge.glade.h:2
 msgid "Merge..."
@@ -7765,7 +7761,7 @@ msgstr "Cỡ mẫu:"
 
 #: ../src/dialogs/sampling.glade.h:13
 msgid "_Input range: "
-msgstr "_Phạm vị nhập: "
+msgstr "_Phạm vi nhập: "
 
 #: ../src/dialogs/sampling.glade.h:16
 msgid "_Periodic"
@@ -7904,7 +7900,7 @@ msgstr "Chỉ tìm trong tờ hiện thời"
 
 #: ../src/dialogs/search.glade.h:20
 msgid "Search in specified range only"
-msgstr "Chỉ tìm trong phạm vị giới hạn"
+msgstr "Chỉ tìm trong phạm vi giới hạn"
 
 #: ../src/dialogs/search.glade.h:21 ../src/dialogs/search-replace.glade.h:36
 msgid "Search line by line"
@@ -7968,7 +7964,7 @@ msgstr "Nhậ_p thô"
 
 #: ../src/dialogs/search.glade.h:36
 msgid "_Range"
-msgstr "_Phạm vị"
+msgstr "_Phạm vi"
 
 #: ../src/dialogs/search.glade.h:37
 msgid "_Results"
@@ -8080,7 +8076,7 @@ msgstr "Đang thay thế..."
 
 #: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:629
 msgid "Scope"
-msgstr "Phạm vị"
+msgstr "Phạm vi"
 
 #: ../src/dialogs/search-replace.glade.h:29
 msgid "Search"
@@ -8169,7 +8165,7 @@ msgstr "Xáo trộn dữ liệu"
 
 #: ../src/dialogs/shuffle.glade.h:2
 msgid "Input Range: "
-msgstr "Phạm vị _gõ: "
+msgstr "Phạm vi _gõ: "
 
 #: ../src/dialogs/shuffle.glade.h:3
 msgid "Shuffle Method: "
@@ -8628,7 +8624,7 @@ msgid ""
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 "/Trung bình/Lỗi chuẩn/Trung vị/Chế độ/Độ lệch chuẩn/Phương sai mẫu/Kurtosis/"
-"Độ lệch/Phạm vị/Tối thiểu/Tối đa/Tổng/Đếm"
+"Độ lệch/Phạm vi/Tối thiểu/Tối đa/Tổng/Đếm"
 
 #: ../src/tools/analysis-tools.c:1195
 #, c-format
@@ -8898,7 +8894,7 @@ msgstr "ANOVA hệ số đơn"
 
 #: ../src/tools/analysis-tools.c:4225
 msgid "The input range contains non-numeric data."
-msgstr "Phạm vị gõ chứa dữ liệu phi số."
+msgstr "Phạm vi gõ chứa dữ liệu phi số."
 
 #: ../src/tools/analysis-tools.c:4233
 msgid "Anova: Two-Factor Without Replication"
@@ -9033,21 +9029,19 @@ msgstr "Điền đầy cấp số (%s)"
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
-msgstr ""
-"Phạm vị gõ xác suất chứa một giá trị không thuộc số.\n"
+msgstr "Phạm vi gõ xác suất chứa một giá trị không thuộc số.\n"
 "Mọi xác suất phải là số phi âm."
 
 #: ../src/tools/random-generator.c:115
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
-msgstr ""
-"Phạm vị gõ xác suất chứa một số âm.\n"
+msgstr "Phạm vi gõ xác suất chứa một số âm.\n"
 "Mọi xác suất phải là số phi âm."
 
 #: ../src/tools/random-generator.c:130
 msgid "None of the values in the value range may be empty!"
-msgstr "Không cho phép giá trị rỗng trong phạm vị."
+msgstr "Không cho phép giá trị rỗng trong phạm vi."
 
 #: ../src/tools/random-generator.c:146
 msgid "The probabilities may not all be 0!"
@@ -9117,7 +9111,7 @@ msgstr "Kurtosis"
 
 #: ../src/tools/simulation.c:256
 msgid "Range"
-msgstr "Phạm vị"
+msgstr "Phạm vi"
 
 #: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:2050
 msgid "Count"
@@ -9558,8 +9552,7 @@ msgstr ""
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
-msgstr ""
-"Một số ô gõ chứa giá trị không phải thuộc số. Hãy xác định phạm vị gõ hợp lệ."
+msgstr "Một số ô gõ chứa giá trị không phải thuộc số. Hãy xác định phạm vi gõ hợp lệ."
 
 #: ../src/tools/tabulate.c:140
 msgid "Tabulation"
@@ -9587,7 +9580,7 @@ msgstr "(Không trống...)"
 
 #: ../src/widgets/gnumeric-expr-entry.c:1415
 msgid "Expecting a single range"
-msgstr "Ngờ một phạm vị đơn"
+msgstr "Ngờ một phạm vi đơn"
 
 #. ALSO "<control>2"
 #: ../src/widgets/widget-font-selector.c:209 ../src/wbcg-actions.c:2143
@@ -9648,7 +9641,7 @@ msgstr ""
 
 #: ../src/clipboard.c:386
 msgid "result passes the sheet boundary"
-msgstr "kết quả vượt ngoài phạm vị bảng"
+msgstr "kết quả vượt ngoài phạm vi bảng"
 
 #: ../src/cmd-edit.c:321
 #, c-format
@@ -10291,7 +10284,7 @@ msgstr "Luận lý"
 
 #: ../src/func.c:933
 msgid "Cell Range"
-msgstr "Phạm vị ô"
+msgstr "Phạm vi ô"
 
 #: ../src/func.c:935
 msgid "Area"
@@ -10719,7 +10712,7 @@ msgstr "Mảng phải có hình chữ nhật."
 
 #: ../src/parser.y:373
 msgid "Constructed ranges use simple references"
-msgstr "Phạm vị đã cấu trúc dùng tham chiếu đơn giản."
+msgstr "Phạm vi đã cấu trúc dùng tham chiếu đơn giản."
 
 #: ../src/parser.y:387 ../src/parser.y:401
 msgid "All entries in the set must be references"
@@ -10759,7 +10752,7 @@ msgstr "Yêu cầu tên tờ"
 
 #: ../src/parser.y:1159 ../src/parser.y:1168 ../src/parser.y:1193
 msgid "The number is out of range"
-msgstr "Số này ở ngoại phạm vị."
+msgstr "Số này ở ngoài phạm vi."
 
 #: ../src/parser.y:1227
 msgid "Improperly formatted error token"
@@ -10820,7 +10813,7 @@ msgstr "đến:"
 
 #: ../src/print.c:1445
 msgid "Gnumeric Print Range"
-msgstr "Phạm vị in Gnumeric"
+msgstr "Phạm vi in Gnumeric"
 
 #: ../src/print-info.c:158 ../src/print-info.c:161 ../src/print-info.c:162
 #: ../src/print-info.c:278
@@ -10881,11 +10874,11 @@ msgstr "..."
 
 #: ../src/search.c:65
 msgid "You must specify a range to search."
-msgstr "Bạn phải xác định phạm vị tìm kiếm."
+msgstr "Bạn phải xác định phạm vi tìm kiếm."
 
 #: ../src/search.c:69
 msgid "The search range is invalid."
-msgstr "Phạm vị tìm kiếm không hợp lệ."
+msgstr "Phạm vi tìm kiếm không hợp lệ."
 
 #: ../src/search.c:548
 msgid "Search Strings"
@@ -10961,16 +10954,16 @@ msgstr "Nơi tìm kiếm"
 
 #: ../src/search.c:639
 msgid "Range as Text"
-msgstr "Phạm vị là chữ"
+msgstr "Phạm vi là chữ"
 
 #: ../src/search.c:640
 msgid "The range in which to search."
-msgstr "Phạm vị nơi tìm kiếm"
+msgstr "Phạm vi nơi tìm kiếm"
 
 #: ../src/selection.c:349
 #, c-format
 msgid "%s does not support multiple ranges"
-msgstr "« %s » không hỗ trợ nhiều phạm vị."
+msgstr "« %s » không hỗ trợ nhiều phạm vi."
 
 #: ../src/session.c:115
 #, c-format
@@ -11192,11 +11185,11 @@ msgstr "Cho phép người dùng chọn ô bị khoá trong khi tờ được b�
 
 #: ../src/sheet.c:785
 msgid "Protected allow sort ranges"
-msgstr "Bảo vệ: cho phép sắp xếp phạm vị"
+msgstr "Bảo vệ: cho phép sắp xếp phạm vi"
 
 #: ../src/sheet.c:786
 msgid "Allow ranges to be sorted while a sheet is protected"
-msgstr "Cho phép sắp xếp phạm vị trong khi tờ được bảo vệ"
+msgstr "Cho phép sắp xếp phạm vi trong khi tờ được bảo vệ"
 
 #: ../src/sheet.c:789
 msgid "Protected allow edit auto filters"
@@ -11523,7 +11516,7 @@ msgstr "Tính lại mọi ô trước khi ghi kết quả."
 
 #: ../src/ssconvert.c:130
 msgid "The range to export"
-msgstr "Phạm vị cần xuất khẩu"
+msgstr "Phạm vi cần xuất khẩu"
 
 #: ../src/ssconvert.c:137
 msgid "Goal seek areas"
@@ -11755,7 +11748,7 @@ msgstr "%s là không đúng."
 #: ../src/validation.c:447
 #, c-format
 msgid "%s is out of permitted range"
-msgstr "%s ở ngoại phạm vị được phép"
+msgstr "%s ở ngoài phạm vi được phép"
 
 #: ../src/value.c:71
 msgid "#NULL!"
@@ -12172,7 +12165,7 @@ msgstr "In tập tin hiện thời"
 
 #: ../src/wbcg-actions.c:1523
 msgid "Proper_ties..."
-msgstr "_Tài sản..."
+msgstr "_Thuộc tính..."
 
 #: ../src/wbcg-actions.c:1524
 msgid "Edit descriptive information"
@@ -12188,7 +12181,7 @@ msgstr "Đổi tùy thích Gnumeric"
 
 #: ../src/wbcg-actions.c:1529
 msgid "Full _History..."
-msgstr "_Lược sử đầy..."
+msgstr "Toàn bộ _lược sử..."
 
 #: ../src/wbcg-actions.c:1530
 msgid "Access previously used file"
@@ -13108,7 +13101,7 @@ msgstr "Tạo nút chọn một"
 
 #: ../src/wbcg-actions.c:1986
 msgid "Merge a range of cells"
-msgstr "Trộn các ô trong phạm vị đã chọn"
+msgstr "Trộn các ô trong phạm vi đã chọn"
 
 #: ../src/wbcg-actions.c:1988
 msgid "Split"
@@ -13116,7 +13109,7 @@ msgstr "Chia tách"
 
 #: ../src/wbcg-actions.c:1989
 msgid "Split merged ranges of cells"
-msgstr "Tách các phạm vị ô đã được trộn"
+msgstr "Tách các phạm vi ô đã được trộn"
 
 #: ../src/wbcg-actions.c:1993
 msgid "Format the selection as General"
