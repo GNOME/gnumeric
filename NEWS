@@ -32,6 +32,7 @@ Jody:
 	* Fix redraw of spanning cells when toggling RTL.
 	* Work around ODF's lack of a default col/row style.
 	* Fix crash in t-test. [#450676].
+	* Sylk import/export support for arrays.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

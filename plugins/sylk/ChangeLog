@@ -1,3 +1,15 @@
+2007-07-02  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c (sylk_parse_value) : quoted == string, escaping handled
+	  earlier.
+	(sylk_next_token) : handle un-escaping here.
+
+2007-07-01  Jody Goldberg <jody@gnome.org>
+
+	* sylk-write.c (sylk_write) : handle escaping.
+	(sylk_output_string) : Keep it simple, the external write wrapper will
+	  handle the semi-colon escaping.
+
 2007-06-13  Jody Goldberg <jody@gnome.org>
 
 	* sylk.c (sylk_rtd_c_parse) : Support array expressions.

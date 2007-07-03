@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * sylk.c - file import of SYLK files
+ * sylk.c - file import of Multiplan/Excel SYLK files
  *
  * Jody Goldberg   <jody@gnome.org>
  * Copyright (C) 2003-2007 Jody Goldberg (jody@gnome.org)
@@ -80,44 +80,24 @@ sylk_read_warning (SylkReader *state, char const *fmt, ...)
 }
 
 static char *
-sylk_next_token (char *str)
+sylk_next_token (char *src)
 {
-	while (*str)
-		if (str[0] != ';')
-			str++;
-		else if (str[1] == ';')
-			str += 2;
-		else {
-			*str = 0;
-			return str+1;
+	char *dst = src;
+
+#warning parse the ascii escapes
+	while (*src)
+		if (src[0] != ';') {
+			*dst++ = *src++;
+		} else if (src[1] == ';') {
+			*dst++ = ';';
+			src += 2;
+		} else {
+			*dst = '\0';
+			return src+1;
 		}
 
-	return str;
-}
-
-static char *
-sylk_parse_string (char const *str)
-{
-	GString *accum = g_string_new (NULL);
-	gboolean ignore_trailing_quote = (*str == '\"');
-
-	if (ignore_trailing_quote)
-		str++;
-
-	while (*str) {
-		/* This is UTF-8 safe as long as ';' is ASCII.  */
-		if (ignore_trailing_quote && str[0] == '"' && str[1] == '\0')
-			break;
-		else if (str[0] != ';')
-			g_string_append_c (accum, *str++);
-		else if (str[1] == ';') {
-			g_string_append_c (accum, ';');
-			str += 2;
-		} else
-			break;
-	}
-
-	return g_string_free (accum, FALSE);
+	*dst = '\0';
+	return src;
 }
 
 static gboolean
@@ -136,12 +116,19 @@ sylk_parse_int (char const *str, int *res)
 }
 
 static GnmValue *
-sylk_parse_value (SylkReader *state, char const *str)
+sylk_parse_value (SylkReader *state, char *str)
 {
-	GnmValue *val = format_match_simple (str);
-	if (val != NULL)
+	GnmValue *val;
+	if ('\"' == *str) { /* quoted string */
+		unsigned len = strlen (str);
+		if (str[len-1] == '\"')
+			str[len-1] = '\0';
+		return value_new_string (str+1);
+	}
+
+	if (NULL != (val = format_match_simple (str)))
 		return val;
-	return value_new_string_nocopy (sylk_parse_string (str));
+	return value_new_string_nocopy (str);
 }
 
 static GnmExprTop const *
@@ -250,8 +237,7 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 			if (NULL != texpr)
 				gnm_cell_set_array_formula (state->pp.sheet,
 					state->pp.eval.col, state->pp.eval.row,
-					state->pp.eval.col+c-1, state->pp.eval.row+r-1,
-					texpr);
+					c-1, r-1, texpr);
 			if (NULL != val)
 				gnm_cell_assign_value (cell, val);
 		} else if (NULL != texpr) {
@@ -271,7 +257,7 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 static gboolean
 sylk_rtd_p_parse (SylkReader *state, char *str)
 {
-	char *next, *tmp;
+	char *next;
 	int   font_size;
 	GnmStyle *font = NULL;
 
@@ -279,20 +265,17 @@ sylk_rtd_p_parse (SylkReader *state, char *str)
 		next = sylk_next_token (str);
 		switch (*str) {
 		case 'P' : /* format */
-			tmp = sylk_parse_string (str+1);
 			g_ptr_array_add (state->formats,
-				go_format_new_from_XL (tmp));
-			g_free (tmp);
+				go_format_new_from_XL (str+1));
 			break;
 
 		case 'F' : /* some sort of global font name  */
 			break; 
 
 		case 'E' : /* font name */
-			if (NULL != (tmp = sylk_parse_string (str+1))) {
+			if (str[1] != '\0') {
 				if (NULL == font) font = gnm_style_new ();
-				gnm_style_set_font_name	(font, tmp);
-				g_free (tmp);
+				gnm_style_set_font_name	(font, str+1);
 			}
 			break;
 
