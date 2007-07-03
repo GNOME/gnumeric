@@ -1,5 +1,10 @@
 2007-07-02  Jody Goldberg <jody@gnome.org>
 
+	* src/parse-util.c (std_output_string) : virtualize string escaping.
+	* src/expr.c (do_expr_as_string) : use it here.
+
+2007-07-02  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : avoid putting newlines at the end of python output.
 
 2007-07-02  Jody Goldberg <jody@gnome.org>

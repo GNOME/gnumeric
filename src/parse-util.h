@@ -150,13 +150,14 @@ struct _GnmConventions {
 					Workbook *scope,
 					char const *name,
 					GnmExprList *args);
-
 	} input;
 
 /* Export specific functions ----------------------------------- */
 	struct {
 		gboolean translated;
 
+		void (*string)	  (GnmConventionsOut *out,
+				   GnmString const *str);
 		void (*name)	  (GnmConventionsOut *out,
 				   GnmExprName const *name);
 		void (*cell_ref)  (GnmConventionsOut *out,

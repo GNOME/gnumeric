@@ -1577,7 +1577,7 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 		size_t prelen = target->len;
 
 		if (VALUE_IS_STRING (v)) {
-			go_strescape (target, v->v_str.val->str);
+			out->convs->output.string (out, v->v_str.val);
 			return;
 		}
 

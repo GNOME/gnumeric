@@ -1205,6 +1205,12 @@ std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 	g_string_append (target, thename->name->str);
 }
 
+static void
+std_output_string (GnmConventionsOut *out, GnmString const *str)
+{
+	go_strescape (out->accum, str->str);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static GString *
@@ -1337,15 +1343,17 @@ gnm_conventions_new_full (unsigned size)
 	convs = g_malloc0 (size);
 
 	convs->sheet_name_sep		= '!';
-	convs->intersection_char		= ' ';
+	convs->intersection_char	= ' ';
 	convs->input.name		= std_name_parser;
 	convs->input.func		= std_func_map;
 
-	convs->output.translated		= TRUE;
+	convs->output.translated	= TRUE;
+	convs->output.string		= std_output_string;
 	convs->output.name		= std_expr_name_handler;
 	convs->output.cell_ref		= cellref_as_string;
 	convs->output.range_ref		= rangeref_as_string;
 	convs->output.quote_sheet_name	= std_sheet_name_quote;
+
 	return convs;
 }
 
@@ -1364,6 +1372,12 @@ gnm_conventions_new (void)
 	return gnm_conventions_new_full (sizeof (GnmConventions));
 }
 
+/**
+ * gnm_conventions_free :
+ * @c : #GnmConventions
+ * 
+ * Release a convention
+ **/
 void
 gnm_conventions_free (GnmConventions *c)
 {
