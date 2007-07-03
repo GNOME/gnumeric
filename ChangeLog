@@ -1,6 +1,15 @@
 2007-07-02  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : avoid putting newlines at the end of python output.
+
+2007-07-02  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : handle missing gconf m4 macros
+
+2007-07-01  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_edit_line_set) : doh! order things
+	  consistently.
 
 2007-06-27  Jody Goldberg <jody@gnome.org>
 

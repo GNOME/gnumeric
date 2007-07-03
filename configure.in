@@ -6,7 +6,7 @@ AC_PREREQ(2.54)
 m4_define([gnumeric_version_epoch], [1])
 m4_define([gnumeric_version_major], [7])
 m4_define([gnumeric_version_minor], [11])
-m4_define([gnumeric_version_extra], [-canvas])
+m4_define([gnumeric_version_extra], [])
 m4_define([gnumeric_full_version],
     [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
 
@@ -831,7 +831,7 @@ If you want to specify a path to your Python executable, use:
 	$srcdir/configure PYTHON=/path/to/your/python ...]);;
 esac
 if test "x$with_python" != xno; then
-    AC_CHECK_PROGS(PYTHON, python python2 python2.4 python2.3 python2.2 python2.1 python2.0)
+    AC_CHECK_PROGS(PYTHON, python python2 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0)
     if test "x$PYTHON" = x; then
 	python_msg="could not find python"
     fi
@@ -841,16 +841,16 @@ fi
 
 if test "x$python_msg" = xyes; then
     BIG_CHECKING([for python >= 2.0])
-    PY_PREFIX=`$PYTHON -c 'import sys ; print sys.prefix'`
-    PY_EXEC_PREFIX=`$PYTHON -c 'import sys ; print sys.exec_prefix'`
-    PY_MAKEFILE=`$PYTHON -c 'from distutils.sysconfig import get_makefile_filename; print get_makefile_filename()'`
-    [PY_VERSION=`$PYTHON -c 'import sys ; print sys.version[0:3]'`
+    PY_PREFIX=`$PYTHON -c 'import sys ; sys.stdout.write(sys.prefix)'`
+    PY_EXEC_PREFIX=`$PYTHON -c 'import sys ; sys.stdout.write(sys.exec_prefix)'`
+    PY_MAKEFILE=`$PYTHON -c 'from distutils.sysconfig import get_makefile_filename; sys.stdout.write(get_makefile_filename())'`
+    [PY_VERSION=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:3])'`
     broken_py_initialize=`$PYTHON -c \
 'import sys
 if int(sys.version[0]) < 2:
-    print "yes"
+    sys.stdout.write("yes")
 else:
-    print "no"'`]
+    sys.stdout.write("no")'`]
     if test "x$broken_py_initialize" != "xyes"; then
 	AC_MSG_RESULT(yes)
     else
@@ -864,7 +864,7 @@ if test "x$python_msg" = xyes; then
     if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
 	AC_MSG_RESULT(yes)
 	PY_LIBS="python$PY_VERSION"
-    	PY_LIB_LOC=`$PYTHON -c 'from distutils.sysconfig import get_config_var; print get_config_var("LIBPL")'`
+    	PY_LIB_LOC=`$PYTHON -c 'from distutils.sysconfig import get_config_var; sys.stdout.write( get_config_var("LIBPL"))'`
     	PY_LIB_LOC="-L$PY_LIB_LOC"
 	PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
 	[echo 'echo_python_libs:
