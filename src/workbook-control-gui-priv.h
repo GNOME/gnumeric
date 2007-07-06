@@ -44,7 +44,7 @@ struct _WorkbookControlGUI {
 	gboolean    updating_ui;
 
 	/* Auto completion */
-	void		*auto_complete;         /* GtkType is (Complete *) */
+	GObject		*auto_complete;         /* GType is (Complete *) */
 	gboolean	 auto_completing;
 	char		*auto_complete_text;
 

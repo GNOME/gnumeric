@@ -327,7 +327,7 @@ cb_entry_changed (GtkEntry *entry, WorkbookControlGUI *wbcg)
 		wbcg->auto_max_size = text_len;
 
 	if (wbv->do_auto_completion && wbcg->auto_completing)
-		complete_start (wbcg->auto_complete, text);
+		complete_start (COMPLETE (wbcg->auto_complete), text);
 }
 
 static gboolean
@@ -945,7 +945,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	if (cursorp && /* autocompletion code will not work in the edit line */
 	    wbv->do_auto_completion &&
 	    (text == NULL || g_unichar_isalpha (g_utf8_get_char (text)))) {
-		wbcg->auto_complete = complete_sheet_new (
+		wbcg->auto_complete = (GObject *)complete_sheet_new (
 			sv->sheet, col, row,
 			workbook_edit_complete_notify, wbcg);
 		wbcg->auto_completing = TRUE;

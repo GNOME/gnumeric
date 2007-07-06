@@ -868,14 +868,6 @@ if test "x$python_msg" = xyes; then
     BIG_CHECKING(Look for $PY_INCLUDE/Python.h)
     if test -f $PY_INCLUDE/Python.h; then
 	AC_MSG_RESULT(yes)
-	PY_LIBS="python$PY_VERSION"
-    	PY_LIB_LOC=`$PYTHON -c 'from distutils.sysconfig import get_config_var; sys.stdout.write( get_config_var("LIBPL"))'`
-    	PY_LIB_LOC="-L$PY_LIB_LOC"
-	PY_CFLAGS="-I$PY_INCLUDE"
-	[echo 'echo_python_libs:
-	@echo $(MODLIBS) $(LIBS)' >confmake.tmp
-	PY_EXTRA_LIBS=`make -s -f confmake.tmp -f "$PY_MAKEFILE"`
-	rm -f confmake.tmp]
     else
 	AC_MSG_RESULT(no)
 	python_msg="unable to find Python.h"
@@ -884,6 +876,16 @@ fi
 
 if test "x$python_msg" = xyes; then
     BIG_CHECKING(if we can build a shared library depending on libpython)
+
+    PY_LIBS="python$PY_VERSION"
+    PY_LIB_LOC=`$PYTHON -c 'import sys ; from distutils.sysconfig import get_config_var; sys.stdout.write( get_config_var("LIBPL"))'`
+    PY_LIB_LOC="-L$PY_LIB_LOC"
+    PY_CFLAGS="-I$PY_INCLUDE"
+    [echo 'echo_python_libs:
+    @echo $(MODLIBS) $(LIBS)' >confmake.tmp
+    PY_EXTRA_LIBS=`make -s -f confmake.tmp -f "$PY_MAKEFILE"`
+
+    rm -f confmake.tmp]
     rm -rf testpython
     mkdir testpython
     cd testpython
