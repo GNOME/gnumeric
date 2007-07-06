@@ -841,16 +841,13 @@ fi
 
 if test "x$python_msg" = xyes; then
     BIG_CHECKING([for python >= 2.0])
-    PY_PREFIX=`$PYTHON -c 'import sys ; sys.stdout.write(sys.prefix)'`
-    PY_EXEC_PREFIX=`$PYTHON -c 'import sys ; sys.stdout.write(sys.exec_prefix)'`
-    PY_MAKEFILE=`$PYTHON -c 'from distutils.sysconfig import get_makefile_filename; sys.stdout.write(get_makefile_filename())'`
     [PY_VERSION=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:3])'`
-    broken_py_initialize=`$PYTHON -c \
+     broken_py_initialize=`$PYTHON -c \
 'import sys
 if int(sys.version[0]) < 2:
-    sys.stdout.write("yes")
+sys.stdout.write("yes")
 else:
-    sys.stdout.write("no")'`]
+sys.stdout.write("no")'`]
     if test "x$broken_py_initialize" != "xyes"; then
 	AC_MSG_RESULT(yes)
     else
@@ -860,13 +857,21 @@ else:
 fi
 
 if test "x$python_msg" = xyes; then
-    BIG_CHECKING(Look for $PY_PREFIX/include/python$PY_VERSION/Python.h)
-    if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+    if test "x$PY_INCLUDE" = x; then
+	PY_PREFIX=`$PYTHON -c 'import sys ; sys.stdout.write(sys.prefix)'`
+	PY_INCLUDE="$PY_PREFIX/include/python$PY_VERSION"
+    fi
+    if test "x$PY_MAKEFILE" = x; then
+	PY_MAKEFILE=`$PYTHON -c 'from distutils.sysconfig import get_makefile_filename; sys.stdout.write(get_makefile_filename())'`
+    fi
+
+    BIG_CHECKING(Look for $PY_INCLUDE/Python.h)
+    if test -f $PY_INCLUDE/Python.h; then
 	AC_MSG_RESULT(yes)
 	PY_LIBS="python$PY_VERSION"
     	PY_LIB_LOC=`$PYTHON -c 'from distutils.sysconfig import get_config_var; sys.stdout.write( get_config_var("LIBPL"))'`
     	PY_LIB_LOC="-L$PY_LIB_LOC"
-	PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+	PY_CFLAGS="-I$PY_INCLUDE"
 	[echo 'echo_python_libs:
 	@echo $(MODLIBS) $(LIBS)' >confmake.tmp
 	PY_EXTRA_LIBS=`make -s -f confmake.tmp -f "$PY_MAKEFILE"`
@@ -889,8 +894,9 @@ int testpython (void)
     Py_Exit (0);
 }
 EOF
-    if /bin/sh ../libtool --mode=compile ${CC} $PY_CFLAGS -c testpython.c >/dev/null 2>&1 && \
-       /bin/sh ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version $PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS >/dev/null 2>&1 && \
+    if ../libtool --mode=compile ${CC} $PY_CFLAGS -c testpython.c >/dev/null 2>&1 &&		\
+       ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version	\
+       		$PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS >/dev/null 2>&1 &&		\
        grep 'dlname.*testpython' testpython.la >/dev/null 2>&1; then
 	AC_MSG_RESULT(yes)
     else

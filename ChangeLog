@@ -1,3 +1,8 @@
+2007-07-06  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Provide a way to redirect the python headers for
+	  cross compilation.
+
 2007-07-02  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (std_output_string) : virtualize string escaping.
