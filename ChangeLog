@@ -1,3 +1,9 @@
+2007-07-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: don't compile the component for now as it is
+	unusable after gnome-print support removal.
+	* configure.in: ditto.
+
 2007-07-06  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Provide a way to redirect the python headers for

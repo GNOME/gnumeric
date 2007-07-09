@@ -1049,7 +1049,6 @@ templates/english/Makefile
 templates/autoformat/Makefile
 test/Makefile
 tools/Makefile
-component/Makefile
 ])
 
 echo "
