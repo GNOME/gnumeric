@@ -172,7 +172,7 @@ scg_redraw_headers (SheetControl *sc,
 	int i;
 
 	for (i = scg->active_panes; i-- > 0 ; ) {
-		if (NULL != (pane = scg->pane[i]))
+		if (NULL == (pane = scg->pane[i]))
 			continue;
 
 		if (col && pane->col.canvas != NULL) {

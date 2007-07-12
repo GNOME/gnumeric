@@ -1,5 +1,10 @@
 2007-07-12  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-control-gui.c (scg_redraw_headers) : fix logic reversal
+	  from the gnm-canvas/gnm-pane merging.
+
+2007-07-12  Jody Goldberg <jody@gnome.org>
+
 	* src/parse-util.c (gnm_conventions_new_full) : init input.range_ref
 	  here so that all implemenations have something.  Fixes crash on oleo
 	  import.
