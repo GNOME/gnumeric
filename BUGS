@@ -8,24 +8,29 @@ release, and longer term bugs.
 Release Critical
 ----------------
     - Convention sax export format
-    - Finish the Data -> Table dialog
-    - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
-    - dialog open wrapper to store previous size/position of dialog
-    - tango icons
 
 In Progress
 -----------
     Jody
 	- Pref for which direction <enter> moves the editpos
 	- Enum prefs
+	- Convention sax export format
 
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
 	- Fix shrinking ranges on cell deletion. [#439347]
+	- win32 GOption fixes
 
 Review
 ------
     - func name translation		{Manny}
+
+Short term goals
+----------------
+    - Finish the Data -> Table dialog
+    - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
+    - dialog open wrapper to store previous size/position of dialog
+    - tango icons
 
 Worries
 -------
@@ -93,6 +98,7 @@ Architecture Changes
 - Merge wb_control_init_state and wb_control_set_view
 - Use gtk_window_group_new to keep wbcg's distinct 
 - merge GnmPane and GnmCanvas					(DONE)
+
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog
