@@ -1008,7 +1008,8 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 	return NULL;
 }
 
-/** rangeref_parse :
+/**
+ * rangeref_parse :
  * @res : where to store the result
  * @start : the start of the string to parse
  * @pos : the location to parse relative to
@@ -1344,6 +1345,7 @@ gnm_conventions_new_full (unsigned size)
 
 	convs->sheet_name_sep		= '!';
 	convs->intersection_char	= ' ';
+	convs->input.range_ref		= rangeref_parse;
 	convs->input.name		= std_name_parser;
 	convs->input.func		= std_func_map;
 
@@ -1507,13 +1509,11 @@ parse_util_init (void)
 #endif
 
 	convs = gnm_conventions_new ();
-	convs->input.range_ref = rangeref_parse;
 	convs->range_sep_colon		 = TRUE;
 	convs->r1c1_addresses		 = FALSE;
 	gnm_conventions_default	 = convs;
 
 	convs = gnm_conventions_new ();
-	convs->input.range_ref = rangeref_parse;
 	convs->range_sep_colon		 = TRUE;
 	convs->r1c1_addresses		 = TRUE;
 	gnm_conventions_xls_r1c1	 = convs;

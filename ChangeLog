@@ -1,3 +1,10 @@
+2007-07-12  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (gnm_conventions_new_full) : init input.range_ref
+	  here so that all implemenations have something.  Fixes crash on oleo
+	  import.
+	(parse_util_init) : not here.
+
 2007-07-09  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: don't compile the component for now as it is
@@ -110,7 +117,7 @@
 
 	* src/sheet-control-gui.c (scg_redraw_range): Restrict to visible
 	pane area here.
-	* src/sheet-view.c (sv_redraw_range): Not hee.
+	* src/sheet-view.c (sv_redraw_range): Not here.
 
 2007-06-15  Jody Goldberg <jody@gnome.org>
 
