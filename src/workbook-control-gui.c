@@ -288,7 +288,7 @@ wbcg_rangesel_possible (WorkbookControlGUI const *wbcg)
 		return TRUE;
 
 	/* Rangesel requires that we be editing somthing */
-	if (!wbcg_is_editing (wbcg) && !wbcg_edit_entry_redirect_p (wbcg))
+	if (!wbcg_is_editing (wbcg) && !wbcg_entry_has_logical (wbcg))
 		return FALSE;
 
 	return gnm_expr_entry_can_rangesel (wbcg_get_entry_logical (wbcg));

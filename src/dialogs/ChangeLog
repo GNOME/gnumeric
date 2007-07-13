@@ -1,3 +1,17 @@
+2007-07-12  Jody Goldberg <jody@gnome.org>
+
+	* dialog-preferences.c (pref_create_label) : new utility to handle
+	  mnemonics, and atk relations.
+	(int_pref_create_widget) : used here.
+	(double_pref_create_widget) : and here.
+	(pref_window_page_initializer) : move transition keys from here.
+	(pref_tool_page_initializer) : here.  And add the 'Enter Direction'
+
+	(cb_enum_changed) : new.
+	(cb_find_enum) : new.
+	(enum_pref_conf_to_widget) : new.
+	(enum_pref_create_widget) :  new.
+
 2007-06-27  Jody Goldberg <jody@gnome.org> 
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=450676

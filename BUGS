@@ -8,6 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
     - Convention sax export format
+    - Look into why we jump to col 0 after changing enter dir from right to down
+    - replicate col/row header redraw problem on scrolling
 
 In Progress
 -----------

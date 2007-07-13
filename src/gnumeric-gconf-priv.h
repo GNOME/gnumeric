@@ -100,6 +100,7 @@
 #define GNM_CONF_GUI_RES_H		"screen/horizontaldpi"
 #define GNM_CONF_GUI_RES_V		"screen/verticaldpi"
 #define GNM_CONF_GUI_ED_AUTOCOMPLETE	"editing/autocomplete"
+#define GNM_CONF_GUI_ED_ENTER_MOVES_DIR	"editing/enter_moves_dir"
 #define GNM_CONF_GUI_ED_TRANSITION_KEYS	"editing/transitionkeys"
 #define GNM_CONF_GUI_ED_LIVESCROLLING	"editing/livescrolling"
 #define GNM_CONF_GUI_ED_RECALC_LAG	"editing/recalclag"

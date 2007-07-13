@@ -79,6 +79,7 @@ typedef struct {
 typedef void (* double_conf_setter_t) (gnm_float value);
 typedef void (* gint_conf_setter_t) (gint value);
 typedef void (* gboolean_conf_setter_t) (gboolean value);
+typedef void (* enum_conf_setter_t) (int value);
 
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_name, 
@@ -136,12 +137,12 @@ dialog_pref_load_description_from_key (PrefState *state, char const *key)
 }
 
 static void
-set_tip (GOConfNode *node, char const *key, GtkWidget *item)
+set_tip (GOConfNode *node, char const *key, GtkWidget *w)
 {
 	char *desc = go_conf_get_long_desc (node, key);
 	if (desc != NULL) {
 		GtkTooltips *the_tip = gtk_tooltips_new ();
-		gtk_tooltips_set_tip (the_tip, item, desc, NULL);
+		gtk_tooltips_set_tip (the_tip, w, desc, NULL);
 		g_free (desc);
 	}
 }
@@ -163,12 +164,36 @@ connect_notification (GOConfNode *node, char const *key, GOConfMonitorFunc func,
 }
 
 /*************************************************************************/
+
+static void
+pref_create_label (GOConfNode *node, char const *key, GtkWidget *table,
+		   gint row, gchar const *default_label, GtkWidget *w)
+{
+	GtkWidget *label;
+
+	if (NULL == default_label) {
+		char *desc = go_conf_get_short_desc (node, key);
+		label = gtk_label_new (desc);
+		g_free (desc);
+	} else
+		label = gtk_label_new_with_mnemonic (default_label);
+
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1, 
+		GTK_FILL | GTK_EXPAND,
+		GTK_FILL | GTK_SHRINK, 5, 2);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), w);
+	go_atk_setup_label (label, w);
+}
+
+/*************************************************************************/
+
 static void
 bool_pref_widget_to_conf (GtkToggleButton *button, 
 			  gboolean_conf_setter_t setter)
 {
-	g_return_if_fail (setter != NULL);
-	
 	setter (gtk_toggle_button_get_active (button));
 }
 static void
@@ -176,23 +201,22 @@ bool_pref_conf_to_widget (GOConfNode *node, char const *key, GtkToggleButton *bu
 {
 	gboolean val_in_button = gtk_toggle_button_get_active (button);
 	gboolean val_in_conf = go_conf_get_bool (node, key);
-	if ((val_in_button != FALSE) != (val_in_conf != FALSE))
+	if ((!val_in_button) != (!val_in_conf))
 		gtk_toggle_button_set_active (button, val_in_conf);
 }
 static void
 bool_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 			 gint row, gboolean_conf_setter_t setter, 
-			 char const *default_text)
+			 char const *default_label)
 {
 	char *desc = go_conf_get_short_desc (node, key);
 	GtkWidget *item = gtk_check_button_new_with_label (
-		(desc != NULL) ? desc : default_text);
+		(desc != NULL) ? desc : default_label);
 
 	g_free (desc);
 
 	bool_pref_conf_to_widget (node, key, GTK_TOGGLE_BUTTON (item));
-	g_signal_connect (G_OBJECT (item),
-		"toggled",
+	g_signal_connect (G_OBJECT (item), "toggled",
 		G_CALLBACK (bool_pref_widget_to_conf), (gpointer) setter);
 	gtk_table_attach (GTK_TABLE (table), item,
 		0, 2, row, row + 1,
@@ -201,6 +225,95 @@ bool_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 	connect_notification (node, key, (GOConfMonitorFunc)bool_pref_conf_to_widget,
 			      item, table);
 	set_tip (node, key, item);
+}
+
+/*************************************************************************/
+
+static void
+cb_enum_changed (GtkComboBox *combo, enum_conf_setter_t setter)
+{
+	GtkTreeIter  iter;
+	if (gtk_combo_box_get_active_iter (combo, &iter)) {
+		GtkTreeModel *model = gtk_combo_box_get_model (combo);
+		GEnumValue *enum_val;
+		gtk_tree_model_get (model, &iter, 1, &enum_val, -1);
+		(*setter) (enum_val->value);
+	}
+}
+
+typedef struct {
+	char		*val;
+	GtkComboBox	*combo;
+} FindEnumClosure;
+
+static  gboolean
+cb_find_enum (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+	      FindEnumClosure *close)
+{
+	gboolean res;
+	char *combo_val;
+
+	gtk_tree_model_get (model, iter, 0, &combo_val, -1);
+	if ((res = !strcmp (close->val, combo_val)))
+		gtk_combo_box_set_active_iter (close->combo, iter);
+	g_free (combo_val);
+	return res;
+}
+
+static void
+enum_pref_conf_to_widget (GOConfNode *node, char const *key, GtkComboBox *combo)
+{
+	FindEnumClosure close;
+	GtkTreeModel *model = gtk_combo_box_get_model (combo);
+
+	close.combo = combo;
+	close.val   = go_conf_get_enum_as_str (node, key);
+	gtk_tree_model_foreach (model,
+		(GtkTreeModelForeachFunc) cb_find_enum, &close);
+	g_free (close.val);
+}
+
+static void
+enum_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
+			 gint row, GType enum_type,
+			 enum_conf_setter_t setter,
+			 gchar const *default_label)
+{
+	unsigned int	 i;
+	GtkTreeIter	 iter;
+	GtkCellRenderer	*renderer;
+	GEnumClass	*enum_class = G_ENUM_CLASS (g_type_class_ref (enum_type));
+	GtkWidget	*combo = gtk_combo_box_new ();
+	GtkListStore	*model = gtk_list_store_new (2,
+		G_TYPE_STRING, G_TYPE_POINTER);
+
+	for (i = 0; i < enum_class->n_values ; i++) {
+		gtk_list_store_append (model, &iter);
+		gtk_list_store_set (model, &iter,
+			0,	enum_class->values[i].value_nick,
+			1,	enum_class->values + i,
+			-1);
+	}
+	
+	g_type_class_unref (enum_class);
+
+	gtk_combo_box_set_model (GTK_COMBO_BOX (combo), GTK_TREE_MODEL (model));
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer, "text", 0, NULL);
+
+	enum_pref_conf_to_widget (node, key, GTK_COMBO_BOX (combo));
+	gtk_table_attach (GTK_TABLE (table), combo,
+		1, 2, row, row + 1,
+		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
+
+	g_signal_connect (G_OBJECT (combo), "changed",
+		G_CALLBACK (cb_enum_changed), (gpointer) setter);
+	connect_notification (node, key,
+		(GOConfMonitorFunc)enum_pref_conf_to_widget, combo, table);
+
+	pref_create_label (node, key, table, row, default_label, combo);
+	set_tip (node, key, combo);
 }
 
 /*************************************************************************/
@@ -224,34 +337,23 @@ int_pref_conf_to_widget (GOConfNode *node, char const *key, GtkSpinButton *butto
 static void
 int_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 			gint row, gint val, gint from, gint to, gint step, 
-			gint_conf_setter_t setter, char const *default_text)
+			gint_conf_setter_t setter, char const *default_label)
 {
-	char *desc = go_conf_get_short_desc (node, key);
-	GtkWidget *item = gtk_label_new 
-		((desc != NULL) ? desc : default_text);
-
-	g_free (desc);
-
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_misc_set_alignment (GTK_MISC (item), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 
-			  GTK_FILL | GTK_EXPAND,
-			  GTK_FILL | GTK_SHRINK, 5, 2);
-	item = gtk_spin_button_new (GTK_ADJUSTMENT (
-				    gtk_adjustment_new (val, from, to, step, 
-							step, step)),
-				    1, 0);
-	int_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (item));
-	g_signal_connect (G_OBJECT (item),
-			  "value-changed",
-			  G_CALLBACK (int_pref_widget_to_conf), (gpointer) setter);
-	gtk_table_attach (GTK_TABLE (table), item,
+	GtkWidget *w = gtk_spin_button_new (GTK_ADJUSTMENT (
+		gtk_adjustment_new (val, from, to, step, step, step)),
+		1, 0);
+	int_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (w));
+	gtk_table_attach (GTK_TABLE (table), w,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
-	connect_notification (node, key, (GOConfMonitorFunc)int_pref_conf_to_widget,
-			      item, table);
-	set_tip (node, key, item);
+	g_signal_connect (G_OBJECT (w), "value-changed",
+		G_CALLBACK (int_pref_widget_to_conf), (gpointer) setter);
+	connect_notification (node, key,
+		(GOConfMonitorFunc)int_pref_conf_to_widget, w, table);
+
+	pref_create_label (node, key, table, row, default_label, w);
+	set_tip (node, key, w);
 }
 
 /*************************************************************************/
@@ -278,35 +380,24 @@ double_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 			   gint row, gnm_float val, gnm_float from,gnm_float to, 
 			   gnm_float step,
 			   gint digits, double_conf_setter_t setter,
-			   char const *default_text)
+			   char const *default_label)
 {
-	char *desc = go_conf_get_short_desc (node, key);
-	GtkWidget *item = gtk_label_new (desc ? desc : default_text);
-	
-	g_free (desc);
-
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_misc_set_alignment (GTK_MISC (item), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1,
-			  GTK_FILL | GTK_EXPAND,
-			  GTK_FILL | GTK_SHRINK, 5, 2);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (
-				     gtk_adjustment_new (val, from, to, step, step, step)),
-				     1, digits);
-	double_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (item));
-	g_signal_connect (G_OBJECT (item),
-			  "value-changed",
-			  G_CALLBACK (double_pref_widget_to_conf), 
-			  (gpointer) setter);
-	gtk_table_attach (GTK_TABLE (table), item,
+	GtkWidget *w =  gtk_spin_button_new (GTK_ADJUSTMENT (
+		gtk_adjustment_new (val, from, to, step, step, step)),
+		1, digits);
+	double_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (w));
+	gtk_table_attach (GTK_TABLE (table), w,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
-	connect_notification (node, key, (GOConfMonitorFunc)double_pref_conf_to_widget,
-			      item, table);
-	set_tip (node, key, item);
-}
+	g_signal_connect (G_OBJECT (w), "value-changed",
+		G_CALLBACK (double_pref_widget_to_conf), (gpointer) setter);
+	connect_notification (node, key,
+		(GOConfMonitorFunc)double_pref_conf_to_widget, w, table);
 
+	pref_create_label (node, key, table, row, default_label, w);
+	set_tip (node, key, w);
+}
 
 /*******************************************************************************************/
 /*                     Default Font Selector                                               */
@@ -585,10 +676,6 @@ pref_window_page_initializer (PrefState *state,
 				page, row++, 1, 1, 64, 1, 
 				gnm_gconf_set_workbook_nsheets,
 				_("Default Number of Sheets"));
-	bool_pref_create_widget (node, GNM_CONF_GUI_ED_TRANSITION_KEYS,
-				 page, row++, 
-				 gnm_gconf_set_gui_transition_keys,
-				 _("Transition Keys"));
 	bool_pref_create_widget (node, GNM_CONF_GUI_ED_LIVESCROLLING,
 				 page, row++, 
 				 gnm_gconf_set_gui_livescrolling,
@@ -712,12 +799,17 @@ pref_tool_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
 
-	int_pref_create_widget (state->root,
-				FUNCTION_SELECT_GCONF_DIR "/" FUNCTION_SELECT_GCONF_NUM_OF_RECENT,
-				page, row++, 10, 0, 40, 1, 
-				gnm_gconf_set_num_recent_functions,
-				_("Maximum Length of Recently "
-				  "Used Functions List"));
+	enum_pref_create_widget (state->root,
+				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_ENTER_MOVES_DIR,
+				 page, row++, 
+				 GO_DIRECTION_TYPE,
+				 (enum_conf_setter_t) gnm_gconf_set_enter_moves_dir,
+				 _("Enter _Moves Selection"));
+	bool_pref_create_widget (state->root,
+				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_TRANSITION_KEYS,
+				 page, row++, 
+				 gnm_gconf_set_gui_transition_keys,
+				 _("Transition Keys"));
 	bool_pref_create_widget (state->root,
 				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_AUTOCOMPLETE,
 				 page, row++, 
@@ -728,6 +820,12 @@ pref_tool_page_initializer (PrefState *state,
 				 page, row++, 
 				 gnm_gconf_set_unfocused_rs,
 				_("Allow Unfocused Range Selections"));
+	int_pref_create_widget (state->root,
+				FUNCTION_SELECT_GCONF_DIR "/" FUNCTION_SELECT_GCONF_NUM_OF_RECENT,
+				page, row++, 10, 0, 40, 1, 
+				gnm_gconf_set_num_recent_functions,
+				_("Maximum Length of Recently "
+				  "Used Functions List"));
 	
 	gtk_widget_show_all (page);
 	return page;
@@ -782,7 +880,7 @@ typedef struct {
 	gpointer data;
 } page_info_t;
 
-static const page_info_t page_info[] = {
+static page_info_t const page_info[] = {
 	{N_("Font"),          GTK_STOCK_ITALIC,	         NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
 	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer,&pref_copypaste_page_open,	NULL},
 	{N_("Files"),         GTK_STOCK_FLOPPY,	         NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},

@@ -212,6 +212,18 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/core/gui/editing/enter_moves_dir</key>
+        <applyto>/apps/gnumeric/core/gui/editing/enter_moves_dir</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>down</default>
+        <locale name="C">
+	<!-- enum : none, down, up right, left -->
+        <short>Enter Direction</short>
+        <long>Which direction pressing Enter will move the edit position.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/core/gui/editing/livescrolling</key>
         <applyto>/apps/gnumeric/core/gui/editing/livescrolling</applyto>
         <owner>Gnumeric</owner>

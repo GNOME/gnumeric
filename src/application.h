@@ -28,6 +28,7 @@ void	     gnm_app_history_add	   (char const *filename, const char *mimetype);
 void        *gnm_app_create_opener_filter (void);
 
 /* Prefs */
+int	     gnm_app_enter_moves_dir	  (void);
 gboolean     gnm_app_use_auto_complete    (void);
 gboolean     gnm_app_use_transition_keys  (void);
 void         gnm_app_set_transition_keys  (gboolean);

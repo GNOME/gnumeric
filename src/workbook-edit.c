@@ -997,6 +997,12 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	return TRUE;
 }
 
+/**
+ * wbcg_get_entry :
+ * @WorkbookControlGUI : @wbcg
+ *
+ * Returns the #GtkEntry associated with the current GnmExprEntry
+ **/
 GtkEntry *
 wbcg_get_entry (WorkbookControlGUI const *wbcg)
 {
@@ -1005,6 +1011,13 @@ wbcg_get_entry (WorkbookControlGUI const *wbcg)
 	return gnm_expr_entry_get_entry (wbcg->edit_line.entry);
 }
 
+/**
+ * wbcg_get_entry_logical :
+ * @WorkbookControlGUI : @wbcg
+ *
+ * Returns the logical (allowing redirection via wbcg_set_entry for gurus)
+ * #GnmExprEntry 
+ **/
 GnmExprEntry *
 wbcg_get_entry_logical (WorkbookControlGUI const *wbcg)
 {
@@ -1016,6 +1029,20 @@ wbcg_get_entry_logical (WorkbookControlGUI const *wbcg)
 	return wbcg->edit_line.entry;
 }
 
+/**
+ * wbcg_get_entry_underlying :
+ * @wbcg : #WorkbookControlGUI
+ *
+ * Returns the #GtkEntry associated with the logical #GnmExprEntry.
+ **/
+GtkWidget *
+wbcg_get_entry_underlying (WorkbookControlGUI const *wbcg)
+{
+	GnmExprEntry *ee    = wbcg_get_entry_logical (wbcg);
+	GtkEntry     *entry = gnm_expr_entry_get_entry (ee);
+	return GTK_WIDGET (entry);
+}
+
 void
 wbcg_set_entry (WorkbookControlGUI *wbcg, GnmExprEntry *entry)
 {
@@ -1025,6 +1052,18 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnmExprEntry *entry)
 		scg_rangesel_stop (wbcg_cur_scg (wbcg), FALSE);
 		wbcg->edit_line.temp_entry = entry;
 	}
+}
+
+/**
+ * wbcg_entry_has_logical :
+ * @wbcg : #WorkbookControlGUI
+ *
+ * Returns TRUE if wbcg_set_entry has redirected the edit_entry.
+ **/
+gboolean
+wbcg_entry_has_logical (WorkbookControlGUI const *wbcg)
+{
+	return (wbcg->edit_line.temp_entry != NULL);
 }
 
 static void
@@ -1113,12 +1152,6 @@ GtkWidget *
 wbcg_edit_get_guru (WorkbookControlGUI const *wbcg)
 {
 	return wbcg->edit_line.guru;
-}
-
-gboolean
-wbcg_edit_entry_redirect_p (WorkbookControlGUI const *wbcg)
-{
-	return (wbcg->edit_line.temp_entry != NULL);
 }
 
 gboolean

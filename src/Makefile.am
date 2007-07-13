@@ -384,6 +384,9 @@ uninstall-hook:
 # include conditional files to ensure everything gets distributed no matter
 # what the build
 EXTRA_DIST = main-component.c			\
+	    gnm-conf-gconf.c			\
+	    gnm-conf-keyfile.c			\
+	    gnm-conf-win32.c			\
 	    README.gnm_float			\
 	    gnumeric.rc gnm-i18n.h		\
 	    GNOME_Gnumeric-gtk.xml.in		\

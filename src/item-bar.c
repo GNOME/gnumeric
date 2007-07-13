@@ -969,7 +969,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			}
 		} else {
 			if (wbcg_edit_get_guru (wbcg) != NULL &&
-			    !wbcg_edit_entry_redirect_p (wbcg))
+			    !wbcg_entry_has_logical (wbcg))
 				break;
 
 			/* If we're editing it is possible for this to fail */

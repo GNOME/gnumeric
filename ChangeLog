@@ -1,3 +1,13 @@
+2007-07-12  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-gconf.c : split out each of the implementations into.
+	* src/gnm-conf-gconf.c : here.
+	* src/gnm-conf-win32.c : here.
+	* src/gnm-conf-keyfile.c : and here.
+
+	* schemas/gnumeric-general.schemas.in : Add enter_moves_dir
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet) : use it here.
+
 2007-07-13  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : remove GTK_DISABLE_DEPRECATED for now.  Gtk trunk has

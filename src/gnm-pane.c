@@ -45,6 +45,7 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-locale.h>
+#include <goffice/utils/go-geometry.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
@@ -87,7 +88,7 @@ gnm_pane_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 	if (guru == NULL)
 		return FALSE;
 
-	entry = GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	entry = wbcg_get_entry_underlying (wbcg);
 	gtk_widget_event ((entry != NULL) ? entry : guru, (GdkEvent *) event);
 	return TRUE;
 }
@@ -282,102 +283,102 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 	case GDK_KP_Page_Up:
 	case GDK_Page_Up:
-	if ((event->state & GDK_CONTROL_MASK) != 0)
-		gtk_notebook_prev_page (wbcg->notebook);
-	else if ((event->state & GDK_MOD1_MASK) == 0) {
-		delayed_movement = TRUE;
-		scg_queue_movement (scg, movefn,
-				    -(pane->last_visible.row - pane->first.row),
-				    FALSE, FALSE);
-	} else {
-		delayed_movement = TRUE;
-		scg_queue_movement (scg, movefn,
-				    -(pane->last_visible.col - pane->first.col),
-				    FALSE, TRUE);
-	}
-	break;
+		if ((event->state & GDK_CONTROL_MASK) != 0)
+			gtk_notebook_prev_page (wbcg->notebook);
+		else if ((event->state & GDK_MOD1_MASK) == 0) {
+			delayed_movement = TRUE;
+			scg_queue_movement (scg, movefn,
+					    -(pane->last_visible.row - pane->first.row),
+					    FALSE, FALSE);
+		} else {
+			delayed_movement = TRUE;
+			scg_queue_movement (scg, movefn,
+					    -(pane->last_visible.col - pane->first.col),
+					    FALSE, TRUE);
+		}
+		break;
 
 	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
-	if ((event->state & GDK_CONTROL_MASK) != 0)
-		gtk_notebook_next_page (wbcg->notebook);
-	else if ((event->state & GDK_MOD1_MASK) == 0) {
-		delayed_movement = TRUE;
-		scg_queue_movement (scg, movefn,
-				    pane->last_visible.row - pane->first.row,
-				    FALSE, FALSE);
-	} else {
-		delayed_movement = TRUE;
-		scg_queue_movement (scg, movefn,
-				    pane->last_visible.col - pane->first.col,
-				    FALSE, TRUE);
-	}
-	break;
+		if ((event->state & GDK_CONTROL_MASK) != 0)
+			gtk_notebook_next_page (wbcg->notebook);
+		else if ((event->state & GDK_MOD1_MASK) == 0) {
+			delayed_movement = TRUE;
+			scg_queue_movement (scg, movefn,
+					    pane->last_visible.row - pane->first.row,
+					    FALSE, FALSE);
+		} else {
+			delayed_movement = TRUE;
+			scg_queue_movement (scg, movefn,
+					    pane->last_visible.col - pane->first.col,
+					    FALSE, TRUE);
+		}
+		break;
 
 	case GDK_KP_Home:
 	case GDK_Home:
-	if (event->state & SCROLL_LOCK_MASK) {
-		scg_set_left_col (scg, sv->edit_pos.col);
-		scg_set_top_row (scg, sv->edit_pos.row);
-	} else if (end_mode) {
-		/* Same as ctrl-end.  */
-		GnmRange r = sheet_get_extent (sheet, FALSE);
-		(*movefn) (scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
-		(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
-	} else {
-		/* do the ctrl-home jump to A1 in 2 steps */
-		(*movefn)(scg, -SHEET_MAX_COLS, FALSE, TRUE);
-		if ((event->state & GDK_CONTROL_MASK) || transition_keys)
-			(*movefn)(scg, -SHEET_MAX_ROWS, FALSE, FALSE);
-	}
-	break;
+		if (event->state & SCROLL_LOCK_MASK) {
+			scg_set_left_col (scg, sv->edit_pos.col);
+			scg_set_top_row (scg, sv->edit_pos.row);
+		} else if (end_mode) {
+			/* Same as ctrl-end.  */
+			GnmRange r = sheet_get_extent (sheet, FALSE);
+			(*movefn) (scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
+			(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
+		} else {
+			/* do the ctrl-home jump to A1 in 2 steps */
+			(*movefn)(scg, -SHEET_MAX_COLS, FALSE, TRUE);
+			if ((event->state & GDK_CONTROL_MASK) || transition_keys)
+				(*movefn)(scg, -SHEET_MAX_ROWS, FALSE, FALSE);
+		}
+		break;
 
 	case GDK_KP_End:
 	case GDK_End:
-	if (event->state & SCROLL_LOCK_MASK) {
-		int new_col = sv->edit_pos.col - (pane->last_full.col - pane->first.col);
-		int new_row = sv->edit_pos.row - (pane->last_full.row - pane->first.row);
-		scg_set_left_col (scg, new_col);
-		scg_set_top_row (scg, new_row);
-	} else if ((event->state & GDK_CONTROL_MASK)) {
-		GnmRange r = sheet_get_extent (sheet, FALSE);
+		if (event->state & SCROLL_LOCK_MASK) {
+			int new_col = sv->edit_pos.col - (pane->last_full.col - pane->first.col);
+			int new_row = sv->edit_pos.row - (pane->last_full.row - pane->first.row);
+			scg_set_left_col (scg, new_col);
+			scg_set_top_row (scg, new_row);
+		} else if ((event->state & GDK_CONTROL_MASK)) {
+			GnmRange r = sheet_get_extent (sheet, FALSE);
 
-		/* do the ctrl-end jump to the extent in 2 steps */
-		(*movefn)(scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
-		(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
-	} else  /* toggle end mode */
-		wbcg_set_end_mode (wbcg, !end_mode);
-	break;
+			/* do the ctrl-end jump to the extent in 2 steps */
+			(*movefn)(scg, r.end.col - sv->edit_pos.col, FALSE, TRUE);
+			(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
+		} else  /* toggle end mode */
+			wbcg_set_end_mode (wbcg, !end_mode);
+		break;
 
 	case GDK_KP_Insert :
 	case GDK_Insert :
-	if (gnm_pane_guru_key (wbcg, event))
+		if (gnm_pane_guru_key (wbcg, event))
+			break;
+		if (state == GDK_CONTROL_MASK)
+			sv_selection_copy (sv, WORKBOOK_CONTROL (wbcg));
+		else if (state == GDK_SHIFT_MASK)
+			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sv, PASTE_DEFAULT);
 		break;
-	if (state == GDK_CONTROL_MASK)
-		sv_selection_copy (sv, WORKBOOK_CONTROL (wbcg));
-	else if (state == GDK_SHIFT_MASK)
-		cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sv, PASTE_DEFAULT);
-	break;
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
-	if (wbcg_is_editing (wbcg)) {
-		/* stop auto-completion. then do a quick and cheesy update */
-		wbcg_auto_complete_destroy (wbcg);
-		SCG_FOREACH_PANE (scg, pane, {
-				  if (pane->editor)
-				  foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor));
-				  });
-		return TRUE;
-	}
-	if (gnm_pane_guru_key (wbcg, event))
+		if (wbcg_is_editing (wbcg)) {
+			/* stop auto-completion. then do a quick and cheesy update */
+			wbcg_auto_complete_destroy (wbcg);
+			SCG_FOREACH_PANE (scg, pane, {
+				if (pane->editor)
+					foo_canvas_item_request_update (FOO_CANVAS_ITEM (pane->editor));
+			});
+			return TRUE;
+		}
+		if (gnm_pane_guru_key (wbcg, event))
+			break;
+		if (state == GDK_SHIFT_MASK) {
+			scg_mode_edit (scg);
+			sv_selection_cut (sv, WORKBOOK_CONTROL (wbcg));
+		} else
+			cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES);
 		break;
-	if (state == GDK_SHIFT_MASK) {
-		scg_mode_edit (scg);
-		sv_selection_cut (sv, WORKBOOK_CONTROL (wbcg));
-	} else
-		cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES);
-	break;
 
 	/*
 	 * NOTE : Keep these in sync with the condition
@@ -385,54 +386,62 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
-	if (wbcg_is_editing (wbcg) &&
-	    (state == GDK_CONTROL_MASK ||
-	     state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
-	     event->state == GDK_MOD1_MASK))
-		/* Forward the keystroke to the input line */
-		return gtk_widget_event (
-					 GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
-					 (GdkEvent *) event);
-	is_enter = TRUE;
-	/* fall down */
+		if (wbcg_is_editing (wbcg) &&
+		    (state == GDK_CONTROL_MASK ||
+		     state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
+		     event->state == GDK_MOD1_MASK))
+			/* Forward the keystroke to the input line */
+			return gtk_widget_event (
+				wbcg_get_entry_underlying (wbcg), (GdkEvent *) event);
+		is_enter = TRUE;
+		/* fall down */
 
 	case GDK_Tab:
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
-	if (gnm_pane_guru_key (wbcg, event))
+		if (gnm_pane_guru_key (wbcg, event))
+			break;
+
+		/* Be careful to restore the editing sheet if we are editing */
+		if (wbcg_is_editing (wbcg))
+			sheet = wbcg->wb_control.editing_sheet;
+
+		if (wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
+			if ((event->state & GDK_MOD1_MASK) &&
+			    (event->state & GDK_CONTROL_MASK) &&
+			    !is_enter) {
+				if (event->state & GDK_SHIFT_MASK)
+					workbook_cmd_dec_indent (sc->wbc);
+				else
+					workbook_cmd_inc_indent	(sc->wbc);
+			} else {
+				gboolean forward = TRUE;
+				gboolean horizontal = TRUE;
+				if (is_enter) {
+					horizontal = go_direction_is_horizontal (
+						gnm_app_enter_moves_dir ());
+					forward = go_direction_is_forward (
+						gnm_app_enter_moves_dir ());
+				}
+
+				if (event->state & GDK_SHIFT_MASK)
+					forward = !forward;
+
+				sv_selection_walk_step (sv, forward, horizontal);
+			}
+		}
 		break;
 
-	/* Be careful to restore the editing sheet if we are editing */
-	if (wbcg_is_editing (wbcg))
-		sheet = wbcg->wb_control.editing_sheet;
-
-	if (wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
-		if ((event->state & GDK_MOD1_MASK) &&
-		    (event->state & GDK_CONTROL_MASK) &&
-		    !is_enter) {
-			if (event->state & GDK_SHIFT_MASK)
-				workbook_cmd_dec_indent (sc->wbc);
-			else
-				workbook_cmd_inc_indent	(sc->wbc);
-		} else {
-			/* Figure out the direction */
-			gboolean forward = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
-			gboolean horizontal = !is_enter;
-			sv_selection_walk_step (sv, forward, horizontal);
-		}
-	}
-	break;
-
 	case GDK_Escape:
-	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
-	gnm_app_clipboard_unant ();
-	break;
+		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
+		gnm_app_clipboard_unant ();
+		break;
 
 	case GDK_F4:
-	if (wbcg_is_editing (wbcg))
-		return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
-					 (GdkEvent *) event);
-	return TRUE;
+		if (wbcg_is_editing (wbcg))
+			return gtk_widget_event (
+				wbcg_get_entry_underlying (wbcg), (GdkEvent *) event);
+		return TRUE;
 
 	case GDK_F2:
 	if (gnm_pane_guru_key (wbcg, event))
@@ -474,8 +483,8 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	scg_rangesel_stop (scg, FALSE);
 
 	/* Forward the keystroke to the input line */
-	return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
-				 (GdkEvent *) event);
+	return gtk_widget_event (
+		wbcg_get_entry_underlying (wbcg), (GdkEvent *) event);
 	}
 
 	if (!delayed_movement) {
@@ -748,7 +757,7 @@ gnm_pane_get_editable (GnmPane const *pane)
 }
 
 static void
-cb_gnm_pane_commit (GtkIMContext *context, const gchar *str, GnmPane *pane)
+cb_gnm_pane_commit (GtkIMContext *context, char const *str, GnmPane *pane)
 {
 	gint tmp_pos, length;
 	WorkbookControlGUI *wbcg = pane->simple.scg->wbcg;
