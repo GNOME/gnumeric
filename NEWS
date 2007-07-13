@@ -33,6 +33,8 @@ Jody:
 	* Work around ODF's lack of a default col/row style.
 	* Fix crash in t-test. [#450676].
 	* Sylk import/export support for arrays.
+	* Configurability for which direction <Enter> moves.
+	* Calc property import/export for xlsx.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]
