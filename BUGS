@@ -8,6 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
     - Convention sax export format
+    - finish workbook recalc prop
+    - finish xls Form import
     - Look into why we jump to col 0 after changing enter dir from right to down
     - replicate col/row header redraw problem on scrolling
 
@@ -929,6 +931,25 @@ Architecture Changes
     36.9) See 32.18.4 (Sheet Object Lists)
     36.10) See 5.3 (pivots)
     36.11) See 17.2.5 (page breaks)
+
+37) OOX
+    37.1) Import
+	37.1.1) workbook/calc properties (Calc_PR)
+	    37.1.1.1) refMode from wb -> sheet
+	37.1.2) Named expressions
+	37.1.3) Rich text
+	37.1.4) Validation
+	37.1.6) More print settings
+	37.1.7) Comments
+	37.1.8) Text direction in styles
+    37.2) Export
+	37.2.1) workbook/calc properties (Calc_PR)
+	37.2.2) Named expressions
+	37.2.3) Rich text
+	37.2.4) Validation
+	37.2.6) More print settings
+	37.2.7) Comments
+	37.2.8) Text direction in styles
 
 -------------------------------------------------------------------------------
 Target Features
