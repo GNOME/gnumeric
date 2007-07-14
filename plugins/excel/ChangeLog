@@ -1,3 +1,9 @@
+2007-07-14  Jody Goldberg <jody@gnome.org>
+
+	Report form coverity.
+	* ms-obj.c (ms_read_TXO) : remove failure modes for items we do not
+	  actually use.  alignments are enumerated from 1, not 0.
+
 2007-06-21  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.h : delete MsBiffFontUnderline, there was no need for

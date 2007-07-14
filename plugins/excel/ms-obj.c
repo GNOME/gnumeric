@@ -419,10 +419,6 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	if (text_len == 0)
 		return NULL;
 
-	g_return_val_if_fail (orient <= 3, NULL);
-	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
-	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
-
 	accum = g_string_new ("");
 	while (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 		gboolean use_utf16;
@@ -455,10 +451,14 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0) {
+		char const *o_msg =  (orient <= 3) ? orientations[orient] : "unknown orientation";
+		char const *h_msg =  (1 <= halign && halign <= 4) ? haligns[halign-1] : "unknown h-align";
+		char const *v_msg =  (1 <= valign && valign <= 4) ? valigns[valign-1] : "unknown v-align";
+
 		printf ("{ TextObject\n");
 		printf ("Text '%s'\n", text);
-		printf ("is %s, %s & %s;\n",
-			orientations[orient], haligns[halign], valigns[valign]);
+		printf ("is %s(%d), %s(%d) & %s(%d);\n",
+			o_msg, orient, h_msg, halign, v_msg, valign);
 		printf ("}; /* TextObject */\n");
 	}
 #endif
