@@ -1,3 +1,8 @@
+2007-07-15  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_style_feedback) : We need to update the
+	  validation combo even if the style is the same. [#453525]
+
 2007-07-12  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-gconf.c : split out each of the implementations into.

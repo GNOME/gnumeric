@@ -35,6 +35,7 @@ Jody:
 	* Sylk import/export support for arrays.
 	* Configurability for which direction <Enter> moves.
 	* Calc property import/export for xlsx.
+	* Update validation combo moving between identical styles. [#453525]
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

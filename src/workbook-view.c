@@ -234,6 +234,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 	GnmValidation const *val;
 	GOFormat *fmt_style, *fmt_cell;
 	GnmCell *cell;
+	gboolean update_controls = TRUE;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
@@ -253,7 +254,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 
 	if (go_format_eq (fmt_cell, fmt_style)) {
 		if (style == wbv->current_style)
-			return;
+			update_controls = FALSE;
 		gnm_style_ref (style);
 	} else {
 		GnmStyle *tmp = gnm_style_dup (style);
@@ -289,8 +290,10 @@ wb_view_style_feedback (WorkbookView *wbv)
 		sheet_object_set_sheet (wbv->validation_combo, sv_sheet (sv));
 	}
 
-	WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
-		wb_control_style_feedback (control, NULL););
+	if (update_controls) {
+		WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
+			wb_control_style_feedback (control, NULL););
+	}
 }
 
 void
