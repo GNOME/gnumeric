@@ -190,7 +190,6 @@ static SheetObjectView *
 gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOLine const *sol = GNM_SO_LINE (so);
-	GnmPane *pane = GNM_PANE (container);
 	FooCanvasItem *item = foo_canvas_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
 		so_line_foo_view_get_type (),

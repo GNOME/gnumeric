@@ -120,13 +120,11 @@ typedef struct {
 /*
  * Functions for GnmFormatTemplate
  */
-void            format_template_free           (GnmFormatTemplate *ft);
+void            format_template_free              (GnmFormatTemplate *ft);
 GnmFormatTemplate *format_template_clone          (GnmFormatTemplate const *ft);
 GnmFormatTemplate *format_template_new            (void);
 GnmFormatTemplate *format_template_new_from_file  (char const *filename,
-						GOCmdContext *context);
-gboolean        format_template_save           (GnmFormatTemplate const *ft,
-						GOCmdContext *cc);
+						   GOCmdContext *context);
 
 gint                  format_template_compare_name             (gconstpointer a, gconstpointer b);
 

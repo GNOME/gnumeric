@@ -14,7 +14,7 @@ void gnm_string_dump     (void);
 
 GnmString *gnm_string_get        (char const *s);
 GnmString *gnm_string_get_nocopy (char *s);
-GnmString *gnm_string_ref        (GnmString *);
-void       gnm_string_unref      (GnmString *);
+GnmString *gnm_string_ref        (GnmString *str);
+void       gnm_string_unref      (GnmString *str);
 
 #endif /* GNUMERIC_STRING_H */

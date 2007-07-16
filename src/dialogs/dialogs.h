@@ -19,12 +19,11 @@ typedef enum {
 	FD_LAST = FD_INPUT_MSG
 } FormatDialogPosition_t;
 
-void	 dialog_formula_guru	(WorkbookControlGUI *wbcg, GnmFunc const *);
+void	 dialog_formula_guru	(WorkbookControlGUI *wbcg, GnmFunc const *func);
 void	 dialog_plugin_manager	(WorkbookControlGUI *wbcg);
 void	 dialog_goto_cell	(WorkbookControlGUI *wbcg);
 void	 dialog_cell_format	(WorkbookControlGUI *wbcg,
 				 FormatDialogPosition_t pageno);
-void	 dialog_conditional_fmt	(WorkbookControlGUI *wbcg);
 void	 dialog_paste_special	(WorkbookControlGUI *wbcg);
 void	 dialog_insert_cells	(WorkbookControlGUI *wbcg);
 void	 dialog_delete_cells	(WorkbookControlGUI *wbcg);
@@ -106,7 +105,6 @@ int dialog_ttest_tool    (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type tes
 char *dialog_get_password (GtkWindow *parent, char const *filename);
 
 /* Modeless dialogs */
-void	dialog_edit_meta_data  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
 void	dialog_preferences (WorkbookControlGUI *wbcg, gint page);
 void    dialog_recent_used (WorkbookControlGUI *wbcg);
 

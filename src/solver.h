@@ -240,7 +240,7 @@ char             *write_constraint_str (int lhs_col, int lhs_row,
 SolverParameters *solver_param_new     (void);
 
 /* Frees the memory resources in the solver parameter structure. */
-void             solver_param_destroy  (SolverParameters *);
+void             solver_param_destroy  (SolverParameters *sp);
 
 /* Creates a copy of the Solver's data structures when a sheet is
  * duplicated. */

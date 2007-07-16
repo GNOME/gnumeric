@@ -3,8 +3,8 @@
 
 #include "gui-gnumeric.h"
 
-gboolean gui_file_save_as   (WorkbookControlGUI *wbcg, WorkbookView *);
-gboolean gui_file_save      (WorkbookControlGUI *wbcg, WorkbookView *);
+gboolean gui_file_save_as   (WorkbookControlGUI *wbcg, WorkbookView *wbv);
+gboolean gui_file_save      (WorkbookControlGUI *wbcg, WorkbookView *wbv);
 void     gui_file_open      (WorkbookControlGUI *wbcg, 
 			     char const *default_format);
 void     gui_wb_view_show   (WorkbookControlGUI *wbcg, WorkbookView *wbv);

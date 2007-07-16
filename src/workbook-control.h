@@ -61,7 +61,6 @@ enum {
 #define MS_GURU_MENU_ITEMS \
     (MS_PRINT_SETUP | MS_SEARCH_REPLACE | MS_DEFINE_NAME | MS_CONSOLIDATE)
 
-void wb_control_menu_state_sheet_count	(WorkbookControl *wbc);
 void wb_control_menu_state_update	(WorkbookControl *wbc, int flags);
 void wb_control_update_action_sensitivity (WorkbookControl *wbc);
 

@@ -102,12 +102,6 @@ void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
 GOConfNode *gnm_conf_get_root (void);
 
-/* autocorrect */
-void     gnm_gconf_set_autocorrect_init_caps (gboolean val);
-void     gnm_gconf_set_autocorrect_first_letter (gboolean val);
-void     gnm_gconf_set_autocorrect_names_of_days (gboolean val);
-void     gnm_gconf_set_autocorrect_replace (gboolean val);
-
 /* autocomplete */
 void     gnm_gconf_set_autocomplete (gboolean val);
 

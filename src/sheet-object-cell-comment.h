@@ -11,9 +11,9 @@
 GType	     cell_comment_get_type (void);
 
 char const  *cell_comment_author_get (GnmComment const *cc);
-void         cell_comment_author_set (GnmComment       *cc, char const *);
+void         cell_comment_author_set (GnmComment       *cc, char const *author);
 char const  *cell_comment_text_get   (GnmComment const *cc);
-void         cell_comment_text_set   (GnmComment       *cc, char const *);
+void         cell_comment_text_set   (GnmComment       *cc, char const *text);
 
 /* convenience routine */
 void	     cell_comment_set_cell   (GnmComment *cc, GnmCellPos const *pos);

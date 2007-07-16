@@ -3,6 +3,6 @@
 
 #include "gnumeric.h"
 
-void workbook_style_test (Workbook *);
+void workbook_style_test (Workbook *wb);
 
 #endif /* GNUMERIC_TEST_H */

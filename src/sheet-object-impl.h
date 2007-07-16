@@ -135,10 +135,12 @@ typedef struct {
 				  double const *input, SheetObjectAnchor *output);
 } SheetObjectViewContainerIface;
 
+#if 0
 void so_vc_anchor_to_coords (SheetObjectViewContainer *sovc,
 			     SheetObjectAnchor const *input, double *output);
 void so_vc_coords_to_anchor (SheetObjectViewContainer *sovc,
 			     double const *input, SheetObjectAnchor *output);
+#endif
 
 /***************************************************************************/
 

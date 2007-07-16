@@ -71,7 +71,6 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 
 GnmColor *go_combo_color_get_style_color (GtkWidget *color_combo);
 
-void gnumeric_help_display	(char const *link);
 void gnumeric_init_help_button	(GtkWidget *w, char const *link);
 
 char *gnumeric_textview_get_text (GtkTextView *text_view);
@@ -107,7 +106,7 @@ GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
 					 char const *primary_message,
 					 char const *secondary_message);
 
-typedef gboolean gnm_iter_search_t (GtkTreeModel *model, GtkTreeIter* iter);
+typedef gboolean (*gnm_iter_search_t) (GtkTreeModel *model, GtkTreeIter* iter);
 #define gnm_tree_model_iter_next gtk_tree_model_iter_next
 gboolean gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter);
 

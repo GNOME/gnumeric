@@ -24,7 +24,7 @@ Symbol      *symbol_lookup         (SymbolTable *st, char const *str);
 Symbol      *symbol_install        (SymbolTable *st, char const *str,
 				    SymbolType type, void *data);
 
-void         symbol_ref            (Symbol *);
-void         symbol_unref          (Symbol *);
+void         symbol_ref            (Symbol *sym);
+void         symbol_unref          (Symbol *sym);
 
 #endif /* GNUMERIC_SYMBOL_H */

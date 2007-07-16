@@ -40,8 +40,8 @@ unsigned    workbook_find_command	(Workbook *wb,
 GnmExprSharer *workbook_share_expressions (Workbook *wb, gboolean freeit);
 
 /* IO Routines */
-gboolean       workbook_set_saveinfo	(Workbook *wb,
-					 FileFormatLevel, GOFileSaver *);
+gboolean       workbook_set_saveinfo	(Workbook *wb, FileFormatLevel lev,
+					 GOFileSaver *saver);
 void           workbook_update_history  (Workbook *wb);
 GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 
