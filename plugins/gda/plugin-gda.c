@@ -229,9 +229,6 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 {
 	GdaConnection *cnc = NULL;
 	gchar *real_dsn, *real_user, *real_password;
-#ifdef HAVE_LIBGNOMEDB
-	GtkWidget *dialog, *login;
-#endif
 	GError *error = NULL;
 
 	/* initialize connection pool if first time */
@@ -265,17 +262,19 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 		CncKey *key;
 
 #ifdef HAVE_LIBGNOMEDB
-		dialog = gnome_db_login_dialog_new (_("Database Connection"));
-		login = gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
+		GtkWidget    *dialog =
+			gnome_db_login_dialog_new (_("Database Connection"));
+		GnomeDbLogin *login =
+			gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
 		
-		gnome_db_login_set_dsn (GNOME_DB_LOGIN (login), dsn);
-		gnome_db_login_set_username (GNOME_DB_LOGIN (login), user);
-		gnome_db_login_set_password (GNOME_DB_LOGIN (login), password);
+		gnome_db_login_set_dsn (login, dsn);
+		gnome_db_login_set_username (login, user);
+		gnome_db_login_set_password (login, password);
 		
 		if (gnome_db_login_dialog_run (GNOME_DB_LOGIN_DIALOG (dialog))) {
-			real_dsn = g_strdup (gnome_db_login_get_dsn (GNOME_DB_LOGIN (login)));
-			real_user = g_strdup (gnome_db_login_get_username (GNOME_DB_LOGIN (login)));
-			real_password = g_strdup (gnome_db_login_get_password (GNOME_DB_LOGIN (login)));
+			real_dsn = g_strdup (gnome_db_login_get_dsn (login));
+			real_user = g_strdup (gnome_db_login_get_username (login));
+			real_password = g_strdup (gnome_db_login_get_password (login));
 			
 			gtk_widget_destroy (dialog);
 		} else {
