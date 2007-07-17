@@ -60,7 +60,6 @@ int gnm_range_rsq_est	(gnm_float const *xs, const gnm_float *ys, int n, gnm_floa
 
 int gnm_range_mode	(gnm_float const *xs, int n, gnm_float *res);
 
-int gnm_range_min_k		 (gnm_float const *xs, int n, gnm_float *res, int k);
 int gnm_range_min_k_nonconst (gnm_float       *xs, int n, gnm_float *res, int k);
 
 #endif

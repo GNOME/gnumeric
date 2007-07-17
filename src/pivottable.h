@@ -30,7 +30,9 @@ typedef struct {
 GnmPivotTable  *gnm_pivottable_new    (Sheet *src_sheet, GnmRange const *src,
 				       Sheet *dst_sheet, GnmRange const *dst);
 void		gnm_pivottable_free   (GnmPivotTable *filter);
+#if 0
 void		gnm_pivottable_link   (GnmPivotTable *filter);
 void		gnm_pivottable_unlink (GnmPivotTable *filter);
+#endif
 
 #endif /* GNUMERIC_PIVOTTABLE_H */
