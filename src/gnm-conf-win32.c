@@ -322,21 +322,7 @@ go_conf_get_string (GOConfNode *node, gchar const *key)
 GSList *
 go_conf_get_str_list (GOConfNode *node, gchar const *key)
 {
-	GSList *list = NULL;
-	gchar *ptr;
-	gchar **str_list;
-	gint i;
-
-	if ((ptr = go_conf_get_string (node, key)) != NULL) {
-		str_list = g_strsplit ((gchar const *) ptr, "\n", 0);
-		for (i = 0; str_list[i]; ++i)
-			list = g_slist_prepend (list, g_strcompress (str_list[i]));
-		list = g_slist_reverse (list);
-		g_strfreev (str_list);
-		g_free (ptr);
-	}
-
-	return list;
+	return go_conf_load_str_list (node, key);
 }
 
 static guchar *
@@ -373,12 +359,6 @@ go_conf_get (GOConfNode *node, gchar const *key, gulong expected)
 	}
 
 	return ptr;
-}
-
-char *
-go_conf_get_enum_as_str (GOConfNode *node, gchar const *key)
-{
-	return go_conf_get_string (node, key);
 }
 
 gboolean
@@ -456,7 +436,21 @@ go_conf_load_string (GOConfNode *node, gchar const *key)
 GSList *
 go_conf_load_str_list (GOConfNode *node, gchar const *key)
 {
-	return go_conf_get_str_list (node, key);
+	GSList *list = NULL;
+	gchar *ptr;
+	gchar **str_list;
+	gint i;
+
+	if ((ptr = go_conf_get_string (node, key)) != NULL) {
+		str_list = g_strsplit ((gchar const *) ptr, "\n", 0);
+		for (i = 0; str_list[i]; ++i)
+			list = g_slist_prepend (list, g_strcompress (str_list[i]));
+		list = g_slist_reverse (list);
+		g_strfreev (str_list);
+		g_free (ptr);
+	}
+
+	return list;
 }
 
 gchar *

@@ -1044,3 +1044,52 @@ gnm_gconf_set_prefer_clipboard  (gboolean val)
 	go_conf_set_bool (
 		root, GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, val != FALSE);
 }
+
+/***************************************************************************/
+
+gchar *
+go_conf_get_enum_as_str (GOConfNode *node, gchar const *key)
+{
+	return go_conf_get_string (node, key);
+}
+int
+go_conf_load_enum (GOConfNode *node, gchar const *key, GType t, int default_val)
+{
+	int	 res;
+	gchar   *val_str = go_conf_load_string (node, key);
+	gboolean use_default = TRUE;
+
+	if (NULL != val_str) {
+		GEnumClass *enum_class = G_ENUM_CLASS (g_type_class_ref (t));
+		GEnumValue *enum_value = g_enum_get_value_by_nick (enum_class, val_str);
+		if (NULL == enum_value)
+			enum_value = g_enum_get_value_by_name (enum_class, val_str);
+
+		if (NULL != enum_value) {
+			use_default = FALSE;
+			res = enum_value->value;
+		} else {
+			g_warning ("Unknown value '%s' for %s", val_str, key);
+		}
+
+		g_type_class_unref (enum_class);
+		g_free (val_str);
+
+	}
+
+	if (use_default) {
+		d (g_warning ("Using default value '%d'", default_val));
+		return default_val;
+	}
+	return res;
+}
+
+void     
+go_conf_set_enum (GOConfNode *node, gchar const *key, GType t, gint val)
+{
+	GEnumClass *enum_class = G_ENUM_CLASS (g_type_class_ref (t));
+	GEnumValue *enum_value = g_enum_get_value (enum_class, val);
+	go_conf_set_string (node, key, enum_value->value_nick);
+	g_type_class_unref (enum_class);
+}
+

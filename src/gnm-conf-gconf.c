@@ -110,18 +110,6 @@ go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 	g_free (real_key);
 }
 
-void     
-go_conf_set_enum (GOConfNode *node, gchar const *key, GType t, gint val)
-{
-	gchar *real_key = go_conf_get_real_key (node, key);
-	GEnumClass *enum_class = G_ENUM_CLASS (g_type_class_ref (t));
-	GEnumValue *enum_value = g_enum_get_value (enum_class, val);
-	gconf_client_set_string (gconf_client, real_key,
-		enum_value->value_nick, NULL);
-	g_type_class_unref (enum_class);
-	g_free (real_key);
-}
-
 static GConfValue *
 go_conf_get (GOConfNode *node, gchar const *key, GConfValueType t)
 {
@@ -248,38 +236,6 @@ go_conf_load_str_list (GOConfNode *node, gchar const *key)
 	g_free (real_key);
 	
 	return list;
-}
-
-int
-go_conf_load_enum (GOConfNode *node, gchar const *key, GType t, int default_val)
-{
-	int	 res;
-	gchar   *val_str = go_conf_load_string (node, key);
-	gboolean use_default = TRUE;
-
-	if (NULL != val_str) {
-		GEnumClass *enum_class = G_ENUM_CLASS (g_type_class_ref (t));
-		GEnumValue *enum_value = g_enum_get_value_by_nick (enum_class, val_str);
-		if (NULL == enum_value)
-			enum_value = g_enum_get_value_by_name (enum_class, val_str);
-
-		if (NULL != enum_value) {
-			use_default = FALSE;
-			res = enum_value->value;
-		} else {
-			g_warning ("Unknown value '%s' for %s", val_str, key);
-		}
-
-		g_type_class_unref (enum_class);
-		g_free (val_str);
-
-	}
-
-	if (use_default) {
-		d (g_warning ("Using default value '%d'", default_val));
-		return default_val;
-	}
-	return res;
 }
 
 static GConfSchema *
@@ -412,16 +368,11 @@ go_conf_get_string (GOConfNode *node, gchar const *key)
 	return res;
 }
 
+
 GSList *
 go_conf_get_str_list (GOConfNode *node, gchar const *key)
 {
 	return go_conf_load_str_list (node, key);
-}
-
-gchar *
-go_conf_get_enum_as_str (GOConfNode *node, gchar const *key)
-{
-	return go_conf_get_string (node, key);
 }
 
 gboolean

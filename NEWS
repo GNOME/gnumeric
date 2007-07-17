@@ -36,6 +36,7 @@ Jody:
 	* Configurability for which direction <Enter> moves.
 	* Calc property import/export for xlsx.
 	* Update validation combo moving between identical styles. [#453525]
+	* Patch the problems found by coverity.
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]
