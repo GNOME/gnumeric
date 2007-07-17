@@ -536,9 +536,9 @@ oo_colrow_reset_defaults (OOParseState *state, gboolean is_cols)
 		else
 			sheet_row_set_default_size_pts (state->pos.sheet,
 				data.cri->size_pts);
-		colrow_reset_defaults (state->pos.sheet, is_cols, 1 + is_cols
+		colrow_reset_defaults (state->pos.sheet, is_cols, 1 + (is_cols
 			? state->data_extent.col
-			: state->data_extent.row);
+			: state->data_extent.row));
 	}
 }
 

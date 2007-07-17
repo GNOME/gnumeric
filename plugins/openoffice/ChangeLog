@@ -1,3 +1,8 @@
+2007-07-17  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_colrow_reset_defaults) : typo breaks
+	  precedence.
+
 2007-06-27  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_table_start) : keep track of the extent of
