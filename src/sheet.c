@@ -247,7 +247,10 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		g_free (sucker_name);
 	}
 
-	attached = sheet->index_in_wb != -1 && sheet->name_case_insensitive;
+	attached = wb != NULL && /* not strictly needed */
+		sheet->index_in_wb != -1 &&
+		sheet->name_case_insensitive;
+
 	/* FIXME: maybe have workbook_sheet_detach_internal for this.  */
 	if (attached)
 		g_hash_table_remove (wb->sheet_hash_private,

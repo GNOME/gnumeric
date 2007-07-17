@@ -1431,7 +1431,7 @@ xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_eq (attrs[0], "target"))
 			target = g_strdup (CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "tip"))
-			target = g_strdup (CXML2C (attrs[1]));
+			tip = g_strdup (CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
 	}

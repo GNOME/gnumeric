@@ -1,3 +1,10 @@
+2007-07-16  Jody Goldberg <jody@gnome.org>
+
+	From Coverity.
+	* src/xml-sax-read.c (xml_sax_hlink) : typo that would store the tip
+	  as the target.
+	* src/sheet.c (sheet_set_name) : Be extra anal about wb=NULL case.
+
 2007-07-15  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump to libgda-3.1.x, and libgnomedb-3.0.x
