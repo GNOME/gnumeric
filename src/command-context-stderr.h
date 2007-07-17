@@ -12,7 +12,7 @@ typedef struct _CmdContextStderr CmdContextStderr;
 
 GType		cmd_context_stderr_get_type   (void);
 GOCmdContext  *cmd_context_stderr_new	      (void);
-void		cmd_context_stderr_set_status (CmdContextStderr *, int status);
-int		cmd_context_stderr_get_status (CmdContextStderr *);
+void		cmd_context_stderr_set_status (CmdContextStderr *ccs, int status);
+int		cmd_context_stderr_get_status (CmdContextStderr *ccs);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_STDERR_H */
