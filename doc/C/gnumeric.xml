@@ -37,6 +37,7 @@
   <!ENTITY data-delete          SYSTEM "data-delete.xml">
   <!ENTITY data-insert          SYSTEM "data-insert.xml">
   <!ENTITY data-format          SYSTEM "data-format.xml">
+  <!ENTITY data-filter          SYSTEM "data-filter.xml">
   <!ENTITY data-modify          SYSTEM "data-modify.xml">
   <!ENTITY data-generate        SYSTEM "data-generate.xml">
   <!ENTITY data-commentNlink    SYSTEM "data-commentNlink.xml">
@@ -508,6 +509,7 @@
     &data-delete;
     &data-insert;
     &data-format;
+    &data-filter;
     &data-modify;
     &data-generate;
     &data-commentNlink;

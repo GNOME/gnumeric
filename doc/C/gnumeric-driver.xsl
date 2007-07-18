@@ -15,8 +15,7 @@
 -->
 
 
-  <xsl:import
-href="/usr/share/sgml/docbook/xsl-stylesheets-1.67.0/htmlhelp/htmlhelp.xsl"/>
+  <xsl:import href="/usr/share/xml/docbook/stylesheet/nwalsh/htmlhelp/htmlhelp.xsl"/>
 
 <!--
   <xsl:param name="" select=""/>

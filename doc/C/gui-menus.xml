@@ -1796,7 +1796,7 @@
 		Filter</guimenuitem>, <guimenuitem>Show
 		All</guimenuitem>, and <guimenuitem>Advanced
 		Filter</guimenuitem> entry. Filters are explained in
-		<xref linkend="sect-data-modify-filter" />.
+		<xref linkend="sect-data-filter" />.
 	      </para>
 	    </listitem>
 

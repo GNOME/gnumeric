@@ -30,6 +30,7 @@ entities =  \
      data-generate.xml \
      data-insert.xml \
      data-modify.xml \
+     data-filter.xml \
      data-move-copy.xml \
      data-overview.xml \
      data-selections.xml \
@@ -83,5 +84,8 @@ endif
 if ENABLE_SSINDEX
 manpage_DATA += ssindex.1
 endif
+
+# from gnumeric-doc.make
+dist-hook: validate
 
 EXTRA_DIST += $(manpage_DATA) ssconvert.1 ssindex.1
