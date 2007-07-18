@@ -997,6 +997,7 @@ src/cut-n-paste-code/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
+doc/C/figures/icons/Makefile
 doc/developer/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
