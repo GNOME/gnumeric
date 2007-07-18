@@ -60,4 +60,3 @@ chm :
 	    mv chm/.$$$$ "$$f" ;			\
 	done
 	cp -r $(srcdir)/figures	chm
-	cp -r /usr/share/yelp/icons chm/figures

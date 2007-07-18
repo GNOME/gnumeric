@@ -144,6 +144,9 @@
 -->
 
     <copyright>
+      <year>2007</year>
+      <year>2006</year>
+      <year>2005</year>
       <year>2004</year>
       <holder>Adrian Custer, Ray Dassen, Jody Goldberg, 
               Andreas Guelzow.
@@ -243,6 +246,9 @@
       <author>
         <firstname>Jody</firstname>
         <surname>Goldberg</surname> 
+	<affiliation>
+	    <orgname>GNOME Documentation Project</orgname>
+	</affiliation>
         <email>jody@gnome.org</email>
       </author>
       <author> 

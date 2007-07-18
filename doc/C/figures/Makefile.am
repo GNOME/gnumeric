@@ -1,3 +1,4 @@
+SUBDIRS = icons
 
 EXTRA_DIST = \
      advanced-filter-1.png \

@@ -1,3 +1,11 @@
+2007-07-17  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Add an icons subdir to figures to facilitate the
+	  creation chm files.  The stylesheets map 'warning' and the like to
+	  figures/icons/warning.png, I do not see where.  The simple solution
+	  is to dup the icons out of yelp, and into our tree with the correct
+	  names and location.
+
 2007-07-16  Jody Goldberg <jody@gnome.org>
 
 	From Coverity.
