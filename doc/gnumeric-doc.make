@@ -34,7 +34,7 @@ include $(top_srcdir)/xmldocs.make
 # (Entities, including functions.xml, are shipped via xmldocs.make.)
 EXTRA_DIST += $(functions_xml_parts)
 
-.PHONY : html
+.PHONY : html validate chm
 html :
 	-mkdir -p html
 	xsltproc -o html/gnumeric.shtml					\
@@ -45,3 +45,19 @@ html :
 	    --stringparam db2html.css.file	"gnumeric-doc.css"	\
 	    $(datadir)/xml/gnome/xslt/docbook/html/db2html.xsl		\
 	    $(srcdir)/gnumeric.xml
+
+validate :
+	xmllint --valid --noout gnumeric.xml
+
+chm :
+	-rm -rf chm
+	mkdir -p chm && cd chm && xsltproc -o . 	\
+	    $(srcdir)/../gnumeric-docbook-2-htmlhelp.xsl\
+	    $(srcdir)/../gnumeric.xml
+	xmllint --valid --noout --html chm/*.html
+	for f in chm/*.html; do				\
+	    xmllint --format --html "$$f" > chm/.$$$$;	\
+	    mv chm/.$$$$ "$$f" ;			\
+	done
+	cp -r $(srcdir)/figures	chm
+	cp -r /usr/share/yelp/icons chm/figures

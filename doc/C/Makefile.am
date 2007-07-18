@@ -88,4 +88,4 @@ endif
 # from gnumeric-doc.make
 dist-hook: validate
 
-EXTRA_DIST += $(manpage_DATA) ssconvert.1 ssindex.1
+EXTRA_DIST += $(manpage_DATA) ssconvert.1 ssindex.1 gnumeric-docbook-2-htmlhelp.xsl
