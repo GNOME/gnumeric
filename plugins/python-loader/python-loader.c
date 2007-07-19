@@ -516,9 +516,6 @@ call_python_function_nodes (GnmFuncEvalInfo *ei,
 	return ret_value;
 }
 
-#warning FIXME adapt for the new GnmFuncHelp struct.
-#define python_function_get_gnumeric_help(x,y,z) NULL
-#if 0
 static GnmFuncHelp const *
 python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *python_fn,
                                    const gchar *fn_name)
@@ -528,27 +525,27 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 
 	help_attr_name = g_strdup_printf ("_CGnumericHelp_%s", fn_name);
 	cobject_help_value = PyDict_GetItemString (python_fn_info_dict, help_attr_name);
-	if (cobject_help_value == NULL) {
-		PyObject *python_fn_help;
-		gchar *help_str, **help_value;
 
-		python_fn_help = ((PyFunctionObject *) python_fn)->func_doc;
+	if (cobject_help_value == NULL) {
+		PyObject *python_fn_help = ((PyFunctionObject *) python_fn)->func_doc;
 		if (python_fn_help != NULL && PyString_Check (python_fn_help)) {
-			help_str = PyString_AsString (python_fn_help);
-		} else {
-			help_str = NULL;
+			GnmFuncHelp *new_help = g_new(GnmFuncHelp, 2);
+			gchar *help_str = PyString_AsString (python_fn_help);
+			new_help[0].type = GNM_FUNC_HELP_OLD;
+			new_help[0].text = help_str;
+			new_help[1].type = GNM_FUNC_HELP_END;
+			new_help[1].text = NULL;
+
+			cobject_help_value = PyCObject_FromVoidPtr (new_help, &g_free);
+			PyDict_SetItemString (python_fn_info_dict, help_attr_name, cobject_help_value);
 		}
-		help_value = g_new (gchar *, 2);
-		help_value[0] = help_str;
-		help_value[1] = NULL;
-		cobject_help_value = PyCObject_FromVoidPtr (help_value, &g_free);
-		PyDict_SetItemString (python_fn_info_dict, help_attr_name, cobject_help_value);
 	}
 	g_free (help_attr_name);
+	if (cobject_help_value == NULL)
+		return NULL;
 
 	return (GnmFuncHelp const *) PyCObject_AsVoidPtr (cobject_help_value);
 }
-#endif
 
 static gboolean
 gplp_func_desc_load (GOPluginService *service,

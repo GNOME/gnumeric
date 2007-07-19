@@ -53,6 +53,9 @@ Morten:
 	* Fix performance problem when selecting large areas.  [#445617]
 	* Fix loading/saving of R1C1 attribute.  [#448714]
 
+Nils Kanning :
+	* Fix the inline documentation for python addins. [#412804]
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.10
 
