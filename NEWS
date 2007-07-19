@@ -53,6 +53,7 @@ Morten:
 	* Fix R1C1 problem.  [#443832]
 	* Fix performance problem when selecting large areas.  [#445617]
 	* Fix loading/saving of R1C1 attribute.  [#448714]
+	* Fix overflow problem when int!=long.  [#458158]
 
 Nils Kanning :
 	* Fix the inline documentation for python addins. [#412804]

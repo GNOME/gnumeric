@@ -1177,10 +1177,10 @@ yylex (void)
 			l = strtol (start, &end, 10);
 			if (start == end) {
 				g_warning ("%s is not an integer, but was expected to be one", start);
-			} else if (errno != ERANGE) {
+			} else if (errno != ERANGE && l >= INT_MIN && l <= INT_MAX) {
 				v = value_new_int (l);
 				state->ptr = end;
-			} else if (l == LONG_MIN || l == LONG_MAX) {
+			} else {
 				gnm_float d;
 
 				errno = 0;
