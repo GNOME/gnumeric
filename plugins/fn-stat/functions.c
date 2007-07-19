@@ -1676,11 +1676,17 @@ gnumeric_tinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         gnm_float p = value_get_as_float (argv[0]);
 	gnm_float dof = value_get_as_float (argv[1]);
+	gnm_float result;
 
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (qt (p / 2, dof, FALSE, FALSE));
+	result = qt (p / 2, dof, FALSE, FALSE);
+
+	if (result < 0)
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (result);
 }
 
 /***************************************************************************/

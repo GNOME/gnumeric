@@ -1,3 +1,8 @@
+
+2007-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* function.c (gnumeric_tinv): avoid obviously wrong answers
+
 2007-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* function.c (gnumeric_tdist): use gnm_float for  degrees of 
