@@ -1,3 +1,10 @@
+2007-07-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* function.c (gnumeric_tdist): use gnm_float for  degrees of 
+	  freedom since pt call converts to gnm_float anyways.
+	(gnumeric_tinv): use gnm_float for  degrees of freedom since
+	  qt call converts to gnm_float anyways
+
 2007-05-03  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.10

@@ -1635,7 +1635,7 @@ static GnmValue *
 gnumeric_tdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
-	int dof = value_get_as_int (argv[1]);
+	gnm_float dof = value_get_as_float (argv[1]);
 	int tails = value_get_as_int (argv[2]);
 
 	if (dof < 1 || (tails != 1 && tails != 2))
@@ -1675,7 +1675,7 @@ static GnmValue *
 gnumeric_tinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         gnm_float p = value_get_as_float (argv[0]);
-	int dof = value_get_as_int (argv[1]);
+	gnm_float dof = value_get_as_float (argv[1]);
 
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error_NUM (ei->pos);
