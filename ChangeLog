@@ -1,3 +1,9 @@
+2007-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/xml-sax-read.c (xml_sax_repeat_top): new
+	(xml_sax_repeat_left): new
+	(gnumeric_1_0_dtd): hook up xml_sax_repeat_top and xml_sax_repeat_left
+
 2007-07-21  Jody Goldberg <jody@gnome.org>
 
 	* src/selection.c (sv_selection_walk_step) : Be smarter about choosing

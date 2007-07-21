@@ -149,9 +149,9 @@ struct _PrinterSetupState {
 
 	GtkWidget *icon_rd;
 	GtkWidget *icon_dr;
-/* 	GnmExprEntry *area_entry; */
-/* 	GnmExprEntry *top_entry; */
-/* 	GnmExprEntry *left_entry; */
+	GnmExprEntry *area_entry;
+	GnmExprEntry *top_entry;
+	GnmExprEntry *left_entry;
 
 /* 	/\* The header and footer data. *\/ */
 /* 	PrintHF *header; */
@@ -1298,14 +1298,29 @@ display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
 	gtk_widget_hide (hide);
 }
 
+static void
+load_print_area (PrinterSetupState *state)
+{
+	GnmRange print_area;
+	
+	print_area = sheet_get_nominal_printarea
+		(wb_control_cur_sheet
+		 (WORKBOOK_CONTROL (state->wbcg)));
+	gnm_expr_entry_load_from_range
+		(state->area_entry,
+		 wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+		 &print_area);
+}
+
+
 
 static void
 do_setup_page_info (PrinterSetupState *state)
 {
-/* 	GtkWidget *pa_hbox   = glade_xml_get_widget (state->gui, */
-/* 						     "print-area-hbox"); */
-/* 	GtkWidget *repeat_table = glade_xml_get_widget (state->gui, */
-/* 							"repeat-table"); */
+	GtkWidget *pa_hbox   = glade_xml_get_widget (state->gui,
+						     "print-area-hbox");
+	GtkWidget *repeat_table = glade_xml_get_widget (state->gui,
+							"repeat-table");
 	GtkWidget *gridlines = glade_xml_get_widget (state->gui, "check-grid-lines");
 	GtkWidget *onlystyles= glade_xml_get_widget (state->gui, "check-only-styles");
 	GtkWidget *bw        = glade_xml_get_widget (state->gui, "check-black-white");
@@ -1315,33 +1330,33 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkWidget *order_table = glade_xml_get_widget (state->gui, "page-order-table");
 	GtkWidget *order;
 
-/* 	state->area_entry = gnm_expr_entry_new (state->wbcg, TRUE); */
-/* 	gnm_expr_entry_set_flags (state->area_entry, */
-/* 		GNM_EE_SHEET_OPTIONAL, */
-/* 		GNM_EE_SHEET_OPTIONAL); */
-/* 	gtk_box_pack_start (GTK_BOX (pa_hbox), GTK_WIDGET (state->area_entry), */
-/* 			    TRUE, TRUE, 0); */
-/* 	gtk_widget_show (GTK_WIDGET (state->area_entry)); */
+	state->area_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->area_entry,
+		GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_SHEET_OPTIONAL);
+	gtk_box_pack_start (GTK_BOX (pa_hbox), GTK_WIDGET (state->area_entry),
+			    TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET (state->area_entry));
 
-/* 	state->top_entry = gnm_expr_entry_new (state->wbcg, TRUE); */
-/* 	gnm_expr_entry_set_flags (state->top_entry, */
-/* 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL, */
-/* 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_ABS_ROW | GNM_EE_SHEET_OPTIONAL); */
-/* 	gtk_table_attach (GTK_TABLE (repeat_table), */
-/* 			  GTK_WIDGET (state->top_entry), */
-/* 			  1, 2, 0, 1, */
-/* 			  GTK_EXPAND|GTK_FILL, 0, 0, 0); */
-/* 	gtk_widget_show (GTK_WIDGET (state->top_entry)); */
+	state->top_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->top_entry,
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_ABS_ROW | GNM_EE_SHEET_OPTIONAL);
+	gtk_table_attach (GTK_TABLE (repeat_table),
+			  GTK_WIDGET (state->top_entry),
+			  1, 2, 0, 1,
+			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_widget_show (GTK_WIDGET (state->top_entry));
 
-/* 	state->left_entry = gnm_expr_entry_new (state->wbcg, TRUE); */
-/* 	gnm_expr_entry_set_flags (state->left_entry, */
-/* 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL, */
-/* 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL); */
-/* 	gtk_table_attach (GTK_TABLE (repeat_table), */
-/* 			  GTK_WIDGET (state->left_entry), */
-/* 			  1, 2, 1, 2, */
-/* 			  GTK_EXPAND|GTK_FILL, 0, 0, 0); */
-/* 	gtk_widget_show (GTK_WIDGET (state->left_entry)); */
+	state->left_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->left_entry,
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL);
+	gtk_table_attach (GTK_TABLE (repeat_table),
+			  GTK_WIDGET (state->left_entry),
+			  1, 2, 1, 2,
+			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_widget_show (GTK_WIDGET (state->left_entry));
 
 	state->icon_rd = gnumeric_load_image ("right-down.png");
 	state->icon_dr = gnumeric_load_image ("down-right.png");
@@ -1371,26 +1386,27 @@ do_setup_page_info (PrinterSetupState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), state);
 
-/* 	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
-/* 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->area_entry))); */
-/* 	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
-/* 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry))); */
-/* 	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
-/* 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry))); */
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->area_entry)));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry)));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
 /* 	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
 /* 		gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (state->gui, "comments-combo")))); */
 
-/* 	if (state->pi->repeat_top.use) */
-/* 		gnm_expr_entry_load_from_range ( */
-/* 			state->top_entry, */
-/* 			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)), */
-/* 			&state->pi->repeat_top.range); */
+	if (state->pi->repeat_top.use)
+		gnm_expr_entry_load_from_range (
+			state->top_entry,
+			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+			&state->pi->repeat_top.range);
 
-/* 	if (state->pi->repeat_left.use) */
-/* 		gnm_expr_entry_load_from_range ( */
-/* 			state->left_entry, */
-/* 			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)), */
-/* 			&state->pi->repeat_left.range); */
+	if (state->pi->repeat_left.use)
+		gnm_expr_entry_load_from_range (
+			state->left_entry,
+			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+			&state->pi->repeat_left.range);
+	load_print_area (state);
 }
 
 
@@ -1973,11 +1989,10 @@ do_fetch_page_info (PrinterSetupState *state)
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-print-titles")));
 	pi->print_across_then_down = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right")));
-
-/* 	pi->repeat_top.use = gnm_expr_entry_get_rangesel (state->top_entry, */
-/* 		&pi->repeat_top.range, NULL); */
-/* 	pi->repeat_left.use = gnm_expr_entry_get_rangesel (state->left_entry, */
-/* 		&pi->repeat_left.range, NULL); */
+	pi->repeat_top.use = gnm_expr_entry_get_rangesel (state->top_entry,
+		&pi->repeat_top.range, NULL);
+	pi->repeat_left.use = gnm_expr_entry_get_rangesel (state->left_entry,
+		&pi->repeat_left.range, NULL);
 }
 
 static void

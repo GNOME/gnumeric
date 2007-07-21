@@ -1,3 +1,10 @@
+2007-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.glade: show repeating rows/columns and print area labels
+	* dialog-printer-setup.c (load_print_area): new
+	(do_setup_page_info) re-enable repeating rows/columns and print area
+	(do_fetch_page_info) fetch repeating rows/columns
+
 2007-07-12  Jody Goldberg <jody@gnome.org>
 
 	* dialog-preferences.c (pref_create_label) : new utility to handle
