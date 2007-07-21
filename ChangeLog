@@ -1,3 +1,13 @@
+2007-07-21  Jody Goldberg <jody@gnome.org>
+
+	* src/selection.c (sv_selection_walk_step) : Be smarter about choosing
+	  a first col for tabs.  Going backwards can adjust the bounds.
+
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet) : invalidate the
+	  'first_tab_col' so that that when Enter is switched from moving to
+	  the right, to going up and down we do not jump back to the left as
+	  if the previous movement had been a tab.
+
 2007-07-19  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (yylex): Fix long/int mixup causing #458158 on x64.

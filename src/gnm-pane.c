@@ -428,6 +428,10 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 					forward = !forward;
 
 				sv_selection_walk_step (sv, forward, horizontal);
+
+				/* invalidate, in case Enter direction gets changes */
+				if (is_enter)
+					sv->first_tab_col = -1;
 			}
 		}
 		break;

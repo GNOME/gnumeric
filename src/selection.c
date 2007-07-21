@@ -1177,10 +1177,21 @@ loop :
 	return FALSE;
 }
 
+/**
+ * sv_selection_walk_step :
+ * @sv : #SheetView
+ * @forward :
+ * @horizontal :
+ *
+ * Move the edit_pos of @sv 1 step according to @forward and @horizontal.  The
+ * behavior depends several factors
+ * 	- How many ranges are selected
+ * 	- The shape of the selected ranges
+ * 	- Previous movements (A sequence of tabs followed by an enter can jump
+ * 		to the 1st col).
+ **/
 void
-sv_selection_walk_step (SheetView *sv,
-			gboolean forward,
-			gboolean horizontal)
+sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 {
 	int selections_count;
 	GnmCellPos destination;
@@ -1193,14 +1204,11 @@ sv_selection_walk_step (SheetView *sv,
 	ss = sv->selections->data;
 	selections_count = g_slist_length (sv->selections);
 
-	/* If there is no selection besides the cursor
-	 * iterate through the entire sheet.  Move the
-	 * cursor and selection as we go.
-	 * Ignore wrapping.  At that scale it is irrelevant.
-	 */
+	/* If there is no selection besides the cursor iterate through the
+	 * entire sheet.  Move the cursor and selection as we go.  Ignore
+	 * wrapping.  At that scale it is irrelevant.  */
 	if (selections_count == 1) {
-		if (ss->start.col == ss->end.col &&
-		    ss->start.row == ss->end.row)
+		if (range_is_singleton (ss))
 			is_singleton = TRUE;
 		else if (ss->start.col == sv->edit_pos.col &&
 			 ss->start.row == sv->edit_pos.row) {
@@ -1233,7 +1241,9 @@ sv_selection_walk_step (SheetView *sv,
 		/* Ignore attempts to move outside the boundary region */
 		if (!walk_boundaries (sv, &bound, forward, horizontal,
 				      FALSE, &destination)) {
-			if (!horizontal && first_tab_col >= 0)
+
+			/* <Enter> after some tabs jumps to the first col we tabbed from */
+			if (forward && !horizontal && first_tab_col >= 0)
 				destination.col = first_tab_col;
 
 			sv_selection_set (sv, &destination,
@@ -1242,7 +1252,7 @@ sv_selection_walk_step (SheetView *sv,
 			sv_make_cell_visible (sv, sv->edit_pos.col,
 					      sv->edit_pos.row, FALSE);
 			if (horizontal)
-				sv->first_tab_col = (first_tab_col < 0) ? cur_col : first_tab_col;
+				sv->first_tab_col = (first_tab_col < 0 || cur_col < first_tab_col) ? cur_col : first_tab_col;
 		}
 		return;
 	}
