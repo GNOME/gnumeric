@@ -576,7 +576,7 @@ sv_selection_set (SheetView *sv, GnmCellPos const *edit,
 
 /**
  * sv_selection_add_full :
- * @sheet          : sheet whose selection to append to.
+ * @sv             : #SheetView whose selection is append to.
  * @edit_{col,row} : cell to mark as the new edit cursor.
  * @base_{col,row} : stationary corner of the newly selected range.
  * @move_{col,row} : moving corner of the newly selected range.
@@ -618,10 +618,13 @@ sv_selection_add_pos (SheetView *sv, int col, int row)
 
 /**
  * sv_selection_free
- * @sv: the sheet
+ * @sv: #SheetView
  *
- * Releases the selection associated with this sheet
- */
+ * Releases the selection associated with @sv 
+ *
+ * WARNING: This does not set a new selection and leaves the view in an
+ * 		INVALID STATE.
+ **/
 void
 sv_selection_free (SheetView *sv)
 {
@@ -633,15 +636,16 @@ sv_selection_free (SheetView *sv)
 	sv->selections = NULL;
 }
 
-/*
+/**
  * sv_selection_reset :
  * @sv:  The sheet view
  *
- * Clears all of the selection ranges.
+ * Releases the selection associated with @sv , and forces a redraw of the
+ * previously selected regions and headers.
  *
  * WARNING: This does not set a new selection and leaves the view in an
  * 		INVALID STATE.
- */
+ **/
 void
 sv_selection_reset (SheetView *sv)
 {
@@ -669,9 +673,11 @@ sv_selection_reset (SheetView *sv)
 
 /**
  * selection_get_ranges:
- * @sheet: the sheet.
+ * @sv: #SheetView
  * @allow_intersection : Divide the selection into nonoverlapping subranges.
- */
+ *
+ * Caller is responsible for free the list and the content.
+ **/
 GSList *
 selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 {
@@ -955,7 +961,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 /**
  * sv_selection_apply:
- * @sv: the sheet.
+ * @sv: #SheetView
  * @func:  The function to apply.
  * @allow_intersection : Call the routine for the non-intersecting subregions.
  * @closure : A parameter to pass to each invocation of @func.
