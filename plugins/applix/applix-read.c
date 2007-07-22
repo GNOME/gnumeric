@@ -563,9 +563,10 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					if (!g_ascii_isdigit (sep[1]) ||
 					    (0 == (id = strtol (sep+1, &end, 10))) ||
 					    sep+1 == end ||
-					    id < 1 || id > 16)
+					    id < 1 || id > 16) {
 						applix_parse_error (state, "Unknown format %d", id);
-
+						return NULL;
+					}
 					format = date_formats[id - 1];
 					sep = end;
 					break;
