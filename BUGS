@@ -10,16 +10,12 @@ Release Critical
     - Convention sax export format
     - finish workbook recalc prop
     - finish xls Form import
-    - Look into why we jump to col 0 after changing enter dir from right to down
     - replicate col/row header redraw problem on scrolling
 
 In Progress
 -----------
     Jody
-	- Pref for which direction <enter> moves the editpos
-	- Enum prefs
 	- Convention sax export format
-
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
 	- Fix shrinking ranges on cell deletion. [#439347]
