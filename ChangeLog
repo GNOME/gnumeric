@@ -1,5 +1,9 @@
 2007-07-22  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-sax-read.c (handle_delayed_names) : don't dup ids.
+
+2007-07-22  Jody Goldberg <jody@gnome.org>
+
 	Coverity
 	* src/tools/goal-seek.c (goal_seek_bisection) : fix typo.
 
