@@ -1,5 +1,7 @@
 2007-07-17  Jody Goldberg <jody@gnome.org>
 
+	* welcome.xml : update a bit.
+
 	* gnumeric-driver.xsl : update the filter location.
 
 	* Makefile.am : add the new file, and force the docs to validate

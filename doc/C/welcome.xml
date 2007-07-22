@@ -64,21 +64,19 @@
   describes version &appversion; of <application>Gnumeric</application>.
 </para>
 
-<!--
 <warning>
   <para>
-    The 1.5 series of releases are unstable releases meant for
+    The 1.7 series of releases are unstable releases meant for
     developer testing. If you want a stable release get the most recent
-    release from the 1.4 series.
+    release from the 1.6 series.
   </para>
 </warning>
--->
 
 <note>
   <para>
-    Releases of &gnum; in the 1.4 series will have numbers starting
-    with 1.4 but with extra numbers afterwards, such as 1.4.0 or
-    1.4.3. These are stable releases which are only changed with minor
+    Releases of &gnum; in the 1.6 series will have numbers starting
+    with 1.6 but with extra numbers afterwards, such as 1.6.0 or
+    1.6.3. These are stable releases which are only changed with minor
     improvements and fixes for problems (bugs) in the program. These
     releases can be considered safe for use in a production
     environment.
@@ -241,13 +239,12 @@
 
 
 
-<!--
 <para>
-  <emphasis role="bold">The Gnumeric 1.5 Series of Releases for Developers</emphasis>
+  <emphasis role="bold">The Gnumeric 1.7 Series of Releases for Developers</emphasis>
 </para>
 
 <para>
-  The <application>Gnumeric</application> 1.5 series of releases are
+  The <application>Gnumeric</application> 1.7 series of releases are
   developer releases. These releases are kept as stable as
   possible. However, each release in this series includes changes and
   improvements some of which are quite large. These new changes may
@@ -263,11 +260,112 @@
 </para>
 
 <para>
-  In this version of <application>Gnumeric</application>, we will be
-  working on the following features:
+  In this version of <application>Gnumeric</application>, we have been
+  patching bugs, and working on the following features:
 
--->
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved .gnumeric and export: </emphasis>
+      </para>
+      <para>
+	Default to the faster SAX based parser.  Improve the schema, add
+	additional features.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Microsoft OfficeOpenXML import and export : </emphasis>
+      </para>
+      <para>
+	Standard spreadsheet content.  No support for charts or embedded objects yet.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">New value formatting engine: </emphasis>
+      </para>
+      <para>
+	Improved compatibility and performance.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Use new Gtk based Printing: </emphasis>
+      </para>
+      <para>
+	Drop the deprecated libgnomeprint libraries.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved in-cell drop downs : </emphasis>
+      </para>
+      <para>
+	In cell validation lists, and improved finger feel for autofilters.
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
 
+<para>
+  <emphasis role="bold">The new features introduced in the Gnumeric 1.6 release
+  series:</emphasis>
+</para>
+
+<para>
+  The 1.6 series of <application>Gnumeric</application> include
+  numerous improvements over the versions in the 1.4 series.
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">Better Charting: </emphasis>
+      </para>
+      <para>
+	Several new types of charts have been added, and many features, such as
+	regression lines, have been added.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Accuracy: </emphasis>
+      </para>
+      <para>
+	  While Gnumeric 1.4 was already the best available source for accuracy
+	  in statistical calculations, Gnumeric 1.6 is even better. We are
+	  continuing our behind-the-scenes cooperation with The R Project to
+	  make this happen. We have also added a new plugin supplying
+	  consistently named probability density, cumulative density, and
+	  reverse cumulative density functions to Gnumeric. The new function
+	  names mirror their R counterparts.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">The Port to Microsoft Operating Systems</emphasis>
+      </para>
+      <para>
+	  Our "Windows" port is now mature enough for everyday use. We have
+	  improved the theming support of our custom widgets, so Gnumeric now
+	  looks and feels slighly more like a native application. The build
+	  might still have a few rough edges, but those are being worked on.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Right-to-Left Support: </emphasis>
+      </para>
+      <para>
+	  We now support right-to-left oritentation of the sheets as well as
+	  for text within cells.
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
 
 <para>
   <emphasis role="bold">The new features introduced in the Gnumeric 1.4 release
