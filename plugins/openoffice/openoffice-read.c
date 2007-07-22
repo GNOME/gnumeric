@@ -60,8 +60,6 @@
 #include <gsf/gsf-output-stdio.h>
 #include <glib/gi18n-lib.h>
 
-#include <string.h>
-
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/data/go-data-simple.h>
@@ -69,6 +67,9 @@
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <graph.h>
+
+#include <string.h>
+#include <errno.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -262,7 +263,7 @@ oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	     int ns_id, char const *name, int *res)
 {
 	char *end;
-	int tmp;
+	long tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -272,9 +273,9 @@ oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 		return FALSE;
 
 	tmp = strtol (CXML2C (attrs[1]), &end, 10);
-	if (*end)
-		return oo_warning (xin, "Invalid attribute '%s', expected integer, received '%s'",
-				   name, attrs[1]);
+	if (*end || errno != 0 || tmp < INT_MIN || tmp > INT_MAX)
+		return oo_warning (xin, "Invalid integer '%s', for '%s'",
+				   attrs[1], name);
 
 	*res = tmp;
 	return TRUE;
