@@ -3,7 +3,7 @@
 /*
  * sheet.c: Implements the sheet management and per-sheet storage
  *
- * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 1997-1999 Miguel de Icaza (miguel@kernel.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -114,13 +114,15 @@ enum {
 	PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE,
 	PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS,
 
+	PROP_CONVENTIONS,
 	PROP_USE_R1C1,
+
 	PROP_TAB_FOREGROUND,
 	PROP_TAB_BACKGROUND,
 	PROP_ZOOM_FACTOR
 };
 
-static void sheet_finalize (GObject *obj);
+static void gnm_sheet_finalize (GObject *obj);
 
 static GObjectClass *parent_class;
 
@@ -180,19 +182,23 @@ sheet_set_display_formulas (Sheet *sheet, gboolean display)
 }
 
 static void	  
-sheet_set_use_r1c1 (Sheet *sheet, gboolean use_r1c1)
+sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 {
-	use_r1c1 = !!use_r1c1;
-	if (sheet->r1c1_addresses == use_r1c1)
+	if (sheet->convs == convs)
 		return;
-	sheet->r1c1_addresses = use_r1c1;
-	sheet->convs = sheet->r1c1_addresses
-		? gnm_conventions_xls_r1c1
-		: gnm_conventions_default;
+	sheet->convs = convs;
 	if (sheet->display_formulas)
 		re_render_formulas (sheet);
 	SHEET_FOREACH_VIEW (sheet, sv,
 		sv->edit_pos_changed.content = TRUE;);
+}
+
+GnmConventions const *
+sheet_get_conventions (Sheet const *sheet)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), gnm_conventions_default);
+
+	return sheet->convs;
 }
 
 static void
@@ -434,9 +440,14 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		sheet->protected_allow.select_unlocked_cells = !!g_value_get_boolean (value);
 		break;
 
-	case PROP_USE_R1C1:
-		sheet_set_use_r1c1 (sheet, g_value_get_boolean (value));
+	case PROP_CONVENTIONS:
+		sheet_set_conventions (sheet, g_value_get_pointer (value));
 		break;
+	case PROP_USE_R1C1: /* convenience api */
+		sheet_set_conventions (sheet, !!g_value_get_boolean (value)
+			? gnm_conventions_xls_r1c1 : gnm_conventions_default);
+		break;
+
 	case PROP_TAB_FOREGROUND: {
 		GnmColor *color = g_value_dup_boxed (value);
 		style_color_unref (sheet->tab_text_color);
@@ -548,9 +559,13 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		g_value_set_boolean (value, sheet->protected_allow.select_unlocked_cells);
 		break;
 
-	case PROP_USE_R1C1:
-		g_value_set_boolean (value, sheet->r1c1_addresses);
+	case PROP_CONVENTIONS:
+		g_value_set_pointer (value, (gpointer)sheet->convs);
 		break;
+	case PROP_USE_R1C1: /* convenience api */
+		g_value_set_boolean (value, sheet->convs->r1c1_addresses);
+		break;
+
 	case PROP_TAB_FOREGROUND:
 		g_value_set_boxed (value, sheet->tab_text_color);
 		break;
@@ -637,7 +652,7 @@ gnm_sheet_init (Sheet *sheet)
 					     (GCompareFunc)&gnm_cellpos_equal);
 
 	/* Init preferences */
-	sheet->r1c1_addresses = FALSE;
+	sheet->convs = gnm_conventions_default;
 	sheet->hide_zero = FALSE;
 
 	/* FIXME: probably not here.  */
@@ -666,7 +681,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 
 	gobject_class->set_property	= gnm_sheet_set_property;
 	gobject_class->get_property	= gnm_sheet_get_property;
-	gobject_class->finalize         = sheet_finalize;
+	gobject_class->finalize         = gnm_sheet_finalize;
 
         g_object_class_install_property (gobject_class, PROP_NAME,
 		 g_param_spec_string ("name", _("Name"),
@@ -801,12 +816,18 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				      _("Allow the user to select unlocked cells while a sheet is protected"),
 				      TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
-	g_object_class_install_property (gobject_class, PROP_USE_R1C1,
-		 g_param_spec_boolean ("use-r1c1", _("Use R1C1 notation rather than A1"),
-				       _("Display cell addresses using R1C1 notion rather than the more common A1."),
-				       TRUE,
+	g_object_class_install_property (gobject_class, PROP_CONVENTIONS,
+		 g_param_spec_pointer ("conventions", _("Display convention for expressions (default Gnumeric A1)"),
+				       _("How to format displayed expressions, (A1 vs R1C1, function names, ...)"),
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class, PROP_USE_R1C1, /* convenience wrapper to CONVENTIONS */
+		 g_param_spec_boolean ("use-r1c1", _("Display convention for expressions as XLS_R1C1 vs default"),
+				       _("How to format displayed expressions, (a convenience api)"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+
 	g_object_class_install_property (gobject_class, PROP_TAB_FOREGROUND,
 		 g_param_spec_boxed ("tab-foreground", _("Tab Foreground"),
 				     _("The foreground color of the tab."),
@@ -3519,7 +3540,7 @@ sheet_destroy (Sheet *sheet)
 }
 
 static void
-sheet_finalize (GObject *obj)
+gnm_sheet_finalize (GObject *obj)
 {
 	Sheet *sheet = SHEET (obj);
 
@@ -4871,7 +4892,7 @@ sheet_dup (Sheet const *src)
 		"display-outlines",	   !src->display_outlines,
 		"display-outlines-below",   src->outline_symbols_below,
 		"display-outlines-right",   src->outline_symbols_right,
-		"use-r1c1",		    src->r1c1_addresses,
+		"conventions",		    src->convs,
 		"tab-foreground",	    src->tab_text_color,
 		"tab-background",	    src->tab_color,
 		NULL);
@@ -4918,16 +4939,6 @@ sheet_set_outline_direction (Sheet *sheet, gboolean is_cols)
 	/* not particularly efficient, but this is not a hot spot */
 	for (i = colrow_max (is_cols); i-- > 0 ; )
 		sheet_colrow_set_collapse (sheet, is_cols, i);
-}
-
-GnmConventions const *
-sheet_conventions (Sheet const *sheet)
-{
-	g_return_val_if_fail (IS_SHEET (sheet), gnm_conventions_default);
-
-	return sheet->r1c1_addresses
-		? gnm_conventions_xls_r1c1
-		: gnm_conventions_default;
 }
 
 /**

@@ -7,19 +7,17 @@ release, and longer term bugs.
 -------------------------------------------------------------------------------
 Release Critical
 ----------------
-    - Convention sax export format
-    - finish workbook recalc prop
-    - finish xls Form import
-    - replicate col/row header redraw problem on scrolling
+    - fix python tests in configure.in
 
 In Progress
 -----------
     Jody
-	- Convention sax export format
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
 	- Fix shrinking ranges on cell deletion. [#439347]
 	- win32 GOption fixes
+	- finish xls Form import
+	- replicate col/row header redraw problem on scrolling
 
 Review
 ------

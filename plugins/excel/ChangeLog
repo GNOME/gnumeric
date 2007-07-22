@@ -1,3 +1,19 @@
+2007-07-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : send the actual record, not
+	  the 4 byte header that loses 4 trailing bytes.
+	(ms_obj_map_forms_obj) : Use existing tools to properly handle
+	 longer names and objects with data sources (combos/lists).
+
+	* xlsx-write.c (xlsx_write_calcPR) : new.
+
+2007-07-09  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_CT_CalcPr) : new. Read the iterate and recalc
+	  properties.  Need to add the refmode.
+	* xlsx-write.c (xlsx_write_calcPR) : ditto.
+	(xlsx_write_workbook) : called from here.
+
 2007-07-14  Jody Goldberg <jody@gnome.org>
 
 	Report form coverity.

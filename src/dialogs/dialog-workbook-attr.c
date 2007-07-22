@@ -152,7 +152,7 @@ cb_attr_dialog_dialog_apply (G_GNUC_UNUSED GtkWidget *button,
 
 	get_entry_values (state, &state->old.max_iterations,
 			  &state->old.iteration_tolerance);
-	workbook_autorecalc_enable	(state->wb, state->old.recalc_auto);
+	workbook_set_recalcmode	(state->wb, state->old.recalc_auto);
 	workbook_iteration_enabled	(state->wb, state->old.iteration_enabled);
 	workbook_iteration_max_number	(state->wb, state->old.max_iterations);
 	workbook_iteration_tolerance	(state->wb, state->old.iteration_tolerance);
@@ -242,13 +242,13 @@ attr_dialog_init_view_page (AttrState *state)
 		"WorkbookView::workbook_protected",
 		state->wbv->is_protected,
 		&state->old.is_protected);
-	if (!workbook_autorecalc (state->wb)) {
+	if (!workbook_get_recalcmode (state->wb)) {
 		GtkWidget *w = glade_xml_get_widget (state->gui, "recalc_manual");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 	}
 	state->view.recalc_auto = attr_dialog_init_toggle (state,
 		"recalc_auto",
-		workbook_autorecalc (state->wb),
+		workbook_get_recalcmode (state->wb),
 		&state->old.recalc_auto);
 	state->view.iteration_enabled = attr_dialog_init_toggle (state,
 		"iteration_enabled",

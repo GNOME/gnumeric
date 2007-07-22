@@ -2084,6 +2084,51 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 
 static void
+xlsx_CT_CalcPr (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const calcModes[] = {
+		{ "manual",	 FALSE },
+		{ "auto",	 TRUE },
+		{ "autoNoTable", TRUE },
+		{ NULL, 0 }
+	};
+	static EnumVal const refModes[] = {
+		{ "A1",	 	TRUE },
+		{ "R1C1",	FALSE },
+		{ NULL, 0 }
+	};
+	int tmp;
+	gnm_float delta;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, XL_NS_SS, "calcMode", calcModes, &tmp))
+			workbook_set_recalcmode (state->wb, tmp);
+		else if (attr_bool (xin, attrs, XL_NS_SS, "fullCalcOnLoad", &tmp))
+			;
+		else if (attr_enum (xin, attrs, XL_NS_SS, "refMode", refModes, &tmp))
+			;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "iterate", &tmp))
+			workbook_iteration_enabled (state->wb, tmp);
+		else if (attr_int (xin, attrs, XL_NS_SS, "iterateCount", &tmp))
+			workbook_iteration_max_number (state->wb, tmp);
+		else if (attr_float (xin, attrs, XL_NS_SS, "iterateDelta", &delta))
+			workbook_iteration_tolerance (state->wb, delta);
+		else if (attr_bool (xin, attrs, XL_NS_SS, "fullPrecision", &tmp))
+			;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "calcCompleted", &tmp))
+			;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "calcOnSave", &tmp))
+			;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "conncurrentCalc", &tmp))
+			;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "forceFullCalc", &tmp))
+			;
+		else if (attr_int (xin, attrs, XL_NS_SS, "concurrentManualCalc", &tmp))
+			;
+}
+
+static void
 xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2151,7 +2196,7 @@ GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, N
 GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_wb_end, 0),
   GSF_XML_IN_NODE (WORKBOOK, VERSION, XL_NS_SS,	   "fileVersion", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, PROPERTIES, XL_NS_SS, "workbookPr", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (WORKBOOK, CALC_PROPS, XL_NS_SS, "calcPr", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, CALC_PROPS, XL_NS_SS, "calcPr", GSF_XML_NO_CONTENT, &xlsx_CT_CalcPr, NULL),
   GSF_XML_IN_NODE (WORKBOOK, VIEWS,	 XL_NS_SS, "bookViews",	GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (VIEWS,  VIEW,	 XL_NS_SS, "workbookView",  GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, SHEETS,	 XL_NS_SS, "sheets", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2928,14 +2973,6 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 }
 
 /* TODO * TODO * TODO
- *
- * Named expressions
- * rich text
- * validation
- * workbook/calc properties
- * more print settings
- * comments
- * text direction in styles
  *
  * IMPROVE
  * 	- column widths : Don't use hard coded font side

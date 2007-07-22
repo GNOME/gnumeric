@@ -4043,7 +4043,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float       **xss = NULL, *ys = NULL;
 	GnmValue         *result = NULL;
 	int               nx, ny, dim, i;
-	int               xarg = 0;
+	int               xarg = 1;
 	gnm_float        *linres = NULL;
 	gboolean          affine, stat, err;
 	enum {
@@ -4088,23 +4088,19 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
+		xarg = 0;
 		dim = 1;
 		xss = g_new (gnm_float *, 1);
 	        xss[0] = g_new (gnm_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
-	}
-	else if (ytype == ARRAY){
-			xarg = 1;
-			/* Get xss from array argument argv[1] */
-	}
-	else if (ytype == SINGLE_COL){
-		int firstcol, lastcol;
-		GnmValue *copy;
-		xarg = 1;
-		firstcol = argv[1]->v_range.cell.a.col;
-		lastcol  = argv[1]->v_range.cell.b.col;
-
+	} else if (ytype == ARRAY){
+		/* Get xss from array argument argv[1] */
+		nx = 0;
+	} else if (ytype == SINGLE_COL){
+		GnmValue *copy = value_dup (argv[1]);
+		int firstcol = argv[1]->v_range.cell.a.col;
+		int lastcol  = argv[1]->v_range.cell.b.col;
 		if (firstcol > lastcol) {
 			int tmp = firstcol;
 			firstcol = lastcol;
@@ -4112,7 +4108,6 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 		dim = lastcol - firstcol + 1;
-		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
@@ -4134,14 +4129,10 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 		value_release (copy);
-	}
-	else if (ytype == SINGLE_ROW){
-		int firstrow, lastrow;
-		GnmValue *copy;
-		xarg = 1;
-		firstrow = argv[1]->v_range.cell.a.row;
-		lastrow  = argv[1]->v_range.cell.b.row;
-
+	} else if (ytype == SINGLE_ROW){
+		GnmValue *copy = value_dup (argv[1]);
+		int firstrow = argv[1]->v_range.cell.a.row;
+		int lastrow  = argv[1]->v_range.cell.b.row;
 		if (firstrow < lastrow) {
 			int tmp = firstrow;
 			firstrow = lastrow;
@@ -4149,7 +4140,6 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 		dim = lastrow - firstrow + 1;
-		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
@@ -4171,9 +4161,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 		value_release (copy);
-	}
-	else { /*Y is none of the above */
-		xarg = 1;
+	} else { /*Y is none of the above */
 		dim = 1;
 		xss = g_new (gnm_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
@@ -4320,10 +4308,10 @@ static GnmFuncHelp const help_logreg[] = {
 static GnmValue *
 gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float        **xss = NULL, *ys = NULL;
-	GnmValue             *result = NULL;
+	gnm_float       **xss = NULL, *ys = NULL;
+	GnmValue         *result = NULL;
 	int               nx, ny, dim, i;
-	int               xarg = 0;
+	int               xarg = 1;
 	gnm_float        *logreg_res = NULL;
 	gboolean          affine, stat, err;
 	enum {
@@ -4368,22 +4356,19 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
+		xarg = 0;
 		dim = 1;
 		xss = g_new (gnm_float *, 1);
 	        xss[0] = g_new (gnm_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
-	}
-	else if (ytype == ARRAY){
-		xarg = 1;
+	} else if (ytype == ARRAY) {
 		/* Get xss from array argument argv[1] */
-	}
-	else if (ytype == SINGLE_COL){
-		int firstcol, lastcol;
-		GnmValue *copy;
-		xarg = 1;
-		firstcol = argv[1]->v_range.cell.a.col;
-		lastcol  = argv[1]->v_range.cell.b.col;
+		nx = 0;
+	} else if (ytype == SINGLE_COL) {
+		GnmValue *copy = value_dup (argv[1]);
+		int firstcol   = argv[1]->v_range.cell.a.col;
+		int lastcol    = argv[1]->v_range.cell.b.col;
 
 		if (firstcol < lastcol) {
 			int tmp = firstcol;
@@ -4392,7 +4377,6 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 		dim = lastcol - firstcol + 1;
-		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
@@ -4414,13 +4398,10 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 		value_release (copy);
-	}
-	else if (ytype == SINGLE_ROW){
-	int firstrow, lastrow;
-		GnmValue *copy;
-		xarg = 1;
-		firstrow = argv[1]->v_range.cell.a.row;
-		lastrow  = argv[1]->v_range.cell.b.row;
+	} else if (ytype == SINGLE_ROW) {
+		GnmValue *copy = value_dup (argv[1]);
+		int firstrow   = argv[1]->v_range.cell.a.row;
+		int lastrow    = argv[1]->v_range.cell.b.row;
 
 		if (firstrow < lastrow) {
 			int tmp = firstrow;
@@ -4429,7 +4410,6 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 		dim = lastrow - firstrow + 1;
-		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
@@ -4451,9 +4431,7 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 		value_release (copy);
-	}
-	else { /*Y is none of the above */
-		xarg = 1;
+	} else { /*Y is none of the above */
 		dim = 1;
 		xss = g_new (gnm_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
@@ -4800,10 +4778,10 @@ static GnmFuncHelp const help_logest[] = {
 static GnmValue *
 gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float        **xss = NULL, *ys = NULL;
-	GnmValue             *result = NULL;
+	gnm_float       **xss = NULL, *ys = NULL;
+	GnmValue         *result = NULL;
 	int               affine, nx, ny, dim, i;
-	int               xarg = 0;
+	int               xarg = 1;
 	gnm_float        *expres = NULL;
 	gboolean          stat, err;
 	gnm_regression_stat_t *extra_stat;
@@ -4848,22 +4826,19 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
+		xarg = 0;
 		dim = 1;
 		xss = g_new (gnm_float *, 1);
 	        xss[0] = g_new (gnm_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
-	}
-	else if (ytype == ARRAY){
-			xarg = 1;
-			/* Get xss from array argument argv[1] */
-	}
-	else if (ytype == SINGLE_COL){
-		int firstcol, lastcol;
-		GnmValue *copy;
-		xarg = 1;
-		firstcol = argv[1]->v_range.cell.a.col;
-		lastcol  = argv[1]->v_range.cell.b.col;
+	} else if (ytype == ARRAY){
+		/* Get xss from array argument argv[1] */
+		nx = 0;
+	} else if (ytype == SINGLE_COL){
+		GnmValue *copy = value_dup (argv[1]);
+		int firstcol = argv[1]->v_range.cell.a.col;
+		int lastcol  = argv[1]->v_range.cell.b.col;
 		if (firstcol < lastcol) {
 			int tmp = firstcol;
 			firstcol = lastcol;
@@ -4871,7 +4846,6 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 		dim = lastcol - firstcol + 1;
-		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
@@ -4893,14 +4867,10 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 		value_release (copy);
-	}
-	else if (ytype == SINGLE_ROW){
-		int firstrow, lastrow;
-		GnmValue *copy;
-		xarg = 1;
-		firstrow = argv[1]->v_range.cell.a.row;
-		lastrow  = argv[1]->v_range.cell.b.row;
-
+	} else if (ytype == SINGLE_ROW) {
+		GnmValue *copy = value_dup (argv[1]);
+		int firstrow = argv[1]->v_range.cell.a.row;
+		int lastrow  = argv[1]->v_range.cell.b.row;
 		if (firstrow < lastrow) {
 			int tmp = firstrow;
 			firstrow = lastrow;
@@ -4908,7 +4878,6 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 
 		dim = lastrow - firstrow + 1;
-		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
@@ -4930,9 +4899,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 		value_release (copy);
-	}
-	else { /*Y is none of the above */
-		xarg = 1;
+	} else { /*Y is none of the above */
 		dim = 1;
 		xss = g_new (gnm_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,

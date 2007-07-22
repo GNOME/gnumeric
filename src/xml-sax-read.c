@@ -3,7 +3,7 @@
 /*
  * xml-sax-read.c : a sax based parser.
  *
- * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -73,6 +73,7 @@
 #include <libxml/parserInternals.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -136,7 +137,7 @@ gboolean
 gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 {
 	char *end;
-	int tmp;
+	long tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -145,8 +146,9 @@ gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
+	errno = 0;
 	tmp = strtol (CXML2C (attrs[1]), &end, 10);
-	if (*end) {
+	if (*end || errno) {
 		g_warning ("Invalid attribute '%s', expected integer, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -307,7 +309,7 @@ typedef struct {
 	int outline_symbols_right;
 	int text_is_rtl;
 	int is_protected;
-	int r1c1_addresses;
+	char *expr_conv_name;
 	GnmSheetVisibility visibility;
 	GnmColor *tab_color;
 	GnmColor *tab_text_color;
@@ -482,15 +484,25 @@ xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_bool (attrs, "ManualRecalc", &b))
-			workbook_autorecalc_enable (state->wb, !b);
+			workbook_set_recalcmode (state->wb, !b);
 		else if (xml_sax_attr_bool (attrs, "EnableIteration", &b))
 			workbook_iteration_enabled (state->wb, b);
 		else if (gnm_xml_attr_int  (attrs, "MaxIterations", &i))
 			workbook_iteration_max_number (state->wb, i);
 		else if (gnm_xml_attr_double (attrs, "IterationTolerance", &d))
 			workbook_iteration_tolerance (state->wb, d);
-		else
+		else if (strcmp (CXML2C (attrs[0]), "DateConvention") == 0) {
+			workbook_set_1904 (state->wb,
+				strcmp (attrs[1], "Apple:1904") == 0);
+		} else
 			unknown_attr (xin, attrs);
+}
+
+static void
+xml_sax_old_dateconvention (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	workbook_set_1904 (state->wb, strcmp (xin->content->str, "1904") == 0);
 }
 
 static void
@@ -545,8 +557,8 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->display_formulas = state->hide_zero =
 		state->hide_grid = state->display_outlines =
 		state->outline_symbols_below = state->outline_symbols_right =
-		state->text_is_rtl = state->is_protected =
-		state->r1c1_addresses = -1;
+		state->text_is_rtl = state->is_protected = -1;
+	state->expr_conv_name = NULL;
 	state->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 	state->tab_color = NULL;
 	state->tab_text_color = NULL;
@@ -575,8 +587,8 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->text_is_rtl = tmp;
 		else if (xml_sax_attr_bool (attrs, "Protected", &tmp))
 			state->is_protected = tmp;
-		else if (xml_sax_attr_bool (attrs, "R1C1", &tmp))
-			state->r1c1_addresses = tmp;
+		else if (strcmp (CXML2C (attrs[0]), "ExprConvention") == 0)
+			state->expr_conv_name = g_strdup (attrs[1]);
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
 		else if (xml_sax_attr_color (attrs, "TabTextColor", &color))
@@ -645,8 +657,15 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		g_object_set (sheet, "text-is-rtl", state->text_is_rtl, NULL);
 	if (state->is_protected >= 0)
 		g_object_set (sheet, "protected", state->is_protected, NULL);
-	if (state->r1c1_addresses >= 0)
-		g_object_set (sheet, "use-r1c1", state->r1c1_addresses, NULL);
+	if (state->expr_conv_name != NULL) {
+		GnmConventions const *convs = gnm_conventions_default;
+		if (0 == strcmp (state->expr_conv_name, "gnumeric:R1C1"))
+			convs = gnm_conventions_xls_r1c1;
+		g_object_set (sheet, "conventions", convs, NULL);
+
+		g_free (state->expr_conv_name);
+		state->expr_conv_name = NULL;
+	}
 	g_object_set (sheet, "visibility", state->visibility, NULL);
 	sheet->tab_color = state->tab_color;
 	sheet->tab_text_color = state->tab_text_color;
@@ -1630,7 +1649,7 @@ static gboolean
 xml_not_used_old_array_spec (XMLSaxParseState *state, GnmCell *cell,
 			     char const *content)
 {
-	int rows, cols, row, col;
+	long rows, cols, row, col;
 
 #if 0
 	/* This is the syntax we are trying to parse */
@@ -2337,6 +2356,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", GSF_XML_NO_CONTENT, &xml_sax_calculation, NULL),
+  GSF_XML_IN_NODE (WB, WB_CALC, GNM, "DateConvention", GSF_XML_CONTENT, NULL, &xml_sax_old_dateconvention),
   { NULL }
 };
 

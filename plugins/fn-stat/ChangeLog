@@ -1,3 +1,10 @@
+2007-07-22  Jody Goldberg <jody@gnome.org>
+
+	Coverity reports 68-70.
+	* functions.c (gnumeric_linest) : init nx in the ARRAY case to make
+	  coverity happy and make the code clearer.
+	(gnumeric_logreg) : ditto.
+	(gnumeric_logest) : ditto.
 
 2007-07-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

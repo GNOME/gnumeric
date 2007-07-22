@@ -9,7 +9,7 @@
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
  * (C) 2000-2001 Ximian, Inc.
- * (C) 2002-2006 Jody Goldberg
+ * (C) 2002-2007 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -56,6 +56,7 @@
 
 enum {
 	PROP_0,
+	RECALC_MODE,
 };
 enum {
 	SHEET_ORDER_CHANGED,
@@ -205,7 +206,6 @@ workbook_init (GObject *object)
 	gnm_app_workbook_list_add (wb);
 }
 
-#if 0
 static void
 workbook_get_property (GObject *object, guint property_id,
 		       GValue *value, GParamSpec *pspec)
@@ -213,6 +213,9 @@ workbook_get_property (GObject *object, guint property_id,
 	Workbook *wb = (Workbook *)object;
 
 	switch (property_id) {
+	case RECALC_MODE :
+		g_value_set_boolean (value, wb->recalc_auto);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -226,24 +229,31 @@ workbook_set_property (GObject *object, guint property_id,
 	Workbook *wb = (Workbook *)object;
 
 	switch (property_id) {
+	case RECALC_MODE :
+		workbook_set_recalcmode (wb, g_value_get_boolean (value));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
-#endif
 
 static void
-workbook_class_init (GObjectClass *object_class)
+workbook_class_init (GObjectClass *gobject_class)
 {
-	workbook_parent_class = g_type_class_peek_parent (object_class);
+	workbook_parent_class = g_type_class_peek_parent (gobject_class);
 
-#if 0
-	object_class->set_property = workbook_set_property;
-	object_class->get_property = workbook_get_property;
-#endif
-	object_class->finalize = workbook_finalize;
-	object_class->dispose = workbook_dispose;
+	gobject_class->set_property = workbook_set_property;
+	gobject_class->get_property = workbook_get_property;
+	gobject_class->finalize	    = workbook_finalize;
+	gobject_class->dispose	    = workbook_dispose;
+
+        g_object_class_install_property (gobject_class, RECALC_MODE,
+		 g_param_spec_boolean ("recalc-mode", "recalc-mode",
+				       _("Enable automatic recalculation."),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
 
 	signals [SHEET_ORDER_CHANGED] = g_signal_new ("sheet_order_changed",
 		WORKBOOK_TYPE,
@@ -278,7 +288,7 @@ workbook_class_init (GObjectClass *object_class)
  *
  * Creates a new empty Workbook
  * and assigns a unique name.
- */
+ **/
 Workbook *
 workbook_new (void)
 {
@@ -549,14 +559,14 @@ workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 }
 
 void
-workbook_autorecalc_enable (Workbook *wb, gboolean enable)
+workbook_set_recalcmode (Workbook *wb, gboolean is_auto)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
-	wb->recalc_auto = enable;
+	wb->recalc_auto = is_auto;
 }
 
 gboolean
-workbook_autorecalc (Workbook const *wb)
+workbook_get_recalcmode (Workbook const *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
 	return wb->recalc_auto;
@@ -1138,7 +1148,7 @@ workbook_date_conv (Workbook const *wb)
  *
  * Sets the 1904 flag to @flag and returns the old value.
  * NOTE : THIS IS NOT A SMART ROUTINE.  If you want to actually change this
- * We'll need to recalc and rerender everything.  That will nee to be done
+ * We'll need to recalc and rerender everything.  That will need to be done
  * externally.
  **/
 gboolean

@@ -386,7 +386,7 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 		g_return_if_fail (IS_SHEET (sheet));
 
 		sheet_mark_dirty (sheet);
-		if (workbook_autorecalc (sheet->workbook))
+		if (workbook_get_recalcmode (sheet->workbook))
 			workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
 
@@ -2600,14 +2600,14 @@ cmd_paste_cut_update (GnmExprRelocateInfo const *info,
 
 	/* Dirty and update both sheets */
 	sheet_mark_dirty (t);
-	if (workbook_autorecalc (t->workbook))
+	if (workbook_get_recalcmode (t->workbook))
 		workbook_recalc (t->workbook);
 	sheet_update (t);
 
 	if (IS_SHEET (o) && o != t) {
 		sheet_mark_dirty (o);
 		if (o->workbook != t->workbook) {
-			if (workbook_autorecalc (o->workbook))
+			if (workbook_get_recalcmode (o->workbook))
 				workbook_recalc (o->workbook);
 		}
 		sheet_update (o);

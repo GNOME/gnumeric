@@ -999,7 +999,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 		case GR_PICTURE_FORMULA :
 			/* Check for form objects stored here for no apparent reason */
-			ms_obj_map_forms_obj (obj, c, data, len);
+			if (obj->excel_type == 8)
+				ms_obj_map_forms_obj (obj, c, data+4, len);
 			break;
 
 		case GR_CHECKBOX_LINK :

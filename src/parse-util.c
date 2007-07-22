@@ -642,7 +642,7 @@ parsepos_as_string (GnmParsePos const *pp)
 
 	return cell_coord_name2 (pp->eval.col,
 				 pp->eval.row,
-				 pp->sheet && pp->sheet->r1c1_addresses);
+				 pp->sheet && pp->sheet->convs->r1c1_addresses);
 }
 
 char const *
@@ -652,7 +652,7 @@ cell_name (GnmCell const *cell)
 
 	return cell_coord_name2 (cell->pos.col,
 				 cell->pos.row,
-				 cell->base.sheet->r1c1_addresses);
+				 cell->base.sheet->convs->r1c1_addresses);
 }
 
 /**

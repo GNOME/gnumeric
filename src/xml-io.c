@@ -1911,6 +1911,14 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		g_object_set (sheet, "text-is-rtl", tmp, NULL);
 	if (xml_node_get_bool (tree, "Protected", &tmp))
 		g_object_set (sheet, "protected", tmp, NULL);
+
+	if (NULL != (val = xml_node_get_cstr (tree, CC2XML ("ExprConvention")))) {
+		GnmConventions const *convs = gnm_conventions_default;
+		if (0 == strcmp (val, "gnumeric:R1C1"))
+			convs = gnm_conventions_xls_r1c1;
+		g_object_set (sheet, "conventions", convs, NULL);
+		xmlFree (val);
+	}
 	if (xml_node_get_enum (tree, "Visibility", GNM_SHEET_VISIBILITY_TYPE, &tmpi))
 		g_object_set (sheet, "visibility", tmpi, NULL);
 	sheet->tab_color = xml_node_get_color (tree, "TabColor");
@@ -2284,6 +2292,7 @@ xml_workbook_read (IOContext *context,
 {
 	Sheet     *sheet;
 	GnmLocale *locale;
+	xmlChar   *str;
 	xmlNodePtr child, c;
 
 	if (strcmp (tree->name, "Workbook")){
@@ -2298,6 +2307,8 @@ xml_workbook_read (IOContext *context,
 	if (child)
 		dom_read_meta_data (ctxt, child, go_doc_get_meta_data (GO_DOC (ctxt->wb)));
 
+        /* DEPRECATED, moved to Calculation and expanded in 1.7.11
+	 * Valid value == 1904, anything else == Lotus:1900  */
 	child = e_xml_get_child_by_name (tree, CC2XML ("DateConvention"));
 	if (child != NULL) {
 		int convention;
@@ -2375,13 +2386,18 @@ xml_workbook_read (IOContext *context,
 		double	 d;
 
 		if (xml_node_get_bool (child, "ManualRecalc", &b))
-			workbook_autorecalc_enable (ctxt->wb, !b);
+			workbook_set_recalcmode (ctxt->wb, !b);
 		if (xml_node_get_bool   (child, "EnableIteration", &b))
 			workbook_iteration_enabled (ctxt->wb, b);
 		if (xml_node_get_int    (child, "MaxIterations", &i))
 			workbook_iteration_max_number (ctxt->wb, i);
 		if (xml_node_get_double (child, "IterationTolerance", &d))
 			workbook_iteration_tolerance (ctxt->wb, d);
+		if (NULL != (str = xml_node_get_cstr (child, "DateConvention"))) {
+			workbook_set_1904 (ctxt->wb,
+				strcmp (str, "Apple:1904") == 0);
+			xmlFree (str);
+		}
 	}
 
 	gnm_pop_C_locale (locale);

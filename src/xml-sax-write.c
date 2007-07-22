@@ -4,7 +4,7 @@
  * xml-sax-write.c : export .gnumeric and the clipboard subset using a the sax
  * 			like wrappers in libgsf
  *
- * Copyright (C) 2003-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -142,6 +142,7 @@ xml_write_meta_data (GnmOutputXML *state)
 		go_doc_get_meta_data (GO_DOC (state->wb)));
 }
 
+/* DEPRECATED in 1.7.11 */
 static void
 xml_write_conventions (GnmOutputXML *state)
 {
@@ -1084,9 +1085,12 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	if (sheet->is_protected)
 		gsf_xml_out_add_bool (state->output,
 			"Protected", sheet->is_protected);
-	if (sheet->r1c1_addresses)
-		gsf_xml_out_add_bool (state->output,
-				      "R1C1", sheet->r1c1_addresses);
+
+	/* TODO : Make this an enum internally eventually */
+	if (sheet->convs->r1c1_addresses)
+		gsf_xml_out_add_cstr_unchecked (state->output,
+			"ExprConvention", "gnumeric:R1C1");
+
 	gsf_xml_out_add_enum (state->output,
 		"Visibility", GNM_SHEET_VISIBILITY_TYPE, sheet->visibility);
 
@@ -1144,6 +1148,8 @@ xml_write_uidata (GnmOutputXML *state)
 static void
 xml_write_calculation (GnmOutputXML *state)
 {
+	GODateConventions const *conv = workbook_date_conv (state->wb);
+
 	gsf_xml_out_start_element (state->output, GNM "Calculation");
 	gsf_xml_out_add_bool (state->output, 
 		"ManualRecalc",		!state->wb->recalc_auto);
@@ -1153,6 +1159,10 @@ xml_write_calculation (GnmOutputXML *state)
 		"MaxIterations",	state->wb->iteration.max_number);
 	gsf_xml_out_add_float (state->output, 
 		"IterationTolerance",	state->wb->iteration.tolerance, -1);
+	if (conv->use_1904)
+		gsf_xml_out_add_cstr_unchecked (state->output, 
+			GNM "DateConvention", "Apple:1904");
+
 	gsf_xml_out_end_element (state->output); /* </gnm:Calculation> */
 }
 
@@ -1216,7 +1226,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	xml_write_version	    (&state);
 	xml_write_attributes	    (&state);
 	xml_write_meta_data	    (&state);
-	xml_write_conventions	    (&state);
+	xml_write_conventions	    (&state);	/* DEPRECATED, moved to Calculation */
 	xml_write_sheet_names	    (&state);
 	xml_write_named_expressions (&state, state.wb->names);
 	xml_write_geometry 	    (&state);

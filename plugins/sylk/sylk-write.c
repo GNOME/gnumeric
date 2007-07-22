@@ -184,7 +184,7 @@ sylk_write_sheet (SylkWriter *state)
 		(state->wb->iteration.enabled ? 'A' : 'G'),
 		state->wb->iteration.max_number,
 		state->wb->iteration.tolerance);
-	if (!state->sheet->r1c1_addresses)
+	if (!state->sheet->convs->r1c1_addresses)
 		gsf_output_puts (state->output, ";L");
 	if (!state->wb->recalc_auto)
 		gsf_output_puts (state->output, ";M");

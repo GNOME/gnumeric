@@ -4222,7 +4222,7 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	ms_biff_put_2byte (bp, BIFF_CALCMODE, wb->recalc_auto ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_CALCCOUNT, wb->iteration.max_number);
-	ms_biff_put_2byte (bp, BIFF_REFMODE, sheet->r1c1_addresses ? 0 : 1);
+	ms_biff_put_2byte (bp, BIFF_REFMODE, sheet->convs->r1c1_addresses ? 0 : 1);
 	ms_biff_put_2byte (bp, BIFF_ITERATION, wb->iteration.enabled ? 1 : 0);
 
 	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);

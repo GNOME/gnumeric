@@ -53,7 +53,7 @@ struct _Sheet {
 	GnmCellPos   max_object_extent;
 
 	/* Sheet level preferences */
-	gboolean    r1c1_addresses;
+	GnmConventions const *convs;
 	gboolean    display_formulas;
 	gboolean    hide_zero;
 	gboolean    hide_grid;
@@ -103,7 +103,6 @@ struct _Sheet {
 	GnmColor	 *tab_color;
 	GnmColor	 *tab_text_color;
 	GnmSheetType	  sheet_type;
-	GnmConventions const *convs;
 
 	/* This needs to move elsewhere and get shared.  */
 	PangoContext *context;
@@ -299,7 +298,7 @@ void	     sheet_cell_calc_span   (GnmCell *cell, GnmSpanCalcFlags flags);
 void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);
 gboolean     sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos);
 
-GnmConventions const *sheet_conventions (Sheet const *sheet);
+GnmConventions const *sheet_get_conventions (Sheet const *sheet);
 
 /* Implementation for commands, no undo */
 struct _GnmRelocUndo {

@@ -1,3 +1,30 @@
+2007-07-13  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c (sylk_next_token) : initial version of accent support.  pango
+	  does not handle it well.
+
+2007-07-22  Jody Goldberg  <jody@gnome.org>
+
+	* src/sheet.c (PROP_CONVENTIONS) : new property.
+	(PROP_USE_R1C1) : made this a convenience wrapper for
+	(sheet_set_conventions) : rename.
+	(sheet_get_conventions) : renamed from sheet_conventions.
+
+	* src/workbook.c (RECALC_MODE) : new property.
+
+	* src/xml-sax-read.c (gnm_xml_attr_int) : make more rigorous.
+	(xml_sax_calculation) : add DateConvention.
+	(xml_sax_old_dateconvention) : new.
+	(xml_sax_sheet_start) : store the name of the expr conv.
+	(xml_sax_sheet_name) : assigned the named expr conv.
+
+	* src/xml-sax-write.c (xml_write_sheet) : Use an enum in place of a
+	  bool to store R1C1, for future expandability
+	(xml_write_calculation) : Store the DateConvention here, rather than
+	  in a magic element missing from the schema.
+	* src/xml-io.c (xml_sheet_read) : support new ExprConvention hook.
+	(xml_workbook_read) : support DateConvention in Calculation.
+
 2007-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/xml-sax-read.c (xml_sax_repeat_top): new
@@ -55,6 +82,24 @@
 
 	* schemas/gnumeric-general.schemas.in : Add enter_moves_dir
 	* src/gnm-pane.c (gnm_pane_key_mode_sheet) : use it here.
+
+2007-07-13  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xsd : update the schema with the ExprConventions and add
+	  some defaults.
+
+	* src/xml-sax-read.c (xml_sax_sheet_name) : handle the new
+	  ExprConvention flags, just A1/R1C1 for now, but future proof it.
+	* src/xml-sax-write.c (xml_write_sheet) : ditto.
+
+	* src/sheet.c (sheet_set_conventions) : replaces sheet_set_use_r1c1.
+	(gnm_sheet_set_property) : added 'conventions' and made use-r1c1 a
+	  convenience flag.
+	(gnm_sheet_get_property) : ditto.
+	(gnm_sheet_class_init) : ditto.
+	(sheet_dup) : use conventions rather than r1c1 flag.
+	(gnm_sheet_init) : init the convs directly.
+	(sheet_get_conventions) : renamed from sheet_conventions.
 
 2007-07-13  Jody Goldberg <jody@gnome.org>
 

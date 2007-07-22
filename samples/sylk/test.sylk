@@ -1,0 +1,83 @@
+ID;PWXL;N;E
+P;PGeneral
+P;P0
+P;P0.00
+P;P#,##0
+P;P#,##0.00
+P;P#,##0_);;\(#,##0\)
+P;P#,##0_);;[Red]\(#,##0\)
+P;P#,##0.00_);;\(#,##0.00\)
+P;P#,##0.00_);;[Red]\(#,##0.00\)
+P;P"$"#,##0_);;\("$"#,##0\)
+P;P"$"#,##0_);;[Red]\("$"#,##0\)
+P;P"$"#,##0.00_);;\("$"#,##0.00\)
+P;P"$"#,##0.00_);;[Red]\("$"#,##0.00\)
+P;P0%
+P;P0.00%
+P;P0.00E+00
+P;P##0.0E+0
+P;P#\ ?/?
+P;P#\ ??/??
+P;Pm/d/yyyy
+P;Pd\-mmm\-yy
+P;Pd\-mmm
+P;Pmmm\-yy
+P;Ph:mm\ AM/PM
+P;Ph:mm:ss\ AM/PM
+P;Ph:mm
+P;Ph:mm:ss
+P;Pm/d/yyyy\ h:mm
+P;Pmm:ss
+P;Pmm:ss.0
+P;P@
+P;P[h]:mm:ss
+P;P_("$"* #,##0_);;_("$"* \(#,##0\);;_("$"* "-"_);;_(@_)
+P;P_(* #,##0_);;_(* \(#,##0\);;_(* "-"_);;_(@_)
+P;P_("$"* #,##0.00_);;_("$"* \(#,##0.00\);;_("$"* "-"??_);;_(@_)
+P;P_(* #,##0.00_);;_(* \(#,##0.00\);;_(* "-"??_);;_(@_)
+P;FArial;M200
+P;FArial;M200
+P;FArial;M200
+P;FArial;M200
+P;EArial;M200
+P;EArial;M200
+P;EArial;M200
+P;EArial;M200
+P;EArial;M200
+P;EArial;M160
+F;P0;DG0G8;M255
+B;Y14;X8;D2 0 13 7
+O;L;D;V0;K47;G100 0.001
+F;W1 1 10
+C;Y3;X1;K"strings"
+C;X2;K"simple"
+C;X3;K"aa aa'"
+C;X4;K"aa;;aa"
+C;X5;K"aa"aa"
+C;X6;K"(0N#)9N5"
+C;X8;K"<= euro pound tm micro"
+C;Y4;X1;K"number"
+C;X2;K123
+C;Y5;X1;K"ref down"
+C;X2;K0;ER[+1]C
+C;Y6;X1;K"ref right"
+C;X2;K0;ERC[+1]
+C;Y7;X1;K"date"
+F;P19;FG0G;X2
+C;K38752;EDATE(2006,2,4)
+C;Y8;X1;K"err"
+C;X2;K#DIV/0!;E1/0
+C;Y9;X1;K"bool"
+C;X2;KTRUE
+C;Y10;X1;K"inline array"
+C;X2;K1;E{1,2,3;;4,5,6}
+C;Y11;X1;K"matrix"
+C;X2;K1;R12;C4;M{1,2,3;;4,5,6}
+C;X3;K2;I;R11;C2
+C;X4;K3;I
+C;Y12;X2;K4;I
+C;X3;K5;I
+C;X4;K6;I
+C;Y14;X1;K"expr str"
+C;X2;K"aa;;aa";E"aa;;aa"
+E

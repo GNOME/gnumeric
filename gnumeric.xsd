@@ -9,11 +9,13 @@
         <xsd:documentation xml:lang="en">
             Schema for gnumeric spreadsheet documents
             Created for Gnumeric 1.2.2,
+            Based on gnumeric source code and sample gnumeric documents
+            Author: Marc Johnson (marc_johnson27591@hotmail.com)
+
 	    updated for 1.4.2 in Feb 2005
 	    updated for 1.6.0 in Sept 2005
 	    updated for 1.7.1 in Jun 2006
-            Based on gnumeric source code and sample gnumeric documents
-            Author: Marc Johnson (marc_johnson27591@hotmail.com)
+	    updated for 1.7.11 in Jun 2007	jody@gnome.org
         </xsd:documentation>
     </xsd:annotation>
     
@@ -35,6 +37,11 @@
             <xsd:element name="SheetNameIndex"	type="gnm:SheetNameIndex" minOccurs="0" maxOccurs="1"/>
 
             <xsd:element name="Names"		type="gnm:Names" minOccurs="0" maxOccurs="1"/>
+
+            <!-- Deprecated, moved to Calculation and expanded in 1.7.11
+	         Valid value == 1904, anything else == Lotus:1900 -->
+            <xsd:element name="DateConvention"	type="xsd:int" minOccurs="0" maxOccurs="1"/>
+
             <!-- preferred height and width -->
             <xsd:element name="Geometry">
                 <xsd:complexType>
@@ -51,24 +58,34 @@
             </xsd:element>
             <xsd:element name="Calculation" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
-                    <xsd:attribute name="ManualRecalc"		type="xsd:boolean"/>
-                    <xsd:attribute name="EnableIteration"	type="xsd:boolean"/>
-                    <xsd:attribute name="MaxIterations"		type="xsd:nonNegativeInteger"/>
-		    <xsd:attribute name="IterationTolerance"	type="xsd:double"/>
+                    <xsd:attribute name="ManualRecalc"	     type="xsd:boolean"/>
+                    <xsd:attribute name="EnableIteration"    type="xsd:boolean"/>
+                    <xsd:attribute name="MaxIterations"	     type="xsd:nonNegativeInteger"/>
+		    <xsd:attribute name="IterationTolerance" type="xsd:double"/>
+		    <xsd:attribute name="DateConvention"     type="gnm:DateConvention" use="optional" default="Lotus:1900"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
         <!-- version number should be v10 - - &gt;
         <xsd:attribute name="gnm" type="gnm:namespace" use="required"/> -->
     </xsd:complexType>
-<!--    
-    <xsd:simpleType name="namespace">
+
+    <!-- How values are mapped to dates.   All date functions are affected -->
+    <xsd:simpleType name="DateConvention">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="http://www.gnome.org/gnumeric/v\d+"/>
+            <xsd:enumeration value="Lotus:1900"/>
+            <xsd:enumeration value="Apple:1904"/>
+
+<!-- future values. currently treated as Lotus:1900 -->
+            <xsd:enumeration value="ODF:1899"/>
         </xsd:restriction>
     </xsd:simpleType>
--->
 
+    <xsd:simpleType name="CellRef">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]+\d+"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:complexType name="Names">
         <xsd:sequence>
@@ -151,6 +168,7 @@
                         <xsd:element name="MergedRegions"   type="gnm:MergedRegions" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="Filters"   	    type="gnm:Filters" minOccurs="0" maxOccurs="1"/>
                         <xsd:element name="SheetLayout"     type="gnm:SheetLayout"/>
+                        <xsd:element name="SheetFormat"     type="gnm:SheetLayout"/>
                         <xsd:element name="Solver"          type="gnm:Solver"/>
                         <xsd:element name="Scenarios"       type="gnm:Scenarios" minOccurs="0" maxOccurs="1"/>
                     </xsd:sequence>
@@ -158,22 +176,35 @@
                              gnumeric, in this element, always generates 'true' or
                              'false' for its attributes
                         -->
-                    <xsd:attribute name="DisplayFormulas"     type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="HideZero"            type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="HideGrid"            type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="HideColHeader"       type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="HideRowHeader"       type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="DisplayOutlines"     type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="OutlineSymbolsBelow" type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="OutlineSymbolsRight" type="xsd:boolean" use="required"/>
-                    <xsd:attribute name="RTL_Layout"	      type="xsd:boolean" use="optional"/>
-                    <xsd:attribute name="Protected"	      type="xsd:boolean" use="optional"/>
+                    <xsd:attribute name="DisplayFormulas"     type="xsd:boolean" use="optional" default="false"/>
+                    <xsd:attribute name="HideZero"            type="xsd:boolean" use="optional" default="false"/>
+                    <xsd:attribute name="HideGrid"            type="xsd:boolean" use="optional" default="false"/>
+                    <xsd:attribute name="HideColHeader"       type="xsd:boolean" use="optional" default="false"/>
+                    <xsd:attribute name="HideRowHeader"       type="xsd:boolean" use="optional" default="false"/>
+                    <xsd:attribute name="DisplayOutlines"     type="xsd:boolean" use="optional" default="true"/>
+                    <xsd:attribute name="OutlineSymbolsBelow" type="xsd:boolean" use="optional" default="true"/>
+                    <xsd:attribute name="OutlineSymbolsRight" type="xsd:boolean" use="optional" default="true"/>
+                    <xsd:attribute name="RTL_Layout"	      type="xsd:boolean" use="optional" default="false"/>
+                    <xsd:attribute name="Protected"	      type="xsd:boolean" use="optional" default="false"/>
                     <xsd:attribute name="TabColor"	      type="gnm:color"   use="optional"/>
                     <xsd:attribute name="TabTextColor"	      type="gnm:color"   use="optional"/>
+		    <xsd:attribute name="ExprConvention"      type="gnm:ExprConvention" use="optional" default="gnumeric:A1"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+
+    <!-- How expressions are _displayed_ no impact on evaluation -->
+    <xsd:simpleType name="ExprConvention">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="gnumeric:A1"/>
+            <xsd:enumeration value="gnumeric:R1C1"/>
+
+<!-- future values, currently displayed as gnumeric:A1 -->
+            <xsd:enumeration value="ODF:A1"/>
+            <xsd:enumeration value="Lotus:A1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:complexType name="PrintInformation">
         <xsd:sequence>

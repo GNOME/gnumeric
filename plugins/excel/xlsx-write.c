@@ -737,6 +737,26 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 }
 
 static void
+xlsx_write_calcPR (XLSXWriteState *state, GsfXMLOut *xml)
+{
+	Workbook const *wb = state->base.wb;
+
+#warning Filter by defaults
+	gsf_xml_out_start_element (xml, "calcPr");
+
+	gsf_xml_out_add_cstr_unchecked (xml, "calcMode", 
+		wb->recalc_auto ? "auto" : "manual");
+
+	xlsx_add_bool (xml, "iterate", wb->iteration.enabled);
+	gsf_xml_out_add_int (xml, "iterateCount",
+		wb->iteration.max_number);
+	gsf_xml_out_add_float (xml, "iterateDelta",
+		wb->iteration.tolerance, -1);
+
+	gsf_xml_out_end_element (xml);
+}
+
+static void
 xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 {
 	int i;
@@ -795,6 +815,8 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 		gsf_xml_out_end_element (xml); /* </sheet> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheets> */
+
+	xlsx_write_calcPR (state, xml);
 
 	gsf_xml_out_start_element (xml, "webPublishing");
 	gsf_xml_out_add_int (xml, "codePage", 1252);	/* FIXME : Use utf-8 ? */

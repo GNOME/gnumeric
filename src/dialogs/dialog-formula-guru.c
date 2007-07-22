@@ -481,9 +481,8 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 	case GNM_EXPR_OP_ANY_BINARY:
 	case GNM_EXPR_OP_UNARY_NEG:
 	default: {
-		char *text = gnm_expr_as_string
-			(expr, state->pos,
-			 sheet_conventions (state->pos->sheet));
+		char *text = gnm_expr_as_string (expr, state->pos,
+			 sheet_get_conventions (state->pos->sheet));
 		dialog_formula_guru_load_string (path, text, state);
 		g_free (text);
 		break;
@@ -991,10 +990,9 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		char *func_str;
 
 		state->pos = g_new (GnmParsePos, 1);
-		func_str = gnm_expr_as_string
-			(expr,
+		func_str = gnm_expr_as_string (expr,
 			 parse_pos_init_cell (state->pos, cell),
-			 sheet_conventions (sv_sheet (sv)));
+			 sheet_get_conventions (sv_sheet (sv)));
 
 		wbcg_edit_start (wbcg, FALSE, TRUE);
 		fd = gnm_expr_get_func_def (expr);

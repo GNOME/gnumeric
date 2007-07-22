@@ -2091,6 +2091,8 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	{ "SheetHideRowHeader", NULL, N_("Hide _Row Headers"),
 		NULL, N_("Toggle whether or not to display row headers"),
 		G_CALLBACK (cb_sheet_pref_hide_row_header) },
+
+	/* TODO : Make this a sub menu when we have more convention types */
 	{ "SheetUseR1C1", NULL, N_("Use R1C1 N_otation "),
 		NULL, N_("Display addresses as R1C1 or A1"),
 		G_CALLBACK (cb_sheet_pref_use_r1c1) },

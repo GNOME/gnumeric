@@ -82,19 +82,46 @@ sylk_read_warning (SylkReader *state, char const *fmt, ...)
 static char *
 sylk_next_token (char *src)
 {
+	static guint8 const accents[] = { /* 0x40 - 0x4F */
+		   0, /* A = x300 Grave */
+		   1, /* B = x301 Acute */
+		   2, /* C = x302 Circumflex */
+		   3, /* D = x303 tilde */
+		   8, /* H = x308 diaeresis */
+		 0xA, /* J = x30A ring */
+		0x27, /* K = x327 cedilla */
+	};
+
 	char *dst = src;
 
-#warning parse the ascii escapes
 	while (*src)
-		if (src[0] != ';') {
+		if (src[0] == ';') {
+			if (src[1] == ';') {
+				*dst++ = ';';
+				src += 2;
+			} else {
+				*dst = '\0';
+				return src+1;
+			}
+		} else if (src[0] == 0x1B) { /* escape */
+			if (src[1] != 'N') { /* invalid */
+				src++;
+			} else if (0x40 <= src[2] && src[2] <= 0x4f) { /* accents */
+				int len = g_unichar_to_utf8 (0x300 + accents[src[2] - 0x40], dst+1);
+				dst[0] = src[3];
+				dst += len + 1;
+				src += 4;
+
+			/* <ESC>N<c> 'un-accented characters' */
+			} else if ((0x21 <= src[2] && src[2] <= 0x3f) ||
+				   (0x50 <= src[2] && src[2] <= 0x7e)) {
+				src += 3;
+			} else { /* unknown */
+				src += 2;
+			}
+
+		} else
 			*dst++ = *src++;
-		} else if (src[1] == ';') {
-			*dst++ = ';';
-			src += 2;
-		} else {
-			*dst = '\0';
-			return src+1;
-		}
 
 	*dst = '\0';
 	return src;
@@ -318,7 +345,7 @@ static gboolean
 sylk_rtd_o_parse (SylkReader *state, char *str)
 {
 	char *next;
-	gboolean use_r1c1 = TRUE; /* the default */
+	GnmConventions const *convs = gnm_conventions_xls_r1c1; /* default */
 
 	for (; *str != '\0' ; str = next) {
 		next = sylk_next_token (str);
@@ -351,11 +378,11 @@ sylk_rtd_o_parse (SylkReader *state, char *str)
 			break;
 
 		case 'L' : /* ;L: Use A1 mode references */
-			use_r1c1 = FALSE;
+			convs = gnm_conventions_default;
 			break;
 
 		case 'M' : /* ;M: Manual recalc. */
-			workbook_autorecalc_enable (state->pp.wb, FALSE);
+			workbook_set_recalcmode (state->pp.wb, FALSE);
 			break;
 
 		case 'P' : /* ;P: Sheet is protected */
@@ -378,7 +405,7 @@ sylk_rtd_o_parse (SylkReader *state, char *str)
 			sylk_read_warning (state, "unknown option '%c'", *str);
 		}
 	}
-	g_object_set (state->pp.sheet, "use-r1c1", use_r1c1, NULL);
+	g_object_set (state->pp.sheet, "conventions", convs, NULL);
 	return TRUE;
 }
 

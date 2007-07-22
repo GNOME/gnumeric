@@ -1018,7 +1018,7 @@ cb_range_to_string (SheetView *sv, GnmRange const *r, void *closure)
 
 	out.accum = res->str;
 	out.pp = parse_pos_init_sheet (&pp, sv->sheet);
-	out.convs = sheet_conventions (sv->sheet);
+	out.convs = sheet_get_conventions (sv->sheet);
 
 	gnm_cellref_init (&rr.a, NULL, r->start.col, r->start.row, FALSE);
 	gnm_cellref_init (&rr.b, NULL, r->end.col, r->end.row, FALSE);

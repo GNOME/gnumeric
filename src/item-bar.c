@@ -113,7 +113,7 @@ item_bar_calc_size (ItemBar *ib)
 	int size = pango_font_description_get_size (src_desc);
 	PangoLayout *layout;
 	PangoRectangle ink_rect, logical_rect;
-	gboolean const char_label = ib->is_col_header && !sheet->r1c1_addresses;
+	gboolean const char_label = ib->is_col_header && !sheet->convs->r1c1_addresses;
 
 	ib_fonts_unref (ib);
 
@@ -344,7 +344,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		int const len = (inc > 4) ? 4 : inc;
 		int end = expose->area.x;
 		int total, col = pane->first.col;
-		gboolean const char_label = !sheet->r1c1_addresses;
+		gboolean const char_label = !sheet->convs->r1c1_addresses;
 
 		/* shadow type selection must be keep in sync with code in ib_draw_cell */
 		rect.y = ib->indent;
