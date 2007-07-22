@@ -507,7 +507,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			}
 
 			switch (newton_submethod++ % 4) {
-			case 0:	x0 = data->xpos; x0 = data->ypos; break;
+			case 0:	x0 = data->xpos; y0 = data->ypos; break;
 			case 2: x0 = data->xneg; y0 = data->yneg; break;
 			default:
 			case 3:

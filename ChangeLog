@@ -1,7 +1,7 @@
-2007-07-13  Jody Goldberg <jody@gnome.org>
+2007-07-22  Jody Goldberg <jody@gnome.org>
 
-	* sylk.c (sylk_next_token) : initial version of accent support.  pango
-	  does not handle it well.
+	Coverity
+	* src/tools/goal-seek.c (goal_seek_bisection) : fix typo.
 
 2007-07-22  Jody Goldberg  <jody@gnome.org>
 
