@@ -143,6 +143,7 @@
         <menuitem action="SheetHideGridlines"/>
         <menuitem action="SheetHideColHeader"/>
         <menuitem action="SheetHideRowHeader"/>
+	<menuitem action="SheetDirection"/>
       </menu>
       <menuitem action="FormatWorkbook"/>
       <menuitem action="FilePreferences"/>
@@ -247,7 +248,6 @@
     <separator name="std-sep5"/>
     <toolitem action="ChartGuru" />
     <toolitem action="Zoom"/>
-    <toolitem action="Direction"/>
   </toolbar>
   <toolbar _name="FormatToolbar">
     <toolitem action="FontName"/>

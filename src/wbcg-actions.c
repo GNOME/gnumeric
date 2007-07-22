@@ -1678,9 +1678,6 @@ static GtkActionEntry const actions[] = {
 	{ "ViewZoomOut", GTK_STOCK_ZOOM_OUT, N_("Zoom _Out"),
 		ZOOM_OUT_ACCEL, N_("Decrease the zoom to make things smaller"),
 		G_CALLBACK (cb_view_zoom_out) },
-	{ "Direction", GTK_STOCK_GO_FORWARD, N_("Direction"),
-		NULL, N_("Toggle sheet direction, left to right vs right to left"),
-		G_CALLBACK (cb_direction) },
 
 /* Insert */
 	{ "InsertCells", NULL, N_("C_ells..."),
@@ -2096,6 +2093,10 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	{ "SheetUseR1C1", NULL, N_("Use R1C1 N_otation "),
 		NULL, N_("Display addresses as R1C1 or A1"),
 		G_CALLBACK (cb_sheet_pref_use_r1c1) },
+
+	{ "SheetDirection", GTK_STOCK_GO_FORWARD, N_("Right-to-Left"),
+		NULL, N_("Toggle sheet direction, left-to-right vs right-to-left"),
+		G_CALLBACK (cb_direction) },
 
 	{ "AlignLeft", GTK_STOCK_JUSTIFY_LEFT,
 		N_("_Left Align"), NULL,
