@@ -1739,6 +1739,9 @@ static GtkActionEntry const actions[] = {
 	{ "FormatAuto", NULL, N_("_Autoformat..."),
 		NULL, N_("Format a region of cells according to a pre-defined template"),
 		G_CALLBACK (cb_autoformat) },
+	{ "SheetDirection", GTK_STOCK_GO_FORWARD, N_("Direction"),
+		NULL, N_("Toggle sheet direction, left-to-right vs right-to-left"),
+		G_CALLBACK (cb_direction) },
 
 /* Format -> Col */
 	{ "ColumnSize", "Gnumeric_ColumnSize", N_("_Width..."),
@@ -2093,10 +2096,6 @@ static GtkToggleActionEntry const toggle_actions[] = {
 	{ "SheetUseR1C1", NULL, N_("Use R1C1 N_otation "),
 		NULL, N_("Display addresses as R1C1 or A1"),
 		G_CALLBACK (cb_sheet_pref_use_r1c1) },
-
-	{ "SheetDirection", GTK_STOCK_GO_FORWARD, N_("Right-to-Left"),
-		NULL, N_("Toggle sheet direction, left-to-right vs right-to-left"),
-		G_CALLBACK (cb_direction) },
 
 	{ "AlignLeft", GTK_STOCK_JUSTIFY_LEFT,
 		N_("_Left Align"), NULL,
