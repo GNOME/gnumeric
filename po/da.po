@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-02 19:30-0400\n"
-"PO-Revision-Date: 2007-07-22 20:03-0400\n"
+"PO-Revision-Date: 2007-07-23 16:05-0400\n"
 "Last-Translator: Morten Welinder <terra@gnome.org>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -7945,9 +7945,8 @@ msgid "Change Paper Type"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:15
-#, fuzzy
 msgid "Co_mments:"
-msgstr "_Kommentarer"
+msgstr "_Kommentarer:"
 
 #: ../src/dialogs/print.glade.h:16
 msgid "Fi_rst page number:"
@@ -8983,21 +8982,20 @@ msgid "<b>Location</b>"
 msgstr "Eksempel"
 
 #: ../src/dialogs/view.glade.h:4
-#, fuzzy
 msgid "Create New View"
-msgstr "Opret linje"
+msgstr "Åbn nyt vindue"
 
 #: ../src/dialogs/view.glade.h:5
 msgid "New view will be opened on specified screen"
-msgstr ""
+msgstr "Det nye vindue vil blive åbnet på den angivne skærm"
 
 #: ../src/dialogs/view.glade.h:6
 msgid "Specified screen:"
-msgstr ""
+msgstr "Angivne skærm"
 
 #: ../src/dialogs/view.glade.h:7
 msgid "_Share cursor position"
-msgstr ""
+msgstr "Del markørposition"
 
 #: ../src/dialogs/workbook-attr.glade.h:2
 #, fuzzy
@@ -12267,9 +12265,8 @@ msgid "Error while trying to read file"
 msgstr "Fejl ved forsøg på at skrive csv-fil"
 
 #: ../src/stf.c:271 ../src/stf.c:306
-#, fuzzy
 msgid "Text to Columns"
-msgstr "Slet kolonner"
+msgstr "Tekst til kolonner"
 
 #: ../src/stf.c:276
 msgid "Only one column of <b>input</b> data can be parsed at a time"
@@ -12650,9 +12647,8 @@ msgid "_Toolbars"
 msgstr "_Værktøjslinjer..."
 
 #: ../src/wbcg-actions.c:1423
-#, fuzzy
 msgid "_Names"
-msgstr "_Navn"
+msgstr "_Navne"
 
 # specielle giver et forkert indtryk
 #: ../src/wbcg-actions.c:1424
@@ -12710,9 +12706,8 @@ msgid "_Group and Outline"
 msgstr "_Grupper og omrids"
 
 #: ../src/wbcg-actions.c:1438
-#, fuzzy
 msgid "Get External _Data"
-msgstr "Intern FEJL"
+msgstr "Indhent extern data"
 
 #: ../src/wbcg-actions.c:1439
 msgid "_Help"
@@ -12723,7 +12718,6 @@ msgid "Save the current workbook"
 msgstr "Gem den aktuelle arbejdsbog"
 
 #: ../src/wbcg-actions.c:1445
-#, fuzzy
 msgid "Save the current workbook with a different name"
 msgstr "Gem den aktuelle fil under et andet navn"
 
@@ -12732,9 +12726,8 @@ msgid "Close the current file"
 msgstr "Luk den aktive fil"
 
 #: ../src/wbcg-actions.c:1451
-#, fuzzy
 msgid "Quit the application"
-msgstr "Om dette program"
+msgstr "Forlad dette program"
 
 #: ../src/wbcg-actions.c:1455
 msgid "Cut the selection"
@@ -12773,7 +12766,6 @@ msgid "Open a viewer for Gnumeric's documentation"
 msgstr ""
 
 #: ../src/wbcg-actions.c:1473
-#, fuzzy
 msgid "Gnumeric on the _Web"
 msgstr "Gnumerics hjemmeside"
 
@@ -12791,16 +12783,15 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1479
 msgid "Report a _Problem"
-msgstr ""
+msgstr "Reporter et problem"
 
 #: ../src/wbcg-actions.c:1480
 msgid "Report problem "
-msgstr ""
+msgstr "Reporter et problem"
 
 #: ../src/wbcg-actions.c:1482
-#, fuzzy
 msgid "_About"
-msgstr "_Om..."
+msgstr "_Om dette program..."
 
 #: ../src/wbcg-actions.c:1483
 msgid "About this application"
@@ -12823,17 +12814,14 @@ msgid "Create a new workbook"
 msgstr "Opret ny arbejdsbog"
 
 #: ../src/wbcg-actions.c:1509
-#, fuzzy
 msgid "Open a file"
 msgstr "Importerer en fil"
 
 #: ../src/wbcg-actions.c:1511
-#, fuzzy
 msgid "Sen_d To..."
-msgstr "Gå til..."
+msgstr "Send til..."
 
 #: ../src/wbcg-actions.c:1512
-#, fuzzy
 msgid "Send the current file via email"
 msgstr "Send den aktuelle fil med et ebrev"
 
@@ -12872,13 +12860,12 @@ msgid "Change Gnumeric Preferences"
 msgstr ""
 
 #: ../src/wbcg-actions.c:1529
-#, fuzzy
 msgid "Full _History..."
-msgstr "Histogram"
+msgstr "Filhistorie..."
 
 #: ../src/wbcg-actions.c:1530
 msgid "Access previously used file"
-msgstr ""
+msgstr "Åbn en tidligere brugt fil"
 
 #: ../src/wbcg-actions.c:1535
 msgid "Use the current selection as print area"
@@ -13078,9 +13065,8 @@ msgid "Paste with optional filters and transformations"
 msgstr "Indsæt med valgbare filtre og transformationer"
 
 #: ../src/wbcg-actions.c:1647
-#, fuzzy
 msgid "Co_mment..."
-msgstr "_Kommentarer"
+msgstr "_Kommentar"
 
 #: ../src/wbcg-actions.c:1648
 msgid "Edit the selected cell's comment"
@@ -13121,14 +13107,12 @@ msgstr "Beregner celleværdierne i regnearket igen"
 
 #. View
 #: ../src/wbcg-actions.c:1666
-#, fuzzy
 msgid "_New View..."
-msgstr "_Ny..."
+msgstr "_Nyt vindue..."
 
 #: ../src/wbcg-actions.c:1667
-#, fuzzy
 msgid "Create a new view of the workbook"
-msgstr "Opret en ny delt visning af arbejdsbogen"
+msgstr "Opret et nyt vindue for arbejdsbogen"
 
 #: ../src/wbcg-actions.c:1669 ../src/workbook-control-gui.c:1172
 msgid "_Freeze Panes"
@@ -13629,9 +13613,8 @@ msgid "Validate input with preset criteria"
 msgstr "Kontrollér gyldighed af dataene efter forudangivne kriterier"
 
 #: ../src/wbcg-actions.c:1881
-#, fuzzy
 msgid "T_ext to Columns..."
-msgstr "Automatisk tilpasning af kolonner"
+msgstr "T_ekst til kolonner"
 
 #: ../src/wbcg-actions.c:1882
 #, fuzzy
@@ -13647,14 +13630,12 @@ msgid "Consolidate regions using a function"
 msgstr "Foren områder vha. en funktion"
 
 #: ../src/wbcg-actions.c:1887
-#, fuzzy
 msgid "_Table..."
-msgstr "_Udskriv..."
+msgstr "_Tabel..."
 
 #: ../src/wbcg-actions.c:1888
-#, fuzzy
 msgid "Create a Data Table to evaluate a function with multiple inputs"
-msgstr "Lav en tabel over en celles værdi som en funktion af andre celler"
+msgstr "Lav en tabel til at evaluate en funktion med flere argumenter"
 
 #: ../src/wbcg-actions.c:1891
 #, fuzzy
@@ -13729,14 +13710,12 @@ msgstr "Filtrér data efter givne kriterier"
 
 #. Data -> External
 #: ../src/wbcg-actions.c:1921
-#, fuzzy
 msgid "Import _Text File..."
-msgstr "Importerer en fil"
+msgstr "Importerer en tekstfil"
 
 #: ../src/wbcg-actions.c:1922
-#, fuzzy
 msgid "Import the text from a file"
-msgstr "Importerer en fil"
+msgstr "Importerer tekst fra en fil"
 
 #. Standard Toolbar
 #: ../src/wbcg-actions.c:1926 ../src/workbook-control-gui.c:2046
@@ -14347,9 +14326,9 @@ msgid "Font Size"
 msgstr "Skriftstørrelse"
 
 #: ../src/wbc-gtk.c:805
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s"
-msgstr "Åbn"
+msgstr "Åbn %s"
 
 #. xgettext: Translators: if this warning shows up when
 #. * running Gnumeric in your locale, the underlines need
