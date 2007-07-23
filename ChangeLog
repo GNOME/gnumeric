@@ -1,3 +1,7 @@
+2007-07-23  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (python): survive missing python stuff.
+
 2007-07-22  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Beef up the python test logic from the gimp and try

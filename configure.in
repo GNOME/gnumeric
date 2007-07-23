@@ -890,17 +890,19 @@ if test "x$python_msg" = xyes; then
 
     m4_define([pygtk_required_version], [2.10.4])
     PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= pygtk_required_version,,
-      [AC_MSG_ERROR([PyGTK pygtk_required_version or newer], [it])])
+      [python_msg=no])
 
     AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
     if test "x$PYGTK_CODEGEN" = xno; then
-      AC_MSG_ERROR([pygtk-codegen-2.0 script], [it])
+      python_msg=no
     fi
 
-    AC_MSG_CHECKING(for pygtk defs)
-    PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk-2.0`
-    AC_SUBST(PYGTK_DEFSDIR)
-    AC_MSG_RESULT($PYGTK_DEFSDIR)
+    if test "x$python_msg" = xyes; then
+        AC_MSG_CHECKING(for pygtk defs)
+        PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk-2.0`
+        AC_SUBST(PYGTK_DEFSDIR)
+        AC_MSG_RESULT($PYGTK_DEFSDIR)
+    fi
 fi
 
 AM_CONDITIONAL(WITH_PYTHON, test "x$python_msg" = xyes)
