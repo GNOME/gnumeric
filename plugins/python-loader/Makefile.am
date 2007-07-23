@@ -2,7 +2,7 @@ AM_CPPFLAGS = \
     -DPLUGIN_ID=\"Gnumeric_PythonLoader\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
-    $(PY_CFLAGS)				\
+    $(GNM_PY_CFLAGS)				\
     $(PYGTK_CFLAGS)				\
     $(GNUMERIC_CFLAGS)
 
@@ -11,8 +11,8 @@ xmldir = $(gnumeric_plugin_python_loaderdir)
 gnumeric_plugin_python_loader_LTLIBRARIES = python_loader.la
 gnumeric_plugin_python_loader_DATA = ui-console-menu.xml
 
-python_loader_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS) $(PY_LIB_LOC)  
-python_loader_la_LIBADD = -l$(PY_LIBS) $(PY_EXTRA_LIBS)
+python_loader_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS) $(GNM_PY_LDFLAGS)  
+python_loader_la_LIBADD = $(GNM_PY_LIBADD)
 python_loader_la_SOURCES = \
 	python-loader.h \
 	python-loader.c \

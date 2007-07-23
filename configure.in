@@ -112,7 +112,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 
 dnl *****************************
 libspreadsheet_reqs="
-	libgoffice-0.4		>= 0.4.0
+	libgoffice-0.4		>= 0.4.2
 	libgsf-1		>= 1.14.4
 	libxml-2.0		>= 2.4.12
 "
@@ -822,6 +822,10 @@ dnl **************************************************
 dnl * Check for Python
 dnl **************************************************
 python_msg="yes"
+GNM_PY_CFLAGS=
+GNM_PY_LDLAGS=
+GNM_PY_LIBADD=
+
 AC_ARG_WITH(python, [--{with,without}-python   Compile the Python plugin loader])
 AC_ARG_VAR(PYTHON, [The Python executable.])
 case $with_python in
@@ -840,19 +844,14 @@ else
 fi
 
 if test "x$python_msg" = xyes; then
-    BIG_CHECKING([for python >= 2.0])
+    BIG_CHECKING([for python = 2.x])
     [PY_VERSION=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:3])'`
-     broken_py_initialize=`$PYTHON -c \
-'import sys
-if int(sys.version[0]) < 2:
-sys.stdout.write("yes")
-else:
-sys.stdout.write("no")'`]
-    if test "x$broken_py_initialize" != "xyes"; then
+     major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:1])'`]
+    if test "x$major_ver" == "x2"; then
 	AC_MSG_RESULT(yes)
     else
 	AC_MSG_RESULT(no)
-	python_msg="NO.  Python version is too old."
+	python_msg="NO.  Python version \"${PY_VERSION}\" is too old."
     fi
 fi
 
@@ -862,7 +861,7 @@ if test "x$python_msg" = xyes; then
 	PY_INCLUDE="$PY_PREFIX/include/python$PY_VERSION"
     fi
     if test "x$PY_MAKEFILE" = x; then
-	PY_MAKEFILE=`$PYTHON -c 'from distutils.sysconfig import get_makefile_filename; sys.stdout.write(get_makefile_filename())'`
+	PY_MAKEFILE=`$PYTHON -c 'import sys ; from distutils.sysconfig import get_makefile_filename; sys.stdout.write(get_makefile_filename())'`
     fi
 
     BIG_CHECKING(Look for $PY_INCLUDE/Python.h)
@@ -872,57 +871,46 @@ if test "x$python_msg" = xyes; then
 	AC_MSG_RESULT(no)
 	python_msg="unable to find Python.h"
     fi
+    GNM_PY_CFLAGS="-I $PY_INCLUDE"
 fi
 
 if test "x$python_msg" = xyes; then
-    BIG_CHECKING(if we can build a shared library depending on libpython)
-
-    PY_LIBS="python$PY_VERSION"
-    PY_LIB_LOC=`$PYTHON -c 'import sys ; from distutils.sysconfig import get_config_var; sys.stdout.write( get_config_var("LIBPL"))'`
-    PY_LIB_LOC="-L$PY_LIB_LOC"
-    PY_CFLAGS="-I$PY_INCLUDE"
-    [echo 'echo_python_libs:
-    @echo $(MODLIBS) $(LIBS)' >confmake.tmp
-    PY_EXTRA_LIBS=`make -s -f confmake.tmp -f "$PY_MAKEFILE"`
-
-    rm -f confmake.tmp]
-    rm -rf testpython
-    mkdir testpython
-    cd testpython
-    cat > testpython.c <<EOF
-#include <Python.h>
-int testpython (void)
-{
-    Py_Exit (0);
-}
-EOF
-    if ../libtool --mode=compile ${CC} $PY_CFLAGS -c testpython.c >/dev/null 2>&1 &&		\
-       ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version	\
-       		$PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS >/dev/null 2>&1 &&		\
-       grep 'dlname.*testpython' testpython.la >/dev/null 2>&1; then
-	AC_MSG_RESULT(yes)
+    if test "x$with_win32" = "xyes"; then
+	PY_APP="$py_exec_prefix\pythonw.exe"
+	PYTHON_INCLUDE=`$echo "$PYTHON_INCLUDE" | sed -e 's/\\\\/\\//g'`
+	py_exec_prefix=`echo "$py_exec_prefix" | sed -e 's/\\\\/\\//g'`
+	pylibversion=`echo $PY_VERSION | sed -e 's/\\.//'`
     else
-	AC_MSG_RESULT(no)
-	python_msg="unable to link to python"
+	pylibversion="$PY_VERSION"
+	PY_APP="$PYTHON"
     fi
-    cd ..
-    rm -rf testpython
-fi
-if test "x$python_msg" = xyes; then
-    PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
-	    [],
-	    [python_msg="NO.  pygtk problem"])
+    AC_SUBST(PY_APP)
+
+    GNM_PY_LDFLAGS="-L${py_exec_prefix}/libs -lpython${pylibversion}"
+
+    m4_define([pygtk_required_version], [2.10.4])
+    PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= pygtk_required_version,,
+      [AC_MSG_ERROR([PyGTK pygtk_required_version or newer], [it])])
+
+    AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
+    if test "x$PYGTK_CODEGEN" = xno; then
+      AC_MSG_ERROR([pygtk-codegen-2.0 script], [it])
+    fi
+
+    AC_MSG_CHECKING(for pygtk defs)
+    PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk-2.0`
+    AC_SUBST(PYGTK_DEFSDIR)
+    AC_MSG_RESULT($PYGTK_DEFSDIR)
 fi
 
 AM_CONDITIONAL(WITH_PYTHON, test "x$python_msg" = xyes)
 if test "x$python_msg" = xyes; then
     python_msg="yes (using $PYTHON)"
 fi
+AC_SUBST(GNM_PY_CFLAGS)
+AC_SUBST(GNM_PY_LDFLAGS)
+AC_SUBST(GNM_PY_LIBADD)
 AC_SUBST(PYGTK_CFLAGS)
-AC_SUBST(PY_LIBS)
-AC_SUBST(PY_LIB_LOC)
-AC_SUBST(PY_CFLAGS)
-AC_SUBST(PY_EXTRA_LIBS)
 
 dnl A tricky way to comment out in m4:
 ifelse([

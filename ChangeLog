@@ -1,5 +1,18 @@
 2007-07-22  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : Beef up the python test logic from the gimp and try
+	  to make win32 work with it.
+
+2007-07-18  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump the goffice req to svn trunk to get the new
+	  function.
+	* src/sheet-object-graph.c (sheet_object_graph_guru) : Use the new
+	  gog_guru_get_help_button to solve [#394181] until we split the docs
+	  between gnumeric and goffice.
+
+2007-07-22  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet.c (sheet_move_range) : be more adaptive about how we
 	  invalidate the region.  If things are just being shifted we can
 	  pretend that we're moving whole cols/rows so that the relocation
