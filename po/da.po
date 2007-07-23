@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-02 19:30-0400\n"
-"PO-Revision-Date: 2007-07-23 16:05-0400\n"
+"PO-Revision-Date: 2007-07-23 16:35-0400\n"
 "Last-Translator: Morten Welinder <terra@gnome.org>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -2999,7 +2999,6 @@ msgid "Sort Ascending"
 msgstr "Sortér stigende"
 
 #: ../schemas/gnumeric-general.schemas.in.h:32
-#, fuzzy
 msgid "Sort is Case-Sensitive"
 msgstr "Skeln mellem store og små bogstaver"
 
@@ -3519,7 +3518,6 @@ msgid "Apply _Patterns"
 msgstr "Anvend _mønstre"
 
 #: ../src/dialogs/autoformat.glade.h:8 ../src/dialogs/doc-meta-data.glade.h:26
-#, fuzzy
 msgid "Author:"
 msgstr "Forfatter:"
 
@@ -3528,18 +3526,15 @@ msgid "Autoformat"
 msgstr "Autoformat"
 
 #: ../src/dialogs/autoformat.glade.h:10
-#, fuzzy
 msgid "C_ategory:"
 msgstr "Kategori:"
 
 #: ../src/dialogs/autoformat.glade.h:11
 #: ../src/dialogs/doc-meta-data.glade.h:27
-#, fuzzy
 msgid "Category:"
 msgstr "Kategori:"
 
 #: ../src/dialogs/autoformat.glade.h:12
-#, fuzzy
 msgid "Description:"
 msgstr "Beskrivelse:"
 
@@ -3548,7 +3543,6 @@ msgid "Name of template"
 msgstr "Navn på skabelon"
 
 #: ../src/dialogs/autoformat.glade.h:14
-#, fuzzy
 msgid "Name:"
 msgstr "Navn:"
 
@@ -3804,7 +3798,6 @@ msgid "Format Cells"
 msgstr "Formatér celler"
 
 #: ../src/dialogs/cell-format.glade.h:49
-#, fuzzy
 msgid "Hi_de"
 msgstr "Skjul"
 
@@ -3818,7 +3811,6 @@ msgid "I_n-cell dropdown"
 msgstr "Menuvalg i celle"
 
 #: ../src/dialogs/cell-format.glade.h:52
-#, fuzzy
 msgid "Ignore _blank cells"
 msgstr "Ignorér tomme celler"
 
@@ -3978,7 +3970,6 @@ msgid "_General"
 msgstr "_Generelt"
 
 #: ../src/dialogs/cell-format.glade.h:91
-#, fuzzy
 msgid "_Indent:"
 msgstr "_Indryk"
 
@@ -4293,14 +4284,12 @@ msgid "_Expression: "
 msgstr "Udtryk: "
 
 #: ../src/dialogs/define-name.glade.h:8 ../src/dialogs/solver.glade.h:28
-#, fuzzy
 msgid "_Name: "
-msgstr "Navn: "
+msgstr "_Navn: "
 
 #: ../src/dialogs/define-name.glade.h:9
-#, fuzzy
 msgid "_Scope:"
-msgstr "Virkefelt: "
+msgstr "_Virkefelt:"
 
 #: ../src/dialogs/define-name.glade.h:10
 msgid "_Update"
@@ -4407,23 +4396,20 @@ msgid "Usability"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:70
-#, fuzzy
 msgid "Documentation"
-msgstr "Placering"
+msgstr "Dokumentation"
 
 #: ../src/dialogs/dialog-about.c:71
-#, fuzzy
 msgid "Translation"
-msgstr "Tabeller"
+msgstr "Oversætning"
 
 #: ../src/dialogs/dialog-about.c:72
 msgid "QA"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:73
-#, fuzzy
 msgid "Art"
-msgstr "mar"
+msgstr "Grafik"
 
 #: ../src/dialogs/dialog-about.c:74
 msgid "Packaging"
@@ -4465,18 +4451,16 @@ msgid "Core charting engine."
 msgstr "Fejl ved fortolkning af linje"
 
 #: ../src/dialogs/dialog-about.c:90
-#, fuzzy
 msgid "Grandma Chema Celorio"
-msgstr "Grandma Chema Celorio, testning og arkkopiering."
+msgstr "Bedstemor Chema Celorio"
 
 #: ../src/dialogs/dialog-about.c:91
 msgid "Quality Assurance and sheet copy."
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:92
-#, fuzzy
 msgid "Frank Chiulli"
-msgstr "Frank Chiulli, OLE-understøttelse."
+msgstr "Frank Chiulli"
 
 #: ../src/dialogs/dialog-about.c:93
 #, fuzzy
@@ -4484,9 +4468,8 @@ msgid "OLE2 support."
 msgstr "Arturo Tena, OLE-understøttelse."
 
 #: ../src/dialogs/dialog-about.c:94
-#, fuzzy
 msgid "Kenneth Christiansen"
-msgstr "Kenneth Christiansen, i18n, diverse."
+msgstr "Kenneth Christiansen"
 
 #: ../src/dialogs/dialog-about.c:95
 #, fuzzy
@@ -4650,9 +4633,8 @@ msgid "Many plot types for charting engine."
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:134
-#, fuzzy
 msgid "Federico M. Quintero"
-msgstr "Federico M. Quintero, understøttelse af virtuelt lærrede."
+msgstr "Federico M. Quintero"
 
 #: ../src/dialogs/dialog-about.c:135
 #, fuzzy
@@ -4727,9 +4709,8 @@ msgid "Consolidation and Structured Text importer"
 msgstr ""
 
 #: ../src/dialogs/dialog-about.c:152
-#, fuzzy
 msgid "Bruno Unna"
-msgstr "Bruno Unna, Excel-arbejde."
+msgstr "Bruno Unna"
 
 #: ../src/dialogs/dialog-about.c:153
 #, fuzzy
@@ -4764,9 +4745,8 @@ msgid "Some financial functions"
 msgstr "Finansielle afledede"
 
 #: ../src/dialogs/dialog-about.c:160
-#, fuzzy
 msgid "Morten Welinder"
-msgstr "Morten Welinder, dansk Gnumeric-hacker."
+msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:161
 msgid "All round powerhouse"
@@ -5173,16 +5153,14 @@ msgstr "Kriterium"
 #: ../src/dialogs/dialog-cell-format.c:1663
 #: ../src/dialogs/dialog-cell-format.c:1672
 #: ../src/dialogs/so-scrollbar.glade.h:4
-#, fuzzy
 msgid "Min:"
-msgstr "M_in:"
+msgstr "Min:"
 
 #: ../src/dialogs/dialog-cell-format.c:1664
 #: ../src/dialogs/dialog-cell-format.c:1676
 #: ../src/dialogs/so-scrollbar.glade.h:3
-#, fuzzy
 msgid "Max:"
-msgstr "_Maks:"
+msgstr "Max:"
 
 #: ../src/dialogs/dialog-cell-format.c:1668
 #, fuzzy
@@ -5227,9 +5205,9 @@ msgid "Pattern"
 msgstr "Mønster"
 
 #: ../src/dialogs/dialog-cell-sort.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Column %s"
-msgstr "Kolonne: %s"
+msgstr "Kolonne %s"
 
 #: ../src/dialogs/dialog-cell-sort.c:139
 #, c-format
@@ -10686,9 +10664,9 @@ msgid "Text (%s) to Columns (%s)"
 msgstr "Slet kolonner"
 
 #: ../src/commands.c:6408
-#, fuzzy, c-format
+#, c-format
 msgid "Goal Seek (%s)"
-msgstr "Målsøgning"
+msgstr "Målsøgning (%s)"
 
 #: ../src/commands.c:6578
 #, fuzzy
@@ -12637,12 +12615,10 @@ msgid "_View"
 msgstr "_Vis"
 
 #: ../src/wbcg-actions.c:1420
-#, fuzzy
 msgid "_Windows"
-msgstr "Skjulning af rækker"
+msgstr "_Vinduer"
 
 #: ../src/wbcg-actions.c:1421
-#, fuzzy
 msgid "_Toolbars"
 msgstr "_Værktøjslinjer..."
 
@@ -12683,9 +12659,8 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistiske metoder"
 
 #: ../src/wbcg-actions.c:1432
-#, fuzzy
 msgid "_ANOVA"
-msgstr "ANOVA"
+msgstr "_ANOVA"
 
 #: ../src/wbcg-actions.c:1433
 #, fuzzy
@@ -12800,14 +12775,12 @@ msgstr "Om dette program"
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
 #: ../src/wbcg-actions.c:1488
-#, fuzzy
 msgid "Repeat"
-msgstr "Rapporter"
+msgstr "Gentag"
 
 #: ../src/wbcg-actions.c:1489
-#, fuzzy
 msgid "Repeat the previous action"
-msgstr "Gentag den fortrudte handling igen"
+msgstr "Gentag den sidste handling"
 
 #: ../src/wbcg-actions.c:1506
 msgid "Create a new workbook"
@@ -12842,7 +12815,6 @@ msgid "Print the current file"
 msgstr "Udskriv den aktive fil"
 
 #: ../src/wbcg-actions.c:1523
-#, fuzzy
 msgid "Proper_ties..."
 msgstr "_Egenskaber..."
 
@@ -12915,7 +12887,6 @@ msgid "C_ells..."
 msgstr "C_eller..."
 
 #: ../src/wbcg-actions.c:1566
-#, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Fjern valgte celler idet andre celler rykker ind i stedet"
 
@@ -12978,9 +12949,8 @@ msgid "Automatically fill the current selection"
 msgstr "Udfyld automatisk de aktuelt markerede celler"
 
 #: ../src/wbcg-actions.c:1605
-#, fuzzy
 msgid "_Merge..."
-msgstr "Flet"
+msgstr "_Flet..."
 
 #: ../src/wbcg-actions.c:1606
 msgid ""
@@ -12996,16 +12966,14 @@ msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Lav en tabel over en celles værdi som en funktion af andre celler"
 
 #: ../src/wbcg-actions.c:1611
-#, fuzzy
 msgid "_Series..."
-msgstr "_Serier"
+msgstr "_Serier..."
 
 #: ../src/wbcg-actions.c:1612
 msgid "Fill according to a linear or exponential series"
 msgstr ""
 
 #: ../src/wbcg-actions.c:1614
-#, fuzzy
 msgid "_Random Generator..."
 msgstr "Generering af tilfældige tal"
 
@@ -13029,7 +12997,6 @@ msgid "Insert a new sheet"
 msgstr "Indsæt et nyt ark"
 
 #: ../src/wbcg-actions.c:1629
-#, fuzzy
 msgid "_Append"
 msgstr "_Tilføj"
 
@@ -13047,7 +13014,6 @@ msgid "Irrevocably remove an entire sheet"
 msgstr "Fjern uigenkaldeligt et helt ark"
 
 #: ../src/wbcg-actions.c:1638
-#, fuzzy
 msgid "Re_name"
 msgstr "_Omdøb..."
 
@@ -13264,9 +13230,8 @@ msgid "Modify the workbook attributes"
 msgstr "Ændr arbejdsbogens egenskaber"
 
 #: ../src/wbcg-actions.c:1739
-#, fuzzy
 msgid "_Gnumeric..."
-msgstr "Gnumeric"
+msgstr "_Gnumeric..."
 
 #: ../src/wbcg-actions.c:1740
 msgid "Edit the Gnumeric Preferences"
@@ -13441,7 +13406,6 @@ msgstr ""
 
 #. Tools -> Forecasting
 #: ../src/wbcg-actions.c:1818
-#, fuzzy
 msgid "_Exponential Smoothing..."
 msgstr "Eksponentiel udjævning"
 
@@ -13456,9 +13420,8 @@ msgid "_Moving Average..."
 msgstr "Rullende gennemsnit"
 
 #: ../src/wbcg-actions.c:1822
-#, fuzzy
 msgid "Moving average..."
-msgstr "Rullende gennemsnit"
+msgstr "Rullende gennemsnit..."
 
 #. Tools -> Two Means
 #: ../src/wbcg-actions.c:1826
@@ -13509,9 +13472,8 @@ msgstr "Populationsvarianser er:"
 
 #. Tools -> Analysis
 #: ../src/wbcg-actions.c:1843
-#, fuzzy
 msgid "_Correlation..."
-msgstr "Korrelation"
+msgstr "_Korrelation"
 
 #: ../src/wbcg-actions.c:1844
 #, fuzzy
@@ -13519,9 +13481,8 @@ msgid "Pearson Correlation"
 msgstr "Korrelation"
 
 #: ../src/wbcg-actions.c:1846
-#, fuzzy
 msgid "Co_variance..."
-msgstr "Kovarians"
+msgstr "Ko_varians..."
 
 #: ../src/wbcg-actions.c:1849
 #, fuzzy
@@ -13534,14 +13495,12 @@ msgid "Various summary statistics"
 msgstr "Sammendragsstatistikker"
 
 #: ../src/wbcg-actions.c:1852
-#, fuzzy
 msgid "_Fourier Analysis..."
-msgstr "Fourier-analyse"
+msgstr "_Fourier-analyse..."
 
 #: ../src/wbcg-actions.c:1855
-#, fuzzy
 msgid "_Histogram..."
-msgstr "Histogram"
+msgstr "_Histogram..."
 
 #: ../src/wbcg-actions.c:1856
 msgid "Various frequency tables"
@@ -13568,9 +13527,8 @@ msgid "Regression Analysis"
 msgstr "Regression"
 
 #: ../src/wbcg-actions.c:1864
-#, fuzzy
 msgid "_Sampling..."
-msgstr "Stikprøveudtagning"
+msgstr "_Stikprøveudtagning..."
 
 #: ../src/wbcg-actions.c:1865
 msgid "Periodic and random samples"
@@ -13591,7 +13549,6 @@ msgid "_Sort..."
 msgstr "_Sortér..."
 
 #: ../src/wbcg-actions.c:1873
-#, fuzzy
 msgid "Sort the selected region"
 msgstr "Sorterer det markerede område"
 
@@ -14067,14 +14024,12 @@ msgid "Display addresses as R1C1 or A1"
 msgstr ""
 
 #: ../src/wbcg-actions.c:2099
-#, fuzzy
 msgid "_Left Align"
-msgstr "Venstrejustér"
+msgstr "_Venstrejustér"
 
 #: ../src/wbcg-actions.c:2100 ../src/wbc-gtk.c:342
-#, fuzzy
 msgid "Align left"
-msgstr "Justering"
+msgstr "Venstrejustér"
 
 #: ../src/wbcg-actions.c:2102
 msgid "_Center"
@@ -14086,19 +14041,16 @@ msgid "Center horizontally"
 msgstr "_Vandret"
 
 #: ../src/wbcg-actions.c:2105
-#, fuzzy
 msgid "_Right Align"
-msgstr "Højrejustér"
+msgstr "_Højrejustér"
 
 #: ../src/wbcg-actions.c:2106 ../src/wbc-gtk.c:344
-#, fuzzy
 msgid "Align right"
-msgstr "Omrids til _højre"
+msgstr "Højrejustér"
 
 #: ../src/wbcg-actions.c:2108
-#, fuzzy
 msgid "_Center Across Selection"
-msgstr "Centrér hen over markering"
+msgstr "_Centrér hen over markering"
 
 #: ../src/wbcg-actions.c:2109 ../src/wbc-gtk.c:347
 #, fuzzy
@@ -14160,19 +14112,16 @@ msgid "Switch to or from full screen mode"
 msgstr ""
 
 #: ../src/wbcg-actions.c:2142
-#, fuzzy
 msgid "_Bold"
-msgstr "Fed"
+msgstr "_Fed"
 
 #: ../src/wbcg-actions.c:2145
-#, fuzzy
 msgid "_Italic"
-msgstr "Kursiv"
+msgstr "_Kursiv"
 
 #: ../src/wbcg-actions.c:2148
-#, fuzzy
 msgid "_Underline"
-msgstr "Understregning"
+msgstr "_Understregning"
 
 #. ALSO "<control>4"
 #: ../src/wbcg-actions.c:2149
@@ -14180,52 +14129,43 @@ msgid "Underline"
 msgstr "Understregning"
 
 #: ../src/wbcg-actions.c:2151
-#, fuzzy
 msgid "_Strike Through"
-msgstr "_Gennemstreget"
+msgstr "_Overstreget"
 
 #: ../src/wbcg-actions.c:2152
-#, fuzzy
 msgid "Strike Through"
-msgstr "_Gennemstreget"
+msgstr "Overstreget"
 
 #. from icon theme
 #: ../src/wbcg-actions.c:2154
-#, fuzzy
 msgid "_Double Underline"
-msgstr "Understregning"
+msgstr "_Dobbelt understregning"
 
 #: ../src/wbcg-actions.c:2155
-#, fuzzy
 msgid "Double Underline"
-msgstr "Understregning"
+msgstr "Dobbelt understregning"
 
 #. from icon theme
 #: ../src/wbcg-actions.c:2157
-#, fuzzy
 msgid "Su_perscript"
 msgstr "_Hævet skrift"
 
 #: ../src/wbcg-actions.c:2158
-#, fuzzy
 msgid "Superscript"
-msgstr "_Hævet skrift"
+msgstr "Hævet skrift"
 
 #. from icon theme
 #: ../src/wbcg-actions.c:2160
-#, fuzzy
 msgid "Subscrip_t"
 msgstr "_Sænket skrift"
 
 #: ../src/wbcg-actions.c:2161
-#, fuzzy
 msgid "Subscript"
-msgstr "_Sænket skrift"
+msgstr "Sænket skrift"
 
 #: ../src/wbc-gtk.c:181
-#, fuzzy
 msgid "_Zoom"
-msgstr "Zoom"
+msgstr "_Zoom"
 
 #: ../src/wbc-gtk.c:218
 msgid "Clear Borders"
@@ -14359,7 +14299,6 @@ msgid "Reattach to main window"
 msgstr ""
 
 #: ../src/wbc-gtk.c:1430
-#, fuzzy
 msgid "Hide"
 msgstr "Skjul"
 
@@ -14529,24 +14468,20 @@ msgid "Discard"
 msgstr "Forkast"
 
 #: ../src/workbook-control-gui.c:1270
-#, fuzzy
 msgid "Save all"
-msgstr "Gem"
+msgstr "Gem alle"
 
 #: ../src/workbook-control-gui.c:1272 ../src/workbook-control-gui.c:1277
-#, fuzzy
 msgid "Don't quit"
-msgstr "Dato"
+msgstr "Forlad ikke"
 
 #: ../src/workbook-control-gui.c:1283
-#, fuzzy
 msgid "Don't close"
-msgstr "Ændr ikke"
+msgstr "Luk ikke"
 
 #: ../src/workbook-control-gui.c:2097
-#, fuzzy
 msgid "Use maximum precision"
-msgstr "Øg præcision"
+msgstr "Brug maximal præcision"
 
 #: ../src/workbook-control-gui.c:2352
 #, fuzzy
@@ -14564,19 +14499,16 @@ msgid "Enter formula..."
 msgstr "A_utoformatér..."
 
 #: ../src/workbook-control-gui.c:2496 ../src/workbook-control-gui.c:2511
-#, fuzzy
 msgid "_Re-Edit"
-msgstr "Ret igen"
+msgstr "_Ret igen"
 
 #: ../src/workbook-control-gui.c:2497 ../src/workbook-control-gui.c:2502
-#, fuzzy
 msgid "_Discard"
-msgstr "Forkast"
+msgstr "_Forkast"
 
 #: ../src/workbook-control-gui.c:2501 ../src/workbook-control-gui.c:2512
-#, fuzzy
 msgid "_Accept"
-msgstr "Acceptér"
+msgstr "_Acceptér"
 
 #: ../src/workbook-control-gui.c:2820
 msgid "Autosave prompt"
@@ -14597,7 +14529,7 @@ msgstr ""
 #: ../src/workbook-edit.c:760
 #, c-format
 msgid "%s!%s is locked"
-msgstr ""
+msgstr "%s!%s er låst"
 
 #: ../src/workbook-edit.c:764
 msgid "Unprotect the workbook to enable editing."

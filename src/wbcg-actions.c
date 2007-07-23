@@ -1477,7 +1477,7 @@ static GtkActionEntry const permanent_actions[] = {
 		NULL, N_("See if anyone is available to answer questions"),
 		G_CALLBACK (cb_help_irc) },
 	{ "HelpBug", NULL, N_("Report a _Problem"),
-		NULL, N_("Report problem "),
+		NULL, N_("Report problem"),
 		G_CALLBACK (cb_help_bug) },
 	{ "HelpAbout", GTK_STOCK_ABOUT, N_("_About"),
 		NULL, N_("About this application"),
