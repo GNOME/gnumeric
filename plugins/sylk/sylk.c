@@ -82,14 +82,48 @@ sylk_read_warning (SylkReader *state, char const *fmt, ...)
 static char *
 sylk_next_token (char *src)
 {
-	static guint8 const accents[] = { /* 0x40 - 0x4F */
+	static gint8 const accents[] = { /* 0x40 - 0x4F */
+		  -1, /* @ = ??? */
 		   0, /* A = x300 Grave */
 		   1, /* B = x301 Acute */
 		   2, /* C = x302 Circumflex */
 		   3, /* D = x303 tilde */
+		  -1, /* E = ??? */
+		  -1, /* F = ??? */
+		  -1, /* G = ??? */
 		   8, /* H = x308 diaeresis */
+		  -1, /* I = ??? */
 		 0xA, /* J = x30A ring */
 		0x27, /* K = x327 cedilla */
+		  -1, /* L = ??? */
+		  -1, /* M = ??? */
+		  -1, /* N = ??? */
+		  -1, /* O = ??? */
+	};
+
+	static gunichar const unaccented_1[] = { /* 0x21 - 0x3F */
+		/* ! */	0x00A1,	/* " */	0x00A2,	/* # */	0x00A3,	/* $ */	'$',
+		/* % */	0x00A5,	/* & */	'#',	/* ' */	0x00A7,	/* ( */	0x00A4, /* yay for consistency :-p */
+		/* ) */	'\'',	/* * */	'\"',	/* + */	0x00AB,	/* , */	',',
+		/* - */	'-',	/* . */	'.',	/* / */	'/',	/* 0 */	0x00B0,
+		/* 1 */	0x00B1,	/* 2 */	0x00B2,	/* 3 */	0x00B3,	/* 4 */	'4',
+		/* 5 */	0x00B5,	/* 6 */	0x00B6,	/* 7 */	0x00B7,	/* 8 */	'8',
+		/* 9 */	'\'',	/* : */	'\"',	/* ; */	0x00BB,	/* < */	0x00BC,
+		/* = */	0x00BD,	/* > */	0x00BE,	/* ? */	0x00BF
+	};
+	static gunichar const unaccented_2[] = { /* 0x50 - 0x7E */
+		/* P */	0x00AF,	/* Q */	0x00AC,	/* R */	0x00AE,	/* S */	0x00A9,
+		/* T */	'T',	/* U */	'U',	/* V */	'V',	/* W */	'W',
+		/* X */	'X',	/* Y */	'Y',	/* Z */	'Z',	/* [ */	'[',
+		/* \ */	'\\',	/* ] */	']',	/* ^ */	'^',	/* _ */	'_',
+		/* ` */	'`',	/* a */	0x00C6,	/* b */	0x00D0,	/* c */	0x00AA,
+		/* d */	'd',	/* e */	'e',	/* f */	'f',	/* g */	'g',
+		/* h */	'h',	/* i */	0x00D8,	/* j */	0x0152,	/* k */	0x00B0,
+		/* l */	0x00DE,	/* m */	'm',	/* n */	'n',	/* o */	'o',
+		/* p */	'p',	/* q */	0x00E6,	/* r */	'r',	/* s */	0x00F0,
+		/* t */	't',	/* u */	'u',	/* v */	'v',	/* w */	'w',
+		/* x */	'x',	/* y */	0x00F8,	/* z */	0x0153,	/* { */	0x00DF,
+		/* | */	0x00DE,	/* } */	'}',	/* ~ */	'~'
 	};
 
 	char *dst = src;
@@ -104,22 +138,40 @@ sylk_next_token (char *src)
 				return src+1;
 			}
 		} else if (src[0] == 0x1B) { /* escape */
-			if (src[1] != 'N') { /* invalid */
+			gunichar u;
+			if (src[1] != 'N') { /* must be <ESC>N? */
 				src++;
-			} else if (0x40 <= src[2] && src[2] <= 0x4f) { /* accents */
-				int len = g_unichar_to_utf8 (0x300 + accents[src[2] - 0x40], dst+1);
-				dst[0] = src[3];
-				dst += len + 1;
-				src += 4;
-
-			/* <ESC>N<c> 'un-accented characters' */
-			} else if ((0x21 <= src[2] && src[2] <= 0x3f) ||
-				   (0x50 <= src[2] && src[2] <= 0x7e)) {
-				src += 3;
-			} else { /* unknown */
+				continue;
+			} else if (src[2] <= 0x20 || 0x7f <= src[2]) { /* out of range */
 				src += 2;
+				continue;
+			} else if (src[2] <= 0x3f) { /* unaccented chars 0x21 - 0x3f */
+				u = unaccented_1[src[2] - 0x21];
+			} else if (src[2] >= 0x50) { /* unaccented chars 0x50 - 0x7E */
+				u = unaccented_2[src[2] - 0x50];
+			} else { /* accents 0x40 - 0x4F */
+				char *merged = NULL;
+				int accent = accents[src[2] - 0x40];
+				if (accent >= 0) {
+					char buf[6];
+					int len = g_unichar_to_utf8 (0x300 + accent, buf+1);
+					buf[0] = src[3];
+					if (NULL != (merged = g_utf8_normalize (buf, len+1, G_NORMALIZE_DEFAULT_COMPOSE ))) {
+						/* all of the potential chars are < 4 bytes */
+						strcpy (dst, merged);
+						dst += strlen (merged);
+						g_free (merged);
+					}
+				}
+					/* fallback to the unaccented char */
+				if (NULL == merged)
+					*dst++ = src[3];
+				src += 4;
+				continue;
 			}
-
+			/* we have space for at least 3 bytes */
+			dst += g_unichar_to_utf8 (u, dst);
+			src += 3; /* <ESC>N<designator> */
 		} else
 			*dst++ = *src++;
 

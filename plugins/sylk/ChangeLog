@@ -1,3 +1,9 @@
+2007-07-22  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c (sylk_next_token) : merge in a smarter version of accent
+	  support that uses normalization to merge things, and adds the magic
+	  lookup tables for the other escapes.
+
 2007-07-13  Jody Goldberg <jody@gnome.org>
 
 	* sylk.c (sylk_next_token) : initial version of accent support.  pango
