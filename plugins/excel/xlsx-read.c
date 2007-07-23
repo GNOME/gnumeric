@@ -282,7 +282,7 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 	  int *res)
 {
 	char *end;
-	int tmp;
+	long tmp;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -881,7 +881,7 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	GOFormat *res = g_hash_table_lookup (state->num_fmts, id);
 	char *end;
-	int i;
+	long i;
 
 	if (NULL != res)
 		return res;

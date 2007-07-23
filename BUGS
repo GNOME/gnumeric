@@ -24,6 +24,7 @@ Review
 
 Short term goals
 ----------------
+    - libthai for win32 build
     - Finish the Data -> Table dialog
     - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
     - dialog open wrapper to store previous size/position of dialog

@@ -627,6 +627,10 @@ sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
 		       GO_CMD_CONTEXT (wbcg), wbcg_toplevel (wbcg),
 		       closure);
+
+	gnumeric_init_help_button (gog_guru_get_help_button (dialog),
+		"sect-graphics-plots");
+
 	wbcg_edit_attach_guru (wbcg, dialog);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
