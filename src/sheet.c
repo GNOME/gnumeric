@@ -4188,6 +4188,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
 	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
+	g_return_if_fail (rinfo->col_offset != 0 || rinfo->row_offset != 0);
 
 	dst = rinfo->origin;
 	out_of_range = range_translate (&dst,
@@ -4221,10 +4222,22 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			else
 				invalid = g_slist_append (NULL, range_dup (&dst));
 
-			reloc_info.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
 			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
-			reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
-			reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+
+			/* send to infinity to invalidate, bug try to assist
+			 * the relocation heuristics only only move in 1
+			 * dimension if possible to give us a chance to be
+			 * smart about partial invalidations */
+			reloc_info.col_offset = SHEET_MAX_COLS;
+			reloc_info.row_offset = SHEET_MAX_ROWS;
+			if (rinfo->col_offset == 0) {
+				reloc_info.col_offset = 0;
+				reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
+			} else if (rinfo->row_offset == 0) {
+				reloc_info.row_offset = 0;
+				reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
+			} else
+				reloc_info.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
 
 			while (invalid) {
 				GnmRange *r = invalid->data;

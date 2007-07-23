@@ -33,13 +33,14 @@ Jody:
 	* Fix redraw of spanning cells when toggling RTL.
 	* Work around ODF's lack of a default col/row style.
 	* Fix crash in t-test. [#450676].
-	* Sylk import support for arrays.
+	* Sylk import support for arrays, and encoding.
 	* Sylk export.
 	* Configurability for which direction <Enter> moves.
 	* Calc property import/export for xlsx.
 	* Update validation combo moving between identical styles. [#453525]
 	* Patch the problems found by coverity.
 	* Fix win32 docs. [#443726]
+	* Be more flexible about range relocation for ins/del cells. [#439347]
 
 Morten:
 	* Make ssconvert able to export to pdf.  [#381965]

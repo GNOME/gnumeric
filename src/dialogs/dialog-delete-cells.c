@@ -46,7 +46,7 @@ typedef struct {
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
-	GnmRange const        *sel;
+	GnmRange const     *sel;
 	Sheet              *sheet;
 	GladeXML           *gui;
 } DeleteCellState;
@@ -61,8 +61,7 @@ cb_delete_cell_destroy (DeleteCellState *state)
 }
 
 static void
-cb_delete_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
-			   DeleteCellState *state)
+cb_delete_cell_ok_clicked (DeleteCellState *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	GtkWidget *radio_0;
@@ -108,7 +107,6 @@ cb_delete_cell_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			       DeleteCellState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 void
@@ -119,6 +117,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 	SheetView	*sv  = wb_control_cur_sheet_view (wbc);
 	GnmRange const *sel;
 	GladeXML    *gui;
+	GtkWidget   *w;
 	int  cols, rows;
 
 	g_return_if_fail (wbcg != NULL);
@@ -158,14 +157,11 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 		return ;
 	}
 
-	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
-	g_signal_connect (G_OBJECT (state->ok_button),
-		"clicked",
+	w = glade_xml_get_widget (state->gui, "okbutton");
+	g_signal_connect_swapped (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_delete_cell_ok_clicked), state);
-
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancelbutton");
-	g_signal_connect (G_OBJECT (state->cancel_button),
-		"clicked",
+	w = glade_xml_get_widget (state->gui, "cancelbutton");
+	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_delete_cell_cancel_clicked), state);
 
 	gnumeric_init_help_button (

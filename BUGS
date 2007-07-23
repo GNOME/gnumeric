@@ -14,7 +14,6 @@ In Progress
     Jody
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
-	- Fix shrinking ranges on cell deletion. [#439347]
 	- win32 GOption fixes
 	- finish xls Form import
 	- replicate col/row header redraw problem on scrolling
@@ -29,6 +28,7 @@ Short term goals
     - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
     - dialog open wrapper to store previous size/position of dialog
     - tango icons
+    - Add a go_glade_signal_connect
 
 Worries
 -------
