@@ -652,7 +652,6 @@ print_info_dup (PrintInformation *src)
 	if (dst->page_setup)
 		g_object_unref (dst->page_setup);
 
-
 	*dst = *src; /* bit bash */
 
 	dst->page_breaks.v = gnm_page_breaks_dup (src->page_breaks.v);
