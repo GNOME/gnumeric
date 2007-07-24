@@ -1,5 +1,9 @@
 2007-07-24  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.7.11
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
 	* dialog-col-row.c (dialog_col_row) : be consistent with other dialogs
 	  and show the dialog internally, rather than returning a pointer.
 

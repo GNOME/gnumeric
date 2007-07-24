@@ -1,3 +1,7 @@
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
 2007-06-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* functions.c: (callback_function_collect), (_collect_floats),

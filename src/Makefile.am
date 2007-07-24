@@ -193,6 +193,7 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-format.h				\
 	gnm-graph-window.h			\
 	gnm-pane.h				\
+	gnm-pane-impl.h				\
 	gnm-style-impl.h			\
 	gnumeric.h				\
 	gnumeric-simple-canvas.h		\

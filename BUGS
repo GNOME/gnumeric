@@ -7,7 +7,6 @@ release, and longer term bugs.
 -------------------------------------------------------------------------------
 Release Critical
 ----------------
-    - fix python tests in configure.in
 
 In Progress
 -----------
@@ -17,6 +16,7 @@ In Progress
 	- win32 GOption fixes
 	- finish xls Form import
 	- replicate col/row header redraw problem on scrolling
+	- fix python tests in configure.in for cross compilation
 
 Review
 ------
