@@ -117,9 +117,6 @@ enum {
 	TARGET_SHEET
 };
 
-WBCG_VIRTUAL (set_transient,
-	(WorkbookControlGUI *wbcg, GtkWindow *window), (wbcg, window))
-
 static WBCG_VIRTUAL (actions_sensitive, 
 	(WorkbookControlGUI *wbcg, gboolean actions, gboolean font_actions), (wbcg, actions, font_actions))
 static WBCG_VIRTUAL (reload_recent_file_menu, 
@@ -196,7 +193,7 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 }
 
 void
-wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
+wbcg_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
 	go_gtk_window_set_transient (wbcg_toplevel (wbcg), window);
 }
@@ -2802,8 +2799,6 @@ workbook_control_gui_class_init (GObjectClass *gobject_class)
 {
 	WorkbookControlClass *wbc_class =
 		WORKBOOK_CONTROL_CLASS (gobject_class);
-	WorkbookControlGUIClass *wbcg_class =
-		WORKBOOK_CONTROL_GUI_CLASS (gobject_class);
 
 	g_return_if_fail (wbc_class != NULL);
 
@@ -2847,7 +2842,6 @@ workbook_control_gui_class_init (GObjectClass *gobject_class)
 	wbc_class->claim_selection	 = wbcg_claim_selection;
 	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
 	wbc_class->validation_msg	 = wbcg_validation_msg;
-	wbcg_class->set_transient        = wbcg_set_transient_for;
 
 	wbcg_signals [WBCG_MARKUP_CHANGED] = g_signal_new ("markup-changed",
 		WORKBOOK_CONTROL_GUI_TYPE,

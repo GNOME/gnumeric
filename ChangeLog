@@ -1,3 +1,11 @@
+2007-07-23  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_set_transient) : renamed from
+	  wbcg_set_transient_for and remove the old virtual wrapper.
+
+	* icons/win32-gnumeric.ico : regenerate using icotool and the new
+	  tango icons.  Fixes the background. [#305311]
+
 2007-07-23  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (python): survive missing python stuff.

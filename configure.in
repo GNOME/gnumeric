@@ -880,13 +880,12 @@ if test "x$python_msg" = xyes; then
 	PYTHON_INCLUDE=`$echo "$PYTHON_INCLUDE" | sed -e 's/\\\\/\\//g'`
 	py_exec_prefix=`echo "$py_exec_prefix" | sed -e 's/\\\\/\\//g'`
 	pylibversion=`echo $PY_VERSION | sed -e 's/\\.//'`
+	GNM_PY_LDFLAGS="-L${py_exec_prefix}/libs -lpython${pylibversion}"
     else
-	pylibversion="$PY_VERSION"
 	PY_APP="$PYTHON"
+	GNM_PY_LDFLAGS="-lpython${PY_VERSION}"
     fi
     AC_SUBST(PY_APP)
-
-    GNM_PY_LDFLAGS="-L${py_exec_prefix}/libs -lpython${pylibversion}"
 
     m4_define([pygtk_required_version], [2.10.4])
     PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= pygtk_required_version,,

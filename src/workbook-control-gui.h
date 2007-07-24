@@ -36,11 +36,7 @@ void       wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 
 void       wbcg_set_end_mode      (WorkbookControlGUI *wbcg, gboolean flag);
 
-void	   wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window);
-
 PangoFontDescription *wbcg_get_font_desc (WorkbookControlGUI *wbcg);
-
-
 
 WorkbookControlGUI *wbcg_find_for_workbook (Workbook *wb,
 					    WorkbookControlGUI *candidate,

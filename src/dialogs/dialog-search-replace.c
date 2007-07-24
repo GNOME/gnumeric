@@ -316,7 +316,7 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			    new_text);
 	set_checked (gui, "qd_query", sr->query);
 
-	wbcg_set_transient_for (wbcg, GTK_WINDOW (dialog));
+	wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
 	go_dialog_guess_alternative_button_order (dialog);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 

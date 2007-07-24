@@ -89,7 +89,6 @@ typedef struct {
 	void (*markup_changed)		(WorkbookControlGUI const *wbcg);
 
 	/* virtuals */
-	void (*set_transient)		(WorkbookControlGUI *wbcg, GtkWindow *window);
 	void (*create_status_area)	(WorkbookControlGUI *wbcg, GtkWidget *progress,
 					 GtkWidget *status, GtkWidget *autoexpr);
 	void (*actions_sensitive)	(WorkbookControlGUI *wbcg,
