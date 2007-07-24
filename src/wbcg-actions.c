@@ -794,10 +794,9 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
 		is_cols = !range_is_full (r, TRUE);
 	else {
-		GtkWidget *dialog = dialog_col_row (wbcg, operation,
+		dialog_col_row (wbcg, operation,
 			(ColRowCallback_t) hide_show_detail_real,
 			GINT_TO_POINTER (show));
-		gtk_widget_show (dialog);
 		return;
 	}
 
@@ -822,10 +821,9 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
 		is_cols = !range_is_full (r, TRUE);
 	else {
-		GtkWidget *dialog = dialog_col_row (wbcg, operation,
+		dialog_col_row (wbcg, operation,
 			(ColRowCallback_t) cmd_selection_group,
 			GINT_TO_POINTER (group));
-		gtk_widget_show (dialog);
 		return;
 	}
 

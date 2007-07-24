@@ -1,3 +1,8 @@
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* dialog-col-row.c (dialog_col_row) : be consistent with other dialogs
+	  and show the dialog internally, rather than returning a pointer.
+
 2007-07-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.glade: show repeating rows/columns and print area labels

@@ -59,40 +59,36 @@ void     dialog_col_width	(WorkbookControlGUI *wbcg, gboolean set_default);
 void     dialog_hyperlink	(WorkbookControlGUI *wbcg, SheetControl *sc);
 
 typedef void (* ColRowCallback_t) (WorkbookControlGUI *wbcg, gboolean is_cols, gpointer data);
-GtkWidget *dialog_col_row       (WorkbookControlGUI *wbcg, char const *operation,
-				 ColRowCallback_t callback,
-				 gpointer data);
+void	 dialog_col_row        (WorkbookControlGUI *wbcg, char const *operation,
+				ColRowCallback_t callback, gpointer data);
 
 typedef gboolean (*SearchDialogCallback) (WorkbookControlGUI *wbcg, GnmSearchReplace *sr);
-void dialog_search_replace (WorkbookControlGUI *wbcg, SearchDialogCallback cb);
-int dialog_search_replace_query (WorkbookControlGUI *wbcg,
-				 GnmSearchReplace *sr,
-				 char const *location,
-				 char const *old_text,
-				 char const *new_text);
+void dialog_search		 (WorkbookControlGUI *wbcg);
+void dialog_search_replace	 (WorkbookControlGUI *wbcg, SearchDialogCallback cb);
+int  dialog_search_replace_query (WorkbookControlGUI *wbcg,
+				  GnmSearchReplace *sr,
+				  char const *location,
+				  char const *old_text,
+				  char const *new_text);
+void dialog_tabulate		 (WorkbookControlGUI *wbcg, Sheet *sheet);
+void dialog_merge		 (WorkbookControlGUI *wbcg);
 
-void dialog_search (WorkbookControlGUI *wbcg);
+void dialog_function_select	 (WorkbookControlGUI *wbcg, char const *key);
 
-void dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet);
-
-void dialog_merge (WorkbookControlGUI *wbcg);
-
-void dialog_function_select (WorkbookControlGUI *wbcg, char const *key);
-
-int dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_correlation_tool	 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_covariance_tool	 (WorkbookControlGUI *wbcg, Sheet *sheet);
 int dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_sampling_tool  (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_ftest_tool     (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_random_tool    (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_average_tool   (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_fourier_tool   (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_ranking_tool   (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_sampling_tool	 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_ftest_tool		 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_regression_tool	 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_random_tool		 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_average_tool		 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_exp_smoothing_tool	 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_fourier_tool		 (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_ranking_tool		 (WorkbookControlGUI *wbcg, Sheet *sheet);
 int dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
 int dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
-int dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_histogram_tool	 (WorkbookControlGUI *wbcg, Sheet *sheet);
 
 typedef enum {
 	TTEST_PAIRED = 1,

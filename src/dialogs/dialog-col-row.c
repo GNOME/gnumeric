@@ -78,7 +78,7 @@ cb_dialog_col_row_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_destroy (state->dialog);
 }
 
-GtkWidget *
+void
 dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 		ColRowCallback_t callback,
 		gpointer data)
@@ -86,14 +86,14 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 	GladeXML	*gui;
 	ColRowState	*state;
 
-	g_return_val_if_fail (wbcg != NULL, NULL);
+	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_ROW_DIALOG_KEY))
-		return NULL;
+		return;
 	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"colrow.glade", NULL, NULL);
 	if (gui == NULL)
-		return NULL;
+		return;
 
 	state = g_new (ColRowState, 1);
 	state->wbcg  = wbcg;
@@ -124,5 +124,5 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       COL_ROW_DIALOG_KEY);
-	return state->dialog;
+	gtk_widget_show (state->dialog);
 }

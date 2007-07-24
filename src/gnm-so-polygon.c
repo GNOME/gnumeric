@@ -170,7 +170,6 @@ cb_gnm_so_polygon_style_changed (FooCanvasItem *view, GnmSOPolygon const *sop)
 static SheetObjectView *
 gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmPane *pane = GNM_PANE (container);
 	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
 	FooCanvasItem *item = foo_canvas_item_new (
 		gnm_pane_object_group (GNM_PANE (container)),
