@@ -946,6 +946,18 @@ Architecture Changes
 	37.2.7) Comments
 	37.2.8) Text direction in styles
 
+38) GtkPrint conversion
+    - restore all of the dialog
+    - win32 breakage
+	 - preview puts black background around glyphs
+	 - preview drops rotated text
+	 - printing kerns poorly
+	 - printing 'A' produces '$' ??
+    - page breaks
+    - col/row headings
+    - cell text wraps differently when printing than displaying due to scaling
+      differences in font size.  do we want to eliminate this ?
+
 -------------------------------------------------------------------------------
 Target Features
 ---------------
@@ -1021,11 +1033,6 @@ auto-fill
 	: improve uniform_get to handle full sheet more quickly.
 	: Borders
 	    * use new border code for cell format dialog (possibly preview-grid)
-
-Printing
---------
-- cell text wraps differently when printing than displaying due to scaling
-  differences in font size.  do we want to eliminate this ?
 
 Import/Export
 -------------
