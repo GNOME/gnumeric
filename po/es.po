@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-23 01:06+0100\n"
-"PO-Revision-Date: 2007-07-23 14:56+0200\n"
+"POT-Creation-Date: 2007-07-23 21:36+0100\n"
+"PO-Revision-Date: 2007-07-25 16:12+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2200,15 +2200,15 @@ msgstr "Importar/exportar para archivos MultiPlan (SYLK)"
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: ../plugins/sylk/sylk.c:190
+#: ../plugins/sylk/sylk.c:242
 msgid "Multiple values in the same cell"
 msgstr "Múltiples valores en la misma celda"
 
-#: ../plugins/sylk/sylk.c:199 ../plugins/sylk/sylk.c:208
+#: ../plugins/sylk/sylk.c:251 ../plugins/sylk/sylk.c:260
 msgid "Multiple expressions in the same cell"
 msgstr "Múltiples expresiones en la misma celda"
 
-#: ../plugins/sylk/sylk.c:741
+#: ../plugins/sylk/sylk.c:793
 msgid "Missing closing 'E'"
 msgstr "Falta la «E» que cierra"
 
@@ -5231,13 +5231,13 @@ msgstr "¿Por qué quiere definir un nombre como #NAME?"
 msgid "Could not create the Name Guru."
 msgstr "No se ha podido crear al asistente de los nombres."
 
-#: ../src/dialogs/dialog-delete-cells.c:126
+#: ../src/dialogs/dialog-delete-cells.c:125
 #: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbcg-actions.c:200
 #: ../src/wbcg-actions.c:214
 msgid "Delete"
 msgstr "Borrar"
 
-#: ../src/dialogs/dialog-delete-cells.c:156
+#: ../src/dialogs/dialog-delete-cells.c:155
 msgid "Could not create the Delete Cell dialog."
 msgstr "No se pudo crear el diálogo de borrar celda."
 
@@ -11375,7 +11375,9 @@ msgstr "Mostrar la convención para las expresiones (Gnumeric A1 predeterminado)
 
 #: ../src/sheet.c:821
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
-msgstr "Cómo formatear las expresiones mostradas, (A1 contra R1C1, nombres de funciones, ...)"
+msgstr ""
+"Cómo formatear las expresiones mostradas, (A1 contra R1C1, nombres de "
+"funciones, ...)"
 
 #. convenience wrapper to CONVENTIONS
 #: ../src/sheet.c:825
@@ -12274,8 +12276,8 @@ msgid "Report a _Problem"
 msgstr "Informar de un _problema"
 
 #: ../src/wbcg-actions.c:1480
-msgid "Report problem "
-msgstr "Informe de problemas"
+msgid "Report problem"
+msgstr "Informar de un problema"
 
 #: ../src/wbcg-actions.c:1482
 msgid "_About"
@@ -12737,7 +12739,9 @@ msgstr "Dirección"
 
 #: ../src/wbcg-actions.c:1743
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
-msgstr "Cambiar la dirección de la hoja, de izquierda a derecha contra derecha a izquierda"
+msgstr ""
+"Cambiar la dirección de la hoja, de izquierda a derecha contra derecha a "
+"izquierda"
 
 #. Format -> Col
 #: ../src/wbcg-actions.c:1747
