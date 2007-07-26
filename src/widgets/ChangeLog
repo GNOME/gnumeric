@@ -1,5 +1,12 @@
 2007-07-24  Jody Goldberg <jody@gnome.org>
 
+	* gnm-cell-combo-foo-view.c (gnm_cell_combo_foo_view_popdown) : be
+	  more dictatorial and grab keyboard focus too to avoid the window
+	  manager changing the stacking order and leaving the combo popup
+	  visible.
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.7.11
 
 2007-06-10  Jody Goldberg <jody@gnome.org>

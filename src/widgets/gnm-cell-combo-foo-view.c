@@ -281,8 +281,12 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 	GtkTreeViewColumn *column;
 	GtkTreePath	  *clip = NULL, *select = NULL;
 	GtkRequisition	req;
+	GtkWindow *toplevel =  wbcg_toplevel (scg_wbcg (scg));
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_transient_for (toplevel, GTK_WINDOW (popup));
+	gtk_window_group_add_window (gtk_window_get_group (toplevel), GTK_WINDOW (popup));
+
 	model = ccombo_fill_model (GNM_CCOMBO_FOO_VIEW (sov), so, &clip, &select);
 	column = gtk_tree_view_column_new_with_attributes ("ID",
 		gtk_cell_renderer_text_new (), "text", 0,
@@ -374,11 +378,15 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 	ccombo_focus_change (GTK_WIDGET (list), TRUE);
 
 	gtk_grab_add (popup);
-	gdk_pointer_grab (popup->window, TRUE,
+	if (gdk_pointer_grab (popup->window, TRUE,
 		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK |
 		GDK_POINTER_MOTION_MASK,
-		NULL, NULL, GDK_CURRENT_TIME);
+		NULL, NULL, GDK_CURRENT_TIME))
+		return;
+	if (gdk_keyboard_grab (popup->window, TRUE, GDK_CURRENT_TIME))
+		gdk_display_pointer_ungrab (
+			gdk_drawable_get_display (popup->window), GDK_CURRENT_TIME);
 }
 
 /**
