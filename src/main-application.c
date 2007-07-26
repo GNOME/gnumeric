@@ -65,10 +65,11 @@
 
 static gboolean gnumeric_show_version = FALSE;
 static gboolean split_funcdocs = FALSE;
-static char *func_def_file = NULL;
-static char *func_state_file = NULL;
 static gboolean immediate_exit_flag = FALSE;
-
+static gboolean gnumeric_no_splash = FALSE;
+static gboolean gnumeric_no_warnings = FALSE;
+static gchar  *func_def_file = NULL;
+static gchar  *func_state_file = NULL;
 static gchar **startup_files;
 
 static const GOptionEntry gnumeric_options [] = { 

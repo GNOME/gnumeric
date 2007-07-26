@@ -55,10 +55,19 @@ struct _IOContextGtk {
 	gdouble latency;
 
 	gboolean interrupted;
+
+	gboolean show_splash;
+	gboolean show_warnings;
 };
 
 struct _IOContextGtkClass {
 	IOContextClass parent_class;
+};
+
+enum {
+	PROP_0,
+	PROP_SHOW_SPLASH,
+	PROP_SHOW_WARNINGS
 };
 
 static void
@@ -123,7 +132,7 @@ icg_show_gui (IOContextGtk *icg)
 	GtkBox *box;
 	GtkWidget *frame;
 
-	if (init_splash ){
+	if (init_splash && icg->show_splash){
 		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
 			(-1, gnumeric_splash, FALSE, NULL);
 		gtk_icon_theme_add_builtin_icon ("GnmSplash",
@@ -215,10 +224,8 @@ static char *
 icg_get_password (GOCmdContext *cc, char const *filename)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
-	if (gnumeric_no_warnings)
-		return NULL;
-
-	return dialog_get_password (icg->window, filename);
+	return icg->show_warnings ?
+		dialog_get_password (icg->window, filename) : NULL;
 }
 
 static void
@@ -226,7 +233,7 @@ icg_progress_set (GOCmdContext *cc, gfloat val)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
-	if (gnumeric_no_splash)
+	if (!icg->show_splash)
 		return;
 
 	if (icg->window == NULL) {
@@ -243,7 +250,7 @@ icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
-	if (gnumeric_no_splash)
+	if (!icg->show_splash)
 		return;
 
 	if (icg->window == NULL) {
@@ -258,10 +265,10 @@ icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 }
 
 static void
-icg_error_error_info (G_GNUC_UNUSED GOCmdContext *cc,
-		      ErrorInfo *error)
+icg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
 {
-	if (!gnumeric_no_warnings) {
+	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	if (icg->show_warnings) {
 		GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
 		gtk_widget_show_all (GTK_WIDGET (dialog));
 		gtk_dialog_run (GTK_DIALOG (dialog));
@@ -321,11 +328,7 @@ icg_processing_file (IOContext *ioc, char const *file)
 static void
 icg_finalize (GObject *obj)
 {
-	IOContextGtk *icg;
-
-	g_return_if_fail (IS_IO_CONTEXT_GTK (obj));
-
-	icg = IO_CONTEXT_GTK (obj);
+	IOContextGtk *icg = IO_CONTEXT_GTK (obj);
 
 	if (icg->window) {
 		g_signal_handlers_disconnect_by_func (
@@ -347,6 +350,24 @@ icg_finalize (GObject *obj)
 }
 
 static void
+icg_set_property (GObject *obj, guint property_id,
+		  GValue const *value, GParamSpec *pspec)
+{
+	IOContextGtk *icg = IO_CONTEXT_GTK (obj);
+
+	switch (property_id) {
+	case PROP_SHOW_SPLASH :
+		icg->show_splash = g_value_get_boolean (value);
+		break;
+	case PROP_SHOW_WARNINGS :
+		icg->show_warnings = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
+		break;
+	}
+}
+static void
 icg_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 {
 	cc_class->get_password         = icg_get_password;
@@ -359,7 +380,21 @@ static void
 icg_class_init (GObjectClass *gobj_klass)
 {
 	IOContextClass *ioc_klass = (IOContextClass *)gobj_klass;
+
 	gobj_klass->finalize	   = icg_finalize;
+	gobj_klass->set_property   = icg_set_property;
+
+        g_object_class_install_property (gobj_klass, PROP_SHOW_SPLASH,
+		 g_param_spec_boolean ("show-splash", "show-splash",
+				       "Show a splash screen if loading takes more than a moment.",
+				       TRUE,
+				       GSF_PARAM_STATIC | G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+        g_object_class_install_property (gobj_klass, PROP_SHOW_WARNINGS,
+		 g_param_spec_boolean ("show-warnings", "show-warnings",
+				       "Show warning and password dialogs.",
+				       TRUE,
+				       GSF_PARAM_STATIC | G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
 	ioc_klass->set_num_files   = icg_set_num_files;
 	ioc_klass->processing_file = icg_processing_file;
 }
@@ -367,16 +402,19 @@ icg_class_init (GObjectClass *gobj_klass)
 static void
 icg_init (IOContextGtk *icg)
 {
-	icg->window      = NULL;
-	icg->work_bar    = NULL;
-	icg->file_bar    = NULL;
-	icg->files_total = 0;
-	icg->files_done  = 0;
-	icg->progress	 = 0.;
-	icg->progress_msg = NULL;
-	icg->timer  = g_timer_new ();
-	icg->latency = 0.;
-	icg->interrupted = FALSE;
+	icg->show_splash   = TRUE;
+	icg->show_warnings = TRUE;
+
+	icg->window        = NULL;
+	icg->work_bar      = NULL;
+	icg->file_bar      = NULL;
+	icg->files_total   = 0;
+	icg->files_done    = 0;
+	icg->progress	   = 0.;
+	icg->progress_msg  = NULL;
+	icg->latency	   = 0.;
+	icg->interrupted   = FALSE;
+	icg->timer	   = g_timer_new ();
 	g_timer_start (icg->timer);
 }
 

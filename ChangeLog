@@ -1,5 +1,13 @@
 2007-07-26  Jody Goldberg <jody@gnome.org>
 
+	* src/io-context-gtk.c : Make show_splash and show_warnings
+	  properties, not global variables.
+	* src/libgnumeric.c : remove the globals from here.
+	* src/main-application.c : and move them locally here for the
+	  GOptions.
+
+2007-07-26  Jody Goldberg <jody@gnome.org>
+
 	* src/xml-sax-write.c (xml_write_objects) : store the object in
 	  reverse stacking order to match the sheet_object_set_sheet's api
 	  that prepends new objects.
