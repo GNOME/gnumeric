@@ -1011,7 +1011,7 @@ xml_write_scenarios (GnmOutputXML *state)
 }
 
 static void
-xml_write_objects (GnmOutputXML *state, GSList *ptr)
+xml_write_objects (GnmOutputXML *state, GSList *objects)
 {
 	gboolean needs_container = TRUE;
 	SheetObject	 *so;
@@ -1019,8 +1019,12 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 	char buffer[4*(DBL_DIG+10)];
 	char const *type_name;
 	char *tmp;
+	GSList *ptr;
 
-	for (;ptr != NULL ; ptr = ptr->next) {
+	/* reverse the list to maintain order when we prepend the objects in
+	 * sheet_object_set_sheet on import */
+	objects = g_slist_reverse ( g_slist_copy (objects));
+	for (ptr = objects ;ptr != NULL ; ptr = ptr->next) {
 		so = ptr->data;
 		klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
 		if (klass == NULL || klass->write_xml_sax == NULL)
@@ -1052,6 +1056,7 @@ xml_write_objects (GnmOutputXML *state, GSList *ptr)
 		gsf_xml_out_end_element (state->output); /* </gnm:{typename}> */
 		g_free (tmp);
 	}
+	g_slist_free (objects);
 
 	if (!needs_container)
 		gsf_xml_out_end_element (state->output); /* </gnm:Objects> */

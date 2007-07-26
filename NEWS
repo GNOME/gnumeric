@@ -1,3 +1,10 @@
+Gnumeric 1.7.12
+
+Jody:
+	* Store objects in visible order in .gnumeric files. [#438933]
+	* Make SMALL/LARGE support implicit intersection. [#343176]
+
+--------------------------------------------------------------------------
 Gnumeric 1.7.11
 
 Andreas:

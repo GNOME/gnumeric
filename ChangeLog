@@ -1,3 +1,9 @@
+2007-07-26  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-write.c (xml_write_objects) : store the object in
+	  reverse stacking order to match the sheet_object_set_sheet's api
+	  that prepends new objects.
+
 2007-07-24  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release bump
