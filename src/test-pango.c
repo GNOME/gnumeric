@@ -27,8 +27,6 @@
 #include <bonobo/bonobo-ui-main.h>
 #endif
 
-int gnumeric_no_splash = TRUE;
-
 #define TEST_STEPS	50
 #define STEP_SIZE	40
 
