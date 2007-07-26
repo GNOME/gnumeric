@@ -2748,7 +2748,7 @@ gnumeric_ssmedian (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_large[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=LARGE\n"
-	   "@SYNTAX=LARGE(n1, n2, ..., k)\n"
+	   "@SYNTAX=LARGE(n, k)\n"
 
 	   "@DESCRIPTION="
 	   "LARGE returns the k-th largest value in a data set.\n"
@@ -2769,27 +2769,29 @@ static GnmFuncHelp const help_large[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static int
-range_large (gnm_float *xs, int n, gnm_float *res)
-{
-	int k;
-
-	if (n < 2)
-		return 1;
-
-	k = (int)xs[--n];
-	return gnm_range_min_k_nonconst (xs, n, res, n - k);
-}
-
+/* FIXME :
+ *  This used to be vararg (n1,n2,n3 ....k) : This is broken in a few contexts
+ *  notably it does not do implicit intersection or iteration on the final argument
+ *  However, the current approach is dog slow in the implicit iteration case.
+ *  We should not need to re-extract and sort the content for each ordinal. */
 static GnmValue *
-gnumeric_large (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_large (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return float_range_function (argc, argv, ei,
-				     (float_range_function_t)range_large,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_NUM);
+	int	   n_vals;
+	gnm_float  val, k;
+	GnmValue  *res = NULL;
+	gnm_float *vals = collect_floats_value (argv[0], ei->pos,
+		COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
+		&n_vals, &res);
+	if (res)
+		return res;
+	if (1. <= (k = value_get_as_float (argv[1])) &&
+	    0 == gnm_range_min_k_nonconst (vals, n_vals, &val, n_vals - gnm_fake_ceil (k)))
+		res = value_new_float (val);
+	else
+		res = value_new_error_NUM (ei->pos);
+	g_free (vals);
+	return res;
 }
 
 /***************************************************************************/
@@ -2797,7 +2799,7 @@ gnumeric_large (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 static GnmFuncHelp const help_small[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=SMALL\n"
-	   "@SYNTAX=SMALL(n1, n2, ..., k)\n"
+	   "@SYNTAX=SMALL(n, k)\n"
 
 	   "@DESCRIPTION="
 	   "SMALL returns the k-th smallest value in a data set.\n"
@@ -2818,28 +2820,33 @@ static GnmFuncHelp const help_small[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static int
-range_small (gnm_float *xs, int n, gnm_float *res)
-{
-	int k;
 
-	if (n < 2)
-		return 1;
-
-	k = (int)xs[--n];
-	return gnm_range_min_k_nonconst (xs, n, res, k - 1);
-}
-
+/* FIXME :
+ *  This used to be vararg (n1,n2,n3 ....k) : This is broken in a few contexts
+ *  notably it does not do implicit intersection or iteration on the final argument
+ *  However, the current approach is dog slow in the implicit iteration case.
+ *  We should not need to re-extract and sort the content for each ordinal. */
 static GnmValue *
-gnumeric_small (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_small (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return float_range_function (argc, argv, ei,
-				     (float_range_function_t)range_small,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_NUM);
+	int	   n_vals;
+	gnm_float  val, k;
+	GnmValue  *res = NULL;
+	gnm_float *vals = collect_floats_value (argv[0], ei->pos,
+		COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
+		&n_vals, &res);
+	if (res)
+		return res;
+	if (1. <= (k = value_get_as_float (argv[1])) &&
+	    0 == gnm_range_min_k_nonconst (vals, n_vals, &val, gnm_fake_ceil (k) - 1))
+		res = value_new_float (val);
+	else
+		res = value_new_error_NUM (ei->pos);
+	g_free (vals);
+	return res;
 }
+
+/***********************************************************************/
 
 typedef struct {
         GSList *list;
@@ -5896,8 +5903,8 @@ GnmFuncDescriptor const stat_functions[] = {
         { "kurt", NULL,      N_("number,number,"),
 	  help_kurt, NULL, gnumeric_kurt, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "large", NULL,      N_("number,number,"),
-	  help_large, NULL, gnumeric_large, NULL, NULL, NULL,
+	{ "large", "Af",      N_("values,k,"),
+	  help_large, gnumeric_large, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "linest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
@@ -5984,8 +5991,8 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "slope",        "AA", N_("known_y's,known_x's"),
 	  help_slope, gnumeric_slope, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "small", NULL,      N_("number,number,"),
-	  help_small, NULL, gnumeric_small, NULL, NULL, NULL,
+	{ "small", "Af",      N_("values,k,"),
+	  help_small, gnumeric_small, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "standardize",  "fff",  N_("x,mean,stddev"),
