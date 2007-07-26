@@ -39,6 +39,10 @@ Optionally:
 Currently disabled:
 	guile		>= 1.5	(no maintainer)
 
+Runtime suggestions:
+	To view help pages in the --with-gnome build there is a
+	runtime dependence on 'yelp'
+
 Mailing lists
 -------------
 
