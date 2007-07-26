@@ -1,3 +1,7 @@
+2007-07-26  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* README: Update Debian package names.
+
 2007-07-26  Jody Goldberg <jody@gnome.org>
 
 	* src/io-context-gtk.c : Make show_splash and show_warnings
