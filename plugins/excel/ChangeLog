@@ -1,3 +1,8 @@
+2007-07-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_SHEETPROTECTION) : size check was too
+	  detailed.
+
 2007-07-24  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.11

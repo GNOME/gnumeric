@@ -4944,24 +4944,28 @@ excel_read_SHEETPROTECTION (BiffQuery *q, Sheet *sheet)
 
 	g_return_if_fail (sheet != NULL);
 
-	XL_CHECK_CONDITION (q->length == 23);
+	/* 2003/2007	== 23
+	 * XP		== 19 */
+	XL_CHECK_CONDITION (q->length >= 19);
 
-	flags = GSF_LE_GET_GUINT16 (q->data + 19);
-	sheet->protected_allow.edit_objects		= (flags & (1 << 0))  != 0;
-	sheet->protected_allow.edit_scenarios		= (flags & (1 << 1))  != 0;
-	sheet->protected_allow.cell_formatting		= (flags & (1 << 2))  != 0;
-	sheet->protected_allow.column_formatting	= (flags & (1 << 3))  != 0;
-	sheet->protected_allow.row_formatting		= (flags & (1 << 4))  != 0;
-	sheet->protected_allow.insert_columns		= (flags & (1 << 5))  != 0;
-	sheet->protected_allow.insert_rows		= (flags & (1 << 6))  != 0;
-	sheet->protected_allow.insert_hyperlinks	= (flags & (1 << 7))  != 0;
-	sheet->protected_allow.delete_columns		= (flags & (1 << 8))  != 0;
-	sheet->protected_allow.delete_rows		= (flags & (1 << 9))  != 0;
-	sheet->protected_allow.select_locked_cells	= (flags & (1 << 10)) != 0;
-	sheet->protected_allow.sort_ranges		= (flags & (1 << 11)) != 0;
-	sheet->protected_allow.edit_auto_filters	= (flags & (1 << 12)) != 0;
-	sheet->protected_allow.edit_pivottable		= (flags & (1 << 13)) != 0;
-	sheet->protected_allow.select_unlocked_cells	= (flags & (1 << 14)) != 0;
+	if (q->length >= 23) {
+		flags = GSF_LE_GET_GUINT16 (q->data + 19);
+		sheet->protected_allow.edit_objects		= (flags & (1 << 0))  != 0;
+		sheet->protected_allow.edit_scenarios		= (flags & (1 << 1))  != 0;
+		sheet->protected_allow.cell_formatting		= (flags & (1 << 2))  != 0;
+		sheet->protected_allow.column_formatting	= (flags & (1 << 3))  != 0;
+		sheet->protected_allow.row_formatting		= (flags & (1 << 4))  != 0;
+		sheet->protected_allow.insert_columns		= (flags & (1 << 5))  != 0;
+		sheet->protected_allow.insert_rows		= (flags & (1 << 6))  != 0;
+		sheet->protected_allow.insert_hyperlinks	= (flags & (1 << 7))  != 0;
+		sheet->protected_allow.delete_columns		= (flags & (1 << 8))  != 0;
+		sheet->protected_allow.delete_rows		= (flags & (1 << 9))  != 0;
+		sheet->protected_allow.select_locked_cells	= (flags & (1 << 10)) != 0;
+		sheet->protected_allow.sort_ranges		= (flags & (1 << 11)) != 0;
+		sheet->protected_allow.edit_auto_filters	= (flags & (1 << 12)) != 0;
+		sheet->protected_allow.edit_pivottable		= (flags & (1 << 13)) != 0;
+		sheet->protected_allow.select_unlocked_cells	= (flags & (1 << 14)) != 0;
+	}
 }
 
 /***********************************************************************/
