@@ -7,6 +7,7 @@ release, and longer term bugs.
 -------------------------------------------------------------------------------
 Release Critical
 ----------------
+    : undo of cell range cut over clipboard
 
 In Progress
 -----------
@@ -14,7 +15,6 @@ In Progress
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
 	- win32 GOption fixes
-	- finish xls Form import
 	- replicate col/row header redraw problem on scrolling
 	- fix python tests in configure.in for cross compilation
 
@@ -25,6 +25,7 @@ Review
 Short term goals
 ----------------
     - libthai for win32 build
+    - replicate win32 print problems
     - Finish the Data -> Table dialog
     - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
     - dialog open wrapper to store previous size/position of dialog
@@ -37,12 +38,8 @@ Worries
     : do bounds check in excel_get_text
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
-    : undo of cell range cut over clipboard
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
       just g_barfs and pastes empty string.
-
-    - Finish Data -> Table 
-	: add a ui
 
     - Create new type string/double/int (not bool) for BIN2DEC etc.
     - Allow missing arguments that are not '?' for ACCRINT.

@@ -3,6 +3,7 @@ Gnumeric 1.7.12
 Jody:
 	* Store objects in visible order in .gnumeric files. [#438933]
 	* Make SMALL/LARGE support implicit intersection. [#343176]
+	* XLS import for Form combos/lists source ranges. [#451384]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.11

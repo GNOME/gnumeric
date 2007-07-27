@@ -1,3 +1,11 @@
+2007-07-26  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_expr) : new.
+	(read_pre_biff8_read_expr) : use it here.
+	(ms_obj_read_pre_biff8_obj) : here.
+	(ms_obj_map_forms_obj) : and here.  Also check for source ranges for
+	  combos and lists. [#451384]
+
 2007-07-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_SHEETPROTECTION) : size check was too
