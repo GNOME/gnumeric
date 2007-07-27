@@ -1,3 +1,9 @@
+2007-07-26  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c (cb_combo_model_changed) : we can not set
+	  the column until we have a model, but we can only set it the first
+	  time.
+
 2007-07-26  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* README: Update Debian package names.

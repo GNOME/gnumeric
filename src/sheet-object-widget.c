@@ -2457,8 +2457,14 @@ static void
 cb_combo_model_changed (SheetWidgetListBase *swl, GtkComboBox *combo)
 {
 	gtk_combo_box_set_model (GTK_COMBO_BOX (combo), swl->model);
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (combo), 0);
-	cb_combo_selection_changed (swl, combo); /* for entry to reload */
+
+	/* we can not set this until we have a model,
+	 * but after that we can not reset it */
+	if (gtk_combo_box_entry_get_text_column (GTK_COMBO_BOX_ENTRY (combo)) < 0)
+		gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (combo), 0);
+
+	/* force entry to reload */
+	cb_combo_selection_changed (swl, combo);
 }
 
 static void
