@@ -2281,6 +2281,15 @@ BC_R(end)(XLChartHandler const *handle,
 		s->axis = NULL;
 		break;
 
+	case BIFF_CHART_legend :
+		if (s->style) {
+			g_object_set (s->legend, "style", s->style, NULL);
+			g_object_unref (s->style);
+			s->style = NULL;
+		}
+		s->legend = NULL;
+		break;
+
 	case BIFF_CHART_frame :
 		if (s->style != NULL) {
 			int top_state = BC_R(top_state) (s, 0);

@@ -1,3 +1,8 @@
+2007-07-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (end) : don't leak a style of the legend doesn't have a
+	  frame.
+
 2007-07-26  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_read_expr) : new.
