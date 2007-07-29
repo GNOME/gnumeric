@@ -1,3 +1,7 @@
+2007-07-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Resync ALL_LINGUAS with po files.
+
 2007-07-26  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-widget.c (cb_combo_model_changed) : we can not set
