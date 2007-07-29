@@ -3228,7 +3228,7 @@ msgstr ""
 
 #: ../src/dialogs/autofilter-top10.glade.h:4
 msgid "Show:"
-msgstr "Mostrar :"
+msgstr "Visualizar :"
 
 #: ../src/dialogs/autofilter-top10.glade.h:5
 msgid ""
@@ -7396,7 +7396,7 @@ msgstr ""
 
 #: ../src/dialogs/scenario-manager.glade.h:12
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Visualizar"
 
 #: ../src/dialogs/scenario-manager.glade.h:13
 #: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:350
@@ -11356,7 +11356,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1508
 msgid "Close the current file"
-msgstr "Barrar lo fichièr actual"
+msgstr "Tampar lo fichièr actual"
 
 #: ../src/wbcg-actions.c:1511
 msgid "Quit the application"
@@ -11446,7 +11446,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1569
 msgid "Open a file"
-msgstr "Dubrir un fichièr"
+msgstr "Dobrir un fichièr"
 
 #: ../src/wbcg-actions.c:1571
 msgid "Sen_d To..."
@@ -12814,7 +12814,7 @@ msgstr "Talha de poliça"
 #: ../src/wbc-gtk.c:805
 #, c-format
 msgid "Open %s"
-msgstr "Dubrir %s"
+msgstr "Dobrir %s"
 
 #. xgettext: Translators: if this warning shows up when
 #. * running Gnumeric in your locale, the underlines need
