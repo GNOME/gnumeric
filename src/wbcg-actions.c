@@ -1480,12 +1480,6 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "HelpAbout", GTK_STOCK_ABOUT, N_("_About"),
 		NULL, N_("About this application"),
 		G_CALLBACK (cb_help_about) },
-
-	/* Special.  The sensitivity is chained to redo we do not want to
-	 * toggle it directly so we put it in here */
-	{ "Repeat", NULL, N_("Repeat"),
-		"F4", N_("Repeat the previous action"),
-		G_CALLBACK (cb_repeat) }
 };
 
 #ifdef USE_HILDON
@@ -1638,6 +1632,9 @@ static GtkActionEntry const actions[] = {
 		G_CALLBACK (cb_sheet_name) },
 
 /* Edit */
+	{ "Repeat", NULL, N_("Repeat"),
+		"F4", N_("Repeat the previous action"),
+		G_CALLBACK (cb_repeat) },
 	{ "EditPasteSpecial", NULL, N_("P_aste special..."),
 		"<shift><control>V", N_("Paste with optional filters and transformations"),
 		G_CALLBACK (cb_edit_paste_special) },

@@ -1181,8 +1181,9 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	g_return_if_fail (wbcg != NULL);
 
-	wbcg_set_action_label (wbcg, "Undo", _("_Undo"), undo, NULL);
 	wbcg_set_action_label (wbcg, "Redo", _("_Redo"), redo, NULL);
+	wbcg_set_action_label (wbcg, "Undo", _("_Undo"), undo, NULL);
+	wbcg_set_action_sensitivity (wbcg, "Repeat", undo != NULL);
 }
 
 static void

@@ -435,11 +435,8 @@ static void
 cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
 		      GtkAction *action)
 {
-	gboolean old_val, new_val = gtk_action_is_sensitive (src);
-
-	g_return_if_fail (action != NULL);
-	g_object_get (action, "sensitive", &old_val, NULL);
-
+	gboolean old_val = gtk_action_get_sensitive (action);
+	gboolean new_val = gtk_action_get_sensitive (src);
 	if ((new_val != 0) == (old_val != 0))
 		return;
 	if (new_val)
@@ -478,10 +475,8 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (*vaction));
 	g_signal_connect_swapped (G_OBJECT (*vaction), "activate", vcb, gtk);
 
-	g_signal_connect (G_OBJECT (*haction),
-			  "notify::sensitive",
-			  G_CALLBACK (cb_chain_sensitivity),
-			  *vaction);
+	g_signal_connect (G_OBJECT (*haction), "notify::sensitive",
+		G_CALLBACK (cb_chain_sensitivity), *vaction);
 }
 
 
@@ -506,28 +501,16 @@ cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 static void
 wbc_gtk_init_undo_redo (WBCgtk *gtk)
 {
-	GtkAction *repeat =
-		gtk_action_group_get_action (gtk->permanent_actions, "Repeat");
-
-	create_undo_redo (&gtk->undo_haction, "Undo",
-			  G_CALLBACK (cb_undo_activated),
-			  &gtk->undo_vaction, "VUndo",
-			  G_CALLBACK (command_undo),
-			  gtk,
-			  _("Undo the last action"),
-			  GTK_STOCK_UNDO, "<control>z");
-	g_signal_connect (G_OBJECT (gtk->undo_haction),
-			  "notify::sensitive",
-			  G_CALLBACK (cb_chain_sensitivity),
-			  repeat);
-
-	create_undo_redo (&gtk->redo_haction, "Redo",
-			  G_CALLBACK (cb_redo_activated),
-			  &gtk->redo_vaction, "VRedo",
-			  G_CALLBACK (command_redo),
-			  gtk,
-			  _("Redo the undone action"),
-			  GTK_STOCK_REDO, "<control>y");
+	create_undo_redo (
+		&gtk->redo_haction, "Redo", G_CALLBACK (cb_redo_activated),
+		&gtk->redo_vaction, "VRedo", G_CALLBACK (command_redo),
+		gtk, _("Redo the undone action"),
+		GTK_STOCK_REDO, "<control>y");
+	create_undo_redo (
+		&gtk->undo_haction, "Undo", G_CALLBACK (cb_undo_activated),
+		&gtk->undo_vaction, "VUndo", G_CALLBACK (command_undo),
+		gtk, _("Undo the last action"),
+		GTK_STOCK_UNDO, "<control>z");
 }
 
 /****************************************************************************/
@@ -1820,14 +1803,9 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
 
-	/*
-	 * The following line updates the menus before the check so we
-	 * avoid problems like #324692.  We could move it inside the
-	 * conditional, but I don't like doing active things like this
-	 * in there.
-	 */
-	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), "", "");
-
+	/* updates the undo/redo menu labels before check_underlines
+	 * to avoid problems like #324692. */
+	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
 #ifdef CHECK_MENU_UNDERLINES
 	gtk_container_foreach (GTK_CONTAINER (gtk->menu_zone),
 			       (GtkCallback)check_underlines,

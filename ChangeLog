@@ -1,3 +1,15 @@
+2007-07-29  Jody Goldberg <jody@gnome.org>
+
+	[#438933]
+	* src/wbcg-actions.c : Move 'Repeat' back into the standard actions so
+	  that it will be disabled while editing just like the other actions.
+	* src/workbook-control-gui.c : handle the sensitivity of repeat here,
+	  manually.
+	* src/wbc-gtk.c (wbc_gtk_init_undo_redo) : rather than initializing
+	  cb_chain_sensitivity down here to handle it.
+	(cb_chain_sensitivity ) : use gtk_action_GET_sensitive rather than
+	_IS_sensistive to avoid group effects.
+
 2007-07-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Resync ALL_LINGUAS with po files.
