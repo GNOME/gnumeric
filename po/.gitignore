@@ -10,6 +10,6 @@ gnumeric.pot
 messages
 missing
 notexist
-.intltool-cache*
+.intltool-*cache*
 po2tbl.sed.in
 stamp-it

@@ -1,7 +1,6 @@
 Makefile.in
 Makefile
 .deps
-plot-types.xml
-gnumeric-dialogs.schemas 
-gnumeric-general.schemas 
-gnumeric-plugins.schemas 
+gnumeric-dialogs.schemas
+gnumeric-general.schemas
+gnumeric-plugins.schemas

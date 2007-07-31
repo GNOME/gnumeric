@@ -1,3 +1,8 @@
+*.o
+*.a
+*.lo
+*.la
+.*.sw*
 Makefile.in
 Makefile
 .deps
