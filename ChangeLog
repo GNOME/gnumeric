@@ -2,6 +2,23 @@
 
 	* configure.in: Resync ALL_LINGUAS with po files.
 
+2007-07-29  Jody Goldberg <jody@gnome.org>
+
+	[#438933]
+	* src/sheet-object.c (sheet_object_get_stacking) : simplify and just
+	  find the object in the ordered list of objects rather than
+	  searching in the realized lists.
+	(sheet_object_adjust_stacking) : maintain the order of the object list
+	  and have the views reflect that, rather than manipulating the views
+	  individually.
+
+	* src/gnm-pane.c (cb_pane_init_objs) : create the objects in the
+	  reverse order to match the stacking order.
+
+	* src/workbook-control-gui.c (wbcg_sheet_add) : no need to create the
+	  object views here.  The panes will do that for us when they are
+	  realized.
+
 2007-07-26  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-widget.c (cb_combo_model_changed) : we can not set

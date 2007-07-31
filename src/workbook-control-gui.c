@@ -908,15 +908,10 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetControlGUI *scg;
-	SheetControl	*sc;
-	Sheet		*sheet;
-	GSList		*ptr;
-	gboolean visible;
+	Sheet		*sheet   = sv_sheet (sv);
+	gboolean	 visible = sheet_is_visible (sheet);
 
 	g_return_if_fail (wbcg != NULL);
-
-	sheet = sv_sheet (sv);
-	visible = sheet_is_visible (sheet);
 
 	if (wbcg->notebook == NULL)
 		workbook_setup_sheets (wbcg);
@@ -975,10 +970,6 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 		wbcg_ui_update_end (wbcg);
 	}
 
-	/* create views for the sheet objects */
-	sc = (SheetControl *) scg;
-	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
-		sc_object_create_view (sc, ptr->data);
 	scg_adjust_preferences (scg);
 	if (sheet == wb_control_cur_sheet (wbc)) {
 		scg_take_focus (scg);

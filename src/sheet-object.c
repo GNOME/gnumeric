@@ -973,42 +973,70 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 
 /*****************************************************************************/
 
+/**
+ * sheet_object_get_stacking :
+ * @so : #SheetObject
+ *
+ * Returns @so's position in the stack of sheet objects.
+ **/
 gint
 sheet_object_get_stacking (SheetObject *so)
 {
-	GList *l = so->realized_list;
+	GSList *ptr;
+	int	pos = 0;
 
-	if (l != NULL) {
-		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
-		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
-		GList *link = g_list_find (parent->item_list, item);
-		return g_list_position (parent->item_list, link);
-	}
-	return -1;
+	g_return_val_if_fail (so != NULL, 0);
+	g_return_val_if_fail (so->sheet != NULL, 0);
+
+	for (ptr = so->sheet->sheet_objects ;  ptr ; ptr = ptr->next, pos++)
+		if (ptr->data == so)
+			return pos;
+
+	g_warning ("Object not found??");
+	return 0;
 }
 
-/*****************************************************************************/
-
 gint
-sheet_object_adjust_stacking (SheetObject *so, gint positions)
+sheet_object_adjust_stacking (SheetObject *so, gint offset)
 {
-	GList *l;
-	gint before = -1;
-	gint after = -1;
+	GList	 *l;
+	GSList	**ptr, *node = NULL;
+	int	  i, target, cur = 0;
 
+	g_return_val_if_fail (so != NULL, 0);
+	g_return_val_if_fail (so->sheet != NULL, 0);
+
+	for (ptr = &so->sheet->sheet_objects ; *ptr ; ptr = &(*ptr)->next, cur++)
+		if ((*ptr)->data == so) {
+			node = *ptr;
+			*ptr = (*ptr)->next;
+			break;
+		}
+
+	g_return_val_if_fail (node != NULL, 0);
+
+	/* Start at the begining when moving things towards the front */
+	if (offset > 0) {
+		ptr = &so->sheet->sheet_objects;
+		i = 0;
+	} else
+		i = cur;
+
+	for (target = cur - offset; *ptr && i < target ; ptr = &(*ptr)->next)
+		i++;
+
+	node->next = *ptr;
+	*ptr = node;
+
+	/* TODO : Move this to the container */
 	for (l = so->realized_list; l; l = l->next) {
 		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
-		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
-		GList *link = g_list_find (parent->item_list, item);
-		before = g_list_position (parent->item_list, link);
-		if (positions > 0)
-			foo_canvas_item_raise (item, positions);
+		if (offset > 0)
+			foo_canvas_item_raise (item, offset);
 		else
-			foo_canvas_item_lower (item, - positions);
-		link = g_list_find (parent->item_list, item);
-		after = g_list_position (parent->item_list, link);
+			foo_canvas_item_lower (item, - offset);
 	}
-	return ((before == -1 || after == -1) ? positions : (after - before));
+	return cur - i;
 }
 
 /*****************************************************************************/

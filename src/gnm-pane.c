@@ -857,17 +857,23 @@ cb_gnm_pane_delete_surrounding (GtkIMContext *context,
 	return TRUE;
 }
 
+/* create views for the sheet objects now that we exist */
 static void
 cb_pane_init_objs (GnmPane *pane)
 {
-	/* create views for the sheet objects now that we exist */
 	Sheet *sheet = scg_sheet (pane->simple.scg);
-	GSList *ptr;
+	GSList *ptr, *list;
 
-	if (sheet != NULL)
-		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
+	if (sheet != NULL) {
+		/* List is stored in reverse stacking order.  Top of stack is
+		 * first.  On creation new foocanvas item get added to
+		 * the front, so we need to create the views in reverse order */
+		list = g_slist_reverse (g_slist_copy (sheet->sheet_objects));
+		for (ptr = list; ptr != NULL ; ptr = ptr->next)
 			sheet_object_new_view (ptr->data,
 				(SheetObjectViewContainer *)pane);
+		g_slist_free (list);
+	}
 }
 
 static void
