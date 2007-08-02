@@ -630,7 +630,11 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 		if (NULL != (so = sheet_object_dup (ptr->data))) {
 			anchor = sheet_object_get_anchor (so);
 
-	/* FIXME : This is only used in gnm_sog_write_image What is it for ?? */
+#warning FIXME : This is only used in gnm_sog_write_image
+/* NOTE #1 : It seems necessary to handle pasting an object that has been removed from
+ * the sheet after being added to the clipboard.  it seems like we would need
+ * this sort of information for anything that implements SheetObjectImageableIface 
+ **/
 			sheet_object_anchor_to_pts (anchor, sheet, coords);
 			w = fabs (coords[2] - coords[0]) + 1.5;
 			h = fabs (coords[3] - coords[1]) + 1.5;
