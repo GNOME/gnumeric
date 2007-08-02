@@ -1,6 +1,6 @@
 2007-07-29  Jody Goldberg <jody@gnome.org>
 
-	[#438933]
+	[#461284]
 	* src/wbcg-actions.c : Move 'Repeat' back into the standard actions so
 	  that it will be disabled while editing just like the other actions.
 	* src/workbook-control-gui.c : handle the sensitivity of repeat here,

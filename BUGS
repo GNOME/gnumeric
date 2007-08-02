@@ -30,7 +30,9 @@ Short term goals
     - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
     - dialog open wrapper to store previous size/position of dialog
     - tango icons
-    - Add a go_glade_signal_connect
+	http://live.gnome.org/GnomeGoals/AppIcon
+	http://live.gnome.org/ThemableAppSpecificIcons
+    - Add a go_glade_signal_connect (and friends)
 
 Worries
 -------
