@@ -93,6 +93,7 @@ typedef struct {
 	gboolean  has_legend;
 	GogStyle *style;
 	GHashTable *singletons;
+	GOLineInterpolation interpolation;
 } XLChartSeries;
 
 typedef struct {
@@ -131,6 +132,7 @@ typedef struct {
 	GPtrArray	*series;
 	char		*text;
 	guint16		parent_index;
+	GOLineInterpolation interpolation;
 } XLChartReadState;
 
 typedef struct _XLChartHandler	XLChartHandler;
@@ -1724,8 +1726,10 @@ BC_R(serfmt)(XLChartHandler const *handle,
 {
 	guint8 const flags = GSF_LE_GET_GUINT8  (q->data);
 	if (flags & 1) {
-		s->style->interpolation.type = GO_LINE_INTERPOLATION_SPLINE;
-		s->style->interpolation.auto_type = FALSE;
+	    if (s->currentSeries)
+		s->currentSeries->interpolation = GO_LINE_INTERPOLATION_SPLINE;
+	    else
+		s->interpolation = GO_LINE_INTERPOLATION_SPLINE;
 	}
 	d (1, {
 		fprintf (stderr, "interpolation: %s\n", (flags & 1)? "spline": "linear");
@@ -2670,8 +2674,15 @@ not_a_matrix:
 				if (eseries->singletons != NULL)
 					g_hash_table_foreach (eseries->singletons,
 						(GHFunc) cb_store_singletons, series);
+				g_object_set (G_OBJECT (series),
+					      "interpolation", go_line_interpolation_as_str (eseries->interpolation),
+					      NULL);
 			}
 		}
+		g_object_set (G_OBJECT (s->plot),
+			      "interpolation", go_line_interpolation_as_str (s->interpolation),
+			      NULL);
+		s->interpolation = GO_LINE_INTERPOLATION_LINEAR;
 		s->hilo = FALSE;
 		s->dropbar = FALSE;
 
@@ -3573,12 +3584,13 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GogStyleLine const *lstyle,
 }
 
 static void
-chart_write_SERFMT (XLChartWriteState *s, GogStyle const *style)
+chart_write_SERFMT (XLChartWriteState *s, GOLineInterpolation interpolation)
 {
+    if (interpolation == GO_LINE_INTERPOLATION_SPLINE) {
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_serfmt, 2);
-	GSF_LE_SET_GUINT8 (data+0,
-		(style->interpolation.type == GO_LINE_INTERPOLATION_SPLINE)? 1: 0);
+	GSF_LE_SET_GUINT8 (data+0, 1);
 	ms_biff_put_commit (s->bp);
+    }
 }
 
 static void
@@ -3873,9 +3885,6 @@ style_is_completely_auto (GogStyle const *style)
 	    (!style->line.auto_color || !style->line.auto_dash ||
 		(style->line.width != 0.)))
 		return FALSE;
-	if ((style->interesting_fields & GOG_STYLE_INTERPOLATION) &&
-		(style->interpolation.type == GO_LINE_INTERPOLATION_SPLINE))
-		return FALSE;
 	if ((style->interesting_fields & GOG_STYLE_MARKER)) {
 		if (!style->marker.auto_shape ||
 		    !style->marker.auto_outline_color ||
@@ -3887,15 +3896,16 @@ style_is_completely_auto (GogStyle const *style)
 
 static void
 chart_write_style (XLChartWriteState *s, GogStyle const *style,
-		   guint16 indx, unsigned n, unsigned v, float separation)
+		   guint16 indx, unsigned n, unsigned v, float separation,
+		   GOLineInterpolation interpolation)
 {
 	chart_write_DATAFORMAT (s, indx, n, v);
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
-	if (!style_is_completely_auto (style)) {
+	if (!style_is_completely_auto (style) || interpolation == GO_LINE_INTERPOLATION_SPLINE) {
 		if ((style->interesting_fields & GOG_STYLE_LINE)) {
 			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
-			chart_write_SERFMT (s, style);
+			chart_write_SERFMT (s, interpolation);
 		} else
 			chart_write_LINEFORMAT (s, &style->outline, FALSE, FALSE);
 		chart_write_AREAFORMAT (s, style, FALSE);
@@ -3962,7 +3972,7 @@ chart_write_error_bar (XLChartWriteState *s, GogErrorBar *bar, unsigned n,
 			ms_biff_put_commit (s->bp);
 		}
 	}
-	chart_write_style (s, bar->style, 0xffff, n, 0, 0.);
+	chart_write_style (s, bar->style, 0xffff, n, 0, 0., GO_LINE_INTERPOLATION_LINEAR);
 
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_serparent, 2);
 	GSF_LE_SET_GUINT16  (data, parent + 1);
@@ -4063,7 +4073,7 @@ chart_write_trend_line (XLChartWriteState *s, GogTrendLine *rc, unsigned n, unsi
 		ms_biff_put_commit (s->bp);
 	}
 	chart_write_style (s, GOG_STYLED_OBJECT (rc)->style,
-		0xffff, n, 0, 0.);
+		0xffff, n, 0, 0., GO_LINE_INTERPOLATION_LINEAR);
 
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_serparent, 2);
 	GSF_LE_SET_GUINT16  (data, parent + 1);
@@ -4151,6 +4161,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 	GOData *dat;
 	unsigned num_elements = gog_series_num_elements (series);
 	GList const *ptr;
+	char const *interpolation;
 
 	/* SERIES */
 	s->cur_series = n;
@@ -4176,8 +4187,10 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 		chart_write_AI (s, dat, i, default_ref_type[i]);
 	}
 
+	g_object_get (G_OBJECT (series), "interpolation", &interpolation, NULL);
 	chart_write_style (s, GOG_STYLED_OBJECT (series)->style,
-		0xffff, s->cur_series, s->cur_vis_index, 0.);
+		0xffff, s->cur_series, s->cur_vis_index, 0.,
+		go_line_interpolation_from_str (interpolation));
 	for (ptr = gog_series_get_overrides (series); ptr != NULL ; ptr = ptr->next) {
 		float sep = 0;
 		if (g_object_class_find_property (
@@ -4186,7 +4199,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 
 		chart_write_style (s, GOG_STYLED_OBJECT (ptr->data)->style,
 			GOG_SERIES_ELEMENT (ptr->data)->index, s->cur_series,
-			s->cur_vis_index, sep);
+			s->cur_vis_index, sep, GO_LINE_INTERPOLATION_LINEAR);
 	}
 	s->cur_vis_index++;
 
@@ -4261,12 +4274,14 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 
 static void
 chart_write_dummy_style (XLChartWriteState *s, float default_separation,
-			 gboolean clear_marks, gboolean clear_lines)
+			 gboolean clear_marks, gboolean clear_lines,
+			 GOLineInterpolation interpolation)
 {
 	chart_write_DATAFORMAT (s, 0, 0, 0xfffd);
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
 	chart_write_LINEFORMAT (s, NULL, FALSE, clear_lines);
+	chart_write_SERFMT (s, interpolation);
 	chart_write_AREAFORMAT (s, NULL, FALSE);
 	chart_write_MARKERFORMAT (s, NULL, clear_marks);
 	chart_write_PIEFORMAT (s, default_separation);
@@ -4490,6 +4505,8 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 	char const *type = G_OBJECT_TYPE_NAME (plot);
 	gboolean check_lines = FALSE;
 	gboolean check_marks = FALSE;
+	GOLineInterpolation interpolation;
+	char const *interp;
 
 	if (0 == strcmp (type, "GogAreaPlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_area,
@@ -4548,7 +4565,8 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 		GSF_LE_SET_GUINT16 (data + 4, flags);
 		ms_biff_put_commit (s->bp);
 		if (fabs (default_separation) > .005)
-			chart_write_dummy_style (s, default_separation, FALSE, FALSE);
+			chart_write_dummy_style (s, default_separation, FALSE,
+						 FALSE, GO_LINE_INTERPOLATION_LINEAR);
 	} else if (0 == strcmp (type, "GogRadarPlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_radar, flags);
 		check_marks = TRUE;
@@ -4606,8 +4624,10 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 		check_lines = !check_lines;
 	}
 
-	if (check_marks || check_lines)
-		chart_write_dummy_style (s, 0., check_marks, check_lines);
+	g_object_get (G_OBJECT (plot), "interpolation", &interp, NULL);
+	interpolation = go_line_interpolation_from_str (interp);
+	if (check_marks || check_lines || interpolation)
+		chart_write_dummy_style (s, 0., check_marks, check_lines, interpolation);
 }
 
 static void
