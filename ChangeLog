@@ -1,3 +1,7 @@
+2007-08-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: requires goffice-0.4.3.
+
 2007-07-29  Jody Goldberg <jody@gnome.org>
 
 	[#461284]
