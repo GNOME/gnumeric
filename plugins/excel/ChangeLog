@@ -1,3 +1,8 @@
+2007-08-05  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (chart_write_series), (chart_write_plot): free
+	strings returned by g_object_get.
+
 2007-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: fixed interpolation mode import/export after

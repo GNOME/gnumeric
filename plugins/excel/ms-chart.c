@@ -4191,6 +4191,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 	chart_write_style (s, GOG_STYLED_OBJECT (series)->style,
 		0xffff, s->cur_series, s->cur_vis_index, 0.,
 		go_line_interpolation_from_str (interpolation));
+	g_free (interpolation);
 	for (ptr = gog_series_get_overrides (series); ptr != NULL ; ptr = ptr->next) {
 		float sep = 0;
 		if (g_object_class_find_property (
@@ -4626,6 +4627,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 
 	g_object_get (G_OBJECT (plot), "interpolation", &interp, NULL);
 	interpolation = go_line_interpolation_from_str (interp);
+	g_free (interp);
 	if (check_marks || check_lines || interpolation)
 		chart_write_dummy_style (s, 0., check_marks, check_lines, interpolation);
 }
