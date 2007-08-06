@@ -1,0 +1,14 @@
+% TeX settings that need to be enlarged in order to be able to generate a
+% PDF version of the gnumeric manual successfully.
+
+% These are the only adjustments that were necessary for use with TeX Live
+% 2007 on a Debian GNU/Linux system running the "unstable" tree.
+
+% When building in a different environment, other settings may need to be
+% changed as well; consult the .log file of a failed run for hints.
+
+save_size = 15000	% for saving values outside current group
+
+% Extra space for the hash table of control sequences (which allows 10K
+% names as distributed).
+hash_extra = 100000

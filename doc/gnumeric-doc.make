@@ -34,7 +34,7 @@ include $(top_srcdir)/xmldocs.make
 # (Entities, including functions.xml, are shipped via xmldocs.make.)
 EXTRA_DIST += $(functions_xml_parts)
 
-.PHONY : html validate chm
+.PHONY : html validate chm pdf
 html :
 	-mkdir -p html
 	xsltproc -o html/gnumeric.shtml					\
@@ -60,3 +60,15 @@ chm :
 	    mv chm/.$$$$ "$$f" ;			\
 	done
 	cp -r $(srcdir)/figures	chm
+
+
+if ENABLE_PDFDOCS
+EXTRA_DIST += gnumeric.pdf
+endif
+
+pdf :
+	env TEXINPUTS=$(srcdir):.: dbcontext -t tex -Pfo.setup=1 -I . \
+		-o gnumeric.tex $(srcdir)/gnumeric.xml
+	env TEXMFCNF=$(srcdir): \
+		TEXINPUTS=$(srcdir):/usr/share/texmf/tex/context/dbcontext/style: \
+		texexec --pdf --mode=A4 --batch gnumeric.tex

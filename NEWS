@@ -1,5 +1,8 @@
 Gnumeric 1.7.12
 
+J.H.M. Dassen (Ray):
+	* Added infrastructure to render the DocBook documentation as PDF.
+
 Jody:
 	* Store objects in visible order in .gnumeric files. [#438933]
 	* Make SMALL/LARGE support implicit intersection. [#343176]

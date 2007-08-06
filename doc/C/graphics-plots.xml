@@ -1025,7 +1025,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-line.png" 
-		       width="40" valign="top" />
+		       valign="top" />
           </imageobject>
           <textobject>
             <phrase>An icon for the line plot type.</phrase>
@@ -1349,7 +1349,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-xyplot.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the XY scatterplot plot type.</phrase>
@@ -1570,7 +1570,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-bubble.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the pie plot type.</phrase>
@@ -1748,7 +1748,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-pie.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the pie plot type.</phrase>
@@ -1919,7 +1919,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-area.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the area plot type.</phrase>
@@ -2168,7 +2168,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-bar.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the bar plot type.</phrase>
@@ -2420,7 +2420,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-column.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the column plot type.</phrase>
@@ -2670,7 +2670,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-radar.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the radar plot type.</phrase>
@@ -2899,7 +2899,7 @@
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="figures/graphs-types-ring.png" 
-		       width="40" valign="top"/>
+		       valign="top"/>
           </imageobject>
           <textobject>
             <phrase>An icon for the ring plot type.</phrase>

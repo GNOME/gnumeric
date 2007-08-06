@@ -912,6 +912,27 @@ AC_SUBST(GNM_PY_LDFLAGS)
 AC_SUBST(GNM_PY_LIBADD)
 AC_SUBST(PYGTK_CFLAGS)
 
+# Support for PDF docs
+AC_ARG_ENABLE(pdfdocs,
+  AS_HELP_STRING([--enable-pdfdocs],[Generate documentation in Portable Document Format]),
+  [enable_pdfdocs=$enableval],
+  [enable_pdfdocs=no])
+if test x"$enable_pdfdocs" = "xyes"; then
+	AC_CHECK_PROG(DBCONTEXT, [dbcontext], [dbcontext], [])
+	if test x"$DBCONTEXT" != x"dbcontext"; then
+		AC_MSG_ERROR([
+Did not find the dbcontext tool which is required to generate documentation
+in Portable Document Format - aborting.
+
+The DocBook to ConTeXt conversion tool can be obtained from
+	http://dblatex.sourceforge.net/
+])
+		exit 1	
+	fi
+fi
+AM_CONDITIONAL(ENABLE_PDFDOCS, test x"$enable_pdfdocs" = "xyes")
+
+
 dnl A tricky way to comment out in m4:
 ifelse([
 dnl **************************************************
