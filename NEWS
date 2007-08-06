@@ -12,6 +12,7 @@ Jody:
 
 Morten:
 	* Fix undo column/row insert/delete.  [#463834]
+	* Fix auto-correct issue.  [#463996]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.11

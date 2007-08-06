@@ -1,3 +1,8 @@
+2007-08-06  Morten Welinder  <terra@gnome.org>
+
+	* auto-correct.c (autocorrect_initial_caps): Don't affect
+	expressions.  Fixes #463996.
+
 2007-07-24  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.11

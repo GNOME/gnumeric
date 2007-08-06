@@ -32,6 +32,7 @@
 #include "application.h"
 #include "gutils.h"
 #include "gnumeric-gconf.h"
+#include "parse-util.h"
 #include <goffice/utils/go-format.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
@@ -244,6 +245,9 @@ autocorrect_initial_caps (const char *src)
 	enum State state = S_waiting_for_word_begin;
 	char *res = NULL;
 	const char *p;
+
+	if (gnm_expr_char_start_p (src))
+		return NULL;
 
 	for (p = src; *p; p = g_utf8_next_char (p)) {
 		gunichar c = g_utf8_get_char (p);
