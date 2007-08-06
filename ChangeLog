@@ -1,3 +1,15 @@
+2007-08-05  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_ins_del_colrow_redo): Always delete the
+	local colrow state here.  Move storing of undo information to
+	constructor.  Move checking for arrays too.
+	(cmd_ins_del_colrow): Store undo information and check for arrays
+	here.  Check for arrays/locks in the case of insert too.
+	(cmd_ins_del_colrow_undo): Undo contents using go_undo.  Don't
+	delete colrow state.
+
+	* src/sheet.c (sheet_colrow_insdel_finish): Don't delete state.
+
 2007-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: requires goffice-0.4.3.

@@ -1267,7 +1267,7 @@ typedef struct {
 	SheetView	*cut_copy_view;
 
 	ColRowStateList *saved_states;
-	GnmCellRegion	*contents;
+	GOUndoGroup     *undo;
 	GnmRelocUndo	 reloc_storage;
 } CmdInsDelColRow;
 
@@ -1298,18 +1298,12 @@ static gboolean
 cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
-	int index;
-	GnmRelocUndo	tmp;
+	GnmRelocUndo tmp;
 	gboolean trouble;
-	GnmRange r;
-	GnmPasteTarget pt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->saved_states != NULL, TRUE);
-	g_return_val_if_fail (me->contents != NULL, TRUE);
 
 	if (!me->is_insert) {
-		index = me->index;
 		if (me->is_cols)
 			trouble = sheet_insert_cols (me->sheet, me->index, me->count,
 						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
@@ -1317,7 +1311,6 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
 						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
 	} else {
-		index = colrow_max (me->is_cols) - me->count;
 		if (me->is_cols)
 			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
 						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
@@ -1325,23 +1318,13 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 			trouble = sheet_delete_rows (me->sheet, me->index, me->count,
 						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
 	}
-	me->saved_states = NULL;
 
 	/* I really do not expect trouble on the undo leg */
 	g_return_val_if_fail (!trouble, TRUE);
 
-	/* restore col/row contents */
-	if (me->is_cols)
-		range_init (&r, index, 0, index+me->count-1, SHEET_MAX_ROWS-1);
-	else
-		range_init (&r, 0, index, SHEET_MAX_COLS-1, index+me->count-1);
+	go_undo_undo (GO_UNDO (me->undo));
 
-#warning fix object handling
-	clipboard_paste_region (me->contents,
-		paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),
-		GO_CMD_CONTEXT (wbc));
-	cellregion_unref (me->contents);
-	me->contents = NULL;
+#warning "fix object handling"
 
 	/* Throw away the undo info for the expressions after the action*/
 	dependents_unrelocate_free (tmp.exprs);
@@ -1353,7 +1336,7 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	 */
 	if (me->cutcopied != NULL && me->cut_copy_view != NULL)
 		gnm_app_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view,
-						me->cutcopied, FALSE);
+					    me->cutcopied, FALSE);
 
 	return FALSE;
 }
@@ -1362,36 +1345,9 @@ static gboolean
 cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
-	GnmRange r;
 	gboolean trouble;
-	int first, last;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->saved_states == NULL, TRUE);
-	g_return_val_if_fail (me->contents == NULL, TRUE);
-
-	first = (me->is_insert)
-		? colrow_max (me->is_cols) - me->count
-		: me->index;
-
-	last = first + me->count - 1;
-	(me->is_cols)
-		? range_init (&r, first, 0, last, SHEET_MAX_ROWS - 1)
-		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last);
-
-	/* Check for array subdivision */
-	if (!me->is_insert && sheet_range_splits_region
-	    (me->sheet, &r, NULL, GO_CMD_CONTEXT (wbc),
-	     (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
-		return TRUE;
-
-	/* Check for locks */
-	if (!me->is_insert && cmd_cell_range_is_locked_effective
-	    (me->sheet, &r, wbc, (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
-		return TRUE;
-
-	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
-	me->contents = clipboard_copy_range (me->sheet, &r);
 
 	if (me->is_insert) {
 		ColRowStateList *state = NULL;
@@ -1426,8 +1382,7 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
 						     state, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
 
-		if (trouble)
-			colrow_state_list_destroy (state);
+		colrow_state_list_destroy (state);
 	} else {
 		if (me->is_cols)
 			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
@@ -1471,12 +1426,8 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 
-	if (me->saved_states)
-		me->saved_states = colrow_state_list_destroy (me->saved_states);
-	if (me->contents) {
-		cellregion_unref (me->contents);
-		me->contents = NULL;
-	}
+	colrow_state_list_destroy (me->saved_states);
+	g_object_unref (me->undo);
 
 	g_free (me->cutcopied);
 	me->cutcopied = NULL;
@@ -1493,6 +1444,8 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 		    char const *descriptor, int index, int count)
 {
 	CmdInsDelColRow *me;
+	int first, last;
+	GnmRange r;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -1503,8 +1456,32 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->is_insert = is_insert;
 	me->index = index;
 	me->count = count;
-	me->saved_states = NULL;
-	me->contents = NULL;
+	me->undo = go_undo_group_new ();
+
+	/* Range that will get deleted. */
+	first = me->is_insert
+		? colrow_max (is_cols) - count
+		: index;
+	last = first + count - 1;
+	(is_cols ? range_init_cols : range_init_rows) (&r, first, last);
+
+	/* Check for array subdivision */
+	if (sheet_range_splits_region (sheet, &r, NULL, GO_CMD_CONTEXT (wbc),
+				       descriptor)) {
+		g_object_unref (me);
+		return TRUE;
+	}
+
+	/* Check for locks */
+	if (cmd_cell_range_is_locked_effective (sheet, &r, wbc, descriptor)) {
+		g_object_unref (me);
+		return TRUE;
+	}
+
+	go_undo_group_add (me->undo,
+			   clipboard_copy_range_undo (sheet, &r));
+
+	me->saved_states = colrow_get_states (sheet, is_cols, first, last);
 
 	/* We store the cut or/copied range if applicable */
 	if (!gnm_app_clipboard_is_empty () &&

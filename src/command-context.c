@@ -45,8 +45,8 @@ gnm_cmd_context_error_calc (GOCmdContext *context, char const *msg)
 
 void
 gnm_cmd_context_error_splits_array (GOCmdContext *context,
-			     G_GNUC_UNUSED char const *cmd,
-			     GnmRange const *array)
+				    G_GNUC_UNUSED char const *cmd,
+				    GnmRange const *array)
 {
 	GError *err;
 
