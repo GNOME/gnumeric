@@ -1816,8 +1816,21 @@ dependents_unrelocate (GSList *info)
 				/* It is possible to have a NULL if the relocation info
 				 * is not really relevant.  eg when undoing a pasted
 				 * cut that was relocated but also saved to a buffer */
-				if (cell != NULL)
-					sheet_cell_set_expr (cell, tmp->oldtree);
+				if (cell != NULL) {
+					GnmExprArrayCorner const *corner =
+						gnm_expr_top_get_array_corner (tmp->oldtree);
+					if (corner) {
+						gnm_cell_set_array_formula (tmp->u.pos.sheet,
+									    tmp->u.pos.eval.col,
+									    tmp->u.pos.eval.row,
+									    tmp->u.pos.eval.col + corner->cols - 1,
+									    tmp->u.pos.eval.row + corner->rows - 1,
+									    gnm_expr_top_new (gnm_expr_copy (corner->expr)));
+						cell_queue_recalc (cell);
+						sheet_flag_status_update_cell (cell);
+					} else
+						sheet_cell_set_expr (cell, tmp->oldtree);
+				}
 			}
 		} else if (tmp->dep_type == DEPENDENT_NAME) {
 		} else {
@@ -1999,10 +2012,14 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 				} else
 					dependent_link (dep);
 			}
-		} else
-			/* the expression may not be changing, but it depends
-			 * on something that is */
+		} else {
+			/*
+			 * The expression may not be changing, but it depends
+			 * on something that is.  Not-corner array cells go here
+			 * too
+			 */
 			dependent_queue_recalc (dep);
+		}
 
 		/* Not the most efficient, but probably not too bad.  It is
 		 * definitely cheaper than finding the set of effected sheets. */

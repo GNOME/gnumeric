@@ -10,6 +10,9 @@ Jody:
 	* Remove warning when combo objects updated.
 	* Repeat action being activated by F4 while editing. [#461284]
 
+Morten:
+	* Fix undo column/row insert/delete.  [#463834]
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.11
 

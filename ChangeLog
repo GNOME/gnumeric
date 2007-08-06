@@ -1,3 +1,8 @@
+2007-08-06  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependents_unrelocate): Handle arrays properly.
+	Fixes #463834.
+
 2007-08-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Added support for rendering documentation as PDF.

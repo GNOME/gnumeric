@@ -263,17 +263,15 @@ gnm_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 /**
  * gnm_cell_set_array_formula:
  * @sheet:   The sheet to set the expr in.
- * @row_a:   The top row in the destination region.
  * @col_a:   The left column in the destination region.
- * @row_b:   The bottom row in the destination region.
+ * @row_a:   The top row in the destination region.
  * @col_b:   The right column in the destination region.
- * @expr:    an expression
+ * @row_b:   The bottom row in the destination region.
+ * @expr:    an expression (the inner expression, not a corner or element)
  *
  * Uses cell_set_expr_internal to store the expr as an
  * 'array-formula'.  The supplied expression is wrapped in an array
- * operator for each cell in the range and scheduled for recalc.  The
- * upper left corner is handled as a special case and care is taken to
- * put it at the head of the recalc queue if recalcs are requested.
+ * operator for each cell in the range and scheduled for recalc.
  *
  * NOTE : Does not add a reference to the expression.  It takes over the
  *        caller's reference.
@@ -284,8 +282,8 @@ gnm_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
  */
 void
 gnm_cell_set_array_formula (Sheet *sheet,
-			int col_a, int row_a, int col_b, int row_b,
-			GnmExprTop const *texpr)
+			    int col_a, int row_a, int col_b, int row_b,
+			    GnmExprTop const *texpr)
 {
 	int const num_rows = 1 + row_b - row_a;
 	int const num_cols = 1 + col_b - col_a;
