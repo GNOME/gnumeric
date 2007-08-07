@@ -34,6 +34,7 @@
 #include "gnumeric-gconf.h"
 #include "parse-util.h"
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
@@ -206,8 +207,7 @@ autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
 		accum = g_slist_prepend (accum, g_strdup (list->data));
 	accum = g_slist_reverse (accum);
 
-	g_slist_foreach (*res, (GFunc)g_free, NULL);
-	g_slist_free (*res);
+	go_slist_free_custom (*res, g_free);
 	*res = accum;
 }
 

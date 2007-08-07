@@ -18,6 +18,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "number-match.h"
+#include <goffice/utils/go-glib-extras.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -514,8 +515,7 @@ collect_strings (int argc, GnmExprConstPtr const *argv,
 
 	if (err) {
 		g_assert (VALUE_IS_ERROR (err));
-		g_slist_foreach (cl.data, (GFunc)g_free, NULL);
-		g_slist_free (cl.data);
+		go_slist_free_custom (cl.data, g_free);
 		*error = err;
 		return NULL;
 	}
@@ -541,8 +541,7 @@ string_range_function (int argc, GnmExprConstPtr const *argv,
 		return (error != VALUE_TERMINATE) ? error : NULL;
 
 	err = func (vals, &res);
-	g_slist_foreach (vals, (GFunc)g_free, NULL);
-	g_slist_free (vals);
+	go_slist_free_custom (vals, g_free);
 
 	if (err) {
 		g_free (res);

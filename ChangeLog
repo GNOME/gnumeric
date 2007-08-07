@@ -1,5 +1,8 @@
 2007-08-06  Morten Welinder  <terra@gnome.org>
 
+	* *.c: Use go_slist_free_custom and go_list_free_custom as
+	appropriate.
+
 	* src/dependent.c (dependents_unrelocate): Handle arrays properly.
 	Fixes #463834.
 

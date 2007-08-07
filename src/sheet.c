@@ -3444,16 +3444,12 @@ sheet_destroy_contents (Sheet *sheet)
 		return;
 
 	/* These contain SheetObjects, remove them first */
-	if (NULL != sheet->filters) {
-		g_slist_foreach (sheet->filters, (GFunc)gnm_filter_free, NULL);
-		g_slist_free (sheet->filters);
-		sheet->filters = NULL;
-	}
-	if (NULL != sheet->pivottables) {
-		g_slist_foreach (sheet->pivottables, (GFunc)gnm_pivottable_free, NULL);
-		g_slist_free (sheet->pivottables);
-		sheet->pivottables = NULL;
-	}
+	go_slist_free_custom (sheet->filters, (GFreeFunc)gnm_filter_free);
+	sheet->filters = NULL;
+
+	go_slist_free_custom (sheet->pivottables,
+			      (GFreeFunc)gnm_pivottable_free);
+	sheet->pivottables = NULL;
 
 	if (sheet->sheet_objects) {
 		/* The list is changed as we remove */
@@ -3473,11 +3469,8 @@ sheet_destroy_contents (Sheet *sheet)
 	g_hash_table_destroy (sheet->hash_merged);
 	sheet->hash_merged = NULL;
 
-	if (sheet->list_merged != NULL) {
-		g_slist_foreach (sheet->list_merged, (GFunc)g_free, NULL);
-		g_slist_free (sheet->list_merged);
-		sheet->list_merged = NULL;
-	}
+	go_slist_free_custom (sheet->list_merged, g_free);
+	sheet->list_merged = NULL;
 
 	/* Clear the row spans 1st */
 	for (i = sheet->rows.max_used; i >= 0 ; --i)

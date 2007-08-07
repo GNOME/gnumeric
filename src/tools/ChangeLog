@@ -1,5 +1,9 @@
 2007-08-06  Morten Welinder  <terra@gnome.org>
 
+	* filter.c (advanced_filter): Translate.
+
+	* data-shuffling.c (data_shuffling): Fix typo and translate.
+
 	* auto-correct.c (autocorrect_initial_caps): Don't affect
 	expressions.  Fixes #463996.
 

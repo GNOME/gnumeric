@@ -674,8 +674,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 	families = go_fonts_list_families (context);
 	for (ptr = families; ptr != NULL; ptr = ptr->next)
 		go_action_combo_text_add_item (gtk->font_name, ptr->data);
-	g_slist_foreach (families, (GFunc)g_free, NULL);
-	g_slist_free (families);
+	go_slist_free_custom (families, (GFreeFunc)g_free);
 
 	g_signal_connect (G_OBJECT (gtk->font_name),
 		"activate",

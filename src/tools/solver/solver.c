@@ -41,6 +41,7 @@
 #include "analysis-tools.h"
 #include "api.h"
 #include "gutils.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -74,10 +75,8 @@ solver_param_new (void)
 void
 solver_param_destroy (SolverParameters *sp)
 {
-	g_slist_foreach	(sp->constraints,
-			 (GFunc)solver_constraint_destroy,
-			 NULL);
-	g_slist_free (sp->constraints);
+	go_slist_free_custom (sp->constraints,
+			      (GFreeFunc)solver_constraint_destroy);
 	g_slist_free (sp->input_cells);
 	g_free (sp->input_entry_str);
 	g_free (sp->options.scenario_name);

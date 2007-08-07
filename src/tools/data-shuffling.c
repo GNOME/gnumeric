@@ -33,6 +33,7 @@
 #include <ranges.h>
 #include <value.h>
 #include <command-context.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include "mathfunc.h"
 #include "data-shuffling.h"
@@ -46,7 +47,7 @@ typedef struct {
 } swap_t;
 
 static void
-swap_values (data_shuffling_t *ds, 
+swap_values (data_shuffling_t *ds,
 	     int col_a, int row_a, int col_b, int row_b)
 {
 	swap_t *s = g_new (swap_t, 1);
@@ -98,7 +99,7 @@ shuffle_area (data_shuffling_t *ds)
 
 		for (j = ds->a_row; j <= ds->b_row; j++) {
 			rnd_row = (int) (ds->rows * random_01 () + ds->a_row);
-		
+
 			swap_values (ds, i, j, rnd_col, rnd_row);
 		}
 	}
@@ -218,7 +219,7 @@ do_swap_rows (data_shuffling_t *st, swap_t *sw)
 		    st->tmp_area.end.col, st->tmp_area.end.row);
         reverse.col_offset = st->a_col - st->tmp_area.start.col;
         reverse.row_offset = sw->b.row - st->tmp_area.start.row;
-	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));	
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 }
 
 static void
@@ -282,12 +283,12 @@ data_shuffling_t *
 data_shuffling (WorkbookControl        *wbc,
 		data_analysis_output_t *dao,
 		Sheet                  *sheet,
-		GnmValue               *input_range, 
+		GnmValue               *input_range,
 		int                    shuffling_type)
 {
 	data_shuffling_t *st = g_new (data_shuffling_t, 1);
 
-	dao_prepare_output (wbc, dao, "Shuffeled");
+	dao_prepare_output (wbc, dao, _("Shuffled"));
 
 	init_shuffling_tool (st, sheet, input_range, dao);
 	st->type = shuffling_type;
@@ -306,27 +307,17 @@ data_shuffling (WorkbookControl        *wbc,
 void
 data_shuffling_redo (data_shuffling_t *st)
 {
-	GSList *tmp;
-
 	run_shuffling_tool (st);
 	dao_autofit_columns (st->dao);
 	sheet_redraw_all (st->sheet, TRUE);
 
 	/* Reverse the list for undo. */
-	tmp = g_slist_reverse (st->changes);
-	st->changes = tmp;
-}
-
-static void
-cb_free (swap_t *data, gpointer ignore)
-{
-	g_free (data);
+	st->changes = g_slist_reverse (st->changes);
 }
 
 void
 data_shuffling_free (data_shuffling_t *st)
 {
 	g_free (st->dao);
-	g_slist_foreach (st->changes, (GFunc) cb_free, NULL);
-	g_slist_free (st->changes);	
+	go_slist_free_custom (st->changes, g_free);
 }

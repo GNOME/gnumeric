@@ -406,8 +406,7 @@ gnm_reloc_undo_release (GnmRelocUndo *undo)
 		undo->exprs = NULL;
 	}
 	if (undo->objs != NULL) {
-		g_slist_foreach (undo->objs, (GFunc) g_object_unref, NULL);
-		g_slist_free (undo->objs);
+		go_slist_free_custom (undo->objs, g_object_unref);
 		undo->objs = NULL;
 	}
 }
@@ -1808,7 +1807,7 @@ cmd_format_undo (GnmCommand *cmd,
 		g_slist_free (rsel);
 	}
 
-	select_selection (me->cmd.sheet, me->selection, wbc);	
+	select_selection (me->cmd.sheet, me->selection, wbc);
 
 	return FALSE;
 }
@@ -1850,7 +1849,7 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 	sheet_mark_dirty (me->cmd.sheet);
 
-	select_selection (me->cmd.sheet, me->selection, wbc);	
+	select_selection (me->cmd.sheet, me->selection, wbc);
 
 	return FALSE;
 }
@@ -3000,7 +2999,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
 						  range_name);
 	g_free (range_name);
-	
+
 	me->dst = *pt;
 	me->contents = cr;
 	me->has_been_through_cycle = FALSE;
@@ -3659,7 +3658,7 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			GnmRange const tmp = *(GnmRange *)(ptr->data);
 			GnmComment * cc;
 
-			cc = sheet_get_comment (me->cmd.sheet, &(tmp.start)); 
+			cc = sheet_get_comment (me->cmd.sheet, &(tmp.start));
 			g_array_append_val (me->unmerged_regions, tmp);
 			gnm_sheet_merge_remove (me->cmd.sheet, &tmp, GO_CMD_CONTEXT (wbc));
 			if (cc)
@@ -4067,7 +4066,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 						gnm_expr_top_new
 						(gnm_expr_new_funcall1
 						 (gnm_func_lookup ("ERROR", NULL),
-						  gnm_expr_new_constant 
+						  gnm_expr_new_constant
 						  (value_new_string_nocopy (cell_res.new_text))));
 					GnmConventionsOut out;
 
@@ -4491,7 +4490,7 @@ cmd_objects_delete_redo (GnmCommand *cmd,
 	return FALSE;
 }
 
-static void 
+static void
 cmd_objects_restore_location (SheetObject *so, gint location)
 {
 	gint loc = sheet_object_get_stacking (so);
@@ -4509,7 +4508,7 @@ cmd_objects_delete_undo (GnmCommand *cmd,
 
 	g_slist_foreach (me->objects,
 		(GFunc) sheet_object_set_sheet, me->cmd.sheet);
-	
+
 	for (l = me->objects, i = 0; l; l = l->next, i++)
 		cmd_objects_restore_location (SHEET_OBJECT (l->data),
 					      g_array_index(me->location,
@@ -4521,8 +4520,7 @@ static void
 cmd_objects_delete_finalize (GObject *cmd)
 {
 	CmdObjectsDelete *me = CMD_OBJECTS_DELETE (cmd);
-	g_slist_foreach (me->objects, (GFunc) g_object_unref, NULL);
-	g_slist_free (me->objects);
+	go_slist_free_custom (me->objects, g_object_unref);
 	if (me->location) {
 		g_array_free (me->location, TRUE);
 		me->location = NULL;
@@ -4530,7 +4528,7 @@ cmd_objects_delete_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
-static void 
+static void
 cmd_objects_store_location (SheetObject *so, GArray *location)
 {
 	gint loc = sheet_object_get_stacking (so);
@@ -4553,7 +4551,7 @@ cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
 	g_slist_foreach (me->objects, (GFunc) g_object_ref, NULL);
 
 	me->location = g_array_new (FALSE, FALSE, sizeof (gint));
-	g_slist_foreach (me->objects, (GFunc) cmd_objects_store_location, 
+	g_slist_foreach (me->objects, (GFunc) cmd_objects_store_location,
 			 me->location);
 
 	me->cmd.sheet = sheet_object_get_sheet (objects->data);
@@ -4613,10 +4611,8 @@ static void
 cmd_objects_move_finalize (GObject *cmd)
 {
 	CmdObjectsMove *me = CMD_OBJECTS_MOVE (cmd);
-	g_slist_foreach (me->objects, (GFunc) g_object_unref, NULL);
-	g_slist_free (me->objects);
-	g_slist_foreach (me->anchors, (GFunc) g_free, NULL);
-	g_slist_free (me->anchors);
+	go_slist_free_custom (me->objects, g_object_unref);
+	go_slist_free_custom (me->anchors, g_free);
 	gnm_command_finalize (cmd);
 }
 
@@ -4741,7 +4737,7 @@ static gboolean
 cmd_reorganize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
-	workbook_sheet_state_restore (me->wb, me->old);	
+	workbook_sheet_state_restore (me->wb, me->old);
 	if (me->undo_sheet) {
 		WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
 			  wb_control_sheet_focus (control, me->undo_sheet););
@@ -4757,7 +4753,7 @@ cmd_reorganize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (me->first)
 		me->first = FALSE;
 	else {
-		workbook_sheet_state_restore (me->wb, me->new);	
+		workbook_sheet_state_restore (me->wb, me->new);
 		if (me->redo_sheet) {
 			WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
 						       wb_control_sheet_focus (control, me->redo_sheet););
@@ -5389,11 +5385,9 @@ cmd_change_summary_finalize (GObject *cmd)
 {
 	CmdChangeMetaData *me = CMD_CHANGE_META_DATA (cmd);
 
-	g_slist_foreach (me->changed_props, (GFunc) gsf_doc_prop_free, NULL);
-	g_slist_free (me->changed_props);
+	go_slist_free_custom (me->changed_props, (GFreeFunc)gsf_doc_prop_free);
 	me->changed_props = NULL;
-	g_slist_foreach (me->removed_names, (GFunc) g_free, NULL);
-	g_slist_free (me->removed_names);
+	go_slist_free_custom (me->removed_names, g_free);
 	me->removed_names = NULL;
 
 	gnm_command_finalize (cmd);
@@ -5754,7 +5748,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 				g_string_append_c (res, '_');
 			g_string_append_c (res, *tmp);
 		}
-		
+
 		nexpr = expr_name_lookup (pp, name);
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr))
 			me->cmd.cmd_descriptor =
@@ -5765,7 +5759,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 		g_string_free (res, TRUE);
 	} else
 		me->cmd.cmd_descriptor = g_strdup (descriptor);
-	
+
 	return command_push_undo (wbc, G_OBJECT (me));
 }
 
@@ -6139,8 +6133,8 @@ cmd_text_to_columns_finalize (GObject *cmd)
 
 gboolean
 cmd_text_to_columns (WorkbookControl *wbc,
-		     GnmRange const *src, Sheet *src_sheet, 
-		     GnmRange const *target, Sheet *target_sheet, 
+		     GnmRange const *src, Sheet *src_sheet,
+		     GnmRange const *target, Sheet *target_sheet,
 		     GnmCellRegion *contents)
 {
 	CmdTextToColumns *me;
@@ -6204,7 +6198,7 @@ cmd_solver_impl (GSList *cell_stack, GSList *value_stack)
 		while (values != NULL) {
 			char const *str = values->data;
 			GnmCell *cell = cells->data;
-			
+
 			if (cell != NULL) {
 				sheet_cell_set_text (cell, str, NULL);
 				cells = cells->next;
@@ -6237,8 +6231,7 @@ cmd_solver_redo (GnmCommand *cmd, WorkbookControl *wbc)
 static void
 cmd_solver_free_values (GSList *v, G_GNUC_UNUSED gpointer user_data)
 {
-	g_slist_foreach (v, (GFunc)g_free, NULL);
-	g_slist_free (v);
+	go_slist_free_custom (v, g_free);
 }
 
 static void
@@ -6248,13 +6241,9 @@ cmd_solver_finalize (GObject *cmd)
 
 	g_slist_free (me->cells);
 	me->cells = NULL;
-	g_slist_foreach (me->ov, (GFunc)cmd_solver_free_values,
-			 NULL);
-	g_slist_free (me->ov);
+	go_slist_free_custom (me->ov, (GFreeFunc)cmd_solver_free_values);
 	me->ov = NULL;
-	g_slist_foreach (me->nv, (GFunc)cmd_solver_free_values,
-			 NULL);
-	g_slist_free (me->nv);
+	go_slist_free_custom (me->nv, (GFreeFunc)cmd_solver_free_values);
 	me->nv = NULL;
 
 	gnm_command_finalize (cmd);
@@ -6264,27 +6253,27 @@ static GSList *
 cmd_solver_get_cell_values (GSList *cell_stack)
 {
 	GSList *value_stack = NULL;
-	
+
 	while (cell_stack != NULL) {
 		GSList *cells  = cell_stack->data;
 		GSList *values = NULL;
 		while (cells != NULL) {
 			GnmCell *the_Cell = (GnmCell *)(cells->data);
 			if (the_Cell != NULL)
-				values = g_slist_append 
-					(values, 
-					 value_get_as_string 
+				values = g_slist_append
+					(values,
+					 value_get_as_string
 					 (the_Cell->value));
 			else
-				values = g_slist_append 
+				values = g_slist_append
 					(values, NULL);
 			cells = cells->next;
 		}
-		value_stack = g_slist_append (value_stack, 
+		value_stack = g_slist_append (value_stack,
 					       values);
 		cell_stack = cell_stack->next;
 	}
-	
+
 	return value_stack;
 }
 
@@ -6381,7 +6370,7 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 	me->cmd.sheet = cell->base.sheet;
 	me->cmd.size = 1;
 	range_init_cellpos (&range, &cell->pos);
-	me->cmd.cmd_descriptor = g_strdup_printf 
+	me->cmd.cmd_descriptor = g_strdup_printf
 		(_("Goal Seek (%s)"), undo_range_name (cell->base.sheet, &range));
 
 	me->cell = cell;
@@ -6478,7 +6467,7 @@ typedef struct {
 
 MAKE_GNM_COMMAND (CmdTabulate, cmd_tabulate, NULL);
 
-static gint 
+static gint
 cmd_reorganize_sheets_delete_cmp_f (gconstpointer a,
 				    gconstpointer b)
 {
@@ -6604,7 +6593,7 @@ cmd_so_graph_config_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,  
+cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 		     GObject *n_graph, GObject *o_graph)
 {
 	CmdSOGraphConfig *me;
@@ -6613,7 +6602,7 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), TRUE);
 	g_return_val_if_fail (IS_GOG_GRAPH (n_graph), TRUE);
 	g_return_val_if_fail (IS_GOG_GRAPH (o_graph), TRUE);
-	
+
 	me = g_object_new (CMD_SO_GRAPH_CONFIG_TYPE, NULL);
 
 	me->so = so;
@@ -6666,7 +6655,7 @@ cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet)
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	
+
 	me = g_object_new (CMD_TOGGLE_RTL_TYPE, NULL);
 	me->sheet = sheet;
 	me->size = 1;

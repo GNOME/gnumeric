@@ -38,6 +38,7 @@
 #include <goffice/app/error-info.h>
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gnm-plugin.h>
 
 GNM_PLUGIN_MODULE_HEADER;
@@ -370,8 +371,7 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 		else
 			ret = display_recordset (recset, ei);
 
-		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
-		g_list_free (recset_list);
+		go_list_free_custom (recset_list, g_object_unref);
 	} else {
 		if (error) {
 			ret = value_new_error (ei->pos, error->message);
@@ -446,8 +446,7 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		else
 			ret = display_recordset (recset, ei);
 
-		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
-		g_list_free (recset_list);
+		go_list_free_custom (recset_list, g_object_unref);
 	} else {
 		if (error) {
 			ret = value_new_error (ei->pos, error->message);

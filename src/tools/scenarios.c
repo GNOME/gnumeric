@@ -39,6 +39,7 @@
 #include "dao.h"
 #include "style-color.h"
 #include "parse-util.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <string.h>
 
@@ -286,12 +287,6 @@ scenario_free (scenario_t *s)
 	g_free (s);
 }
 
-static void
-cb_free (scenario_t *data, gpointer ignore)
-{
-	scenario_free (data);
-}
-
 /**
  * scenarios_free :
  * @list : #GList
@@ -301,8 +296,7 @@ cb_free (scenario_t *data, gpointer ignore)
 void
 scenarios_free (GList *list)
 {
-	g_list_foreach (list, (GFunc) cb_free, NULL);
-	g_list_free (list);
+	go_list_free_custom (list, (GFreeFunc)scenarios_free);
 }
 
 gboolean

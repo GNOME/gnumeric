@@ -42,11 +42,8 @@
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 #include "help.h"
 
@@ -195,12 +192,10 @@ ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 static void
 cb_autocorrect_destroy (AutoCorrectState *state)
 {
-	g_slist_foreach (state->init_caps.exceptions, (GFunc)g_free, NULL);
-	g_slist_free (state->init_caps.exceptions);
+	go_slist_free_custom (state->init_caps.exceptions, g_free);
 	state->init_caps.exceptions = NULL;
 
-	g_slist_foreach (state->first_letter.exceptions, (GFunc)g_free, NULL);
-	g_slist_free (state->first_letter.exceptions);
+	go_slist_free_custom (state->first_letter.exceptions, g_free);
 	state->first_letter.exceptions = NULL;
 
 	if (state->gui != NULL)

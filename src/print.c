@@ -42,6 +42,7 @@
 #include "style-font.h"
 #include "gnumeric-gconf.h"
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <unistd.h>
 #include <glib/gstdio.h>
 #include <glib/gfileutils.h>
@@ -80,18 +81,10 @@ printing_instance_new (void)
 }
 
 static void
-pi_free (gpointer data, gpointer user_data)
-{
-	g_free(data);
-}
-
-static void
 printing_instance_delete (PrintingInstance *pi)
 {
-	g_list_foreach (pi->gnmSheets, pi_free, NULL);
-	g_list_free (pi->gnmSheets);
-	g_list_foreach (pi->gnmSheetRanges, pi_free, NULL);
-	g_list_free (pi->gnmSheetRanges);
+	go_list_free_custom (pi->gnmSheets, g_free);
+	go_list_free_custom (pi->gnmSheetRanges, g_free);
 	g_free (pi);
 }
 

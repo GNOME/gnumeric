@@ -51,6 +51,7 @@
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-utils.h>
 #include <math.h>
@@ -5354,8 +5355,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		g_ptr_array_foreach (state.values[i], (GFunc) g_free, NULL);
 		g_ptr_array_free (state.values[i], TRUE);
 	}
-	g_slist_foreach (state.extra_objects, (GFunc) g_object_unref, NULL);
-	g_slist_free (state.extra_objects);
+	go_slist_free_custom (state.extra_objects, g_object_unref);
 	if (state.line_plot)
 		g_object_unref (state.line_plot);
 

@@ -271,8 +271,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 	if (plugin_path_env != NULL) {
 		plugin_dirs = go_strsplit_to_slist (plugin_path_env, G_SEARCHPATH_SEPARATOR);
 		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
-		g_slist_foreach (plugin_dirs, (GFunc)g_free, NULL);
-		g_slist_free (plugin_dirs);
+		go_slist_free_custom (plugin_dirs, g_free);
 	}
 	pm_gui_load_directories (pm_gui, gnm_app_prefs->plugin_extra_dirs, TRUE);
 }

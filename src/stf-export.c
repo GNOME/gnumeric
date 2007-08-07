@@ -38,6 +38,7 @@
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/utils/go-locale.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <string.h>
 #include <locale.h>
@@ -80,8 +81,7 @@ gnm_stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 {
 	g_return_if_fail (stfe != NULL);
 
-	g_slist_foreach (stfe->sheet_list, (GFunc)g_object_unref, NULL);
-	g_slist_free (stfe->sheet_list);
+	go_slist_free_custom (stfe->sheet_list, g_object_unref);
 	stfe->sheet_list = NULL;
 }
 
@@ -310,7 +310,7 @@ gnm_stf_export (GnmStfExport *stfe)
 
 	if (stfe->locale) {
 		go_setlocale (LC_ALL, old_locale);
-		g_free (old_locale);		
+		g_free (old_locale);
 	}
 
 	g_object_set (G_OBJECT (stfe),

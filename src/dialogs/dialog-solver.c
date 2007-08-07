@@ -43,14 +43,8 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 #include <scenarios.h>
 
@@ -411,10 +405,9 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
-free_original_values (GSList *ov, G_GNUC_UNUSED gpointer user_data)
+free_original_values (GSList *ov)
 {
-	g_slist_foreach (ov, (GFunc)g_free, NULL);
-	g_slist_free (ov);
+	go_slist_free_custom (ov, g_free);
 }
 
 static gboolean
@@ -437,9 +430,8 @@ dialog_destroy (GtkObject *w, SolverState  *state)
 	}
 
 	if (state->ov_stack != NULL) {
-		g_slist_foreach (state->ov_stack, (GFunc)free_original_values,
-				 NULL);
-		g_slist_free (state->ov_stack);
+		go_slist_free_custom (state->ov_stack,
+				      (GFreeFunc)free_original_values);
 		state->ov_stack = NULL;
 		g_slist_free (state->ov_cell_stack);
 		state->ov_cell_stack = NULL;
@@ -494,12 +486,11 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 			cells = cells->next;
 			ov = ov ->next;
 		}
-		g_slist_foreach (state->ov_stack, (GFunc)free_original_values,
-				 NULL);
-		g_slist_free (state->ov_cell_stack);
-		g_slist_free (state->ov_stack);
-		state->ov_cell_stack = NULL;
+		go_slist_free_custom (state->ov_stack,
+				      (GFreeFunc)free_original_values);
 		state->ov_stack = NULL;
+		g_slist_free (state->ov_cell_stack);
+		state->ov_cell_stack = NULL;
 		workbook_recalc (state->sheet->workbook);
 	}
 	state->cancelled = TRUE;
@@ -959,10 +950,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	conv.sheet     = state->sheet;
 	conv.c_listing = state->constraint_list;
 	convert_constraint_format (&conv);
-	g_slist_foreach	(param->constraints,
-			 (GFunc)solver_constraint_destroy,
-			 NULL);
-	g_slist_free (param->constraints);
+	go_slist_free_custom (param->constraints,
+			      (GFreeFunc)solver_constraint_destroy);
 	param->constraints = conv.c_list;
 	if (param->constraints == NULL) {
 		go_gtk_notice_nonmodal_dialog

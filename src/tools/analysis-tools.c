@@ -49,6 +49,7 @@
 #include "sheet-object-cell-comment.h"
 #include "workbook-control.h"
 #include "command-context.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -812,12 +813,6 @@ analysis_tool_calc_length (analysis_tools_data_generic_t *info)
  *
  **/
 
-static void
-cb_inputexpr_free (gpointer expr, G_GNUC_UNUSED gpointer user_data)
-{
-	gnm_expr_free (expr);
-}
-
 static gboolean
 analysis_tool_table (data_analysis_output_t *dao,
 		     analysis_tools_data_generic_t *info,
@@ -878,9 +873,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 	}
 	dao_set_italic (dao, 0, 0, 0, row);
 
-
-	g_slist_foreach (inputexpr, cb_inputexpr_free, NULL);
-	g_slist_free (inputexpr);
+	go_slist_free_custom (inputexpr, (GFreeFunc)gnm_expr_free);
 	if (fd) gnm_func_unref (fd);
 
 	dao_redraw_respan (dao);

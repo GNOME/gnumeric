@@ -133,8 +133,7 @@ advanced_filter (WorkbookControl        *wbc,
 	if (rows == NULL)
 		return NO_RECORDS_FOUND;
 
-
-	dao_prepare_output (wbc, dao, "Filtered");
+	dao_prepare_output (wbc, dao, _("Filtered"));
 
 	filter (dao, database->v_range.cell.a.sheet, rows,
 		database->v_range.cell.a.col,

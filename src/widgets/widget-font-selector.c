@@ -21,13 +21,9 @@
 #include <preview-grid.h>
 
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <glib/gi18n-lib.h>
 #include <stdlib.h>
@@ -439,16 +435,11 @@ fs_destroy (GtkObject *object)
 		fs->gui = NULL;
 	}
 
-	if (fs->family_names) {
-		g_slist_foreach (fs->family_names, (GFunc)g_free, NULL);
-		g_slist_free (fs->family_names);
-		fs->family_names = NULL;
-	}
+	go_slist_free_custom (fs->family_names, g_free);
+	fs->family_names = NULL;
 
-	if (fs->font_sizes) {
-		g_slist_free (fs->font_sizes);
-		fs->font_sizes = NULL;
-	}
+	g_slist_free (fs->font_sizes);
+	fs->font_sizes = NULL;
 
 	((GtkObjectClass *)fs_parent_class)->destroy (object);
 }

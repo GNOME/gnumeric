@@ -117,7 +117,8 @@ bin_pareto (bin_t const *set_a, bin_t const *set_b)
 }
 
 static void
-destroy_items (gpointer data, G_GNUC_UNUSED gpointer user_data) {
+destroy_items (gpointer data)
+{
 	if (((bin_t*)data)->label != NULL && ((bin_t*)data)->destroy_label)
 		g_free (((bin_t*)data)->label);
 	g_free (data);
@@ -366,8 +367,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 /* finish up */
 	destroy_data_set_list (data);
-	g_slist_foreach (bin_list, destroy_items, NULL);
-	g_slist_free (bin_list);
+	go_slist_free_custom (bin_list, destroy_items);
 
 	if (*bin_data) {
 		destroy_data_set_list (*bin_data);

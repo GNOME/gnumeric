@@ -40,9 +40,8 @@
 #include "scenarios.h"
 
 #include <glade/glade.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 
 typedef struct {
@@ -556,12 +555,6 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
-cb_free (gpointer p, void *data)
-{
-	value_release (p);
-}
-
-static void
 scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      ScenariosState *state)
 {
@@ -587,10 +580,8 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	state->scenario_state->new_report_sheets =
 		g_slist_prepend (state->scenario_state->new_report_sheets,
 				 new_sheet);
-	if (results) {
-		g_slist_foreach (results, cb_free, NULL);
-		g_slist_free (results);
-	}
+	if (results)
+		go_slist_free_custom (results, (GFreeFunc)value_release);
 }
 
 static void

@@ -65,6 +65,7 @@
 #include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-opendoc-utils.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <glib/gi18n-lib.h>
 
@@ -398,12 +399,6 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 }
 
 static void
-cb_sheet_merges_free (gpointer data, gpointer user_data)
-{
-	g_free (data);
-}
-
-static void
 odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
 	GnmStyle *col_styles [SHEET_MAX_COLS];
@@ -488,10 +483,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 		gsf_xml_out_end_element (state->xml);   /* table-row */
 	}
 
-	if (sheet_merges != NULL) {
-		g_slist_foreach (sheet_merges, cb_sheet_merges_free, NULL);
-		g_slist_free (sheet_merges);
-	}
+	go_slist_free_custom (sheet_merges, g_free);
 }
 
 static void
