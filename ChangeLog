@@ -1,3 +1,10 @@
+2007-08-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* src/sheet-object-graph.c (gnm_sog_draw_cairo): use
+	gog_graph_render_to_cairo_vector, a variant of
+	gog_graph_render_to_cairo for full vector output (no metric rounding).
+	Fixes #381682.
+
 2007-08-06  Morten Welinder  <terra@gnome.org>
 
 	* *.c: Use go_slist_free_custom and go_list_free_custom as
