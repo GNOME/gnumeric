@@ -34,7 +34,7 @@
 #include <workbook.h>
 #include <sheet.h>
 #include <sheet-view.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <workbook-control.h>
 #include <cell.h>
 #include <expr.h>

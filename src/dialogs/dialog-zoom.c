@@ -29,7 +29,7 @@
 #include <commands.h>
 #include <workbook-control.h>
 #include <workbook.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <sheet.h>
 
 #include <glade/glade.h>

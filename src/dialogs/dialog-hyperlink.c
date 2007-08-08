@@ -36,7 +36,7 @@
 #include <sheet-view.h>
 #include <sheet-style.h>
 #include <value.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <goffice/utils/go-file.h>
 
 #include <gtk/gtkbox.h>

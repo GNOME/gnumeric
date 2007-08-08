@@ -36,7 +36,7 @@
 #include <tool-dialogs.h>
 #include <dao-gui-utils.h>
 #include <value.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <commands.h>
 #include <selection.h>
 

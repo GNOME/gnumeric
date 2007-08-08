@@ -1,8 +1,7 @@
 #ifndef GNUMERIC_DIALOGS_H
 #define GNUMERIC_DIALOGS_H
 
-#include "gnumeric.h"
-#include "workbook-control-gui.h"
+#include "gui-gnumeric.h"
 #include "consolidate.h"
 #include <goffice/graph/gog-style.h>
 

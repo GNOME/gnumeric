@@ -28,7 +28,7 @@
 #include <sheet.h>
 #include <cell.h>
 #include <sheet-object-cell-comment.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <ranges.h>
 #include <commands.h>
 

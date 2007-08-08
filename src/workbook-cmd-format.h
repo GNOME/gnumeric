@@ -2,7 +2,6 @@
 #define GNUMERIC_WORKBOOK_CMD_FORMAT_H
 
 #include "gnumeric.h"
-#include "workbook-control-gui.h"
 
 void workbook_cmd_resize_selected_colrow   (WorkbookControl *wbc, Sheet *sheet,
 					    gboolean is_cols, int new_size_pixels);

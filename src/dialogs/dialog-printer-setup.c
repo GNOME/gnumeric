@@ -36,7 +36,7 @@
 #include <ranges.h>
 #include <sheet.h>
 #include <workbook.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <style.h>
 #include <gnumeric-gconf.h>
 
@@ -1672,7 +1672,8 @@ cb_do_print_preview (PrinterSetupState *state)
 	fetch_settings (state);
 	old_pi = state->sheet->print_info;
 	state->sheet->print_info = state->pi;
-	gnm_print_sheet (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET, NULL);
+	gnm_print_sheet (WORKBOOK_CONTROL (state->wbcg),
+		state->sheet, TRUE, PRINT_ACTIVE_SHEET, NULL);
 	state->sheet->print_info = old_pi;
 }
 
@@ -1703,12 +1704,9 @@ cb_do_print_ok (PrinterSetupState *state)
 static void
 cb_do_print (PrinterSetupState *state)
 {
-	WBCGtk *wbcg = state->wbcg;
-	Sheet *sheet = state->sheet;
-
 	cb_do_print_ok (state);
-
-	gnm_print_sheet (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET, NULL);
+	gnm_print_sheet (WORKBOOK_CONTROL (state->wbcg),
+		state->sheet, FALSE, PRINT_ACTIVE_SHEET, NULL);
 }
 
 static void
@@ -1918,13 +1916,6 @@ do_fetch_scale (PrinterSetupState *state)
 			gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (w));
 	}
 }
-
-static double
-get_margin (UnitInfo *ui)
-{
-	return ui->value;
-}
-
 
 /**
  * Header and footer are stored with Excel semantics, but displayed with

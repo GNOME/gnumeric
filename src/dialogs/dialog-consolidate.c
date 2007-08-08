@@ -38,7 +38,7 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 #include <widgets/gnm-dao.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <dao-gui-utils.h>
 #include <tools/dao.h>
 #include <gtk/gtkcombobox.h>

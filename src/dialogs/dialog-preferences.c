@@ -33,6 +33,8 @@
 #include "value.h"
 #include <gnm-format.h>
 #include "workbook.h"
+#include "workbook-control.h"
+#include "wbc-gtk.h"
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-cell-renderer-text.h"

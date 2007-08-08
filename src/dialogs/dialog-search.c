@@ -36,7 +36,7 @@
 #include <cell.h>
 #include <value.h>
 #include <parse-util.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <sheet-object-cell-comment.h>
 #include <selection.h>
 

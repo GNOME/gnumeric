@@ -29,7 +29,7 @@
 #include <gui-util.h>
 #include <search.h>
 #include <widgets/gnumeric-expr-entry.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <selection.h>
 
 #include <glade/glade.h>

@@ -46,7 +46,7 @@
 #include <application.h>
 #include <validation.h>
 #include <workbook.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <workbook-view.h>
 #include <commands.h>
 #include <mathfunc.h>

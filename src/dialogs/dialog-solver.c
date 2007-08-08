@@ -35,7 +35,7 @@
 #include <value.h>
 #include <cell.h>
 #include <sheet.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <workbook.h>
 #include <parse-util.h>
 #include <ranges.h>

@@ -30,7 +30,7 @@
 #include <commands.h>
 #include <workbook-control.h>
 #include <workbook.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 
 #include <glade/glade.h>
 #include <gtk/gtkframe.h>

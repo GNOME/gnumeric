@@ -32,7 +32,7 @@
 
 #include <workbook.h>
 #include <workbook-control.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <workbook-view.h>
 #include <gui-util.h>
 #include <parse-util.h>

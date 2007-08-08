@@ -25,8 +25,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 
-#include <workbook-edit.h>
-#include <workbook-control-gui.h>
+#include <wbc-gtk.h>
 #include <gui-util.h>
 #include <clipboard.h>
 #include <dependent.h>

@@ -28,7 +28,7 @@
 #include <gui-util.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <workbook-priv.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtknotebook.h>

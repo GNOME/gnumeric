@@ -31,7 +31,6 @@
 
 #include "value.h"
 #include "gui-util.h"
-#include "workbook-control-gui.h"
 #include "selection.h"
 #include <widgets/gnm-dao.h>
 

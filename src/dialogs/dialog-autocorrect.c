@@ -37,7 +37,7 @@
 
 #include <auto-correct.h>
 #include <gui-util.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>

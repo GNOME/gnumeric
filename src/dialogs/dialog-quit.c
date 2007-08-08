@@ -21,19 +21,23 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include <gui-file.h>
 #include <gui-util.h>
 #include <workbook.h>
+#include <wbc-gtk.h>
 #include <gui-clipboard.h>
 #include <application.h>
-#include <gtk/gtk.h>
-#include <string.h>
+
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-doc.h>
+#include <gtk/gtk.h>
+
+#include <glib/gi18n-lib.h>
+
+#include <string.h>
 
 enum {
 	RESPONSE_ALL = 1,
@@ -324,8 +328,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 		if (save) {
 			gboolean ok;
 			Workbook *wb = WORKBOOK (doc);
-			WBCGtk *wbcg2 = wbcg_find_for_workbook 
-				(wb, wbcg, NULL, NULL);
+			WBCGtk *wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
 			ok = wbcg2 && gui_file_save (wbcg2, wb_control_view (WORKBOOK_CONTROL (wbcg2)));
 			if (!ok)

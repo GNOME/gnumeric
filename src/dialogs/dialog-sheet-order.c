@@ -32,8 +32,7 @@
 #include "help.h"
 
 #include <gui-util.h>
-#include <workbook-control-gui.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>

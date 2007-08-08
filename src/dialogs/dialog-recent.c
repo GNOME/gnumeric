@@ -24,6 +24,7 @@
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include <wbc-gtk.h>
 #include <gui-file.h>
 #include <gtk/gtk.h>
 #include <string.h>

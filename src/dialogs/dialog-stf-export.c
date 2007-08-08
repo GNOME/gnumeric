@@ -26,6 +26,8 @@
 
 #include <command-context.h>
 #include <workbook.h>
+#include <workbook-control.h>
+#include <wbc-gtk.h>
 #include <sheet.h>
 #include <gui-util.h>
 #include <goffice/gtk/go-charmap-sel.h>

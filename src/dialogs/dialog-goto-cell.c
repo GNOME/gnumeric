@@ -37,7 +37,7 @@
 #include <sheet.h>
 #include <workbook-view.h>
 
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>

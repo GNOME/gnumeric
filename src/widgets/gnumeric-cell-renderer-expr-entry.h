@@ -20,8 +20,8 @@
 #define __GNUMERIC_CELL_RENDERER_EXPR_ENTRY_H__
 
 #include "gnumeric-cell-renderer-text.h"
-#include "workbook-control-gui.h"
 #include "gnumeric-expr-entry.h"
+#include <gui-gnumeric.h>
 
 G_BEGIN_DECLS
 

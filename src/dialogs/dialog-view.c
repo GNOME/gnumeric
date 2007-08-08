@@ -19,16 +19,17 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
 #include "application.h"
 #include <glade/glade.h>
 #include <gui-util.h>
-#include <workbook-control-gui.h>
+#include <wbc-gtk.h>
+
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtkbox.h>
+#include <glib/gi18n-lib.h>
 
 #define VIEW_DIALOG_KEY "view-dialog"
 

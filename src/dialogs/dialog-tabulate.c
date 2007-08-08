@@ -32,7 +32,7 @@
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <tools/tabulate.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include "ranges.h"
 #include "value.h"
 #include "sheet.h"

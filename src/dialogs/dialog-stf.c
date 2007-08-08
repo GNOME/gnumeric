@@ -25,6 +25,7 @@
 #include "dialog-stf.h"
 
 #include <gnm-format.h>
+#include <wbc-gtk.h>
 #include <command-context.h>
 #include <gui-util.h>
 #include <sheet-style.h>

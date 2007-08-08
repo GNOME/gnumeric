@@ -26,9 +26,11 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
-
 #include <workbook.h>
+#include <workbook-control.h>
+#include <wbc-gtk.h>
 #include <gui-util.h>
+
 #include <goffice/app/go-doc.h>
 #include <glib/gi18n-lib.h>
 

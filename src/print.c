@@ -13,8 +13,6 @@
  * Handles printing of Sheets.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
-#include <gtk/gtk.h>
 #include "print-cell.h"
 
 #include "gnumeric.h"
@@ -26,7 +24,7 @@
 #include "selection.h"
 #include "workbook.h"
 #include "workbook-control.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 #include "command-context.h"
 #include "dialogs.h"
 #include "gnumeric-gconf.h"
@@ -43,9 +41,14 @@
 #include "gnumeric-gconf.h"
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-glib-extras.h>
-#include <unistd.h>
+
+#include <gtk/gtk.h>
+
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <glib/gfileutils.h>
+
+#include <unistd.h>
 #include <errno.h>
 
 /*  The following structure is used by the printing system */
@@ -1370,7 +1373,7 @@ gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
 }
 
 void
-gnm_print_sheet (WBCGtk *wbcg, Sheet *sheet,
+gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		 gboolean preview, PrintRange default_range,
 		 GsfOutput *export_dst)
 {
@@ -1388,7 +1391,7 @@ gnm_print_sheet (WBCGtk *wbcg, Sheet *sheet,
 
   pi = printing_instance_new ();
   pi->wb = sheet->workbook;
-  pi->wbc = wbcg ? WORKBOOK_CONTROL (wbcg) : NULL;
+  pi->wbc = wbc ? WORKBOOK_CONTROL (wbc) : NULL;
   pi->sheet = sheet;
 
   gnm_gconf_init_printer_defaults ();
@@ -1430,7 +1433,8 @@ gnm_print_sheet (WBCGtk *wbcg, Sheet *sheet,
 	  parent = NULL;
 	  gtk_print_operation_set_show_progress (print, FALSE);
   } else {
-	  parent = wbcg_toplevel (wbcg);
+	  if (NULL != wbc  && IS_WBC_GTK(wbc))
+		  parent = wbcg_toplevel (WBC_GTK (wbc));
 	  action = preview
 		  ? GTK_PRINT_OPERATION_ACTION_PREVIEW
 		  : GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;

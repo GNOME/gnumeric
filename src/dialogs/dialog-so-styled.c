@@ -27,7 +27,7 @@
 #include "gui-gnumeric.h"
 #include "gui-util.h"
 #include "dialogs/help.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 #include "commands.h"
 #include "sheet-object.h"
 #include <goffice/app/go-cmd-context.h>

@@ -40,7 +40,7 @@
 #include <command-context.h>
 #include <workbook-control.h>
 #include <workbook.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <commands.h>
 #include <selection.h>
 #include <ranges.h>

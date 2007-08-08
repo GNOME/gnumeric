@@ -33,7 +33,7 @@
 #include <func.h>
 #include <workbook.h>
 #include <str.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <application.h>
 #include <gnumeric-gconf.h>
 

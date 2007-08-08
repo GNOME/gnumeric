@@ -39,7 +39,7 @@
 #include <sort.h>
 #include <sheet.h>
 #include <sheet-view.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <gnumeric-gconf.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 #include <widgets/gnumeric-expr-entry.h>

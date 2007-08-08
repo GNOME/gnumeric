@@ -33,7 +33,7 @@
 #include <commands.h>
 #include <ranges.h>
 #include <cmd-edit.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <command-context.h>
 
 #include <glade/glade.h>

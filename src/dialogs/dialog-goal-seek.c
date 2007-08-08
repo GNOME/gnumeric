@@ -41,7 +41,7 @@
 #include <parse-util.h>
 #include <workbook.h>
 #include <workbook-control.h>
-#include <workbook-edit.h>
+#include <wbc-gtk.h>
 #include <workbook-view.h>
 #include <goal-seek.h>
 #include <mathfunc.h>
