@@ -3,7 +3,7 @@
 /*
  * wbc-gtk.c: A gtk based WorkbookControl
  *
- * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
  * Copyright (C) 2006 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -98,8 +98,6 @@ enum {
 
 #ifndef HILDON
 char const *uifilename = NULL;
-GtkActionEntry const *extra_actions = NULL;
-int nb_extra_actions = 0;
 #endif
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
@@ -1715,7 +1713,7 @@ settings_get_font_desc (GtkSettings *settings)
 }
 
 static void
-cb_update_item_bar_font (GtkWidget *w, gpointer unused)
+cb_update_item_bar_font (GtkWidget *w)
 {
 	SheetControl *sc = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
 	sc_resize (sc, TRUE);
@@ -1729,7 +1727,7 @@ cb_desktop_font_changed (GtkSettings *settings, GParamSpec  *pspec,
 		pango_font_description_free (wbcg->font_desc);
 	wbcg->font_desc = settings_get_font_desc (settings);
 	gtk_container_foreach (GTK_CONTAINER (wbcg->notebook),
-			       cb_update_item_bar_font, NULL);
+		cb_update_item_bar_font, NULL);
 }
 
 static GtkSettings *
@@ -1737,63 +1735,6 @@ wbcg_get_gtk_settings (WBCGtk *wbcg)
 {
 	GdkScreen *screen = gtk_widget_get_screen (wbcg->table);
 	return gtk_settings_get_for_screen (screen);
-}
-
-PangoFontDescription *
-wbcg_get_font_desc (WBCGtk *wbcg)
-{
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
-
-	if (!wbcg->font_desc) {
-		GtkSettings *settings = wbcg_get_gtk_settings (wbcg);
-		wbcg->font_desc = settings_get_font_desc (settings);
-		g_signal_connect (settings, "notify::gtk-font-name",
-				  G_CALLBACK (cb_desktop_font_changed), wbcg);
-	}
-	return wbcg->font_desc;
-}
-
-WBCGtk *
-wbcg_find_for_workbook (Workbook *wb,
-			WBCGtk *candidate,
-			GdkScreen *pref_screen,
-			GdkDisplay *pref_display)
-{
-	gboolean has_screen, has_display;
-
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-	g_return_val_if_fail (candidate == NULL || IS_WBC_GTK (candidate), NULL);
-
-	if (candidate && wb_control_get_workbook (WORKBOOK_CONTROL (candidate)) == wb)
-		return candidate;
-
-	if (!pref_screen && candidate)
-		pref_screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (candidate)));
-
-	if (!pref_display && pref_screen)
-		pref_display = gdk_screen_get_display (pref_screen);
-
-	candidate = NULL;
-	has_screen = FALSE;
-	has_display = FALSE;
-	WORKBOOK_FOREACH_CONTROL(wb, wbv, wbc, {
-		if (IS_WBC_GTK (wbc)) {
-			WBCGtk *wbcg = WBC_GTK (wbc);
-			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (wbcg)));
-			GdkDisplay *display = gdk_screen_get_display (screen);
-
-			if (pref_screen == screen && !has_screen) {
-				has_screen = has_display = TRUE;
-				candidate = wbcg;
-			} else if (pref_display == display && !has_display) {
-				has_display = TRUE;
-				candidate = wbcg;
-			} else if (!candidate)
-				candidate = wbcg;
-		}
-	});
-
-	return candidate;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -2858,7 +2799,7 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 	if (changes)
 		wbc_gtk_style_feedback_real (wbc, changes);
 	else if (0 == wbcg->idle_update_style_feedback)
-		wbcg->idle_update_style_feedback = g_timeout_add (400,
+		wbcg->idle_update_style_feedback = g_timeout_add (200,
 			(GSourceFunc) cb_wbc_gtk_style_feedback, wbc);
 }
 
@@ -4471,8 +4412,6 @@ wbc_gtk_init (GObject *obj)
 	gtk_widget_show_all (wbcg->everything);
 
 	wbc_gtk_init_actions (wbcg);
-	if (extra_actions)
-		gtk_action_group_add_actions (wbcg->actions, extra_actions, nb_extra_actions, wbcg);
 
 	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
 		act = gtk_action_group_get_action (
@@ -4565,7 +4504,7 @@ wbc_gtk_init (GObject *obj)
 }
 
 GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,
-	wbc_gtk_init, WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
+	wbc_gtk_init, WORKBOOK_CONTROL_TYPE, 0,
 	GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
 	GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
 
@@ -4692,5 +4631,62 @@ Sheet *
 wbcg_cur_sheet (WBCGtk *wbcg)
 {
 	return wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+}
+
+PangoFontDescription *
+wbcg_get_font_desc (WBCGtk *wbcg)
+{
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+
+	if (!wbcg->font_desc) {
+		GtkSettings *settings = wbcg_get_gtk_settings (wbcg);
+		wbcg->font_desc = settings_get_font_desc (settings);
+		g_signal_connect (settings, "notify::gtk-font-name",
+				  G_CALLBACK (cb_desktop_font_changed), wbcg);
+	}
+	return wbcg->font_desc;
+}
+
+WBCGtk *
+wbcg_find_for_workbook (Workbook *wb,
+			WBCGtk *candidate,
+			GdkScreen *pref_screen,
+			GdkDisplay *pref_display)
+{
+	gboolean has_screen, has_display;
+
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (candidate == NULL || IS_WBC_GTK (candidate), NULL);
+
+	if (candidate && wb_control_get_workbook (WORKBOOK_CONTROL (candidate)) == wb)
+		return candidate;
+
+	if (!pref_screen && candidate)
+		pref_screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (candidate)));
+
+	if (!pref_display && pref_screen)
+		pref_display = gdk_screen_get_display (pref_screen);
+
+	candidate = NULL;
+	has_screen = FALSE;
+	has_display = FALSE;
+	WORKBOOK_FOREACH_CONTROL(wb, wbv, wbc, {
+		if (IS_WBC_GTK (wbc)) {
+			WBCGtk *wbcg = WBC_GTK (wbc);
+			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (wbcg_toplevel (wbcg)));
+			GdkDisplay *display = gdk_screen_get_display (screen);
+
+			if (pref_screen == screen && !has_screen) {
+				has_screen = has_display = TRUE;
+				candidate = wbcg;
+			} else if (pref_display == display && !has_display) {
+				has_display = TRUE;
+				candidate = wbcg;
+			} else if (!candidate)
+				candidate = wbcg;
+		}
+	});
+
+	return candidate;
 }
 

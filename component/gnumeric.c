@@ -78,9 +78,9 @@ G_MODULE_EXPORT void go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc);
 typedef struct {
 	GOComponent parent;
 
-	WorkbookView *wv;
-	WBCGtk *edited;
-	Sheet *sheet;
+	WorkbookView	*wv;
+	WorkbookControl *edited;
+	Sheet		*sheet;
 	int col_start, col_end, row_start, row_end;
 	int width, height;
 } GOGnmComponent;
@@ -104,8 +104,8 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 		GOCmdContext *cc = go_component_get_command_context ();
 		IOContext *io_context = gnumeric_io_context_new (cc);
 		GsfOutput *output = gsf_output_memory_new ();
-		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (gognm->edited));
-		Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (gognm->edited));
+		WorkbookView *wbv = wb_control_view (gognm->edited);
+		Workbook *wb = wb_control_get_workbook (gognm->edited);
 		GOFileSaver *gfs = workbook_get_file_saver (wb);
 		if (gfs == NULL)
 			gfs = go_file_saver_get_default ();
@@ -368,8 +368,6 @@ cb_gognm_save (GtkAction *a, WBCGtk *wbcg)
 }
 
 extern char const *uifilename;
-extern GtkActionEntry const *extra_actions;
-extern int nb_extra_actions;
 static GtkActionEntry const actions[] = {
 /* File */
 	{ "FileSaveEmbed", GTK_STOCK_SAVE, NULL,
@@ -378,7 +376,7 @@ static GtkActionEntry const actions[] = {
 };
 
 static void
-editor_destroyed_cb (GOGnmComponent *gognm)
+cb_editor_destroyed (GOGnmComponent *gognm)
 {
 	gognm->edited = NULL;
 }
@@ -389,7 +387,7 @@ go_gnm_component_edit (GOComponent *component)
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	WorkbookView *wv;
 	if (gognm->edited) {
-		gdk_window_raise (gognm->edited->toplevel->window);
+		gdk_window_raise (wbcg_toplevel (WBC_GTK (gognm->edited))->window);
 		return TRUE;
 	}
 	if (!gognm->wv) {
@@ -407,12 +405,13 @@ go_gnm_component_edit (GOComponent *component)
 		g_object_unref (io_context);
 	}
 	uifilename =  "Gnumeric-embed.xml";
-	extra_actions = actions;
-	nb_extra_actions = G_N_ELEMENTS (actions);
-	gognm->edited = WBC_GTK (workbook_control_gui_new (wv, NULL, NULL));
+	gognm->edited = workbook_control_gui_new (wv, NULL, NULL);
+	gtk_action_group_add_actions (wbcg->actions,
+		actions, G_N_ELEMENTS (actions), wbcg);
+
 	g_object_set_data (G_OBJECT (gognm->edited), "component", gognm);
 	g_signal_connect_swapped (gognm->edited->toplevel, "destroy",
-					G_CALLBACK (editor_destroyed_cb), gognm);
+		G_CALLBACK (cb_editor_destroyed), gognm);
 	return TRUE;
 }
 

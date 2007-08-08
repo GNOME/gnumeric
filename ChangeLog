@@ -5,6 +5,11 @@
 	gog_graph_render_to_cairo for full vector output (no metric rounding).
 	Fixes #381682.
 
+2007-08-07  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_style_feedback) : 400 -> 200 to make things a
+	  bit zippier.
+
 2007-08-06  Morten Welinder  <terra@gnome.org>
 
 	* *.c: Use go_slist_free_custom and go_list_free_custom as
