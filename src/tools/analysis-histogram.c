@@ -54,6 +54,8 @@
 #include "analysis-tools.h"
 #include "analysis-histogram.h"
 
+#include <goffice/utils/go-glib-extras.h>
+
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
