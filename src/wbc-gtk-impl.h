@@ -14,7 +14,7 @@
 #include <hildon-widgets/hildon-program.h>
 #endif
 
-struct _WorkbookControlGUI {
+struct _WBCGtk {
 	WorkbookControl	wb_control;
 
 	GtkWidget   *toplevel;
@@ -87,25 +87,6 @@ typedef struct {
 
 	/* signals */
 	void (*markup_changed)		(WorkbookControlGUI const *wbcg);
-
-	/* virtuals */
-	void (*create_status_area)	(WorkbookControlGUI *wbcg, GtkWidget *progress,
-					 GtkWidget *status, GtkWidget *autoexpr);
-	void (*actions_sensitive)	(WorkbookControlGUI *wbcg,
-					 gboolean actions, gboolean font_actions);
-	void (*set_zoom_label)		(WorkbookControlGUI const *wbcg, char const *label);
-	void (*reload_recent_file_menu)	(WorkbookControlGUI const *wbcg);
-	void (*set_action_sensitivity)  (WorkbookControlGUI const *wbcg,
-					 char const *action,
-					 gboolean sensitive);
-	void (*set_action_label)        (WorkbookControlGUI const *wbcg,
-					 char const *action,
-					 char const *prefix,
-					 char const *suffix,
-					 char const *new_tip);
-	void (*set_toggle_action_state) (WorkbookControlGUI const *wbcg,
-					 char const *action,
-					 gboolean state);
 } WorkbookControlGUIClass;
 
 #define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUIClass))
