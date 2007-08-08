@@ -1,3 +1,8 @@
+2007-08-08  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object.c (sheet_objects_relocate): Don't update the
+	cell_bound for objects that get translated out of the sheet.
+
 2007-08-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_insert_rows): Plug leak.

@@ -15,6 +15,7 @@ Jody:
 Morten:
 	* Fix undo column/row insert/delete for arrays.  [#463834]
 	* Fix undo column/row delete for objects.
+	* Fix undo of sheet objects pushed off the sheet.
 	* Fix auto-correct issue.  [#463996]
 
 --------------------------------------------------------------------------

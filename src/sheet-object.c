@@ -736,19 +736,20 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 	ptr = rinfo->origin_sheet->sheet_objects;
 	for (; ptr != NULL ; ptr = next ) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
-		GnmRange       *r  = &so->anchor.cell_bound;
+		GnmRange r = so->anchor.cell_bound;
 
 		next = ptr->next;
 		if (update && 0 == (so->flags & SHEET_OBJECT_MOVE_WITH_CELLS))
 			continue;
-		if (range_contains (&rinfo->origin,
-				    r->start.col, r->start.row)) {
+		if (range_contains (&rinfo->origin, r.start.col, r.start.row)) {
 			/* FIXME : just moving the range is insufficent for all anchor types */
 			/* Toss any objects that would be clipped. */
-			if (range_translate (r, rinfo->col_offset, rinfo->row_offset)) {
+			if (range_translate (&r, rinfo->col_offset, rinfo->row_offset)) {
 				clear_sheet (so, pundo);
 				continue;
 			}
+			so->anchor.cell_bound = r;
+
 			if (change_sheets) {
 				g_object_ref (so);
 				sheet_object_clear_sheet (so);
@@ -757,7 +758,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 			} else if (update)
 				sheet_object_update_bounds (so, NULL);
 		} else if (!change_sheets &&
-			   range_contains (&dest, r->start.col, r->start.row)) {
+			   range_contains (&dest, r.start.col, r.start.row)) {
 			clear_sheet (so, pundo);
 			continue;
 		}
