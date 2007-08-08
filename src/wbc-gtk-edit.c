@@ -47,7 +47,7 @@
  * Shuts down the auto completion engine
  */
 void
-wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
+wbcg_auto_complete_destroy (WBCGtk *wbcg)
 {
 	g_free (wbcg->auto_complete_text);
 	wbcg->auto_complete_text = NULL;
@@ -68,14 +68,14 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 /**
  * wbcg_edit_finish :
- * @wbcg : #WorkbookControlGUI
+ * @wbcg : #WBCGtk
  * @result : what should we do with the content
  * @showed_dialog : If non-NULL will indicate if a dialog was displayed.
  *
  * Return TRUE if editing completed successfully, or we were no editing.
  **/
 gboolean
-wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
+wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		  gboolean *showed_dialog)
 {
 	Sheet *sheet;
@@ -83,7 +83,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 	WorkbookControl *wbc;
 	WorkbookView	*wbv;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
 
 	wbc = WORKBOOK_CONTROL (wbcg);
 	wbv = wb_control_view (wbc);
@@ -302,7 +302,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 static void
 workbook_edit_complete_notify (char const *text, void *closure)
 {
-	WorkbookControlGUI *wbcg = closure;
+	WBCGtk *wbcg = closure;
 	SheetControlGUI    *scg  = wbcg_cur_scg (wbcg);
 
 	g_free (wbcg->auto_complete_text);
@@ -314,7 +314,7 @@ workbook_edit_complete_notify (char const *text, void *closure)
 }
 
 static void
-cb_entry_changed (GtkEntry *entry, WorkbookControlGUI *wbcg)
+cb_entry_changed (GtkEntry *entry, WBCGtk *wbcg)
 {
 	char const *text;
 	int text_len;
@@ -406,7 +406,7 @@ cb_entry_insert_text (GtkEditable *editable,
 		      gchar const *text,
 		      gint         len_bytes,
 		      gint        *pos_in_chars,
-		      WorkbookControlGUI *wbcg)
+		      WBCGtk *wbcg)
 {
 	char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
 	int pos_in_bytes = g_utf8_offset_to_pointer (str, *pos_in_chars) - str;
@@ -454,7 +454,7 @@ attrs_at_byte (PangoAttrList *alist, guint bytepos)
 
 /* Find the markup to be used for new characters.  */
 static void
-set_cur_fmt (WorkbookControlGUI *wbcg, int target_pos_in_bytes)
+set_cur_fmt (WBCGtk *wbcg, int target_pos_in_bytes)
 {
 	PangoAttrList *new_list = pango_attr_list_new ();
 	GSList *ptr, *attrs = attrs_at_byte (wbcg->edit_line.markup, target_pos_in_bytes);
@@ -472,7 +472,7 @@ set_cur_fmt (WorkbookControlGUI *wbcg, int target_pos_in_bytes)
 }
 
 static void
-cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
+cb_entry_cursor_pos (WBCGtk *wbcg)
 {
 	guint start, end, target_pos_in_chars, target_pos_in_bytes;
 	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
@@ -566,7 +566,7 @@ static void
 cb_entry_delete_text (GtkEditable    *editable,
 		      gint            start_pos,
 		      gint            end_pos,
-		      WorkbookControlGUI *wbcg)
+		      WBCGtk *wbcg)
 {
 	if (wbcg->auto_completing) {
 		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
@@ -598,7 +598,7 @@ cb_entry_delete_text (GtkEditable    *editable,
 }
 
 static void
-wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
+wbcg_edit_init_markup (WBCGtk *wbcg, PangoAttrList *markup)
 {
 	SheetView const *sv  = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	char const *text = gtk_entry_get_text (wbcg_get_entry (wbcg));
@@ -615,13 +615,13 @@ wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 
 /**
  * wbcg_edit_add_markup :
- * @wbcg : #WorkbookControlGUI
+ * @wbcg : #WBCGtk
  * @attr : #PangoAttribute
  *
  * Absorb the ref to @attr and merge it into the list
  **/
 void
-wbcg_edit_add_markup (WorkbookControlGUI *wbcg, PangoAttribute *attr)
+wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
 {
 	GObject *entry = (GObject *)wbcg_get_entry (wbcg);
 	if (wbcg->edit_line.full_content == NULL)
@@ -648,13 +648,13 @@ wbcg_edit_add_markup (WorkbookControlGUI *wbcg, PangoAttribute *attr)
 
 /**
  * wbcg_edit_get_markup :
- * @wbcg : #WorkbookControlGUI
+ * @wbcg : #WBCGtk
  *
  * Returns a potentially NULL PangoAttrList of the current markup while
  * editing.  The list belongs to @wbcg and should not be freed.
  **/
 PangoAttrList *
-wbcg_edit_get_markup (WorkbookControlGUI *wbcg, gboolean full)
+wbcg_edit_get_markup (WBCGtk *wbcg, gboolean full)
 {
 	return full ? wbcg->edit_line.full_content : wbcg->edit_line.markup;
 }
@@ -716,7 +716,7 @@ cb_warn_toggled (GtkToggleButton *button, gboolean *b)
  * cell-to-be-edited was locked.
  */
 gboolean
-wbcg_edit_start (WorkbookControlGUI *wbcg,
+wbcg_edit_start (WBCGtk *wbcg,
 		 gboolean blankp, gboolean cursorp)
 {
 	/*
@@ -733,7 +733,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	WorkbookView *wbv;
 	int cursor_pos = -1;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
 
 	if (wbcg_is_editing (wbcg))
 		return TRUE;
@@ -999,12 +999,12 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 /**
  * wbcg_get_entry :
- * @WorkbookControlGUI : @wbcg
+ * @WBCGtk : @wbcg
  *
  * Returns the #GtkEntry associated with the current GnmExprEntry
  **/
 GtkEntry *
-wbcg_get_entry (WorkbookControlGUI const *wbcg)
+wbcg_get_entry (WBCGtk const *wbcg)
 {
 	g_return_val_if_fail (wbcg != NULL, NULL);
 
@@ -1013,13 +1013,13 @@ wbcg_get_entry (WorkbookControlGUI const *wbcg)
 
 /**
  * wbcg_get_entry_logical :
- * @WorkbookControlGUI : @wbcg
+ * @WBCGtk : @wbcg
  *
  * Returns the logical (allowing redirection via wbcg_set_entry for gurus)
  * #GnmExprEntry 
  **/
 GnmExprEntry *
-wbcg_get_entry_logical (WorkbookControlGUI const *wbcg)
+wbcg_get_entry_logical (WBCGtk const *wbcg)
 {
 	g_return_val_if_fail (wbcg != NULL, NULL);
 
@@ -1031,12 +1031,12 @@ wbcg_get_entry_logical (WorkbookControlGUI const *wbcg)
 
 /**
  * wbcg_get_entry_underlying :
- * @wbcg : #WorkbookControlGUI
+ * @wbcg : #WBCGtk
  *
  * Returns the #GtkEntry associated with the logical #GnmExprEntry.
  **/
 GtkWidget *
-wbcg_get_entry_underlying (WorkbookControlGUI const *wbcg)
+wbcg_get_entry_underlying (WBCGtk const *wbcg)
 {
 	GnmExprEntry *ee    = wbcg_get_entry_logical (wbcg);
 	GtkEntry     *entry = gnm_expr_entry_get_entry (ee);
@@ -1044,9 +1044,9 @@ wbcg_get_entry_underlying (WorkbookControlGUI const *wbcg)
 }
 
 void
-wbcg_set_entry (WorkbookControlGUI *wbcg, GnmExprEntry *entry)
+wbcg_set_entry (WBCGtk *wbcg, GnmExprEntry *entry)
 {
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	if (wbcg->edit_line.temp_entry != entry) {
 		scg_rangesel_stop (wbcg_cur_scg (wbcg), FALSE);
@@ -1056,23 +1056,23 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnmExprEntry *entry)
 
 /**
  * wbcg_entry_has_logical :
- * @wbcg : #WorkbookControlGUI
+ * @wbcg : #WBCGtk
  *
  * Returns TRUE if wbcg_set_entry has redirected the edit_entry.
  **/
 gboolean
-wbcg_entry_has_logical (WorkbookControlGUI const *wbcg)
+wbcg_entry_has_logical (WBCGtk const *wbcg)
 {
 	return (wbcg->edit_line.temp_entry != NULL);
 }
 
 static void
-wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
+wbcg_edit_attach_guru_main (WBCGtk *wbcg, GtkWidget *guru)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 	g_return_if_fail (wbcg->edit_line.guru == NULL);
 
 	/* Make sure we don't have anything anted.
@@ -1091,7 +1091,7 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 
 static void
 cb_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		   WorkbookControlGUI *wbcg)
+		   WBCGtk *wbcg)
 {
 	GnmExprEntry *gee = NULL;
 	if (focus_widget != NULL && IS_GNM_EXPR_ENTRY (focus_widget->parent))
@@ -1100,10 +1100,10 @@ cb_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 }
 
 void
-wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
+wbcg_edit_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 {
 	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	wbcg_edit_attach_guru_main (wbcg, guru);
 
@@ -1113,11 +1113,11 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 }
 
 void
-wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *guru,
+wbcg_edit_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 					 GnmExprEntry *gee)
 {
 	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	wbcg_edit_attach_guru_main (wbcg, guru);
 
@@ -1131,10 +1131,10 @@ wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *gu
 }
 
 void
-wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
+wbcg_edit_detach_guru (WBCGtk *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	/* don't sit end 'End' mode when a dialog comes up */
 	wbcg_set_end_mode (wbcg, FALSE);
@@ -1149,19 +1149,19 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 }
 
 GtkWidget *
-wbcg_edit_get_guru (WorkbookControlGUI const *wbcg)
+wbcg_edit_get_guru (WBCGtk const *wbcg)
 {
 	return wbcg->edit_line.guru;
 }
 
 gboolean
-wbcg_auto_completing (WorkbookControlGUI const *wbcg)
+wbcg_auto_completing (WBCGtk const *wbcg)
 {
 	return wbcg->auto_completing;
 }
 
 static gboolean
-auto_complete_matches (WorkbookControlGUI *wbcg)
+auto_complete_matches (WBCGtk *wbcg)
 {
 	if (!wbcg->auto_completing || wbcg->auto_complete_text == NULL)
 		return FALSE;
@@ -1178,7 +1178,7 @@ auto_complete_matches (WorkbookControlGUI *wbcg)
  * into account the auto-completion text.
  */
 char const *
-wbcg_edit_get_display_text (WorkbookControlGUI *wbcg)
+wbcg_edit_get_display_text (WBCGtk *wbcg)
 {
 	if (auto_complete_matches (wbcg))
 		return wbcg->auto_complete_text;
@@ -1188,9 +1188,9 @@ wbcg_edit_get_display_text (WorkbookControlGUI *wbcg)
 
 /* Initializes the Workbook entry */
 void
-wbcg_edit_ctor (WorkbookControlGUI *wbcg)
+wbcg_edit_ctor (WBCGtk *wbcg)
 {
-	g_assert (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_assert (IS_WBC_GTK (wbcg));
 	g_assert (wbcg->edit_line.entry == NULL);
 
 	wbcg->edit_line.entry = g_object_new (GNM_EXPR_ENTRY_TYPE,

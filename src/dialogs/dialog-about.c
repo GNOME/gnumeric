@@ -250,7 +250,7 @@ cb_about_animate (GnmAboutState *state)
 }
 
 void
-dialog_about (WorkbookControlGUI *wbcg)
+dialog_about (WBCGtk *wbcg)
 {
 	GnmAboutState *state;
 	GogObject *chart, *tmp;

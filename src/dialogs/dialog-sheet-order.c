@@ -57,7 +57,7 @@
 #define SHEET_ORDER_KEY          "sheet-order-dialog"
 
 typedef struct {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 
 	GladeXML  *gui;
 	GtkWidget *dialog;
@@ -986,7 +986,7 @@ cb_sheet_order_changed (Workbook *wb, SheetManager *state)
 }
 
 void
-dialog_sheet_order (WorkbookControlGUI *wbcg)
+dialog_sheet_order (WBCGtk *wbcg)
 {
 	SheetManager *state;
 	GladeXML *gui;

@@ -56,7 +56,7 @@
 
 
 typedef struct {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	Workbook  *wb;
 	SheetView *sv;
 	Sheet     *sheet;
@@ -1133,7 +1133,7 @@ dialog_init (SortFlowState *state)
  * Main entry point for the Cell Sort dialog box
  */
 void
-dialog_cell_sort (WorkbookControlGUI *wbcg)
+dialog_cell_sort (WBCGtk *wbcg)
 {
 	SortFlowState *state;
 	GladeXML *gui;

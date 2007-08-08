@@ -964,7 +964,7 @@ cb_dialog_pref_switch_page  (GtkNotebook *notebook,
 static char const * const startup_pages[] = {"1", "0"};
 
 void
-dialog_preferences (WorkbookControlGUI *wbcg, gint page)
+dialog_preferences (WBCGtk *wbcg, gint page)
 {
 	PrefState *state;
 	GladeXML *gui;

@@ -246,7 +246,7 @@ stf_dialog_editables_enter (StfDialogData *pagedata)
  * returns: A DialogStfResult_t struct on success, NULL otherwise.
  **/
 DialogStfResult_t*
-stf_dialog (WorkbookControlGUI *wbcg,
+stf_dialog (WBCGtk *wbcg,
 	    const char *opt_encoding,
 	    gboolean fixed_encoding,
 	    const char *opt_locale,

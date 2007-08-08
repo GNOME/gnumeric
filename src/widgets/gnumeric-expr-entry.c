@@ -50,7 +50,7 @@ struct _GnmExprEntry {
 	SheetControlGUI		*scg;	/* the source of the edit */
 	Sheet			*sheet;	/* from scg */
 	GnmParsePos		 pp;	/* from scg->sv */
-	WorkbookControlGUI	*wbcg;	/* from scg */
+	WBCGtk	*wbcg;	/* from scg */
 	Rangesel		 rangesel;
 
 	GnmExprEntryFlags	 flags;
@@ -302,7 +302,7 @@ gee_set_property (GObject      *object,
 		break;
 	case PROP_WBCG:
 		g_return_if_fail (gee->wbcg == NULL);
-		gee->wbcg = WORKBOOK_CONTROL_GUI (g_value_get_object (value));
+		gee->wbcg = WBC_GTK (g_value_get_object (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -363,7 +363,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			GdkEventKey	  *event,
 			GnmExprEntry *gee)
 {
-	WorkbookControlGUI *wbcg  = gee->wbcg;
+	WBCGtk *wbcg  = gee->wbcg;
 	int state = gnumeric_filter_modifiers (event->state);
 
 	switch (event->keyval) {
@@ -617,9 +617,9 @@ gee_class_init (GObjectClass *gobject_class)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_WBCG,
-		g_param_spec_object ("wbcg", "WorkbookControlGUI",
+		g_param_spec_object ("wbcg", "WBCGtk",
 			"The toplevel GUI container associated with the entry.",
-			WORKBOOK_CONTROL_GUI_TYPE,
+			WBC_GTK_TYPE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
@@ -992,7 +992,7 @@ gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 
 /**
  * gnm_expr_entry_new:
- * @wbcg : #WorkbookControlGUI non-NULL
+ * @wbcg : #WBCGtk non-NULL
  * @with_icon : append a rollup icon to the end of the entry
  *
  * Creates a new #GnmExprEntry, which is an entry widget with support
@@ -1003,7 +1003,7 @@ gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
  * Return value: a new #GnmExprEntry.
  **/
 GnmExprEntry *
-gnm_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
+gnm_expr_entry_new (WBCGtk *wbcg, gboolean with_icon)
 {
 	return g_object_new (GNM_EXPR_ENTRY_TYPE,
 			     "scg",	  wbcg_cur_scg (wbcg),

@@ -414,7 +414,7 @@ gnm_soi_write_image (SheetObject const *so, char const *format, double resolutio
 static void
 soi_cb_save_as (SheetObject *so, SheetControl *sc)
 {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	char *uri;
 	GsfOutput *output;
 	GSList *l = NULL;

@@ -79,7 +79,7 @@ typedef struct {
 	GOComponent parent;
 
 	WorkbookView *wv;
-	WorkbookControlGUI *edited;
+	WBCGtk *edited;
 	Sheet *sheet;
 	int col_start, col_end, row_start, row_end;
 	int width, height;
@@ -361,7 +361,7 @@ go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
 #endif
 
 static void
-cb_gognm_save (GtkAction *a, WorkbookControlGUI *wbcg)
+cb_gognm_save (GtkAction *a, WBCGtk *wbcg)
 {
 	GOComponent *component = GO_COMPONENT (g_object_get_data (G_OBJECT (wbcg), "component"));
 	go_component_emit_changed (component);
@@ -409,7 +409,7 @@ go_gnm_component_edit (GOComponent *component)
 	uifilename =  "Gnumeric-embed.xml";
 	extra_actions = actions;
 	nb_extra_actions = G_N_ELEMENTS (actions);
-	gognm->edited = WORKBOOK_CONTROL_GUI (workbook_control_gui_new (wv, NULL, NULL));
+	gognm->edited = WBC_GTK (workbook_control_gui_new (wv, NULL, NULL));
 	g_object_set_data (G_OBJECT (gognm->edited), "component", gognm);
 	g_signal_connect_swapped (gognm->edited->toplevel, "destroy",
 					G_CALLBACK (editor_destroyed_cb), gognm);

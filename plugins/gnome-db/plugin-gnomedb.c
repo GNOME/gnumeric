@@ -1,12 +1,8 @@
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
-#include <glib.h>
-
-#include <workbook-control-gui.h>
+#include <wbc-gtk.h>
 #include <gui-util.h>
 #include <gnm-plugin.h>
-#include <goffice/app/go-plugin.h>
-#include <gnm-plugin.h>
+#include <glib/gi18n-lib.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -21,7 +17,7 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 			    NULL, NULL, NULL, NULL))
-		go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)),
+		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)),
 				 GTK_MESSAGE_INFO, 
 				 _("Could not run GNOME database configuration tool"));
 }

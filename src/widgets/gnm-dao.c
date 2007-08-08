@@ -48,7 +48,7 @@ struct  _GnmDao {
         GtkWidget *retain_comments_button;
         GtkWidget *put_menu;
 
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 };
 
 typedef struct {
@@ -233,7 +233,7 @@ gnm_dao_setup_signals (GnmDao *gdao)
 }
 
 GtkWidget *
-gnm_dao_new (WorkbookControlGUI *wbcg, gchar *inplace_str)
+gnm_dao_new (WBCGtk *wbcg, gchar *inplace_str)
 {
 	GnmDao *gdao = GNM_DAO (g_object_new (GNM_DAO_TYPE, NULL));
 	GtkTable *table;

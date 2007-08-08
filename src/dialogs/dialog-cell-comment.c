@@ -35,7 +35,7 @@
 #define COMMENT_DIALOG_KEY "cell-comment-dialog"
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	Sheet              *sheet;
 	GnmCellPos const      *pos;
 	GtkWidget          *dialog;
@@ -78,7 +78,7 @@ cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 void
-dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *pos)
+dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
 	CommentState	*state;
 	GtkWidget	*textview;

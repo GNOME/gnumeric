@@ -5,22 +5,22 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
-#include <stdlib.h>
-#include <string.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
 #include <command-context.h>
-#include <workbook-control-gui.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
 #include "gnm-python.h"
 #include "python-loader.h"
 #include "py-interpreter-selector.h"
 #include "py-command-line.h"
 #include "py-console.h"
 
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n-lib.h>
+
+#include <stdlib.h>
+#include <string.h>
 typedef enum {
 	FORMAT_COMMAND,
 	FORMAT_RESULT,

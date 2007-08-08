@@ -207,7 +207,7 @@ scenario_add_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 }
 
 void
-dialog_scenario_add (WorkbookControlGUI *wbcg)
+dialog_scenario_add (WBCGtk *wbcg)
 {
         ScenariosState *state;
 	WorkbookControl  *wbc;
@@ -628,7 +628,7 @@ init_scenario_buttons (ScenariosState *state)
 }
 
 void
-dialog_scenarios (WorkbookControlGUI *wbcg)
+dialog_scenarios (WBCGtk *wbcg)
 {
         ScenariosState   *state;
 	WorkbookControl  *wbc;

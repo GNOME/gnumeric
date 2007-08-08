@@ -48,7 +48,7 @@
 #define GOTO_KEY "goto-dialog"
 
 typedef struct {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	Workbook  *wb;
 
 	GladeXML  *gui;
@@ -301,7 +301,7 @@ dialog_goto_init (GotoState *state)
 
 
 void
-dialog_goto_cell (WorkbookControlGUI *wbcg)
+dialog_goto_cell (WBCGtk *wbcg)
 {
 	GotoState* state;
 	GladeXML *gui;

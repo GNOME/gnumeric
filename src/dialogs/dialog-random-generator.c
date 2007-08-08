@@ -827,7 +827,7 @@ dialog_random_tool_init (RandomToolState *state)
  *
  **/
 int
-dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_random_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         RandomToolState *state;
 

@@ -146,7 +146,7 @@ gnumeric_error_info_dialog_show (GtkWindow *parent, ErrorInfo *error)
 }
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GtkWidget	   *dialog;
 	char const *key;
 	gboolean freed;
@@ -182,7 +182,7 @@ cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
 /**
  * gnumeric_keyed_dialog
  *
- * @wbcg    A WorkbookControlGUI
+ * @wbcg    A WBCGtk
  * @dialog  A transient window
  * @key     A key to identify the dialog
  *
@@ -192,11 +192,11 @@ cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
  * the object data is managed here.
  **/
 void
-gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, char const *key)
+gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 {
 	KeyedDialogContext *ctxt;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
 	g_return_if_fail (key != NULL);
 
@@ -221,14 +221,14 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, char const *
 /**
  * gnumeric_dialog_raise_if_exists
  *
- * @wbcg    A WorkbookControlGUI
+ * @wbcg    A WBCGtk
  * @key     A key to identify the dialog
  *
  * Raise the dialog identified by key if it is registered on the wbcg.
  * Returns TRUE if dialog found, FALSE if not.
  **/
 gpointer
-gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, char const *key)
+gnumeric_dialog_raise_if_exists (WBCGtk *wbcg, char const *key)
 {
 	KeyedDialogContext *ctxt;
 
@@ -1008,7 +1008,7 @@ cb_gnm_dialog_setup_destroy_handlers (G_GNUC_UNUSED GtkWidget *widget,
 
 void
 gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
-				   WorkbookControlGUI *wbcg,
+				   WBCGtk *wbcg,
 				   GnmDialogDestroyOptions what)
 {
 	GnmDialogDestroySignals *dd = g_new (GnmDialogDestroySignals, 1);

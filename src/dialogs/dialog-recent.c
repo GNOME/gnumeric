@@ -33,7 +33,7 @@
 static void
 cb_response (GtkWidget *dialog,
 	     gint response_id,
-	     WorkbookControlGUI *wbcg)
+	     WBCGtk *wbcg)
 {
 	switch (response_id) {
 	case GTK_RESPONSE_HELP:
@@ -61,7 +61,7 @@ cb_response (GtkWidget *dialog,
 }
 
 void
-dialog_recent_used (WorkbookControlGUI *wbcg)
+dialog_recent_used (WBCGtk *wbcg)
 {
 	GtkRecentFilter *filter;
 	GtkWidget *dialog = gtk_recent_chooser_dialog_new

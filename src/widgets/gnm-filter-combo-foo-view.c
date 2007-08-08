@@ -53,7 +53,7 @@ fcombo_index (GnmFilterCombo const *fcombo)
 
 static void
 fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
-		 WorkbookControlGUI *wbcg)
+		 WBCGtk *wbcg)
 {
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
 	GtkTreeIter     iter;

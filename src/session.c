@@ -79,7 +79,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 	workbooks = g_list_copy (gnm_app_workbook_list ());
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
-		WorkbookControlGUI *wbcg = NULL;
+		WBCGtk *wbcg = NULL;
 		WorkbookView *wb_view = NULL;
 		guint i;
 
@@ -91,7 +91,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 		if (wb_view == NULL)
 			continue;
 		for (i = 0; i < wb_view->wb_controls->len; i++)
-			if (IS_WORKBOOK_CONTROL_GUI (g_ptr_array_index (wb_view->wb_controls, i)))
+			if (IS_WBC_GTK (g_ptr_array_index (wb_view->wb_controls, i)))
 				wbcg = g_ptr_array_index (wb_view->wb_controls, i);
 		if (wbcg == NULL)
 			continue;

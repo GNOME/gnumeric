@@ -42,7 +42,7 @@
 #define DELETE_CELL_DIALOG_KEY "delete-cells-dialog"
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
@@ -110,7 +110,7 @@ cb_delete_cell_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 void
-dialog_delete_cells (WorkbookControlGUI *wbcg)
+dialog_delete_cells (WBCGtk *wbcg)
 {
 	DeleteCellState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);

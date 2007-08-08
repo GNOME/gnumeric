@@ -364,7 +364,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	FooCanvas *canvas = item->canvas;
 	GnmPane *pane = GNM_PANE (canvas);
 	Sheet const *sheet = scg_sheet (pane->simple.scg);
-	WorkbookControlGUI *wbcg = scg_wbcg (pane->simple.scg);
+	WBCGtk *wbcg = scg_wbcg (pane->simple.scg);
 	GnmCell const * const edit_cell = wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
@@ -794,7 +794,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	FooCanvas    *canvas = item->canvas;
 	GnmPane *pane = GNM_PANE (canvas);
 	SheetControlGUI *scg = ig->scg;
-	WorkbookControlGUI *wbcg = scg_wbcg (scg);
+	WBCGtk *wbcg = scg_wbcg (scg);
 	SheetControl	*sc = (SheetControl *)scg;
 	SheetView	*sv = sc_view (sc);
 	Sheet		*sheet = sv_sheet (sv);

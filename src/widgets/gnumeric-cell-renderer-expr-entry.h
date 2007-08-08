@@ -38,7 +38,7 @@ typedef struct _GnumericCellRendererExprEntryClass GnumericCellRendererExprEntry
 struct _GnumericCellRendererExprEntry {
 	GnumericCellRendererText parent;
 
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GnmExprEntry	   *entry;
 };
 
@@ -47,7 +47,7 @@ struct _GnumericCellRendererExprEntryClass {
 };
 
 GType            gnumeric_cell_renderer_expr_entry_get_type (void);
-GtkCellRenderer *gnumeric_cell_renderer_expr_entry_new      (WorkbookControlGUI *wbcg);
+GtkCellRenderer *gnumeric_cell_renderer_expr_entry_new      (WBCGtk *wbcg);
 void             gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
 						 GnumericCellRendererExprEntry *celltext);
 

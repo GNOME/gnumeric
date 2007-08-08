@@ -60,7 +60,7 @@ enum {
 };
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 
 	GladeXML *gui;
 	GtkDialog *dialog;
@@ -298,7 +298,7 @@ static void
 search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
-	WorkbookControlGUI *wbcg = dd->wbcg;
+	WBCGtk *wbcg = dd->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GnmSearchReplace *sr;
 	char *err;
@@ -456,7 +456,7 @@ make_matches_table (DialogState *dd)
 }
 
 void
-dialog_search (WorkbookControlGUI *wbcg)
+dialog_search (WBCGtk *wbcg)
 {
 	GladeXML *gui;
 	GtkDialog *dialog;

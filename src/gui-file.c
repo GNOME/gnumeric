@@ -91,9 +91,9 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 
 /* Show view in a wbcg. Use current or new wbcg according to policy */
 void
-gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
+gui_wb_view_show (WBCGtk *wbcg, WorkbookView *wbv)
 {
-	WorkbookControlGUI *new_wbcg = NULL;
+	WBCGtk *new_wbcg = NULL;
 	Workbook *tmp_wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	if (go_doc_is_pristine (GO_DOC (tmp_wb))) {
@@ -106,7 +106,7 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 		WorkbookControl *new_wbc =
 			wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg),
 						wbv, NULL, screen);
-		new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
+		new_wbcg = WBC_GTK (new_wbc);
 
 		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 	}
@@ -115,7 +115,7 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 }
 
 gboolean
-gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
+gui_file_read (WBCGtk *wbcg, char const *uri,
 	       GOFileOpener const *optional_format, gchar const *optional_encoding)
 {
 	IOContext *io_context;
@@ -191,7 +191,7 @@ advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
  * import filter for selected file.
  */
 void
-gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
+gui_file_open (WBCGtk *wbcg, char const *default_format)
 {
 	GList *openers;
 	GtkFileChooser *fsel;
@@ -365,7 +365,7 @@ check_multiple_sheet_support_if_needed (GOFileSaver *fs,
 }
 
 gboolean
-gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
+gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 {
 	GList *savers = NULL, *l;
 	GtkFileChooser *fsel;
@@ -375,7 +375,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gchar const *wb_uri;
 	char *uri;
 	Workbook *wb;
-	WorkbookControlGUI *wbcg2;
+	WBCGtk *wbcg2;
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
@@ -549,10 +549,10 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 }
 
 gboolean
-gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
+gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 {
 	Workbook *wb = wb_view_get_workbook (wb_view);
-	WorkbookControlGUI *wbcg2 =
+	WBCGtk *wbcg2 =
 		wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
 	if (wbcg2) {

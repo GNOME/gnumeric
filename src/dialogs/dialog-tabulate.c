@@ -65,7 +65,7 @@ enum {
 };
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	Sheet *sheet;
 
 	GladeXML *gui;
@@ -92,7 +92,7 @@ free_state (DialogState *dd)
 }
 
 static void
-non_model_dialog (WorkbookControlGUI *wbcg,
+non_model_dialog (WBCGtk *wbcg,
 		  GtkDialog *dialog,
 		  const char *key)
 {
@@ -315,7 +315,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 }
 
 void
-dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 {
 	GladeXML *gui;
 	GtkDialog *dialog;

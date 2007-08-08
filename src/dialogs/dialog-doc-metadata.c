@@ -60,7 +60,7 @@ typedef struct {
 	gboolean 		permissions_changed;
 	GOFilePermissions 	*file_permissions;
 
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 	Workbook                *wb;
 	GODoc	                *doc;
 
@@ -1477,14 +1477,14 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
  * dialog_doc_metadata_init
  *
  * @state : dialog main struct
- * @wbcg  : WorkbookControlGUI 
+ * @wbcg  : WBCGtk 
  *
  * Initializes the dialog
  *
  **/
 static gboolean
 dialog_doc_metadata_init (DialogDocMetaData *state,
-			  WorkbookControlGUI *wbcg)
+			  WBCGtk *wbcg)
 {
 	state->wbcg     = wbcg;
 	state->wb       = wb_control_get_workbook (WORKBOOK_CONTROL(wbcg));
@@ -1567,13 +1567,13 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 /**
  * dialog_doc_metadata_new
  *
- * @wbcg  : WorkbookControlGUI 
+ * @wbcg  : WBCGtk 
  *
  * Creates a new instance of the dialog.
  *
  **/
 void
-dialog_doc_metadata_new (WorkbookControlGUI *wbcg)
+dialog_doc_metadata_new (WBCGtk *wbcg)
 {
 	DialogDocMetaData *state;
 

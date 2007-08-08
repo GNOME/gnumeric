@@ -46,7 +46,7 @@
 
 typedef struct {
 	GladeXML           *gui;
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	Sheet              *sheet;
 	SheetView	   *sv;
 	GtkWidget          *dialog;
@@ -231,7 +231,7 @@ dialog_row_height_set_mode (gboolean set_default, RowHeightState *state)
 }
 
 void
-dialog_row_height (WorkbookControlGUI *wbcg, gboolean use_default)
+dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 {
 	RowHeightState *state;
 

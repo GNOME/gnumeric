@@ -138,7 +138,7 @@ typedef struct {
 
 typedef struct _FormatState {
 	GladeXML	*gui;
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 	GtkDialog	*dialog;
 	GtkNotebook	*notebook;
 	GtkWidget	*apply_button;
@@ -2408,7 +2408,7 @@ fmt_dialog_selection_type (SheetView *sv,
 }
 
 void
-dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
+dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
 {
 	GladeXML     *gui;
 	GnmCell	     *edit_cell;

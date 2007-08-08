@@ -51,7 +51,7 @@
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
 
 typedef struct {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	Workbook  *wb;
 
 	GladeXML  *gui;
@@ -172,7 +172,7 @@ cb_dialog_function_select_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview_f);
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
-		WorkbookControlGUI *wbcg = state->wbcg;
+		WBCGtk *wbcg = state->wbcg;
 		gtk_tree_model_get (model, &iter,
 				    FUNCTION, &func,
 				    -1);
@@ -591,7 +591,7 @@ dialog_function_select_init (FunctionSelectState *state)
 }
 
 void
-dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
+dialog_function_select (WBCGtk *wbcg, char const *key)
 {
 	FunctionSelectState* state;
 	GladeXML  *gui;

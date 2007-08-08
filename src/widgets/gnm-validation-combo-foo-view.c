@@ -49,7 +49,7 @@
 
 static void
 vcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
-		 WorkbookControlGUI *wbcg)
+		 WBCGtk *wbcg)
 {
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (so);
 	GtkTreeIter	    iter;

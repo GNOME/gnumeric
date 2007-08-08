@@ -169,7 +169,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  *
  **/
 void
-dialog_advanced_filter (WorkbookControlGUI *wbcg)
+dialog_advanced_filter (WBCGtk *wbcg)
 {
         AdvancedFilterState *state;
 	WorkbookControl *wbc;

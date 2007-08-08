@@ -12,7 +12,7 @@
 #define IS_SHEET_CONTROL_GUI(o)       (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_CONTROL_GUI_TYPE))
 
 GType		 sheet_control_gui_get_type (void);
-SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WorkbookControlGUI *wbcg);
+SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WBCGtk *wbcg);
 
 void scg_take_focus             (SheetControlGUI *scg);
 
@@ -111,6 +111,6 @@ WorkbookControl *scg_wbc	(SheetControlGUI const *scg);
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
 GnmPane	   *scg_pane		(SheetControlGUI *scg, int pane);
 
-WorkbookControlGUI *scg_wbcg	(SheetControlGUI const *scg);
+WBCGtk *scg_wbcg	(SheetControlGUI const *scg);
 
 #endif /* GNUMERIC_SHEET_CONTROL_GUI_H */

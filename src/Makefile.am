@@ -145,12 +145,11 @@ libspreadsheet_la_SOURCES =			\
 	value-sheet.c				\
 	workbook.c				\
 	workbook-cmd-format.c			\
-	workbook-edit.c				\
 	workbook-view.c				\
 	workbook-control.c 			\
-	workbook-control-gui.c 			\
 	wbc-gtk.c				\
-	wbcg-actions.c				\
+	wbc-gtk-actions.c			\
+	wbc-gtk-edit.c				\
 	xml-io.c				\
 	xml-sax-read.c				\
 	xml-sax-write.c				\
@@ -273,11 +272,10 @@ libspreadsheet_include_HEADERS = 	\
 	workbook.h				\
 	workbook-priv.h				\
 	workbook-cmd-format.h			\
-	workbook-edit.h				\
 	workbook-view.h				\
 	workbook-control.h 			\
 	workbook-control-priv.h 		\
-	workbook-control-gui.h 			\
+	workbook-edit.h				\
 	workbook-control-gui-priv.h 		\
 	wbc-gtk.h				\
 	xml-io.h				\

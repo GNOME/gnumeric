@@ -235,7 +235,7 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 }
 
 void
-dialog_fill_series (WorkbookControlGUI *wbcg)
+dialog_fill_series (WBCGtk *wbcg)
 {
 	FillSeriesState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);

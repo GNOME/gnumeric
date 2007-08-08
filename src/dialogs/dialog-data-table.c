@@ -45,7 +45,7 @@ typedef struct {
 	GtkWidget	*dialog;
 	GnmExprEntry	*row_entry, *col_entry;
 
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 } GnmDialogDataTable;
 
 static void
@@ -85,7 +85,7 @@ cb_data_table_response (GtkWidget *dialog, gint response_id, GnmDialogDataTable 
 }
 
 static gboolean
-data_table_init (GnmDialogDataTable *state, WorkbookControlGUI *wbcg)
+data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
 {
 	GtkTable *table;
 
@@ -121,7 +121,7 @@ data_table_init (GnmDialogDataTable *state, WorkbookControlGUI *wbcg)
 }
 
 void
-dialog_data_table (WorkbookControlGUI *wbcg)
+dialog_data_table (WBCGtk *wbcg)
 {
 	GnmDialogDataTable *state;
 

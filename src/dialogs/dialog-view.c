@@ -33,7 +33,7 @@
 #define VIEW_DIALOG_KEY "view-dialog"
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GtkWidget          *dialog;
 	GladeXML           *gui;
 	GtkRadioButton     *location_elsewhere;
@@ -51,7 +51,7 @@ static void
 cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		    ViewState *state)
 {
-	WorkbookControlGUI *wbcg = state->wbcg;
+	WBCGtk *wbcg = state->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookControl *new_wbc;
 	gboolean shared;
@@ -100,9 +100,9 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		 wb_control_get_workbook (wbc),
 		 screen);
 
-	if (IS_WORKBOOK_CONTROL_GUI (new_wbc)) {
+	if (IS_WBC_GTK (new_wbc)) {
 		/* What else would it be?  */
-		WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
+		WBCGtk *new_wbcg = WBC_GTK (new_wbc);
 		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 		_gnm_app_flag_windows_changed ();
 	}
@@ -121,7 +121,7 @@ cb_view_destroy (ViewState *state)
 }
 
 void
-dialog_new_view (WorkbookControlGUI *wbcg)
+dialog_new_view (WBCGtk *wbcg)
 {
 	ViewState *state;
 	GladeXML *gui;

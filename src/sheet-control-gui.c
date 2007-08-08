@@ -110,7 +110,7 @@ scg_wbc (SheetControlGUI const *scg)
 	return scg->sheet_control.wbc;
 }
 
-WorkbookControlGUI *
+WBCGtk *
 scg_wbcg (SheetControlGUI const *scg)
 {
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
@@ -1348,7 +1348,7 @@ cb_resize_pane_motion (GtkPaned *p,
 }
 
 SheetControlGUI *
-sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
+sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 {
 	SheetControlGUI *scg;
 	GtkUpdateType scroll_update_policy;
@@ -1688,7 +1688,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	SheetControl	*sc = (SheetControl *) scg;
 	SheetView	*sv = sc->view;
 	Sheet		*sheet = sc->sheet;
-	WorkbookControlGUI *wbcg = scg->wbcg;
+	WBCGtk *wbcg = scg->wbcg;
 	WorkbookControl *wbc = sc->wbc;
 
 	g_return_val_if_fail (element != NULL, TRUE);

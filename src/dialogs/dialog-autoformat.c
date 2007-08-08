@@ -78,7 +78,7 @@ demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 
 typedef struct {
 	Workbook           *wb;                              /* Workbook we are working on */
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GladeXML	   *gui;
 	FooCanvasItem	   *grid[NUM_PREVIEWS];              /* Previewgrid's */
 	FooCanvasItem	   *selrect;                         /* Selection rectangle */
@@ -544,7 +544,7 @@ cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
  * sheet of the workbook if the user desires.
  **/
 void
-dialog_autoformat (WorkbookControlGUI *wbcg)
+dialog_autoformat (WBCGtk *wbcg)
 {
 	GladeXML *gui;
 	AutoFormatState *state;

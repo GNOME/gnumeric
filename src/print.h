@@ -18,7 +18,7 @@ typedef enum {
 	PRINT_SHEET_SELECTION_IGNORE_PRINTAREA
 } PrintRange;
 
-void gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
+void gnm_print_sheet (WBCGtk *wbcg, Sheet *sheet,
 		      gboolean preview, PrintRange default_range,
 		      GsfOutput *export_dst);
 

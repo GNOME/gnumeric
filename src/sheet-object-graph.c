@@ -267,7 +267,7 @@ gnm_sog_write_object (SheetObject const *so, char const *format,
 static void
 sog_cb_save_as (SheetObject *so, SheetControl *sc)
 {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	char *uri;
 	GError *err = NULL;
 	GsfOutput *output;
@@ -418,7 +418,7 @@ static void
 gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	gnm_sog_user_config_t *data;
 	GClosure *closure;
 
@@ -614,14 +614,14 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 }
 
 static void
-cb_graph_guru_done (WorkbookControlGUI *wbcg)
+cb_graph_guru_done (WBCGtk *wbcg)
 {
 	wbcg_edit_detach_guru (wbcg);
 	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 }
 
 void
-sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
+sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 			 GClosure *closure)
 {
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),

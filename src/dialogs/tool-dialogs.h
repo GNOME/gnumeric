@@ -41,7 +41,7 @@ struct _GenericToolState {
 	Sheet	  *sheet;
 	SheetView *sv;
 	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	GtkWidget *warning_dialog;
 	GtkWidget *warning;
 	state_destroy_t state_destroy;
@@ -53,7 +53,7 @@ void     dialog_tool_init_buttons (GenericToolState *state,
 				   GCallback close_function);
 void     error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str);
 gboolean dialog_tool_init (GenericToolState *state, 
-			   WorkbookControlGUI *wbcg,
+			   WBCGtk *wbcg,
 			   Sheet *sheet,
 			   char const *help_file,
 			   char const *gui_name,

@@ -40,7 +40,7 @@
 #define SEARCH_REPLACE_KEY "search-replace-dialog"
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GladeXML *gui;
 	GtkDialog *dialog;
 	GtkEntry *search_text;
@@ -96,7 +96,7 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	GtkDialog *dialog = dd->dialog;
-	WorkbookControlGUI *wbcg = dd->wbcg;
+	WBCGtk *wbcg = dd->wbcg;
 	SearchDialogCallback cb = dd->cb;
 	GnmSearchReplace *sr;
 	char *err;
@@ -189,7 +189,7 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 static void
-non_modal_dialog (WorkbookControlGUI *wbcg,
+non_modal_dialog (WBCGtk *wbcg,
 		  GtkDialog *dialog,
 		  const char *key)
 {
@@ -200,7 +200,7 @@ non_modal_dialog (WorkbookControlGUI *wbcg,
 
 
 void
-dialog_search_replace (WorkbookControlGUI *wbcg,
+dialog_search_replace (WBCGtk *wbcg,
 		       SearchDialogCallback cb)
 {
 	GladeXML *gui;
@@ -289,7 +289,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 }
 
 int
-dialog_search_replace_query (WorkbookControlGUI *wbcg,
+dialog_search_replace_query (WBCGtk *wbcg,
 			     GnmSearchReplace *sr,
 			     const char *location,
 			     const char *old_text,

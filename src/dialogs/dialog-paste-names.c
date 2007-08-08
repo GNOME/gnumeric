@@ -60,7 +60,7 @@ typedef struct {
 	GtkListStore		*model;
 	GtkTreeSelection	*selection;
 
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 } DialogPasteNames;
 
 static void
@@ -83,7 +83,7 @@ dialog_paste_names_free (DialogPasteNames *state)
 }
 
 static gboolean
-paste_names_init (DialogPasteNames *state, WorkbookControlGUI *wbcg)
+paste_names_init (DialogPasteNames *state, WBCGtk *wbcg)
 {
 	GtkTreeViewColumn *column;
 
@@ -125,7 +125,7 @@ paste_names_init (DialogPasteNames *state, WorkbookControlGUI *wbcg)
 }
 
 void
-dialog_paste_names (WorkbookControlGUI *wbcg)
+dialog_paste_names (WBCGtk *wbcg)
 {
 	DialogPasteNames *state;
 

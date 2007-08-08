@@ -80,7 +80,7 @@ gnumeric_cell_renderer_expr_entry_class_init (GnumericCellRendererExprEntryClass
 
 
 GtkCellRenderer *
-gnumeric_cell_renderer_expr_entry_new (WorkbookControlGUI *wbcg)
+gnumeric_cell_renderer_expr_entry_new (WBCGtk *wbcg)
 {
 	GnumericCellRendererExprEntry *this = 
 		GNUMERIC_CELL_RENDERER_EXPR_ENTRY(g_object_new 

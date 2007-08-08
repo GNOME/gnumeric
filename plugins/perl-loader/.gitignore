@@ -6,3 +6,5 @@ Makefile.in
 *.la
 plugin.xml
 xsinit.c
+*.loT
+*.sw*

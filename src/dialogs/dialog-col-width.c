@@ -46,7 +46,7 @@
 
 typedef struct {
 	GladeXML           *gui;
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	Sheet              *sheet;
 	SheetView	   *sv;
 	GtkWidget          *dialog;
@@ -235,7 +235,7 @@ dialog_col_width_set_mode (gboolean set_default, ColWidthState *state)
 }
 
 void
-dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
+dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 {
 	GladeXML *gui;
 	ColWidthState *state;

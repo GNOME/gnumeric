@@ -81,7 +81,7 @@ static GtkTargetEntry const drag_types_out[] = {
 };
 
 static gboolean
-gnm_pane_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
+gnm_pane_guru_key (WBCGtk const *wbcg, GdkEventKey *event)
 {
 	GtkWidget *entry, *guru = wbcg_edit_get_guru (wbcg);
 
@@ -178,7 +178,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
 	SheetView *sv = sc->view;
-	WorkbookControlGUI *wbcg = scg->wbcg;
+	WBCGtk *wbcg = scg->wbcg;
 	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	gboolean is_enter = FALSE;
@@ -764,7 +764,7 @@ static void
 cb_gnm_pane_commit (GtkIMContext *context, char const *str, GnmPane *pane)
 {
 	gint tmp_pos, length;
-	WorkbookControlGUI *wbcg = pane->simple.scg->wbcg;
+	WBCGtk *wbcg = pane->simple.scg->wbcg;
 	GtkEditable *editable = gnm_pane_get_editable (pane);
 
 	if (!wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, TRUE, TRUE))
@@ -796,7 +796,7 @@ cb_gnm_pane_preedit_changed (GtkIMContext *context, GnmPane *pane)
 	gchar *preedit_string;
 	int tmp_pos;
 	int cursor_pos;
-	WorkbookControlGUI *wbcg = pane->simple.scg->wbcg;
+	WBCGtk *wbcg = pane->simple.scg->wbcg;
 	GtkEditable *editable = gnm_pane_get_editable (pane);
 
 	tmp_pos = gtk_editable_get_position (editable);
@@ -1078,7 +1078,7 @@ cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 	GnmPane *source_pane;
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
   
 	if (!source_widget || !IS_GNM_PANE (source_widget)) return;
 

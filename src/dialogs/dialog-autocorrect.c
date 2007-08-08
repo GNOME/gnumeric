@@ -59,7 +59,7 @@ typedef struct {
 	GladeXML  	   *gui;
         GtkWidget          *dialog;
         Workbook           *wb;
-        WorkbookControlGUI *wbcg;
+        WBCGtk *wbcg;
 
 	gboolean  features [AC_MAX_FEATURE];
 	AutoCorrectExceptionState init_caps, first_letter;
@@ -296,12 +296,12 @@ dialog_init (AutoCorrectState *state)
 #define AUTO_CORRECT_KEY	"AutoCorrect"
 
 void
-dialog_autocorrect (WorkbookControlGUI *wbcg)
+dialog_autocorrect (WBCGtk *wbcg)
 {
 	AutoCorrectState *state;
 	GladeXML *gui;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTO_CORRECT_KEY))
 		return;

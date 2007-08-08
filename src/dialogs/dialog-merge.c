@@ -52,7 +52,7 @@
 #define MERGE_KEY            "merge-dialog"
 
 typedef struct {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	Sheet *sheet;
 	GladeXML  *gui;
 	GtkWidget *dialog;
@@ -316,7 +316,7 @@ cb_merge_destroy (MergeState *state)
 }
 
 void
-dialog_merge (WorkbookControlGUI *wbcg)
+dialog_merge (WBCGtk *wbcg)
 {
 	MergeState *state;
 	GladeXML *gui;

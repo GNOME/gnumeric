@@ -42,7 +42,7 @@
 #define INSERT_CELL_DIALOG_KEY "insert-cells-dialog"
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
@@ -112,7 +112,7 @@ cb_insert_cell_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 void
-dialog_insert_cells (WorkbookControlGUI *wbcg)
+dialog_insert_cells (WBCGtk *wbcg)
 {
 	GladeXML *gui;
 	InsertCellState *state;

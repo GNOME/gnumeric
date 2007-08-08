@@ -46,7 +46,7 @@ typedef struct {
 	GtkWidget	*dialog;
 	GnmExprEntry	*content_entry, *link_entry;
 
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 	SheetObject		*so;
 } GnmDialogSOList;
 
@@ -92,7 +92,7 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 }
 
 static gboolean
-so_list_init (GnmDialogSOList *state, WorkbookControlGUI *wbcg, SheetObject *so)
+so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 {
 	GtkTable *table;
 
@@ -131,7 +131,7 @@ so_list_init (GnmDialogSOList *state, WorkbookControlGUI *wbcg, SheetObject *so)
 }
 
 void
-dialog_so_list (WorkbookControlGUI *wbcg, GObject *so)
+dialog_so_list (WBCGtk *wbcg, GObject *so)
 {
 	GnmDialogSOList *state;
 

@@ -76,7 +76,7 @@ typedef struct {
 	Sheet			*sheet;
 	SheetView		*sv;
 	Workbook		*wb;
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 	GList			*expr_names;
 	GnmNamedExpr		*cur_name;
 	GnmParsePos		 pp;
@@ -529,7 +529,7 @@ load_selection (NameGuruState *state)
 
 
 static gboolean
-name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
+name_guru_init (NameGuruState *state, WBCGtk *wbcg)
 {
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 	GtkTable *definition_table;
@@ -643,7 +643,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
  * Create and show the define names dialog.
  **/
 void
-dialog_define_names (WorkbookControlGUI *wbcg)
+dialog_define_names (WBCGtk *wbcg)
 {
 	NameGuruState *state;
 

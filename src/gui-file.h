@@ -3,12 +3,12 @@
 
 #include "gui-gnumeric.h"
 
-gboolean gui_file_save_as   (WorkbookControlGUI *wbcg, WorkbookView *wbv);
-gboolean gui_file_save      (WorkbookControlGUI *wbcg, WorkbookView *wbv);
-void     gui_file_open      (WorkbookControlGUI *wbcg, 
+gboolean gui_file_save_as   (WBCGtk *wbcg, WorkbookView *wbv);
+gboolean gui_file_save      (WBCGtk *wbcg, WorkbookView *wbv);
+void     gui_file_open      (WBCGtk *wbcg, 
 			     char const *default_format);
-void     gui_wb_view_show   (WorkbookControlGUI *wbcg, WorkbookView *wbv);
-gboolean gui_file_read	    (WorkbookControlGUI *wbcg, char const *file_name,
+void     gui_wb_view_show   (WBCGtk *wbcg, WorkbookView *wbv);
+gboolean gui_file_read	    (WBCGtk *wbcg, char const *file_name,
 			     GOFileOpener const *optional_format,
 			     gchar const *optional_encoding);
 

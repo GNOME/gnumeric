@@ -38,7 +38,7 @@
 
 typedef struct {
 	GObject			*so;
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 	GogStyle		*orig_style;
 } DialogSOStyled;
 
@@ -71,7 +71,7 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 }
 
 void
-dialog_so_styled (WorkbookControlGUI *wbcg,
+dialog_so_styled (WBCGtk *wbcg,
 		  GObject *so, GogStyle *orig, GogStyle *default_style,
 		  char const *title)
 {

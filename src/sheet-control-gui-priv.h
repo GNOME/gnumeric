@@ -12,7 +12,7 @@ struct _SheetControlGUI {
 	SheetControl sheet_control;
 
 	/* Cached SheetControl attribute to reduce casting. */
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 
 	GtkTable	*table;
 	GtkTable	*inner_table;

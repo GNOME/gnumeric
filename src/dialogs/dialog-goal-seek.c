@@ -76,7 +76,7 @@ typedef struct {
 	GtkWidget *result_table;
 	Sheet	  *sheet;
 	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	gnm_float target_value;
 	gnm_float xmin;
 	gnm_float xmax;
@@ -655,7 +655,7 @@ dialog_goal_seek_test (Sheet *sheet, const GnmRange *range)
  *
  **/
 void
-dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_goal_seek (WBCGtk *wbcg, Sheet *sheet)
 {
         GoalSeekState *state;
 	GladeXML *gui;

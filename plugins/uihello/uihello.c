@@ -5,14 +5,10 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
-#include <glib.h>
-
-#include <workbook-control-gui.h>
+#include <wbc-gtk.h>
 #include <gui-util.h>
 #include <gnm-plugin.h>
-#include <goffice/app/go-plugin.h>
-#include <gnm-plugin.h>
+#include <glib/gi18n-lib.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -35,7 +31,7 @@ hello_message (GnmAction const *action, WorkbookControl *wbc)
 	char *msg = g_strdup_printf (
 		_("This is message from the \"%s\" plugin."),
 		go_plugin_get_name (uihello_plugin));
-	go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)), GTK_MESSAGE_INFO, msg);
+	go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)), GTK_MESSAGE_INFO, msg);
 	g_free (msg);
 }
 

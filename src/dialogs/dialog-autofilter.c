@@ -43,7 +43,7 @@
 
 typedef struct {
 	GladeXML           *gui;
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GtkWidget          *dialog;
 	GnmFilter	   *filter;
 	unsigned	    field;
@@ -228,7 +228,7 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 }
 
 void
-dialog_auto_filter (WorkbookControlGUI *wbcg,
+dialog_auto_filter (WBCGtk *wbcg,
 		    GnmFilter *filter, int field,
 		    gboolean is_expr, GnmFilterCondition *cond)
 {

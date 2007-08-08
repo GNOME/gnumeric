@@ -94,7 +94,7 @@ typedef enum {
  * contains pointers to nearly all members in the druid
  */
 typedef struct {
-	WorkbookControlGUI    *wbcg;
+	WBCGtk    *wbcg;
 	GtkDialog             *dialog;                                           /* The main window */
 	GtkNotebook           *notebook;
 	GtkWidget             *next_button;
@@ -135,7 +135,7 @@ typedef struct {
 } DialogStfResult_t;
 
 /* This is the main function which handles all the dialog import stuff */
-DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg,
+DialogStfResult_t *stf_dialog                           (WBCGtk *wbcg,
 							 char const *opt_encoding,
 							 gboolean fixed_encoding,
 							 char const *opt_locale,

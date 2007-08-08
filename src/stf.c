@@ -184,7 +184,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	Workbook *book;
 
 	/* FIXME : how to do this cleanly ? */
-	if (!IS_WORKBOOK_CONTROL_GUI (context->impl))
+	if (!IS_WBC_GTK (context->impl))
 		return;
 
 	name = g_path_get_basename (gsf_input_name (input));
@@ -206,7 +206,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	sheet = sheet_new (book, nameutf8);
 	workbook_sheet_attach (book, sheet);
 
-	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl),
+	dialogresult = stf_dialog (WBC_GTK (context->impl),
 				   enc, FALSE, NULL, FALSE, 
 				   nameutf8, data, data_len);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
@@ -278,7 +278,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 	}
 
 	/* FIXME : how to do this cleanly ? */
-	if (!IS_WORKBOOK_CONTROL_GUI (wbc))
+	if (!IS_WBC_GTK (wbc))
 		return;
 
 #warning Add UI for this
@@ -301,7 +301,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 					     _("There is no data "
 					       "to convert"));
 	} else {
-		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
+		dialogresult = stf_dialog (WBC_GTK (wbc),
 					   NULL, FALSE, NULL, FALSE,
 					   _("Text to Columns"), 
 					   data, data_len);
@@ -381,7 +381,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 /* 						      _("Some columns of data were" */
 /* 							" dropped since they exceeded" */
 /* 							" the available sheet size.")); */
-			go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (context->impl)),
+			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (context->impl)),
 					 GTK_MESSAGE_WARNING,_("Some columns of data were"
 							       " dropped since they exceeded"
 							       " the available sheet size."));
@@ -405,8 +405,8 @@ stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 {
 	GnmStfExport *result = NULL;
 
-	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
-		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
+	if (IS_WBC_GTK (context->impl))
+		result = stf_export_dialog (WBC_GTK (context->impl),
 		         wb_view_get_workbook (wbv));
 
 	if (result == NULL) {

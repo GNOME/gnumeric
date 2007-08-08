@@ -49,7 +49,7 @@ enum {
 };
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GtkWidget          *dialog;
 	GtkWidget          *entry;
 	GtkWidget          *ok_button;
@@ -160,7 +160,7 @@ cb_zoom_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ZoomState *state)
 }
 
 void
-dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 {
 	ZoomState *state;
 	GList *l, *sheets;

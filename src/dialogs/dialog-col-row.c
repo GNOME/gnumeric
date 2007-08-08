@@ -43,7 +43,7 @@ typedef struct {
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 
 	gpointer data;
 	ColRowCallback_t callback;
@@ -79,7 +79,7 @@ cb_dialog_col_row_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 void
-dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
+dialog_col_row (WBCGtk *wbcg,  char const *operation,
 		ColRowCallback_t callback,
 		gpointer data)
 {

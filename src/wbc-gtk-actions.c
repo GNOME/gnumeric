@@ -84,7 +84,7 @@ static GNM_ACTION_DEF (cb_file_new)
 	Workbook *wb = workbook_new_with_sheets
 		(gnm_app_prefs->initial_sheet_number);
 	WorkbookControl *new_wbc = workbook_control_gui_new (NULL, wb, screen);
-	WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
+	WBCGtk *new_wbcg = WBC_GTK (new_wbc);
 	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);	
 }
 
@@ -304,7 +304,7 @@ static GNM_ACTION_DEF (cb_edit_undo_last) { command_undo (WORKBOOK_CONTROL (wbcg
 static GNM_ACTION_DEF (cb_edit_redo_last) { command_redo (WORKBOOK_CONTROL (wbcg)); }
 
 static void
-common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *pos)
+common_cell_goto (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
 	SheetView *sv = sheet_get_view (sheet,
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
@@ -321,7 +321,7 @@ cb_edit_search_replace_query (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...
 {
 	int res;
 	va_list pvar;
-	WorkbookControlGUI *wbcg = sr->user_data;
+	WBCGtk *wbcg = sr->user_data;
 
 	va_start (pvar, sr);
 
@@ -390,7 +390,7 @@ cb_edit_search_replace_query (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...
 }
 
 static gboolean
-cb_edit_search_replace_action (WorkbookControlGUI *wbcg,
+cb_edit_search_replace_action (WBCGtk *wbcg,
 			       GnmSearchReplace *sr)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -758,7 +758,7 @@ static GNM_ACTION_DEF (cb_data_slicer)		{ dialog_data_slicer (wbcg); }
 #endif
 
 static void
-hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show)
+hide_show_detail_real (WBCGtk *wbcg, gboolean is_cols, gboolean show)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
@@ -777,7 +777,7 @@ hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show
 }
 
 static void
-hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
+hide_show_detail (WBCGtk *wbcg, gboolean show)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
@@ -804,7 +804,7 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 }
 
 static void
-group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
+group_ungroup_colrow (WBCGtk *wbcg, gboolean group)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
@@ -938,7 +938,7 @@ static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, SHEET_CONT
 static GNM_ACTION_DEF (cb_formula_guru)		{ dialog_formula_guru (wbcg, NULL); }
 
 static void
-sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
+sort_by_rows (WBCGtk *wbcg, gboolean descending)
 {
 	SheetView *sv;
 	GnmRange *sel;
@@ -947,7 +947,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
 	GnmSortClause *clause;
 	int numclause, i;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 
@@ -1000,7 +1000,7 @@ static GNM_ACTION_DEF (cb_sort_descending) { sort_by_rows (wbcg, TRUE); }
 static void
 cb_add_graph (GogGraph *graph, gpointer wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (WORKBOOK_CONTROL_GUI (wbcg));
+	SheetControlGUI *scg = wbcg_cur_scg (WBC_GTK (wbcg));
 	scg_mode_create_object (scg, sheet_object_graph_new (graph));
 }
 
@@ -1013,7 +1013,7 @@ static GNM_ACTION_DEF (cb_launch_chart_guru)
 }
 
 static void
-create_object (WorkbookControlGUI *wbcg, GType t,
+create_object (WBCGtk *wbcg, GType t,
 	       char const *first_property_name,
 	       ...)
 {
@@ -1060,7 +1060,7 @@ static GNM_ACTION_DEF (cmd_create_ellipse)
 	{ create_object (wbcg, GNM_SO_FILLED_TYPE, "is-oval", TRUE, NULL); }
 
 void
-wbcg_set_selection_halign (WorkbookControlGUI *wbcg, GnmHAlign halign)
+wbcg_set_selection_halign (WBCGtk *wbcg, GnmHAlign halign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
@@ -1090,7 +1090,7 @@ static GNM_ACTION_DEF (cb_center_across_selection)
 	{ wbcg_set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION); }
 
 void
-wbcg_set_selection_valign (WorkbookControlGUI *wbcg, GnmVAlign valign)
+wbcg_set_selection_valign (WBCGtk *wbcg, GnmVAlign valign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
@@ -1153,7 +1153,7 @@ static GNM_ACTION_DEF (cb_unmerge_cells)
 }
 
 static void
-toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
+toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 		  GnmStyleElement t, unsigned true_val, unsigned false_val)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -1206,23 +1206,23 @@ toggle_font_attr (WorkbookControlGUI *wbcg, GtkToggleAction *act,
 	cmd_selection_format (wbc, new_style, NULL, _("Set Font Style"));
 }
 
-static void cb_font_bold (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+static void cb_font_bold (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_BOLD, TRUE, FALSE); }
-static void cb_font_italic (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+static void cb_font_italic (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_ITALIC, TRUE, FALSE); }
-static void cb_font_underline (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+static void cb_font_underline (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_SINGLE, UNDERLINE_NONE); }
-static void cb_font_double_underline (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+static void cb_font_double_underline (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_UNDERLINE, UNDERLINE_DOUBLE, UNDERLINE_NONE); }
-static void cb_font_strikethrough (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+static void cb_font_strikethrough (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_STRIKETHROUGH, TRUE, FALSE); }
-static void cb_font_subscript (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+static void cb_font_subscript (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_SCRIPT, GO_FONT_SCRIPT_SUB, GO_FONT_SCRIPT_STANDARD); }
-static void cb_font_superscript (GtkToggleAction *act, WorkbookControlGUI *wbcg)
+static void cb_font_superscript (GtkToggleAction *act, WBCGtk *wbcg)
 	{ toggle_font_attr (wbcg, act, MSTYLE_FONT_SCRIPT, GO_FONT_SCRIPT_SUPER, GO_FONT_SCRIPT_STANDARD); }
 
 static void
-apply_number_format (WorkbookControlGUI *wbcg,
+apply_number_format (WBCGtk *wbcg,
 		     GOFormat *format,
 		     char const *descriptor)
 {
@@ -1294,7 +1294,7 @@ static GNM_ACTION_DEF (cb_format_as_date)
  * 2) When removing -> don't remove unless the border is 'THIN'
  */
 static void
-mutate_borders (WorkbookControlGUI *wbcg, gboolean add)
+mutate_borders (WBCGtk *wbcg, gboolean add)
 {
 	GnmBorder *borders [GNM_STYLE_BORDER_EDGE_MAX];
 	int i;
@@ -1315,7 +1315,7 @@ static GNM_ACTION_DEF (cb_format_add_borders)	{ mutate_borders (wbcg, TRUE); }
 static GNM_ACTION_DEF (cb_format_clear_borders)	{ mutate_borders (wbcg, FALSE); }
 
 static void
-modify_format (WorkbookControlGUI *wbcg,
+modify_format (WBCGtk *wbcg,
 	       GOFormat *(*format_modify_fn) (GOFormat const *format),
 	       char const *descriptor)
 {
@@ -2042,7 +2042,7 @@ static GtkActionEntry const actions[] = {
 #define TOGGLE_HANDLER(flag,property)					\
 static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 {									\
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));		\
+	g_return_if_fail (IS_WBC_GTK (wbcg));		\
 									\
 	if (!wbcg->updating_ui) {					\
 		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
@@ -2158,12 +2158,12 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 		N_("Subscript"), G_CALLBACK (cb_font_subscript), FALSE }
 };
 
-void wbcg_register_actions (WorkbookControlGUI *wbcg,
+void wbcg_register_actions (WBCGtk *wbcg,
 			    GtkActionGroup *menu_group,
 			    GtkActionGroup *group,
 			    GtkActionGroup *font_group);
 void
-wbcg_register_actions (WorkbookControlGUI *wbcg,
+wbcg_register_actions (WBCGtk *wbcg,
 		       GtkActionGroup *menu_group,
 		       GtkActionGroup *group,
 		       GtkActionGroup *font_group)

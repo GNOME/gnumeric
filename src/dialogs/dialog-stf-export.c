@@ -50,7 +50,7 @@ typedef struct {
 	Workbook		*wb;
 
 	GladeXML		*gui;
-	WorkbookControlGUI	*wbcg;
+	WBCGtk	*wbcg;
 	GtkWindow		*window;
 	GtkWidget		*notebook;
 	GtkWidget		*back_button, *next_button, *finish_button;
@@ -555,14 +555,14 @@ cb_next_page (TextExportState *state)
 
 /**
  * stf_dialog
- * @wbcg : #WorkbookControlGUI (can be NULL)
+ * @wbcg : #WBCGtk (can be NULL)
  * @wb : The #Workbook to export
  *
  * This will start the export assistant.
  * returns : A newly allocated GnmStfExport struct on success, NULL otherwise.
  **/
 GnmStfExport *
-stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
+stf_export_dialog (WBCGtk *wbcg, Workbook *wb)
 {
 	TextExportState state;
 

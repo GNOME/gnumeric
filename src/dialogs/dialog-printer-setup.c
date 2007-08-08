@@ -119,7 +119,7 @@ typedef struct {
 } UnitInfo;
 
 struct _PrinterSetupState {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	Sheet            *sheet;
 	GladeXML         *gui;
 	PrintInformation *pi;
@@ -1703,7 +1703,7 @@ cb_do_print_ok (PrinterSetupState *state)
 static void
 cb_do_print (PrinterSetupState *state)
 {
-	WorkbookControlGUI *wbcg = state->wbcg;
+	WBCGtk *wbcg = state->wbcg;
 	Sheet *sheet = state->sheet;
 
 	cb_do_print_ok (state);
@@ -1824,7 +1824,7 @@ do_setup_main_dialog (PrinterSetupState *state)
 
 
 static PrinterSetupState *
-printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
+printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 {
 	PrinterSetupState *state;
 	GladeXML *gui;
@@ -2037,7 +2037,7 @@ dialog_gtk_printer_setup_cb (PrinterSetupState *state)
 
 
 void
-dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_printer_setup (WBCGtk *wbcg, Sheet *sheet)
 {
 	PrinterSetupState *state;
 

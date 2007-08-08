@@ -89,7 +89,7 @@ typedef struct {
 
 	Sheet	            *sheet;
 	Workbook            *wb;
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 } SolverState;
 
 
@@ -1313,7 +1313,7 @@ dialog_init (SolverState *state)
  *
  **/
 void
-dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_solver (WBCGtk *wbcg, Sheet *sheet)
 {
         SolverState *state;
 

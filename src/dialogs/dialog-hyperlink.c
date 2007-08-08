@@ -54,7 +54,7 @@
 #include <string.h>
 
 typedef struct {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	Workbook  *wb;
 	SheetControl *sc;
 
@@ -505,7 +505,7 @@ dhl_init (HyperlinkState *state)
 
 #define DIALOG_KEY "hyperlink-dialog"
 void
-dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
+dialog_hyperlink (WBCGtk *wbcg, SheetControl *sc)
 {
 	GladeXML *gui;
 	HyperlinkState* state;

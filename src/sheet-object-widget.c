@@ -350,7 +350,7 @@ typedef struct {
   	char               *old_label;
   	GtkWidget          *old_focus;
 
-  	WorkbookControlGUI *wbcg;
+  	WBCGtk *wbcg;
   	SheetWidgetFrame   *swf;
   	Sheet		   *sheet;
 } FrameConfigState;
@@ -420,7 +420,7 @@ static void
 sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 {
   	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
-  	WorkbookControlGUI   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+  	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
   	FrameConfigState *state;
   	GtkWidget *table;
 
@@ -866,7 +866,7 @@ typedef struct {
 
 	GtkWidget          *old_focus;
 
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	SheetWidgetAdjustment *swa;
 	Sheet		   *sheet;
 } AdjustmentConfigState;
@@ -948,7 +948,7 @@ static void
 sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	WorkbookControlGUI   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	AdjustmentConfigState *state;
 	GtkWidget *table;
 
@@ -1506,7 +1506,7 @@ typedef struct {
 	char *old_label;
 	GtkWidget *old_focus;
 
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	SheetWidgetCheckbox *swc;
 	Sheet		    *sheet;
 } CheckboxConfigState;
@@ -1588,7 +1588,7 @@ static void
 sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	WorkbookControlGUI  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	WBCGtk  *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	CheckboxConfigState *state;
 	GtkWidget *table;
 

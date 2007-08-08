@@ -14,20 +14,19 @@
 #include "py-gnumeric.h"
 #include "gnm-python.h"
 
+#include "gnm-plugin.h"
 #include "application.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "workbook-view.h"
-#include "workbook-control-gui.h"
+#include "wbc-gtk.h"
 #include "gui-util.h"
 #include "value.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "func.h"
-#include <goffice/app/io-context.h>
-#include "gnm-plugin.h"
 
-#include <goffice/app/go-plugin.h>
+#include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-loader.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -715,7 +714,7 @@ gplp_func_exec_action (GOPluginService *service,
 		return;
 	}
 	ret = PyObject_CallFunction (fn, (char *) "N",
-				     py_new_Gui_object (WORKBOOK_CONTROL_GUI (wbc)));
+				     py_new_Gui_object (WBC_GTK (wbc)));
 	if (ret == NULL) {
 		*ret_error = error_info_new_str (py_exc_to_string ());
 		PyErr_Clear ();

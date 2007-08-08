@@ -44,7 +44,7 @@ typedef struct {
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 } autosave_t;
 
 #define AUTOSAVE_KEY            "autosave-setup-dialog"
@@ -65,7 +65,7 @@ autosave_set_sensitivity (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 gboolean
-dialog_autosave_prompt (WorkbookControlGUI *wbcg)
+dialog_autosave_prompt (WBCGtk *wbcg)
 {
 	char const *uri   = go_doc_get_uri (
 		wb_control_get_doc (WORKBOOK_CONTROL (wbcg)));
@@ -121,7 +121,7 @@ cb_autosave_ok (G_GNUC_UNUSED GtkWidget *button, autosave_t *state)
 }
 
 void
-dialog_autosave (WorkbookControlGUI *wbcg)
+dialog_autosave (WBCGtk *wbcg)
 {
 	GladeXML *gui;
 	autosave_t *state;

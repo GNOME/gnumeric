@@ -7,13 +7,11 @@
 
 #include <gnumeric-config.h>
 #include <Python.h>
-#include <glib/gi18n-lib.h>
 #include <gnumeric.h>
 #include <glib.h>
 #include "pygobject.h"
 #include "application.h"
 #include "workbook.h"
-#include "workbook-control-gui.h"
 #include "cell.h"
 #include "mstyle.h"
 #include "sheet.h"
@@ -23,10 +21,13 @@
 #include "expr.h"
 #include "func.h"
 #include "str.h"
+#include "wbc-gtk.h"
 #include <goffice/app/go-plugin.h>
 #include "parse-util.h"
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
+
+#include <glib/gi18n-lib.h>
 
 static PyTypeObject py_Boolean_object_type;
 typedef struct _py_Boolean_object py_Boolean_object;
@@ -1732,7 +1733,7 @@ py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 		(void)workbook_sheet_add (self->wb, -1);
 	
 	wbc = workbook_control_gui_new (NULL, self->wb, NULL);
-	result = py_new_Gui_object ((WorkbookControlGUI *)wbc);
+	result = py_new_Gui_object ((WBCGtk *)wbc);
 	g_object_unref (wbc);    /* py_new_Gui_object added a reference */
 	return result;
 }
@@ -1807,7 +1808,7 @@ static PyTypeObject py_Workbook_object_type = {
 
 struct _py_Gui_object {
 	PyObject_HEAD
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 };
 
 static PyObject *
@@ -1864,7 +1865,7 @@ py_Gui_object_dealloc (py_Gui_object *self)
 }
 
 PyObject *
-py_new_Gui_object (WorkbookControlGUI *wbcg)
+py_new_Gui_object (WBCGtk *wbcg)
 {
 	py_Gui_object *self;
 

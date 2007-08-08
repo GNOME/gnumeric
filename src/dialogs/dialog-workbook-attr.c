@@ -46,7 +46,7 @@ typedef struct {
 
 	Workbook	 *wb;
 	WorkbookView     *wbv;
-	WorkbookControlGUI	 *wbcg;
+	WBCGtk	 *wbcg;
 
 	struct {
 		GtkToggleButton	*show_hsb;
@@ -320,7 +320,7 @@ attr_dialog_impl (AttrState *state)
 }
 
 void
-dialog_workbook_attr (WorkbookControlGUI *wbcg)
+dialog_workbook_attr (WBCGtk *wbcg)
 {
 	GladeXML     *gui;
 	AttrState    *state;

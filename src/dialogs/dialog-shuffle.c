@@ -127,7 +127,7 @@ shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
  *
  **/
 void
-dialog_shuffle (WorkbookControlGUI *wbcg)
+dialog_shuffle (WBCGtk *wbcg)
 {
         ShuffleState    *state;
 	WorkbookControl *wbc;

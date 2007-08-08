@@ -61,7 +61,7 @@
 
 typedef struct
 {
-	WorkbookControlGUI  *wbcg;
+	WBCGtk  *wbcg;
 	Workbook  *wb;
 
 	GladeXML  *gui;
@@ -922,7 +922,7 @@ dialog_formula_guru_show (FormulaGuruState *state)
  * Pop up a function selector then a formula guru.
  */
 void
-dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
+dialog_formula_guru (WBCGtk *wbcg, GnmFunc const *fd)
 {
 	SheetView *sv;
 	GladeXML  *gui;

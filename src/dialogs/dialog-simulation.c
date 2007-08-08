@@ -405,7 +405,7 @@ init_results_view (SimulationState *state)
  *
  **/
 void
-dialog_simulation (WorkbookControlGUI *wbcg, G_GNUC_UNUSED Sheet *sheet)
+dialog_simulation (WBCGtk *wbcg, G_GNUC_UNUSED Sheet *sheet)
 {
         SimulationState *state;
 	WorkbookControl *wbc;

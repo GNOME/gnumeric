@@ -218,7 +218,7 @@ gnm_component_factory (BonoboGenericFactory *this,
 
 	d (printf ("%s producing a '%s'\n", "gnm_component_factory", oaf_iid));
 	wbc = workbook_control_component_new ();
-	w = WORKBOOK_CONTROL_GUI (wbc)->table;
+	w = WBC_GTK (wbc)->table;
 	g_object_set_data (G_OBJECT (w), WBC_KEY, wbc);
 	gtk_widget_show(w);
 	control = bonobo_control_new (w);

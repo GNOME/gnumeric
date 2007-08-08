@@ -1370,7 +1370,7 @@ gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
 }
 
 void
-gnm_print_sheet (WorkbookControlGUI *wbcg, Sheet *sheet,
+gnm_print_sheet (WBCGtk *wbcg, Sheet *sheet,
 		 gboolean preview, PrintRange default_range,
 		 GsfOutput *export_dst)
 {

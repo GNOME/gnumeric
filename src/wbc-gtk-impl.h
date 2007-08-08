@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_WORKBOOK_CONTROL_GUI_PRIV_H
-#define GNUMERIC_WORKBOOK_CONTROL_GUI_PRIV_H
+#ifndef GNM_WBC_GTK_IMPL_H
+#define GNM_WBC_GTK_IMPL_H
 
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
@@ -15,7 +15,7 @@
 #endif
 
 struct _WBCGtk {
-	WorkbookControl	wb_control;
+	WorkbookControl	base;
 
 	GtkWidget   *toplevel;
 #ifdef USE_HILDON
@@ -80,6 +80,36 @@ struct _WBCGtk {
 	gulong sig_auto_expr_text;
 	gulong sig_sheet_order, sig_notify_uri, sig_notify_dirty;
 	gpointer sig_wbv;
+
+/**********************************************/
+	GtkWidget	 *status_area;
+	GtkUIManager     *ui;
+	GtkActionGroup   *permanent_actions, *actions, *font_actions;
+	struct {
+		GtkActionGroup   *actions;
+		guint		  merge_id;
+	} file_history, toolbar, windows;
+
+	GOActionComboStack	*undo_haction, *redo_haction;
+	GtkAction		*undo_vaction, *redo_vaction;
+	GOActionComboColor	*fore_color, *back_color;
+	GOActionComboText	*font_name, *font_size, *zoom;
+	GOActionComboPixmaps	*borders, *halignment, *valignment;
+	struct {
+		GtkToggleAction	 *bold, *italic, *underline, *d_underline;
+		GtkToggleAction	 *superscript, *subscript, *strikethrough;
+	} font;
+	struct {
+		GtkToggleAction	 *left, *center, *right, *center_across_selection;
+	} h_align;
+	struct {
+		GtkToggleAction	 *top, *center, *bottom;
+	} v_align;
+
+	GtkWidget *menu_zone, *everything, *toolbar_zones[4];
+	GHashTable *custom_uis;
+
+	guint idle_update_style_feedback;
 };
 
 typedef struct {
@@ -89,7 +119,7 @@ typedef struct {
 	void (*markup_changed)		(WorkbookControlGUI const *wbcg);
 } WorkbookControlGUIClass;
 
-#define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUIClass))
+#define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WBC_GTK_TYPE, WorkbookControlGUIClass))
 
 #define GNM_RESPONSE_SAVE_ALL -1000
 #define GNM_RESPONSE_DISCARD_ALL -1001
@@ -111,5 +141,4 @@ enum {
 
 extern guint wbcg_signals [WBCG_LAST_SIGNAL];
 
-#endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_PRIV_H */
-
+#endif /* GNM_WBC_GTK_IMPL_H */

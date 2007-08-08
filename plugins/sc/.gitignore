@@ -5,3 +5,5 @@ Makefile
 .deps
 .libs
 plugin.xml
+*.loT
+*.sw*

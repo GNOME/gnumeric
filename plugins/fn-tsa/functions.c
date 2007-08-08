@@ -35,34 +35,25 @@
 #include <mathfunc.h>
 #include <rangefunc.h>
 #include <regression.h>
+#include <workbook.h>
 #include <sheet.h>
 #include <cell.h>
 #include <collect.h>
+#include <number-match.h>
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
 #include <func-builtin.h>
 #include <gnm-i18n.h>
-#include <goffice/app/go-plugin.h>
 #include <goffice/utils/go-cspline.h>
 #include <gnm-plugin.h>
 #include <tools/analysis-tools.h>
-#include <stdlib.h>
 
-#include <workbook-control-gui.h>
-/* for white spaces removal */
-#include <workbook.h>
-#include <number-match.h>
-
-
-#include <gui-util.h>
-#include <gtk/gtkactiongroup.h>
-#include <gtk/gtktoggleaction.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include <stdio.h>
+
 GNM_PLUGIN_MODULE_HEADER;
 
 enum {

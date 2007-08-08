@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_GUI_UTIL_H
 #define GNUMERIC_GUI_UTIL_H
 
-#include "workbook-control-gui.h"
+#include "gui-gnumeric.h"
 #include "command-context.h"
 #include "gutils.h"
 
@@ -19,15 +19,15 @@
 #include <glade/glade-xml.h>
 
 #define GNM_ACTION_DEF(name)			\
-	void name (GtkAction *a, WorkbookControlGUI *wbcg)
+	void name (GtkAction *a, WBCGtk *wbcg)
 
 GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
 void       gnumeric_error_info_dialog_show (GtkWindow *parent,
                                             ErrorInfo *error);
-void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
+void       gnumeric_keyed_dialog (WBCGtk *wbcg,
 				  GtkWindow *dialog,
 				  char const *key);
-gpointer   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
+gpointer   gnumeric_dialog_raise_if_exists (WBCGtk *wbcg,
 					    char const *key);
 void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *w);
 
@@ -120,7 +120,7 @@ typedef enum {
 } GnmDialogDestroyOptions;
 
 void gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
-					WorkbookControlGUI *wbcg,
+					WBCGtk *wbcg,
 					GnmDialogDestroyOptions what);
 
 #endif /* GNUMERIC_GUI_UTIL_H */

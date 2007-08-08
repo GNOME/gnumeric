@@ -724,7 +724,7 @@ is_pointer_on_division (ItemBar const *ib, double x, double y,
 		}
 
 		if (cri->visible) {
-			WorkbookControlGUI *wbcg = scg_wbcg (ib->pane->simple.scg);
+			WBCGtk *wbcg = scg_wbcg (ib->pane->simple.scg);
 			total += cri->size_pixels;
 
 			if (wbcg_edit_get_guru (wbcg) == NULL &&
@@ -840,7 +840,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 	SheetControlGUI	* const scg = pane->simple.scg;
 	SheetControl	* const sc = (SheetControl *) pane->simple.scg;
 	Sheet		* const sheet = sc_sheet (sc);
-	WorkbookControlGUI * const wbcg = scg_wbcg (scg);
+	WBCGtk * const wbcg = scg_wbcg (scg);
 	gboolean const is_cols = ib->is_col_header;
 	int pos, minor_pos, start, element, x, y;
 

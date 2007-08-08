@@ -5,3 +5,5 @@
 Makefile.in
 Makefile
 plugin.xml
+*.loT
+*.sw*

@@ -45,7 +45,7 @@
 #include <unistd.h>
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GnmPasteTarget        *paste_target;
 	GdkAtom            image_atom;
 	GdkAtom            string_atom;
@@ -72,7 +72,7 @@ typedef struct {
 
 
 static GnmCellRegion *
-text_to_cell_region (WorkbookControlGUI *wbcg,
+text_to_cell_region (WBCGtk *wbcg,
 		     gchar const *data, int data_len,
 		     char const *opt_encoding,
 		     gboolean fixed_encoding)
@@ -154,7 +154,7 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 		       gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
-	WorkbookControlGUI *wbcg = ctxt->wbcg;
+	WBCGtk *wbcg = ctxt->wbcg;
 	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
@@ -253,7 +253,7 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			  gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
-	WorkbookControlGUI *wbcg = ctxt->wbcg;
+	WBCGtk *wbcg = ctxt->wbcg;
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 
 	if (sel->length > 0) {
@@ -275,7 +275,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
-	WorkbookControlGUI *wbcg = ctxt->wbcg;
+	WBCGtk *wbcg = ctxt->wbcg;
 	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 	GnmCellRegion *content = NULL;
@@ -727,7 +727,7 @@ x_clipboard_clear_cb (GtkClipboard *clipboard,
 }
 
 void
-x_request_clipboard (WorkbookControlGUI *wbcg, GnmPasteTarget const *pt)
+x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 {
 	GnmGtkClipboardCtxt *ctxt;
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
@@ -778,7 +778,7 @@ target_list_to_entries (GtkTargetList *target_list, int *n_entries)
 }
 
 gboolean
-x_claim_clipboard (WorkbookControlGUI *wbcg)
+x_claim_clipboard (WBCGtk *wbcg)
 {
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
@@ -864,14 +864,14 @@ void
 x_store_clipboard_if_needed (Workbook *wb)
 {
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
-	WorkbookControlGUI *wbcg = NULL;
+	WBCGtk *wbcg = NULL;
 
 	g_return_if_fail (IS_WORKBOOK (wb));
 	
 	if (sheet && sheet->workbook == wb) {
 		WORKBOOK_FOREACH_CONTROL (wb, view, control, {
-			if (IS_WORKBOOK_CONTROL_GUI (control)) {
-				wbcg = WORKBOOK_CONTROL_GUI (control);
+			if (IS_WBC_GTK (control)) {
+				wbcg = WBC_GTK (control);
 			}
 		});
 

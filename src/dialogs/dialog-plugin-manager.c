@@ -648,7 +648,7 @@ cb_pm_close_clicked (PluginManagerGUI *pm_gui)
 }
 
 void
-dialog_plugin_manager (WorkbookControlGUI *wbcg)
+dialog_plugin_manager (WBCGtk *wbcg)
 {
 	PluginManagerGUI *pm_gui;
 	GladeXML *gui;
@@ -659,7 +659,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	GtkCellRenderer *rend;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;

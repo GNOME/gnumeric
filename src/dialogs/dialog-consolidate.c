@@ -530,7 +530,7 @@ dialog_consolidate_tool_init (ConsolidateState *state)
 }
 
 void
-dialog_consolidate (WorkbookControlGUI *wbcg)
+dialog_consolidate (WBCGtk *wbcg)
 {
 	ConsolidateState *state;
 	SheetView *sv;

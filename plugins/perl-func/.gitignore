@@ -5,3 +5,5 @@ Makefile.in
 *.lo
 *.la
 plugin.xml
+*.loT
+*.sw*

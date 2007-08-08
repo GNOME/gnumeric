@@ -36,7 +36,7 @@
 
 typedef struct {
 	GladeXML           *gui;
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	Sheet              *sheet;
 	SheetView	   *sv;
 	GtkWidget          *dialog;
@@ -73,7 +73,7 @@ cb_pivottable_guru_cancel (G_GNUC_UNUSED GtkWidget *button,
 }
 
 void
-dialog_pivottable (WorkbookControlGUI *wbcg)
+dialog_pivottable (WBCGtk *wbcg)
 {
 	PivotTableGuru *state;
 	GladeXML *gui;

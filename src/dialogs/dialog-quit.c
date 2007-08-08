@@ -130,7 +130,7 @@ cb_clear_all (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static gboolean
-show_quit_dialog (GList *dirty, WorkbookControlGUI *wbcg)
+show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 {
 	GtkDialog *dialog;
 	GtkTreeView *tree;
@@ -324,7 +324,7 @@ show_quit_dialog (GList *dirty, WorkbookControlGUI *wbcg)
 		if (save) {
 			gboolean ok;
 			Workbook *wb = WORKBOOK (doc);
-			WorkbookControlGUI *wbcg2 = wbcg_find_for_workbook 
+			WBCGtk *wbcg2 = wbcg_find_for_workbook 
 				(wb, wbcg, NULL, NULL);
 
 			ok = wbcg2 && gui_file_save (wbcg2, wb_control_view (WORKBOOK_CONTROL (wbcg2)));
@@ -351,7 +351,7 @@ doc_order (gconstpointer a_, gconstpointer b_)
 }
 
 void
-dialog_quit (WorkbookControlGUI *wbcg)
+dialog_quit (WBCGtk *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GList *l, *dirty = NULL;

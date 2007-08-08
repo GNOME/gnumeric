@@ -11,7 +11,7 @@ typedef struct {
 	GTypeInterface base;
 
 	void		(*activate)	(SheetObject *so, GtkWidget *popup,   GtkTreeView *list,
-					 WorkbookControlGUI *wbcg);
+					 WBCGtk *wbcg);
 	GtkListStore *	(*fill_model)   (SheetObject *so, GtkTreePath **clip, GtkTreePath **select);
 	GtkWidget *	(*create_arrow) (SheetObject *so);
 } GnmCComboFooViewIface;

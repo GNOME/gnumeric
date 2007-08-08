@@ -41,7 +41,7 @@
 #include <gtk/gtkhbox.h>
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	WBCGtk *wbcg;
 	GtkDialog	*dialog;
 	GtkWidget	*op_frame;
 	struct {
@@ -175,7 +175,7 @@ cb_paste_special_response (GtkWidget *dialog,
 }
 
 void
-dialog_paste_special (WorkbookControlGUI *wbcg)
+dialog_paste_special (WBCGtk *wbcg)
 {
 	PasteSpecialState *state;
 	GtkWidget *tmp, *hbox, *vbox, *f1, *f1v, *op_box, *first_button = NULL;

@@ -15,6 +15,6 @@ GnmValue *call_python_function	 (PyObject *python_fn,
 gchar    *py_exc_to_string	 (void);
 PyObject *py_new_Sheet_object	 (Sheet *sheet);
 PyObject *py_new_Workbook_object (Workbook *wb);
-PyObject *py_new_Gui_object	 (WorkbookControlGUI *wbcg);
+PyObject *py_new_Gui_object	 (WBCGtk *wbcg);
 
 #endif /* PLUGIN_PY_GNUMERIC_H */

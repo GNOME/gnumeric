@@ -296,7 +296,7 @@ dialog_tool_cmp (GtkTableChild *tchild, GtkWidget *widget)
  **/
 gboolean
 dialog_tool_init (GenericToolState *state,
-		  WorkbookControlGUI *wbcg,
+		  WBCGtk *wbcg,
 		  Sheet *sheet,
 		  char const *help_file,
 		  char const *gui_name,
@@ -575,7 +575,7 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  *
  **/
 int
-dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
 
@@ -694,7 +694,7 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  *
  **/
 int
-dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
 
@@ -784,7 +784,7 @@ rank_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  *
  **/
 int
-dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
 
@@ -875,7 +875,7 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  *
  **/
 int
-dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
 
@@ -1086,7 +1086,7 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  *
  **/
 int
-dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         DescriptiveStatState *state;
 
@@ -1450,7 +1450,7 @@ dialog_ttest_realized (G_GNUC_UNUSED GtkWidget *widget,
  *
  **/
 int
-dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
+dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 {
         TTestState *state;
 	GtkDialog *dialog;
@@ -1643,7 +1643,7 @@ ftest_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  *
  **/
 int
-dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         FTestToolState *state;
 
@@ -1836,7 +1836,7 @@ dialog_sampling_realized (G_GNUC_UNUSED GtkWidget *widget,
  *
  **/
 int
-dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         SamplingState *state;
 
@@ -2047,7 +2047,7 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  *
  **/
 int
-dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         RegressionToolState *state;
 
@@ -2175,7 +2175,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  *
  **/
 int
-dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         ExpSmoothToolState *state;
 
@@ -2307,7 +2307,7 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  *
  **/
 int
-dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         AverageToolState *state;
 
@@ -2519,7 +2519,7 @@ histogram_tool_set_calculated (G_GNUC_UNUSED GtkWidget *widget,
  *
  **/
 int
-dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         HistogramToolState *state;
 
@@ -2701,7 +2701,7 @@ anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  *
  **/
 int
-dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         AnovaSingleToolState *state;
 
@@ -2927,7 +2927,7 @@ anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
  *
  **/
 int
-dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         AnovaTwoFactorToolState *state;
 

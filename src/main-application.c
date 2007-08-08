@@ -313,7 +313,7 @@ store_plugin_state (void)
 }
 
 static int
-cb_kill_wbcg (WorkbookControlGUI *wbcg)
+cb_kill_wbcg (WBCGtk *wbcg)
 {
 	wbcg_close_control (wbcg);
 	return FALSE;
@@ -486,11 +486,11 @@ main (int argc, char **argv)
 				gnumeric_io_error_clear (ioc);
 			}
 			if (wbv != NULL) {
-				WorkbookControlGUI *wbcg;
+				WBCGtk *wbcg;
 
 				workbook_update_history (wb_view_get_workbook (wbv));
 
-				wbcg = WORKBOOK_CONTROL_GUI
+				wbcg = WBC_GTK
 					(workbook_control_gui_new (wbv, NULL, NULL));
 				sheet_update (wb_view_cur_sheet	(wbv));
   				opened_workbook = TRUE;
