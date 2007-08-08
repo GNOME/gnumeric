@@ -1472,17 +1472,24 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 			continue;
 		}
 
-		/* We need a cleaner model of what to do here.  For now it
-		 * seems as if var-arg functions treat explict ranges as special cases
-		 * 	SUM(Range) or
-		 * 	SUM(INDIRECT(foo))
-		 * will pass the range not do implicit intersection in non-array mode
+		/* We need a cleaner model of what to do here.
+		 * In non-array mode
+		 * 	SUM(Range)
+		 * will obviously return Range
+		 *
+		 * 	SUM(INDIRECT(Range))
+		 * 	SUM(INDIRECT(Range):....)
+		 * will do implicit intersection on Range (in non-array mode),
+		 * but allow non-scalar results from indirect (no intersection)
+		 *
 		 * 	SUM(Range=3)
 		 * will do implicit intersection in non-array mode */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT)
 			val = value_dup (expr->constant.value);
 		else if (ep->array != NULL ||
-			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL)
+			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL ||
+			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_RANGE_CTOR ||
+			 GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_INTERSECT)
 			val = gnm_expr_eval (expr, ep,
 				GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		else

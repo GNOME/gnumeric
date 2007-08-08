@@ -33,6 +33,12 @@
 
 	* configure.in: requires goffice-0.4.3.
 
+2007-08-01  Jody Goldberg <jody@gnome.org>
+
+	[#395926]
+	* src/func.c (function_iterate_argument_values) : Allow non-scalar
+	  results for var-arg arguments use intersect or union too.
+
 2007-07-29  Jody Goldberg <jody@gnome.org>
 
 	[#461284]

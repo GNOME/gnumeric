@@ -9,6 +9,7 @@ Jody:
 	* XLS import for Form combos/lists source ranges. [#451384]
 	* Remove warning when combo objects updated.
 	* Repeat action being activated by F4 while editing. [#461284]
+	* SUM(INDIRECT:INDIRECT) XL compat outside arrays. [#395926]
 
 Morten:
 	* Fix undo column/row insert/delete.  [#463834]
