@@ -1,3 +1,21 @@
+2007-08-07  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_insert_rows): Plug leak.
+
+	* src/gnumeric.h (GnmRelocUndo): Replace by GOUndo.
+
+	* src/sheet-object.c (sheet_objects_clear): Add undo parameter.
+	All callers changed.  (This fixes sheet object undo when columns
+	containing objects are deleted.)
+
+	* src/dependent.c (dependents_unrelocate): Make static and no
+	longer free the info.
+	(dependents_unrelocate_free): Make static.
+	(dependents_relocate): Return a GOUndo.  All callers changed.
+
+	* src/sheet.c (sheet_delete_cols, sheet_delete_rows,
+	sheet_move_range): Use go_undo_combine to combine undo items.
+
 2007-08-07  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* src/sheet-object-graph.c (gnm_sog_draw_cairo): use

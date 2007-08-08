@@ -1361,7 +1361,7 @@ sheet_update_only_grid (Sheet const *sheet)
 				  (p->recompute_visibility ?
 				   SPANCALC_NO_DRAW : GNM_SPANCALC_SIMPLE));
 #endif
-		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
+		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS - 1);
 	}
 
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
@@ -1951,7 +1951,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 	closure.sheet = sheet;
 	closure.col = col;
 
-	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS - 1,
 			&cb_recalc_spans_in_col, &closure);
 }
 
@@ -3363,7 +3363,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 
 	if (free_cells)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			col, 0, col, SHEET_MAX_ROWS-1,
+			col, 0, col, SHEET_MAX_ROWS - 1,
 			&cb_free_cell, NULL);
 
 	(*segment)->info[sub] = NULL;
@@ -3400,7 +3400,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 
 	if (free_cells)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			0, row, SHEET_MAX_COLS-1, row,
+			0, row, SHEET_MAX_COLS - 1, row,
 			&cb_free_cell, NULL);
 
 	/* Rows have span lists, destroy them too */
@@ -3648,9 +3648,9 @@ sheet_clear_region (Sheet *sheet,
 	}
 
 	if (clear_flags & CLEAR_OBJECTS)
-		sheet_objects_clear (sheet, &r, G_TYPE_NONE);
+		sheet_objects_clear (sheet, &r, G_TYPE_NONE, NULL);
 	else if (clear_flags & CLEAR_COMMENTS)
-		sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
+		sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE, NULL);
 
 	/* TODO : how to handle objects ? */
 	if (clear_flags & CLEAR_VALUES) {
@@ -3773,15 +3773,14 @@ colrow_move (Sheet *sheet,
 	sheet_mark_dirty (sheet);
 }
 
-/* reloc_storage can be NULL */
 static void
 sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int state_start, ColRowStateList *states,
-			    GnmRelocUndo *reloc_storage)
+			    GOUndo **pundo)
 {
 	Sheet *sheet = rinfo->origin_sheet;
 
-	sheet_objects_relocate (rinfo, FALSE, reloc_storage);
+	sheet_objects_relocate (rinfo, FALSE, pundo);
 	gnm_sheet_merge_relocate (rinfo);
 
 	/* Notify sheet of pending updates */
@@ -3822,14 +3821,13 @@ sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
 	}
 }
 
-/* reloc_storage can be NULL */
 static void
 sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states,
-			    GnmRelocUndo *reloc_storage)
+			    GOUndo **pundo)
 {
 	sheet_style_insert_colrow (rinfo);
-	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pos, states, reloc_storage);
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pos, states, pundo);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos+count);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols,
@@ -3848,15 +3846,14 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 		sv_panes_insdel_colrow (sv, is_cols, TRUE, pos, count););
 }
 
-/* reloc_storage can be NULL */
 static void
 sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states,
-			    GnmRelocUndo *reloc_storage)
+			    GOUndo **pundo)
 {
 	int end = colrow_max (is_cols) - count;
 	sheet_style_relocate (rinfo);
-	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states, reloc_storage);
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states, pundo);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);
 	gnm_sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, FALSE,
@@ -3872,35 +3869,43 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 		sv_panes_insdel_colrow (sv, is_cols, FALSE, pos, count););
 }
 
+
+static void
+combine_undo (GOUndo **pundo, GOUndo *u)
+{
+	if (pundo)
+		*pundo = go_undo_combine (*pundo, u);
+	else
+		g_object_unref (u);
+}
+
 /**
  * sheet_insert_cols:
  * @sheet  : #Sheet
  * @col    : At which position we want to insert
  * @count  : The number of columns to be inserted
  * @states :
- * @reloc_storage : optionally NULL, caller releases result
- * 			with gnm_reloc_undo_release.
+ * @pundo : optionally NULL, caller releases result
  * @cc     :
  **/
 gboolean
 sheet_insert_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
+		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
-	GSList   *relocated_exprs;
-	int   i;
+	int i;
 
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = NULL;
+	if (pundo)
+		*pundo = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
 	if (count < SHEET_MAX_COLS) {
-		range_init (&region, col, 0, SHEET_MAX_COLS-1-count, SHEET_MAX_ROWS-1);
+		range_init (&region, col, 0, SHEET_MAX_COLS - 1-count, SHEET_MAX_ROWS - 1);
 		if (sheet_range_splits_array (sheet, &region, NULL,
 					      cc, _("Insert Columns")))
 			return TRUE;
@@ -3914,27 +3919,23 @@ sheet_insert_cols (Sheet *sheet,
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
-	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = count;
 	reloc_info.row_offset = 0;
-	relocated_exprs = dependents_relocate (&reloc_info);
 
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = relocated_exprs;
-	else
-		dependents_unrelocate_free (relocated_exprs);
+	combine_undo (pundo, dependents_relocate (&reloc_info));
 
-	/* 3. Move the columns to their new location (From right to left) */
+	/* 3. Move the columns to their new location (from right to left) */
 	for (i = sheet->cols.max_used; i >= col ; --i)
-		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
+		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS - 1,
 			     &sheet->cols, i, i + count);
 
 	solver_insert_cols (sheet, col, count);
 	scenarios_insert_cols (sheet->scenarios, col, count);
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count,
-		states, reloc_storage);
+		states, pundo);
 	return FALSE;
 }
 
@@ -3943,21 +3944,19 @@ sheet_insert_cols (Sheet *sheet,
  * @sheet   The sheet
  * @col     At which position we want to start deleting columns
  * @count   The number of columns to be deleted
- * @reloc_storage : optionally NULL, caller releases result
- * 			with gnm_reloc_undo_release.
+ * @pundo : optionally NULL, caller releases result
  * @cc : The command context
  */
 gboolean
 sheet_delete_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
+		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
-	GSList   *relocated_exprs;
 	int i;
 
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = NULL;
+	if (pundo)
+		*pundo = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
@@ -3966,7 +3965,7 @@ sheet_delete_cols (Sheet *sheet,
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
 	reloc_info.origin.end.col = col + count - 1;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = SHEET_MAX_COLS; /* force invalidation */
 	reloc_info.row_offset = 0;
@@ -3979,39 +3978,31 @@ sheet_delete_cols (Sheet *sheet,
 	/* 1. Delete the columns (and their cells) */
 	for (i = col + count ; --i >= col; )
 		sheet_col_destroy (sheet, i, TRUE);
-	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
+	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE, pundo);
 
 	/* 1.5 sheet_colrow_delete_finish will flag the remains as changing, but we
 	 * need to mark the cleared area */
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	/* 2. Invalidate references to the cells in the deleted columns */
-	relocated_exprs = dependents_relocate (&reloc_info);
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = relocated_exprs;
-	else
-		dependents_unrelocate_free (relocated_exprs);
+	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.col = col+count;
-	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
+	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
-	relocated_exprs = dependents_relocate (&reloc_info);
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = g_slist_concat (relocated_exprs, reloc_storage->exprs);
-	else
-		dependents_unrelocate_free (relocated_exprs);
+	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 4. Move the columns to their new location (from left to right) */
 	for (i = col + count ; i <= sheet->cols.max_used; ++i)
-		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
-			     &sheet->cols, i, i-count);
+		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS - 1,
+			     &sheet->cols, i, i - count);
 
 	solver_delete_cols (sheet, col, count);
 	scenarios_delete_cols (sheet->scenarios, col, count);
 	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count,
-		states, reloc_storage);
+		states, pundo);
 	return FALSE;
 }
 
@@ -4021,29 +4012,27 @@ sheet_delete_cols (Sheet *sheet,
  * @row     At which position we want to insert
  * @count   The number of rows to be inserted
  * @states :
- * @reloc_storage : optionally NULL, caller releases result
- * 			with gnm_reloc_undo_release.
+ * @pundo : optionally NULL, caller releases result
  * @cc : The command context
  */
 gboolean
 sheet_insert_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
+		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
-	GSList   *relocated_exprs;
-	int   i;
+	int i;
 
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = NULL;
+	if (pundo)
+		*pundo = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
 	if (count < SHEET_MAX_ROWS) {
-		range_init (&region, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1-count);
+		range_init (&region, 0, row, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1-count);
 		if (sheet_range_splits_array (sheet, &region, NULL,
 					      cc, _("Insert Rows")))
 			return TRUE;
@@ -4057,24 +4046,22 @@ sheet_insert_rows (Sheet *sheet,
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
-	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = count;
-	relocated_exprs = dependents_relocate (&reloc_info);
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = relocated_exprs;
+	combine_undo (pundo, dependents_relocate (&reloc_info));
 
-	/* 3. Move the rows to their new location (from bottom to top) */
+	/* 3. Move the rows to their new location (from last to first) */
 	for (i = sheet->rows.max_used; i >= row ; --i)
-		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
-			     &sheet->rows, i, i+count);
+		colrow_move (sheet, 0, i, SHEET_MAX_COLS - 1, i,
+			     &sheet->rows, i, i + count);
 
 	solver_insert_rows (sheet, row, count);
 	scenarios_insert_rows (sheet->scenarios, row, count);
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count,
-		states, reloc_storage);
+		states, pundo);
 	return FALSE;
 }
 
@@ -4083,21 +4070,19 @@ sheet_insert_rows (Sheet *sheet,
  * @sheet   The sheet
  * @row     At which position we want to start deleting rows
  * @count   The number of rows to be deleted
- * @reloc_storage : optionally NULL, caller releases result
- * 			with gnm_reloc_undo_release.
+ * @pundo : optionally NULL, caller releases result
  * @cc : The command context
  */
 gboolean
 sheet_delete_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
+		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
-	GSList   *relocated_exprs;
 	int i;
 
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = NULL;
+	if (pundo)
+		*pundo = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
@@ -4105,7 +4090,7 @@ sheet_delete_rows (Sheet *sheet,
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
-	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
+	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
 	reloc_info.origin.end.row = row + count - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
@@ -4119,39 +4104,31 @@ sheet_delete_rows (Sheet *sheet,
 	/* 1. Delete the rows (and their content) */
 	for (i = row + count ; --i >= row; )
 		sheet_row_destroy (sheet, i, TRUE);
-	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
+	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE, pundo);
 
 	/* 1.5 sheet_colrow_delete_finish will flag the remains as changing, but we
 	 * need to mark the cleared area */
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	/* 2. Invalidate references to the cells in the deleted rows */
-	relocated_exprs = dependents_relocate (&reloc_info);
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = relocated_exprs;
-	else
-		dependents_unrelocate_free (relocated_exprs);
+	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.row = row + count;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = -count;
-	relocated_exprs = dependents_relocate (&reloc_info);
-	if (NULL != reloc_storage)
-		reloc_storage->exprs = g_slist_concat (relocated_exprs, reloc_storage->exprs);
-	else
-		dependents_unrelocate_free (relocated_exprs);
+	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 4. Move the rows to their new location (from top to bottom) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
-		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
-			     &sheet->rows, i, i-count);
+		colrow_move (sheet, 0, i, SHEET_MAX_COLS - 1, i,
+			     &sheet->rows, i, i - count);
 
 	solver_delete_rows (sheet, row, count);
 	scenarios_delete_rows (sheet->scenarios, row, count);
 	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count,
-		states, reloc_storage);
+		states, pundo);
 	return FALSE;
 }
 
@@ -4159,17 +4136,16 @@ sheet_delete_rows (Sheet *sheet,
  * sheet_move_range :
  * @cc :
  * @rinfo :
- * @reloc_storage : optionally NULL, caller releases result
- * 			with gnm_reloc_undo_release.
+ * @pundo : optionally NULL, caller releases result
  *
  * Move a range as specified in @rinfo report warnings to @cc.
- * if @reloc_storage is non NULL, invalidate references to the
+ * if @pundo is non NULL, invalidate references to the
  * target region that are being cleared, and store the undo information
- * in @reloc_storage.  If it is NULL do NOT INVALIDATE.
+ * in @pundo.  If it is NULL do NOT INVALIDATE.
  **/
 void
 sheet_move_range (GnmExprRelocateInfo const *rinfo,
-		  GnmRelocUndo *reloc_storage, GOCmdContext *cc)
+		  GOUndo **pundo, GOCmdContext *cc)
 {
 	GList *cells = NULL;
 	GnmCell  *cell;
@@ -4193,8 +4169,8 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	 * to from the src range are adjusted because they will point into
 	 * the destination.
 	 */
-	if (reloc_storage != NULL) {
-		reloc_storage->exprs = NULL;
+	if (pundo != NULL) {
+		*pundo = NULL;
 		if (!out_of_range) {
 			GSList *invalid;
 			GnmExprRelocateInfo reloc_info;
@@ -4235,9 +4211,8 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 				invalid = g_slist_remove (invalid, r);
 				if (!range_overlap (r, &rinfo->origin)) {
 					reloc_info.origin = *r;
-					reloc_storage->exprs = g_slist_concat (
-						dependents_relocate (&reloc_info),
-						reloc_storage->exprs);
+					combine_undo (pundo,
+						      dependents_relocate (&reloc_info));
 				}
 				g_free (r);
 			}
@@ -4249,9 +4224,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 		}
 
 		/* 2. Fix references to and from the cells which are moving */
-		reloc_storage->exprs = g_slist_concat (
-			dependents_relocate (rinfo),
-			reloc_storage->exprs);
+		combine_undo (pundo, dependents_relocate (rinfo));
 	}
 
 	/* 3. Collect the cells */
@@ -4299,7 +4272,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	}
 
 	/* 7. Move objects in the range */
-	sheet_objects_relocate (rinfo, TRUE, reloc_storage);
+	sheet_objects_relocate (rinfo, TRUE, pundo);
 	gnm_sheet_merge_relocate (rinfo);
 
 	/* 8. Notify sheet of pending update */
@@ -4707,10 +4680,10 @@ sheet_dup_colrows (Sheet const *src, Sheet *dst)
 
 	closure.sheet = dst;
 	closure.is_column = TRUE;
-	colrow_foreach (&src->cols, 0, SHEET_MAX_COLS-1,
+	colrow_foreach (&src->cols, 0, SHEET_MAX_COLS - 1,
 			&sheet_clone_colrow_info_item, &closure);
 	closure.is_column = FALSE;
-	colrow_foreach (&src->rows, 0, SHEET_MAX_ROWS-1,
+	colrow_foreach (&src->rows, 0, SHEET_MAX_ROWS - 1,
 			&sheet_clone_colrow_info_item, &closure);
 
 	sheet_col_set_default_size_pixels (dst,

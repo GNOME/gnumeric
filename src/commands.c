@@ -398,37 +398,6 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 }
 
 
-static void
-gnm_reloc_undo_release (GnmRelocUndo *undo)
-{
-	if (undo->exprs != NULL) {
-		dependents_unrelocate_free (undo->exprs);
-		undo->exprs = NULL;
-	}
-	if (undo->objs != NULL) {
-		go_slist_free_custom (undo->objs, g_object_unref);
-		undo->objs = NULL;
-	}
-}
-
-static void
-gnm_reloc_undo_apply (GnmRelocUndo *undo, Sheet *sheet)
-{
-	GSList *ptr;
-
-	/* Restore the dropped objects */
-	for (ptr = undo->objs ; ptr != NULL ; ptr = ptr->next) {
-		sheet_object_set_sheet (ptr->data, sheet);
-		g_object_unref (ptr->data);
-	}
-	g_slist_free (undo->objs);
-	undo->objs = NULL;
-
-	/* Restore the changed expressions */
-	dependents_unrelocate (undo->exprs);
-	undo->exprs = NULL;
-}
-
 /**
  * command_undo : Undo the last command executed.
  * @wbc : The workbook control which issued the request.
@@ -1267,7 +1236,7 @@ typedef struct {
 
 	ColRowStateList *saved_states;
 	GOUndoGroup     *undo;
-	GnmRelocUndo	 reloc_storage;
+	GOUndo          *reloc_undo;
 } CmdInsDelColRow;
 
 static void
@@ -1297,7 +1266,7 @@ static gboolean
 cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
-	GnmRelocUndo tmp;
+	GOUndo *tmp_undo = NULL;
 	gboolean trouble;
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -1305,17 +1274,17 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (!me->is_insert) {
 		if (me->is_cols)
 			trouble = sheet_insert_cols (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp_undo, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp_undo, GO_CMD_CONTEXT (wbc));
 	} else {
 		if (me->is_cols)
 			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp_undo, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_delete_rows (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp_undo, GO_CMD_CONTEXT (wbc));
 	}
 
 	/* I really do not expect trouble on the undo leg */
@@ -1326,9 +1295,14 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 #warning "fix object handling"
 
 	/* Throw away the undo info for the expressions after the action*/
-	dependents_unrelocate_free (tmp.exprs);
+	if (tmp_undo)
+		g_object_unref (tmp_undo);
 
-	gnm_reloc_undo_apply (&me->reloc_storage, me->sheet);
+	if (me->reloc_undo) {
+		go_undo_undo (me->reloc_undo);
+		g_object_unref (me->reloc_undo);
+		me->reloc_undo = NULL;
+	}
 
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
@@ -1376,19 +1350,19 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 		if (me->is_cols)
 			trouble = sheet_insert_cols (me->sheet, me->index, me->count, state,
-						     &me->reloc_storage, GO_CMD_CONTEXT (wbc));
+						     &me->reloc_undo, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
-						     state, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
+						     state, &me->reloc_undo, GO_CMD_CONTEXT (wbc));
 
 		colrow_state_list_destroy (state);
 	} else {
 		if (me->is_cols)
 			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
-						     NULL, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
+						     NULL, &me->reloc_undo, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_delete_rows (me->sheet, me->index, me->count,
-						     NULL, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
+						     NULL, &me->reloc_undo, GO_CMD_CONTEXT (wbc));
 	}
 
 	/* Ins/Del Row/Col re-ants things completely to account
@@ -1432,7 +1406,8 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 	me->cutcopied = NULL;
 
 	sv_weak_unref (&(me->cut_copy_view));
-	gnm_reloc_undo_release (&me->reloc_storage);
+	if (me->reloc_undo)
+		g_object_unref (me->reloc_undo);
 	gnm_command_finalize (cmd);
 }
 
@@ -2545,9 +2520,9 @@ typedef struct {
 	GnmCommand cmd;
 
 	GnmExprRelocateInfo info;
-	GSList		*paste_contents;
-	GnmRelocUndo	 reloc_storage;
-	gboolean	 move_selection;
+	GSList *paste_contents;
+	GOUndo *reloc_undo;
+	gboolean move_selection;
 	ColRowStateList *saved_sizes;
 
 	/* handle redo-ing an undo with contents from a deleted sheet */
@@ -2623,7 +2598,11 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	colrow_state_list_destroy (me->saved_sizes);
 	me->saved_sizes = NULL;
 
-	gnm_reloc_undo_apply (&me->reloc_storage, me->info.target_sheet);
+	if (me->reloc_undo) {
+		go_undo_undo (me->reloc_undo);
+		g_object_unref (me->reloc_undo);
+		me->reloc_undo = NULL;
+	}
 
 	while (me->paste_contents) {
 		PasteContent *pc = me->paste_contents->data;
@@ -2656,8 +2635,6 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_contents == NULL, TRUE);
-	g_return_val_if_fail (me->reloc_storage.exprs == NULL, TRUE);
-	g_return_val_if_fail (me->reloc_storage.objs == NULL, TRUE);
 
 	tmp = me->info.origin;
 	range_translate (&tmp, me->info.col_offset, me->info.row_offset);
@@ -2703,7 +2680,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		cellregion_unref (me->deleted_sheet_contents);
 		me->deleted_sheet_contents = NULL;
 	} else
-		sheet_move_range (&me->info, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
+		sheet_move_range (&me->info, &me->reloc_undo, GO_CMD_CONTEXT (wbc));
 
 	cmd_paste_cut_update (&me->info, wbc);
 
@@ -2731,7 +2708,10 @@ cmd_paste_cut_finalize (GObject *cmd)
 		cellregion_unref (pc->contents);
 		g_free (pc);
 	}
-	gnm_reloc_undo_release (&me->reloc_storage);
+	if (me->reloc_undo) {
+		g_object_unref (me->reloc_undo);
+		me->reloc_undo = NULL;
+	}
 	if (me->deleted_sheet_contents) {
 		cellregion_unref (me->deleted_sheet_contents);
 		me->deleted_sheet_contents = NULL;
@@ -2785,8 +2765,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	me->info = *info;
 	me->paste_contents  = NULL;
 	me->deleted_sheet_contents = NULL;
-	me->reloc_storage.exprs = NULL;
-	me->reloc_storage.objs  = NULL;
+	me->reloc_undo = NULL;
 	me->move_selection = move_selection;
 	me->saved_sizes    = NULL;
 
@@ -4868,11 +4847,11 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text)
 			mr = gnm_sheet_merge_contains_pos (sheet, pos);
 
 			if (mr)
-				sheet_objects_clear (sheet, mr, CELL_COMMENT_TYPE);
+				sheet_objects_clear (sheet, mr, CELL_COMMENT_TYPE, NULL);
 			else {
 				GnmRange r;
 				r.start = r.end = *pos;
-				sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
+				sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE, NULL);
 			}
 		}
 	} else if (text && (strlen (text) > 0))

@@ -13,7 +13,8 @@ Jody:
 	* Merge UI layer back into WBCGtk, no more arbitrary split.
 
 Morten:
-	* Fix undo column/row insert/delete.  [#463834]
+	* Fix undo column/row insert/delete for arrays.  [#463834]
+	* Fix undo column/row delete for objects.
 	* Fix auto-correct issue.  [#463996]
 
 --------------------------------------------------------------------------

@@ -302,24 +302,24 @@ GnmConventions const *sheet_get_conventions (Sheet const *sheet);
 
 /* Implementation for commands, no undo */
 struct _GnmRelocUndo {
-	GSList *exprs;
-	GSList *objs;
+	GOUndo *exprs;
+	GOUndo *objs;
 };
 
 gboolean  sheet_insert_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
+			     GOUndo **pundo, GOCmdContext *cc);
 gboolean  sheet_delete_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
+			     GOUndo **pundo, GOCmdContext *cc);
 gboolean  sheet_insert_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
+			     GOUndo **pundo, GOCmdContext *cc);
 gboolean  sheet_delete_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
+			     GOUndo **pundo, GOCmdContext *cc);
 void      sheet_move_range   (GnmExprRelocateInfo const *rinfo,
-			      GnmRelocUndo *reloc_storage, GOCmdContext *cc);
+			      GOUndo **pundo, GOCmdContext *cc);
 
 
 typedef enum {

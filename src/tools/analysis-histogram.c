@@ -53,6 +53,7 @@
 #include "command-context.h"
 #include "analysis-tools.h"
 #include "analysis-histogram.h"
+#include <goffice/utils/go-glib-extras.h>
 
 #include <goffice/utils/go-glib-extras.h>
 

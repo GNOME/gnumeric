@@ -676,6 +676,23 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
 		FALSE, anchor->offset [3]);
 }
 
+static void
+clear_sheet (SheetObject *so, GOUndo **pundo)
+{
+	if (pundo) {
+		GOUndo *u = go_undo_binary_new
+			(g_object_ref (so),
+			 so->sheet,
+			 (GOUndoBinaryFunc)sheet_object_set_sheet,
+			 g_object_unref,
+			 NULL);
+		*pundo = go_undo_combine (*pundo, u);
+	}
+
+	sheet_object_clear_sheet (so);
+}
+
+
 /**
  * sheet_objects_relocate :
  *
@@ -689,7 +706,7 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
  **/
 void
 sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
-			GnmRelocUndo *undo)
+			GOUndo **pundo)
 {
 	GSList   *ptr, *next;
 	GnmRange	 dest;
@@ -710,9 +727,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			GnmRange const *r  = &so->anchor.cell_bound;
 			if (range_contains (&dest, r->start.col, r->start.row)) {
-				if (NULL != undo)
-					undo->objs = g_slist_prepend (undo->objs, g_object_ref (so));
-				sheet_object_clear_sheet (so);
+				clear_sheet (so, pundo);
 			}
 		}
 		g_slist_free (copy);
@@ -731,9 +746,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 			/* FIXME : just moving the range is insufficent for all anchor types */
 			/* Toss any objects that would be clipped. */
 			if (range_translate (r, rinfo->col_offset, rinfo->row_offset)) {
-				if (NULL != undo)
-					undo->objs = g_slist_prepend (undo->objs, g_object_ref (so));
-				sheet_object_clear_sheet (so);
+				clear_sheet (so, pundo);
 				continue;
 			}
 			if (change_sheets) {
@@ -745,9 +758,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 				sheet_object_update_bounds (so, NULL);
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row)) {
-			if (NULL != undo)
-				undo->objs = g_slist_prepend (undo->objs, g_object_ref (so));
-			sheet_object_clear_sheet (so);
+			clear_sheet (so, pundo);
 			continue;
 		}
 	}
@@ -797,7 +808,8 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
  * removes the objects in the region.
  **/
 void
-sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
+sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t,
+		     GOUndo **pundo)
 {
 	GSList *ptr, *next;
 
@@ -808,10 +820,8 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 		next = ptr->next;
 		if (t == G_TYPE_NONE || t == G_OBJECT_TYPE (obj)) {
 			SheetObject *so = SHEET_OBJECT (obj);
-			if (r == NULL || range_contained (&so->anchor.cell_bound, r)) {
-				/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
-				sheet_object_clear_sheet (so);
-			}
+			if (r == NULL || range_contained (&so->anchor.cell_bound, r))
+				clear_sheet (so, pundo);
 		}
 	}
 }

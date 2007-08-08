@@ -1727,7 +1727,7 @@ cb_desktop_font_changed (GtkSettings *settings, GParamSpec  *pspec,
 		pango_font_description_free (wbcg->font_desc);
 	wbcg->font_desc = settings_get_font_desc (settings);
 	gtk_container_foreach (GTK_CONTAINER (wbcg->notebook),
-		cb_update_item_bar_font, NULL);
+			       (GtkCallback)cb_update_item_bar_font, NULL);
 }
 
 static GtkSettings *

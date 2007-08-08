@@ -1779,7 +1779,7 @@ typedef struct
  *
  * Free the undo info associated with a dependent relocation.
  */
-void
+static void
 dependents_unrelocate_free (GSList *info)
 {
 	GSList *ptr = info;
@@ -1795,9 +1795,9 @@ dependents_unrelocate_free (GSList *info)
  * dependents_unrelocate :
  * @info :
  *
- * Apply _and_ free the undo info associated with a dependent relocation.
+ * Apply the undo info associated with a dependent relocation.
  */
-void
+static void
 dependents_unrelocate (GSList *info)
 {
 	GSList *ptr = info;
@@ -1838,10 +1838,7 @@ dependents_unrelocate (GSList *info)
 			dependent_flag_recalc (tmp->u.dep);
 			dependent_link (tmp->u.dep);
 		}
-		gnm_expr_top_unref (tmp->oldtree);
-		g_free (tmp);
 	}
-	g_slist_free (info);
 }
 
 /**
@@ -1910,11 +1907,8 @@ cb_single_contained_collect (DependencySingle const *depsingle,
  * Fixes references to or from a region that is going to be moved.
  * Returns a list of the locations and expressions that were changed outside of
  * the region.
- *
- * NOTE : Does not queue the changed elemenents or their recursive dependents
- * 	for recalc
  **/
-GSList *
+GOUndo *
 dependents_relocate (GnmExprRelocateInfo const *rinfo)
 {
 	GnmExprRelocateInfo local_rinfo;
@@ -2032,7 +2026,9 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 
 	g_slist_free (dependents);
 
-	return undo_info;
+	return go_undo_unary_new (undo_info,
+				  (GOUndoUnaryFunc)dependents_unrelocate,
+				  (GFreeFunc)dependents_unrelocate_free);
 }
 
 /*******************************************************************/

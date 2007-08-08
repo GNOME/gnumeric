@@ -166,6 +166,5 @@ typedef struct _GnmInputMsg		GnmInputMsg;
 
 typedef struct _PrintInformation        PrintInformation;
 typedef struct _SolverParameters	SolverParameters;
-typedef struct _GnmRelocUndo		GnmRelocUndo;
 
 #endif /* GNUMERIC_H */

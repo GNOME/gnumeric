@@ -5,6 +5,7 @@
 #include "gnumeric.h"
 #include <gtk/gtkselection.h>
 #include <gsf/gsf-output.h>
+#include <goffice/utils/go-undo.h>
 
 /***********************************************************
  * Move to goffice during 1.7 */
@@ -89,10 +90,12 @@ void sheet_object_foreach_dep            (SheetObject *so,
 
 
 /* Object Management */
-void	sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo, gboolean update,
-				  GnmRelocUndo *undo);
-void    sheet_objects_clear      (Sheet const *sheet, GnmRange const *r, GType t);
-GSList *sheet_objects_get        (Sheet const *sheet, GnmRange const *r, GType t);
+void	sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo,
+				  gboolean update, GOUndo **pundo);
+void    sheet_objects_clear      (Sheet const *sheet, GnmRange const *r,
+				  GType t, GOUndo **pundo);
+GSList *sheet_objects_get        (Sheet const *sheet, GnmRange const *r,
+				  GType t);
 void    sheet_objects_dup	 (Sheet const *src, Sheet *dst, GnmRange *range);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble const *coords);

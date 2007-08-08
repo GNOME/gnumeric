@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include <goffice/utils/goffice-utils.h>
+#include <goffice/utils/go-undo.h>
 
 struct _GnmDependent {
 	guint	  flags;
@@ -89,9 +90,7 @@ void	 dependent_unlink	   (GnmDependent *dep);
 void	 dependent_queue_recalc	   (GnmDependent *dep);
 void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr);
 
-GSList  *dependents_relocate	    (GnmExprRelocateInfo const *info);
-void     dependents_unrelocate      (GSList *info);
-void     dependents_unrelocate_free (GSList *info);
+GOUndo  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void	 dependents_link	    (GSList *deps);
 
 void	 cell_queue_recalc	    (GnmCell *cell);
