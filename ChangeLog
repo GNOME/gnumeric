@@ -7,6 +7,10 @@
 
 2007-08-07  Jody Goldberg <jody@gnome.org>
 
+	* src/wbc-gtk.c : merge with workbook-control-gui, and rename
+	  workbook-edit, and wbcg-actions to reflect a more rational naming
+	  scheme.
+
 	* src/wbc-gtk.c (wbc_gtk_style_feedback) : 400 -> 200 to make things a
 	  bit zippier.
 
