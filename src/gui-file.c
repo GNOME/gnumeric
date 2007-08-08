@@ -20,7 +20,7 @@
 #include "sheet.h"
 #include "application.h"
 #include "command-context.h"
-#include "workbook-control-gui-priv.h"
+#include "wbc-gtk-impl.h"
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"

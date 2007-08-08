@@ -29,8 +29,7 @@
 #include <workbook.h>
 #include <workbook-priv.h>
 #include <workbook-view.h>
-#include <workbook-edit.h>
-#include <workbook-control-gui.h>
+#include <wbc-gtk.h>
 #include <gui-file.h>
 #include <gui-util.h>
 #include <goffice/app/go-doc.h>

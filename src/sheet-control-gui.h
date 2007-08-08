@@ -103,6 +103,8 @@ void scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 void scg_drag_data_get      (SheetControlGUI *scg, 
 			     GtkSelectionData *selection_data);
 
+void scg_delete_sheet_if_possible (SheetControlGUI *scg);
+
 /* Convenience wrappers.  */
 SheetView	*scg_view	(SheetControlGUI const *scg);
 Sheet		*scg_sheet	(SheetControlGUI const *scg);

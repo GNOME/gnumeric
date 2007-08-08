@@ -12,6 +12,7 @@
 #include "sheet-object-image.h"
 
 #include "gnm-pane.h"
+#include "wbc-gtk.h"
 #include "sheet-object-impl.h"
 #include "sheet-control-gui.h"
 #include "gui-file.h"

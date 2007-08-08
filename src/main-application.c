@@ -24,8 +24,7 @@
 #include "io-context-gtk.h"
 /* TODO: Get rid of this one */
 #include "command-context-stderr.h"
-#include "workbook-control-gui.h"
-#include "workbook-control-gui-priv.h"
+#include "wbc-gtk-impl.h"
 #include "workbook-view.h"
 #include <goffice/app/go-plugin.h>
 #include "workbook.h"
@@ -315,7 +314,8 @@ store_plugin_state (void)
 static int
 cb_kill_wbcg (WBCGtk *wbcg)
 {
-	wbcg_close_control (wbcg);
+	gboolean still_open = wbc_gtk_close (wbcg);
+	g_assert (!still_open);
 	return FALSE;
 }
 

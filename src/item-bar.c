@@ -19,7 +19,7 @@
 #include "sheet-control-gui-priv.h"
 #include "application.h"
 #include "selection.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 #include "gui-util.h"
 #include "parse-util.h"
 #include "commands.h"
@@ -108,7 +108,7 @@ item_bar_calc_size (ItemBar *ib)
 	Sheet const *sheet = scg_sheet (scg);
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	PangoContext *context;
-	const PangoFontDescription *src_desc = wbcg_get_font_desc (scg_wbcg (scg));
+	PangoFontDescription const *src_desc = wbcg_get_font_desc (scg_wbcg (scg));
 	PangoFontDescription *desc;
 	int size = pango_font_description_get_size (src_desc);
 	PangoLayout *layout;

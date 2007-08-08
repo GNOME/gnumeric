@@ -32,7 +32,7 @@
 #include "gnm-graph-window.h"
 #include "style-color.h"
 #include "sheet-object-impl.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 #include "commands.h"
 #include "application.h"
 #include "xml-io.h"

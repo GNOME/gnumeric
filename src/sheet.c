@@ -31,7 +31,6 @@
 #include "workbook-priv.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook-edit.h"
 #include "parse-util.h"
 #include "dependent.h"
 #include "value.h"

@@ -31,7 +31,7 @@
 #include "pattern.h"
 #include "parse-util.h"
 #include "workbook.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 #include "gui-util.h"
 #include "widgets/gnumeric-expr-entry.h"
 #include "item-debug.h"

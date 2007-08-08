@@ -26,9 +26,7 @@
 #include "sheet-view.h"
 #include "application.h"
 #include "workbook-view.h"
-#include "workbook-edit.h"
-#include "workbook-control-gui.h"
-#include "workbook-control-gui-priv.h"
+#include "wbc-gtk-impl.h"
 #include "workbook.h"
 #include "workbook-cmd-format.h"
 #include "commands.h"
@@ -404,7 +402,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 		/* Be careful to restore the editing sheet if we are editing */
 		if (wbcg_is_editing (wbcg))
-			sheet = wbcg->wb_control.editing_sheet;
+			sheet = wbcg->editing_sheet;
 
 		if (wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
 			if ((event->state & GDK_MOD1_MASK) &&

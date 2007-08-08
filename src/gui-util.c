@@ -22,6 +22,7 @@
 #include "application.h"
 #include "workbook.h"
 #include "libgnumeric.h"
+#include "wbc-gtk.h"
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <goffice/app/error-info.h>

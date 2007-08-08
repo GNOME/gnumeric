@@ -2,14 +2,18 @@
 #define GNM_WBC_GTK_IMPL_H
 
 #include "gnumeric.h"
-#include "workbook-control-gui.h"
+#include "wbc-gtk.h"
 #include "workbook-control-priv.h"
-#include <goffice/app/file.h>
 #include "style.h"
 #include "widgets/gnumeric-expr-entry.h"
 
+#include <goffice/app/file.h>
 #include <gtk/gtknotebook.h>
-
+#include <gtk/gtkuimanager.h>
+#include <goffice/gtk/go-action-combo-stack.h>
+#include <goffice/gtk/go-action-combo-color.h>
+#include <goffice/gtk/go-action-combo-text.h>
+#include <goffice/gtk/go-action-combo-pixmaps.h>
 #ifdef USE_HILDON
 #include <hildon-widgets/hildon-program.h>
 #endif
@@ -110,35 +114,31 @@ struct _WBCGtk {
 	GHashTable *custom_uis;
 
 	guint idle_update_style_feedback;
+
+	/* When editing a cell: the cell (may be NULL) */
+	GnmCell     *editing_cell;
+	Sheet       *editing_sheet;
+	gboolean     editing;
 };
 
 typedef struct {
 	WorkbookControlClass base;
 
 	/* signals */
-	void (*markup_changed)		(WorkbookControlGUI const *wbcg);
-} WorkbookControlGUIClass;
+	void (*markup_changed)		(WBCGtk const *wbcg);
+} WBCGtkClass;
 
-#define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WBC_GTK_TYPE, WorkbookControlGUIClass))
+#define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WBC_GTK_TYPE, WBCGtkClass))
 
 #define GNM_RESPONSE_SAVE_ALL -1000
 #define GNM_RESPONSE_DISCARD_ALL -1001
 
 /* Protected functions */
-void	 wbcg_set_toplevel	      (WorkbookControlGUI *wbcg, GtkWidget *w);
-gboolean wbcg_close_control	      (WorkbookControlGUI *wbcg);
-void	 scg_delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg);
-void	 wbcg_insert_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
-void	 wbcg_append_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
-void	 wbcg_clone_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
-void	 wbcg_set_selection_halign    (WorkbookControlGUI *wbcg, GnmHAlign halign);
-void	 wbcg_set_selection_valign    (WorkbookControlGUI *wbcg, GnmVAlign valign);
-
-enum {
-	WBCG_MARKUP_CHANGED,
-	WBCG_LAST_SIGNAL
-};
-
-extern guint wbcg_signals [WBCG_LAST_SIGNAL];
+gboolean wbc_gtk_close		(WBCGtk *wbcg);
+void	 wbcg_insert_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
+void	 wbcg_append_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
+void	 wbcg_clone_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
+void	 wbc_gtk_init_actions	(WBCGtk *wbcg);
+void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 
 #endif /* GNM_WBC_GTK_IMPL_H */

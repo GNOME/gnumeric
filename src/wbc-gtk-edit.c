@@ -1,20 +1,30 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
- * workbook-edit.c: Keeps track of the cell editing process.
+ * wbc-gtk-edit.c: Keeps track of the cell editing process.
  *
- * Author:
- *   Miguel de Icaza (miguel@ximian.com)
- *   Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006-2007 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Miguel de Icaza (miguel@novell.com)
  *
- * (C) 2000-2005 Ximian, Inc.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n-lib.h>
 #include "gnumeric.h"
-#include "workbook-edit.h"
 
 #include "gnm-pane-impl.h"
-#include "workbook-control-gui-priv.h"
+#include "wbc-gtk-impl.h"
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "application.h"
@@ -36,10 +46,11 @@
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <gtk/gtk.h>
-#include <string.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-locale.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n-lib.h>
+#include <string.h>
 
 #define GNM_RESPONSE_REMOVE -1000
 
@@ -111,9 +122,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		return TRUE;
 	}
 
-	g_return_val_if_fail (IS_SHEET (wbc->editing_sheet), TRUE);
+	g_return_val_if_fail (IS_SHEET (wbcg->editing_sheet), TRUE);
 
-	sheet = wbc->editing_sheet;
+	sheet = wbcg->editing_sheet;
 	sv = sheet_get_view (sheet, wbv);
 
 	/* Save the results before changing focus */
@@ -240,9 +251,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 	}
 
 	/* Stop editing */
-	wbc->editing = FALSE;
-	wbc->editing_sheet = NULL;
-	wbc->editing_cell = NULL;
+	wbcg->editing = FALSE;
+	wbcg->editing_sheet = NULL;
+	wbcg->editing_cell = NULL;
 
 	if (wbcg->edit_line.guru != NULL) {
 		GtkWidget *w = wbcg->edit_line.guru;
@@ -643,7 +654,7 @@ wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
 	attr->start_index = 0;
 	attr->end_index = INT_MAX;
 	pango_attr_list_change (wbcg->edit_line.cur_fmt, attr);
-	g_signal_emit (G_OBJECT (wbcg), wbcg_signals [WBCG_MARKUP_CHANGED], 0);
+	wbc_gtk_markup_changer (wbcg);
 }
 
 /**
@@ -958,9 +969,9 @@ wbcg_edit_start (WBCGtk *wbcg,
 		gtk_window_set_focus (wbcg_toplevel (wbcg),
 			(GtkWidget *) wbcg_get_entry (wbcg));
 
-	wbcg->wb_control.editing = TRUE;
-	wbcg->wb_control.editing_sheet = sv->sheet;
-	wbcg->wb_control.editing_cell = cell;
+	wbcg->editing = TRUE;
+	wbcg->editing_sheet = sv->sheet;
+	wbcg->editing_cell = cell;
 
 	/* If this assert fails, it means editing was not shut down
 	 * properly before

@@ -20,7 +20,6 @@
 #include "sheet-private.h"
 #include "dialogs.h"
 #include "sheet-object-impl.h"
-#include "workbook-edit.h"
 #include "expr.h"
 #include "ranges.h"
 #include "commands.h"

@@ -35,7 +35,7 @@
 #include <goffice/app/io-context-priv.h>
 #include <goffice/utils/go-glib-extras.h>
 #include "command-context.h"
-#include "workbook-control-gui.h"
+#include "wbc-gtk.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "dialog-stf.h"

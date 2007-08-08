@@ -25,25 +25,41 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "wbc-gtk.h"
-#include "workbook-control-gui-priv.h"
+#include "wbc-gtk-impl.h"
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "gui-util.h"
 #include "gui-file.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet.h"
+#include "sheet-private.h"
+#include "sheet-view.h"
 #include "sheet-style.h"
+#include "sheet-filter.h"
 #include "commands.h"
+#include "dependent.h"
 #include "application.h"
 #include "history.h"
+#include "func.h"
+#include "value.h"
+#include "expr.h"
+#include "expr-impl.h"
 #include "style-color.h"
-#include "workbook-edit.h"
+#include "style-border.h"
 #include "gnumeric-gconf.h"
+#include "dialogs/dialogs.h"
+#include "widgets/widget-editable-label.h"
+#include "pixmaps/gnumeric-stock-pixbufs.h"
+#include "gui-clipboard.h"
+#include "libgnumeric.h"
+#include "gnm-pane-impl.h"
+#include "graph.h"
+#include "selection.h"
 
-#include <goffice/gtk/go-action-combo-stack.h>
-#include <goffice/gtk/go-action-combo-color.h>
-#include <goffice/gtk/go-action-combo-text.h>
-#include <goffice/gtk/go-action-combo-pixmaps.h>
+#include <goffice/graph/gog-data-allocator.h>
+#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-series.h>
+#include <goffice/data/go-data.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
@@ -64,14 +80,15 @@
 #define CHECK_MENU_UNDERLINES
 #define	SHEET_CONTROL_KEY	"SheetControl"
 
-typedef WBCGtkClass WBCgtkClass;
-
-static GObjectClass *parent_class = NULL;
+enum {
+	WBG_GTK_PROP_0,
+	WBG_GTK_PROP_AUTOSAVE_PROMPT,
+	WBG_GTK_PROP_AUTOSAVE_TIME	
+};
 
 enum {
-	PROP_0,
-	PROP_AUTOSAVE_PROMPT,
-	PROP_AUTOSAVE_TIME	
+	WBC_GTK_MARKUP_CHANGED,
+	WBC_GTK_LAST_SIGNAL
 };
 
 enum {
@@ -79,25 +96,73 @@ enum {
 	TARGET_SHEET
 };
 
-guint wbcg_signals[WBCG_LAST_SIGNAL];
+#ifndef HILDON
+char const *uifilename = NULL;
+GtkActionEntry const *extra_actions = NULL;
+int nb_extra_actions = 0;
+#endif
+static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
+static GObjectClass *parent_class = NULL;
 
-gboolean
-wbcg_ui_update_begin (WBCGtk *wbcg)
+/****************************************************************************/
+
+static void
+wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
+				char const *action, gboolean sensitive)
 {
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
-	g_return_val_if_fail (!wbcg->updating_ui, FALSE);
-
-	return (wbcg->updating_ui = TRUE);
+	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->permanent_actions, action);
+	g_object_set (G_OBJECT (a), "sensitive", sensitive, NULL);
 }
 
-void
-wbcg_ui_update_end (WBCGtk *wbcg)
+/* NOTE : The semantics of prefix and suffix seem contrived.  Why are we
+ * handling it at this end ?  That stuff should be done in the undo/redo code
+ **/
+static void
+wbc_gtk_set_action_label (WBCGtk const *wbcg,
+			  char const *action,
+			  char const *prefix,
+			  char const *suffix,
+			  char const *new_tip)
 {
-	g_return_if_fail (IS_WBC_GTK (wbcg));
-	g_return_if_fail (wbcg->updating_ui);
+	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
 
-	wbcg->updating_ui = FALSE;
+	if (prefix != NULL) {
+		char *text;
+		gboolean is_suffix = (suffix != NULL);
+
+#ifdef USE_HILDON
+		wbc_gtk_hildon_set_action_sensitive (wbcg, action, is_suffix);
+#endif
+
+		text = is_suffix ? g_strdup_printf ("%s: %s", prefix, suffix) : (char *) prefix;
+			g_object_set (G_OBJECT (a),
+				      "label",	   text,
+				      "sensitive", is_suffix,
+				      NULL);
+		if (is_suffix)
+			g_free (text);
+	} else
+		g_object_set (G_OBJECT (a), "label", suffix, NULL);
+
+	if (new_tip != NULL)
+		g_object_set (G_OBJECT (a), "tooltip", new_tip, NULL);
 }
+
+static void
+wbc_gtk_set_toggle_action_state (WBCGtk const *wbcg,
+				 char const *action, gboolean state)
+{
+	GtkAction *a = gtk_action_group_get_action (wbcg->actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->font_actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (wbcg->toolbar.actions, action);
+	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
+}
+
+/****************************************************************************/
 
 static SheetControlGUI *
 wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
@@ -134,66 +199,6 @@ wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
 	return NULL;
 }
 
-GtkWindow *
-wbcg_toplevel (WBCGtk *wbcg)
-{
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
-
-	return GTK_WINDOW (wbcg->toplevel);
-}
-
-void
-wbcg_set_transient (WBCGtk *wbcg, GtkWindow *window)
-{
-	go_gtk_window_set_transient (wbcg_toplevel (wbcg), window);
-}
-
-/*#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg */
-
-/**
- * wbcg_focus_cur_scg :
- * @wbcg : The workbook control to operate on.
- *
- * A utility routine to safely ensure that the keyboard focus
- * is attached to the item-grid.  This is required when a user
- * edits a combo-box or and entry-line which grab focus.
- *
- * It is called for zoom, font name/size, and accept/cancel for the editline.
- */
-Sheet *
-wbcg_focus_cur_scg (WBCGtk *wbcg)
-{
-	GtkWidget *table;
-	SheetControlGUI *scg;
-
-	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
-
-	if (wbcg->notebook == NULL)
-		return NULL;
-
-	table = gtk_notebook_get_nth_page (wbcg->notebook,
-		gtk_notebook_get_current_page (wbcg->notebook));
-	scg = g_object_get_data (G_OBJECT (table), SHEET_CONTROL_KEY);
-
-	g_return_val_if_fail (scg != NULL, NULL);
-
-	scg_take_focus (scg);
-	return scg_sheet (scg);
-}
-
-Sheet *
-wbcg_cur_sheet (WBCGtk *wbcg)
-{
-	return wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-}
-
-SheetControlGUI *
-wbcg_cur_scg (WBCGtk *wbcg)
-{
-	return wbcg_get_scg (wbcg, wbcg_cur_sheet (wbcg));
-}
-
-/****************************************************************************/
 /* Autosave */
 
 static gboolean
@@ -245,7 +250,7 @@ gboolean
 wbcg_is_editing (WBCGtk const *wbcg)
 {
 	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
-	return wbcg->wb_control.editing;
+	return wbcg->editing;
 }
 
 static void
@@ -298,15 +303,6 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 }
 
 static void
-wbcg_set_sensitive (GOCmdContext *cc, gboolean sensitive)
-{
-	GtkWindow *toplevel = wbcg_toplevel (WBC_GTK (cc));
-
-	if (toplevel != NULL)
-		gtk_widget_set_sensitive (GTK_WIDGET (toplevel), sensitive);
-}
-
-static void
 wbcg_update_action_sensitivity (WorkbookControl *wbc)
 {
 	WBCGtk *wbcg = WBC_GTK (wbc);
@@ -337,7 +333,12 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 		}
 	}
 
-	wbcg_actions_sensitive (wbcg, enable_actions, enable_actions || enable_edit_ok_cancel);
+	g_object_set (G_OBJECT (wbcg->actions),
+		"sensitive", enable_actions,
+		NULL);
+	g_object_set (G_OBJECT (wbcg->font_actions),
+		"sensitive", enable_actions || enable_edit_ok_cancel,
+		NULL);
 }
 
 static gboolean
@@ -395,57 +396,11 @@ wbcg_clone_sheet (GtkWidget *unused, WBCGtk *wbcg)
 }
 
 
-static void
-sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *scg)
-{
-	wbcg_append_sheet (NULL, scg->wbcg);
-}
-
-static void
-sheet_action_insert_sheet (GtkWidget *widget, SheetControlGUI *scg)
-{
-	wbcg_insert_sheet (NULL, scg->wbcg);
-}
-
-void
-scg_delete_sheet_if_possible (G_GNUC_UNUSED GtkWidget *ignored,
-			      SheetControlGUI *scg)
-{
-	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
-	Workbook *wb = sheet->workbook;
-
-	/* If this is the last sheet left, ignore the request */
-	if (workbook_sheet_count (wb) != 1) {
-		WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
-		WorkbookControl *wbc = sc->wbc;
-		workbook_sheet_delete (sheet);
-		/* Careful: sc just ceased to be valid.  */
-		cmd_reorganize_sheets (wbc, old_state, sheet);
-	}
-}
-
-static void
-sheet_action_rename_sheet (GtkWidget *widget, SheetControlGUI *scg)
-{
-	editable_label_start_editing (EDITABLE_LABEL(scg->label));
-}
-
-static void
-sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
-{
-	wbcg_clone_sheet (NULL, scg->wbcg);
-}
-
-static void
-sheet_action_reorder_sheet (GtkWidget *widget, SheetControlGUI *scg)
-{
-	dialog_sheet_order (scg->wbcg);
-}
-
-/**
- * sheet_menu_label_run:
- */
+static void cb_sheets_manage (SheetControlGUI *scg) { dialog_sheet_order (scg->wbcg); }
+static void cb_sheets_insert (SheetControlGUI *scg) { wbcg_insert_sheet (NULL, scg->wbcg); }
+static void cb_sheets_add    (SheetControlGUI *scg) { wbcg_append_sheet (NULL, scg->wbcg); }
+static void cb_sheets_clone  (SheetControlGUI *scg) { wbcg_clone_sheet  (NULL, scg->wbcg); }
+static void cb_sheets_rename (SheetControlGUI *scg) { editable_label_start_editing (EDITABLE_LABEL(scg->label)); }
 static void
 sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 {
@@ -453,40 +408,34 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 
 	struct {
 		char const *text;
-		void (*function) (GtkWidget *widget, SheetControlGUI *scg);
-		enum { SHEET_CONTEXT_TEST_SIZE = 1 } flags;
+		void (*function) (SheetControlGUI *scg);
+		gboolean req_multiple_sheets;
 	} const sheet_label_context_actions [] = {
-		{ N_("Manage sheets..."), &sheet_action_reorder_sheet, 0},
+		{ N_("Manage sheets..."), &cb_sheets_manage,	FALSE},
 		{ NULL, NULL, 0},
-		{ N_("Insert"), &sheet_action_insert_sheet, 0 },
-		{ N_("Append"), &sheet_action_add_sheet, 0 },
-		{ N_("Duplicate"), &sheet_action_clone_sheet, 0 },
-		{ N_("Remove"), &scg_delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
-		{ N_("Rename"), &sheet_action_rename_sheet, 0 }
+		{ N_("Insert"),		  &cb_sheets_insert,	FALSE },
+		{ N_("Append"),		  &cb_sheets_add,	FALSE },
+		{ N_("Duplicate"),	  &cb_sheets_clone,	FALSE },
+		{ N_("Remove"),		  &scg_delete_sheet_if_possible, TRUE },
+		{ N_("Rename"),		  &cb_sheets_rename,	FALSE }
 	};
 
-	GtkWidget *menu;
 	unsigned int i;
-
-	menu = gtk_menu_new ();
+	GtkWidget *item, *menu = gtk_menu_new ();
 
 	for (i = 0; i < G_N_ELEMENTS (sheet_label_context_actions); i++){
-		int flags = sheet_label_context_actions [i].flags;
 		char const *text = sheet_label_context_actions[i].text;
-		GtkWidget *item;
+		gboolean req_multiple_sheets = sheet_label_context_actions [i].req_multiple_sheets;
 		gboolean inactive =
-			((flags & SHEET_CONTEXT_TEST_SIZE) &&
-			 workbook_sheet_count (sc->sheet->workbook) < 2) ||
+			(req_multiple_sheets && workbook_sheet_count (sc->sheet->workbook) < 2) ||
 			wbcg_edit_get_guru (scg_wbcg (scg)) != NULL;
 
-		if (text == NULL) {
+		if (text != NULL) {
+			item = gtk_menu_item_new_with_label (_(text));
+			g_signal_connect_swapped (G_OBJECT (item), "activate",
+				G_CALLBACK (sheet_label_context_actions [i].function), scg);
+		} else
 			item = gtk_separator_menu_item_new ();
-		} else {
-			item = gtk_menu_item_new_with_label (_ (text));
-			g_signal_connect (G_OBJECT (item),
-					  "activate",
-					  G_CALLBACK (sheet_label_context_actions [i].function), scg);
-		}
 
 		gtk_widget_set_sensitive (item, !inactive);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -715,71 +664,6 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	return (TRUE);
 }
 
-static void workbook_setup_sheets (WBCGtk *wbcg);
-
-static void
-wbcg_menu_state_sheet_count (WBCGtk *wbcg)
-{
-	int const sheet_count = g_list_length (wbcg->notebook->children);
-	/* Should we enable commands requiring multiple sheets */
-	gboolean const multi_sheet = (sheet_count > 1);
-
-	/* Scrollable if there are more than 3 tabs */
-	gtk_notebook_set_scrollable (wbcg->notebook, sheet_count > 3);
-
-	wbcg_set_action_sensitivity (wbcg, "SheetRemove", multi_sheet);
-}
-
-static void
-cb_sheet_tab_change (Sheet *sheet,
-		     G_GNUC_UNUSED GParamSpec *pspec,
-		     EditableLabel *el)
-{
-	/* We're lazy and just set all relevant attributes.  */
-	editable_label_set_text (el, sheet->name_unquoted);
-	editable_label_set_color (el,
-				  sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
-				  sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
-}
-
-static void
-wbcg_update_menu_feedback (WBCGtk *wbcg, Sheet const *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!wbcg_ui_update_begin (wbcg))
-		return;
-
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetDisplayFormulas", sheet->display_formulas);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideZeros", sheet->hide_zero);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideGridlines", sheet->hide_grid);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideColHeader", sheet->hide_col_header);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetHideRowHeader", sheet->hide_row_header);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetDisplayOutlines", sheet->display_outlines);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetOutlineBelow", sheet->outline_symbols_below);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetOutlineRight", sheet->outline_symbols_right);
-	wbcg_set_toggle_action_state (wbcg,
-		"SheetUseR1C1", sheet->convs->r1c1_addresses);
-	wbcg_ui_update_end (wbcg);
-}
-
-static void
-cb_toggle_menu_item_changed (Sheet *sheet,
-			     G_GNUC_UNUSED GParamSpec *pspec,
-			     WBCGtk *wbcg)
-{
-	/* We're lazy and just update all.  */
-	wbcg_update_menu_feedback (wbcg, sheet);
-}
-
 static void
 set_dir (GtkWidget *w, GtkTextDirection *dir)
 {
@@ -807,18 +691,206 @@ cb_direction_change (G_GNUC_UNUSED Sheet *null_sheet,
 }
 
 static void
+wbcg_update_menu_feedback (WBCGtk *wbcg, Sheet const *sheet)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (!wbcg_ui_update_begin (wbcg))
+		return;
+
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetDisplayFormulas", sheet->display_formulas);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetHideZeros", sheet->hide_zero);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetHideGridlines", sheet->hide_grid);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetHideColHeader", sheet->hide_col_header);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetHideRowHeader", sheet->hide_row_header);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetDisplayOutlines", sheet->display_outlines);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetOutlineBelow", sheet->outline_symbols_below);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetOutlineRight", sheet->outline_symbols_right);
+	wbc_gtk_set_toggle_action_state (wbcg,
+		"SheetUseR1C1", sheet->convs->r1c1_addresses);
+	wbcg_ui_update_end (wbcg);
+}
+
+static void
 cb_zoom_change (Sheet *sheet,
 		G_GNUC_UNUSED GParamSpec *null_pspec,
 		WBCGtk *wbcg)
 {
 	if (wbcg_ui_update_begin (wbcg)) {
 		int pct = sheet->last_zoom_factor_used * 100 + .5;
-		char *text = g_strdup_printf ("%d%%", pct);
-		WBCGtkClass *wbcg_class = WBCG_CLASS (wbcg);
-		wbcg_class->set_zoom_label (wbcg, text);
-		g_free (text);
+		char *label = g_strdup_printf ("%d%%", pct);
+		go_action_combo_text_set_entry (wbcg->zoom, label,
+			GO_ACTION_COMBO_SEARCH_CURRENT);
+		g_free (label);
 		wbcg_ui_update_end (wbcg);
 	}
+}
+
+static void
+cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
+			 guint page_num, WBCGtk *wbcg)
+{
+	Sheet *sheet;
+	SheetControlGUI *new_scg;
+	GtkWidget *child; 
+
+	g_return_if_fail (IS_WBC_GTK (wbcg));
+
+	/* Ignore events during destruction */
+	if (wbcg->notebook == NULL)
+		return;
+
+	/* While initializing adding the sheets will trigger page changes, but
+	 * we do not actually want to change the focus sheet for the view
+	 */
+	if (wbcg->updating_ui)
+		return;
+
+	/* If we are not at a subexpression boundary then finish editing */
+	if (NULL != wbcg->rangesel)
+		scg_rangesel_stop (wbcg->rangesel, TRUE);
+
+	child = gtk_notebook_get_nth_page (notebook, page_num);
+	new_scg = g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
+
+	cb_direction_change (NULL, NULL, new_scg);
+
+	if (wbcg_rangesel_possible (wbcg)) {
+		scg_take_focus (new_scg);
+		return;
+	}
+
+	gnm_expr_entry_set_scg (wbcg->edit_line.entry, new_scg);
+
+	/*
+	 * Make absolutely sure the expression doesn't get 'lost', if it's invalid
+	 * then prompt the user and don't switch the notebook page.
+	 */
+	if (wbcg_is_editing (wbcg)) {
+		guint prev = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (notebook), "previous_page"));
+
+		if (prev == page_num)
+			return;
+
+		if (!wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL))
+			gtk_notebook_set_current_page (notebook, prev);
+		else
+			/* Looks silly, but is really neccesarry */
+			gtk_notebook_set_current_page (notebook, page_num);
+		return;
+	}
+
+	g_object_set_data (G_OBJECT (notebook), "previous_page",
+			   GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
+
+	/* if we are not selecting a range for an expression update */
+	sheet = wbcg_focus_cur_scg (wbcg);
+	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
+		wbcg_update_menu_feedback (wbcg, sheet);
+		sheet_flag_status_update_range (sheet, NULL);
+		sheet_update (sheet);
+		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
+		cb_zoom_change (sheet, NULL, wbcg);
+	}
+}
+
+static void
+workbook_setup_sheets (WBCGtk *wbcg)
+{
+	wbcg->notebook = g_object_new (GTK_TYPE_NOTEBOOK,
+				       "tab-pos",	GTK_POS_BOTTOM,
+				       "tab-hborder",	0,
+				       "tab-vborder",	0,
+				       NULL);
+	g_signal_connect_after (G_OBJECT (wbcg->notebook),
+		"switch_page",
+		G_CALLBACK (cb_notebook_switch_page), wbcg);
+
+	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
+			  0, 1, 1, 2,
+			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			  0, 0);
+
+	gtk_widget_show (GTK_WIDGET (wbcg->notebook));
+
+#ifdef USE_HILDON
+	gtk_notebook_set_show_border (wbcg->notebook, FALSE);
+	gtk_notebook_set_show_tabs (wbcg->notebook, FALSE);
+#endif
+}
+
+
+#ifdef USE_HILDON
+static void
+wbc_gtk_hildon_set_action_sensitive (WBCGtk      *wbcg,
+				     const gchar *action,
+				     gboolean     sensitive)
+{
+	GtkWidget * toolbar = gtk_ui_manager_get_widget (wbcg->ui, "/StandardToolbar");
+	GList * children = gtk_container_get_children (GTK_CONTAINER (toolbar));
+	GList * l;
+	
+	for (l = children; l != NULL; l = g_list_next (l)) {
+		if (GTK_IS_SEPARATOR_TOOL_ITEM (l->data) == FALSE) {
+			gchar * label = NULL;
+			g_object_get (GTK_TOOL_ITEM (l->data), "label", &label, NULL);
+			
+			if (label != NULL && strstr (label, action) != NULL) {
+				g_object_set (G_OBJECT (l->data), "sensitive", sensitive, NULL);
+				g_free(label);
+				break;
+			}
+
+			g_free(label);
+		}
+	}
+
+	g_list_free (children);
+}
+#endif
+
+
+static void
+wbcg_menu_state_sheet_count (WBCGtk *wbcg)
+{
+	int const sheet_count = g_list_length (wbcg->notebook->children);
+	/* Should we enable commands requiring multiple sheets */
+	gboolean const multi_sheet = (sheet_count > 1);
+
+	/* Scrollable if there are more than 3 tabs */
+	gtk_notebook_set_scrollable (wbcg->notebook, sheet_count > 3);
+
+	wbc_gtk_set_action_sensitivity (wbcg, "SheetRemove", multi_sheet);
+}
+
+static void
+cb_sheet_tab_change (Sheet *sheet,
+		     G_GNUC_UNUSED GParamSpec *pspec,
+		     EditableLabel *el)
+{
+	/* We're lazy and just set all relevant attributes.  */
+	editable_label_set_text (el, sheet->name_unquoted);
+	editable_label_set_color (el,
+				  sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
+				  sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
+}
+
+static void
+cb_toggle_menu_item_changed (Sheet *sheet,
+			     G_GNUC_UNUSED GParamSpec *pspec,
+			     WBCGtk *wbcg)
+{
+	/* We're lazy and just update all.  */
+	wbcg_update_menu_feedback (wbcg, sheet);
 }
 
 static void
@@ -1071,35 +1143,35 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	}
 
 	if (MS_INSERT_COLS & flags)
-		wbcg_set_action_sensitivity (wbcg, "InsertColumns",
+		wbc_gtk_set_action_sensitivity (wbcg, "InsertColumns",
 			sv->enable_insert_cols);
 	if (MS_INSERT_ROWS & flags)
-		wbcg_set_action_sensitivity (wbcg, "InsertRows",
+		wbc_gtk_set_action_sensitivity (wbcg, "InsertRows",
 			sv->enable_insert_rows);
 	if (MS_INSERT_CELLS & flags)
-		wbcg_set_action_sensitivity (wbcg, "InsertCells",
+		wbc_gtk_set_action_sensitivity (wbcg, "InsertCells",
 			sv->enable_insert_cells);
 	if (MS_SHOWHIDE_DETAIL & flags) {
-		wbcg_set_action_sensitivity (wbcg, "DataOutlineShowDetail",
+		wbc_gtk_set_action_sensitivity (wbcg, "DataOutlineShowDetail",
 			sheet->priv->enable_showhide_detail);
-		wbcg_set_action_sensitivity (wbcg, "DataOutlineHideDetail",
+		wbc_gtk_set_action_sensitivity (wbcg, "DataOutlineHideDetail",
 			sheet->priv->enable_showhide_detail);
 	}
 	if (MS_PASTE_SPECIAL & flags)
-		wbcg_set_action_sensitivity (wbcg, "EditPasteSpecial",
+		wbc_gtk_set_action_sensitivity (wbcg, "EditPasteSpecial",
 			!gnm_app_clipboard_is_empty () &&
 			!gnm_app_clipboard_is_cut () &&
 			!edit_object);
 	if (MS_PRINT_SETUP & flags)
-		wbcg_set_action_sensitivity (wbcg, "FilePageSetup", !has_guru);
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePageSetup", !has_guru);
 	if (MS_SEARCH_REPLACE & flags)
-		wbcg_set_action_sensitivity (wbcg, "EditReplace", !has_guru);
+		wbc_gtk_set_action_sensitivity (wbcg, "EditReplace", !has_guru);
 	if (MS_DEFINE_NAME & flags)
-		wbcg_set_action_sensitivity (wbcg, "EditNames", !has_guru);
+		wbc_gtk_set_action_sensitivity (wbcg, "EditNames", !has_guru);
 	if (MS_CONSOLIDATE & flags)
-		wbcg_set_action_sensitivity (wbcg, "DataConsolidate", !has_guru);
+		wbc_gtk_set_action_sensitivity (wbcg, "DataConsolidate", !has_guru);
 	if (MS_CONSOLIDATE & flags)
-		wbcg_set_action_sensitivity (wbcg, "DataFilterShowAll", has_filtered_rows);
+		wbc_gtk_set_action_sensitivity (wbcg, "DataFilterShowAll", has_filtered_rows);
 
 	if (MS_FREEZE_VS_THAW & flags) {
 		/* Cheat and use the same accelerator for both states because
@@ -1110,7 +1182,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		char const *new_tip = sv_is_frozen (sv)
 			? _("Unfreeze the top left of the sheet")
 			: _("Freeze the top left of the sheet");
-		wbcg_set_action_label (wbcg, "ViewFreezeThawPanes", NULL, label, new_tip);
+		wbc_gtk_set_action_label (wbcg, "ViewFreezeThawPanes", NULL, label, new_tip);
 	}
 
 	if (MS_ADD_VS_REMOVE_FILTER & flags) {
@@ -1121,7 +1193,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		char const *new_tip = has_filter
 			? _("Remove a filter")
 			: _("Add a filter");
-		wbcg_set_action_label (wbcg, "DataAutoFilter", NULL, label, new_tip);
+		wbc_gtk_set_action_label (wbcg, "DataAutoFilter", NULL, label, new_tip);
 	}
 }
 
@@ -1131,9 +1203,9 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	WBCGtk *wbcg = (WBCGtk *)wbc;
 	g_return_if_fail (wbcg != NULL);
 
-	wbcg_set_action_label (wbcg, "Redo", _("_Redo"), redo, NULL);
-	wbcg_set_action_label (wbcg, "Undo", _("_Undo"), undo, NULL);
-	wbcg_set_action_sensitivity (wbcg, "Repeat", undo != NULL);
+	wbc_gtk_set_action_label (wbcg, "Redo", _("_Redo"), redo, NULL);
+	wbc_gtk_set_action_label (wbcg, "Undo", _("_Undo"), undo, NULL);
+	wbc_gtk_set_action_sensitivity (wbcg, "Repeat", undo != NULL);
 }
 
 static void
@@ -1146,28 +1218,6 @@ static gboolean
 wbcg_claim_selection (WorkbookControl *wbc)
 {
 	return x_claim_clipboard ((WBCGtk *)wbc);
-}
-
-static char *
-wbcg_get_password (GOCmdContext *cc, char const* filename)
-{
-	WBCGtk *wbcg = WBC_GTK (cc);
-
-	return dialog_get_password (wbcg_toplevel (wbcg), filename);
-}
-
-static void
-wbcg_error_error (GOCmdContext *cc, GError *err)
-{
-	go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (cc)),
-		GTK_MESSAGE_ERROR, err->message);
-}
-
-static void
-wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
-{
-	gnumeric_error_info_dialog_show (
-		wbcg_toplevel (WBC_GTK (cc)), error);
 }
 
 static int
@@ -1317,13 +1367,14 @@ wbcg_close_if_user_permits (WBCGtk *wbcg,
 		return 0;
 }
 
-/*
- * wbcg_close_control:
+/**
+ * wbc_gtk_close:
+ * @wbcg : #WBCGtk
  *
  * Returns TRUE if the control should NOT be closed.
  */
 gboolean
-wbcg_close_control (WBCGtk *wbcg)
+wbc_gtk_close (WBCGtk *wbcg)
 {
 	WorkbookView *wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
@@ -1494,164 +1545,7 @@ cb_set_focus (GtkWindow *window, GtkWidget *focus, WBCGtk *wbcg)
 		wbcg_focus_cur_scg (wbcg);
 }
 
-static void
-cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
-			 guint page_num, WBCGtk *wbcg)
-{
-	Sheet *sheet;
-	SheetControlGUI *new_scg;
-	GtkWidget *child; 
-
-	g_return_if_fail (IS_WBC_GTK (wbcg));
-
-	/* Ignore events during destruction */
-	if (wbcg->notebook == NULL)
-		return;
-
-	/* While initializing adding the sheets will trigger page changes, but
-	 * we do not actually want to change the focus sheet for the view
-	 */
-	if (wbcg->updating_ui)
-		return;
-
-	/* If we are not at a subexpression boundary then finish editing */
-	if (NULL != wbcg->rangesel)
-		scg_rangesel_stop (wbcg->rangesel, TRUE);
-
-	child = gtk_notebook_get_nth_page (notebook, page_num);
-	new_scg = g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
-
-	cb_direction_change (NULL, NULL, new_scg);
-
-	if (wbcg_rangesel_possible (wbcg)) {
-		scg_take_focus (new_scg);
-		return;
-	}
-
-	gnm_expr_entry_set_scg (wbcg->edit_line.entry, new_scg);
-
-	/*
-	 * Make absolutely sure the expression doesn't get 'lost', if it's invalid
-	 * then prompt the user and don't switch the notebook page.
-	 */
-	if (wbcg_is_editing (wbcg)) {
-		guint prev = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (notebook), "previous_page"));
-
-		if (prev == page_num)
-			return;
-
-		if (!wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL))
-			gtk_notebook_set_current_page (notebook, prev);
-		else
-			/* Looks silly, but is really neccesarry */
-			gtk_notebook_set_current_page (notebook, page_num);
-		return;
-	}
-
-	g_object_set_data (G_OBJECT (notebook), "previous_page",
-			   GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
-
-	/* if we are not selecting a range for an expression update */
-	sheet = wbcg_focus_cur_scg (wbcg);
-	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
-		wbcg_update_menu_feedback (wbcg, sheet);
-		sheet_flag_status_update_range (sheet, NULL);
-		sheet_update (sheet);
-		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-		cb_zoom_change (sheet, NULL, wbcg);
-	}
-}
-
-static void
-wbcg_set_property (GObject *object, guint property_id,
-		   const GValue *value, GParamSpec *pspec)
-{
-	WBCGtk *wbcg = (WBCGtk *)object;
-
-	switch (property_id) {
-	case PROP_AUTOSAVE_PROMPT:
-		wbcg->autosave_prompt = g_value_get_boolean (value);
-		break;
-	case PROP_AUTOSAVE_TIME:
-		wbcg_set_autosave_time (wbcg, g_value_get_int (value));
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-static void
-wbcg_get_property (GObject *object, guint property_id,
-		   GValue *value, GParamSpec *pspec)
-{
-	WBCGtk *wbcg = (WBCGtk *)object;
-
-	switch (property_id) {
-	case PROP_AUTOSAVE_PROMPT:
-		g_value_set_boolean (value, wbcg->autosave_prompt);
-		break;
-	case PROP_AUTOSAVE_TIME:
-		g_value_set_int (value, wbcg->autosave_time);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
-}
-
-
-static GObjectClass *parent_class;
-static void
-wbcg_finalize (GObject *obj)
-{
-	WBCGtk *wbcg = WBC_GTK (obj);
-
-	/* Disconnect signals that would attempt to change things during
-	 * destruction.
-	 */
-
-	wbcg_autosave_cancel (wbcg);
-
-	if (wbcg->notebook != NULL)
-		g_signal_handlers_disconnect_by_func (
-			G_OBJECT (wbcg->notebook),
-			G_CALLBACK (cb_notebook_switch_page), wbcg);
-	g_signal_handlers_disconnect_by_func (
-		G_OBJECT (wbcg->toplevel),
-		G_CALLBACK (cb_set_focus), wbcg);
-
-	wbcg_auto_complete_destroy (wbcg);
-
-	gtk_window_set_focus (wbcg_toplevel (wbcg), NULL);
-
-	if (wbcg->toplevel != NULL) {
-		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
-		wbcg->toplevel = NULL;
-	}
-
-	if (wbcg->font_desc) {
-		pango_font_description_free (wbcg->font_desc);
-		wbcg->font_desc = NULL;
-	}
-
-	if (wbcg->auto_expr_label) {
-		g_object_unref (wbcg->auto_expr_label);
-		wbcg->auto_expr_label = NULL;
-	}
-
-	g_hash_table_destroy (wbcg->visibility_widgets);
-	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
-
-#ifdef USE_HILDON
-	if (wbcg->hildon_prog != NULL) {
-		g_object_unref (wbcg->hildon_prog);
-		wbcg->hildon_prog = NULL;
-	}
-#endif
-
-	parent_class->finalize (obj);
-}
+/***************************************************************************/
 
 static gboolean
 cb_scroll_wheel (GtkWidget *ignored, GdkEventScroll *event,
@@ -1740,32 +1634,6 @@ cb_realize (GtkWindow *toplevel, WBCGtk *wbcg)
 	}
 }
 
-static void
-workbook_setup_sheets (WBCGtk *wbcg)
-{
-	wbcg->notebook = g_object_new (GTK_TYPE_NOTEBOOK,
-				       "tab-pos",	GTK_POS_BOTTOM,
-				       "tab-hborder",	0,
-				       "tab-vborder",	0,
-				       NULL);
-	g_signal_connect_after (G_OBJECT (wbcg->notebook),
-		"switch_page",
-		G_CALLBACK (cb_notebook_switch_page), wbcg);
-
-	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
-			  0, 1, 1, 2,
-			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			  0, 0);
-
-	gtk_widget_show (GTK_WIDGET (wbcg->notebook));
-
-#ifdef USE_HILDON
-	gtk_notebook_set_show_border (wbcg->notebook, FALSE);
-	gtk_notebook_set_show_tabs (wbcg->notebook, FALSE);
-#endif
-}
-
 void
 wbcg_set_status_text (WBCGtk *wbcg, char const *text)
 {
@@ -1782,7 +1650,7 @@ set_visibility (WBCGtk *wbcg,
 	GtkWidget *w = g_hash_table_lookup (wbcg->visibility_widgets, action_name);
 	if (w)
 		(visible ? gtk_widget_show : gtk_widget_hide) (w);
-	wbcg_set_toggle_action_state (wbcg, action_name, visible);
+	wbc_gtk_set_toggle_action_state (wbcg, action_name, visible);
 }	
 
 
@@ -1839,9 +1707,8 @@ settings_get_font_desc (GtkSettings *settings)
 	char *font_str;
 
 	g_object_get (settings, "gtk-font-name", &font_str, NULL);
-	font_desc = pango_font_description_from_string (font_str
-							 ? font_str
-							 : "sans 10");
+	font_desc = pango_font_description_from_string (
+		font_str ? font_str : "sans 10");
 	g_free (font_str);
 
 	return font_desc;
@@ -1930,123 +1797,6 @@ wbcg_find_for_workbook (Workbook *wb,
 }
 
 /* ------------------------------------------------------------------------- */
-
-static void
-cb_auto_expr_changed (GtkWidget *item, WBCGtk *wbcg)
-{
-	const GnmFunc *func;
-	const char *descr;
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
-
-	if (wbcg->updating_ui)
-		return;
-
-	func = g_object_get_data (G_OBJECT (item), "func");
-	descr = g_object_get_data (G_OBJECT (item), "descr");
-
-	g_object_set (wbv,
-		      "auto-expr-func", func,
-		      "auto-expr-descr", descr,
-		      NULL);
-}
-
-static void
-cb_auto_expr_precision_toggled (GtkWidget *item, WBCGtk *wbcg)
-{
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
-	if (wbcg->updating_ui)
-		return;
-
-	go_object_toggle (wbv, "auto-expr-max-precision");
-}
-
-static gboolean
-cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
-{
-	/*
-	 * WARNING * WARNING * WARNING
-	 *
-	 * Keep the functions in lower case.
-	 * We currently register the functions in lower case and some locales
-	 * (notably tr_TR) do not have the same encoding for tolower that
-	 * locale C does.
-	 *
-	 * eg tolower ('I') != 'i'
-	 * Which would break function lookup when looking up for function 'selectIon'
-	 * when it was registered as 'selection'
-	 *
-	 * WARNING * WARNING * WARNING
-	 */
-	static struct {
-		char const * const displayed_name;
-		char const * const function;
-	} const quick_compute_routines [] = {
-		{ N_("Sum"),   	       "sum" },
-		{ N_("Min"),   	       "min" },
-		{ N_("Max"),   	       "max" },
-		{ N_("Average"),       "average" },
-		{ N_("Count"),         "count" },
-		{ NULL, NULL }
-	};
-
-	GtkWidget *menu;
-	int i;
-
-	if (event->button != 3)
-		return FALSE;
-
-	menu = gtk_menu_new ();
-
-	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
-		GnmParsePos pp;
-		char const *expr = quick_compute_routines [i].function;
-		GnmExprTop const *new_auto_expr;
-		GtkWidget *item;
-
-		/* Test the expression...  */
-		parse_pos_init (&pp, wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)), NULL, 0, 0);
-		new_auto_expr = gnm_expr_parse_str_simple (expr, &pp);
-		if (!new_auto_expr)
-			continue;
-		gnm_expr_top_unref (new_auto_expr);
-
-		item = gtk_menu_item_new_with_label (
-			_(quick_compute_routines [i].displayed_name));
-		g_object_set_data (G_OBJECT (item),
-				   "func",
-				   gnm_func_lookup (expr, NULL));
-		g_object_set_data (G_OBJECT (item), "descr",
-			(gpointer)_(quick_compute_routines [i].displayed_name));
-		g_signal_connect (G_OBJECT (item),
-			"activate",
-			G_CALLBACK (cb_auto_expr_changed), wbcg);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		gtk_widget_show (item);
-	}
-
-	{
-		GtkWidget *item = gtk_separator_menu_item_new ();
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		gtk_widget_show (item);
-	}
-
-	{
-		GtkWidget *item = gtk_check_menu_item_new_with_label
-			(_("Use maximum precision"));
-		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
-						wbv->auto_expr_use_max_precision);
-		g_signal_connect (G_OBJECT (item),
-			"activate",
-			G_CALLBACK (cb_auto_expr_precision_toggled), wbcg);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		gtk_widget_show (item);
-	}
-
-	gnumeric_popup_menu (GTK_MENU (menu), event);
-	return TRUE;
-}
-
 static int
 show_gui (WBCGtk *wbcg)
 {
@@ -2335,89 +2085,6 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 	gtk_widget_show_all (GTK_WIDGET (tb));
 }
 
-static void
-wbcg_create_status_area (WBCGtk *wbcg)
-{
-	WBCGtkClass *wbcg_class = WBCG_CLASS (wbcg);
-	GtkWidget *tmp, *frame;
-
-	wbcg->progress_bar = gtk_progress_bar_new ();
-	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
-	gtk_progress_bar_set_orientation (
-		GTK_PROGRESS_BAR (wbcg->progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
-
-	wbcg->auto_expr_label = tmp = gtk_label_new ("");
-	g_object_ref (wbcg->auto_expr_label);
-	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
-	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_size_request (tmp, go_pango_measure_string (
-			gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-			tmp->style->font_desc,
-			"W") * 15, -1);
-	tmp = gtk_event_box_new ();
-	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
-	g_signal_connect (G_OBJECT (tmp),
-		"button_press_event",
-		G_CALLBACK (cb_select_auto_expr), wbcg);
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (frame), tmp);
-
-	wbcg->status_text = tmp = gtk_statusbar_new ();
-	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_size_request (tmp, go_pango_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-		tmp->style->font_desc, "W") * 15, -1);
-
-	wbcg_class->create_status_area (wbcg, wbcg->progress_bar, wbcg->status_text, frame);
-}
-
-void
-wbcg_set_toplevel (WBCGtk *wbcg, GtkWidget *w)
-{
-	static GtkTargetEntry const drag_types[] = {
-		{ (char *) "text/uri-list", 0, TARGET_URI_LIST },
-		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET },
-		{ (char *) "GNUMERIC_SAME_PROC", GTK_TARGET_SAME_APP, 0 }
-	};
-
-	g_return_if_fail (wbcg->toplevel == NULL);
-
-	wbcg->toplevel = w;
-	w = GTK_WIDGET (wbcg_toplevel (wbcg));
-	g_return_if_fail (GTK_IS_WINDOW (w));
-
-	g_object_set (G_OBJECT (w),
-		"allow-grow", TRUE,
-		"allow-shrink", TRUE,
-		NULL);
-
-	g_signal_connect_data (w, "delete_event",
-		G_CALLBACK (wbcg_close_control), wbcg, NULL,
-		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-	g_signal_connect_after (w, "set_focus",
-		G_CALLBACK (cb_set_focus), wbcg);
-	g_signal_connect (w, "scroll-event",
-		G_CALLBACK (cb_scroll_wheel), wbcg);
-	g_signal_connect (w, "realize",
-		G_CALLBACK (cb_realize), wbcg);
-
-	/* Setup a test of Drag and Drop */
-	gtk_drag_dest_set (GTK_WIDGET (w),
-		GTK_DEST_DEFAULT_ALL, drag_types, G_N_ELEMENTS (drag_types),
-		GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	gtk_drag_dest_add_image_targets (GTK_WIDGET (w));
-	gtk_drag_dest_add_text_targets (GTK_WIDGET (w));
-	g_object_connect (G_OBJECT (w),
-		"signal::drag-leave",	G_CALLBACK (cb_wbcg_drag_leave), wbcg,
-		"signal::drag-data-received", G_CALLBACK (cb_wbcg_drag_data_received), wbcg,
-		"signal::drag-motion",	G_CALLBACK (cb_wbcg_drag_motion), wbcg,
-#if 0
-		"signal::drag-data-get", G_CALLBACK (wbcg_drag_data_get), wbc,
-#endif
-		NULL);
-}
-
 static int
 wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		     char const *title, char const *msg)
@@ -2469,20 +2136,6 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 	response = go_gtk_dialog_run (GTK_DIALOG (dialog),
 				      wbcg_toplevel (wbcg));
 	return ((response == GTK_RESPONSE_NO || response == GTK_RESPONSE_CANCEL) ? res1 : res0);
-}
-
-static void
-wbcg_progress_set (GOCmdContext *cc, gfloat val)
-{
-	WBCGtk *wbcg = (WBCGtk *)cc;
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
-}
-
-static void
-wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
-{
-	WBCGtk *wbcg = (WBCGtk *)cc;
-	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
 }
 
 #define DISCONNECT(obj,field)						\
@@ -2562,369 +2215,14 @@ wbcg_view_changed (WBCGtk *wbcg,
 #undef DISCONNECT
 
 /***************************************************************************/
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/data/go-data.h>
-#include "graph.h"
-
-static void
-wbcg_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
-{
-	SheetControlGUI *scg = wbcg_cur_scg (WBC_GTK (dalloc));
-	sv_selection_to_plot (scg_view (scg), plot);
-}
-
-typedef struct {
-	GnmExprEntry *entry;
-	GogDataset *dataset;
-	int dim_i;
-	GogDataType data_type;
-} GraphDimEditor;
-
-static void
-cb_graph_dim_editor_update (GnmExprEntry *gee,
-			    G_GNUC_UNUSED gboolean user_requested,
-			    GraphDimEditor *editor)
-{
-	GOData *data = NULL;
-	Sheet *sheet;
-	SheetControlGUI *scg;
-
-	/* Ignore changes while we are insensitive. useful for displaying
-	 * values, without storing then as Data.  Also ignore updates if the
-	 * dataset has been cleared via the weakref handler  */
-	if (!GTK_WIDGET_SENSITIVE (gee) || editor->dataset == NULL)
-		return;
-
-	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
-	sheet = scg_sheet (scg);
-	g_object_unref (G_OBJECT (scg));
-
-	/* If we are setting something */
-	if (!gnm_expr_entry_is_blank (editor->entry)) {
-		GnmParsePos pos;
-		GnmParseError  perr;
-		GnmExprTop const *texpr;
-
-		parse_error_init (&perr);
-		texpr = gnm_expr_entry_parse (editor->entry,
-			parse_pos_init_sheet (&pos, sheet),
-			&perr, TRUE, GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
-
-		/* TODO : add some error dialogs split out
-		 * the code in workbok_edit to add parens.  */
-		if (texpr == NULL) {
-			if (editor->data_type == GOG_DATA_SCALAR)
-				texpr = gnm_expr_top_new_constant
-					(value_new_string
-					 (gnm_expr_entry_get_text
-					  (editor->entry)));
-			else {
-				g_return_if_fail (perr.err != NULL);
-
-				wb_control_validation_msg (WORKBOOK_CONTROL (scg_wbcg (scg)),
-					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
-				parse_error_free (&perr);
-				return;
-			}
-		}
-
-		switch (editor->data_type) {
-		case GOG_DATA_SCALAR:
-			data = gnm_go_data_scalar_new_expr (sheet, texpr);
-			break;
-		case GOG_DATA_VECTOR:
-			data = gnm_go_data_vector_new_expr (sheet, texpr);
-			break;
-		case GOG_DATA_MATRIX:
-			data = gnm_go_data_matrix_new_expr (sheet, texpr);
-		}
-	}
-
-	/* The SheetObjectGraph does the magic to link things in */
-	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
-}
-
-static void
-cb_graph_dim_entry_unmap (GnmExprEntry *gee, GraphDimEditor *editor)
-{
-	cb_graph_dim_editor_update (gee, FALSE, editor);
-}
-
-static void
-cb_graph_dim_entry_unrealize (GnmExprEntry *gee, GraphDimEditor *editor)
-{
-	cb_graph_dim_editor_update (gee, FALSE, editor);
-}
-
-static void
-cb_dim_editor_weakref_notify (GraphDimEditor *editor, GogDataset *dataset)
-{
-	g_return_if_fail (editor->dataset == dataset);
-	editor->dataset = NULL;
-}
-
-static void
-graph_dim_editor_free (GraphDimEditor *editor)
-{
-	if (editor->dataset)
-		g_object_weak_unref (G_OBJECT (editor->dataset),
-			(GWeakNotify) cb_dim_editor_weakref_notify, editor);
-	g_free (editor);
-}
-
-static gpointer
-wbcg_data_allocator_editor (GogDataAllocator *dalloc,
-			    GogDataset *dataset, int dim_i, GogDataType data_type)
-{
-	WBCGtk *wbcg = WBC_GTK (dalloc);
-	GraphDimEditor *editor;
-	GOData *val;
-
-	editor = g_new (GraphDimEditor, 1);
-	editor->dataset		= dataset;
-	editor->dim_i		= dim_i;
-	editor->data_type	= data_type;
-	editor->entry  		= gnm_expr_entry_new (wbcg, TRUE);
-	g_object_weak_ref (G_OBJECT (editor->dataset),
-		(GWeakNotify) cb_dim_editor_weakref_notify, editor);
-
-	gnm_expr_entry_set_update_policy (editor->entry,
-		GTK_UPDATE_DISCONTINUOUS);
-
-	val = gog_dataset_get_dim (dataset, dim_i);
-	if (val != NULL) {
-		char *txt = go_data_as_str (val);
-		gnm_expr_entry_load_from_text (editor->entry, txt);
-		g_free (txt);
-	}
-	gnm_expr_entry_set_flags (editor->entry,
-		GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
-
-	g_signal_connect (G_OBJECT (editor->entry),
-		"update",
-		G_CALLBACK (cb_graph_dim_editor_update), editor);
-	g_signal_connect (G_OBJECT (editor->entry),
-		"unmap",
-		G_CALLBACK (cb_graph_dim_entry_unmap), editor);
-	g_signal_connect (G_OBJECT (editor->entry),
-		"unrealize",
-		G_CALLBACK (cb_graph_dim_entry_unrealize), editor);
-	g_object_set_data_full (G_OBJECT (editor->entry),
-		"editor", editor, (GDestroyNotify) graph_dim_editor_free);
-
-	return editor->entry;
-}
-
-static void
-wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
-{
-	iface->allocate   = wbcg_data_allocator_allocate;
-	iface->editor	  = wbcg_data_allocator_editor;
-}
-
-/***************************************************************************/
-
-static void
-wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
-{
-	iface->get_password	    = wbcg_get_password;
-	iface->set_sensitive	    = wbcg_set_sensitive;
-	iface->error.error	    = wbcg_error_error;
-	iface->error.error_info	    = wbcg_error_error_info;
-	iface->progress_set	    = wbcg_progress_set;
-	iface->progress_message_set = wbcg_progress_message_set;
-}
-
-static void
-workbook_control_gui_class_init (GObjectClass *gobject_class)
-{
-	WorkbookControlClass *wbc_class =
-		WORKBOOK_CONTROL_CLASS (gobject_class);
-
-	g_return_if_fail (wbc_class != NULL);
-
-	parent_class = g_type_class_peek_parent (gobject_class);
-	gobject_class->finalize = wbcg_finalize;
-	gobject_class->get_property = wbcg_get_property;
-	gobject_class->set_property = wbcg_set_property;
-
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_AUTOSAVE_PROMPT,
-		 g_param_spec_boolean ("autosave-prompt",
-				       _("Autosave prompt"),
-				       _("Ask about autosave?"),
-				       FALSE,
-				       GSF_PARAM_STATIC |
-				       G_PARAM_READWRITE));
-        g_object_class_install_property
-		(gobject_class,
-		 PROP_AUTOSAVE_TIME,
-		 g_param_spec_int ("autosave-time",
-				   _("Autosave time in seconds"),
-				   _("Seconds before autosave"),
-				   0, G_MAXINT, 0,
-				   GSF_PARAM_STATIC |
-				   G_PARAM_READWRITE));
-
-	wbc_class->edit_line_set	= wbcg_edit_line_set;
-	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
-	wbc_class->update_action_sensitivity = wbcg_update_action_sensitivity;
-
-	wbc_class->sheet.add        = wbcg_sheet_add;
-	wbc_class->sheet.remove	    = wbcg_sheet_remove;
-	wbc_class->sheet.focus	    = wbcg_sheet_focus;
-	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;
-
-	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
-
-	wbc_class->menu_state.update      = wbcg_menu_state_update;
-
-	wbc_class->claim_selection	 = wbcg_claim_selection;
-	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
-	wbc_class->validation_msg	 = wbcg_validation_msg;
-
-	wbcg_signals [WBCG_MARKUP_CHANGED] = g_signal_new ("markup-changed",
-		WBC_GTK_TYPE,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (WBCGtkClass, markup_changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-	{
-		GdkPixbuf *icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
-		if (icon != NULL) {
-			GList *icon_list = g_list_prepend (NULL, icon);
-			gtk_window_set_default_icon_list (icon_list);
-			g_list_free (icon_list);
-			g_object_unref (G_OBJECT (icon));
-		}
-	}
-}
-
-static void
-workbook_control_gui_init (WBCGtk *wbcg)
-{
-	wbcg->table       = gtk_table_new (0, 0, 0);
-	wbcg->notebook    = NULL;
-	wbcg->updating_ui = FALSE;
-	wbcg->rangesel	  = NULL;
-	wbcg->font_desc   = NULL;
-
-	wbcg->visibility_widgets =
-		g_hash_table_new_full (g_str_hash, g_str_equal,
-				       (GDestroyNotify)g_free,
-				       (GDestroyNotify)g_object_unref);
-	wbcg->toggle_for_fullscreen = g_hash_table_new_full (
-		g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
-
-	wbcg->autosave_prompt = FALSE;
-	wbcg->autosave_time = 0;
-	wbcg->autosave_timer = 0;
-
-#warning "why is this here ?"
-	wbcg->current_saver = NULL;
-}
-
-/* Move the rubber bands if we are the source */
-
-static void
-wbcg_create (WBCGtk *wbcg,
-	     WorkbookView *optional_view,
-	     Workbook *optional_wb,
-	     GdkScreen *optional_screen)
-{
-	Sheet *sheet;
-	WorkbookView *wbv;
-	WorkbookControl *wbc = (WorkbookControl *)wbcg;
-
-	wbcg_create_edit_area (wbcg);
-	wbcg_create_status_area (wbcg);
-
-	wbcg_reload_recent_file_menu (wbcg);
-	g_signal_connect_object (gnm_app_get_app (),
-		"notify::file-history-list",
-		G_CALLBACK (wbcg_reload_recent_file_menu), wbcg, G_CONNECT_SWAPPED);
-
-	wb_control_set_view (wbc, optional_view, optional_wb);
-	wbv = wb_control_view (wbc);
-	sheet = wbv->current_sheet;
-	if (sheet != NULL) {
-		wb_control_menu_state_update (wbc, MS_ALL);
-		wb_control_update_action_sensitivity (wbc);
-		wb_control_style_feedback (wbc, NULL);
-		cb_zoom_change (sheet, NULL, wbcg);
-	}
-
-	wbcg_view_changed (wbcg, NULL, NULL);
-
-	if (optional_screen)
-		gtk_window_set_screen (wbcg_toplevel (wbcg), optional_screen);
-
-	/* Postpone showing the GUI, so that we may resize it freely. */
-	g_idle_add ((GSourceFunc) show_gui, wbcg);
-}
-
-extern GType wbc_gtk_get_type (void);
-
-WorkbookControl *
-workbook_control_gui_new (WorkbookView *optional_view,
-			  Workbook *optional_wb,
-			  GdkScreen *optional_screen)
-{
-	WBCGtk *wbcg = g_object_new (wbc_gtk_get_type (), NULL);
-	wbcg_create (wbcg, optional_view, optional_wb, optional_screen);
-	wb_control_init_state ((WorkbookControl *)wbcg);
-	return (WorkbookControl *)wbcg;
-}
-/*****************************************************************************/
-
-static void
-wbc_gtk_actions_sensitive (WBCGtk *wbcg,
-			   gboolean actions, gboolean font_actions)
-{
-	WBCgtk *gtk = (WBCgtk *)wbcg;
-	g_object_set (G_OBJECT (gtk->actions), "sensitive", actions, NULL);
-	g_object_set (G_OBJECT (gtk->font_actions), "sensitive", font_actions, NULL);
-}
-
-static void
-wbc_gtk_create_status_area (WBCGtk *wbcg, GtkWidget *progress,
-			    GtkWidget *status, GtkWidget *autoexpr)
-{
-	WBCgtk *gtk = (WBCgtk *)wbcg;
-	gtk->status_area = gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_end (GTK_BOX (gtk->status_area), status, FALSE, TRUE, 0);
-	gtk_box_pack_end (GTK_BOX (gtk->status_area), autoexpr, FALSE, TRUE, 0);
-	gtk_box_pack_end (GTK_BOX (gtk->status_area), progress, TRUE, TRUE, 0);
-	gtk_box_pack_end (GTK_BOX (gtk->everything),
-		gtk->status_area, FALSE, TRUE, 0);
-	gtk_widget_show_all (gtk->status_area);
-
-	g_hash_table_insert (wbcg->visibility_widgets,
-			     g_strdup ("ViewStatusbar"),
-			     g_object_ref (gtk->status_area));
-	/* disable statusbar by default going to fullscreen */
-	g_hash_table_insert (wbcg->toggle_for_fullscreen,
-		g_strdup ("ViewStatusbar"),
-		gtk_action_group_get_action (gtk->actions, "ViewStatusbar"));
-
-#ifdef USE_HILDON
-	g_hash_table_remove (wbcg->toggle_for_fullscreen, "ViewStatusbar");
-	gtk_widget_hide (gtk->status_area);
-#endif
-}
 
 /*****************************************************************************/
 
 static GNM_ACTION_DEF (cb_zoom_activated)
 {
 	WorkbookControl *wbc = (WorkbookControl *)wbcg;
-	WBCgtk *gtk  = (WBCgtk *)wbcg;
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	char const *new_zoom = go_action_combo_text_get_entry (gtk->zoom);
+	char const *new_zoom = go_action_combo_text_get_entry (wbcg->zoom);
 	int factor;
 	char *end;
 
@@ -2942,7 +2240,7 @@ static GNM_ACTION_DEF (cb_zoom_activated)
 }
 
 static void
-wbc_gtk_init_zoom (WBCgtk *gtk)
+wbc_gtk_init_zoom (WBCGtk *wbcg)
 {
 #warning TODO : Add zoom to selection
 	static char const * const preset_zoom [] = {
@@ -2956,7 +2254,7 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 	};
 	int i;
 
-	gtk->zoom = g_object_new (go_action_combo_text_get_type (),
+	wbcg->zoom = g_object_new (go_action_combo_text_get_type (),
 				  "name", "Zoom",
 				  "label", _("_Zoom"),
 				  "visible-vertical", FALSE,
@@ -2964,34 +2262,23 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 				  "stock-id", GTK_STOCK_ZOOM_IN,
 				  NULL);
 #ifdef USE_HILDON
-	go_action_combo_text_set_width (gtk->zoom,  "100000000%");
+	go_action_combo_text_set_width (wbcg->zoom,  "100000000%");
 #else
-	go_action_combo_text_set_width (gtk->zoom,  "10000%");
+	go_action_combo_text_set_width (wbcg->zoom,  "10000%");
 #endif
 	for (i = 0; preset_zoom[i] != NULL ; ++i)
-		go_action_combo_text_add_item (gtk->zoom, preset_zoom[i]);
+		go_action_combo_text_add_item (wbcg->zoom, preset_zoom[i]);
 
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
-	g_signal_connect (G_OBJECT (gtk->zoom),
+	g_signal_connect (G_OBJECT (wbcg->zoom),
 		"activate",
-		G_CALLBACK (cb_zoom_activated), gtk);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->zoom));
-}
-
-static void
-wbc_gtk_set_zoom_label (WBCGtk const *wbcg, char const *label)
-{
-	go_action_combo_text_set_entry (((WBCgtk const *)wbcg)->zoom, label,
-		GO_ACTION_COMBO_SEARCH_CURRENT);
+		G_CALLBACK (cb_zoom_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->zoom));
 }
 
 /****************************************************************************/
-
-#include <goffice/gtk/go-combo-pixmaps.h>
-#include "pixmaps/gnumeric-stock-pixbufs.h"
-#include "style-border.h"
 
 static GOActionComboPixmapsElement const border_combo_info[] = {
 	{ N_("Left"),			"Gnumeric_BorderLeft",			11 },
@@ -3097,10 +2384,10 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 }
 
 static void
-wbc_gtk_init_borders (WBCgtk *gtk)
+wbc_gtk_init_borders (WBCGtk *wbcg)
 {
-	gtk->borders = go_action_combo_pixmaps_new ("BorderSelector", border_combo_info, 3, 4);
-	g_object_set (G_OBJECT (gtk->borders),
+	wbcg->borders = go_action_combo_pixmaps_new ("BorderSelector", border_combo_info, 3, 4);
+	g_object_set (G_OBJECT (wbcg->borders),
 		      "label", _("Borders"),
 		      "tooltip", _("Borders"),
 		      "visible-vertical", FALSE,
@@ -3108,79 +2395,12 @@ wbc_gtk_init_borders (WBCgtk *gtk)
 	/* TODO: Create vertical version.  */
 #if 0
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
-	go_combo_pixmaps_select (gtk->borders, 1); /* default to none */
+	go_combo_pixmaps_select (wbcg->borders, 1); /* default to none */
 #endif
-	g_signal_connect (G_OBJECT (gtk->borders),
+	g_signal_connect (G_OBJECT (wbcg->borders),
 		"activate",
-		G_CALLBACK (cb_border_activated), gtk);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->borders));
-}
-
-/****************************************************************************/
-
-static GOActionComboPixmapsElement const halignment_combo_info[] = {
-	{ N_("Align left"),		GTK_STOCK_JUSTIFY_LEFT,		HALIGN_LEFT },
-	{ N_("Center horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	HALIGN_CENTER },
-	{ N_("Align right"),		GTK_STOCK_JUSTIFY_RIGHT,	HALIGN_RIGHT },
-	{ N_("Fill Horizontally"),	"Gnumeric_HAlignFill",		HALIGN_FILL },
-	{ N_("Justify Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		HALIGN_JUSTIFY },
-	{ N_("Center horizontally across the selection"),
-					"Gnumeric_CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
-	{ N_("Align numbers right, and text left"),
-					"Gnumeric_HAlignGeneral",	HALIGN_GENERAL },
-	{ NULL, NULL }
-};
-static GOActionComboPixmapsElement const valignment_combo_info[] = {
-	{ N_("Align Top"),		"stock_alignment-top",			VALIGN_TOP },
-	{ N_("Center Vertically"),	"stock_alignment-centered-vertically",	VALIGN_CENTER },
-	{ N_("Align Bottom"),		"stock_alignment-bottom",		VALIGN_BOTTOM },
-	{ NULL, NULL}
-};
-
-static void
-cb_halignment_activated (GOActionComboPixmaps *a, WBCGtk *wbcg)
-{
-	wbcg_set_selection_halign (wbcg,
-		go_action_combo_pixmaps_get_selected (a, NULL));
-}
-static void
-cb_valignment_activated (GOActionComboPixmaps *a, WBCGtk *wbcg)
-{
-	wbcg_set_selection_valign (wbcg,
-		go_action_combo_pixmaps_get_selected (a, NULL));
-}
-static void
-wbc_gtk_init_alignments (WBCgtk *gtk)
-{
-	gtk->halignment = go_action_combo_pixmaps_new ("HAlignmentSelector",
-						       halignment_combo_info, 3, 1);
-	g_object_set (G_OBJECT (gtk->halignment),
-		      "label", _("Horizontal Alignment"),
-		      "tooltip", _("Horizontal Alignment"),
-		      NULL);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
-	go_combo_pixmaps_select (gtk->halignment, 1); /* default to none */
-#endif
-	g_signal_connect (G_OBJECT (gtk->halignment),
-		"activate",
-		G_CALLBACK (cb_halignment_activated), gtk);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->halignment));
-
-	gtk->valignment = go_action_combo_pixmaps_new ("VAlignmentSelector",
-						       valignment_combo_info, 1, 3);
-	g_object_set (G_OBJECT (gtk->valignment),
-		      "label", _("Vertical Alignment"),
-		      "tooltip", _("Vertical Alignment"),
-		      NULL);
-#if 0
-	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
-	go_combo_pixmaps_select (gtk->valignment, 1); /* default to none */
-#endif
-	g_signal_connect (G_OBJECT (gtk->valignment),
-		"activate",
-		G_CALLBACK (cb_valignment_activated), gtk);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->valignment));
+		G_CALLBACK (cb_border_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->borders));
 }
 
 /****************************************************************************/
@@ -3188,8 +2408,8 @@ wbc_gtk_init_alignments (WBCgtk *gtk)
 static GOActionComboStack *
 ur_stack (WorkbookControl *wbc, gboolean is_undo)
 {
-	WBCgtk *gtk = (WBCgtk *)wbc;
-	return is_undo ? gtk->undo_haction : gtk->redo_haction;
+	WBCGtk *wbcg = (WBCGtk *)wbc;
+	return is_undo ? wbcg->undo_haction : wbcg->redo_haction;
 }
 
 static void
@@ -3231,7 +2451,7 @@ create_undo_redo (GOActionComboStack **haction, char const *hname,
 		  GCallback hcb, 
 		  GtkAction **vaction, char const *vname,
 		  GCallback vcb, 
-		  WBCgtk *gtk,
+		  WBCGtk *gtk,
 		  char const *tooltip,
 		  char const *stock_id, char const *accel)
 {
@@ -3279,7 +2499,7 @@ cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 }
 
 static void
-wbc_gtk_init_undo_redo (WBCgtk *gtk)
+wbc_gtk_init_undo_redo (WBCGtk *gtk)
 {
 	create_undo_redo (
 		&gtk->redo_haction, "Redo", G_CALLBACK (cb_redo_activated),
@@ -3333,7 +2553,7 @@ cb_fore_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 }
 
 static void
-wbc_gtk_init_color_fore (WBCgtk *gtk)
+wbc_gtk_init_color_fore (WBCGtk *gtk)
 {
 	GnmColor *sc_auto_font = style_color_auto_font ();
 	GOColor   default_color = GDK_TO_UINT(sc_auto_font->gdk_color);
@@ -3388,7 +2608,7 @@ cb_back_color_changed (GOActionComboColor *a, WBCGtk *wbcg)
 }
 
 static void
-wbc_gtk_init_color_back (WBCgtk *gtk)
+wbc_gtk_init_color_back (WBCGtk *gtk)
 {
 	gtk->back_color = go_action_combo_color_new ("ColorBack", "bucket",
 		_("Clear Background"), 0, NULL);
@@ -3410,7 +2630,7 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 /****************************************************************************/
 
 static void
-cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
+cb_font_name_changed (GOActionComboText *a, WBCGtk *gtk)
 {
 	char const *new_name = go_action_combo_text_get_entry (gtk->font_name);
 
@@ -3434,7 +2654,7 @@ cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
 }
 
 static void
-wbc_gtk_init_font_name (WBCgtk *gtk)
+wbc_gtk_init_font_name (WBCGtk *gtk)
 {
 	PangoContext *context;
 	GSList *ptr, *families;
@@ -3468,7 +2688,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 /****************************************************************************/
 
 static void
-cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
+cb_font_size_changed (GOActionComboText *a, WBCGtk *gtk)
 {
 	char const *new_size = go_action_combo_text_get_entry (gtk->font_size);
 	char *end;
@@ -3493,7 +2713,7 @@ cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 }
 
 static void
-wbc_gtk_init_font_size (WBCgtk *gtk)
+wbc_gtk_init_font_size (WBCGtk *gtk)
 {
 	GSList *ptr, *font_sizes;
 
@@ -3529,172 +2749,6 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 	gtk_action_group_add_action (gtk->font_actions,
 		GTK_ACTION (gtk->font_size));
 }
-/****************************************************************************/
-/* Command callback called on activation of a file history menu item. */
-
-static void
-cb_file_history_activate (GObject *action, WBCGtk *wbcg)
-{
-	gui_file_read (wbcg,
-		g_object_get_data (action, "uri"), NULL, NULL);
-}
-
-static void
-wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
-{
-	WBCgtk *gtk = (WBCgtk *)wbcg;
-	GSList *history, *ptr;
-	unsigned i;
-
-	if (gtk->file_history.merge_id != 0)
-		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
-	gtk->file_history.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
-
-	if (gtk->file_history.actions != NULL)
-		g_object_unref (gtk->file_history.actions);
-	gtk->file_history.actions = gtk_action_group_new ("FileHistory");
-
-	/* create the actions */
-	history = gnm_app_history_get_list (9);
-	for (i = 1, ptr = history; ptr != NULL ; ptr = ptr->next, i++) {
-		GtkActionEntry entry;
-		GtkAction *action;
-		char const *uri = ptr->data;
-		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
-		char *label = history_item_label (uri, i);
-		char *filename = go_filename_from_uri (uri);
-		char *filename_utf8 = filename ? g_filename_to_utf8 (filename, -1, NULL, NULL, NULL) : NULL;
-		char *tooltip = g_strdup_printf (_("Open %s"), filename_utf8 ? filename_utf8 : uri);
-
-		entry.name = name;
-		entry.stock_id = NULL;
-		entry.label = label;
-		entry.accelerator = NULL;
-		entry.tooltip = tooltip;
-		entry.callback = G_CALLBACK (cb_file_history_activate);
-		gtk_action_group_add_actions (gtk->file_history.actions,
-			&entry, 1, (WBCGtk *)wbcg);
-		action = gtk_action_group_get_action (gtk->file_history.actions,
-						      name);
-		g_object_set_data_full (G_OBJECT (action), "uri",
-					g_strdup (uri), (GDestroyNotify)g_free);
-
-		g_free (name);
-		g_free (label);
-		g_free (filename);
-		g_free (filename_utf8);
-		g_free (tooltip);		
-	}
-	go_slist_free_custom (history, (GFreeFunc)g_free);
-
-	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history.actions, 0);
-
-	/* merge them in */
-	while (i-- > 1) {
-		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
-		gtk_ui_manager_add_ui (gtk->ui, gtk->file_history.merge_id,
-#ifdef USE_HILDON
-			"/popup/File/FileHistory",
-#else
-			"/menubar/File/FileHistory",
-#endif
-			name, name, GTK_UI_MANAGER_AUTO, TRUE);
-		g_free (name);
-	}
-}
-
-/****************************************************************************/
-
-static void
-wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
-				char const *action, gboolean sensitive)
-{
-	WBCgtk *gtk = (WBCgtk *)wbcg;
-	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (gtk->permanent_actions, action);
-	g_object_set (G_OBJECT (a), "sensitive", sensitive, NULL);
-}
-
-#ifdef USE_HILDON
-static void
-wbc_gtk_hildon_set_action_sensitive (WBCgtk      *gtk,
-				     const gchar *action,
-				     gboolean     sensitive)
-{
-	GtkWidget * toolbar = gtk_ui_manager_get_widget (gtk->ui, "/StandardToolbar");
-	GList * children = gtk_container_get_children (GTK_CONTAINER (toolbar));
-	GList * l;
-	
-	for (l = children; l != NULL; l = g_list_next (l)) {
-		if (GTK_IS_SEPARATOR_TOOL_ITEM (l->data) == FALSE) {
-			gchar * label = NULL;
-			g_object_get (GTK_TOOL_ITEM (l->data), "label", &label, NULL);
-			
-			if (label != NULL && strstr (label, action) != NULL) {
-				g_object_set (G_OBJECT (l->data), "sensitive", sensitive, NULL);
-				g_free(label);
-				break;
-			}
-
-			g_free(label);
-		}
-	}
-
-	g_list_free (children);
-}
-#endif
-
-/* NOTE : The semantics of prefix and suffix seem contrived.  Why are we
- * handling it at this end ?  That stuff should be done in the undo/redo code
- **/
-static void
-wbc_gtk_set_action_label (WBCGtk const *wbcg,
-			  char const *action,
-			  char const *prefix,
-			  char const *suffix,
-			  char const *new_tip)
-{
-	WBCgtk *gtk = (WBCgtk *)wbcg;
-	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
-
-	if (prefix != NULL) {
-		char *text;
-		gboolean is_suffix = (suffix != NULL);
-
-#ifdef USE_HILDON
-		wbc_gtk_hildon_set_action_sensitive (gtk, action, is_suffix);
-#endif
-
-		text = is_suffix ? g_strdup_printf ("%s: %s", prefix, suffix) : (char *) prefix;
-			g_object_set (G_OBJECT (a),
-				      "label",	   text,
-				      "sensitive", is_suffix,
-				      NULL);
-		if (is_suffix)
-			g_free (text);
-	} else
-		g_object_set (G_OBJECT (a), "label", suffix, NULL);
-
-	if (new_tip != NULL)
-		g_object_set (G_OBJECT (a), "tooltip", new_tip, NULL);
-}
-
-static void
-wbc_gtk_set_toggle_action_state (WBCGtk const *wbcg,
-				 char const *action, gboolean state)
-{
-	WBCgtk *gtk = (WBCgtk *)wbcg;
-	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (gtk->font_actions, action);
-	if (a == NULL)
-		a = gtk_action_group_get_action (gtk->toolbar.actions, action);
-	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
-}
-
-/****************************************************************************/
-
 static WorkbookControl *
 wbc_gtk_control_new (G_GNUC_UNUSED WorkbookControl *wbc,
 		     WorkbookView *wbv,
@@ -3708,7 +2762,7 @@ static void
 wbc_gtk_init_state (WorkbookControl *wbc)
 {
 	WorkbookView *wbv  = wb_control_view (wbc);
-	WBCgtk       *wbcg = WBC_GTK (wbc);
+	WBCGtk       *wbcg = WBC_GTK (wbc);
 
 	/* Share a colour history for all a view's controls */
 	go_action_combo_color_set_group (wbcg->back_color, wbv);
@@ -3719,7 +2773,7 @@ static void
 wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 {
 	WorkbookView	*wb_view = wb_control_view (wbc);
-	WBCgtk		*wbcg = (WBCgtk *)wbc;
+	WBCGtk		*wbcg = (WBCGtk *)wbc;
 
 	g_return_if_fail (wb_view != NULL);
 
@@ -3790,7 +2844,7 @@ wbc_gtk_style_feedback_real (WorkbookControl *wbc, GnmStyle const *changes)
 }
 
 static gint
-cb_wbc_gtk_style_feedback (WBCgtk *gtk)
+cb_wbc_gtk_style_feedback (WBCGtk *gtk)
 {
 	wbc_gtk_style_feedback_real ((WorkbookControl *)gtk, NULL);
 	gtk->idle_update_style_feedback = 0;
@@ -3799,7 +2853,7 @@ cb_wbc_gtk_style_feedback (WBCgtk *gtk)
 static void
 wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 {
-	WBCgtk *wbcg = (WBCgtk *)wbc;
+	WBCGtk *wbcg = (WBCGtk *)wbc;
 
 	if (changes)
 		wbc_gtk_style_feedback_real (wbc, changes);
@@ -3807,11 +2861,6 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 		wbcg->idle_update_style_feedback = g_timeout_add (400,
 			(GSourceFunc) cb_wbc_gtk_style_feedback, wbc);
 }
-
-extern void wbcg_register_actions (WBCGtk *wbcg,
-				   GtkActionGroup *menu_group,
-				   GtkActionGroup *group,
-				   GtkActionGroup *font_group);
 
 static void
 cb_handlebox_dock_status (GtkHandleBox *hb,
@@ -3905,7 +2954,7 @@ cb_window_menu_activate (GObject *action, WBCGtk *wbcg)
 }
 
 static unsigned
-regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
+regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 {
 	int k, count;
 
@@ -3959,7 +3008,7 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 }
 
 static void
-cb_regenerate_window_menu (WBCgtk *gtk)
+cb_regenerate_window_menu (WBCGtk *gtk)
 {
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (gtk));
 	GList const *ptr;
@@ -4019,7 +3068,7 @@ cb_custom_ui_handler (GObject *gtk_action, WorkbookControl *wbc)
 
 static void
 cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
-		  GnmAppExtraUI *extra_ui, WBCgtk *gtk)
+		  GnmAppExtraUI *extra_ui, WBCGtk *gtk)
 {
 	GtkActionEntry   entry;
 	CustomUIHandle  *details;
@@ -4051,7 +3100,7 @@ cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 }
 static void
 cb_remove_custom_ui (G_GNUC_UNUSED GnmApp *app,
-		     GnmAppExtraUI *extra_ui, WBCgtk *gtk)
+		     GnmAppExtraUI *extra_ui, WBCGtk *gtk)
 {
 	CustomUIHandle *details = g_hash_table_lookup (gtk->custom_uis, extra_ui);
 	if (NULL != details) {
@@ -4063,7 +3112,7 @@ cb_remove_custom_ui (G_GNUC_UNUSED GnmApp *app,
 }
 
 static void
-cb_init_extra_ui (GnmAppExtraUI *extra_ui, WBCgtk *gtk)
+cb_init_extra_ui (GnmAppExtraUI *extra_ui, WBCGtk *gtk)
 {
 	cb_add_custom_ui (NULL, extra_ui, gtk);
 }
@@ -4090,7 +3139,7 @@ set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 }
 
 static void
-set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCgtk *gtk)
+set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCGtk *gtk)
 {
 	GtkWidget *hdlbox = GTK_WIDGET (tb)->parent;
 	GtkContainer *zone = GTK_CONTAINER (GTK_WIDGET (hdlbox)->parent);
@@ -4112,7 +3161,7 @@ set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCgtk *gtk)
 }
 
 static void
-cb_set_toolbar_position (GtkMenuItem *item, WBCgtk *gtk)
+cb_set_toolbar_position (GtkMenuItem *item, WBCGtk *gtk)
 {
 	GtkToolbar *tb = g_object_get_data (G_OBJECT (item), "toolbar");
 	GtkPositionType side = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "side"));
@@ -4140,7 +3189,7 @@ cb_tcm_hide (GtkWidget *widget, GtkHandleBox *hdlbox)
 }
 
 static void
-toolbar_context_menu (GtkToolbar *tb, WBCgtk *gtk, GdkEventButton *event_button)
+toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 {
 	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
 	GtkWidget *zone = GTK_WIDGET (hdlbox)->parent;
@@ -4200,7 +3249,7 @@ toolbar_context_menu (GtkToolbar *tb, WBCgtk *gtk, GdkEventButton *event_button)
 }
 
 static gboolean
-cb_toolbar_button_press (GtkToolbar *tb, GdkEventButton *event, WBCgtk *gtk)
+cb_toolbar_button_press (GtkToolbar *tb, GdkEventButton *event, WBCGtk *gtk)
 {
 	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
 		toolbar_context_menu (tb, gtk, event);
@@ -4211,7 +3260,7 @@ cb_toolbar_button_press (GtkToolbar *tb, GdkEventButton *event, WBCgtk *gtk)
 }
 
 static gboolean
-cb_handlebox_button_press (GtkHandleBox *hdlbox, GdkEventButton *event, WBCgtk *gtk)
+cb_handlebox_button_press (GtkHandleBox *hdlbox, GdkEventButton *event, WBCGtk *gtk)
 {
 	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
 		GtkToolbar *tb = GTK_TOOLBAR (gtk_bin_get_child (GTK_BIN (hdlbox)));
@@ -4244,7 +3293,7 @@ cb_handlebox_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
 
 static void
 cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
-		       GtkWidget *w, WBCgtk *gtk)
+		       GtkWidget *w, WBCGtk *gtk)
 {
 	if (GTK_IS_TOOLBAR (w)) {
 		WBCGtk *wbcg = (WBCGtk *)gtk;
@@ -4408,223 +3457,6 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 	wbcg->toggle_for_fullscreen = tmp;
 }
 
-#ifndef HILDON
-char const *uifilename = NULL;
-GtkActionEntry const *extra_actions = NULL;
-int nb_extra_actions = 0;
-#endif
-
-static void
-wbc_gtk_init (GObject *obj)
-{
-	static struct {
-		char const *name;
-		gboolean    is_font;
-		unsigned    offset;
-	} const toggles[] = {
-		{ "FontBold",		   TRUE, G_STRUCT_OFFSET (WBCgtk, font.bold) },
-		{ "FontItalic",		   TRUE, G_STRUCT_OFFSET (WBCgtk, font.italic) },
-		{ "FontUnderline",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.underline) },
-		{ "FontDoubleUnderline",   TRUE, G_STRUCT_OFFSET (WBCgtk, font.d_underline) },
-		{ "FontSuperscript",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.superscript) },
-		{ "FontSubscript",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.subscript) },
-		{ "FontStrikeThrough",	   TRUE, G_STRUCT_OFFSET (WBCgtk, font.strikethrough) },
-
-		{ "AlignLeft",		   FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.left) },
-		{ "AlignCenter",	   FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.center) },
-		{ "AlignRight",		   FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.right) },
-		{ "CenterAcrossSelection", FALSE, G_STRUCT_OFFSET (WBCgtk, h_align.center_across_selection) },
-		{ "AlignTop",		   FALSE, G_STRUCT_OFFSET (WBCgtk, v_align.top) },
-		{ "AlignVCenter",	   FALSE, G_STRUCT_OFFSET (WBCgtk, v_align.center) },
-		{ "AlignBottom",	   FALSE, G_STRUCT_OFFSET (WBCgtk, v_align.bottom) }
-	};
-
-	WBCGtk *wbcg = (WBCGtk *)obj;
-	WBCgtk		   *gtk = (WBCgtk *)obj;
-	GtkAction	   *act;
-	char		   *uifile;
-	unsigned	    i;
-	GError *error = NULL;
-	GtkWidget *hbox;
-
-#ifdef USE_HILDON
-	static HildonProgram * hildon_program = NULL;
-#endif
-
-	gtk->menu_zone = gtk_vbox_new (TRUE, 0);
-	gtk->everything = gtk_vbox_new (FALSE, 0);
-
-	gtk->toolbar_zones[GTK_POS_TOP] = gtk_vbox_new (FALSE, 0);
-	gtk->toolbar_zones[GTK_POS_BOTTOM] = NULL;
-	gtk->toolbar_zones[GTK_POS_LEFT] = gtk_hbox_new (FALSE, 0);
-	gtk->toolbar_zones[GTK_POS_RIGHT] = gtk_hbox_new (FALSE, 0);
-
-	gtk->idle_update_style_feedback = 0;
-
-#ifdef USE_HILDON
-	if (hildon_program == NULL)
-		hildon_program = HILDON_PROGRAM (hildon_program_get_instance ());
-	else 
-		g_object_ref (hildon_program);
-
-	wbcg->hildon_prog = hildon_program;
-
-	wbcg_set_toplevel (wbcg, hildon_window_new ());
-	hildon_program_add_window (wbcg->hildon_prog, HILDON_WINDOW (wbcg_toplevel (wbcg)));
-#else
-	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
-#endif
-
-	g_signal_connect (wbcg_toplevel (wbcg), "window_state_event",
-			  G_CALLBACK (cb_wbcg_window_state_event),
-			  wbcg);
-
-#ifndef USE_HILDON
-	gtk_box_pack_start (GTK_BOX (gtk->everything),
-		gtk->menu_zone, FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (gtk->everything),
-		gtk->toolbar_zones[GTK_POS_TOP], FALSE, TRUE, 0);
-#endif
-
-	gtk_window_set_title (wbcg_toplevel (wbcg), "Gnumeric");
-	gtk_window_set_wmclass (wbcg_toplevel (wbcg), "Gnumeric", "Gnumeric");
-
-#if 0
-	bonobo_dock_set_client_area (BONOBO_DOCK (gtk->dock), wbcg->table);
-#endif
-
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), gtk->toolbar_zones[GTK_POS_LEFT], FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), wbcg->table, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), gtk->toolbar_zones[GTK_POS_RIGHT], FALSE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (gtk->everything), hbox, TRUE, TRUE, 0);
-	gtk_widget_show_all (gtk->everything);
-
-#warning "TODO split into smaller chunks"
-	gtk->permanent_actions = gtk_action_group_new ("PermanentActions");
-	gtk_action_group_set_translation_domain (gtk->permanent_actions, GETTEXT_PACKAGE);
-	gtk->actions = gtk_action_group_new ("Actions");
-	gtk_action_group_set_translation_domain (gtk->actions, GETTEXT_PACKAGE);
-	gtk->font_actions = gtk_action_group_new ("FontActions");
-	gtk_action_group_set_translation_domain (gtk->font_actions, GETTEXT_PACKAGE);
-
-	wbcg_register_actions (wbcg, gtk->permanent_actions, gtk->actions, gtk->font_actions);
-	if (extra_actions)
-		gtk_action_group_add_actions (gtk->actions, extra_actions, nb_extra_actions, wbcg);
-
-	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
-		act = gtk_action_group_get_action (
-			(toggles[i].is_font ? gtk->font_actions : gtk->actions),
-			toggles[i].name);
-		G_STRUCT_MEMBER (GtkToggleAction *, gtk, toggles[i].offset) = GTK_TOGGLE_ACTION (act);
-	}
-
-	wbc_gtk_init_undo_redo (gtk);
-	wbc_gtk_init_color_fore (gtk);
-	wbc_gtk_init_color_back (gtk);
-	wbc_gtk_init_font_name (gtk);
-	wbc_gtk_init_font_size (gtk);
-	wbc_gtk_init_zoom (gtk);
-	wbc_gtk_init_borders (gtk);
-	wbc_gtk_init_alignments (gtk);
-
-	gtk->ui = gtk_ui_manager_new ();
-	g_object_connect (gtk->ui,
-		"signal::add_widget",	 G_CALLBACK (cb_add_menus_toolbars), gtk,
-		"signal::connect_proxy",    G_CALLBACK (cb_connect_proxy), gtk,
-		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), gtk,
-		"swapped_object_signal::post_activate", G_CALLBACK (cb_post_activate), gtk,
-		NULL);
-	gtk_ui_manager_insert_action_group (gtk->ui, gtk->permanent_actions, 0);
-	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
-	gtk_ui_manager_insert_action_group (gtk->ui, gtk->font_actions, 0);
-	gtk_window_add_accel_group (wbcg_toplevel (wbcg), 
-		gtk_ui_manager_get_accel_group (gtk->ui));
-
-#ifdef USE_HILDON
-	uifile = g_build_filename (gnm_sys_data_dir (), "HILDON_Gnumeric-gtk.xml", NULL);
-#else
-	uifile = g_build_filename (gnm_sys_data_dir (),
-		(uifilename? uifilename: "GNOME_Gnumeric-gtk.xml"), NULL);
-#endif
-
-	if (!gtk_ui_manager_add_ui_from_file (gtk->ui, uifile, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-	g_free (uifile);
-
-	gtk->custom_uis = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-						 NULL, g_free);
-
-	gtk->file_history.actions = NULL;
-	gtk->file_history.merge_id = 0;
-	wbc_gtk_reload_recent_file_menu (wbcg);
-
-	gtk->toolbar.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
-	gtk->toolbar.actions = gtk_action_group_new ("Toolbars");
-	gtk_ui_manager_insert_action_group (gtk->ui, gtk->toolbar.actions, 0);
-
-	gtk->windows.actions = NULL;
-	gtk->windows.merge_id = 0;
-	gnm_app_foreach_extra_ui ((GFunc) cb_init_extra_ui, gtk);
-	g_object_connect ((GObject *) gnm_app_get_app (),
-		"swapped-object-signal::window-list-changed",
-			G_CALLBACK (cb_regenerate_window_menu), gtk,
-		"object-signal::custom-ui-added",
-			G_CALLBACK (cb_add_custom_ui), gtk,
-		"object-signal::custom-ui-removed",
-			G_CALLBACK (cb_remove_custom_ui), gtk,
-		NULL);
-
-	gtk_ui_manager_ensure_update (gtk->ui);
-
-	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
-
-	/* updates the undo/redo menu labels before check_underlines
-	 * to avoid problems like #324692. */
-	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
-#ifdef CHECK_MENU_UNDERLINES
-	gtk_container_foreach (GTK_CONTAINER (gtk->menu_zone),
-			       (GtkCallback)check_underlines,
-			       (gpointer)"");
-#endif
-
-#ifdef USE_HILDON
-	hildon_window_set_menu (HILDON_WINDOW (wbcg_toplevel (wbcg)),
-				GTK_MENU (gtk_ui_manager_get_widget (gtk->ui, "/popup")));
-
-	gtk_widget_show_all (wbcg->toplevel);
-	
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarFormatToolbar", FALSE);
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarObjectToolbar", FALSE);
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewSheets", FALSE);
-	wbc_gtk_set_toggle_action_state (wbcg, "ViewStatusbar", FALSE);
-#endif
-}
-
-static void
-wbc_gtk_finalize (GObject *obj)
-{
-	WBCgtk *gtk = (WBCgtk *)obj;
-
-	if (gtk->idle_update_style_feedback != 0)
-		g_source_remove (gtk->idle_update_style_feedback);
-	if (gtk->file_history.merge_id != 0)
-		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
-	if (gtk->file_history.actions != NULL)
-		g_object_unref (gtk->file_history.actions);
-	if (gtk->toolbar.merge_id != 0)
-		gtk_ui_manager_remove_ui (gtk->ui, gtk->toolbar.merge_id);
-	if (gtk->toolbar.actions != NULL)
-		g_object_unref (gtk->toolbar.actions);
-	g_object_unref (gtk->ui);
-
-	g_hash_table_destroy (gtk->custom_uis);
-
-	parent_class->finalize (obj);
-}
 
 static void
 wbc_gtk_setup_pixmaps (void)
@@ -4854,43 +3686,1011 @@ wbc_gtk_setup_icons (void)
 	}
 }
 
+/****************************************************************************/
+
 static void
-wbc_gtk_class_init (GObjectClass *object_class)
+cb_auto_expr_changed (GtkWidget *item, WBCGtk *wbcg)
+{
+	const GnmFunc *func;
+	const char *descr;
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+
+	if (wbcg->updating_ui)
+		return;
+
+	func = g_object_get_data (G_OBJECT (item), "func");
+	descr = g_object_get_data (G_OBJECT (item), "descr");
+
+	g_object_set (wbv,
+		      "auto-expr-func", func,
+		      "auto-expr-descr", descr,
+		      NULL);
+}
+
+static void
+cb_auto_expr_precision_toggled (GtkWidget *item, WBCGtk *wbcg)
+{
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	if (wbcg->updating_ui)
+		return;
+
+	go_object_toggle (wbv, "auto-expr-max-precision");
+}
+
+
+static gboolean
+cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
+{
+	/*
+	 * WARNING * WARNING * WARNING
+	 *
+	 * Keep the functions in lower case.
+	 * We currently register the functions in lower case and some locales
+	 * (notably tr_TR) do not have the same encoding for tolower that
+	 * locale C does.
+	 *
+	 * eg tolower ('I') != 'i'
+	 * Which would break function lookup when looking up for function 'selectIon'
+	 * when it was registered as 'selection'
+	 *
+	 * WARNING * WARNING * WARNING
+	 */
+	static struct {
+		char const * const displayed_name;
+		char const * const function;
+	} const quick_compute_routines [] = {
+		{ N_("Sum"),   	       "sum" },
+		{ N_("Min"),   	       "min" },
+		{ N_("Max"),   	       "max" },
+		{ N_("Average"),       "average" },
+		{ N_("Count"),         "count" },
+		{ NULL, NULL }
+	};
+
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	GtkWidget *item, *menu;
+	int i;
+
+	if (event->button != 3)
+		return FALSE;
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
+		GnmParsePos pp;
+		char const *expr = quick_compute_routines [i].function;
+		GnmExprTop const *new_auto_expr;
+		GtkWidget *item;
+
+		/* Test the expression...  */
+		parse_pos_init (&pp, wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)), NULL, 0, 0);
+		new_auto_expr = gnm_expr_parse_str_simple (expr, &pp);
+		if (!new_auto_expr)
+			continue;
+		gnm_expr_top_unref (new_auto_expr);
+
+		item = gtk_menu_item_new_with_label (
+			_(quick_compute_routines [i].displayed_name));
+		g_object_set_data (G_OBJECT (item),
+				   "func",
+				   gnm_func_lookup (expr, NULL));
+		g_object_set_data (G_OBJECT (item), "descr",
+			(gpointer)_(quick_compute_routines [i].displayed_name));
+		g_signal_connect (G_OBJECT (item),
+			"activate",
+			G_CALLBACK (cb_auto_expr_changed), wbcg);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+	}
+
+	item = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+
+	item = gtk_check_menu_item_new_with_label (_("Use maximum precision"));
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
+		wbv->auto_expr_use_max_precision);
+	g_signal_connect (G_OBJECT (item), "activate",
+		G_CALLBACK (cb_auto_expr_precision_toggled), wbcg);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
+	return TRUE;
+}
+
+static void
+wbc_gtk_create_status_area (WBCGtk *wbcg)
+{
+	GtkWidget *tmp, *frame;
+
+	wbcg->progress_bar = gtk_progress_bar_new ();
+	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
+	gtk_progress_bar_set_orientation (
+		GTK_PROGRESS_BAR (wbcg->progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
+
+	wbcg->auto_expr_label = tmp = gtk_label_new ("");
+	g_object_ref (wbcg->auto_expr_label);
+	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
+	gtk_widget_ensure_style (tmp);
+	gtk_widget_set_size_request (tmp, go_pango_measure_string (
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
+		tmp->style->font_desc, "W") * 15, -1);
+	tmp = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
+	g_signal_connect (G_OBJECT (tmp),
+		"button_press_event",
+		G_CALLBACK (cb_select_auto_expr), wbcg);
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (frame), tmp);
+
+	wbcg->status_text = tmp = gtk_statusbar_new ();
+	gtk_widget_ensure_style (tmp);
+	gtk_widget_set_size_request (tmp, go_pango_measure_string (
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
+		tmp->style->font_desc, "W") * 15, -1);
+
+	wbcg->status_area = gtk_hbox_new (FALSE, 2);
+	gtk_box_pack_end (GTK_BOX (wbcg->status_area), wbcg->status_text, FALSE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (wbcg->status_area), frame, FALSE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (wbcg->status_area), wbcg->progress_bar, TRUE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (wbcg->everything),
+		wbcg->status_area, FALSE, TRUE, 0);
+	gtk_widget_show_all (wbcg->status_area);
+
+	g_hash_table_insert (wbcg->visibility_widgets,
+			     g_strdup ("ViewStatusbar"),
+			     g_object_ref (wbcg->status_area));
+	/* disable statusbar by default going to fullscreen */
+	g_hash_table_insert (wbcg->toggle_for_fullscreen,
+		g_strdup ("ViewStatusbar"),
+		gtk_action_group_get_action (wbcg->actions, "ViewStatusbar"));
+
+#ifdef USE_HILDON
+	g_hash_table_remove (wbcg->toggle_for_fullscreen, "ViewStatusbar");
+	gtk_widget_hide (wbcg->status_area);
+#endif
+}
+
+/****************************************************************************/
+
+static void
+cb_file_history_activate (GObject *action, WBCGtk *wbcg)
+{
+	gui_file_read (wbcg, g_object_get_data (action, "uri"), NULL, NULL);
+}
+
+static void
+wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
+{
+	WBCGtk *gtk = (WBCGtk *)wbcg;
+	GSList *history, *ptr;
+	unsigned i;
+
+	if (gtk->file_history.merge_id != 0)
+		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
+	gtk->file_history.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
+
+	if (gtk->file_history.actions != NULL)
+		g_object_unref (gtk->file_history.actions);
+	gtk->file_history.actions = gtk_action_group_new ("FileHistory");
+
+	/* create the actions */
+	history = gnm_app_history_get_list (9);
+	for (i = 1, ptr = history; ptr != NULL ; ptr = ptr->next, i++) {
+		GtkActionEntry entry;
+		GtkAction *action;
+		char const *uri = ptr->data;
+		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
+		char *label = history_item_label (uri, i);
+		char *filename = go_filename_from_uri (uri);
+		char *filename_utf8 = filename ? g_filename_to_utf8 (filename, -1, NULL, NULL, NULL) : NULL;
+		char *tooltip = g_strdup_printf (_("Open %s"), filename_utf8 ? filename_utf8 : uri);
+
+		entry.name = name;
+		entry.stock_id = NULL;
+		entry.label = label;
+		entry.accelerator = NULL;
+		entry.tooltip = tooltip;
+		entry.callback = G_CALLBACK (cb_file_history_activate);
+		gtk_action_group_add_actions (gtk->file_history.actions,
+			&entry, 1, (WBCGtk *)wbcg);
+		action = gtk_action_group_get_action (gtk->file_history.actions,
+						      name);
+		g_object_set_data_full (G_OBJECT (action), "uri",
+			g_strdup (uri), (GDestroyNotify)g_free);
+
+		g_free (name);
+		g_free (label);
+		g_free (filename);
+		g_free (filename_utf8);
+		g_free (tooltip);		
+	}
+	go_slist_free_custom (history, (GFreeFunc)g_free);
+
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history.actions, 0);
+
+	/* merge them in */
+	while (i-- > 1) {
+		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
+		gtk_ui_manager_add_ui (gtk->ui, gtk->file_history.merge_id,
+#ifdef USE_HILDON
+			"/popup/File/FileHistory",
+#else
+			"/menubar/File/FileHistory",
+#endif
+			name, name, GTK_UI_MANAGER_AUTO, TRUE);
+		g_free (name);
+	}
+}
+
+static void
+wbcg_set_toplevel (WBCGtk *wbcg, GtkWidget *w)
+{
+	static GtkTargetEntry const drag_types[] = {
+		{ (char *) "text/uri-list", 0, TARGET_URI_LIST },
+		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET },
+		{ (char *) "GNUMERIC_SAME_PROC", GTK_TARGET_SAME_APP, 0 }
+	};
+
+	g_return_if_fail (wbcg->toplevel == NULL);
+
+	wbcg->toplevel = w;
+	w = GTK_WIDGET (wbcg_toplevel (wbcg));
+	g_return_if_fail (GTK_IS_WINDOW (w));
+
+	g_object_set (G_OBJECT (w),
+		"allow-grow", TRUE,
+		"allow-shrink", TRUE,
+		NULL);
+
+	g_signal_connect_data (w, "delete_event",
+		G_CALLBACK (wbc_gtk_close), wbcg, NULL,
+		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+	g_signal_connect_after (w, "set_focus",
+		G_CALLBACK (cb_set_focus), wbcg);
+	g_signal_connect (w, "scroll-event",
+		G_CALLBACK (cb_scroll_wheel), wbcg);
+	g_signal_connect (w, "realize",
+		G_CALLBACK (cb_realize), wbcg);
+
+	/* Setup a test of Drag and Drop */
+	gtk_drag_dest_set (GTK_WIDGET (w),
+		GTK_DEST_DEFAULT_ALL, drag_types, G_N_ELEMENTS (drag_types),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_drag_dest_add_image_targets (GTK_WIDGET (w));
+	gtk_drag_dest_add_text_targets (GTK_WIDGET (w));
+	g_object_connect (G_OBJECT (w),
+		"signal::drag-leave",	G_CALLBACK (cb_wbcg_drag_leave), wbcg,
+		"signal::drag-data-received", G_CALLBACK (cb_wbcg_drag_data_received), wbcg,
+		"signal::drag-motion",	G_CALLBACK (cb_wbcg_drag_motion), wbcg,
+#if 0
+		"signal::drag-data-get", G_CALLBACK (wbcg_drag_data_get), wbc,
+#endif
+		NULL);
+}
+
+/***************************************************************************/
+
+static void
+wbc_gtk_get_property (GObject *object, guint property_id,
+		      GValue *value, GParamSpec *pspec)
+{
+	WBCGtk *wbcg = (WBCGtk *)object;
+
+	switch (property_id) {
+	case WBG_GTK_PROP_AUTOSAVE_PROMPT:
+		g_value_set_boolean (value, wbcg->autosave_prompt);
+		break;
+	case WBG_GTK_PROP_AUTOSAVE_TIME:
+		g_value_set_int (value, wbcg->autosave_time);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+wbc_gtk_set_property (GObject *object, guint property_id,
+		   const GValue *value, GParamSpec *pspec)
+{
+	WBCGtk *wbcg = (WBCGtk *)object;
+
+	switch (property_id) {
+	case WBG_GTK_PROP_AUTOSAVE_PROMPT:
+		wbcg->autosave_prompt = g_value_get_boolean (value);
+		break;
+	case WBG_GTK_PROP_AUTOSAVE_TIME:
+		wbcg_set_autosave_time (wbcg, g_value_get_int (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+wbc_gtk_finalize (GObject *obj)
+{
+	WBCGtk *wbcg = WBC_GTK (obj);
+
+	if (wbcg->idle_update_style_feedback != 0)
+		g_source_remove (wbcg->idle_update_style_feedback);
+	if (wbcg->file_history.merge_id != 0)
+		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->file_history.merge_id);
+	if (wbcg->file_history.actions != NULL)
+		g_object_unref (wbcg->file_history.actions);
+	if (wbcg->toolbar.merge_id != 0)
+		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->toolbar.merge_id);
+	if (wbcg->toolbar.actions != NULL)
+		g_object_unref (wbcg->toolbar.actions);
+	g_object_unref (wbcg->ui);
+
+	g_hash_table_destroy (wbcg->custom_uis);
+
+	/* Disconnect signals that would attempt to change things during
+	 * destruction.
+	 */
+
+	wbcg_autosave_cancel (wbcg);
+
+	if (wbcg->notebook != NULL)
+		g_signal_handlers_disconnect_by_func (
+			G_OBJECT (wbcg->notebook),
+			G_CALLBACK (cb_notebook_switch_page), wbcg);
+	g_signal_handlers_disconnect_by_func (
+		G_OBJECT (wbcg->toplevel),
+		G_CALLBACK (cb_set_focus), wbcg);
+
+	wbcg_auto_complete_destroy (wbcg);
+
+	gtk_window_set_focus (wbcg_toplevel (wbcg), NULL);
+
+	if (wbcg->toplevel != NULL) {
+		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
+		wbcg->toplevel = NULL;
+	}
+
+	if (wbcg->font_desc) {
+		pango_font_description_free (wbcg->font_desc);
+		wbcg->font_desc = NULL;
+	}
+
+	if (wbcg->auto_expr_label) {
+		g_object_unref (wbcg->auto_expr_label);
+		wbcg->auto_expr_label = NULL;
+	}
+
+	g_hash_table_destroy (wbcg->visibility_widgets);
+	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
+
+#ifdef USE_HILDON
+	if (wbcg->hildon_prog != NULL) {
+		g_object_unref (wbcg->hildon_prog);
+		wbcg->hildon_prog = NULL;
+	}
+#endif
+
+
+	parent_class->finalize (obj);
+}
+
+/***************************************************************************/
+
+typedef struct {
+	GnmExprEntry *entry;
+	GogDataset *dataset;
+	int dim_i;
+	GogDataType data_type;
+} GraphDimEditor;
+
+static void
+cb_graph_dim_editor_update (GnmExprEntry *gee,
+			    G_GNUC_UNUSED gboolean user_requested,
+			    GraphDimEditor *editor)
+{
+	GOData *data = NULL;
+	Sheet *sheet;
+	SheetControlGUI *scg;
+
+	/* Ignore changes while we are insensitive. useful for displaying
+	 * values, without storing then as Data.  Also ignore updates if the
+	 * dataset has been cleared via the weakref handler  */
+	if (!GTK_WIDGET_SENSITIVE (gee) || editor->dataset == NULL)
+		return;
+
+	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
+	sheet = scg_sheet (scg);
+	g_object_unref (G_OBJECT (scg));
+
+	/* If we are setting something */
+	if (!gnm_expr_entry_is_blank (editor->entry)) {
+		GnmParsePos pos;
+		GnmParseError  perr;
+		GnmExprTop const *texpr;
+
+		parse_error_init (&perr);
+		texpr = gnm_expr_entry_parse (editor->entry,
+			parse_pos_init_sheet (&pos, sheet),
+			&perr, TRUE, GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+
+		/* TODO : add some error dialogs split out
+		 * the code in workbok_edit to add parens.  */
+		if (texpr == NULL) {
+			if (editor->data_type == GOG_DATA_SCALAR)
+				texpr = gnm_expr_top_new_constant (
+					value_new_string (
+						gnm_expr_entry_get_text (editor->entry)));
+			else {
+				g_return_if_fail (perr.err != NULL);
+
+				wb_control_validation_msg (WORKBOOK_CONTROL (scg_wbcg (scg)),
+					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
+				parse_error_free (&perr);
+				return;
+			}
+		}
+
+		switch (editor->data_type) {
+		case GOG_DATA_SCALAR:
+			data = gnm_go_data_scalar_new_expr (sheet, texpr);
+			break;
+		case GOG_DATA_VECTOR:
+			data = gnm_go_data_vector_new_expr (sheet, texpr);
+			break;
+		case GOG_DATA_MATRIX:
+			data = gnm_go_data_matrix_new_expr (sheet, texpr);
+		}
+	}
+
+	/* The SheetObjectGraph does the magic to link things in */
+	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
+}
+
+static void
+cb_graph_dim_entry_unmap (GnmExprEntry *gee, GraphDimEditor *editor)
+{
+	cb_graph_dim_editor_update (gee, FALSE, editor);
+}
+
+static void
+cb_graph_dim_entry_unrealize (GnmExprEntry *gee, GraphDimEditor *editor)
+{
+	cb_graph_dim_editor_update (gee, FALSE, editor);
+}
+
+static void
+cb_dim_editor_weakref_notify (GraphDimEditor *editor, GogDataset *dataset)
+{
+	g_return_if_fail (editor->dataset == dataset);
+	editor->dataset = NULL;
+}
+
+static void
+graph_dim_editor_free (GraphDimEditor *editor)
+{
+	if (editor->dataset)
+		g_object_weak_unref (G_OBJECT (editor->dataset),
+			(GWeakNotify) cb_dim_editor_weakref_notify, editor);
+	g_free (editor);
+}
+
+static gpointer
+wbcg_data_allocator_editor (GogDataAllocator *dalloc,
+			    GogDataset *dataset, int dim_i, GogDataType data_type)
+{
+	WBCGtk *wbcg = WBC_GTK (dalloc);
+	GraphDimEditor *editor;
+	GOData *val;
+
+	editor = g_new (GraphDimEditor, 1);
+	editor->dataset		= dataset;
+	editor->dim_i		= dim_i;
+	editor->data_type	= data_type;
+	editor->entry  		= gnm_expr_entry_new (wbcg, TRUE);
+	g_object_weak_ref (G_OBJECT (editor->dataset),
+		(GWeakNotify) cb_dim_editor_weakref_notify, editor);
+
+	gnm_expr_entry_set_update_policy (editor->entry,
+		GTK_UPDATE_DISCONTINUOUS);
+
+	val = gog_dataset_get_dim (dataset, dim_i);
+	if (val != NULL) {
+		char *txt = go_data_as_str (val);
+		gnm_expr_entry_load_from_text (editor->entry, txt);
+		g_free (txt);
+	}
+	gnm_expr_entry_set_flags (editor->entry,
+		GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
+
+	g_signal_connect (G_OBJECT (editor->entry),
+		"update",
+		G_CALLBACK (cb_graph_dim_editor_update), editor);
+	g_signal_connect (G_OBJECT (editor->entry),
+		"unmap",
+		G_CALLBACK (cb_graph_dim_entry_unmap), editor);
+	g_signal_connect (G_OBJECT (editor->entry),
+		"unrealize",
+		G_CALLBACK (cb_graph_dim_entry_unrealize), editor);
+	g_object_set_data_full (G_OBJECT (editor->entry),
+		"editor", editor, (GDestroyNotify) graph_dim_editor_free);
+
+	return editor->entry;
+}
+
+static void
+wbcg_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
+{
+	SheetControlGUI *scg = wbcg_cur_scg (WBC_GTK (dalloc));
+	sv_selection_to_plot (scg_view (scg), plot);
+}
+
+
+static void
+wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
+{
+	iface->editor	  = wbcg_data_allocator_editor;
+	iface->allocate   = wbcg_data_allocator_allocate;
+}
+
+/*************************************************************************/
+static char *
+wbcg_get_password (GOCmdContext *cc, char const* filename)
+{
+	WBCGtk *wbcg = WBC_GTK (cc);
+
+	return dialog_get_password (wbcg_toplevel (wbcg), filename);
+}
+static void
+wbcg_set_sensitive (GOCmdContext *cc, gboolean sensitive)
+{
+	GtkWindow *toplevel = wbcg_toplevel (WBC_GTK (cc));
+	if (toplevel != NULL)
+		gtk_widget_set_sensitive (GTK_WIDGET (toplevel), sensitive);
+}
+static void
+wbcg_error_error (GOCmdContext *cc, GError *err)
+{
+	go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (cc)),
+		GTK_MESSAGE_ERROR, err->message);
+}
+static void
+wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
+{
+	gnumeric_error_info_dialog_show (
+		wbcg_toplevel (WBC_GTK (cc)), error);
+}
+static void
+wbcg_progress_set (GOCmdContext *cc, gfloat val)
+{
+	WBCGtk *wbcg = WBC_GTK (cc);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
+}
+static void
+wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
+{
+	WBCGtk *wbcg = WBC_GTK (cc);
+	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
+}
+static void
+wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
+{
+	iface->get_password	    = wbcg_get_password;
+	iface->set_sensitive	    = wbcg_set_sensitive;
+	iface->error.error	    = wbcg_error_error;
+	iface->error.error_info	    = wbcg_error_error_info;
+	iface->progress_set	    = wbcg_progress_set;
+	iface->progress_message_set = wbcg_progress_message_set;
+}
+
+/*************************************************************************/
+
+static void
+wbc_gtk_class_init (GObjectClass *gobject_class)
 {
 	WorkbookControlClass *wbc_class =
-		WORKBOOK_CONTROL_CLASS (object_class);
-	WBCGtkClass *wbcg_class =
-		WORKBOOK_CONTROL_GUI_CLASS (object_class);
+		WORKBOOK_CONTROL_CLASS (gobject_class);
 
-	parent_class = g_type_class_peek_parent (object_class);
+	g_return_if_fail (wbc_class != NULL);
 
-	wbc_class->control_new		= wbc_gtk_control_new;
+	parent_class = g_type_class_peek_parent (gobject_class);
+	gobject_class->get_property	= wbc_gtk_get_property;
+	gobject_class->set_property	= wbc_gtk_set_property;
+	gobject_class->finalize		= wbc_gtk_finalize;
+
+	wbc_class->edit_line_set	= wbcg_edit_line_set;
+	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
+	wbc_class->update_action_sensitivity = wbcg_update_action_sensitivity;
+
+	wbc_class->sheet.add        = wbcg_sheet_add;
+	wbc_class->sheet.remove	    = wbcg_sheet_remove;
+	wbc_class->sheet.focus	    = wbcg_sheet_focus;
+	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;
+
+	wbc_class->undo_redo.labels	= wbcg_undo_redo_labels;
 	wbc_class->undo_redo.truncate	= wbc_gtk_undo_redo_truncate;
 	wbc_class->undo_redo.pop	= wbc_gtk_undo_redo_pop;
 	wbc_class->undo_redo.push	= wbc_gtk_undo_redo_push;
+
+	wbc_class->menu_state.update	= wbcg_menu_state_update;
+
+	wbc_class->claim_selection	= wbcg_claim_selection;
+	wbc_class->paste_from_selection	= wbcg_paste_from_selection;
+	wbc_class->validation_msg	= wbcg_validation_msg;
+
+	wbc_class->control_new		= wbc_gtk_control_new;
 	wbc_class->init_state		= wbc_gtk_init_state;
 	wbc_class->style_feedback	= wbc_gtk_style_feedback;
 
-	wbcg_class->actions_sensitive		= wbc_gtk_actions_sensitive;
-	wbcg_class->create_status_area		= wbc_gtk_create_status_area;
-	wbcg_class->set_zoom_label		= wbc_gtk_set_zoom_label;
-	wbcg_class->reload_recent_file_menu	= wbc_gtk_reload_recent_file_menu;
-	wbcg_class->set_action_sensitivity	= wbc_gtk_set_action_sensitivity;
-	wbcg_class->set_action_label		= wbc_gtk_set_action_label;
-	wbcg_class->set_toggle_action_state	= wbc_gtk_set_toggle_action_state;
-
-	object_class->finalize = wbc_gtk_finalize;
-
 	wbc_gtk_setup_pixmaps ();
 	wbc_gtk_setup_icons ();
+
+        g_object_class_install_property (gobject_class,
+		 WBG_GTK_PROP_AUTOSAVE_PROMPT,
+		 g_param_spec_boolean ("autosave-prompt",
+				       _("Autosave prompt"),
+				       _("Ask about autosave?"),
+				       FALSE,
+				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (gobject_class,
+		 WBG_GTK_PROP_AUTOSAVE_TIME,
+		 g_param_spec_int ("autosave-time",
+				   _("Autosave time in seconds"),
+				   _("Seconds before autosave"),
+				   0, G_MAXINT, 0,
+				   GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	wbc_gtk_signals [WBC_GTK_MARKUP_CHANGED] = g_signal_new ("markup-changed",
+		WBC_GTK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WBCGtkClass, markup_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+	{
+		GdkPixbuf *icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
+		if (icon != NULL) {
+			GList *icon_list = g_list_prepend (NULL, icon);
+			gtk_window_set_default_icon_list (icon_list);
+			g_list_free (icon_list);
+			g_object_unref (G_OBJECT (icon));
+		}
+	}
+
 }
 
-GSF_CLASS_FULL (WBCGtk, workbook_control_gui,
-		NULL, NULL, workbook_control_gui_class_init, NULL,
-		workbook_control_gui_init, WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
-		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
-		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+static void
+wbc_gtk_init (GObject *obj)
+{
+	static struct {
+		char const *name;
+		gboolean    is_font;
+		unsigned    offset;
+	} const toggles[] = {
+		{ "FontBold",		   TRUE, G_STRUCT_OFFSET (WBCGtk, font.bold) },
+		{ "FontItalic",		   TRUE, G_STRUCT_OFFSET (WBCGtk, font.italic) },
+		{ "FontUnderline",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.underline) },
+		{ "FontDoubleUnderline",   TRUE, G_STRUCT_OFFSET (WBCGtk, font.d_underline) },
+		{ "FontSuperscript",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.superscript) },
+		{ "FontSubscript",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.subscript) },
+		{ "FontStrikeThrough",	   TRUE, G_STRUCT_OFFSET (WBCGtk, font.strikethrough) },
 
-GSF_CLASS (WBCgtk, wbc_gtk,
-	   wbc_gtk_class_init, wbc_gtk_init,
-	   WORKBOOK_CONTROL)
+		{ "AlignLeft",		   FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.left) },
+		{ "AlignCenter",	   FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.center) },
+		{ "AlignRight",		   FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.right) },
+		{ "CenterAcrossSelection", FALSE, G_STRUCT_OFFSET (WBCGtk, h_align.center_across_selection) },
+		{ "AlignTop",		   FALSE, G_STRUCT_OFFSET (WBCGtk, v_align.top) },
+		{ "AlignVCenter",	   FALSE, G_STRUCT_OFFSET (WBCGtk, v_align.center) },
+		{ "AlignBottom",	   FALSE, G_STRUCT_OFFSET (WBCGtk, v_align.bottom) }
+	};
+
+	WBCGtk		*wbcg = (WBCGtk *)obj;
+	GtkAction	*act;
+	GError		*error = NULL;
+	GtkWidget	*hbox;
+	char		*uifile;
+	unsigned	 i;
+
+#ifdef USE_HILDON
+	static HildonProgram *hildon_program = NULL;
+#endif
+
+	wbcg->table       = gtk_table_new (0, 0, 0);
+	wbcg->notebook    = NULL;
+	wbcg->updating_ui = FALSE;
+	wbcg->rangesel	  = NULL;
+	wbcg->font_desc   = NULL;
+
+	wbcg->visibility_widgets = g_hash_table_new_full (g_str_hash,
+		g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_object_unref);
+	wbcg->toggle_for_fullscreen = g_hash_table_new_full (g_str_hash,
+		g_str_equal, (GDestroyNotify)g_free, NULL);
+
+	wbcg->autosave_prompt = FALSE;
+	wbcg->autosave_time = 0;
+	wbcg->autosave_timer = 0;
+
+	/* We are not in edit mode */
+	wbcg->editing	    = FALSE;
+	wbcg->editing_sheet = NULL;
+	wbcg->editing_cell  = NULL;
+
+#warning "why is this here ?"
+	wbcg->current_saver = NULL;
+	wbcg->menu_zone = gtk_vbox_new (TRUE, 0);
+	wbcg->everything = gtk_vbox_new (FALSE, 0);
+
+	wbcg->toolbar_zones[GTK_POS_TOP] = gtk_vbox_new (FALSE, 0);
+	wbcg->toolbar_zones[GTK_POS_BOTTOM] = NULL;
+	wbcg->toolbar_zones[GTK_POS_LEFT] = gtk_hbox_new (FALSE, 0);
+	wbcg->toolbar_zones[GTK_POS_RIGHT] = gtk_hbox_new (FALSE, 0);
+
+	wbcg->idle_update_style_feedback = 0;
+
+#ifdef USE_HILDON
+	if (hildon_program == NULL)
+		hildon_program = HILDON_PROGRAM (hildon_program_get_instance ());
+	else 
+		g_object_ref (hildon_program);
+
+	wbcg->hildon_prog = hildon_program;
+
+	wbcg_set_toplevel (wbcg, hildon_window_new ());
+	hildon_program_add_window (wbcg->hildon_prog, HILDON_WINDOW (wbcg_toplevel (wbcg)));
+#else
+	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
+#endif
+
+	g_signal_connect (wbcg_toplevel (wbcg), "window_state_event",
+			  G_CALLBACK (cb_wbcg_window_state_event),
+			  wbcg);
+
+#ifndef USE_HILDON
+	gtk_box_pack_start (GTK_BOX (wbcg->everything),
+		wbcg->menu_zone, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (wbcg->everything),
+		wbcg->toolbar_zones[GTK_POS_TOP], FALSE, TRUE, 0);
+#endif
+
+	gtk_window_set_title (wbcg_toplevel (wbcg), "Gnumeric");
+	gtk_window_set_wmclass (wbcg_toplevel (wbcg), "Gnumeric", "Gnumeric");
+
+#if 0
+	bonobo_dock_set_client_area (BONOBO_DOCK (wbcg->dock), wbcg->table);
+#endif
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), wbcg->toolbar_zones[GTK_POS_LEFT], FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), wbcg->table, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), wbcg->toolbar_zones[GTK_POS_RIGHT], FALSE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (wbcg->everything), hbox, TRUE, TRUE, 0);
+	gtk_widget_show_all (wbcg->everything);
+
+	wbc_gtk_init_actions (wbcg);
+	if (extra_actions)
+		gtk_action_group_add_actions (wbcg->actions, extra_actions, nb_extra_actions, wbcg);
+
+	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
+		act = gtk_action_group_get_action (
+			(toggles[i].is_font ? wbcg->font_actions : wbcg->actions),
+			toggles[i].name);
+		G_STRUCT_MEMBER (GtkToggleAction *, wbcg, toggles[i].offset) = GTK_TOGGLE_ACTION (act);
+	}
+
+	wbc_gtk_init_undo_redo (wbcg);
+	wbc_gtk_init_color_fore (wbcg);
+	wbc_gtk_init_color_back (wbcg);
+	wbc_gtk_init_font_name (wbcg);
+	wbc_gtk_init_font_size (wbcg);
+	wbc_gtk_init_zoom (wbcg);
+	wbc_gtk_init_borders (wbcg);
+
+	wbcg->ui = gtk_ui_manager_new ();
+	g_object_connect (wbcg->ui,
+		"signal::add_widget",	 G_CALLBACK (cb_add_menus_toolbars), wbcg,
+		"signal::connect_proxy",    G_CALLBACK (cb_connect_proxy), wbcg,
+		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), wbcg,
+		"swapped_object_signal::post_activate", G_CALLBACK (cb_post_activate), wbcg,
+		NULL);
+	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->permanent_actions, 0);
+	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->actions, 0);
+	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->font_actions, 0);
+	gtk_window_add_accel_group (wbcg_toplevel (wbcg), 
+		gtk_ui_manager_get_accel_group (wbcg->ui));
+
+#ifdef USE_HILDON
+	uifile = g_build_filename (gnm_sys_data_dir (), "HILDON_Gnumeric-gtk.xml", NULL);
+#else
+	uifile = g_build_filename (gnm_sys_data_dir (),
+		(uifilename? uifilename: "GNOME_Gnumeric-gtk.xml"), NULL);
+#endif
+
+	if (!gtk_ui_manager_add_ui_from_file (wbcg->ui, uifile, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+	g_free (uifile);
+
+	wbcg->custom_uis = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+						 NULL, g_free);
+
+	wbcg->file_history.actions = NULL;
+	wbcg->file_history.merge_id = 0;
+	wbc_gtk_reload_recent_file_menu (wbcg);
+
+	wbcg->toolbar.merge_id = gtk_ui_manager_new_merge_id (wbcg->ui);
+	wbcg->toolbar.actions = gtk_action_group_new ("Toolbars");
+	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->toolbar.actions, 0);
+
+	wbcg->windows.actions = NULL;
+	wbcg->windows.merge_id = 0;
+	gnm_app_foreach_extra_ui ((GFunc) cb_init_extra_ui, wbcg);
+	g_object_connect ((GObject *) gnm_app_get_app (),
+		"swapped-object-signal::window-list-changed",
+			G_CALLBACK (cb_regenerate_window_menu), wbcg,
+		"object-signal::custom-ui-added",
+			G_CALLBACK (cb_add_custom_ui), wbcg,
+		"object-signal::custom-ui-removed",
+			G_CALLBACK (cb_remove_custom_ui), wbcg,
+		NULL);
+
+	gtk_ui_manager_ensure_update (wbcg->ui);
+
+	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), wbcg->everything);
+
+	/* updates the undo/redo menu labels before check_underlines
+	 * to avoid problems like #324692. */
+	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
+#ifdef CHECK_MENU_UNDERLINES
+	gtk_container_foreach (GTK_CONTAINER (wbcg->menu_zone),
+			       (GtkCallback)check_underlines,
+			       (gpointer)"");
+#endif
+
+#ifdef USE_HILDON
+	hildon_window_set_menu (HILDON_WINDOW (wbcg_toplevel (wbcg)),
+				GTK_MENU (gtk_ui_manager_get_widget (wbcg->ui, "/popup")));
+
+	gtk_widget_show_all (wbcg->toplevel);
+	
+	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarFormatToolbar", FALSE);
+	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarObjectToolbar", FALSE);
+	wbc_gtk_set_toggle_action_state (wbcg, "ViewSheets", FALSE);
+	wbc_gtk_set_toggle_action_state (wbcg, "ViewStatusbar", FALSE);
+#endif
+}
+
+GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,
+	wbc_gtk_init, WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
+	GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
+	GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+
+/******************************************************************************/
+
+void
+wbc_gtk_markup_changer (WBCGtk *wbcg)
+{
+	g_signal_emit (G_OBJECT (wbcg), wbc_gtk_signals [WBC_GTK_MARKUP_CHANGED], 0);
+}
+
+/******************************************************************************/
+
+WorkbookControl *
+workbook_control_gui_new (WorkbookView *optional_view,
+			  Workbook *optional_wb,
+			  GdkScreen *optional_screen)
+{
+	Sheet *sheet;
+	WorkbookView *wbv;
+	WBCGtk *wbcg = g_object_new (wbc_gtk_get_type (), NULL);
+	WorkbookControl *wbc = (WorkbookControl *)wbcg;
+
+	wbcg_create_edit_area (wbcg);
+	wbc_gtk_create_status_area (wbcg);
+	wbc_gtk_reload_recent_file_menu (wbcg);
+
+	g_signal_connect_object (gnm_app_get_app (),
+		"notify::file-history-list",
+		G_CALLBACK (wbc_gtk_reload_recent_file_menu), wbcg, G_CONNECT_SWAPPED);
+
+	wb_control_set_view (wbc, optional_view, optional_wb);
+	wbv = wb_control_view (wbc);
+	sheet = wbv->current_sheet;
+	if (sheet != NULL) {
+		wb_control_menu_state_update (wbc, MS_ALL);
+		wb_control_update_action_sensitivity (wbc);
+		wb_control_style_feedback (wbc, NULL);
+		cb_zoom_change (sheet, NULL, wbcg);
+	}
+
+	wbcg_view_changed (wbcg, NULL, NULL);
+
+	if (optional_screen)
+		gtk_window_set_screen (wbcg_toplevel (wbcg), optional_screen);
+
+	/* Postpone showing the GUI, so that we may resize it freely. */
+	g_idle_add ((GSourceFunc) show_gui, wbcg);
+
+	wb_control_init_state ((WorkbookControl *)wbcg);
+	return (WorkbookControl *)wbcg;
+}
+
+gboolean
+wbcg_ui_update_begin (WBCGtk *wbcg)
+{
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), FALSE);
+	g_return_val_if_fail (!wbcg->updating_ui, FALSE);
+
+	return (wbcg->updating_ui = TRUE);
+}
+
+void
+wbcg_ui_update_end (WBCGtk *wbcg)
+{
+	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (wbcg->updating_ui);
+
+	wbcg->updating_ui = FALSE;
+}
+
+GtkWindow *
+wbcg_toplevel (WBCGtk *wbcg)
+{
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+	return GTK_WINDOW (wbcg->toplevel);
+}
+
+void
+wbcg_set_transient (WBCGtk *wbcg, GtkWindow *window)
+{
+	go_gtk_window_set_transient (wbcg_toplevel (wbcg), window);
+}
+
+#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
+/**
+ * wbcg_focus_cur_scg :
+ * @wbcg : The workbook control to operate on.
+ *
+ * A utility routine to safely ensure that the keyboard focus
+ * is attached to the item-grid.  This is required when a user
+ * edits a combo-box or and entry-line which grab focus.
+ *
+ * It is called for zoom, font name/size, and accept/cancel for the editline.
+ */
+Sheet *
+wbcg_focus_cur_scg (WBCGtk *wbcg)
+{
+	GtkWidget *table;
+	SheetControlGUI *scg;
+
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+
+	if (wbcg->notebook == NULL)
+		return NULL;
+
+	table = gtk_notebook_get_nth_page (wbcg->notebook,
+		gtk_notebook_get_current_page (wbcg->notebook));
+	scg = g_object_get_data (G_OBJECT (table), SHEET_CONTROL_KEY);
+
+	g_return_val_if_fail (scg != NULL, NULL);
+
+	scg_take_focus (scg);
+	return scg_sheet (scg);
+}
+
+SheetControlGUI *
+wbcg_cur_scg (WBCGtk *wbcg)
+{
+	return wbcg_get_scg (wbcg, wbcg_cur_sheet (wbcg));
+}
+
+Sheet *
+wbcg_cur_sheet (WBCGtk *wbcg)
+{
+	return wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+}
+

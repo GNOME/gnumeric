@@ -359,11 +359,6 @@ workbook_control_init (GObject *obj)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 
-	/* We are not in edit mode */
-	wbc->editing = FALSE;
-	wbc->editing_sheet = NULL;
-	wbc->editing_cell = NULL;
-
 	wbc->clipboard_changed_signal = g_signal_connect (
 		gnm_app_get_app (),
 		"clipboard_modified",

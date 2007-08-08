@@ -19,7 +19,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric-cell-renderer-expr-entry.h"
 #include "gnumeric-expr-entry.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 
 #define GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH "gnumeric-cell-renderer-expr-entry-path"
 

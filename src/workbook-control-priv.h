@@ -9,11 +9,6 @@ struct _WorkbookControl {
 
 	WorkbookView *wb_view;
 
-	/* When editing a cell: the cell (may be NULL) */
-	GnmCell     *editing_cell;
-	Sheet       *editing_sheet;
-	gboolean     editing;
-
 	gulong clipboard_changed_signal;
 };
 typedef struct {

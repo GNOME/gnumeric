@@ -47,8 +47,7 @@
 #include "cmd-edit.h"
 #include "workbook-priv.h"
 #include "workbook-view.h"
-#include "workbook-edit.h"
-#include "workbook-control-gui-priv.h"
+#include "wbc-gtk-impl.h"
 #include "workbook-cmd-format.h"
 #include "dialogs/dialogs.h"
 #include "sheet-object-image.h"
@@ -147,18 +146,20 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 
 static GNM_ACTION_DEF (cb_file_print)
 {
-	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET, NULL);
+	gnm_print_sheet (WORKBOOK_CONTROL (wbcg),
+		wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET, NULL);
 }
 
 static GNM_ACTION_DEF (cb_file_print_preview)
 {
-	gnm_print_sheet (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET, NULL);
+	gnm_print_sheet (WORKBOOK_CONTROL (wbcg),
+		wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET, NULL);
 }
 
 static GNM_ACTION_DEF (cb_doc_meta_data)	{ dialog_doc_metadata_new (wbcg); }
 static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, 0); }
 static GNM_ACTION_DEF (cb_file_history_full)    { dialog_recent_used (wbcg); }
-static GNM_ACTION_DEF (cb_file_close)		{ wbcg_close_control (wbcg); }
+static GNM_ACTION_DEF (cb_file_close)		{ wbc_gtk_close (wbcg); }
 
 static GNM_ACTION_DEF (cb_file_quit)
 {
@@ -297,7 +298,7 @@ static GNM_ACTION_DEF (cb_sheet_remove)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	if (scg)
-		scg_delete_sheet_if_possible (NULL, scg);
+		scg_delete_sheet_if_possible (scg);
 }
 
 static GNM_ACTION_DEF (cb_edit_undo_last) { command_undo (WORKBOOK_CONTROL (wbcg)); }
@@ -1059,7 +1060,8 @@ static GNM_ACTION_DEF (cmd_create_rectangle)
 static GNM_ACTION_DEF (cmd_create_ellipse)
 	{ create_object (wbcg, GNM_SO_FILLED_TYPE, "is-oval", TRUE, NULL); }
 
-void
+/*****************************************************************************/
+static void
 wbcg_set_selection_halign (WBCGtk *wbcg, GnmHAlign halign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -1079,7 +1081,6 @@ wbcg_set_selection_halign (WBCGtk *wbcg, GnmHAlign halign)
 	gnm_style_set_align_h (style, halign);
 	cmd_selection_format (wbc, style, NULL, _("Set Horizontal Alignment"));
 }
-
 static GNM_ACTION_DEF (cb_align_left)
 	{ wbcg_set_selection_halign (wbcg, HALIGN_LEFT); }
 static GNM_ACTION_DEF (cb_align_right)
@@ -1089,7 +1090,9 @@ static GNM_ACTION_DEF (cb_align_center)
 static GNM_ACTION_DEF (cb_center_across_selection)
 	{ wbcg_set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION); }
 
-void
+/*****************************************************************************/
+
+static void
 wbcg_set_selection_valign (WBCGtk *wbcg, GnmVAlign valign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -1112,7 +1115,6 @@ wbcg_set_selection_valign (WBCGtk *wbcg, GnmVAlign valign)
 	gnm_style_set_align_v (style, valign);
 	cmd_selection_format (wbc, style, NULL, _("Set Vertical Alignment"));
 }
-
 static GNM_ACTION_DEF (cb_align_top)
 	{ wbcg_set_selection_valign (wbcg, VALIGN_TOP); }
 static GNM_ACTION_DEF (cb_align_vcenter)
@@ -1120,10 +1122,7 @@ static GNM_ACTION_DEF (cb_align_vcenter)
 static GNM_ACTION_DEF (cb_align_bottom)
 	{ wbcg_set_selection_valign (wbcg, VALIGN_BOTTOM); }
 
-static GNM_ACTION_DEF (cb_view_statusbar)
-{
-	wbcg_toggle_visibility (wbcg, GTK_TOGGLE_ACTION (a));
-}
+/*****************************************************************************/
 
 static GNM_ACTION_DEF (cb_merge_and_center)
 {
@@ -1151,6 +1150,13 @@ static GNM_ACTION_DEF (cb_unmerge_cells)
 	cmd_unmerge_cells (wbc, wb_control_cur_sheet (wbc), range_list);
 	range_fragment_free (range_list);
 }
+
+static GNM_ACTION_DEF (cb_view_statusbar)
+{
+	wbcg_toggle_visibility (wbcg, GTK_TOGGLE_ACTION (a));
+}
+
+/*****************************************************************************/
 
 static void
 toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
@@ -2158,22 +2164,94 @@ static GtkToggleActionEntry const font_toggle_actions[] = {
 		N_("Subscript"), G_CALLBACK (cb_font_subscript), FALSE }
 };
 
-void wbcg_register_actions (WBCGtk *wbcg,
-			    GtkActionGroup *menu_group,
-			    GtkActionGroup *group,
-			    GtkActionGroup *font_group);
-void
-wbcg_register_actions (WBCGtk *wbcg,
-		       GtkActionGroup *menu_group,
-		       GtkActionGroup *group,
-		       GtkActionGroup *font_group)
+/****************************************************************************/
+
+static GOActionComboPixmapsElement const halignment_combo_info[] = {
+	{ N_("Align left"),		GTK_STOCK_JUSTIFY_LEFT,		HALIGN_LEFT },
+	{ N_("Center horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	HALIGN_CENTER },
+	{ N_("Align right"),		GTK_STOCK_JUSTIFY_RIGHT,	HALIGN_RIGHT },
+	{ N_("Fill Horizontally"),	"Gnumeric_HAlignFill",		HALIGN_FILL },
+	{ N_("Justify Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		HALIGN_JUSTIFY },
+	{ N_("Center horizontally across the selection"),
+					"Gnumeric_CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
+	{ N_("Align numbers right, and text left"),
+					"Gnumeric_HAlignGeneral",	HALIGN_GENERAL },
+	{ NULL, NULL }
+};
+static GOActionComboPixmapsElement const valignment_combo_info[] = {
+	{ N_("Align Top"),		"stock_alignment-top",			VALIGN_TOP },
+	{ N_("Center Vertically"),	"stock_alignment-centered-vertically",	VALIGN_CENTER },
+	{ N_("Align Bottom"),		"stock_alignment-bottom",		VALIGN_BOTTOM },
+	{ NULL, NULL}
+};
+
+static void
+cb_halignment_activated (GOActionComboPixmaps *a, WBCGtk *wbcg)
 {
-	  gtk_action_group_add_actions (menu_group,
+	wbcg_set_selection_halign (wbcg,
+		go_action_combo_pixmaps_get_selected (a, NULL));
+}
+static void
+cb_valignment_activated (GOActionComboPixmaps *a, WBCGtk *wbcg)
+{
+	wbcg_set_selection_valign (wbcg,
+		go_action_combo_pixmaps_get_selected (a, NULL));
+}
+
+static void
+wbc_gtk_init_alignments (WBCGtk *wbcg)
+{
+	wbcg->halignment = go_action_combo_pixmaps_new ("HAlignmentSelector",
+						       halignment_combo_info, 3, 1);
+	g_object_set (G_OBJECT (wbcg->halignment),
+		      "label", _("Horizontal Alignment"),
+		      "tooltip", _("Horizontal Alignment"),
+		      NULL);
+#if 0
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
+	go_combo_pixmaps_select (wbcg->halignment, 1); /* default to none */
+#endif
+	g_signal_connect (G_OBJECT (wbcg->halignment),
+		"activate",
+		G_CALLBACK (cb_halignment_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->halignment));
+
+	wbcg->valignment = go_action_combo_pixmaps_new ("VAlignmentSelector",
+						       valignment_combo_info, 1, 3);
+	g_object_set (G_OBJECT (wbcg->valignment),
+		      "label", _("Vertical Alignment"),
+		      "tooltip", _("Vertical Alignment"),
+		      NULL);
+#if 0
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horizontal Alignment"));
+	go_combo_pixmaps_select (wbcg->valignment, 1); /* default to none */
+#endif
+	g_signal_connect (G_OBJECT (wbcg->valignment),
+		"activate",
+		G_CALLBACK (cb_valignment_activated), wbcg);
+	gtk_action_group_add_action (wbcg->actions, GTK_ACTION (wbcg->valignment));
+}
+
+/****************************************************************************/
+
+void
+wbc_gtk_init_actions (WBCGtk *wbcg)
+{
+	wbcg->permanent_actions = gtk_action_group_new ("PermanentActions");
+	gtk_action_group_set_translation_domain (wbcg->permanent_actions, GETTEXT_PACKAGE);
+	wbcg->actions = gtk_action_group_new ("Actions");
+	gtk_action_group_set_translation_domain (wbcg->actions, GETTEXT_PACKAGE);
+	wbcg->font_actions = gtk_action_group_new ("FontActions");
+	gtk_action_group_set_translation_domain (wbcg->font_actions, GETTEXT_PACKAGE);
+
+	  gtk_action_group_add_actions (wbcg->permanent_actions,
 		permanent_actions, G_N_ELEMENTS (permanent_actions), wbcg);
-	  gtk_action_group_add_actions (group,
+	  gtk_action_group_add_actions (wbcg->actions,
 		actions, G_N_ELEMENTS (actions), wbcg);
-	  gtk_action_group_add_toggle_actions (group,
+	  gtk_action_group_add_toggle_actions (wbcg->actions,
 		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
-	  gtk_action_group_add_toggle_actions (font_group,
+	  gtk_action_group_add_toggle_actions (wbcg->font_actions,
 		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
+
+	  wbc_gtk_init_alignments (wbcg);
 }

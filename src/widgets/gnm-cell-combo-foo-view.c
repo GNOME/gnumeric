@@ -24,6 +24,7 @@
 #include "gnm-cell-combo-foo-view.h"
 #include "gnm-cell-combo-foo-view-impl.h"
 
+#include "wbc-gtk.h"
 #include "sheet.h"
 #include "sheet-control-gui.h"
 #include "gnm-pane-impl.h"

@@ -13,8 +13,7 @@
 #include <gnumeric.h>
 #include "gnumeric-expr-entry.h"
 
-#include <workbook-edit.h>
-#include <workbook-control-gui-priv.h>
+#include <wbc-gtk-impl.h>
 #include <sheet-control-gui-priv.h>
 #include <sheet-merge.h>
 #include <parse-util.h>
@@ -447,7 +446,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			break;
 
 		/* Be careful to use the editing sheet */
-		sv = sheet_get_view (wbcg->wb_control.editing_sheet,
+		sv = sheet_get_view (wbcg->editing_sheet,
 			wb_control_view (WORKBOOK_CONTROL (wbcg)));
 
 		if (state & GDK_CONTROL_MASK)

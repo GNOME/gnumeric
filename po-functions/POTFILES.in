@@ -194,13 +194,12 @@ src/test-pango.c
 src/validation.c
 src/value.c
 src/value-sheet.c
-src/wbcg-actions.c
 src/wbc-gtk.c
+src/wbc-gtk-actions.c
+src/wbc-gtk-edit.c
 src/workbook.c
 src/workbook-cmd-format.c
 src/workbook-control.c
-src/workbook-control-gui.c
-src/workbook-edit.c
 src/workbook-view.c
 src/xml-io.c
 src/xml-sax-read.c

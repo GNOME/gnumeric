@@ -30,9 +30,8 @@
 #include "sheet-merge.h"
 #include "workbook.h"
 #include "workbook-view.h"
-#include "workbook-edit.h"
 #include "workbook-cmd-format.h"
-#include "workbook-control-gui-priv.h"
+#include "wbc-gtk-impl.h"
 #include "cell.h"
 #include "selection.h"
 #include "style.h"
@@ -3605,3 +3604,21 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 	g_free (target_name);
 	g_slist_free (objects);
 }
+
+void
+scg_delete_sheet_if_possible (SheetControlGUI *scg)
+{
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
+	Workbook *wb = sheet->workbook;
+
+	/* If this is the last sheet left, ignore the request */
+	if (workbook_sheet_count (wb) != 1) {
+		WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
+		WorkbookControl *wbc = sc->wbc;
+		workbook_sheet_delete (sheet);
+		/* Careful: sc just ceased to be valid.  */
+		cmd_reorganize_sheets (wbc, old_state, sheet);
+	}
+}
+

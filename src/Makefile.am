@@ -275,16 +275,14 @@ libspreadsheet_include_HEADERS = 	\
 	workbook-view.h				\
 	workbook-control.h 			\
 	workbook-control-priv.h 		\
-	workbook-edit.h				\
-	workbook-control-gui-priv.h 		\
 	wbc-gtk.h				\
+	wbc-gtk-impl.h				\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
 	gnumeric-gconf.h			\
 	print.h					\
 	print-cell.h
-
 
 gnumeric_SOURCES =				\
 	io-context-gtk.c			\

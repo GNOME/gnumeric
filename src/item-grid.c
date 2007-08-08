@@ -15,9 +15,8 @@
 #include "item-grid.h"
 
 #include "gnm-pane-impl.h"
-#include "workbook-edit.h"
+#include "wbc-gtk-impl.h"
 #include "workbook-view.h"
-#include "workbook-control-gui-priv.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -365,7 +364,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	GnmPane *pane = GNM_PANE (canvas);
 	Sheet const *sheet = scg_sheet (pane->simple.scg);
 	WBCGtk *wbcg = scg_wbcg (pane->simple.scg);
-	GnmCell const * const edit_cell = wbcg->wb_control.editing_cell;
+	GnmCell const * const edit_cell = wbcg->editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;

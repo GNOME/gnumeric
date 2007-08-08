@@ -36,7 +36,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "selection.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "cell.h"

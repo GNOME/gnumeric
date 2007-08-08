@@ -23,7 +23,7 @@
 #include "sheet-merge.h"
 #include "value.h"
 #include "workbook.h"
-#include "workbook-edit.h"
+#include "wbc-gtk.h"
 #include "gui-util.h"
 #include "cmd-edit.h"
 #include "commands.h"
