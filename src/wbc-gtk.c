@@ -4090,16 +4090,14 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
 }
 
-static void
-cb_graph_dim_entry_unmap (GnmExprEntry *gee, GraphDimEditor *editor)
+static gboolean
+cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry 	*ignored,
+				    G_GNUC_UNUSED GdkEventFocus	*event,
+				    GraphDimEditor 		*editor)
 {
-	cb_graph_dim_editor_update (gee, FALSE, editor);
-}
+	cb_graph_dim_editor_update (editor->entry, FALSE, editor);
 
-static void
-cb_graph_dim_entry_unrealize (GnmExprEntry *gee, GraphDimEditor *editor)
-{
-	cb_graph_dim_editor_update (gee, FALSE, editor);
+	return FALSE;
 }
 
 static void
@@ -4149,12 +4147,9 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	g_signal_connect (G_OBJECT (editor->entry),
 		"update",
 		G_CALLBACK (cb_graph_dim_editor_update), editor);
-	g_signal_connect (G_OBJECT (editor->entry),
-		"unmap",
-		G_CALLBACK (cb_graph_dim_entry_unmap), editor);
-	g_signal_connect (G_OBJECT (editor->entry),
-		"unrealize",
-		G_CALLBACK (cb_graph_dim_entry_unrealize), editor);
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (editor->entry)),
+		"focus-out-event",
+		G_CALLBACK (cb_graph_dim_entry_focus_out_event), editor);
 	g_object_set_data_full (G_OBJECT (editor->entry),
 		"editor", editor, (GDestroyNotify) graph_dim_editor_free);
 

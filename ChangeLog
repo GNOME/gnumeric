@@ -1,3 +1,15 @@
+2007-08-09  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Make Graph entry emit an update signal on focus out event, instead on
+	monitoring unmap and unrealize signals. Fix a bug where the update
+	signal was not emited when leaving the entry.
+
+	* src/wbcg-gtk.c (cb_graph_dim_entry_unmap),
+	(cb_graph_dim_entry_unrealize): removed.
+	(cb_graph_dim_entry_focus_out_event): new.
+	(wbcg_data_allocator_editor): connect to gee->entry focus-out-event.
+	Remove unmap and unrealize connections.
+
 2007-08-08  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_ins_del_colrow_repeat): Simplify.
