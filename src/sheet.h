@@ -300,23 +300,13 @@ gboolean     sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *p
 
 GnmConventions const *sheet_get_conventions (Sheet const *sheet);
 
-/* Implementation for commands, no undo */
-struct _GnmRelocUndo {
-	GOUndo *exprs;
-	GOUndo *objs;
-};
-
-gboolean  sheet_insert_cols (Sheet *sheet,
-			     int col, int count, ColRowStateList *states,
+gboolean  sheet_insert_cols (Sheet *sheet, int col, int count,
 			     GOUndo **pundo, GOCmdContext *cc);
-gboolean  sheet_delete_cols (Sheet *sheet,
-			     int col, int count, ColRowStateList *states,
+gboolean  sheet_delete_cols (Sheet *sheet, int col, int count,
 			     GOUndo **pundo, GOCmdContext *cc);
-gboolean  sheet_insert_rows (Sheet *sheet,
-			     int row, int count, ColRowStateList *states,
+gboolean  sheet_insert_rows (Sheet *sheet, int row, int count,
 			     GOUndo **pundo, GOCmdContext *cc);
-gboolean  sheet_delete_rows (Sheet *sheet,
-			     int row, int count, ColRowStateList *states,
+gboolean  sheet_delete_rows (Sheet *sheet, int row, int count,
 			     GOUndo **pundo, GOCmdContext *cc);
 void      sheet_move_range   (GnmExprRelocateInfo const *rinfo,
 			      GOUndo **pundo, GOCmdContext *cc);

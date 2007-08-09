@@ -1,5 +1,18 @@
 2007-08-08  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_ins_del_colrow_repeat): Simplify.
+	(cmd_ins_del_colrow_undo): Move undo stuff into GOUndo closure
+	returned by sheet_insert_rows and friends.
+
+	* src/sheet.c (sheet_delete_cols, sheet_delete_rows,
+	sheet_insert_cols, sheet_insert_rows, sheet_colrow_insert_finish,
+	sheet_colrow_delete_finish, sheet_colrow_insdel_finish): Remove
+	"states" argument.
+	(sheet_colrow_insdel_finish): Don't set states here.
+	(sheet_delete_cols, sheet_delete_rows, sheet_insert_cols,
+	sheet_insert_rows): If we collect undo info, append closure to
+	reset col/row states.
+
 	* src/sheet-object.c (sheet_objects_relocate): Don't update the
 	cell_bound for objects that get translated out of the sheet.
 

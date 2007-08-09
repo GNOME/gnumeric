@@ -36,6 +36,7 @@ Short term goals
 
 Worries
 -------
+    : range_translate in stf.c looks suspecious.
     : Add bounds checking of integers on the xml based importers
     : do bounds check in excel_get_text
     : provide undo for dropped objects from sheet_objects_clear

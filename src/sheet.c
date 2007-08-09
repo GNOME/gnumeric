@@ -3775,8 +3775,7 @@ colrow_move (Sheet *sheet,
 
 static void
 sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
-			    int pos, int state_start, ColRowStateList *states,
-			    GOUndo **pundo)
+			    int pos, GOUndo **pundo)
 {
 	Sheet *sheet = rinfo->origin_sheet;
 
@@ -3791,7 +3790,6 @@ sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 		sheet->priv->reposition_objects.col = pos;
 	else
 		sheet->priv->reposition_objects.row = pos;
-	colrow_set_states (sheet, is_cols, state_start, states);
 }
 
 static void
@@ -3823,49 +3821,49 @@ sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
 
 static void
 sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
-			    int pos, int count, ColRowStateList *states,
-			    GOUndo **pundo)
+			    int pos, int count, GOUndo **pundo)
 {
+	Sheet *sheet = rinfo->origin_sheet;
+
 	sheet_style_insert_colrow (rinfo);
-	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pos, states, pundo);
-	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
-	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos+count);
-	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols,
-				   colrow_max (is_cols));
-	gnm_sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, TRUE,
-				    pos, count);
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pundo);
+	sheet_colrow_set_collapse (sheet, is_cols, pos);
+	sheet_colrow_set_collapse (sheet, is_cols, pos + count);
+	sheet_colrow_set_collapse (sheet, is_cols, colrow_max (is_cols));
+	gnm_sheet_filter_insdel_colrow (sheet, is_cols, TRUE, pos, count);
 
 	/* WARNING WARNING WARNING
 	 * This is bad practice and should not really be here.
 	 * However, we need to ensure that update is run before
 	 * sv_panes_insdel_colrow plays with frozen panes, updating those can
 	 * trigger redraws before sheet_update has been called. */
-	sheet_update (rinfo->origin_sheet);
+	sheet_update (sheet);
 
-	SHEET_FOREACH_VIEW (rinfo->origin_sheet, sv,
+	SHEET_FOREACH_VIEW (sheet, sv,
 		sv_panes_insdel_colrow (sv, is_cols, TRUE, pos, count););
 }
 
 static void
 sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
-			    int pos, int count, ColRowStateList *states,
-			    GOUndo **pundo)
+			    int pos, int count, GOUndo **pundo)
 {
+	Sheet *sheet = rinfo->origin_sheet;
 	int end = colrow_max (is_cols) - count;
+
 	sheet_style_relocate (rinfo);
-	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states, pundo);
-	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
-	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);
-	gnm_sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, FALSE,
-				    pos, count);
+	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pundo);
+	sheet_colrow_set_collapse (sheet, is_cols, pos);
+	sheet_colrow_set_collapse (sheet, is_cols, end);
+	gnm_sheet_filter_insdel_colrow (sheet, is_cols, FALSE, pos, count);
+
 	/* WARNING WARNING WARNING
 	 * This is bad practice and should not really be here.
 	 * However, we need to ensure that update is run before
 	 * sv_panes_insdel_colrow plays with frozen panes, updating those can
 	 * trigger redraws before sheet_update has been called. */
-	sheet_update (rinfo->origin_sheet);
+	sheet_update (sheet);
 
-	SHEET_FOREACH_VIEW (rinfo->origin_sheet, sv,
+	SHEET_FOREACH_VIEW (sheet, sv,
 		sv_panes_insdel_colrow (sv, is_cols, FALSE, pos, count););
 }
 
@@ -3879,29 +3877,89 @@ combine_undo (GOUndo **pundo, GOUndo *u)
 		g_object_unref (u);
 }
 
+typedef gboolean (*ColRowInsDelFunc) (Sheet *sheet, int idx, int count,
+				      GOUndo **pundo, GOCmdContext *cc);
+
+typedef struct {
+	ColRowInsDelFunc func;
+	Sheet *sheet;
+	gboolean is_cols;
+	int idx;
+	int count;
+	ColRowStateList *states;
+	int state_start;
+} ColRowInsDelData;
+
+static void
+cb_undo_insdel (ColRowInsDelData *data)
+{
+	data->func (data->sheet, data->idx, data->count, NULL, NULL);
+	colrow_set_states (data->sheet, data->is_cols,
+			   data->state_start, data->states);
+}
+
+static void
+cb_undo_insdel_free (ColRowInsDelData *data)
+{
+	colrow_state_list_destroy (data->states);
+	g_free (data);
+}
+
+static void
+add_undo_op (GOUndo **pundo, gboolean is_cols,
+	     ColRowInsDelFunc func, Sheet *sheet, int idx, int count,
+	     ColRowStateList *states, int state_start)
+{
+	ColRowInsDelData *data;
+	GOUndo *u;
+
+	if (!pundo)
+		return;
+
+	data = g_new (ColRowInsDelData, 1);
+	data->func = func;
+	data->sheet = sheet;
+	data->is_cols = is_cols;
+	data->idx = idx;
+	data->count = count;
+	data->states = states;
+	data->state_start = state_start;
+
+	u = go_undo_unary_new (data, (GOUndoUnaryFunc)cb_undo_insdel,
+			       (GFreeFunc)cb_undo_insdel_free);
+
+	combine_undo (pundo, u);
+}
+
+
 /**
  * sheet_insert_cols:
  * @sheet  : #Sheet
  * @col    : At which position we want to insert
  * @count  : The number of columns to be inserted
- * @states :
- * @pundo : optionally NULL, caller releases result
+ * @pundo  : undo closure, optionally NULL; caller releases result
  * @cc     :
  **/
 gboolean
-sheet_insert_cols (Sheet *sheet,
-		   int col, int count, ColRowStateList *states,
+sheet_insert_cols (Sheet *sheet, int col, int count,
 		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
 	int i;
-
-	if (pundo)
-		*pundo = NULL;
+	ColRowStateList *states = NULL;
+	int first = SHEET_MAX_COLS - count;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (count != 0, TRUE);
+	g_return_val_if_fail (count > 0, TRUE);
+
+	if (pundo) {
+		int last = first + (count - 1);
+		GnmRange r;
+		range_init_cols (&r, first, last);
+		*pundo = clipboard_copy_range_undo (sheet, &r);
+		states = colrow_get_states (sheet, TRUE, first, last);
+	}
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
 	if (count < SHEET_MAX_COLS) {
@@ -3934,8 +3992,12 @@ sheet_insert_cols (Sheet *sheet,
 
 	solver_insert_cols (sheet, col, count);
 	scenarios_insert_cols (sheet->scenarios, col, count);
-	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count,
-		states, pundo);
+	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, pundo);
+
+	add_undo_op (pundo, TRUE, sheet_delete_cols,
+		     sheet, col, count,
+		     states, first);
+
 	return FALSE;
 }
 
@@ -3944,22 +4006,27 @@ sheet_insert_cols (Sheet *sheet,
  * @sheet   The sheet
  * @col     At which position we want to start deleting columns
  * @count   The number of columns to be deleted
- * @pundo : optionally NULL, caller releases result
+ * @pundo  : undo closure, optionally NULL; caller releases result
  * @cc : The command context
  */
 gboolean
-sheet_delete_cols (Sheet *sheet,
-		   int col, int count, ColRowStateList *states,
+sheet_delete_cols (Sheet *sheet, int col, int count,
 		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
-
-	if (pundo)
-		*pundo = NULL;
+	ColRowStateList *states = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (count != 0, TRUE);
+	g_return_val_if_fail (count > 0, TRUE);
+
+	if (pundo) {
+		int last = col + (count - 1);
+		GnmRange r;
+		range_init_cols (&r, col, last);
+		*pundo = clipboard_copy_range_undo (sheet, &r);
+		states = colrow_get_states (sheet, TRUE, col, last);
+	}
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.origin.start.col = col;
@@ -3980,15 +4047,17 @@ sheet_delete_cols (Sheet *sheet,
 		sheet_col_destroy (sheet, i, TRUE);
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE, pundo);
 
-	/* 1.5 sheet_colrow_delete_finish will flag the remains as changing, but we
-	 * need to mark the cleared area */
+	/*
+	 * 1.5 sheet_colrow_delete_finish will flag the remains as changing,
+	 * but we need to mark the cleared area
+	 */
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	/* 2. Invalidate references to the cells in the deleted columns */
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Fix references to and from the cells which are moving */
-	reloc_info.origin.start.col = col+count;
+	reloc_info.origin.start.col = col + count;
 	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
@@ -4001,34 +4070,43 @@ sheet_delete_cols (Sheet *sheet,
 
 	solver_delete_cols (sheet, col, count);
 	scenarios_delete_cols (sheet->scenarios, col, count);
-	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count,
-		states, pundo);
+	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count, pundo);
+
+	add_undo_op (pundo, TRUE, sheet_insert_cols,
+		     sheet, col, count,
+		     states, col);
+
 	return FALSE;
 }
 
 /**
  * sheet_insert_rows:
- * @sheet   The sheet
- * @row     At which position we want to insert
- * @count   The number of rows to be inserted
- * @states :
- * @pundo : optionally NULL, caller releases result
+ * @sheet  : The sheet
+ * @row    : At which position we want to insert
+ * @count  : The number of rows to be inserted
+ * @pundo  : undo closure, optionally NULL; caller releases result
  * @cc : The command context
  */
 gboolean
-sheet_insert_rows (Sheet *sheet,
-		   int row, int count, ColRowStateList *states,
+sheet_insert_rows (Sheet *sheet, int row, int count,
 		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
 	int i;
-
-	if (pundo)
-		*pundo = NULL;
+	ColRowStateList *states = NULL;
+	int first = SHEET_MAX_ROWS - count;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (count != 0, TRUE);
+	g_return_val_if_fail (count > 0, TRUE);
+
+	if (pundo) {
+		int last = first + (count - 1);
+		GnmRange r;
+		range_init_rows (&r, first, last);
+		*pundo = clipboard_copy_range_undo (sheet, &r);
+		states = colrow_get_states (sheet, FALSE, first, last);
+	}
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
 	if (count < SHEET_MAX_ROWS) {
@@ -4060,32 +4138,41 @@ sheet_insert_rows (Sheet *sheet,
 
 	solver_insert_rows (sheet, row, count);
 	scenarios_insert_rows (sheet->scenarios, row, count);
-	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count,
-		states, pundo);
+	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, pundo);
+
+	add_undo_op (pundo, FALSE, sheet_delete_rows,
+		     sheet, row, count,
+		     states, first);
+
 	return FALSE;
 }
 
 /*
  * sheet_delete_rows
- * @sheet   The sheet
- * @row     At which position we want to start deleting rows
- * @count   The number of rows to be deleted
- * @pundo : optionally NULL, caller releases result
+ * @sheet  : The sheet
+ * @row    : At which position we want to start deleting rows
+ * @count  : The number of rows to be deleted
+ * @pundo  : undo closure, optionally NULL; caller releases result
  * @cc : The command context
  */
 gboolean
-sheet_delete_rows (Sheet *sheet,
-		   int row, int count, ColRowStateList *states,
+sheet_delete_rows (Sheet *sheet, int row, int count,
 		   GOUndo **pundo, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
-
-	if (pundo)
-		*pundo = NULL;
+	ColRowStateList *states = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (count != 0, TRUE);
+	g_return_val_if_fail (count > 0, TRUE);
+
+	if (pundo) {
+		int last = row + (count - 1);
+		GnmRange r;
+		range_init_rows (&r, row, last);
+		*pundo = clipboard_copy_range_undo (sheet, &r);
+		states = colrow_get_states (sheet, FALSE, row, last);
+	}
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.origin.start.col = 0;
@@ -4106,8 +4193,10 @@ sheet_delete_rows (Sheet *sheet,
 		sheet_row_destroy (sheet, i, TRUE);
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE, pundo);
 
-	/* 1.5 sheet_colrow_delete_finish will flag the remains as changing, but we
-	 * need to mark the cleared area */
+	/*
+	 * 1.5 sheet_colrow_delete_finish will flag the remains as changing,
+	 * but we need to mark the cleared area
+	 */
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	/* 2. Invalidate references to the cells in the deleted rows */
@@ -4120,15 +4209,19 @@ sheet_delete_rows (Sheet *sheet,
 	reloc_info.row_offset = -count;
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
-	/* 4. Move the rows to their new location (from top to bottom) */
+	/* 4. Move the rows to their new location (from first to last) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS - 1, i,
 			     &sheet->rows, i, i - count);
 
 	solver_delete_rows (sheet, row, count);
 	scenarios_delete_rows (sheet->scenarios, row, count);
-	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count,
-		states, pundo);
+	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count, pundo);
+
+	add_undo_op (pundo, FALSE, sheet_insert_rows,
+		     sheet, row, count,
+		     states, row);
+
 	return FALSE;
 }
 
