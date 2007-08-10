@@ -42,9 +42,6 @@
 
 #include <sys/types.h>
 #include <fcntl.h>
-#ifdef HAVE_SYS_RESOURCE_H
-#include <sys/resource.h>
-#endif
 #include <time.h>
 #include <string.h>
 
@@ -364,35 +361,8 @@ main (int argc, char **argv)
 	osso_context_t * osso_context;
 #endif
 
-/*
- * NO CODE BEFORE THIS POINT, PLEASE!
- *
- * Using threads (by way of libraries) makes our stack too small in some
- * circumstances.  It is hard to control directly, but setting the stack
- * limit to something not unlimited seems to work.
- *
- * See http://bugzilla.gnome.org/show_bug.cgi?id=92131
- */
-#ifdef HAVE_SYS_RESOURCE_H
-	struct rlimit rlim;
-
-	if (getrlimit (RLIMIT_STACK, &rlim) == 0) {
-		rlim_t our_lim = 64 * 1024 * 1024;
-		if (rlim.rlim_max != RLIM_INFINITY)
-			our_lim = MIN (our_lim, rlim.rlim_max);
-		if (rlim.rlim_cur != RLIM_INFINITY &&
-		    rlim.rlim_cur < our_lim) {
-			rlim.rlim_cur = our_lim;
-			(void)setrlimit (RLIMIT_STACK, &rlim);
-		}
-	}
-#endif
-
-	g_thread_init (NULL);
-
-#ifdef USE_HILDON
-	osso_context = osso_initialize ("gnumeric", "1.7.0", TRUE, NULL);
-#endif
+	/* No code before here, we need to init threads */
+	argv = gnm_pre_parse_init (argc, argv);
 
 #ifdef G_OS_WIN32
 	gboolean has_console = FALSE;
@@ -414,7 +384,9 @@ main (int argc, char **argv)
 	}
 #endif
 
-	gnm_pre_parse_init (argv[0]);
+#ifdef USE_HILDON
+	osso_context = osso_initialize ("gnumeric", GNUMERIC_VERSION, TRUE, NULL);
+#endif
 
 	gnumeric_arg_parse (argc, argv);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -432,8 +404,7 @@ main (int argc, char **argv)
 		gnm_session_init (argv[0]);
 	}
 
-	/* TODO: Use the ioc.  Do this before calling handle_paint_events */
-	gnm_common_init (TRUE);
+	gnm_init (TRUE);
 
 	if (with_gui) {
 		ioc = IO_CONTEXT (g_object_new (TYPE_IO_CONTEXT_GTK, NULL));
@@ -558,7 +529,8 @@ main (int argc, char **argv)
 		FreeConsole();
 	}
 #endif
-	go_shell_argv_to_glib_encoding_free ();
+
+	gnm_pre_parse_shutdown ();
 
 	return 0;
 }

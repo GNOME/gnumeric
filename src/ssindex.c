@@ -215,9 +215,8 @@ main (int argc, char **argv)
 	GOptionContext *ocontext;
 	GError *error = NULL;	
 
-	g_thread_init (NULL);
-
-	gnm_pre_parse_init (argv[0]);
+	/* No code before here, we need to init threads */
+	argv = gnm_pre_parse_init (argc, argv);
 
 	ocontext = g_option_context_new (_("INFILE..."));
 	g_option_context_add_main_entries (ocontext, ssindex_options, GETTEXT_PACKAGE);
@@ -242,7 +241,7 @@ main (int argc, char **argv)
 		return 1;
 	}
 
-	gnm_common_init (FALSE);
+	gnm_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
@@ -272,6 +271,7 @@ main (int argc, char **argv)
 
 	g_object_unref (cc);
 	gnm_shutdown ();
+	gnm_pre_parse_shutdown ();
 
 	return res;
 }

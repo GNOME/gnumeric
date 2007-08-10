@@ -321,33 +321,8 @@ main (int argc, char **argv)
 	GOptionContext *ocontext;
 	GError *error = NULL;	
 
-/*
- * NO CODE BEFORE THIS POINT, PLEASE!
- *
- * Using threads (by way of libraries) makes our stack too small in some
- * circumstances.  It is hard to control directly, but setting the stack
- * limit to something not unlimited seems to work.
- *
- * See http://bugzilla.gnome.org/show_bug.cgi?id=92131
- */
-#ifdef HAVE_SYS_RESOURCE_H
-	struct rlimit rlim;
-
-	if (getrlimit (RLIMIT_STACK, &rlim) == 0) {
-		rlim_t our_lim = 64 * 1024 * 1024;
-		if (rlim.rlim_max != RLIM_INFINITY)
-			our_lim = MIN (our_lim, rlim.rlim_max);
-		if (rlim.rlim_cur != RLIM_INFINITY &&
-		    rlim.rlim_cur < our_lim) {
-			rlim.rlim_cur = our_lim;
-			(void)setrlimit (RLIMIT_STACK, &rlim);
-		}
-	}
-#endif
-
-	g_thread_init (NULL);
-
-	gnm_pre_parse_init (argv[0]);
+	/* No code before here, we need to init threads */
+	argv = gnm_pre_parse_init (argc, argv);
 
 	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
 	g_option_context_add_main_entries (ocontext, ssconvert_options, GETTEXT_PACKAGE);
@@ -367,7 +342,7 @@ main (int argc, char **argv)
 		return 0;
 	}
 
-	gnm_common_init (FALSE);
+	gnm_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
@@ -393,6 +368,7 @@ main (int argc, char **argv)
 
 	g_object_unref (cc);
 	gnm_shutdown ();
+	gnm_pre_parse_shutdown ();
 
 	return res;
 }

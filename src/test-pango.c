@@ -63,9 +63,9 @@ main (int argc, char **argv)
 	WorkbookControl *wbc;
 	IOContext *ioc;
 
-	gnm_pre_parse_init (argv[0]);
+	argv = gnm_pre_parse_init (argc, argv);
 	gtk_init (&argc, &argv);
-	gnm_common_init (FALSE);
+	gnm_init (FALSE);
 
 	cc  = cmd_context_stderr_new ();
 	ioc = gnumeric_io_context_new (cc);
@@ -87,6 +87,7 @@ main (int argc, char **argv)
 #endif
 
 	gnm_shutdown ();
+	gnm_pre_parse_shutdown ();
 
 	return 0;
 }

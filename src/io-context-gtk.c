@@ -79,6 +79,7 @@ cb_icg_window_destroyed (GObject *window, IOContextGtk *icg)
 	icg->file_bar = NULL;
 	if (icg->files_done == 0) {
 		gnm_shutdown ();	/* Pretend to be well behaved */
+		gnm_pre_parse_shutdown ();
 		exit (0);		/* Stop pretending */
 	} else
 		icg->interrupted = TRUE;

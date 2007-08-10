@@ -41,11 +41,15 @@
 #include "mathfunc.h"
 #include "hlink.h"
 #include <goffice/goffice.h>
+#include <goffice/utils/go-file.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/app/go-plugin-loader-module.h>
 
+#ifdef HAVE_SYS_RESOURCE_H
+#include <sys/resource.h>
+#endif
 #include <locale.h>
 #include <glade/glade.h>
 
@@ -62,11 +66,42 @@ char *x_geometry;
  * @gnumeric_binary : argv[0]
  *
  * Initialization to be done before cmd line arguments are handled.
+ * Needs to be called first, before any other initialization.
  **/
-void
-gnm_pre_parse_init (char const* gnumeric_binary)
+gchar const **
+gnm_pre_parse_init (int argc, gchar const **argv)
 {
-	g_set_prgname (gnumeric_binary);
+/*
+ * NO CODE BEFORE THIS POINT, PLEASE!
+ *
+ * Using threads (by way of libraries) makes our stack too small in some
+ * circumstances.  It is hard to control directly, but setting the stack
+ * limit to something not unlimited seems to work.
+ *
+ * See http://bugzilla.gnome.org/show_bug.cgi?id=92131
+ */
+#ifdef HAVE_SYS_RESOURCE_H
+	struct rlimit rlim;
+
+	if (getrlimit (RLIMIT_STACK, &rlim) == 0) {
+		rlim_t our_lim = 64 * 1024 * 1024;
+		if (rlim.rlim_max != RLIM_INFINITY)
+			our_lim = MIN (our_lim, rlim.rlim_max);
+		if (rlim.rlim_cur != RLIM_INFINITY &&
+		    rlim.rlim_cur < our_lim) {
+			rlim.rlim_cur = our_lim;
+			(void)setrlimit (RLIMIT_STACK, &rlim);
+		}
+	}
+#endif
+
+	g_thread_init (NULL);
+
+	/* On win32 argv contains 'ansi' encoded args.  We need to manually
+	 * pull in the real versions and convert them to utf-8 */
+	argv = go_shell_argv_to_glib_encoding (argc, argv);
+
+	g_set_prgname (argv[0]);
 
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
@@ -81,6 +116,14 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 	 * Unless we do this they will default to C
 	 */
 	setlocale (LC_ALL, "");
+
+	return argv;
+}
+
+void
+gnm_pre_parse_shutdown ()
+{
+	go_shell_argv_to_glib_encoding_free ();
 }
 
 #if 0
@@ -97,13 +140,8 @@ gnumeric_check_for_components (void)
 }
 #endif
 
-extern void libgoffice_init (void);
-/*
- * FIXME: We hardcode the GUI command context. Change once we are able
- * to tell whether we are in GUI or not.
- */
 void
-gnm_common_init (gboolean fast)
+gnm_init (gboolean fast)
 {
 	libgoffice_init ();
 	plugin_service_define ("function_group",

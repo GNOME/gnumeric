@@ -10,6 +10,15 @@
 	(wbcg_data_allocator_editor): connect to gee->entry focus-out-event.
 	Remove unmap and unrealize connections.
 
+2007-08-10  Jody Goldberg <jody@gnome.org>
+
+	* src/libgnumeric.c (gnm_pre_parse_init) : move the thread and stack
+	  init here, along with the call to go_shell_argv_to_glib_encoding.
+	(gnm_pre_parse_shutdown) : new.
+
+	* configure.in : More cleanup on the python code in preparation for
+	  win32.
+
 2007-08-08  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_ins_del_colrow_repeat): Simplify.

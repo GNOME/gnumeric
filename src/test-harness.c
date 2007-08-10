@@ -47,9 +47,8 @@ main (int argc, char const *argv [])
 	GOCmdContext	*cc;
 	GError		*error = NULL;
 	GOptionContext	*ctx;
-	gchar const **args = go_shell_argv_to_glib_encoding (argc, argv);
 
-	gnm_pre_parse_init (args[0]);
+	argv = gnm_pre_parse_init (argc, argv);
 
 #ifdef G_OS_WIN32
 	test_options[1].arg = &gnumeric_lib_dir;
@@ -58,9 +57,9 @@ main (int argc, char const *argv [])
 
 	ctx = g_option_context_new ("");
 	g_option_context_add_main_entries (ctx, test_options, GETTEXT_PACKAGE);
-	g_option_context_parse (ctx, &argc, (gchar ***) &args, &error);
+	g_option_context_parse (ctx, &argc, (gchar ***) &argv, &error);
 
-	gnm_common_init (FALSE);
+	gnm_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
@@ -105,7 +104,7 @@ main (int argc, char const *argv [])
 	g_option_context_free (ctx);
 	g_object_unref (cc);
 	gnm_shutdown ();
-	go_shell_argv_to_glib_encoding_free ();
+	gnm_pre_parse_shutdown ();
 
 	return res;
 }

@@ -245,11 +245,11 @@ gnm_component_factory (BonoboGenericFactory *this,
 int
 main (int argc, char *argv [])
 {
-	gnm_pre_parse_init (argv[0]);
+	argv = gnm_pre_parse_init (argc, argv);
 
 	BONOBO_FACTORY_INIT ("gnumeric-component", VERSION, &argc, argv);
         bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	gnm_common_init (TRUE);
+	gnm_init (TRUE);
 
 	return bonobo_generic_factory_main ("OAFIID:GNOME_Gnumeric_Factory",
 					    gnm_component_factory, NULL);

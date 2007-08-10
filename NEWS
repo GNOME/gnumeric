@@ -11,6 +11,8 @@ Jody:
 	* Repeat action being activated by F4 while editing. [#461284]
 	* SUM(INDIRECT:INDIRECT) XL compat outside arrays. [#395926]
 	* Merge UI layer back into WBCGtk, no more arbitrary split.
+	* Use pygobject instead of pygtk
+	* Use utf-16 encoded cmd line args on windows. [#361321]
 
 Morten:
 	* Fix undo column/row insert/delete for arrays.  [#463834]

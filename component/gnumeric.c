@@ -476,7 +476,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 #endif
 	module = go_plugin_get_type_module (plugin);
 	go_gnm_component_register_type (module);
-	gnm_common_init (FALSE);
+	gnm_init (FALSE);
 	dir_list = go_slist_create (
 		g_build_filename (gnm_sys_lib_dir (), PLUGIN_SUBDIR, NULL),
 		(gnm_usr_dir () == NULL ? NULL :

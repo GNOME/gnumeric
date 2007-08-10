@@ -822,7 +822,7 @@ dnl * Check for Python
 dnl **************************************************
 python_msg="yes"
 GNM_PY_CFLAGS=
-GNM_PY_LDLAGS=
+GNM_PY_LDFLAGS=
 GNM_PY_LIBADD=
 
 AC_ARG_WITH(python, [--{with,without}-python   Compile the Python plugin loader])
@@ -848,6 +848,10 @@ if test "x$python_msg" = xyes; then
      major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:1])'`]
     if test "x$major_ver" == "x2"; then
 	AC_MSG_RESULT(yes)
+	if test "x$with_win32" = "xyes" ; then
+	    # 2.x on linux, 2x on win32
+	    PY_VERSION=`echo $PY_VERSION | sed -e 's/\\.//'`
+	fi
     else
 	AC_MSG_RESULT(no)
 	python_msg="NO.  Python version \"${PY_VERSION}\" is too old."
@@ -855,62 +859,49 @@ if test "x$python_msg" = xyes; then
 fi
 
 if test "x$python_msg" = xyes; then
-    if test "x$PY_INCLUDE" = x; then
+    if test "x$PY_PREFIX" = x; then
 	PY_PREFIX=`$PYTHON -c 'import sys ; sys.stdout.write(sys.prefix)'`
-	PY_INCLUDE="$PY_PREFIX/include/python$PY_VERSION"
     fi
-    if test "x$PY_MAKEFILE" = x; then
-	PY_MAKEFILE=`$PYTHON -c 'import sys ; from distutils.sysconfig import get_makefile_filename; sys.stdout.write(get_makefile_filename())'`
+    if test "x$PY_INCLUDE_DIR" = x; then
+	if test "x$with_win32" = "xyes" ; then
+	    PY_INCLUDE_DIR="$PY_PREFIX/include"
+	else
+	    PY_INCLUDE_DIR="$PY_PREFIX/include/python$PY_VERSION"
+	fi
     fi
 
-    BIG_CHECKING(Look for $PY_INCLUDE/Python.h)
-    if test -f $PY_INCLUDE/Python.h; then
+    BIG_CHECKING(Look for $PY_INCLUDE_DIR/Python.h)
+    if test -f $PY_INCLUDE_DIR/Python.h; then
 	AC_MSG_RESULT(yes)
     else
 	AC_MSG_RESULT(no)
 	python_msg="unable to find Python.h"
     fi
-    GNM_PY_CFLAGS="-I $PY_INCLUDE"
 fi
 
 if test "x$python_msg" = xyes; then
-    if test "x$with_win32" = "xyes"; then
-	PY_APP="$py_exec_prefix\pythonw.exe"
-	PYTHON_INCLUDE=`$echo "$PYTHON_INCLUDE" | sed -e 's/\\\\/\\//g'`
-	py_exec_prefix=`echo "$py_exec_prefix" | sed -e 's/\\\\/\\//g'`
-	pylibversion=`echo $PY_VERSION | sed -e 's/\\.//'`
-	GNM_PY_LDFLAGS="-L${py_exec_prefix}/libs -lpython${pylibversion}"
-    else
-	PY_APP="$PYTHON"
-	GNM_PY_LDFLAGS="-lpython${PY_VERSION}"
-    fi
-    AC_SUBST(PY_APP)
-
-    m4_define([pygtk_required_version], [2.10.4])
-    PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= pygtk_required_version,,
-      [python_msg=no])
-
-    AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
-    if test "x$PYGTK_CODEGEN" = xno; then
-      python_msg=no
-    fi
-
-    if test "x$python_msg" = xyes; then
-        AC_MSG_CHECKING(for pygtk defs)
-        PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk-2.0`
-        AC_SUBST(PYGTK_DEFSDIR)
-        AC_MSG_RESULT($PYGTK_DEFSDIR)
-    fi
+    m4_define([pygobject_required_version], [2.12.0])
+    PKG_CHECK_MODULES(PYGOBJECT, pygobject-2.0 >= pygobject_required_version,,
+      [python_msg="Missing pygobject"])
 fi
 
 AM_CONDITIONAL(WITH_PYTHON, test "x$python_msg" = xyes)
 if test "x$python_msg" = xyes; then
+    if test "x$PY_LIB_DIR" = x; then
+	if test "x$with_win32" = "xyes" ; then
+	    PY_LIB_DIR="$PY_PREFIX/libs"
+	else
+	    PY_LIB_DIR="$PY_PREFIX/lib"
+	fi
+    fi
+
+    GNM_PY_CFLAGS="-I $PY_INCLUDE_DIR $PYGOBJECT_CFLAGS"
+    GNM_PY_LDFLAGS="-L $PY_LIB_DIR -lpython$PY_VERSION $PYGOBJECT_LDFLAGS"
     python_msg="yes (using $PYTHON)"
 fi
 AC_SUBST(GNM_PY_CFLAGS)
 AC_SUBST(GNM_PY_LDFLAGS)
 AC_SUBST(GNM_PY_LIBADD)
-AC_SUBST(PYGTK_CFLAGS)
 
 # Support for PDF docs
 AC_ARG_ENABLE(pdfdocs,
