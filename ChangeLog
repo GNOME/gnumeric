@@ -1,3 +1,8 @@
+2007-08-10  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (libgoffice): Make this work with libgoffice-0.5
+	* libspreadsheet-1.7.pc.in (Requires): Fix libgoffice req.
+
 2007-08-09  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Make Graph entry emit an update signal on focus out event, instead on

@@ -107,12 +107,30 @@ LDFLAGS=${_ldflags}
 
 dnl PKG_PROG_PKG_CONFIG is expanded just before the first occurrence of
 dnl PKG_CHECK_MODULES.  Since this is inside an `if,' it can escape
-dnl execution.  Thus we need an explicite call:
+dnl execution.  Thus we need an explicit call:
 PKG_PROG_PKG_CONFIG(0.18)
+
+libgoffice=
+for ver in 0.5 0.4; do
+  if test "x$libgoffice" = x; then
+    AC_MSG_CHECKING([libgoffice-$ver])
+    if pkg-config --exists libgoffice-$ver; then
+      libgoffice=libgoffice-$ver
+      AC_MSG_RESULT([found])
+    else
+      AC_MSG_RESULT([not found])
+    fi
+  fi
+done
+if test "x$libgoffice" = x; then
+  # Not important.  Things will fail below.
+  libgoffice=libgoffice-0.4
+fi
+AC_SUBST(LIBGOFFICE,$libgoffice)
 
 dnl *****************************
 libspreadsheet_reqs="
-	libgoffice-0.4		>= 0.4.3
+	$libgoffice		>= 0.4.3
 	libgsf-1		>= 1.14.4
 	libxml-2.0		>= 2.4.12
 "
@@ -951,7 +969,7 @@ AC_SUBST(MONO_LIBS)
 dnl **************************************************
 dnl * Goffice component stuff
 dnl **************************************************
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.4`
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir $libgoffice`
 AC_SUBST(GOFFICE_PLUGINS_DIR)
 
 dnl **************************************************
