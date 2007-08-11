@@ -48,18 +48,18 @@
 scenario_t *
 scenario_by_name (GList *scenarios, gchar const *name, gboolean *all_deleted)
 {
-	scenario_t *s, *res = NULL;
+	scenario_t *res = NULL;
  
 	if (all_deleted)
 		*all_deleted = TRUE;
 
 	while (scenarios != NULL) {
-		s = (scenario_t *) scenarios->data;
+		scenario_t *s = scenarios->data;
 
 		if (strcmp (s->name, name) == 0)
 			res = s;
-		else if (all_deleted)
-			*all_deleted &= s->marked_deleted;
+		else if (all_deleted && !s->marked_deleted)
+			*all_deleted = FALSE;
 
 		scenarios = scenarios->next;
 	}
@@ -383,9 +383,12 @@ insert_cols (scenario_t *s, int col, int count)
 	if (s->range.start.col >= col) {
 		s->range.start.col += count;
 		s->range.end.col += count;
-		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
+
+		/* FIXME: What if we fell off the end?  */
+
+		g_free (s->cell_sel_str);
 		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
@@ -405,9 +408,12 @@ insert_rows (scenario_t *s, int row, int count)
 	if (s->range.start.row >= row) {
 		s->range.start.row += count;
 		s->range.end.row += count;
-		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
+
+		/* FIXME: What if we fell off the end?  */
+
+		g_free (s->cell_sel_str);
 		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
@@ -429,9 +435,12 @@ delete_cols (scenario_t *s, int col, int count)
 	if (s->range.start.col >= col) {
 		s->range.start.col -= count;
 		s->range.end.col -= count;
-		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
+
+		/* FIXME: What if we fell off the end?  */
+
+		g_free (s->cell_sel_str);
 		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
@@ -451,9 +460,12 @@ delete_rows (scenario_t *s, int row, int count)
 	if (s->range.start.row >= row) {
 		s->range.start.row -= count;
 		s->range.end.row -= count;
-		g_free (s->cell_sel_str);
 
 		/* Scenarios do not allow cross sheet references. */
+
+		/* FIXME: What if we fell off the end?  */
+
+		g_free (s->cell_sel_str);
 		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
 }
@@ -473,6 +485,7 @@ move_range (scenario_t *s, GnmRange const *origin, int col_offset, int row_offse
 	/* FIXME when multiple ranges are supported. */
 	if (range_equal (&s->range, origin)) {
 		range_translate (&s->range, col_offset, row_offset);
+		/* FIXME: What if we fell off the end?  */
 		g_free (s->cell_sel_str);
 		s->cell_sel_str = g_strdup (range_as_string (&s->range));
 	}
@@ -497,7 +510,7 @@ scenario_manager_ok (Sheet *sheet)
 
 	/* Update scenarios (free the deleted ones). */
 	for (cur = scenarios; cur != NULL; cur = cur->next) {
-		scenario_t *s = (scenario_t *) cur->data;
+		scenario_t *s = cur->data;
 
 		if (s->marked_deleted)
 			scenario_free (s);
@@ -515,7 +528,7 @@ void
 scenario_recover_all (GList *scenarios)
 {
 	while (scenarios) {
-		scenario_t *s = (scenario_t *) scenarios->data;
+		scenario_t *s = scenarios->data;
 
 		s->marked_deleted = FALSE;
 		scenarios = scenarios->next;
@@ -631,8 +644,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 				col = 2;
 				for (cur = cb->sheet->scenarios; cur != NULL;
 				     cur = cur->next) {
-					scenario_t *s =
-						(scenario_t *) cur->data;
+					scenario_t *s = cur->data;
 					
 					ov = scenario_show (wbc, s, ov, &dao);
 					
@@ -685,7 +697,7 @@ scenario_summary (WorkbookControl *wbc,
 	cb.results = results;
 	for (cb.col = 0, cur = scenarios; cur != NULL; cb.col++,
 		     cur = cur->next) {
-		scenario_t *s = (scenario_t *) cur->data;
+		scenario_t *s = cur->data;
 
 		/* Scenario name. */
 		dao_set_cell (&cb.dao, 2 + cb.col, 1, s->name);
