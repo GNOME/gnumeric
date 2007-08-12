@@ -1830,7 +1830,7 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
 	Sheet   *start_sheet, *end_sheet;
 	gboolean full_col, full_row;
 
-	/* Normalize the rangeRef, and remember if we had a full co/row
+	/* Normalize the rangeRef, and remember if we had a full col/row
 	 *  ref.  If relocating the result changes things, or if we're from
 	 *  inside the range that is moving map back to a RangeRef from the
 	 *  target position.  If the result is different that the original
@@ -1941,7 +1941,6 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 
 	case GNM_EXPR_OP_NAME: {
 		GnmNamedExpr *nexpr = expr->name.name;
-		GnmExpr const *tmp;
 
 		/* we cannot invalidate references to the name that are
 		 * sitting in the undo queue, or the clipboard.  So we just
@@ -1950,44 +1949,60 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 		if (!nexpr->active)
 			return gnm_expr_new_constant (value_new_error_REF (NULL));
 
-		if (rinfo->details->reloc_type == GNM_EXPR_RELOCATE_INVALIDATE_SHEET) {
+		switch (rinfo->details->reloc_type) {
+		case GNM_EXPR_RELOCATE_INVALIDATE_SHEET:
 			if (nexpr->pos.sheet && nexpr->pos.sheet->being_invalidated)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			else
 				return NULL;
-		}
 
-		/* If the name is not officially scoped, check that it is
-		 * available in the new scope ?  */
-		if (expr->name.optional_scope == NULL &&
-		    rinfo->details->target_sheet != rinfo->details->origin_sheet) {
-			GnmNamedExpr *new_nexpr;
-			GnmParsePos pos;
-			parse_pos_init_sheet (&pos, rinfo->details->target_sheet);
+		case GNM_EXPR_RELOCATE_MOVE_RANGE:
+			/*
+			 * If the name is not officially scoped, check
+			 * that it is available in the new scope
+			 */
+			if (expr->name.optional_scope == NULL &&
+			    rinfo->details->target_sheet != rinfo->details->origin_sheet) {
+				GnmNamedExpr *new_nexpr;
+				GnmParsePos pos;
+				parse_pos_init_sheet (&pos, rinfo->details->target_sheet);
 
-			/* If the name is not available in the new scope explicitly scope it */
-			new_nexpr = expr_name_lookup (&pos, nexpr->name->str);
-			if (new_nexpr == NULL) {
-				if (nexpr->pos.sheet != NULL)
-					return gnm_expr_new_name (nexpr, nexpr->pos.sheet, NULL);
-				return gnm_expr_new_name (nexpr, NULL, nexpr->pos.wb);
+				/* If the name is not available in the new scope explicitly scope it */
+				new_nexpr = expr_name_lookup (&pos, nexpr->name->str);
+				if (new_nexpr == NULL) {
+					if (nexpr->pos.sheet != NULL)
+						return gnm_expr_new_name (nexpr, nexpr->pos.sheet, NULL);
+					return gnm_expr_new_name (nexpr, NULL, nexpr->pos.wb);
+				}
+
+				/* replace it with the new name using qualified as
+				 * local to the target sheet
+				 */
+				return gnm_expr_new_name (new_nexpr, pos.sheet, NULL);
+			} else {
+				/*
+				 * Do NOT rewrite the name.
+				 * Just invalidate the use of the name
+				 */
+				GnmExpr const *tmp =
+					gnm_expr_relocate (nexpr->texpr->expr,
+							   rinfo);
+				if (tmp != NULL) {
+					gnm_expr_free (tmp);
+					return gnm_expr_new_constant (
+						value_new_error_REF (NULL));
+				}
+
+				return NULL;
 			}
 
-			/* replace it with the new name using qualified as
-			 * local to the target sheet
-			 */
-			return gnm_expr_new_name (new_nexpr, pos.sheet, NULL);
-		}
+		case GNM_EXPR_RELOCATE_COLS:
+		case GNM_EXPR_RELOCATE_ROWS:
+			return NULL;
 
-		/* Do NOT rewrite the name.  Just invalidate the use of the name */
-		tmp = gnm_expr_relocate (expr->name.name->texpr->expr, rinfo);
-		if (tmp != NULL) {
-			gnm_expr_free (tmp);
-			return gnm_expr_new_constant (
-				value_new_error_REF (NULL));
+		default:
+			g_assert_not_reached ();
 		}
-
-		return NULL;
 	}
 
 	case GNM_EXPR_OP_CELLREF: {

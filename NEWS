@@ -19,6 +19,8 @@ Morten:
 	* Fix undo column/row delete for objects.
 	* Fix undo of sheet objects pushed off the sheet.
 	* Fix auto-correct issue.  [#463996]
+	* Fix handling of named expressions when inserting or deleting
+	  columns or rows.  [#123649]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.11

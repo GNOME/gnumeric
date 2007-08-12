@@ -1900,6 +1900,25 @@ cb_single_contained_collect (DependencySingle const *depsingle,
 			}});
 }
 
+struct cb_relocate_name {
+	GOUndo *undo;
+	GnmExprRelocateInfo rinfo;
+};
+
+static void
+cb_relocate_name (GnmNamedExpr *nexpr,
+		  G_GNUC_UNUSED gpointer value,
+		  struct cb_relocate_name *data)
+{
+	GnmExprTop const *newtree =
+		gnm_expr_top_relocate (nexpr->texpr, &data->rinfo, TRUE);
+	if (newtree) {
+		GOUndo *u = expr_name_set_expr_undo_new (nexpr);
+		data->undo = go_undo_combine (data->undo, u);
+		expr_name_set_expr (nexpr, newtree);
+	}
+}
+
 /**
  * dependents_relocate:
  * @rinfo : the descriptor record for what is being moved where.
@@ -1917,7 +1936,7 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 	GnmRange const   *r;
 	int i;
 	CollectClosure collect;
-	GHashTable *names;
+	GOUndo *u_exprs, *u_names;
 
 	g_return_val_if_fail (rinfo != NULL, NULL);
 
@@ -1957,7 +1976,7 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 		}
 	}
 	dependents = collect.list;
-	memcpy (&local_rinfo, rinfo, sizeof (GnmExprRelocateInfo));
+	local_rinfo = *rinfo;
 	for (l = dependents; l; l = l->next) {
 		GnmExprTop const *newtree;
 		GnmDependent *dep = l->data;
@@ -2019,16 +2038,42 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 		 * definitely cheaper than finding the set of effected sheets. */
 		sheet_flag_status_update_range (dep->sheet, NULL);
 	}
-
-	names = rinfo->origin_sheet->deps->referencing_names;
-	if (names != NULL) {
-	}
-
 	g_slist_free (dependents);
 
-	return go_undo_unary_new (undo_info,
-				  (GOUndoUnaryFunc)dependents_unrelocate,
-				  (GFreeFunc)dependents_unrelocate_free);
+	u_exprs = go_undo_unary_new (undo_info,
+				     (GOUndoUnaryFunc)dependents_unrelocate,
+				     (GFreeFunc)dependents_unrelocate_free);
+
+	u_names = NULL;
+
+	switch (rinfo->reloc_type) {
+	case GNM_EXPR_RELOCATE_INVALIDATE_SHEET:
+	case GNM_EXPR_RELOCATE_MOVE_RANGE:
+		break;
+
+	case GNM_EXPR_RELOCATE_COLS:
+	case GNM_EXPR_RELOCATE_ROWS: {
+		struct cb_relocate_name data;
+		GHashTable *names =
+			rinfo->origin_sheet->deps->referencing_names;
+
+		if (!names)
+			break;
+
+		data.undo = u_names;
+		data.rinfo = *rinfo;
+		g_hash_table_foreach (names,
+				      (GHFunc)cb_relocate_name,
+				      &data);
+		u_names = data.undo;
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+	}
+
+	return go_undo_combine (u_exprs, u_names);
 }
 
 /*******************************************************************/
