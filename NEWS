@@ -21,6 +21,7 @@ Morten:
 	* Fix auto-correct issue.  [#463996]
 	* Fix handling of named expressions when inserting or deleting
 	  columns or rows.  [#123649]
+	* Validate defined names.  [#346223]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.11

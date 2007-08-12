@@ -41,7 +41,6 @@
 
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <string.h>

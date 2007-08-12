@@ -399,6 +399,14 @@ name_guru_add (NameGuruState *state)
 		return TRUE;
 	}
 
+	if (!expr_name_validate (name)) {
+		go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
+				      GTK_MESSAGE_ERROR,
+				      _("Invalid name"));
+		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
+		return FALSE;
+	}
+
 	parse_pos_init (&pp, state->wb,
 			name_guru_scope_is_sheet (state) ? state->sheet : NULL,
 			state->pp.eval.col, state->pp.eval.row);

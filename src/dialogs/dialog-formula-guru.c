@@ -45,11 +45,7 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 #include <locale.h>
 #include <string.h>
 

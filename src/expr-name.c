@@ -16,7 +16,6 @@
 #include "expr-name.h"
 
 #include "dependent.h"
-#include "cell.h"
 #include "value.h"
 #include "workbook-priv.h"
 #include "expr.h"
@@ -27,8 +26,49 @@
 #include "gutils.h"
 #include "sheet-style.h"
 
-#include <gdk/gdkkeysyms.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-locale.h>
+
+/**
+ * expr_name_validate:
+ * @name: tentative name
+ *
+ * returns TRUE if the given name is valid, FALSE otherwise.
+ */
+gboolean
+expr_name_validate (const char *name)
+{
+	GnmCellPos cp;
+	const char *p;
+
+	g_return_val_if_fail (name != NULL, FALSE);
+
+	if (name[0] == 0)
+		return FALSE;
+
+	/* What about other locales.  */
+	if (strcmp (name, go_locale_boolean_name (TRUE)) == 0 ||
+	    strcmp (name, go_locale_boolean_name (FALSE)) == 0)
+		return FALSE;
+
+	/* What about R1C1?  */
+	if (cellpos_parse (name, &cp, TRUE))
+		return FALSE;
+
+	/* Hmm...   Now what?  */
+	if (!g_unichar_isalpha (g_utf8_get_char (name)) &&
+	    name[0] != '_')
+		return FALSE;
+
+	for (p = name; *p; p = g_utf8_next_char (p)) {
+		if (!g_unichar_isalnum (g_utf8_get_char (p)) &&
+		    p[0] != '_')
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
 
 static void
 cb_nexpr_remove (GnmNamedExpr *nexpr)

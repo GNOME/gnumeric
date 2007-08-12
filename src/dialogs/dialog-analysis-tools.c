@@ -53,7 +53,6 @@
 
 #include <glade/glade.h>
 #include <string.h>
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>

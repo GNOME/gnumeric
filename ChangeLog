@@ -1,3 +1,7 @@
+2007-08-12  Morten Welinder  <terra@gnome.org>
+
+	* src/expr-name.c (expr_name_validate): New function.
+
 2007-08-11  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (cb_relocate_name): New function.

@@ -32,7 +32,6 @@
 #include <mstyle.h>
 #include <clipboard.h>
 #include <gtk/gtkmain.h>
-#include <gdk/gdkkeysyms.h>
 #include <string.h>
 
 /**********************************************************************************************
