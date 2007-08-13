@@ -22,6 +22,7 @@ Morten:
 	* Fix handling of named expressions when inserting or deleting
 	  columns or rows.  [#123649]
 	* Validate defined names.  [#346223]
+	* Fix 64-bit issue for non-GNOME build.  [#465545]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.11

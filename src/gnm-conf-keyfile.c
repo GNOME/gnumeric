@@ -239,7 +239,7 @@ go_conf_get_str_list (GOConfNode *node, gchar const *key)
 	gchar *real_key;
 	GSList *list = NULL;
 	gchar **str_list;
-	gint i, nstrs;
+	gsize i, nstrs;
 
 	real_key = go_conf_get_real_key (node, key);
 	str_list = g_key_file_get_string_list (key_file, STRLIST_GROUP, real_key, &nstrs, NULL);
@@ -255,12 +255,6 @@ go_conf_get_str_list (GOConfNode *node, gchar const *key)
 	}
 
 	return list;
-}
-
-char *
-go_conf_get_enum_as_str (GOConfNode *node, gchar const *key)
-{
-	return go_conf_get_string (node, key);
 }
 
 gboolean
@@ -383,7 +377,7 @@ go_conf_get_type (GOConfNode *node, gchar const *key)
 	gchar **groups;
 	gchar *real_key;
 	GType type = G_TYPE_NONE;
-	int i, ng;
+	gsize i, ng;
 
 	real_key = go_conf_get_real_key (node, key);
 	groups = g_key_file_get_groups (key_file, &ng);

@@ -1,3 +1,8 @@
+2007-08-13  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-conf-keyfile.c (go_conf_get_str_list): Fix 64-bit issue.
+	(go_conf_get_type): Ditto.  Fixes #465545.
+
 2007-08-12  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_validate): New function.

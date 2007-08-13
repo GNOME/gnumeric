@@ -1433,8 +1433,10 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	  parent = NULL;
 	  gtk_print_operation_set_show_progress (print, FALSE);
   } else {
-	  if (NULL != wbc  && IS_WBC_GTK(wbc))
+	  if (NULL != wbc && IS_WBC_GTK(wbc))
 		  parent = wbcg_toplevel (WBC_GTK (wbc));
+	  else
+		  parent = NULL;
 	  action = preview
 		  ? GTK_PRINT_OPERATION_ACTION_PREVIEW
 		  : GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
