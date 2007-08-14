@@ -1,5 +1,9 @@
 2007-08-13  Morten Welinder  <terra@gnome.org>
 
+	* src/libgnumeric.c (gnm_init): Initialize gnome_vfs here so
+	ssconvert will see it too.
+	* src/main-application.c (gnumeric_arg_parse): Not here.
+
 	* src/gnm-conf-keyfile.c (go_conf_get_str_list): Fix 64-bit issue.
 	(go_conf_get_type): Ditto.  Fixes #465545.
 

@@ -47,6 +47,10 @@
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/app/go-plugin-loader-module.h>
 
+#ifdef WITH_GNOME
+#include <libgnomevfs/gnome-vfs-init.h>
+#endif
+
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
@@ -143,6 +147,10 @@ gnumeric_check_for_components (void)
 void
 gnm_init (gboolean fast)
 {
+#if defined (WITH_GNOME) || defined (USE_HILDON)
+	gnome_vfs_init ();
+#endif
+
 	libgoffice_init ();
 	plugin_service_define ("function_group",
 		&plugin_service_function_group_get_type);

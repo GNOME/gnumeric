@@ -52,7 +52,6 @@
 #include <libgnome/gnome-init.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-authentication-manager.h>
-#include <libgnomevfs/gnome-vfs-init.h>
 #endif
 
 #ifdef USE_HILDON
@@ -281,10 +280,6 @@ gnumeric_arg_parse (int argc, char **argv)
 		g_error_free (error);
 		exit (1);
 	}
-
-#if defined (WITH_GNOME) || defined (USE_HILDON)
-	gnome_vfs_init ();
-#endif
 
 	if (!funcdump) {
 		gtk_init (&argc, &argv);
