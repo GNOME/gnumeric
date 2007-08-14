@@ -1,3 +1,12 @@
+2007-08-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Update of graph data allocator editor on dataset changes.
+
+	* src/wbc-gtk.c (cb_dataset_changed): new.
+	(graph_dim_editor_free): disconnect dataset changed signal.
+	(wbcg_data_allocator_editor): register editor entry update signal.
+	Connect to dataset changed signal.
+
 2007-08-13  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_init): Initialize gnome_vfs here so

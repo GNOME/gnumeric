@@ -4025,6 +4025,9 @@ typedef struct {
 	GogDataset *dataset;
 	int dim_i;
 	GogDataType data_type;
+
+	gulong dataset_changed_handler;
+	gulong entry_update_handler;
 } GraphDimEditor;
 
 static void
@@ -4101,6 +4104,25 @@ cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry 	*ignored,
 }
 
 static void
+cb_dataset_changed (GogDataset *dataset,
+		    gboolean resize,
+		    GraphDimEditor *editor)
+{
+	GOData *val;
+
+	g_signal_handler_block (editor->entry, editor->entry_update_handler);
+
+	val = gog_dataset_get_dim (dataset, editor->dim_i);
+	if (val != NULL) {
+		char *txt = go_data_as_str (val);
+		gnm_expr_entry_load_from_text (editor->entry, txt);
+		g_free (txt);
+	}
+
+	g_signal_handler_unblock (editor->entry, editor->entry_update_handler);
+}
+
+static void
 cb_dim_editor_weakref_notify (GraphDimEditor *editor, GogDataset *dataset)
 {
 	g_return_if_fail (editor->dataset == dataset);
@@ -4110,9 +4132,11 @@ cb_dim_editor_weakref_notify (GraphDimEditor *editor, GogDataset *dataset)
 static void
 graph_dim_editor_free (GraphDimEditor *editor)
 {
-	if (editor->dataset)
+	if (editor->dataset) {
+		g_signal_handler_disconnect (editor->dataset, editor->dataset_changed_handler);
 		g_object_weak_unref (G_OBJECT (editor->dataset),
 			(GWeakNotify) cb_dim_editor_weakref_notify, editor);
+	}
 	g_free (editor);
 }
 
@@ -4144,12 +4168,14 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	gnm_expr_entry_set_flags (editor->entry,
 		GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
 
-	g_signal_connect (G_OBJECT (editor->entry),
+	editor->entry_update_handler = g_signal_connect (G_OBJECT (editor->entry),
 		"update",
 		G_CALLBACK (cb_graph_dim_editor_update), editor);
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (editor->entry)),
 		"focus-out-event",
 		G_CALLBACK (cb_graph_dim_entry_focus_out_event), editor);
+	editor->dataset_changed_handler = g_signal_connect (G_OBJECT (editor->dataset),
+		"changed", G_CALLBACK (cb_dataset_changed), editor);
 	g_object_set_data_full (G_OBJECT (editor->entry),
 		"editor", editor, (GDestroyNotify) graph_dim_editor_free);
 
