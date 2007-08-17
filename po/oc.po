@@ -6024,8 +6024,8 @@ msgstr ""
 #, c-format
 msgid "A maximum of %d column can be imported."
 msgid_plural "A maximum of %d columns can be imported."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Podètz importar un maximum de %d colomna"
+msgstr[1] "Podètz importar un maximum de %d colomnas"
 
 #: ../src/dialogs/dialog-stf-format-page.c:315
 msgid "Ignore all columns on right"
@@ -7396,7 +7396,7 @@ msgstr ""
 
 #: ../src/dialogs/scenario-manager.glade.h:12
 msgid "Show"
-msgstr "Visualizar"
+msgstr "Visualizacion"
 
 #: ../src/dialogs/scenario-manager.glade.h:13
 #: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:350
@@ -7659,7 +7659,7 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.glade.h:29
 msgid "Search"
-msgstr "Recèrcar"
+msgstr "Recercar"
 
 #. Corrected below.
 #: ../src/dialogs/search-replace.glade.h:30 ../src/commands.c:4282
@@ -11275,7 +11275,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1479
 msgid "_View"
-msgstr "_Mostrar"
+msgstr "_Visualizar"
 
 #: ../src/wbcg-actions.c:1480
 msgid "_Windows"
@@ -11679,7 +11679,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1708
 msgid "_Find..."
-msgstr "_Recèrcar"
+msgstr "_Recercar"
 
 #: ../src/wbcg-actions.c:1709
 msgid "Search for something"
