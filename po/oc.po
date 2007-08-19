@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.7.9\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-15 19:43+0200\n"
-"PO-Revision-Date: 2007-03-13 22:39+0100\n"
+"PO-Revision-Date: 2007-08-19 21:29+0200\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -309,7 +309,7 @@ msgstr ""
 
 #: ../plugins/excel/boot.c:251
 msgid "Saving file..."
-msgstr ""
+msgstr "Enregistrament del fichièr..."
 
 #: ../plugins/excel/excel-xml-read.c:130 ../src/xml-sax-read.c:362
 #, c-format
@@ -387,22 +387,18 @@ msgstr ""
 msgid ""
 "Some content will be lost when saving.  This format only supports %u column, "
 "and this workbook has %d"
-msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u "
 "columns, and this workbook has %d"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../plugins/excel/ms-excel-write.c:207
 #, c-format
 msgid ""
 "Some content will be lost when saving.  This format only supports %u row, "
 "and this workbook has %d"
-msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../plugins/excel/ms-excel-write.c:312
 msgid ""
@@ -714,7 +710,7 @@ msgstr ""
 #: ../plugins/fn-date/functions.c:1539 ../plugins/fn-date/functions.c:1543
 #: ../src/print-info.c:504
 msgid "date"
-msgstr ""
+msgstr "data"
 
 #: ../plugins/fn-date/functions.c:1462
 msgid "date1,date2,method"
@@ -763,7 +759,7 @@ msgstr ""
 
 #: ../plugins/fn-date/plugin.xml.in.h:2
 msgid "Date/Time"
-msgstr ""
+msgstr "Data / ora"
 
 #: ../plugins/fn-date/plugin.xml.in.h:3
 msgid "Functions manipulating dates and time"
@@ -831,7 +827,7 @@ msgstr ""
 #: ../plugins/fn-info/functions.c:1315
 #, c-format
 msgid "%s version %s"
-msgstr ""
+msgstr "%s version %s"
 
 #: ../plugins/fn-info/functions.c:1330
 #: ../src/dialogs/dialog-cell-format.c:2223
@@ -895,7 +891,7 @@ msgstr ""
 
 #: ../plugins/fn-info/functions.c:1928 ../plugins/fn-string/functions.c:1244
 msgid "string"
-msgstr ""
+msgstr "cadena"
 
 #: ../plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
@@ -1054,7 +1050,7 @@ msgstr ""
 #: ../plugins/fn-random/functions.c:1227 ../plugins/fn-random/functions.c:1266
 #: ../plugins/fn-random/functions.c:1281 ../plugins/fn-random/functions.c:1284
 msgid "a,b"
-msgstr ""
+msgstr "a,b"
 
 #. MS Excel puts this in statistical
 #: ../plugins/fn-math/functions.c:3328
@@ -1469,7 +1465,7 @@ msgstr ""
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:153
 #: ../src/func.c:929
 msgid "String"
-msgstr ""
+msgstr "Cadena"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 msgid "String Functions"
@@ -1594,7 +1590,7 @@ msgstr ""
 
 #: ../plugins/mps/mps.c:179
 msgid "Program Name"
-msgstr ""
+msgstr "Nom del programa"
 
 #. Print 'Status'.
 #: ../plugins/mps/mps.c:185
@@ -1933,7 +1929,7 @@ msgstr ""
 
 #: ../plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
 msgid "Python functions"
@@ -1966,7 +1962,7 @@ msgstr ""
 #: ../plugins/python-loader/gnm-python.c:157
 #, c-format
 msgid "Could not find %s"
-msgstr ""
+msgstr "Impossible de trouver %s"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -2922,7 +2918,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:61
 msgid "Toolbar Style"
-msgstr ""
+msgstr "Estil de barra d'espleches"
 
 #: ../schemas/gnumeric-general.schemas.in.h:62
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
@@ -3079,7 +3075,7 @@ msgstr ""
 #: ../src/dialogs/regression.glade.h:11 ../src/dialogs/sampling.glade.h:14
 #: ../src/dialogs/variance-tests.glade.h:10
 msgid "_Labels"
-msgstr ""
+msgstr "_Etiquetas"
 
 #. Edit -> Delete
 #: ../src/dialogs/anova-one.glade.h:11 ../src/dialogs/colrow.glade.h:3
@@ -3184,7 +3180,7 @@ msgstr ""
 
 #: ../src/dialogs/autocorrect.glade.h:12
 msgid "_With:"
-msgstr ""
+msgstr "_Amb :"
 
 #: ../src/dialogs/autofilter-expression.glade.h:1
 msgid ""
@@ -3331,7 +3327,7 @@ msgstr ""
 
 #: ../src/dialogs/autoformat.glade.h:25 ../src/dialogs/cell-format.glade.h:99
 msgid "_Top"
-msgstr ""
+msgstr "_Destinatari "
 
 #: ../src/dialogs/autosave.glade.h:2
 msgid "Auto Save"
@@ -3665,7 +3661,7 @@ msgstr "Superior"
 
 #: ../src/dialogs/cell-format.glade.h:85
 msgid "Validation"
-msgstr ""
+msgstr "Validacion"
 
 #: ../src/dialogs/cell-format.glade.h:86
 msgid "Vertical Stripe"
@@ -3681,7 +3677,7 @@ msgstr ""
 
 #: ../src/dialogs/cell-format.glade.h:90
 msgid "_General"
-msgstr ""
+msgstr "_General"
 
 #: ../src/dialogs/cell-format.glade.h:91
 msgid "_Indent:"
@@ -3952,7 +3948,7 @@ msgstr ""
 
 #: ../src/dialogs/define-name.glade.h:8 ../src/dialogs/solver.glade.h:28
 msgid "_Name: "
-msgstr ""
+msgstr "_Nom : "
 
 #: ../src/dialogs/define-name.glade.h:9
 msgid "_Scope:"
@@ -4752,7 +4748,7 @@ msgstr ""
 #: ../src/dialogs/dialog-cell-format.c:1678
 #: ../src/dialogs/so-scrollbar.glade.h:3
 msgid "Max:"
-msgstr ""
+msgstr "Max :"
 
 #: ../src/dialogs/dialog-cell-format.c:1670
 msgid "Value:"
@@ -4927,7 +4923,6 @@ msgid "All Functions (long list)"
 msgstr ""
 
 #: ../src/dialogs/dialog-function-select.c:377
-#, fuzzy
 msgid "Arguments:"
 msgstr "Comentaris :"
 
@@ -5119,7 +5114,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-paste-special.c:71 ../src/wbcg-actions.c:1608
 msgid "Co_mments"
-msgstr ""
+msgstr "Co_mentaris"
 
 #: ../src/dialogs/dialog-paste-special.c:76
 msgid "_None"
@@ -5441,7 +5436,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-random-generator.c:138
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: ../src/dialogs/dialog-random-generator.c:138
 msgid "nu_1 Value:"
@@ -5626,7 +5621,7 @@ msgstr "Suprimit"
 
 #: ../src/dialogs/dialog-search.c:151
 msgid "Expression"
-msgstr ""
+msgstr "Expression"
 
 #: ../src/dialogs/dialog-search.c:157
 msgid "Other value"
@@ -5662,7 +5657,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-sheet-order.c:441
 msgid "New Name"
-msgstr ""
+msgstr "Nom novèl"
 
 #: ../src/dialogs/dialog-sheet-order.c:653
 msgid "New sheets must be given a name."
@@ -5972,7 +5967,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.glade.h:41
 msgid "_Format:"
-msgstr ""
+msgstr "_Format :"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:42
 msgid "_Locale"
@@ -6023,9 +6018,7 @@ msgstr ""
 #: ../src/dialogs/dialog-stf-format-page.c:183
 #, c-format
 msgid "A maximum of %d column can be imported."
-msgid_plural "A maximum of %d columns can be imported."
-msgstr[0] "Podètz importar un maximum de %d colomna"
-msgstr[1] "Podètz importar un maximum de %d colomnas"
+msgstr "Podètz importar un maximum de %d colomna"
 
 #: ../src/dialogs/dialog-stf-format-page.c:315
 msgid "Ignore all columns on right"
@@ -6176,7 +6169,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf.glade.h:29
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: ../src/dialogs/dialog-stf.glade.h:30
 msgid "Number of lines to import"
@@ -6316,9 +6309,7 @@ msgstr "`"
 #: ../src/dialogs/dialog-stf-main-page.c:160
 #, c-format
 msgid "%d of %d line to import"
-msgid_plural "%d of %d lines to import"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../src/dialogs/dialog-stf-main-page.c:183
 #, c-format
@@ -6448,11 +6439,11 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.glade.h:2
 msgid "<b>Created:</b>"
-msgstr ""
+msgstr "<b>Creat :</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:3
 msgid "<b>Group:</b>"
-msgstr ""
+msgstr "<b>Grop :</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:4
 msgid "<b>Information</b>"
@@ -6468,11 +6459,11 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.glade.h:7
 msgid "<b>Location:</b>"
-msgstr ""
+msgstr "<b>Opcions</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:8
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nom :</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:9
 msgid "<b>Number of cells:</b>"
@@ -6492,7 +6483,7 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.glade.h:13
 msgid "<b>Owner:</b>"
-msgstr ""
+msgstr "<b>Propietari :</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:14
 msgid "<b>Permissions</b>"
@@ -6564,7 +6555,7 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.glade.h:34
 msgid "Manager:"
-msgstr ""
+msgstr "Gestionari :"
 
 #: ../src/dialogs/doc-meta-data.glade.h:35
 msgid "Name: "
@@ -6576,7 +6567,7 @@ msgstr "Propietats"
 
 #: ../src/dialogs/doc-meta-data.glade.h:38
 msgid "Subject:"
-msgstr ""
+msgstr "Subjècte :"
 
 #: ../src/dialogs/doc-meta-data.glade.h:39
 msgid "Title:"
@@ -6588,7 +6579,7 @@ msgstr "Valor : "
 
 #: ../src/dialogs/exp-smoothing.glade.h:2
 msgid "0.2"
-msgstr ""
+msgstr "0,2"
 
 #: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3632
 #: ../src/tools/analysis-tools.c:3635
@@ -6655,12 +6646,12 @@ msgstr ""
 
 #: ../src/dialogs/fill-series.glade.h:16
 msgid "_Month"
-msgstr ""
+msgstr "_Mes"
 
 #: ../src/dialogs/fill-series.glade.h:17 ../src/dialogs/pivottable.glade.h:13
 #: ../src/wbcg-actions.c:1487
 msgid "_Row"
-msgstr ""
+msgstr "_Linha"
 
 #: ../src/dialogs/fill-series.glade.h:18
 msgid "_Start value:"
@@ -6672,7 +6663,7 @@ msgstr ""
 
 #: ../src/dialogs/fill-series.glade.h:20
 msgid "_Year"
-msgstr ""
+msgstr "_Annada"
 
 #: ../src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
@@ -6869,7 +6860,7 @@ msgstr ""
 
 #: ../src/dialogs/hyperlink.glade.h:5
 msgid "T_ype:"
-msgstr ""
+msgstr "_Tipe :"
 
 #: ../src/dialogs/hyperlink.glade.h:6
 msgid "Target _Range:"
@@ -6917,7 +6908,7 @@ msgstr ""
 
 #: ../src/dialogs/mean-tests.glade.h:3 ../src/dialogs/variance-tests.glade.h:2
 msgid "0.05"
-msgstr ""
+msgstr "0,05"
 
 #: ../src/dialogs/mean-tests.glade.h:4
 msgid "E_qual"
@@ -7006,7 +6997,7 @@ msgstr "3"
 
 #: ../src/dialogs/moving-averages.glade.h:3
 msgid "C_olumns"
-msgstr ""
+msgstr "C_olomnas"
 
 #: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3499
 #: ../src/tools/analysis-tools.c:3502
@@ -7043,7 +7034,7 @@ msgstr ""
 
 #: ../src/dialogs/pivottable.glade.h:6
 msgid "_Add:"
-msgstr ""
+msgstr "_Apondre :"
 
 #: ../src/dialogs/pivottable.glade.h:8 ../src/wbcg-actions.c:1495
 msgid "_Data"
@@ -7059,7 +7050,7 @@ msgstr "_Format"
 
 #: ../src/dialogs/pivottable.glade.h:11
 msgid "_Page"
-msgstr ""
+msgstr "_Pagina"
 
 #: ../src/dialogs/pivottable.glade.h:12 ../src/wbcg-actions.c:1692
 msgid "_Remove"
@@ -7175,7 +7166,7 @@ msgstr "Pagina"
 
 #: ../src/dialogs/print.glade.h:18
 msgid "Page Setup"
-msgstr ""
+msgstr "Configuracion de la pagina"
 
 #: ../src/dialogs/print.glade.h:19
 msgid "Print _area:"
@@ -7239,7 +7230,7 @@ msgstr ""
 
 #: ../src/dialogs/print.glade.h:35
 msgid "_Units:"
-msgstr ""
+msgstr "_Unitats :"
 
 #: ../src/dialogs/print.glade.h:36
 msgid "_Vertically"
@@ -7287,7 +7278,7 @@ msgstr ""
 
 #: ../src/dialogs/regression.glade.h:2
 msgid "0.95"
-msgstr ""
+msgstr "0,95"
 
 #: ../src/dialogs/regression.glade.h:3
 msgid "Confidence level:"
@@ -7995,7 +7986,7 @@ msgstr ""
 
 #: ../src/dialogs/so-scrollbar.glade.h:5
 msgid "Page:"
-msgstr ""
+msgstr "Pagina :"
 
 #: ../src/dialogs/so-scrollbar.glade.h:6
 msgid "Scrollbar Properties"
@@ -8124,7 +8115,7 @@ msgstr ""
 
 #: ../src/dialogs/workbook-attr.glade.h:16
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 #: ../src/dialogs/workbook-attr.glade.h:17
 msgid "_Protect Workbook"
@@ -8138,7 +8129,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:4401
 #, c-format
 msgid "Row %i"
-msgstr ""
+msgstr "Linha %i"
 
 #: ../src/tools/analysis-tools.c:195 ../src/tools/analysis-tools.c:384
 #: ../src/tools/analysis-tools.c:4393
@@ -9834,9 +9825,7 @@ msgstr ""
 #: ../src/gnm-plugin.c:219
 #, c-format
 msgid "%d function in category \"%s\""
-msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../src/gnm-plugin.c:326
 msgid "Missing file name."
@@ -9850,9 +9839,7 @@ msgstr ""
 #: ../src/gnm-plugin.c:409
 #, c-format
 msgid "User interface with %d action"
-msgid_plural "User interface with %d actions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../src/gnm-plugin.c:515 ../src/gnm-plugin.c:587
 #, c-format
@@ -9865,7 +9852,6 @@ msgid "File doesn't contain \"%s\" array."
 msgstr ""
 
 #: ../src/gnm-so-filled.c:172
-#, fuzzy
 msgid "Label Properties"
 msgstr "Proprietats de l'encastre"
 
@@ -9940,7 +9926,7 @@ msgstr ""
 #: ../src/gui-util.c:449
 #, c-format
 msgid "Unable to open file '%s'"
-msgstr ""
+msgstr "Impossible de dobrir lo fichièr '%s'"
 
 #: ../src/hlink.c:161 ../src/hlink.c:177
 msgid "Link target"
@@ -10245,7 +10231,6 @@ msgid "Unexpected token %c"
 msgstr ""
 
 #: ../src/print.c:1033
-#, fuzzy
 msgid "Print Selection"
 msgstr "Proteccion"
 
@@ -10262,7 +10247,6 @@ msgid "_Workbook sheets:"
 msgstr ""
 
 #: ../src/print.c:1278
-#, fuzzy
 msgid "Current _selection only"
 msgstr "Copar la seleccion"
 
@@ -10275,7 +10259,6 @@ msgid "from:"
 msgstr ""
 
 #: ../src/print.c:1295
-#, fuzzy
 msgid "to:"
 msgstr "Autor :"
 
@@ -10311,11 +10294,11 @@ msgstr ""
 
 #: ../src/print-info.c:501
 msgid "tab"
-msgstr ""
+msgstr "tab"
 
 #: ../src/print-info.c:502
 msgid "page"
-msgstr ""
+msgstr "pagina"
 
 #: ../src/print-info.c:503
 msgid "pages"
@@ -10481,7 +10464,7 @@ msgstr ""
 
 #: ../src/sheet.c:564
 msgid "Visibility"
-msgstr ""
+msgstr "Visibilitat"
 
 #: ../src/sheet.c:565
 msgid "How visible the sheet is."
@@ -10489,7 +10472,7 @@ msgstr ""
 
 #: ../src/sheet.c:574
 msgid "Protected"
-msgstr ""
+msgstr "Protegit"
 
 #: ../src/sheet.c:575
 msgid "Sheet is protected."
@@ -11283,7 +11266,7 @@ msgstr "_Fenèstras"
 
 #: ../src/wbcg-actions.c:1481
 msgid "_Toolbars"
-msgstr ""
+msgstr "Barras d'_espleches"
 
 #: ../src/wbcg-actions.c:1483
 msgid "_Names"
@@ -11458,7 +11441,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1574
 msgid "Page Set_up..."
-msgstr ""
+msgstr "Config_uracion de la pagina..."
 
 #: ../src/wbcg-actions.c:1575
 msgid "Setup the page settings for your current printer"
@@ -11780,7 +11763,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1756
 msgid "_Image..."
-msgstr ""
+msgstr "_Imatge..."
 
 #: ../src/wbcg-actions.c:1757
 msgid "Insert an image"
@@ -12167,7 +12150,6 @@ msgid "Validate input with preset criteria"
 msgstr ""
 
 #: ../src/wbcg-actions.c:1938
-#, fuzzy
 msgid "T_ext to Columns..."
 msgstr "Suprimir de colomnas"
 
@@ -12184,7 +12166,6 @@ msgid "Consolidate regions using a function"
 msgstr ""
 
 #: ../src/wbcg-actions.c:1944
-#, fuzzy
 msgid "_Table..."
 msgstr "Taula"
 
@@ -12433,7 +12414,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:2061
 msgid "Percentage"
-msgstr ""
+msgstr "Percentatge"
 
 #: ../src/wbcg-actions.c:2062
 msgid "Format the selection as percentage"
@@ -13203,7 +13184,7 @@ msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
 
 #: ../src/xml-sax-read.c:1565
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Error desconeguda"
 
@@ -13217,7 +13198,6 @@ msgid "Unknown filter type \"%s\""
 msgstr ""
 
 #: ../src/xml-sax-read.c:1644
-#, fuzzy
 msgid "Invalid filter, missing Area"
 msgstr "L'expression es pas valida"
 
