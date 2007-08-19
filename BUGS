@@ -954,9 +954,15 @@ Architecture Changes
 	 - printing kerns poorly
 	 - printing 'A' produces '$' ??
     - page breaks
-    - col/row headings
+    - col/row headings                                            (DONE)
     - cell text wraps differently when printing than displaying due to scaling
       differences in font size.  do we want to eliminate this ?
+    - print repeating rows/cols
+    - account for repeating rows/cols when paginating
+    - account for repeating rows/cols when calculating scale
+    - print headers & footers
+    - enable header/footer specification
+
 
 -------------------------------------------------------------------------------
 Target Features
