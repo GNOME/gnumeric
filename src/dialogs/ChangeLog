@@ -1,3 +1,8 @@
+2007-08-21  Morten Welinder  <terra@gnome.org>
+
+	* dialog-define-names.c (name_guru_init): Don't request absolute
+	cell references.
+
 2007-08-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-define-names.c (name_guru_add): Validate prospective

@@ -29,7 +29,6 @@
 #include "help.h"
 
 #include <expr.h>
-#include <str.h>
 #include <expr-name.h>
 #include <selection.h>
 #include <sheet.h>
@@ -40,18 +39,11 @@
 #include <workbook-view.h>
 #include <gui-util.h>
 #include <parse-util.h>
-#include <value.h>
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #define DEFINE_NAMES_KEY "define-names-dialog"
@@ -558,7 +550,6 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg)
 	definition_table = GTK_TABLE (glade_xml_get_widget (state->gui, "definition_table"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
 	state->expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
-	gnm_expr_entry_set_absolute (state->expr_entry);
 	gtk_table_attach (definition_table, GTK_WIDGET (state->expr_entry),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
