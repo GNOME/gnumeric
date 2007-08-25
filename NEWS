@@ -14,7 +14,7 @@ Jody:
 	* Use pygobject instead of pygtk
 	* Use utf-16 encoded cmd line args on windows. [#361321]
 	* Fix XLS import of workbook local hyperlinks.
-	* XLSX import of validation.
+	* XLSX import/export of validation and input messages.
 	* Basic XLSX import of charts.
 
 Morten:

@@ -73,6 +73,11 @@ typedef struct {
 	IOContext	*io_context;
 } XLSXWriteState;
 
+typedef struct {
+	XLSXWriteState	*state;
+	GsfXMLOut	*xml;
+} XLSXClosure;
+
 static void
 xlsx_add_bool (GsfXMLOut *xml, char const *id, gboolean val)
 {
@@ -395,7 +400,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 						str_id = -1;
 					} else if (val->type != VALUE_BOOLEAN) {
 						content = value_get_as_string (cell->value);
-						gsf_xml_out_add_cstr_unchecked (xml, NULL, content);
+						gsf_xml_out_add_cstr (xml, NULL, content);
 						g_free (content);
 					} else
 						xlsx_add_bool (xml, NULL, val->v_bool.val);
@@ -428,7 +433,22 @@ xlsx_write_merges (XLSXWriteState *state, GsfXMLOut *xml)
 }
 
 static void
-xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, GsfXMLOut *xml)
+xlsx_write_validation_expr (XLSXClosure *info, GnmCellPos const *pos,
+			    char const *elem, GnmExprTop const *texpr)
+{
+	if (NULL != texpr) {
+		GnmParsePos pp;
+		char *str = gnm_expr_top_as_string (texpr,
+			parse_pos_init (&pp, NULL, (Sheet *)info->state->sheet,
+					pos->col, pos->row),
+			info->state->convs);
+		gsf_xml_out_simple_element (info->xml, elem, str);
+		g_free (str);
+	}
+}
+
+static void
+xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, XLSXClosure *info)
 {
 #if 0
 	/* Get docs on this */
@@ -447,23 +467,9 @@ xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, GsfXMLOut *xml
 #endif
 	char const *tmp;
 
-	gsf_xml_out_start_element (xml, "dataValidation");
-
-	xlsx_add_range_list (xml, "sqref", vip->ranges);
+	gsf_xml_out_start_element (info->xml, "dataValidation");
 
 	if (NULL != vip->v) {
-		xlsx_add_bool (xml, "showErrorMessage", TRUE);
-
-		tmp = NULL;
-		switch (vip->v->style) {
-		default : /* fall back to the default */
-		case VALIDATION_STYLE_STOP : /* "stop" the default */ break;
-		case VALIDATION_STYLE_WARNING : tmp = "warning"; break;
-		case VALIDATION_STYLE_INFO : tmp = "information"; break;
-		}
-		if (NULL != tmp)
-			gsf_xml_out_add_cstr_unchecked (xml, "errorStyle", tmp);
-
 		tmp = NULL;
 		switch (vip->v->type) {
 		default : /* fall back to the default */
@@ -477,7 +483,7 @@ xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, GsfXMLOut *xml
 		case VALIDATION_TYPE_CUSTOM :		tmp = "custom"; break;
 		}
 		if (NULL != tmp)
-			gsf_xml_out_add_cstr_unchecked (xml, "type", tmp);
+			gsf_xml_out_add_cstr_unchecked (info->xml, "type", tmp);
 
 		tmp = NULL;
 		switch (vip->v->op) {
@@ -487,36 +493,57 @@ xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, GsfXMLOut *xml
 		case VALIDATION_OP_EQUAL :	tmp = "equal"; break;
 		case VALIDATION_OP_NOT_EQUAL :	tmp = "notEqual"; break;
 		case VALIDATION_OP_LT :		tmp = "lessThan"; break;
-		case VALIDATION_OP_GT :		tmp = "lessThanOrEqual"; break;
-		case VALIDATION_OP_LTE :	tmp = "greaterThan"; break;
+		case VALIDATION_OP_GT :		tmp = "greaterThan"; break;
+		case VALIDATION_OP_LTE :	tmp = "lessThanOrEqual"; break;
 		case VALIDATION_OP_GTE :	tmp = "greaterThanOrEqual"; break;
 		}
 		if (NULL != tmp)
-			gsf_xml_out_add_cstr_unchecked (xml, "operator", tmp);
+			gsf_xml_out_add_cstr_unchecked (info->xml, "operator", tmp);
+
+		tmp = NULL;
+		switch (vip->v->style) {
+		default : /* fall back to the default */
+		case VALIDATION_STYLE_STOP : /* "stop" the default */ break;
+		case VALIDATION_STYLE_WARNING : tmp = "warning"; break;
+		case VALIDATION_STYLE_INFO : tmp = "information"; break;
+		}
+		if (NULL != tmp)
+			gsf_xml_out_add_cstr_unchecked (info->xml, "errorStyle", tmp);
 
 		if (vip->v->allow_blank)
-			xlsx_add_bool (xml, "allowBlank", TRUE);
+			xlsx_add_bool (info->xml, "allowBlank", TRUE);
 		if (vip->v->use_dropdown)
-			xlsx_add_bool (xml, "showDropDown", TRUE);
+			xlsx_add_bool (info->xml, "showDropDown", TRUE);
 
 		if (NULL != vip->v->title)
-			gsf_xml_out_add_cstr_unchecked (xml, "errorTitle", vip->v->title->str);
+			gsf_xml_out_add_cstr (info->xml, "errorTitle", vip->v->title->str);
 		if (NULL != vip->v->msg)
-			gsf_xml_out_add_cstr_unchecked (xml, "error", vip->v->msg->str);
+			gsf_xml_out_add_cstr (info->xml, "error", vip->v->msg->str);
 	}
 
-#if 0
+	/* ?? Always TRUE but not the default ?? */
+	xlsx_add_bool (info->xml, "showInputMessage", TRUE);
+	xlsx_add_bool (info->xml, "showErrorMessage", TRUE);
+
 	if (NULL != vip->msg) {
-		xlsx_add_bool (xml, "showInputMessage", TRUE);
-
-		else if (0 == strcmp (attrs[0], "promptTitle"))
-			promptTitle = attrs[1];
-		else if (0 == strcmp (attrs[0], "prompt"))
-			prompt = attrs[1];
+		char const *str;
+		if (NULL != (str = gnm_input_msg_get_title (vip->msg)))
+			gsf_xml_out_add_cstr (info->xml, "promptTitle", str);
+		if (NULL != (str = gnm_input_msg_get_msg (vip->msg)))
+			gsf_xml_out_add_cstr (info->xml, "prompt", str);
 	}
-#endif
 
-	gsf_xml_out_end_element (xml); /*  </dataValidation> */
+	xlsx_add_range_list (info->xml, "sqref", vip->ranges);
+
+	if (NULL != vip->v) {
+		GnmRange const *first = vip->ranges->data;
+		xlsx_write_validation_expr (info, &first->start,
+			"formula1", vip->v->texpr[0]);
+		xlsx_write_validation_expr (info, &first->start,
+			"formula2", vip->v->texpr[1]);
+	}
+
+	gsf_xml_out_end_element (info->xml); /*  </dataValidation> */
 }
 
 static void
@@ -525,11 +552,15 @@ xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *e
 	GnmStyleList *validations = sheet_style_collect_validations (state->sheet, NULL);
 
 	if (NULL != validations) {
-		GHashTable   *group = excel_collect_validations (validations,
-			extent->end.col, extent->end.row);
+		XLSXClosure info = { state, xml };
+		/* filter on logical max, not extent.  XL allows validations
+		 * past the stated dimension */
+		GHashTable *group = excel_collect_validations (validations,
+			XLSX_MAX_COLS, XLSX_MAX_ROWS);
 
 		gsf_xml_out_start_element (xml, "dataValidations");
-		g_hash_table_foreach (group, (GHFunc) xlsx_write_validation, xml);
+		gsf_xml_out_add_int (xml, "count", g_hash_table_size (group)) ;
+		g_hash_table_foreach (group, (GHFunc) xlsx_write_validation, &info);
 		gsf_xml_out_end_element (xml); /*  </dataValidations> */
 
 		g_hash_table_destroy (group);

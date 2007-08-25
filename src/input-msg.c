@@ -72,6 +72,13 @@ gnm_input_msg_init (GObject *obj)
 GSF_CLASS (GnmInputMsg, gnm_input_msg,
 	   gnm_input_msg_class_init, gnm_input_msg_init, G_TYPE_OBJECT)
 
+/**
+ * gnm_input_msg_new :
+ * @msg :
+ * @title :
+ *
+ * Returns: a ref to new #GnmInputMsg.
+ **/
 GnmInputMsg *
 gnm_input_msg_new (char const *msg, char const *title)
 {

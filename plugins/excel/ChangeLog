@@ -1,5 +1,15 @@
 2007-08-24  Jody Goldberg <jody@gnome.org>
 
+	* xlsx-read.c (xlsx_CT_DataValidation_begin) : don't lose the input
+	  messages.
+
+2007-08-24  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-write.c (xlsx_write_validation) : LTE and GT were swapped.
+	* xlsx-read.c (xlsx_CT_DataValidation_begin) : ditto.
+
+2007-08-24  Jody Goldberg <jody@gnome.org>
+
 	* xlsx-read.c (xlsx_chart_pie) : new.
 	(xlsx_chart_ring) : new.
 	(xlsx_chart_bar) : new.

@@ -5731,8 +5731,10 @@ excel_collect_validations (GnmStyleList *ptr, int max_col, int max_row)
 
 		/* Clip here to avoid creating a DV record if there are no regions */
 		if (sr->range.start.col >= max_col ||
-		    sr->range.start.row >= max_row)
+		    sr->range.start.row >= max_row) {
+			range_dump (&sr->range, "bounds drop\n");
 			continue;
+		}
 
 		key.v   = gnm_style_get_validation (sr->style);
 		key.msg = gnm_style_get_input_msg (sr->style);

@@ -37,6 +37,7 @@
 #include "expr-name.h"
 #include "print-info.h"
 #include "validation.h"
+#include "input-msg.h"
 #include "value.h"
 #include "sheet-filter.h"
 #include "selection.h"
@@ -260,14 +261,14 @@ typedef struct {
 
 static gboolean
 attr_enum (GsfXMLIn *xin, xmlChar const **attrs,
-	   unsigned int ns_id, char const *target, EnumVal const *enums,
+	   char const *target, EnumVal const *enums,
 	   int *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, target))
+	if (strcmp (attrs[0], target))
 		return FALSE;
 
 	for (; enums->name != NULL ; enums++)
@@ -285,14 +286,14 @@ attr_enum (GsfXMLIn *xin, xmlChar const **attrs,
  **/
 static gboolean
 attr_bool (GsfXMLIn *xin, xmlChar const **attrs,
-	   unsigned int ns_id, char const *target,
+	   char const *target,
 	   int *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, target))
+	if (strcmp (attrs[0], target))
 		return FALSE;
 
 	*res = 0 == strcmp (attrs[1], "1");
@@ -302,7 +303,7 @@ attr_bool (GsfXMLIn *xin, xmlChar const **attrs,
 
 static gboolean
 attr_int (GsfXMLIn *xin, xmlChar const **attrs,
-	  unsigned int ns_id, char const *target,
+	  char const *target,
 	  int *res)
 {
 	char *end;
@@ -312,7 +313,7 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, target))
+	if (strcmp (attrs[0], target))
 		return FALSE;
 
 	errno = 0;
@@ -329,10 +330,39 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 	*res = tmp;
 	return TRUE;
 }
+static gboolean
+attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
+	    char const *target,
+	    gint64 *res)
+{
+	char *end;
+	gint64 tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], target))
+		return FALSE;
+
+	errno = 0;
+	tmp = g_ascii_strtoll (attrs[1], &end, 10);
+	if (errno == ERANGE)
+		return xlsx_warning (xin,
+			_("Integer '%s' is out of range, for attribute %s"),
+			attrs[1], target);
+	if (*end)
+		return xlsx_warning (xin,
+			_("Invalid integer '%s' for attribute %s"),
+			attrs[1], target);
+
+	*res = tmp;
+	return TRUE;
+}
 
 static gboolean
 attr_float (GsfXMLIn *xin, xmlChar const **attrs,
-	    unsigned int ns_id, char const *target,
+	    char const *target,
 	    gnm_float *res)
 {
 	char *end;
@@ -342,7 +372,7 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, target))
+	if (strcmp (attrs[0], target))
 		return FALSE;
 
 	tmp = gnm_strto (attrs[1], &end);
@@ -356,7 +386,7 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 
 static gboolean
 attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
-	  unsigned int ns_id, char const *target,
+	  char const *target,
 	  GnmCellPos *res)
 {
 	char const *end;
@@ -366,7 +396,7 @@ attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, target))
+	if (strcmp (attrs[0], target))
 		return FALSE;
 
 	end = cellpos_parse (attrs[1], &tmp, TRUE);
@@ -380,14 +410,14 @@ attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
 
 static gboolean
 attr_range (GsfXMLIn *xin, xmlChar const **attrs,
-	    unsigned int ns_id, char const *target,
+	    char const *target,
 	    GnmRange *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, target))
+	if (strcmp (attrs[0], target))
 		return FALSE;
 
 	if (!range_parse (res, attrs[1]))
@@ -764,7 +794,6 @@ xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
 			parse_pos_init_sheet (&pp, state->sheet));
 
-g_warning ("%d = %s", state->dim_type, xin->content->str);
 		XL_gog_series_set_dim (state->series, state->dim_type,
 			gnm_go_data_vector_new_expr (state->sheet, texpr));
 	}
@@ -781,6 +810,13 @@ xlsx_ser_type_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->dim_type = -1;
+}
+
+static void
+xlsx_chart_legend (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	gog_object_add_by_name (GOG_OBJECT (state->chart), "Legend", NULL);
 }
 
 static GsfXMLInNode const xlsx_chart_dtd[] = {
@@ -981,7 +1017,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
     GSF_XML_IN_NODE (CHART, CHART_TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (CHART_TITLE, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (CHART_TITLE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-    GSF_XML_IN_NODE (CHART, LEGEND, XL_NS_CHART, "legend", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CHART, LEGEND, XL_NS_CHART, "legend", GSF_XML_NO_CONTENT, &xlsx_chart_legend, NULL),
       GSF_XML_IN_NODE (LEGEND, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (LEGEND, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (LEGEND, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
@@ -1020,14 +1056,14 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 
 /**************************************************************************/
 #define CELL	0
-#define OFFSET	4
+#define OFFSET	1
 #define FROM	0
-#define TO	2
+#define TO	4
 #define COL	0
-#define ROW	1
+#define ROW	2
 
 static void
-xlsx_drawing_twoCellAnchor (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_draw_anchor_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 
@@ -1042,27 +1078,53 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 
-	if (NULL != state->so) {
-		SheetObjectAnchor anchor;
-		GnmRange r;
+	if (NULL == state->so) {
+		xlsx_warning (xin,
+			_("Dropping missing object"));
+	} else {
+		if ((state->drawing_pos_flags & 0xFF) == 0xFF) {
+			SheetObjectAnchor anchor;
+			GnmRange r;
 
-		if ((state->drawing_pos_flags & 0xF) == 0xF) {
 			range_init (&r,
 				state->drawing_pos[COL | FROM],
 				state->drawing_pos[ROW | FROM],
 				state->drawing_pos[COL | TO],
 				state->drawing_pos[ROW | TO]);
 
-#warning handle the offsets
-			sheet_object_anchor_init (&anchor, &r, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
-			sheet_object_set_anchor (state->so, &anchor);
-			sheet_object_set_sheet (state->so, state->sheet);
+#warning implement absolute offsets
+				sheet_object_anchor_init (&anchor, &r, NULL, GOD_ANCHOR_DIR_DOWN_RIGHT);
+				sheet_object_set_anchor (state->so, &anchor);
+				sheet_object_set_sheet (state->so, state->sheet);
 		} else
 			xlsx_warning (xin,
-				_("Dropping object with invalid anchor"));
+				_("Dropping object with incomplete anchor %2x"), state->drawing_pos_flags);
+
 		g_object_unref (state->so);
 		state->so = NULL;
 	}
+}
+
+static void
+xlsx_drawing_oneCellAnchor_end (GsfXMLIn *xin, GsfXMLBlob *blob)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+
+	state->drawing_pos[COL | TO] = state->drawing_pos[COL | FROM] + 5;
+	state->drawing_pos[ROW | TO] = state->drawing_pos[ROW | FROM] + 5;
+	state->drawing_pos_flags |= ((1 << (COL | TO)) | (1 << (ROW | TO)));
+	xlsx_drawing_twoCellAnchor_end (xin, blob);
+}
+
+static void
+xlsx_drawing_ext (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int64 (xin, attrs, "cx", state->drawing_pos + (COL | TO | OFFSET)))
+			state->drawing_pos_flags |= (1 << (COL | TO | OFFSET));
+		else if (attr_int64 (xin, attrs, "cy", state->drawing_pos + (ROW | TO | OFFSET)))
+			state->drawing_pos_flags |= (1 << (ROW | TO | OFFSET));
 }
 
 static void
@@ -1093,7 +1155,7 @@ GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, N
 GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 
   GSF_XML_IN_NODE (DRAWING, TWO_CELL, XL_NS_SS_DRAW, "twoCellAnchor", GSF_XML_NO_CONTENT,
-		   &xlsx_drawing_twoCellAnchor, &xlsx_drawing_twoCellAnchor_end),
+		   &xlsx_draw_anchor_start, &xlsx_drawing_twoCellAnchor_end),
     GSF_XML_IN_NODE (TWO_CELL, ANCHOR_FROM, XL_NS_SS_DRAW, "from", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE_FULL (ANCHOR_FROM, ANCHOR_FROM_COL,	XL_NS_SS_DRAW, "col",	 GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_drawing_pos, FROM | COL | CELL),
       GSF_XML_IN_NODE_FULL (ANCHOR_FROM, ANCHOR_FROM_COL_OFF,	XL_NS_SS_DRAW, "colOff", GSF_XML_CONTENT, FALSE, TRUE, NULL, &xlsx_drawing_pos, FROM | COL | OFFSET),
@@ -1125,9 +1187,11 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
         GSF_XML_IN_NODE (TWO_CELL_XFRM, XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (TWO_CELL_XFRM, XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (TWO_CELL, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),
-  GSF_XML_IN_NODE (DRAWING, ONE_CELL, XL_NS_SS_DRAW, "oneCellAnchor", GSF_XML_NO_CONTENT, NULL, NULL),
+
+  GSF_XML_IN_NODE (DRAWING, ONE_CELL, XL_NS_SS_DRAW, "oneCellAnchor", GSF_XML_NO_CONTENT,
+		   &xlsx_draw_anchor_start, &xlsx_drawing_oneCellAnchor_end),
     GSF_XML_IN_NODE (ONE_CELL, ANCHOR_FROM, XL_NS_SS_DRAW, "from", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-    GSF_XML_IN_NODE (ONE_CELL, ONE_CELL_EXT, XL_NS_SS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (ONE_CELL, ONE_CELL_EXT, XL_NS_SS_DRAW, "ext", GSF_XML_NO_CONTENT, &xlsx_drawing_ext, NULL),
     GSF_XML_IN_NODE (ONE_CELL, CLIENT_DATA, XL_NS_SS_DRAW, "clientData", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
     GSF_XML_IN_NODE (ONE_CELL, GRAPHIC_FRAME, XL_NS_SS_DRAW, "graphicFrame", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 GSF_XML_IN_NODE_END
@@ -1151,7 +1215,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 
 			return style_color_new_i8 (r, g, b);
-		} else if (attr_int (xin, attrs, XL_NS_SS, "indexed", &indx))
+		} else if (attr_int (xin, attrs, "indexed", &indx))
 			return indexed_color (indx);
 #if 0
 	"type"	opt rgb {auto, icv, rgb, theme }
@@ -1240,7 +1304,7 @@ xlsx_cell_expr_begin (GsfXMLIn *xin, xmlChar const **attrs)
 				is_array = TRUE;
 		} else if (0 == strcmp (attrs[0], "si"))
 			shared_id = attrs[1];
-		else if (attr_range (xin, attrs, XL_NS_SS, "ref", &range))
+		else if (attr_range (xin, attrs, "ref", &range))
 			has_range = TRUE;
 
 	state->shared_id = NULL;
@@ -1306,11 +1370,10 @@ xlsx_cell_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	range_init (&state->array, -1, -1, -1, -1); /* invalid */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_pos (xin, attrs, XL_NS_SS, "r", &state->pos))
-			;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "t", types, &tmp))
+		if (attr_pos (xin, attrs, "r", &state->pos)) ;
+		else if (attr_enum (xin, attrs, "t", types, &tmp))
 			state->pos_type = tmp;
-		else if (attr_int (xin, attrs, XL_NS_SS, "s", &tmp))
+		else if (attr_int (xin, attrs, "s", &tmp))
 			style = xlsx_get_xf (xin, tmp);
 
 	if (NULL != style) {
@@ -1369,15 +1432,15 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, XL_NS_SS, "r", &row)) ;
-		else if (attr_float (xin, attrs, XL_NS_SS, "ht", &h)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "customFormat", &cust_fmt)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "customHeight", &cust_height)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "s", &xf_index))
+		if (attr_int (xin, attrs, "r", &row)) ;
+		else if (attr_float (xin, attrs, "ht", &h)) ;
+		else if (attr_bool (xin, attrs, "customFormat", &cust_fmt)) ;
+		else if (attr_bool (xin, attrs, "customHeight", &cust_height)) ;
+		else if (attr_int (xin, attrs, "s", &xf_index))
 			style = xlsx_get_xf (xin, xf_index);
-		else if (attr_int (xin, attrs, XL_NS_SS, "outlineLevel", &outline)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "hidden", &hidden)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "collapsed", &collapsed)) ;
+		else if (attr_int (xin, attrs, "outlineLevel", &outline)) ;
+		else if (attr_bool (xin, attrs, "hidden", &hidden)) ;
+		else if (attr_bool (xin, attrs, "collapsed", &collapsed)) ;
 
 	if (row > 0) {
 		row--;
@@ -1412,19 +1475,19 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, XL_NS_SS, "min", &first)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "max", &last)) ;
-		else if (attr_float (xin, attrs, XL_NS_SS, "width", &width))
+		if (attr_int (xin, attrs, "min", &first)) ;
+		else if (attr_int (xin, attrs, "max", &last)) ;
+		else if (attr_float (xin, attrs, "width", &width))
 			/* FIXME FIXME FIXME arbitrary map from 130 pixels to
 			 * the value stored for a column with 130 pixel width*/
 			width *= (130. / 18.5703125) * (72./96.);
-		else if (attr_bool (xin, attrs, XL_NS_SS, "customWidth", &cust_width)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "bestFit", &best_fit)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "style", &xf_index))
+		else if (attr_bool (xin, attrs, "customWidth", &cust_width)) ;
+		else if (attr_bool (xin, attrs, "bestFit", &best_fit)) ;
+		else if (attr_int (xin, attrs, "style", &xf_index))
 			style = xlsx_get_xf (xin, xf_index);
-		else if (attr_int (xin, attrs, XL_NS_SS, "outlineLevel", &outline)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "hidden", &hidden)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "collapsed", &collapsed)) ;
+		else if (attr_int (xin, attrs, "outlineLevel", &outline)) ;
+		else if (attr_bool (xin, attrs, "hidden", &hidden)) ;
+		else if (attr_bool (xin, attrs, "collapsed", &collapsed)) ;
 
 	if (first < 0) {
 		if (last < 0) {
@@ -1499,12 +1562,12 @@ xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 	int i;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_float (xin, attrs, XL_NS_SS, "defaultRowHeight", &h))
+		if (attr_float (xin, attrs, "defaultRowHeight", &h))
 			sheet_row_set_default_size_pts (state->sheet, h);
-		else if (attr_int (xin, attrs, XL_NS_SS, "outlineLevelRow", &i)) {
+		else if (attr_int (xin, attrs, "outlineLevelRow", &i)) {
 			if (i > 0)
 				sheet_colrow_gutter (state->sheet, FALSE, i);
-		} else if (attr_int (xin, attrs, XL_NS_SS, "outlineLevelCol", &i)) {
+		} else if (attr_int (xin, attrs, "outlineLevelCol", &i)) {
 			if (i > 0)
 				sheet_colrow_gutter (state->sheet, TRUE, i);
 		}
@@ -1518,19 +1581,19 @@ xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 	PrintInformation *pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_float (xin, attrs, XL_NS_SS, "left", &margin))
+		if (attr_float (xin, attrs, "left", &margin))
 			print_info_set_margin_left (pi, GO_IN_TO_PT (margin));
-		else if (attr_float (xin, attrs, XL_NS_SS, "right", &margin))
+		else if (attr_float (xin, attrs, "right", &margin))
 			print_info_set_margin_right (pi, GO_IN_TO_PT (margin));
-		else if (attr_float (xin, attrs, XL_NS_SS, "top", &margin))
+		else if (attr_float (xin, attrs, "top", &margin))
 			/* pi->margin.top = margin; */
 			;
-		else if (attr_float (xin, attrs, XL_NS_SS, "bottom", &margin))
+		else if (attr_float (xin, attrs, "bottom", &margin))
 			/* pi->margin.bottom = margin; */
 			;
-		else if (attr_float (xin, attrs, XL_NS_SS, "header", &margin))
+		else if (attr_float (xin, attrs, "header", &margin))
 			print_info_set_margin_header (pi, margin);
-		else if (attr_float (xin, attrs, XL_NS_SS, "footer", &margin))
+		else if (attr_float (xin, attrs, "footer", &margin))
 			print_info_set_margin_footer (pi, margin);
 }
 
@@ -1548,12 +1611,12 @@ xlsx_CT_PageBreak (GsfXMLIn *xin, xmlChar const **attrs)
 	pos = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int  (xin, attrs, XL_NS_SS, "id", &pos)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "man", &tmp)) { if (tmp) type = GNM_PAGE_BREAK_MANUAL; }
-		else if (attr_bool (xin, attrs, XL_NS_SS, "pt", &tmp))  { if (tmp) type = GNM_PAGE_BREAK_DATA_SLICE; }
+		if (attr_int  (xin, attrs, "id", &pos)) ;
+		else if (attr_bool (xin, attrs, "man", &tmp)) { if (tmp) type = GNM_PAGE_BREAK_MANUAL; }
+		else if (attr_bool (xin, attrs, "pt", &tmp))  { if (tmp) type = GNM_PAGE_BREAK_DATA_SLICE; }
 #if 0 /* Ignored */
-		else if (attr_int  (xin, attrs, XL_NS_SS, "min", &first)) ;
-		else if (attr_int  (xin, attrs, XL_NS_SS, "max", &last)) ;
+		else if (attr_int  (xin, attrs, "min", &first)) ;
+		else if (attr_int  (xin, attrs, "max", &last)) ;
 #endif
 
 	gnm_page_breaks_append_break (state->page_breaks, pos, type);
@@ -1568,9 +1631,9 @@ xlsx_CT_PageBreaks_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->page_breaks == NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int  (xin, attrs, XL_NS_SS, "count", &count)) ;
+		if (attr_int  (xin, attrs, "count", &count)) ;
 #if 0 /* Ignored */
-		else if (attr_int  (xin, attrs, XL_NS_SS, "manualBreakCount", &manual_count)) ;
+		else if (attr_int  (xin, attrs, "manualBreakCount", &manual_count)) ;
 #endif
 
 	state->page_breaks = gnm_page_breaks_new (count,
@@ -1614,9 +1677,9 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "notBetween",	VALIDATION_OP_NOT_BETWEEN },
 		{ "equal",	VALIDATION_OP_EQUAL },
 		{ "notEqual",	VALIDATION_OP_NOT_EQUAL },
-		{ "lessThan",	VALIDATION_OP_LT },
-		{ "lessThanOrEqual",	VALIDATION_OP_GT },
-		{ "greaterThan",	VALIDATION_OP_LTE },
+		{ "lessThan",		VALIDATION_OP_LT },
+		{ "lessThanOrEqual",	VALIDATION_OP_LTE },
+		{ "greaterThan",	VALIDATION_OP_GT },
 		{ "greaterThanOrEqual",	VALIDATION_OP_GTE },
 		{ NULL, 0 }
 	};
@@ -1656,17 +1719,17 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "sqref"))
 			refs = attrs[1];
-		else if (attr_enum (xin, attrs, XL_NS_SS, "errorStyle", val_styles, &tmp))
+		else if (attr_enum (xin, attrs, "errorStyle", val_styles, &tmp))
 			val_style = tmp;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "type", val_types, &tmp))
+		else if (attr_enum (xin, attrs, "type", val_types, &tmp))
 			val_type = tmp;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "operator", val_ops, &tmp))
+		else if (attr_enum (xin, attrs, "operator", val_ops, &tmp))
 			val_op = tmp;
 
-		else if (attr_bool (xin, attrs, XL_NS_SS, "allowBlank", &allowBlank)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showDropDown", &showDropDown)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showInputMessage", &showInputMessage)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showErrorMessage", &showErrorMessage)) ;
+		else if (attr_bool (xin, attrs, "allowBlank", &allowBlank)) ;
+		else if (attr_bool (xin, attrs, "showDropDown", &showDropDown)) ;
+		else if (attr_bool (xin, attrs, "showInputMessage", &showInputMessage)) ;
+		else if (attr_bool (xin, attrs, "showErrorMessage", &showErrorMessage)) ;
 
 		else if (0 == strcmp (attrs[0], "errorTitle"))
 			errorTitle = attrs[1];
@@ -1681,12 +1744,18 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	state->validation_regions = g_slist_reverse (
 		xlsx_parse_sqref (xin, refs));
 
-	if (NULL != state->validation_regions) {
+	if (NULL == state->validation_regions)
+		return;
+
+	if (showErrorMessage) {
 		GnmRange const *r = state->validation_regions->data;
 		state->pos = r->start;
 		state->validation = validation_new (val_style, val_type, val_op,
 			errorTitle, error, NULL, NULL, allowBlank, showDropDown);
 	}
+
+	if (showInputMessage && (NULL != promptTitle || NULL != prompt))
+		state->input_msg = gnm_input_msg_new (prompt, promptTitle);
 }
 
 static void
@@ -1704,15 +1773,17 @@ xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		validation_unref (state->validation);
 		state->validation = NULL;
 	}
-
 	if (NULL != state->validation) {
 		style = gnm_style_new ();
 		gnm_style_set_validation (style, state->validation);
+		state->validation = NULL;
 	}
+
 	if (NULL != state->input_msg) {
-		if (NULL != style)
+		if (NULL == style)
 			style = gnm_style_new ();
 		gnm_style_set_input_msg (style, state->input_msg);
+		state->input_msg = NULL;
 	}
 
 	for (ptr = state->validation_regions ; ptr != NULL ; ptr = ptr->next) {
@@ -1756,7 +1827,7 @@ xlsx_CT_AutoFilter_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->filter == NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_range (xin, attrs, XL_NS_SS, "ref", &r))
+		if (attr_range (xin, attrs, "ref", &r))
 			state->filter = gnm_filter_new (state->sheet, &r);
 }
 
@@ -1777,9 +1848,9 @@ xlsx_CT_FilterColumn_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean show = TRUE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int  (xin, attrs, XL_NS_SS, "colId", &id)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "hiddenButton", &hidden)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showButton", &show)) ;
+		if (attr_int  (xin, attrs, "colId", &id)) ;
+		else if (attr_bool (xin, attrs, "hiddenButton", &hidden)) ;
+		else if (attr_bool (xin, attrs, "showButton", &show)) ;
 
 	state->filter_cur_field = id;
 }
@@ -1850,7 +1921,7 @@ xlsx_CT_CustomFilter (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "val")) {
-		} else if (attr_enum (xin, attrs, XL_NS_SS, "operator", ops, &tmp))
+		} else if (attr_enum (xin, attrs, "operator", ops, &tmp))
 			op = tmp;
 #endif
 }
@@ -1865,9 +1936,9 @@ xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmFilterCondition *cond;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_float (xin, attrs, XL_NS_SS, "val", &val)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "top", &top)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "percent", &percent)) ;
+		if (attr_float (xin, attrs, "val", &val)) ;
+		else if (attr_bool (xin, attrs, "top", &top)) ;
+		else if (attr_bool (xin, attrs, "percent", &percent)) ;
 
 	if (NULL != (cond = gnm_filter_condition_new_bucket (top, !percent, val)))
 		gnm_filter_set_condition (state->filter, state->filter_cur_field,
@@ -1920,7 +1991,7 @@ xlsx_CT_DynamicFilter (GsfXMLIn *xin, xmlChar const **attrs)
 	int type = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, XL_NS_SS, "type", types, &type)) ;
+		if (attr_enum (xin, attrs, "type", types, &type)) ;
 #endif
 }
 
@@ -1931,7 +2002,7 @@ xlsx_CT_MergeCell (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange r;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_range (xin, attrs, XL_NS_SS, "ref", &r))
+		if (attr_range (xin, attrs, "ref", &r))
 			gnm_sheet_merge_add (state->sheet, &r, FALSE,
 				GO_CMD_CONTEXT (state->context));
 }
@@ -1957,22 +2028,22 @@ xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean pivotTables		= TRUE;
 	gboolean selectUnlockedCells	= FALSE;
 
-	if (attr_bool (xin, attrs, XL_NS_SS, "sheet", &sheet)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "objects", &objects)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "scenarios", &scenarios)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "formatCells", &formatCells)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "formatColumns", &formatColumns)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "formatRows", &formatRows)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "insertColumns", &insertColumns)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "insertRows", &insertRows)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "insertHyperlinks", &insertHyperlinks)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "deleteColumns", &deleteColumns)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "deleteRows", &deleteRows)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "selectLockedCells", &selectLockedCells)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "sort", &sort)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "autoFilter", &autoFilter)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "pivotTables", &pivotTables)) ;
-	else if (attr_bool (xin, attrs, XL_NS_SS, "selectUnlockedCells", &selectUnlockedCells)) ;
+	if (attr_bool (xin, attrs, "sheet", &sheet)) ;
+	else if (attr_bool (xin, attrs, "objects", &objects)) ;
+	else if (attr_bool (xin, attrs, "scenarios", &scenarios)) ;
+	else if (attr_bool (xin, attrs, "formatCells", &formatCells)) ;
+	else if (attr_bool (xin, attrs, "formatColumns", &formatColumns)) ;
+	else if (attr_bool (xin, attrs, "formatRows", &formatRows)) ;
+	else if (attr_bool (xin, attrs, "insertColumns", &insertColumns)) ;
+	else if (attr_bool (xin, attrs, "insertRows", &insertRows)) ;
+	else if (attr_bool (xin, attrs, "insertHyperlinks", &insertHyperlinks)) ;
+	else if (attr_bool (xin, attrs, "deleteColumns", &deleteColumns)) ;
+	else if (attr_bool (xin, attrs, "deleteRows", &deleteRows)) ;
+	else if (attr_bool (xin, attrs, "selectLockedCells", &selectLockedCells)) ;
+	else if (attr_bool (xin, attrs, "sort", &sort)) ;
+	else if (attr_bool (xin, attrs, "autoFilter", &autoFilter)) ;
+	else if (attr_bool (xin, attrs, "pivotTables", &pivotTables)) ;
+	else if (attr_bool (xin, attrs, "selectUnlockedCells", &selectUnlockedCells)) ;
 
 	g_object_set (state->sheet,
 		"protected", 			 	 sheet,
@@ -2122,15 +2193,15 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	char const	*type_str = _("Undefined");
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, XL_NS_SS, "formatRow", &formatRow)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "stopIfTrue", &stopIfTrue)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "above", &above)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "percent", &percent)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "bottom", &bottom)) ;
-		else if (attr_int  (xin, attrs, XL_NS_SS, "dxfId", &dxf)) ;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "operator", ops, &tmp))
+		if (attr_bool (xin, attrs, "formatRow", &formatRow)) ;
+		else if (attr_bool (xin, attrs, "stopIfTrue", &stopIfTrue)) ;
+		else if (attr_bool (xin, attrs, "above", &above)) ;
+		else if (attr_bool (xin, attrs, "percent", &percent)) ;
+		else if (attr_bool (xin, attrs, "bottom", &bottom)) ;
+		else if (attr_int  (xin, attrs, "dxfId", &dxf)) ;
+		else if (attr_enum (xin, attrs, "operator", ops, &tmp))
 			op = tmp;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "type", types, &tmp)) {
+		else if (attr_enum (xin, attrs, "type", types, &tmp)) {
 			type = tmp;
 			type_str = attrs[1];
 		}
@@ -2210,23 +2281,23 @@ xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmCellPos topLeft = { -1, -1 };
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_pos (xin, attrs, XL_NS_SS, "topLeftCell", &topLeft)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showGridLines", &showGridLines)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showFormulas", &showFormulas)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showRowColHeaders", &showRowColHeaders)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showZeros", &showZeros)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "frozen", &frozen)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "frozenSplit", &frozenSplit)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "rightToLeft", &rightToLeft)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "tabSelected", &tabSelected)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "active", &active)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showRuler", &showRuler)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showOutlineSymbols", &showOutlineSymbols)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "defaultGridColor", &defaultGridColor)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "showWhiteSpace", &showWhiteSpace)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "zoomScale", &scale)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "colorId", &grid_color_index)) ;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "view", view_types, &tmp))
+		if (attr_pos (xin, attrs, "topLeftCell", &topLeft)) ;
+		else if (attr_bool (xin, attrs, "showGridLines", &showGridLines)) ;
+		else if (attr_bool (xin, attrs, "showFormulas", &showFormulas)) ;
+		else if (attr_bool (xin, attrs, "showRowColHeaders", &showRowColHeaders)) ;
+		else if (attr_bool (xin, attrs, "showZeros", &showZeros)) ;
+		else if (attr_bool (xin, attrs, "frozen", &frozen)) ;
+		else if (attr_bool (xin, attrs, "frozenSplit", &frozenSplit)) ;
+		else if (attr_bool (xin, attrs, "rightToLeft", &rightToLeft)) ;
+		else if (attr_bool (xin, attrs, "tabSelected", &tabSelected)) ;
+		else if (attr_bool (xin, attrs, "active", &active)) ;
+		else if (attr_bool (xin, attrs, "showRuler", &showRuler)) ;
+		else if (attr_bool (xin, attrs, "showOutlineSymbols", &showOutlineSymbols)) ;
+		else if (attr_bool (xin, attrs, "defaultGridColor", &defaultGridColor)) ;
+		else if (attr_bool (xin, attrs, "showWhiteSpace", &showWhiteSpace)) ;
+		else if (attr_int (xin, attrs, "zoomScale", &scale)) ;
+		else if (attr_int (xin, attrs, "colorId", &grid_color_index)) ;
+		else if (attr_enum (xin, attrs, "view", view_types, &tmp))
 			view_mode = tmp;
 #if 0
 "zoomScaleNormal"		type="xs:unsignedInt" use="optional" default="0"
@@ -2305,10 +2376,10 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "sqref"))
 			refs = attrs[1];
-		else if (attr_enum (xin, attrs, XL_NS_SS, "activePane", pane_types, &i))
+		else if (attr_enum (xin, attrs, "activePane", pane_types, &i))
 			pane_pos = i;
-		else if (attr_pos (xin, attrs, XL_NS_SS, "activeCell", &edit_pos)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "activeCellId", &sel_with_edit_pos))
+		else if (attr_pos (xin, attrs, "activeCell", &edit_pos)) ;
+		else if (attr_int (xin, attrs, "activeCellId", &sel_with_edit_pos))
 			;
 
 	if (pane_pos != state->pane_pos)
@@ -2362,10 +2433,10 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "state"))
 			frozen = (0 == strcmp (attrs[1], "frozen"));
-		else if (attr_pos (xin, attrs, XL_NS_SS, "topLeftCell", &topLeft)) ;
-		else if (attr_float (xin, attrs, XL_NS_SS, "xSplit", &xSplit)) ;
-		else if (attr_float (xin, attrs, XL_NS_SS, "ySplit", &ySplit)) ;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "pane", pane_types, &tmp))
+		else if (attr_pos (xin, attrs, "topLeftCell", &topLeft)) ;
+		else if (attr_float (xin, attrs, "xSplit", &xSplit)) ;
+		else if (attr_float (xin, attrs, "ySplit", &ySplit)) ;
+		else if (attr_enum (xin, attrs, "pane", pane_types, &tmp))
 			state->pane_pos = tmp;
 
 	if (frozen) {
@@ -2490,29 +2561,29 @@ xlsx_CT_CalcPr (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, XL_NS_SS, "calcMode", calcModes, &tmp))
+		if (attr_enum (xin, attrs, "calcMode", calcModes, &tmp))
 			workbook_set_recalcmode (state->wb, tmp);
-		else if (attr_bool (xin, attrs, XL_NS_SS, "fullCalcOnLoad", &tmp))
+		else if (attr_bool (xin, attrs, "fullCalcOnLoad", &tmp))
 			;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "refMode", refModes, &tmp))
+		else if (attr_enum (xin, attrs, "refMode", refModes, &tmp))
 			;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "iterate", &tmp))
+		else if (attr_bool (xin, attrs, "iterate", &tmp))
 			workbook_iteration_enabled (state->wb, tmp);
-		else if (attr_int (xin, attrs, XL_NS_SS, "iterateCount", &tmp))
+		else if (attr_int (xin, attrs, "iterateCount", &tmp))
 			workbook_iteration_max_number (state->wb, tmp);
-		else if (attr_float (xin, attrs, XL_NS_SS, "iterateDelta", &delta))
+		else if (attr_float (xin, attrs, "iterateDelta", &delta))
 			workbook_iteration_tolerance (state->wb, delta);
-		else if (attr_bool (xin, attrs, XL_NS_SS, "fullPrecision", &tmp))
+		else if (attr_bool (xin, attrs, "fullPrecision", &tmp))
 			;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "calcCompleted", &tmp))
+		else if (attr_bool (xin, attrs, "calcCompleted", &tmp))
 			;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "calcOnSave", &tmp))
+		else if (attr_bool (xin, attrs, "calcOnSave", &tmp))
 			;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "conncurrentCalc", &tmp))
+		else if (attr_bool (xin, attrs, "conncurrentCalc", &tmp))
 			;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "forceFullCalc", &tmp))
+		else if (attr_bool (xin, attrs, "forceFullCalc", &tmp))
 			;
-		else if (attr_int (xin, attrs, XL_NS_SS, "concurrentManualCalc", &tmp))
+		else if (attr_int (xin, attrs, "concurrentManualCalc", &tmp))
 			;
 }
 
@@ -2608,7 +2679,7 @@ xlsx_sst_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int count;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, XL_NS_SS, "uniqueCount", &count))
+		if (attr_int (xin, attrs, "uniqueCount", &count))
 			g_array_set_size (state->sst, count);
 	state->count = 0;
 }
@@ -2710,7 +2781,7 @@ xlsx_collection_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->count = 0;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, XL_NS_SS, "count", &count))
+		if (attr_int (xin, attrs, "count", &count))
 			;
 	state->collection = g_ptr_array_new ();
 	g_ptr_array_set_size (state->collection, count);
@@ -2772,7 +2843,7 @@ xlsx_font_bold (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = TRUE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, XL_NS_SS, "val", &val)) ;
+		if (attr_bool (xin, attrs, "val", &val)) ;
 			;
 	gnm_style_set_font_bold (state->style_accum, val);
 }
@@ -2782,7 +2853,7 @@ xlsx_font_italic (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = TRUE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, XL_NS_SS, "val", &val)) ;
+		if (attr_bool (xin, attrs, "val", &val)) ;
 			;
 	gnm_style_set_font_italic (state->style_accum, val);
 }
@@ -2792,7 +2863,7 @@ xlsx_font_strike (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int val = TRUE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, XL_NS_SS, "val", &val))
+		if (attr_bool (xin, attrs, "val", &val))
 			;
 	gnm_style_set_font_strike (state->style_accum, val);
 }
@@ -2812,7 +2883,7 @@ xlsx_CT_FontSize (GsfXMLIn *xin, xmlChar const **attrs)
 	double val;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_float (xin, attrs, XL_NS_SS, "val", &val))
+		if (attr_float (xin, attrs, "val", &val))
 			gnm_style_set_font_size	(state->style_accum, val);
 }
 static void
@@ -2830,7 +2901,7 @@ xlsx_font_uline (GsfXMLIn *xin, xmlChar const **attrs)
 	int val = UNDERLINE_SINGLE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, XL_NS_SS, "val", types, &val))
+		if (attr_enum (xin, attrs, "val", types, &val))
 			;
 	gnm_style_set_font_uline (state->style_accum, val);
 }
@@ -2848,7 +2919,7 @@ xlsx_font_valign (GsfXMLIn *xin, xmlChar const **attrs)
 	int val = UNDERLINE_SINGLE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, XL_NS_SS, "val", types, &val))
+		if (attr_enum (xin, attrs, "val", types, &val))
 			gnm_style_set_font_script (state->style_accum, val);
 }
 
@@ -2881,7 +2952,7 @@ xlsx_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 	int val = 0; /* none */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, XL_NS_SS, "patternType", patterns, &val))
+		if (attr_enum (xin, attrs, "patternType", patterns, &val))
 			gnm_style_set_pattern (state->style_accum, val);
 }
 static void
@@ -2934,7 +3005,7 @@ xlsx_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int border_style = GNM_STYLE_BORDER_NONE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, XL_NS_SS, "style", borders, &border_style))
+		if (attr_enum (xin, attrs, "style", borders, &border_style))
 			;
 	state->border_style = border_style;
 	state->border_color = NULL;
@@ -2976,11 +3047,11 @@ xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			GOFormat *fmt = xlsx_get_num_fmt (xin, attrs[1]);
 			if (NULL != fmt)
 				gnm_style_set_format (state->style_accum, fmt);
-		} else if (attr_int (xin, attrs, XL_NS_SS, "fontId", &indx))
+		} else if (attr_int (xin, attrs, "fontId", &indx))
 			elem = state->fonts;
-		else if (attr_int (xin, attrs, XL_NS_SS, "fillId", &indx))
+		else if (attr_int (xin, attrs, "fillId", &indx))
 			elem = state->fills;
-		else if (attr_int (xin, attrs, XL_NS_SS, "borderId", &indx))
+		else if (attr_int (xin, attrs, "borderId", &indx))
 			elem = state->borders;
 
 		if (NULL != elem) {
@@ -3046,13 +3117,13 @@ xlsx_xf_align (GsfXMLIn *xin, xmlChar const **attrs)
 	int wrapText = FALSE, justifyLastLine = FALSE, shrinkToFit = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_enum (xin, attrs, XL_NS_SS, "horizontal", haligns, &halign)) ;
-		else if (attr_enum (xin, attrs, XL_NS_SS, "vertical", valigns, &valign)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "textRotation", &rotation));
-		else if (attr_bool (xin, attrs, XL_NS_SS, "wrapText", &wrapText)) ;
-		else if (attr_int (xin, attrs, XL_NS_SS, "indent", &indent)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "justifyLastLine", &justifyLastLine)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "shrinkToFit", &shrinkToFit)) ;
+		if (attr_enum (xin, attrs, "horizontal", haligns, &halign)) ;
+		else if (attr_enum (xin, attrs, "vertical", valigns, &valign)) ;
+		else if (attr_int (xin, attrs, "textRotation", &rotation));
+		else if (attr_bool (xin, attrs, "wrapText", &wrapText)) ;
+		else if (attr_int (xin, attrs, "indent", &indent)) ;
+		else if (attr_bool (xin, attrs, "justifyLastLine", &justifyLastLine)) ;
+		else if (attr_bool (xin, attrs, "shrinkToFit", &shrinkToFit)) ;
 		/* "mergeCell" type="xs:boolean" use="optional" default="false" */
 		/* "readingOrder" type="xs:unsignedInt" use="optional" default="0" */
 
@@ -3072,8 +3143,8 @@ xlsx_xf_protect (GsfXMLIn *xin, xmlChar const **attrs)
 	int hidden = TRUE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, XL_NS_SS, "locked", &locked)) ;
-		else if (attr_bool (xin, attrs, XL_NS_SS, "hidden", &hidden)) ;
+		if (attr_bool (xin, attrs, "locked", &locked)) ;
+		else if (attr_bool (xin, attrs, "hidden", &hidden)) ;
 	gnm_style_set_contents_locked (state->style_accum, locked);
 	gnm_style_set_contents_hidden (state->style_accum, hidden);
 }
@@ -3089,7 +3160,7 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* cellStyle name="Normal" xfId="0" builtinId="0" */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, XL_NS_SS, "xfId", &tmp))
+		if (attr_int (xin, attrs, "xfId", &tmp))
 			style = xlsx_get_xf (xin, tmp);
 		else if (0 == strcmp (attrs[0], "name"))
 			name = attrs[1];
