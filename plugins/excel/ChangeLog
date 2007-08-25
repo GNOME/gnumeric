@@ -1,5 +1,9 @@
 2007-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c: (gelframe): should now compile with goffice-0.4
+
+2007-08-25  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c: (gelframe): return if type is less that 5, otherwise
 	set fill type and colors not auto.
 

@@ -1049,7 +1049,9 @@ BC_R(gelframe) (XLChartHandler const *handle,
 	}
 		
 	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+#ifndef WITH_GOFFICE_0_4
 	s->style->fill.auto_type = FALSE;
+#endif
 	s->style->fill.auto_fore = FALSE;
 	s->style->fill.auto_back = FALSE;
 	s->style->fill.pattern.fore =
