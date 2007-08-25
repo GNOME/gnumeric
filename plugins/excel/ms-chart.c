@@ -1041,13 +1041,17 @@ BC_R(gelframe) (XLChartHandler const *handle,
 	guint32 preset = ms_obj_attr_get_uint (attrs,
 		MS_OBJ_ATTR_FILL_PRESET, 0);
 
+	d (1, fprintf (stderr, "Frame type = %u\n", type););
 	/* plot types we do not support that have gradients */
-	if (NULL == s->style) {
+	if (NULL == s->style || type < 5) {
 		ms_obj_attr_bag_destroy (attrs);
 		return FALSE;
 	}
 		
 	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	s->style->fill.auto_type = FALSE;
+	s->style->fill.auto_fore = FALSE;
+	s->style->fill.auto_back = FALSE;
 	s->style->fill.pattern.fore =
 		ms_chart_map_color (s, fill_color, fill_alpha);
 
