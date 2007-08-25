@@ -1,3 +1,7 @@
+2007-08-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: define WITH_GOFFICE_0_4 if needed.
+
 2007-08-13  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Update of graph data allocator editor on dataset changes.

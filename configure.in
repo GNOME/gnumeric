@@ -117,6 +117,9 @@ for ver in 0.5 0.4; do
     if pkg-config --exists libgoffice-$ver; then
       libgoffice=libgoffice-$ver
       AC_MSG_RESULT([found])
+      if test $ver = "0.4"; then
+		AC_DEFINE_UNQUOTED([WITH_GOFFICE_0_4], [1], ["Copiling with goffice-0.4"])
+	  fi
     else
       AC_MSG_RESULT([not found])
     fi
