@@ -1,3 +1,20 @@
+2007-08-23  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-write.c (xlsx_write_merges) : split into a function for
+	  cleanliness.
+	(xlsx_write_validation) : new partial implementation.
+	(xlsx_write_validations) : new.  Uses excel_collect_validations.
+	(xlsx_write_sheet) : call the new routines.
+
+	* xlsx-read.c (xlsx_parse_sqref) : normalize the ranges to be extra
+	  careful, and document that they are in reverse order.
+	(xlsx_CT_DataValidation_begin) : finish, and cache the top left corner
+	  of the 1st sqRef.
+	(xlsx_validation_expr) : parse relative to the first corner, not A1.
+
+	* ms-excel-write.c (excel_write_DV) : split extraction code out into.
+	(excel_collect_validations) : here.
+
 2007-08-03  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_HLINK) : fix import of local links.

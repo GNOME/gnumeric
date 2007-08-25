@@ -4162,7 +4162,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 	GOData *dat;
 	unsigned num_elements = gog_series_num_elements (series);
 	GList const *ptr;
-	char const *interpolation;
+	char *interpolation;
 
 	/* SERIES */
 	s->cur_series = n;
@@ -4508,7 +4508,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 	gboolean check_lines = FALSE;
 	gboolean check_marks = FALSE;
 	GOLineInterpolation interpolation;
-	char const *interp;
+	char *interp;
 
 	if (0 == strcmp (type, "GogAreaPlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_area,

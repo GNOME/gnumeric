@@ -928,6 +928,8 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 	return texpr;
 }
 
+/* Returns: a GSList of GnmRange in _reverse_ order
+ * caller frees the list and the content */
 static GSList *
 xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 {
@@ -950,6 +952,7 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 			return res;
 		}
 
+		range_normalize (&r); /* be anal */
 		res = g_slist_prepend (res, range_dup (&r));
 
 		for (refs = tmp ; *refs == ' ' ; refs++ ) ;
@@ -1371,9 +1374,9 @@ static void
 xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const val_styles[] = {
-		{ "stop",	VALIDATION_STYLE_STOP },
-		{ "warning",	VALIDATION_STYLE_WARNING },
-		{ "information",	VALIDATION_STYLE_INFO },
+		{ "stop",	 VALIDATION_STYLE_STOP },
+		{ "warning",	 VALIDATION_STYLE_WARNING },
+		{ "information", VALIDATION_STYLE_INFO },
 		{ NULL, 0 }
 	};
 	static EnumVal const val_types[] = {
@@ -1455,9 +1458,16 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (0 == strcmp (attrs[0], "prompt"))
 			prompt = attrs[1];
 
-	state->validation_regions = xlsx_parse_sqref (xin, refs);
-	state->validation = validation_new (val_style, val_type, val_op,
-		errorTitle, error, NULL, NULL, allowBlank, showDropDown);
+	/* order matters, we need the 1st item */
+	state->validation_regions = g_slist_reverse (
+		xlsx_parse_sqref (xin, refs));
+
+	if (NULL != state->validation_regions) {
+		GnmRange const *r = state->validation_regions->data;
+		state->pos = r->start;
+		state->validation = validation_new (val_style, val_type, val_op,
+			errorTitle, error, NULL, NULL, allowBlank, showDropDown);
+	}
 }
 
 static void
@@ -1497,6 +1507,7 @@ xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		gnm_style_unref (style);
 	g_slist_free (state->validation_regions);
 	state->validation_regions = NULL;
+	state->pos.col = state->pos.row = -1;
 }
 
 static void
@@ -1504,12 +1515,17 @@ xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmParsePos pp;
-	GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
-		parse_pos_init_sheet (&pp, state->sheet));
-
-	if (NULL != texpr)
+	GnmExprTop const *texpr;
+	
+	/*  Sneaky buggers, parse relative to the 1st sqRef */
+	parse_pos_init (&pp, NULL, state->sheet,
+		state->pos.col, state->pos.row);
+	texpr = xlsx_parse_expr (xin, xin->content->str, &pp);
+	if (NULL != texpr) {
 		validation_set_expr (state->validation, texpr,
 			xin->node->user_data.v_int);
+		gnm_expr_top_unref (texpr);
+	}
 }
 
 static void
@@ -1936,7 +1952,7 @@ static void
 xlsx_cond_fmt_formula_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmParsePos	pp;
+	GnmParsePos pp;
 	if (state->count > 1)
 		return;
 

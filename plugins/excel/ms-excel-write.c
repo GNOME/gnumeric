@@ -1108,29 +1108,8 @@ excel_write_conditions (BiffPut *bp, ExcelWriteSheet *esheet)
 	esheet->conditions = NULL;
 }
 
-/****************************************************************************/
-
-typedef struct {
-	GnmValidation const *v;
-	GnmInputMsg *msg;
-	GSList	    *ranges;
-} ValInputPair;
-
-static guint
-vip_hash (ValInputPair const *vip)
-{
-	/* bogus, but who cares */
-	return GPOINTER_TO_UINT (vip->v) ^ GPOINTER_TO_UINT (vip->msg);
-}
-
-static gint
-vip_equal (ValInputPair const *a, ValInputPair const *b)
-{
-	return a->v == b->v && a->msg == b->msg;
-}
-
 static void
-excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet)
+excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet)
 {
 	GSList *ptr;
 	BiffPut *bp = esheet->ewb->bp;
@@ -1262,40 +1241,15 @@ static void
 excel_write_DVALs (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	GnmStyleList *ptr;
-	GnmStyleRegion const *sr;
 	GHashTable *group;
 	guint8 *data;
 	unsigned i;
-	ValInputPair key, *tmp;
 
-	ptr = esheet->validations;
-	if (ptr == NULL)
+	if (NULL == (ptr = esheet->validations))
 		return;
 
-	/* We store input msg and validation as distinct items, XL merges them
-	 * find the pairs, and the regions that use them */
-	group = g_hash_table_new_full ((GHashFunc)&vip_hash,
-				       (GCompareFunc)&vip_equal, g_free, NULL);
-	for (; ptr != NULL ; ptr = ptr->next) {
-		sr = ptr->data;
-
-		/* Clip here to avoid creating a DV record if there are no regions */
-		if (sr->range.start.col >= esheet->max_col ||
-		    sr->range.start.row >= esheet->max_row)
-			continue;
-
-		key.v   = gnm_style_get_validation (sr->style);
-		key.msg = gnm_style_get_input_msg (sr->style);
-		tmp = g_hash_table_lookup (group, &key);
-		if (tmp == NULL) {
-			tmp = g_new (ValInputPair, 1);
-			tmp->v = key.v;
-			tmp->msg = key.msg;
-			tmp->ranges = NULL;
-			g_hash_table_insert (group, tmp, tmp);
-		}
-		tmp->ranges = g_slist_prepend (tmp->ranges, (gpointer)&sr->range);
-	}
+	group = excel_collect_validations (ptr,
+			esheet->max_col, esheet->max_row);
 
 	i = g_hash_table_size (group);
 	data = ms_biff_put_len_next (bp, BIFF_DVAL, 18);
@@ -5745,4 +5699,53 @@ excel_write_state_free (ExcelWriteState *ewb)
 	}
 
 	g_free (ewb);
+}
+
+/****************************************************************************/
+
+static guint
+vip_hash (XLValInputPair const *vip)
+{
+	/* bogus, but who cares */
+	return GPOINTER_TO_UINT (vip->v) ^ GPOINTER_TO_UINT (vip->msg);
+}
+
+static gint
+vip_equal (XLValInputPair const *a, XLValInputPair const *b)
+{
+	return a->v == b->v && a->msg == b->msg;
+}
+
+/* We store input msg and validation as distinct items, XL merges them find the
+ * pairs, and the regions that use them */
+GHashTable *
+excel_collect_validations (GnmStyleList *ptr, int max_col, int max_row)
+{
+	GnmStyleRegion const *sr;
+	XLValInputPair key, *tmp;
+	GHashTable *group = g_hash_table_new_full ((GHashFunc)&vip_hash,
+		(GCompareFunc)&vip_equal, g_free, NULL);
+
+	for (; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+
+		/* Clip here to avoid creating a DV record if there are no regions */
+		if (sr->range.start.col >= max_col ||
+		    sr->range.start.row >= max_row)
+			continue;
+
+		key.v   = gnm_style_get_validation (sr->style);
+		key.msg = gnm_style_get_input_msg (sr->style);
+		tmp = g_hash_table_lookup (group, &key);
+		if (tmp == NULL) {
+			tmp = g_new (XLValInputPair, 1);
+			tmp->v = key.v;
+			tmp->msg = key.msg;
+			tmp->ranges = NULL;
+			g_hash_table_insert (group, tmp, tmp);
+		}
+		tmp->ranges = g_slist_prepend (tmp->ranges, (gpointer)&sr->range);
+	}
+
+	return group;
 }

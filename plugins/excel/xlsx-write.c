@@ -41,6 +41,8 @@
 #include "func.h"
 #include "str.h"
 #include "style-color.h"
+#include "validation.h"
+#include "input-msg.h"
 #include "print-info.h"
 #include "gutils.h"
 
@@ -111,6 +113,8 @@ xlsx_add_range_list (GsfXMLOut *xml, char const *id, GSList const *ranges)
 	gsf_xml_out_add_cstr_unchecked (xml, id, accum->str);
 	g_string_free (accum, TRUE);
 }
+
+/****************************************************************************/
 
 static void
 xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part)
@@ -407,6 +411,132 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 	g_free (cheesy_span);;
 }
 
+static void
+xlsx_write_merges (XLSXWriteState *state, GsfXMLOut *xml)
+{
+	GSList *ptr;
+
+	if (NULL != (ptr = state->sheet->list_merged)) {
+		gsf_xml_out_start_element (xml, "mergeCells");
+		for (; ptr != NULL ; ptr = ptr->next) {
+			gsf_xml_out_start_element (xml, "mergeCell");
+			xlsx_add_range (xml, "ref", ptr->data);
+			gsf_xml_out_end_element (xml); /* </mergeCell> */
+		}
+		gsf_xml_out_end_element (xml); /* </mergeCells> */
+	}
+}
+
+static void
+xlsx_write_validation (XLValInputPair const *vip, gpointer dummy, GsfXMLOut *xml)
+{
+#if 0
+	/* Get docs on this */
+	"imeMode" default="noControl"
+		"noControl"
+		"off"
+		"on"
+		"disabled"
+		"hiragana"
+		"fullKatakana"
+		"halfKatakana"
+		"fullAlpha"
+		"halfAlpha"
+		"fullHangul"
+		"halfHangul"
+#endif
+	char const *tmp;
+
+	gsf_xml_out_start_element (xml, "dataValidation");
+
+	xlsx_add_range_list (xml, "sqref", vip->ranges);
+
+	if (NULL != vip->v) {
+		xlsx_add_bool (xml, "showErrorMessage", TRUE);
+
+		tmp = NULL;
+		switch (vip->v->style) {
+		default : /* fall back to the default */
+		case VALIDATION_STYLE_STOP : /* "stop" the default */ break;
+		case VALIDATION_STYLE_WARNING : tmp = "warning"; break;
+		case VALIDATION_STYLE_INFO : tmp = "information"; break;
+		}
+		if (NULL != tmp)
+			gsf_xml_out_add_cstr_unchecked (xml, "errorStyle", tmp);
+
+		tmp = NULL;
+		switch (vip->v->type) {
+		default : /* fall back to the default */
+		case VALIDATION_TYPE_ANY : /* the default "none" */  break;
+		case VALIDATION_TYPE_AS_INT :		tmp = "whole"; break;
+		case VALIDATION_TYPE_AS_NUMBER :	tmp = "decimal"; break;
+		case VALIDATION_TYPE_IN_LIST :		tmp = "list"; break;
+		case VALIDATION_TYPE_AS_DATE :		tmp = "date"; break;
+		case VALIDATION_TYPE_AS_TIME :		tmp = "time"; break;
+		case VALIDATION_TYPE_TEXT_LENGTH :	tmp = "textLength"; break;
+		case VALIDATION_TYPE_CUSTOM :		tmp = "custom"; break;
+		}
+		if (NULL != tmp)
+			gsf_xml_out_add_cstr_unchecked (xml, "type", tmp);
+
+		tmp = NULL;
+		switch (vip->v->op) {
+		default : /* fall back to the default */
+		case VALIDATION_OP_BETWEEN :	/* the default "between" */ break;
+		case VALIDATION_OP_NOT_BETWEEN: tmp = "notBetween"; break;
+		case VALIDATION_OP_EQUAL :	tmp = "equal"; break;
+		case VALIDATION_OP_NOT_EQUAL :	tmp = "notEqual"; break;
+		case VALIDATION_OP_LT :		tmp = "lessThan"; break;
+		case VALIDATION_OP_GT :		tmp = "lessThanOrEqual"; break;
+		case VALIDATION_OP_LTE :	tmp = "greaterThan"; break;
+		case VALIDATION_OP_GTE :	tmp = "greaterThanOrEqual"; break;
+		}
+		if (NULL != tmp)
+			gsf_xml_out_add_cstr_unchecked (xml, "operator", tmp);
+
+		if (vip->v->allow_blank)
+			xlsx_add_bool (xml, "allowBlank", TRUE);
+		if (vip->v->use_dropdown)
+			xlsx_add_bool (xml, "showDropDown", TRUE);
+
+		if (NULL != vip->v->title)
+			gsf_xml_out_add_cstr_unchecked (xml, "errorTitle", vip->v->title->str);
+		if (NULL != vip->v->msg)
+			gsf_xml_out_add_cstr_unchecked (xml, "error", vip->v->msg->str);
+	}
+
+#if 0
+	if (NULL != vip->msg) {
+		xlsx_add_bool (xml, "showInputMessage", TRUE);
+
+		else if (0 == strcmp (attrs[0], "promptTitle"))
+			promptTitle = attrs[1];
+		else if (0 == strcmp (attrs[0], "prompt"))
+			prompt = attrs[1];
+	}
+#endif
+
+	gsf_xml_out_end_element (xml); /*  </dataValidation> */
+}
+
+static void
+xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
+{
+	GnmStyleList *validations = sheet_style_collect_validations (state->sheet, NULL);
+
+	if (NULL != validations) {
+		GHashTable   *group = excel_collect_validations (validations,
+			extent->end.col, extent->end.row);
+
+		gsf_xml_out_start_element (xml, "dataValidations");
+		g_hash_table_foreach (group, (GHFunc) xlsx_write_validation, xml);
+		gsf_xml_out_end_element (xml); /*  </dataValidations> */
+
+		g_hash_table_destroy (group);
+		style_list_free (validations);
+	}
+}
+
 static gboolean
 xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 		ColRowInfo const *ci, int first, int last, gboolean has_child)
@@ -666,7 +796,6 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	GsfXMLOut *xml = gsf_xml_out_new (part);
 	GnmRange  extent;
 	GnmStyle *col_styles [MIN (XLSX_MAX_COLS, SHEET_MAX_COLS)];
-	GSList *ptr;
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
 	excel_sheet_extent (state->sheet, &extent, col_styles,
@@ -711,17 +840,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	xlsx_write_cols (state, xml, &extent);
 
 	xlsx_write_cells (state, xml, &extent);
-
-	if (NULL != (ptr = state->sheet->list_merged)) {
-		gsf_xml_out_start_element (xml, "mergeCells");
-		for (; ptr != NULL ; ptr = ptr->next) {
-			gsf_xml_out_start_element (xml, "mergeCell");
-			xlsx_add_range (xml, "ref", ptr->data);
-			gsf_xml_out_end_element (xml); /* </mergeCell> */
-		}
-		gsf_xml_out_end_element (xml); /* </mergeCells> */
-	}
-
+	xlsx_write_merges (state, xml);
+	xlsx_write_validations (state, xml, &extent);
 	xlsx_write_autofilters (state, xml);
 	xlsx_write_protection (state, xml);
 	xlsx_write_print_info (state, xml);

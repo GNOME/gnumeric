@@ -147,7 +147,15 @@ int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 int excel_write_map_errcode (GnmValue const *v);
 
 /* Shared with xlsx export */
+typedef struct {
+	GnmValidation const *v;
+	GnmInputMsg *msg;
+	GSList	    *ranges;
+} XLValInputPair;
+GHashTable *excel_collect_validations (GnmStyleList *ptr,
+				       int max_col, int max_row);
 void excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 			 int maxcols, int maxrows, IOContext *io_context);
+
 
 #endif /* GNM_MS_EXCEL_WRITE_H */
