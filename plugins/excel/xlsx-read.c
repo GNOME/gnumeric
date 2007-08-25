@@ -128,6 +128,8 @@ typedef struct {
 	GSList		   *filter_items; /* an accumulator */
 
 	GSList		   *validation_regions;
+	GnmValidation	   *validation;
+	GnmInputMsg	   *input_msg;
 
 	GnmPageBreaks	   *page_breaks;
 } XLSXReadState;
@@ -1382,7 +1384,7 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "date",	VALIDATION_TYPE_AS_DATE },
 		{ "time",	VALIDATION_TYPE_AS_TIME },
 		{ "textLength",	VALIDATION_TYPE_TEXT_LENGTH },
-		{ "custom",	VALIDATION_TYPE_CUSTO },
+		{ "custom",	VALIDATION_TYPE_CUSTOM },
 		{ NULL, 0 }
 	};
 	static EnumVal const val_ops[] = {
@@ -1392,7 +1394,7 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "notEqual",	VALIDATION_OP_NOT_EQUAL },
 		{ "lessThan",	VALIDATION_OP_LT },
 		{ "lessThanOrEqual",	VALIDATION_OP_GT },
-		{ "greaterThan",	VALIDATION_OP_LT }E
+		{ "greaterThan",	VALIDATION_OP_LTE },
 		{ "greaterThanOrEqual",	VALIDATION_OP_GTE },
 		{ NULL, 0 }
 	};
@@ -1422,11 +1424,12 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean showDropDown = FALSE;
 	gboolean showInputMessage = FALSE;
 	gboolean showErrorMessage = FALSE;
-	char *errorTitle = NULL;
-	char *error = NULL;
-	char *promptTitle = NULL;
-	char *prompt = NULL;
-	char const *refs = NULL;
+	xmlChar const *errorTitle = NULL;
+	xmlChar const *error = NULL;
+	xmlChar const *promptTitle = NULL;
+	xmlChar const *prompt = NULL;
+	xmlChar const *refs = NULL;
+	int tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "sqref"))
@@ -1438,22 +1441,23 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_enum (xin, attrs, XL_NS_SS, "operator", val_ops, &tmp))
 			val_op = tmp;
 
-		else if (attr_bool (xin, attrs, XL_NS_SS, "hiddenButton", &hidden)) ;
-		else if (attr_bool (xin, attrs, NL_NS_SS, "allowBlank", &allowBlank)) ;
-		else if (attr_bool (xin, attrs, NL_NS_SS, "showDropDown", &showDropDown)) ;
-		else if (attr_bool (xin, attrs, NL_NS_SS, "showInputMessage", &showInputMessage)) ;
-		else if (attr_bool (xin, attrs, NL_NS_SS, "showErrorMessage", &showErrorMessage)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "allowBlank", &allowBlank)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "showDropDown", &showDropDown)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "showInputMessage", &showInputMessage)) ;
+		else if (attr_bool (xin, attrs, XL_NS_SS, "showErrorMessage", &showErrorMessage)) ;
 
-		else if (0 = strcmp (attrs[0], "errorTitle"))
+		else if (0 == strcmp (attrs[0], "errorTitle"))
 			errorTitle = attrs[1];
-		else if (0 = strcmp (attrs[0], "error"))
+		else if (0 == strcmp (attrs[0], "error"))
 			error = attrs[1];
-		else if (0 = strcmp (attrs[0], "promptTitle"))
+		else if (0 == strcmp (attrs[0], "promptTitle"))
 			promptTitle = attrs[1];
-		else if (0 = strcmp (attrs[0], "prompt"))
+		else if (0 == strcmp (attrs[0], "prompt"))
 			prompt = attrs[1];
 
 	state->validation_regions = xlsx_parse_sqref (xin, refs);
+	state->validation = validation_new (val_style, val_type, val_op,
+		errorTitle, error, NULL, NULL, allowBlank, showDropDown);
 }
 
 static void
