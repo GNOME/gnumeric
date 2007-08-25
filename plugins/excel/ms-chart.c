@@ -253,7 +253,7 @@ BC_R(3d)(XLChartHandler const *handle,
 
 		if (s->plot == NULL && s->is_surface)
 			s->is_contour = elevation == 90 && distance == 0;
-		/* at this point, we don't know if da	ta can be converted to a
+		/* at this point, we don't know if data can be converted to a
 		gnumeric matrix, so we cannot create the plot here. */
 
 	d (1, {
@@ -2182,7 +2182,7 @@ XL_gog_series_map_dim (GogSeries const *series, GogMSDimType ms_type)
 	return -2;
 }
 
-static void
+void
 XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
 {
 	int dim = XL_gog_series_map_dim (series, ms_type);

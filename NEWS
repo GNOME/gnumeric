@@ -14,9 +14,8 @@ Jody:
 	* Use pygobject instead of pygtk
 	* Use utf-16 encoded cmd line args on windows. [#361321]
 	* Fix XLS import of workbook local hyperlinks.
-	* XLS export of hyperlinks.
-	* XLSX import/export of hyperlinks.
-	* XLSX import/export of validation.
+	* XLSX import of validation.
+	* Basic XLSX import of charts.
 
 Morten:
 	* Fix undo column/row insert/delete for arrays.  [#463834]

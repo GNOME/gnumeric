@@ -1,3 +1,23 @@
+2007-08-24  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_chart_pie) : new.
+	(xlsx_chart_ring) : new.
+	(xlsx_chart_bar) : new.
+	(xlsx_chart_area) : new.
+	(xlsx_chart_line) : new.
+	(xlsx_chart_xy) : new.
+	(xlsx_chart_bubble) : new.
+	(xlsx_chart_radar) : new.
+	(xlsx_plot_end) : new.
+	(xlsx_chart_ser) : new.
+	(xlsx_chart_ser_f) : new.
+	(xlsx_ser_type_start) : new.
+	(xlsx_ser_type_end) : new.
+	(xlsx_drawing_twoCellAnchor) : new.
+	(xlsx_drawing_twoCellAnchor_end) : new.
+	(xlsx_drawing_pos) : new.
+	(xlsx_read_chart) : create the chart.
+
 2007-08-23  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-write.c (xlsx_write_merges) : split into a function for
