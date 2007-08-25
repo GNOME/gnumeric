@@ -765,7 +765,7 @@ xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			parse_pos_init_sheet (&pp, state->sheet));
 
 g_warning ("%d = %s", state->dim_type, xin->content->str);
-		XL_gog_series_set_dim (state->series, state->dim_type, 
+		XL_gog_series_set_dim (state->series, state->dim_type,
 			gnm_go_data_vector_new_expr (state->sheet, texpr));
 	}
 }
