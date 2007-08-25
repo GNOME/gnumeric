@@ -1,9 +1,21 @@
+gnumeric (1.6.3-6) unstable; urgency=low
+
+  * [plugins/excel/ms-chart.c] Don't delete a valid axis. Pulled in from
+    upstream SVN gnumeric-1-6 branch.
+  * [debian/control] Made binNMU safe, thanks Lior Kaplan <kaplan@debian.org>.
+    (Closes: #432962)
+  * [debian/gnumeric.menu] Changed section to Applications/Office as per the
+    new Debian menu structure. Thanks Bill Allombert <ballombe@debian.org>.
+    (Closes: #439009)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 25 Aug 2007 14:22:04 +0200
+
 gnumeric (1.6.3-5) unstable; urgency=low
 
   * [doc/C/gnumeric.1] Typos/grammar glitches. (Closes: #410249)
   * [debian/po/it.po] Added, courtesy of Luca Monducci <luca.mo@tiscali.it>.
     (Closes: #396946)
-  * [debian/po/es.po] Added, courtesy of Carlos Valdivia Yagüe
+  * [debian/po/es.po] Added, courtesy of Carlos Valdivia YagÃ¼e
     <valyag@dat.etsit.upm.es>. (Closes: #383359)
   * [debian/po/gl.po] Added, courtesy of Jacobo Tarrio <jtarrio@debian.org>.
     (Closes: #407955)

@@ -1,3 +1,4 @@
-?package(gnumeric):needs="X11" section="Apps/Math" hints="Gnome,Spreadsheets" \
+?package(gnumeric):needs="X11" section="Applications/Office" \
+  hints="Gnome,Spreadsheets" \
   title="gnumeric" command="/usr/bin/gnumeric" \
   icon="/usr/share/pixmaps/gnome-gnumeric.xpm"

@@ -20,7 +20,7 @@ Standards-Version: 3.7.2
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, gsfonts, gnumeric-common (= ${Source-Version}), ${misc:Depends}
+Depends: ${shlibs:Depends}, gsfonts, gnumeric-common (= ${source:Version}), ${misc:Depends}
 Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
@@ -77,7 +77,7 @@ Description: documentation for Gnumeric, the GNOME spreadsheet application
 
 Package: gnumeric-plugins-extra
 Architecture: any
-Depends: gnumeric (= ${Source-Version}), python-gtk2, ${python:Depends}, ${shlibs:Depends}
+Depends: gnumeric (= ${binary:Version}), python-gtk2, ${python:Depends}, ${shlibs:Depends}
 Conflicts: gnumeric1.0-python, gnumeric1.0-gda, gnumeric-python, gnumeric-gda
 Replaces: gnumeric1.0-gda, gnumeric1.0-python, gnumeric-python, gnumeric-gda, gnumeric (<= 1.3.92-1)
 XS-Python-Version: current
