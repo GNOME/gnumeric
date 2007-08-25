@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-13 03:59+0100\n"
-"PO-Revision-Date: 2007-08-13 18:13+0200\n"
+"POT-Creation-Date: 2007-08-25 03:54+0100\n"
+"PO-Revision-Date: 2007-08-25 14:46+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Cálculo, análisis, y visualización de información"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:427
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:422
 msgid "Gnumeric Spreadsheet"
 msgstr "Hoja de cálculo Gnumeric"
 
@@ -259,7 +259,7 @@ msgstr "Derivadas financieras"
 msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6160
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6159
 #: ../plugins/mps/mps.c:534 ../src/xml-io.c:2631 ../src/xml-sax-read.c:2513
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
@@ -419,11 +419,11 @@ msgstr ""
 "Los enlaces OLE no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5428
+#: ../plugins/excel/ms-excel-read.c:5427
 msgid "external references"
 msgstr "referencias externas"
 
-#: ../plugins/excel/ms-excel-read.c:5454
+#: ../plugins/excel/ms-excel-read.c:5453
 msgid "No password supplied"
 msgstr "No se suministró contraseña"
 
@@ -467,11 +467,11 @@ msgstr ""
 "Ya escribimos una longitud para una cadena que ha sido truncada debido a "
 "problemas de codificación."
 
-#: ../plugins/excel/ms-excel-write.c:5528
+#: ../plugins/excel/ms-excel-write.c:5489
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No se pudo el flujo «Libro» para escritura\n"
 
-#: ../plugins/excel/ms-excel-write.c:5548
+#: ../plugins/excel/ms-excel-write.c:5509
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
 
@@ -486,106 +486,120 @@ msgstr ""
 "Demasiados argumentos para la función «%s», MS Excel sólo puede manipular %d "
 "no %d"
 
-#: ../plugins/excel/xlsx-read.c:174
+#: ../plugins/excel/xlsx-read.c:199
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "«%s» está corrompido"
 
-#: ../plugins/excel/xlsx-read.c:255
+#: ../plugins/excel/xlsx-read.c:280
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Valor enumerado «%s» desconocido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:298
+#: ../plugins/excel/xlsx-read.c:323 ../plugins/excel/xlsx-read.c:352
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "El entero «%s» está fuera de rango, para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:302
+#: ../plugins/excel/xlsx-read.c:327 ../plugins/excel/xlsx-read.c:356
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Entero «%s» inválido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:327
+#: ../plugins/excel/xlsx-read.c:381
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Número inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:351
+#: ../plugins/excel/xlsx-read.c:405
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Posición de celda «%s» inválida para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:370
+#: ../plugins/excel/xlsx-read.c:424
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Rango inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:725
-#, c-format
-msgid "Invalid color '%s' for attribute rgb"
-msgstr "Color «%s» inválido para el atributo rgb"
-
-#: ../plugins/excel/xlsx-read.c:748
-#, c-format
-msgid "Undefined style record '%d'"
-msgstr "Registro de estilo indefinido «%d»"
-
-#: ../plugins/excel/xlsx-read.c:757
-#, c-format
-msgid "Undefined partial style record '%d'"
-msgstr "Registro de estilo parcial indefinido «%d»"
-
-#: ../plugins/excel/xlsx-read.c:897
+#: ../plugins/excel/xlsx-read.c:651
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Id de formato de número «%s» indefinido"
 
-#: ../plugins/excel/xlsx-read.c:952
+#: ../plugins/excel/xlsx-read.c:1083
+msgid "Dropping missing object"
+msgstr "Omitiendo objeto faltante"
+
+#: ../plugins/excel/xlsx-read.c:1101
+#, c-format
+msgid "Dropping object with incomplete anchor %2x"
+msgstr "Omitiendo objeto con ancla incompleto %2x"
+
+#: ../plugins/excel/xlsx-read.c:1212
+#, c-format
+msgid "Invalid color '%s' for attribute rgb"
+msgstr "Color «%s» inválido para el atributo rgb"
+
+#: ../plugins/excel/xlsx-read.c:1235
+#, c-format
+msgid "Undefined style record '%d'"
+msgstr "Registro de estilo indefinido «%d»"
+
+#: ../plugins/excel/xlsx-read.c:1244
+#, c-format
+msgid "Undefined partial style record '%d'"
+msgstr "Registro de estilo parcial indefinido «%d»"
+
+#: ../plugins/excel/xlsx-read.c:1272
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Referencia sst %s inválida"
 
-#: ../plugins/excel/xlsx-read.c:1074
+#: ../plugins/excel/xlsx-read.c:1393
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Celda inválida %s"
 
-#: ../plugins/excel/xlsx-read.c:1175
+#: ../plugins/excel/xlsx-read.c:1494
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorar la información de columnas que no especifica primero o último."
 
-#: ../plugins/excel/xlsx-read.c:1735
+#: ../plugins/excel/xlsx-read.c:1771
+#, c-format
+msgid "Ignoring invalid data validation because : %s"
+msgstr "Ignorando datos inválidos debido a: %s"
+
+#: ../plugins/excel/xlsx-read.c:2193
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:1767
+#: ../plugins/excel/xlsx-read.c:2225
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no tratado del tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:2146
+#: ../plugins/excel/xlsx-read.c:2605
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorar una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:2174
+#: ../plugins/excel/xlsx-read.c:2633
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Para el id de parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:2608
+#: ../plugins/excel/xlsx-read.c:3067
 #, c-format
 msgid "Undefined font record '%d'"
 msgstr "Registro de tipo «%d» indefinido"
 
-#: ../plugins/excel/xlsx-read.c:2942
+#: ../plugins/excel/xlsx-read.c:3402
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de cuentas."
 
 #. TODO * TODO * TODO
 #. *
 #. * IMPROVE
-#. * 	- column widths : Don't use hard coded font side
+#. * 	- column widths : Don't use hard coded font size
 #. * 	- share colours
 #. * 	- conditional formats
 #. * 		: why do we need to flip fg and bg for solid in xf but not for dxf
@@ -1648,7 +1662,7 @@ msgstr "Función objetivo:"
 msgid "Constraints:"
 msgstr "Restricciones:"
 
-#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:579
+#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:570
 #: ../src/dialogs/dialog-doc-metadata.c:1278
 #: ../src/dialogs/dialog-formula-guru.c:826
 #: ../src/dialogs/dialog-function-select.c:539
@@ -5224,15 +5238,15 @@ msgstr "El rango de salida se solapa con los rangos de entrada."
 msgid "Could not create the Consolidate dialog."
 msgstr "No se puede crear el diálogo de Consolidación."
 
-#: ../src/dialogs/dialog-define-names.c:405
+#: ../src/dialogs/dialog-define-names.c:397
 msgid "Invalid name"
 msgstr "Nombre inválido"
 
-#: ../src/dialogs/dialog-define-names.c:434
+#: ../src/dialogs/dialog-define-names.c:426
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "¿Por qué quiere definir un nombre como #NAME?"
 
-#: ../src/dialogs/dialog-define-names.c:671
+#: ../src/dialogs/dialog-define-names.c:662
 #: ../src/dialogs/dialog-doc-metadata.c:1595
 #: ../src/dialogs/dialog-paste-names.c:145
 msgid "Could not create the Name Guru."
@@ -10681,78 +10695,78 @@ msgstr "Desplazar hacia  la _derecha y mover"
 msgid "C_ancel"
 msgstr "C_ancelar"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:74
 msgid "Display Gnumeric's version"
 msgstr "Muestra la versión de Gnumeric"
 
-#: ../src/main-application.c:81 ../src/ssconvert.c:59 ../src/ssindex.c:56
+#: ../src/main-application.c:80 ../src/ssconvert.c:59 ../src/ssindex.c:56
 msgid "Set the root library directory"
 msgstr "Definir el directorio raíz de bibliotecas"
 
-#: ../src/main-application.c:82 ../src/main-application.c:88
+#: ../src/main-application.c:81 ../src/main-application.c:87
 #: ../src/ssconvert.c:60 ../src/ssconvert.c:67 ../src/ssindex.c:57
 #: ../src/ssindex.c:64
 msgid "DIR"
 msgstr "DIR"
 
-#: ../src/main-application.c:87 ../src/ssconvert.c:66 ../src/ssindex.c:63
+#: ../src/main-application.c:86 ../src/ssconvert.c:66 ../src/ssindex.c:63
 msgid "Adjust the root data directory"
 msgstr "Ajustar el directorio de datos raíz"
 
-#: ../src/main-application.c:93
+#: ../src/main-application.c:92
 msgid "Specify the size and location of the initial window"
 msgstr "Especifica el tamaño y la posición de la ventana inicial"
 
-#: ../src/main-application.c:94
+#: ../src/main-application.c:93
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ANCHOxALTO+DESPX+DESPY"
 
-#: ../src/main-application.c:99
+#: ../src/main-application.c:98
 msgid "Don't show splash screen"
 msgstr "No mostrar pantalla de presentación"
 
-#: ../src/main-application.c:105
+#: ../src/main-application.c:104
 msgid "Don't display warning dialogs when importing"
 msgstr "No mostrar diálogos de advertencia al importar"
 
-#: ../src/main-application.c:112
+#: ../src/main-application.c:111
 msgid "Enables some dependency related debugging functions"
 msgstr "Activar algunas funciones de depuración relativas a dependencias"
 
-#: ../src/main-application.c:113 ../src/main-application.c:119
-#: ../src/main-application.c:125 ../src/main-application.c:150
+#: ../src/main-application.c:112 ../src/main-application.c:118
+#: ../src/main-application.c:124 ../src/main-application.c:149
 msgid "LEVEL"
 msgstr "NIVEL"
 
-#: ../src/main-application.c:118
+#: ../src/main-application.c:117
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Activar algunas funciones de depuración para compartición de expresiones"
 
-#: ../src/main-application.c:124
+#: ../src/main-application.c:123
 msgid "Enables some print debugging behavior"
 msgstr "Activar algunas funciones de depuración"
 
-#: ../src/main-application.c:131 ../src/main-application.c:137
+#: ../src/main-application.c:130 ../src/main-application.c:136
 msgid "Dumps the function definitions"
 msgstr "Vacía la definición de las funciones"
 
-#: ../src/main-application.c:132 ../src/main-application.c:138
+#: ../src/main-application.c:131 ../src/main-application.c:137
 msgid "FILE"
 msgstr "ARCHIVO"
 
-#: ../src/main-application.c:143
+#: ../src/main-application.c:142
 msgid "Generate new help and po files"
 msgstr "Generar archivos po y de ayuda nuevos"
 
-#: ../src/main-application.c:149
+#: ../src/main-application.c:148
 msgid "Enables some debugging functions"
 msgstr "Activar algunas funciones de depuración"
 
-#: ../src/main-application.c:155
+#: ../src/main-application.c:154
 msgid "Exit immediately after loading the selected books"
 msgstr "Salir inmediatamente después de cargar los libros seleccionados"
 
-#: ../src/main-application.c:195
+#: ../src/main-application.c:194
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -10778,7 +10792,7 @@ msgstr ""
 "\n"
 "-- El equipo de Gnumeric."
 
-#: ../src/main-application.c:279 ../src/ssconvert.c:333 ../src/ssindex.c:227
+#: ../src/main-application.c:278 ../src/ssconvert.c:333 ../src/ssindex.c:227
 #, c-format
 msgid ""
 "%s\n"
@@ -10788,7 +10802,7 @@ msgstr ""
 "Ejecutar '%s --help' para ver una lista completa de las opciones de comando "
 "disponibles.\n"
 
-#: ../src/main-application.c:346
+#: ../src/main-application.c:341
 msgid ""
 "The Pango library present on your system is buggy, see\n"
 "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
@@ -10800,7 +10814,7 @@ msgstr ""
 "Editar texto enriquecido por tanto no funcionará bien. Por favor compruebe\n"
 "con su distribución si está disponible alguna versión corregida de Pango."
 
-#: ../src/main-application.c:395
+#: ../src/main-application.c:390
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -10960,7 +10974,7 @@ msgstr "de:"
 msgid "to:"
 msgstr "a:"
 
-#: ../src/print.c:1442
+#: ../src/print.c:1444
 msgid "Gnumeric Print Range"
 msgstr "Rango de impresión de Gnumeric"
 
@@ -11879,46 +11893,87 @@ msgstr ""
 "Hay más columnas de datos que espacio en la hoja. Las columnas extra se "
 "ignorarán."
 
-#: ../src/validation.c:252
-msgid "Gnumeric: Validation"
-msgstr "Gnumeric : Validación"
+#. Note: no entry for VALIDATION_OP_NONE
+#: ../src/validation.c:71
+msgid "Between"
+msgstr "Entre"
 
-#: ../src/validation.c:309
+#: ../src/validation.c:72
+msgid "Not_Between"
+msgstr "No _ente"
+
+#: ../src/validation.c:73
+msgid "Equal"
+msgstr "Igual"
+
+#: ../src/validation.c:74
+msgid "Not Equal"
+msgstr "Distintos"
+
+#: ../src/validation.c:75
+msgid "Greater Than"
+msgstr "Mayor que"
+
+#: ../src/validation.c:76
+msgid "Less Than"
+msgstr "Menor que"
+
+#: ../src/validation.c:77
+msgid "Greater than or Equal"
+msgstr "Mayor que o igual"
+
+#: ../src/validation.c:78
+msgid "Less than or Equal"
+msgstr "Menor que o igual"
+
+#: ../src/validation.c:290
+msgid "Missing formula for validation"
+msgstr "Falta una fórmula para validar"
+
+#: ../src/validation.c:293
+msgid "Extra formula for validation"
+msgstr "Fórmula adicional para validar"
+
+#: ../src/validation.c:303
+msgid "Gnumeric: Validation"
+msgstr "Gnumeric: Validación"
+
+#: ../src/validation.c:360
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "No se permite que la celda %s esté vacía"
 
-#: ../src/validation.c:317
+#: ../src/validation.c:368
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "No se permite que la celda %s contenga valores de error"
 
-#: ../src/validation.c:328
+#: ../src/validation.c:379
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "No se permite que la celda %s contenga cadenas"
 
-#: ../src/validation.c:344
+#: ../src/validation.c:395
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "«%s» no es un entero"
 
-#: ../src/validation.c:354
+#: ../src/validation.c:405
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "«%s» no es una fecha válida"
 
-#: ../src/validation.c:376
+#: ../src/validation.c:427
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s no contiene el valor nuevo."
 
-#: ../src/validation.c:410
+#: ../src/validation.c:461
 #, c-format
 msgid "%s is not true."
 msgstr "%s no es cierto."
 
-#: ../src/validation.c:447
+#: ../src/validation.c:498
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s está fuera del rango permitido"
@@ -12203,19 +12258,19 @@ msgstr "Usar precisión máxima"
 msgid "Open %s"
 msgstr "Abrir %s"
 
-#: ../src/wbc-gtk.c:4269
+#: ../src/wbc-gtk.c:4295
 msgid "Autosave prompt"
 msgstr "Preguntar si autoguardar"
 
-#: ../src/wbc-gtk.c:4270
+#: ../src/wbc-gtk.c:4296
 msgid "Ask about autosave?"
 msgstr "¿Preguntar si autoguardar?"
 
-#: ../src/wbc-gtk.c:4276
+#: ../src/wbc-gtk.c:4302
 msgid "Autosave time in seconds"
 msgstr "Tiempo de autoguardar en segundos"
 
-#: ../src/wbc-gtk.c:4277
+#: ../src/wbc-gtk.c:4303
 msgid "Seconds before autosave"
 msgstr "Seguntos antes de autoguardar"
 
