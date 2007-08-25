@@ -72,8 +72,9 @@ GnmStyleList	*sheet_style_get_list	(Sheet const *sheet, GnmRange const *r);
 GnmSpanCalcFlags	 sheet_style_set_list	(Sheet *sheet, GnmCellPos const *corner,
 					 gboolean transpose, GnmStyleList const *l);
 
-GnmStyleList *sheet_style_collect_conditions  (Sheet const *s, GnmRange const *r);
-GnmStyleList *sheet_style_collect_validations (Sheet const *s, GnmRange const *r);
+GnmStyleList *sheet_style_collect_conditions	(Sheet const *s, GnmRange const *r);
+GnmStyleList *sheet_style_collect_hlinks	(Sheet const *s, GnmRange const *r);
+GnmStyleList *sheet_style_collect_validations	(Sheet const *s, GnmRange const *r);
 
 /* For internal use only */
 void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);

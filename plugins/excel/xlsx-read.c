@@ -127,6 +127,8 @@ typedef struct {
 	int		    filter_cur_field;
 	GSList		   *filter_items; /* an accumulator */
 
+	GSList		   *validation_regions;
+
 	GnmPageBreaks	   *page_breaks;
 } XLSXReadState;
 typedef struct {
@@ -924,6 +926,36 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 	return texpr;
 }
 
+static GSList *
+xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
+{
+	GnmRange  r;
+	xmlChar const *tmp;
+	GSList	 *res = NULL;
+
+	while (NULL != refs && *refs) {
+		if (NULL == (tmp = cellpos_parse (refs, &r.start, FALSE))) {
+			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
+			return res;
+		}
+
+		refs = tmp;
+		if (*refs == '\0' || *refs == ' ')
+			r.end = r.start;
+		else if (*refs != ':' ||
+			 NULL == (tmp = cellpos_parse (refs + 1, &r.end, FALSE))) {
+			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
+			return res;
+		}
+
+		res = g_slist_prepend (res, range_dup (&r));
+
+		for (refs = tmp ; *refs == ' ' ; refs++ ) ;
+	}
+
+	return res;
+}
+
 /****************************************************************************/
 
 static void
@@ -1334,6 +1366,86 @@ xlsx_CT_PageBreaks_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+    "type" default="none"
+      "none"
+      "whole"
+      "decimal"
+      "list"
+      "date"
+      "time"
+      "textLength"
+      "custom"
+
+    "errorStyle" default="stop"
+      "stop"
+      "warning"
+      "information"
+
+    "imeMode" default="noControl"
+      "noControl"
+      "off"
+      "on"
+      "disabled"
+      "hiragana"
+      "fullKatakana"
+      "halfKatakana"
+      "fullAlpha"
+      "halfAlpha"
+      "fullHangul"
+      "halfHangul"
+
+    "operator" default="between"
+	"between"
+	"notBetween"
+	"equal"
+	"notEqual"
+	"lessThan"
+	"lessThanOrEqual"
+	"greaterThan"
+	"greaterThanOrEqual"
+
+    "allowBlank" type="xsd:boolean" use="optional" default="false">
+    "showDropDown" type="xsd:boolean" use="optional" default="false">
+    "showInputMessage" type="xsd:boolean" use="optional" default="false">
+    "showErrorMessage" type="xsd:boolean" use="optional" default="false">
+    "errorTitle" type="ST_Xstring" use="optional">
+    "error" type="ST_Xstring" use="optional">
+    "promptTitle" type="ST_Xstring" use="optional">
+    "prompt" type="ST_Xstring" use="optional">
+    "sqref" type="ST_Sqref" use="required">
+#endif
+}
+
+static void
+xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmStyle *style = NULL;
+	GSList   *ptr;
+
+	if (NULL != state->validation) {
+		style = gnm_style_new ();
+		gnm_style_set_validation (style, state->validation);
+		for (ptr = state->cond_regions ; ptr != NULL ; ptr = ptr->next) {
+			gnm_style_ref (style);
+			sheet_style_apply_range	(state->sheet, ptr->data, style);
+			g_free (ptr->data);
+		}
+		gnm_style_unref (style);
+	} else for (ptr = state->validation_regions ; ptr != NULL ; ptr = ptr->next)
+		g_free (ptr->data);
+	g_slist_free (state->validation_regions);
+	state->validation_regions = NULL;
+#endif
+}
+
+static void
 xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -1606,29 +1718,13 @@ static void
 xlsx_cond_fmt_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmRange  r;
 	char const *refs = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (0 == strcmp (attrs[0], "sqref"))
 			refs = attrs[1];
 
-	while (NULL != refs && *refs) {
-		if (NULL == (refs = cellpos_parse (refs, &r.start, FALSE)))
-			return;
-
-		if (*refs == '\0' || *refs == ' ')
-			r.end = r.start;
-		else if (*refs != ':' ||
-			 NULL == (refs = cellpos_parse (refs + 1, &r.end, FALSE)))
-			return;
-
-		state->cond_regions = g_slist_prepend (state->cond_regions,
-			range_dup (&r));
-
-		while (*refs == ' ')
-			refs++;
-	}
+	state->cond_regions = xlsx_parse_sqref (xin, refs);
 
 	/* create in first call xlsx_cond_rule to avoid creating condition with
 	 * no rules */
@@ -2040,10 +2136,11 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
       GSF_XML_IN_NODE (CT_FilterColumn, CT_ColorFilter, XL_NS_SS, "colorFilter", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (CT_FilterColumn, CT_IconFilter, XL_NS_SS, "iconFilter", GSF_XML_NO_CONTENT, NULL, NULL),
 
-  GSF_XML_IN_NODE (SHEET, VALIDATIONS, XL_NS_SS, "dataValidations", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (VALIDATIONS, VALIDATION, XL_NS_SS, "dataValidation", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE_FULL (VALIDATION, VAL_FORMULA1, XL_NS_SS, "formula1", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 0),
-      GSF_XML_IN_NODE_FULL (VALIDATION, VAL_FORMULA2, XL_NS_SS, "formula2", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 1),
+  GSF_XML_IN_NODE (SHEET, CT_DataValidations, XL_NS_SS, "dataValidations", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CT_DataValidations, CT_DataValidation, XL_NS_SS, "dataValidation", GSF_XML_NO_CONTENT,
+		     &xlsx_CT_DataValidation_begin, &xlsx_CT_DataValidation_end),
+      GSF_XML_IN_NODE_FULL (CT_DataValidation, VAL_FORMULA1, XL_NS_SS, "formula1", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 0),
+      GSF_XML_IN_NODE_FULL (CT_DataValidation, VAL_FORMULA2, XL_NS_SS, "formula2", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xlsx_validation_expr, 1),
 
   GSF_XML_IN_NODE (SHEET, MERGES, XL_NS_SS, "mergeCells", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (MERGES, MERGE, XL_NS_SS, "mergeCell", GSF_XML_NO_CONTENT, &xlsx_CT_MergeCell, NULL),
@@ -2731,7 +2828,8 @@ xlsx_dxf_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	else
 		g_ptr_array_index (state->collection, state->count) = state->style_accum;
 	fprintf (stderr, "%d) ", state->count);
-	gnm_style_dump (state->style_accum);
+	if (state->style_accum)
+		gnm_style_dump (state->style_accum);
 	state->count++;
 	state->style_accum = NULL;
 }

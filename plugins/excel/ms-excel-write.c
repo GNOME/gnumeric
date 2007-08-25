@@ -1254,6 +1254,11 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 }
 
 static void
+excel_write_HLINKs (BiffPut *bp, ExcelWriteSheet *esheet)
+{
+}
+
+static void
 excel_write_DVALs (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	GnmStyleList *ptr;
@@ -4754,6 +4759,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	 * things will just ignore them */
 	excel_write_MERGECELLs (ewb->bp, esheet);
 	excel_write_conditions (ewb->bp, esheet);
+	excel_write_HLINKs (ewb->bp, esheet);
 	excel_write_DVALs (ewb->bp, esheet);
 	excel_write_SHEETPROTECTION (ewb->bp, esheet->gnum_sheet);
 
@@ -4779,7 +4785,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		 gboolean biff7, gboolean biff8)
 {
 	int const maxrows = biff7 ? XLS_MaxRow_V7 : XLS_MaxRow_V8;
-	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
+	ExcelWriteSheet *esheet = g_new0 (ExcelWriteSheet, 1);
 	GnmRange extent;
 	GSList *objs, *img;
 
@@ -4792,21 +4798,22 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	esheet->gnum_sheet = sheet;
 	esheet->streamPos  = 0x0deadbee;
 	esheet->ewb        = ewb;
+
 	/* makes it easier to refer to 1 past the end */
 	esheet->max_col    = extent.end.col + 1;
 	esheet->max_row    = extent.end.row + 1;
-	esheet->conditions = biff8
-		? sheet_style_collect_conditions (sheet, NULL)
-		: NULL;
-	esheet->validations= biff8
-		? sheet_style_collect_validations (sheet, NULL)
-		: NULL;
 
 	/* It is ok to have formatting out of range, we can disregard that. */
 	if (esheet->max_col > XLS_MaxCol)
 		esheet->max_col = XLS_MaxCol;
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
+
+	if (biff8) {
+		esheet->conditions  = sheet_style_collect_conditions (sheet, NULL);
+		esheet->hlinks      = sheet_style_collect_hlinks (sheet, NULL);
+		esheet->validations = sheet_style_collect_validations (sheet, NULL);
+	}
 
 	/* we only export charts & images for now */
 	esheet->cur_obj = esheet->num_objs = 0;

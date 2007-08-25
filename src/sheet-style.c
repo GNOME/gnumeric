@@ -2189,6 +2189,57 @@ sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
 	return res;
 }
 static void
+cb_style_list_add_hlink (GnmStyle *style,
+			 int corner_col, int corner_row,
+			 int width, int height,
+			 GnmRange const *apply_to, gpointer user)
+{
+	/* collect only the area with validation */
+	if (NULL != gnm_style_get_hlink (style))
+		cb_style_list_add_node (style,
+			corner_col, corner_row, width, height, apply_to, user);
+}
+
+static gboolean
+style_hlink_equal (GnmStyle const *a, GnmStyle const *b)
+{
+	return	gnm_style_get_hlink (a) == gnm_style_get_hlink (b);
+}
+
+/**
+ * sheet_style_collect_hlinks :
+ * @sheet :
+ * @range :
+ *
+ * Returns a list of areas with hyperlinks, Caller is responsible for freeing.
+ **/
+GnmStyleList *
+sheet_style_collect_hlinks (Sheet const *sheet, GnmRange const *r)
+{
+	GnmStyleList *res = NULL;
+	StyleListMerge mi;
+
+	mi.style_equal = style_hlink_equal;
+	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
+				     (GCompareFunc)&gnm_cellpos_equal);
+
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, r,
+		      cb_style_list_add_hlink, &mi);
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("=========\n");
+#endif
+	g_hash_table_foreach_remove (mi.cache, cb_hash_merge_horiz, &mi);
+	g_hash_table_foreach_remove (mi.cache, cb_hash_to_list, &res);
+#ifdef DEBUG_STYLE_LIST
+	g_printerr ("=========\n");
+#endif
+	g_hash_table_destroy (mi.cache);
+
+	return res;
+}
+
+static void
 cb_style_list_add_validation (GnmStyle *style,
 			      int corner_col, int corner_row,
 			      int width, int height,

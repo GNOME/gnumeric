@@ -5012,7 +5012,8 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 next_opcode;
 	guint8 const *data = q->data;
 	guchar *label = NULL;
-	guchar *target = NULL;
+	guchar *target_base = NULL;
+	guchar *mark = NULL;
 	guchar *tip = NULL;
 	GnmHLink *link = NULL;
 
@@ -5028,22 +5029,31 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 	data += 32;
 
-	/* label */
-	if ((options & 0x14) == 0x14) {
+	if ((options & 0x14) == 0x14) {			/* label */
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		XL_CHECK_CONDITION (data + len*2 - q->data <= (int)q->length);
 		label = read_utf16_str (len, data);
 		data += len*2;
+		d (1, fprintf (stderr, "label = %s", label););
 	}
 
-	/* target frame */
-	if (options & 0x80) {
+	if (options & 0x80) {				/* target_base */
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
-		target = read_utf16_str (len, data);
+		target_base = read_utf16_str (len, data);
 		data += len*2;
+		d (1, fprintf (stderr, "target_base = %s", target_base););
+	}
+
+	if (options & 0x8) {				/* 'text mark' */
+		len = GSF_LE_GET_GUINT32 (data);
+		data += 4;
+		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
+		mark = read_utf16_str (len, data);
+		data += len*2;
+		d (1, fprintf (stderr, "mark = %s", mark););
 	}
 
 	if ((options & 0x163) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
@@ -5075,21 +5085,10 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		range_dump (&r, " <-- unc file\n");
 	} else if ((options & 0x1eb) == 0x008) {
 		link = g_object_new (gnm_hlink_cur_wb_get_type (), NULL);
-		gnm_hlink_set_target (link, target);
+		gnm_hlink_set_target (link, mark);
 	} else {
 		g_warning ("Unknown hlink type 0x%x", options);
 	}
-
-#if 0
-	/* target mark */
-	if (options & 0x8) {
-		len = GSF_LE_GET_GUINT32 (data);
-		data += 4;
-		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
-		target = read_utf16_str (len, data);
-		data += len*2;
-	}
-#endif
 
 	if (ms_biff_query_peek_next (q, &next_opcode) &&
 	    next_opcode == BIFF_LINK_TIP) {
@@ -5106,9 +5105,9 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 			gnm_hlink_set_tip  (link, tip);
 	}
 
-	g_free (label);
-	g_free (target);
 	g_free (tip);
+	g_free (label);
+	g_free (target_base);
 }
 
 static void
