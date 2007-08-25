@@ -345,7 +345,7 @@ check_pango_attr_list_splice_bug (void)
 }
 
 int
-main (int argc, char **argv)
+main (int argc, char const **argv)
 {
 	gboolean opened_workbook = FALSE;
 	gboolean with_gui;

@@ -61,20 +61,21 @@ static const struct {
 
 #define NONE (GnmExprOp)-1
 
-static const struct {
+static struct {
 	int nops;
 	GnmExprOp ops[2];
 	int ntrue;
-} opinfo[] = {
+	char const *name;
+} const opinfo[] = {
 	/* Note: no entry for VALIDATION_OP_NONE */
-	{ 2, { GNM_EXPR_OP_GTE,       GNM_EXPR_OP_LTE }, 2 }, /* BETWEEN */
-	{ 2, { GNM_EXPR_OP_LT,        GNM_EXPR_OP_GT  }, 1 }, /* NOT_BETWEEN */
-	{ 1, { GNM_EXPR_OP_EQUAL,     NONE            }, 1 }, /* EQUAL */
-	{ 1, { GNM_EXPR_OP_NOT_EQUAL, NONE            }, 1 }, /* NOT_EQUAL */
-	{ 1, { GNM_EXPR_OP_GT,        NONE            }, 1 }, /* GT */
-	{ 1, { GNM_EXPR_OP_LT,        NONE            }, 1 }, /* LT */
-	{ 1, { GNM_EXPR_OP_GTE,       NONE            }, 1 }, /* GTE */
-	{ 1, { GNM_EXPR_OP_LTE,       NONE            }, 1 }, /* LTE */
+	{ 2, { GNM_EXPR_OP_GTE,       GNM_EXPR_OP_LTE }, 2, N_("Between") },
+	{ 2, { GNM_EXPR_OP_LT,        GNM_EXPR_OP_GT  }, 1, N_("Not_Between") },
+	{ 1, { GNM_EXPR_OP_EQUAL,     NONE            }, 1, N_("Equal") },
+	{ 1, { GNM_EXPR_OP_NOT_EQUAL, NONE            }, 1, N_("Not Equal") },
+	{ 1, { GNM_EXPR_OP_GT,        NONE            }, 1, N_("Greater Than") },
+	{ 1, { GNM_EXPR_OP_LT,        NONE            }, 1, N_("Less Than") },
+	{ 1, { GNM_EXPR_OP_GTE,       NONE            }, 1, N_("Greater than or Equal") },
+	{ 1, { GNM_EXPR_OP_LTE,       NONE            }, 1, N_("Less than or Equal") },
 };
 
 #undef NONE
@@ -147,8 +148,12 @@ gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)
  * validation_new :
  * @title : will be copied.
  * @msg   : will be copied.
- * @texpr0 : absorb the reference to the expression.
- * @texpr1 : absorb the reference to the expression.
+ * @texpr0 : absorb the reference to the expression (optionally %NULL).
+ * @texpr1 : absorb the reference to the expression (optionally %NULL).
+ *
+ * Does _NOT_ require all necessary information to be set here.
+ * validation_set_expr can be used to change the expressions after creation,
+ * and validation_is_ok can be used to ensure that things are properly setup.
  *
  * Returns a new @GnmValidation object that needs to be unrefed.
  **/
@@ -243,6 +248,52 @@ validation_unref (GnmValidation const *val)
 			}
 		g_free (v);
 	}
+}
+
+/**
+ * validation_set_expr :
+ * @v : #GnmValidation
+ * @texpr : #GnmExprTop
+ * @indx : 0 or 1
+ *
+ * Assign an expression to a validation.  validation_is_ok can be used to
+ * verify that @v has all of the requisit information.
+ **/
+void
+validation_set_expr (GnmValidation *v,
+		     GnmExprTop const *texpr, unsigned indx)
+{
+	g_return_if_fail (indx <= 1);
+
+	if (NULL != texpr)
+		gnm_expr_top_ref (texpr);
+	if (NULL != v->texpr[indx])
+		gnm_expr_top_unref (v->texpr[indx]);
+	v->texpr[indx] = texpr;
+}
+
+GError *
+validation_is_ok (GnmValidation const *v)
+{
+	unsigned nops, i;
+
+	switch (v->type) {
+	case VALIDATION_TYPE_CUSTOM:
+	case VALIDATION_TYPE_IN_LIST:	nops = 1; break;
+	case VALIDATION_TYPE_ANY:	nops = 0; break;
+	default: nops = (v->op == VALIDATION_OP_NONE) ? 0 : opinfo[v->op].nops;
+	}
+
+	for (i = 0 ; i < 2 ; i++)
+		if (v->texpr[i] == NULL) {
+			if (i < nops)
+				return g_error_new (1, 0, N_("Missing formula for validation"));
+		} else {
+			if (i >= nops)
+				return g_error_new (1, 0, N_("Extra formula for validation"));
+		}
+
+	return NULL;
 }
 
 static ValidationStatus

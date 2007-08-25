@@ -1368,81 +1368,131 @@ xlsx_CT_PageBreaks_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 static void
 xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static EnumVal const val_styles[] = {
+		{ "stop",	VALIDATION_STYLE_STOP },
+		{ "warning",	VALIDATION_STYLE_WARNING },
+		{ "information",	VALIDATION_STYLE_INFO },
+		{ NULL, 0 }
+	};
+	static EnumVal const val_types[] = {
+		{ "none",	VALIDATION_TYPE_ANY },
+		{ "whole",	VALIDATION_TYPE_AS_INT },
+		{ "decimal",	VALIDATION_TYPE_AS_NUMBER },
+		{ "list",	VALIDATION_TYPE_IN_LIST },
+		{ "date",	VALIDATION_TYPE_AS_DATE },
+		{ "time",	VALIDATION_TYPE_AS_TIME },
+		{ "textLength",	VALIDATION_TYPE_TEXT_LENGTH },
+		{ "custom",	VALIDATION_TYPE_CUSTO },
+		{ NULL, 0 }
+	};
+	static EnumVal const val_ops[] = {
+		{ "between",	VALIDATION_OP_BETWEEN },
+		{ "notBetween",	VALIDATION_OP_NOT_BETWEEN },
+		{ "equal",	VALIDATION_OP_EQUAL },
+		{ "notEqual",	VALIDATION_OP_NOT_EQUAL },
+		{ "lessThan",	VALIDATION_OP_LT },
+		{ "lessThanOrEqual",	VALIDATION_OP_GT },
+		{ "greaterThan",	VALIDATION_OP_LT }E
+		{ "greaterThanOrEqual",	VALIDATION_OP_GTE },
+		{ NULL, 0 }
+	};
 #if 0
+	/* Get docs on this */
+	"imeMode" default="noControl"
+		"noControl"
+		"off"
+		"on"
+		"disabled"
+		"hiragana"
+		"fullKatakana"
+		"halfKatakana"
+		"fullAlpha"
+		"halfAlpha"
+		"fullHangul"
+		"halfHangul"
+#endif
+
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-    "type" default="none"
-      "none"
-      "whole"
-      "decimal"
-      "list"
-      "date"
-      "time"
-      "textLength"
-      "custom"
+	/* defaults */
+	ValidationStyle	val_style = VALIDATION_STYLE_STOP;
+	ValidationType	val_type  = VALIDATION_TYPE_ANY;
+	ValidationOp	val_op	  = VALIDATION_OP_BETWEEN;
+	gboolean allowBlank = FALSE;
+	gboolean showDropDown = FALSE;
+	gboolean showInputMessage = FALSE;
+	gboolean showErrorMessage = FALSE;
+	char *errorTitle = NULL;
+	char *error = NULL;
+	char *promptTitle = NULL;
+	char *prompt = NULL;
+	char const *refs = NULL;
 
-    "errorStyle" default="stop"
-      "stop"
-      "warning"
-      "information"
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "sqref"))
+			refs = attrs[1];
+		else if (attr_enum (xin, attrs, XL_NS_SS, "errorStyle", val_styles, &tmp))
+			val_style = tmp;
+		else if (attr_enum (xin, attrs, XL_NS_SS, "type", val_types, &tmp))
+			val_type = tmp;
+		else if (attr_enum (xin, attrs, XL_NS_SS, "operator", val_ops, &tmp))
+			val_op = tmp;
 
-    "imeMode" default="noControl"
-      "noControl"
-      "off"
-      "on"
-      "disabled"
-      "hiragana"
-      "fullKatakana"
-      "halfKatakana"
-      "fullAlpha"
-      "halfAlpha"
-      "fullHangul"
-      "halfHangul"
+		else if (attr_bool (xin, attrs, XL_NS_SS, "hiddenButton", &hidden)) ;
+		else if (attr_bool (xin, attrs, NL_NS_SS, "allowBlank", &allowBlank)) ;
+		else if (attr_bool (xin, attrs, NL_NS_SS, "showDropDown", &showDropDown)) ;
+		else if (attr_bool (xin, attrs, NL_NS_SS, "showInputMessage", &showInputMessage)) ;
+		else if (attr_bool (xin, attrs, NL_NS_SS, "showErrorMessage", &showErrorMessage)) ;
 
-    "operator" default="between"
-	"between"
-	"notBetween"
-	"equal"
-	"notEqual"
-	"lessThan"
-	"lessThanOrEqual"
-	"greaterThan"
-	"greaterThanOrEqual"
+		else if (0 = strcmp (attrs[0], "errorTitle"))
+			errorTitle = attrs[1];
+		else if (0 = strcmp (attrs[0], "error"))
+			error = attrs[1];
+		else if (0 = strcmp (attrs[0], "promptTitle"))
+			promptTitle = attrs[1];
+		else if (0 = strcmp (attrs[0], "prompt"))
+			prompt = attrs[1];
 
-    "allowBlank" type="xsd:boolean" use="optional" default="false">
-    "showDropDown" type="xsd:boolean" use="optional" default="false">
-    "showInputMessage" type="xsd:boolean" use="optional" default="false">
-    "showErrorMessage" type="xsd:boolean" use="optional" default="false">
-    "errorTitle" type="ST_Xstring" use="optional">
-    "error" type="ST_Xstring" use="optional">
-    "promptTitle" type="ST_Xstring" use="optional">
-    "prompt" type="ST_Xstring" use="optional">
-    "sqref" type="ST_Sqref" use="required">
-#endif
+	state->validation_regions = xlsx_parse_sqref (xin, refs);
 }
 
 static void
 xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-#if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GError   *err;
 	GnmStyle *style = NULL;
 	GSList   *ptr;
+
+	if (NULL != state->validation &&
+	    NULL != (err = validation_is_ok (state->validation))) {
+		xlsx_warning (xin, _("Ignoring invalid data validation because : %s"),
+			      _(err->message));
+		validation_unref (state->validation);
+		state->validation = NULL;
+	}
 
 	if (NULL != state->validation) {
 		style = gnm_style_new ();
 		gnm_style_set_validation (style, state->validation);
-		for (ptr = state->cond_regions ; ptr != NULL ; ptr = ptr->next) {
+	}
+	if (NULL != state->input_msg) {
+		if (NULL != style)
+			style = gnm_style_new ();
+		gnm_style_set_input_msg (style, state->input_msg);
+	}
+
+	for (ptr = state->validation_regions ; ptr != NULL ; ptr = ptr->next) {
+		if (NULL != style) {
 			gnm_style_ref (style);
 			sheet_style_apply_range	(state->sheet, ptr->data, style);
-			g_free (ptr->data);
 		}
-		gnm_style_unref (style);
-	} else for (ptr = state->validation_regions ; ptr != NULL ; ptr = ptr->next)
 		g_free (ptr->data);
+	}
+	if (NULL != style)
+		gnm_style_unref (style);
 	g_slist_free (state->validation_regions);
 	state->validation_regions = NULL;
-#endif
 }
 
 static void
@@ -1450,10 +1500,12 @@ xlsx_validation_expr (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmParsePos pp;
-	parse_pos_init_sheet (&pp, state->sheet);
+	GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
+		parse_pos_init_sheet (&pp, state->sheet));
 
-	g_warning ("validation fmla%d : %s", xin->node->user_data.v_int,
-		   xin->content->str);
+	if (NULL != texpr)
+		validation_set_expr (state->validation, texpr,
+			xin->node->user_data.v_int);
 }
 
 static void
