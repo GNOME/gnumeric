@@ -1396,39 +1396,6 @@ xlsx_get_dxf (GsfXMLIn *xin, int dxf)
 	return NULL;
 }
 
-/* Returns: a GSList of GnmRange in _reverse_ order
- * caller frees the list and the content */
-static GSList *
-xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
-{
-	GnmRange  r;
-	xmlChar const *tmp;
-	GSList	 *res = NULL;
-
-	while (NULL != refs && *refs) {
-		if (NULL == (tmp = cellpos_parse (refs, &r.start, FALSE))) {
-			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
-			return res;
-		}
-
-		refs = tmp;
-		if (*refs == '\0' || *refs == ' ')
-			r.end = r.start;
-		else if (*refs != ':' ||
-			 NULL == (tmp = cellpos_parse (refs + 1, &r.end, FALSE))) {
-			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
-			return res;
-		}
-
-		range_normalize (&r); /* be anal */
-		res = g_slist_prepend (res, range_dup (&r));
-
-		for (refs = tmp ; *refs == ' ' ; refs++ ) ;
-	}
-
-	return res;
-}
-
 /****************************************************************************/
 
 static void
