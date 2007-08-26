@@ -66,7 +66,7 @@
 2007-08-04  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: fixed interpolation mode import/export after
-	the change in goffice.
+	  the change in goffice.
 
 2007-07-27  Jody Goldberg <jody@gnome.org>
 
