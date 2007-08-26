@@ -1244,6 +1244,7 @@ xlsx_get_dxf (GsfXMLIn *xin, int dxf)
 	xlsx_warning (xin, _("Undefined partial style record '%d'"), dxf);
 	return NULL;
 }
+
 /****************************************************************************/
 
 static void

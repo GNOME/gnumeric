@@ -39,3 +39,4 @@ GNOME_Gnumeric.server
 xmldocs.make
 omf.make
 libspreadsheet-1.7.pc
+.dotest
