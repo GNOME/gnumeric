@@ -1245,6 +1245,8 @@ xlsx_get_dxf (GsfXMLIn *xin, int dxf)
 	return NULL;
 }
 
+/* Returns: a GSList of GnmRange in _reverse_ order
+ * caller frees the list and the content */
 static GSList *
 xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 {
@@ -1267,6 +1269,7 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 			return res;
 		}
 
+		range_normalize (&r); /* be anal */
 		res = g_slist_prepend (res, range_dup (&r));
 
 		for (refs = tmp ; *refs == ' ' ; refs++ ) ;
