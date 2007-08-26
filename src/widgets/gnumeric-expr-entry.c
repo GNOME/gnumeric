@@ -347,12 +347,9 @@ static void
 cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
 		  GnmExprEntry *gee)
 {
-<<<<<<< HEAD:src/widgets/gnumeric-expr-entry.c
 	if (gnm_expr_char_start_p (gtk_entry_get_text (gee->entry)))
 		gee_scan_for_ranges (ie);
 
-=======
->>>>>>> This should have been on a branch:src/widgets/gnumeric-expr-entry.c
 	if (!gee->ignore_changes) {
 		if (!gee->is_cell_renderer &&
 		    !gnm_expr_entry_can_rangesel (gee) &&
@@ -1582,17 +1579,3 @@ gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 
 	return gee->editing_canceled;
 }
-<<<<<<< HEAD:src/widgets/gnumeric-expr-entry.c
-
-<<<<<<< HEAD:src/widgets/gnumeric-expr-entry.c
-=======
->>>>>>> This should have been on a branch:src/widgets/gnumeric-expr-entry.c
-=======
-void
-item_edit_disable_highlight (ItemEdit *ie)
-{
-	g_return_if_fail (ITEM_EDIT (ie) != NULL);
-	ie_destroy_feedback_range (ie);
-	ie->feedback_disabled = TRUE;
-}
->>>>>>> revert the gee work from this branch and get the xlsx validation code to compile:src/widgets/gnumeric-expr-entry.c
