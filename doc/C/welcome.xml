@@ -124,7 +124,7 @@
         <application>Gnumeric</application> file format is simply
         compressed XML which can be decompressed using
         <application>gunzip</application>, the GNU
-        <application>gzip</application> program decompresser, into
+        <application>gzip</application> program's decompression utility, into
         text.  <application>Gnumeric</application> can open files from
         several well known proprietary and free spreadsheets including
         MS Excel<trademark/>, Lotus 1-2-3<trademark/>,
@@ -360,7 +360,7 @@
         <emphasis role="bold">Right-to-Left Support: </emphasis>
       </para>
       <para>
-	  We now support right-to-left oritentation of the sheets as well as
+	  We now support right-to-left orientation of the sheets as well as
 	  for text within cells.
       </para>
     </listitem>
