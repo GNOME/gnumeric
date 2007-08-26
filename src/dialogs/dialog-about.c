@@ -375,7 +375,7 @@ dialog_about (WBCGtk *wbcg)
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0,
 		go_data_scalar_str_new (
 			"Gnumeric " GNUMERIC_VERSION "\n"
-			"Copyright \xc2\xa9 2001-2006 Jody Goldberg\n"
+			"Copyright \xc2\xa9 2001-2007 Jody Goldberg\n"
 			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
 		NULL);
 	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
