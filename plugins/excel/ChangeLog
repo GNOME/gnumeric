@@ -5,7 +5,7 @@
 2007-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (gelframe): return if type is less that 5, otherwise
-	set fill type and colors not auto.
+	  set fill type and colors not auto.
 
 2007-08-24  Jody Goldberg <jody@gnome.org>
 
