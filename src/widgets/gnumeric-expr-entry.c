@@ -15,7 +15,6 @@
 
 #include <wbc-gtk-impl.h>
 #include <sheet-control-gui-priv.h>
-#include <gnm-pane.h>
 #include <sheet-merge.h>
 #include <parse-util.h>
 #include <gui-util.h>
@@ -92,12 +91,14 @@ enum {
 
 static guint signals [LAST_SIGNAL] = { 0 };
 
-/* Internal routines */
-static void gee_rangesel_reset		(GnmExprEntry *gee);
-static void gee_rangesel_update_text	(GnmExprEntry *gee);
-static void gee_detach_scg		(GnmExprEntry *gee);
-static void gee_remove_update_timer	(GnmExprEntry *gee);
-static void gee_notify_cursor_position	(GnmExprEntry *gee);
+/* Internal routines
+ */
+static void     gee_rangesel_reset (GnmExprEntry *gee);
+static void     gee_rangesel_update_text (GnmExprEntry *gee);
+static void     gee_detach_scg (GnmExprEntry *gee);
+static void     gee_remove_update_timer (GnmExprEntry *range);
+static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec,
+					    GnmExprEntry *gee);
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -336,18 +337,19 @@ gee_get_property (GObject      *object,
 }
 
 static void
-cb_entry_activate (GnmExprEntry *gee)
+cb_entry_activate (G_GNUC_UNUSED GtkWidget *w, GnmExprEntry *gee)
 {
 	g_signal_emit (G_OBJECT (gee), signals [ACTIVATE], 0);
 	gnm_expr_entry_signal_update (gee, TRUE);
 }
 
 static void
-cb_entry_changed (GnmExprEntry *gee)
+cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
+		  GnmExprEntry *gee)
 {
 <<<<<<< HEAD:src/widgets/gnumeric-expr-entry.c
 	if (gnm_expr_char_start_p (gtk_entry_get_text (gee->entry)))
-		gee_scan_for_ranges (gee);
+		gee_scan_for_ranges (ie);
 
 =======
 >>>>>>> This should have been on a branch:src/widgets/gnumeric-expr-entry.c
@@ -362,8 +364,8 @@ cb_entry_changed (GnmExprEntry *gee)
 }
 
 static gboolean
-cb_gee_key_press_event (GtkEntry     *entry,
-			GdkEventKey  *event,
+cb_gee_key_press_event (GtkEntry	  *entry,
+			GdkEventKey	  *event,
 			GnmExprEntry *gee)
 {
 	WBCGtk *wbcg  = gee->wbcg;
@@ -488,7 +490,9 @@ cb_gee_key_press_event (GtkEntry     *entry,
 }
 
 static gboolean
-cb_gee_button_press_event (GnmExprEntry *gee)
+cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
+			   G_GNUC_UNUSED GdkEventButton *event,
+			   GnmExprEntry *gee)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
@@ -535,15 +539,20 @@ gee_init (GnmExprEntry *gee)
 		      "gtk-entry-select-on-focus", FALSE,
 		      NULL);
 
-	g_signal_connect_swapped (G_OBJECT (gee->entry), "activate",
+	g_signal_connect (G_OBJECT (gee->entry),
+		"activate",
 		G_CALLBACK (cb_entry_activate), gee);
-	g_signal_connect_swapped (G_OBJECT (gee->entry), "changed",
+	g_signal_connect (G_OBJECT (gee->entry),
+		"changed",
 		G_CALLBACK (cb_entry_changed), gee);
-	g_signal_connect (G_OBJECT (gee->entry), "key_press_event",
+	g_signal_connect (G_OBJECT (gee->entry),
+		"key_press_event",
 		G_CALLBACK (cb_gee_key_press_event), gee);
-	g_signal_connect_swapped (G_OBJECT (gee->entry), "button_press_event",
+	g_signal_connect (G_OBJECT (gee->entry),
+		"button_press_event",
 		G_CALLBACK (cb_gee_button_press_event), gee);
-	g_signal_connect_swapped (G_OBJECT (gee->entry), "notify::cursor-position",
+	g_signal_connect (G_OBJECT (gee->entry),
+		"notify::cursor-position",
 		G_CALLBACK (gee_notify_cursor_position), gee);
 	gtk_box_pack_start (GTK_BOX (gee), GTK_WIDGET (gee->entry),
 		TRUE, TRUE, 0);
@@ -890,7 +899,6 @@ static void
 gee_detach_scg (GnmExprEntry *gee)
 {
 	if (gee->scg != NULL) {
-		SCG_FOREACH_PANE (gee->scg, pane, gnm_pane_range_cursor_clear (pane););
 		g_object_weak_unref (G_OBJECT (gee->scg),
 				     (GWeakNotify) cb_scg_destroy, gee);
 		gee->scg = NULL;
@@ -950,8 +958,12 @@ gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested)
 }
 
 static void
-gee_notify_cursor_position (GnmExprEntry *gee)
+gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
+			    G_GNUC_UNUSED GParamSpec *pspec,
+			    GnmExprEntry *gee)
 {
+	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
+
 	if (gee->ignore_changes)
 		return;
 	if (!gnm_expr_entry_can_rangesel (gee))
@@ -1572,5 +1584,15 @@ gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 }
 <<<<<<< HEAD:src/widgets/gnumeric-expr-entry.c
 
+<<<<<<< HEAD:src/widgets/gnumeric-expr-entry.c
 =======
 >>>>>>> This should have been on a branch:src/widgets/gnumeric-expr-entry.c
+=======
+void
+item_edit_disable_highlight (ItemEdit *ie)
+{
+	g_return_if_fail (ITEM_EDIT (ie) != NULL);
+	ie_destroy_feedback_range (ie);
+	ie->feedback_disabled = TRUE;
+}
+>>>>>>> revert the gee work from this branch and get the xlsx validation code to compile:src/widgets/gnumeric-expr-entry.c
