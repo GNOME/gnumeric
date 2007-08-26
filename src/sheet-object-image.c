@@ -580,6 +580,15 @@ gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 	GdkPixbuf *buf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
 	*w = gdk_pixbuf_get_width  (buf);
 	*h = gdk_pixbuf_get_height (buf);
+
+	/* In case buf is invalid with size 0,0 or if the image is just too
+	 * small to be useful default to something slightly larger
+	 * http://bugzilla.gnome.org/show_bug.cgi?id=462787
+	 **/
+	if ((*w * *h) < 25.) {
+		if (*w < 5) *w = 25;
+		if (*h < 5) *h = 25;
+	}
 	g_object_unref (buf);
 }
 
