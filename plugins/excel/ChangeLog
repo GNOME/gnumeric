@@ -7,6 +7,10 @@
 	* ms-chart.c: (gelframe): return if type is less that 5, otherwise
 	  set fill type and colors not auto.
 
+2007-08-25  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_chart_legend) : new.
+
 2007-08-24  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_DataValidation_begin) : don't lose the input
