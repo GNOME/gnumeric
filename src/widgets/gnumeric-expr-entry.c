@@ -47,11 +47,10 @@ struct _GnmExprEntry {
 
 	GtkEntry		*entry;
 	GtkWidget		*icon;
-
 	SheetControlGUI		*scg;	/* the source of the edit */
-	WBCGtk			*wbcg;	/* from scg */
 	Sheet			*sheet;	/* from scg */
 	GnmParsePos		 pp;	/* from scg->sv */
+	WBCGtk	*wbcg;	/* from scg */
 	Rangesel		 rangesel;
 
 	GnmExprEntryFlags	 flags;
@@ -60,10 +59,9 @@ struct _GnmExprEntry {
 	GtkUpdateType		 update_policy;
 	guint			 update_timeout_id;
 
-	gboolean		 is_cell_renderer;  /* as cell_editable */
-	gboolean		 editing_canceled;  /* as cell_editable */
-	gboolean		 ignore_changes; /* internal mutex */
-	gboolean		 feedback_disabled;
+	gboolean                 is_cell_renderer;  /* as cell_editable */
+	gboolean                 editing_canceled;  /* as cell_editable */
+	gboolean                 ignore_changes; /* internal mutex */
 };
 
 typedef struct _GnmExprEntryClass {
@@ -116,31 +114,6 @@ split_char_p (unsigned char const *c)
 	default :
 		return *c == go_locale_get_arg_sep () || *c == go_locale_get_col_sep ();
 	}
-}
-
-/* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
- *           canvas-items which would in turn call update and confuse the
- *           canvas.
- */
-static void
-gee_scan_for_ranges (GnmExprEntry *gee)
-{
-	GnmRange  range;
-	Sheet *sheet = scg_sheet (gee->scg);
-	Sheet *parse_sheet;
-
-	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
-
-	if (!gee->feedback_disabled) {
-		gnm_expr_entry_find_range (gee);
-		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
-		    parse_sheet == sheet) {
-			SCG_FOREACH_PANE (gee->scg, pane, gnm_pane_range_cursor_bound_set (pane, &range); );
-			return;
-		}
-	}
-
-	SCG_FOREACH_PANE (gee->scg, pane, gnm_pane_range_cursor_clear (pane););
 }
 
 static void
@@ -372,9 +345,6 @@ cb_entry_activate (GnmExprEntry *gee)
 static void
 cb_entry_changed (GnmExprEntry *gee)
 {
-	if (gnm_expr_char_start_p (gtk_entry_get_text (gee->entry)))
-		gee_scan_for_ranges (gee);
-
 	if (!gee->ignore_changes) {
 		if (!gee->is_cell_renderer &&
 		    !gnm_expr_entry_can_rangesel (gee) &&
@@ -416,7 +386,7 @@ cb_gee_key_press_event (GtkEntry     *entry,
 
 		/* Look for a range */
 		if (rs->text_start >= rs->text_end)
-			gnm_expr_entry_find_range (gee);
+			gnm_expr_expr_find_range (gee);
 
 		/* no range found */
 		if (!rs->is_valid || rs->text_start >= rs->text_end)
@@ -518,7 +488,7 @@ cb_gee_button_press_event (GnmExprEntry *gee)
 
 	if (gee->scg) {
 		scg_rangesel_stop (gee->scg, FALSE);
-		gnm_expr_entry_find_range (gee);
+		gnm_expr_expr_find_range (gee);
 		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 	}
 
@@ -546,7 +516,6 @@ gee_init (GnmExprEntry *gee)
 	gee->freeze_count = 0;
 	gee->update_timeout_id = 0;
 	gee->update_policy = GTK_UPDATE_CONTINUOUS;
-	gee->feedback_disabled = FALSE;
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
@@ -782,7 +751,7 @@ gee_rangesel_update_text (GnmExprEntry *gee)
  * selecting a range.
  **/
 void
-gnm_expr_entry_find_range (GnmExprEntry *gee)
+gnm_expr_expr_find_range (GnmExprEntry *gee)
 {
 	gboolean  single, formula_only;
 	char const *text, *cursor, *tmp, *ptr;
@@ -897,8 +866,6 @@ gnm_expr_entry_rangesel_stop (GnmExprEntry *gee,
 
 	if (!(gee->flags & GNM_EE_SINGLE_RANGE) || clear_string)
 		gee_rangesel_reset (gee);
-
-	gee->feedback_disabled = FALSE;
 }
 
 /***************************************************************************/
@@ -1145,6 +1112,12 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 #endif
 }
 
+void
+gnm_expr_entry_set_parsepos (GnmExprEntry *gee, GnmParsePos const *pp)
+{
+	gee->pp = *pp;
+}
+
 /**
  * gnm_expr_entry_load_from_text :
  * @gee :
@@ -1376,7 +1349,7 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 
-	gnm_expr_entry_find_range (gee);
+	gnm_expr_expr_find_range (gee);
 	if (gee->rangesel.is_valid)
 		return TRUE;
 
@@ -1591,4 +1564,3 @@ gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 
 	return gee->editing_canceled;
 }
-

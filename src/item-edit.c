@@ -63,6 +63,7 @@ struct _ItemEdit {
 	GdkGC     *fill_gc;	/* Default background fill gc */
 
 	FooCanvasItem *feedback_cursor [SCG_NUM_PANES];
+	gboolean       feedback_disabled;
 };
 
 typedef FooCanvasItemClass ItemEditClass;
@@ -72,6 +73,56 @@ enum {
 	ARG_0,
 	ARG_SHEET_CONTROL_GUI	/* The SheetControlGUI * argument */
 };
+
+static void
+ie_destroy_feedback_range (ItemEdit *ie)
+{
+	int i = G_N_ELEMENTS (ie->feedback_cursor);
+
+	while (i-- > 0)
+		if (ie->feedback_cursor[i] != NULL) {
+			gtk_object_destroy (GTK_OBJECT (ie->feedback_cursor[i]));
+			ie->feedback_cursor[i] = NULL;
+		}
+}
+
+/* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
+ *           canvas-item which would in turn call update and confuse the
+ *           canvas.
+ */
+static void
+ie_scan_for_range (ItemEdit *ie)
+{
+	GnmRange  range;
+	Sheet *sheet = scg_sheet (ie->scg);
+	Sheet *parse_sheet;
+	GnmParsePos pp;
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (
+		gtk_widget_get_parent (GTK_WIDGET (ie->entry)));
+
+	gnm_expr_entry_set_parsepos (gee,
+		parse_pos_init_editpos (&pp, scg_view (ie->scg)));
+	if (!ie->feedback_disabled) {
+		gnm_expr_expr_find_range (gee);
+		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
+		    parse_sheet == sheet) {
+			SCG_FOREACH_PANE (ie->scg, pane, {
+				if (ie->feedback_cursor[i] == NULL)
+					ie->feedback_cursor[i] = foo_canvas_item_new (
+						FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
+					item_cursor_get_type (),
+					"SheetControlGUI",	ie->scg,
+					"style",		ITEM_CURSOR_BLOCK,
+					"color",		"blue",
+					NULL);
+				item_cursor_bound_set (ITEM_CURSOR (ie->feedback_cursor[i]), &range);
+			});
+			return;
+		}
+	}
+
+	ie_destroy_feedback_range (ie);
+}
 
 static void
 get_top_left (ItemEdit const *ie, int *top, int *left)
@@ -410,15 +461,24 @@ item_edit_init (ItemEdit *ie)
 	ie->gfont = NULL;
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
+	ie->feedback_disabled = FALSE;
 	ie->fill_gc = NULL;
 }
 
 /*
+ * Invoked when the GtkEntry has changed
+ *
  * We use this to sync up the GtkEntry with our display on the screen.
  */
 static void
 entry_changed (FooCanvasItem *item)
 {
+	ItemEdit *ie = ITEM_EDIT (item);
+	char const *text = gtk_entry_get_text (ie->entry);
+
+	if (gnm_expr_char_start_p (text))
+		ie_scan_for_range (ie);
+
 	foo_canvas_item_request_update (item);
 }
 
@@ -495,7 +555,7 @@ item_edit_set_property (GObject *gobject, guint param_id,
 		"notify::cursor-position",
 		G_CALLBACK (entry_cursor_event), G_OBJECT (ie), G_CONNECT_AFTER|G_CONNECT_SWAPPED);
 
-#warning ie_scan_for_range (ie);
+	ie_scan_for_range (ie);
 
 	/* set the font and the upper left corner if this is the first pass */
 	if (ie->gfont == NULL) {
@@ -548,7 +608,7 @@ item_edit_class_init (GObjectClass *gobject_class)
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->set_property = item_edit_set_property;
-	gobject_class->dispose	    = item_edit_dispose;
+	gobject_class->dispose	   = item_edit_dispose;
 
 	g_object_class_install_property (gobject_class, ARG_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
@@ -572,3 +632,18 @@ item_edit_class_init (GObjectClass *gobject_class)
 GSF_CLASS (ItemEdit, item_edit,
 	   item_edit_class_init, item_edit_init,
 	   FOO_TYPE_CANVAS_ITEM);
+
+void
+item_edit_disable_highlight (ItemEdit *ie)
+{
+	g_return_if_fail (ITEM_EDIT (ie) != NULL);
+	ie_destroy_feedback_range (ie);
+	ie->feedback_disabled = TRUE;
+}
+
+void
+item_edit_enable_highlight (ItemEdit *ie)
+{
+	g_return_if_fail (ITEM_EDIT (ie) != NULL);
+	ie->feedback_disabled = FALSE;
+}
