@@ -54,14 +54,7 @@ struct _GnmPane {
 	ItemEdit      *editor;
 
 	struct {
-		ItemCursor *std, *rangesel, *special;
-
-		/* When editing, if the cursor is inside a cell name, or a cell range,
-		 * we highlight this on the spreadsheet. */
-		ItemCursor *rangehighlight;
-
-		/* The animated 'marching ants' cursors used to designate
-		 * copy/cut regions */
+		ItemCursor *std, *rangesel, *special, *rangehighlight;
 		GSList *animated;
 	} cursor;
 
