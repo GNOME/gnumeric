@@ -62,8 +62,6 @@ struct _ItemEdit {
 	GnmStyle  *style;
 	GdkGC     *fill_gc;	/* Default background fill gc */
 
-	/* When editing, if the cursor is inside a cell name, or a cell range,
-	 * we highlight this on the spreadsheet. */
 	FooCanvasItem *feedback_cursor [SCG_NUM_PANES];
 };
 
@@ -74,18 +72,6 @@ enum {
 	ARG_0,
 	ARG_SHEET_CONTROL_GUI	/* The SheetControlGUI * argument */
 };
-
-static void
-ie_destroy_feedback_range (ItemEdit *ie)
-{
-	int i = G_N_ELEMENTS (ie->feedback_cursor);
-
-	while (i-- > 0)
-		if (ie->feedback_cursor[i] != NULL) {
-			gtk_object_destroy (GTK_OBJECT (ie->feedback_cursor[i]));
-			ie->feedback_cursor[i] = NULL;
-		}
-}
 
 static void
 get_top_left (ItemEdit const *ie, int *top, int *left)
@@ -425,8 +411,6 @@ item_edit_init (ItemEdit *ie)
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
 	ie->fill_gc = NULL;
-	for (i = G_N_ELEMENTS (ie->feedback_cursor); i-- > 0 ; )
-		ie->feedback_cursor[i] = NULL;
 }
 
 /*
@@ -444,7 +428,6 @@ item_edit_dispose (GObject *gobject)
 	ItemEdit *ie = ITEM_EDIT (gobject);
 
 	item_edit_cursor_blink_stop (ie);
-	ie_destroy_feedback_range (ie);
 #if 0
 	/* Why?  */
 	scg_set_display_cursor (ie->scg);

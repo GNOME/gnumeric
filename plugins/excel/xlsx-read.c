@@ -1774,6 +1774,7 @@ xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		validation_unref (state->validation);
 		state->validation = NULL;
 	}
+
 	if (NULL != state->validation) {
 		style = gnm_style_new ();
 		gnm_style_set_validation (style, state->validation);
