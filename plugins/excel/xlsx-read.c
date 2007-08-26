@@ -805,6 +805,7 @@ xlsx_ser_type_start (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->dim_type = xin->node->user_data.v_int;
 }
+
 static void
 xlsx_ser_type_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
