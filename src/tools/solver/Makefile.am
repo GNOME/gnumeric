@@ -8,6 +8,7 @@ AM_CPPFLAGS = 						\
 	-I$(top_srcdir)/src/tools			\
 	-I$(top_srcdir)/src/tools/solver		\
 	-I$(top_srcdir)/src/tools/solver/glpk/include	\
+	-DGNUMERIC_INTERNAL				\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LTLIBRARIES = libsolver.la

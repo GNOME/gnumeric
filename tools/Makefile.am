@@ -2,7 +2,7 @@
 # Gnumeric's Tools Makefile.
 # Author: Ivan, Wong Yat Cheung (email@ivanwong.info)
 
-AM_CPPFLAGS = $(GNUMERIC_CFLAGS)
+AM_CPPFLAGS = $(GNUMERIC_CFLAGS) -DGNUMERIC_INTERNAL
 
 if WITH_WIN32
     noinst_PROGRAMS = gconf-schemas-to-win32-reg

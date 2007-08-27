@@ -14,6 +14,7 @@ AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/src						\
 	-I$(top_srcdir)/src/tools					\
+	-DGNUMERIC_INTERNAL						\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LTLIBRARIES = libdialogs.la

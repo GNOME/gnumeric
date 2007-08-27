@@ -3,6 +3,7 @@ AM_CPPFLAGS = 						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
 	-I..						\
+	-DGNUMERIC_INTERNAL				\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LTLIBRARIES = libwidgets.la

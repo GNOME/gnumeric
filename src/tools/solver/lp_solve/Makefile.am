@@ -3,6 +3,7 @@ AM_CPPFLAGS = 						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
 	-include $(CONFIG_HEADER)			\
+	-DGNUMERIC_INTERNAL				\
 	$(GNUMERIC_CFLAGS)				\
 	-DPARSER_LP
 
