@@ -424,15 +424,19 @@ parse_subexpr(const psiconv_formula psi_formula)
 	return NULL;
 }
 
-static GnmExpr const *
+static GnmExprTop const *
 expr_new_from_formula (const psiconv_sheet_cell psi_cell,
 		       const psiconv_formula_list psi_formulas)
 {
-	psiconv_formula formula;
+	psiconv_formula formula = psiconv_get_formula (psi_formulas, psi_cell->ref_formula);
 
-	formula = psiconv_get_formula (psi_formulas, psi_cell->ref_formula);
+	if (NULL != formula) {
+		GnmExpr const *expr = parse_subexpr (formula);
+		if (NULL != expr)
+			return gnm_expr_top_new	(expr);
+	}
 
-	return (formula != NULL) ?  parse_subexpr (formula) : NULL;
+	return NULL;
 }
 
 static void
@@ -441,7 +445,7 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 {
 	GnmCell *cell;
 	GnmValue *val;
-	GnmExpr const *expr = NULL;
+	GnmExprTop const *expr = NULL;
 
 	cell = sheet_cell_fetch (sheet, psi_cell->column, psi_cell->row);
 	if (!cell)
@@ -472,7 +476,7 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 		g_warning ("Cell with no value or expression ?");
 	}
 	if (expr)
-		gnm_expr_free (expr);
+		gnm_expr_top_unref (expr);
 
 	/* TODO: Perhaps this must be moved above set_format */
 	set_style(sheet,psi_cell->row,psi_cell->column,psi_cell->layout,
