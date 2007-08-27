@@ -252,13 +252,20 @@ static  gboolean
 cb_find_enum (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 	      FindEnumClosure *close)
 {
-	gboolean res;
+	gboolean res = FALSE;
 	char *combo_val;
 
+	g_return_val_if_fail (model != NULL, FALSE);
+	g_return_val_if_fail (close->val != NULL, FALSE);
+
 	gtk_tree_model_get (model, iter, 0, &combo_val, -1);
-	if ((res = !strcmp (close->val, combo_val)))
-		gtk_combo_box_set_active_iter (close->combo, iter);
-	g_free (combo_val);
+	if (combo_val) {
+		if (0 == strcmp (close->val, combo_val)) {
+			res = TRUE;
+			gtk_combo_box_set_active_iter (close->combo, iter);
+		}
+		g_free (combo_val);
+	}
 	return res;
 }
 
@@ -270,9 +277,11 @@ enum_pref_conf_to_widget (GOConfNode *node, char const *key, GtkComboBox *combo)
 
 	close.combo = combo;
 	close.val   = go_conf_get_enum_as_str (node, key);
-	gtk_tree_model_foreach (model,
-		(GtkTreeModelForeachFunc) cb_find_enum, &close);
-	g_free (close.val);
+	if (NULL != close.val) {	/* in case go_conf fails */
+		gtk_tree_model_foreach (model,
+			(GtkTreeModelForeachFunc) cb_find_enum, &close);
+		g_free (close.val);
+	}
 }
 
 static void

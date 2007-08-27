@@ -1,5 +1,11 @@
 2007-08-25  Jody Goldberg <jody@gnome.org>
 
+	* dialog-preferences.c (cb_find_enum) : be more careful.  On win32 if
+	  the registry has not been updated the model may be empty. [#462906]
+	(enum_pref_conf_to_widget) : ditto.
+
+2007-08-25  Jody Goldberg <jody@gnome.org>
+
 	* dialog-about.c (dialog_about) : update the copyright
 
 2007-08-21  Morten Welinder  <terra@gnome.org>
