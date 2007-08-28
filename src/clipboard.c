@@ -242,6 +242,12 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 		if (dst != NULL) {
 			SheetObjectAnchor tmp;
 			sheet_object_anchor_cpy (&tmp, sheet_object_get_anchor (src));
+			if (pt->paste_flags & PASTE_TRANSPOSE) {
+				GnmCellPos origin;
+				origin.col = 0;
+				origin.row = 0;
+				range_transpose (&tmp.cell_bound, &origin);
+			}
 			range_translate (&tmp.cell_bound, left, top);
 			sheet_object_set_anchor (dst, &tmp);
 			sheet_object_set_sheet (dst, pt->sheet);
