@@ -1,3 +1,7 @@
+2007-08-30  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (GNM_PY_LIBADD): Don't use test==.  [#471726]
+
 2007-08-27  Jody Goldberg <jody@gnome.org>
 
 	* src/clipboard.c (paste_object) : transpose objects too.
