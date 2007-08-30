@@ -867,7 +867,7 @@ if test "x$python_msg" = xyes; then
     BIG_CHECKING([for python = 2.x])
     [PY_VERSION=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:3])'`
      major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:1])'`]
-    if test "x$major_ver" == "x2"; then
+    if test "x$major_ver" = "x2"; then
 	AC_MSG_RESULT(yes)
 	if test "x$with_win32" = "xyes" ; then
 	    # 2.x on linux, 2x on win32
