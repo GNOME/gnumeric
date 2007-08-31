@@ -2124,7 +2124,7 @@ gnm_pane_reposition_cursors (GnmPane *pane)
 	if (NULL != pane->cursor.special)
 		item_cursor_reposition (pane->cursor.special);
 	if (NULL != pane->cursor.rangehighlight)
-		item_cursor_reposition (pane->cursor.rangehighlight);
+		item_cursor_reposition (ITEM_CURSOR (pane->cursor.rangehighlight));
 	for (l = pane->cursor.animated; l; l = l->next)
 		item_cursor_reposition (ITEM_CURSOR (l->data));
 
@@ -2138,29 +2138,6 @@ gboolean
 gnm_pane_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
 	return item_cursor_bound_set (pane->cursor.std, r);
-}
-
-gboolean
-gnm_pane_range_cursor_bound_set (GnmPane *pane, GnmRange const *r)
-{
-	if (NULL == pane->cursor.rangehighlight)
-		pane->cursor.rangehighlight = (ItemCursor*)foo_canvas_item_new (
-			FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
-			item_cursor_get_type (),
-			"SheetControlGUI",	pane->simple.scg,
-			"style",		ITEM_CURSOR_BLOCK,
-			"color",		"blue",
-			NULL);
-	return item_cursor_bound_set (pane->cursor.rangehighlight, r);
-}
-
-void
-gnm_pane_range_cursor_clear (GnmPane *pane)
-{
-	if (NULL != pane->cursor.rangehighlight) {
-		gtk_object_destroy (GTK_OBJECT (pane->cursor.rangehighlight));
-		pane->cursor.rangehighlight = NULL;
-	}
 }
 
 /****************************************************************************/

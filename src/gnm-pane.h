@@ -41,8 +41,6 @@ gboolean gnm_pane_special_cursor_bound_set (GnmPane *pane, GnmRange const *r);
 void	 gnm_pane_special_cursor_start 	   (GnmPane *pane, int style, int button);
 void	 gnm_pane_special_cursor_stop	   (GnmPane *pane);
 void	 gnm_pane_mouse_cursor_set         (GnmPane *pane, GdkCursor *c);
-gboolean gnm_pane_range_cursor_bound_set   (GnmPane *pane, GnmRange const *r);
-void	 gnm_pane_range_cursor_clear       (GnmPane *pane);
 
 /************************************************************************/
 
