@@ -6,11 +6,6 @@
 
 	* src/clipboard.c (paste_object) : transpose objects too.
 
-2007-08-27  Jody Goldberg <jody@gnome.org>
-
-	* plugins/fn-lookup/functions.c (gnumeric_index) : actually return a
-	reference, some functions require it.
-
 2007-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: define WITH_GOFFICE_0_4 if needed.
