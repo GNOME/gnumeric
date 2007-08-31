@@ -45,9 +45,13 @@
 #include "input-msg.h"
 #include "print-info.h"
 #include "gutils.h"
+#include "sheet-object.h"
+#include "sheet-object-graph.h"
 
 #include <goffice/app/file.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/graph/gog-object.h>
+
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-outfile-zip.h>
@@ -56,9 +60,13 @@
 #include <gsf/gsf-libxml.h>
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
+#include <string.h>
 
-static char const *ns_ss  = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-static char const *ns_rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+static char const *ns_ss	 = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+static char const *ns_ss_drawing = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
+static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
+static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
 
 #define XLSX_MaxCol	16383
 #define XLSX_MaxRow	1048575
@@ -71,6 +79,12 @@ typedef struct {
 	GPtrArray	*shared_string_array;
 	GnmConventions	*convs;
 	IOContext	*io_context;
+
+	GsfOutfile	*xl_dir;
+	struct {
+		unsigned int	count;
+		GsfOutfile	*dir;
+	} chart, drawing;
 } XLSXWriteState;
 
 typedef struct {
@@ -814,18 +828,268 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 
 }
 
+/**********************************************************************/
+
+static void
+xlsx_write_chart_cstr_unchecked (GsfXMLOut *xml, char const *name, char const *val)
+{
+	gsf_xml_out_start_element (xml, name);
+	gsf_xml_out_add_cstr_unchecked (xml, "val", val);
+	gsf_xml_out_end_element (xml);
+}
+static void
+xlsx_write_chart_bool (GsfXMLOut *xml, char const *name, gboolean val)
+{
+	gsf_xml_out_start_element (xml, name);
+	if (!val)
+		xlsx_add_bool (xml, "val", FALSE);
+	gsf_xml_out_end_element (xml);
+}
+static void
+xlsx_write_chart_int (GsfXMLOut *xml, char const *name, int def_val, int val)
+{
+	gsf_xml_out_start_element (xml, name);
+	if (!val)
+		xlsx_add_bool (xml, "val", FALSE);
+	gsf_xml_out_end_element (xml);
+}
+
+static void
+xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot)
+{
+	char const *type;
+	g_object_get (G_OBJECT (plot), "type", &type, NULL);
+	if (0 == strcmp (type, "as_percentage"))
+		type = "percentStacked";
+	else if (0 == strcmp (type, "stacked"))
+		type = "stacked";
+	else
+		type = "clustered";
+	xlsx_write_chart_cstr_unchecked (xml, "c:grouping", type);
+}
+
+static void
+xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
+{
+	GogGraph const	*graph = sheet_object_graph_get_gog (so);
+	GogObject const	*chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
+	GogObject const *plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
+	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
+	GogObject const *obj;
+	GsfXMLOut *xml = gsf_xml_out_new (chart_part);
+	gboolean failed = FALSE;
+
+	gsf_xml_out_start_element (xml, "c:chartSpace");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+
+	gsf_xml_out_start_element (xml, "c:chart");
+	gsf_xml_out_start_element (xml, "c:plotArea");
+	if (0 == strcmp (plot_type, "GogAreaPlot")) {
+		gsf_xml_out_start_element (xml, "c:areaChart");
+		xlsx_write_plot_1_5_type (xml, plot);
+	} else if (0 == strcmp (plot_type, "GogBarColPlot")) {
+		gboolean horizontal;
+		int overlap_percentage, gap_percentage;
+		g_object_get (G_OBJECT (plot),
+			"horizontal",		&horizontal,
+			"overlap-percentage",	&overlap_percentage,
+			"gap-percentage",	&gap_percentage,
+			NULL);
+		gsf_xml_out_start_element (xml, "c:barChart");
+		gsf_xml_out_simple_element (xml, "c:barDir",
+			horizontal ? "bar" : "col");
+		xlsx_write_plot_1_5_type (xml, plot);
+
+		gsf_xml_out_start_element (xml, "c:overlap");
+		gsf_xml_out_add_int (xml, "val", -overlap_percentage);
+		gsf_xml_out_end_element (xml); /* </c:grouping> */
+
+		gsf_xml_out_start_element (xml, "c:gapWidth");
+		gsf_xml_out_add_int (xml, "val", gap_percentage);
+		gsf_xml_out_end_element (xml); /* </c:grouping> */
+	} else if (0 == strcmp (plot_type, "GogLinePlot")) {
+		gsf_xml_out_start_element (xml, "c:lineChart");
+		xlsx_write_plot_1_5_type (xml, plot);
+	} else if (0 == strcmp (plot_type, "GogPiePlot") ||
+		   0 == strcmp (plot_type, "GogRingPlot")) {
+		float initial_angle = 0., center_size = 0.;
+		gint16 center = 0;
+		if (0 == strcmp (plot_type, "GogRingPlot")) {
+			gsf_xml_out_start_element (xml, "c:doughnutChart");
+			g_object_get (G_OBJECT (plot), "center-size", &center_size, NULL);
+			center = (int)floor (center_size * 100. + .5);
+			xlsx_write_chart_int (xml, "c:holeSize", 10,
+				CLAMP (center, 10, 90));
+		} else
+			gsf_xml_out_start_element (xml, "c:pieChart");
+
+		g_object_get (G_OBJECT (plot),
+			"initial-angle",	&initial_angle,
+			NULL);
+		xlsx_write_chart_int (xml, "c:firstSliceAng", 0, (int) initial_angle);
+#if 0
+		float default_separation = 0.;
+		/* handled in series ? */
+		"default-separation",	&default_separation,
+		xlsx_write_chart_int (xml, "c:explosion", 0, default_separation);
+#endif
+	} else if (0 == strcmp (plot_type, "GogRadarPlot") ||
+		   0 == strcmp (plot_type, "GogRadarAreaPlot")) {
+		gsf_xml_out_start_element (xml, "c:radarChart");
+	} else if (0 == strcmp (plot_type, "GogBubblePlot")) {
+		gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
+		g_object_get (G_OBJECT (plot),
+			"show-negatives",	&show_neg,
+			"in-3d",		&in_3d,
+			"size-as-area",		&as_area,
+			NULL);
+		gsf_xml_out_start_element (xml, "c:bubbleChart");
+		xlsx_write_chart_bool (xml, "c:showNegBubbles", show_neg);
+		xlsx_write_chart_cstr_unchecked (xml, "c:sizeRepresents",
+			as_area ? "area" : "w");
+		if (in_3d)
+			xlsx_write_chart_bool (xml, "c:bubble3D", TRUE);
+	} else if ( 0 == strcmp (plot_type, "GogXYPlot")) {
+		gsf_xml_out_start_element (xml, "c:scatterChart");
+	} else if (0 == strcmp (plot_type, "GogContourPlot") ||
+		   0 == strcmp (plot_type, "XLContourPlot")) {
+		gsf_xml_out_start_element (xml, "c:surfaceChart");
+	} else {
+		g_warning ("unexpected plot type %s", plot_type);
+		failed = TRUE;
+	}
+	if (!failed) {
+
+		gsf_xml_out_end_element (xml);
+	}
+
+	gsf_xml_out_end_element (xml); /* </c:plotArea> */
+
+	if ((obj = gog_object_get_child_by_name (chart, "Legend"))) {
+		gsf_xml_out_start_element (xml, "c:legend");
+		gsf_xml_out_end_element (xml); /* </c:legend> */
+	}
+	gsf_xml_out_end_element (xml); /* </c:chart> */
+
+	gsf_xml_out_end_element (xml); /* </c:chartSpace> */
+	g_object_unref (xml);
+}
+
+static void
+xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *element)
+{
+	gsf_xml_out_start_element (xml, element);
+	gsf_xml_out_simple_int_element (xml, "xdr:col", pos->col);
+	gsf_xml_out_simple_int_element (xml, "xdr:colOff", 0);
+	gsf_xml_out_simple_int_element (xml, "xdr:row", pos->row);
+	gsf_xml_out_simple_int_element (xml, "xdr:rowOff", 0);
+	gsf_xml_out_end_element (xml);
+}
+
+static char const *
+xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
+{
+	GSList *obj, *chart_id, *chart_ids = NULL;
+	char *name;
+	char const *rId, *rId1;
+	GsfOutput *drawing_part, *chart_part;
+	GsfXMLOut *xml;
+	SheetObjectAnchor const *anchor;
+	
+	if (NULL == state->drawing.dir)
+		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
+	if (NULL == state->chart.dir)
+		state->chart.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "charts", TRUE);
+
+	name = g_strdup_printf ("drawing%u.xml", state->drawing.count++);
+	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
+		"content-type", "application/vnd.openxmlformats-officedocument.drawing+xml",
+		NULL);
+	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
+		GSF_OUTFILE_OPEN_PKG (sheet_part),
+		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing");
+
+	for (obj = objects ; obj != NULL ; obj = obj->next) {
+		name = g_strdup_printf ("chart%u.xml", state->chart.count++);
+		chart_part = gsf_outfile_new_child_full (state->chart.dir, name, FALSE,
+			"content-type", "application/vnd.openxmlformats-officedocument.drawingml.chart+xml",
+			NULL);
+		rId1 = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (chart_part),
+			GSF_OUTFILE_OPEN_PKG (drawing_part),
+			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart");
+
+		chart_ids = g_slist_prepend (chart_ids, (gpointer)rId1);
+
+		xlsx_write_chart (state, chart_part, obj->data);
+		gsf_output_close (chart_part);
+		g_object_unref (chart_part);
+	}
+
+	xml = gsf_xml_out_new (drawing_part);
+	gsf_xml_out_start_element (xml, "xdr:wsDr");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xdr", ns_ss_drawing);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
+
+	chart_id = chart_ids = g_slist_reverse (chart_ids);
+	for (obj = objects ; obj != NULL ; obj = obj->next, chart_id = chart_id->next) {
+		anchor = sheet_object_get_anchor (obj->data);
+
+		gsf_xml_out_start_element (xml, "xdr:twoCellAnchor");
+		xlsx_write_object_anchor (xml, &anchor->cell_bound.start, "xdr:from");
+		xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to");
+
+		gsf_xml_out_start_element (xml, "xdr:graphicFrame");
+#if 0
+	      <xdr:nvGraphicFramePr>
+		<xdr:cNvPr id="2" name="Chart 1"/>
+		<xdr:cNvGraphicFramePr/>
+	      </xdr:nvGraphicFramePr>
+	      <xdr:xfrm>
+		<a:off x="0" y="0"/>
+		<a:ext cx="0" cy="0"/>
+	      </xdr:xfrm>
+#endif
+		gsf_xml_out_start_element (xml, "a:graphic");
+		gsf_xml_out_start_element (xml, "a:graphicData");
+		gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_chart);
+		gsf_xml_out_start_element (xml, "c:chart");
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+#warning FIXME
+		gsf_xml_out_add_cstr_unchecked (xml, "r:id", chart_id->data);
+		gsf_xml_out_end_element (xml); /* </c:chart> */
+		gsf_xml_out_end_element (xml); /* </a:graphicData> */
+		gsf_xml_out_end_element (xml); /* </a:graphic> */
+		gsf_xml_out_end_element (xml); /* </xdr:graphicFrame> */
+		gsf_xml_out_simple_element (xml, "xdr:clientData", NULL);
+		gsf_xml_out_end_element (xml); /* </xdr:twoCellAnchor> */
+	}
+	g_slist_free (chart_ids);
+
+	gsf_xml_out_end_element (xml); /* </wsDr> */
+	g_object_unref (xml);
+	gsf_output_close (drawing_part);
+	g_object_unref (drawing_part);
+
+	return rId;
+}
+
 static char const *
 xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, unsigned i)
 {
 	char *name = g_strdup_printf ("sheet%u.xml", i+1);
-	GsfOutput *part = gsf_outfile_new_child_full (dir, name, FALSE,
+	GsfOutput *sheet_part = gsf_outfile_new_child_full (dir, name, FALSE,
 		"content-type", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml",
 		NULL);
-	char const *rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (part),
+	char const *rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (sheet_part),
 		GSF_OUTFILE_OPEN_PKG (wb_part),
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet");
-	GsfXMLOut *xml = gsf_xml_out_new (part);
+	GsfXMLOut *xml;
 	GnmRange  extent;
+	GSList   *charts;
+	char const *chart_drawing_rel_id = NULL;
 	GnmStyle *col_styles [MIN (XLSX_MAX_COLS, SHEET_MAX_COLS)];
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
@@ -833,6 +1097,13 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		MIN (XLSX_MAX_COLS, SHEET_MAX_COLS),
 		MIN (XLSX_MAX_ROWS, SHEET_MAX_ROWS), state->io_context);
 
+	charts = sheet_objects_get (state->sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+	if (NULL != charts) {
+		chart_drawing_rel_id = xlsx_write_objects (state, sheet_part, charts);
+		g_slist_free (charts);
+	}
+
+	xml = gsf_xml_out_new (sheet_part);
 	gsf_xml_out_start_element (xml, "worksheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
@@ -876,12 +1147,17 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	xlsx_write_autofilters (state, xml);
 	xlsx_write_protection (state, xml);
 	xlsx_write_print_info (state, xml);
+	if (NULL != chart_drawing_rel_id) {
+		gsf_xml_out_start_element (xml, "drawing");
+		gsf_xml_out_add_cstr_unchecked (xml, "r:id", chart_drawing_rel_id);
+		gsf_xml_out_end_element (xml);
+	}
 	gsf_xml_out_end_element (xml); /* </worksheet> */
 
 	state->sheet = NULL;
 	g_object_unref (xml);
-	gsf_output_close (part);
-	g_object_unref (part);
+	gsf_output_close (sheet_part);
+	g_object_unref (sheet_part);
 	g_free (name);
 
 	return rId;
@@ -920,9 +1196,12 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 		root_part,
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
 
+	state->xl_dir = xl_dir;
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
 	state->convs	 = xlsx_conventions_new ();
+	state->chart.dir   = state->drawing.dir = NULL;
+	state->chart.count = state->drawing.count = 1;
 
 	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->base.wb));
 	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++)
@@ -980,8 +1259,14 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	g_hash_table_destroy (state->shared_string_hash);
 	g_ptr_array_free (state->shared_string_array, TRUE);
 
+	if (NULL != state->chart.dir)
+		gsf_output_close (GSF_OUTPUT (state->chart.dir));
+	if (NULL != state->drawing.dir)
+		gsf_output_close (GSF_OUTPUT (state->drawing.dir));
 	gsf_output_close (GSF_OUTPUT (wb_part));
 	g_ptr_array_free (sheetIds, TRUE);
+	gsf_output_close (GSF_OUTPUT (sheet_dir));
+	gsf_output_close (GSF_OUTPUT (xl_dir));
 }
 
 G_MODULE_EXPORT void
@@ -1015,5 +1300,6 @@ xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
  * 	rich text
  * 	shared expressions
  * 	external refs
+ * 	charts
  * 	...
  * 	*/

@@ -5,7 +5,7 @@
  * Author:
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1999-2005 Jody Goldberg
+ * (C) 1999-2007 Jody Goldberg
  **/
 
 #include <gnumeric-config.h>
@@ -2188,6 +2188,9 @@ XL_gog_series_map_dim (GogSeries const *series, GogMSDimType ms_type)
 	return -2;
 }
 
+extern void
+XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val);
+
 void
 XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
 {
@@ -4091,8 +4094,7 @@ chart_write_trend_line (XLChartWriteState *s, GogTrendLine *rc, unsigned n, unsi
 	if (IS_GOG_REG_CURVE (rc)) {
 		g_object_get (G_OBJECT (rc), "affine", &affine,
 				"skip-invalid", &skip_invalid, NULL);
-		eqn = gog_object_get_child_by_role (GOG_OBJECT (rc),
-				gog_object_find_role_by_name (GOG_OBJECT (rc), "Equation"));
+		eqn = gog_object_get_child_by_name (GOG_OBJECT (rc), "Equation");
 	}
 	if (affine)
 		memcpy (data+2, invalid_data, 8);
@@ -4459,15 +4461,13 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		GogObject *Grid;
 		chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (axis)->style->line,
 					TRUE, FALSE);
-		Grid = gog_object_get_child_by_role (GOG_OBJECT (axis),
-				gog_object_find_role_by_name (GOG_OBJECT (axis), "MajorGrid"));
+		Grid = gog_object_get_child_by_name (GOG_OBJECT (axis), "MajorGrid");
 		if (Grid) {
 			ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 1);
 			chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (Grid)->style->line,
 						TRUE, FALSE);
 		}
-		Grid = gog_object_get_child_by_role (GOG_OBJECT (axis),
-				gog_object_find_role_by_name (GOG_OBJECT (axis), "MinorGrid"));
+		Grid = gog_object_get_child_by_name (GOG_OBJECT (axis), "MinorGrid");
 		if (Grid) {
 			ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 2);
 			chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (Grid)->style->line,
@@ -4679,8 +4679,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 	gboolean x_inverted = FALSE, y_inverted = FALSE;
 	GSList *sptr, *pptr;
 	XLAxisSet *axis_set;
-	GogObject const *legend = gog_object_get_child_by_role (s->chart,
-		gog_object_find_role_by_name (s->chart, "Legend"));
+	GogObject const *legend = gog_object_get_child_by_name (s->chart, "Legend");
 
 	ms_biff_put_2byte (s->bp, BIFF_CHART_axesused, g_slist_length (sets));
 	for (sptr = sets; sptr != NULL ; sptr = sptr->next) {
@@ -4758,8 +4757,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		}
 
 		if (i == 0) {
-			GogObject *grid = gog_object_get_child_by_role (s->chart,
-				gog_object_find_role_by_name (s->chart, "Grid"));
+			GogObject *grid = gog_object_get_child_by_name (s->chart, "Grid");
 			if (grid != NULL) {
 				ms_biff_put_empty (s->bp, BIFF_CHART_plotarea);
 				chart_write_frame (s, grid, TRUE, TRUE);

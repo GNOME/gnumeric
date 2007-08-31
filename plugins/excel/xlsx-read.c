@@ -2213,22 +2213,23 @@ xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean pivotTables		= TRUE;
 	gboolean selectUnlockedCells	= FALSE;
 
-	if (attr_bool (xin, attrs, "sheet", &sheet)) ;
-	else if (attr_bool (xin, attrs, "objects", &objects)) ;
-	else if (attr_bool (xin, attrs, "scenarios", &scenarios)) ;
-	else if (attr_bool (xin, attrs, "formatCells", &formatCells)) ;
-	else if (attr_bool (xin, attrs, "formatColumns", &formatColumns)) ;
-	else if (attr_bool (xin, attrs, "formatRows", &formatRows)) ;
-	else if (attr_bool (xin, attrs, "insertColumns", &insertColumns)) ;
-	else if (attr_bool (xin, attrs, "insertRows", &insertRows)) ;
-	else if (attr_bool (xin, attrs, "insertHyperlinks", &insertHyperlinks)) ;
-	else if (attr_bool (xin, attrs, "deleteColumns", &deleteColumns)) ;
-	else if (attr_bool (xin, attrs, "deleteRows", &deleteRows)) ;
-	else if (attr_bool (xin, attrs, "selectLockedCells", &selectLockedCells)) ;
-	else if (attr_bool (xin, attrs, "sort", &sort)) ;
-	else if (attr_bool (xin, attrs, "autoFilter", &autoFilter)) ;
-	else if (attr_bool (xin, attrs, "pivotTables", &pivotTables)) ;
-	else if (attr_bool (xin, attrs, "selectUnlockedCells", &selectUnlockedCells)) ;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_bool (xin, attrs, "sheet", &sheet)) ;
+		else if (attr_bool (xin, attrs, "objects", &objects)) ;
+		else if (attr_bool (xin, attrs, "scenarios", &scenarios)) ;
+		else if (attr_bool (xin, attrs, "formatCells", &formatCells)) ;
+		else if (attr_bool (xin, attrs, "formatColumns", &formatColumns)) ;
+		else if (attr_bool (xin, attrs, "formatRows", &formatRows)) ;
+		else if (attr_bool (xin, attrs, "insertColumns", &insertColumns)) ;
+		else if (attr_bool (xin, attrs, "insertRows", &insertRows)) ;
+		else if (attr_bool (xin, attrs, "insertHyperlinks", &insertHyperlinks)) ;
+		else if (attr_bool (xin, attrs, "deleteColumns", &deleteColumns)) ;
+		else if (attr_bool (xin, attrs, "deleteRows", &deleteRows)) ;
+		else if (attr_bool (xin, attrs, "selectLockedCells", &selectLockedCells)) ;
+		else if (attr_bool (xin, attrs, "sort", &sort)) ;
+		else if (attr_bool (xin, attrs, "autoFilter", &autoFilter)) ;
+		else if (attr_bool (xin, attrs, "pivotTables", &pivotTables)) ;
+		else if (attr_bool (xin, attrs, "selectUnlockedCells", &selectUnlockedCells)) ;
 
 	g_object_set (state->sheet,
 		"protected", 			 	 sheet,
@@ -2640,6 +2641,16 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static void
+xlsx_ole_object (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	/* <oleObject progId="Wordpad.Document.1" shapeId="1032" r:id="rId5"/> */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		;
+}
+
 static GsfXMLInNode const xlsx_sheet_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -2721,6 +2732,8 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
     GSF_XML_IN_NODE (COL_BREAKS, CT_PageBreak, XL_NS_SS, "brk", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 
   GSF_XML_IN_NODE (SHEET, LEGACY_DRAW, XL_NS_SS, "legacyDrawing", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, OLE_OBJECTS, XL_NS_SS, "oleObjects", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (OLE_OBJECTS, OLE_OBJECT, XL_NS_SS, "oleObject", GSF_XML_NO_CONTENT, &xlsx_ole_object, NULL),
 
 GSF_XML_IN_NODE_END
 };
