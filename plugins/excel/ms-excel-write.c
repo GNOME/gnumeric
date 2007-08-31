@@ -5751,3 +5751,28 @@ excel_collect_validations (GnmStyleList *ptr, int max_col, int max_row)
 
 	return group;
 }
+
+GHashTable *
+excel_collect_hlinks (GnmStyleList *ptr, int max_col, int max_row)
+{
+	GnmStyleRegion const *sr;
+	GnmHLink   *hlink;
+	GSList	   *ranges;
+	GHashTable *group = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	for (; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+		/* Clip here to avoid creating a DV record if there are no regions */
+		if (sr->range.start.col >= max_col ||
+		    sr->range.start.row >= max_row) {
+			range_dump (&sr->range, "bounds drop\n");
+			continue;
+		}
+		hlink  = gnm_style_get_hlink (sr->style);
+		ranges = g_hash_table_lookup (group, hlink);
+		g_hash_table_replace (group, hlink,
+			g_slist_prepend (ranges, (gpointer)&sr->range));
+	}
+
+	return group;
+}

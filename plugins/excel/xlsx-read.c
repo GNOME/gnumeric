@@ -40,6 +40,7 @@
 #include "input-msg.h"
 #include "value.h"
 #include "sheet-filter.h"
+#include "hlink.h"
 #include "selection.h"
 #include "command-context.h"
 #include "workbook-view.h"
@@ -1031,8 +1032,26 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (VAL_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
-      GSF_XML_IN_NODE (PLOTAREA, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-      GSF_XML_IN_NODE (PLOTAREA, SCATTER, XL_NS_CHART,	"scatterChart", GSF_XML_NO_CONTENT, &xlsx_chart_xy, &xlsx_plot_end),
+      GSF_XML_IN_NODE (PLOTAREA, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (LAYOUT, LAST_LAYOUT,	    XL_NS_CHART, "lastLayout", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (LAYOUT, LAST_LAYOUT_OUTER, XL_NS_CHART, "lastLayoutOuter", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (LAST_LAYOUT_OUTER, LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (LAYOUT, MAN_LAYOUT, XL_NS_CHART, "manualLayout", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_H, XL_NS_CHART, "h", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_W, XL_NS_CHART, "w", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_XMODE, XL_NS_CHART, "xMode", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, NULL, NULL),
+
+      GSF_XML_IN_NODE (PLOTAREA, SCATTER, XL_NS_CHART,	"scatterChart", GSF_XML_NO_CONTENT, xlsx_chart_xy, &xlsx_plot_end),
         GSF_XML_IN_NODE (SCATTER, SCATTER_STYLE, XL_NS_CHART,	"scatterStyle", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (SCATTER, AXIS_ID, XL_NS_CHART,		"axId", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -1042,7 +1061,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
           GSF_XML_IN_NODE_FULL (SERIES, SERIES_CAT, XL_NS_CHART,"cat", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_CATEGORIES),
-            GSF_XML_IN_NODE (SERIES_CAT, STR_REF, XL_NS_CHART,	"strRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+            GSF_XML_IN_NODE (SERIES_CAT, STR_REF, XL_NS_CHART,	"strRef", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
             GSF_XML_IN_NODE (SERIES_CAT, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (NUM_REF, FUNC, XL_NS_CHART,	"f", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
               GSF_XML_IN_NODE (NUM_REF, NUM_CACHE, XL_NS_CHART,	"numCache", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1067,9 +1086,10 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_BUBBLES),
             GSF_XML_IN_NODE (SERIES_BUBBLES, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
-          GSF_XML_IN_NODE (SERIES, SERIES_BUBBLES_3D, XL_NS_CHART,	"bubble3D", GSF_XML_NO_CONTENT, NULL, NULL),
-
           GSF_XML_IN_NODE (SERIES, TEXT, XL_NS_CHART,	"tx", GSF_XML_NO_CONTENT, NULL, NULL),
+
+          GSF_XML_IN_NODE (SERIES, SERIES_BUBBLES_3D, XL_NS_CHART,	"bubble3D", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SERIES, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
           GSF_XML_IN_NODE (SERIES, SERIES_SMOOTH, XL_NS_CHART, "smooth", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_D_LBLS, XL_NS_CHART,	"dLbls", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1120,8 +1140,11 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (PLOTAREA, LINE, XL_NS_CHART,	"lineChart", GSF_XML_NO_CONTENT, &xlsx_chart_line, &xlsx_plot_end),
         GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (LINE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
-          GSF_XML_IN_NODE (SERIES, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-       GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+          GSF_XML_IN_NODE (SERIES, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+            GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (LINE, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (LINE, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 
@@ -1393,39 +1416,6 @@ xlsx_get_dxf (GsfXMLIn *xin, int dxf)
 		return g_ptr_array_index (state->dxfs, dxf);
 	xlsx_warning (xin, _("Undefined partial style record '%d'"), dxf);
 	return NULL;
-}
-
-/* Returns: a GSList of GnmRange in _reverse_ order
- * caller frees the list and the content */
-static GSList *
-xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
-{
-	GnmRange  r;
-	xmlChar const *tmp;
-	GSList	 *res = NULL;
-
-	while (NULL != refs && *refs) {
-		if (NULL == (tmp = cellpos_parse (refs, &r.start, FALSE))) {
-			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
-			return res;
-		}
-
-		refs = tmp;
-		if (*refs == '\0' || *refs == ' ')
-			r.end = r.start;
-		else if (*refs != ':' ||
-			 NULL == (tmp = cellpos_parse (refs + 1, &r.end, FALSE))) {
-			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
-			return res;
-		}
-
-		range_normalize (&r); /* be anal */
-		res = g_slist_prepend (res, range_dup (&r));
-
-		for (refs = tmp ; *refs == ' ' ; refs++ ) ;
-	}
-
-	return res;
 }
 
 /****************************************************************************/
@@ -2644,11 +2634,76 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_ole_object (GsfXMLIn *xin, xmlChar const **attrs)
 {
+#if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	/* <oleObject progId="Wordpad.Document.1" shapeId="1032" r:id="rId5"/> */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		;
+#endif
+}
+
+static void
+xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	gboolean has_ref = FALSE;
+	GnmStyle *style;
+	GnmRange r;
+	GType link_type = 0;
+	GnmHLink *link = NULL;
+	xmlChar const *target = NULL;
+	xmlChar const *tooltip = NULL;
+	xmlChar const *extern_id = NULL;
+
+	/* <hyperlink ref="A42" r:id="rId1"/> */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_range (xin, attrs, "ref", &r))
+			has_ref = TRUE;
+		else if (0 == strcmp (attrs[0], "location"))
+			target = attrs[1];
+		else if (0 == strcmp (attrs[0], "tooltip"))
+			tooltip = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+			extern_id = attrs[1];
+#if 0 /* ignore "display" on import, it always seems to be the cell content */
+		else if (0 == strcmp (attrs[0], "display"))
+#endif
+	if (!has_ref)
+		return;
+
+	if (NULL != target)
+		link_type = gnm_hlink_cur_wb_get_type ();
+	else if (NULL != extern_id) {
+		GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_id (
+			gsf_xml_in_get_input (xin), extern_id);
+		if (NULL != rel &&
+		    gsf_open_pkg_rel_is_extern (rel) &&
+		    0 == strcmp (gsf_open_pkg_rel_get_type (rel),
+				 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink")) {
+			target = gsf_open_pkg_rel_get_target (rel);
+			if (NULL != target) {
+				if (0 == strncmp (target, "mailto:", 7))
+					link_type = gnm_hlink_email_get_type ();
+				else
+					link_type = gnm_hlink_url_get_type ();
+			}
+		}
+	}
+
+	if (0 == link_type) {
+		xlsx_warning (xin, _("Unknown type of hyperlink"));
+		return;
+	}
+
+	link = g_object_new (link_type, NULL);
+	if (NULL != target)
+		gnm_hlink_set_target (link, target);
+	if (NULL != tooltip)
+		gnm_hlink_set_tip  (link, tooltip);
+	style = gnm_style_new ();
+	gnm_style_set_hlink (style, link);
+	sheet_style_apply_range	(state->sheet, &r, style);
 }
 
 static GsfXMLInNode const xlsx_sheet_dtd[] = {
@@ -2717,7 +2772,7 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
       GSF_XML_IN_NODE (COND_RULE, COND_ICON_SET, XL_NS_SS, "iconSet", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (SHEET, HYPERLINKS, XL_NS_SS, "hyperlinks", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (HYPERLINKS, HYPERLINK, XL_NS_SS, "hyperlink", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (HYPERLINKS, HYPERLINK, XL_NS_SS, "hyperlink", GSF_XML_NO_CONTENT, &xlsx_CT_HyperLinks, NULL),
 
   GSF_XML_IN_NODE (SHEET, PRINT_OPTS, XL_NS_SS, "printOptions", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_MARGINS, XL_NS_SS, "pageMargins", GSF_XML_NO_CONTENT, &xlsx_CT_PageMargins, NULL),

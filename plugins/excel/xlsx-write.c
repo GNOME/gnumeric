@@ -42,6 +42,7 @@
 #include "str.h"
 #include "style-color.h"
 #include "validation.h"
+#include "hlink.h"
 #include "input-msg.h"
 #include "print-info.h"
 #include "gutils.h"
@@ -66,10 +67,13 @@
 #include <string.h>
 
 static char const *ns_ss	 = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
 static char const *ns_ss_drawing = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
 static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
 static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
+static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+static char const *ns_rel_hlink	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
+static char const *ns_rel_draw	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing";
+static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart";
 
 #define XLSX_MaxCol	16383
 #define XLSX_MaxRow	1048575
@@ -585,6 +589,61 @@ xlsx_write_validations (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *e
 	}
 }
 
+static void
+xlsx_write_hlink (GnmHLink const *link, GSList *ranges, XLSXClosure *info)
+{
+	gchar const *target = gnm_hlink_get_target (link);
+	gchar const *location = NULL;
+	gchar const *rid = NULL;
+	gchar const *tip;
+	GType const t = G_OBJECT_TYPE (link);
+
+	if (t == gnm_hlink_url_get_type () ||
+	    t == gnm_hlink_email_get_type ()) {
+		rid = gsf_outfile_open_pkg_add_extern_rel (
+			GSF_OUTFILE_OPEN_PKG (gsf_xml_out_get_output (info->xml)),
+			target, ns_rel_hlink);
+	} else if (t != gnm_hlink_cur_wb_get_type ())
+		return;
+
+	for (; ranges  != NULL ; ranges = ranges->next) {
+		gsf_xml_out_start_element (info->xml, "hyperlink");
+		xlsx_add_range (info->xml, "ref", ranges->data);
+
+		if (t == gnm_hlink_cur_wb_get_type ())
+			gsf_xml_out_add_cstr (info->xml, "location", target);
+		else if (NULL != rid)
+			gsf_xml_out_add_cstr (info->xml, "id", rid);
+		if (NULL != location)
+			gsf_xml_out_add_cstr (info->xml, "tooltip", location);
+		if (NULL != (tip = gnm_hlink_get_tip (link)))
+			gsf_xml_out_add_cstr (info->xml, "tooltip", tip);
+		gsf_xml_out_end_element (info->xml); /*  </hyperlink> */
+	}
+}
+
+static void
+xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
+{
+	GnmStyleList *hlinks = sheet_style_collect_hlinks (state->sheet, NULL);
+
+	if (NULL != hlinks) {
+		XLSXClosure info = { state, xml };
+		/* filter on logical max, not extent.  XL allows validations
+		 * past the stated dimension */
+		GHashTable *group = excel_collect_hlinks (hlinks,
+			XLSX_MAX_COLS, XLSX_MAX_ROWS);
+
+		gsf_xml_out_start_element (xml, "hyperlinks");
+		gsf_xml_out_add_int (xml, "count", g_hash_table_size (group)) ;
+		g_hash_table_foreach (group, (GHFunc) xlsx_write_hlink, &info);
+		gsf_xml_out_end_element (xml); /*  </hyperlinks> */
+
+		g_hash_table_destroy (group);
+		style_list_free (hlinks);
+	}
+}
+
 static gboolean
 xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 		ColRowInfo const *ci, int first, int last, gboolean has_child)
@@ -1069,8 +1128,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 		"content-type", "application/vnd.openxmlformats-officedocument.drawing+xml",
 		NULL);
 	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
-		GSF_OUTFILE_OPEN_PKG (sheet_part),
-		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing");
+		GSF_OUTFILE_OPEN_PKG (sheet_part), ns_rel_draw);
 
 	for (obj = objects ; obj != NULL ; obj = obj->next) {
 		name = g_strdup_printf ("chart%u.xml", state->chart.count++);
@@ -1078,8 +1136,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 			"content-type", "application/vnd.openxmlformats-officedocument.drawingml.chart+xml",
 			NULL);
 		rId1 = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (chart_part),
-			GSF_OUTFILE_OPEN_PKG (drawing_part),
-			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart");
+			GSF_OUTFILE_OPEN_PKG (drawing_part), ns_rel_chart);
 
 		chart_ids = g_slist_prepend (chart_ids, (gpointer)rId1);
 
@@ -1205,6 +1262,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	xlsx_write_cells (state, xml, &extent);
 	xlsx_write_merges (state, xml);
 	xlsx_write_validations (state, xml, &extent);
+	xlsx_write_hlinks (state, xml, &extent);
 	xlsx_write_autofilters (state, xml);
 	xlsx_write_protection (state, xml);
 	xlsx_write_print_info (state, xml);
