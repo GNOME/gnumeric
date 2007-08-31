@@ -986,7 +986,7 @@ gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	res = value_new_array (width, 1);
 	for (i = width; i-- > 0 ; )
-		value_array_set (res, i, 1, value_new_int (col + i));
+		value_array_set (res, i, 0, value_new_int (col + i));
 	return res;
 }
 

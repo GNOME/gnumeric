@@ -1,3 +1,7 @@
+2007-08-31  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_column): Fix off-by-one.
+
 2007-08-30  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_column) : fix per Harlan Grove's testing that
