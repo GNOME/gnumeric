@@ -425,13 +425,23 @@ static void
 stf_write_csv (GOFileSaver const *fs, IOContext *context,
 	       gconstpointer wbv, GsfOutput *output)
 {
+	Sheet *sheet;
+	GnmRangeRef const *range;
+
 	GnmStfExport *config = g_object_new
 		(GNM_STF_EXPORT_TYPE,
 		 "sink", output,
 		 "quoting-triggers", ", \t\n\"",
 		 NULL);
-	gnm_stf_export_options_sheet_list_add (config,
-					   wb_view_cur_sheet (wbv));
+
+	/* FIXME: this is crap in both branches of the "if".  */
+	range = g_object_get_data (G_OBJECT (wb_view_get_workbook (wbv)), "ssconvert-range");
+	if (range && range->a.sheet)
+		sheet = range->a.sheet;
+	else
+		sheet = wb_view_cur_sheet (wbv);
+
+	gnm_stf_export_options_sheet_list_add (config, sheet);
 
 	if (gnm_stf_export (config) == FALSE)
 		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
