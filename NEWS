@@ -1,4 +1,4 @@
-Gnumeric 1.7.12
+Gnumeric 1.7.12	'Rocks for Rob, Roses for Harlan'
 
 J.H.M. Dassen (Ray):
 	* Added infrastructure to render the DocBook documentation as PDF.
@@ -15,7 +15,8 @@ Jody:
 	* Use utf-16 encoded cmd line args on windows. [#361321]
 	* Fix XLS import of workbook local hyperlinks.
 	* XLSX import/export of validation and input messages.
-	* Basic XLSX import of charts.
+	* Basic XLSX import/export of charts.
+	* ROW/COLUMN return vectors not matricies. [#Harlan Grove]
 
 Morten:
 	* Fix undo column/row insert/delete for arrays.  [#463834]

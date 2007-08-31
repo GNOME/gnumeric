@@ -1,3 +1,10 @@
+2007-08-30  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_column) : fix per Harlan Grove's testing that
+	  row/column return vectors, not matricies.
+	* functions.c (gnumeric_row) : ditto.  Move to the new help style
+	  while I'm in here.
+
 2007-08-27  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_index) : actually return a

@@ -941,40 +941,35 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_column[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COLUMN\n"
-	   "@SYNTAX=COLUMN([reference])\n"
-
-	   "@DESCRIPTION="
-	   "COLUMN function returns the column number of the current cell "
-	   "unless @reference is given. "
-	   "In that case, it returns an array of the column numbers of all "
-	   "cells in @reference. "
+	{ GNM_FUNC_HELP_NAME, F_("COLUMN:vector of column numbers.") },
+	{ GNM_FUNC_HELP_ARG, F_("[reference].") },
+	{ GNM_FUNC_HELP_SEEALSO, "COLUMNS,ROW,ROWS" },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_(
+	   "COLUMN function returns a Nx1 array containing the series of integers "
+	   "from the first column to the last column of @reference."
+	   "\n"
+	   "* @reference defaults to the position of the current expression.\n"
 	   "\n"
 	   "* If @reference is neither an array nor a reference nor a range, "
-	   "COLUMN returns #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COLUMN() in E1 equals 5.\n"
-	   "\n"
-	   "@SEEALSO=COLUMNS,ROW,ROWS")
-	},
+	   "returns #VALUE! error.\n") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN(A1:C4) equals {1,2,3}") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN(A:C) equals {1,2,3}\n") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN() in G13 equals 7.\n") },
 	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
 gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int col, width, height, i, j;
+	int col, width, i;
 	GnmValue *res;
 	GnmValue const *ref = args[0];
 
 	if (ref == NULL) {
 		col   = ei->pos->eval.col + 1; /* user visible counts from 0 */
-		if (ei->pos->array != NULL) {
+		if (ei->pos->array != NULL)
 			width = ei->pos->array->cols;
-			height= ei->pos->array->rows;
-		} else
+		else
 			return value_new_int (col);
 	} else if (ref->type == VALUE_CELLRANGE) {
 		Sheet    *tmp;
@@ -983,17 +978,15 @@ gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		gnm_rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
 		col    = r.start.col + 1;
 		width  = range_width (&r);
-		height = range_height (&r);
 	} else
 		return value_new_error_VALUE (ei->pos);
 
-	if (width == 1 && height == 1)
+	if (width == 1)
 		return value_new_int (col);
 
-	res = value_new_array (width, height);
+	res = value_new_array (width, 1);
 	for (i = width; i-- > 0 ; )
-		for (j = height ; j-- > 0 ; )
-			value_array_set (res, i, j, value_new_int (col + i));
+		value_array_set (res, i, 1, value_new_int (col + i));
 	return res;
 }
 
@@ -1124,38 +1117,35 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_row[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ROW\n"
-	   "@SYNTAX=ROW([reference])\n"
-
-	   "@DESCRIPTION="
-	   "ROW function returns an array of the row numbers taking "
-	   "a default argument of the containing cell position.\n"
+	{ GNM_FUNC_HELP_NAME, F_("ROW:vector of row numbers.") },
+	{ GNM_FUNC_HELP_ARG, F_("[reference].") },
+	{ GNM_FUNC_HELP_SEEALSO, "COLUMN,COLUMNS,ROWS" },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_(
+	   "ROW function returns a 1xN array containing the series of integers "
+	   "from the first row to the last row of @reference."
+	   "\n"
+	   "* @reference defaults to the position of the current expression.\n"
 	   "\n"
 	   "* If @reference is neither an array nor a reference nor a range, "
-	   "ROW returns #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ROW() in G13 equals 13.\n"
-	   "\n"
-	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
-	},
+	   "returns #VALUE! error.\n") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("ROW(A1:D3) equals {1;2;3}\n") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("ROW(1:3) equals {1;2;3}\n") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("ROW() in G13 equals 13.\n") },
 	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
 gnumeric_row (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int row, width, height, i, j;
+	int row, n, i;
 	GnmValue *res;
 	GnmValue const *ref = args[0];
 
 	if (ref == NULL) {
 		row   = ei->pos->eval.row + 1; /* user visible counts from 0 */
-		if (ei->pos->array != NULL) {
-			width = ei->pos->array->cols;
-			height= ei->pos->array->rows;
-		} else
+		if (ei->pos->array != NULL)
+			n = ei->pos->array->rows;
+		else
 			return value_new_int (row);
 	} else if (ref->type == VALUE_CELLRANGE) {
 		Sheet    *tmp;
@@ -1163,18 +1153,16 @@ gnumeric_row (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 		gnm_rangeref_normalize (&ref->v_range.cell, ei->pos, &tmp, &tmp, &r);
 		row    = r.start.row + 1;
-		width  = range_width (&r);
-		height = range_height (&r);
+		n = range_height (&r);
 	} else
 		return value_new_error_VALUE (ei->pos);
 
-	if (width == 1 && height == 1)
+	if (n == 1)
 		return value_new_int (row);
 
-	res = value_new_array (width, height);
-	for (j = height ; j-- > 0 ; )
-		for (i = width; i-- > 0 ; )
-			value_array_set (res, i, j, value_new_int (row + j));
+	res = value_new_array (1, n);
+	for (i = n ; i-- > 0 ; )
+		value_array_set (res, 0, i, value_new_int (row + i));
 	return res;
 }
 
