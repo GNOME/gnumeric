@@ -47,10 +47,13 @@
 #include "gutils.h"
 #include "sheet-object.h"
 #include "sheet-object-graph.h"
+#include "graph.h"
 
 #include <goffice/app/file.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-data-set.h>
 
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
@@ -849,8 +852,8 @@ static void
 xlsx_write_chart_int (GsfXMLOut *xml, char const *name, int def_val, int val)
 {
 	gsf_xml_out_start_element (xml, name);
-	if (!val)
-		xlsx_add_bool (xml, "val", FALSE);
+	if (val != def_val)
+		gsf_xml_out_add_int (xml, "val", val);
 	gsf_xml_out_end_element (xml);
 }
 
@@ -869,16 +872,51 @@ xlsx_write_plot_1_5_type (GsfXMLOut *xml, GogObject const *plot)
 }
 
 static void
+xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *series,
+		       char const *name, int dim)
+{
+	GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series), dim);
+	if (NULL != dat) {
+		GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+		if (NULL != texpr) {
+			GnmParsePos pp;
+			char *str = gnm_expr_top_as_string (texpr,
+				parse_pos_init (&pp, state->base.wb, NULL, 0,0 ),
+				state->convs);
+			gsf_xml_out_start_element (xml, name);
+			gsf_xml_out_start_element (xml, "c:numRef");
+			gsf_xml_out_simple_element (xml, "c:f", str);
+			gsf_xml_out_end_element (xml);
+			gsf_xml_out_end_element (xml);
+
+			g_free (str);
+		}
+	}
+}
+
+static void
 xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 {
 	GogGraph const	*graph = sheet_object_graph_get_gog (so);
 	GogObject const	*chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
 	GogObject const *plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
-	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
+	char const *plot_type;
 	GogObject const *obj;
-	GsfXMLOut *xml = gsf_xml_out_new (chart_part);
+	GsfXMLOut *xml;
 	gboolean failed = FALSE;
+	gboolean use_xy = FALSE;
 
+	graph = sheet_object_graph_get_gog (so);
+	if (NULL == graph)
+		return;
+	chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
+	if (NULL == chart)
+		return;
+	plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
+	if (NULL == plot)
+		return;
+	plot_type = G_OBJECT_TYPE_NAME (plot);
+	xml = gsf_xml_out_new (chart_part);
 	gsf_xml_out_start_element (xml, "c:chartSpace");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
@@ -951,7 +989,9 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 			as_area ? "area" : "w");
 		if (in_3d)
 			xlsx_write_chart_bool (xml, "c:bubble3D", TRUE);
+		use_xy = TRUE;
 	} else if ( 0 == strcmp (plot_type, "GogXYPlot")) {
+		use_xy = TRUE;
 		gsf_xml_out_start_element (xml, "c:scatterChart");
 	} else if (0 == strcmp (plot_type, "GogContourPlot") ||
 		   0 == strcmp (plot_type, "XLContourPlot")) {
@@ -961,7 +1001,28 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 		failed = TRUE;
 	}
 	if (!failed) {
+		GSList const *series = gog_plot_get_series (GOG_PLOT (plot));
+		unsigned count = 0;
+		for ( ; NULL != series ; series = series->next) {
+			gsf_xml_out_start_element (xml, "c:ser");
 
+			xlsx_write_chart_int (xml, "c:idx", -1, count);
+			xlsx_write_chart_int (xml, "c:order", -1, count);
+			if (use_xy) {
+				xlsx_write_series_dim (state, xml, series->data,
+					"c:yVal", GOG_MS_DIM_VALUES);
+				xlsx_write_series_dim (state, xml, series->data,
+					"c:xVal",  GOG_MS_DIM_CATEGORIES);
+				xlsx_write_series_dim (state, xml, series->data,
+					"c:bubbleSize", GOG_MS_DIM_BUBBLES);
+			} else {
+				xlsx_write_series_dim (state, xml, series->data,
+					"c:val", GOG_MS_DIM_VALUES);
+				xlsx_write_series_dim (state, xml, series->data,
+					"c:cat",  GOG_MS_DIM_CATEGORIES);
+			}
+			gsf_xml_out_end_element (xml); /* </c:ser> */
+		}
 		gsf_xml_out_end_element (xml);
 	}
 
