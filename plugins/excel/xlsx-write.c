@@ -57,8 +57,11 @@
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
 
-static char const *ns_ss  = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-static char const *ns_rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+static char const *ns_ss	 = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+static char const *ns_rel	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+static char const *ns_ss_drawing = "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
+static char const *ns_drawing	 = "http://schemas.openxmlformats.org/drawingml/2006/main";
+static char const *ns_chart	 = "http://schemas.openxmlformats.org/drawingml/2006/chart";
 
 #define XLSX_MaxCol	16383
 #define XLSX_MaxRow	1048575
@@ -71,6 +74,12 @@ typedef struct {
 	GPtrArray	*shared_string_array;
 	GnmConventions	*convs;
 	IOContext	*io_context;
+
+	GsfOutfile	*xl_dir;
+	struct {
+		unsigned int	count;
+		GsfOutfile	*dir;
+	} chart, drawing;
 } XLSXWriteState;
 
 typedef struct {
@@ -814,6 +823,77 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 
 }
 
+static void
+xlsx_write_object_anchor (GsfXMLOut *xml, GnmCellPos const *pos, char const *element)
+{
+	gsf_xml_out_start_element (xml, element);
+	gsf_xml_out_simple_int_element (xml, "xdr:col", pos->col);
+	gsf_xml_out_simple_int_element (xml, "xdr:colOff", 0);
+	gsf_xml_out_simple_int_element (xml, "xdr:row", pos->row);
+	gsf_xml_out_simple_int_element (xml, "xdr:rowOff", 0);
+	gsf_xml_out_end_element (xml);
+}
+
+static char const *
+xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
+{
+	char *name;
+	char const *rId;
+	GsfOutput *drawing_part;
+	GsfXMLOut *xml;
+	
+	if (NULL == state->drawing.dir)
+		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
+	if (NULL == state->chart.dir)
+		state->chart.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "charts", TRUE);
+
+	name = g_strdup_printf ("drawing%u.xml", state->drawing.count++);
+	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
+		"content-type", "application/vnd.openxmlformats-officedocument.drawing+xml",
+		NULL);
+	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
+		GSF_OUTFILE_OPEN_PKG (sheet_part),
+		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing");
+	gsf_xml_out_start_element (xml, "xdr:wsDr");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xdr", ns_ss_drawing);
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
+
+	for (ptr = object ; ptr != NULL ; ptr = ptr->next) {
+
+		gsf_xml_out_start_element (xml, "xdr:twoCellAnchor");
+		xlsx_write_object_anchor (state, pos, "xdr:from");
+		xlsx_write_object_anchor (state, pos, "xdr:to");
+
+		gsf_xml_out_start_element (xml, "xdr:graphicFrame");
+#if 0
+	      <xdr:nvGraphicFramePr>
+		<xdr:cNvPr id="2" name="Chart 1"/>
+		<xdr:cNvGraphicFramePr/>
+	      </xdr:nvGraphicFramePr>
+	      <xdr:xfrm>
+		<a:off x="0" y="0"/>
+		<a:ext cx="0" cy="0"/>
+	      </xdr:xfrm>
+#endif
+		gsf_xml_out_start_element (xml, "a:graphic");
+		gsf_xml_out_start_element (xml, "a:graphicData");
+		gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_chart);
+		gsf_xml_out_start_element (xml, "c:chart");
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
+		gsf_xml_out_add_cstr_unchecked (xml, "r:id", chartId);
+		gsf_xml_out_end_element (xml); /* </c:chart> */
+		gsf_xml_out_end_element (xml); /* </a:graphicData> */
+		gsf_xml_out_end_element (xml); /* </a:graphic> */
+		gsf_xml_out_simple_element (xml, "clientData", NULL);
+		gsf_xml_out_end_element (xml); /* </graphicFrame> */
+		gsf_xml_out_end_element (xml); /* </twoCellAnchor> */
+
+	gsf_xml_out_end_element (xml); /* </wsDr> */
+
+	return rId;
+}
+
 static char const *
 xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, unsigned i)
 {
@@ -824,8 +904,9 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	char const *rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (part),
 		GSF_OUTFILE_OPEN_PKG (wb_part),
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet");
-	GsfXMLOut *xml = gsf_xml_out_new (part);
+	GsfXMLOut *xml;
 	GnmRange  extent;
+	GSList  *ptr, *charts;
 	GnmStyle *col_styles [MIN (XLSX_MAX_COLS, SHEET_MAX_COLS)];
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
@@ -833,6 +914,13 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		MIN (XLSX_MAX_COLS, SHEET_MAX_COLS),
 		MIN (XLSX_MAX_ROWS, SHEET_MAX_ROWS), state->io_context);
 
+	charts = sheet_objects_get (state->sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+	if (NULL != charts) {
+		xlsx_write_objects (state, sheet_part, charts);
+		g_slist_free (charts);
+	}
+
+	xml = gsf_xml_out_new (sheet_part);
 	gsf_xml_out_start_element (xml, "worksheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
@@ -880,8 +968,8 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 
 	state->sheet = NULL;
 	g_object_unref (xml);
-	gsf_output_close (part);
-	g_object_unref (part);
+	gsf_output_close (sheet_part);
+	g_object_unref (sheet_part);
 	g_free (name);
 
 	return rId;
@@ -920,9 +1008,12 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 		root_part,
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
 
+	state->xl_dir = xl_dir;
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
 	state->convs	 = xlsx_conventions_new ();
+	state->chart.dir   = state->drawing.dir = NULL;
+	state->chart.count = state->drawing.count = 1;
 
 	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->base.wb));
 	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++)
@@ -980,8 +1071,14 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	g_hash_table_destroy (state->shared_string_hash);
 	g_ptr_array_free (state->shared_string_array, TRUE);
 
+	if (NULL != state->chart.dir)
+		gsf_output_close (GSF_OUTPUT (state->chart.dir));
+	if (NULL != state->drawing.dir)
+		gsf_output_close (GSF_OUTPUT (state->drawing.dir));
 	gsf_output_close (GSF_OUTPUT (wb_part));
 	g_ptr_array_free (sheetIds, TRUE);
+	gsf_output_close (GSF_OUTPUT (sheet_dir));
+	gsf_output_close (GSF_OUTPUT (xl_dir));
 }
 
 G_MODULE_EXPORT void
@@ -1015,5 +1112,6 @@ xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
  * 	rich text
  * 	shared expressions
  * 	external refs
+ * 	charts
  * 	...
  * 	*/

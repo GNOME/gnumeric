@@ -160,29 +160,64 @@ translate_cell_format (GOFormat const *format)
 	return value_new_string ("G");
 }
 
-/* TODO : turn this into a range based routine */
 static GnmValue *
 gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *info_type = value_peek_string (argv[0]);
-	GnmCellRef const *ref = &argv [1]->v_range.cell.a;
-	const Sheet *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
+	enum {
+		GNM_CELL_CMD_ADDRESS,		GNM_CELL_CMD_SHEETNAME,	GNM_CELL_CMD_COORD,
+		GNM_CELL_CMD_COLUMN,		GNM_CELL_CMD_ROW,	GNM_CELL_CMD_COLOR,
+		GNM_CELL_CMD_CONTENTS,		GNM_CELL_CMD_FILENAME,	GNM_CELL_CMD_FORMAT,
+		GNM_CELL_CMD_PARENTHESES,	GNM_CELL_CMD_PREFIX,	GNM_CELL_CMD_LOCKED,
+		GNM_CELL_CMD_TYPE,		GNM_CELL_CMD_WIDTH
+	};
+	static struct {
+		char const *key;
+		int  id;
+	} const cell_cmds [] = {
+		 /* xgettext: Do not translate the 'CELL:' prefix, that is
+		  * there to mark these as arguments for the CELL function.
+		  * The keyword translations need to come from MS XL eg in french
+		  * adresse	- address
+		  * colonne	- col
+		  * contenu	- contents
+		  * couleur	- color
+		  * format	- format
+		  * largeur	- width
+		  * ligne	- row
+		  * nomfichier	- filename
+		  * parentheses	- parentheses
+		  * prefixe	- prefix
+		  * protege	- protect
+		  * type	- type
+		  */
+		{ N_("CELL:address"),		GNM_CELL_CMD_ADDRESS },
+		{ N_("CELL:sheetname"),		GNM_CELL_CMD_SHEETNAME },
+		{ N_("CELL:coord"),		GNM_CELL_CMD_COORD },
+		{ N_("CELL:col"),		GNM_CELL_CMD_COLUMN },
+		{ N_("CELL:column"),		GNM_CELL_CMD_COLUMN },
+		{ N_("CELL:row"),		GNM_CELL_CMD_ROW },
+		{ N_("CELL:color"),		GNM_CELL_CMD_COLOR },
+		{ N_("CELL:contents"),		GNM_CELL_CMD_CONTENTS },
+		{ N_("CELL:value"),		GNM_CELL_CMD_CONTENTS },
+		{ N_("CELL:filename"),		GNM_CELL_CMD_FILENAME },
+		{ N_("CELL:format"),		GNM_CELL_CMD_FORMAT },
+		{ N_("CELL:parentheses"),	GNM_CELL_CMD_PARENTHESES },
+		{ N_("CELL:prefix"),		GNM_CELL_CMD_PREFIX },
+		{ N_("CELL:prefixcharacter"),	GNM_CELL_CMD_PREFIX },
+		{ N_("CELL:locked"),		GNM_CELL_CMD_LOCKED },
+		{ N_("CELL:protect"),		GNM_CELL_CMD_LOCKED },
+		{ N_("CELL:type"),		GNM_CELL_CMD_TYPE },
+		{ N_("CELL:datatype"),		GNM_CELL_CMD_TYPE },
+		{ N_("CELL:formulatype"),	GNM_CELL_CMD_TYPE },
+		{ N_("CELL:width"),		GNM_CELL_CMD_WIDTH },
+		{ N_("CELL:columnwidth"),	GNM_CELL_CMD_WIDTH }
+	};
 
-	/*
-	 * CELL translates it's keywords (ick)
-	  adresse	- address
-	  colonne	- col
-	  contenu	- contents
-	  couleur	- color
-	  format	- format
-	  largeur	- width
-	  ligne		- row
-	  nomfichier	- filename
-	  parentheses	- parentheses
-	  prefixe	- prefix
-	  protege	- protect
-	  type		- type
-	  */
+	char const *info_type = value_peek_string (argv[0]);
+	static GHashTable *cmds = NULL;
+
+	GnmCellRef const *ref = &argv [1]->v_range.cell.a;
+	Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
