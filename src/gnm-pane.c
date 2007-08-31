@@ -2168,8 +2168,10 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 		NULL);
 	pane->cursor.rangesel = ITEM_CURSOR (item);
 	item_cursor_bound_set (pane->cursor.rangesel, r);
+
+	/* If we are selecting a range on a different sheet this may be NULL */
 	if (pane->editor)
-		gee_disable_highlight (ITEM_EDIT (pane->editor));
+		item_edit_disable_highlight (ITEM_EDIT (pane->editor));
 }
 
 void

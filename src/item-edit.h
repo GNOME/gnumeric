@@ -9,4 +9,7 @@
 
 GType item_edit_get_type (void);
 
+void    item_edit_disable_highlight (ItemEdit *item_edit);
+void    item_edit_enable_highlight  (ItemEdit *item_edit);
+
 #endif /* GNUMERIC_ITEM_EDIT_H */
