@@ -13186,7 +13186,7 @@ msgstr ""
 #: ../src/xml-sax-read.c:1565
 #, c-format
 msgid "Unknown filter operator \"%s\""
-msgstr "Error desconeguda"
+msgstr ""
 
 #: ../src/xml-sax-read.c:1605
 msgid "Missing filter type"
