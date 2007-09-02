@@ -1,5 +1,8 @@
 2007-09-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
+	* quick-start.xml: Make the text somewhat more engaging by addressing
+	the reader as "you" more often, reducing the amount of passive voice,
+	and using an authorial "we".
 	* data-entry.xml, data-types.xml, extending-python.xml,
 	files-formats.xml, gnumeric.xml, gui-overview.xml, morehelp.xml,
 	quick-start.xml, welcome.xml: 

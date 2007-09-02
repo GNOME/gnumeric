@@ -24,10 +24,11 @@
       information, the files themselves are often called workbooks.) A
       workbook contains one or more worksheets. Each worksheet
       contains a large number of cells usually arranged into a two
-      dimensional grid made up of columns and rows. The names of the
-      parts of <application>Gnumeric</application> are introduced
-      below in <xref linkend="quick-parts-of-gnumeric" /> and explained 
-      exhaustively in <xref linkend="chapter-gui-elements"/>.
+      dimensional grid made up of columns and rows. 
+      We introduce the names of the parts of 
+      <application>Gnumeric</application> below in 
+      <xref linkend="quick-parts-of-gnumeric" /> and explain the parts 
+      further in <xref linkend="chapter-gui-elements"/>.
     </para>
   </note>
 
@@ -72,22 +73,22 @@
     <title>Starting is the hardest step</title>
     <para>
       Starting &gnum; the first time is the most difficult
-      step. Unfortunately, this is also the step which cannot
-      effectively be explained by this manual. &gnum; can be installed
+      step. Unfortunately, this is also the step which we cannot
+      effectively explain in this manual. &gnum; can be installed
       many different ways so no generic instructions can possibly
-      suffice. The pointers below will hopefully get past that first
-      step.
+      suffice. The pointers below will hopefully help you get past this
+      first step.
     </para>
   </note>
 
   <note>
     <para>
-      It is assumed that you have installed the
-      <application>Gnumeric</application> program on your
-      machine. Installing <application>Gnumeric</application> depends
-      on the particular operating system and distribution and is
-      therefore beyond the scope of this manual. If
-      <application>Gnumeric</application> is not installed on your
+      We assume that the <application>Gnumeric</application> program is
+      already installed program on your machine.
+      Installing <application>Gnumeric</application> depends
+      on the particular operating system and distribution used on your
+      machine and is therefore beyond the scope of this manual. If
+      <application>Gnumeric</application> is not already installed on your
       machine, read the manuals that came with your distribution or
       look at your distribution vendor's web site.
 <!-- TODO: ref- add a link to the installation section. -->
@@ -140,7 +141,7 @@
     <warning>
       <para>
         On UNIX-like operating systems, <application>Gnumeric</application> 
-        requires the X windows system to run.
+        requires the X window system to run.
       </para>
     </warning>
   </sect2>
@@ -149,7 +150,7 @@
     <title>Starting Gnumeric from a *NIX terminal</title>
 
     <para>
-      <application>Gnumeric</application> can also be started from the
+      You can also start <application>Gnumeric</application> from the
       command line in an <application>xterm</application> window or
       equivalent terminal emulator. Open a terminal, and, at the shell
       prompt type:
@@ -160,7 +161,7 @@ gnumeric &amp;
     </para>
     <warning>
       <para>
-        You must be running the X windows system to run
+        You must be running the X window system to run
         <application>Gnumeric</application>.
       </para>
     </warning>
@@ -257,8 +258,8 @@ c:\Program Files\Gnome-Office\gnumeric
 
   <para>
     The part names are listed below along with a reference to
-    the section that discusses that element. Those reading this document
-    on their computers may be able to click on the references to jump to
+    the section that discusses that element. If you are reading this document
+    on a computers, you may be able to click on the references to jump to
     that section of the manual.
   </para>
   
@@ -270,10 +271,10 @@ c:\Program Files\Gnome-Office\gnumeric
       </term>
       <listitem>
 	<para>The menubar provides access to the core
-	  functions of GNOME. Almost everything that can
-	  be done in <application>Gnumeric</application>
-	  can be done through the menus. The menus and
-	  menubar are discussed in <xref linkend="sect-gui-menus" />. </para>
+	  functions of GNOME. Almost everything that you can
+	  do in <application>Gnumeric</application>
+	  you can do through the menus. We discuss the menus and
+	  menubar in <xref linkend="sect-gui-menus" />. </para>
       </listitem>
     </varlistentry>
 
@@ -285,7 +286,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <listitem>
 	<para>
 	  The standard toolbar provides shortcuts for the most used
-	  items in the menus. The toolbars are discussed in <xref
+	  items in the menus. We discuss the toolbars in <xref
 	  linkend="sect-gui-toolbars" /> and this toolbar in particular in
 	  <xref linkend="std-toolbar" />.
 	</para>
@@ -300,7 +301,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <listitem>
 	<para>
 	  The format toolbar changes the display properties of data in
-	  the workbook. It is presented in <xref linkend="fmt-toolbar"
+	  the workbook. We present it in <xref linkend="fmt-toolbar"
 	  />, part of the general discussion of toolbars of <xref
 	  linkend="sect-gui-toolbars" />.
         </para>
@@ -313,12 +314,12 @@ c:\Program Files\Gnome-Office\gnumeric
 	  The object toolbar
       </term>
       <listitem>
-	<para>This toolbar enables the user to draw graphic elements
+	<para>This toolbar enables you to draw graphic elements
 	on the sheet, such as text labels, big red circles or thin
-	green arrows. These can be used to bring attention to a
-	particular part of a worksheet. The object toolbar is
-	explained in <xref linkend="obj-toolbar" /> in the <xref
-	linkend="sect-gui-toolbars" /> portion of the manual.</para>
+	green arrows. You can use these to bring attention to a
+	particular part of a worksheet. We explain the object toolbar in
+	<xref linkend="obj-toolbar" /> in the <xref
+	linkend="sect-gui-toolbars" /> portion of this manual.</para>
       </listitem>
     </varlistentry>
     
@@ -329,7 +330,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </term>
       <listitem>
 	<para>The data entry area is useful for the
-	  modification of complex formulas. It is discussed in
+	  modification of complex formulas. We discuss it in
 	  <xref linkend="data-entry" />. </para>
       </listitem>
     </varlistentry>
@@ -342,7 +343,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <listitem>
 	<para>The cell area lies in the middle of all the rest. The
 	cell area includes the row and column labels, the scrollbars
-	and the tabs below. The use of these elements is explained in
+	and the tabs below. We explain the use of these elements in
 	<xref linkend="cell-grid" />.</para>
       </listitem>
     </varlistentry>
@@ -354,9 +355,9 @@ c:\Program Files\Gnome-Office\gnumeric
       </term>
       <listitem>
 	<para>This area is used by
-	  <application>Gnumeric</application> to give
+	  <application>Gnumeric</application> to give you
 	  feedback on the status of certain
-	  operations. This information is explained in
+	  operations. We explain this information in
 	  <xref linkend="info-area" />. </para>
       </listitem>
     </varlistentry>
@@ -385,23 +386,22 @@ c:\Program Files\Gnome-Office\gnumeric
   <title>Using Commands</title>
 
   <para>
-    The commands provided by <application>Gnumeric</application> can
-    be accessed using several methods. These methods are explained
-    here. The most important commands are explained in the rest of
-    this chapter. All of the commands are explained in later chapters
-    of this manual.
+    You can access the commands provided by
+    <application>Gnumeric</application> using several methods.
+    These methods are explained here. The most important commands are
+    explained in the rest of this chapter. We explain all of the commands 
+    in later chapters of this manual.
   </para>
 
   <sect2 id="quick-commands-menu">
     <title>Using Menu Commands</title>
     <para>
-      The menus provide the simplest way to get to all of the commands
+      The menus provide the simplest way for you to get to all of the commands
       provided by <application>Gnumeric</application>. These menus
-      work like those in any GNOME application: clicking on the menu
-      name causes a menu to open, dragging the mouse cursor onto the
-      menu and then releasing the mouse button (or clicking again)
-      while the cursor is above a menu entry causes that command to be
-      executed. For further information, see <xref
+      work like those in any GNOME application: you click on the menu to
+      open it, you drag the mouse cursor onto the menu and then release the
+      mouse button (or click again) while the cursor is above a menu entry 
+      to execute that command. For further information, see <xref
       linkend="sect-gui-menus"/>.
     </para>
   </sect2>
@@ -409,11 +409,12 @@ c:\Program Files\Gnome-Office\gnumeric
   <sect2 id="quick-commands-toolbar">
     <title>Using Toolbar Button Commands</title>
     <para>
-      The buttons on the toolbars are quite simple to use. Simply
-      placing the mouse cursor above one of the buttons and pressing
-      the left mouse button will perform the command, either directly
-      or by opening a dialog window. For further information, see
-      <xref linkend="sect-gui-toolbars"/>.
+      The buttons on the toolbars are quite simple to use. You simply
+      place the mouse cursor above one of the buttons and press
+      the left mouse button to perform the command and it will either
+      execute immediately or open a dialog window to obtain further
+      information first. For further information on the toolbar button
+      commands, see <xref linkend="sect-gui-toolbars"/>.
     </para>
   </sect2>
 
@@ -423,8 +424,8 @@ c:\Program Files\Gnome-Office\gnumeric
       In many situations, <application>Gnumeric</application> provides
       a menu right under the mouse cursor if the right hand mouse
       button is clicked. This menu contains different entries
-      depending on the placement of the mouse cursor when the right
-      hand mouse button is clicked. For further information, see <xref
+      depending on where the mouse cursor is when you click the right
+      hand mouse button. For further information, see <xref
       linkend="context-menu"/>.
     </para>
   </sect2>
@@ -432,11 +433,11 @@ c:\Program Files\Gnome-Office\gnumeric
   <sect2 id="quick-commands-keyboard">
     <title>Using Keyboard Shortcut Commands</title>
     <para>
-      Certain common commands can be triggered using a combination of
+      You can trigger certain common commands by using a combination of
       keys. The menu entries are often followed by a combination of
-      keys which can be used to trigger that command. For instance,
-      saving the file which is currently being used can be performed
-      by typing jointly the control key and the s key
+      keys which you can use to trigger that command. For instance,
+      to save the file which you are currently using, you can 
+      jointly type the control key and the s key
       (i.e. <keycombo><keysym>Ctrl</keysym><keysym>S</keysym></keycombo>).
       For further information, see <xref linkend="keybinding"/>.
     </para>
@@ -459,8 +460,8 @@ c:\Program Files\Gnome-Office\gnumeric
     numbers change. The use of a spreadsheet therefore requires a
     substantial understanding of the types of information which can be
     entered into the spreadsheet and the methods which can be used to
-    manipulate that information. This section explains how data can be
-    used in <application>Gnumeric</application>.
+    manipulate that information. This section explains how you can use
+    data in <application>Gnumeric</application>.
   </para>
 
     <sect2 id="quick-data-datatypes">
@@ -473,9 +474,10 @@ c:\Program Files\Gnome-Office\gnumeric
       cell in the spreadsheet has both a value, which is what
       <application>Gnumeric</application> manipulates, and a
       representation, which is what is actually shown. Understanding
-      this distinction is complicated and make take the new user some
-      time. This distinction is one of the reasons spreadsheets are so
-      useful.
+      this distinction is complicated and make take some time if you are new
+      to spreadsheets.
+      time. This distinction between value and representation is one of the
+      reasons spreadsheets are so useful.
     </para>
 
     <para>
@@ -499,7 +501,7 @@ c:\Program Files\Gnome-Office\gnumeric
       can be displayed as a number, a monetary amount, a date or a
       time. Text strings are sequences of characters and punctuation
       marks and could, for example, contain textual information such
-      as peoples names. Number values are simply numbers but may be
+      as people's names. Number values are simply numbers but may be
       input and displayed in various formats including decimal
       numbers, dates, times, and numbers in scientific
       notation. Formulas are instructions to
@@ -523,15 +525,15 @@ c:\Program Files\Gnome-Office\gnumeric
     <title>Putting Data into the Spreadsheet</title>
 
     <para>
-      In order to enter data into the spreadsheet, the user must first
+      In order to enter data into the spreadsheet, you must first
       select a cell in which to place the information and then
-      actually type the information on the keyboard. Once the
-      information is entered, <application>Gnumeric</application>
+      actually type the information on the keyboard. Once you have
+      entered the information, <application>Gnumeric</application>
       attempts to figure out both the appropriate data value type to
       assign to the cell and the appropriate data format in which to
       display this data value. Because this process is quite complex,
-      users may occasionally be forced to actively select these
-      parameters of the cells, which is explained in <xref
+      you may occasionally need to actively select these
+      parameters of the cells, which we explaine in <xref
       linkend="quick-format" /> below. The next two sections explain
       how to get data into a cell, first by moving the selection box
       to a desired cell and then by typing the data.
@@ -541,8 +543,8 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Moving the selection box</title>
       <para>
         In order to enter data into
-        <application>Gnumeric</application> the selection box must be
-        placed over the appropriate cell. The selection box appears on
+        <application>Gnumeric</application> you must place the selection box
+        over the appropriate cell. The selection box appears on
         the cell grid as a double lined rectangle with a small grey
         square in the lower right corner of the box. By default the
         selection box surrounds the top, leftmost cell in the cell
@@ -570,7 +572,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </tip>
 
       <para>
-        The selection box can also be moved with the keyboard arrow
+        You can also move the selection box with the keyboard arrow
         keys. For instance, typing the right arrow twice and the down
         arrow once will move the selection box from the cell "C3" to
         the cell "E4".
@@ -588,9 +590,9 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Data Input</title>
 
       <para>
-        In order to enter data into a selected cell, one can simply
+        In order to enter data into a selected cell, you can simply
         start typing. The characters will then become part of the
-        spreadsheet when the selection is changed either by typing the
+        spreadsheet when you change the selection either by typing the
         <keycap>Enter</keycap> key, which moves the selection down one
         cell, by typing the <keycap>Tab</keycap> key, which moves the
         selection one cell to the right, or by selecting any other
@@ -598,14 +600,14 @@ c:\Program Files\Gnome-Office\gnumeric
       </para>
 
       <para>
-        For example, the mouse could be used to select the cell four
-        columns over (Column D) and three rows down (Row 3). Then the
-        user could type "Hello, this is a line of text." and then type
+        For example, you could use the mouse to select the cell four
+        columns over (Column D) and three rows down (Row 3). Then you
+        could type "Hello, this is a line of text." and then type
         the <keycap>Enter</keycap> key. The text would then appear in
         cell "D3" and, if the cells to the right are empty, would span
         into those cells so that the whole entry is visible. The
-        selection box moves when the <keycap>Enter</keycap> key is
-        typed and will therefore appear afterwards in cell "D4", ready
+        selection box moves when you type the <keycap>Enter</keycap> 
+        and will therefore appear afterwards in cell "D4", ready
         for the input of more data.
       </para>
 
@@ -618,7 +620,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </note>
 
       <para>
-        Mistakes which are made during data entry can be corrected by
+        You can correct mistakes you make during data entry by
         using the <keycap>Backspace</keycap> key or the
         <keycap>Delete</keycap> key. Finer control can be obtained if
         the cursor is moved to the text entry area by clicking in the
@@ -630,8 +632,8 @@ c:\Program Files\Gnome-Office\gnumeric
       </para>
 
       <para>
-        The contents of a cell can be changed simply by selecting the
-        cell again and either typing the new contents or editing the
+        You can simply change the contents of a cell by selecting the
+        cell again and either type the new contents or edit the
         existing contents of the cells.
       </para>
 
@@ -652,7 +654,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Automatic Data recognition</title>
 
       <para>
-        As data are entered into the spreadsheet,
+        As you enter data into the spreadsheet,
         <application>Gnumeric</application> interprets the information
         in order, first, to assign it to a data category and, second,
         to give it an appropriate data display format. The entry will
@@ -668,11 +670,11 @@ c:\Program Files\Gnome-Office\gnumeric
       <para>
         <application>Gnumeric</application> usually figures out
         correctly both the type and the appropriate display format for
-        the data being entered. Occasionally, the user will have to
+        the data being entered. Occasionally, you will have to
         force <application>Gnumeric</application> to consider the data
         to be a different data type than
         <application>Gnumeric</application> would guess by
-        default. The details of this process is explained in greater
+        default. We explain the details of this process in greater
         detail in the extended chapter on data, <xref
         linkend="chapter-data" />.
       </para>
@@ -683,8 +685,8 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Entering text</title>
 
       <para>
-        Entering text simply requires selecting the appropriate cell,
-        typing the text and then the <keycap>Enter</keycap> key. If the
+        To enter text, you simply select the appropriate cell,
+        type the text and then the <keycap>Enter</keycap> key. If the
         text is too large to fit in its own cell, and the cell to its
         right is empty, the text will span into the cell on the
         right. By default, <application>Gnumeric</application> uses a
@@ -703,8 +705,8 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Entering numbers</title>
 
       <para>
-        Entering numbers requires selecting the appropriate cell,
-        typing in a number and then the <keycap>Enter</keycap>
+        To enter numbers, select the appropriate cell,
+        type in a number and then the <keycap>Enter</keycap>
         key. <application>Gnumeric</application> recognizes several
         types of information to be numbers.
       </para>
@@ -738,7 +740,7 @@ c:\Program Files\Gnome-Office\gnumeric
         <listitem>
           <para>
             Dates in the standard format of the locale are recognized
-            as numbers. By default, inputing 11/21/1970 will be
+            as numbers. By default, when you 11/21/1970 it will be
             recognized as the twenty-first of November of the year
             nineteen seventy. <application>Gnumeric</application>
             stores the value as the number of days since the first day
@@ -755,7 +757,7 @@ c:\Program Files\Gnome-Office\gnumeric
         </listitem>
         <listitem>
           <para>
-            Percentage values can be input simply by appending the
+            You can input percentage values simply by appending the
             percent symbol (%) to the value.
           </para>
         </listitem>
@@ -767,7 +769,7 @@ c:\Program Files\Gnome-Office\gnumeric
         </listitem>
         <listitem>
           <para>
-            Numeric values can be input using scientific notation. For
+            You can also input numeric values using scientific notation. For
             instance, 1.003e+6 will be recognized as the value one
             million three thousand.
           </para>
@@ -784,8 +786,8 @@ c:\Program Files\Gnome-Office\gnumeric
     <sect3 id="quick-data-input-boolean">
       <title>Entering a Boolean</title>
       <para>
-        Entering boolean values requires selecting the appropriate
-        cell, typing in either "TRUE" or "FALSE" and then the
+        To enter a boolean values, select the appropriate
+        cell, type in either "TRUE" or "FALSE" and then the
         <keycap>Enter</keycap> key.
       </para>
     </sect3>
@@ -794,11 +796,11 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Entering a Formula</title>
 
       <para>
-        Entering a formula requires selecting a cell and typing in the
+        To entering a formula, select a cell and type in the
         equals sign (=) and then a valid formula. If
         <application>Gnumeric</application> cannot understand the
         formula which is entered, it will open a dialog box which may
-        have an explanation and gives the user a chance either to
+        have an explanation and gives you a chance either to
         re-edit the expression or to accept the entry as a text entry
         instead of a formula. The second choice makes it easy to
         re-edit the entry into a valid formula simply by fixing the
@@ -847,7 +849,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </para>
 
       <para>
-        References can be made to the cells in other worksheets and
+        You can make references to the cells in other worksheets and
         even to those in other workbooks (files). The basic format of
         a complete reference is made of the name of the file the
         reference is in, enclosed by square brackets, followed by the
@@ -922,10 +924,10 @@ c:\Program Files\Gnome-Office\gnumeric
     context menu by right clicking on a cell and selecting the
     <guilabel>Format Cells...</guilabel> menu entry. This will open a
     dialog window with tabs which group together similar types of
-    formatting. Clicking on the <guilabel>Font</guilabel> tab allows a
-    user to change the font family, style, size and colour. For
+    formatting. Clicking on the <guilabel>Font</guilabel> tab allows
+    you to change the font family, style, size and colour. For
     instance, if the cell B2 contained the text "Hello, this is my
-    first spreadsheet" then this text could be made bigger by
+    first spreadsheet" then you can make this text bigger by
     selecting a larger font size.
   </para>
 
@@ -950,7 +952,7 @@ c:\Program Files\Gnome-Office\gnumeric
     <para>
       The <guilabel>Protection</guilabel> and
       <guilabel>Validation</guilabel> tabs are advanced functionality
-      which can be ignored at the beginning. For explanations of these
+      which you can ignore at the beginning. For explanations of these
       tabs, see the advanced description in <xref
       linkend="sect-data-format-validation" />.
       </para>
@@ -965,20 +967,20 @@ c:\Program Files\Gnome-Office\gnumeric
       the type of data stored and the visual display of that
       data. This only arises with the options selected in the
       <guilabel>Number</guilabel> tab of the <guilabel>Format
-      Cells</guilabel> dialog. While these ideas are complex, they
-      must be understood at the beginning because they are fundamental
+      Cells</guilabel> dialog. While these ideas are complex, 
+      you need to understand them early on as they are fundamental
       to spreadsheet use.
     </para>
 
     <para>
-      When data are entered into <application>Gnumeric</application>,
+      When you enter data into <application>Gnumeric</application>,
       the spreadsheet interprets the entry based on the input format
       of the cell. The default format of empty cells is the
       <guilabel>General</guilabel> format which instructs
       <application>Gnumeric</application> to guess both the type of
       the data being entered and a suitable display format for that
-      data type. However, the <guilabel>General</guilabel> format can
-      be changed to a specific format in order to alter both the way
+      data type. However, you can change the <guilabel>General</guilabel>
+      format to a specific format in order to alter both the way
       <application>Gnumeric</application> interprets any future data
       input to the cell and the way data in the cell are displayed.
     </para>
@@ -994,15 +996,17 @@ c:\Program Files\Gnome-Office\gnumeric
     </note>
 
     <para>
-      For example, if a user enters "12/25/2000" (without the quotes),
+      For example, if you enter "12/25/2000" (without the quotes),
       <application>Gnumeric</application> guesses that this is a date
       and stores the value 36885. (The value
       <application>Gnumeric</application> uses for dates is the number
-      of days since the last day of 1899. However,
-      <application>Gnumeric</application> perpetuates an error of
-      <application>Excel</application> for the sake of compatibility
-      and assumes 1900 to be a leap year even though it was not.) At
-      the same time, <application>Gnumeric</application> changes the
+      of days since the last day of 1899.
+      <footnote>
+        <application>Gnumeric</application> actually perpetuates an error of
+        <application>Excel</application> for the sake of compatibility
+        and assumes 1900 to be a leap year even though it was not.
+      </footnote>
+      At the same time, <application>Gnumeric</application> changes the
       display format to display this number as a date, with a numeric
       month, day and year, separated by slashes.
     </para>
@@ -1038,11 +1042,11 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <tip>
       <para>
-        If the data type of a whole column needs to be altered prior
-        to data entry, this can be done in one formatting
-        operation. First the whole column must be selected by clicking
-        on the column header (the letters at the top). Next, the
-        selected cells can be formatted at once by clicking the right
+        If you need to alter the data type of a whole column prior
+        to data entry, you can do this in one formatting
+        operation. First you select the whole column by clicking
+        on the column header (the letters at the top). Next, you can format
+        the selected cells at once by clicking the right
         mouse button to obtain the context menu or by selecting the
         <guimenu>Format</guimenu> menu and the
         <guimenuitem>Cells...</guimenuitem> menu entry. This quick
@@ -1068,8 +1072,8 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <para>
       The most common way to select a continuous rectangular block of
-      cells uses a click and drag mouse motion. The cells in this
-      continuous block can be selected by clicking and holding the left
+      cells uses a click and drag mouse motion. You can select the cells 
+      in this continuous block by clicking and holding the left
       mouse button down on one of the corner cells (for instance, the
       top, leftmost cell) and dragging the mouse cursor to the
       opposite corner (for instance, the bottom, rightmost cell)
@@ -1081,7 +1085,7 @@ c:\Program Files\Gnome-Office\gnumeric
       The most common way to select an arbitrary shaped or
       discontinuous group of cells is to hold down the
       <keycap>Ctrl</keycap> key while using the mouse to select
-      cells. As long as the <keycap>Ctrl</keycap> key is held down,
+      cells. As long as you hold the <keycap>Ctrl</keycap> key down,
       all of the cells included by a click or a click and drag motion
       will be added to the selection.
     </para>
@@ -1136,7 +1140,7 @@ c:\Program Files\Gnome-Office\gnumeric
     </para>
 
     <para>
-      Once a group of cells is selected, they can be "cut" or "copied"
+      Once you have selected a group of cells, they can be "cut" or "copied"
       either using the <guimenu>Edit</guimenu> menu, the toolbar
       buttons (a pair of scissors or two pieces of paper, respectively),
       the right mouse button context menu or keyboard shortcuts
@@ -1153,15 +1157,15 @@ c:\Program Files\Gnome-Office\gnumeric
     </para>
 
     <para>
-      The new location for the cells can be selected in two ways. The
+      You can select the new location for the cells in two ways. The
       simplest is to select the top, left cell of the new
-      location. Alternatively, the whole new range of cells can be
-      selected but the shape of this new range must match exactly the
+      location. Alternatively, you can select the whole new range of cells 
+      but the shape of this new range must match exactly the
       dimensions of the original range which is more difficult.
     </para>
 
     <para>
-      Finally the cell contents can be "pasted" in the new location
+      Finally you can "paste" the cell contents in the new location
       using either the <guimenu>Edit</guimenu> menu
       <guimenuitem>Paste</guimenuitem> menu entry, the toolbar button
       with a clipboard, the context menu
@@ -1172,12 +1176,12 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <para>
       An alternative way to move cells in a current worksheet involves
-      dragging and dropping the original selection. The cells to be
-      moved are selected as above. The mouse cursor is then placed on
-      the thick white selection border. If the left hand button is
-      clicked and held, the selected cells can be dragged to a new
+      dragging and dropping the original selection. You select the cells to be
+      moved as above. You then place the mouse cursor on
+      the thick white selection border. If you click and hold the left hand
+      button, you can drag the selected cells to a new
       location resulting in the same operation as a "cut" and a
-      "paste". If the <keysym>Ctrl</keysym> key is held down during
+      "paste". If you hold down the <keysym>Ctrl</keysym> key during
       the click and drag of the mouse, the result is the same as a
       "copy" and "paste" operation and can be repeated several times.
     </para>
@@ -1212,12 +1216,12 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <para>
       Inserting and deleting columns and rows are easy to
-      understand. If a group of columns or rows is selected, selecting
+      understand. If you select a group of columns or rows, selecting
       the <guimenuitem>Column</guimenuitem> or
       <guimenuitem>Row</guimenuitem> menu entries in the
       <guimenu>Insert</guimenu> menu will add the same number of
       columns to the left of the selected columns or of rows above the
-      selected rows. The context menu can also be used for the insert
+      selected rows. You can also use the context menu for the insert
       operation. The context menu can be used to delete the currently
       selected columns or rows.
     </para>
@@ -1231,7 +1235,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <para>
       Individual cells or contiguous rectangular blocks of cells can
-      also be inserted and deleted. During this operation, the user is
+      also be inserted and deleted. During this operation, you are
       asked which way to shift the current cells to allow the
       insertion or deletion of the selected cells. The movement can be
       along the rows or along the columns and will result in the
@@ -1263,40 +1267,40 @@ c:\Program Files\Gnome-Office\gnumeric
   </para>
 
   <para>
-    The names of sheets can be changed. This can be done by editing
+    The names of sheets can be changed. You can do this by editing
     the tab directly. Clicking twice on a tab will highlight the text
     and then standard editing operations will alter the text contents. 
   </para>
 
   <para>
-    A new empty sheet can be inserted after the current sheet through
+    You can insert a new empty sheet after the current sheet through
     the <guimenuitem>Sheet</guimenuitem> menu entry in the
-    <guimenu>Insert</guimenu> menu or through context menu which
-    appears when the right mouse button is clicked on a tab.
+    <guimenu>Insert</guimenu> menu or through the context menu which
+    appears when you click the right mouse button on a tab.
   </para>
 
   <para>
-    Instead of an empty sheet, a copy of the current worksheet can be
-    added to the workbook after the current sheet by selection the
+    Instead of an empty sheet, you can add a copy of the current worksheet 
+    to the workbook after the current sheet by selecting the
     <guimenuitem>Duplicate this Sheet</guimenuitem> menu entry from
     the context menu.
   </para>
 
   <para>
-    The current sheet can be removed using the <guimenuitem>Remove
+    You can remove the current sheet using the <guimenuitem>Remove
     this Sheet</guimenuitem> menu entry from the context
     menu. 
     <warning>
       <para>
-        Deleting sheets cannot be retrieved through the "Undo"
-        mechanism and is therefore an irreversible operation. Be
+        Deleted sheets cannot be retrieved through the "Undo"
+        mechanism and sheet deletion is therefore an irreversible operation. Be
         careful!
       </para>
     </warning>
   </para>
 
   <para>
-    Worksheets can be re-ordered by clicking and holding the left
+    You can re-order worksheets by clicking and holding the left
     mouse button on a tab, then dragging that tab to the left or to
     the right. Little arrows will appear showing the location where
     the sheet will be placed. Releasing the mouse button will then
