@@ -883,10 +883,15 @@ wbcg_edit_start (WBCGtk *wbcg,
 			}
 
 			case GO_FORMAT_DATE: {
-				GString *fstr = g_string_new (go_locale_month_before_day ()
-							      ? "m/d/yyyy"
-							      : "d/m/yyyy");
+				GString *fstr;
 				GOFormat *new_fmt;
+				int mbd;
+
+				mbd = go_format_month_before_day (fmt);
+				if (mbd < 0)
+					mbd = go_locale_month_before_day ();
+
+				fstr = g_string_new (mbd ? "m/d/yyyy" : "d/m/yyyy");
 
 				if (!close_to_int (f, 1e-6 / (24 * 60 * 60))) {
 					g_string_append_c (fstr, ' ');

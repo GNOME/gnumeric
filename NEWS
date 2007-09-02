@@ -30,6 +30,7 @@ Morten:
 	* Fix 64-bit issue for non-GNOME build.  [#465545]
 	* Allow relative formulas in name dialog.
 	* Make test suite a bit more robust.
+	* Fix date entry problem.  [#472760]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.11
