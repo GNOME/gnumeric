@@ -270,7 +270,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </term>
       <listitem>
 	<para>The menubar provides access to the core
-	  functions of gnome. Almost everything that can
+	  functions of GNOME. Almost everything that can
 	  be done in <application>Gnumeric</application>
 	  can be done through the menus. The menus and
 	  menubar are discussed in <xref linkend="sect-gui-menus" />. </para>
@@ -863,7 +863,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
       <para>
         References can refer to a range of contiguous range of
-        cells. For instance, the reference "A1: E5" refers to all the
+        cells. For instance, the reference "A1:E5" refers to all the
         cells from the top-left most cell of the current sheet to the
         cell five rows down and five rows over. This can be useful in
         a formula which uses a function such as MAX(). The formula
@@ -1338,7 +1338,7 @@ c:\Program Files\Gnome-Office\gnumeric
   </para>
 
   <warning>
-    <title>Graphing is changing rapidly in Gnumeric 1.3</title>
+    <title>Graphing is a work in progress</title>
 
     <para>
       The approach to the creation of graphical displays of data was

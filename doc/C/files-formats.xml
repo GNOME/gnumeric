@@ -399,7 +399,7 @@ gunzip Book1.text.gz
           </para>
 
 	  <para>
-	    The Java<trademark/> Language can be used to create,
+	    The Java<trademark/>&nbsp;Language can be used to create,
 	    access, or manipulate &gnum; format files using the
 	    <application>JWorkbook</application> project library. See
 	    the project's <ulink type="http"
@@ -499,7 +499,7 @@ gunzip Book1.text.gz
             <application>Applix</application> format, files can be
             exported to to <application>Applixware</application> can
             be performed using the <link
-            linkend="file-format-excel">Excel</link> file format.
+            linkend="file-format-excel">Excel</link>&nbsp;file format.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -1567,7 +1567,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
     <title>Microsoft Excel File Format</title>
 
     <para>
-      The Microsoft Excel<trademark/> file format is a binary file
+      The Microsoft Excel<trademark/>&nbsp;file format is a binary file
       format used by the <application>Excel</application> program in
       the <application>Office</application> suite. The format is a
       common format supported to various extents by most spreadsheets
@@ -1622,25 +1622,25 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  <warning>
 	    <para>
 	      &gnum; does not support the very old file formats used by
-	      Excel<trademark/> versions prior to Excel<trademark/> 5.0.
+	      Excel<trademark/>&nbsp;versions prior to Excel<trademark/> 5.0.
 	    </para>
 	  </warning>
 
           <para>
             &gnum; can open files from most of the Microsoft
-            Excel<trademark/> file formats and all of the recent file
+            Excel<trademark/>&nbsp;file formats and all of the recent file
             formats. The formats supported are:      
             <itemizedlist>
 	      <listitem>
-	        <para> MS Excel<trademark/> 5.0/95.
+	        <para> MS Excel<trademark/>&nbsp;5.0/95.
 		</para>
 	      </listitem>
 	      <listitem>
-	        <para> MS Excel<trademark/> 97/2000/XP.
+	        <para> MS Excel<trademark/>&nbsp;97/2000/XP.
 		</para>
 	      </listitem>
 	      <listitem>
-	        <para> MS Excel<trademark/> 97/2000/XP &amp; 5.0/95.
+	        <para> MS Excel<trademark/>&nbsp;97/2000/XP &amp; 5.0/95.
 		</para>
 	      </listitem>
 	    </itemizedlist>
@@ -2335,7 +2335,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	</term>
 	<listitem>
 	  <para>
-	    Supported by the Quattro<trademark/> Pro plugin.
+	    Supported by the Quattro<trademark/>&nbsp;Pro plugin.
 	  </para>
 	</listitem>
       </varlistentry>

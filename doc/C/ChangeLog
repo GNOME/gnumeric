@@ -1,3 +1,19 @@
+2007-09-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* data-entry.xml, data-types.xml, extending-python.xml,
+	files-formats.xml, gnumeric.xml, gui-overview.xml, morehelp.xml,
+	quick-start.xml, welcome.xml: 
+	  * When referring to the desktop environment as a whole, capitalise
+	    "GNOME" consistently.
+	  * Removed spaces before colons.
+	  * Added &nbsp; after <trademark/> where needed for proper PDF
+	    rendering.
+	  * Refer to the chapter on reporting problems rather than to bugzilla
+	    directly.
+	  * Removed a reference to an obsolete development series (1.3).
+	  * Replaced a reference to ghelp:gnome-feedback (which appears to be
+	    obsolete) with a reference to the chapter on reporting problems.
+
 2007-08-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* texmf.cnf: New.

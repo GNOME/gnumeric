@@ -89,7 +89,7 @@
   <itemizedlist>
     <listitem>
       <para>
-	<emphasis role="bold">Stability :</emphasis>
+	<emphasis role="bold">Stability:</emphasis>
       </para>
       <para>
         <application>Gnumeric</application> has undergone significant
@@ -104,7 +104,7 @@
 
     <listitem>
       <para>
-	<emphasis role="bold">Accuracy :</emphasis>
+	<emphasis role="bold">Accuracy:</emphasis>
       </para>
       <para>
         Calculating the correct answer is important, and <application>Gnumeric</application> 
@@ -116,7 +116,7 @@
 
     <listitem>
       <para>
-	<emphasis role="bold">File compatibility :</emphasis>
+	<emphasis role="bold">File compatibility:</emphasis>
       </para>
       <para>
         Transparent access and manipulation of files from other
@@ -131,8 +131,8 @@
         Applix<trademark/>, OpenOffice.org<trademark/>,
         Psion<trademark/>, Sylk<trademark/>, XBase<trademark/>,
         Oleo<trademark/>, PlanPerfect<trademark/>, Quattro
-        Pro<trademark/> and HTML. <application>Gnumeric</application>
-        can save files to several versions of the MS Excel<trademark/> file
+        Pro<trademark/>&nbsp;and HTML. <application>Gnumeric</application>
+        can save files to several versions of the MS Excel<trademark/>&nbsp;file
         format and can save tables into LaTeX
         <markup>\longtable</markup>, HTML, and roff
         files. <application>Gnumeric</application> also benefits from
@@ -144,7 +144,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Minimal cost of transition :</emphasis>
+        <emphasis role="bold">Minimal cost of transition:</emphasis>
       </para>
       <para>
         Learning new and unfamiliar interfaces is an expensive and
@@ -157,7 +157,7 @@
 
     <listitem>
       <para>
-	<emphasis role="bold">Extensive feature set :</emphasis>
+	<emphasis role="bold">Extensive feature set:</emphasis>
       </para>
       <para>
         <application>Gnumeric</application> now has enough of the
@@ -178,7 +178,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Internationalization :</emphasis>
+        <emphasis role="bold">Internationalization:</emphasis>
       </para>
       <para>
 	<application>Gnumeric</application> has been translated into
@@ -190,7 +190,7 @@
 
     <listitem>
       <para>
-	<emphasis role="bold">Scalability :</emphasis>
+	<emphasis role="bold">Scalability:</emphasis>
       </para>
       <para>
         The core architecture is designed to ensure that
@@ -202,7 +202,7 @@
 
     <listitem>
       <para>
-	<emphasis role="bold">Openness :</emphasis>
+	<emphasis role="bold">Openness:</emphasis>
       </para>
       <para>
         <application>Gnumeric</application> is <ulink type="http"
@@ -255,8 +255,7 @@
   renaming them and checking that they can be reopened. If you
   experience mistakes or crashes while you are using this version,
   please report these using the GNOME project's bug reporting
-  interface, called <ulink type="http"
-  url="http://bugzilla.gnome.org">bugzilla</ulink>.
+  interface as detailed in <xref linkend="chapter-bugs" />.
 </para>
 
 <para>
@@ -275,7 +274,7 @@
     </listitem>
     <listitem>
       <para>
-        <emphasis role="bold">Microsoft OfficeOpenXML import and export : </emphasis>
+        <emphasis role="bold">Microsoft OfficeOpenXML import and export: </emphasis>
       </para>
       <para>
 	Standard spreadsheet content.  No support for charts or embedded objects yet.
@@ -299,7 +298,7 @@
     </listitem>
     <listitem>
       <para>
-        <emphasis role="bold">Improved in-cell drop downs : </emphasis>
+        <emphasis role="bold">Improved in-cell drop downs: </emphasis>
       </para>
       <para>
 	In cell validation lists, and improved finger feel for autofilters.
@@ -434,7 +433,7 @@
         <emphasis role="bold">Improved Microsoft Excel Compatibility</emphasis>
       </para>
       <para>
-        The file format used by the Microsoft Excel<trademark/>
+        The file format used by the Microsoft Excel<trademark/>&nbsp;
         spreadsheet is commonly used to exchange spreadsheet
         documents. The <application>Gnumeric</application> team spends
         a considerable effort reverse engineering that file format to
@@ -458,7 +457,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Improved Analytics :</emphasis>
+        <emphasis role="bold">Improved Analytics:</emphasis>
       </para>
       <para>
         This version of <application>Gnumeric</application> includes
@@ -524,7 +523,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Improved File Import and Export :</emphasis>
+        <emphasis role="bold">Improved File Import and Export:</emphasis>
       </para>
       <para>
         The ability to import and export files of different formats
@@ -539,7 +538,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Improved Graphing :</emphasis>
+        <emphasis role="bold">Improved Graphing:</emphasis>
       </para>
       <para>
         The earlier versions of <application>Gnumeric</application>
@@ -553,7 +552,7 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">Improved Structure based on GTK 2.0 :</emphasis>
+        <emphasis role="bold">Improved Structure based on GTK 2.0:</emphasis>
       </para>
       <para>
         This version of <application>Gnumeric</application> is based

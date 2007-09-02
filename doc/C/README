@@ -20,7 +20,7 @@ The TODO list can be obtained by
 
 grep -in todo *.xml
 
-add TODO items as self contained comments begining at the start of the
+Add TODO items as self contained comments beginning at the start of the
 line. 
 
 
@@ -65,7 +65,7 @@ File-naming:
 -----------
   Please name files in the same chapter with the same starting element
 
-  Please name images in parrallel to the current convention.
+  Please name images in parallel to the current convention.
     - Button-
     - Dialog-
 
@@ -73,7 +73,7 @@ File-naming:
 
 Id-naming:
 ---------
-  Please use tags based on text placement in hiearchy
+  Please use tags based on text placement in hierarchy
     - Start of tag describes what it is sect- fig- table-
     - Inside of tag is -chaptername-section-section...
 

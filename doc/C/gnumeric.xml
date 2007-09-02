@@ -372,9 +372,9 @@
       <title>Feedback</title> 
       <para>
         To report a bug or make a suggestion regarding the &app;
-        application or this manual, follow the directions in the
-        <ulink url="ghelp:gnome-feedback" type="help">GNOME Feedback
-        Page</ulink>.
+        application or this manual, follow the directions in
+        <xref linked ="chapter-bugs" />.
+
       </para>
 <!-- Translators may also add here feedback address for translations -->
     </legalnotice> 
