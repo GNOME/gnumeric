@@ -327,6 +327,17 @@ xlsx_write_sheet_view (GsfXMLOut *xml, SheetView const *sv)
 }
 
 static void
+xlsx_write_init_row (gboolean *needs_row, GsfXMLOut *xml, int r, char const *span)
+{
+	if (*needs_row) {
+		gsf_xml_out_start_element (xml, "row");
+		gsf_xml_out_add_int (xml, "r", r+1);
+		gsf_xml_out_add_cstr_unchecked (xml, "spans", span);;
+		*needs_row = FALSE;
+	}
+}
+
+static void
 xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 {
 	int r, c;
@@ -344,25 +355,30 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 
 	gsf_xml_out_start_element (xml, "sheetData");
 	for (r = extent->start.row ; r <= extent->end.row ; r++) {
-		gsf_xml_out_start_element (xml, "row");
-		gsf_xml_out_add_int (xml, "r", r+1);
-		gsf_xml_out_add_cstr_unchecked (xml, "spans", cheesy_span);;
-
+		gboolean needs_row = TRUE;
 		if (NULL != (ri = sheet_row_get (state->sheet, r))) {
 			if (ri->hard_size) {
+				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				gsf_xml_out_add_float (xml, "ht", ri->size_pts, 4);
 				gsf_xml_out_add_cstr_unchecked (xml, "customHeight", "1");
 			}
-			if (ri->is_collapsed)
+			if (ri->is_collapsed) {
+				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				gsf_xml_out_add_cstr_unchecked (xml, "collapsed", "1");
-			if (!ri->visible)
+			}
+			if (!ri->visible) {
+				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				gsf_xml_out_add_cstr_unchecked (xml, "hidden", "1");
-			if (ri->outline_level > 0)
+			}
+			if (ri->outline_level > 0) {
+				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				gsf_xml_out_add_int (xml, "outlineLevel", ri->outline_level);
+			}
 		}
 
 		for (c = extent->start.col ; c <= extent->end.col ; c++) {
 			if (NULL != (cell = sheet_cell_get (state->sheet, c, r))) {
+				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				val = cell->value;
 				gsf_xml_out_start_element (xml, "c");
 				gsf_xml_out_add_cstr_unchecked (xml, "r",
@@ -431,7 +447,8 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 				gsf_xml_out_end_element (xml); /* </c> */
 			}
 		}
-		gsf_xml_out_end_element (xml); /* </row> */
+		if (!needs_row)
+			gsf_xml_out_end_element (xml); /* </row> */
 	}
 	gsf_xml_out_end_element (xml); /* </sheetData> */
 	g_free (cheesy_span);;
@@ -613,7 +630,7 @@ xlsx_write_hlink (GnmHLink const *link, GSList *ranges, XLSXClosure *info)
 		if (t == gnm_hlink_cur_wb_get_type ())
 			gsf_xml_out_add_cstr (info->xml, "location", target);
 		else if (NULL != rid)
-			gsf_xml_out_add_cstr (info->xml, "id", rid);
+			gsf_xml_out_add_cstr (info->xml, "r:id", rid);
 		if (NULL != location)
 			gsf_xml_out_add_cstr (info->xml, "tooltip", location);
 		if (NULL != (tip = gnm_hlink_get_tip (link)))
@@ -635,7 +652,6 @@ xlsx_write_hlinks (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent
 			XLSX_MAX_COLS, XLSX_MAX_ROWS);
 
 		gsf_xml_out_start_element (xml, "hyperlinks");
-		gsf_xml_out_add_int (xml, "count", g_hash_table_size (group)) ;
 		g_hash_table_foreach (group, (GHFunc) xlsx_write_hlink, &info);
 		gsf_xml_out_end_element (xml); /*  </hyperlinks> */
 
@@ -903,8 +919,7 @@ static void
 xlsx_write_chart_bool (GsfXMLOut *xml, char const *name, gboolean val)
 {
 	gsf_xml_out_start_element (xml, name);
-	if (!val)
-		xlsx_add_bool (xml, "val", FALSE);
+	xlsx_add_bool (xml, "val", val);
 	gsf_xml_out_end_element (xml);
 }
 static void
@@ -1012,6 +1027,7 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 	} else if (0 == strcmp (plot_type, "GogPiePlot") ||
 		   0 == strcmp (plot_type, "GogRingPlot")) {
 		float initial_angle = 0., center_size = 0.;
+		gboolean vary;
 		gint16 center = 0;
 		if (0 == strcmp (plot_type, "GogRingPlot")) {
 			gsf_xml_out_start_element (xml, "c:doughnutChart");
@@ -1023,8 +1039,10 @@ xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 			gsf_xml_out_start_element (xml, "c:pieChart");
 
 		g_object_get (G_OBJECT (plot),
-			"initial-angle",	&initial_angle,
+			"vary-style-by-element", &vary,
+			"initial-angle",	 &initial_angle,
 			NULL);
+		xlsx_write_chart_bool (xml, "c:varyColors", vary);
 		xlsx_write_chart_int (xml, "c:firstSliceAng", 0, (int) initial_angle);
 #if 0
 		float default_separation = 0.;
@@ -1112,8 +1130,9 @@ static char const *
 xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objects)
 {
 	GSList *obj, *chart_id, *chart_ids = NULL;
-	char *name;
+	char *name, *tmp;
 	char const *rId, *rId1;
+	int count = 1;
 	GsfOutput *drawing_part, *chart_part;
 	GsfXMLOut *xml;
 	SheetObjectAnchor const *anchor;
@@ -1130,6 +1149,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
 		GSF_OUTFILE_OPEN_PKG (sheet_part), ns_rel_draw);
 
+	obj = objects = g_slist_reverse (objects);
 	for (obj = objects ; obj != NULL ; obj = obj->next) {
 		name = g_strdup_printf ("chart%u.xml", state->chart.count++);
 		chart_part = gsf_outfile_new_child_full (state->chart.dir, name, FALSE,
@@ -1150,8 +1170,9 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:xdr", ns_ss_drawing);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:a", ns_drawing);
 
-	chart_id = chart_ids = g_slist_reverse (chart_ids);
-	for (obj = objects ; obj != NULL ; obj = obj->next, chart_id = chart_id->next) {
+	chart_id = chart_ids;
+	obj = objects;
+	for ( ; obj != NULL ; obj = obj->next, chart_id = chart_id->next) {
 		anchor = sheet_object_get_anchor (obj->data);
 
 		gsf_xml_out_start_element (xml, "xdr:twoCellAnchor");
@@ -1159,23 +1180,42 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 		xlsx_write_object_anchor (xml, &anchor->cell_bound.end, "xdr:to");
 
 		gsf_xml_out_start_element (xml, "xdr:graphicFrame");
-#if 0
-	      <xdr:nvGraphicFramePr>
-		<xdr:cNvPr id="2" name="Chart 1"/>
-		<xdr:cNvGraphicFramePr/>
-	      </xdr:nvGraphicFramePr>
-	      <xdr:xfrm>
-		<a:off x="0" y="0"/>
-		<a:ext cx="0" cy="0"/>
-	      </xdr:xfrm>
-#endif
+		gsf_xml_out_add_cstr_unchecked (xml, "macro", "");
+
+		gsf_xml_out_start_element (xml, "xdr:nvGraphicFramePr");
+
+		gsf_xml_out_start_element (xml, "xdr:cNvPr");
+		gsf_xml_out_add_int (xml, "id",  count+1);
+		gsf_xml_out_add_cstr_unchecked (xml, "name",
+			(tmp = g_strdup_printf ("Chart %d", count)));
+		g_free (tmp);
+		count++;
+		gsf_xml_out_end_element (xml);
+
+		gsf_xml_out_simple_element (xml, "xdr:cNvGraphicFramePr", NULL);
+		gsf_xml_out_end_element (xml); /* </xdr:nvGraphicFramePr> */
+
+		gsf_xml_out_start_element (xml, "xdr:xfrm");
+
+		gsf_xml_out_start_element (xml, "a:off");
+		gsf_xml_out_add_int (xml, "x", 0);
+		gsf_xml_out_add_int (xml, "y", 0);
+		gsf_xml_out_end_element (xml); /* </a:off> */
+
+		gsf_xml_out_start_element (xml, "a:ext");
+		gsf_xml_out_add_int (xml, "cx", 0);
+		gsf_xml_out_add_int (xml, "cy", 0);
+		gsf_xml_out_end_element (xml); /* </a:ext> */
+
+		gsf_xml_out_end_element (xml); /* </xdr:xfrm> */
+
 		gsf_xml_out_start_element (xml, "a:graphic");
 		gsf_xml_out_start_element (xml, "a:graphicData");
 		gsf_xml_out_add_cstr_unchecked (xml, "uri", ns_chart);
 		gsf_xml_out_start_element (xml, "c:chart");
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:c", ns_chart);
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
-#warning FIXME
+
 		gsf_xml_out_add_cstr_unchecked (xml, "r:id", chart_id->data);
 		gsf_xml_out_end_element (xml); /* </c:chart> */
 		gsf_xml_out_end_element (xml); /* </a:graphicData> */
@@ -1261,10 +1301,10 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 
 	xlsx_write_cells (state, xml, &extent);
 	xlsx_write_merges (state, xml);
+	xlsx_write_protection (state, xml);
 	xlsx_write_validations (state, xml, &extent);
 	xlsx_write_hlinks (state, xml, &extent);
 	xlsx_write_autofilters (state, xml);
-	xlsx_write_protection (state, xml);
 	xlsx_write_print_info (state, xml);
 	if (NULL != chart_drawing_rel_id) {
 		gsf_xml_out_start_element (xml, "drawing");

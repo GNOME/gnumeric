@@ -1,3 +1,8 @@
+2007-08-31  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-write.c (xlsx_write_hlinks) : yay for consistency.  No count on
+	  the hyperlinks collection.
+
 2007-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (gelframe): should now compile with goffice-0.4
