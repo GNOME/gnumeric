@@ -1,7 +1,16 @@
-2007-08-31  Jody Goldberg <jody@gnome.org>
+2007-09-01  Jody Goldberg <jody@gnome.org>
 
-	* xlsx-write.c (xlsx_write_hlinks) : yay for consistency.  No count on
-	  the hyperlinks collection.
+	* xlsx-write.c (xlsx_write_init_row) : new.
+	(xlsx_write_cells) : add a simple compression mechanism to avoid
+	  producing an empty row element if there is no useful content.
+	(xlsx_write_hlink) : fix the namespace of the "id" attr.
+	(xlsx_write_hlinks) : yay consistency!  No count for this collection.
+	(xlsx_write_chart_bool) : always generate a val, ignore the supposed
+	  default value. (fixes pie varyColor)
+	(xlsx_write_chart) : vary pie color is not the default.  We need to
+	  generate it.
+	(xlsx_write_objects) : nvGraphicFramePr and xfrm are required.
+	(xlsx_write_sheet) : re-order placement of protection element.
 
 2007-08-25  Jean Brefort  <jean.brefort@normalesup.org>
 
@@ -19,7 +28,7 @@
 2007-08-24  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_DataValidation_begin) : don't lose the input
-	messages.
+	  messages.
 
 2007-08-24  Jody Goldberg <jody@gnome.org>
 
