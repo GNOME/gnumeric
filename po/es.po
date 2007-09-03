@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-25 03:54+0100\n"
-"PO-Revision-Date: 2007-08-25 14:46+0200\n"
+"POT-Creation-Date: 2007-08-31 03:53+0100\n"
+"PO-Revision-Date: 2007-09-03 23:58+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -369,7 +369,7 @@ msgstr "#DESCONOCIDO!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: ../plugins/excel/ms-excel-read.c:1175 ../plugins/excel/ms-excel-read.c:1187
-#: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:509
+#: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:513
 #: ../src/dialogs/dialog-sheet-order.c:518
 #: ../src/dialogs/dialog-sheet-order.c:522
 #, c-format
@@ -486,113 +486,117 @@ msgstr ""
 "Demasiados argumentos para la función «%s», MS Excel sólo puede manipular %d "
 "no %d"
 
-#: ../plugins/excel/xlsx-read.c:199
+#: ../plugins/excel/xlsx-read.c:200
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "«%s» está corrompido"
 
-#: ../plugins/excel/xlsx-read.c:280
+#: ../plugins/excel/xlsx-read.c:281
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Valor enumerado «%s» desconocido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:323 ../plugins/excel/xlsx-read.c:352
+#: ../plugins/excel/xlsx-read.c:324 ../plugins/excel/xlsx-read.c:353
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "El entero «%s» está fuera de rango, para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:327 ../plugins/excel/xlsx-read.c:356
+#: ../plugins/excel/xlsx-read.c:328 ../plugins/excel/xlsx-read.c:357
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Entero «%s» inválido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:381
+#: ../plugins/excel/xlsx-read.c:382
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Número inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:405
+#: ../plugins/excel/xlsx-read.c:406
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Posición de celda «%s» inválida para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:424
+#: ../plugins/excel/xlsx-read.c:425
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Rango inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:651
+#: ../plugins/excel/xlsx-read.c:652
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Id de formato de número «%s» indefinido"
 
-#: ../plugins/excel/xlsx-read.c:1083
+#: ../plugins/excel/xlsx-read.c:1256
 msgid "Dropping missing object"
 msgstr "Omitiendo objeto faltante"
 
-#: ../plugins/excel/xlsx-read.c:1101
+#: ../plugins/excel/xlsx-read.c:1274
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Omitiendo objeto con ancla incompleto %2x"
 
-#: ../plugins/excel/xlsx-read.c:1212
+#: ../plugins/excel/xlsx-read.c:1385
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Color «%s» inválido para el atributo rgb"
 
-#: ../plugins/excel/xlsx-read.c:1235
+#: ../plugins/excel/xlsx-read.c:1408
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Registro de estilo indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:1244
+#: ../plugins/excel/xlsx-read.c:1417
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Registro de estilo parcial indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:1272
+#: ../plugins/excel/xlsx-read.c:1446
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Referencia sst %s inválida"
 
-#: ../plugins/excel/xlsx-read.c:1393
+#: ../plugins/excel/xlsx-read.c:1567
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Celda inválida %s"
 
-#: ../plugins/excel/xlsx-read.c:1494
+#: ../plugins/excel/xlsx-read.c:1668
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorar la información de columnas que no especifica primero o último."
 
-#: ../plugins/excel/xlsx-read.c:1771
+#: ../plugins/excel/xlsx-read.c:1945
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos inválidos debido a: %s"
 
-#: ../plugins/excel/xlsx-read.c:2193
+#: ../plugins/excel/xlsx-read.c:2369
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:2225
+#: ../plugins/excel/xlsx-read.c:2401
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no tratado del tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:2605
+#: ../plugins/excel/xlsx-read.c:2695
+msgid "Unknown type of hyperlink"
+msgstr "Tipo de hiperenlace desconocido"
+
+#: ../plugins/excel/xlsx-read.c:2858
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorar una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:2633
+#: ../plugins/excel/xlsx-read.c:2886
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Para el id de parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3067
+#: ../plugins/excel/xlsx-read.c:3320
 #, c-format
 msgid "Undefined font record '%d'"
 msgstr "Registro de tipo «%d» indefinido"
 
-#: ../plugins/excel/xlsx-read.c:3402
+#: ../plugins/excel/xlsx-read.c:3655
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de cuentas."
 
@@ -1015,56 +1019,56 @@ msgstr "Lógica"
 msgid "Logic Functions"
 msgstr "Funciones lógicas"
 
-#: ../plugins/fn-lookup/functions.c:1271
+#: ../plugins/fn-lookup/functions.c:1275
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "num_fila,num_col,num_abs,a1,texto"
 
-#: ../plugins/fn-lookup/functions.c:1274
+#: ../plugins/fn-lookup/functions.c:1278
 msgid "reference"
 msgstr "referencia"
 
-#: ../plugins/fn-lookup/functions.c:1277
+#: ../plugins/fn-lookup/functions.c:1281
 msgid "index,value,"
 msgstr "índice,valor,"
 
-#: ../plugins/fn-lookup/functions.c:1280 ../plugins/fn-lookup/functions.c:1286
-#: ../plugins/fn-lookup/functions.c:1310 ../plugins/fn-lookup/functions.c:1313
+#: ../plugins/fn-lookup/functions.c:1284 ../plugins/fn-lookup/functions.c:1290
+#: ../plugins/fn-lookup/functions.c:1314 ../plugins/fn-lookup/functions.c:1317
 msgid "ref"
 msgstr "ref"
 
-#: ../plugins/fn-lookup/functions.c:1283
+#: ../plugins/fn-lookup/functions.c:1287
 msgid "colname"
 msgstr "nombrecol"
 
-#: ../plugins/fn-lookup/functions.c:1289 ../plugins/fn-lookup/functions.c:1319
+#: ../plugins/fn-lookup/functions.c:1293 ../plugins/fn-lookup/functions.c:1323
 msgid "val,range,col_idx,approx,as_index"
 msgstr "val,rango,índ_col, aprox,como_indice"
 
-#: ../plugins/fn-lookup/functions.c:1292
+#: ../plugins/fn-lookup/functions.c:1296
 msgid "link_location, label"
 msgstr "dirección_enlace, etiqueta"
 
-#: ../plugins/fn-lookup/functions.c:1295
+#: ../plugins/fn-lookup/functions.c:1299
 msgid "ref_string,format"
 msgstr "cad_ref,formato"
 
-#: ../plugins/fn-lookup/functions.c:1298
+#: ../plugins/fn-lookup/functions.c:1302
 msgid "reference,row,col,area"
 msgstr "referencia,fila,col,área"
 
-#: ../plugins/fn-lookup/functions.c:1301
+#: ../plugins/fn-lookup/functions.c:1305
 msgid "val,range,range"
 msgstr "val,rango,rango"
 
-#: ../plugins/fn-lookup/functions.c:1304
+#: ../plugins/fn-lookup/functions.c:1308
 msgid "val,range,approx"
 msgstr "val,rango,aprox"
 
-#: ../plugins/fn-lookup/functions.c:1307
+#: ../plugins/fn-lookup/functions.c:1311
 msgid "ref,row,col,height,width"
 msgstr "ref,fila,col,alto,ancho"
 
-#: ../plugins/fn-lookup/functions.c:1316 ../plugins/fn-math/functions.c:3495
+#: ../plugins/fn-lookup/functions.c:1320 ../plugins/fn-math/functions.c:3495
 msgid "array"
 msgstr "array"
 
@@ -1974,15 +1978,15 @@ msgstr "Psiconv"
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
 
-#: ../plugins/psiconv/psiconv-read.c:607
+#: ../plugins/psiconv/psiconv-read.c:611
 msgid "Error while reading psiconv file."
 msgstr "Error al leer archivo psiconv."
 
-#: ../plugins/psiconv/psiconv-read.c:617
+#: ../plugins/psiconv/psiconv-read.c:621
 msgid "Error while parsing Psion file."
 msgstr "Ha ocurrido un error el parsear el archivo Psion."
 
-#: ../plugins/psiconv/psiconv-read.c:625
+#: ../plugins/psiconv/psiconv-read.c:629
 msgid "This Psion file is not a Sheet file."
 msgstr "El archivo Psion no es un archivo Sheet."
 
@@ -2305,7 +2309,7 @@ msgid "Activate New Plugins"
 msgstr "Activar complementos nuevos"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:824
+#: ../src/dialogs/dialog-preferences.c:833
 msgid "Allow Unfocused Range Selections"
 msgstr "Permitir selecciones de rangos sin foco"
 
@@ -2458,7 +2462,7 @@ msgid "List of recently used functions."
 msgstr "Lista de funciones usadas recientemente."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
-#: ../src/dialogs/dialog-preferences.c:829
+#: ../src/dialogs/dialog-preferences.c:838
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Máxima longitud de la lista de funciones recientemente usadas"
 
@@ -2830,7 +2834,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Retardo del recálculo automático de expresiones"
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:819
+#: ../src/dialogs/dialog-preferences.c:828
 msgid "Autocomplete"
 msgstr "Autocompletar"
 
@@ -2845,7 +2849,7 @@ msgstr ""
 "sobreescribir de ese diálogo sea el botón predeterminado."
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:719
+#: ../src/dialogs/dialog-preferences.c:728
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Nivel de compresión predeterminado para los archivos de Gnumeric"
 
@@ -2854,27 +2858,27 @@ msgid "Default Font Size"
 msgstr "Tamaño de la fuente tipográfica predeterminada"
 
 #: ../schemas/gnumeric-general.schemas.in.h:6
-#: ../src/dialogs/dialog-preferences.c:672
+#: ../src/dialogs/dialog-preferences.c:681
 msgid "Default Horizontal Window Size"
 msgstr "Tamaño horizontal predeterminado de la ventana"
 
 #: ../schemas/gnumeric-general.schemas.in.h:7
-#: ../src/dialogs/dialog-preferences.c:680
+#: ../src/dialogs/dialog-preferences.c:689
 msgid "Default Number of Sheets"
 msgstr "Número de hojas predeterminadas"
 
 #: ../schemas/gnumeric-general.schemas.in.h:8
-#: ../src/dialogs/dialog-preferences.c:724
+#: ../src/dialogs/dialog-preferences.c:733
 msgid "Default To Overwriting Files"
 msgstr "Sobreescribir archivos por omisión"
 
 #: ../schemas/gnumeric-general.schemas.in.h:9
-#: ../src/dialogs/dialog-preferences.c:668
+#: ../src/dialogs/dialog-preferences.c:677
 msgid "Default Vertical Window Size"
 msgstr "Tamaño vertical de la ventana preestablecido"
 
 #: ../schemas/gnumeric-general.schemas.in.h:10
-#: ../src/dialogs/dialog-preferences.c:676
+#: ../src/dialogs/dialog-preferences.c:685
 msgid "Default Zoom Factor"
 msgstr "Factor de ampliación preestablecido"
 
@@ -2887,7 +2891,7 @@ msgid "Format toolbar visible"
 msgstr "Barra de formato visible"
 
 #: ../schemas/gnumeric-general.schemas.in.h:13
-#: ../src/dialogs/dialog-preferences.c:769
+#: ../src/dialogs/dialog-preferences.c:778
 msgid "Horizontal DPI"
 msgstr "Puntos por pulgada horizontales"
 
@@ -2915,22 +2919,22 @@ msgid "Length of the Undo Descriptors"
 msgstr "Longitud de los descriptores de deshacer"
 
 #: ../schemas/gnumeric-general.schemas.in.h:16
-#: ../src/dialogs/dialog-preferences.c:684
+#: ../src/dialogs/dialog-preferences.c:693
 msgid "Live Scrolling"
 msgstr "Desplazamiento en directo"
 
 #: ../schemas/gnumeric-general.schemas.in.h:17
-#: ../src/dialogs/dialog-preferences.c:572
+#: ../src/dialogs/dialog-preferences.c:581
 msgid "Maximal Undo Size"
 msgstr "Tamaño máximo a deshacer"
 
 #: ../schemas/gnumeric-general.schemas.in.h:18
-#: ../src/dialogs/dialog-preferences.c:616
+#: ../src/dialogs/dialog-preferences.c:625
 msgid "Number of Automatic Clauses"
 msgstr "Número de cláusulas automáticas"
 
 #: ../schemas/gnumeric-general.schemas.in.h:19
-#: ../src/dialogs/dialog-preferences.c:576
+#: ../src/dialogs/dialog-preferences.c:585
 msgid "Number of Undo Items"
 msgstr "Número de elementos a deshacer"
 
@@ -2939,7 +2943,7 @@ msgid "Object toolbar visible"
 msgstr "Barra de objetos visible"
 
 #: ../schemas/gnumeric-general.schemas.in.h:21
-#: ../src/dialogs/dialog-preferences.c:864
+#: ../src/dialogs/dialog-preferences.c:873
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Preferir PORTAPAPELES sobre selección PRIMARIA"
 
@@ -2984,7 +2988,7 @@ msgstr ""
 "formatos» en el diálogo «Ordenar»."
 
 #: ../schemas/gnumeric-general.schemas.in.h:28
-#: ../src/dialogs/dialog-preferences.c:580
+#: ../src/dialogs/dialog-preferences.c:589
 msgid "Show Sheet Name in Undo List"
 msgstr "Mostrar nombre de la hoja en la lista deshacer"
 
@@ -3003,7 +3007,7 @@ msgid "Sort Area Has Header"
 msgstr "El área de ordenación tiene cabecera"
 
 #: ../schemas/gnumeric-general.schemas.in.h:31
-#: ../src/dialogs/dialog-preferences.c:628 ../src/wbc-gtk-actions.c:1934
+#: ../src/dialogs/dialog-preferences.c:637 ../src/wbc-gtk-actions.c:1934
 msgid "Sort Ascending"
 msgstr "Ordenar ascendentemente"
 
@@ -3012,7 +3016,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "La ordenación es sensible a la capitalización"
 
 #: ../schemas/gnumeric-general.schemas.in.h:33
-#: ../src/dialogs/dialog-preferences.c:620
+#: ../src/dialogs/dialog-preferences.c:629
 msgid "Sorting Preserves Formats"
 msgstr "La ordenación conserva los formatos"
 
@@ -3209,17 +3213,17 @@ msgstr ""
 "ambos_horiz, icono y texto"
 
 #: ../schemas/gnumeric-general.schemas.in.h:63
-#: ../src/dialogs/dialog-preferences.c:814
+#: ../src/dialogs/dialog-preferences.c:823
 msgid "Transition Keys"
 msgstr "Teclas de transición"
 
 #: ../schemas/gnumeric-general.schemas.in.h:64
-#: ../src/dialogs/dialog-preferences.c:773
+#: ../src/dialogs/dialog-preferences.c:782
 msgid "Vertical DPI"
 msgstr "Puntos por pulgada verticales"
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
-#: ../src/dialogs/dialog-preferences.c:728
+#: ../src/dialogs/dialog-preferences.c:737
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Avisar cuando se exporte en formato de hoja única"
 
@@ -3255,7 +3259,7 @@ msgstr ""
 "LaTeX ucs instalado."
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:734
+#: ../src/dialogs/dialog-preferences.c:743
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Usar UTF-8 al exportar a LaTeX"
 
@@ -3819,7 +3823,7 @@ msgid "Diagonal Stripe"
 msgstr "Línea diagonal"
 
 #: ../src/dialogs/cell-format.glade.h:46
-#: ../src/dialogs/dialog-preferences.c:886 ../src/wbc-gtk.c:2608
+#: ../src/dialogs/dialog-preferences.c:895 ../src/wbc-gtk.c:2608
 msgid "Font"
 msgstr "Tipografía"
 
@@ -5620,17 +5624,17 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Directorio"
 
-#: ../src/dialogs/dialog-preferences.c:551
+#: ../src/dialogs/dialog-preferences.c:560
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Los elementos de esta página personalizan el comportamiento del sistema de "
 "hacer/rehacer."
 
-#: ../src/dialogs/dialog-preferences.c:568
+#: ../src/dialogs/dialog-preferences.c:577
 msgid "Length of Undo Descriptors"
 msgstr "Longitud de los descriptores de deshacer"
 
-#: ../src/dialogs/dialog-preferences.c:597
+#: ../src/dialogs/dialog-preferences.c:606
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -5639,31 +5643,31 @@ msgstr ""
 "diálogo de ordenación y el comportamiento de los botones de la barra de "
 "herramientas de ordenación."
 
-#: ../src/dialogs/dialog-preferences.c:624
+#: ../src/dialogs/dialog-preferences.c:633
 msgid "Sorting is Case-Sensitive"
 msgstr "La ordenación es sensible a la capitalización"
 
-#: ../src/dialogs/dialog-preferences.c:632
+#: ../src/dialogs/dialog-preferences.c:641
 msgid "Sort Area Has a HEADER"
 msgstr "Área de ordenación tiene una CABECERA"
 
-#: ../src/dialogs/dialog-preferences.c:650
+#: ../src/dialogs/dialog-preferences.c:659
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "Los elementos de esta página personalizan el nuevo libro de cuentas "
 "predeterminado."
 
-#: ../src/dialogs/dialog-preferences.c:701
+#: ../src/dialogs/dialog-preferences.c:710
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Los elementos de esta página se refieren a guardar y abrir archivos."
 
-#: ../src/dialogs/dialog-preferences.c:751
+#: ../src/dialogs/dialog-preferences.c:760
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 "Los elementos de esta página se refieren a la distribución en la pantalla y "
 "la resolución."
 
-#: ../src/dialogs/dialog-preferences.c:790
+#: ../src/dialogs/dialog-preferences.c:799
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
@@ -5671,43 +5675,43 @@ msgstr ""
 "Los elementos de esta página y sus subpáginas se refieren a varias "
 "herramientas de gnumeric."
 
-#: ../src/dialogs/dialog-preferences.c:809
+#: ../src/dialogs/dialog-preferences.c:818
 msgid "Enter _Moves Selection"
 msgstr "Pulsar Retorno _mueve la selección"
 
-#: ../src/dialogs/dialog-preferences.c:846
+#: ../src/dialogs/dialog-preferences.c:855
 msgid "The items on this page are related to copy, cut and paste."
 msgstr "Los elementos de esta página se refieren a copiar, cortar y pegar."
 
-#: ../src/dialogs/dialog-preferences.c:887
+#: ../src/dialogs/dialog-preferences.c:896
 msgid "Copy and Paste"
 msgstr "Copiar y pegar"
 
-#: ../src/dialogs/dialog-preferences.c:888
+#: ../src/dialogs/dialog-preferences.c:897
 msgid "Files"
 msgstr "Archivos"
 
-#: ../src/dialogs/dialog-preferences.c:889
+#: ../src/dialogs/dialog-preferences.c:898
 msgid "Tools"
 msgstr "Herramientas"
 
-#: ../src/dialogs/dialog-preferences.c:890
+#: ../src/dialogs/dialog-preferences.c:899
 msgid "Undo"
 msgstr "Deshacer"
 
-#: ../src/dialogs/dialog-preferences.c:891
+#: ../src/dialogs/dialog-preferences.c:900
 msgid "Windows"
 msgstr "Ventanas"
 
-#: ../src/dialogs/dialog-preferences.c:892
+#: ../src/dialogs/dialog-preferences.c:901
 msgid "Header/Footer"
 msgstr "Encabezados/pie de página"
 
-#: ../src/dialogs/dialog-preferences.c:893 ../src/commands.c:2075
+#: ../src/dialogs/dialog-preferences.c:902 ../src/commands.c:2075
 msgid "Sorting"
 msgstr "Ordenar"
 
-#: ../src/dialogs/dialog-preferences.c:894
+#: ../src/dialogs/dialog-preferences.c:903
 msgid "Screen"
 msgstr "Pantalla"
 
@@ -9753,16 +9757,16 @@ msgstr "Lista del archivo histórico"
 msgid "A GSlist of filenames that have been read recently"
 msgstr "Una GSlist de nombres de archivo leídos recientemente"
 
-#: ../src/clipboard.c:354 ../src/clipboard.c:366 ../src/clipboard.c:377
-#: ../src/clipboard.c:385
+#: ../src/clipboard.c:360 ../src/clipboard.c:372 ../src/clipboard.c:383
+#: ../src/clipboard.c:391
 msgid "Unable to paste"
 msgstr "Imposible pegar"
 
-#: ../src/clipboard.c:355
+#: ../src/clipboard.c:361
 msgid "Contents can only be pasted by value or by link."
 msgstr "El contenido sólo se puede pegar por valor o por enlace."
 
-#: ../src/clipboard.c:363
+#: ../src/clipboard.c:369
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -9774,7 +9778,7 @@ msgstr ""
 "\n"
 "Pruebe seleccionando una sola celda o un área del mismo tamaño y forma."
 
-#: ../src/clipboard.c:374
+#: ../src/clipboard.c:380
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -9785,7 +9789,7 @@ msgstr ""
 "filas a pegar (%d en vez de %d)\n"
 "Pruebe seleccionando una sola celda o un área del mismo tamaño y forma."
 
-#: ../src/clipboard.c:386
+#: ../src/clipboard.c:392
 msgid "result passes the sheet boundary"
 msgstr "el resultado excede el límite de la hoja"
 
