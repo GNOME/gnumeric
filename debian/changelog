@@ -1,3 +1,16 @@
+gnumeric (1.7.12-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/control]
+    * Bumped libgsf and goffice build dependencies per configure.in .
+    * Made binNMU safe, thanks Lior Kaplan <kaplan@debian.org>.
+      (Closes: #432962)
+  * [debian/gnumeric.menu] Changed section to Applications/Office as per the
+    new Debian menu structure. Thanks Bill Allombert <ballombe@debian.org>.
+    (Closes: #439009)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 04 Sep 2007 21:01:55 +0200
+
 gnumeric (1.7.11-1) experimental; urgency=low
 
   * New upstream development release.
@@ -32,6 +45,7 @@ gnumeric (1.7.9-1) experimental; urgency=low
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 21 Apr 2007 19:47:30 +0200
 
+>>>>>>> .r15522
 gnumeric (1.7.8-1) experimental; urgency=low
 
   * New upstream development release.

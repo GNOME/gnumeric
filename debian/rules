@@ -69,6 +69,10 @@ features+= PYTHON=/usr/bin/python --with-python
 # pointless."
 features+= --without-bonobo
 
+# db2context is needed to build the PDF docs, but it is not (yet?) packaged
+# for Debian.
+features+= --disable-pdfdocs
+
 confflags :=	--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
 		--sysconfdir=/etc \
