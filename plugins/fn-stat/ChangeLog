@@ -1,3 +1,7 @@
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
 2007-07-25  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_small) : rework to be fixed, not var-arg.

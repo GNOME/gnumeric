@@ -12,11 +12,15 @@ Release Critical
 In Progress
 -----------
     Jody
+	- CELL translation & array handling
+	- INDEX range res, iteration
+	- dialog cleanup
+	- ExprEntry extensions
+	- Filter dups (does this make sense ?)
+	- python wrapper for libspreadsheet
+	- win32 GOption fixes
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
-	- win32 GOption fixes
-	- replicate col/row header redraw problem on scrolling
-	- fix python tests in configure.in for cross compilation
 
 Review
 ------

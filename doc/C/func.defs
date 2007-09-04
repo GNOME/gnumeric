@@ -3869,14 +3869,13 @@ CHOOSE(3,"Apple","Orange","Grape","Perry") equals "Grape".
 
 @CATEGORY=Lookup
 @FUNCTION=COLUMN
-@SYNTAX=COLUMN([reference])
-@DESCRIPTION=COLUMN function returns the column number of the current cell unless @reference is given. In that case, it returns an array of the column numbers of all cells in @reference. 
-* If @reference is neither an array nor a reference nor a range, COLUMN returns #VALUE! error.
-
-@EXAMPLES=
-COLUMN() in E1 equals 5.
-
 @SEEALSO=COLUMNS,ROW,ROWS
+@SYNTAX=COLUMN([reference].)
+@DESCRIPTION=COLUMN function returns a Nx1 array containing the series of integers from the first column to the last column of @reference.
+* @reference defaults to the position of the current expression.
+
+* If @reference is neither an array nor a reference nor a range, returns #VALUE! error.
+
 
 @CATEGORY=Lookup
 @FUNCTION=COLUMNNUMBER
@@ -3993,15 +3992,13 @@ If the area is longer than it is wide then the sense of the search is rotated. A
 
 @CATEGORY=Lookup
 @FUNCTION=ROW
-@SYNTAX=ROW([reference])
-@DESCRIPTION=ROW function returns an array of the row numbers taking a default argument of the containing cell position.
-
-* If @reference is neither an array nor a reference nor a range, ROW returns #VALUE! error.
-
-@EXAMPLES=
-ROW() in G13 equals 13.
-
 @SEEALSO=COLUMN,COLUMNS,ROWS
+@SYNTAX=ROW([reference].)
+@DESCRIPTION=ROW function returns a 1xN array containing the series of integers from the first row to the last row of @reference.
+* @reference defaults to the position of the current expression.
+
+* If @reference is neither an array nor a reference nor a range, returns #VALUE! error.
+
 
 @CATEGORY=Lookup
 @FUNCTION=ROWS
@@ -5013,6 +5010,30 @@ The argument must be at least 2, or else a #VALUE! error is returned.
 @EXAMPLES=
 @SEEALSO=ITHPRIME
 
+@CATEGORY=Python
+@FUNCTION=PY_BITAND
+@SYNTAX=PY_BITAND (num)
+@DESCRIPTION=The BITAND function returns bitwise and-ing of its arguments.
+@EXAMPLES=
+PY_BITAND(6, 2) equals 2)
+@SEEALSO=BITAND
+
+@CATEGORY=Python
+@FUNCTION=PY_CAPWORDS
+@SYNTAX=PY_CAPWORDS (sentence)
+@DESCRIPTION=
+@EXAMPLES=
+PY_CAPWORDS("Hello world") equals "Hello World")
+@SEEALSO=
+
+@CATEGORY=Python
+@FUNCTION=PY_PRINTF
+@SYNTAX=PY_PRINTF (format,...)
+@DESCRIPTION=
+@EXAMPLES=
+PY_PRINTF("Test: %.2f",12) equals "Test: 12.00")
+@SEEALSO=
+
 @CATEGORY=Random Numbers
 @FUNCTION=RAND
 @SYNTAX=RAND()
@@ -5977,7 +5998,7 @@ LAPLACE(0.4,1).
 
 @CATEGORY=Statistics
 @FUNCTION=LARGE
-@SYNTAX=LARGE(n1, n2, ..., k)
+@SYNTAX=LARGE(n, k)
 @DESCRIPTION=LARGE returns the k-th largest value in a data set.
 
 * If data set is empty LARGE returns #NUM! error.
@@ -6930,7 +6951,7 @@ SLOPE(A1:A5,B1:B5) equals 1.417959936.
 
 @CATEGORY=Statistics
 @FUNCTION=SMALL
-@SYNTAX=SMALL(n1, n2, ..., k)
+@SYNTAX=SMALL(n, k)
 @DESCRIPTION=SMALL returns the k-th smallest value in a data set.
 
 * If data set is empty SMALL returns #NUM! error.

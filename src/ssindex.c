@@ -207,7 +207,7 @@ ssindex (char const *file, IOContext *ioc)
 }
 
 int
-main (int argc, char **argv)
+main (int argc, char const **argv)
 {
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
@@ -220,7 +220,7 @@ main (int argc, char **argv)
 
 	ocontext = g_option_context_new (_("INFILE..."));
 	g_option_context_add_main_entries (ocontext, ssindex_options, GETTEXT_PACKAGE);
-	g_option_context_parse (ocontext, &argc, &argv, &error);
+	g_option_context_parse (ocontext, &argc, (gchar ***)&argv, &error);
 	g_option_context_free (ocontext);
 
 	if (error) {

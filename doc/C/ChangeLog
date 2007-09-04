@@ -1,3 +1,11 @@
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* quick-start.xml : validate 
+
 2007-09-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* quick-start.xml: Make the text somewhat more engaging by addressing

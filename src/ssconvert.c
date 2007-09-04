@@ -313,7 +313,7 @@ convert (char const *inarg, char const *outarg,
 }
 
 int
-main (int argc, char **argv)
+main (int argc, char const **argv)
 {
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
@@ -326,7 +326,7 @@ main (int argc, char **argv)
 
 	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
 	g_option_context_add_main_entries (ocontext, ssconvert_options, GETTEXT_PACKAGE);
-	g_option_context_parse (ocontext, &argc, &argv, &error);
+	g_option_context_parse (ocontext, &argc, (char **)&argv, &error);
 	g_option_context_free (ocontext);
 
 	if (error) {

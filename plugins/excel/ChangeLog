@@ -1,3 +1,7 @@
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
 2007-09-01  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-write.c (xlsx_write_init_row) : new.

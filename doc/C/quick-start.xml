@@ -1002,9 +1002,11 @@ c:\Program Files\Gnome-Office\gnumeric
       <application>Gnumeric</application> uses for dates is the number
       of days since the last day of 1899.
       <footnote>
+	<para>
         <application>Gnumeric</application> actually perpetuates an error of
         <application>Excel</application> for the sake of compatibility
         and assumes 1900 to be a leap year even though it was not.
+	</para>
       </footnote>
       At the same time, <application>Gnumeric</application> changes the
       display format to display this number as a date, with a numeric

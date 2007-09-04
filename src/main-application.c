@@ -383,7 +383,7 @@ main (int argc, char const **argv)
 	osso_context = osso_initialize ("gnumeric", GNUMERIC_VERSION, TRUE, NULL);
 #endif
 
-	gnumeric_arg_parse (argc, argv);
+	gnumeric_arg_parse (argc, (char **)argv);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	if (gnumeric_show_version) {

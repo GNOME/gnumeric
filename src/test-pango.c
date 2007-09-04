@@ -7,7 +7,7 @@
 #include "io-context-gtk.h"
 /* TODO: Get rid of this one */
 #include "command-context-stderr.h"
-#include "workbook-control-gui.h"
+#include "wbc-gtk.h"
 #include "workbook-view.h"
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-doc.h>
@@ -57,7 +57,7 @@ cb_exercise_pango (gpointer data)
 }
 
 int
-main (int argc, char **argv)
+main (int argc, char const **argv)
 {
 	GOCmdContext *cc;
 	WorkbookControl *wbc;

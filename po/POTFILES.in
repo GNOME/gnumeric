@@ -3,9 +3,6 @@
 #
 [encoding: UTF-8]
 gnumeric.desktop.in
-component/Gnumeric-embed.xml.in
-component/gnumeric.c
-component/plugin.xml.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
