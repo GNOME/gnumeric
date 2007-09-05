@@ -772,26 +772,12 @@ format_match_datetime (char const *text,
 }
 
 static gboolean
-hack_month_before_day (GOFormat const *cur_fmt)
+get_month_before_day (GOFormat const *fmt)
 {
-	char *s = g_strdup (go_format_as_XL (cur_fmt));
-	char *p;
-	char const *pos_m, *pos_d;
-	gboolean res;
-
-	/* Try to block out minutes.  */
-	p = strchr (s, 'h');
-	if (p) *p = 0;
-
-	pos_m = strchr (s, 'm');
-	pos_d = strchr (s, 'd');
-	if (pos_m && pos_d)
-		res = (pos_m < pos_d);
-	else
-		res = go_locale_month_before_day ();
-
-	g_free (s);
-	return res;
+	int mbd = go_format_month_before_day (fmt);
+	if (mbd < 0)
+		mbd = go_locale_month_before_day ();
+	return mbd != 0;
 }
 
 static gboolean
@@ -1120,8 +1106,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 		return v;
 
 	case GO_FORMAT_DATE: {
-		gboolean month_before_day =
-			hack_month_before_day (cur_fmt);
+		gboolean month_before_day = get_month_before_day (cur_fmt);
 
 		v = format_match_datetime (text, date_conv,
 					   month_before_day,
@@ -1135,8 +1120,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 	}
 
 	case GO_FORMAT_TIME: {
-		gboolean month_before_day =
-			hack_month_before_day (cur_fmt);
+		gboolean month_before_day = get_month_before_day (cur_fmt);
 		gboolean prefer_hour = hack_prefer_hour (cur_fmt);
 
 		v = format_match_datetime (text, date_conv,

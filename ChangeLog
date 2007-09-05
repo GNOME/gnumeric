@@ -1,3 +1,8 @@
+2007-09-04  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (get_month_before_day): Rename from
+	hack_month_before_day.  Make non-hackish.
+
 2007-09-04  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release bump
