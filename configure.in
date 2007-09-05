@@ -111,7 +111,8 @@ dnl execution.  Thus we need an explicit call:
 PKG_PROG_PKG_CONFIG(0.18)
 
 libgoffice=
-for ver in 0.5 0.4; do
+dnl Currently only 0.5 will work
+for ver in 0.5; do
   if test "x$libgoffice" = x; then
     AC_MSG_CHECKING([libgoffice-$ver])
     if pkg-config --exists libgoffice-$ver; then
