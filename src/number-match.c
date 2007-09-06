@@ -771,24 +771,6 @@ format_match_datetime (char const *text,
 	return v;
 }
 
-static gboolean
-get_month_before_day (GOFormat const *fmt)
-{
-	int mbd = go_format_month_before_day (fmt);
-	if (mbd < 0)
-		mbd = go_locale_month_before_day ();
-	return mbd != 0;
-}
-
-static gboolean
-hack_prefer_hour (GOFormat const *cur_fmt)
-{
-	const char *s = go_format_as_XL (cur_fmt);
-	gboolean res = (strchr (s, 'h') != NULL);
-	return res;
-}
-
-
 /*
  * Match "12/23", "-12/23", "1 2/3", "-1 2/3", and even "-123".
  * Does not match "1/0".
@@ -1106,7 +1088,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 		return v;
 
 	case GO_FORMAT_DATE: {
-		gboolean month_before_day = get_month_before_day (cur_fmt);
+		gboolean month_before_day =
+			gnm_format_month_before_day (cur_fmt, NULL);
 
 		v = format_match_datetime (text, date_conv,
 					   month_before_day,
@@ -1120,8 +1103,11 @@ format_match (char const *text, GOFormat *cur_fmt,
 	}
 
 	case GO_FORMAT_TIME: {
-		gboolean month_before_day = get_month_before_day (cur_fmt);
-		gboolean prefer_hour = hack_prefer_hour (cur_fmt);
+		gboolean month_before_day =
+			gnm_format_month_before_day (cur_fmt, NULL);
+
+		gboolean prefer_hour =
+			gnm_format_has_hour (cur_fmt, NULL);
 
 		v = format_match_datetime (text, date_conv,
 					   month_before_day,

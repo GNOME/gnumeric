@@ -1,3 +1,14 @@
+2007-09-05  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-format.c (gnm_format_has_hour,
+	gnm_format_month_before_day): New functions.
+
+	* src/wbc-gtk-edit.c (wbcg_edit_start): Use
+	gnm_format_month_before_day.
+
+	* src/number-match.c (format_match): Use gnm_format_has_hour and
+	gnm_format_month_before_day.  No more hackery.
+
 2007-09-04  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (get_month_before_day): Rename from

@@ -29,8 +29,14 @@ GOFormatNumberError gnm_format_layout    (PangoLayout *result,
 GOFormat const * gnm_format_specialize (GOFormat const *fmt,
 					GnmValue const *value);
 
-int gnm_format_is_date_for_value         (GOFormat const *fmt,
-					  GnmValue const *value);
+int gnm_format_is_date_for_value (GOFormat const *fmt,
+				  GnmValue const *value);
+
+gboolean gnm_format_month_before_day (GOFormat const *fmt,
+				      GnmValue const *value);
+
+gboolean gnm_format_has_hour (GOFormat const *fmt,
+			      GnmValue const *value);
 
 /*
  * http://www.unicode.org/charts/PDF/U0080.pdf

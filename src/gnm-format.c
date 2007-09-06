@@ -237,3 +237,29 @@ gnm_format_is_date_for_value (GOFormat const *fmt,
 	fmt = gnm_format_specialize (fmt, value);
 	return go_format_is_date (fmt);
 }
+
+gboolean
+gnm_format_month_before_day (GOFormat const *fmt,
+			     GnmValue const *value)
+{
+	int mbd;
+
+	if (value)
+		fmt = gnm_format_specialize (fmt, value);
+
+	mbd = go_format_month_before_day (fmt);
+	if (mbd < 0)
+		mbd = go_locale_month_before_day ();
+
+	return mbd != 0;
+}
+
+gboolean
+gnm_format_has_hour (GOFormat const *fmt,
+		     GnmValue const *value)
+{
+	if (value)
+		fmt = gnm_format_specialize (fmt, value);
+
+	return go_format_has_hour (fmt);
+}

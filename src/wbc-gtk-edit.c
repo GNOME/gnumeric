@@ -47,7 +47,6 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <goffice/utils/go-font.h>
-#include <goffice/utils/go-locale.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -885,11 +884,8 @@ wbcg_edit_start (WBCGtk *wbcg,
 			case GO_FORMAT_DATE: {
 				GString *fstr;
 				GOFormat *new_fmt;
-				int mbd;
-
-				mbd = go_format_month_before_day (fmt);
-				if (mbd < 0)
-					mbd = go_locale_month_before_day ();
+				gboolean mbd = gnm_format_month_before_day
+					(fmt, cell->value);
 
 				fstr = g_string_new (mbd ? "m/d/yyyy" : "d/m/yyyy");
 
