@@ -68,7 +68,7 @@ endif
 
 pdf :
 	env TEXINPUTS=$(srcdir):.: dbcontext -t tex -Pfo.setup=1 -I . \
-		-P imagedata.default.scale=600 \
+		-P imagedata.default.scale='scale=600' \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml
 	env TEXMFCNF=$(srcdir): \
 		TEXINPUTS=$(srcdir):/usr/share/texmf/tex/context/dbcontext/style: \
