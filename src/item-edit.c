@@ -525,9 +525,6 @@ item_edit_set_property (GObject *gobject, guint param_id,
 	foo_canvas_item_request_update (item);
 }
 
-/*
- * ItemEdit class initialization
- */
 static void
 item_edit_class_init (GObjectClass *gobject_class)
 {
