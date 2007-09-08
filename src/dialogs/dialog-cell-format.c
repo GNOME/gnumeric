@@ -2018,7 +2018,6 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 static void
 cb_fmt_dialog_dialog_destroy (FormatState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	gnm_style_unref (state->back.style);
 	gnm_style_unref (state->style);
 	gnm_style_unref (state->result);
@@ -2331,9 +2330,10 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 */
 
 	/* a candidate for merging into attach guru */
+	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_fmt_dialog_dialog_destroy);
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));

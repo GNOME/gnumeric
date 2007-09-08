@@ -727,7 +727,7 @@ is_pointer_on_division (ItemBar const *ib, double x, double y,
 			WBCGtk *wbcg = scg_wbcg (ib->pane->simple.scg);
 			total += cri->size_pixels;
 
-			if (wbcg_edit_get_guru (wbcg) == NULL &&
+			if (wbc_gtk_get_guru (wbcg) == NULL &&
 			    !wbcg_is_editing (wbcg) &&
 			    (total - 4 < major) && (major < total + 4)) {
 				if (the_total)
@@ -921,7 +921,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		if (wbcg_edit_get_guru (wbcg) == NULL)
+		if (wbc_gtk_get_guru (wbcg) == NULL)
 			scg_mode_edit (scg);
 
 		cri = is_pointer_on_division (ib, e->button.x, e->button.y,
@@ -932,7 +932,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			return outline_button_press (ib, element, minor_pos);
 
 		if (e->button.button == 3) {
-			if (wbcg_edit_get_guru (wbcg) != NULL)
+			if (wbc_gtk_get_guru (wbcg) != NULL)
 				return TRUE;
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
@@ -968,7 +968,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 				gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
 			}
 		} else {
-			if (wbcg_edit_get_guru (wbcg) != NULL &&
+			if (wbc_gtk_get_guru (wbcg) != NULL &&
 			    !wbcg_entry_has_logical (wbcg))
 				break;
 

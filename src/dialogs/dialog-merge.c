@@ -306,7 +306,6 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 static void
 cb_merge_destroy (MergeState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->model != NULL)
 		g_object_unref (G_OBJECT (state->model));
 	if (state->gui != NULL)
@@ -451,6 +450,6 @@ dialog_merge (WBCGtk *wbcg)
 		"state", state, (GDestroyNotify) cb_merge_destroy);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

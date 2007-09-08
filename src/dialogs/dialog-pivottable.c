@@ -47,8 +47,6 @@ typedef struct {
 static void
 cb_pivottable_guru_destroy (PivotTableGuru *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
@@ -112,7 +110,7 @@ dialog_pivottable (WBCGtk *wbcg)
 		GNUMERIC_HELP_LINK_PIVOT_TABLE);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_pivottable_guru_destroy);
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }

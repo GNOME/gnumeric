@@ -1686,8 +1686,14 @@ cb_do_print_cancel (PrinterSetupState *state)
 static void
 cb_do_print_ok (PrinterSetupState *state)
 {
-	/* Detach BEFORE we finish editing */
-	wbcg_edit_detach_guru (state->wbcg);
+#if 0
+#warning
+	/* Detach BEFORE we finish editing
+	 *
+	 * ?? why do we need to do this 
+	 */
+	wbc_gtk_detach_guru (state->wbcg);
+#endif
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 	fetch_settings (state);
 	if (gtk_toggle_button_get_active (
@@ -1712,7 +1718,6 @@ cb_do_print (PrinterSetupState *state)
 static void
 cb_do_print_destroy (PrinterSetupState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 /* 	if (state->customize_header) */
@@ -1815,7 +1820,7 @@ do_setup_main_dialog (PrinterSetupState *state)
 	
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_do_print_destroy);
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 
 }
 
@@ -2033,7 +2038,7 @@ dialog_printer_setup (WBCGtk *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 
 	/* Only one guru per workbook. */
-	if (wbcg_edit_get_guru (wbcg))
+	if (wbc_gtk_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

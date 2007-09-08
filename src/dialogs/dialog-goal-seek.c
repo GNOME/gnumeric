@@ -271,8 +271,6 @@ cb_dialog_destroy (GoalSeekState *state)
 		state->old_value = NULL;
 	}
 
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->old_value != NULL)
 		value_release (state->old_value);
 	if (state->gui != NULL)
@@ -573,15 +571,16 @@ dialog_init (GoalSeekState *state)
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));
 
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	g_signal_connect (G_OBJECT (state->dialog),
 		"realize",
 		G_CALLBACK (dialog_realized), state);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_destroy);
 
 	state->old_value = NULL;
 	state->old_cell = NULL;
+
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_destroy);
 
 	gnm_expr_entry_grab_focus (state->set_cell_entry, FALSE);
 

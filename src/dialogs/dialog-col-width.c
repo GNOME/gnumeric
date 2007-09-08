@@ -89,7 +89,6 @@ dialog_col_width_button_sensitivity (ColWidthState *state)
 static void
 cb_dialog_col_width_destroy (ColWidthState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
@@ -288,13 +287,14 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_COL_WIDTH);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_col_width_destroy);
 
 	dialog_col_width_set_mode (use_default, state);
 	dialog_col_width_load_value (state);
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_col_width_destroy);
+
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       COL_WIDTH_DIALOG_KEY);
 	gtk_widget_show (state->dialog);

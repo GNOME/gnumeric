@@ -52,7 +52,6 @@ typedef struct {
 static void
 cb_dialog_col_row_destroy (ColRowState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
@@ -116,12 +115,13 @@ dialog_col_row (WBCGtk *wbcg,  char const *operation,
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GROUP_UNGROUP);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_col_row_destroy);
 
 	gtk_window_set_title (GTK_WINDOW (state->dialog), operation);
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_col_row_destroy);
+
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       COL_ROW_DIALOG_KEY);
 	gtk_widget_show (state->dialog);

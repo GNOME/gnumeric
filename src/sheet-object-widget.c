@@ -360,8 +360,6 @@ cb_frame_config_destroy (FrameConfigState *state)
 {
  	g_return_if_fail (state != NULL);
 
- 	wbcg_edit_detach_guru (state->wbcg);
-
  	if (state->gui != NULL) {
  		g_object_unref (G_OBJECT (state->gui));
  		state->gui = NULL;
@@ -460,9 +458,6 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_cancel_clicked), state);
 
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_frame_config_destroy);
-
   	gnumeric_init_help_button (
   		glade_xml_get_widget (state->gui, "help_button"),
   		GNUMERIC_HELP_LINK_SO_FRAME);
@@ -471,7 +466,9 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
   	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
   			       SHEET_OBJECT_CONFIG_KEY);
 
-  	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+  	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_frame_config_destroy);
 
   	gtk_widget_show (state->dialog);
 }
@@ -875,12 +872,11 @@ static void
 cb_adjustment_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			 AdjustmentConfigState *state)
 {
-	/* Note:  half of the set-focus action is handle by the default */
-	/*        callback installed by wbcg_edit_attach_guru           */
+	/* Note:  half of the set-focus action is handle by the default
+	 *        callback installed by wbc_gtk_attach_guru. */
 
-	/* Force an update of the content in case it
-	 * needs tweaking (eg make it absolute)
-	 */
+	/* Force an update of the content in case it needs tweaking (eg make it
+	 * absolute) */
 	if (state->old_focus != NULL &&
 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
 		GnmParsePos  pp;
@@ -898,8 +894,6 @@ static void
 cb_adjustment_config_destroy (AdjustmentConfigState *state)
 {
 	g_return_if_fail (state != NULL);
-
-	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -1009,8 +1003,6 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 		"clicked",
 		G_CALLBACK (cb_adjustment_config_cancel_clicked), state);
 
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_adjustment_config_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_ADJUSTMENT);
@@ -1018,11 +1010,13 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_adjustment_config_destroy);
+
 	/* Note:  half of the set-focus action is handle by the default */
-	/*        callback installed by wbcg_edit_attach_guru           */
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
+	/*        callback installed by wbc_gtk_attach_guru           */
+	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_adjustment_set_focus), state);
 
 	gtk_widget_show (state->dialog);
@@ -1515,12 +1509,11 @@ static void
 cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		       CheckboxConfigState *state)
 {
-	/* Note:  have of the set-focus action is handle by the default */
-	/*        callback installed by wbcg_edit_attach_guru           */
+	/* Note:  half of the set-focus action is handle by the default
+	 *        callback installed by wbc_gtk_attach_guru */
 
-	/* Force an update of the content in case it
-	 * needs tweaking (eg make it absolute)
-	 */
+	/* Force an update of the content in case it needs tweaking (eg make it
+	 * absolute) */
 	if (state->old_focus != NULL &&
 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
 		GnmParsePos  pp;
@@ -1538,8 +1531,6 @@ static void
 cb_checkbox_config_destroy (CheckboxConfigState *state)
 {
 	g_return_if_fail (state != NULL);
-
-	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -1641,8 +1632,6 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_cancel_clicked), state);
 
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_checkbox_config_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SO_CHECKBOX);
@@ -1650,11 +1639,13 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_checkbox_config_destroy);
+
 	/* Note:  half of the set-focus action is handle by the default */
-	/*        callback installed by wbcg_edit_attach_guru           */
-	g_signal_connect (G_OBJECT (state->dialog),
-		"set-focus",
+	/*        callback installed by wbc_gtk_attach_guru */
+	g_signal_connect (G_OBJECT (state->dialog), "set-focus",
 		G_CALLBACK (cb_checkbox_set_focus), state);
 
 	gtk_widget_show (state->dialog);

@@ -136,7 +136,7 @@ dialog_so_list (WBCGtk *wbcg, GObject *so)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (wbcg_edit_get_guru (wbcg) ||
+	if (wbc_gtk_get_guru (wbcg) ||
 	    gnumeric_dialog_raise_if_exists (wbcg, DIALOG_SO_LIST_KEY))
 		return;
 

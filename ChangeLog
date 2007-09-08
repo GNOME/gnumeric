@@ -46,7 +46,6 @@
 	(item_edit_disable_highlight : ditto.
 
 2007-09-05  Morten Welinder  <terra@gnome.org>
-
 	* src/gnm-format.c (gnm_format_has_hour,
 	gnm_format_month_before_day): New functions.
 
@@ -60,6 +59,11 @@
 
 	* src/number-match.c (get_month_before_day): Rename from
 	hack_month_before_day.  Make non-hackish.
+
+2007-09-05  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-file.c (gui_file_open) : add a mnemonic to toggle
+	  simple/advanced.
 
 2007-09-04  Jody Goldberg <jody@gnome.org>
 

@@ -491,7 +491,6 @@ cb_name_guru_destroy (NameGuruState *state)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
@@ -625,11 +624,13 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg)
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DEFINE_NAMES_KEY);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify)cb_name_guru_destroy);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify)cb_name_guru_destroy);
+
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 
 	return FALSE;
@@ -649,7 +650,7 @@ dialog_define_names (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbcg_edit_get_guru (wbcg))
+	if (wbc_gtk_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

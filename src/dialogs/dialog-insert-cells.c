@@ -54,7 +54,6 @@ typedef struct {
 static void
 cb_insert_cell_destroy (InsertCellState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
@@ -171,16 +170,16 @@ dialog_insert_cells (WBCGtk *wbcg)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_INSERT_CELS);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_insert_cell_destroy);
-
 	gtk_toggle_button_set_active 
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget 
 				    (state->gui, cols < rows 
 				     ? "radio_0" : "radio_1")), 
 		 TRUE);
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_insert_cell_destroy);
+
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       INSERT_CELL_DIALOG_KEY);
 	gtk_widget_show (state->dialog);

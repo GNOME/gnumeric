@@ -379,17 +379,8 @@ cb_ok_clicked (G_GNUC_UNUSED GtkButton *button,
 }
 
 static void
-cb_cancel_clicked (G_GNUC_UNUSED GtkButton *button,
-		   AutoFormatState *state)
-{
-	gtk_widget_destroy (GTK_WIDGET (state->dialog));
-}
-
-static void
 cb_autoformat_destroy (AutoFormatState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
 	templates_free (state);
 	g_object_unref (G_OBJECT (state->tooltips));
 	category_group_list_free (state->category_groups);
@@ -634,9 +625,8 @@ dialog_autoformat (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (state->ok),
 		"clicked",
 		G_CALLBACK (cb_ok_clicked), state);
-	g_signal_connect (G_OBJECT (state->cancel),
-		"clicked",
-		G_CALLBACK (cb_cancel_clicked), state);
+	g_signal_connect (G_OBJECT (state->cancel), "clicked",
+		G_CALLBACK (gtk_widget_destroy), state->dialog);
 
 	/* Fill category list */
 	state->category_groups =
@@ -687,11 +677,12 @@ dialog_autoformat (WBCGtk *wbcg)
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
 
 	/* a candidate for merging into attach guru */
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify)cb_autoformat_destroy);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify)cb_autoformat_destroy);
+
 	/* not show all or the scrollbars will appear */
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }

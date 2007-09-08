@@ -491,7 +491,6 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 static void
 cb_dialog_formula_guru_destroy (FormulaGuruState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	if (state->model != NULL)
@@ -891,10 +890,10 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_FORMULA_GURU);
+
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_formula_guru_destroy);
-
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
 	return FALSE;
 }

@@ -207,8 +207,6 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, char const *err_str)
 static void
 cb_tool_destroy (GenericToolState  *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
@@ -390,7 +388,7 @@ dialog_tool_init (GenericToolState *state,
 	}
 
 	state->warning = glade_xml_get_widget (state->gui, "warnings");
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_tool_destroy);
 

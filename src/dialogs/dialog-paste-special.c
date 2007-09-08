@@ -80,13 +80,6 @@ static const char * const paste_ops[] = {
 	NULL
 };
 
-static void
-cb_paste_special_free (PasteSpecialState *state)
-{
-	wbcg_edit_detach_guru (state->wbcg);
-	g_free (state);
-}
-
 /* The "Paste Link" button should be grayed-out, unless type "All" is
    selected, operation "None" is selected, and "Transpose" and "Skip
    Blanks" are not selected.  */
@@ -256,9 +249,9 @@ dialog_paste_special (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_paste_special_response), state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_paste_special_free);
+		"state", state, (GDestroyNotify) g_free);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

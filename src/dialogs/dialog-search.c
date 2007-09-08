@@ -233,22 +233,6 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 	return FALSE;
 }
 
-static void
-cb_dialog_destroy (DialogState *dd)
-{
-#ifdef USE_GURU
-	wbcg_edit_detach_guru (dd->wbcg);
-#endif
-	free_state (dd);
-}
-
-static void
-close_clicked (G_GNUC_UNUSED GObject *dummy, DialogState *dd)
-{
-	GtkDialog *dialog = dd->dialog;
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-}
-
 static gboolean
 is_checked (GladeXML *gui, const char *name)
 {
@@ -467,7 +451,7 @@ dialog_search (WBCGtk *wbcg)
 
 #ifdef USE_GURU
 	/* Only one guru per workbook. */
-	if (wbcg_edit_get_guru (wbcg))
+	if (wbc_gtk_get_guru (wbcg))
 		return;
 #endif
 
@@ -552,7 +536,7 @@ dialog_search (WBCGtk *wbcg)
 		G_CALLBACK (next_clicked), dd);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
-		G_CALLBACK (close_clicked), dd);
+		G_CALLBACK (gtk_widget_destroy), dd->dialog);
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
@@ -561,7 +545,7 @@ dialog_search (WBCGtk *wbcg)
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
 	g_object_set_data_full (G_OBJECT (dialog),
-		"state", dd, (GDestroyNotify) cb_dialog_destroy);
+		"state", dd, (GDestroyNotify) g_free);
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
@@ -570,7 +554,7 @@ dialog_search (WBCGtk *wbcg)
 		GNUMERIC_HELP_LINK_SEARCH);
 
 #ifdef USE_GURU
-	wbcg_edit_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
+	wbc_gtk_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
 #endif
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));

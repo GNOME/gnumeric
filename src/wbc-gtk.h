@@ -61,13 +61,12 @@ gboolean wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 gboolean wbcg_edit_start  (WBCGtk *wbcg,
 			   gboolean blankp, gboolean cursorp);
 
+void	    wbc_gtk_detach_guru		(WBCGtk *wbcg);
 void	    wbc_gtk_attach_guru		(WBCGtk *wbcg, GtkWidget *guru);
+void	    wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
+						   GnmExprEntry *gee);
+GtkWidget  *wbc_gtk_get_guru		(WBCGtk const *wbcg);
 
-void	    wbcg_edit_attach_guru	(WBCGtk *wbcg, GtkWidget *guru);
-void	    wbcg_edit_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
-						     GnmExprEntry *gee);
-void	    wbcg_edit_detach_guru	(WBCGtk *wbcg);
-GtkWidget  *wbcg_edit_get_guru		(WBCGtk const *wbcg);
 gboolean    wbcg_auto_completing        (WBCGtk const *wbcg);
 void	    wbcg_auto_complete_destroy  (WBCGtk *wbcg);
 char const *wbcg_edit_get_display_text	(WBCGtk *wbcg);

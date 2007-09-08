@@ -726,7 +726,6 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	g_signal_handler_disconnect (G_OBJECT (wb),
 				     state->sheet_order_changed_listener);
 	state->sheet_order_changed_listener = 0;
-	wbcg_edit_detach_guru (state->wbcg);
 
 	old_state = workbook_sheet_state_new (wb);
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
@@ -1094,10 +1093,11 @@ dialog_sheet_order (WBCGtk *wbcg)
 		GNUMERIC_HELP_LINK_SHEET_MANAGER);
 
 	/* a candidate for merging into attach guru */
+	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
+
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

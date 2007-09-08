@@ -69,7 +69,6 @@ dialog_paste_names_free (DialogPasteNames *state)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
@@ -118,7 +117,7 @@ paste_names_init (DialogPasteNames *state, WBCGtk *wbcg)
 		"state", state, (GDestroyNotify)dialog_paste_names_free);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 
 	return FALSE;
@@ -132,7 +131,7 @@ dialog_paste_names (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbcg_edit_get_guru (wbcg))
+	if (wbc_gtk_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

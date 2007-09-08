@@ -434,8 +434,6 @@ cb_dialog_destroy (SortFlowState  *state)
 		state->sel = NULL;
 	}
 
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->model != NULL)
 		g_object_unref (G_OBJECT (state->model));
 	if (state->gui != NULL)
@@ -1116,7 +1114,7 @@ dialog_init (SortFlowState *state)
 		G_CALLBACK (cb_dialog_cancel_clicked), state);
 
 /* Finish dialog signals */
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_destroy);
 	cb_sort_selection_changed (NULL, state);

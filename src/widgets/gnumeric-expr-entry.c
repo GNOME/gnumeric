@@ -1375,7 +1375,7 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 	text = gtk_entry_get_text (gee->entry);
 
 	/* We need to be editing an expression */
-	if (wbcg_edit_get_guru (gee->wbcg) == NULL &&
+	if (wbc_gtk_get_guru (gee->wbcg) == NULL &&
 	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 

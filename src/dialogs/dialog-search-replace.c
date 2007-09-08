@@ -211,7 +211,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbcg_edit_get_guru (wbcg))
+	if (wbc_gtk_get_guru (wbcg))
 		return;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))

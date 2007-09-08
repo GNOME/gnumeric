@@ -73,8 +73,6 @@ enum {
 static void
 cb_dialog_goto_free (GotoState  *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	if (state->model != NULL)
@@ -287,15 +285,13 @@ dialog_goto_init (GotoState *state)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_GOTO_CELL);
-	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_dialog_goto_free);
 
 	cb_dialog_goto_update_sensitivity (NULL, state);
 
-        /* FIXME */
-	/* There are lots of reasons for this dialog to be completely */
-        /* non-modal rather than guru */
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_goto_free);
+
 	return FALSE;
 }
 

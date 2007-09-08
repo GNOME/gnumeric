@@ -616,7 +616,6 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 static void
 cb_graph_guru_done (WBCGtk *wbcg)
 {
-	wbcg_edit_detach_guru (wbcg);
 	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 }
 
@@ -631,7 +630,7 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 	gnumeric_init_help_button (gog_guru_get_help_button (dialog),
 		"sect-graphics-plots");
 
-	wbcg_edit_attach_guru (wbcg, dialog);
+	wbc_gtk_attach_guru (wbcg, dialog);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
 }

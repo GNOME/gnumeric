@@ -502,7 +502,7 @@ item_cursor_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 	 * 3) while a guru is up
 	 */
 	if (!ic->visible || ic->style == ITEM_CURSOR_ANTED ||
-	    wbcg_edit_get_guru (scg_wbcg (ic->scg)) != NULL)
+	    wbc_gtk_get_guru (scg_wbcg (ic->scg)) != NULL)
 		return DBL_MAX;
 
 	*actual_item = NULL;

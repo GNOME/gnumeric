@@ -426,7 +426,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		gboolean req_multiple_sheets = sheet_label_context_actions [i].req_multiple_sheets;
 		gboolean inactive =
 			(req_multiple_sheets && workbook_sheet_count (sc->sheet->workbook) < 2) ||
-			wbcg_edit_get_guru (scg_wbcg (scg)) != NULL;
+			wbc_gtk_get_guru (scg_wbcg (scg)) != NULL;
 
 		if (text != NULL) {
 			item = gtk_menu_item_new_with_label (_(text));
@@ -1126,7 +1126,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	SheetView const *sv  = wb_control_cur_sheet_view (wbc);
 	Sheet const *sheet = wb_control_cur_sheet (wbc);
-	gboolean const has_guru = wbcg_edit_get_guru (wbcg) != NULL;
+	gboolean const has_guru = wbc_gtk_get_guru (wbcg) != NULL;
 	gboolean has_filtered_rows = sheet->has_filtered_rows;
 	gboolean edit_object = scg != NULL &&
 		(scg->selected_objects != NULL || scg->new_object != NULL);
@@ -2459,11 +2459,8 @@ wbc_gtk_init_undo_redo (WBCGtk *gtk)
 static void
 cb_custom_color_created (GOActionComboColor *caction, GtkWidget *dialog, WBCGtk *wbcg)
 {
-	wbcg_edit_attach_guru (wbcg, dialog);
+	wbc_gtk_attach_guru (wbcg, dialog);
 	wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
-	g_signal_connect_object (dialog,
-		"destroy",
-		G_CALLBACK (wbcg_edit_detach_guru), wbcg, G_CONNECT_SWAPPED);
 }
 
 static void

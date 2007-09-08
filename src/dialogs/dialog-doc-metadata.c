@@ -183,15 +183,6 @@ dialog_doc_metadata_transform_docprop_vect_to_str (const GValue *docprop_value,
  * FUNCTIONS RELATED TO 'FILE' PAGE
  ******************************************************************************/
 
-/**
- * cb_dialog_doc_metadata_change_permission
- * 
- * @bt    : check button
- * @state : dialog main struct
- *
- * Checks which permission has changed and set the new value.
- *
- **/
 static void
 cb_dialog_doc_metadata_change_permission (GtkCheckButton    *bt,
 					  DialogDocMetaData *state)
@@ -217,14 +208,6 @@ cb_dialog_doc_metadata_change_permission (GtkCheckButton    *bt,
 	state->permissions_changed = TRUE;
 }
 
-/**
- * dialog_doc_metadata_set_up_permissions
- * 
- * @state : dialog main struct
- *
- * Initializes the file_permissions struct
- *
- **/
 static void
 dialog_doc_metadata_set_up_permissions (DialogDocMetaData *state)
 {
@@ -284,16 +267,7 @@ time2str (time_t t)
 	return g_locale_to_utf8 (buffer, len, NULL, NULL, NULL);
 }
 
-/**
- * dialog_doc_metadata_set_label
- * 
- * @state     : dialog main struct
- * @label     : label which text is to be set
- * @text      : new text
- * @auto_fill : if TRUE and the text is NULL, try to set the label text with
- *              an automatic value.
- *
- **/
+ /* @auto_fill : if TRUE and the text is NULL, try to set the label text with an automatic value. */
 static void 
 dialog_doc_metadata_set_label (DialogDocMetaData *state,
 			       GtkLabel          *label,
@@ -367,14 +341,6 @@ dialog_doc_metadata_set_label (DialogDocMetaData *state,
 		gtk_label_set_text (label, _("Unknown"));
 }
 
-/**
- * dialog_doc_metadata_init_file_page
- *
- * @state : dialog main struct
- *
- * Initializes the widgets and signals for the 'File' page.
- *
- **/
 static void
 dialog_doc_metadata_init_file_page (DialogDocMetaData *state)
 {
@@ -442,18 +408,7 @@ dialog_doc_metadata_init_file_page (DialogDocMetaData *state)
  * FUNCTIONS RELATED TO 'DESCRIPTION' PAGE 
  ******************************************************************************/
 
-/**
- * dialog_doc_metadata_add_prop
- *
- * @state             : dialog main struct
- * @name              : property name
- * @value             : property value
- * @link              : property linked to
- * @activate_property : if TRUE, sets the tree view row which was added active.
- *
- * Adds a new property to the tree view in 'Properties' page. 
- *
- **/
+/* @activate_property : if TRUE, sets the tree view row which was added active. */
 static void
 dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 			      const gchar       *name,
@@ -491,15 +446,6 @@ dialog_doc_metadata_add_prop (DialogDocMetaData *state,
 					       &list_iter);
 }
 
-/**
- * dialog_doc_metadata_get_gsf_prop_val_type
- *
- * @state : dialog main struct
- * @name  : property name
- *
- * Returns the value type of a property.
- *
- **/
 static GType
 dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 					   const gchar       *name)
@@ -571,16 +517,6 @@ dialog_doc_metadata_get_gsf_prop_val_type (DialogDocMetaData *state,
 	return val_type;
 }
 
-/**
- * dialog_doc_metadata_set_gsf_prop_val
- *
- * @state   : dialog main struct
- * @value   : GValue to be set
- * @str_val : value as string
- *
- * Sets a value that will be stored in GsfDocMetadata
- *
- **/
 static void
 dialog_doc_metadata_set_gsf_prop_val (DialogDocMetaData *state,
 				      GValue            *prop_value,
@@ -1373,26 +1309,13 @@ dialog_doc_metadata_set_file_permissions (DialogDocMetaData *state)
 				         state->file_permissions);
 }
 
-/**
- * dialog_doc_metadata_free
- * 
- * @state : dialog main struct
- *
- * Finalizes the dialog.
- *
- **/
 static void
 dialog_doc_metadata_free (DialogDocMetaData *state) 
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
 	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
-	wbcg_edit_detach_guru (state->wbcg);
 
-	/*
-	 * If state->gui is NULL, we are done with it already.
-	 * Else, we need to fetch final values from the dialog and free it again
-	 */
 	if (state->gui != NULL) {
 		dialog_doc_metadata_set_file_permissions (state);
 
@@ -1410,14 +1333,6 @@ dialog_doc_metadata_free (DialogDocMetaData *state)
 	g_free (state);
 }
 
-/**
- * dialog_doc_metadata_init_widgets
- * 
- * @state : dialog main struct
- *
- * Initializes all struct widget pointers with glade_xml_get_widget()
- *
- **/
 static void 
 dialog_doc_metadata_init_widgets (DialogDocMetaData *state) 
 {
@@ -1473,15 +1388,6 @@ dialog_doc_metadata_init_widgets (DialogDocMetaData *state)
 	state->pages  = GTK_LABEL (glade_xml_get_widget (state->gui, "pages"));
 }
 
-/**
- * dialog_doc_metadata_init
- *
- * @state : dialog main struct
- * @wbcg  : WBCGtk 
- *
- * Initializes the dialog
- *
- **/
 static gboolean
 dialog_doc_metadata_init (DialogDocMetaData *state,
 			  WBCGtk *wbcg)
@@ -1545,15 +1451,13 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 			       GTK_WINDOW (state->dialog),
 			       DOC_METADATA_KEY);
 
-	g_object_set_data_full (G_OBJECT (state->dialog),
-				"state",
-				state,
-				(GDestroyNotify) dialog_doc_metadata_free);
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				GTK_WINDOW (state->dialog));
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog), "state",
+		state, (GDestroyNotify) dialog_doc_metadata_free);
 
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 
@@ -1580,7 +1484,7 @@ dialog_doc_metadata_new (WBCGtk *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbcg_edit_get_guru (wbcg))
+	if (wbc_gtk_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

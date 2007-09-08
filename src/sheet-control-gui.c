@@ -517,7 +517,7 @@ scg_select_all (SheetControlGUI *scg)
 			0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
-	} else if (wbcg_edit_get_guru (scg->wbcg) == NULL) {
+	} else if (wbc_gtk_get_guru (scg->wbcg) == NULL) {
 		SheetView *sv = scg_view (scg);
 
 		scg_mode_edit (scg);
@@ -1963,7 +1963,7 @@ scg_mode_edit (SheetControlGUI *scg)
 		scg_cursor_visible (scg, TRUE);
 	}
 
-	if (scg->wbcg != NULL && wbcg_edit_get_guru (scg->wbcg) != NULL &&
+	if (scg->wbcg != NULL && wbc_gtk_get_guru (scg->wbcg) != NULL &&
 	    scg == wbcg_cur_scg	(scg->wbcg))
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 }

@@ -55,8 +55,6 @@ typedef struct {
 static void
 cb_autofilter_destroy (AutoFilterState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
@@ -314,9 +312,11 @@ dialog_auto_filter (WBCGtk *wbcg,
 		glade_xml_get_widget (state->gui, "help_button"),
 		is_expr ? GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM :
 		GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN);
+
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autofilter_destroy);
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), DIALOG_KEY);
 	gtk_widget_show (state->dialog);
 }

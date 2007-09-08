@@ -114,7 +114,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		 */
 		if (wbcg->edit_line.guru != NULL) {
 			GtkWidget *w = wbcg->edit_line.guru;
-			wbcg_edit_detach_guru (wbcg);
+			wbc_gtk_detach_guru (wbcg);
 			gtk_widget_destroy (w);
 		}
 
@@ -256,7 +256,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 
 	if (wbcg->edit_line.guru != NULL) {
 		GtkWidget *w = wbcg->edit_line.guru;
-		wbcg_edit_detach_guru (wbcg);
+		wbc_gtk_detach_guru (wbcg);
 		gtk_widget_destroy (w);
 	}
 
@@ -749,7 +749,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		return TRUE;
 
 	/* Avoid recursion, and do not begin editing if a guru is up */
-	if (inside_editing || wbcg_edit_get_guru (wbcg) != NULL)
+	if (inside_editing || wbc_gtk_get_guru (wbcg) != NULL)
 		return TRUE;
 	inside_editing = TRUE;
 
@@ -940,8 +940,8 @@ wbcg_edit_start (WBCGtk *wbcg,
 		if (cell->value != NULL) {
 			GOFormat *fmt = VALUE_FMT (cell->value);
 			if (fmt != NULL && go_format_is_markup (fmt))
-				wbcg_edit_init_markup (wbcg,
-					pango_attr_list_copy (go_format_get_markup (fmt)));
+				wbcg_edit_init_markup (wbcg, pango_attr_list_copy (
+					(PangoAttrList *) go_format_get_markup (fmt)));
 		}
 	}
 
@@ -1078,6 +1078,8 @@ wbcg_entry_has_logical (WBCGtk const *wbcg)
 	return (wbcg->edit_line.temp_entry != NULL);
 }
 
+/****************************************************************************/
+
 static void
 wbcg_edit_attach_guru_main (WBCGtk *wbcg, GtkWidget *guru)
 {
@@ -1099,6 +1101,9 @@ wbcg_edit_attach_guru_main (WBCGtk *wbcg, GtkWidget *guru)
 	gtk_editable_set_editable (GTK_EDITABLE (wbcg_get_entry (wbcg)), FALSE);
 	wb_control_update_action_sensitivity (wbc);
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
+
+	g_signal_connect_object (guru, "destroy",
+		G_CALLBACK (wbc_gtk_detach_guru), wbcg, G_CONNECT_SWAPPED);
 }
 
 static void
@@ -1112,36 +1117,19 @@ cb_guru_set_focus (G_GNUC_UNUSED GtkWidget *window,
 }
 
 void
-wbcg_edit_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
-{
-	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WBC_GTK (wbcg));
-
-	wbcg_edit_attach_guru_main (wbcg, guru);
-
-	g_signal_connect (G_OBJECT (guru),
-		"set-focus",
-		G_CALLBACK (cb_guru_set_focus), wbcg);
-}
-
-/****************************************************************************/
-
-void
 wbc_gtk_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 {
 	g_return_if_fail (guru != NULL);
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	wbcg_edit_attach_guru_main (wbcg, guru);
-	g_signal_connect (G_OBJECT (guru), "set-focus",
-		G_CALLBACK (cb_guru_set_focus), wbcg);
-	g_signal_connect_swapped (G_OBJECT (guru), "destroy",
-		G_CALLBACK (wbcg_edit_detach_guru), wbcg);
+	g_signal_connect_object (G_OBJECT (guru), "set-focus",
+		G_CALLBACK (cb_guru_set_focus), wbcg, 0);
 }
 
 void
-wbcg_edit_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
-					 GnmExprEntry *gee)
+wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
+				       GnmExprEntry *gee)
 {
 	g_return_if_fail (guru != NULL);
 	g_return_if_fail (IS_WBC_GTK (wbcg));
@@ -1158,7 +1146,7 @@ wbcg_edit_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 }
 
 void
-wbcg_edit_detach_guru (WBCGtk *wbcg)
+wbc_gtk_detach_guru (WBCGtk *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
@@ -1177,10 +1165,12 @@ wbcg_edit_detach_guru (WBCGtk *wbcg)
 }
 
 GtkWidget *
-wbcg_edit_get_guru (WBCGtk const *wbcg)
+wbc_gtk_get_guru (WBCGtk const *wbcg)
 {
 	return wbcg->edit_line.guru;
 }
+
+/****************************************************************************/
 
 gboolean
 wbcg_auto_completing (WBCGtk const *wbcg)
