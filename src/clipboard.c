@@ -259,7 +259,7 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 struct paste_cell_data {
 	GnmPasteTarget const *pt;
 	GnmCellRegion const  *cr;
-	GnmCellPos	top_left; 
+	GnmCellPos	top_left;
 	GnmExprRelocateInfo rinfo;
 };
 
@@ -427,8 +427,8 @@ clipboard_paste_region (GnmCellRegion const *cr,
 			int const top = j * src_rows + pt->range.start.row;
 			struct paste_cell_data dat;
 
-			dat.top_left.col = left; 
-			dat.top_left.row = top; 
+			dat.top_left.col = left;
+			dat.top_left.row = top;
 			dat.rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
 			dat.rinfo.origin_sheet = dat.rinfo.target_sheet = pt->sheet;
 			if (pt->paste_flags & PASTE_EXPR_LOCAL_RELOCATE) {
@@ -639,7 +639,7 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 #warning FIXME : This is only used in gnm_sog_write_image
 /* NOTE #1 : It seems necessary to handle pasting an object that has been removed from
  * the sheet after being added to the clipboard.  it seems like we would need
- * this sort of information for anything that implements SheetObjectImageableIface 
+ * this sort of information for anything that implements SheetObjectImageableIface
  **/
 			sheet_object_anchor_to_pts (anchor, sheet, coords);
 			w = fabs (coords[2] - coords[0]) + 1.5;
@@ -875,7 +875,7 @@ int
 cellregion_cmd_size (GnmCellRegion const *cr)
 {
 	int res = 1;
-	
+
 	g_return_val_if_fail (cr != NULL, 1);
 
 	res += g_slist_length (cr->styles);

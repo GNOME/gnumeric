@@ -138,7 +138,7 @@ gnumeric_table_link (GnmFuncEvalInfo *ei)
 	GnmDependent *dep = ei->pos->dep;
 	GnmRangeRef rr;
 
-	rr.a.col_relative = rr.a.row_relative = 
+	rr.a.col_relative = rr.a.row_relative =
 	rr.b.col_relative = rr.b.row_relative = FALSE;
 	rr.a.sheet = rr.b.sheet = dep->sheet;
 
@@ -193,7 +193,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	val[2] = NULL;
 	if (NULL != in[0] && NULL != in[1]) {
-		in[2] = sheet_cell_get (ei->pos->sheet, 
+		in[2] = sheet_cell_get (ei->pos->sheet,
 			ei->pos->eval.col - 1, ei->pos->eval.row - 1);
 		if (NULL == in[2])
 			in[2] = sheet_cell_fetch (ei->pos->sheet,

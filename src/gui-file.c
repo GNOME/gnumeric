@@ -47,7 +47,7 @@ typedef struct {
 	GList *openers;
 } file_format_changed_cb_data;
 
- 
+
 
 static gint
 file_opener_description_cmp (gconstpointer a, gconstpointer b)
@@ -123,7 +123,7 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 
 	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
 	io_context = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
-	wbv = wb_view_new_from_uri (uri, optional_format, io_context, 
+	wbv = wb_view_new_from_uri (uri, optional_format, io_context,
 				    optional_encoding);
 
 	if (gnumeric_io_error_occurred (io_context) ||
@@ -162,7 +162,7 @@ file_opener_find_by_id (GList *openers, char const *id)
 
 	if (id == NULL)
 		return 0;
-	
+
 	for (l = openers; l != NULL; l = l->next, i++) {
 		if (IS_GO_FILE_OPENER (l->data) &&
 		    strcmp (id, go_file_opener_get_id(l->data)) == 0)
@@ -212,8 +212,8 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	openers = g_list_prepend (openers, NULL);
 	opener_default = file_opener_find_by_id (openers, default_format);
 	title = (opener_default == 0)
-		? _("Load file") 
-		: (go_file_opener_get_description 
+		? _("Load file")
+		: (go_file_opener_get_description
 		   (g_list_nth_data (openers, opener_default)));
 	data.openers = openers;
 
@@ -264,7 +264,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	gtk_file_chooser_unselect_all (fsel);
 
 	/* Filters */
-	{	
+	{
 		GtkFileFilter *filter;
 
 		filter = gtk_file_filter_new ();
@@ -383,8 +383,8 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 	wbcg2 = wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
 	for (l = go_get_file_savers (); l; l = l->next) {
-		if ((l->data == NULL) || 
-		    (go_file_saver_get_save_scope (GO_FILE_SAVER (l->data)) 
+		if ((l->data == NULL) ||
+		    (go_file_saver_get_save_scope (GO_FILE_SAVER (l->data))
 		     != FILE_SAVE_RANGE))
 			savers = g_list_prepend (savers, l->data);
 	}
@@ -408,7 +408,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
 	/* Filters */
-	{	
+	{
 		GtkFileFilter *filter;
 		GList *l;
 
@@ -495,7 +495,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 			goto out;
 		uri = gtk_file_chooser_get_uri (fsel);
 		if (!go_url_check_extension (uri,
-					     go_file_saver_get_extension (fs), 
+					     go_file_saver_get_extension (fs),
 					     &uri2) &&
 		    !go_gtk_query_yes_no (GTK_WINDOW (fsel),
 					  TRUE,

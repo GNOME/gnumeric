@@ -35,7 +35,7 @@ void scg_objects_drag_commit	(SheetControlGUI *scg, int drag_type,
 				 gboolean created_objects);
 void scg_objects_nudge		(SheetControlGUI *scg, GnmPane *gcanvas,
 				 int drag_type, double dx, double dy,
-				 gboolean symmetric, 
+				 gboolean symmetric,
 				 gboolean snap_to_grid);
 
 void scg_object_select		(SheetControlGUI *scg, SheetObject *so);
@@ -95,12 +95,12 @@ typedef void (*SCGUIMoveFunc)	(SheetControlGUI *, int n,
 void scg_queue_movement		(SheetControlGUI *scg,
 				 SCGUIMoveFunc	  handler,
 				 int n, gboolean jump, gboolean horiz);
-void  scg_paste_image (SheetControlGUI *scg, GnmRange *where, 
+void  scg_paste_image (SheetControlGUI *scg, GnmRange *where,
 		       guint8 const *data, unsigned len);
 void scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
-			     double x, double y, 
+			     double x, double y,
 			     GtkSelectionData *selection_data);
-void scg_drag_data_get      (SheetControlGUI *scg, 
+void scg_drag_data_get      (SheetControlGUI *scg,
 			     GtkSelectionData *selection_data);
 
 void scg_delete_sheet_if_possible (SheetControlGUI *scg);

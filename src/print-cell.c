@@ -113,7 +113,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		double py = y1 - y / (double)PANGO_SCALE;
 
  		/* Clip the printed rectangle */
- 		cairo_save (context); 
+ 		cairo_save (context);
 
 		if (!rv->rotation) {
 			/* We do not clip rotated cells.  */

@@ -247,7 +247,7 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 	char *norm_text;
 
 	g_return_val_if_fail (res, FALSE);
-	
+
 	res->comment = NULL;
 	res->old_text = NULL;
 	res->new_text = NULL;
@@ -525,7 +525,7 @@ gnm_search_replace_finalize (GObject *obj)
 	GnmSearchReplace *sr = (GnmSearchReplace *)obj;
 
 	gnm_search_replace_set_sheet (sr, NULL);
-	g_free (sr->range_text);	
+	g_free (sr->range_text);
 
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }

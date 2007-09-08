@@ -63,7 +63,7 @@ GnmRange const	*gnm_app_clipboard_area_get	  (void);
  * Temporary home for extra actions until we rework this in 1.5
  * with libgoffice
  **/
- 
+
 typedef void (*GnmActionHandler) (GnmAction const *action, WorkbookControl *wbc,
 				  gpointer user_data);
 struct _GnmAction {

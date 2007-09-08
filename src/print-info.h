@@ -60,7 +60,7 @@ struct _PrintInformation {
 		} dim;
 	} scaling;
 	double           edge_to_below_header;
-	double           edge_to_above_footer; 
+	double           edge_to_above_footer;
         DesiredDisplay   desired_display;
 	PrintRepeatRange repeat_top, repeat_left;
 	unsigned int	 print_across_then_down;

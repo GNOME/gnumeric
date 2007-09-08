@@ -677,7 +677,7 @@ cb_autofit_row (GnmColRowIter const *iter, gpointer data_)
 		min = MAX (min, iter->cri->size_pixels);
 	if (data->min_default)
 		min = MAX (min, sheet_row_get_default_size_pixels (data->sheet));
-		
+
 	if (size > min)
 		sheet_row_set_size_pixels (data->sheet, iter->pos, size, FALSE);
 

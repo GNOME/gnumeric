@@ -132,12 +132,12 @@ SheetObject *
 gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)
 {
 	GnmValidationCombo *vcombo;
-	
+
 	g_return_val_if_fail (val != NULL, NULL);
 	g_return_val_if_fail (sv  != NULL, NULL);
 
 	vcombo = g_object_new (GNM_VALIDATION_COMBO_TYPE, NULL);
-	validation_ref (vcombo->validation = val); 
+	validation_ref (vcombo->validation = val);
 	sv_weak_ref (vcombo->sv = sv, &vcombo->sv);
 	return SHEET_OBJECT (vcombo);
 }

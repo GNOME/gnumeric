@@ -278,7 +278,7 @@ gnumeric_color_shutdown (void)
 	/*
 	 * FIXME: this doesn't really belong here, but style-border.c isn't
 	 * able to clean itself up yet.
-	 */	   
+	 */
 	GnmBorder *none = gnm_style_border_none ();
 	style_color_unref (none->color);
 	none->color = NULL;

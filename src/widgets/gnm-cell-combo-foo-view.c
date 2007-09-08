@@ -238,7 +238,7 @@ cb_ccombo_button_release (GtkWidget *popup, GdkEventButton *event,
 		    ccombo_activate (popup, list);
 		    return TRUE;
 	    }
-	    g_signal_handlers_disconnect_by_func (popup, 
+	    g_signal_handlers_disconnect_by_func (popup,
 			G_CALLBACK (cb_ccombo_popup_motion), list);
 	    ccombo_autoscroll_set (G_OBJECT (list), 0);
 	}

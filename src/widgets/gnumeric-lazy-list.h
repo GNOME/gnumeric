@@ -1,4 +1,4 @@
-/* 
+/*
  * gnumeric-lazy-list.h
  *
  * Copyright (C) 2003 Morten Welinder
@@ -11,8 +11,7 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the GTK AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
- *
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

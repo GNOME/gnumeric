@@ -234,7 +234,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 #if 0
 	g_print ("draw[%d] %d,%d %d,%d\n",
-		 GNM_PANE (item->canvas)->index, 
+		 GNM_PANE (item->canvas)->index,
 		 ic->outline.x1,
 		 ic->outline.y1,
 		 ic->outline.x2,
@@ -703,12 +703,12 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 		 * them.
 		 *
 		 * Otherwise, only go as far as the next non-blank
-		 * cells.  
+		 * cells.
 		 *
 		 * The code below uses find_boundary twice.  a. to
 		 * find the boundary of the column/row that acts as a
 		 * template to define the region to file and b. to
-		 * find the boundary of the region being filled.  
+		 * find the boundary of the region being filled.
 		 */
 
 		if (event->button.state & GDK_MOD1_MASK) {
@@ -722,7 +722,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 						 template_row)) {
 
 				template_row = ic->pos.end.row + 1;
-				if (template_row >= SHEET_MAX_ROWS || 
+				if (template_row >= SHEET_MAX_ROWS ||
 				    template_col >= SHEET_MAX_COLS ||
 				    sheet_is_cell_empty (sheet, template_col,
 							 template_row))
@@ -739,7 +739,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			if (final_col <= ic->pos.end.col)
 				return TRUE;
 
-			/* 
+			/*
 			   Find the boundary of the target region.
 			   We don't want to go beyond this boundary.
 			*/
@@ -751,13 +751,13 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 				 * start the search at the last col of the selection, rather than
 				 * the first col of the region being filled.
 				 */
-				boundary_col_for_target = sheet_find_boundary_horizontal 
+				boundary_col_for_target = sheet_find_boundary_horizontal
 					(sheet,
 					 ic->pos.end.col, target_row,
 					 target_row, 1, TRUE);
 
 				if (sheet_is_cell_empty (sheet, boundary_col_for_target-1, target_row) &&
-				    ! sheet_is_cell_empty (sheet, boundary_col_for_target, target_row)) { 
+				    ! sheet_is_cell_empty (sheet, boundary_col_for_target, target_row)) {
 					/* target region was empty, we are now one col
 					   beyond where it is safe to autofill. */
 					boundary_col_for_target--;
@@ -777,7 +777,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 						 template_row)) {
 
 				template_col = ic->pos.end.col + 1;
-				if (template_col >= SHEET_MAX_COLS || 
+				if (template_col >= SHEET_MAX_COLS ||
 				    template_row >= SHEET_MAX_ROWS ||
 				    sheet_is_cell_empty (sheet, template_col,
 							 template_row))
@@ -794,7 +794,7 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			if (final_row <= ic->pos.end.row)
 				return TRUE;
 
-			/* 
+			/*
 			   Find the boundary of the target region.
 			   We don't want to go beyond this boundary.
 			*/
@@ -806,12 +806,12 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 				 * start the search at the last row of the selection, rather than
 				 * the first row of the region being filled.
 				 */
-				boundary_row_for_target = sheet_find_boundary_vertical 
+				boundary_row_for_target = sheet_find_boundary_vertical
 					(sheet,
 					 target_col, ic->pos.end.row,
 					 target_col, 1, TRUE);
 				if (sheet_is_cell_empty (sheet, target_col, boundary_row_for_target-1) &&
-				    ! sheet_is_cell_empty (sheet, target_col, boundary_row_for_target)) { 
+				    ! sheet_is_cell_empty (sheet, target_col, boundary_row_for_target)) {
 					/* target region was empty, we are now one row
 					   beyond where it is safe to autofill. */
 					boundary_row_for_target--;

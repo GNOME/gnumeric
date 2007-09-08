@@ -292,7 +292,7 @@ cb_int_descending (gconstpointer a, gconstpointer b)
  */
 
 GSList *
-gnm_slist_sort_merge (GSList   *l1, 
+gnm_slist_sort_merge (GSList   *l1,
 		    GSList   *l2)
 {
 	GSList list, *l, *m;
@@ -316,7 +316,7 @@ gnm_slist_sort_merge (GSList   *l1,
 		}
 	}
 	l->next = l1 ? l1 : l2;
- 
+
 	return list.next;
 }
 

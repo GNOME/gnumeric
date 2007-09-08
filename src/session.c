@@ -48,7 +48,7 @@ set_clone_restart (GnomeClient *client)
 	char **argv;
 	int count = 1;
 
-	argv = g_new0 (char *, 
+	argv = g_new0 (char *,
 		       2 + g_list_length (gnm_app_workbook_list ()));
 
 	argv[0] = (char *) program_argv0;
@@ -61,14 +61,14 @@ set_clone_restart (GnomeClient *client)
 			count++;
 		}
 	}
-	
+
 	gnome_client_set_clone_command (client, count, argv);
 	gnome_client_set_restart_command (client, count, argv);
 
 	g_free (argv);
 }
 
-static void 
+static void
 interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type, gpointer shutdown)
 {
 	GList *ptr, *workbooks;
@@ -94,7 +94,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 				wbcg = g_ptr_array_index (wb_view->wb_controls, i);
 		if (wbcg == NULL)
 			continue;
-		
+
 		wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 
 		if (!ask_user)
@@ -106,7 +106,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 			GtkWidget *d;
 			char *msg;
 			int button = 0;
-			char const *wb_uri = go_doc_get_uri (GO_DOC (wb));			
+			char const *wb_uri = go_doc_get_uri (GO_DOC (wb));
 
 			if (wb_uri) {
 				char *base = g_path_get_basename (wb_uri);
@@ -130,7 +130,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 			} else
 				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not save"),
 							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not log out"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not log out"),
 						    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 			gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
 			gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
@@ -138,11 +138,11 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 #warning We are making these windows sticky to work around a session manager bug that may make them inaccessible
 			gtk_window_stick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 			gtk_window_stick (GTK_WINDOW (d));
-			
+
 			button = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
 
 			g_free (msg);
-			
+
 			switch (button) {
 			case GTK_RESPONSE_YES:
 				if (!gui_file_save (wbcg, wb_view)) {
@@ -151,7 +151,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 					goto finished;
 				}
 				break;
-				
+
 			case (- GTK_RESPONSE_YES):
 				if (!gui_file_save (wbcg, wb_view)) {
 					gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
@@ -160,15 +160,15 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 				}
 				ask_user = FALSE;
 				break;
-				
+
 			case GTK_RESPONSE_NO:
 				break;
-				
+
 			case (- GTK_RESPONSE_NO):
 				gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 				goto finished;
 				break;
-				
+
 			default:  /* CANCEL */
 				gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
 				do_not_cancel = TRUE;
@@ -176,7 +176,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 				break;
 			}
 			gtk_window_unstick (GTK_WINDOW (wbcg_toplevel (wbcg)));
-			
+
 		}
 	}
  finished:
@@ -189,7 +189,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 }
 
 static gboolean
-cb_client_save_yourself (GnomeClient *client, int phase, 
+cb_client_save_yourself (GnomeClient *client, int phase,
 			 GnomeSaveStyle what_to_save,
 			 gboolean end, GnomeInteractStyle interaction,
 			 gboolean fast)
@@ -204,11 +204,11 @@ cb_client_save_yourself (GnomeClient *client, int phase,
 	if (!(interaction == GNOME_INTERACT_ANY))
 		res = FALSE;
 	else
-		gnome_client_request_interaction (client, 
-						  GNOME_DIALOG_NORMAL, 
+		gnome_client_request_interaction (client,
+						  GNOME_DIALOG_NORMAL,
 						  interaction_function,
 						  NULL);
-	set_clone_restart (client);	
+	set_clone_restart (client);
 	return res;
 }
 
@@ -227,7 +227,7 @@ cb_client_die (GnomeClient *client)
 
 /**
  * gnm_session_init:
- * 
+ *
  * Initializes session management support.  This function should be called near
  * the beginning of the program.
  **/
@@ -238,7 +238,7 @@ gnm_session_init (char const *argv0)
 		return;
 
 	program_argv0 = argv0;
-	
+
 	master_client = gnome_master_client ();
 
 	current_dir = g_get_current_dir ();

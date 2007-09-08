@@ -1045,8 +1045,8 @@ cb_pane_drag_motion (GtkWidget *widget, GdkDragContext *context,
 			NULL, NULL, &mask);
 		gnm_pane_objects_drag (GNM_PANE (source_widget), NULL,
 			wx, wy, 8, FALSE, (mask & GDK_SHIFT_MASK) != 0);
-		gdk_drag_status (context, 
-				 (mask & GDK_CONTROL_MASK) != 0 ? GDK_ACTION_COPY : GDK_ACTION_MOVE, 
+		gdk_drag_status (context,
+				 (mask & GDK_CONTROL_MASK) != 0 ? GDK_ACTION_COPY : GDK_ACTION_MOVE,
 				 time);
 	}
 	return TRUE;
@@ -1077,7 +1077,7 @@ cb_pane_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 	GnmPane *source_pane;
 	WBCGtk *wbcg;
-  
+
 	if (!source_widget || !IS_GNM_PANE (source_widget)) return;
 
 	source_pane = GNM_PANE (source_widget);
@@ -2539,7 +2539,7 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 			target_list_add_list (targets, im_targets);
 			gtk_target_list_unref (im_targets);
 		}
-	} 
+	}
 	if (imageable) {
 		im_targets = sheet_object_get_target_list (imageable);
 		if (im_targets != NULL) {
@@ -2684,7 +2684,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		 * the semantics of the col,row args in the callback.  However,
 		 * that is more work than I want to do right now.
 		 */
-		if (idx == 8) 
+		if (idx == 8)
 			gnm_pane_drag_begin (pane, so, event);
 		else if (gnm_pane_handle_motion (GNM_PANE (ctrl_pt->canvas),
 						   ctrl_pt->canvas, &event->motion,

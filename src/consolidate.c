@@ -168,8 +168,8 @@ consolidate_check_destination (GnmConsolidate *cs, data_analysis_output_t *dao)
 	if (dao->type == NewSheetOutput || dao->type == NewWorkbookOutput)
 		return TRUE;
 
-	range_init (&r, dao->start_col, dao->start_row, 
-		    dao->start_col + dao->cols - 1, 
+	range_init (&r, dao->start_col, dao->start_row,
+		    dao->start_col + dao->cols - 1,
 		    dao->start_row + dao->rows - 1);
 	new = gnm_sheet_range_new (dao->sheet, &r);
 
@@ -531,7 +531,7 @@ cb_row_tree (GnmValue const *key, TreeItem *ti, ConsolidateContext *cc)
 	GnmConsolidate *cs = cc->cs;
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
-		dao_set_cell_value (cc->dao, -1, 0, value_dup (key)); 
+		dao_set_cell_value (cc->dao, -1, 0, value_dup (key));
 
 	simple_consolidate (cs->fd, ti->val, FALSE, cc->dao);
 
@@ -579,7 +579,7 @@ cb_col_tree (GnmValue const *key, TreeItem *ti, ConsolidateContext *cc)
 	GnmConsolidate *cs = cc->cs;
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
-		dao_set_cell_value (cc->dao, 0, -1, value_dup (key)); 
+		dao_set_cell_value (cc->dao, 0, -1, value_dup (key));
 
 	simple_consolidate (cs->fd, ti->val, FALSE, cc->dao);
 
@@ -677,12 +677,12 @@ colrow_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 	if (cs->mode & CONSOLIDATE_COPY_LABELS) {
 		for (l = rows, y = 1; l != NULL; l = l->next, y++) {
 			GnmValue const *row_name = l->data;
-			
+
 			dao_set_cell_value (dao, 0, y, value_dup (row_name));
 		}
 		for (m = cols, x = 1; m != NULL; m = m->next, x++) {
 			GnmValue const *col_name = m->data;
-			
+
 			dao_set_cell_value (dao, x, 0, value_dup (col_name));
 		}
 		dao->offset_col = 1;
@@ -700,7 +700,7 @@ colrow_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 
 			if (args) {
 				GnmExpr const *expr = gnm_expr_new_funcall (cs->fd, args);
-				
+
 				dao_set_cell_expr (dao, x, y, expr);
 			}
 		}
@@ -711,7 +711,7 @@ colrow_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 }
 
 static gboolean
-consolidate_apply (GnmConsolidate *cs, 
+consolidate_apply (GnmConsolidate *cs,
 		   data_analysis_output_t *dao)
 {
 /* 	WorkbookView *wbv = wb_control_view (wbc); */
@@ -740,8 +740,8 @@ consolidate_apply (GnmConsolidate *cs,
 
 
 
-gboolean 
-tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean
+tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs,
 			 analysis_tool_engine_t selector, gpointer result)
 {
 	GnmConsolidate *cs = specs;
@@ -750,34 +750,34 @@ tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
 		return (dao_command_descriptor (dao, _("Consolidating to (%s)"),
 						result) == NULL);
-	case TOOL_ENGINE_UPDATE_DAO: 
+	case TOOL_ENGINE_UPDATE_DAO:
 	{
 		GnmRange r;
 
 		range_init (&r, 0, 0, 0, 0);
 		get_bounding_box (cs->src, &r);
-		
-		if ((cs->mode & CONSOLIDATE_ROW_LABELS) && 
+
+		if ((cs->mode & CONSOLIDATE_ROW_LABELS) &&
 		    (cs->mode & CONSOLIDATE_COL_LABELS))
-			dao_adjust (dao, r.end.col + 1 + 
+			dao_adjust (dao, r.end.col + 1 +
 				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
-				     1 : 0), 
-				    r.end.row + 1 + 
+				     1 : 0),
+				    r.end.row + 1 +
 				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
 				     1 : 0));
 		else if (cs->mode & CONSOLIDATE_ROW_LABELS)
-			dao_adjust (dao, r.end.col + 1, 
-				    r.end.row + 1 + 
+			dao_adjust (dao, r.end.col + 1,
+				    r.end.row + 1 +
 				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
 				     1 : 0));
 
 		else if (cs->mode & CONSOLIDATE_COL_LABELS)
-			dao_adjust (dao, r.end.col + 1 + 
+			dao_adjust (dao, r.end.col + 1 +
 				    ((cs->mode & CONSOLIDATE_COPY_LABELS) ?
-				     1 : 0), 
+				     1 : 0),
 				    r.end.row + 1);
 		else
-			dao_adjust (dao, r.end.col + 1, 
+			dao_adjust (dao, r.end.col + 1,
 				    r.end.row + 1);
 		return FALSE;
 	}

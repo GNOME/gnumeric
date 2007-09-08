@@ -801,7 +801,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 			 GNM_RESPONSE_REMOVE);
 		gtk_dialog_add_button (GTK_DIALOG (d), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_CANCEL);
-		
+
 		check = gtk_check_button_new_with_label (_("Show this dialog next time."));
 		g_signal_connect (check, "toggled", G_CALLBACK (cb_warn_toggled), &warn_on_text_format);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
@@ -1028,7 +1028,7 @@ wbcg_get_entry (WBCGtk const *wbcg)
  * @WBCGtk : @wbcg
  *
  * Returns the logical (allowing redirection via wbcg_set_entry for gurus)
- * #GnmExprEntry 
+ * #GnmExprEntry
  **/
 GnmExprEntry *
 wbcg_get_entry_logical (WBCGtk const *wbcg)

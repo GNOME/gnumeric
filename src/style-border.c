@@ -697,13 +697,13 @@ style_border_set_gtk_dash (GnmStyleBorderType const i,
 		w = 1;
 	cairo_set_line_width (context,((double) w));
 
- 	if (style_border_data[i].pattern != NULL) { 
- 		struct LineDotPattern const * const pat = 
- 			style_border_data[i].pattern; 
- 		cairo_set_dash (context, pat->pattern_d, pat->elements, 
- 				style_border_data[i].offset); 
- 	} else 
-		cairo_set_dash (context, NULL, 0, 0); 
+ 	if (style_border_data[i].pattern != NULL) {
+ 		struct LineDotPattern const * const pat =
+ 			style_border_data[i].pattern;
+ 		cairo_set_dash (context, pat->pattern_d, pat->elements,
+ 				style_border_data[i].offset);
+ 	} else
+		cairo_set_dash (context, NULL, 0, 0);
 }
 
 static inline gboolean
@@ -788,7 +788,7 @@ gnm_style_borders_row_print_gtk (GnmBorder const * const * prev_vert,
 		if (!draw_vertical)
 			continue;
 
-		
+
 		border = sr->vertical [col];
 		if (style_border_set_gtk (border, context)) {
 			float x1 = x;
@@ -860,6 +860,6 @@ gnm_style_border_print_diag_gtk (GnmStyle const *style,
 		}
 		cairo_stroke (context);
 	}
-	
+
 	cairo_restore (context);
 }

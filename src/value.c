@@ -1471,7 +1471,7 @@ free_criterias (GSList *criterias)
 
 /**
  * parse_criteria :
- * @crit_val : #GnmValue 
+ * @crit_val : #GnmValue
  * @fun : #GnmCriteriaFunc result
  * @test_value : #GnmValue the value to compare against.
  * @iter_flags :

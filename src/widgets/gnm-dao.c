@@ -101,7 +101,7 @@ gnm_dao_init (GnmDao *gdao)
 		(GTK_COMBO_BOX (gdao->put_menu), 1);
 	gdao->output_entry = NULL;
 	gdao->wbcg = NULL;
-	
+
 	old_parent = gtk_widget_get_toplevel (toplevel);
 	gtk_widget_reparent (toplevel, GTK_WIDGET (gdao));
 	gtk_widget_destroy (old_parent);
@@ -192,13 +192,13 @@ cb_set_sensitivity (G_GNUC_UNUSED GtkWidget *dummy, GnmDao *gdao)
 {
 	int grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
 
-	gtk_widget_set_sensitive (gdao->clear_outputrange_button, 
+	gtk_widget_set_sensitive (gdao->clear_outputrange_button,
 				  (grp_val == 2));
-	gtk_widget_set_sensitive (gdao->retain_format_button, 
+	gtk_widget_set_sensitive (gdao->retain_format_button,
 				  (grp_val == 2));
-	gtk_widget_set_sensitive (gdao->retain_comments_button, 
+	gtk_widget_set_sensitive (gdao->retain_comments_button,
 				  (grp_val == 2));
-	
+
 }
 
 static void
@@ -206,7 +206,7 @@ gnm_dao_setup_signals (GnmDao *gdao)
 {
 	g_signal_connect (G_OBJECT (gdao->output_range),
 			  "toggled",
-			  G_CALLBACK (cb_focus_on_entry), 
+			  G_CALLBACK (cb_focus_on_entry),
 			  gdao->output_entry);
 	g_signal_connect
 		(G_OBJECT (gnm_expr_entry_get_entry
@@ -240,7 +240,7 @@ gnm_dao_new (WBCGtk *wbcg, gchar *inplace_str)
 
 	g_return_val_if_fail (wbcg != NULL, NULL);
 	gdao->wbcg = wbcg;
-	
+
 	/* Create the output range expression entry */
 	table = GTK_TABLE (glade_xml_get_widget (gdao->gui, "output-table"));
 	gdao->output_entry = gnm_expr_entry_new (wbcg, TRUE);
@@ -262,16 +262,16 @@ gnm_dao_new (WBCGtk *wbcg, gchar *inplace_str)
 	return GTK_WIDGET (gdao);
 }
 
-void           
+void
 gnm_dao_set_inplace (GnmDao *gdao, gchar *inplace_str)
 {
 	g_return_if_fail (gdao != NULL);
 
 	if (inplace_str) {
-		gtk_button_set_label (GTK_BUTTON (gdao->in_place), 
+		gtk_button_set_label (GTK_BUTTON (gdao->in_place),
 				      inplace_str);
 		gtk_widget_show (gdao->in_place);
-	} else 
+	} else
 		gtk_widget_hide (gdao->in_place);
 }
 
@@ -285,8 +285,8 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 
 	grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
 
-	dao_ready =  ((grp_val  != 2) || 
-		      gnm_expr_entry_is_cell_ref 
+	dao_ready =  ((grp_val  != 2) ||
+		      gnm_expr_entry_is_cell_ref
 		      (GNM_EXPR_ENTRY (gdao->output_entry),
 		       wb_control_cur_sheet (WORKBOOK_CONTROL (gdao->wbcg)),
 		       TRUE));
@@ -305,8 +305,8 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 			break;
 		case 2:
 			output_range = gnm_expr_entry_parse_as_value
-				(GNM_EXPR_ENTRY (gdao->output_entry), 
-				 wb_control_cur_sheet (WORKBOOK_CONTROL 
+				(GNM_EXPR_ENTRY (gdao->output_entry),
+				 wb_control_cur_sheet (WORKBOOK_CONTROL
 						       (gdao->wbcg)));
 			*dao = dao_init (*dao, RangeOutput);
 			dao_load_from_value (*dao, output_range);
@@ -318,7 +318,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 			/* dao with the appropriate range. */
 			break;
 		}
-		
+
 		button = glade_xml_get_widget (gdao->gui, "autofit_button");
 		(*dao)->autofit_flag = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (button));
@@ -330,9 +330,9 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 		(*dao)->retain_comments = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (gdao->retain_comments_button));
 
-		(*dao)->put_formulas 
-			= (gtk_combo_box_get_active 
-			   (GTK_COMBO_BOX (gdao->put_menu)) 
+		(*dao)->put_formulas
+			= (gtk_combo_box_get_active
+			   (GTK_COMBO_BOX (gdao->put_menu))
 			   != 0);
 	}
 
@@ -345,7 +345,7 @@ gnm_dao_is_ready (GnmDao *gdao)
 	return gnm_dao_get_data (gdao, NULL);
 }
 
-gboolean        
+gboolean
 gnm_dao_is_finite (GnmDao *gdao)
 {
 	int grp_val;
@@ -353,32 +353,32 @@ gnm_dao_is_finite (GnmDao *gdao)
 	g_return_val_if_fail (gdao != NULL, FALSE);
 
 	grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
-	return ((grp_val == 2) || (grp_val == 3)); 
+	return ((grp_val == 2) || (grp_val == 3));
 }
 
 
-void            
+void
 gnm_dao_set_put (GnmDao *gdao, gboolean show_put, gboolean put_formulas)
 {
 	g_return_if_fail (gdao != NULL);
 
-	gtk_combo_box_set_active 
+	gtk_combo_box_set_active
 		(GTK_COMBO_BOX (gdao->put_menu), put_formulas ? 1 : 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (gdao->put_menu), show_put);
 }
 
-void            
+void
 gnm_dao_load_range (GnmDao *gdao, GnmRange const *range)
 {
 	g_return_if_fail (gdao != NULL);
-	
-	gnm_expr_entry_load_from_range 
+
+	gnm_expr_entry_load_from_range
 		(gdao->output_entry,
 		 wb_control_cur_sheet (WORKBOOK_CONTROL (gdao->wbcg)),
 		 range);
 }
 
-void            
+void
 gnm_dao_focus_output_range (GnmDao *gdao)
 {
 	gtk_toggle_button_set_active

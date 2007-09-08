@@ -78,7 +78,7 @@ cb_so_push_to_back (SheetObject *so, SheetControl *sc)
 static void
 cb_so_delete (SheetObject *so, SheetControl *sc)
 {
-	cmd_objects_delete (sc_wbc (sc), 
+	cmd_objects_delete (sc_wbc (sc),
 		go_slist_create (so, NULL), NULL);
 }
 void
@@ -544,7 +544,7 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data, gboolean rtl)
 					anchor->cell_bound.start.row,
 					anchor->cell_bound.start.row + 1);
 		x = cell_width * anchor->offset[0];
-		width -= x;	
+		width -= x;
 
 		y = cell_height * anchor->offset[1];
 		height -= y;
@@ -1056,7 +1056,7 @@ sheet_object_view_set_bounds (SheetObjectView *sov,
 			      double const *coords, gboolean visible)
 {
 	SheetObjectViewIface *iface;
-	
+
 	g_return_if_fail (IS_SHEET_OBJECT_VIEW (sov));
 	iface = SHEET_OBJECT_VIEW_GET_CLASS (sov);
 	if (NULL != iface->set_bounds)
@@ -1135,7 +1135,7 @@ sheet_object_write_image (SheetObject const *so, char const *format, double reso
 {
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGEABLE (so));
 
-	SHEET_OBJECT_IMAGEABLE_CLASS (so)->write_image (so, format, resolution, 
+	SHEET_OBJECT_IMAGEABLE_CLASS (so)->write_image (so, format, resolution,
 							output, err);
 
 }

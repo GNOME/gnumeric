@@ -349,7 +349,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		/* shadow type selection must be keep in sync with code in ib_draw_cell */
 		rect.y = ib->indent;
 		rect.height = ib->cell_height;
-		shadow = (col > 0 && !has_object && sv_selection_col_type (sv, col-1) == COL_ROW_FULL_SELECTION) 
+		shadow = (col > 0 && !has_object && sv_selection_col_type (sv, col-1) == COL_ROW_FULL_SELECTION)
 			? GTK_SHADOW_IN : GTK_SHADOW_OUT;
 
 		if (rtl)
@@ -577,9 +577,9 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 							gdk_draw_lines (drawable, ib->lines, points, 3);
 						else if (!draw_below && i > next->outline_level)
 							gdk_draw_lines (drawable, ib->lines, points, 3);
-						else 
+						else
 							gdk_draw_line (drawable, ib->lines,
-								       pos, top - first_line_offset, 
+								       pos, top - first_line_offset,
 								       pos, total);
 					}
 					first_line_offset = 0;

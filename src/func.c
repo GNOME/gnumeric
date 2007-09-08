@@ -60,7 +60,7 @@ inline void
 gnm_func_load_if_stub (GnmFunc *func)
 {
 	if (func->fn_type == GNM_FUNC_TYPE_STUB)
-		gnm_func_load_stub (func);	
+		gnm_func_load_stub (func);
 }
 
 static void
@@ -202,8 +202,8 @@ split_at_colon (char const *s, char **rest)
  * A generic utility routine to operate on all funtion defs
  * in various ways.  @dump_type will change/extend as needed
  * Right now
- * 0 : 
- * 1 : 
+ * 0 :
+ * 1 :
  * 2 :
  * 3 : dump function usage count
  **/
@@ -358,12 +358,12 @@ function_dump_defs (char const *filename, int dump_type)
 					/* FIXME: Optional args?  */
 					break;
 				}
-					
+
 				case GNM_FUNC_HELP_EXAMPLES:
 				case GNM_FUNC_HELP_END:
 				case GNM_FUNC_HELP_NOTE:
 					break;
-					
+
 				}
 			}
 			g_string_free (syntax, TRUE);
@@ -1169,7 +1169,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 			break;
 		}
 	}
- 
+
 	while (i < fn_def->fn.args.max_args)
 		args [i++] = NULL;
 
@@ -1316,7 +1316,7 @@ typedef struct {
  **/
 static GnmValue *
 cb_iterate_cellrange (GnmCellIter const *iter, gpointer user)
-		      
+
 {
 	IterateCallbackClosure *data = user;
 	GnmCell  *cell;
@@ -1371,7 +1371,7 @@ function_iterate_do_value (GnmEvalPos const  *ep,
 
 	case VALUE_EMPTY:
 	case VALUE_BOOLEAN:
-	case VALUE_FLOAT:	
+	case VALUE_FLOAT:
 	case VALUE_STRING:
 		res = (*callback)(ep, value, closure);
 		break;

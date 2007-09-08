@@ -78,14 +78,14 @@ el_set_style_label (EditableLabel *el)
 {
 	GtkWidget *w = GTK_WIDGET (el);
 
-	gtk_widget_modify_base (w, GTK_STATE_NORMAL, 
+	gtk_widget_modify_base (w, GTK_STATE_NORMAL,
 				el->base_set ? &el->base : NULL);
-	gtk_widget_modify_text (w, GTK_STATE_NORMAL, 
+	gtk_widget_modify_text (w, GTK_STATE_NORMAL,
 				el->text_set ? &el->text : NULL);
 
-	gtk_widget_modify_base (w, GTK_STATE_ACTIVE, 
+	gtk_widget_modify_base (w, GTK_STATE_ACTIVE,
 				el->base_set ? &el->base : NULL);
-	gtk_widget_modify_text (w, GTK_STATE_ACTIVE, 
+	gtk_widget_modify_text (w, GTK_STATE_ACTIVE,
 				el->text_set ? &el->text : NULL);
 }
 
@@ -315,12 +315,12 @@ editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *tex
 	g_return_if_fail (IS_EDITABLE_LABEL (el));
 
 	if (base_color != NULL) {
-		el->base_set = TRUE; 
+		el->base_set = TRUE;
 		el->base = *base_color;
 	} else
 		el->base_set = FALSE;
 	if (text_color != NULL) {
-		el->text_set = TRUE; 
+		el->text_set = TRUE;
 		el->text  = *text_color;
 	} else
 		el->text_set = FALSE;
@@ -331,7 +331,7 @@ editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *tex
 }
 
 GtkWidget *
-editable_label_new (char const *text, GdkColor *base_color, 
+editable_label_new (char const *text, GdkColor *base_color,
 				      GdkColor *text_color)
 {
 	EditableLabel *el = g_object_new (EDITABLE_LABEL_TYPE,

@@ -32,7 +32,7 @@ typedef struct {
 	char const *icon;	/* optionally NULL */
 	char const *label;	/* NULL for separators */
 	char const *msg_domain;	/* for plugins to specify translations */
-	int  submenu;		/* > 1 starts a menu, < 1 end one */ 
+	int  submenu;		/* > 1 starts a menu, < 1 end one */
 	SheetObjectActionFunc	func;
 } SheetObjectAction;
 
@@ -148,10 +148,10 @@ struct _SheetObjectImageableIface {
 	GTypeInterface base;
 
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
-	void           (*write_image)	  (SheetObject const *so, 
+	void           (*write_image)	  (SheetObject const *so,
 					   char const *format,
 					   double resolution,
-					   GsfOutput *output, 
+					   GsfOutput *output,
 					   GError **err);
 };
 
@@ -161,7 +161,7 @@ struct _SheetObjectExportableIface {
 	GTypeInterface base;
 
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
-	void           (*write_object)	  (SheetObject const *so, 
+	void           (*write_object)	  (SheetObject const *so,
 					   char const *format,
 					   GsfOutput *output, GError **err);
 };

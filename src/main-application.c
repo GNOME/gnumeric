@@ -67,7 +67,7 @@ static gchar  *func_def_file = NULL;
 static gchar  *func_state_file = NULL;
 static gchar **startup_files;
 
-static const GOptionEntry gnumeric_options [] = { 
+static const GOptionEntry gnumeric_options [] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &gnumeric_show_version,
@@ -155,7 +155,7 @@ static const GOptionEntry gnumeric_options [] = {
 		NULL
 	},
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &startup_files, NULL, NULL },
-	{ NULL } 
+	{ NULL }
 };
 
 
@@ -221,7 +221,7 @@ gnumeric_arg_parse (int argc, char **argv)
 	GOptionContext *ocontext;
 	int i;
 	gboolean funcdump = FALSE;
-	GError *error = NULL;	
+	GError *error = NULL;
 
 	/* no need to init gtk when dumping function info */
 	for (i = 0 ; argv[i] ; i++)

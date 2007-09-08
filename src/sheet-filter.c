@@ -173,7 +173,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, GORegexp const *regexp,
 	GnmValDiff cmp;
 
 	if (src == NULL) {
-		GOFormat const *format = gnm_cell_get_format (cell);			
+		GOFormat const *format = gnm_cell_get_format (cell);
 		GODateConventions const *date_conv =
 			workbook_date_conv (cell->base.sheet->workbook);
 		char *str = format_value (format, target, NULL, -1, date_conv);
@@ -785,23 +785,23 @@ gnm_sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 	int col;
 	int end_row;
 	int offset;
-	
+
 	/* check in case only one cell selected */
 	if (region->start.col == region->end.col) {
 		int start = region->start.col;
 		/* look for previous empty column */
 		for (col = start - 1; col > 0; col--)
-			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row)) 
+			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
 				break;
 		region->start.col = col - 1;
 
 		/* look for next empty column */
 		for (col = start + 1; col < SHEET_MAX_COLS; col++)
-			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row)) 
+			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
 				break;
 		region->end.col = col - 1;
-	}		
-	
+	}
+
 	/* find first and last non-empty cells in region */
 	for (col = region->start.col; col <= region->end.col; col++)
 		if (sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
@@ -810,12 +810,12 @@ gnm_sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 	if (col > region->end.col)
 		return; /* all empty -- give up */
 	region->start.col = col;
-	
+
 	for (col = region->end.col; col >= region->start.col; col--)
 		if (sheet_cell_or_one_below_is_not_empty(sheet, col, region->start.row))
 			break;
 	region->end.col = col;
-	
+
 	/* now find length of longest column */
 	for (col = region->start.col; col <= region->end.col; col++) {
 		offset = 0;
@@ -823,7 +823,7 @@ gnm_sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 			offset = 1;
 		end_row = sheet_find_boundary_vertical (sheet, col,
 			region->start.row + offset, col, 1, TRUE);
-		if (end_row > region->end.row) 
+		if (end_row > region->end.row)
 			region->end.row = end_row;
 	}
 }

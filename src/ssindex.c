@@ -40,7 +40,7 @@ static gboolean ssindex_list_mime_types = FALSE;
 static gboolean ssindex_run_indexer = FALSE;
 static char *ssindex_import_encoding = NULL;
 
-static GOptionEntry const ssindex_options [] = { 
+static GOptionEntry const ssindex_options [] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &ssindex_show_version,
@@ -89,7 +89,7 @@ static GOptionEntry const ssindex_options [] = {
 
 	/* ---------------------------------------- */
 
-	{ NULL } 
+	{ NULL }
 };
 
 
@@ -213,7 +213,7 @@ main (int argc, char const **argv)
 	int		 res = 0;
 	GOCmdContext	*cc;
 	GOptionContext *ocontext;
-	GError *error = NULL;	
+	GError *error = NULL;
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);

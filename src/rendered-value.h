@@ -37,7 +37,7 @@ struct _GnmRenderedRotatedValue {
 	int linecount;
 	struct GnmRenderedRotatedValueInfo {
 		int dx, dy;
-	} *lines;	
+	} *lines;
 };
 
 GnmRenderedValue *gnm_rendered_value_new       (GnmCell *cell,

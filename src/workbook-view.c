@@ -349,7 +349,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 			else if (cols == SHEET_MAX_COLS)
 				snprintf (buffer, sizeof (buffer), _("%dR"), rows);
 			else
-				snprintf (buffer, sizeof (buffer), _("%dR x %dC"), 
+				snprintf (buffer, sizeof (buffer), _("%dR x %dC"),
 					  rows, cols);
 		}
 
@@ -1209,7 +1209,7 @@ wb_view_new_from_input  (GsfInput *input,
 			/* we didn't get a sheet nor an error, */
 			/* the user must have cancelled        */
 			g_object_unref (G_OBJECT (new_wb));
-			new_wbv = NULL;			
+			new_wbv = NULL;
 		} else {
 			workbook_share_expressions (new_wb, TRUE);
 			workbook_recalc (new_wb);

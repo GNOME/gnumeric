@@ -125,9 +125,9 @@ cb_collect_content (GnmCellIter const *iter, UniqueCollection *uc)
 	if (gnm_cell_is_blank (cell))
 		uc->has_blank = TRUE;
 	else {
-		GOFormat const *fmt = gnm_cell_get_format (cell);			
+		GOFormat const *fmt = gnm_cell_get_format (cell);
 		GnmValue const *v   = cell->value;
-		g_hash_table_replace (uc->hash, 
+		g_hash_table_replace (uc->hash,
 			value_dup (v),
 			format_value (fmt, v, NULL, -1, uc->date_conv));
 	}
@@ -301,7 +301,7 @@ fcombo_create_arrow (SheetObject *so)
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (so);
 	GtkWidget *arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
 	fcombo_arrow_format (fcombo, arrow);
-	g_signal_connect_object (G_OBJECT (so), 
+	g_signal_connect_object (G_OBJECT (so),
 		"cond-changed",
 		G_CALLBACK (fcombo_arrow_format), arrow, 0);
 	return arrow;

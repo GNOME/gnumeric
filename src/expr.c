@@ -896,7 +896,7 @@ bin_array_iter_a (GnmEvalPos const *ep,
 		  GnmExpr const *expr)
 {
 	BinOpImplicitIteratorState iter_info;
-	
+
 	/* a must be a cellrange or array, it can not be NULL */
 	iter_info.ep   = ep;
 	iter_info.func = func;
@@ -1251,7 +1251,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 				value_area_get_width  (a, pos),
 				value_area_get_height (a, pos));
 			value_area_foreach (a, pos, CELL_ITER_ALL,
-				(GnmValueIterFunc) ((GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_NEG) 
+				(GnmValueIterFunc) ((GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_NEG)
 					? cb_iter_unary_neg : cb_iter_percentage),
 				res);
 			value_release (a);
@@ -1599,7 +1599,7 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 		return;
 	}
 
-	case GNM_EXPR_OP_ARRAY_CORNER: 
+	case GNM_EXPR_OP_ARRAY_CORNER:
 		do_expr_as_string (expr->array_corner.expr, 0, out);
 		return;
 
@@ -1725,7 +1725,7 @@ reloc_range (GnmExprRelocateInfo const *rinfo,
 		rng->start.row += rinfo->row_offset;
 		rng->end.row   += rinfo->row_offset;
 		return TRUE;
-	} 
+	}
 
 	if (rinfo->col_offset == 0) {
 		if (start && rinfo->row_offset < range_height (rng)) {
@@ -1779,14 +1779,14 @@ reloc_normalize_cellref (RelocInfoInternal const *rinfo, GnmCellRef const *ref,
 			res->col += rinfo->details->pos.eval.col;
 		else
 			res->col = 0;
-	} 
+	}
 	res->row = ref->row;
 	if (ref->row_relative) {
 		if (rinfo->check_rels)
 			res->row += rinfo->details->pos.eval.row;
 		else
 			res->row = 0;
-	} 
+	}
 }
 
 /* Return TRUE if @pos is out of bounds */
@@ -1822,7 +1822,7 @@ reloc_restore_cellref (RelocInfoInternal const *rinfo,
 	return FALSE;
 }
 
-	  
+
 static GnmExpr const *
 reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
 {
@@ -2762,7 +2762,7 @@ gnm_expr_top_equal (GnmExprTop const *te1, GnmExprTop const *te2)
  *	same cell after the move.
  * GNM_EXPR_RELOCATE_COLS
  * GNM_EXPR_RELOCATE_ROWS
- * 	
+ *
  */
 GnmExprTop const *
 gnm_expr_top_relocate (GnmExprTop const *texpr,
@@ -2922,7 +2922,7 @@ gnm_expr_top_get_array_corner (GnmExprTop const *texpr)
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
 	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER
 		? &texpr->expr->array_corner
-		: NULL;	
+		: NULL;
 }
 
 gboolean

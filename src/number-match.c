@@ -433,7 +433,7 @@ fixup_hour_ampm (gnm_float *hour, const GORegmatch *pm)
 		*hour = -1;
 		return;
 	}
-	
+
 	if (*hour == 12)
 		*hour = 0;
 	if (!is_am)
@@ -687,7 +687,7 @@ format_match_datetime (char const *text,
 			goto got_date;
 		}
 	}
-	    
+
 	/* ^(\d+)([-/.])(\d+)\b */
 	/*  1    2      3       */
 	if (dig1 >= 0 &&
@@ -909,7 +909,7 @@ format_match_decimal_number (char const *text, GOFormatFamily *family)
 		    g_ascii_isdigit (text[thousand->len + 1]) &&
 		    g_ascii_isdigit (text[thousand->len + 2])) {
 			text += thousand->len;
-			continue;			
+			continue;
 		}
 
 		if (strncmp (decimal->str, text, decimal->len) == 0) {

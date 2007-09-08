@@ -205,7 +205,7 @@ soi_get_cropped_pixbuf (SheetObjectImage *soi, GdkPixbuf *pixbuf)
 }
 
 static void
-soi_info_cb (GdkPixbufLoader *loader, 
+soi_info_cb (GdkPixbufLoader *loader,
 	     int              width,
 	     int              height,
 	     gpointer         data)
@@ -213,7 +213,7 @@ soi_info_cb (GdkPixbufLoader *loader,
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (data);
 	GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
 	char *name = gdk_pixbuf_format_get_name (format);
-	
+
 	g_free (soi->type);
 	soi->type = name;
 }
@@ -248,9 +248,9 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 		loader = gdk_pixbuf_loader_new ();
 
 	if (soi->type == NULL || strlen (soi->type) == 0)
-		g_signal_connect (loader, "size-prepared", 
+		g_signal_connect (loader, "size-prepared",
 				  G_CALLBACK (soi_info_cb), soi);
-		
+
 	if (loader) {
 		ret = gdk_pixbuf_loader_write (loader,
 					       soi->bytes.data, soi->bytes.len,
@@ -374,7 +374,7 @@ gnm_soi_get_target_list (SheetObject const *so)
 	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
 		mime = (char *) ptr->data;
 
-		if (mime != NULL && *mime != '\0') 
+		if (mime != NULL && *mime != '\0')
 			gtk_target_list_add (tl, gdk_atom_intern (mime, FALSE),
 					     0, 0);
 	}
@@ -398,7 +398,7 @@ gnm_soi_write_image (SheetObject const *so, char const *format, double resolutio
 	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.0);
 
 	if (strcmp (format, soi->type) == 0)
-		res = gsf_output_write (output, 
+		res = gsf_output_write (output,
 					soi->bytes.len, soi->bytes.data);
 	else if (pixbuf)
 		res = gdk_pixbuf_save_to_callback (pixbuf,
@@ -428,12 +428,12 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (soi != NULL);
 
 	sel_fmt  = go_image_get_format_from_name (soi->type);
-	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL) 
+	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL)
 		l = go_image_get_formats_with_pixbuf_saver ();
 	/* Move original format first in menu */
 	l = g_slist_remove (l, GUINT_TO_POINTER (sel_fmt));
 	l = g_slist_prepend (l, GUINT_TO_POINTER (sel_fmt));
-	
+
 	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 
 	uri = go_gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt, NULL);

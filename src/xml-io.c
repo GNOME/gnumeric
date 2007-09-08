@@ -507,7 +507,7 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 	double right = -1.;
 	double edge_to_above_footer = -1.;
 	double edge_to_below_header = -1.;
-	
+
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (IS_SHEET (ctxt->sheet));
@@ -540,7 +540,7 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 		print_info_set_edge_to_below_header (pi, edge_to_below_header);
 	if (!(edge_to_above_footer < 0))
 		print_info_set_edge_to_above_footer (pi, edge_to_above_footer);
-	
+
 }
 
 static void
@@ -2372,7 +2372,7 @@ xml_workbook_read (IOContext *context,
 	if (child) {
 		int sheet_index = 0;
 		if (xml_node_get_int (child, "SelectedTab", &sheet_index)) {
-			Sheet *sheet = workbook_sheet_by_index (ctxt->wb, 
+			Sheet *sheet = workbook_sheet_by_index (ctxt->wb,
 								sheet_index);
 			if (sheet)
 				wb_view_sheet_focus (ctxt->wb_view, sheet);

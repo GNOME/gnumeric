@@ -27,7 +27,7 @@ typedef struct {
 	struct {
 		guchar       min, max;
 	} compiled_terminator;
-     
+
 	/* CSV related */
 	struct {
 		GSList *str;
@@ -37,10 +37,10 @@ typedef struct {
 	gboolean             indicator_2x_is_single;/* 2 quote chars form a single non-terminating quote */
 	gboolean             duplicates;            /* See two text separators as one? */
 	gboolean             trim_seps;             /* Ignore initial seps.  */
-     
+
 	/* Fixed width related */
 	GArray              *splitpositions;        /* Positions where text will be split vertically */
-     
+
 	int                  rowcount;              /* Number of rows parsed */
 	int                  colcount;              /* Number of columns parsed */
         gboolean             *col_import_array;     /* 0/1 array indicating  */

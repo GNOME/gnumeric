@@ -258,12 +258,12 @@ image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	GnmPasteTarget	   *pt   = ctxt->paste_target;
 
 	if (sel->length > 0) {
-		scg_paste_image (wbcg_cur_scg (wbcg), &pt->range, 
+		scg_paste_image (wbcg_cur_scg (wbcg), &pt->range,
 				 sel->data, sel->length);
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
 	} else  if (ctxt->string_atom !=  GDK_NONE) {
-		gtk_clipboard_request_contents (clipboard, ctxt->string_atom, 
+		gtk_clipboard_request_contents (clipboard, ctxt->string_atom,
 						text_content_received, ctxt);
 	} else {
 		g_free (ctxt->paste_target);
@@ -284,7 +284,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	/* Nothing on clipboard? */
 	if (sel->length < 0) {
 		;
-	} else if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, 
+	} else if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME,
 						   FALSE)) {
 		/* The data is the gnumeric specific XML interchange format */
 		content = xml_cellregion_read (wbc, pt->sheet,
@@ -324,7 +324,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		gtk_clipboard_request_contents (clipboard, ctxt->image_atom,
 						image_content_received, ctxt);
 	} else if (ctxt->string_atom != GDK_NONE) {
-		gtk_clipboard_request_contents (clipboard, ctxt->string_atom, 
+		gtk_clipboard_request_contents (clipboard, ctxt->string_atom,
 						text_content_received, ctxt);
 	} else {
 		g_free (ctxt->paste_target);
@@ -338,12 +338,12 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
  * Invoked when the selection has been received by our application.
  * This is triggered by a call we do to gtk_clipboard_request_contents.
  *
- * We try to import a spreadsheet/table, next an image, and finally fall back 
+ * We try to import a spreadsheet/table, next an image, and finally fall back
  * to a string format if the others fail, e.g. for html which does not
- * contain a table. 
+ * contain a table.
  */
 static void
-x_targets_received (GtkClipboard *clipboard, GdkAtom *targets, 
+x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 		      gint n_targets, gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
@@ -384,7 +384,7 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 	for (j = 0; j < n_targets && table_atom == GDK_NONE; j++)
 		puts (gdk_atom_name (targets[j]));
 #endif
-	
+
 	/* The data is a list of atoms */
 	/* Find the best table format offered */
 	for (i = 0 ; table_fmts[i] && table_atom == GDK_NONE ; i++) {
@@ -439,7 +439,7 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 		gtk_clipboard_request_contents (clipboard, ctxt->image_atom,
 						image_content_received, ctxt);
 	else if (ctxt->string_atom != GDK_NONE)
-		gtk_clipboard_request_contents (clipboard, ctxt->string_atom, 
+		gtk_clipboard_request_contents (clipboard, ctxt->string_atom,
 						text_content_received, ctxt);
 	else {
 		g_free (ctxt->paste_target);
@@ -461,7 +461,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 	Sheet *sheet;
 	GnmPasteTarget pt;
 	GnmRange r;
-	
+
 	*size = 0;
 	if (!saver)
 		return NULL;
@@ -475,14 +475,14 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 	memset (&r, 0, sizeof r);
 	r.end.col = cr->cols - 1;
 	r.end.row = cr->rows - 1;
-	
+
 	paste_target_init (&pt, sheet, &r, PASTE_ALL_TYPES);
 	if (clipboard_paste_region (cr, &pt, ctx) == FALSE) {
 		go_file_saver_save (saver, ioc, wb_view, output);
 		if (!gnumeric_io_error_occurred (ioc)) {
 			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
 			gsf_off_t osize = gsf_output_size (output);
-			
+
 			*size = osize;
 			if (*size == osize) {
 				ret = g_malloc (*size);
@@ -543,7 +543,7 @@ image_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	omem   = GSF_OUTPUT_MEMORY (output);
 	sheet_object_write_image (so, format, 150.0, output, NULL);
 	osize = gsf_output_size (output);
-			
+
 	*size = osize;
 	if (*size == osize) {
 		ret = g_malloc (*size);
@@ -588,7 +588,7 @@ graph_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	omem   = GSF_OUTPUT_MEMORY (output);
 	sheet_object_write_object (so, mime_type, output, NULL);
 	osize = gsf_output_size (output);
-			
+
 	*size = osize;
 	if (*size == osize)
 		ret = g_memdup (gsf_output_memory_get_bytes (omem), *size);
@@ -640,7 +640,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	if (selection_data->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
 		GsfOutputMemory *output  = gnm_cellregion_to_xml (clipboard);
 		if (output) {
-			gtk_selection_data_set 
+			gtk_selection_data_set
 				(selection_data, selection_data->target, 8,
 				 gsf_output_memory_get_bytes (output),
 				 gsf_output_size (GSF_OUTPUT (output)));
@@ -682,7 +682,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		GString *res = cellregion_to_string (clipboard,
 			TRUE, workbook_date_conv (wb));
 		if (res != NULL) {
-			gtk_selection_data_set_text (selection_data, 
+			gtk_selection_data_set_text (selection_data,
 				res->str, res->len);
 			g_string_free (res, TRUE);
 		} else {
@@ -747,7 +747,7 @@ x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 	ctxt->string_atom = GDK_NONE;
 
 	/* Query the formats, This will callback x_targets_received */
-	gtk_clipboard_request_targets (clipboard, 
+	gtk_clipboard_request_targets (clipboard,
 				       x_targets_received, ctxt);
 }
 
@@ -829,7 +829,7 @@ x_claim_clipboard (WBCGtk *wbcg)
 		gtk_target_list_unref (tl);
 	}
 	/* Register a x_clipboard_clear_cb only for CLIPBOARD, not for
-	 * PRIMARY */ 
+	 * PRIMARY */
 	ret = gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
 		targets, n_targets,
@@ -842,7 +842,7 @@ x_claim_clipboard (WBCGtk *wbcg)
 				display, GDK_SELECTION_CLIPBOARD),
 			        targets, n_targets);
 		ret = gtk_clipboard_set_with_owner (
-		        gtk_clipboard_get_for_display (display, 
+		        gtk_clipboard_get_for_display (display,
 						       GDK_SELECTION_PRIMARY),
 			targets, n_targets,
 			(GtkClipboardGetFunc) x_clipboard_get_cb,
@@ -859,16 +859,16 @@ x_claim_clipboard (WBCGtk *wbcg)
 }
 
 /* Hand clipboard off to clipboard manager. To be called before workbook
- * object is destroyed. 
+ * object is destroyed.
  */
-void 
+void
 x_store_clipboard_if_needed (Workbook *wb)
 {
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	WBCGtk *wbcg = NULL;
 
 	g_return_if_fail (IS_WORKBOOK (wb));
-	
+
 	if (sheet && sheet->workbook == wb) {
 		WORKBOOK_FOREACH_CONTROL (wb, view, control, {
 			if (IS_WBC_GTK (control)) {
@@ -878,7 +878,7 @@ x_store_clipboard_if_needed (Workbook *wb)
 
 		if (wbcg) {
 			GtkClipboard *clip = gtk_clipboard_get_for_display
-				(gtk_widget_get_display 
+				(gtk_widget_get_display
 				 (GTK_WIDGET (wbcg_toplevel (wbcg))),
 				 GDK_SELECTION_CLIPBOARD);
 			if (gtk_clipboard_get_owner (clip) == gnm_app_get_app ())

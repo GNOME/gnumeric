@@ -605,7 +605,7 @@ afm_compute (AutoFillerMonth *afm, int n)
 	v = value_new_int (datetime_g_to_serial (&d, afm->dateconv));
 	if (afm->format)
 		value_set_fmt (v, afm->format);
-	return v;	
+	return v;
 }
 
 static void
@@ -739,7 +739,7 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 				afl->as.step = step;
 			} else {
 				if (ph != afl_compute_phase (afl, n))
-					goto bad;				
+					goto bad;
 			}
 		}
 

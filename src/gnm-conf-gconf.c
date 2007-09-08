@@ -69,7 +69,7 @@ go_conf_sync (GOConfNode *node)
 	gconf_client_suggest_sync (gconf_client, NULL);
 }
 
-void     
+void
 go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val)
 {
 	gchar *real_key = go_conf_get_real_key (node, key);
@@ -77,7 +77,7 @@ go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val)
 	g_free (real_key);
 }
 
-void     
+void
 go_conf_set_int (GOConfNode *node, gchar const *key, gint val)
 {
 	gchar *real_key = go_conf_get_real_key (node, key);
@@ -85,7 +85,7 @@ go_conf_set_int (GOConfNode *node, gchar const *key, gint val)
 	g_free (real_key);
 }
 
-void     
+void
 go_conf_set_double (GOConfNode *node, gchar const *key, gnm_float val)
 {
 	gchar *real_key = go_conf_get_real_key (node, key);
@@ -93,7 +93,7 @@ go_conf_set_double (GOConfNode *node, gchar const *key, gnm_float val)
 	g_free (real_key);
 }
 
-void     
+void
 go_conf_set_string (GOConfNode *node, gchar const *key, gchar const *str)
 {
 	gchar *real_key = go_conf_get_real_key (node, key);
@@ -217,7 +217,7 @@ gchar *
 go_conf_load_string (GOConfNode *node, gchar const *key)
 {
 	gchar *val;
-	
+
 	gchar *real_key = go_conf_get_real_key (node, key);
 	val = gconf_client_get_string (gconf_client, real_key, NULL);
 	g_free (real_key);
@@ -229,12 +229,12 @@ GSList *
 go_conf_load_str_list (GOConfNode *node, gchar const *key)
 {
 	GSList *list;
-	
+
 	gchar *real_key = go_conf_get_real_key (node, key);
 	list = gconf_client_get_list (gconf_client, real_key,
 				      GCONF_VALUE_STRING, NULL);
 	g_free (real_key);
-	
+
 	return list;
 }
 
@@ -450,13 +450,13 @@ go_conf_add_monitor (GOConfNode *node, gchar const *key,
 	guint ret;
 	GOConfClosure *close = g_new0 (GOConfClosure, 1);
 	gchar *real_key;
-	
+
 	close->monitor = monitor;
 	close->data = data;
 	real_key = go_conf_get_real_key (node, key);
 	ret = gconf_client_notify_add (gconf_client, real_key,
 		(GConfClientNotifyFunc) cb_key_changed, close, g_free, NULL);
 	g_free (real_key);
-	
+
 	return ret;
 }

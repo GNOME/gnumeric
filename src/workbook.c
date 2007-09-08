@@ -1047,7 +1047,7 @@ workbook_sheet_rename (Workbook *wb,
 
 	while (new_name && sheet_index) {
 		if (-1 != GPOINTER_TO_INT (sheet_index->data)) {
-			g_hash_table_remove (wb->sheet_hash_private, 
+			g_hash_table_remove (wb->sheet_hash_private,
 					     new_name->data);
 		}
 		sheet_index = sheet_index->next;
@@ -1058,7 +1058,7 @@ workbook_sheet_rename (Workbook *wb,
 	new_name = new_names;
 	while (new_name && sheet_index) {
 		if (-1 != GPOINTER_TO_INT (sheet_index->data)) {
-			Sheet *sheet = workbook_sheet_by_index 
+			Sheet *sheet = workbook_sheet_by_index
 				(wb, GPOINTER_TO_INT (sheet_index->data));
 			g_object_set (sheet, "name", new_name->data, NULL);
 		}
@@ -1298,7 +1298,7 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 		if (ia != ib) {
 			what |= WSS_SHEET_ORDER;
 			/* We do not count reordered sheet.  */
-		}			
+		}
 
 		pa = wss_a->sheets[ia].properties;
 		pb = wss_b->sheets[ib].properties;

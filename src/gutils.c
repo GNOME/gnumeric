@@ -173,7 +173,7 @@ enum_name (GType typ, int i)
 	}
 
 	sprintf (result, "%d", i);
-	return result;	
+	return result;
 }
 
 static gboolean

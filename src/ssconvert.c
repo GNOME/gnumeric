@@ -43,7 +43,7 @@ static char *ssconvert_import_id = NULL;
 static char *ssconvert_export_id = NULL;
 static char **ssconvert_goal_seek = NULL;
 
-static const GOptionEntry ssconvert_options [] = { 
+static const GOptionEntry ssconvert_options [] = {
 	{
 		"version", 'v',
 		0, G_OPTION_ARG_NONE, &ssconvert_show_version,
@@ -140,7 +140,7 @@ static const GOptionEntry ssconvert_options [] = {
 
 	/* ---------------------------------------- */
 
-	{ NULL } 
+	{ NULL }
 };
 
 static void
@@ -255,7 +255,7 @@ convert (char const *inarg, char const *outarg,
 				      "Try --list-importers to see a list of possibilities.\n"),
 				    ssconvert_import_id);
 			goto out;
-		} 
+		}
 	}
 
 	if (fs != NULL) {
@@ -319,7 +319,7 @@ main (int argc, char const **argv)
 	int		 res = 0;
 	GOCmdContext	*cc;
 	GOptionContext *ocontext;
-	GError *error = NULL;	
+	GError *error = NULL;
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);

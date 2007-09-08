@@ -64,7 +64,7 @@ gnm_conf_init_page_setup (GOConfNode *node)
 		gchar *paper;
 		double margin;
 		GtkPageOrientation orient;
-				
+
 		prefs.page_setup = gtk_page_setup_new ();
 
 		paper = go_conf_load_string (node, PRINTSETUP_GCONF_PAPER);
@@ -107,7 +107,7 @@ gnm_conf_init_page_setup (GOConfNode *node)
 			 0., 720. , 72.);
 		gtk_page_setup_set_right_margin (prefs.page_setup, margin,
 						 GTK_UNIT_POINTS);
-		
+
 	}
 }
 
@@ -117,7 +117,7 @@ gnm_conf_init_print_settings (GOConfNode *node)
 	GSList *list, *item;
 	char const *key;
 	char const *value;
-	
+
 	prefs.print_settings =  gtk_print_settings_new ();
 
 	item = list = go_conf_load_str_list (node, PRINTSETUP_GCONF_GTKSETTING);
@@ -131,7 +131,7 @@ gnm_conf_init_print_settings (GOConfNode *node)
 			gtk_print_settings_set (prefs.print_settings, key, value);
 		}
 	}
-	
+
 	go_slist_free_custom (list, g_free);
 }
 
@@ -163,7 +163,7 @@ static void
 gnm_conf_init_essential (void)
 {
 	GOConfNode *node;
-	
+
 	node = go_conf_get_node (root, CONF_DEFAULT_FONT_DIR);
 	prefs.default_font.name = go_conf_load_string (node, CONF_DEFAULT_FONT_NAME);
 	if (prefs.default_font.name == NULL)
@@ -222,39 +222,39 @@ gnm_gconf_init_printer_defaults (void)
 
 	if (prefs.print_settings != NULL)
 		return;
-	
+
 	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
 
 	gnm_conf_init_print_settings (node);
 	gnm_conf_init_page_setup (node);
-	
-	prefs.print_center_horizontally = go_conf_load_bool 
-		(node, PRINTSETUP_GCONF_CENTER_HORIZONTALLY, FALSE); 
-	prefs.print_center_vertically = go_conf_load_bool 
+
+	prefs.print_center_horizontally = go_conf_load_bool
+		(node, PRINTSETUP_GCONF_CENTER_HORIZONTALLY, FALSE);
+	prefs.print_center_vertically = go_conf_load_bool
 		(node, PRINTSETUP_GCONF_CENTER_VERTICALLY, FALSE);
-	prefs.print_grid_lines = go_conf_load_bool 
+	prefs.print_grid_lines = go_conf_load_bool
 		(node, PRINTSETUP_GCONF_PRINT_GRID_LINES, FALSE);
-	prefs.print_even_if_only_styles = go_conf_load_bool 
+	prefs.print_even_if_only_styles = go_conf_load_bool
 		(node, PRINTSETUP_GCONF_EVEN_IF_ONLY_STYLES, FALSE);
-	prefs.print_black_and_white = go_conf_load_bool 
+	prefs.print_black_and_white = go_conf_load_bool
 		(node, PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE, FALSE);
-	prefs.print_titles = go_conf_load_bool 
+	prefs.print_titles = go_conf_load_bool
 		(node, PRINTSETUP_GCONF_PRINT_TITLES, FALSE);
-	prefs.print_order_across_then_down = go_conf_load_bool 
+	prefs.print_order_across_then_down = go_conf_load_bool
 		(node, PRINTSETUP_GCONF_ACROSS_THEN_DOWN, FALSE);
-	prefs.print_scale_percentage = go_conf_load_bool 
+	prefs.print_scale_percentage = go_conf_load_bool
 		(node, PRINTSETUP_GCONF_SCALE_PERCENTAGE, TRUE);
-	prefs.print_scale_percentage_value = go_conf_load_double 
+	prefs.print_scale_percentage_value = go_conf_load_double
 		(node, PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, 1, 500, 100);
-	prefs.print_scale_width = go_conf_load_int 
+	prefs.print_scale_width = go_conf_load_int
 		(node, PRINTSETUP_GCONF_SCALE_WIDTH, 0, 100, 1);
-        prefs.print_scale_height = go_conf_load_int 
+        prefs.print_scale_height = go_conf_load_int
 		(node, PRINTSETUP_GCONF_SCALE_HEIGHT, 0, 100, 1);
 	prefs.print_repeat_top = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_TOP);
 	prefs.print_repeat_left = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_LEFT);
-	prefs.print_margin_top = go_conf_load_double 
+	prefs.print_margin_top = go_conf_load_double
 		(node, PRINTSETUP_GCONF_MARGIN_TOP, 0.0, 10000.0, 120.0);
-	prefs.print_margin_bottom = go_conf_load_double 
+	prefs.print_margin_bottom = go_conf_load_double
 		(node, PRINTSETUP_GCONF_MARGIN_BOTTOM, 0.0, 10000.0, 120.0);
 	{
 		char *str;
@@ -353,7 +353,7 @@ gnm_conf_init_extras (void)
 	prefs.prefer_clipboard_selection = go_conf_load_bool (
 		root, GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, TRUE);
 	prefs.latex_use_utf8 = go_conf_load_bool (
-		root, PLUGIN_GCONF_LATEX "/" PLUGIN_GCONF_LATEX_USE_UTF8, TRUE); 
+		root, PLUGIN_GCONF_LATEX "/" PLUGIN_GCONF_LATEX_USE_UTF8, TRUE);
 
 	gnm_conf_init_printer_decoration_font ();
 
@@ -379,7 +379,7 @@ gnm_conf_init (gboolean fast)
 		gnm_conf_init_extras ();
 }
 
-void     
+void
 gnm_conf_shutdown (void)
 {
 	if (prefs.printer_decoration_font) {
@@ -401,7 +401,7 @@ gnm_conf_shutdown (void)
 		g_object_unref (prefs.page_setup);
 		prefs.page_setup = NULL;
 	}
-		
+
 
 	go_conf_free_node (root);
 	go_conf_shutdown ();
@@ -434,11 +434,11 @@ gnm_gconf_get_page_setup (void) {
 	return prefs.page_setup;
 }
 
-void     
+void
 gnm_gconf_set_print_settings (GtkPrintSettings *settings)
 {
 	GSList *list = NULL;
-	
+
 	if (prefs.print_settings != NULL)
 		g_object_unref (prefs.print_settings);
 	prefs.print_settings = g_object_ref (settings);
@@ -448,13 +448,13 @@ gnm_gconf_set_print_settings (GtkPrintSettings *settings)
 	go_slist_free_custom (list, g_free);
 }
 
-void     
+void
 gnm_gconf_set_page_setup (GtkPageSetup *setup)
 {
 	char * paper;
-	
+
 	g_return_if_fail (setup != NULL);
-	
+
 	if (prefs.page_setup != NULL)
 		g_object_unref (prefs.page_setup);
 	prefs.page_setup = gtk_page_setup_copy (setup);
@@ -553,7 +553,7 @@ gnm_gconf_set_undo_size (gint val)
 {
 	if (val < 1)
 		val = 1;
-	prefs.undo_size = val; 
+	prefs.undo_size = val;
 	go_conf_set_int (root, GNM_CONF_UNDO_DIR "/" GNM_CONF_UNDO_SIZE, val);
 }
 
@@ -586,7 +586,7 @@ gnm_gconf_set_all_sheets (gboolean val)
 }
 
 void
-gnm_gconf_set_printer_header (gchar const *left, gchar const *middle, 
+gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
 			      gchar const *right)
 {
 	GSList *list = NULL;
@@ -599,7 +599,7 @@ gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
 }
 
 void
-gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle, 
+gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 			      gchar const *right)
 {
 	GSList *list = NULL;
@@ -611,63 +611,63 @@ gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 	prefs.printer_footer = list;
 }
 
-void     
+void
 gnm_gconf_set_print_center_horizontally (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_CENTER_HORIZONTALLY, val);
 }
 
-void     
+void
 gnm_gconf_set_print_center_vertically (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_CENTER_VERTICALLY, val);
 }
 
-void     
+void
 gnm_gconf_set_print_grid_lines (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PRINT_GRID_LINES, val);
 }
 
-void     
+void
 gnm_gconf_set_print_even_if_only_styles (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_EVEN_IF_ONLY_STYLES, val);
 }
 
-void     
+void
 gnm_gconf_set_print_black_and_white (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE, val);
 }
 
-void     
+void
 gnm_gconf_set_print_titles (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PRINT_TITLES, val);
 }
 
-void     
+void
 gnm_gconf_set_print_order_across_then_down (gboolean val)
 {
 	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_ACROSS_THEN_DOWN, val);
 }
 
-void     
+void
 gnm_gconf_set_print_scale_percentage (gboolean val)
 {
 	go_conf_set_bool (
 		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_SCALE_PERCENTAGE, val);
 }
 
-void     
+void
 gnm_gconf_set_print_scale_percentage_value (gnm_float val)
 {
 	go_conf_set_double (
 		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, val);
 }
 
-void     
+void
 gnm_gconf_set_print_tb_margins (double edge_to_header,
 				double edge_to_footer,
 				GtkUnit unit)
@@ -682,8 +682,8 @@ gnm_gconf_set_print_tb_margins (double edge_to_header,
 		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PREFERRED_UNIT, unit_to_unit_name (unit));
 }
 
-void     
-gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
+void
+gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 				    GSList *right)
 {
 	go_conf_set_str_list (
@@ -697,7 +697,7 @@ gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 	go_slist_free_custom (right, g_free);
 }
 
-void     
+void
 gnm_gconf_set_gui_window_x (gnm_float val)
 {
 	prefs.horizontal_window_fraction = val;
@@ -705,7 +705,7 @@ gnm_gconf_set_gui_window_x (gnm_float val)
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_WINDOW_X, val);
 }
 
-void     
+void
 gnm_gconf_set_gui_window_y (gnm_float val)
 {
 	prefs.vertical_window_fraction = val;
@@ -713,7 +713,7 @@ gnm_gconf_set_gui_window_y (gnm_float val)
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_WINDOW_Y, val);
 }
 
-void     
+void
 gnm_gconf_set_gui_zoom (gnm_float val)
 {
 	prefs.zoom = val;
@@ -721,7 +721,7 @@ gnm_gconf_set_gui_zoom (gnm_float val)
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ZOOM, val);
 }
 
-void     
+void
 gnm_gconf_set_default_font_size (gnm_float val)
 {
 	prefs.default_font.size = val;
@@ -729,7 +729,7 @@ gnm_gconf_set_default_font_size (gnm_float val)
 		root, GNM_CONF_FONT_DIR "/" GNM_CONF_FONT_SIZE, val);
 }
 
-void     
+void
 gnm_gconf_set_default_font_name (char const *str)
 {
 	go_conf_set_string (root, GNM_CONF_FONT_DIR "/" GNM_CONF_FONT_NAME, str);
@@ -740,7 +740,7 @@ gnm_gconf_set_default_font_name (char const *str)
 	}
 }
 
-void     
+void
 gnm_gconf_set_default_font_bold (gboolean val)
 {
 	prefs.default_font.is_bold = val;
@@ -748,7 +748,7 @@ gnm_gconf_set_default_font_bold (gboolean val)
 		root, GNM_CONF_FONT_DIR "/" GNM_CONF_FONT_BOLD, val);
 }
 
-void     
+void
 gnm_gconf_set_default_font_italic (gboolean val)
 {
 	prefs.default_font.is_italic = val;
@@ -763,10 +763,10 @@ gnm_gconf_set_hf_font (GnmStyle const *mstyle)
 	GnmStyle *old_style = (prefs.printer_decoration_font != NULL) ?
 		prefs.printer_decoration_font :
 		gnm_style_new_default ();
-	
+
 	prefs.printer_decoration_font = gnm_style_new_merged (old_style, mstyle);
 	gnm_style_unref (old_style);
-	
+
 	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
 		go_conf_set_double (node, PRINTSETUP_GCONF_HF_FONT_SIZE,
@@ -822,7 +822,7 @@ gnm_gconf_set_xml_compression (gint val)
 	go_conf_set_int (root, GNM_CONF_XML_COMPRESSION, val);
 }
 
-void     
+void
 gnm_gconf_set_show_sheet_name (gboolean val)
 {
 	prefs.show_sheet_name = val;
@@ -830,7 +830,7 @@ gnm_gconf_set_show_sheet_name (gboolean val)
 		root, GNM_CONF_UNDO_DIR "/" GNM_CONF_UNDO_SHOW_SHEET_NAME,val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_latex_use_utf8 (gboolean val)
 {
 	prefs.latex_use_utf8 = val;
@@ -838,7 +838,7 @@ gnm_gconf_set_latex_use_utf8 (gboolean val)
 		root, PLUGIN_GCONF_LATEX "/" PLUGIN_GCONF_LATEX_USE_UTF8, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_sort_retain_form (gboolean val)
 {
 	prefs.sort_default_retain_formats = val;
@@ -846,7 +846,7 @@ gnm_gconf_set_sort_retain_form (gboolean val)
 		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_RETAIN_FORM, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_sort_by_case (gboolean val)
 {
 	prefs.sort_default_by_case = val;
@@ -854,7 +854,7 @@ gnm_gconf_set_sort_by_case (gboolean val)
 		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_BY_CASE, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_sort_has_header (gboolean val)
 {
 	prefs.sort_default_has_header = val;
@@ -862,7 +862,7 @@ gnm_gconf_set_sort_has_header (gboolean val)
 		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_HAS_HEADER, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_sort_ascending (gboolean val)
 {
 	prefs.sort_default_ascending = val;
@@ -870,7 +870,7 @@ gnm_gconf_set_sort_ascending (gboolean val)
 		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_ASCENDING, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_gui_transition_keys (gboolean val)
 {
 	prefs.transition_keys = val;
@@ -878,7 +878,7 @@ gnm_gconf_set_gui_transition_keys (gboolean val)
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_TRANSITION_KEYS, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_gui_livescrolling (gboolean val)
 {
 	prefs.live_scrolling = val;
@@ -886,7 +886,7 @@ gnm_gconf_set_gui_livescrolling (gboolean val)
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_LIVESCROLLING, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_file_overwrite (gboolean val)
 {
 	prefs.file_overwrite_default_answer = val;
@@ -894,7 +894,7 @@ gnm_gconf_set_file_overwrite (gboolean val)
 		root, GNM_CONF_FILE_DIR "/" GNM_CONF_FILE_OVERWRITE_DEFAULT, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_file_single_sheet_save (gboolean val)
 {
 	prefs.file_ask_single_sheet_save = val;
@@ -902,7 +902,7 @@ gnm_gconf_set_file_single_sheet_save (gboolean val)
 		root, GNM_CONF_FILE_DIR "/" GNM_CONF_FILE_SINGLE_SHEET_SAVE, val != FALSE);
 }
 
-void    
+void
 gnm_gconf_set_gui_resolution_h (gnm_float val)
 {
 	if (val < 50)
@@ -914,7 +914,7 @@ gnm_gconf_set_gui_resolution_h (gnm_float val)
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_RES_H, val);
 }
 
-void     
+void
 gnm_gconf_set_gui_resolution_v (gnm_float val)
 {
 	if (val < 50)
@@ -1012,7 +1012,7 @@ gnm_gconf_set_toolbar_position (char const *name, int pos)
 	g_free (key);
 }
 
-void     
+void
 gnm_gconf_set_unfocused_rs (gboolean val)
 {
 	prefs.unfocused_range_selection = val;
@@ -1020,7 +1020,7 @@ gnm_gconf_set_unfocused_rs (gboolean val)
 		root, DIALOGS_GCONF_DIR "/" DIALOGS_GCONF_UNFOCUSED_RS, val != FALSE);
 }
 
-void     
+void
 gnm_gconf_set_enter_moves_dir (GODirection val)
 {
 	prefs.enter_moves_dir = val;
@@ -1028,14 +1028,14 @@ gnm_gconf_set_enter_moves_dir (GODirection val)
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_ENTER_MOVES_DIR, GO_DIRECTION_TYPE, val);
 }
 
-void     
+void
 gnm_gconf_set_autocomplete (gboolean val)
 {
 	prefs.auto_complete = val;
 	go_conf_set_bool (
 		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_AUTOCOMPLETE, val != FALSE);
 }
-void     
+void
 gnm_gconf_set_prefer_clipboard  (gboolean val)
 {
 	prefs.prefer_clipboard_selection = val;
@@ -1082,7 +1082,7 @@ go_conf_load_enum (GOConfNode *node, gchar const *key, GType t, int default_val)
 	return res;
 }
 
-void     
+void
 go_conf_set_enum (GOConfNode *node, gchar const *key, GType t, gint val)
 {
 	GEnumClass *enum_class = G_ENUM_CLASS (g_type_class_ref (t));

@@ -296,7 +296,7 @@ gee_set_property (GObject      *object,
 		break;
 
 	case PROP_SCG:
-		gnm_expr_entry_set_scg (gee, 
+		gnm_expr_entry_set_scg (gee,
 			SHEET_CONTROL_GUI (g_value_get_object (value)));
 		break;
 	case PROP_WBCG:
@@ -1374,7 +1374,7 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
  * @gee : the entry
  * @pp : a parse position
  * @start_sel : start range selection when things change.
- * @flags : 
+ * @flags :
  *
  * Attempts to parse the content of the entry line honouring
  * the flags.

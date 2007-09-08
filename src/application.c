@@ -248,7 +248,7 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 
 /** gnm_app_clipboard_cut_copy_obj :
  * @wbc : #WorkbookControl
- * @is_cut : 
+ * @is_cut :
  * @sv : #SheetView
  * @objects : a list of #SheetObject which is freed
  *
@@ -266,7 +266,7 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 	g_free (app->clipboard_cut_range);
 	app->clipboard_cut_range = NULL;
 	sv_weak_ref (sv, &(app->clipboard_sheet_view));
-	app->clipboard_copied_contents 
+	app->clipboard_copied_contents
 		= clipboard_copy_obj (sv_sheet (sv), objects);
 	if (is_cut) {
 		cmd_objects_delete (wbc, objects, _("Cut Object"));
@@ -778,7 +778,7 @@ gnm_app_init (GObject *obj)
 GSF_CLASS (GnmApp, gnm_app,
 	   gnm_app_class_init, gnm_app_init,
 	   G_TYPE_OBJECT);
- 
+
 /**********************************************************************/
 static GSList *extra_uis = NULL;
 

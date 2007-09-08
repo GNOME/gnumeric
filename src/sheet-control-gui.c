@@ -335,7 +335,7 @@ scg_resize (SheetControlGUI *scg, gboolean force_scroll)
 	/* When setting a canvas scroll region to [x0 .. x1[ , pixel x1 is not displayed.
 	 * That's why we set scroll region to [-FACTOR + 1 .. +1[ in rtl mode, because
 	 * we want x(ltr) = - x(rtl). */
-	
+
 	/* no need to resize panes that are about to go away while unfreezing */
 	if (scg->active_panes == 1 || !sv_is_frozen (scg_view (scg))) {
 		if (sheet->text_is_rtl)
@@ -588,11 +588,11 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 
 /***************************************************************************/
 
-static void 
+static void
 cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControlGUI *scg)
 {
 	int offset = scg_sheet (scg)->text_is_rtl ? -1 : 0;
-	
+
 	/* This should be keep in sync with item_bar_cell code (item-bar.c) */
 	gdk_draw_rectangle (widget->window,
 			    widget->style->bg_gc[GTK_STATE_ACTIVE],
@@ -603,7 +603,7 @@ cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControl
 			  offset, 0, widget->allocation.width + 1, widget->allocation.height + 1);
 }
 
-static gboolean 
+static gboolean
 cb_select_all_btn_event (GtkWidget *widget, GdkEvent *event, SheetControlGUI *scg)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
@@ -1222,7 +1222,7 @@ resize_pane_pos (SheetControlGUI *scg, GtkPaned *p,
 				pos -= w;
 		}
 		pos += pane->first_offset.col;
-		colrow = gnm_pane_find_col (pane, 
+		colrow = gnm_pane_find_col (pane,
 					      gnm_pane_x_w2c (pane, pos),
 					      guide_pos);
 		*guide_pos = gnm_pane_x_w2c (pane, *guide_pos);
@@ -3373,18 +3373,18 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 		 * Since new objects are on top of canvas, we have to move current selection
 		 * back to original position, create a copy of selected objects, make them
 		 * the current selection, then move these objects to drop location. */
-		
+
 		if (make_dup) {
 			xx = origin_x = pane->drag.origin_x;
 			yy = origin_y = pane->drag.origin_y;
 		}
-		
+
 		gnm_pane_objects_drag (pane, NULL, xx, yy, 8, FALSE,
 				       (mask & GDK_SHIFT_MASK) != 0);
 		pane->drag.origin_x = pane->drag.last_x;
 		pane->drag.origin_y = pane->drag.last_y;
 		scg_objects_drag_commit	(scg, 8, FALSE);
-		
+
 		if (make_dup) {
 			GSList *ptr, *objs = go_hash_keys (scg->selected_objects);
 
@@ -3420,7 +3420,7 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 #ifdef DEBUG_DND
 /*  Keep in sync with gtk_selection_data_targets_include_text() */
 static gboolean
-is_text_target (gchar *target_type) 
+is_text_target (gchar *target_type)
 {
 	const gchar *charset;
 	gchar       *text_plain_locale;
@@ -3429,11 +3429,11 @@ is_text_target (gchar *target_type)
 	g_get_charset (&charset);
 	text_plain_locale = g_strdup_printf ("text/plain;charset=%s", charset);
 	ret = !strcmp (target_type, "UTF8_STRING") ||
-	      !strcmp (target_type, "COMPOUND_TEXT") ||    
-	      !strcmp (target_type, "TEXT") ||    
-	      !strcmp (target_type, "STRING") ||    
-	      !strcmp (target_type, "text/plain;charset=utf-8") ||    
-	      !strcmp (target_type, text_plain_locale) ||    
+	      !strcmp (target_type, "COMPOUND_TEXT") ||
+	      !strcmp (target_type, "TEXT") ||
+	      !strcmp (target_type, "STRING") ||
+	      !strcmp (target_type, "text/plain;charset=utf-8") ||
+	      !strcmp (target_type, text_plain_locale) ||
 	      !strcmp (target_type, "text/plain");
 	g_free (text_plain_locale);
 	return ret;
@@ -3530,7 +3530,7 @@ scg_drag_send_image (SheetControlGUI *scg,
 }
 
 static void
-scg_drag_send_graph (SheetControlGUI *scg, 
+scg_drag_send_graph (SheetControlGUI *scg,
 		     GtkSelectionData *selection_data,
 		     GSList *objects,
 		     gchar const *mime_type)
@@ -3551,13 +3551,13 @@ scg_drag_send_graph (SheetControlGUI *scg,
 		g_warning ("non exportable object requested\n");
 		return;
 	}
-		
+
 	output = gsf_output_memory_new ();
 	omem = GSF_OUTPUT_MEMORY (output);
 	sheet_object_write_object (so, mime_type, output, NULL);
 	osize = gsf_output_size (output);
-	
-	gtk_selection_data_set 
+
+	gtk_selection_data_set
 		(selection_data, selection_data->target,
 		 8, gsf_output_memory_get_bytes (omem), osize);
 	gsf_output_close (output);

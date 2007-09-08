@@ -140,7 +140,7 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 		    parseoptions->col_import_array_len <= ui ||
 		    parseoptions->col_import_array[ui]) {
 			GnmStyle *style = gnm_style_new ();
-			GOFormat *sf = g_ptr_array_index 
+			GOFormat *sf = g_ptr_array_index
 				(parseoptions->formats, ui);
 			gnm_style_set_format (style, sf);
 			sheet_style_apply_range (sheet, &range, style);
@@ -154,8 +154,8 @@ static gboolean
 stf_store_results (DialogStfResult_t *dialogresult,
 		   Sheet *sheet, int start_col, int start_row)
 {
-	stf_apply_formats (dialogresult->parseoptions, 
-			   sheet, start_col, start_row, 
+	stf_apply_formats (dialogresult->parseoptions,
+			   sheet, start_col, start_row,
 			   start_row + dialogresult->rowcount - 1);
 	return stf_parse_sheet (dialogresult->parseoptions,
 				dialogresult->text, NULL, sheet,
@@ -207,7 +207,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	workbook_sheet_attach (book, sheet);
 
 	dialogresult = stf_dialog (WBC_GTK (context->impl),
-				   enc, FALSE, NULL, FALSE, 
+				   enc, FALSE, NULL, FALSE,
 				   nameutf8, data, data_len);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
@@ -303,7 +303,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 	} else {
 		dialogresult = stf_dialog (WBC_GTK (wbc),
 					   NULL, FALSE, NULL, FALSE,
-					   _("Text to Columns"), 
+					   _("Text to Columns"),
 					   data, data_len);
 	}
 	if (dialogresult != NULL) {
@@ -315,7 +315,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 			target.end.row = target.start.row + cr->rows - 1;
 		}
 		if (cr == NULL ||
-		    cmd_text_to_columns (wbc, src, src_sheet, 
+		    cmd_text_to_columns (wbc, src, src_sheet,
 					 &target, target_sheet, cr))
 			go_cmd_context_error_import (GO_CMD_CONTEXT (cc),
 					     _("Error while trying to "

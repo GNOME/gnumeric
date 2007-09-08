@@ -109,7 +109,7 @@ cb_realize (GtkWindow *window, void *dummy)
 	sx = rect.width;
 	sy = rect.height;
 	allocation = &GTK_WIDGET (window)->allocation;
-	
+
 	geom.base_width = allocation->width;
 	geom.base_height = allocation->height;
 	geom.min_width = geom.max_width = geom.base_width;
@@ -183,7 +183,7 @@ icg_show_gui (IOContextGtk *icg)
 	gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (box));
 	gtk_container_add (GTK_CONTAINER (icg->window), frame);
 
-	g_signal_connect (G_OBJECT (icg->window), "realize", 
+	g_signal_connect (G_OBJECT (icg->window), "realize",
 			  G_CALLBACK (cb_realize), NULL);
 
 	if (icg->parent_window)

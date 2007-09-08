@@ -165,7 +165,7 @@ cb_gnm_so_line_changed (GnmSOLine const *sol,
 {
 	GogStyleLine const *style = &sol->style->line;
 	GdkColor buf, *gdk = NULL;
-	
+
 	if (style->color != 0 && style->width >= 0 && style->pattern != 0)
 		gdk = go_color_to_gdk (style->color, &buf);
 

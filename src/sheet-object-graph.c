@@ -195,7 +195,7 @@ gnm_sog_get_target_list (SheetObject const *so)
 	for (ptr = mimes; ptr != NULL; ptr = ptr->next) {
 		mime = (char *) ptr->data;
 
-		if (mime != NULL && *mime != '\0') 
+		if (mime != NULL && *mime != '\0')
 			gtk_target_list_add (tl, gdk_atom_intern (mime, FALSE),
 					     0, 0);
 	}
@@ -224,15 +224,15 @@ gnm_sog_write_image (SheetObject const *so, char const *format, double resolutio
 	gboolean res = FALSE;
 	double coords[4];
 	double w, h;
-	
+
 	if (so->sheet) {
 		sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
 		w = fabs (coords[2] - coords[0]) + 1.;
 		h = fabs (coords[3] - coords[1]) + 1.;
 	} else {
-		w = GPOINTER_TO_UINT 
+		w = GPOINTER_TO_UINT
 			(g_object_get_data (G_OBJECT (so), "pt-width-at-copy"));
-		h = GPOINTER_TO_UINT 
+		h = GPOINTER_TO_UINT
 			(g_object_get_data (G_OBJECT (so), "pt-height-at-copy"));
 	}
 
@@ -240,7 +240,7 @@ gnm_sog_write_image (SheetObject const *so, char const *format, double resolutio
 
 	res = gog_graph_export_image (sog->graph, go_image_get_format_from_name (format),
 				      output, resolution, resolution);
-	
+
 	if (!res && err && *err == NULL)
 		*err = g_error_new (gsf_output_error_id (), 0,
 				    _("Unknown failure while saving image"));
@@ -294,7 +294,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 	format_info = go_image_get_format_info (selected_format);
 	sheet_object_write_image (so, format_info->name, resolution, output, &err);
 	g_object_unref (output);
-		
+
 	if (err != NULL)
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 
@@ -310,7 +310,7 @@ sog_cb_open_in_new_window (SheetObject *so, SheetControl *sc)
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
  	GtkWidget *window;
 	double coords[4];
- 
+
  	g_return_if_fail (sog != NULL);
 
 	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
@@ -337,9 +337,9 @@ gnm_sog_populate_menu (SheetObject *so, GPtrArray *actions)
 
  	for (i = 0; i < G_N_ELEMENTS (sog_actions); i++)
  		go_ptr_array_insert (actions, (gpointer) (sog_actions + i), 1 + i);
- 
+
 }
-  
+
 static gboolean
 gnm_sog_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *ctxt, xmlNodePtr tree)
@@ -410,7 +410,7 @@ gnm_sog_user_config_free_data (gpointer data,
 static void
 cb_update_graph (GogGraph *graph, gnm_sog_user_config_t *data)
 {
-	cmd_so_graph_config (data->wbc, data->so, G_OBJECT (graph), 
+	cmd_so_graph_config (data->wbc, data->so, G_OBJECT (graph),
 			     G_OBJECT (SHEET_OBJECT_GRAPH (data->so)->graph));
 }
 
@@ -426,14 +426,14 @@ gnm_sog_user_config (SheetObject *so, SheetControl *sc)
 	g_return_if_fail (sc != NULL);
 
 	wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
-	
+
 	data = g_new0 (gnm_sog_user_config_t, 1);
 	data->so = so;
 	data->wbc = WORKBOOK_CONTROL (wbcg);
- 
+
 	closure = g_cclosure_new (G_CALLBACK (cb_update_graph), data,
 		(GClosureNotify) gnm_sog_user_config_free_data);
-	
+
  	sheet_object_graph_guru (wbcg, sog->graph, closure);
 	g_closure_sink (closure);
 }

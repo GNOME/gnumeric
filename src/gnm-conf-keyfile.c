@@ -158,7 +158,7 @@ go_conf_set_str_list (GOConfNode *node, gchar const *key, GSList *list)
 		list = list->next;
 	}
 
-	g_key_file_set_string_list (key_file, STRLIST_GROUP, real_key, 
+	g_key_file_set_string_list (key_file, STRLIST_GROUP, real_key,
 				    (gchar const **const) strs, ns);
 	g_free (real_key);
 
@@ -320,7 +320,7 @@ go_conf_load_double (GOConfNode *node, gchar const *key,
 	if (err) {
 		val = default_val;
 		g_error_free (err);
-	} else {		
+	} else {
 		val = g_ascii_strtod (ptr, NULL);
 		if (val < minima || val > maxima) {
 			val = default_val;
@@ -347,8 +347,8 @@ go_conf_load_string (GOConfNode *node, gchar const *key)
 		g_warning (err->message);
 #endif
 		g_error_free (err);
-	}	
-	
+	}
+
 	g_free (real_key);
 	return val;
 }
@@ -401,7 +401,7 @@ go_conf_get_type (GOConfNode *node, gchar const *key)
 		}
 		g_strfreev (groups);
 	}
-		    
+
 	g_free (real_key);
 
 	return type;
@@ -413,7 +413,7 @@ go_conf_get_value_as_str (GOConfNode *node, gchar const *key)
 	gchar *val = NULL;
 	gchar *real_key = go_conf_get_real_key (node, key);
 	val = g_key_file_get_string (key_file, STRING_GROUP, real_key, NULL);
-	g_free (real_key);	
+	g_free (real_key);
 	return val;
 }
 

@@ -126,7 +126,7 @@ print_sheet_objects (GtkPrintContext   *context,
 	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
 		GnmRange const *r = &so->anchor.cell_bound;
-		
+
 		if (!sheet_object_can_print (so) ||
 		    !range_overlap (range, &so->anchor.cell_bound))
 			continue;
@@ -181,7 +181,7 @@ print_header_gtk (GtkPrintContext   *context, cairo_t *cr,
 	PangoLayout *layout;
 	gint layout_height;
 	gdouble text_height;
-	
+
 	cairo_rectangle (cr, x, y, w, h);
 	cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
 	cairo_fill (cr);
@@ -189,17 +189,17 @@ print_header_gtk (GtkPrintContext   *context, cairo_t *cr,
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	layout = gtk_print_context_create_pango_layout (context);
 	pango_layout_set_font_description (layout, desc);
-	
+
 	pango_layout_set_text (layout, name, -1);
 	pango_layout_set_width (layout, w);
 	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
-	
+
 	pango_layout_get_size (layout, NULL, &layout_height);
 	text_height = (gdouble)layout_height / PANGO_SCALE;
-	
+
 	cairo_move_to (cr, x + w/2,  y + (h - text_height) / 2);
 	pango_cairo_show_layout (cr, layout);
-	
+
 	g_object_unref (layout);
 
 }
@@ -219,30 +219,30 @@ print_page_col_headers (GtkPrintContext   *context, PrintingInstance * pi,
 	g_return_if_fail (range->start.col <= range->end.col);
 
 	desc = pango_font_description_from_string ("sans 12");
-	
+
 	start_col = range->start.col;
 	end_col = range->end.col;
 
 	x = (row_header_width + GNM_COL_MARGIN) * (sheet->text_is_rtl ? -1. : 1.);
-	
+
 	for (col = start_col; col <= end_col ; col++) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 
 		if (ci->visible) {
 			if (sheet->text_is_rtl)
 				x -= ci->size_pts;
-			
+
 			print_header_gtk (context, cr,
 					  x + 0.5, 0,
 					  ci->size_pts - 1,
 					  col_header_height - 0.5,
 					  col_name (col), desc);
-			
+
 			if (!sheet->text_is_rtl)
 				x += ci->size_pts;
 		}
 	}
-	
+
 	pango_font_description_free (desc);
 }
 
@@ -261,7 +261,7 @@ print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
 	g_return_if_fail (range->start.row <= range->end.row);
 
 	desc = pango_font_description_from_string ("sans 12");
-	
+
 	start_row = range->start.row;
 	end_row = range->end.row;
 
@@ -280,7 +280,7 @@ print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
 			y += ri->size_pts;
 		}
 	}
-	
+
 	pango_font_description_free (desc);
 }
 
@@ -586,7 +586,7 @@ print_page (GtkPrintOperation *operation,
 		- edge_to_below_header - edge_to_above_footer;
 
 	print_height = sheet_row_get_distance_pts (sheet, range->start.row,
-	                                           range->end.row + 1) 
+	                                           range->end.row + 1)
 		+ col_header_height;
 	print_width = sheet_col_get_distance_pts (sheet, range->start.col,
 	                                          range->end.col + 1)
@@ -596,14 +596,14 @@ print_page (GtkPrintOperation *operation,
 
 /* printing footer  */
 
-	
+
 /* printing page content  */
 	cairo_save (cr);
 	cairo_translate (cr, sheet->text_is_rtl ? width : 0, edge_to_below_header - header);
 	if (pinfo->center_horizontally == 1 || pinfo->center_vertically == 1) {
 		double shift_x = 0;
 		double shift_y = 0;
-		
+
 		if (pinfo->center_horizontally == 1)
 			shift_x = (width - print_width * px)/2;
 		if (pinfo->center_vertically == 1)
@@ -619,7 +619,7 @@ print_page (GtkPrintOperation *operation,
 	}
 
 	print_page_cells (context, pi, cr, sheet, range, dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
-		
+
 	cairo_restore (cr);
 	return 1;
 }
@@ -683,7 +683,7 @@ compute_scale_fit_to (Sheet const *sheet,
 		      gint pages, double max_percent, double extent, double header)
 {
 	double max_p, min_p;
-	gint   max_pages, min_pages; 
+	gint   max_pages, min_pages;
 
 	/* This means to take whatever space is needed.  */
 	if (pages <= 0)
@@ -717,14 +717,14 @@ compute_scale_fit_to (Sheet const *sheet,
 
 	min_pages = compute_n_pages (sheet, start, end, usable/min_p - header, get_info);
 
-	
+
 	/* And then we pick the middle until the percentage is within 0.1% of */
 	/* the desired percentage */
 
 	while (max_p - min_p > 0.001) {
 		double cur_p = (max_p + min_p) / 2.;
 		int cur_pages = compute_n_pages (sheet, start, end, usable/cur_p - header, get_info);
-		
+
 		if (cur_pages > pages) {
 			max_pages = cur_pages;
 			max_p = cur_p;
@@ -809,7 +809,7 @@ compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboole
                      gboolean ignore_printarea)
 {
 	SheetPrintInfo *spi = g_new (SheetPrintInfo, 1);
-	
+
 	spi->sheet = (Sheet *) sheet;
 	spi->selection = selection;
 	spi->ignore_printarea = ignore_printarea;
@@ -824,7 +824,7 @@ compute_sheet_pages_add_range (PrintingInstance * pi, Sheet const *sheet,
 
 		gsr->range = *r;
 		gsr->sheet = (Sheet *) sheet;
-		pi->gnmSheetRanges = g_list_append(pi->gnmSheetRanges, gsr);	
+		pi->gnmSheetRanges = g_list_append(pi->gnmSheetRanges, gsr);
 }
 
 
@@ -850,7 +850,7 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 
 	print_info_get_margins (pinfo, &top_margin, &bottom_margin, NULL, NULL,
 				&edge_to_below_header, &edge_to_above_footer);
-	page_height -= ((edge_to_below_header - top_margin) 
+	page_height -= ((edge_to_below_header - top_margin)
 			+ (edge_to_above_footer - bottom_margin));
 
 	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
@@ -858,19 +858,19 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 
 		pxy = compute_scale_fit_to (sheet, r->start.row, r->end.row,
 					    page_height, sheet_row_get_info,
-					    pinfo->scaling.dim.rows, 1., 
-					    sheet_row_get_distance_pts (sheet, 
-									r->start.row, 
+					    pinfo->scaling.dim.rows, 1.,
+					    sheet_row_get_distance_pts (sheet,
+									r->start.row,
 									r->end.row+1),
 					    col_header_height);
 		pxy = compute_scale_fit_to (sheet, r->start.col, r->end.col,
 					    page_width, sheet_col_get_info,
 					    pinfo->scaling.dim.cols, pxy,
-					    sheet_col_get_distance_pts (sheet, 
-									r->start.col, 
+					    sheet_col_get_distance_pts (sheet,
+									r->start.col,
 									r->end.col+1),
 					    row_header_width);
-		
+
 		pinfo->scaling.percentage.x = pxy * 100.;
 		pinfo->scaling.percentage.y = pxy * 100.;
 	}
@@ -1076,13 +1076,13 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 		n_pages = g_list_length (pi->gnmSheetRanges);
 		if (n_pages == 0) /* gtk+ cannot handle 0 pages */
 			n_pages = 1;
-		
+
 		gtk_print_operation_set_n_pages (operation, n_pages);
 		gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
-		
+
 		return TRUE;
 	}
-	
+
 	compute_sheet_pages (context, pi, spi);
 	return FALSE;
 }
@@ -1130,7 +1130,7 @@ gnm_end_print_cb (GtkPrintOperation *operation,
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	printing_instance_delete (pi);
-}	
+}
 
 static void
 cp_gtk_page_setup (GtkPageSetup *from, GtkPageSetup *to)
@@ -1178,7 +1178,7 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 					       page_nr);
 	if (gsr)
 		print_page (operation, context, pi,
-			    gsr->sheet, &(gsr->range));	
+			    gsr->sheet, &(gsr->range));
 }
 
 static void
@@ -1202,18 +1202,18 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
 	gtk_container_set_border_width (GTK_CONTAINER (frame), 5);
-	
+
 	table = gtk_table_new (7, 6, FALSE);
 	gtk_table_set_col_spacing (GTK_TABLE (table), 1,20);
 	gtk_container_add (GTK_CONTAINER (frame), table);
-	
+
 
 	button_all_sheets = gtk_radio_button_new_with_mnemonic (NULL,
 								_("_All workbook sheets"));
 	gtk_table_attach (GTK_TABLE (table), button_all_sheets, 1, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
-	button_selected_sheet = gtk_radio_button_new_with_mnemonic_from_widget 
+	button_selected_sheet = gtk_radio_button_new_with_mnemonic_from_widget
 		(GTK_RADIO_BUTTON (button_all_sheets), _("A_ctive workbook sheet"));
 	gtk_table_attach (GTK_TABLE (table), button_selected_sheet, 1, 3, 2, 3,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
@@ -1229,7 +1229,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	button_ignore_printarea  = gtk_check_button_new_with_mnemonic
-		(_("_Ignore defined print area")); 
+		(_("_Ignore defined print area"));
 	gtk_table_attach (GTK_TABLE (table), button_ignore_printarea, 2, 7, 4, 5,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
@@ -1284,7 +1284,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 		case PRINT_IGNORE_PRINTAREA:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_ignore_printarea), TRUE);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_selected_sheet), TRUE);
-			break;			
+			break;
 		case PRINT_SHEET_RANGE:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_spec_sheets), TRUE);
 			break;
@@ -1318,7 +1318,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	pi->button_ignore_printarea = button_ignore_printarea;
 	pi->spin_from = spin_from;
 	pi->spin_to = spin_to;
-	
+
 	return G_OBJECT (frame);
 }
 
@@ -1331,7 +1331,7 @@ gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
 	GtkPrintSettings * settings;
 	PrintRange pr = PRINT_ACTIVE_SHEET;
 	guint from, to;
-	
+
 	settings =  gtk_print_operation_get_print_settings (operation);
 
 	g_return_if_fail (settings != NULL);
@@ -1409,9 +1409,9 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	  g_object_unref (page_setup);
   }
 
-  g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi); 
+  g_signal_connect (print, "begin-print", G_CALLBACK (gnm_begin_print_cb), pi);
   g_signal_connect (print, "paginate", G_CALLBACK (gnm_paginate_cb), pi);
-  g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi); 
+  g_signal_connect (print, "draw-page", G_CALLBACK (gnm_draw_page_cb), pi);
   g_signal_connect (print, "end-print", G_CALLBACK (gnm_end_print_cb), pi);
   g_signal_connect (print, "request-page-setup", G_CALLBACK (gnm_request_page_setup_cb), pi);
 
@@ -1427,7 +1427,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		  g_error_free (err);
 		  goto out;
 	  }
-	  gtk_print_operation_set_export_filename (print, tmp_file_name);		  
+	  gtk_print_operation_set_export_filename (print, tmp_file_name);
 
 	  action = GTK_PRINT_OPERATION_ACTION_EXPORT;
 	  parent = NULL;

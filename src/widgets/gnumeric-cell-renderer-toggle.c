@@ -2,7 +2,7 @@
  *
  * Author:
  *        Andreas J. Guelzow <aguelzow@taliesin.ca>
- *      
+ *
  * Copyright (C) 2002  Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -49,7 +49,7 @@ static void gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 						  GdkRectangle    *expose_area,
 						  GtkCellRendererState flags);
 
-static void gnumeric_cell_renderer_toggle_class_init    
+static void gnumeric_cell_renderer_toggle_class_init
                                       (GnumericCellRendererToggleClass *cell_toggle_class);
 
 static GtkCellRendererToggleClass *parent_class = NULL;
@@ -79,8 +79,8 @@ gnumeric_cell_renderer_toggle_get_type (void)
 				(GInstanceInitFunc) NULL,
 			};
 
-		cell_toggle_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TOGGLE, 
-							   "GnumericCellRendererToggle", 
+		cell_toggle_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TOGGLE,
+							   "GnumericCellRendererToggle",
 							   &cell_toggle_info, 0);
 	}
 
@@ -101,7 +101,7 @@ gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class
 	cell_class->render = gnumeric_cell_renderer_toggle_render;
 	cell_class->get_size = gnumeric_cell_renderer_toggle_get_size;
 
-	g_object_class_install_property 
+	g_object_class_install_property
 		(object_class, PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf",
 				      "Pixbuf Object",
@@ -192,16 +192,16 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 	{
 		if (x_offset)
 		{
-			*x_offset = GTK_CELL_RENDERER 
-				(cellpixbuf)->xalign * (cell_area->width - calc_width - 
+			*x_offset = GTK_CELL_RENDERER
+				(cellpixbuf)->xalign * (cell_area->width - calc_width -
 							(2 * GTK_CELL_RENDERER (cellpixbuf)->xpad));
-			*x_offset = MAX (*x_offset, 0) + 
+			*x_offset = MAX (*x_offset, 0) +
 				GTK_CELL_RENDERER (cellpixbuf)->xpad;
 		}
 		if (y_offset)
 		{
-			*y_offset = GTK_CELL_RENDERER 
-				(cellpixbuf)->yalign * (cell_area->height - calc_height - 
+			*y_offset = GTK_CELL_RENDERER
+				(cellpixbuf)->yalign * (cell_area->height - calc_height -
 							(2 * GTK_CELL_RENDERER (cellpixbuf)->ypad));
 			*y_offset = MAX (*y_offset, 0) + GTK_CELL_RENDERER (cellpixbuf)->ypad;
 		}

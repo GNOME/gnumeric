@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * gnm-datetime.c: 
+ * gnm-datetime.c:
  *
  * Copyright (C) 2005
  *   Miguel de Icaza (miguel@gnu.org)
@@ -155,7 +155,7 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 			     (g_date_get_month (to) * 0x100 + g_date_get_day (to) >= 2 * 0x100 + 29)))
 				feb29s = 1;
 			else
-				feb29s = 0;			    
+				feb29s = 0;
 		}
 
 		peryear = 365 + (gnm_float)feb29s / years;

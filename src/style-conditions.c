@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * style-conditions.c: 
+ * style-conditions.c:
  *
  * Copyright (C) 2005-2006 Jody Goldberg (jody@gnome.org)
  *
@@ -55,7 +55,7 @@ cond_validate (GnmStyleCond const *cond)
 
 	return TRUE;
 }
-	
+
 static void
 cond_unref (GnmStyleCond const *cond)
 {
@@ -100,7 +100,7 @@ static GSF_CLASS (GnmStyleConditions, gnm_style_conditions,
 
 /**
  * gnm_style_conditions_new :
- * 
+ *
  * Convenience tool to create a GnmStyleCondition.  straight g_object_new will work too.
  *
  * Returns a GnmStyleConditions that the caller is resoinsible for.
@@ -181,7 +181,7 @@ gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 
 /**
  * gnm_style_conditions_eval :
- * @sc : #GnmStyleConditions 
+ * @sc : #GnmStyleConditions
  * @ep : #GnmEvalPos
  *
  * Returns the condition to use or -1 if none match.

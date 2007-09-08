@@ -913,7 +913,7 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 		 * unparse quoted. Things are quite tricky: most sheet names
 		 * starting with a digit are ok, but not those starting with
 		 * "[0-9]*\." or "[0-9]+[eE]".
-		 * 
+		 *
 		 * Valid: 42!a1
 		 * Valid: 4x!a1
 		 * Invalid: 1.!a1
@@ -939,7 +939,7 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 					break;
 				}
 				end++;
-			} else 
+			} else
 				break;
 		}
 
@@ -995,7 +995,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 			return NULL;
 		 /* full col C[#] */
 		res->a.row_relative = FALSE;
-		res->a.row = 0; 
+		res->a.row = 0;
 		res->b = res->a;
 		res->b.row = SHEET_MAX_ROWS - 1;
 		if (ptr[0] != ':' || (ptr[1] != 'C' && ptr[1] != 'c'))
@@ -1377,7 +1377,7 @@ gnm_conventions_new (void)
 /**
  * gnm_conventions_free :
  * @c : #GnmConventions
- * 
+ *
  * Release a convention
  **/
 void
@@ -1540,10 +1540,10 @@ gnm_expr_parse_str_simple (char const *str, GnmParsePos const *pp)
  * @convs : #GnmConventions
  * @str   : string to quote
  *
- * Quotes @str according to the convention @convs if necessary. 
+ * Quotes @str according to the convention @convs if necessary.
  * or returns a literal copy of @str if no quoting was needed.
  *
- * Return value: caller is responsible for the resulting GString 
+ * Return value: caller is responsible for the resulting GString
  **/
 GString *
 gnm_expr_conv_quote (GnmConventions const *convs,

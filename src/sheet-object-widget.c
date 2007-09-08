@@ -1229,7 +1229,7 @@ sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow)
 
 static void
 sheet_widget_spinbutton_class_init (SheetObjectWidgetClass *sow_class)
-{                                                                         
+{
         sow_class->create_widget = &sheet_widget_spinbutton_create_widget;
 }
 
@@ -1272,7 +1272,7 @@ sheet_widget_slider_create_widget (SheetObjectWidget *sow)
 
 static void
 sheet_widget_slider_class_init (SheetObjectWidgetClass *sow_class)
-{                                                                         
+{
         sow_class->create_widget = &sheet_widget_slider_create_widget;
 }
 
@@ -2093,7 +2093,7 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 			selection = n;
 	} else
 		selection = 0;
-	
+
 	if (swl->selection != selection) {
 		swl->selection = selection;
 		if (NULL!= wbc &&
@@ -2426,7 +2426,7 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 
 static void
 sheet_widget_list_class_init (SheetObjectWidgetClass *sow_class)
-{                                                                         
+{
         sow_class->create_widget = &sheet_widget_list_create_widget;
 }
 
@@ -2501,7 +2501,7 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
 
 static void
 sheet_widget_combo_class_init (SheetObjectWidgetClass *sow_class)
-{                                                                         
+{
         sow_class->create_widget = &sheet_widget_combo_create_widget;
 }
 

@@ -38,7 +38,7 @@ go_conf_win32_get_node (GOConfNode *node, HKEY *phKey, gchar const *key, gboolea
 			      0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
 			      NULL, phKey, &disposition);
 	g_free (path);
-	
+
 	if (is_new)
 		*is_new = disposition == REG_CREATED_NEW_KEY;
 
@@ -202,7 +202,7 @@ go_conf_free_node (GOConfNode *node)
 	}
 }
 
-void     
+void
 go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val)
 {
 	guchar bool = val ? 1 : 0;
@@ -211,14 +211,14 @@ go_conf_set_bool (GOConfNode *node, gchar const *key, gboolean val)
 			   sizeof (bool));
 }
 
-void     
+void
 go_conf_set_int (GOConfNode *node, gchar const *key, gint val)
 {
 	go_conf_win32_set (node, key, REG_DWORD, (guchar *) &val,
 			   sizeof (DWORD));
 }
 
-void     
+void
 go_conf_set_double (GOConfNode *node, gchar const *key, gnm_float val)
 {
 	gchar str[G_ASCII_DTOSTR_BUF_SIZE];
@@ -228,7 +228,7 @@ go_conf_set_double (GOConfNode *node, gchar const *key, gnm_float val)
 			   strlen (str) + 1);
 }
 
-void     
+void
 go_conf_set_string (GOConfNode *node, gchar const *key, gchar const *str)
 {
 	go_conf_win32_set (node, key, REG_SZ, (guchar *) str,

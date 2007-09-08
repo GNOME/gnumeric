@@ -46,7 +46,7 @@ void	  gnm_expr_entry_rangesel_stop	(GnmExprEntry *gee,
 
 gboolean  gnm_expr_entry_can_rangesel	(GnmExprEntry *gee);
 gboolean  gnm_expr_entry_is_blank	(GnmExprEntry *gee);
-gboolean  gnm_expr_entry_is_cell_ref	(GnmExprEntry *gee, 
+gboolean  gnm_expr_entry_is_cell_ref	(GnmExprEntry *gee,
 					 Sheet *sheet,
 					 gboolean allow_multiple_cell);
 

@@ -23,12 +23,12 @@
 
 #define GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH "gnumeric-cell-renderer-expr-entry-path"
 
-static void gnumeric_cell_renderer_expr_entry_class_init    
+static void gnumeric_cell_renderer_expr_entry_class_init
             (GnumericCellRendererExprEntryClass *cell_expr_entry_class)           ;
 
 static GnumericCellRendererTextClass *parent_class = NULL;
 
-static GtkCellEditable *gnumeric_cell_renderer_expr_entry_start_editing 
+static GtkCellEditable *gnumeric_cell_renderer_expr_entry_start_editing
                                                              (GtkCellRenderer      *cell,
 							      GdkEvent             *event,
 							      GtkWidget            *widget,
@@ -57,8 +57,8 @@ gnumeric_cell_renderer_expr_entry_get_type (void)
 				(GInstanceInitFunc) NULL,
 			};
 
-		cell_expr_entry_type = g_type_register_static (GNUMERIC_TYPE_CELL_RENDERER_TEXT, 
-							       "GnumericCellRendererExprEntry", 
+		cell_expr_entry_type = g_type_register_static (GNUMERIC_TYPE_CELL_RENDERER_TEXT,
+							       "GnumericCellRendererExprEntry",
 							       &cell_expr_entry_info, 0);
 	}
 
@@ -82,8 +82,8 @@ gnumeric_cell_renderer_expr_entry_class_init (GnumericCellRendererExprEntryClass
 GtkCellRenderer *
 gnumeric_cell_renderer_expr_entry_new (WBCGtk *wbcg)
 {
-	GnumericCellRendererExprEntry *this = 
-		GNUMERIC_CELL_RENDERER_EXPR_ENTRY(g_object_new 
+	GnumericCellRendererExprEntry *this =
+		GNUMERIC_CELL_RENDERER_EXPR_ENTRY(g_object_new
 						  (GNUMERIC_TYPE_CELL_RENDERER_EXPR_ENTRY, NULL));
 	this->wbcg = wbcg;
 	return GTK_CELL_RENDERER (this);
@@ -95,15 +95,15 @@ gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
 {
   const gchar *path;
   const gchar *new_text;
-  
+
   celltext->entry = NULL;
   if (gnm_expr_entry_editing_canceled (GNM_EXPR_ENTRY (entry)))
 	  return;
-  
+
   wbcg_set_entry (celltext->wbcg, NULL);
   path = g_object_get_data (G_OBJECT (entry), GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH);
   new_text = gnm_expr_entry_get_text (GNM_EXPR_ENTRY (entry));
-  
+
   g_signal_emit_by_name (G_OBJECT (celltext), "edited", path, new_text);
 }
 
@@ -132,9 +132,9 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
 
   gtk_entry_set_text (entry, celltext->parent.parent.text);
   g_object_set_data_full (G_OBJECT (gentry), GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH, g_strdup (path), g_free);
-  
+
   gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
-  
+
   gtk_widget_show_all (GTK_WIDGET (gentry));
   g_signal_connect (gentry,
 		    "editing_done",
@@ -142,6 +142,6 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
 		    celltext);
 
   wbcg_set_entry (celltext->wbcg, gentry);
-  
+
   return GTK_CELL_EDITABLE (gentry);
 }

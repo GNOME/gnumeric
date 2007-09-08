@@ -620,7 +620,7 @@ sv_selection_add_pos (SheetView *sv, int col, int row)
  * sv_selection_free
  * @sv: #SheetView
  *
- * Releases the selection associated with @sv 
+ * Releases the selection associated with @sv
  *
  * WARNING: This does not set a new selection and leaves the view in an
  * 		INVALID STATE.
@@ -1083,7 +1083,7 @@ gboolean
 sheet_selection_is_allowed (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GnmStyle const *style;
-	
+
 	if (!sheet->is_protected)
 		return TRUE;
 	style = sheet_style_get	(sheet, pos->col, pos->row);

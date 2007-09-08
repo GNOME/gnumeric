@@ -137,7 +137,7 @@ value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
  * @x : column
  * @y : row
  * @ep : const #GnmEvalPos *
- * 
+ *
  * An internal routine to get a cell from an array or range.
  * Ensures that elements of CELLRANGE are evaluated
  *
@@ -159,7 +159,7 @@ value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
  * @x : column
  * @y : row
  * @ep : const #GnmEvalPos *
- * 
+ *
  * An internal routine to get a cell from an array or range.
  * Ensures that elements of CELLRANGE are evaluated
  *

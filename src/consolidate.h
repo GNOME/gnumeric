@@ -40,14 +40,14 @@ GnmConsolidate *consolidate_new  (void);
 void         consolidate_free (GnmConsolidate *cs, gboolean content_only);
 
 void         consolidate_set_function    (GnmConsolidate *cs, GnmFunc *fd);
-void         consolidate_set_mode        (GnmConsolidate *cs, 
+void         consolidate_set_mode        (GnmConsolidate *cs,
 					  GnmConsolidateMode mode);
 
 gboolean     consolidate_add_source      (GnmConsolidate *cs, GnmValue *range);
-gboolean     consolidate_check_destination (GnmConsolidate *cs, 
+gboolean     consolidate_check_destination (GnmConsolidate *cs,
 					    data_analysis_output_t *dao);
 
-gboolean tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs, 
+gboolean tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result);
 
 #endif

@@ -92,7 +92,7 @@ WorkbookView *wb_view_new_from_input  (GsfInput *input,
 				       gchar const *optional_encoding);
 WorkbookView *wb_view_new_from_uri  (char const *uri,
 				     GOFileOpener const *optional_format,
-				     IOContext *io_context, 
+				     IOContext *io_context,
 				     gchar const *optional_encoding);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\

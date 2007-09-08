@@ -363,8 +363,8 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	 * instead pass 0.  Otherwise bringing up a menu with
 	 * the right button will disable clicking on the menu with the left.
 	 */
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, 
-			(event != NULL) ? event->time 
+	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0,
+			(event != NULL) ? event->time
 			: gtk_get_current_event_time());
 }
 
@@ -873,7 +873,7 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
  * A convenience fonction to build HIG compliant message dialogs.
  *
  *   parent : transient parent, or NULL for none.
- *   flags 
+ *   flags
  *   type : type of dialog
  *   primary_message : message displayed in bold
  *   secondary_message : message displayed below
@@ -899,7 +899,7 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 	dialog = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
 
 	if (dialog) {
-		image = gtk_image_new (); 
+		image = gtk_image_new ();
 
 		switch (type) {
 		case GTK_MESSAGE_INFO:
@@ -932,7 +932,7 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 
 			gtk_window_set_title (GTK_WINDOW (dialog), item.label);
 		} else
-			g_warning ("Stock dialog ID doesn't exist?");  
+			g_warning ("Stock dialog ID doesn't exist?");
 
 		if (primary_message) {
 			if (secondary_message) {
@@ -971,7 +971,7 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 	return dialog;
 }
 
-gboolean 
+gboolean
 gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter)
 {
 	GtkTreePath *path = gtk_tree_model_get_path (model, iter);
@@ -999,7 +999,7 @@ cb_gnm_dialog_setup_destroy_handlers (G_GNUC_UNUSED GtkWidget *widget,
 	for (i = 0; i < (int)os->len; i += 2) {
 		GObject *obj = g_ptr_array_index (os, i);
 		guint s = GPOINTER_TO_UINT (g_ptr_array_index (os, i + 1));
-		g_signal_handler_disconnect (obj, s);	
+		g_signal_handler_disconnect (obj, s);
 	}
 
 	g_ptr_array_free (os, TRUE);

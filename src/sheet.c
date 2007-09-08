@@ -139,7 +139,7 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), GNM_SPANCALC_RE_RENDER);
 }
 
-static void	  
+static void
 sheet_set_visibility (Sheet *sheet, GnmSheetVisibility visibility)
 {
 	if (sheet->visibility == visibility)
@@ -170,7 +170,7 @@ re_render_formulas (Sheet const *sheet)
 	sheet_cell_foreach (sheet, (GHFunc)cb_re_render_formulas, NULL);
 }
 
-static void	  
+static void
 sheet_set_display_formulas (Sheet *sheet, gboolean display)
 {
 	display = !!display;
@@ -180,7 +180,7 @@ sheet_set_display_formulas (Sheet *sheet, gboolean display)
 	re_render_formulas (sheet);
 }
 
-static void	  
+static void
 sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 {
 	if (sheet->convs == convs)
@@ -209,7 +209,7 @@ cb_sheet_set_hide_zeros (G_GNUC_UNUSED gpointer unused,
 		gnm_cell_render_value (cell, TRUE);
 }
 
-static void	  
+static void
 sheet_set_hide_zeros (Sheet *sheet, gboolean hide)
 {
 	hide = !!hide;
@@ -290,7 +290,7 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		parse_pos_init_sheet (&pp, sheet);
 		nexpr = expr_name_lookup (&pp, "Sheet_Title");
 
-		if (nexpr != NULL) 
+		if (nexpr != NULL)
 			expr_name_set_expr (nexpr,
 					    gnm_expr_top_new_constant
 					    (value_new_string
@@ -304,7 +304,7 @@ struct resize_colrow {
 };
 
 static gboolean
-cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter, 
+cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter,
 				   struct resize_colrow *data)
 {
 	colrow_compute_pixels_from_pts ((ColRowInfo *)iter->cri,
@@ -916,8 +916,8 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	sheet->sheet_type = type;
 
 	sheet->display_formulas = (type == GNM_SHEET_XLM);
-	sheet->hide_grid = 
-	sheet->hide_col_header = 
+	sheet->hide_grid =
+	sheet->hide_col_header =
 	sheet->hide_row_header = (type == GNM_SHEET_OBJECT);
 
 	if (type == GNM_SHEET_OBJECT) {
@@ -935,7 +935,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 		{
 			GnmRange r;
 			range_init_full_sheet (&r);
-			expr_name_perm_add (sheet, "Print_Area", 
+			expr_name_perm_add (sheet, "Print_Area",
 				gnm_expr_top_new_constant (value_new_cellrange_r (sheet, &r)),
 				TRUE);
 		}
@@ -1728,7 +1728,7 @@ sheet_get_printarea	(Sheet const *sheet,
 
 	if (ignore_printarea)
 		return r;
-	
+
 	print_area = sheet_get_nominal_printarea (sheet);
 
 	if (range_intersection (&intersect, &r, &print_area))
@@ -3188,7 +3188,7 @@ cell_new (void)
 {
 	GnmCell *cell =
 #ifdef USE_CELL_POOL
-		go_mem_chunk_alloc0 (cell_pool) 
+		go_mem_chunk_alloc0 (cell_pool)
 #else
 		g_new0 (GnmCell, 1)
 #endif
@@ -3570,7 +3570,7 @@ gnm_sheet_finalize (GObject *obj)
 	g_free (sheet->name_case_insensitive);
 	g_free (sheet->priv);
 	g_ptr_array_free (sheet->sheet_views, TRUE);
-	
+
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -5073,7 +5073,7 @@ sheet_get_comment (Sheet const *sheet, GnmCellPos const *pos)
 	GnmComment *res;
 
 	GnmRange const *mr;
-	
+
 	mr = gnm_sheet_merge_contains_pos (sheet, pos);
 
 	if (mr)

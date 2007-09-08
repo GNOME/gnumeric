@@ -134,11 +134,11 @@ gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _data_shuffling_t *sc, S
 
 
 gboolean cmd_text_to_columns (WorkbookControl *wbc,
-			      GnmRange const *src, Sheet *src_sheet, 
-			      GnmRange const *target, Sheet *target_sheet, 
+			      GnmRange const *src, Sheet *src_sheet,
+			      GnmRange const *target, Sheet *target_sheet,
 			      GnmCellRegion *content);
 
-gboolean cmd_solver (WorkbookControl *wbc, 
+gboolean cmd_solver (WorkbookControl *wbc,
 		     GSList *cells, GSList *ov, GSList *nv);
 
 gboolean cmd_goal_seek (WorkbookControl *wbc,
@@ -146,7 +146,7 @@ gboolean cmd_goal_seek (WorkbookControl *wbc,
 
 gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
-gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,  
+gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
 gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 

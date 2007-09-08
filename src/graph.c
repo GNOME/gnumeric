@@ -843,7 +843,7 @@ cb_assign_matrix_val (GnmCellIter const *iter,
 		v = iter->cell->value;
 	} else
 		v = NULL;
-	
+
 
 	if (VALUE_IS_EMPTY_OR_ERROR (v)) {
 		dat->vals[dat->row * dat->columns + dat->col] = go_nan;

@@ -411,7 +411,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	g_printerr ("%s:", cell_coord_name (start_col, start_row));
 	g_printerr ("%s <= %d vs %d", cell_coord_name(end_col, end_row), y, expose->area.y);
 	g_printerr (" [%s]\n", cell_coord_name (ig->bound.end.col, ig->bound.end.row));
-	
+
 #endif
 
 	/* clip to bounds */

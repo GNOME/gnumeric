@@ -83,7 +83,7 @@
 enum {
 	WBG_GTK_PROP_0,
 	WBG_GTK_PROP_AUTOSAVE_PROMPT,
-	WBG_GTK_PROP_AUTOSAVE_TIME	
+	WBG_GTK_PROP_AUTOSAVE_TIME
 };
 
 enum {
@@ -263,7 +263,7 @@ wbcg_autosave_cancel (WBCGtk *wbcg)
 static void
 wbcg_autosave_activate (WBCGtk *wbcg)
 {
-	wbcg_autosave_cancel (wbcg);	
+	wbcg_autosave_cancel (wbcg);
 
 	if (wbcg->autosave_time > 0) {
 		int secs = MIN (wbcg->autosave_time, G_MAXINT / 1000);
@@ -467,7 +467,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	if (event->button == 1 || NULL != scg->wbcg->rangesel)
 		return TRUE;
 
-	if (event->button == 3 && 
+	if (event->button == 3 &&
 	    editable_label_get_editable (EDITABLE_LABEL (widget))) {
 		sheet_menu_label_run (scg, event);
 		scg_take_focus (scg);
@@ -638,7 +638,7 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 	w_source = gtk_drag_get_source_widget (context);
 	n_source = -1;
 	if (w_source)
-		n_source = gnm_notebook_page_num_by_label (wbcg->notebook, 
+		n_source = gnm_notebook_page_num_by_label (wbcg->notebook,
 							   w_source);
 	else
 		return FALSE;
@@ -738,7 +738,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 {
 	Sheet *sheet;
 	SheetControlGUI *new_scg;
-	GtkWidget *child; 
+	GtkWidget *child;
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
@@ -836,12 +836,12 @@ wbc_gtk_hildon_set_action_sensitive (WBCGtk      *wbcg,
 	GtkWidget * toolbar = gtk_ui_manager_get_widget (wbcg->ui, "/StandardToolbar");
 	GList * children = gtk_container_get_children (GTK_CONTAINER (toolbar));
 	GList * l;
-	
+
 	for (l = children; l != NULL; l = g_list_next (l)) {
 		if (GTK_IS_SEPARATOR_TOOL_ITEM (l->data) == FALSE) {
 			gchar * label = NULL;
 			g_object_get (GTK_TOOL_ITEM (l->data), "label", &label, NULL);
-			
+
 			if (label != NULL && strstr (label, action) != NULL) {
 				g_object_set (G_OBJECT (l->data), "sensitive", sensitive, NULL);
 				g_free(label);
@@ -1219,7 +1219,7 @@ wbcg_claim_selection (WorkbookControl *wbc)
 }
 
 static int
-wbcg_show_save_dialog (WBCGtk *wbcg, 
+wbcg_show_save_dialog (WBCGtk *wbcg,
 		       Workbook *wb, gboolean exiting)
 {
 	GtkWidget *d;
@@ -1249,24 +1249,24 @@ wbcg_show_save_dialog (WBCGtk *wbcg,
 	if (exiting) {
 		int n_of_wb = g_list_length (gnm_app_workbook_list ());
 		if (n_of_wb > 1) {
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard all"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard all"),
 				GTK_STOCK_DELETE, GNM_RESPONSE_DISCARD_ALL);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
 				GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Save all"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Save all"),
 				GTK_STOCK_SAVE, GNM_RESPONSE_SAVE_ALL);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		} else {
 			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
 				GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"), 
+			go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't quit"),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		}
 	} else {
-		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"), 
+		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Discard"),
 					    GTK_STOCK_DELETE, GTK_RESPONSE_NO);
-		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"), 
+		go_gtk_dialog_add_button (GTK_DIALOG(d), _("Don't close"),
 					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	}
 
@@ -1320,7 +1320,7 @@ wbcg_close_if_user_permits (WBCGtk *wbcg,
 	}
 	while (go_doc_is_dirty (GO_DOC (wb)) && !done) {
 		iteration++;
-		button = wbcg_show_save_dialog(wbcg, wb, exiting); 
+		button = wbcg_show_save_dialog(wbcg, wb, exiting);
 
 		switch (button) {
 		case GTK_RESPONSE_YES:
@@ -1627,7 +1627,7 @@ cb_realize (GtkWindow *toplevel, WBCGtk *wbcg)
 	 */
 	if (wbcg->notebook) {
 		wbcg_focus_cur_scg (wbcg);
-		wbcg_update_menu_feedback (wbcg, 
+		wbcg_update_menu_feedback (wbcg,
 			wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
 	}
 }
@@ -1649,7 +1649,7 @@ set_visibility (WBCGtk *wbcg,
 	if (w)
 		(visible ? gtk_widget_show : gtk_widget_hide) (w);
 	wbc_gtk_set_toggle_action_state (wbcg, action_name, visible);
-}	
+}
 
 
 void
@@ -1668,7 +1668,7 @@ wbcg_toggle_visibility (WBCGtk *wbcg, GtkToggleAction *action)
 					g_strdup (name), action);
 		}
 		wbcg_ui_update_end (wbcg);
-	}	
+	}
 }
 
 static void
@@ -1776,7 +1776,7 @@ show_gui (WBCGtk *wbcg)
 		/* We want to test if toplevel is bigger than screen.
 		 * gtk_widget_size_request tells us the space
 		 * allocated to the  toplevel proper, but not how much is
-		 * need for WM decorations or a possible panel. 
+		 * need for WM decorations or a possible panel.
 		 *
 		 * The test below should very rarely maximize when there is
 		 * actually room on the screen.
@@ -1786,12 +1786,12 @@ show_gui (WBCGtk *wbcg)
 		 *   unmaximize.
 		 * - We don't have to guess what size we should resize to.
 		 */
-		if (requisition.height + 20 > rect.height || 
+		if (requisition.height + 20 > rect.height ||
 		    requisition.width > rect.width) {
 			gtk_window_maximize (GTK_WINDOW (wbcg->toplevel));
 		} else {
-			gtk_window_set_default_size 
-				(wbcg_toplevel (wbcg), 
+			gtk_window_set_default_size
+				(wbcg_toplevel (wbcg),
 				 requisition.width, requisition.height);
 		}
 	} else {
@@ -1908,15 +1908,15 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	gchar *target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
-		scg_drag_data_received (wbcg_cur_scg (wbcg), 
-			 gtk_drag_get_source_widget (context), 0, 0, 
+		scg_drag_data_received (wbcg_cur_scg (wbcg),
+			 gtk_drag_get_source_widget (context), 0, 0,
 			 selection_data);
 	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
 		/* The user wants to reorder the sheets but hasn't dropped
 		 * the sheet onto a label. Never mind. We figure out
 		 * where the arrow is currently located and simulate a drop
 		 * on that label.  */
-		GtkWidget *label = wbcg_get_label_for_position (wbcg, 
+		GtkWidget *label = wbcg_get_label_for_position (wbcg,
 			gtk_drag_get_source_widget (context), x);
 		cb_sheet_label_drag_data_received (label, context, x, y,
 				selection_data, info, time, wbcg);
@@ -1926,7 +1926,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		if (wbcg_is_local_drag (wbcg, source_widget))
 			printf ("autoscroll complete - stop it\n");
 		else
-			scg_drag_data_received (wbcg_cur_scg (wbcg), 
+			scg_drag_data_received (wbcg_cur_scg (wbcg),
 				source_widget, 0, 0, selection_data);
 	}
 	g_free (target_type);
@@ -2248,7 +2248,7 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 	GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 	int i;
 	int index = go_action_combo_pixmaps_get_selected (a, NULL);
-	
+
 	/* Init the list */
 	for (i = GNM_STYLE_BORDER_TOP; i < GNM_STYLE_BORDER_EDGE_MAX; i++)
 		borders[i] = NULL;
@@ -2389,9 +2389,9 @@ cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
 
 static void
 create_undo_redo (GOActionComboStack **haction, char const *hname,
-		  GCallback hcb, 
+		  GCallback hcb,
 		  GtkAction **vaction, char const *vname,
-		  GCallback vcb, 
+		  GCallback vcb,
 		  WBCGtk *gtk,
 		  char const *tooltip,
 		  char const *stock_id, char const *accel)
@@ -3336,7 +3336,7 @@ cb_show_menu_tip (GtkWidget *proxy, GOCmdContext *cc)
 static void
 cb_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		  GtkAction    *action,
-		  GtkWidget    *proxy, 
+		  GtkWidget    *proxy,
 		  GOCmdContext *cc)
 {
 	/* connect whether there is a tip or not it may change later */
@@ -3352,7 +3352,7 @@ cb_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 static void
 cb_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		     G_GNUC_UNUSED GtkAction    *action,
-		     GtkWidget    *proxy, 
+		     GtkWidget    *proxy,
 		     GOCmdContext *cc)
 {
 	if (GTK_IS_MENU_ITEM (proxy)) {
@@ -3846,7 +3846,7 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 		g_free (label);
 		g_free (filename);
 		g_free (filename_utf8);
-		g_free (tooltip);		
+		g_free (tooltip);
 	}
 	go_slist_free_custom (history, (GFreeFunc)g_free);
 
@@ -4395,7 +4395,7 @@ wbc_gtk_init (GObject *obj)
 #ifdef USE_HILDON
 	if (hildon_program == NULL)
 		hildon_program = HILDON_PROGRAM (hildon_program_get_instance ());
-	else 
+	else
 		g_object_ref (hildon_program);
 
 	wbcg->hildon_prog = hildon_program;
@@ -4459,7 +4459,7 @@ wbc_gtk_init (GObject *obj)
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->permanent_actions, 0);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->actions, 0);
 	gtk_ui_manager_insert_action_group (wbcg->ui, wbcg->font_actions, 0);
-	gtk_window_add_accel_group (wbcg_toplevel (wbcg), 
+	gtk_window_add_accel_group (wbcg_toplevel (wbcg),
 		gtk_ui_manager_get_accel_group (wbcg->ui));
 
 #ifdef USE_HILDON
@@ -4516,7 +4516,7 @@ wbc_gtk_init (GObject *obj)
 				GTK_MENU (gtk_ui_manager_get_widget (wbcg->ui, "/popup")));
 
 	gtk_widget_show_all (wbcg->toplevel);
-	
+
 	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarFormatToolbar", FALSE);
 	wbc_gtk_set_toggle_action_state (wbcg, "ViewMenuToolbarObjectToolbar", FALSE);
 	wbc_gtk_set_toggle_action_state (wbcg, "ViewSheets", FALSE);

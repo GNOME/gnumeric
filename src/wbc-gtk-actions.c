@@ -84,7 +84,7 @@ static GNM_ACTION_DEF (cb_file_new)
 		(gnm_app_prefs->initial_sheet_number);
 	WorkbookControl *new_wbc = workbook_control_gui_new (NULL, wb, screen);
 	WBCGtk *new_wbcg = WBC_GTK (new_wbc);
-	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);	
+	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 }
 
 static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, NULL); }
@@ -93,7 +93,7 @@ static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_vie
 static GNM_ACTION_DEF (cb_file_sendto)	{
 	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_file_page_setup)
-{ 
+{
 	dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg));
 }
 
@@ -123,7 +123,7 @@ static GNM_ACTION_DEF (cb_file_print_area_clear)
 {
 	GnmParsePos pp;
 	GnmRange r;
-	
+
 	range_init_full_sheet (&r);
 	parse_pos_init_sheet (&pp, wbcg_cur_sheet (wbcg));
 	cmd_define_name	(WORKBOOK_CONTROL (wbcg), "Print_Area", &pp,
@@ -137,7 +137,7 @@ static GNM_ACTION_DEF (cb_file_print_area_show)
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
 	SheetView *sv = sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	GnmRange r = sheet_get_nominal_printarea (sheet);
-	
+
 	wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv, &r);
@@ -1390,7 +1390,7 @@ static GNM_ACTION_DEF (cb_format_column_unhide)
 static GNM_ACTION_DEF (cb_format_row_auto_fit)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	workbook_cmd_resize_selected_colrow (wbc, 
+	workbook_cmd_resize_selected_colrow (wbc,
 		wb_control_cur_sheet (wbc), FALSE, -1);
 }
 static GNM_ACTION_DEF (cb_set_row_height)
@@ -1464,11 +1464,11 @@ static GtkActionEntry const permanent_actions[] = {
 	{ "EditPaste", GTK_STOCK_PASTE, NULL,
 		NULL, N_("Paste the clipboard"),
 		G_CALLBACK (cb_edit_paste) },
-	{ "UndoLast", GTK_STOCK_UNDO, N_("_Undo"), 
-		NULL, N_("Undo the last action"), 
+	{ "UndoLast", GTK_STOCK_UNDO, N_("_Undo"),
+		NULL, N_("Undo the last action"),
 		G_CALLBACK (cb_edit_undo_last) },
 	{ "RedoLast", GTK_STOCK_REDO, N_("_Redo"),
-		NULL, N_("Redo the undone action"), 
+		NULL, N_("Redo the undone action"),
 		G_CALLBACK (cb_edit_redo_last) },
 
 	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),

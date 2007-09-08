@@ -847,7 +847,7 @@ xml_sax_print_vcenter (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "value", &val))
-			pi->center_vertically = val;	
+			pi->center_vertically = val;
 }
 
 static void
@@ -864,7 +864,7 @@ xml_sax_print_hcenter (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "value", &val))
-			pi->center_horizontally = val;	
+			pi->center_horizontally = val;
 }
 
 static void
@@ -881,7 +881,7 @@ xml_sax_print_grid (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "value", &val))
-			pi->print_grid_lines = val;	
+			pi->print_grid_lines = val;
 }
 
 
@@ -899,7 +899,7 @@ xml_sax_monochrome (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "value", &val))
-			pi->print_black_and_white = val;	
+			pi->print_black_and_white = val;
 }
 
 static void
@@ -970,7 +970,7 @@ xml_sax_even_if_only_styles (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "value", &val))
-			pi->print_even_if_only_styles = val;	
+			pi->print_even_if_only_styles = val;
 }
 
 

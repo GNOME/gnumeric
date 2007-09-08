@@ -524,7 +524,7 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 						*error_msg = (pp->sheet != NULL)
 							? g_strdup_printf (_("'%s' is already defined in sheet"), name)
 							: g_strdup_printf (_("'%s' is already defined in workbook"), name);
-					
+
 					gnm_expr_top_unref (texpr);
 					return NULL;
 				}
@@ -912,7 +912,7 @@ sheet_names_check (Sheet const *sheet, GnmRange const *r)
  * @texpr:              string to be the value of the name
  * @is_editable:        whether this is a predefined action
  *
- * This is a wrapper around expr_name_add to set this as permanent name. 
+ * This is a wrapper around expr_name_add to set this as permanent name.
  *
  *
  **/
