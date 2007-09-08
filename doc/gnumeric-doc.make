@@ -66,6 +66,7 @@ if ENABLE_PDFDOCS
 EXTRA_DIST += gnumeric.pdf
 endif
 
+if ENABLE_PDF_VIA_DBCONTEXT
 pdf :
 	env TEXINPUTS=$(srcdir):.: dbcontext -t tex -Pfo.setup=1 -I . \
 		-P imagedata.default.scale='scale=600' \
@@ -73,3 +74,15 @@ pdf :
 	env TEXMFCNF=$(srcdir): \
 		TEXINPUTS=$(srcdir):/usr/share/texmf/tex/context/dbcontext/style: \
 		texexec --pdf --mode=A4 --batch gnumeric.tex
+endif
+
+if ENABLE_PDF_VIA_DBLATEX
+pdf :
+	dblatex -t tex -Pfo.setup=1 -I . \
+		-P imagedata.default.scale='scale=0.6' \
+		-o gnumeric.tex $(srcdir)/gnumeric.xml
+	for runs in $$(seq 1 4); do \
+		env TEXINPUTS=$(srcdir): \
+			pdflatex -interaction nonstopmode gnumeric.tex ; \
+	done
+endif

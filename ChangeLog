@@ -1,3 +1,8 @@
+2007-09-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Added support for rendering documentation as PDF
+	through dblatex.
+
 2007-09-05  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-format.c (gnm_format_has_hour,
