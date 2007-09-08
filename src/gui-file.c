@@ -173,15 +173,18 @@ file_opener_find_by_id (GList *openers, char const *id)
 }
 
 static void
-advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
+cb_advanced_clicked (GtkButton *advanced, GtkFileChooser *fsel)
 {
 	GtkWidget *extra = g_object_get_data (G_OBJECT (advanced), "extra");
 
+	gtk_button_set_use_underline (advanced, TRUE);
 	if (gtk_file_chooser_get_extra_widget (fsel)) {
-		gtk_button_set_label (advanced, _("Advanced"));
+		 /* xgettext: If possible try to use the same mnemonic for
+		  * Advanced and Simple */
+		gtk_button_set_label (advanced, _("Advanc_ed"));
 		gtk_file_chooser_set_extra_widget (fsel, NULL);
 	} else {
-		gtk_button_set_label (advanced, _("Simple"));
+		gtk_button_set_label (advanced, _("Simpl_e"));
 		gtk_file_chooser_set_extra_widget (fsel, extra);
 	}
 }
@@ -241,7 +244,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 			       "title", _("Select a file"),
 			       NULL));
 
-	advanced_button = gtk_button_new_from_stock (_("Advanced"));
+	advanced_button = gtk_button_new_with_mnemonic (_("Advanc_ed"));
 	gtk_widget_show (advanced_button);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->action_area),
 			    advanced_button, FALSE, TRUE, 6);
@@ -298,6 +301,9 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 				  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 					       go_charmap_sel);
+
+		g_object_set_data_full (G_OBJECT (advanced_button), "extra",
+			g_object_ref (box), g_object_unref);
 #ifdef USE_HILDON
 		/*
 		 * Don't need to show the vbox. This is here just to avoid the warning :
@@ -307,13 +313,9 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->vbox), box, FALSE, TRUE, 6);
 #else
 		gtk_widget_show_all (box);
-		g_object_set_data_full (G_OBJECT (advanced_button),
-					"extra",
-					g_object_ref (box),
-					g_object_unref);
 		g_signal_connect (G_OBJECT (advanced_button),
 				  "clicked",
-				  G_CALLBACK (advanced_clicked),
+				  G_CALLBACK (cb_advanced_clicked),
 				  fsel);
 #endif
 	}
