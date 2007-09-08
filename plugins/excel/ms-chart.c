@@ -723,9 +723,13 @@ BC_R(boppop)(XLChartHandler const *handle,
 	guint16 const split_type = GSF_LE_GET_GUINT8 (q->data+2); /* 0-3 */
 #endif
 
-	gboolean const is_3d = (GSF_LE_GET_GUINT16 (q->data+16) == 1);
-	if (is_3d)
-		fputs("in 3D", stderr);
+	/* KLUDGE : call it a pie for now */
+	if (NULL == s->plot) {
+		gboolean const in_3d = (GSF_LE_GET_GUINT16 (q->data+16) == 1);
+		s->plot = (GogPlot*) gog_plot_new_by_name ("GogPiePlot");
+		g_return_val_if_fail (s->plot != NULL, TRUE);
+		g_object_set (G_OBJECT (s->plot), "in-3d", in_3d, NULL);
+	}
 
 	return FALSE;
 }
@@ -4672,6 +4676,40 @@ chart_write_DROPBAR (XLChartWriteState *s)
 }
 
 static void
+chart_write_LEGEND (XLChartWriteState *s, GogObject const *legend)
+{
+	GogObjectPosition pos = gog_object_get_position_flags (legend,
+		GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
+	guint16 flags = 0x1f;
+	guint8  XL_pos;
+	guint8 *data;
+
+	switch (pos) {
+	case GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER:	XL_pos = 0; break;
+	case GOG_POSITION_N | GOG_POSITION_E:			XL_pos = 1; break;
+	case GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER:	XL_pos = 2; break;
+
+	default :
+	case GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER:	XL_pos = 3; break;
+	case GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER:	XL_pos = 4; break;
+	/* On import we map 'floating' to East, XL_pos = 7; break; */
+	}
+
+	data = ms_biff_put_len_next (s->bp, BIFF_CHART_legend, 20);
+	chart_write_position (s, legend, data);
+	GSF_LE_SET_GUINT8 (data + 16, XL_pos);
+	GSF_LE_SET_GUINT8 (data + 17, 1);
+	GSF_LE_SET_GUINT16 (data + 18, flags);
+
+	ms_biff_put_commit (s->bp);
+
+	chart_write_BEGIN (s);
+	/* BIFF_CHART_pos, optional we use auto positioning */
+	chart_write_text (s, NULL, NULL);
+	chart_write_END (s);
+}
+
+static void
 chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 {
 	guint16 i = 0, j = 0, nser;
@@ -4784,23 +4822,8 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			chart_write_plot (s, pptr->data);
 
 			/* BIFF_CHART_chartformatlink documented as unnecessary */
-			if (i == 0 && legend != NULL) {
-				/*GogObjectPosition pos = gog_object_get_pos (legend); */
-				guint16 flags = 0x1f;
-
-				data = ms_biff_put_len_next (s->bp, BIFF_CHART_legend, 20);
-				chart_write_position (s, legend, data);
-				GSF_LE_SET_GUINT8 (data + 16, 3);
-				GSF_LE_SET_GUINT8 (data + 17, 1);
-				GSF_LE_SET_GUINT16 (data + 18, flags);
-
-				ms_biff_put_commit (s->bp);
-
-				chart_write_BEGIN (s);
-				/* BIFF_CHART_pos, optional we use auto positioning */
-				chart_write_text (s, NULL, NULL);
-				chart_write_END (s);
-			}
+			if (i == 0 && legend != NULL)
+				chart_write_LEGEND (s, legend);
 			nser = g_slist_length (GOG_PLOT (pptr->data)->series);
 			if (i > 0) {
 				/* write serieslist */

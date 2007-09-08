@@ -1,3 +1,11 @@
+2007-09-08  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_vary_colors) : new.
+
+	* ms-chart.c (chart_write_LEGEND) : new code split from.
+	(chart_write_axis_sets) : here.
+	* ms-chart.c (BC_R(boppop)) : place holder to at least get the pie.
+
 2007-09-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.12

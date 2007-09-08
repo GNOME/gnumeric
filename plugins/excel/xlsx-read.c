@@ -715,6 +715,19 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 /***********************************************************************/
 
 static void
+xlsx_vary_colors (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	int tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_bool (xin, attrs, "val", &tmp))
+			g_object_set (G_OBJECT (state->plot),
+				"vary-style-by-element", tmp,
+				NULL);
+}
+
+static void
 xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
@@ -727,6 +740,7 @@ xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 				NULL);
 }
 
+/* shared with pie of pie, and bar of pie */
 static void
 xlsx_chart_pie (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -837,7 +851,24 @@ static void
 xlsx_chart_radar (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+
 	state->plot = (GogPlot*) gog_plot_new_by_name ("GogRadarPlot");
+#if 0
+	char const *type = "GogRadarPlot";
+	gboolean with_markers = FALSE;
+	/* Irritants.  They put the sub type into a child record ... */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "type")) {
+			if (0 == strcmp (attrs[1], "filled"))
+				type = "as_percentage";
+			else if (0 == strcmp (attrs[1], "marker"))
+				type = "stacked";
+			g_object_set (G_OBJECT (state->plot), "type", type, NULL);
+		}
+		if (0 == strcmp (xin, attrs, "cx", state->drawing_pos + (COL | TO | OFFSET)))
+			state->drawing_pos_flags |= (1 << (COL | TO | OFFSET));
+	g_object_set (G_OBJECT (state->plot), "default-style-has-markers", with_markers, NULL);
+#endif
 }
 
 static void
@@ -1127,7 +1158,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (BUBBLE, BUBBLE_SCALE, XL_NS_CHART,	"bubbleScale", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (BUBBLE, BUBBLE_NEGATIVES, XL_NS_CHART,	"showNegBubbles", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (BUBBLE, BUBBLE_SIZE_REP, XL_NS_CHART,	"sizeRepresents", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (BUBBLE, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (BUBBLE, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, &xlsx_vary_colors, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, BARCOL, XL_NS_CHART,	"barChart", GSF_XML_NO_CONTENT, &xlsx_chart_bar, &xlsx_plot_end),
         GSF_XML_IN_NODE (BARCOL, AXIS_ID,	XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
@@ -1138,45 +1169,45 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (BARCOL, GAP_WIDTH,	XL_NS_CHART, "gapWidth", GSF_XML_NO_CONTENT, &xlsx_chart_bar_gap, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, LINE, XL_NS_CHART,	"lineChart", GSF_XML_NO_CONTENT, &xlsx_chart_line, &xlsx_plot_end),
-        GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-        GSF_XML_IN_NODE (LINE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
           GSF_XML_IN_NODE (SERIES, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+            GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
             GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-        GSF_XML_IN_NODE (LINE, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-        GSF_XML_IN_NODE (LINE, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
 
       GSF_XML_IN_NODE (PLOTAREA, AREA, XL_NS_CHART,	"areaChart", GSF_XML_NO_CONTENT, &xlsx_chart_area, &xlsx_plot_end),
-        GSF_XML_IN_NODE (AREA, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-        GSF_XML_IN_NODE (AREA, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
-        GSF_XML_IN_NODE (AREA, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (AREA, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (AREA, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
+        GSF_XML_IN_NODE (AREA, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
 
       GSF_XML_IN_NODE (PLOTAREA, RADAR, XL_NS_CHART,	"radarChart", GSF_XML_NO_CONTENT, &xlsx_chart_radar, &xlsx_plot_end),
-        GSF_XML_IN_NODE (RADAR, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-        GSF_XML_IN_NODE (RADAR, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (RADAR, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (RADAR, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
         GSF_XML_IN_NODE (RADAR, RADAR_STYLE, XL_NS_CHART,	"radarStyle", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (RADAR, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (RADAR, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 
       GSF_XML_IN_NODE (PLOTAREA, PIE, XL_NS_CHART,	"pieChart", GSF_XML_NO_CONTENT, &xlsx_chart_pie, &xlsx_plot_end),
-        GSF_XML_IN_NODE (PIE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (PIE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
           GSF_XML_IN_NODE (SERIES, PIE_SER_SEP, XL_NS_CHART,	"explosion", GSF_XML_NO_CONTENT, &xlsx_chart_pie_sep, NULL),
-        GSF_XML_IN_NODE (PIE, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (PIE, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (PIE, PIE_FIRST_SLICE, XL_NS_CHART,	"firstSliceAng", GSF_XML_NO_CONTENT, NULL, NULL),
 
-      GSF_XML_IN_NODE (PLOTAREA, OF_PIE, XL_NS_CHART,	"ofPieChart", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (PLOTAREA, OF_PIE, XL_NS_CHART,	"ofPieChart", GSF_XML_NO_CONTENT, &xlsx_chart_pie, &xlsx_plot_end),
         GSF_XML_IN_NODE (OF_PIE, OF_PIE_TYPE,	XL_NS_CHART, "ofPieType", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (OF_PIE, SERIES,	XL_NS_CHART, "ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (OF_PIE, SERIES_LINES,	XL_NS_CHART, "serLines", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (SERIES_LINES, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+          GSF_XML_IN_NODE (SERIES_LINES, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (OF_PIE, PIE_GAP_WIDTH,	XL_NS_CHART, "gapWidth", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (OF_PIE, VARY_COLORS,	XL_NS_CHART, "varyColors", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (OF_PIE, VARY_COLORS,	XL_NS_CHART, "varyColors", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (OF_PIE, OF_2ND_PIE,	XL_NS_CHART, "secondPieSize", GSF_XML_NO_CONTENT, NULL, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, DOUGHNUT, XL_NS_CHART,	"doughnutChart", GSF_XML_NO_CONTENT, &xlsx_chart_ring, &xlsx_plot_end),
-        GSF_XML_IN_NODE (DOUGHNUT, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
-        GSF_XML_IN_NODE (DOUGHNUT, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (DOUGHNUT, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
+        GSF_XML_IN_NODE (DOUGHNUT, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (DOUGHNUT, PIE_FIRST_SLICE, XL_NS_CHART,	"firstSliceAng", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
         GSF_XML_IN_NODE (DOUGHNUT, HOLE_SIZE, XL_NS_CHART,		"holeSize", GSF_XML_NO_CONTENT, NULL, NULL),
 
