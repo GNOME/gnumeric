@@ -1368,7 +1368,7 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
-	if (wbcg_edit_get_guru (gee->wbcg) != NULL &&
+	if (wbc_gtk_get_guru (gee->wbcg) != NULL &&
 	    gee == gee->wbcg->edit_line.entry)
 		return FALSE;
 

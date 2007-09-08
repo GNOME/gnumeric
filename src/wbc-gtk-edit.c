@@ -1140,9 +1140,8 @@ wbc_gtk_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,
 		if (gee)
 			wbcg_set_entry (wbcg, gee);
 	} else
-		g_signal_connect (G_OBJECT (guru),
-				  "set-focus",
-				  G_CALLBACK (cb_guru_set_focus), wbcg);
+		g_signal_connect (G_OBJECT (guru), "set-focus",
+			G_CALLBACK (cb_guru_set_focus), wbcg);
 }
 
 void
