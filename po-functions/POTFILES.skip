@@ -7,8 +7,6 @@ plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
 src/test-harness.c
 gnumeric.desktop.in
-component/Gnumeric-embed.xml.in
-component/plugin.xml.in
 plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
 plugins/derivatives/plugin.xml.in
