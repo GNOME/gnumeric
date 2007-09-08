@@ -1102,8 +1102,8 @@ wbcg_edit_attach_guru_main (WBCGtk *wbcg, GtkWidget *guru)
 }
 
 static void
-cb_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		   WBCGtk *wbcg)
+cb_guru_set_focus (G_GNUC_UNUSED GtkWidget *window,
+		   GtkWidget *focus_widget, WBCGtk *wbcg)
 {
 	GnmExprEntry *gee = NULL;
 	if (focus_widget != NULL && IS_GNM_EXPR_ENTRY (focus_widget->parent))
@@ -1122,6 +1122,21 @@ wbcg_edit_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 	g_signal_connect (G_OBJECT (guru),
 		"set-focus",
 		G_CALLBACK (cb_guru_set_focus), wbcg);
+}
+
+/****************************************************************************/
+
+void
+wbc_gtk_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
+{
+	g_return_if_fail (guru != NULL);
+	g_return_if_fail (IS_WBC_GTK (wbcg));
+
+	wbcg_edit_attach_guru_main (wbcg, guru);
+	g_signal_connect (G_OBJECT (guru), "set-focus",
+		G_CALLBACK (cb_guru_set_focus), wbcg);
+	g_signal_connect_swapped (G_OBJECT (guru), "destroy",
+		G_CALLBACK (wbcg_edit_detach_guru), wbcg);
 }
 
 void
@@ -1146,6 +1161,7 @@ void
 wbcg_edit_detach_guru (WBCGtk *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	/* don't sit end 'End' mode when a dialog comes up */
@@ -1198,9 +1214,8 @@ wbcg_edit_get_display_text (WBCGtk *wbcg)
 		return gtk_entry_get_text (wbcg_get_entry (wbcg));
 }
 
-/* Initializes the Workbook entry */
 void
-wbcg_edit_ctor (WBCGtk *wbcg)
+wbc_gtk_init_editline (WBCGtk *wbcg)
 {
 	g_assert (IS_WBC_GTK (wbcg));
 	g_assert (wbcg->edit_line.entry == NULL);

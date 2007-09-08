@@ -51,7 +51,6 @@ dialog_so_styled_free (DialogSOStyled *pref)
 		g_object_set (G_OBJECT (pref->so), "style", pref->orig_style, NULL);
 		g_object_unref (pref->orig_style);
 	}
-	wbcg_edit_detach_guru (pref->wbcg);
 	g_free (pref);
 }
 
@@ -113,6 +112,6 @@ dialog_so_styled (WBCGtk *wbcg,
 		"state", state, (GDestroyNotify) dialog_so_styled_free);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (dialog));
-	wbcg_edit_attach_guru (state->wbcg, dialog);
+	wbc_gtk_attach_guru (state->wbcg, dialog);
 	gtk_widget_show (dialog);
 }

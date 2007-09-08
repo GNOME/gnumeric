@@ -410,15 +410,14 @@ free_original_values (GSList *ov)
 	go_slist_free_custom (ov, g_free);
 }
 
-static gboolean
-dialog_destroy (GtkObject *w, SolverState  *state)
+static void
+cb_dialog_solver_destroy (SolverState *state)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *store;
 	void* p;
 
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_if_fail (state != NULL);
 
 	if (state->ov_cell_stack != NULL &&
 	    !state->cancelled &&
@@ -436,8 +435,6 @@ dialog_destroy (GtkObject *w, SolverState  *state)
 		g_slist_free (state->ov_cell_stack);
 		state->ov_cell_stack = NULL;
 	}
-
-	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -457,8 +454,6 @@ dialog_destroy (GtkObject *w, SolverState  *state)
 		} while (gtk_tree_model_iter_next (store, &iter));
 
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -1226,12 +1221,6 @@ dialog_init (SolverState *state)
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (state->constraint_list, column);
 
-/* dialog */
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-
-	g_signal_connect (G_OBJECT (state->dialog), "destroy",
-			  G_CALLBACK (dialog_destroy), state);
-
 /* Loading the old solver specs... from param  */
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
@@ -1295,11 +1284,15 @@ dialog_init (SolverState *state)
 	revert_constraint_format (&conv);
 
 /* Done */
-
 	gnm_expr_entry_grab_focus (state->target_entry, FALSE);
 
 	dialog_set_main_button_sensitivity (NULL, state);
 	dialog_set_sec_button_sensitivity (NULL, state);
+
+/* dialog */
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_dialog_solver_destroy);
 
 	return FALSE;
 }

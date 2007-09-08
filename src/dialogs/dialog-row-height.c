@@ -89,7 +89,6 @@ dialog_row_height_button_sensitivity (RowHeightState *state)
 static void
 cb_dialog_row_height_destroy (RowHeightState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
@@ -288,7 +287,7 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 	dialog_row_height_set_mode (use_default, state);
 	dialog_row_height_load_value (state);
 
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       ROW_HEIGHT_DIALOG_KEY);
 	gtk_widget_show (state->dialog);

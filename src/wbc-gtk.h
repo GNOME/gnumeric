@@ -56,11 +56,12 @@ typedef enum {
 	WBC_EDIT_ACCEPT_ARRAY	/* assign content as an array to the first range in selection */
 } WBCEditResult;
 
-void	 wbcg_edit_ctor	  (WBCGtk *wbcg);
 gboolean wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			   gboolean *showed_dialog);
 gboolean wbcg_edit_start  (WBCGtk *wbcg,
 			   gboolean blankp, gboolean cursorp);
+
+void	    wbc_gtk_attach_guru		(WBCGtk *wbcg, GtkWidget *guru);
 
 void	    wbcg_edit_attach_guru	(WBCGtk *wbcg, GtkWidget *guru);
 void	    wbcg_edit_attach_guru_with_unfocused_rs (WBCGtk *wbcg, GtkWidget *guru,

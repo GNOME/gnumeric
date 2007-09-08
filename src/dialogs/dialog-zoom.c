@@ -78,8 +78,6 @@ static const struct {
 static void
 cb_zoom_destroy (ZoomState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
@@ -286,7 +284,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 			       ZOOM_DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_zoom_destroy);
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);
 
 	gtk_widget_grab_focus (focus_target);

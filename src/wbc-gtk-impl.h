@@ -138,6 +138,8 @@ gboolean wbc_gtk_close		(WBCGtk *wbcg);
 void	 wbcg_insert_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
 void	 wbcg_append_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
 void	 wbcg_clone_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
+
+void	 wbc_gtk_init_editline	(WBCGtk *wbcg);
 void	 wbc_gtk_init_actions	(WBCGtk *wbcg);
 void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 

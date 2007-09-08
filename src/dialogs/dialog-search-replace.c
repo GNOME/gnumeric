@@ -173,7 +173,6 @@ static void
 cb_dialog_destroy (DialogState *dd)
 {
 	g_object_unref (G_OBJECT (dd->gui));
-	wbcg_edit_detach_guru (dd->wbcg);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }
@@ -284,7 +283,7 @@ dialog_search_replace (WBCGtk *wbcg,
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
-	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+	wbc_gtk_attach_guru (wbcg, GTK_WIDGET (dialog));
 	non_modal_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
 }
 

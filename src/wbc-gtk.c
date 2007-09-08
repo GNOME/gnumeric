@@ -1942,7 +1942,7 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 	GtkTooltips *tooltips;
 
 	wbcg->selection_descriptor = gtk_entry_new ();
-	wbcg_edit_ctor (wbcg);
+	wbc_gtk_init_editline (wbcg);
 	entry = wbcg_get_entry (wbcg);
 
 	tb = (GtkToolbar *)gtk_toolbar_new ();

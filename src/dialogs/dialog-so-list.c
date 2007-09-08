@@ -53,7 +53,6 @@ typedef struct {
 static void
 cb_so_list_destroy (GnmDialogSOList *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
@@ -124,7 +123,7 @@ so_list_init (GnmDialogSOList *state, WBCGtk *wbcg, SheetObject *so)
 		"state", state, (GDestroyNotify)cb_so_list_destroy);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 
 	return FALSE;

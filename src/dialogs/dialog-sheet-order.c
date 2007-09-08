@@ -804,8 +804,6 @@ cb_sheet_order_destroy (SheetManager *state)
 		g_signal_handler_disconnect (G_OBJECT (wb),
 					     state->sheet_order_changed_listener);
 
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->model != NULL) {
 		g_object_unref (G_OBJECT (state->model));
 		state->model = NULL;
@@ -1100,6 +1098,6 @@ dialog_sheet_order (WBCGtk *wbcg)
 		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
-	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

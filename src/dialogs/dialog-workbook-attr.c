@@ -178,8 +178,6 @@ cb_attr_dialog_dialog_ok (GtkWidget *button, AttrState *state)
 static void
 cb_attr_dialog_dialog_destroy (AttrState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
-
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
@@ -313,7 +311,7 @@ attr_dialog_impl (AttrState *state)
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", state, (GDestroyNotify) cb_attr_dialog_dialog_destroy);
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       WORKBOOK_ATTRIBUTE_KEY);
 	gtk_widget_show (state->dialog);

@@ -84,14 +84,6 @@ static const char * const mode_group[] = {
 /* ------------------------------------------------------------------------- */
 
 static void
-free_state (DialogState *dd)
-{
-	g_object_unref (G_OBJECT (dd->gui));
-	memset (dd, 0, sizeof (*dd));
-	g_free (dd);
-}
-
-static void
 non_model_dialog (WBCGtk *wbcg,
 		  GtkDialog *dialog,
 		  const char *key)
@@ -165,8 +157,9 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 static void
 cb_dialog_destroy (DialogState *dd)
 {
-	wbcg_edit_detach_guru (dd->wbcg);
-	free_state (dd);
+	g_object_unref (G_OBJECT (dd->gui));
+	memset (dd, 0, sizeof (*dd));
+	g_free (dd);
 }
 
 static void
@@ -391,7 +384,7 @@ dialog_tabulate (WBCGtk *wbcg, Sheet *sheet)
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
 	gtk_widget_show_all (dialog->vbox);
-	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+	wbc_gtk_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog, TABULATE_KEY);
 }
