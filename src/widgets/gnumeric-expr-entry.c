@@ -388,7 +388,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 
 		/* Look for a range */
 		if (rs->text_start >= rs->text_end)
-			gnm_expr_expr_find_range (gee);
+			gnm_expr_entry_find_range (gee);
 
 		/* no range found */
 		if (!rs->is_valid || rs->text_start >= rs->text_end)
@@ -492,7 +492,7 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 
 	if (gee->scg) {
 		scg_rangesel_stop (gee->scg, FALSE);
-		gnm_expr_expr_find_range (gee);
+		gnm_expr_entry_find_range (gee);
 		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 	}
 
@@ -753,14 +753,14 @@ gee_rangesel_update_text (GnmExprEntry *gee)
 }
 
 /**
- * gnm_expr_entry_rangesel_start
+ * gnm_expr_entry_find_range
  * @gee:   a #GnmExprEntry
  *
  * Look at the current selection to see how much of it needs to be changed when
  * selecting a range.
  **/
 void
-gnm_expr_expr_find_range (GnmExprEntry *gee)
+gnm_expr_entry_find_range (GnmExprEntry *gee)
 {
 	gboolean  single, formula_only;
 	char const *text, *cursor, *tmp, *ptr;
@@ -1361,7 +1361,7 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 
-	gnm_expr_expr_find_range (gee);
+	gnm_expr_entry_find_range (gee);
 	if (gee->rangesel.is_valid)
 		return TRUE;
 

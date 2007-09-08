@@ -105,7 +105,7 @@ ie_scan_for_range (ItemEdit *ie)
 	gnm_expr_entry_set_parsepos (gee,
 		parse_pos_init_editpos (&pp, scg_view (ie->scg)));
 	if (!ie->feedback_disabled) {
-		gnm_expr_expr_find_range (gee);
+		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
 		    parse_sheet == sheet) {
 			SCG_FOREACH_PANE (ie->scg, pane, {

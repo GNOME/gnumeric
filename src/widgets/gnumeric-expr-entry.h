@@ -28,53 +28,52 @@ GnmExprEntry *gnm_expr_entry_new       (WBCGtk *wbcg,
 GtkWidget    *gnm_expr_entry_new_glade (void);
 
 /* Widget specific methods */
-void	  gnm_expr_entry_freeze 	(GnmExprEntry *e);
-void	  gnm_expr_entry_thaw		(GnmExprEntry *e);
-void	  gnm_expr_entry_set_absolute	(GnmExprEntry *e);
-void	  gnm_expr_entry_set_flags	(GnmExprEntry *e,
+void	  gnm_expr_entry_freeze 	(GnmExprEntry *gee);
+void	  gnm_expr_entry_thaw		(GnmExprEntry *gee);
+void	  gnm_expr_entry_set_absolute	(GnmExprEntry *gee);
+void	  gnm_expr_entry_set_flags	(GnmExprEntry *gee,
 					 GnmExprEntryFlags flags,
 					 GnmExprEntryFlags mask);
-void	  gnm_expr_entry_set_scg	(GnmExprEntry *e,
+void	  gnm_expr_entry_set_scg	(GnmExprEntry *gee,
 					 SheetControlGUI *scg);
-void	  gnm_expr_entry_set_parsepos	(GnmExprEntry *e,
-					 GnmParsePos const *pp);
-GtkEntry *gnm_expr_entry_get_entry	(GnmExprEntry *e);
-gboolean  gnm_expr_entry_get_rangesel	(GnmExprEntry const *e,
+GtkEntry *gnm_expr_entry_get_entry	(GnmExprEntry *gee);
+gboolean  gnm_expr_entry_get_rangesel	(GnmExprEntry const *gee,
 					 GnmRange *r, Sheet **sheet);
-void	  gnm_expr_expr_find_range	(GnmExprEntry *e);
-void	  gnm_expr_entry_rangesel_stop	(GnmExprEntry *e,
+void	  gnm_expr_entry_find_range	(GnmExprEntry *gee);
+void	  gnm_expr_entry_rangesel_start	(GnmExprEntry *gee);
+void	  gnm_expr_entry_rangesel_stop	(GnmExprEntry *gee,
 					 gboolean clear_string);
 
-gboolean  gnm_expr_entry_can_rangesel	(GnmExprEntry *e);
-gboolean  gnm_expr_entry_is_blank	(GnmExprEntry *e);
-gboolean  gnm_expr_entry_is_cell_ref	(GnmExprEntry *e, 
+gboolean  gnm_expr_entry_can_rangesel	(GnmExprEntry *gee);
+gboolean  gnm_expr_entry_is_blank	(GnmExprEntry *gee);
+gboolean  gnm_expr_entry_is_cell_ref	(GnmExprEntry *gee, 
 					 Sheet *sheet,
 					 gboolean allow_multiple_cell);
 
-char const *gnm_expr_entry_get_text	  (GnmExprEntry const *ee);
-GnmValue   *gnm_expr_entry_parse_as_value (GnmExprEntry *ee, Sheet *sheet);
-GSList	   *gnm_expr_entry_parse_as_list  (GnmExprEntry *ee, Sheet *sheet);
-GnmExprTop const *gnm_expr_entry_parse	  (GnmExprEntry *e,
+char const *gnm_expr_entry_get_text	  (GnmExprEntry const *gee);
+GnmValue   *gnm_expr_entry_parse_as_value (GnmExprEntry *gee, Sheet *sheet);
+GSList	   *gnm_expr_entry_parse_as_list  (GnmExprEntry *gee, Sheet *sheet);
+GnmExprTop const *gnm_expr_entry_parse	  (GnmExprEntry *gee,
 					   GnmParsePos const *pp,
 					   GnmParseError *perr, gboolean start_sel,
 					   GnmExprParseFlags flags);
-char    *gnm_expr_entry_global_range_name (GnmExprEntry *e, Sheet *sheet);
-void	 gnm_expr_entry_load_from_text	  (GnmExprEntry *e, char const *str);
-void	 gnm_expr_entry_load_from_dep	  (GnmExprEntry *e,
+char    *gnm_expr_entry_global_range_name (GnmExprEntry *gee, Sheet *sheet);
+void	 gnm_expr_entry_load_from_text	  (GnmExprEntry *gee, char const *str);
+void	 gnm_expr_entry_load_from_dep	  (GnmExprEntry *gee,
 					   GnmDependent const *dep);
-void	 gnm_expr_entry_load_from_expr	  (GnmExprEntry *e,
+void	 gnm_expr_entry_load_from_expr	  (GnmExprEntry *gee,
 					   GnmExprTop const *texpr,
 					   GnmParsePos const *pp);
-gboolean gnm_expr_entry_load_from_range   (GnmExprEntry *e,
+gboolean gnm_expr_entry_load_from_range   (GnmExprEntry *gee,
 					   Sheet *sheet, GnmRange const *r);
 
-void gnm_expr_entry_set_update_policy (GnmExprEntry *e,
+void gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 					    GtkUpdateType  policy);
-void gnm_expr_entry_grab_focus (GnmExprEntry *e, gboolean select_all);
+void gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all);
 
 /* Cell Renderer Specific Method */
 
-gboolean gnm_expr_entry_editing_canceled (GnmExprEntry *e);
+gboolean gnm_expr_entry_editing_canceled (GnmExprEntry *gee);
 
 /* private : for internal use */
 void gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested);
