@@ -24,27 +24,6 @@
 	(item_edit_enable_highlight) : move to gnm-expr-entry.
 	(item_edit_disable_highlight : ditto.
 
-2007-09-08  Jody Goldberg <jody@gnome.org>
-
-	* src/gnm-pane.c (gnm_pane_init) : init the expr cursor. (previously
-	  the 'feedback' cursor within item-edit).
-	(gnm_pane_reposition_cursors) : reposition it.
-	(gnm_pane_rangesel_start) : 'disable highlight' on the expr-entry
-	  rather than the item-editor.
-	(gnm_pane_rangesel_stop) : ditto.
-	(gnm_pane_expr_cursor_bound_set) : new.
-	(gnm_pane_expr_cursor_stop) : new.
-
-	* src/item-edit.c (ie_destroy_feedback_range) : delete.
-	(ie_scan_for_range) : move to gnm-expr-entry.
-	(item_edit_init) : clear the old code.
-	(entry_changed) : ditto.
-	(item_edit_dispose) : Use the new
-	  gnm_expr_entry_disable_highlight to destroy the feedback (aka
-	  'expr') cursor.
-	(item_edit_enable_highlight) : move to gnm-expr-entry.
-	(item_edit_disable_highlight : ditto.
-
 2007-09-05  Morten Welinder  <terra@gnome.org>
 	* src/gnm-format.c (gnm_format_has_hour,
 	gnm_format_month_before_day): New functions.
