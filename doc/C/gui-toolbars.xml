@@ -22,7 +22,7 @@
     <title>The Three Gnumeric Toolbars</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbars.510.png" 
+	<imagedata fileref="figures/toolbars.png" 
 	           format="PNG" scale="100"/>
       </imageobject>
     </mediaobject>
@@ -83,7 +83,7 @@
     <title>The <interface>Standard Toolbar</interface>.</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbar-standard.510.png" format="PNG" />
+	<imagedata fileref="figures/toolbar-standard.png" format="PNG" />
       </imageobject>
     </mediaobject>
   </figure>
@@ -524,7 +524,7 @@
      <title>The <interface>Format Toolbar</interface></title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbar-format.510.png" format="PNG" />
+	<imagedata fileref="figures/toolbar-format.png" format="PNG" />
       </imageobject>
     </mediaobject>
   </figure>
