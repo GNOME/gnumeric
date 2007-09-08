@@ -15,6 +15,7 @@
 
 #include <wbc-gtk-impl.h>
 #include <sheet-control-gui-priv.h>
+#include <gnm-pane.h>
 #include <sheet-merge.h>
 #include <parse-util.h>
 #include <gui-util.h>
@@ -61,6 +62,8 @@ struct _GnmExprEntry {
 	gboolean                 is_cell_renderer;  /* as cell_editable */
 	gboolean                 editing_canceled;  /* as cell_editable */
 	gboolean                 ignore_changes; /* internal mutex */
+
+	gboolean       feedback_disabled;
 };
 
 typedef struct _GnmExprEntryClass {
@@ -97,8 +100,7 @@ static void     gee_rangesel_reset (GnmExprEntry *gee);
 static void     gee_rangesel_update_text (GnmExprEntry *gee);
 static void     gee_detach_scg (GnmExprEntry *gee);
 static void     gee_remove_update_timer (GnmExprEntry *range);
-static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec,
-					    GnmExprEntry *gee);
+static void     cb_gee_notify_cursor_position (GnmExprEntry *gee);
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -337,30 +339,76 @@ gee_get_property (GObject      *object,
 }
 
 static void
-cb_entry_activate (G_GNUC_UNUSED GtkWidget *w, GnmExprEntry *gee)
+cb_entry_activate (GnmExprEntry *gee)
 {
 	g_signal_emit (G_OBJECT (gee), signals [ACTIVATE], 0);
 	gnm_expr_entry_signal_update (gee, TRUE);
 }
 
 static void
-cb_entry_changed (G_GNUC_UNUSED GtkEntry *ignored,
-		  GnmExprEntry *gee)
+gee_destroy_feedback_range (GnmExprEntry *gee)
 {
-	if (!gee->ignore_changes) {
-		if (!gee->is_cell_renderer &&
-		    !gnm_expr_entry_can_rangesel (gee) &&
-		    gee->scg != NULL)
-			scg_rangesel_stop (gee->scg, FALSE);
+	SCG_FOREACH_PANE (gee->scg, pane,
+		gnm_pane_expr_cursor_stop (pane););
+}
+
+/* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
+ *           canvas-item which would in turn call update and confuse the
+ *           canvas.
+ */
+static void
+gee_scan_for_range (GnmExprEntry *gee)
+{
+	GnmRange  range;
+	Sheet *sheet = scg_sheet (gee->scg);
+	Sheet *parse_sheet;
+
+	parse_pos_init_editpos (&gee->pp, scg_view (gee->scg));
+	if (!gee->feedback_disabled) {
+		gnm_expr_entry_find_range (gee);
+		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
+		    parse_sheet == sheet) {
+			SCG_FOREACH_PANE (gee->scg, pane,
+				gnm_pane_expr_cursor_bound_set (pane, &range););
+			return;
+		}
 	}
 
+	gee_destroy_feedback_range (gee);
+}
+
+static void
+gee_update_env (GnmExprEntry *gee)
+{
+	if (!gee->ignore_changes) {
+		if (NULL != gee->scg &&
+#warning why do we want this dichotomy
+		    !gee->is_cell_renderer &&
+		    !gnm_expr_entry_can_rangesel (gee))
+			scg_rangesel_stop (gee->scg, FALSE);
+
+		if (gnm_expr_char_start_p (gtk_entry_get_text (gee->entry)))
+			gee_scan_for_range (gee);
+	}
+
+}
+static void
+cb_gee_notify_cursor_position (GnmExprEntry *gee)
+{
+	gee_update_env (gee);
+}
+
+static void
+cb_entry_changed (GnmExprEntry *gee)
+{
+	gee_update_env (gee);
 	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 }
 
 static gboolean
-cb_gee_key_press_event (GtkEntry	  *entry,
-			GdkEventKey	  *event,
-			GnmExprEntry *gee)
+cb_gee_key_press_event (GtkEntry	*entry,
+			GdkEventKey	*event,
+			GnmExprEntry	*gee)
 {
 	WBCGtk *wbcg  = gee->wbcg;
 	int state = gnumeric_filter_modifiers (event->state);
@@ -520,6 +568,7 @@ gee_init (GnmExprEntry *gee)
 	gee->freeze_count = 0;
 	gee->update_timeout_id = 0;
 	gee->update_policy = GTK_UPDATE_CONTINUOUS;
+	gee->feedback_disabled = FALSE;
 	gee_rangesel_reset (gee);
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
@@ -533,21 +582,16 @@ gee_init (GnmExprEntry *gee)
 		      "gtk-entry-select-on-focus", FALSE,
 		      NULL);
 
-	g_signal_connect (G_OBJECT (gee->entry),
-		"activate",
+	g_signal_connect_swapped (G_OBJECT (gee->entry), "activate",
 		G_CALLBACK (cb_entry_activate), gee);
-	g_signal_connect (G_OBJECT (gee->entry),
-		"changed",
+	g_signal_connect_swapped (G_OBJECT (gee->entry), "changed",
 		G_CALLBACK (cb_entry_changed), gee);
-	g_signal_connect (G_OBJECT (gee->entry),
-		"key_press_event",
+	g_signal_connect (G_OBJECT (gee->entry), "key_press_event",
 		G_CALLBACK (cb_gee_key_press_event), gee);
-	g_signal_connect (G_OBJECT (gee->entry),
-		"button_press_event",
+	g_signal_connect (G_OBJECT (gee->entry), "button_press_event",
 		G_CALLBACK (cb_gee_button_press_event), gee);
-	g_signal_connect (G_OBJECT (gee->entry),
-		"notify::cursor-position",
-		G_CALLBACK (gee_notify_cursor_position), gee);
+	g_signal_connect_swapped (G_OBJECT (gee->entry), "notify::cursor-position",
+		G_CALLBACK (cb_gee_notify_cursor_position), gee);
 	gtk_box_pack_start (GTK_BOX (gee), GTK_WIDGET (gee->entry),
 		TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (gee->entry));
@@ -622,33 +666,25 @@ gee_class_init (GObjectClass *gobject_class)
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
-static void
-cb_entry_activated (G_GNUC_UNUSED gpointer data,
-		    GnmExprEntry *entry)
-{
-	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
-}
+/***************************************************************************/
 
 static void
-gee_start_editing (GtkCellEditable *cell_editable,
-		   G_GNUC_UNUSED GdkEvent *event)
+gee_editable_start_editing (GtkCellEditable *cell_editable,
+			    G_GNUC_UNUSED GdkEvent *event)
 {
 	GtkEntry *entry = gnm_expr_entry_get_entry (GNM_EXPR_ENTRY (cell_editable));
-
 	GNM_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
-
-	g_signal_connect (G_OBJECT (entry),
-		"activate",
-		G_CALLBACK (cb_entry_activated), cell_editable);
-
+	g_signal_connect_swapped (G_OBJECT (entry), "activate",
+		G_CALLBACK (gtk_cell_editable_editing_done), cell_editable);
 	gtk_widget_grab_focus (GTK_WIDGET (entry));
 }
 
 static void
 gee_cell_editable_init (GtkCellEditableIface *iface)
 {
-	iface->start_editing = gee_start_editing;
+	iface->start_editing = gee_editable_start_editing;
 }
+/***************************************************************************/
 
 GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
 		NULL, NULL, gee_class_init, NULL,
@@ -951,19 +987,6 @@ gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested)
 	gee_reset_update_timer (gee, user_requested);
 }
 
-static void
-gee_notify_cursor_position (G_GNUC_UNUSED GObject *object,
-			    G_GNUC_UNUSED GParamSpec *pspec,
-			    GnmExprEntry *gee)
-{
-	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
-
-	if (gee->ignore_changes)
-		return;
-	if (!gnm_expr_entry_can_rangesel (gee))
-		scg_rangesel_stop (gee->scg, FALSE);
-}
-
 /**
  * gnm_expr_entry_set_update_policy:
  * @gee: a #GnmExprEntry
@@ -1122,12 +1145,6 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 #if 0
 	g_warning ("Setting gee (%p)->sheet = %p", gee, gee->sheet);
 #endif
-}
-
-void
-gnm_expr_entry_set_parsepos (GnmExprEntry *gee, GnmParsePos const *pp)
-{
-	gee->pp = *pp;
 }
 
 /**
@@ -1351,7 +1368,8 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
-	if (wbcg_edit_get_guru (gee->wbcg) != NULL && gee == gee->wbcg->edit_line.entry)
+	if (wbcg_edit_get_guru (gee->wbcg) != NULL &&
+	    gee == gee->wbcg->edit_line.entry)
 		return FALSE;
 
 	text = gtk_entry_get_text (gee->entry);
@@ -1439,11 +1457,13 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 
 /**
  * gnm_expr_entry_get_text
- * @ee :
+ * @gee :
  *
  * A small convenience routine.  Think long and hard before using this.
  * There are lots of parse routines that serve the common case.
- */
+ *
+ * Returns: The content of the entry.  Caller should not modify the result.
+ **/
 char const *
 gnm_expr_entry_get_text	(GnmExprEntry const *gee)
 {
@@ -1576,3 +1596,21 @@ gnm_expr_entry_editing_canceled (GnmExprEntry *gee)
 
 	return gee->editing_canceled;
 }
+
+/*****************************************************************************/
+
+void
+gnm_expr_entry_disable_highlight (GnmExprEntry *gee)
+{
+	g_return_if_fail (gee != NULL);
+	gee_destroy_feedback_range (gee);
+	gee->feedback_disabled = TRUE;
+}
+
+void
+gnm_expr_entry_enable_highlight (GnmExprEntry *gee)
+{
+	g_return_if_fail (gee != NULL);
+	gee->feedback_disabled = FALSE;
+}
+

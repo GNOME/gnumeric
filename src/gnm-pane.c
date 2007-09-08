@@ -753,8 +753,8 @@ gnm_pane_class_init (GnmPaneClass *klass)
 static GtkEditable *
 gnm_pane_get_editable (GnmPane const *pane)
 {
-	GnmExprEntry *ee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
-	GtkEntry *entry = gnm_expr_entry_get_entry (ee);
+	GnmExprEntry *gee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
+	GtkEntry *entry = gnm_expr_entry_get_entry (gee);
 	return GTK_EDITABLE (entry);
 }
 
@@ -908,6 +908,7 @@ gnm_pane_init (GnmPane *pane)
 	pane->cursor.special = NULL;
 	pane->cursor.rangehighlight = NULL;
 	pane->cursor.animated = NULL;
+	pane->cursor.expr = NULL;
 	pane->size_tip = NULL;
 
 	pane->slide_handler = NULL;
@@ -2125,6 +2126,8 @@ gnm_pane_reposition_cursors (GnmPane *pane)
 		item_cursor_reposition (pane->cursor.special);
 	if (NULL != pane->cursor.rangehighlight)
 		item_cursor_reposition (ITEM_CURSOR (pane->cursor.rangehighlight));
+	if (NULL != pane->cursor.expr)
+		item_cursor_reposition (ITEM_CURSOR (pane->cursor.expr));
 	for (l = pane->cursor.animated; l; l = l->next)
 		item_cursor_reposition (ITEM_CURSOR (l->data));
 
@@ -2152,15 +2155,16 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 {
 	FooCanvasItem *item;
 	SheetControlGUI *scg = pane->simple.scg;
+	GnmExprEntry *gee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
 
 	g_return_if_fail (pane->cursor.rangesel == NULL);
 
 	/* Hide the primary cursor while the range selection cursor is visible
-	 * and we are selecting on a different sheet than the expr being edited
-	 */
+	 * and we are selecting on a different sheet than the expr being edited */
 	if (scg_sheet (scg) != wb_control_cur_sheet (scg_wbc (scg)))
 		item_cursor_set_visibility (pane->cursor.std, FALSE);
-
+	if (NULL != gee)
+		gnm_expr_entry_disable_highlight (gee);
 	item = foo_canvas_item_new (pane->grid_items,
 		item_cursor_get_type (),
 		"SheetControlGUI", scg,
@@ -2168,23 +2172,18 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 		NULL);
 	pane->cursor.rangesel = ITEM_CURSOR (item);
 	item_cursor_bound_set (pane->cursor.rangesel, r);
-
-	/* If we are selecting a range on a different sheet this may be NULL */
-	if (pane->editor)
-		item_edit_disable_highlight (ITEM_EDIT (pane->editor));
 }
 
 void
 gnm_pane_rangesel_stop (GnmPane *pane)
 {
-	g_return_if_fail (pane->cursor.rangesel != NULL);
+	GnmExprEntry *gee = wbcg_get_entry_logical (pane->simple.scg->wbcg);
+	if (NULL != gee)
+		gnm_expr_entry_enable_highlight (gee);
 
+	g_return_if_fail (pane->cursor.rangesel != NULL);
 	gtk_object_destroy (GTK_OBJECT (pane->cursor.rangesel));
 	pane->cursor.rangesel = NULL;
-
-	/* If we are selecting a range on a different sheet this may be NULL */
-	if (pane->editor)
-		item_edit_enable_highlight (ITEM_EDIT (pane->editor));
 
 	/* Make the primary cursor visible again */
 	item_cursor_set_visibility (pane->cursor.std, TRUE);
@@ -2233,6 +2232,32 @@ gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 	if (pane->mouse_cursor)
 		gdk_cursor_unref (pane->mouse_cursor);
 	pane->mouse_cursor = c;
+}
+
+/****************************************************************************/
+
+void
+gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
+{
+	if (NULL == pane->cursor.expr)
+		pane->cursor.expr = foo_canvas_item_new (
+			FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
+			item_cursor_get_type (),
+			"SheetControlGUI",	pane->simple.scg,
+			"style",		ITEM_CURSOR_BLOCK,
+			"color",		"blue",
+			NULL);
+
+	item_cursor_bound_set (ITEM_CURSOR (pane->cursor.expr), r);
+}
+
+void
+gnm_pane_expr_cursor_stop (GnmPane *pane)
+{
+	if (NULL != pane->cursor.expr) {
+		gtk_object_destroy (GTK_OBJECT (pane->cursor.expr));
+		pane->cursor.expr = NULL;
+	}
 }
 
 /****************************************************************************/

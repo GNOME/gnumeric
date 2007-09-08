@@ -56,6 +56,10 @@ struct _GnmPane {
 	struct {
 		ItemCursor *std, *rangesel, *special, *rangehighlight;
 		GSList *animated;
+
+		/* When editing, if the cursor is inside a cell name, or a cell range,
+		 * we highlight this on the spreadsheet. */
+		FooCanvasItem *expr;
 	} cursor;
 
 	struct {

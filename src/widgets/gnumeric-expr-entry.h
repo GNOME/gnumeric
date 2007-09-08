@@ -71,6 +71,9 @@ void gnm_expr_entry_set_update_policy (GnmExprEntry *gee,
 					    GtkUpdateType  policy);
 void gnm_expr_entry_grab_focus (GnmExprEntry *gee, gboolean select_all);
 
+void    gnm_expr_entry_disable_highlight (GnmExprEntry *gee);
+void    gnm_expr_entry_enable_highlight  (GnmExprEntry *gee);
+
 /* Cell Renderer Specific Method */
 
 gboolean gnm_expr_entry_editing_canceled (GnmExprEntry *gee);
