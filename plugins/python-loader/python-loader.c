@@ -229,7 +229,8 @@ gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
 		g_warning (py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
-	if (input_wrapper != NULL) {
+	if (input_wrapper != NULL && 
+	    loader_data->python_func_file_probe != NULL) {
 		/* wrapping adds a reference */
 		g_object_unref (G_OBJECT (input));
 		probe_result = PyObject_CallFunction
@@ -321,7 +322,8 @@ gplp_load_service_file_opener (GOPluginLoader *loader,
 		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
 		loader_data->python_func_file_probe = python_func_file_probe;
 		loader_data->python_func_file_open = python_func_file_open;
-		Py_INCREF (loader_data->python_func_file_probe);
+		if (python_func_file_probe != NULL)
+			Py_INCREF (loader_data->python_func_file_probe);
 		Py_INCREF (loader_data->python_func_file_open);
 		g_object_set_data_full
 			(G_OBJECT (service), "loader_data", loader_data,

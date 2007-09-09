@@ -1,3 +1,8 @@
+2007-09-09  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gplp_func_file_probe): Fix potential crash.
+	(gplp_load_service_file_opener): Fix crash. [#461845]
+
 2007-09-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.12

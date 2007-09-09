@@ -1,5 +1,8 @@
 Gnumeric 1.7.13
 
+Jon Kåre:
+	* Fix python crash. [#461845]
+
 Morten:
 	* Fix minor date entry problem.
 	* Fix minor time entry problem.
