@@ -22,15 +22,13 @@ install-data-local:
 endif
 
 if WITH_WIN32
-if !CROSS_COMPILING
 SUFFIXES = .schemas.in .reg .hkcu.reg
 regdir = $(prefix)/etc/win32/reg
 reg_DATA = $(schema_in_files:.schemas.in=.reg) $(schema_in_files:.schemas.in=.hkcu.reg)
 CLEANFILES += $(reg_DATA)
 
 .schemas.in.reg:
-	$(top_builddir)/tools/gconf-schemas-to-win32-reg.exe $< >$@
+	cd $(bindir) ; $(abs_top_builddir)/tools/gconf-schemas-to-win32-reg.exe $(abs_builddir)/$< >$(abs_builddir)/$@
 .schemas.in.hkcu.reg:
-	$(top_builddir)/tools/gconf-schemas-to-win32-reg.exe -c $< >$@
-endif
+	cd $(bindir) ; $(abs_top_builddir)/tools/gconf-schemas-to-win32-reg.exe -c $(abs_builddir)/$< >$(abs_builddir)/$@
 endif

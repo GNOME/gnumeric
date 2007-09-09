@@ -1,7 +1,4 @@
-SUBDIRS = . po po-functions src plugins icons templates doc schemas test
-if WITH_WIN32
-  SUBDIRS += tools
-endif
+SUBDIRS = . po po-functions src plugins icons templates doc tools schemas test
 
 XML_I18N_XML_KIND = --pass-through
 

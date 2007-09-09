@@ -1,3 +1,10 @@
+2007-09-09  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : always build tools before schemas
+	* tools/Makefile.am : build the registry converter
+	* schemas/Makefile.am : fall back on wine to do the gconf -> registry
+	  conversion when cross compiling.
+
 2007-09-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Added support for rendering documentation as PDF
