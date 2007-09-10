@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-24 15:12+0200\n"
+"POT-Creation-Date: 2007-09-09 21:27-0400\n"
 "PO-Revision-Date: 2007-08-17 15:41+0200\n"
 "Last-Translator: Stéphane Raimbault <stephane.raimbault@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -37,37 +37,6 @@ msgstr "Tableur Gnumeric"
 #: ../gnumeric.desktop.in.h:3
 msgid "Spreadsheet"
 msgstr "Tableur"
-
-#: ../component/Gnumeric-embed.xml.in.h:1 ../src/GNOME_Gnumeric-gtk.xml.in.h:1
-#: ../src/HILDON_Gnumeric-gtk.xml.in.h:1
-msgid "FormatToolbar"
-msgstr "BarreOutilsFormat"
-
-#: ../component/Gnumeric-embed.xml.in.h:2 ../src/GNOME_Gnumeric-gtk.xml.in.h:2
-#: ../src/HILDON_Gnumeric-gtk.xml.in.h:2
-msgid "ObjectToolbar"
-msgstr "BarreOutilsObjets"
-
-#: ../component/Gnumeric-embed.xml.in.h:3 ../src/GNOME_Gnumeric-gtk.xml.in.h:3
-#: ../src/HILDON_Gnumeric-gtk.xml.in.h:3
-msgid "StandardToolbar"
-msgstr "BarreOutilsStandard"
-
-#: ../component/gnumeric.c:374
-msgid "Save the embedded workbook"
-msgstr "Enregistre le classeur intégré"
-
-#: ../component/plugin.xml.in.h:1
-msgid "Component : Gnumeric"
-msgstr "Composant : Gnumeric"
-
-#: ../component/plugin.xml.in.h:2 ../src/gui-file.c:276 ../src/gui-file.c:421
-msgid "Spreadsheets"
-msgstr "Feuilles de calcul"
-
-#: ../component/plugin.xml.in.h:3
-msgid "Spreadsheets component engine"
-msgstr "Moteur de composant de feuilles de calcul"
 
 #: ../plugins/applix/applix-read.c:110
 msgid "Parse error while reading Applix file."
@@ -267,7 +236,7 @@ msgstr "Instruments financiers"
 msgid "Functions related to financial derivatives"
 msgstr "Fonctions relatives aux produits financiers"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6160
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6159
 #: ../plugins/mps/mps.c:534 ../src/xml-io.c:2631 ../src/xml-sax-read.c:2513
 msgid "Reading file..."
 msgstr "Lecture du fichier..."
@@ -359,12 +328,12 @@ msgstr "Préparation de l'enregistrement..."
 msgid "Saving file..."
 msgstr "Enregistrement du fichier..."
 
-#: ../plugins/excel/excel-xml-read.c:130 ../src/xml-sax-read.c:369
+#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:369
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Attribut inattendu %s::%s == '%s'."
 
-#: ../plugins/excel/excel-xml-read.c:993
+#: ../plugins/excel/excel-xml-read.c:1002
 #: ../plugins/openoffice/openoffice-read.c:2846 ../src/xml-sax-read.c:2530
 msgid "XML document not well formed!"
 msgstr "Document XML non valide"
@@ -376,7 +345,7 @@ msgstr "#INCONNU!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: ../plugins/excel/ms-excel-read.c:1175 ../plugins/excel/ms-excel-read.c:1187
-#: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:509
+#: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:513
 #: ../src/dialogs/dialog-sheet-order.c:518
 #: ../src/dialogs/dialog-sheet-order.c:522
 #, c-format
@@ -426,11 +395,11 @@ msgstr ""
 "Les liens OLE ne sont pas pris en charge.\n"
 "Le nom « %s » sera perdu.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5428
+#: ../plugins/excel/ms-excel-read.c:5427
 msgid "external references"
 msgstr "Références externes"
 
-#: ../plugins/excel/ms-excel-read.c:5454
+#: ../plugins/excel/ms-excel-read.c:5453
 msgid "No password supplied"
 msgstr "Aucun mot de passe fourni"
 
@@ -474,11 +443,11 @@ msgstr ""
 "Une longueur a déjà été affectée à cette chaîne et elle a été tronquée à "
 "cause de problèmes de codage."
 
-#: ../plugins/excel/ms-excel-write.c:5528
+#: ../plugins/excel/ms-excel-write.c:5489
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Impossible d'ouvrir le flux « Livre » en écriture\n"
 
-#: ../plugins/excel/ms-excel-write.c:5548
+#: ../plugins/excel/ms-excel-write.c:5509
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Impossible d'ouvrir le flux « Classeur » en écriture\n"
 
@@ -494,111 +463,130 @@ msgstr ""
 "Il y a trop de paramètres pour la fonction « %s ». MS Excel ne peut en gérer "
 "que %d et non pas %d"
 
-#: ../plugins/excel/xlsx-read.c:174
+#: ../plugins/excel/xlsx-read.c:200
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "« %s » est corrompu !"
 
-#: ../plugins/excel/xlsx-read.c:255
+#: ../plugins/excel/xlsx-read.c:281
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "La valeur d'énumération « %s » est inconnue pour l'attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:298
+#: ../plugins/excel/xlsx-read.c:324 ../plugins/excel/xlsx-read.c:353
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "L'entier « %s » est hors plage pour l'attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:302
+#: ../plugins/excel/xlsx-read.c:328 ../plugins/excel/xlsx-read.c:357
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "L'entier « %s » n'est pas valide pour l'attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:327
+#: ../plugins/excel/xlsx-read.c:382
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Le nombre « %s » n'est pas valide pour l'attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:351
+#: ../plugins/excel/xlsx-read.c:406
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "La position de cellule « %s » n'est pas valide pour l'attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:370
+#: ../plugins/excel/xlsx-read.c:425
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "La plage « %s » n'est pas valide pour l'attribut %s"
 
-#: ../plugins/excel/xlsx-read.c:725
-#, fuzzy, c-format
-msgid "Invalid color '%s' for attribute rgb"
-msgstr "La couleur « %s » n'est pas valide pour l'attribut « RGB »"
-
-#: ../plugins/excel/xlsx-read.c:748
-#, c-format
-msgid "Undefined style record '%d'"
-msgstr "Le style d'enregistrement « %d » est non défini"
-
-#: ../plugins/excel/xlsx-read.c:757
-#, c-format
-msgid "Undefined partial style record '%d'"
-msgstr "Le style d'enregistrement partiel « %d » est non défini"
-
-#: ../plugins/excel/xlsx-read.c:897
+#: ../plugins/excel/xlsx-read.c:652
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "L'identifiant « %s » de mise en forme de nombre est non défini"
 
-#: ../plugins/excel/xlsx-read.c:952
+#: ../plugins/excel/xlsx-read.c:1287
+msgid "Dropping missing object"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:1305
+#, c-format
+msgid "Dropping object with incomplete anchor %2x"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:1416
+#, fuzzy, c-format
+msgid "Invalid color '%s' for attribute rgb"
+msgstr "La couleur « %s » n'est pas valide pour l'attribut « RGB »"
+
+#: ../plugins/excel/xlsx-read.c:1439
+#, c-format
+msgid "Undefined style record '%d'"
+msgstr "Le style d'enregistrement « %d » est non défini"
+
+#: ../plugins/excel/xlsx-read.c:1448
+#, c-format
+msgid "Undefined partial style record '%d'"
+msgstr "Le style d'enregistrement partiel « %d » est non défini"
+
+#: ../plugins/excel/xlsx-read.c:1477
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Réf sst « %s » non valide"
 
-#: ../plugins/excel/xlsx-read.c:1074
+#: ../plugins/excel/xlsx-read.c:1598
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Cellule %s non valide"
 
-#: ../plugins/excel/xlsx-read.c:1175
+#: ../plugins/excel/xlsx-read.c:1699
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 "Les informations de colonnes qui n'indique pas la première ou la dernière "
 "sont ignorées."
 
-#: ../plugins/excel/xlsx-read.c:1735
+#: ../plugins/excel/xlsx-read.c:1976
+#, c-format
+msgid "Ignoring invalid data validation because : %s"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:2400
 msgid "Undefined"
 msgstr "Non défini"
 
-#: ../plugins/excel/xlsx-read.c:1767
+#: ../plugins/excel/xlsx-read.c:2432
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr ""
 "La mise en forme conditionnelle non prise en charge de type « %s » est "
 "ignorée"
 
-#: ../plugins/excel/xlsx-read.c:2146
+#: ../plugins/excel/xlsx-read.c:2726
+#, fuzzy
+msgid "Unknown type of hyperlink"
+msgstr "Greffon inconnu"
+
+#: ../plugins/excel/xlsx-read.c:2889
 msgid "Ignoring a sheet without a name"
 msgstr "La feuille sans nom est ignorée"
 
-#: ../plugins/excel/xlsx-read.c:2174
+#: ../plugins/excel/xlsx-read.c:2917
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr ""
 "L'identifiant de composant (« part-id ») de la feuille « %s » est manquant"
 
-#: ../plugins/excel/xlsx-read.c:2608
+#: ../plugins/excel/xlsx-read.c:3351
 #, c-format
 msgid "Undefined font record '%d'"
 msgstr "L'enregistrement de police « %d » est non défini"
 
-#: ../plugins/excel/xlsx-read.c:2942
+#: ../plugins/excel/xlsx-read.c:3686
 msgid "No workbook stream found."
 msgstr "Aucun flux de livre ou classeur n'a été trouvé."
 
 #. TODO * TODO * TODO
 #. *
 #. * IMPROVE
-#. * 	- column widths : Don't use hard coded font side
+#. * 	- column widths : Don't use hard coded font size
 #. * 	- share colours
 #. * 	- conditional formats
 #. * 		: why do we need to flip fg and bg for solid in xf but not for dxf
@@ -877,9 +865,9 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #: ../plugins/fn-info/functions.c:1338
-#: ../src/dialogs/dialog-cell-format.c:2221
-#: ../src/dialogs/dialog-cell-format.c:2225
-#: ../src/dialogs/dialog-cell-format.c:2233 ../src/wbc-gtk.c:2504
+#: ../src/dialogs/dialog-cell-format.c:2220
+#: ../src/dialogs/dialog-cell-format.c:2224
+#: ../src/dialogs/dialog-cell-format.c:2232 ../src/wbc-gtk.c:2501
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -1015,56 +1003,56 @@ msgstr "Logique"
 msgid "Logic Functions"
 msgstr "Fonctions logiques"
 
-#: ../plugins/fn-lookup/functions.c:1271
+#: ../plugins/fn-lookup/functions.c:1275
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "num_ligne;num_col;abs;a1;text"
 
-#: ../plugins/fn-lookup/functions.c:1274
+#: ../plugins/fn-lookup/functions.c:1278
 msgid "reference"
 msgstr "référence"
 
-#: ../plugins/fn-lookup/functions.c:1277
+#: ../plugins/fn-lookup/functions.c:1281
 msgid "index,value,"
 msgstr "indice;valeur"
 
-#: ../plugins/fn-lookup/functions.c:1280 ../plugins/fn-lookup/functions.c:1286
-#: ../plugins/fn-lookup/functions.c:1310 ../plugins/fn-lookup/functions.c:1313
+#: ../plugins/fn-lookup/functions.c:1284 ../plugins/fn-lookup/functions.c:1290
+#: ../plugins/fn-lookup/functions.c:1314 ../plugins/fn-lookup/functions.c:1317
 msgid "ref"
 msgstr "réf"
 
-#: ../plugins/fn-lookup/functions.c:1283
+#: ../plugins/fn-lookup/functions.c:1287
 msgid "colname"
 msgstr "nom_colonne"
 
-#: ../plugins/fn-lookup/functions.c:1289 ../plugins/fn-lookup/functions.c:1319
+#: ../plugins/fn-lookup/functions.c:1293 ../plugins/fn-lookup/functions.c:1323
 msgid "val,range,col_idx,approx,as_index"
 msgstr "valeur;intervalle;ind_colonne;approx;indice"
 
-#: ../plugins/fn-lookup/functions.c:1292
+#: ../plugins/fn-lookup/functions.c:1296
 msgid "link_location, label"
 msgstr "empl_lien;étiquette"
 
-#: ../plugins/fn-lookup/functions.c:1295
+#: ../plugins/fn-lookup/functions.c:1299
 msgid "ref_string,format"
 msgstr "chaîne_réf;format"
 
-#: ../plugins/fn-lookup/functions.c:1298
+#: ../plugins/fn-lookup/functions.c:1302
 msgid "reference,row,col,area"
 msgstr "référence;ligne;col;zone"
 
-#: ../plugins/fn-lookup/functions.c:1301
+#: ../plugins/fn-lookup/functions.c:1305
 msgid "val,range,range"
 msgstr "valeur;intervalle;intervalle"
 
-#: ../plugins/fn-lookup/functions.c:1304
+#: ../plugins/fn-lookup/functions.c:1308
 msgid "val,range,approx"
 msgstr "valeur;intervalle;approx"
 
-#: ../plugins/fn-lookup/functions.c:1307
+#: ../plugins/fn-lookup/functions.c:1311
 msgid "ref,row,col,height,width"
 msgstr "réf;ligne;col;hauteur;largeur"
 
-#: ../plugins/fn-lookup/functions.c:1316 ../plugins/fn-math/functions.c:3495
+#: ../plugins/fn-lookup/functions.c:1320 ../plugins/fn-math/functions.c:3495
 msgid "array"
 msgstr "tableau"
 
@@ -1667,14 +1655,14 @@ msgstr "Fonction objective :"
 msgid "Constraints:"
 msgstr "Contraintes :"
 
-#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:570
-#: ../src/dialogs/dialog-doc-metadata.c:1278
-#: ../src/dialogs/dialog-formula-guru.c:826
+#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:569
+#: ../src/dialogs/dialog-doc-metadata.c:1214
+#: ../src/dialogs/dialog-formula-guru.c:825
 #: ../src/dialogs/dialog-function-select.c:539
 #: ../src/dialogs/dialog-function-select.c:561
-#: ../src/dialogs/dialog-paste-names.c:101
+#: ../src/dialogs/dialog-paste-names.c:100
 #: ../src/dialogs/dialog-scenarios.c:374
-#: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:198
+#: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:196
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -1687,7 +1675,7 @@ msgstr "Contraintes :"
 msgid "Name"
 msgstr "Nom"
 
-#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1284
+#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1220
 #: ../src/dialogs/dialog-simulation.c:226
 #: ../src/tools/solver/reports-write.c:236
 #: ../src/tools/solver/reports-write.c:282
@@ -1699,8 +1687,8 @@ msgstr "Valeur"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:830
-#: ../src/dialogs/dialog-search.c:423 ../src/tools/solver/reports-write.c:515
+#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:829
+#: ../src/dialogs/dialog-search.c:407 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Type"
 
@@ -1977,15 +1965,15 @@ msgstr "Psiconv"
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
 
-#: ../plugins/psiconv/psiconv-read.c:607
+#: ../plugins/psiconv/psiconv-read.c:611
 msgid "Error while reading psiconv file."
 msgstr "Erreur lors de la lecture du fichier psiconv."
 
-#: ../plugins/psiconv/psiconv-read.c:617
+#: ../plugins/psiconv/psiconv-read.c:621
 msgid "Error while parsing Psion file."
 msgstr "Erreur lors de l'analyse du fichier Psion."
 
-#: ../plugins/psiconv/psiconv-read.c:625
+#: ../plugins/psiconv/psiconv-read.c:629
 msgid "This Psion file is not a Sheet file."
 msgstr "Ce fichier Psion n'est pas une feuille de calcul."
 
@@ -2249,8 +2237,8 @@ msgstr "Ceci est un message du greffon « %s »."
 msgid "Error while opening xbase file."
 msgstr "Erreur lors de l'ouverture du fichier xbase."
 
-#: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:260
-#: ../src/dialogs/dialog-search.c:421 ../src/dialogs/dialog-stf-export.c:465
+#: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:258
+#: ../src/dialogs/dialog-search.c:405 ../src/dialogs/dialog-stf-export.c:465
 #: ../src/dialogs/print.glade.h:31 ../src/print-info.c:439 ../src/search.c:620
 #: ../src/workbook.c:869 ../src/xml-io.c:2228
 msgid "Sheet"
@@ -2308,7 +2296,7 @@ msgid "Activate New Plugins"
 msgstr "Activer les nouveaux greffons"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:824
+#: ../src/dialogs/dialog-preferences.c:833
 msgid "Allow Unfocused Range Selections"
 msgstr "Autoriser des sélections d'intervalle sans focus."
 
@@ -2463,7 +2451,7 @@ msgid "List of recently used functions."
 msgstr "Liste des fonctions récemment utilisées."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
-#: ../src/dialogs/dialog-preferences.c:829
+#: ../src/dialogs/dialog-preferences.c:838
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Longueur maximum de la liste de fonctions récemment utilisées"
 
@@ -2850,7 +2838,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Délai avant recalcul automatique des expressions"
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:819
+#: ../src/dialogs/dialog-preferences.c:828
 msgid "Autocomplete"
 msgstr "Achèvement automatique"
 
@@ -2865,7 +2853,7 @@ msgstr ""
 "dialogue qui sera sélectionné par défaut."
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:719
+#: ../src/dialogs/dialog-preferences.c:728
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Niveau de compression par défaut pour les fichiers Gnumeric"
 
@@ -2874,27 +2862,27 @@ msgid "Default Font Size"
 msgstr "Taille de police par défaut"
 
 #: ../schemas/gnumeric-general.schemas.in.h:6
-#: ../src/dialogs/dialog-preferences.c:672
+#: ../src/dialogs/dialog-preferences.c:681
 msgid "Default Horizontal Window Size"
 msgstr "Taille de fenêtre horizontale par défaut"
 
 #: ../schemas/gnumeric-general.schemas.in.h:7
-#: ../src/dialogs/dialog-preferences.c:680
+#: ../src/dialogs/dialog-preferences.c:689
 msgid "Default Number of Sheets"
 msgstr "Nombre de feuilles par défaut :"
 
 #: ../schemas/gnumeric-general.schemas.in.h:8
-#: ../src/dialogs/dialog-preferences.c:724
+#: ../src/dialogs/dialog-preferences.c:733
 msgid "Default To Overwriting Files"
 msgstr "Remplacement de fichier par défaut"
 
 #: ../schemas/gnumeric-general.schemas.in.h:9
-#: ../src/dialogs/dialog-preferences.c:668
+#: ../src/dialogs/dialog-preferences.c:677
 msgid "Default Vertical Window Size"
 msgstr "Taille de fenêtre verticale par défaut"
 
 #: ../schemas/gnumeric-general.schemas.in.h:10
-#: ../src/dialogs/dialog-preferences.c:676
+#: ../src/dialogs/dialog-preferences.c:685
 msgid "Default Zoom Factor"
 msgstr "Facteur de zoom par défaut"
 
@@ -2907,7 +2895,7 @@ msgid "Format toolbar visible"
 msgstr "Visibilité de la barre d'outils « format »"
 
 #: ../schemas/gnumeric-general.schemas.in.h:13
-#: ../src/dialogs/dialog-preferences.c:769
+#: ../src/dialogs/dialog-preferences.c:778
 msgid "Horizontal DPI"
 msgstr "Résolution horizontale (PPP)"
 
@@ -2935,22 +2923,22 @@ msgid "Length of the Undo Descriptors"
 msgstr "Longueur des descripteurs d'action « Annuler »"
 
 #: ../schemas/gnumeric-general.schemas.in.h:16
-#: ../src/dialogs/dialog-preferences.c:684
+#: ../src/dialogs/dialog-preferences.c:693
 msgid "Live Scrolling"
 msgstr "Défilement immédiat"
 
 #: ../schemas/gnumeric-general.schemas.in.h:17
-#: ../src/dialogs/dialog-preferences.c:572
+#: ../src/dialogs/dialog-preferences.c:581
 msgid "Maximal Undo Size"
 msgstr "Taille maximale du système « Annuler/Rétablir »"
 
 #: ../schemas/gnumeric-general.schemas.in.h:18
-#: ../src/dialogs/dialog-preferences.c:616
+#: ../src/dialogs/dialog-preferences.c:625
 msgid "Number of Automatic Clauses"
 msgstr "Nombre de clauses automatiques"
 
 #: ../schemas/gnumeric-general.schemas.in.h:19
-#: ../src/dialogs/dialog-preferences.c:576
+#: ../src/dialogs/dialog-preferences.c:585
 msgid "Number of Undo Items"
 msgstr "Nombre de manipulations annulables"
 
@@ -2959,7 +2947,7 @@ msgid "Object toolbar visible"
 msgstr "Visibilité de la barre d'outils « objets »"
 
 #: ../schemas/gnumeric-general.schemas.in.h:21
-#: ../src/dialogs/dialog-preferences.c:864
+#: ../src/dialogs/dialog-preferences.c:873
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Préférer le presse-papiers à la sélection primaire."
 
@@ -3002,7 +2990,7 @@ msgstr ""
 "cocher correspondante du dialogue de tri sera ajusté."
 
 #: ../schemas/gnumeric-general.schemas.in.h:28
-#: ../src/dialogs/dialog-preferences.c:580
+#: ../src/dialogs/dialog-preferences.c:589
 msgid "Show Sheet Name in Undo List"
 msgstr "Afficher le nom de la feuille dans la liste d'annulations"
 
@@ -3022,7 +3010,7 @@ msgid "Sort Area Has Header"
 msgstr "L'intervalle à trier a un en-tête"
 
 #: ../schemas/gnumeric-general.schemas.in.h:31
-#: ../src/dialogs/dialog-preferences.c:628 ../src/wbc-gtk-actions.c:1934
+#: ../src/dialogs/dialog-preferences.c:637 ../src/wbc-gtk-actions.c:1934
 msgid "Sort Ascending"
 msgstr "Tri croissant"
 
@@ -3031,7 +3019,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Tri sensible à la casse"
 
 #: ../schemas/gnumeric-general.schemas.in.h:33
-#: ../src/dialogs/dialog-preferences.c:620
+#: ../src/dialogs/dialog-preferences.c:629
 msgid "Sorting Preserves Formats"
 msgstr "Conserver les formats en triant"
 
@@ -3231,17 +3219,17 @@ msgstr ""
 "text"
 
 #: ../schemas/gnumeric-general.schemas.in.h:63
-#: ../src/dialogs/dialog-preferences.c:814
+#: ../src/dialogs/dialog-preferences.c:823
 msgid "Transition Keys"
 msgstr "Touches de transition"
 
 #: ../schemas/gnumeric-general.schemas.in.h:64
-#: ../src/dialogs/dialog-preferences.c:773
+#: ../src/dialogs/dialog-preferences.c:782
 msgid "Vertical DPI"
 msgstr "Résolution verticale (PPP)"
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
-#: ../src/dialogs/dialog-preferences.c:728
+#: ../src/dialogs/dialog-preferences.c:737
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Avertir lors de l'exportation vers un format à feuille unique"
 
@@ -3276,7 +3264,7 @@ msgstr ""
 "être installé."
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:734
+#: ../src/dialogs/dialog-preferences.c:743
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Utiliser UTF-8 lors des exportations LaTeX"
 
@@ -3784,13 +3772,13 @@ msgstr ""
 "Personnalisé"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2229 ../src/wbc-gtk.c:2557
-#: ../src/wbc-gtk.c:2558 ../src/wbc-gtk.c:2567
+#: ../src/dialogs/dialog-cell-format.c:2228 ../src/wbc-gtk.c:2554
+#: ../src/wbc-gtk.c:2555 ../src/wbc-gtk.c:2564
 msgid "Background"
 msgstr "Arrière-plan"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2221
+#: ../src/dialogs/dialog-cell-format.c:2220
 msgid "Border"
 msgstr "Bordure"
 
@@ -3839,7 +3827,7 @@ msgid "Diagonal Stripe"
 msgstr "Rayures diagonales"
 
 #: ../src/dialogs/cell-format.glade.h:46
-#: ../src/dialogs/dialog-preferences.c:886 ../src/wbc-gtk.c:2608
+#: ../src/dialogs/dialog-preferences.c:895 ../src/wbc-gtk.c:2605
 msgid "Font"
 msgstr "Police"
 
@@ -3848,7 +3836,7 @@ msgid "Foreground Solid"
 msgstr "Premier plan uni"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-cell-format.c:2158
+#: ../src/dialogs/dialog-cell-format.c:2157
 msgid "Format Cells"
 msgstr "Formater les cellules"
 
@@ -4803,10 +4791,10 @@ msgid "No matching records were found."
 msgstr "Aucun enregistrement correspondant n'a été trouvé."
 
 #: ../src/dialogs/dialog-advanced-filter.c:153
-#: ../src/dialogs/dialog-analysis-tools.c:552
-#: ../src/dialogs/dialog-analysis-tools.c:671
-#: ../src/dialogs/dialog-analysis-tools.c:1978
-#: ../src/dialogs/dialog-analysis-tools.c:2835
+#: ../src/dialogs/dialog-analysis-tools.c:550
+#: ../src/dialogs/dialog-analysis-tools.c:669
+#: ../src/dialogs/dialog-analysis-tools.c:1976
+#: ../src/dialogs/dialog-analysis-tools.c:2833
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Une erreur inattendue s'est produite : %d."
@@ -4815,95 +4803,95 @@ msgstr "Une erreur inattendue s'est produite : %d."
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Impossible de créer le dialogue pour filtres avancés."
 
-#: ../src/dialogs/dialog-analysis-tools.c:473
-#: ../src/dialogs/dialog-analysis-tools.c:1015
-#: ../src/dialogs/dialog-analysis-tools.c:2662
-#: ../src/dialogs/dialog-analysis-tools.c:2876
+#: ../src/dialogs/dialog-analysis-tools.c:471
+#: ../src/dialogs/dialog-analysis-tools.c:1013
+#: ../src/dialogs/dialog-analysis-tools.c:2660
+#: ../src/dialogs/dialog-analysis-tools.c:2874
 #: ../src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
 msgstr "L'intervalle d'entrée n'est pas valide."
 
-#: ../src/dialogs/dialog-analysis-tools.c:482
-#: ../src/dialogs/dialog-analysis-tools.c:1066
-#: ../src/dialogs/dialog-analysis-tools.c:2682
-#: ../src/dialogs/dialog-analysis-tools.c:2908
+#: ../src/dialogs/dialog-analysis-tools.c:480
+#: ../src/dialogs/dialog-analysis-tools.c:1064
+#: ../src/dialogs/dialog-analysis-tools.c:2680
+#: ../src/dialogs/dialog-analysis-tools.c:2906
 msgid "The output specification is invalid."
 msgstr "La spécification de sortie n'est pas valide."
 
-#: ../src/dialogs/dialog-analysis-tools.c:538
-#: ../src/dialogs/dialog-analysis-tools.c:657
+#: ../src/dialogs/dialog-analysis-tools.c:536
+#: ../src/dialogs/dialog-analysis-tools.c:655
 msgid "The selected input rows must have equal size!"
 msgstr "Les lignes d'entrée sélectionnées doivent être de même taille !"
 
-#: ../src/dialogs/dialog-analysis-tools.c:543
-#: ../src/dialogs/dialog-analysis-tools.c:662
+#: ../src/dialogs/dialog-analysis-tools.c:541
+#: ../src/dialogs/dialog-analysis-tools.c:660
 msgid "The selected input columns must have equal size!"
 msgstr "Les colonnes d'entrée sélectionnées doivent être de même taille !"
 
-#: ../src/dialogs/dialog-analysis-tools.c:548
-#: ../src/dialogs/dialog-analysis-tools.c:667
+#: ../src/dialogs/dialog-analysis-tools.c:546
+#: ../src/dialogs/dialog-analysis-tools.c:665
 msgid "The selected input areas must have equal size!"
 msgstr "Les zones d'entrée sélectionnées doivent être de même taille !"
 
-#: ../src/dialogs/dialog-analysis-tools.c:595
+#: ../src/dialogs/dialog-analysis-tools.c:593
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de corrélation."
 
-#: ../src/dialogs/dialog-analysis-tools.c:714
+#: ../src/dialogs/dialog-analysis-tools.c:712
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de covariance."
 
-#: ../src/dialogs/dialog-analysis-tools.c:804
+#: ../src/dialogs/dialog-analysis-tools.c:802
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de Rang et Pourcentage."
 
-#: ../src/dialogs/dialog-analysis-tools.c:895
+#: ../src/dialogs/dialog-analysis-tools.c:893
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil d'analyse de Fourier."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1024
+#: ../src/dialogs/dialog-analysis-tools.c:1022
 msgid "No statistics are selected."
 msgstr "Pas de statistiques sélectionnées."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1034
+#: ../src/dialogs/dialog-analysis-tools.c:1032
 msgid "The confidence level should be between 0 and 1."
 msgstr "Le niveau de confiance doit être compris entre 0 et 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1046
-#: ../src/dialogs/dialog-analysis-tools.c:1057
+#: ../src/dialogs/dialog-analysis-tools.c:1044
+#: ../src/dialogs/dialog-analysis-tools.c:1055
 msgid "K must be a positive integer."
 msgstr "K doit être un entier positif."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1106
+#: ../src/dialogs/dialog-analysis-tools.c:1104
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 "Impossible de créer le dialogue pour l'outil de statistiques descriptives."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1251
+#: ../src/dialogs/dialog-analysis-tools.c:1249
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr "Veuillez saisir une variance de population valide pour la variable 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1260
+#: ../src/dialogs/dialog-analysis-tools.c:1258
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr "Veuillez saisir une variance de population valide pour la variable 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1476
+#: ../src/dialogs/dialog-analysis-tools.c:1474
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de tests de moyenne."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1663
+#: ../src/dialogs/dialog-analysis-tools.c:1661
 msgid "Could not create the FTest Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de FTest."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1857
+#: ../src/dialogs/dialog-analysis-tools.c:1855
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil d'échantillonage."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1973
+#: ../src/dialogs/dialog-analysis-tools.c:1971
 #: ../src/tools/analysis-tools.c:3087 ../src/tools/analysis-tools.c:3166
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
@@ -4911,32 +4899,32 @@ msgstr ""
 "Il doit y avoir le même nombre de valeurs pour chaque variable de la "
 "régression."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2067
+#: ../src/dialogs/dialog-analysis-tools.c:2065
 msgid "Could not create the Regression Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de régression."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2195
+#: ../src/dialogs/dialog-analysis-tools.c:2193
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de lissage exponentiel."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2328
+#: ../src/dialogs/dialog-analysis-tools.c:2326
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de moyenne mobile."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2539
+#: ../src/dialogs/dialog-analysis-tools.c:2537
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil d'histogramme."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2673
-#: ../src/dialogs/dialog-analysis-tools.c:2887
+#: ../src/dialogs/dialog-analysis-tools.c:2671
+#: ../src/dialogs/dialog-analysis-tools.c:2885
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "La valeur d'alpha doit être un nombre compris entre 0 et 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2721
+#: ../src/dialogs/dialog-analysis-tools.c:2719
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil ANOVA (facteur simple)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2801
+#: ../src/dialogs/dialog-analysis-tools.c:2799
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -4944,7 +4932,7 @@ msgstr ""
 "L'intervalle d'entrée fourni doit contenir au moins deux lignes et deux "
 "colonnes de données et les titres."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2804
+#: ../src/dialogs/dialog-analysis-tools.c:2802
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -4952,7 +4940,7 @@ msgstr ""
 "L'intervalle d'entrée fourni doit contenir au moins deux lignes et deux "
 "colonnes de données."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2810
+#: ../src/dialogs/dialog-analysis-tools.c:2808
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -4960,12 +4948,12 @@ msgstr ""
 "L'intervalle d'entrée fourni doit contenir au moins deux colonnes de données "
 "et les titres."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2813
+#: ../src/dialogs/dialog-analysis-tools.c:2811
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "L'intervalle d'entrée fourni doit contenir au moins deux colonnes de données."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2819
+#: ../src/dialogs/dialog-analysis-tools.c:2817
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -4973,22 +4961,22 @@ msgstr ""
 "L'intervalle d'entrée fourni doit contenir au moins deux lignes de données "
 "et les titres."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2822
+#: ../src/dialogs/dialog-analysis-tools.c:2820
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "L'intervalle d'entrée fourni doit contenir au moins deux lignes de données."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2829
+#: ../src/dialogs/dialog-analysis-tools.c:2827
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "Le nombre de lignes de données doit être un multiple du nombre de "
 "réplication."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2899
+#: ../src/dialogs/dialog-analysis-tools.c:2897
 msgid "The number of rows per sample should be a positive integer."
 msgstr "Le nombre de lignes par échantillon doit être un entier positif."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2945
+#: ../src/dialogs/dialog-analysis-tools.c:2943
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil ANOVA (deux facteurs)."
 
@@ -5095,7 +5083,7 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: ../src/dialogs/dialog-autoformat.c:652
+#: ../src/dialogs/dialog-autoformat.c:642
 msgid "An error occurred while reading the category list"
 msgstr "Une erreur est apparue durant la lecture de la liste de catégories"
 
@@ -5166,17 +5154,17 @@ msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 "Les critères de validation sont inutilisables. Désactiver la validation ?"
 
-#: ../src/dialogs/dialog-cell-format.c:2225 ../src/wbc-gtk.c:2214
-#: ../src/wbc-gtk.c:2338 ../src/wbc-gtk.c:2506 ../src/wbc-gtk.c:2507
-#: ../src/wbc-gtk.c:2518 ../src/wbc-gtk.c:2624 ../src/wbc-gtk.c:2688
+#: ../src/dialogs/dialog-cell-format.c:2224 ../src/wbc-gtk.c:2214
+#: ../src/wbc-gtk.c:2338 ../src/wbc-gtk.c:2503 ../src/wbc-gtk.c:2504
+#: ../src/wbc-gtk.c:2515 ../src/wbc-gtk.c:2621 ../src/wbc-gtk.c:2685
 msgid "Foreground"
 msgstr "Premier plan"
 
-#: ../src/dialogs/dialog-cell-format.c:2229 ../src/wbc-gtk.c:2555
+#: ../src/dialogs/dialog-cell-format.c:2228 ../src/wbc-gtk.c:2552
 msgid "Clear Background"
 msgstr "Effacer le fond"
 
-#: ../src/dialogs/dialog-cell-format.c:2233
+#: ../src/dialogs/dialog-cell-format.c:2232
 msgid "Pattern"
 msgstr "Motif"
 
@@ -5200,39 +5188,39 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s à %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:742
+#: ../src/dialogs/dialog-cell-sort.c:740
 msgid "no available row"
 msgstr "ligne non disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:742
+#: ../src/dialogs/dialog-cell-sort.c:740
 msgid "no available column"
 msgstr "colonne non disponible"
 
-#: ../src/dialogs/dialog-cell-sort.c:997
+#: ../src/dialogs/dialog-cell-sort.c:995
 msgid "Header"
 msgstr "Haut de page"
 
-#: ../src/dialogs/dialog-cell-sort.c:1002
+#: ../src/dialogs/dialog-cell-sort.c:1000
 msgid "Row/Column"
 msgstr "Ligne/Colonne"
 
-#: ../src/dialogs/dialog-cell-sort.c:1022
+#: ../src/dialogs/dialog-cell-sort.c:1020
 msgid "Case Sensitive"
 msgstr "Sensible à la casse"
 
-#: ../src/dialogs/dialog-cell-sort.c:1042
+#: ../src/dialogs/dialog-cell-sort.c:1040
 msgid "By Value"
 msgstr "Par valeur"
 
-#: ../src/dialogs/dialog-cell-sort.c:1172
+#: ../src/dialogs/dialog-cell-sort.c:1170
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Impossible de créer le dialogue pour le tri des cellules."
 
-#: ../src/dialogs/dialog-col-width.c:222
+#: ../src/dialogs/dialog-col-width.c:221
 msgid "Set standard/default column width"
 msgstr "Changer la largeur par défaut de la colonne"
 
-#: ../src/dialogs/dialog-col-width.c:227
+#: ../src/dialogs/dialog-col-width.c:226
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
@@ -5267,32 +5255,32 @@ msgstr "Nom de scénario non valide"
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Pourquoi définir un nom valant #NAME! ?"
 
-#: ../src/dialogs/dialog-define-names.c:662
-#: ../src/dialogs/dialog-doc-metadata.c:1595
-#: ../src/dialogs/dialog-paste-names.c:145
+#: ../src/dialogs/dialog-define-names.c:663
+#: ../src/dialogs/dialog-doc-metadata.c:1499
+#: ../src/dialogs/dialog-paste-names.c:144
 msgid "Could not create the Name Guru."
 msgstr "Impossible de créer le Gourou de Noms."
 
-#: ../src/dialogs/dialog-delete-cells.c:125
+#: ../src/dialogs/dialog-delete-cells.c:124
 #: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbc-gtk-actions.c:201
 #: ../src/wbc-gtk-actions.c:215
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../src/dialogs/dialog-delete-cells.c:155
+#: ../src/dialogs/dialog-delete-cells.c:154
 msgid "Could not create the Delete Cell dialog."
 msgstr "Impossible de créer le dialogue pour la suppression de cellules."
 
 #. Set the `CPU Model'.
 #. Set the `CPU Mhz'.
-#: ../src/dialogs/dialog-doc-metadata.c:367
+#: ../src/dialogs/dialog-doc-metadata.c:341
 #: ../src/tools/solver/reports-write.c:673
 #: ../src/tools/solver/reports-write.c:676
 #: ../src/tools/solver/reports-write.c:689
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1290
+#: ../src/dialogs/dialog-doc-metadata.c:1226
 msgid "Linked To"
 msgstr "Lié à"
 
@@ -5305,11 +5293,11 @@ msgstr "Impossible de créer le dialogue de remplissage."
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:841
+#: ../src/dialogs/dialog-formula-guru.c:840
 msgid "Function/Argument"
 msgstr "Fonction/Paramètre"
 
-#: ../src/dialogs/dialog-formula-guru.c:1009
+#: ../src/dialogs/dialog-formula-guru.c:1008
 msgid "Could not create the formula guru."
 msgstr "Impossible de créer l'assistant de formules."
 
@@ -5330,47 +5318,47 @@ msgstr "Alignement"
 msgid "See also: "
 msgstr ""
 
-#: ../src/dialogs/dialog-goal-seek.c:333
+#: ../src/dialogs/dialog-goal-seek.c:331
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr ""
 "Vous devez saisir un nom de cellule valide dans « Affecter la cellule » !"
 
-#: ../src/dialogs/dialog-goal-seek.c:345
+#: ../src/dialogs/dialog-goal-seek.c:343
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr ""
 "La cellule définie dans « Affecter la cellule » doit contenir une formule !"
 
-#: ../src/dialogs/dialog-goal-seek.c:358
+#: ../src/dialogs/dialog-goal-seek.c:356
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr ""
 "Vous devez saisir un nom de cellule valide dans « En changeant la "
 "cellule : » !"
 
-#: ../src/dialogs/dialog-goal-seek.c:371
+#: ../src/dialogs/dialog-goal-seek.c:369
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr ""
 "La cellule définie dans « En changeant la cellule » ne doit pas contenir une "
 "formule."
 
-#: ../src/dialogs/dialog-goal-seek.c:384
+#: ../src/dialogs/dialog-goal-seek.c:382
 msgid "The value given in 'To Value:' is not valid."
 msgstr "La valeur donnée pour « À la valeur : » n'est pas valide."
 
-#: ../src/dialogs/dialog-goal-seek.c:428
+#: ../src/dialogs/dialog-goal-seek.c:426
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Le solveur a trouvé une solution pour la cellule %s."
 
-#: ../src/dialogs/dialog-goal-seek.c:449
+#: ../src/dialogs/dialog-goal-seek.c:447
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Le solveur n'a pas trouvé de solution pour la cellule %s."
 
-#: ../src/dialogs/dialog-goal-seek.c:705
+#: ../src/dialogs/dialog-goal-seek.c:704
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de recherche de but."
 
-#: ../src/dialogs/dialog-goto-cell.c:159
+#: ../src/dialogs/dialog-goto-cell.c:157
 msgid "Workbook Level"
 msgstr "Niveau du classeur"
 
@@ -5383,7 +5371,7 @@ msgstr "Niveau du classeur"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:266 ../src/dialogs/dialog-search.c:422
+#: ../src/dialogs/dialog-goto-cell.c:264 ../src/dialogs/dialog-search.c:406
 #: ../src/dialogs/tabulate.glade.h:2 ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
 #: ../src/tools/solver/reports-write.c:127
@@ -5394,67 +5382,67 @@ msgstr "Niveau du classeur"
 msgid "Cell"
 msgstr "Cellule"
 
-#: ../src/dialogs/dialog-goto-cell.c:326
+#: ../src/dialogs/dialog-goto-cell.c:322
 msgid "Could not create the goto dialog."
 msgstr "Impossible de créer le dialogue « atteindre »."
 
-#: ../src/dialogs/dialog-hyperlink.c:144
+#: ../src/dialogs/dialog-hyperlink.c:142
 msgid "Not a range or name"
 msgstr "Pas un intervalle ou un nom"
 
-#: ../src/dialogs/dialog-hyperlink.c:260
+#: ../src/dialogs/dialog-hyperlink.c:258
 msgid "Internal Link"
 msgstr "Lien interne"
 
-#: ../src/dialogs/dialog-hyperlink.c:262
+#: ../src/dialogs/dialog-hyperlink.c:260
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr "Aller à une cellule ou à un intervalle nommé dans le classeur actuel"
 
-#: ../src/dialogs/dialog-hyperlink.c:266
+#: ../src/dialogs/dialog-hyperlink.c:264
 msgid "External Link"
 msgstr "Lien externe"
 
-#: ../src/dialogs/dialog-hyperlink.c:268
+#: ../src/dialogs/dialog-hyperlink.c:266
 msgid "Open an external file with the specified name"
 msgstr "Ouvrir un fichier externe avec le nom donné"
 
-#: ../src/dialogs/dialog-hyperlink.c:271
+#: ../src/dialogs/dialog-hyperlink.c:269
 msgid "Email Link"
 msgstr "Lien courriel"
 
-#: ../src/dialogs/dialog-hyperlink.c:273
+#: ../src/dialogs/dialog-hyperlink.c:271
 msgid "Prepare an email"
 msgstr "Préparer un courriel"
 
-#: ../src/dialogs/dialog-hyperlink.c:276
+#: ../src/dialogs/dialog-hyperlink.c:274
 msgid "Web Link"
 msgstr "Lien Web"
 
-#: ../src/dialogs/dialog-hyperlink.c:278
+#: ../src/dialogs/dialog-hyperlink.c:276
 msgid "Browse to the specified URL"
 msgstr "Naviguer à l'URL spécifiée"
 
-#: ../src/dialogs/dialog-hyperlink.c:348
+#: ../src/dialogs/dialog-hyperlink.c:346
 msgid "Add Hyperlink"
 msgstr "Ajouter un hyperlien"
 
-#: ../src/dialogs/dialog-hyperlink.c:350
+#: ../src/dialogs/dialog-hyperlink.c:348
 msgid "Edit Hyperlink"
 msgstr "Éditer l'hyperlien"
 
-#: ../src/dialogs/dialog-hyperlink.c:357 ../src/sheet-control-gui.c:1752
+#: ../src/dialogs/dialog-hyperlink.c:355 ../src/sheet-control-gui.c:1752
 msgid "Remove Hyperlink"
 msgstr "Enlever hyperlien"
 
-#: ../src/dialogs/dialog-hyperlink.c:549
+#: ../src/dialogs/dialog-hyperlink.c:547
 msgid "Could not create the hyperlink dialog."
 msgstr "Impossible de créer le dialogue hyperlien."
 
-#: ../src/dialogs/dialog-insert-cells.c:126 ../src/wbc-gtk.c:414
+#: ../src/dialogs/dialog-insert-cells.c:125 ../src/wbc-gtk.c:414
 msgid "Insert"
 msgstr "Insérer"
 
-#: ../src/dialogs/dialog-insert-cells.c:156
+#: ../src/dialogs/dialog-insert-cells.c:155
 msgid "Could not create the Insert Cell dialog."
 msgstr "Impossible de créer le dialogue pour l'insertion de cellules."
 
@@ -5476,11 +5464,11 @@ msgstr ""
 "Les longueurs des colonnes de données vont de %i à %i. Réduire à %i et "
 "lancer le traitement ?"
 
-#: ../src/dialogs/dialog-merge.c:393
+#: ../src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Entrée de donnée"
 
-#: ../src/dialogs/dialog-merge.c:400
+#: ../src/dialogs/dialog-merge.c:399
 msgid "Merge Field"
 msgstr "Fusionner le champ"
 
@@ -5546,27 +5534,27 @@ msgstr "M_ultiplier"
 msgid "D_ivide"
 msgstr "D_iviser"
 
-#: ../src/dialogs/dialog-paste-special.c:186
+#: ../src/dialogs/dialog-paste-special.c:179
 msgid "Paste Special"
 msgstr "Collage spécial"
 
-#: ../src/dialogs/dialog-paste-special.c:189
+#: ../src/dialogs/dialog-paste-special.c:182
 msgid "Paste _Link"
 msgstr "Coller le _lien"
 
-#: ../src/dialogs/dialog-paste-special.c:198
+#: ../src/dialogs/dialog-paste-special.c:191
 msgid "Paste type"
 msgstr "Coller le type"
 
-#: ../src/dialogs/dialog-paste-special.c:202
+#: ../src/dialogs/dialog-paste-special.c:195
 msgid "Operation"
 msgstr "Opération"
 
-#: ../src/dialogs/dialog-paste-special.c:234
+#: ../src/dialogs/dialog-paste-special.c:227
 msgid "_Transpose"
 msgstr "_Transpose"
 
-#: ../src/dialogs/dialog-paste-special.c:240
+#: ../src/dialogs/dialog-paste-special.c:233
 msgid "Skip _Blanks"
 msgstr "Ignorer les _blancs"
 
@@ -5646,17 +5634,17 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Répertoire"
 
-#: ../src/dialogs/dialog-preferences.c:551
+#: ../src/dialogs/dialog-preferences.c:560
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Les éléments de cette page permettent de personnaliser le comportement du "
 "système « Annuler/Rétablir »."
 
-#: ../src/dialogs/dialog-preferences.c:568
+#: ../src/dialogs/dialog-preferences.c:577
 msgid "Length of Undo Descriptors"
 msgstr "Longueur des descripteurs d'action « Annuler »"
 
-#: ../src/dialogs/dialog-preferences.c:597
+#: ../src/dialogs/dialog-preferences.c:606
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -5665,33 +5653,33 @@ msgstr ""
 "initiales du dialogue de tri et le comportement des boutons de tri, sur la "
 "barre d'outils."
 
-#: ../src/dialogs/dialog-preferences.c:624
+#: ../src/dialogs/dialog-preferences.c:633
 msgid "Sorting is Case-Sensitive"
 msgstr "Tri sensible à la casse"
 
-#: ../src/dialogs/dialog-preferences.c:632
+#: ../src/dialogs/dialog-preferences.c:641
 msgid "Sort Area Has a HEADER"
 msgstr "La zone de tri a un EN-TÊTE"
 
-#: ../src/dialogs/dialog-preferences.c:650
+#: ../src/dialogs/dialog-preferences.c:659
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "Les éléments de cette page permettent de personnaliser le nouveau classeur "
 "par défaut."
 
-#: ../src/dialogs/dialog-preferences.c:701
+#: ../src/dialogs/dialog-preferences.c:710
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Les éléments de cette page concernent l'enregistrement et l'ouverture de "
 "fichiers."
 
-#: ../src/dialogs/dialog-preferences.c:751
+#: ../src/dialogs/dialog-preferences.c:760
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 "Les éléments de cette page concernent la disposition de l'écran et la "
 "résolution."
 
-#: ../src/dialogs/dialog-preferences.c:790
+#: ../src/dialogs/dialog-preferences.c:799
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
@@ -5699,46 +5687,46 @@ msgstr ""
 "Les éléments de cette page et de ses sous-pages concernent divers outils de "
 "Gnumeric."
 
-#: ../src/dialogs/dialog-preferences.c:809
+#: ../src/dialogs/dialog-preferences.c:818
 #, fuzzy
 msgid "Enter _Moves Selection"
 msgstr "_Centrer au milieu de la sélection"
 
-#: ../src/dialogs/dialog-preferences.c:846
+#: ../src/dialogs/dialog-preferences.c:855
 msgid "The items on this page are related to copy, cut and paste."
 msgstr ""
 "Les éléments de cette page concernent les fonctions « Copier », « Couper » "
 "et « Coller »."
 
-#: ../src/dialogs/dialog-preferences.c:887
+#: ../src/dialogs/dialog-preferences.c:896
 msgid "Copy and Paste"
 msgstr "Copier et coller"
 
-#: ../src/dialogs/dialog-preferences.c:888
+#: ../src/dialogs/dialog-preferences.c:897
 msgid "Files"
 msgstr "Fichiers"
 
-#: ../src/dialogs/dialog-preferences.c:889
+#: ../src/dialogs/dialog-preferences.c:898
 msgid "Tools"
 msgstr "Outils"
 
-#: ../src/dialogs/dialog-preferences.c:890
+#: ../src/dialogs/dialog-preferences.c:899
 msgid "Undo"
 msgstr "Annuler"
 
-#: ../src/dialogs/dialog-preferences.c:891
+#: ../src/dialogs/dialog-preferences.c:900
 msgid "Windows"
 msgstr "Fenêtres"
 
-#: ../src/dialogs/dialog-preferences.c:892
+#: ../src/dialogs/dialog-preferences.c:901
 msgid "Header/Footer"
 msgstr "En-tête/Pied de page"
 
-#: ../src/dialogs/dialog-preferences.c:893 ../src/commands.c:2075
+#: ../src/dialogs/dialog-preferences.c:902 ../src/commands.c:2075
 msgid "Sorting"
 msgstr "Tri"
 
-#: ../src/dialogs/dialog-preferences.c:894
+#: ../src/dialogs/dialog-preferences.c:903
 msgid "Screen"
 msgstr "Écran"
 
@@ -5757,10 +5745,12 @@ msgid "mm"
 msgstr ""
 
 #: ../src/dialogs/dialog-printer-setup.c:905
+#, c-format
 msgid "Customize header"
 msgstr "Configurer l'en-tête de page"
 
 #: ../src/dialogs/dialog-printer-setup.c:907
+#, c-format
 msgid "Customize footer"
 msgstr "Configurer le pied de page"
 
@@ -6030,11 +6020,11 @@ msgstr "Weibull"
 msgid "Could not create the Random Tool dialog."
 msgstr "Impossible de créer le dialogue pour l'outil de génération aléatoire."
 
-#: ../src/dialogs/dialog-row-height.c:218
+#: ../src/dialogs/dialog-row-height.c:217
 msgid "Set standard/default row height"
 msgstr "Changer la hauteur par défaut de la ligne"
 
-#: ../src/dialogs/dialog-row-height.c:223
+#: ../src/dialogs/dialog-row-height.c:222
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
@@ -6074,6 +6064,7 @@ msgid "Could not create the Scenario Add dialog."
 msgstr "Impossible de créer le dialogue d'addition de scénario."
 
 #: ../src/dialogs/dialog-scenarios.c:247
+#, c-format
 msgid "Created on "
 msgstr "Créé le "
 
@@ -6107,13 +6098,13 @@ msgstr "Expression"
 msgid "Other value"
 msgstr "Autre valeur"
 
-#: ../src/dialogs/dialog-search.c:345
+#: ../src/dialogs/dialog-search.c:329
 #: ../src/dialogs/dialog-search-replace.c:151
 msgid "You must select some cell types to search."
 msgstr ""
 "Vous devez sélectionner un type de cellules dans lesquelles rechercher."
 
-#: ../src/dialogs/dialog-search.c:424
+#: ../src/dialogs/dialog-search.c:408
 msgid "Content"
 msgstr "Contenu"
 
@@ -6153,16 +6144,16 @@ msgstr "Il y a plus d'une feuille nommées « %s »"
 msgid "At least one sheet must remain visible!"
 msgstr "Au moins une feuille doit rester visible."
 
-#: ../src/dialogs/dialog-sheet-order.c:982
+#: ../src/dialogs/dialog-sheet-order.c:979
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "L'ordre des feuilles a changé. Voulez-vous mettre la liste à jour ?"
 
-#: ../src/dialogs/dialog-sheet-order.c:1010
+#: ../src/dialogs/dialog-sheet-order.c:1007
 msgid "Another view is already managing sheets"
 msgstr "Une autre vue gère déjà les feuille"
 
-#: ../src/dialogs/dialog-sheet-order.c:1064
-#: ../src/dialogs/dialog-sheet-order.c:1074
+#: ../src/dialogs/dialog-sheet-order.c:1061
+#: ../src/dialogs/dialog-sheet-order.c:1071
 msgid "Default"
 msgstr "Défaut"
 
@@ -6207,16 +6198,16 @@ msgid "Variable"
 msgstr "Variable"
 
 #: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3681
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3686
+#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3683
 msgid "Average"
 msgstr "Moyenne"
 
 #: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3682
 msgid "Max"
 msgstr "Max"
 
@@ -6256,7 +6247,7 @@ msgstr ""
 "Vous cherchez un sujet pour votre thèse ? Peut-être aimeriez-vous écrire un "
 "résolveur QP pour Gnumeric ?"
 
-#: ../src/dialogs/dialog-solver.c:692
+#: ../src/dialogs/dialog-solver.c:687
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -6264,7 +6255,7 @@ msgstr ""
 "Le solveur a trouvé une solution optimale : toutes les contraintes et "
 "conditions d'optimalité sont satisfaites.\n"
 
-#: ../src/dialogs/dialog-solver.c:701
+#: ../src/dialogs/dialog-solver.c:696
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -6272,14 +6263,14 @@ msgstr ""
 "Les rapports de sensibilité et de limites ne sont pas significatifs si le "
 "programme a des contraintes entières. Ces rapports ne seront donc pas créés."
 
-#: ../src/dialogs/dialog-solver.c:719
+#: ../src/dialogs/dialog-solver.c:714
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 "La valeur de la cellule cible ne converge pas ! Le programme n'a pas de "
 "limite."
 
-#: ../src/dialogs/dialog-solver.c:733
+#: ../src/dialogs/dialog-solver.c:728
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -6287,7 +6278,7 @@ msgstr ""
 "Impossible de trouver une solution. Toutes les contraintes ne peuvent pas "
 "être satisfaites simultanément. "
 
-#: ../src/dialogs/dialog-solver.c:748
+#: ../src/dialogs/dialog-solver.c:743
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -6295,38 +6286,38 @@ msgstr ""
 "Nombre d'itérations maximum atteint. La solution optimale n'a pas été "
 "trouvée."
 
-#: ../src/dialogs/dialog-solver.c:792
+#: ../src/dialogs/dialog-solver.c:787
 msgid "Optimal solution created by solver.\n"
 msgstr "Solution optimale créée par le solveur\n"
 
-#: ../src/dialogs/dialog-solver.c:826
+#: ../src/dialogs/dialog-solver.c:821
 msgid "Unknown error."
 msgstr "Erreur inconnue."
 
-#: ../src/dialogs/dialog-solver.c:845
+#: ../src/dialogs/dialog-solver.c:840
 msgid "You have not specified a problem to be solved"
 msgstr "Vous n'avez pas spécifié de problème à résoudre"
 
-#: ../src/dialogs/dialog-solver.c:863 ../src/tools/solver/solver.c:380
+#: ../src/dialogs/dialog-solver.c:858 ../src/tools/solver/solver.c:380
 msgid "Target cell should contain a formula."
 msgstr "La cellule cible doit contenir une formule."
 
-#: ../src/dialogs/dialog-solver.c:941
+#: ../src/dialogs/dialog-solver.c:936
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 "La contrainte « %s » est pour une cellule qui n'est pas une cellule variable "
 "d'un problème."
 
-#: ../src/dialogs/dialog-solver.c:960
+#: ../src/dialogs/dialog-solver.c:955
 msgid "No constraints defined for the problem."
 msgstr "Aucunes contraintes définies pour le problème."
 
-#: ../src/dialogs/dialog-solver.c:1224
+#: ../src/dialogs/dialog-solver.c:1219
 msgid "Subject to the Constraints:"
 msgstr "Sous les contraintes :"
 
-#: ../src/dialogs/dialog-solver.c:1340
+#: ../src/dialogs/dialog-solver.c:1333
 msgid "Could not create the Solver dialog."
 msgstr "Impossible de créer le dialogue pour l'outil solveur."
 
@@ -6368,7 +6359,7 @@ msgstr ""
 "Toujours\n"
 "Jamais"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:223
+#: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:226
 msgid "Character _encoding:"
 msgstr "Codag_e des caractères :"
 
@@ -6884,44 +6875,44 @@ msgstr "Texte"
 msgid "Data (from %s)"
 msgstr "Donnée (depuis %s)"
 
-#: ../src/dialogs/dialog-tabulate.c:205
+#: ../src/dialogs/dialog-tabulate.c:198
 msgid "You should introduce a single valid cell as dependency cell"
 msgstr "Vous devez introduire un nom de cellule valide comme dépendance"
 
-#: ../src/dialogs/dialog-tabulate.c:212
+#: ../src/dialogs/dialog-tabulate.c:205
 msgid "The dependency cells should not contain an expression"
 msgstr "Les cellules de dépendance ne doivent pas contenir une expression"
 
-#: ../src/dialogs/dialog-tabulate.c:221
+#: ../src/dialogs/dialog-tabulate.c:214
 msgid "You should introduce a valid number as minimum"
 msgstr "Le minimum doit être un nombre valide"
 
-#: ../src/dialogs/dialog-tabulate.c:230
+#: ../src/dialogs/dialog-tabulate.c:223
 msgid "You should introduce a valid number as maximum"
 msgstr "Le maximum doit être un nombre valide"
 
-#: ../src/dialogs/dialog-tabulate.c:238
+#: ../src/dialogs/dialog-tabulate.c:231
 msgid "The maximum value should be bigger than the minimum"
 msgstr "Le maximum doit être plus grand que le minimum"
 
-#: ../src/dialogs/dialog-tabulate.c:247
+#: ../src/dialogs/dialog-tabulate.c:240
 msgid "You should introduce a valid number as step size"
 msgstr "Le pas doit être un nombre valide"
 
-#: ../src/dialogs/dialog-tabulate.c:255
+#: ../src/dialogs/dialog-tabulate.c:248
 msgid "The step size should be positive"
 msgstr "Le pas doit être positif"
 
-#: ../src/dialogs/dialog-tabulate.c:266
+#: ../src/dialogs/dialog-tabulate.c:259
 msgid "You should introduce one or more dependency cells"
 msgstr "Vous devez saisir une ou plusieurs cellules de dépendances."
 
-#: ../src/dialogs/dialog-tabulate.c:276
+#: ../src/dialogs/dialog-tabulate.c:269
 msgid "You should introduce a single valid cell as result cell"
 msgstr ""
 "Vous devez introduire un nom de cellule valide comme cellule de résultat"
 
-#: ../src/dialogs/dialog-tabulate.c:284
+#: ../src/dialogs/dialog-tabulate.c:277
 msgid "The target cell should contain an expression"
 msgstr "La cellule cible doit contenir une expression"
 
@@ -8016,7 +8007,6 @@ msgid "View"
 msgstr "Vue"
 
 #: ../src/dialogs/search.glade.h:1 ../src/dialogs/search-replace.glade.h:4
-#: ../src/gui-file.c:181 ../src/gui-file.c:244
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
 msgstr "Avancée"
@@ -8530,6 +8520,7 @@ msgstr "Résoudre"
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
 #: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6214
+#, c-format
 msgid "Solver"
 msgstr "Solveur"
 
@@ -9309,7 +9300,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Intervalle"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3687
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3684
 msgid "Count"
 msgstr "Compte"
 
@@ -9783,7 +9774,8 @@ msgstr "(Vides...)"
 msgid "(Non Blanks...)"
 msgstr "(Non vides...)"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1414
+#: ../src/widgets/gnumeric-expr-entry.c:1432
+#, c-format
 msgid "Expecting a single range"
 msgstr "Attend un intervalle unique"
 
@@ -9814,16 +9806,16 @@ msgstr "Longueur du fichier d'historique"
 msgid "A GSlist of filenames that have been read recently"
 msgstr ""
 
-#: ../src/clipboard.c:354 ../src/clipboard.c:366 ../src/clipboard.c:377
-#: ../src/clipboard.c:385
+#: ../src/clipboard.c:360 ../src/clipboard.c:372 ../src/clipboard.c:383
+#: ../src/clipboard.c:391
 msgid "Unable to paste"
 msgstr "Impossible de coller"
 
-#: ../src/clipboard.c:355
+#: ../src/clipboard.c:361
 msgid "Contents can only be pasted by value or by link."
 msgstr "Le contenu ne peut être copié que par valeur ou par lien."
 
-#: ../src/clipboard.c:363
+#: ../src/clipboard.c:369
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -9836,7 +9828,7 @@ msgstr ""
 "Essayez de sélectionner une seule cellule ou une aire de même forme et "
 "taille."
 
-#: ../src/clipboard.c:374
+#: ../src/clipboard.c:380
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -9849,7 +9841,7 @@ msgstr ""
 "Essayez de sélectionner une seule cellule ou une aire de même forme et "
 "taille."
 
-#: ../src/clipboard.c:386
+#: ../src/clipboard.c:392
 msgid "result passes the sheet boundary"
 msgstr "le résultat franchit les limites de la feuille"
 
@@ -9900,6 +9892,7 @@ msgid "Would split array %s"
 msgstr "Il faudrait diviser le tableau %s"
 
 #: ../src/command-context.c:58
+#, c-format
 msgid "Would split an array"
 msgstr "Il faudrait diviser le tableau"
 
@@ -10236,6 +10229,7 @@ msgid "Sheet names must be non-empty."
 msgstr ""
 
 #: ../src/commands.c:4751
+#, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr ""
 
@@ -10255,6 +10249,7 @@ msgid "Merging data into %s"
 msgstr "Fusion des données vers %s"
 
 #: ../src/commands.c:5329
+#, c-format
 msgid "Changing workbook properties"
 msgstr "Changement des propriétés du classeur"
 
@@ -10326,6 +10321,7 @@ msgid "Goal Seek (%s)"
 msgstr "Recherche du but (%s)"
 
 #: ../src/commands.c:6466
+#, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulation des dépendances"
 
@@ -10550,7 +10546,7 @@ msgstr "300 %"
 msgid "500%"
 msgstr "500 %"
 
-#: ../src/gnm-pane.c:1965
+#: ../src/gnm-pane.c:1966
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10621,6 +10617,18 @@ msgstr "Propriétés du trait et de la flèche"
 msgid "Polygon Properties"
 msgstr "Propriétés du polygone"
 
+#: ../src/GNOME_Gnumeric-gtk.xml.in.h:1 ../src/HILDON_Gnumeric-gtk.xml.in.h:1
+msgid "FormatToolbar"
+msgstr "BarreOutilsFormat"
+
+#: ../src/GNOME_Gnumeric-gtk.xml.in.h:2 ../src/HILDON_Gnumeric-gtk.xml.in.h:2
+msgid "ObjectToolbar"
+msgstr "BarreOutilsObjets"
+
+#: ../src/GNOME_Gnumeric-gtk.xml.in.h:3 ../src/HILDON_Gnumeric-gtk.xml.in.h:3
+msgid "StandardToolbar"
+msgstr "BarreOutilsStandard"
+
 #: ../src/gui-clipboard.c:136
 msgid "clipboard"
 msgstr "Presse-papiers"
@@ -10629,30 +10637,39 @@ msgstr "Presse-papiers"
 msgid "Automatically detected"
 msgstr "Détecté automatiquement"
 
-#: ../src/gui-file.c:184
-#: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
-#: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
-#: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
-msgid "Simple"
+#. xgettext: If possible try to use the same mnemonic for
+#. * Advanced and Simple
+#: ../src/gui-file.c:184 ../src/gui-file.c:247
+#, fuzzy
+msgid "Advanc_ed"
+msgstr "Avancée"
+
+#: ../src/gui-file.c:187
+#, fuzzy
+msgid "Simpl_e"
 msgstr "Simple"
 
-#: ../src/gui-file.c:215
+#: ../src/gui-file.c:218
 msgid "Load file"
 msgstr "Ouvrir fichier"
 
-#: ../src/gui-file.c:241 ../src/gui-file.c:400
+#: ../src/gui-file.c:244 ../src/gui-file.c:402
 msgid "Select a file"
 msgstr "Sélectionner un fichier"
 
-#: ../src/gui-file.c:271 ../src/gui-file.c:416
+#: ../src/gui-file.c:274 ../src/gui-file.c:418
 msgid "All Files"
 msgstr "Tous les fichiers"
 
-#: ../src/gui-file.c:289 ../src/gui-file.c:445
+#: ../src/gui-file.c:279 ../src/gui-file.c:423
+msgid "Spreadsheets"
+msgstr "Feuilles de calcul"
+
+#: ../src/gui-file.c:292 ../src/gui-file.c:447
 msgid "File _type:"
 msgstr "_Type de fichier :"
 
-#: ../src/gui-file.c:352
+#: ../src/gui-file.c:354
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -10665,7 +10682,7 @@ msgstr ""
 "fichiers différents ou choisissez un autre format de fichier.\n"
 "Voulez-vous enregistrer seulement la feuille active ?"
 
-#: ../src/gui-file.c:502
+#: ../src/gui-file.c:504
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10918,18 +10935,22 @@ msgstr ""
 "dans gnm_yn."
 
 #: ../src/parser.y:322
+#, c-format
 msgid "An array must have at least 1 element"
 msgstr "Un tableau doit avoir au moins 1 élément"
 
 #: ../src/parser.y:354
+#, c-format
 msgid "Arrays must be rectangular"
 msgstr "Les matrices doivent être rectangulaires"
 
 #: ../src/parser.y:373
+#, c-format
 msgid "Constructed ranges use simple references"
 msgstr "Les intervalles générés utilisent des références simples"
 
 #: ../src/parser.y:387 ../src/parser.y:401
+#, c-format
 msgid "All entries in the set must be references"
 msgstr "Tous les éléments de l'ensemble doivent être des références."
 
@@ -10944,6 +10965,7 @@ msgid "Unknown sheet '%s'"
 msgstr "Feuille inconnue « %s »"
 
 #: ../src/parser.y:598
+#, c-format
 msgid "() is an invalid expression"
 msgstr "() n'est pas une expression valide"
 
@@ -10958,35 +10980,43 @@ msgid "Unknown workbook '%s'"
 msgstr "Classeur inconnu « %s »"
 
 #: ../src/parser.y:996 ../src/parser.y:1245
+#, c-format
 msgid "Could not find matching closing quote"
 msgstr "Guillemets fermants manquants"
 
 #: ../src/parser.y:1106
+#, c-format
 msgid "Sheet name is required"
 msgstr "Le nom de la feuille n'a pas été fourni."
 
 #: ../src/parser.y:1159 ../src/parser.y:1168 ../src/parser.y:1193
+#, c-format
 msgid "The number is out of range"
 msgstr "Le nombre est en dehors de l'intervalle"
 
 #: ../src/parser.y:1227
+#, c-format
 msgid "Improperly formatted error token"
 msgstr "Jeton d'erreur incorrectement formulé"
 
 #: ../src/parser.y:1427
+#, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 "Les expressions multiples ne sont pas prises en charge dans ce contexte."
 
 #: ../src/parser.y:1450
+#, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "Parenthèse ouvrante manquante"
 
 #: ../src/parser.y:1454
+#, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "Parenthèse fermante manquante"
 
 #: ../src/parser.y:1458
+#, c-format
 msgid "Invalid expression"
 msgstr "Expression non valide"
 
@@ -11647,6 +11677,7 @@ msgid "Pus_h to Back"
 msgstr "Mettre à l'a_rrière plan"
 
 #: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:412
+#, c-format
 msgid "Unknown failure while saving image"
 msgstr "Erreur inconnu lors de l'enregistrement du fichier."
 
@@ -11666,32 +11697,32 @@ msgstr "_Enregistrer en tant qu'image"
 msgid "Frame"
 msgstr "Bordure"
 
-#: ../src/sheet-object-widget.c:515 ../src/wbc-gtk-actions.c:1978
+#: ../src/sheet-object-widget.c:512 ../src/wbc-gtk-actions.c:1978
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Bouton"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:789
+#: ../src/sheet-object-widget.c:786
 msgid "Change widget"
 msgstr "Évènement widget"
 
-#: ../src/sheet-object-widget.c:1398
+#: ../src/sheet-object-widget.c:1392
 #, c-format
 msgid "CheckBox %d"
 msgstr "Case à cocher %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1465
+#: ../src/sheet-object-widget.c:1459
 #, fuzzy
 msgid "Clicking checkbox"
 msgstr "Clic sur une case à cocher"
 
-#: ../src/sheet-object-widget.c:1866 ../src/wbc-gtk-actions.c:1981
+#: ../src/sheet-object-widget.c:1857 ../src/wbc-gtk-actions.c:1981
 msgid "RadioButton"
 msgstr "Bouton radio"
 
-#: ../src/sheet-object-widget.c:2102
+#: ../src/sheet-object-widget.c:2093
 msgid "Clicking in list"
 msgstr "Clic dans une liste"
 
@@ -11783,6 +11814,7 @@ msgstr ""
 "Essayez --list-exporters pour voir toutes les possibilités.\n"
 
 #: ../src/ssconvert.c:244
+#, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
@@ -11861,6 +11893,7 @@ msgid "Text to Columns"
 msgstr "Texte vers colonnes"
 
 #: ../src/stf.c:276
+#, c-format
 msgid "Only one column of <b>input</b> data can be parsed at a time"
 msgstr ""
 "Une seule colonne de données d'<b>entrée</b> peut être analysée à la fois"
@@ -11893,24 +11926,24 @@ msgstr "Erreur d'interprétation lors de l'insertion de données dans la feuille
 msgid "Error while trying to export file as text"
 msgstr "Erreur lors de l'export du fichier au format texte"
 
-#: ../src/stf.c:438
+#: ../src/stf.c:448
 msgid "Error while trying to write CSV file"
 msgstr "Erreur lors de l'écriture du fichier CSV"
 
-#: ../src/stf.c:528
+#: ../src/stf.c:538
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr ""
 "Fichiers CSV/TSV (valeurs séparées par des virgules ou des tabulations)"
 
-#: ../src/stf.c:533
+#: ../src/stf.c:543
 msgid "Text import (configurable)"
 msgstr "Importation de texte (paramétrable)"
 
-#: ../src/stf.c:539
+#: ../src/stf.c:549
 msgid "Text export (configurable)"
 msgstr "Exportation de texte (paramétrable)"
 
-#: ../src/stf.c:543
+#: ../src/stf.c:553
 msgid "Comma separated values (CSV)"
 msgstr "Fichier CVS (valeurs séparées par des virgules)"
 
@@ -11950,46 +11983,90 @@ msgstr ""
 "Il y a plus de colonne qu'il y a de place dans la feuille. Les colonnes "
 "surnuméraires seront ignorées."
 
-#: ../src/validation.c:252
+#. Note: no entry for VALIDATION_OP_NONE
+#: ../src/validation.c:71
+msgid "Between"
+msgstr ""
+
+#: ../src/validation.c:72
+msgid "Not_Between"
+msgstr ""
+
+#: ../src/validation.c:73
+#, fuzzy
+msgid "Equal"
+msgstr "É_gal"
+
+#: ../src/validation.c:74
+#, fuzzy
+msgid "Not Equal"
+msgstr "É_gal"
+
+#: ../src/validation.c:75
+#, fuzzy
+msgid "Greater Than"
+msgstr "Créé le "
+
+#: ../src/validation.c:76
+msgid "Less Than"
+msgstr ""
+
+#: ../src/validation.c:77
+msgid "Greater than or Equal"
+msgstr ""
+
+#: ../src/validation.c:78
+msgid "Less than or Equal"
+msgstr ""
+
+#: ../src/validation.c:290
+msgid "Missing formula for validation"
+msgstr ""
+
+#: ../src/validation.c:293
+msgid "Extra formula for validation"
+msgstr ""
+
+#: ../src/validation.c:303
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric : Validation"
 
-#: ../src/validation.c:309
+#: ../src/validation.c:360
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "La cellule %s ne peut pas être vide"
 
-#: ../src/validation.c:317
+#: ../src/validation.c:368
 #, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "La cellule %s ne peut pas contenir de valeurs d'erreur"
 
-#: ../src/validation.c:328
+#: ../src/validation.c:379
 #, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "La cellule %s ne peut pas contenir de chaîne"
 
-#: ../src/validation.c:344
+#: ../src/validation.c:395
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "« %s » n'est pas un entier"
 
-#: ../src/validation.c:354
+#: ../src/validation.c:405
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "« %s » n'est pas une date valide"
 
-#: ../src/validation.c:376
+#: ../src/validation.c:427
 #, c-format
 msgid "%s does not contain the new value."
 msgstr "%s ne contient pas de nouvelle valeur."
 
-#: ../src/validation.c:410
+#: ../src/validation.c:461
 #, c-format
 msgid "%s is not true."
 msgstr "%s n'est pas vrai."
 
-#: ../src/validation.c:447
+#: ../src/validation.c:498
 #, c-format
 msgid "%s is out of permitted range"
 msgstr "%s est en dehors de la plage autorisée"
@@ -12200,26 +12277,26 @@ msgstr "Rétablir une action annulée"
 msgid "Undo the last action"
 msgstr "Annuler la dernière action"
 
-#: ../src/wbc-gtk.c:2493
+#: ../src/wbc-gtk.c:2490
 msgid "Set Foreground Color"
 msgstr "Définir la couleur du premier plan"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:2548
+#: ../src/wbc-gtk.c:2545
 msgid "Set Background Color"
 msgstr "Définir la couleur d'arrière-plan"
 
-#: ../src/wbc-gtk.c:2587
+#: ../src/wbc-gtk.c:2584
 #, c-format
 msgid "Font Name %s"
 msgstr "Nom de la police %s"
 
-#: ../src/wbc-gtk.c:2647
+#: ../src/wbc-gtk.c:2644
 #, c-format
 msgid "Font Size %f"
 msgstr "Taille de police %f"
 
-#: ../src/wbc-gtk.c:2665 ../src/wbc-gtk.c:2666
+#: ../src/wbc-gtk.c:2662 ../src/wbc-gtk.c:2663
 msgid "Font Size"
 msgstr "Taille de police"
 
@@ -12229,66 +12306,66 @@ msgstr "Taille de police"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:2875
+#: ../src/wbc-gtk.c:2872
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 "Dans le menu « %s », la touche « %s » est utilisée à la fois par « %s » et "
 "« %s »."
 
-#: ../src/wbc-gtk.c:3144
+#: ../src/wbc-gtk.c:3141
 msgid "Display above sheets"
 msgstr "Afficher au-dessus des feuilles"
 
-#: ../src/wbc-gtk.c:3145
+#: ../src/wbc-gtk.c:3142
 msgid "Display to the left of sheets"
 msgstr "Afficher à la gauche des feuilles"
 
-#: ../src/wbc-gtk.c:3146
+#: ../src/wbc-gtk.c:3143
 msgid "Display to the right of sheets"
 msgstr "Afficher à la droite des feuilles"
 
-#: ../src/wbc-gtk.c:3150
+#: ../src/wbc-gtk.c:3147
 msgid "Reattach to main window"
 msgstr "Réattacher à la fenêtre principale"
 
-#: ../src/wbc-gtk.c:3182
+#: ../src/wbc-gtk.c:3179
 msgid "Hide"
 msgstr "Masquer"
 
-#: ../src/wbc-gtk.c:3244
+#: ../src/wbc-gtk.c:3241
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Affiche/Masque la barre d'outils %s"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk.c:3683 ../src/wbc-gtk-actions.c:1927
+#: ../src/wbc-gtk.c:3680 ../src/wbc-gtk-actions.c:1927
 #: ../src/workbook-view.c:800
 msgid "Sum"
 msgstr "Somme"
 
-#: ../src/wbc-gtk.c:3731
+#: ../src/wbc-gtk.c:3728
 msgid "Use maximum precision"
 msgstr "Utiliser la précision maximale"
 
-#: ../src/wbc-gtk.c:3830
+#: ../src/wbc-gtk.c:3827
 #, c-format
 msgid "Open %s"
 msgstr "Ouvrir %s"
 
-#: ../src/wbc-gtk.c:4295
+#: ../src/wbc-gtk.c:4292
 msgid "Autosave prompt"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4296
+#: ../src/wbc-gtk.c:4293
 msgid "Ask about autosave?"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4302
+#: ../src/wbc-gtk.c:4299
 msgid "Autosave time in seconds"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4303
+#: ../src/wbc-gtk.c:4300
 msgid "Seconds before autosave"
 msgstr ""
 
@@ -13945,24 +14022,24 @@ msgstr "Alignement horizontal"
 msgid "Vertical Alignment"
 msgstr "Alignement horizontal"
 
-#: ../src/wbc-gtk-edit.c:771
+#: ../src/wbc-gtk-edit.c:770
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s est verrouillé"
 
-#: ../src/wbc-gtk-edit.c:775
+#: ../src/wbc-gtk-edit.c:774
 msgid "Unprotect the workbook to enable editing."
 msgstr "Retirez la protection du classeur pour permettre la modification."
 
-#: ../src/wbc-gtk-edit.c:776
+#: ../src/wbc-gtk-edit.c:775
 msgid "Unprotect the sheet to enable editing."
 msgstr "Retirez la protection de la feuille pour permettre la modification."
 
-#: ../src/wbc-gtk-edit.c:795
+#: ../src/wbc-gtk-edit.c:794
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Vous êtes sur le point d'éditer une cellule au format « texte »."
 
-#: ../src/wbc-gtk-edit.c:796
+#: ../src/wbc-gtk-edit.c:795
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
@@ -13970,11 +14047,11 @@ msgstr ""
 "La cellule ne contient actuellement aucun texte, cependant, si vous "
 "poursuivez l'édition, le contenu sera transformé en texte."
 
-#: ../src/wbc-gtk-edit.c:801
+#: ../src/wbc-gtk-edit.c:800
 msgid "Remove format"
 msgstr "Supprimer le format"
 
-#: ../src/wbc-gtk-edit.c:806
+#: ../src/wbc-gtk-edit.c:805
 msgid "Show this dialog next time."
 msgstr "Afficher cette boîte de dialogue la prochaine fois."
 
@@ -14246,6 +14323,12 @@ msgstr "Modèle avec des couleurs froides"
 msgid "A simple template with classical look and feel"
 msgstr "Un modèle simple avec un aspect classique"
 
+#: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
+#: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
+#: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
+msgid "Simple"
+msgstr "Simple"
+
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "A classical yet colorful template"
 msgstr "Un modèle classique mais coloré"
@@ -14382,3 +14465,12 @@ msgstr "Modèle de liste lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Modèle de liste simple"
+
+#~ msgid "Save the embedded workbook"
+#~ msgstr "Enregistre le classeur intégré"
+
+#~ msgid "Component : Gnumeric"
+#~ msgstr "Composant : Gnumeric"
+
+#~ msgid "Spreadsheets component engine"
+#~ msgstr "Moteur de composant de feuilles de calcul"

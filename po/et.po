@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-13 03:59+0100\n"
+"POT-Creation-Date: 2007-09-09 21:27-0400\n"
 "PO-Revision-Date: 2007-08-20 14:21+0300\n"
 "Last-Translator: Ain Vagula <avagula@gmail.com>\n"
 "Language-Team: Estonian <linux-ee@lists.eenet.ee>\n"
@@ -28,44 +28,13 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Arvutamine, analüüs ja teabe visualiseerimine"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:427
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:422
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumericu tabelarvutus"
 
 #: ../gnumeric.desktop.in.h:3
 msgid "Spreadsheet"
 msgstr "Tabelarvutus"
-
-#: ../component/Gnumeric-embed.xml.in.h:1 ../src/GNOME_Gnumeric-gtk.xml.in.h:1
-#: ../src/HILDON_Gnumeric-gtk.xml.in.h:1
-msgid "FormatToolbar"
-msgstr "Vormindusriba"
-
-#: ../component/Gnumeric-embed.xml.in.h:2 ../src/GNOME_Gnumeric-gtk.xml.in.h:2
-#: ../src/HILDON_Gnumeric-gtk.xml.in.h:2
-msgid "ObjectToolbar"
-msgstr "Objektiriba"
-
-#: ../component/Gnumeric-embed.xml.in.h:3 ../src/GNOME_Gnumeric-gtk.xml.in.h:3
-#: ../src/HILDON_Gnumeric-gtk.xml.in.h:3
-msgid "StandardToolbar"
-msgstr "Standardriba"
-
-#: ../component/gnumeric.c:374
-msgid "Save the embedded workbook"
-msgstr "Salvesta põimitud raamat"
-
-#: ../component/plugin.xml.in.h:1
-msgid "Component : Gnumeric"
-msgstr "Komponent : Gnumeric"
-
-#: ../component/plugin.xml.in.h:2 ../src/gui-file.c:276 ../src/gui-file.c:421
-msgid "Spreadsheets"
-msgstr "Arvutustabelid"
-
-#: ../component/plugin.xml.in.h:3
-msgid "Spreadsheets component engine"
-msgstr "Arvutustabelite komponendi mootor"
 
 #: ../plugins/applix/applix-read.c:110
 msgid "Parse error while reading Applix file."
@@ -129,7 +98,8 @@ msgid "a, b, rho"
 msgstr "a, b, roo"
 
 #: ../plugins/derivatives/options.c:2317
-msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgid ""
+"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2322
@@ -141,7 +111,8 @@ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2332
-msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgid ""
+"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2337 ../plugins/derivatives/options.c:2347
@@ -159,11 +130,13 @@ msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2357
-msgid "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgid ""
+"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2362
-msgid "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgid ""
+"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2367
@@ -230,7 +203,7 @@ msgstr "Rahanduslikud tuletused"
 msgid "Functions related to financial derivatives"
 msgstr "Rahanduslike tuletustega seotud funktsioonid"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6160
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6159
 #: ../plugins/mps/mps.c:534 ../src/xml-io.c:2631 ../src/xml-sax-read.c:2513
 msgid "Reading file..."
 msgstr "Faili lugemine..."
@@ -304,8 +277,10 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Andmevahetusformaadi (DIF) moodul"
 
 #: ../plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr "Loeb ja kirjutab Andmevahetusformaadis (*.dif) salvestatud informatsiooni"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgstr ""
+"Loeb ja kirjutab Andmevahetusformaadis (*.dif) salvestatud informatsiooni"
 
 #: ../plugins/excel/boot.c:186
 msgid "No Workbook or Book streams found."
@@ -319,12 +294,12 @@ msgstr "Ettevalmistumine salvestamiseks..."
 msgid "Saving file..."
 msgstr "Faili salvestamine..."
 
-#: ../plugins/excel/excel-xml-read.c:130 ../src/xml-sax-read.c:369
+#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:369
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Ootamatu tunnus %s::%s == '%s'."
 
-#: ../plugins/excel/excel-xml-read.c:993
+#: ../plugins/excel/excel-xml-read.c:1002
 #: ../plugins/openoffice/openoffice-read.c:2846 ../src/xml-sax-read.c:2530
 msgid "XML document not well formed!"
 msgstr "XML dokument on halvasti moodustatud!"
@@ -336,7 +311,7 @@ msgstr "#TUNDMATU!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: ../plugins/excel/ms-excel-read.c:1175 ../plugins/excel/ms-excel-read.c:1187
-#: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:509
+#: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:513
 #: ../src/dialogs/dialog-sheet-order.c:518
 #: ../src/dialogs/dialog-sheet-order.c:522
 #, c-format
@@ -386,11 +361,11 @@ msgstr ""
 "OLE lingid ei ole toetatud.\n"
 "Nimi '%s' kaotatakse.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5428
+#: ../plugins/excel/ms-excel-read.c:5427
 msgid "external references"
 msgstr "välised viited"
 
-#: ../plugins/excel/ms-excel-read.c:5454
+#: ../plugins/excel/ms-excel-read.c:5453
 msgid "No password supplied"
 msgstr "Parooli pole pakutud"
 
@@ -403,11 +378,11 @@ msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u "
 "columns, and this workbook has %d"
 msgstr[0] ""
-"Osa sisust läheb salvestamisel kaotsi. See "
-"vorming toetab ainult %u veergu, aga selles raamatus on %d veergu"
+"Osa sisust läheb salvestamisel kaotsi. See vorming toetab ainult %u veergu, "
+"aga selles raamatus on %d veergu"
 msgstr[1] ""
-"Osa sisust läheb salvestamisel kaotsi. See "
-"vorming toetab ainult %u veergu, aga selles raamatus on %d veergu"
+"Osa sisust läheb salvestamisel kaotsi. See vorming toetab ainult %u veergu, "
+"aga selles raamatus on %d veergu"
 
 #: ../plugins/excel/ms-excel-write.c:207
 #, c-format
@@ -418,11 +393,11 @@ msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
 msgstr[0] ""
-"Osa sisust läheb salvestamisel kaotsi. See "
-"vorming toetab ainult %u rida, aga selles raamatus on %d rida"
+"Osa sisust läheb salvestamisel kaotsi. See vorming toetab ainult %u rida, "
+"aga selles raamatus on %d rida"
 msgstr[1] ""
-"Osa sisust läheb salvestamisel kaotsi. See "
-"vorming toetab ainult %u rida, aga selles raamatus on %d rida"
+"Osa sisust läheb salvestamisel kaotsi. See vorming toetab ainult %u rida, "
+"aga selles raamatus on %d rida"
 
 #: ../plugins/excel/ms-excel-write.c:312
 msgid ""
@@ -434,11 +409,11 @@ msgstr ""
 "Me juba kirjutasime stringi pikkuse, mida on trimmitud seoses märgistiku "
 "probleemidega."
 
-#: ../plugins/excel/ms-excel-write.c:5528
+#: ../plugins/excel/ms-excel-write.c:5489
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Ei saa avada andmevoogu 'Book' kirjutamiseks\n"
 
-#: ../plugins/excel/ms-excel-write.c:5548
+#: ../plugins/excel/ms-excel-write.c:5509
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Ei saa avada andmevoogu 'Workbook' kirjutamiseks\n"
 
@@ -448,111 +423,131 @@ msgstr "Katkine funktsioon"
 
 #: ../plugins/excel/ms-formula-write.c:535
 #, c-format
-msgid "Too many arguments for function '%s', MS Excel can only handle %d not %d"
+msgid ""
+"Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
 "Liiga palju parameetreid funktsioonile '%s', MS Excel suudab käsitleda %d "
 "argumenti, mitte %d"
 
-#: ../plugins/excel/xlsx-read.c:174
+#: ../plugins/excel/xlsx-read.c:200
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "'%s' on vigane!"
 
-#: ../plugins/excel/xlsx-read.c:255
+#: ../plugins/excel/xlsx-read.c:281
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:298
+#: ../plugins/excel/xlsx-read.c:324 ../plugins/excel/xlsx-read.c:353
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:302
+#: ../plugins/excel/xlsx-read.c:328 ../plugins/excel/xlsx-read.c:357
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:327
+#: ../plugins/excel/xlsx-read.c:382
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Vigane arv '%s' atribuudi %s jaoks"
 
-#: ../plugins/excel/xlsx-read.c:351
+#: ../plugins/excel/xlsx-read.c:406
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:370
+#: ../plugins/excel/xlsx-read.c:425
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:725
-#, c-format
-msgid "Invalid color '%s' for attribute rgb"
-msgstr ""
-
-#: ../plugins/excel/xlsx-read.c:748
-#, c-format
-msgid "Undefined style record '%d'"
-msgstr ""
-
-#: ../plugins/excel/xlsx-read.c:757
-#, c-format
-msgid "Undefined partial style record '%d'"
-msgstr ""
-
-#: ../plugins/excel/xlsx-read.c:897
+#: ../plugins/excel/xlsx-read.c:652
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:952
+#: ../plugins/excel/xlsx-read.c:1287
+msgid "Dropping missing object"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:1305
+#, c-format
+msgid "Dropping object with incomplete anchor %2x"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:1416
+#, c-format
+msgid "Invalid color '%s' for attribute rgb"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:1439
+#, c-format
+msgid "Undefined style record '%d'"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:1448
+#, c-format
+msgid "Undefined partial style record '%d'"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:1477
 #, fuzzy, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "vigane mallifail %s"
 
-#: ../plugins/excel/xlsx-read.c:1074
+#: ../plugins/excel/xlsx-read.c:1598
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Vigane lahter %s"
 
-#: ../plugins/excel/xlsx-read.c:1175
+#: ../plugins/excel/xlsx-read.c:1699
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1735
+#: ../plugins/excel/xlsx-read.c:1976
+#, c-format
+msgid "Ignoring invalid data validation because : %s"
+msgstr ""
+
+#: ../plugins/excel/xlsx-read.c:2400
 msgid "Undefined"
 msgstr "Määramata"
 
-#: ../plugins/excel/xlsx-read.c:1767
+#: ../plugins/excel/xlsx-read.c:2432
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2146
+#: ../plugins/excel/xlsx-read.c:2726
+#, fuzzy
+msgid "Unknown type of hyperlink"
+msgstr "Tundmatu plugin"
+
+#: ../plugins/excel/xlsx-read.c:2889
 msgid "Ignoring a sheet without a name"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2174
+#: ../plugins/excel/xlsx-read.c:2917
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2608
+#: ../plugins/excel/xlsx-read.c:3351
 #, c-format
 msgid "Undefined font record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2942
+#: ../plugins/excel/xlsx-read.c:3686
 msgid "No workbook stream found."
 msgstr "Raamatut ega nende kogumit ei leitud."
 
 #. TODO * TODO * TODO
 #. *
 #. * IMPROVE
-#. * 	- column widths : Don't use hard coded font side
+#. * 	- column widths : Don't use hard coded font size
 #. * 	- share colours
 #. * 	- conditional formats
 #. * 		: why do we need to flip fg and bg for solid in xf but not for dxf
@@ -830,9 +825,9 @@ msgid "%s version %s"
 msgstr "%s versioon %s"
 
 #: ../plugins/fn-info/functions.c:1338
-#: ../src/dialogs/dialog-cell-format.c:2221
-#: ../src/dialogs/dialog-cell-format.c:2225
-#: ../src/dialogs/dialog-cell-format.c:2233 ../src/wbc-gtk.c:2504
+#: ../src/dialogs/dialog-cell-format.c:2220
+#: ../src/dialogs/dialog-cell-format.c:2224
+#: ../src/dialogs/dialog-cell-format.c:2232 ../src/wbc-gtk.c:2501
 msgid "Automatic"
 msgstr "Automaatne"
 
@@ -968,56 +963,56 @@ msgstr "Loogika"
 msgid "Logic Functions"
 msgstr "Loogilised funktsioonid"
 
-#: ../plugins/fn-lookup/functions.c:1271
+#: ../plugins/fn-lookup/functions.c:1275
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1274
+#: ../plugins/fn-lookup/functions.c:1278
 msgid "reference"
 msgstr "viide"
 
-#: ../plugins/fn-lookup/functions.c:1277
+#: ../plugins/fn-lookup/functions.c:1281
 msgid "index,value,"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1280 ../plugins/fn-lookup/functions.c:1286
-#: ../plugins/fn-lookup/functions.c:1310 ../plugins/fn-lookup/functions.c:1313
+#: ../plugins/fn-lookup/functions.c:1284 ../plugins/fn-lookup/functions.c:1290
+#: ../plugins/fn-lookup/functions.c:1314 ../plugins/fn-lookup/functions.c:1317
 msgid "ref"
 msgstr "ref"
 
-#: ../plugins/fn-lookup/functions.c:1283
+#: ../plugins/fn-lookup/functions.c:1287
 msgid "colname"
 msgstr "veerunimi"
 
-#: ../plugins/fn-lookup/functions.c:1289 ../plugins/fn-lookup/functions.c:1319
+#: ../plugins/fn-lookup/functions.c:1293 ../plugins/fn-lookup/functions.c:1323
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1292
+#: ../plugins/fn-lookup/functions.c:1296
 msgid "link_location, label"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1295
+#: ../plugins/fn-lookup/functions.c:1299
 msgid "ref_string,format"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1298
+#: ../plugins/fn-lookup/functions.c:1302
 msgid "reference,row,col,area"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1301
+#: ../plugins/fn-lookup/functions.c:1305
 msgid "val,range,range"
 msgstr "väärtus,vahemik,vahemik"
 
-#: ../plugins/fn-lookup/functions.c:1304
+#: ../plugins/fn-lookup/functions.c:1308
 msgid "val,range,approx"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1307
+#: ../plugins/fn-lookup/functions.c:1311
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1316 ../plugins/fn-math/functions.c:3495
+#: ../plugins/fn-lookup/functions.c:1320 ../plugins/fn-math/functions.c:3495
 msgid "array"
 msgstr "massiiv"
 
@@ -1133,7 +1128,8 @@ msgid "Statistical Functions"
 msgstr "Statistikafunktsioonid"
 
 #: ../plugins/fn-r/plugin.xml.in.h:2
-msgid "Statistical Functions with naming a calling conventions from The R Project"
+msgid ""
+"Statistical Functions with naming a calling conventions from The R Project"
 msgstr ""
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
@@ -1611,14 +1607,14 @@ msgstr "Objektiivne funktsioon:"
 msgid "Constraints:"
 msgstr "Piirangud:"
 
-#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:579
-#: ../src/dialogs/dialog-doc-metadata.c:1278
-#: ../src/dialogs/dialog-formula-guru.c:826
+#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:569
+#: ../src/dialogs/dialog-doc-metadata.c:1214
+#: ../src/dialogs/dialog-formula-guru.c:825
 #: ../src/dialogs/dialog-function-select.c:539
 #: ../src/dialogs/dialog-function-select.c:561
-#: ../src/dialogs/dialog-paste-names.c:101
+#: ../src/dialogs/dialog-paste-names.c:100
 #: ../src/dialogs/dialog-scenarios.c:374
-#: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:198
+#: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:196
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -1631,7 +1627,7 @@ msgstr "Piirangud:"
 msgid "Name"
 msgstr "Nimi"
 
-#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1284
+#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1220
 #: ../src/dialogs/dialog-simulation.c:226
 #: ../src/tools/solver/reports-write.c:236
 #: ../src/tools/solver/reports-write.c:282
@@ -1643,8 +1639,8 @@ msgstr "Väärtus"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:830
-#: ../src/dialogs/dialog-search.c:423 ../src/tools/solver/reports-write.c:515
+#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:829
+#: ../src/dialogs/dialog-search.c:407 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Tüüp"
 
@@ -1918,15 +1914,15 @@ msgstr "Psiconv"
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
 
-#: ../plugins/psiconv/psiconv-read.c:607
+#: ../plugins/psiconv/psiconv-read.c:611
 msgid "Error while reading psiconv file."
 msgstr "Viga psiconv faili lugemisel."
 
-#: ../plugins/psiconv/psiconv-read.c:617
+#: ../plugins/psiconv/psiconv-read.c:621
 msgid "Error while parsing Psion file."
 msgstr "Viga Psioni faili töötlemisel."
 
-#: ../plugins/psiconv/psiconv-read.c:625
+#: ../plugins/psiconv/psiconv-read.c:629
 msgid "This Psion file is not a Sheet file."
 msgstr "See Psioni fail ei ole lehefail."
 
@@ -2186,8 +2182,8 @@ msgstr "See teade on pärit \"%s\" pluginast."
 msgid "Error while opening xbase file."
 msgstr "Viga xbase faili avamisel."
 
-#: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:260
-#: ../src/dialogs/dialog-search.c:421 ../src/dialogs/dialog-stf-export.c:465
+#: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:258
+#: ../src/dialogs/dialog-search.c:405 ../src/dialogs/dialog-stf-export.c:465
 #: ../src/dialogs/print.glade.h:31 ../src/print-info.c:439 ../src/search.c:620
 #: ../src/workbook.c:869 ../src/xml-io.c:2228
 msgid "Sheet"
@@ -2235,7 +2231,7 @@ msgid "Activate New Plugins"
 msgstr "Aktiveeri uued pluginad"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:824
+#: ../src/dialogs/dialog-preferences.c:833
 msgid "Allow Unfocused Range Selections"
 msgstr ""
 
@@ -2388,7 +2384,7 @@ msgid "List of recently used functions."
 msgstr "Hiljuti kasutatud funktsioonide loend"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:42
-#: ../src/dialogs/dialog-preferences.c:829
+#: ../src/dialogs/dialog-preferences.c:838
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Hiljuti kasutatud funktsioonide loendi suurim pikkus"
 
@@ -2406,7 +2402,8 @@ msgstr "Paber"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:46
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr "Selle väärtuse redigeerimiseks tuleb kasutada trükkimise sätete dialoogi"
+msgstr ""
+"Selle väärtuse redigeerimiseks tuleb kasutada trükkimise sätete dialoogi"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
 msgid "Preferred Display Unit"
@@ -2509,7 +2506,8 @@ msgstr ""
 "printimise sätete dialoogi."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:66
-msgid "This list contains all extra directories containing autoformat templates."
+msgid ""
+"This list contains all extra directories containing autoformat templates."
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:67
@@ -2663,7 +2661,8 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:92
-msgid "This variable determines whether to activate every new encountered plugin."
+msgid ""
+"This variable determines whether to activate every new encountered plugin."
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:93
@@ -2675,7 +2674,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:819
+#: ../src/dialogs/dialog-preferences.c:828
 msgid "Autocomplete"
 msgstr "Automaatlõpetamine"
 
@@ -2687,7 +2686,7 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:4
-#: ../src/dialogs/dialog-preferences.c:719
+#: ../src/dialogs/dialog-preferences.c:728
 msgid "Default Compression Level For Gnumeric Files"
 msgstr ""
 
@@ -2696,27 +2695,27 @@ msgid "Default Font Size"
 msgstr "Vaikimisi fondi suurus"
 
 #: ../schemas/gnumeric-general.schemas.in.h:6
-#: ../src/dialogs/dialog-preferences.c:672
+#: ../src/dialogs/dialog-preferences.c:681
 msgid "Default Horizontal Window Size"
 msgstr "Vaikimisi akna horisontaalsuurus"
 
 #: ../schemas/gnumeric-general.schemas.in.h:7
-#: ../src/dialogs/dialog-preferences.c:680
+#: ../src/dialogs/dialog-preferences.c:689
 msgid "Default Number of Sheets"
 msgstr "Vaikimisi lehtede arv"
 
 #: ../schemas/gnumeric-general.schemas.in.h:8
-#: ../src/dialogs/dialog-preferences.c:724
+#: ../src/dialogs/dialog-preferences.c:733
 msgid "Default To Overwriting Files"
 msgstr "Vaikimisi ülekirjutamine"
 
 #: ../schemas/gnumeric-general.schemas.in.h:9
-#: ../src/dialogs/dialog-preferences.c:668
+#: ../src/dialogs/dialog-preferences.c:677
 msgid "Default Vertical Window Size"
 msgstr "Vaikimisi akna vertikaalsuurus"
 
 #: ../schemas/gnumeric-general.schemas.in.h:10
-#: ../src/dialogs/dialog-preferences.c:676
+#: ../src/dialogs/dialog-preferences.c:685
 msgid "Default Zoom Factor"
 msgstr "Vaikimisi suurendustegur"
 
@@ -2729,7 +2728,7 @@ msgid "Format toolbar visible"
 msgstr "Vormindusriba on nähtav"
 
 #: ../schemas/gnumeric-general.schemas.in.h:13
-#: ../src/dialogs/dialog-preferences.c:769
+#: ../src/dialogs/dialog-preferences.c:778
 msgid "Horizontal DPI"
 msgstr "Horisontaalne DPI"
 
@@ -2749,22 +2748,22 @@ msgid "Length of the Undo Descriptors"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:16
-#: ../src/dialogs/dialog-preferences.c:684
+#: ../src/dialogs/dialog-preferences.c:693
 msgid "Live Scrolling"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:17
-#: ../src/dialogs/dialog-preferences.c:572
+#: ../src/dialogs/dialog-preferences.c:581
 msgid "Maximal Undo Size"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:18
-#: ../src/dialogs/dialog-preferences.c:616
+#: ../src/dialogs/dialog-preferences.c:625
 msgid "Number of Automatic Clauses"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:19
-#: ../src/dialogs/dialog-preferences.c:576
+#: ../src/dialogs/dialog-preferences.c:585
 msgid "Number of Undo Items"
 msgstr ""
 
@@ -2773,7 +2772,7 @@ msgid "Object toolbar visible"
 msgstr "Objektiriba on nähtav"
 
 #: ../schemas/gnumeric-general.schemas.in.h:21
-#: ../src/dialogs/dialog-preferences.c:864
+#: ../src/dialogs/dialog-preferences.c:873
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "LÕIKEPUHVRIT eelistakse AKTIIVSELE valikule"
 
@@ -2807,7 +2806,7 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:28
-#: ../src/dialogs/dialog-preferences.c:580
+#: ../src/dialogs/dialog-preferences.c:589
 msgid "Show Sheet Name in Undo List"
 msgstr ""
 
@@ -2823,7 +2822,7 @@ msgid "Sort Area Has Header"
 msgstr "Sorditaval vahemikul on päis"
 
 #: ../schemas/gnumeric-general.schemas.in.h:31
-#: ../src/dialogs/dialog-preferences.c:628 ../src/wbc-gtk-actions.c:1934
+#: ../src/dialogs/dialog-preferences.c:637 ../src/wbc-gtk-actions.c:1934
 msgid "Sort Ascending"
 msgstr "Sordi kasvavalt"
 
@@ -2832,7 +2831,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Sortimisel eristatakse suurtähti"
 
 #: ../schemas/gnumeric-general.schemas.in.h:33
-#: ../src/dialogs/dialog-preferences.c:620
+#: ../src/dialogs/dialog-preferences.c:629
 msgid "Sorting Preserves Formats"
 msgstr "Sortimine säilitab vormingud"
 
@@ -2902,15 +2901,18 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:47
-msgid "This value determines the maximum number of items in the undo/redo list."
+msgid ""
+"This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:48
-msgid "This value determines whether the default font for a new workbook is bold."
+msgid ""
+"This value determines whether the default font for a new workbook is bold."
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:49
-msgid "This value determines whether the default font for a new workbook is italic."
+msgid ""
+"This value determines whether the default font for a new workbook is italic."
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:50
@@ -2987,17 +2989,17 @@ msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:63
-#: ../src/dialogs/dialog-preferences.c:814
+#: ../src/dialogs/dialog-preferences.c:823
 msgid "Transition Keys"
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:64
-#: ../src/dialogs/dialog-preferences.c:773
+#: ../src/dialogs/dialog-preferences.c:782
 msgid "Vertical DPI"
 msgstr "Püstsuunas DPI"
 
 #: ../schemas/gnumeric-general.schemas.in.h:65
-#: ../src/dialogs/dialog-preferences.c:728
+#: ../src/dialogs/dialog-preferences.c:737
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 
@@ -3023,7 +3025,7 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-plugins.schemas.in.h:2
-#: ../src/dialogs/dialog-preferences.c:734
+#: ../src/dialogs/dialog-preferences.c:743
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Kasuta LaTeX'i ekspordil UTF-8't"
 
@@ -3510,13 +3512,13 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2229 ../src/wbc-gtk.c:2557
-#: ../src/wbc-gtk.c:2558 ../src/wbc-gtk.c:2567
+#: ../src/dialogs/dialog-cell-format.c:2228 ../src/wbc-gtk.c:2554
+#: ../src/wbc-gtk.c:2555 ../src/wbc-gtk.c:2564
 msgid "Background"
 msgstr "Taust"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2221
+#: ../src/dialogs/dialog-cell-format.c:2220
 msgid "Border"
 msgstr "Ääris"
 
@@ -3565,7 +3567,7 @@ msgid "Diagonal Stripe"
 msgstr "Kaldtriibud"
 
 #: ../src/dialogs/cell-format.glade.h:46
-#: ../src/dialogs/dialog-preferences.c:886 ../src/wbc-gtk.c:2608
+#: ../src/dialogs/dialog-preferences.c:895 ../src/wbc-gtk.c:2605
 msgid "Font"
 msgstr "Font"
 
@@ -3574,7 +3576,7 @@ msgid "Foreground Solid"
 msgstr "Esiplaani värv"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-cell-format.c:2158
+#: ../src/dialogs/dialog-cell-format.c:2157
 msgid "Format Cells"
 msgstr "Lahtri vorming"
 
@@ -3624,7 +3626,8 @@ msgstr "Vasak"
 
 #: ../src/dialogs/cell-format.glade.h:60
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr "Lahtrite lukustamine ja valemite peitmine mõjub ainult kaitstud tabelitele."
+msgstr ""
+"Lahtrite lukustamine ja valemite peitmine mõjub ainult kaitstud tabelitele."
 
 #: ../src/dialogs/cell-format.glade.h:61
 #: ../src/dialogs/dialog-cell-format.c:91
@@ -4512,10 +4515,10 @@ msgid "No matching records were found."
 msgstr ""
 
 #: ../src/dialogs/dialog-advanced-filter.c:153
-#: ../src/dialogs/dialog-analysis-tools.c:552
-#: ../src/dialogs/dialog-analysis-tools.c:671
-#: ../src/dialogs/dialog-analysis-tools.c:1978
-#: ../src/dialogs/dialog-analysis-tools.c:2835
+#: ../src/dialogs/dialog-analysis-tools.c:550
+#: ../src/dialogs/dialog-analysis-tools.c:669
+#: ../src/dialogs/dialog-analysis-tools.c:1976
+#: ../src/dialogs/dialog-analysis-tools.c:2833
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Tekkis ettearvamatu viga: %d"
@@ -4524,70 +4527,70 @@ msgstr "Tekkis ettearvamatu viga: %d"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Täpsema filtri dialoogi ei suudetud luua."
 
-#: ../src/dialogs/dialog-analysis-tools.c:473
-#: ../src/dialogs/dialog-analysis-tools.c:1015
-#: ../src/dialogs/dialog-analysis-tools.c:2662
-#: ../src/dialogs/dialog-analysis-tools.c:2876
+#: ../src/dialogs/dialog-analysis-tools.c:471
+#: ../src/dialogs/dialog-analysis-tools.c:1013
+#: ../src/dialogs/dialog-analysis-tools.c:2660
+#: ../src/dialogs/dialog-analysis-tools.c:2874
 #: ../src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
 msgstr "Sisendvahemik on vigane."
 
-#: ../src/dialogs/dialog-analysis-tools.c:482
-#: ../src/dialogs/dialog-analysis-tools.c:1066
-#: ../src/dialogs/dialog-analysis-tools.c:2682
-#: ../src/dialogs/dialog-analysis-tools.c:2908
+#: ../src/dialogs/dialog-analysis-tools.c:480
+#: ../src/dialogs/dialog-analysis-tools.c:1064
+#: ../src/dialogs/dialog-analysis-tools.c:2680
+#: ../src/dialogs/dialog-analysis-tools.c:2906
 msgid "The output specification is invalid."
 msgstr "Väljundi määratlus on vigane."
 
-#: ../src/dialogs/dialog-analysis-tools.c:538
-#: ../src/dialogs/dialog-analysis-tools.c:657
+#: ../src/dialogs/dialog-analysis-tools.c:536
+#: ../src/dialogs/dialog-analysis-tools.c:655
 msgid "The selected input rows must have equal size!"
 msgstr "Valitud sisendread peavad olema võrdse suurusega!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:543
-#: ../src/dialogs/dialog-analysis-tools.c:662
+#: ../src/dialogs/dialog-analysis-tools.c:541
+#: ../src/dialogs/dialog-analysis-tools.c:660
 msgid "The selected input columns must have equal size!"
 msgstr "Valitud sisendveerud peavad olema võrdse suurusega!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:548
-#: ../src/dialogs/dialog-analysis-tools.c:667
+#: ../src/dialogs/dialog-analysis-tools.c:546
+#: ../src/dialogs/dialog-analysis-tools.c:665
 msgid "The selected input areas must have equal size!"
 msgstr "Valitud sisendalad peavad olema võrdse suurusega!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:595
+#: ../src/dialogs/dialog-analysis-tools.c:593
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Korrelatsiooni dialoogi ei suudetud luua."
 
-#: ../src/dialogs/dialog-analysis-tools.c:714
+#: ../src/dialogs/dialog-analysis-tools.c:712
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Kovariatsiooni dialoogi ei suudetud luua."
 
-#: ../src/dialogs/dialog-analysis-tools.c:804
+#: ../src/dialogs/dialog-analysis-tools.c:802
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Järgu ja protsentiili dialoogi ei suudetud luua."
 
-#: ../src/dialogs/dialog-analysis-tools.c:895
+#: ../src/dialogs/dialog-analysis-tools.c:893
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Fourier' analüüsi dialoogi ei suudetud luua."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1024
+#: ../src/dialogs/dialog-analysis-tools.c:1022
 msgid "No statistics are selected."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1034
+#: ../src/dialogs/dialog-analysis-tools.c:1032
 msgid "The confidence level should be between 0 and 1."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1046
-#: ../src/dialogs/dialog-analysis-tools.c:1057
+#: ../src/dialogs/dialog-analysis-tools.c:1044
+#: ../src/dialogs/dialog-analysis-tools.c:1055
 msgid "K must be a positive integer."
 msgstr "K peab olema positiivne täisarv"
 
-#: ../src/dialogs/dialog-analysis-tools.c:1106
+#: ../src/dialogs/dialog-analysis-tools.c:1104
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Ei suudetud luua kirjeldava statistika töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1251
+#: ../src/dialogs/dialog-analysis-tools.c:1249
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -4595,7 +4598,7 @@ msgstr ""
 "Palun sisesta sobiv\n"
 "populatsiooni dispersioon muutuja 1 jaoks."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1260
+#: ../src/dialogs/dialog-analysis-tools.c:1258
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -4603,49 +4606,51 @@ msgstr ""
 "Palun sisesta sobiv\n"
 "populatsiooni dispersioon muutuja 2 jaoks."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1476
+#: ../src/dialogs/dialog-analysis-tools.c:1474
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Ei suudetud luua keskmiste kontrolli töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1663
+#: ../src/dialogs/dialog-analysis-tools.c:1661
 msgid "Could not create the FTest Tool dialog."
 msgstr "Ei suudetud luua FTest töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1857
+#: ../src/dialogs/dialog-analysis-tools.c:1855
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Ei suudetud luua valikute töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1973
+#: ../src/dialogs/dialog-analysis-tools.c:1971
 #: ../src/tools/analysis-tools.c:3087 ../src/tools/analysis-tools.c:3166
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Iga regressiooni muutuja jaoks peab olema võrdne arv sisendeid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2067
+#: ../src/dialogs/dialog-analysis-tools.c:2065
 msgid "Could not create the Regression Tool dialog."
 msgstr "Ei suudetud luua regressiooni töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2195
+#: ../src/dialogs/dialog-analysis-tools.c:2193
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Ei suudetud luua eksponentsilumise töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2328
+#: ../src/dialogs/dialog-analysis-tools.c:2326
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Ei suudetud luua liikuva keskmise töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2539
+#: ../src/dialogs/dialog-analysis-tools.c:2537
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Ei suudetud luua histogrammi töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2673
-#: ../src/dialogs/dialog-analysis-tools.c:2887
+#: ../src/dialogs/dialog-analysis-tools.c:2671
+#: ../src/dialogs/dialog-analysis-tools.c:2885
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "Alfa väärtus peab olema vahemikus 0 kuni 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2721
+#: ../src/dialogs/dialog-analysis-tools.c:2719
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Ei suudetud luua dispersioonianalüüsi (üksiku faktoriga) töövahendi dialoogi."
+msgstr ""
+"Ei suudetud luua dispersioonianalüüsi (üksiku faktoriga) töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2801
+#: ../src/dialogs/dialog-analysis-tools.c:2799
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -4653,43 +4658,47 @@ msgstr ""
 "Antud sisendvahemik peab sisaldama vähemalt kaht veergu ja kaht rida andmeid "
 "ning pealdisi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2804
+#: ../src/dialogs/dialog-analysis-tools.c:2802
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
-msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht veergu ja kaht rida andmeid."
+msgstr ""
+"Antud sisendvahemik peab sisaldama vähemalt kaht veergu ja kaht rida andmeid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2810
+#: ../src/dialogs/dialog-analysis-tools.c:2808
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht veergu andmeid ja pealdisi."
+msgstr ""
+"Antud sisendvahemik peab sisaldama vähemalt kaht veergu andmeid ja pealdisi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2813
+#: ../src/dialogs/dialog-analysis-tools.c:2811
 msgid "The given input range should contain at least two columns of data."
 msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht veergu andmeid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2819
+#: ../src/dialogs/dialog-analysis-tools.c:2817
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
-msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht rida andmeid ja pealdisi."
+msgstr ""
+"Antud sisendvahemik peab sisaldama vähemalt kaht rida andmeid ja pealdisi."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2822
+#: ../src/dialogs/dialog-analysis-tools.c:2820
 msgid "The given input range should contain at least two rows of data."
 msgstr "Antud sisendvahemik peab sisaldama vähemalt kaht rida andmeid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2829
+#: ../src/dialogs/dialog-analysis-tools.c:2827
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2899
+#: ../src/dialogs/dialog-analysis-tools.c:2897
 msgid "The number of rows per sample should be a positive integer."
 msgstr "Ridade arv valimis peab olema positiivne täisarv."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2945
+#: ../src/dialogs/dialog-analysis-tools.c:2943
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Ei suudetud luua dispersioonianalüüsi (kahe faktoriga) töövahendi dialoogi."
+msgstr ""
+"Ei suudetud luua dispersioonianalüüsi (kahe faktoriga) töövahendi dialoogi."
 
 #: ../src/dialogs/dialog-autocorrect.c:320
 msgid "Could not create the AutoCorrect dialog."
@@ -4794,7 +4803,7 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: ../src/dialogs/dialog-autoformat.c:652
+#: ../src/dialogs/dialog-autoformat.c:642
 msgid "An error occurred while reading the category list"
 msgstr "Kategooriate loendit lugedes tekkis viga"
 
@@ -4864,17 +4873,17 @@ msgstr "Info (lubab sobimatut sisendit)"
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-format.c:2225 ../src/wbc-gtk.c:2214
-#: ../src/wbc-gtk.c:2338 ../src/wbc-gtk.c:2506 ../src/wbc-gtk.c:2507
-#: ../src/wbc-gtk.c:2518 ../src/wbc-gtk.c:2624 ../src/wbc-gtk.c:2688
+#: ../src/dialogs/dialog-cell-format.c:2224 ../src/wbc-gtk.c:2214
+#: ../src/wbc-gtk.c:2338 ../src/wbc-gtk.c:2503 ../src/wbc-gtk.c:2504
+#: ../src/wbc-gtk.c:2515 ../src/wbc-gtk.c:2621 ../src/wbc-gtk.c:2685
 msgid "Foreground"
 msgstr "Esiplaan"
 
-#: ../src/dialogs/dialog-cell-format.c:2229 ../src/wbc-gtk.c:2555
+#: ../src/dialogs/dialog-cell-format.c:2228 ../src/wbc-gtk.c:2552
 msgid "Clear Background"
 msgstr "Puhas taust"
 
-#: ../src/dialogs/dialog-cell-format.c:2233
+#: ../src/dialogs/dialog-cell-format.c:2232
 msgid "Pattern"
 msgstr "Muster"
 
@@ -4898,41 +4907,42 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s kuni %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:742
+#: ../src/dialogs/dialog-cell-sort.c:740
 msgid "no available row"
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-sort.c:742
+#: ../src/dialogs/dialog-cell-sort.c:740
 msgid "no available column"
 msgstr ""
 
-#: ../src/dialogs/dialog-cell-sort.c:997
+#: ../src/dialogs/dialog-cell-sort.c:995
 msgid "Header"
 msgstr "Päis"
 
-#: ../src/dialogs/dialog-cell-sort.c:1002
+#: ../src/dialogs/dialog-cell-sort.c:1000
 msgid "Row/Column"
 msgstr "Rida/Veerg"
 
-#: ../src/dialogs/dialog-cell-sort.c:1022
+#: ../src/dialogs/dialog-cell-sort.c:1020
 msgid "Case Sensitive"
 msgstr "Tõstutundlik"
 
-#: ../src/dialogs/dialog-cell-sort.c:1042
+#: ../src/dialogs/dialog-cell-sort.c:1040
 msgid "By Value"
 msgstr "Väärtuse järgi"
 
-#: ../src/dialogs/dialog-cell-sort.c:1172
+#: ../src/dialogs/dialog-cell-sort.c:1170
 msgid "Could not create the Cell-Sort dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-col-width.c:222
+#: ../src/dialogs/dialog-col-width.c:221
 msgid "Set standard/default column width"
 msgstr "Määra veeru vaikimisi laius"
 
-#: ../src/dialogs/dialog-col-width.c:227
+#: ../src/dialogs/dialog-col-width.c:226
 #, c-format
-msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgid ""
+"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
 #: ../src/dialogs/dialog-consolidate.c:197
@@ -4953,40 +4963,40 @@ msgstr "Väljundvahemik kattub osaliselt sisendvahemikuga."
 msgid "Could not create the Consolidate dialog."
 msgstr "Ei suudetud luua konsolideerimise dialoogi."
 
-#: ../src/dialogs/dialog-define-names.c:405
+#: ../src/dialogs/dialog-define-names.c:397
 msgid "Invalid name"
 msgstr "Vigane nimi"
 
-#: ../src/dialogs/dialog-define-names.c:434
+#: ../src/dialogs/dialog-define-names.c:426
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Miks sa soovid nimeks määrata #NAME?"
 
-#: ../src/dialogs/dialog-define-names.c:671
-#: ../src/dialogs/dialog-doc-metadata.c:1595
-#: ../src/dialogs/dialog-paste-names.c:145
+#: ../src/dialogs/dialog-define-names.c:663
+#: ../src/dialogs/dialog-doc-metadata.c:1499
+#: ../src/dialogs/dialog-paste-names.c:144
 msgid "Could not create the Name Guru."
 msgstr "Ei suuda luua Nimeguru."
 
-#: ../src/dialogs/dialog-delete-cells.c:125
+#: ../src/dialogs/dialog-delete-cells.c:124
 #: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbc-gtk-actions.c:201
 #: ../src/wbc-gtk-actions.c:215
 msgid "Delete"
 msgstr "Kustuta"
 
-#: ../src/dialogs/dialog-delete-cells.c:155
+#: ../src/dialogs/dialog-delete-cells.c:154
 msgid "Could not create the Delete Cell dialog."
 msgstr "Ei suudetud luua lahtri kustutamise dialoogi."
 
 #. Set the `CPU Model'.
 #. Set the `CPU Mhz'.
-#: ../src/dialogs/dialog-doc-metadata.c:367
+#: ../src/dialogs/dialog-doc-metadata.c:341
 #: ../src/tools/solver/reports-write.c:673
 #: ../src/tools/solver/reports-write.c:676
 #: ../src/tools/solver/reports-write.c:689
 msgid "Unknown"
 msgstr "Tundmatu"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1290
+#: ../src/dialogs/dialog-doc-metadata.c:1226
 msgid "Linked To"
 msgstr "Lingitud objektiga"
 
@@ -4999,11 +5009,11 @@ msgstr "Ei suudetud luua jadade täitmise dialoogi."
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:841
+#: ../src/dialogs/dialog-formula-guru.c:840
 msgid "Function/Argument"
 msgstr "Funktsioon / argument"
 
-#: ../src/dialogs/dialog-formula-guru.c:1009
+#: ../src/dialogs/dialog-formula-guru.c:1008
 msgid "Could not create the formula guru."
 msgstr "Ei suuda luua valemiguru."
 
@@ -5023,41 +5033,43 @@ msgstr "Argumendid:"
 msgid "See also: "
 msgstr ""
 
-#: ../src/dialogs/dialog-goal-seek.c:333
+#: ../src/dialogs/dialog-goal-seek.c:331
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Sa pead sisestama korrektse lahtri nime väljal 'Määra lahter:'!"
 
-#: ../src/dialogs/dialog-goal-seek.c:345
+#: ../src/dialogs/dialog-goal-seek.c:343
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Väljal 'Määra lahter:' asuv lahter peab sisaldama valemit!"
 
-#: ../src/dialogs/dialog-goal-seek.c:358
+#: ../src/dialogs/dialog-goal-seek.c:356
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr "Sa pead sisestama korrektse lahtri nime väljal 'Kui muudetakse lahtrit:'"
+msgstr ""
+"Sa pead sisestama korrektse lahtri nime väljal 'Kui muudetakse lahtrit:'"
 
-#: ../src/dialogs/dialog-goal-seek.c:371
+#: ../src/dialogs/dialog-goal-seek.c:369
 msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr "Väljal 'Kui muudetakse lahtri' määratud lahter ei tohi sisaldada valemit."
+msgstr ""
+"Väljal 'Kui muudetakse lahtri' määratud lahter ei tohi sisaldada valemit."
 
-#: ../src/dialogs/dialog-goal-seek.c:384
+#: ../src/dialogs/dialog-goal-seek.c:382
 msgid "The value given in 'To Value:' is not valid."
 msgstr "Väärtus väljal 'Väärtuseks' on vigane."
 
-#: ../src/dialogs/dialog-goal-seek.c:428
+#: ../src/dialogs/dialog-goal-seek.c:426
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Sihtmärgi otsing lahtriga %s leidis lahendi."
 
-#: ../src/dialogs/dialog-goal-seek.c:449
+#: ../src/dialogs/dialog-goal-seek.c:447
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Sihtmärgi otsing lahtriga %s ei leidnud lahendit."
 
-#: ../src/dialogs/dialog-goal-seek.c:705
+#: ../src/dialogs/dialog-goal-seek.c:704
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Ei suuda luua sihtmärgi otsingu dialoogi."
 
-#: ../src/dialogs/dialog-goto-cell.c:159
+#: ../src/dialogs/dialog-goto-cell.c:157
 msgid "Workbook Level"
 msgstr "Raamatu tase"
 
@@ -5070,7 +5082,7 @@ msgstr "Raamatu tase"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:266 ../src/dialogs/dialog-search.c:422
+#: ../src/dialogs/dialog-goto-cell.c:264 ../src/dialogs/dialog-search.c:406
 #: ../src/dialogs/tabulate.glade.h:2 ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
 #: ../src/tools/solver/reports-write.c:127
@@ -5081,67 +5093,67 @@ msgstr "Raamatu tase"
 msgid "Cell"
 msgstr "Lahter"
 
-#: ../src/dialogs/dialog-goto-cell.c:326
+#: ../src/dialogs/dialog-goto-cell.c:322
 msgid "Could not create the goto dialog."
 msgstr "Ei suudetud luua goto-dialoogi."
 
-#: ../src/dialogs/dialog-hyperlink.c:144
+#: ../src/dialogs/dialog-hyperlink.c:142
 msgid "Not a range or name"
 msgstr "Pole vahemik ega nimi"
 
-#: ../src/dialogs/dialog-hyperlink.c:260
+#: ../src/dialogs/dialog-hyperlink.c:258
 msgid "Internal Link"
 msgstr "Sisemine viit"
 
-#: ../src/dialogs/dialog-hyperlink.c:262
+#: ../src/dialogs/dialog-hyperlink.c:260
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:266
+#: ../src/dialogs/dialog-hyperlink.c:264
 msgid "External Link"
 msgstr "Väline viit"
 
-#: ../src/dialogs/dialog-hyperlink.c:268
+#: ../src/dialogs/dialog-hyperlink.c:266
 msgid "Open an external file with the specified name"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:271
+#: ../src/dialogs/dialog-hyperlink.c:269
 msgid "Email Link"
 msgstr "E-posti viit"
 
-#: ../src/dialogs/dialog-hyperlink.c:273
+#: ../src/dialogs/dialog-hyperlink.c:271
 msgid "Prepare an email"
 msgstr "E-kirja ettevamistamine"
 
-#: ../src/dialogs/dialog-hyperlink.c:276
+#: ../src/dialogs/dialog-hyperlink.c:274
 msgid "Web Link"
 msgstr "Veebiviit"
 
-#: ../src/dialogs/dialog-hyperlink.c:278
+#: ../src/dialogs/dialog-hyperlink.c:276
 msgid "Browse to the specified URL"
 msgstr "Määratud URL-i avamine"
 
-#: ../src/dialogs/dialog-hyperlink.c:348
+#: ../src/dialogs/dialog-hyperlink.c:346
 msgid "Add Hyperlink"
 msgstr "Hüperlingi lisamine"
 
-#: ../src/dialogs/dialog-hyperlink.c:350
+#: ../src/dialogs/dialog-hyperlink.c:348
 msgid "Edit Hyperlink"
 msgstr "Hüperlingi redigeerimine"
 
-#: ../src/dialogs/dialog-hyperlink.c:357 ../src/sheet-control-gui.c:1752
+#: ../src/dialogs/dialog-hyperlink.c:355 ../src/sheet-control-gui.c:1752
 msgid "Remove Hyperlink"
 msgstr "Hüperlingi eemaldamine"
 
-#: ../src/dialogs/dialog-hyperlink.c:549
+#: ../src/dialogs/dialog-hyperlink.c:547
 msgid "Could not create the hyperlink dialog."
 msgstr "Ei suudetud luua hüperlingi dialoogi."
 
-#: ../src/dialogs/dialog-insert-cells.c:126 ../src/wbc-gtk.c:414
+#: ../src/dialogs/dialog-insert-cells.c:125 ../src/wbc-gtk.c:414
 msgid "Insert"
 msgstr "Lisa ette"
 
-#: ../src/dialogs/dialog-insert-cells.c:156
+#: ../src/dialogs/dialog-insert-cells.c:155
 msgid "Could not create the Insert Cell dialog."
 msgstr "Ei suudetud luua lahtri lisamise dialoogi."
 
@@ -5161,11 +5173,11 @@ msgid ""
 "%i and proceed?"
 msgstr ""
 
-#: ../src/dialogs/dialog-merge.c:393
+#: ../src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Sisendandmed"
 
-#: ../src/dialogs/dialog-merge.c:400
+#: ../src/dialogs/dialog-merge.c:399
 msgid "Merge Field"
 msgstr "Välja ühendamine"
 
@@ -5229,27 +5241,27 @@ msgstr "_Korruta"
 msgid "D_ivide"
 msgstr "_Jaga"
 
-#: ../src/dialogs/dialog-paste-special.c:186
+#: ../src/dialogs/dialog-paste-special.c:179
 msgid "Paste Special"
 msgstr "Teisiti asetamine"
 
-#: ../src/dialogs/dialog-paste-special.c:189
+#: ../src/dialogs/dialog-paste-special.c:182
 msgid "Paste _Link"
 msgstr "Aseta _viit"
 
-#: ../src/dialogs/dialog-paste-special.c:198
+#: ../src/dialogs/dialog-paste-special.c:191
 msgid "Paste type"
 msgstr "Aseta tüüp"
 
-#: ../src/dialogs/dialog-paste-special.c:202
+#: ../src/dialogs/dialog-paste-special.c:195
 msgid "Operation"
 msgstr "Tegevus"
 
-#: ../src/dialogs/dialog-paste-special.c:234
+#: ../src/dialogs/dialog-paste-special.c:227
 msgid "_Transpose"
 msgstr "_Transponeeri"
 
-#: ../src/dialogs/dialog-paste-special.c:240
+#: ../src/dialogs/dialog-paste-special.c:233
 msgid "Skip _Blanks"
 msgstr "_Jäta tühjad kohad vahele"
 
@@ -5324,84 +5336,84 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Kataloog"
 
-#: ../src/dialogs/dialog-preferences.c:551
+#: ../src/dialogs/dialog-preferences.c:560
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:568
+#: ../src/dialogs/dialog-preferences.c:577
 msgid "Length of Undo Descriptors"
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:597
+#: ../src/dialogs/dialog-preferences.c:606
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:624
+#: ../src/dialogs/dialog-preferences.c:633
 msgid "Sorting is Case-Sensitive"
 msgstr "Sortimine on tõstutundlik"
 
-#: ../src/dialogs/dialog-preferences.c:632
+#: ../src/dialogs/dialog-preferences.c:641
 msgid "Sort Area Has a HEADER"
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:650
+#: ../src/dialogs/dialog-preferences.c:659
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:701
+#: ../src/dialogs/dialog-preferences.c:710
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:751
+#: ../src/dialogs/dialog-preferences.c:760
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:790
+#: ../src/dialogs/dialog-preferences.c:799
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:809
+#: ../src/dialogs/dialog-preferences.c:818
 #, fuzzy
 msgid "Enter _Moves Selection"
 msgstr "_Tsentreerimine üle valitud ala"
 
-#: ../src/dialogs/dialog-preferences.c:846
+#: ../src/dialogs/dialog-preferences.c:855
 msgid "The items on this page are related to copy, cut and paste."
 msgstr ""
 
-#: ../src/dialogs/dialog-preferences.c:887
+#: ../src/dialogs/dialog-preferences.c:896
 msgid "Copy and Paste"
 msgstr "Kopeerimine ja asetamine"
 
-#: ../src/dialogs/dialog-preferences.c:888
+#: ../src/dialogs/dialog-preferences.c:897
 msgid "Files"
 msgstr "Failid"
 
-#: ../src/dialogs/dialog-preferences.c:889
+#: ../src/dialogs/dialog-preferences.c:898
 msgid "Tools"
 msgstr "Tööriistad"
 
-#: ../src/dialogs/dialog-preferences.c:890
+#: ../src/dialogs/dialog-preferences.c:899
 msgid "Undo"
 msgstr "Tühista"
 
-#: ../src/dialogs/dialog-preferences.c:891
+#: ../src/dialogs/dialog-preferences.c:900
 msgid "Windows"
 msgstr "Aknad"
 
-#: ../src/dialogs/dialog-preferences.c:892
+#: ../src/dialogs/dialog-preferences.c:901
 msgid "Header/Footer"
 msgstr "Päis/Jalus"
 
-#: ../src/dialogs/dialog-preferences.c:893 ../src/commands.c:2075
+#: ../src/dialogs/dialog-preferences.c:902 ../src/commands.c:2075
 msgid "Sorting"
 msgstr "Sortimine"
 
-#: ../src/dialogs/dialog-preferences.c:894
+#: ../src/dialogs/dialog-preferences.c:903
 msgid "Screen"
 msgstr "Ekraan"
 
@@ -5418,10 +5430,12 @@ msgid "mm"
 msgstr "mm"
 
 #: ../src/dialogs/dialog-printer-setup.c:905
+#, c-format
 msgid "Customize header"
 msgstr "Kohanda päist"
 
 #: ../src/dialogs/dialog-printer-setup.c:907
+#, c-format
 msgid "Customize footer"
 msgstr "Kohanda jalust"
 
@@ -5696,14 +5710,15 @@ msgstr "Weibull"
 msgid "Could not create the Random Tool dialog."
 msgstr "Ei suudetud luua juhuarvu töövahendi dialoogi."
 
-#: ../src/dialogs/dialog-row-height.c:218
+#: ../src/dialogs/dialog-row-height.c:217
 #, fuzzy
 msgid "Set standard/default row height"
 msgstr "Muuda rea kõrguse vaikeväärtust"
 
-#: ../src/dialogs/dialog-row-height.c:223
+#: ../src/dialogs/dialog-row-height.c:222
 #, c-format
-msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgid ""
+"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
 #: ../src/dialogs/dialog-scenarios.c:129
@@ -5736,7 +5751,7 @@ msgid "Could not create the Scenario Add dialog."
 msgstr "Ei suudetud luua stsenaariumi lisamise dialoogi."
 
 #: ../src/dialogs/dialog-scenarios.c:247
-#, fuzzy
+#, fuzzy, c-format
 msgid "Created on "
 msgstr "Tee nool"
 
@@ -5770,12 +5785,12 @@ msgstr "Avaldis"
 msgid "Other value"
 msgstr "Muu väärtus"
 
-#: ../src/dialogs/dialog-search.c:345
+#: ../src/dialogs/dialog-search.c:329
 #: ../src/dialogs/dialog-search-replace.c:151
 msgid "You must select some cell types to search."
 msgstr "Otsimiseks pead sa valima mõne lahtri tüübi."
 
-#: ../src/dialogs/dialog-search.c:424
+#: ../src/dialogs/dialog-search.c:408
 msgid "Content"
 msgstr "Sisu"
 
@@ -5815,17 +5830,17 @@ msgstr "On juba leht nimega"
 msgid "At least one sheet must remain visible!"
 msgstr "Vähemalt üks leht peab jääma nähtavaks!"
 
-#: ../src/dialogs/dialog-sheet-order.c:982
+#: ../src/dialogs/dialog-sheet-order.c:979
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 
-#: ../src/dialogs/dialog-sheet-order.c:1010
+#: ../src/dialogs/dialog-sheet-order.c:1007
 #, fuzzy
 msgid "Another view is already managing sheets"
 msgstr "On juba leht nimega"
 
-#: ../src/dialogs/dialog-sheet-order.c:1064
-#: ../src/dialogs/dialog-sheet-order.c:1074
+#: ../src/dialogs/dialog-sheet-order.c:1061
+#: ../src/dialogs/dialog-sheet-order.c:1071
 msgid "Default"
 msgstr "Vaikimisi"
 
@@ -5870,16 +5885,16 @@ msgid "Variable"
 msgstr "Muutuja"
 
 #: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3681
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3686
+#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3683
 msgid "Average"
 msgstr "Keskmine"
 
 #: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3682
 msgid "Max"
 msgstr "Max"
 
@@ -5915,7 +5930,7 @@ msgid ""
 "solver for Gnumeric?"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:692
+#: ../src/dialogs/dialog-solver.c:687
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -5923,60 +5938,61 @@ msgstr ""
 "Lahendaja leidis optimaalse lahenduse.  Kõik piirangud ja "
 "optimeerimistingimused on rahuldatud.\n"
 
-#: ../src/dialogs/dialog-solver.c:701
+#: ../src/dialogs/dialog-solver.c:696
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:719
+#: ../src/dialogs/dialog-solver.c:714
 #, fuzzy
-msgid "The Target Cell value specified does not converge!  The program is unbounded."
+msgid ""
+"The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Sihtlahtri väärtus ei koondu!"
 
-#: ../src/dialogs/dialog-solver.c:733
+#: ../src/dialogs/dialog-solver.c:728
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:748
+#: ../src/dialogs/dialog-solver.c:743
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:792
+#: ../src/dialogs/dialog-solver.c:787
 msgid "Optimal solution created by solver.\n"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:826
+#: ../src/dialogs/dialog-solver.c:821
 msgid "Unknown error."
 msgstr "Tundmatu viga:"
 
-#: ../src/dialogs/dialog-solver.c:845
+#: ../src/dialogs/dialog-solver.c:840
 msgid "You have not specified a problem to be solved"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:863 ../src/tools/solver/solver.c:380
+#: ../src/dialogs/dialog-solver.c:858 ../src/tools/solver/solver.c:380
 #, fuzzy
 msgid "Target cell should contain a formula."
 msgstr "Otsitav tekst on regulaaravaldis"
 
-#: ../src/dialogs/dialog-solver.c:941
+#: ../src/dialogs/dialog-solver.c:936
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Piirang `%s' on pandud lahtrile, mis ei ole sisendlahter."
 
-#: ../src/dialogs/dialog-solver.c:960
+#: ../src/dialogs/dialog-solver.c:955
 msgid "No constraints defined for the problem."
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:1224
+#: ../src/dialogs/dialog-solver.c:1219
 msgid "Subject to the Constraints:"
 msgstr "Alluta piirangutele:"
 
-#: ../src/dialogs/dialog-solver.c:1340
+#: ../src/dialogs/dialog-solver.c:1333
 msgid "Could not create the Solver dialog."
 msgstr "Ei suudetud luua lahendaja dialoogi."
 
@@ -6013,7 +6029,7 @@ msgid ""
 "Never"
 msgstr "Automaatne (paneb kvoodid kui vaja)"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:223
+#: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:226
 msgid "Character _encoding:"
 msgstr ""
 
@@ -6213,7 +6229,8 @@ msgid "A maximum of %d columns can be imported."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:540
-msgid "If this checkbox is selected, the column will be imported into Gnumeric."
+msgid ""
+"If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:693
@@ -6301,7 +6318,8 @@ msgstr "Määra iga veeru laius käsitsi."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Iga veerg tekstis on eraldatud 'eraldussümboliga', näiteks semikooloniga."
+msgstr ""
+"Iga veerg tekstis on eraldatud 'eraldussümboliga', näiteks semikooloniga."
 
 #: ../src/dialogs/dialog-stf.glade.h:20
 msgid "Encoding:"
@@ -6378,8 +6396,10 @@ msgid "See two successive separators as one."
 msgstr "Käsitle kahte järgnevat eraldajat ühena"
 
 #: ../src/dialogs/dialog-stf.glade.h:37
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Käsitle kahte järjestikust tekstiindikaatorit ühena, mis ei lõpeta lahtrit."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Käsitle kahte järjestikust tekstiindikaatorit ühena, mis ei lõpeta lahtrit."
 
 #: ../src/dialogs/dialog-stf.glade.h:38
 msgid "Semicolo_n (;)"
@@ -6516,49 +6536,49 @@ msgstr "Tekst"
 msgid "Data (from %s)"
 msgstr "Andmed (%s -st)"
 
-#: ../src/dialogs/dialog-tabulate.c:205
+#: ../src/dialogs/dialog-tabulate.c:198
 #, fuzzy
 msgid "You should introduce a single valid cell as dependency cell"
 msgstr "Sa pead sisestama korrektse lahtri nime väljal 'Määra lahter:'!"
 
-#: ../src/dialogs/dialog-tabulate.c:212
+#: ../src/dialogs/dialog-tabulate.c:205
 msgid "The dependency cells should not contain an expression"
 msgstr ""
 
-#: ../src/dialogs/dialog-tabulate.c:221
+#: ../src/dialogs/dialog-tabulate.c:214
 #, fuzzy
 msgid "You should introduce a valid number as minimum"
 msgstr "Sa pead andma sobilikud lahtrite nimed aknas 'Loendi vahemik:'"
 
-#: ../src/dialogs/dialog-tabulate.c:230
+#: ../src/dialogs/dialog-tabulate.c:223
 #, fuzzy
 msgid "You should introduce a valid number as maximum"
 msgstr "Sa pead andma sobilikud lahtrite nimed aknas 'Loendi vahemik:'"
 
-#: ../src/dialogs/dialog-tabulate.c:238
+#: ../src/dialogs/dialog-tabulate.c:231
 msgid "The maximum value should be bigger than the minimum"
 msgstr ""
 
-#: ../src/dialogs/dialog-tabulate.c:247
+#: ../src/dialogs/dialog-tabulate.c:240
 #, fuzzy
 msgid "You should introduce a valid number as step size"
 msgstr "Sa pead andma sobilikud lahtrite nimed aknas 'Loendi vahemik:'"
 
-#: ../src/dialogs/dialog-tabulate.c:255
+#: ../src/dialogs/dialog-tabulate.c:248
 msgid "The step size should be positive"
 msgstr ""
 
-#: ../src/dialogs/dialog-tabulate.c:266
+#: ../src/dialogs/dialog-tabulate.c:259
 #, fuzzy
 msgid "You should introduce one or more dependency cells"
 msgstr "Sa pead sisestama korrektse lahtri nime väljal 'Määra lahter:'!"
 
-#: ../src/dialogs/dialog-tabulate.c:276
+#: ../src/dialogs/dialog-tabulate.c:269
 #, fuzzy
 msgid "You should introduce a single valid cell as result cell"
 msgstr "Sa pead sisestama korrektse lahtri nime väljal 'Määra lahter:'!"
 
-#: ../src/dialogs/dialog-tabulate.c:284
+#: ../src/dialogs/dialog-tabulate.c:277
 #, fuzzy
 msgid "The target cell should contain an expression"
 msgstr "Otsitav tekst on regulaaravaldis"
@@ -7732,7 +7752,6 @@ msgid "View"
 msgstr "Vaade"
 
 #: ../src/dialogs/search.glade.h:1 ../src/dialogs/search-replace.glade.h:4
-#: ../src/gui-file.c:181 ../src/gui-file.c:244
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
 msgstr "Täpsemalt"
@@ -8289,6 +8308,7 @@ msgstr "Lahenda"
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
 #: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6214
+#, c-format
 msgid "Solver"
 msgstr "Lahendaja"
 
@@ -8418,7 +8438,8 @@ msgid "Tabulate Dependency"
 msgstr ""
 
 #: ../src/dialogs/tabulate.glade.h:11
-msgid "Use down for first source, right for second, and multiple sheets for third"
+msgid ""
+"Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 
 #: ../src/dialogs/tabulate.glade.h:12
@@ -8761,7 +8782,8 @@ msgstr "/df/SS/MS/F/F Olulisus"
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
-msgstr "/Koefitsendid/Standardhälve/t Stat/P-väärtus/Alumine %0.0f%%/Ülemine %0.0f%%"
+msgstr ""
+"/Koefitsendid/Standardhälve/t Stat/P-väärtus/Alumine %0.0f%%/Ülemine %0.0f%%"
 
 #: ../src/tools/analysis-tools.c:3230
 msgid ""
@@ -9086,7 +9108,7 @@ msgstr ""
 msgid "Range"
 msgstr "Vahemik"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3687
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3684
 msgid "Count"
 msgstr "Loend"
 
@@ -9555,7 +9577,8 @@ msgstr ""
 msgid "(Non Blanks...)"
 msgstr ""
 
-#: ../src/widgets/gnumeric-expr-entry.c:1414
+#: ../src/widgets/gnumeric-expr-entry.c:1432
+#, c-format
 msgid "Expecting a single range"
 msgstr "Eeldatakse ainsat piirkonda"
 
@@ -9585,17 +9608,17 @@ msgstr ""
 msgid "A GSlist of filenames that have been read recently"
 msgstr ""
 
-#: ../src/clipboard.c:354 ../src/clipboard.c:366 ../src/clipboard.c:377
-#: ../src/clipboard.c:385
+#: ../src/clipboard.c:360 ../src/clipboard.c:372 ../src/clipboard.c:383
+#: ../src/clipboard.c:391
 msgid "Unable to paste"
 msgstr "Ei suuda asetada"
 
-#: ../src/clipboard.c:355
+#: ../src/clipboard.c:361
 #, fuzzy
 msgid "Contents can only be pasted by value or by link."
 msgstr "Sisu saab asetada ainult väärtuse või lingina."
 
-#: ../src/clipboard.c:363
+#: ../src/clipboard.c:369
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -9607,7 +9630,7 @@ msgstr ""
 "\n"
 "Proovi valida üksik lahter või sama kuju ja suurusega ala."
 
-#: ../src/clipboard.c:374
+#: ../src/clipboard.c:380
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -9618,7 +9641,7 @@ msgstr ""
 "\n"
 "Proovi valida üksik lahter või sama kuju ja suurusega ala."
 
-#: ../src/clipboard.c:386
+#: ../src/clipboard.c:392
 msgid "result passes the sheet boundary"
 msgstr "tulemus ületab lehe piirid"
 
@@ -9667,6 +9690,7 @@ msgid "Would split array %s"
 msgstr "Jaotab massiivi %s"
 
 #: ../src/command-context.c:58
+#, c-format
 msgid "Would split an array"
 msgstr "Jaotab massiivi"
 
@@ -9999,6 +10023,7 @@ msgid "Sheet names must be non-empty."
 msgstr ""
 
 #: ../src/commands.c:4751
+#, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr ""
 
@@ -10018,7 +10043,7 @@ msgid "Merging data into %s"
 msgstr "Ühendatakse %s"
 
 #: ../src/commands.c:5329
-#, fuzzy
+#, fuzzy, c-format
 msgid "Changing workbook properties"
 msgstr "Muudetakse formaati"
 
@@ -10093,7 +10118,7 @@ msgid "Goal Seek (%s)"
 msgstr "Sihtmärgi otsing (%s)"
 
 #: ../src/commands.c:6466
-#, fuzzy
+#, fuzzy, c-format
 msgid "Tabulating Dependencies"
 msgstr "Pluginate üksikasjad"
 
@@ -10162,8 +10187,10 @@ msgstr "Vigane xml fail. Äkki on puu tühi ?"
 
 #: ../src/format-template.c:793
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Sihtala on liiga väike.  See peaks olema vähemalt %d rida korda %d veergu"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
+msgstr ""
+"Sihtala on liiga väike.  See peaks olema vähemalt %d rida korda %d veergu"
 
 #: ../src/format-template.c:797
 #, c-format
@@ -10324,7 +10351,7 @@ msgstr "20_0 %"
 msgid "500%"
 msgstr "_50 %"
 
-#: ../src/gnm-pane.c:1965
+#: ../src/gnm-pane.c:1966
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10398,6 +10425,18 @@ msgstr "Joone/noole omadused"
 msgid "Polygon Properties"
 msgstr "Omadused..."
 
+#: ../src/GNOME_Gnumeric-gtk.xml.in.h:1 ../src/HILDON_Gnumeric-gtk.xml.in.h:1
+msgid "FormatToolbar"
+msgstr "Vormindusriba"
+
+#: ../src/GNOME_Gnumeric-gtk.xml.in.h:2 ../src/HILDON_Gnumeric-gtk.xml.in.h:2
+msgid "ObjectToolbar"
+msgstr "Objektiriba"
+
+#: ../src/GNOME_Gnumeric-gtk.xml.in.h:3 ../src/HILDON_Gnumeric-gtk.xml.in.h:3
+msgid "StandardToolbar"
+msgstr "Standardriba"
+
 #: ../src/gui-clipboard.c:136
 msgid "clipboard"
 msgstr "lõikepuhver"
@@ -10406,31 +10445,40 @@ msgstr "lõikepuhver"
 msgid "Automatically detected"
 msgstr "Automaatselt tuvastatud"
 
-#: ../src/gui-file.c:184
-#: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
-#: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
-#: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
-msgid "Simple"
+#. xgettext: If possible try to use the same mnemonic for
+#. * Advanced and Simple
+#: ../src/gui-file.c:184 ../src/gui-file.c:247
+#, fuzzy
+msgid "Advanc_ed"
+msgstr "Täpsemalt"
+
+#: ../src/gui-file.c:187
+#, fuzzy
+msgid "Simpl_e"
 msgstr "Lihtne"
 
-#: ../src/gui-file.c:215
+#: ../src/gui-file.c:218
 msgid "Load file"
 msgstr "Ava fail"
 
-#: ../src/gui-file.c:241 ../src/gui-file.c:400
+#: ../src/gui-file.c:244 ../src/gui-file.c:402
 #, fuzzy
 msgid "Select a file"
 msgstr "Vali kogu veerg"
 
-#: ../src/gui-file.c:271 ../src/gui-file.c:416
+#: ../src/gui-file.c:274 ../src/gui-file.c:418
 msgid "All Files"
 msgstr "Kõik failid"
 
-#: ../src/gui-file.c:289 ../src/gui-file.c:445
+#: ../src/gui-file.c:279 ../src/gui-file.c:423
+msgid "Spreadsheets"
+msgstr "Arvutustabelid"
+
+#: ../src/gui-file.c:292 ../src/gui-file.c:447
 msgid "File _type:"
 msgstr "Faili _tüüp:"
 
-#: ../src/gui-file.c:352
+#: ../src/gui-file.c:354
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -10442,7 +10490,7 @@ msgstr ""
 "vali mingi muu failiformaat.\n"
 "Tahad sa salvestada ainult käesolevat lehte?"
 
-#: ../src/gui-file.c:502
+#: ../src/gui-file.c:504
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10541,80 +10589,80 @@ msgstr "Nihuta paremale ja tõsta"
 msgid "C_ancel"
 msgstr "Tühista"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:74
 msgid "Display Gnumeric's version"
 msgstr "Näita Gnumericu versiooni"
 
-#: ../src/main-application.c:81 ../src/ssconvert.c:59 ../src/ssindex.c:56
+#: ../src/main-application.c:80 ../src/ssconvert.c:59 ../src/ssindex.c:56
 msgid "Set the root library directory"
 msgstr "Määra teekide juurkataloog"
 
-#: ../src/main-application.c:82 ../src/main-application.c:88
+#: ../src/main-application.c:81 ../src/main-application.c:87
 #: ../src/ssconvert.c:60 ../src/ssconvert.c:67 ../src/ssindex.c:57
 #: ../src/ssindex.c:64
 msgid "DIR"
 msgstr ""
 
-#: ../src/main-application.c:87 ../src/ssconvert.c:66 ../src/ssindex.c:63
+#: ../src/main-application.c:86 ../src/ssconvert.c:66 ../src/ssindex.c:63
 msgid "Adjust the root data directory"
 msgstr "Muuda teekide juurkataloogi"
 
-#: ../src/main-application.c:93
+#: ../src/main-application.c:92
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: ../src/main-application.c:94
+#: ../src/main-application.c:93
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr ""
 
-#: ../src/main-application.c:99
+#: ../src/main-application.c:98
 msgid "Don't show splash screen"
 msgstr ""
 
-#: ../src/main-application.c:105
+#: ../src/main-application.c:104
 msgid "Don't display warning dialogs when importing"
 msgstr ""
 
-#: ../src/main-application.c:112
+#: ../src/main-application.c:111
 msgid "Enables some dependency related debugging functions"
 msgstr "Võimaldab mõned sõltuvustega tegelevad kontrollfunktsioonid"
 
-#: ../src/main-application.c:113 ../src/main-application.c:119
-#: ../src/main-application.c:125 ../src/main-application.c:150
+#: ../src/main-application.c:112 ../src/main-application.c:118
+#: ../src/main-application.c:124 ../src/main-application.c:149
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: ../src/main-application.c:118
+#: ../src/main-application.c:117
 #, fuzzy
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Võimaldab mõnede kontrollfunktsioonide töö"
 
-#: ../src/main-application.c:124
+#: ../src/main-application.c:123
 msgid "Enables some print debugging behavior"
 msgstr "Võimaldab mõningase tegevuse trükkimise kontrollimiseks"
 
-#: ../src/main-application.c:131 ../src/main-application.c:137
+#: ../src/main-application.c:130 ../src/main-application.c:136
 msgid "Dumps the function definitions"
 msgstr "Ei näita funktsioonide kirjeldusi"
 
-#: ../src/main-application.c:132 ../src/main-application.c:138
+#: ../src/main-application.c:131 ../src/main-application.c:137
 msgid "FILE"
 msgstr "FILE"
 
-#: ../src/main-application.c:143
+#: ../src/main-application.c:142
 msgid "Generate new help and po files"
 msgstr ""
 
-#: ../src/main-application.c:149
+#: ../src/main-application.c:148
 msgid "Enables some debugging functions"
 msgstr "Võimaldab mõnede kontrollfunktsioonide töö"
 
-#: ../src/main-application.c:155
+#: ../src/main-application.c:154
 #, fuzzy
 msgid "Exit immediately after loading the selected books"
 msgstr "Välju kohe peale valitud raamatute laadimist (kasulik testimiseks)"
 
-#: ../src/main-application.c:195
+#: ../src/main-application.c:194
 #, fuzzy
 msgid ""
 "Thank you for using Gnumeric!\n"
@@ -10639,14 +10687,14 @@ msgstr ""
 "\n"
 "-- Gnumericu meeskond."
 
-#: ../src/main-application.c:279 ../src/ssconvert.c:333 ../src/ssindex.c:227
+#: ../src/main-application.c:278 ../src/ssconvert.c:333 ../src/ssindex.c:227
 #, c-format
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
 
-#: ../src/main-application.c:346
+#: ../src/main-application.c:341
 msgid ""
 "The Pango library present on your system is buggy, see\n"
 "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
@@ -10654,7 +10702,7 @@ msgid ""
 "with your distribution if a fixed Pango library is available."
 msgstr ""
 
-#: ../src/main-application.c:395
+#: ../src/main-application.c:390
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -10673,23 +10721,6 @@ msgstr ""
 msgid "bessel_i(%"
 msgstr ""
 
-#: ../src/mathfunc.c:3878 ../src/mathfunc.c:4349
-msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
-msgstr ""
-
-#: ../src/mathfunc.c:3878 ../src/mathfunc.c:4349
-#, fuzzy
-msgid ". Arg. out of range?\n"
-msgstr "Argumendid on väljaspool vahemikku"
-
-#: ../src/mathfunc.c:3881 ../src/mathfunc.c:4352
-msgid ",nu=%"
-msgstr ""
-
-#: ../src/mathfunc.c:3881 ../src/mathfunc.c:4352
-msgid "): precision lost in result\n"
-msgstr ""
-
 #: ../src/mathfunc.c:4341
 #, fuzzy
 msgid "bessel_k allocation error"
@@ -10706,18 +10737,22 @@ msgid ""
 msgstr ""
 
 #: ../src/parser.y:322
+#, c-format
 msgid "An array must have at least 1 element"
 msgstr "Massiivis peab olema vähemalt 1 element"
 
 #: ../src/parser.y:354
+#, c-format
 msgid "Arrays must be rectangular"
 msgstr "Massiivid peavad olema ristkülikukujulised"
 
 #: ../src/parser.y:373
+#, c-format
 msgid "Constructed ranges use simple references"
 msgstr ""
 
 #: ../src/parser.y:387 ../src/parser.y:401
+#, c-format
 msgid "All entries in the set must be references"
 msgstr ""
 
@@ -10732,6 +10767,7 @@ msgid "Unknown sheet '%s'"
 msgstr "Tundmatu leht '%s'"
 
 #: ../src/parser.y:598
+#, c-format
 msgid "() is an invalid expression"
 msgstr "() on vigane avaldis"
 
@@ -10746,34 +10782,42 @@ msgid "Unknown workbook '%s'"
 msgstr "Tundmatu raamat '%s'"
 
 #: ../src/parser.y:996 ../src/parser.y:1245
+#, c-format
 msgid "Could not find matching closing quote"
 msgstr "Ei suuda leida sobivat sulgemiskvooti"
 
 #: ../src/parser.y:1106
+#, c-format
 msgid "Sheet name is required"
 msgstr "Lehe nimi on nõutud"
 
 #: ../src/parser.y:1159 ../src/parser.y:1168 ../src/parser.y:1193
+#, c-format
 msgid "The number is out of range"
 msgstr "Arv on väljaspool vahemikku"
 
 #: ../src/parser.y:1227
+#, c-format
 msgid "Improperly formatted error token"
 msgstr ""
 
 #: ../src/parser.y:1427
+#, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr "Selles kontekstis ei ole mitme avaldise kasutamine toetatud."
 
 #: ../src/parser.y:1450
+#, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "Ei suuda leida sobivat algussulgu"
 
 #: ../src/parser.y:1454
+#, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "Ei suuda leida sobivat lõpetussulgu"
 
 #: ../src/parser.y:1458
+#, c-format
 msgid "Invalid expression"
 msgstr "Vigane avaldis"
 
@@ -10820,7 +10864,7 @@ msgstr "asukohast:"
 msgid "to:"
 msgstr "Autor:"
 
-#: ../src/print.c:1442
+#: ../src/print.c:1444
 #, fuzzy
 msgid "Gnumeric Print Range"
 msgstr "Gnumericu Pythoni konsool"
@@ -11475,7 +11519,7 @@ msgid "Pus_h to Back"
 msgstr ""
 
 #: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:412
-#, fuzzy
+#, fuzzy, c-format
 msgid "Unknown failure while saving image"
 msgstr "Viga faili salvestamisel."
 
@@ -11497,33 +11541,33 @@ msgstr "Vali kogu veerg"
 msgid "Frame"
 msgstr "Raam"
 
-#: ../src/sheet-object-widget.c:515 ../src/wbc-gtk-actions.c:1978
+#: ../src/sheet-object-widget.c:512 ../src/wbc-gtk-actions.c:1978
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Nupp"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:789
+#: ../src/sheet-object-widget.c:786
 #, fuzzy
 msgid "Change widget"
 msgstr "_Muuda"
 
-#: ../src/sheet-object-widget.c:1398
+#: ../src/sheet-object-widget.c:1392
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "Kontrollkast"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1465
+#: ../src/sheet-object-widget.c:1459
 #, fuzzy
 msgid "Clicking checkbox"
 msgstr "Kontrollkast"
 
-#: ../src/sheet-object-widget.c:1866 ../src/wbc-gtk-actions.c:1981
+#: ../src/sheet-object-widget.c:1857 ../src/wbc-gtk-actions.c:1981
 msgid "RadioButton"
 msgstr "Raadionupp"
 
-#: ../src/sheet-object-widget.c:2102
+#: ../src/sheet-object-widget.c:2093
 #, fuzzy
 msgid "Clicking in list"
 msgstr "Eemaldatakse %s %s -s"
@@ -11609,6 +11653,7 @@ msgid ""
 msgstr ""
 
 #: ../src/ssconvert.c:244
+#, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
@@ -11684,6 +11729,7 @@ msgid "Text to Columns"
 msgstr "Kustuta veerud"
 
 #: ../src/stf.c:276
+#, c-format
 msgid "Only one column of <b>input</b> data can be parsed at a time"
 msgstr ""
 
@@ -11715,24 +11761,24 @@ msgstr "Töötlemise viga katsel tuua andmeid lehele"
 msgid "Error while trying to export file as text"
 msgstr "Viga faili eelkonverteerimisel"
 
-#: ../src/stf.c:438
+#: ../src/stf.c:448
 #, fuzzy
 msgid "Error while trying to write CSV file"
 msgstr "Viga katsel kirjutada csv faili"
 
-#: ../src/stf.c:528
+#: ../src/stf.c:538
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Komade või tabulaatoritega eraldatud väärtused (CSV/TSV)"
 
-#: ../src/stf.c:533
+#: ../src/stf.c:543
 msgid "Text import (configurable)"
 msgstr "Tekst import (kohandatav)"
 
-#: ../src/stf.c:539
+#: ../src/stf.c:549
 msgid "Text export (configurable)"
 msgstr "Tekstifaili eksport (kohandatav)"
 
-#: ../src/stf.c:543
+#: ../src/stf.c:553
 msgid "Comma separated values (CSV)"
 msgstr "Komadega eraldatud väärtused (CSV)"
 
@@ -11772,46 +11818,90 @@ msgid ""
 "columns will be ignored."
 msgstr ""
 
-#: ../src/validation.c:252
+#. Note: no entry for VALIDATION_OP_NONE
+#: ../src/validation.c:71
+msgid "Between"
+msgstr ""
+
+#: ../src/validation.c:72
+msgid "Not_Between"
+msgstr ""
+
+#: ../src/validation.c:73
+#, fuzzy
+msgid "Equal"
+msgstr "Võ_rdne"
+
+#: ../src/validation.c:74
+#, fuzzy
+msgid "Not Equal"
+msgstr "Võ_rdne"
+
+#: ../src/validation.c:75
+#, fuzzy
+msgid "Greater Than"
+msgstr "Tee nool"
+
+#: ../src/validation.c:76
+msgid "Less Than"
+msgstr ""
+
+#: ../src/validation.c:77
+msgid "Greater than or Equal"
+msgstr ""
+
+#: ../src/validation.c:78
+msgid "Less than or Equal"
+msgstr ""
+
+#: ../src/validation.c:290
+msgid "Missing formula for validation"
+msgstr ""
+
+#: ../src/validation.c:293
+msgid "Extra formula for validation"
+msgstr ""
+
+#: ../src/validation.c:303
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric : Valideerimine"
 
-#: ../src/validation.c:309
+#: ../src/validation.c:360
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Lahtrit %s ei lubata jätta tühjaks"
 
-#: ../src/validation.c:317
+#: ../src/validation.c:368
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain error values"
 msgstr "Lahtrit %s ei lubata jätta tühjaks"
 
-#: ../src/validation.c:328
+#: ../src/validation.c:379
 #, fuzzy, c-format
 msgid "Cell %s is not permitted to contain strings"
 msgstr "Lahtrit %s ei lubata jätta tühjaks"
 
-#: ../src/validation.c:344
+#: ../src/validation.c:395
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' ei ole täisarv"
 
-#: ../src/validation.c:354
+#: ../src/validation.c:405
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s ei ole kehtiv kuupäev"
 
-#: ../src/validation.c:376
+#: ../src/validation.c:427
 #, c-format
 msgid "%s does not contain the new value."
 msgstr ""
 
-#: ../src/validation.c:410
+#: ../src/validation.c:461
 #, c-format
 msgid "%s is not true."
 msgstr "%s ei ole tõene."
 
-#: ../src/validation.c:447
+#: ../src/validation.c:498
 #, fuzzy, c-format
 msgid "%s is out of permitted range"
 msgstr "Lahtrit %s ei lubata jätta tühjaks"
@@ -12025,26 +12115,26 @@ msgstr "Soorita tühistatud tegevus uuesti"
 msgid "Undo the last action"
 msgstr "Tühista viimane tegevus"
 
-#: ../src/wbc-gtk.c:2493
+#: ../src/wbc-gtk.c:2490
 msgid "Set Foreground Color"
 msgstr "Määra esiplaani värv"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:2548
+#: ../src/wbc-gtk.c:2545
 msgid "Set Background Color"
 msgstr "Määra tausta värv"
 
-#: ../src/wbc-gtk.c:2587
+#: ../src/wbc-gtk.c:2584
 #, c-format
 msgid "Font Name %s"
 msgstr "Fondi nimi %s"
 
-#: ../src/wbc-gtk.c:2647
+#: ../src/wbc-gtk.c:2644
 #, c-format
 msgid "Font Size %f"
 msgstr "Fondi suurus %f"
 
-#: ../src/wbc-gtk.c:2665 ../src/wbc-gtk.c:2666
+#: ../src/wbc-gtk.c:2662 ../src/wbc-gtk.c:2663
 #, fuzzy
 msgid "Font Size"
 msgstr "Fondi suurus"
@@ -12055,66 +12145,66 @@ msgstr "Fondi suurus"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:2875
+#: ../src/wbc-gtk.c:2872
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 
-#: ../src/wbc-gtk.c:3144
+#: ../src/wbc-gtk.c:3141
 #, fuzzy
 msgid "Display above sheets"
 msgstr "Peida _ridade päised"
 
-#: ../src/wbc-gtk.c:3145
+#: ../src/wbc-gtk.c:3142
 msgid "Display to the left of sheets"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3146
+#: ../src/wbc-gtk.c:3143
 msgid "Display to the right of sheets"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3150
+#: ../src/wbc-gtk.c:3147
 msgid "Reattach to main window"
 msgstr ""
 
-#: ../src/wbc-gtk.c:3182
+#: ../src/wbc-gtk.c:3179
 #, fuzzy
 msgid "Hide"
 msgstr "Peida"
 
-#: ../src/wbc-gtk.c:3244
+#: ../src/wbc-gtk.c:3241
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Näita/peida tööriistariba %s"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk.c:3683 ../src/wbc-gtk-actions.c:1927
+#: ../src/wbc-gtk.c:3680 ../src/wbc-gtk-actions.c:1927
 #: ../src/workbook-view.c:800
 msgid "Sum"
 msgstr "Summa"
 
-#: ../src/wbc-gtk.c:3731
+#: ../src/wbc-gtk.c:3728
 msgid "Use maximum precision"
 msgstr "Kasuta suurimat täpsust"
 
-#: ../src/wbc-gtk.c:3830
+#: ../src/wbc-gtk.c:3827
 #, c-format
 msgid "Open %s"
 msgstr "Ava %s"
 
-#: ../src/wbc-gtk.c:4269
+#: ../src/wbc-gtk.c:4292
 msgid "Autosave prompt"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4270
+#: ../src/wbc-gtk.c:4293
 msgid "Ask about autosave?"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4276
+#: ../src/wbc-gtk.c:4299
 msgid "Autosave time in seconds"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4277
+#: ../src/wbc-gtk.c:4300
 msgid "Seconds before autosave"
 msgstr ""
 
@@ -12629,7 +12719,8 @@ msgid "_Merge..."
 msgstr "Ü_henda..."
 
 #: ../src/wbc-gtk-actions.c:1604
-msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid ""
+"Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1606
@@ -13817,35 +13908,35 @@ msgstr "Rõhtjoondus"
 msgid "Vertical Alignment"
 msgstr "Püstjoondus"
 
-#: ../src/wbc-gtk-edit.c:771
+#: ../src/wbc-gtk-edit.c:770
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s on lukustatud"
 
-#: ../src/wbc-gtk-edit.c:775
+#: ../src/wbc-gtk-edit.c:774
 msgid "Unprotect the workbook to enable editing."
 msgstr "Eemalda redigeerimise võimaldamiseks töövihiku kaitse"
 
-#: ../src/wbc-gtk-edit.c:776
+#: ../src/wbc-gtk-edit.c:775
 msgid "Unprotect the sheet to enable editing."
 msgstr "Eemalda redigeerimise võimaldamiseks lehe kaitse"
 
-#: ../src/wbc-gtk-edit.c:795
+#: ../src/wbc-gtk-edit.c:794
 msgid "You are about to edit a cell with \"text\" format."
 msgstr ""
 
-#: ../src/wbc-gtk-edit.c:796
+#: ../src/wbc-gtk-edit.c:795
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
 msgstr ""
 
-#: ../src/wbc-gtk-edit.c:801
+#: ../src/wbc-gtk-edit.c:800
 #, fuzzy
 msgid "Remove format"
 msgstr "Eemalda raamid"
 
-#: ../src/wbc-gtk-edit.c:806
+#: ../src/wbc-gtk-edit.c:805
 msgid "Show this dialog next time."
 msgstr ""
 
@@ -14127,6 +14218,12 @@ msgstr "Laheda väljanägemisega mall"
 msgid "A simple template with classical look and feel"
 msgstr "Klassikalise välimusega lihtne mall"
 
+#: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
+#: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
+#: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
+msgid "Simple"
+msgstr "Lihtne"
+
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "A classical yet colorful template"
 msgstr "Klassikaline kuid värvikas mall"
@@ -14264,3 +14361,15 @@ msgstr "Lilla nimekirja mall"
 msgid "A simple list template"
 msgstr "Lihtsa nimekirja mall"
 
+#~ msgid "Save the embedded workbook"
+#~ msgstr "Salvesta põimitud raamat"
+
+#~ msgid "Component : Gnumeric"
+#~ msgstr "Komponent : Gnumeric"
+
+#~ msgid "Spreadsheets component engine"
+#~ msgstr "Arvutustabelite komponendi mootor"
+
+#, fuzzy
+#~ msgid ". Arg. out of range?\n"
+#~ msgstr "Argumendid on väljaspool vahemikku"

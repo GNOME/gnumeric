@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-06 13:42-0400\n"
+"POT-Creation-Date: 2007-09-09 21:27-0400\n"
 "PO-Revision-Date: 2007-09-06 15:03-0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
@@ -288,12 +288,12 @@ msgstr "Подготовка к сохранению..."
 msgid "Saving file..."
 msgstr "Сохранение файла..."
 
-#: ../plugins/excel/excel-xml-read.c:130 ../src/xml-sax-read.c:369
+#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:369
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Неожиданный атрибут %s::%s == \"%s\"."
 
-#: ../plugins/excel/excel-xml-read.c:993
+#: ../plugins/excel/excel-xml-read.c:1002
 #: ../plugins/openoffice/openoffice-read.c:2846 ../src/xml-sax-read.c:2530
 msgid "XML document not well formed!"
 msgstr "Неправильно сформированный документ XML!"
@@ -469,77 +469,77 @@ msgstr "Неверный диапазон \"%s\" для атрибута %s"
 msgid "Undefined number format id '%s'"
 msgstr "Неопределённый индикатор числового формата \"%s\""
 
-#: ../plugins/excel/xlsx-read.c:1256
+#: ../plugins/excel/xlsx-read.c:1287
 msgid "Dropping missing object"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1274
+#: ../plugins/excel/xlsx-read.c:1305
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1385
+#: ../plugins/excel/xlsx-read.c:1416
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Неверный цвет \"%s\" для атрибута rgb"
 
-#: ../plugins/excel/xlsx-read.c:1408
+#: ../plugins/excel/xlsx-read.c:1439
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Неопределённая запись стиля \"%d\""
 
-#: ../plugins/excel/xlsx-read.c:1417
+#: ../plugins/excel/xlsx-read.c:1448
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Неопределённая частичная запись стиля \"%d\""
 
-#: ../plugins/excel/xlsx-read.c:1446
+#: ../plugins/excel/xlsx-read.c:1477
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1567
+#: ../plugins/excel/xlsx-read.c:1598
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Неправильная ячейка %s"
 
-#: ../plugins/excel/xlsx-read.c:1668
+#: ../plugins/excel/xlsx-read.c:1699
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Пропущена информация о столбце не указывающая первый или последний."
 
-#: ../plugins/excel/xlsx-read.c:1945
+#: ../plugins/excel/xlsx-read.c:1976
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2369
+#: ../plugins/excel/xlsx-read.c:2400
 msgid "Undefined"
 msgstr "Неопределённый"
 
-#: ../plugins/excel/xlsx-read.c:2401
+#: ../plugins/excel/xlsx-read.c:2432
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Игнорируется необработанный условный формат типа \"%s\""
 
-#: ../plugins/excel/xlsx-read.c:2695
+#: ../plugins/excel/xlsx-read.c:2726
 msgid "Unknown type of hyperlink"
 msgstr "Неизвестный тип гиперссылки"
 
-#: ../plugins/excel/xlsx-read.c:2858
+#: ../plugins/excel/xlsx-read.c:2889
 msgid "Ignoring a sheet without a name"
 msgstr "Игнорируется лист без названия"
 
-#: ../plugins/excel/xlsx-read.c:2886
+#: ../plugins/excel/xlsx-read.c:2917
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "У листа \"%s\" отсутствует part-id."
 
-#: ../plugins/excel/xlsx-read.c:3320
+#: ../plugins/excel/xlsx-read.c:3351
 #, c-format
 msgid "Undefined font record '%d'"
 msgstr "Неопределённая запись шрифта \"%d\""
 
-#: ../plugins/excel/xlsx-read.c:3655
+#: ../plugins/excel/xlsx-read.c:3686
 msgid "No workbook stream found."
 msgstr "Не найден поток рабочей книги."
 
@@ -824,9 +824,9 @@ msgid "%s version %s"
 msgstr "%s версия %s"
 
 #: ../plugins/fn-info/functions.c:1338
-#: ../src/dialogs/dialog-cell-format.c:2221
-#: ../src/dialogs/dialog-cell-format.c:2225
-#: ../src/dialogs/dialog-cell-format.c:2233 ../src/wbc-gtk.c:2504
+#: ../src/dialogs/dialog-cell-format.c:2220
+#: ../src/dialogs/dialog-cell-format.c:2224
+#: ../src/dialogs/dialog-cell-format.c:2232 ../src/wbc-gtk.c:2501
 msgid "Automatic"
 msgstr "Автоматически"
 
@@ -1608,14 +1608,14 @@ msgstr "Действительная функция:"
 msgid "Constraints:"
 msgstr "Ограничения:"
 
-#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:570
-#: ../src/dialogs/dialog-doc-metadata.c:1278
-#: ../src/dialogs/dialog-formula-guru.c:826
+#: ../plugins/mps/mps.c:243 ../src/dialogs/dialog-define-names.c:569
+#: ../src/dialogs/dialog-doc-metadata.c:1214
+#: ../src/dialogs/dialog-formula-guru.c:825
 #: ../src/dialogs/dialog-function-select.c:539
 #: ../src/dialogs/dialog-function-select.c:561
-#: ../src/dialogs/dialog-paste-names.c:101
+#: ../src/dialogs/dialog-paste-names.c:100
 #: ../src/dialogs/dialog-scenarios.c:374
-#: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:198
+#: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:196
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -1628,7 +1628,7 @@ msgstr "Ограничения:"
 msgid "Name"
 msgstr "Название"
 
-#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1284
+#: ../plugins/mps/mps.c:270 ../src/dialogs/dialog-doc-metadata.c:1220
 #: ../src/dialogs/dialog-simulation.c:226
 #: ../src/tools/solver/reports-write.c:236
 #: ../src/tools/solver/reports-write.c:282
@@ -1640,8 +1640,8 @@ msgstr "Значения"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:830
-#: ../src/dialogs/dialog-search.c:423 ../src/tools/solver/reports-write.c:515
+#: ../plugins/mps/mps.c:271 ../src/dialogs/dialog-formula-guru.c:829
+#: ../src/dialogs/dialog-search.c:407 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Тип"
 
@@ -2192,8 +2192,8 @@ msgstr "Это сообщение от дополнения \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Ошибка при открытии файла xbase."
 
-#: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:260
-#: ../src/dialogs/dialog-search.c:421 ../src/dialogs/dialog-stf-export.c:465
+#: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:258
+#: ../src/dialogs/dialog-search.c:405 ../src/dialogs/dialog-stf-export.c:465
 #: ../src/dialogs/print.glade.h:31 ../src/print-info.c:439 ../src/search.c:620
 #: ../src/workbook.c:869 ../src/xml-io.c:2228
 msgid "Sheet"
@@ -2529,13 +2529,17 @@ msgstr "Каталог для предустановленных шаблоно�
 msgid ""
 "This is the default paper orientation. Please use the Print Setup dialog to "
 "edit this value."
-msgstr "Это значение задаёт исходную ориентацию страницы. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт исходную ориентацию страницы. Используйте диалог "
+"настройки печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
 "This is the default paper specification. Please use the Print Setup dialog "
 "to edit this value."
-msgstr "Это значение задаёт спецификацию бумаги. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт спецификацию бумаги. Используйте диалог настройки печати "
+"для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
@@ -2580,7 +2584,9 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:73
 msgid "This string gives the default unit to be used in the page setup dialog."
-msgstr "Эта строка задаёт исходные значения для единиц измерения в диалоге настройки печати."
+msgstr ""
+"Эта строка задаёт исходные значения для единиц измерения в диалоге настройки "
+"печати."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
@@ -2696,19 +2702,27 @@ msgstr ""
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the footer. Please use the Print Setup dialog to edit this value."
-msgstr "Это значение задаёт исходное число пунктов от нижнего края страницы до конца сноски. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт исходное число пунктов от нижнего края страницы до конца "
+"сноски. Используйте диалог настройки печати для изменения этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:87
 msgid ""
 "This value gives the default number of points from the left of a page to the "
 "left of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Это значение задаёт исходное число пунктов от левого края страницы до конца области печати. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт исходное число пунктов от левого края страницы до конца "
+"области печати. Используйте диалог настройки печати для изменения этого "
+"значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:88
 msgid ""
 "This value gives the default number of points from the right of a page to "
 "the right of the body. Please use the Print Setup dialog to edit this value."
-msgstr "Это значение задаёт исходное число пунктов от правого края страницы до начала области печати. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт исходное число пунктов от правого края страницы до "
+"начала области печати. Используйте диалог настройки печати для изменения "
+"этого значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:89
 msgid ""
@@ -2723,7 +2737,10 @@ msgstr ""
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "top of the header. Please use the Print Setup dialog to edit this value."
-msgstr "Это значение задаёт исходное число пунктов от верхнего края страницы до начала заголовка. Используйте диалог настройки печати для изменения этого значения."
+msgstr ""
+"Это значение задаёт исходное число пунктов от верхнего края страницы до "
+"начала заголовка. Используйте диалог настройки печати для изменения этого "
+"значения."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:91
 msgid ""
@@ -3674,13 +3691,13 @@ msgstr ""
 "Другое"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2229 ../src/wbc-gtk.c:2557
-#: ../src/wbc-gtk.c:2558 ../src/wbc-gtk.c:2567
+#: ../src/dialogs/dialog-cell-format.c:2228 ../src/wbc-gtk.c:2554
+#: ../src/wbc-gtk.c:2555 ../src/wbc-gtk.c:2564
 msgid "Background"
 msgstr "Фон"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2221
+#: ../src/dialogs/dialog-cell-format.c:2220
 msgid "Border"
 msgstr "Рамка"
 
@@ -3729,7 +3746,7 @@ msgid "Diagonal Stripe"
 msgstr "Диагональные штрихи"
 
 #: ../src/dialogs/cell-format.glade.h:46
-#: ../src/dialogs/dialog-preferences.c:895 ../src/wbc-gtk.c:2608
+#: ../src/dialogs/dialog-preferences.c:895 ../src/wbc-gtk.c:2605
 msgid "Font"
 msgstr "Шрифт"
 
@@ -3738,7 +3755,7 @@ msgid "Foreground Solid"
 msgstr "Сплошной передний план"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-cell-format.c:2158
+#: ../src/dialogs/dialog-cell-format.c:2157
 msgid "Format Cells"
 msgstr "Формат ячеек"
 
@@ -4686,10 +4703,10 @@ msgid "No matching records were found."
 msgstr "Не найдено совпадающих записей."
 
 #: ../src/dialogs/dialog-advanced-filter.c:153
-#: ../src/dialogs/dialog-analysis-tools.c:552
-#: ../src/dialogs/dialog-analysis-tools.c:671
-#: ../src/dialogs/dialog-analysis-tools.c:1978
-#: ../src/dialogs/dialog-analysis-tools.c:2835
+#: ../src/dialogs/dialog-analysis-tools.c:550
+#: ../src/dialogs/dialog-analysis-tools.c:669
+#: ../src/dialogs/dialog-analysis-tools.c:1976
+#: ../src/dialogs/dialog-analysis-tools.c:2833
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Возникла неожиданная ошибка: %d."
@@ -4698,70 +4715,70 @@ msgstr "Возникла неожиданная ошибка: %d."
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Невозможно создать диалог расширенной фильтрации."
 
-#: ../src/dialogs/dialog-analysis-tools.c:473
-#: ../src/dialogs/dialog-analysis-tools.c:1015
-#: ../src/dialogs/dialog-analysis-tools.c:2662
-#: ../src/dialogs/dialog-analysis-tools.c:2876
+#: ../src/dialogs/dialog-analysis-tools.c:471
+#: ../src/dialogs/dialog-analysis-tools.c:1013
+#: ../src/dialogs/dialog-analysis-tools.c:2660
+#: ../src/dialogs/dialog-analysis-tools.c:2874
 #: ../src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
 msgstr "Недопустимый диапазон ввода"
 
-#: ../src/dialogs/dialog-analysis-tools.c:482
-#: ../src/dialogs/dialog-analysis-tools.c:1066
-#: ../src/dialogs/dialog-analysis-tools.c:2682
-#: ../src/dialogs/dialog-analysis-tools.c:2908
+#: ../src/dialogs/dialog-analysis-tools.c:480
+#: ../src/dialogs/dialog-analysis-tools.c:1064
+#: ../src/dialogs/dialog-analysis-tools.c:2680
+#: ../src/dialogs/dialog-analysis-tools.c:2906
 msgid "The output specification is invalid."
 msgstr "Неправильная спецификация вывода."
 
-#: ../src/dialogs/dialog-analysis-tools.c:538
-#: ../src/dialogs/dialog-analysis-tools.c:657
+#: ../src/dialogs/dialog-analysis-tools.c:536
+#: ../src/dialogs/dialog-analysis-tools.c:655
 msgid "The selected input rows must have equal size!"
 msgstr "Выбранные входные строки должны иметь одинаковый размер!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:543
-#: ../src/dialogs/dialog-analysis-tools.c:662
+#: ../src/dialogs/dialog-analysis-tools.c:541
+#: ../src/dialogs/dialog-analysis-tools.c:660
 msgid "The selected input columns must have equal size!"
 msgstr "Выбранные входные столбцы должны иметь одинаковый размер!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:548
-#: ../src/dialogs/dialog-analysis-tools.c:667
+#: ../src/dialogs/dialog-analysis-tools.c:546
+#: ../src/dialogs/dialog-analysis-tools.c:665
 msgid "The selected input areas must have equal size!"
 msgstr "Выбранные входные области должны иметь одинаковый размер!"
 
-#: ../src/dialogs/dialog-analysis-tools.c:595
+#: ../src/dialogs/dialog-analysis-tools.c:593
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Невозможно создать диалог расчёта корреляции."
 
-#: ../src/dialogs/dialog-analysis-tools.c:714
+#: ../src/dialogs/dialog-analysis-tools.c:712
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Невозможно создать диалог расчёта ковариации."
 
-#: ../src/dialogs/dialog-analysis-tools.c:804
+#: ../src/dialogs/dialog-analysis-tools.c:802
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Невозможно создать диалог расчёта рангов и процентилей."
 
-#: ../src/dialogs/dialog-analysis-tools.c:895
+#: ../src/dialogs/dialog-analysis-tools.c:893
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Невозможно создать диалог Фурье анализа."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1024
+#: ../src/dialogs/dialog-analysis-tools.c:1022
 msgid "No statistics are selected."
 msgstr "Не выбрана статистика."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1034
+#: ../src/dialogs/dialog-analysis-tools.c:1032
 msgid "The confidence level should be between 0 and 1."
 msgstr "Доверительный уровень должен быть между 0 и 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1046
-#: ../src/dialogs/dialog-analysis-tools.c:1057
+#: ../src/dialogs/dialog-analysis-tools.c:1044
+#: ../src/dialogs/dialog-analysis-tools.c:1055
 msgid "K must be a positive integer."
 msgstr "К должно быть целым и положительным."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1106
+#: ../src/dialogs/dialog-analysis-tools.c:1104
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Невозможно создать диалог описательной статистики."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1251
+#: ../src/dialogs/dialog-analysis-tools.c:1249
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -4769,7 +4786,7 @@ msgstr ""
 "Введите допустимую дисперсию\n"
 "выборки для переменной 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1260
+#: ../src/dialogs/dialog-analysis-tools.c:1258
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -4777,51 +4794,51 @@ msgstr ""
 "Введите допустимую дисперсию\n"
 "выборки для переменной 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1476
+#: ../src/dialogs/dialog-analysis-tools.c:1474
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Невозможно создать диалог проверки среднего."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1663
+#: ../src/dialogs/dialog-analysis-tools.c:1661
 msgid "Could not create the FTest Tool dialog."
 msgstr "Невозможно создать диалог вычисления F-теста."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1857
+#: ../src/dialogs/dialog-analysis-tools.c:1855
 msgid "Could not create the Sampling Tool dialog."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:1973
+#: ../src/dialogs/dialog-analysis-tools.c:1971
 #: ../src/tools/analysis-tools.c:3087 ../src/tools/analysis-tools.c:3166
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Число значений для каждой переменной в регрессии должно быть одинаковым."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2067
+#: ../src/dialogs/dialog-analysis-tools.c:2065
 msgid "Could not create the Regression Tool dialog."
 msgstr "Невозможно создать диалог расчёта регрессии."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2195
+#: ../src/dialogs/dialog-analysis-tools.c:2193
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Невозможно создать диалог экспоненциального сглаживания."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2328
+#: ../src/dialogs/dialog-analysis-tools.c:2326
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Невозможно создать диалог скользящих средних."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2539
+#: ../src/dialogs/dialog-analysis-tools.c:2537
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Невозможно создать диалог расчёта гистограммы."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2673
-#: ../src/dialogs/dialog-analysis-tools.c:2887
+#: ../src/dialogs/dialog-analysis-tools.c:2671
+#: ../src/dialogs/dialog-analysis-tools.c:2885
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "Значение Альфа должно быть числом между 0 и 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2721
+#: ../src/dialogs/dialog-analysis-tools.c:2719
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Невозможно создать диалог однофакторного дисперсионного анализа.."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2801
+#: ../src/dialogs/dialog-analysis-tools.c:2799
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -4829,7 +4846,7 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца и две "
 "строки данных и метки."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2804
+#: ../src/dialogs/dialog-analysis-tools.c:2802
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -4837,7 +4854,7 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца и две "
 "строки данных."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2810
+#: ../src/dialogs/dialog-analysis-tools.c:2808
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -4845,12 +4862,12 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца данных и "
 "метки."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2813
+#: ../src/dialogs/dialog-analysis-tools.c:2811
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца данных."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2819
+#: ../src/dialogs/dialog-analysis-tools.c:2817
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -4858,20 +4875,20 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы две строки данных и "
 "метки."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2822
+#: ../src/dialogs/dialog-analysis-tools.c:2820
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы две строки данных."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2829
+#: ../src/dialogs/dialog-analysis-tools.c:2827
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Число строк с данными должно быть кратным числу репликаций."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2899
+#: ../src/dialogs/dialog-analysis-tools.c:2897
 msgid "The number of rows per sample should be a positive integer."
 msgstr "Число строк в выборке должно быть целым и положительным."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2945
+#: ../src/dialogs/dialog-analysis-tools.c:2943
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Невозможно создать диалог двухфакторного дисперсионного анализа."
 
@@ -4978,7 +4995,7 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: ../src/dialogs/dialog-autoformat.c:652
+#: ../src/dialogs/dialog-autoformat.c:642
 msgid "An error occurred while reading the category list"
 msgstr "При чтении списка категорий возникла ошибка"
 
@@ -5048,17 +5065,17 @@ msgstr "Информация (допускается неправильный в
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Бесполезный критерий проверки. Отключить проверку?"
 
-#: ../src/dialogs/dialog-cell-format.c:2225 ../src/wbc-gtk.c:2214
-#: ../src/wbc-gtk.c:2338 ../src/wbc-gtk.c:2506 ../src/wbc-gtk.c:2507
-#: ../src/wbc-gtk.c:2518 ../src/wbc-gtk.c:2624 ../src/wbc-gtk.c:2688
+#: ../src/dialogs/dialog-cell-format.c:2224 ../src/wbc-gtk.c:2214
+#: ../src/wbc-gtk.c:2338 ../src/wbc-gtk.c:2503 ../src/wbc-gtk.c:2504
+#: ../src/wbc-gtk.c:2515 ../src/wbc-gtk.c:2621 ../src/wbc-gtk.c:2685
 msgid "Foreground"
 msgstr "Передний план"
 
-#: ../src/dialogs/dialog-cell-format.c:2229 ../src/wbc-gtk.c:2555
+#: ../src/dialogs/dialog-cell-format.c:2228 ../src/wbc-gtk.c:2552
 msgid "Clear Background"
 msgstr "Очистить фон"
 
-#: ../src/dialogs/dialog-cell-format.c:2233
+#: ../src/dialogs/dialog-cell-format.c:2232
 msgid "Pattern"
 msgstr "Шаблон"
 
@@ -5082,39 +5099,39 @@ msgstr "%s (%s)"
 msgid "%s to %s"
 msgstr "%s - %s"
 
-#: ../src/dialogs/dialog-cell-sort.c:742
+#: ../src/dialogs/dialog-cell-sort.c:740
 msgid "no available row"
 msgstr "нет доступной строки"
 
-#: ../src/dialogs/dialog-cell-sort.c:742
+#: ../src/dialogs/dialog-cell-sort.c:740
 msgid "no available column"
 msgstr "нет доступного столбца"
 
-#: ../src/dialogs/dialog-cell-sort.c:997
+#: ../src/dialogs/dialog-cell-sort.c:995
 msgid "Header"
 msgstr "Заголовок"
 
-#: ../src/dialogs/dialog-cell-sort.c:1002
+#: ../src/dialogs/dialog-cell-sort.c:1000
 msgid "Row/Column"
 msgstr "Строка/Столбец"
 
-#: ../src/dialogs/dialog-cell-sort.c:1022
+#: ../src/dialogs/dialog-cell-sort.c:1020
 msgid "Case Sensitive"
 msgstr "Чувствительно к регистру"
 
-#: ../src/dialogs/dialog-cell-sort.c:1042
+#: ../src/dialogs/dialog-cell-sort.c:1040
 msgid "By Value"
 msgstr "По значению"
 
-#: ../src/dialogs/dialog-cell-sort.c:1172
+#: ../src/dialogs/dialog-cell-sort.c:1170
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Невозможно создать диалог сортировки ячеек."
 
-#: ../src/dialogs/dialog-col-width.c:222
+#: ../src/dialogs/dialog-col-width.c:221
 msgid "Set standard/default column width"
 msgstr "Установить стандартную/используемую по умолчанию ширину столбца"
 
-#: ../src/dialogs/dialog-col-width.c:227
+#: ../src/dialogs/dialog-col-width.c:226
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
@@ -5148,32 +5165,32 @@ msgstr "Недопустимое название"
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Почему вы хотите определить название как #NAME?"
 
-#: ../src/dialogs/dialog-define-names.c:662
-#: ../src/dialogs/dialog-doc-metadata.c:1595
-#: ../src/dialogs/dialog-paste-names.c:145
+#: ../src/dialogs/dialog-define-names.c:663
+#: ../src/dialogs/dialog-doc-metadata.c:1499
+#: ../src/dialogs/dialog-paste-names.c:144
 msgid "Could not create the Name Guru."
 msgstr "Невозможно создать помощника по именам."
 
-#: ../src/dialogs/dialog-delete-cells.c:125
+#: ../src/dialogs/dialog-delete-cells.c:124
 #: ../src/dialogs/scenario-manager.glade.h:8 ../src/wbc-gtk-actions.c:201
 #: ../src/wbc-gtk-actions.c:215
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../src/dialogs/dialog-delete-cells.c:155
+#: ../src/dialogs/dialog-delete-cells.c:154
 msgid "Could not create the Delete Cell dialog."
 msgstr "Невозможно создать диалог удаления ячейки."
 
 #. Set the `CPU Model'.
 #. Set the `CPU Mhz'.
-#: ../src/dialogs/dialog-doc-metadata.c:367
+#: ../src/dialogs/dialog-doc-metadata.c:341
 #: ../src/tools/solver/reports-write.c:673
 #: ../src/tools/solver/reports-write.c:676
 #: ../src/tools/solver/reports-write.c:689
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: ../src/dialogs/dialog-doc-metadata.c:1290
+#: ../src/dialogs/dialog-doc-metadata.c:1226
 msgid "Linked To"
 msgstr "Связано с"
 
@@ -5186,11 +5203,11 @@ msgstr "Невозможно создать диалог заполнения с
 msgid "[%s]"
 msgstr "[%s]"
 
-#: ../src/dialogs/dialog-formula-guru.c:841
+#: ../src/dialogs/dialog-formula-guru.c:840
 msgid "Function/Argument"
 msgstr "Функция/Аргумент"
 
-#: ../src/dialogs/dialog-formula-guru.c:1009
+#: ../src/dialogs/dialog-formula-guru.c:1008
 msgid "Could not create the formula guru."
 msgstr "Невозможно создать помощника по формулам."
 
@@ -5210,42 +5227,42 @@ msgstr "Аргументы:"
 msgid "See also: "
 msgstr "См. также:"
 
-#: ../src/dialogs/dialog-goal-seek.c:333
+#: ../src/dialogs/dialog-goal-seek.c:331
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr ""
 "Вы должны ввести подходящее название для ячейки в \"Установить ячейку:\"!"
 
-#: ../src/dialogs/dialog-goal-seek.c:345
+#: ../src/dialogs/dialog-goal-seek.c:343
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Ячейка указанная в \"Установить ячейку:\" должна содержать формулу!"
 
-#: ../src/dialogs/dialog-goal-seek.c:358
+#: ../src/dialogs/dialog-goal-seek.c:356
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Вы должны ввести подходящее название для ячейки в \"Изменяя ячейку:\"!"
 
-#: ../src/dialogs/dialog-goal-seek.c:371
+#: ../src/dialogs/dialog-goal-seek.c:369
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "Ячейка указанная в \"Изменяя ячейку:\" должна не содержать формул."
 
-#: ../src/dialogs/dialog-goal-seek.c:384
+#: ../src/dialogs/dialog-goal-seek.c:382
 msgid "The value given in 'To Value:' is not valid."
 msgstr "Значение заданное в \"До значения:\" не является допустимым."
 
-#: ../src/dialogs/dialog-goal-seek.c:428
+#: ../src/dialogs/dialog-goal-seek.c:426
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Поиск цели для ячейки %s привёл к решению."
 
-#: ../src/dialogs/dialog-goal-seek.c:449
+#: ../src/dialogs/dialog-goal-seek.c:447
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Поиск цели для ячейки %s не привёл к решению"
 
-#: ../src/dialogs/dialog-goal-seek.c:705
+#: ../src/dialogs/dialog-goal-seek.c:704
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Невозможно создать диалог поиска цели."
 
-#: ../src/dialogs/dialog-goto-cell.c:159
+#: ../src/dialogs/dialog-goto-cell.c:157
 msgid "Workbook Level"
 msgstr "Уровень рабочей книги"
 
@@ -5258,7 +5275,7 @@ msgstr "Уровень рабочей книги"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:266 ../src/dialogs/dialog-search.c:422
+#: ../src/dialogs/dialog-goto-cell.c:264 ../src/dialogs/dialog-search.c:406
 #: ../src/dialogs/tabulate.glade.h:2 ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
 #: ../src/tools/solver/reports-write.c:127
@@ -5269,69 +5286,69 @@ msgstr "Уровень рабочей книги"
 msgid "Cell"
 msgstr "Ячейка"
 
-#: ../src/dialogs/dialog-goto-cell.c:326
+#: ../src/dialogs/dialog-goto-cell.c:322
 msgid "Could not create the goto dialog."
 msgstr "Невозможно создать диалог перехода."
 
-#: ../src/dialogs/dialog-hyperlink.c:144
+#: ../src/dialogs/dialog-hyperlink.c:142
 msgid "Not a range or name"
 msgstr "Не является диапазоном или названием"
 
-#: ../src/dialogs/dialog-hyperlink.c:260
+#: ../src/dialogs/dialog-hyperlink.c:258
 msgid "Internal Link"
 msgstr "Внутренняя ссылка"
 
-#: ../src/dialogs/dialog-hyperlink.c:262
+#: ../src/dialogs/dialog-hyperlink.c:260
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 "Перейти к указанным ячейкам или именованному диапазону в текущей рабочей "
 "книги"
 
-#: ../src/dialogs/dialog-hyperlink.c:266
+#: ../src/dialogs/dialog-hyperlink.c:264
 msgid "External Link"
 msgstr "Внешняя ссылка"
 
-#: ../src/dialogs/dialog-hyperlink.c:268
+#: ../src/dialogs/dialog-hyperlink.c:266
 msgid "Open an external file with the specified name"
 msgstr "Открыть внешний файл с указанным именем"
 
-#: ../src/dialogs/dialog-hyperlink.c:271
+#: ../src/dialogs/dialog-hyperlink.c:269
 msgid "Email Link"
 msgstr "Почтовая ссылка"
 
-#: ../src/dialogs/dialog-hyperlink.c:273
+#: ../src/dialogs/dialog-hyperlink.c:271
 msgid "Prepare an email"
 msgstr "Подготовить сообщение"
 
-#: ../src/dialogs/dialog-hyperlink.c:276
+#: ../src/dialogs/dialog-hyperlink.c:274
 msgid "Web Link"
 msgstr "Ссылка на веб"
 
-#: ../src/dialogs/dialog-hyperlink.c:278
+#: ../src/dialogs/dialog-hyperlink.c:276
 msgid "Browse to the specified URL"
 msgstr "Просмотреть указанный URL"
 
-#: ../src/dialogs/dialog-hyperlink.c:348
+#: ../src/dialogs/dialog-hyperlink.c:346
 msgid "Add Hyperlink"
 msgstr "Добавить гиперссылку"
 
-#: ../src/dialogs/dialog-hyperlink.c:350
+#: ../src/dialogs/dialog-hyperlink.c:348
 msgid "Edit Hyperlink"
 msgstr "Исправить гиперссылку"
 
-#: ../src/dialogs/dialog-hyperlink.c:357 ../src/sheet-control-gui.c:1752
+#: ../src/dialogs/dialog-hyperlink.c:355 ../src/sheet-control-gui.c:1752
 msgid "Remove Hyperlink"
 msgstr "Удалить гиперссылку"
 
-#: ../src/dialogs/dialog-hyperlink.c:549
+#: ../src/dialogs/dialog-hyperlink.c:547
 msgid "Could not create the hyperlink dialog."
 msgstr "Невозможно создать диалог гиперлинка."
 
-#: ../src/dialogs/dialog-insert-cells.c:126 ../src/wbc-gtk.c:414
+#: ../src/dialogs/dialog-insert-cells.c:125 ../src/wbc-gtk.c:414
 msgid "Insert"
 msgstr "Вставить"
 
-#: ../src/dialogs/dialog-insert-cells.c:156
+#: ../src/dialogs/dialog-insert-cells.c:155
 msgid "Could not create the Insert Cell dialog."
 msgstr "Невозможно создать диалог вставки ячейки."
 
@@ -5353,11 +5370,11 @@ msgstr ""
 "Диапазон длин столбцов данных от %i до %i. Отсечь по длине до %i и "
 "продолжить?"
 
-#: ../src/dialogs/dialog-merge.c:393
+#: ../src/dialogs/dialog-merge.c:392
 msgid "Input Data"
 msgstr "Входные данные"
 
-#: ../src/dialogs/dialog-merge.c:400
+#: ../src/dialogs/dialog-merge.c:399
 msgid "Merge Field"
 msgstr "Объединить поле"
 
@@ -5423,27 +5440,27 @@ msgstr "Перемножить"
 msgid "D_ivide"
 msgstr "Разделить"
 
-#: ../src/dialogs/dialog-paste-special.c:186
+#: ../src/dialogs/dialog-paste-special.c:179
 msgid "Paste Special"
 msgstr "Специальная вставка"
 
-#: ../src/dialogs/dialog-paste-special.c:189
+#: ../src/dialogs/dialog-paste-special.c:182
 msgid "Paste _Link"
 msgstr "Вставить ссылку"
 
-#: ../src/dialogs/dialog-paste-special.c:198
+#: ../src/dialogs/dialog-paste-special.c:191
 msgid "Paste type"
 msgstr "Вставить тип"
 
-#: ../src/dialogs/dialog-paste-special.c:202
+#: ../src/dialogs/dialog-paste-special.c:195
 msgid "Operation"
 msgstr "Действие"
 
-#: ../src/dialogs/dialog-paste-special.c:234
+#: ../src/dialogs/dialog-paste-special.c:227
 msgid "_Transpose"
 msgstr "Транспонировать"
 
-#: ../src/dialogs/dialog-paste-special.c:240
+#: ../src/dialogs/dialog-paste-special.c:233
 msgid "Skip _Blanks"
 msgstr "Пропустить пустые"
 
@@ -5624,10 +5641,12 @@ msgid "mm"
 msgstr "мм"
 
 #: ../src/dialogs/dialog-printer-setup.c:905
+#, c-format
 msgid "Customize header"
 msgstr "Настроить заголовок"
 
 #: ../src/dialogs/dialog-printer-setup.c:907
+#, c-format
 msgid "Customize footer"
 msgstr "Настроить сноску"
 
@@ -5897,11 +5916,11 @@ msgstr "Вейбуля"
 msgid "Could not create the Random Tool dialog."
 msgstr "Невозможно создать диалог случайных чисел."
 
-#: ../src/dialogs/dialog-row-height.c:218
+#: ../src/dialogs/dialog-row-height.c:217
 msgid "Set standard/default row height"
 msgstr "Установить высоту строки по умолчанию"
 
-#: ../src/dialogs/dialog-row-height.c:223
+#: ../src/dialogs/dialog-row-height.c:222
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
@@ -5937,6 +5956,7 @@ msgid "Could not create the Scenario Add dialog."
 msgstr "Невозможно создать диалог добавления сценария."
 
 #: ../src/dialogs/dialog-scenarios.c:247
+#, c-format
 msgid "Created on "
 msgstr "Создано "
 
@@ -5970,12 +5990,12 @@ msgstr "Выражение"
 msgid "Other value"
 msgstr "Другое значение"
 
-#: ../src/dialogs/dialog-search.c:345
+#: ../src/dialogs/dialog-search.c:329
 #: ../src/dialogs/dialog-search-replace.c:151
 msgid "You must select some cell types to search."
 msgstr "Вы должны выбрать некоторые типы ячеек для поиска."
 
-#: ../src/dialogs/dialog-search.c:424
+#: ../src/dialogs/dialog-search.c:408
 msgid "Content"
 msgstr "Содержимое"
 
@@ -6015,16 +6035,16 @@ msgstr "Уже есть лист с названием \"%s\""
 msgid "At least one sheet must remain visible!"
 msgstr "Хотя бы один лист должен оставаться видимым!"
 
-#: ../src/dialogs/dialog-sheet-order.c:982
+#: ../src/dialogs/dialog-sheet-order.c:979
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Порядок таблиц был изменён. Хотите обновить лист?"
 
-#: ../src/dialogs/dialog-sheet-order.c:1010
+#: ../src/dialogs/dialog-sheet-order.c:1007
 msgid "Another view is already managing sheets"
 msgstr ""
 
-#: ../src/dialogs/dialog-sheet-order.c:1064
-#: ../src/dialogs/dialog-sheet-order.c:1074
+#: ../src/dialogs/dialog-sheet-order.c:1061
+#: ../src/dialogs/dialog-sheet-order.c:1071
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -6069,16 +6089,16 @@ msgid "Variable"
 msgstr "Переменная"
 
 #: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:3684
+#: ../src/wbc-gtk.c:3681
 msgid "Min"
 msgstr "Мин"
 
-#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3686
+#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3683
 msgid "Average"
 msgstr "Среднее"
 
 #: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:3685
+#: ../src/wbc-gtk.c:3682
 msgid "Max"
 msgstr "Макс"
 
@@ -6116,7 +6136,7 @@ msgstr ""
 "Ищете тему для диплома или диссертации? Может быть напишете QP Solver для "
 "gnumeric?"
 
-#: ../src/dialogs/dialog-solver.c:692
+#: ../src/dialogs/dialog-solver.c:687
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -6124,7 +6144,7 @@ msgstr ""
 "Найдено оптимальное решение. Все ограничения и условия оптимальности "
 "выполнены.\n"
 
-#: ../src/dialogs/dialog-solver.c:701
+#: ../src/dialogs/dialog-solver.c:696
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -6132,12 +6152,12 @@ msgstr ""
 "Отчёты о чувствительности и пределах не имеют смысла, если программа имеет "
 "целочисленные ограничения. Эти отчёты не будут созданы."
 
-#: ../src/dialogs/dialog-solver.c:719
+#: ../src/dialogs/dialog-solver.c:714
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:733
+#: ../src/dialogs/dialog-solver.c:728
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -6145,7 +6165,7 @@ msgstr ""
 "Подходящее решение не может быть найдено. Невозможно удовлетворить всем "
 "ограничениям."
 
-#: ../src/dialogs/dialog-solver.c:748
+#: ../src/dialogs/dialog-solver.c:743
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -6153,36 +6173,36 @@ msgstr ""
 "Достигнуто максимальное число итераций. Оптимальное значение не может быть "
 "найдено."
 
-#: ../src/dialogs/dialog-solver.c:792
+#: ../src/dialogs/dialog-solver.c:787
 msgid "Optimal solution created by solver.\n"
 msgstr ""
 
-#: ../src/dialogs/dialog-solver.c:826
+#: ../src/dialogs/dialog-solver.c:821
 msgid "Unknown error."
 msgstr "Неизвестная ошибка."
 
-#: ../src/dialogs/dialog-solver.c:845
+#: ../src/dialogs/dialog-solver.c:840
 msgid "You have not specified a problem to be solved"
 msgstr "Вы не указали какую проблему решать"
 
-#: ../src/dialogs/dialog-solver.c:863 ../src/tools/solver/solver.c:380
+#: ../src/dialogs/dialog-solver.c:858 ../src/tools/solver/solver.c:380
 msgid "Target cell should contain a formula."
 msgstr "Целевая ячейка должна содержать формулу."
 
-#: ../src/dialogs/dialog-solver.c:941
+#: ../src/dialogs/dialog-solver.c:936
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Ограничение \"%s\" для ячейки не являющейся входной."
 
-#: ../src/dialogs/dialog-solver.c:960
+#: ../src/dialogs/dialog-solver.c:955
 msgid "No constraints defined for the problem."
 msgstr "Для проблемы не определены ограничения."
 
-#: ../src/dialogs/dialog-solver.c:1224
+#: ../src/dialogs/dialog-solver.c:1219
 msgid "Subject to the Constraints:"
 msgstr "Предмет ограничений:"
 
-#: ../src/dialogs/dialog-solver.c:1340
+#: ../src/dialogs/dialog-solver.c:1333
 msgid "Could not create the Solver dialog."
 msgstr ""
 
@@ -6223,7 +6243,7 @@ msgstr ""
 "Всегда\n"
 "Никогда"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:223
+#: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:226
 msgid "Character _encoding:"
 msgstr "Кодировка символов:"
 
@@ -6734,43 +6754,43 @@ msgstr "Текстовый"
 msgid "Data (from %s)"
 msgstr "Данные (из %s)"
 
-#: ../src/dialogs/dialog-tabulate.c:205
+#: ../src/dialogs/dialog-tabulate.c:198
 msgid "You should introduce a single valid cell as dependency cell"
 msgstr ""
 
-#: ../src/dialogs/dialog-tabulate.c:212
+#: ../src/dialogs/dialog-tabulate.c:205
 msgid "The dependency cells should not contain an expression"
 msgstr ""
 
-#: ../src/dialogs/dialog-tabulate.c:221
+#: ../src/dialogs/dialog-tabulate.c:214
 msgid "You should introduce a valid number as minimum"
 msgstr "Вы должны ввести в качестве минимума допустимое число"
 
-#: ../src/dialogs/dialog-tabulate.c:230
+#: ../src/dialogs/dialog-tabulate.c:223
 msgid "You should introduce a valid number as maximum"
 msgstr "Вы должны ввести в качестве максимума допустимое число"
 
-#: ../src/dialogs/dialog-tabulate.c:238
+#: ../src/dialogs/dialog-tabulate.c:231
 msgid "The maximum value should be bigger than the minimum"
 msgstr "Максимальное значение должно быть больше чем минимальное"
 
-#: ../src/dialogs/dialog-tabulate.c:247
+#: ../src/dialogs/dialog-tabulate.c:240
 msgid "You should introduce a valid number as step size"
 msgstr "Вы должны ввести допустимое число в качестве величины приращения"
 
-#: ../src/dialogs/dialog-tabulate.c:255
+#: ../src/dialogs/dialog-tabulate.c:248
 msgid "The step size should be positive"
 msgstr "Величина приращения должна быть положительной"
 
-#: ../src/dialogs/dialog-tabulate.c:266
+#: ../src/dialogs/dialog-tabulate.c:259
 msgid "You should introduce one or more dependency cells"
 msgstr ""
 
-#: ../src/dialogs/dialog-tabulate.c:276
+#: ../src/dialogs/dialog-tabulate.c:269
 msgid "You should introduce a single valid cell as result cell"
 msgstr ""
 
-#: ../src/dialogs/dialog-tabulate.c:284
+#: ../src/dialogs/dialog-tabulate.c:277
 msgid "The target cell should contain an expression"
 msgstr "Целевая ячейка не должна содержать выражение"
 
@@ -7847,7 +7867,6 @@ msgid "View"
 msgstr "Вид"
 
 #: ../src/dialogs/search.glade.h:1 ../src/dialogs/search-replace.glade.h:4
-#: ../src/gui-file.c:181 ../src/gui-file.c:244
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
 msgstr "Расширенные"
@@ -8360,6 +8379,7 @@ msgstr "Решить"
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
 #: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6214
+#, c-format
 msgid "Solver"
 msgstr ""
 
@@ -9135,7 +9155,7 @@ msgstr "Эксцесс"
 msgid "Range"
 msgstr "Диапазон"
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3687
+#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3684
 msgid "Count"
 msgstr "Количество"
 
@@ -9601,7 +9621,8 @@ msgstr "(Пустые...)"
 msgid "(Non Blanks...)"
 msgstr "(Непустые...)"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1414
+#: ../src/widgets/gnumeric-expr-entry.c:1432
+#, c-format
 msgid "Expecting a single range"
 msgstr "Ожидается один диапазон"
 
@@ -9711,6 +9732,7 @@ msgid "Would split array %s"
 msgstr ""
 
 #: ../src/command-context.c:58
+#, c-format
 msgid "Would split an array"
 msgstr ""
 
@@ -10043,6 +10065,7 @@ msgid "Sheet names must be non-empty."
 msgstr "Названия листов должны быть не пустыми."
 
 #: ../src/commands.c:4751
+#, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "Книга не может содержать два листа с одинаковыми названиями."
 
@@ -10062,6 +10085,7 @@ msgid "Merging data into %s"
 msgstr "Объединение данных в %s"
 
 #: ../src/commands.c:5329
+#, c-format
 msgid "Changing workbook properties"
 msgstr "Изменение свойств рабочей книги"
 
@@ -10133,6 +10157,7 @@ msgid "Goal Seek (%s)"
 msgstr "Поиск цели (%s)"
 
 #: ../src/commands.c:6466
+#, c-format
 msgid "Tabulating Dependencies"
 msgstr "Табулирование зависимости"
 
@@ -10358,7 +10383,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:1965
+#: ../src/gnm-pane.c:1966
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10450,34 +10475,39 @@ msgstr "буфер обмена"
 msgid "Automatically detected"
 msgstr "Обнаруженные автоматически"
 
-#: ../src/gui-file.c:184
-#: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
-#: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
-#: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
-msgid "Simple"
+#. xgettext: If possible try to use the same mnemonic for
+#. * Advanced and Simple
+#: ../src/gui-file.c:184 ../src/gui-file.c:247
+#, fuzzy
+msgid "Advanc_ed"
+msgstr "Расширенные"
+
+#: ../src/gui-file.c:187
+#, fuzzy
+msgid "Simpl_e"
 msgstr "Простой"
 
-#: ../src/gui-file.c:215
+#: ../src/gui-file.c:218
 msgid "Load file"
 msgstr "Загрузить файл"
 
-#: ../src/gui-file.c:241 ../src/gui-file.c:400
+#: ../src/gui-file.c:244 ../src/gui-file.c:402
 msgid "Select a file"
 msgstr "Выбрать файл"
 
-#: ../src/gui-file.c:271 ../src/gui-file.c:416
+#: ../src/gui-file.c:274 ../src/gui-file.c:418
 msgid "All Files"
 msgstr "Все файлы"
 
-#: ../src/gui-file.c:276 ../src/gui-file.c:421
+#: ../src/gui-file.c:279 ../src/gui-file.c:423
 msgid "Spreadsheets"
 msgstr "Электронные таблицы"
 
-#: ../src/gui-file.c:289 ../src/gui-file.c:445
+#: ../src/gui-file.c:292 ../src/gui-file.c:447
 msgid "File _type:"
 msgstr "Тип файла:"
 
-#: ../src/gui-file.c:352
+#: ../src/gui-file.c:354
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -10490,7 +10520,7 @@ msgstr ""
 "выберите другой формат файла.\n"
 "Хотите сохранить только текущую таблицу?"
 
-#: ../src/gui-file.c:502
+#: ../src/gui-file.c:504
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10725,22 +10755,6 @@ msgstr ""
 msgid "bessel_i(%"
 msgstr "bessel_i(%"
 
-#: ../src/mathfunc.c:3878 ../src/mathfunc.c:4349
-msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
-msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
-
-#: ../src/mathfunc.c:3878 ../src/mathfunc.c:4349
-msgid ". Arg. out of range?\n"
-msgstr "Аргументы вне допустимого диапазона?\n"
-
-#: ../src/mathfunc.c:3881 ../src/mathfunc.c:4352
-msgid ",nu=%"
-msgstr ",nu=%"
-
-#: ../src/mathfunc.c:3881 ../src/mathfunc.c:4352
-msgid "): precision lost in result\n"
-msgstr "): результат имеет меньшую точность\n"
-
 #: ../src/mathfunc.c:4341
 msgid "bessel_k allocation error"
 msgstr ""
@@ -10757,18 +10771,22 @@ msgstr ""
 "Эта версия Gnumeric была скомпилирована с неадекватной точностью в gnm_yn."
 
 #: ../src/parser.y:322
+#, c-format
 msgid "An array must have at least 1 element"
 msgstr "Массив должен содержать хотя бы один элемент"
 
 #: ../src/parser.y:354
+#, c-format
 msgid "Arrays must be rectangular"
 msgstr "Массивы должны быть прямоугольными"
 
 #: ../src/parser.y:373
+#, c-format
 msgid "Constructed ranges use simple references"
 msgstr ""
 
 #: ../src/parser.y:387 ../src/parser.y:401
+#, c-format
 msgid "All entries in the set must be references"
 msgstr ""
 
@@ -10783,6 +10801,7 @@ msgid "Unknown sheet '%s'"
 msgstr "Неизвестный лист \"%s\""
 
 #: ../src/parser.y:598
+#, c-format
 msgid "() is an invalid expression"
 msgstr "() - недопустимое выражение"
 
@@ -10797,34 +10816,42 @@ msgid "Unknown workbook '%s'"
 msgstr "Неизвестная книга \"%s\""
 
 #: ../src/parser.y:996 ../src/parser.y:1245
+#, c-format
 msgid "Could not find matching closing quote"
 msgstr "Не удалось найти парную закрывающую кавычку"
 
 #: ../src/parser.y:1106
+#, c-format
 msgid "Sheet name is required"
 msgstr "Требуется название таблицы"
 
 #: ../src/parser.y:1159 ../src/parser.y:1168 ../src/parser.y:1193
+#, c-format
 msgid "The number is out of range"
 msgstr "Число вне допустимого диапазона"
 
 #: ../src/parser.y:1227
+#, c-format
 msgid "Improperly formatted error token"
 msgstr ""
 
 #: ../src/parser.y:1427
+#, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr "Множественные выражения не поддерживаются в этом контексте"
 
 #: ../src/parser.y:1450
+#, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr "Не удалось найти парную открывающую скобку"
 
 #: ../src/parser.y:1454
+#, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr "Не удалось найти парную закрывающую скобку"
 
 #: ../src/parser.y:1458
+#, c-format
 msgid "Invalid expression"
 msgstr "Недопустимое выражение"
 
@@ -11275,7 +11302,8 @@ msgstr "Показать соглашение об обозначениях (п�
 
 #: ../src/sheet.c:820
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
-msgstr "Как форматировать отображаемые выражения (A1 или R1C1, названия функций ...)"
+msgstr ""
+"Как форматировать отображаемые выражения (A1 или R1C1, названия функций ...)"
 
 #. convenience wrapper to CONVENTIONS
 #: ../src/sheet.c:824
@@ -11477,6 +11505,7 @@ msgid "Pus_h to Back"
 msgstr "На _задний план"
 
 #: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:412
+#, c-format
 msgid "Unknown failure while saving image"
 msgstr "Неизвестная ошибка при сохранении изображения"
 
@@ -11496,31 +11525,31 @@ msgstr "Сохранить как изображение"
 msgid "Frame"
 msgstr "Рамка"
 
-#: ../src/sheet-object-widget.c:515 ../src/wbc-gtk-actions.c:1978
+#: ../src/sheet-object-widget.c:512 ../src/wbc-gtk-actions.c:1978
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Кнопка"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:789
+#: ../src/sheet-object-widget.c:786
 msgid "Change widget"
 msgstr "Изменить виджет"
 
-#: ../src/sheet-object-widget.c:1398
+#: ../src/sheet-object-widget.c:1392
 #, c-format
 msgid "CheckBox %d"
 msgstr "Графа для отметки %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1465
+#: ../src/sheet-object-widget.c:1459
 msgid "Clicking checkbox"
 msgstr "Графа для отметки"
 
-#: ../src/sheet-object-widget.c:1866 ../src/wbc-gtk-actions.c:1981
+#: ../src/sheet-object-widget.c:1857 ../src/wbc-gtk-actions.c:1981
 msgid "RadioButton"
 msgstr "Радио-кнопка"
 
-#: ../src/sheet-object-widget.c:2102
+#: ../src/sheet-object-widget.c:2093
 msgid "Clicking in list"
 msgstr ""
 
@@ -11612,6 +11641,7 @@ msgstr ""
 "Используйте --list-exporters для вывода списка известных модулей.\n"
 
 #: ../src/ssconvert.c:244
+#, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
@@ -11634,7 +11664,8 @@ msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved.\n"
 msgstr ""
-"Выбранный модуль экспорта (%s) не поддерживает сохранение нескольких таблиц в одном файле.\n"
+"Выбранный модуль экспорта (%s) не поддерживает сохранение нескольких таблиц "
+"в одном файле.\n"
 "Будет сохранён только текущий лист.\n"
 
 #: ../src/ssconvert.c:327 ../src/ssconvert.c:365
@@ -11689,6 +11720,7 @@ msgid "Text to Columns"
 msgstr "Текст по столбцам"
 
 #: ../src/stf.c:276
+#, c-format
 msgid "Only one column of <b>input</b> data can be parsed at a time"
 msgstr ""
 "Только один столбец <b>входных</b> данных может быть проанализирован за раз"
@@ -12069,26 +12101,26 @@ msgstr "Повтор отмененной операции"
 msgid "Undo the last action"
 msgstr "Откат последней операции"
 
-#: ../src/wbc-gtk.c:2493
+#: ../src/wbc-gtk.c:2490
 msgid "Set Foreground Color"
 msgstr "Установить цвет текста"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:2548
+#: ../src/wbc-gtk.c:2545
 msgid "Set Background Color"
 msgstr "Установить цвет фона"
 
-#: ../src/wbc-gtk.c:2587
+#: ../src/wbc-gtk.c:2584
 #, c-format
 msgid "Font Name %s"
 msgstr "Название шрифта %s"
 
-#: ../src/wbc-gtk.c:2647
+#: ../src/wbc-gtk.c:2644
 #, c-format
 msgid "Font Size %f"
 msgstr "Размер шрифта %f"
 
-#: ../src/wbc-gtk.c:2665 ../src/wbc-gtk.c:2666
+#: ../src/wbc-gtk.c:2662 ../src/wbc-gtk.c:2663
 msgid "Font Size"
 msgstr "Размер шрифта"
 
@@ -12098,64 +12130,64 @@ msgstr "Размер шрифта"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:2875
+#: ../src/wbc-gtk.c:2872
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "В меню '%s' клавиша '%s' используется и для '%s' и для '%s'."
 
-#: ../src/wbc-gtk.c:3144
+#: ../src/wbc-gtk.c:3141
 msgid "Display above sheets"
 msgstr "Показать над листами"
 
-#: ../src/wbc-gtk.c:3145
+#: ../src/wbc-gtk.c:3142
 msgid "Display to the left of sheets"
 msgstr "Показать слева от листов"
 
-#: ../src/wbc-gtk.c:3146
+#: ../src/wbc-gtk.c:3143
 msgid "Display to the right of sheets"
 msgstr "Показать справа от листов"
 
-#: ../src/wbc-gtk.c:3150
+#: ../src/wbc-gtk.c:3147
 msgid "Reattach to main window"
 msgstr "Переподцепить к главному окну"
 
-#: ../src/wbc-gtk.c:3182
+#: ../src/wbc-gtk.c:3179
 msgid "Hide"
 msgstr "Скрыть"
 
-#: ../src/wbc-gtk.c:3244
+#: ../src/wbc-gtk.c:3241
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Переключить отображение панели инструментов %s"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk.c:3683 ../src/wbc-gtk-actions.c:1927
+#: ../src/wbc-gtk.c:3680 ../src/wbc-gtk-actions.c:1927
 #: ../src/workbook-view.c:800
 msgid "Sum"
 msgstr "Сумма"
 
-#: ../src/wbc-gtk.c:3731
+#: ../src/wbc-gtk.c:3728
 msgid "Use maximum precision"
 msgstr "Использовать максимальную точность"
 
-#: ../src/wbc-gtk.c:3830
+#: ../src/wbc-gtk.c:3827
 #, c-format
 msgid "Open %s"
 msgstr "Открыть %s"
 
-#: ../src/wbc-gtk.c:4295
+#: ../src/wbc-gtk.c:4292
 msgid "Autosave prompt"
 msgstr "Сообщение об автосохранении"
 
-#: ../src/wbc-gtk.c:4296
+#: ../src/wbc-gtk.c:4293
 msgid "Ask about autosave?"
 msgstr "Спрашивать об автосохранении?"
 
-#: ../src/wbc-gtk.c:4302
+#: ../src/wbc-gtk.c:4299
 msgid "Autosave time in seconds"
 msgstr "Интервал автосохранения в секундах"
 
-#: ../src/wbc-gtk.c:4303
+#: ../src/wbc-gtk.c:4300
 msgid "Seconds before autosave"
 msgstr "Секунд до автосохраняния"
 
@@ -14089,6 +14121,12 @@ msgstr "Шаблон с \"спокойным\" видом"
 msgid "A simple template with classical look and feel"
 msgstr "Простой шаблон с классическим видом"
 
+#: ../templates/autoformat/autoformat.Classical.simple.xml.in.h:3
+#: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:2
+#: ../templates/autoformat/autoformat.List.simple.xml.in.h:3
+msgid "Simple"
+msgstr "Простой"
+
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "A classical yet colorful template"
 msgstr "Классический хотя и цветной шаблон"
@@ -14225,3 +14263,15 @@ msgstr "Шаблон с лиловыми полосами"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Простой шаблон для списка"
+
+#~ msgid "): ncalc (=%ld) != nb (=%ld); alpha=%"
+#~ msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
+
+#~ msgid ". Arg. out of range?\n"
+#~ msgstr "Аргументы вне допустимого диапазона?\n"
+
+#~ msgid ",nu=%"
+#~ msgstr ",nu=%"
+
+#~ msgid "): precision lost in result\n"
+#~ msgstr "): результат имеет меньшую точность\n"
