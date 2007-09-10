@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-27 04:28+0100\n"
+"POT-Creation-Date: 2007-09-09 21:43-0400\n"
 "PO-Revision-Date: 2005-07-18 23:31+0300\n"
 "Last-Translator: Ain Vagula <ain@kmprojekt.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -7483,32 +7483,37 @@ msgstr ""
 "17.3,21.3, 25.9, ja 40.1. Siis INDEX(A1:A5,4,1,1) võrdub 25,9\n"
 "@SEEALSO="
 
-#: ../plugins/fn-lookup/functions.c:929
-msgid ""
-"@FUNCTION=COLUMN\n"
-"@SYNTAX=COLUMN([reference])\n"
-"@DESCRIPTION=COLUMN function returns the column number of the current cell "
-"unless @reference is given. In that case, it returns an array of the column "
-"numbers of all cells in @reference. \n"
-"* If @reference is neither an array nor a reference nor a range, COLUMN "
-"returns #VALUE! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"COLUMN() in E1 equals 5.\n"
-"\n"
-"@SEEALSO=COLUMNS,ROW,ROWS"
+#: ../plugins/fn-lookup/functions.c:944
+msgid "COLUMN:vector of column numbers."
 msgstr ""
-"@FUNCTION=COLUMN\n"
-"@SYNTAX=COLUMN([viit])\n"
-"@DESCRIPTION=Funktsioon COLUMN tagastab veerunumbrite massiivi võttes "
-"vaikimisi argumendiks funktsiooni sisaldava lahtri asukoha.\n"
-"Kui @viit pole massiiv, viit, ega vahemik, tagastatakse #VALUE!.\n"
-"@EXAMPLES=\n"
-"COLUMN() lahtris E1 võrdub 5.\n"
-"\n"
-"@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:988
+#: ../plugins/fn-lookup/functions.c:945 ../plugins/fn-lookup/functions.c:1121
+msgid "[reference]."
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:948
+msgid ""
+"COLUMN function returns a Nx1 array containing the series of integers from "
+"the first column to the last column of @reference.\n"
+"* @reference defaults to the position of the current expression.\n"
+"\n"
+"* If @reference is neither an array nor a reference nor a range, returns "
+"#VALUE! error.\n"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:955
+msgid "COLUMN(A1:C4) equals {1,2,3}"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:956
+msgid "COLUMN(A:C) equals {1,2,3}\n"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:957
+msgid "COLUMN() in G13 equals 7.\n"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:997
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -7532,7 +7537,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1023
+#: ../plugins/fn-lookup/functions.c:1032
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -7557,7 +7562,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1051
+#: ../plugins/fn-lookup/functions.c:1060
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -7582,32 +7587,33 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1112
-msgid ""
-"@FUNCTION=ROW\n"
-"@SYNTAX=ROW([reference])\n"
-"@DESCRIPTION=ROW function returns an array of the row numbers taking a "
-"default argument of the containing cell position.\n"
-"\n"
-"* If @reference is neither an array nor a reference nor a range, ROW returns "
-"#VALUE! error.\n"
-"\n"
-"@EXAMPLES=\n"
-"ROW() in G13 equals 13.\n"
-"\n"
-"@SEEALSO=COLUMN,COLUMNS,ROWS"
+#: ../plugins/fn-lookup/functions.c:1120
+msgid "ROW:vector of row numbers."
 msgstr ""
-"@FUNCTION=ROW\n"
-"@SYNTAX=ROW([viit])\n"
-"@DESCRIPTION=ROW tagastab reanumbrite massiivi, vaikeargumendiks on "
-"funktsiooni sisaldava lahtri asukoht.\n"
-"Kui @viit pole ei viit ega vahemik, tagastatakse #VALUE!.\n"
-"@EXAMPLES=\n"
-"ROW() lahtris G13 võrdub 13.\n"
-"\n"
-"@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1169
+#: ../plugins/fn-lookup/functions.c:1124
+msgid ""
+"ROW function returns a 1xN array containing the series of integers from the "
+"first row to the last row of @reference.\n"
+"* @reference defaults to the position of the current expression.\n"
+"\n"
+"* If @reference is neither an array nor a reference nor a range, returns "
+"#VALUE! error.\n"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1131
+msgid "ROW(A1:D3) equals {1;2;3}\n"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1132
+msgid "ROW(1:3) equals {1;2;3}\n"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1133
+msgid "ROW() in G13 equals 13.\n"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:1173
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -7632,7 +7638,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1197
+#: ../plugins/fn-lookup/functions.c:1201
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -7654,7 +7660,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-lookup/functions.c:1225
+#: ../plugins/fn-lookup/functions.c:1229
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -14799,7 +14805,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: ../plugins/gda/plugin-gda.c:318
+#: ../plugins/gda/plugin-gda.c:319
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(dsn,username,password,sql)\n"
@@ -15111,6 +15117,54 @@ msgid ""
 "ATL_LAST(\"IBM\")\n"
 "@SEEALSO="
 msgstr ""
+
+#~ msgid ""
+#~ "@FUNCTION=COLUMN\n"
+#~ "@SYNTAX=COLUMN([reference])\n"
+#~ "@DESCRIPTION=COLUMN function returns the column number of the current "
+#~ "cell unless @reference is given. In that case, it returns an array of the "
+#~ "column numbers of all cells in @reference. \n"
+#~ "* If @reference is neither an array nor a reference nor a range, COLUMN "
+#~ "returns #VALUE! error.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "COLUMN() in E1 equals 5.\n"
+#~ "\n"
+#~ "@SEEALSO=COLUMNS,ROW,ROWS"
+#~ msgstr ""
+#~ "@FUNCTION=COLUMN\n"
+#~ "@SYNTAX=COLUMN([viit])\n"
+#~ "@DESCRIPTION=Funktsioon COLUMN tagastab veerunumbrite massiivi võttes "
+#~ "vaikimisi argumendiks funktsiooni sisaldava lahtri asukoha.\n"
+#~ "Kui @viit pole massiiv, viit, ega vahemik, tagastatakse #VALUE!.\n"
+#~ "@EXAMPLES=\n"
+#~ "COLUMN() lahtris E1 võrdub 5.\n"
+#~ "\n"
+#~ "@SEEALSO=COLUMNS,ROW,ROWS"
+
+#~ msgid ""
+#~ "@FUNCTION=ROW\n"
+#~ "@SYNTAX=ROW([reference])\n"
+#~ "@DESCRIPTION=ROW function returns an array of the row numbers taking a "
+#~ "default argument of the containing cell position.\n"
+#~ "\n"
+#~ "* If @reference is neither an array nor a reference nor a range, ROW "
+#~ "returns #VALUE! error.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "ROW() in G13 equals 13.\n"
+#~ "\n"
+#~ "@SEEALSO=COLUMN,COLUMNS,ROWS"
+#~ msgstr ""
+#~ "@FUNCTION=ROW\n"
+#~ "@SYNTAX=ROW([viit])\n"
+#~ "@DESCRIPTION=ROW tagastab reanumbrite massiivi, vaikeargumendiks on "
+#~ "funktsiooni sisaldava lahtri asukoht.\n"
+#~ "Kui @viit pole ei viit ega vahemik, tagastatakse #VALUE!.\n"
+#~ "@EXAMPLES=\n"
+#~ "ROW() lahtris G13 võrdub 13.\n"
+#~ "\n"
+#~ "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #~ msgid ""
 #~ "@FUNCTION=FLOOR\n"

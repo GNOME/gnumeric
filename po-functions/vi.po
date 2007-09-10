@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions 1.7.6 for Gnome HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-31 03:54+0100\n"
+"POT-Creation-Date: 2007-09-09 21:43-0400\n"
 "PO-Revision-Date: 2007-09-04 21:34+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -164,8 +164,8 @@ msgstr ""
 "trong thời gian đến ngày thi hành. \n"
 "@cost_of_carry (cước) là khoản rò rỉ giá trị tài sản cơ sở, cho các chứng "
 "khoán thì điều này là lãi cổ tức.\n"
-"* Giá trị trả lại sẽ được thể hiện theo tỷ lệ thay đổi delta trong một đơn vị "
-"thay đổi trong @spot.\n"
+"* Giá trị trả lại sẽ được thể hiện theo tỷ lệ thay đổi delta trong một đơn "
+"vị thay đổi trong @spot.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -2275,10 +2275,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
-"@DESCRIPTION=IMARCSINH trả lại arcsin hyperbol phức của số phức @inumber. Các "
-"dấu cắt nhánh có trên trục thực, nhỏ hơn -1 và lớn hơn 1.\n"
+"@DESCRIPTION=IMARCSINH trả lại arcsin hyperbol phức của số phức @inumber. "
+"Các dấu cắt nhánh có trên trục thực, nhỏ hơn -1 và lớn hơn 1.\n"
 "\n"
-"* Nếu « @inumber » không phải là số phức, IMARCSINH trả lại lỗi « #VALUE! ».\n"
+"* Nếu « @inumber » không phải là số phức, IMARCSINH trả lại lỗi « #VALUE! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCSINH(\"1+j\") equals 1.061275+0.6662394j.\n"
@@ -2305,7 +2306,8 @@ msgstr ""
 "@DESCRIPTION=IMARCCOSH trả lại arccosin hyperbol phức của số phức @inumber. "
 "Các dấu cắt nhánh có trên trục thực, nhỏ hơn -1 và lớn hơn 1.\n"
 "\n"
-"* Nếu « @inumber » không phải là số phức, IMARCCOSH trả lại lỗi « #VALUE! ».\n"
+"* Nếu « @inumber » không phải là số phức, IMARCCOSH trả lại lỗi « #VALUE! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCOSH(\"1+j\") equals 1.06127506+0.904557j.\n"
@@ -2330,10 +2332,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
-"@DESCRIPTION=IMARCTANH trả lại arctang hyperbol phức của số phức @inumber.Các "
-"dấu cắt nhánh có trên trục thực, nhỏ hơn -1 và lớn hơn 1.\n"
+"@DESCRIPTION=IMARCTANH trả lại arctang hyperbol phức của số phức @inumber."
+"Các dấu cắt nhánh có trên trục thực, nhỏ hơn -1 và lớn hơn 1.\n"
 "\n"
-"* Nếu « @inumber » không phải là số phức, IMARCTANH trả lại lỗi « #VALUE! ».\n"
+"* Nếu « @inumber » không phải là số phức, IMARCTANH trả lại lỗi « #VALUE! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCTANH(\"1+j\") equals 0.4023595+1.0172220j.\n"
@@ -2359,11 +2362,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
-"@DESCRIPTION=IMARCSECH trả lại arcsec hyperbol phức của số phứcz (@inumber):\n"
+"@DESCRIPTION=IMARCSECH trả lại arcsec hyperbol phức của số phứcz "
+"(@inumber):\n"
 "\n"
 "\tarcsech(z) = arccosh(1/z).\n"
 "\n"
-"* Nếu « @inumber » không phải là số phức, IMARCSECH trả lại lỗi « #VALUE! ».\n"
+"* Nếu « @inumber » không phải là số phức, IMARCSECH trả lại lỗi « #VALUE! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCSECH(\"1+j\") bằng 0.5306375-1.118518j.\n"
@@ -2394,7 +2399,8 @@ msgstr ""
 "\n"
 "\tarccsch(z) = arcsin(1/z).\n"
 "\n"
-"* Nếu « @inumber » không phải là số phức, IMARCCSCH trả lại lỗi « #VALUE! ».\n"
+"* Nếu « @inumber » không phải là số phức, IMARCCSCH trả lại lỗi « #VALUE! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCSCH(\"1+j\") bằng 0.5306375-0.452278j.\n"
@@ -2425,7 +2431,8 @@ msgstr ""
 "\n"
 "\tarccoth(z) = arctanh(1/z).\n"
 "\n"
-"* Nếu « @inumber » không phải là số phức, IMARCCOTH trả lại lỗi « #VALUE! ».\n"
+"* Nếu « @inumber » không phải là số phức, IMARCCOTH trả lại lỗi « #VALUE! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCOTH(\"1+j\") bằng 0.40235948-0.5535744j.\n"
@@ -2504,7 +2511,8 @@ msgstr ""
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 "@DESCRIPTION=IMPRODUCT trả lại tích vô hướng của hai hay nhiều số phức.\n"
 "\n"
-"* Nếu « @inumber » không phải là số phức, IMPRODUCT trả lại lỗi « #VALUE! ».\n"
+"* Nếu « @inumber » không phải là số phức, IMPRODUCT trả lại lỗi « #VALUE! "
+"».\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3254,8 +3262,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
-"@DESCRIPTION=DSTDEV hàm trả lại số lượng ước đoán độ lệch chuẩn trong dân số, "
-"đựa vào một mẫu. Dân số chứa số thỏa điều kiện cho trước.\n"
+"@DESCRIPTION=DSTDEV hàm trả lại số lượng ước đoán độ lệch chuẩn trong dân "
+"số, đựa vào một mẫu. Dân số chứa số thỏa điều kiện cho trước.\n"
 "\n"
 "@database (cơ sở dữ liệu) là khoảng ô mà hàng thông tin liên quan là bảng "
 "ghi, cột dữ liệu là trường. Hàng đầu tiên chứa nhãn của mỗi cột.\n"
@@ -3536,8 +3544,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
-"@DESCRIPTION=DVAR hàm trả lại số lượng ước đoán phương sai dân số đựa vào một "
-"mẫu. Dân số chứa số thỏa điều kiện cho trước.\n"
+"@DESCRIPTION=DVAR hàm trả lại số lượng ước đoán phương sai dân số đựa vào "
+"một mẫu. Dân số chứa số thỏa điều kiện cho trước.\n"
 "\n"
 "@database (cơ sở dữ liệu) là khoảng ô mà hàng thông tin liên quan là bảng "
 "ghi, cột dữ liệu là trường. Hàng đầu tiên chứa nhãn của mỗi cột.\n"
@@ -3848,7 +3856,8 @@ msgstr ""
 " • yd — year day (năm ngày).\n"
 "Ba tuỳ chọn đầu tiên sẽ trả lại riêng từng cái số năm, tháng, ngày đầy đủ "
 "giữa hay ngày đã cho.\n"
-" • ym — sẽ trả lại số tháng đầy đủ giữa hai ngày, không bao gồm hiệu về năm.\n"
+" • ym — sẽ trả lại số tháng đầy đủ giữa hai ngày, không bao gồm hiệu về "
+"năm.\n"
 " • md — sẽ trả lại số ngày đầu đủ giữa hai ngày, không bao gồm hiệu về "
 "tháng.\n"
 " • yd — sẽ trả lại số ngày đầy đủ giữa hai ngày, không bao gồm hiệu về năm.\n"
@@ -4264,8 +4273,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
-"@DESCRIPTION=DAYS360 trả lại số ngày từ @date1 tới @date2 theo lịch 360 ngày, "
-"theo đó mỗi tháng có 30 ngày.\n"
+"@DESCRIPTION=DAYS360 trả lại số ngày từ @date1 tới @date2 theo lịch 360 "
+"ngày, theo đó mỗi tháng có 30 ngày.\n"
 "\n"
 "* Nếu @method là 1, phương thức châu Âu sẽ được dùng. Trong trường hợp này, "
 "tháng 31 ngày sẽ được xem như 30 ngày.\n"
@@ -4441,8 +4450,8 @@ msgstr ""
 "Tuần dạng ISO 8601 bắt đầu vào hôm Thứ Hai, các tuần có số thứ tự từ số 1. "
 "Tuần nào gồm ngày từ hai năm khác thì được gán cho năm gồm ngày nhiều hơn. "
 "Có nghĩa là ngày 31 tháng 12 có thể trong tuần 1 của năm sau, và ngày 1 "
-"tháng 1 có thể trong tuần 52 hay 53 của năm trước.ISOYEAR trả lại năm mà tuần "
-"được gán cho nó.\n"
+"tháng 1 có thể trong tuần 52 hay 53 của năm trước.ISOYEAR trả lại năm mà "
+"tuần được gán cho nó.\n"
 "\n"
 "* ISOYEAR trả lại « #NUM! » nếu ngày không hợp lệ.\n"
 "@EXAMPLES=\n"
@@ -4474,8 +4483,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date[,method])\n"
-"@DESCRIPTION=WEEKNUM trả lại số thứ tự tuần của @date (ngày) tùy theo @method "
-"(phương pháp) cho trước.\n"
+"@DESCRIPTION=WEEKNUM trả lại số thứ tự tuần của @date (ngày) tùy theo "
+"@method (phương pháp) cho trước.\n"
 "\n"
 "@method mặc định là 1.\n"
 "\n"
@@ -5156,8 +5165,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
-"@DESCRIPTION=CONVERT trả lại giá trị chuyển đổi từ hệ thống đo lường này sang "
-"hệ thống khác. Ví dụ, bạn có thể chuyển khối lượng từ pound thành gram. "
+"@DESCRIPTION=CONVERT trả lại giá trị chuyển đổi từ hệ thống đo lường này "
+"sang hệ thống khác. Ví dụ, bạn có thể chuyển khối lượng từ pound thành gram. "
 "@number là giá trị cần chuyển đổi,\n"
 "@from_unit xác định đơn vị của @number\n"
 "@to_unit là đơn vị của giá trị trả lại là kết quả.\n"
@@ -5363,8 +5372,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=hàm DELTA kiểm tra nếu hai đối số là số bằng nhau, trả lại 1 nếu "
-"có.\n"
+"@DESCRIPTION=hàm DELTA kiểm tra nếu hai đối số là số bằng nhau, trả lại 1 "
+"nếu có.\n"
 "\n"
 "* @y tùy chọn, mặc định là số 0.\n"
 "* Nếu đối số nào không phải là số thì trả lại lỗi « #VALUE! ».\n"
@@ -5476,8 +5485,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=OFFTRAF\n"
 "@SYNTAX=OFFTRAF(traffic,circuits)\n"
-"@DESCRIPTION=OFFTRAF trả lại một số được dự đoán là số truyền tải được đưa ra "
-"từ một số truyền tải được mang (lấy từ việc đo) trên một số mạch điện.\n"
+"@DESCRIPTION=OFFTRAF trả lại một số được dự đoán là số truyền tải được đưa "
+"ra từ một số truyền tải được mang (lấy từ việc đo) trên một số mạch điện.\n"
 "\n"
 "* @traffic không thể vượt quá @circuits\n"
 "\n"
@@ -5710,8 +5719,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
-"@DESCRIPTION=INTRATE tính rồi trả lại lãi xuất của một chứng khoán vested đầy "
-"đủ.\n"
+"@DESCRIPTION=INTRATE tính rồi trả lại lãi xuất của một chứng khoán vested "
+"đầy đủ.\n"
 "\n"
 "@settlement là ngày _thanh toán_ chứng khoán.\n"
 "@maturity là ngày _đến hạn thanh toán_ chứng khoán.\n"
@@ -5857,7 +5866,8 @@ msgstr ""
 "* Nếu ngày @settlement hay ngày @maturity không hợp lệ thì PRICEDISC trả lại "
 "lỗi « #NUM! ».\n"
 "* Nếu « @basis » bỏ trống thì áp dụng hệ thống « Mỹ 30/360 ».\n"
-"* Nếu « @basis < 0 » hay « @basis > 4 » thì PRICEDISC trả lại lỗi « #NUM! ».\n"
+"* Nếu « @basis < 0 » hay « @basis > 4 » thì PRICEDISC trả lại lỗi « #NUM! "
+"».\n"
 "* Nếu ngày @settlement sau ngày @maturity hoặc hai ngày này là cùng một ngày "
 "thì PRICEDISC trả lại lỗi « #NUM! ».\n"
 "\n"
@@ -5972,8 +5982,8 @@ msgstr ""
 "  3  ngày thật/365\n"
 "  4  Châu Âu 30/360\n"
 "\n"
-"* Nếu ngày @settlement hay ngày @maturity không hợp lệ thì DISC trả lại lỗi « "
-"#NUM! ».\n"
+"* Nếu ngày @settlement hay ngày @maturity không hợp lệ thì DISC trả lại lỗi "
+"« #NUM! ».\n"
 "* Nếu « @basis » bỏ trống thì áp dụng hệ thống « Mỹ 30/360 ».\n"
 "* Nếu « @basis < 0 » hay « @basis > 4 » thì DISC trả lại lỗi « #NUM! ».\n"
 "* Nếu ngày @settlement sau ngày @maturity hoặc hai ngày này là cùng một ngày "
@@ -6165,9 +6175,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
-"@DESCRIPTION=DDB trả lại khấu tạo trên một tài sản trong thời gian cho trước, "
-"dùng phương pháp cán cân giảm đôi, hoặc dùng một phương pháp tương đương bạn "
-"ghi rõ.\n"
+"@DESCRIPTION=DDB trả lại khấu tạo trên một tài sản trong thời gian cho "
+"trước, dùng phương pháp cán cân giảm đôi, hoặc dùng một phương pháp tương "
+"đương bạn ghi rõ.\n"
 "\n"
 "@cost là _giá_ trị ban đầu của tài sản.\n"
 "@salvage là giá trị sau thời gian cuối cùng (_giá trị thanh lý_).\n"
@@ -6368,8 +6378,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
-"@DESCRIPTION=hàm MIRR trả lại tỷ suất lợi tức nội bộ đã sửa đổi cho một luồng "
-"tiền chu kỳ cho trước. \n"
+"@DESCRIPTION=hàm MIRR trả lại tỷ suất lợi tức nội bộ đã sửa đổi cho một "
+"luồng tiền chu kỳ cho trước. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV"
@@ -6658,10 +6668,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
-"@DESCRIPTION=XIRR tinh rồi trả lại tỷ suất lợi tức và trả lại tỷ suất lợi tức "
-"nội bộ của một đầu tư không nhất thiết có sự trả tiền chu kỳ. Hàm này liên "
-"quan một cách gần đến hàm giá trị hiện tại ròng (Net Present Value: NPV và "
-"XNPV). XIRR là lãi xuất cho dây luồng tiền mà XNPV là số không.\n"
+"@DESCRIPTION=XIRR tinh rồi trả lại tỷ suất lợi tức và trả lại tỷ suất lợi "
+"tức nội bộ của một đầu tư không nhất thiết có sự trả tiền chu kỳ. Hàm này "
+"liên quan một cách gần đến hàm giá trị hiện tại ròng (Net Present Value: NPV "
+"và XNPV). XIRR là lãi xuất cho dây luồng tiền mà XNPV là số không.\n"
 "\n"
 "@values (_giá trị_) chứa dây luồng tiền được tạo ra bởi đầu tư.\n"
 " @dates chứa các _ngày_ trả tiền. Ngày đầu là ngày trả tiền ban đầu, thì các "
@@ -7376,7 +7386,8 @@ msgstr ""
 "* Nếu tần số @frequency khác với 1, 2, hay 4 thì ODDFPRICE trả lại lỗi « "
 "#NUM! ».\n"
 "* Nếu « @basis » bỏ trống thì áp dụng hệ thống « Mỹ 30/360 ».\n"
-"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDFPRICE trả lại lỗi « #NUM! ».\n"
+"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDFPRICE trả lại lỗi « #NUM! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7434,7 +7445,8 @@ msgstr ""
 "* Nếu tần số @frequency khác với 1, 2, hay 4 thì ODDFYIELD trả lại lỗi « "
 "#NUM! ».\n"
 "* Nếu « @basis » bỏ trống thì áp dụng hệ thống « Mỹ 30/360 ».\n"
-"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDFYIELD trả lại lỗi « #NUM! ».\n"
+"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDFYIELD trả lại lỗi « #NUM! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7492,7 +7504,8 @@ msgstr ""
 "* Nếu tần số @frequency khác với 1, 2, hay 4 thì ODDLPRICE trả lại lỗi « "
 "#NUM! ».\n"
 "* Nếu « @basis » bỏ trống thì áp dụng hệ thống « Mỹ 30/360 ».\n"
-"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDLPRICE trả lại lỗi « #NUM! ».\n"
+"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDLPRICE trả lại lỗi « #NUM! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7550,7 +7563,8 @@ msgstr ""
 "* Nếu tần số @frequency khác với 1, 2, hay 4 thì ODDLYIELD trả lại lỗi « "
 "#NUM! ».\n"
 "* Nếu « @basis » bỏ trống thì áp dụng hệ thống « Mỹ 30/360 ».\n"
-"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDLYIELD trả lại lỗi « #NUM! ».\n"
+"* Nếu « @basis < 0 » hay « @basis > 4 » thì ODDLYIELD trả lại lỗi « #NUM! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7615,7 +7629,8 @@ msgstr ""
 "  4  Châu Âu 30/360\n"
 "\n"
 "* Nếu « @basis » bỏ trống thì áp dụng hệ thống « Mỹ 30/360 ».\n"
-"* Nếu « @basis < 0 » hay « @basis > 4 » thì AMORDEGRC trả lại lỗi « #NUM! ».\n"
+"* Nếu « @basis < 0 » hay « @basis > 4 » thì AMORDEGRC trả lại lỗi « #NUM! "
+"».\n"
 "\n"
 "@EXAMPLES=\n"
 "AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1) = 733\n"
@@ -7863,8 +7878,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
-"@DESCRIPTION=COUPDAYSNC trả lại số ngày từ ngày thanh toán đến ngày phiếu lãi "
-"sau.\n"
+"@DESCRIPTION=COUPDAYSNC trả lại số ngày từ ngày thanh toán đến ngày phiếu "
+"lãi sau.\n"
 "\n"
 "@settlement là ngày _thanh toán_ chứng khoán.\n"
 "@maturity là ngày _đến hạn thanh toán_ chứng khoán.\n"
@@ -8124,8 +8139,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
-"@DESCRIPTION=CUMIPMT trả lại lãi suất tích lũy được trả lại khoản cho vay giữa "
-"ngày @start_period và ngày @end_period.\n"
+"@DESCRIPTION=CUMIPMT trả lại lãi suất tích lũy được trả lại khoản cho vay "
+"giữa ngày @start_period và ngày @end_period.\n"
 "\n"
 "* Nếu « @rate ≤ 0 » thì CUMIPMT trả lại lỗi « #NUM! ».\n"
 "* Nếu « @nper ≤ 0 » thì CUMIPMT trả lại lỗi « #NUM! ».\n"
@@ -8160,8 +8175,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
-"@DESCRIPTION=CUMPRINC trả lại tiền gốc lũy tích được trả lại một khoản cho vay "
-"giữa ngày đầu @start_period và ngày kết thúc @end_period.\n"
+"@DESCRIPTION=CUMPRINC trả lại tiền gốc lũy tích được trả lại một khoản cho "
+"vay giữa ngày đầu @start_period và ngày kết thúc @end_period.\n"
 "\n"
 "* Nếu « @rate ≤ 0 » thì CUMPRINC trả lại lỗi « #NUM! ».\n"
 "* Nếu « @nper ≤ 0 » thì CUMPRINC trả lại lỗi « #NUM! ».\n"
@@ -8203,8 +8218,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
-"@DESCRIPTION=MDURATION trả lại thời gian loại Macauley cho một chứng khoán có "
-"giá trị danh nghĩa 100.\n"
+"@DESCRIPTION=MDURATION trả lại thời gian loại Macauley cho một chứng khoán "
+"có giá trị danh nghĩa 100.\n"
 "\n"
 "@basis là loại hệ thống đếm ngày bạn muốn dùng:\n"
 "\n"
@@ -8497,8 +8512,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
-"@DESCRIPTION=ERROR.TYPE trả lại mã số lỗi tương ứng với giá trị lỗi được cho. "
-"Mã số lỗi cho các giá trị lỗi là:\n"
+"@DESCRIPTION=ERROR.TYPE trả lại mã số lỗi tương ứng với giá trị lỗi được "
+"cho. Mã số lỗi cho các giá trị lỗi là:\n"
 "\n"
 "\t#DIV/0!    2\n"
 "\t#VALUE!    3\n"
@@ -8766,8 +8781,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
-"@DESCRIPTION=N trả lại giá trị được chuyển thành số. Nếu giá trị là chuỗi thì "
-"sẽ trả lại số không.\n"
+"@DESCRIPTION=N trả lại giá trị được chuyển thành số. Nếu giá trị là chuỗi "
+"thì sẽ trả lại số không.\n"
 "\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
@@ -8829,8 +8844,8 @@ msgstr ""
 "@SYNTAX=GETENV(string)\n"
 "@DESCRIPTION=GETENV gọi giá trị từ môi trường thực thi.\n"
 "\n"
-"* Nếu biến xác định bởi chuỗi @STRING không tồn tại thì sẽ trả lại lỗi « #N/A "
-"». Chú ý, tên biến có phân biệt chữ hoa, chữ thường.\n"
+"* Nếu biến xác định bởi chuỗi @STRING không tồn tại thì sẽ trả lại lỗi « #N/"
+"A ». Chú ý, tên biến có phân biệt chữ hoa, chữ thường.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9237,9 +9252,9 @@ msgstr ""
 "giá trị @value. Nếu @approximate (xấp xỉ) không đúng thì nó tìm cột có sự "
 "tương đương chính xác. Nếu @approximate đúng thì các giá trị cần phải được "
 "sắp xếp tăng dần để chức năng cho đúng; trong trường hợp này, nó tìm cột có "
-"giá trị nhỏ hơn @value. Nó trả lại giá trị trong cột được tìm tại hiệu số đựa "
-"vào 1 tại vị trí @row hàng vào khoảng @range.  @as_index trả lại hiệu số đựa "
-"vào 0 mà khớp, hơn giá trị.\n"
+"giá trị nhỏ hơn @value. Nó trả lại giá trị trong cột được tìm tại hiệu số "
+"đựa vào 1 tại vị trí @row hàng vào khoảng @range.  @as_index trả lại hiệu số "
+"đựa vào 0 mà khớp, hơn giá trị.\n"
 "\n"
 "* HLOOKUP trả lại « #NUM! » nếu hàng « @row < 0 ».\n"
 "* HLOOKUP trả lại « #REF! » nếu hàng « @row » nằm ngoại khoảng « @range ».\n"
@@ -9392,8 +9407,7 @@ msgstr ""
 msgid "COLUMN:vector of column numbers."
 msgstr "COLUMN: véc-tơ của các số cột"
 
-#: ../plugins/fn-lookup/functions.c:945
-#: ../plugins/fn-lookup/functions.c:1121
+#: ../plugins/fn-lookup/functions.c:945 ../plugins/fn-lookup/functions.c:1121
 msgid "[reference]."
 msgstr "[tham chiếu]."
 
@@ -9405,10 +9419,13 @@ msgid ""
 "\n"
 "* If @reference is neither an array nor a reference nor a range, returns "
 "#VALUE! error.\n"
-msgstr "Hàm COLUMN (cột) thì trả lại một mảng N×1 chứa dãy các số nguyên từ cột đầu đến cột cuối của tham chiếu @reference.\n"
+msgstr ""
+"Hàm COLUMN (cột) thì trả lại một mảng N×1 chứa dãy các số nguyên từ cột đầu "
+"đến cột cuối của tham chiếu @reference.\n"
 " • @reference mặc định là vị trí của biểu thức hiện thời.\n"
 "\n"
-" • @reference không phải mảng, tham chiếu hay phạm vi thì trả lại lỗi « #VALUE! ».\n"
+" • @reference không phải mảng, tham chiếu hay phạm vi thì trả lại lỗi « "
+"#VALUE! ».\n"
 
 #: ../plugins/fn-lookup/functions.c:955
 msgid "COLUMN(A1:C4) equals {1,2,3}"
@@ -9493,8 +9510,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
-"@DESCRIPTION=Hàm OFFSET trả lại khoảng ô, bắt đầu từ hiệu số (@row,@col) tính "
-"từ @range, cao @height và rộng @width.\n"
+"@DESCRIPTION=Hàm OFFSET trả lại khoảng ô, bắt đầu từ hiệu số (@row,@col) "
+"tính từ @range, cao @height và rộng @width.\n"
 "\n"
 "* Nếu @range không phải là tham chiếu hoặc khoảng thì trả lại lỗi « #VALUE! "
 "».\n"
@@ -9517,10 +9534,13 @@ msgid ""
 "\n"
 "* If @reference is neither an array nor a reference nor a range, returns "
 "#VALUE! error.\n"
-msgstr "Hàm ROW (hàng) thì trả lại một mảng N×1 chứa dãy các số nguyên từ hàng đầu đến hàng cuối của tham chiếu @reference.\n"
+msgstr ""
+"Hàm ROW (hàng) thì trả lại một mảng N×1 chứa dãy các số nguyên từ hàng đầu "
+"đến hàng cuối của tham chiếu @reference.\n"
 " • @reference mặc định là vị trí của biểu thức hiện thời.\n"
 "\n"
-" • @reference không phải mảng, tham chiếu hay phạm vi thì trả lại lỗi « #VALUE! ».\n"
+" • @reference không phải mảng, tham chiếu hay phạm vi thì trả lại lỗi « "
+"#VALUE! ».\n"
 
 #: ../plugins/fn-lookup/functions.c:1131
 msgid "ROW(A1:D3) equals {1;2;3}\n"
@@ -10243,8 +10263,8 @@ msgstr ""
 "@DESCRIPTION=hàm BETA trả lại giá trị của hàm beta toán được mở rộng đến mọi "
 "số thật, loại trừ số 0 và số nguyên âm.\n"
 "\n"
-"* Nếu @a, @b, hoặc (@a + @b) là số nguyên không âm thì hàm BETA trả lại lỗi « "
-"#NUM! ».\n"
+"* Nếu @a, @b, hoặc (@a + @b) là số nguyên không âm thì hàm BETA trả lại lỗi "
+"« #NUM! ».\n"
 "\n"
 "@EXAMPLES=\n"
 "BETA(2,3) bằng 0.083333.\n"
@@ -10360,7 +10380,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT trả lại số nguyên lớn nhất vẫn còn không lớn hơn đối số nó.\n"
+"@DESCRIPTION=INT trả lại số nguyên lớn nhất vẫn còn không lớn hơn đối số "
+"nó.\n"
 "\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
@@ -10415,8 +10436,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN trả lại loga tự nhiên (cơ số e) của @x. Nếu « @x ≤ 0 » thì LN "
-"trả lại lỗi « #NUM! ».\n"
+"@DESCRIPTION=LN trả lại loga tự nhiên (cơ số e) của @x. Nếu « @x ≤ 0 » thì "
+"LN trả lại lỗi « #NUM! ».\n"
 "\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
@@ -10746,8 +10767,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
-"@DESCRIPTION=MULTINOMIAL trả lại tỷ lệ của giai thừa của tổng giá trị đối với "
-"tích giai thừa.\n"
+"@DESCRIPTION=MULTINOMIAL trả lại tỷ lệ của giai thừa của tổng giá trị đối "
+"với tích giai thừa.\n"
 "\n"
 "* Hàm này tương thích với Excel.\n"
 " \n"
@@ -10914,8 +10935,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=EVEN trả lại số chẵn gần nhất mà lớn hơn số dương gõ, còn trả lại "
-"số chẵn nhỏ nhất mà nhỏ hơn số âm gõ.\n"
+"@DESCRIPTION=EVEN trả lại số chẵn gần nhất mà lớn hơn số dương gõ, còn trả "
+"lại số chẵn nhỏ nhất mà nhỏ hơn số âm gõ.\n"
 "\n"
 "* Hàm này tương thích với Excel. \n"
 "\n"
@@ -10969,8 +10990,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=hàm FACTDOUBLE trả lại giai thừa « đúp » của số @number, tức là: "
-"x!!.\n"
+"@DESCRIPTION=hàm FACTDOUBLE trả lại giai thừa « đúp » của số @number, tức "
+"là: x!!.\n"
 "\n"
 "* Nếu @number không phải là số nguyên thì nó bị cắt xén.\n"
 "* Nếu @number là số âm thì trả lại lỗi « #NUM! ».\n"
@@ -11051,8 +11072,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
-"@DESCRIPTION=SIGN trả lại số 1 nếu số @number dương, 0 nếu @number bằng số 0, "
-"và -1 nếu @number âm.\n"
+"@DESCRIPTION=SIGN trả lại số 1 nếu số @number dương, 0 nếu @number bằng số "
+"0, và -1 nếu @number âm.\n"
 "\n"
 "* Hàm này tương thích với Excel. \n"
 "\n"
@@ -11285,7 +11306,8 @@ msgstr ""
 "@DESCRIPTION=hàm ROMAN chuyển đổi một số A-rập sang số Ro-manh, dạng chuỗi. "
 "@number là số cần chuyển đổi và @type là kiểu số Ro-manh bạn muốn.\n"
 "\n"
-"* Nếu kiểu @type là số 0 hoặc thiếu nó thì ROMAN trả lại số Ro-manh cổ điển.\n"
+"* Nếu kiểu @type là số 0 hoặc thiếu nó thì ROMAN trả lại số Ro-manh cổ "
+"điển.\n"
 "* Kiểu cổ điển là ít ngắn gọn nhất, kiểu 1 ngắn gọn, hơn, kiểu 2 ngắn gọn "
 "hơn lần nữa và kiểu 3 ngắn gọn nhất. Kiểu 4 là đơn giản.\n"
 "* Nếu số @number âm hay lớn hơn 3999 thì ROMAN trả lại lỗi « #VALUE! ».\n"
@@ -11477,7 +11499,8 @@ msgstr ""
 "@DESCRIPTION=MINVERSE trả lại ma trận đảo của @matrix.\n"
 "\n"
 "* Nếu @matrix không thể đảo thì trả lại lỗi « #NUM! ».\n"
-"*  Nếu số hàng, cột của @matrix không bằng nhau thì trả lại lỗi « #VALUE! ».\n"
+"*  Nếu số hàng, cột của @matrix không bằng nhau thì trả lại lỗi « #VALUE! "
+"».\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -11531,7 +11554,8 @@ msgstr ""
 "@SYNTAX=MDETERM(matrix)\n"
 "@DESCRIPTION=hàm MDETERM trả lại định thức của một ma trận cho trước.\n"
 "\n"
-"*  Nếu số hàng, cột của @matrix không bằng nhau thì trả lại lỗi « #VALUE! ».\n"
+"*  Nếu số hàng, cột của @matrix không bằng nhau thì trả lại lỗi « #VALUE! "
+"».\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -11579,68 +11603,43 @@ msgstr ""
 msgid "R.DNORM:probability density function of the normal distribution."
 msgstr "R.DNORM: hàm mật độ xác suất của phân phối chuẩn."
 
-#: ../plugins/fn-r/functions.c:20
-#: ../plugins/fn-r/functions.c:45
-#: ../plugins/fn-r/functions.c:99
-#: ../plugins/fn-r/functions.c:124
-#: ../plugins/fn-r/functions.c:151
-#: ../plugins/fn-r/functions.c:178
-#: ../plugins/fn-r/functions.c:203
-#: ../plugins/fn-r/functions.c:257
-#: ../plugins/fn-r/functions.c:282
-#: ../plugins/fn-r/functions.c:336
-#: ../plugins/fn-r/functions.c:359
-#: ../plugins/fn-r/functions.c:409
-#: ../plugins/fn-r/functions.c:434
-#: ../plugins/fn-r/functions.c:461
-#: ../plugins/fn-r/functions.c:488
-#: ../plugins/fn-r/functions.c:511
-#: ../plugins/fn-r/functions.c:561
-#: ../plugins/fn-r/functions.c:586
-#: ../plugins/fn-r/functions.c:640
-#: ../plugins/fn-r/functions.c:663
-#: ../plugins/fn-r/functions.c:713
-#: ../plugins/fn-r/functions.c:736
-#: ../plugins/fn-r/functions.c:786
-#: ../plugins/fn-r/functions.c:811
-#: ../plugins/fn-r/functions.c:838
-#: ../plugins/fn-r/functions.c:865
-#: ../plugins/fn-r/functions.c:890
-#: ../plugins/fn-r/functions.c:944
-#: ../plugins/fn-r/functions.c:971
-#: ../plugins/fn-r/functions.c:1029
-#: ../plugins/fn-r/functions.c:1052
-#: ../plugins/fn-r/functions.c:1102
+#: ../plugins/fn-r/functions.c:20 ../plugins/fn-r/functions.c:45
+#: ../plugins/fn-r/functions.c:99 ../plugins/fn-r/functions.c:124
+#: ../plugins/fn-r/functions.c:151 ../plugins/fn-r/functions.c:178
+#: ../plugins/fn-r/functions.c:203 ../plugins/fn-r/functions.c:257
+#: ../plugins/fn-r/functions.c:282 ../plugins/fn-r/functions.c:336
+#: ../plugins/fn-r/functions.c:359 ../plugins/fn-r/functions.c:409
+#: ../plugins/fn-r/functions.c:434 ../plugins/fn-r/functions.c:461
+#: ../plugins/fn-r/functions.c:488 ../plugins/fn-r/functions.c:511
+#: ../plugins/fn-r/functions.c:561 ../plugins/fn-r/functions.c:586
+#: ../plugins/fn-r/functions.c:640 ../plugins/fn-r/functions.c:663
+#: ../plugins/fn-r/functions.c:713 ../plugins/fn-r/functions.c:736
+#: ../plugins/fn-r/functions.c:786 ../plugins/fn-r/functions.c:811
+#: ../plugins/fn-r/functions.c:838 ../plugins/fn-r/functions.c:865
+#: ../plugins/fn-r/functions.c:890 ../plugins/fn-r/functions.c:944
+#: ../plugins/fn-r/functions.c:971 ../plugins/fn-r/functions.c:1029
+#: ../plugins/fn-r/functions.c:1052 ../plugins/fn-r/functions.c:1102
 #: ../plugins/fn-r/functions.c:1127
 msgid "x:observation."
 msgstr "x:quan sát"
 
-#: ../plugins/fn-r/functions.c:21
-#: ../plugins/fn-r/functions.c:46
+#: ../plugins/fn-r/functions.c:21 ../plugins/fn-r/functions.c:46
 #: ../plugins/fn-r/functions.c:73
 msgid "mu:mean of the distribution."
 msgstr "mu:trung bình của phân phối."
 
-#: ../plugins/fn-r/functions.c:22
-#: ../plugins/fn-r/functions.c:47
+#: ../plugins/fn-r/functions.c:22 ../plugins/fn-r/functions.c:47
 #: ../plugins/fn-r/functions.c:74
 msgid "sigma:standard deviation of the distribution."
 msgstr "sigma:độ lệch chuẩn của phân phối."
 
-#: ../plugins/fn-r/functions.c:23
-#: ../plugins/fn-r/functions.c:102
-#: ../plugins/fn-r/functions.c:181
-#: ../plugins/fn-r/functions.c:260
-#: ../plugins/fn-r/functions.c:338
-#: ../plugins/fn-r/functions.c:412
-#: ../plugins/fn-r/functions.c:490
-#: ../plugins/fn-r/functions.c:564
-#: ../plugins/fn-r/functions.c:642
-#: ../plugins/fn-r/functions.c:715
-#: ../plugins/fn-r/functions.c:789
-#: ../plugins/fn-r/functions.c:868
-#: ../plugins/fn-r/functions.c:948
-#: ../plugins/fn-r/functions.c:1031
+#: ../plugins/fn-r/functions.c:23 ../plugins/fn-r/functions.c:102
+#: ../plugins/fn-r/functions.c:181 ../plugins/fn-r/functions.c:260
+#: ../plugins/fn-r/functions.c:338 ../plugins/fn-r/functions.c:412
+#: ../plugins/fn-r/functions.c:490 ../plugins/fn-r/functions.c:564
+#: ../plugins/fn-r/functions.c:642 ../plugins/fn-r/functions.c:715
+#: ../plugins/fn-r/functions.c:789 ../plugins/fn-r/functions.c:868
+#: ../plugins/fn-r/functions.c:948 ../plugins/fn-r/functions.c:1031
 #: ../plugins/fn-r/functions.c:1105
 msgid ""
 "give_log:if true, log of the result will be returned instead.  This is "
@@ -11659,72 +11658,42 @@ msgstr "Hàm này trả lại hàm mật độ xác suất của phân phối ch
 msgid "R.PNORM:cumulative distribution function of the normal distribution."
 msgstr "R.PNORM:hàm phân phối lũy tích của phân phối chuẩn."
 
-#: ../plugins/fn-r/functions.c:48
-#: ../plugins/fn-r/functions.c:75
-#: ../plugins/fn-r/functions.c:127
-#: ../plugins/fn-r/functions.c:154
-#: ../plugins/fn-r/functions.c:206
-#: ../plugins/fn-r/functions.c:233
-#: ../plugins/fn-r/functions.c:285
-#: ../plugins/fn-r/functions.c:312
-#: ../plugins/fn-r/functions.c:361
-#: ../plugins/fn-r/functions.c:386
-#: ../plugins/fn-r/functions.c:437
-#: ../plugins/fn-r/functions.c:464
-#: ../plugins/fn-r/functions.c:513
-#: ../plugins/fn-r/functions.c:538
-#: ../plugins/fn-r/functions.c:589
-#: ../plugins/fn-r/functions.c:616
-#: ../plugins/fn-r/functions.c:665
-#: ../plugins/fn-r/functions.c:690
-#: ../plugins/fn-r/functions.c:738
-#: ../plugins/fn-r/functions.c:763
-#: ../plugins/fn-r/functions.c:814
-#: ../plugins/fn-r/functions.c:841
-#: ../plugins/fn-r/functions.c:893
-#: ../plugins/fn-r/functions.c:920
-#: ../plugins/fn-r/functions.c:975
-#: ../plugins/fn-r/functions.c:1004
-#: ../plugins/fn-r/functions.c:1054
-#: ../plugins/fn-r/functions.c:1079
-#: ../plugins/fn-r/functions.c:1130
-#: ../plugins/fn-r/functions.c:1157
+#: ../plugins/fn-r/functions.c:48 ../plugins/fn-r/functions.c:75
+#: ../plugins/fn-r/functions.c:127 ../plugins/fn-r/functions.c:154
+#: ../plugins/fn-r/functions.c:206 ../plugins/fn-r/functions.c:233
+#: ../plugins/fn-r/functions.c:285 ../plugins/fn-r/functions.c:312
+#: ../plugins/fn-r/functions.c:361 ../plugins/fn-r/functions.c:386
+#: ../plugins/fn-r/functions.c:437 ../plugins/fn-r/functions.c:464
+#: ../plugins/fn-r/functions.c:513 ../plugins/fn-r/functions.c:538
+#: ../plugins/fn-r/functions.c:589 ../plugins/fn-r/functions.c:616
+#: ../plugins/fn-r/functions.c:665 ../plugins/fn-r/functions.c:690
+#: ../plugins/fn-r/functions.c:738 ../plugins/fn-r/functions.c:763
+#: ../plugins/fn-r/functions.c:814 ../plugins/fn-r/functions.c:841
+#: ../plugins/fn-r/functions.c:893 ../plugins/fn-r/functions.c:920
+#: ../plugins/fn-r/functions.c:975 ../plugins/fn-r/functions.c:1004
+#: ../plugins/fn-r/functions.c:1054 ../plugins/fn-r/functions.c:1079
+#: ../plugins/fn-r/functions.c:1130 ../plugins/fn-r/functions.c:1157
 msgid ""
 "lower_tail:if true (the default), the lower tail of the distribution is "
 "considered."
 msgstr ""
 "lower_tail:nếu đúng (mặc định) thì đuôi thấp hơn của phân phối được cân nhắc."
 
-#: ../plugins/fn-r/functions.c:49
-#: ../plugins/fn-r/functions.c:76
-#: ../plugins/fn-r/functions.c:128
-#: ../plugins/fn-r/functions.c:155
-#: ../plugins/fn-r/functions.c:207
-#: ../plugins/fn-r/functions.c:234
-#: ../plugins/fn-r/functions.c:286
-#: ../plugins/fn-r/functions.c:313
-#: ../plugins/fn-r/functions.c:362
-#: ../plugins/fn-r/functions.c:387
-#: ../plugins/fn-r/functions.c:438
-#: ../plugins/fn-r/functions.c:465
-#: ../plugins/fn-r/functions.c:514
-#: ../plugins/fn-r/functions.c:539
-#: ../plugins/fn-r/functions.c:590
-#: ../plugins/fn-r/functions.c:617
-#: ../plugins/fn-r/functions.c:666
-#: ../plugins/fn-r/functions.c:691
-#: ../plugins/fn-r/functions.c:739
-#: ../plugins/fn-r/functions.c:764
-#: ../plugins/fn-r/functions.c:815
-#: ../plugins/fn-r/functions.c:842
-#: ../plugins/fn-r/functions.c:894
-#: ../plugins/fn-r/functions.c:921
-#: ../plugins/fn-r/functions.c:976
-#: ../plugins/fn-r/functions.c:1005
-#: ../plugins/fn-r/functions.c:1055
-#: ../plugins/fn-r/functions.c:1080
-#: ../plugins/fn-r/functions.c:1131
-#: ../plugins/fn-r/functions.c:1158
+#: ../plugins/fn-r/functions.c:49 ../plugins/fn-r/functions.c:76
+#: ../plugins/fn-r/functions.c:128 ../plugins/fn-r/functions.c:155
+#: ../plugins/fn-r/functions.c:207 ../plugins/fn-r/functions.c:234
+#: ../plugins/fn-r/functions.c:286 ../plugins/fn-r/functions.c:313
+#: ../plugins/fn-r/functions.c:362 ../plugins/fn-r/functions.c:387
+#: ../plugins/fn-r/functions.c:438 ../plugins/fn-r/functions.c:465
+#: ../plugins/fn-r/functions.c:514 ../plugins/fn-r/functions.c:539
+#: ../plugins/fn-r/functions.c:590 ../plugins/fn-r/functions.c:617
+#: ../plugins/fn-r/functions.c:666 ../plugins/fn-r/functions.c:691
+#: ../plugins/fn-r/functions.c:739 ../plugins/fn-r/functions.c:764
+#: ../plugins/fn-r/functions.c:815 ../plugins/fn-r/functions.c:842
+#: ../plugins/fn-r/functions.c:894 ../plugins/fn-r/functions.c:921
+#: ../plugins/fn-r/functions.c:976 ../plugins/fn-r/functions.c:1005
+#: ../plugins/fn-r/functions.c:1055 ../plugins/fn-r/functions.c:1080
+#: ../plugins/fn-r/functions.c:1131 ../plugins/fn-r/functions.c:1158
 msgid ""
 "log_p:if true, log of the probability is used.  This is useful if the "
 "probability would otherwise underflow to 0.  Defaults to false."
@@ -11742,18 +11711,12 @@ msgstr "Hàm này trả lại hàm phân phối lũy tích của phân phối ch
 msgid "R.QNORM:probability quantile function of the normal distribution."
 msgstr "R.QNORM: hàm quantile xác suất của phân phối chuẩn."
 
-#: ../plugins/fn-r/functions.c:72
-#: ../plugins/fn-r/functions.c:230
-#: ../plugins/fn-r/functions.c:309
-#: ../plugins/fn-r/functions.c:384
-#: ../plugins/fn-r/functions.c:536
-#: ../plugins/fn-r/functions.c:613
-#: ../plugins/fn-r/functions.c:688
-#: ../plugins/fn-r/functions.c:761
-#: ../plugins/fn-r/functions.c:917
-#: ../plugins/fn-r/functions.c:1000
-#: ../plugins/fn-r/functions.c:1077
-#: ../plugins/fn-r/functions.c:1154
+#: ../plugins/fn-r/functions.c:72 ../plugins/fn-r/functions.c:230
+#: ../plugins/fn-r/functions.c:309 ../plugins/fn-r/functions.c:384
+#: ../plugins/fn-r/functions.c:536 ../plugins/fn-r/functions.c:613
+#: ../plugins/fn-r/functions.c:688 ../plugins/fn-r/functions.c:761
+#: ../plugins/fn-r/functions.c:917 ../plugins/fn-r/functions.c:1000
+#: ../plugins/fn-r/functions.c:1077 ../plugins/fn-r/functions.c:1154
 msgid "p:probability."
 msgstr "p:xác suất."
 
@@ -11769,14 +11732,12 @@ msgstr ""
 msgid "R.DLNORM:probability density function of the log-normal distribution."
 msgstr "R.DLNORM:hàm mật độ xác suất của phân phối loga-chuẩn."
 
-#: ../plugins/fn-r/functions.c:100
-#: ../plugins/fn-r/functions.c:125
+#: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
 #: ../plugins/fn-r/functions.c:152
 msgid "logmean:mean of the underlying normal distribution."
 msgstr "logmean:trung bình của phân phối chuẩn cơ sở."
 
-#: ../plugins/fn-r/functions.c:101
-#: ../plugins/fn-r/functions.c:126
+#: ../plugins/fn-r/functions.c:101 ../plugins/fn-r/functions.c:126
 #: ../plugins/fn-r/functions.c:153
 msgid "logsd:standard deviation of the underlying normal distribution."
 msgstr "logsd:độ lệch chuẩn của phân phối chuẩn cơ sở."
@@ -11814,27 +11775,18 @@ msgstr ""
 msgid "R.DGAMMA:probability density function of the gamma distribution."
 msgstr "R.DGAMMA:hàm mật độ xác suất của phân phối γ (gamma)."
 
-#: ../plugins/fn-r/functions.c:179
-#: ../plugins/fn-r/functions.c:204
-#: ../plugins/fn-r/functions.c:231
-#: ../plugins/fn-r/functions.c:562
-#: ../plugins/fn-r/functions.c:587
-#: ../plugins/fn-r/functions.c:614
+#: ../plugins/fn-r/functions.c:179 ../plugins/fn-r/functions.c:204
+#: ../plugins/fn-r/functions.c:231 ../plugins/fn-r/functions.c:562
+#: ../plugins/fn-r/functions.c:587 ../plugins/fn-r/functions.c:614
 msgid "shape:the shape parameter of the distribution"
 msgstr "shape:tham số hình của phân phối."
 
-#: ../plugins/fn-r/functions.c:180
-#: ../plugins/fn-r/functions.c:205
-#: ../plugins/fn-r/functions.c:232
-#: ../plugins/fn-r/functions.c:563
-#: ../plugins/fn-r/functions.c:588
-#: ../plugins/fn-r/functions.c:615
-#: ../plugins/fn-r/functions.c:714
-#: ../plugins/fn-r/functions.c:737
-#: ../plugins/fn-r/functions.c:762
-#: ../plugins/fn-r/functions.c:1104
-#: ../plugins/fn-r/functions.c:1129
-#: ../plugins/fn-r/functions.c:1156
+#: ../plugins/fn-r/functions.c:180 ../plugins/fn-r/functions.c:205
+#: ../plugins/fn-r/functions.c:232 ../plugins/fn-r/functions.c:563
+#: ../plugins/fn-r/functions.c:588 ../plugins/fn-r/functions.c:615
+#: ../plugins/fn-r/functions.c:714 ../plugins/fn-r/functions.c:737
+#: ../plugins/fn-r/functions.c:762 ../plugins/fn-r/functions.c:1104
+#: ../plugins/fn-r/functions.c:1129 ../plugins/fn-r/functions.c:1156
 msgid "scale:the scale parameter of the distribution"
 msgstr "scale:tham số tỷ lệ của phân phối."
 
@@ -11870,14 +11822,12 @@ msgstr ""
 msgid "R.DBETA:probability density function of the beta distribution."
 msgstr "R.DBETA:hàm mật độ xác suất của phân phối β (beta)."
 
-#: ../plugins/fn-r/functions.c:258
-#: ../plugins/fn-r/functions.c:283
+#: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:283
 #: ../plugins/fn-r/functions.c:310
 msgid "a:the first shape parameter of the distribution"
 msgstr "a:tham số hình thứ nhất của phân phối."
 
-#: ../plugins/fn-r/functions.c:259
-#: ../plugins/fn-r/functions.c:284
+#: ../plugins/fn-r/functions.c:259 ../plugins/fn-r/functions.c:284
 #: ../plugins/fn-r/functions.c:311
 msgid "b:the second scale parameter of the distribution"
 msgstr "b:tham số hình thứ hai của phân phối."
@@ -11914,8 +11864,7 @@ msgstr ""
 msgid "R.DT:probability density function of the Student t distribution."
 msgstr "R.DT:hàm mật độ xác suất của phân phối « Sinh viên t »."
 
-#: ../plugins/fn-r/functions.c:337
-#: ../plugins/fn-r/functions.c:360
+#: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:360
 #: ../plugins/fn-r/functions.c:385
 msgid "n:the number of degrees of freedom of the distribution"
 msgstr "n:số bậc tự do của phân phối."
@@ -11945,21 +11894,19 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Student t distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối « Sinh viên t »."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối « Sinh viên t »."
 
 #: ../plugins/fn-r/functions.c:408
 msgid "R.DF:probability density function of the F distribution."
 msgstr "R.DF: hàm mật độ xác suất của phân phối F."
 
-#: ../plugins/fn-r/functions.c:410
-#: ../plugins/fn-r/functions.c:435
+#: ../plugins/fn-r/functions.c:410 ../plugins/fn-r/functions.c:435
 #: ../plugins/fn-r/functions.c:462
 msgid "n1:the first number of degrees of freedom of the distribution"
 msgstr "n1:số bậc tự do thứ nhất của phân phối."
 
-#: ../plugins/fn-r/functions.c:411
-#: ../plugins/fn-r/functions.c:436
+#: ../plugins/fn-r/functions.c:411 ../plugins/fn-r/functions.c:436
 #: ../plugins/fn-r/functions.c:463
 msgid "n2:the second number of degrees of freedom of the distribution"
 msgstr "n:số bậc tự do của phân phối."
@@ -11988,15 +11935,14 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the F distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối F."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối F."
 
 #: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution."
 msgstr "R.DCHISQ:hàm mật độ xác suất của phân phối χ² (chi-square)."
 
-#: ../plugins/fn-r/functions.c:489
-#: ../plugins/fn-r/functions.c:512
+#: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:512
 #: ../plugins/fn-r/functions.c:537
 msgid "df:the number of degrees of freedom of the distribution"
 msgstr "df:số bậc tự do của phân phối."
@@ -12027,8 +11973,8 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the chi-square distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối χ² (chi-square)."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối χ² (chi-square)."
 
 #: ../plugins/fn-r/functions.c:560
 msgid "R.DWEIBULL:probability density function of the Weibull distribution."
@@ -12060,15 +12006,14 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Weibull distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối Weibull."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối Weibull."
 
 #: ../plugins/fn-r/functions.c:639
 msgid "R.DPOIS:probability density function of the Poisson distribution."
 msgstr "R.DPOIS:hàm mật độ xác suất của phân phối Poisson."
 
-#: ../plugins/fn-r/functions.c:641
-#: ../plugins/fn-r/functions.c:664
+#: ../plugins/fn-r/functions.c:641 ../plugins/fn-r/functions.c:664
 #: ../plugins/fn-r/functions.c:689
 msgid "lambda:the mean of the distribution"
 msgstr "lamda:trung bình (λ) của phân phối."
@@ -12098,8 +12043,8 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Poisson distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối Poisson."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối Poisson."
 
 #: ../plugins/fn-r/functions.c:712
 msgid "R.DEXP:probability density function of the exponential distribution."
@@ -12131,30 +12076,23 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the exponential distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối lũy thừa."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối lũy thừa."
 
 #: ../plugins/fn-r/functions.c:785
 msgid "R.DBINOM:probability density function of the binomial distribution."
 msgstr "R.DBINOM:hàm mật độ xác suất của phân phối nhị thức."
 
-#: ../plugins/fn-r/functions.c:787
-#: ../plugins/fn-r/functions.c:812
-#: ../plugins/fn-r/functions.c:839
-#: ../plugins/fn-r/functions.c:866
-#: ../plugins/fn-r/functions.c:891
-#: ../plugins/fn-r/functions.c:918
+#: ../plugins/fn-r/functions.c:787 ../plugins/fn-r/functions.c:812
+#: ../plugins/fn-r/functions.c:839 ../plugins/fn-r/functions.c:866
+#: ../plugins/fn-r/functions.c:891 ../plugins/fn-r/functions.c:918
 msgid "n:the number of trials"
 msgstr "n:số việc thử"
 
-#: ../plugins/fn-r/functions.c:788
-#: ../plugins/fn-r/functions.c:813
-#: ../plugins/fn-r/functions.c:840
-#: ../plugins/fn-r/functions.c:867
-#: ../plugins/fn-r/functions.c:892
-#: ../plugins/fn-r/functions.c:919
-#: ../plugins/fn-r/functions.c:1030
-#: ../plugins/fn-r/functions.c:1053
+#: ../plugins/fn-r/functions.c:788 ../plugins/fn-r/functions.c:813
+#: ../plugins/fn-r/functions.c:840 ../plugins/fn-r/functions.c:867
+#: ../plugins/fn-r/functions.c:892 ../plugins/fn-r/functions.c:919
+#: ../plugins/fn-r/functions.c:1030 ../plugins/fn-r/functions.c:1053
 #: ../plugins/fn-r/functions.c:1078
 msgid "psuc:the probability of success in each trial"
 msgstr "psuc:xác suất thành công trong mỗi việc thử."
@@ -12184,8 +12122,8 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the binomial distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối nhị thức."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối nhị thức."
 
 #: ../plugins/fn-r/functions.c:864
 msgid ""
@@ -12222,8 +12160,8 @@ msgid ""
 "of the cumulative distribution function, of the negative binomial "
 "distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối nhị thức âm."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối nhị thức âm."
 
 #: ../plugins/fn-r/functions.c:943
 msgid ""
@@ -12231,20 +12169,17 @@ msgid ""
 msgstr ""
 "R.DHYPER:hàm mật độ xác suất của phân phối siêu hình học (hypergeometric)."
 
-#: ../plugins/fn-r/functions.c:945
-#: ../plugins/fn-r/functions.c:972
+#: ../plugins/fn-r/functions.c:945 ../plugins/fn-r/functions.c:972
 #: ../plugins/fn-r/functions.c:1001
 msgid "r:the number of red balls"
 msgstr "r:số quả bóng màu đỏ"
 
-#: ../plugins/fn-r/functions.c:946
-#: ../plugins/fn-r/functions.c:973
+#: ../plugins/fn-r/functions.c:946 ../plugins/fn-r/functions.c:973
 #: ../plugins/fn-r/functions.c:1002
 msgid "b:the number of black balls"
 msgstr "b:số quả bóng màu đen"
 
-#: ../plugins/fn-r/functions.c:947
-#: ../plugins/fn-r/functions.c:974
+#: ../plugins/fn-r/functions.c:947 ../plugins/fn-r/functions.c:974
 #: ../plugins/fn-r/functions.c:1003
 msgid "n:the number of balls drawn"
 msgstr "n:số quả bóng được lấy"
@@ -12280,8 +12215,8 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the hypergeometric distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối siêu hình học."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối siêu hình học."
 
 #: ../plugins/fn-r/functions.c:1028
 msgid "R.DGEOM:probability density function of the geometric distribution."
@@ -12312,15 +12247,14 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the geometric distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối hình học."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối hình học."
 
 #: ../plugins/fn-r/functions.c:1101
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution."
 msgstr "R.DCAUCHY:hàm mật độ xác suất của phân phối Cauchy."
 
-#: ../plugins/fn-r/functions.c:1103
-#: ../plugins/fn-r/functions.c:1128
+#: ../plugins/fn-r/functions.c:1103 ../plugins/fn-r/functions.c:1128
 #: ../plugins/fn-r/functions.c:1155
 msgid "location:the center of the distribution"
 msgstr "location:trung tâm của phân phối."
@@ -12350,8 +12284,8 @@ msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Cauchy distribution."
 msgstr ""
-"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy tích, "
-"của phân phối Cauchy."
+"Hàm này trả lại hàm quantile xác suất, tức là đảo của hàm phân phối lũy "
+"tích, của phân phối Cauchy."
 
 #: ../plugins/fn-r/functions.c:1194
 msgid "x,mu,sigma,give_log"
@@ -12369,23 +12303,19 @@ msgstr "p,mu,sigma,lower_tail,log_p"
 msgid "x,logmean,logsd,give_log"
 msgstr "x,logmean,logsd,give_log"
 
-#: ../plugins/fn-r/functions.c:1226
-#: ../plugins/fn-r/functions.c:1234
+#: ../plugins/fn-r/functions.c:1226 ../plugins/fn-r/functions.c:1234
 msgid "x,logmean,logsd,lower_tail,log_p"
 msgstr "x,logmean,logsd,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1242
-#: ../plugins/fn-r/functions.c:1362
+#: ../plugins/fn-r/functions.c:1242 ../plugins/fn-r/functions.c:1362
 msgid "x,shape,scale,give_log"
 msgstr "x,shape,scale,give_log"
 
-#: ../plugins/fn-r/functions.c:1250
-#: ../plugins/fn-r/functions.c:1370
+#: ../plugins/fn-r/functions.c:1250 ../plugins/fn-r/functions.c:1370
 msgid "x,shape,scale,lower_tail,log_p"
 msgstr "x,shape,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1258
-#: ../plugins/fn-r/functions.c:1378
+#: ../plugins/fn-r/functions.c:1258 ../plugins/fn-r/functions.c:1378
 msgid "p,shape,scale,lower_tail,log_p"
 msgstr "p,shape,scale,lower_tail,log_p"
 
@@ -12417,8 +12347,7 @@ msgstr "p,n,lower_tail,log_p"
 msgid "x,n1,n2,give_log"
 msgstr "x,n1,n2,give_log"
 
-#: ../plugins/fn-r/functions.c:1322
-#: ../plugins/fn-r/functions.c:1330
+#: ../plugins/fn-r/functions.c:1322 ../plugins/fn-r/functions.c:1330
 msgid "x,n1,n2,lower_tail,log_p"
 msgstr "x,n1,n2,lower_tail,log_p"
 
@@ -12458,13 +12387,11 @@ msgstr "x,scale,lower_tail,log_p"
 msgid "p,scale,lower_tail,log_p"
 msgstr "p,scale,lower_tail,log_p"
 
-#: ../plugins/fn-r/functions.c:1434
-#: ../plugins/fn-r/functions.c:1458
+#: ../plugins/fn-r/functions.c:1434 ../plugins/fn-r/functions.c:1458
 msgid "x,n,psuc,give_log"
 msgstr "x,n,psuc,give_log"
 
-#: ../plugins/fn-r/functions.c:1442
-#: ../plugins/fn-r/functions.c:1450
+#: ../plugins/fn-r/functions.c:1442 ../plugins/fn-r/functions.c:1450
 #: ../plugins/fn-r/functions.c:1466
 msgid "x,n,psuc,lower_tail,log_p"
 msgstr "x,n,psuc,lower_tail,log_p"
@@ -12552,8 +12479,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDUNIFORM\n"
 "@SYNTAX=RANDUNIFORM(a,b)\n"
-"@DESCRIPTION=RANDUNIFORM trả lại một biến ngẫu nhiên bị giới hạn từ phân phối "
-"không thay đổi (thẳng) từ a đến b. Phân phối là:\n"
+"@DESCRIPTION=RANDUNIFORM trả lại một biến ngẫu nhiên bị giới hạn từ phân "
+"phối không thay đổi (thẳng) từ a đến b. Phân phối là:\n"
 "\n"
 "\tp(x) dx = {1 trên (b-a)} dx : cho « a ≤ x < b ».\n"
 "p(x) dx = 0 : cho « x < a » hoặc « b ≤ x ».\n"
@@ -12692,8 +12619,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=hàm RANDBETWEEN trả lại một số nguyên ngẫu nhiên giữa và gồm đáy "
-"@bottom và đỉnh @top.\n"
+"@DESCRIPTION=hàm RANDBETWEEN trả lại một số nguyên ngẫu nhiên giữa và gồm "
+"đáy @bottom và đỉnh @top.\n"
 "\n"
 "* Nếu @bottom không phải là số nguyên thì nó bị làm tròn lên.\n"
 "* Nếu @top không phải là số nguyên thì nó bị làm tròn xuống.\n"
@@ -12885,7 +12812,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDRAYLEIGH\n"
 "@SYNTAX=RANDRAYLEIGH(sigma)\n"
-"@DESCRIPTION=RANDRAYLEIGH trả lại một số ngẫu nhiên theo phân phối Rayleigh.\n"
+"@DESCRIPTION=RANDRAYLEIGH trả lại một số ngẫu nhiên theo phân phối "
+"Rayleigh.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDRAYLEIGH(1).\n"
@@ -13220,8 +13148,8 @@ msgstr ""
 "* Cho « α @alpha = 1, β @beta=0 », kết quả là phân phối Lorentz.\n"
 "* Cho « α @alpha = 2, β @beta=0 », kết quả là phân phối chuẩn.\n"
 "\n"
-"* Nếu « α @alpha ≤ 0 » hoặc « α @alpha > 2 » thì RANDLEVY trả lại lỗi « #NUM! "
-"».\n"
+"* Nếu « α @alpha ≤ 0 » hoặc « α @alpha > 2 » thì RANDLEVY trả lại lỗi « "
+"#NUM! ».\n"
 "* Nếu « β @beta < -1 » hoặc « β @beta > 1 » thì RANDLEVY trả lại lỗi « #NUM! "
 "».\n"
 "\n"
@@ -13250,8 +13178,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
-"@DESCRIPTION=RANDEXPPOW trả lại một số ngẫu nhiên bị giới hạn từ phân phối mũ "
-"lũy thừa, với tham số tỷ lệ @a và mũ @b. Phân phối là:\n"
+"@DESCRIPTION=RANDEXPPOW trả lại một số ngẫu nhiên bị giới hạn từ phân phối "
+"mũ lũy thừa, với tham số tỷ lệ @a và mũ @b. Phân phối là:\n"
 "\n"
 "\tp(x) ∂x = {1 trên 2 a γ(1+1/b)} exp(-|x/a|^b) ∂x, cho « x ≥ 0 ».\n"
 "\n"
@@ -13325,13 +13253,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNORMTAIL\n"
 "@SYNTAX=RANDNORMTAIL(a,sigma)\n"
-"@DESCRIPTION=RANDNORMTAIL trả lại biến ngẫu nhiên bị giới hạn từ đuôi cao hơn "
-"của phân phối chuẩn với độ lệch chuẩn Σ @sigma. Các giá trị được trả lại có "
-"lớn hơn giới hạn thấp hơn @a, mà phải là số dương. Phương pháp đựa vào thuật "
-"toán hình chữ nhật-hình nêm-đuôi nối tiếng của Marsaglia (xem tài liệu « Ann "
-"Math Stat » [số 32, trang 894-899 (năm 1961)]), với khía cạnh này của nó "
-"được giải thích trong quyển sách của tác giả Knuth, quyển 2, bản in thứ 3, "
-"trang 139, 586 (bài học 11).\n"
+"@DESCRIPTION=RANDNORMTAIL trả lại biến ngẫu nhiên bị giới hạn từ đuôi cao "
+"hơn của phân phối chuẩn với độ lệch chuẩn Σ @sigma. Các giá trị được trả lại "
+"có lớn hơn giới hạn thấp hơn @a, mà phải là số dương. Phương pháp đựa vào "
+"thuật toán hình chữ nhật-hình nêm-đuôi nối tiếng của Marsaglia (xem tài liệu "
+"« Ann Math Stat » [số 32, trang 894-899 (năm 1961)]), với khía cạnh này của "
+"nó được giải thích trong quyển sách của tác giả Knuth, quyển 2, bản in thứ "
+"3, trang 139, 586 (bài học 11).\n"
 "\n"
 "Phân phối xác suất cho biến ngẫu nhiên bị giới hạn chuẩn là:\n"
 "\n"
@@ -13553,10 +13481,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
-"@DESCRIPTION=RANK trả lại vị trí thứ tự của một số nào đó trong một danh sách "
-"số. @x là số cần tìm thứ tự, @ref là danh sách số, và @order xác định sắp "
-"xếp theo thứ tự nào. Nếu @order là số 0 thì các số được sắp xếp giảm dần, "
-"nếu không thì các số được sắp xếp tăng dần.\n"
+"@DESCRIPTION=RANK trả lại vị trí thứ tự của một số nào đó trong một danh "
+"sách số. @x là số cần tìm thứ tự, @ref là danh sách số, và @order xác định "
+"sắp xếp theo thứ tự nào. Nếu @order là số 0 thì các số được sắp xếp giảm "
+"dần, nếu không thì các số được sắp xếp tăng dần.\n"
 "\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
@@ -13593,9 +13521,9 @@ msgstr ""
 "@DESCRIPTION=TRIMMEAN trả lại số trung bình của phần trong tập hợp dữ liệu.\n"
 "@ref là danh sách số cho mà bạn muốn tính số trung bình, và\n"
 "@fraction là _phân số_ của tập hợp dữ liệu bị loại trừ ra phần trung bình.\n"
-"Lấy thí dụ, nếu @fraction=0.2 và tập hợp dữ liệu chứa 40 số, thì 8 số bị cắt xén "
-"ra tập hợp dữ liệu (40 x 0.2): 4 số lớn nhất và 4 số nhỏ nhất.  Để tránh có độ "
-"lệch, số điểm sẽ bị loại trừ luôn luôn được làm tròn xuống số chẵn gần "
+"Lấy thí dụ, nếu @fraction=0.2 và tập hợp dữ liệu chứa 40 số, thì 8 số bị cắt "
+"xén ra tập hợp dữ liệu (40 x 0.2): 4 số lớn nhất và 4 số nhỏ nhất.  Để tránh "
+"có độ lệch, số điểm sẽ bị loại trừ luôn luôn được làm tròn xuống số chẵn gần "
 "nhất.\n"
 "\n"
 "* Hàm này tương thích với Excel.\n"
@@ -13873,11 +13801,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
-"@DESCRIPTION=MODE trả lại số thường nhất của tập hợp dữ liệu. Nếu tập hợp dữ liệu có "
-"nhiều số thường nhất thì MODE trả lại số thứ nhất của chúng.\n"
+"@DESCRIPTION=MODE trả lại số thường nhất của tập hợp dữ liệu. Nếu tập hợp dữ "
+"liệu có nhiều số thường nhất thì MODE trả lại số thứ nhất của chúng.\n"
 "\n"
 "* Chuỗi và ô rỗng bị bỏ qua.\n"
-"* Nếu tập hợp dữ liệu không chứa đôi số trùng nào thì MODE trả lại lỗi « #N/A ».\n"
+"* Nếu tập hợp dữ liệu không chứa đôi số trùng nào thì MODE trả lại lỗi « #N/"
+"A ».\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -14292,7 +14221,8 @@ msgstr ""
 "hàm khối lượng xác suất.\n"
 "\n"
 "* Nếu « @x < 0 » thì GAMMADIST trả lại lỗi « #NUM! ».\n"
-"* Nếu « @alpha ≤ 0 » hoặc « @beta ≤ 0 » thì GAMMADIST trả lại lỗi « #NUM! ».\n"
+"* Nếu « @alpha ≤ 0 » hoặc « @beta ≤ 0 » thì GAMMADIST trả lại lỗi « #NUM! "
+"».\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -14347,8 +14277,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=hàm CHIDIST trả lại xác suất đuôi đơn của phân phối χ² (chi bình "
-"phương).\n"
+"@DESCRIPTION=hàm CHIDIST trả lại xác suất đuôi đơn của phân phối χ² (chi "
+"bình phương).\n"
 "@dof là số bậc tự do.\n"
 "\n"
 "* Nếu @dof không phải là số nguyên thì nó bị cắt xén.\n"
@@ -14563,7 +14493,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=hàm TINV trả lại đảo của phân phối « Sinh viên t » có đuôi đôi.\n"
+"@DESCRIPTION=hàm TINV trả lại đảo của phân phối « Sinh viên t » có đuôi "
+"đôi.\n"
 "\n"
 "* Nếu « @p < 0 » hoặc « @p > 1 » hoặc « @dof < 1 » thì TINV trả lại lỗi « "
 "#NUM! ».\n"
@@ -14623,8 +14554,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LANDAU\n"
 "@SYNTAX=LANDAU(x)\n"
-"@DESCRIPTION=LANDAU trả lại độ mật xác suất p(x) tại @x cho phân phối Landau, "
-"dùng phương pháp ước lượng.\n"
+"@DESCRIPTION=LANDAU trả lại độ mật xác suất p(x) tại @x cho phân phối "
+"Landau, dùng phương pháp ước lượng.\n"
 "@EXAMPLES=\n"
 "LANDAU(0.34).\n"
 "\n"
@@ -14932,7 +14863,8 @@ msgstr ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 "@DESCRIPTION=hàm WEIBULL trả lại phân phối Weibull.\n"
-"Nếu giá trị bun (đúng/sai) @cumulative (lũy tích) là ĐÚNG thì nó sẽ trả lại:\n"
+"Nếu giá trị bun (đúng/sai) @cumulative (lũy tích) là ĐÚNG thì nó sẽ trả "
+"lại:\n"
 "\n"
 "\t1 - exp (-(@x/@beta)^@alpha),\n"
 "\n"
@@ -14974,8 +14906,8 @@ msgstr ""
 "hàm phân phối lũy tích, cho phân phối chuẩn, với số _trung bình_ là @mean, "
 "và _độ lệch chuẩn_ là @stddev. Nếu @cumulative (lũy tích) là SAI thì "
 "NORMDIST trả lại giá trị của hàm mật độ xác suất tại giá trị @x. Nếu "
-"@cumulative (lũy tích) là ĐÚNG thì NORMDIST trả lại giá trị của hàm phân phối "
-"lũy tích tại @x.\n"
+"@cumulative (lũy tích) là ĐÚNG thì NORMDIST trả lại giá trị của hàm phân "
+"phối lũy tích tại @x.\n"
 "\n"
 "* Nếu « @stddev = 0 » thì NORMDIST trả lại lỗi « #DIV/0! ».\n"
 "* Hàm này tương thích với Excel.\n"
@@ -15009,8 +14941,8 @@ msgstr ""
 "@mean là trung bình số học của phân phối\n"
 "@stddev là độ lệch chuẩn của phân phối.\n"
 "\n"
-"* Nếu « @p < 0 » hoặc « @p > 1 » hoặc « @stddev ≤ 0 » thì NORMINV trả lại lỗi "
-"« #NUM! ».\n"
+"* Nếu « @p < 0 » hoặc « @p > 1 » hoặc « @stddev ≤ 0 » thì NORMINV trả lại "
+"lỗi « #NUM! ».\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15049,8 +14981,8 @@ msgstr ""
 "không\n"
 "\n"
 "* Chuỗi và ô rỗng thì đơn giản bị bỏ qua.\n"
-"* Nếu cho nhỏ hơn bốn số, hoặc nếu tất cả những số bằng nhau thì KURT trả lại "
-"lỗi « #DIV/0! ».\n"
+"* Nếu cho nhỏ hơn bốn số, hoặc nếu tất cả những số bằng nhau thì KURT trả "
+"lại lỗi « #DIV/0! ».\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15141,8 +15073,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
-"@DESCRIPTION=DEVSQ trả lại tổng của các bình phương của độ lệch của một bộ dữ "
-"liệu từ trung bình mẫu.\n"
+"@DESCRIPTION=DEVSQ trả lại tổng của các bình phương của độ lệch của một bộ "
+"dữ liệu từ trung bình mẫu.\n"
 "\n"
 "* Chuỗi và ô rỗng thì đơn giản bị bỏ qua.\n"
 "* Hàm này tương thích với Excel.\n"
@@ -15234,7 +15166,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
-"@DESCRIPTION=PEARSON trả lại hệ số tương quan Pearson của hai tập hợp dữ liệu.\n"
+"@DESCRIPTION=PEARSON trả lại hệ số tương quan Pearson của hai tập hợp dữ "
+"liệu.\n"
 "\n"
 "* Chuỗi và ô rỗng thì đơn giản bị bỏ qua.\n"
 "* Hàm này tương thích với Excel.\n"
@@ -15292,7 +15225,8 @@ msgstr ""
 "@DESCRIPTION=MEDIAN trả lại trung vị của tập hợp dữ liệu cho trước.\n"
 "\n"
 "* Chuỗi và ô rỗng thì đơn giản bị bỏ qua.\n"
-"* Nếu cho số chẵn thì MEDIAN trả lại số trung bình của hai số tại điểm giữa.\n"
+"* Nếu cho số chẵn thì MEDIAN trả lại số trung bình của hai số tại điểm "
+"giữa.\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15363,11 +15297,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n, k)\n"
-"@DESCRIPTION=LARGE (lớn) thì trả lại giá trị lớn nhất thứ k trong một tập hợp dữ "
-"liệu nào đó.\n"
+"@DESCRIPTION=LARGE (lớn) thì trả lại giá trị lớn nhất thứ k trong một tập "
+"hợp dữ liệu nào đó.\n"
 "\n"
 " • Tập hợp dữ liệu rỗng thì LARGE trả lại lỗi « #NUM! ».\n"
-" • @k ≤ 0 hoặc @k lớn hơn số các mục dữ liệu cho trước thì LARGE trả lại lỗi « #NUM! ».\n"
+" • @k ≤ 0 hoặc @k lớn hơn số các mục dữ liệu cho trước thì LARGE trả lại lỗi "
+"« #NUM! ».\n"
 " • Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15399,11 +15334,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n, k)\n"
-"@DESCRIPTION=SMALL (nhỏ) thì trả lại giá trị nhỏ nhất thứ k trong một tập hợp dữ "
-"liệu nào đó.\n"
+"@DESCRIPTION=SMALL (nhỏ) thì trả lại giá trị nhỏ nhất thứ k trong một tập "
+"hợp dữ liệu nào đó.\n"
 "\n"
 " • Tập hợp dữ liệu rỗng thì SMALL trả lại lỗi « #NUM! ».\n"
-" • @k ≤ 0 hoặc @k lớn hơn số mục dữ liệu cho trước thì SMALL trả lại lỗi « #NUM! ».\n"
+" • @k ≤ 0 hoặc @k lớn hơn số mục dữ liệu cho trước thì SMALL trả lại lỗi « "
+"#NUM! ».\n"
 " • Hàm này tương thích với Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15435,15 +15371,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
-"@DESCRIPTION=Hàm PROB trả lại xác suất các giá trị trong một phạm vi hay mảng "
-"nào đó có giữa hai giới hạn.\n"
-"Nếu không cho giới hạn cao hơn @upper_limit thì PROB trả lại xác suất các giá "
-"trị trong phạm vi @x_range bằng giới hạn thấp hơn @lower_limit.\n"
+"@DESCRIPTION=Hàm PROB trả lại xác suất các giá trị trong một phạm vi hay "
+"mảng nào đó có giữa hai giới hạn.\n"
+"Nếu không cho giới hạn cao hơn @upper_limit thì PROB trả lại xác suất các "
+"giá trị trong phạm vi @x_range bằng giới hạn thấp hơn @lower_limit.\n"
 "\n"
 "* Nếu tổng của các xác suất trong phạm vi @prob_range không bằng số 1 thì "
 "PROB trả lại lỗi « #NUM! ».\n"
-"* Nếu giá trị nào trong phạm vi @prob_range ≤ 0 hoặc > 1 thì PROB trả lại lỗi "
-"« #NUM! ».\n"
+"* Nếu giá trị nào trong phạm vi @prob_range ≤ 0 hoặc > 1 thì PROB trả lại "
+"lỗi « #NUM! ».\n"
 "* Nếu phạm vi @x_range và @prob_range không chứa cùng một số mục nhập dữ "
 "liệu thì PROB trả lại lỗi « #N/A ».\n"
 "* Hàm này tương thích với Excel.\n"
@@ -15473,8 +15409,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
-"@DESCRIPTION=hàm STEYX trả lại lỗi chuẩn của giá trị y được dự đoán cho mỗi x "
-"trong hồi quy.\n"
+"@DESCRIPTION=hàm STEYX trả lại lỗi chuẩn của giá trị y được dự đoán cho mỗi "
+"x trong hồi quy.\n"
 "\n"
 "* Nếu nhóm các y được biết @known_y's và nhóm các x được biết @known_x's có "
 "rỗng hoặc không có cùng một số đối số thì STEYX trả lại lỗi « #N/A ».\n"
@@ -15819,13 +15755,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
-"@DESCRIPTION=hàm PERCENTRANK trả lại vị trí thứ tự của một điểm dữ liệu trong "
-"một tập hợp dữ liệu.\n"
+"@DESCRIPTION=hàm PERCENTRANK trả lại vị trí thứ tự của một điểm dữ liệu "
+"trong một tập hợp dữ liệu.\n"
 "@array (mảng) là phạm vi các giá trị thuộc số,\n"
 "@x là điểm dữ liệu cần tìm vị trí thứ tự,\n"
 "@significance (độ quan trọng) tùy chọn thì xác định số lần số trong giá trị "
-"được trả lại, cắt xén các số còn lại. Nếu không có tùy chọn @significance thì "
-"PERCENTRANK trả lại giá trị có ba lần số.\n"
+"được trả lại, cắt xén các số còn lại. Nếu không có tùy chọn @significance "
+"thì PERCENTRANK trả lại giá trị có ba lần số.\n"
 "\n"
 "* Nếu mảng @array không có điểm dữ liệu nào thì PERCENTRANK trả lại lỗi « "
 "#NUM! ».\n"
@@ -15860,9 +15796,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
-"@DESCRIPTION=hàm PERCENTILE trả lại vùng phần trăm thứ tự 100*@k của các điểm "
-"dữ liệu cho trước (tức là, một số x như lả phân số @k của các điểm dữ liệu "
-"có nhỏ hơn x).\n"
+"@DESCRIPTION=hàm PERCENTILE trả lại vùng phần trăm thứ tự 100*@k của các "
+"điểm dữ liệu cho trước (tức là, một số x như lả phân số @k của các điểm dữ "
+"liệu có nhỏ hơn x).\n"
 "\n"
 "* Nếu mảng @array rỗng thì PERCENTILE trả lại lỗi « #NUM! ».\n"
 "* Nếu @k < 0 hoặc @k > 1 thì PERCENTILE trả lại lỗi « #NUM! ».\n"
@@ -15989,17 +15925,17 @@ msgstr ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
 "@DESCRIPTION=hàm TTEST trả lại xác suất của « việc thử ra Sinh viên t ». \n"
-"@array1 (mảng) là tập hợp dữ liệu thứ nhất, còn mảng @array2 là tập hợp dữ liệu thứ "
-"hai.  Nếu @tails là 1 thì TTEST dùng phân phối đuôi đơn, còn nếu @tails là 2 "
-"thì TTEST dùng phân phối đuôi đôi.\n"
+"@array1 (mảng) là tập hợp dữ liệu thứ nhất, còn mảng @array2 là tập hợp dữ "
+"liệu thứ hai.  Nếu @tails là 1 thì TTEST dùng phân phối đuôi đơn, còn nếu "
+"@tails là 2 thì TTEST dùng phân phối đuôi đôi.\n"
 "@type quyết định _kiểu_ việc thử ra:\n"
 "\n"
 "\t1  Việc thử ra có cặp\n"
 "\t2  Phương sai bằng có hai mẫu\n"
 "\t3  Phương sai không bằng có hai mẫu\n"
 "\n"
-"* Nếu hai tập hợp dữ liệu không có cùng một số điểm dữ liệu, và việc thử ra có "
-"cặp (@type 1) thì TTEST trả lại lỗi « #N/A ».\n"
+"* Nếu hai tập hợp dữ liệu không có cùng một số điểm dữ liệu, và việc thử ra "
+"có cặp (@type 1) thì TTEST trả lại lỗi « #N/A ».\n"
 "* Cả @tails lẫn @type đều bị cắt xén thành số nguyên.\n"
 "* Nếu @tails không phải số 1 hoặc số 2 thì TTEST trả lại lỗi « #NUM! ».\n"
 "* Nếu @type khác với số 1, 2 hay 3, thì TTEST trả lại lỗi « #NUM! ».\n"
@@ -16369,8 +16305,8 @@ msgstr ""
 "@DESCRIPTION=hàm GROWTH áp dụng phương pháp « bình phương ít nhất » để vừa "
 "một đường cong số mũ vào dữ liệu bạn, và dự đoán tỷ lệ tăng lên mũ bằng cách "
 "dùng đường cong này.\n"
-"GROWTH trả lại một mảng có một cột, và có một hàng cho mỗi điểm dữ liệu trong "
-"phạm vi @new_x (các x mới).\n"
+"GROWTH trả lại một mảng có một cột, và có một hàng cho mỗi điểm dữ liệu "
+"trong phạm vi @new_x (các x mới).\n"
 "\n"
 "* Nếu @known_x's bỏ trống thì dùng mảng {1, 2, 3, ...}.\n"
 "* Nếu @new_x's bỏ trống thì giả sử là cùng một phạm vi với @known_x's.\n"
@@ -16571,8 +16507,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
-"@DESCRIPTION=CRONBACH trả lại α (alpha) của Cronbach cho những trường hợp cho "
-"trước.\n"
+"@DESCRIPTION=CRONBACH trả lại α (alpha) của Cronbach cho những trường hợp "
+"cho trước.\n"
 "@ref1 là một tập hợp dữ liệu, @ref2 là tập hợp dữ liệu thứ hai ... v.v.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -16714,8 +16650,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
-"@DESCRIPTION=EXPPOWDIST trả lại mật độ xác suất p(x) tại @x cho phân phối Lỹu "
-"thừa Số mũ với tham số tỷ lệ @a và số mũ @b.\n"
+"@DESCRIPTION=EXPPOWDIST trả lại mật độ xác suất p(x) tại @x cho phân phối "
+"Lỹu thừa Số mũ với tham số tỷ lệ @a và số mũ @b.\n"
 "Đệ nghị phân phối này khi phân tích đợi sống và muốn dùng một hàm may rủi "
 "hình chữ U. Nó tương ứng với tính trạng thất bại nhanh một khi sản phẩm bắt "
 "đầu mòn, sau một thời gian tin cậy thường, kể cả tiến bộ.\n"
@@ -16926,8 +16862,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
-"@DESCRIPTION=LEFT trả lại @num_chars ký tự bên trái nhất của chuỗi @text. Nếu "
-"không có @num_chars thì @num_chars coi như bằng 1.\n"
+"@DESCRIPTION=LEFT trả lại @num_chars ký tự bên trái nhất của chuỗi @text. "
+"Nếu không có @num_chars thì @num_chars coi như bằng 1.\n"
 "\n"
 "* Hàm này tương thích với Excel. \n"
 "\n"
@@ -17333,8 +17269,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
-"@DESCRIPTION=REPLACE trả lại chuỗi @old được _thay thế_ bằng chuỗi @new từ vị "
-"trí @start, dài @num ký tự.\n"
+"@DESCRIPTION=REPLACE trả lại chuỗi @old được _thay thế_ bằng chuỗi @new từ "
+"vị trí @start, dài @num ký tự.\n"
 "\n"
 "* Hàm này tương thích với Excel.\n"
 "\n"
@@ -17517,8 +17453,8 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
-#: ../plugins/numtheory/numtheory.c:244
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
+#: ../plugins/numtheory/numtheory.c:244
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"

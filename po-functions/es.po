@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-31 03:54+0100\n"
+"POT-Creation-Date: 2007-09-09 21:43-0400\n"
 "PO-Revision-Date: 2007-09-04 00:06+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -9531,12 +9531,13 @@ msgid ""
 "* If @reference is neither an array nor a reference nor a range, returns "
 "#VALUE! error.\n"
 msgstr ""
-"La función COLUMN devuelve un vector de Nx1 que contiene la serie de enteros desde "
-"la primera columna a la última columna de @reference.\n"
+"La función COLUMN devuelve un vector de Nx1 que contiene la serie de enteros "
+"desde la primera columna a la última columna de @reference.\n"
 "* @reference es la posición de la expresión actual.\n"
 "defaults to the position of the current expression.\n"
 "\n"
-"* Si @reference no es un vector ni una referencia ni un rango, devuelve el error #VALUE!\n"
+"* Si @reference no es un vector ni una referencia ni un rango, devuelve el "
+"error #VALUE!\n"
 
 #: ../plugins/fn-lookup/functions.c:955
 msgid "COLUMN(A1:C4) equals {1,2,3}"
@@ -9646,12 +9647,13 @@ msgid ""
 "* If @reference is neither an array nor a reference nor a range, returns "
 "#VALUE! error.\n"
 msgstr ""
-"La función ROW devuelve un vector de 1xN que contiene la serie de enteros desde "
-"la primera fila a la última fila de @reference.\n"
+"La función ROW devuelve un vector de 1xN que contiene la serie de enteros "
+"desde la primera fila a la última fila de @reference.\n"
 "* @reference es la posición de la expresión actual.\n"
 "defaults to the position of the current expression.\n"
 "\n"
-"* Si @reference no es un vector ni una referencia ni un rango, devuelve el error #VALUE!\n"
+"* Si @reference no es un vector ni una referencia ni un rango, devuelve el "
+"error #VALUE!\n"
 
 #: ../plugins/fn-lookup/functions.c:1131
 msgid "ROW(A1:D3) equals {1;2;3}\n"
@@ -10473,7 +10475,8 @@ msgstr ""
 "@x < 0)"
 
 #: ../plugins/fn-math/functions.c:1053
-msgid "FLOOR function rounds @x down to the next nearest multiple of @significance."
+msgid ""
+"FLOOR function rounds @x down to the next nearest multiple of @significance."
 msgstr ""
 "La función FLOOR redondea @x hacia abajo al siguente entero múltiplo más "
 "cercano de @significancia"
@@ -11855,7 +11858,8 @@ msgstr ""
 msgid ""
 "This function returns the cumulative distribution function of the normal "
 "distribution."
-msgstr "Esta función devueleve una distribución acumulada de la distribución normal."
+msgstr ""
+"Esta función devueleve una distribución acumulada de la distribución normal."
 
 #: ../plugins/fn-r/functions.c:71
 msgid "R.QNORM:probability quantile function of the normal distribution."
@@ -11880,7 +11884,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:98
 msgid "R.DLNORM:probability density function of the log-normal distribution."
-msgstr "R.DLNORM:función de densidad de probabilidad de la distribución log-normal."
+msgstr ""
+"R.DLNORM:función de densidad de probabilidad de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:100 ../plugins/fn-r/functions.c:125
 #: ../plugins/fn-r/functions.c:152
@@ -11901,8 +11906,10 @@ msgstr ""
 "distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:123
-msgid "R.PLNORM:cumulative distribution function of the log-normal distribution."
-msgstr "R.PLNORM:función de distribución acumulada de la distribución log-normal."
+msgid ""
+"R.PLNORM:cumulative distribution function of the log-normal distribution."
+msgstr ""
+"R.PLNORM:función de distribución acumulada de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:129
 msgid ""
@@ -11914,7 +11921,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:150
 msgid "R.QLNORM:probability quantile function of the log-normal distribution."
-msgstr "R.QLNORM:función de cuantil de probabilidad de la distribución log-normal."
+msgstr ""
+"R.QLNORM:función de cuantil de probabilidad de la distribución log-normal."
 
 #: ../plugins/fn-r/functions.c:156
 msgid ""
@@ -12023,7 +12031,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:335
 msgid "R.DT:probability density function of the Student t distribution."
-msgstr "R.DT:función de densidad de probabilidad de la distribución de T Student."
+msgstr ""
+"R.DT:función de densidad de probabilidad de la distribución de T Student."
 
 #: ../plugins/fn-r/functions.c:337 ../plugins/fn-r/functions.c:360
 #: ../plugins/fn-r/functions.c:385
@@ -12040,7 +12049,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:358
 msgid "R.PT:cumulative distribution function of the Student t distribution."
-msgstr "R.PT:función de distribución acumulada de la distrivbución de T Student."
+msgstr ""
+"R.PT:función de distribución acumulada de la distrivbución de T Student."
 
 #: ../plugins/fn-r/functions.c:363
 msgid ""
@@ -12052,7 +12062,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:383
 msgid "R.QT:probability quantile function of the Student t distribution."
-msgstr "R.QT:función del cuantil de probabilidad de la distribución de Studen t."
+msgstr ""
+"R.QT:función del cuantil de probabilidad de la distribución de Studen t."
 
 #: ../plugins/fn-r/functions.c:388
 msgid ""
@@ -12077,7 +12088,8 @@ msgid "n2:the second number of degrees of freedom of the distribution"
 msgstr "n2: el segundo número de grados de libertad de la distribución"
 
 #: ../plugins/fn-r/functions.c:413
-msgid "This function returns the probability density function of the F distribution."
+msgid ""
+"This function returns the probability density function of the F distribution."
 msgstr ""
 "Esta función devuelve la función de densidad de probabilidad de la "
 "distribución de F."
@@ -12108,7 +12120,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:487
 msgid "R.DCHISQ:probability density function of the chi-square distribution."
-msgstr "R.DCHISQ:función de densidad de probabilidad de la distribución chi cuadrado."
+msgstr ""
+"R.DCHISQ:función de densidad de probabilidad de la distribución chi cuadrado."
 
 #: ../plugins/fn-r/functions.c:489 ../plugins/fn-r/functions.c:512
 #: ../plugins/fn-r/functions.c:537
@@ -12124,8 +12137,10 @@ msgstr ""
 "distribución chi-cuadrado."
 
 #: ../plugins/fn-r/functions.c:510
-msgid "R.PCHISQ:cumulative distribution function of the chi-square distribution."
-msgstr "R.PCHISQ:función de distribución acumulada de la distribución chi-cuadrado."
+msgid ""
+"R.PCHISQ:cumulative distribution function of the chi-square distribution."
+msgstr ""
+"R.PCHISQ:función de distribución acumulada de la distribución chi-cuadrado."
 
 #: ../plugins/fn-r/functions.c:515
 msgid ""
@@ -12151,7 +12166,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:560
 msgid "R.DWEIBULL:probability density function of the Weibull distribution."
-msgstr "R.DWEIBULL:función de densidad de probabilidad de la distribución de Weibull."
+msgstr ""
+"R.DWEIBULL:función de densidad de probabilidad de la distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:565
 msgid ""
@@ -12162,8 +12178,10 @@ msgstr ""
 "distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:585
-msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution."
-msgstr "R.PWEIBULL:función acumulada de distribución de la distribución de Weibull."
+msgid ""
+"R.PWEIBULL:cumulative distribution function of the Weibull distribution."
+msgstr ""
+"R.PWEIBULL:función acumulada de distribución de la distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:591
 msgid ""
@@ -12175,7 +12193,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:612
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution."
-msgstr "R.QWEIBULL:función del cuantil de probabilidad de la distribución de Weibull."
+msgstr ""
+"R.QWEIBULL:función del cuantil de probabilidad de la distribución de Weibull."
 
 #: ../plugins/fn-r/functions.c:618
 msgid ""
@@ -12187,7 +12206,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:639
 msgid "R.DPOIS:probability density function of the Poisson distribution."
-msgstr "R.DPOIS:función de densidad de probabilidad de la distribución de Poisson."
+msgstr ""
+"R.DPOIS:función de densidad de probabilidad de la distribución de Poisson."
 
 #: ../plugins/fn-r/functions.c:641 ../plugins/fn-r/functions.c:664
 #: ../plugins/fn-r/functions.c:689
@@ -12204,7 +12224,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:662
 msgid "R.PPOIS:cumulative distribution function of the Poisson distribution."
-msgstr "R.PPOIS:función de distribución acumulada de la distribución de Poisson."
+msgstr ""
+"R.PPOIS:función de distribución acumulada de la distribución de Poisson."
 
 #: ../plugins/fn-r/functions.c:667
 msgid ""
@@ -12216,7 +12237,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:687
 msgid "R.QPOIS:probability quantile function of the Poisson distribution."
-msgstr "R.QPOIS:función del cualtil de probabilidad de la distribución de Poisson."
+msgstr ""
+"R.QPOIS:función del cualtil de probabilidad de la distribución de Poisson."
 
 #: ../plugins/fn-r/functions.c:692
 msgid ""
@@ -12229,7 +12251,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:712
 msgid "R.DEXP:probability density function of the exponential distribution."
-msgstr "R.DEXP:función de densidad de probabilidad de la distribución exponencial."
+msgstr ""
+"R.DEXP:función de densidad de probabilidad de la distribución exponencial."
 
 #: ../plugins/fn-r/functions.c:716
 msgid ""
@@ -12240,8 +12263,10 @@ msgstr ""
 "distribución exponencial"
 
 #: ../plugins/fn-r/functions.c:735
-msgid "R.PEXP:cumulative distribution function of the exponential distribution."
-msgstr "R.PEXP:función de distribución acumulada de la distribución exponencial."
+msgid ""
+"R.PEXP:cumulative distribution function of the exponential distribution."
+msgstr ""
+"R.PEXP:función de distribución acumulada de la distribución exponencial."
 
 #: ../plugins/fn-r/functions.c:740
 msgid ""
@@ -12253,7 +12278,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:760
 msgid "R.QEXP:probability quantile function of the exponential distribution."
-msgstr "R.QEXP:función del cuantil de probabilidad de la distribución exponencial."
+msgstr ""
+"R.QEXP:función del cuantil de probabilidad de la distribución exponencial."
 
 #: ../plugins/fn-r/functions.c:765
 msgid ""
@@ -12293,7 +12319,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:810
 msgid "R.PBINOM:cumulative distribution function of the binomial distribution."
-msgstr "R.PBINOM:función de distribución acumulada de la distribución binomial."
+msgstr ""
+"R.PBINOM:función de distribución acumulada de la distribución binomial."
 
 #: ../plugins/fn-r/functions.c:816
 msgid ""
@@ -12305,7 +12332,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:837
 msgid "R.QBINOM:probability quantile function of the binomial distribution."
-msgstr "R.QBINOM:función del cuantil de probabilidad de la distribución binomial."
+msgstr ""
+"R.QBINOM:función del cuantil de probabilidad de la distribución binomial."
 
 #: ../plugins/fn-r/functions.c:843
 msgid ""
@@ -12316,7 +12344,8 @@ msgstr ""
 "la función de distribución acumulada, de la distribución binomial."
 
 #: ../plugins/fn-r/functions.c:864
-msgid "R.DNBINOM:probability density function of the negative binomial distribution."
+msgid ""
+"R.DNBINOM:probability density function of the negative binomial distribution."
 msgstr ""
 "R.DNBINOM:función de densidad de probabilidad de la distribución binomial "
 "negativa."
@@ -12363,7 +12392,8 @@ msgstr ""
 "la función acumulada de distribución de la distribución negativa binomial."
 
 #: ../plugins/fn-r/functions.c:943
-msgid "R.DHYPER:probability density function of the hypergeometric distribution."
+msgid ""
+"R.DHYPER:probability density function of the hypergeometric distribution."
 msgstr ""
 "R.DHYPER:función de densidad de probabilidad de la distribución "
 "hipergeométrica."
@@ -12392,7 +12422,8 @@ msgstr ""
 "distribución hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:970
-msgid "R.PHYPER:cumulative distribution function of the hypergeometric distribution."
+msgid ""
+"R.PHYPER:cumulative distribution function of the hypergeometric distribution."
 msgstr ""
 "R.PHYPER:función de distribución acumulada de la distribución "
 "hipergeométrica."
@@ -12406,7 +12437,8 @@ msgstr ""
 "distribución hipergeométrica."
 
 #: ../plugins/fn-r/functions.c:999
-msgid "R.QHYPER:probability quantile function of the hypergeometric distribution."
+msgid ""
+"R.QHYPER:probability quantile function of the hypergeometric distribution."
 msgstr ""
 "R.QHYPER:función de cuantil de probabilidad de la distribución "
 "hipergeométrica."
@@ -12421,7 +12453,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1028
 msgid "R.DGEOM:probability density function of the geometric distribution."
-msgstr "R.DGEOM:función de densidad de probabilidad de la distribución geométrica."
+msgstr ""
+"R.DGEOM:función de densidad de probabilidad de la distribución geométrica."
 
 #: ../plugins/fn-r/functions.c:1032
 msgid ""
@@ -12433,7 +12466,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1051
 msgid "R.PGEOM:cumulative distribution function of the geometric distribution."
-msgstr "R.PGEOM:función de distribución acumulativa de la distribución geométrica."
+msgstr ""
+"R.PGEOM:función de distribución acumulativa de la distribución geométrica."
 
 #: ../plugins/fn-r/functions.c:1056
 msgid ""
@@ -12445,7 +12479,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1076
 msgid "R.QGEOM:probability quantile function of the geometric distribution."
-msgstr "R.QGEOM: función del cuantil de probabilidad de la distribución geométrica."
+msgstr ""
+"R.QGEOM: función del cuantil de probabilidad de la distribución geométrica."
 
 #: ../plugins/fn-r/functions.c:1081
 msgid ""
@@ -12458,7 +12493,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1101
 msgid "R.DCAUCHY:probability density function of the Cauchy distribution."
-msgstr "R.DCAUCHY:función de densidad de probabilidad de la distribución de Cauchy."
+msgstr ""
+"R.DCAUCHY:función de densidad de probabilidad de la distribución de Cauchy."
 
 #: ../plugins/fn-r/functions.c:1103 ../plugins/fn-r/functions.c:1128
 #: ../plugins/fn-r/functions.c:1155
@@ -12475,7 +12511,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1126
 msgid "R.PCAUCHY:cumulative distribution function of the Cauchy distribution."
-msgstr "R.PCAUCHY:función de distribución acumulada  de la distribución de Cauchy."
+msgstr ""
+"R.PCAUCHY:función de distribución acumulada  de la distribución de Cauchy."
 
 #: ../plugins/fn-r/functions.c:1132
 msgid ""
@@ -12487,7 +12524,8 @@ msgstr ""
 
 #: ../plugins/fn-r/functions.c:1153
 msgid "R.QCAUCHY:probability quantile function of the Cauchy distribution."
-msgstr "R.QCAUCHY:función de cuantil de probabilidad de la distribución de Cauchy."
+msgstr ""
+"R.QCAUCHY:función de cuantil de probabilidad de la distribución de Cauchy."
 
 #: ../plugins/fn-r/functions.c:1159
 msgid ""
@@ -17957,4 +17995,3 @@ msgstr ""
 "@EXAMPLES=\n"
 "ATL_LAST(\"IBM\")\n"
 "@SEEALSO="
-
