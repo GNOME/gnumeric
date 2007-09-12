@@ -1,3 +1,7 @@
+2007-09-12  Morten Welinder  <terra@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: Move things around abit.
+
 2007-09-09  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am : always build tools before schemas

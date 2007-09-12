@@ -150,11 +150,9 @@
       <menuitem action="FormatAuto"/>
     </menu>
     <menu name="Tools" action="MenuTools">
-      <menuitem action="ToolsPlugins"/>
-      <separator name="tools-sep1"/>
       <menuitem action="ToolsAutoCorrect"/>
       <menuitem action="ToolsAutoSave"/>
-      <separator name="tools-sep2"/>
+      <separator/>
       <menuitem action="ToolsGoalSeek"/>
       <menuitem action="ToolsSolver"/>
       <menu name="Scenarios" action="MenuToolsScenarios">
@@ -162,7 +160,6 @@
         <menuitem action="ToolsScenarioAdd"/>
       </menu>
       <menuitem action="ToolsSimulation"/>
-      <separator/>
       <menu name="ToolStatisticalAnalysis" action="MenuToolStatisticalAnalysis">
         <menu name="ANOVA" action="MenuANOVA">
           <menuitem action="ToolsANOVAoneFactor"/>
@@ -188,6 +185,8 @@
         </menu>
         <menuitem action="ToolsFTest"/>
       </menu>
+      <separator/>
+      <menuitem action="ToolsPlugins"/>
     </menu>
     <menu name="Data" action="MenuData">
       <menuitem action="DataSort"/>
