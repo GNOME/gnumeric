@@ -1942,6 +1942,28 @@ put_efont (ExcelWriteFont *efont, XLExportBase *xle)
 
 	return two_way_table_put (twt, efont, TRUE, (AfterPutFunc) after_put_font, NULL);
 }
+
+int
+excel_font_from_go_font (ExcelWriteState *ewb, GOFont const *font)
+{
+	ExcelWriteFont *efont;
+
+	efont = g_new (ExcelWriteFont, 1);
+	efont->font_name	= pango_font_description_get_family (font->desc);
+	efont->font_name_copy	= NULL;
+	efont->size_pts		= (double) pango_font_description_get_size (font->desc) / PANGO_SCALE;
+	efont->is_bold		= pango_font_description_get_weight (font->desc) > PANGO_WEIGHT_NORMAL;
+	efont->is_italic	= pango_font_description_get_style (font->desc) != PANGO_STYLE_NORMAL;
+	/* FIXME: implement when supported */
+	efont->underline	= FALSE;
+	efont->strikethrough	= FALSE;
+	efont->script		= 0;
+	efont->color = go_color_to_bgr (RGBA_BLACK);
+	efont->is_auto = FALSE;
+
+	return put_efont (efont, &ewb->base);
+}
+
 static void
 put_style_font (GnmStyle const *style, gconstpointer dummy, XLExportBase *xle)
 {
@@ -5547,8 +5569,8 @@ extract_gog_object_style (XLExportBase *ewb, GogObject *obj)
 			put_color_go_color (ewb, go_marker_get_fill_color (style->marker.mark));
 		}
 
-		if (style->interesting_fields & GOG_STYLE_FONT) {
-		}
+		if (style->interesting_fields & GOG_STYLE_FONT)
+			excel_font_from_go_font (ewb, style->font.font);
 	}
 	if (IS_GOG_AXIS (obj)) {
 		char *fmt_str;

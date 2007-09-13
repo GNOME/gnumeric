@@ -2758,22 +2758,45 @@ not_a_matrix:
 		break;
 
 	case BIFF_CHART_text :
-		g_free (s->text);
-		s->text = NULL;
-
-		if (s->style != NULL) {
-			/* do not destroy the style if it belongs to the
-			parent object, applies only to legend at the moment,
-			what should be done for CHART and DEFAULTEXT? */
-			switch (BC_R(top_state) (s, 0)) {
-			case BIFF_CHART_legend :
+		switch (BC_R(top_state) (s, 0)) {
+		case BIFF_CHART_chart: {
+			GnmValue *value;
+			GnmExprTop const *texpr;
+			GogObject *label;
+			Sheet *sheet = ms_container_sheet (s->container.parent);
+			if (sheet == NULL || s->text == NULL)
 				break;
-			default :
+			value = value_new_string (s->text);
+			if (value == NULL)
+				break;
+			label = GOG_OBJECT (g_object_new (GOG_LABEL_TYPE, NULL));
+			texpr = gnm_expr_top_new_constant (value);
+			if (texpr)
+				gog_dataset_set_dim (GOG_DATASET (label), 0,
+					gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
+			else
+				value_release (value);
+			gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", label);
+			if (s->style != NULL) {
+				gog_styled_object_set_style (GOG_STYLED_OBJECT (label), s->style);
 				g_object_unref (s->style);
 				s->style = NULL;
-				break;
 			}
+			break;
 		}
+		case BIFF_CHART_legend:
+			/* do not destroy the style if it belongs to the
+			parent object, applies only to legend at the moment,
+			what should be done for DEFAULTEXT? */
+			break;
+		default:
+			g_object_unref (s->style);
+			s->style = NULL;
+			break;
+		}
+
+		g_free (s->text);
+		s->text = NULL;
 		break;
 
 	case BIFF_CHART_dropbar :
@@ -3805,7 +3828,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 }
 
 static void
-chart_write_text (XLChartWriteState *s, GOData const *src, GogStyle const *style)
+chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const *obj)
 {
 	static guint8 const default_text[] = {
 		2,		/* halign = center */
@@ -3828,11 +3851,12 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyle const *style
 	guint8 *data;
 	guint16 color_index = 0x4d;
 	unsigned const len = (s->bp->version >= MS_BIFF_V8) ? 32: 26;
+	GogStyle *style = (obj)? gog_styled_object_get_style (GOG_STYLED_OBJECT (obj)): NULL;
 
 	/* TEXT */
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_text, len);
 	memcpy (data, default_text, len);
-	/* chart_write_position (s, NULL, data+8); */
+	/* chart_write_position (s, GOG_OBJECT (obj), data+8); */
 	if (style != NULL)
 		color_index = chart_write_color (s, data+4, style->font.color);
 	if (s->bp->version >= MS_BIFF_V8) {
@@ -3843,8 +3867,9 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyle const *style
 	chart_write_BEGIN (s);
 
 	/* BIFF_CHART_pos, optional we use auto positioning */
-#warning get the right font
-	ms_biff_put_2byte (s->bp, BIFF_CHART_fontx, 5);
+	ms_biff_put_2byte (s->bp, BIFF_CHART_fontx, ((style)?
+		excel_font_from_go_font (s->ewb, style->font.font):
+		5));
 	chart_write_AI (s, src, 0, 1);
 	chart_write_END (s);
 }
@@ -4419,6 +4444,8 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		ms_biff_put_commit (s->bp);
 	}
 	if (axis != NULL) {
+		GogStyle *style = GOG_STYLED_OBJECT (axis)->style;
+		int font;
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_tick,
 			(s->bp->version >= MS_BIFF_V8) ? 30 : 26);
 		g_object_get (G_OBJECT (axis),
@@ -4449,15 +4476,19 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		GSF_LE_SET_GUINT8  (data+2, tmp);
 		GSF_LE_SET_GUINT8  (data+3, 1); /* background mode : 1 == transparent
 						 *		     2 == opaque */
-		tick_color_index = chart_write_color (s, data+4, 0); /* tick color */
+		tick_color_index = chart_write_color (s, data+4, style->font.color); /* tick label color */
 		memset (data+8, 0, 16);
-		flags = 0x23;
+		/* if font is black, set the auto color flag, otherwise, don't set */
+		flags = (style->font.color == RGBA_BLACK)? 0x23: 0x22;
 		GSF_LE_SET_GUINT16 (data+24, flags);
 		if (s->bp->version >= MS_BIFF_V8) {
 			GSF_LE_SET_GUINT16 (data+26, tick_color_index);
 			GSF_LE_SET_GUINT16 (data+28, 0);
 		}
 		ms_biff_put_commit (s->bp);
+		font = excel_font_from_go_font (s->ewb, style->font.font);
+		if (font > 0)
+		    ms_biff_put_2byte (s->bp, BIFF_CHART_fontx, font);
 	}
 
 	ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 0); /* a real axis */
@@ -4929,9 +4960,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	XLAxisSet *axis_set = NULL;
 	GogPlot *cur_plot;
 	GError *error;
-#if 0
 	GogLabel *label;
-#endif
 
 	state.bp  = ewb->bp;
 	state.ewb = ewb;
@@ -5364,18 +5393,15 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	state.cur_series = UINT_MAX;
 	chart_write_axis_sets (&state, sets);
 
-#if 0
 	/* write chart title if any */
-	label = GOG_LABEL (gog_object_get_children (GOG_OBJECT (state.chart),
-		gog_object_find_role_by_name (GOG_OBJECT (state.chart), "Title"))->data);
+	label = GOG_LABEL (gog_object_get_child_by_name (GOG_OBJECT (state.chart), "Title"));
 	if (label != NULL) {
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 		if (text != NULL) {
 			chart_write_text (&state, text,
-				gog_styled_object_get_style (GOG_STYLED_OBJECT (label)));
+				GOG_STYLED_OBJECT (label));
 		}
 	}
-#endif
 
 	for (i = 0; i < 3; i++) {
 		chart_write_siindex (&state, i + 1);

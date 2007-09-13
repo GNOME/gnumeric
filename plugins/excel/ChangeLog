@@ -1,3 +1,12 @@
+2007-09-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (end), (chart_write_text), (chart_write_axis),
+	(ms_excel_chart_write): export text with style and import chart
+	titles [#301720].
+	* ms-excel-write.c: (excel_font_from_go_font),
+	(extract_gog_object_style): export fonts used in charts.
+	* ms-excel-write.h: ditto.
+
 2007-09-08  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c (xlsx_vary_colors) : new.
