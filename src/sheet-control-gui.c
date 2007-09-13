@@ -3322,7 +3322,7 @@ scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y,
 		else if (!strcmp (mime, "application/x-gnumeric") ||
 			 !strcmp (mime, "application/vnd.ms-excel") ||
 			 !strcmp (mime, "application/vnd.sun.xml.calc") ||
-			 /* !strcmp (mime, "application/vnd.oasis.opendocument.spreadsheet") || */
+			 !strcmp (mime, "application/vnd.oasis.opendocument.spreadsheet") ||
 			 !strcmp (mime, "application/vnd.lotus-1-2-3") ||
 			 !strcmp (mime, "application/x-applix-spreadsheet") ||
 			 !strcmp (mime, "application/x-dbase") ||

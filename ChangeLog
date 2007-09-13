@@ -1,3 +1,8 @@
+2007-09-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-control-gui.c (scg_drag_receive_uri_list): Enable odf
+	spreadsheet format.
+
 2007-09-12  Morten Welinder  <terra@gnome.org>
 
 	* src/GNOME_Gnumeric-gtk.xml.in: Move things around abit.
