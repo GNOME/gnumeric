@@ -1686,14 +1686,11 @@ cb_do_print_cancel (PrinterSetupState *state)
 static void
 cb_do_print_ok (PrinterSetupState *state)
 {
-#if 0
-#warning
-	/* Detach BEFORE we finish editing
-	 *
-	 * ?? why do we need to do this 
+	/*
+	 * Detach BEFORE we finish editing.  Otherwise finishing will destroy
+	 * the dialog and all the state widget pointers become invalid.
 	 */
 	wbc_gtk_detach_guru (state->wbcg);
-#endif
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 	fetch_settings (state);
 	if (gtk_toggle_button_get_active (
