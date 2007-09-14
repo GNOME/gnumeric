@@ -70,6 +70,7 @@ typedef struct {
 	Sheet const 	   *sheet;
 	GnmConventions	   *convs;
 	GHashTable	   *expr_map;
+	GString		   *cell_str;   /* Scratch pad.  */
 
 	GsfXMLOut *output;
 } GnmOutputXML;
@@ -726,7 +727,9 @@ xml_write_cell_and_position (GnmOutputXML *state,
 	}
 
 	if (write_contents) {
-		GString *str = g_string_sized_new (1000);
+		GString *str = state->cell_str;
+
+		g_string_truncate (str, 0);
 
 		if (!texpr) {
 			if (val != NULL) {
@@ -750,7 +753,6 @@ xml_write_cell_and_position (GnmOutputXML *state,
 		}
 
 		gsf_xml_out_add_cstr (state->output, NULL, str->str);
-		g_string_free (str, TRUE);
 	}
 	gsf_xml_out_end_element (state->output); /* </gnm:Cell> */
 }
@@ -1217,6 +1219,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	state.output	= gsf_xml_out_new (output);
 	state.convs	= gnm_xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state.cell_str  = g_string_new (NULL);
 
 	locale = gnm_push_C_locale ();
 
@@ -1244,6 +1247,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	gnm_pop_C_locale (locale);
 
 	g_hash_table_destroy (state.expr_map);
+	g_string_free (state.cell_str, TRUE);
 	gnm_conventions_free (state.convs);
 	g_object_unref (G_OBJECT (state.output));
 
@@ -1291,12 +1295,13 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
 
-	state.state.wb_view	= NULL;
-	state.state.wb	= NULL;
-	state.state.sheet	= NULL;
-	state.state.output	= gsf_xml_out_new (buf);
-	state.state.convs	= gnm_xml_io_conventions ();
-	state.state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state.state.wb_view = NULL;
+	state.state.wb = NULL;
+	state.state.sheet = NULL;
+	state.state.output = gsf_xml_out_new (buf);
+	state.state.convs = gnm_xml_io_conventions ();
+	state.state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state.state.cell_str = g_string_new (NULL);
 
 	locale = gnm_push_C_locale ();
 
@@ -1346,6 +1351,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	gnm_pop_C_locale (locale);
 
 	g_hash_table_destroy (state.state.expr_map);
+	g_string_free (state.state.cell_str, TRUE);
 	gnm_conventions_free (state.state.convs);
 	g_object_unref (G_OBJECT (state.state.output));
 
