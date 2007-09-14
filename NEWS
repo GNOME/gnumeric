@@ -1,5 +1,9 @@
 Gnumeric 1.7.13
 
+Jean:
+	* Export font in charts to xls.
+	* Export and import chart titles to/from xls. [#301720]
+
 Jon Kåre:
 	* Fix python crash. [#461845]
 
