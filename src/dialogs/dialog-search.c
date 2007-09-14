@@ -534,7 +534,7 @@ dialog_search (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (dd->next_button),
 		"clicked",
 		G_CALLBACK (next_clicked), dd);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (gtk_widget_destroy), dd->dialog);
 	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
@@ -545,7 +545,7 @@ dialog_search (WBCGtk *wbcg)
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
 	g_object_set_data_full (G_OBJECT (dialog),
-		"state", dd, (GDestroyNotify) g_free);
+		"state", dd, (GDestroyNotify) free_state);
 	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
 					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
 
