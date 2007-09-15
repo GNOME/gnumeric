@@ -2319,7 +2319,11 @@ BC_R(end)(XLChartHandler const *handle,
 			else if (s->frame_for_grid) {
 				GogGrid *tmp = gog_chart_get_grid (s->chart);
 				obj = (tmp == NULL)
+#ifdef WITH_GOFFICE_0_4
 					? gog_object_add_by_name (GOG_OBJECT (s->chart), "Grid", NULL)
+#else
+					? gog_object_add_by_name (GOG_OBJECT (s->chart), "Backplane", NULL)
+#endif
 					: GOG_OBJECT (tmp);
 			}
 			if (obj != NULL)
@@ -2790,8 +2794,10 @@ not_a_matrix:
 			what should be done for DEFAULTEXT? */
 			break;
 		default:
-			g_object_unref (s->style);
-			s->style = NULL;
+			if (s->style != NULL) {
+				g_object_unref (s->style);
+				s->style = NULL;
+			}
 			break;
 		}
 
@@ -3856,7 +3862,8 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const
 	/* TEXT */
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_text, len);
 	memcpy (data, default_text, len);
-	/* chart_write_position (s, GOG_OBJECT (obj), data+8); */
+	if (obj)
+		chart_write_position (s, GOG_OBJECT (obj), data+8);
 	if (style != NULL)
 		color_index = chart_write_color (s, data+4, style->font.color);
 	if (s->bp->version >= MS_BIFF_V8) {
@@ -4961,6 +4968,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	GogPlot *cur_plot;
 	GError *error;
 	GogLabel *label;
+	double pos[4];
 
 	state.bp  = ewb->bp;
 	state.ewb = ewb;
@@ -4991,9 +4999,12 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	g_slist_free (charts);
 
 	/* TODO : create a null renderer class for use in sizing things */
+	sheet_object_position_pts_get (so, pos);
 	renderer  = g_object_new (GOG_RENDERER_TYPE,
 				  "model", state.graph,
+				  "is-vector", TRUE,
 				  NULL);
+	gog_renderer_update (renderer, pos[2] - pos[0], pos[3] - pos[1], 1.);
 	g_object_get (G_OBJECT (renderer), "view", &state.root_view, NULL);
 
 

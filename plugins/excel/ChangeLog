@@ -1,3 +1,9 @@
+2007-09-15  Jean Brefort  <jean.brefort@normalesup.orgr>
+
+	* ms-chart.c: (end): use "Backplane" instead of "Grid" when goffice is 0.5,
+	(chart_write_text), (ms_excel_chart_write): made some work on titles
+	position export. 
+
 2007-09-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (end), (chart_write_text), (chart_write_axis),
