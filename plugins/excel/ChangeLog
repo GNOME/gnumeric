@@ -1,4 +1,9 @@
-2007-09-15  Jean Brefort  <jean.brefort@normalesup.orgr>
+2007-09-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (chart_write_axis_sets): use "Backplane" instead of
+	"Grid" when goffice is 0.5,
+
+2007-09-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (end): use "Backplane" instead of "Grid" when goffice is 0.5,
 	(chart_write_text), (ms_excel_chart_write): made some work on titles

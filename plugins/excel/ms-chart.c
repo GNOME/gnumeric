@@ -4833,7 +4833,11 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		}
 
 		if (i == 0) {
+#ifdef WITH_GOFFICE_0_4
 			GogObject *grid = gog_object_get_child_by_name (s->chart, "Grid");
+#else
+			GogObject *grid = gog_object_get_child_by_name (s->chart, "Backplane");
+#endif
 			if (grid != NULL) {
 				ms_biff_put_empty (s->bp, BIFF_CHART_plotarea);
 				chart_write_frame (s, grid, TRUE, TRUE);
