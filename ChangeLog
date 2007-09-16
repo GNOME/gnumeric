@@ -1,3 +1,9 @@
+2007-09-16  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.h : Do not include gtk/gtk.h it is too general.
+	  Use gtkpagesetup.h instead.
+	* src/gnumeric-gconf.h : and this requires gtkprintsettings.h
+
 2007-09-16  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-filter.c (gnm_filter_combo_apply): Add precondition in

@@ -1,3 +1,69 @@
+2007-09-16  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (attr_rgb) : new.
+	(xlsx_chart_push_obj) : new.
+	(xlsx_chart_pop_obj) : new.
+	(simple_bool) : new.
+	(xlsx_vary_colors) : use it.
+	(simple_int) : new.
+	(xlsx_chart_pie_sep) : use it.
+	(xlsx_chart_bar_overlap) : ditto.
+	(xlsx_chart_bar_gap) : ditto.
+	(simple_float) : new.
+	(simple_enum) : new.
+	(xlsx_chart_bar_dir) : use it.
+	(xlsx_chart_add_plot) : new.
+	(xlsx_chart_pie) : use it.
+	(xlsx_chart_ring) : use it.
+	(xlsx_chart_bar) : use it.
+	(xlsx_chart_area) : use it.
+	(xlsx_chart_line) : use it.
+	(xlsx_chart_xy) : use it.
+	(xlsx_chart_bubble) : use it.
+	(xlsx_chart_radar) : use it.
+
+	(xlsx_axis_info_free) : new.
+	(xlsx_plot_axis_id) : new.
+	(xlsx_axis_id) : new.
+	(xlsx_axis_start) : new.
+	(xlsx_axis_delete) : new.
+	(xlsx_axis_orientation) : new.
+	(xlsx_axis_pos) : new.
+	(xlsx_axis_bound) : new.
+	(xlsx_axis_crosses) : new.
+	(xlsx_axis_end) : new.
+	(xlsx_chart_ser_f) : handle series names.
+
+	(xlsx_chart_pt_start) : new.
+	(xlsx_chart_pt_end) : new.
+	(xlsx_chart_pt_index) : new.
+	(xlsx_chart_pt_sep) : new.
+	(xlsx_chart_style_start) : new.
+	(xlsx_chart_style_end) : new.
+	(xlsx_style_line_start) : new.
+	(xlsx_style_line_end) : new.
+	(xlsx_chart_no_fill) : new.
+	(xlsx_chart_solid_fill) : new.
+	(xlsx_draw_color_themed) : new.
+	(xlsx_draw_color_rgb) : new.
+	(xlsx_draw_color_alpha) : new.
+	(xlsx_draw_color_end) : new.
+	(xlsx_chart_marker_start) : new.
+	(xlsx_chart_marker_end) : new.
+	(xlsx_chart_text) : new.
+	(xlsx_chart_text_content) : new.
+
+	(cb_axis_set_position) : new.
+	(xlsx_axis_cleanup) : new.
+	(xlsx_read_chart) : set up the extensions to handle styles, and
+	  connect up the axis after parsing.
+
+	* ms-chart.c (excel_font_from_go_font) : take a XLExportBase.
+	(chart_write_text) : fix call to excel_font_from_go_font.
+	(chart_write_axis) : ditto.
+
+	* xlsx-write.c (xlsx_write_series_dim) : silence a warning.
+
 2007-09-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (chart_write_axis_sets): use "Backplane" instead of
