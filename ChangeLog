@@ -1,3 +1,8 @@
+2007-09-16  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (gnm_filter_combo_apply): Add precondition in
+	hunt for #477417.  Actually use iter_flags.
+
 2007-09-14  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_cell_and_position): Re-use string

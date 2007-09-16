@@ -13,6 +13,7 @@ typedef struct {
 
 #define GNM_FILTER_COMBO_TYPE     (gnm_filter_combo_get_type ())
 #define GNM_FILTER_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_FILTER_COMBO_TYPE, GnmFilterCombo))
+#define IS_GNM_FILTER_COMBO(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_FILTER_COMBO_TYPE))
 
 GType gnm_filter_combo_get_type (void);
 void  gnm_filter_combo_apply    (GnmFilterCombo *fcombo, Sheet *target_sheet);

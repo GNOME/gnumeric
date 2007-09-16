@@ -372,21 +372,29 @@ cb_hide_unwanted_percentage (GnmCellIter const *iter,
 void
 gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 {
-	GnmFilter const *filter = fcombo->filter;
-	GnmFilterCondition const *cond = fcombo->cond;
-	int const col = sheet_object_get_range (SHEET_OBJECT (fcombo))->start.col;
-	int const start_row = filter->r.start.row + 1;
-	int const end_row = filter->r.end.row;
+	GnmFilter const *filter;
+	GnmFilterCondition const *cond;
+	int col, start_row, end_row;
 	CellIterFlags iter_flags = CELL_ITER_IGNORE_HIDDEN;
+
+	g_return_if_fail (IS_GNM_FILTER_COMBO (fcombo));
+
+	filter = fcombo->filter;
+	cond = fcombo->cond;
+	col = sheet_object_get_range (SHEET_OBJECT (fcombo))->start.col;
+	start_row = filter->r.start.row + 1;
+	end_row = filter->r.end.row;
 
 	if (start_row > end_row ||
 	    cond == NULL ||
 	    cond->op[0] == GNM_FILTER_UNUSED)
 		return;
 
-	/* For the combo we filter a temporary sheet using the data from filter->sheet
-	 * and need to include everything from the source, because it has a
-	 * different set of conditions */
+	/*
+	 * For the combo we filter a temporary sheet using the data from
+	 * filter->sheet and need to include everything from the source,
+	 * because it has a different set of conditions
+	 */
 	if (target_sheet != filter->sheet)
 		iter_flags = CELL_ITER_ALL;
 
@@ -399,7 +407,7 @@ gnm_filter_combo_apply (GnmFilterCombo *fcombo, Sheet *target_sheet)
 			filter_expr_init (&data, 1, cond, filter);
 
 		sheet_foreach_cell_in_range (filter->sheet,
-			(target_sheet == filter->sheet) ? CELL_ITER_IGNORE_HIDDEN : CELL_ITER_ALL,
+			iter_flags,
 			col, start_row, col, end_row,
 			(CellIterFunc) cb_filter_expr, &data);
 
