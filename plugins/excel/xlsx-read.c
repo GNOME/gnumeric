@@ -54,11 +54,15 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-marker.h>
+#include <goffice/data/go-data-simple.h>
 
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-data-set.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -89,6 +93,22 @@ typedef enum {
 	XLSX_PANE_BOTTOM_LEFT	= 2,
 	XLSX_PANE_BOTTOM_RIGHT	= 3
 } XLSXPanePos;
+
+typedef enum {
+	XLSX_AXIS_UNKNOWN,
+	XLSX_AXIS_CAT,
+	XLSX_AXIS_VAL
+} XLSXAxisType;
+typedef struct {
+	char	*id;
+	GogAxis	*axis;
+	GSList	*plots;
+	XLSXAxisType type;
+	GogObjectPosition compass;
+	GogAxisPosition	  cross;
+
+	gboolean deleted;	/* TODO how to use this */
+} XLSXAxisInfo;
 
 typedef struct {
 	GsfInfile	*zip;
@@ -154,6 +174,23 @@ typedef struct {
 	GogPlot		 *plot;
 	GogSeries	 *series;
 	int		  dim_type;
+	GogObject	 *series_pt;
+	gboolean	  series_pt_has_index;
+	GogStyle	 *cur_style;
+	GOColor		  gcolor;
+	GOMarker	 *marker;
+	GogObject	 *cur_obj;
+	GSList		 *obj_stack;
+	unsigned int	  sp_type;
+	char		 *chart_tx;
+
+	struct {
+		GogAxis *obj;
+		int	 type;
+		GHashTable *by_id;
+		GHashTable *by_obj;
+		XLSXAxisInfo *info;
+	} axis;
 } XLSXReadState;
 typedef struct {
 	GnmString	*str;
@@ -362,6 +399,32 @@ attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
 }
 
 static gboolean
+attr_rgb (GsfXMLIn *xin, xmlChar const **attrs,
+	  char const *target,
+	  unsigned long *res)
+{
+	char *end;
+	long tmp;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_val_if_fail (attrs[0] != NULL, FALSE);
+	g_return_val_if_fail (attrs[1] != NULL, FALSE);
+
+	if (strcmp (attrs[0], target))
+		return FALSE;
+
+	errno = 0;
+	tmp = strtoul (attrs[1], &end, 16);
+	if (errno == ERANGE || *end)
+		return xlsx_warning (xin,
+			_("Invalid RRGGBB color '%s' for attribute %s"),
+			attrs[1], target);
+
+	*res = tmp;
+	return TRUE;
+}
+
+static gboolean
 attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 	    char const *target,
 	    gnm_float *res)
@@ -425,6 +488,42 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 		xlsx_warning (xin, _("Invalid range '%s' for attribute %s"),
 			attrs[1], target);
 	return TRUE;
+}
+
+/***********************************************************************/
+
+static gboolean
+simple_bool (GsfXMLIn *xin, xmlChar const **attrs, int *res)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_bool (xin, attrs, "val", res))
+			return TRUE;
+	return FALSE;
+}
+static gboolean
+simple_int (GsfXMLIn *xin, xmlChar const **attrs, int *res)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int (xin, attrs, "val", res))
+			return TRUE;
+	return FALSE;
+}
+static gboolean
+simple_float (GsfXMLIn *xin, xmlChar const **attrs, gnm_float *res)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_float (xin, attrs, "val", res))
+			return TRUE;
+	return FALSE;
+}
+
+static gboolean
+simple_enum (GsfXMLIn *xin, xmlChar const **attrs, EnumVal const *enums, int *res)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_enum (xin, attrs, "val", enums, res))
+			return TRUE;
+	return FALSE;
 }
 
 /***********************************************************************
@@ -715,72 +814,92 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 /***********************************************************************/
 
 static void
+xlsx_chart_push_obj (XLSXReadState *state, GogObject *obj)
+{
+	state->obj_stack = g_slist_prepend (state->obj_stack, state->cur_obj);
+	state->cur_obj = obj;
+
+#if 0
+	g_print ("push %s\n", G_OBJECT_TYPE_NAME (obj));
+#endif
+}
+
+static void
+xlsx_chart_pop_obj (XLSXReadState *state)
+{
+	GSList *obj_stack = state->obj_stack;
+	g_return_if_fail (obj_stack != NULL);
+
+#if 0
+	g_print ("push %s\n", G_OBJECT_TYPE_NAME (state->cur_obj));
+#endif
+
+	state->cur_obj = obj_stack->data;
+	state->obj_stack = g_slist_remove (state->obj_stack, state->cur_obj);
+}
+
+static void
+xlsx_chart_add_plot (GsfXMLIn *xin, char const *type)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (NULL != (state->plot = (GogPlot*) gog_plot_new_by_name (type)))
+		/* Add _before_ setting styles so theme does not override */
+		gog_object_add_by_name (GOG_OBJECT (state->chart),
+			"Plot", GOG_OBJECT (state->plot));
+}
+
+static void
 xlsx_vary_colors (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	int tmp;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_bool (xin, attrs, "val", &tmp))
-			g_object_set (G_OBJECT (state->plot),
-				"vary-style-by-element", tmp,
-				NULL);
+	int vary;
+	if (simple_bool (xin, attrs, &vary))
+		g_object_set (G_OBJECT (state->plot),
+			"vary-style-by-element", vary, NULL);
 }
 
 static void
 xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	int tmp;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "val", &tmp))
-			g_object_set (G_OBJECT (state->plot),
-				"default-separation", (double)(CLAMP (tmp, 0, 500))/ 100.,
-				NULL);
+	int sep;
+	if (simple_int (xin, attrs, &sep))
+		g_object_set (G_OBJECT (state->plot),
+			"default-separation", (double)(CLAMP (sep, 0, 500))/ 100., NULL);
 }
 
 /* shared with pie of pie, and bar of pie */
-static void
-xlsx_chart_pie (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogPiePlot");
-}
-static void
-xlsx_chart_ring (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogRingPlot");
-}
+static void xlsx_chart_pie (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogPiePlot"); }
+static void xlsx_chart_ring (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogRingPlot"); }
 
 /***********************************************************************/
 
 static void
 xlsx_chart_bar_dir (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	static EnumVal const dirs[] = {
+		{ "bar",	 TRUE },
+		{ "col",	 FALSE },
+		{ NULL, 0 }
+	};
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	int dir;
+
 	g_return_if_fail (state->plot != NULL);
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val"))
-			g_object_set (G_OBJECT (state->plot),
-				"horizontal", 0 == strcmp (attrs[1], "bar"),
-				NULL);
+
+	if (simple_enum (xin, attrs, dirs, &dir))
+		g_object_set (G_OBJECT (state->plot), "horizontal", dir, NULL);
 }
 
 static void
 xlsx_chart_bar_overlap (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	int tmp;
-
+	int overlap;
 	g_return_if_fail (state->plot != NULL);
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "val", &tmp))
-			g_object_set (G_OBJECT (state->plot),
-				"overlap-percentage", CLAMP (tmp, -100, 100),
-				NULL);
+	if (simple_int (xin, attrs, &overlap))
+		g_object_set (G_OBJECT (state->plot),
+			"overlap-percentage", CLAMP (overlap, -100, 100), NULL);
 }
 static void
 xlsx_chart_bar_group (GsfXMLIn *xin, xmlChar const **attrs)
@@ -803,56 +922,213 @@ static void
 xlsx_chart_bar_gap (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	int tmp;
-
-	g_return_if_fail (state->plot != NULL);
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_int (xin, attrs, "val", &tmp))
-			g_object_set (G_OBJECT (state->plot),
-				"gap-percentage", CLAMP (tmp, 0, 500),
-				NULL);
+	int gap;
+	if (simple_int (xin, attrs, &gap))
+		g_object_set (G_OBJECT (state->plot),
+			"gap-percentage", CLAMP (gap, 0, 500), NULL);
 }
 
 static void
 xlsx_chart_bar (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogBarColPlot");
+	xlsx_chart_add_plot (xin, "GogBarColPlot");
 }
 
 /***********************************************************************/
 
 static void
-xlsx_chart_area (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_axis_info_free (XLSXAxisInfo *info)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogAreaPlot");
+	g_free (info->id);
+	if (NULL != info->axis)
+		g_object_unref (info->axis);
+	g_free (info);
 }
-static void
-xlsx_chart_line (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogLinePlot");
-}
-static void
-xlsx_chart_xy (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogXYPlot");
-}
-static void
-xlsx_chart_bubble (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogBubblePlot");
-}
-static void
-xlsx_chart_radar (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 
-	state->plot = (GogPlot*) gog_plot_new_by_name ("GogRadarPlot");
+static void
+xlsx_plot_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (NULL == state->plot)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val")) {
+			XLSXAxisInfo *res = g_hash_table_lookup (state->axis.by_id, attrs[1]);
+			if (NULL == res) {
+				res = g_new0 (XLSXAxisInfo, 1);
+				res->id = g_strdup (attrs[1]);
+				res->axis	= NULL;
+				res->plots	= NULL;
+				res->type	= XLSX_AXIS_UNKNOWN;
+				res->compass	= GOG_POSITION_AUTO;
+				res->cross	= GOG_AXIS_CROSS;
+				g_hash_table_replace (state->axis.by_id, res->id, res);
+#ifdef DEBUG_AXIS
+				g_print ("create %s = %p\n", attrs[1], res);
+#endif
+			}
+#ifdef DEBUG_AXIS
+			g_print ("add plot %p to %p\n", state->plot, res);
+#endif
+			res->plots = g_slist_prepend (res->plots, state->plot);
+		}
+}
+
+static void
+xlsx_axis_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->axis.obj	 = g_object_new (GOG_AXIS_TYPE, NULL);
+	state->axis.type = xin->node->user_data.v_int;
+	state->axis.info = NULL;
+	xlsx_chart_push_obj (state, GOG_OBJECT (state->axis.obj));
+}
+static void
+xlsx_axis_id (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val")) {
+			state->axis.info = g_hash_table_lookup (state->axis.by_id, attrs[1]);
+			if (NULL != state->axis.info) {
+				g_return_if_fail (state->axis.info->axis == NULL);
+				state->axis.info->axis = state->axis.obj;
+				g_hash_table_replace (state->axis.by_obj,
+					state->axis.obj, state->axis.info);
+			}
+#ifdef DEBUG_AXIS
+			g_print ("define %s = %p\n", attrs[1], state->axis.info);
+#endif
+		}
+}
+
+static void
+xlsx_axis_delete (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int del;
+	if (state->axis.info && simple_bool (xin, attrs, &del))
+		state->axis.info->deleted = del;
+}
+static void
+xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const orients[] = {
+		{ "minMax",	 FALSE },
+		{ "maxMin",	 TRUE },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int orient;
+	if (state->axis.info && simple_enum (xin, attrs, orients, &orient))
+		g_object_set (G_OBJECT (state->axis.obj),
+			"invert-axis", orient, NULL);
+}
+static void
+xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const positions[] = {
+		{ "t",	 GOG_POSITION_N },
+		{ "b",	 GOG_POSITION_S },
+		{ "l",	 GOG_POSITION_W },
+		{ "r",	 GOG_POSITION_E },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int position;
+#ifdef DEBUG_AXIS
+	g_print ("SET POS %s for %p\n", attrs[1],  state->axis.info);
+#endif
+	if (state->axis.info && simple_enum (xin, attrs, positions, &position))
+		state->axis.info->compass = position;
+}
+
+static void
+xlsx_axis_bound (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	double val;
+	if (state->axis.info && simple_float (xin, attrs, &val))
+		gog_dataset_set_dim (GOG_DATASET (state->axis.obj),
+			xin->node->user_data.v_int,
+			go_data_scalar_val_new (val), NULL);
+}
+
+static void
+xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const crosses[] = {
+		{ "autoZero",	GOG_AXIS_CROSS },
+		{ "max",	GOG_AXIS_AT_HIGH },
+		{ "min",	GOG_AXIS_AT_LOW },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int cross;
+
+	if (state->axis.info && simple_enum (xin, attrs, crosses, &cross))
+		state->axis.info->cross = cross;
+}
+
+static void
+xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	/* Try to guess what type of axis to use */
+	if (NULL != state->axis.info) {
+		GogPlot *plot = state->axis.info->plots->data; /* just use the first */
+		char const *type = G_OBJECT_TYPE_NAME (plot);
+		char const *role = NULL;
+		GSList *ptr;
+
+		if (0 == strcmp (type, "GogRadarPlot") ||
+		    0 == strcmp (type, "GogRadarAreaPlot")) {
+			role = (state->axis.type == XLSX_AXIS_CAT) ? "Radial-Axis" : "Circular-Axis";
+		} else if (0 == strcmp (type, "GogBubblePlot") ||
+			   0 == strcmp (type, "GogXYPlot")) {
+			/* both are VAL, use the position to decide */
+			if (state->axis.info->compass  == GOG_POSITION_N ||
+			    state->axis.info->compass  == GOG_POSITION_S)
+				role = "X-Axis";
+			else
+				role = "Y-Axis";
+		} else if (0 == strcmp (type, "GogBarColPlot")) {
+			gboolean h;
+			/* swap for bar plots */
+			g_object_get (G_OBJECT (plot), "horizontal", &h, NULL);
+			if (h)
+				role = (state->axis.type == XLSX_AXIS_CAT) ? "Y-Axis" : "X-Axis";
+		}
+
+		if (NULL == role)
+			role = (state->axis.type == XLSX_AXIS_CAT) ? "X-Axis" : "Y-Axis";
+
+		/* absorb a ref, and set the id, and atype */
+		gog_object_add_by_name (GOG_OBJECT (state->chart),
+			role, GOG_OBJECT (state->axis.obj));
+		g_object_ref (G_OBJECT (state->axis.obj));
+		for (ptr = state->axis.info->plots; ptr != NULL ; ptr = ptr->next) {
+#ifdef DEBUG_AXIS
+			g_print ("connect plot %p to %p in role %s\n", ptr->data, state->axis.obj, role);
+#endif
+			gog_plot_set_axis (ptr->data, state->axis.obj);
+		}
+
+		state->axis.obj  = NULL;
+		state->axis.info = NULL;
+	}
+
+	xlsx_chart_pop_obj (state);
+	state->axis.info = NULL;
+}
+
+static void xlsx_chart_area (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogAreaPlot"); }
+static void xlsx_chart_line (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogLinePlot"); }
+static void xlsx_chart_xy (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogXYPlot"); }
+static void xlsx_chart_bubble (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogBubblePlot"); }
+static void xlsx_chart_radar (GsfXMLIn *xin, xmlChar const **attrs) { xlsx_chart_add_plot (xin, "GogRadarPlot"); }
 #if 0
 	char const *type = "GogRadarPlot";
 	gboolean with_markers = FALSE;
@@ -869,27 +1145,31 @@ xlsx_chart_radar (GsfXMLIn *xin, xmlChar const **attrs)
 			state->drawing_pos_flags |= (1 << (COL | TO | OFFSET));
 	g_object_set (G_OBJECT (state->plot), "default-style-has-markers", with_markers, NULL);
 #endif
-}
 
 static void
 xlsx_plot_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	/* Add _before_ setting styles so theme does not override */
-	if (NULL != state->plot) {
-		gog_object_add_by_name (GOG_OBJECT (state->chart),
-			"Plot", GOG_OBJECT (state->plot));
-		state->plot = NULL;
-	}
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->plot = NULL;
 }
 
 static void
-xlsx_chart_ser (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_chart_ser_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-
-	if (NULL != state->plot)
+	if (NULL != state->plot) {
 		state->series = gog_plot_new_series (state->plot);
+		xlsx_chart_push_obj (state, GOG_OBJECT (state->series));
+	}
+}
+static void
+xlsx_chart_ser_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->series) {
+		xlsx_chart_pop_obj (state);
+		state->series = NULL;
+	}
 }
 
 #warning shared from ms-chart.c for now, move to GOffice with the enum
@@ -898,28 +1178,30 @@ static void
 xlsx_chart_ser_f (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->series && state->dim_type >= 0) {
+	if (NULL != state->series) {
 		GnmParsePos pp;
 		GnmExprTop const *texpr = xlsx_parse_expr (xin, xin->content->str,
 			parse_pos_init_sheet (&pp, state->sheet));
 
 		XL_gog_series_set_dim (state->series, state->dim_type,
-			gnm_go_data_vector_new_expr (state->sheet, texpr));
+			(state->dim_type != GOG_MS_DIM_LABELS)
+			? gnm_go_data_vector_new_expr (state->sheet, texpr)
+			: gnm_go_data_scalar_new_expr (state->sheet, texpr));
 	}
 }
 
 static void
 xlsx_ser_type_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->dim_type = xin->node->user_data.v_int;
 }
 
 static void
 xlsx_ser_type_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->dim_type = -1;
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->dim_type = GOG_MS_DIM_LABELS;
 }
 
 static void
@@ -929,19 +1211,258 @@ xlsx_chart_legend (GsfXMLIn *xin, xmlChar const **attrs)
 	gog_object_add_by_name (GOG_OBJECT (state->chart), "Legend", NULL);
 }
 
+static void
+xlsx_chart_pt_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->series) {
+		state->series_pt_has_index = FALSE;
+		state->series_pt = gog_object_add_by_name (
+			GOG_OBJECT (state->series), "Point", NULL);
+		xlsx_chart_push_obj (state, state->series_pt);
+	}
+}
+
+static void
+xlsx_chart_pt_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->series) {
+		xlsx_chart_pop_obj (state);
+		if (!state->series_pt_has_index) {
+			gog_object_clear_parent (state->series_pt);
+			g_object_unref (state->series_pt);
+		}
+		state->series_pt = NULL;
+	}
+}
+
+static void
+xlsx_chart_pt_index (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_int (xin, attrs, "val", &tmp)) {
+			state->series_pt_has_index = TRUE;
+			g_object_set (state->series_pt, "index", tmp, NULL);
+		}
+}
+
+static void
+xlsx_chart_pt_sep (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int sep;
+	if (simple_int (xin, attrs, &sep) &&
+	    g_object_class_find_property (G_OBJECT_GET_CLASS (state->series_pt), "separation"))
+		g_object_set (state->series_pt, "separation", (double)sep / 100., NULL);
+}
+
+static void
+xlsx_chart_style_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->cur_obj &&
+	    IS_GOG_STYLED_OBJECT (state->cur_obj) &&
+	    NULL == state->marker) {
+		g_return_if_fail (state->cur_style == NULL);
+		state->cur_style = gog_style_dup (
+			gog_styled_object_get_style (GOG_STYLED_OBJECT (state->cur_obj)));
+	}
+}
+static void
+xlsx_chart_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+
+	if (NULL != state->cur_style) {
+		gog_styled_object_set_style (GOG_STYLED_OBJECT (state->cur_obj),
+			state->cur_style);
+		g_object_unref (state->cur_style);
+		state->cur_style = NULL;
+	}
+}
+static void
+xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	state->sp_type |= GOG_STYLE_LINE;
+}
+
+static void
+xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	state->sp_type &= ~GOG_STYLE_LINE;
+}
+
+static void
+xlsx_chart_no_fill (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->marker)
+		;
+	else if (NULL != state->cur_style) {
+		if (!(state->sp_type & GOG_STYLE_LINE)) {
+			state->cur_style->fill.type = GOG_FILL_STYLE_NONE;
+			state->cur_style->fill.auto_type = FALSE;
+		}
+	}
+}
+static void
+xlsx_chart_solid_fill (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->marker)
+		;
+	else if (NULL != state->cur_style) {
+		if (!(state->sp_type & GOG_STYLE_LINE)) {
+			state->cur_style->fill.type = GOG_FILL_STYLE_PATTERN;
+			state->cur_style->fill.auto_type = FALSE;
+		}
+	}
+}
+
+static void
+xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const colors[] = {
+		{ "bg1",	 0 }, /* Background Color 1 */
+		{ "tx1",	 1 }, /* Text Color 1 */
+		{ "bg2",	 2 }, /* Background Color 2 */
+		{ "tx2",	 3 }, /* Text Color 2 */
+		{ "accent1",	 4 }, /* Accent Color 1 */
+		{ "accent2",	 5 }, /* Accent Color 2 */
+		{ "accent3",	 6 }, /* Accent Color 3 */
+		{ "accent4",	 7 }, /* Accent Color 4 */
+		{ "accent5",	 8 }, /* Accent Color 5 */
+		{ "accent6",	 9 }, /* Accent Color 6 */
+		{ "hlink",	10 }, /* Hyperlink Color */
+		{ "folHlink",	11 }, /* Followed Hyperlink Color */
+		{ "phClr",	12 }, /* Style Color */
+		{ "dk1",	13 }, /* Dark Color 1 */
+		{ "lt1",	14 }, /* Light Color 1 */
+		{ "dk2",	15 }, /* Dark Color 2 */
+		{ "lt2",	16 }, /* Light Color 2 */
+		{ NULL, 0 }
+	};
+
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int tmp;
+	if (simple_enum (xin, attrs, colors, &tmp))
+#warning FINISH
+		state->gcolor = RGBA_BLACK;
+}
+
+static void
+xlsx_draw_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	unsigned long  rgb = 0;
+
+	if (NULL == state->cur_style)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_rgb (xin, attrs, "val", &rgb)) {
+			guint8 const r = (rgb >> 16) & 0xff;
+			guint8 const g = (rgb >>  8) & 0xff;
+			guint8 const b = (rgb >>  0) & 0xff;
+			state->gcolor = RGBA_TO_UINT(r, g, b, 0xff);
+		}
+}
+
+static void
+xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	int val;
+	if (simple_int (xin, attrs, &val)) {
+		int level = 255 * val / 100000;
+		state->gcolor = UINT_RGBA_CHANGE_A (state->gcolor, level);
+	}
+}
+
+static void
+xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->marker)
+		go_marker_set_fill_color (state->marker, state->gcolor);
+	else if (NULL != state->cur_style) {
+		if (state->sp_type & GOG_STYLE_LINE) {
+			state->cur_style->line.color = state->gcolor;
+			state->cur_style->line.auto_color = FALSE;
+		} else {
+			state->cur_style->fill.pattern.back = state->gcolor;
+			state->cur_style->fill.pattern.fore = state->gcolor;
+			state->cur_style->fill.auto_fore = FALSE;
+			state->cur_style->fill.auto_back = FALSE;
+		}
+	}
+}
+
+static void
+xlsx_chart_marker_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	state->marker = go_marker_new ();
+}
+
+static void
+xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->cur_obj && IS_GOG_STYLED_OBJECT (state->cur_obj)) {
+		gog_style_set_marker (
+			gog_styled_object_get_style (GOG_STYLED_OBJECT (state->cur_obj)),
+			state->marker);
+		state->marker = NULL;
+	}
+}
+
+static void
+xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
+	if (NULL == state->series) {
+		GogObject *label = gog_object_add_by_name (state->cur_obj,
+			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
+		if (NULL != label) {
+			gog_dataset_set_dim (GOG_DATASET (label), 0,
+				go_data_scalar_str_new (state->chart_tx, TRUE), NULL);
+			state->chart_tx = NULL;
+		}
+	}
+	g_free (state->chart_tx);
+	state->chart_tx = NULL;
+}
+static void
+xlsx_chart_text_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	g_return_if_fail (state->chart_tx == NULL);
+	state->chart_tx = g_strdup (xin->content->str);
+}
+
 static GsfXMLInNode const xlsx_chart_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (CHART_SPACE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (FILL_SOLID, SHAPE_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHAPE_RGB, RGB_GAMMA, XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHAPE_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHAPE_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHAPE_RGB, RGB_SHADE, XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHAPE_RGB, RGB_TINT, XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SHAPE_RGB, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (CHART_SPACE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, &xlsx_chart_style_start, &xlsx_chart_style_end),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, NULL),
+      GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, &xlsx_draw_color_end),
+        GSF_XML_IN_NODE (COLOR_THEMED, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, &xlsx_draw_color_end),
+        GSF_XML_IN_NODE (COLOR_RGB, RGB_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, &xlsx_draw_color_alpha, NULL),
+        GSF_XML_IN_NODE (COLOR_RGB, RGB_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_RGB, RGB_SHADE,	   XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_RGB, RGB_TINT,	   XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_RGB, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),
 
     GSF_XML_IN_NODE (SHAPE_PR, FILL_BLIP,	XL_NS_DRAW, "blipFill", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_BLIP,	XL_NS_DRAW, "blip", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -951,16 +1472,16 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
     GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
        GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, NULL, NULL),
-         GSF_XML_IN_NODE (GRAD_LIST_ITEM, SHAPE_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+         GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, NULL, NULL),
 
-    GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, NULL),
       GSF_XML_IN_NODE (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (FILL_PATT_BG, SHAPE_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (FILL_PATT_BG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE (FILL_PATT, FILL_PATT_FG,	XL_NS_DRAW, "fgClr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (FILL_PATT_FG, SHAPE_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (FILL_PATT_FG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
-    GSF_XML_IN_NODE (SHAPE_PR, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, &xlsx_style_line_start, &xlsx_style_line_end),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
@@ -984,33 +1505,41 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
   GSF_XML_IN_NODE (CHART_SPACE, CHART, XL_NS_CHART, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CHART, PLOTAREA, XL_NS_CHART, "plotArea", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (PLOTAREA, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (PLOTAREA, CAT_AXIS, XL_NS_CHART, "catAx", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+      GSF_XML_IN_NODE_FULL (PLOTAREA, CAT_AXIS, XL_NS_CHART, "catAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
+			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_CAT),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, &xlsx_axis_id, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, &xlsx_axis_delete, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_NUMFMT, XL_NS_CHART, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_MINORTICKMARK, XL_NS_CHART, "minorTickMark", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MAJORTICK_UNIT, XL_NS_CHART, "majorUnit", GSF_XML_NO_CONTENT, FALSE, TRUE,
+			      &xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MAJOR_TICK),
+        GSF_XML_IN_NODE_FULL (CAT_AXIS, AXIS_MINORTICK_UNIT, XL_NS_CHART, "minorUnit", GSF_XML_NO_CONTENT, FALSE, TRUE,
+			      &xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MINOR_TICK),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_TICK_LBL_SKIP, XL_NS_CHART, "tickLblSkip", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_TICK_MARK_SKIP, XL_NS_CHART, "tickMarkSkip", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-        GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_SCALING, XL_NS_CHART, "scaling", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (AXIS_SCALING, AX_MIN, XL_NS_CHART, "min", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (AXIS_SCALING, AX_MAX, XL_NS_CHART, "max", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE_FULL (AXIS_SCALING, AX_MIN, XL_NS_CHART, "min", GSF_XML_NO_CONTENT, FALSE, TRUE,
+				&xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MIN),
+          GSF_XML_IN_NODE_FULL (AXIS_SCALING, AX_MAX, XL_NS_CHART, "max", GSF_XML_NO_CONTENT, FALSE, TRUE,
+				&xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MAX),
           GSF_XML_IN_NODE (AXIS_SCALING, AX_LOG, XL_NS_CHART, "logBase", GSF_XML_NO_CONTENT, NULL, NULL),
-          GSF_XML_IN_NODE (AXIS_SCALING, AX_ORIENTATION, XL_NS_CHART, "orientation", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (AXIS_SCALING, AX_ORIENTATION, XL_NS_CHART, "orientation", GSF_XML_NO_CONTENT, &xlsx_axis_orientation, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, MAJOR_GRID, XL_NS_CHART, "majorGridlines", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (MAJOR_GRID, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-        GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_AXPOS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, &xlsx_axis_pos, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_AUTO, XL_NS_CHART, "auto", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, &xlsx_axis_crosses, NULL),
+
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLALGN, XL_NS_CHART, "lblAlgn", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLOFFSET, XL_NS_CHART, "lblOffset", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-
-      GSF_XML_IN_NODE (PLOTAREA, VAL_AXIS, XL_NS_CHART, "valAx", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (VAL_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),		/* ID is used */
           GSF_XML_IN_NODE (TITLE, LAYOUT, XL_NS_CHART, "layout", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (LAYOUT, LAST_LAYOUT,	    XL_NS_CHART, "lastLayout", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (LAST_LAYOUT, LAYOUT_X, XL_NS_CHART, "x", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1031,17 +1560,16 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_Y, XL_NS_CHART, "y", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (MAN_LAYOUT, MAN_LAYOUT_YMODE, XL_NS_CHART, "yMode", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (TITLE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-          GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (TITLE, TEXT, XL_NS_CHART, "tx", GSF_XML_NO_CONTENT, NULL, &xlsx_chart_text),
             GSF_XML_IN_NODE (TEXT, TX_RICH, XL_NS_CHART, "rich", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY, XL_NS_CHART, "bodyP", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_STYLES, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (TX_RICH, TX_RICH_P, XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),
                 GSF_XML_IN_NODE (TX_RICH_P, PR_P_PR, XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-
                 GSF_XML_IN_NODE (TX_RICH_P, TX_RICH_R, XL_NS_DRAW, "r", GSF_XML_NO_CONTENT, NULL, NULL),
                   GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
-                  GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_NO_CONTENT, NULL, NULL),
+                  GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_CONTENT, NULL, &xlsx_chart_text_content),
             GSF_XML_IN_NODE (TEXT, STR_REF, XL_NS_CHART, "strRef", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (STR_REF, FUNC,	XL_NS_CHART,	"f",	GSF_XML_CONTENT, NULL, &xlsx_chart_ser_f),
               GSF_XML_IN_NODE (STR_REF, STR_CACHE, XL_NS_CHART,	"strCache", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1050,15 +1578,22 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
                   GSF_XML_IN_NODE (STR_PT, STR_VAL, XL_NS_CHART,"v", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (TITLE, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
-        GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE_FULL (PLOTAREA, VAL_AXIS, XL_NS_CHART, "valAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
+			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_VAL),
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_AXID, XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_DELETE, XL_NS_CHART, "delete", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (VAL_AXIS, TITLE, XL_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_SCALING, XL_NS_CHART, "scaling", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
-        GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_AXPOS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, MAJOR_GRID, XL_NS_CHART, "majorGridlines", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_NUMFMT, XL_NS_CHART, "numFmt", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, AXIS_MAJORTICKMARK, XL_NS_CHART, "majorTickMark", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_MINORTICKMARK, XL_NS_CHART, "minorTickMark", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_MAJORTICK_UNIT, XL_NS_CHART, "majorUnit", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_MINORTICK_UNIT, XL_NS_CHART, "minorUnit", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (VAL_AXIS, AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, VAL_AXIS_CROSSBETWEEN, XL_NS_CHART, "crossBetween", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (VAL_AXIS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (VAL_AXIS, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
@@ -1084,15 +1619,20 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
       GSF_XML_IN_NODE (PLOTAREA, SCATTER, XL_NS_CHART,	"scatterChart", GSF_XML_NO_CONTENT, xlsx_chart_xy, &xlsx_plot_end),
         GSF_XML_IN_NODE (SCATTER, SCATTER_STYLE, XL_NS_CHART,	"scatterStyle", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (SCATTER, AXIS_ID, XL_NS_CHART,		"axId", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SCATTER, PLOT_AXIS_ID, XL_NS_CHART,		"axId", GSF_XML_NO_CONTENT, &xlsx_plot_axis_id, NULL),
 
-        GSF_XML_IN_NODE (SCATTER, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, &xlsx_chart_ser, NULL),		/* shared */
+        GSF_XML_IN_NODE (SCATTER, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, &xlsx_chart_ser_start, &xlsx_chart_ser_end),
           GSF_XML_IN_NODE (SERIES, SERIES_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
           GSF_XML_IN_NODE (SERIES, SERIES_ORDER, XL_NS_CHART,	"order", GSF_XML_NO_CONTENT, NULL, NULL),
 
           GSF_XML_IN_NODE_FULL (SERIES, SERIES_CAT, XL_NS_CHART,"cat", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_CATEGORIES),
             GSF_XML_IN_NODE (SERIES_CAT, STR_REF, XL_NS_CHART,	"strRef", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+            GSF_XML_IN_NODE (SERIES_CAT, NUM_LIT, XL_NS_CHART,  "numLit", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (NUM_LIT, NUM_LIT_FMT, XL_NS_CHART,   "formatCode", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (NUM_LIT, NUM_LIT_COUNT, XL_NS_CHART, "ptCount", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (NUM_LIT, NUM_LIT_PT, XL_NS_CHART,     "pt", GSF_XML_NO_CONTENT, NULL, NULL),
+                GSF_XML_IN_NODE (NUM_LIT_PT, NUM_LIT_PT_VAL, XL_NS_CHART,     "v", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (SERIES_CAT, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (NUM_REF, FUNC, XL_NS_CHART,	"f", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
               GSF_XML_IN_NODE (NUM_REF, NUM_CACHE, XL_NS_CHART,	"numCache", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1108,14 +1648,17 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
           GSF_XML_IN_NODE_FULL (SERIES, SERIES_X_VAL, XL_NS_CHART,	"xVal", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_VALUES),
             GSF_XML_IN_NODE (SERIES_X_VAL, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+            GSF_XML_IN_NODE (SERIES_X_VAL, NUM_LIT, XL_NS_CHART,	"numLit", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
           GSF_XML_IN_NODE_FULL (SERIES, SERIES_Y_VAL, XL_NS_CHART,	"yVal", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_VALUES),
             GSF_XML_IN_NODE (SERIES_Y_VAL, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+            GSF_XML_IN_NODE (SERIES_Y_VAL, NUM_LIT, XL_NS_CHART,	"numLit", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
           GSF_XML_IN_NODE_FULL (SERIES, SERIES_BUBBLES, XL_NS_CHART,	"bubbleSize", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_BUBBLES),
             GSF_XML_IN_NODE (SERIES_BUBBLES, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+            GSF_XML_IN_NODE (SERIES_BUBBLES, NUM_LIT, XL_NS_CHART,	"numLit", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
           GSF_XML_IN_NODE (SERIES, TEXT, XL_NS_CHART,	"tx", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
 
@@ -1133,11 +1676,11 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_LEADERS, XL_NS_CHART, "showLeaderLines", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SERIES_D_LBLS, SHOW_PERCENT, XL_NS_CHART, "showPercent", GSF_XML_NO_CONTENT, NULL, NULL),
 
-          GSF_XML_IN_NODE (SERIES, SERIES_PT, XL_NS_CHART,	"dPt", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (SERIES_PT, PT_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SERIES, SERIES_PT, XL_NS_CHART,	"dPt", GSF_XML_NO_CONTENT, &xlsx_chart_pt_start, &xlsx_chart_pt_end),
+            GSF_XML_IN_NODE (SERIES_PT, PT_IDX, XL_NS_CHART,	"idx", GSF_XML_NO_CONTENT, &xlsx_chart_pt_index, NULL),
             GSF_XML_IN_NODE (SERIES_PT, SHAPE_PR, XL_NS_CHART,	"spPr", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (SERIES_PT, PT_SEP, XL_NS_CHART,	"explosion", GSF_XML_NO_CONTENT, NULL, NULL),
-            GSF_XML_IN_NODE (SERIES_PT, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (SERIES_PT, PT_SEP, XL_NS_CHART,	"explosion", GSF_XML_NO_CONTENT, &xlsx_chart_pt_sep, NULL),
+            GSF_XML_IN_NODE (SERIES_PT, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, &xlsx_chart_marker_start, &xlsx_chart_marker_end),
               GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
               GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1148,12 +1691,14 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 	    GSF_XML_IN_NODE (SERIES_ERR_BARS, SERIES_ERR_BARS_ERRVALTYPE, XL_NS_CHART, "errValType", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SERIES_ERR_BARS, SERIES_ERR_BARS_MINUS, XL_NS_CHART, "minus", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SERIES_ERR_BARS_MINUS, NUM_REF, XL_NS_CHART, "numRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+              GSF_XML_IN_NODE (SERIES_ERR_BARS_MINUS, NUM_LIT, XL_NS_CHART, "numLit", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 	    GSF_XML_IN_NODE (SERIES_ERR_BARS, SERIES_ERR_BARS_PLUS, XL_NS_CHART, "plus", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (SERIES_ERR_BARS_PLUS, NUM_REF, XL_NS_CHART, "numRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+              GSF_XML_IN_NODE (SERIES_ERR_BARS_PLUS, NUM_LIT, XL_NS_CHART, "numLit", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 	    GSF_XML_IN_NODE (SERIES_ERR_BARS, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
       GSF_XML_IN_NODE (PLOTAREA, BUBBLE, XL_NS_CHART,	"bubbleChart", GSF_XML_NO_CONTENT, &xlsx_chart_bubble, &xlsx_plot_end),
-        GSF_XML_IN_NODE (BUBBLE, AXIS_ID, XL_NS_CHART,		"axId", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+        GSF_XML_IN_NODE (BUBBLE, PLOT_AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (BUBBLE, SERIES, XL_NS_CHART,		"ser", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (BUBBLE, BUBBLE_SCALE, XL_NS_CHART,	"bubbleScale", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (BUBBLE, BUBBLE_NEGATIVES, XL_NS_CHART,	"showNegBubbles", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1161,7 +1706,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (BUBBLE, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, &xlsx_vary_colors, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, BARCOL, XL_NS_CHART,	"barChart", GSF_XML_NO_CONTENT, &xlsx_chart_bar, &xlsx_plot_end),
-        GSF_XML_IN_NODE (BARCOL, AXIS_ID,	XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (BARCOL, PLOT_AXIS_ID,	XL_NS_CHART, "axId", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (BARCOL, SERIES,	XL_NS_CHART, "ser", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
         GSF_XML_IN_NODE (BARCOL, BARCOL_DIR,	XL_NS_CHART, "barDir", GSF_XML_NO_CONTENT, &xlsx_chart_bar_dir, NULL),
         GSF_XML_IN_NODE (BARCOL, BARCOL_OVERLAP, XL_NS_CHART,"overlap", GSF_XML_NO_CONTENT, &xlsx_chart_bar_overlap, NULL),
@@ -1169,26 +1714,26 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (BARCOL, GAP_WIDTH,	XL_NS_CHART, "gapWidth", GSF_XML_NO_CONTENT, &xlsx_chart_bar_gap, NULL),
 
       GSF_XML_IN_NODE (PLOTAREA, LINE, XL_NS_CHART,	"lineChart", GSF_XML_NO_CONTENT, &xlsx_chart_line, &xlsx_plot_end),
-        GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, PLOT_AXIS_ID, XL_NS_CHART,"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (LINE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
           GSF_XML_IN_NODE (SERIES, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
             GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (LINE, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (LINE, PLOT_AXIS_ID, XL_NS_CHART,"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (LINE, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (LINE, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
 
       GSF_XML_IN_NODE (PLOTAREA, AREA, XL_NS_CHART,	"areaChart", GSF_XML_NO_CONTENT, &xlsx_chart_area, &xlsx_plot_end),
-        GSF_XML_IN_NODE (AREA, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (AREA, PLOT_AXIS_ID, XL_NS_CHART,"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
         GSF_XML_IN_NODE (AREA, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
         GSF_XML_IN_NODE (AREA, GROUPING, XL_NS_CHART,	"grouping", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
 
       GSF_XML_IN_NODE (PLOTAREA, RADAR, XL_NS_CHART,	"radarChart", GSF_XML_NO_CONTENT, &xlsx_chart_radar, &xlsx_plot_end),
-        GSF_XML_IN_NODE (RADAR, AXIS_ID, XL_NS_CHART,	"axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
-        GSF_XML_IN_NODE (RADAR, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
-        GSF_XML_IN_NODE (RADAR, RADAR_STYLE, XL_NS_CHART,	"radarStyle", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (RADAR, VARY_COLORS, XL_NS_CHART,	"varyColors", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (RADAR, PLOT_AXIS_ID, XL_NS_CHART,  "axId", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (RADAR, SERIES, XL_NS_CHART,	  "ser", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
+        GSF_XML_IN_NODE (RADAR, RADAR_STYLE, XL_NS_CHART, "radarStyle", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (RADAR, VARY_COLORS, XL_NS_CHART, "varyColors", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
 
       GSF_XML_IN_NODE (PLOTAREA, PIE, XL_NS_CHART,	"pieChart", GSF_XML_NO_CONTENT, &xlsx_chart_pie, &xlsx_plot_end),
         GSF_XML_IN_NODE (PIE, SERIES, XL_NS_CHART,	"ser", GSF_XML_NO_CONTENT, NULL, NULL),					/* 2nd Def */
@@ -1242,19 +1787,73 @@ GSF_XML_IN_NODE_END
 /***********************************************************************/
 
 static void
+cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
+		      G_GNUC_UNUSED gpointer accum)
+{
+	g_object_set (axis, "pos", info->cross, NULL);
+}
+
+static void
+xlsx_axis_cleanup (XLSXReadState *state)
+{
+	GSList *list, *ptr;
+
+	/* clean out axis that were auto created */
+	list = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
+	for (ptr = list; ptr != NULL ; ptr = ptr->next)
+		if (IS_GOG_AXIS (ptr->data) &&
+		    NULL == g_hash_table_lookup (state->axis.by_obj, ptr->data)) {
+			gog_object_clear_parent	(GOG_OBJECT (ptr->data));
+			g_object_unref (G_OBJECT (ptr->data));
+		}
+	g_slist_free (list);
+
+	g_hash_table_foreach (state->axis.by_obj,
+		(GHFunc)cb_axis_set_position, NULL);
+	g_hash_table_destroy (state->axis.by_obj);
+	g_hash_table_destroy (state->axis.by_id);
+	state->axis.by_obj = state->axis.by_id = NULL;
+}
+
+static void
 xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-
 	xmlChar const *part_id = NULL;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 	if (NULL != part_id) {
+		/* leave it in 'state' for the frame to insert */
 		state->so = sheet_object_graph_new (NULL);
-		state->graph = sheet_object_graph_get_gog (state->so);
-		state->chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state->graph), "Chart", NULL));
+
+		state->graph	 = sheet_object_graph_get_gog (state->so);
+		state->cur_obj   = gog_object_add_by_name (GOG_OBJECT (state->graph), "Chart", NULL);
+		state->chart	 = GOG_CHART (state->cur_obj);
+		state->cur_style = NULL;
+		state->obj_stack = NULL;
+		state->dim_type  = GOG_MS_DIM_LABELS;
+		state->axis.by_id  = g_hash_table_new_full (g_str_hash, g_str_equal,
+			NULL, (GDestroyNotify) xlsx_axis_info_free);
+		state->axis.by_obj = g_hash_table_new (g_direct_hash, g_direct_equal);
 		xlsx_parse_rel_by_id (xin, part_id, xlsx_chart_dtd, xlsx_ns);
+
+		if (NULL != state->obj_stack) {
+			g_warning ("left over content on chart object stack");
+			g_slist_free (state->obj_stack);
+			state->obj_stack = NULL;
+		}
+
+		xlsx_axis_cleanup (state);
+		if (NULL != state->cur_style) {
+			g_warning ("left over style");
+			g_object_unref (state->cur_style);
+			state->cur_style = NULL;
+		}
+		state->cur_obj   = NULL;
+		state->chart = NULL;
+		state->graph = NULL;
 	}
 }
 

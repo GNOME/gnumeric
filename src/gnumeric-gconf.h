@@ -8,6 +8,7 @@
 #include <glib-object.h>
 #include <print-info.h>
 #include <goffice/utils/go-geometry.h>
+#include <gtk/gtkprintsettings.h>
 
 typedef struct {
 	struct {

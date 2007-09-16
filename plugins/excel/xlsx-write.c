@@ -955,7 +955,7 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 		if (NULL != texpr) {
 			GnmParsePos pp;
 			char *str = gnm_expr_top_as_string (texpr,
-				parse_pos_init (&pp, state->base.wb, NULL, 0,0 ),
+				parse_pos_init (&pp, (Workbook *)state->base.wb, NULL, 0,0 ),
 				state->convs);
 			gsf_xml_out_start_element (xml, name);
 			gsf_xml_out_start_element (xml, "c:numRef");

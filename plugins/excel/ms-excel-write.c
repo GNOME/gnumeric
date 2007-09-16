@@ -1944,7 +1944,7 @@ put_efont (ExcelWriteFont *efont, XLExportBase *xle)
 }
 
 int
-excel_font_from_go_font (ExcelWriteState *ewb, GOFont const *font)
+excel_font_from_go_font (XLExportBase *ewb, GOFont const *font)
 {
 	ExcelWriteFont *efont;
 
@@ -1961,7 +1961,7 @@ excel_font_from_go_font (ExcelWriteState *ewb, GOFont const *font)
 	efont->color = go_color_to_bgr (RGBA_BLACK);
 	efont->is_auto = FALSE;
 
-	return put_efont (efont, &ewb->base);
+	return put_efont (efont, ewb);
 }
 
 static void

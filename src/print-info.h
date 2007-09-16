@@ -3,7 +3,7 @@
 #define GNM_PRINT_INFO_H
 
 #include "gnumeric.h"
-#include <gtk/gtk.h>
+#include <gtk/gtkpagesetup.h>
 
 typedef struct {
   GtkUnit   top, bottom, left, right, header, footer;

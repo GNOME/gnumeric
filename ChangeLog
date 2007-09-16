@@ -55,10 +55,10 @@
 	gnm_format_month_before_day): New functions.
 
 	* src/wbc-gtk-edit.c (wbcg_edit_start): Use
-	gnm_format_month_before_day.
+	  gnm_format_month_before_day.
 
 	* src/number-match.c (format_match): Use gnm_format_has_hour and
-	gnm_format_month_before_day.  No more hackery.
+	  gnm_format_month_before_day.  No more hackery.
 
 2007-09-04  Morten Welinder  <terra@gnome.org>
 

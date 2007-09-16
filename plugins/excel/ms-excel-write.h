@@ -160,6 +160,6 @@ GHashTable *excel_collect_hlinks      (GnmStyleList *ptr,
 void excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 			 int maxcols, int maxrows, IOContext *io_context);
 
-int excel_font_from_go_font (ExcelWriteState *ewb, GOFont const *font);
+int excel_font_from_go_font (XLExportBase *ewb, GOFont const *font);
 
 #endif /* GNM_MS_EXCEL_WRITE_H */

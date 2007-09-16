@@ -3875,7 +3875,7 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const
 
 	/* BIFF_CHART_pos, optional we use auto positioning */
 	ms_biff_put_2byte (s->bp, BIFF_CHART_fontx, ((style)?
-		excel_font_from_go_font (s->ewb, style->font.font):
+		excel_font_from_go_font (&s->ewb->base, style->font.font):
 		5));
 	chart_write_AI (s, src, 0, 1);
 	chart_write_END (s);
@@ -4493,7 +4493,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 			GSF_LE_SET_GUINT16 (data+28, 0);
 		}
 		ms_biff_put_commit (s->bp);
-		font = excel_font_from_go_font (s->ewb, style->font.font);
+		font = excel_font_from_go_font (&s->ewb->base, style->font.font);
 		if (font > 0)
 		    ms_biff_put_2byte (s->bp, BIFF_CHART_fontx, font);
 	}

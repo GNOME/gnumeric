@@ -45,6 +45,8 @@
 #include <gui-util.h>
 #include <glade/glade.h>
 #include <gtk/gtktreeview.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkscrolledwindow.h>
