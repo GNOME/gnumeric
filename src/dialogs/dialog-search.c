@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-search.c:
  *   Dialog for entering a search query.
@@ -518,44 +519,33 @@ dialog_search (WBCGtk *wbcg)
 	/* Set sensitivity of buttons.  */
 	cursor_change (dd->matches_table, dd);
 
-	g_signal_connect (G_OBJECT (dd->matches_table),
-		"cursor_changed",
+	g_signal_connect (G_OBJECT (dd->matches_table), "cursor_changed",
 		G_CALLBACK (cursor_change), dd);
-	g_signal_connect (G_OBJECT (dd->matches_table),
-			  "select_cursor_row",
-			  G_CALLBACK (cb_next),
-			  dd);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "search_button")),
-		"clicked",
+	g_signal_connect (G_OBJECT (dd->matches_table), "select_cursor_row",
+		G_CALLBACK (cb_next), dd);
+	go_glade_signal_connect (gui, "search_button", "clicked",
 		G_CALLBACK (search_clicked), dd);
-	g_signal_connect (G_OBJECT (dd->prev_button),
-		"clicked",
+	g_signal_connect (G_OBJECT (dd->prev_button), "clicked",
 		G_CALLBACK (prev_clicked), dd);
-	g_signal_connect (G_OBJECT (dd->next_button),
-		"clicked",
+	g_signal_connect (G_OBJECT (dd->next_button), "clicked",
 		G_CALLBACK (next_clicked), dd);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
-		"clicked",
+	go_glade_signal_connect_swapped (gui, "close_button", "clicked",
 		G_CALLBACK (gtk_widget_destroy), dd->dialog);
-	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
-		"focus-in-event",
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)), "focus-in-event",
 		G_CALLBACK (range_focused), dd);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "scope_range")),
-		"toggled",
+	go_glade_signal_connect (gui, "scope_range", "toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
-
-	g_object_set_data_full (G_OBJECT (dialog),
-		"state", dd, (GDestroyNotify) free_state);
-	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
-					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
-
-	gnumeric_init_help_button (
-		glade_xml_get_widget (gui, "help_button"),
-		GNUMERIC_HELP_LINK_SEARCH);
 
 #ifdef USE_GURU
 	wbc_gtk_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
 #endif
+	g_object_set_data_full (G_OBJECT (dialog),
+		"state", dd, (GDestroyNotify) free_state);
+	gnm_dialog_setup_destroy_handlers (dialog, wbcg,
+		GNM_DIALOG_DESTROY_SHEET_REMOVED);
+	gnumeric_init_help_button (
+		glade_xml_get_widget (gui, "help_button"),
+		GNUMERIC_HELP_LINK_SEARCH);
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));
 	gtk_widget_show_all (GTK_WIDGET (dialog));

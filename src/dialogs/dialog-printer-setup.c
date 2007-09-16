@@ -1686,12 +1686,6 @@ cb_do_print_cancel (PrinterSetupState *state)
 static void
 cb_do_print_ok (PrinterSetupState *state)
 {
-	/*
-	 * Detach BEFORE we finish editing.  Otherwise finishing will destroy
-	 * the dialog and all the state widget pointers become invalid.
-	 */
-	wbc_gtk_detach_guru (state->wbcg);
-	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 	fetch_settings (state);
 	if (gtk_toggle_button_get_active (
 		    GTK_TOGGLE_BUTTON (
@@ -1715,8 +1709,6 @@ cb_do_print (PrinterSetupState *state)
 static void
 cb_do_print_destroy (PrinterSetupState *state)
 {
-	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
-
 /* 	if (state->customize_header) */
 /* 		gtk_widget_destroy (state->customize_header); */
 
@@ -1818,10 +1810,7 @@ do_setup_main_dialog (PrinterSetupState *state)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_do_print_destroy);
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
-
 }
-
-
 
 static PrinterSetupState *
 printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
