@@ -296,7 +296,7 @@ scenario_free (scenario_t *s)
 void
 scenarios_free (GList *list)
 {
-	go_list_free_custom (list, (GFreeFunc)scenarios_free);
+	go_list_free_custom (list, (GFreeFunc)scenario_free);
 }
 
 gboolean
