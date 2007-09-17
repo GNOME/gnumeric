@@ -179,6 +179,7 @@ typedef struct {
 	GogStyle	 *cur_style;
 	GOColor		  gcolor;
 	GOMarker	 *marker;
+	GOMarkerShape	  marker_symbol;
 	GogObject	 *cur_obj;
 	GSList		 *obj_stack;
 	unsigned int	  sp_type;
@@ -1026,6 +1027,15 @@ xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
 			"invert-axis", orient, NULL);
 }
 static void
+xlsx_chart_logbase (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int base;
+	if (state->axis.info && simple_int (xin, attrs, &base))
+		g_object_set (G_OBJECT (state->axis.obj),
+			"map-name", "Log", NULL);
+}
+static void
 xlsx_axis_pos (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const positions[] = {
@@ -1069,6 +1079,17 @@ xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->axis.info && simple_enum (xin, attrs, crosses, &cross))
 		state->axis.info->cross = cross;
+}
+
+static void
+xlsx_chart_gridlines (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (NULL != state->axis.obj) {
+		GogObject *grid = gog_object_add_by_name (
+			GOG_OBJECT (state->axis.obj), "MajorGrid", NULL);
+		xlsx_chart_push_obj (state, grid);
+	}
 }
 
 static void
@@ -1405,10 +1426,70 @@ xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const dashes[] = {
+		{ "solid",		GO_LINE_SOLID },
+		{ "dot",		GO_LINE_DOT },
+		{ "dash",		GO_LINE_DASH },
+		{ "lgDash",		GO_LINE_LONG_DASH },
+		{ "dashDot",		GO_LINE_DASH_DOT },
+		{ "lgDashDot",		GO_LINE_DASH_DOT_DOT },
+		{ "lgDashDotDot",	GO_LINE_DASH_DOT_DOT_DOT },
+		{ "sysDash",		GO_LINE_S_DASH },
+		{ "sysDot",		GO_LINE_S_DOT },
+		{ "sysDashDot",		GO_LINE_S_DASH_DOT },
+		{ "sysDashDotDot",	GO_LINE_S_DASH_DOT_DOT },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int dash;
+
+	if (!simple_enum (xin, attrs, dashes, &dash))
+		return;
+
+	if (NULL != state->marker)
+		; /* what goes here ?*/
+	else if (NULL != state->cur_style) {
+		if (state->sp_type & GOG_STYLE_LINE) {
+			state->cur_style->line.auto_dash = FALSE;
+			state->cur_style->line.dash_type = dash;
+			state->cur_style->outline.auto_dash = FALSE;
+			state->cur_style->outline.dash_type = dash;
+		} else {
+			; /* what goes here ?*/
+		}
+	}
+}
+
+static void
 xlsx_chart_marker_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	state->marker = go_marker_new ();
+	state->marker_symbol = GO_MARKER_MAX;
+}
+
+static void
+xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static EnumVal const symbols[] = {
+		{ "circle",	GO_MARKER_CIRCLE },
+		{ "dash",	GO_MARKER_BAR },		/* FIXME */
+		{ "diamond",	GO_MARKER_DIAMOND },
+		{ "dot",	GO_MARKER_HALF_BAR },		/* FIXME */
+		{ "none",	GO_MARKER_NONE },
+		{ "plus",	GO_MARKER_CROSS },		/* CHECK ME */
+		{ "square",	GO_MARKER_SQUARE },
+		{ "star",	GO_MARKER_ASTERISK },		/* CHECK ME */
+		{ "triangle",	GO_MARKER_TRIANGLE_UP },	/* FIXME */
+		{ "x",		GO_MARKER_X },
+		{ NULL, 0 }
+	};
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	int symbol;
+	if (NULL != state->marker && simple_enum (xin, attrs, symbols, &symbol))
+		state->marker_symbol = symbol;
 }
 
 static void
@@ -1416,9 +1497,13 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->cur_obj && IS_GOG_STYLED_OBJECT (state->cur_obj)) {
-		gog_style_set_marker (
-			gog_styled_object_get_style (GOG_STYLED_OBJECT (state->cur_obj)),
-			state->marker);
+		GogStyle *style = gog_styled_object_get_style (
+			GOG_STYLED_OBJECT (state->cur_obj));
+		if (state->marker_symbol != GO_MARKER_MAX) {
+			style->marker.auto_shape = FALSE;
+			go_marker_set_shape (state->marker, state->marker_symbol);
+		}
+		gog_style_set_marker (style, state->marker);
 		state->marker = NULL;
 	}
 }
@@ -1448,6 +1533,20 @@ xlsx_chart_text_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->chart_tx = g_strdup (xin->content->str);
 }
 
+static void
+xlsx_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GogObject *backplane = gog_object_add_by_name (
+		GOG_OBJECT (state->chart), "Backplane", NULL);
+	xlsx_chart_push_obj (state, backplane);
+}
+static void
+xlsx_chart_pop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	xlsx_chart_pop_obj ((XLSXReadState *)xin->user_state);
+}
+
 static GsfXMLInNode const xlsx_chart_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
@@ -1462,7 +1561,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (COLOR_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (COLOR_RGB, RGB_SHADE,	   XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (COLOR_RGB, RGB_TINT,	   XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_RGB, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_RGB, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, &xlsx_draw_line_dash, NULL),
 
     GSF_XML_IN_NODE (SHAPE_PR, FILL_BLIP,	XL_NS_DRAW, "blipFill", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_BLIP,	XL_NS_DRAW, "blip", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1483,7 +1582,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 
     GSF_XML_IN_NODE (SHAPE_PR, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, &xlsx_style_line_start, &xlsx_style_line_end),
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
     GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1503,7 +1602,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
   GSF_XML_IN_NODE (CHART_SPACE, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
   GSF_XML_IN_NODE (CHART_SPACE, CHART, XL_NS_CHART, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (CHART, PLOTAREA, XL_NS_CHART, "plotArea", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CHART, PLOTAREA, XL_NS_CHART, "plotArea", GSF_XML_NO_CONTENT, &xlsx_plot_area, &xlsx_chart_pop),
       GSF_XML_IN_NODE (PLOTAREA, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE_FULL (PLOTAREA, CAT_AXIS, XL_NS_CHART, "catAx", GSF_XML_NO_CONTENT, FALSE, TRUE,
 			    &xlsx_axis_start, &xlsx_axis_end, XLSX_AXIS_CAT),
@@ -1526,9 +1625,10 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
 				&xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MIN),
           GSF_XML_IN_NODE_FULL (AXIS_SCALING, AX_MAX, XL_NS_CHART, "max", GSF_XML_NO_CONTENT, FALSE, TRUE,
 				&xlsx_axis_bound, NULL, GOG_AXIS_ELEM_MAX),
-          GSF_XML_IN_NODE (AXIS_SCALING, AX_LOG, XL_NS_CHART, "logBase", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (AXIS_SCALING, AX_LOG, XL_NS_CHART, "logBase", GSF_XML_NO_CONTENT, &xlsx_chart_logbase, NULL),
           GSF_XML_IN_NODE (AXIS_SCALING, AX_ORIENTATION, XL_NS_CHART, "orientation", GSF_XML_NO_CONTENT, &xlsx_axis_orientation, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, MAJOR_GRID, XL_NS_CHART, "majorGridlines", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, MAJOR_GRID, XL_NS_CHART, "majorGridlines", GSF_XML_NO_CONTENT,
+			 &xlsx_chart_gridlines, &xlsx_chart_pop),
           GSF_XML_IN_NODE (MAJOR_GRID, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, &xlsx_axis_pos, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1682,7 +1782,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
             GSF_XML_IN_NODE (SERIES_PT, PT_SEP, XL_NS_CHART,	"explosion", GSF_XML_NO_CONTENT, &xlsx_chart_pt_sep, NULL),
             GSF_XML_IN_NODE (SERIES_PT, MARKER, XL_NS_CHART,	"marker", GSF_XML_NO_CONTENT, &xlsx_chart_marker_start, &xlsx_chart_marker_end),
               GSF_XML_IN_NODE (MARKER, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
-              GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, NULL, NULL),
+              GSF_XML_IN_NODE (MARKER, MARKER_SYMBOL, XL_NS_CHART, "symbol", GSF_XML_NO_CONTENT, &xlsx_chart_marker_symbol, NULL),
               GSF_XML_IN_NODE (MARKER, MARKER_SIZE, XL_NS_CHART, "size", GSF_XML_NO_CONTENT, NULL, NULL),
 
           GSF_XML_IN_NODE (SERIES, SERIES_ERR_BARS, XL_NS_CHART,"errBars", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -4200,6 +4300,109 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 
 GSF_XML_IN_NODE_END
 };
+
+/****************************************************************************/
+
+static GsfXMLInNode const xlsx_theme_dtd[] = {
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+  GSF_XML_IN_NODE (THEME, ELEMENTS, XL_NS_DRAW, "themeElements", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (ELEMENTS, COLOR_SCHEME, XL_NS_DRAW, "clrScheme", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_DK1, XL_NS_DRAW, "dk1", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_DK1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_DK1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (RGB_COLOR, COLOR_ALPHA, XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_LT1, XL_NS_DRAW, "lt1", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_LT1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_LT1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_LT2, XL_NS_DRAW, "lt2", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_LT2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_LT2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_DK2, XL_NS_DRAW, "dk2", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_DK2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_DK2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A1, XL_NS_DRAW, "accent1", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_A1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_A1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A2, XL_NS_DRAW, "accent2", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_A2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_A2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A3, XL_NS_DRAW, "accent3", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_A3, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_A3, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A4, XL_NS_DRAW, "accent4", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_A4, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_A4, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A5, XL_NS_DRAW, "accent5", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_A5, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_A5, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A6, XL_NS_DRAW, "accent6", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_A6, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_A6, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_LINK, XL_NS_DRAW, "hlink", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_LINK, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_LINK, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_FOLINK, XL_NS_DRAW, "folHlink", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COLOR_SCHEME_FOLINK, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (COLOR_SCHEME_FOLINK, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
+
+    GSF_XML_IN_NODE (ELEMENTS, FONT_SCHEME, XL_NS_DRAW, "fontScheme", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FONT_SCHEME, MAJOR_FONT, XL_NS_DRAW, "majorFont", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MAJOR_FONT, FONT_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MAJOR_FONT, FONT_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MAJOR_FONT, FONT_FONT, XL_NS_DRAW, "font", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MAJOR_FONT, FONT_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FONT_SCHEME, MINOR_FONT, XL_NS_DRAW, "minorFont", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MINOR_FONT, FONT_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MINOR_FONT, FONT_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MINOR_FONT, FONT_FONT, XL_NS_DRAW, "font", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (MINOR_FONT, FONT_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+
+    GSF_XML_IN_NODE (ELEMENTS, FORMAT_SCHEME, XL_NS_DRAW, "fmtScheme", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FORMAT_SCHEME, FILL_STYLE_LIST,	XL_NS_DRAW, "fillStyleLst", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (FILL_STYLE_LIST,  SOLID_FILL, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SOLID_FILL, SCHEME_COLOR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),
+           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_TINT, XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
+           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
+           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_SAT, XL_NS_DRAW, "satMod", GSF_XML_NO_CONTENT, NULL, NULL),
+           GSF_XML_IN_NODE (SCHEME_COLOR, COLOR_SHADE, XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (FILL_STYLE_LIST,  GRAD_FILL, XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (GRAD_FILL, GRAD_PATH, XL_NS_DRAW, "path", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (GRAD_PATH, GRAD_PATH_RECT, XL_NS_DRAW, "fillToRect", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (GRAD_FILL, GRAD_LIST, XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
+	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, NULL, NULL),
+	     GSF_XML_IN_NODE (GRAD_LIST_ITEM, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+             GSF_XML_IN_NODE (GRAD_LIST_ITEM, SCHEME_COLOR, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	  GSF_XML_IN_NODE (GRAD_FILL, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, NULL, NULL),
+
+      GSF_XML_IN_NODE (FORMAT_SCHEME, BG_FILL_STYLE_LIST,	XL_NS_DRAW, "bgFillStyleLst", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (BG_FILL_STYLE_LIST, GRAD_FILL, XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (BG_FILL_STYLE_LIST, SOLID_FILL, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (FORMAT_SCHEME, LINE_STYLE_LIST,	XL_NS_DRAW, "lnStyleLst", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (LINE_STYLE_LIST, LINE_STYLE, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (LINE_STYLE, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (LINE_STYLE, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+	  GSF_XML_IN_NODE (LINE_STYLE, SOLID_FILL, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+	  GSF_XML_IN_NODE (LINE_STYLE, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FORMAT_SCHEME, EFFECT_STYLE_LIST,	XL_NS_DRAW, "effectStyleLst", GSF_XML_NO_CONTENT, NULL, NULL),
+            GSF_XML_IN_NODE (EFFECT_STYLE_LIST, EFFECT_STYLE,	XL_NS_DRAW, "effectStyle", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (EFFECT_STYLE, EFFECT_PROP, XL_NS_DRAW, "sp3d", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (EFFECT_PROP, PROP_BEVEL, XL_NS_DRAW, "bevelT", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (EFFECT_STYLE, EFFECT_LIST, XL_NS_DRAW, "effectLst", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (EFFECT_LIST, OUTER_SHADOW, XL_NS_DRAW, "outerShdw", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (OUTER_SHADOW, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	      GSF_XML_IN_NODE (EFFECT_STYLE, EFFECT_SCENE_3D, XL_NS_DRAW, "scene3d", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (EFFECT_SCENE_3D, 3D_CAMERA, XL_NS_DRAW, "camera", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (3D_CAMERA, 3D_ROT, XL_NS_DRAW, "rot", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (EFFECT_SCENE_3D, 3D_LIGHT, XL_NS_DRAW, "lightRig", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (3D_LIGHT, 3D_ROT, XL_NS_DRAW, "rot", GSF_XML_NO_CONTENT, NULL, NULL),
+
+  GSF_XML_IN_NODE (THEME, OBJ_DEFAULTS, XL_NS_DRAW, "objectDefaults", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (THEME, EXTRA_COLOR_SCHEME, XL_NS_DRAW, "extraClrSchemeLst", GSF_XML_NO_CONTENT, NULL, NULL),
+
+  GSF_XML_IN_NODE_END
+};
+
 /****************************************************************************/
 
 G_MODULE_EXPORT gboolean
@@ -4278,6 +4481,10 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 			in = gsf_open_pkg_get_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles");
 			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
+
+			in = gsf_open_pkg_get_rel_by_type (wb_part,
+				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme");
+			xlsx_parse_stream (&state, in, xlsx_theme_dtd);
 
 			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
 		} else
