@@ -1,3 +1,9 @@
+2007-09-17  Morten Welinder  <welinder@sequoia.rentec.com>
+
+	* src/sheet-filter.c (gnm_filter_condition_new_bucket): Make sure
+	->op[1] is UNUSED.
+	(filter_expr_init): Survive NULL value.
+
 2007-09-16  Jody Goldberg <jody@gnome.org>
 
 	* src/print-info.h : Do not include gtk/gtk.h it is too general.

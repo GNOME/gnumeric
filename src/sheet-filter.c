@@ -88,6 +88,7 @@ gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, float n)
 {
 	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
 	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) | (absolute ? 0 : 2);
+	res->op[1] = GNM_FILTER_UNUSED;
 	res->count = n;
 	return res;
 }
@@ -137,7 +138,7 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 {
 	GnmValue *tmp = cond->value[i];
 
-	if (VALUE_IS_STRING (tmp)) {
+	if (tmp && VALUE_IS_STRING (tmp)) {
 		GnmFilterOp op = cond->op[i];
 		char const *str = value_peek_string (tmp);
 		GODateConventions const *date_conv =
