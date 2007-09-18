@@ -1,4 +1,9 @@
-2007-09-17  Morten Welinder  <welinder@sequoia.rentec.com>
+2007-09-18  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_filter_condition): Read
+	single-clause conditions right.  Fixes #477417.
+
+2007-09-17  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-filter.c (gnm_filter_condition_new_bucket): Make sure
 	->op[1] is UNUSED.

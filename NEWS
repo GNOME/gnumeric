@@ -15,6 +15,7 @@ Morten:
 	* Fix minor time entry problem.
 	* Fix page setup crash.  [#476467]
 	* Fix scenarios.  [#477410]
+	* Fix sheet filter crash .  [#477417]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.12	'Rocks for Rob, Roses for Harlan'

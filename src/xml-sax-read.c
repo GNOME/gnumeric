@@ -1869,9 +1869,11 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 			v0 = value_new_from_string (vtype0, val0, NULL, FALSE);
 		if (val1 != NULL && vtype1 != VALUE_EMPTY)
 			v1 = value_new_from_string (vtype1, val1, NULL, FALSE);
-		if (v0 != NULL)
+		if (v0 && v1)
 			cond = gnm_filter_condition_new_double (
 				op0, v0, is_and, op1, v1);
+		else if (v0)
+			cond = gnm_filter_condition_new_single (op0, v0);
 	} else if (0 == g_ascii_strcasecmp (type, "blanks")) {
 		cond = gnm_filter_condition_new_single (
 			GNM_FILTER_OP_BLANKS, NULL);
