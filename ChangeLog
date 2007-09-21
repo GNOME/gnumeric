@@ -1,3 +1,9 @@
+2007-09-20  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (compute_sheet_pages): Return error indicator,
+	notably for the multiple-selection-areas case.
+	(gnm_paginate_cb): Cancel print on error.  Fixes #478475.
+
 2007-09-18  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_filter_condition): Read

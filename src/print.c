@@ -828,7 +828,7 @@ compute_sheet_pages_add_range (PrintingInstance * pi, Sheet const *sheet,
 }
 
 
-static void
+static gboolean
 compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 				      PrintingInstance * pi,
 				      Sheet const *sheet,
@@ -914,12 +914,13 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 		row += row_count;
 	}
 
-	return;
+	return FALSE;
 }
 
-
-
-static void
+/*
+ * Returns TRUE if case of problems.
+ */
+static gboolean
 compute_sheet_pages (GtkPrintContext   *context,
 		     PrintingInstance * pi,
 		     SheetPrintInfo *spi)
@@ -945,12 +946,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 			(sheet_get_view (sheet, wb_control_view (pi->wbc)),
 			  GO_CMD_CONTEXT (pi->wbc), _("Print Selection"));
 		if (selection_range == NULL)
-			return;
+			return TRUE;
 		if (spi->ignore_printarea) {
 			r = *selection_range;
 		} else {
 			if (!range_intersection (&r, selection_range, &print_area))
-				return;
+				return TRUE;
 		}
 	} else
 		r = print_area;
@@ -1083,7 +1084,11 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 		return TRUE;
 	}
 
-	compute_sheet_pages (context, pi, spi);
+	if (compute_sheet_pages (context, pi, spi)) {
+		gtk_print_operation_cancel (operation);
+		return TRUE;
+	}
+
 	return FALSE;
 }
 
