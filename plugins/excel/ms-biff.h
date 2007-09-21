@@ -14,7 +14,6 @@
 
 #include <gsf/gsf.h>
 #include "rc4.h"
-#include "md5.h"
 
 typedef enum { MS_BIFF_CRYPTO_NONE = 0,
 	       MS_BIFF_CRYPTO_XOR,
@@ -51,7 +50,7 @@ typedef struct {
 	MsBiffCrypto encryption;
 	guint8   xor_key[16];
 	RC4_KEY	 rc4_key;
-	MD5_CTX  md5_ctxt;
+	unsigned char md5_digest[16];
 	int	 block;
 	gboolean dont_decrypt_next_record;
 } BiffQuery;

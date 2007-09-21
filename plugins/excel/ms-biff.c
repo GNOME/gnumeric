@@ -17,6 +17,7 @@
 #include "ms-biff.h"
 #include "biff-types.h"
 #include "ms-excel-util.h"
+#include "md5.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
@@ -155,39 +156,17 @@ ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, guint8 const *password)
 	return TRUE;
 }
 
-/* 
-this is just cut out of wvMD5Final to get the byte order correct
-under MSB systems, the previous code was woefully tied to intel
-x86
-
-C.
-*/
 static void
-wvMD5StoreDigest (MD5_CTX *mdContext)
+makekey (guint32 block, RC4_KEY *key, const unsigned char *valDigest)
 {
-	unsigned int i, ii;
-	/* store buffer in digest */
-	for (i = 0, ii = 0; i < 4; i++, ii += 4) {
-		mdContext->digest[ii] = (unsigned char) (mdContext->buf[i] & 0xFF);
-		mdContext->digest[ii + 1] =
-			(unsigned char) ((mdContext->buf[i] >> 8) & 0xFF);
-		mdContext->digest[ii + 2] =
-			(unsigned char) ((mdContext->buf[i] >> 16) & 0xFF);
-		mdContext->digest[ii + 3] =
-			(unsigned char) ((mdContext->buf[i] >> 24) & 0xFF);
-	}
-}
-
-static void
-makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
-{
-	MD5_CTX mdContext;
+	struct md5_ctx ctx;
+	unsigned char digest[16];
 	guint8 pwarray[64];
 
 	memset (pwarray, 0, 64);
 
 	/* 40 bit of hashed password, set by verify_password () */
-	memcpy (pwarray, valContext->digest, 5);
+	memcpy (pwarray, valDigest, 5);
 
 	/* put block number in byte 6...9 */
 	pwarray[5] = (guint8) (block & 0xFF);
@@ -198,12 +177,13 @@ makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
 	pwarray[9] = 0x80;
 	pwarray[56] = 0x48;
 
-	wvMD5Init (&mdContext);
-	wvMD5Update (&mdContext, pwarray, 64);
-	wvMD5StoreDigest (&mdContext);
-	prepare_key (mdContext.digest, 16, key);
+	md5_init_ctx (&ctx);
+	md5_process_block (pwarray, 64, &ctx);
+	md5_read_ctx (&ctx, digest);
+	prepare_key (digest, 16, key);
 
-	destroy_sensitive (&mdContext, sizeof (mdContext));
+	destroy_sensitive (&ctx, sizeof (ctx));
+	destroy_sensitive (digest, sizeof (digest));
 	destroy_sensitive (pwarray, sizeof (pwarray));
 }
 
@@ -215,10 +195,11 @@ makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
 static gboolean
 verify_password (guint8 const *password, guint8 const *docid,
 		 guint8 const *salt_data, guint8 const *hashedsalt_data,
-		 MD5_CTX *valContext)
+		 unsigned char *valDigest)
 {
 	guint8 pwarray [64], salt [64], hashedsalt [16];
-	MD5_CTX mdContext1, mdContext2;
+	struct md5_ctx mdContext;
+	unsigned char digest[16];
 	RC4_KEY key;
 	int offset, keyoffset, i;
 	unsigned int tocopy;
@@ -239,24 +220,24 @@ verify_password (guint8 const *password, guint8 const *docid,
 	pwarray[2 * i] = 0x80;
 	pwarray[56] = (i << 4);
 
-	wvMD5Init (&mdContext1);
-	wvMD5Update (&mdContext1, pwarray, 64);
-	wvMD5StoreDigest (&mdContext1);
+	md5_init_ctx (&mdContext);
+	md5_process_block (pwarray, 64, &mdContext);
+	md5_read_ctx (&mdContext, digest);
 
 	offset = 0;
 	keyoffset = 0;
 	tocopy = 5;
 
-	wvMD5Init (valContext);
+	md5_init_ctx (&mdContext);
 	while (offset != 16) {
 		if ((64 - offset) < 5)
 			tocopy = 64 - offset;
 
-		memcpy (pwarray + offset, mdContext1.digest + keyoffset, tocopy);
+		memcpy (pwarray + offset, digest + keyoffset, tocopy);
 		offset += tocopy;
 
 		if (offset == 64) {
-			wvMD5Update (valContext, pwarray, 64);
+			md5_process_block (pwarray, 64, &mdContext);
 			keyoffset = tocopy;
 			tocopy = 5 - tocopy;
 			offset = 0;
@@ -275,11 +256,11 @@ verify_password (guint8 const *password, guint8 const *docid,
 	pwarray[56] = 0x80;
 	pwarray[57] = 0x0A;
 
-	wvMD5Update (valContext, pwarray, 64);
-	wvMD5StoreDigest (valContext);
+	md5_process_block (pwarray, 64, &mdContext);
+	md5_read_ctx (&mdContext, valDigest);
 
 	/* Generate 40-bit RC4 key from 128-bit hashed password */
-	makekey (0, &key, valContext);
+	makekey (0, &key, valDigest);
 
 	memcpy (salt, salt_data, 16);
 	rc4 (salt, 16, &key);
@@ -290,17 +271,17 @@ verify_password (guint8 const *password, guint8 const *docid,
 	memset (salt + 17, 0, 47);
 	salt[56] = 0x80;
 
-	wvMD5Init (&mdContext2);
-	wvMD5Update (&mdContext2, salt, 64);
-	wvMD5StoreDigest (&mdContext2);
+	md5_init_ctx (&mdContext);
+	md5_process_block (salt, 64, &mdContext);
+	md5_read_ctx (&mdContext, digest);
 
-	res = memcmp (mdContext2.digest, hashedsalt, 16) == 0;
+	res = memcmp (digest, hashedsalt, 16) == 0;
 
 	destroy_sensitive (pwarray, sizeof (pwarray));
 	destroy_sensitive (salt, sizeof (salt));
 	destroy_sensitive (hashedsalt, sizeof (hashedsalt));
-	destroy_sensitive (&mdContext1, sizeof (mdContext1));
-	destroy_sensitive (&mdContext2, sizeof (mdContext2));
+	destroy_sensitive (&mdContext, sizeof (mdContext));
+	destroy_sensitive (digest, sizeof (digest));
 	destroy_sensitive (&key, sizeof (key));
 
 	return res;
@@ -316,7 +297,7 @@ skip_bytes (BiffQuery *q, int start, int count)
 	block = (start + count) / REKEY_BLOCK;
 
 	if (block != q->block) {
-		makekey (q->block = block, &q->rc4_key, &q->md5_ctxt);
+		makekey (q->block = block, &q->rc4_key, q->md5_digest);
 		count = (start + count) % REKEY_BLOCK;
 	}
 
@@ -344,7 +325,7 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 	XL_CHECK_CONDITION_VAL (q->length == sizeof_BIFF_8_FILEPASS, FALSE);
 
 	if (!verify_password (password, q->data + 6,
-			      q->data + 22, q->data + 38, &q->md5_ctxt))
+			      q->data + 22, q->data + 38, q->md5_digest))
 		return FALSE;
 
 	q->encryption = MS_BIFF_CRYPTO_RC4;
@@ -485,7 +466,7 @@ ms_biff_query_next (BiffQuery *q)
 				data += step;
 				pos += step;
 				len -= step;
-				makekey (++q->block, &q->rc4_key, &q->md5_ctxt);
+				makekey (++q->block, &q->rc4_key, q->md5_digest);
 			}
 
 			rc4 (data, len, &q->rc4_key);
