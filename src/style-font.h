@@ -2,6 +2,7 @@
 #define GNUMERIC_STYLE_FONT_H
 
 #include "gnumeric.h"
+#include "libgnumeric.h"
 #include <pango/pango.h>
 
 struct _GnmFont {
@@ -21,6 +22,24 @@ struct _GnmFont {
 	unsigned int is_italic : 1;
 };
 
+GnmFont *gnm_font_new   (PangoContext *context,
+			 char const *font_name,
+			 double size_pts, double scale,
+			 gboolean bold, gboolean italic);
+void     gnm_font_ref   (GnmFont *gfont);
+void     gnm_font_unref (GnmFont *gfont);
+guint    gnm_font_hash  (gconstpointer v);
+gint     gnm_font_equal (gconstpointer v, gconstpointer v2);
+
+GNM_VAR_DECL double gnm_font_default_width;
+
+/****************************************************************/
+/* Internal */
+void     gnm_font_init  	(void);
+void	 gnm_font_shutdown     (void);
+
+/****************************************************************/
+/* Internal : Deprecated : Wrong place */
 PangoContext *gnm_pango_context_get (void);
 
 #endif /* GNUMERIC_STYLE_FONT_H */

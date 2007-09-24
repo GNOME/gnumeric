@@ -367,7 +367,7 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 }
 
 static inline void
-gnm_style_pango_clear (GnmStyle *style)
+gnm_style_clear_pango (GnmStyle *style)
 {
 	if (style->pango_attrs) {
 		pango_attr_list_unref (style->pango_attrs);
@@ -377,10 +377,10 @@ gnm_style_pango_clear (GnmStyle *style)
 
 
 static inline void
-gnm_style_font_clear (GnmStyle *style)
+gnm_style_clear_font (GnmStyle *style)
 {
 	if (style->font) {
-		style_font_unref (style->font);
+		gnm_font_unref (style->font);
 		style->font = NULL;
 	}
 }
@@ -480,7 +480,7 @@ gnm_style_dup (GnmStyle const *src)
 	if ((new_style->pango_attrs = src->pango_attrs))
 		pango_attr_list_ref (new_style->pango_attrs);
 	if ((new_style->font = src->font)) {
-		style_font_ref (new_style->font);
+		gnm_font_ref (new_style->font);
 		new_style->font_zoom = src->font_zoom;
 	}
 
@@ -551,8 +551,8 @@ gnm_style_unref (GnmStyle const *style)
 			elem_clear_contents (unconst, i);
 		unconst->set = 0;
 		clear_conditional_merges (unconst);
-		gnm_style_pango_clear (unconst);
-		gnm_style_font_clear (unconst);
+		gnm_style_clear_pango (unconst);
+		gnm_style_clear_font (unconst);
 
 		CHUNK_FREE (gnm_style_pool, unconst);
 	}
@@ -844,7 +844,7 @@ gnm_style_set_font_color (GnmStyle *style, GnmColor *col)
 		elem_set (style, MSTYLE_FONT_COLOR);
 	elem_changed (style, MSTYLE_FONT_COLOR);
 	style->color.font = col;
-	gnm_style_pango_clear (style);
+	gnm_style_clear_pango (style);
 }
 
 /**
@@ -869,7 +869,7 @@ gnm_style_set_back_color (GnmStyle *style, GnmColor *col)
 	else
 		elem_set (style, MSTYLE_COLOR_BACK);
 	style->color.back = col;
-	gnm_style_pango_clear (style);
+	gnm_style_clear_pango (style);
 }
 void
 gnm_style_set_pattern_color (GnmStyle *style, GnmColor *col)
@@ -883,7 +883,7 @@ gnm_style_set_pattern_color (GnmStyle *style, GnmColor *col)
 	else
 		elem_set (style, MSTYLE_COLOR_PATTERN);
 	style->color.pattern = col;
-	gnm_style_pango_clear (style);
+	gnm_style_clear_pango (style);
 }
 
 GnmColor *
@@ -971,7 +971,7 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context, float zoom)
 		gboolean bold, italic;
 		float size;
 
-		gnm_style_font_clear ((GnmStyle *)style);
+		gnm_style_clear_font ((GnmStyle *)style);
 
 		if (elem_is_set (style, MSTYLE_FONT_NAME))
 			name = gnm_style_get_font_name (style);
@@ -994,8 +994,8 @@ gnm_style_get_font (GnmStyle const *style, PangoContext *context, float zoom)
 			size = DEFAULT_SIZE;
 
 		((GnmStyle *)style)->font =
-			style_font_new (context, name, size,
-					zoom, bold, italic);
+			gnm_font_new (context, name, size,
+				      zoom, bold, italic);
 		((GnmStyle *)style)->font_zoom = zoom;
 	}
 
@@ -1014,8 +1014,8 @@ gnm_style_set_font_name (GnmStyle *style, char const *name)
 	else
 		elem_set (style, MSTYLE_FONT_NAME);
 	style->font_detail.name = gnm_string_get (name);
-	gnm_style_font_clear (style);
-	gnm_style_pango_clear (style);
+	gnm_style_clear_font (style);
+	gnm_style_clear_pango (style);
 }
 
 char const *
@@ -1034,8 +1034,8 @@ gnm_style_set_font_bold (GnmStyle *style, gboolean bold)
 	elem_changed (style, MSTYLE_FONT_BOLD);
 	elem_set (style, MSTYLE_FONT_BOLD);
 	style->font_detail.bold = bold;
-	gnm_style_font_clear (style);
-	gnm_style_pango_clear (style);
+	gnm_style_clear_font (style);
+	gnm_style_clear_pango (style);
 }
 
 gboolean
@@ -1054,8 +1054,8 @@ gnm_style_set_font_italic (GnmStyle *style, gboolean italic)
 	elem_changed (style, MSTYLE_FONT_ITALIC);
 	elem_set (style, MSTYLE_FONT_ITALIC);
 	style->font_detail.italic = italic;
-	gnm_style_font_clear (style);
-	gnm_style_pango_clear (style);
+	gnm_style_clear_font (style);
+	gnm_style_clear_pango (style);
 }
 
 gboolean
@@ -1073,7 +1073,7 @@ gnm_style_set_font_uline (GnmStyle *style, GnmUnderline const underline)
 	elem_changed (style, MSTYLE_FONT_UNDERLINE);
 	elem_set (style, MSTYLE_FONT_UNDERLINE);
 	style->font_detail.underline = underline;
-	gnm_style_pango_clear (style);
+	gnm_style_clear_pango (style);
 }
 
 GnmUnderline
@@ -1091,7 +1091,7 @@ gnm_style_set_font_strike (GnmStyle *style, gboolean const strikethrough)
 	elem_changed (style, MSTYLE_FONT_STRIKETHROUGH);
 	elem_set (style, MSTYLE_FONT_STRIKETHROUGH);
 	style->font_detail.strikethrough = strikethrough;
-	gnm_style_pango_clear (style);
+	gnm_style_clear_pango (style);
 }
 
 gboolean
@@ -1109,7 +1109,7 @@ gnm_style_set_font_script (GnmStyle *style, GOFontScript script)
 	elem_changed (style, MSTYLE_FONT_SCRIPT);
 	elem_set (style, MSTYLE_FONT_SCRIPT);
 	style->font_detail.script = script;
-	gnm_style_pango_clear (style);
+	gnm_style_clear_pango (style);
 }
 
 GOFontScript
@@ -1128,8 +1128,8 @@ gnm_style_set_font_size (GnmStyle *style, float size)
 	elem_changed (style, MSTYLE_FONT_SIZE);
 	elem_set (style, MSTYLE_FONT_SIZE);
 	style->font_detail.size = size;
-	gnm_style_font_clear (style);
-	gnm_style_pango_clear (style);
+	gnm_style_clear_font (style);
+	gnm_style_clear_pango (style);
 }
 
 float

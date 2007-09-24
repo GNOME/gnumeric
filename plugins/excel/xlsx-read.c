@@ -177,7 +177,7 @@ typedef struct {
 	GogObject	 *series_pt;
 	gboolean	  series_pt_has_index;
 	GogStyle	 *cur_style;
-	GOColor		  gcolor;
+	GOColor		  gocolor;
 	GOMarker	 *marker;
 	GOMarkerShape	  marker_symbol;
 	GogObject	 *cur_obj;
@@ -192,6 +192,8 @@ typedef struct {
 		GHashTable *by_obj;
 		XLSXAxisInfo *info;
 	} axis;
+
+	GHashTable *theme_colors;
 } XLSXReadState;
 typedef struct {
 	GnmString	*str;
@@ -400,12 +402,12 @@ attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
 }
 
 static gboolean
-attr_rgb (GsfXMLIn *xin, xmlChar const **attrs,
-	  char const *target,
-	  unsigned long *res)
+attr_gocolor (GsfXMLIn *xin, xmlChar const **attrs,
+	      char const *target,
+	      GOColor *res)
 {
 	char *end;
-	long tmp;
+	unsigned long rgb;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -415,13 +417,19 @@ attr_rgb (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	errno = 0;
-	tmp = strtoul (attrs[1], &end, 16);
+	rgb = strtoul (attrs[1], &end, 16);
 	if (errno == ERANGE || *end)
 		return xlsx_warning (xin,
 			_("Invalid RRGGBB color '%s' for attribute %s"),
 			attrs[1], target);
 
-	*res = tmp;
+	{
+		guint8 const r = (rgb >> 16) & 0xff;
+		guint8 const g = (rgb >>  8) & 0xff;
+		guint8 const b = (rgb >>  0) & 0xff;
+		*res = RGBA_TO_UINT(r, g, b, 0xff);
+	}
+
 	return TRUE;
 }
 
@@ -1371,28 +1379,29 @@ xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int tmp;
-	if (simple_enum (xin, attrs, colors, &tmp))
-#warning FINISH
-		state->gcolor = RGBA_BLACK;
+	gpointer val = NULL;
+	if (NULL != state->theme_colors) {
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (0 == strcmp (attrs[0], "val")) {
+				val = g_hash_table_lookup (state->theme_colors, attrs[1]);
+				if (NULL == val)
+					xlsx_warning (xin, _("Unknown color '%s'"), attrs[1]);
+			}
+	} else
+		xlsx_warning (xin, _("Missing theme"));
+
+	state->gocolor = GPOINTER_TO_UINT (val);
 }
 
 static void
 xlsx_draw_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	unsigned long  rgb = 0;
-
 	if (NULL == state->cur_style)
 		return;
-
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_rgb (xin, attrs, "val", &rgb)) {
-			guint8 const r = (rgb >> 16) & 0xff;
-			guint8 const g = (rgb >>  8) & 0xff;
-			guint8 const b = (rgb >>  0) & 0xff;
-			state->gcolor = RGBA_TO_UINT(r, g, b, 0xff);
-		}
+		if (attr_gocolor (xin, attrs, "val", &state->gocolor))
+			;
 }
 
 static void
@@ -1402,7 +1411,7 @@ xlsx_draw_color_alpha (GsfXMLIn *xin, xmlChar const **attrs)
 	int val;
 	if (simple_int (xin, attrs, &val)) {
 		int level = 255 * val / 100000;
-		state->gcolor = UINT_RGBA_CHANGE_A (state->gcolor, level);
+		state->gocolor = UINT_RGBA_CHANGE_A (state->gocolor, level);
 	}
 }
 
@@ -1411,14 +1420,14 @@ xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->marker)
-		go_marker_set_fill_color (state->marker, state->gcolor);
+		go_marker_set_fill_color (state->marker, state->gocolor);
 	else if (NULL != state->cur_style) {
 		if (state->sp_type & GOG_STYLE_LINE) {
-			state->cur_style->line.color = state->gcolor;
+			state->cur_style->line.color = state->gocolor;
 			state->cur_style->line.auto_color = FALSE;
 		} else {
-			state->cur_style->fill.pattern.back = state->gcolor;
-			state->cur_style->fill.pattern.fore = state->gcolor;
+			state->cur_style->fill.pattern.back = state->gocolor;
+			state->cur_style->fill.pattern.fore = state->gocolor;
 			state->cur_style->fill.auto_fore = FALSE;
 			state->cur_style->fill.auto_back = FALSE;
 		}
@@ -1746,7 +1755,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
             GSF_XML_IN_NODE (SERIES_VAL, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
 
           GSF_XML_IN_NODE_FULL (SERIES, SERIES_X_VAL, XL_NS_CHART,	"xVal", GSF_XML_NO_CONTENT, FALSE, TRUE,
-			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_VALUES),
+			   &xlsx_ser_type_start, &xlsx_ser_type_end, GOG_MS_DIM_CATEGORIES),
             GSF_XML_IN_NODE (SERIES_X_VAL, NUM_REF, XL_NS_CHART,	"numRef", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
             GSF_XML_IN_NODE (SERIES_X_VAL, NUM_LIT, XL_NS_CHART,	"numLit", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
@@ -4303,48 +4312,80 @@ GSF_XML_IN_NODE_END
 
 /****************************************************************************/
 
+static void
+xlsx_theme_color_sys (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	GOColor c;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_gocolor (xin, attrs, "lastClr", &c)) {
+			g_hash_table_replace (state->theme_colors,
+				g_strdup (((GsfXMLInNode *)xin->node_stack->data)->name),
+				GUINT_TO_POINTER (c));
+		}
+}
+static void
+xlsx_theme_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	GOColor c;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (attr_gocolor (xin, attrs, "val", &c)) {
+			g_hash_table_replace (state->theme_colors,
+				g_strdup (((GsfXMLInNode *)xin->node_stack->data)->name),
+				GUINT_TO_POINTER (c));
+		}
+}
+static void
+xlsx_theme_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	state->theme_colors = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify)g_free, NULL);
+}
+
 static GsfXMLInNode const xlsx_theme_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_theme_start, NULL, 0),
   GSF_XML_IN_NODE (THEME, ELEMENTS, XL_NS_DRAW, "themeElements", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (ELEMENTS, COLOR_SCHEME, XL_NS_DRAW, "clrScheme", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_DK1, XL_NS_DRAW, "dk1", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_DK1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_DK1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (COLOR_SCHEME, dk1, XL_NS_DRAW, "dk1", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (dk1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, &xlsx_theme_color_sys, NULL),
+        GSF_XML_IN_NODE (dk1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_theme_color_rgb, NULL),
           GSF_XML_IN_NODE (RGB_COLOR, COLOR_ALPHA, XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_LT1, XL_NS_DRAW, "lt1", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_LT1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_LT1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_LT2, XL_NS_DRAW, "lt2", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_LT2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_LT2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_DK2, XL_NS_DRAW, "dk2", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_DK2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_DK2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A1, XL_NS_DRAW, "accent1", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_A1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_A1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A2, XL_NS_DRAW, "accent2", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_A2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_A2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A3, XL_NS_DRAW, "accent3", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_A3, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_A3, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A4, XL_NS_DRAW, "accent4", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_A4, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_A4, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A5, XL_NS_DRAW, "accent5", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_A5, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_A5, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_A6, XL_NS_DRAW, "accent6", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_A6, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_A6, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_LINK, XL_NS_DRAW, "hlink", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_LINK, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_LINK, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-      GSF_XML_IN_NODE (COLOR_SCHEME, COLOR_SCHEME_FOLINK, XL_NS_DRAW, "folHlink", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (COLOR_SCHEME_FOLINK, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
-        GSF_XML_IN_NODE (COLOR_SCHEME_FOLINK, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, lt1, XL_NS_DRAW, "lt1", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (lt1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (lt1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, lt2, XL_NS_DRAW, "lt2", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (lt2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (lt2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, dk2, XL_NS_DRAW, "dk2", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (dk2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (dk2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, accent1, XL_NS_DRAW, "accent1", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (accent1, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (accent1, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, accent2, XL_NS_DRAW, "accent2", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (accent2, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (accent2, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, accent3, XL_NS_DRAW, "accent3", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (accent3, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (accent3, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, accent4, XL_NS_DRAW, "accent4", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (accent4, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (accent4, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, accent5, XL_NS_DRAW, "accent5", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (accent5, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (accent5, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, accent6, XL_NS_DRAW, "accent6", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (accent6, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (accent6, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, hlink, XL_NS_DRAW, "hlink", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (hlink, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (hlink, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (COLOR_SCHEME, folHlink, XL_NS_DRAW, "folHlink", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (folHlink, SYS_COLOR, XL_NS_DRAW, "sysClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+        GSF_XML_IN_NODE (folHlink, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd Def */
 
     GSF_XML_IN_NODE (ELEMENTS, FONT_SCHEME, XL_NS_DRAW, "fontScheme", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FONT_SCHEME, MAJOR_FONT, XL_NS_DRAW, "majorFont", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -4463,6 +4504,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 	state.num_fmts = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) go_format_unref);
 	state.convs = xlsx_conventions_new ();
+	state.theme_colors = NULL;
 
 	locale = gnm_push_C_locale ();
 
@@ -4517,6 +4559,8 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 	xlsx_style_array_free (state.style_xfs);
 	xlsx_style_array_free (state.dxfs);
 	xlsx_style_array_free (state.table_styles);
+	if (state.theme_colors)
+		g_hash_table_destroy (state.theme_colors);
 
 	workbook_set_saveinfo (state.wb, FILE_FL_AUTO,
 		go_file_saver_for_id ("Gnumeric_Excel:xlsx"));

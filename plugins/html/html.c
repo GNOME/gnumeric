@@ -324,7 +324,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 		default:
 			break;
 		}
-		switch (style_default_halign(style, cell)) {
+		switch (gnm_style_default_halign (style, cell)) {
 		case HALIGN_RIGHT:
 			gsf_output_puts (output, " align=\"right\" ");
 			break;

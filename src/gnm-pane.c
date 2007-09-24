@@ -263,7 +263,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			if (NULL != so) {
 				SheetObjectView	*sov = sheet_object_get_view (so,
 					(SheetObjectViewContainer *)pane);
-				gnm_cell_combo_foo_view_popdown (sov);
+				gnm_cell_combo_foo_view_popdown (sov, event->time);
 				break;
 			}
 	}

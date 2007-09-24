@@ -40,6 +40,7 @@
 #include <workbook.h>
 #include <gnm-format.h>
 #include <style.h>
+#include <style-font.h>
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -340,7 +341,7 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		double charwidth;
 		int    cellwidth;
 
-		charwidth = gnumeric_default_font_width;
+		charwidth = gnm_font_default_width;
 		cellwidth = info->size_pts;
 
 		return value_new_int (rint (cellwidth / charwidth));

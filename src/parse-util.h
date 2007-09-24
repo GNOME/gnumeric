@@ -2,6 +2,7 @@
 # define GNM_PARSE_UTIL_H
 
 #include "gnumeric.h"
+#include "libgnumeric.h"
 
 char const *col_name  (int col);
 char const *cols_name (int start_col, int end_col);
@@ -174,8 +175,8 @@ GnmConventions *gnm_conventions_new	 (void);
 GnmConventions *gnm_conventions_new_full (unsigned size);
 void		gnm_conventions_free	 (GnmConventions *c);
 
-extern GnmConventions const *gnm_conventions_default;
-extern GnmConventions const *gnm_conventions_xls_r1c1;
+GNM_VAR_DECL GnmConventions const *gnm_conventions_default;
+GNM_VAR_DECL GnmConventions const *gnm_conventions_xls_r1c1;
 
 /**********************************************/
 

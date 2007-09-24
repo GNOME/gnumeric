@@ -1,16 +1,29 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Gnumeric, the GNOME spreadsheet.
+ * libgnumeric.c: global initialization and management code
  *
- * Main file, startup code.
+ * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1997-1999 Miguel de Icaza (miguel@kernel.org)
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
+#include "gutils.h"
 
 #include "application.h"
 #include "stf.h"
@@ -23,10 +36,11 @@
 #include "expr-name.h"
 #include "func.h"
 #include "print-info.h"
-#include "style.h"
+#include "style-font.h"
 #include "mstyle.h"
 #include "style-color.h"
 #include "str.h"
+#include "print.h"
 #include "dependent.h"
 #include "sheet-autofill.h"
 #include "sheet-private.h"
@@ -40,12 +54,14 @@
 #include "gnm-plugin.h"
 #include "mathfunc.h"
 #include "hlink.h"
+#include "wbc-gtk-impl.h"
 #include <goffice/goffice.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/app/go-plugin-loader-module.h>
+#include <glade/glade.h>
 
 #ifdef WITH_GNOME
 #include <libgnomevfs/gnome-vfs-init.h>
@@ -55,15 +71,101 @@
 #include <sys/resource.h>
 #endif
 #include <locale.h>
-#include <glade/glade.h>
 
-/* The debugging level */
-int gnumeric_debugging = 0;
-int dependency_debugging = 0;
-int expression_sharing_debugging = 0;
-int print_debugging = 0;
+/* TODO : get rid of this monstrosity */
 gboolean initial_workbook_open_complete = FALSE;
-char *x_geometry;
+
+static gboolean param_show_version = FALSE;
+static char *param_lib_dir  = NULL;
+static char *param_data_dir = NULL;
+
+static GOptionEntry const libspreadsheet_options [] = { 
+	/*********************************
+	 * Public Actions */
+	{
+		"version", 'v',
+		0, G_OPTION_ARG_NONE, &param_show_version,
+		N_("Display Gnumeric's version"),
+		NULL
+	},
+
+	/*********************************
+	 * Public Variables */
+	{
+		"lib-dir", 'L',
+		0, G_OPTION_ARG_FILENAME, &param_lib_dir,
+		N_("Set the root library directory"),
+		N_("DIR")
+	},
+	{
+		"data-dir", 'D',
+		0, G_OPTION_ARG_FILENAME, &param_data_dir,
+		N_("Adjust the root data directory"),
+		N_("DIR")
+	},
+
+	/**************************************
+	 * Hidden debugging flags */
+	{
+		"debug-deps", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &wbc_gtk_debug_deps,
+		N_("Enables some dependency related debugging functions"),
+		N_("LEVEL")
+	},
+	{
+		"debug-share", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &wbc_gtk_debug_expr_share,
+		N_("Enables some debugging functions for expression sharing"),
+		N_("LEVEL")
+	},
+	{
+		"debug-print", 0,
+		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &gnm_print_debug,
+		N_("Enables some print debugging behavior"),
+		N_("LEVEL")
+	},
+
+	{ NULL } 
+};
+
+static gboolean
+cb_gnm_option_group_post_parse (GOptionContext *context,
+				GOptionGroup   *group,
+				gpointer        data,
+				GError        **error)
+{
+	if (param_show_version) {
+		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
+			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
+		exit (0);
+	}
+	return TRUE;
+}
+
+/**
+ * gnm_get_option_group:
+ * 
+ * Returns a #GOptionGroup for the commandline arguments recognized
+ * by libspreadsheet. You should add this group to your #GOptionContext with
+ * g_option_context_add_group(), if you are using g_option_context_parse() to
+ * parse your commandline arguments.
+ *
+ * Returns a #GOptionGroup for the commandline arguments recognized
+ *   by libspreadsheet
+ *
+ * Since: 1.8
+ **/
+GOptionGroup *
+gnm_get_option_group ()
+{
+	GOptionGroup *group = g_option_group_new ("libspreadsheet",
+		_("Gnumeric Options"), _("Show Gnumeric Options"), NULL, NULL);
+	g_option_group_add_entries (group, libspreadsheet_options);
+	g_option_group_set_translation_domain (group, GETTEXT_PACKAGE);
+	g_option_group_set_parse_hooks (group, NULL,
+		&cb_gnm_option_group_post_parse);
+	return group;
+}
 
 /**
  * gnm_pre_parse_init :
@@ -161,8 +263,12 @@ gnm_init (gboolean fast)
 	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();
 	gnm_string_init ();
+
 	gnm_style_init ();
 	gnm_conf_init (fast);
+	gnm_color_init ();
+	gnm_font_init ();	/* requires config */
+
 	value_init ();
 	parse_util_init ();
 	expr_init ();
@@ -170,8 +276,6 @@ gnm_init (gboolean fast)
 	clipboard_init ();
 	dependent_types_init ();
 	gnm_rendered_value_init ();
-	gnumeric_color_init ();
-	style_init ();
 	functions_init ();
 	print_init ();
 	gnm_autofill_init ();
@@ -224,8 +328,7 @@ gnm_shutdown (void)
 	gnm_autofill_shutdown ();
 	print_shutdown ();
 	functions_shutdown ();
-	style_shutdown ();
-	gnumeric_color_shutdown ();
+
 	gnm_rendered_value_shutdown ();
 	dependent_types_shutdown ();
 	clipboard_shutdown ();
@@ -233,8 +336,12 @@ gnm_shutdown (void)
 	expr_shutdown ();
 	parse_util_shutdown ();
 	value_shutdown ();
+
+	gnm_font_shutdown ();
+	gnm_color_shutdown ();
 	gnm_conf_shutdown ();
 	gnm_style_shutdown ();
+
 	gnm_string_shutdown ();
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();

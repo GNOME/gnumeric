@@ -33,6 +33,7 @@ AM_CPPFLAGS = 								\
 
 # A hint is needed to build these headers first:
 BUILT_SOURCES =					\
+	gnm-marshalers.c			\
 	gnm-marshalers.h			\
 	gnumeric-paths.h
 
@@ -40,11 +41,10 @@ BUILT_SOURCES =					\
 non-intermediate: gnm-marshalers.c
 
 CLEANFILES = $(BUILT_SOURCES)			\
-	gnm-marshalers.c			\
 	gnumeric.exe.a
 
+libspreadsheet_la_CPPFLAGS = $(AM_CPPFLAGS) -DGNUMERIC_INTERNAL
 libspreadsheet_la_LDFLAGS = -release $(VERSION)
-
 libspreadsheet_la_LIBADD = 			\
 	$(gnumeric_app_libs)			\
 	$(GNUMERIC_LIBS)			\
@@ -52,7 +52,7 @@ libspreadsheet_la_LIBADD = 			\
 	$(HILDON_LIBS)
 
 libspreadsheet_la_SOURCES =			\
-	gnm-marshalers.list			\
+	gnm-marshalers.c			\
 	application.c				\
 	auto-format.c				\
 	cell.c					\
@@ -80,6 +80,7 @@ libspreadsheet_la_SOURCES =			\
 	gnm-format.c				\
 	gnm-graph-window.c			\
 	gnm-pane.c				\
+	gnm-pane-impl.h				\
 	gnumeric-simple-canvas.c		\
 	graph.c					\
 	gutils.c				\
@@ -105,6 +106,7 @@ libspreadsheet_la_SOURCES =			\
 	pivottable.c				\
 	position.c				\
 	preview-grid.c				\
+	preview-grid-impl.h			\
 	print-info.c				\
 	rangefunc.c				\
 	rangefunc-strings.c			\
@@ -148,6 +150,7 @@ libspreadsheet_la_SOURCES =			\
 	workbook-view.c				\
 	workbook-control.c 			\
 	wbc-gtk.c				\
+	wbc-gtk-impl.h				\
 	wbc-gtk-actions.c			\
 	wbc-gtk-edit.c				\
 	xml-io.c				\
@@ -158,11 +161,10 @@ libspreadsheet_la_SOURCES =			\
 	print.c					\
 	print-cell.c
 
-
 # When we switch to subversion fix this to nest as
 # libspreadsheet-ver/ssheet/header
 # doing it now would require massive cvs surgery.
-libspreadsheet_includedir = $(includedir)/libspreadsheet-1-7
+libspreadsheet_includedir = $(includedir)/libspreadsheet-1-7/ssheet
 libspreadsheet_include_HEADERS = 	\
 	application.h				\
 	auto-format.h				\
@@ -192,7 +194,6 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-format.h				\
 	gnm-graph-window.h			\
 	gnm-pane.h				\
-	gnm-pane-impl.h				\
 	gnm-style-impl.h			\
 	gnumeric.h				\
 	gnumeric-simple-canvas.h		\
@@ -222,7 +223,6 @@ libspreadsheet_include_HEADERS = 	\
 	pivottable.h				\
 	position.h				\
 	preview-grid.h				\
-	preview-grid-impl.h			\
 	print-info.h				\
 	rangefunc.h				\
 	rangefunc-strings.h			\
@@ -276,7 +276,6 @@ libspreadsheet_include_HEADERS = 	\
 	workbook-control.h 			\
 	workbook-control-priv.h 		\
 	wbc-gtk.h				\
-	wbc-gtk-impl.h				\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
@@ -296,9 +295,39 @@ gnumeric_LDADD =				\
 gnumeric_LDFLAGS = -export-dynamic
 
 if WITH_WIN32
-    libspreadsheet_la_LDFLAGS += -no-undefined -Wl,--export-all-symbols,--enable-runtime-pseudo-relo
     gnumeric_LDADD += gnumeric_rc.o
     gnumeric_LDFLAGS += -mwindows
+
+    libspreadsheet_la_DEPENDENCIES = libspreadsheet.def
+    libspreadsheet_la_LDFLAGS += -no-undefined -export-symbols libspreadsheet.def
+
+libspreadsheet.def: local.def 
+	echo EXPORTS > $@ && \
+	cat $^ | sort >> $@
+
+local.def: stamp-local.def
+	@true
+
+stamp-local.def: $(libspreadsheet_include_HEADERS) Makefile $(top_srcdir)/tools/dumpdef.pl
+	hdrs='$(libspreadsheet_include_HEADERS) dialogs/dialogs.h dialogs/tool-dialogs.h tools/goal-seek.h tools/analysis-tools.h'; \
+	hdrs_list=''; \
+	for hdr in $$hdrs; do \
+	  if test -f $(srcdir)/$$hdr; then \
+	    hdrs_list="$$hdrs_list $(srcdir)/$$hdr"; \
+	  else \
+	    hdrs_list="$$hdrs_list $$hdr"; \
+	  fi; \
+	done; \
+	cat $(top_builddir)/gnumeric-config.h $$hdrs_list | \
+		sed -e 's/^#[ \t]*include[ \t]\+.*$$//g' | \
+		$(CPP) $(AM_CPPFLAGS) "-DGNM_VAR_DECL=__declspec(dllexport)" -P - > xgen-localdef.1 && \
+	perl $(top_srcdir)/tools/dumpdef.pl \
+		xgen-localdef.1 > xgen-localdef.2 \
+	&& (cmp -s xgen-localdef.2 local.def || \
+		cp xgen-localdef.2 local.def) \
+	&& rm -f xgen-localdef.1 xgen-localdef.2 \
+	&& echo timestamp > $@	
+
 endif
 
 gnumeric_app_libs =				\
@@ -380,14 +409,16 @@ uninstall-hook:
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = main-component.c			\
-	    gnm-conf-gconf.c			\
-	    gnm-conf-keyfile.c			\
-	    gnm-conf-win32.c			\
-	    README.gnm_float			\
-	    gnumeric.rc gnm-i18n.h		\
-	    GNOME_Gnumeric-gtk.xml.in		\
-	    HILDON_Gnumeric-gtk.xml.in
+EXTRA_DIST = \
+	gnm-marshalers.list			\
+	main-component.c			\
+	gnm-conf-gconf.c			\
+	gnm-conf-keyfile.c			\
+	gnm-conf-win32.c			\
+	README.gnm_float			\
+	gnumeric.rc gnm-i18n.h			\
+	GNOME_Gnumeric-gtk.xml.in		\
+	HILDON_Gnumeric-gtk.xml.in
 
 gtkactiondir=$(gnumeric_datadir)
 

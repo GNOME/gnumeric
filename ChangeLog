@@ -1,3 +1,49 @@
+2007-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/io-context-gtk.c (icg_set_transient_for) : Use
+	  go_gtk_window_set_transient instead of gtk_window_set_transient_for.
+	  The former causes problems on win32, and breaks window stacking.
+	(icg_show_gui) : ditto.
+
+2007-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : install wbc-gtk-impl.h for now.  It has the
+	  definition of wbc_gtk_close.
+
+2007-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c : s/StyleFont/GnmFont/ and clean up the associated
+	  method names.  Then move things into style-font.h for now.
+	  This clarifies how much we'll need to move to GOFont.
+
+	* src/print-cell.h : just include the necessary gtk headers.  Even
+	  this breaks WITH_GTK work.  Why isn't this ins glib ?
+	* src/print.h : Move the renamed internal (not dllexported)
+	  gnm_print_debug flag here
+
+	Merge in the win32 cleanup work
+	* src/Makefile.am : Add a libspreadsheet CFLAG -DGNUMERIC_INTERNAL to
+	  control dllimport/dllexport for win32.  Required some adjustment of
+	  built-sources.
+
+	* src/libgnumeric.h : Add 'GNM_VAR_DECL' and use it for extern data
+	  that will be publicly visible.
+
+	* src/libgnumeric.c : re-order and handle some of the renaming
+	  style_init -> gnm_font_init, and gnumeric_color -> gnm_color.
+	(gnm_get_option_group) : move the shared cmd line arg parsing in here
+	  rather than duplicating the handlers in all the client apps.
+	* src/main-application.c (gnumeric_arg_parse) : eg from here.
+	  Rather than using global variables, pass the arguments as
+	  parameters to clean things up.
+	* src/ssconvert.c (main) : Use it here.
+	* src/ssindex.c (main) : and here.
+
+	* src/print-cell.h : just include the necessary gtk headers.  Even
+	  this breaks WITH_GTK work.  Why isn't this ins glib ?
+	* src/print.h : Move the renamed internal (not dllexported)
+	  gnm_print_debug flag here
+
 2007-09-20  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (compute_sheet_pages): Return error indicator,

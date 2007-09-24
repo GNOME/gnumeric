@@ -1095,7 +1095,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	/* Let them begin typing into the first entry widget. */
 	gtk_widget_grab_focus (GTK_WIDGET (left));
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (state->dialog));
+	go_gtk_window_set_transient (GTK_WINDOW (dialog), GTK_WINDOW (state->dialog));
 	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
 	gtk_widget_show (dialog);

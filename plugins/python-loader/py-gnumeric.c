@@ -1723,7 +1723,7 @@ py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 static PyObject *
 py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 {
-	WorkbookControl *wbc;
+	WBCGtk *wbcg;
 	PyObject *result;
 
 	if (!PyArg_ParseTuple (args, (char *) ":gui_add"))
@@ -1732,9 +1732,9 @@ py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 	if (workbook_sheet_count (self->wb) == 0)
 		(void)workbook_sheet_add (self->wb, -1);
 	
-	wbc = workbook_control_gui_new (NULL, self->wb, NULL);
-	result = py_new_Gui_object ((WBCGtk *)wbc);
-	g_object_unref (wbc);    /* py_new_Gui_object added a reference */
+	wbcg = wbc_gtk_new (NULL, self->wb, NULL, NULL);
+	result = py_new_Gui_object (wbcg);
+	g_object_unref (wbcg);    /* py_new_Gui_object added a reference */
 	return result;
 }
 

@@ -102,6 +102,9 @@ char const *uifilename = NULL;
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
 
+gint wbc_gtk_debug_deps = 0;
+gint wbc_gtk_debug_expr_share = 0;
+
 /****************************************************************************/
 
 static void
@@ -1467,13 +1470,13 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 {
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
-	if (dependency_debugging > 0) {
+	if (wbc_gtk_debug_deps > 0) {
 		WORKBOOK_FOREACH_SHEET (wb, sheet,
 			g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
 			gnm_dep_container_dump (sheet->deps););
 	}
 
-	if (expression_sharing_debugging > 0) {
+	if (wbc_gtk_debug_expr_share > 0) {
 		GnmExprSharer *es = workbook_share_expressions (wb, FALSE);
 
 		g_print ("Expression sharer results:\n"
@@ -1755,10 +1758,12 @@ show_gui (WBCGtk *wbcg)
 
 	fx = gnm_app_prefs->horizontal_window_fraction;
 	fy = gnm_app_prefs->vertical_window_fraction;
-	if (x_geometry && wbcg->toplevel &&
-	    gtk_window_parse_geometry (wbcg_toplevel (wbcg), x_geometry)) {
-		/* Successfully parsed geometry string
-		   and urged WM to comply */
+
+	/* Successfully parsed geometry string and urged WM to comply */
+	if (NULL != wbcg->preferred_geometry && NULL != wbcg->toplevel &&
+	    gtk_window_parse_geometry (wbcg->toplevel, wbcg->preferred_geometry)) {
+		g_free (wbcg->preferred_geometry);
+		wbcg->preferred_geometry = NULL;
 	} else if (wbcg->notebook != NULL &&
 		   wbv != NULL &&
 		   (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
@@ -1802,7 +1807,6 @@ show_gui (WBCGtk *wbcg)
 	if (NULL != (scg = wbcg_cur_scg (wbcg)))
 		cb_direction_change (NULL, NULL, scg);
 
-	x_geometry = NULL;
 	gtk_widget_show (GTK_WIDGET (wbcg_toplevel (wbcg)));
 
 	/* rehide headers if necessary */
@@ -1989,9 +1993,8 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 		 tooltips, _("Enter formula..."));
 
 	/* Dependency debugger */
-	if (gnumeric_debugging > 9 ||
-	    dependency_debugging > 0 ||
-	    expression_sharing_debugging > 0) {
+	if (wbc_gtk_debug_deps > 0 ||
+	    wbc_gtk_debug_expr_share > 0) {
 		(void)edit_area_button (wbcg, tb, TRUE,
 					G_CALLBACK (cb_workbook_debug_info),
 					GTK_STOCK_DIALOG_INFO,
@@ -2693,7 +2696,8 @@ wbc_gtk_control_new (G_GNUC_UNUSED WorkbookControl *wbc,
 		     Workbook *wb,
 		     gpointer extra)
 {
-	return workbook_control_gui_new (wbv, wb, extra ? GDK_SCREEN (extra) : NULL);
+	return (WorkbookControl *)wbc_gtk_new (wbv, wb,
+		extra ? GDK_SCREEN (extra) : NULL, NULL);
 }
 
 static void
@@ -4011,6 +4015,8 @@ wbc_gtk_finalize (GObject *obj)
 	}
 #endif
 
+	g_free (wbcg->preferred_geometry);
+	wbcg->preferred_geometry = NULL;
 
 	parent_class->finalize (obj);
 }
@@ -4536,15 +4542,18 @@ wbc_gtk_markup_changer (WBCGtk *wbcg)
 
 /******************************************************************************/
 
-WorkbookControl *
-workbook_control_gui_new (WorkbookView *optional_view,
-			  Workbook *optional_wb,
-			  GdkScreen *optional_screen)
+WBCGtk *
+wbc_gtk_new (WorkbookView *optional_view,
+	     Workbook *optional_wb,
+	     GdkScreen *optional_screen,
+	     gchar *optional_geometry)
 {
 	Sheet *sheet;
 	WorkbookView *wbv;
 	WBCGtk *wbcg = g_object_new (wbc_gtk_get_type (), NULL);
 	WorkbookControl *wbc = (WorkbookControl *)wbcg;
+
+	wbcg->preferred_geometry = g_strdup (optional_geometry);
 
 	wbcg_create_edit_area (wbcg);
 	wbc_gtk_create_status_area (wbcg);
@@ -4573,7 +4582,7 @@ workbook_control_gui_new (WorkbookView *optional_view,
 	g_idle_add ((GSourceFunc) show_gui, wbcg);
 
 	wb_control_init_state ((WorkbookControl *)wbcg);
-	return (WorkbookControl *)wbcg;
+	return wbcg;
 }
 
 gboolean

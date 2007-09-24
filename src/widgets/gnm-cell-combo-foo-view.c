@@ -3,7 +3,7 @@
 /*
  * gnm-cell-combo-foo-view.c: A foocanvas object for an in-cell combo-box
  *
- * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -245,31 +245,22 @@ cb_ccombo_button_release (GtkWidget *popup, GdkEventButton *event,
 	return FALSE;
 }
 
-#if 0
-static void
-cb_focus_changed (GtkWindow *toplevel,
-		  G_GNUC_UNUSED GParamSpec *pspec,
-		  SheetObjectView *sov)
-{
-	g_warning (gtk_window_has_toplevel_focus (toplevel) ? "focus" : "no focus");
-}
-#endif
-
 static void
 cb_ccombo_button_pressed (G_GNUC_UNUSED GtkButton *button,
 			  SheetObjectView *sov)
 {
-	gnm_cell_combo_foo_view_popdown (sov);
+	gnm_cell_combo_foo_view_popdown (sov, GDK_CURRENT_TIME);
 }
 
 /**
  * gnm_cell_combo_foo_view_popdown:
  * @sov : #SheetObjectView
+ * @activate_time : event time
  *
- * Open the popup window
+ * Open the popup window associated with @sov
  **/
 void
-gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
+gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 {
 	FooCanvasItem	   *view   = FOO_CANVAS_ITEM (sov);
 	GnmPane		   *pane   = GNM_PANE (view->canvas);
@@ -282,11 +273,26 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 	GtkTreeViewColumn *column;
 	GtkTreePath	  *clip = NULL, *select = NULL;
 	GtkRequisition	req;
-	GtkWindow *toplevel =  wbcg_toplevel (scg_wbcg (scg));
+	GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_window_set_transient_for (toplevel, GTK_WINDOW (popup));
+	gtk_window_set_type_hint (GTK_WINDOW (popup), GDK_WINDOW_TYPE_HINT_COMBO);
 	gtk_window_group_add_window (gtk_window_get_group (toplevel), GTK_WINDOW (popup));
+	go_gtk_window_set_transient (toplevel, GTK_WINDOW (popup));
+
+	gtk_window_set_resizable (GTK_WINDOW (popup), FALSE);
+	gtk_window_set_decorated (GTK_WINDOW (popup), FALSE);
+	gtk_window_set_screen (GTK_WINDOW (popup),
+		gtk_widget_get_screen (GTK_WIDGET (toplevel)));
+
+#ifndef G_OS_WIN32 /* BREAKS win32, the popup shows up behind the app ?? */
+	go_gtk_window_set_transient (toplevel, GTK_WINDOW (popup));
+#endif
+
+	gtk_window_set_resizable (GTK_WINDOW (popup), FALSE);
+	gtk_window_set_decorated (GTK_WINDOW (popup), FALSE);
+	gtk_window_set_screen (GTK_WINDOW (popup),
+		gtk_widget_get_screen (GTK_WIDGET (toplevel)));
 
 	model = ccombo_fill_model (GNM_CCOMBO_FOO_VIEW (sov), so, &clip, &select);
 	column = gtk_tree_view_column_new_with_attributes ("ID",
@@ -298,11 +304,6 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (list), column);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
 	g_object_set_data (G_OBJECT (list), SOV_ID, sov);
-#if 0
-	id = g_signal_connect (G_OBJECT (wbcg_toplevel (scg_wbcg (scg))),
-		"notify::has-toplevel-focus",
-		G_CALLBACK (cb_focus_changed), sov);
-#endif
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -332,7 +333,6 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 	gtk_container_add (GTK_CONTAINER (frame), container);
 
 	/* do the popup */
-	gtk_window_set_decorated (GTK_WINDOW (popup), FALSE);
 	gdk_window_get_origin (GTK_WIDGET (pane)->window,
 		&root_x, &root_y);
 	if (sheet->text_is_rtl) {
@@ -375,19 +375,22 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov)
 		gtk_tree_path_free (select);
 	}
 
+	gtk_widget_grab_focus (popup);
 	gtk_widget_grab_focus (GTK_WIDGET (list));
 	ccombo_focus_change (GTK_WIDGET (list), TRUE);
 
-	gtk_grab_add (popup);
-	if (gdk_pointer_grab (popup->window, TRUE,
+	if (0 == gdk_pointer_grab (popup->window, TRUE,
 		GDK_BUTTON_PRESS_MASK |
 		GDK_BUTTON_RELEASE_MASK |
 		GDK_POINTER_MOTION_MASK,
-		NULL, NULL, GDK_CURRENT_TIME))
-		return;
-	if (gdk_keyboard_grab (popup->window, TRUE, GDK_CURRENT_TIME))
-		gdk_display_pointer_ungrab (
-			gdk_drawable_get_display (popup->window), GDK_CURRENT_TIME);
+		NULL, NULL, activate_time)) {
+		if (0 ==  gdk_keyboard_grab (popup->window, TRUE, activate_time)) {
+			gtk_grab_add (popup);
+		} else {
+			gdk_display_pointer_ungrab (
+				gdk_drawable_get_display (popup->window), activate_time);
+		}
+	}
 }
 
 /**

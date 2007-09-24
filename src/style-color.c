@@ -232,7 +232,7 @@ color_hash (gconstpointer v)
 }
 
 void
-gnumeric_color_init (void)
+gnm_color_init (void)
 {
 	GdkColor error;
 
@@ -273,7 +273,7 @@ cb_color_leak (gpointer key, gpointer value, gpointer user_data)
 }
 
 void
-gnumeric_color_shutdown (void)
+gnm_color_shutdown (void)
 {
 	/*
 	 * FIXME: this doesn't really belong here, but style-border.c isn't

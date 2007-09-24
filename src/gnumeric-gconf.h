@@ -7,6 +7,7 @@
 #include <gnumeric.h>
 #include <glib-object.h>
 #include <print-info.h>
+#include <libgnumeric.h>
 #include <goffice/utils/go-geometry.h>
 #include <gtk/gtkprintsettings.h>
 
@@ -95,7 +96,7 @@ typedef struct {
 	gboolean         prefer_clipboard_selection;  /* As opposed to "primary".  */
 	gboolean	 latex_use_utf8;
 } GnmAppPrefs;
-extern GnmAppPrefs const *gnm_app_prefs;
+GNM_VAR_DECL GnmAppPrefs const *gnm_app_prefs;
 
 typedef struct _GOConfNode GOConfNode;
 

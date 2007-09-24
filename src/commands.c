@@ -1745,7 +1745,7 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	re_fit_height =	me->new_style &&
-		(GNM_SPANCALC_ROW_HEIGHT & required_updates_for_style (me->new_style));
+		(GNM_SPANCALC_ROW_HEIGHT & gnm_style_required_spanflags (me->new_style));
 
 	for (l1 = me->old_styles, l2 = me->selection; l2; l1 = l1->next, l2 = l2->next) {
 		CmdFormatOldStyle *os = l1->data;

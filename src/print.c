@@ -42,7 +42,13 @@
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-glib-extras.h>
 
-#include <gtk/gtk.h>
+#include <gtk/gtkprintoperation.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkradiobutton.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtklabel.h>
 
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
@@ -74,6 +80,7 @@ typedef struct {
         gboolean ignore_printarea;
 } SheetPrintInfo;
 
+gboolean gnm_print_debug = FALSE;
 
 static PrintingInstance *
 printing_instance_new (void)
@@ -379,7 +386,7 @@ ensure_decoration_layout (PrintJobInfo *pj)
  *
  * Print a header/footer line.
  *
- * Position at y, and clip to rectangle. If print_debugging is > 0, display
+ * Position at y, and clip to rectangle. If gnm_print_debug is TRUE, display
  * the rectangle.
  */
 static void
@@ -429,7 +436,7 @@ print_hf_element (PrintJobInfo const *pj, Sheet const *sheet, char const *format
  *
  * Print a header/footer line.
  *
- * Position at y, and clip to rectangle. If print_debugging is > 0, display
+ * Position at y, and clip to rectangle. If gnm_print_debug is TRUE, display
  * the rectangle.
  */
 static void
@@ -455,7 +462,7 @@ print_hf_line (PrintJobInfo const *pj, Sheet const *sheet,
 				   left, bottom, right, top);
 
 #ifndef NO_DEBUG_PRINT
-	if (print_debugging > 0) {
+	if (gnm_print_debug) {
 		static const double dash[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
 		static gint n_dash = G_N_ELEMENTS (dash);
 

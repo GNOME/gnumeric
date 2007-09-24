@@ -28,7 +28,6 @@ Review
 
 Short term goals
 ----------------
-    - libthai for win32 build
     - replicate win32 print problems
     - Finish the Data -> Table dialog
     - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
@@ -36,7 +35,7 @@ Short term goals
     - tango icons
 	http://live.gnome.org/GnomeGoals/AppIcon
 	http://live.gnome.org/ThemableAppSpecificIcons
-    - Add a go_glade_signal_connect (and friends)
+    - Use go_glade_signal_connect (and friends)
 
 Worries
 -------
@@ -101,7 +100,6 @@ Architecture Changes
 - Merge wb_control_init_state and wb_control_set_view
 - Use gtk_window_group_new to keep wbcg's distinct 
 - merge GnmPane and GnmCanvas					(DONE)
-
 
 1) things to move into libgoffice
     1.1) plugin-manager dialog
@@ -1063,3 +1061,5 @@ General Ideas
     - A connection to swivel (www.swivel.com)
     - Sugar/OLPC UI & collab
     - Add 'send a frown/smile' button
+    - 'fish eye' zoom to around selection
+    - treemap for heirarchical data

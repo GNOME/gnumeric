@@ -15,11 +15,11 @@
 #define WBC_GTK(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), WBC_GTK_TYPE, WBCGtk))
 #define IS_WBC_GTK(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), WBC_GTK_TYPE))
 
-GType wbc_gtk_get_type (void);
-
-WorkbookControl *workbook_control_gui_new	(WorkbookView *optional_view,
-						 Workbook *optional_wb,
-						 GdkScreen *optional_screen);
+GType   wbc_gtk_get_type (void);
+WBCGtk *wbc_gtk_new (WorkbookView *optional_view,
+		     Workbook	  *optional_wb,
+		     GdkScreen	  *optional_screen,
+		     gchar	  *optional_geometry);
 
 GtkWindow	*wbcg_toplevel	  (WBCGtk *wbcg);
 void	         wbcg_set_transient (WBCGtk *wbcg,

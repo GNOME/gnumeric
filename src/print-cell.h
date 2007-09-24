@@ -2,7 +2,8 @@
 #define GNUMERIC_PRINT_CELL_H
 
 #include "gnumeric.h"
-#include <gtk/gtk.h>
+#include <cairo.h>
+#include <gtk/gtkprintcontext.h>
 
 void gnm_gtk_print_cell_range (GtkPrintContext *print_context,
 			       cairo_t *context,

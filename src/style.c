@@ -35,7 +35,7 @@
 static GHashTable *style_font_hash;
 static GHashTable *style_font_negative_hash;
 
-double gnumeric_default_font_width;
+double gnm_font_default_width;
 static char *gnumeric_default_font_name;
 static double gnumeric_default_font_size;
 
@@ -159,9 +159,9 @@ style_font_new_simple (PangoContext *context,
 }
 
 GnmFont *
-style_font_new (PangoContext *context,
-		char const *font_name, double size_pts, double scale,
-		gboolean bold, gboolean italic)
+gnm_font_new (PangoContext *context,
+	      char const *font_name, double size_pts, double scale,
+	      gboolean bold, gboolean italic)
 {
 	GnmFont *font;
 
@@ -201,7 +201,7 @@ style_font_new (PangoContext *context,
 }
 
 void
-style_font_ref (GnmFont *sf)
+gnm_font_ref (GnmFont *sf)
 {
 	g_return_if_fail (sf != NULL);
 
@@ -216,7 +216,7 @@ style_font_ref (GnmFont *sf)
 }
 
 void
-style_font_unref (GnmFont *sf)
+gnm_font_unref (GnmFont *sf)
 {
 	g_return_if_fail (sf != NULL);
 	g_return_if_fail (sf->ref_count > 0);
@@ -249,11 +249,8 @@ style_font_unref (GnmFont *sf)
 	g_free (sf);
 }
 
-/*
- * The routines used to hash and compare the different styles
- */
 gint
-style_font_equal (gconstpointer v, gconstpointer v2)
+gnm_font_equal (gconstpointer v, gconstpointer v2)
 {
 	GnmFont const *k1 = (GnmFont const *) v;
 	GnmFont const *k2 = (GnmFont const *) v2;
@@ -270,9 +267,8 @@ style_font_equal (gconstpointer v, gconstpointer v2)
 
 	return !strcmp (k1->font_name, k2->font_name);
 }
-
 guint
-style_font_hash_func (gconstpointer v)
+gnm_font_hash (gconstpointer v)
 {
 	GnmFont const *k = (GnmFont const *) v;
 
@@ -306,12 +302,17 @@ gnm_pango_context_get (void)
 	return context;
 }
 
-static void
-font_init (void)
+void
+gnm_font_init (void)
 {
 	PangoContext *context;
 	GnmFont *gnumeric_default_font = NULL;
 	double pts_scale = 72. / gnm_app_display_dpi_get (TRUE);
+
+	style_font_hash		 = g_hash_table_new (
+		gnm_font_hash, gnm_font_equal);
+	style_font_negative_hash = g_hash_table_new (
+		gnm_font_hash, gnm_font_equal);
 
 	gnumeric_default_font_name = g_strdup (gnm_app_prefs->default_font.name);
 	gnumeric_default_font_size = gnm_app_prefs->default_font.size;
@@ -347,39 +348,10 @@ font_init (void)
 		}
 	}
 
-	gnumeric_default_font_width = pts_scale *
+	gnm_font_default_width = pts_scale *
 		PANGO_PIXELS (gnumeric_default_font->go.metrics->avg_digit_width);
-	style_font_unref (gnumeric_default_font);
+	gnm_font_unref (gnumeric_default_font);
 	g_object_unref (G_OBJECT (context));
-}
-
-static void
-font_shutdown (void)
-{
-	g_free (gnumeric_default_font_name);
-	gnumeric_default_font_name = NULL;
-
-	if (fontmap) {
-		/*
-		 * Workaround for bug #143542 (PangoFT2Fontmap leak).
-		 * See also bug #148997 (Text layer rendering leaks font file
-		 * descriptor).
-		 */
-		pango_ft2_font_map_substitute_changed (PANGO_FT2_FONT_MAP (fontmap));
-		g_object_unref (fontmap);
-		fontmap = NULL;
-	}
-}
-
-void
-style_init (void)
-{
-	style_font_hash = g_hash_table_new (style_font_hash_func,
-					    style_font_equal);
-	style_font_negative_hash = g_hash_table_new (style_font_hash_func,
-						     style_font_equal);
-
-	font_init ();
 }
 
 static void
@@ -395,26 +367,41 @@ list_cached_fonts (GnmFont *font, gpointer value, GSList **lp)
 	*lp = g_slist_prepend (*lp, font);
 }
 
-/*
- * Release all resources allocated by style_init.
- */
+/**
+ * gnm_font_shutdown:
+ *
+ * Release all resources allocated by gnm_font_init.
+ **/
 void
-style_shutdown (void)
+gnm_font_shutdown (void)
 {
-	font_shutdown ();
-	{
-		/* Make a list of the fonts, then unref them.  */
-		GSList *fonts = NULL, *tmp;
-		g_hash_table_foreach (style_font_hash, (GHFunc) list_cached_fonts, &fonts);
-		for (tmp = fonts; tmp; tmp = tmp->next) {
-			GnmFont *sf = tmp->data;
-			if (sf->ref_count != 1)
-				g_warning ("Font %s has %d references instead of the expected single.",
-					   sf->font_name, sf->ref_count);
-			style_font_unref (sf);
-		}
-		g_slist_free (fonts);
+	GSList *fonts = NULL, *tmp;
+
+	g_free (gnumeric_default_font_name);
+	gnumeric_default_font_name = NULL;
+
+	if (fontmap) {
+		/*
+		 * Workaround for bug #143542 (PangoFT2Fontmap leak).
+		 * See also bug #148997 (Text layer rendering leaks font file
+		 * descriptor).
+		 */
+		pango_ft2_font_map_substitute_changed (PANGO_FT2_FONT_MAP (fontmap));
+		g_object_unref (fontmap);
+		fontmap = NULL;
 	}
+
+	/* Make a list of the fonts, then unref them.  */
+	g_hash_table_foreach (style_font_hash, (GHFunc) list_cached_fonts, &fonts);
+	for (tmp = fonts; tmp; tmp = tmp->next) {
+		GnmFont *sf = tmp->data;
+		if (sf->ref_count != 1)
+			g_warning ("Font %s has %d references instead of the expected single.",
+				   sf->font_name, sf->ref_count);
+		gnm_font_unref (sf);
+	}
+	g_slist_free (fonts);
+
 	g_hash_table_destroy (style_font_hash);
 	style_font_hash = NULL;
 
@@ -424,13 +411,13 @@ style_shutdown (void)
 }
 
 /**
- * required_updates_for_style
+ * gnm_style_required_spanflags
  * @style: the style
  *
  * What changes are required after applying the supplied style.
- */
+ **/
 GnmSpanCalcFlags
-required_updates_for_style (GnmStyle const *style)
+gnm_style_required_spanflags (GnmStyle const *style)
 {
 	GnmSpanCalcFlags res = GNM_SPANCALC_SIMPLE;
 
@@ -460,7 +447,7 @@ required_updates_for_style (GnmStyle const *style)
 }
 
 /**
- * style_default_halign :
+ * gnm_style_default_halign :
  * @style :
  * @cell  :
  *
@@ -468,7 +455,7 @@ required_updates_for_style (GnmStyle const *style)
  * value.
  */
 GnmHAlign
-style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
+gnm_style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 {
 	GnmHAlign align = gnm_style_get_align_h (mstyle);
 	GnmValue *v;

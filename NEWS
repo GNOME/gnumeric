@@ -6,6 +6,8 @@ Jean:
 
 Jody:
 	* XLSX import chart axes, singletons, some styles.
+	* Merge in most of the win32 cleanup.
+	* Fix autofilters on win32.
 
 Jon Kåre:
 	* Fix python crash. [#461845]

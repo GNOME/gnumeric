@@ -1,3 +1,9 @@
+2007-09-24  Jody Goldberg <jody@gnome.org>
+
+	* dialog-printer-setup.c (do_hf_customize) : Use
+	  go_gtk_window_set_transient instead of gtk_window_set_transient_for.
+	  The former causes problems on win32, and breaks window stacking.
+
 2007-09-16  Jody Goldberg <jody@gnome.org>
 
 	* dialog-preferences.c : Add some includes.

@@ -76,7 +76,7 @@ main (int argc, char const **argv)
 
 	initial_workbook_open_complete = TRUE; /* make the last unref exit */
 
-	wbc = workbook_control_gui_new (NULL, workbook_new_with_sheets (1), NULL);
+	wbc = wbc_gtk_new (NULL, workbook_new_with_sheets (1), NULL, NULL);
 
 	g_idle_add (cb_exercise_pango, wbc);
 

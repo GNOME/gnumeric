@@ -2,6 +2,7 @@
 #define GNUMERIC_STYLE_H
 
 #include "gnumeric.h"
+#include "libgnumeric.h"
 #include <pango/pango-context.h>
 
 #define DEFAULT_FONT "Sans"
@@ -48,22 +49,8 @@ typedef enum {
 
 #include "mstyle.h"
 
-void           style_init  	      (void);
-void	       style_shutdown         (void);
-
-GnmFont     *style_font_new         (PangoContext *context,
-				     char const *font_name,
-				     double size_pts, double scale,
-				     gboolean bold, gboolean italic);
-void style_font_ref          (GnmFont *sf);
-void style_font_unref        (GnmFont *sf);
-
-guint          style_font_hash_func (gconstpointer v);
-gint           style_font_equal (gconstpointer v, gconstpointer v2);
-
-GnmSpanCalcFlags	 required_updates_for_style (GnmStyle const *style);
-GnmHAlign style_default_halign (GnmStyle const *mstyle, GnmCell const *c);
-
-extern double gnumeric_default_font_width;
+GnmSpanCalcFlags gnm_style_required_spanflags (GnmStyle const *style);
+GnmHAlign	 gnm_style_default_halign     (GnmStyle const *style,
+					       GnmCell const *c);
 
 #endif /* GNUMERIC_STYLE_H */

@@ -1,7 +1,8 @@
-#ifndef GNUMERIC_STYLE_COLOR_H
-#define GNUMERIC_STYLE_COLOR_H
+#ifndef GNM_COLOR_H
+#define GNM_COLOR_H
 
 #include "gnumeric.h"
+#include "libgnumeric.h"
 #include <goffice/utils/go-color.h>
 #include <gdk/gdkcolor.h>
 
@@ -17,7 +18,12 @@ struct _GnmColor {
 };
 
 /* Colors used by any GnumericSheet item */
-extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black, gs_lavender, gs_yellow;
+GNM_VAR_DECL GdkColor gs_white;
+GNM_VAR_DECL GdkColor gs_light_gray;
+GNM_VAR_DECL GdkColor gs_dark_gray;
+GNM_VAR_DECL GdkColor gs_black;
+GNM_VAR_DECL GdkColor gs_lavender;
+GNM_VAR_DECL GdkColor gs_yellow;
 
 GnmColor *style_color_new_go   (GOColor c);
 GnmColor *style_color_new_name  (char const *name);
@@ -35,7 +41,9 @@ GnmColor *style_color_black    (void);
 GnmColor *style_color_white    (void);
 GnmColor *style_color_grid     (void);
 
-void gnumeric_color_init     (void);
-void gnumeric_color_shutdown (void);
+/****************************************************************/
+/* Internal */
+void gnm_color_init     (void);
+void gnm_color_shutdown (void);
 
-#endif /* GNUMERIC_STYLE_COLOR_H */
+#endif /* GNM_COLOR_H */

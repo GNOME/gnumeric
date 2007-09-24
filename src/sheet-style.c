@@ -2323,7 +2323,7 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 
 		gnm_style_ref (sr->style);
 		sheet_style_set_range (sheet, &r, sr->style);
-		spanflags |= required_updates_for_style (sr->style);
+		spanflags |= gnm_style_required_spanflags (sr->style);
 	}
 	return spanflags;
 }

@@ -82,8 +82,7 @@ static GNM_ACTION_DEF (cb_file_new)
 	GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
 	Workbook *wb = workbook_new_with_sheets
 		(gnm_app_prefs->initial_sheet_number);
-	WorkbookControl *new_wbc = workbook_control_gui_new (NULL, wb, screen);
-	WBCGtk *new_wbcg = WBC_GTK (new_wbc);
+	WBCGtk *new_wbcg = wbc_gtk_new (NULL, wb, screen, NULL);
 	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 }
 

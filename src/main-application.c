@@ -33,6 +33,7 @@
 #include "gnumeric-paths.h"
 #include "session.h"
 #include "sheet.h"
+#include "gutils.h"
 #include "gnm-plugin.h"
 
 #include <gtk/gtkmain.h>
@@ -58,72 +59,31 @@
 #include <libosso.h>
 #endif
 
-static gboolean gnumeric_show_version = FALSE;
 static gboolean split_funcdocs = FALSE;
 static gboolean immediate_exit_flag = FALSE;
 static gboolean gnumeric_no_splash = FALSE;
 static gboolean gnumeric_no_warnings = FALSE;
 static gchar  *func_def_file = NULL;
 static gchar  *func_state_file = NULL;
+static gchar  *geometry = NULL;
 static gchar **startup_files;
 
 static const GOptionEntry gnumeric_options [] = {
-	{
-		"version", 'v',
-		0, G_OPTION_ARG_NONE, &gnumeric_show_version,
-		N_("Display Gnumeric's version"),
-		NULL
-	},
-	{
-		"lib-dir", 'L',
-		0, G_OPTION_ARG_FILENAME, &gnumeric_lib_dir,
-		N_("Set the root library directory"),
-		N_("DIR")
-	},
-	{
-		"data-dir", 'D',
-		0, G_OPTION_ARG_FILENAME, &gnumeric_data_dir,
-		N_("Adjust the root data directory"),
-		N_("DIR")
-	},
-	{
-		"geometry", 'g',
-		0, G_OPTION_ARG_STRING, &x_geometry,
+	/*********************************
+	 * Public Variables */
+	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
 		N_("Specify the size and location of the initial window"),
 		N_("WIDTHxHEIGHT+XOFF+YOFF")
 	},
-	{
-		"no-splash", 0,
-		0, G_OPTION_ARG_NONE, &gnumeric_no_splash,
-		N_("Don't show splash screen"),
-		NULL
-	},
-	{
-		"no-warnings", 0,
-		0, G_OPTION_ARG_NONE, &gnumeric_no_warnings,
+	{ "no-splash", 0, 0, G_OPTION_ARG_NONE, &gnumeric_no_splash,
+		N_("Don't show splash screen"), NULL },
+	{ "no-warnings", 0, 0, G_OPTION_ARG_NONE, &gnumeric_no_warnings,
 		N_("Don't display warning dialogs when importing"),
 		NULL
 	},
 
-	{
-		"debug-deps", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &dependency_debugging,
-		N_("Enables some dependency related debugging functions"),
-		N_("LEVEL")
-	},
-	{
-		"debug-share", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &expression_sharing_debugging,
-		N_("Enables some debugging functions for expression sharing"),
-		N_("LEVEL")
-	},
-	{
-		"debug-print", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &print_debugging,
-		N_("Enables some print debugging behavior"),
-		N_("LEVEL")
-	},
-
+	/*********************************
+	 * Hidden Actions */
 	{
 		"dump-func-defs", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_FILENAME, &func_def_file,
@@ -141,12 +101,6 @@ static const GOptionEntry gnumeric_options [] = {
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &split_funcdocs,
 		N_("Generate new help and po files"),
 		NULL
-	},
-	{
-		"debug", 0,
-		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_INT, &gnumeric_debugging,
-		N_("Enables some debugging functions"),
-		N_("LEVEL")
 	},
 	{
 		"quit", 0,
@@ -232,11 +186,12 @@ gnumeric_arg_parse (int argc, char **argv)
 
 	ocontext = g_option_context_new ("[FILE ...]");
 	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
+	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
 
 #ifdef WITH_GNOME
 #ifndef GNOME_PARAM_GOPTION_CONTEXT
 	/*
-	 * Bummer.  We cannot make gnome_program_init handle out args so
+	 * Bummer.  We cannot make gnome_program_init handle our args so
 	 * we do it ourselves.  That, in turn, means we don't handle
 	 * libgnome[ui]'s args.
 	 *
@@ -386,12 +341,6 @@ main (int argc, char const **argv)
 	gnumeric_arg_parse (argc, (char **)argv);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
-	if (gnumeric_show_version) {
-		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
-		return 0;
-	}
-
 	with_gui = !func_def_file && !func_state_file && !split_funcdocs;
 
 	if (with_gui) {
@@ -456,8 +405,8 @@ main (int argc, char const **argv)
 
 				workbook_update_history (wb_view_get_workbook (wbv));
 
-				wbcg = WBC_GTK
-					(workbook_control_gui_new (wbv, NULL, NULL));
+				wbcg = wbc_gtk_new (wbv, NULL, NULL, geometry);
+				geometry = NULL;
 				sheet_update (wb_view_cur_sheet	(wbv));
   				opened_workbook = TRUE;
 				icg_set_transient_for (IO_CONTEXT_GTK (ioc),
@@ -481,9 +430,9 @@ main (int argc, char const **argv)
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
 			gint n_of_sheets = gnm_app_prefs->initial_sheet_number;
-
-			workbook_control_gui_new
-				(NULL, workbook_new_with_sheets (n_of_sheets), NULL);
+			wbc_gtk_new (NULL,
+				workbook_new_with_sheets (n_of_sheets),
+				NULL, NULL);
 			/* cheesy attempt to keep the ui from freezing during load */
 			handle_paint_events ();
 		}

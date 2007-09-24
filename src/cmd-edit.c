@@ -41,8 +41,6 @@
 #include "clipboard.h"
 #include "value.h"
 
-#include <gtk/gtk.h>
-
 /**
  * sv_select_cur_row:
  * @sv: The sheet

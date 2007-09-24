@@ -928,7 +928,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 	/* Send the alignment of the cell through a routine to deal with
 	 * HALIGN_GENERAL and then deal with the three cases. */
-	switch ( style_default_halign(style, cell) ) {
+	switch (gnm_style_default_halign (style, cell)) {
 	case HALIGN_RIGHT:
 		gsf_output_printf (output, "\\gnumericPB{\\raggedleft}");
 		break;
@@ -952,7 +952,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 	/* if we don't wrap put it into an mbox, adjusted to width 0 to avoid moving */
 	/* it to the second line of the parbox */
 	if (!wrap)
-		switch ( style_default_halign(style, cell) ) {
+		switch (gnm_style_default_halign (style, cell)) {
 		case HALIGN_RIGHT:
 			gsf_output_printf (output, "\\gnumbox[r]{");
 			break;

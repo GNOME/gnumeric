@@ -79,7 +79,7 @@ typedef struct {
 	GOComponent parent;
 
 	WorkbookView	*wv;
-	WorkbookControl *edited;
+	WBCGtk		*edited;
 	Sheet		*sheet;
 	int col_start, col_end, row_start, row_end;
 	int width, height;
@@ -104,8 +104,8 @@ go_gnm_component_get_data (GOComponent *component, gpointer *data, int *length,
 		GOCmdContext *cc = go_component_get_command_context ();
 		IOContext *io_context = gnumeric_io_context_new (cc);
 		GsfOutput *output = gsf_output_memory_new ();
-		WorkbookView *wbv = wb_control_view (gognm->edited);
-		Workbook *wb = wb_control_get_workbook (gognm->edited);
+		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (gognm->edited));
+		Workbook *wb = wb_view_get_workbook (wbv);
 		GOFileSaver *gfs = workbook_get_file_saver (wb);
 		if (gfs == NULL)
 			gfs = go_file_saver_get_default ();
@@ -387,7 +387,7 @@ go_gnm_component_edit (GOComponent *component)
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	WorkbookView *wv;
 	if (gognm->edited) {
-		gdk_window_raise (wbcg_toplevel (WBC_GTK (gognm->edited))->window);
+		gdk_window_raise (wbcg_toplevel (gognm->edited)->window);
 		return TRUE;
 	}
 	if (!gognm->wv) {
@@ -405,7 +405,7 @@ go_gnm_component_edit (GOComponent *component)
 		g_object_unref (io_context);
 	}
 	uifilename =  "Gnumeric-embed.xml";
-	gognm->edited = workbook_control_gui_new (wv, NULL, NULL);
+	gognm->edited = wbc_gtk_new (wv, NULL, NULL, NULL);
 	gtk_action_group_add_actions (wbcg->actions,
 		actions, G_N_ELEMENTS (actions), wbcg);
 

@@ -16,6 +16,7 @@
 #include "parse-util.h"
 #include "workbook.h"
 #include "libgnumeric.h"
+#include "gutils.h"
 #include "gnumeric-paths.h"
 #include "gnm-plugin.h"
 #include "command-context.h"
@@ -49,22 +50,6 @@ static const GOptionEntry ssconvert_options [] = {
 		0, G_OPTION_ARG_NONE, &ssconvert_show_version,
 		N_("Display program version"),
 		NULL
-	},
-
-	/* ---------------------------------------- */
-
-	{
-		"lib-dir", 'L',
-		0, G_OPTION_ARG_FILENAME, &gnumeric_lib_dir,
-		N_("Set the root library directory"),
-		N_("DIR")
-	},
-
-	{
-		"data-dir", 'D',
-		0, G_OPTION_ARG_FILENAME, &gnumeric_data_dir,
-		N_("Adjust the root data directory"),
-		N_("DIR")
 	},
 
 	/* ---------------------------------------- */
@@ -326,6 +311,7 @@ main (int argc, char const **argv)
 
 	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
 	g_option_context_add_main_entries (ocontext, ssconvert_options, GETTEXT_PACKAGE);
+	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
 	g_option_context_parse (ocontext, &argc, (char **)&argv, &error);
 	g_option_context_free (ocontext);
 

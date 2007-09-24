@@ -11,6 +11,7 @@
 #include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
+#include "gutils.h"
 #include "gnumeric-paths.h"
 #include <goffice/app/go-plugin.h>
 #include "command-context-stderr.h"
@@ -47,24 +48,6 @@ static GOptionEntry const ssindex_options [] = {
 		N_("Display program version"),
 		NULL
 	},
-
-	/* ---------------------------------------- */
-
-	{
-		"lib-dir", 'L',
-		0, G_OPTION_ARG_FILENAME, &gnumeric_lib_dir,
-		N_("Set the root library directory"),
-		N_("DIR")
-	},
-
-	{
-		"data-dir", 'D',
-		0, G_OPTION_ARG_FILENAME, &gnumeric_data_dir,
-		N_("Adjust the root data directory"),
-		N_("DIR")
-	},
-
-	/* ---------------------------------------- */
 
 	{
 		"list-mime-types", 'm',
@@ -220,6 +203,7 @@ main (int argc, char const **argv)
 
 	ocontext = g_option_context_new (_("INFILE..."));
 	g_option_context_add_main_entries (ocontext, ssindex_options, GETTEXT_PACKAGE);
+	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
 	g_option_context_parse (ocontext, &argc, (gchar ***)&argv, &error);
 	g_option_context_free (ocontext);
 

@@ -1119,7 +1119,7 @@ sheet_apply_style (Sheet       *sheet,
 		   GnmRange const *range,
 		   GnmStyle      *style)
 {
-	GnmSpanCalcFlags spanflags = required_updates_for_style (style);
+	GnmSpanCalcFlags spanflags = gnm_style_required_spanflags (style);
 	sheet_style_apply_range (sheet, range, style);
 	/* This also redraws the range: */
 	sheet_range_calc_spans (sheet, range, spanflags);

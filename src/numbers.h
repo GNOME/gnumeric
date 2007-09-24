@@ -13,7 +13,7 @@
 
 #ifndef HAVE_LGAMMA
 /* Defined in mathfunc.c  */
-extern int signgam;
+GO_VAR_DECL int signgam;
 double lgamma (double x);
 #endif
 #ifndef HAVE_LGAMMA_R

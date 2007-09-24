@@ -119,6 +119,8 @@ struct _WBCGtk {
 	GnmCell     *editing_cell;
 	Sheet       *editing_sheet;
 	gboolean     editing;
+
+	char *preferred_geometry;
 };
 
 typedef struct {
@@ -142,5 +144,8 @@ void	 wbcg_clone_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
 void	 wbc_gtk_init_editline	(WBCGtk *wbcg);
 void	 wbc_gtk_init_actions	(WBCGtk *wbcg);
 void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
+
+extern gint wbc_gtk_debug_deps;
+extern gint wbc_gtk_debug_expr_share;
 
 #endif /* GNM_WBC_GTK_IMPL_H */

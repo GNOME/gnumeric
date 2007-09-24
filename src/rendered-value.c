@@ -291,7 +291,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		gnm_style_get_effective_wrap_text (mstyle);
 
 	res->effective_valign = gnm_style_get_align_v (mstyle);
-	res->effective_halign = style_default_halign (mstyle, cell);
+	res->effective_halign = gnm_style_default_halign (mstyle, cell);
 	res->indent_left = res->indent_right = 0;
 	switch (res->effective_halign) {
 	case HALIGN_LEFT:

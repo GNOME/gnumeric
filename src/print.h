@@ -21,4 +21,7 @@ void gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		      gboolean preview, PrintRange default_range,
 		      GsfOutput *export_dst);
 
+/* Internal */
+extern gboolean gnm_print_debug;
+
 #endif /* GNUMERIC_PRINT_H */

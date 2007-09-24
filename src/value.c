@@ -995,7 +995,7 @@ value_get_as_int (GnmValue const *v)
 		return 0;
 
 	default:
-		g_warning ("value_get_as_int unknown type.");
+		g_warning ("value_get_as_int unknown type 0x%x (%d).", v->type, v->type);
 		return 0;
 	}
 	return 0;

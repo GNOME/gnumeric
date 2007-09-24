@@ -2761,7 +2761,8 @@ not_a_matrix:
 		s->style = NULL;
 		break;
 
-	case BIFF_CHART_text :
+	case BIFF_CHART_text : {
+		gboolean clear_style = TRUE;
 		switch (BC_R(top_state) (s, 0)) {
 		case BIFF_CHART_chart: {
 			GnmValue *value;
@@ -2781,29 +2782,28 @@ not_a_matrix:
 			else
 				value_release (value);
 			gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", label);
-			if (s->style != NULL) {
+			if (s->style != NULL)
 				gog_styled_object_set_style (GOG_STYLED_OBJECT (label), s->style);
-				g_object_unref (s->style);
-				s->style = NULL;
-			}
 			break;
 		}
 		case BIFF_CHART_legend:
 			/* do not destroy the style if it belongs to the
 			parent object, applies only to legend at the moment,
 			what should be done for DEFAULTEXT? */
+			clear_style = FALSE;
 			break;
 		default:
-			if (s->style != NULL) {
-				g_object_unref (s->style);
-				s->style = NULL;
-			}
 			break;
 		}
 
+		if (clear_style && s->style != NULL) {
+			g_object_unref (s->style);
+			s->style = NULL;
+		}
 		g_free (s->text);
 		s->text = NULL;
 		break;
+	}
 
 	case BIFF_CHART_dropbar :
 		if (s->dropbar_style == NULL) {

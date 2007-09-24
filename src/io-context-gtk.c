@@ -187,7 +187,7 @@ icg_show_gui (IOContextGtk *icg)
 			  G_CALLBACK (cb_realize), NULL);
 
 	if (icg->parent_window)
-		gtk_window_set_transient_for (icg->window, icg->parent_window);
+		go_gtk_window_set_transient (icg->window, icg->parent_window);
 
 	gtk_widget_show_all (GTK_WIDGET (icg->window));
 }
@@ -429,7 +429,7 @@ icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)
 {
 	icg->parent_window = parent_window;
 	if (icg->window)
-		gtk_window_set_transient_for (icg->window, parent_window);
+		go_gtk_window_set_transient (icg->window, parent_window);
 }
 
 gboolean

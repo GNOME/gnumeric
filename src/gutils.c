@@ -32,17 +32,17 @@
 #include <gsf/gsf-impl-utils.h>
 
 #ifndef G_OS_WIN32
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
-static char const gnumeric_icon_dir[] = GNUMERIC_ICONDIR;
-static char const gnumeric_locale_dir[] = GNUMERIC_LOCALEDIR;
+static char const *gnumeric_lib_dir	= GNUMERIC_LIBDIR;
+static char const *gnumeric_data_dir	= GNUMERIC_DATADIR;
+static char const *gnumeric_icon_dir	= GNUMERIC_ICONDIR;
+static char const *gnumeric_locale_dir	= GNUMERIC_LOCALEDIR;
 #else
-char const *gnumeric_lib_dir;
-char const *gnumeric_data_dir;
-static char const *priv_lib_dir;
-static char const *priv_data_dir;
-static char const *gnumeric_icon_dir;
-static char const *gnumeric_locale_dir;
+static char *gnumeric_lib_dir;
+static char *gnumeric_data_dir;
+static char *priv_lib_dir;
+static char *priv_data_dir;
+static char *gnumeric_icon_dir;
+static char *gnumeric_locale_dir;
 #endif
 
 static char const *gnumeric_usr_dir;
