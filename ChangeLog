@@ -1,3 +1,8 @@
+2007-09-25  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (*_DISABLE_DEPRECATED): Turn off for stable
+	releases.
+
 2007-09-24  Jody Goldberg <jody@gnome.org>
 
 	* src/io-context-gtk.c (icg_set_transient_for) : Use

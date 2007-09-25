@@ -29,6 +29,13 @@ AC_DISABLE_STATIC
 dnl We use the XGETTEXT_KEYWORDS variable, thus we need intltool >= 0.29:
 AC_PROG_INTLTOOL([0.29])
 
+if test `expr gnumeric_version_major % 2` -eq 1; then
+    AC_MSG_NOTICE([NOTE: This is a development release])
+    gnumeric_devel=yes
+else
+    gnumeric_devel=no
+fi
+
 dnl We use $host and $host_os:
 AC_CANONICAL_HOST
 
@@ -245,20 +252,22 @@ AM_CONDITIONAL(CROSS_COMPILING, test x"$cross_compiling" != "xno")
 GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $GNUMERIC_PLUGIN_LDFLAGS"
 AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 
-dnl disable for in stable release, re-enable for development series
-CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
-CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
-if test "x$gnumeric_with_gtk" = "xtrue"; then
-	CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
-	CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
-fi
-if test "x$gnumeric_with_gnome" = "xtrue"; then
-	CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
-	CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
+dnl disable for in stable release, enable for development series
+if test $gnumeric_devel = yes; then
+    CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED"
+    CFLAGS="$CFLAGS -DPANGO_DISABLE_DEPRECATED"
+    if test "x$gnumeric_with_gtk" = "xtrue"; then
+	    CFLAGS="$CFLAGS -DGDK_PIXBUF_DISABLE_DEPRECATED"
+	    CFLAGS="$CFLAGS -DGDK_DISABLE_DEPRECATED"
+	    CFLAGS="$CFLAGS -DGDK_MULTIHEAD_SAFE"
+	    CFLAGS="$CFLAGS -DGTK_DISABLE_DEPRECATED"
+	    CFLAGS="$CFLAGS -DLIBGLADE_DISABLE_DEPRECATED"
+    fi
+    if test "x$gnumeric_with_gnome" = "xtrue"; then
+	    CFLAGS="$CFLAGS -DGNOME_DISABLE_DEPRECATED"
+	    CFLAGS="$CFLAGS -DBONOBO_DISABLE_DEPRECATED"
+	    CFLAGS="$CFLAGS -DBONOBO_UI_DISABLE_DEPRECATED"
+    fi
 fi
 
 dnl ==============================================
