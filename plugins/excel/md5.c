@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <endian.h>
+#include <glib.h>
 
 #if USE_UNLOCKED_IO
 # include "unlocked-io.h"
@@ -46,11 +46,13 @@
 # define md5_buffer __md5_buffer
 #endif
 
-#if __BYTE_ORDER == __BIG_ENDIAN
+#if G_BYTE_ORDER == G_BIG_ENDIAN
 # define SWAP(n)							\
     (((n) << 24) | (((n) & 0xff00) << 8) | (((n) >> 8) & 0xff00) | ((n) >> 24))
-#else
+#elif G_BYTE_ORDER == G_LITTLE_ENDIAN
 # define SWAP(n) (n)
+#else
+#error "There's something rotten in Denmark"
 #endif
 
 #define BLOCKSIZE 4096
