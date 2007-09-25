@@ -142,7 +142,6 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	GtkCellRenderer *renderer;
 	GtkWidget *scrollw, *button;
 	GtkListStore *list;
-	GtkTooltips *tips;
 	int res;
 	GList *l;
 	GtkTreeIter iter;
@@ -160,20 +159,14 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 		 wbcg_toplevel (wbcg), 0,
 		 NULL);
 
-	tips = gtk_tooltips_new ();
-	g_object_ref_sink (tips);
-	g_object_set_data_full (G_OBJECT (dialog),
-				"tooltips", tips,
-				(GDestroyNotify)g_object_unref);
-
 	if (multiple) {
 		button = go_gtk_dialog_add_button (dialog,
 						   _("Select all"),
 						   GTK_STOCK_SELECT_ALL,
 						   RESPONSE_ALL);
-		gtk_tooltips_set_tip (tips, button,
-				      _("Select all documents for saving"),
-				      "");
+		go_widget_set_tooltip_text
+			(button,
+			 _("Select all documents for saving"));
 		g_signal_connect (G_OBJECT (button), "clicked",
 				  G_CALLBACK (cb_select_all),
 				  list);
@@ -182,9 +175,9 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 						   _("Clear Selection"),
 						   GTK_STOCK_CLEAR,
 						   RESPONSE_NONE);
-		gtk_tooltips_set_tip (tips, button,
-				      _("Unselect all documents for saving"),
-				      "");
+		go_widget_set_tooltip_text
+			(button,
+			 _("Unselect all documents for saving"));
 		g_signal_connect (G_OBJECT (button), "clicked",
 				  G_CALLBACK (cb_clear_all),
 				  list);
@@ -193,33 +186,28 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 						   _("Save Selected"),
 						   GTK_STOCK_SAVE,
 						   GTK_RESPONSE_OK);
-		gtk_tooltips_set_tip (tips, button,
-				      _("Save selecting documents and then quit"),
-				      "");
+		go_widget_set_tooltip_text
+			(button,
+			 _("Save selecting documents and then quit"));
 	} else {
 		button = go_gtk_dialog_add_button (dialog,
 						   _("Discard"), 
 						   GTK_STOCK_DELETE,
 						   GTK_RESPONSE_NO);
-		gtk_tooltips_set_tip (tips, button,
-				      _("Discard changes"),
-				      "");
+		go_widget_set_tooltip_text (button, _("Discard changes"));
 
 		button = go_gtk_dialog_add_button (dialog,
 						   _("Save"),
 						   GTK_STOCK_SAVE,
 						   GTK_RESPONSE_OK);
-		gtk_tooltips_set_tip (tips, button,
-				      _("Save document"),
-				      "");
+		go_widget_set_tooltip_text (button, _("Save document"));
 	}
 
 	button = go_gtk_dialog_add_button (dialog,
 					   _("Don't Quit"), 
 					   GTK_STOCK_CANCEL,
 					   GTK_RESPONSE_CANCEL);
-	gtk_tooltips_set_tip (tips, button,
-			      _("Resume editing"), "");
+	go_widget_set_tooltip_text (button, _("Resume editing"));
 
 	scrollw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrollw),
