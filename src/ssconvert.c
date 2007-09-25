@@ -312,7 +312,7 @@ main (int argc, char const **argv)
 	ocontext = g_option_context_new (_("INFILE [OUTFILE]"));
 	g_option_context_add_main_entries (ocontext, ssconvert_options, GETTEXT_PACKAGE);
 	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
-	g_option_context_parse (ocontext, &argc, (char **)&argv, &error);
+	g_option_context_parse (ocontext, &argc, (char ***)&argv, &error);
 	g_option_context_free (ocontext);
 
 	if (error) {

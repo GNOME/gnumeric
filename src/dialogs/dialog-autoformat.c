@@ -118,8 +118,6 @@ typedef struct {
 	} edges;
 
 	GtkButton      *ok, *cancel;
-
-	GtkTooltips    *tooltips;
 } AutoFormatState;
 
 /********************************************************************************/
@@ -351,9 +349,9 @@ previews_load (AutoFormatState *state, int topindex)
 			foo_canvas_scroll_to (state->canvas[i],
 				-BORDER, -BORDER);
 
-			gtk_tooltips_set_tip (state->tooltips,
-				GTK_WIDGET (state->canvas[i]),
-				_(ft->name), "");
+			go_widget_set_tooltip_text
+				(GTK_WIDGET (state->canvas[i]),
+				 _(ft->name));
 
 			gtk_widget_show (GTK_WIDGET (state->canvas[i]));
 			start = g_slist_next (start);
@@ -382,7 +380,6 @@ static void
 cb_autoformat_destroy (AutoFormatState *state)
 {
 	templates_free (state);
-	g_object_unref (G_OBJECT (state->tooltips));
 	category_group_list_free (state->category_groups);
 	g_object_unref (G_OBJECT (state->gui));
 	state->gui = NULL;
@@ -473,11 +470,11 @@ cb_category_changed (AutoFormatState *state)
 	if (templates_load (state) == FALSE)
 		g_warning ("Error while loading templates!");
 
-	gtk_tooltips_set_tip (state->tooltips, GTK_WIDGET (state->category),
-		_((state->current_category_group->description != NULL)
-			? state->current_category_group->description
-			: state->current_category_group->name),
-		"");
+	go_widget_set_tooltip_text
+		(GTK_WIDGET (state->category),
+		 _((state->current_category_group->description != NULL)
+		   ? state->current_category_group->description
+		   : state->current_category_group->name));
 
 	previews_load (state, 0);
 	cb_check_item_toggled (NULL, state);
@@ -562,13 +559,6 @@ dialog_autoformat (WBCGtk *wbcg)
 	state->previews_locked   = FALSE;
 	state->more_down         = FALSE;
 	state->selected_template = NULL;
-	state->tooltips          = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-	g_object_ref_sink (state->tooltips);
-#else
-	g_object_ref (state->tooltips);
-	gtk_object_sink (GTK_OBJECT (state->tooltips));
-#endif
 
 	state->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
 	state->category   = GTK_COMBO_BOX (glade_xml_get_widget (gui, "format_category"));

@@ -1,3 +1,8 @@
+2007-09-24  Morten Welinder  <terra@gnome.org>
+
+	* gnm-filter-combo-foo-view.c (fcombo_arrow_format): Switch to new
+	tooltip api.  (This is a stub, though.)
+
 2007-09-24  Jody Goldberg <jody@gnome.org>
 
 	* gnm-cell-combo-foo-view.c (gnm_cell_combo_foo_view_popdown) : use

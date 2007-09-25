@@ -536,10 +536,11 @@ format_page_update_preview (StfDialogData *pagedata)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check),
 						      pagedata->
 						      format.col_import_array[i]);
-			gtk_tooltips_set_tip (renderdata->tooltips, check,
-					      _("If this checkbox is selected, the "
-						"column will be imported into "
-						"Gnumeric."), msg);
+			go_widget_set_tooltip_text
+				(check,
+				 _("If this checkbox is selected, the "
+				   "column will be imported into "
+				   "Gnumeric."));
 			g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
 			gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);

@@ -279,13 +279,14 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 static void
 fcombo_arrow_format (GnmFilterCombo *fcombo, GtkWidget *arrow)
 {
-	GtkTooltips *tips = gtk_tooltips_new ();
 	if (NULL != arrow->parent) {
 		char *desc = NULL;
 		if (NULL != fcombo->cond) {
 		}
-		gtk_tooltips_set_tip (tips, arrow->parent, desc, NULL);
-		g_free (desc);
+		if (desc) {
+			go_widget_set_tooltip_text (arrow->parent, desc);
+			g_free (desc);
+		}
 	}
 
 	gtk_arrow_set (GTK_ARROW (arrow),

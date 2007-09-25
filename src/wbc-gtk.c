@@ -1518,7 +1518,7 @@ static GtkWidget *
 edit_area_button (WBCGtk *wbcg, GtkToolbar *tb,
 		  gboolean sensitive,
 		  GCallback func, char const *stock_id,
-		  GtkTooltips *tips, char const *tip)
+		  char const *tip)
 {
 	GObject *button =
 		g_object_new (GTK_TYPE_TOOL_BUTTON,
@@ -1526,7 +1526,7 @@ edit_area_button (WBCGtk *wbcg, GtkToolbar *tb,
 			      "sensitive", sensitive,
 			      "can-focus", FALSE,
 			      NULL);
-	gtk_tool_item_set_tooltip (GTK_TOOL_ITEM (button), tips, tip, NULL);
+	go_tool_item_set_tooltip_text (GTK_TOOL_ITEM (button), tip);
 	g_signal_connect_swapped (button, "clicked", func, wbcg);
 	gtk_toolbar_insert (tb, GTK_TOOL_ITEM (button), -1);
 
@@ -1761,7 +1761,8 @@ show_gui (WBCGtk *wbcg)
 
 	/* Successfully parsed geometry string and urged WM to comply */
 	if (NULL != wbcg->preferred_geometry && NULL != wbcg->toplevel &&
-	    gtk_window_parse_geometry (wbcg->toplevel, wbcg->preferred_geometry)) {
+	    gtk_window_parse_geometry (GTK_WINDOW (wbcg->toplevel),
+				       wbcg->preferred_geometry)) {
 		g_free (wbcg->preferred_geometry);
 		wbcg->preferred_geometry = NULL;
 	} else if (wbcg->notebook != NULL &&
@@ -1943,7 +1944,6 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 	GtkEntry *entry;
 	int len;
 	GtkToolbar *tb;
-	GtkTooltips *tooltips;
 
 	wbcg->selection_descriptor = gtk_entry_new ();
 	wbc_gtk_init_editline (wbcg);
@@ -1952,17 +1952,6 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 	tb = (GtkToolbar *)gtk_toolbar_new ();
 	gtk_toolbar_set_show_arrow (tb, FALSE);
 	gtk_toolbar_set_style (tb, GTK_TOOLBAR_ICONS);
-
-	tooltips = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-	g_object_ref_sink (tooltips);
-#else
-	g_object_ref (tooltips);
-	gtk_object_sink (GTK_OBJECT (tooltips));
-#endif
-	g_object_set_data_full (G_OBJECT (tb),
-				"tooltips", tooltips,
-				(GDestroyNotify)g_object_unref);
 
 	/* Set a reasonable width for the selection box. */
 	len = go_pango_measure_string (
@@ -1982,15 +1971,15 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 	wbcg->cancel_button = edit_area_button
 		(wbcg, tb, FALSE,
 		 G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL,
-		 tooltips, _("Cancel change"));
+		 _("Cancel change"));
 	wbcg->ok_button = edit_area_button
 		(wbcg, tb, FALSE,
 		 G_CALLBACK (cb_accept_input), GTK_STOCK_OK,
-		 tooltips, _("Accept change"));
+		 _("Accept change"));
 	wbcg->func_button = edit_area_button
 		(wbcg, tb, TRUE,
 		 G_CALLBACK (cb_autofunction), "Gnumeric_Equal",
-		 tooltips, _("Enter formula..."));
+		 _("Enter formula..."));
 
 	/* Dependency debugger */
 	if (wbc_gtk_debug_deps > 0 ||
@@ -1998,7 +1987,6 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 		(void)edit_area_button (wbcg, tb, TRUE,
 					G_CALLBACK (cb_workbook_debug_info),
 					GTK_STOCK_DIALOG_INFO,
-					tooltips,
 					/* Untranslated */
 					"Dump debug info");
 	}

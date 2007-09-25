@@ -19,6 +19,7 @@ Morten:
 	* Fix scenarios.  [#477410]
 	* Fix sheet filter crash .  [#477417]
 	* Fix print crash.  [#478475]
+	* Switch to new tooltip api.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.12	'Rocks for Rob, Roses for Harlan'

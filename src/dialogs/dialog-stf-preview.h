@@ -28,7 +28,6 @@ typedef struct {
 	GStringChunk     *lines_chunk;
 	GPtrArray        *lines;
 	GtkTreeView      *tree_view;
-	GtkTooltips      *tooltips;
 
 	int              colcount;
 	int              startrow;        /* Row at which to start rendering */

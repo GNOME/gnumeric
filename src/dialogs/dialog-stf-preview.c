@@ -107,14 +107,6 @@ stf_preview_new (GtkWidget *data_container,
 	g_object_ref (renderdata->tree_view);
 	g_object_unref (ll);
 
-	renderdata->tooltips = gtk_tooltips_new ();
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
-	g_object_ref_sink (renderdata->tooltips);
-#else
-	g_object_ref (renderdata->tooltips);
-	gtk_object_sink (GTK_OBJECT (renderdata->tooltips));
-#endif
-
 	renderdata->colcount = 0;
 
 	{
@@ -162,7 +154,6 @@ stf_preview_free (RenderData_t *renderdata)
 	g_ptr_array_free (renderdata->colformats, TRUE);
 
 	stf_preview_set_lines (renderdata, NULL, NULL);
-	g_object_unref (renderdata->tooltips);
 
 	g_object_unref (renderdata->tree_view);
 

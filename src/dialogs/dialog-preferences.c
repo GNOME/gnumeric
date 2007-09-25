@@ -145,8 +145,7 @@ set_tip (GOConfNode *node, char const *key, GtkWidget *w)
 {
 	char *desc = go_conf_get_long_desc (node, key);
 	if (desc != NULL) {
-		GtkTooltips *the_tip = gtk_tooltips_new ();
-		gtk_tooltips_set_tip (the_tip, w, desc, NULL);
+		go_widget_set_tooltip_text (w, desc);
 		g_free (desc);
 	}
 }
