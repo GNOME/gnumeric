@@ -1,3 +1,8 @@
+2007-09-25  Morten Welinder  <terra@gnome.org>
+
+	* dialog-autoformat.c (dialog_autoformat): Make cancel kill the
+	dialog, not just the cancel button.
+
 2007-09-24  Morten Welinder  <terra@gnome.org>
 
 	* dialog-quit.c (show_quit_dialog): Switch to new tooltip api.

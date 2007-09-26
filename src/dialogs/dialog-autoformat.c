@@ -615,7 +615,7 @@ dialog_autoformat (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (state->ok),
 		"clicked",
 		G_CALLBACK (cb_ok_clicked), state);
-	g_signal_connect (G_OBJECT (state->cancel), "clicked",
+	g_signal_connect_swapped (G_OBJECT (state->cancel), "clicked",
 		G_CALLBACK (gtk_widget_destroy), state->dialog);
 
 	/* Fill category list */
