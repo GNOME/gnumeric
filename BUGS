@@ -5,6 +5,10 @@ issues that need to be addressed.  Divided into, things that will prevent
 release, and longer term bugs.
 
 -------------------------------------------------------------------------------
+For 1.8
+-------
+    : Get a list of criticals fixed between 1.6 and 1.8
+
 Release Critical
 ----------------
     : undo of cell range cut over clipboard
