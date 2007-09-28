@@ -89,7 +89,7 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 
 		gdk_gc_set_rgb_fg_color (gc, &color);
 
-		if (expose_area)               
+		if (expose_area)
 			gdk_gc_set_clip_rectangle (gc, expose_area);
 		gdk_draw_rectangle (window,
 				    gc,
