@@ -8,6 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
     : undo of cell range cut over clipboard
+    http://live.gnome.org/Academic
 
 In Progress
 -----------
@@ -1063,3 +1064,7 @@ General Ideas
     - Add 'send a frown/smile' button
     - 'fish eye' zoom to around selection
     - treemap for heirarchical data
+    - conditional / computed formats
+	: referenced styles (eg for time sheets)
+	: GnmColor computable to move the calculated aspect into the actual
+	  selectors
