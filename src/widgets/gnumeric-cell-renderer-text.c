@@ -19,7 +19,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric-cell-renderer-text.h"
 
-static void gnumeric_cell_renderer_text_class_init    
+static void gnumeric_cell_renderer_text_class_init
     (GnumericCellRendererTextClass *cell_text_class);
 
 static GtkCellRendererTextClass *parent_class = NULL;
