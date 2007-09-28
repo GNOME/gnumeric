@@ -15,7 +15,7 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 	argv[0] = (char *) "gnome-database-properties-3.0";
 	argv[1] = NULL;
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL)) {
-		char *msg = g_strdup_print (
+		char *err = g_strdup_printf (
 			_("Could not run GNOME database configuration tool ('%s')"),
 			argv[0]);
 		go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (wbc)),
