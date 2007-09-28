@@ -1,3 +1,7 @@
+2007-09-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: do not use WITH_GOFFICE_0_4 anymore.
+
 2007-09-27  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c : Fix import of existing conditional format types.

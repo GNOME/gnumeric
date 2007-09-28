@@ -1053,9 +1053,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 	}
 		
 	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
-#ifndef WITH_GOFFICE_0_4
 	s->style->fill.auto_type = FALSE;
-#endif
 	s->style->fill.auto_fore = FALSE;
 	s->style->fill.auto_back = FALSE;
 	s->style->fill.pattern.fore =
@@ -1988,6 +1986,13 @@ BC_R(surf)(XLChartHandler const *handle,
 
 /****************************************************************************/
 
+enum {
+	XL_POS_LOW, /* left or top */
+	XL_POS_CENTER,
+	XL_POS_HIGH, /* right or bottom */
+	XL_POS_JUSTIFY /*not supported, just use as an equivalent for center */
+};
+
 static gboolean
 BC_R(text)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
@@ -2134,6 +2139,10 @@ xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
 	if (flag) {
 		dat = NULL;
 		d (1, fprintf (stderr, "%s = Auto\n", name););
+		if (dim == GOG_AXIS_ELEM_CROSS_POINT)
+		    gog_dataset_set_dim (GOG_DATASET (axis), dim,
+			    go_data_scalar_val_new (0.), NULL);
+		g_object_set (axis, "pos-str", "cross", NULL);
 	} else {
 		double const val = gsf_le_get_double (data);
 		double real_value = (log_scale)? gnm_pow10 (val): val;
@@ -2319,11 +2328,7 @@ BC_R(end)(XLChartHandler const *handle,
 			else if (s->frame_for_grid) {
 				GogGrid *tmp = gog_chart_get_grid (s->chart);
 				obj = (tmp == NULL)
-#ifdef WITH_GOFFICE_0_4
-					? gog_object_add_by_name (GOG_OBJECT (s->chart), "Grid", NULL)
-#else
 					? gog_object_add_by_name (GOG_OBJECT (s->chart), "Backplane", NULL)
-#endif
 					: GOG_OBJECT (tmp);
 			}
 			if (obj != NULL)
@@ -3705,26 +3710,51 @@ chart_write_PIEFORMAT (XLChartWriteState *s, float separation)
 static guint32
 map_length (XLChartWriteState *s, double l, gboolean is_horiz)
 {
-	/* double tmp = l / (is_horiz ? s->root_view->allocation.w : s->root_view->allocation.h); */
+	double tmp = l / (is_horiz ? s->root_view->allocation.w : s->root_view->allocation.h);
 #warning use _tmp_ here when we get the null view in place
-	return (unsigned)(4000. * l + .5);
+	return (unsigned)(4000. * tmp + .5);
 }
 
 static void
-chart_write_position (XLChartWriteState *s, GogObject const *obj, guint8 *data)
+chart_write_position (XLChartWriteState *s, GogObject const *obj, guint8 *data, int hpos, int vpos)
 {
 	GogView *view = gog_view_find_child_view  (s->root_view, obj);
 	guint32 tmp;
+	double l = 0.; /* just to make gcc happy */
 
 	g_return_if_fail (view != NULL);
 
-	tmp = map_length (s, view->allocation.x, TRUE);
+	switch (hpos) {
+	case XL_POS_LOW:
+		l = view->allocation.x;
+		break;
+	case XL_POS_HIGH:
+		l = view->allocation.x + view->allocation.w;
+		break;
+	case XL_POS_CENTER:
+	case XL_POS_JUSTIFY:
+		l = view->allocation.x + view->allocation.w / 2;
+		break;
+	}
+	tmp = map_length (s, l, TRUE);
 	GSF_LE_SET_GUINT32 (data + 0, tmp);
-	tmp = map_length (s, view->allocation.y, FALSE);
+	switch (vpos) {
+	case XL_POS_LOW:
+		l = view->allocation.y;
+		break;
+	case XL_POS_HIGH:
+		l = view->allocation.y + view->allocation.h;
+		break;
+	case XL_POS_CENTER:
+	case XL_POS_JUSTIFY:
+		l = view->allocation.y + view->allocation.h / 2;
+		break;
+	}
+	tmp = map_length (s, l, FALSE);
 	GSF_LE_SET_GUINT32 (data + 4, tmp);
-	tmp = map_length (s, .9 /* view->allocation.w */, TRUE);
+	tmp = map_length (s, view->allocation.w, TRUE);
 	GSF_LE_SET_GUINT32 (data + 8, tmp);
-	tmp = map_length (s, .9 /* view->allocation.h */, FALSE);
+	tmp = map_length (s, view->allocation.h, FALSE);
 	GSF_LE_SET_GUINT32 (data + 12, tmp);
 }
 
@@ -3863,9 +3893,11 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_text, len);
 	memcpy (data, default_text, len);
 	if (obj)
-		chart_write_position (s, GOG_OBJECT (obj), data+8);
-	if (style != NULL)
+		chart_write_position (s, GOG_OBJECT (obj), data+8, XL_POS_CENTER, XL_POS_CENTER);
+	if (style != NULL) {
 		color_index = chart_write_color (s, data+4, style->font.color);
+		
+	}
 	if (s->bp->version >= MS_BIFF_V8) {
 		GSF_LE_SET_GUINT16 (data+26, color_index);
 	}
@@ -4734,7 +4766,7 @@ chart_write_LEGEND (XLChartWriteState *s, GogObject const *legend)
 	}
 
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_legend, 20);
-	chart_write_position (s, legend, data);
+	chart_write_position (s, legend, data, XL_POS_LOW, XL_POS_LOW);
 	GSF_LE_SET_GUINT8 (data + 16, XL_pos);
 	GSF_LE_SET_GUINT8 (data + 17, 1);
 	GSF_LE_SET_GUINT16 (data + 18, flags);
@@ -4833,11 +4865,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		}
 
 		if (i == 0) {
-#ifdef WITH_GOFFICE_0_4
-			GogObject *grid = gog_object_get_child_by_name (s->chart, "Grid");
-#else
 			GogObject *grid = gog_object_get_child_by_name (s->chart, "Backplane");
-#endif
 			if (grid != NULL) {
 				ms_biff_put_empty (s->bp, BIFF_CHART_plotarea);
 				chart_write_frame (s, grid, TRUE, TRUE);
@@ -5031,7 +5059,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 
 #warning be smart about singletons and titles
 	data = ms_biff_put_len_next (state.bp, BIFF_CHART_chart, 4*4);
-	chart_write_position (&state, state.chart, data);
+	chart_write_position (&state, state.chart, data, XL_POS_LOW, XL_POS_LOW);
 	ms_biff_put_commit (state.bp);
 
 	chart_write_BEGIN (&state);
