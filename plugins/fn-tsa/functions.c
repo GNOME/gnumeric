@@ -45,7 +45,7 @@
 #include <expr-impl.h>
 #include <func-builtin.h>
 #include <gnm-i18n.h>
-#include <goffice/utils/go-cspline.h>
+#include <goffice/math/go-cspline.h>
 #include <gnm-plugin.h>
 #include <tools/analysis-tools.h>
 
