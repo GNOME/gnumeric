@@ -23,9 +23,9 @@ In Progress
 	- ExprEntry extensions
 	- Filter dups (does this make sense ?)
 	- python wrapper for libspreadsheet
-	- win32 GOption fixes
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
+	- OOX : 
 
 Review
 ------
@@ -36,11 +36,11 @@ Short term goals
     - replicate win32 print problems
     - Finish the Data -> Table dialog
     - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
-    - dialog open wrapper to store previous size/position of dialog
     - tango icons
 	http://live.gnome.org/GnomeGoals/AppIcon
 	http://live.gnome.org/ThemableAppSpecificIcons
     - Use go_glade_signal_connect (and friends)
+    - dialog open wrapper to store previous size/position of dialog
 
 Worries
 -------
@@ -133,9 +133,9 @@ Architecture Changes
 
 5) Pivot tables
     5.1) xls
-	5.1.1) import pivot cache streams		 {Jody}
+	5.1.1) import pivot cache streams		{Jody}
 	5.1.2) export pivot cache streams
-    5.2) xlsx
+    5.2) OOX						{Jody}
     5.3) ODF
     5.4) Look at swivel.com
 
@@ -264,7 +264,7 @@ Architecture Changes
 	    9.4.2.2) 97 out					(DONE)
 		9.4.2.2.1) sheet				(DONE)
 		9.4.2.2.2) style/XF				(DONE)
-	9.4.3) xlsx						(DONE)
+	9.4.3) OOX						(DONE)
 	    9.4.3.1) In						(DONE)
 	    9.4.3.2) Out					(DONE)
 	9.4.4) odf						(DONE)
@@ -377,7 +377,7 @@ Architecture Changes
 	    11.2.2.3) CF borders				(DONE)
 	    11.2.2.4) CF background				(DONE)
 	    11.2.2.5) collect colours				(DONE)
-    11.3) XLSX
+    11.3) OOX
 	11.3.1) import
 	11.3.2) export
     11.4) ODF
@@ -418,7 +418,7 @@ Architecture Changes
     12.4) XLS							(DONE)
 	12.4.1) import						(DONE)
 	12.4.2) export						(DONE)
-    12.5) XLSX							(DONE)
+    12.5) OOX							(DONE)
 	12.5.1) import						(DONE)
 	12.5.2) export						(DONE)
     12.6) ODF
@@ -438,7 +438,7 @@ Architecture Changes
 	16.2.3) XLS						(DONE)
 	    16.2.3.1) Import					(DONE)
 	    16.2.3.2) Export					(DONE)
-	16.2.4) XLSX						(DONE)
+	16.2.4) OOX						(DONE)
 	    16.2.4.1) Import					(DONE)
 	    16.2.4.2) Export					(DONE)
     16.3) Honour flags for Return/Tab
@@ -466,7 +466,7 @@ Architecture Changes
 		17.2.3.2.1) pre-Biff8				(DONE)
 		17.2.3.2.2) Biff8				(DONE)
 	    17.2.3.3) figure out the semantics of XL's min/max
-	17.2.4) XLSX						(DONE)
+	17.2.4) OOX						(DONE)
 	    17.2.4.1) Import					(DONE)
 	    17.2.4.2) Export					(DONE)
 	17.2.5) ODF
@@ -507,7 +507,7 @@ Architecture Changes
     3.2) Figure out import semantics of the other 2 XL types
     3.3) email support ? via system 'evolution mailto:....'
     3.4) Make file -> send email execution into a service
-    3.5) XLSX
+    3.5) OOX
 	3.5.1) import
 	3.5.2) export
 
@@ -731,7 +731,7 @@ Architecture Changes
     21.44) XLS							(DONE)
 	21.44.1) import						(DONE)
 	21.44.2) export						(DONE)
-    21.45) XLSX
+    21.45) OOX
 	21.45.1) import
 	    21.45.1.1) top10					(DONE)
 	    21.45.1.2) items
@@ -765,7 +765,7 @@ Architecture Changes
     22.9) tune position & width of combo			(DONE)
     22.10) RTL (see 9.9)					(DONE)
     22.11) Odd .xls storage of aa,bb,cc
-    22.12) XLSX							(DONE)
+    22.12) OOX							(DONE)
 	22.12.1) import						(DONE)
 	22.12.2) export						(DONE)
     22.13) ODF
@@ -855,7 +855,7 @@ Architecture Changes
 	32.17.2) XLS
 	    32.17.2.1) import						(DONE)
 	    32.17.2.2) export
-	32.17.3) XLSX
+	32.17.3) OOX
 	    32.17.3.1) import
 	    32.17.3.2) export
 	32.17.4) ODF
@@ -882,7 +882,7 @@ Architecture Changes
 	32.18.2) XLS
 	    32.18.2.1) import						(DONE)
 	    32.18.2.2) export
-	32.18.3) XLSX
+	32.18.3) OOX
 	    32.18.3.1) import
 	    32.18.3.2) export
 	32.18.4) ODF
