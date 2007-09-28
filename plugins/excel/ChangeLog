@@ -29,6 +29,8 @@
 	(xlsx_chart_marker_symbol) : new.
 	(xlsx_chart_marker_end) : assign the marker symbol here, so that we
 	  can get handle auto
+	(xlsx_chart_gridlines) : new.
+	(xlsx_chart_pop) : new.
 
 2007-09-16  Jody Goldberg <jody@gnome.org>
 
