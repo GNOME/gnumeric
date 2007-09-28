@@ -18,7 +18,7 @@ typedef enum {
 	/* Arbitrary expr evaluated at EvalPos */
 	GNM_STYLE_COND_CUSTOM,
 
-	/* New in Gnumeric 2.0 */
+	/* New in Gnumeric 1.8 */
 	GNM_STYLE_COND_CONTAINS_STR		= 0x10,
 	GNM_STYLE_COND_NOT_CONTAINS_STR,
 	GNM_STYLE_COND_BEGINS_WITH_STR,
@@ -31,11 +31,6 @@ typedef enum {
 
 	GNM_STYLE_COND_CONTAINS_BLANKS,
 	GNM_STYLE_COND_NOT_CONTAINS_BLANKS
-
-	/*NOTE: we should really have a case-independent version of the
-	 *  above.  It should be much easier with GNU extensions, but it
-	 *  must also be portable!  Maybe this isn't a problem, though;
-	 *  More research is needed.*/
 } GnmStyleCondOp;
 
 typedef struct {

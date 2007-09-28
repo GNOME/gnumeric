@@ -490,7 +490,7 @@ gnm_style_dup (GnmStyle const *src)
 
 /**
  * gnm_style_new_merged :
- * @src : #GnmStyle
+ * @src     : #GnmStyle
  * @overlay : #GnmStyle
  *
  * A new GnmStyle that contains any elements of @overlay that are set, and uses
@@ -499,14 +499,14 @@ gnm_style_dup (GnmStyle const *src)
  * Returns A ref to a new GnmStyle.
  **/
 GnmStyle *
-gnm_style_new_merged (GnmStyle const *src, GnmStyle const *overlay)
+gnm_style_new_merged (GnmStyle const *base, GnmStyle const *overlay)
 {
 	GnmStyle *new_style = CHUNK_ALLOC0 (GnmStyle, gnm_style_pool);
 	int i;
 
 	new_style->ref_count = 1;
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		elem_assign_contents (new_style, elem_is_set (overlay, i) ? overlay : src, i);
+		elem_assign_contents (new_style, elem_is_set (overlay, i) ? overlay : base, i);
 		elem_set (new_style, i);
 		elem_changed (new_style, i);
 	}
@@ -804,6 +804,24 @@ gnm_style_unset_element (GnmStyle *style, GnmStyleElement elem)
 		elem_clear_contents (style, elem);
 		elem_unset (style, elem);
 	}
+}
+
+/**
+ * gnm_style_merge :
+ * @base    : #GnmStyle
+ * @overlay : #GnmStyle
+ *
+ * Applies any elements of @overlay that are set to @base.
+ **/
+void
+gnm_style_merge (GnmStyle *base, GnmStyle const *overlay)
+{
+	unsigned i;
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		if (elem_is_set (overlay, i)) {
+			elem_assign_contents (base, overlay, i);
+			elem_changed (base, i);
+		}
 }
 
 /**

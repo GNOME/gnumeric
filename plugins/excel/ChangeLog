@@ -1,3 +1,8 @@
+2007-09-27  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c : Fix import of existing conditional format types.
+	  We can not handle the computed range formats yet.
+
 2007-09-24  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(end)) : Don't leak a style when faced with an empty
