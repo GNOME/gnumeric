@@ -858,6 +858,7 @@ xlsx_chart_add_plot (GsfXMLIn *xin, char const *type)
 			"Plot", GOG_OBJECT (state->plot));
 }
 
+/* shared with pie of pie, and bar of pie */
 static void
 xlsx_vary_colors (GsfXMLIn *xin, xmlChar const **attrs)
 {
