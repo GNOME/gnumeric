@@ -7,13 +7,13 @@ SetCompressor /SOLID lzma
 !define GNM_NAME		"Gnumeric"
 !define GNM_LONGNAME		"Gnumeric Spreadsheet"
 !define GNM_APPNAME		"Gnumeric Spreadsheet"
-!define GNM_VERSION		"1.7.12"
+!define GNM_VERSION		"@VERSION@"
 !define GNM_VERSION_TAG		"win32-1"
 !define GNM_VERSION_FULL	"${GNM_VERSION}-${GNM_VERSION_TAG}"
 !define GNM_UNINST_KEY		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${GNM_NAME}"
 !define GNM_STARTMENU_REG_VAL	"NSIS:StartMenuDir"
 
-!define GOFFICE_VERSION		"0.5.0"
+!define GOFFICE_VERSION		"@GOFFICE_VERSION@"
 
 !define GTK_VERSION		"2.10"
 !define GTK_VENDORRC		"14"

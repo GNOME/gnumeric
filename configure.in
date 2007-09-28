@@ -118,12 +118,14 @@ dnl execution.  Thus we need an explicit call:
 PKG_PROG_PKG_CONFIG(0.18)
 
 libgoffice=
+goffice_ver=
 dnl Currently only 0.5 will work
 for ver in 0.5; do
   if test "x$libgoffice" = x; then
     AC_MSG_CHECKING([libgoffice-$ver])
     if pkg-config --exists libgoffice-$ver; then
       libgoffice=libgoffice-$ver
+      goffice_ver=`pkg-config --modversion libgoffice-$ver`
       AC_MSG_RESULT([found])
       if test $ver = "0.4"; then
 		AC_DEFINE_UNQUOTED([WITH_GOFFICE_0_4], [1], ["Compiling with goffice-0.4"])
@@ -138,6 +140,7 @@ if test "x$libgoffice" = x; then
   libgoffice=libgoffice-0.4
 fi
 AC_SUBST(LIBGOFFICE,$libgoffice)
+AC_SUBST(GOFFICE_VERSION,$goffice_ver)
 
 dnl *****************************
 libspreadsheet_reqs="
@@ -1096,6 +1099,7 @@ templates/english/Makefile
 templates/autoformat/Makefile
 test/Makefile
 tools/Makefile
+tools/win32/gnumeric.nsi
 ])
 
 echo "

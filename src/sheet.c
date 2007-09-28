@@ -57,7 +57,6 @@
 #include "solver.h"
 #include "hlink.h"
 #include "sheet-filter.h"
-#include "pivottable.h"
 #include "scenarios.h"
 #include "cell-draw.h"
 #include <goffice/utils/go-glib-extras.h>
@@ -640,7 +639,6 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->print_info = print_info_new (FALSE);
 
 	sheet->filters = NULL;
-	sheet->pivottables = NULL;
 	sheet->scenarios = NULL;
 	sheet->list_merged = NULL;
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
@@ -3445,10 +3443,6 @@ sheet_destroy_contents (Sheet *sheet)
 	/* These contain SheetObjects, remove them first */
 	go_slist_free_custom (sheet->filters, (GFreeFunc)gnm_filter_free);
 	sheet->filters = NULL;
-
-	go_slist_free_custom (sheet->pivottables,
-			      (GFreeFunc)gnm_pivottable_free);
-	sheet->pivottables = NULL;
 
 	if (sheet->sheet_objects) {
 		/* The list is changed as we remove */

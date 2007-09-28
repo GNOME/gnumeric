@@ -50,7 +50,6 @@ base_files =					\
 	dialog-merge.c				\
 	dialog-password.c			\
 	dialog-paste-special.c			\
-	dialog-pivottable.c			\
 	dialog-plugin-manager.c 		\
 	dialog-preferences.c			\
 	dialog-random-generator.c		\
@@ -127,7 +126,6 @@ glade_DATA = 				\
 	merge.glade			\
 	moving-averages.glade		\
 	paste-names.glade		\
-	pivottable.glade		\
 	plugin-manager.glade		\
 	preferences.glade 		\
 	rank.glade			\

@@ -103,7 +103,6 @@ libspreadsheet_la_SOURCES =			\
 	parser.y				\
 	parse-util.c				\
 	pattern.c				\
-	pivottable.c				\
 	position.c				\
 	preview-grid.c				\
 	preview-grid-impl.h			\
@@ -220,7 +219,6 @@ libspreadsheet_include_HEADERS = 	\
 	numbers.h				\
 	parse-util.h				\
 	pattern.h				\
-	pivottable.h				\
 	position.h				\
 	preview-grid.h				\
 	print-info.h				\

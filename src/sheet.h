@@ -95,7 +95,6 @@ struct _Sheet {
 	GnmDepContainer *deps;
 
 	GSList		 *filters;
-	GSList		 *pivottables;
 	GSList		 *list_merged;
 	GHashTable	 *hash_merged;
 	SheetPrivate     *priv;

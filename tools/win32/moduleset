@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE doc [
-      <!ENTITY patch_dir "/gnome/src/gnumeric/tools/win32/patches/">
-<!--  <!ENTITY patch_dir "http://svn.gnome.org/svn/gnumeric/trunk/tools/win32/patches/"> -->
+<!--      <!ENTITY patch_dir "/gnome/src/gnumeric/tools/win32/patches/"> -->
+      <!ENTITY patch_dir "http://svn.gnome.org/svn/gnumeric/trunk/tools/win32/patches/">
 ]>
 <moduleset>
     <repository type="svn" name="svn.gnome.org" default="yes"
