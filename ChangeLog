@@ -1,3 +1,12 @@
+2007-09-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: remove WITH_GOFFICE_O_4.
+	* src/graph.c: use new goffice math location.
+	* src/mathfunc.c: ditto.
+	* src/numbers.h: ditto.
+	* src/rangefunc.h: ditto.
+	* src/regression.h: ditto.
+
 2007-09-25  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (*_DISABLE_DEPRECATED): Turn off for stable

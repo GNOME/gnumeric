@@ -36,7 +36,7 @@
 #include "ranges.h"
 #include "parse-util.h"
 #include <goffice/data/go-data-impl.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

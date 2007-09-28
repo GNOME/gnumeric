@@ -2,7 +2,7 @@
 #define GNUMERIC_RANGEFUNC_H
 
 #include "numbers.h"
-#include <goffice/utils/go-rangefunc.h>
+#include <goffice/math/go-rangefunc.h>
 
 #ifdef WITH_LONG_DOUBLE
 #	define gnm_range_sum go_range_suml

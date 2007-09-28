@@ -2,7 +2,7 @@
 #define GNUMERIC_REGRESSION_H
 
 #include "numbers.h"
-#include <goffice/utils/go-regression.h>
+#include <goffice/math/go-regression.h>
 
 #ifdef WITH_LONG_DOUBLE
 #	define gnm_regression_stat_t go_regression_stat_tl

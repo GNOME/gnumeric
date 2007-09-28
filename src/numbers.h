@@ -2,7 +2,7 @@
 #define GNUMERIC_NUMBERS_H
 
 #include <gnumeric-config.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>

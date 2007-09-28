@@ -127,9 +127,6 @@ for ver in 0.5; do
       libgoffice=libgoffice-$ver
       goffice_ver=`pkg-config --modversion libgoffice-$ver`
       AC_MSG_RESULT([found])
-      if test $ver = "0.4"; then
-		AC_DEFINE_UNQUOTED([WITH_GOFFICE_0_4], [1], ["Compiling with goffice-0.4"])
-	  fi
     else
       AC_MSG_RESULT([not found])
     fi

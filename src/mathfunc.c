@@ -62,7 +62,7 @@
 #include <unistd.h>
 #include <locale.h>
 #include <string.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <glib/gstdio.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
