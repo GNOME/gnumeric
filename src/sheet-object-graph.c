@@ -610,7 +610,7 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 	if (sog->renderer != NULL)
 		g_object_set (sog->renderer, "model", graph, NULL);
 	else
-		sog->renderer = gog_renderer_new_for_pixbuf (sog->graph);
+		sog->renderer = gog_renderer_new (sog->graph);
 }
 
 static void

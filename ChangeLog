@@ -1,3 +1,8 @@
+2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* src/shhet-object-graph.c (sheet_object_graph_set_gog): use
+	gog_renderer_new instead of obsolete gog_renderer_new_for_pixbuf.
+
 2007-09-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: remove WITH_GOFFICE_O_4.
