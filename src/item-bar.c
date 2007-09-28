@@ -270,40 +270,45 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 	default:
 	case COL_ROW_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
-		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
-		font = ib->normal_font;
+		gc     = canvas->style->bg_gc [GTK_STATE_ACTIVE];
+		font   = ib->normal_font;
 		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
-		gc = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
-		font = ib->bold_font;
+		gc     = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
+		font   = ib->bold_font;
 		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
-		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
-		font = ib->bold_font;
+		gc     = canvas->style->dark_gc [GTK_STATE_NORMAL];
+		font   = ib->bold_font;
 		ascent = ib->bold_font_ascent;
 		break;
 	}
-	g_return_if_fail (font != NULL);
+	/* When we are really small leave out the shadow and the text */
+	if (rect->width <= 2 || rect->height <= 2) {
+		gdk_draw_rectangle (drawable, gc, TRUE,
+			rect->x, rect->y, rect->width, rect->height);
+		return;
+	}
 
-	/* Draw header background */
 	gdk_draw_rectangle (drawable, gc, TRUE,
-			    rect->x + 1, rect->y + 1, rect->width - 1, rect->height - 1);
-	/* Then draw its shadow. */
+		rect->x + 1, rect->y + 1, rect->width - 1, rect->height - 1);
 	gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
 			  NULL, NULL, "GnmItemBarCell",
 			  rect->x, rect->y, rect->width + 1, rect->height + 1);
-	gdk_gc_set_clip_rectangle (text_gc, rect);
 
+	g_return_if_fail (font != NULL);
 	g_object_unref (ib->pango.item->analysis.font);
 	ib->pango.item->analysis.font = g_object_ref (font);
 	pango_shape (str, strlen (str), &(ib->pango.item->analysis), ib->pango.glyphs);
 	pango_glyph_string_extents (ib->pango.glyphs, font, NULL, &size);
+
+	gdk_gc_set_clip_rectangle (text_gc, rect);
 	gdk_draw_glyphs (drawable, text_gc, font,
 		rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
 		rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent,

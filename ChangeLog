@@ -1,5 +1,4 @@
 2007-09-25  Morten Welinder  <terra@gnome.org>
-
 	* configure.in (*_DISABLE_DEPRECATED): Turn off for stable
 	releases.
 
@@ -48,6 +47,11 @@
 	  this breaks WITH_GTK work.  Why isn't this ins glib ?
 	* src/print.h : Move the renamed internal (not dllexported)
 	  gnm_print_debug flag here
+
+2007-09-22  Jody Goldberg <jody@gnome.org>
+
+	* src/item-bar.c (ib_draw_cell) : don't draw the text when we're
+	  really small.
 
 2007-09-20  Morten Welinder  <terra@gnome.org>
 

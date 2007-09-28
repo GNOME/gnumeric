@@ -2242,7 +2242,7 @@ gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 			item_cursor_get_type (),
 			"SheetControlGUI",	pane->simple.scg,
 			"style",		ITEM_CURSOR_BLOCK,
-			"color",		"blue",
+			"color",		"red",
 			NULL);
 
 	item_cursor_bound_set (ITEM_CURSOR (pane->cursor.expr_range), r);

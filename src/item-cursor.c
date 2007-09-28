@@ -230,7 +230,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	int draw_thick, draw_handle;
 	int premove = 0;
 	GdkColor *fore = NULL, *back = NULL;
-	gboolean draw_stippled, draw_center, draw_external, draw_internal;
+	gboolean draw_stippled, draw_center, draw_external, draw_internal, draw_xor;
 
 #if 0
 	g_print ("draw[%d] %d,%d %d,%d\n",
@@ -258,6 +258,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	draw_thick    = 1;
 	draw_center   = FALSE;
 	draw_stippled = FALSE;
+	draw_xor      = TRUE;
 
 	switch (ic->style) {
 	case ITEM_CURSOR_AUTOFILL:
@@ -272,6 +273,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	case ITEM_CURSOR_BLOCK:
 		draw_center   = TRUE;
 		draw_thick    = 3;
+		draw_xor      = FALSE;
 		break;
 
 	case ITEM_CURSOR_SELECTION:
@@ -336,8 +338,10 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
 	gdk_gc_set_rgb_fg_color (ic->gc, &gs_white);
 	gdk_gc_set_rgb_bg_color (ic->gc, &gs_white);
-	values.function = GDK_XOR;
-	gdk_gc_set_values (ic->gc, &values, GDK_GC_FUNCTION);
+	if (draw_xor) {
+		values.function = GDK_XOR;
+		gdk_gc_set_values (ic->gc, &values, GDK_GC_FUNCTION);
+	}
 
 	if (draw_external) {
 		switch (draw_handle) {
