@@ -22,7 +22,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
- 
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <libgnumeric.h>
@@ -61,10 +61,8 @@
 #include <gtk/gtkstock.h>
 
 #include <glib/gi18n-lib.h>
-#ifdef GOFFICE_WITH_CAIRO
-#	include <cairo.h>
-#	include <pango/pangocairo.h>
-#endif
+#include <cairo.h>
+#include <pango/pangocairo.h>
 
 GOPluginModuleDepend const go_plugin_depends [] = {
 	{ "goffice", GOFFICE_API_VERSION }
@@ -131,7 +129,7 @@ go_gnm_component_set_data (GOComponent *component)
 
 	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
 	if (gognm->wv != NULL)
- 		g_object_unref (gognm->wv);
+		g_object_unref (gognm->wv);
 	gognm->wv = wb_view_new_from_input (input, NULL, io_context, NULL);
 	g_object_unref (io_context);
 	gognm->sheet = wb_view_cur_sheet (gognm->wv);
@@ -150,7 +148,6 @@ go_gnm_component_set_data (GOComponent *component)
 	component->ascent = gognm->height  / 72.;
 }
 
-#ifdef GOFFICE_WITH_CAIRO
 static void
 cell_render_cairo (cairo_t *cairo, GnmCell *cell,
 		   ColRowInfo const *ci, ColRowInfo const *ri)
@@ -211,12 +208,10 @@ cell_render_cairo (cairo_t *cairo, GnmCell *cell,
 		}
 	}
 }
-#endif
 
 static void
 go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixels)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	int col, row;
 	cairo_t *cairo;
@@ -285,7 +280,6 @@ go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixe
 	cairo_destroy (cairo);
 	go_image_get_pixbuf (image);
 	g_object_unref (image);
-#endif
 }
 
 #if 0
@@ -399,7 +393,7 @@ go_gnm_component_edit (GOComponent *component)
 		GOCmdContext *cc = go_component_get_command_context ();
 		IOContext *io_context = gnumeric_io_context_new (cc);
 		GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
-	
+
 		g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
 		wv = wb_view_new_from_input (input, NULL, io_context, NULL);
 		g_object_unref (io_context);

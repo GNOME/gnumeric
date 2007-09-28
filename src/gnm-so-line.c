@@ -206,9 +206,8 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 
 static void
 gnm_so_line_draw_cairo (SheetObject const *so, gpointer data,
-	double width, double height)
+			double width, double height)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	GnmSOLine *sol = GNM_SO_LINE (so);
 	cairo_t *cairo = (cairo_t*) data;
 	GogStyleLine const *style = &sol->style->line;
@@ -285,7 +284,6 @@ gnm_so_line_draw_cairo (SheetObject const *so, gpointer data,
 	cairo_move_to (cairo, x1, y1);
 	cairo_line_to (cairo, x2, y2);
 	cairo_stroke (cairo);
-#endif
 }
 
 static gboolean

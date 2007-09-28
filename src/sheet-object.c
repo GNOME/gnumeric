@@ -525,7 +525,6 @@ sheet_object_can_print (SheetObject const *so)
 void
 sheet_object_draw_cairo (SheetObject const *so, gpointer *data, gboolean rtl)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	if (SO_CLASS (so)->draw_cairo) {
 		cairo_t *cairo = (cairo_t*) data;
 		SheetObjectAnchor const *anchor;
@@ -565,7 +564,6 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data, gboolean rtl)
 		cairo_translate (cairo, x, y);
 		SO_CLASS (so)->draw_cairo (so, cairo, width, height);
 	}
-#endif
 }
 
 GnmRange const *

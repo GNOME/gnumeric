@@ -250,7 +250,6 @@ static void
 gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
 	double width, double height)
 {
-#ifdef GOFFICE_WITH_CAIRO
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	cairo_t *cairo = (cairo_t*) data;
 	GogStyle const *style = sof->style;
@@ -288,7 +287,6 @@ gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
 		UINT_RGBA_G(style->outline.color),
 		UINT_RGBA_A(style->outline.color));
 	cairo_stroke (cairo);
-#endif
 }
 
 static gboolean

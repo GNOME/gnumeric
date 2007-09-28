@@ -388,10 +388,8 @@ static void
 gnm_sog_draw_cairo (SheetObject const *so, gpointer data,
 			  double width, double height)
 {
-#ifdef GOFFICE_WITH_CAIRO
-	gog_graph_render_to_cairo
-		(SHEET_OBJECT_GRAPH (so)->graph, data, width, height);
-#endif
+	gog_graph_render_to_cairo (SHEET_OBJECT_GRAPH (so)->graph,
+				   data, width, height);
 }
 
 typedef struct {

@@ -197,8 +197,6 @@ static void
 gnm_so_polygon_draw_cairo (SheetObject const *so, gpointer data,
 	double width, double height)
 {
-#ifdef GOFFICE_WITH_CAIRO
-#endif
 }
 
 static gboolean

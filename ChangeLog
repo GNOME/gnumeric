@@ -1,5 +1,16 @@
 2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	Remove GOFFICE_WITH_CAIRO ifdefs.
+
+	* component/gnumeric.c: here.
+	* src/gnm-so-filled.c: here.
+	* src/gnm-so-line.c: here.
+	* src/gnm-so-polygon.c: here.
+	* src/sheet-object-graph.c: here.
+	* src/sheet-object.c: here.
+
+2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* src/sheet-object-graph.c (gnm_sog_draw_cairo): use
 	gog_graph_render_to_cairo instead of removed 
 	gog_graph_render_to_cairo_vector.
