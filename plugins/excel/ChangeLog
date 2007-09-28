@@ -1,3 +1,8 @@
+2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* ms-chart.c (ms_excel_chart_write): remove unused zoom argument in
+	gog_renderer_update call.
+
 2007-09-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: do not use WITH_GOFFICE_0_4 anymore.

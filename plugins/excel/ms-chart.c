@@ -5036,7 +5036,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				  "model", state.graph,
 				  "is-vector", TRUE,
 				  NULL);
-	gog_renderer_update (renderer, pos[2] - pos[0], pos[3] - pos[1], 1.);
+	gog_renderer_update (renderer, pos[2] - pos[0], pos[3] - pos[1]);
 	g_object_get (G_OBJECT (renderer), "view", &state.root_view, NULL);
 
 
