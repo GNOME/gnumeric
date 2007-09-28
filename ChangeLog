@@ -1,5 +1,11 @@
 2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* src/sheet-object-graph.c (gnm_sog_draw_cairo): use
+	gog_graph_render_to_cairo instead of removed 
+	gog_graph_render_to_cairo_vector.
+
+2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* src/shhet-object-graph.c (sheet_object_graph_set_gog): use
 	gog_renderer_new instead of obsolete gog_renderer_new_for_pixbuf.
 
