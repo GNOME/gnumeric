@@ -715,7 +715,7 @@ gnm_pane_dispose (GObject *obj)
 	 * unexpectedly.  */
 	pane->grid = NULL;
 	pane->editor = NULL;
-	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = pane->cursor.rangehighlight = NULL;
+	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = pane->cursor.expr_range = NULL;
 	pane->size_guide.guide = NULL;
 	pane->size_guide.start = NULL;
 	pane->size_guide.points = NULL;
@@ -906,9 +906,8 @@ gnm_pane_init (GnmPane *pane)
 	pane->mouse_cursor = NULL;
 	pane->cursor.rangesel = NULL;
 	pane->cursor.special = NULL;
-	pane->cursor.rangehighlight = NULL;
+	pane->cursor.expr_range = NULL;
 	pane->cursor.animated = NULL;
-	pane->cursor.expr = NULL;
 	pane->size_tip = NULL;
 
 	pane->slide_handler = NULL;
@@ -2124,10 +2123,8 @@ gnm_pane_reposition_cursors (GnmPane *pane)
 		item_cursor_reposition (pane->cursor.rangesel);
 	if (NULL != pane->cursor.special)
 		item_cursor_reposition (pane->cursor.special);
-	if (NULL != pane->cursor.rangehighlight)
-		item_cursor_reposition (ITEM_CURSOR (pane->cursor.rangehighlight));
-	if (NULL != pane->cursor.expr)
-		item_cursor_reposition (ITEM_CURSOR (pane->cursor.expr));
+	if (NULL != pane->cursor.expr_range)
+		item_cursor_reposition (ITEM_CURSOR (pane->cursor.expr_range));
 	for (l = pane->cursor.animated; l; l = l->next)
 		item_cursor_reposition (ITEM_CURSOR (l->data));
 
@@ -2239,8 +2236,8 @@ gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 void
 gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
-	if (NULL == pane->cursor.expr)
-		pane->cursor.expr = foo_canvas_item_new (
+	if (NULL == pane->cursor.expr_range)
+		pane->cursor.expr_range = foo_canvas_item_new (
 			FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
 			item_cursor_get_type (),
 			"SheetControlGUI",	pane->simple.scg,
@@ -2248,15 +2245,15 @@ gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 			"color",		"blue",
 			NULL);
 
-	item_cursor_bound_set (ITEM_CURSOR (pane->cursor.expr), r);
+	item_cursor_bound_set (ITEM_CURSOR (pane->cursor.expr_range), r);
 }
 
 void
 gnm_pane_expr_cursor_stop (GnmPane *pane)
 {
-	if (NULL != pane->cursor.expr) {
-		gtk_object_destroy (GTK_OBJECT (pane->cursor.expr));
-		pane->cursor.expr = NULL;
+	if (NULL != pane->cursor.expr_range) {
+		gtk_object_destroy (GTK_OBJECT (pane->cursor.expr_range));
+		pane->cursor.expr_range = NULL;
 	}
 }
 

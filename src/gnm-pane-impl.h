@@ -54,12 +54,10 @@ struct _GnmPane {
 	ItemEdit      *editor;
 
 	struct {
-		ItemCursor *std, *rangesel, *special, *rangehighlight;
+		ItemCursor *std, *rangesel, *special;
 		GSList *animated;
 
-		/* When editing, if the cursor is inside a cell name, or a cell range,
-		 * we highlight this on the spreadsheet. */
-		FooCanvasItem *expr;
+		ItemCursor *expr_range;	/* highlight refs while editing */
 	} cursor;
 
 	struct {
@@ -67,7 +65,7 @@ struct _GnmPane {
 		gboolean	 created_objects;
 		gboolean	 had_motion;	  /* while dragging did we actually move */
 		GHashTable	*ctrl_pts;	  /* arrays of FooCanvasItems hashed by sheet object */
-		double	 	 last_x, last_y, origin_x, origin_y;
+		double		 last_x, last_y, origin_x, origin_y;
 	} drag;
 
 	GdkCursor	*mouse_cursor;
