@@ -1116,17 +1116,6 @@ cb_guru_set_focus (G_GNUC_UNUSED GtkWidget *window,
 	wbcg_set_entry (wbcg, gee);
 }
 
-void
-wbc_gtk_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
-{
-	g_return_if_fail (guru != NULL);
-	g_return_if_fail (IS_WBC_GTK (wbcg));
-
-	wbcg_edit_attach_guru_main (wbcg, guru);
-	g_signal_connect_object (G_OBJECT (guru), "set-focus",
-		G_CALLBACK (cb_guru_set_focus), wbcg, 0);
-}
-
 /****************************************************************************/
 
 void
@@ -1136,10 +1125,8 @@ wbc_gtk_attach_guru (WBCGtk *wbcg, GtkWidget *guru)
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	wbcg_edit_attach_guru_main (wbcg, guru);
-	g_signal_connect (G_OBJECT (guru), "set-focus",
-		G_CALLBACK (cb_guru_set_focus), wbcg);
-	g_signal_connect_swapped (G_OBJECT (guru), "destroy",
-		G_CALLBACK (wbcg_edit_detach_guru), wbcg);
+	g_signal_connect_object (G_OBJECT (guru), "set-focus",
+		G_CALLBACK (cb_guru_set_focus), wbcg, 0);
 }
 
 void

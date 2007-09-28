@@ -98,7 +98,7 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer     *cell,
 				    background_area->y + cell->ypad,
 				    background_area->width,
 				    background_area->height - 2 * cell->ypad);
-		if (expose_area)               
+		if (expose_area)
 			gdk_gc_set_clip_rectangle (gc, NULL);
 	}
 
