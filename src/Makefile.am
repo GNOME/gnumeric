@@ -149,7 +149,6 @@ libspreadsheet_la_SOURCES =			\
 	workbook-view.c				\
 	workbook-control.c 			\
 	wbc-gtk.c				\
-	wbc-gtk-impl.h				\
 	wbc-gtk-actions.c			\
 	wbc-gtk-edit.c				\
 	xml-io.c				\
@@ -274,6 +273,7 @@ libspreadsheet_include_HEADERS = 	\
 	workbook-control.h 			\
 	workbook-control-priv.h 		\
 	wbc-gtk.h				\
+	wbc-gtk-impl.h				\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-sax.h				\
