@@ -31,6 +31,9 @@
 
 2007-09-25  Morten Welinder  <terra@gnome.org>
 
+	* src/format-template.c (format_template_member_get_rect): Don't
+	check sanity (which barfs).  Let caller check with range_valid.
+
 	* configure.in (*_DISABLE_DEPRECATED): Turn off for stable
 	releases.
 

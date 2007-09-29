@@ -189,8 +189,6 @@ format_template_member_get_rect (TemplateMember const *member, GnmRange const *r
 			res.start.col = r->start.col - member->col.size;
 	}
 
-	range_is_sane (&res);
-
 	return res;
 }
 
@@ -907,6 +905,8 @@ format_template_calculate (GnmFormatTemplate *origft, GnmRange const *r, PCalcCa
 		TemplateMember const *member = ptr->data;
 		GnmStyle const *mstyle = member->mstyle;
 		GnmRange range = format_template_member_get_rect (member, r);
+
+		g_return_if_fail (range_valid (&range));
 
 		if (member->direction == FREQ_DIRECTION_NONE)
 			pc (ft, &range, gnm_style_dup (mstyle), cb_data);
