@@ -1,5 +1,9 @@
 2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* samples/chart-smooth-fit-tests.gnumeric: new test file.
+
+2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	Duplicate the GogGraph object used by the graph dialog. That's needed
 	because GOGraphWidget change the width and height property of it's
 	graph model on every resize, which breaks the SheetObjectGraph.
