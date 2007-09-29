@@ -1,5 +1,9 @@
 2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
+	* samples/chart-smooth-fit-tests.gnumeric: add reference images.
+
+2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
 	* samples/chart-smooth-fit-tests.gnumeric: new test file.
 
 2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
