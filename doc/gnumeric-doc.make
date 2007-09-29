@@ -34,6 +34,8 @@ include $(top_srcdir)/xmldocs.make
 # (Entities, including functions.xml, are shipped via xmldocs.make.)
 EXTRA_DIST += $(functions_xml_parts)
 
+noinst_DATA =
+
 .PHONY : html validate chm pdf
 html :
 	-mkdir -p html
@@ -61,13 +63,12 @@ chm :
 	done
 	cp -r $(srcdir)/figures	chm
 
-
 if ENABLE_PDFDOCS
-EXTRA_DIST += gnumeric.pdf
+noinst_DATA += gnumeric.pdf
 endif
 
 if ENABLE_PDF_VIA_DBCONTEXT
-pdf :
+gnumeric.pdf:
 	env TEXINPUTS=$(srcdir):.: dbcontext -t tex -Pfo.setup=1 -I . \
 		-P imagedata.default.scale='scale=600' \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml
@@ -77,7 +78,7 @@ pdf :
 endif
 
 if ENABLE_PDF_VIA_DBLATEX
-pdf :
+gnumeric.pdf:
 	dblatex -t tex -Pfo.setup=1 -I . \
 		-P imagedata.default.scale='scale=0.6' \
 		-o gnumeric.tex $(srcdir)/gnumeric.xml

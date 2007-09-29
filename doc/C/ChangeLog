@@ -1,3 +1,7 @@
+2007-09-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Hook up PDF support properly.
+
 2007-09-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* figures/toolbars.510.png, figures/gnumeric-empty.510.png,

@@ -89,3 +89,7 @@ endif
 dist-hook: validate
 
 EXTRA_DIST += $(manpage_DATA) ssconvert.1 ssindex.1 gnumeric-docbook-2-htmlhelp.xsl
+
+if ENABLE_PDFDOCS
+EXTRA_DIST += gnumeric.pdf
+endif
