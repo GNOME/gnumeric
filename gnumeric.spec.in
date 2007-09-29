@@ -18,7 +18,7 @@ Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{version}.tar.g
 Url:		http://www.gnome.org/gnumeric
 BuildRoot:	%{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
 BuildRequires:	glib2-devel		>= 2.6.0
-BuildRequires:	libgsf-devel		>= 1.14.2
+BuildRequires:	libgsf-devel		>= 1.14.6
 BuildRequires:	gtk2-devel		>= 2.10.0
 BuildRequires:	libxml2-devel		>= 2.4.12
 BuildRequires:	libglade2-devel		>= 2.3.6
