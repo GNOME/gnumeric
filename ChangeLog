@@ -1,3 +1,13 @@
+2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Duplicate the GogGraph object used by the graph dialog. That's needed
+	because GOGraphWidget change the width and height property of it's
+	graph model on every resize, which breaks the SheetObjectGraph.
+
+	* src/gnm-graph-window.c (gnm_graph_window_set_graph): duplicate
+	graph.
+	(gnm_graph_window_new): add a safety check on graph parameter.
+
 2007-09-28  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Remove GOFFICE_WITH_CAIRO ifdefs.

@@ -268,11 +268,13 @@ gnm_graph_window_set_graph (GnmGraphWindow *window,
 	}
 
 	if (graph != NULL) {
+		graph = gog_graph_dup (graph);
 		window->graph = g_object_new (GO_GRAPH_WIDGET_TYPE,
-									"graph", graph,
-									"hres", gnm_app_display_dpi_get (TRUE),
-									"vres", gnm_app_display_dpi_get (FALSE),
-									NULL);
+					      "graph", graph,
+					      "hres", gnm_app_display_dpi_get (TRUE),
+					      "vres", gnm_app_display_dpi_get (FALSE),
+					      NULL);
+		g_object_unref (graph);
 		gtk_widget_show (window->graph);
 		gtk_container_add (GTK_CONTAINER (window->scrolled_window), window->graph);
 
@@ -296,6 +298,8 @@ gnm_graph_window_new (GogGraph *graph,
 		      gdouble   graph_height)
 {
 	GtkWidget *ret;
+
+	g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);
 
 	ret = g_object_new (gnm_graph_window_get_type (), NULL);
 	gnm_graph_window_set_graph (GNM_GRAPH_WINDOW (ret), graph, graph_width, graph_height);
