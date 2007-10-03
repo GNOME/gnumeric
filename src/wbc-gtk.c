@@ -3807,7 +3807,7 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 	gtk->file_history.actions = gtk_action_group_new ("FileHistory");
 
 	/* create the actions */
-	history = gnm_app_history_get_list (9);
+	history = gnm_app_history_get_list (3);
 	for (i = 1, ptr = history; ptr != NULL ; ptr = ptr->next, i++) {
 		GtkActionEntry entry;
 		GtkAction *action;
