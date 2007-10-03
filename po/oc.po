@@ -3331,7 +3331,7 @@ msgstr "_Destinatari "
 
 #: ../src/dialogs/autosave.glade.h:2
 msgid "Auto Save"
-msgstr "Salvament automatic"
+msgstr "Enregistrament automatic"
 
 #: ../src/dialogs/autosave.glade.h:3
 msgid "_Automatically save every"
@@ -8913,7 +8913,7 @@ msgstr ""
 #.
 #: ../src/tools/solver/reports-write.c:642
 msgid "User"
-msgstr "Usuari"
+msgstr "Utilizaire"
 
 #: ../src/tools/solver/reports-write.c:643
 msgid "System"
@@ -12167,7 +12167,7 @@ msgstr ""
 
 #: ../src/wbcg-actions.c:1944
 msgid "_Table..."
-msgstr "Taula"
+msgstr "Tablèu"
 
 #: ../src/wbcg-actions.c:1945
 msgid "Create a Data Table to evaluate a function with multiple inputs"
