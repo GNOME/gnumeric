@@ -49,7 +49,7 @@ html :
 	    $(srcdir)/gnumeric.xml
 
 validate :
-	xmllint --valid --noout gnumeric.xml
+	xmllint --valid --noout $(srcdir)/gnumeric.xml
 
 chm :
 	-rm -rf chm
