@@ -7,11 +7,11 @@
     spreadsheet by hand. This is usually necessary the first time that
     data are introduced into a computer. If the data already exist in
     a computer file of some kind, a simple way might exist to insert
-    these data into a <application>Gnumeric</application>
+    these data into a &gnum;
     worksheet. If the data are in a text file, they can be inserted
     into a worksheet rapidly using the text conversion facilities. If
     data exist in a spreadsheet file of a different format,
-    <application>Gnumeric</application> may be able to open the file
+    &gnum; may be able to open the file
     and the data can then be copied where they are wanted.
   </para>
 
@@ -25,15 +25,15 @@
   <warning>
     <para>
       If the information being entered into
-      <application>Gnumeric</application> cannot be interpreted
-      correctly, <application>Gnumeric</application> will display an
+      &gnum; cannot be interpreted
+      correctly, &gnum; will display an
       error message. The user may then be forced to edit the data
       before continuing. For example, a formula may be mathematically
       incorrect if the user has two operators in a row (e.g. =3+*4)
       and the dialog will give the user the chance to re-edit the
       entry or accept the entry as text rather than as a formula. When
       the formula is corrected, the leading apostrophe can be removed
-      and <application>Gnumeric</application> will re-interpret the
+      and &gnum; will re-interpret the
       entry as a formula.
     </para>
   </warning>
@@ -176,7 +176,7 @@
       then typing the <keysym>Enter</keysym> key. Anything that is not
       interpreted to be a number, boolean, formula or error will be
       treated as a text field. To prevent
-      <application>Gnumeric</application> from interpreting an entry
+      &gnum; from interpreting an entry
       as one of these other elements, a leading apostrophe can be
       added to force the entry to be text. Any entry, no matter what
       the contents, which starts with a leading apostrophe (') will be
@@ -186,7 +186,7 @@
     <tip>
       <para>
         Postal codes in the United States are series of five
-        integers. By default, <application>Gnumeric</application>
+        integers. By default, &gnum;
         interprets these to be numbers. This interpretation means that
         the leading zeros used in the postal codes of the northeastern
         region will be lost by default. To retain these leading zeros,
@@ -250,15 +250,15 @@
     <warning>
       <para>
         If the formula entered into
-        <application>Gnumeric</application> cannot be interpreted
-        correctly, <application>Gnumeric</application> will display an
+        &gnum; cannot be interpreted
+        correctly, &gnum; will display an
         error message giving the user the choice of re-editing the
         formula or saving the formula as a text field to be edited
         later. For example, a formula may be mathematically incorrect
         if the user has two operators in a row (e.g. =3+*4). If the
         formula is saved as text, when the formula is corrected the
         leading apostrophe must be
-        removed. <application>Gnumeric</application> will then
+        removed. &gnum; will then
         re-interpret the entry as a formula.
       </para>
     </warning>
@@ -408,7 +408,7 @@
     <para>
       Errors are almost never entered directly into a spreadsheet but
       usually arise from problems which
-      <application>Gnumeric</application> encounters during
+      &gnum; encounters during
       calculations. A list of errors with their meanings is presented
       in <xref linkend="sect-data-errors" />.
     </para>

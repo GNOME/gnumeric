@@ -2,13 +2,13 @@
   <title>The Types of Cell Elements</title>
   
   <para>
-    Each cell in a <application>Gnumeric</application> worksheet can
+    Each cell in a &gnum; worksheet can
     contain only a single data element. These elements will have one
     of five basic types: text, numbers, booleans, formulas, or
-    errors. During data entry, <application>Gnumeric</application>
+    errors. During data entry, &gnum;
     assigns a default data type to the cell based on an analysis of
     the cell contents. This assignment can be changed later if
-    <application>Gnumeric</application> makes the wrong
+    &gnum; makes the wrong
     assignment. For information on how to change the data type of a
     cell, see <xref linkend="sect-data-format" />.
   </para>
@@ -26,15 +26,15 @@
               or other contents. For example, the first cell in a
               worksheet might contain the characters &mdash;This
               worksheet describes the company's income &mdash; which
-              <application>Gnumeric</application> would interpret to
+              &gnum; would interpret to
               be text. In order to distinguish text elements from
               number or formula elements, the text element may start
               with a single quote. For instance, if a cell contained
               only the three digits 345,
-              <application>Gnumeric</application> would consider that
+              &gnum; would consider that
               to be the number three hundred and forty five. If this
               cell is intended to be a string,
-              <application>Gnumeric</application> will store the cell
+              &gnum; will store the cell
               as '345. The newline character cannot be entered
               directly but must be entered as <keycombo>
               <keycap>Alt</keycap>
@@ -58,7 +58,7 @@
               abbreviation. The currency, decimal separator and
               thousands separator symbols vary depending on the locale
               (the language and other location specific behaviour) to
-              which <application>Gnumeric</application> has been
+              which &gnum; has been
               set. See <xref linkend="sect-configuration-localization"
               /> to understand how to change the locale. If you want a
               number to be displayed as a plain string without any
@@ -90,7 +90,7 @@
          <listitem>
            <para>
              A formula is an instruction to
-             <application>Gnumeric</application> which describes a
+             &gnum; which describes a
              calculation which should be performed
              automatically. These formulas can contain standard
              arithmetic elements but can also contain references to
@@ -99,7 +99,7 @@
              changes. Formulas always begin with a special character
              &mdash; the equals sign (=). The commercial at symbol (@)
              can be used instead of the equals sign during data entry
-             but <application>Gnumeric</application> will convert this
+             but &gnum; will convert this
              to an equals sign. Alternatively, an entry which
              describes a calculation and which starts with either the
              plus (+) or minus symbol (-) will be converted to a
@@ -159,7 +159,7 @@
   <para>
     Text elements consist of an arbitrary sequence of characters or
     numbers entered into a cell. Because
-    <application>Gnumeric</application> automatically recognizes
+    &gnum; automatically recognizes
     certain sequences as numbers or formulas, certain sequences of
     characters (such as sequences containing only digits or a text
     element which starts with an equals sign) must be treated
@@ -210,7 +210,7 @@
 
   <para>
     Number data elements include a variety of data all of which are
-    stored and manipulated by <application>Gnumeric</application> as
+    stored and manipulated by &gnum; as
     numbers. This includes integers, decimal fractions, general
     fractions, numbers in scientific notation, dates, times, and
     currency values.
@@ -219,25 +219,25 @@
   <para>
     Data are recognized as numbers when they are entered, dependent on
     the format of the sequence of characters
-    entered. <application>Gnumeric</application> attempts to
+    entered. &gnum; attempts to
     intelligently guess the subtype of the data and match the data to
     an existing format for numbered data. If it matches a data format,
-    <application>Gnumeric</application> will automatically assign the
+    &gnum; will automatically assign the
     datum to a data type and associate an appropriate display format
     with the cell. The format recognition of
-    <application>Gnumeric</application> includes a wide variety of
+    &gnum; includes a wide variety of
     data formats which are discussed in detail in <xref
     linkend="number-formatting-overview" />.
   </para>
 
   <para>
-    Because <application>Gnumeric</application> automatically guesses
+    Because &gnum; automatically guesses
     the data type of a number being entered into a cell, this process
     may have to be over-ridden for certain types of data. For
     example, postal codes in the United States consist of a sequence
-    of numbers which <application>Gnumeric</application> interprets as
+    of numbers which &gnum; interprets as
     an integer. However, U.S. postal codes can start with a leading
-    zero which <application>Gnumeric</application> discards by
+    zero which &gnum; discards by
     default. In order to override the default format, the number
     format of the cell must be specified before the entry of the
     data. This is explained in <xref
@@ -258,7 +258,7 @@
 
   <para>
     Boolean values can be either "TRUE" or "FALSE". If these strings
-    are entered into a cell, <application>Gnumeric</application> will
+    are entered into a cell, &gnum; will
     recognize these as boolean values. These values can then be used
     in formulas. Certain formulas will also return boolean values.
   </para>
@@ -291,7 +291,7 @@
 
   <para>
     Formulas are the key to making a powerful spreadsheet. A formula
-    instructs <application>Gnumeric</application> to perform
+    instructs &gnum; to perform
     calculations and display the results. These calculations are
     defined as a formula data elements. The power of these formulas
     arises because these formulas can include the contents of other
@@ -303,7 +303,7 @@
 
   <para>
     Any formula entered into a cell must follow a specific syntax so
-    that <application>Gnumeric</application> can interpret the formula
+    that &gnum; can interpret the formula
     correctly. This syntax closely follows mathematical notation but
     also includes spreadsheet formulas, object names and cell
     references.
@@ -358,7 +358,7 @@
     <para>
       Formulas can result in error values in several instances. If a
       formula is entered incorrectly,
-      <application>Gnumeric</application> will display a warning and
+      &gnum; will display a warning and
       allow either the formula to be corrected or will save the
       formula as text for editing later. If a syntactically correct
       formula results in a nonsensical calculation (for instance, a
@@ -697,7 +697,7 @@ FUNCTIONNAME(ARGUMENTS)
 
       <para>
         Note that if SHEETNAME contains spaces, you need to quote the
-        whole name to allow <application>Gnumeric</application> to
+        whole name to allow &gnum; to
         group the separate words in SHEETNAME as single name.  For
         example, you should use 'Name With Spaces'.
       </para>
@@ -779,7 +779,7 @@ FUNCTIONNAME(ARGUMENTS)
 
     <para>
       In addition to the names defined by the user,
-      <application>Gnumeric</application> has some pre-defined names
+      &gnum; has some pre-defined names
       for useful elements. These are:
     </para>
 

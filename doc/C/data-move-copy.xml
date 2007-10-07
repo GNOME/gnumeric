@@ -340,7 +340,7 @@
 	  </para>
 	</listitem>
 	<listitem><para> <guilabel>Skip Blanks</guilabel>. This option
-	    prevents <application>Gnumeric</application> from taking
+	    prevents &gnum; from taking
 	    any action for the cells in the selection that are
 	    blank. For such cells, the existing  contents of the cells
 	    in the paste range will be kept. 
@@ -361,15 +361,15 @@
       selections from one location in  a spreadsheet to another, or
       between different spreadsheets. However, you can also use cut
       and paste to exchange information between
-      <application>Gnumeric</application> and other applications,
+      &gnum; and other applications,
       using so-called X clipboard which is shared by all graphical
       applications. 
     </para>
 
     <para>
       Whenever you cut or copy a selection in
-      <application>Gnumeric</application>, it is placed both in
-      <application>Gnumeric</application> clipboard and in X
+      &gnum;, it is placed both in
+      &gnum; clipboard and in X
       clipboard. In X clipboard, it is placed as text, with formulas
       replaced by their values and contents of different cells
       separated by spaces. 
@@ -387,13 +387,13 @@
     </para>
 
     <para>To paste a selection from another application to
-      <application>Gnumeric</application>, place this selection in the
+      &gnum;, place this selection in the
       X clipboard. Usually it is done by just selecting it with the
       mouse; some applications also allow you to use keyboard shortcut
       <keycombo><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>, or
       choose <menuchoice><guimenu>Edit</guimenu>
       <guimenuitem>Copy</guimenuitem></menuchoice>. After this, you
-      can paste it in <application>Gnumeric</application> by using
+      can paste it in &gnum; by using
       <guimenuitem>Paste</guimenuitem> command described <link
       linkend="paste">above</link>. This command will automatically
       paste the contents of X clipboard if Gnumeric's own clipboard is
@@ -401,7 +401,7 @@
     </para>
 
     <para>
-      Pasting X clipboard in <application>Gnumeric</application> will
+      Pasting X clipboard in &gnum; will
       automatically launch the <guilabel>Text Import</guilabel> druid
       which will assist you in importing the plain text contents of X
       clipboard into the spreadsheet. The <guilabel>Text

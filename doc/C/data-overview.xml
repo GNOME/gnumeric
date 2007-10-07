@@ -4,14 +4,14 @@
   <para>
     The purpose of a spreadsheet is to manipulate data and perform
     calculations on those data. In order to understand how to use
-    <application>Gnumeric</application>, it is necessary to understand
+    &gnum;, it is necessary to understand
     what types of data are available and how these types can be
     manipulated.
   </para>
 
   <para>
     Because all of the data which are entered into a
-    <application>Gnumeric</application> workbook can eventually be
+    &gnum; workbook can eventually be
     stored in a file, the file contents define the kinds of data which
     can be entered into the spreadsheet. A file contains:
       <itemizedlist>

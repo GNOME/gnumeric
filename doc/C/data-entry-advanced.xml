@@ -3,7 +3,7 @@
 
   <para>
     This section describes advanced methods for data entry in
-    <application>Gnumeric</application>. This includes techniques
+    &gnum;. This includes techniques
     useful when adding large amounts of data, methods to automatically
     catch mistakes during data entry, using pre-defined templates to
     format data input, obtaining data from external sources and
@@ -16,7 +16,7 @@
     <para>
       It is sometimes necessary to enter large amounts of data by hand
       into a spreadsheet. To facilitate this work,
-      <application>Gnumeric</application> provides several techniques
+      &gnum; provides several techniques
       to facilitate the entry of large amounts of data.
     </para>
 
@@ -71,7 +71,7 @@
         <para>
           It is often necessary to enter a regular sequence of numbers
           or a repeated sequence of
-          text. <application>Gnumeric</application> provides several
+          text. &gnum; provides several
           ways to input series and sequences of this kind.
         </para>
 
@@ -86,7 +86,7 @@
           mouse cursor is placed above this square box, it changes to
           a thin cross. If the left hand mouse button is clicked and
           held, and the mouse dragged to cell C10,
-          <application>Gnumeric</application> will automatically fill
+          &gnum; will automatically fill
           all of the cells with the identical string.
         </para>
 
@@ -104,7 +104,7 @@
           integers. If the example just given was altered so that cell
           C2 had the number 14 and the <keysym>Ctrl</keysym> key was
           held during the dragging of the selection,
-          <application>Gnumeric</application> will automatically fill
+          &gnum; will automatically fill
           the cells C2 to C10 with the series 14,15,16,...,22.
         </para>
 
@@ -163,10 +163,10 @@
 
 
         <para>
-	  <application>Gnumeric</application> is able to increment
+	  &gnum; is able to increment
 	  several types of data beyond simple integers. The procedure
 	  is the same as described above but involves different
-	  starting values. <application>Gnumeric</application> can
+	  starting values. &gnum; can
 	  increment:
 	<variablelist>
 	  <varlistentry>
@@ -232,11 +232,11 @@
 		11/14/2001, 11/15/2001, etc.
 	      </para>
 	      <para>
-		<application>Gnumeric</application> supports
+		&gnum; supports
 		incrementing the date by month, date, or year.
 	      </para>
 		<para>
-		  Note that, While <application>Gnumeric</application>
+		  Note that, While &gnum;
 		  will increment days of the month, if you do
 		  11/14/2001 and 12/14/2001, it will recognize it as
 		  the same day of the month and increment the month so
@@ -249,7 +249,7 @@
         </para>
 
         <para>
-          <application>Gnumeric</application> can be explicitly told
+          &gnum; can be explicitly told
           the cells to autofill as in the examples above, but it can
           also guess the number of cells to fill based on the length
           of an adjacent column or row. For example, if the cells B2
@@ -271,7 +271,7 @@
     <para>
       The entry of large amounts of data into a spreadsheet is tedious
       work which is prone to repeated
-      mistakes. <application>Gnumeric</application> provides a tool to
+      mistakes. &gnum; provides a tool to
       automatically correct commonly made simple mistakes. The
       corrections are configured and activated using the `AutoCorrect'
       dialog, available via <guimenuitem>Auto Correct</guimenuitem> in

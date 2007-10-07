@@ -2,9 +2,9 @@
   <title>Overview</title>
 
   <para>
-    <application>Gnumeric</application> is a complex computer program
+    &gnum; is a complex computer program
     and therefore necessarily contains some mistakes. The
-    <application>Gnumeric</application> team is keenly interested in
+    &gnum; team is keenly interested in
     finding these errors and correcting them. Suggestions for
     improvement are also welcome and can be submitted in the same
     fashion as an error report.
@@ -17,11 +17,11 @@
   </para>
 
   <para>
-    Reports of problems with <application>Gnumeric</application>
+    Reports of problems with &gnum;
     provide the project with a way of making sure that the mistake is
     eventually fixed. Often the mistake is obvious and a fix can be
     made immediately to be included in the very next release of
-    <application>Gnumeric</application>. Occasionally, the mistake is
+    &gnum;. Occasionally, the mistake is
     more complex and the problem may take a while to be resolved. In
     these cases, the report provides a way to remind the developers that
     the problem still exists.
@@ -37,7 +37,7 @@
   </note>
 
   <para>
-    The <application>Gnumeric</application> project uses a world wide
+    The &gnum; project uses a world wide
     web system called <application>Bugzilla</application> to collect
     reports of program errors and then to track these errors until
     they are finally fixed. The system was developed as part of the
@@ -149,7 +149,7 @@
       <ulink type="http" 
       url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">page
       </ulink>
-      for <application>Gnumeric</application>. Here
+      for &gnum;. Here
       users are asked to login with their email address and
       password. After logging in, <application>Bugzilla</application>
       will present a page to add a bug report.
@@ -178,7 +178,7 @@
     <warning>
       <para>
         In order to file a report of a problem with
-        <application>Gnumeric</application>, a
+        &gnum;, a
         <application>Bugzilla</application> account is
         necessary. Please see the previous section, <xref
         linkend="sect-bugs-bugzilla_account" />, for an explanation of
@@ -187,7 +187,7 @@
     </warning>
 
     <para>
-      The <application>Gnumeric</application> bug entry page consists
+      The &gnum; bug entry page consists
       of several fields many of which must be filled out to provide a
       useful bug report. The most important of these will be the "Bug
       Description" which contains both the brief "Summary" field which
@@ -217,13 +217,13 @@
       called <guimenuitem>Report a Problem</guimenuitem>. This menu
       entry should cause a browser window to launch and open
       <application>Bugzilla</application> to the
-      <application>Gnumeric</application> page.
+      &gnum; page.
     </para>
 
     <para>
       Alternatively, users can click on this <ulink type="http"
       url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">
-      link</ulink> to access the <application>Gnumeric</application>
+      link</ulink> to access the &gnum;
       page in <application>Bugzilla</application>.
     </para>
 
@@ -299,18 +299,18 @@ a user
 
     <para>
       The <emphasis>Product</emphasis> should be set to
-      <application>Gnumeric</application> since the GNOME version of
+      &gnum; since the GNOME version of
       <application>Bugzilla</application> is used for all the different
       programs in the project.
     </para>
 
     <para>
       The <emphasis>Component</emphasis> describes the part of
-      <application>Gnumeric</application> that causes the
+      &gnum; that causes the
       problem. This may not be obvious so, unless one of the other
       entries clearly matches, the component should be set to
       "General". The possible components for
-      <application>Gnumeric</application> are as follows.
+      &gnum; are as follows.
     </para>
 
 <table frame='all'><title>Components of Gnumeric</title>
@@ -338,7 +338,7 @@ a user
 <row>
   <entry>Database plugin</entry>
   <entry>Problems when using a database from
-  <application>Gnumeric</application>.</entry>
+  &gnum;.</entry>
 </row>
 <row>
   <entry>Documentation</entry>
@@ -386,7 +386,7 @@ a user
 <row>
   <entry>Installation</entry>
   <entry>Problems encountered during
-  <application>Gnumeric</application> installation.</entry>
+  &gnum; installation.</entry>
 </row>
 <row>
   <entry>Main System</entry>
@@ -424,7 +424,7 @@ a user
       <para>
         There are two cases when the user should change the severity
 	of the report. In the first case, if the user has a problem
-	which causes <application>Gnumeric</application> to crash (to
+	which causes &gnum; to crash (to
 	suddenly disappear or stop working) or a problem in which data
 	is lost, the severity should be set to "critical". In the
 	second case, if the user has a report about a desired feature,
@@ -500,7 +500,7 @@ a user
 
       <para>
         The version field is used to indicate the version of
-	<application>Gnumeric</application> which was used when the
+	&gnum; which was used when the
 	problem occurred. If the problem occurs with several versions,
 	the most recent version number should be used. The version
 	number can be obtained by opening the <interface>"About
@@ -521,7 +521,7 @@ a user
       </para>
 
       <para>
-        If <application>Gnumeric</application> is being used with a
+        If &gnum; is being used with a
         GNOME desktop, the version of GNOME being used can be entered
         in the "Gnome Version" field.
       </para>
@@ -536,7 +536,7 @@ a user
       <para>
         The "Operating System" field can be used to describe the
 	underlying operating system being used to run the
-	<application>Gnumeric</application> program. Please note, that
+	&gnum; program. Please note, that
 	if the program is run in an artificial environment such as a
 	virtual machine or a Cygwin setup, this should be indicated in
 	the next field.
@@ -616,7 +616,7 @@ a user
         already filled out can be saved as a link and bookmarked for
         future use. This ability is only of use for developers or for
         users who have found a large number of bugs in one particular
-        component of <application>Gnumeric</application>.
+        component of &gnum;.
       </para>
 
       <para>
@@ -627,7 +627,7 @@ a user
         construct a template and will provide a link which can be
         saved for future use just as any other page on the web can be
         saved as a bookmark. To use these values, simply clicking on
-        the bookmark will open the <application>Gnumeric</application>
+        the bookmark will open the &gnum;
         page of <application>Bugzilla</application> with the common
         fields already filled out.
       </para>

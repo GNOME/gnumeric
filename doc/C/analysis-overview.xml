@@ -3,7 +3,7 @@
 
   <para>
     There are several kinds of analysis which can be performed using
-    the <application>Gnumeric</application> spreadsheet. These include
+    the &gnum; spreadsheet. These include
     statistical analysis and linear programming methods. These are
     described in this chapter.
   </para>

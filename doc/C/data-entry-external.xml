@@ -15,15 +15,15 @@
     <para>
       Data which already exist in an external file can be imported
       into a workbook first by opening the file into a separate
-      instance of <application>gnumeric</application> and and then by
+      instance of &gnum; and and then by
       copying the relevant data into the desired worksheet.
     </para>
 
     <para>
       Data contained in external files in the formats of several other
       spreadsheet applications can be opened by
-      <application>gnumeric</application>.
-      <application>Gnumeric</application> can open files in
+      &gnum;.
+      &gnum; can open files in
       <application>Applix</application> (TM) format, GNU
       <application>Oleo</application> format, Lotus
       <application>123</application> (TM) format, Microsoft
@@ -40,21 +40,21 @@
     <para>
       Data contained in external text files which are formatted in
       well defined ways can also be opened by
-      <application>gnumeric</application>.
-      <application>Gnumeric</application> can open files formatted in
+      &gnum;.
+      &gnum; can open files formatted in
       Data Interchange Format, formatted as HTML tables, or formatted
       in text formats such as comma separated values or tab delimited
       records. The opening of text format files is configurable by the
       user so that text files which contain data formatted in a wide
       variety of schemes can be imported correctly into
-      <application>gnumeric</application>. Obtaining data from these
+      &gnum;. Obtaining data from these
       files is explained in detail in the section titled <xref
       linkend="sect-file-open" />.
     </para>
 
     <para>
       Data which are opened into a separate instance of
-      <application>gnumeric</application> can be copied and pasted
+      &gnum; can be copied and pasted
       into the current worksheet with the copy and paste commands as
       explained in <xref linkend="sect-movecopy-cutandpaste" />.
     </para>
@@ -66,7 +66,7 @@
 
     <para>
       Data can be obtained from other
-      <application>Gnumeric</application> workbooks or other
+      &gnum; workbooks or other
       applications using the mouse to copy data and paste them into a
       worksheet. This is explained below in the section titled <xref
       linkend="sect-movecopy-xclipboard" />.
@@ -88,16 +88,16 @@
     <title>Getting Data from an Internet Data Stream</title>
 
     <para>
-      <application>Gnumeric</application> has been connected to
+      &gnum; has been connected to
       external data sources such as stock quotation service data
       streams using an experimental plugin. This requires the ability
       to write programming code. Information on extending
-      <application>gnumeric</application> by developing plugins can be
+      &gnum; by developing plugins can be
       found in the section called <xref
       linkend="sect-extending-plugins"/> and the actual computer
       source code can be found in the directory
       <literal>gnumeric/plugins/sample_datasource/</literal> of
-      either a distribution of <application>gnumeric</application> or
+      either a distribution of &gnum; or
       in a code checkout from the concurrent versioning system (CVS)
       repository.
     </para>

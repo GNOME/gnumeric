@@ -139,7 +139,7 @@
       <listitem><para>	A swiss army knife of a format.  It will attempt
 	  to display a value it the 'best' way possible.
 	  The choice of format depends on the size of the cell
-	  and <application>Gnumeric</application>
+	  and &gnum;
 	  guess of what 'type' of value is 
 	  being displayed (number, date, time ...).
 	</para></listitem>
@@ -165,7 +165,7 @@
 	  <literal>&pound;</literal>, 
 	  <literal>&curren;</literal> 
 	  and the three letter abbreviations of all major
-	  currencies. By default, <application>Gnumeric</application>
+	  currencies. By default, &gnum;
 	  will use currency symbol  and placement (before or after the
 	  number) appropriate for your locale. 
 	</para></listitem>
@@ -185,7 +185,7 @@
       <term><guilabel>Date</guilabel></term>
       <listitem><para>This category contains various formats for
 	  presenting dates. By default,
-	  <application>Gnumeric</application> will use date format
+	  &gnum; will use date format
 	  appropriate for your locale (country and language setting).  You
 	  can also choose one of many 
 	  possible date formats shown in the list in the right side of
@@ -300,7 +300,7 @@
 	    other similar entries, choose
 	    <guilabel>Text</guilabel> format for them. If you choose
 	    <guilabel>General</guilabel> or <guilabel>Number</guilabel>
-	    format, <application>Gnumeric</application> will remove leading
+	    format, &gnum; will remove leading
 	    zeros, so that <literal>01124</literal> will be shown as
 	    <literal>1124</literal>. </para>
 	</tip>
@@ -313,7 +313,7 @@
 	  This category allows you to define your own
 	  format. This is only recommended for advanced users as
 	  it requires understanding of the codes internally used
-	  by <application>Gnumeric</application> for describing
+	  by &gnum; for describing
 	  formats. To make it easier, this category provides a
 	  list of codes for all predefined formats so you can
 	  create our own format by modifying one of them rather
@@ -748,7 +748,7 @@
       or strikethrough. 
     </para>
     <para>
-      <application>Gnumeric</application> allows you to use any of the
+      &gnum; allows you to use any of the
       fonts known to GNOME printing system,
       <application>gnome-print</application>. The same fonts are used
       for screen display and for printing, assuring that the printed
@@ -910,11 +910,11 @@
       This tab allows you to see and
       change cell protection in imported Excel
       workbooks. Cell protection has no effect in
-      <application>Gnumeric</application>: you can edit cells whether
+      &gnum;: you can edit cells whether
       or not they are marked as protected. However,
-      <application>Gnumeric</application> keeps the protection setting
+      &gnum; keeps the protection setting
       of imported Excel workbooks. If you later save your workbook in
-      Excel format, <application>Gnumeric</application> will save the
+      Excel format, &gnum; will save the
       protection information too. For more information about cell
       protection in <application>Excel</application>, please refer to
       <application>Excel</application> documentation. 
@@ -988,7 +988,7 @@
 
     <para>
       After specifying the criteria, you need to specify how
-      <application>Gnumeric</application> should respond to incorrect
+      &gnum; should respond to incorrect
       cell value. You can choose one of four possible actions from
       <guilabel>Action</guilabel> drop-down list:
       <variablelist>

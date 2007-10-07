@@ -2,7 +2,7 @@
   <title>The History of Gnumeric</title>
 
   <para>
-  <application>Gnumeric</application> was created in <date>August, 1998</date> 
+  &gnum; was created in <date>August, 1998</date> 
   by 
   <author>
     <firstname>Miguel</firstname> 
@@ -13,9 +13,9 @@
   Historically the spreadsheet was a killer application, an application 
   so useful it gave businesses the reason they needed to buy computers.  
   
-  Similarly <application>Gnumeric</application> gives people a great reason to 
+  Similarly &gnum; gives people a great reason to 
   choose GNOME.  
-  <application>Gnumeric</application> also provided a valuable opportunity for 
+  &gnum; also provided a valuable opportunity for 
   developers to stress test various technologies needed for the GNOME Desktop. 
 
   <!-- 
@@ -62,12 +62,12 @@
   
   -->
   <para>
-  <application>Gnumeric</application> reached a major milestone on 
+  &gnum; reached a major milestone on 
   <date>December 31, 2001</date> with the successful release of Version 1.0.  
   </para>
 
   <para>
-  Who knows what the future will bring for <application>Gnumeric</application>.  
+  Who knows what the future will bring for &gnum;.  
   There is still more history that has not yet been written.
   </para>
 

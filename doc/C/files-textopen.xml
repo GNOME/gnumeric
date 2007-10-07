@@ -1702,7 +1702,7 @@ h:mm:ss AM/PM
   <listitem>
   <para>If you selected fixed width fields you are asked to specify the widths for
   each field. Click the <quote><guibutton>Auto Column Discovery</guibutton></quote> button
-  to have <application>Gnumeric</application> try to determine the fields widths automatically.</para>
+  to have &gnum; try to determine the fields widths automatically.</para>
   <figure id="file-format-csv-import-ex5">
     <title></title>
     <screenshot>

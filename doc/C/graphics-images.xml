@@ -4,7 +4,7 @@
 
   <para>
     Images can be added, as floating graphical elements, to
-    <application>Gnumeric</application> worksheets. These images will
+    &gnum; worksheets. These images will
     be saved as part of the file and therefore can be sent to others
     embedded within the spreadsheet file.
   </para>
@@ -114,7 +114,7 @@ gdk-pixbuf-query-loaders
     <title>Saving Images to New Files</title>
 
     <para>
-      Images in a <application>Gnumeric</application> worksheet can be
+      Images in a &gnum; worksheet can be
       saved to a new, separate file. The image can be saved either in
       its original format or in PNG or JPEG formats. The ability to
       save images to a new file is especially useful when a
@@ -178,7 +178,7 @@ gdk-pixbuf-query-loaders
     <para>
       An image element, floating above a worksheet, can be deleted
       from the worksheet and from the
-      <application>Gnumeric</application> file using the context
+      &gnum; file using the context
       menu. The procedure for deleting all graphical elements is the
       same; this procedure is explained in <xref
       linkend="sect-graphical-overview-deleting" />. 

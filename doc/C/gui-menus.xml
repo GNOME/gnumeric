@@ -9,7 +9,7 @@
     This section of the manual describes the use of the menubar and
     the menus themselves. The rest of <xref linkend="sect-gui-menus"
     /> then explains each entry in every
-    <application>Gnumeric</application> menu, submenu or context menu.
+    &gnum; menu, submenu or context menu.
   </para>
 
   <para>
@@ -22,7 +22,7 @@
   </para>
 
   <para>
-    <application>Gnumeric</application> also uses context menus to
+    &gnum; also uses context menus to
     give users a quick way to access certain commands. The context
     menu will open up right under the mouse pointer when one of the
     secondary mouse buttons, usually the rightmost, is clicked. This
@@ -78,7 +78,7 @@
 
 
     <para>
-      <application>Gnumeric</application> menus are opened with a
+      &gnum; menus are opened with a
       simple click on the name of the menu in the menu bar. Once
       clicked, the menu will stay open. If the mouse pointer is
       dragged over the name of another menu on the menubar, the first
@@ -118,12 +118,12 @@
 
     <para>
       The <guimenu>File</guimenu> menu is the most important menu in
-      <application>Gnumeric</application> because it gives the user
+      &gnum; because it gives the user
       the ability to interact with the computer operating system. This
       menu allows the user to create files containing all the work
       they have done. It also enables users to print the results of
       their work. Finally, the <guimenu>File</guimenu> menu is the
-      best way to close <application>Gnumeric</application>.
+      best way to close &gnum;.
     </para>
 
     <figure id="menu-file-labelled.png">
@@ -239,7 +239,7 @@
 	<listitem>
 	  <para>
 	    These menu items enable
-	    <application>Gnumeric</application> to print. Each item is
+	    &gnum; to print. Each item is
 	    presented below and printing issues are discussed fully in
 	    <xref linkend="chapter-printing" />.
           </para>
@@ -355,8 +355,8 @@
 	    <guimenuitem>Open</guimenuitem> menu entry and finding the
 	    file in the <guilabel>Find File</guilabel> dialog. Note
 	    that if the file has been moved since
-	    <application>Gnumeric</application> last saved it,
-	    <application>Gnumeric</application> will not find the
+	    &gnum; last saved it,
+	    &gnum; will not find the
 	    file.
 	  </para>
 	</listitem>
@@ -386,12 +386,12 @@
 	       <guimenuitem>Close</guimenuitem> menu item allows the
 	       user to close the current workbook. If this is the only
 	       workbook which this instance of
-	       <application>Gnumeric</application> has open, the close
+	       &gnum; has open, the close
 	       operation will also quit
-	       <application>Gnumeric</application>. If other workbooks
+	       &gnum;. If other workbooks
 	       are open, this workbook will close without affecting
 	       the others.  If the workbook has unsaved changes,
-	       <application>Gnumeric</application> will ask the user
+	       &gnum; will ask the user
 	       if he wants to save the file.
      	      </para>
      	   </listitem>
@@ -402,8 +402,8 @@
      	       <guimenuitem>Quit</guimenuitem> &mdash; The
 	       <guimenuitem>Quit</guimenuitem> menu item will close
 	       all the workbooks currently being used by
-	       <application>Gnumeric</application> and quit the
-	       program. <application>Gnumeric</application> will
+	       &gnum; and quit the
+	       program. &gnum; will
 	       prompt the user asking if he wants to save any
 	       workbooks which has changes which have not been saved.
 
@@ -477,8 +477,8 @@
 	  dozen operations. The number of operations which Gnumeric
 	  tracks in its history depends on the size and complexity of
 	  those operations. Finally, there are some operations which
-	  cannot yet be modified in this way in <application>Gnumeric
-	  1.0</application>. Sheet operations (adding or removal)
+	  cannot yet be modified in this way in &gnum; 1.0.
+	  Sheet operations (adding or removal)
 	  cannot be undone, nor can deleted comments be restored, nor
 	  can altered summary information, nor can operations on
 	  embedded objects be undone.
@@ -529,7 +529,7 @@
 	been chosen, usually with the mouse, and are usually colored
 	pale blue. Selections are explained in greater detail in <xref
 	linkend="sect-data-selections" />.
-	<application>Gnumeric</application> currently only allows
+	&gnum; currently only allows
 	single range selections for these operations.
 	</para>
 
@@ -537,9 +537,9 @@
 	  To use these menuitems, the user must first select the range
 	  of the cut or copy area. When the user then picks these
 	  menuitems, the contents of the selected areas will be
-	  entered into the <application>Gnumeric
-	  clipboard</application> and into the X clipboard. The
-	  contents of the <application>Gnumeric</application>
+	  entered into the &gnum;
+	  clipboard and into the X clipboard. The
+	  contents of the &gnum;
 	  clipboard can then be inserted into a new region of the
 	  spreadsheet, into another worksheet or into a new
 	  workbook. The X clipboard holds the space delimited results
@@ -569,7 +569,7 @@
 	      <guimenuitem>Copy</guimenuitem> &mdash; The
 	      <guimenuitem>Copy</guimenuitem> menu item allows a user
 	      to duplicate a selection. The original data remains
-	      where it was and the <application>Gnumeric</application>
+	      where it was and the &gnum;
 	      clipboard (and the X clipboard) has a copy which can be
 	      inserted elsewhere.
 
@@ -625,7 +625,7 @@
 	      the selection's origin are pasted as being over n
 	      columns (and vice-versa). The <guilabel>skip
 	      blanks</guilabel> prevents
-	      <application>Gnumeric</application> from taking any
+	      &gnum; from taking any
 	      action for the cells in the selection that are
 	      blank. Note that the selection will be transformed if
 	      that option is selected but then that the paste will not
@@ -678,15 +678,15 @@
 			       <guimenuitem>delete</guimenuitem> menu item may open a dialog
 				 giving the user a choice of options. Any of the options
 				 will completely delete the selected cells. Depending on the
-				 selection, <application>Gnumeric</application> will fill in the space the cells
+				 selection, &gnum; will fill in the space the cells
 				 were occupying differently. With column or row selections,
 				 the effect is easy to understand and no choice is possible
-				 so <application>Gnumeric</application> does not open the dialog. The space left by
+				 so &gnum; does not open the dialog. The space left by
 				 selected rows, is filled by moving lower rows up
 				 whereas the space filled by deleting columns is filled by
 				 moving to the left columns which were right of the selection. 
 				 For example, if columns D and E are selected for deletion,
-				 <application>Gnumeric</application> will move the contents of all columns from F
+				 &gnum; will move the contents of all columns from F
 				 onwards two columns to the left.
 				 </para>
 				 <para>
@@ -781,7 +781,7 @@
 				   inserted immediately following the current sheet. The
 				   current sheet can be renamed in a the little pop-up window. The
 				   sheets can be re-ordered or the current sheet can be
-				   deleted. For this last option <application>Gnumeric</application> asks for confirmation
+				   deleted. For this last option &gnum; asks for confirmation
 				   since this choice cannot be undone.
 				 </para>
      	   		</listitem>
@@ -812,9 +812,9 @@
 			       	  <guimenuitem>Recalculate</guimenuitem> menu item forces
 					the workbook to recalculate its results. This is useful
 					if a formula in the current worksheet depends on a cell in
-					a different workbook. <application>Gnumeric</application> will not necessarily know
+					a different workbook. &gnum; will not necessarily know
 					when that data has been updated so a user can force
-					<application>Gnumeric</application> to recalculate all the cells in the current
+					&gnum; to recalculate all the cells in the current
 					workbook.
      	      		</para>
      	   		</listitem>
@@ -899,7 +899,7 @@
                 row, the data would line up underneath each header.
               </para>
               <para>
-                <application>Gnumeric</application> freezes the
+                &gnum; freezes the
 		portion of the worksheet which is currently visible
 		and is above and left of the current selection. If the
 		selection is not visible, then the frozen section will
@@ -1106,7 +1106,7 @@
 	       <guimenuitem>Graph...</guimenuitem> menu item will
 	       allow a user to insert a graphic plot of data. This
 	       menu item will launch the graph druid. Graphing in
-	       <application>Gnumeric</application> is explained in
+	       &gnum; is explained in
 	       <xref linkend="sect-graphics-plots" />.
 	     </para>
 	   </listitem>
@@ -1129,11 +1129,11 @@
 	       <guimenuitem>Object...</guimenuitem> &mdash; The
 	       <guimenuitem>Object...</guimenuitem> menu item launches
 	       a dialog with the objects which
-	       <application>Gnumeric</application> is currently able
+	       &gnum; is currently able
 	       to embed in a worksheet. The user simply picks one of
 	       the objects in the list, and then inserts the object
 	       into the worksheet. These objects are not part of
-	       <application>Gnumeric</application> but are provided by
+	       &gnum; but are provided by
 	       other programs in the GNOME project.
 	     </para>
 	   </listitem>
@@ -1295,7 +1295,7 @@
 	 <listitem>
 	   <para>
 	     <guimenuitem>Auto Fit Selection</guimenuitem> &mdash;
-	     This menu item makes <application>Gnumeric</application>
+	     This menu item makes &gnum;
 	     automatically choose the optimal column size to display
 	     all of the text in the current selection.
 	   </para>
@@ -1305,7 +1305,7 @@
 	     <guimenuitem>Hide</guimenuitem> &mdash; The
 	     <guimenuitem>Hide</guimenuitem> menu item will hide the
 	     columns containing the current
-	     selection. <application>Gnumeric</application> still
+	     selection. &gnum; still
 	     holds these columns in memory and will save them to a
 	     file but will not display those columns. The only
 	     indication that a user has that columns have been hidden
@@ -1428,9 +1428,9 @@
               <listitem>
                 <para>
                 <guimenuitem>Hide Gridlines</guimenuitem> &mdash; This menu item
-								acts as a toggle. If this menu item is clicked, <application>Gnumeric</application> will
+								acts as a toggle. If this menu item is clicked, &gnum; will
 								display a check mark to the left of the menu item. The lines
-								which separate all the cells will then be hidden and <application>Gnumeric</application>
+								which separate all the cells will then be hidden and &gnum;
 								will appear to be a blank background. This is useful to make
 								certain data look pretty on screen.
 	        			</para>
@@ -1439,8 +1439,8 @@
                 <para>
                 <guimenuitem>Hide Column Headers</guimenuitem> &mdash; This
 								menu item acts as a toggle. If this menu item is clicked,
-								<application>Gnumeric</application> display a check mark on the left of the menu item.
-								<application>Gnumeric</application> will also hide the boxes with the alphabetical names
+								&gnum; display a check mark on the left of the menu item.
+								&gnum; will also hide the boxes with the alphabetical names
 								of the columns.
 	        			</para>
 	      </listitem>
@@ -1448,8 +1448,8 @@
                 <para>
                 <guimenuitem>Hide Row Header</guimenuitem> &mdash; This
 								menu item acts as a toggle. If this menu item is clicked,
-								<application>Gnumeric</application> display a check mark on the left of the menu item.
-								<application>Gnumeric</application> will also hide the boxes with the numeric names
+								&gnum; display a check mark on the left of the menu item.
+								&gnum; will also hide the boxes with the numeric names
 								of the rows.
 	        			</para>
 	      </listitem>
@@ -1463,13 +1463,13 @@
 	    opens a dialog which allows users to configure the current
 	    workbook. The dialog currently has four choices. Text
 	    autocomplete can be unset which means that
-	    <application>Gnumeric</application> will not compare text
+	    &gnum; will not compare text
 	    as it entered against text in above it in the column. Text
 	    autocomplete is useful to users entering data because if
-	    entries are repeated, <application>Gnumeric</application>
+	    entries are repeated, &gnum;
 	    can guess what the user intends. The user can simply type
 	    the <keycap>Tab</keycap> key and
-	    <application>Gnumeric</application> will enter the rest of
+	    &gnum; will enter the rest of
 	    the text.  The use of notebook tabs can be turned off, as
 	    can the horizontal and vertical scrollbars.
 	  </para>
@@ -1562,12 +1562,12 @@
 	<listitem>
 	  <para>This entry launches the plug-in management
 	  dialog. Plug-ins are programs which are separate from
-	  <application>Gnumeric</application> but provide useful
+	  &gnum; but provide useful
 	  functionality.  Some of the core parts of gnumeric, such as
 	  Excel file format support, are actually plugins. This means
 	  that a user who never uses Excel files can remove this
-	  module from <application>Gnumeric</application> and make
-	  <application>Gnumeric</application> use less memory.<!--
+	  module from &gnum; and make
+	  &gnum; use less memory.<!--
 	  <xref linkend="Plugins" /> explains plug-ins in greater
 	  detail.--></para>
 	</listitem>
@@ -1580,7 +1580,7 @@
 	</term>
 	<listitem>
 	  <para>These two tools allow the user to make
-	  <application>Gnumeric</application> automatically correct
+	  &gnum; automatically correct
 	  typing or automatically save workbooks at periodic
 	  intervals.</para>
        <itemizedlist>
@@ -1593,12 +1593,12 @@
 		with three tabs. Each of these tabs allows the user to
 		correct one type of common spelling mistake, while
 		allowing the user to add exceptions to the
-		rules. <application>Gnumeric</application> can
+		rules. &gnum; can
 		automatically capitalize the names of week
-		days. <application>Gnumeric</application> can
+		days. &gnum; can
 		automatically change an entry which starts with two
 		capital letters to only start with one and
-		<application>Gnumeric</application> can change a
+		&gnum; can change a
 		sentence entry to start with a capital letter.
 						</para>
 					</listitem>
@@ -1608,10 +1608,10 @@
 		  <guimenuitem>Auto Save</guimenuitem> &mdash; The
 		  <guimenuitem>Auto Save</guimenuitem> menu item opens
 		  a dialog which allows the user to have
-		  <application>Gnumeric</application> automatically
+		  &gnum; automatically
 		  save the current workbook after a fixed interval of
 		  time. The user can also have
-		  <application>Gnumeric</application> ask for
+		  &gnum; ask for
 		  confirmation before saving so that the user always
 		  remains aware of the state the workbook was in when
 		  it was saved.
@@ -1629,7 +1629,7 @@
 	</term>
 	<listitem>
 	  <para>
-	    <application>Gnumeric</application> can be used to solve
+	    &gnum; can be used to solve
 	    systems of linear equations and other mathematical
 	    problems. These two dialogs enable access to these
 	    tools. A full discussion of these tools is presented in
@@ -1642,7 +1642,7 @@
 	      <guimenuitem>Goal Seek</guimenuitem> &mdash; The
 	      <guimenuitem>Goal Seek</guimenuitem> menu item opens a
 	      dialog through which the user can configure
-	      <application>Gnumeric</application> to iteratively
+	      &gnum; to iteratively
 	      search for a numeric value which solves a formula. This
 	      dialog is explained in <xref
 	      linkend="sect-advanced-analysis-goalseek" />.
@@ -1655,7 +1655,7 @@
 	      <guimenuitem>Solver</guimenuitem> &mdash; The
 	      <guimenuitem>Solver</guimenuitem> menu item opens a
 	      dialog through which the user can configure
-	      <application>Gnumeric</application> to solve linear
+	      &gnum; to solve linear
 	      systems of equations.  This is explained in <xref
 	      linkend="sect-advanced-analysis-solver" />.
 	    </para>
@@ -1695,7 +1695,7 @@
 	</term>
 	<listitem>
 	  <para>Statistical analysis can easily be done with
-	  <application>Gnumeric</application>. All the statistical
+	  &gnum;. All the statistical
 	  tools are explained in <xref linkend="sect-analysis-statistical" />.
 		</para>
 	</listitem>
@@ -1753,12 +1753,12 @@
 		<guimenuitem>Sort...</guimenuitem> menu item opens a
 		dialog which allows users to sort a selection
 		according to defined criteria. By default
-		<application>Gnumeric</application> sorts the rows in
+		&gnum; sorts the rows in
 		a selected area 
 		depending on the contents of the cells in a particular
 		column of each row. The sort criteria can be extended
 		to calculate on the basis of the cells in several
-		columns.  <application>Gnumeric</application> can sort
+		columns.  &gnum; can sort
 		a selection using any number of rules. Rules can be
 		added using the <guibutton>Add</guibutton>
 		button. Rules with no column entered will be ignored
@@ -1777,9 +1777,9 @@
 	      </para>
 
 	      <para> If the first row of the selection is a header,
-	        <application>Gnumeric</application> can be told not to
+	        &gnum; can be told not to
 	        shuffle this row during the
-	        sort. <application>Gnumeric</application> can also
+	        sort. &gnum; can also
 	        sort columns based on the contents of cells in
 	        specified rows, instead of shuffling rows on the basis
 	        of columns, if the user toggles the
@@ -1908,7 +1908,7 @@
     <para>
       The <guimenu>Help</guimenu> menu connects users to this manual,
       to the list of functions available for use in
-      <application>Gnumeric</application> and to the list of people
+      &gnum; and to the list of people
       who created this wonderful application.
     </para>
 
@@ -1995,7 +1995,7 @@
         <listitem>
          <para>
           <guimenuitem>About</guimenuitem> &mdash;Shows basic
-          information about <application>Gnumeric</application>, such
+          information about &gnum;, such
           as the authors' names and the application version number.
          </para>
         </listitem>

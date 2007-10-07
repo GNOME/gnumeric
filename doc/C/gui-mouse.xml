@@ -28,7 +28,7 @@
         <para>
           The left hand pointing arrow pointer is the standard pointer
           used for most of the interaction with
-          <application>Gnumeric</application>. This pointer is used to
+          &gnum;. This pointer is used to
           select menus and menu entries, toolbar buttons, columns or
           rows, the scrolling `thumbs' and various other elements.
         </para>
@@ -310,7 +310,7 @@
       <listitem>
         <para>
           These pointers are used to change the size of
-          <application>Gnumeric</application> windows and dialogs.
+          &gnum; windows and dialogs.
         </para>
       </listitem>
     </varlistentry>

@@ -11,7 +11,7 @@
   <warning>
     <para>
       Some operations cannot be done on selections of arbitrary
-      shape. For instance, <application>Gnumeric</application> could
+      shape. For instance, &gnum; could
       not correctly reshape a worksheet following the deletion of a
       discontinuous group of cells therefore such an operation is not
       allowed. If users attempt an operation which cannot be performed,

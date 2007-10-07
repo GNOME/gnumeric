@@ -3,7 +3,7 @@
   <title>Overview</title>
 
   <para>
-    <application>Gnumeric</application> provides several types of
+    &gnum; provides several types of
     graphical elements which can be added to a worksheet. The
     creation, manipulation and deletion of these elements all occur in
     similar ways. When these elements are part of a worksheet, they
@@ -12,7 +12,7 @@
   </para>
 
   <para>
-    <application>Gnumeric</application> currently displays four
+    &gnum; currently displays four
     different types of graphical elements: data graphs, images,
     widgets, and drawings. Data graphs allow users to present
     worksheet data visually in charts containing several kinds of
@@ -37,7 +37,7 @@
         </imageobject>
         <textobject>
           <phrase>
-             An image of <application>Gnumeric</application> showing
+             An image of &gnum; showing
              the four types of graphical elements which can be added
              to a worksheet: a data graph with a column plot, an image
              showing a map of France, a scrollbar which can be
@@ -60,7 +60,7 @@
 
   <para>
     The various graphical elements which can be added to a
-    <application>Gnumeric</application> worksheet all behave in
+    &gnum; worksheet all behave in
     similar ways. The graphical elements all "float" above the cells
     in the cell grid and may obscure the contents of the cells
     behind, without affecting the contents of these hidden cells. All
@@ -142,7 +142,7 @@
     <para>
       Selecting the graphical element requires placing the mouse
       pointer over the element and then clicking the primary mouse
-      button. <application>Gnumeric</application> indicates the
+      button. &gnum; indicates the
       element is selected by drawing eight 'grab handles' around the
       element; these are small circles at the four corners and in the
       middle of the four edges of a rectangle surrounding the
@@ -315,7 +315,7 @@
         </imageobject>
         <textobject>
           <phrase>
-             An image of <application>Gnumeric</application> showing
+             An image of &gnum; showing
              the context menu of a graph element.
           </phrase>
         </textobject>
@@ -449,7 +449,7 @@
         </imageobject>
         <textobject>
           <phrase>
-             An image of <application>Gnumeric</application> showing
+             An image of &gnum; showing
              stacked graphical element.
           </phrase>
         </textobject>
@@ -480,7 +480,7 @@
     <warning>
       <para>
         The stacking of graphical elements in version 1.3 of
-        <application>Gnumeric</application> is currently not working
+        &gnum; is currently not working
         correctly. Widget elements are always placed above the other
         elements and do not honor the same ordering scheme as the rest
         of the elements. A large amount of work will be required to
@@ -498,7 +498,7 @@
 
     <para>
       All of the graphical elements in
-      <application>Gnumeric</application> can be deleted using the
+      &gnum; can be deleted using the
       context menu. Deleting a graphical element will never alter the
       data contents of the cells in the workbooks.
     </para>

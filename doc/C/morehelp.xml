@@ -3,12 +3,12 @@
 
   <para>
     This manual is the most complete source of explanation for
-    <application>Gnumeric</application> and attempts to describe as
+    &gnum; and attempts to describe as
     much of the program as possible. However, this manual cannot
     answer all the possible questions readers may have: the manual is
     not yet finished and there are many situations which cannot be
     explained through a manual. Other sources of information which
-    might be helpful to <application>Gnumeric</application> users are
+    might be helpful to &gnum; users are
     presented below.
   </para>
 
@@ -16,7 +16,7 @@
     <para>
       Several of the sources of information below involve talking
       directly with the people who have created
-      <application>Gnumeric</application>. These people are volunteers
+      &gnum;. These people are volunteers
       who have spend several years working on the program to make it
       useful. They will all be glad to help you
       <emphasis>but</emphasis> only if they decide they want to. They
@@ -62,7 +62,7 @@
             </para>
             <para>
                 Second, look at the
-                <application>Gnumeric</application> web site, look on
+                &gnum; web site, look on
                 the world wide web for explanations using other
                 spreadsheets or look for a book on how to use another
                 spreadsheet. <xref linkend="sect-morehelp-web"/>
@@ -78,12 +78,12 @@
             <para>
                 Another useful source of help is the literature
                 written for other
-                spreadsheets. <application>Gnumeric</application> is
+                spreadsheets. &gnum; is
                 quite similar to a number of other spreadsheets and
                 often books, web sites, tutorials and other documents
                 which describe how to use other spreadsheets can help
                 users understand how to use
-                <application>Gnumeric</application>. <xref
+                &gnum;. <xref
                 linkend="sect-morehelp-books"/> describes other
                 spreadsheets for which usage manuals may provide
                 useful information.
@@ -95,7 +95,7 @@
 	        <emphasis role="bold">Send email to the Gnumeric List:</emphasis>
             </para>
             <para>
-                The <application>Gnumeric</application> project
+                The &gnum; project
                 maintains an email mailing list which is a way for
                 people to send email to all the core developers. <xref
                 linkend="sect-morehelp-maillist"/> explains how to
@@ -110,7 +110,7 @@
 	        <emphasis role="bold">Join the Chat Discussion:</emphasis>
             </para>
             <para>
-                The <application>Gnumeric</application> project also
+                The &gnum; project also
                 uses an Internet Relay Chat (IRC) channel, also known
                 as a `discussion room', in which developers talk to
                 each other, and to anyone else, about the
@@ -127,7 +127,7 @@
   <title>Web Resources</title>
 
   <para>
-    The <application>Gnumeric</application> project maintains a web
+    The &gnum; project maintains a web
     site with explanations, links and other useful information to
     learn about and use this spreadsheet.
   </para>
@@ -136,11 +136,11 @@
     <title>The Gnumeric Web Site</title>
 
     <para>
-      The <application>Gnumeric</application> web site can be accessed
+      The &gnum; web site can be accessed
       by clicking on this <ulink type="http"
       url="http://www.gnome.org/projects/gnumeric/">link</ulink>.
       Alternatively, it may be necessary to enter the address directly
-      into a web browser. The <application>Gnumeric</application>
+      into a web browser. The &gnum;
       project page address is:
 <screen>http://www.gnome.org/projects/gnumeric/
 </screen> 
@@ -159,20 +159,20 @@
   <title>Related Manuals</title>
 
   <para>
-    <application>Gnumeric</application> strives to mimic the behaviour
+    &gnum; strives to mimic the behaviour
     of other spreadsheets so books which explain how to use these
     other spreadsheets will probably be useful to help understand
-    <application>Gnumeric</application>.
+    &gnum;.
   </para>
 
   <para>
     The OpenOffice.org spreadsheet named
     <application>Calc</application> is another popular and highly
     functional spreadsheet which provides users with the freedoms
-    provided by <application>Gnumeric</application> including the
+    provided by &gnum; including the
     freedom to access and use the source code of the program
     itself. The documentation for <application>Calc</application> may
-    also help explain how to use <application>Gnumeric</application>
+    also help explain how to use &gnum;
     and can be accessed through the OpenOffice.org web site at <ulink
     type="http" url="http://www.openoffice.org/">
 <uri>
@@ -184,8 +184,8 @@ http://www.openoffice.org/
   <para>
     The manuals for other spreadsheets, even those that restrict users
     freedoms in several ways, may help to explain how to use
-    <application>Gnumeric</application>.
-    <application>Gnumeric</application> attempts explicitly to behave
+    &gnum;.
+    &gnum; attempts explicitly to behave
     in a manner understandable to users of the Microsoft
     <application>Excel</application> spreadsheet. Because
     <application>Excel</application> has a very large number of users,
@@ -201,7 +201,7 @@ http://www.openoffice.org/
   <title>The Mailing List</title>
 
   <para>
-    The <application>Gnumeric</application> project maintains a
+    The &gnum; project maintains a
     mailing list which is a system by which people can send one email
     which gets distributed to everyone who has signed up to read these
     emails. Please understand that this list is used for serious
@@ -284,14 +284,14 @@ http://www.gnome.org/
     provide a world wide network enabling an Internet Relay Chat (IRC)
     system for discussion on issues related to those projects
     including a discussion channel dedicated to
-    <application>Gnumeric</application>. This is a system by which
+    &gnum;. This is a system by which
     people can communicate directly with each other by typing lines
     into an IRC client which are then broadcast to everyone listening
     in a particular channel. Unfortunately this manual cannot provide
     a full explanation for how to obtain, install and use an IRC
     client. There are a number of such programs available, many of
     which provide users all the freedoms which
-    <application>Gnumeric</application> provides and instructions for
+    &gnum; provides and instructions for
     these can be obtained from the world wide web. More information
     and access to such software can easily be obtained by running a
     search in any world wide web search engine for "IRC" and "client"
@@ -300,7 +300,7 @@ http://www.gnome.org/
   </para>
 
   <para>
-    The <application>Gnumeric</application> IRC discussion channel is
+    The &gnum; IRC discussion channel is
     named <literal>#gnumeric</literal> (although the number symbol,
     #, may not be needed) and is hosted on the series of servers
     called <literal>GIMPnet</literal>. The best way to connect to

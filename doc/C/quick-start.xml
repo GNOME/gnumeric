@@ -26,7 +26,7 @@
       contains a large number of cells usually arranged into a two
       dimensional grid made up of columns and rows. 
       We introduce the names of the parts of 
-      <application>Gnumeric</application> below in 
+      &gnum; below in 
       <xref linkend="quick-parts-of-gnumeric" /> and explain the parts 
       further in <xref linkend="chapter-gui-elements"/>.
     </para>
@@ -45,7 +45,7 @@
   <title>Starting Gnumeric the First Time</title>
 
   <para>
-    <application>Gnumeric</application> can be started in several ways
+    &gnum; can be started in several ways
     on every computer operating system and desktop environment. Each
     of the approaches described below are equivalent; they result in a
     gnumeric window appearing on your monitor as shown in <xref
@@ -83,12 +83,12 @@
 
   <note>
     <para>
-      We assume that the <application>Gnumeric</application> program is
+      We assume that the &gnum; program is
       already installed program on your machine.
-      Installing <application>Gnumeric</application> depends
+      Installing &gnum; depends
       on the particular operating system and distribution used on your
       machine and is therefore beyond the scope of this manual. If
-      <application>Gnumeric</application> is not already installed on your
+      &gnum; is not already installed on your
       machine, read the manuals that came with your distribution or
       look at your distribution vendor's web site.
 <!-- TODO: ref- add a link to the installation section. -->
@@ -108,7 +108,7 @@
       will appear. Drag the cursor into the sub-menu and then release
       the mouse button when the cursor is on the entry which reads
       "Gnumeric Spreadsheet." This will start the program and the main
-      window of <application>Gnumeric</application> will appear as
+      window of &gnum; will appear as
       shown in <xref linkend="fig-gnumeric-first-start" />.
     </para>
   </sect2>
@@ -122,7 +122,7 @@
       commercial UNIX (TM) system, or if you use a commercially
       distributed version of GNOME, of the KDE (K Desktop
       Environment), or of a similar desktop system, you will have to
-      find a way to launch <application>Gnumeric</application>
+      find a way to launch &gnum;
       yourself. Hunt around the menus until you find something named
       "Gnumeric", possibly with the
       <inlinemediaobject>
@@ -140,7 +140,7 @@
     </para>
     <warning>
       <para>
-        On UNIX-like operating systems, <application>Gnumeric</application> 
+        On UNIX-like operating systems, &gnum; 
         requires the X window system to run.
       </para>
     </warning>
@@ -150,7 +150,7 @@
     <title>Starting Gnumeric from a *NIX terminal</title>
 
     <para>
-      You can also start <application>Gnumeric</application> from the
+      You can also start &gnum; from the
       command line in an <application>xterm</application> window or
       equivalent terminal emulator. Open a terminal, and, at the shell
       prompt type:
@@ -162,7 +162,7 @@ gnumeric &amp;
     <warning>
       <para>
         You must be running the X window system to run
-        <application>Gnumeric</application>.
+        &gnum;.
       </para>
     </warning>
   </sect2>
@@ -183,7 +183,7 @@ gnumeric &amp;
       <title>Starting Gnumeric from a Microsoft command prompt</title>
 
       <para>
-        You can also start <application>gnumeric</application> from a
+        You can also start &gnum; from a
         shell window by finding the directory with the program itself
         which will be called <filename>gnumeric.exe</filename>. You
         can either move to that directory and type:
@@ -205,15 +205,15 @@ c:\Program Files\Gnome-Office\gnumeric
     <title>Starting from a Spreadsheet file</title>
 
     <para>
-      <application>Gnumeric</application> can also be opened using a
+      &gnum; can also be opened using a
       spreadsheet file directly. If there is a spreadsheet file on the
       desktop or in a file manager like
       <application>Nautilus</application>, it may be possible to click
       or double-click with the mouse pointer on the file and have
-      <application>Gnumeric</application> open the file
+      &gnum; open the file
       automatically. Alternatively, you may be able to right click on
       the file and get a pop-up menu that will allow you to select
-      <application>Gnumeric</application> as the application to use to
+      &gnum; as the application to use to
       open the file.
     </para>
   </sect2>
@@ -237,7 +237,7 @@ c:\Program Files\Gnome-Office\gnumeric
   <title>The Parts of Gnumeric</title>
 
   <para>
-    After opening, <application>Gnumeric</application> appears as was
+    After opening, &gnum; appears as was
     shown in <xref linkend="fig-gnumeric-first-start" /> but is shown
     below with the major components labeled. The open
     application contains a menubar at the top, two toolbars below the
@@ -272,7 +272,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <listitem>
 	<para>The menubar provides access to the core
 	  functions of GNOME. Almost everything that you can
-	  do in <application>Gnumeric</application>
+	  do in &gnum;
 	  you can do through the menus. We discuss the menus and
 	  menubar in <xref linkend="sect-gui-menus" />. </para>
       </listitem>
@@ -355,7 +355,7 @@ c:\Program Files\Gnome-Office\gnumeric
       </term>
       <listitem>
 	<para>This area is used by
-	  <application>Gnumeric</application> to give you
+	  &gnum; to give you
 	  feedback on the status of certain
 	  operations. We explain this information in
 	  <xref linkend="info-area" />. </para>
@@ -370,7 +370,7 @@ c:\Program Files\Gnome-Office\gnumeric
   </para>
 
   <para>
-    By default, <application>Gnumeric</application> opens a workbook
+    By default, &gnum; opens a workbook
     with three worksheets and a file name of
     <filename>Book1.gnumeric</filename>.
   </para>
@@ -387,7 +387,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
   <para>
     You can access the commands provided by
-    <application>Gnumeric</application> using several methods.
+    &gnum; using several methods.
     These methods are explained here. The most important commands are
     explained in the rest of this chapter. We explain all of the commands 
     in later chapters of this manual.
@@ -397,7 +397,7 @@ c:\Program Files\Gnome-Office\gnumeric
     <title>Using Menu Commands</title>
     <para>
       The menus provide the simplest way for you to get to all of the commands
-      provided by <application>Gnumeric</application>. These menus
+      provided by &gnum;. These menus
       work like those in any GNOME application: you click on the menu to
       open it, you drag the mouse cursor onto the menu and then release the
       mouse button (or click again) while the cursor is above a menu entry 
@@ -421,7 +421,7 @@ c:\Program Files\Gnome-Office\gnumeric
   <sect2 id="quick-commands-context">
     <title>Using Context Menu Commands</title>
     <para>
-      In many situations, <application>Gnumeric</application> provides
+      In many situations, &gnum; provides
       a menu right under the mouse cursor if the right hand mouse
       button is clicked. This menu contains different entries
       depending on where the mouse cursor is when you click the right
@@ -454,25 +454,25 @@ c:\Program Files\Gnome-Office\gnumeric
 
   <para>
     The main purpose of spreadsheets like
-    <application>Gnumeric</application> is to collect information in a
+    &gnum; is to collect information in a
     coherent manner, perform calculations on the information and then
     be able to update those calculations easily if the original
     numbers change. The use of a spreadsheet therefore requires a
     substantial understanding of the types of information which can be
     entered into the spreadsheet and the methods which can be used to
     manipulate that information. This section explains how you can use
-    data in <application>Gnumeric</application>.
+    data in &gnum;.
   </para>
 
     <sect2 id="quick-data-datatypes">
     <title>The Types of Data in a Spreadsheet</title>
 
     <para>
-      Spreadsheets like <application>Gnumeric</application> treat
+      Spreadsheets like &gnum; treat
       information by separating the data into separate cells and
       considering the data in each cell to be separate elements. Each
       cell in the spreadsheet has both a value, which is what
-      <application>Gnumeric</application> manipulates, and a
+      &gnum; manipulates, and a
       representation, which is what is actually shown. Understanding
       this distinction is complicated and make take some time if you are new
       to spreadsheets.
@@ -505,7 +505,7 @@ c:\Program Files\Gnome-Office\gnumeric
       input and displayed in various formats including decimal
       numbers, dates, times, and numbers in scientific
       notation. Formulas are instructions to
-      <application>Gnumeric</application> to calculate a result. The
+      &gnum; to calculate a result. The
       power of spreadsheets comes from these formulas because the
       results of the calculation can depend on the contents of other
       cells. Boolean values are either TRUE or FALSE and can be used
@@ -515,7 +515,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <para>
       For more advanced information on the types of data usable in
-      <application>Gnumeric</application>, see <xref
+      &gnum;, see <xref
       linkend="sect-data-types"/>.
     </para>
 
@@ -528,7 +528,7 @@ c:\Program Files\Gnome-Office\gnumeric
       In order to enter data into the spreadsheet, you must first
       select a cell in which to place the information and then
       actually type the information on the keyboard. Once you have
-      entered the information, <application>Gnumeric</application>
+      entered the information, &gnum;
       attempts to figure out both the appropriate data value type to
       assign to the cell and the appropriate data format in which to
       display this data value. Because this process is quite complex,
@@ -543,7 +543,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Moving the selection box</title>
       <para>
         In order to enter data into
-        <application>Gnumeric</application> you must place the selection box
+        &gnum; you must place the selection box
         over the appropriate cell. The selection box appears on
         the cell grid as a double lined rectangle with a small grey
         square in the lower right corner of the box. By default the
@@ -581,7 +581,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <para>
         The selection box can be moved in other ways and will move in
         response to certain actions. These movements become intuitive
-        after using <application>Gnumeric</application> for a little
+        after using &gnum; for a little
         while.
       </para>
     </sect3>
@@ -655,7 +655,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
       <para>
         As you enter data into the spreadsheet,
-        <application>Gnumeric</application> interprets the information
+        &gnum; interprets the information
         in order, first, to assign it to a data category and, second,
         to give it an appropriate data display format. The entry will
         be assigned to one of the basic data types and possibly to a
@@ -668,12 +668,12 @@ c:\Program Files\Gnome-Office\gnumeric
       </para>
 
       <para>
-        <application>Gnumeric</application> usually figures out
+        &gnum; usually figures out
         correctly both the type and the appropriate display format for
         the data being entered. Occasionally, you will have to
-        force <application>Gnumeric</application> to consider the data
+        force &gnum; to consider the data
         to be a different data type than
-        <application>Gnumeric</application> would guess by
+        &gnum; would guess by
         default. We explain the details of this process in greater
         detail in the extended chapter on data, <xref
         linkend="chapter-data" />.
@@ -689,7 +689,7 @@ c:\Program Files\Gnome-Office\gnumeric
         type the text and then the <keycap>Enter</keycap> key. If the
         text is too large to fit in its own cell, and the cell to its
         right is empty, the text will span into the cell on the
-        right. By default, <application>Gnumeric</application> uses a
+        right. By default, &gnum; uses a
         display format for text in which the contents are shown left
         justified.
       </para>
@@ -707,25 +707,25 @@ c:\Program Files\Gnome-Office\gnumeric
       <para>
         To enter numbers, select the appropriate cell,
         type in a number and then the <keycap>Enter</keycap>
-        key. <application>Gnumeric</application> recognizes several
+        key. &gnum; recognizes several
         types of information to be numbers.
       </para>
 
       <para>
         The simplest kind of input which
-        <application>Gnumeric</application> recognizes as numbers are
+        &gnum; recognizes as numbers are
         standard numeric values. Technically, these are contiguous
         sequences of digits which may have a separator symbol between
         the thousands and another symbol indicating the decimal
         separator. These symbols follow the English convention by
         default (comma as thousand separator, period as decimal
         symbol) but will adopt the symbols appropriate for a different
-        locality if <application>Gnumeric</application> is launched in
+        locality if &gnum; is launched in
         a particular way. For instance, in a French setting the period
         is the thousand separator symbol and the comma the decimal
         separator symbol.
 <!-- TODO: add xref to localization --> 
-        By default, <application>Gnumeric</application> will display
+        By default, &gnum; will display
         these numeric values lined up against the right side of the
         cell.
       </para>
@@ -742,7 +742,7 @@ c:\Program Files\Gnome-Office\gnumeric
             Dates in the standard format of the locale are recognized
             as numbers. By default, when you 11/21/1970 it will be
             recognized as the twenty-first of November of the year
-            nineteen seventy. <application>Gnumeric</application>
+            nineteen seventy. &gnum;
             stores the value as the number of days since the first day
             of January in 1900.
           </para>
@@ -751,7 +751,7 @@ c:\Program Files\Gnome-Office\gnumeric
           <para>
             Time values, such as 10:34 or 11:23:45 PM, are recognized
             as number values. These values are stored in
-            <application>Gnumeric</application> as fractions of the
+            &gnum; as fractions of the
             whole day. 
           </para>
         </listitem>
@@ -798,7 +798,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <para>
         To entering a formula, select a cell and type in the
         equals sign (=) and then a valid formula. If
-        <application>Gnumeric</application> cannot understand the
+        &gnum; cannot understand the
         formula which is entered, it will open a dialog box which may
         have an explanation and gives you a chance either to
         re-edit the expression or to accept the entry as a text entry
@@ -816,7 +816,7 @@ c:\Program Files\Gnome-Office\gnumeric
         (without the quotes) "=B2+2" and then type the
         <keycap>Enter</keycap> key. Cell D4 should display the value
         "5". If the value of cell B2 is changed from "3" to "100",
-        <application>Gnumeric</application> will automatically update
+        &gnum; will automatically update
         the value of cell D4 to "102".
       </para>
 
@@ -910,7 +910,7 @@ c:\Program Files\Gnome-Office\gnumeric
   <title>Cell Formats</title>
 
   <para>
-    The data in <application>Gnumeric</application> are stored in the
+    The data in &gnum; are stored in the
     cells of the spreadsheet, each of which has a cell format which
     dictates how the data will be displayed, whether the cell will
     have borders and other information. Cell formatting can be quite
@@ -973,15 +973,15 @@ c:\Program Files\Gnome-Office\gnumeric
     </para>
 
     <para>
-      When you enter data into <application>Gnumeric</application>,
+      When you enter data into &gnum;,
       the spreadsheet interprets the entry based on the input format
       of the cell. The default format of empty cells is the
       <guilabel>General</guilabel> format which instructs
-      <application>Gnumeric</application> to guess both the type of
+      &gnum; to guess both the type of
       the data being entered and a suitable display format for that
       data type. However, you can change the <guilabel>General</guilabel>
       format to a specific format in order to alter both the way
-      <application>Gnumeric</application> interprets any future data
+      &gnum; interprets any future data
       input to the cell and the way data in the cell are displayed.
     </para>
 
@@ -997,18 +997,18 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <para>
       For example, if you enter "12/25/2000" (without the quotes),
-      <application>Gnumeric</application> guesses that this is a date
+      &gnum; guesses that this is a date
       and stores the value 36885. (The value
-      <application>Gnumeric</application> uses for dates is the number
+      &gnum; uses for dates is the number
       of days since the last day of 1899.
       <footnote>
 	<para>
-        <application>Gnumeric</application> actually perpetuates an error of
+        &gnum; actually perpetuates an error of
         <application>Excel</application> for the sake of compatibility
         and assumes 1900 to be a leap year even though it was not.
 	</para>
       </footnote>
-      At the same time, <application>Gnumeric</application> changes the
+      At the same time, &gnum; changes the
       display format to display this number as a date, with a numeric
       month, day and year, separated by slashes.
     </para>
@@ -1025,7 +1025,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
     <para>
       It sometimes becomes necessary to override the "General" type if
-      <application>Gnumeric</application> is making an incorrect
+      &gnum; is making an incorrect
       assessment of the data being entered. Postal Zip Codes in the
       United States, for instance, are incorrectly interpreted to be
       numbers. Some of these Zip Codes start with a leading zero which
@@ -1136,7 +1136,7 @@ c:\Program Files\Gnome-Office\gnumeric
       cells which means that only continuous rectangular blocks of
       cells can be moved. This does mean, however, that columns or
       rows can be moved as a unit. By default,
-      <application>Gnumeric</application> moves the entire contents of
+      &gnum; moves the entire contents of
       the cells including both the data values and the formatting of
       the cells.
     </para>
@@ -1339,7 +1339,7 @@ c:\Program Files\Gnome-Office\gnumeric
     discover relationships and trends in the data values. Graphs also
     provide an effective way to present data so as to demonstrate
     relationships in the data and summarize large amounts of data in
-    an effective image. In <application>Gnumeric</application>, both
+    an effective image. In &gnum;, both
     of these can be done easily and efficiently.
   </para>
 
@@ -1349,7 +1349,7 @@ c:\Program Files\Gnome-Office\gnumeric
     <para>
       The approach to the creation of graphical displays of data was
       completely redesigned in
-      <application>Gnumeric</application> version 1.2 and is still
+      &gnum; version 1.2 and is still
       being improved. The ultimate goal is a system which will produce
       an elegant graph automatically but can be customized in detail
       according the user's preferences. This is a active area of
@@ -1392,10 +1392,10 @@ c:\Program Files\Gnome-Office\gnumeric
         effective ways to communicate.
       </para>
     </tip>
-    <application>Gnumeric</application> includes a large number of
+    &gnum; includes a large number of
     features which allow users to craft the look of a particular graph
     to maximize the effectiveness of the presentation. In
-    <application>Gnumeric</application>, it is possible to change the
+    &gnum;, it is possible to change the
     fonts, modify the borders of each element, add patterns and images
     to backgrounds, add patterns to plot elements and configure the
     graph in multiple ways. These features will be explained in detail
@@ -1403,7 +1403,7 @@ c:\Program Files\Gnome-Office\gnumeric
     <tip>
       <para>
         Graphs which use a large number of the graphical features
-        available in <application>Gnumeric</application> often appear
+        available in &gnum; often appear
         cluttered. The visual richness of such images can often
         obscure the message contained in the presentation of the
         data. Spare, elegant and direct graphs will communicate
@@ -1676,7 +1676,7 @@ c:\Program Files\Gnome-Office\gnumeric
           <para>
             Click on the "Ok" button. The plot should now have a title
             and a legend. Note that
-            <application>gnumeric</application> has used the words in
+            &gnum; has used the words in
             the column headers automatically to label the two data
             series in the legend.
           </para>
@@ -1717,7 +1717,7 @@ c:\Program Files\Gnome-Office\gnumeric
   <title>Printing</title>
 
   <para>
-    Printing in <application>Gnumeric</application> is quite simple
+    Printing in &gnum; is quite simple
     and similar to other GNOME applications. Printing can be done
     using the toolbar buttons or can be accessed through the
     <guimenu>File</guimenu> menu. Printing usually involves
@@ -1770,7 +1770,7 @@ c:\Program Files\Gnome-Office\gnumeric
   <title>File Opening and Saving</title>
 
   <para>
-    When you first start <application>Gnumeric</application> a new
+    When you first start &gnum; a new
     workbook will be opened.  To save this workbook into a file, click
     on <menuchoice><guimenu>File</guimenu><guimenuitem>Save As
     &hellip; </guimenuitem></menuchoice>.  This brings up the file
@@ -1825,8 +1825,8 @@ c:\Program Files\Gnome-Office\gnumeric
     Click on the <guibutton>Automatic Save Every</guibutton> button
     and enter the number of minutes will pass between each save.  When
     the interval is shorter more of your work will be potentially
-    saved, but <application>Gnumeric</application> might appear
-    sluggish.  If <application>Gnumeric</application> is sluggish
+    saved, but &gnum; might appear
+    sluggish.  If &gnum; is sluggish
     increase the time between saves.  The button <guibutton>Prompt
     Before Saving</guibutton> brings up a dialog to ask if you want to
     save the book.
@@ -1835,10 +1835,10 @@ c:\Program Files\Gnome-Office\gnumeric
   <warning>
     <para>
       Using the automatic saving feature of
-      <application>Gnumeric</application> can save time but is
-      dangerous. <application>Gnumeric</application> does not create a
+      &gnum; can save time but is
+      dangerous. &gnum; does not create a
       new file each time a file is saved but instead
-      <application>Gnumeric</application> modifies the existing file
+      &gnum; modifies the existing file
       which destroys the previous work. In certain situations, this
       feature can lead to the loss of possibly important work. Users
       are highly recommended to backup their work by copying the
@@ -1853,7 +1853,7 @@ c:\Program Files\Gnome-Office\gnumeric
     double-clicked with the mouse button. Similarly, if a file
     manager, such as the <application>Nautilus</application> file
     manager, lists the file, then the file name can be clicked and
-    opened. If <application>Gnumeric</application> is already opened,
+    opened. If &gnum; is already opened,
     a file can be opened by clicking on the <guimenu>File</guimenu>
     and selecting the <guimenuitem>Open</guimenuitem> menu
     item. Alternatively, the "Open file" button on the toolbar,
@@ -1868,14 +1868,14 @@ c:\Program Files\Gnome-Office\gnumeric
     can be used or the <keysym>F3</keysym> key clicked.  All three of
     these open the <interface>Open File</interface> dialog.  You can
     then select the spreadsheet file you wish to open.
-    <application>Gnumeric</application> can open many different types
+    &gnum; can open many different types
     of spreadsheet file formats.
   </para>
 
   <note>
     <para>
       If the file has recently been opened in
-      <application>Gnumeric</application>, the file name will appear
+      &gnum;, the file name will appear
       in the <guimenu>File</guimenu> menu and can simply be clicked to
       re-open the file.
     </para>
@@ -1890,21 +1890,21 @@ c:\Program Files\Gnome-Office\gnumeric
 
   <para>
     There are several ways to close
-    <application>Gnumeric</application>. The simplest is to select the
+    &gnum;. The simplest is to select the
     <guimenu>File</guimenu> menu and then the
     <guimenuitem>Quit</guimenuitem> menu option at the bottom of the
     <guimenu>File</guimenu>.
   </para>
 
   <para>
-    <application>Gnumeric</application> can also be closed through the
+    &gnum; can also be closed through the
     window manager by clicking on a close box in the window frame or
     through a pop-up menu. The placement of the box and the invocation
     of the menu depend on the particular window manager and the theme
     being used. If the GNOME panel is running the window list applet,
     clicking with the right mouse button opens a context menu with a
     <guimenuitem>Close</guimenuitem> which can be used to close
-    <application>Gnumeric</application>.
+    &gnum;.
   </para>
 
   <note>
@@ -1922,7 +1922,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
   <note>
     <para>
-      Any files which are saved by <application>Gnumeric</application>
+      Any files which are saved by &gnum;
       must be deleted by the user. Either the GNOME file manager
       <application>Nautilus</application> or the shell tool
       <command>rm</command> can be used to delete the files. 

@@ -2,7 +2,7 @@
   <title>Graphical Plots</title>
 
   <para>
-    <application>Gnumeric</application> includes a powerful mechanism
+    &gnum; includes a powerful mechanism
     to create graphical plots which present visually the data contained
     in a worksheet. 
   </para>
@@ -29,7 +29,7 @@
       an idea. <xref
       linkend="sect-graphics-plots-overview-types" /> contains a
       detailed explanation of the plot types available in
-      <application>Gnumeric</application>.
+      &gnum;.
     </para>
   </note>
 
@@ -158,7 +158,7 @@
       graphs is confusing because graphs use many components and the
       words are applied arbitrarily to each component. For example,
       the words "graph", "chart", and "plot" could be used
-      interchangeably but in <application>Gnumeric</application>
+      interchangeably but in &gnum;
       these words are used as explained below.
     </para>
 
@@ -189,7 +189,7 @@
 
   <para>
     This terminology can be used to describe in detail the components
-    of a graph in <application>Gnumeric</application>. <xref
+    of a graph in &gnum;. <xref
     linkend="fig-graph-components" /> presents the components of a
     graph. 
   </para>
@@ -218,7 +218,7 @@
         <caption>
           <para>
 	    This screenshot presents several of the major components of
-            <application>Gnumeric</application> graphs. These components
+            &gnum; graphs. These components
             will be presented next in their containment hierarchy. The
             hierarchy is used in the <interface>Graph Guru</interface> to
             organize the components so a user can change all the
@@ -237,7 +237,7 @@
 
        <para>
          The components that make up a graph in
-         <application>Gnumeric</application>  are arranged in a
+         &gnum;  are arranged in a
          hierarchy with all the configurable options of the graph
          assigned as properties to one of the components in the
          hierarchy. 
@@ -271,7 +271,7 @@
 
 
         <para>
-          In <application>Gnumeric</application>, Graphs are the top
+          In &gnum;, Graphs are the top
           level element containing all the other components. Graphs
           have two properties related to the style of the background
           rectangular panel, its fill and its outline. Graphs can hold
@@ -357,7 +357,7 @@
     <title>The Graph Guru</title>
 
     <para>
-      All graphs in <application>Gnumeric</application> are created
+      All graphs in &gnum; are created
       using the <interface>Graph Guru</interface> which is a complex
       dialog that allows for detailed customization of each graph.
     </para>
@@ -515,7 +515,7 @@
 		      The <guibutton>Cancel</guibutton> button will
 		      dismiss the <interface>Graph Guru</interface>
 		      and return the user to the
-		      <application>Gnumeric</application> worksheet.
+		      &gnum; worksheet.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -671,7 +671,7 @@
       <title>Navigating the graph guru</title>
 
       <para>
-        Graphs in <application>Gnumeric</application> are created using
+        Graphs in &gnum; are created using
         the <interface>Graph Guru</interface>. The process involved in
         using this 'guru' essentially follows the alphabetical labels
         presented in <xref linkend="fig-graphguru-panels" />.
@@ -805,7 +805,7 @@
 
           <para>
             The simplest way both to learn the hierarchy of components
-            in <application>Gnumeric</application> graphs and to
+            in &gnum; graphs and to
             understand the properties which can be changed for each
             component is to work sequentially through all of the
             components while both noting the components which can be
@@ -1010,7 +1010,7 @@
     <title>Plot Types</title>
 
     <para>
-      <application>Gnumeric</application> graphs can include any of
+      &gnum; graphs can include any of
       the plot types presented below. The section for each type
       explains the overall concept of the plot, gives an example,
       explains the data required for the plot type, and explains the
@@ -3104,7 +3104,7 @@
 
       <para>
          Several new types of plots will be added to
-         <application>Gnumeric</application> in the near future as the
+         &gnum; in the near future as the
          graphing engine is improved.
         
          <!-- mention here to keep in figures/ and its Makefile.am -->
@@ -3127,7 +3127,7 @@
     <title>Configuring Graph Element Properties</title>
 
     <para>
-      Graphs in <application>Gnumeric</application> can be configured
+      Graphs in &gnum; can be configured
       extensively using the <interface>Graph Guru</interface>. In this
       way, the user can determine the data used in the plots, the
       names and labels associated with the data, the numerical values
@@ -3150,7 +3150,7 @@
     <note>
     <para>
       A number of properties of the graph are configured using the
-      <application>Gnumeric</application> entry box shown in <xref
+      &gnum; entry box shown in <xref
       linkend="fig-widget-entryBox"/>. 
 
       <figure id="fig-widget-entryBox">
@@ -3505,7 +3505,7 @@
       <para>
         Axes are used in several different kinds of plots to provide
         quantitative indexes for the scale of each plot
-        direction. <application>Gnumeric</application> uses four
+        direction. &gnum; uses four
         different kinds of axes. <guilabel>Category</guilabel> axes do
         not provide a quantitative scale but merely distinguish each
         different category by providing space for the values of the

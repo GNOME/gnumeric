@@ -3,10 +3,10 @@
 
   <para>
     A powerful way to access and manipulate data in
-    <application>Gnumeric</application> involves using the Python
-    programming language. As <application>Gnumeric</application>
+    &gnum; involves using the Python
+    programming language. As &gnum;
     develops from version 1.2, the scripting methods will become
-    increasingly powerful. Since <application>Gnumeric</application>
+    increasingly powerful. Since &gnum;
     is free software, you could extend it directly using the source
     code and adding C language functions to the code. Python offers a
     higher level abstraction through which to interact with the
@@ -14,9 +14,9 @@
   </para>
 
   <para>
-    Python and <application>Gnumeric</application> can be used in
+    Python and &gnum; can be used in
     several ways. This section will describe how to obtain
-    <application>Gnumeric</application>, install it and get things
+    &gnum;, install it and get things
     configured correctly for access with Python. If you already have
     the pieces in place, you can skip the section <xref
     linkend="sect-extending-python-install"/>.
@@ -29,7 +29,7 @@
     url="http://grub.ath.cx/gnumeric-python/">Python/Gnumeric guide
     for the old API in Gnumeric 1.0.</ulink> Jon K&#228;re Hellan
     contributed most of the code to enable Python in
-    <application>Gnumeric</application> and wrote the file
+    &gnum; and wrote the file
     <literal>python-gnumeric.txt</literal> in the source
     tree. Nathan Hurst provided the idea and support.
   </para>
@@ -107,7 +107,7 @@
 
     <para>
       This section describes how to obtain the
-      <application>Gnumeric</application> source code, configure it
+      &gnum; source code, configure it
       for Python and build it. This section will eventually be
       removed as Python becomes supported by default.
     </para>

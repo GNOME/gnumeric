@@ -134,7 +134,7 @@
 <!-- 
     <abstract>
       <para>
-        This manual describes <application>Gnumeric</application>, a
+        This manual describes &gnum;, a
         spreadsheet produced by the GNOME project. The manual provides
         a brief introduction to spreadsheets, describes exhaustively
         all of the elements of the program and explains how to use the
@@ -420,13 +420,13 @@
 
     <para>
       The best way to learn how to use
-      <application>Gnumeric</application> is to begin exploring the
+      &gnum; is to begin exploring the
       program yourself. This chapter will help you get started trying
       new things and seeing what happens. The chapter explains the
       fundamentals of spreadsheets in general and of
-      <application>Gnumeric</application> in particular. The chapter
+      &gnum; in particular. The chapter
       attempts to help new users get started with
-      <application>Gnumeric</application> and provides background for
+      &gnum; and provides background for
       the more detailed explanations given in the rest of the manual.
     </para>
 
@@ -477,7 +477,7 @@
 
     <para>
       This chapter describes all of the pieces of
-      <application>Gnumeric</application> which a user can
+      &gnum; which a user can
       manipulate. The chapter provides explanations for each of the
       menus, menu entries, toolbar buttons and other elements of the
       graphical user interface.
@@ -498,8 +498,8 @@
 
     <para>
       This chapter explains the core functionality of
-      <application>Gnumeric</application> including the basic types of
-      data manipulated by <application>Gnumeric</application>, the
+      &gnum; including the basic types of
+      data manipulated by &gnum;, the
       methods of entering, manipulating and formatting data, and the
       basic tools for analysis of these data. More advanced analysis is
       described in <xref linkend="chapter-advanced-analysis" />.
@@ -529,7 +529,7 @@
 
     <para>
       This chapter explains many of the advanced analytic tools
-      available in <application>Gnumeric</application> including
+      available in &gnum; including
       statistical analysis, linear algebra calculations and simulation
       analysis.
     </para>
@@ -552,7 +552,7 @@
 
     <para>
       This chapter explains how to add graphical elements to a
-          <application>Gnumeric</application> worksheet, including
+          &gnum; worksheet, including
           data graphs to plot worksheet data, images from external
           files, graphical user interface widgets which interact with
           worksheet data, and simple drawing elements.
@@ -591,11 +591,11 @@
 
     <para>
       This chapter explains the contents of a
-      <application>Gnumeric</application> workbook which are not part
+      &gnum; workbook which are not part
       of the worksheets. This includes several settings which apply to
       the workbook and are saved in the
-      <application>Gnumeric</application> file. Settings which apply
-      to the <application>Gnumeric</application> program itself are
+      &gnum; file. Settings which apply
+      to the &gnum; program itself are
       called `preferences' and are explained in <xref
       linkend="chapter-configuring" />.
     </para>
@@ -611,7 +611,7 @@
 
     <para>
       This chapter explains how to change the default behaviour of
-      <application>Gnumeric</application> including the startup
+      &gnum; including the startup
       behaviour and default locale (language and number display).
     </para>
 
@@ -655,7 +655,7 @@
 
     <para>
       This chapter explains how to print spreadsheets, tables and
-      plots from <application>Gnumeric</application> to a printer
+      plots from &gnum; to a printer
       directly or into Postscript or PDF (both are page description
       languages).
     </para>
@@ -671,7 +671,7 @@
 
     <para>
       This chapter describes other sources of help which are available
-      to users including the <application>Gnumeric</application> web
+      to users including the &gnum; web
       site, the mailing list, and the internet relay chat (IRC)
       discussion channel. 
     </para>
@@ -687,7 +687,7 @@
 
     <para>
       This chapter explains how to report a problem with
-      <application>Gnumeric</application> so that the problem can be
+      &gnum; so that the problem can be
       fixed. The same procedure can be used to file a report
       requesting an enhancement or a new feature.
     </para>
@@ -753,8 +753,8 @@
 
     <para>
       This chapter explains how to go about extending
-      <application>Gnumeric</application> to provide extra
-      functionality. Because <application>Gnumeric</application> is
+      &gnum; to provide extra
+      functionality. Because &gnum; is
       Free Software this is quite easy to do.
     </para>
 
@@ -811,7 +811,7 @@
     <para>
       This chapter provides some background information on the
       creation and distribution of
-      <application>Gnumeric</application>.
+      &gnum;.
     </para>
 
     &about-history;

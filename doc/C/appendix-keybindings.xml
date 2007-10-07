@@ -3,7 +3,7 @@
 
   <para>
     This appendix lists the keyboard shortcuts which are defined by
-    default in <application>Gnumeric</application>.
+    default in &gnum;.
   </para>
 
   <para>
@@ -19,7 +19,7 @@
       <keycap>Ctrl</keycap>
       <keycap>q</keycap>
     </keycombo>
-    to quit the application.  <application>Gnumeric</application> also
+    to quit the application.  &gnum; also
     comes with keybindings to make your spreadsheet experience faster.
   </para>
 

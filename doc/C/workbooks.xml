@@ -3,7 +3,7 @@
   <title>Overview</title>
 
   <para>
-    The contents of a <application>Gnumeric</application> file
+    The contents of a &gnum; file
     describe all of the elements which can be changed by the
     user. This sections examines all of the workbook contents which
     are not part of the worksheets.

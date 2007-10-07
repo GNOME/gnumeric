@@ -13,7 +13,7 @@
     system. The specific actions required to use each button vary.
   </para>
   
-  <para><application>Gnumeric</application> has three toolbars, the
+  <para>&gnum; has three toolbars, the
   standard toolbar, the format toolbar and the object toolbar. The
   three toolbars are shown in <xref linkend="fig-toolbars" />.
   </para>
@@ -33,7 +33,7 @@
     sections of this manual. User interaction with each toolbar
     happens in essentially the same way. Similarly, the toolbars can
     be configured in the same way. The next section explains the
-    standard behavior of <application>Gnumeric</application>
+    standard behavior of &gnum;
     toolbars.
   </para>
   
@@ -44,12 +44,12 @@
     
     <para>In the same way that menus can be moved around, as was
     explained <xref linkend="menu-bars" />, toolbars can be moved
-    around the <application>Gnumeric</application> window by dragging
+    around the &gnum; window by dragging
     the little tag on the leftmost portion of the toolbar.
     </para>
 
     <para>
-      If the <application>Gnumeric</application> window is too small
+      If the &gnum; window is too small
       to fit all of the toolbar buttons, gnumeric may display a little
       right pointing black arrow to indicate that there are more
       options. If the user clicks on this arrow, a window will open
@@ -342,7 +342,7 @@
 	<listitem>
 	  <para>
             Starts a simple sum formula in the selected cell with
-            <application>Gnumeric</application> simply waiting for a
+            &gnum; simply waiting for a
             selection to be made to complete the sum. The user selects
             the destination cell, pushes this button, enters the range
             to be summed and pushes the confirm button (green arrow)
@@ -450,7 +450,7 @@
 	  <para>This button will insert a component object into the
 	  current worksheet. Components are the way that the GNOME
 	  project has chosen to enable certain programs to use others
-	  within themselves. <application>Gnumeric</application> is
+	  within themselves. &gnum; is
 	  able to use the <application>Guppi</application> plotting
 	  program and the <application>Dia</application> diagramming
 	  program in this way.</para>
@@ -475,7 +475,7 @@
 	<listitem>
 	  <para>
             This button allows user to insert a component into
-            <application>Gnumeric</application> that is not a simple
+            &gnum; that is not a simple
             rectangle but may have an arbitrary shape. This
             functionality is currently not used but provided for
             future needs.

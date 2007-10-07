@@ -2,7 +2,7 @@
   <title>Analysis using Complex Numbers</title>
 
   <para>
-    Complex numbers can be used in <application>Gnumeric</application>
+    Complex numbers can be used in &gnum;
     but, because they are not fundamental types, all the analysis must
     be done with functions. 
   </para>

@@ -180,7 +180,7 @@
   <sect3 id="anova-two-factor-tool">
      <title>ANOVA: Two-Factor Tool</title>
 
-     <para><application>Gnumeric</application> can perform two factor fixed effects ANOVAs with and 
+     <para>&gnum; can perform two factor fixed effects ANOVAs with and 
      without replication. The same dialog is used and the 
      appropriate tool is selected depending on whether the number of rows 
      per sample is 1 or larger than 1.</para> 
@@ -188,7 +188,7 @@
   <sect4 id="anova-two-factor-without-tool">
      <title>ANOVA: Two-Factor Without Replication Tool</title>
 
-     <para>If the number of rows per sample is given as 1, <application>Gnumeric</application> 
+     <para>If the number of rows per sample is given as 1, &gnum; 
      performs a two factor fixed effects ANOVA without replication. Each
      column of the input range is interpreted as a level of the first 
      factor while each row is interpreted as a level of the second factor.
@@ -240,7 +240,7 @@
 
   <sect4 id="anova-two-factor-with-tool">
      <title>ANOVA: Two-Factor With Replication Tool</title>
-     <para>If the number of rows per sample is larger than 1, <application>Gnumeric</application> 
+     <para>If the number of rows per sample is larger than 1, &gnum; 
      performs a two factor fixed effects ANOVA with replication. Each
      column of the input range is interpreted as a level of the first 
      factor while groups of rows (the number of rows in each group given 
@@ -288,7 +288,7 @@
     </screenshot>
   </figure>
      
-     <para><application>Gnumeric</application> will estimate missing
+     <para>&gnum; will estimate missing
      values for each level combination as the mean of the existing
      values in that combination. The degrees of freedom are adjusted
      appropriately. </para>
@@ -371,7 +371,7 @@
 </orderedlist>
      <para>The calculated correlations are given in a table with each column and
      row labeled with the names of the variables.  If the
-     names are not given in the input range, <application>Gnumeric</application> generates them.
+     names are not given in the input range, &gnum; generates them.
      In our example, the 
      correlation between the variables in column A and B, can be found
      in the second column and third row of the results table (see 
@@ -483,7 +483,7 @@
 </orderedlist>
      <para>The calculated covariances are given in a table with each column and
      row labeled with the names of the variables.  If the
-     names are not given in the input range, <application>Gnumeric</application> generates them.
+     names are not given in the input range, &gnum; generates them.
      In our example, the 
      covariance between the variables in column A and B, can be found
      in the second column and third row of the results table (see 
@@ -770,7 +770,7 @@
        versa. Moreover, frequently the scaling factor varies.</para>
        <para>For example <application>Mathematica</application> uses
        the terms fourier transform and inverse fourier transform with
-       the reversed meaning than <application>Gnumeric</application>
+       the reversed meaning than &gnum;
        and it uses a scaling factor of
        <parameter>1/SQRT(N)</parameter> rather than
        <parameter>1/N</parameter>.</para></note>
@@ -1455,7 +1455,7 @@
      Number of Samples:</guilabel></quote> entry.</para>
      <note><para> Since the period uniquely determines a periodic sample, if you specify 
      that you would like 2 samples you will be given the identical sample twice.</para></note>
-     <note><para>If the dataset for a periodic sample is a two dimensional range, <application>Gnumeric</application> 
+     <note><para>If the dataset for a periodic sample is a two dimensional range, &gnum; 
      will enumerate the data points by row first.</para></note>
 
    <figure id="sampling-example-1">
@@ -1498,7 +1498,7 @@
 
 <sect2 id="t-test">
      <title>Comparing Means of 2 Populations</title>
-     <para><application>Gnumeric</application> provides 4 similar
+     <para>&gnum; provides 4 similar
      tools to test whether the difference of two population means is
      equal to a hypothesized value. These four tools use the same
      dialog (see <xref linkend="ttest-dialog" />).</para>
@@ -1558,7 +1558,7 @@
      </term><listitem><para>
      For paired variables with unknown population variances, we may either assume 
      that the population variances are equal or not. If the population variances are
-     assumed to be equal, <application>Gnumeric</application> will estimate the common variance by pooling the 
+     assumed to be equal, &gnum; will estimate the common variance by pooling the 
      sample variances. Select the <quote><guilabel>Equal</guilabel></quote> option to assume that
      the population variances are equal.
      </para></listitem>
@@ -1582,7 +1582,7 @@
     </screenshot>
   </figure>
      <para>For paired variables, when you click on 
-     <quote><guibutton>OK</guibutton></quote>, <application>Gnumeric</application> will test whether the 
+     <quote><guibutton>OK</guibutton></quote>, &gnum; will test whether the 
      mean of the difference between the paired variables is equal to 
      the given hypothesized mean difference.</para>
 
@@ -1643,7 +1643,7 @@
     </screenshot>
   </figure>
      <para>For unpaired variables with unknown but assumed equal population variances,
-     when you click on <quote><guibutton>OK</guibutton></quote>, <application>Gnumeric</application> will test whether the 
+     when you click on <quote><guibutton>OK</guibutton></quote>, &gnum; will test whether the 
      mean of the difference between the paired variables is equal to the given hypothesized
      mean difference.</para>
 
@@ -1706,7 +1706,7 @@
     </screenshot>
   </figure>
      <para>For unpaired  variables with unknown and assumed unequal population variances,
-     when you click on <quote><guibutton>OK</guibutton></quote>, <application>Gnumeric</application> will test whether the 
+     when you click on <quote><guibutton>OK</guibutton></quote>, &gnum; will test whether the 
      mean of the difference between the paired variables is equal to the given hypothesized
      mean difference.</para> 
 
@@ -1772,7 +1772,7 @@
      <para>For unpaired  variables with known population variances, enter those variances 
      in the <quote><guilabel>Variable 1 Pop. Variance</guilabel></quote> and 
      <quote><guilabel>Variable 2 Pop. Variance</guilabel></quote> entries.
-     When you click on <quote><guibutton>OK</guibutton></quote>, <application>Gnumeric</application> will test whether the 
+     When you click on <quote><guibutton>OK</guibutton></quote>, &gnum; will test whether the 
      mean of the difference between the paired variables is equal to the given hypothesized
      mean difference.</para> 
 

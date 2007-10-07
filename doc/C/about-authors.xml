@@ -1,7 +1,7 @@
 <sect1 id="authors-intro">
   <title>Authors</title>
   <table frame='none'>
-    <title><application>Gnumeric</application> was written by</title>
+    <title>&gnum; was written by</title>
     <tgroup cols='3' align='left' colsep='0' rowsep='0'>
       <tbody>
       <row>
@@ -216,7 +216,7 @@
 
   <para>
     To find more information about
-    <application>Gnumeric</application>, please visit the
+    &gnum;, please visit the
     <ulink url="http://www.gnumeric.org" type="http">Web site</ulink>.
   </para>
 

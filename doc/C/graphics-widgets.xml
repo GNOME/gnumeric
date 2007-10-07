@@ -2,7 +2,7 @@
   <title>GUI Widgets</title>
 
   <para>
-    A <application>Gnumeric</application> worksheet can graphical user
+    A &gnum; worksheet can graphical user
     interface (GUI) elements, commonly called 'widgets', which can be
     tied to the data contents of worksheet cells. For example, users
     can add a slider widget which, when the position of the slider
@@ -16,7 +16,7 @@
       of the obvious configuration settings for these widgets do not
       exist and much of the functionality that these widgets should
       exhibit has not been implemented. Future versions of
-      <application>Gnumeric</application> will complete these widgets
+      &gnum; will complete these widgets
       and make them functional.
     </para>
   </warning>
@@ -352,7 +352,7 @@
       be changed in response to changes in the state of the widget. A
       user can type the name of a cell in the text box or may click in
       the text box to activate it and then click on the worksheet to
-      select the desired cell and <application>Gnumeric</application>
+      select the desired cell and &gnum;
       will automatically add a reference to the cell.
     </para>
 
@@ -469,7 +469,7 @@
         widget. A user can type the name of a cell in the text box or
         may click in the text box to activate it and then click on the
         worksheet to select the desired cell and
-        <application>Gnumeric</application> will automatically add a
+        &gnum; will automatically add a
         reference to the cell.
       </para>
 
@@ -573,7 +573,7 @@
         widget. A user can type the name of a cell in the text box or
         may click in the text box to activate it and then click on the
         worksheet to select the desired cell and
-        <application>Gnumeric</application> will automatically add a
+        &gnum; will automatically add a
         reference to the cell.
       </para>
 
@@ -684,7 +684,7 @@
         widget. A user can type the name of a cell in the text box or
         may click in the text box to activate it and then click on the
         worksheet to select the desired cell and
-        <application>Gnumeric</application> will automatically add a
+        &gnum; will automatically add a
         reference to the cell.
       </para>
 
