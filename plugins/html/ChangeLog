@@ -1,3 +1,8 @@
+2007-10-08  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_read_row): Make link to first url in cell if
+	more than one exists.
+
 2007-09-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.12

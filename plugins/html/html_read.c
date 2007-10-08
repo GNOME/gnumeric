@@ -201,7 +201,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 					   &hrefs, TRUE, doc);
 
 	
-			if (g_slist_length (hrefs) == 1 &&
+			if (g_slist_length (hrefs) >= 1 &&
 			    buf->len > 0) {
 				/* One hyperlink, and text to make it 
 				 * visible */
@@ -229,8 +229,9 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 					style_color_new_name ("blue"));
 				g_free (url);
 				xmlBufferFree (h_buf);
-			} else if (hrefs) {
-				/* Multiple links, no way to choose one, 
+			}
+			if (g_slist_length (hrefs) > 1 || buf->len <= 0) {
+				/* Multiple links, 
 				 * or no text to give hyperlink style,
 				 * so put them in a comment */
 				GSList *l;
