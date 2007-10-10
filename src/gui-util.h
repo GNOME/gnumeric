@@ -93,8 +93,6 @@ void	 int_to_entry	(GtkEntry *entry, gint the_int);
 GtkWidget *gnumeric_load_image  (char const *name);
 GdkPixbuf *gnumeric_load_pixbuf (char const *name);
 
-GdkPixbuf *gnm_pixbuf_tile (GdkPixbuf const *src, int w, int h);
-
 void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 
 void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);

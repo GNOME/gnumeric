@@ -1,3 +1,8 @@
+2007-10-10  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-image.c (so_image_view_set_bounds): Use
+	go_pixbuf_tile.
+
 2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* samples/chart-stripe-tests.gnumeric: add reference images.

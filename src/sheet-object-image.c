@@ -21,16 +21,14 @@
 
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-libxml-extras.h>
+#include <goffice/utils/go-file.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/gtk/go-pixbuf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-#include <goffice/utils/go-file.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 
 #include <math.h>
 #include <string.h>
@@ -81,8 +79,8 @@ so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean v
 		old_height = fabs (old_y1 - old_y2);
 		if (placeholder != NULL &&
 		    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
-			GdkPixbuf *newimage = gnm_pixbuf_tile (placeholder,
-				(int)width, (int)height);
+			GdkPixbuf *newimage = go_pixbuf_tile (placeholder,
+				(guint)width, (guint)height);
 			foo_canvas_item_set (view, "pixbuf", newimage, NULL);
 			g_object_unref (newimage);
 		}
