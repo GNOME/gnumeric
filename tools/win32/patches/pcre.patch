@@ -1,0 +1,38 @@
+--- pcreposix.c	2007-05-09 10:08:36.000000000 -0400
++++ pcreposix.c	2007-08-03 20:53:51.000000000 -0400
+@@ -142,7 +142,7 @@
+ *          Translate error code to string        *
+ *************************************************/
+ 
+-PCREPOSIX_EXP_DEFN size_t
++size_t
+ regerror(int errcode, const regex_t *preg, char *errbuf, size_t errbuf_size)
+ {
+ const char *message, *addmessage;
+@@ -177,7 +177,7 @@
+ *           Free store held by a regex           *
+ *************************************************/
+ 
+-PCREPOSIX_EXP_DEFN void
++void
+ regfree(regex_t *preg)
+ {
+ (pcre_free)(preg->re_pcre);
+@@ -200,7 +200,7 @@
+               various non-zero codes on failure
+ */
+ 
+-PCREPOSIX_EXP_DEFN int
++int
+ regcomp(regex_t *preg, const char *pattern, int cflags)
+ {
+ const char *errorptr;
+@@ -242,7 +242,7 @@
+ be set. When this is the case, the nmatch and pmatch arguments are ignored, and
+ the only result is yes/no/error. */
+ 
+-PCREPOSIX_EXP_DEFN int
++int
+ regexec(const regex_t *preg, const char *string, size_t nmatch,
+   regmatch_t pmatch[], int eflags)
+ {

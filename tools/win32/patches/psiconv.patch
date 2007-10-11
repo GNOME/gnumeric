@@ -1,0 +1,11 @@
+--- lib/psiconv/configuration.c	2005-11-15 10:08:08.000000000 -0500
++++ lib/psiconv/configuration.c	2007-08-06 16:45:43.000000000 -0400
+@@ -336,7 +336,7 @@
+   pathptr = path;
+   while (strlen(pathptr)) {
+     /* Isolate the next filename */
+-    filename_len = (index(pathptr,':')?(index(pathptr,':') - pathptr):
++    filename_len = (strchr(pathptr,':')?(strchr(pathptr,':') - pathptr):
+ 	                               strlen(pathptr));
+     filename = malloc(filename_len + 1);
+     filename = strncpy(filename,pathptr,filename_len);
