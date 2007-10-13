@@ -1,3 +1,7 @@
+2007-10-13  Yannig Marchegay <yannig@marchegay.org>
+
+	* configure.in: +Occitan.
+
 2007-10-10  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (so_image_view_set_bounds): Use
