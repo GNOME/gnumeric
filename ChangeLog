@@ -1,3 +1,7 @@
+2007-10-14  Yannig Marchegay <yannig@marchegay.org>
+
+	* configure.in: Redo last change with both po/oc.po and properties-po/oc.po.
+
 2007-10-13  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Undo last change.
