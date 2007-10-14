@@ -1,3 +1,7 @@
+2007-10-13  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Undo last change.
+
 2007-10-13  Yannig Marchegay <yannig@marchegay.org>
 
 	* configure.in: +Occitan.
