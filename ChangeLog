@@ -1,3 +1,7 @@
+2007-10-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Remove no from ALL_LINGUAS.
+
 2007-10-14  Yannig Marchegay <yannig@marchegay.org>
 
 	* configure.in: Redo last change with both po/oc.po and properties-po/oc.po.
