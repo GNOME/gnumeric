@@ -156,7 +156,7 @@ cb_gnm_option_group_post_parse (GOptionContext *context,
  * Since: 1.8
  **/
 GOptionGroup *
-gnm_get_option_group ()
+gnm_get_option_group (void)
 {
 	GOptionGroup *group = g_option_group_new ("libspreadsheet",
 		_("Gnumeric Options"), _("Show Gnumeric Options"), NULL, NULL);
@@ -227,7 +227,7 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 }
 
 void
-gnm_pre_parse_shutdown ()
+gnm_pre_parse_shutdown (void)
 {
 	go_shell_argv_to_glib_encoding_free ();
 }

@@ -91,7 +91,7 @@ xlsx_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 }
 
 GnmConventions *
-xlsx_conventions_new ()
+xlsx_conventions_new (void)
 {
 	GnmConventions *convs = gnm_conventions_new_full (
 		sizeof (XLSXExprConventions));
