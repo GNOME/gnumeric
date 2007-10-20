@@ -1,3 +1,8 @@
+2007-10-20  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): adapt to new
+	gog_style_create_cairo_pattern signature.
+
 2007-10-15  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Remove no from ALL_LINGUAS.

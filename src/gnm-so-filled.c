@@ -248,13 +248,12 @@ gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 
 static void
 gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
-	double width, double height)
+			  double width, double height)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	cairo_t *cairo = (cairo_t*) data;
 	GogStyle const *style = sof->style;
 	cairo_pattern_t *pat = NULL;
-	gpointer obj = NULL;
 
 	cairo_new_path (cairo);
 	if (sof->is_oval) {
@@ -271,14 +270,12 @@ gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
 		cairo_close_path (cairo);
 	}
 	/* Fill the shape */
-	pat = gog_style_create_cairo_pattern (style, width, height, &obj);
+	pat = gog_style_create_cairo_pattern (style, cairo);
 	if (pat) {
 		cairo_set_source (cairo, pat);
 		cairo_fill_preserve (cairo);
 		cairo_pattern_destroy (pat);
 	}
-	if (obj)
-		g_object_unref (G_OBJECT (obj));
 	/* Draw the line */
 	cairo_set_line_width (cairo, (style->outline.width)? style->outline.width: 1.);
 	cairo_set_source_rgba (cairo,
