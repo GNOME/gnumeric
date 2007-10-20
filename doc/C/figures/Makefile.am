@@ -177,7 +177,6 @@ EXTRA_DIST = \
      files-html-example.png \
      files-html32-example.png \
      files-html40-example.png \
-     gnumeric-empty.510.png \
      gnumeric-icon-24.png \
      gnumeric-labelled.png \
      gnumeric-power-example.png \
@@ -314,10 +313,7 @@ EXTRA_DIST = \
      textguru-import-panel2a-withTags.png \
      textguru-import-panel2b-withTags.png \
      textguru-import-panel3-withTags.png \
-     toolbar-format.510.png \
      toolbar-object.png \
-     toolbar-standard.510.png \
-     toolbars.510.png \
      widget-label.png \
      widget-frame.png \
      widget-checkbox.png \
