@@ -2,9 +2,6 @@
 # Please keep this file sorted alphabetically.
 #
 [encoding: UTF-8]
-component/Gnumeric-embed.xml.in
-component/gnumeric.c
-component/plugin.xml.in
 gnumeric.desktop.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in

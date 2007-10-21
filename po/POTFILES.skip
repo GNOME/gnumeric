@@ -12,3 +12,8 @@ plugins/guile/smob-value.c
 #
 # and this is a test program intended to have arbitrary content.
 src/test-harness.c
+#
+# We cannot have these as adding them breaks distcheck
+component/Gnumeric-embed.xml.in
+component/gnumeric.c
+component/plugin.xml.in
