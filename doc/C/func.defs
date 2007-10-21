@@ -1007,16 +1007,6 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @SEEALSO=DVAR
 
 @CATEGORY=Database
-@FUNCTION=EXECSQL
-@SYNTAX=EXECSQL(dsn,username,password,sql)
-@DESCRIPTION=The EXECSQL function lets you execute a command in a database server, and show the results returned in current sheet. It uses libgda as the means for accessing the databases.
-For using it, you need first to set up a libgda data source.
-@EXAMPLES=
-To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
-EXECSQL("mydatasource","username","password","SELECT * FROM customers")
-@SEEALSO=READDBTABLE
-
-@CATEGORY=Database
 @FUNCTION=GETPIVOTDATA
 @SYNTAX=GETPIVOTDATA(pivot_table,field_name)
 @DESCRIPTION=GETPIVOTDATA function fetches summary data from a pivot table. @pivot_table is a cell range containing the pivot table. @field_name is the name of the field of which you want the summary data.
@@ -1026,16 +1016,6 @@ EXECSQL("mydatasource","username","password","SELECT * FROM customers")
 @EXAMPLES=
 
 @SEEALSO=
-
-@CATEGORY=Database
-@FUNCTION=READDBTABLE
-@SYNTAX=READDBTABLE(dsn,username,password,table)
-@DESCRIPTION=The READDBTABLE function lets you get the contents of a table, as stored in a database. For using it, you need first to set up a libgda data source.
-Note that this function returns all the rows in the given table. If you want to get data from more than one table or want a more precise selection (conditions), use the EXECSQL function.
-@EXAMPLES=
-To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
-READDBTABLE("mydatasource","username","password","customers")
-@SEEALSO=EXECSQL
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE
@@ -5009,30 +4989,6 @@ The argument must be at least 2, or else a #VALUE! error is returned.
 
 @EXAMPLES=
 @SEEALSO=ITHPRIME
-
-@CATEGORY=Python
-@FUNCTION=PY_BITAND
-@SYNTAX=PY_BITAND (num)
-@DESCRIPTION=The BITAND function returns bitwise and-ing of its arguments.
-@EXAMPLES=
-PY_BITAND(6, 2) equals 2)
-@SEEALSO=BITAND
-
-@CATEGORY=Python
-@FUNCTION=PY_CAPWORDS
-@SYNTAX=PY_CAPWORDS (sentence)
-@DESCRIPTION=
-@EXAMPLES=
-PY_CAPWORDS("Hello world") equals "Hello World")
-@SEEALSO=
-
-@CATEGORY=Python
-@FUNCTION=PY_PRINTF
-@SYNTAX=PY_PRINTF (format,...)
-@DESCRIPTION=
-@EXAMPLES=
-PY_PRINTF("Test: %.2f",12) equals "Test: 12.00")
-@SEEALSO=
 
 @CATEGORY=Random Numbers
 @FUNCTION=RAND
