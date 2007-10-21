@@ -69,9 +69,11 @@ features+= PYTHON=/usr/bin/python --with-python
 # pointless."
 features+= --without-bonobo
 
-# db2context is needed to build the PDF docs, but it is not (yet?) packaged
-# for Debian.
+# Don't build a PDF of the documentation.
 features+= --disable-pdfdocs
+
+# Enable it for my development tree:
+#features+= --enable-pdfdocs
 
 confflags :=	--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
@@ -87,11 +89,20 @@ else
 	confflags += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
 endif
 
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+        CFLAGS += -O0
+else
+        CFLAGS += -O2
+endif
+
 # Make the linker work a bit harder so dynamic loading can be done faster.
-#
+LDFLAGS += -Wl,-O1
+
 # Make the linker only include actual dependencies on libraries, rather than
 # for all libraries specified in the link line.
-confflags += LDFLAGS="-Wl,-O1 -Wl,--as-needed"
+LDFLAGS += -Wl,--as-needed
 
 source-updates:
 	rm -f configure-stamp
@@ -109,7 +120,7 @@ configure-stamp:
 	 
 	mkdir build
 	cd build && env srcdir=`pwd`/.. \
-		../configure $(confflags)
+		../configure $(confflags) "CFLAGS=$(CFLAGS)" "LDFLAGS=$(LDFLAGS)"
 
 	touch configure-stamp
 
