@@ -19,7 +19,7 @@
 #
 # 90xx: Misc stuff.
 
-TESTS = $(wildcard t[0-9][0-9][0-9][0-9]-*.pl)
+TESTS = t[0-9][0-9][0-9][0-9]-*.pl
 
 import-db:
 	for t in t5[0-9][0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
