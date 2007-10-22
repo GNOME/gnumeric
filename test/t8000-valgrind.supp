@@ -2,7 +2,7 @@
    ORBit_gconf_ping_writev_i686
    Memcheck:Param
    writev(vector[...])
-   fun:do_writev
+   fun:*
    fun:*
    fun:link_connection_writev
    fun:giop_send_buffer_write
@@ -82,4 +82,35 @@
    fun:g_strdup
    fun:g_set_prgname
    fun:gnm_pre_parse_init
+}
+
+{
+   Leak/gtk_page_setup_copy
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_slice_alloc0
+   fun:*
+   fun:gtk_paper_size_new
+}
+
+{
+   Leak/font-config/FcStrCopy
+   Memcheck:Leak
+   fun:malloc
+   fun:FcStrCopy
+}
+
+{
+   Leak/font-config/XML_ParseBuffer
+   Memcheck:Leak
+   fun:malloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XML_ParseBuffer
 }
