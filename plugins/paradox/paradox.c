@@ -268,7 +268,7 @@ paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
 
 	pxdoc = PX_new();
 	if (PX_open_gsf (pxdoc, input) < 0) {
-		return false;
+		return FALSE;
 	}
 
 	pxh = pxdoc->px_head;
@@ -276,5 +276,5 @@ paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
 	PX_close (pxdoc);
 	PX_delete (pxdoc);
 
-	return true;
+	return TRUE;
 }
