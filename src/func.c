@@ -497,7 +497,7 @@ gnm_func_group_fetch_with_translation (char const *name,
 		gnm_string_unref (cat->display_name);
 		cat->display_name = gnm_string_get (translation);
 		cat->has_translation = TRUE;
-		g_list_remove_link (categories, l);
+		categories = g_list_remove_link (categories, l);
 		g_list_free_1 (l);
 		categories = g_list_insert_sorted (
 		             categories, cat, &function_category_compare);
