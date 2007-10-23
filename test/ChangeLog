@@ -1,5 +1,10 @@
 2007-10-21  Morten Welinder  <terra@gnome.org>
 
+	* test/t8000-valgrind.supp: Make a little more generic to also fit
+	OpenSUSE 10.3
+
+2007-10-21  Morten Welinder  <terra@gnome.org>
+
 	* Makefile.am (TESTS): Try to please newer automakes.
 
 2007-10-21  Morten Welinder <terra@gnome.org>

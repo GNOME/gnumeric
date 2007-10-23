@@ -93,6 +93,22 @@ static int debug_applix_read = 0;
 
 #define a_strncmp(buf, str) strncmp ((buf), str, sizeof (str) - 1)
 
+static long
+au_strtol (const unsigned char *str, unsigned char **end)
+{
+	char *send;
+	long res = strtol ((const char *)str, &send, 10);
+	if (end) *end = (unsigned char *)send;
+	return res;
+}
+
+static long
+a_strtol (const char *str, char **end)
+{
+	return strtol (str, end, 10);
+}
+
+
 /* The maximum numer of character potentially involved in a new line */
 #define MAX_END_OF_LINE_SLOP	16
 
@@ -361,7 +377,7 @@ applix_read_colormap (ApplixReadState *state)
 			if (iter <= buffer || *iter != ' ')
 				return TRUE;
 
-			numbers[count] = strtol (iter+1, (char **)&end, 10);
+			numbers[count] = au_strtol (iter + 1, &end);
 			if (end != pos || numbers[count] < 0 || numbers[count] > 255)
 				return TRUE;
 		}
@@ -415,7 +431,7 @@ applix_get_color (ApplixReadState *state, char **buf)
 {
 	/* Skip 'FG' or 'BG' */
 	char *start = *buf+2;
-	int num = strtol (start, buf, 10);
+	int num = a_strtol (start, buf);
 
 	if (start == *buf) {
 		applix_parse_error (state, "Invalid color");
@@ -561,7 +577,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					}
 
 					if (!g_ascii_isdigit (sep[1]) ||
-					    (0 == (id = strtol (sep+1, &end, 10))) ||
+					    (0 == (id = a_strtol (sep+1, &end))) ||
 					    sep+1 == end ||
 					    id < 1 || id > 16) {
 						applix_parse_error (state, "Unknown format %d", id);
@@ -728,7 +744,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					/* be a font ID numbered from 0 */
 					char *start = (sep += 2);
 
-					font_id = strtol (start, &sep, 10);
+					font_id = a_strtol (start, &sep);
 					if (start == sep || font_id < 0 || font_id >= (int)state->font_names->len)
 						applix_parse_error (state, "Unknown font index %s", start);
 					break;
@@ -764,7 +780,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					19, 20, 21, 22, 23,
 				};
 				char *end;
-				int num = strtol (sep += 2, &end, 10);
+				int num = a_strtol (sep += 2, &end);
 
 				if (sep == end || 0 >= num || num >= (int)G_N_ELEMENTS (map)) {
 					applix_parse_error (state, "Unknown pattern %s", sep);
@@ -806,7 +822,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				GnmStyleBorderOrientation const orient = (sep[0] == 'T' || sep[0] == 'B')
 					? GNM_STYLE_BORDER_HORIZONTAL : GNM_STYLE_BORDER_VERTICAL;
 				char *end;
-				int num = strtol (++sep, &end, 10);
+				int num = a_strtol (++sep, &end);
 
 				if (sep == end || 0 >= num || num >= (int)G_N_ELEMENTS (map)) {
 					applix_parse_error (state, "Unknown border style %s", sep);
@@ -991,7 +1007,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 						  &pos, pos.col, pos.row, pos.col, pos.row);
 		} else if (!a_strncmp (buffer, "View Default Column Width ")) {
 			char *ptr, *tmp = buffer + 26;
-			int width = strtol (tmp, &ptr, 10);
+			int width = a_strtol (tmp, &ptr);
 			if (tmp == ptr || width <= 0)
 				return applix_parse_error (state, "Invalid default column width");
 
@@ -999,7 +1015,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				applix_width_to_pixels (width));
 		} else if (!a_strncmp (buffer, "View Default Row Height: ")) {
 			char *ptr, *tmp = buffer + 25;
-			int height = strtol (tmp, &ptr, 10);
+			int height = a_strtol (tmp, &ptr);
 			if (tmp == ptr || height <= 0)
 				return applix_parse_error (state, "Invalid default row height");
 
@@ -1012,10 +1028,10 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				int row, height;
 				char *tmp;
 
-				row = strtol (tmp = ptr + 1, &ptr, 10) - 1;
+				row = a_strtol (tmp = ptr + 1, &ptr) - 1;
 				if (tmp == ptr || row < 0 || *ptr != ':')
 					return applix_parse_error (state, "Invalid row size row number");
-				height = strtol (tmp = ptr + 1, &ptr, 10);
+				height = a_strtol (tmp = ptr + 1, &ptr);
 				if (height >= 32768)
 					height -= 32768;
 
@@ -1041,7 +1057,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 				ptr = col_parse (tmp = ptr + 1, &col, &dummy);
 				if (!ptr || *ptr != ':')
 					return applix_parse_error (state, "Invalid column");
-				width = strtol (tmp = ptr + 1, (char **)&ptr, 10);
+				width = a_strtol (tmp = ptr + 1, (char **)&ptr);
 				if (tmp == ptr || width <= 0)
 					return applix_parse_error (state, "Invalid column size");
 
@@ -1261,7 +1277,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 	if (*ptr != '!')
 		return applix_parse_error (state, "Invalid row format");
 
-	r.start.row = r.end.row = strtol (++ptr, (char **)&tmp, 10) - 1;
+	r.start.row = r.end.row = au_strtol (++ptr, &tmp) - 1;
 	if (tmp == ptr || r.start.row < 0 || tmp[0] != ':' || tmp[1] != ' ')
 		return applix_parse_error (state, "Invalid row format row number");
 
@@ -1269,13 +1285,13 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 	do {
 		unsigned attr_index;
 
-		r.start.col = strtol (ptr = tmp+1, (char **)&tmp, 10);
+		r.start.col = au_strtol (ptr = tmp+1, &tmp);
 		if (tmp == ptr || r.start.col < 0 || tmp[0] != '-')
 			return applix_parse_error (state, "Invalid row format start col");
-		r.end.col = strtol (ptr = tmp+1, (char **)&tmp, 10);
+		r.end.col = au_strtol (ptr = tmp+1, &tmp);
 		if (tmp == ptr || r.end.col < 0 || tmp[0] != ':')
 			return applix_parse_error (state, "Invalid row format end col");
-		attr_index = strtol (ptr = tmp+1, (char **)&tmp, 10);
+		attr_index = au_strtol (ptr = tmp+1, &tmp);
 		if (tmp != ptr && attr_index >= 2 && attr_index < state->attrs->len+2) {
 			GnmStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
 			gnm_style_ref (style);

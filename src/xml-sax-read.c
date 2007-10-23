@@ -918,12 +918,12 @@ xml_sax_print_titles (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gnm_xml_attr_int (attrs, "value", &val))
 			pi->print_titles = val;
 }
+
 static void
 xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
-	int val;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
@@ -934,7 +934,6 @@ xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 		if (!strcmp (CXML2C (attrs[0]), "value"))
 			pi->repeat_top.use = range_parse
 				(&pi->repeat_top.range, CXML2C (attrs[1]));
-
 }
 
 static void
@@ -942,7 +941,6 @@ xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	PrintInformation *pi;
-	int val;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
