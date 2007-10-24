@@ -5643,6 +5643,8 @@ excel_write_state_new (IOContext *context, WorkbookView const *wb_view,
 	ewb->base.fonts.two_way_table = two_way_table_new (
 		excel_font_hash, excel_font_equal, 0,
 		(GDestroyNotify) excel_font_free);
+	ewb->unique_name_id = 0;
+
 	formats_init (&ewb->base);
 	palette_init (&ewb->base);
 	xf_init (&ewb->base);

@@ -1,3 +1,9 @@
+2007-10-24  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (excel_formula_write_NAME_v7): Use a
+	sequential id instead of casting the expression address to a
+	number.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.13

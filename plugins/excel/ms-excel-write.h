@@ -103,6 +103,8 @@ struct _ExcelWriteState {
 
 	unsigned num_obj_groups, cur_obj_group, cur_blip;
 	gboolean export_macros;
+
+	guint32 unique_name_id;
 };
 
 #define XF_RESERVED 21

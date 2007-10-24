@@ -629,6 +629,7 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr,
 		int externsheet = (pd->sheet == expr->name.optional_scope)
 			? (int) (pd->ewb->esheets->len + 1)
 			: expr->name.optional_scope->index_in_wb;
+		guint32 id = ++(pd->ewb->unique_name_id);
 
 		GSF_LE_SET_GUINT8  (data +  0, FORMULA_PTG_NAME_X +
 			xl_get_op_class (pd, XL_REF, target_type));
@@ -636,7 +637,7 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr,
 		GSF_LE_SET_GUINT16 (data + 11, name_idx);
 		GSF_LE_SET_GUINT16 (data +  9,   1); /* undocumented marked 'reserved' */
 		GSF_LE_SET_GUINT16 (data + 19, 0xf); /* undocumented marked 'reserved' */
-		GSF_LE_SET_GUINT32 (data + 21, (guint32)expr); /* undocumented marked 'reserved' */
+		GSF_LE_SET_GUINT32 (data + 21, id); /* undocumented marked 'reserved' */
 		ms_biff_put_var_write (pd->ewb->bp, data, 25);
 	}
 }
