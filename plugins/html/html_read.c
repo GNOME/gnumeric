@@ -208,6 +208,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				char *url;
 				xmlBufferPtr h_buf = xmlBufferCreate ();
 				
+				hrefs = g_slist_reverse (hrefs);
 				htmlNodeDump (
 					h_buf, doc, (htmlNodePtr)hrefs->data);
 				url = g_strndup (
@@ -236,7 +237,6 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				 * so put them in a comment */
 				GSList *l;
 
-				hrefs = g_slist_reverse (hrefs);
 				for (l = hrefs; l != NULL; l = l->next) {
 					htmlNodeDump (a_buf, doc, 
 						      (htmlNodePtr)l->data);

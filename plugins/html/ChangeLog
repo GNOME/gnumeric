@@ -1,3 +1,8 @@
+2007-10-24  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_read_row): Really use the first url when
+	multiple urls in cell, not the last.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.13
