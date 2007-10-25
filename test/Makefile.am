@@ -25,6 +25,6 @@ import-db:
 	for t in t5[0-9][0-9][0-9]-*.pl; do echo "*** $$t ***"; $(PERL) $$t create-db; done
 
 
-EXTRA_DIST = GnumericTest.pm normalize-gnumeric $(TESTS)
+EXTRA_DIST = GnumericTest.pm common.supp normalize-gnumeric $(TESTS)
 .PHONY: import-db $(TESTS)
 .NOTPARALLEL:

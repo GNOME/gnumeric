@@ -256,11 +256,18 @@ sub test_valgrind {
     die "Cannot remove $outfile.\n" if -f $outfile;
     &junkfile ($outfile);
 
-    my $suppfile = $0;
-    $suppfile =~ s/\.pl$/.supp/;
-
     # $cmd = "--gen-suppressions=all $cmd";
-    $cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
+    {
+	my $suppfile = "common.supp";
+	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
+    }
+
+    {
+	my $suppfile = $0;
+	$suppfile =~ s/\.pl$/.supp/;
+	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;
+    }
+
     # $cmd = "--show-reachable=yes $cmd";
     $cmd = "--leak-check=full $cmd";
     $cmd = "--num-callers=20 $cmd";
