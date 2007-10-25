@@ -34,6 +34,7 @@
 #include <goffice/utils/go-glib-extras.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
+#include <math.h>
 
 #ifndef USE_TILE_POOLS
 #define USE_TILE_POOLS 1
@@ -458,6 +459,16 @@ void
 sheet_style_init (Sheet *sheet)
 {
 	GnmStyle *default_style;
+	int r4;
+
+	/* Right now it appears that we require these.  */
+	r4 = (int)(sqrt (sqrt (SHEET_MAX_ROWS)) + 0.5);
+	if (r4 * r4 * r4 * r4 != SHEET_MAX_ROWS)
+		g_error ("SHEET_MAX_ROWS must be a four power.");
+
+	r4 = (int)(sqrt (sqrt (SHEET_MAX_COLS)) + 0.5);
+	if (r4 * r4 * r4 * r4 != SHEET_MAX_COLS)
+		g_error ("SHEET_MAX_COLS must be a four power.");
 
 	/* some simple sanity checks */
 	g_assert (SHEET_MAX_COLS <= TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL);
