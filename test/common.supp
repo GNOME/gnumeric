@@ -76,6 +76,72 @@
    fun:fseeko
 }
 
+{
+   getpwuid_r_debian_1
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:getpwuid_r
+}
+
+{
+   getpwuid_r_debian_2
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:getpwuid_r
+}
+
+{
+   dlopen_debian_1
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen   
+}
+
+{
+   dlopen_debian_2
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen   
+}
+
 # -----------------------------------------------------------------------------
 
 {
