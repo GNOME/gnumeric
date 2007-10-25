@@ -198,6 +198,8 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 #else
 #define TILE_SIZE_COL 32
 #endif
+#define PARTIAL_TILE_COL (SHEET_MAX_COLS != TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL)
+
 
 /* This is good until 16M rows.  */
 #if SHEET_MAX_ROWS <= 16 * 16 * 16 * 16
@@ -209,6 +211,7 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 #else
 #define	TILE_SIZE_ROW 64
 #endif
+#define PARTIAL_TILE_ROW (SHEET_MAX_ROWS != TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW)
 
 typedef enum {
 	TILE_UNDEFINED	= -1,
@@ -459,16 +462,6 @@ void
 sheet_style_init (Sheet *sheet)
 {
 	GnmStyle *default_style;
-	int r4;
-
-	/* Right now it appears that we require these.  */
-	r4 = (int)(sqrt (sqrt (SHEET_MAX_ROWS)) + 0.5);
-	if (r4 * r4 * r4 * r4 != SHEET_MAX_ROWS)
-		g_error ("SHEET_MAX_ROWS must be a four power.");
-
-	r4 = (int)(sqrt (sqrt (SHEET_MAX_COLS)) + 0.5);
-	if (r4 * r4 * r4 * r4 != SHEET_MAX_COLS)
-		g_error ("SHEET_MAX_COLS must be a four power.");
 
 	/* some simple sanity checks */
 	g_assert (SHEET_MAX_COLS <= TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL);
@@ -2021,6 +2014,18 @@ cb_style_list_add_node (GnmStyle *style,
 	range.start.row = corner_row;
 	range.end.col = corner_col + width - 1;
 	range.end.row = corner_row + height - 1;
+
+#if PARTIAL_TILE_COL
+	if (corner_col >= SHEET_MAX_COLS)
+		return;
+	range.end.col = MIN (range.end.col, SHEET_MAX_COLS - 1);
+#endif
+
+#if PARTIAL_TILE_ROW
+	if (corner_row >= SHEET_MAX_ROWS)
+		return;
+	range.end.row = MIN (range.end.row, SHEET_MAX_ROWS - 1);
+#endif
 
 	if (apply_to) {
 		range.start.col -= apply_to->start.col;
