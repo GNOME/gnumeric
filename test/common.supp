@@ -63,6 +63,19 @@
    fun:__nscd_get_map_ref
 }
 
+{
+   glibc_fseeko
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:fseeko
+}
+
 # -----------------------------------------------------------------------------
 
 {
