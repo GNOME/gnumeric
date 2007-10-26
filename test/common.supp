@@ -142,6 +142,27 @@
    fun:dlopen   
 }
 
+{
+   dlsym_debian_1
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:_dl_sym
+}
+
+{
+   dlsym_debian_2
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlsym
+}
+
 # -----------------------------------------------------------------------------
 
 {

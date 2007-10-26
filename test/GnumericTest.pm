@@ -256,7 +256,7 @@ sub test_valgrind {
     die "Cannot remove $outfile.\n" if -f $outfile;
     &junkfile ($outfile);
 
-    # $cmd = "--gen-suppressions=all $cmd";
+    $cmd = "--gen-suppressions=all $cmd";
     {
 	my $suppfile = "common.supp";
 	$cmd = "--suppressions=$suppfile $cmd" if -r $suppfile;

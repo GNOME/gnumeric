@@ -1,0 +1,10 @@
+{
+   cairo_bug_1
+   Memcheck:Cond
+   obj:/lib64/libz.so.1.2.3
+   obj:/lib64/libz.so.1.2.3
+   fun:deflate
+   fun:compress2
+   fun:compress_dup
+   fun:_cairo_pdf_surface_emit_unscaled_font_subset
+}
