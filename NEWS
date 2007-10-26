@@ -7,6 +7,9 @@ Jody:
 	* Improve ODF (and .sxc) import.
 	* Add Snap-to-grid context menu command for objects.
 
+Morten:
+	* Improve test suite.
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.13
 
