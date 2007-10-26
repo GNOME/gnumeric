@@ -143,6 +143,74 @@
 }
 
 {
+   dlopen_debian_3
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen
+}
+
+{
+   dlopen_debian_4
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen
+}
+
+{
+   dlopen_debian_5
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlopen_mode
+}
+
+{
+   dlopen_debian_6
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlopen_mode
+}
+
+{
+   dlopen_debian_7
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlopen_mode
+}
+
+{
    dlsym_debian_1
    Memcheck:Addr4
    fun:*
@@ -213,4 +281,88 @@
    fun:*
    fun:*
    fun:XML_ParseBuffer
+}
+
+{
+   Leak/getpwuid_r_debian
+   Memcheck:Leak
+   fun:malloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:getpwuid_r
+}
+
+{
+   fwrite_debian
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:fwrite
+}
+
+{
+   Leak/g_type_init_debian
+   Memcheck:Leak
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:g_type_init
+}
+
+{
+   Cond/deflate_cairo_debian
+   Memcheck:Cond
+   fun:*
+   fun:deflate
+   fun:compress2
+   fun:compress
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:cairo_surface_finish
+}
+
+{
+   Value4/deflate_cairo_debian
+   Memcheck:Value4
+   fun:*
+   fun:deflate
+   fun:compress2
+   fun:compress
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:cairo_surface_finish
+}
+
+{
+   Value4/deflate_cairo_debian
+   Memcheck:Value4
+   fun:*
+   fun:*
+   fun:*
+   fun:deflate
+   fun:compress2
+   fun:compress
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:cairo_surface_finish
 }

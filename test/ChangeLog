@@ -1,3 +1,7 @@
+2007-10-26  Jon K Hellan  <hellan@acm.org>
+
+	* common.supp: Add suppressions for Debian
+
 2007-10-21  Morten Welinder  <terra@gnome.org>
 
 	* test/t8000-valgrind.supp: Make a little more generic to also fit
