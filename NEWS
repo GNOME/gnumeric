@@ -3,6 +3,9 @@ Gnumeric 1.7.14
 Götz Waschk:
 	* Fix paradox plugin compilation.  [#489030]
 
+Jody:
+	* Improve ODF (and .sxc) import.
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.13
 
