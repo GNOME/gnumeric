@@ -4,7 +4,7 @@
 # Kenneth Christiansen <kenneth@ripen.dk>, 1999-2000.
 # Birger Langkjer <birger.langkjer@image.dk>, 1999.
 # Keld Simonsen <keld@dkuug.dk>, 2000-2002.
-# Morten Welinder <terra@diku.dk>, 2000-2001, 2007.
+# Morten Welinder <terra@gnome.dk>, 2000-2001, 2007.
 # Ole Laursen <olau@hardworking.dk>, 2001.
 #
 # Kontakt dansk@klid.dk før du ændrer i denne fil.
@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-09 21:27-0400\n"
-"PO-Revision-Date: 2007-10-25 21:42-0400\n"
+"PO-Revision-Date: 2007-10-26 09:56-0400\n"
 "Last-Translator: Morten Welinder <terra@gnome.org>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -12536,19 +12536,16 @@ msgstr "Fjern kanter"
 
 #. Data -> Filter
 #: ../src/wbc-gtk.c:1190 ../src/wbc-gtk-actions.c:1912
-#, fuzzy
 msgid "Add _Auto Filter"
-msgstr "Avanceret filtrering"
+msgstr "Tilføj automatisk filter"
 
 #: ../src/wbc-gtk.c:1192
-#, fuzzy
 msgid "Remove a filter"
-msgstr "<- Fjern alle"
+msgstr "Slet filter"
 
 #: ../src/wbc-gtk.c:1193
-#, fuzzy
 msgid "Add a filter"
-msgstr "Avanceret filtrering"
+msgstr "Tilføj automatisk filter"
 
 #: ../src/wbc-gtk.c:1204 ../src/wbc-gtk-actions.c:1470
 msgid "_Redo"
@@ -12561,20 +12558,19 @@ msgstr "_Fortryd"
 #: ../src/wbc-gtk.c:1234
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr ""
+msgstr "Gem ændringer af `%s' først?"
 
 #: ../src/wbc-gtk.c:1239
 msgid "Save changes to workbook before closing?"
-msgstr ""
+msgstr "Gem ændringer af arbejdsbogen før vinduet lukkes?"
 
 #: ../src/wbc-gtk.c:1246
 msgid "If you close without saving, changes will be discarded."
-msgstr ""
+msgstr "Hvis du lukker uden at gemme, så går dine rettelser tabt."
 
 #: ../src/wbc-gtk.c:1252
-#, fuzzy
 msgid "Discard all"
-msgstr "Forkast"
+msgstr "Forkast alle"
 
 #: ../src/wbc-gtk.c:1254 ../src/wbc-gtk.c:1261 ../src/wbc-gtk.c:1267
 msgid "Discard"
@@ -12593,9 +12589,8 @@ msgid "Don't close"
 msgstr "Luk ikke"
 
 #: ../src/wbc-gtk.c:1981
-#, fuzzy
 msgid "Cancel change"
-msgstr "Celleværdi"
+msgstr "Opgiv rettelse"
 
 #: ../src/wbc-gtk.c:1985
 #, fuzzy
@@ -13075,7 +13070,7 @@ msgstr "_Indhold"
 
 #: ../src/wbc-gtk-actions.c:1475
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr ""
+msgstr "Vis Gnumeric's dokumentation"
 
 #: ../src/wbc-gtk-actions.c:1477
 msgid "Gnumeric on the _Web"
@@ -13083,7 +13078,7 @@ msgstr "Gnumerics hjemmeside"
 
 #: ../src/wbc-gtk-actions.c:1478
 msgid "Browse to Gnumeric's website"
-msgstr ""
+msgstr "Gå til Gnumeric's hjemmeside"
 
 #: ../src/wbc-gtk-actions.c:1480
 msgid "_Live Assistance"
@@ -13098,7 +13093,6 @@ msgid "Report a _Problem"
 msgstr "Reporter et problem"
 
 #: ../src/wbc-gtk-actions.c:1484
-#, fuzzy
 msgid "Report problem"
 msgstr "Reporter et problem"
 
@@ -13462,7 +13456,7 @@ msgstr "_Billede..."
 
 #: ../src/wbc-gtk-actions.c:1698
 msgid "Insert an image"
-msgstr "_Indsæt et billede"
+msgstr "Indsæt et billede"
 
 #: ../src/wbc-gtk-actions.c:1701
 #, fuzzy
@@ -13891,9 +13885,8 @@ msgid "T_ext to Columns..."
 msgstr "T_ekst til kolonner"
 
 #: ../src/wbc-gtk-actions.c:1883
-#, fuzzy
 msgid "Parse the text in the selection into data"
-msgstr "Centrerer teksten i hver markering"
+msgstr "Ombryd teksten i de valgte celler"
 
 #: ../src/wbc-gtk-actions.c:1885
 msgid "_Consolidate..."
