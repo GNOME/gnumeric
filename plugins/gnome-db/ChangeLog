@@ -5,7 +5,7 @@
 2007-09-24  Jody Goldberg <jody@gnome.org>
 
 	* plugin-gnomedb.c (view_data_sources) : patch the application name.
-	  It would be better to get this from a libgnomedb header somewhere
+	  It would be better to get this from a libgnomedb header somewhere.
 
 2007-09-04  Jody Goldberg <jody@gnome.org>
 

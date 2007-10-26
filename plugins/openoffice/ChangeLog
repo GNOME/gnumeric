@@ -1,5 +1,13 @@
 2007-10-25  Jody Goldberg <jody@gnome.org>
 
+	* openoffice-read.c (oo_iteration) : new.
+
+2007-10-25  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : add stc.
+
+2007-10-25  Jody Goldberg <jody@gnome.org>
+
 	* openoffice-read.c (openoffice_file_open) : Assume files without a
 	  mimetype entry are OO.o 1.x rather than failing.
 	  Be more flexible about which mimetypes are acceptable.

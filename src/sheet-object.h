@@ -108,7 +108,9 @@ void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GnmRange const *cell_bound,
 				 float const	*offset,
 				 GODrawingAnchorDir direction);
-void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
+SheetObjectAnchor *
+     sheet_object_anchor_dup	(SheetObjectAnchor const *src);
+void sheet_object_anchor_assign	(SheetObjectAnchor *dst,
 				 SheetObjectAnchor const *src);
 
 /* Image rendering */

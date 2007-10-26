@@ -133,9 +133,11 @@ Architecture Changes
 
 5) Pivot tables
     5.1) xls
-	5.1.1) import pivot cache streams		{Jody}
-	5.1.2) export pivot cache streams
+	5.1.1) import pivot cache			{Jody}
+	5.1.2) export pivot cache
     5.2) OOX						{Jody}
+	5.2.1) import pivot cache 			{Jody}
+	5.2.2) export pivot cache			{Jody}
     5.3) ODF
     5.4) Look at swivel.com
 

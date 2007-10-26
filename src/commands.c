@@ -4514,9 +4514,9 @@ cmd_objects_move_redo (GnmCommand *cmd,
 			else
 				sheet_object_set_sheet (obj->data, cmd->sheet);
 		}
-		sheet_object_anchor_cpy	(&tmp, sheet_object_get_anchor (obj->data));
+		sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (obj->data));
 		sheet_object_set_anchor	(obj->data, anch->data);
-		sheet_object_anchor_cpy	(anch->data, &tmp);
+		sheet_object_anchor_assign (anch->data, &tmp);
 	}
 	me->first_time = FALSE;
 

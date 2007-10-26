@@ -56,6 +56,18 @@ static GQuark	sov_so_quark;
 static GQuark	sov_container_quark;
 
 static void
+cb_so_snap_to_grid (SheetObject *so, SheetControl *sc)
+{
+	SheetObjectAnchor *snapped =
+		sheet_object_anchor_dup	(sheet_object_get_anchor (so));
+	snapped->offset[0] = snapped->offset[1] = 0.;
+	snapped->offset[2] = snapped->offset[3] = 1.;
+	cmd_objects_move (sc_wbc (sc),
+		g_slist_prepend (NULL, so),
+		g_slist_prepend (NULL, snapped),
+		FALSE, _("Snap object to grid"));
+}
+static void
 cb_so_pull_to_front (SheetObject *so, SheetControl *sc)
 {
 	cmd_object_raise (sc_wbc (sc), so, cmd_object_pull_to_front);
@@ -109,6 +121,7 @@ sheet_object_populate_menu_real (SheetObject *so, GPtrArray *actions)
 	static SheetObjectAction const so_actions [] = {
 		{ "gtk-properties",	NULL,		NULL,  0, sheet_object_get_editor },
 		{ NULL,	NULL, NULL, 0, NULL },
+		{ "gtk-fullscreen",	N_("_Snap to Grid"),	NULL,  0, cb_so_snap_to_grid },
 		{ NULL,			N_("_Order"),	NULL,  1, NULL },
 			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front },
 			{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_pull_forward },
@@ -587,15 +600,23 @@ sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 {
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	sheet_object_anchor_cpy (&so->anchor, anchor);
+	sheet_object_anchor_assign (&so->anchor, anchor);
 	if (so->sheet != NULL) {
 		sheet_objects_max_extent (so->sheet);
 		sheet_object_update_bounds (so, NULL);
 	}
 }
 
+SheetObjectAnchor *
+sheet_object_anchor_dup	(SheetObjectAnchor const *src)
+{
+	SheetObjectAnchor *res = g_new0 (SheetObjectAnchor, 1);
+	sheet_object_anchor_assign (res, src);
+	return res;
+}
+
 void
-sheet_object_anchor_cpy	(SheetObjectAnchor *dst, SheetObjectAnchor const *src)
+sheet_object_anchor_assign (SheetObjectAnchor *dst, SheetObjectAnchor const *src)
 {
 	g_return_if_fail (src != NULL);
 	g_return_if_fail (dst != NULL);
@@ -846,7 +867,7 @@ sheet_object_dup (SheetObject const *so)
 
 	SO_CLASS (so)->copy (new_so, so);
 	new_so->flags = so->flags;
-	sheet_object_anchor_cpy (&new_so->anchor, &so->anchor);
+	sheet_object_anchor_assign (&new_so->anchor, &so->anchor);
 
 	return new_so;
 }

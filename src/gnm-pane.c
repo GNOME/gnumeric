@@ -1959,7 +1959,7 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 
 	g_return_if_fail (pane->size_tip != NULL);
 
-	sheet_object_anchor_cpy	(&anchor, sheet_object_get_anchor (so));
+	sheet_object_anchor_assign (&anchor, sheet_object_get_anchor (so));
 	scg_object_coords_to_anchor (scg, coords, &anchor);
 	sheet_object_anchor_to_pts (&anchor, scg_sheet (scg), pts);
 	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),
@@ -2237,13 +2237,13 @@ void
 gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
 	if (NULL == pane->cursor.expr_range)
-		pane->cursor.expr_range = ITEM_CURSOR (foo_canvas_item_new (
+		pane->cursor.expr_range = (ItemCursor *)foo_canvas_item_new (
 			FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
 			item_cursor_get_type (),
 			"SheetControlGUI",	pane->simple.scg,
 			"style",		ITEM_CURSOR_BLOCK,
 			"color",		"red",
-			NULL));
+			NULL);
 
 	item_cursor_bound_set (pane->cursor.expr_range, r);
 }
@@ -2992,12 +2992,17 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 static void
 cb_bounds_changed (SheetObject *so, FooCanvasItem *sov)
 {
-	double coords[4];
+	double coords[4], *cur;
 	SheetControlGUI *scg = GNM_SIMPLE_CANVAS (sov->canvas)->scg;
-	if (NULL != scg->selected_objects &&
-	    NULL != g_hash_table_lookup (scg->selected_objects, so))
-		return;
+
 	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
+	if (NULL != scg->selected_objects &&
+	    NULL != (cur = g_hash_table_lookup (scg->selected_objects, so))) {
+		int i;
+		for (i = 4; i-- > 0 ;) cur[i] = coords[i];
+		gnm_pane_object_update_bbox (GNM_PANE (sov->canvas), so);
+	}
+
 	sheet_object_view_set_bounds (SHEET_OBJECT_VIEW (sov),
 		coords, so->flags & SHEET_OBJECT_IS_VISIBLE);
 }

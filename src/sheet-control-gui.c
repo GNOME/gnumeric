@@ -2299,8 +2299,8 @@ typedef struct {
 static void
 cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsData *data)
 {
-	SheetObjectAnchor *anchor = g_new0 (SheetObjectAnchor, 1);
-	sheet_object_anchor_cpy	(anchor, sheet_object_get_anchor (so));
+	SheetObjectAnchor *anchor = sheet_object_anchor_dup (
+		sheet_object_get_anchor (so));
 	scg_object_coords_to_anchor (data->scg, coords, anchor);
 	data->objects = g_slist_prepend (data->objects, so);
 	data->anchors = g_slist_prepend (data->anchors, anchor);

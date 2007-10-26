@@ -475,6 +475,16 @@ oo_date_convention (GsfXMLIn *xin, xmlChar const **attrs)
 				workbook_set_1904 (state->pos.wb, TRUE);
 		}
 }
+static void
+oo_iteration (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	/* <table:iteration table:status="enable"/> */
+	OOParseState *state = (OOParseState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "status"))
+			workbook_iteration_enabled (state->pos.wb,
+				strcmp (CXML2C (attrs[1]), "enable") == 0);
+}
 
 static void
 oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2474,6 +2484,10 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
   GSF_XML_IN_NODE (OFFICE, OFFICE_BODY, OO_NS_OFFICE, "body", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_BODY, TABLE_CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TABLE_CALC_SETTINGS, DATE_CONVENTION, OO_NS_TABLE, "null-date", GSF_XML_NO_CONTENT, oo_date_convention, NULL),
+      GSF_XML_IN_NODE (TABLE_CALC_SETTINGS, ITERATION, OO_NS_TABLE, "iteration", GSF_XML_NO_CONTENT, oo_iteration, NULL),
+    GSF_XML_IN_NODE (OFFICE_BODY, VALIDATIONS, OO_NS_TABLE, "content-validations", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (VALIDATIONS, VALIDATION, OO_NS_TABLE, "content-validation", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (VALIDATION, VALIDATION_MSG, OO_NS_TABLE, "error-message", GSF_XML_NO_CONTENT, NULL, NULL),
 
     GSF_XML_IN_NODE (OFFICE_BODY, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
       GSF_XML_IN_NODE (TABLE, FORMS,	 OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),

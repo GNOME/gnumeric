@@ -1,3 +1,16 @@
+2007-10-25  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-pane.c (cb_bounds_changed) : update the ctrl pt positions if
+	  the objects position changes.
+
+	* src/sheet-object.c (sheet_object_anchor_assign) : renamed from
+	  sheet_object_anchor_cpy to clarify the purpose and follow naming
+	  conventions.
+	(sheet_object_anchor_dup) : new.
+	(cb_so_snap_to_grid) : new callback to snap an object to the
+	  containing grid.
+	(sheet_object_populate_menu_real) : use it here.
+
 2007-10-25  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (cb_style_list_add_node): Handle the case

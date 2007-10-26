@@ -13,9 +13,10 @@
 				<_description>Open/Star Calc (*.sxc, *.ods)</_description>
 			</information>
 			<suffixes>
-				<suffix>sxc</suffix>
 				<suffix>ods</suffix>
 				<suffix>odt</suffix>
+				<suffix>sxc</suffix>
+				<suffix>stc</suffix>
 			</suffixes>
 			<mime-types>
 				<mime-type>vnd.oasis.opendocument.spreadsheet</mime-type>

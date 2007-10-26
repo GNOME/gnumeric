@@ -11,6 +11,7 @@ case "$1" in
 
 # OpenOffice 1.x
     *.sxc)  suffix=.sxc ;;
+    *.stc)  suffix=.stc ;;
     *.sxt)  suffix=.sxt ;;
     *.sxp)  suffix=.sxp ;;
 
