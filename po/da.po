@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-09 21:27-0400\n"
-"PO-Revision-Date: 2007-07-23 16:35-0400\n"
+"PO-Revision-Date: 2007-10-25 21:42-0400\n"
 "Last-Translator: Morten Welinder <terra@gnome.org>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -601,24 +601,20 @@ msgid "MS Excel (tm) 2003 SpreadsheetML"
 msgstr "MS Excel (tm)"
 
 #: ../plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 2007"
-msgstr "MS Excel (tm)"
+msgstr "MS Excel (tm) 2007"
 
 #: ../plugins/excel/plugin.xml.in.h:6
-#, fuzzy
 msgid "MS Excel (tm) 5.0/95"
-msgstr "MS Excel (tm)"
+msgstr "MS Excel (tm) 5.0/95"
 
 #: ../plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP"
-msgstr "MS Excel (tm) 97-filformat"
+msgstr "MS Excel (tm) 97/2000/XP"
 
 #: ../plugins/excel/plugin.xml.in.h:8
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel (tm) 97-filformat"
+msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: ../plugins/fn-complex/functions.c:1607
 msgid "real,im,suffix"
@@ -3720,17 +3716,14 @@ msgid "Bricks"
 msgstr "Mursten"
 
 #: ../src/dialogs/cell-format.glade.h:37
-#, fuzzy
 msgid "C_enter"
-msgstr "Centrér"
+msgstr "_Centrér"
 
 #: ../src/dialogs/cell-format.glade.h:38
-#, fuzzy
 msgid "C_olor:"
-msgstr "Farve:"
+msgstr "_Farve:"
 
 #: ../src/dialogs/cell-format.glade.h:39
-#, fuzzy
 msgid "Ce_nter"
 msgstr "Centrér"
 
@@ -4015,9 +4008,8 @@ msgid "Clear all fields from the sort specification"
 msgstr ""
 
 #: ../src/dialogs/cell-sort.glade.h:5
-#, fuzzy
 msgid "Direction:"
-msgstr "Katalog"
+msgstr "Retning:"
 
 #: ../src/dialogs/cell-sort.glade.h:6
 #, fuzzy
@@ -6999,19 +6991,18 @@ msgid "Display \"%s\" could not be opened."
 msgstr ""
 
 #: ../src/dialogs/dialog-view.c:160
-#, fuzzy
 msgid "This screen"
-msgstr "Diskret"
+msgstr "Denne skærm"
 
 #: ../src/dialogs/dialog-view.c:161
 #, c-format
 msgid "Screen %d [This screen]"
-msgstr ""
+msgstr "Skærm %d [Denne skærm]"
 
 #: ../src/dialogs/dialog-view.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Screen %d"
-msgstr "Ark%d"
+msgstr "Skærm %d"
 
 #: ../src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
@@ -8583,9 +8574,8 @@ msgid "_Search for"
 msgstr "_Søg efter"
 
 #: ../src/dialogs/sheet-order.glade.h:1
-#, fuzzy
 msgid "Manage Sheets..."
-msgstr "Omdøb ark"
+msgstr "Omrokér ark..."
 
 #: ../src/dialogs/sheet-order.glade.h:2 ../src/wbc-gtk-actions.c:1630
 msgid "_Duplicate"
@@ -8963,7 +8953,7 @@ msgstr "Angivne skærm"
 
 #: ../src/dialogs/view.glade.h:7
 msgid "_Share cursor position"
-msgstr "Del markørposition"
+msgstr "_Fælles markørposition"
 
 #: ../src/dialogs/workbook-attr.glade.h:2
 #, fuzzy
@@ -9049,7 +9039,7 @@ msgstr "Række: %i"
 #: ../src/tools/analysis-tools.c:4386
 #, c-format
 msgid "Column %i"
-msgstr "Kolonne: %i"
+msgstr "Kolonne %i"
 
 #: ../src/tools/analysis-tools.c:199 ../src/tools/analysis-tools.c:388
 #, c-format
@@ -9295,23 +9285,23 @@ msgstr ""
 "variable og prøv at udføre regressionen igen."
 
 #: ../src/tools/analysis-tools.c:3353
-#, fuzzy, c-format
+#, c-format
 msgid "Regression (%s)"
-msgstr "Regression"
+msgstr "Regression (%s)"
 
 #: ../src/tools/analysis-tools.c:3417
 msgid "Standard Error"
 msgstr "Standardafvigelse"
 
 #: ../src/tools/analysis-tools.c:3479
-#, fuzzy, c-format
+#, c-format
 msgid "Moving Average (%s)"
-msgstr "Rullende gennemsnit"
+msgstr "Rullende gennemsnit (%s)"
 
 #: ../src/tools/analysis-tools.c:3612
-#, fuzzy, c-format
+#, c-format
 msgid "Exponential Smoothing (%s)"
-msgstr "Eksponentiel udjævning"
+msgstr "Eksponentiel udjævning (%s)"
 
 #: ../src/tools/analysis-tools.c:3680
 msgid "Point"
@@ -11994,7 +11984,7 @@ msgstr "_Kolonnebredde..."
 #: ../src/sheet-control-gui.c:1826 ../src/sheet-control-gui.c:1834
 #: ../src/wbc-gtk-actions.c:1754 ../src/wbc-gtk-actions.c:1771
 msgid "_Hide"
-msgstr "_Skjul"
+msgstr "Skj_ul"
 
 #: ../src/sheet-control-gui.c:1828 ../src/sheet-control-gui.c:1836
 #: ../src/wbc-gtk-actions.c:1757 ../src/wbc-gtk-actions.c:1774
@@ -12496,9 +12486,8 @@ msgid "#N/A"
 msgstr "#N/A"
 
 #: ../src/wbc-gtk.c:412
-#, fuzzy
 msgid "Manage sheets..."
-msgstr "Omdøb ark"
+msgstr "Omrokér ark..."
 
 #: ../src/wbc-gtk.c:415
 #, fuzzy
@@ -12529,7 +12518,7 @@ msgstr "Opt_ø paneler"
 
 #: ../src/wbc-gtk.c:1179 ../src/wbc-gtk-actions.c:1670
 msgid "_Freeze Panes"
-msgstr "_Frys paneler..."
+msgstr "Frys _paneler..."
 
 #: ../src/wbc-gtk.c:1181
 #, fuzzy
@@ -12896,9 +12885,8 @@ msgid "Format as Currency"
 msgstr "Formatér som valuta"
 
 #: ../src/wbc-gtk-actions.c:1264
-#, fuzzy
 msgid "Format as Accounting"
-msgstr "Formatér som videnskabeligt tal"
+msgstr "Formatér som bogføringstal"
 
 #: ../src/wbc-gtk-actions.c:1271 ../src/wbc-gtk-actions.c:1278
 msgid "Format as Percentage"
@@ -12985,7 +12973,7 @@ msgstr "_Vinduer"
 
 #: ../src/wbc-gtk-actions.c:1425
 msgid "_Toolbars"
-msgstr "_Værktøjslinjer..."
+msgstr "Værktøjs_linjer..."
 
 #: ../src/wbc-gtk-actions.c:1427
 msgid "_Names"
@@ -12994,7 +12982,7 @@ msgstr "_Navne"
 # specielle giver et forkert indtryk
 #: ../src/wbc-gtk-actions.c:1428
 msgid "S_pecial"
-msgstr "_Andet"
+msgstr "An_det"
 
 #: ../src/wbc-gtk-actions.c:1429
 msgid "F_ormat"
@@ -13011,7 +12999,7 @@ msgstr "_Ark"
 
 #: ../src/wbc-gtk-actions.c:1433
 msgid "_Tools"
-msgstr "_Værktøj"
+msgstr "Vær_ktøj"
 
 #: ../src/wbc-gtk-actions.c:1434
 #, fuzzy
@@ -13039,11 +13027,11 @@ msgstr "_Middel:"
 
 #: ../src/wbc-gtk-actions.c:1440
 msgid "_Filter"
-msgstr "_Filter"
+msgstr "_Filtrér"
 
 #: ../src/wbc-gtk-actions.c:1441
 msgid "_Group and Outline"
-msgstr "_Grupper og omrids"
+msgstr "G_rupper og omrids"
 
 #: ../src/wbc-gtk-actions.c:1442
 msgid "Get External _Data"
@@ -13260,7 +13248,7 @@ msgstr "Markér en matrix af celler"
 
 #: ../src/wbc-gtk-actions.c:1592
 msgid "Select _Depends"
-msgstr "Markér _afhængige"
+msgstr "Markér af_hængige"
 
 # edit er overflødigt
 #: ../src/wbc-gtk-actions.c:1593
@@ -13268,20 +13256,18 @@ msgid "Select all the cells that depend on the current edit cell"
 msgstr "Markér alle cellerne som afhænger af den aktive celle"
 
 #: ../src/wbc-gtk-actions.c:1595
-#, fuzzy
 msgid "Select _Inputs"
-msgstr "Vælg skrifttype"
+msgstr "Vælg _inddata"
 
 # edit er overflødigt
 #: ../src/wbc-gtk-actions.c:1596
-#, fuzzy
 msgid "Select all the cells are used by the current edit cell"
-msgstr "Markér alle cellerne som afhænger af den aktive celle"
+msgstr "Markér alle celler, som afhænger af den aktive celle"
 
 #. Edit -> Fill
 #: ../src/wbc-gtk-actions.c:1600
 msgid "Auto_fill"
-msgstr "Automatisk ud_fyldning"
+msgstr "_Automatisk udfyldning"
 
 # dækker så nogenlunde
 #: ../src/wbc-gtk-actions.c:1601
@@ -13323,14 +13309,12 @@ msgstr ""
 
 #. Edit -> Sheet
 #: ../src/wbc-gtk-actions.c:1617
-#, fuzzy
 msgid "_Manage Sheets..."
-msgstr "Om_rokér ark..."
+msgstr "Omrokér _ark..."
 
 #: ../src/wbc-gtk-actions.c:1618
-#, fuzzy
 msgid "Manage the sheets in this workbook"
-msgstr "Ingen ark i arbejdsbogen"
+msgstr "Omrokér ark i denne arbejdsbog"
 
 #: ../src/wbc-gtk-actions.c:1621 ../src/wbc-gtk-actions.c:1625
 msgid "Insert a new sheet"
@@ -13341,9 +13325,8 @@ msgid "_Append"
 msgstr "_Tilføj"
 
 #: ../src/wbc-gtk-actions.c:1628
-#, fuzzy
 msgid "Append a new sheet"
-msgstr "Indsæt et nyt ark"
+msgstr "Tilføj et nyt ark"
 
 #: ../src/wbc-gtk-actions.c:1631
 msgid "Make a copy of the current sheet"
@@ -13372,7 +13355,7 @@ msgstr "Gentag den sidste handling"
 
 #: ../src/wbc-gtk-actions.c:1644
 msgid "P_aste special..."
-msgstr "_Avanceret indsætning..."
+msgstr "A_vanceret indsætning..."
 
 #: ../src/wbc-gtk-actions.c:1645
 msgid "Paste with optional filters and transformations"
@@ -13380,7 +13363,7 @@ msgstr "Indsæt med valgbare filtre og transformationer"
 
 #: ../src/wbc-gtk-actions.c:1648
 msgid "Co_mment..."
-msgstr "_Kommentar"
+msgstr "K_ommentar"
 
 #: ../src/wbc-gtk-actions.c:1649
 msgid "Edit the selected cell's comment"
@@ -13388,7 +13371,7 @@ msgstr "Redigér den valgte celles kommentar"
 
 #: ../src/wbc-gtk-actions.c:1652
 msgid "_Find..."
-msgstr "_Søg..."
+msgstr "Søg..."
 
 #: ../src/wbc-gtk-actions.c:1653
 msgid "Search for something"
@@ -13404,7 +13387,7 @@ msgstr "Søg efter en tekst og erstat den med noget andet"
 
 #: ../src/wbc-gtk-actions.c:1658
 msgid "_Goto cell..."
-msgstr "_Gå til celle..."
+msgstr "Gå _til celle..."
 
 #: ../src/wbc-gtk-actions.c:1659
 msgid "Jump to a specified cell"
@@ -13466,24 +13449,20 @@ msgid "Insert new rows"
 msgstr "Indsæt nye rækker"
 
 #: ../src/wbc-gtk-actions.c:1694
-#, fuzzy
 msgid "C_hart..."
-msgstr "_Sortér..."
+msgstr "_Graf..."
 
 #: ../src/wbc-gtk-actions.c:1695
-#, fuzzy
 msgid "Insert a Chart"
-msgstr "_Indsæt ny"
+msgstr "Indsæt en graf"
 
 #: ../src/wbc-gtk-actions.c:1697
-#, fuzzy
 msgid "_Image..."
-msgstr "_Gem..."
+msgstr "_Billede..."
 
 #: ../src/wbc-gtk-actions.c:1698
-#, fuzzy
 msgid "Insert an image"
-msgstr "_Indsæt ny"
+msgstr "_Indsæt et billede"
 
 #: ../src/wbc-gtk-actions.c:1701
 #, fuzzy
@@ -13578,13 +13557,12 @@ msgstr ""
 "Formatér et celleområde som foreskrevet af en allerede defineret skabelon"
 
 #: ../src/wbc-gtk-actions.c:1743
-#, fuzzy
 msgid "Direction"
-msgstr "Katalog"
+msgstr "Retning"
 
 #: ../src/wbc-gtk-actions.c:1744
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
-msgstr ""
+msgstr "Skift tekstretning mellem venstre-mod-højre og højre-mod-venstre"
 
 #. Format -> Col
 #: ../src/wbc-gtk-actions.c:1748
@@ -13695,9 +13673,8 @@ msgstr ""
 "bestemt målværdi"
 
 #: ../src/wbc-gtk-actions.c:1797
-#, fuzzy
 msgid "Si_mulation..."
-msgstr "Følsomhedsrapport"
+msgstr "_Simulering"
 
 #: ../src/wbc-gtk-actions.c:1798
 msgid ""
@@ -13920,7 +13897,7 @@ msgstr "Centrerer teksten i hver markering"
 
 #: ../src/wbc-gtk-actions.c:1885
 msgid "_Consolidate..."
-msgstr "_Foren data..."
+msgstr "F_oren data..."
 
 #: ../src/wbc-gtk-actions.c:1886
 msgid "Consolidate regions using a function"
@@ -14013,7 +13990,6 @@ msgid "Sum into the current cell"
 msgstr "Summér til den aktuelle celle."
 
 #: ../src/wbc-gtk-actions.c:1931
-#, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "Redigér en funktion i den aktuelle celle."
 
@@ -14156,29 +14132,24 @@ msgid "Split merged ranges of cells"
 msgstr "Opsplit et celleinterval"
 
 #: ../src/wbc-gtk-actions.c:1994
-#, fuzzy
 msgid "Format the selection as General"
-msgstr "Formatér de valgte celler som valuta"
+msgstr "Formatér de valgte celler som standard"
 
 #: ../src/wbc-gtk-actions.c:1997
-#, fuzzy
 msgid "Format the selection as numbers"
-msgstr "Formatér de valgte celler som valuta"
+msgstr "Formatér de valgte celler som tal"
 
 #: ../src/wbc-gtk-actions.c:1999
-#, fuzzy
 msgid "Currency"
-msgstr "_Valuta"
+msgstr "Valuta"
 
 #: ../src/wbc-gtk-actions.c:2000
-#, fuzzy
 msgid "Format the selection as currency"
 msgstr "Formatér de valgte celler som valuta"
 
 #: ../src/wbc-gtk-actions.c:2002
-#, fuzzy
 msgid "Accounting"
-msgstr "_Bogføring"
+msgstr "Bogføring"
 
 #: ../src/wbc-gtk-actions.c:2003
 #, fuzzy
@@ -14186,9 +14157,8 @@ msgid "Format the selection as accounting"
 msgstr "Formatér de valgte celler som valuta"
 
 #: ../src/wbc-gtk-actions.c:2005
-#, fuzzy
 msgid "Percentage"
-msgstr "_Procentdel"
+msgstr "Procentdel"
 
 #: ../src/wbc-gtk-actions.c:2006
 #, fuzzy
@@ -14196,23 +14166,20 @@ msgid "Format the selection as percentage"
 msgstr "Formatér de valgte celler som procentdele"
 
 #: ../src/wbc-gtk-actions.c:2008
-#, fuzzy
 msgid "Scientific"
-msgstr "_Videnskabelig"
+msgstr "Videnskabelig"
 
 #: ../src/wbc-gtk-actions.c:2009
-#, fuzzy
 msgid "Format the selection as scientific"
-msgstr "Formatér som videnskabeligt tal"
+msgstr "Formatér de valgte celler som videnskabelige tal"
 
 #: ../src/wbc-gtk-actions.c:2011
 msgid "Date"
 msgstr "Dato"
 
 #: ../src/wbc-gtk-actions.c:2012
-#, fuzzy
 msgid "Format the selection as date"
-msgstr "Formatér de valgte celler som valuta"
+msgstr "Formatér de valgte celler som datoer"
 
 #: ../src/wbc-gtk-actions.c:2014
 msgid "Time"
@@ -14244,12 +14211,10 @@ msgid "Clear the border around the selection"
 msgstr "Centrerer teksten i hver markering"
 
 #: ../src/wbc-gtk-actions.c:2024
-#, fuzzy
 msgid "Thousands Separator"
 msgstr "Tusindadskillelse"
 
 #: ../src/wbc-gtk-actions.c:2025
-#, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Brug tusindadskillelser i de valgte celler"
 
@@ -14258,26 +14223,24 @@ msgid "Increase Precision"
 msgstr "Øg præcision"
 
 #: ../src/wbc-gtk-actions.c:2028
-#, fuzzy
 msgid "Increase the number of decimals displayed"
-msgstr "Hæver det antal decimaler som vises"
+msgstr "Vis flere decimaler"
 
 #: ../src/wbc-gtk-actions.c:2030
 msgid "Decrease Precision"
 msgstr "Formindsk præcision"
 
 #: ../src/wbc-gtk-actions.c:2031
-#, fuzzy
 msgid "Decrease the number of decimals displayed"
-msgstr "Sænker det antal decimaler som vises"
+msgstr "Vis færre decimaler"
 
 #: ../src/wbc-gtk-actions.c:2037
 msgid "Decrease the indent, and align the contents to the left"
-msgstr ""
+msgstr "Indryk mindre"
 
 #: ../src/wbc-gtk-actions.c:2040
 msgid "Increase the indent, and align the contents to the left"
-msgstr ""
+msgstr "Indryk mere"
 
 #: ../src/wbc-gtk-actions.c:2071
 msgid "Display _Outlines"
@@ -14346,11 +14309,11 @@ msgstr "Slå visning af rækkeoverskrifter til/fra"
 #. TODO : Make this a sub menu when we have more convention types
 #: ../src/wbc-gtk-actions.c:2097
 msgid "Use R1C1 N_otation "
-msgstr ""
+msgstr "Brug R1C1-notation"
 
 #: ../src/wbc-gtk-actions.c:2098
 msgid "Display addresses as R1C1 or A1"
-msgstr ""
+msgstr "Vis adresser som R1C1 eller A1"
 
 #: ../src/wbc-gtk-actions.c:2102
 msgid "_Left Align"
@@ -14365,9 +14328,8 @@ msgid "_Center"
 msgstr "_Centrér"
 
 #: ../src/wbc-gtk-actions.c:2106 ../src/wbc-gtk-actions.c:2171
-#, fuzzy
 msgid "Center horizontally"
-msgstr "_Vandret"
+msgstr "Centrér vandret"
 
 #: ../src/wbc-gtk-actions.c:2108
 msgid "_Right Align"
@@ -14382,9 +14344,8 @@ msgid "_Center Across Selection"
 msgstr "_Centrér hen over markering"
 
 #: ../src/wbc-gtk-actions.c:2112 ../src/wbc-gtk-actions.c:2175
-#, fuzzy
 msgid "Center horizontally across the selection"
-msgstr "Centrér hen over markering"
+msgstr "Centrér vandret hen over markering"
 
 #: ../src/wbc-gtk-actions.c:2115
 #, fuzzy
@@ -14425,20 +14386,19 @@ msgstr "Tyk bund"
 
 #: ../src/wbc-gtk-actions.c:2133
 msgid "View _Statusbar"
-msgstr ""
+msgstr "Vis statuslinje"
 
 #: ../src/wbc-gtk-actions.c:2134
 msgid "Toggle visibility of statusbar"
-msgstr ""
+msgstr "Slå visning af statuslinje til eller fra"
 
 #: ../src/wbc-gtk-actions.c:2138
-#, fuzzy
 msgid "F_ull Screen"
-msgstr "_Målsøgning..."
+msgstr "_Fuldskærm"
 
 #: ../src/wbc-gtk-actions.c:2139
 msgid "Switch to or from full screen mode"
-msgstr ""
+msgstr "Skift mellem fuldskærm or vindue"
 
 #: ../src/wbc-gtk-actions.c:2145
 msgid "_Bold"
@@ -14529,35 +14489,33 @@ msgstr "%s!%s er låst"
 
 #: ../src/wbc-gtk-edit.c:774
 msgid "Unprotect the workbook to enable editing."
-msgstr ""
+msgstr "Slå beskyttelsen af arbejdsbogen fra for at redigere"
 
 #: ../src/wbc-gtk-edit.c:775
 msgid "Unprotect the sheet to enable editing."
-msgstr ""
+msgstr "Slå beskyttelsen af arket fra for at redigere"
 
 #: ../src/wbc-gtk-edit.c:794
 msgid "You are about to edit a cell with \"text\" format."
-msgstr ""
+msgstr "Du er ved at rette en celle, der har tekstformat."
 
 #: ../src/wbc-gtk-edit.c:795
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing "
 "then the contents will be turned into text."
-msgstr ""
+msgstr "Cellen indeholder ikke tekst i øjeblikket; hvis du redigerer, vil indholdet blive ændret til tekst."
 
 #: ../src/wbc-gtk-edit.c:800
-#, fuzzy
 msgid "Remove format"
-msgstr "Fjern kanter"
+msgstr "Fjern format"
 
 #: ../src/wbc-gtk-edit.c:805
 msgid "Show this dialog next time."
 msgstr ""
 
 #: ../src/workbook.c:253
-#, fuzzy
 msgid "Enable automatic recalculation."
-msgstr "Kan ikke indsætte i markering"
+msgstr "Slå automatisk genudregning til."
 
 #: ../src/workbook.c:313
 #, c-format
@@ -14565,39 +14523,35 @@ msgid "Book%d.%s"
 msgstr "Bog%d.%s"
 
 #: ../src/workbook.c:1340
-#, fuzzy
 msgid "Renaming sheet"
-msgstr "Omdøb ark"
+msgstr "Omdøbning af ark"
 
 #: ../src/workbook.c:1341
-#, fuzzy, c-format
+#, c-format
 msgid "Renaming %d sheets"
-msgstr "Omdøb ark"
+msgstr "Omdøbning af %d ark"
 
 #: ../src/workbook.c:1344
-#, fuzzy
 msgid "Adding sheet"
-msgstr "Omdøb ark"
+msgstr "Tilføjelse af ark"
 
 #: ../src/workbook.c:1345
-#, fuzzy, c-format
+#, c-format
 msgid "Adding %d sheets"
-msgstr "Omdøb ark"
+msgstr "Tilføjelse af %d ark"
 
 #: ../src/workbook.c:1352
-#, fuzzy
 msgid "Inserting sheet"
-msgstr "Indsæt et nyt ark"
+msgstr "Indsættelse af et nyt ark"
 
 #: ../src/workbook.c:1353
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d sheets"
-msgstr "Indsættelse af %d rækker før %s"
+msgstr "Indsættelse af %d rækker ark"
 
 #: ../src/workbook.c:1355
-#, fuzzy
 msgid "Changing sheet tab colors"
-msgstr "Ændring af formatering af %s"
+msgstr "Ændring af arkfarve"
 
 #: ../src/workbook.c:1357
 #, fuzzy
@@ -14700,9 +14654,9 @@ msgid "An unexplained error happened while saving."
 msgstr ""
 
 #: ../src/workbook-view.c:854
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' for writing: %s"
-msgstr "Kan ikke åbne"
+msgstr "Kan ikke skrive til `%s': %s"
 
 #: ../src/workbook-view.c:858
 #, fuzzy, c-format

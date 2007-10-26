@@ -77,7 +77,6 @@
 #include <hildon-widgets/hildon-program.h>
 #endif
 
-#define CHECK_MENU_UNDERLINES
 #define	SHEET_CONTROL_KEY	"SheetControl"
 
 enum {
@@ -2809,8 +2808,6 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 	gtk_toolbar_set_show_arrow (toolbar, attached);
 }
 
-#ifdef CHECK_MENU_UNDERLINES
-
 static char const *
 get_accel_label (GtkMenuItem *item, guint *key)
 {
@@ -2871,8 +2868,6 @@ check_underlines (GtkWidget *w, char const *path)
 	g_list_free (children);
 	g_hash_table_destroy (used);
 }
-
-#endif
 
 /****************************************************************************/
 /* window list menu */
@@ -4496,11 +4491,11 @@ wbc_gtk_init (GObject *obj)
 	/* updates the undo/redo menu labels before check_underlines
 	 * to avoid problems like #324692. */
 	wb_control_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
-#ifdef CHECK_MENU_UNDERLINES
-	gtk_container_foreach (GTK_CONTAINER (wbcg->menu_zone),
-			       (GtkCallback)check_underlines,
-			       (gpointer)"");
-#endif
+	if (GNM_VERSION_MAJOR % 2) {
+		gtk_container_foreach (GTK_CONTAINER (wbcg->menu_zone),
+				       (GtkCallback)check_underlines,
+				       (gpointer)"");
+	}
 
 #ifdef USE_HILDON
 	hildon_window_set_menu (HILDON_WINDOW (wbcg_toplevel (wbcg)),
