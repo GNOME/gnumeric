@@ -717,7 +717,9 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 		void (*func) (GnmOOExport *state, GsfOutput *child);
 		char const *name;
 	} const streams[] = {
+		/* Must be first element to ensure it is not compressed */
 		{ odf_write_mimetype,	"mimetype" },
+
 		{ odf_write_content,	"content.xml" },
 		{ odf_write_styles,	"styles.xml" },
 		{ odf_write_meta,	"meta.xml" },
@@ -742,9 +744,15 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.conv = odf_expr_conventions_new ();
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child  (outfile, streams[i].name, FALSE);
-		streams[i].func (&state, child);
-		gsf_output_close (child);
-		g_object_unref (G_OBJECT (child));
+		if (NULL != child) {
+			if (0 == i) /* do not compress the mimetype */
+				g_object_set (G_OBJECT (child),
+					"compression-level", GSF_ZIP_STORED, NULL);
+
+			streams[i].func (&state, child);
+			gsf_output_close (child);
+			g_object_unref (G_OBJECT (child));
+		}
 	}
 
 	g_free (state.conv);

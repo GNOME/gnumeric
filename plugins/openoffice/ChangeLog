@@ -1,3 +1,20 @@
+2007-10-25  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : Assume files without a
+	  mimetype entry are OO.o 1.x rather than failing.
+	  Be more flexible about which mimetypes are acceptable.
+	(oo_row_start) : Do not set a size if none was specified (some .sxc files)
+	(oo_col_start) : ditto.
+	(oo_colrow_reset_defaults) : ditto.
+	(oo_style_prop_cell) : valign==automatic is usually bottom, sometimes
+	  center, never top.
+	  Fully support protected and hidden.
+	(oo_cell_content_end) : Handle a series of <p> in a single cell that
+	  designate embedded newlines.
+
+	* openoffice-write.c (openoffice_file_save) : ensure that we do not
+	  compress the mimetype.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.13

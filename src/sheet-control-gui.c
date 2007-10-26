@@ -2063,7 +2063,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 		G_CALLBACK (scg_mode_edit), scg, G_CONNECT_SWAPPED);
 
 #if 0
-	if (SO_CLASS (so)->set_active != NULL)
+	if (SO_CLASS (so)->set_active != NULL) {
 		SCG_FOREACH_PANE (scg, pane, {
 			SO_CLASS (so)->set_active (so,
 				sheet_object_get_view (so, pane), TRUE);

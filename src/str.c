@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * String management for the Gnumeric Spreadsheet
  *
@@ -194,4 +195,32 @@ gnm_string_shutdown (void)
 	go_mem_chunk_destroy (string_pool, FALSE);
 	string_pool = NULL;
 #endif
+}
+
+/**
+ * gnm_string_concat:
+ * @a : #GnmString
+ * @b : #GnmString
+ *
+ * A place holder for when we add rich text and phonetics
+ * to GnmString
+ **/
+GnmString *
+gnm_string_concat (GnmString const *a, GnmString const *b)
+{
+	return gnm_string_get_nocopy (g_strconcat (a->str, b->str, NULL));
+}
+
+/**
+ * gnm_string_concat_str:
+ * @a : #GnmString
+ * @b :
+ *
+ * A place holder for when we add rich text and phonetics
+ * to GnmString
+ **/
+GnmString *
+gnm_string_concat_str (GnmString const *a, char const *b)
+{
+	return gnm_string_get_nocopy (g_strconcat (a->str, b, NULL));
 }

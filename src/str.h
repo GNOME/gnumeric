@@ -17,4 +17,7 @@ GnmString *gnm_string_get_nocopy (char *s);
 GnmString *gnm_string_ref        (GnmString *str);
 void       gnm_string_unref      (GnmString *str);
 
+GnmString *gnm_string_concat     (GnmString const *a, GnmString const *b);
+GnmString *gnm_string_concat_str (GnmString const *a, char const *b);
+
 #endif /* GNUMERIC_STRING_H */

@@ -33,6 +33,7 @@
 #include <sheet-filter.h>
 #include <ranges.h>
 #include <cell.h>
+#include <str.h>
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -83,14 +84,19 @@ attr_eq (xmlChar const *a, char const *s)
 }
 
 /* Filter Type */
-#define mime_openofficeorg1	"application/vnd.sun.xml.calc"
-#define mime_opendocument	"application/vnd.oasis.opendocument.spreadsheet"
-
 typedef enum {
-	OOO_VER_UNKNOW	= -1,
+	OOO_VER_UNKNOWN	= -1,
 	OOO_VER_1	=  0,
 	OOO_VER_OPENDOC	=  1
 } OOVer;
+static struct {
+	char const * const mime_type;
+	int version;
+} const OOVersions[] = {
+	{ "application/vnd.sun.xml.calc",  OOO_VER_1 },
+	{ "application/vnd.oasis.opendocument.spreadsheet", 		OOO_VER_OPENDOC },
+	{ "application/vnd.oasis.opendocument.spreadsheet-template",	OOO_VER_OPENDOC }
+};
 
 #define OD_BORDER_THIN		1
 #define OD_BORDER_MEDIUM	2.5
@@ -531,12 +537,14 @@ oo_colrow_reset_defaults (OOParseState *state, gboolean is_cols)
 	g_hash_table_foreach (state->styles.col_row, 
 		(GHFunc)cb_find_default_colrow_style, &data);
 	if (NULL != data.cri) {
-		if (is_cols)
-			sheet_col_set_default_size_pts (state->pos.sheet,
-				data.cri->size_pts);
-		else
-			sheet_row_set_default_size_pts (state->pos.sheet,
-				data.cri->size_pts);
+		if (data.cri->size_pts > 0.) {
+			if (is_cols)
+				sheet_col_set_default_size_pts (state->pos.sheet,
+					data.cri->size_pts);
+			else
+				sheet_row_set_default_size_pts (state->pos.sheet,
+					data.cri->size_pts);
+		}
 		colrow_reset_defaults (state->pos.sheet, is_cols, 1 + (is_cols
 			? state->data_extent.col
 			: state->data_extent.row));
@@ -648,8 +656,9 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		for (i = state->pos.eval.col ; i < last; i++ ) {
 			/* I can not find a listing for the default but will
 			 * assume it is TRUE to keep the files rational */
-			sheet_col_set_size_pts (state->pos.sheet, i,
-				col_info->size_pts, col_info->manual);
+			if (col_info->size_pts > 0.)
+				sheet_col_set_size_pts (state->pos.sheet, i,
+					col_info->size_pts, col_info->manual);
 			odf_col_row_style_apply_breaks (state, col_info, i, TRUE);
 		}
 		col_info->col_count += repeat_count;
@@ -701,8 +710,9 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (row_info != NULL){
 		int const last = state->pos.eval.row + repeat_count;
 		for (i = state->pos.eval.row ; i < last; i++ ) {
-			sheet_row_set_size_pts (state->pos.sheet, i,
-				row_info->size_pts, row_info->manual);
+			if (row_info->size_pts > 0.)
+				sheet_row_set_size_pts (state->pos.sheet, i,
+					row_info->size_pts, row_info->manual);
 			odf_col_row_style_apply_breaks (state, row_info, i, FALSE);
 		}
 		row_info->row_count += repeat_count;
@@ -1051,9 +1061,16 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			state->pos.eval.col, state->pos.eval.row);
 
 		if (state->simple_content)
-			v = value_new_string (xin->content->str);
+			/* embedded newlines stored as a series of <p> */
+			if (VALUE_IS_STRING (cell->value))
+				v = value_new_string_str (gnm_string_get_nocopy (
+					g_strconcat (cell->value->v_str.val->str, "\n",
+						     xin->content->str, NULL)));
+			else
+				v = value_new_string (xin->content->str);
 		else
 			v = value_new_error (NULL, xin->content->str);
+
 		gnm_cell_set_value (cell, v);
 	}
 
@@ -1127,6 +1144,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_STYLE_COL:
 	case OO_STYLE_ROW:
 		state->cur_style.col_rows = g_new0 (ODFColRowStyle, 1);
+		state->cur_style.col_rows->size_pts = -1.;
 		if (name)
 			g_hash_table_replace (state->styles.col_row,
 				g_strdup (name), state->cur_style.col_rows);
@@ -1408,7 +1426,21 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "bottom", 	VALIGN_BOTTOM },
 		{ "top",	VALIGN_TOP },
 		{ "middle",	VALIGN_CENTER },
-		{ "automatic",	VALIGN_TOP },
+
+		/* FIXME : a new state dependent on the rotation
+		 * 	'0 or 90 == baseline'
+		 * 	'270 == center'
+		 * 	No comment on what to do for other items */
+		{ "automatic",	VALIGN_BOTTOM },
+		{ NULL,	0 },
+	};
+	static OOEnum const protections [] = {
+		{ "none", 			0 },
+		{ "hidden-and-protected",	1 | 2 },
+		{ "protected",			    2 },
+		{ "formula-hidden",		1 },
+		{ "protected formula-hidden",	1 | 2 },
+		{ "formula-hidden protected",	1 | 2 },
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -1431,9 +1463,10 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				gnm_style_set_pattern (style, 1);
 		} else if ((color = oo_attr_color (xin, attrs, OO_NS_FO, "color")))
 			gnm_style_set_font_color (style, color);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "cell-protect"))
-			gnm_style_set_contents_locked (style, attr_eq (attrs[1], "protected"));
-		else if (oo_attr_enum (xin, attrs,
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "cell-protect", protections, &tmp)) {
+			gnm_style_set_contents_locked (style, (tmp & 2) != 0);
+			gnm_style_set_contents_hidden (style, (tmp & 1) != 0);
+		} else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_FO : OO_NS_STYLE,
 				       "text-align", h_alignments, &tmp))
 			gnm_style_set_align_h (style, state->h_align_is_valid
@@ -1470,8 +1503,6 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_font_name (style, CXML2C (attrs[1]));
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "shrink-to-fit", &btmp))
 			gnm_style_set_shrink_to_fit (style, btmp);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "cell-protect"))
-			gnm_style_set_contents_locked (style, attr_eq (attrs[1], "protected"));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "direction"))
 			gnm_style_set_text_dir (style, attr_eq (attrs[1], "rtl") ? GNM_TEXT_DIR_RTL : GNM_TEXT_DIR_LTR);
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp))
@@ -2721,19 +2752,23 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	}
 
 	mimetype = gsf_infile_child_by_name (zip, "mimetype");
-	if (mimetype == NULL) {
-		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
-			_("No stream named mimetype found."));
-		g_object_unref (zip);
-		return;
-	} else {
-		gsf_off_t size = gsf_input_size (mimetype);
+	if (mimetype != NULL) {
+		/* pick arbitrary size limit of 2k for the mimetype to avoid
+		 * potential of any funny business */
+		gsf_off_t size = MIN (gsf_input_size (mimetype), 2048);
 		char const *header = gsf_input_read (mimetype, size, NULL);
-		if (header && !strncmp (mime_openofficeorg1, header, size))
-			state.ver = OOO_VER_1;
-		else if (header && !strncmp (mime_opendocument, header, size))
-			state.ver = OOO_VER_OPENDOC;
-		else {
+		unsigned i;
+
+		state.ver = OOO_VER_UNKNOWN;
+		if (header)
+			for (i = 0 ; i < G_N_ELEMENTS (OOVersions) ; i++)
+				if (!strncmp (OOVersions[i].mime_type, header, size)) {
+					state.ver = OOVersions[i].version;
+					break;
+				}
+		if (state.ver == OOO_VER_UNKNOWN) {
+			/* TODO : include the unknown type in the message when
+			 * we move the error handling into the importer object */
 			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 				_("Unknown mimetype for openoffice file."));
 			g_object_unref (mimetype);
@@ -2741,6 +2776,9 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 			return;
 		}
 		g_object_unref (mimetype);
+	} else {
+		/* OO.o v1.x files did not include mimetype */
+		state.ver = OOO_VER_1;
 	}
 
 	content = gsf_infile_child_by_name (zip, "content.xml");
