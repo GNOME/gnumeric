@@ -1077,4 +1077,3 @@ General Ideas
     - 'Custom' autofilter type to eval expr per cell
     - autofilter : refresh
     - macro hook in validation to run proc if valid
-
