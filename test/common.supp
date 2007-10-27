@@ -77,6 +77,20 @@
 }
 
 {
+   glibc_fseeko64
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:fseeko64
+}
+
+{
    getpwuid_r_debian_1
    Memcheck:Addr4
    fun:*
