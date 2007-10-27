@@ -29,7 +29,7 @@ on the command line, \fBgnumeric\fR may be followed by the options listed
 below and possibly the names of files in various spreadsheet formats
 which will then be opened immediately. For instance, the command:
 
-    gnumeric myfile.gnumeric &
+    gnumeric myfile.gnumeric
 
 will launch \fBgnumeric\fR and open the file called
 "myfile.gnumeric". The default \fBgnumeric\fR file format is in
@@ -55,7 +55,8 @@ Displays the version number of the installed instance of
 \fBgnumeric\fR.
 .TP
 .B \-\-no-splash
-Start \fBgnumeric\fR without showing the splash screen.
+Start \fBgnumeric\fR without showing the splash screen.  The splash 
+screen is normally shown if loading files takes too long.
 .TP
 \fB\-L, \-\-lib-dir=\fR\fISTRING\fR 
 Set the root library directory to STRING which should be a pathname.
@@ -186,7 +187,7 @@ Disable connection to session manager.
 
 
 .SH VERSION
-This manual page describes \fBgnumeric\fR version 1.2.
+This manual page describes \fBgnumeric\fR version 1.8.
 
 .SH BUGS
 For the list of known \fBgnumeric\fR bugs, or to report new ones
@@ -219,9 +220,14 @@ by the individual authors as is documented in the source code.
 
 .SH AUTHORS
 .SS "Gnumeric"
-Jody Goldberg <jgoldberg@gnome.org>
+Jody Goldberg <jody@gnome.org>
 .br
 Miguel de Icaza <miguel@gnome.org>
+.br
+Morten Welinder <terra@gnome.org>
+.br
+
+-- and many others.  For a more complete list, see the About dialog.
 .SS "This manual page"
 Jan Schaumann <jschauma@netmeister.org>
 .br

@@ -11,6 +11,7 @@ Morten:
 	* Improve test suite.
 	* Fix clipboard text-target export problem.
 	* Add date convention to clipboard ranges.
+	* Update man pages a bit.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.13

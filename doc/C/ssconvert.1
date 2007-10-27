@@ -11,6 +11,11 @@ between various spreadsheet file formats. It is a companion utility to
 \fBGnumeric\fR, the powerful spreadsheet program created by the GNOME
 project.
 
+\fBssconvert\fR accepts either file names or URIs as \fIinfile\fR
+\fIoutfile\fR.  The special URIs \fIfd://0\fR and \fIfd://1\fR can be
+used for standard input and standard output respectively.
+
+
 .\".SH RETURN VALUE
 .\".SH EXIT STATUS
 .SH OPTIONS
@@ -27,10 +32,13 @@ List the available exporters (file formats)
 List the available importers (file formats)
 .TP
 .B \-E, \-\-import\-encoding=\fISTRING\fR
-Specify an encoding for imported content
+Specify an encoding for imported content.  This is only necessary when
+the right encoding does not follow from the input file name.
 .TP
 .B \-T, \-\-export\-type=\fIID\fR
-Specify which exporter to use; see below for a list.
+Specify which exporter to use; see below for a list.  This is only
+necessary when the right encoding does not follow from the output file
+name.
 .TP
 .B \-\-recalc
 Recalculate all formulas before writing.
@@ -51,16 +59,42 @@ Set the root library directory
 .B \-D, \-\-data\-dir=STRING
 Adjust the root data directory
 
-.SH LIST OF IDS
+.SH LIST OF IMPORTANT IDS
 .TP
-Gnumeric_xml_sax:xml_sax   
-EXPERIMENTAL SAX based Gnumeric (*.gnumeric)
+Gnumeric_XmlIO:sax
+Gnumeric XML file format
+.TP
+Gnumeric_Excel:excel_dsf   
+MS Excel (tm) 97/2000/XP & 5.0/95
+.TP
+Gnumeric_pdf:pdf_assistant
+Portable Document Format
+.TP
+Gnumeric_stf:stf_csv 
+Comma Separated Values
+
+.SH LIST OF LESS IMPORTANT IDS
+.TP
+Gnumeric_sylk:sylk
+Multiplan
+.TP
+Gnumeric_Excel:xlsx
+MS Excel (tm) 2007
+.TP
+Gnumeric_Excel:excel_biff8 
+MS Excel (tm) 97/2000/XP
+.TP
+Gnumeric_Excel:excel_biff7 
+MS Excel (tm) 5.0/95
 .TP
 Gnumeric_dif:dif           
 Data Interchange Format (*.dif)
 .TP
 Gnumeric_html:roff         
 TROFF (*.me)
+.TP
+Gnumeric_html:latex_table        
+LaTeX 2e (*.tex) table fragment
 .TP
 Gnumeric_html:latex        
 LaTeX 2e (*.tex)
@@ -80,20 +114,11 @@ HTML 4.0 (*.html)
 Gnumeric_html:html32       
 HTML 3.2 (*.html)
 .TP
-Gnumeric_Excel:excel_dsf   
-MS Excel (tm) 97/2000/XP & 5.0/95
+Gnumeric_OpenCalc:openoffice
+OpenDocument/OpenOffice (*.ods)
 .TP
-Gnumeric_Excel:excel_biff8 
-MS Excel (tm) 97/2000/XP
-.TP
-Gnumeric_Excel:excel_biff7 
-MS Excel (tm) 5.0/95
-.TP
-Gnumeric_stf:stf           
+Gnumeric_stf:stf_assistant           
 Text export (configurable)
-.TP
-Gnumeric_XmlIO:gnum_xml    
-Gnumeric XML file format
 
 .\".SH USAGE
 .SH EXAMPLE
