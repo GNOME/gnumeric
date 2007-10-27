@@ -1,3 +1,12 @@
+2007-10-27  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (cb_write_macro_NAME): Don't delete
+	efunc->macro_name here.  That won't work when we write the
+	dual-format.
+	(free_excel_func): New function.
+	(excel_write_state_new): Install free_excel_func as value
+	destructor for the hash.  Fixes #490828.
+
 2007-10-27  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: enhance axes labels import, export them, and fix

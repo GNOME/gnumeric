@@ -5071,8 +5071,6 @@ cb_write_macro_NAME (gpointer key, ExcelFunc *efunc, ExcelWriteState *ewb)
 		ms_biff_put_var_write (ewb->bp, data, sizeof (data));
 		excel_write_string (ewb->bp, STR_NO_LENGTH, efunc->macro_name);
 		ms_biff_put_commit (ewb->bp);
-
-		g_free (efunc->macro_name);	/* INVALIDATE THE NAME */
 	}
 }
 
@@ -5611,7 +5609,19 @@ extract_txomarkup (ExcelWriteState *ewb, SheetObject *so)
 
 }
 
-static void cb_g_array_free (GArray *array) { g_array_free (array, TRUE); }
+static void
+cb_g_array_free (GArray *array)
+{
+	g_array_free (array, TRUE);
+}
+
+static void
+free_excel_func (ExcelFunc *efunc)
+{
+	g_free (efunc->macro_name);
+	g_free (efunc);
+}
+
 ExcelWriteState *
 excel_write_state_new (IOContext *context, WorkbookView const *wb_view,
 		       gboolean biff7, gboolean biff8)
@@ -5632,8 +5642,10 @@ excel_write_state_new (IOContext *context, WorkbookView const *wb_view,
 	ewb->esheets	  = g_ptr_array_new ();
 	ewb->names	  = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ewb->externnames  = g_ptr_array_new ();
-	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-		NULL, g_free);
+	ewb->function_map = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal,
+		 NULL,
+		 (GDestroyNotify)free_excel_func);
 	ewb->sheet_pairs  = NULL;
 	ewb->cell_markup  = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify) cb_g_array_free);
