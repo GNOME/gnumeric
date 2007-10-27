@@ -1074,7 +1074,7 @@ General Ideas
 	: referenced styles (eg for time sheets)
 	: GnmColor computable to move the calculated aspect into the actual
 	  selectors
-
     - 'Custom' autofilter type to eval expr per cell
     - autofilter : refresh
     - macro hook in validation to run proc if valid
+
