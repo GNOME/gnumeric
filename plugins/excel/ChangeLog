@@ -63,6 +63,16 @@
 
 2007-09-16  Jody Goldberg <jody@gnome.org>
 
+	* xlsx-read.c (xlsx_plot_area_start) : new.
+	(xlsx_plot_area_end) : new.
+	(xlsx_chart_logbase) : new.
+	(xlsx_draw_line_dash) : new.
+	(xlsx_chart_marker_symbol) : new.
+	(xlsx_chart_marker_end) : assign the marker symbol here, so that we
+	  can get handle auto
+
+2007-09-16  Jody Goldberg <jody@gnome.org>
+
 	* xlsx-read.c (attr_rgb) : new.
 	(xlsx_chart_push_obj) : new.
 	(xlsx_chart_pop_obj) : new.
