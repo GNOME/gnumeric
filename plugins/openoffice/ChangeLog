@@ -1,3 +1,8 @@
+2007-10-27  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (od_chart_wall): Grid got renamed to
+	Backplane, so change here.
+
 2007-10-25  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_iteration) : new.

@@ -2308,7 +2308,7 @@ od_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	gog_object_add_by_name (GOG_OBJECT(state->cur_frame.chart), "Grid", NULL);
+	gog_object_add_by_name (GOG_OBJECT(state->cur_frame.chart), "Backplane", NULL);
 }
 
 static void
