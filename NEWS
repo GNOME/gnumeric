@@ -9,6 +9,7 @@ Jody:
 
 Morten:
 	* Improve test suite.
+	* Fix clipboard text-target export problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.13

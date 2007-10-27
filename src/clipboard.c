@@ -807,7 +807,6 @@ cellregion_to_string (GnmCellRegion const *cr,
 {
 	GString *all, *line;
 	GnmCellCopy const *cc;
-	GnmStyle const	  *style;
 	int cols, rows, col, row, next_col_check, next_row_check;
 	ColRowStateList	const *col_state, *row_state;
 	ColRowRLEState const *rle;
@@ -853,11 +852,19 @@ cellregion_to_string (GnmCellRegion const *cr,
 				}
 			}
 
-			if (NULL != (cc = cellregion_get_content (cr, col, row))) {
-				style = style_list_get_style (cr->styles, col, row);
-				format_value_gstring (line,
-					gnm_style_get_format (style),
-					cc->val, NULL, -1, date_conv);
+			cc = cellregion_get_content (cr, col, row);
+			if (cc) {
+				GnmStyle const *style = style_list_get_style
+					(cr->styles, col, row);
+				GOFormat const *fmt =
+					gnm_style_get_format (style);
+
+				if (go_format_is_general (fmt) &&
+				    VALUE_FMT (cc->val))
+					fmt = VALUE_FMT (cc->val);
+
+				format_value_gstring (line, fmt, cc->val,
+						      NULL, -1, date_conv);
 			}
 			if (++col < cols)
 				g_string_append_c (line, '\t');
