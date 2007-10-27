@@ -1,5 +1,8 @@
 2007-10-27  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_read_obj): Survive a missing
+	ObjectBound attribute.  Fixes #490859.
+
 	* src/mstyle.c: Add a pile of preconditions.
 
 2007-10-26  Morten Welinder  <terra@gnome.org>

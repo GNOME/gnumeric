@@ -14,6 +14,7 @@ Morten:
 	* Add date convention to clipboard ranges.
 	* Update man pages a bit.
 	* Fix excel dual-format write crash.  [#490828]
+	* Fix problem loading .gnumeric files.  [#490859]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.13
