@@ -236,21 +236,17 @@ Section Uninstall
     StrCmp $1 "" 0 "${Index}-Restore1"
       DeleteRegValue HKCR ".gnumeric" "Content Type"
     Goto "${Index}-Next"
-
 "${Index}-Restore1:"
       WriteRegStr HKCR ".gnumeric" "Content Type" $1
       DeleteRegValue HKCR ".gnumeric" "Old Content Type"
-
 "${Index}-Next:"
     ReadRegStr $1 HKCR ".gnumeric" "Old Default"
     StrCmp $1 "" 0 "${Index}-Restore2"
       DeleteRegKey HKCR ".gnumeric"
     Goto "${Index}-NoOwn"
-
 "${Index}-Restore2:"
       WriteRegStr HKCR ".gnumeric" "" $1
       DeleteRegValue HKCR ".gnumeric" "Old Default"
-
 "${Index}-NoOwn:"
   DeleteRegKey HKCR "Gnumeric.XML"
   !undef Index

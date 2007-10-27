@@ -293,6 +293,15 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_window_set_screen (GTK_WINDOW (popup),
 		gtk_widget_get_screen (GTK_WIDGET (toplevel)));
 
+#ifndef G_OS_WIN32 /* BREAKS win32, the popup shows up behind the app ?? */
+	go_gtk_window_set_transient (toplevel, GTK_WINDOW (popup));
+#endif
+
+	gtk_window_set_resizable (GTK_WINDOW (popup), FALSE);
+	gtk_window_set_decorated (GTK_WINDOW (popup), FALSE);
+	gtk_window_set_screen (GTK_WINDOW (popup),
+		gtk_widget_get_screen (GTK_WIDGET (toplevel)));
+
 	model = ccombo_fill_model (GNM_CCOMBO_FOO_VIEW (sov), so, &clip, &select);
 	column = gtk_tree_view_column_new_with_attributes ("ID",
 		gtk_cell_renderer_text_new (), "text", 0,
