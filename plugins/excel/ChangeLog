@@ -35,7 +35,7 @@
 2007-09-21  Morten Welinder  <terra@gnome.org>
 
 	* md5.c: Switch to GPL2 version, see  bug #478398.  (Patch by
-	Hans de Goede)
+	  Hans de Goede)
 
 2007-09-16  Jody Goldberg <jody@gnome.org>
 
