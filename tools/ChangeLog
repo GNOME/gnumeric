@@ -1,3 +1,9 @@
+2007-10-27  Morten Welinder  <terra@gnome.org>
+
+	* check-gfrees: Check g_list_free, g_slist_free,
+	go_list_free_custom, and go_slist_free_custom in addition to
+	g_free.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.13

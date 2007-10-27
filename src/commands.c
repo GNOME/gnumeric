@@ -6428,11 +6428,7 @@ cmd_tabulate_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdTabulate *me = CMD_TABULATE (cmd);
 
-	if (me->sheet_idx != NULL) {
-		g_slist_free (me->sheet_idx);
-		me->sheet_idx = NULL;
-	}
-
+	g_slist_free (me->sheet_idx);
 	me->sheet_idx = do_tabulation (wbc, me->data);
 
 	return (me->sheet_idx == NULL);

@@ -695,10 +695,9 @@ gnm_pane_dispose (GObject *obj)
 		gtk_object_destroy (GTK_OBJECT (pane->row.canvas));
 		pane->row.canvas = NULL;
 	}
-	if (pane->cursor.animated != NULL) {
-		g_slist_free (pane->cursor.animated);
-		pane->cursor.animated = NULL;
-	}
+
+	g_slist_free (pane->cursor.animated);
+	pane->cursor.animated = NULL;
 
 	if (pane->mouse_cursor) {
 		gdk_cursor_unref (pane->mouse_cursor);

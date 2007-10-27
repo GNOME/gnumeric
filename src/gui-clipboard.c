@@ -237,8 +237,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 		ret = clipboard_copy_range (tmpsheet, &r);
 	}
 out:
-	if (l)
-		g_list_free (l);
+	g_list_free (l);
 	if (wb_view)
 		g_object_unref (wb_view);
 	if (wb)

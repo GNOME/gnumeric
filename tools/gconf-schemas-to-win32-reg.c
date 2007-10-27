@@ -277,8 +277,7 @@ free_node (GNode *node, gpointer data)
 		g_free (key_info->def);
 		g_free (key_info);
 	}
-	if (info->values)
-		g_slist_free (info->values);
+	g_slist_free (info->values);
 	
 	return FALSE;
 }

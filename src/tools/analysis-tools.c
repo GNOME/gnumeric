@@ -142,8 +142,7 @@ destroy_data_set (data_set_t *data_set)
 
 	if (data_set->data != NULL)
 		g_array_free (data_set->data, TRUE);
-	if (data_set->missing != NULL)
-		g_slist_free (data_set->missing);
+	g_slist_free (data_set->missing);
 	g_free (data_set->label);
 	g_free (data_set);
 }
