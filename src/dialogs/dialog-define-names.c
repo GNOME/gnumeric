@@ -72,7 +72,7 @@ typedef struct {
 	GList			*expr_names;
 	GnmNamedExpr		*cur_name;
 	GnmParsePos		 pp;
-	gboolean	 	 updating;
+	gboolean		 updating;
 	gboolean                 action_possible;
 } NameGuruState;
 

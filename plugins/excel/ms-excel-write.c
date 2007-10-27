@@ -450,13 +450,13 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (NULL != esheet)
 		pi = esheet->gnum_sheet->print_info;
 	if (NULL != pi) {
-	        GtkPageOrientation orient;
+		GtkPageOrientation orient;
 		if (pi->print_across_then_down)
 			flags |= 0x01;
 		orient = print_info_get_paper_orientation (pi);
 		if (orient == GTK_PAGE_ORIENTATION_PORTRAIT
 		    || orient == GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT)
-		        flags |= 0x02;
+			flags |= 0x02;
 		if (pi->print_black_and_white)
 			flags |= 0x08;
 		if (pi->print_as_draft)
@@ -2569,7 +2569,7 @@ build_xf_data (XLExportBase *xle, BiffXFData *xfd, GnmStyle *st)
 		gnm_style_get_back_color (st), PALETTE_AUTO_BACK);
 
 	/* Solid patterns seem to reverse the meaning */
- 	if (xfd->fill_pattern_idx == FILL_SOLID) {
+	if (xfd->fill_pattern_idx == FILL_SOLID) {
 		guint16 c = xfd->pat_backgnd_col;
 		xfd->pat_backgnd_col = xfd->pat_foregnd_col;
 		xfd->pat_foregnd_col = c;
@@ -3043,7 +3043,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	}
 
 	GSF_LE_SET_GUINT16 (data + 14, /* alwaysCalc & calcOnLoad */
-	        (cell->base.flags & DEPENDENT_HAS_DYNAMIC_DEPS) ? 1 : 0);
+		(cell->base.flags & DEPENDENT_HAS_DYNAMIC_DEPS) ? 1 : 0);
 
 	/***  This is why XL produces a warning when exiting with files we generate
 	 * and complains about them being from 'older' versions.  The numbers
@@ -4213,7 +4213,7 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	ms_biff_put_2byte (bp, BIFF_SAVERECALC,	0x0001);
 	ms_biff_put_2byte (bp, BIFF_PRINTHEADERS,   pi->print_titles ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_PRINTGRIDLINES, pi->print_grid_lines ? 1 : 0);
-	ms_biff_put_2byte (bp, BIFF_GRIDSET, 	0x0001);
+	ms_biff_put_2byte (bp, BIFF_GRIDSET,	0x0001);
 
 	excel_write_GUTS (bp, esheet);
 	excel_write_DEFAULT_ROW_HEIGHT (bp, esheet);
@@ -5379,7 +5379,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 	for (i = 0; i < ewb->esheets->len; i++) {
 		s = g_ptr_array_index (ewb->esheets, i);
-	        s->boundsheetPos = excel_write_BOUNDSHEET (bp, s->gnum_sheet);
+		s->boundsheetPos = excel_write_BOUNDSHEET (bp, s->gnum_sheet);
 	}
 
 	if (bp->version >= MS_BIFF_V8) {
@@ -5627,7 +5627,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *wb_view,
 	ewb->base.wb      = wb_view_get_workbook (wb_view);
 	ewb->base.wb_view = wb_view;
 
-	ewb->bp   	  = NULL;
+	ewb->bp		  = NULL;
 	ewb->io_context   = context;
 	ewb->esheets	  = g_ptr_array_new ();
 	ewb->names	  = g_hash_table_new (g_direct_hash, g_direct_equal);

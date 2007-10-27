@@ -495,7 +495,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 		}
 	}
 	gsf_output_close (output);
- 	g_object_unref (wb_view);
+	g_object_unref (wb_view);
 	g_object_unref (wb);
 	g_object_unref (ioc);
 	g_object_unref (output);
@@ -840,9 +840,9 @@ x_claim_clipboard (WBCGtk *wbcg)
 		gtk_clipboard_set_can_store (
 			gtk_clipboard_get_for_display (
 				display, GDK_SELECTION_CLIPBOARD),
-			        targets, n_targets);
+				targets, n_targets);
 		ret = gtk_clipboard_set_with_owner (
-		        gtk_clipboard_get_for_display (display,
+			gtk_clipboard_get_for_display (display,
 						       GDK_SELECTION_PRIMARY),
 			targets, n_targets,
 			(GtkClipboardGetFunc) x_clipboard_get_cb,

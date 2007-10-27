@@ -189,7 +189,7 @@ read_gb (gpointer            *jody_broke_the_context,
 		g_warning ("Failed to parse project file '%s'",
 			   gbrun_eval_context_get_text (wd->ec));
 		return FALSE;
-  	}
+	}
 
 	gtk_object_destroy (GTK_OBJECT (proj_stream));
 

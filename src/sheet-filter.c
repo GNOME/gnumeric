@@ -127,7 +127,7 @@ typedef struct  {
 	GnmFilterCondition const *cond;
 	GnmValue		 *val[2];
 	GnmValue		 *alt_val[2];
-	GORegexp  		  regexp[2];
+	GORegexp		  regexp[2];
 	Sheet			 *target_sheet; /* not necessarilly the src */
 } FilterExpr;
 

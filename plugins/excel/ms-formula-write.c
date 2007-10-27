@@ -212,8 +212,8 @@ typedef enum {
 
 typedef struct {
 	ExcelWriteState *ewb;
-	Sheet	 	*sheet;
-	int	  	 col, row;
+	Sheet		*sheet;
+	int		 col, row;
 	gboolean	 use_name_variant;
 	XLContextType	 context;
 
@@ -228,20 +228,20 @@ static void write_node (PolishData *pd, GnmExpr const *expr,
 #define CLASS_VAL	0x20
 #define CLASS_ARRAY	0x40
 static const guint8 xl_op_class[NUM_CTXTS][NUM_XL_TYPES][NUM_XL_TYPES+1] = {
-	{ /* CELL | Wants REF	Wants VAL	Wants ARR 	From Root */
-/* From REF */	 { CLASS_REF,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
-/* From VAL */	 { CLASS_VAL,	CLASS_VAL,	CLASS_VAL, 	CLASS_VAL },
-/* From ARRAY */ { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
+	{ /* CELL | Wants REF	Wants VAL	Wants ARR	From Root */
+/* From REF */	 { CLASS_REF,	CLASS_VAL,	CLASS_ARRAY,	CLASS_VAL },
+/* From VAL */	 { CLASS_VAL,	CLASS_VAL,	CLASS_VAL,	CLASS_VAL },
+/* From ARRAY */ { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY,	CLASS_VAL },
 	},
-	{ /* ARR  | Wants REF	Wants VAL	Wants ARR 	From Root */
-/* From REF */	 { CLASS_REF,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
-/* From VAL */	 { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
-/* From ARRAY */ { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_ARRAY },
+	{ /* ARR  | Wants REF	Wants VAL	Wants ARR	From Root */
+/* From REF */	 { CLASS_REF,	CLASS_VAL,	CLASS_ARRAY,	CLASS_VAL },
+/* From VAL */	 { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY,	CLASS_VAL },
+/* From ARRAY */ { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY,	CLASS_ARRAY },
 	},
-	{ /* NAME | Wants REF	Wants VAL	Wants ARR 	From Root */
-/* From REF */	 { CLASS_REF,	CLASS_ARRAY,	CLASS_ARRAY, 	CLASS_REF },
-/* From VAL */	 { CLASS_ARRAY,	CLASS_ARRAY,	CLASS_ARRAY, 	CLASS_ARRAY },
-/* From ARRAY */ { CLASS_ARRAY,	CLASS_ARRAY,	CLASS_ARRAY, 	CLASS_ARRAY },
+	{ /* NAME | Wants REF	Wants VAL	Wants ARR	From Root */
+/* From REF */	 { CLASS_REF,	CLASS_ARRAY,	CLASS_ARRAY,	CLASS_REF },
+/* From VAL */	 { CLASS_ARRAY,	CLASS_ARRAY,	CLASS_ARRAY,	CLASS_ARRAY },
+/* From ARRAY */ { CLASS_ARRAY,	CLASS_ARRAY,	CLASS_ARRAY,	CLASS_ARRAY },
 	}
 };
 
@@ -570,7 +570,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 		push_guint8  (pd, FORMULA_PTG_FUNC_VAR +
 			xl_get_op_class (pd,  XL_VAL, target_type));
 		push_guint8  (pd, (arg + 1)	| (prompt   ? 0x80 : 0));
-		push_guint16 (pd, 0xff  	| (cmdequiv ? 0x8000 : 0));
+		push_guint16 (pd, 0xff		| (cmdequiv ? 0x8000 : 0));
 	}
 }
 
@@ -648,7 +648,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 {
 	static struct {
 		guint8 xl_op;
-		int prec;	              /* Precedences -- should match parser.y  */
+		int prec;		      /* Precedences -- should match parser.y  */
 		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
 	} const operations [] = {
 		{ FORMULA_PTG_EQUAL,	 1, 1, 0 },
@@ -858,7 +858,7 @@ write_arrays (PolishData *pd)
 {
 	GnmValue const *array;
 	GSList  *ptr;
-	int  	 x, y;
+	int	 x, y;
 	guint8   data[8];
 	WriteStringFlags string_flags;
 

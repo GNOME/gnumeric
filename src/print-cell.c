@@ -112,8 +112,8 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		double px = x1 + x / (double)PANGO_SCALE;
 		double py = y1 - y / (double)PANGO_SCALE;
 
- 		/* Clip the printed rectangle */
- 		cairo_save (context);
+		/* Clip the printed rectangle */
+		cairo_save (context);
 
 		if (!rv->rotation) {
 			/* We do not clip rotated cells.  */
@@ -310,8 +310,8 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
-	 * 	- 6 arrays of n GnmBorder const *
-	 * 	- 2 arrays of n GnmStyle const *
+	 *	- 6 arrays of n GnmBorder const *
+	 *	- 2 arrays of n GnmStyle const *
 	 *
 	 * then alias the arrays for easy access so that array [col] is valid
 	 * for all elements start_col-1 .. end_col+1 inclusive.

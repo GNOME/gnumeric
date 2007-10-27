@@ -86,14 +86,14 @@ struct {
 	gint offset;
 	struct LineDotPattern const * pattern;
 } static const style_border_data[] = {
- 	/* 0x0 : GNM_STYLE_BORDER_NONE */			{ 0, 0, NULL },
- 	/* 0x1 : GNM_STYLE_BORDER_THIN */			{ 0, 0, NULL },
- 	/* 0x2 : GNM_STYLE_BORDER_MEDIUM */			{ 2, 0, NULL },
- 	/* 0x3 : GNM_STYLE_BORDER_DASHED */			{ 1, 0, &dashed_line },
- 	/* 0x4 : GNM_STYLE_BORDER_DOTTED */			{ 1, 0, &dotted_line },
- 	/* 0x5 : GNM_STYLE_BORDER_THICK */			{ 3, 0, NULL },
- 	/* 0x6 : GNM_STYLE_BORDER_DOUBLE */			{ 0, 0, NULL },
- 	/* 0x7 : GNM_STYLE_BORDER_HAIR */			{ 1, 0, &hair_line },
+	/* 0x0 : GNM_STYLE_BORDER_NONE */			{ 0, 0, NULL },
+	/* 0x1 : GNM_STYLE_BORDER_THIN */			{ 0, 0, NULL },
+	/* 0x2 : GNM_STYLE_BORDER_MEDIUM */			{ 2, 0, NULL },
+	/* 0x3 : GNM_STYLE_BORDER_DASHED */			{ 1, 0, &dashed_line },
+	/* 0x4 : GNM_STYLE_BORDER_DOTTED */			{ 1, 0, &dotted_line },
+	/* 0x5 : GNM_STYLE_BORDER_THICK */			{ 3, 0, NULL },
+	/* 0x6 : GNM_STYLE_BORDER_DOUBLE */			{ 0, 0, NULL },
+	/* 0x7 : GNM_STYLE_BORDER_HAIR */			{ 1, 0, &hair_line },
 	/* 0x8 : GNM_STYLE_BORDER_MEDIUM_DASH */		{ 2, 9, &med_dashed_line },
 	/* 0x9 : GNM_STYLE_BORDER_DASH_DOT */		{ 1, 0, &dash_dot_line },
 	/* 0xa : GNM_STYLE_BORDER_MEDIUM_DASH_DOT */	{ 2, 17,&med_dash_dot_line },
@@ -131,7 +131,7 @@ style_border_hash (gconstpointer v)
 	 * all colours are cached, see style_color_new.
 	 *
 	 */
- 	return (GPOINTER_TO_UINT(b->color) ^ b->line_type);
+	return (GPOINTER_TO_UINT(b->color) ^ b->line_type);
 }
 
 GnmBorder *
@@ -169,7 +169,7 @@ void
 gnm_style_border_none_set_color (GnmColor *color)
 {
 	GnmBorder *none = gnm_style_border_none ();
- 	GnmColor *nc;
+	GnmColor *nc;
 
 	if (color == none->color) {
 		style_color_unref (color);
@@ -197,8 +197,8 @@ gnm_style_border_none_set_color (GnmColor *color)
  * the same pattern depending on whether this is a horizontal or vertical line.
  */
 GnmBorder *
-gnm_style_border_fetch (GnmStyleBorderType	         line_type,
-			GnmColor 			*color,
+gnm_style_border_fetch (GnmStyleBorderType		 line_type,
+			GnmColor			*color,
 			GnmStyleBorderOrientation	 orientation)
 {
 	GnmBorder *border;
@@ -697,12 +697,12 @@ style_border_set_gtk_dash (GnmStyleBorderType const i,
 		w = 1;
 	cairo_set_line_width (context,((double) w));
 
- 	if (style_border_data[i].pattern != NULL) {
- 		struct LineDotPattern const * const pat =
- 			style_border_data[i].pattern;
- 		cairo_set_dash (context, pat->pattern_d, pat->elements,
- 				style_border_data[i].offset);
- 	} else
+	if (style_border_data[i].pattern != NULL) {
+		struct LineDotPattern const * const pat =
+			style_border_data[i].pattern;
+		cairo_set_dash (context, pat->pattern_d, pat->elements,
+				style_border_data[i].offset);
+	} else
 		cairo_set_dash (context, NULL, 0, 0);
 }
 

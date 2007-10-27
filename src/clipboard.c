@@ -3,7 +3,7 @@
  * clipboard.c: A temporary store for contents from a worksheet
  *
  * Copyright (C) 2000-2005 Jody Goldberg   (jody@gnome.org)
- *  		 1999      Miguel de Icaza (miguel@gnu.org)
+ *		 1999      Miguel de Icaza (miguel@gnu.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -614,7 +614,7 @@ clipboard_copy_range_undo (Sheet *sheet, GnmRange const *r)
  * @objects : #GSList
  *
  * Returns a cell region with copies of objects in list.  Caller is responsible
- * 	for cellregion_unref-ing the result.
+ *	for cellregion_unref-ing the result.
  **/
 GnmCellRegion *
 clipboard_copy_obj (Sheet *sheet, GSList *objects)

@@ -185,7 +185,7 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (value_range->type != VALUE_CELLRANGE ||
 	    (prob_range != NULL && prob_range->type != VALUE_CELLRANGE))
-	        return value_new_error_VALUE (ei->pos);
+		return value_new_error_VALUE (ei->pos);
 
 	cols = value_range->v_range.cell.b.col
 		- value_range->v_range.cell.a.col + 1;
@@ -230,7 +230,7 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (ret != NULL) {
 		g_free (rd.res);
-	        return value_new_error_VALUE (ei->pos);
+		return value_new_error_VALUE (ei->pos);
 	}
 
 	return rd.res;
@@ -1212,7 +1212,7 @@ GnmFuncDescriptor const random_functions[] = {
         { "randchisq", "f", N_("nu"),   help_randchisq,
 	  gnumeric_randchisq, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
- 	{ "randdiscrete", "r|r", N_("value_range,prob_range"),
+	{ "randdiscrete", "r|r", N_("value_range,prob_range"),
 	  help_randdiscrete, gnumeric_randdiscrete, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "randexp", "f", N_("b"),         help_randexp,

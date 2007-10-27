@@ -373,7 +373,7 @@ cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flag
 
 /**
  * cmd_shift_rows:
- * @wbc : 	The error context.
+ * @wbc :	The error context.
  * @sheet	the sheet
  * @col		column marking the start of the shift
  * @start_row	first row
@@ -412,7 +412,7 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 
 /**
  * cmd_shift_cols:
- * @wbc: 	The error context.
+ * @wbc:	The error context.
  * @sheet:	the sheet
  * @start_col:	first column
  * @end_col:	end column

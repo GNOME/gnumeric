@@ -61,7 +61,7 @@
 
 typedef struct {
 	GnumericXMLVersion version;
-	IOContext 	*context;	/* The IOcontext managing things */
+	IOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
 	Sheet		*sheet;		/* The current sheet */
@@ -609,7 +609,7 @@ xl_xml_border (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyleBorderLocation location  = GNM_STYLE_BORDER_EDGE_MAX;
 	GnmStyleBorderType	    line_type = GNM_STYLE_BORDER_MAX;
 	GnmBorder	   *border;
-	GnmColor 	   *color = NULL, *new_color;
+	GnmColor	   *color = NULL, *new_color;
 	int		   weight = 1, tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -667,15 +667,15 @@ xl_xml_num_interior (GsfXMLIn *xin, xmlChar const **attrs)
 	static EnumVal const patterns[] = {
 		{ "Solid",	1 },
 		{ "Gray75",	2 },
-		{ "Gray50", 	3 },
-		{ "Gray25", 	4 },
-		{ "Gray125", 	5 },
-		{ "Gray0625", 	6 },
+		{ "Gray50",	3 },
+		{ "Gray25",	4 },
+		{ "Gray125",	5 },
+		{ "Gray0625",	6 },
 		{ "HorzStripe", 7 },
 		{ "VertStripe", 8 },
 		{ "ReverseDiagStripe", 9 },
 		{ "DiagStripe", 10 },
-		{ "DiagCross", 	11 },
+		{ "DiagCross",	11 },
 		{ "ThickDiagCross", 12 },
 		{ "ThinHorzStripe", 13 },
 		{ "ThinVertStripe", 14 },

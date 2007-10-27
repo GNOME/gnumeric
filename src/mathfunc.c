@@ -167,11 +167,11 @@ mathfunc_init (void)
 /* additions for density functions (C.Loader) */
 #define R_D_fexp(f,x)     (give_log ? -0.5*gnm_log(f)+(x) : gnm_exp(x)/gnm_sqrt(f))
 #define R_D_forceint(x)   gnm_floor((x) + 0.5)
-#define R_D_nonint(x) 	  (gnm_abs((x) - gnm_floor((x)+0.5)) > 1e-7)
+#define R_D_nonint(x)	  (gnm_abs((x) - gnm_floor((x)+0.5)) > 1e-7)
 /* [neg]ative or [non int]eger : */
 #define R_D_negInonint(x) (x < 0. || R_D_nonint(x))
 
-#define R_D_nonint_check(x) 				\
+#define R_D_nonint_check(x)				\
    if(R_D_nonint(x)) {					\
 	MATHLIB_WARNING("non-integer x = %" GNM_FORMAT_f "", x);	\
 	return R_D__0;					\
@@ -510,7 +510,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	 *cum = -.5*xsq - M_LN_SQRT_2PI - gnm_log(x) + gnm_log1p(-del);
 	 *ccum = gnm_log1p(-gnm_exp(*cum)); /.* ~ gnm_log(1) = 0 *./
 
- 	 swap_tail;
+	 swap_tail;
 
 	*/
 	    || (lower && -37.5193 < x  &&  x < 8.2924)
@@ -533,7 +533,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
     }
     else { /* no log_p , large x such that probs are 0 or 1 */
 	if(x > 0) {	*cum = 1.; *ccum = 0.;	}
-	else {	        *cum = 0.; *ccum = 1.;	}
+	else {		*cum = 0.; *ccum = 1.;	}
     }
 
 
@@ -5041,8 +5041,8 @@ gnm_float qexp(gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p
 /* Imported src/nmath/qgeom.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 	   Ross Ihaka
- *  Copyright (C) 2000 	   The R Development Core Team
+ *  Copyright (C) 1998	   Ross Ihaka
+ *  Copyright (C) 2000	   The R Development Core Team
  *  Copyright (C) 2004     The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify

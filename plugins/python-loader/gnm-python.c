@@ -111,8 +111,8 @@ gnm_python_class_init (GObjectClass *gobject_class)
 
 /* Initialize _PyGObject_API. To get the gtk2 version of gobject, we first
  * have to do the C equivalent of
- * 	import pygtk
- * 	pygtk.require('2.0')
+ *	import pygtk
+ *	pygtk.require('2.0')
  *      import gobject
  */
 static void

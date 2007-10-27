@@ -2,7 +2,7 @@
  * sort.c : Routines for sorting cell ranges
  *
  * Author:
- * 	JP Rosevear <jpr@arcavia.com>
+ *	JP Rosevear <jpr@arcavia.com>
  *
  * (C) 2000 JP Rosevear
  * (C) 2000 Morten Welinder

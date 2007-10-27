@@ -24,7 +24,7 @@
 /*
  * I do not have much in the way of useful docs.
  * This is a guess based on some sample sheets with a few pointers from
- * 	http://www.vistasource.com/products/axware/fileformats/wptchc01.html
+ *	http://www.vistasource.com/products/axware/fileformats/wptchc01.html
  */
 
 #include <gnumeric-config.h>

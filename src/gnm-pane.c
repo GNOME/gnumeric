@@ -7,8 +7,8 @@
  *     Jody Goldberg (jody@gnome.org)
  *
  * Port to Maemo:
- * 	Eduardo Lima  (eduardo.lima@indt.org.br)
- * 	Renato Araujo (renato.filho@indt.org.br)
+ *	Eduardo Lima  (eduardo.lima@indt.org.br)
+ *	Renato Araujo (renato.filho@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
@@ -523,7 +523,7 @@ gnm_pane_colrow_key_press (SheetControlGUI *scg, GdkEventKey *event,
 		if (event->state & GDK_CONTROL_MASK)	/* full sheet */
 			/* TODO : How to handle ctrl-A too ? */
 			range_init_full_sheet (&target);
-		else {				 	/* full row */
+		else {					/* full row */
 			target.start.col = 0;
 			target.end.col = SHEET_MAX_COLS - 1;
 		}
@@ -2288,36 +2288,36 @@ gnm_pane_objects_drag (GnmPane *pane, SheetObject *so,
 		       gdouble new_x, gdouble new_y, int drag_type,
 		       gboolean symmetric,gboolean snap_to_grid)
 {
- 	double dx, dy;
- 	dx = new_x - pane->drag.last_x;
- 	dy = new_y - pane->drag.last_y;
+	double dx, dy;
+	dx = new_x - pane->drag.last_x;
+	dy = new_y - pane->drag.last_y;
 	pane->drag.had_motion = TRUE;
 
- 	scg_objects_drag (pane->simple.scg, pane,
- 		so, &dx, &dy, drag_type, symmetric, snap_to_grid, TRUE);
+	scg_objects_drag (pane->simple.scg, pane,
+		so, &dx, &dy, drag_type, symmetric, snap_to_grid, TRUE);
 
- 	pane->drag.last_x += dx;
- 	pane->drag.last_y += dy;
+	pane->drag.last_x += dx;
+	pane->drag.last_y += dy;
 }
 
 #define CTRL_PT_SIZE		4
 #define CTRL_PT_OUTLINE		0
 /* space for 2 halves and a full */
-#define CTRL_PT_TOTAL_SIZE 	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
+#define CTRL_PT_TOTAL_SIZE	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
 
 /* new_x and new_y are in world coords */
 static void
 gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 		      gdouble new_x, gdouble new_y,
- 		      gboolean symmetric,
- 		      gboolean snap_to_grid)
+		      gboolean symmetric,
+		      gboolean snap_to_grid)
 {
 	int const idx = GPOINTER_TO_INT (g_object_get_data (ctrl_pt, "index"));
 	SheetObject *so  = g_object_get_data (G_OBJECT (ctrl_pt), "so");
 
 	gnm_pane_objects_drag (pane, so, new_x, new_y, idx,
 			       symmetric, snap_to_grid);
- 	if (idx != 8)
+	if (idx != 8)
 		gnm_pane_display_obj_size_tip (pane, so);
 }
 
@@ -2578,7 +2578,7 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 			char *target_name = gdk_atom_name (pair->target);
 			g_print ("%s\n", target_name);
 			g_free (target_name);
- 		}
+		}
 	}
 #endif
 
@@ -2805,7 +2805,7 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
 			ctrl_pts [9] = foo_canvas_item_new (pane->action_items,
 				FOO_TYPE_CANVAS_RECT,
 				"fill-color",		NULL,
-				"width-units",   	1.,
+				"width-units",		1.,
 				"outline-color",	"black",
 				"outline-stipple",	stipple,
 				NULL);

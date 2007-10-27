@@ -71,7 +71,7 @@ main (int argc, char const **argv)
 	ioc = gnumeric_io_context_new (cc);
 	g_object_unref (cc);
 
- 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
+	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
 	g_object_unref (ioc);
 
 	initial_workbook_open_complete = TRUE; /* make the last unref exit */

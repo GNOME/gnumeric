@@ -2,7 +2,7 @@
 
 /*
  * xml-sax-write.c : export .gnumeric and the clipboard subset using a the sax
- * 			like wrappers in libgsf
+ *			like wrappers in libgsf
  *
  * Copyright (C) 2003-2007 Jody Goldberg (jody@gnome.org)
  *
@@ -67,7 +67,7 @@
 typedef struct {
 	WorkbookView const *wb_view;	/* View for the new workbook */
 	Workbook const	   *wb;		/* The new workbook */
-	Sheet const 	   *sheet;
+	Sheet const	   *sheet;
 	GnmConventions	   *convs;
 	GHashTable	   *expr_map;
 	GString		   *cell_str;   /* Scratch pad.  */
@@ -722,8 +722,8 @@ xml_write_cell_and_position (GnmOutputXML *state,
 	/* As of version 0.53 we save the size of the array as attributes */
 	/* As of version 0.57 the attributes are in the Cell not the Content */
 	if (texpr && gnm_expr_top_get_array_corner (texpr)) {
-	        gsf_xml_out_add_int (state->output, "Rows", texpr->expr->array_corner.rows);
-	        gsf_xml_out_add_int (state->output, "Cols", texpr->expr->array_corner.cols);
+		gsf_xml_out_add_int (state->output, "Rows", texpr->expr->array_corner.rows);
+		gsf_xml_out_add_int (state->output, "Cols", texpr->expr->array_corner.cols);
 	}
 
 	if (write_contents) {
@@ -910,9 +910,9 @@ xml_write_solver (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "Solver");
 
 	if (param->target_cell != NULL) {
-	        gsf_xml_out_add_int (state->output, "TargetCol",
+		gsf_xml_out_add_int (state->output, "TargetCol",
 			param->target_cell->pos.col);
-	        gsf_xml_out_add_int (state->output, "TargetRow",
+		gsf_xml_out_add_int (state->output, "TargetRow",
 			param->target_cell->pos.row);
 	}
 
@@ -943,7 +943,7 @@ xml_write_solver (GnmOutputXML *state)
 		param->options.program_report);
 
 	for (ptr = param->constraints; ptr != NULL ; ptr = ptr->next) {
-	        c = ptr->data;
+		c = ptr->data;
 
 		gsf_xml_out_start_element (state->output, GNM "Constr");
 		gsf_xml_out_add_int (state->output, "Lcol", c->lhs.col);
@@ -979,7 +979,7 @@ xml_write_scenarios (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "Scenarios");
 
 	for (ptr = state->sheet->scenarios ; ptr != NULL ; ptr = ptr->next) {
-	        scenario_t const *s = (scenario_t const *)ptr->data;
+		scenario_t const *s = (scenario_t const *)ptr->data;
 #if 0
 		int       i, cols, rows;
 #endif
@@ -1242,10 +1242,10 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	xml_write_conventions	    (&state);	/* DEPRECATED, moved to Calculation */
 	xml_write_sheet_names	    (&state);
 	xml_write_named_expressions (&state, state.wb->names);
-	xml_write_geometry 	    (&state);
-	xml_write_sheets 	    (&state);
-	xml_write_uidata 	    (&state);
-	xml_write_calculation 	    (&state);
+	xml_write_geometry	    (&state);
+	xml_write_sheets	    (&state);
+	xml_write_uidata	    (&state);
+	xml_write_calculation	    (&state);
 
 	gsf_xml_out_end_element (state.output); /* </Workbook> */
 

@@ -48,7 +48,7 @@ typedef struct {
 		gboolean   val;
 	} transpose, skip_blanks;
 	GSList		*type_group, *op_group;
-	int	 	type, op;
+	int		type, op;
 } PasteSpecialState;
 
 #define BUTTON_PASTE_LINK 0
@@ -60,9 +60,9 @@ static struct {
 	gboolean allows_operations;
 } const paste_types [] = {
 	/* xgettext : The accelerators for All, Content, As Value, Formats,
-	 * 	Comments, None, Add, Subtract, Multiply, Divide, Transpose,
-	 * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
-	 * 	try to keep them from conflicting */
+	 *	Comments, None, Add, Subtract, Multiply, Divide, Transpose,
+	 *	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
+	 *	try to keep them from conflicting */
 	{ N_("_All"),      TRUE },
 	{ N_("Cont_ent"),  TRUE },
 	{ N_("As _Value"), TRUE },

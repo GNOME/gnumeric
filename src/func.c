@@ -491,16 +491,16 @@ gnm_func_group_fetch_with_translation (char const *name,
 		}
 		cat->functions = NULL;
 		categories = g_list_insert_sorted (
-		             categories, cat, &function_category_compare);
+			     categories, cat, &function_category_compare);
 	} else if (translation != NULL && translation != name &&
-	           !cat->has_translation) {
+		   !cat->has_translation) {
 		gnm_string_unref (cat->display_name);
 		cat->display_name = gnm_string_get (translation);
 		cat->has_translation = TRUE;
 		categories = g_list_remove_link (categories, l);
 		g_list_free_1 (l);
 		categories = g_list_insert_sorted (
-		             categories, cat, &function_category_compare);
+			     categories, cat, &function_category_compare);
 	}
 
 	return cat;
@@ -721,7 +721,7 @@ unknownFunctionHandler (GnmFuncEvalInfo *ei,
 
 GnmFunc *
 gnm_func_add_stub (GnmFuncGroup *fn_group,
-		   char const 	    *name,
+		   char const	    *name,
 		   GnmFuncLoadDesc   load_desc,
 		   GnmFuncRefNotify  opt_ref_notify)
 {
@@ -1018,7 +1018,7 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 	int	  i, iter_count, iter_width = 0, iter_height = 0;
 	char	  arg_type;
 	GnmValue	 **args, *tmp = NULL;
-	int 	 *iter_item = NULL;
+	int	 *iter_item = NULL;
 	int argc;
 	GnmExprConstPtr *argv;
 
@@ -1474,15 +1474,15 @@ function_iterate_argument_values (GnmEvalPos const	*ep,
 
 		/* We need a cleaner model of what to do here.
 		 * In non-array mode
-		 * 	SUM(Range)
+		 *	SUM(Range)
 		 * will obviously return Range
 		 *
-		 * 	SUM(INDIRECT(Range))
-		 * 	SUM(INDIRECT(Range):....)
+		 *	SUM(INDIRECT(Range))
+		 *	SUM(INDIRECT(Range):....)
 		 * will do implicit intersection on Range (in non-array mode),
 		 * but allow non-scalar results from indirect (no intersection)
 		 *
-		 * 	SUM(Range=3)
+		 *	SUM(Range=3)
 		 * will do implicit intersection in non-array mode */
 		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT)
 			val = value_dup (expr->constant.value);

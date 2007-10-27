@@ -77,10 +77,10 @@ static GOptionEntry const ssindex_options [] = {
 
 
 typedef struct {
-	IOContext 	   *context;
+	IOContext	   *context;
 	WorkbookView const *wb_view;
 	Workbook const	   *wb;
-	Sheet 		   *sheet;
+	Sheet		   *sheet;
 	GsfXMLOut	   *output;
 } IndexerState;
 

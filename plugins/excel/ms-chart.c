@@ -1643,7 +1643,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 			g_object_set (G_OBJECT (s->plot),
 				"in-3d",		in_3d,
 				"show-negatives",	show_negatives,
-				"size-as-area", 	size_as_area,
+				"size-as-area",		size_as_area,
 				"bubble-scale",	scale,
 				NULL);
 			d(1, fprintf (stderr, "bubbles;"););
@@ -3196,9 +3196,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.hilo = FALSE;
 	state.dropbar = FALSE;
 	state.has_extra_dataformat = FALSE;
- 	state.axis_cross_at_max = FALSE;
+	state.axis_cross_at_max = FALSE;
 	state.axis_cross_value = go_nan;
- 	state.xaxis = NULL;
+	state.xaxis = NULL;
 
 	if (NULL != (state.sog = sog)) {
 		state.graph = sheet_object_graph_get_gog (sog);
@@ -3621,15 +3621,15 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GogStyleLine const *lstyle,
 		else
 			w = 2;	/* wide */
 		if (lstyle->auto_color)
-			flags |= 9; 	/* docs only mention 1, but there is an 8 in there too */
+			flags |= 9;	/* docs only mention 1, but there is an 8 in there too */
 	} else {
 		color_index = chart_write_color (s, data, 0);
 		if (clear_lines_for_null) {
 			pat = 5;
-			flags = 8; 	/* docs only mention 1, but there is an 8 in there too */
+			flags = 8;	/* docs only mention 1, but there is an 8 in there too */
 		} else {
 			pat = 0;
-			flags = 9; 	/* docs only mention 1, but there is an 8 in there too */
+			flags = 9;	/* docs only mention 1, but there is an 8 in there too */
 		}
 		w = 0xffff;
 	}
@@ -3777,11 +3777,11 @@ chart_write_FBI (XLChartWriteState *s, guint16 i, guint16 n)
 {
 	/* seems to vary from machine to machine */
 	static guint8 const fbi[] = { 0xe4, 0x1b, 0xd0, 0x11, 0xc8, 0 };
- 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_fbi, 10);
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_fbi, 10);
 	memcpy (data, fbi, sizeof fbi);
 	GSF_LE_SET_GUINT16 (data + sizeof fbi + 6, i);
 	GSF_LE_SET_GUINT16 (data + sizeof fbi + 8, n);
- 	ms_biff_put_commit (s->bp);
+	ms_biff_put_commit (s->bp);
 }
 #endif
 
@@ -3895,7 +3895,7 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const
 		/* biff8 specific */
 		0, 0,		/* index of color */
 		0x10, 0x3d,	/* flags 2 */
-		0, 0 		/* rotation */
+		0, 0		/* rotation */
 	};
 	guint8 *data;
 	guint16 color_index = 0x4d;
@@ -4491,10 +4491,10 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		flags |= 0x100; /* UNDOCUMENTED */
 
 		if (axis != NULL) {
-			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MIN,	        0x01, data+ 0, log_scale);
-			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAX,	        0x02, data+ 8, log_scale);
-			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAJOR_TICK,  	0x04, data+16, log_scale);
-			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MINOR_TICK,  	0x08, data+24, log_scale);
+			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MIN,		0x01, data+ 0, log_scale);
+			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAX,		0x02, data+ 8, log_scale);
+			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAJOR_TICK,	0x04, data+16, log_scale);
+			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MINOR_TICK,	0x08, data+24, log_scale);
 			if (isnan (cross_at) || (log_scale && cross_at == 1.) || (!log_scale && cross_at == 0.))
 				/* assume this is the auto case for excel */
 				flags |= 0x10;
@@ -4512,8 +4512,8 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 			(s->bp->version >= MS_BIFF_V8) ? 30 : 26);
 		g_object_get (G_OBJECT (axis),
 			"major-tick-labeled",		&labeled,
-			"major-tick-in", 		&in,
-			"major-tick-out", 		&out,
+			"major-tick-in",		&in,
+			"major-tick-out",		&out,
 			/* "major-tick-size-pts",	(unsupported in XL) */
 			/* "minor-tick-size-pts",	(unsupported in XL) */
 			NULL);
@@ -4523,8 +4523,8 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		GSF_LE_SET_GUINT8  (data+0, tmp);
 
 		g_object_get (G_OBJECT (axis),
-			"minor-tick-in", 	&in,
-			"minor-tick-out", 	&out,
+			"minor-tick-in",	&in,
+			"minor-tick-out",	&out,
 			NULL);
 		tmp = out ? 2 : 0;
 		if (in)
@@ -4532,9 +4532,9 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		GSF_LE_SET_GUINT8  (data+1, tmp);
 
 		tmp = labeled ? 3 : 0; /* label : 0 == none
-					* 	  1 == low	(unsupported in gnumeric)
-					* 	  2 == high	(unsupported in gnumeric)
-					* 	  3 == beside axis */
+					*	  1 == low	(unsupported in gnumeric)
+					*	  2 == high	(unsupported in gnumeric)
+					*	  3 == beside axis */
 		GSF_LE_SET_GUINT8  (data+2, tmp);
 		GSF_LE_SET_GUINT8  (data+3, 1); /* background mode : 1 == transparent
 						 *		     2 == opaque */

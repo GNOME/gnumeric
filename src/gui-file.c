@@ -8,7 +8,7 @@
  *    Andreas J. Guelzow (aguelzow@taliesin.ca)
  *
  * Port to Maemo:
- * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ *	Eduardo Lima  (eduardo.lima@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
@@ -83,7 +83,7 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 						GO_FILE_OPENER (l->data));
 		else
 			descr = go_file_saver_get_description (
-				                GO_FILE_SAVER (l->data));
+						GO_FILE_SAVER (l->data));
 
 		gtk_combo_box_append_text (combo, descr);
 	}

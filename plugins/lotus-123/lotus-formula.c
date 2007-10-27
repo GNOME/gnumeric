@@ -209,7 +209,7 @@ static const LFuncInfo functions[] = {
 	{  2,  0xC1, "BESSELK",	     "BESSELK",	     wk1_std_func },
 	{  2,  0xC2, "BESSELY",	     "BESSELY",	     wk1_std_func },
 	{  3,  0xC3, "BETAI",	     NULL,	     wk1_std_func },
-	{ -1,  0xCA, "DEVSQ", 	     "DEVSQ",	     wk1_std_func },
+	{ -1,  0xCA, "DEVSQ",	     "DEVSQ",	     wk1_std_func },
 	{  1,  0xCC, "ERFC",	     "ERFC",	     wk1_std_func },
 	{ -1,  0xD2, "GEOMEAN",      "GEOMEAN",	     wk1_std_func },
 	{ -1,  0xD3, "HARMEAN",      "HARMEAN",	     wk1_std_func },
@@ -220,7 +220,7 @@ static const LFuncInfo functions[] = {
 	{ -2,  0xF3, "DPURECOUNT",   "DCOUNT",	     wk1_std_func },
 	{  1,  0xF8, "RADTODEG",     "DEGREES",	     wk1_std_func },
 	{  1,  0xFA, "SIGN",	     "SIGN",	     wk1_std_func },
-	{ -1,  0xFB, "SUMSQ", 	     "SUMSQ",	     wk1_std_func },
+	{ -1,  0xFB, "SUMSQ",	     "SUMSQ",	     wk1_std_func },
 	{  1, 0x101, "EVEN",	     "EVEN",	     wk1_std_func },
 	{  1, 0x103, "ODD",	     "ODD",	     wk1_std_func },
 	{  1, 0x119, "ISEMPTY",	     "ISBLANK",	     wk1_std_func }

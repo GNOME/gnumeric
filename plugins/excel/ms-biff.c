@@ -371,7 +371,7 @@ ms_biff_query_new (GsfInput *input)
 	q->opcode        = 0;
 	q->length        = 0;
 	q->data_malloced = q->non_decrypted_data_malloced = FALSE;
-	q->data 	 = q->non_decrypted_data = NULL;
+	q->data		 = q->non_decrypted_data = NULL;
 	q->input         = input;
 	q->encryption    = MS_BIFF_CRYPTO_NONE;
 

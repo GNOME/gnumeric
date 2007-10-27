@@ -21,7 +21,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 typedef struct {
-	Sheet 	  *first, *last;
+	Sheet	  *first, *last;
 	unsigned   supbook;
 } ExcelExternSheetV8;
 typedef enum {
@@ -41,7 +41,7 @@ typedef struct {
 	Sheet		*sheet;
 	GHashTable	*shared_formulae, *tables;
 
-	gboolean 	 freeze_panes;
+	gboolean	 freeze_panes;
 	unsigned	 active_pane;
 	GnmFilter	*filter;
 	int		 biff2_prev_xf_index;
@@ -140,7 +140,7 @@ char *excel_get_text  (GnmXLImporter const *importer,
 		       guint8 const *ptr, guint32 length,
 		       guint32 *byte_length);
 
-GnmColor  	*excel_palette_get (GnmXLImporter *importer, gint idx);
+GnmColor	*excel_palette_get (GnmXLImporter *importer, gint idx);
 ExcelFont const *excel_font_get    (GnmXLImporter const *importer, unsigned idx);
 GOFont const	*excel_font_get_gofont (ExcelFont const *font);
 

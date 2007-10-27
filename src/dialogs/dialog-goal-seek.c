@@ -111,7 +111,7 @@ goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 	workbook_recalc (evaldata->state->wb);
 
 	if (evaldata->ycell->value) {
-	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
+		*y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
 		if (gnm_finite (*y))
 			return GOAL_SEEK_OK;
 	}
@@ -394,7 +394,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	if (entry_to_float_with_format (GTK_ENTRY(state->at_most_entry), &state->xmax,
 					TRUE, format)) {
-  		state->xmax = +max_range_val;
+		state->xmax = +max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), "");
 	}
 
@@ -416,7 +416,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		GOFormat *format = go_format_general ();
 		GnmValue *error_value = value_new_float (state->target_value -
 						      value_get_as_float (state->set_cell->value));
-  		char *target_str = format_value (format, error_value, NULL, -1,
+		char *target_str = format_value (format, error_value, NULL, -1,
 						 workbook_date_conv (state->wb));
 		gtk_label_set_text (GTK_LABEL (state->target_value_label), target_str);
 		g_free (target_str);
@@ -551,7 +551,7 @@ dialog_init (GoalSeekState *state)
 			  2, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->set_cell_entry));
 	dialog_preload_selection (state, state->set_cell_entry);
 	gtk_widget_show (GTK_WIDGET (state->set_cell_entry));

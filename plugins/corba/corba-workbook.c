@@ -44,7 +44,7 @@ typedef struct {
 
 	POA_GNOME_Gnumeric_Workbook	 servant;
 	gboolean			 initialized, activated;
-	CORBA_Object   			 corba_obj; /* local CORBA object */
+	CORBA_Object			 corba_obj; /* local CORBA object */
 
 	CORBA_Environment		*ev; /* exception from the caller */
 } WorkbookControlCORBA;

@@ -333,7 +333,7 @@ lotus_color_table[240][3] = {
 	{ 224, 224, 116 },		/* avocado		*/
 	{ 65, 255, 50 },		/* leaf green		*/
 	{ 66, 255, 199 },		/* light aqua		*/
-	{ 66, 255, 255 },		/* light turquoise  	*/
+	{ 66, 255, 255 },		/* light turquoise	*/
 	{ 0, 191, 255 },		/* light cerulean	*/
 	{ 82, 145, 239 },		/* azure		*/
 	{ 128, 128, 255 },		/* lavender		*/
@@ -400,7 +400,7 @@ lotus_color_table[240][3] = {
 	{ 0, 128, 128 },		/* aztec blue		*/
 	{ 0, 96, 160 },			/* dusty blue		*/
 	{ 0, 65, 194 },			/* blueberry		*/
-	{ 0, 33, 191 },			/* violet         	*/
+	{ 0, 33, 191 },			/* violet		*/
 	{ 65, 0, 194 },			/* deep purple		*/
 	{ 129, 0, 255 },		/* red violet		*/
 	{ 255, 0, 255 },		/* hot pink		*/
@@ -1989,7 +1989,7 @@ lotus_read_new (LotusState *state, record_t *r)
 #define FACEBIT(bitval,attr)							\
 	if (facemask & bitval) {						\
                 if (facebits & bitval)						\
-                	g_print ("Bit value %d set.\n", bitval);		\
+			g_print ("Bit value %d set.\n", bitval);		\
 		gnm_style_set_font_ ## attr (style, (facebits & bitval) != 0);	\
 	}
 				FACEBIT (0x0001,bold);

@@ -94,7 +94,7 @@ static struct {
 	int version;
 } const OOVersions[] = {
 	{ "application/vnd.sun.xml.calc",  OOO_VER_1 },
-	{ "application/vnd.oasis.opendocument.spreadsheet", 		OOO_VER_OPENDOC },
+	{ "application/vnd.oasis.opendocument.spreadsheet",		OOO_VER_OPENDOC },
 	{ "application/vnd.oasis.opendocument.spreadsheet-template",	OOO_VER_OPENDOC }
 };
 
@@ -170,18 +170,18 @@ typedef struct {
 } ODFSheetStyle;
 
 typedef struct {
-	IOContext 	*context;	/* The IOcontext managing things */
+	IOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	ODFrameProperties cur_frame;
-	GnmParsePos 	pos;
-	GnmCellPos 	data_extent;
-	GnmCellPos 	style_extent;
+	GnmParsePos	pos;
+	GnmCellPos	data_extent;
+	GnmCellPos	style_extent;
 
-	int 		 col_inc, row_inc;
-	gboolean 	 simple_content;
-	gboolean 	 error_content;
+	int		 col_inc, row_inc;
+	gboolean	 simple_content;
+	gboolean	 error_content;
 
 	GHashTable	*formats;
 
@@ -198,9 +198,9 @@ typedef struct {
 	OOStyleType	 cur_style_type;
 
 	gboolean	 h_align_is_valid, repeat_content;
-	GnmStyle 	*default_style_cell;
+	GnmStyle	*default_style_cell;
 	GSList		*sheet_order;
-	int	 	 richtext_len;
+	int		 richtext_len;
 	GString		*accum_fmt;
 	char		*fmt_name;
 	GnmFilter	*filter;
@@ -755,7 +755,7 @@ oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 			ptr++;
 
 		/* From the spec :
-		 * 	SheetName   ::= [^\. ']+ | "'" ([^'] | "''")+ "'" */
+		 *	SheetName   ::= [^\. ']+ | "'" ([^'] | "''")+ "'" */
 		if ('\'' == *ptr) {
 			tmp1 = ++ptr;
 two_quotes :
@@ -1427,25 +1427,25 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	static OOEnum const h_alignments [] = {
 		{ "start",	HALIGN_LEFT },
 		{ "center",	HALIGN_CENTER },
-		{ "end", 	HALIGN_RIGHT },
+		{ "end",	HALIGN_RIGHT },
 		{ "justify",	HALIGN_JUSTIFY },
 		{ "automatic",	HALIGN_GENERAL },
 		{ NULL,	0 },
 	};
 	static OOEnum const v_alignments [] = {
-		{ "bottom", 	VALIGN_BOTTOM },
+		{ "bottom",	VALIGN_BOTTOM },
 		{ "top",	VALIGN_TOP },
 		{ "middle",	VALIGN_CENTER },
 
 		/* FIXME : a new state dependent on the rotation
-		 * 	'0 or 90 == baseline'
-		 * 	'270 == center'
-		 * 	No comment on what to do for other items */
+		 *	'0 or 90 == baseline'
+		 *	'270 == center'
+		 *	No comment on what to do for other items */
 		{ "automatic",	VALIGN_BOTTOM },
 		{ NULL,	0 },
 	};
 	static OOEnum const protections [] = {
-		{ "none", 			0 },
+		{ "none",			0 },
 		{ "hidden-and-protected",	1 | 2 },
 		{ "protected",			    2 },
 		{ "formula-hidden",		1 },
@@ -1822,10 +1822,10 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "!match",		GNM_FILTER_OP_NO_MATCH },
 		{ "empty",		GNM_FILTER_OP_BLANKS },
 		{ "!empty",		GNM_FILTER_OP_NON_BLANKS },
-		{ "bottom percent",  	GNM_FILTER_OP_BOTTOM_N_PERCENT },
-		{ "bottom values",  	GNM_FILTER_OP_BOTTOM_N },
-		{ "top percent",  	GNM_FILTER_OP_TOP_N_PERCENT },
-		{ "top values",  	GNM_FILTER_OP_TOP_N },
+		{ "bottom percent",	GNM_FILTER_OP_BOTTOM_N_PERCENT },
+		{ "bottom values",	GNM_FILTER_OP_BOTTOM_N },
+		{ "top percent",	GNM_FILTER_OP_TOP_N_PERCENT },
+		{ "top values",		GNM_FILTER_OP_TOP_N },
 
 		{ NULL,	0 },
 	};
@@ -2394,7 +2394,7 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTEN
     GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,		"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,		"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,		"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-    GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER, 		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,			"map", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -2461,7 +2461,7 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
       GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,		"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,		"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,		"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER, 		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -2589,12 +2589,12 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (OFFICE_STYLES, TIME_STYLE, OO_NS_NUMBER, 	"time-style", GSF_XML_NO_CONTENT, &oo_date_style, &oo_date_style_end),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, TIME_STYLE, OO_NS_NUMBER,	"time-style", GSF_XML_NO_CONTENT, &oo_date_style, &oo_date_style_end),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_HOURS, OO_NS_NUMBER,	"hours", GSF_XML_NO_CONTENT,	&oo_date_hours, NULL),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,	"minutes", GSF_XML_NO_CONTENT, &oo_date_minutes, NULL),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,	"seconds", GSF_XML_NO_CONTENT, &oo_date_seconds, NULL),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,	"am-pm", GSF_XML_NO_CONTENT,	&oo_date_am_pm, NULL),
-	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER, 	"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT,	NULL, &oo_date_text_end),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,	"text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,	"map", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_BOOL, OO_NS_NUMBER,	"boolean-style", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2666,7 +2666,7 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 	  GSF_XML_IN_NODE (SPREADSHEET, DB_RANGES, OO_NS_TABLE, "database-ranges", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, &oo_db_range_start, &oo_db_range_end),
 	      GSF_XML_IN_NODE (DB_RANGE, FILTER, OO_NS_TABLE, "filter", GSF_XML_NO_CONTENT, NULL, NULL),
-	        GSF_XML_IN_NODE (FILTER, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, &oo_filter_cond, NULL),
+		GSF_XML_IN_NODE (FILTER, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, &oo_filter_cond, NULL),
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", GSF_XML_NO_CONTENT, NULL, NULL),
 

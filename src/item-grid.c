@@ -885,7 +885,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	if (edit_showed_dialog)
 		return TRUE;  /* we already ignored the button release */
 
-      	switch (event->button) {
+	switch (event->button) {
 	case 1: {
 		guint32 double_click_time;
 
@@ -913,9 +913,9 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 		break;
 	}
 
-      	case 2: break;
+	case 2: break;
 
-      	case 3: scg_context_menu (scg, event, FALSE, FALSE);
+	case 3: scg_context_menu (scg, event, FALSE, FALSE);
 		break;
 	default :
 		break;
@@ -1011,8 +1011,8 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 		case ITEM_GRID_SELECTING_FORMULA_RANGE :
 /*  Removal of this code (2 lines)                                                */
 /*  should fix http://bugzilla.gnome.org/show_bug.cgi?id=63485                    */
-/* 			sheet_make_cell_visible (sheet,                           */
-/* 				sheet->edit_pos.col, sheet->edit_pos.row, FALSE); */
+/*			sheet_make_cell_visible (sheet,                           */
+/*				sheet->edit_pos.col, sheet->edit_pos.row, FALSE); */
 			/* Fall through */
 		case ITEM_GRID_SELECTING_CELL_RANGE :
 			wb_view_selection_desc (

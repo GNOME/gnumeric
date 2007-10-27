@@ -846,8 +846,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_biff_query_next (q);
 			pixbuf = excel_read_IMDATA (q, FALSE);
 			if (pixbuf) {
-			        ms_obj_attr_bag_insert (obj->attrs,
-				        ms_obj_attr_new_gobject
+				ms_obj_attr_bag_insert (obj->attrs,
+					ms_obj_attr_new_gobject
 						(MS_OBJ_ATTR_IMDATA,
 						 G_OBJECT (pixbuf)));
 				g_object_unref (pixbuf);
@@ -1195,7 +1195,7 @@ void
 ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 {
 	static char const * const object_type_names[] = {
-		"Group", 	/* 0x00 */
+		"Group",	/* 0x00 */
 		"Line",		/* 0x01 */
 		"Rectangle",	/* 0x02 */
 		"Oval",		/* 0x03 */

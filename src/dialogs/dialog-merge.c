@@ -4,7 +4,7 @@
  * 
  *
  * Author:
- * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * Copyright (C) 2002 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *

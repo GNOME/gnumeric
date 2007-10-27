@@ -31,7 +31,7 @@
  *
  *
  * The LaTeX2e function is named:
- * 		latex_file_save()
+ *		latex_file_save()
  *
  */
 
@@ -503,7 +503,7 @@ latex2e_write_file_header(GsfOutput *output)
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "\n"
 "	\\documentclass[12pt%\n"
-"	                  %,landscape%\n"
+"			  %,landscape%\n"
 "                    ]{report}\n"
 		);
 
@@ -992,7 +992,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 
 		/* Establish the font's style for the styles that can be addressed by LaTeX.
 		 * More complicated efforts (like changing fonts) are left to the user.
-      		 */
+		 */
 
 		if (hidden)
 			gsf_output_printf (output, "\\phantom{");
@@ -1014,7 +1014,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 		    cell_format_family == GO_FORMAT_FRACTION ||
 		    cell_format_family == GO_FORMAT_SCIENTIFIC){
 			gsf_output_printf (output, "$");
-		        if (gnm_style_get_font_italic(style))
+			if (gnm_style_get_font_italic(style))
 			    gsf_output_printf (output, "\\gnumericmathit{");
 
 			/* Print the cell contents. */
@@ -1022,7 +1022,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			latex_math_fputs (rendered_string, output);
 			g_free (rendered_string);
 
-		        if (gnm_style_get_font_italic(style))
+			if (gnm_style_get_font_italic(style))
 			    gsf_output_printf (output, "}");
 			gsf_output_printf (output, "$");
 		} else {
@@ -1084,7 +1084,7 @@ latex2e_find_hhlines (GnmStyleBorderType *clines, int length, int col, int row,
 {
 	GnmStyle const	*style;
 	GnmBorder const	*border;
- 	GnmRange const	*merge_range;
+	GnmRange const	*merge_range;
 	GnmCellPos pos;
 
 	style = sheet_style_get (sheet, col, row);
@@ -1180,7 +1180,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 	GnmCell *cell;
 	Sheet *current_sheet;
 	GnmRange total_range;
- 	GnmRange const *merge_range;
+	GnmRange const *merge_range;
 	int row, col, num_cols, length;
 	int num_merged_cols, num_merged_rows;
 	GnmStyleBorderType *clines, *this_clines;
@@ -1294,7 +1294,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 		g_free (clines);
 
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {
-		        GnmCellPos pos;
+			GnmCellPos pos;
 
 			pos.col = col;
 			pos.row = row;
@@ -1311,13 +1311,13 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 			/* Check a merge. */
 			merge_range = gnm_sheet_merge_is_corner (current_sheet, &pos);
 			if (merge_range == NULL) {
-			        if (gnm_cell_is_empty(cell))
-				        latex2e_write_blank_multicolumn_cell(output, col, row,
+				if (gnm_cell_is_empty(cell))
+					latex2e_write_blank_multicolumn_cell(output, col, row,
 									     1, 1,
 							       col - total_range.start.col,
 							       next_vert, current_sheet);
 				else
-				        latex2e_write_multicolumn_cell(output, cell, col,
+					latex2e_write_multicolumn_cell(output, cell, col,
 								       1, 1,
 							       col - total_range.start.col,
 							       next_vert, current_sheet);

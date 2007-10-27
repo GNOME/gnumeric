@@ -224,7 +224,7 @@ cb_tool_destroy (GenericToolState  *state)
  **/
 static void
 cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
-		        GenericToolState *state)
+			GenericToolState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -253,11 +253,11 @@ dialog_tool_init_buttons (GenericToolState *state,
 	state->cancel_button = glade_xml_get_widget (state->gui,
 						     "cancelbutton");
 	if (close_function == NULL)
-	        g_signal_connect (G_OBJECT (state->cancel_button),
+		g_signal_connect (G_OBJECT (state->cancel_button),
 				  "clicked",
 				  G_CALLBACK (cb_tool_cancel_clicked), state);
 	else
-	        g_signal_connect (G_OBJECT (state->cancel_button),
+		g_signal_connect (G_OBJECT (state->cancel_button),
 				  "clicked",
 				  G_CALLBACK (close_function), state);
 
@@ -1110,15 +1110,15 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 0;
 
 	state->summary_stats_button  = glade_xml_get_widget
-	        (state->base.gui, "summary_stats_button");
+		(state->base.gui, "summary_stats_button");
 	state->ss_button  = glade_xml_get_widget
-	        (state->base.gui, "ss_button");
+		(state->base.gui, "ss_button");
 	state->mean_stats_button  = glade_xml_get_widget
-	        (state->base.gui, "mean_stats_button");
+		(state->base.gui, "mean_stats_button");
 	state->kth_largest_button  = glade_xml_get_widget
-	        (state->base.gui, "kth_largest_button");
+		(state->base.gui, "kth_largest_button");
 	state->kth_smallest_button  = glade_xml_get_widget
-	        (state->base.gui, "kth_smallest_button");
+		(state->base.gui, "kth_smallest_button");
 	state->c_entry  = glade_xml_get_widget (state->base.gui, "c_entry");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->c_entry), 0.95);
 	state->l_entry  = glade_xml_get_widget (state->base.gui, "l_entry");
@@ -1148,11 +1148,11 @@ dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->s_entry),
 		"changed",
 		G_CALLBACK (desc_stat_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->c_entry));
-  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->l_entry));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->s_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -1518,13 +1518,13 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 	g_signal_connect (G_OBJECT (state->base.dialog),
 		"realize",
 		G_CALLBACK (dialog_ttest_realized), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->var1_variance));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->var2_variance));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->mean_diff_entry));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -1666,7 +1666,7 @@ dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 0;
 
 	state->alpha_entry = glade_xml_get_widget (state->base.gui, "one_alpha");
- 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
+	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 	g_signal_connect_after (G_OBJECT (state->alpha_entry),
@@ -1888,11 +1888,11 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->number_entry),
 		"changed",
 		G_CALLBACK (sampling_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->period_entry));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->random_entry));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->number_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
@@ -2205,7 +2205,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->damping_fact_entry),
 		"changed",
 		G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->damping_fact_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
@@ -2336,7 +2336,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->interval_entry),
 		"changed",
 		G_CALLBACK (average_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->interval_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
@@ -2434,7 +2434,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		entry_to_int(state->n_entry, &data->n,TRUE);
 		data->max_given = (0 == entry_to_float (state->max_entry,
 							    &data->max , TRUE));
-	        data->min_given = (0 == entry_to_float (state->min_entry,
+		data->min_given = (0 == entry_to_float (state->min_entry,
 							    &data->min , TRUE));
 		data->bin = NULL;
 	}
@@ -2454,8 +2454,8 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			       dao, data, analysis_tool_histogram_engine))
 		gtk_widget_destroy (state->base.dialog);
 
-/* 				_("Each row of the bin range should contain one numeric value\n" */
-/* 				  "(ignoring the label if applicable).")); */
+/*				_("Each row of the bin range should contain one numeric value\n" */
+/*				  "(ignoring the label if applicable).")); */
 	return;
 }
 
@@ -2731,7 +2731,7 @@ dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->alpha_entry),
 		"changed",
 		G_CALLBACK (anova_single_tool_update_sensitivity_cb), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
@@ -2964,9 +2964,9 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 		"changed",
 		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
 				state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->replication_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);

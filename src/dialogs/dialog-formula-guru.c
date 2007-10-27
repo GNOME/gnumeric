@@ -372,7 +372,7 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 				gtk_tree_path_free (new_path);
 				return;
 			}
- 		} else {
+		} else {
 			gtk_tree_store_clear (state->model);
 			gtk_tree_path_free (new_path);
 			return;
@@ -421,7 +421,7 @@ dialog_formula_guru_load_string (GtkTreePath * path,
 			dialog_formula_guru_adjust_varargs (&iter, state);
 			okay = gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
 							&iter, path);
- 		} else
+		} else
 			okay = FALSE;
 		gtk_tree_path_free (new_path);
 	}

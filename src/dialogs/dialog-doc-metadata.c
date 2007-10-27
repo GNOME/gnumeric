@@ -55,14 +55,14 @@ typedef struct {
 	GtkWidget		*dialog;
 
 	/*pointer to the document metadata*/
-	GsfDocMetaData 		*metadata;
+	GsfDocMetaData		*metadata;
 
-	gboolean 		permissions_changed;
-	GOFilePermissions 	*file_permissions;
+	gboolean		permissions_changed;
+	GOFilePermissions	*file_permissions;
 
 	WBCGtk	*wbcg;
 	Workbook                *wb;
-	GODoc	                *doc;
+	GODoc			*doc;
 
 	/* Dialog Widgets */
 	GtkNotebook		*notebook;
@@ -78,7 +78,7 @@ typedef struct {
 	GtkLabel		*owner;
 	GtkLabel		*group;
 
-	GtkCheckButton 		*owner_read;
+	GtkCheckButton		*owner_read;
 	GtkCheckButton		*owner_write;
 
 	GtkCheckButton		*group_read;
@@ -672,7 +672,7 @@ cb_dialog_doc_metadata_title_changed (GtkEntry          *entry,
 				      DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
-		 		      GSF_META_NAME_TITLE,
+				      GSF_META_NAME_TITLE,
 				      gtk_entry_get_text (entry),
 				      NULL);
 }
@@ -1149,7 +1149,7 @@ dialog_doc_metadata_get_prop_val (char const *prop_name,
  **/
 static void
 dialog_doc_metadata_populate_tree_view (gchar             *name,
-					GsfDocProp 	  *prop,
+					GsfDocProp	  *prop,
 					DialogDocMetaData *state)
 {
 	gchar  *str_value;
@@ -1306,7 +1306,7 @@ dialog_doc_metadata_set_file_permissions (DialogDocMetaData *state)
 	if (state->file_permissions != NULL && 
 	    state->permissions_changed == TRUE)
 		go_set_file_permissions (go_doc_get_uri (state->doc),
-				         state->file_permissions);
+					 state->file_permissions);
 }
 
 static void

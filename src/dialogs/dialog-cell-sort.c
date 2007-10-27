@@ -213,8 +213,8 @@ set_ok_button_sensitivity(SortFlowState *state)
 	int items;
 	items = state->is_cols ? (state->sel->v_range.cell.b.row -
 				  state->sel->v_range.cell.a.row + 1) :
-		                 (state->sel->v_range.cell.b.col -
-		                  state->sel->v_range.cell.a.col + 1);
+				 (state->sel->v_range.cell.b.col -
+				  state->sel->v_range.cell.a.col + 1);
 	if (state->header)
 		items -= 1;
 	gtk_widget_set_sensitive (state->ok_button,
@@ -389,7 +389,7 @@ translate_range (GnmValue *range, SortFlowState *state)
 		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 
 	if (state->sel != NULL)
-	  	value_release (state->sel);
+		value_release (state->sel);
 	state->sel = range;
 	load_model_data(state);
 }
@@ -652,7 +652,7 @@ move_cb (SortFlowState *state, gint direction)
 			    ITEM_NAME, name,
 			    ITEM_DESCENDING,descending,
 			    ITEM_DESCENDING_IMAGE,descending ? state->image_descending :
-			                                       state->image_ascending,
+							       state->image_ascending,
 			    ITEM_CASE_SENSITIVE, case_sensitive,
 			    ITEM_SORT_BY_VALUE, sort_by_value,
 			    ITEM_MOVE_FORMAT, move_format,
@@ -948,7 +948,7 @@ dialog_init (SortFlowState *state)
 			  2, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->range_entry));
 	gnm_expr_entry_set_update_policy (state->range_entry, GTK_UPDATE_DISCONTINUOUS);
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
@@ -973,7 +973,7 @@ dialog_init (SortFlowState *state)
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->add_entry));
 	gtk_widget_show (GTK_WIDGET (state->add_entry));
 
@@ -1017,7 +1017,7 @@ dialog_init (SortFlowState *state)
 	g_signal_connect (G_OBJECT (renderer),
 		"toggled",
 		G_CALLBACK (cb_toggled_case_sensitive), state);
- 	column = gtk_tree_view_column_new_with_attributes (_("Case Sensitive"),
+	column = gtk_tree_view_column_new_with_attributes (_("Case Sensitive"),
 							   renderer,
 							   "active", ITEM_CASE_SENSITIVE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);

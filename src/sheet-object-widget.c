@@ -113,11 +113,11 @@ static GSF_CLASS_FULL (SOWidgetFooView, so_widget_foo_view,
 #define SHEET_OBJECT_WIDGET(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidget))
 #define SHEET_OBJECT_WIDGET_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidgetClass))
 #define IS_SHEET_WIDGET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
-#define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
+#define SOW_CLASS(so)		     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet, fn_foreach_dep,	\
 		      fn_copy, fn_read_dom, fn_write_sax, fn_prep_sax_parser,		\
-	              fn_get_property, fn_set_property, class_init_code)		\
+		      fn_get_property, fn_set_property, class_init_code)		\
 static void										\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
 {											\
@@ -135,7 +135,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
 	so_class->read_xml_dom		= fn_read_dom;					\
 	so_class->write_xml_sax		= fn_write_sax;					\
 	so_class->prep_sax_parser	= fn_prep_sax_parser;				\
-	sow_class->create_widget     	= &sheet_widget_ ## n1 ## _create_widget;	\
+	sow_class->create_widget	= &sheet_widget_ ## n1 ## _create_widget;	\
         { class_init_code; }								\
 }											\
 											\
@@ -343,71 +343,71 @@ sheet_widget_frame_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 typedef struct {
-  	GladeXML           *gui;
-  	GtkWidget          *dialog;
-  	GtkWidget          *label;
+	GladeXML           *gui;
+	GtkWidget          *dialog;
+	GtkWidget          *label;
 
-  	char               *old_label;
-  	GtkWidget          *old_focus;
+	char               *old_label;
+	GtkWidget          *old_focus;
 
-  	WBCGtk *wbcg;
-  	SheetWidgetFrame   *swf;
-  	Sheet		   *sheet;
+	WBCGtk *wbcg;
+	SheetWidgetFrame   *swf;
+	Sheet		   *sheet;
 } FrameConfigState;
 
 static void
 cb_frame_config_destroy (FrameConfigState *state)
 {
- 	g_return_if_fail (state != NULL);
+	g_return_if_fail (state != NULL);
 
- 	if (state->gui != NULL) {
- 		g_object_unref (G_OBJECT (state->gui));
- 		state->gui = NULL;
- 	}
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
 
- 	g_free (state->old_label);
- 	state->old_label = NULL;
- 	state->dialog = NULL;
- 	g_free (state);
+	g_free (state->old_label);
+	state->old_label = NULL;
+	state->dialog = NULL;
+	g_free (state);
 }
 
 static void
 cb_frame_config_ok_clicked (GtkWidget *button, FrameConfigState *state)
 {
-  	gtk_widget_destroy (state->dialog);
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
 cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 {
-  	GList *ptr;
-  	SheetWidgetFrame *swf = state->swf;
+	GList *ptr;
+	SheetWidgetFrame *swf = state->swf;
 
 	g_free (swf->label);
 
-  	swf->label = g_strdup (state->old_label);
-  	for (ptr = swf->sow.realized_list; ptr != NULL ; ptr = ptr->next)
+	swf->label = g_strdup (state->old_label);
+	for (ptr = swf->sow.realized_list; ptr != NULL ; ptr = ptr->next)
 		gtk_frame_set_label
 			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
 			 state->old_label);
 
-  	gtk_widget_destroy (state->dialog);
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
 cb_frame_label_changed (GtkWidget *entry, FrameConfigState *state)
 {
-  	GList *ptr;
-  	SheetWidgetFrame *swf;
-  	gchar const *text;
+	GList *ptr;
+	SheetWidgetFrame *swf;
+	gchar const *text;
 
-  	text = gtk_entry_get_text(GTK_ENTRY(entry));
-  	swf = state->swf;
+	text = gtk_entry_get_text(GTK_ENTRY(entry));
+	swf = state->swf;
 
 	g_free (swf->label);
 	swf->label = g_strdup (text);
 
-  	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
 		gtk_frame_set_label
 			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
 			 text);
@@ -417,60 +417,60 @@ cb_frame_label_changed (GtkWidget *entry, FrameConfigState *state)
 static void
 sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 {
-  	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
-  	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
-  	FrameConfigState *state;
-  	GtkWidget *table;
+	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
+	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	FrameConfigState *state;
+	GtkWidget *table;
 
-  	g_return_if_fail (swf != NULL);
+	g_return_if_fail (swf != NULL);
 
-  	/* Only pop up one copy per workbook */
-  	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
-  		return;
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+		return;
 
-  	state = g_new (FrameConfigState, 1);
-  	state->swf = swf;
-  	state->wbcg = wbcg;
-  	state->sheet = sc_sheet	(sc);
-  	state->old_focus = NULL;
-  	state->old_label = g_strdup(swf->label);
-  	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
+	state = g_new (FrameConfigState, 1);
+	state->swf = swf;
+	state->wbcg = wbcg;
+	state->sheet = sc_sheet	(sc);
+	state->old_focus = NULL;
+	state->old_label = g_strdup(swf->label);
+	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"so-frame.glade", NULL, NULL);
-  	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
+	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
 
 	table = glade_xml_get_widget(state->gui, "table");
 
-  	state->label = glade_xml_get_widget (state->gui, "entry");
-  	gtk_entry_set_text (GTK_ENTRY(state->label), swf->label);
+	state->label = glade_xml_get_widget (state->gui, "entry");
+	gtk_entry_set_text (GTK_ENTRY(state->label), swf->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->label));
 
-  	g_signal_connect (G_OBJECT(state->label),
+	g_signal_connect (G_OBJECT(state->label),
 			  "changed",
 			  G_CALLBACK (cb_frame_label_changed), state);
-  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
 							  "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_ok_clicked), state);
-  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
 							  "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_cancel_clicked), state);
 
-  	gnumeric_init_help_button (
-  		glade_xml_get_widget (state->gui, "help_button"),
-  		GNUMERIC_HELP_LINK_SO_FRAME);
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		GNUMERIC_HELP_LINK_SO_FRAME);
 
 
-  	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-  			       SHEET_OBJECT_CONFIG_KEY);
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       SHEET_OBJECT_CONFIG_KEY);
 
-  	wbc_gtk_attach_guru (state->wbcg, state->dialog);
+	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_frame_config_destroy);
 
-  	gtk_widget_show (state->dialog);
+	gtk_widget_show (state->dialog);
 }
 
 SOW_MAKE_TYPE (frame, Frame,
@@ -597,10 +597,10 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	g_free (swb->label);
 	swb->label = new_label;
 
- 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
- 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
- 		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
- 	}
+	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
+	}
 }
 
 void
@@ -616,11 +616,11 @@ sheet_widget_button_set_markup (SheetObject *so, PangoAttrList *markup)
 	swb->markup = markup;
 	if (markup) pango_attr_list_ref (markup);
 
- 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
- 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
 		gtk_label_set_attributes (GTK_LABEL (GTK_BIN (item->widget)->child),
 					  swb->markup);
- 	}
+	}
 }
 
 enum {
@@ -961,7 +961,7 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 		"so-scrollbar.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
 
- 	table = glade_xml_get_widget (state->gui, "table");
+	table = glade_xml_get_widget (state->gui, "table");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
@@ -1284,7 +1284,7 @@ typedef struct {
 
 	GnmDependent	 dep;
 	char		*label;
-	gboolean 	 value;
+	gboolean	 value;
 	gboolean	 being_updated;
 } SheetWidgetCheckbox;
 typedef SheetObjectWidgetClass SheetWidgetCheckboxClass;
@@ -1599,7 +1599,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 		"so-checkbox.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Checkbox");
 
- 	table = glade_xml_get_widget (state->gui, "table");
+	table = glade_xml_get_widget (state->gui, "table");
 
 	state->expression = gnm_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
@@ -1614,15 +1614,15 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
- 	state->label = glade_xml_get_widget (state->gui, "label_entry");
- 	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
+	state->label = glade_xml_get_widget (state->gui, "label_entry");
+	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->expression));
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->label));
 
- 	g_signal_connect (G_OBJECT (state->label),
+	g_signal_connect (G_OBJECT (state->label),
 		"changed",
 		G_CALLBACK (cb_checkbox_label_changed), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
@@ -1753,11 +1753,11 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 	g_free (swc->label);
 	swc->label = new_label;
 
- 	list = swc->sow.realized_list;
- 	for (; list != NULL; list = list->next) {
- 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
- 		gtk_button_set_label (GTK_BUTTON (item->widget), swc->label);
- 	}
+	list = swc->sow.realized_list;
+	for (; list != NULL; list = list->next) {
+		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+		gtk_button_set_label (GTK_BUTTON (item->widget), swc->label);
+	}
 }
 
 SOW_MAKE_TYPE (checkbox, Checkbox,
@@ -1941,11 +1941,11 @@ sheet_widget_radio_button_set_label (SheetObject *so, char const *str)
 	g_free (swrb->label);
 	swrb->label = new_label;
 
- 	list = swrb->sow.realized_list;
- 	for (; list != NULL; list = list->next) {
- 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
- 		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
- 	}
+	list = swrb->sow.realized_list;
+	for (; list != NULL; list = list->next) {
+		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+		gtk_button_set_label (GTK_BUTTON (item->widget), swrb->label);
+	}
 }
 
 enum {
@@ -2031,7 +2031,7 @@ typedef struct {
 	GnmDependent	output_dep;	/* selected element */
 
 	GtkTreeModel	*model;
-	int	 	 selection;
+	int		 selection;
 } SheetWidgetListBase;
 typedef struct {
 	SheetObjectWidgetClass base;
@@ -2370,7 +2370,7 @@ cb_selection_changed (GtkTreeSelection *selection,
 	GtkWidget    *view = (GtkWidget *)gtk_tree_selection_get_tree_view (selection);
 	GtkTreeModel *model;
 	GtkTreeIter   iter;
-	int  	      pos = 0;
+	int	      pos = 0;
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
 		if (NULL != path) {
@@ -2404,11 +2404,11 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow)
 	gtk_container_add (GTK_CONTAINER (sw), list);
 	gtk_container_add (GTK_CONTAINER (frame), sw);
 
-  	g_signal_connect_object (G_OBJECT (swl), "model-changed",
+	g_signal_connect_object (G_OBJECT (swl), "model-changed",
 		G_CALLBACK (cb_list_model_changed), list, 0);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (list));
-  	g_signal_connect_object (G_OBJECT (swl), "selection-changed",
+	g_signal_connect_object (G_OBJECT (swl), "selection-changed",
 		G_CALLBACK (cb_list_selection_changed), selection, 0);
 	g_signal_connect (selection, "changed",
 		G_CALLBACK (cb_selection_changed), swl);
@@ -2480,9 +2480,9 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow)
                       "text-column",	0,
                       NULL);
 
-  	g_signal_connect_object (G_OBJECT (swl), "model-changed",
+	g_signal_connect_object (G_OBJECT (swl), "model-changed",
 		G_CALLBACK (cb_combo_model_changed), combo, 0);
-  	g_signal_connect_object (G_OBJECT (swl), "selection-changed",
+	g_signal_connect_object (G_OBJECT (swl), "selection-changed",
 		G_CALLBACK (cb_combo_selection_changed), combo, 0);
 	g_signal_connect (G_OBJECT (combo), "changed",
 		G_CALLBACK (cb_combo_changed), swl);

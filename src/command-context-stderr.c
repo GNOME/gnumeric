@@ -3,7 +3,7 @@
  * command-context-stderr.c : Error dispatch for line oriented client
  *
  * Author:
- * 	Jon K Hellan <hellan@acm.org>
+ *	Jon K Hellan <hellan@acm.org>
  *
  * (C) 2002-2005 Jon K Hellan
  */
@@ -98,7 +98,7 @@ static void
 ccs_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 {
 	cc_class->get_password		= ccs_get_password;
-	cc_class->set_sensitive	   	= ccs_set_sensitive;
+	cc_class->set_sensitive		= ccs_set_sensitive;
 	cc_class->progress_set		= ccs_progress_set;
 	cc_class->progress_message_set	= ccs_progress_message_set;
 	cc_class->error.error		= ccs_error_error;

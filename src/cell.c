@@ -30,20 +30,20 @@
 /**
  * gnm_cell_cleanout :
  *      Empty a cell's
- *      	- value.
- *      	- rendered_value.
- *      	- expression.
- *      	- parse format.
+ *		- value.
+ *		- rendered_value.
+ *		- expression.
+ *		- parse format.
  *
  *      Clears the flags to
- *      	- not queued for recalc.
- *      	- has no expression.
+ *		- not queued for recalc.
+ *		- has no expression.
  *
  *      Does NOT change
- *      	- Comments.
- *      	- Spans.
- *      	- unqueue a previously queued recalc.
- *      	- Mark sheet as dirty.
+ *		- Comments.
+ *		- Spans.
+ *		- unqueue a previously queued recalc.
+ *		- Mark sheet as dirty.
  */
 void
 gnm_cell_cleanout (GnmCell *cell)
@@ -73,7 +73,7 @@ gnm_cell_cleanout (GnmCell *cell)
 
 /*
  * gnm_cell_set_text : Parses the supplied text for storage as a value or
- * 		expression.  It marks the sheet as dirty.
+ *		expression.  It marks the sheet as dirty.
  *
  * If the text is an expression it IS queued for recalc.
  *        the format prefered by the expression is stored for later use.
@@ -116,7 +116,7 @@ gnm_cell_set_text (GnmCell *cell, char const *text)
  *    as expression calculation or import for array formulas.
  *
  * WARNING : This is an internal routine that does not
- * 	- queue redraws,
+ *	- queue redraws,
  *	- auto-resize
  *	- calculate spans
  *	- does not render.
@@ -140,7 +140,7 @@ gnm_cell_assign_value (GnmCell *cell, GnmValue *v)
  *          sheet as dirty.
  *
  * WARNING : This is an internal routine that does not
- * 	- queue redraws,
+ *	- queue redraws,
  *	- auto-resize
  *	- calculate spans
  *	- does not render.
@@ -196,10 +196,10 @@ gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr, GnmValue *v
  *
  * A private internal utility to store an expression.
  * Does NOT
- * 	- check for array subdivision
- * 	- queue recalcs.
- * 	- render value, calc dimension, compute spans
- * 	- link the expression into the master list.
+ *	- check for array subdivision
+ *	- queue recalcs.
+ *	- render value, calc dimension, compute spans
+ *	- link the expression into the master list.
  */
 static void
 cell_set_expr_internal (GnmCell *cell, GnmExprTop const *texpr)

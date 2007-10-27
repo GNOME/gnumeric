@@ -209,7 +209,7 @@ update_log (SimulationState *state, simulation_t *sim)
 
 	path = gtk_tree_path_new_from_string ("0");
 	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (store), &iter, path)) {
-		; 		/* Do something */
+		;		/* Do something */
 	} else {
 		g_warning ("Did not get a valid iterator");
 	}
@@ -347,7 +347,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			       &dao, &sim);
 	g_get_current_time (&sim.end);
 
-      	if (err == NULL) {
+	if (err == NULL) {
 		results_sim_index = sim.first_round;
 		update_log (state, &sim);
 		update_results_view (&sim);

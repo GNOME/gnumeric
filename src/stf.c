@@ -377,10 +377,10 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 		if (po->cols_exceeded) {
 /* Using go_cmd_context_error_import will destroy the successfully imported portion */
-/* 			go_cmd_context_error_import (GO_CMD_CONTEXT (context), */
-/* 						      _("Some columns of data were" */
-/* 							" dropped since they exceeded" */
-/* 							" the available sheet size.")); */
+/*			go_cmd_context_error_import (GO_CMD_CONTEXT (context), */
+/*						      _("Some columns of data were" */
+/*							" dropped since they exceeded" */
+/*							" the available sheet size.")); */
 			go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (context->impl)),
 					 GTK_MESSAGE_WARNING,_("Some columns of data were"
 							       " dropped since they exceeded"
@@ -407,7 +407,7 @@ stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 
 	if (IS_WBC_GTK (context->impl))
 		result = stf_export_dialog (WBC_GTK (context->impl),
-		         wb_view_get_workbook (wbv));
+			 wb_view_get_workbook (wbv));
 
 	if (result == NULL) {
 		gnumeric_io_error_unknown (context);

@@ -3,7 +3,7 @@
  * dialog-preferences.c: Dialog to edit application wide preferences and default values
  *
  * Author:
- * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2000-2002 Jody Goldberg <jody@gnome.org>
  * (C) Copyright 2003-2004 Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -893,13 +893,13 @@ typedef struct {
 } page_info_t;
 
 static page_info_t const page_info[] = {
-	{N_("Font"),          GTK_STOCK_ITALIC,	         NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
+	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
 	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer,&pref_copypaste_page_open,	NULL},
-	{N_("Files"),         GTK_STOCK_FLOPPY,	         NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},
+	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},
 	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer,	&pref_tool_page_open,	NULL},
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	&pref_undo_page_open,	NULL},
 	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	&pref_window_page_open,	NULL},
-	{N_("Header/Footer"), GTK_STOCK_ITALIC,	         "0",  &pref_font_hf_initializer,	&pref_font_hf_page_open, NULL},
+	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "0",  &pref_font_hf_initializer,	&pref_font_hf_page_open, NULL},
 	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "3", &pref_sort_page_initializer,	&pref_sort_page_open,	NULL},
 	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "5", &pref_screen_page_initializer,	&pref_screen_page_open,	NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL},

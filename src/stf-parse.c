@@ -318,8 +318,8 @@ stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, guni
 /**
  * stf_parse_options_csv_set_indicator_2x_is_single:
  * @indic_2x : a boolean value indicating whether we want to see two
- * 		adjacent string indicators as a single string indicator
- * 		that is part of the cell, rather than a terminator.
+ *		adjacent string indicators as a single string indicator
+ *		that is part of the cell, rather than a terminator.
  **/
 void
 stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoptions,
@@ -737,7 +737,7 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	while (*cur != 0 && !compare_terminator (cur, parseoptions) && splitval != src->linepos) {
 		src->linepos++;
-	        cur = g_utf8_next_char (cur);
+		cur = g_utf8_next_char (cur);
 	}
 
 	res = g_string_chunk_insert_len (src->chunk,

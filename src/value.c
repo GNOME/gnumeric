@@ -1324,7 +1324,7 @@ criteria_test_equal (GnmValue const *x, GnmValue const *y)
 	if (x == NULL || y == NULL)
 		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        return (value_get_as_float (x) == value_get_as_float (y));
+		return (value_get_as_float (x) == value_get_as_float (y));
 	else
 		return (VALUE_IS_STRING (x) &&
 			VALUE_IS_STRING (y) &&
@@ -1339,7 +1339,7 @@ criteria_test_unequal (GnmValue const *x, GnmValue const *y)
 	if (y == NULL)
 		return TRUE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        return (value_get_as_float (x) != value_get_as_float (y));
+		return (value_get_as_float (x) != value_get_as_float (y));
 	else
 		/* Hmm...  Is this really right?  number vs string, not unequal?  */
 		return (VALUE_IS_STRING (x) &&
@@ -1353,9 +1353,9 @@ criteria_test_less (GnmValue const *x, GnmValue const *y)
 	if (x == NULL || y == NULL)
 		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        return (value_get_as_float (x) < value_get_as_float (y));
+		return (value_get_as_float (x) < value_get_as_float (y));
 	else
-	        return FALSE;
+		return FALSE;
 }
 
 static gboolean
@@ -1364,9 +1364,9 @@ criteria_test_greater (GnmValue const *x, GnmValue const *y)
 	if (x == NULL || y == NULL)
 		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        return (value_get_as_float (x) > value_get_as_float (y));
+		return (value_get_as_float (x) > value_get_as_float (y));
 	else
-	        return FALSE;
+		return FALSE;
 }
 
 static gboolean
@@ -1375,9 +1375,9 @@ criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y)
 	if (x == NULL || y == NULL)
 		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        return (value_get_as_float (x) <= value_get_as_float (y));
+		return (value_get_as_float (x) <= value_get_as_float (y));
 	else
-	        return FALSE;
+		return FALSE;
 }
 
 static gboolean
@@ -1386,9 +1386,9 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y)
 	if (x == NULL || y == NULL)
 		return FALSE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-	        return (value_get_as_float (x) >= value_get_as_float (y));
+		return (value_get_as_float (x) >= value_get_as_float (y));
 	else
-	        return FALSE;
+		return FALSE;
 }
 
 /*
@@ -1407,10 +1407,10 @@ find_column_of_field (GnmEvalPos const *ep,
 	offset = database->v_range.cell.a.col;
 
 	if (VALUE_IS_FLOAT (field))
-	        return value_get_as_int (field) + offset - 1;
+		return value_get_as_int (field) + offset - 1;
 
 	if (!VALUE_IS_STRING (field))
-	        return -1;
+		return -1;
 
 	sheet = eval_sheet (database->v_range.cell.a.sheet, ep->sheet);
 	field_name = value_get_as_string (field);
@@ -1425,9 +1425,9 @@ find_column_of_field (GnmEvalPos const *ep,
 		char const *txt;
 		gboolean match;
 
-	        cell = sheet_cell_get (sheet, n, row);
+		cell = sheet_cell_get (sheet, n, row);
 		if (cell == NULL)
-		        continue;
+			continue;
 		gnm_cell_eval (cell);
 
 		txt = cell->value
@@ -1435,7 +1435,7 @@ find_column_of_field (GnmEvalPos const *ep,
 			: "";
 		match = (g_ascii_strcasecmp (field_name, txt) == 0);
 		if (match) {
-		        column = n;
+			column = n;
 			break;
 		}
 	}
@@ -1454,7 +1454,7 @@ free_criterias (GSList *criterias)
 
         while (criterias != NULL) {
 		GSList *l;
-	        GnmDBCriteria *criteria = criterias->data;
+		GnmDBCriteria *criteria = criterias->data;
 
 		for (l = criteria->conditions; l; l = l->next) {
 			GnmCriteria *cond = l->data;
@@ -1464,7 +1464,7 @@ free_criterias (GSList *criterias)
 
 		g_slist_free (criteria->conditions);
 		g_free (criteria);
-	        criterias = criterias->next;
+		criterias = criterias->next;
 	}
 	g_slist_free (list);
 }
@@ -1498,27 +1498,27 @@ parse_criteria (GnmValue const *crit_val, GnmCriteriaFunc *fun, GnmValue **test_
 
 	criteria = value_peek_string (crit_val);
         if (strncmp (criteria, "<=", 2) == 0) {
-	        *fun = criteria_test_less_or_equal;
+		*fun = criteria_test_less_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, ">=", 2) == 0) {
-	        *fun = criteria_test_greater_or_equal;
+		*fun = criteria_test_greater_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, "<>", 2) == 0) {
-	        *fun = (GnmCriteriaFunc) criteria_test_unequal;
+		*fun = (GnmCriteriaFunc) criteria_test_unequal;
 		len = 2;
 		if (iter_flags)
 			*iter_flags = CELL_ITER_ALL;
 	} else if (*criteria == '<') {
-	        *fun = (GnmCriteriaFunc) criteria_test_less;
+		*fun = (GnmCriteriaFunc) criteria_test_less;
 		len = 1;
 	} else if (*criteria == '=') {
-	        *fun = (GnmCriteriaFunc) criteria_test_equal;
+		*fun = (GnmCriteriaFunc) criteria_test_equal;
 		len = 1;
 	} else if (*criteria == '>') {
-	        *fun = (GnmCriteriaFunc) criteria_test_greater;
+		*fun = (GnmCriteriaFunc) criteria_test_greater;
 		len = 1;
 	} else {
-	        *fun = (GnmCriteriaFunc) criteria_test_equal;
+		*fun = (GnmCriteriaFunc) criteria_test_equal;
 		len = 0;
 	}
 
@@ -1535,22 +1535,22 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	GnmDBCriteria *new_criteria;
 	GSList              *criterias = NULL;
 	GSList              *conditions;
-	GnmCell 	    *cell;
+	GnmCell		    *cell;
 	GnmCriteria     *cond;
 	GODateConventions const *date_conv = workbook_date_conv (sheet->workbook);
 
         int i, j;
 
 	for (i = b_row; i <= e_row; i++) {
-	        new_criteria = g_new (GnmDBCriteria, 1);
+		new_criteria = g_new (GnmDBCriteria, 1);
 		conditions = NULL;
 
 		for (j = b_col; j <= e_col; j++) {
-		        cell = sheet_cell_get (sheet, j, i);
+			cell = sheet_cell_get (sheet, j, i);
 			if (cell != NULL)
 				gnm_cell_eval (cell);
 			if (gnm_cell_is_empty (cell))
-			        continue;
+				continue;
 
 			cond = g_new (GnmCriteria, 1);
 			parse_criteria (cell->value, &cond->fun, &cond->x, NULL, date_conv);
@@ -1592,14 +1592,14 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 	/* Find the index numbers for the columns of criterias */
 	field_ind = g_alloca (sizeof (int) * (e_col - b_col + 1));
 	for (i = b_col; i <= e_col; i++) {
-	        cell = sheet_cell_get (sheet, i, b_row);
+		cell = sheet_cell_get (sheet, i, b_row);
 		if (cell == NULL)
-		        continue;
+			continue;
 		gnm_cell_eval (cell);
 		if (gnm_cell_is_empty (cell))
-		        continue;
+			continue;
 		field_ind[i - b_col] =
-		        find_column_of_field (ep, database, cell->value);
+			find_column_of_field (ep, database, cell->value);
 		if (field_ind[i - b_col] == -1)
 			return NULL;
 	}

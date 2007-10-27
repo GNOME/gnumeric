@@ -242,9 +242,9 @@ gnm_dep_unlink_undo_new (GSList *deps)
 
 #undef DEBUG_EVALUATION
 
-static void dynamic_dep_eval 	   (GnmDependent *dep);
+static void dynamic_dep_eval	   (GnmDependent *dep);
 static void dynamic_dep_debug_name (GnmDependent const *dep, GString *target);
-static void name_dep_eval 	   (GnmDependent *dep);
+static void name_dep_eval	   (GnmDependent *dep);
 static void name_dep_debug_name	   (GnmDependent const *dep, GString *target);
 
 static GnmCellPos const dummy = { 0, 0 };
@@ -1765,7 +1765,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 
 typedef struct
 {
-    	int dep_type;
+	int dep_type;
 	union {
 		GnmParsePos   pos;
 		GnmDependent *dep;

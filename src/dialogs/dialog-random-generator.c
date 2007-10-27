@@ -160,13 +160,13 @@ static const DistributionStrs distribution_strs[] = {
 	{ NegativeBinomialDistribution,
 	  N_("Negative Binomial"), N_("_p Value:"),
 	  N_("N_umber of Failures"), FALSE },
-     	{ ParetoDistribution,
+	{ ParetoDistribution,
 	  N_("Pareto"), N_("_a Value:"), N_("_b Value:"), FALSE },
-     	{ PoissonDistribution,
+	{ PoissonDistribution,
 	  N_("Poisson"), N_("_Lambda:"), NULL, FALSE },
-     	{ RayleighDistribution,
+	{ RayleighDistribution,
 	  N_("Rayleigh"), N_("_Sigma:"), NULL, FALSE },
-     	{ RayleighTailDistribution,
+	{ RayleighTailDistribution,
 	  N_("Rayleigh Tail"), N_("_a Value:"), N_("_Sigma:"), FALSE },
 	{ TdistDistribution,
 	  N_("Student t"), N_("nu Value:"), NULL, FALSE },
@@ -452,10 +452,10 @@ distribution_parbox_config (RandomToolState *state,
 			_(ds->label1));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (state->par1_label),
 			par1_entry);
-	        gtk_widget_show (par1_entry);
+		gtk_widget_show (par1_entry);
 	} else {
 		gtk_label_set_text (GTK_LABEL (state->par1_label), "");
- 	        gtk_widget_hide (par1_entry);
+		gtk_widget_hide (par1_entry);
 	}
 
 	if (ds->label2 != NULL) {
@@ -463,10 +463,10 @@ distribution_parbox_config (RandomToolState *state,
 			_(ds->label2));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (state->par2_label),
 			state->par2_entry);
-	        gtk_widget_show (state->par2_entry);
+		gtk_widget_show (state->par2_entry);
 	} else {
 		gtk_label_set_text (GTK_LABEL (state->par2_label), "");
-	        gtk_widget_hide (state->par2_entry);
+		gtk_widget_hide (state->par2_entry);
 	}
 }
 
@@ -758,10 +758,10 @@ dialog_random_tool_init (RandomToolState *state)
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (state->par1_label),
 					  _(ds->label1));
 
- 	g_signal_connect (state->distribution_combo,
+	g_signal_connect (state->distribution_combo,
 		"changed",
 		G_CALLBACK (distribution_callback), state);
-   	g_signal_connect (state->distribution_combo,
+	g_signal_connect (state->distribution_combo,
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 
@@ -773,7 +773,7 @@ dialog_random_tool_init (RandomToolState *state)
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
- 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_expr_entry));
 
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),

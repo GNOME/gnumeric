@@ -3154,7 +3154,7 @@ sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 	 *   1) The obvious.  Storing the ptr in the cell.
 	 *   2) Expanding col/row.max_used
 	 *   3) Creating an entry in the COLROW_SEGMENT.  Lots and lots of
-	 *   	things use those to help limit iteration
+	 *	things use those to help limit iteration
 	 *
 	 * For now just call col_fetch even though it is not necessary to
 	 * ensure that 2,3 still happen.  Alot will need rewriting to avoid

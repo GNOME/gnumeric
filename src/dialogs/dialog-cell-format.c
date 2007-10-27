@@ -114,10 +114,10 @@ typedef struct {
 } PatternPicker;
 
 typedef struct {
-       	struct _FormatState *state;
+	struct _FormatState *state;
 
 	GtkWidget        *combo;
-       	GCallback	  preview_update;
+	GCallback	  preview_update;
 } ColorPicker;
 
 typedef struct {
@@ -151,7 +151,7 @@ typedef struct _FormatState {
 	GnmStyle	*style, *result;
 	GnmBorder *borders[GNM_STYLE_BORDER_EDGE_MAX];
 
-	int	 	 selection_mask;
+	int		 selection_mask;
 	gboolean	 enable_edit;
 
 	GtkWidget *	format_sel;
@@ -170,7 +170,7 @@ typedef struct _FormatState {
 	} font;
 	struct {
 		FooCanvas	*canvas;
-		GtkButton 	*preset[BORDER_PRESET_MAX];
+		GtkButton	*preset[BORDER_PRESET_MAX];
 		FooCanvasItem	*back;
 		FooCanvasItem *lines[20];
 
@@ -346,9 +346,9 @@ setup_pattern_button (GdkScreen *screen,
 static void
 setup_color_pickers (FormatState *state,
 		     ColorPicker *picker,
-	             char const *color_group,
-	             char const *container,
-	             char const *label,
+		     char const *color_group,
+		     char const *container,
+		     char const *label,
 		     char const *default_caption,
 		     char const *caption,
 		     GCallback preview_update,
@@ -451,7 +451,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 
 	if (fmt) {
 		GOFormat *format = go_format_new_from_XL (fmt);
-	  	gnm_style_set_format (state->result, format);
+		gnm_style_set_format (state->result, format);
 		go_format_unref (format);
 		changed =  TRUE;
 	}
@@ -591,7 +591,7 @@ fmt_dialog_init_align_page (FormatState *state)
 		{ "halign_justify",	HALIGN_JUSTIFY },
 		{ "halign_fill",	HALIGN_FILL },
 		{ "halign_center_across_selection",	HALIGN_CENTER_ACROSS_SELECTION },
-		{ "halign_distributed",	                HALIGN_DISTRIBUTED },
+		{ "halign_distributed",			HALIGN_DISTRIBUTED },
 		{ NULL }
 	};
 	static struct {
@@ -1623,7 +1623,7 @@ cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
 			 return;
 		}
 
-	     	if (s != NULL)
+		if (s != NULL)
 			gtk_image_set_from_stock (state->validation.error.image,
 						  s, GTK_ICON_SIZE_MENU);
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
@@ -1809,12 +1809,12 @@ fmt_dialog_init_validation_page (FormatState *state)
 
 	/* Setup widgets */
 	state->validation.changed	  = FALSE;
-	state->validation.valid 	  = 1;
+	state->validation.valid		  = 1;
 	state->validation.criteria_table  = GTK_TABLE          (glade_xml_get_widget (state->gui, "validation_criteria_table"));
 	state->validation.constraint_type = GTK_COMBO_BOX    (glade_xml_get_widget (state->gui, "validation_constraint_type"));
 	gtk_combo_box_set_active (state->validation.constraint_type, 0);
 	state->validation.operator_label  = GTK_LABEL          (glade_xml_get_widget (state->gui, "validation_operator_label"));
-	state->validation.op        	     = GTK_COMBO_BOX    (glade_xml_get_widget (state->gui, "validation_operator"));
+	state->validation.op		     = GTK_COMBO_BOX    (glade_xml_get_widget (state->gui, "validation_operator"));
 	gtk_combo_box_set_active (state->validation.op, 0);
 	state->validation.allow_blank	     = GTK_TOGGLE_BUTTON(glade_xml_get_widget (state->gui, "validation_ignore_blank"));
 	state->validation.use_dropdown       = GTK_TOGGLE_BUTTON(glade_xml_get_widget (state->gui, "validation_in_dropdown"));
@@ -2432,7 +2432,7 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
 				    state->sv->edit_pos.col,
 				    state->sv->edit_pos.row);
 
-	state->value	        = (edit_cell != NULL) ? edit_cell->value : NULL;
+	state->value		= (edit_cell != NULL) ? edit_cell->value : NULL;
 	state->style		= NULL;
 	state->result		= gnm_style_new ();
 	state->selection_mask	= 0;
@@ -2450,9 +2450,9 @@ dialog_cell_format (WBCGtk *wbcg, FormatDialogPosition_t pageno)
  * TODO
  *
  * Borders
- * 	- Add the 'text' elements in the preview
+ *	- Add the 'text' elements in the preview
  *
  * Wishlist
- * 	- Some undo capabilities in the dialog.
- * 	- How to distinguish between auto & custom colors on extraction from styles.
+ *	- Some undo capabilities in the dialog.
+ *	- How to distinguish between auto & custom colors on extraction from styles.
  */

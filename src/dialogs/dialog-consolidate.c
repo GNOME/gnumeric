@@ -439,7 +439,7 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 		 NULL);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_source_edited), state);
- 		gtk_tree_view_column_set_expand (column, TRUE);
+		gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (state->source_view, column);
 	column = gtk_tree_view_column_new_with_attributes 
 		("", gtk_cell_renderer_pixbuf_new (), 

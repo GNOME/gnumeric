@@ -121,7 +121,7 @@ gplp_func_desc_load (GOPluginService *service,
 		g_print ( _("Perl error: %s\n"), SvPV (ERRSV, n_a));
 		POPs;
 	} else {
-        	help_text = g_strdup (POPp);
+		help_text = g_strdup (POPp);
 	}
 
 	PUTBACK;

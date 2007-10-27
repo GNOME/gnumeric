@@ -232,7 +232,7 @@ sheet_object_class_init (GObjectClass *klass)
 	sheet_object_class->rubber_band_directly = FALSE;
 	sheet_object_class->interactive          = FALSE;
 	sheet_object_class->default_size	 = so_default_size;
-	sheet_object_class->xml_export_name 	 = NULL;
+	sheet_object_class->xml_export_name	 = NULL;
 	sheet_object_class->foreach_dep          = NULL;
 
 	signals [BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
@@ -717,7 +717,7 @@ clear_sheet (SheetObject *so, GOUndo **pundo)
  *
  * @rinfo : details on what should be moved.
  * @update : Should we do the bound_update now, or leave it for later.
- * 		if FALSE honour the move_with_cells flag.
+ *		if FALSE honour the move_with_cells flag.
  * @undo : if non-NULL add dropped objects to ::objects
  *
  * Uses the relocation info and the anchors to decide whether or not, and how

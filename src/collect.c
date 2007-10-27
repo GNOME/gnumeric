@@ -76,7 +76,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 		break;
 
 	case VALUE_STRING:
-	        if (cl->flags & COLLECT_COERCE_STRINGS) {
+		if (cl->flags & COLLECT_COERCE_STRINGS) {
 			GnmValue *vc = format_match_number (value_peek_string (value),
 							    NULL,
 							    cl->date_conv);
@@ -139,8 +139,8 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
  *                 COLLECT_ZEROONE_BOOLS: count FALSE as 0, TRUE as 1.
  *                   (Alternative: return #VALUE!.)
  *		   COLLECT_IGNORE_SUBTOTAL : ignore expressions that include
- *		   	the function SUBTOTAL directly and ignore any content
- *		   	in filtered rows.
+ *			the function SUBTOTAL directly and ignore any content
+ *			in filtered rows.
  * n:              Output parameter for number of floats.
  *
  * Return value:

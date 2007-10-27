@@ -25,7 +25,7 @@
 
 #define SEARCH_STEPS	50
 
-#define PARENT_TYPE 	COMPLETE_TYPE
+#define PARENT_TYPE	COMPLETE_TYPE
 
 static GObjectClass *parent_class;
 

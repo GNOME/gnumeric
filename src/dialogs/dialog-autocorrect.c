@@ -55,7 +55,7 @@ typedef struct {
 } AutoCorrectExceptionState;
 
 typedef struct {
-	GladeXML  	   *gui;
+	GladeXML	   *gui;
         GtkWidget          *dialog;
         Workbook           *wb;
         WBCGtk *wbcg;
@@ -75,8 +75,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *widget,
 
 	txt = gtk_entry_get_text (GTK_ENTRY (s->entry));
 	for (ptr = s->exceptions; ptr != NULL; ptr = ptr->next)
-	        if (strcmp (ptr->data, txt) == 0) {
-		        new_flag = FALSE;
+		if (strcmp (ptr->data, txt) == 0) {
+			new_flag = FALSE;
 			break;
 		}
 

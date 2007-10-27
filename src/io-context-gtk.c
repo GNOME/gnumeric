@@ -6,7 +6,7 @@
  *   before the first workbook is displayed.
  *
  * Author:
- * 	Jon K Hellan <hellan@acm.org>
+ *	Jon K Hellan <hellan@acm.org>
  *
  * (C) 2002 Jon K Hellan
  */

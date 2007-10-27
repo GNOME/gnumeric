@@ -2,7 +2,7 @@
 
 /*
  * dialog-paste-names.c: A compatibility dialog to paste the list of available
- * 	names into the current cell/selection
+ *	names into the current cell/selection
  *
  * Copyright (C) 2005 Jody Goldberg (jody@gnome.org)
  *

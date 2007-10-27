@@ -123,7 +123,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 							 msg,
 							 _("If you do not save, changes may be discarded."));
 			if (g_list_length (ptr) > 1) {
-			  	go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not save any"),
+				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not save any"),
 							    GTK_STOCK_DELETE, - GTK_RESPONSE_NO);
 				go_gtk_dialog_add_button (GTK_DIALOG(d), _("Do not save"),
 							    GTK_STOCK_DELETE, GTK_RESPONSE_NO);

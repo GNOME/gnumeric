@@ -294,7 +294,7 @@ retrieve_row_tree (GnmConsolidate *cs)
 					 * during the consolidation operation.
 					 * We simply store it as const */
 					ti = g_new0 (TreeItem, 1);
-				        ti->key = v;
+					ti->key = v;
 					ti->val = NULL;
 				}
 
@@ -360,7 +360,7 @@ retrieve_col_tree (GnmConsolidate *cs)
 				 */
 				if (!ti) {
 					ti = g_new0 (TreeItem, 1);
-				        ti->key = v;
+					ti->key = v;
 				}
 				ti->val = granges;
 
@@ -714,7 +714,7 @@ static gboolean
 consolidate_apply (GnmConsolidate *cs,
 		   data_analysis_output_t *dao)
 {
-/* 	WorkbookView *wbv = wb_control_view (wbc); */
+/*	WorkbookView *wbv = wb_control_view (wbc); */
 
 	g_return_val_if_fail (cs != NULL, TRUE);
 

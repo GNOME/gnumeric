@@ -256,7 +256,7 @@ py_obj_to_gnm_value (const GnmEvalPos *eval_pos, PyObject *py_val)
 
 		py_val_type_str = PyObject_Str (py_val_type);
 		msg = g_strdup_printf (_("Unsupported Python type: %s"),
-		                       PyString_AsString (py_val_type_str));
+				       PyString_AsString (py_val_type_str));
 		ret_val = value_new_error (eval_pos, msg);
 		g_free (msg);
 		Py_DECREF (py_val_type_str);
@@ -289,11 +289,11 @@ py_exc_to_string (void)
 		if (exc_value != NULL) {
 			exc_value_str = PyObject_Str (exc_value);
 			error_str = g_strdup_printf (_("Python exception (%s: %s)"),
-			                             PyString_AsString (exc_type_str),
-			                             PyString_AsString (exc_value_str));
+						     PyString_AsString (exc_type_str),
+						     PyString_AsString (exc_value_str));
 		} else {
 			error_str = g_strdup_printf (_("Python exception (%s)"),
-			                             PyString_AsString (exc_type_str));
+						     PyString_AsString (exc_type_str));
 		}
 	}
 
@@ -328,7 +328,7 @@ gnm_value_to_py_obj (const GnmEvalPos *eval_pos, const GnmValue *val)
 	case VALUE_BOOLEAN:
 		py_val = py_new_Boolean_object (val->v_bool.val);
 		break;
-    	case VALUE_FLOAT:
+	case VALUE_FLOAT:
 		py_val = PyFloat_FromDouble (value_get_as_float (val));
 		break;
 	case VALUE_STRING:
@@ -394,7 +394,7 @@ python_call_gnumeric_function (GnmFunc *fn_def, const GnmEvalPos *opt_eval_pos, 
 	}
 	if (eval_pos == NULL) {
 		PyErr_SetString (GNUMERIC_MODULE_GET ("GnumericError"),
-		                 "Missing Evaluation Position.");
+				 "Missing Evaluation Position.");
 		return NULL;
 	}
 
@@ -667,8 +667,8 @@ py_Range_get_tuple_method (py_Range_object *self, PyObject *args)
 	}
 
 	return Py_BuildValue ((char *) "(iiii)",
-	                      self->range.start.col, self->range.start.row,
-	                      self->range.end.col, self->range.end.row);
+			      self->range.start.col, self->range.start.row,
+			      self->range.end.col, self->range.end.row);
 }
 
 static PyObject *
@@ -1474,7 +1474,7 @@ py_sheet_style_get_method (py_Sheet_object *self, PyObject *args)
 	} else {
 		PyErr_Clear ();
 		if (!PyArg_ParseTuple (args, (char *) "O!:style_get",
-		                      &py_CellPos_object_type, &py_cell_pos)) {
+				      &py_CellPos_object_type, &py_cell_pos)) {
 			return NULL;
 		}
 		c = py_cell_pos->cell_pos.col;
@@ -1491,8 +1491,8 @@ py_sheet_style_apply_range_method (py_Sheet_object *self, PyObject *args)
 	py_Style_object *py_style;
 
 	if (!PyArg_ParseTuple (args, (char *) "O!O!:style_apply_range",
-	                       &py_Range_object_type, &py_range,
-	                       &py_Style_object_type, &py_style)) {
+			       &py_Range_object_type, &py_range,
+			       &py_Style_object_type, &py_style)) {
 		return NULL;
 	}
 
@@ -1510,8 +1510,8 @@ py_sheet_style_set_range_method (py_Sheet_object *self, PyObject *args)
 	py_Style_object *py_style;
 
 	if (!PyArg_ParseTuple (args, (char *) "O!O!:style_set_range",
-	                       &py_Range_object_type, &py_range,
-	                       &py_Style_object_type, &py_style)) {
+			       &py_Range_object_type, &py_range,
+			       &py_Style_object_type, &py_style)) {
 		return NULL;
 	}
 
@@ -1530,13 +1530,13 @@ py_sheet_style_set_pos_method (py_Sheet_object *self, PyObject *args)
 	py_Style_object *py_style;
 
 	if (PyArg_ParseTuple (args, (char *) "iiO!:style_set_pos",
-	                      &col, &row, &py_Style_object_type, &py_style)) {
+			      &col, &row, &py_Style_object_type, &py_style)) {
 		;
 	} else {
 		PyErr_Clear ();
 		if (!PyArg_ParseTuple (args, (char *) "O!O!:style_set_pos",
-		                       &py_CellPos_object_type, &py_cell_pos,
-		                       &py_Style_object_type, &py_style)) {
+				       &py_CellPos_object_type, &py_cell_pos,
+				       &py_Style_object_type, &py_style)) {
 			return NULL;
 		}
 	}
@@ -2228,7 +2228,7 @@ py_gnumeric_Range_method (PyObject *self, PyObject *args)
 	py_CellPos_object *py_start, *py_end;
 
 	if (PyArg_ParseTuple (args, (char *) "iiii:Range",
-	                      &start_col, &start_row, &end_col, &end_row)) {
+			      &start_col, &start_row, &end_col, &end_row)) {
 		GnmCellPos start, end;
 		start.col = start_col; start.row = start_row;
 		end.col = end_col; end.row = end_row;
@@ -2236,10 +2236,10 @@ py_gnumeric_Range_method (PyObject *self, PyObject *args)
 	} else {
 		PyErr_Clear ();
 		if (PyArg_ParseTuple (args, (char *) "O!O!:Range",
-		                      &py_CellPos_object_type, &py_start,
-		                      &py_CellPos_object_type, &py_end)) {
+				      &py_CellPos_object_type, &py_start,
+				      &py_CellPos_object_type, &py_end)) {
 			result = py_new_Range_object_from_start_end (&py_start->cell_pos,
-			                                             &py_end->cell_pos);
+								     &py_end->cell_pos);
 		} else {
 			return NULL;
 		}
@@ -2298,7 +2298,7 @@ static PyMethodDef GnumericMethods[] = {
 	{ (char *) "CellPos", py_gnumeric_CellPos_method, METH_VARARGS },
 	{ (char *) "Range",   py_gnumeric_Range_method,   METH_VARARGS },
 	{ (char *) "GnmStyle",  py_gnumeric_Style_method,  METH_VARARGS },
- 	{ (char *) "workbooks", py_gnumeric_workbooks_method, METH_VARARGS },
+	{ (char *) "workbooks", py_gnumeric_workbooks_method, METH_VARARGS },
 	{ (char *) "workbook_new", py_gnumeric_workbook_new,  METH_VARARGS},
 	{ NULL, NULL },
 };

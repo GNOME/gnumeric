@@ -87,7 +87,7 @@ typedef struct {
 
 	gboolean             cancelled;
 
-	Sheet	            *sheet;
+	Sheet		    *sheet;
 	Workbook            *wb;
 	WBCGtk  *wbcg;
 } SolverState;
@@ -460,8 +460,8 @@ static void
 restore_original_values (GSList *input_cells, GSList *ov)
 {
         while (ov != NULL) {
-	        char const *str = ov->data;
-	        GnmCell *cell = input_cells->data;
+		char const *str = ov->data;
+		GnmCell *cell = input_cells->data;
 
 		sheet_cell_set_text (cell, str, NULL);
 		ov = ov->next;
@@ -656,13 +656,13 @@ save_original_values (GSList *input_cells)
         GSList *ov = NULL;
 
 	while (input_cells != NULL) {
-	        GnmCell *cell = input_cells->data;
+		GnmCell *cell = input_cells->data;
 		char *str;
 
 		str = value_get_as_string (cell->value);
 		ov = g_slist_append (ov, str);
 
-	        input_cells = input_cells->next;
+		input_cells = input_cells->next;
 	}
 
 	return ov;
@@ -898,7 +898,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		(GTK_SPIN_BUTTON (state->max_time_entry));
 
 	answer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
-	        glade_xml_get_widget (state->gui, "answer")));
+		glade_xml_get_widget (state->gui, "answer")));
 	param->options.answer_report = answer;
 
 	sensitivity = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
@@ -1083,7 +1083,7 @@ dialog_init (SolverState *state)
 	gtk_table_attach (table, GTK_WIDGET (state->target_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->target_entry));
 	gtk_widget_show (GTK_WIDGET (state->target_entry));
 	g_signal_connect_after (G_OBJECT (state->target_entry),	"changed",
@@ -1100,7 +1100,7 @@ dialog_init (SolverState *state)
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->change_cell_entry));
 	gtk_widget_show (GTK_WIDGET (state->change_cell_entry));
 	g_signal_connect_after (G_OBJECT (state->change_cell_entry), "changed",
@@ -1231,20 +1231,20 @@ dialog_init (SolverState *state)
 			param->options.assume_discrete);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-	        glade_xml_get_widget(state->gui, "answer")),
-		        param->options.answer_report);
+		glade_xml_get_widget(state->gui, "answer")),
+			param->options.answer_report);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-	        glade_xml_get_widget(state->gui, "sensitivity")),
-		        param->options.sensitivity_report);
+		glade_xml_get_widget(state->gui, "sensitivity")),
+			param->options.sensitivity_report);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
-	        glade_xml_get_widget(state->gui, "limits")),
-		        param->options.limits_report);
+		glade_xml_get_widget(state->gui, "limits")),
+			param->options.limits_report);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "performance")),
-		        param->options.performance_report);
+			param->options.performance_report);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget(state->gui, "program")),
-		        param->options.program_report);
+			param->options.program_report);
 
 	if (param->input_entry_str != NULL)
 		gnm_expr_entry_load_from_text (state->change_cell_entry,

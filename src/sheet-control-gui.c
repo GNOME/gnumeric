@@ -659,7 +659,7 @@ cb_table_destroy (SheetControlGUI *scg)
 	scg_mode_edit (scg);	/* finish any object edits */
 	scg_unant (sc);		/* Make sure that everything is unanted */
 
- 	if (scg->wbcg) {
+	if (scg->wbcg) {
 		GtkWindow *toplevel = wbcg_toplevel (scg->wbcg);
 
 		/* Only pane-0 ever gets focus */
@@ -1791,8 +1791,8 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		/* TODO : One day make the labels smarter.  Generate them to include
 		 * quantities.
-		 * 	eg : Insert 4 rows
-		 * 	or : Insert row
+		 *	eg : Insert 4 rows
+		 *	or : Insert row
 		 * This is hard for now because there is no memory management for the label
 		 * strings, and the logic that knows the count is elsewhere
 		 */
@@ -3073,7 +3073,7 @@ scg_class_init (GObjectClass *object_class)
 
 	sc_class->resize                   = scg_resize_virt;
 	sc_class->redraw_all               = scg_redraw_all;
-	sc_class->redraw_range     	   = scg_redraw_range;
+	sc_class->redraw_range		   = scg_redraw_range;
 	sc_class->redraw_headers           = scg_redraw_headers;
 	sc_class->ant                      = scg_ant;
 	sc_class->unant                    = scg_unant;

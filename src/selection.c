@@ -156,7 +156,7 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
  * @index :
  *
  * Returns TRUE if all of the selected cols/rows in the selection
- * 	are fully selected and the selection contains the specified col.
+ *	are fully selected and the selection contains the specified col.
  **/
 gboolean
 sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
@@ -323,7 +323,7 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
 
 /**
  * selection_first_range
- * @sv        	 : The #SheetView whose selection we are testing.
+ * @sv		 : The #SheetView whose selection we are testing.
  * @wbc          : The calling context to report errors to (GUI or corba)
  * @command_name : A string naming the operation requiring a single range.
  *
@@ -555,9 +555,9 @@ set_menu_flags:
 	 *
 	 * WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 	 *	if (sheet == wb_view_cur_sheet (view)) {
-	 *	        WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
-	 *	                wb_control_menu_state_update (wbc, sheet, MS_SHOWHIDE_DETAIL););
- 	 *      }
+	 *		WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
+	 *			wb_control_menu_state_update (wbc, sheet, MS_SHOWHIDE_DETAIL););
+	 *      }
 	 * });
 	 */
 }
@@ -623,7 +623,7 @@ sv_selection_add_pos (SheetView *sv, int col, int row)
  * Releases the selection associated with @sv
  *
  * WARNING: This does not set a new selection and leaves the view in an
- * 		INVALID STATE.
+ *		INVALID STATE.
  **/
 void
 sv_selection_free (SheetView *sv)
@@ -644,7 +644,7 @@ sv_selection_free (SheetView *sv)
  * previously selected regions and headers.
  *
  * WARNING: This does not set a new selection and leaves the view in an
- * 		INVALID STATE.
+ *		INVALID STATE.
  **/
 void
 sv_selection_reset (SheetView *sv)
@@ -1191,10 +1191,10 @@ loop :
  *
  * Move the edit_pos of @sv 1 step according to @forward and @horizontal.  The
  * behavior depends several factors
- * 	- How many ranges are selected
- * 	- The shape of the selected ranges
- * 	- Previous movements (A sequence of tabs followed by an enter can jump
- * 		to the 1st col).
+ *	- How many ranges are selected
+ *	- The shape of the selected ranges
+ *	- Previous movements (A sequence of tabs followed by an enter can jump
+ *		to the 1st col).
  **/
 void
 sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
@@ -1231,10 +1231,10 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 		GnmRange bound;
 
 		/* Interesting :  Normally we bound the movement to the current
-		 * 	col/row.  However, if a sheet is protected, and
-		 * 	differentiates between selecting locked vs
-		 * 	unlocked cells, then we do not bound things, and allow
-		 * 	movement to any cell that is acceptable. */
+		 *	col/row.  However, if a sheet is protected, and
+		 *	differentiates between selecting locked vs
+		 *	unlocked cells, then we do not bound things, and allow
+		 *	movement to any cell that is acceptable. */
 		if (sv->sheet->is_protected &&
 		    (sv->sheet->protected_allow.select_locked_cells ^
 		     sv->sheet->protected_allow.select_unlocked_cells))

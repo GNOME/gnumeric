@@ -873,7 +873,7 @@ gnm_style_set_font_color (GnmStyle *style, GnmColor *col)
  * Assigns @col as the background of @style.
  *
  * NOTE : the background colour is only visibile if
- * 	GnmStyle::pattern > 0
+ *	GnmStyle::pattern > 0
  **/
 void
 gnm_style_set_back_color (GnmStyle *style, GnmColor *col)

@@ -144,8 +144,8 @@ wb_control_claim_selection (WorkbookControl *wbc)
 
 /**
  * wb_control_validation_msg :
- * 	 1 : ignore invalid and accept result
- * 	 0 : discard invalid and finish editing
+ *	 1 : ignore invalid and accept result
+ *	 0 : discard invalid and finish editing
  *	-1 : continue editing
  */
 int

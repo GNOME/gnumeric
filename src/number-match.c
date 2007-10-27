@@ -67,8 +67,8 @@ value_is_error (char const *str)
  * Attempt to match the the supplied string as a simple value.
  *
  * WARNING WARNING WARNING : This routine should NEVER be changed to match
- * 				VALUE_STRING that will break the parsers
- * 				handling of named expressions.
+ *				VALUE_STRING that will break the parsers
+ *				handling of named expressions.
  */
 GnmValue *
 format_match_simple (char const *text)

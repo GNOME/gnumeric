@@ -659,7 +659,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	else {
 		if (rows == 1)
 			nb=cols;
-    		else
+		else
 			nb=0;
 	}
 

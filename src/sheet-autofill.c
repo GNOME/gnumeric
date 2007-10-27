@@ -750,7 +750,7 @@ afl_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 static char *
 afl_compute (AutoFillerList *afl, int n)
 {
-       	GString *res = g_string_new (afl->list[afl_compute_phase (afl, n)]);
+	GString *res = g_string_new (afl->list[afl_compute_phase (afl, n)]);
 
 	if (afl->with_number) {
 		char *s = as_compute (&afl->as, n);

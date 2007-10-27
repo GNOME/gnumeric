@@ -588,11 +588,11 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_end_element (state->xml); /* </office:font-face-decls> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
- 	odf_write_table_styles (state);
+	odf_write_table_styles (state);
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
-  	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");
+	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
 		char *style_name;
@@ -621,7 +621,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		gsf_xml_out_end_element (state->xml); /* </table:database-ranges> */
 	}
 
-  	gsf_xml_out_end_element (state->xml); /* </office:spreadsheet> */
+	gsf_xml_out_end_element (state->xml); /* </office:spreadsheet> */
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
 
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */

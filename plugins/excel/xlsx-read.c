@@ -113,7 +113,7 @@ typedef struct {
 typedef struct {
 	GsfInfile	*zip;
 
-	IOContext 	*context;	/* The IOcontext managing things */
+	IOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
 
@@ -167,7 +167,7 @@ typedef struct {
 	/* Drawing state */
 	SheetObject	   *so;
 	gint64		    drawing_pos[8];
-	int	   	    drawing_pos_flags;
+	int		    drawing_pos_flags;
 
 	/* Charting state */
 	GogGraph	 *graph;
@@ -214,7 +214,7 @@ static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/main"),		  /* Office 12 */
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/7/main"),		  /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/5/main"),		  /* Office 12 BETA-2 */
-	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.microsoft.com/office/excel/2006/2"), 			  /* Office 12 BETA-1 Technical Refresh */
+	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.microsoft.com/office/excel/2006/2"),			  /* Office 12 BETA-1 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_SS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"),	  /* Office 12 BETA-2 */
 	GSF_XML_IN_NS (XL_NS_SS_DRAW,	"http://schemas.openxmlformats.org/drawingml/2006/3/spreadsheetDrawing"), /* Office 12 BETA-2 Technical Refresh */
 	GSF_XML_IN_NS (XL_NS_CHART,	"http://schemas.openxmlformats.org/drawingml/2006/3/chart"),		  /* Office 12 BETA-2 */
@@ -539,7 +539,7 @@ simple_enum (GsfXMLIn *xin, xmlChar const **attrs, EnumVal const *enums, int *re
 /***********************************************************************
  * These indexes look like the values in xls.  Dup some code from there.
  * TODO : Can we merge the code ?
- * 	  Will the 'indexedColors' look like a palette ?
+ *	  Will the 'indexedColors' look like a palette ?
  */
 static struct {
 	guint8 r, g, b;
@@ -686,38 +686,38 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 31 yyyy"5E74"m"6708"d"65E5"			yyyy"5E74"m"6708"d"65E5"
 32 hh"6642"mm"5206"				h"65F6"mm"5206"
 33 hh"6642"mm"5206"ss"79D2"			h"65F6"mm"5206"ss"79D2"
-34 4E0A5348/4E0B5348hh"6642"mm"5206"      	4E0A5348/4E0B5348h"65F6"mm"5206"
+34 4E0A5348/4E0B5348hh"6642"mm"5206"		4E0A5348/4E0B5348h"65F6"mm"5206"
 35 4E0A5348/4E0B5348hh"6642"mm"5206"ss"79D2"	4E0A5348/4E0B5348h"65F6"mm"5206"ss"79D2"
 36 [$-404]e/m/d					yyyy"5E74"m"6708"
 50 [$-404]e/m/d					yyyy"5E74"m"6708"
-51 [$-404]e"5E74"m"6708"d"65E5"           	m"6708"d"65E5"
-52 4E0A5348/4E0B5348hh"6642"mm"5206"      	yyyy"5E74"m"6708"
-53 4E0A5348/4E0B5348hh"6642"mm"5206"ss"79D2" 	m"6708"d"65E5"
+51 [$-404]e"5E74"m"6708"d"65E5"			m"6708"d"65E5"
+52 4E0A5348/4E0B5348hh"6642"mm"5206"		yyyy"5E74"m"6708"
+53 4E0A5348/4E0B5348hh"6642"mm"5206"ss"79D2"	m"6708"d"65E5"
 54 [$-404]e"5E74"m"6708"d"65E5"			m"6708"d"65E5"
 55 4E0A5348/4E0B5348hh"6642"mm"5206"		4E0A5348/4E0B5348h"65F6"mm"5206"
 56 4E0A5348/4E0B5348hh"6642"mm"5206"ss"79D2"	4E0A5348/4E0B5348h"65F6"mm"5206"ss"79D2"
-57 [$-404]e/m/d                           	yyyy"5E74"m"6708"
-58 [$-404]e"5E74"m"6708"d"65E5"           	m"6708"d"65E5"
+57 [$-404]e/m/d					yyyy"5E74"m"6708"
+58 [$-404]e"5E74"m"6708"d"65E5"			m"6708"d"65E5"
 
 	JPN						KOR
-27 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
+27 [$-411]ge.m.d				yyyy"5E74" mm"6708" dd"65E5"
 28 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
 29 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
-30 m/d/yy                         		mm-dd-yy
-31 yyyy"5E74"m"6708"d"65E5"       		yyyy"B144" mm"C6D4" dd"C77C"
-32 h"6642"mm"5206"                		h"C2DC" mm"BD84"
-33 h"6642"mm"5206"ss"79D2"        		h"C2DC" mm"BD84" ss"CD08"
-34 yyyy"5E74"m"6708"              		yyyy-mm-dd
-35 m"6708"d"65E5"                 		yyyy-mm-dd
-36 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
-50 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
+30 m/d/yy					mm-dd-yy
+31 yyyy"5E74"m"6708"d"65E5"			yyyy"B144" mm"C6D4" dd"C77C"
+32 h"6642"mm"5206"				h"C2DC" mm"BD84"
+33 h"6642"mm"5206"ss"79D2"			h"C2DC" mm"BD84" ss"CD08"
+34 yyyy"5E74"m"6708"				yyyy-mm-dd
+35 m"6708"d"65E5"				yyyy-mm-dd
+36 [$-411]ge.m.d				yyyy"5E74" mm"6708" dd"65E5"
+50 [$-411]ge.m.d				yyyy"5E74" mm"6708" dd"65E5"
 51 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
-52 yyyy"5E74"m"6708"              		yyyy-mm-dd
-53 m"6708"d"65E5"                 		yyyy-mm-dd
+52 yyyy"5E74"m"6708"				yyyy-mm-dd
+53 m"6708"d"65E5"				yyyy-mm-dd
 54 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
-55 yyyy"5E74"m"6708"              		yyyy-mm-dd
-56 m"6708"d"65E5"                 		yyyy-mm-dd
-57 [$-411]ge.m.d                  		yyyy"5E74" mm"6708" dd"65E5"
+55 yyyy"5E74"m"6708"				yyyy-mm-dd
+56 m"6708"d"65E5"				yyyy-mm-dd
+57 [$-411]ge.m.d				yyyy"5E74" mm"6708" dd"65E5"
 58 [$-411]ggge"5E74"m"6708"d"65E5"		mm-dd
 
 	THA
@@ -2267,11 +2267,11 @@ xlsx_cell_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const types[] = {
 		{ "n",		XLXS_TYPE_NUM },
-		{ "s", 		XLXS_TYPE_SST_STR },
-		{ "str", 	XLXS_TYPE_STR2 },
+		{ "s",		XLXS_TYPE_SST_STR },
+		{ "str",	XLXS_TYPE_STR2 },
 		{ "b",		XLXS_TYPE_BOOL },
-		{ "inlineStr", 	XLXS_TYPE_INLINE_STR },
-		{ "e", 		XLXS_TYPE_ERR },
+		{ "inlineStr",	XLXS_TYPE_INLINE_STR },
+		{ "e",		XLXS_TYPE_ERR },
 		{ NULL, 0 }
 	};
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -2927,7 +2927,7 @@ static void
 xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	gboolean sheet		 	= FALSE;
+	gboolean sheet			= FALSE;
 	gboolean objects		= FALSE;
 	gboolean scenarios		= FALSE;
 	gboolean formatCells		= TRUE;
@@ -2963,21 +2963,21 @@ xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_bool (xin, attrs, "selectUnlockedCells", &selectUnlockedCells)) ;
 
 	g_object_set (state->sheet,
-		"protected", 			 	 sheet,
-		"protected-allow-edit-objects", 	 objects,
-		"protected-allow-edit-scenarios", 	 scenarios,
-		"protected-allow-cell-formatting", 	 formatCells,
-		"protected-allow-column-formatting", 	 formatColumns,
-		"protected-allow-row-formatting", 	 formatRows,
-		"protected-allow-insert-columns", 	 insertColumns,
-		"protected-allow-insert-rows", 		 insertRows,
-		"protected-allow-insert-hyperlinks", 	 insertHyperlinks,
-		"protected-allow-delete-columns", 	 deleteColumns,
-		"protected-allow-delete-rows", 		 deleteRows,
-		"protected-allow-select-locked-cells", 	 selectLockedCells,
-		"protected-allow-sort-ranges", 		 sort,
-		"protected-allow-edit-auto-filters", 	 autoFilter,
-		"protected-allow-edit-pivottable", 	 pivotTables,
+		"protected",				 sheet,
+		"protected-allow-edit-objects",		 objects,
+		"protected-allow-edit-scenarios",	 scenarios,
+		"protected-allow-cell-formatting",	 formatCells,
+		"protected-allow-column-formatting",	 formatColumns,
+		"protected-allow-row-formatting",	 formatRows,
+		"protected-allow-insert-columns",	 insertColumns,
+		"protected-allow-insert-rows",		 insertRows,
+		"protected-allow-insert-hyperlinks",	 insertHyperlinks,
+		"protected-allow-delete-columns",	 deleteColumns,
+		"protected-allow-delete-rows",		 deleteRows,
+		"protected-allow-select-locked-cells",	 selectLockedCells,
+		"protected-allow-sort-ranges",		 sort,
+		"protected-allow-edit-auto-filters",	 autoFilter,
+		"protected-allow-edit-pivottable",	 pivotTables,
 		"protected-allow-select-unlocked-cells", selectUnlockedCells,
 		NULL);
 }
@@ -3182,7 +3182,7 @@ static void
 xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const view_types[] = {
-		{ "normal", 		GNM_SHEET_VIEW_NORMAL_MODE },
+		{ "normal",		GNM_SHEET_VIEW_NORMAL_MODE },
 		{ "pageBreakPreview",	GNM_SHEET_VIEW_PAGE_BREAK_MODE },
 		{ "pageLayout",		GNM_SHEET_VIEW_LAYOUT_MODE },
 		{ NULL, 0 }
@@ -3195,8 +3195,8 @@ xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int showZeros		= TRUE;
 	int frozen		= FALSE;
 	int frozenSplit		= TRUE;
-	int rightToLeft	 	= FALSE;
-	int tabSelected	 	= FALSE;
+	int rightToLeft		= FALSE;
+	int tabSelected		= FALSE;
 	int active		= FALSE;
 	int showRuler		= TRUE;
 	int showOutlineSymbols	= TRUE;
@@ -3557,7 +3557,7 @@ xlsx_CT_CalcPr (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL, 0 }
 	};
 	static EnumVal const refModes[] = {
-		{ "A1",	 	TRUE },
+		{ "A1",		TRUE },
 		{ "R1C1",	FALSE },
 		{ NULL, 0 }
 	};
@@ -3795,7 +3795,7 @@ xlsx_collection_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	case XLSX_COLLECT_FONT :	state->fonts = state->collection;	 break;
 	case XLSX_COLLECT_FILLS :	state->fills = state->collection;	 break;
 	case XLSX_COLLECT_BORDERS :	state->borders = state->collection;	 break;
-	case XLSX_COLLECT_XFS :		state->xfs = state->collection;	  	 break;
+	case XLSX_COLLECT_XFS :		state->xfs = state->collection;		 break;
 	case XLSX_COLLECT_STYLE_XFS :	state->style_xfs = state->collection;	 break;
 	case XLSX_COLLECT_DXFS :	state->dxfs = state->collection;	 break;
 	case XLSX_COLLECT_TABLE_STYLES: state->table_styles = state->collection; break;
@@ -4422,15 +4422,15 @@ GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FAL
 	  GSF_XML_IN_NODE (FORMAT_SCHEME, EFFECT_STYLE_LIST,	XL_NS_DRAW, "effectStyleLst", GSF_XML_NO_CONTENT, NULL, NULL),
             GSF_XML_IN_NODE (EFFECT_STYLE_LIST, EFFECT_STYLE,	XL_NS_DRAW, "effectStyle", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (EFFECT_STYLE, EFFECT_PROP, XL_NS_DRAW, "sp3d", GSF_XML_NO_CONTENT, NULL, NULL),
-	        GSF_XML_IN_NODE (EFFECT_PROP, PROP_BEVEL, XL_NS_DRAW, "bevelT", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (EFFECT_PROP, PROP_BEVEL, XL_NS_DRAW, "bevelT", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (EFFECT_STYLE, EFFECT_LIST, XL_NS_DRAW, "effectLst", GSF_XML_NO_CONTENT, NULL, NULL),
-	        GSF_XML_IN_NODE (EFFECT_LIST, OUTER_SHADOW, XL_NS_DRAW, "outerShdw", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (OUTER_SHADOW, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+		GSF_XML_IN_NODE (EFFECT_LIST, OUTER_SHADOW, XL_NS_DRAW, "outerShdw", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (OUTER_SHADOW, RGB_COLOR, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 	      GSF_XML_IN_NODE (EFFECT_STYLE, EFFECT_SCENE_3D, XL_NS_DRAW, "scene3d", GSF_XML_NO_CONTENT, NULL, NULL),
-	        GSF_XML_IN_NODE (EFFECT_SCENE_3D, 3D_CAMERA, XL_NS_DRAW, "camera", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (3D_CAMERA, 3D_ROT, XL_NS_DRAW, "rot", GSF_XML_NO_CONTENT, NULL, NULL),
-	        GSF_XML_IN_NODE (EFFECT_SCENE_3D, 3D_LIGHT, XL_NS_DRAW, "lightRig", GSF_XML_NO_CONTENT, NULL, NULL),
-	          GSF_XML_IN_NODE (3D_LIGHT, 3D_ROT, XL_NS_DRAW, "rot", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (EFFECT_SCENE_3D, 3D_CAMERA, XL_NS_DRAW, "camera", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (3D_CAMERA, 3D_ROT, XL_NS_DRAW, "rot", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (EFFECT_SCENE_3D, 3D_LIGHT, XL_NS_DRAW, "lightRig", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (3D_LIGHT, 3D_ROT, XL_NS_DRAW, "rot", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (THEME, OBJ_DEFAULTS, XL_NS_DRAW, "objectDefaults", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (THEME, EXTRA_COLOR_SCHEME, XL_NS_DRAW, "extraClrSchemeLst", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -4563,12 +4563,12 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 /* TODO * TODO * TODO
  *
  * IMPROVE
- * 	- column widths : Don't use hard coded font size
- * 	- share colours
- * 	- conditional formats
- * 		: why do we need to flip fg and bg for solid in xf but not for dxf
- * 		: other condition types
- * 		: check binary operators
+ *	- column widths : Don't use hard coded font size
+ *	- share colours
+ *	- conditional formats
+ *		: why do we need to flip fg and bg for solid in xf but not for dxf
+ *		: other condition types
+ *		: check binary operators
  *
  * ".xlam",	"application/vnd.ms-excel.addin.macroEnabled.12" ,
  * ".xlsb",	"application/vnd.ms-excel.sheet.binary.macroEnabled.12" ,

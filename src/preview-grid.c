@@ -280,24 +280,24 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	gint draw_y = expose->area.y;
 	gint width  = expose->area.width;
 	gint height = expose->area.height;
- 	PreviewGrid *pg = PREVIEW_GRID (item);
+	PreviewGrid *pg = PREVIEW_GRID (item);
 	PangoContext *context = gtk_widget_get_pango_context
 		(gtk_widget_get_toplevel (GTK_WIDGET (item->canvas)));
 
- 	/* To ensure that far and near borders get drawn we pretend to draw +-2
- 	 * pixels around the target area which would include the surrounding
- 	 * borders if necessary */
- 	/* TODO : there is an opportunity to speed up the redraw loop by only
- 	 * painting the borders of the edges and not the content.
- 	 * However, that feels like more hassle that it is worth.  Look into this someday.
- 	 */
- 	int x, y, col, row, n;
- 	int const start_col = pg_get_col_offset (pg, draw_x - 2, &x);
- 	int end_col         = pg_get_col_offset (pg, draw_x + width + 2, NULL);
- 	int diff_x    = x;
- 	int start_row       = pg_get_row_offset (pg, draw_y - 2, &y);
- 	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
- 	int diff_y    = y;
+	/* To ensure that far and near borders get drawn we pretend to draw +-2
+	 * pixels around the target area which would include the surrounding
+	 * borders if necessary */
+	/* TODO : there is an opportunity to speed up the redraw loop by only
+	 * painting the borders of the edges and not the content.
+	 * However, that feels like more hassle that it is worth.  Look into this someday.
+	 */
+	int x, y, col, row, n;
+	int const start_col = pg_get_col_offset (pg, draw_x - 2, &x);
+	int end_col         = pg_get_col_offset (pg, draw_x + width + 2, NULL);
+	int diff_x    = x;
+	int start_row       = pg_get_row_offset (pg, draw_y - 2, &y);
+	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
+	int diff_y    = y;
 	int row_height = pg->defaults.row_height;
 
 	GnmStyleRow sr, next_sr;
@@ -311,8 +311,8 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
-	 * 	- 6 arrays of n GnmBorder const *
-	 * 	- 2 arrays of n GnmStyle const *
+	 *	- 6 arrays of n GnmBorder const *
+	 *	- 2 arrays of n GnmStyle const *
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
@@ -329,9 +329,9 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		colwidths[col] = pg->defaults.col_width;
 
 	foo_canvas_w2c (item->canvas, diff_x, diff_y, &diff_x, &diff_y);
- 	/* Fill entire region with default background (even past far edge) */
- 	gdk_draw_rectangle (drawable, pg->gc.fill, TRUE,
- 			    diff_x, diff_y, width, height);
+	/* Fill entire region with default background (even past far edge) */
+	gdk_draw_rectangle (drawable, pg->gc.fill, TRUE,
+			    diff_x, diff_y, width, height);
 
 	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row) {
 		if (++next_sr.row > end_row) {
@@ -343,19 +343,19 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		for (col = start_col, x = diff_x; col <= end_col; col++) {
 			GnmStyle const *style = sr.styles [col];
- 			GnmCell const  *cell  = pg_fetch_cell (pg,
+			GnmCell const  *cell  = pg_fetch_cell (pg,
 				col, row, context, style);
 
- 			preview_grid_draw_background (drawable, pg,
- 						      style, col, row, x, y,
- 						      colwidths [col], row_height);
+			preview_grid_draw_background (drawable, pg,
+						      style, col, row, x, y,
+						      colwidths [col], row_height);
 
 			if (!gnm_cell_is_empty (cell))
 				cell_draw (cell, pg->gc.cell, drawable,
 					   x, y, colwidths [col], row_height, -1);
 
- 			x += colwidths [col];
- 		}
+			x += colwidths [col];
+		}
 
 		gnm_style_borders_row_draw (prev_vert, &sr,
 					drawable, diff_x, y, y+row_height,
@@ -369,7 +369,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		styles = sr.styles; sr.styles = next_sr.styles; next_sr.styles = styles;
 
 		y += row_height;
- 	}
+	}
 }
 
 static double

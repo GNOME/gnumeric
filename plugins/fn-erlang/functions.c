@@ -223,7 +223,7 @@ static GnmFuncHelp const help_dimcirc[] = {
 static GnmValue *
 gnumeric_dimcirc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-       	gnm_float traffic  = value_get_as_float (argv[0]);
+	gnm_float traffic  = value_get_as_float (argv[0]);
 	gnm_float des_gos  = value_get_as_float (argv[1]);
 	gnm_float low, high;
 

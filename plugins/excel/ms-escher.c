@@ -1439,7 +1439,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			break;
 
 	/* Geometry */
-	        /* 0 : Defines the G (geometry) coordinate space. */
+		/* 0 : Defines the G (geometry) coordinate space. */
 		case 320 : name = "long geoLeft"; break;
 		/* 0 :  */
 		case 321 : name = "long geoTop"; break;
@@ -2171,19 +2171,19 @@ static guint8 const Sp_header[] = {
 /* SpContainer */
 	0xf,   0,	/* ver = f, inst = 0 */
 	0x04, 0xf0,	/* type = SpContainer */
-	0, 0, 0, 0,	/* 	store total len */
+	0, 0, 0, 0,	/*	store total len */
 
 /* Sp */
-	0, 0,		/* 	store (shape type << 4) | 2 */
+	0, 0,		/*	store (shape type << 4) | 2 */
 	0x0a, 0xf0,	/* type = Sp */
 	8, 0, 0, 0,	/* len = 8 */
-	0, 0, 0, 0,	/* 	store spid */
+	0, 0, 0, 0,	/*	store spid */
 	0, 0xa, 0, 0,
 
 /* OPT */
-	0, 0,		/* 	store (count << 4) | 0x3) */
+	0, 0,		/*	store (count << 4) | 0x3) */
 	0x0b, 0xf0,	/* type = OPT */
-	0, 0, 0, 0,	/* 	store (count * 6) + complex sizes */
+	0, 0, 0, 0,	/*	store (count * 6) + complex sizes */
 };
 
 static guint8 const Sp_footer[] = {
@@ -2271,7 +2271,7 @@ ms_escher_sp_write (MSEscherSp *sp, BiffPut *bp,
 	memcpy (buf, Sp_header, sizeof Sp_header);
 /* SpContainer */
 	/* 0xf,   0,					 * ver = f, inst = 0 */
-	/* 0x04, 0xf0,	 				 * type = SpContainer */
+	/* 0x04, 0xf0,					 * type = SpContainer */
 	GSF_LE_SET_GUINT32 (buf + 4, len);		/* total len */
 /* Sp */
 	GSF_LE_SET_GUINT16 (buf + 8, (shape << 4) | 2);

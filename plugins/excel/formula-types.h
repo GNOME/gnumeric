@@ -93,7 +93,7 @@ typedef struct {
 	 * and I am too lazy to make the massive edit it would take to
 	 * change it. */
 	char		 type;
-	char const 	*known_args;
+	char const	*known_args;
 } ExcelFuncDesc;
 
 typedef struct {

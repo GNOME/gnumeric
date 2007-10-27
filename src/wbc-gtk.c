@@ -21,7 +21,7 @@
  * USA
  *
  * Port to Maemo:
- * 	Eduardo Lima  (eduardo.lima@indt.org.br)
+ *	Eduardo Lima  (eduardo.lima@indt.org.br)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -215,7 +215,7 @@ cb_autosave (WBCGtk *wbcg)
 
 	if (wbcg->autosave_time > 0 &&
 	    go_doc_is_dirty (wb_view_get_doc (wb_view))) {
-	        if (wbcg->autosave_prompt && !dialog_autosave_prompt (wbcg))
+		if (wbcg->autosave_prompt && !dialog_autosave_prompt (wbcg))
 			return TRUE;
 		gui_file_save (wbcg, wb_view);
 	}
@@ -1083,7 +1083,7 @@ wbcg_update_title (WBCGtk *wbcg)
 		 basename ? basename : doc->uri,
 		 _(" : Gnumeric"),
 		 NULL);
- 	gtk_window_set_title (wbcg_toplevel (wbcg), title);
+	gtk_window_set_title (wbcg_toplevel (wbcg), title);
 	g_free (title);
 	g_free (basename);
 }
@@ -1282,7 +1282,7 @@ wbcg_show_save_dialog (WBCGtk *wbcg,
 
 /**
  * wbcg_close_if_user_permits : If the workbook is dirty the user is
- *  		prompted to see if they should exit.
+ *		prompted to see if they should exit.
  *
  * Returns :
  * 0) canceled
@@ -1553,7 +1553,7 @@ cb_scroll_wheel (GtkWidget *ignored, GdkEventScroll *event,
 {
 	/* scroll always operates on pane 0 */
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet	 	*sheet = scg_sheet (scg);
+	Sheet		*sheet = scg_sheet (scg);
 	GnmPane *pane = scg_pane (scg, 0);
 	gboolean go_horiz = (event->direction == GDK_SCROLL_LEFT ||
 			     event->direction == GDK_SCROLL_RIGHT);
@@ -3562,11 +3562,11 @@ wbc_gtk_setup_icons (void)
 		{ gnm_object_combo_24,			NULL,				"Gnumeric_ObjectCombo" },
 		{ gnm_object_list_24,			NULL,				"Gnumeric_ObjectList" },
 
-		{ gnm_pivottable_24,	                gnm_pivottable_16,		"Gnumeric_PivotTable" },
-		{ gnm_protection_yes,	                NULL,				"Gnumeric_Protection_Yes" },
-		{ gnm_protection_no,       		NULL,				"Gnumeric_Protection_No" },
-		{ gnm_protection_yes_48,	        NULL,				"Gnumeric_Protection_Yes_Dialog" },
-		{ gnm_visible,	                        NULL,				"Gnumeric_Visible" },
+		{ gnm_pivottable_24,			gnm_pivottable_16,		"Gnumeric_PivotTable" },
+		{ gnm_protection_yes,			NULL,				"Gnumeric_Protection_Yes" },
+		{ gnm_protection_no,			NULL,				"Gnumeric_Protection_No" },
+		{ gnm_protection_yes_48,		NULL,				"Gnumeric_Protection_Yes_Dialog" },
+		{ gnm_visible,				NULL,				"Gnumeric_Visible" },
 
 		{ gnm_link_add_24,			gnm_link_add_16,		"Gnumeric_Link_Add" },
 		{ NULL,					gnm_link_delete_16,		"Gnumeric_Link_Delete" },
@@ -3664,9 +3664,9 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 		char const * const displayed_name;
 		char const * const function;
 	} const quick_compute_routines [] = {
-		{ N_("Sum"),   	       "sum" },
-		{ N_("Min"),   	       "min" },
-		{ N_("Max"),   	       "max" },
+		{ N_("Sum"),	       "sum" },
+		{ N_("Min"),	       "min" },
+		{ N_("Max"),	       "max" },
 		{ N_("Average"),       "average" },
 		{ N_("Count"),         "count" },
 		{ NULL, NULL }
@@ -4080,9 +4080,9 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 }
 
 static gboolean
-cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry 	*ignored,
+cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry	*ignored,
 				    G_GNUC_UNUSED GdkEventFocus	*event,
-				    GraphDimEditor 		*editor)
+				    GraphDimEditor		*editor)
 {
 	cb_graph_dim_editor_update (editor->entry, FALSE, editor);
 
@@ -4138,7 +4138,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	editor->dataset		= dataset;
 	editor->dim_i		= dim_i;
 	editor->data_type	= data_type;
-	editor->entry  		= gnm_expr_entry_new (wbcg, TRUE);
+	editor->entry		= gnm_expr_entry_new (wbcg, TRUE);
 	g_object_weak_ref (G_OBJECT (editor->dataset),
 		(GWeakNotify) cb_dim_editor_weakref_notify, editor);
 

@@ -5,8 +5,8 @@
  * spreadsheet
  *
  * Author:
- * 	Jody Goldberg <jody@gnome.org>
- * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *	Jody Goldberg <jody@gnome.org>
+ *	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2000, 2001, 2002 Jody Goldberg <jody@gnome.org>
  *

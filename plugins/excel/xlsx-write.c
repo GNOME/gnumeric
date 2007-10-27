@@ -81,7 +81,7 @@ static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocu
 typedef struct {
 	XLExportBase base;
 
-	Sheet const 	*sheet;
+	Sheet const	*sheet;
 	GHashTable	*shared_string_hash;
 	GPtrArray	*shared_string_array;
 	GnmConventions	*convs;
@@ -802,26 +802,26 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 	gboolean selectUnlockedCells;
 
 	g_object_get (G_OBJECT (state->sheet),
-		"protected", 			 	 &sheet,
-		"protected-allow-edit-objects", 	 &objects,
-		"protected-allow-edit-scenarios", 	 &scenarios,
-		"protected-allow-cell-formatting", 	 &formatCells,
-		"protected-allow-column-formatting", 	 &formatColumns,
-		"protected-allow-row-formatting", 	 &formatRows,
-		"protected-allow-insert-columns", 	 &insertColumns,
-		"protected-allow-insert-rows", 		 &insertRows,
-		"protected-allow-insert-hyperlinks", 	 &insertHyperlinks,
-		"protected-allow-delete-columns", 	 &deleteColumns,
-		"protected-allow-delete-rows", 		 &deleteRows,
-		"protected-allow-select-locked-cells", 	 &selectLockedCells,
-		"protected-allow-sort-ranges", 		 &sort,
-		"protected-allow-edit-auto-filters", 	 &autoFilter,
-		"protected-allow-edit-pivottable", 	 &pivotTables,
+		"protected",				 &sheet,
+		"protected-allow-edit-objects",		 &objects,
+		"protected-allow-edit-scenarios",	 &scenarios,
+		"protected-allow-cell-formatting",	 &formatCells,
+		"protected-allow-column-formatting",	 &formatColumns,
+		"protected-allow-row-formatting",	 &formatRows,
+		"protected-allow-insert-columns",	 &insertColumns,
+		"protected-allow-insert-rows",		 &insertRows,
+		"protected-allow-insert-hyperlinks",	 &insertHyperlinks,
+		"protected-allow-delete-columns",	 &deleteColumns,
+		"protected-allow-delete-rows",		 &deleteRows,
+		"protected-allow-select-locked-cells",	 &selectLockedCells,
+		"protected-allow-sort-ranges",		 &sort,
+		"protected-allow-edit-auto-filters",	 &autoFilter,
+		"protected-allow-edit-pivottable",	 &pivotTables,
 		"protected-allow-select-unlocked-cells", &selectUnlockedCells,
 		NULL);
 
 	gsf_xml_out_start_element (xml, "sheetProtection");
-	if ( sheet) 		  xlsx_add_bool (xml, "sheet",			TRUE);
+	if ( sheet)		  xlsx_add_bool (xml, "sheet",			TRUE);
 	if ( objects)		  xlsx_add_bool (xml, "objects",		TRUE);
 	if ( scenarios)		  xlsx_add_bool (xml, "scenarios",		TRUE);
 	if (!formatCells)	  xlsx_add_bool (xml, "formatCells",		FALSE);
@@ -1442,7 +1442,7 @@ xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
 	locale = gnm_push_C_locale ();
 
 	state.io_context	= io_context;
-	state.base.wb	 	= wb_view_get_workbook (wb_view);
+	state.base.wb		= wb_view_get_workbook (wb_view);
 	root_part = gsf_outfile_open_pkg_new (
 		gsf_outfile_zip_new (output, NULL));
 
@@ -1454,11 +1454,11 @@ xlsx_file_save (GOFileSaver const *fs, IOContext *io_context,
 }
 
 /* TODO : (Just about everything)
- * 	Figure out why XL 12 complains about cells and cols
- * 	styles
- * 	rich text
- * 	shared expressions
- * 	external refs
- * 	charts
- * 	...
- * 	*/
+ *	Figure out why XL 12 complains about cells and cols
+ *	styles
+ *	rich text
+ *	shared expressions
+ *	external refs
+ *	charts
+ *	...
+ *	*/

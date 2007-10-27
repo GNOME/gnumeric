@@ -97,7 +97,7 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 		guint16 stream_id	= GSF_LE_GET_GUINT16 (q->data + 4);
 		guint16 flags		= GSF_LE_GET_GUINT16 (q->data + 6);
 		guint16 rec_per_block	= GSF_LE_GET_GUINT16 (q->data + 8);	/* seems constant */
-		guint16 base_fields 	= GSF_LE_GET_GUINT16 (q->data + 10);	/* base */
+		guint16 base_fields	= GSF_LE_GET_GUINT16 (q->data + 10);	/* base */
 		/* guint16 zero */
 		guint16 type		= GSF_LE_GET_GUINT16 (q->data + 16);
 		char *who		= excel_get_text (s->importer,

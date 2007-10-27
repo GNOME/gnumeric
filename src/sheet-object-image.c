@@ -4,7 +4,7 @@
  * sheet-object-image.c: a wrapper for gdkpixbuf to display images.
  *
  * Author:
- * 	Jody Goldberg (jody@gnome.org)
+ *	Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
@@ -549,12 +549,12 @@ gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	gsf_xml_out_add_float (output, "crop-bottom", soi->crop_bottom, 3);
 	gsf_xml_out_add_float (output, "crop-left", soi->crop_left, 3);
 	gsf_xml_out_add_float (output, "crop-right", soi->crop_right, 3);
- 	gsf_xml_out_start_element (output, "Content");
+	gsf_xml_out_start_element (output, "Content");
 	if (soi->type != NULL)
 		gsf_xml_out_add_cstr (output, "image-type", soi->type);
 	gsf_xml_out_add_uint (output, "size-bytes", soi->bytes.len);
 	gsf_xml_out_add_base64 (output, NULL, soi->bytes.data, soi->bytes.len);
- 	gsf_xml_out_end_element (output);
+	gsf_xml_out_end_element (output);
 }
 
 static void

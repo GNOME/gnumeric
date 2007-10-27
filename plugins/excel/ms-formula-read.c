@@ -70,7 +70,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 26 */  { "SIGN",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 27 */  { "ROUND",		 2,  2, XL_STD,  2, 'V', "VV" },
 /* 28 */  { "LOOKUP",		 2,  3, XL_STD, 2, 'V', "VR" },
-/* 29 */  { "INDEX", 		 2,  4, XL_VOLATILE, 4, 'R', "RVVV" },	/* array form has only 3 */
+/* 29 */  { "INDEX",		 2,  4, XL_VOLATILE, 4, 'R', "RVVV" },	/* array form has only 3 */
 
 /* 30 */  { "REPT",		 2,  2, XL_STD,  2, 'V', "VV" },
 /* 31 */  { "MID",		 3,  3, XL_STD,  3, 'V', "VVV" },
@@ -108,7 +108,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 60 */  { "RATE",		 3,  6, XL_STD, 6, 'V', "VVVVVV" },	/* guess is optional */
 /* 61 */  { "MIRR",		 3,  3, XL_STD,  3, 'V', "RVV" },
 /* 62 */  { "IRR",		 1,  2, XL_STD, 2, 'V', "RV" },	/* guess is optional */
-/* 63 */  { "RAND", 		 0,  0, XL_VOLATILE,  0, 'V',  NULL },
+/* 63 */  { "RAND",		 0,  0, XL_VOLATILE,  0, 'V',  NULL },
 /* 64 */  { "MATCH",		 2,  3, XL_STD, 3, 'V', "VRR" },	/* match_type is optional */
 /* 65 */  { "DATE",		 3,  3, XL_STD,  3, 'V', "VVV" },
 /* 66 */  { "TIME",		 3,  3, XL_STD,  3, 'V', "VVV" },
@@ -120,7 +120,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 71 */  { "HOUR",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 72 */  { "MINUTE",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 73 */  { "SECOND",		 1,  1, XL_STD,  1, 'V', "V" },
-/* 74 */  { "NOW",  		 0,  0, XL_VOLATILE,  0, 'V',  NULL },
+/* 74 */  { "NOW",		 0,  0, XL_VOLATILE,  0, 'V',  NULL },
 /* 75 */  { "AREAS",		 1,  1, XL_STD,  1, 'V', "R" },
 /* 76 */  { "ROWS",		 1,  1, XL_STD,  1, 'V', "R" },
 /* 77 */  { "COLUMNS",		 1,  1, XL_STD,  1, 'V', "R" },
@@ -201,7 +201,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 145 */ { "GET.DEF",		-1, -1, XL_XLM },
 /* 146 */ { "REFTEXT",		-1, -1, XL_XLM },
 /* 147 */ { "TEXTREF",		-1, -1, XL_XLM },
-/* 148 */ { "INDIRECT", 	 1,  2, XL_VOLATILE, 2, 'R', "VV" },	/* ai is optional */
+/* 148 */ { "INDIRECT",		 1,  2, XL_VOLATILE, 2, 'R', "VV" },	/* ai is optional */
 /* 149 */ { "REGISTER",		-1, -1, XL_XLM },
 
 /* 150 */ { "CALL",		-1, -1, XL_XLM },
@@ -226,7 +226,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 168 */ { "PPMT",		 4,  6, XL_STD, 6, 'V', "VVVVVV" },
 /* 169 */ { "COUNTA",		 0, 30, XL_STD, 1, 'V', "R" },
 
-/* 170 */ { "CANCELKEY", 	-1, -1, XL_XLM },
+/* 170 */ { "CANCELKEY",	-1, -1, XL_XLM },
 /* 171 */ { "FOR",		-1, -1, XL_XLM },
 /* 172 */ { "WHILE",		-1, -1, XL_XLM },
 /* 173 */ { "BREAK",		-1, -1, XL_XLM },
@@ -284,7 +284,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 219 */ { "ADDRESS",		 2,  5, XL_STD, 5, 'V', "VVVVV" },
 
 /* 220 */ { "DAYS360",		 2,  3, XL_STD, 3, 'V', "VVV" },	/* pre-biff5/7 VV */
-/* 221 */ { "TODAY", 		 0,  0, XL_VOLATILE,  0, 'V', NULL },
+/* 221 */ { "TODAY",		 0,  0, XL_VOLATILE,  0, 'V', NULL },
 /* 222 */ { "VDB",		 5,  7, XL_STD, 7, 'V', "VVVVVVV" },
 /* 223 */ { "ELSE",		-1, -1, XL_XLM },
 /* 224 */ { "ELSE.IF",		-1, -1, XL_XLM },
@@ -301,14 +301,14 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 234 */ { "ATANH",		 1,  1, XL_STD,  1, 'V', "V" },
 /* 235 */ { "DGET",		 3,  3, XL_STD,  3, 'V', "RRR" },
 /* 236 */ { "CREATE.OBJECT",	-1, -1, XL_XLM },
-/* 237 */ { "VOLATILE", 	-1, -1, XL_XLM },
-/* 238 */ { "LAST.ERROR", 	-1, -1, XL_XLM },
+/* 237 */ { "VOLATILE",		-1, -1, XL_XLM },
+/* 238 */ { "LAST.ERROR",	-1, -1, XL_XLM },
 /* 239 */ { "CUSTOM.UNDO",	-1, -1, XL_XLM },
 
 /* 240 */ { "CUSTOM.REPEAT",	-1, -1, XL_XLM },
 /* 241 */ { "FORMULA.CONVERT",	-1, -1, XL_XLM },
 /* 242 */ { "GET.LINK.INFO",	-1, -1, XL_XLM },
-/* 243 */ { "TEXT.BOX", 	-1, -1, XL_XLM },
+/* 243 */ { "TEXT.BOX",		-1, -1, XL_XLM },
 /* 244 */ { "INFO",		 1,  1, XL_STD, 1, 'V', "V" },
 /* 245 */ { "GROUP",		-1, -1, XL_XLM },
 /* 246 */ { "GET.OBJECT",	-1, -1, XL_XLM },
@@ -325,7 +325,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 254 */ { "DELETE.TOOLBAR",	-1, -1, XL_XLM },
 /* 255 */ { "extension slot",	-1, -1, XL_MAGIC },
 /* 256 */ { "RESET.TOOLBAR",	-1, -1, XL_XLM },
-/* 257 */ { "EVALUATE", 	-1, -1, XL_XLM },
+/* 257 */ { "EVALUATE",		-1, -1, XL_XLM },
 /* 258 */ { "GET.TOOLBAR",	-1, -1, XL_XLM },
 /* 259 */ { "GET.TOOL",		-1, -1, XL_XLM },
 
@@ -336,7 +336,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 264 */ { "SAVE.TOOLBAR",	-1, -1, XL_XLM },
 /* 265 */ { "ENABLE.TOOL",	-1, -1, XL_XLM },
 /* 266 */ { "PRESS.TOOL",	-1, -1, XL_XLM },
-/* 267 */ { "REGISTER.ID", 	-1, -1, XL_XLM },
+/* 267 */ { "REGISTER.ID",	-1, -1, XL_XLM },
 /* 268 */ { "GET.WORKBOOK",	-1, -1, XL_XLM },
 /* 269 */ { "AVEDEV",		 1, 30, XL_STD, 1, 'V', "R" },
 
@@ -981,7 +981,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 			/* not exactly legal, but should be reasonable
 			 * XL has union operator we have sets.
- 			 */
+			 */
 			if (GNM_EXPR_GET_OPER (l) != GNM_EXPR_OP_SET) {
 				GnmExprList *args = gnm_expr_list_prepend (NULL, r);
 				args = gnm_expr_list_prepend (args, l);
@@ -1198,8 +1198,8 @@ excel_parse_formula1 (MSContainer const *container,
 				 * So
 				 * Cheat.  and perform the intersection here.
 				 * ie
-				 * 	A1 : x
-				 * 	A2 : 2  B2 : =x^2
+				 *	A1 : x
+				 *	A2 : 2  B2 : =x^2
 				 * x is an eptgElfColV.  I replace that with a2
 				 */
 				GnmCellRef ref;

@@ -237,7 +237,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, GnmPane *pane)
 	case GDK_2BUTTON_PRESS:
 		r = sheet_object_get_range (so);
 		dialog_cell_comment (scg->wbcg, so->sheet, &r->start);
- 		break;
+		break;
 
 	default:
 		return FALSE;

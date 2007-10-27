@@ -49,7 +49,7 @@ struct _ItemEdit {
 	FooCanvasItem item;
 
 	SheetControlGUI *scg;
-	GtkEntry   	*entry;		/* Utility pointer to the workbook entry */
+	GtkEntry	*entry;		/* Utility pointer to the workbook entry */
 
 	PangoLayout	*layout;
 
@@ -94,13 +94,13 @@ item_edit_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		GdkEventExpose *expose)
 {
 	ItemEdit  const *ie	= ITEM_EDIT (item);
-	GdkGC *black_gc 	= GTK_WIDGET (item->canvas)->style->black_gc;
+	GdkGC *black_gc		= GTK_WIDGET (item->canvas)->style->black_gc;
 	int top, left;
 
 	if (ie->style == NULL)
 		return;
 
-       	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
+	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
 	gdk_draw_rectangle (drawable, ie->fill_gc, TRUE,
 		(int)item->x1,			(int)item->y1,
 		(int)(item->x2 - item->x1),	(int)(item->y2 - item->y1));
@@ -189,7 +189,7 @@ ie_layout (FooCanvasItem *item)
 	GtkWidget const  *canvas = GTK_WIDGET (item->canvas);
 	GnmPane	 const  *pane = GNM_PANE (item->canvas);
 	ColRowInfo const *ci;
-	Sheet const 	 *sheet  = scg_sheet (ie->scg);
+	Sheet const	 *sheet  = scg_sheet (ie->scg);
 	GnmFont  const   *gfont = ie->gfont;
 	GnmRange const   *merged;
 	int col, tmp, width, height, col_size;
@@ -264,8 +264,8 @@ ie_layout (FooCanvasItem *item)
 	col_size -= GNM_COL_MARGIN + GNM_COL_MARGIN + 1;
 
 	/* far corner based on the span size
-	 * 	- margin on each end
-	 * 	- the bound excludes the far point => +1 */
+	 *	- margin on each end
+	 *	- the bound excludes the far point => +1 */
 	if (sheet->text_is_rtl) {
 		while (col_size < width && col >= pane->first.col) {
 			ci = sheet_col_get_info (sheet, col--);
@@ -383,7 +383,7 @@ item_edit_cursor_blink_start (ItemEdit *ie)
 	g_object_get (gtk_widget_get_settings (
 		GTK_WIDGET (ie->item.canvas)),
 		"gtk-cursor-blink-time",	&blink_time,
-		"gtk-cursor-blink", 		&blink,
+		"gtk-cursor-blink",		&blink,
 		NULL);
 	if (blink)
 		ie->blink_timer = g_timeout_add ( blink_time,

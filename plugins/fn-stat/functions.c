@@ -53,9 +53,9 @@ float_compare (gnm_float const *a, gnm_float const *b)
         if (*a < *b)
                 return -1;
 	else if (*a == *b)
-	        return 0;
+		return 0;
 	else
-	        return 1;
+		return 1;
 }
 
 typedef struct {
@@ -83,15 +83,15 @@ callback_function_stat (GnmEvalPos const *ep, GnmValue const *value, void *closu
 	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
 	else {
-	        if (mm->afun_flag)
-		        x = 0;
+		if (mm->afun_flag)
+			x = 0;
 		else
-		        return NULL;
+			return NULL;
 	}
 
 	/* I'm paranoid - if mm->N == -1, mm->N + 1 is 0 and the next line blows out */
 	if (mm->N == - 1)
-	        return value_new_error_NUM (ep);
+		return value_new_error_NUM (ep);
 
 	dx = x - mm->M;
 	dm = dx / (mm->N + 1);
@@ -310,7 +310,7 @@ cb_rank (GnmCellIter const *iter, gpointer user)
 
 	gnm_cell_eval (cell);
 	if (cell->value == NULL)
-	        return NULL;
+		return NULL;
 
 	if (!VALUE_IS_NUMBER (cell->value))
 		return NULL;
@@ -319,11 +319,11 @@ cb_rank (GnmCellIter const *iter, gpointer user)
 	x = value_get_as_float (cell->value);
 
 	if (p->order) {
-	        if (x < p->x)
-		        p->rank++;
+		if (x < p->x)
+			p->rank++;
 	} else {
-	        if (x > p->x)
-		        p->rank++;
+		if (x > p->x)
+			p->rank++;
 	}
 
 	return NULL;
@@ -337,12 +337,12 @@ gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	p.x = value_get_as_float (argv[0]);
 	if (argv[2])
-	        p.order = value_get_as_int (argv[2]);
+		p.order = value_get_as_int (argv[2]);
 	else
-	        p.order = 0;
+		p.order = 0;
 	p.rank = 1;
 	ret = sheet_foreach_cell_in_range (
-	        eval_sheet (argv[1]->v_range.cell.a.sheet, ei->pos->sheet),
+		eval_sheet (argv[1]->v_range.cell.a.sheet, ei->pos->sheet),
 		CELL_ITER_IGNORE_BLANK,
 		argv[1]->v_range.cell.a.col,
 		argv[1]->v_range.cell.a.row,
@@ -650,7 +650,7 @@ static GnmFuncHelp const help_loginv[] = {
            "\n"
 	   "* If @p < 0 or @p > 1 or @stddev <= 0 LOGINV returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
- 	   "\n"
+	   "\n"
 	   "@EXAMPLES=\n"
 	   "LOGINV(0.5,2,3) equals 7.389056099.\n"
 	   "\n"
@@ -1161,11 +1161,11 @@ static gnm_float
 random_bernoulli_pdf (int k, gnm_float p)
 {
         if (k == 0)
-	        return 1 - p;
+		return 1 - p;
 	else if (k == 1)
-	        return p;
+		return p;
 	else
-	        return 0;
+		return 0;
 }
 
 static GnmValue *
@@ -1256,9 +1256,9 @@ gnumeric_gammadist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	if (cum)
-	        return value_new_float (pgamma (x, alpha, beta, TRUE, FALSE));
+		return value_new_float (pgamma (x, alpha, beta, TRUE, FALSE));
 	else
-	        return value_new_float (dgamma (x, alpha, beta, FALSE));
+		return value_new_float (dgamma (x, alpha, beta, FALSE));
 }
 
 /***************************************************************************/
@@ -1417,7 +1417,7 @@ callback_function_chitest_actual (GnmEvalPos const *ep, GnmValue *value,
 
 	mm->row++;
 	if (mm->row == mm->rows) {
-	        mm->row = 0;
+		mm->row = 0;
 		mm->col++;
 		mm->columns = g_slist_append (mm->columns, mm->column);
 		mm->column = NULL;
@@ -1447,14 +1447,14 @@ callback_function_chitest_theoretical (GnmEvalPos const *ep, GnmValue *value,
 	e = value_get_as_float (value);
 
 	if (mm->current_cell == NULL) {
-	        mm->current_cell = mm->next_col->data;
+		mm->current_cell = mm->next_col->data;
 		mm->next_col = mm->next_col->next;
 	}
 	p = mm->current_cell->data;
 	a = *p;
 
 	if (e == 0)
-	        return value_new_error_NUM (ep);
+		return value_new_error_NUM (ep);
 
 	mm->sum += ((a-e) * (a-e)) / e;
 	g_free (p);
@@ -1501,7 +1501,7 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	for (tmp = p1.columns; tmp != NULL ; tmp = tmp->next)
-	        g_slist_free (tmp->data);
+		g_slist_free (tmp->data);
 	g_slist_free (p1.columns);
 
 	/* FIXME : XL docs claim df = (r-1)(c-1) not (r-1),
@@ -1753,109 +1753,109 @@ static gnm_float
 random_landau_pdf (gnm_float x)
 {
         static gnm_float P1[5] = {
-	        0.4259894875E0, -0.1249762550E0, 0.3984243700E-1,
+		0.4259894875E0, -0.1249762550E0, 0.3984243700E-1,
 		-0.6298287635E-2, 0.1511162253E-2
 	};
 	static gnm_float P2[5] = {
-	        0.1788541609E0, 0.1173957403E0, 0.1488850518E-1,
+		0.1788541609E0, 0.1173957403E0, 0.1488850518E-1,
 		-0.1394989411E-2, 0.1283617211E-3
 	};
 	static gnm_float P3[5] = {
-	        0.1788544503E0, 0.9359161662E-1, 0.6325387654E-2,
+		0.1788544503E0, 0.9359161662E-1, 0.6325387654E-2,
 		0.6611667319E-4, -0.2031049101E-5
 	};
 	static gnm_float P4[5] = {
-	        0.9874054407E0, 0.1186723273E3, 0.8492794360E3,
+		0.9874054407E0, 0.1186723273E3, 0.8492794360E3,
 		-0.7437792444E3, 0.4270262186E3
 	};
 	static gnm_float P5[5] = {
-	        0.1003675074E1, 0.1675702434E3, 0.4789711289E4,
+		0.1003675074E1, 0.1675702434E3, 0.4789711289E4,
 		0.2121786767E5, -0.2232494910E5
 	};
 	static gnm_float P6[5] = {
-	        0.1000827619E1, 0.6649143136E3, 0.6297292665E5,
+		0.1000827619E1, 0.6649143136E3, 0.6297292665E5,
 		0.4755546998E6, -0.5743609109E7
 	};
 
 	static gnm_float Q1[5] = {
-	        1.0, -0.3388260629E0, 0.9594393323E-1,
+		1.0, -0.3388260629E0, 0.9594393323E-1,
 		-0.1608042283E-1, 0.3778942063E-2
 	};
 	static gnm_float Q2[5] = {
-	        1.0, 0.7428795082E0, 0.3153932961E0,
+		1.0, 0.7428795082E0, 0.3153932961E0,
 		0.6694219548E-1, 0.8790609714E-2
 	};
 	static gnm_float Q3[5] = {
-	        1.0, 0.6097809921E0, 0.2560616665E0,
+		1.0, 0.6097809921E0, 0.2560616665E0,
 		0.4746722384E-1, 0.6957301675E-2
 	};
 	static gnm_float Q4[5] = {
-	        1.0, 0.1068615961E3, 0.3376496214E3,
+		1.0, 0.1068615961E3, 0.3376496214E3,
 		0.2016712389E4, 0.1597063511E4
 	};
 	static gnm_float Q5[5] = {
-	        1.0, 0.1569424537E3, 0.3745310488E4,
+		1.0, 0.1569424537E3, 0.3745310488E4,
 		0.9834698876E4, 0.6692428357E5
 	};
 	static gnm_float Q6[5] = {
-	        1.0, 0.6514101098E3, 0.5697473333E5,
+		1.0, 0.6514101098E3, 0.5697473333E5,
 		0.1659174725E6, -0.2815759939E7
 	};
 
 	static gnm_float A1[3] = {
-	        0.4166666667E-1, -0.1996527778E-1, 0.2709538966E-1
+		0.4166666667E-1, -0.1996527778E-1, 0.2709538966E-1
 	};
 	static gnm_float A2[2] = {
-	        -0.1845568670E1, -0.4284640743E1
+		-0.1845568670E1, -0.4284640743E1
 	};
 
 	gnm_float U, V, DENLAN;
 
 	V = x;
 	if (V < -5.5) {
-	        U      = gnm_exp (V + 1.0);
+		U      = gnm_exp (V + 1.0);
 		DENLAN = 0.3989422803 * (gnm_exp ( -1 / U) / gnm_sqrt (U)) *
-		        (1 + (A1[0] + (A1[1] + A1[2] * U) * U) * U);
+			(1 + (A1[0] + (A1[1] + A1[2] * U) * U) * U);
 	} else if (V < -1) {
-	        U = gnm_exp (-V - 1);
+		U = gnm_exp (-V - 1);
 		DENLAN = gnm_exp ( -U) * gnm_sqrt (U) *
-		        (P1[0] + (P1[1] + (P1[2] + (P1[3] + P1[4] * V) * V)
+			(P1[0] + (P1[1] + (P1[2] + (P1[3] + P1[4] * V) * V)
 				  * V) * V) /
-		        (Q1[0] + (Q1[1] + (Q1[2] + (Q1[3] + Q1[4] * V) * V)
+			(Q1[0] + (Q1[1] + (Q1[2] + (Q1[3] + Q1[4] * V) * V)
 				  * V) * V);
 	} else if (V < 1) {
-	        DENLAN = (P2[0] + (P2[1] + (P2[2] + (P2[3] + P2[4] * V) * V)
+		DENLAN = (P2[0] + (P2[1] + (P2[2] + (P2[3] + P2[4] * V) * V)
 				   * V) * V) /
-		        (Q2[0] + (Q2[1] + (Q2[2] + (Q2[3] + Q2[4] * V) * V)
+			(Q2[0] + (Q2[1] + (Q2[2] + (Q2[3] + Q2[4] * V) * V)
 				  * V) * V);
 	} else if (V < 5) {
-	        DENLAN = (P3[0] + (P3[1] + (P3[2] + (P3[3] + P3[4] * V) * V)
+		DENLAN = (P3[0] + (P3[1] + (P3[2] + (P3[3] + P3[4] * V) * V)
 				   * V) * V) /
-		        (Q3[0] + (Q3[1] + (Q3[2] + (Q3[3] + Q3[4] * V) * V)
+			(Q3[0] + (Q3[1] + (Q3[2] + (Q3[3] + Q3[4] * V) * V)
 				  * V) * V);
 	} else if (V < 12) {
-	        U = 1 / V;
+		U = 1 / V;
 		DENLAN = U * U *
-		        (P4[0] + (P4[1] + (P4[2] + (P4[3] + P4[4] * U) * U)
+			(P4[0] + (P4[1] + (P4[2] + (P4[3] + P4[4] * U) * U)
 				  * U) * U) /
-		        (Q4[0] + (Q4[1] + (Q4[2] + (Q4[3] + Q4[4] * U) * U)
+			(Q4[0] + (Q4[1] + (Q4[2] + (Q4[3] + Q4[4] * U) * U)
 				  * U) * U);
 	} else if (V < 50) {
-	        U = 1 / V;
+		U = 1 / V;
 		DENLAN = U * U *
-		        (P5[0] + (P5[1] + (P5[2] + (P5[3] + P5[4] * U) * U)
+			(P5[0] + (P5[1] + (P5[2] + (P5[3] + P5[4] * U) * U)
 				  * U) * U) /
-		        (Q5[0] + (Q5[1] + (Q5[2] + (Q5[3] + Q5[4] * U) * U)
+			(Q5[0] + (Q5[1] + (Q5[2] + (Q5[3] + Q5[4] * U) * U)
 				  * U) * U);
 	} else if (V < 300) {
-	        U = 1 / V;
+		U = 1 / V;
 		DENLAN = U * U *
-		        (P6[0] + (P6[1] + (P6[2] + (P6[3] + P6[4] * U) * U)
+			(P6[0] + (P6[1] + (P6[2] + (P6[3] + P6[4] * U) * U)
 				  * U) * U) /
-		        (Q6[0] + (Q6[1] + (Q6[2] + (Q6[3] + Q6[4] * U) * U)
+			(Q6[0] + (Q6[1] + (Q6[2] + (Q6[3] + Q6[4] * U) * U)
 				  * U) * U);
 	} else {
-	        U = 1 / (V - V * log(V) / (V + 1));
+		U = 1 / (V - V * log(V) / (V + 1));
 		DENLAN = U * U * (1 + (A2[0] + A2[1] * U) * U);
 	}
 
@@ -2025,7 +2025,7 @@ gnumeric_critbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         gnm_float alpha = value_get_as_float (argv[2]);
 
         if (trials < 0 || p < 0 || p > 1 || alpha < 0 || alpha > 1)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (qbinom (alpha, trials, p, TRUE, FALSE));
 }
@@ -2950,11 +2950,11 @@ gnumeric_prob (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		total_sum += prob;
 
 		if (x >= lower_limit && x <= upper_limit)
-		        sum += prob;
+			sum += prob;
 	}
 
 	if (gnm_abs (total_sum - 1) > x_n * 2 * GNM_EPSILON) {
-	        res = value_new_error_NUM (ei->pos);
+		res = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3022,17 +3022,17 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			list1 = items_x.list;
 			list2 = items_y.list;
 			while (list1 != NULL) {
-			        g_free (list1->data);
+				g_free (list1->data);
 				list1 = list1->next;
 			}
 			while (list2 != NULL) {
-			        g_free (list2->data);
+				g_free (list2->data);
 				list2 = list2->next;
 			}
 			g_slist_free (items_x.list);
 			g_slist_free (items_y.list);
 
-		        return value_new_error_VALUE (ei->pos);
+			return value_new_error_VALUE (ei->pos);
 		}
 	} else
 		return value_new_error (ei->pos,
@@ -3052,17 +3052,17 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			list1 = items_x.list;
 			list2 = items_y.list;
 			while (list1 != NULL) {
-			        g_free (list1->data);
+				g_free (list1->data);
 				list1 = list1->next;
 			}
 			while (list2 != NULL) {
-			        g_free (list2->data);
+				g_free (list2->data);
 				list2 = list2->next;
 			}
 			g_slist_free (items_x.list);
 			g_slist_free (items_y.list);
 
-		        return value_new_error_VALUE (ei->pos);
+			return value_new_error_VALUE (ei->pos);
 		}
 	} else
 		return value_new_error (ei->pos,
@@ -3072,17 +3072,17 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		list1 = items_x.list;
 		list2 = items_y.list;
 		while (list1 != NULL) {
-		        g_free (list1->data);
+			g_free (list1->data);
 			list1 = list1->next;
 		}
 		while (list2 != NULL) {
-		        g_free (list2->data);
+			g_free (list2->data);
 			list2 = list2->next;
 		}
 		g_slist_free (items_x.list);
 		g_slist_free (items_y.list);
 
-	        return value_new_error_NA (ei->pos);
+		return value_new_error_NA (ei->pos);
 	}
 
 	list1 = items_x.list;
@@ -3092,7 +3092,7 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	sum_xy = 0;
 
 	while (list1 != NULL) {
-	        gnm_float  x, y;
+		gnm_float  x, y;
 
 		x = *((gnm_float *) list1->data);
 		y = *((gnm_float *) list2->data);
@@ -3119,7 +3119,7 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	den = n * sqrsum_x - sum_x * sum_x;
 
 	if (den == 0)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_sqrt (k * (n * sqrsum_y - sum_y * sum_y - num / den)));
 }
@@ -3163,7 +3163,7 @@ range_ztest (gnm_float const *xs, int n, gnm_float *res)
 	if (gnm_range_average (xs, n, &m))
 		return 1;
 	if (gnm_range_stddev_est (xs, n, &s) || s == 0)
-	        return 1;
+		return 1;
 
 	*res = pnorm (x, m, s / gnm_sqrt (n), TRUE, FALSE);
 	return 0;
@@ -3515,15 +3515,15 @@ callback_function_percentrank (GnmEvalPos const *ep, GnmValue *value,
 	y = value_get_as_float (value);
 
 	if (y < p->x) {
-	        p->smaller++;
+		p->smaller++;
 		if (p->smaller_x == p->x || p->smaller_x < y)
-		        p->smaller_x = y;
+			p->smaller_x = y;
 	} else if (y > p->x) {
-	        p->greater++;
+		p->greater++;
 		if (p->greater_x == p->x || p->greater_x > y)
-		        p->greater_x = y;
+			p->greater_x = y;
 	} else
-	        p->equal++;
+		p->equal++;
 
 	return NULL;
 }
@@ -3546,11 +3546,11 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	p.x = x;
 
         if (argv[2] == NULL)
-	        significance = 3;
+		significance = 3;
 	else {
-	        significance = value_get_as_int (argv[2]);
+		significance = value_get_as_int (argv[2]);
 		if (significance < 1)
-		        return value_new_error_NUM (ei->pos);
+			return value_new_error_NUM (ei->pos);
 	}
 
 	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
@@ -3560,15 +3560,15 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (ret != NULL || (p.smaller + p.equal == 0) ||
 		(p.greater + p.equal == 0))
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	if (p.equal == 1)
-	        pr = (gnm_float)p.smaller / (p.smaller + p.greater);
+		pr = (gnm_float)p.smaller / (p.smaller + p.greater);
 	else if (p.equal == 0) {
-	        gnm_float a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
-	        pr = (gnm_float)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
+		gnm_float a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
+		pr = (gnm_float)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
 	} else
-	        pr = (p.smaller + 0.5 * p.equal) /
+		pr = (p.smaller + 0.5 * p.equal) /
 		  (p.smaller + p.equal + p.greater);
 
 	k = gnm_pow10 (significance);
@@ -3729,7 +3729,7 @@ gnumeric_ftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	var2 = cl.Q / (cl.N - 1);
 
 	if (var2 == 0)
-	        return value_new_error_VALUE (ei->pos);
+		return value_new_error_VALUE (ei->pos);
 
 	p = pf (var1 / var2, dof1, dof2, FALSE, FALSE);
 	if (p > 0.5) {
@@ -3798,17 +3798,17 @@ callback_function_ttest (GnmEvalPos const *ep, GnmValue const *value, void *clos
 	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
 	else
-	        x = 0;
+		x = 0;
 
 	if (mm->first) {
-	        gpointer p = g_new (gnm_float, 1);
+		gpointer p = g_new (gnm_float, 1);
 		*((gnm_float *) p) = x;
 		mm->entries = g_slist_append (mm->entries, p);
 	} else {
-	        if (mm->current == NULL)
+		if (mm->current == NULL)
 			return VALUE_TERMINATE;
 
-	        *((gnm_float *) mm->current->data) -= x;
+		*((gnm_float *) mm->current->data) -= x;
 		mm->current = mm->current->next;
 	}
 
@@ -3834,12 +3834,12 @@ gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	if (type == 1) {
-	        GSList  *current;
+		GSList  *current;
 		GnmExpr expr;
 		GnmExprConstPtr argv1[1] = { &expr };
-	        gnm_float sum, dx, dm, M, Q, N;
+		gnm_float sum, dx, dm, M, Q, N;
 
-	        t_cl.first = TRUE;
+		t_cl.first = TRUE;
 		t_cl.entries = NULL;
 
 		gnm_expr_constant_init (&expr.constant, argv[0]);
@@ -3847,9 +3847,9 @@ gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			(ei->pos, callback_function_ttest, &t_cl,
 			 1, argv1, TRUE, CELL_ITER_ALL);
 		if (err != NULL)
-		        return err;
+			return err;
 
-	        t_cl.first = FALSE;
+		t_cl.first = FALSE;
 		t_cl.current = t_cl.entries;
 
 		gnm_expr_constant_init (&expr.constant, argv[1]);
@@ -3857,13 +3857,13 @@ gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			(ei->pos, &callback_function_ttest, &t_cl,
 			 1, argv1, TRUE, CELL_ITER_ALL);
 		if (err != NULL)
-		        return err;
+			return err;
 
 		current = t_cl.entries;
 		dx = dm = M = Q = N = sum = 0;
 
 		while (current != NULL) {
-		        x = *((gnm_float *) current->data);
+			x = *((gnm_float *) current->data);
 
 			dx = x - M;
 			dm = dx / (N + 1);
@@ -3878,31 +3878,31 @@ gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		g_slist_free (t_cl.entries);
 
 		if (N - 1 == 0 || N == 0)
-		        return value_new_error_NUM (ei->pos);
+			return value_new_error_NUM (ei->pos);
 
 		s = gnm_sqrt (Q / (N - 1));
 		mean1 = sum / N;
 		x = mean1 / (s / gnm_sqrt (N));
 		dof = N - 1;
 	} else {
-	        if ((err = stat_helper (&cl, ei->pos, argv [0])))
+		if ((err = stat_helper (&cl, ei->pos, argv [0])))
 			return err;
 		var1 = cl.Q / (cl.N - 1);
 		mean1 = cl.sum / cl.N;
 		n1 = cl.N;
 
-	        if ((err = stat_helper (&cl, ei->pos, argv [1])))
+		if ((err = stat_helper (&cl, ei->pos, argv [1])))
 			return err;
 		var2 = cl.Q / (cl.N - 1);
 		mean2 = cl.sum / cl.N;
 		n2 = cl.N;
 
 		if (type != 2) {
-		        gnm_float c = (var1 / n1) / (var1 / n1 + var2 / n2);
+			gnm_float c = (var1 / n1) / (var1 / n1 + var2 / n2);
 			dof = 1.0 / ((c * c) / (n1 - 1) + ((1 - c) * (1 - c)) /
 				     (n2 - 1));
 		} else
-		        dof = n1 + n2 - 2;
+			dof = n1 + n2 - 2;
 
 		x = (mean1 - mean2) / gnm_sqrt (var1 / n1 + var2 / n2);
 	}
@@ -3973,7 +3973,7 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	for (i = 0; i < nvalues; i++) {
 		int j;
 		for (j = 0; j < nbins; j++)
-		        if (values[i] <= bins[j])
+			if (values[i] <= bins[j])
 				break;
 		counts[j]++;
 	}
@@ -4065,7 +4065,7 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
-	        goto out; /* Not a valid input for ys */
+		goto out; /* Not a valid input for ys */
 	}
 
 	if (argv[0]->type == VALUE_ARRAY)
@@ -4098,9 +4098,9 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		xarg = 0;
 		dim = 1;
 		xss = g_new (gnm_float *, 1);
-	        xss[0] = g_new (gnm_float, ny);
-	        for (nx = 0; nx < ny; nx++)
-		        xss[0][nx] = nx + 1;
+		xss[0] = g_new (gnm_float, ny);
+		for (nx = 0; nx < ny; nx++)
+			xss[0][nx] = nx + 1;
 	} else if (ytype == ARRAY){
 		/* Get xss from array argument argv[1] */
 		nx = 0;
@@ -4333,7 +4333,7 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
-	        goto out; /* Not a valid input for ys */
+		goto out; /* Not a valid input for ys */
 	}
 
 	if (argv[0]->type == VALUE_ARRAY)
@@ -4366,9 +4366,9 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		xarg = 0;
 		dim = 1;
 		xss = g_new (gnm_float *, 1);
-	        xss[0] = g_new (gnm_float, ny);
-	        for (nx = 0; nx < ny; nx++)
-		        xss[0][nx] = nx + 1;
+		xss[0] = g_new (gnm_float, ny);
+		for (nx = 0; nx < ny; nx++)
+			xss[0][nx] = nx + 1;
 	} else if (ytype == ARRAY) {
 		/* Get xss from array argument argv[1] */
 		nx = 0;
@@ -4582,7 +4582,7 @@ gnumeric_logfit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float         *logfit_res = NULL;
 
         if (argv[0] == NULL || argv[0]->type != VALUE_CELLRANGE)
-	        goto out;
+		goto out;
 	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_BLANKS | /* zeroing blanks
                                       is prone to produce unwanted results */
@@ -4592,31 +4592,31 @@ numbers */
 				   COLLECT_IGNORE_BOOLS,
 				   &ny, &result);
 	if (result)
-	        goto out;
+		goto out;
 	if (argv[1] == NULL || argv[1]->type != VALUE_CELLRANGE)
-	        goto out;
+		goto out;
 	xs = collect_floats_value (argv[1], ei->pos,
 				   COLLECT_IGNORE_BLANKS |
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
 				   &nx, &result);
 	if (result)
-	        goto out;
+		goto out;
 	if (nx != ny || nx < 3) {
-	        result = value_new_error_VALUE (ei->pos);
+		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
 	logfit_res = g_new (gnm_float, 5);
 
 	if (gnm_logarithmic_fit (xs, ys, nx, logfit_res) != REG_ok) {
-	        result = value_new_error_NUM (ei->pos);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
 	result = value_new_array (5, 1);
 	for (i=0; i<5; i++)
-	        value_array_set (result, i, 0,
+		value_array_set (result, i, 0,
 				 value_new_float (logfit_res[i]));
 
  out:
@@ -4679,7 +4679,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	affine = TRUE;
 
 	if (argv[2] != NULL) {
-	        xs = collect_floats_value (argv[1], ei->pos,
+		xs = collect_floats_value (argv[1], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
@@ -4689,16 +4689,16 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
 		if (argv[3] != NULL) {
-		        affine = value_get_as_bool (argv[3], &err);
+			affine = value_get_as_bool (argv[3], &err);
 			if (err) {
-			        result = value_new_error_VALUE (ei->pos);
+				result = value_new_error_VALUE (ei->pos);
 				goto out;
 			}
 		}
 	} else {
-	        /* @new_x's is assumed to be the same as @known_x's */
-	        if (argv[1] != NULL) {
-		        xs = collect_floats_value (argv[1], ei->pos,
+		/* @new_x's is assumed to be the same as @known_x's */
+		if (argv[1] != NULL) {
+			xs = collect_floats_value (argv[1], ei->pos,
 						   COLLECT_IGNORE_STRINGS |
 						   COLLECT_IGNORE_BOOLS,
 						   &nx, &result);
@@ -4707,12 +4707,12 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
 		} else {
-		        xs = g_new (gnm_float, ny);
+			xs = g_new (gnm_float, ny);
 			for (nx = 0; nx < ny; nx++)
-			        xs[nx] = nx + 1;
-		        nxs = g_new (gnm_float, ny);
+				xs[nx] = nx + 1;
+			nxs = g_new (gnm_float, ny);
 			for (nnx = 0; nnx < ny; nnx++)
-			        xs[nnx] = nnx + 1;
+				xs[nnx] = nnx + 1;
 		}
 	}
 
@@ -4734,7 +4734,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	result = value_new_array (1, nnx);
 	for (i = 0; i < nnx; i++)
-	        value_array_set (result, 0, i,
+		value_array_set (result, 0, i,
 				 value_new_float (linres[1] * nxs[i] + linres[0]));
 
  out:
@@ -4803,7 +4803,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	dim = 0;
 
 	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
-	        goto out; /* Not a valid input for ys */
+		goto out; /* Not a valid input for ys */
 	}
 
 	if (argv[0]->type == VALUE_ARRAY)
@@ -4836,9 +4836,9 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		xarg = 0;
 		dim = 1;
 		xss = g_new (gnm_float *, 1);
-	        xss[0] = g_new (gnm_float, ny);
-	        for (nx = 0; nx < ny; nx++)
-		        xss[0][nx] = nx + 1;
+		xss[0] = g_new (gnm_float, ny);
+		for (nx = 0; nx < ny; nx++)
+			xss[0][nx] = nx + 1;
 	} else if (ytype == ARRAY){
 		/* Get xss from array argument argv[1] */
 		nx = 0;
@@ -5038,7 +5038,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 
 	if (argv[2] != NULL) {
-	        xs = collect_floats_value (argv[1], ei->pos,
+		xs = collect_floats_value (argv[1], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
@@ -5048,30 +5048,30 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
 		if (argv[3] != NULL) {
-		        affine = value_get_as_bool (argv[3], &err);
+			affine = value_get_as_bool (argv[3], &err);
 			if (err) {
-			        result = value_new_error_VALUE (ei->pos);
+				result = value_new_error_VALUE (ei->pos);
 				goto out;
 			}
 		}
 	} else {
-	        /* @new_x's is assumed to be the same as @known_x's */
-	        if (argv[1] != NULL) {
-		        xs = collect_floats_value (argv[1], ei->pos,
+		/* @new_x's is assumed to be the same as @known_x's */
+		if (argv[1] != NULL) {
+			xs = collect_floats_value (argv[1], ei->pos,
 						   COLLECT_IGNORE_STRINGS |
 						   COLLECT_IGNORE_BOOLS,
 						   &nx, &result);
-		        nxs = collect_floats_value (argv[1], ei->pos,
+			nxs = collect_floats_value (argv[1], ei->pos,
 						    COLLECT_IGNORE_STRINGS |
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
 		} else {
-		        xs = g_new (gnm_float, ny);
+			xs = g_new (gnm_float, ny);
 			for (nx = 0; nx < ny; nx++)
-			        xs[nx] = nx + 1;
-		        nxs = g_new (gnm_float, ny);
+				xs[nx] = nx + 1;
+			nxs = g_new (gnm_float, ny);
 			for (nnx = 0; nnx < ny; nnx++)
-			        nxs[nnx] = nnx + 1;
+				nxs[nnx] = nnx + 1;
 		}
 	}
 
@@ -5093,7 +5093,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	result = value_new_array (1, nnx);
 	for (i = 0; i < nnx; i++)
-	        value_array_set (result, 0, i,
+		value_array_set (result, 0, i,
 				 value_new_float (gnm_pow (expres[1], nxs[i]) *
 						  expres[0]));
 
@@ -5456,7 +5456,7 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	gnm_float sum_covariance = 0.0;
 
 	if (argc < 2)
-	        return value_new_error_VALUE (ei->pos);
+		return value_new_error_VALUE (ei->pos);
 
 	for (i = 0; i < argc; i++) {
 		GnmValue *fl_val =
@@ -5609,9 +5609,9 @@ static gnm_float
 random_pareto_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
         if (x >= b)
-	        return (a / b) / gnm_pow (x / b, a + 1);
+		return (a / b) / gnm_pow (x / b, a + 1);
 	else
-	        return 0;
+		return 0;
 }
 
 static GnmValue *
@@ -5650,9 +5650,9 @@ static gnm_float
 random_rayleigh_pdf (gnm_float x, gnm_float sigma)
 {
         if (x < 0)
-	        return 0;
+		return 0;
 	else {
-	        gnm_float u = x / sigma;
+		gnm_float u = x / sigma;
 
 		return (u / sigma) * gnm_exp (-u * u / 2.0);
 	}
@@ -5694,9 +5694,9 @@ static gnm_float
 random_rayleigh_tail_pdf (gnm_float x, gnm_float a, gnm_float sigma)
 {
         if (x < a)
-	        return 0;
+		return 0;
 	else {
-	        gnm_float u = x / sigma ;
+		gnm_float u = x / sigma ;
 		gnm_float v = a / sigma ;
 
 		return (u / sigma) * gnm_exp ((v + u) * (v - u) / 2.0) ;

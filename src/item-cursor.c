@@ -931,7 +931,7 @@ typedef enum {
 static void
 item_cursor_do_action (ItemCursor *ic, ActionType action)
 {
-	SheetView 	*sv;
+	SheetView	*sv;
 	Sheet		*sheet;
 	WorkbookControl *wbc;
 	GnmPasteTarget pt;

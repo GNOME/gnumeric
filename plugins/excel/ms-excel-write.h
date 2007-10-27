@@ -30,10 +30,10 @@ typedef struct {
 	guint32    color;
 	char const *font_name;
 	char       *font_name_copy; /* some times we need to keep a local copy */
-	double	  	size_pts;
-	gboolean  	is_bold;
-	gboolean  	is_italic;
-	gboolean  	is_auto;
+	double		size_pts;
+	gboolean	is_bold;
+	gboolean	is_italic;
+	gboolean	is_auto;
 	GnmUnderline	underline;
 	gboolean	strikethrough;
 	unsigned	script;
@@ -47,7 +47,7 @@ typedef struct {
 	gint32		 max_col, max_row;
 	guint16		 col_xf    [SHEET_MAX_COLS];
 	GnmStyle	*col_style [SHEET_MAX_COLS];
-	GnmStyleList 	*conditions, *hlinks, *validations;
+	GnmStyleList	*conditions, *hlinks, *validations;
 	GSList          *blips, *textboxes;
 	GHashTable	*comments;
 	unsigned	 cur_obj, num_objs;

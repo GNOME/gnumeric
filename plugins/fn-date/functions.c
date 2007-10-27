@@ -361,7 +361,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 	day = g_date_get_day (gdate1);
 
 	g_date_add_months (gdate1,
-	                   datetime_g_months_between (gdate1, gdate2));
+			   datetime_g_months_between (gdate1, gdate2));
 	/* according to glib.h, days>28 decrease if necessary */
 
 	if (excel_compat) {
@@ -381,7 +381,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 		/* ( i feel this is inferior because it reports e.g.:
 		     datedif(1/31/95,3/1/95,"d") == -2 ) */
 		g_date_add_days (gdate1,
-		                 day - g_date_get_day (gdate1));
+				 day - g_date_get_day (gdate1));
 	}
 
 	return g_date_days_between (gdate1, gdate2);
@@ -466,9 +466,9 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
                   return value_new_error_VALUE (ei->pos);
 
 	if (months > 0)
-	        g_date_add_months (&date, (int)months);
+		g_date_add_months (&date, (int)months);
 	else
-	        g_date_subtract_months (&date, (int)-months);
+		g_date_subtract_months (&date, (int)-months);
 
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||
@@ -1006,9 +1006,9 @@ float_compare (gnm_float const *a, gnm_float const *b)
         if (*a < *b)
                 return -1;
 	else if (*a == *b)
-	        return 0;
+		return 0;
 	else
-	        return 1;
+		return 1;
 }
 
 static GnmValue *
@@ -1523,7 +1523,7 @@ GnmFuncDescriptor const datetime_functions[] = {
 	  gnumeric_year, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "yearfrac", 	"ff|f",    N_("date"), help_yearfrac,
+	{ "yearfrac",	"ff|f",    N_("date"), help_yearfrac,
 	  gnumeric_yearfrac, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

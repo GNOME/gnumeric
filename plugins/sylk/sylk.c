@@ -7,9 +7,9 @@
  *
  * Miguel de Icaza <miguel@gnu.org>
  * Based on work by
- * 	Jeff Garzik <jgarzik@mandrakesoft.com>
+ *	Jeff Garzik <jgarzik@mandrakesoft.com>
  * With some code from:
- * 	csv-io.c: read sheets using a CSV encoding.
+ *	csv-io.c: read sheets using a CSV encoding.
  */
 
 #include <gnumeric-config.h>

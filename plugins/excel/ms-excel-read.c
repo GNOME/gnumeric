@@ -88,7 +88,7 @@ typedef struct {
 	ExcelReadSheet	 *esheet;
 	char		 *name;
 	guint32		  streamStartPos;
-	unsigned 	  index;
+	unsigned	  index;
 	MsBiffFileType	  type;
 	GnmSheetType	  gnm_type;
 	GnmSheetVisibility visibility;
@@ -493,7 +493,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 				blip->needs_free = FALSE; /* image took over managing data */
 			}
 		} else if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
-   		        MS_OBJ_ATTR_IMDATA)) != NULL) {
+			MS_OBJ_ATTR_IMDATA)) != NULL) {
 			GdkPixbuf *pixbuf = GDK_PIXBUF (attr->v.v_object);
 
 			if (pixbuf) {
@@ -624,7 +624,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
 		break;
 	case 0x10: so = g_object_new (sheet_widget_spinbutton_get_type (), NULL);
-	        break;
+		break;
 	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
 		break;
 	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);
@@ -1214,11 +1214,11 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 		}
 
 		/* TODO: find some documentation on this.
-	 	* Sample data and OpenCalc imply that the docs are incorrect.  It
-	 	* seems like the name length is 1 byte.  Loading sample sheets in
-	 	* other locales universally seem to treat the first byte as a length
-	 	* and the second as the unicode flag header.
-	 	*/
+		* Sample data and OpenCalc imply that the docs are incorrect.  It
+		* seems like the name length is 1 byte.  Loading sample sheets in
+		* other locales universally seem to treat the first byte as a length
+		* and the second as the unicode flag header.
+		*/
 		bs->name = excel_get_text (importer, q->data + 7,
 			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
 	}
@@ -1773,16 +1773,16 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 		case 64:
 			color = sheet_style_get_auto_pattern_color
 				(esheet->sheet);
- 	 		d (4, fprintf (stderr,"border with color_index=%d\n",
+			d (4, fprintf (stderr,"border with color_index=%d\n",
 				      color_index););
 			break;
 		case 65:
 			color = style_color_auto_back ();
 			/* We haven't seen this yet.
 			   We know that 64 and 127 occur in the wild */
- 	 		d (4, fprintf (stderr,"border with color_index=%d\n",
+			d (4, fprintf (stderr,"border with color_index=%d\n",
 				      color_index););
- 			break;
+			break;
 		case 127:
 			color = style_color_auto_font ();
 			break;
@@ -1983,32 +1983,32 @@ excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 		data = GSF_LE_GET_GUINT8 (q->data + 10);
 		xf->border_type[STYLE_BOTTOM] = biff_xf_map_border(data & 0x07);
 		subdata = data >> 3;
-	       	xf->border_color[STYLE_BOTTOM] = (subdata==24) ? 64 : subdata;
+		xf->border_color[STYLE_BOTTOM] = (subdata==24) ? 64 : subdata;
 		data = GSF_LE_GET_GUINT8 (q->data + 8);
 		xf->border_type[STYLE_TOP] = biff_xf_map_border(data & 0x07);
 		subdata = data >> 3;
-	       	xf->border_color[STYLE_TOP] = (subdata==24) ? 64 : subdata;
+		xf->border_color[STYLE_TOP] = (subdata==24) ? 64 : subdata;
 		data = GSF_LE_GET_GUINT8 (q->data + 9);
 		xf->border_type[STYLE_LEFT] = biff_xf_map_border(data & 0x07);
 		subdata = data >> 3;
-       		xf->border_color[STYLE_LEFT] = (subdata==24) ? 64 : subdata;
+		xf->border_color[STYLE_LEFT] = (subdata==24) ? 64 : subdata;
 		data = GSF_LE_GET_GUINT8 (q->data + 11);
 		xf->border_type[STYLE_RIGHT] = biff_xf_map_border (data & 0x07);
 		subdata = data >> 3;
-       		xf->border_color[STYLE_RIGHT] = (subdata==24) ? 64 : subdata;
+		xf->border_color[STYLE_RIGHT] = (subdata==24) ? 64 : subdata;
 	} else /* MS_BIFF_V2 */ {
 		xf->pat_foregnd_col = 0;
 		xf->pat_backgnd_col = 1;
 
 		data = q->data[3];
 		xf->border_type[STYLE_LEFT]	= (data & 0x08) ? 1 : 0;
-       		xf->border_color[STYLE_LEFT]	= 0;
+		xf->border_color[STYLE_LEFT]	= 0;
 		xf->border_type[STYLE_RIGHT]	= (data & 0x10) ? 1: 0;
-       		xf->border_color[STYLE_RIGHT]	= 0;
+		xf->border_color[STYLE_RIGHT]	= 0;
 		xf->border_type[STYLE_TOP]	= (data & 0x20) ? 1: 0;
-       		xf->border_color[STYLE_TOP]	= 0;
+		xf->border_color[STYLE_TOP]	= 0;
 		xf->border_type[STYLE_BOTTOM]	= (data & 0x40) ? 1: 0;
-       		xf->border_color[STYLE_BOTTOM]	= 0;
+		xf->border_color[STYLE_BOTTOM]	= 0;
 		xf->fill_pattern_idx = (data & 0x80) ? 5: 0;
 	}
 
@@ -2369,7 +2369,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 /*
  * NOTE: There must be _no_ path through this function that does not set the
- * 	cell value.
+ *	cell value.
  */
 static void
 excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
@@ -2397,7 +2397,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 
 	/* TODO : it would be nice to figure out how to allocate recalc tags.
 	 * that would avoid the scary
-	 * 	'this file was calculated with a different version of XL'
+	 *	'this file was calculated with a different version of XL'
 	 * warning when exiting without changing. */
 	d (1, fprintf (stderr,"Formula in %s!%s has recalc tag 0x%x;\n",
 		      esheet->sheet->name_quoted, cell_name (cell),
@@ -3058,7 +3058,7 @@ excel_read_name_str (GnmXLImporter *importer,
 	 * dipsticks  put the unicode header _before_ the builtin id
 	 * and stored the id as a character (possibly two byte).
 	 * NOTE : len is in _characters_ (not bytes) does not include
-	 * 	the header */
+	 *	the header */
 	if (is_builtin) {
 		guint8 const *str = data;
 		char const *builtin;
@@ -3609,8 +3609,8 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	 * the Normal Style.   The pixel calculation is then reduced to
 	 *
 	 *     (default_size + ((quoted_width - baseline) / step))
-	 *     		* scale : fonts != 10pts
-	 *     		* 72/96 : value in pts so that zoom is not a factor
+	 *		* scale : fonts != 10pts
+	 *		* 72/96 : value in pts so that zoom is not a factor
 	 *
 	 * NOTE: These measurements do NOT correspond to what is shown to the
 	 * user */
@@ -3637,7 +3637,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 		lastcol = SHEET_MAX_COLS - 1;
 	for (i = firstcol; i <= lastcol; i++) {
 		/* Kludge : we should really use
-		 * 	hard_size == customWidth && !bestFit
+		 *	hard_size == customWidth && !bestFit
 		 * but these flags are undocumented and gnumeric < 1.7.5 && OOo
 		 * export them as 0.  So we are reduced to using */
 		sheet_col_set_size_pts (esheet->sheet, i, width, !bestFit);
@@ -4750,7 +4750,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmExprTop const *texpr1 = NULL;
 	GnmExprTop const *texpr2 = NULL;
-	int      	 expr1_len,     expr2_len;
+	int		 expr1_len,     expr2_len;
 	char *input_msg, *error_msg, *input_title, *error_title;
 	guint32	options, len;
 	guint8 const *data, *expr1_dat, *expr2_dat;
@@ -5623,7 +5623,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			GnmRange r;
 			sheet_style_set_range (esheet->sheet,
 				range_init_full_sheet (&r), mstyle);
-	 	}
+		}
 	}
 
 	for (; ms_biff_query_next (q) ;
@@ -5709,7 +5709,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_VERTICALPAGEBREAKS:	excel_read_PAGE_BREAK (q, esheet, TRUE); break;
 		case BIFF_HORIZONTALPAGEBREAKS:	excel_read_PAGE_BREAK (q, esheet, FALSE); break;
 
-		case BIFF_NOTE:		excel_read_NOTE (q, esheet);	  	break;
+		case BIFF_NOTE:		excel_read_NOTE (q, esheet);		break;
 		case BIFF_SELECTION:	excel_read_SELECTION (q, esheet);	break;
 		case BIFF_EXTERNNAME_v0:
 		case BIFF_EXTERNNAME_v2:
@@ -5809,8 +5809,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_GCW:			break;
 		case BIFF_SCENMAN:		break;
 		case BIFF_SCENARIO:		break;
-		case BIFF_MULRK: 	excel_read_MULRK (q, esheet);		break;
-		case BIFF_MULBLANK: 	excel_read_MULBLANK (q, esheet);	break;
+		case BIFF_MULRK:	excel_read_MULRK (q, esheet);		break;
+		case BIFF_MULBLANK:	excel_read_MULBLANK (q, esheet);	break;
 
 		case BIFF_RSTRING:	excel_read_LABEL (q, esheet, TRUE);	break;
 
@@ -6221,7 +6221,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 		case BIFF_FORMAT_v0:
 		case BIFF_FORMAT_v4:	excel_read_FORMAT (q, importer);			break;
 
-		case BIFF_BACKUP: 	break;
+		case BIFF_BACKUP:	break;
 		case BIFF_CODEPAGE: /* DUPLICATE 42 */
 			/* This seems to appear within a workbook */
 			/* MW: And on Excel seems to drive the display

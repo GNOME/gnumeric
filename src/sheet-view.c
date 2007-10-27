@@ -397,8 +397,8 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	 * doing here.  'move' would be a better
 	 * approximation.  The key portion of this process is that
 	 * the range being moved has all
-	 * 	- references to it adjusted to the new site.
-	 * 	- relative references from it adjusted.
+	 *	- references to it adjusted to the new site.
+	 *	- relative references from it adjusted.
 	 *
 	 * NOTE : This command DOES NOT MOVE ANYTHING !
 	 *        We only store the src, paste does the move.

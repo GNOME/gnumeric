@@ -746,7 +746,7 @@ typedef void (* PCalcCallback) (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *ms
  * @ft: Format template
  * @r: Target range
  * @optional_cc : if non-NULL display an error message if @r is not
- * 			appropriate for @ft.
+ *			appropriate for @ft.
  *
  * Check whether range @r is big enough to apply format template @ft to it.
  *

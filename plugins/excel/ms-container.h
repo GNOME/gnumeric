@@ -4,7 +4,7 @@
 
 /**
  * ms-container.h: A meta container to handle object import for charts,
- * 		workbooks and sheets.
+ *		workbooks and sheets.
  *
  * Author:
  *    Jody Goldberg (jody@gnome.org)

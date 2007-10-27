@@ -79,7 +79,7 @@ set_zoom_level_cb (BonoboZoomable *zoomable, float new_zoom_level,
 static void
 zoom_in_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
 {
- 	float zoom_level;
+	float zoom_level;
 	float new_zoom_level;
 	int index;
 	unsigned i;
@@ -110,7 +110,7 @@ zoom_in_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
 static void
 zoom_out_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
 {
- 	float zoom_level;
+	float zoom_level;
 	float new_zoom_level;
 	int index, i;
 
@@ -239,7 +239,7 @@ gnm_component_factory (BonoboGenericFactory *this,
 			p_initialized = TRUE;
 		}
 	}
- 	return BONOBO_OBJECT (control);
+	return BONOBO_OBJECT (control);
 }
 
 int

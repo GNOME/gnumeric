@@ -369,7 +369,7 @@ main (int argc, char const **argv)
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
- 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
+	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
 
 #ifdef WITH_GNOME
 	bonobo_activate ();
@@ -408,7 +408,7 @@ main (int argc, char const **argv)
 				wbcg = wbc_gtk_new (wbv, NULL, NULL, geometry);
 				geometry = NULL;
 				sheet_update (wb_view_cur_sheet	(wbv));
-  				opened_workbook = TRUE;
+				opened_workbook = TRUE;
 				icg_set_transient_for (IO_CONTEXT_GTK (ioc),
 						       wbcg_toplevel (wbcg));
 				if (immediate_exit_flag)

@@ -752,7 +752,7 @@ bin_cmp (GnmExprOp op, GnmValDiff comp, GnmEvalPos const *ep)
 	case GNM_EXPR_OP_GT:	    return value_new_bool (comp == IS_GREATER);
 	case GNM_EXPR_OP_LT:	    return value_new_bool (comp == IS_LESS);
 	case GNM_EXPR_OP_NOT_EQUAL: return value_new_bool (comp != IS_EQUAL);
-	case GNM_EXPR_OP_LTE: 	    return value_new_bool (comp != IS_GREATER);
+	case GNM_EXPR_OP_LTE:	    return value_new_bool (comp != IS_GREATER);
 	case GNM_EXPR_OP_GTE:	    return value_new_bool (comp != IS_LESS);
 
 #ifndef DEBUG_SWITCH_ENUM
@@ -854,7 +854,7 @@ typedef struct {
 
 	/* multiply by 0 in unused dimensions.
 	 * this is simpler than lots of conditions
-	 * 	state->use_x.a ? x : 0
+	 *	state->use_x.a ? x : 0
 	 **/
 	struct {
 		int a, b;
@@ -1159,7 +1159,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		 * 5) result of operation, or error specific to the operation
 		 */
 
-	        /* Guarantees value != NULL */
+		/* Guarantees value != NULL */
 		flags &= ~GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		/* 1) Error from A */
@@ -1228,7 +1228,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	case GNM_EXPR_OP_PERCENTAGE:
 	case GNM_EXPR_OP_UNARY_NEG:
 	case GNM_EXPR_OP_UNARY_PLUS:
-	        /* Guarantees value != NULL */
+		/* Guarantees value != NULL */
 		flags &= ~GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		a = gnm_expr_eval (expr->unary.value, pos, flags);
@@ -1470,7 +1470,7 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 {
 	static struct {
 		char const name[4];
-		guint8 prec;	                 /* Precedences -- should match parser.y  */
+		guint8 prec;			 /* Precedences -- should match parser.y  */
 		guint8 assoc_left, assoc_right;  /* 0: no, 1: yes.  */
 		guint8 is_prefix;                /* for unary operators */
 	} const operations[] = {

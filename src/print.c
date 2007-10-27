@@ -593,10 +593,10 @@ print_page (GtkPrintOperation *operation,
 		- edge_to_below_header - edge_to_above_footer;
 
 	print_height = sheet_row_get_distance_pts (sheet, range->start.row,
-	                                           range->end.row + 1)
+						   range->end.row + 1)
 		+ col_header_height;
 	print_width = sheet_col_get_distance_pts (sheet, range->start.col,
-	                                          range->end.col + 1)
+						  range->end.col + 1)
 		+ row_header_width;
 /* printing header  */
 
@@ -963,7 +963,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 	} else
 		r = print_area;
 
- 	if (sheet->print_info->print_across_then_down)
+	if (sheet->print_info->print_across_then_down)
 		return compute_sheet_pages_across_then_down
 			(context, pi, sheet, &r, col_header_height,
 			 row_header_width);
@@ -1102,7 +1102,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 static void
 gnm_begin_print_cb (GtkPrintOperation *operation,
                     GtkPrintContext   *context,
-	            gpointer           user_data)
+		    gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	PrintRange pr;
@@ -1168,9 +1168,9 @@ gnm_request_page_setup_cb (GtkPrintOperation *operation,
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	GnmSheetRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
-	                                               page_nr);
+						       page_nr);
 	GtkPrintSettings* settings = gtk_print_operation_get_print_settings
-	                             (operation);
+				     (operation);
 
 	gtk_print_settings_set_use_color (settings, !gsr->sheet->print_info->print_black_and_white);
 	if (gsr->sheet->print_info->page_setup == NULL)
@@ -1461,7 +1461,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
   res = gtk_print_operation_run (print, action, parent, NULL);
 
   if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
-    	gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
+	gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
 
   if (tmp_file_name) {
 	  char buffer[64 * 1024];

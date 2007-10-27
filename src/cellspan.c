@@ -217,10 +217,10 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
         /*
 	 * Report only one column is used if
 	 *	- Cell is in a hidden col
-	 * 	- Cell is a number
-	 * 	- Cell is the top left of a merged cell
-	 * 	- The text fits inside column (for non center across selection)
-	 * 	- The alignment mode are set to "justify"
+	 *	- Cell is a number
+	 *	- Cell is the top left of a merged cell
+	 *	- The text fits inside column (for non center across selection)
+	 *	- The alignment mode are set to "justify"
 	 */
 	if (sheet != NULL &&
 	    h_align != HALIGN_CENTER_ACROSS_SELECTION &&

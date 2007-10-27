@@ -573,7 +573,7 @@ dialog_autoformat (WBCGtk *wbcg)
 	state->ok     = GTK_BUTTON (glade_xml_get_widget (gui, "format_ok"));
 	state->cancel = GTK_BUTTON (glade_xml_get_widget (gui, "format_cancel"));
 
- 	state->number      = setup_check_item (gui, state, "format_number");
+	state->number      = setup_check_item (gui, state, "format_number");
 	state->border      = setup_check_item (gui, state, "format_border");
 	state->font        = setup_check_item (gui, state, "format_font");
 	state->patterns    = setup_check_item (gui, state, "format_patterns");

@@ -111,7 +111,7 @@ value_get_paytype (GnmValue const *v)
  *
  *                (1+k)^n - 1
  *       FVIFA = ----------------
- *	                k
+ *			k
  *
  *
  *
@@ -189,7 +189,7 @@ days_monthly_basis (GnmValue const *issue_date,
 
 	if (!datetime_value_to_g (&date_i, issue_date, date_conv) ||
 	    !datetime_value_to_g (&date_m, maturity_date, date_conv))
-	        return -1;
+		return -1;
 
 	issue_year = g_date_get_year (&date_i);
 	issue_month = g_date_get_month (&date_i);
@@ -207,24 +207,24 @@ days_monthly_basis (GnmValue const *issue_date,
 
 	switch (basis) {
 	case 0:
-	        if (issue_month == 2 && maturity_month != 2 &&
+		if (issue_month == 2 && maturity_month != 2 &&
 		    issue_year == maturity_year) {
 			if (leap_year)
 				return months * 30 + days - 1;
 			else
 				return months * 30 + days - 2;
 		}
-	        return months * 30 + days;
+		return months * 30 + days;
 	case 1:
 	case 2:
 	case 3:
-	        issue = datetime_value_to_serial (issue_date, date_conv);
-	        maturity = datetime_value_to_serial (maturity_date, date_conv);
-	        return maturity - issue;
+		issue = datetime_value_to_serial (issue_date, date_conv);
+		maturity = datetime_value_to_serial (maturity_date, date_conv);
+		return maturity - issue;
 	case 4:
-	        return months * 30 + days;
+		return months * 30 + days;
 	default:
-	        return -1;
+		return -1;
 	}
 }
 
@@ -251,7 +251,7 @@ coupnum (GDate const *settlement, GDate const *maturity,
 			g_date_add_days (&this_coupondate, 1);
 
 	if (g_date_get_day (settlement) >= g_date_get_day (&this_coupondate))
-	        months--;
+		months--;
 
 	return (1 + months / (12 / conv->freq));
 }
@@ -419,7 +419,7 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* FIXME : According to XL docs
 	 *
 	 * NC = number of quasi-coupon periods that fit in odd period. If this
-	 * 	number contains a fraction, raise it to the next whole number.
+	 *	number contains a fraction, raise it to the next whole number.
 	 * Ai = number of accrued days for the ith quasi-coupon period within odd period.
 	 * NLi = normal length in days of the ith quasi-coupon period within odd period.
 	 *
@@ -608,7 +608,7 @@ gnumeric_received (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	n = 1.0 - (discount * a/d);
 	if (n == 0)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (investment / n);
 }
@@ -728,7 +728,7 @@ gnumeric_pricemat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	n = 1 + (dsm/b * yield);
 	if (n == 0)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (((100 + (dim/b * discount * 100)) /
 				 (n)) - (a/b * discount * 100));
@@ -965,7 +965,7 @@ gnumeric_db (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* The third disjunct is a bit of a guess -- MW.  */
 	if (cost == 0 || life <= 0 || salvage / cost < 0)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	rate  = 1 - gnm_pow ((salvage / cost), (1 / life));
 	rate *= 1000;
@@ -1027,15 +1027,15 @@ gnumeric_ddb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	factor  = argv[4] ? value_get_as_float (argv[4]) : 2;
 
 	if (life <= 0)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	total = 0;
 	for (i = 0; i < life - 1; i++) {
-	        gnm_float period_dep = (cost - total) * (factor / life);
+		gnm_float period_dep = (cost - total) * (factor / life);
 		if (period - 1 == i)
-		        return value_new_float (period_dep);
+			return value_new_float (period_dep);
 		else
-		        total += period_dep;
+			total += period_dep;
 	}
 
 	return value_new_float (cost - total - salvage);
@@ -1089,7 +1089,7 @@ gnumeric_sln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float ((cost - salvage_value) / life);
 }
@@ -1148,7 +1148,7 @@ gnumeric_syd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-	        return value_new_error_NUM (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (((cost - salvage_value) *
 				 (life - period + 1) * 2) /
@@ -1507,7 +1507,7 @@ gnumeric_rate_f (gnm_float rate, gnm_float *y, void *user_data)
 
 		*y = data->pv * calculate_pvif (rate, data->nper) +
 			data->pmt * (1 + rate * data->type) *
-		        calculate_fvifa (rate, data->nper) +
+			calculate_fvifa (rate, data->nper) +
 			data->fv;
 		return GOAL_SEEK_OK;
 	} else
@@ -1637,7 +1637,7 @@ irr_npv (gnm_float rate, gnm_float *y, void *user_data)
         int i;
 
 	for (i = 0; i < n; i++) {
-	        sum += values[i] * f;
+		sum += values[i] * f;
 		f *= ff;
 	}
 
@@ -1657,7 +1657,7 @@ irr_npv_df (gnm_float rate, gnm_float *y, void *user_data)
         int i;
 
 	for (i = 1; i < n; i++) {
-	        sum += values[i] * (-i) * f;
+		sum += values[i] * (-i) * f;
 		f *= ff;
 	}
 
@@ -1682,7 +1682,7 @@ gnumeric_irr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					 &p.n, &result);
 	if (result != NULL) {
 		g_free (p.values);
-	        return result;
+		return result;
 	}
 
 	goal_seek_initialize (&data);
@@ -1766,7 +1766,7 @@ gnumeric_pv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	fvifa = calculate_fvifa (rate, nper);
 
 	if (pvif == 0)
-	        return value_new_error_DIV0 (ei->pos);
+		return value_new_error_DIV0 (ei->pos);
 
         return value_new_float ((-fv - pmt * (1.0 + rate * type) * fvifa) /
 				pvif);
@@ -1874,7 +1874,7 @@ gnumeric_xnpv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	for (i = 0; i < p_n; i++)
-	        sum += payments[i] /
+		sum += payments[i] /
 			pow1p (rate, (dates[i] - dates[0]) / 365.0);
 
 	result = value_new_float (sum);
@@ -1939,11 +1939,11 @@ xirr_npv (gnm_float rate, gnm_float *y, void *user_data)
 
 	sum = 0;
 	for (i = 0; i < n; i++) {
-	        gnm_float d = dates[i] - dates[0];
+		gnm_float d = dates[i] - dates[0];
 
 		if (d < 0)
-		        return GOAL_SEEK_ERROR;
-	        sum += values[i] / pow1p (rate, d / 365.0);
+			return GOAL_SEEK_ERROR;
+		sum += values[i] / pow1p (rate, d / 365.0);
 	}
 
 	*y = sum;
@@ -2403,7 +2403,7 @@ gnumeric_fvschedule (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 
 	for (i = 0; i < n; i++)
-	        pv *= 1 + schedule[i];
+		pv *= 1 + schedule[i];
 
 	result = value_new_float (pv);
 out:
@@ -2459,53 +2459,53 @@ one_euro (char const *str)
 {
 	switch (*str) {
 	case 'A':
-	        if (strncmp ("ATS", str, 3) == 0)
-		        return GNM_const (13.7603);
+		if (strncmp ("ATS", str, 3) == 0)
+			return GNM_const (13.7603);
 		break;
 	case 'B':
-	        if (strncmp ("BEF", str, 3) == 0)
-		        return GNM_const (40.3399);
+		if (strncmp ("BEF", str, 3) == 0)
+			return GNM_const (40.3399);
 		break;
 	case 'D':
-	        if (strncmp ("DEM", str, 3) == 0)
-		        return GNM_const (1.95583);
+		if (strncmp ("DEM", str, 3) == 0)
+			return GNM_const (1.95583);
 		break;
 	case 'E':
-	        if (strncmp ("ESP", str, 3) == 0)
-		        return GNM_const (166.386);
-	        else if (strncmp ("EUR", str, 3) == 0)
-		        return GNM_const (1.0);
+		if (strncmp ("ESP", str, 3) == 0)
+			return GNM_const (166.386);
+		else if (strncmp ("EUR", str, 3) == 0)
+			return GNM_const (1.0);
 		break;
 	case 'F':
-	        if (strncmp ("FIM", str, 3) == 0)
-		        return GNM_const (5.94573);
+		if (strncmp ("FIM", str, 3) == 0)
+			return GNM_const (5.94573);
 		else if (strncmp ("FRF", str, 3) == 0)
-		        return GNM_const (6.55957);
+			return GNM_const (6.55957);
 		break;
 	case 'G':
-	        if (strncmp ("GRD", str, 3) == 0)
-		        return GNM_const (340.75);
+		if (strncmp ("GRD", str, 3) == 0)
+			return GNM_const (340.75);
 		break;
 	case 'I':
-	        if (strncmp ("IEP", str, 3) == 0)
-		        return GNM_const (0.787564);
+		if (strncmp ("IEP", str, 3) == 0)
+			return GNM_const (0.787564);
 		else if (strncmp ("ITL", str, 3) == 0)
-		        return GNM_const (1936.27);
+			return GNM_const (1936.27);
 		break;
 	case 'L':
-	        if (strncmp ("LUX", str, 3) == 0)
-		        return GNM_const (40.3399);
+		if (strncmp ("LUX", str, 3) == 0)
+			return GNM_const (40.3399);
 		break;
 	case 'N':
-	        if (strncmp ("NLG", str, 3) == 0)
-		        return GNM_const (2.20371);
+		if (strncmp ("NLG", str, 3) == 0)
+			return GNM_const (2.20371);
 		break;
 	case 'P':
-	        if (strncmp ("PTE", str, 3) == 0)
-		        return GNM_const (200.482);
+		if (strncmp ("PTE", str, 3) == 0)
+			return GNM_const (200.482);
 		break;
 	default:
-	        break;
+		break;
 	}
 
 	return -1;
@@ -2725,10 +2725,10 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		gnm_float e = go_coupdays (&udata.settlement, &udata.maturity,
 					 &udata.conv);
 
-	        gnm_float coeff = udata.conv.freq * e / d;
+		gnm_float coeff = udata.conv.freq * e / d;
 		gnm_float num = (udata.redemption / 100.0  +
 				  udata.rate / udata.conv.freq)
-		        - (udata.par / 100.0  +  (a / e  *
+			- (udata.par / 100.0  +  (a / e  *
 						  udata.rate / udata.conv.freq));
 		gnm_float den = udata.par / 100.0  +  (a / e  *  udata.rate /
 							udata.conv.freq);

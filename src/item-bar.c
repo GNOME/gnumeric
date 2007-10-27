@@ -261,7 +261,7 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 	      char const * const str, GdkRectangle *rect)
 {
 	GtkWidget	*canvas = GTK_WIDGET (ib->base.canvas);
-	GdkGC 		*gc;
+	GdkGC		*gc;
 	PangoFont	*font;
 	PangoRectangle   size;
 	int shadow, ascent;

@@ -141,9 +141,9 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
 /**
  * excel_file_open
  * @fo:         File opener
- * @context:   	IO context
- * @wbv:    	Workbook view
- * @input:  	Input stream
+ * @context:	IO context
+ * @wbv:	Workbook view
+ * @input:	Input stream
  *
  * Load en excel workbook.
  **/

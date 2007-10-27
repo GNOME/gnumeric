@@ -1074,7 +1074,7 @@ sheet_style_set_range (Sheet *sheet, GnmRange const *range,
  * @style : #GnmStyle
  *
  * NOTE : This is a simple wrapper for now.  When we support col/row styles it
- * 	will make life easier.
+ *	will make life easier.
  *
  * Change the complete style for a full col.
  * This function absorbs a reference to the new @style.
@@ -1093,7 +1093,7 @@ sheet_style_set_col (Sheet *sheet, int col, GnmStyle *style)
  * @pstyle : #GnmStyle
  *
  * NOTE : This is a simple wrapper for now.  When we support col/row styles it
- * 	will make life easier.
+ *	will make life easier.
  *
  * Apply a partial style to a full col.
  * The routine absorbs a reference to the partial style.
@@ -1112,7 +1112,7 @@ sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
  * @style : #GnmStyle
  *
  * NOTE : This is a simple wrapper for now.  When we support col/row styles it
- * 	will make life easier.
+ *	will make life easier.
  *
  * Change the complete style for a full row.
  * This function absorbs a reference to the new @style.
@@ -1131,7 +1131,7 @@ sheet_style_set_row (Sheet  *sheet, int row, GnmStyle *style)
  * @pstyle : #GnmStyle
  *
  * NOTE : This is a simple wrapper for now.  When we support col/row styles it
- * 	will make life easier.
+ *	will make life easier.
  *
  * Apply a partial style to a full col.
  * The routine absorbs a reference to the partial style.
@@ -1410,7 +1410,7 @@ style_row_init (GnmBorder const * * *prev_vert,
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	sr->vertical	 = mem;
-	sr->vertical 	-= start_col-1;
+	sr->vertical	-= start_col-1;
 	sr->top		 = sr->vertical + n;
 	sr->bottom	 = sr->top + n;
 	next_sr->top	 = sr->bottom; /* yes they should share */
@@ -1745,7 +1745,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 		sr.top [col] = none;
 
 	/* merge the bottom of the previous row */
- 	if (r->start.row > 0) {
+	if (r->start.row > 0) {
 		GnmBorder const ** roller;
 		sr.row = r->start.row - 1;
 		sheet_style_get_row (sheet, &sr);
@@ -1781,7 +1781,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	}
 
 	/* merge the top of the next row */
- 	if (r->end.row < (SHEET_MAX_ROWS-1)) {
+	if (r->end.row < (SHEET_MAX_ROWS-1)) {
 		sr.row = r->end.row + 1;
 		sheet_style_get_row (sheet, &sr);
 	}

@@ -301,10 +301,10 @@ xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
  */
 static char const *const StyleSideNames[6] =
 {
- 	"Top",
- 	"Bottom",
- 	"Left",
- 	"Right",
+	"Top",
+	"Bottom",
+	"Left",
+	"Right",
 	"Diagonal",
 	"Rev-Diagonal"
 };
@@ -321,7 +321,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *style)
 	}
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
- 		if ((side = e_xml_get_child_by_name (tree,
+		if ((side = e_xml_get_child_by_name (tree,
 					      CC2XML (StyleSideNames [i - MSTYLE_BORDER_TOP]))) != NULL) {
 			int		 t;
 			GnmColor      *color = NULL;
@@ -332,7 +332,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *style)
 			border = gnm_style_border_fetch ((GnmStyleBorderType)t, color,
 						     gnm_style_border_get_orientation (i));
 			gnm_style_set_border (style, i, border);
- 		}
+		}
 	}
 }
 
@@ -1466,7 +1466,7 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if (xml_node_get_int (tree, "TargetCol", &col) && col >= 0 &&
 	    xml_node_get_int (tree, "TargetRow", &row) && row >= 0)
-	        param->target_cell = sheet_cell_fetch (sheet, col, row);
+		param->target_cell = sheet_cell_fetch (sheet, col, row);
 
 	if (xml_node_get_int (tree, "ProblemType", &ptype))
 		param->problem_type = (SolverProblemType)ptype;
@@ -1565,24 +1565,24 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		s = g_new0 (scenario_t, 1);
 
 		/* Scenario: name. */
-	        str = xml_node_get_cstr (child, "Name");
+		str = xml_node_get_cstr (child, "Name");
 		s->name = g_strdup ((const gchar *)str);
 		xmlFree (str);
 
 		/* Scenario: comment. */
-	        str = xml_node_get_cstr (child, "Comment");
+		str = xml_node_get_cstr (child, "Comment");
 		s->comment = g_strdup ((const gchar *)str);
 		xmlFree (str);
 
 		/* Scenario: changing cells in a string form. */
-	        str = xml_node_get_cstr (child, "CellsStr");
+		str = xml_node_get_cstr (child, "CellsStr");
 		s->cell_sel_str = g_strdup ((const gchar *)str);
 		range = value_new_cellrange_str (sheet, str);
 		if (range) {
-		        GnmValueRange *vrange = (GnmValueRange *) range;
+			GnmValueRange *vrange = (GnmValueRange *) range;
 
-		        s->range.start.col = vrange->cell.a.col;
-		        s->range.start.row = vrange->cell.a.row;
+			s->range.start.col = vrange->cell.a.col;
+			s->range.start.row = vrange->cell.a.row;
 			s->range.end.col   = vrange->cell.b.col;
 			s->range.end.row   = vrange->cell.b.row;
 			value_release (range);
@@ -1594,7 +1594,7 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		cols = s->range.end.col - s->range.start.col + 1;
 		s->changing_cells = g_new (GnmValue *, rows * cols);
 		for (i = 0; i < cols * rows; i++) {
-		        GString *name;
+			GString *name;
 
 			name = g_string_new (NULL);
 			g_string_append_printf (name, "V%d", i);
@@ -2091,8 +2091,8 @@ GnmCellRegion *
 xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int length)
 {
 	XmlParseContext *ctxt;
-	xmlNode	        *l, *clipboard;
-	xmlDoc	        *doc;
+	xmlNode		*l, *clipboard;
+	xmlDoc		*doc;
 	GnmCellRegion   *cr = NULL;
 	GnmLocale       *locale;
 	int dummy;
@@ -2336,7 +2336,7 @@ xml_workbook_read (IOContext *context,
 	io_progress_message (context, _("Processing file..."));
 	io_progress_range_push (context, 0.5, 1.0);
 	count_io_progress_set (context, xml_read_workbook_n_elements (child),
-	                       N_ELEMENTS_BETWEEN_UPDATES);
+			       N_ELEMENTS_BETWEEN_UPDATES);
 	ctxt->io_context = context;
 
 	/*
@@ -2382,7 +2382,7 @@ xml_workbook_read (IOContext *context,
 	child = e_xml_get_child_by_name (tree, CC2XML ("Calculation"));
 	if (child != NULL) {
 		gboolean b;
-		int 	 i;
+		int	 i;
 		double	 d;
 
 		if (xml_node_get_bool (child, "ManualRecalc", &b))
@@ -2566,7 +2566,7 @@ xml_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		name = gsf_extension_pointer (name);
 
 		return (name != NULL &&
-		        (g_ascii_strcasecmp (name, "gnumeric") == 0 ||
+			(g_ascii_strcasecmp (name, "gnumeric") == 0 ||
 			 g_ascii_strcasecmp (name, "xml") == 0));
 	}
 

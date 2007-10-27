@@ -256,7 +256,7 @@ cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
 	wrap->v_iter.x		= iter->pp.eval.col - wrap->base_col;
 	wrap->v_iter.y		= iter->pp.eval.row - wrap->base_row;
 	wrap->v_iter.cell_iter	= iter;
-       	return (*wrap->func) (&wrap->v_iter, wrap->user_data);
+	return (*wrap->func) (&wrap->v_iter, wrap->user_data);
 }
 
 /**

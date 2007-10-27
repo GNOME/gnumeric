@@ -224,7 +224,7 @@ opt_bs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0;
 	gnm_float gfresult = opt_bs1 (call_put, s, x, t, r, v, b);
 
- 	if (gnm_isnan (gfresult))
+	if (gnm_isnan (gfresult))
 		return value_new_error_NUM (ei->pos);
 	return value_new_float (gfresult);
 }
@@ -1869,7 +1869,7 @@ opt_2_asset_correlation(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					* cum_biv_norm_dist1 (y2 + v2 * gnm_sqrt (t), y1 + rho * v2 * gnm_sqrt (t), rho)
 					- x2 * gnm_exp (-r * t) * cum_biv_norm_dist1 (y2, y1, rho));
 	} else if (call_put == OS_Put) {
-        	return value_new_float (x2 * gnm_exp (-r * t) * cum_biv_norm_dist1 (-y2, -y1, rho)
+		return value_new_float (x2 * gnm_exp (-r * t) * cum_biv_norm_dist1 (-y2, -y1, rho)
 					- s2 * gnm_exp ((b2 - r) * t) * cum_biv_norm_dist1 (-y2 - v2 * gnm_sqrt (t), -y1 - rho * v2 * gnm_sqrt (t), rho));
 	} else
 		return value_new_error_NUM (ei->pos);
@@ -1976,7 +1976,7 @@ opt_amer_exchange(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float rho = value_get_as_float (argv[10]);
 	gnm_float v = gnm_sqrt (v1 * v1 + v2 * v2 - 2 * rho * v1 * v2);
 
-    	return value_new_float (opt_bjer_stens1 (OS_Call, q1 * s1, q2 * s2, t, r - b2, v,b1 - b2));
+	return value_new_float (opt_bjer_stens1 (OS_Call, q1 * s1, q2 * s2, t, r - b2, v,b1 - b2));
 }
 
 static GnmFuncHelp const help_opt_amer_exchange[] = {
@@ -2063,14 +2063,14 @@ opt_float_strk_lkbk(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a1, a2, m;
 
 	if(OS_Call == call_put_flag)
-        	m = s_min;
+		m = s_min;
 	else if(OS_Put == call_put_flag)
-        	m = s_max;
+		m = s_max;
 	else
 		return value_new_error_NUM (ei->pos);
 
 	a1 = (gnm_log (s / m) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
- 	a2 = a1 - v * gnm_sqrt (t);
+	a2 = a1 - v * gnm_sqrt (t);
 
 	if(OS_Call == call_put_flag)
 		return value_new_float (s * gnm_exp ((b - r) * t) * ncdf (a1) -
@@ -2209,9 +2209,9 @@ opt_binomial(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	if (OS_Call == call_put_flag)
-        	z = 1;
+		z = 1;
         else if (OS_Put == call_put_flag)
-        	z = -1;
+		z = -1;
 	else
 		return value_new_error_NUM (ei->pos);
 

@@ -3,7 +3,7 @@
  * gnumeric-gconf.c:
  *
  * Author:
- * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2002-2005 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *

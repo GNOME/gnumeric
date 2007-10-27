@@ -438,19 +438,19 @@ static GNM_ACTION_DEF (cb_edit_fill_autofill)
 		} while (do_loop);
 
 		/* Make it autofill in only one direction */
- 		if ((total->end.col - src.end.col) >=
+		if ((total->end.col - src.end.col) >=
 		    (total->end.row - src.end.row))
- 			src.end.row = total->end.row;
- 		else
- 			src.end.col = total->end.col;
+			src.end.row = total->end.row;
+		else
+			src.end.col = total->end.col;
 
- 		cmd_autofill (wbc, sheet, FALSE,
+		cmd_autofill (wbc, sheet, FALSE,
 			      total->start.col, total->start.row,
 			      src.end.col - total->start.col + 1,
 			      src.end.row - total->start.row + 1,
 			      total->end.col, total->end.row,
 			      FALSE);
- 	}
+	}
 }
 
 static GNM_ACTION_DEF (cb_edit_fill_series)
@@ -1201,7 +1201,7 @@ toggle_font_attr (WBCGtk *wbcg, GtkToggleAction *act,
 	new_style = gnm_style_new ();
 	switch (t) {
 	default :
-	case MSTYLE_FONT_BOLD:	 	gnm_style_set_font_bold (new_style, val); break;
+	case MSTYLE_FONT_BOLD:		gnm_style_set_font_bold (new_style, val); break;
 	case MSTYLE_FONT_ITALIC:	gnm_style_set_font_italic (new_style, val); break;
 	case MSTYLE_FONT_UNDERLINE:	gnm_style_set_font_uline (new_style, val); break;
 	case MSTYLE_FONT_STRIKETHROUGH: gnm_style_set_font_strike (new_style, val); break;
@@ -1417,8 +1417,8 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
 		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
 		{ "MenuEditSheet",	NULL, N_("S_heet") },
-	        { "MenuEditSelect",	NULL, N_("_Select") },
-	        { "MenuEditFill",	NULL, N_("F_ill") },
+		{ "MenuEditSelect",	NULL, N_("_Select") },
+		{ "MenuEditFill",	NULL, N_("F_ill") },
 	{ "MenuView",		NULL, N_("_View") },
 		{ "MenuViewWindows",		NULL, N_("_Windows") },
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
@@ -1567,8 +1567,8 @@ static GtkActionEntry const actions[] = {
 /* Edit -> Select */
 
 	/* Note : The accelerators involving space are just for display
-	 * 	purposes.  We actually handle this in
-	 * 		gnm-pane.c:gnm_pane_key_mode_sheet
+	 *	purposes.  We actually handle this in
+	 *		gnm-pane.c:gnm_pane_key_mode_sheet
 	 *	with the rest of the key movement and rangeselection.
 	 *	Otherwise input methods would steal them */
 	{ "EditSelectAll", NULL, N_("Select _All"),
@@ -2126,12 +2126,12 @@ static GtkToggleActionEntry const toggle_actions[] = {
 		N_("Vertically Center"), G_CALLBACK (cb_align_vcenter), FALSE },
 	{ "AlignBottom", NULL,
 		N_("Align _Bottom"), NULL,
-	        N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE },
+		N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE },
 
 	{ "ViewStatusbar", NULL,
-	        N_("View _Statusbar"), NULL,
-	        N_("Toggle visibility of statusbar"),
-	        G_CALLBACK (cb_view_statusbar), TRUE },
+		N_("View _Statusbar"), NULL,
+		N_("Toggle visibility of statusbar"),
+		G_CALLBACK (cb_view_statusbar), TRUE },
 
 	{ "ViewFullScreen", GTK_STOCK_ZOOM_FIT,
 		N_("F_ull Screen"), FULLSCREEN_ACCEL,
