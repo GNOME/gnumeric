@@ -1,3 +1,8 @@
+2007-10-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: enhance axes labels import, export them, and fix
+	export of line patterns.
+
 2007-10-24  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (excel_formula_write_NAME_v7): Use a

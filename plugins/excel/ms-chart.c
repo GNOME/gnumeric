@@ -128,6 +128,7 @@ typedef struct {
 	gboolean	 is_contour;
 	gboolean	 has_extra_dataformat;
 	gboolean	axis_cross_at_max;
+	double		axis_cross_value;
 	int		 plot_counter;
 	XLChartSeries	*currentSeries;
 	GPtrArray	*series;
@@ -545,9 +546,16 @@ BC_R(axis)(XLChartHandler const *handle,
 
 	if (axis_type == 0)
 		s->xaxis = s->axis;
-	else if (axis_type == 1 && s->axis_cross_at_max) {
-		g_object_set (s->axis, "pos-str", "high", NULL);
-		s->axis_cross_at_max = FALSE;
+	else if (axis_type == 1) {
+		if (s->axis_cross_at_max) {
+			g_object_set (s->axis, "pos-str", "high", NULL);
+			s->axis_cross_at_max = FALSE;
+		} else if (!isnan (s->axis_cross_value)) {
+			g_object_set (s->axis, "pos-str", "cross", NULL);
+			gog_dataset_set_dim (GOG_DATASET (s->axis), GOG_AXIS_ELEM_CROSS_POINT,
+				go_data_scalar_val_new (s->axis_cross_value), NULL);
+			s->axis_cross_value = go_nan;
+		}
 	}
 
 	d (0, fprintf (stderr, "This is a %s .\n", ms_axis[axis_type]););
@@ -1424,8 +1432,19 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	}
 
 	if (label != NULL) {
-		gog_dataset_set_dim (GOG_DATASET (label), 0,
-			go_data_scalar_str_new (s->text, TRUE), NULL);
+		Sheet *sheet = ms_container_sheet (s->container.parent);
+		if (sheet != NULL && s->text != NULL) {
+			GnmExprTop const *texpr;
+			GnmValue *value = value_new_string (s->text);
+			if (value != NULL) {
+				texpr = gnm_expr_top_new_constant (value);
+				if (texpr)
+					gog_dataset_set_dim (GOG_DATASET (label), 0,
+						gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
+				else
+					value_release (value);
+			}
+		}
 		s->text = NULL;
 	}
 
@@ -2025,6 +2044,9 @@ BC_R(text)(XLChartHandler const *handle,
 	if (s->prev_opcode == BIFF_CHART_defaulttext) {
 		fputs ("Text follows defaulttext;\n", stderr);
 	} else switch (BC_R(top_state) (s, 0)) {
+	case BIFF_CHART_axisparent :
+		fputs ("Text follows axis;\n", stderr);
+		break;
 	case BIFF_CHART_chart :
 		fputs ("Text follows chart;\n", stderr);
 		break;
@@ -2139,9 +2161,10 @@ xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
 	if (flag) {
 		dat = NULL;
 		d (1, fprintf (stderr, "%s = Auto\n", name););
-		if (dim == GOG_AXIS_ELEM_CROSS_POINT)
+		if (dim == GOG_AXIS_ELEM_CROSS_POINT) {
 		    gog_dataset_set_dim (GOG_DATASET (axis), dim,
 			    go_data_scalar_val_new (0.), NULL);
+		}
 		g_object_set (axis, "pos-str", "cross", NULL);
 	} else {
 		double const val = gsf_le_get_double (data);
@@ -2158,6 +2181,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+40);
 	gboolean log_scale = flags & 0x20;
+	double cross;
 
 	if (log_scale) {
 		g_object_set (s->axis, "map-name", "Log", NULL);
@@ -2168,7 +2192,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAX,	  "Max Value",		flags&0x02, q->data+ 8, log_scale);
 	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAJOR_TICK,  "Major Increment",	flags&0x04, q->data+16, log_scale);
 	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24, log_scale);
-	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_CROSS_POINT, "Cross over point",	flags&0x10, q->data+32, log_scale);
+	cross = (flags & 0x10)? ((log_scale)? 1.: 0.): ((log_scale)? gnm_pow10 (gsf_le_get_double (q->data + 32)): gsf_le_get_double (q->data + 32));
 
 	if (flags & 0x40) {
 		g_object_set (s->axis, "invert-axis", TRUE, NULL);
@@ -2180,6 +2204,15 @@ BC_R(valuerange)(XLChartHandler const *handle,
 		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis)
 			g_object_set (s->xaxis, "pos-str", "high", NULL);
 		d (1, fputs ("Cross over at max value;\n", stderr););
+	} else {
+		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
+			s->axis_cross_value = cross;
+		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis) {
+			g_object_set (s->xaxis, "pos-str", "cross", NULL);
+			gog_dataset_set_dim (GOG_DATASET (s->xaxis), GOG_AXIS_ELEM_CROSS_POINT,
+				go_data_scalar_val_new (cross), NULL);
+		}
+		d (1, fprintf (stderr, "Cross over point = %f\n", cross););
 	}
 
 	return FALSE;
@@ -2769,28 +2802,6 @@ not_a_matrix:
 	case BIFF_CHART_text : {
 		gboolean clear_style = TRUE;
 		switch (BC_R(top_state) (s, 0)) {
-		case BIFF_CHART_chart: {
-			GnmValue *value;
-			GnmExprTop const *texpr;
-			GogObject *label;
-			Sheet *sheet = ms_container_sheet (s->container.parent);
-			if (sheet == NULL || s->text == NULL)
-				break;
-			value = value_new_string (s->text);
-			if (value == NULL)
-				break;
-			label = GOG_OBJECT (g_object_new (GOG_LABEL_TYPE, NULL));
-			texpr = gnm_expr_top_new_constant (value);
-			if (texpr)
-				gog_dataset_set_dim (GOG_DATASET (label), 0,
-					gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
-			else
-				value_release (value);
-			gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", label);
-			if (s->style != NULL)
-				gog_styled_object_set_style (GOG_STYLED_OBJECT (label), s->style);
-			break;
-		}
 		case BIFF_CHART_legend:
 			/* do not destroy the style if it belongs to the
 			parent object, applies only to legend at the moment,
@@ -3186,6 +3197,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.dropbar = FALSE;
 	state.has_extra_dataformat = FALSE;
  	state.axis_cross_at_max = FALSE;
+	state.axis_cross_value = go_nan;
  	state.xaxis = NULL;
 
 	if (NULL != (state.sog = sog)) {
@@ -3592,10 +3604,11 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GogStyleLine const *lstyle,
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_lineformat,
 		(s->bp->version >= MS_BIFF_V8) ? 12: 10);
 	guint16 w, color_index, pat, flags = 0;
+	static guint8 const patterns[] = {5, 0, 2, 3, 4, 4, 2, 1, 1, 1, 3, 4};
 
 	if (lstyle != NULL) {
 		color_index = chart_write_color (s, data, lstyle->color);
-		pat = lstyle->pattern;
+		pat = patterns[lstyle->pattern];
 		if (lstyle->width < 0.) {
 			w = 0xffff;
 			pat = 5;	/* none */
@@ -3864,7 +3877,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 }
 
 static void
-chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const *obj)
+chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const *obj, int purpose)
 {
 	static guint8 const default_text[] = {
 		2,		/* halign = center */
@@ -3910,6 +3923,12 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const
 		excel_font_from_go_font (&s->ewb->base, style->font.font):
 		5));
 	chart_write_AI (s, src, 0, 1);
+	if (obj && purpose) {
+		data = ms_biff_put_len_next (s->bp, BIFF_CHART_objectlink, 6);
+		GSF_LE_SET_GUINT16 (data, purpose);
+		ms_biff_put_commit (s->bp);
+	}
+
 	chart_write_END (s);
 }
 
@@ -4397,7 +4416,7 @@ xl_axis_set_elem (GogAxis const *axis,
 static void
 chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		unsigned i, gboolean centered, gboolean force_catserrange,
-		gboolean cross_at_max, gboolean force_inverted)
+		gboolean cross_at_max, gboolean force_inverted, double cross_at)
 {
 	gboolean labeled, in, out, inverted = FALSE;
 	guint16 tick_color_index, flags = 0;
@@ -4476,7 +4495,11 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAX,	        0x02, data+ 8, log_scale);
 			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAJOR_TICK,  	0x04, data+16, log_scale);
 			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MINOR_TICK,  	0x08, data+24, log_scale);
-			flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_CROSS_POINT, 	0x10, data+32, log_scale);
+			if (isnan (cross_at) || (log_scale && cross_at == 1.) || (!log_scale && cross_at == 0.))
+				/* assume this is the auto case for excel */
+				flags |= 0x10;
+			else
+				gsf_le_set_double (data+32, log_scale ? log10 (cross_at): cross_at);
 		} else
 			flags |= 0x1f;
 		GSF_LE_SET_GUINT16 (data+40, flags);
@@ -4775,7 +4798,7 @@ chart_write_LEGEND (XLChartWriteState *s, GogObject const *legend)
 
 	chart_write_BEGIN (s);
 	/* BIFF_CHART_pos, optional we use auto positioning */
-	chart_write_text (s, NULL, NULL);
+	chart_write_text (s, NULL, NULL, 0);
 	chart_write_END (s);
 }
 
@@ -4788,6 +4811,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 	GSList *sptr, *pptr;
 	XLAxisSet *axis_set;
 	GogObject const *legend = gog_object_get_child_by_name (s->chart, "Legend");
+	GogObject const *label;
 
 	ms_biff_put_2byte (s->bp, BIFF_CHART_axesused, g_slist_length (sets));
 	for (sptr = sets; sptr != NULL ; sptr = sptr->next) {
@@ -4811,12 +4835,15 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		case GOG_AXIS_SET_XY : {
 			gboolean x_cross_at_max, y_cross_at_max, inverted,
 			x_force_catserrange = FALSE, y_force_catserrange = FALSE;
+			double xcross = go_nan, ycross = go_nan;
 			char *str;
 			if (axis_set->axis[GOG_AXIS_X] != NULL) {
 				g_object_get (G_OBJECT (axis_set->axis[GOG_AXIS_X]),
 					"pos-str", &str, "invert-axis", &inverted, NULL);
 				y_cross_at_max = !strcmp (str, "high");
 				x_cross_at_max = inverted;
+				if (!strcmp (str, "cross"))
+					ycross = gog_axis_get_entry (axis_set->axis[GOG_AXIS_X], GOG_AXIS_ELEM_CROSS_POINT, NULL);
 				g_free (str);
 			} else {
 				g_object_get (G_OBJECT (s->primary_axis[GOG_AXIS_X]),
@@ -4830,6 +4857,8 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 					"pos-str", &str, "invert-axis", &inverted, NULL);
 				x_cross_at_max ^= !strcmp (str, "high");
 				y_cross_at_max ^= inverted;
+				if (!strcmp (str, "cross"))
+					xcross = gog_axis_get_entry (axis_set->axis[GOG_AXIS_Y], GOG_AXIS_ELEM_CROSS_POINT, NULL);
 				g_free (str);
 			} else {
 				g_object_get (G_OBJECT (s->primary_axis[GOG_AXIS_Y]),
@@ -4841,24 +4870,24 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			/* BIFF_CHART_pos, optional we use auto positioning */
 			if (axis_set->transpose) {
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
-					0, axis_set->center_ticks, y_force_catserrange, y_cross_at_max, y_inverted);
+					0, axis_set->center_ticks, y_force_catserrange, y_cross_at_max, y_inverted, ycross);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
-					1, TRUE, x_force_catserrange, x_cross_at_max, x_inverted);
+					1, TRUE, x_force_catserrange, x_cross_at_max, x_inverted, xcross);
 			} else {
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
-					0, axis_set->center_ticks, x_force_catserrange, x_cross_at_max, x_inverted);
+					0, axis_set->center_ticks, x_force_catserrange, x_cross_at_max, x_inverted, xcross);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
-					1, TRUE, y_force_catserrange, y_cross_at_max, y_inverted);
+					1, TRUE, y_force_catserrange, y_cross_at_max, y_inverted, ycross);
 			}
 			break;
 		}
 		case GOG_AXIS_SET_XY_pseudo_3d :
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_X],
-					0, FALSE, TRUE, FALSE, FALSE);
+					0, FALSE, TRUE, FALSE, FALSE, go_nan);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_PSEUDO_3D],
-					1, FALSE, FALSE, FALSE, FALSE);
+					1, FALSE, FALSE, FALSE, FALSE, go_nan);
 				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y],
-					2, FALSE, TRUE, FALSE, FALSE);
+					2, FALSE, TRUE, FALSE, FALSE, go_nan);
 			break;
 		case GOG_AXIS_SET_RADAR :
 			break;
@@ -4929,6 +4958,28 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			}
 			chart_write_END (s);
 		}
+		/* Now write axes labels */
+		if (axis_set->axis[GOG_AXIS_X] != NULL) {
+			label = gog_object_get_child_by_name (GOG_OBJECT (axis_set->axis[GOG_AXIS_X]), "Label");
+			if (label) {
+				GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
+				if (text != NULL) {
+					chart_write_text (s, text,
+						GOG_STYLED_OBJECT (label), 3);
+				}
+			}
+		}
+		if (axis_set->axis[GOG_AXIS_Y] != NULL) {
+			label = gog_object_get_child_by_name (GOG_OBJECT (axis_set->axis[GOG_AXIS_Y]), "Label");
+			if (label) {
+				GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
+				if (text != NULL) {
+					chart_write_text (s, text,
+						GOG_STYLED_OBJECT (label), 2);
+				}
+			}
+		}
+		
 		chart_write_END (s);
 
 		g_slist_free (axis_set->plots);
@@ -5034,7 +5085,6 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	sheet_object_position_pts_get (so, pos);
 	renderer  = g_object_new (GOG_RENDERER_TYPE,
 				  "model", state.graph,
-				  "is-vector", TRUE,
 				  NULL);
 	gog_renderer_update (renderer, pos[2] - pos[0], pos[3] - pos[1]);
 	g_object_get (G_OBJECT (renderer), "view", &state.root_view, NULL);
@@ -5430,7 +5480,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 #warning what do these connect to ?
 	for (i = 2; i <= 3; i++) {
 		ms_biff_put_2byte (state.bp, BIFF_CHART_defaulttext, i);
-		chart_write_text (&state, NULL, NULL);
+		chart_write_text (&state, NULL, NULL, 0);
 	}
 
 	state.cur_series = UINT_MAX;
@@ -5442,7 +5492,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 		if (text != NULL) {
 			chart_write_text (&state, text,
-				GOG_STYLED_OBJECT (label));
+				GOG_STYLED_OBJECT (label), 1);
 		}
 	}
 
