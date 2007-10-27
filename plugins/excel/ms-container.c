@@ -133,7 +133,7 @@ ms_container_get_obj (MSContainer *c, int obj_id)
 {
 	MSObj *obj;
 	GSList *ptr;
-	
+
 	for (ptr = c->obj_queue ; ptr != NULL ; ptr = ptr->next) {
 		obj = (MSObj *)ptr->data;
 		if (obj != NULL && obj->id == obj_id)

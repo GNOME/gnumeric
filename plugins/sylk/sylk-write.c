@@ -51,7 +51,7 @@ typedef struct {
 
 	int cur_row;
 } SylkWriter;
- 
+
 static void
 sylk_write (SylkWriter *state, char const *str)
 {
@@ -156,7 +156,7 @@ static void
 sylk_write_sheet (SylkWriter *state)
 {
 	GnmRange extent;
-	
+
 /* collect style and font info */
 	extent = sheet_get_extent (state->sheet, FALSE);
 	sheet_style_foreach (state->sheet,
@@ -164,7 +164,7 @@ sylk_write_sheet (SylkWriter *state)
 	sheet_cell_foreach (state->sheet,
 		(GHFunc) cb_sylk_collect_cell_styles, state);
 
-	/* 
+	/*
 	 * 1) formats P;P.....
 	 * 2.1) ?? 	fonts   P;F....
 	 * 2.2) indexed fonts   P;E....
@@ -212,7 +212,7 @@ sylk_conventions_new (void)
 	res->input.range_ref		= rangeref_parse;
 	res->output.translated		= FALSE;
 	res->output.string		= sylk_output_string;
-	
+
 	return res;
 }
 

@@ -164,7 +164,7 @@ cb_randdiscrete (GnmCellIter const *iter, gpointer user)
 			p->res = value_new_empty ();
 	}
 	(p->ind)++;
-		    
+
 	return NULL;
 }
 

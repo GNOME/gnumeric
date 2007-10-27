@@ -858,7 +858,7 @@ gnumeric_weekday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	case 1: res = (g_date_get_weekday (&date) % 7) + 1; break;
 	case 2: res = (g_date_get_weekday (&date) + 6) % 7 + 1; break;
 	case 3: res = (g_date_get_weekday (&date) + 6) % 7; break;
-	default: 
+	default:
 		return value_new_error_VALUE (ei->pos);
 	}
 
@@ -912,7 +912,7 @@ gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	switch ((int)method) {
 	case 0: basis = BASIS_MSRB_30_360; break;
-	default: 
+	default:
 	case 1: basis = BASIS_30E_360; break;
 	case 2: basis = BASIS_MSRB_30_360_SYM; break;
 	}
@@ -1061,7 +1061,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		holidays = NULL;
 		nholidays = 0;
 	}
-		
+
 	if (days > INT_MAX / 2 || -days > INT_MAX / 2)
 		return value_new_error_NUM (ei->pos);
 	idays = (int)days;
@@ -1143,7 +1143,7 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	return make_date (value_new_int (datetime_g_to_serial (&date, conv)));
-		
+
  bad:
 	g_free (holidays);
 	return value_new_error_VALUE (ei->pos);
@@ -1158,7 +1158,7 @@ static GnmFuncHelp const help_networkdays[] = {
 
 	   "@DESCRIPTION="
 	   "NETWORKDAYS returns the number of non-weekend non-holidays between "
-	   "@start_date and @end_date including these dates. " 
+	   "@start_date and @end_date including these dates. "
 	   "Holidays are optionally supplied in @holidays.\n"
 	   "\n"
 	   "* NETWORKDAYS returns #NUM! if @start_date or @end_date are "

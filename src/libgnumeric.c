@@ -79,7 +79,7 @@ static gboolean param_show_version = FALSE;
 static char *param_lib_dir  = NULL;
 static char *param_data_dir = NULL;
 
-static GOptionEntry const libspreadsheet_options [] = { 
+static GOptionEntry const libspreadsheet_options [] = {
 	/*********************************
 	 * Public Actions */
 	{
@@ -125,7 +125,7 @@ static GOptionEntry const libspreadsheet_options [] = {
 		N_("LEVEL")
 	},
 
-	{ NULL } 
+	{ NULL }
 };
 
 static gboolean
@@ -144,7 +144,7 @@ cb_gnm_option_group_post_parse (GOptionContext *context,
 
 /**
  * gnm_get_option_group:
- * 
+ *
  * Returns a #GOptionGroup for the commandline arguments recognized
  * by libspreadsheet. You should add this group to your #GOptionContext with
  * g_option_context_add_group(), if you are using g_option_context_parse() to

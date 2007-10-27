@@ -191,7 +191,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 	for (digit = max - 1; digit >= 0; digit--) {
 		int thisdigit = gnm_fmod (v + 0.5, dest_base);
 		v = gnm_floor ((v + 0.5) / dest_base);
-		buffer->str[digit] = 
+		buffer->str[digit] =
 			thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
 

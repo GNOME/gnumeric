@@ -2997,7 +2997,7 @@ free_matrix (gnm_float **mat, G_GNUC_UNUSED int cols, int rows)
 
 	for (r = 0; r < rows; r++)
 		g_free (mat[r]);
-		
+
 	g_free (mat);
 }
 
@@ -3330,11 +3330,11 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "ceil",    "f", N_("number"),    help_ceil,
-	  gnumeric_ceil, NULL, NULL, NULL, NULL,	  
+	  gnumeric_ceil, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "ceiling", "f|f", N_("number,significance"), help_ceiling,
-	  gnumeric_ceiling, NULL, NULL, NULL, NULL,	  
+	  gnumeric_ceiling, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "degrees", "f", N_("number"),    help_degrees,
@@ -3365,7 +3365,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_combin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "floor",   "f|f", N_("number"),  help_floor,
-	  gnumeric_floor, NULL, NULL, NULL, NULL,	  
+	  gnumeric_floor, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "gcd", NULL, N_("number,number"), help_gcd,
@@ -3375,7 +3375,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  NULL, gnumeric_hypot, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "int",     "f", N_("number"),    help_int,
-	  gnumeric_int, NULL, NULL, NULL, NULL,	  
+	  gnumeric_int, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "lcm", NULL, "",            help_lcm,
@@ -3400,7 +3400,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_mod, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "mround",  "ff", N_("number,multiple"), help_mround,
-	  gnumeric_mround, NULL, NULL, NULL, NULL,	  
+	  gnumeric_mround, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "multinomial", NULL, "", help_multinomial,
@@ -3425,15 +3425,15 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_roman, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "round",      "f|f", N_("number,digits"), help_round,
-	  gnumeric_round, NULL, NULL, NULL, NULL,	  
+	  gnumeric_round, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "rounddown",  "f|f", N_("number,digits"), help_rounddown,
-	  gnumeric_rounddown, NULL, NULL, NULL, NULL,	  
+	  gnumeric_rounddown, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "roundup",    "f|f", N_("number,digits"), help_roundup,
-	  gnumeric_roundup, NULL, NULL, NULL, NULL,	  
+	  gnumeric_roundup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "seriessum", NULL, N_("x,n,m,coefficients"), help_seriessum,
@@ -3455,7 +3455,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_sqrtpi, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "suma", NULL, N_("number,number,"), help_suma,
-	  NULL, gnumeric_suma, NULL, NULL, NULL,	  
+	  NULL, gnumeric_suma, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "sumif",   "rS|r", N_("range,criteria,actual_range"), help_sumif,
@@ -3483,7 +3483,7 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_tanh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "trunc",   "f|f", N_("number,digits"), help_trunc,
-	  gnumeric_trunc, NULL, NULL, NULL, NULL,	  
+	  gnumeric_trunc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "pi",      "", "",           help_pi,

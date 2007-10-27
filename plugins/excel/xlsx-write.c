@@ -1136,7 +1136,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	GsfOutput *drawing_part, *chart_part;
 	GsfXMLOut *xml;
 	SheetObjectAnchor const *anchor;
-	
+
 	if (NULL == state->drawing.dir)
 		state->drawing.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "drawings", TRUE);
 	if (NULL == state->chart.dir)
@@ -1290,7 +1290,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	gsf_xml_out_add_float (xml, "defaultRowHeight",
 		sheet_row_get_default_size_pts (state->sheet), 4);
 	if (state->sheet->rows.max_outline_level > 0)
-		gsf_xml_out_add_int (xml, "outlineLevelRow", 
+		gsf_xml_out_add_int (xml, "outlineLevelRow",
 			state->sheet->rows.max_outline_level);
 	if (state->sheet->cols.max_outline_level > 0)
 		gsf_xml_out_add_int (xml, "outlineLevelCol",
@@ -1330,7 +1330,7 @@ xlsx_write_calcPR (XLSXWriteState *state, GsfXMLOut *xml)
 #warning Filter by defaults
 	gsf_xml_out_start_element (xml, "calcPr");
 
-	gsf_xml_out_add_cstr_unchecked (xml, "calcMode", 
+	gsf_xml_out_add_cstr_unchecked (xml, "calcMode",
 		wb->recalc_auto ? "auto" : "manual");
 
 	xlsx_add_bool (xml, "iterate", wb->iteration.enabled);

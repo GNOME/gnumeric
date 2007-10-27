@@ -105,7 +105,7 @@ capp_class_init (CorbaApplicationClass *capp)
 	capp->epv.workbook_open	= capp_workbook_open;
 }
 
-static BONOBO_TYPE_FUNC_FULL (CorbaApplication, 
+static BONOBO_TYPE_FUNC_FULL (CorbaApplication,
 		       GNOME_Gnumeric_Application,
 		       BONOBO_OBJECT_TYPE,
 		       capp);

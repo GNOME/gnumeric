@@ -94,12 +94,12 @@ app_interpreter_changed (GnmPyInterpreterSelector *sel)
 	}
 }
 
-static void 
+static void
 app_run_string (char *cmd)
 {
 	char *stdout_str, *stderr_str;
 
-	gnm_py_interpreter_run_string (app->cur_interpreter, cmd, 
+	gnm_py_interpreter_run_string (app->cur_interpreter, cmd,
 				       &stdout_str, &stderr_str);
 	if (stdout_str != NULL && stdout_str[0] != '\0') {
 		app_text_print (stdout_str, FORMAT_STDOUT,
@@ -161,7 +161,7 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 	app->cur_interpreter =
 		gnm_py_interpreter_selector_get_current (GNM_PY_INTERPRETER_SELECTOR (sel));
 	g_signal_connect_object (
-		G_OBJECT (sel), "interpreter_changed", 
+		G_OBJECT (sel), "interpreter_changed",
 		G_CALLBACK (app_interpreter_changed), app->win, 0);
 	vbox = gtk_vbox_new (FALSE, 0);
 
@@ -172,7 +172,7 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 	gtk_box_pack_start (GTK_BOX (hbox), sel, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), gtk_label_new (""), TRUE, TRUE, 0);
 	w = gtk_button_new_from_stock (GTK_STOCK_CLEAR);
-	g_signal_connect (G_OBJECT (w), "clicked", 
+	g_signal_connect (G_OBJECT (w), "clicked",
 			  G_CALLBACK (cb_clear), NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 2);
@@ -203,13 +203,13 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (app->text_view), FALSE);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (app->text_view),
 				     GTK_WRAP_WORD);
-	gtk_container_add (GTK_CONTAINER (sc_win), 
+	gtk_container_add (GTK_CONTAINER (sc_win),
 			   GTK_WIDGET (app->text_view));
 	gtk_box_pack_start (GTK_BOX (vbox), sc_win, TRUE, TRUE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	cline = gnm_py_command_line_new ();
-	g_signal_connect (G_OBJECT (cline), "entered", 
+	g_signal_connect (G_OBJECT (cline), "entered",
 			  G_CALLBACK (app_cline_entered), NULL);
 	w = gtk_label_new_with_mnemonic (_("C_ommand:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), cline);

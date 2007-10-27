@@ -139,8 +139,8 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
  *
  * @return:
  * If @p is in form of \L{foo}, return the char pointer pointing to '}' of \L{foo}
- * else return @p untouched; 
- * 
+ * else return @p untouched;
+ *
  * Check if @p is in form of \L{foo}.
  * If it is, the exact "foo" will be put into @output, without any esacaping.
  *
@@ -210,9 +210,9 @@ latex_fputs_utf (char const *p, GsfOutput *output)
 		case '>': case '<':
 			gsf_output_printf (output, "$%c$", *p);
 			break;
-			
+
 		default:
-			gsf_output_write (output, 
+			gsf_output_write (output,
 					  (g_utf8_next_char (p)) - p, p);
 			break;
 		}
@@ -227,7 +227,7 @@ latex_fputs_utf (char const *p, GsfOutput *output)
  *
  * This escapes any special LaTeX characters from the LaTeX engine,
  * except the ones enclosed in "\L{" and "}".
- * 
+ *
  * We assume that htis will be set in Mathematics mode.
  */
 static void
@@ -253,7 +253,7 @@ latex_math_fputs_utf (char const *p, GsfOutput *output)
 				    p = rlt;
 				break;
 			default:
-				gsf_output_write (output, 
+				gsf_output_write (output,
 						  (g_utf8_next_char (p)) - p, p);
 				break;
 		}
@@ -281,7 +281,7 @@ latex_convert_latin_to_utf (char const *text)
 	if (g_utf8_strchr (text,-1, 0x2212) == NULL) {
 		encoded_text = g_convert_with_fallback
 			(text, strlen (text),
-			 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+			 "ISO-8859-1", "UTF-8", (gchar *)"?",
 			 &bytes_read, &bytes_written, NULL);
 	} else {
 		gunichar* ucs_string = NULL;
@@ -299,7 +299,7 @@ latex_convert_latin_to_utf (char const *text)
 		g_free (ucs_string);
 		encoded_text = g_convert_with_fallback
 			(new_text, strlen (new_text),
-			 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+			 "ISO-8859-1", "UTF-8", (gchar *)"?",
 			 &bytes_read, &bytes_written, NULL);
 		g_free (new_text);
 	}
@@ -328,7 +328,7 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 
 	for (p = encoded_text; *p; p++) {
 		switch (*p) {
-			
+
 			/* These are the classic TeX symbols $ & % # _ { } (see Lamport, p.15) */
 		case '$': case '&': case '%': case '#':
 		case '_': case '{': case '}':
@@ -349,7 +349,7 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 		case '>': case '<': case 'µ':
 			gsf_output_printf (output, "$%c$", *p);
 			break;
-			
+
 		default:
 			gsf_output_write (output, 1, p);
 			break;
@@ -364,9 +364,9 @@ latex_fputs_latin (char const *text, GsfOutput *output)
  * @p :     a pointer to a char, start of the string to be processed.
  * @output: output stream where the processed characters are written.
  *
- * This escapes any special LaTeX characters from the LaTeX engine, 
+ * This escapes any special LaTeX characters from the LaTeX engine,
  * except the ones enclosed in "\L{" and "}".
- * 
+ *
  * We assume that htis will be set in Mathematics mode.
  */
 static void
@@ -556,7 +556,7 @@ latex2e_write_file_header(GsfOutput *output)
 "%%                                                                  %%\n"
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "\n"
-"\\providecommand{\\gnumericmathit}[1]{#1} \n" 
+"\\providecommand{\\gnumericmathit}[1]{#1} \n"
 "%%  Uncomment the next line if you would like your numbers to be in %%\n"
 "%%  italics if they are italizised in the gnumeric table.           %%\n"
 "%\\renewcommand{\\gnumericmathit}[1]{\\mathit{#1}}\n"
@@ -601,7 +601,7 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
 	int col;
 
 
-	gsf_output_puts (output, 
+	gsf_output_puts (output,
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "%%  The longtable options. (Caption, headers... see Goosens, p.124) %%\n"
 "%\t\\caption{The Table Caption.}             \\\\	%\n"
@@ -1298,7 +1298,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 
 			pos.col = col;
 			pos.row = row;
-			
+
 			/* Get the cell. */
 			cell = sheet_cell_get (current_sheet, col, row);
 
@@ -1329,7 +1329,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
 
 			if (gnm_cell_is_empty(cell))
-				latex2e_write_blank_multicolumn_cell(output, col, row, 
+				latex2e_write_blank_multicolumn_cell(output, col, row,
 								     num_merged_cols,
 								     num_merged_rows,
 								     col - total_range.start.col,

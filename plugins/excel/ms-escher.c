@@ -473,7 +473,7 @@ ms_escher_read_RegroupItems (MSEscherState *state, MSEscherHeader *h)
 {
 	/* Each shape in a drawing has a regroup ID (separate from the shape
 	 * ID), so that the regroup command can find shapes that were once
-	 * grouped. In order to handle nested grouping and ungrouping 
+	 * grouped. In order to handle nested grouping and ungrouping
 	 * there is a table logging changes to regroup IDs. Each entry has an
 	 * old ID and a new ID and records the change of all instances of the
 	 * old ID to the new ID.
@@ -693,7 +693,7 @@ ms_escher_read_Spgr (MSEscherState *state, MSEscherHeader *h)
 		h->offset + COMMON_HEADER_LEN, len, &needs_free);
 
 	/* Stored as absolute pixels in fixed point for pre-grouped position
-	 * What we do not know is where the parent group stores the offset from 
+	 * What we do not know is where the parent group stores the offset from
 	 * original to current */
 	d (1, {
 		g_print ("SPGR\t");
@@ -726,7 +726,7 @@ ms_escher_read_ChildAnchor (MSEscherState *state, MSEscherHeader *h)
 		h->offset + COMMON_HEADER_LEN, len, &needs_free);
 
 	/* Stored as absolute pixels in fixed point for pre-grouped position
-	 * What we do not know is where the parent group stores the offset from 
+	 * What we do not know is where the parent group stores the offset from
 	 * original to current */
 	d (1, {
 		g_print ("ChildAnchor");
@@ -1889,7 +1889,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			g_return_val_if_fail (extra + val - data + COMMON_HEADER_LEN <= h->len, TRUE);
 
 			d (5, gsf_mem_dump (extra, val););
-			d (11, { 
+			d (11, {
 				static int count = 0;
 				char *name = g_strdup_printf ("gnumeric-complex-opt-[%d]-%d", pid, count++);
 				FILE *f = g_fopen (name, "w");
@@ -2243,7 +2243,7 @@ ms_escher_sp_add_OPT (MSEscherSp *sp, guint16 id, guint32 val,
 
 #include <sheet-object.h>
 void
-ms_escher_sp_set_anchor (MSEscherSp *sp, 
+ms_escher_sp_set_anchor (MSEscherSp *sp,
 			 SheetObjectAnchor const *anchor,
 			 guint16 anchor_flags)
 {

@@ -319,7 +319,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	for (i = 0 ; i < excel_func_desc_size; i++) {
 		ExcelFuncDesc const *fd = excel_func_desc + i;
 		name = fd->name;
-		if (fd->flags & (XL_UNKNOWN | XL_MAGIC)) 
+		if (fd->flags & (XL_UNKNOWN | XL_MAGIC))
 			continue;
 		if (fd->flags & XL_XLM) {
 			if (fd->flags != XL_XLM)

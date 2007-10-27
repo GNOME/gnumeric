@@ -143,7 +143,7 @@ char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x21 */	NULL,
 /* 0x22 */	NULL,
 /* 0x23 */	NULL,
-/* 0x24 */	NULL, 
+/* 0x24 */	NULL,
 /* 0x25 */	"#,##0_);(#,##0)",
 /* 0x26 */	"#,##0_);[Red](#,##0)",
 /* 0x27 */	"#,##0.00_);(#,##0.00)",
@@ -495,16 +495,16 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		} else if ((attr = ms_obj_attr_bag_lookup (obj->attrs,
    		        MS_OBJ_ATTR_IMDATA)) != NULL) {
 			GdkPixbuf *pixbuf = GDK_PIXBUF (attr->v.v_object);
-			
+
 			if (pixbuf) {
 				gchar *buf;
 				gsize buf_size;
 
-				gdk_pixbuf_save_to_buffer 
-					(pixbuf, &buf, &buf_size, "png", 
+				gdk_pixbuf_save_to_buffer
+					(pixbuf, &buf, &buf_size, "png",
 					 NULL, NULL);
 				if (buf_size > 0) {
-					sheet_object_image_set_image 
+					sheet_object_image_set_image
 						(SHEET_OBJECT_IMAGE (so),
 						 "png", buf, buf_size, FALSE);
 				}
@@ -528,8 +528,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		break;
 	}
 
-	case 0x0B: 
-	case 0x70: 
+	case 0x0B:
+	case 0x70:
 		sheet_widget_checkbox_set_link (obj->gnum_obj,
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL, FALSE));
 		break;
@@ -1390,25 +1390,25 @@ biff_format_data_destroy (BiffFormatData *d)
 
 /** Default color table for BIFF5/BIFF7. */
 ExcelPaletteEntry const excel_default_palette_v7 [] = {
-	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0}, 
-	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255}, 
+	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
+	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
 
-	{128,  0,  0}, {  0,128,  0}, {  0,  0,128}, {128,128,  0}, 
-	{128,  0,128}, {  0,128,128}, {192,192,192}, {128,128,128}, 
+	{128,  0,  0}, {  0,128,  0}, {  0,  0,128}, {128,128,  0},
+	{128,  0,128}, {  0,128,128}, {192,192,192}, {128,128,128},
 
-	{128,128,255}, {128, 32, 96}, {255,255,192}, {160,224,224}, 
-	{ 96,  0,128}, {255,128,128}, {  0,128,192}, {192,192,255}, 
+	{128,128,255}, {128, 32, 96}, {255,255,192}, {160,224,224},
+	{ 96,  0,128}, {255,128,128}, {  0,128,192}, {192,192,255},
 
-	{  0,  0,128}, {255,  0,255}, {255,255,  0}, {  0,255,255}, 
-	{128,  0,128}, {128,  0,  0}, {  0,128,128}, {  0,  0,255}, 
+	{  0,  0,128}, {255,  0,255}, {255,255,  0}, {  0,255,255},
+	{128,  0,128}, {128,  0,  0}, {  0,128,128}, {  0,  0,255},
 
-	{  0,204,255}, {105,255,255}, {204,255,204}, {255,255,153}, 
-	{166,202,240}, {204,156,204}, {204,153,255}, {227,227,227}, 
+	{  0,204,255}, {105,255,255}, {204,255,204}, {255,255,153},
+	{166,202,240}, {204,156,204}, {204,153,255}, {227,227,227},
 
-	{ 51,102,255}, { 51,204,204}, { 51,153, 51}, {153,153, 51}, 
-	{153,102, 51}, {153,102,102}, {102,102,153}, {150,150,150}, 
+	{ 51,102,255}, { 51,204,204}, { 51,153, 51}, {153,153, 51},
+	{153,102, 51}, {153,102,102}, {102,102,153}, {150,150,150},
 
-	{ 51, 51,204}, { 51,102,102}, {  0, 51,  0}, { 51, 51,  0}, 
+	{ 51, 51,204}, { 51,102,102}, {  0, 51,  0}, { 51, 51,  0},
 	{102, 51,  0}, {153, 51,102}, { 51, 51,153}, { 66, 66, 66}
 };
 
@@ -1579,7 +1579,7 @@ excel_read_PALETTE (BiffQuery *q, GnmXLImporter *importer)
 	if (importer->palette)
 		excel_palette_destroy (importer->palette);
 	importer->palette = pal;
-	
+
 }
 
 /**
@@ -1604,7 +1604,7 @@ excel_font_get_gofont (ExcelFont const *efont)
 {
 	if (NULL == efont->go_font) {
 		PangoFontDescription *desc = pango_font_description_new ();
-	
+
 #warning FINISH when GOFont is smarter
 		pango_font_description_set_family (desc, efont->fontname);
 		pango_font_description_set_weight (desc, efont->boldness);
@@ -3047,7 +3047,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 }
 
 static char *
-excel_read_name_str (GnmXLImporter *importer, 
+excel_read_name_str (GnmXLImporter *importer,
 		     guint8 const *data, unsigned *name_len, gboolean is_builtin)
 {
 	gboolean use_utf16, has_extended;
@@ -3198,7 +3198,7 @@ excel_prepare_autofilter (GnmXLImporter *importer, GnmNamedExpr *nexpr)
 				unsigned   i;
 				GnmFilter *filter;
 				ExcelReadSheet *esheet;
-				
+
 				filter = gnm_filter_new (r.sheet, &r.range);
 				expr_name_remove (nexpr);
 
@@ -3614,7 +3614,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	 *
 	 * NOTE: These measurements do NOT correspond to what is shown to the
 	 * user */
-	width = 8. * spec->defcol_unit + 
+	width = 8. * spec->defcol_unit +
 		(float)(charwidths - spec->colinfo_baseline) / spec->colinfo_step;
 	width *= scale * 72./96.;
 
@@ -3665,7 +3665,7 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 	GdkPixbuf	*pixbuf = NULL;
 	gboolean ret = FALSE;
 	guint8 bmphdr[14];
-	guint bpp; 
+	guint bpp;
 	guint offset;
 
 	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
@@ -4069,8 +4069,8 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 	print_info_set_paper_orientation (pi, portrait_orientation
 					  ? GTK_PAGE_ORIENTATION_PORTRAIT
 					  : GTK_PAGE_ORIENTATION_LANDSCAPE);
-	
-	
+
+
 	if (esheet_ver (esheet) > MS_BIFF_V4) {
 		XL_CHECK_CONDITION (q->length >= 34);
 
@@ -4214,13 +4214,13 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 		overlap = gnm_sheet_merge_get_overlap (esheet->sheet, &r);
 		if (overlap) {
 			GnmRange *r2 = (GnmRange *) overlap->data;
-			
+
 			/* Unmerge r2, then merge (r U r2) */
 			gnm_sheet_merge_remove (esheet->sheet, r2,
 				 GO_CMD_CONTEXT (esheet->container.importer->context));
 			r = range_union (&r, r2);
 			g_slist_free (overlap);
-		} 
+		}
 		gnm_sheet_merge_add (esheet->sheet, &r, FALSE,
 			 GO_CMD_CONTEXT (esheet->container.importer->context));
 	}
@@ -4311,7 +4311,7 @@ excel_read_WSBOOL (BiffQuery *q, ExcelReadSheet *esheet)
 	/* XL docs wrong 0xc00 no 0x600, OOo docs wrong no distinct row vs col */
 	esheet->sheet->display_outlines      = 0 != (options & 0xc00);
 
-	/* Biff4 0x3000 window arrangement 
+	/* Biff4 0x3000 window arrangement
 	 *     0b == tiled
 	 *     1b == arrange horiz
 	 *    10b == arrange vert
@@ -4565,7 +4565,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 	 *		0xdf = B
 	 *		0xc3 == T,L,B,R
 	 *	uint8 : 0x3f == no background elements,
-	 *		0x3b == background 
+	 *		0x3b == background
 	 *		0x3a == background & pattern
 	 *		0x38 == background & pattern & pattern colour
 	 *	uint8 : 0x04 = font | 0x10 = border | 0x20 = colour
@@ -4597,7 +4597,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		font_flags = GSF_LE_GET_GUINT8  (data + 24);
 		if (0 == (font_flags & 2)) {
 			gnm_style_set_font_italic (cond.overlay, 0 != (tmp8 & 2));
-			gnm_style_set_font_bold   (cond.overlay, 
+			gnm_style_set_font_bold   (cond.overlay,
 				GSF_LE_GET_GUINT16 (data + 8) >= 0x2bc);
 		}
 		if (0 == (font_flags & 0x80))
@@ -5388,7 +5388,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		if (name != NULL) {
 			sheet = workbook_sheet_by_name (container->importer->wb, name);
 			if (sheet == NULL) {
-				/* There was a bug in 1.0.x export that spewed the quoted name 
+				/* There was a bug in 1.0.x export that spewed the quoted name
 				 * includling internal backquoting */
 				if (name[0] == '\'') {
 					GString *fixed = g_string_new (NULL);
@@ -5468,11 +5468,11 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	guint16 const row = XL_GETROW (q);
 	guint in_len, str_len;
 	gchar *txt;
-	
+
 	in_len = q->opcode == BIFF_LABEL_v0 ?
 		GSF_LE_GET_GUINT8 (q->data + 7) : GSF_LE_GET_GUINT16 (q->data + 6);
 	g_return_if_fail (q->length - 8 >= in_len);
-	
+
 	txt = excel_get_text (esheet->container.importer, q->data + 8,
 		in_len, &str_len);
 
@@ -5721,7 +5721,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			break;
 
 		case BIFF_LEFT_MARGIN:
-			print_info_set_margin_left 
+			print_info_set_margin_left
 				(pi, GO_IN_TO_PT (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_RIGHT_MARGIN:
@@ -5971,7 +5971,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 	switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
 	case 0 : break; /* 1 byte locale compressed unicode for book name */
 	case 1 : len *= 2; is_2byte = TRUE; break;	/* 2 byte unicode */
-	default : 
+	default :
 		 g_warning ("Invalid header on SUPBOOK record");
 		 gsf_mem_dump (q->data, q->length);
 		 return;
@@ -6168,7 +6168,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 	     q->opcode == BIFF_BOF_v2 ||
 	     q->opcode == BIFF_BOF_v4 ||
 	     q->opcode == BIFF_BOF_v8))
-		excel_read_BOF (q, importer, wb_view, context, 
+		excel_read_BOF (q, importer, wb_view, context,
 				&ver, &current_sheet);
 	while (!stop_loading &&		  /* we have not hit the end */
 	       problem_loading == NULL && /* there were no problems so far */

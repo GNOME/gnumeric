@@ -229,12 +229,12 @@ gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
 		g_warning (py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
-	if (input_wrapper != NULL && 
+	if (input_wrapper != NULL &&
 	    loader_data->python_func_file_probe != NULL) {
 		/* wrapping adds a reference */
 		g_object_unref (G_OBJECT (input));
 		probe_result = PyObject_CallFunction
-			(loader_data->python_func_file_probe, 
+			(loader_data->python_func_file_probe,
 			 (char *) "O", input_wrapper);
 		Py_DECREF (input_wrapper);
 	}
@@ -250,9 +250,9 @@ gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
 }
 
 static void
-gplp_func_file_open (GOFileOpener const *fo, 
+gplp_func_file_open (GOFileOpener const *fo,
 		     GOPluginService *service,
-		     IOContext *io_context, 
+		     IOContext *io_context,
 		     gpointer wb_view,
 		     GsfInput *input)
 {
@@ -274,7 +274,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 		g_object_unref (G_OBJECT (input));
 		open_result = PyObject_CallFunction
 			(loader_data->python_func_file_open,
-			 (char *) "NO", 
+			 (char *) "NO",
 			 py_new_Sheet_object (sheet), input_wrapper);
 		Py_DECREF (input_wrapper);
 	}
@@ -594,7 +594,7 @@ gplp_func_desc_load (GOPluginService *service,
 
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 		return FALSE;
-	} 
+	}
 
 	if (PyFunction_Check (fn_info_obj)) {
 		res->arg_spec	= "";
@@ -642,7 +642,7 @@ gplp_load_service_function_group (GOPluginLoader *loader,
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
 		loader_data->python_fn_info_dict = (PyObject *) python_fn_info_dict;
 		Py_INCREF (loader_data->python_fn_info_dict);
-		g_object_set_data_full 
+		g_object_set_data_full
 			(G_OBJECT (service), "loader_data", loader_data,
 			 (GDestroyNotify) gplp_loader_data_fngroup_free);
 	} else {
@@ -725,7 +725,7 @@ gplp_func_exec_action (GOPluginService *service,
 	}
 }
 
-static void 
+static void
 gplp_load_service_ui (GOPluginLoader *loader,
 		      GOPluginService *service,
 		      ErrorInfo **ret_error)
@@ -739,7 +739,7 @@ gplp_load_service_ui (GOPluginLoader *loader,
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
-	ui_action_names = g_strconcat (plugin_service_get_id (service), 
+	ui_action_names = g_strconcat (plugin_service_get_id (service),
 				     "_ui_actions", NULL);
 	ui_actions = PyDict_GetItemString (loader_python->main_module_dict,
 					   ui_action_names);

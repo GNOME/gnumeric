@@ -144,7 +144,7 @@ odf_write_table_style (GnmOOExport *state,
 	gsf_xml_out_start_element (state->xml, STYLE "properties");
 	odf_add_bool (state->xml, TABLE "display",
 		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
-	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode", 
+	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode",
 		sheet->text_is_rtl ? "rl-tb" : "lr-tb");
 	gsf_xml_out_end_element (state->xml); /* </style:properties> */
 
@@ -204,7 +204,7 @@ odf_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 	else
 		g_string_append_c (out->accum, ':');
 
-	cellref_as_string (out, &(ref->b), FALSE);	
+	cellref_as_string (out, &(ref->b), FALSE);
 	g_string_append (out->accum, "]");
 }
 
@@ -222,17 +222,17 @@ odf_expr_conventions_new (void)
 	conv->decimal_sep_dot		= TRUE;
 	conv->output.cell_ref		= odf_cellref_as_string;
 	conv->output.range_ref		= odf_rangeref_as_string;
-	
+
 	return conv;
 }
 
 static gboolean
-odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell, 
+odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell,
 		    int col, int row, GnmRange const *merge_range,
 		    GSList **merge_ranges)
 {
 	GSList *l;
-	
+
 	if (merge_range != NULL) {
 		GnmRange *new_range = g_new(GnmRange, 1);
 		*new_range = *merge_range;
@@ -261,7 +261,7 @@ odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell,
 	return FALSE;
 }
 
-static void 
+static void
 odf_write_empty_cell (GnmOOExport *state, int *num)
 {
 	if (*num > 0) {
@@ -275,7 +275,7 @@ odf_write_empty_cell (GnmOOExport *state, int *num)
 	}
 }
 
-static void 
+static void
 odf_write_covered_cell (GnmOOExport *state, int *num)
 {
 	if (*num > 0) {
@@ -289,7 +289,7 @@ odf_write_covered_cell (GnmOOExport *state, int *num)
 	}
 }
 
-static void 
+static void
 odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		GnmComment const *cc)
 {
@@ -299,7 +299,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		rows_spanned = merge_range->end.row - merge_range->start.row + 1;
 		cols_spanned = merge_range->end.col - merge_range->start.col + 1;
 	}
-	
+
 	gsf_xml_out_start_element (state->xml, TABLE "table-cell");
 	if (cols_spanned > 1)
 		gsf_xml_out_add_int (state->xml,
@@ -325,7 +325,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				gsf_xml_out_add_uint (state->xml,
 					TABLE "number-matrix-rows-spanned",
 						     (unsigned int)(ac->rows));
-			}			
+			}
 
 			parse_pos_init_cell (&pp, cell);
 			formula = gnm_expr_as_string (cell->base.texpr->expr,
@@ -334,9 +334,9 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			eq_formula = g_strdup_printf ("oooc:=%s", formula);
 
 #if 0
-			g_warning ("Writing: %s", eq_formula); 
+			g_warning ("Writing: %s", eq_formula);
 #endif
-			
+
 			gsf_xml_out_add_cstr (state->xml,
 					      TABLE "formula",
 					      eq_formula);
@@ -344,21 +344,21 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			g_free (eq_formula);
 
 		}
-		
+
 		rendered_string = gnm_cell_get_rendered_text (cell);
-		
+
 		switch (cell->value->type) {
 		case VALUE_BOOLEAN:
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
+			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "boolean");
-			odf_add_bool (state->xml, OFFICE "boolean-value", 
+			odf_add_bool (state->xml, OFFICE "boolean-value",
 				value_get_as_bool (cell->value, NULL));
 			break;
 		case VALUE_FLOAT:
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
+			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "float");
-			gsf_xml_out_add_float (state->xml, OFFICE "value", 
-					       value_get_as_float 
+			gsf_xml_out_add_float (state->xml, OFFICE "value",
+					       value_get_as_float
 					       (cell->value),
 					       10);
 			break;
@@ -368,9 +368,9 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		case VALUE_CELLRANGE:
 		default:
 			break;
-			gsf_xml_out_add_cstr_unchecked (state->xml, 
+			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "string");
-			gsf_xml_out_add_cstr (state->xml, 
+			gsf_xml_out_add_cstr (state->xml,
 					      OFFICE "value",
 					      value_peek_string (cell->value));
 		}
@@ -384,7 +384,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 	if (cc != NULL) {
 		char const *author;
 		author = cell_comment_author_get (cc);
-		
+
 		gsf_xml_out_start_element (state->xml, OFFICE "annotation");
 		if (author != NULL) {
 			gsf_xml_out_start_element (state->xml, DUBLINCORE "creator");
@@ -395,7 +395,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
 	}
 
-	gsf_xml_out_end_element (state->xml);   /* table-cell */	
+	gsf_xml_out_end_element (state->xml);   /* table-cell */
 }
 
 static void
@@ -430,7 +430,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
 			     extent.end.col + 1);
 	gsf_xml_out_end_element (state->xml); /* table-column */
-	
+
 	if (extent.start.row > 0) {
 		/* We need to write a bunch of empty rows !*/
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
@@ -475,11 +475,11 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			if (covered_cell > 0)
 				odf_write_covered_cell (state, &covered_cell);
 			odf_write_cell (state, current_cell, merge_range, cc);
-			
+
 		}
 		if (covered_cell > 0)
 			odf_write_covered_cell (state, &covered_cell);
-		
+
 		gsf_xml_out_end_element (state->xml);   /* table-row */
 	}
 
@@ -588,11 +588,11 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_end_element (state->xml); /* </office:font-face-decls> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
- 	odf_write_table_styles (state); 
+ 	odf_write_table_styles (state);
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
-  	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");  
+  	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
 		char *style_name;
@@ -618,10 +618,10 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 				odf_write_autofilter (state, ptr->data);
 		}
 
-		gsf_xml_out_end_element (state->xml); /* </table:database-ranges> */  
+		gsf_xml_out_end_element (state->xml); /* </table:database-ranges> */
 	}
 
-  	gsf_xml_out_end_element (state->xml); /* </office:spreadsheet> */  
+  	gsf_xml_out_end_element (state->xml); /* </office:spreadsheet> */
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
 
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
@@ -652,7 +652,7 @@ static void
 odf_write_meta (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
-	gsf_opendoc_metadata_write (xml, 
+	gsf_opendoc_metadata_write (xml,
 		go_doc_get_meta_data (GO_DOC (state->wb)));
 	g_object_unref (xml);
 }

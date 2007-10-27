@@ -1170,7 +1170,7 @@ applix_read_cells (ApplixReadState *state)
 
 					if (!valid_cellpos (&r.start) || !valid_cellpos (&r.end)) {
 						g_warning ("Ignoring sheet contents beyond allowed range.");
-						continue;						
+						continue;
 					}
 
 					is_array = TRUE;
@@ -1585,7 +1585,7 @@ applix_func_map_in (GnmConventions const *conv, Workbook *scope,
 	int i;
 
 	if (NULL == namemap) {
-		namemap = g_hash_table_new (go_ascii_strcase_hash, 
+		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
 		for (i = 0; sc_func_renames[i].applix_name; i++)
 			g_hash_table_insert (namemap,
@@ -1655,11 +1655,11 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	renamed_sheets = NULL;
 	for (ptr = state.std_names; ptr != NULL ; ptr = ptr->next)
 		renamed_sheets = g_slist_prepend (renamed_sheets,
-			GINT_TO_POINTER (workbook_sheet_by_name 
+			GINT_TO_POINTER (workbook_sheet_by_name
 					 (state.wb, ptr->data)->index_in_wb));
 	renamed_sheets = g_slist_reverse (renamed_sheets);
 	workbook_sheet_rename (state.wb, renamed_sheets,
-			       state.real_names, 
+			       state.real_names,
 			       GO_CMD_CONTEXT (io_context));
 	g_slist_free (renamed_sheets);
 	go_slist_free_custom (state.std_names, g_free);

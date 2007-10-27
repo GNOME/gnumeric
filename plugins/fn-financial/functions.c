@@ -419,9 +419,9 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* FIXME : According to XL docs
 	 *
 	 * NC = number of quasi-coupon periods that fit in odd period. If this
-	 * 	number contains a fraction, raise it to the next whole number. 
-	 * Ai = number of accrued days for the ith quasi-coupon period within odd period. 
-	 * NLi = normal length in days of the ith quasi-coupon period within odd period. 
+	 * 	number contains a fraction, raise it to the next whole number.
+	 * Ai = number of accrued days for the ith quasi-coupon period within odd period.
+	 * NLi = normal length in days of the ith quasi-coupon period within odd period.
 	 *
 	 * XL == par * (rate/freq) * Sum (1..NC of Ai / NLi
 	 */
@@ -2726,9 +2726,9 @@ gnumeric_yield (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					 &udata.conv);
 
 	        gnm_float coeff = udata.conv.freq * e / d;
-		gnm_float num = (udata.redemption / 100.0  + 
+		gnm_float num = (udata.redemption / 100.0  +
 				  udata.rate / udata.conv.freq)
-		        - (udata.par / 100.0  +  (a / e  * 
+		        - (udata.par / 100.0  +  (a / e  *
 						  udata.rate / udata.conv.freq));
 		gnm_float den = udata.par / 100.0  +  (a / e  *  udata.rate /
 							udata.conv.freq);

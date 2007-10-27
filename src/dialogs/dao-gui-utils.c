@@ -55,7 +55,7 @@ char const * const output_group[] = {
  *
  **/
 
-void 
+void
 dialog_tool_preset_to_range (GenericToolState *state)
 {
 	GnmRange const *sel;
@@ -119,10 +119,10 @@ data_analysis_output_t *
 parse_output (GenericToolState *state, data_analysis_output_t *dao)
 {
 	data_analysis_output_t *this_dao = dao;
-	
+
 	gnm_dao_get_data (GNM_DAO (state->gdao), &this_dao);
 	if (this_dao->type == InPlaceOutput) {
-		GnmValue *output_range 
+		GnmValue *output_range
 			= gnm_expr_entry_parse_as_value (
 				state->input_entry, state->sheet);
 		dao_load_from_value (this_dao, output_range);

@@ -346,7 +346,7 @@ dialog_tool_init (GenericToolState *state,
 					G_CALLBACK (sensitivity_cb), state);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_WIDGET (state->input_entry));
-		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget),
 					       GTK_WIDGET (state->input_entry));
 		go_atk_setup_label (widget, GTK_WIDGET (state->input_entry));
 		gtk_widget_show (GTK_WIDGET (state->input_entry));
@@ -381,7 +381,7 @@ dialog_tool_init (GenericToolState *state,
 					G_CALLBACK (sensitivity_cb), state);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_WIDGET (state->input_entry_2));
-		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget),
 					       GTK_WIDGET (state->input_entry_2));
 		go_atk_setup_label (widget, GTK_WIDGET (state->input_entry_2));
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
@@ -455,7 +455,7 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
  * Covariance
  * RankPercentile
  * FourierAnalysis
- * 
+ *
  **/
 static void
 tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
@@ -482,7 +482,7 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
 		return;
 	}
-	
+
 	gtk_label_set_text (GTK_LABEL (state->warning), "");
 	gtk_widget_set_sensitive (state->ok_button, TRUE);
 
@@ -587,7 +587,7 @@ dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	state = g_new0 (GenericToolState, 1);
 
-	if (dialog_tool_init (state, wbcg, sheet, 
+	if (dialog_tool_init (state, wbcg, sheet,
 			      GNUMERIC_HELP_LINK_CORRELATION,
 			      "correlation.glade", "Correlation",
 			      _("Could not create the Correlation Tool dialog."),
@@ -951,7 +951,7 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		GTK_TOGGLE_BUTTON (state->ss_button));
 
 	if (data->confidence_level == 1)
-		data->c_level = gtk_spin_button_get_value 
+		data->c_level = gtk_spin_button_get_value
 			(GTK_SPIN_BUTTON (state->c_entry));
 
 	if (data->kth_largest == 1)
@@ -986,19 +986,19 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 	/* Part 1: set the buttons on the statistics page. */
 
-	stats_button = gtk_toggle_button_get_active 
+	stats_button = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->summary_stats_button));
 	gtk_widget_set_sensitive (state->ss_button, stats_button);
 
-	ci_button = gtk_toggle_button_get_active 
+	ci_button = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->mean_stats_button));
 	gtk_widget_set_sensitive (state->c_entry, ci_button);
 
-	largest_button = gtk_toggle_button_get_active 
+	largest_button = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->kth_largest_button));
 	gtk_widget_set_sensitive (state->l_entry, largest_button);
 
-	smallest_button = gtk_toggle_button_get_active 
+	smallest_button = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->kth_smallest_button));
 	gtk_widget_set_sensitive (state->s_entry, smallest_button);
 
@@ -1021,11 +1021,11 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("No statistics are selected."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;		
-	} 
+		return;
+	}
 
 	if (ci_button) {
-		gdouble c_level = gtk_spin_button_get_value 
+		gdouble c_level = gtk_spin_button_get_value
 			(GTK_SPIN_BUTTON (state->c_entry));
 		if (!(c_level > 0 && c_level <1)) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -1057,7 +1057,7 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		return;
 		}
 	}
-	
+
 	/* Checking Output Page */
 	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -1708,9 +1708,9 @@ sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
         periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
-	err_size = entry_to_int 
-		(GTK_ENTRY ((periodic == 1) ? state->period_entry 
-			    : state->random_entry), 
+	err_size = entry_to_int
+		(GTK_ENTRY ((periodic == 1) ? state->period_entry
+			    : state->random_entry),
 		 &size, FALSE);
 
 	err_number = entry_to_int (GTK_ENTRY (state->number_entry), &number, FALSE);
@@ -1959,8 +1959,8 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 		switch ( data->base.err) {
 		case analysis_tools_reported_err_input:
-			gnm_expr_entry_grab_focus 
-				(GNM_EXPR_ENTRY (state->base.input_entry), 
+			gnm_expr_entry_grab_focus
+				(GNM_EXPR_ENTRY (state->base.input_entry),
 				 TRUE);
 			break;
 		case analysis_tools_reported_err:
@@ -2575,8 +2575,8 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect (G_OBJECT (state->max_entry),
 		"focus-in-event",
 		G_CALLBACK (histogram_tool_set_calculated), state);
-	g_signal_connect (G_OBJECT 
-			  (gnm_expr_entry_get_entry ( 
+	g_signal_connect (G_OBJECT
+			  (gnm_expr_entry_get_entry (
 				  GNM_EXPR_ENTRY (state->base.input_entry_2))),
 		"focus-in-event",
 		G_CALLBACK (histogram_tool_set_predetermined), state);
@@ -2626,7 +2626,7 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	data->alpha = gtk_spin_button_get_value 
+	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
@@ -2664,7 +2664,7 @@ anova_single_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		range_list_destroy (input_range);
 
 	/* Checking Alpha*/
-	alpha = gtk_spin_button_get_value 
+	alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 	if (!(alpha > 0 && alpha < 1)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -2784,7 +2784,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	data->alpha = gtk_spin_button_get_value 
+	data->alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 	err = entry_to_int (GTK_ENTRY (state->replication_entry),
 			    &data->replication, TRUE);
@@ -2878,7 +2878,7 @@ anova_two_factor_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		value_release (input_range);
 
 	/* Checking Alpha*/
-	alpha = gtk_spin_button_get_value 
+	alpha = gtk_spin_button_get_value
 		(GTK_SPIN_BUTTON (state->alpha_entry));
 	if (!(alpha > 0 && alpha < 1)) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),

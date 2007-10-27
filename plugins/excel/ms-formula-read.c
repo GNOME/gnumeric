@@ -383,7 +383,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 307 */ { "CORREL",		 2,  2, XL_STD,  2, 'V', "AA" },
 /* 308 */ { "COVAR",		 2,  2, XL_STD,  2, 'V', "AA" },
 /* 309 */ { "FORECAST",		 3,  3, XL_STD,  3, 'V', "VAA" },
-                                      
+
 /* 310 */ { "FTEST",		 2,  2, XL_STD,  2, 'V', "AA" },
 /* 311 */ { "INTERCEPT",	 2,  2, XL_STD,  2, 'V', "AA" },
 /* 312 */ { "PEARSON",		 2,  2, XL_STD,  2, 'V', "AA" },
@@ -394,7 +394,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 317 */ { "PROB",		 3,  4, XL_STD, 3, 'V', "AAV" },	/* upper_limit is optional */
 /* 318 */ { "DEVSQ",		 1, 30, XL_STD, 1, 'V', "R" },
 /* 319 */ { "GEOMEAN",		 1, 30, XL_STD, 1, 'V', "R" },
-                                      
+
 /* 320 */ { "HARMEAN",		 1, 30, XL_STD, 1, 'V', "R" },
 /* 321 */ { "SUMSQ",		 0, 30, XL_STD, 1, 'V', "R" },
 /* 322 */ { "KURT",		 1, 30, XL_STD, 1, 'V', "R" },
@@ -1631,7 +1631,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 		default:
 			/* What the heck ??
-			 * In some workbooks (hebrew.xls) expressions in EXTERNNAMEs 
+			 * In some workbooks (hebrew.xls) expressions in EXTERNNAMEs
 			 * seem to have a an extra 2 zero bytes at the end
 			 **/
 			if (len_left > 2) {

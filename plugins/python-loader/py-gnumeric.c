@@ -434,8 +434,8 @@ call_python_function (PyObject *python_fn, GnmEvalPos const *eval_pos, gint n_ar
 	python_args = PyTuple_New (n_args);
 	g_return_val_if_fail (python_args != NULL, NULL);
 	for (i = 0; i < n_args; i++) {
-		(void) PyTuple_SetItem (python_args, i, 
-					gnm_value_to_py_obj (eval_pos, 
+		(void) PyTuple_SetItem (python_args, i,
+					gnm_value_to_py_obj (eval_pos,
 							     args[i]));
 	}
 	if (get_eval_pos () != NULL) {
@@ -581,7 +581,7 @@ py_CellPos_object_dealloc (py_CellPos_object *self)
 static PyObject *
 py_CellPos_object_str (py_CellPos_object *self)
 {
-	return PyString_FromString 
+	return PyString_FromString
 		((char *) cellpos_as_string (&self->cell_pos));
 }
 
@@ -744,7 +744,7 @@ static PyTypeObject py_Range_object_type = {
  */
 
 /*
- * FIXME: The sheet and cells the GnmCellRef refer to may be deleted 
+ * FIXME: The sheet and cells the GnmCellRef refer to may be deleted
  * behind our backs.
  */
 
@@ -781,13 +781,13 @@ py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
 			result = Py_None;
 		}
 	} else if (strcmp (name, "col_relative") == 0) {
-		result = Py_BuildValue ((char *) "i", 
+		result = Py_BuildValue ((char *) "i",
 				      self->cell_ref.col_relative ? 1 : 0);
 	} else if (strcmp (name, "row_relative") == 0) {
-		result = Py_BuildValue ((char *) "i", 
+		result = Py_BuildValue ((char *) "i",
 				      self->cell_ref.row_relative ? 1 : 0);
 	} else {
-		result = Py_FindMethod (py_CellRef_object_methods, 
+		result = Py_FindMethod (py_CellRef_object_methods,
 				      (PyObject *) self, name);
 	}
 
@@ -844,7 +844,7 @@ static PyTypeObject py_CellRef_object_type = {
  */
 
 /*
- * FIXME: The sheet and cells the GnmRangeRef refer to may be deleted 
+ * FIXME: The sheet and cells the GnmRangeRef refer to may be deleted
  * behind our backs.
  */
 
@@ -857,7 +857,7 @@ static PyObject *
 py_RangeRef_get_tuple_method (py_RangeRef_object *self, PyObject *args);
 
 static struct PyMethodDef py_RangeRef_object_methods[] = {
-	{(char *) "get_tuple", (PyCFunction) py_RangeRef_get_tuple_method,   
+	{(char *) "get_tuple", (PyCFunction) py_RangeRef_get_tuple_method,
 	 METH_VARARGS},
 	{NULL, NULL}
 };
@@ -875,7 +875,7 @@ py_RangeRef_get_tuple_method (py_RangeRef_object *self, PyObject *args)
 		return NULL;
 	}
 
-	return Py_BuildValue ((char *) "(O&O&)", 
+	return Py_BuildValue ((char *) "(O&O&)",
 			      py_new_CellRef_object, &self->range_ref.a,
 			      py_new_CellRef_object, &self->range_ref.b);
 }
@@ -1731,7 +1731,7 @@ py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 
 	if (workbook_sheet_count (self->wb) == 0)
 		(void)workbook_sheet_add (self->wb, -1);
-	
+
 	wbcg = wbc_gtk_new (NULL, self->wb, NULL, NULL);
 	result = py_new_Gui_object (wbcg);
 	g_object_unref (wbcg);    /* py_new_Gui_object added a reference */
@@ -1819,7 +1819,7 @@ py_Gui_get_workbook (py_Gui_object *self, PyObject *args)
 	if (!PyArg_ParseTuple (args, (char *) ":get_workbook")) {
 		return NULL;
 	}
-	
+
 	workbook = wb_control_get_workbook (WORKBOOK_CONTROL (self->wbcg));
 
 	return py_new_Workbook_object (workbook);
@@ -1833,11 +1833,11 @@ py_Gui_get_window (py_Gui_object *self, PyObject *args)
 	if (!PyArg_ParseTuple (args, (char *) ":get_window")) {
 		return NULL;
 	}
-	
+
 	g_return_val_if_fail (_PyGObject_API != NULL, NULL);
 
 	toplevel = wbcg_toplevel (self->wbcg);
-	
+
 	return pygobject_new (G_OBJECT(toplevel));
 }
 
@@ -2368,6 +2368,6 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 		py_pinfo = Py_None;
 		Py_INCREF (Py_None);
 	}
-	(void) PyDict_SetItemString (module_dict, 
+	(void) PyDict_SetItemString (module_dict,
 				     (char *) "plugin_info", py_pinfo);
 }

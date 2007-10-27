@@ -1,13 +1,13 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * fn-tsa plugin
  * functions.c
  *
  * Copyright (C) 2006 Laurency Franck
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -91,7 +91,7 @@ enum {
 
 /**************************************************************************/
 /**************************************************************************/
-/*           CALCULATION FUNCTIONS FOR TOOLS                                */ 
+/*           CALCULATION FUNCTIONS FOR TOOLS                                */
 /**************************************************************************/
 /**************************************************************************/
 
@@ -100,7 +100,7 @@ enum {
 static gnm_float*
 linear_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		      const gnm_float *targets, int nb_targets)
-{       
+{
 	int i, j, k, jmax = nb_knots - 1;
 	gnm_float slope, *res;
 	if (nb_knots < 2)
@@ -154,7 +154,7 @@ linear_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 static gnm_float*
 linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		      const gnm_float *targets, int nb_targets)
-{ 
+{
 	int i, j, k, jmax = nb_knots - 1;
 	gnm_float slope, *res, x0, x1;
 	if (nb_knots < 2 || !go_range_increasing (targets, nb_targets))
@@ -200,7 +200,7 @@ linear_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 static gnm_float*
 staircase_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		      const gnm_float *targets, int nb_targets)
-{       
+{
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
 	res = g_new (double, nb_targets);
@@ -240,7 +240,7 @@ staircase_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_kno
 static gnm_float*
 staircase_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		      const gnm_float *targets, int nb_targets)
-{      
+{
 	int i, j, jmax = nb_knots - 1;
 	gnm_float *res;
 	if (!go_range_increasing (targets, nb_targets))
@@ -270,7 +270,7 @@ staircase_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 static gnm_float*
 spline_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		      const gnm_float *targets, int nb_targets)
-{       
+{
 	gnm_float *res;
 	int i;
 	struct GnmCSpline *sp = gnm_cspline_init (absc, ord, nb_knots,
@@ -291,7 +291,7 @@ spline_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 static gnm_float*
 spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		      const gnm_float *targets, int nb_targets)
-{       
+{
 	gnm_float *res;
 	int i, imax;
 	struct GnmCSpline *sp;
@@ -344,7 +344,7 @@ static GnmFuncHelp const help_interpolation[] = {
 	   "averaging the interpolation over the interval between two consecutive data;\n"
 	   "in that case, the targets values must be given in increasing order.")
 	},
-	{ GNM_FUNC_HELP_END } 
+	{ GNM_FUNC_HELP_END }
 };
 
 typedef struct {
@@ -429,10 +429,10 @@ _collect_floats (int argc, GnmExprConstPtr const *argv,
 
 static GnmValue *
 gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
-{      
+{
 	gnm_float *vals0, *vals1, *vals2, *fres;
 	int n0, n1, n2, nb;
-	int interp; 
+	int interp;
 	GnmValue *error = NULL;
 	GnmValue *res;
 	GnmValue **values;
@@ -458,7 +458,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	flags = COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
-	
+
 	vals0 = collect_floats_value_with_info (argv[0], ei->pos, flags,
 						&n0, &missing0, &error);
 
@@ -570,7 +570,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		i = 0;
 
 		res->v_array.vals[0] = g_new (GnmValue *, nb);
-		
+
 		fres = interpproc (vals0, vals1, n0, vals2, n2);
 		if (fres) {
 			i = 0;
@@ -638,9 +638,9 @@ static GnmFuncHelp const help_periodogram[] = {
 
 static GnmValue *
 gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
-{      
+{
 	gnm_float *ord, *absc;
-	int filter, interp; 
+	int filter, interp;
 	int n0, n1, nb;
 	GnmValue *error = NULL;
 	GnmValue *res;
@@ -832,7 +832,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		while (nb < n0)
 			nb *= 2;
 	}
-	
+
 	/* Now apply the filter if any */
 	if (filter != FILTER_NONE) {
 		gnm_float factor;

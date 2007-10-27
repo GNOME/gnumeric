@@ -134,7 +134,7 @@ gplp_func_desc_load (GOPluginService *service,
         PUTBACK;
         call_argv (desc_perl_func, G_EVAL | G_ARRAY | G_NOARGS, args);
         SPAGAIN;
-                               
+
 	if (SvTRUE(ERRSV)) { /* Error handling */
 		STRLEN n_a;
 		g_print ( _("Perl error: %s\n"), SvPV (ERRSV, n_a));

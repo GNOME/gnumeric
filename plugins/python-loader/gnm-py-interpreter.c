@@ -101,7 +101,7 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	interpreter->plugin = plugin;
 
 	PySys_SetArgv (G_N_ELEMENTS (plugin_argv) - 1, plugin_argv);
-	py_initgnumeric (interpreter); 
+	py_initgnumeric (interpreter);
 
 	return interpreter;
 }
@@ -131,7 +131,7 @@ gnm_py_interpreter_switch_to (GnmPyInterpreter *interpreter)
 	}
 }
 
-static void 
+static void
 run_print_string (const char *cmd, PyObject *stdout_obj)
 {
 	PyObject *m, *d, *v;
@@ -181,7 +181,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		g_return_if_fail (stringio_module != NULL);
 		stringio_module_dict = PyModule_GetDict (stringio_module);
 		g_return_if_fail (stringio_module_dict != NULL);
-		interpreter->stringio_class 
+		interpreter->stringio_class
 			= PyDict_GetItemString (stringio_module_dict,
 						(char *) "StringIO");
 		g_return_if_fail (interpreter->stringio_class != NULL);
@@ -193,11 +193,11 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		if (stdout_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stdout_obj != NULL);
-		saved_stdout_obj = PyDict_GetItemString (sys_module_dict, 
+		saved_stdout_obj = PyDict_GetItemString (sys_module_dict,
 							 (char *) "stdout");
 		g_return_if_fail (saved_stdout_obj != NULL);
 		Py_INCREF (saved_stdout_obj);
-		PyDict_SetItemString (sys_module_dict, (char *) "stdout", 
+		PyDict_SetItemString (sys_module_dict, (char *) "stdout",
 				      stdout_obj);
 	}
 	if (opt_stderr != NULL) {
@@ -206,19 +206,19 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		if (stderr_obj == NULL)
 			PyErr_Print ();
 		g_return_if_fail (stderr_obj != NULL);
-		saved_stderr_obj = PyDict_GetItemString (sys_module_dict, 
+		saved_stderr_obj = PyDict_GetItemString (sys_module_dict,
 							 (char *) "stderr");
 		g_return_if_fail (saved_stderr_obj != NULL);
 		Py_INCREF (saved_stderr_obj);
-		PyDict_SetItemString (sys_module_dict, (char *) "stderr", 
+		PyDict_SetItemString (sys_module_dict, (char *) "stderr",
 				      stderr_obj);
 	}
 	run_print_string (cmd, stdout_obj);
 	if (opt_stdout != NULL) {
-		PyDict_SetItemString (sys_module_dict, (char *) "stdout", 
+		PyDict_SetItemString (sys_module_dict, (char *) "stdout",
 				      saved_stdout_obj);
 		Py_DECREF (saved_stdout_obj);
-		py_str = PyObject_CallMethod (stdout_obj, (char *) "getvalue", 
+		py_str = PyObject_CallMethod (stdout_obj, (char *) "getvalue",
 					      NULL);
 		if (py_str && PyString_Check (py_str))
 			*opt_stdout = g_strdup (PyString_AsString (py_str));
@@ -232,7 +232,7 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 		PyDict_SetItemString (sys_module_dict, (char *) "stderr",
 				      saved_stderr_obj);
 		Py_DECREF (saved_stderr_obj);
-		py_str = PyObject_CallMethod (stderr_obj, (char *) "getvalue", 
+		py_str = PyObject_CallMethod (stderr_obj, (char *) "getvalue",
 					      NULL);
 		if (py_str && PyString_Check (py_str))
 			*opt_stderr = g_strdup (PyString_AsString (py_str));

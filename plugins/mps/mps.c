@@ -340,7 +340,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		          continue;
 		  col = CONSTRAINT_COL;
 		  r   = CONSTRAINT_ROW  +  i * n_rows_per_fn  +  inc2;
-		  
+
 		  /* Add row name. */
 		  mps_set_cell (sh, col - 1, r, row->name);
 

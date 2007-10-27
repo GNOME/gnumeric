@@ -544,7 +544,7 @@ static void
 oo_colrow_reset_defaults (OOParseState *state, gboolean is_cols)
 {
 	FindDefaultColRowStyle data = { NULL, is_cols} ;
-	g_hash_table_foreach (state->styles.col_row, 
+	g_hash_table_foreach (state->styles.col_row,
 		(GHFunc)cb_find_default_colrow_style, &data);
 	if (NULL != data.cri) {
 		if (data.cri->size_pts > 0.) {
@@ -2235,7 +2235,7 @@ od_chart (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (!chart_type) {
 		g_warning ("Missing chart type.");
-		chart_type = "area";		
+		chart_type = "area";
 	}
 
 	if (!strcmp (chart_type, "area"))
@@ -2698,7 +2698,7 @@ odf_func_map_in (GnmConventions const *convs, Workbook *scope,
 #warning "TODO : OO adds a 'mode' parm to floor/ceiling"
 #warning "TODO : OO missing 'A1' parm for address"
 	if (NULL == namemap) {
-		namemap = g_hash_table_new (go_ascii_strcase_hash, 
+		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
 		for (i = 0; sc_func_renames[i].odf_name; i++)
 			g_hash_table_insert (namemap,
@@ -2711,7 +2711,7 @@ odf_func_map_in (GnmConventions const *convs, Workbook *scope,
 		    NULL != (new_name = g_hash_table_lookup (namemap, name)))
 			name = new_name;
 		f = gnm_func_lookup (name, scope);
-	} else 
+	} else
 		f = gnm_func_lookup (name+sizeof (OOoAnalysisPrefix)-1, scope);
 
 	if (NULL == f)

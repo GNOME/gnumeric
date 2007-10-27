@@ -109,8 +109,8 @@ gnm_python_class_init (GObjectClass *gobject_class)
 /* ---------- */
 
 
-/* Initialize _PyGObject_API. To get the gtk2 version of gobject, we first 
- * have to do the C equivalent of  
+/* Initialize _PyGObject_API. To get the gtk2 version of gobject, we first
+ * have to do the C equivalent of
  * 	import pygtk
  * 	pygtk.require('2.0')
  *      import gobject
@@ -119,13 +119,13 @@ static void
 gnm_init_pygobject (ErrorInfo **err)
 {
 	PyObject *pygtk, *mdict, *require, *ret, *gobject, *cobject;
-	
+
 	GO_INIT_RET_ERROR_INFO (err);
 	_PyGObject_API = NULL;
 	pygtk = PyImport_ImportModule((char *) "pygtk");
 	if (pygtk == NULL) {
 		if (err != NULL)
-			*err = error_info_new_printf (_("Could not import %s."), 
+			*err = error_info_new_printf (_("Could not import %s."),
 						      "pygtk");
 		return;
 	}
@@ -136,8 +136,8 @@ gnm_init_pygobject (ErrorInfo **err)
 					      "pygtk.require");
 		return;
 	} else {
-		ret = PyObject_CallFunction 
-			(require, (char *) "O", 
+		ret = PyObject_CallFunction
+			(require, (char *) "O",
 			 PyString_FromString ((char *) "2.0"));
 		if (!ret) {
 			*err = error_info_new_printf (_("Could not initialize Python bindings for Gtk+, etc: %s"),
@@ -147,7 +147,7 @@ gnm_init_pygobject (ErrorInfo **err)
 	}
 	gobject = PyImport_ImportModule((char *) "gobject");
 	if (gobject == NULL) {
-		*err = error_info_new_printf (_("Could not import %s."), 
+		*err = error_info_new_printf (_("Could not import %s."),
 					      "gobject");
 		return;
 	}

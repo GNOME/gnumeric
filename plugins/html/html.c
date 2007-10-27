@@ -434,7 +434,7 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, GnmRange *range, html_vers
  * set up a table and call write_row for each row
  */
 static void
-write_sheet (GsfOutput *output, Sheet *sheet, 
+write_sheet (GsfOutput *output, Sheet *sheet,
 	     html_version_t version, FileSaveScope save_scope)
 {
 	GnmRange total_range;

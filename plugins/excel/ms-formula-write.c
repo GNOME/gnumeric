@@ -123,7 +123,7 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		if (i >= excel_func_desc_size) {
 			ef->efunc = NULL;
 			if (func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL) {
-				ef->macro_name = g_strdup (func->name); 
+				ef->macro_name = g_strdup (func->name);
 				ef->idx = -1;
 			} else {
 				g_ptr_array_add (ewb->externnames, func);
@@ -444,7 +444,7 @@ excel_formula_write_AREA (PolishData *pd, GnmCellRef const *a, GnmCellRef const 
 			ms_biff_put_var_write (pd->ewb->bp, data, 8);
 		}
 		return;
-	} 
+	}
 
 	g_return_if_fail (a->sheet != NULL);
 
@@ -531,7 +531,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 
 	for (arg = 0; arg < expr->func.argc; arg++)
 		if (ef->efunc != NULL && arg >= ef->efunc->max_args) {
-			gnm_io_warning (pd->ewb->io_context, 
+			gnm_io_warning (pd->ewb->io_context,
 				_("Too many arguments for function '%s', MS Excel can only handle %d not %d"),
 				ef->efunc->name, ef->efunc->max_args, arg);
 			break;
@@ -545,7 +545,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 		}
 
 	if (ef->efunc != NULL) {
-		guint8 op_class = xl_get_op_class (pd, 
+		guint8 op_class = xl_get_op_class (pd,
 			xl_map_char_to_type (ef->efunc->type), target_type);
 
 #if FORMULA_DEBUG > 1

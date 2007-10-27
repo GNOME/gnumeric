@@ -712,7 +712,7 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 			else if (!strcmp (attrs[1], "Short Time"))
 				fmt = go_format_default_time ();
 
-			if (NULL != fmt) 
+			if (NULL != fmt)
 				go_format_ref (fmt);
 			else if (!strcmp (attrs[1], "Fixed"))
 				fmt = go_format_new_from_XL ("0.00");

@@ -134,7 +134,7 @@ csheet_class_init (GObjectClass *gobject_class)
 	cs_class->epv._set_index = csheet_set_index;
 }
 
-BONOBO_TYPE_FUNC_FULL (CorbaSheet, 
+BONOBO_TYPE_FUNC_FULL (CorbaSheet,
 		       GNOME_Gnumeric_Sheet,
 		       BONOBO_OBJECT_TYPE,
 		       csheet);

@@ -370,7 +370,7 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 		cell_queue_recalc (cell);
 	}
 
-	if (texpr) gnm_expr_top_unref (texpr); 
+	if (texpr) gnm_expr_top_unref (texpr);
 	return TRUE;
 }
 
@@ -486,7 +486,7 @@ sc_func_map_in (GnmConventions const *conv, Workbook *scope,
 	int i;
 
 	if (NULL == namemap) {
-		namemap = g_hash_table_new (go_ascii_strcase_hash, 
+		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
 		for (i = 0; sc_func_renames[i].sc_name; i++)
 			g_hash_table_insert (namemap,
@@ -533,7 +533,7 @@ sc_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	/* This should probably come from import dialog.  */
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
-	
+
 	state.convs = sc_conventions ();
 	state.textline = (GsfInputTextline *) gsf_input_textline_new (input);
 	error = sc_parse_sheet (&state);

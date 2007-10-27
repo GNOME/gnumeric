@@ -63,7 +63,7 @@ typedef struct {
 } GnmHtmlTableCtxt;
 
 static Sheet *
-html_get_sheet (char const *name, Workbook *wb) 
+html_get_sheet (char const *name, Workbook *wb)
 {
 	Sheet *sheet = NULL;
 
@@ -82,13 +82,13 @@ static void
 html_append_text (GString *buf, const xmlChar *text)
 {
 	const xmlChar *p;
-	
+
 	while (*text) {
 		while (g_unichar_isspace (g_utf8_get_char (text)))
 			text = g_utf8_next_char (text);
 		if (*text) {
-			for (p = text; 
-			     *p && !g_unichar_isspace (g_utf8_get_char (p)); 
+			for (p = text;
+			     *p && !g_unichar_isspace (g_utf8_get_char (p));
 			     p =  g_utf8_next_char (p))
 				;
 			if (buf->len > 0)
@@ -101,7 +101,7 @@ html_append_text (GString *buf, const xmlChar *text)
 
 static void
 html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
-		   xmlBufferPtr a_buf, GSList **hrefs, gboolean first, 
+		   xmlBufferPtr a_buf, GSList **hrefs, gboolean first,
 		   htmlDocPtr doc)
 {
 	htmlNodePtr ptr;
@@ -197,30 +197,30 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			if (xmlStrEqual (ptr->name, CC2XML ("th")))
 				gnm_style_set_font_bold (mstyle, TRUE);
 
-			html_read_content (ptr, buf, mstyle, a_buf, 
+			html_read_content (ptr, buf, mstyle, a_buf,
 					   &hrefs, TRUE, doc);
 
-	
+
 			if (g_slist_length (hrefs) >= 1 &&
 			    buf->len > 0) {
-				/* One hyperlink, and text to make it 
+				/* One hyperlink, and text to make it
 				 * visible */
 				char *url;
 				xmlBufferPtr h_buf = xmlBufferCreate ();
-				
+
 				hrefs = g_slist_reverse (hrefs);
 				htmlNodeDump (
 					h_buf, doc, (htmlNodePtr)hrefs->data);
 				url = g_strndup (
 					CXML2C (h_buf->content), h_buf->use);
-				if (strncmp (url, "mailto:", 
+				if (strncmp (url, "mailto:",
 					     strlen ("mailto:")) == 0)
 					link = g_object_new (
 						gnm_hlink_email_get_type (),
 						NULL);
 				else
 					link = g_object_new (
-						gnm_hlink_url_get_type (), 
+						gnm_hlink_url_get_type (),
 						NULL);
 				gnm_hlink_set_target (link, url);
 				gnm_style_set_hlink (mstyle, link);
@@ -232,15 +232,15 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				xmlBufferFree (h_buf);
 			}
 			if (g_slist_length (hrefs) > 1 || buf->len <= 0) {
-				/* Multiple links, 
+				/* Multiple links,
 				 * or no text to give hyperlink style,
 				 * so put them in a comment */
 				GSList *l;
 
 				for (l = hrefs; l != NULL; l = l->next) {
-					htmlNodeDump (a_buf, doc, 
+					htmlNodeDump (a_buf, doc,
 						      (htmlNodePtr)l->data);
-					xmlBufferAdd (a_buf, CC2XML ("\n"), 
+					xmlBufferAdd (a_buf, CC2XML ("\n"),
 						      -1);
 				}
 			}
@@ -254,7 +254,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 
 			if (a_buf->use > 0) {
 				char *name;
-				
+
 				name = g_strndup (CXML2C (a_buf->content), a_buf->use);
 				cell_set_comment (tc->sheet, &pos, NULL, name);
 				g_free (name);
@@ -295,7 +295,7 @@ html_read_rows (htmlNodePtr cur, htmlDocPtr doc, Workbook *wb,
 }
 
 static void
-html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view, 
+html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 		 GnmHtmlTableCtxt *tc)
 {
 	Workbook *wb;
@@ -358,7 +358,7 @@ static char const *cont_elt_types[] = {
 	NULL
 };
 
-static gboolean 
+static gboolean
 is_elt_type (htmlNodePtr ptr, char const ** types)
 {
 	char const **p;
@@ -405,7 +405,7 @@ ends_inferred_row (htmlNodePtr ptr)
 
 /*
  * Handles incomplete html fragments as may occur on the clipboard,
- * e.g. a <td> without <tr> and <table> in front of it.  
+ * e.g. a <td> without <tr> and <table> in front of it.
  */
 static void
 html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
@@ -418,15 +418,15 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 				"htmlNodeDumpFormatOutput : node == NULL\n");
 		return;
 	}
-	
+
 	if (cur->type != XML_ELEMENT_NODE)
 		return;
-	
+
 	if (xmlStrEqual (cur->name, CC2XML ("table"))) {
 		html_read_table (cur, doc, wb_view, tc);
 	} else if (starts_inferred_table (cur) || starts_inferred_row (cur)) {
 		htmlNodePtr tnode = xmlNewNode (NULL, "table");
-	
+
 		/* Link in a table node */
 		xmlAddPrevSibling (cur, tnode);
 		if (starts_inferred_row (cur)) {
@@ -455,8 +455,8 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 	} else {
 		for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 			html_search_for_tables (ptr, doc, wb_view, tc);
-			/* ptr may now have been pushed down in the tree, 
-			 * if so, ptr->next is not the right pointer to 
+			/* ptr may now have been pushed down in the tree,
+			 * if so, ptr->next is not the right pointer to
 			 * follow */
 			while (ptr->parent != cur)
 				ptr = ptr->parent;
@@ -509,9 +509,9 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 				break;
 			case XML_CHAR_ENCODING_NONE:
 				bomlen = 0;
-				/* Try to detect unmarked UTF16LE 
+				/* Try to detect unmarked UTF16LE
 				   (Firefox drag data) */
-				if (buf[0] >= 0x20 && buf[1] == 0 && 
+				if (buf[0] >= 0x20 && buf[1] == 0 &&
 				    buf[2] >= 0x20 && buf[3] == 0)
 					enc =  XML_CHAR_ENCODING_UTF16LE;
 				break;
@@ -521,7 +521,7 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 			ctxt = htmlCreatePushParserCtxt (
 				NULL, NULL, (char const *)(buf + bomlen),
 				4 - bomlen, gsf_input_name (input), enc);
-			
+
 			for (; size > 0 ; size -= len) {
 				len = MIN (4096, size);
 				buf = gsf_input_read (input, len, NULL);
@@ -550,7 +550,7 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 }
 
 /* Quick and dirty html probe. */
-gboolean 
+gboolean
 html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	gsf_off_t size = 200;
@@ -559,7 +559,7 @@ html_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	gboolean res = FALSE;
 	int try;
 
-	/* Avoid seeking in large streams - try to read, fall back if 
+	/* Avoid seeking in large streams - try to read, fall back if
 	 * stream is too short.  (Actually, currently _size does not
 	 * involve any syscalls -- MW).  */
 	if (!buf) {

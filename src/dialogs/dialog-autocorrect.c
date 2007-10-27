@@ -105,9 +105,9 @@ cb_remove_clicked (G_GNUC_UNUSED GtkWidget *widget,
 	gtk_tree_model_get (GTK_TREE_MODEL (s->model), &iter,
 		0, &txt,
 		-1);
-	s->exceptions = g_slist_delete_link 
-		(s->exceptions, 
-		 g_slist_find_custom (s->exceptions, txt, 
+	s->exceptions = g_slist_delete_link
+		(s->exceptions,
+		 g_slist_find_custom (s->exceptions, txt,
 				      (GCompareFunc)strcmp));
 	gtk_list_store_remove (s->model, &iter);
 	g_free (txt);

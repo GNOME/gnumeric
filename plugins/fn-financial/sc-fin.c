@@ -116,7 +116,7 @@ Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
 /***************************************************************************/
 
 GnmValue *
-get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
+get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 	       gnm_float fRestVal, gint nPer, gnm_float fRate,
 	       gint nBase)
 {
@@ -166,7 +166,7 @@ get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 /***************************************************************************/
 
 GnmValue *
-get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
+get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 	      gnm_float fRestVal, gint nPer, gnm_float fRate, gint nBase)
 {
         gnm_float fOneRate          = fCost * fRate;
@@ -287,7 +287,7 @@ get_cumipmt (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
 
 	for ( i = nStart ; i <= nEnd ; i++ ) {
                 if ( nPayType > 0 )
-                        fZinsZ += GetZw ( fRate, ( i - 2 ), fRmz, fVal, 1 ) 
+                        fZinsZ += GetZw ( fRate, ( i - 2 ), fRmz, fVal, 1 )
 				- fRmz;
                 else
                         fZinsZ += GetZw ( fRate, ( i - 1 ), fRmz, fVal, 0 );
@@ -305,14 +305,14 @@ get_cumipmt (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
  *  Original source of the following functions (ScGetGDA, ScInterVDB, and
  *  get_vdb) is the OpenOffice version 1.0, `sc/source/core/tool/interpr2.cxx'.
  *
- *  RCSfile: interpr2.cxx,v 
+ *  RCSfile: interpr2.cxx,v
  *
- *  Revision: 1.11 
+ *  Revision: 1.11
  *
- *  last change: Author: er  Date: 2001/03/15 21:31:13 
+ *  last change: Author: er  Date: 2001/03/15 21:31:13
  *
  */
- 
+
 static gnm_float
 ScGetGDA (gnm_float fWert, gnm_float fRest, gnm_float fDauer,
 	  gnm_float fPeriode, gnm_float fFaktor)

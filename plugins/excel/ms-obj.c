@@ -841,14 +841,14 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	if (obj->excel_type == 8) { /* picture */
 		guint16 op;
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
-			GdkPixbuf *pixbuf; 
+			GdkPixbuf *pixbuf;
 
 			ms_biff_query_next (q);
 			pixbuf = excel_read_IMDATA (q, FALSE);
 			if (pixbuf) {
 			        ms_obj_attr_bag_insert (obj->attrs,
-				        ms_obj_attr_new_gobject 
-						(MS_OBJ_ATTR_IMDATA, 
+				        ms_obj_attr_new_gobject
+						(MS_OBJ_ATTR_IMDATA,
 						 G_OBJECT (pixbuf)));
 				g_object_unref (pixbuf);
 			}
@@ -1172,7 +1172,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		guint16 op;
 
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
-			GdkPixbuf *pixbuf; 
+			GdkPixbuf *pixbuf;
 
 			printf ("Reading trailing IMDATA;\n");
 			ms_biff_query_next (q);

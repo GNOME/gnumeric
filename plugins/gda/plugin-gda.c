@@ -54,7 +54,7 @@ gnm_value_new_from_gda (GValue const *gval,
 	GnmValue *res;
 	GType t;
 
-	if (NULL == gval) 
+	if (NULL == gval)
 		return value_new_empty ();
 
 	g_return_val_if_fail (G_IS_VALUE (gval), value_new_empty ());
@@ -236,7 +236,7 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 	if (!GDA_IS_CLIENT (connection_pool)) {
 		if (!libgda_init_done) {
 			gda_init (NULL, NULL, 0, NULL);
-			libgda_init_done = TRUE;	
+			libgda_init_done = TRUE;
 		}
 		connection_pool = gda_client_new ();
 		if (!connection_pool)
@@ -244,7 +244,7 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 	}
 
 	/* try to find a cnc object if we already have one */
-	if (!cnc_hash) 
+	if (!cnc_hash)
 		cnc_hash = g_hash_table_new_full ((GHashFunc) cnc_key_hash_func,
 						  (GEqualFunc) cnc_key_equal_func,
 						  (GDestroyNotify) cnc_key_free,
@@ -267,16 +267,16 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 			gnome_db_login_dialog_new (_("Database Connection"));
 		GnomeDbLogin *login =
 			gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
-		
+
 		gnome_db_login_set_dsn (login, dsn);
 		gnome_db_login_set_username (login, user);
 		gnome_db_login_set_password (login, password);
-		
+
 		if (gnome_db_login_dialog_run (GNOME_DB_LOGIN_DIALOG (dialog))) {
 			real_dsn = g_strdup (gnome_db_login_get_dsn (login));
 			real_user = g_strdup (gnome_db_login_get_username (login));
 			real_password = g_strdup (gnome_db_login_get_password (login));
-			
+
 			gtk_widget_destroy (dialog);
 		} else {
 			gtk_widget_destroy (dialog);
@@ -287,13 +287,13 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 		real_user = g_strdup (user);
 		real_password = g_strdup (password);
 #endif
-		
+
 		cnc = gda_client_open_connection (connection_pool, real_dsn, real_user, real_password, options, &error);
 		if (!cnc) {
 			g_warning ("Libgda error: %s\n", error->message);
 			g_error_free (error);
 		}
-		
+
 		g_free (real_dsn);
 		g_free (real_user);
 		g_free (real_password);

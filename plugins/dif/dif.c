@@ -86,7 +86,7 @@ static gboolean
 dif_get_line (DifInputContext *ctxt)
 {
 	char *raw;
-	
+
 	if (NULL == (raw = gsf_input_textline_ascii_gets (ctxt->input)))
 		return FALSE;
 
@@ -213,8 +213,8 @@ dif_parse_data (DifInputContext *ctxt)
 			cell = sheet_cell_fetch (ctxt->sheet, col, row);
 			if (ctxt->line_len >= 2 &&
 			    ctxt->line[0] == '"' && ctxt->line[ctxt->line_len - 1] == '"') {
-				ctxt->line[ctxt->line_len - 1] = '\0'; 	 
-				gnm_cell_set_text (cell, ctxt->line + 1); 	 
+				ctxt->line[ctxt->line_len - 1] = '\0';
+				gnm_cell_set_text (cell, ctxt->line + 1);
 			} else
 				gnm_cell_set_text (cell, ctxt->line);
 			col++;

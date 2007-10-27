@@ -159,7 +159,7 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 			fprintf (stderr, "FIELD [%d] '%s' has %d items, %d grouped items, and flags = 0x%hx;\n",
 				s->cur_field, name, s->num_items, child_group, flags);
 			g_free (name);
-			
+
 #if 0
 			d (4, gsf_mem_dump (q->data + 2, MIN (q->length, 0xc)););
 

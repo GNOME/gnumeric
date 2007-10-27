@@ -595,7 +595,7 @@ psiconv_stream_to_buffer (GsfInput *input, int maxlen)
 			}
 		}
 	}
-		
+
 	return buf;
 }
 
@@ -627,7 +627,7 @@ psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 	else
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str(_("This Psion file is not a Sheet file.")));
-		
+
 
 out:
 	if (config)

@@ -1641,7 +1641,7 @@ gnumeric_tdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (dof < 1 || (tails != 1 && tails != 2))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (tails * pt ((tails == 1) ? x : gnm_abs(x), 
+	return value_new_float (tails * pt ((tails == 1) ? x : gnm_abs(x),
 					    dof, FALSE, FALSE));
 }
 
@@ -2245,7 +2245,7 @@ static GnmFuncHelp const help_normdist[] = {
 	   "is FALSE, NORMDIST returns the value of the probability "
 	   "density function at the value @x. If @cumulative is TRUE, "
 	   "NORMDIST returns the value of the cumulative distribution "
-	   "function at @x.\n" 
+	   "function at @x.\n"
            "\n"
            "* If @stddev is 0 NORMDIST returns #DIV/0! error.\n"
 	   "* This function is Excel compatible.\n"
@@ -2669,7 +2669,7 @@ static GnmFuncHelp const help_ssmedian[] = {
 };
 
 static gnm_float
-gnumeric_ssmedian_calc (gnm_float *sorted_data, int len, gnm_float mid_val, 
+gnumeric_ssmedian_calc (gnm_float *sorted_data, int len, gnm_float mid_val,
 			 gnm_float interval)
 {
 	gnm_float L_lower = mid_val - interval / 2;
@@ -2704,7 +2704,7 @@ gnumeric_ssmedian (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				     COLLECT_IGNORE_BLANKS,
 				     &n, &result);
 	if (!result) {
-		gnm_float interval = argv[1] ? 
+		gnm_float interval = argv[1] ?
 			value_get_as_float (argv[1]) : 1.0;
 
 		if (interval <= 0 || n == 0)
@@ -2715,24 +2715,24 @@ gnumeric_ssmedian (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				result = value_new_float (*data);
 				break;
 			case (2):
-				result = value_new_float 
+				result = value_new_float
 					((*data + *(data+1))/2);
 				break;
 			default:
 				qsort (data, n, sizeof (data[0]), (int (*) (void const *, void const *))&float_compare);
 				if ((n%2) == 0) {
 					result = (*(data + n/2) == *(data + n/2 - 1)) ?
-						value_new_float 
-						(gnumeric_ssmedian_calc 
-						 (data, n, *(data + n/2), 
+						value_new_float
+						(gnumeric_ssmedian_calc
+						 (data, n, *(data + n/2),
 						  interval)) :
-						value_new_float 
+						value_new_float
 						((*(data + n/2) + *(data + n/2 - 1))
 						 /2);
 				} else {
-					result = value_new_float 
-						(gnumeric_ssmedian_calc 
-						 (data, n, *(data + n/2), 
+					result = value_new_float
+						(gnumeric_ssmedian_calc
+						 (data, n, *(data + n/2),
 						  interval));
 				}
 			}
@@ -4295,7 +4295,7 @@ static GnmFuncHelp const help_logreg[] = {
 	},
 	{ GNM_FUNC_HELP_END }
 };
-/* The following is a copy of "gnumeric_linest" of Gnumeric version 1.1.9 
+/* The following is a copy of "gnumeric_linest" of Gnumeric version 1.1.9
  * with "linear_regression" replaced by "logarithmic_regression".
  *
  * In Excel, this functionality is not available as a function, but only
@@ -4303,7 +4303,7 @@ static GnmFuncHelp const help_logreg[] = {
  *
  * The function "logarithmic_regression" transforms x's logarithmically
  * before calling "general_linear_regression" written by others.
- * 
+ *
  * I do not know if in statistical praxis logarithmically transformed x-data
  * is useful for *multidimensional* regression, and also if extra statistical
  * data is useful in this case, but since "general_linear_regression" written
@@ -5504,7 +5504,7 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	}
 
 	free_values (values, argc);
-	return  value_new_float 
+	return  value_new_float
 		(argc * (1 - sum_variance / (sum_variance + 2 * sum_covariance)) / (argc - 1));
 }
 
@@ -5738,7 +5738,7 @@ static GnmFuncHelp const help_exppowdist[] = {
 	},
 	{ GNM_FUNC_HELP_END }
 };
-/* Part of help text quoted from the PEXPDF manpage of the DATAPLOT program 
+/* Part of help text quoted from the PEXPDF manpage of the DATAPLOT program
  * by NIST. */
 
 static GnmValue *

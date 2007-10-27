@@ -349,7 +349,7 @@ sylk_rtd_p_parse (SylkReader *state, char *str)
 			break;
 
 		case 'F' : /* some sort of global font name  */
-			break; 
+			break;
 
 		case 'E' : /* font name */
 			if (str[1] != '\0') {
@@ -405,7 +405,7 @@ sylk_rtd_o_parse (SylkReader *state, char *str)
 		case 'C' : /* ;C: Completion test at current cell. */
 			break;
 
-		case 'D' : 
+		case 'D' :
 			break;
 
 		case 'E' : /* ;E: Macro (executable) sheet.  Note that this should appear
@@ -426,7 +426,7 @@ sylk_rtd_o_parse (SylkReader *state, char *str)
 			break;
 		}
 
-		case 'K' : 
+		case 'K' :
 			break;
 
 		case 'L' : /* ;L: Use A1 mode references */

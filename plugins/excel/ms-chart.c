@@ -305,7 +305,7 @@ BC_R(ai)(XLChartHandler const *handle,
 			g_return_val_if_fail (sheet != NULL, FALSE);
 			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
-			s->currentSeries->reg_dims[purpose] = 
+			s->currentSeries->reg_dims[purpose] =
 				gnm_go_data_scalar_new_expr (sheet, texpr);
 		}
 		return FALSE;
@@ -977,7 +977,7 @@ static gboolean
 BC_R(fontx)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-	ExcelFont const *font = excel_font_get (s->container.importer, 
+	ExcelFont const *font = excel_font_get (s->container.importer,
 		GSF_LE_GET_GUINT16 (q->data));
 	GOFont const *gfont = excel_font_get_gofont (font);
 	go_font_ref (gfont);
@@ -1059,7 +1059,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		ms_obj_attr_bag_destroy (attrs);
 		return FALSE;
 	}
-		
+
 	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	s->style->fill.auto_type = FALSE;
 	s->style->fill.auto_fore = FALSE;
@@ -1386,7 +1386,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 		s->style->marker.auto_outline_color = (fore == 31 + s->series->len);
 		s->style->marker.auto_fill_color = (back == 31 + s->series->len);
 	} else
-		s->style->marker.auto_outline_color = 
+		s->style->marker.auto_outline_color =
 			s->style->marker.auto_fill_color = auto_marker;
 
 	gog_style_set_marker (s->style, marker);
@@ -3105,7 +3105,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 			error_bar->width = 0;
 		if (error_bar->style != NULL) /* it should never be NULL */
 			g_object_unref (error_bar->style);
-		error_bar->style = gog_style_dup (series->style);						
+		error_bar->style = gog_style_dup (series->style);
 		switch (series->err_src) {
 		case 1: {
 			/* percentage */
@@ -3401,7 +3401,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 						XL_gog_series_set_dim (series->series, j, data);
 					else if (j == GOG_MS_DIM_VALUES)
 						XL_gog_series_set_dim (series->series, series->extra_dim, data);
-				}			
+				}
 		}
 	}
 	/* Cleanup */
@@ -3909,7 +3909,7 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const
 		chart_write_position (s, GOG_OBJECT (obj), data+8, XL_POS_CENTER, XL_POS_CENTER);
 	if (style != NULL) {
 		color_index = chart_write_color (s, data+4, style->font.color);
-		
+
 	}
 	if (s->bp->version >= MS_BIFF_V8) {
 		GSF_LE_SET_GUINT16 (data+26, color_index);
@@ -4061,10 +4061,10 @@ chart_write_error_bar (XLChartWriteState *s, GogErrorBar *bar, unsigned n,
 			data = ms_biff_put_len_next (s->bp, BIFF_CHART_ai, 8);
 			GSF_LE_SET_GUINT8  (data+0, i);
 			GSF_LE_SET_GUINT8  (data+1, 1);
-		
+
 			GSF_LE_SET_GUINT16 (data+2, 0);
 			GSF_LE_SET_GUINT16 (data+4, 0);
-		
+
 			GSF_LE_SET_GUINT16 (data+6, 0);
 			ms_biff_put_commit (s->bp);
 		}
@@ -4104,7 +4104,7 @@ chart_write_error_bar (XLChartWriteState *s, GogErrorBar *bar, unsigned n,
 	GSF_LE_SET_GUINT8 (data+3, 1);
 	GSF_LE_SET_DOUBLE (data+4, error);
 	GSF_LE_SET_GUINT16 (data+12, length);
-	
+
 	ms_biff_put_commit (s->bp);
 
 	chart_write_END (s);
@@ -4162,10 +4162,10 @@ chart_write_trend_line (XLChartWriteState *s, GogTrendLine *rc, unsigned n, unsi
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_ai, 8);
 		GSF_LE_SET_GUINT8  (data+0, i);
 		GSF_LE_SET_GUINT8  (data+1, 1);
-	
+
 		GSF_LE_SET_GUINT16 (data+2, 0);
 		GSF_LE_SET_GUINT16 (data+4, 0);
-	
+
 		GSF_LE_SET_GUINT16 (data+6, 0);
 		ms_biff_put_commit (s->bp);
 	}
@@ -4521,7 +4521,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		if (in)
 			tmp |= 1;
 		GSF_LE_SET_GUINT8  (data+0, tmp);
-	
+
 		g_object_get (G_OBJECT (axis),
 			"minor-tick-in", 	&in,
 			"minor-tick-out", 	&out,
@@ -4530,7 +4530,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		if (in)
 			tmp |= 1;
 		GSF_LE_SET_GUINT8  (data+1, tmp);
-	
+
 		tmp = labeled ? 3 : 0; /* label : 0 == none
 					* 	  1 == low	(unsupported in gnumeric)
 					* 	  2 == high	(unsupported in gnumeric)
@@ -4979,7 +4979,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				}
 			}
 		}
-		
+
 		chart_write_END (s);
 
 		g_slist_free (axis_set->plots);
