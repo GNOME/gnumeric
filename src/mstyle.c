@@ -907,18 +907,23 @@ gnm_style_set_pattern_color (GnmStyle *style, GnmColor *col)
 GnmColor *
 gnm_style_get_font_color (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_COLOR), NULL);
 	return style->color.font;
 }
+
 GnmColor *
 gnm_style_get_back_color (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_COLOR_BACK), NULL);
 	return style->color.back;
 }
+
 GnmColor *
 gnm_style_get_pattern_color (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_COLOR_PATTERN), NULL);
 	return style->color.pattern;
 }
@@ -949,6 +954,8 @@ gnm_style_set_border (GnmStyle *style, GnmStyleElement elem,
 GnmBorder *
 gnm_style_get_border (GnmStyle const *style, GnmStyleElement elem)
 {
+	g_return_val_if_fail (style != NULL, NULL);
+
 	switch (elem) {
 	case MSTYLE_ANY_BORDER:
 		return style->borders[elem - MSTYLE_BORDER_TOP ];
@@ -974,6 +981,7 @@ gnm_style_set_pattern (GnmStyle *style, int pattern)
 int
 gnm_style_get_pattern (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, 0);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_PATTERN), 0);
 
 	return style->pattern;
@@ -1039,6 +1047,7 @@ gnm_style_set_font_name (GnmStyle *style, char const *name)
 char const *
 gnm_style_get_font_name (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_NAME), NULL);
 
 	return style->font_detail.name->str;
@@ -1059,6 +1068,7 @@ gnm_style_set_font_bold (GnmStyle *style, gboolean bold)
 gboolean
 gnm_style_get_font_bold (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_BOLD), FALSE);
 
 	return style->font_detail.bold;
@@ -1079,6 +1089,7 @@ gnm_style_set_font_italic (GnmStyle *style, gboolean italic)
 gboolean
 gnm_style_get_font_italic (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_ITALIC), FALSE);
 
 	return style->font_detail.italic;
@@ -1097,7 +1108,8 @@ gnm_style_set_font_uline (GnmStyle *style, GnmUnderline const underline)
 GnmUnderline
 gnm_style_get_font_uline (GnmStyle const *style)
 {
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_UNDERLINE), FALSE);
+	g_return_val_if_fail (style != NULL, UNDERLINE_NONE);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_UNDERLINE), UNDERLINE_NONE);
 
 	return style->font_detail.underline;
 }
@@ -1106,6 +1118,7 @@ void
 gnm_style_set_font_strike (GnmStyle *style, gboolean const strikethrough)
 {
 	g_return_if_fail (style != NULL);
+
 	elem_changed (style, MSTYLE_FONT_STRIKETHROUGH);
 	elem_set (style, MSTYLE_FONT_STRIKETHROUGH);
 	style->font_detail.strikethrough = strikethrough;
@@ -1133,6 +1146,7 @@ gnm_style_set_font_script (GnmStyle *style, GOFontScript script)
 GOFontScript
 gnm_style_get_font_script (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, GO_FONT_SCRIPT_STANDARD);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_SCRIPT), GO_FONT_SCRIPT_STANDARD);
 
 	return style->font_detail.script;
@@ -1153,6 +1167,7 @@ gnm_style_set_font_size (GnmStyle *style, float size)
 float
 gnm_style_get_font_size (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, 12.0);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FONT_SIZE), 12.0);
 
 	return style->font_detail.size;
@@ -1193,6 +1208,7 @@ gnm_style_set_format_text (GnmStyle *style, char const *format)
 GOFormat *
 gnm_style_get_format (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_FORMAT), NULL);
 
 	return style->format;
@@ -1211,7 +1227,8 @@ gnm_style_set_align_h (GnmStyle *style, GnmHAlign a)
 GnmHAlign
 gnm_style_get_align_h (GnmStyle const *style)
 {
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_H), 0);
+	g_return_val_if_fail (style != NULL, HALIGN_LEFT);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_H), HALIGN_LEFT);
 
 	return style->h_align;
 }
@@ -1229,7 +1246,8 @@ gnm_style_set_align_v (GnmStyle *style, GnmVAlign a)
 GnmVAlign
 gnm_style_get_align_v (GnmStyle const *style)
 {
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_V), 0);
+	g_return_val_if_fail (style != NULL, VALIGN_TOP);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_V), VALIGN_TOP);
 
 	return style->v_align;
 }
@@ -1247,6 +1265,7 @@ gnm_style_set_indent (GnmStyle *style, int i)
 int
 gnm_style_get_indent (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, 0);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_INDENT), 0);
 
 	return style->indent;
@@ -1265,6 +1284,7 @@ gnm_style_set_rotation (GnmStyle *style, int rot_deg)
 int
 gnm_style_get_rotation (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, 0);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_ROTATION), 0);
 
 	return style->rotation;
@@ -1283,7 +1303,8 @@ gnm_style_set_text_dir (GnmStyle *style, GnmTextDir text_dir)
 GnmTextDir
 gnm_style_get_text_dir (GnmStyle const *style)
 {
-	g_return_val_if_fail (elem_is_set (style, MSTYLE_TEXT_DIR), 0);
+	g_return_val_if_fail (style != NULL, GNM_TEXT_DIR_CONTEXT);
+	g_return_val_if_fail (elem_is_set (style, MSTYLE_TEXT_DIR), GNM_TEXT_DIR_CONTEXT);
 
 	return style->text_dir;
 }
@@ -1313,6 +1334,7 @@ gnm_style_get_wrap_text (GnmStyle const *style)
 gboolean
 gnm_style_get_effective_wrap_text (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_WRAP_TEXT), FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_V), FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_ALIGN_H), FALSE);
@@ -1337,10 +1359,12 @@ gnm_style_set_shrink_to_fit (GnmStyle *style, gboolean f)
 gboolean
 gnm_style_get_shrink_to_fit (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_SHRINK_TO_FIT), FALSE);
 
 	return style->shrink_to_fit;
 }
+
 void
 gnm_style_set_contents_locked (GnmStyle *style, gboolean f)
 {
@@ -1354,10 +1378,12 @@ gnm_style_set_contents_locked (GnmStyle *style, gboolean f)
 gboolean
 gnm_style_get_contents_locked (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONTENTS_LOCKED), FALSE);
 
 	return style->contents_locked;
 }
+
 void
 gnm_style_set_contents_hidden (GnmStyle *style, gboolean f)
 {
@@ -1371,6 +1397,7 @@ gnm_style_set_contents_hidden (GnmStyle *style, gboolean f)
 gboolean
 gnm_style_get_contents_hidden (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, FALSE);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONTENTS_HIDDEN), FALSE);
 
 	return style->contents_hidden;
@@ -1390,6 +1417,7 @@ gnm_style_set_validation (GnmStyle *style, GnmValidation *v)
 GnmValidation const *
 gnm_style_get_validation (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_VALIDATION), NULL);
 
 	return style->validation;
@@ -1409,6 +1437,7 @@ gnm_style_set_hlink (GnmStyle *style, GnmHLink *link)
 GnmHLink *
 gnm_style_get_hlink (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_HLINK), NULL);
 
 	return style->hlink;
@@ -1428,6 +1457,7 @@ gnm_style_set_input_msg (GnmStyle *style, GnmInputMsg *msg)
 GnmInputMsg *
 gnm_style_get_input_msg (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_INPUT_MSG), NULL);
 
 	return style->input_msg;
@@ -1447,13 +1477,17 @@ gnm_style_set_conditions (GnmStyle *style, GnmStyleConditions *sc)
 GnmStyleConditions *
 gnm_style_get_conditions (GnmStyle const *style)
 {
+	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (elem_is_set (style, MSTYLE_CONDITIONS), NULL);
 	return style->conditions;
 }
+
 gboolean
 gnm_style_visible_in_blank (GnmStyle const *style)
 {
 	GnmStyleElement i;
+
+	g_return_val_if_fail (style != NULL, FALSE);
 
 	if (elem_is_set (style, MSTYLE_PATTERN) &&
 	    gnm_style_get_pattern (style) > 0)
