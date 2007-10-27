@@ -1,5 +1,11 @@
 2007-10-26  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-write.c (xml_write_date_conventions_as_attr): New
+	function...
+	(xml_write_calculation): ...extracted from here.
+	(gnm_cellregion_to_xml): Call xml_write_date_conventions_as_attr
+	if we have a sheet.
+
 	* src/clipboard.c (cellregion_to_string): Use the value format
 	when appropriate.
 

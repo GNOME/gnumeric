@@ -1153,10 +1153,17 @@ xml_write_uidata (GnmOutputXML *state)
 }
 
 static void
+xml_write_date_conventions_as_attr (GnmOutputXML *state,
+				    GODateConventions const *conv)
+{
+	if (conv->use_1904)
+		gsf_xml_out_add_cstr_unchecked (state->output,
+			GNM "DateConvention", "Apple:1904");
+}
+
+static void
 xml_write_calculation (GnmOutputXML *state)
 {
-	GODateConventions const *conv = workbook_date_conv (state->wb);
-
 	gsf_xml_out_start_element (state->output, GNM "Calculation");
 	gsf_xml_out_add_bool (state->output,
 		"ManualRecalc",		!state->wb->recalc_auto);
@@ -1166,10 +1173,8 @@ xml_write_calculation (GnmOutputXML *state)
 		"MaxIterations",	state->wb->iteration.max_number);
 	gsf_xml_out_add_float (state->output,
 		"IterationTolerance",	state->wb->iteration.tolerance, -1);
-	if (conv->use_1904)
-		gsf_xml_out_add_cstr_unchecked (state->output,
-			GNM "DateConvention", "Apple:1904");
-
+	xml_write_date_conventions_as_attr (state,
+					    workbook_date_conv (state->wb));
 	gsf_xml_out_end_element (state->output); /* </gnm:Calculation> */
 }
 
@@ -1313,6 +1318,10 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	gsf_xml_out_add_int (state.state.output, "Rows", cr->rows);
 	gsf_xml_out_add_int (state.state.output, "BaseCol", cr->base.col);
 	gsf_xml_out_add_int (state.state.output, "BaseRow", cr->base.row);
+	if (cr->origin_sheet)
+		xml_write_date_conventions_as_attr
+			(&state.state,
+			 workbook_date_conv (cr->origin_sheet->workbook));
 	if (cr->not_as_contents)
 		gsf_xml_out_add_bool (state.state.output, "NotAsContent", TRUE);
 
