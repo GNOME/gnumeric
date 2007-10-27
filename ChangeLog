@@ -7,7 +7,7 @@
 	if we have a sheet.
 
 	* src/clipboard.c (cellregion_to_string): Use the value format
-	when appropriate.
+	  when appropriate.
 
 2007-10-25  Jody Goldberg <jody@gnome.org>
 
