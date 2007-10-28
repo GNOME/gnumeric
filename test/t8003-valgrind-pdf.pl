@@ -9,3 +9,7 @@ use GnumericTest;
 my $tmp = "statfuns.pdf";
 &GnumericTest::junkfile ($tmp);
 &test_valgrind ("$ssconvert $samples/excel/statfuns.xls $tmp", 1);
+
+my $tmp2 = "cellstyle.pdf";
+&GnumericTest::junkfile ($tmp);
+&test_valgrind ("$ssconvert $samples/excel12/cellstyle.xlsx $tmp", 1);

@@ -64,3 +64,22 @@
    fun:*
    fun:cairo_surface_finish
 }
+
+{
+   Cond/deflate2_cairo_opensuse
+   Memcheck:Cond
+   fun:*
+   fun:*
+   fun:deflate
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:cairo_show_page
+}
