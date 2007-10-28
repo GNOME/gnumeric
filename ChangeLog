@@ -1,3 +1,8 @@
+2007-10-28  Morten Welinder  <terra@gnome.org>
+
+	* src/print-cell.c (print_cell_gtk): Handle cell->rendered_value
+	changing underneath us.  Fixes #478552.
+
 2007-10-27  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_create_data_table) : New.  Wrapper to set_area

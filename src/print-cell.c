@@ -91,6 +91,10 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 	 * we need to make sure that has been called.
 	 */
 	cell_finish_layout ((GnmCell*)cell, cell_rv, width, FALSE);
+	if (!cell_rv100) {
+		/* We might have made a new cell->rendered_value.  */
+		cell_rv = cell->rendered_value;
+	}
 
 	/* Now pretend it was made for printing.  */
 	rv = gnm_rendered_value_recontext (cell_rv, pcontext);
@@ -132,7 +136,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		if (rv->rotation) {
 			cairo_save (context);
 			cairo_translate (context, x1, y1);
-			cairo_rotate (context, - rv->rotation/180.*3.14159);
+			cairo_rotate (context, rv->rotation * (-M_PI / 180));
 			cairo_move_to (context, 0.,0.);
 			pango_cairo_show_layout (context, rv->layout);
 			cairo_restore (context);
