@@ -204,13 +204,7 @@ typedef struct {
 	/* if arg_sep conflicts with array_col_sep or array_row_sep */
 	int in_array_sep_is;	/* token id */
 
-	/* flags */
-	gboolean force_absolute_col_references;
-	gboolean force_absolute_row_references;
-	gboolean force_explicit_sheet_references;
-	gboolean unknown_names_are_strings;
-	gboolean unknown_names_are_invalid;
-
+	GnmExprParseFlags     flags;
 	GnmConventions const *convs;
 
 	/* dynamic state */
@@ -446,13 +440,13 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 	if (v == NULL) {
 		GnmNamedExpr *nexpr = expr_name_lookup (state->pos, str);
 		if (nexpr == NULL) {
-			if (state->unknown_names_are_invalid) {
+			if (state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID) {
 				report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
 								_("Name '%s' does not exist"),
 								str),
 					    state->ptr, 0);
 				res = NULL;
-			} else if (state->unknown_names_are_strings) {
+			} else if (state->flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS) {
 				res = gnm_expr_new_constant (value_new_string (str));
 			} else {
 				GnmParsePos pp = *state->pos;
@@ -1078,7 +1072,7 @@ yylex (void)
 
 	if (start != (end = state->convs->input.range_ref (&ref, start, state->pos, state->convs))) {
 		state->ptr = end;
-		if (state->force_absolute_col_references) {
+		if (state->flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES) {
 			if (ref.a.col_relative) {
 				ref.a.col += state->pos->eval.col;
 				ref.a.col_relative = FALSE;
@@ -1087,8 +1081,6 @@ yylex (void)
 				ref.b.col += state->pos->eval.col;
 				ref.b.col_relative = FALSE;
 			}
-		}
-		if (state->force_absolute_row_references) {
 			if (ref.a.row_relative) {
 				ref.a.row += state->pos->eval.row;
 				ref.a.row_relative = FALSE;
@@ -1097,9 +1089,26 @@ yylex (void)
 				ref.b.row += state->pos->eval.row;
 				ref.b.row_relative = FALSE;
 			}
+		} else if (state->flags & GNM_EXPR_PARSE_FORCE_RELATIVE_REFERENCES) {
+			if (!ref.a.col_relative) {
+				ref.a.col -= state->pos->eval.col;
+				ref.a.col_relative = TRUE;
+			}
+			if (!ref.b.col_relative) {
+				ref.b.col -= state->pos->eval.col;
+				ref.b.col_relative = TRUE;
+			}
+			if (!ref.a.row_relative) {
+				ref.a.row -= state->pos->eval.row;
+				ref.a.row_relative = TRUE;
+			}
+			if (!ref.b.row_relative) {
+				ref.b.row -= state->pos->eval.row;
+				ref.b.row_relative = TRUE;
+			}
 		}
 
-		if (ref.a.sheet == NULL && state->force_explicit_sheet_references) {
+		if (ref.a.sheet == NULL && (state->flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES)) {
 			ref.a.sheet = state->pos->sheet;
 			if (ref.a.sheet == NULL) {
 				report_err (state, g_error_new (1, PERR_SHEET_IS_REQUIRED,
@@ -1352,11 +1361,7 @@ gnm_expr_parse_str (char const *str, GnmParsePos const *pp,
 	pstate.start = pstate.ptr = str;
 	pstate.pos   = pp;
 
-	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
-	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
-	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
-	pstate.unknown_names_are_strings		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
-	pstate.unknown_names_are_invalid		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID;
+	pstate.flags		= flags;
 	pstate.convs                                    =
 		(NULL != convs) ? convs : ((NULL != pp->sheet) ? pp->sheet->convs : gnm_conventions_default);
 

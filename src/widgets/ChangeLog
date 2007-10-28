@@ -1,3 +1,9 @@
+2007-10-27  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c : Move from
+	  ABS_COL/ABS_ROW -> FORCE_ABS/FORCE_REL
+	  All callers changed.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.13

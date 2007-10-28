@@ -4151,8 +4151,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 		gnm_expr_entry_load_from_text (editor->entry, txt);
 		g_free (txt);
 	}
-	gnm_expr_entry_set_flags (editor->entry,
-		GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
+	gnm_expr_entry_set_flags (editor->entry, GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
 
 	editor->entry_update_handler = g_signal_connect (G_OBJECT (editor->entry),
 		"update",

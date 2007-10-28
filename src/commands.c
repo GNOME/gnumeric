@@ -194,13 +194,19 @@ static GSF_CLASS (type, func,						\
 /******************************************************************/
 
 
+static guint
+max_descriptor_width (void)
+{
+	return gnm_app_prefs->max_descriptor_width;
+}
+
 static char *
-make_undo_text (char const *src, int max_len, gboolean *truncated)
+make_undo_text (char const *src, gboolean *truncated)
 {
 	char *dst = g_strdup (src);
 	char *p;
 	int len;
-
+	int max_len = max_descriptor_width ();
 	*truncated = FALSE;
 	for (len = 0, p = dst;
 	     *p;
@@ -335,13 +341,6 @@ select_selection (Sheet *sheet, GSList *selection, WorkbookControl *wbc)
 		r0 = r;
 	}
 	sv_make_cell_visible (sv, r0->start.col, r0->start.row, FALSE);
-}
-
-
-static guint
-max_descriptor_width (void)
-{
-	return gnm_app_prefs->max_descriptor_width;
 }
 
 /**
@@ -996,9 +995,7 @@ cmd_set_text (WorkbookControl *wbc,
 	r.start = r.end = *pos;
 	me->old_contents = clipboard_copy_range (sheet, &r);
 
-	text = make_undo_text (corrected_text,
-			       max_descriptor_width (),
-			       &truncated);
+	text = make_undo_text (corrected_text, &truncated);
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
@@ -1201,9 +1198,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	} else
 		parse_pos_init_editpos (&me->pp, sv);
 
-	text = make_undo_text (new_text,
-			       max_descriptor_width (),
-			       &truncated);
+	text = make_undo_text (new_text, &truncated);
 
 	me->cmd.sheet = me->pp.sheet;
 	me->cmd.size = 1;
@@ -1217,6 +1212,25 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	return command_push_undo (wbc, G_OBJECT (me));
 }
 
+gboolean
+cmd_create_data_table (WorkbookControl *wbc, Sheet *sheet, GnmRange const *r,
+		       char const *col_input, char const *row_input)
+{
+	CmdAreaSetText *me = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
+
+	parse_pos_init (&me->pp, NULL, sheet, r->start.col, r->start.row);
+	me->text         = g_strdup_printf ("=TABLE(%s,%s)", row_input, col_input);
+	me->selection    = g_slist_prepend (NULL, range_dup (r));
+	me->old_contents = NULL;
+	me->as_array	 = TRUE;
+	me->cmd.sheet = sheet;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor =
+		g_strdup_printf (_("Creating a Data Table in %s"),
+			range_as_string (r));
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}
 /******************************************************************/
 
 #define CMD_INS_DEL_COLROW_TYPE        (cmd_ins_del_colrow_get_type ())

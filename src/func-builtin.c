@@ -213,7 +213,9 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			gnm_cell_eval (x_iter);
 			in[0]->value = value_dup (x_iter->value);
 			dependent_queue_recalc (&in[0]->base);
-		}
+		} else
+			val[0] = value_dup (x_iter->value);
+
 		for (y = ei->pos->array->rows ; y-- > 0 ; ) {
 			y_iter = sheet_cell_get (ei->pos->sheet,
 				ei->pos->eval.col-1, y + ei->pos->eval.row);
@@ -221,6 +223,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				continue;
 			gnm_cell_eval (y_iter);
 			if (NULL != in[1]) {
+				/* not a leak, val[] holds the original */
 				in[1]->value = value_dup (y_iter->value);
 				dependent_queue_recalc (&in[1]->base);
 				if (NULL != in[0]) {
@@ -236,14 +239,18 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		}
 		if (NULL != in[0])
 			value_release (in[0]->value);
+		else {
+			value_release (x_iter->value);
+			x_iter->value = val[0];
+			val[0] = NULL;
+		}
 	}
 	if (NULL != in[2])
 		value_release (in[2]->value);
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x]) {
-			if (val[x])
-				in[x]->value = val[x];
-			else
+			/* always assign, we still point at a released value */
+			if (NULL == (in[x]->value = val[x]))
 				sheet_cell_remove (ei->pos->sheet, in[x], FALSE, FALSE);
 			dependent_queue_recalc (&in[x]->base);
 		}

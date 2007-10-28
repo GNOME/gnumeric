@@ -36,10 +36,10 @@
 #include <string.h>
 
 typedef struct {
-	int text_start;
-	int text_end;
 	GnmRangeRef ref;
-	gboolean  is_valid;
+	int	    text_start;
+	int	    text_end;
+	gboolean    is_valid;
 } Rangesel;
 
 struct _GnmExprEntry {
@@ -50,7 +50,7 @@ struct _GnmExprEntry {
 	SheetControlGUI		*scg;	/* the source of the edit */
 	Sheet			*sheet;	/* from scg */
 	GnmParsePos		 pp;	/* from scg->sv */
-	WBCGtk	*wbcg;	/* from scg */
+	WBCGtk			*wbcg;	/* from scg */
 	Rangesel		 rangesel;
 
 	GnmExprEntryFlags	 flags;
@@ -119,6 +119,18 @@ split_char_p (unsigned char const *c)
 	}
 }
 
+static inline void
+gee_force_abs_rel (GnmExprEntry *gee)
+{
+	Rangesel *rs = &gee->rangesel;
+	if ((gee->flags & GNM_EE_FORCE_ABS_REF))
+		rs->ref.a.col_relative = rs->ref.b.col_relative =
+			rs->ref.a.row_relative = rs->ref.b.row_relative = FALSE;
+	else if ((gee->flags & GNM_EE_FORCE_REL_REF))
+		rs->ref.a.col_relative = rs->ref.b.col_relative =
+			rs->ref.a.row_relative = rs->ref.b.row_relative = TRUE;
+}
+
 static void
 gee_rangesel_reset (GnmExprEntry *gee)
 {
@@ -127,10 +139,9 @@ gee_rangesel_reset (GnmExprEntry *gee)
 	rs->text_start = 0;
 	rs->text_end = 0;
 	memset (&rs->ref, 0, sizeof (GnmRange));
-
-	/* restore the default based on the flags */
-	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) != 0;
-	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNM_EE_ABS_ROW) != 0;
+	if (gee->flags & GNM_EE_FORCE_REL_REF)
+		rs->ref.a.col_relative = rs->ref.b.col_relative =
+			rs->ref.a.row_relative = rs->ref.b.row_relative = TRUE;
 
 	gee->rangesel.is_valid = FALSE;
 }
@@ -427,8 +438,6 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		 * displayed in entry.
 		 */
 		Rangesel *rs = &gee->rangesel;
-		gboolean abs_cols = (gee->flags & GNM_EE_ABS_COL);
-		gboolean abs_rows = (gee->flags & GNM_EE_ABS_ROW);
 		gboolean c, r;
 
 		/* FIXME: since the range can't have changed we should just be able to */
@@ -442,22 +451,15 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		if (!rs->is_valid || rs->text_start >= rs->text_end)
 			return TRUE;
 
+		if ((GNM_EE_FORCE_ABS_REF | GNM_EE_FORCE_REL_REF) & gee->flags)
+			return TRUE;
+
 		c = rs->ref.a.col_relative;
 		r = rs->ref.a.row_relative;
-		if (abs_rows) {
-			if (abs_cols)
-				return TRUE;
-			gnm_cellref_set_row_ar (&rs->ref.a, &gee->pp, !c);
-			gnm_cellref_set_col_ar (&rs->ref.b, &gee->pp, !c);
-		} else if (abs_cols) {
-			gnm_cellref_set_row_ar (&rs->ref.a, &gee->pp, !r);
-			gnm_cellref_set_row_ar (&rs->ref.b, &gee->pp, !r);
-		} else {
-			gnm_cellref_set_col_ar (&rs->ref.a, &gee->pp, !c);
-			gnm_cellref_set_col_ar (&rs->ref.b, &gee->pp, !c);
-			gnm_cellref_set_row_ar (&rs->ref.a, &gee->pp, c^r);
-			gnm_cellref_set_row_ar (&rs->ref.b, &gee->pp, c^r);
-		}
+		gnm_cellref_set_col_ar (&rs->ref.a, &gee->pp, !c);
+		gnm_cellref_set_col_ar (&rs->ref.b, &gee->pp, !c);
+		gnm_cellref_set_row_ar (&rs->ref.a, &gee->pp, c^r);
+		gnm_cellref_set_row_ar (&rs->ref.b, &gee->pp, c^r);
 
 		gee_rangesel_update_text (gee);
 
@@ -812,9 +814,8 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 
 	text = gtk_entry_get_text (gee->entry);
 
-	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) == 0;
-	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNM_EE_ABS_ROW) == 0;
 	rs->ref.a.sheet = rs->ref.b.sheet = NULL;
+	gee_force_abs_rel (gee);
 	rs->is_valid = FALSE;
 	if (text == NULL)
 		return;
@@ -1102,16 +1103,10 @@ gnm_expr_entry_set_flags (GnmExprEntry *gee,
 			  GnmExprEntryFlags flags,
 			  GnmExprEntryFlags mask)
 {
-	Rangesel *rs;
-
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 
 	gee->flags = (gee->flags & ~mask) | (flags & mask);
-	rs = &gee->rangesel;
-	if (mask & GNM_EE_ABS_COL)
-		rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) != 0;
-	if (mask & GNM_EE_ABS_ROW)
-		rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNM_EE_ABS_ROW) != 0;
+	gee_force_abs_rel (gee);
 }
 
 /**
@@ -1322,24 +1317,6 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 }
 
 /**
- * gnm_expr_entry_set_absolute
- * @gee:   a #GnmExprEntry
- *
- * Select absolute reference mode for rows and columns. Do not change
- * displayed text. This is a convenience function which wraps
- * gnm_expr_entry_set_flags.
- **/
-void
-gnm_expr_entry_set_absolute (GnmExprEntry *gee)
-{
-	GnmExprEntryFlags flags;
-
-	flags = GNM_EE_ABS_ROW | GNM_EE_ABS_COL;
-	gnm_expr_entry_set_flags (gee, flags, flags);
-}
-
-
-/**
  * gnm_expr_entry_can_rangesel
  * @gee:   a #GnmExprEntry
  *
@@ -1413,10 +1390,10 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (text == NULL || text[0] == '\0')
 		return NULL;
 
-	if (gee->flags & GNM_EE_ABS_COL)
-		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
-	if (gee->flags & GNM_EE_ABS_ROW)
-		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
+	if ((gee->flags & GNM_EE_FORCE_ABS_REF))
+		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES;
+	else if ((gee->flags & GNM_EE_FORCE_REL_REF))
+		flags |= GNM_EXPR_PARSE_FORCE_RELATIVE_REFERENCES;
 	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 

@@ -1341,7 +1341,7 @@ do_setup_page_info (PrinterSetupState *state)
 	state->top_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->top_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL,
-		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_ABS_ROW | GNM_EE_SHEET_OPTIONAL);
+		GNM_EE_MASK);
 	gtk_table_attach (GTK_TABLE (repeat_table),
 			  GTK_WIDGET (state->top_entry),
 			  1, 2, 0, 1,
@@ -1351,7 +1351,7 @@ do_setup_page_info (PrinterSetupState *state)
 	state->left_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->left_entry,
 		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL,
-		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL);
+		GNM_EE_MASK);
 	gtk_table_attach (GTK_TABLE (repeat_table),
 			  GTK_WIDGET (state->left_entry),
 			  1, 2, 1, 2,

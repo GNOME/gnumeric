@@ -1,3 +1,8 @@
+2007-10-27  Jody Goldberg <jody@gnome.org>
+
+	* dialog-data-table.c (dialog_data_table) : finish.  And use the new
+	  cmd_create_data_table.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.13

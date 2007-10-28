@@ -7,6 +7,7 @@ Jody:
 	* Improve ODF (and .sxc) import.
 	* Improve ODF chart data import (ick).
 	* Add Snap-to-grid context menu command for objects.
+	* Fix Data -> Table and enable the UI.
 
 Morten:
 	* Improve test suite.

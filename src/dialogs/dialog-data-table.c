@@ -3,7 +3,7 @@
 /*
  * dialog-data-table.c: Create a Data Table
  *
- * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -34,6 +34,7 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <commands.h>
+#include <ranges.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <gtk/gtktable.h>
 #include <glib/gi18n.h>
@@ -46,6 +47,8 @@ typedef struct {
 	GnmExprEntry	*row_entry, *col_entry;
 
 	WBCGtk	*wbcg;
+	Sheet	*sheet;
+	GnmRange input_range;
 } GnmDialogDataTable;
 
 static void
@@ -64,7 +67,8 @@ init_entry (GnmDialogDataTable *state, char const *name)
 	g_return_val_if_fail (w != NULL, NULL);
 
 	gnm_expr_entry_set_flags (GNM_EXPR_ENTRY (w),
-		GNM_EE_SINGLE_RANGE, GNM_EE_SINGLE_RANGE);
+		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL | GNM_EE_FORCE_REL_REF,
+		GNM_EE_MASK);
 	g_object_set (G_OBJECT (w),
 		"scg", wbcg_cur_scg (state->wbcg),
 		"with-icon", TRUE,
@@ -77,9 +81,11 @@ cb_data_table_response (GtkWidget *dialog, gint response_id, GnmDialogDataTable 
 {
 	if (response_id == GTK_RESPONSE_HELP)
 		return;
-	if (response_id == GTK_RESPONSE_OK) {
-	}
-
+	if (response_id == GTK_RESPONSE_OK)
+		cmd_create_data_table (WORKBOOK_CONTROL (state->wbcg),
+			state->sheet, &state->input_range,
+			gnm_expr_entry_get_text	(state->col_entry),
+			gnm_expr_entry_get_text (state->row_entry));
 	gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
@@ -88,7 +94,6 @@ data_table_init (GnmDialogDataTable *state, WBCGtk *wbcg)
 {
 	GtkTable *table;
 
-	state->wbcg  = wbcg;
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"data-table.glade", NULL, NULL);
         if (state->gui == NULL)
@@ -125,6 +130,10 @@ void
 dialog_data_table (WBCGtk *wbcg)
 {
 	GnmDialogDataTable *state;
+	GnmRange const	*r;
+	GnmRange	 input_range;
+	SheetView	*sv;
+	Sheet		*sheet;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -132,7 +141,29 @@ dialog_data_table (WBCGtk *wbcg)
 	    gnumeric_dialog_raise_if_exists (wbcg, DIALOG_DATA_TABLE_KEY))
 		return;
 
+	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	r = selection_first_range (sv, GO_CMD_CONTEXT (wbcg), _("Create Data Table"));
+	if (NULL == r)
+		return;
+	if (range_width	(r) <= 1 || range_height (r) <= 1) {
+		GError *msg = g_error_new (go_error_invalid(), 0,
+			_("The selection must have more than 1 column and row to create a Data Table."));
+		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), msg);
+		g_error_free (msg);
+		return;
+	}
+	input_range = *r;
+	input_range.start.col++;
+	input_range.start.row++;
+	sheet = sv_sheet (sv);
+	if (sheet_range_splits_region (sheet, &input_range, NULL,
+				       GO_CMD_CONTEXT (wbcg), _("Data Table")))
+		return;
+
 	state = g_new0 (GnmDialogDataTable, 1);
+	state->wbcg  = wbcg;
+	state->sheet = sheet;
+	state->input_range = input_range;
 	if (data_table_init (state, wbcg)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 			_("Could not create the Data Table definition dialog."));

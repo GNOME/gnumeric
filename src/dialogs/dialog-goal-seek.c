@@ -544,8 +544,7 @@ dialog_init (GoalSeekState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "goal-table"));
 	state->set_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->set_cell_entry,
-		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL |
-				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
+		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL | GNM_EE_FORCE_ABS_REF,
 		GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->set_cell_entry),
 			  2, 3, 1, 2,
@@ -558,8 +557,7 @@ dialog_init (GoalSeekState *state)
 
 	state->change_cell_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
-		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL |
-				  GNM_EE_ABS_ROW | GNM_EE_ABS_COL,
+		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL | GNM_EE_FORCE_ABS_REF,
 		GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
 			  2, 3, 3, 4,

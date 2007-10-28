@@ -13,8 +13,8 @@ typedef struct _GnmExprEntry GnmExprEntry;
 
 typedef enum {
 	GNM_EE_SINGLE_RANGE    = 1 << 0,
-	GNM_EE_ABS_COL         = 1 << 1,
-	GNM_EE_ABS_ROW         = 1 << 2,
+	GNM_EE_FORCE_ABS_REF   = 1 << 1, /* takes precedence over FORCE_REL_REF */
+	GNM_EE_FORCE_REL_REF   = 1 << 2,
 	GNM_EE_FULL_COL        = 1 << 3,
 	GNM_EE_FULL_ROW        = 1 << 4,
 	GNM_EE_SHEET_OPTIONAL  = 1 << 5,
@@ -30,7 +30,6 @@ GtkWidget    *gnm_expr_entry_new_glade (void);
 /* Widget specific methods */
 void	  gnm_expr_entry_freeze 	(GnmExprEntry *gee);
 void	  gnm_expr_entry_thaw		(GnmExprEntry *gee);
-void	  gnm_expr_entry_set_absolute	(GnmExprEntry *gee);
 void	  gnm_expr_entry_set_flags	(GnmExprEntry *gee,
 					 GnmExprEntryFlags flags,
 					 GnmExprEntryFlags mask);

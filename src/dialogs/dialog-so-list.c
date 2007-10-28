@@ -73,7 +73,7 @@ init_entry (GnmDialogSOList *state, char const *name,
 		"with-icon", TRUE,
 		NULL);
 	gnm_expr_entry_set_flags (gee,
-		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
+		GNM_EE_FORCE_ABS_REF | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
 	gnm_expr_entry_load_from_dep (gee, dep);
 	return gee;

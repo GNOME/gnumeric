@@ -17,6 +17,9 @@ gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_area_set_text	(WorkbookControl *wbc, SheetView *sv,
 				 char const *text, gboolean as_array);
+gboolean cmd_create_data_table	(WorkbookControl *wbc,
+				 Sheet *sheet, GnmRange const *r,
+				 char const *col_input, char const *row_input);
 
 gboolean cmd_insert_cols	(WorkbookControl *wbc, Sheet *sheet,
 				 int start_col, int count);
