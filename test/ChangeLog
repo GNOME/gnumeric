@@ -1,3 +1,7 @@
+2007-10-28  Jon K Hellan  <hellan@acm.org>
+
+	* t8003-valgrind-pdf.supp: More suppressions for Debian
+
 2007-10-26  Jon K Hellan  <hellan@acm.org>
 
 	* common.supp: Add suppressions for Debian
