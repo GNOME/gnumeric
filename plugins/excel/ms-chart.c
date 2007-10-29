@@ -3393,12 +3393,14 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			}
 			for (j = GOG_MS_DIM_VALUES ; j < GOG_MS_DIM_TYPES; j++ )
 				if (NULL != series->data [j].value) {
-					GnmExprTop const *texpr =
-						gnm_expr_top_new_constant ((GnmValue *)series->data [j].value);
-					if (sheet == NULL || series->series == NULL) {
-						gnm_expr_top_unref (texpr);
+					GnmExprTop const *texpr;
+
+					if (!sheet || !series->series)
 						continue;
-					}
+
+					texpr = gnm_expr_top_new_constant
+						(value_dup ((GnmValue const *)(series->data [j].value)));
+
 					data = gnm_go_data_vector_new_expr (sheet, texpr);
 					if (series->extra_dim == 0)
 						XL_gog_series_set_dim (series->series, j, data);

@@ -1,3 +1,8 @@
+2007-10-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_read): Avoid freeing a value when
+	trying to copy it.
+
 2007-10-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (axislineformat): set s->xaxis to NULL after deletion,
