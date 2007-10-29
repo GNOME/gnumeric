@@ -612,6 +612,8 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 				/* axis has no ticks, it is a dummy axis, just delete it */
 				gog_object_clear_parent (GOG_OBJECT (s->axis));
 				g_object_unref (s->axis);
+				if (s->xaxis == s->axis)
+					s->xaxis = NULL;
 				s->axis = NULL;
 			} else {
 				g_object_set (G_OBJECT (s->axis),
@@ -3199,6 +3201,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.axis_cross_at_max = FALSE;
 	state.axis_cross_value = go_nan;
 	state.xaxis = NULL;
+	state.interpolation = GO_LINE_INTERPOLATION_LINEAR;
 
 	if (NULL != (state.sog = sog)) {
 		state.graph = sheet_object_graph_get_gog (sog);

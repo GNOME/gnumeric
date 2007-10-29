@@ -1,3 +1,8 @@
+2007-10-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (axislineformat): set s->xaxis to NULL after deletion,
+	 (ms_excel_chart_read): initialize state.interpolation. [#491131]
+
 2007-10-27  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (cb_write_macro_NAME): Don't delete
