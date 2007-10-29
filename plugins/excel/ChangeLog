@@ -1,5 +1,10 @@
 2007-10-29  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c: use g_printerr where appropriate.
+	(objectlink): Plug another leak.
+
+2007-10-29  Morten Welinder  <terra@gnome.org>
+
 	* ms-chart.c (ms_excel_chart_read): Avoid freeing a value when
 	trying to copy it.
 	(seriestext): Fix leak.

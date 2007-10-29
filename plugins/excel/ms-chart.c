@@ -56,7 +56,6 @@
 #include <gsf/gsf-utils.h>
 #include <math.h>
 #include <string.h>
-#include <stdio.h>
 
 /* #define NO_DEBUG_EXCEL */
 #ifndef NO_DEBUG_EXCEL
@@ -209,7 +208,7 @@ BC_R(color) (guint8 const *data, char const *type)
 	guint16 const g = (bgr >>  8) & 0xff;
 	guint16 const b = (bgr >> 16) & 0xff;
 
-	d (1, fprintf(stderr, "%s %02x:%02x:%02x;\n", type, r, g, b););
+	d (1, g_printerr ("%s %02x:%02x:%02x;\n", type, r, g, b););
 	return RGBA_TO_UINT (r, g, b, 0xff);
 }
 
@@ -222,12 +221,12 @@ BC_R(3dbarshape)(XLChartHandler const *handle,
 	d (0, {
 		guint16 const type = GSF_LE_GET_GUINT16 (q->data);
 		switch (type) {
-		case 0 : fputs ("box", stderr); break;
-		case 1 : fputs ("cylinder", stderr); break;
-		case 256 : fputs ("pyramid", stderr); break;
-		case 257 : fputs ("cone", stderr); break;
+		case 0 : g_printerr ("box"); break;
+		case 1 : g_printerr ("cylinder"); break;
+		case 256 : g_printerr ("pyramid"); break;
+		case 257 : g_printerr ("cone"); break;
 		default :
-			   fprintf (stderr, "unknown 3dshape %d\n", type);
+			   g_printerr ("unknown 3dshape %d\n", type);
 		}
 	});
 
@@ -261,21 +260,21 @@ BC_R(3d)(XLChartHandler const *handle,
 		gnumeric matrix, so we cannot create the plot here. */
 
 	d (1, {
-		fprintf (stderr, "Rot = %hu\n", rotation);
-		fprintf (stderr, "Elev = %hu\n", elevation);
-		fprintf (stderr, "Dist = %hu\n", distance);
-		fprintf (stderr, "Height = %hu\n", height);
-		fprintf (stderr, "Depth = %hu\n", depth);
-		fprintf (stderr, "Gap = %hu\n", gap);
+		g_printerr ("Rot = %hu\n", rotation);
+		g_printerr ("Elev = %hu\n", elevation);
+		g_printerr ("Dist = %hu\n", distance);
+		g_printerr ("Height = %hu\n", height);
+		g_printerr ("Depth = %hu\n", depth);
+		g_printerr ("Gap = %hu\n", gap);
 
 		if (use_perspective)
-			fputs ("Use perspective;\n", stderr);
+			g_printerr ("Use perspective;\n");
 		if (cluster)
-			fputs ("Cluster;\n", stderr);
+			g_printerr ("Cluster;\n");
 		if (auto_scale)
-			fputs ("Auto Scale;\n", stderr);
+			g_printerr ("Auto Scale;\n");
 		if (walls_2d)
-			fputs ("2D Walls;\n", stderr);
+			g_printerr ("2D Walls;\n");
 	});
 
 	return FALSE;
@@ -318,34 +317,34 @@ BC_R(ai)(XLChartHandler const *handle,
 	if (flags&0x01) {
 		GOFormat *fmt = ms_container_get_fmt (&s->container,
 			GSF_LE_GET_GUINT16 (q->data + 4));
-		d (2, fputs ("Has Custom number format;\n", stderr););
+		d (2, g_printerr ("Has Custom number format;\n"););
 		if (fmt != NULL) {
 			const char *desc = go_format_as_XL (fmt);
-			d (2, fprintf (stderr, "Format = '%s';\n", desc););
+			d (2, g_printerr ("Format = '%s';\n", desc););
 
 			go_format_unref (fmt);
 		}
 	} else {
-		d (2, fputs ("Uses number format from data source;\n", stderr););
+		d (2, g_printerr ("Uses number format from data source;\n"););
 	}
 
 	g_return_val_if_fail (purpose < GOG_MS_DIM_TYPES, TRUE);
 	d (0, {
 	switch (purpose) {
-	case GOG_MS_DIM_LABELS :     fputs ("Labels;\n", stderr); break;
-	case GOG_MS_DIM_VALUES :     fputs ("Values;\n", stderr); break;
-	case GOG_MS_DIM_CATEGORIES : fputs ("Categories;\n", stderr); break;
-	case GOG_MS_DIM_BUBBLES :    fputs ("Bubbles;\n", stderr); break;
+	case GOG_MS_DIM_LABELS :     g_printerr ("Labels;\n"); break;
+	case GOG_MS_DIM_VALUES :     g_printerr ("Values;\n"); break;
+	case GOG_MS_DIM_CATEGORIES : g_printerr ("Categories;\n"); break;
+	case GOG_MS_DIM_BUBBLES :    g_printerr ("Bubbles;\n"); break;
 	default :
-		fprintf (stderr, "UKNOWN : purpose (%x)\n", purpose);
+		g_printerr ("UKNOWN : purpose (%x)\n", purpose);
 	}
 	switch (ref_type) {
-	case 0 : fputs ("Use default categories;\n", stderr); break;
-	case 1 : fputs ("Text/Value entered directly;\n", stderr); fprintf (stderr, "data length = %d\n",length); break;
-	case 2 : fputs ("Linked to Container;\n", stderr); break;
-	case 4 : fputs ("'Error reported' what the heck is this ??;\n", stderr); break;
+	case 0 : g_printerr ("Use default categories;\n"); break;
+	case 1 : g_printerr ("Text/Value entered directly;\n"); g_printerr ("data length = %d\n",length); break;
+	case 2 : g_printerr ("Linked to Container;\n"); break;
+	case 4 : g_printerr ("'Error reported' what the heck is this ??;\n"); break;
 	default :
-		 fprintf (stderr, "UKNOWN : reference type (%x)\n", ref_type);
+		 g_printerr ("UKNOWN : reference type (%x)\n", ref_type);
 	}
 	});
 
@@ -402,7 +401,7 @@ BC_R(alruns)(XLChartHandler const *handle,
 	}
 	*out = '\0';
 
-	/*fputs (ans, stderr);*/
+	/*g_printerr (ans);*/
 #endif
 	return FALSE;
 }
@@ -431,7 +430,7 @@ BC_R(area)(XLChartHandler const *handle,
 		"in-3d",		in_3d,
 		NULL);
 
-	d(1, fprintf (stderr, "%s area;", type););
+	d(1, g_printerr ("%s area;", type););
 	return FALSE;
 }
 
@@ -447,11 +446,11 @@ BC_R(areaformat)(XLChartHandler const *handle,
 	gboolean const invert_if_negative = flags & 0x02;
 
 	d (0, {
-		fprintf (stderr, "pattern = %d;\n", pattern);
+		g_printerr ("pattern = %d;\n", pattern);
 		if (auto_format)
-			fputs ("Use auto format;\n", stderr);
+			g_printerr ("Use auto format;\n");
 		if (invert_if_negative)
-			fputs ("Swap fore and back colours when displaying negatives;\n", stderr);
+			g_printerr ("Swap fore and back colours when displaying negatives;\n");
 	});
 
 #if 0
@@ -498,20 +497,20 @@ BC_R(attachedlabel)(XLChartHandler const *handle,
 	gboolean const show_label = (flags&0x10) ? TRUE : FALSE;
 
 	if (show_value)
-		fputs ("Show Value;\n", stderr);
+		g_printerr ("Show Value;\n");
 	if (show_percent)
-		fputs ("Show as Percentage;\n", stderr);
+		g_printerr ("Show as Percentage;\n");
 	if (show_label_prercent)
-		fputs ("Show as Label Percentage;\n", stderr);
+		g_printerr ("Show as Label Percentage;\n");
 	if (smooth_line)
-		fputs ("Smooth line;\n", stderr);
+		g_printerr ("Smooth line;\n");
 	if (show_label)
-		fputs ("Show the label;\n", stderr);
+		g_printerr ("Show the label;\n");
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8) {
 		gboolean const show_bubble_size = (flags&0x20) ? TRUE : FALSE;
 		if (show_bubble_size)
-			fputs ("Show bubble size;\n", stderr);
+			g_printerr ("Show bubble size;\n");
 	}
 	});
 	return FALSE;
@@ -525,7 +524,7 @@ BC_R(axesused)(XLChartHandler const *handle,
 {
 	guint16 const num_axis = GSF_LE_GET_GUINT16 (q->data);
 	g_return_val_if_fail(1 <= num_axis && num_axis <= 2, TRUE);
-	d (0, fprintf (stderr, "There are %hu axis.\n", num_axis););
+	d (0, g_printerr ("There are %hu axis.\n", num_axis););
 	return FALSE;
 }
 
@@ -564,7 +563,7 @@ BC_R(axis)(XLChartHandler const *handle,
 		}
 	}
 
-	d (0, fprintf (stderr, "This is a %s .\n", ms_axis[axis_type]););
+	d (0, g_printerr ("This is a %s .\n", ms_axis[axis_type]););
 	return FALSE;
 }
 
@@ -590,16 +589,16 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 	guint16 const type = GSF_LE_GET_GUINT16 (q->data);
 
 	d (0, {
-	fprintf (stderr, "Axisline is ");
+	g_printerr ("Axisline is ");
 	switch (type)
 	{
-	case 0 : fputs ("the axis line.\n", stderr); break;
-	case 1 : fputs ("a major grid along the axis.\n", stderr); break;
-	case 2 : fputs ("a minor grid along the axis.\n", stderr); break;
+	case 0 : g_printerr ("the axis line.\n"); break;
+	case 1 : g_printerr ("a major grid along the axis.\n"); break;
+	case 2 : g_printerr ("a minor grid along the axis.\n"); break;
 
 	/* TODO TODO : floor vs wall */
-	case 3 : fputs ("a floor/wall along the axis.\n", stderr); break;
-	default : fprintf (stderr, "an ERROR.  unkown type (%x).\n", type);
+	case 3 : g_printerr ("a floor/wall along the axis.\n"); break;
+	default : g_printerr ("an ERROR.  unkown type (%x).\n", type);
 	}
 	});
 
@@ -676,7 +675,7 @@ BC_R(axisparent)(XLChartHandler const *handle,
 	guint32 const width = GSF_LE_GET_GUINT32 (q->data+10);
 	guint32 const height = GSF_LE_GET_GUINT32 (q->data+14);
 
-	fprintf (stderr, "Axis # %hu @ %f,%f, X=%f, Y=%f\n",
+	g_printerr ("Axis # %hu @ %f,%f, X=%f, Y=%f\n",
 		index, x/4000., y/4000., width/4000., height/4000.);
 	});
 	return FALSE;
@@ -711,7 +710,7 @@ BC_R(bar)(XLChartHandler const *handle,
 		"overlap-percentage",	overlap_percentage,
 		"gap-percentage",	gap_percentage,
 		NULL);
-	d(1, fprintf (stderr, "%s bar with gap = %d, overlap = %d;",
+	d(1, g_printerr ("%s bar with gap = %d, overlap = %d;",
 		      type, gap_percentage, overlap_percentage););
 	return FALSE;
 }
@@ -722,7 +721,7 @@ static gboolean
 BC_R(begin)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-	d(0, fputs ("{\n", stderr););
+	d(0, g_printerr ("{\n"););
 	s->stack = g_array_append_val (s->stack, s->prev_opcode);
 	return FALSE;
 }
@@ -774,7 +773,7 @@ BC_R(catserrange)(XLChartHandler const *handle,
 			s->axis_cross_at_max = TRUE;
 		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis)
 			g_object_set (s->xaxis, "pos-str", "high", NULL);
-		d (1, fputs ("Cross over at max value;\n", stderr););
+		d (1, g_printerr ("Cross over at max value;\n"););
 	}
 	return FALSE;
 }
@@ -797,7 +796,7 @@ BC_R(chart)(XLChartHandler const *handle,
 	double const y_pos = y_pos_fixed / (65535. * 72.);
 	double const x_size = x_size_fixed / (65535. * 72.);
 	double const y_size = y_size_fixed / (65535. * 72.);
-	fprintf(stderr, "Chart @ %g, %g is %g\" x %g\"\n", x_pos, y_pos, x_size, y_size);
+	g_printerr ("Chart @ %g, %g is %g\" x %g\"\n", x_pos, y_pos, x_size, y_size);
 	});
 
 	return FALSE;
@@ -826,7 +825,7 @@ BC_R(chartformat)(XLChartHandler const *handle,
 			      NULL);
 
 	d (0, {
-		fprintf (stderr, "Z value = %uh\n", z_order);
+		g_printerr ("Z value = %uh\n", z_order);
 	});
 
 	return FALSE;
@@ -856,7 +855,7 @@ BC_R(chartline)(XLChartHandler const *handle,
 		s->hilo = TRUE;
 	s->cur_role = type;
 
-	d (0, fprintf (stderr, "Use %s lines\n",
+	d (0, g_printerr ("Use %s lines\n",
 	     (type == 0) ? "drop" : ((type == 1) ? "hi-lo" : "series")););
 
 	return FALSE;
@@ -868,7 +867,7 @@ static gboolean
 BC_R(clrtclient)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	fputs ("Undocumented BIFF : clrtclient", stderr);
+	g_printerr ("Undocumented BIFF : clrtclient");
 	ms_biff_query_dump (q);
 	return FALSE;
 }
@@ -911,13 +910,13 @@ BC_R(dataformat)(XLChartHandler const *handle,
 
 	if (pt_num == 0xffff) {
 		s->style_element = -1;
-		d (0, fprintf (stderr, "All points"););
+		d (0, g_printerr ("All points"););
 	} else {
 		s->style_element = pt_num;
-		d (0, fprintf (stderr, "Point[%hu]", pt_num););
+		d (0, g_printerr ("Point[%hu]", pt_num););
 	}
 
-	d (0, fprintf (stderr, ", series=%hu\n", series_index););
+	d (0, g_printerr (", series=%hu\n", series_index););
 
 	return FALSE;
 }
@@ -930,7 +929,7 @@ BC_R(defaulttext)(XLChartHandler const *handle,
 {
 	guint16	const tmp = GSF_LE_GET_GUINT16 (q->data);
 
-	d (2, fprintf (stderr, "applicability = %hd\n", tmp););
+	d (2, g_printerr ("applicability = %hd\n", tmp););
 
 	/*
 	 * 0 == 'show labels' label
@@ -953,7 +952,7 @@ BC_R(dropbar)(XLChartHandler const *handle,
 	 */
 	s->dropbar = TRUE;
 	s->dropbar_width = GSF_LE_GET_GUINT16 (q->data);
-	d (1, fprintf (stderr, "width=%hu\n",s->dropbar_width););
+	d (1, g_printerr ("width=%hu\n",s->dropbar_width););
 	return FALSE;
 }
 
@@ -975,7 +974,7 @@ BC_R(fbi)(XLChartHandler const *handle,
 
 	d (2,
 		gsf_mem_dump (q->data, q->length);
-		fprintf (stderr, "Font %hu (%hu x %hu) scale=%hu, height=%hu\n",
+		g_printerr ("Font %hu (%hu x %hu) scale=%hu, height=%hu\n",
 			index, x_basis, y_basis, scale_basis, applied_height););
 	return FALSE;
 }
@@ -991,7 +990,7 @@ BC_R(fontx)(XLChartHandler const *handle,
 	go_font_ref (gfont);
 	BC_R(get_style) (s);
 	gog_style_set_font (s->style, gfont);
-	d (2, fprintf (stderr, "apply font %s;", go_font_as_str (gfont)););
+	d (2, g_printerr ("apply font %s;", go_font_as_str (gfont)););
 	return FALSE;
 }
 
@@ -1015,7 +1014,7 @@ BC_R(frame)(XLChartHandler const *handle,
 
 	s->frame_for_grid = (s->prev_opcode == BIFF_CHART_plotarea);
 	s->has_a_grid |= s->frame_for_grid;
-	d (0, fputs (s->frame_for_grid ? "For grid;\n" : "Not for grid;\n", stderr););
+	d (0, g_printerr (s->frame_for_grid ? "For grid;\n" : "Not for grid;\n"););
 
 	return FALSE;
 }
@@ -1061,7 +1060,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 	guint32 preset = ms_obj_attr_get_uint (attrs,
 		MS_OBJ_ATTR_FILL_PRESET, 0);
 
-	d (1, fprintf (stderr, "Frame type = %u\n", type););
+	d (1, g_printerr ("Frame type = %u\n", type););
 	/* plot types we do not support that have gradients */
 	if (NULL == s->style || type < 5) {
 		ms_obj_attr_bag_destroy (attrs);
@@ -1096,7 +1095,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		case 0x0200 : brightness = 1. - frac/512.; break;
 		}
 		gog_style_set_fill_brightness (s->style, (1. - brightness) * 100.);
-		d (1, fprintf (stderr, "%x : frac = %u, flag = 0x%hx ::: %f",
+		d (1, g_printerr ("%x : frac = %u, flag = 0x%hx ::: %f",
 			       fill_back_color, frac, fill_back_color & 0xff00, brightness););
 	}
 
@@ -1173,7 +1172,7 @@ BC_R(ifmt)(XLChartHandler const *handle,
 			g_object_set (G_OBJECT (s->axis),
 				"assigned-format-string-XL", desc,
 				NULL);
-		d (0, fprintf (stderr, "Format = '%s';\n", desc););
+		d (0, g_printerr ("Format = '%s';\n", desc););
 		go_format_unref (fmt);
 	}
 
@@ -1215,7 +1214,7 @@ BC_R(legend)(XLChartHandler const *handle,
 	gog_object_set_position_flags (s->legend, pos, GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 
 #if 0
-	fprintf (stderr, "Legend @ %f,%f, X=%f, Y=%f\n",
+	g_printerr ("Legend @ %f,%f, X=%f, Y=%f\n",
 		x_pos/4000., y_pos/4000., width/4000., height/4000.);
 
 	/* FIXME : Parse the flags too */
@@ -1260,7 +1259,7 @@ BC_R(line)(XLChartHandler const *handle,
 		"in-3d",		in_3d,
 		NULL);
 
-	d(1, fprintf (stderr, "%s line;", type););
+	d(1, g_printerr ("%s line;", type););
 	return FALSE;
 }
 
@@ -1308,9 +1307,9 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	s->style->line.auto_color = s->style->line.auto_dash = (flags & 0x01) ? TRUE : FALSE;
 	s->style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
 
-	d (0, fprintf (stderr, "flags == %hd.\n", flags););
-	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
-	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
+	d (0, g_printerr ("flags == %hd.\n", flags););
+	d (0, g_printerr ("Lines are %f pts wide.\n", s->style->line.width););
+	d (0, g_printerr ("Lines have a %s pattern.\n",
 		       ms_line_pattern [s->style->line.pattern]););
 
 	if (s->style->line.pattern <= G_N_ELEMENTS (dash_map))
@@ -1320,7 +1319,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8 && s->currentSeries != NULL) {
 		guint16 const fore = GSF_LE_GET_GUINT16 (q->data+10);
-		d (0, fprintf (stderr, "color index == %hd.\n", fore););
+		d (0, g_printerr ("color index == %hd.\n", fore););
 		/* Excel assumes that the color is automatic if it is the same
 		as the automatic one whatever the auto flag value is */
 		s->style->line.auto_color = (fore == 31 + s->series->len);
@@ -1371,7 +1370,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	BC_R(get_style) (s);
 	marker = go_marker_new ();
 
-	d (0, fprintf (stderr, "Marker = %s\n", ms_chart_marker [shape]););
+	d (0, g_printerr ("Marker = %s\n", ms_chart_marker [shape]););
 	if (shape >= G_N_ELEMENTS (shape_map))
 		shape = 1; /* square */
 	go_marker_set_shape (marker, shape_map [shape]);
@@ -1388,7 +1387,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 		guint16 const back = GSF_LE_GET_GUINT16 (q->data+14);
 		guint32 const marker_size = GSF_LE_GET_GUINT32 (q->data+16);
 		go_marker_set_size (marker, marker_size / 20.);
-		d (1, fprintf (stderr, "Marker size : is %f pts\n", marker_size / 20.););
+		d (1, g_printerr ("Marker size : is %f pts\n", marker_size / 20.););
 		/* Excel assumes that the color is automatic if it is the same
 		as the automatic one whatever the auto flag value is */
 		s->style->marker.auto_outline_color = (fore == 31 + s->series->len);
@@ -1442,7 +1441,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	if (label != NULL) {
 		Sheet *sheet = ms_container_sheet (s->container.parent);
 		if (sheet != NULL && s->text != NULL) {
-			GnmValue *value = value_new_string (s->text);
+			GnmValue *value = value_new_string_nocopy (s->text);
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 			gog_dataset_set_dim (GOG_DATASET (label), 0,
 					     gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
@@ -1455,14 +1454,14 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	guint16 const pt_num = GSF_LE_GET_GUINT16 (q->data+2);
 
 	switch (purpose) {
-	case 1 : fprintf (stderr, "TEXT is chart title\n"); break;
-	case 2 : fprintf (stderr, "TEXT is Y axis title\n"); break;
-	case 3 : fprintf (stderr, "TEXT is X axis title\n"); break;
-	case 4 : fprintf (stderr, "TEXT is data label for pt %hd in series %hd\n",
+	case 1 : g_printerr ("TEXT is chart title\n"); break;
+	case 2 : g_printerr ("TEXT is Y axis title\n"); break;
+	case 3 : g_printerr ("TEXT is X axis title\n"); break;
+	case 4 : g_printerr ("TEXT is data label for pt %hd in series %hd\n",
 			 pt_num, series_num); break;
-	case 7 : fprintf (stderr, "TEXT is Z axis title\n"); break;
+	case 7 : g_printerr ("TEXT is Z axis title\n"); break;
 	default :
-		 fprintf (stderr, "ERROR : TEXT is linked to undocumented object\n");
+		 g_printerr ("ERROR : TEXT is linked to undocumented object\n");
 	}});
 	if (NULL != label && NULL != s->style)
 		gog_styled_object_set_style (GOG_STYLED_OBJECT (label), s->style);
@@ -1528,7 +1527,7 @@ BC_R(pieformat)(XLChartHandler const *handle,
 		g_object_set (G_OBJECT (s->plot),
 			"default-separation",	((double) separation) / 100.,
 			NULL);
-	d (2, fprintf (stderr, "Pie slice(s) are %u %% of diam from center\n",
+	d (2, g_printerr ("Pie slice(s) are %u %% of diam from center\n",
 		       separation););
 	return FALSE;
 }
@@ -1556,16 +1555,16 @@ BC_R(plotgrowth)(XLChartHandler const *handle,
 	gint16 const horiz = GSF_LE_GET_GUINT16 (q->data+2);
 	gint16 const vert = GSF_LE_GET_GUINT16 (q->data+6);
 
-	fprintf (stderr, "Scale H=");
+	g_printerr ("Scale H=");
 	if (horiz != -1)
-		fprintf (stderr, "%u", horiz);
+		g_printerr ("%u", horiz);
 	else
-		fprintf (stderr, "Unscaled");
-	fprintf (stderr, ", V=");
+		g_printerr ("Unscaled");
+	g_printerr (", V=");
 	if (vert != -1)
-		fprintf (stderr, "%u", vert);
+		g_printerr ("%u", vert);
 	else
-		fprintf (stderr, "Unscaled");
+		g_printerr ("Unscaled");
 	});
 	return FALSE;
 }
@@ -1577,7 +1576,7 @@ BC_R(pos)(XLChartHandler const *handle,
 {
 	switch (BC_R(top_state) (s, 0)) {
 	case BIFF_CHART_text :
-		d(2, fprintf (stderr, "text pos;"););
+		d(2, g_printerr ("text pos;"););
 		break;
 	default :
 		;
@@ -1648,7 +1647,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 				"size-as-area",		size_as_area,
 				"bubble-scale",	scale,
 				NULL);
-			d(1, fprintf (stderr, "bubbles;"););
+			d(1, g_printerr ("bubbles;"););
 			return FALSE;
 		}
 	}
@@ -1656,7 +1655,7 @@ BC_R(scatter)(XLChartHandler const *handle,
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogXYPlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
-	d(1, fprintf (stderr, "scatter;"););
+	d(1, g_printerr ("scatter;"););
 	return FALSE;
 }
 
@@ -1675,20 +1674,20 @@ BC_R(serauxerrbar)(XLChartHandler const *handle,
 
 	d (1, {
 		switch (type) {
-		case 1: fputs ("type: x-direction plus\n", stderr); break;
-		case 2: fputs ("type: x-direction minus\n", stderr); break;
-		case 3: fputs ("type: y-direction plus\n", stderr); break;
-		case 4: fputs ("type: y-direction minus\n", stderr); break;
+		case 1: g_printerr ("type: x-direction plus\n"); break;
+		case 2: g_printerr ("type: x-direction minus\n"); break;
+		case 3: g_printerr ("type: y-direction plus\n"); break;
+		case 4: g_printerr ("type: y-direction minus\n"); break;
 		}
 		switch (src) {
-		case 1: fputs ("source: percentage\n", stderr); break;
-		case 2: fputs ("source: fixed value\n", stderr); break;
-		case 3: fputs ("source: standard deviation\n", stderr); break;
-		case 4: fputs ("source: custom\n", stderr); break;
-		case 5: fputs ("source: standard error\n", stderr); break;
+		case 1: g_printerr ("source: percentage\n"); break;
+		case 2: g_printerr ("source: fixed value\n"); break;
+		case 3: g_printerr ("source: standard deviation\n"); break;
+		case 4: g_printerr ("source: custom\n"); break;
+		case 5: g_printerr ("source: standard error\n"); break;
 		}
-		fprintf (stderr, "%sT-shaped\n", (teetop)? "": "Not ");
-		fprintf (stderr, "num values: %d\n", num);
+		g_printerr ("%sT-shaped\n", (teetop)? "": "Not ");
+		g_printerr ("num values: %d\n", num);
 	});
 	g_return_val_if_fail (s->currentSeries != NULL, FALSE);
 
@@ -1699,7 +1698,7 @@ BC_R(serauxerrbar)(XLChartHandler const *handle,
 	s->currentSeries->err_num = num;
 	if (src > 0 && src < 4) {
 		val = GSF_LE_GET_DOUBLE (q->data + 4);
-		d(1, fprintf (stderr, "value = %g\n",val););
+		d(1, g_printerr ("value = %g\n",val););
 		s->currentSeries->err_val = val;
 	}
 	return FALSE;
@@ -1720,18 +1719,18 @@ BC_R(serauxtrend)(XLChartHandler const *handle,
 	double const backcast = GSF_LE_GET_DOUBLE (q->data+20);
 	d (1, {
 		switch (type) {
-		case 0: fputs ("type: polynomial\n", stderr); break;
-		case 1: fputs ("type: exponential\n", stderr); break;
-		case 2: fputs ("type: logarithmic\n", stderr); break;
-		case 3: fputs ("type: power\n", stderr); break;
-		case 4: fputs ("type: moving average\n", stderr); break;
+		case 0: g_printerr ("type: polynomial\n"); break;
+		case 1: g_printerr ("type: exponential\n"); break;
+		case 2: g_printerr ("type: logarithmic\n"); break;
+		case 3: g_printerr ("type: power\n"); break;
+		case 4: g_printerr ("type: moving average\n"); break;
 		}
-		fprintf (stderr, "order: %d\n", order);
-		fprintf (stderr, "intercept: %g\n", intercept);
-		fprintf (stderr, "show equation: %s\n", (equation)? "yes": "no");
-		fprintf (stderr, "show R-squared: %s\n", (r2)? "yes": "no");
-		fprintf (stderr, "forecast: %g\n", forecast);
-		fprintf (stderr, "backcast: %g\n", backcast);
+		g_printerr ("order: %d\n", order);
+		g_printerr ("intercept: %g\n", intercept);
+		g_printerr ("show equation: %s\n", (equation)? "yes": "no");
+		g_printerr ("show R-squared: %s\n", (r2)? "yes": "no");
+		g_printerr ("forecast: %g\n", forecast);
+		g_printerr ("backcast: %g\n", backcast);
 	});
 	g_return_val_if_fail (s->currentSeries != NULL, FALSE);
 
@@ -1762,7 +1761,7 @@ BC_R(serfmt)(XLChartHandler const *handle,
 		s->interpolation = GO_LINE_INTERPOLATION_SPLINE;
 	}
 	d (1, {
-		fprintf (stderr, "interpolation: %s\n", (flags & 1)? "spline": "linear");
+		g_printerr ("interpolation: %s\n", (flags & 1)? "spline": "linear");
 	});
 	return FALSE;
 }
@@ -1778,9 +1777,9 @@ BC_R(trendlimits)(XLChartHandler const *handle,
 	double const max = GSF_LE_GET_DOUBLE (q->data+8);
 	guint8 const skip_invalid = GSF_LE_GET_GUINT8  (q->data+16);
 	d (1, {
-		fprintf (stderr, "skip invalid data: %s\n", (skip_invalid)? "yes": "no");
-		fprintf (stderr, "min: %g\n", min);
-		fprintf (stderr, "max: %g\n", max);
+		g_printerr ("skip invalid data: %s\n", (skip_invalid)? "yes": "no");
+		g_printerr ("min: %g\n", min);
+		g_printerr ("max: %g\n", max);
 	});
 	s->currentSeries->reg_min = min;
 	s->currentSeries->reg_max = max;
@@ -1805,7 +1804,7 @@ BC_R(vector_details)(XLChartReadState *s, BiffQuery *q, XLChartSeries *series,
 #endif
 
 	series->data [purpose].num_elements = GSF_LE_GET_GUINT16 (q->data+count_offset);
-	d (0, fprintf (stderr, "%s has %d elements\n",
+	d (0, g_printerr ("%s has %d elements\n",
 		       name, series->data [purpose].num_elements););
 }
 
@@ -1818,7 +1817,7 @@ BC_R(series)(XLChartHandler const *handle,
 
 	g_return_val_if_fail (s->currentSeries == NULL, TRUE);
 
-	d (2, fprintf (stderr, "SERIES = %d\n", s->series->len););
+	d (2, g_printerr ("SERIES = %d\n", s->series->len););
 
 	series = excel_chart_series_new ();
 
@@ -1865,7 +1864,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 		return FALSE;
 
 	str = excel_get_text (s->container.importer, q->data + 3, slen, NULL);
-	d (2, fprintf (stderr, "'%s';\n", str););
+	d (2, g_printerr ("'%s';\n", str););
 
 	if (s->currentSeries != NULL &&
 	    s->currentSeries->data [GOG_MS_DIM_LABELS].data == NULL) {
@@ -1895,7 +1894,7 @@ BC_R(serparent)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const index = GSF_LE_GET_GUINT16 (q->data) - 1;
-	d (1, fprintf (stderr, "Parent series index is %hd\n", index););
+	d (1, g_printerr ("Parent series index is %hd\n", index););
 	s->parent_index = index;
 
 	return FALSE;
@@ -1913,7 +1912,7 @@ BC_R(sertocrt)(XLChartHandler const *handle,
 
 	s->currentSeries->chart_group = index;
 
-	d (1, fprintf (stderr, "Series chart group index is %hd\n", index););
+	d (1, g_printerr ("Series chart group index is %hd\n", index););
 	return FALSE;
 }
 
@@ -1944,22 +1943,22 @@ BC_R(shtprops)(XLChartHandler const *handle,
 
 	g_return_val_if_fail (tmp < MS_CHART_BLANK_MAX, TRUE);
 	blanks = tmp;
-	d (2, fprintf (stderr, "%s;", ms_chart_blank[blanks]););
+	d (2, g_printerr ("%s;", ms_chart_blank[blanks]););
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8)
 		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
 
 	d (1, {
-	fprintf (stderr, "%sesize chart with window.\n",
+	g_printerr ("%sesize chart with window.\n",
 		dont_size_with_window ? "Don't r": "R");
 
 	if (has_pos_record && !ignore_pos_record)
-		fprintf (stderr, "There should be a POS record around here soon\n");
+		g_printerr ("There should be a POS record around here soon\n");
 
 	if (manual_format)
-		fprintf (stderr, "Manually formated\n");
+		g_printerr ("Manually formated\n");
 	if (only_plot_visible_cells)
-		fprintf (stderr, "Only plot visible (to whom?) cells\n");
+		g_printerr ("Only plot visible (to whom?) cells\n");
 	});
 	return FALSE;
 }
@@ -1973,7 +1972,7 @@ BC_R(siindex)(XLChartHandler const *handle,
 	/* UNDOCUMENTED : Docs says this is long
 	 * Biff record is only length 2 */
 	s->cur_role = GSF_LE_GET_GUINT16 (q->data);
-	d (1, fprintf (stderr, "Series %d is %hd\n", s->series->len, s->cur_role););
+	d (1, g_printerr ("Series %d is %hd\n", s->series->len, s->cur_role););
 	return FALSE;
 }
 /****************************************************************************/
@@ -2040,19 +2039,19 @@ BC_R(text)(XLChartHandler const *handle,
 
 	d (2, {
 	if (s->prev_opcode == BIFF_CHART_defaulttext) {
-		fputs ("Text follows defaulttext;\n", stderr);
+		g_printerr ("Text follows defaulttext;\n");
 	} else switch (BC_R(top_state) (s, 0)) {
 	case BIFF_CHART_axisparent :
-		fputs ("Text follows axis;\n", stderr);
+		g_printerr ("Text follows axis;\n");
 		break;
 	case BIFF_CHART_chart :
-		fputs ("Text follows chart;\n", stderr);
+		g_printerr ("Text follows chart;\n");
 		break;
 	case BIFF_CHART_legend :
-		fputs ("Text follows legend;\n", stderr);
+		g_printerr ("Text follows legend;\n");
 		break;
 	default :
-		fprintf (stderr, "BIFF ERROR : A Text record follows a %x\n",
+		g_printerr ("BIFF ERROR : A Text record follows a %x\n",
 			s->prev_opcode);
 		g_object_unref (s->style);
 		s->style = NULL;
@@ -2089,49 +2088,49 @@ BC_R(tick)(XLChartHandler const *handle,
 	guint16 const flags = GSF_LE_GET_GUINT8 (q->data+24);
 
 	switch (major) {
-	case 0: fputs ("no major tick;\n", stderr); break;
-	case 1: fputs ("major tick inside axis;\n", stderr); break;
-	case 2: fputs ("major tick outside axis;\n", stderr); break;
-	case 3: fputs ("major tick across axis;\n", stderr); break;
-	default : fputs ("unknown major tick type;\n", stderr);
+	case 0: g_printerr ("no major tick;\n"); break;
+	case 1: g_printerr ("major tick inside axis;\n"); break;
+	case 2: g_printerr ("major tick outside axis;\n"); break;
+	case 3: g_printerr ("major tick across axis;\n"); break;
+	default : g_printerr ("unknown major tick type;\n");
 	}
 	switch (minor) {
-	case 0: fputs ("no minor tick;\n", stderr); break;
-	case 1: fputs ("minor tick inside axis;\n", stderr); break;
-	case 2: fputs ("minor tick outside axis;\n", stderr); break;
-	case 3: fputs ("minor tick across axis;\n", stderr); break;
-	default : fputs ("unknown minor tick type;\n", stderr);
+	case 0: g_printerr ("no minor tick;\n"); break;
+	case 1: g_printerr ("minor tick inside axis;\n"); break;
+	case 2: g_printerr ("minor tick outside axis;\n"); break;
+	case 3: g_printerr ("minor tick across axis;\n"); break;
+	default : g_printerr ("unknown minor tick type;\n");
 	}
 	switch (label) {
-	case 0: fputs ("no tick label;\n", stderr); break;
-	case 1: fputs ("tick label at low end (NOTE mapped to near axis);\n", stderr); break;
-	case 2: fputs ("tick label at high end (NOTE mapped to near axis);\n", stderr); break;
-	case 3: fputs ("tick label near axis;\n", stderr); break;
-	default : fputs ("unknown tick label position;\n", stderr);
+	case 0: g_printerr ("no tick label;\n"); break;
+	case 1: g_printerr ("tick label at low end (NOTE mapped to near axis);\n"); break;
+	case 2: g_printerr ("tick label at high end (NOTE mapped to near axis);\n"); break;
+	case 3: g_printerr ("tick label near axis;\n"); break;
+	default : g_printerr ("unknown tick label position;\n");
 	}
 
 	/*
 	if (flags&0x01)
-		fputs ("Auto tick label colour", stderr);
+		g_printerr ("Auto tick label colour");
 	else
 		BC_R(color) (q->data+4, "LabelColour", tick, FALSE);
 	*/
 
 	if (flags&0x02)
-		fputs ("Auto text background mode\n", stderr);
+		g_printerr ("Auto text background mode\n");
 	else
-		fprintf (stderr, "background mode = %d\n", (unsigned)GSF_LE_GET_GUINT8 (q->data+3));
+		g_printerr ("background mode = %d\n", (unsigned)GSF_LE_GET_GUINT8 (q->data+3));
 
 	switch (flags&0x1c) {
-	case 0: fputs ("no rotation;\n", stderr); break;
-	case 1: fputs ("top to bottom letters upright;\n", stderr); break;
-	case 2: fputs ("rotate 90deg counter-clockwise;\n", stderr); break;
-	case 3: fputs ("rotate 90deg clockwise;\n", stderr); break;
-	default : fputs ("unknown rotation;\n", stderr);
+	case 0: g_printerr ("no rotation;\n"); break;
+	case 1: g_printerr ("top to bottom letters upright;\n"); break;
+	case 2: g_printerr ("rotate 90deg counter-clockwise;\n"); break;
+	case 3: g_printerr ("rotate 90deg clockwise;\n"); break;
+	default : g_printerr ("unknown rotation;\n");
 	}
 
 	if (flags&0x20)
-		fputs ("Auto rotate;\n", stderr);
+		g_printerr ("Auto rotate;\n");
 	});
 
 	return FALSE;
@@ -2158,7 +2157,7 @@ xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
 	GOData *dat;
 	if (flag) {
 		dat = NULL;
-		d (1, fprintf (stderr, "%s = Auto\n", name););
+		d (1, g_printerr ("%s = Auto\n", name););
 		if (dim == GOG_AXIS_ELEM_CROSS_POINT) {
 		    gog_dataset_set_dim (GOG_DATASET (axis), dim,
 			    go_data_scalar_val_new (0.), NULL);
@@ -2169,7 +2168,7 @@ xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
 		double real_value = (log_scale)? gnm_pow10 (val): val;
 		gog_dataset_set_dim (GOG_DATASET (axis), dim,
 			go_data_scalar_val_new (real_value), NULL);
-		d (1, fprintf (stderr, "%s = %f\n", name, real_value););
+		d (1, g_printerr ("%s = %f\n", name, real_value););
 	}
 }
 
@@ -2183,7 +2182,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 
 	if (log_scale) {
 		g_object_set (s->axis, "map-name", "Log", NULL);
-		d (1, fputs ("Log scaled;\n", stderr););
+		d (1, g_printerr ("Log scaled;\n"););
 	}
 
 	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MIN,	  "Min Value",		flags&0x01, q->data+ 0, log_scale);
@@ -2194,14 +2193,14 @@ BC_R(valuerange)(XLChartHandler const *handle,
 
 	if (flags & 0x40) {
 		g_object_set (s->axis, "invert-axis", TRUE, NULL);
-		d (1, fputs ("Values in reverse order;\n", stderr););
+		d (1, g_printerr ("Values in reverse order;\n"););
 	}
 	if (((flags & 0x80) != 0) ^ ((flags & 0x40) != 0)) {
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
 			s->axis_cross_at_max = TRUE;
 		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis)
 			g_object_set (s->xaxis, "pos-str", "high", NULL);
-		d (1, fputs ("Cross over at max value;\n", stderr););
+		d (1, g_printerr ("Cross over at max value;\n"););
 	} else {
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
 			s->axis_cross_value = cross;
@@ -2210,7 +2209,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 			gog_dataset_set_dim (GOG_DATASET (s->xaxis), GOG_AXIS_ELEM_CROSS_POINT,
 				go_data_scalar_val_new (cross), NULL);
 		}
-		d (1, fprintf (stderr, "Cross over point = %f\n", cross););
+		d (1, g_printerr ("Cross over point = %f\n", cross););
 	}
 
 	return FALSE;
@@ -2319,7 +2318,7 @@ BC_R(end)(XLChartHandler const *handle,
 {
 	int popped_state;
 
-	d (0, fputs ("}\n", stderr););
+	d (0, g_printerr ("}\n"););
 
 	g_return_val_if_fail (s->stack != NULL, TRUE);
 	g_return_val_if_fail (s->stack->len > 0, TRUE);
@@ -2787,7 +2786,7 @@ not_a_matrix:
 						g_direct_hash, g_direct_equal, NULL, g_object_unref);
 				g_hash_table_insert (s->currentSeries->singletons,
 					GUINT_TO_POINTER (s->style_element), s->style);
-				d (0, fputs ("/* STORE singleton style */\n", stderr););
+				d (0, g_printerr ("/* STORE singleton style */\n"););
 			}
 		} else if (s->plot != NULL) {
 			g_return_val_if_fail (s->default_plot_style == NULL, TRUE);
@@ -2945,9 +2944,9 @@ BC(register_handler)(XLChartHandler const *const handle)
 	guint32 num = handle->opcode & 0xff;
 
 	if (num >= num_handler)
-		fprintf (stderr, "Invalid BIFF_CHART handler (%x)\n", handle->opcode);
+		g_printerr ("Invalid BIFF_CHART handler (%x)\n", handle->opcode);
 	else if (chart_biff_handler[num])
-		fprintf (stderr, "Multiple BIFF_CHART handlers for (%x)\n",
+		g_printerr ("Multiple BIFF_CHART handlers for (%x)\n",
 			handle->opcode);
 	else
 		chart_biff_handler[num] = handle;
@@ -3225,7 +3224,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		state.chartline_style[i] = NULL;
 	state.dropbar_style = NULL;
 
-	d (0, fputs ("{ /* CHART */\n", stderr););
+	d (0, g_printerr ("{ /* CHART */\n"););
 
 	while (!done && ms_biff_query_next (q)) {
 		/* Use registered jump table for chart records */
@@ -3238,7 +3237,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			if (lsb >= num_handler ||
 			    !chart_biff_handler [lsb] ||
 			    chart_biff_handler  [lsb]->opcode != q->opcode) {
-				d (0, {	fprintf (stderr, "Unknown BIFF_CHART record\n");
+				d (0, {	g_printerr ("Unknown BIFF_CHART record\n");
 					ms_biff_query_dump (q);});
 			} else {
 				XLChartHandler const *const h =
@@ -3246,23 +3245,23 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 				if (state.graph	!= NULL) {
 					d (0, { if (!begin_end)
-							fprintf (stderr, "%s(\n", h->name); });
+							g_printerr ("%s(\n", h->name); });
 					(void)(*h->read_fn)(h, &state, q);
 					d (0, { if (!begin_end)
-							fprintf (stderr, ");\n"); });
+							g_printerr (");\n"); });
 				}
 			}
 		} else switch (q->opcode) {
 		case BIFF_EOF:
 			done = TRUE;
-			d (0, fputs ("}; /* CHART */\n", stderr););
+			d (0, g_printerr ("}; /* CHART */\n"););
 			g_return_val_if_fail(state.stack->len == 0, TRUE);
 			break;
 
 		case BIFF_PROTECT : {
 			gboolean const is_protected =
 				(1 == GSF_LE_GET_GUINT16 (q->data));
-			d (4, fprintf (stderr, "Chart is%s protected;\n",
+			d (4, g_printerr ("Chart is%s protected;\n",
 				     is_protected ? "" : " not"););
 			break;
 		}
@@ -3287,7 +3286,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 				value_release (series->data[state.cur_role].value->vals[0][row]);
 				series->data[state.cur_role].value->vals[0][row] = value_new_float (val);
 			}
-			d (10, fprintf (stderr, "series %d, index %d, value %f\n", sernum, row, val););
+			d (10, g_printerr ("series %d, index %d, value %f\n", sernum, row, val););
 			break;
 		}
 
@@ -3311,7 +3310,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 				value_release (series->data[state.cur_role].value->vals[0][row]);
 				series->data[state.cur_role].value->vals[0][row] = value_new_string (label);
 			}
-			d (10, {fprintf (stderr, "'%s' row = %d, series = %d\n", label, row, sernum);});
+			d (10, {g_printerr ("'%s' row = %d, series = %d\n", label, row, sernum);});
 			g_free (label);
 			break;
 		}
@@ -3346,7 +3345,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		case BIFF_VCENTER :	/* Skip for Now */
 		case BIFF_CODENAME :
 		case BIFF_SETUP :
-			d (8, fprintf (stderr, "Handled biff %x in chart;\n",
+			d (8, g_printerr ("Handled biff %x in chart;\n",
 				     q->opcode););
 			break;
 

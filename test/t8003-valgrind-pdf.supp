@@ -85,6 +85,22 @@
 }
 
 {
+   Cond/deflate3_cairo_opensuse
+   Memcheck:Cond
+   fun:*
+   fun:*
+   fun:deflate
+   fun:compress2
+   fun:compress_dup
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:cairo_surface_finish
+}
+
+{
    Cond/deflate_cairo_debian
    Memcheck:Cond
    fun:*   
