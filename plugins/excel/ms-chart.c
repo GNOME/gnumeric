@@ -173,9 +173,12 @@ excel_chart_series_delete (XLChartSeries *series)
 {
 	int i;
 
-	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; )
+	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; ) {
 		if (series->data [i].data != NULL)
 			g_object_unref (series->data[i].data);
+		if (series->data [i].value != NULL)
+			value_release ((GnmValue *)(series->data[i].value));
+	}
 	if (series->style != NULL)
 		g_object_unref (series->style);
 	if (series->singletons != NULL)
@@ -363,6 +366,9 @@ BC_R(ai)(XLChartHandler const *handle,
 		}
 	} else if (ref_type == 1 && purpose != GOG_MS_DIM_LABELS &&
 		   s->currentSeries->data [purpose].num_elements > 0) {
+		if (s->currentSeries->data [purpose].value)
+			g_warning ("Leak?");
+
 		s->currentSeries->data [purpose].value = (GnmValueArray *)
 			value_new_array (1, s->currentSeries->data [purpose].num_elements);
 	} else {
@@ -1436,16 +1442,10 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	if (label != NULL) {
 		Sheet *sheet = ms_container_sheet (s->container.parent);
 		if (sheet != NULL && s->text != NULL) {
-			GnmExprTop const *texpr;
 			GnmValue *value = value_new_string (s->text);
-			if (value != NULL) {
-				texpr = gnm_expr_top_new_constant (value);
-				if (texpr)
-					gog_dataset_set_dim (GOG_DATASET (label), 0,
-						gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
-				else
-					value_release (value);
-			}
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
+			gog_dataset_set_dim (GOG_DATASET (label), 0,
+					     gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
 		}
 		s->text = NULL;
 	}
@@ -1872,14 +1872,10 @@ BC_R(seriestext)(XLChartHandler const *handle,
 		GnmExprTop const *texpr;
 		Sheet *sheet = ms_container_sheet (s->container.parent);
 		g_return_val_if_fail (sheet != NULL, FALSE);
-		value = value_new_string (str);
-		g_return_val_if_fail (value != NULL, FALSE);
+		value = value_new_string_nocopy (str);
 		texpr = gnm_expr_top_new_constant (value);
-		if (texpr)
-			s->currentSeries->data [GOG_MS_DIM_LABELS].data =
-				gnm_go_data_scalar_new_expr (sheet, texpr);
-		else
-			value_release (value);
+		s->currentSeries->data [GOG_MS_DIM_LABELS].data =
+			gnm_go_data_scalar_new_expr (sheet, texpr);
 	} else if (BC_R(top_state) (s, 0) == BIFF_CHART_text) {
 		if (s->text != NULL) {
 			g_warning ("multiple seriestext associated with 1 text record ?");
@@ -3145,6 +3141,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 				GnmExprTop const *texpr =
 					gnm_expr_top_new_constant ((GnmValue *)
 								   series->data[orig_dim].value);
+				series->data[orig_dim].value = NULL;
 				data = gnm_go_data_vector_new_expr (sheet, texpr);
 				XL_gog_series_set_dim (parent->series, msdim, data);
 			}
@@ -3399,7 +3396,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 						continue;
 
 					texpr = gnm_expr_top_new_constant
-						(value_dup ((GnmValue const *)(series->data [j].value)));
+						((GnmValue *)(series->data [j].value));
+					series->data [j].value = NULL;
 
 					data = gnm_go_data_vector_new_expr (sheet, texpr);
 					if (series->extra_dim == 0)
