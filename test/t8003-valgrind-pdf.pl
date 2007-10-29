@@ -12,5 +12,5 @@ my $tmp = "statfuns.pdf";
 
 &message ("Check the pdf exporter with valgrind -- part 2.");
 my $tmp2 = "cellstyle.pdf";
-&GnumericTest::junkfile ($tmp);
-&test_valgrind ("$ssconvert $samples/excel12/cellstyle.xlsx $tmp", 1);
+&GnumericTest::junkfile ($tmp2);
+&test_valgrind ("$ssconvert $samples/excel12/cellstyle.xlsx $tmp2", 1);
