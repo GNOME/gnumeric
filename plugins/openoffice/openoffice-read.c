@@ -1939,6 +1939,7 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 	gdouble height, width, x, y;
 	ColRowInfo const *col, *row;
 
+	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "width"))
 			aux = oo_parse_distance (xin, attrs[1], "width", &width);
