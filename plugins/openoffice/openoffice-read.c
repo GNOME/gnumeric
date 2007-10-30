@@ -2382,6 +2382,7 @@ oo_chart_style_free (OOChartStyle *cstyle)
 {
 	oo_prop_list_free (cstyle->axis_props);
 	oo_prop_list_free (cstyle->plot_props);
+	g_free (cstyle);
 }
 
 static GsfXMLInNode const styles_dtd[] = {
