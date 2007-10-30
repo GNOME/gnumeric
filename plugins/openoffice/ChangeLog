@@ -1,5 +1,10 @@
 2007-10-29  Jody Goldberg <jody@gnome.org>
 
+	* openoffice-read.c (od_draw_frame) : fix the namespace for y, and
+	  provide defaults of 0 incase of invalid input.
+
+2007-10-29  Jody Goldberg <jody@gnome.org>
+
 	Data is implicitly allocated in all sorts of undocumented ways.
 	* openoffice-read.c (oo_plot_area) : refactor the data handling into
 	(oo_plot_assign_dim) : here.

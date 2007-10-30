@@ -1947,7 +1947,7 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 			aux = oo_parse_distance (xin, attrs[1], "height", &height);
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
 			aux = oo_parse_distance (xin, attrs[1], "x", &x);
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "y"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
 			aux = oo_parse_distance (xin, attrs[1], "y", &y);
 	}
 	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
