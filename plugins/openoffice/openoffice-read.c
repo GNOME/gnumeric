@@ -103,18 +103,18 @@ static struct {
 #define OD_BORDER_THICK		5
 
 typedef enum {
-	AREA,
-	BAR,
-	CIRCLE,
-	LINE,
-	RADAR,
-	RADARAREA,
-	RING,
-	SCATTER,
-	STOCK,
-	SURF,
-	UNKNOWN
-} ODChartType;
+	OO_PLOT_AREA,
+	OO_PLOT_BAR,
+	OO_PLOT_CIRCLE,
+	OO_PLOT_LINE,
+	OO_PLOT_RADAR,
+	OO_PLOT_RADARAREA,
+	OO_PLOT_RING,
+	OO_PLOT_SCATTER,
+	OO_PLOT_STOCK,
+	OO_PLOT_SURF,
+	OO_PLOT_UNKNOWN
+} OOPlotType;
 
 typedef enum {
 	OO_STYLE_UNKNOWN,
@@ -129,55 +129,67 @@ typedef enum {
 } OOStyleType;
 
 typedef struct {
-	gchar *name;	/* property name */
-	GValue *value;	/* property value */
-} ODProps;		/* struct to hold axis properties inside a GSList, e.g.: is logarithmic? */
+	GValue value;
+	gchar const *name;
+} OOProp;
 
 typedef struct {
 	gboolean grid;		/* graph has grid? */
-	gboolean row_src;	/* orientation of graph data: rows or columns */
-	GSList *axis;		/* axis properties */
-	GSList *chart;		/* chart properties */
-} ODGraphProperties;
+	gboolean src_in_rows;	/* orientation of graph data: rows or columns */
+	GSList	*axis_props;		/* axis properties */
+	GSList	*plot_props;	/* plot properties */
+} OOChartStyle;
 
 typedef struct {
-	GogGraph *graph;		/* current graph */
-	ODGraphProperties *cur_graph_style;
-	GHashTable *graph_styles;	/* contain links to ODGraphProperties GSLists */
-	GogChart *chart;		/* current chart */
-	ODChartType chart_type;
-	SheetObjectAnchor anchor;	/* anchor to draw the frame (images or graphs) */
-	gboolean has_legend;
-	GogObjectPosition legend;
-	GogAxisType cur_axis;
-} ODFrameProperties;
+	GogGraph 	*graph;
+	GogChart 	*chart;
+
+	/* set in plot-area */
+	GogPlot	 	*plot;
+	Sheet		*src_sheet;
+	GnmRange	 src_range;
+	gboolean	 src_in_rows;
+	int		 src_n_vectors;
+
+	GogSeries	*series;
+	unsigned	 domain_count;	/* reset for each series */
+	unsigned	 data_pt_count;	/* reset for each series */
+
+	GogObject	*axis;
+
+	OOChartStyle		*cur_graph_style;
+	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
+	OOPlotType	 	 plot_type;
+	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
+	GogAxisType		 axis_type;
+} OOChartInfo;
 
 typedef enum {
-	ODF_PAGE_BREAK_NONE,
-	ODF_PAGE_BREAK_AUTO,
-	ODF_PAGE_BREAK_MANUAL
-} ODFPageBreakType;
+	OO_PAGE_BREAK_NONE,
+	OO_PAGE_BREAK_AUTO,
+	OO_PAGE_BREAK_MANUAL
+} OOPageBreakType;
 typedef struct {
 	float	 size_pts;
 	int	 col_count;
 	int	 row_count;
 	gboolean manual;
-	ODFPageBreakType break_before, break_after;
-} ODFColRowStyle;
+	OOPageBreakType break_before, break_after;
+} OOColRowStyle;
 typedef struct {
 	GnmSheetVisibility visibility;
 	gboolean is_rtl;
-} ODFSheetStyle;
+} OOSheetStyle;
 
 typedef struct {
 	IOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
-	ODFrameProperties cur_frame;
-	GnmParsePos	pos;
-	GnmCellPos	data_extent;
-	GnmCellPos	style_extent;
+	OOChartInfo	 chart;
+	GnmParsePos 	 pos;
+	GnmCellPos 	 data_extent;
+	GnmCellPos 	 style_extent;
 
 	int		 col_inc, row_inc;
 	gboolean	 simple_content;
@@ -192,8 +204,8 @@ typedef struct {
 	} styles;
 	struct {
 		GnmStyle	*cells;
-		ODFColRowStyle	*col_rows;
-		ODFSheetStyle	*sheets;
+		OOColRowStyle	*col_rows;
+		OOSheetStyle	*sheets;
 	} cur_style;
 	OOStyleType	 cur_style_type;
 
@@ -212,8 +224,7 @@ typedef struct {
 } OOParseState;
 
 static GsfXMLInNode const opendoc_content_dtd [];
-static void clean_lists (ODGraphProperties *pointer);
-static ODProps *dup_prop (ODProps *pointer);
+static void oo_chart_style_free (OOChartStyle *pointer);
 
 static gboolean oo_warning (GsfXMLIn *xin, char const *fmt, ...)
 	G_GNUC_PRINTF (2, 3);
@@ -511,7 +522,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->sheet_order = g_slist_prepend (
 				state->sheet_order, state->pos.sheet);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))  {
-			ODFSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, attrs[1]);
+			OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, attrs[1]);
 			g_object_set (state->pos.sheet,
 				"visibility", style->visibility,
 				"text-is-rtl", style->is_rtl,
@@ -520,12 +531,12 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 typedef struct {
-	ODFColRowStyle *cri;
+	OOColRowStyle *cri;
 	gboolean is_cols;
 } FindDefaultColRowStyle;
 
 static void
-cb_find_default_colrow_style (gpointer *key, ODFColRowStyle *val,
+cb_find_default_colrow_style (gpointer *key, OOColRowStyle *val,
 			      FindDefaultColRowStyle *data)
 {
 	if (data->cri == NULL ||
@@ -601,7 +612,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-odf_append_page_break (OOParseState *state, int pos, gboolean is_vert)
+oo_append_page_break (OOParseState *state, int pos, gboolean is_vert)
 {
 	GnmPageBreaks *breaks;
 
@@ -617,22 +628,22 @@ odf_append_page_break (OOParseState *state, int pos, gboolean is_vert)
 }
 
 static void
-odf_col_row_style_apply_breaks (OOParseState *state, ODFColRowStyle *cr_style,
+oo_col_row_style_apply_breaks (OOParseState *state, OOColRowStyle *cr_style,
 				int pos, gboolean is_vert)
 {
 	/* AUTO seems to denote the possibility, of a break, rather than an
 	 * actual break, ignore it*/
-	if (cr_style->break_before == ODF_PAGE_BREAK_MANUAL)
-		odf_append_page_break (state, pos, is_vert);
-	if (cr_style->break_after  == ODF_PAGE_BREAK_MANUAL)
-		odf_append_page_break (state, pos+1, is_vert);
+	if (cr_style->break_before == OO_PAGE_BREAK_MANUAL)
+		oo_append_page_break (state, pos, is_vert);
+	if (cr_style->break_after  == OO_PAGE_BREAK_MANUAL)
+		oo_append_page_break (state, pos+1, is_vert);
 }
 
 static void
 oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	ODFColRowStyle *col_info = NULL;
+	OOColRowStyle *col_info = NULL;
 	GnmStyle *style = NULL;
 	int	  i, repeat_count = 1;
 	gboolean  hidden = FALSE;
@@ -669,7 +680,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (col_info->size_pts > 0.)
 				sheet_col_set_size_pts (state->pos.sheet, i,
 					col_info->size_pts, col_info->manual);
-			odf_col_row_style_apply_breaks (state, col_info, i, TRUE);
+			oo_col_row_style_apply_breaks (state, col_info, i, TRUE);
 		}
 		col_info->col_count += repeat_count;
 	}
@@ -681,7 +692,7 @@ static void
 oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	ODFColRowStyle *row_info = NULL;
+	OOColRowStyle *row_info = NULL;
 	GnmStyle *style = NULL;
 	int	  i, repeat_count = 1;
 	gboolean  hidden = FALSE;
@@ -723,7 +734,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (row_info->size_pts > 0.)
 				sheet_row_set_size_pts (state->pos.sheet, i,
 					row_info->size_pts, row_info->manual);
-			odf_col_row_style_apply_breaks (state, row_info, i, FALSE);
+			oo_col_row_style_apply_breaks (state, row_info, i, FALSE);
 		}
 		row_info->row_count += repeat_count;
 	}
@@ -816,24 +827,26 @@ two_quotes :
 }
 
 static char const *
-oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
-		   G_GNUC_UNUSED GnmConventions const *convs)
+oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp)
 {
-	char const *ptr;
-
-	g_return_val_if_fail (start != NULL, start);
-	g_return_val_if_fail (pp != NULL, start);
-
-	if (*start != '[')
-		return start;
-	ptr = oo_cellref_parse (&ref->a, start+1, pp);
+	char const *ptr = oo_cellref_parse (&ref->a, start, pp);
 	if (*ptr == ':')
 		ptr = oo_cellref_parse (&ref->b, ptr+1, pp);
 	else
 		ref->b = ref->a;
+	return ptr;
+}
 
-	if (*ptr == ']')
-		return ptr + 1;
+static char const *
+oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
+			G_GNUC_UNUSED GnmConventions const *convs)
+{
+	char const *ptr;
+	if (*start == '[') {
+		ptr = oo_rangeref_parse (ref, start+1, pp);
+		if (*ptr == ']')
+			return ptr + 1;
+	}
 	return start;
 }
 
@@ -1112,7 +1125,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style;
 	GOFormat *fmt = NULL;
 	int tmp;
-	ODGraphProperties *cur_style;
+	OOChartStyle *cur_style;
 
 	g_return_if_fail (state->cur_style_type == OO_STYLE_UNKNOWN);
 
@@ -1153,7 +1166,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 	case OO_STYLE_COL:
 	case OO_STYLE_ROW:
-		state->cur_style.col_rows = g_new0 (ODFColRowStyle, 1);
+		state->cur_style.col_rows = g_new0 (OOColRowStyle, 1);
 		state->cur_style.col_rows->size_pts = -1.;
 		if (name)
 			g_hash_table_replace (state->styles.col_row,
@@ -1161,7 +1174,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		break;
 
 	case OO_STYLE_SHEET:
-		state->cur_style.sheets = g_new0 (ODFSheetStyle, 1);
+		state->cur_style.sheets = g_new0 (OOSheetStyle, 1);
 		if (name)
 			g_hash_table_replace (state->styles.sheet,
 				g_strdup (name), state->cur_style.sheets);
@@ -1169,14 +1182,14 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 	case OO_STYLE_CHART:
 		if (name != NULL){
-			cur_style = g_new0(ODGraphProperties, 1);
-			cur_style->axis = NULL;
-			cur_style->chart = NULL;
-			state->cur_frame.cur_graph_style = cur_style;
-			state->cur_frame.chart_type = UNKNOWN;
-			g_hash_table_replace (state->cur_frame.graph_styles,
+			cur_style = g_new0(OOChartStyle, 1);
+			cur_style->axis_props = NULL;
+			cur_style->plot_props = NULL;
+			state->chart.cur_graph_style = cur_style;
+			state->chart.plot_type = OO_PLOT_UNKNOWN;
+			g_hash_table_replace (state->chart.graph_styles,
 					      g_strdup (name),
-					      state->cur_frame.cur_graph_style);
+					      state->chart.cur_graph_style);
 		}
 		break;
 	default:
@@ -1197,7 +1210,7 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		break;
 	case OO_STYLE_SHEET : state->cur_style.sheets = NULL;
 		break;
-	case OO_STYLE_CHART : state->cur_frame.cur_graph_style = NULL;
+	case OO_STYLE_CHART : state->chart.cur_graph_style = NULL;
 		break;
 
 	default :
@@ -1544,16 +1557,16 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 }
 
-static ODFPageBreakType
+static OOPageBreakType
 oo_page_break_type (GsfXMLIn *xin, xmlChar const *attr)
 {
 	if (!strcmp (attr, "page"))
-		return ODF_PAGE_BREAK_MANUAL;
+		return OO_PAGE_BREAK_MANUAL;
 	if (!strcmp (attr, "auto"))
-		return ODF_PAGE_BREAK_AUTO;
+		return OO_PAGE_BREAK_AUTO;
 	oo_warning (xin,
 		_("Unknown break type '%s' defaulting to Manual"), attr);
-	return ODF_PAGE_BREAK_NONE;
+	return OO_PAGE_BREAK_NONE;
 }
 
 static void
@@ -1597,7 +1610,7 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
-	ODFSheetStyle *style = state->cur_style.sheets;
+	OOSheetStyle *style = state->cur_style.sheets;
 	gboolean tmp_i;
 	int tmp_b;
 
@@ -1626,82 +1639,106 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 }
 
-static ODProps*
-dup_prop (ODProps *pointer)
+static OOProp *
+oo_prop_new_bool (char const *name, gboolean val)
 {
-	ODProps *prop_copy = g_new0 (ODProps, 1);
+	OOProp *res = g_new0 (OOProp, 1);
+	res->name = name;
+	g_value_init (&res->value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&res->value, val);
+	return res;
+}
+static OOProp *
+oo_prop_new_int (char const *name, int val)
+{
+	OOProp *res = g_new0 (OOProp, 1);
+	res->name = name;
+	g_value_init (&res->value, G_TYPE_INT);
+	g_value_set_int (&res->value, val);
+	return res;
+}
+static OOProp *
+oo_prop_new_string (char const *name, char const *val)
+{
+	OOProp *res = g_new0 (OOProp, 1);
+	res->name = name;
+	g_value_init (&res->value, G_TYPE_STRING);
+	g_value_set_string (&res->value, val);
+	return res;
+}
+static void
+oo_prop_free (OOProp *prop)
+{
+	g_value_unset (&prop->value);
+	g_free (prop);
+}
 
-	prop_copy->name = g_strdup (pointer->name);
-	prop_copy->value = g_new0 (GValue, 1);
-	prop_copy->value = g_value_init (prop_copy->value, G_VALUE_TYPE(pointer->value));
-	g_value_copy (pointer->value, prop_copy->value);
+static void
+oo_prop_list_free (GSList *props)
+{
+	GSList *ptr;
+	for (ptr = props; NULL != ptr; ptr = ptr->next)
+		oo_prop_free (ptr->data);
+	g_slist_free (props);
+}
 
-	return prop_copy;
+static void
+oo_prop_list_apply (GSList *props, GObject *obj)
+{
+	GSList *ptr;
+	OOProp *prop;
+	GObjectClass *klass;
+
+	if (NULL == obj)
+		return;
+	klass = G_OBJECT_GET_CLASS (obj);
+
+	for (ptr = props; ptr; ptr = ptr->next) {
+		prop = ptr->data;
+		if (NULL != g_object_class_find_property (klass, prop->name)) {
+			    g_print ("%s\n", prop->name);
+			    g_object_set_property (obj, prop->name, &prop->value);
+		}
+	}
 }
 
 static void
 od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	ODGraphProperties *style = state->cur_frame.cur_graph_style;
-	ODProps *prop = NULL;
+	OOChartStyle *style = state->chart.cur_graph_style;
+	gboolean btmp;
+	int	  tmp;
 
 	g_return_if_fail (style != NULL);
 
 	style->grid = FALSE;
-	style->row_src = FALSE;
-
+	style->src_in_rows = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		prop = g_new0 (ODProps, 1);
-		prop->value = g_new0 (GValue, 1);
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "logarithmic")) {
-			if (attr_eq (attrs[1], "true")){
-				prop->name = g_strdup ("map-name");
-				prop->value = g_value_init (prop->value, G_TYPE_STRING);
-				g_value_set_string (prop->value, "Log");
-				style->axis = g_slist_append (style->axis, dup_prop(prop));
-			}
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "vertical")) {
-			if (attr_eq (attrs[1], "true")){
-				prop->name = g_strdup ("horizontal");
-				prop->value = g_value_init (prop->value, G_TYPE_BOOLEAN);
-				g_value_set_boolean (prop->value, TRUE);
-				style->chart = g_slist_append (style->chart, dup_prop(prop));
-			}
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "stacked")) {
-			if (attr_eq (attrs[1], "true")){
-				prop->name = g_strdup ("type");
-				prop->value = g_value_init (prop->value, G_TYPE_STRING);
-				g_value_set_string (prop->value, "stacked");
-				style->chart = g_slist_append (style->chart, dup_prop(prop));
-			}
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "percentage")) {
-			if (attr_eq (attrs[1], "true")){
-				prop->name = g_strdup ("type");
-				prop->value = g_value_init (prop->value, G_TYPE_STRING);
-				g_value_set_string (prop->value, "as_percentage");
-				style->chart = g_slist_append (style->chart, dup_prop(prop));
-			}
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "overlap")) {
-				prop->name = g_strdup ("overlap-percentage");
-				prop->value = g_value_init (prop->value, G_TYPE_INT);
-				g_value_set_int (prop->value, go_strtod (CXML2C (attrs[1]), NULL));
-				style->chart = g_slist_append (style->chart, dup_prop(prop));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "gap-width")) {
-				prop->name = g_strdup ("gap-percentage");
-				prop->value = g_value_init (prop->value, G_TYPE_INT);
-				g_value_set_int (prop->value, go_strtod (CXML2C (attrs[1]), NULL));
-				style->chart = g_slist_append (style->chart, dup_prop(prop));
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "series-source")) {
-			if (attr_eq (attrs[1], "rows"))
-				style->row_src = TRUE;
-		}
-		if (G_IS_VALUE (prop->value)) {
-			g_value_unset (prop->value);
-			g_free (prop->name);
-		} else
-			g_free (prop->value);
-		g_free (prop);
+		if (oo_attr_bool (xin, attrs, OO_NS_CHART, "logarithmic", &btmp)) {
+			if (btmp)
+				style->axis_props = g_slist_prepend (style->axis_props,
+					oo_prop_new_string ("map-name", "Log"));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "vertical", &btmp)) {
+			/* This is backwards from my intuition */
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_bool ("horizontal", btmp));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked", &btmp)) {
+			if (btmp)
+				style->plot_props = g_slist_prepend (style->plot_props,
+					oo_prop_new_string ("type", "stacked"));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "percentage", &btmp)) {
+			if (btmp)
+				style->plot_props = g_slist_prepend (style->plot_props,
+					oo_prop_new_string ("type", "as_percentage"));
+		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "overlap", &tmp))
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_int ("overlap-percentage", -tmp));
+		else if (oo_attr_int (xin, attrs, OO_NS_CHART, "gap-width", &tmp))
+			style->plot_props = g_slist_prepend (style->plot_props,
+				oo_prop_new_int ("gap-percentage", -tmp));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "series-source"))
+			style->src_in_rows = attr_eq (attrs[1], "rows");
 	}
 }
 
@@ -1922,7 +1959,7 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 	frame_offset[1] = (y/row->size_pts);
 	frame_offset[2] = (width/col->size_pts);
 	frame_offset[3] = (height/row->size_pts);
-	sheet_object_anchor_init (&state->cur_frame.anchor, &cell_base, frame_offset,
+	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
 		GOD_ANCHOR_DIR_DOWN_RIGHT);
 }
 
@@ -1934,8 +1971,8 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	GsfInput	*content = NULL;
 	SheetObject *sog = sheet_object_graph_new (NULL);
 
-	state->cur_frame.graph = sheet_object_graph_get_gog (sog);
-	sheet_object_set_anchor (sog, &state->cur_frame.anchor);
+	state->chart.graph = sheet_object_graph_get_gog (sog);
+	sheet_object_set_anchor (sog, &state->chart.anchor);
 	sheet_object_set_sheet (sog, state->pos.sheet);
 	g_object_unref (sog);
 
@@ -1949,6 +1986,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!name)
 		return;
 
+	g_print ("START %s\n", name);
 	content = gsf_infile_child_by_vname (state->zip, name, "content.xml", NULL);
 
 	if (content != NULL) {
@@ -1958,12 +1996,13 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		gsf_xml_in_doc_free (doc);
 		g_object_unref (content);
 	}
+	g_print ("END %s\n", name);
 
-	g_hash_table_destroy (state->cur_frame.graph_styles);
-	state->cur_frame.graph_styles = g_hash_table_new_full (g_str_hash, g_str_equal,
-															(GDestroyNotify) g_free,
-															(GDestroyNotify) clean_lists);
-	state->cur_frame.has_legend = FALSE;
+	g_hash_table_destroy (state->chart.graph_styles);
+	state->chart.graph_styles = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) oo_chart_style_free);
 }
 
 static void
@@ -1996,343 +2035,352 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 		sheet_object_image_set_image (soi, "", (void *)data, len, TRUE);
 
 		so = SHEET_OBJECT (soi);
-		sheet_object_set_anchor (so, &state->cur_frame.anchor);
+		sheet_object_set_anchor (so, &state->chart.anchor);
 		sheet_object_set_sheet (so, state->pos.sheet);
 		g_object_unref (input);
 	}
 }
 
 static void
-od_chart_title (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+oo_chart_title (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	GogObject *label = NULL;
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	label = gog_object_add_by_name ((GogObject *)state->cur_frame.chart, "Title", NULL);
+	label = gog_object_add_by_name ((GogObject *)state->chart.chart, "Title", NULL);
 	gog_dataset_set_dim (GOG_DATASET (label), 0,
 			     go_data_scalar_str_new (g_strdup (xin->content->str), TRUE),
 			     NULL);
 }
 
 static void
-od_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
+oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	gchar const *name = NULL;
+	static OOEnum const types[] = {
+		{ "x",	GOG_AXIS_X },
+		{ "y",	GOG_AXIS_Y },
+		{ NULL,	0 },
+	};
+	GSList	*axes;
+
 	OOParseState *state = (OOParseState *)xin->user_state;
-	ODGraphProperties *style = NULL;
-	GogAxis *axis;
-	GSList *axes;
-	GSList *l;
-	guint cont;
-	GSList *plots;
-	GogPlot *plot;
+	OOChartStyle *style = NULL;
+	gchar const *style_name = NULL;
+	int tmp;
 
-	state->cur_frame.cur_axis = GOG_AXIS_UNKNOWN;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+	state->chart.axis_type = GOG_AXIS_UNKNOWN;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
-			name = CXML2C (attrs[1]);
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "dimension")) {
-			if (attr_eq (attrs[1], "x"))
-				state->cur_frame.cur_axis = GOG_AXIS_X;
-			else
-				state->cur_frame.cur_axis = GOG_AXIS_Y;
-		}
-	}
-	style = g_hash_table_lookup (state->cur_frame.graph_styles, name);
-	axes = gog_chart_get_axes (state->cur_frame.chart, state->cur_frame.cur_axis);
-	axis = axes ? axes->data : NULL;  /* Why the first axis?  */
-	g_slist_free (axes);
-	for (l = style->axis; l; l = l->next) {
-		ODProps *axis_props = l->data;
-		g_object_set (axis,
-			      axis_props->name,
-			      g_value_get_string(axis_props->value),
-			      NULL);
-	}
+			style_name = CXML2C (attrs[1]);
+		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", types, &tmp))
+			state->chart.axis_type = tmp;
 
-	plots = gog_chart_get_plots (state->cur_frame.chart);
-	plot = g_slist_nth_data (plots, 0);
-	for (cont = 0; cont < g_slist_length(style->chart); cont ++) {
-		ODProps *axis_props = g_slist_nth_data(style->chart, cont);
-		switch (G_VALUE_TYPE(axis_props->value)) {
-			case G_TYPE_BOOLEAN:
-				g_object_set (plot,
-					      strdup(axis_props->name),
-					      g_value_get_boolean (axis_props->value),
-					      NULL);
-				break;
-			case G_TYPE_STRING:
-				g_object_set (plot,
-					      strdup(axis_props->name),
-					      strdup(g_value_get_string (axis_props->value)),
-					      NULL);
-				break;
-			case G_TYPE_INT:
-				g_object_set (plot,
-					      axis_props->name,
-					      g_value_get_int (axis_props->value),
-					      NULL);
-				break;
-			default: break;
-		}
-	}
+	axes = gog_chart_get_axes (state->chart.chart, state->chart.axis_type);
+	if (NULL == axes)
+		return;
+	state->chart.axis = axes->data;
+	g_slist_free (axes);
+
+	if (NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name)))
+		oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
 }
 
 static void
-od_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
+oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	OOParseState *state = (OOParseState *)xin->user_state;
-	gchar *graph_range = NULL;
-	GnmValue *actual_range;
-	GogSeries *series;
-	GnmRange cell_base;
-	GogPlot   *plot;
-	GnmExprTop const *texpr = NULL;
-	gint cur_col, dim, flag=0;
-	gint MAX_DIM = 2;
-	gint v_offset = 0, h_offset = 0;
+	static OOEnum const labels[] = {
+		{ "both",		2 | 1 },
+		{ "column",		2 },
+		{ "row",		    1 },
+		{ NULL,	0 },
+	};
 
-	gchar const *name = NULL;
-	ODGraphProperties *style = NULL;
-	guint cont;
-	ODProps *chart_props;
-	GogObject *legend;
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gchar const *type = NULL;
+	OOChartStyle	*style = NULL;
+	xmlChar const   *source_range_str = NULL;
+	int label_flags = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name")) {
-			name = CXML2C (attrs[1]);
-			style = g_hash_table_lookup (state->cur_frame.graph_styles, name);
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
-			graph_range = g_strdup_printf("[%s]",attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "data-source-has-labels")) {
-			if (attr_eq (attrs[1], "both"))
-				v_offset = h_offset = 1;
-			else if (attr_eq (attrs[1], "column"))
-				h_offset = 1;
-			else if (attr_eq (attrs[1], "row"))
-				v_offset = 1;
-		}
-	flag = !(v_offset || h_offset);
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
+			style = g_hash_table_lookup (state->chart.graph_styles, CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
+			source_range_str = attrs[1];
+		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "data-source-has-labels", labels, &label_flags))
+			;
 
-	switch (state->cur_frame.chart_type){
-		case AREA:
-				plot = gog_plot_new_by_name ("GogAreaPlot");
-				break;
-		case BAR:
-				plot = gog_plot_new_by_name ("GogBarColPlot");
-				break;
-		case CIRCLE:
-				plot = gog_plot_new_by_name ("GogPiePlot");
-				break;
-		case LINE:
-				plot = gog_plot_new_by_name ("GogLinePlot");
-				break;
-		case RADAR:
-				plot = gog_plot_new_by_name ("GogRadarPlot");
-				flag = 1;
-				break;
-		case RADARAREA:
-				plot = gog_plot_new_by_name ("GogRadarAreaPlot");
-				break;
-		case RING:
-				plot = gog_plot_new_by_name ("GogRingPlot");
-				break;
-		case SCATTER:
-				plot = gog_plot_new_by_name ("GogXYPlot");
-				flag = 0;
-				break;
-		case STOCK:
-				plot = gog_plot_new_by_name ("GogMinMaxPlot");
-				MAX_DIM = 3;
-				break;
-		case SURF:
-				plot = gog_plot_new_by_name ("GogContourPlot");
-				break;
-		default: return;
-	}
-	for (cont = 0; cont < g_slist_length(style->chart); cont ++){
-		chart_props = g_slist_nth_data(style->chart, cont);
-		switch (G_VALUE_TYPE(chart_props->value)) {
-			case G_TYPE_BOOLEAN:
-				g_object_set (plot,
-						strdup(chart_props->name),
-						g_value_get_boolean (chart_props->value),
-						NULL);
-				break;
-			case G_TYPE_STRING:
-				g_object_set (plot,
-						strdup(chart_props->name),
-						strdup(g_value_get_string (chart_props->value)),
-						NULL);
-				break;
-			case G_TYPE_INT:
-				g_object_set (plot,
-						strdup(chart_props->name),
-						g_value_get_int (chart_props->value),
-						NULL);
-				break;
-			default: break;
+	state->chart.src_n_vectors = -1;
+	state->chart.src_in_rows = TRUE;
+	if (NULL != source_range_str) {
+		GnmParsePos pp;
+		GnmEvalPos  ep;
+		GnmRangeRef ref;
+		Sheet	   *dummy;
+		char const *ptr = oo_rangeref_parse (&ref, CXML2C (source_range_str),
+			parse_pos_init_sheet (&pp, state->pos.sheet));
+		if (ptr != CXML2C (source_range_str)) {
+			gnm_rangeref_normalize (&ref,
+				eval_pos_init_sheet (&ep, state->pos.sheet),
+				&state->chart.src_sheet, &dummy,
+				&state->chart.src_range);
+
+			if (label_flags & 1)
+				state->chart.src_range.start.row++;
+			if (label_flags & 2)
+				state->chart.src_range.start.col++;
+
+			if (NULL != style)
+				state->chart.src_in_rows = style->src_in_rows;
+			if (state->chart.src_in_rows) {
+				state->chart.src_n_vectors = range_height (&state->chart.src_range);
+				state->chart.src_range.end.row  = state->chart.src_range.start.row;
+			} else {
+				state->chart.src_n_vectors = range_width (&state->chart.src_range);
+				state->chart.src_range.end.col  = state->chart.src_range.start.col;
+			}
 		}
 	}
 
-	gog_object_add_by_name (GOG_OBJECT(state->cur_frame.chart), "Plot", GOG_OBJECT (plot));
-	texpr = oo_expr_parse_str (xin, graph_range, &state->pos,
-		GNM_EXPR_PARSE_DEFAULT);
-	if (texpr == NULL)
+	switch (state->chart.plot_type) {
+	case OO_PLOT_AREA:	type = "GogAreaPlot";	break;
+	case OO_PLOT_BAR:	type = "GogBarColPlot";	break;
+	case OO_PLOT_CIRCLE:	type = "GogPiePlot";	break;
+	case OO_PLOT_LINE:	type = "GogLinePlot";	break;
+	case OO_PLOT_RADAR:	type = "GogRadarPlot";	break;
+	case OO_PLOT_RADARAREA: type = "GogRadarAreaPlot";break;
+	case OO_PLOT_RING:	type = "GogRingPlot";	break;
+	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
+	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;
+	case OO_PLOT_SURF:	type = "GogContourPlot"; break;
+	default: return;
+	}
+
+	state->chart.plot = gog_plot_new_by_name (type);
+	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
+		"Plot", GOG_OBJECT (state->chart.plot));
+	oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
+}
+
+static void
+oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	state->chart.plot = NULL;
+}
+
+static int
+gog_series_map_dim (GogSeries const *series, GogMSDimType ms_type)
+{
+	GogSeriesDesc const *desc = &series->plot->desc.series;
+	unsigned i = desc->num_dim;
+
+	if (ms_type == GOG_MS_DIM_LABELS)
+		return -1;
+	while (i-- > 0)
+		if (desc->dim[i].ms_type == ms_type)
+			return i;
+	return -2;
+}
+/* If range == %NULL use an implicit range */
+static void
+oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	/* force relative to A1, not the containing cell */
+	GnmExprTop const *texpr;
+	GnmParsePos pp;
+	GnmValue *v;
+	int dim;
+
+	if (NULL == state->chart.series)
+		return;
+	dim = gog_series_map_dim (state->chart.series, dim_type);
+	if (dim < -1)
 		return;
 
-	actual_range = gnm_expr_top_get_range (texpr);
-	cur_col = actual_range->v_range.cell.a.col;
+	if (NULL != range) {
+		GnmRangeRef ref;
+		char const *ptr = oo_rangeref_parse (&ref, CXML2C (range),
+			parse_pos_init_sheet (&pp, state->pos.sheet));
+		if (ptr == CXML2C (range))
+			return;
+		v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+		g_print ("%d = rangeref (%s)\n", dim, range);
+	} else if (NULL != gog_dataset_get_dim (GOG_DATASET (state->chart.series), dim))
+		return;	/* implicit does not overwrite existing */
+	else if (state->chart.src_n_vectors <= 0) {
+		oo_warning (xin,
+			"Not enough data in the supplied range for all the requests");
+		return;
+	} else {
+		v = value_new_cellrange_r (
+			   state->chart.src_sheet,
+			   &state->chart.src_range);
 
-	cell_base.start.row = actual_range->v_range.cell.a.row + v_offset;
-	cell_base.end.row = actual_range->v_range.cell.b.row;
-	do {
-		series = gog_plot_new_series (plot);
-		dim = flag;
+		g_print ("%d = implicit (%s)\n", dim_type, range_as_string (&state->chart.src_range));
 
-		if (flag) {
-			cell_base.start.col = cur_col;
-			cell_base.end.col = cur_col;
-		} else {
-			cell_base.start.col = actual_range->v_range.cell.a.col;
-			cell_base.end.col = actual_range->v_range.cell.a.col;
-		}
-		while (dim < MAX_DIM) {
-			gog_series_set_dim (series, dim,
-				gnm_go_data_vector_new_expr (state->pos.sheet,
-					gnm_expr_top_new_constant (
-						value_new_cellrange_r (state->pos.sheet, &cell_base))),
-				NULL);
-			cell_base.start.col = cell_base.end.col = cur_col + 1;
-			dim++;
-		}
-		cur_col++;
-	} while (cur_col < actual_range->v_range.cell.b.col+flag);
-
-	if (state->cur_frame.has_legend) {
-		legend = gog_object_add_by_name ((GogObject *)state->cur_frame.chart, "Legend", NULL);
-		gog_object_set_position_flags (legend, state->cur_frame.legend,
-			GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
+		state->chart.src_n_vectors--;
+		if (state->chart.src_in_rows)
+			state->chart.src_range.end.row = ++state->chart.src_range.start.row;
+		else
+			state->chart.src_range.end.col = ++state->chart.src_range.start.col;
 	}
-	value_release (actual_range);
-	g_free (graph_range);
-	gnm_expr_top_unref (texpr);
+
+	texpr = gnm_expr_top_new_constant (v);
+	if (NULL != texpr)
+		gog_series_set_dim (state->chart.series, dim_type,
+			(dim_type != GOG_MS_DIM_LABELS)
+			? gnm_go_data_vector_new_expr (state->pos.sheet, texpr)
+			: gnm_go_data_scalar_new_expr (state->pos.sheet, texpr),
+			NULL);
 }
 
 static void
-od_chart (GsfXMLIn *xin, xmlChar const **attrs)
+oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gchar const *chart_type = NULL;
 
+	g_print ("<<<<< Start\n");
+	state->chart.series = gog_plot_new_series (state->chart.plot);
+	state->chart.domain_count = 0;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style"))
+			;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
+			oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_VALUES);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
+			oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS);
+}
+
+static void
+oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
+	state->chart.series = NULL;
+	g_print (">>>>> end\n");
+}
+
+static void
+oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	xmlChar const *src = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
+			src = attrs[1];
+
+	oo_plot_assign_dim (xin, src, GOG_MS_DIM_CATEGORIES);
+
+/* FIXME : Bubbles */
+	state->chart.domain_count++;
+}
+
+static void
+oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	OOParseState *state = (OOParseState *)xin->user_state;
+	/* <chart:data-point chart:repeated="3"/> */
+#endif
+}
+
+static void
+oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static OOEnum const types[] = {
+		{ "chart:area",		OO_PLOT_AREA },
+		{ "chart:bar",		OO_PLOT_BAR },
+		{ "chart:circle",	OO_PLOT_CIRCLE },
+		{ "chart:line",		OO_PLOT_LINE },
+		{ "chart:radar",	OO_PLOT_RADAR },
+		{ "chart:ring",		OO_PLOT_RING },
+		{ "chart:scatter",	OO_PLOT_SCATTER },
+		{ "chart:stock",	OO_PLOT_STOCK },
+		{ NULL,	0 },
+	};
+	OOParseState *state = (OOParseState *)xin->user_state;
+	int tmp;
+	OOPlotType type = OO_PLOT_SCATTER; /* arbitrary default */
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", types, &tmp))
+			type = tmp;
+	state->chart.plot_type = type;
+	state->chart.chart = GOG_CHART (gog_object_add_by_name (
+		GOG_OBJECT (state->chart.graph), "Chart", NULL));
+	state->chart.plot = NULL;
+	state->chart.series = NULL;
+	state->chart.axis = NULL;
+}
+
+static void
+oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static OOEnum const positions [] = {
+		{ "top",	  GOG_POSITION_N },
+		{ "bottom",	  GOG_POSITION_S },
+		{ "start",	  GOG_POSITION_W },
+		{ "end",	  GOG_POSITION_E },
+		{ "top-start",	  GOG_POSITION_N | GOG_POSITION_W },
+		{ "bottom-start", GOG_POSITION_S | GOG_POSITION_W },
+		{ "top-end",	  GOG_POSITION_N | GOG_POSITION_E },
+		{ "bottom-end",   GOG_POSITION_S | GOG_POSITION_E },
+		{ NULL,	0 },
+	};
+	static OOEnum const alignments [] = {
+		{ "start",	  GOG_POSITION_ALIGN_START },
+		{ "center",	  GOG_POSITION_ALIGN_CENTER },
+		{ "end",	  GOG_POSITION_ALIGN_END },
+		{ NULL,	0 },
+	};
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GogObjectPosition pos = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER;
+	GogObjectPosition align = GOG_POSITION_ALIGN_CENTER;
+	GogObject *legend;
+	int tmp;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "legend-position", positions, &tmp))
+			pos = tmp;
+		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "legend-align", alignments, &tmp))
+			align = tmp;
+
+	legend = gog_object_add_by_name ((GogObject *)state->chart.chart, "Legend", NULL);
+	gog_object_set_position_flags (legend, pos | align,
+		GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
+}
+
+static void
+oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->chart.axis == NULL)
+		return;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "class")) {
-			chart_type = CXML2C (attrs[1]);
-			if (strlen (chart_type) >= 6)
-				chart_type += 6; /* removes the "chart:" */
-		}
-
-	if (!chart_type) {
-		g_warning ("Missing chart type.");
-		chart_type = "area";
-	}
-
-	if (!strcmp (chart_type, "area"))
-		state->cur_frame.chart_type = AREA;
-	else if (!strcmp (chart_type, "bar"))
-		state->cur_frame.chart_type = BAR;
-	else if (!strcmp (chart_type, "circle"))
-		state->cur_frame.chart_type = CIRCLE;
-	else if (!strcmp (chart_type, "line"))
-		state->cur_frame.chart_type = LINE;
-	else if (!strcmp (chart_type, "radar"))
-		state->cur_frame.chart_type = RADAR;
-	else if (!strcmp (chart_type, "ring"))
-		state->cur_frame.chart_type = RING;
-	else if (!strcmp (chart_type, "scatter"))
-		state->cur_frame.chart_type = SCATTER;
-	else if (!strcmp (chart_type, "stock"))
-		state->cur_frame.chart_type = STOCK;
-
-	state->cur_frame.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT(state->cur_frame.graph), "Chart", NULL));
-}
-
-static void
-od_legend (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	state->cur_frame.has_legend = TRUE;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "legend-position")) {
-			if (attr_eq (attrs[1], "top"))
-				state->cur_frame.legend = GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER;
-			else if (attr_eq (attrs[1], "bottom"))
-				state->cur_frame.legend = GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER;
-			else if (attr_eq (attrs[1], "end"))
-				state->cur_frame.legend = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER;
-			else
-				state->cur_frame.legend = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER;
+			if (attr_eq (attrs[1], "major"))
+				gog_object_add_by_name (state->chart.axis, "MajorGrid", NULL);
+			else if (attr_eq (attrs[1], "minor"))
+				gog_object_add_by_name (state->chart.axis, "MinorGrid", NULL);
 		}
 }
 
 static void
-od_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
+oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-
-	if ((state->cur_frame.cur_axis != GOG_AXIS_UNKNOWN) &&
-	    (state->cur_frame.chart_type != RING) &&
-	    (state->cur_frame.chart_type != CIRCLE) &&
-	    (state->cur_frame.chart_type != RADAR)) {
-		GSList *axes;
-		GogAxis *axis;
-
-		axes = gog_chart_get_axes (state->cur_frame.chart, state->cur_frame.cur_axis);
-		axis = axes ? axes->data : NULL;  /* Why the first axis?  */
-		g_slist_free (axes);
-
-		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "class")) {
-				if (attr_eq (attrs[1], "major"))
-					gog_object_add_by_name (GOG_OBJECT(axis), "MajorGrid", NULL);
-				else if (attr_eq (attrs[1], "minor"))
-					gog_object_add_by_name (GOG_OBJECT(axis), "MinorGrid", NULL);
-			}
-	}
+	gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
 }
 
 static void
-od_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
+oo_chart_style_free (OOChartStyle *cstyle)
 {
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	gog_object_add_by_name (GOG_OBJECT(state->cur_frame.chart), "Backplane", NULL);
-}
-
-static void
-clean_lists (ODGraphProperties *pointer)
-{
-	GSList *l;
-
-	for (l = pointer->axis; l; l = l->next) {
-		ODProps *props = l->data;
-		g_free (props->name);
-		if (G_IS_VALUE (props->value))
-			g_value_unset (props->value);
-		g_free (props->value);
-	}
-	g_slist_free (pointer->axis);
-
-	for (l = pointer->chart; l; l = l->next) {
-		ODProps *props = l->data;
-		g_free (props->name);
-		if (G_IS_VALUE (props->value))
-			g_value_unset (props->value);
-		g_free (props->value);
-	}
-	g_slist_free (pointer->chart);
+	oo_prop_list_free (cstyle->axis_props);
+	oo_prop_list_free (cstyle->plot_props);
 }
 
 static GsfXMLInNode const styles_dtd[] = {
@@ -2616,17 +2664,37 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 	GSF_XML_IN_NODE (OFFICE, OFFICE_BODY, OO_NS_OFFICE, "body", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (OFFICE_BODY, SPREADSHEET, OO_NS_OFFICE, "spreadsheet", GSF_XML_NO_CONTENT, NULL, NULL),
 	    GSF_XML_IN_NODE (SPREADSHEET, CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (SPREADSHEET, CHART, OO_NS_CHART, "chart", FALSE, NULL, NULL),
-		GSF_XML_IN_NODE (OFFICE_BODY, OFFICE_CHART, OO_NS_OFFICE, "chart", FALSE, NULL, NULL),
-		GSF_XML_IN_NODE (OFFICE_CHART, CHART_CHART, OO_NS_CHART, "chart", FALSE, &od_chart, NULL),
-		GSF_XML_IN_NODE (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", FALSE, NULL, NULL),
-		GSF_XML_IN_NODE (CHART_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", TRUE, NULL, &od_chart_title),
-		GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", TRUE, &od_legend, NULL),
-		GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", TRUE, &od_plot_area, NULL),
-		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", TRUE, &od_chart_axis, NULL),
-		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", TRUE, NULL, NULL),
-		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", TRUE, &od_chart_wall, NULL),
-		GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", TRUE, &od_chart_grid, NULL),
+	    GSF_XML_IN_NODE (SPREADSHEET, CHART, OO_NS_CHART, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (OFFICE_BODY, OFFICE_CHART, OO_NS_OFFICE, "chart", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_CHART, CHART_CHART, OO_NS_CHART, "chart", GSF_XML_NO_CONTENT, &oo_chart, NULL),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (CHART_TABLE_ROWS, CHART_TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL),
+	            GSF_XML_IN_NODE (CHART_TABLE_ROW, CHART_TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, NULL, NULL),
+	              GSF_XML_IN_NODE (CHART_TABLE_CELL, CHART_CELL_P, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_COLS, OO_NS_TABLE, "table-columns", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (CHART_TABLE_COLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),
+	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_HROWS, OO_NS_TABLE, "table-header-rows", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (CHART_TABLE_HROWS, CHART_TABLE_HROW, OO_NS_TABLE, "table-header-row", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (CHART_TABLE_HROWS, CHART_TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+	        GSF_XML_IN_NODE (CHART_TABLE, CHART_TABLE_HCOLS, OO_NS_TABLE, "table-header-columns", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_HCOL, OO_NS_TABLE, "table-header-column", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (CHART_TABLE_HCOLS, CHART_TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (CHART_TITLE, TITLE_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_chart_title),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_LEGEND, OO_NS_CHART, "legend", GSF_XML_NO_CONTENT, &oo_legend, NULL),
+	      GSF_XML_IN_NODE (CHART_CHART, CHART_PLOT_AREA, OO_NS_CHART, "plot-area", GSF_XML_NO_CONTENT, &oo_plot_area, &oo_plot_area_end),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_SERIES, OO_NS_CHART, "series", GSF_XML_NO_CONTENT, &oo_plot_series, &oo_plot_series_end),
+		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),
+		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_PT, OO_NS_CHART, "data-point", GSF_XML_NO_CONTENT, &oo_series_pt, NULL),
+		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_ERR, OO_NS_CHART, "error-indicator", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, NULL),
+		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
+		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (CHART_AXIS, CHART_TITLE, OO_NS_CHART, "title", GSF_XML_NO_CONTENT, NULL, NULL),				/* 2nd Def */
 
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2640,9 +2708,9 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &oo_covered_cell_start, &oo_covered_cell_end),
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_cell_content_end),
 
-			GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", FALSE, &od_draw_frame, NULL),
-			GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", TRUE, &od_draw_object, NULL),
-			GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", TRUE, &od_draw_image, NULL),
+			GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame, NULL),
+			GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
+			GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
 
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
@@ -2676,11 +2744,11 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 
 static GnmExpr const *
-odf_func_map_in (GnmConventions const *convs, Workbook *scope,
+oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		 char const *name, GnmExprList *args)
 {
 	static struct {
-		char const *odf_name;
+		char const *oo_name;
 		char const *gnm_name;
 	} const sc_func_renames[] = {
 		{ "INDIRECT_XL",	"INDIRECT" },
@@ -2700,9 +2768,9 @@ odf_func_map_in (GnmConventions const *convs, Workbook *scope,
 	if (NULL == namemap) {
 		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
-		for (i = 0; sc_func_renames[i].odf_name; i++)
+		for (i = 0; sc_func_renames[i].oo_name; i++)
 			g_hash_table_insert (namemap,
-				(gchar *) sc_func_renames[i].odf_name,
+				(gchar *) sc_func_renames[i].oo_name,
 				(gchar *) sc_func_renames[i].gnm_name);
 	}
 
@@ -2720,7 +2788,7 @@ odf_func_map_in (GnmConventions const *convs, Workbook *scope,
 }
 
 static GnmConventions *
-odf_conventions_new (void)
+oo_conventions_new (void)
 {
 	GnmConventions *conv = gnm_conventions_new ();
 
@@ -2732,8 +2800,8 @@ odf_conventions_new (void)
 	conv->arg_sep		= ';';
 	conv->array_col_sep	= ';';
 	conv->array_row_sep	= '|';
-	conv->input.func	= odf_func_map_in;
-	conv->input.range_ref	= oo_rangeref_parse;
+	conv->input.func	= oo_func_map_in;
+	conv->input.range_ref	= oo_expr_rangeref_parse;
 
 	return conv;
 }
@@ -2834,20 +2902,19 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) go_format_unref);
-	state.cur_frame.graph_styles = g_hash_table_new_full (g_str_hash, g_str_equal,
+	state.chart.graph_styles = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) clean_lists);
+		(GDestroyNotify) oo_chart_style_free);
 	state.cur_style.cells    = NULL;
 	state.cur_style.col_rows = NULL;
 	state.cur_style.sheets   = NULL;
 	state.default_style_cell = NULL;
 	state.cur_style_type   = OO_STYLE_UNKNOWN;
 	state.sheet_order = NULL;
-	state.convs = odf_conventions_new ();
+	state.convs = oo_conventions_new ();
 	state.accum_fmt = NULL;
 	state.filter = NULL;
 	state.page_breaks.h = state.page_breaks.v = NULL;
-	state.cur_frame.has_legend = FALSE;
 
 	if (state.ver == OOO_VER_OPENDOC) {
 		GsfInput *meta_file = gsf_infile_child_by_name (zip, "meta.xml");
@@ -2903,7 +2970,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.styles.sheet);
 	g_hash_table_destroy (state.styles.col_row);
 	g_hash_table_destroy (state.styles.cell);
-	g_hash_table_destroy (state.cur_frame.graph_styles);
+	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.formats);
 	g_object_unref (content);
 
@@ -2917,3 +2984,4 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	gnm_pop_C_locale (locale);
 }
+

@@ -28,12 +28,16 @@ dir=`basename "$1" $suffix`
 rm -rf "$dir"
 unzip -q -d "$dir" "$1"
 cd "$dir"
-tmpfile=".dumper-$$.xml"
+IFS='
+'
 files=`find . -name \*.xml -o -name \*.rels`
 
+tmpfile=".dumper-$$.xml"
 for f in $files ; do
     if [ -s "$f" ] ; then
 	xmllint --format "$f" > "$tmpfile"
 	mv "$tmpfile" "$f"
+    elif [ ! -f "$f" ] ; then
+	echo "MISSING '$f'"
     fi
 done

@@ -743,12 +743,11 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
-		child = gsf_outfile_new_child  (outfile, streams[i].name, FALSE);
+		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
+				/* do not compress the mimetype */
+				"compression-level", ((0 == i) ? GSF_ZIP_STORED : GSF_ZIP_DEFLATED),
+				NULL);
 		if (NULL != child) {
-			if (0 == i) /* do not compress the mimetype */
-				g_object_set (G_OBJECT (child),
-					"compression-level", GSF_ZIP_STORED, NULL);
-
 			streams[i].func (&state, child);
 			gsf_output_close (child);
 			g_object_unref (G_OBJECT (child));

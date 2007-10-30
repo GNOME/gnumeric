@@ -1,7 +1,24 @@
+2007-10-29  Jody Goldberg <jody@gnome.org>
+
+	Data is implicitly allocated in all sorts of undocumented ways.
+	* openoffice-read.c (oo_plot_area) : refactor the data handling into
+	(oo_plot_assign_dim) : here.
+
+	Clean up the way parameters are handled.
+	(oo_prop_list_free) : new.
+	(oo_prop_free) : new.
+	(oo_prop_new_....) : new.
+	(oo_prop_list_apply) : new.
+
 2007-10-27  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (od_chart_wall): Grid got renamed to
 	Backplane, so change here.
+
+2007-10-26  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c (openoffice_file_save) : compression-level is a
+	  construction time attribute.
 
 2007-10-25  Jody Goldberg <jody@gnome.org>
 
