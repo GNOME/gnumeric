@@ -237,22 +237,24 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			} else
 				value_array_set (res, x, y, value_dup (y_iter->value));
 		}
-		if (NULL != in[0])
-			value_release (in[0]->value);
-		else {
+		if (NULL == in[0]) {
 			value_release (x_iter->value);
 			x_iter->value = val[0];
 			val[0] = NULL;
-		}
+		} else
+			value_release (in[0]->value);
 	}
 	if (NULL != in[2])
 		value_release (in[2]->value);
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x]) {
-			/* always assign, we still point at a released value */
-			if (NULL == (in[x]->value = val[x]))
-				sheet_cell_remove (ei->pos->sheet, in[x], FALSE, FALSE);
 			dependent_queue_recalc (&in[x]->base);
+
+			/* always assign, we still point at a released value */
+			if (NULL == (in[x]->value = val[x])) {
+				sheet_cell_remove (ei->pos->sheet, in[x], FALSE, FALSE);
+				in[x] = NULL;
+			}
 		}
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x])
