@@ -2219,7 +2219,7 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
 			   state->chart.src_sheet,
 			   &state->chart.src_range);
 
-		g_print ("%d = implicit (%s)\n", dim_type, range_as_string (&state->chart.src_range));
+		g_print ("%d = implicit (%s)\n", dim, range_as_string (&state->chart.src_range));
 
 		state->chart.src_n_vectors--;
 		if (state->chart.src_in_rows)
@@ -2230,7 +2230,7 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
 
 	texpr = gnm_expr_top_new_constant (v);
 	if (NULL != texpr)
-		gog_series_set_dim (state->chart.series, dim_type,
+		gog_series_set_dim (state->chart.series, dim,
 			(dim_type != GOG_MS_DIM_LABELS)
 			? gnm_go_data_vector_new_expr (state->pos.sheet, texpr)
 			: gnm_go_data_scalar_new_expr (state->pos.sheet, texpr),
