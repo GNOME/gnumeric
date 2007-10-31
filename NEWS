@@ -1,5 +1,8 @@
 Gnumeric 1.7.14
 
+Andreas
+	* Print repeated rows and columns.
+
 Götz Waschk:
 	* Fix paradox plugin compilation.  [#489030]
 

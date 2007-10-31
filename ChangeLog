@@ -1,3 +1,16 @@
+2007-10-30  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print.c (print_page_repeated_rows): deleted
+	(print_page_repeated_cols): deleted
+	(print_page_repeated_intersect): deleted
+	(print_page): handle repeated rows and columns
+	(compute_sheet_pages_add_range): add repeated rows and cols
+	  info
+	(compute_sheet_pages_across_then_down): pass repeated rows
+	  and cols info to compute_sheet_pages_add_range
+	(gnm_draw_page_cb): adjust for change in data type
+	(gnm_request_page_setup_cb): ditto
+	
 2007-10-28  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell_gtk): Handle cell->rendered_value

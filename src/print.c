@@ -80,6 +80,16 @@ typedef struct {
         gboolean ignore_printarea;
 } SheetPrintInfo;
 
+typedef struct {
+	Sheet *sheet;
+	GnmRange  range;
+	gint n_rep_cols;
+	gint n_rep_rows;
+	gint first_rep_cols;
+	gint first_rep_rows;
+} SheetPageRange;
+
+
 gboolean gnm_print_debug = FALSE;
 
 static PrintingInstance *
@@ -293,67 +303,6 @@ print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
 
 #if 0
 
-/*
- * print_page_repeated_rows
- *
- * It is up to the caller to determine if repeated rows should be printed on
- * the page.
- */
-static void
-print_page_repeated_rows (PrintJobInfo const *pj, Sheet const *sheet,
-			  int start_col, int end_col,
-			  double base_x, double base_y)
-{
-	PrintInformation const *pi = sheet->print_info;
-	GnmRange const *r = &pi->repeat_top.range;
-	GnmRange range;
-
-	range_init (&range, start_col, MIN (r->start.row, r->end.row),
-			    end_col,   MAX (r->start.row, r->end.row));
-	//print_page_cells (pj, sheet, &range, base_x, base_y);
-}
-
-
-/*
- * print_page_repeated_cols
- *
- * It is up to the caller to determine if repeated columns should be printed
- * on the page.
- */
-static void
-print_page_repeated_cols (PrintJobInfo const *pj, Sheet const *sheet,
-			  int start_row, int end_row,
-			  double base_x, double base_y)
-{
-	PrintInformation const *pi = sheet->print_info;
-	GnmRange const *r = &pi->repeat_left.range;
-	GnmRange range;
-
-	range_init (&range, MIN (r->start.col, r->end.col), start_row,
-			    MAX (r->start.col, r->end.col), end_row);
-	//print_page_cells (pj, sheet, &range, base_x, base_y);
-}
-
-/*
- * print_page_repeated_intersect
- *
- * Print the corner where repeated rows and columns intersect.
- *
- * It is impossible to print both from rows and columns. XL prints the cells
- * from the rows, whether order is row and column major. We do the same.
- */
-static void
-print_page_repeated_intersect (PrintJobInfo const *pj, Sheet const *sheet,
-			       double base_x, double base_y,
-			       double print_width, double print_height)
-{
-	PrintInformation const *pi = sheet->print_info;
-	print_page_repeated_rows (pj, sheet,
-				  pi->repeat_left.range.start.col,
-				  pi->repeat_left.range.end.col,
-				  base_x, base_y);
-}
-
 static PangoLayout *
 ensure_decoration_layout (PrintJobInfo *pj)
 {
@@ -544,8 +493,7 @@ print_footers (PrintJobInfo const *pj, Sheet const *sheet)
 /**
  * print_page:
  * @pj:        printing context
- * @sheet:     the sheet to print
- * @range:     a range
+ * @gsr :      the page information
  *
  * Excel prints repeated rows like this: Pages up to and including the page
  * where the first of the repeated rows "naturally" occurs are printed in
@@ -556,19 +504,22 @@ static gboolean
 print_page (GtkPrintOperation *operation,
 	    GtkPrintContext   *context,
 	    PrintingInstance * pi,
-	    Sheet const *sheet,
-	    GnmRange *range)
+	    SheetPageRange *gsr)
 {
+	Sheet *sheet = gsr->sheet;
 	PrintInformation *pinfo = sheet->print_info;
-	double print_height, print_width;
-	double header, footer, left, right;
-	double edge_to_below_header, edge_to_above_footer;
+	gdouble print_height, print_width;
+	gdouble main_height, main_width;
+	gdouble header, footer, left, right;
+	gdouble edge_to_below_header, edge_to_above_footer;
 	cairo_t *cr;
 	gdouble px, py;
 	gdouble width;
 	gdouble height;
 	gdouble col_header_height = 0.;
 	gdouble row_header_width = 0.;
+	gdouble rep_row_height = 0.;
+	gdouble rep_col_width = 0.;
 	gdouble dir = (sheet->text_is_rtl ? -1. : 1.);
 
 	px = pinfo->scaling.percentage.x / 100.;
@@ -592,19 +543,29 @@ print_page (GtkPrintOperation *operation,
 	height = print_info_get_paper_height (pinfo,GTK_UNIT_POINTS)
 		- edge_to_below_header - edge_to_above_footer;
 
-	print_height = sheet_row_get_distance_pts (sheet, range->start.row,
-						   range->end.row + 1)
-		+ col_header_height;
-	print_width = sheet_col_get_distance_pts (sheet, range->start.col,
-						  range->end.col + 1)
-		+ row_header_width;
+	main_height = sheet_row_get_distance_pts (sheet, gsr->range.start.row,
+						   gsr->range.end.row + 1);
+	main_width = sheet_col_get_distance_pts (sheet, gsr->range.start.col,
+						  gsr->range.end.col + 1);
+	if (gsr->n_rep_rows > 0)
+		rep_row_height = sheet_row_get_distance_pts 
+			(sheet, gsr->first_rep_rows,
+			 gsr->first_rep_rows + gsr->n_rep_rows);
+	if (gsr->n_rep_cols > 0)
+		rep_col_width = sheet_col_get_distance_pts 
+			(sheet, gsr->first_rep_cols,
+			 gsr->first_rep_cols + gsr->n_rep_cols);
+	
+	print_height = main_height + col_header_height + rep_row_height;
+	print_width = main_width + row_header_width + rep_col_width;
+
 /* printing header  */
 
 
 /* printing footer  */
 
 
-/* printing page content  */
+/* setting up content area */
 	cairo_save (cr);
 	cairo_translate (cr, sheet->text_is_rtl ? width : 0, edge_to_below_header - header);
 	if (pinfo->center_horizontally == 1 || pinfo->center_vertically == 1) {
@@ -620,12 +581,48 @@ print_page (GtkPrintOperation *operation,
 	cairo_scale (cr, px, py);
 
 	if (sheet->print_info->print_titles) {
-		print_page_col_headers (context, pi, cr, sheet, range, row_header_width, col_header_height);
-		print_page_row_headers (context, pi, cr, sheet, range, row_header_width, col_header_height);
+		print_page_col_headers (context, pi, cr, sheet, &gsr->range, row_header_width, col_header_height);
+		print_page_row_headers (context, pi, cr, sheet, &gsr->range, row_header_width, col_header_height);
 		cairo_translate (cr, dir * row_header_width, col_header_height);
 	}
 
-	print_page_cells (context, pi, cr, sheet, range, dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+/* printing repeated row/col intersect */
+
+	if ((gsr->n_rep_rows > 0) && (gsr->n_rep_cols > 0)) {
+		GnmRange r;
+		range_init (&r, gsr->first_rep_cols, gsr->first_rep_rows,
+			    gsr->first_rep_cols + gsr->n_rep_cols - 1,
+			    gsr->first_rep_rows + gsr->n_rep_rows - 1);
+		print_page_cells (context, pi, cr, sheet, &r, dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+	}
+
+/* printing repeated rows  */
+
+	if (gsr->n_rep_rows > 0) {
+		GnmRange r;
+		range_init (&r, gsr->range.start.col, gsr->first_rep_rows,
+			    gsr->range.end.col, gsr->first_rep_rows + gsr->n_rep_rows - 1);
+		cairo_save (cr);
+		if (gsr->n_rep_cols > 0)
+			cairo_translate (cr, dir * rep_col_width, 0 );
+		print_page_cells (context, pi, cr, sheet, &r, dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+		cairo_restore (cr);
+		cairo_translate (cr, 0, rep_row_height );
+	}
+
+/* printing repeated cols */
+
+	if (gsr->n_rep_cols > 0) {
+		GnmRange r;
+		range_init (&r, gsr->first_rep_cols, gsr->range.start.row,
+			    gsr->first_rep_cols + gsr->n_rep_cols - 1, gsr->range.end.row);
+		print_page_cells (context, pi, cr, sheet, &r, dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
+		cairo_translate (cr, dir * rep_col_width, 0 );
+	}
+
+/* printing page content  */
+
+	print_page_cells (context, pi, cr, sheet, &gsr->range, dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
 
 	cairo_restore (cr);
 	return 1;
@@ -825,10 +822,15 @@ compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboole
 
 static void
 compute_sheet_pages_add_range (PrintingInstance * pi, Sheet const *sheet,
-			       GnmRange *r)
+			       GnmRange *r, gint n_rep_cols, gint n_rep_rows,
+			       gint first_rep_rows, gint first_rep_cols)
 {
-		GnmSheetRange *gsr = g_new (GnmSheetRange,1);
+		SheetPageRange *gsr = g_new (SheetPageRange,1);
 
+		gsr->n_rep_cols = n_rep_cols;
+		gsr->n_rep_rows = n_rep_rows;
+		gsr->first_rep_rows = first_rep_rows;
+		gsr->first_rep_cols = first_rep_cols;
 		gsr->range = *r;
 		gsr->sheet = (Sheet *) sheet;
 		pi->gnmSheetRanges = g_list_append(pi->gnmSheetRanges, gsr);
@@ -851,6 +853,8 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 	gdouble px, py;
 	gdouble page_width, page_height;
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
+	gint n_rep_cols = 0, n_rep_rows = 0, first_rep_rows = 0, first_rep_cols = 0;
+	gint last_rep_cols = 0, last_rep_rows = 0;
 
 	page_width = gtk_print_context_get_width (context);
 	page_height = gtk_print_context_get_height (context);
@@ -881,6 +885,20 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 		pinfo->scaling.percentage.x = pxy * 100.;
 		pinfo->scaling.percentage.y = pxy * 100.;
 	}
+
+	if (pinfo->repeat_top.use) {
+		first_rep_rows = pinfo->repeat_top.range.start.row;
+		last_rep_rows = pinfo->repeat_top.range.end.row;
+		n_rep_rows = last_rep_rows - first_rep_rows + 1;
+		g_warning ("Repeated rows from %d rep %d", first_rep_rows, n_rep_rows);
+	} 
+	if (pinfo->repeat_left.use) {
+		first_rep_cols = pinfo->repeat_left.range.start.col;
+		last_rep_cols = pinfo->repeat_left.range.end.col;
+		n_rep_cols = last_rep_cols - first_rep_cols + 1;
+		g_warning ("Repeated cols from %d rep %d", first_rep_cols, n_rep_cols);
+	} 
+	
 
 	px = pinfo->scaling.percentage.x / 100.;
 	py = pinfo->scaling.percentage.y / 100.;
@@ -916,7 +934,9 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 			col += col_count;
 
 			if (printed)
-				compute_sheet_pages_add_range (pi, sheet, &range);
+				compute_sheet_pages_add_range (pi, sheet, &range, 
+							       n_rep_cols, n_rep_rows,
+							       first_rep_rows, first_rep_cols);
 		}
 		row += row_count;
 	}
@@ -1167,7 +1187,7 @@ gnm_request_page_setup_cb (GtkPrintOperation *operation,
 			   gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	GnmSheetRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
+	SheetPageRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
 						       page_nr);
 	GtkPrintSettings* settings = gtk_print_operation_get_print_settings
 				     (operation);
@@ -1186,11 +1206,10 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 {
 
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	GnmSheetRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
+	SheetPageRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
 					       page_nr);
 	if (gsr)
-		print_page (operation, context, pi,
-			    gsr->sheet, &(gsr->range));
+		print_page (operation, context, pi, gsr);
 }
 
 static void
