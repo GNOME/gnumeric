@@ -1,3 +1,8 @@
+2007-10-31  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print.c (compute_sheet_pages_across_then_down): consider
+	the repeated rows and columns when doing pagination
+
 2007-10-30  Jody Goldberg <jody@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table) : Fix.  It is apparently a bad
