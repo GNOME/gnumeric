@@ -1,3 +1,8 @@
+2007-11-01  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print.c (print_page): print the row and column headers also
+	  for the repeated rows and columns.
+
 2007-11-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-line.c (gnm_so_line_prep_sax_parser): Survive missing

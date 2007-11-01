@@ -16,6 +16,8 @@ Release Critical
 
 In Progress
 -----------
+    Andreas
+        - remove feature regression due to gtkprint conversion
     Jody
 	- CELL translation & array handling
 	- INDEX range res, iteration
@@ -970,7 +972,7 @@ Architecture Changes
     - cell text wraps differently when printing than displaying due to scaling
       differences in font size.  do we want to eliminate this ?
     - print repeating rows/cols                                   (DONE)
-    - adjust row and column headers in the rpesence of repeating 
+    - adjust row and column headers in the rpesence of repeating  (DONE)
       rows and/or columns
     - account for repeating rows/cols when paginating             (DONE)
     - account for repeating rows/cols when calculating scale
