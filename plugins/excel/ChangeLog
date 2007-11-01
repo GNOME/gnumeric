@@ -1,3 +1,9 @@
+2007-11-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_ClientTextbox): Survive NULL
+	label.  Patches over #492377.
+	(excel_write_string): Handle NULL txt here, just in case.
+
 2007-10-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c: use g_printerr where appropriate.

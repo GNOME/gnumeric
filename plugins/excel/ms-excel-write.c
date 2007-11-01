@@ -271,13 +271,16 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		    guint8 const *txt)
 {
 	size_t byte_len, out_bytes, offset;
-	unsigned char_len = excel_write_string_len (txt, &byte_len);
+	unsigned char_len;
 	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
+
+	g_return_val_if_fail (txt != NULL, 0);
 
 	/* before biff8 all lengths were in bytes */
 	if (bp->version < MS_BIFF_V8)
 		flags |= STR_LEN_IN_BYTES;
 
+	char_len = excel_write_string_len (txt, &byte_len);
 	if (char_len != byte_len) {
 		char *tmp;
 
@@ -3969,6 +3972,10 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 	memset (buf, 0, txo_len);
 	GSF_LE_SET_GUINT16 (buf, 0x212); /* end */
 	g_object_get (G_OBJECT (so), "text", &label, NULL);
+	if (!label) {
+		g_warning ("Not sure why label is NULL here.");
+		label = g_strdup ("");
+	}
 	char_len = excel_write_string_len (label, NULL);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
 	if (markup)
