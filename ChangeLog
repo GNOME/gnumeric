@@ -1,5 +1,12 @@
 2007-11-01  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
+	* src/print.c (gnm_paginate_cb): handle sheets without printable
+	  pages correctly and cancel printing if there are no pages at all.
+	(gnm_request_page_setup_cb): gtk may call this function even for
+	  non-existing pages. Be graceful. Fixes #491775
+
+2007-11-01  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	* src/print.c (print_page): print the row and column headers also
 	  for the repeated rows and columns.
 

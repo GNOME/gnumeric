@@ -1165,18 +1165,22 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 	spi = g_list_nth_data (pi->gnmSheets, paginate);
 	if (spi == NULL) { /*We are done paginating */
 		n_pages = g_list_length (pi->gnmSheetRanges);
-		if (n_pages == 0) /* gtk+ cannot handle 0 pages */
-			n_pages = 1;
 
-		gtk_print_operation_set_n_pages (operation, n_pages);
+		gtk_print_operation_set_n_pages (operation, n_pages == 0 ? 1 : n_pages);
 		gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
+
+		if (n_pages == 0) /* gtk+ cannot handle 0 pages */
+			gtk_print_operation_cancel (operation);
 
 		return TRUE;
 	}
 
 	if (compute_sheet_pages (context, pi, spi)) {
-		gtk_print_operation_cancel (operation);
-		return TRUE;
+		/* This could just mean that there is nothing to be printed on this page */
+		/* So don't just cancel the operation !! */
+		/* Other sheets may neeed to print! */
+                /* gtk_print_operation_cancel (operation); */
+		/* return TRUE; */
 	}
 
 	return FALSE;
@@ -1250,15 +1254,23 @@ gnm_request_page_setup_cb (GtkPrintOperation *operation,
 			   gpointer           user_data)
 {
 	PrintingInstance * pi = (PrintingInstance *) user_data;
-	SheetPageRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
-						       page_nr);
+	SheetPageRange * gsr;
 	GtkPrintSettings* settings = gtk_print_operation_get_print_settings
 				     (operation);
+
+	g_return_if_fail (pi != NULL);
+
+	gsr = g_list_nth_data (pi->gnmSheetRanges, page_nr);
+	if (gsr == NULL) {
+		g_warning ("Avoiding gtk+ bug 492498");
+		return;
+	}
 
 	gtk_print_settings_set_use_color (settings, !gsr->sheet->print_info->print_black_and_white);
 	if (gsr->sheet->print_info->page_setup == NULL)
 		print_info_load_defaults (gsr->sheet->print_info);
-	cp_gtk_page_setup (gsr->sheet->print_info->page_setup, setup);
+	if (gsr->sheet->print_info->page_setup != NULL)
+		cp_gtk_page_setup (gsr->sheet->print_info->page_setup, setup);
 }
 
 static void
