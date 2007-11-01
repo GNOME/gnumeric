@@ -348,7 +348,7 @@ gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **att
 	static GsfXMLInDoc *doc = NULL;
 	GnmSOLine *sol = GNM_SO_LINE (so);
 	double tmp, arrow_a = -1., arrow_b = -1., arrow_c = -1.;
-	int type;
+	int type = 0;
 
 	if (NULL == doc)
 		doc = gsf_xml_in_doc_new (dtd, NULL);

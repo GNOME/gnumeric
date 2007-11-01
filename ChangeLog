@@ -1,5 +1,8 @@
 2007-11-01  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-so-line.c (gnm_so_line_prep_sax_parser): Survive missing
+	"type" attribute.  Fixes #492391.
+
 	* src/print-info.c (page_setup_set_paper): Handle "US-Letter" too.
 
 2007-10-31  Morten Welinder  <terra@gnome.org>

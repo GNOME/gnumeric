@@ -21,6 +21,7 @@ Morten:
 	* Fix problem loading .gnumeric files.  [#490859]
 	* Fix print crash.  [#478552]
 	* Fix xls FMR.  [#491472]
+	* Fix gnumeric sax loader UMR.  [#492391]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.13
