@@ -1,3 +1,10 @@
+2007-10-31  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (stf_init): Plug leaks.
+	(stf_shutdown): New function.
+
+	* src/libgnumeric.c (gnm_shutdown): Hook up stf_shutdown.
+
 2007-10-31  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print.c (compute_sheet_pages_across_then_down): consider

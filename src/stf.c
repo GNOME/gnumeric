@@ -533,26 +533,48 @@ stf_init (void)
 		g_strdup ("text/x-comma-separated-values"),
 		NULL);
 	GOFileSaver *saver;
-	go_file_opener_register (go_file_opener_new_with_enc (
+	GOFileOpener *opener;
+
+	opener = go_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated values (CSV/TSV)"),
 		suffixes, mimes,
-		csv_tsv_probe, stf_read_workbook_auto_csvtab), 0);
-	go_file_opener_register (go_file_opener_new_with_enc (
+		csv_tsv_probe, stf_read_workbook_auto_csvtab);
+	go_file_opener_register (opener, 0);
+	g_object_unref (opener);
+
+	opener = go_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_assistant",
 		_("Text import (configurable)"),
 		NULL, NULL,
-		NULL, stf_read_workbook), 0);
+		NULL, stf_read_workbook);
+	go_file_opener_register (opener, 0);
+	g_object_unref (opener);
 
-	go_file_saver_register (go_file_saver_new (
+	saver = go_file_saver_new (
 		"Gnumeric_stf:stf_assistant", "txt",
 		_("Text export (configurable)"),
-		FILE_FL_WRITE_ONLY, stf_write_workbook));
+		FILE_FL_WRITE_ONLY, stf_write_workbook);
+	go_file_saver_register (saver);
+	g_object_unref (saver);
+
 	saver = go_file_saver_new (
 		"Gnumeric_stf:stf_csv", "csv",
 		_("Comma separated values (CSV)"),
 		FILE_FL_WRITE_ONLY, stf_write_csv);
 	go_file_saver_set_save_scope (saver, FILE_SAVE_SHEET);
 	go_file_saver_register (saver);
+	g_object_unref (saver);
+}
 
+void
+stf_shutdown (void)
+{
+	go_file_saver_unregister
+		(go_file_saver_for_id ("Gnumeric_stf:stf_assistant"));
+
+	go_file_opener_unregister
+		(go_file_opener_for_id ("Gnumeric_stf:stf_csvtab"));
+	go_file_opener_unregister
+		(go_file_opener_for_id ("Gnumeric_stf:stf_assistant"));
 }

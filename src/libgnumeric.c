@@ -325,6 +325,8 @@ gnm_shutdown (void)
 		go_conf_sync (NULL);
 	}
 
+	stf_shutdown ();
+
 	gnm_autofill_shutdown ();
 	print_shutdown ();
 	functions_shutdown ();
