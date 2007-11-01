@@ -1,0 +1,50 @@
+{
+   x11_writev_XSend
+   Memcheck:Param
+   writev(vector[...])
+   fun:do_writev
+   fun:*
+   fun:_XSend
+}
+
+
+{
+   x11_write_XReply
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:_XReply
+}
+
+{
+   x11_write_XPending
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XPending
+}
+
+{
+   x11_write_XRenderAddGlyphs
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderAddGlyphs
+}
+
+
+{
+   x11_write_ICE
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:_IceWrite
+}
