@@ -1,3 +1,7 @@
+2007-11-01  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (page_setup_set_paper): Handle "US-Letter" too.
+
 2007-10-31  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (stf_init): Plug leaks.

@@ -795,17 +795,19 @@ page_setup_set_paper        (GtkPageSetup *page_setup, char const *paper)
 
 	if (g_ascii_strncasecmp ("A4", paper, 2) == 0)
 		paper = GTK_PAPER_NAME_A4;
-	if (g_ascii_strncasecmp ("A3", paper, 2) == 0)
+	else if (g_ascii_strncasecmp ("A3", paper, 2) == 0)
 	        paper = GTK_PAPER_NAME_A3;
-	if (g_ascii_strncasecmp ("A5", paper, 2) == 0)
+	else if (g_ascii_strncasecmp ("A5", paper, 2) == 0)
 		paper = GTK_PAPER_NAME_A5;
-	if (g_ascii_strncasecmp ("B5", paper, 2) == 0)
+	else if (g_ascii_strncasecmp ("B5", paper, 2) == 0)
 		paper = GTK_PAPER_NAME_B5;
-	if (g_ascii_strncasecmp ("USLetter", paper, 8) == 0)
+	else if (g_ascii_strncasecmp ("USLetter", paper, 8) == 0)
 		paper = GTK_PAPER_NAME_LETTER;
-	if (g_ascii_strncasecmp ("USLegal", paper, 7) == 0)
+	else if (g_ascii_strncasecmp ("US-Letter", paper, 9) == 0)
+		paper = GTK_PAPER_NAME_LETTER;
+	else if (g_ascii_strncasecmp ("USLegal", paper, 7) == 0)
 		paper = GTK_PAPER_NAME_LEGAL;
-	if (g_ascii_strncasecmp ("Executive", paper, 9) == 0)
+	else if (g_ascii_strncasecmp ("Executive", paper, 9) == 0)
 		paper = GTK_PAPER_NAME_EXECUTIVE;
 
 	gtk_paper = gtk_paper_size_new (paper);
