@@ -3,6 +3,7 @@ Gnumeric 1.7.14
 Andreas
 	* Print repeated rows and columns.
 	* Fix printing crash. [#491775]
+	* Reimplement down then across printng
 
 Götz Waschk:
 	* Fix paradox plugin compilation.  [#489030]

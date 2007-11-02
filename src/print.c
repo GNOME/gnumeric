@@ -864,30 +864,214 @@ compute_sheet_pages_add_range (PrintingInstance * pi, Sheet const *sheet,
 		pi->gnmSheetRanges = g_list_append(pi->gnmSheetRanges, gsr);
 }
 
+static void
+adjust_repetition (Sheet const *sheet,
+		   gint i,
+		   gint first_rep,
+		   gint n_rep,
+		   gdouble repeating,
+		   gint *first_rep_used,
+		   gint *n_rep_used,
+		   gdouble *repeating_used,
+		   double (sheet_get_distance_pts) (Sheet const *sheet, int from, int to))
+{
+	if (i > first_rep) {
+		*first_rep_used = first_rep;
+		if (i - first_rep < n_rep) {
+			*n_rep_used = i - first_rep;
+			*repeating_used = sheet_get_distance_pts 
+				(sheet, first_rep, first_rep + *n_rep_used);
+		} else {
+			*repeating_used = repeating;
+			*n_rep_used = n_rep;
+		}
+	}
+}
 
 static gboolean
-compute_sheet_pages_across_then_down (GtkPrintContext   *context,
-				      PrintingInstance * pi,
+compute_sheet_pages_down_then_across (PrintingInstance * pi,
 				      Sheet const *sheet,
 				      GnmRange const *r,
-				      double col_header_height,
-				      double row_header_width)
+				      gdouble usable_x,
+				      gdouble usable_y,
+				      gdouble col_header_height,
+				      gdouble row_header_width,
+				      gint n_rep_cols,
+				      gint n_rep_rows,
+				      gint first_rep_rows,
+				      gint first_rep_cols,
+				      gdouble repeating_x, 
+				      gdouble repeating_y)
 {
-	PrintInformation *pinfo = sheet->print_info;
-	double usable_x;
-	double usable_y;
+	int col = r->start.col;
+
+	while (col <= r->end.col) {
+		int row = r->start.row;
+		int col_count;
+		gdouble repeating_x_used = 0.;
+		gint n_rep_cols_used = 0, first_rep_cols_used = 0;
+
+		adjust_repetition (sheet, col,
+				   first_rep_cols, n_rep_cols,
+				   repeating_x,
+				   &first_rep_cols_used, &n_rep_cols_used,
+				   &repeating_x_used,
+				   sheet_col_get_distance_pts);
+
+		col_count = compute_group (sheet, col, r->end.col,
+					   usable_x - row_header_width - repeating_x_used, 
+					   sheet_col_get_info);
+
+		while (row <= r->end.row) {
+			int row_count;
+			gdouble repeating_y_used = 0.;
+			gint n_rep_rows_used = 0, first_rep_rows_used = 0;
+
+			adjust_repetition (sheet, row,
+					   first_rep_rows, n_rep_rows,
+					   repeating_y,
+					   &first_rep_rows_used, &n_rep_rows_used,
+					   &repeating_y_used,
+					   sheet_row_get_distance_pts);
+
+			row_count = compute_group (sheet, row, r->end.row,
+						   usable_y - col_header_height - repeating_y_used, 
+						   sheet_row_get_info);
+
+			{
+				GnmRange range;
+				range_init (&range, COL_FIT (col), ROW_FIT (row),
+					    COL_FIT (col + col_count - 1),
+					    ROW_FIT (row + row_count - 1));
+				compute_sheet_pages_add_range (pi, sheet, &range, 
+							       n_rep_cols_used, n_rep_rows_used,
+							       first_rep_rows_used, first_rep_cols_used);
+			}
+			
+			row += row_count;
+		}
+		col += col_count;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+compute_sheet_pages_across_then_down (PrintingInstance * pi,
+				      Sheet const *sheet,
+				      GnmRange const *r,
+				      gdouble usable_x,
+				      gdouble usable_y,
+				      gdouble col_header_height,
+				      gdouble row_header_width,
+				      gint n_rep_cols,
+				      gint n_rep_rows,
+				      gint first_rep_rows,
+				      gint first_rep_cols,
+				      gdouble repeating_x, 
+				      gdouble repeating_y)
+{
 	int row = r->start.row;
-	gboolean printed = TRUE;
-	gdouble px, py;
+
+	while (row <= r->end.row) {
+		int col = r->start.col;
+		int row_count;
+		gdouble repeating_y_used = 0.;
+		gint n_rep_rows_used = 0, first_rep_rows_used = 0;
+
+		adjust_repetition (sheet, row,
+				   first_rep_rows, n_rep_rows,
+				   repeating_y,
+				   &first_rep_rows_used, &n_rep_rows_used,
+				   &repeating_y_used,
+				   sheet_row_get_distance_pts);
+
+		row_count = compute_group (sheet, row, r->end.row,
+					   usable_y - col_header_height - repeating_y_used, 
+					   sheet_row_get_info);
+
+		while (col <= r->end.col) {
+			int col_count;
+			gdouble repeating_x_used = 0.;
+			gint n_rep_cols_used = 0, first_rep_cols_used = 0;
+
+			adjust_repetition (sheet, col,
+					   first_rep_cols, n_rep_cols,
+					   repeating_x,
+					   &first_rep_cols_used, &n_rep_cols_used,
+					   &repeating_x_used,
+					   sheet_col_get_distance_pts);
+
+			col_count = compute_group (sheet, col, r->end.col,
+						   usable_x - row_header_width - repeating_x_used, 
+						   sheet_col_get_info);
+
+			{
+				GnmRange range;
+				range_init (&range, COL_FIT (col), ROW_FIT (row),
+					    COL_FIT (col + col_count - 1),
+					    ROW_FIT (row + row_count - 1));
+				compute_sheet_pages_add_range (pi, sheet, &range, 
+							       n_rep_cols_used, n_rep_rows_used,
+							       first_rep_rows_used, first_rep_cols_used);
+			}
+			
+			col += col_count;
+		}
+		row += row_count;
+	}
+
+	return FALSE;
+}
+
+/*
+ * Returns TRUE if case of problems.
+ */
+static gboolean
+compute_sheet_pages (GtkPrintContext   *context,
+		     PrintingInstance * pi,
+		     SheetPrintInfo *spi)
+{
+	Sheet *sheet = spi->sheet;
+	PrintInformation *pinfo = sheet->print_info;
+	GnmRange r;
+	GnmRange const *selection_range;
+	GnmRange print_area;
+	gdouble col_header_height = 0.;
+	gdouble row_header_width = 0.;
 	gdouble page_width, page_height;
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
 	gint n_rep_cols = 0, n_rep_rows = 0, first_rep_rows = 0, first_rep_cols = 0;
 	gint last_rep_cols = 0, last_rep_rows = 0;
+	gdouble px, py;
+	gdouble usable_x, usable_y;
 	gdouble repeating_x = 0., repeating_y = 0.;
+
+	if (pinfo->print_titles) {
+		col_header_height = sheet->rows.default_style.size_pts;
+		row_header_width = sheet->cols.default_style.size_pts;
+	}
+
+	print_area = sheet_get_printarea (sheet,
+					  pinfo->print_even_if_only_styles,
+					  spi->ignore_printarea);
+	if (spi->selection) {
+		selection_range = selection_first_range
+			(sheet_get_view (sheet, wb_control_view (pi->wbc)),
+			  GO_CMD_CONTEXT (pi->wbc), _("Print Selection"));
+		if (selection_range == NULL)
+			return TRUE;
+		if (spi->ignore_printarea) {
+			r = *selection_range;
+		} else {
+			if (!range_intersection (&r, selection_range, &print_area))
+				return FALSE;
+		}
+	} else
+		r = print_area;
 
 	page_width = gtk_print_context_get_width (context);
 	page_height = gtk_print_context_get_height (context);
-
 	print_info_get_margins (pinfo, &top_margin, &bottom_margin, NULL, NULL,
 				&edge_to_below_header, &edge_to_above_footer);
 	page_height -= ((edge_to_below_header - top_margin)
@@ -910,31 +1094,6 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 			 first_rep_cols + n_rep_cols);
 	} 
 
-
-	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
-		gdouble pxy;
-
-		pxy = compute_scale_fit_to (sheet, r->start.row, r->end.row,
-					    page_height, sheet_row_get_info,
-					    pinfo->scaling.dim.rows, 1.,
-					    sheet_row_get_distance_pts (sheet,
-									r->start.row,
-									r->end.row+1),
-					    col_header_height);
-		pxy = compute_scale_fit_to (sheet, r->start.col, r->end.col,
-					    page_width, sheet_col_get_info,
-					    pinfo->scaling.dim.cols, pxy,
-					    sheet_col_get_distance_pts (sheet,
-									r->start.col,
-									r->end.col+1),
-					    row_header_width);
-
-		pinfo->scaling.percentage.x = pxy * 100.;
-		pinfo->scaling.percentage.y = pxy * 100.;
-	}
-
-	
-
 	px = pinfo->scaling.percentage.x / 100.;
 	py = pinfo->scaling.percentage.y / 100.;
 
@@ -946,117 +1105,47 @@ compute_sheet_pages_across_then_down (GtkPrintContext   *context,
 	usable_x   = page_width / px;
 	usable_y   = page_height / py;
 
-	while (row <= r->end.row) {
-		int row_count;
-		int col = r->start.col;
-		gdouble repeating_y_used = 0.;
-		gint n_rep_rows_used = 0, first_rep_rows_used = 0;
 
-		if (row > first_rep_rows) {
-			first_rep_rows_used = first_rep_rows;
-			if (row - first_rep_rows < n_rep_rows) {
-				n_rep_rows_used = row - first_rep_rows;
-				repeating_y_used = sheet_row_get_distance_pts 
-						(sheet, first_rep_rows,
-						 first_rep_rows + n_rep_rows_used);
-			} else {
-				repeating_y_used = repeating_y;
-				n_rep_rows_used = n_rep_rows;
-			}
-		}
+	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
+		/* Note that the resulting scale is independent from */
+		/* whether we print first down or across!            */
+		gdouble pxy;
 
-		row_count = compute_group (sheet, row, r->end.row,
-					   usable_y - col_header_height - repeating_y_used, 
-					   sheet_row_get_info);
+		pxy = compute_scale_fit_to (sheet, r.start.row, r.end.row,
+					    page_height, sheet_row_get_info,
+					    pinfo->scaling.dim.rows, 1.,
+					    sheet_row_get_distance_pts (sheet,
+									r.start.row,
+									r.end.row+1),
+					    col_header_height);
+		pxy = compute_scale_fit_to (sheet, r.start.col, r.end.col,
+					    page_width, sheet_col_get_info,
+					    pinfo->scaling.dim.cols, pxy,
+					    sheet_col_get_distance_pts (sheet,
+									r.start.col,
+									r.end.col+1),
+					    row_header_width);
 
-		while (col <= r->end.col) {
-			GnmRange range;
-			int col_count;
-			gdouble repeating_x_used = 0.;
-			gint n_rep_cols_used = 0, first_rep_cols_used = 0;
-
-			if (col >  first_rep_cols) {
-				first_rep_cols_used = first_rep_cols;
-				if (col - first_rep_cols < n_rep_cols) {
-					n_rep_cols_used = col - first_rep_cols;
-					repeating_x_used = sheet_col_get_distance_pts 
-						(sheet, first_rep_cols,
-						 first_rep_cols + n_rep_cols_used);
-				} else {
-					repeating_x_used = repeating_x;
-					n_rep_cols_used = n_rep_cols;
-				}
-			}
-
-			col_count = compute_group (sheet, col, r->end.col,
-						   usable_x - row_header_width - repeating_x_used, 
-						   sheet_col_get_info);
-			range_init (&range, COL_FIT (col), ROW_FIT (row),
-				    COL_FIT (col + col_count - 1),
-				    ROW_FIT (row + row_count - 1));
-			col += col_count;
-
-			if (printed)
-				compute_sheet_pages_add_range (pi, sheet, &range, 
-							       n_rep_cols_used, n_rep_rows_used,
-							       first_rep_rows_used, first_rep_cols_used);
-		}
-		row += row_count;
+		pinfo->scaling.percentage.x = pxy * 100.;
+		pinfo->scaling.percentage.y = pxy * 100.;
 	}
 
-	return FALSE;
-}
-
-/*
- * Returns TRUE if case of problems.
- */
-static gboolean
-compute_sheet_pages (GtkPrintContext   *context,
-		     PrintingInstance * pi,
-		     SheetPrintInfo *spi)
-{
-	Sheet *sheet = spi->sheet;
-	PrintInformation const *pinfo = sheet->print_info;
-	GnmRange r;
-	GnmRange const *selection_range;
-	GnmRange print_area;
-	gdouble col_header_height = 0.;
-	gdouble row_header_width = 0.;
-
-	if (pinfo->print_titles) {
-		col_header_height = sheet->rows.default_style.size_pts;
-		row_header_width = sheet->cols.default_style.size_pts;
-	}
-
-	print_area = sheet_get_printarea (sheet,
-					  pinfo->print_even_if_only_styles,
-					  spi->ignore_printarea);
-	if (spi->selection) {
-		selection_range = selection_first_range
-			(sheet_get_view (sheet, wb_control_view (pi->wbc)),
-			  GO_CMD_CONTEXT (pi->wbc), _("Print Selection"));
-		if (selection_range == NULL)
-			return TRUE;
-		if (spi->ignore_printarea) {
-			r = *selection_range;
-		} else {
-			if (!range_intersection (&r, selection_range, &print_area))
-				return TRUE;
-		}
-	} else
-		r = print_area;
 
 	if (sheet->print_info->print_across_then_down)
 		return compute_sheet_pages_across_then_down
-			(context, pi, sheet, &r, col_header_height,
-			 row_header_width);
-	else {
-		g_warning ("Down and across requested, "
-			   "but printing across then down.");
-		return compute_sheet_pages_across_then_down
-			(context, pi, sheet, &r, col_header_height,
-			 row_header_width);
-	}
+			(pi, sheet, &r, 
+			 usable_x, usable_y,
+			 col_header_height, row_header_width,
+			 n_rep_cols, n_rep_rows,
+			 first_rep_rows, first_rep_cols,
+			 repeating_x, repeating_y);
+	else return compute_sheet_pages_down_then_across
+		     (pi, sheet, &r, 
+		      usable_x, usable_y,
+		      col_header_height, row_header_width,
+		      n_rep_cols, n_rep_rows,
+		      first_rep_rows, first_rep_cols,
+		      repeating_x, repeating_y);
 }
 
 /*
@@ -1176,11 +1265,8 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 	}
 
 	if (compute_sheet_pages (context, pi, spi)) {
-		/* This could just mean that there is nothing to be printed on this page */
-		/* So don't just cancel the operation !! */
-		/* Other sheets may neeed to print! */
-                /* gtk_print_operation_cancel (operation); */
-		/* return TRUE; */
+		gtk_print_operation_cancel (operation);
+		return TRUE; 
 	}
 
 	return FALSE;

@@ -1,3 +1,11 @@
+2007-11-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print.c (adjust_repetition): new
+	(compute_sheet_pages_down_then_across): new
+	(compute_sheet_pages_across_then_down): move code from here to
+	  compute_sheet_pages
+	(compute_sheet_pages): receive code from ...across_then_down
+
 2007-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Bumped goffice dependency as the STF export now uses
