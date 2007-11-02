@@ -1701,9 +1701,11 @@ cb_do_print_ok (PrinterSetupState *state)
 static void
 cb_do_print (PrinterSetupState *state)
 {
+	Sheet *sheet = state->sheet;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+
 	cb_do_print_ok (state);
-	gnm_print_sheet (WORKBOOK_CONTROL (state->wbcg),
-		state->sheet, FALSE, PRINT_ACTIVE_SHEET, NULL);
+	gnm_print_sheet (wbc, sheet, FALSE, PRINT_ACTIVE_SHEET, NULL);
 }
 
 static void
