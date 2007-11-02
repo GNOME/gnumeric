@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include <gsf/gsf-output-csv.h>
+#include <goffice/app/goffice-app.h>
 
 #define GNM_STF_EXPORT_TYPE        (gnm_stf_export_get_type ())
 #define GNM_STF_EXPORT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_EXPORT_TYPE, GnmStfExport))
@@ -31,9 +32,9 @@ void gnm_stf_export_options_sheet_list_add      (GnmStfExport *export_options, S
 
 gboolean gnm_stf_export_can_transliterate (void);
 
-/*
- * Functions that do the actual thing
- */
 gboolean gnm_stf_export (GnmStfExport *export_options);
+
+
+GOFileSaver *gnm_stf_file_saver_new (gchar const *id);
 
 #endif

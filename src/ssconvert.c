@@ -25,6 +25,7 @@
 #include <dialogs/dialogs.h>
 #include <goffice/app/file.h>
 #include <goffice/app/io-context.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-utils.h>
@@ -42,6 +43,7 @@ static char *ssconvert_range = NULL;
 static char *ssconvert_import_encoding = NULL;
 static char *ssconvert_import_id = NULL;
 static char *ssconvert_export_id = NULL;
+static char *ssconvert_export_options = NULL;
 static char **ssconvert_goal_seek = NULL;
 
 static const GOptionEntry ssconvert_options [] = {
@@ -82,6 +84,13 @@ static const GOptionEntry ssconvert_options [] = {
 		0, G_OPTION_ARG_STRING, &ssconvert_export_id,
 		N_("Optionally specify which exporter to use"),
 		N_("ID")
+	},
+
+	{
+		"export-options", 'O',
+		0, G_OPTION_ARG_STRING, &ssconvert_export_options,
+		N_("Detailed instructions for the chosen exporter"),
+		N_("string")
 	},
 
 	{
@@ -149,6 +158,38 @@ setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 	g_object_set_data_full (obj, key,
 				g_memdup (&rr, sizeof (rr)),
 				g_free);
+}
+
+static int
+handle_export_options (GOFileSaver *fs, GODoc *doc)
+{
+	guint sig = g_signal_lookup ("set-export-options",
+				     G_TYPE_FROM_INSTANCE (fs));
+
+	if (!ssconvert_export_options)
+		return 0;
+
+	if (g_signal_handler_find (fs, G_SIGNAL_MATCH_ID,
+				   sig, 0, NULL, NULL, NULL)) {
+		GError *err = NULL;
+		gboolean fail =
+			go_file_saver_set_export_options
+			(fs, doc,
+			 ssconvert_export_options,
+			 &err);
+
+		if (fail) {
+			g_printerr ("ssconvert: %s\n", err
+				    ? err->message
+				    : _("Cannot parse export options."));
+			return 1;
+		}
+
+		return 0;
+	} else {
+		g_printerr (_("The file saver does not take options"));
+		return 1;
+	}
 }
 
 
@@ -254,6 +295,9 @@ convert (char const *inarg, char const *outarg,
 		} else {
 			Workbook *wb = wb_view_get_workbook (wbv);
 			Sheet *sheet = wb_view_cur_sheet (wbv);
+
+			res = handle_export_options (fs, GO_DOC (wb));
+			if (res) goto out;
 
 			if (ssconvert_goal_seek) {
 				int i;

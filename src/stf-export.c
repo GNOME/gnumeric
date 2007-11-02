@@ -39,6 +39,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/app/file.h>
 
 #include <string.h>
 #include <locale.h>
@@ -524,3 +525,178 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 	   gnm_stf_export_class_init, gnm_stf_export_init, GSF_OUTPUT_CSV_TYPE)
 
 /* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+
+
+#include "wbc-gtk.h"
+#include <goffice/app/io-context.h>
+#include <goffice/app/io-context-priv.h>
+#include "dialog-stf-export.h"
+#include "workbook-view.h"
+
+static void
+gnm_stf_file_saver_save (GOFileSaver const *fs, IOContext *context,
+			 gconstpointer wbv, GsfOutput *output)
+{
+	// TODO: move this GUI dependent code out of this
+	// filesaver into gui-file.c. After this, remove includes (see above).
+	if (IS_WBC_GTK (context->impl)) {
+		GnmStfExport *result =
+			stf_export_dialog (WBC_GTK (context->impl),
+				wb_view_get_workbook (wbv));
+		if (result == NULL) {
+			gnumeric_io_error_unknown (context);
+			return;
+		}
+		g_object_set (G_OBJECT (result), "sink", output, NULL);
+		if (gnm_stf_export (result) == FALSE)
+			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
+				_("Error while trying to export file as text"));
+		g_object_unref (result);
+	} else {
+		GnmStfExport *stfe =
+			g_object_get_data (G_OBJECT (fs), "exporter");
+
+		g_object_set (G_OBJECT (stfe), "sink", output, NULL);
+
+		if (!stfe->sheet_list)
+			gnm_stf_export_options_sheet_list_add
+				(stfe, wb_view_cur_sheet (wbv));
+
+		if (gnm_stf_export (stfe) == FALSE)
+			go_cmd_context_error_import
+				(GO_CMD_CONTEXT (context),
+				 _("Error while trying to write text file"));
+	}
+}
+
+static gboolean
+handle_enum (GObject *obj, GType etype, const char *propname,
+	     const char *key, const char *value,
+	     GError **err)
+{
+	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
+	GEnumValue *ev;
+
+	ev = g_enum_get_value_by_name (eclass, value);
+	if (!ev) ev = g_enum_get_value_by_nick (eclass, value);
+
+	if (ev) {
+		g_object_set (obj, propname, ev->value, NULL);
+		return FALSE;
+	} else {
+		if (err) {
+			char *errtxt = g_strdup_printf
+				(_("Invalid value for option %s\n"),
+				 key);
+			*err = g_error_new (go_error_invalid (), 0, errtxt);
+			g_free (errtxt);
+		}
+		return TRUE;
+	}
+}
+
+static gboolean
+cb_set_export_option (GOFileSaver *fs, GODoc *doc,
+		      const char *key, const char *value,
+		      GError **err, gpointer user)
+{
+	GnmStfExport *stfe = user;
+	const char *errtxt;
+
+	if (strcmp (key, "sheet") == 0) {
+		Workbook *wb = WORKBOOK (doc);
+		Sheet *sheet = workbook_sheet_by_name (wb, value);
+		if (!sheet) {
+			errtxt = _("There is no such sheet");
+			goto error;
+		}
+
+		gnm_stf_export_options_sheet_list_add (stfe, sheet);
+
+		return FALSE;
+	}
+
+	if (strcmp (key, "eol") == 0) {
+		const char *eol;
+		if (g_ascii_strcasecmp ("unix", value) == 0)
+			eol = "\n";
+		else if (g_ascii_strcasecmp ("mac", value) == 0)
+			eol = "\r";
+		else if	(g_ascii_strcasecmp ("windows", value) == 0)
+			eol = "\r\n";
+		else {
+			errtxt = _("eol must be one of unix, mac, and windows");
+			goto error;
+		}
+
+		g_object_set (G_OBJECT (stfe), "eol", eol, NULL);
+		return FALSE;
+	}
+
+	if (strcmp (key, "charset") == 0 ||
+	    strcmp (key, "locale") == 0 ||
+	    strcmp (key, "quote") == 0 ||
+	    strcmp (key, "separator") == 0) {
+		g_object_set (G_OBJECT (stfe), key, value, NULL);
+		return FALSE;
+	}
+
+	if (strcmp (key, "format") == 0)
+		return handle_enum (G_OBJECT (stfe),
+				    GNM_STF_FORMAT_MODE_TYPE, key,
+				    key, value, err);
+
+	if (strcmp (key, "transliterate-mode") == 0)
+		return handle_enum (G_OBJECT (stfe),
+				    GNM_STF_TRANSLITERATE_MODE_TYPE, key,
+				    key, value, err);
+
+	if (strcmp (key, "quoting-mode") == 0)
+		return handle_enum (G_OBJECT (stfe),
+				    GSF_OUTPUT_CSV_QUOTING_MODE_TYPE, key,
+				    key, value, err);
+
+	errtxt = _("Invalid option for stf exporter");
+error:
+	if (err)
+		*err = g_error_new (go_error_invalid (), 0, errtxt);
+
+	return TRUE;
+}
+
+static gboolean
+gnm_stf_fs_set_export_options (GOFileSaver *fs,
+			       GODoc *doc,
+			       const char *options,
+			       GError **err,
+			       gpointer user)
+{
+	GnmStfExport *stfe =
+		g_object_get_data (G_OBJECT (fs), "exporter");
+	gnm_stf_export_options_sheet_list_clear (stfe);
+	return go_file_saver_parse_options (fs, doc, options, err, stfe,
+					    cb_set_export_option);
+}
+
+GOFileSaver *
+gnm_stf_file_saver_new (gchar const *id)
+{
+	GOFileSaver *fs = go_file_saver_new (id,
+					     "txt",
+					     _("Text (configurable)"),
+					     FILE_FL_WRITE_ONLY,
+					     gnm_stf_file_saver_save);
+	GObject *exporter = g_object_new (GNM_STF_EXPORT_TYPE,
+					  "quoting-triggers", ", \t\n\"",
+					  NULL);
+	go_file_saver_set_save_scope (fs, FILE_SAVE_SHEET);
+
+	g_signal_connect (G_OBJECT (fs), "set-export-options",
+			  G_CALLBACK (gnm_stf_fs_set_export_options),
+			  NULL);
+	g_object_set_data_full (G_OBJECT (fs),
+				"exporter", exporter,  g_object_unref);
+
+	return GO_FILE_SAVER (fs);
+}

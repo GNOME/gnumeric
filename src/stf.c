@@ -400,28 +400,6 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 /***********************************************************************************/
 
 static void
-stf_write_workbook (GOFileSaver const *fs, IOContext *context,
-		    gconstpointer wbv, GsfOutput *output)
-{
-	GnmStfExport *result = NULL;
-
-	if (IS_WBC_GTK (context->impl))
-		result = stf_export_dialog (WBC_GTK (context->impl),
-			 wb_view_get_workbook (wbv));
-
-	if (result == NULL) {
-		gnumeric_io_error_unknown (context);
-		return;
-	}
-
-	g_object_set (G_OBJECT (result), "sink", output, NULL);
-	if (gnm_stf_export (result) == FALSE)
-		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
-			_("Error while trying to export file as text"));
-	g_object_unref (result);
-}
-
-static void
 stf_write_csv (GOFileSaver const *fs, IOContext *context,
 	       gconstpointer wbv, GsfOutput *output)
 {
@@ -551,10 +529,7 @@ stf_init (void)
 	go_file_opener_register (opener, 0);
 	g_object_unref (opener);
 
-	saver = go_file_saver_new (
-		"Gnumeric_stf:stf_assistant", "txt",
-		_("Text export (configurable)"),
-		FILE_FL_WRITE_ONLY, stf_write_workbook);
+	saver = gnm_stf_file_saver_new ("Gnumeric_stf:stf_assistant");
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 

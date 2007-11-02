@@ -7,6 +7,9 @@ Andreas
 Götz Waschk:
 	* Fix paradox plugin compilation.  [#489030]
 
+Hib Eris:
+	* ssconvert export options.  (Code butchered by Morten.)  [#170767]
+
 Jody:
 	* Improve ODF (and .sxc) import.
 	* Improve ODF chart data import (ick).
