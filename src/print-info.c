@@ -35,6 +35,8 @@
 #include <locale.h>
 #include <time.h>
 
+#define PDF_SAVER_ID "Gnumeric_pdf:pdf_assistant"
+
 #define MAX_SAVED_CUSTOM_HF_FORMATS 9
 
 GList *hf_formats = NULL;
@@ -624,10 +626,12 @@ void
 print_init (void)
 {
 	/* Install a pdf saver.  */
-	go_file_saver_register (go_file_saver_new (
-		"Gnumeric_pdf:pdf_assistant", "pdf",
+	GOFileSaver *saver = go_file_saver_new (
+		PDF_SAVER_ID, "pdf",
 		_("PDF export"),
-		FILE_FL_WRITE_ONLY, pdf_write_workbook));
+		FILE_FL_WRITE_ONLY, pdf_write_workbook);
+	go_file_saver_register (saver);
+	g_object_unref (saver);
 
 	load_formats ();
 }
@@ -635,6 +639,8 @@ print_init (void)
 void
 print_shutdown (void)
 {
+	go_file_saver_unregister (go_file_saver_for_id (PDF_SAVER_ID));
+
 	save_formats ();
 	destroy_formats ();
 }

@@ -1,5 +1,8 @@
 2007-11-02  Morten Welinder  <terra@gnome.org>
 
+	* src/print-info.c (print_init): Plug leak.
+	(print_shutdown): Unregister the PDF saver.
+
 	* src/ssconvert.c (handle_export_options): New function to handle
 	new option --export-options.
 	(convert): Call handle_export_options.
