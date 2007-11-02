@@ -141,7 +141,7 @@ AC_SUBST(GOFFICE_VERSION,$goffice_ver)
 
 dnl *****************************
 libspreadsheet_reqs="
-	$libgoffice		>= 0.5.1
+	$libgoffice		>= 0.5.2
 	libgsf-1		>= 1.14.6
 	libxml-2.0		>= 2.4.12
 "
