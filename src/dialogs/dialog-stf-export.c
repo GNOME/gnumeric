@@ -76,7 +76,8 @@ typedef struct {
 		GtkComboBox	 *format;
 	} format;
 
-	GnmStfExport *result;
+	GnmStfExport *stfe;
+	gboolean cancelled;
 } TextExportState;
 
 static void
@@ -154,7 +155,7 @@ cb_collect_exported_sheets (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 		STF_EXPORT_COL_SHEET,	 &sheet,
 		-1);
 	if (exported)
-		gnm_stf_export_options_sheet_list_add (state->result, sheet);
+		gnm_stf_export_options_sheet_list_add (state->stfe, sheet);
 	g_object_unref (sheet);
 	return FALSE;
 }
@@ -227,21 +228,20 @@ stf_export_dialog_finish (TextExportState *state)
 		g_string_append (triggers, separator);
 	}
 
-	state->result = g_object_new
-		(GNM_STF_EXPORT_TYPE,
-		 "eol", eol,
-		 "quote", quote,
-		 "quoting-mode", quotingmode,
-		 "quoting-triggers", triggers->str,
-		 "separator", separator,
-		 "transliterate-mode", transliteratemode,
-		 "format", format,
-		 "charset", charset,
-		 "locale", locale,
-		 NULL);
+	g_object_set (state->stfe,
+		      "eol", eol,
+		      "quote", quote,
+		      "quoting-mode", quotingmode,
+		      "quoting-triggers", triggers->str,
+		      "separator", separator,
+		      "transliterate-mode", transliteratemode,
+		      "format", format,
+		      "charset", charset,
+		      "locale", locale,
+		      NULL);
 
-	/* Which sheets */
-	gnm_stf_export_options_sheet_list_clear (state->result);
+	/* Which sheets?  */
+	gnm_stf_export_options_sheet_list_clear (state->stfe);
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
 		(GtkTreeModelForeachFunc) cb_collect_exported_sheets, state);
 
@@ -250,6 +250,7 @@ stf_export_dialog_finish (TextExportState *state)
 	g_string_free (triggers, TRUE);
 	g_free (locale);
 
+	state->cancelled = FALSE;
 	gtk_dialog_response (GTK_DIALOG (state->window), GTK_RESPONSE_OK);
 }
 
@@ -558,22 +559,24 @@ cb_next_page (TextExportState *state)
 /**
  * stf_dialog
  * @wbcg : #WBCGtk (can be NULL)
+ * @stfe : An exporter to set up (and take defaults from)
  * @wb : The #Workbook to export
  *
  * This will start the export assistant.
- * returns : A newly allocated GnmStfExport struct on success, NULL otherwise.
+ * returns : TRUE if cancelled.
  **/
-GnmStfExport *
-stf_export_dialog (WBCGtk *wbcg, Workbook *wb)
+gboolean
+stf_export_dialog (WBCGtk *wbcg, GnmStfExport *stfe, Workbook *wb)
 {
 	TextExportState state;
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+	g_return_val_if_fail (IS_GNM_STF_EXPORT (stfe), TRUE);
 
 	state.gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"dialog-stf-export.glade", NULL, NULL);
 	if (state.gui == NULL)
-		return NULL;
+		return TRUE;
 
 	state.wb	  = wb;
 	state.wbcg	  = wbcg;
@@ -582,7 +585,8 @@ stf_export_dialog (WBCGtk *wbcg, Workbook *wb)
 	state.back_button = glade_xml_get_widget (state.gui, "button-back");
 	state.next_button = glade_xml_get_widget (state.gui, "button-next");
 	state.finish_button = glade_xml_get_widget (state.gui, "button-finish");
-	state.result	  = NULL;
+	state.cancelled = TRUE;
+	state.stfe	  = stfe;
 	stf_export_dialog_sheet_page_init (&state);
 	stf_export_dialog_format_page_init (&state);
 	if (state.sheets.non_empty == 0) {
@@ -612,5 +616,5 @@ stf_export_dialog (WBCGtk *wbcg, Workbook *wb)
 	g_object_unref (state.gui);
 	g_object_unref (state.sheets.model);
 
-	return state.result;
+	return state.cancelled;
 }

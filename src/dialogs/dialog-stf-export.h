@@ -19,6 +19,6 @@
 #include "stf-export.h"
 #include "gui-gnumeric.h"
 
-GnmStfExport *stf_export_dialog (WBCGtk *wbcg, Workbook *wb);
+gboolean stf_export_dialog (WBCGtk *wbcg, GnmStfExport *stfe, Workbook *wb);
 
 #endif

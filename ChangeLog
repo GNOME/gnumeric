@@ -1,5 +1,11 @@
 2007-11-03  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-export.c (gnm_stf_file_saver_new): Set the right scope.
+	(cb_set_export_option): Use go_object_set_property and allow
+	setting of quoting-on-whitespace.
+	(gnm_stf_file_saver_save): Steamline.  Make sure to disconnect
+	from sink.  Send our own GnmStfExportk to stf_export_dialog.
+
 	* src/ssconvert.c (convert): Plug leak.
 
 2007-11-02  Andreas Guelzow  <aguelzow@pyrshep.ca>

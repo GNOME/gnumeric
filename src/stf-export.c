@@ -36,6 +36,7 @@
 #include "value.h"
 #include "gnm-format.h"
 #include <gsf/gsf-output-iconv.h>
+#include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -314,9 +315,7 @@ gnm_stf_export (GnmStfExport *stfe)
 		g_free (old_locale);
 	}
 
-	g_object_set (G_OBJECT (stfe),
-		      "sink", sink,
-		      NULL);
+	g_object_set (G_OBJECT (stfe), "sink", sink, NULL);
 	g_object_unref (sink);
 
 	return result;
@@ -538,62 +537,35 @@ static void
 gnm_stf_file_saver_save (GOFileSaver const *fs, IOContext *context,
 			 gconstpointer wbv, GsfOutput *output)
 {
+	GnmStfExport *stfe = g_object_get_data (G_OBJECT (fs), "exporter");
+	GsfOutput *dummy_sink;
+
 	// TODO: move this GUI dependent code out of this
 	// filesaver into gui-file.c. After this, remove includes (see above).
 	if (IS_WBC_GTK (context->impl)) {
-		GnmStfExport *result =
+		gboolean cancelled =
 			stf_export_dialog (WBC_GTK (context->impl),
-				wb_view_get_workbook (wbv));
-		if (result == NULL) {
+					   stfe,
+					   wb_view_get_workbook (wbv));
+		if (cancelled) {
 			gnumeric_io_error_unknown (context);
 			return;
 		}
-		g_object_set (G_OBJECT (result), "sink", output, NULL);
-		if (gnm_stf_export (result) == FALSE)
-			go_cmd_context_error_import (GO_CMD_CONTEXT (context),
-				_("Error while trying to export file as text"));
-		g_object_unref (result);
-	} else {
-		GnmStfExport *stfe =
-			g_object_get_data (G_OBJECT (fs), "exporter");
-
-		g_object_set (G_OBJECT (stfe), "sink", output, NULL);
-
-		if (!stfe->sheet_list)
-			gnm_stf_export_options_sheet_list_add
-				(stfe, wb_view_cur_sheet (wbv));
-
-		if (gnm_stf_export (stfe) == FALSE)
-			go_cmd_context_error_import
-				(GO_CMD_CONTEXT (context),
-				 _("Error while trying to write text file"));
 	}
-}
 
-static gboolean
-handle_enum (GObject *obj, GType etype, const char *propname,
-	     const char *key, const char *value,
-	     GError **err)
-{
-	GEnumClass *eclass = G_ENUM_CLASS (g_type_class_peek (etype));
-	GEnumValue *ev;
+	if (!stfe->sheet_list)
+		gnm_stf_export_options_sheet_list_add
+			(stfe, wb_view_cur_sheet (wbv));
 
-	ev = g_enum_get_value_by_name (eclass, value);
-	if (!ev) ev = g_enum_get_value_by_nick (eclass, value);
+	g_object_set (G_OBJECT (stfe), "sink", output, NULL);
+	if (gnm_stf_export (stfe) == FALSE)
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
+			_("Error while trying to export file as text"));
 
-	if (ev) {
-		g_object_set (obj, propname, ev->value, NULL);
-		return FALSE;
-	} else {
-		if (err) {
-			char *errtxt = g_strdup_printf
-				(_("Invalid value for option %s\n"),
-				 key);
-			*err = g_error_new (go_error_invalid (), 0, errtxt);
-			g_free (errtxt);
-		}
-		return TRUE;
-	}
+	/* We're not allowed to set a NULL sink, so use a dummy.  */
+	dummy_sink = gsf_output_memory_new ();
+	g_object_set (G_OBJECT (stfe), "sink", dummy_sink, NULL);
+	g_object_unref (dummy_sink);
 }
 
 static gboolean
@@ -637,25 +609,16 @@ cb_set_export_option (GOFileSaver *fs, GODoc *doc,
 	if (strcmp (key, "charset") == 0 ||
 	    strcmp (key, "locale") == 0 ||
 	    strcmp (key, "quote") == 0 ||
-	    strcmp (key, "separator") == 0) {
-		g_object_set (G_OBJECT (stfe), key, value, NULL);
-		return FALSE;
-	}
-
-	if (strcmp (key, "format") == 0)
-		return handle_enum (G_OBJECT (stfe),
-				    GNM_STF_FORMAT_MODE_TYPE, key,
-				    key, value, err);
-
-	if (strcmp (key, "transliterate-mode") == 0)
-		return handle_enum (G_OBJECT (stfe),
-				    GNM_STF_TRANSLITERATE_MODE_TYPE, key,
-				    key, value, err);
-
-	if (strcmp (key, "quoting-mode") == 0)
-		return handle_enum (G_OBJECT (stfe),
-				    GSF_OUTPUT_CSV_QUOTING_MODE_TYPE, key,
-				    key, value, err);
+	    strcmp (key, "separator") == 0 ||
+	    strcmp (key, "format") == 0 ||
+	    strcmp (key, "transliterate-mode") == 0 ||
+	    strcmp (key, "quoting-mode") == 0 ||
+	    strcmp (key, "quoting-on-whitespace") == 0)
+		return go_object_set_property
+			(G_OBJECT (stfe),
+			 key, key, value,
+			 err,
+			 (_("Invalid value for option %s: \"%s\"")));
 
 	errtxt = _("Invalid option for stf exporter");
 error:
@@ -690,7 +653,7 @@ gnm_stf_file_saver_new (gchar const *id)
 	GObject *exporter = g_object_new (GNM_STF_EXPORT_TYPE,
 					  "quoting-triggers", ", \t\n\"",
 					  NULL);
-	go_file_saver_set_save_scope (fs, FILE_SAVE_SHEET);
+	go_file_saver_set_save_scope (fs, FILE_SAVE_WORKBOOK);
 
 	g_signal_connect (G_OBJECT (fs), "set-export-options",
 			  G_CALLBACK (gnm_stf_fs_set_export_options),
