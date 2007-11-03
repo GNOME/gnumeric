@@ -297,7 +297,10 @@ convert (char const *inarg, char const *outarg,
 			Sheet *sheet = wb_view_cur_sheet (wbv);
 
 			res = handle_export_options (fs, GO_DOC (wb));
-			if (res) goto out;
+			if (res) {
+				g_object_unref (wb);
+				goto out;
+			}
 
 			if (ssconvert_goal_seek) {
 				int i;

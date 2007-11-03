@@ -1,3 +1,7 @@
+2007-11-03  Morten Welinder  <terra@gnome.org>
+
+	* src/ssconvert.c (convert): Plug leak.
+
 2007-11-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print.c (adjust_repetition): new
